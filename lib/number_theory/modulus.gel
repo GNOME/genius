@@ -12,3 +12,52 @@ function EulerPhi(n) =
 	n * (prod p in PrimeFactors(n) do (1-(1/p)))
 )
 protect("EulerPhi");
+
+SetHelp("DiscreteLog", "number_theory", "Find discrete log of n base b in F_q where q is a prime using the Silver-Pohlig-Hellman algoritm");
+function DiscreteLog(n,b,q) = (
+  if not IsPositiveInteger(n) or
+     not IsPositiveInteger(b) or
+     not IsPositiveInteger(q) or q < 2 or b < 2 then
+    (error("DiscreteLog: Bad arguments");bailout);
+
+  f = Factorize(q-1);
+
+  # Run the precalculation of the pth roots of unity
+  # for each p in the factorization of q-1
+  r = null;
+  for i = 2 to columns(f) do (
+    p = f@(1,i);
+    for j = 0 to p-1 do
+      r@(i-1,j+1) = b^(j*(q-1)/p) mod q;
+  );
+
+  # utility function to find the root in the table
+  function FindRoot(rt,p,i) = (
+    for j = 1 to p do
+      if r@(i-1,j) == rt then return j-1;
+    (error("DiscreteLog: Error finding log, probably bogus arguments");bailout);
+  );
+
+  # This will be our vector of moduli for the ChineseRemainder
+  m = null;
+  # this will be our vector of results for the ChineseRemainder
+  x = null;
+
+  # loop through all the prime factors of q-1
+  for i = 2 to columns(f) do (
+    p = f@(1,i); alpha = f@(2,i);
+    m@(i-1) = p^alpha;
+
+    xx = 0;
+    for l = 0 to alpha-1 do (
+      y = n/(b^xx);
+      rt = y^((q-1)/p^(l+1)) mod q;
+      xx = xx + FindRoot(rt,p,i) * p^l;
+    );
+    x@(i-1) = xx;
+  );
+
+  # Now return the chinese remainder of the system
+  ChineseRemainder(x,m)
+)
+protect ("DiscreteLog")

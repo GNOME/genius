@@ -91,3 +91,17 @@ function LeastAbsoluteResidue(a,n) = (
 )
 SetHelp("LeastAbsoluteResidue", "number_theory", "Return the residue of a mod n with the least absolute value (in the interval -n/2 to n/2)");
 protect("LeastAbsoluteResidue");
+
+SetHelp("ChineseRemainder", "number_theory", "Find the x that solves the system given by the vector a and modulo the elements of m, using the Chinese Remainder Theorem");
+function ChineseRemainder(a,m) = (
+  M=MatrixProduct(m);
+  ( sum i=1 to elements(a) do (
+      Mi = (M/m@(i));
+      a@(i)*Mi*(Mi^-1 mod m@(i))
+    )
+  ) % M
+)
+protect("ChineseRemainder");
+SetHelpAlias ("ChineseRemainder", "CRT")
+CRT = ChineseRemainder
+protect("CRT")
