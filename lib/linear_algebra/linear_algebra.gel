@@ -6,7 +6,7 @@ function Transpose(M)=M.'
 protect ("Transpose")
 
 # Conjugate Transpose of a matrix
-SetHelp ("ConjugateTranspose", "linear_algebra", "Conjugate transpose of a matrix")
+SetHelp ("ConjugateTranspose", "linear_algebra", "Conjugate transpose of a matrix (adjoint)")
 function ConjugateTranspose(M)=M'
 protect ("Conjugate Transpose")
 
@@ -29,6 +29,7 @@ function PivotColumns(M) =
      );
    DeleteColumn(pivot_columns,1)
   )
+protect ("PivotColumns")
 
 # Non-pivot columns
 function NonPivotColumns(M) =
@@ -41,31 +42,45 @@ function NonPivotColumns(M) =
     non_pivot=DeleteColumn(non_pivot,1);
     SetMinus(non_pivot,PivotColumns(M)@(1,))
   )
+protect ("NonPivotColumns")
 
 # Delete a row from a matrix
-# Shamelessly copied from delrowcol
+# Shamelessly copied from DeleteRowColumn
+SetHelp("DeleteRow", "matrix", "Delete a row of a matrix")
 function DeleteRow(M,row) = (
         row_dim_M=rows(M);
         if row_dim_M==1 then return null;   # if delete the only row...
 	     if row==1         then M@(2..row_dim_M,)
         else if row==row_dim_M then M@(1..row_dim_M-1,)
         else                       [M@(1..row-1,);M@(row+1..row_dim_M,)]
-);
+)
+protect ("DeleteRow")
 
 # Delete a column from a matrix
-# Also shamelessly copied from delrowcol
+# Also shamelessly copied from DeleteRowColumn
+SetHelp("DeleteColumn", "matrix", "Delete a column of a matrix")
 function DeleteColumn(M,col) = (
         col_dim_M=columns(M);
         if col_dim_M==1 then return null;   # if delete the only column...
 	     if col==1         then M@(,2..col_dim_M)
         else if col==col_dim_M then M@(,1..col_dim_M-1)
         else                       [M@(,1..col-1),M@(,col+1..col_dim_M)]
-);
+)
+protect ("DeleteColumn")
 
 # Column Reduced Echelon Form
+SetHelp("cref", "linear_algebra", "Compute the Column Reduced Echelon Form")
 function cref(M)=Transpose(rref(Transpose(M)))
+protect ("cref")
+SetHelpAlias ("cref", "CREF")
+CREF = cref
+protect ("CREF")
+SetHelpAlias ("cref", "ColumnReducedEchelonForm")
+ColumnReducedEchelonForm = cref
+protect ("ColumnReducedEchelonForm")
 
 #This removes any all-zero columns of M
+SetHelp ("StripZeroColumns", "matrix", "Removes any all-zero columns of M")
 function StripZeroColumns (M) =
  (
   if not IsMatrix (M) then
@@ -83,13 +98,16 @@ function StripZeroColumns (M) =
   );
   DeleteColumn(N,1)
  )
+protect ("StripZeroColumns")
 
+SetHelp ("StripZeroRows", "matrix", "Removes any all-zero rows of M")
 function StripZeroRows (M) =
 (
   if not IsMatrix (M) then
     (error("StripZeroColumns: argument not a matrix");bailout);
   Transpose (StripZeroColumns (Transpose (M)))
 )
+protect ("StripZeroRows")
 
 # Cross product of two vectors (in R^3)
 ##<refentry id="fun-linear-algebra-cross-product">
@@ -131,11 +149,13 @@ function StripZeroRows (M) =
 ##    <para>Some examples...FIXME</para>
 ##  </refsect1>
 ##</refentry>
+SetHelp ("CrossProduct", "linear_algebra", "CrossProduct of two vectors in R^3")
 function CrossProduct(v,w) =
  (
   M=[v;w;1,1,1];
   [Minor(M,3,1),Minor(M,3,2),Minor(M,3,3)]
  )
+protect ("CrossProduct")
 
 # Direct sum of a vector of matrices
 SetHelp ("DirectSumMatrixVector", "linear_algebra", "Direct sum of a vector of matrices")
@@ -194,6 +214,7 @@ function IsInvertibleField(n) =
 protect ("IsInvertibleField")
 
 # Hermite Form for fields (will end up with 1's on the diagonal)
+SetHelp("HermiteFormField", "linear_algebra", "Hermite Form for fields (will end up with 1's on the diagonal)")
 function HermiteFormField(A) =
 (
   Transpose (ref (Transpose (ref (A))))

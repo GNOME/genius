@@ -2642,19 +2642,15 @@ mpwl_pow_f(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 }
 
 static gboolean
-mpwl_pow(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
+mpwl_pow (MpwRealNum *rop, MpwRealNum *op1, MpwRealNum *op2)
 {
 	int sgn1 = mpwl_sgn(op1);
 	int sgn2 = mpwl_sgn(op2);
-	if(sgn1 == 0 && sgn2 == 0) {
-		(*errorout)(_("0^0 is undefined"));
-		error_num=NUMERICAL_MPW_ERROR;
-		return FALSE;
-	} else if(sgn1 == 0) {
-		mpwl_set_ui(rop,0);
-		return FALSE;
-	} else if(sgn2 == 0) {
+	if (sgn2 == 0) {
 		mpwl_set_ui(rop,1);
+		return FALSE;
+	} else if (sgn1 == 0) {
+		mpwl_set_ui(rop,0);
 		return FALSE;
 	}
 
