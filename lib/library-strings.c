@@ -225,6 +225,7 @@ char *fake = N_("Calculate median of each row in a matrix");
 char *fake = N_("Calculate the population standard deviations of rows of a matrix and return a vertical vector");
 char *fake = N_("Calculate the standard deviations of rows of a matrix and return a vertical vector");
 char *fake = N_("Calculate the standard deviation of a whole matrix");
+char *fake = N_("Run newton's method on a polynomial to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns null)");
 char *fake = N_("Returns a set theoretic intersection of X and Y (X and Y are vectors pretending to be sets)");
 char *fake = N_("Returns true if the element x is in the set X (where X is a vector pretending to be a set)");
 char *fake = N_("Returns a set where every element of X appears only once");
