@@ -49,8 +49,6 @@ struct _MpwCtx {
 };
 #endif
 
-extern calc_error_t error_num;
-
 static MpwRealNum *free_reals = NULL;
 static int free_reals_n = 0;
 

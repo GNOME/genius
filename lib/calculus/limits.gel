@@ -20,6 +20,7 @@
 # 
 
 # Limits:
+SetHelp ("NumericalLimitAtInfinity", "calculus", "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N")
 function NumericalLimitAtInfinity(f,step_fun,tolerance,successive_for_success,N) =
 # this evaluates f(step_fun(i)) as i goes from 1 to N.
 # If s_f_s of the pairwise successive differences are less than tolerance, then
@@ -43,6 +44,7 @@ function NumericalLimitAtInfinity(f,step_fun,tolerance,successive_for_success,N)
 		);
 	return null
 	)
+protect ("NumericalLimitAtInfinity")
 
 
 # The following are simple functions to find
@@ -51,32 +53,48 @@ function NumericalLimitAtInfinity(f,step_fun,tolerance,successive_for_success,N)
 # ...from the right
 # ...two-sided
 
+SetHelp ("ContinuousTolerance", "parameters", "Tolerance for continuity of functions and for calculating the limit")
 parameter ContinuousTolerance=10^(-5);
+SetHelp ("ContinuousSFS", "parameters", "How many successive steps to be within tolerance for calculation of continuity")
 parameter ContinuousSFS=20;
+SetHelp ("ContinuousNumberOfTries", "parameters", "How many iterations to try to find the limit for continuity and limits")
 parameter ContinuousNumberOfTries=100;
 
+SetHelp ("LeftLimit", "calculus", "Calculate the left limit of a real-valued function at x0")
 function LeftLimit(f,x0) =
-	(
-	return NumericalLimitAtInfinity(`(h)=(f(x0-h)),`(n)=(2^(-n)),ContinuousTolerance,ContinuousSFS,ContinuousNumberOfTries)
-	)
+(
+	NumericalLimitAtInfinity(`(h)=(f(x0-h)),`(n)=(2^(-n)),ContinuousTolerance,ContinuousSFS,ContinuousNumberOfTries)
+)
+protect ("LeftLimit")
 
+SetHelp ("RightLimit", "calculus", "Calculate the right limit of a real-valued function at x0")
 function RightLimit(f,x0) =
-	(
-	return NumericalLimitAtInfinity(`(h)=(f(x0+h)),`(n)=(2^(-n)),ContinuousTolerance,ContinuousSFS,ContinuousNumberOfTries)
-	)
+(
+	NumericalLimitAtInfinity(`(h)=(f(x0+h)),`(n)=(2^(-n)),ContinuousTolerance,ContinuousSFS,ContinuousNumberOfTries)
+)
+protect ("RightLimit")
 
+SetHelp ("Limit", "calculus", "Calculate the limit of a real-valued function at x0.  Tries to calculate both left and right limits.")
 function Limit(f,x0) =
-	(
+(
 	LeftLim=LeftLimit(f,x0);
 	RightLim=RightLimit(f,x0);
+	if IsNull(LeftLim) or IsNull(RightLim) then
+		return null;
 	if |LeftLim-RightLim| < 2*ContinuousTolerance
 	 then return (LeftLim+RightLim)/2
 	 else return null
-	)
+)
+protect ("Limit")
 
+SetHelp ("IsContinuous", "calculus", "Try and see if a real-valued function is continuous at x0 by calculating the limit there")
 function IsContinuous(f,x0) =
-	(
-	if |Limit(f,x0)-f(x0)| < ContinuousTolerance
+(
+	l = Limit(f,x0);
+	if IsNull(l) then
+		return false;
+	if |l-f(x0)| < ContinuousTolerance
 	 then return true
          else return false
-	)
+)
+protect ("IsContinuous")

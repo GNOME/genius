@@ -62,7 +62,6 @@ calcstate_t curstate={
 	10
 	};
 	
-extern calc_error_t error_num;
 extern int got_eof;
 extern int parenth_depth;
 extern int interrupted;
@@ -76,8 +75,8 @@ static GString *infos=NULL;
 static int errors_printed = 0;
 
 typedef struct {
-	int error_box;
-	int info_box;
+	gboolean error_box;
+	gboolean info_box;
 	int scrollback;
 	char *font;
 } geniussetup_t;
@@ -88,6 +87,8 @@ geniussetup_t cursetup = {
 	1000,
 	NULL
 };
+
+pid_t helper_pid = -1;
 
 static FILE *torlfp = NULL;
 static int fromrl;
@@ -133,7 +134,11 @@ geniusbox (gboolean error,
 					     "%s",
 					     s);
 	} else {
-		GtkWidget *sw, *t;
+		GtkWidget *sw;
+		GtkWidget *tv;
+		GtkTextBuffer *buffer;
+		GtkTextIter iter;
+
 		mb = gtk_dialog_new_with_buttons
 			(error?_("Error"):_("Information"),
 			 GTK_WINDOW (window) /* parent */,
@@ -141,18 +146,34 @@ geniusbox (gboolean error,
 			 GTK_STOCK_OK, GTK_RESPONSE_OK,
 			 NULL);
 		sw = gtk_scrolled_window_new (NULL, NULL);
+		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+						GTK_POLICY_AUTOMATIC,
+						GTK_POLICY_AUTOMATIC);
 		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (mb)->vbox),
 				    sw,
 				    TRUE, TRUE, 0);
-		t = gtk_text_new(NULL,NULL);
-		gtk_text_set_editable(GTK_TEXT(t),FALSE);
-		gtk_text_set_line_wrap(GTK_TEXT(t),TRUE);
-		gtk_text_set_word_wrap(GTK_TEXT(t),TRUE);
-		gtk_text_insert (GTK_TEXT (t),
-				 NULL /* FIXME ZVT_TERM(zvt)->font*/,
-				 NULL,NULL,s,strlen(s));
-		gtk_container_add(GTK_CONTAINER(sw),t);
-		gtk_widget_set_usize(sw,500,300);
+
+		tv = gtk_text_view_new ();
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
+		gtk_text_buffer_create_tag (buffer, "foo",
+					    "editable", FALSE,
+					    "family", "monospace",
+					    NULL);
+
+		gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
+
+		gtk_text_buffer_insert_with_tags_by_name
+			(buffer, &iter, s, -1, "foo", NULL);
+
+		gtk_container_add (GTK_CONTAINER (sw), tv);
+
+		/* FIXME: 
+		 * Perhaps should be smaller with smaller font ...
+		 * ... */
+		gtk_window_set_default_size
+			(GTK_WINDOW (mb),
+			 MIN (gdk_screen_width ()-50, 800), 
+			 MIN (gdk_screen_height ()-50, 450));
 	}
 	if (bind_response) {
 		g_signal_connect (G_OBJECT (mb), "response",
@@ -653,11 +674,23 @@ interrupt_calc(GtkWidget *widget, gpointer data)
 }
 
 static void
+manual_call (GtkWidget *widget, gpointer data)
+{
+	/* perhaps a bit ugly */
+	gboolean last = cursetup.info_box;
+	gel_evalexp ("manual", NULL, main_out, NULL, TRUE, NULL);
+	gel_printout_infos ();
+	cursetup.info_box = last;
+}
+
+static void
 warranty_call (GtkWidget *widget, gpointer data)
 {
 	/* perhaps a bit ugly */
+	gboolean last = cursetup.info_box;
 	gel_evalexp ("warranty", NULL, main_out, NULL, TRUE, NULL);
 	gel_printout_infos ();
+	cursetup.info_box = last;
 }
 
 static void
@@ -733,10 +766,14 @@ static GnomeUIInfo calc_menu[] = {
 static GnomeUIInfo help_menu[] = {  
 	/* FIXME: no help 
 	 * GNOMEUIINFO_HELP("genius"),*/
+	GNOMEUIINFO_ITEM_STOCK (N_("_Manual"),
+				N_("Display the manual"),
+				manual_call,
+				GTK_STOCK_HELP),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Warranty"),
 				N_("Display warranty information"),
 				warranty_call,
-				GNOME_STOCK_MENU_ABOUT),
+				GTK_STOCK_HELP),
 	GNOMEUIINFO_MENU_ABOUT_ITEM(aboutcb,NULL),
 	GNOMEUIINFO_END,
 };
@@ -916,7 +953,6 @@ open_plugin_cb (GtkWidget *w, GelPlugin * plug)
 static void
 fork_a_helper (void)
 {
-	pid_t pid;
 	char *argv[6];
 	char *foo;
 	char *dir;
@@ -969,14 +1005,14 @@ fork_a_helper (void)
 
 	argv[3] = NULL;
 
-	pid = vte_terminal_fork_command (VTE_TERMINAL (term),
-					 foo,
-					 argv,
-					 NULL /* envv */,
-					 NULL /* directory */,
-					 FALSE /* lastlog */,
-					 FALSE /* utmp */,
-					 FALSE /* wtmp */);
+	helper_pid = vte_terminal_fork_command (VTE_TERMINAL (term),
+						foo,
+						argv,
+						NULL /* envv */,
+						NULL /* directory */,
+						FALSE /* lastlog */,
+						FALSE /* utmp */,
+						FALSE /* wtmp */);
 
 	g_free (foo);
 }
@@ -1206,10 +1242,11 @@ main (int argc, char *argv[])
 	gtk_widget_show_now (window);
 
 	gel_output_printf (main_out,
-			   _("Genius %s\n"
+			   _("\e[0;32mGenius %s\e[0m\n"
 			     "%s\n"
 			     "This is free software with ABSOLUTELY NO WARRANTY.\n"
-			     "For details type `warranty'.\n\n"),
+			     "For license details type `\e[01;36mwarranty\e[0m'.\n"
+			     "For help type '\e[01;36mmanual\e[0m' or '\e[01;36mhelp\e[0m'.\n\n"),
 			   VERSION,
 			   COPYRIGHT_STRING);
 	gel_output_flush (main_out);

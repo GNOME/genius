@@ -1,0 +1,744 @@
+Genius Calculator Manual
+========================
+
+Genius calculator is a general calculator for use as a desktop calculator,
+and educational tool in mathematics and is useful even for rudimentary
+research.  The language tries to be more "mathematical" in the sense that it
+should be "what you mean is what you get", though of course that's not an
+entierly attainable goal.  It features using rationals, arbitrary precision
+integers and multiple precision floats using the GMP library.  It also fully
+supports complex numbers.  It can work with matrices and vectors and do
+rudimetary linear algebra.  The language can have user defined functions,
+variables and parameters.
+
+Genius is licensed under the GPL, for more information type 'warranty' in the
+console.
+
+******************************************************************
+*It is still under development so beware that things might change*
+******************************************************************
+
+Basic usage:
+===========
+
+Type your expression onto the console and press enter and the expression
+should be evaluated.  To load a program, type
+  load path/to/program.gel
+To list files in the current directory type "ls", to change directory
+do "cd directory" as in the unix command shell.
+
+To get a list of functions and commands type
+  help
+
+If you wish to get more help on a specific function type
+  help FunctionName
+
+The most simple GEL (The Genius Extension Language, or George's Ego Leverage)
+expression just looks like mathematics.  For example
+  30*70 + 67^3.0 + ln(7) * (88.8/100)
+or
+  62734 + 812634 + 77^4 mod 5
+or
+  | sin(37) - e^7 |
+or
+  sum n=1 to 70 do 1/n
+(Last is the harmonic sum from 1 to 70)
+
+
+More detail on GEL:
+===================
+
+A program in GEL is basically an expression which evaluates to a number,
+since there exist only numbers.
+
+
+Previous result:
+----------------
+
+The "Ans" variable can be used to get the result of the last expression
+
+so if you did some calculation and just wanted to add 389 to the result,
+you'd do "Ans+389"
+
+(you can also use the lowercase "ans" as well)
+
+
+Using Functions and Variables:
+------------------------------
+
+For variables use the = operator, that operator sets the variable and
+returns the number you set, so you can do something like "a=b=5", just
+like in C.  Note that the names of functions are case sensitive.  Also
+you can use TAB completion to finish the function name.  Just start the
+name and press TAB.  (Note: Built in functions with no arguments are
+sometimes indistinguishable from variables)
+
+There are a number of built in functions and variables (such as "e" "pi"
+"sin" "cos" "tan", and more)
+
+To evaluate functions type:
+
+  FunctionName(argument1, argument2, argument3)
+or
+  FunctionName()
+
+(of course the number of arguments is different for each function)
+
+To evaluate variables type:
+
+  VariableName
+
+NOTE: If you don't type the () in, the function will not be evaluated
+but it will be returned as a "function node", unless of course if it's a
+normal variable in which case it returns the value of the variable, so this
+fact is used 
+1) for variables
+2) for passing functions to functions (explained below)
+
+For a list of functions variables and parameters type "help" into the
+console.
+
+
+Setting Variables and Parameters:
+---------------------------------
+
+Syntax:
+  <identifier> = <value>
+
+Example:
+  x = 3
+
+The same goes for parameters.  However the difference is that variables are
+local (setting a variable inside a function will not have effect outside)
+and paramaters are global (doesn't matter where you set them).
+
+
+Defining Functions:
+-------------------
+
+Syntax:
+  function <identifier>(<comma separated argument names>) = <function body>
+
+(you could also assign the anonymous function syntax to an identifier as in:
+ <identifier> = (`() = <function body>)
+
+NOTE: that's a backquote and signifies an anonymous function, by setting
+it to a variable name you effectively define a function
+
+Example:
+  function addup(a,b,c) = a+b+c
+
+then "addup(1,1,1)" yields 3
+
+
+Variable argument lists:
+------------------------
+
+If you include "..." after the last argument name, then genius will allow any
+number of arguments to be passed in place of that argument.  If no arguments
+were passed then that argument will be set to null.  Else it will be a
+horizontal vector with all the arguments.  For example:
+
+  function f(a,b...) = b
+
+Then "f(1,2,3)" yields "[2,3]", while "f(1)" yields a null
+
+
+Absoulte value:
+---------------
+
+You can make an absolute value of something by putting the |'s around it.
+Example:
+
+|a-b|
+
+
+Separator:
+----------
+
+Finally there is the ';' operator, which is a way to separate expressions,
+such a combined expression will return whatever is the result of the last
+one, so
+
+3 ; 5
+
+yeilds 5
+
+This will require some parenthesizing to make it unambiguous sometimes,
+especially if the ; is not the top most primitive. This slightly differs
+from other programming languages where the ; is a terminator of statements,
+whereas in GEL it's actually a binary operator. If you are familiar with
+pascal this should be second nature. However genius can let you pretend
+it's a terminator somewhat, if a ";" is found at the end of a parenthesis 
+or a block, genius will itself append a null node to it as if you would
+have written ";.". This is usefull in case you don't want to return a
+value from say a loop, or if you handle the return differently. Note that
+it will slow down the code if it's executed too often as there is one
+more operator involved.
+
+
+All the GEL operators:
+----------------------
+
+a;b		separator, just evaluates both but returns only b
+a=b		assignment operator asigns b to a (a must be a valid lvalue)
+|a|		absolute value
+a^b		exponentiation
+a.^b		element by element exponentiation
+a+b		addition
+a-b		subtraction
+a*b		multiplication
+a.*b		element by element multiplication
+a/b		division
+a./b		element by element division
+a\b		back division
+a.\b		element by element back division
+a%b		the mod operator
+a.%b		element by element the mod operator
+a mod b		mod evaluation operator (a evaluated mod b)
+a!		factorial operator
+a!!		double factorial operator
+a==b		equality operator (returns 1 or 0)
+a!=b		inequality operator (returns 1 or 0)
+a<>b		alternative inequality operator (returns 1 or 0)
+a<=b		inequality operator (returns 1 or 0)
+a>=b		inequality operator (returns 1 or 0)
+a<=>b		comparison operator (returns -1, 0 or 1)
+a and b		logical and
+a or b		logical or
+a xor b		logical xor
+not a		logical not
+-a		negation operator
+&a		variable referencing (to pass a reference to something)
+*a		variable dereferencing (to access a referenced varible)
+a'		matrix conjugate transpose
+a.'		matrix transpose
+a@(b,c)		get element of a matrix (or elements if b,c are vectors)
+a@(b,)		get row of a matrix (or elements if b is a vector)
+a@(,c)		get column of a matrix (or elements if c is a vector)
+a:b		build a vector from a to b (or specify a row, column region)
+a:b:c		build a vector from a to c with b as a step
+a@(b)		get an element from a matrix treating it as a vector
+
+NOTE: The @() operator makes the : operator most useful.  With this you can
+specify regions of a matrix.  So that a@(2:4,6) is the rows 2,3,4 of the
+column 6. Or a@(,1:2) will get you the first two columns of a matrix. You can
+also assign to the @() operator, as long as the right value is a matrix that
+matches the region in size, or if it is any other type of value.
+
+NOTE: The comparison operators (except for the <=> operator which behaves
+normally), are not strictly binary operators, they can in fact be grouped
+in the normal mathematical way, e.g.: (1<x<=y<5) is a legal boolean
+expression and means just what it should, that is (1<x and x<=y and y<5)
+
+
+Conditionals:
+-------------
+
+Syntax:
+  if <expression1> then <expression2> [else <expression3>]
+
+If else is omitted, then if the expression1 yeilds 0, NULL is returned.
+
+Examples:
+  if(a==5)then(a=a-1)
+  if b<a then b=a
+  if c>0 then c=c-1 else c=0
+  a = ( if b>0 then b else 1 )
+
+
+Loops:
+------
+
+Syntax:
+  while <expression1> do <expression2>
+  until <expression1> do <expression2>
+  do <expression2> while <expression1>
+  do <expression2> until <expression1>
+
+These are similiar to other languages, they return the result of
+the last iteration or NULL if no iteration was done
+
+
+For loops:
+----------
+
+Syntax:
+  for <identifier> = <from> to <to> do <body>
+  for <identifier> = <from> to <to> by <increment> do <body>
+
+Loop with identifier being set to all values from <from> to <to>, optionally
+using an increment other then 1. These are faster, nicer and more compact
+then the normal loops such as above, but less flexible. The identifier must
+be an identifier and can't be a dereference. The value of identifier is the
+last value of identifier, or <from> if body was never evaluated. The variable
+is guaranteed to be initialized after a loop, so you can safely use it.  Also
+the <from> <to> and <increment> must be non complex values. The <to> is not
+guaranteed to be hit, but will never be overshot, for example the following
+prints out odd numbers from 1 to 19
+
+  for i = 1 to 20 by 2 do print(i)
+
+
+Foreach loops:
+--------------
+
+Syntax:
+  for <identifier> in <matrix> do <body>
+
+For each element, going row by row from left to right do the body. To
+print numbers 1,2,3 and 4 in this order you could do:
+
+  for n in [1,2:3,4] do print(n)
+
+If you wish to run through the rows and columns of a matrix, you can use
+the RowsOf and ColumnsOf functions which return a vector of the rows or
+columns of the matrix.  So
+
+  for n in RowsOf ([1,2:3,4]) do print(n)
+
+will print out [1,2] and then [3,4].
+
+
+Sums and Products:
+------------------
+
+Syntax:
+  sum <identifier> = <from> to <to> do <body>
+  sum <identifier> = <from> to <to> by <increment> do <body>
+  sum <identifier> in <matrix> do <body>
+  prod <identifier> = <from> to <to> do <body>
+  prod <identifier> = <from> to <to> by <increment> do <body>
+  prod <identifier> in <matrix> do <body>
+
+If you substitute 'for' with 'sum' or 'prod', then you will get a sum or
+a product instead of a for loop.  Instead of returning the last value,
+these will return the sum or the product of the values respectively.
+
+
+Comparison operators:
+---------------------
+
+==,>=,<=,!=,<>,<,> return 1 for TRUE, 0 for FALSE
+
+!= and <> are the same thing and mean "is not equal to". Make sure
+you use == for equality however, as = will have the same outcomes as
+it does in C.
+
+<=> returns -1 if left side is smaller, 0 if both sides are equal, 1
+    if left side is larger
+
+To build up logical expressions use the words "not","and","or","xor"
+
+"not" and "and" are special beasts as they evaluate their arguemnts one by
+one, so the usual trick for conditional evaluation works here as well.
+(E.g. "1 or a=1" will not set a=1 since the first argument was true)
+
+You can also use break and continue, in the same manner as they are used
+in C. Such as in (bn are booleans s is just some statement):
+
+  while(b1) do (
+    if(b2) break
+    else if(b3) continue;
+    s1
+  )
+
+
+Null:
+-----
+
+Null is a special value, if it is returned, nothing is printed on
+screen, no operations can be done on it. It is also usefull if you want
+no output from a command. Null can be achieved as an expression when you
+type . or nothing
+
+Example:
+  x=5;.
+  x=5;
+
+
+Returning:
+----------
+
+Sometimes it's not good to return the last thing calculated, you may for
+example want to return from a middle of a function. This is what the return
+keyword is for, it takes one argument which is the return value
+
+Example:
+  function f(x) = (
+    y=1;
+    while(1) do (
+      if(x>50) then return y;
+      y=y+1;
+      x=x+1
+    )
+  )
+
+
+References: 
+-----------
+
+GEL contains references with a C like syntax. & references a variable
+and * dereferences a variable, both can only be applied to an identifier
+so **a is not legal in GEL
+
+Example:
+
+  a=1;
+  b=&a;
+  *b=2;
+
+now 'a' contains 2
+
+  function f(x) = x+1;
+  t=&f;
+  *t(3)
+
+gives us 4
+
+
+Anonymous functions:
+--------------------
+
+It is possible to say use a function in another function yet you don't know
+what the function will be, you use an anonymous function. Anonymous function
+is declared as:
+
+Syntax:
+  function(<comma separated argument names>) = <function body>
+
+or shorthand:
+
+  `(<comma separated argument names>) = <function body>
+
+Example:
+
+  function f(a,b) = a(b)+1;
+  f(`(x) = x*x,2)
+
+will return 5 (2*2+1)
+
+You can also just pass the function name as well:
+
+  function f(a,b) = a(b)+1;
+  function b(x) = x*x;
+  f(b,2)
+
+
+Lvalues (left side of an equals sign to be assigned):
+-----------------------------------------------------
+
+Valid lvalues are
+
+a		identifier
+*a		dereference of an identifier
+a@(<region>)	a region of a matrix (where the region is specified normally
+		as with the regular @() operator)
+
+Examples:
+  a=4
+  *tmp = 89
+  a@(4..8,3)=[1,2,3,4,5]'
+
+
+Matrix Support:
+---------------
+
+To enter matrixes use one of the following two syntaxes. You can either enter
+the matrix separating values by commas and rows by semicolons, or separating
+values by tabs (not usually easily possible on the console, only in files)
+and rows by returns, or any combination of the two. So to enter a 3x3 matrix
+of numbers 1-9 you could do
+
+  [1,2,3;4,5,6;7,8,9]
+
+or
+
+[1	2	3
+ 4	5	6
+ 7	8	9]
+
+or
+
+  [1,  2,  3
+   4,  5,  6
+   7,  8,  9]
+
+Do not use both ';' and return at once on the same line though.  Also
+do not mix tabs and commas.  It is just safest to use commas as separators.
+
+You can also use the matrix expansion functionality to enter matricies.
+For example you can do:
+  a = [ 1,  2,  3
+        4,  5,  6
+        7,  8,  9]
+  b = [ a,   10
+        11,  12]
+
+and you should get
+
+[1	2	3	10
+ 4	5	6	10
+ 7	8	9	10
+ 11	11	11	12]
+
+similiarly you can build matricies out of vectors and other stuff like that.
+
+Another thing is that non-specified spots are initialized to 0, so
+
+  [1,  2,  3
+   4,  5
+   6]
+
+will end up being
+
+[1	2	3
+ 4	5	0
+ 6	0	0]
+
+NOTE: be careful about using whitespace and returns for expressions inside
+the '[',']' brackets, they have a slightly different meaning and could mess
+you up.
+
+
+Conjugate transpose and Transpose operator:
+-------------------
+
+You can conjuate transpose a matrix by using the ' operator, example:
+
+  [1,2,3]*[4,5,6]'
+
+We transpose the second vector to make matrix multiplication possible.
+
+If you just wont to transpose a matrix without conjugating it, you would
+use the .' operator.  For example:
+
+  [1,2,3]*[4,5,6i].'
+
+
+Modular evaluation:
+-------------------
+
+Sometimes when working with large numbers, it might be faster if results are
+modded after each calculation.  To use it you just add "mod <integer>" after
+the expression.
+
+Example:
+  2^(5!) * 3^(6!) mod 5
+
+You can calculate the inverses of numbers mod some integer by just using
+rational numbers (of course the inverse has to exist).
+
+Examples:
+  10^-1 mod 101
+  1/10 mod 101
+  
+
+Strings:
+--------
+
+You can enter strings into gel and store them as values inside variables
+and pass them to functions. (And do just about anything that values can
+do). You can also concatenate the strings with something else (anything),
+with the plus operator. So say:
+
+  a=2+3;"The result is: "+a
+
+Will create a string "The result is: 5". You can also use C-like escape
+sequences \n,\t,\b,\a,\r, to get a \ or " into the string you can qoute it
+with a \.
+
+Example:
+  "Slash: \\ Quotes: \" Tabs: \t1\t2\t3"
+
+will make a string:
+
+Slash: \ Quotes: " Tabs: 	1	2	3
+
+You can use the library function string to convert anything to a string.
+
+Example:
+  string(22)
+
+will return "22".
+
+Strings can also be compared with ==, != and <=> operators
+
+
+Error handeling:
+----------------
+
+If you detect an error in your function, you can bail out of it.  You can
+either fail to compute the function which is for normal errors, such as wrong
+types of arguments, just add the empty statement "bailout".  If something
+went really wrong and you want to completely kill the current computation,
+you can use "exception".
+
+Look at lib.gel for some examples.
+
+
+Polynomials:
+------------
+
+Genius can do some things on polynomials. Polynomials in genius are just
+horizontal vectors with value only nodes. The power of the term is the
+position in the vector, with the first position being 0. So, [1,2,3]
+translates to a polynomial of "1 + 2*x + 3*x^2".
+
+You can add, subtract and multiply polynomials using the AddPoly,
+SubtractPoly and MultiplyPoly functions and you can print out a human
+readable string using the PolyToString function.  This function takes the
+polynomial vector as the first argument and a string to use as the variable
+as the second argument and returns a string.  You can also get a funcion
+representation of the polynomial so that you can evaluate it.  This is done
+by the PolyToFunction function, which returns an anonymous function which you
+can assign to something.
+
+f = PolyToFunction([0,1,1])
+f(2)
+
+Look at the function table for the rest of polynomial functions.
+
+
+Loading external programs:
+--------------------------
+
+Sometimes you have a larger program that you wrote into a file and want
+to read in that file, you have two options, you can keep the functions
+you use most inside a ~/.geniusinit file. Or if you want to load up a
+file in a middle of a session (or from within another file), you can
+type "load <list of filenames>" at the prompt. This has to be done
+on the top level and not inside any function or whatnot, and it cannot
+be part of any expression. It also has a slightly different syntax then the
+rest of genius, more similiar to a shell. You can enter the file in
+quotes. If you use the '' quotes, you will get exactly the string
+that you typed, if you use the "" quotes, special characters will be
+unescaped as they are for strings. Example:
+
+load program1.gel program2.gel
+load "Weird File Name With SPACES.gel"
+
+There are also cd, pwd and ls commands built in
+
+
+Calculator parameters:
+----------------------
+
+There are several basic parameters provided by the calculator in addition
+to the ones provided by the standard library.  These control how the
+calculator behaves.
+
+FloatPrecision          The floating point precision in bits
+MaxDigits               The maximum digits in a result
+ResultsAsFloats         If the results should be always printed as floats
+ScientificNotation      If floats should be in scientific notation
+FullExpressions         Boolean, should we print out full expressions
+			for non-numeric return values (longer then a line)
+MaxErrors               The maximum number of errors to return on one
+                        evaluation
+MixedFractions          If fractions should be printed as mixed fractions
+                        such as "1 1/3" rather then "4/3"
+IntegerOutputBase       The base that will be used to output integers
+OutputStyle             A string, can be "normal", "latex" or "troff"
+                        and it will effect how matrices (and perhaps other
+                        stuff) is printed, useful for pasting into documents
+
+To set a paramater just set it as a variable.  For example To set the
+MaxDigits to 12 you would do:
+
+  MaxDigits = 12
+
+
+Standard startup procedure:
+---------------------------
+
+First the program looks for the installed library file (the compiled
+version lib.cgel) in the installed directory, then it looks into the
+current directory, and then it tries to load an uncompiled file called
+~/.geniusinit
+
+If you ever change the lib.gel in it's installed place, you'll have to
+first compile it with "genius --compile lib.gel > lib.cgel"
+
+
+EXAMPLE PROGRAM in GEL:
+=======================
+
+    a user factorial function (there already is one built in so
+    this function is useless)
+
+    function f(x) = if x <= 1 then 1 else (f(x-1)*x)
+
+    or with indentation it becomes
+
+    function f(x) = (
+      if x <= 1 then
+        1
+      else
+        (f(x-1)*x)
+    )
+
+    this is a direct port of the factorial function from the bc manpage :)
+    it seems similiar syntax to bc, but different in that in gel, the
+    last expression is the one that is returned. It can be done with with
+    returns as:
+
+    function f(x) = (
+      if (x <= 1) then return (1);
+      return (f(x-1) * x)
+    )
+
+    which is almost verbatim bc code, except for then and the function
+    definition
+
+    Here's a smaller, nicer, iterative version:
+
+      function f(x) = prod k=1 to x do k
+
+    Here's a larger example, this basically redefines the internal ref
+    function to calculate the same thing, but written in GEL:
+
+    #calculate the row-echelon form of a matrix
+    function ref(m) = (
+      if not IsMatrix(m) or not IsValueOnly(m) then
+        (error("ref: argument not a value only matrix");bailout);
+      s = min(rows(m), columns(m));
+      i = 1;
+      d = 1;
+      while d <= s and i <= columns(m) do (
+
+        # This just makes the anchor element non-zero if at
+        # all possible
+        if m@(d,i) == 0 then (
+          j = d+1;
+          while j <= rows(m) do (
+            if m@(j,i) == 0 then
+              (j=j+1;continue);
+            a = m@(j,);
+            m@(j,) = m@(d,);
+            m@(d,) = a;
+            j = j+1;
+            break
+          )
+        );
+        if m@(d,i) == 0 then
+          (i=i+1;continue);
+    
+        # Here comes the actual zeroing of all but the anchor
+        # element rows
+        j = d+1;
+        while j <= rows(m)) do (
+          if m@(j,i) != 0 then (
+            m@(j,) = m@(j,)-(m@(j,i)/m@(d,i))*m@(d,)
+          );
+          j = j+1
+        );
+        m@(d,) = m@(d,) * (1/m@(d,i));
+        d = d+1;
+        i = i+1
+      );
+    m
+    )
+
+Have fun,
+  George

@@ -1,7 +1,7 @@
 # Sums and products
 
 #calculate an infinite sum until the new terms stop making a difference
-SetHelp("InfiniteSum","calculus","Try to calculate an infinite sum");
+SetHelp("InfiniteSum","calculus","Try to calculate an infinite sum for a single parameter function");
 function InfiniteSum (func, start, inc, epsilon) = (
 	if not IsValue(start) or not IsValue(inc) then
 		(error("InfiniteSum: start,inc arguments not values");bailout)
@@ -19,7 +19,7 @@ function InfiniteSum (func, start, inc, epsilon) = (
 protect("InfiniteSum")
 
 #calculate an infinite sum until the new terms stop making a difference
-SetHelp("InfiniteSum2","calculus","Try to calculate an infinite sum");
+SetHelp("InfiniteSum2","calculus","Try to calculate an infinite sum for a double parameter function with func(arg,n)");
 function InfiniteSum2(func,arg,start,inc,epsilon) = (
 	if not IsValue(start) or not IsValue(inc) then
 		(error("InfiniteSum2: start,inc arguments not values");bailout)

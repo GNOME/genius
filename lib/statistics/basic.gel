@@ -76,7 +76,8 @@ SetHelpAlias ("Average", "mean")
 mean = Average
 protect("mean")
 
-function rowstdev(m) = (
+SetHelp("RowStandardDeviation", "statistics", "Calculate the standard deviations of rows of a matrix and return a vertical vector")
+function RowStandardDeviation(m) = (
 	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("rowstdev: argument not value-only matrix");bailout)
 	else if columns(m)<2 then
@@ -91,9 +92,13 @@ function rowstdev(m) = (
 	);
 	r
 );
+protect("RowStandardDeviation")
+SetHelpAlias ("RowStandardDeviation", "rowstdev")
+rowstdev = RowStandardDeviation
 protect("rowstdev")
 
-function rowstdevp(m) = (
+SetHelp("RowPopulationStandardDeviation", "statistics", "Calculate the population standard deviations of rows of a matrix and return a vertical vector")
+function RowPopulationStandardDeviation(m) = (
 	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("rowstdevp: argument not value-only matrix");bailout);
 	r = rowaverage(m);
@@ -106,9 +111,13 @@ function rowstdevp(m) = (
 	);
 	r
 );
-protect("rowstddevp")
+protect("RowPopulationStandardDeviation")
+SetHelpAlias ("RowPopulationStandardDeviation", "rowstdevp")
+rowstdevp = RowPopulationStandardDeviation
+protect("rowstdevp")
 
-function stdev(m) = (
+SetHelp("StandardDeviation", "statistics", "Calculate the standard deviation of a whole matrix")
+function StandardDeviation(m) = (
 	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("stdev: argument not value-only matrix");bailout)
 	else if lements(m)<2 then
@@ -119,9 +128,13 @@ function stdev(m) = (
 		rr = rr + (k-r)^2;
 	sqrt(rr/(elements(m)-1))
 );
+protect("StandardDeviation")
+SetHelpAlias ("StandardDeviation", "stdev")
+stdev = StandardDeviation
 protect("stdev")
 
-function stdevp(m) = (
+SetHelp("PopulationStandardDeviation", "statistics", "Calculate the population standard deviation of a whole matrix")
+function PopulationStandardDeviation(m) = (
 	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("stdevp: argument not value-only matrix");bailout);
 	r = Average(m);
@@ -130,4 +143,7 @@ function stdevp(m) = (
 		rr = rr + (k-r)^2;
 	sqrt(rr/elements(m))
 );
+protect("PopulationStandardDeviation")
+SetHelpAlias ("PopulationStandardDeviation", "stdevp")
+stdevp = PopulationStandardDeviation
 protect("stdevp")

@@ -45,7 +45,6 @@
 #define EDEBUG(x) ;
 #endif
 
-extern calc_error_t error_num;
 extern calcstate_t calcstate;
 
 GelETree *free_trees = NULL;
@@ -3772,7 +3771,11 @@ iter_get_matrix_p(GelETree *m, gboolean *new_matrix)
 		GelEFunc *f;
 		if(d_curcontext()==0 &&
 		   m->id.id->protected) {
-			(*errorout)(_("Trying to set a protected id"));
+			char *err = g_strdup_printf
+				(_("Trying to set a protected id '%s'"),
+				 m->id.id->token);
+			(*errorout)(err);
+			g_free (err);
 			return NULL;
 		}
 		f = d_lookup_local(m->id.id);
@@ -3832,7 +3835,11 @@ iter_get_matrix_p(GelETree *m, gboolean *new_matrix)
 			return NULL;
 		}
 		if(f->data.ref->context==0 && f->data.ref->id->protected) {
-			(*errorout)(_("Trying to set a protected id"));
+			char *err = g_strdup_printf
+				(_("Trying to set a protected id '%s'"),
+				 f->data.ref->id->token);
+			(*errorout)(err);
+			g_free (err);
 			return NULL;
 		}
 		D_ENSURE_USER_BODY (f->data.ref);
@@ -3893,7 +3900,11 @@ iter_equalsop(GelETree *n)
 
 	if(l->type == IDENTIFIER_NODE) {
 		if(d_curcontext()==0 && l->id.id->protected) {
-			(*errorout)(_("Trying to set a protected id"));
+			char *err = g_strdup_printf
+				(_("Trying to set a protected id '%s'"),
+				 l->id.id->token);
+			(*errorout)(err);
+			g_free (err);
 			return;
 		}
 		if (l->id.id->parameter) {
@@ -3935,7 +3946,11 @@ iter_equalsop(GelETree *n)
 		}
 
 		if(f->data.ref->context==0 && f->data.ref->id->protected) {
-			(*errorout)(_("Trying to set a protected id"));
+			char *err = g_strdup_printf
+				(_("Trying to set a protected id '%s'"),
+				 f->data.ref->id->token);
+			(*errorout)(err);
+			g_free (err);
 			return;
 		}
 		

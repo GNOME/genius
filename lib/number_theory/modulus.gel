@@ -5,7 +5,7 @@
 # Note that if the prime factorization of n is p_1^a_1 * ... p_r^a_r,
 # then EulerPhi(n)=n*(1-1/p_1)*...*(1-1/p_r). We use this to calculate
 # EulerPhi(n) FIXME: this implementation is stupid!
-SetHelp("EulerPhi","number_theory","Compute phi(n), the Euler phi function");
+SetHelp("EulerPhi","number_theory","Compute phi(n), the Euler phi function, that is the number of integers between 1 and n relatively prime to n");
 function EulerPhi(n) =
 (
 	if not IsValue(n) or not IsInteger(n) or not n>0 then

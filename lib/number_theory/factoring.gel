@@ -12,6 +12,7 @@
 # (5) Elliptic Curve Method (ECM) (use from 8 digits to 25-30)
 # (6) Continued Fraction Algorithm (CFRAC) -- not actually useful, but
 #	a nice legacy addition
+SetHelp("Factorize", "number_theory", "Return factorization of a number as a matrix")
 function Factorize(n) =
  (
   # First, deal with trivial case (n=0) and get rid of the possible unit.
@@ -62,6 +63,7 @@ function Factorize(n) =
   error("Sorry, number has factors that are too big for us to deal with yet; the following is a partial factorization (the last term is composite).");
   return [factor_list,[n;1]];
  )
+protect ("Factorize")
 
 SetHelp("FactorizeLoopMax","parameters","Maximum number which Factorize uses in trial division");
 parameter FactorizeLoopMax = 5000;         # Factorize configuration variable
@@ -80,6 +82,7 @@ parameter FactorizeLoopMax = 5000;         # Factorize configuration variable
 # n.
 # FIXME: this is a naive implementation. Better would be to compute
 # the prime factorization for n and then combine it in all possible ways.
+SetHelp("Factors", "number_theory", "Return all factors of a number")
 function Factors(n) =
  (
   front_list=[0];
@@ -94,3 +97,4 @@ function Factors(n) =
    );
   if IsPerfectSquare(n) then return [front_list,sqrt(n),back_list] else return [front_list,back_list];
  )
+protect("Factors")

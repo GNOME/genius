@@ -37,7 +37,6 @@
 #include "matop.h"
 #include "geloutput.h"
 
-extern calc_error_t error_num;
 extern int got_eof;
 extern calcstate_t calcstate;
 
@@ -89,6 +88,39 @@ get_nonnegative_integer (mpw_ptr z, const char *funcname)
 		return -1;
 	}
 	return i;
+}
+
+static GelETree *
+manual_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GString *str;
+	FILE *fp;
+
+	str = g_string_new (NULL);
+
+	fp = fopen ("../doc/manual.txt", "r");
+	if (fp == NULL)
+		fp = fopen (LIBRARY_DIR "/manual.txt", "r");
+
+	if (fp != NULL) {
+		char buf[256];
+		while (fgets (buf, sizeof(buf), fp) != NULL) {
+			g_string_append (str, buf);
+		}
+
+		fclose (fp);
+	} else {
+		g_string_append (str,
+				 _("Cannot locate the manual"));
+	}
+
+	(*infoout) (str->str);
+	error_num = IGNORE_ERROR;
+	if(exception) *exception = TRUE; /*raise exception*/
+
+	g_string_free (str, TRUE);
+
+	return NULL;
 }
 
 static GelETree *
@@ -3429,6 +3461,7 @@ gel_funclib_addall(void)
 	d_addfunc_global (d_makevfunc (id, gel_makenum_null()));
 
 
+	FUNC (manual, 0, "", "basic", _("Displays the user manual"));
 	FUNC (warranty, 0, "", "basic", _("Gives the warranty information"));
 	FUNC (exit, 0, "", "basic", _("Exits the program"));
 	ALIAS (quit, 0, exit);

@@ -1,3 +1,32 @@
+Mon Jan 27 14:13:43 2003  George Lebl <jirka@5z.com>
+
+	* configure.in, Makefile.am, doc/Makefile.am, doc/manual.txt,
+	  README:  Move the manual to doc/manual.txt and install that
+	  in the data directory
+
+	* src/calc.c, src/funclib.c, src/gnome-genius.c, src/genius.c:
+	  add manual function to display manual, improve initial message,
+	  info boxes in gui version now use textview and open up being
+	  rather large, also always use the infobox for menuitems even if
+	  console info printing is selected.
+
+	* lib/calculus/limits.gel, lib/calculus/sums_products.gel, 
+	  lib/linear_algebra/misc.gel, lib/number_theory/factoring.gel,
+	  lib/number_theory/modulus.gel, lib/statistics/basic.gel:
+	  Some naming fixes and a whole bunch of new help strings
+	  
+	* src/calc.[ch], src/eval.c, src/mpwrap.c, src/funclib.c,
+	  src/genius.c, src/gnome-genius.c, src/matop.c:
+	  Rename error var type to GeniusError, on protected id set
+	  tell us which id was it.
+
+	* src/calc.c: don't display Ans as undocumented and add some initial
+	  info to help and translate some strings
+
+	* src/geniustests.txt: add some more tests
+
+	* src/calc.h: up year in copyright string
+
 Sun Jan 26 12:40:49 2003  George Lebl <jirka@5z.com>
 
 	* src/parse.y: fix precedence of function definition to be FUNCTION

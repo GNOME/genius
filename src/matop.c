@@ -37,7 +37,6 @@
 
 #include "matop.h"
 
-extern calc_error_t error_num;
 extern calcstate_t calcstate;
 
 gboolean

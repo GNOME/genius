@@ -74,7 +74,6 @@ calcstate_t curstate={
 	10
 	};
 	
-extern calc_error_t error_num;
 extern int got_eof;
 extern int parenth_depth;
 
@@ -282,7 +281,8 @@ main(int argc, char *argv[])
 		printf(_("Genius %s\n"
 			 "%s\n"
 			 "This is free software with ABSOLUTELY NO WARRANTY.\n"
-			 "For details type `warranty'.\n\n"),
+			 "For license details type `warranty'.\n"
+			 "For help type 'manual' or 'help'.\n\n"),
 		       VERSION,
 		       COPYRIGHT_STRING);
 		be_quiet = FALSE;

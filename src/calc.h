@@ -27,16 +27,20 @@
 
 #include "structs.h"
 
-#define COPYRIGHT_STRING "Copyright (C) 1997-2002 George Lebl"
+#define COPYRIGHT_STRING "Copyright (C) 1997-2003 George Lebl"
 
-typedef enum {	NO_ERROR=0,
-		PARSE_ERROR,
-		INTERNAL_MPW_ERROR,
-		NUMERICAL_MPW_ERROR,
-		EOF_ERROR,
-		EOE_ERROR, /*end of expression*/
-		IGNORE_ERROR /*set this if you want to ignore the result*/
-	} calc_error_t;
+typedef enum {
+	NO_ERROR = 0,
+	PARSE_ERROR,
+	INTERNAL_MPW_ERROR,
+	NUMERICAL_MPW_ERROR,
+	EOF_ERROR,
+	EOE_ERROR, /*end of expression*/
+	IGNORE_ERROR /*set this if you want to ignore the result*/
+} GeniusError;
+
+/* FIXME: This should be nicer */
+extern GeniusError error_num;
 
 typedef enum {
 	GEL_OUTPUT_NORMAL,

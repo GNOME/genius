@@ -92,7 +92,7 @@ GHashTable *uncompiled = NULL;
 GSList *evalstack=NULL;
 
 /*error .. global as well*/
-calc_error_t error_num = NO_ERROR;
+GeniusError error_num = NO_ERROR;
 int got_eof = FALSE;
 
 /*the current state of the calculator*/
@@ -268,6 +268,7 @@ get_undocumented (void)
 		GelHelp *help;
 		if(f->id == NULL ||
 		   f->id->token == NULL ||
+		   strcmp (f->id->token, "Ans") == 0 ||
 		   strcmp (f->id->token, "ni") == 0 ||
 		   strcmp (f->id->token, "shrubbery") == 0)
 			continue;
@@ -1922,9 +1923,21 @@ full_help (void)
 
 	gel_output_push_nonotify (main_out);
 
+	do_green ();
+	gel_output_full_string (main_out,
+				_("\nFor a manual on using Genius and the GEL language type:\n"));
+	do_black ();
+	gel_output_full_string (main_out, _("  manual\n"));
+
+	do_green ();
+	gel_output_full_string (main_out,
+				_("\nFor help on a specific function type:\n"));
+	do_black ();
+	gel_output_full_string (main_out, _("  help FunctionName\n"));
+
 	do_black ();
 	gel_output_full_string (main_out,
-				"\nCommands:\n");
+				_("\nCommands:\n"));
 	for (i = 0; genius_toplevels[i] != NULL; i++)
 		print_command_help (genius_toplevels[i]);
 
@@ -2037,7 +2050,7 @@ help_on (const char *text)
 
 	if (help->aliasfor) {
 		gel_output_printf_full (main_out, FALSE,
-					"%s is an alias for %s\n",
+					_("%s is an alias for %s\n"),
 					text, help->aliasfor);
 		help_on (help->aliasfor);
 		do_black ();
