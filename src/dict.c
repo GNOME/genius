@@ -573,16 +573,16 @@ d_freefunc (GelEFunc *n)
   new has to have the same id, also new->id should
   not hold a reference to new*/
 void
-d_replacefunc(GelEFunc *old,GelEFunc *new)
+d_replacefunc(GelEFunc *old,GelEFunc *_new)
 {
 	GSList *li;
 
 	/* assert some things we don't deal with.  Should we? */
-	g_assert ( ! new->on_subst_list);
+	g_assert ( ! _new->on_subst_list);
 	g_assert ( ! old->on_subst_list);
 
-	g_return_if_fail(old && new);
-	g_return_if_fail(old->id == new->id);
+	g_return_if_fail(old && _new);
+	g_return_if_fail(old->id == _new->id);
 
 	if(old->type == GEL_USER_FUNC ||
 	   old->type == GEL_VARIABLE_FUNC)
@@ -596,14 +596,14 @@ d_replacefunc(GelEFunc *old,GelEFunc *new)
 	}
 	g_slist_free (old->extra_dict);
 
-	memcpy(old,new,sizeof(GelEFunc));
+	memcpy(old,_new,sizeof(GelEFunc));
 
 #ifndef MEM_DEBUG_FRIENDLY
 	/*prepend to free list*/
-	new->data.next = free_funcs;
-	free_funcs = new;
+	_new->data.next = free_funcs;
+	free_funcs = _new;
 #else
-	g_free (new);
+	g_free (_new);
 #endif
 }
 

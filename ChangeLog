@@ -1,3 +1,16 @@
+Tue Mar 23 11:14:02 2004  George Lebl <jirka@5z.com>
+
+	* src/gnome-genius.c, src/graphing.[ch]:  Add a plot dialog where it
+	  is easier to enter functions to plot and specify range and add
+	  menu items and toolbar item for this.
+
+	* src/graphing.c: Handle errors better when calling a function
+	  instead of just treating them as 0.  Also fixup errors from the
+	  LinePlot function to not affect the replot data until we
+	  are successful in collecting new data.
+
+	* src/dict.[ch]: minor cleanup
+
 Mon Mar 22 13:23:46 2004  George Lebl <jirka@5z.com>
 
 	* src/graphing.c: add scale to graphs, allow zooming in and zooming

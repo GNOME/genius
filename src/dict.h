@@ -38,7 +38,7 @@ GelEFunc * d_makeufunc (GelToken *id, GelETree *value, GSList *argnames, int nar
 /*make a variable function and return in*/
 GelEFunc * d_makevfunc(GelToken *id, GelETree *value);
 
-/*make a user function and return it*/
+/*make a reference function and return it*/
 GelEFunc * d_makereffunc(GelToken *id, GelEFunc *ref);
 
 /*copy a function*/
@@ -93,7 +93,7 @@ void d_freedict(GSList *n);
 void d_freefunc(GelEFunc *n);
 
 /*replace old with stuff from new and free new*/
-void d_replacefunc (GelEFunc *old, GelEFunc *new);
+void d_replacefunc (GelEFunc *old, GelEFunc *_new);
 
 /*push a new dictionary onto the context stack*/
 gboolean d_addcontext(void);

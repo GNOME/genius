@@ -25,4 +25,6 @@
 /* only doable in gui mode */
 void gel_add_graph_functions (void);
 
+void genius_lineplot_dialog (void);
+
 #endif /* GRAPHING_H_ */

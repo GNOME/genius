@@ -25,6 +25,8 @@
 #include <libgnomecanvas/libgnomecanvas.h>
 #include <math.h>
 
+#include <vicious.h>
+
 #include "calc.h"
 #include "eval.h"
 #include "util.h"
@@ -53,12 +55,19 @@ static GnomeCanvas *canvas = NULL;
 static GnomeCanvasGroup *root = NULL;
 static GnomeCanvasGroup *graph = NULL;
 
+#define MAXFUNC 10
+
+static GtkWidget *plot_dialog = NULL;
+static GtkWidget *plot_entries[MAXFUNC] = { NULL };
+static double spinx1 = -M_PI;
+static double spinx2 = M_PI;
+static double spiny1 = -1.1;
+static double spiny2 = 1.1;
+
 static double defx1 = -M_PI;
 static double defx2 = M_PI;
 static double defy1 = -1.1;
 static double defy2 = 1.1;
-
-#define MAXFUNC 10
 
 /* Replotting info */
 static GelEFunc *replot_func[MAXFUNC] = { NULL };
@@ -77,8 +86,36 @@ static int replot_in_progress = 0;
 #define WIDTH 640
 #define HEIGHT 480
 
-#define RESPONSE_STOP 1
-#define RESPONSE_ZOOMOUT 2
+enum {
+	RESPONSE_STOP=1,
+	RESPONSE_ZOOMOUT,
+	RESPONSE_PLOT
+};
+
+static void
+display_error (const char *err)
+{
+	static GtkWidget *w = NULL;
+
+	if (w != NULL)
+		gtk_widget_destroy (w);
+
+	w = gtk_message_dialog_new (GTK_WINDOW (genius_window) /* parent */,
+				    GTK_DIALOG_MODAL /* flags */,
+				    GTK_MESSAGE_ERROR,
+				    GTK_BUTTONS_CLOSE,
+				    "%s",
+				    err);
+	gtk_label_set_use_markup
+		(GTK_LABEL (GTK_MESSAGE_DIALOG (w)->label), TRUE);
+
+	g_signal_connect (G_OBJECT (w), "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &w);
+
+	gtk_dialog_run (GTK_DIALOG (w));
+	gtk_widget_destroy (w);
+}
 
 static void
 dialog_response (GtkWidget *w, int response, gpointer data)
@@ -507,7 +544,7 @@ plot_axis (double xscale, double yscale, double x1, double x2, double y1, double
 }
 
 static double
-call_func (GelCtx *ctx, GelEFunc *func, GelETree *arg)
+call_func (GelCtx *ctx, GelEFunc *func, GelETree *arg, gboolean *ex)
 {
 	GelETree *ret;
 	double retd;
@@ -521,16 +558,17 @@ call_func (GelCtx *ctx, GelEFunc *func, GelETree *arg)
 	/* FIXME: handle errors! */
 	if (error_num != 0)
 		error_num = 0;
-	/* FIXME: handle errors! */
 	if (ret == NULL || ret->type != VALUE_NODE) {
+		*ex = TRUE;
 		gel_freetree (ret);
 		return 0;
 	}
 
 	retd = mpw_get_double (ret->val.value);
-	/* FIXME: handle errors! */
-	if (error_num != 0)
+	if (error_num != 0) {
+		*ex = TRUE;
 		error_num = 0;
+	}
 	
 	gel_freetree (ret);
 	return retd;
@@ -578,6 +616,7 @@ plot_func (GelCtx *ctx, GelEFunc *func, const char *color, double xscale, double
 	GnomeCanvasItem *progress_line = NULL;
 	GelETree *arg;
 	mpw_t x;
+	int cur;
 	GnomeCanvasPoints *points = gnome_canvas_points_new (WIDTH/PERITER + 1);
 	GnomeCanvasPoints *progress_points = gnome_canvas_points_new (2);
 	int i;
@@ -586,41 +625,67 @@ plot_func (GelCtx *ctx, GelEFunc *func, const char *color, double xscale, double
 	progress_points->coords[1] = (double)HEIGHT;
 	progress_points->coords[2] = 0.0;
 	progress_points->coords[3] = (double)HEIGHT;
-	
+
+	cur = 0;
 	mpw_init (x);
 	arg = gel_makenum_use (x);
 	for (i = 0; i < WIDTH/PERITER + 1; i++) {
+		gboolean ex = FALSE;
 		double xd = x1+(i*PERITER)/xscale;
 		double y;
 		mpw_set_d (arg->val.value, xd);
-		y = call_func (ctx, func, arg);
-		points->coords[i*2] = P2C_X (xd);
-		points->coords[i*2 + 1] = P2C_Y (y);
-		/* hack for "infinity" */
-		if (points->coords[i*2 + 1] >= HEIGHT*2)
-			points->coords[i*2 + 1] = HEIGHT*2;
-		/* hack for "infinity" */
-		else if (points->coords[i*2 + 1] <= -HEIGHT)
-			points->coords[i*2 + 1] = -HEIGHT;
-		if (i%40 == 0 && i>0) {
-			plot_line (&line, &progress_line, color,
-				   points, progress_points, i+1);
+		xd = P2C_X (xd);
+		y = P2C_Y (call_func (ctx, func, arg, &ex));
+
+		/* FIXME: evil hack for infinity */
+		if (y >= HEIGHT*2) {
+			y = HEIGHT*2;
+		} else if (y <= -HEIGHT) {
+			y = -HEIGHT;
 		}
-		if(evalnode_hook) {
+
+		if (ex) {
+			if (points != NULL) {
+				/* FIXME: what about a single point? */
+				if (cur > 1)
+					plot_line (&line, &progress_line, color,
+						   points, progress_points, cur);
+				gnome_canvas_points_unref (points);
+				points = NULL;
+			}
+			line = NULL;
+			cur = -1;
+		} else {
+			if G_UNLIKELY (points == NULL) {
+				points = gnome_canvas_points_new (WIDTH/PERITER + 1);
+			}
+			points->coords[cur*2] = xd;
+			points->coords[cur*2 + 1] = y;
+		}
+
+		if G_UNLIKELY (points != NULL && i % 40 == 0 && cur > 0) {
+			plot_line (&line, &progress_line, color,
+				   points, progress_points, cur+1);
+		}
+		if (evalnode_hook != NULL) {
 			(*evalnode_hook)();
-			if (interrupted) {
+			if G_UNLIKELY (interrupted) {
 				gel_freetree (arg);
 				gnome_canvas_points_unref (points);
 				return;
 			}
 		}
+
+		cur++;
 	}
 	gel_freetree (arg);
 
-	plot_line (&line, &progress_line, color,
-		   points, NULL, WIDTH/PERITER + 1);
+	if (points != NULL && cur > 1)
+		plot_line (&line, &progress_line, color,
+			   points, NULL, cur);
 
-	gnome_canvas_points_unref (points);
+	if (points != NULL)
+		gnome_canvas_points_unref (points);
 }
 
 static void
@@ -845,17 +910,341 @@ replot_functions (GelCtx *ctx)
 	replot_in_progress --;
 }
 
-static GelETree *
-LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
+/*exact answer callback*/
+static void
+double_spin_cb(GtkAdjustment *adj, double *data)
 {
-	double x1, x2, y1, y2;
-	int funcs = 0;
+	*data = adj->value;
+}
+
+static GtkWidget *
+create_plot_dialog (void)
+{
+	GtkWidget *mainbox, *frame;
+	GtkWidget *box;
+	GtkWidget *b, *w;
+	GtkWidget *notebook;
+	GtkAdjustment *adj;
 	int i;
+
+	notebook = gtk_notebook_new ();
+	
+	mainbox = gtk_vbox_new (FALSE, GNOME_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (mainbox), GNOME_PAD);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
+				  mainbox,
+				  gtk_label_new (_("Function line plot")));
+	
+	frame = gtk_frame_new (_("Function/Expressions"));
+	gtk_box_pack_start (GTK_BOX (mainbox), frame, FALSE, FALSE, 0);
+	box = gtk_vbox_new(FALSE,GNOME_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
+	gtk_container_add (GTK_CONTAINER (frame), box);
+	w = gtk_label_new (_("Type in function names or expressions involving the "
+			     "x variable in the boxes below to graph them"));
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+
+	for (i = 0; i < MAXFUNC; i++) {
+		plot_entries[i] = gtk_entry_new ();
+		gtk_box_pack_start (GTK_BOX (box), plot_entries[i], FALSE, FALSE, 0);
+	}
+
+	frame = gtk_frame_new (_("Plot Window"));
+	gtk_box_pack_start (GTK_BOX (mainbox), frame, FALSE, FALSE, 0);
+	box = gtk_vbox_new(FALSE,GNOME_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
+	gtk_container_add (GTK_CONTAINER (frame), box);
+
+	/*
+	 * X range
+	 */
+	b = gtk_hbox_new (FALSE,GNOME_PAD);
+	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
+	w = gtk_label_new(_("X from:"));
+	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	adj = (GtkAdjustment *)gtk_adjustment_new (spinx1,
+						   -FLT_MAX,
+						   FLT_MAX,
+						   1,
+						   10,
+						   100);
+	w = gtk_spin_button_new (adj, 1.0, 5);
+	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
+	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
+	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
+	/*gtk_widget_set_size_request (w, 80, -1);*/
+	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	g_signal_connect (G_OBJECT (adj), "value_changed",
+			  G_CALLBACK (double_spin_cb), &spinx1);
+
+	w = gtk_label_new(_("to:"));
+	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	adj = (GtkAdjustment *)gtk_adjustment_new (spinx2,
+						   -FLT_MAX,
+						   FLT_MAX,
+						   1,
+						   10,
+						   100);
+	w = gtk_spin_button_new (adj, 1.0, 5);
+	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
+	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
+	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
+	/*gtk_widget_set_size_request (w, 80, -1);*/
+	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	g_signal_connect (G_OBJECT (adj), "value_changed",
+			  G_CALLBACK (double_spin_cb), &spinx2);
+
+	/*
+	 * Y range
+	 */
+	b = gtk_hbox_new (FALSE,GNOME_PAD);
+	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
+	w = gtk_label_new(_("Y from:"));
+	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	adj = (GtkAdjustment *)gtk_adjustment_new (spiny1,
+						   -FLT_MAX,
+						   FLT_MAX,
+						   1,
+						   10,
+						   100);
+	w = gtk_spin_button_new (adj, 1.0, 5);
+	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
+	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
+	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
+	/*gtk_widget_set_size_request (w, 80, -1);*/
+	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	g_signal_connect (G_OBJECT (adj), "value_changed",
+			  G_CALLBACK (double_spin_cb), &spiny1);
+
+	w = gtk_label_new(_("to:"));
+	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	adj = (GtkAdjustment *)gtk_adjustment_new (spiny2,
+						   -FLT_MAX,
+						   FLT_MAX,
+						   1,
+						   10,
+						   100);
+	w = gtk_spin_button_new (adj, 1.0, 5);
+	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
+	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
+	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
+	/*gtk_widget_set_size_request (w, 80, -1);*/
+	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	g_signal_connect (G_OBJECT (adj), "value_changed",
+			  G_CALLBACK (double_spin_cb), &spiny2);
+
+	return notebook;
+}
+
+static gboolean
+is_letter_or_underscore (char l)
+{
+	if ((l >= 'a' && l <= 'z') ||
+	    (l >= 'A' && l <= 'Z') ||
+	    l == '_')
+		return TRUE;
+	else
+		return FALSE;
+}
+
+static gboolean
+is_letter_underscore_or_number (char l)
+{
+	if ((l >= 'a' && l <= 'z') ||
+	    (l >= 'A' && l <= 'Z') ||
+	    (l >= '0' && l <= '9') ||
+	    l == '_')
+		return TRUE;
+	else
+		return FALSE;
+}
+
+static gboolean
+is_identifier (const char *e)
+{
+	int i;
+	if ( ! is_letter_or_underscore (e[0]))
+		return FALSE;
+	for (i = 1; e[i] != '\0'; i++) {
+		if ( ! is_letter_underscore_or_number (e[i]))
+			return FALSE;
+	}
+	return TRUE;
+}
+
+static GelEFunc *
+function_from_expression (const char *e)
+{
+	GelEFunc *f = NULL;
+	GelETree *value;
+	char *ce;
+
+	if (ve_string_empty (e))
+		return NULL;
+
+	ce = g_strstrip (g_strdup (e));
+	if (is_identifier (ce)) {
+		f = d_lookup_global (d_intern (ce));
+		g_free (ce);
+		if (f != NULL) {
+			f = d_copyfunc (f);
+			f->context = -1;
+		}
+		return f;
+	}
+
+
+	value = gel_parseexp (ce,
+			      NULL /* infile */,
+			      FALSE /* exec_commands */,
+			      FALSE /* testparse */,
+			      NULL /* finished */,
+			      NULL /* dirprefix */);
+	g_free (ce);
+
+	if (value != NULL) {
+		f = d_makeufunc (NULL /* id */,
+				 value,
+				 g_slist_append (NULL, d_intern ("x")),
+				 1,
+				 NULL /* extra_dict */);
+	}
+
+	return f;
+}
+
+static void
+plot_from_dialog (void)
+{
+	GelCtx *ctx;
+	int funcs = 0;
+	GelEFunc *func[MAXFUNC] = { NULL };
+	double x1, x2, y1, y2;
+	int i;
+
+	for (i = 0; i < MAXFUNC; i++) {
+		GelEFunc *f;
+		const char *str = gtk_entry_get_text (GTK_ENTRY (plot_entries[i]));
+		f = function_from_expression (str);
+		if (f != NULL)
+			func[funcs++] = f;
+	}
+
+	if (funcs == 0) {
+		display_error (_("No functions to plot or no functions could be parsed"));
+		goto whack_copied_funcs;
+	}
+
+	x1 = spinx1;
+	x2 = spinx2;
+	y1 = spiny1;
+	y2 = spiny2;
+
+	if (x1 > x2) {
+		double s = x1;
+		x1 = x2;
+		x2 = s;
+	}
+
+	if (y1 > y2) {
+		double s = y1;
+		y1 = y2;
+		y2 = s;
+	}
+
+	if (x1 == x2) {
+		display_error (_("Invalid X range"));
+		goto whack_copied_funcs;
+	}
+
+	if (y1 == y2) {
+		display_error (_("Invalid Y range"));
+		goto whack_copied_funcs;
+	}
+
+	replotx1 = x1;
+	replotx2 = x2;
+	reploty1 = y1;
+	reploty2 = y2;
 
 	for (i = 0; i < MAXFUNC && replot_func[i] != NULL; i++) {
 		d_freefunc (replot_func[i]);
 		replot_func[i] = NULL;
 	}
+
+	for (i = 0; i < MAXFUNC && func[i] != NULL; i++) {
+		replot_func[i] = func[i];
+		func[i] = NULL;
+	}
+
+	ctx = eval_get_context ();
+	replot_functions (ctx);
+	eval_free_context (ctx);
+
+	return;
+
+whack_copied_funcs:
+	for (i = 0; i < MAXFUNC && func[i] != NULL; i++) {
+		d_freefunc (func[i]);
+		func[i] = NULL;
+	}
+}
+
+static void
+plot_dialog_response (GtkWidget *w, int response, gpointer data)
+{
+	if (response == GTK_RESPONSE_CLOSE ||
+	    response == GTK_RESPONSE_DELETE_EVENT) {
+		gtk_widget_destroy (plot_dialog);
+	} else if (response == RESPONSE_PLOT) {
+		plot_from_dialog ();
+	}
+}
+
+void
+genius_lineplot_dialog (void)
+{
+	GtkWidget *insides;
+
+	if (plot_dialog != NULL) {
+		gtk_window_present (GTK_WINDOW (plot_dialog));
+		return;
+	}
+
+	plot_dialog = gtk_dialog_new_with_buttons
+		(_("Create Line Plot") /* title */,
+		 GTK_WINDOW (genius_window) /* parent */,
+		 0 /* flags */,
+		 _("_Plot"),
+		 RESPONSE_PLOT,
+		 GTK_STOCK_CLOSE,
+		 GTK_RESPONSE_CLOSE,
+		 NULL);
+	gtk_dialog_set_has_separator (GTK_DIALOG (plot_dialog), FALSE);
+	g_signal_connect (G_OBJECT (plot_dialog),
+			  "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &plot_dialog);
+	g_signal_connect (G_OBJECT (plot_dialog),
+			  "response",
+			  G_CALLBACK (plot_dialog_response),
+			  NULL);
+
+	insides = create_plot_dialog ();
+
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (plot_dialog)->vbox),
+			    insides, TRUE, TRUE, 0);
+
+	gtk_widget_show_all (plot_dialog);
+}
+
+static GelETree *
+LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	double x1, x2, y1, y2;
+	int funcs = 0;
+	GelEFunc *func[MAXFUNC] = { NULL };
+	int i;
 
 	for (i = 0;
 	     i < MAXFUNC && a[i] != NULL && a[i]->type == FUNCTION_NODE;
@@ -867,12 +1256,12 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	if (a[i] != NULL && a[i]->type == FUNCTION_NODE) {
 		gel_errorout (_("%s: only up to 10 functions supported"), "LinePlot");
-		return NULL;
+		goto whack_copied_funcs;
 	}
 
 	if (funcs == 0) {
 		gel_errorout (_("%s: argument not a function"), "LinePlot");
-		return NULL;
+		goto whack_copied_funcs;
 	}
 
 	/* Defaults */
@@ -884,7 +1273,7 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	if (a[i] != NULL) {
 		if (a[i]->type == MATRIX_NODE) {
 			if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
-				return NULL;
+				goto whack_copied_funcs;
 			i++;
 		} else {
 			GET_DOUBLE(x1,i);
@@ -904,7 +1293,7 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 			/* FIXME: what about errors */
 			if (error_num != 0) {
 				error_num = 0;
-				return NULL;
+				goto whack_copied_funcs;
 			}
 		}
 	}
@@ -923,12 +1312,22 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	if (x1 == x2) {
 		gel_errorout (_("%s: invalid X range"), "LinePlot");
-		return NULL;
+		goto whack_copied_funcs;
 	}
 
 	if (y1 == y2) {
 		gel_errorout (_("%s: invalid Y range"), "LinePlot");
-		return NULL;
+		goto whack_copied_funcs;
+	}
+
+	for (i = 0; i < MAXFUNC && replot_func[i] != NULL; i++) {
+		d_freefunc (replot_func[i]);
+		replot_func[i] = NULL;
+	}
+
+	for (i = 0; i < MAXFUNC && func[i] != NULL; i++) {
+		replot_func[i] = func[i];
+		func[i] = NULL;
 	}
 
 	replotx1 = x1;
@@ -942,6 +1341,14 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 		return NULL;
 	else
 		return gel_makenum_null ();
+
+whack_copied_funcs:
+	for (i = 0; i < MAXFUNC && func[i] != NULL; i++) {
+		d_freefunc (func[i]);
+		func[i] = NULL;
+	}
+
+	return NULL;
 }
 
 static GelETree *

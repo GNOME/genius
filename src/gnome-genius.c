@@ -218,6 +218,8 @@ static GnomeUIInfo calc_menu[] = {
 #define CALC_RUN_ITEM 0
 	GNOMEUIINFO_ITEM_STOCK(N_("_Run"),N_("Run current program"),run_program, GTK_STOCK_EXECUTE),
 	GNOMEUIINFO_ITEM_STOCK(N_("_Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GTK_STOCK_STOP),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_STOCK (N_("_Plot"), N_("Plot a function"), genius_lineplot_dialog, GNOME_STOCK_BOOK_OPEN),
 	GNOMEUIINFO_END,
 };
 
@@ -263,6 +265,7 @@ static GnomeUIInfo toolbar[] = {
 #define TOOLBAR_RUN_ITEM 1
 	GNOMEUIINFO_ITEM_STOCK(N_("Run"),N_("Run current program"),run_program, GTK_STOCK_EXECUTE),
 	GNOMEUIINFO_ITEM_STOCK(N_("Open"),N_("Open a GEL file for running"), open_callback, GTK_STOCK_OPEN),
+	GNOMEUIINFO_ITEM_STOCK(N_("Plot"), N_("Plot a function"), genius_lineplot_dialog, GNOME_STOCK_BOOK_OPEN),
 	GNOMEUIINFO_ITEM_STOCK(N_("Exit"),N_("Exit genius"), quitapp, GTK_STOCK_QUIT),
 	GNOMEUIINFO_END,
 };
@@ -757,12 +760,6 @@ setup_response (GtkWidget *widget, gint resp, gpointer data)
 }
 
 static void
-destroy_setup(GtkWidget *widget, gpointer data)
-{
-	setupdialog = NULL;
-}
-
-static void
 setup_calc(GtkWidget *widget, gpointer data)
 {
 	GtkWidget *mainbox,*frame;
@@ -1011,8 +1008,9 @@ setup_calc(GtkWidget *widget, gpointer data)
 	g_signal_connect (G_OBJECT (setupdialog), "response",
 			  G_CALLBACK (setup_response), NULL);	
 	g_signal_connect (G_OBJECT (setupdialog), "destroy",
-			  G_CALLBACK (destroy_setup), NULL);
-	gtk_widget_show_all(setupdialog);
+			  G_CALLBACK (gtk_widget_destroyed), 
+			  &setupdialog);
+	gtk_widget_show_all (setupdialog);
 }
 
 void
