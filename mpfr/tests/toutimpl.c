@@ -1,7 +1,7 @@
 /* Test file for internal debugging-out functions:
    mpfr_dump, mpfr_print_binary, mpfr_print_rnd_mode.
 
-Copyright 2004 Free Software Foundation, Inc.
+Copyright 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -65,7 +65,7 @@ int main()
       printf ("Error for printing GMP_RNDZ\n");
       exit (1);
     }
-  if (mpfr_print_rnd_mode (-1) != NULL ||
+  if (mpfr_print_rnd_mode ((mp_rnd_t) -1) != NULL ||
       mpfr_print_rnd_mode (GMP_RND_MAX) != NULL)
     {
       printf ("Error for illegal rounding mode values.\n");

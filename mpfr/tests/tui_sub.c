@@ -1,6 +1,6 @@
 /* Test file for mpfr_ui_sub.
 
-Copyright 2000, 2001, 2002, 2003, 2004 Free Software Foundation.
+Copyright 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -128,6 +128,12 @@ special (void)
     MPFR_ASSERTN(MPFR_IS_ZERO(y));
   else
     MPFR_ASSERTN(mpfr_cmpabs (x, y) == 0 && mpfr_sgn (x) != mpfr_sgn (y));
+
+  mpfr_set_prec (x, 73);
+  mpfr_set_str_binary (x, "0.1101111010101011011011100011010000000101110001011111001011011000101111101E-99");
+  mpfr_ui_sub (x, 1, x, GMP_RNDZ);
+  mpfr_nextabove (x);
+  MPFR_ASSERTN(mpfr_cmp_ui (x, 1) == 0);
 
   mpfr_clear (x);
   mpfr_clear (y);

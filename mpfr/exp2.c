@@ -21,18 +21,17 @@ MA 02111-1307, USA. */
 
 #include <limits.h>
 
-#define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
 
-/* The computation of y = 2^z is done by                           *
- *     y = exp(z*log(2)). The result is exact iff z is an integer. */
+ /* The computation of y = 2^z is done by
+       y = exp(z*log(2)). The result is exact iff z is an integer.
+ */
 
 int
 mpfr_exp2 (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode) 
 {    
   int inexact;
-  MPFR_SAVE_EXPO_DECL (expo);
-
+  
   if (MPFR_UNLIKELY( MPFR_IS_SINGULAR(x) ))
     {
       if (MPFR_IS_NAN(x))
@@ -83,7 +82,7 @@ mpfr_exp2 (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode)
       return mpfr_mul_2si (y, y, xd, rnd_mode);
     }
 
-  MPFR_SAVE_EXPO_MARK (expo);
+  mpfr_save_emin_emax ();
 
   /* General case */
   {
@@ -100,7 +99,7 @@ mpfr_exp2 (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode)
     /* compute the precision of intermediary variable */
     Nt = MAX(Nx, Ny);
     /* the optimal number of bits : see algorithms.ps */
-    Nt = Nt + 5 + MPFR_INT_CEIL_LOG2 (Nt);
+    Nt = Nt + 5 + __gmpfr_ceil_log2 (Nt);
     
     /* initialise of intermediary	variable */
     mpfr_init2 (t, Nt);
@@ -127,7 +126,7 @@ mpfr_exp2 (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode)
     
     mpfr_clear (t);
   }
-  MPFR_SAVE_EXPO_FREE (expo);
+  mpfr_restore_emin_emax ();
 
   return mpfr_check_range (y, inexact, rnd_mode);
 }

@@ -1,6 +1,6 @@
 /* Test file for mpfr_set_f.
 
-Copyright 1999, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 1999, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -47,7 +47,7 @@ main (void)
   mpfr_set_f (x, y, GMP_RNDN);
 
   mpf_random2 (y, 10, 0);
-  mpfr_set_f (x, y, RND_RAND() );
+  mpfr_set_f (x, y, (mp_rnd_t) RND_RAND());
 
   /* bug found by Jean-Pierre Merlet */
   mpfr_set_prec (x, 256);
@@ -93,25 +93,25 @@ main (void)
       mpf_set_prec (z, pr);
       mpf_random2 (z, z->_mp_prec, 0);
       mpfr_set_prec (x, pr);
-      mpfr_set_f (x, z, 0);
+      mpfr_set_f (x, z, (mp_rnd_t) 0);
     }
 
   /* Check for +0 */
   mpfr_set_prec (x, 53);
   mpf_set_prec (y, 53);
   mpf_set_ui (y, 0);
-  for(r = 0 ; r < GMP_RND_MAX ; r++)
+  for (r = 0 ; r < GMP_RND_MAX ; r++)
     {
       int i;
       for (i = -1; i <= 1; i++)
         {
           if (i)
             mpfr_set_si (x, i, GMP_RNDN);
-          inexact = mpfr_set_f (x, y, r);
+          inexact = mpfr_set_f (x, y, (mp_rnd_t) r);
           if (!MPFR_IS_ZERO(x) || !MPFR_IS_POS(x) || inexact)
             {
               printf ("mpfr_set_f(x,0) failed for %s, i = %d\n",
-                      mpfr_print_rnd_mode (r), i);
+                      mpfr_print_rnd_mode ((mp_rnd_t) r), i);
               exit (1);
             }
         }

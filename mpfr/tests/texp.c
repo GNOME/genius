@@ -1,6 +1,6 @@
 /* Test file for mpfr_exp.
 
-Copyright 1999, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 1999, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -31,6 +31,8 @@ check3 (const char *op, mp_rnd_t rnd, const char *res)
   mpfr_t x, y;
 
   mpfr_inits2 (53, x, y, NULL);
+  /* y negative. If we forget to set the sign in mpfr_exp, we'll see it. */
+  mpfr_set_si (y, -1, GMP_RNDN);
   mpfr_set_str1 (x, op);
   mpfr_exp (y, x, rnd);
   if (mpfr_cmp_str1 (y, res) )
@@ -142,7 +144,7 @@ compare_exp2_exp3 (int n)
       mpfr_set_prec (y, prec);
       mpfr_set_prec (z, prec);
       mpfr_random (x);
-      rnd = RND_RAND() ;
+      rnd = (mp_rnd_t) RND_RAND();
       mpfr_exp_2 (y, x, rnd);
       mpfr_exp_3 (z, x, rnd);
       if (mpfr_cmp (y,z))
@@ -385,6 +387,8 @@ main (int argc, char *argv[])
   compare_exp2_exp3(500);
   check_worst_cases();
   check3("0.0", GMP_RNDU, "1.0");
+  check3("-1e-170", GMP_RNDU, "1.0");
+  check3("-1e-170", GMP_RNDN, "1.0");
   check3("-8.88024741073346941839e-17", GMP_RNDU, "1.0");
   check3("8.70772839244701057915e-01", GMP_RNDN, "2.38875626491680437269");
   check3("1.0", GMP_RNDN, "2.71828182845904509080");

@@ -1,6 +1,6 @@
 /* Test file for mpfr_add_ui
 
-Copyright 2000, 2001, 2002, 2003, 2004 Free Software Foundation.
+Copyright 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -27,7 +27,7 @@ MA 02111-1307, USA. */
 
 /* checks that x+y gives the right results with 53 bits of precision */
 static void
-check3 (const char *xs, unsigned long y, unsigned int rnd_mode, const char *zs)
+check3 (const char *xs, unsigned long y, mp_rnd_t rnd_mode, const char *zs)
 {
   mpfr_t xx, zz;
 

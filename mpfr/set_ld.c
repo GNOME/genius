@@ -47,7 +47,6 @@ mpfr_set_ld (mpfr_ptr r, long double d, mp_rnd_t rnd_mode)
 {
   mpfr_t t, u;
   int inexact, shift_exp = 0, inexact2 = 0;
-  MPFR_SAVE_EXPO_DECL (expo);
 
   LONGDOUBLE_NAN_ACTION (d, goto nan);
 
@@ -56,19 +55,20 @@ mpfr_set_ld (mpfr_ptr r, long double d, mp_rnd_t rnd_mode)
       mpfr_set_inf (r, 1);
       return 0;
     }
-  else if (d < -MPFR_LDBL_MAX)
+
+  if (d < -MPFR_LDBL_MAX)
     {
       mpfr_set_inf (r, -1);
       return 0;
     }
-  else if (d == 0.0)
+
+  if (d == 0.0)
     return mpfr_set_d (r, (double) d, rnd_mode);
 
   mpfr_init2 (t, MPFR_LDBL_MANT_DIG);
   mpfr_init2 (u, IEEE_DBL_MANT_DIG);
-  MPFR_SET_ZERO (t);
-  MPFR_SAVE_EXPO_MARK (expo);
-
+  mpfr_set_ui (t, 0, GMP_RNDN);
+  mpfr_save_emin_emax ();
   while (d != (long double) 0.0)
     {
       if ((d > (long double) DBL_MAX) || ((-d) > (long double) DBL_MAX))
@@ -83,7 +83,6 @@ mpfr_set_ld (mpfr_ptr r, long double d, mp_rnd_t rnd_mode)
           div11 = div10 * div10; /* 2^(2^11) */
           div12 = div11 * div11; /* 2^(2^12) */
           div13 = div12 * div12; /* 2^(2^13) */
-#if 1
           if (ABS(d) >= div13)
             {
               d = d / div13; /* exact */
@@ -111,20 +110,14 @@ mpfr_set_ld (mpfr_ptr r, long double d, mp_rnd_t rnd_mode)
               d = d / div9; /* exact */
               shift_exp += 512;
             }
-#else
-	  while (ABS(d) >= (long double) 2.0) {
-	    d /= 2.0;
-	    shift_exp ++;
-	  }
-#endif
-	  MPFR_SET_ZERO (u);
+          mpfr_set_ui (u, 0, GMP_RNDZ);
         }
       else
         {
           /* since -DBL_MAX <= d <= DBL_MAX, the cast to double should not
              overflow here */
 	  inexact = mpfr_set_d (u, (double) d, GMP_RNDN);
-	  MPFR_ASSERTD (inexact == 0);
+	  MPFR_ASSERTD(inexact == 0);
 	  if (MPFR_IS_ZERO (u) && (d != (long double) 0.0)) /* underflow */
 	    {
 	      long double div10, div11, div12, div13;
@@ -152,22 +145,25 @@ mpfr_set_ld (mpfr_ptr r, long double d, mp_rnd_t rnd_mode)
 		  d = d / div10; /* exact */
 		  shift_exp -= 1024;
 		}
- 	    }
-	  mpfr_add (t, t, u, GMP_RNDN); /* exact */
-	  if (!mpfr_number_p (t))
-	    break;
-	  d = d - (long double) mpfr_get_d1 (u); /* exact */
+	    }
         }
+      mpfr_add (t, t, u, GMP_RNDN); /* exact */
+      if (!mpfr_number_p (t))
+        break;
+      d = d - (long double) mpfr_get_d1 (u); /* exact */
     }
   /* now t is exactly the input value d */
   inexact = mpfr_set (r, t, rnd_mode);
-  inexact2 = mpfr_mul_2si (r, r, shift_exp, rnd_mode);
+  if (shift_exp > 0)
+    inexact2 = mpfr_mul_2exp (r, r, shift_exp, rnd_mode);
+  else if (shift_exp < 0)
+    inexact2 = mpfr_div_2exp (r, r, -shift_exp, rnd_mode);
   if (inexact2) /* overflow */
     inexact = inexact2;
   mpfr_clear (t);
   mpfr_clear (u);
+  mpfr_restore_emin_emax ();
 
-  MPFR_SAVE_EXPO_FREE (expo);
   return mpfr_check_range (r, inexact, rnd_mode);
 
 

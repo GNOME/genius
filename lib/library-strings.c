@@ -14,7 +14,6 @@ char *fake = N_("Steps to perform in NumericalIntegral");
 char *fake = N_("How many iterations to try for InfiniteSum and InfiniteProduct");
 char *fake = N_("How many successive steps to be within tolerance for InfiniteSum and InfiniteProduct");
 char *fake = N_("Tolerance for InfiniteSum and InfiniteProduct");
-char *fake = N_("Tolerance for the ZetaFunction");
 char *fake = N_("Absolute value");
 char *fake = N_("Replace very small number with zero");
 char *fake = N_("Return the fractional part of a number");
@@ -207,7 +206,6 @@ char *fake = N_("Moebius mapping using the cross ratio taking infinity to 0 and 
 char *fake = N_("Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is 2pi)");
 char *fake = N_("Poisson kernel on D(0,R) (not normalized to 1)");
 char *fake = N_("The unit step function = 0 for x<0, 1 otherwise.  This is the integral of the Dirac Delta function.");
-char *fake = N_("The Riemann zeta function up to ZetaFunctuionTolerance");
 char *fake = N_("The cis function, that is cos(x)+i*sin(x)");
 char *fake = N_("Convert degrees to radians");
 char *fake = N_("Convert radians to degrees");

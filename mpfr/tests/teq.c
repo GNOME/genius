@@ -1,6 +1,6 @@
 /* Test file for mpfr_eq.
 
-Copyright 1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -75,8 +75,8 @@ special (void)
   mpfr_init2 (y, 53);
   mpfr_init2 (z, 53);
 
-  mpfr_set_str (x, "1", 10, 0);
-  mpfr_set_str (y, "1e-10000", 10, 0);
+  mpfr_set_str (x, "1", 10, (mp_rnd_t) 0);
+  mpfr_set_str (y, "1e-10000", 10, (mp_rnd_t) 0);
   mpfr_add (z, x, y, GMP_RNDU);
 
   for (i = 1; i <= 52; i++)

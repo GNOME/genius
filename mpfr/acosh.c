@@ -19,16 +19,17 @@ along with the MPFR Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 MA 02111-1307, USA. */
 
-#define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
 
-/* The computation of acosh is done by   *
- *  acosh= ln(x + sqrt(x^2-1))           */
+ /* The computation of acosh is done by
+
+    acosh= ln(x + sqrt(x^2-1))
+ */
 
 int
 mpfr_acosh (mpfr_ptr y, mpfr_srcptr x , mp_rnd_t rnd_mode) 
 {
-  MPFR_SAVE_EXPO_DECL (expo);    
+    
   int inexact = 0;
   int comp;
 
@@ -66,23 +67,25 @@ mpfr_acosh (mpfr_ptr y, mpfr_srcptr x , mp_rnd_t rnd_mode)
   {
     /* Declaration of the intermediary variables */
     mpfr_t t, te, ti;
+    
     /* Declaration of the size variables */
     mp_prec_t Nx = MPFR_PREC(x);   /* Precision of input variable */
     mp_prec_t Ny = MPFR_PREC(y);   /* Precision of output variable */
-    mp_prec_t Nt;        /* Precision of the intermediary variable */
-    int err;                       /* Precision of error */
     
+    mp_prec_t Nt;   /* Precision of the intermediary variable */
+    int err;  /* Precision of error */
+                
     /* compute the precision of intermediary variable */
     Nt = MAX(Nx, Ny);
     /* the optimal number of bits : see algorithms.ps */
-    Nt = Nt + 4 + MPFR_INT_CEIL_LOG2 (Nt);
+    Nt = Nt + 4 + __gmpfr_ceil_log2 (Nt);
 
     /* initialization of intermediary variables */
     mpfr_init (t);
     mpfr_init (te);
     mpfr_init (ti);
 
-    MPFR_SAVE_EXPO_MARK (expo);
+    mpfr_save_emin_emax ();
 
     /* First computation of acosh */
     do
@@ -118,10 +121,15 @@ mpfr_acosh (mpfr_ptr y, mpfr_srcptr x , mp_rnd_t rnd_mode)
     mpfr_clear (te);
   }
 
-  MPFR_SAVE_EXPO_FREE (expo);
+  mpfr_restore_emin_emax ();
 
   return mpfr_check_range (y, inexact, rnd_mode);
 }
+
+
+
+
+
 
 
 

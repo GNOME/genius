@@ -1,6 +1,6 @@
 /* Test file for mpfr_abs.
 
-Copyright 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -30,7 +30,7 @@ check_inexact (void)
 {
   mp_prec_t p, q;
   mpfr_t x, y, absx;
-  mp_rnd_t rnd;
+  int rnd;
   int inexact, cmp;
 
   mpfr_init (x);
@@ -54,7 +54,7 @@ check_inexact (void)
           mpfr_set_prec (y, q);
           for (rnd = 0; rnd < GMP_RND_MAX; rnd++)
             {
-              inexact = mpfr_abs (y, x, rnd);
+              inexact = mpfr_abs (y, x, (mp_rnd_t) rnd);
               cmp = mpfr_cmp (y, absx);
               if (((inexact == 0) && (cmp != 0)) ||
                   ((inexact > 0) && (cmp <= 0)) ||
@@ -85,7 +85,7 @@ check_cmp(int argc, char *argv[])
   mpfr_inits2(53, x, y, NULL);
 
   mpfr_set_ui(x, 1, GMP_RNDN);
-  (mpfr_abs) (x, x, GMP_RNDN);
+  mpfr_abs(x, x, GMP_RNDN);
   if (mpfr_cmp_ui (x, 1))
     {
       printf ("Error in mpfr_abs(1.0)\n");
@@ -138,7 +138,7 @@ check_cmp(int argc, char *argv[])
       mpfr_random(x);
       MPFR_SET_SIGN(x, sign);
       rnd = RND_RAND();
-      mpfr_abs(y, x, rnd);
+      mpfr_abs(y, x, (mp_rnd_t) rnd);
       MPFR_SET_POS(x);
       if (mpfr_cmp(x,y))
         {

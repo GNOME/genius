@@ -1,6 +1,6 @@
 /* Miscellaneous support for test programs.
 
-Copyright 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -116,12 +116,11 @@ tests_rand_end (void)
   RANDS_CLEAR ();
 }
 
-/* initialization function for tests using the hardware floats
-   Not very usefull now. */
+/* initialization function for tests using the hardware floats */
 void
 mpfr_test_init ()
 {
-  double d;
+  double c, d, eps;
 #if HAVE_FPC_CSR
   /* to get denormalized numbers on IRIX64 */
   union fpc_csr exp;
@@ -139,10 +138,11 @@ mpfr_test_init ()
     }
 #endif
 
+  tests_machine_prec_double ();
+
   /* generate DBL_EPSILON with a loop to avoid that the compiler
      optimizes the code below in non-IEEE 754 mode, deciding that
      c = d is always false. */
-#if 0
   for (eps = 1.0; eps != DBL_EPSILON; eps /= 2.0);
   c = 1.0 + eps;
   d = eps * (1.0 - eps) / 2.0;
@@ -153,6 +153,30 @@ mpfr_test_init ()
               "         (maybe extended precision not disabled)\n"
               "         Some tests may fail\n");
     }
+}
+
+
+/* Set the machine floating point precision, to double or long double.
+
+   On i386 this controls the mantissa precision on the x87 stack, but the
+   exponent range is only enforced when storing to memory.
+
+   For reference, on most i386 systems the default is 64-bit "long double"
+   precision, but on FreeBSD 3.x and amd64 5.x it's 53-bit "double".  */
+
+void
+tests_machine_prec_double (void)
+{
+#if MPFR_HAVE_TESTS_x86
+  x86_fldcw ((x86_fstcw () & ~0x300) | 0x200);
+#endif
+}
+
+void
+tests_machine_prec_long_double (void)
+{
+#if MPFR_HAVE_TESTS_x86
+  x86_fldcw (x86_fstcw () | 0x300);
 #endif
 }
 
@@ -278,7 +302,7 @@ FILE *src_fopen (const char *filename, const char *mode)
 
   if (srcdir == NULL)
     return fopen (filename, mode);
-  buffer = malloc (strlen (filename) + strlen (srcdir) + 1);
+  buffer = (char*) malloc (strlen (filename) + strlen (srcdir) + 1);
   if (buffer == NULL)
     {
       printf ("src_fopen: failed to alloc memory)\n");

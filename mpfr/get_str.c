@@ -34,7 +34,7 @@ static int mpfr_get_str_aux _MPFR_PROTO ((char *, mp_exp_t *, mp_limb_t *,
 		       mp_size_t, mp_exp_t, long, int, size_t, mp_rnd_t));
 static mp_exp_t mpfr_get_str_compute_g _MPFR_PROTO ((int, mp_exp_t));
 
-static const char num_to_text[] = "0123456789abcdefghijklmnopqrstuvwxyz";
+static char num_to_text[] = "0123456789abcdefghijklmnopqrstuvwxyz";
 
 /* for 2 <= b <= 36, log_b2[b-2] + log_b2_low[b-2] is a 76-bit upper
    approximation of log(2)/log(b), with log_b2[b-2] having 23 significative
@@ -376,14 +376,22 @@ mpfr_get_str_aux (char *const str, mp_exp_t *const exp, mp_limb_t *const r,
 static mp_exp_t
 mpfr_get_str_compute_g (int beta, mp_exp_t e)
 {
-  double g0, g1;
+  double g0, g1, de;
   mp_exp_t g;
 
-  g0 = (double) e * log_b2[beta - 2];
-  g1 = (double) e * log_b2_low[beta - 2];
+  de = (double) e;
+  g0 = de * log_b2[beta - 2];
+  g1 = de * log_b2_low[beta - 2];
+  if (de > 9007199254740992.0 || de < -9007199254740992.0)
+    /* can happen on 64-bit machines */
+    {
+      mp_exp_t low_e = e - (mp_exp_t) de;
+      g1 += (double) low_e * log_b2[beta - 2];
+    }
   g = (mp_exp_t) mpfr_ceil_double (g0);
   g0 -= (double) g;
-  return g + (mp_exp_t) mpfr_ceil_double (g0 + g1);
+  g += (mp_exp_t) mpfr_ceil_double (g0 + g1);
+  return g;
 }
 
 /* prints the mantissa of x in the string s, and writes the corresponding
@@ -571,10 +579,10 @@ mpfr_get_str (char *s, mp_exp_t *e, int b, size_t m, mpfr_srcptr x, mp_rnd_t rnd
   exact = 1;
   prec = (mp_exp_t) mpfr_ceil_double ((double) m / log_b2[b-2]) + 1;
   exp = ((mp_exp_t) m < g) ? g - (mp_exp_t) m : (mp_exp_t) m - g;
-  log_2prec = (mp_exp_t) MPFR_INT_CEIL_LOG2 (prec);
+  log_2prec = (mp_exp_t) __gmpfr_ceil_log2 ((double) prec);
   prec += log_2prec; /* number of guard bits */
   if (exp != 0) /* add maximal exponentiation error */
-    prec += 3 * (mp_exp_t) MPFR_INT_CEIL_LOG2 (exp);
+    prec += 3 * (mp_exp_t) __gmpfr_ceil_log2 ((double) exp);
 
   for (;;)
     {

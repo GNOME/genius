@@ -1,6 +1,6 @@
 /* Test file for mpfr_cmpabs.
 
-Copyright 2004 Free Software Foundation, Inc.
+Copyright 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -65,14 +65,14 @@ main (void)
 
   mpfr_set_prec(xx, 53); 
   mpfr_set_prec(yy, 200);
-  mpfr_set_ui(xx, 1, 0);
-  mpfr_set_ui(yy, 1, 0);
+  mpfr_set_ui (xx, 1, (mp_rnd_t) 0);
+  mpfr_set_ui (yy, 1, (mp_rnd_t) 0);
   if (mpfr_cmpabs(xx, yy) != 0)
     ERROR ("Error in mpfr_cmpabs: 1.0 != 1.0\n");
     
-  mpfr_set_prec(yy, 31);
-  mpfr_set_str(xx, "-1.0000000002", 10, 0);
-  mpfr_set_ui(yy, 1, 0);
+  mpfr_set_prec (yy, 31);
+  mpfr_set_str (xx, "-1.0000000002", 10, (mp_rnd_t) 0);
+  mpfr_set_ui (yy, 1, (mp_rnd_t) 0);
   if (!(mpfr_cmpabs(xx,yy)>0))
     ERROR ("Error in mpfr_cmpabs: not 1.0000000002 > 1.0\n");
   mpfr_set_prec(yy, 53);

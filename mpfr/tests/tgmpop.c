@@ -1,7 +1,7 @@
 /* Test file for mpfr_add_[q,z], mpfr_sub_[q,z], mpfr_div_[q,z], mpfr_mul_[q,z]
    and mpfr_cmp_[q,z]
 
-Copyright 2004 Free Software Foundation.
+Copyright 2004, 2005 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -118,7 +118,7 @@ check_for_zero ()
   mpq_t q;
   mpz_t z;
   mpfr_t x;
-  mp_rnd_t r;
+  int r;
   mpfr_sign_t i;
 
   mpfr_init (x);
@@ -135,43 +135,43 @@ check_for_zero ()
 	   i+=MPFR_SIGN_POS-MPFR_SIGN_NEG)
 	{
 	  MPFR_SET_SIGN(x, i);
-	  mpfr_add_z (x, x, z, r);
+	  mpfr_add_z (x, x, z, (mp_rnd_t) r);
 	  if (!MPFR_IS_ZERO(x) || MPFR_SIGN(x)!=i)
 	    {
 	      printf("GMP Zero errors for add_z & rnd=%s & s=%d\n", 
-		     mpfr_print_rnd_mode(r), i);
+		     mpfr_print_rnd_mode ((mp_rnd_t) r), i);
 	      mpfr_dump (x);
 	      exit (1);
 	    }
-	  mpfr_sub_z (x, x, z, r);
+	  mpfr_sub_z (x, x, z, (mp_rnd_t) r);
 	  if (!MPFR_IS_ZERO(x) || MPFR_SIGN(x)!=i)
 	    {
 	      printf("GMP Zero errors for sub_z & rnd=%s & s=%d\n",
-		     mpfr_print_rnd_mode(r), i);
+		     mpfr_print_rnd_mode ((mp_rnd_t) r), i);
 	      mpfr_dump (x);
 	      exit (1);
 	    }
-	  mpfr_mul_z (x, x, z, r);
+	  mpfr_mul_z (x, x, z, (mp_rnd_t) r);
           if (!MPFR_IS_ZERO(x) || MPFR_SIGN(x)!=i)
             {
               printf("GMP Zero errors for mul_z & rnd=%s & s=%d\n",
-                     mpfr_print_rnd_mode(r), i);
+                     mpfr_print_rnd_mode ((mp_rnd_t) r), i);
               mpfr_dump (x);
 	      exit (1);
             }
-          mpfr_add_q (x, x, q, r);
+          mpfr_add_q (x, x, q, (mp_rnd_t) r);
           if (!MPFR_IS_ZERO(x) || MPFR_SIGN(x)!=i)
             {
               printf("GMP Zero errors for add_q & rnd=%s & s=%d\n",
-                     mpfr_print_rnd_mode(r), i);
+                     mpfr_print_rnd_mode ((mp_rnd_t) r), i);
               mpfr_dump (x);
               exit (1);
             }
-          mpfr_sub_q (x, x, q, r);
+          mpfr_sub_q (x, x, q, (mp_rnd_t) r);
           if (!MPFR_IS_ZERO(x) || MPFR_SIGN(x)!=i)
             {
               printf("GMP Zero errors for sub_q & rnd=%s & s=%d\n",
-                     mpfr_print_rnd_mode(r), i);
+                     mpfr_print_rnd_mode ((mp_rnd_t) r), i);
               mpfr_dump (x);
               exit (1);
              }
@@ -314,20 +314,12 @@ test_specialz (int (*mpfr_func)(mpfr_ptr, mpfr_srcptr, mpz_srcptr, mp_rnd_t),
   mpz_add_ui (z1, z1, 1);
   mpz_fac_ui (z2, 20); /* 20!+1 fits perfectly in a 128 bits mantissa */
   mpz_add_ui (z2, z2, 1);
-
   res = mpfr_set_z(x1, z1, GMP_RNDN);
   if (res)
     {
       printf("Specialz %s: set_z1 error\n", op);
       exit(1);
     }
-  mpfr_set_z (x2, z2, GMP_RNDN);
-  if (res)
-    {
-      printf("Specialz %s: set_z2 error\n", op);
-      exit(1);
-    }
-
   /* (19!+1) * (20!+1) fits in a 128 bits number */
   res = mpfr_func(x1, x1, z2, GMP_RNDN);
   if (res)
@@ -348,8 +340,6 @@ test_specialz (int (*mpfr_func)(mpfr_ptr, mpfr_srcptr, mpz_srcptr, mp_rnd_t),
       mpfr_print_binary(x1);
       printf("\nx2=");
       mpfr_print_binary(x2);
-      printf ("\nZ2=");
-      mpz_out_str (stdout, 2, z1);
       putchar('\n');
       exit(1);
     }
@@ -399,7 +389,7 @@ test_genericz (mp_prec_t p0, mp_prec_t p1, unsigned int N,
         {
           mpfr_urandomb (arg1, RANDS);
 	  mpz_urandomb (arg2, RANDS, 1024);
-          rnd = RND_RAND ();
+          rnd = (mp_rnd_t) RND_RAND ();
           mpfr_set_prec (dst_big, 2*prec);
           compare = func(dst_big, arg1, arg2, rnd);
           if (mpfr_can_round (dst_big, 2*prec, rnd, rnd, prec))
@@ -477,7 +467,7 @@ test_genericq (mp_prec_t p0, mp_prec_t p1, unsigned int N,
           mpfr_urandomb (arg1, RANDS);
           mpq_set_ui (arg2, randlimb (), randlimb() );
 	  mpq_canonicalize (arg2);
-          rnd = RND_RAND ();
+          rnd = (mp_rnd_t) RND_RAND ();
           mpfr_set_prec (dst_big, prec+10);
           compare = func(dst_big, arg1, arg2, rnd);
           if (mpfr_can_round (dst_big, prec+10, rnd, rnd, prec))
@@ -585,13 +575,13 @@ main (int argc, char *argv[])
 
   special ();
 
-  test_specialz (mpfr_add_z, mpz_add, "add");
-  test_specialz (mpfr_sub_z, mpz_sub, "sub");
-  test_specialz (mpfr_mul_z, mpz_mul, "mul");
   test_genericz (2, 100, 100, mpfr_add_z, "add");
   test_genericz (2, 100, 100, mpfr_sub_z, "sub");
   test_genericz (2, 100, 100, mpfr_mul_z, "mul");
   test_genericz (2, 100, 100, mpfr_div_z, "div");
+  test_specialz (mpfr_add_z, mpz_add, "add");
+  test_specialz (mpfr_sub_z, mpz_sub, "sub");
+  test_specialz (mpfr_mul_z, mpz_mul, "mul");
 
   test_genericq (2, 100, 100, mpfr_add_q, "add");
   test_genericq (2, 100, 100, mpfr_sub_q, "sub");

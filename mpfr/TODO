@@ -28,6 +28,9 @@ Documentation:
 - mpfr_set_prec: add an explanation of how to speed up calculations
   which increase their precision at each step.
 
+- solve the problem with @pxref{Custom Allocation,,, gmp,GNU MP}
+	[gives broken link on the html version]
+
 Installation:
 
 - from Kevin Ryde <user42@zip.com.au>:
@@ -46,6 +49,7 @@ Installation:
 
 Changes in existing functions:
 
+- merge mpfr_inp_str, mpfr_set_str to use mpfr_strtofr
 - mpfr_get_str should support base up to 62 too.
 
 - mpfr_can_round:
@@ -105,22 +109,6 @@ Efficiency:
   perhaps those mpfr routines like mpfr_mul where optimizations are
   possible through stripping low zero bits or limbs could check for
   that (this would be less efficient but easier).
-
-- mpfr_set_q first tries to convert the numerator and the denominator
-  to mpfr_t. But this convertion may fail even if the correctly rounded
-  result is representable. New way to implement:
-  Function q = a/b.  nq = PREC(q) na = PREC(a) nb = PREC(b)
-    If na < nb
-       a <- a*2^(nb-na)
-    n <- na-nb+ (HIGH(a,nb) >= b)
-    if (n >= nq)
-       bb <- b*2^(n-nq)
-       a  = q*bb+r     --> q has exactly n bits.
-    else
-       aa <- a*2^(nq-n)
-       aa = q*b+r      --> q has exaclty n bits.
-  If RNDN, takes nq+1 bits. (See also the new division function).
-  
 
 Miscellaneous:
 

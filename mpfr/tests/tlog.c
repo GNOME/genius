@@ -1,6 +1,6 @@
 /* Test file for mpfr_log.
 
-Copyright 1999, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 1999, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -204,7 +204,7 @@ main (int argc, char *argv[])
 
   if (argc==4)
     {   /* tlog x prec rnd */
-      check3 (atof(argv[1]), atoi(argv[2]), atoi(argv[3]));
+      check3 (atof(argv[1]), atoi(argv[2]), (mp_rnd_t) atoi(argv[3]));
       goto done;
     }
 

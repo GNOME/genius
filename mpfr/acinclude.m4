@@ -27,6 +27,34 @@ dnl  The following line allows the autoconf wrapper (when installed)
 dnl  to work as expected.
 AC_PREREQ(2.50)
 
+AC_DEFUN([AC_MY_LIBS],
+[
+if ` test "$1" `
+then  
+  AC_MSG_CHECKING($2 library)
+	if  test -r "$1/lib$2.a"
+	then
+	  LIBS="$LIBS $1/lib$2.a"
+	else
+	if  test -r "$1/lib$2.so"
+	then
+	  LIBS="$LIBS $1/lib$2.so"
+	else
+	if  test -r "$1/lib$2.lib"
+	then
+	  LIBS="$LIBS $1/lib$2.lib"
+	else
+	   AC_MSG_ERROR($1/lib$2.a/so/lib not found)
+	fi
+	fi
+	fi
+  AC_MSG_RESULT(yes)
+else
+  AC_CHECK_LIB($2, main, , AC_MSG_ERROR($2 not found))
+fi
+]
+)
+
 dnl FIXME: Buggy?
 AC_DEFUN([AC_MY_HEADERS], 
 [
@@ -61,6 +89,19 @@ AC_DEFUN([MPFR_CONFIGS],
 AC_REQUIRE([AC_OBJEXT])
 AC_REQUIRE([MPFR_CHECK_LIBM])
 AC_REQUIRE([AC_HEADER_TIME])
+
+# CPU-dependent objects for the test programs
+case $host in
+  X86_PATTERN)
+    AC_SUBST(TESTS_ASM_OBJECTS, x86.$OBJEXT)
+    AC_DEFINE(MPFR_HAVE_TESTS_x86, 1,
+              [Define to 1 if mpfr x86/amd64 test routines are available.])
+    ;;
+  amd64-*-*)
+    AC_SUBST(TESTS_ASM_OBJECTS, amd64.$OBJEXT)
+    AC_DEFINE(MPFR_HAVE_TESTS_x86, 1)
+    ;;
+esac
 
 dnl Check for sizeof size_t
 dnl AC_CHECK_SIZEOF

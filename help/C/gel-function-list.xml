@@ -293,6 +293,14 @@ To get help on a specific function from the console type:
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-wait">
+         <term>wait</term>
+         <listitem>
+          <synopsis>wait (secs)</synopsis>
+          <para>Waits a specified number of seconds.</para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-warranty">
          <term>warranty</term>
          <listitem>
@@ -411,6 +419,14 @@ To get help on a specific function from the console type:
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-LinePlotWindow">
+         <term>LinePlotWindow</term>
+         <listitem>
+          <synopsis>LinePlotWindow = [x1,x2,y1,y2]</synopsis>
+          <para>Sets the limits for line plotting (See <link linkend="gel-function-LinePlot">LinePlot</link>).</para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-MaxDigits">
          <term>MaxDigits</term>
          <listitem>
@@ -505,6 +521,14 @@ To get help on a specific function from the console type:
          <listitem>
           <synopsis>SumProductTolerance = number</synopsis>
           <para>Tolerance for InfiniteSum and InfiniteProduct</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-SurfacePlotWindow">
+         <term>SurfacePlotWindow</term>
+         <listitem>
+          <synopsis>SurfacePlotWindow = [x1,x2,y1,y2,z1,z2]</synopsis>
+          <para>Sets the limits for surface plotting (See <link linkend="gel-function-SurfacePlot">SurfacePlot</link>).</para>
          </listitem>
         </varlistentry>
 
@@ -603,7 +627,11 @@ To get help on a specific function from the console type:
 	  </para>
           <para>
 	    See
-	    <ulink url="http://mathworld.wolfram.com/AbsoluteValue.html">Mathworld</ulink> for more information.
+	    <ulink url="http://planetmath.org/encyclopedia/AbsoluteValue.html">Planetmath (absolute value)</ulink>,
+	    <ulink url="http://planetmath.org/encyclopedia/ModulusOfComplexNumber.html">Planetmath (modulus)</ulink>,
+	    <ulink url="http://mathworld.wolfram.com/AbsoluteValue.html">Mathworld (absolute value)</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/AbsoluteValue.html">Mathworld (complex modulus)</ulink>
+for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -1212,6 +1240,7 @@ number is specified) of the given size returned.  For example
 	  </para>
           <para>
 	    See
+	    <ulink url="http://planetmath.org/encyclopedia/RelativelyPrime.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/RelativelyPrime.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -1275,6 +1304,7 @@ number is specified) of the given size returned.  For example
           <para>Find discrete log of n base b in F_q where q is a prime using the Silver-Pohlig-Hellman algoritm</para>
           <para>
 	    See
+	    <ulink url="http://planetmath.org/encyclopedia/DiscreteLogarithm.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/DiscreteLogarithm.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -1480,6 +1510,7 @@ number is specified) of the given size returned.  For example
 	  </para>
           <para>
 	    See
+	    <ulink url="http://planetmath.org/encyclopedia/PrimeNumber.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/PrimeNumber.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -1551,6 +1582,7 @@ number is specified) of the given size returned.  For example
           <para>Calculate the Legendre symbol (a/p).</para>
           <para>
 	    See
+	    <ulink url="http://planetmath.org/encyclopedia/LegendreSymbol.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/LegendreSymbol.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -1563,6 +1595,7 @@ number is specified) of the given size returned.  For example
           <para>Test if Mp is a Mersenne prime using the Lucas-Lehmer test</para>
           <para>
 	    See
+	    <ulink url="http://planetmath.org/encyclopedia/LucasLhemer.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/Lucas-LehmerTest.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -1575,6 +1608,7 @@ number is specified) of the given size returned.  For example
           <para>Returns the n'th Lucas number</para>
           <para>
 	    See
+	    <ulink url="http://planetmath.org/encyclopedia/LucasNumbers.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/LucasNumber.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -1603,6 +1637,7 @@ number is specified) of the given size returned.  For example
 	  </para>
           <para>
 	    See
+	    <ulink url="http://planetmath.org/encyclopedia/MillerRabinPrimeTest.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -1619,6 +1654,7 @@ number is specified) of the given size returned.  For example
 	  </para>
           <para>
 	    See
+	    <ulink url="http://planetmath.org/encyclopedia/MillerRabinPrimeTest.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -1629,6 +1665,10 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>ModInvert (n,m)</synopsis>
           <para>Returns inverse of n mod m</para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/ModularInverse.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1644,6 +1684,7 @@ number is specified) of the given size returned.  For example
 	  </para>
           <para>
 	    See
+	    <ulink url="http://planetmath.org/encyclopedia/MoebiusFunction.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/MoebiusFunction.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -1660,9 +1701,16 @@ number is specified) of the given size returned.  For example
 	  </para>
           <para>
 	    This uses the GMP's <function>mpz_nextprime</function> which in
-	    turn uses the probabilistic Miller-Rabin test.  The probability
+	    turn uses the probabilistic Miller-Rabin test
+	    (See also <link linkend="gel-function-MillerRabinTest">MillerRabinTest</link>).
+	    The probability
 	    of false positive is not tunable, but is low enough
 	    for all practical purposes.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/PrimeNumber.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/PrimeNumber.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -1672,6 +1720,10 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>PadicValuation (n,p)</synopsis>
           <para>Returns the padic valuation (number of trailing zeros in base p).</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/PAdicValuation.html">Planetmath</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1679,7 +1731,11 @@ number is specified) of the given size returned.  For example
          <term>PowerMod</term>
          <listitem>
           <synopsis>PowerMod (a,b,m)</synopsis>
-          <para>Compute a^b mod m</para>
+          <para>
+	    Compute <userinput>a^b mod m</userinput>.  The
+	    <varname>b</varname>'s power of <varname>a</varname> modulo
+	    <varname>m</varname>.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -1691,6 +1747,7 @@ number is specified) of the given size returned.  For example
           <para>Return the n'th prime (up to a limit)</para>
           <para>
 	    See
+	    <ulink url="http://planetmath.org/encyclopedia/PrimeNumber.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/PrimeNumber.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -1700,7 +1757,10 @@ number is specified) of the given size returned.  For example
          <term>PrimeFactors</term>
          <listitem>
           <synopsis>PrimeFactors (n)</synopsis>
-          <para>Return all prime factors of a number</para>
+          <para>Return all prime factors of a number as a vector.</para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/PrimeFactor.html">Mathworld</ulink> for more information.
          </listitem>
         </varlistentry>
 
@@ -1708,7 +1768,13 @@ number is specified) of the given size returned.  For example
          <term>PseudoprimeTest</term>
          <listitem>
           <synopsis>PseudoprimeTest (n,b)</synopsis>
-          <para>Pseudoprime test, true iff b^(n-1) == 1 (mod n)</para>
+          <para>Pseudoprime test, returns true if and only if
+		<userinput>b^(n-1) == 1  mod n</userinput></para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/Pseudoprime.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/Pseudoprime.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1716,7 +1782,12 @@ number is specified) of the given size returned.  For example
          <term>RemoveFactor</term>
          <listitem>
           <synopsis>RemoveFactor (n,m)</synopsis>
-          <para>Removes all instances of the factor m from the number n</para>
+          <para>Removes all instances of the factor <varname>m</varname> from the number <varname>n</varname>.  That is divides by the largest power of <varname>m</varname>, that divides <varname>n</varname>.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/Divisibility.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/Factor.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1732,7 +1803,12 @@ number is specified) of the given size returned.  For example
          <term>SqrtModPrime</term>
          <listitem>
           <synopsis>SqrtModPrime (n,p)</synopsis>
-          <para>Find square root of n mod p (a prime). Null is returned if not a quadratic residue.</para>
+          <para>Find square root of <varname>n</varname> modulo <varname>p</varname> (where <varname>p</varname> is a prime).  Null is returned if not a quadratic residue.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/QuadraticResidue.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/QuadraticResidue.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1740,7 +1816,12 @@ number is specified) of the given size returned.  For example
          <term>StrongPseudoprimeTest</term>
          <listitem>
           <synopsis>StrongPseudoprimeTest (n,b)</synopsis>
-          <para>Run the strong pseudoprime test base b on n</para>
+          <para>Run the strong pseudoprime test base <varname>b</varname> on <varname>n</varname>.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/StrongPseudoprime.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/StrongPseudoprime.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1757,6 +1838,7 @@ number is specified) of the given size returned.  For example
 	  </para>
           <para>
 	    See
+	    <ulink url="http://planetmath.org/encyclopedia/GreatestCommonDivisor.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/GreatestCommonDivisor.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -1775,6 +1857,7 @@ number is specified) of the given size returned.  For example
 	  </para>
           <para>
 	    See
+	    <ulink url="http://planetmath.org/encyclopedia/LeastCommonMultiple.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/LeastCommonMultiple.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -1872,7 +1955,11 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>I (n)</synopsis>
           <para>Aliases: <function>eye</function></para>
-          <para>Make an identity matrix of a given size</para>
+          <para>Return an identity matrix of a given size, that is <varname>n</varname> by <varname>n</varname>.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/IdentityMatrix.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -1889,6 +1976,10 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>IsDiagonal (M)</synopsis>
           <para>Is a matrix diagonal</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/DiagonalMatrix.html">Planetmath</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1970,6 +2061,10 @@ number is specified) of the given size returned.  For example
           <synopsis>MakeDiagonal (v,arg...)</synopsis>
           <para>Aliases: <function>diag</function></para>
           <para>Make diagonal matrix from a vector</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/DiagonalMatrix.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2266,7 +2361,11 @@ number is specified) of the given size returned.  For example
          <term>GramSchmidt</term>
          <listitem>
           <synopsis>GramSchmidt (v,B)</synopsis>
-          <para>Apply the Gram-Schmidt process (to the columns) with respect to innter product given by #2</para>
+          <para>Apply the Gram-Schmidt process (to the columns) with respect to innter product given by <varname>B</varname></para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/GramSchmidtOrthogonalization.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2275,6 +2374,10 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>GramSchmidtDot (M)</synopsis>
           <para>Apply the Gram-Schmidt process (to the columns) using the dot product</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/GramSchmidtOrthogonalization.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2290,7 +2393,11 @@ number is specified) of the given size returned.  For example
          <term>HilbertMatrix</term>
          <listitem>
           <synopsis>HilbertMatrix (n)</synopsis>
-          <para>Hilbert matrix of order n</para>
+          <para>Hilbert matrix of order <varname>n</varname>.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/HilbertMatrix.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2306,7 +2413,7 @@ number is specified) of the given size returned.  For example
          <term>InfNorm</term>
          <listitem>
           <synopsis>InfNorm (v)</synopsis>
-          <para>Get the Inf Norm of a vector</para>
+          <para>Get the Inf Norm of a vector, sometimes called the sup norm or the max norm.</para>
          </listitem>
         </varlistentry>
 
@@ -2322,7 +2429,11 @@ number is specified) of the given size returned.  For example
          <term>InverseHilbertMatrix</term>
          <listitem>
           <synopsis>InverseHilbertMatrix (n)</synopsis>
-          <para>Inverse Hilbert matrix of order n</para>
+          <para>Inverse Hilbert matrix of order <varname>n</varname>.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/HilbertMatrix.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2330,7 +2441,11 @@ number is specified) of the given size returned.  For example
          <term>IsHermitian</term>
          <listitem>
           <synopsis>IsHermitian (M)</synopsis>
-          <para>Is a matrix hermitian</para>
+          <para>Is a matrix hermitian.  That is, is it equal to its conjugate transpose.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/HermitianMatrix.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2430,6 +2545,7 @@ number is specified) of the given size returned.  For example
 	  </para>
           <para>
 	    See
+	    <ulink url="http://planetmath.org/encyclopedia/LUDecomposition.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/LUDecomposition.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -2439,7 +2555,11 @@ number is specified) of the given size returned.  For example
          <term>Minor</term>
          <listitem>
           <synopsis>Minor (M,i,j)</synopsis>
-          <para>Get the i-j minor of a matrix</para>
+          <para>Get the <varname>i</varname>-<varname>j</varname> minor of a matrix.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/Minor.html">Planetmath</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -2672,7 +2792,11 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>det (M)</synopsis>
           <para>Aliases: <function>Determinant</function></para>
-          <para>Get the determinant of a matrix</para>
+          <para>Get the determinant of a matrix.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/Determinant2.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2681,7 +2805,11 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>ref (M)</synopsis>
           <para>Aliases: <function>REF</function> <function>RowEchelonForm</function></para>
-          <para>Get the row echelon form of a matrix</para>
+          <para>Get the row echelon form of a matrix.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/RowEchelonForm.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2690,7 +2818,11 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>rref (M)</synopsis>
           <para>Aliases: <function>RREF</function> <function>ReducedRowEchelonForm</function></para>
-          <para>Get the reduced row echelon form of a matrix</para>
+          <para>Get the reduced row echelon form of a matrix.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/ReducedRowEchelonForm.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2704,7 +2836,11 @@ number is specified) of the given size returned.  For example
          <term>Catalan</term>
          <listitem>
           <synopsis>Catalan (n)</synopsis>
-          <para>Get n'th catalan number</para>
+          <para>Get <varname>n</varname>'th catalan number.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/CatalanNumbers.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2720,7 +2856,11 @@ number is specified) of the given size returned.  For example
          <term>DoubleFactorial</term>
          <listitem>
           <synopsis>DoubleFactorial (n)</synopsis>
-          <para>Double factorial: n(n-2)(n-4)...</para>
+          <para>Double factorial: <userinput>n(n-2)(n-4)...</userinput></para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/DoubleFactorial.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2728,7 +2868,11 @@ number is specified) of the given size returned.  For example
          <term>Factorial</term>
          <listitem>
           <synopsis>Factorial (n)</synopsis>
-          <para>Factorial: n(n-1)(n-2)...</para>
+          <para>Factorial: <userinput>n(n-1)(n-2)...</userinput></para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/Factorial.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2736,7 +2880,11 @@ number is specified) of the given size returned.  For example
          <term>FallingFactorial</term>
          <listitem>
           <synopsis>FallingFactorial (n,k)</synopsis>
-          <para>Falling factorial: (n)_k = n(n-1)...(n-(k-1))</para>
+          <para>Falling factorial: <userinput>(n)_k = n(n-1)...(n-(k-1))</userinput></para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/FallingFactorial.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2754,6 +2902,7 @@ number is specified) of the given size returned.  For example
 	  </para>
           <para>
 	    See
+	    <ulink url="http://planetmath.org/encyclopedia/FibonacciSequence.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FibonacciNumber.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -2772,7 +2921,7 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>HarmonicNumber (n,r)</synopsis>
           <para>Aliases: <function>HarmonicH</function></para>
-          <para>Harmonic Number, the nth harmonic number of order r</para>
+          <para>Harmonic Number, the <varname>n</varname>'th harmonic number of order <varname>r</varname>.</para>
          </listitem>
         </varlistentry>
 
@@ -2822,6 +2971,10 @@ number is specified) of the given size returned.  For example
           <synopsis>RisingFactorial (n,k)</synopsis>
           <para>Aliases: <function>Puchhammer</function></para>
           <para>(Puchhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/RisingFactorial.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2837,7 +2990,11 @@ number is specified) of the given size returned.  For example
          <term>Triangular</term>
          <listitem>
           <synopsis>Triangular (nth)</synopsis>
-          <para>Calculate the nth triangular number</para>
+          <para>Calculate the <varname>n</varname>'th triangular number.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/TriangularNumbers.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2868,7 +3025,11 @@ number is specified) of the given size returned.  For example
          <term>CompositeSimpsonsRule</term>
          <listitem>
           <synopsis>CompositeSimpsonsRule (f,a,b,n)</synopsis>
-          <para>Integration of f by Composite Simpson's Rule on the interval [a,b] with n subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be even</para>
+          <para>Integration of f by Composite Simpson's Rule on the interval [a,b] with n subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be even.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/SimpsonsRule.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2876,7 +3037,11 @@ number is specified) of the given size returned.  For example
          <term>CompositeSimpsonsRuleTolerance</term>
          <listitem>
           <synopsis>CompositeSimpsonsRuleTolerance (f,a,b,FourthDerivativeBound,Tolerance)</synopsis>
-          <para>Integration of f by Composite Simpson's Rule on the interval [a,b] with the number of steps calculated by the fourth derivative bound and the desired tolerance</para>
+          <para>Integration of f by Composite Simpson's Rule on the interval [a,b] with the number of steps calculated by the fourth derivative bound and the desired tolerance.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/SimpsonsRule.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -3070,6 +3235,10 @@ number is specified) of the given size returned.  For example
           <synopsis>ErrorFunction (x)</synopsis>
           <para>Aliases: <function>erf</function></para>
           <para>The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/ErrorFunction.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -3077,7 +3246,12 @@ number is specified) of the given size returned.  For example
          <term>FejerKernel</term>
          <listitem>
           <synopsis>FejerKernel (n,t)</synopsis>
-          <para>Fejer kernel of order n</para>
+          <para>Fejer kernel of order <varname>n</varname> evaluated at
+	        <varname>t</varname></para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/FejerKernel.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -3102,6 +3276,11 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>MoebiusDiskMapping (a,z)</synopsis>
           <para>Moebius mapping of the disk to itself mapping a to 0</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/MobiusTransformation.html">Planetmath</ulink> for more information.
+          </para>
+         </listitem>
          </listitem>
         </varlistentry>
 
@@ -3110,6 +3289,10 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>MoebiusMapping (z,z2,z3,z4)</synopsis>
           <para>Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity respectively</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/MobiusTransformation.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -3118,6 +3301,10 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>MoebiusMappingInftyToInfty (z,z2,z3)</synopsis>
           <para>Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 to 1 and 0 respectively</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/MobiusTransformation.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -3126,6 +3313,10 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>MoebiusMappingInftyToOne (z,z3,z4)</synopsis>
           <para>Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 and infinity respectively</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/MobiusTransformation.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -3134,6 +3325,10 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>MoebiusMappingInftyToZero (z,z2,z4)</synopsis>
           <para>Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 and infinity respectively</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/MobiusTransformation.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -3411,6 +3606,14 @@ number is specified) of the given size returned.  For example
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-NewtonsMethodPoly">
+         <term>NewtonsMethodPoly</term>
+         <listitem>
+          <synopsis>NewtonsMethodPoly (poly,guess,epsilon,maxn)</synopsis>
+          <para>Run newton's method on a polynomial to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns null).</para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-Poly2ndDerivative">
          <term>Poly2ndDerivative</term>
          <listitem>
@@ -3540,6 +3743,96 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>StringToAlphabet (str,alphabet)</synopsis>
           <para>Convert a string to a vector of 0-based alphabet values (positions in the alphabet string), -1's for unknown letters</para>
+         </listitem>
+        </varlistentry>
+
+      </variablelist>
+    </sect1>
+
+    <sect1 id="genius-gel-function-list-plotting">
+      <title>Plotting</title>
+      <variablelist>
+        <varlistentry id="gel-function-LinePlot">
+         <term>LinePlot</term>
+         <listitem>
+          <synopsis>LinePlot (func1,func2,func3,...)</synopsis>
+          <synopsis>LinePlot (func1,func2,func3,x1,x2,y1,y2)</synopsis>
+          <para>
+	    Plot a function (or several functions) with a line.
+	    First up to 10 arguments are functions, then optionally
+            you can specify the limits of the plotting window as
+	    <varname>x1</varname>, <varname>x2</varname>,
+	    <varname>y1</varname>, <varname>y2</varname>.  If limits are not
+	    specified, then the currently set limits apply
+	    (See <link linkend="gel-function-LinePlotWindow">LinePlotWindow</link>)
+          </para>
+          <para>
+	    Examples:
+          <screen><prompt>genius></prompt> <userinput>LinePlot(sin,cos)</userinput>
+<prompt>genius></prompt> <userinput>LinePlot(`(x)=x^2,-1,1,0,1)</userinput>
+</screen>
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-LinePlotClear">
+         <term>LinePlotClear</term>
+         <listitem>
+          <synopsis>LinePlotClear ()</synopsis>
+          <para>
+            Show the line plot window and clear out functions and any other
+            lines that were drawn.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-LinePlotDrawLine">
+         <term>LinePlotDrawLine</term>
+         <listitem>
+          <synopsis>LinePlotDrawLine (x1,y1,x2,y2,...)</synopsis>
+          <synopsis>LinePlotDrawLine (v,...)</synopsis>
+          <para>
+	    Draw a line from <varname>x1</varname>,<varname>y1</varname> to
+	    <varname>x2</varname>,<varname>y2</varname>.
+	    <varname>x1</varname>,<varname>y1</varname>,
+	    <varname>x2</varname>,<varname>y2</varname> can be replaced by an
+	    <varname>n</varname> by 2 matrix for a longer line.
+          </para>
+          <para>
+	    Extra parameters can be added to specify line color and thickness,
+	    by adding a string <userinput>"color"</userinput> or
+	    <userinput>"thickness"</userinput> and the color and thickness
+	    after as a string or integer respectively.
+          </para>
+	  <para>
+	  Examples:
+          <screen><prompt>genius></prompt> <userinput>LinePlotDrawLine(0,0,1,1,"color","blue","thickness",3)</userinput>
+<prompt>genius></prompt> <userinput>LinePlotDrawLine([0,0;1,-1;-1,-1])</userinput>
+</screen>
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-SurfacePlot">
+         <term>SurfacePlot</term>
+         <listitem>
+          <synopsis>SurfacePlot (func)</synopsis>
+          <synopsis>SurfacePlot (func,x1,x2,y1,y2,z1,z2)</synopsis>
+          <para>
+	    Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as <varname>x1</varname>, <varname>x2</varname>,
+	    <varname>y1</varname>, <varname>y2</varname>,
+	    <varname>z1</varname>, <varname>z2</varname>.  If limits are not
+	    specified, then the currently set limits apply
+	    (See <link linkend="gel-function-SurfacePlotWindow">SurfacePlotWindow</link>).
+	    Genius can only plot a single surface function at this time.
+          </para>
+          <para>
+	    Examples:
+          <screen><prompt>genius></prompt> <userinput>SurfacePlot(|sin|,-1,1,-1,1,0,1.5)</userinput>
+<prompt>genius></prompt> <userinput>SurfacePlot(`(x,y)=x^2+y,-1,1,-1,1,-2,2)</userinput>
+<prompt>genius></prompt> <userinput>SurfacePlot(`(z)=|z|^2,-1,1,-1,1,0,2)</userinput>
+</screen>
+          </para>
          </listitem>
         </varlistentry>
 

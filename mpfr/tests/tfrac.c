@@ -1,6 +1,6 @@
 /* Test file for mpfr_frac.
 
-Copyright 2002, 2003, 2004 Free Software Foundation.
+Copyright 2002, 2003, 2004, 2005 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -113,16 +113,16 @@ check0 (mpfr_ptr ip, mpfr_ptr fp, mp_prec_t prec, mp_rnd_t rnd)
 static void
 check1 (mpfr_ptr ip, mpfr_ptr fp)
 {
-  mp_rnd_t rnd;
+  int rnd;
 
   for (rnd = 0; rnd < GMP_RND_MAX ; rnd++)
     {
-      check0 (ip, fp, PMAX, rnd);
-      check0 (ip, fp, 70, rnd);
+      check0 (ip, fp, PMAX, (mp_rnd_t) rnd);
+      check0 (ip, fp, 70, (mp_rnd_t) rnd);
       mpfr_neg (fp, fp, GMP_RNDN);
       mpfr_neg (ip, ip, GMP_RNDN);
-      check0 (ip, fp, PMAX, rnd);
-      check0 (ip, fp, 70, rnd);
+      check0 (ip, fp, PMAX, (mp_rnd_t) rnd);
+      check0 (ip, fp, 70, (mp_rnd_t) rnd);
       mpfr_neg (fp, fp, GMP_RNDN);
       mpfr_neg (ip, ip, GMP_RNDN);
     }

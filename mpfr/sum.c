@@ -1,6 +1,6 @@
 /* Sum -- efficiently sum a list of floating-point numbers
 
-Copyright 2004 Free Software Foundation, Inc.
+Copyright 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -19,7 +19,6 @@ along with the MPFR Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 MA 02111-1307, USA. */
 
-#define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
 
 /* Performs a counting sort of the entries */
@@ -49,7 +48,7 @@ void mpfr_count_sort (mpfr_ptr const tab[], unsigned long n,
     }
 
     exp_num = max - min + 1;
-    if (exp_num > (unsigned long) 42 * MPFR_INT_CEIL_LOG2 (n))
+    if (exp_num > (unsigned long) 42 * __gmpfr_ceil_log2 ((double)n))
       /* FIXME : better test */
     {
         heap_sort_exp_clean (tab, n, perm);
@@ -170,17 +169,18 @@ static int mpfr_list_sum_once (mpfr_ptr ret, mpfr_srcptr const tab[],
 {
   unsigned long i;
   mpfr_t sum;
-  int error_trap = 0;
+  int error_trap;
+
+  if (MPFR_UNLIKELY (n == 1))
+    return mpfr_set (ret, tab[0], GMP_RNDN);
 
   mpfr_init2 (sum, F);
-  mpfr_set (sum, tab[0], GMP_RNDN);
 
+  error_trap = mpfr_set (sum, tab[0], GMP_RNDN);
   for (i = 1; i < n - 1; i++)
-    {
-      error_trap |= mpfr_add (sum, sum, tab[i], GMP_RNDN);
-    }
-
+    error_trap |= mpfr_add (sum, sum, tab[i], GMP_RNDN);
   error_trap |= mpfr_add (ret, sum, tab[n - 1], GMP_RNDN);
+
   mpfr_clear (sum);
   return error_trap;
 }
@@ -202,13 +202,18 @@ int mpfr_sum (mpfr_ptr ret, mpfr_ptr const tab[], unsigned long n,
   TMP_DECL(marker);
     
   TMP_MARK(marker);
+  if (MPFR_UNLIKELY (n == 0)) {
+    MPFR_SET_ZERO (ret);
+    MPFR_SET_POS (ret);
+    return 0;
+  }
 
   perm = (mpfr_srcptr *) TMP_ALLOC(n * sizeof(mpfr_srcptr)); 
 
   mpfr_count_sort (tab, n, perm);
 
-  initial_f = MPFR_PREC(tab[0]);
-  k = MPFR_INT_CEIL_LOG2 (n) + 1;
+  initial_f = MAX (MPFR_PREC(tab[0]), MPFR_PREC(ret));
+  k = __gmpfr_ceil_log2 ((double) n) + 1;
   mpfr_init2 (cur_sum, initial_f);
   initial_guard_digits = k + 2;
   guard_digits = initial_guard_digits;
@@ -222,7 +227,7 @@ int mpfr_sum (mpfr_ptr ret, mpfr_ptr const tab[], unsigned long n,
   }
   while ((error_trap != 0) &&
           !(mpfr_can_round (cur_sum, MPFR_GET_EXP(cur_sum) - current_f + 2,
-                            GMP_RNDN, rnd, initial_f)));
+                            GMP_RNDN, rnd, MPFR_PREC(ret))));
   error_trap |= mpfr_set (ret, cur_sum, rnd);
   mpfr_clear (cur_sum);
   TMP_FREE(marker);

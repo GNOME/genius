@@ -1,6 +1,6 @@
 /* mpfr_rint -- Round to an integer.
 
-Copyright 1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -205,8 +205,6 @@ mpfr_rint (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
           uj = un - ui;  /* lowest limb of the integer part in u */
           rj = rn - ui;  /* lowest limb of the integer part in r */
 
-          MPN_ZERO(rp, rj);
-
           if (rp != up)
             MPN_COPY(rp + rj, up + uj, ui);
 
@@ -270,6 +268,8 @@ mpfr_rint (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
                    (sh == 0 && (MPFR_ASSERTN (uj >= 1),
                                 up[uj - 1] & MPFR_LIMB_HIGHBIT) != 0));
             }
+
+          MPN_ZERO (rp-rj, rj);
         }
 
       if (sh != 0)
@@ -339,9 +339,8 @@ mpfr_rint_round (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
     {
       mpfr_t tmp;
       int inex;
-      MPFR_SAVE_EXPO_DECL (expo);
 
-      MPFR_SAVE_EXPO_MARK (expo);
+      mpfr_save_emin_emax ();
       mpfr_init2 (tmp, MPFR_PREC (u));
       /* round(u) is representable in tmp unless an overflow occurs */
       mpfr_clear_overflow ();
@@ -350,7 +349,7 @@ mpfr_rint_round (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
               ? mpfr_set_overflow (r, rnd_mode, MPFR_SIGN (u))
               : mpfr_set (r, tmp, rnd_mode));
       mpfr_clear (tmp);
-      MPFR_SAVE_EXPO_FREE (expo);
+      mpfr_restore_emin_emax ();
       return mpfr_check_range (r, inex, rnd_mode);
     }
 }
@@ -366,15 +365,14 @@ mpfr_rint_trunc (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
     {
       mpfr_t tmp;
       int inex;
-      MPFR_SAVE_EXPO_DECL (expo);
 
-      MPFR_SAVE_EXPO_MARK (expo);
+      mpfr_save_emin_emax ();
       mpfr_init2 (tmp, MPFR_PREC (u));
       /* trunc(u) is always representable in tmp */
       mpfr_trunc (tmp, u);
       inex = mpfr_set (r, tmp, rnd_mode);
       mpfr_clear (tmp);
-      MPFR_SAVE_EXPO_FREE (expo);
+      mpfr_restore_emin_emax ();
       return mpfr_check_range (r, inex, rnd_mode);
     }
 }
@@ -390,9 +388,8 @@ mpfr_rint_ceil (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
     {
       mpfr_t tmp;
       int inex;
-      MPFR_SAVE_EXPO_DECL (expo);
 
-      MPFR_SAVE_EXPO_MARK (expo);
+      mpfr_save_emin_emax ();
       mpfr_init2 (tmp, MPFR_PREC (u));
       /* ceil(u) is representable in tmp unless an overflow occurs */
       mpfr_clear_overflow ();
@@ -401,7 +398,7 @@ mpfr_rint_ceil (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
               ? mpfr_set_overflow (r, rnd_mode, MPFR_SIGN_POS)
               : mpfr_set (r, tmp, rnd_mode));
       mpfr_clear (tmp);
-      MPFR_SAVE_EXPO_FREE (expo);
+      mpfr_restore_emin_emax ();
       return mpfr_check_range (r, inex, rnd_mode);
     }
 }
@@ -417,9 +414,8 @@ mpfr_rint_floor (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
     {
       mpfr_t tmp;
       int inex;
-      MPFR_SAVE_EXPO_DECL (expo);
 
-      MPFR_SAVE_EXPO_MARK (expo);
+      mpfr_save_emin_emax ();
       mpfr_init2 (tmp, MPFR_PREC (u));
       /* floor(u) is representable in tmp unless an overflow occurs */
       mpfr_clear_overflow ();
@@ -428,7 +424,7 @@ mpfr_rint_floor (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
               ? mpfr_set_overflow (r, rnd_mode, MPFR_SIGN_NEG)
               : mpfr_set (r, tmp, rnd_mode));
       mpfr_clear (tmp);
-      MPFR_SAVE_EXPO_FREE (expo);
+      mpfr_restore_emin_emax ();
       return mpfr_check_range (r, inex, rnd_mode);
     }
 }

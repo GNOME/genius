@@ -1,6 +1,6 @@
 /* Test file for mpfr_pow.
 
-Copyright 2001, 2002, 2003 Free Software Foundation.
+Copyright 2001, 2002, 2003, 2005 Free Software Foundation.
 Adapted from tarctan.c.
 
 This file is part of the MPFR Library.
@@ -65,7 +65,7 @@ main (int argc, char *argv[])
           mpfr_random (s);
           if (randlimb () % 2)
             mpfr_neg (s, s, GMP_RNDN);
-          rnd = RND_RAND ();
+          rnd = (mp_rnd_t) RND_RAND ();
           mpfr_set_prec (y, yprec);
           compare = mpfr_pow (y, x, s, rnd);
           err = (rnd == GMP_RNDN) ? yprec + 1 : yprec;

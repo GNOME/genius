@@ -1,4 +1,92 @@
+2005-02-21  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* ui_sub.c: Ported mpfr_ui_sub patch to 2.1 branch:
+	Fixed a bug for u == 0 and x == +0 introduced in ui_sub.c 1.23,
+	when 0 was taken into account as a special case: the sign of the
+	result 0 was incorrect. -> Consider the case u == 0 first.
+
+2005-02-16  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* set.c: Added a comment. (2.1 branch)
+
+	* sub1.c:
+	Ported another fix to the 2.1 branch (bug introduced in 1.31.2.1).
+
+2005-02-15  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* tan.c: Ported tan fix to 2.1 branch.
+
+2005-02-14  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* sum.c: Ported latest bug fix to 2.1 branch.
+
+2005-02-02  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* tests/tui_sub.c, sub1.c: Ported 1.36 patch to the 2.1 branch:
+	Fix bug of sub1 if dest=src2 and src1 >> src2
+
+2005-01-28  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* rint.c, tests/trint.c:
+	Ported the mpfr_rint fix and test to the 2.1 branch.
+
+2005-01-27  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* tests/tset.c, tests/tset_d.c, tests/tset_f.c, tests/tset_ld.c, tests/tset_q.c, tests/tset_si.c, tests/tset_str.c, tests/tset_z.c, tests/tsqr.c, tests/tsqrt.c, tests/tsub.c, tests/tsub1sp.c, tests/tsum.c, tests/tui_div.c, tests/tui_pow.c, tests/tzeta.c, tests/tatan.c, tests/tcan_round.c, tests/tcbrt.c, tests/tcmp.c, tests/tcmpabs.c, tests/tconst_euler.c, tests/tconst_log2.c, tests/tconst_pi.c, tests/tdiv.c, tests/tdiv_ui.c, tests/teq.c, tests/tests.c, tests/texceptions.c, tests/texp.c, tests/tfactorial.c, tests/tfma.c, tests/tfrac.c, tests/tgeneric.c, tests/tget_d_2exp.c, tests/tget_sj.c, tests/tget_str.c, tests/tgmpop.c, tests/thypot.c, tests/tlog.c, tests/tmul.c, tests/tmul_ui.c, tests/tout_str.c, tests/toutimpl.c, tests/tpow.c, tests/tpow3.c, tests/trint.c, tests/tabs.c, tests/tacos.c, tests/tadd.c, tests/tadd1sp.c, tests/tadd_ui.c, tests/tasin.c:
+	Added missing casts for g++ (2.1 branch).
+
+2005-01-21  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* strtofr.c, sum.c:
+	Fixed bug with TMP_MARK (doesn't occur with alloca) (2.1 branch).
+	[strtofr.c:1.10, sum.c:1.5]
+
+	* tests/tests.c, tests/trint.c:
+	Forgot to include some headers conditionally in tests (2.1 branch).
+	[tests/tests.c:1.36, tests/trint.c:1.21]
+
+	* sum.c: Fixed bug in cases n <= 1 (2.1 branch). [sum.c:1.8-1.9]
+
+	* sub1.c:
+	Fixed a huge performance problem in corner cases (2.1 branch).
+	[sub1.c:1.33-1.35]
+
+	* mpfr.h: Fixed a clash with ncurses preventing from compiling programs
+	including term.h then mpfr.h (2.1 branch).
+
+	* mpfr-longlong.h:
+	Updated longlong.h from GMP 4.1.4 (problem with opteron) (2.1 branch).
+	[mpfr-longlong.h:1.2]
+
+	* get_str.c, mpn_exp.c:
+	Bugs fixed in get_str, in particular for huge exponents (2.1 branch).
+	[get_str.c:1.83, mpn_exp.c:1.6]
+
+	* configure.in: Better way to detect the GMP library (2.1 branch).
+
+2004-11-18  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* mpfr.texi:
+	Fix (2.1 branch): GMP -> MPFR Copying Conditions (noted by Patrick).
+
+	* mpfr.texi:
+	In HTML, suppress the non-existing link to GMP (2.1 branch).
+
+2004-11-03  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* ChangeLog: Update (2.1 branch).
+
+	* mpfr.texi: Updated month: October -> November (2.1 branch).
+
+	* configure.in:
+	[2.1 branch] Modified an error message, since the code checking for
+	GMP library hadn't been modified in the branch.
+
 2004-10-27  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* acinclude.m4: Updated copyright line.
+
+	* BUGS: Added a bug and updated copyright line.
 
 	* mpfr-impl.h, set_d.c:
 	Removed the definitions of DBL_POS_INF/DBL_NEG_INF/DBL_NAN for
@@ -25,9 +113,6 @@
 2004-10-22  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
 
 	* tests/mpf_compat.h: Reformatted the code -> GNU style.
-
-	* tests/tinp_str.c, tests/tout_str.c, tests/tset_str.c, tests/tstrtofr.c, mul.c, set_str.c, strtofr.c, tests/mpf_compat.h, tests/tests.c, mpfr-impl.h, mpfr-test.h, mpfr.h, mpfr.texi, INSTALL, NEWS, README, README.dev, configure.in, AUTHORS, BUGS, ChangeLog:
-	Ported the latest modifications to the 2.1 branch.
 
 	* ChangeLog: Update.
 
@@ -120,9 +205,6 @@
 2004-10-15  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
 
 	* README.dev: Updated the section "To make a release".
-
-	* VERSION, mpfr.h, mpfr.texi, version.c:
-	Updated the version on the trunk.
 
 	* ChangeLog: Update.
 

@@ -19,7 +19,6 @@ along with the MPFR Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 MA 02111-1307, USA. */
 
-#define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
 
 /* determine the sign of sin(x) using argument reduction.
@@ -34,10 +33,7 @@ mpfr_sin_sign (mpfr_srcptr x)
   mpfr_srcptr y;
 
   K = MPFR_GET_EXP(x);
-
-  if (K < 0)  /* Trivial case if x < 1 */
-    return MPFR_SIGN (x);
-  m = K;
+  m = (K < 0) ? 0 : K;
 
   mpfr_init2 (c, 2);
   mpfr_init2 (k, 2);
@@ -100,9 +96,8 @@ mpfr_sin_sign (mpfr_srcptr x)
 int 
 mpfr_sin (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode) 
 {
-  int precy, m, ok, inexact, sign;
+  int precy, m, ok, e, inexact, sign;
   mpfr_t c;
-  mp_exp_t e;
 
   if (MPFR_UNLIKELY( MPFR_IS_SINGULAR(x) ))
     {
@@ -122,9 +117,8 @@ mpfr_sin (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode)
     }
 
   precy = MPFR_PREC(y);
-  m = precy + MPFR_INT_CEIL_LOG2 (precy) + 13;
-  e = MPFR_GET_EXP (x);
-  m += (e < 0) ? -2*e : e;
+  m = precy + __gmpfr_ceil_log2 ((double) precy)
+    + MAX (0, MPFR_GET_EXP (x)) + 13;
   
   sign = mpfr_sin_sign (x);
 

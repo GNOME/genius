@@ -1,6 +1,6 @@
 /* Generic test file for functions with one mpfr_t argument.
 
-Copyright 2001, 2002, 2003 Free Software Foundation.
+Copyright 2001, 2002, 2003, 2004, 2005 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -48,7 +48,7 @@ test_generic (mp_prec_t p0, mp_prec_t p1, unsigned int N)
 #else
           mpfr_random (x);
 #endif
-          rnd = RND_RAND ();
+          rnd = (mp_rnd_t) RND_RAND ();
           mpfr_set_prec (y, yprec);
           compare = TEST_FUNCTION (y, x, rnd);
           if (mpfr_can_round (y, yprec, rnd, rnd, prec))

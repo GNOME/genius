@@ -1,6 +1,6 @@
 /* Test file for mpfr_div.
 
-Copyright 1999, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 1999, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -26,18 +26,6 @@ MA 02111-1307, USA. */
 #include "mpfr-test.h"
 
 #define check53(n, d, rnd, res) check4(n, d, rnd, 53, res)
-
-/* return 0 iff a and b are of the same sign */
-static int
-inex_cmp (int a, int b)
-{
-  if (a > 0)
-    return (b > 0) ? 0 : 1;
-  else if (a == 0)
-    return (b == 0) ? 0 : 1;
-  else
-    return (b < 0) ? 0 : 1;
-}     
 
 static void
 check4 (const char *Ns, const char *Ds, mp_rnd_t rnd_mode, int p, 
@@ -223,11 +211,11 @@ check_convergence (void)
       for (j = 0;j < GMP_RND_MAX; j++)
         {
           mpfr_set_ui (y, 1, GMP_RNDN);
-          mpfr_div (y, x, y, j);
+          mpfr_div (y, x, y, (mp_rnd_t) j);
           if (mpfr_cmp_ui (y, 1))
             {
               printf ("mpfr_div failed for x=1.0, y=1.0, prec=%d rnd=%s\n",
-                      i, mpfr_print_rnd_mode(j));
+                      i, mpfr_print_rnd_mode ((mp_rnd_t) j));
               printf ("got "); mpfr_print_binary(y); puts ("");
               exit (1);
             }
@@ -240,99 +228,11 @@ check_convergence (void)
 
 #define KMAX 10000
 
-/* given y = o(x/u), x, u, find the inexact flag by
-   multiplying y by u */
-static int
-get_inexact (mpfr_t y, mpfr_t x, mpfr_t u)
-{
-  mpfr_t xx;
-  int inex;
-  mpfr_init2 (xx, mpfr_get_prec (y) + mpfr_get_prec (u));
-  mpfr_mul (xx, y, u, GMP_RNDN); /* exact */
-  inex = mpfr_cmp (xx, x);
-  mpfr_clear (xx);
-  return inex;
-}
-
-static void
-check_hard (void)
-{
-  mpfr_t u, v, q, q2;
-  mp_prec_t precu, precv, precq;
-  mp_rnd_t rnd;
-  int inex, inex2, i, j;
-
-  mpfr_init (q);
-  mpfr_init (q2);
-  mpfr_init (u);
-  mpfr_init (v);
-
-  for (precq = MPFR_PREC_MIN; precq <= 64; precq ++)
-    {
-      mpfr_set_prec (q, precq);
-      mpfr_set_prec (q2, precq + 1);
-      for (j = 0; j < 2; j++)
-        {
-          if (j == 0)
-            {
-              do
-                {
-                  mpfr_random (q2);
-                }
-              while (mpfr_cmp_ui (q2, 0) == 0);
-            }
-          else /* use q2=1 */
-            mpfr_set_ui (q2, 1, GMP_RNDN);
-      for (precv = precq; precv <= 10 * precq; precv += precq)
-	{
-	  mpfr_set_prec (v, precv);
-	  do
-	    {
-	      mpfr_random (v);
-	    }
-	  while (mpfr_cmp_ui (v, 0) == 0);
-	  for (precu = precq; precu <= 10 * precq; precu += precq)
-	    {
-	      mpfr_set_prec (u, precu);
-	      mpfr_mul (u, v, q2, GMP_RNDN);
-	      mpfr_nextbelow (u);
-	      for (i = 0; i <= 2; i++)
-		{
-		  for (rnd = 0; rnd < GMP_RND_MAX; rnd++)
-		    {
-		      inex = mpfr_div (q, u, v, rnd);
-		      inex2 = get_inexact (q, u, v);
-		      if (inex_cmp (inex, inex2))
-			{
-			  printf ("Wrong inexact flag for rnd=%s: expected %d, got %d\n",
-				  mpfr_print_rnd_mode (rnd), inex2, inex);
-			  printf ("u=  "); mpfr_dump (u);
-			  printf ("v=  "); mpfr_dump (v);
-			  printf ("q=  "); mpfr_dump (q);
-			  mpfr_set_prec (q2, precq + precv);
-			  mpfr_mul (q2, q, v, GMP_RNDN);
-			  printf ("q*v="); mpfr_dump (q2);
-			  exit (1);
-			}
-		    }
-		  mpfr_nextabove (u);
-		}
-	    }
-	}
-        }
-    }
-
-  mpfr_clear (q);
-  mpfr_clear (q2);
-  mpfr_clear (u);
-  mpfr_clear (v);
-}
-
 static void
 check_lowr (void)
 {
   mpfr_t x, y, z, z2, z3, tmp;
-  int k, c, c2;
+  int k, c;
 
 
   mpfr_init2 (x, 1000);
@@ -354,21 +254,21 @@ check_lowr (void)
           mpfr_random (tmp);
         }
       while (mpfr_cmp_ui (tmp, 0) == 0);
-      mpfr_mul (x, z, tmp, GMP_RNDN); /* exact */
+      mpfr_mul (x, z, tmp, GMP_RNDN);
       c = mpfr_div (z2, x, tmp, GMP_RNDN);
 
-      if (c || mpfr_cmp (z2, z))
+      if (c || mpfr_cmp(z2, z))
         {
           printf ("Error in mpfr_div rnd=GMP_RNDN\n");
+          printf ("Dividing ");
           printf ("got        "); mpfr_print_binary(z2); puts ("");
           printf ("instead of "); mpfr_print_binary(z); puts ("");
-          printf ("inex flag = %d, expected 0\n", c);
+          printf ("inex flag = %d\n", c);
           exit (1);
         }
     }
 
-  /* x has still precision 1000, z precision 10, and tmp prec 850 */
-  mpfr_set_prec (z2, 9);
+  mpfr_set_prec(z2, 9);
   for (k = 1; k < KMAX; k++)
     {
       mpfr_random (z);
@@ -377,18 +277,16 @@ check_lowr (void)
           mpfr_random (tmp);
         }
       while (mpfr_cmp_ui (tmp, 0) == 0);
-      mpfr_mul (x, z, tmp, GMP_RNDN); /* exact */
+      mpfr_mul (x, z, tmp, GMP_RNDN);
       c = mpfr_div (z2, x, tmp, GMP_RNDN);
-      /* since z2 has one less bit that z, either the division is exact
-	 if z is representable on 9 bits, or we have an even round case */
 
-      c2 = get_inexact (z2, x, tmp);
-      if ((mpfr_cmp (z2, z) == 0 && c) || inex_cmp (c, c2))
+      if ((mpfr_cmp (z2, z) == 0 && c) || c == -1)
         {
           printf ("Error in mpfr_div rnd=GMP_RNDN\n");
+          printf ("Dividing ");
           printf ("got        "); mpfr_print_binary(z2); puts ("");
           printf ("instead of "); mpfr_print_binary(z); puts ("");
-          printf ("inex flag = %d, expected %d\n", c, c2);
+          printf ("inex flag = %d\n", c);
           exit (1);
         }
       else if (c == 2)
@@ -455,17 +353,15 @@ check_lowr (void)
           exit (1);
         }
 
-      mpfr_set (y, tmp, GMP_RNDU);
-      mpfr_div (z3, x, y, GMP_RNDU);
-      mpfr_set (z, z3, GMP_RNDU);
-      c = mpfr_div (z2, x, y, GMP_RNDU);
-      if (c != 1 || mpfr_cmp (z2, z))
+      mpfr_set(y, tmp, GMP_RNDU);
+      c = mpfr_div(z2, x, y, GMP_RNDU);
+      mpfr_div(z3, x, y, GMP_RNDU);
+      mpfr_set(z, z3, GMP_RNDU);
+      if (c != 1 || mpfr_cmp(z2, z))
         {
           printf ("Error in mpfr_div rnd=GMP_RNDU\n");
-	  printf ("u="); mpfr_dump (x);
-	  printf ("v="); mpfr_dump (y);
-          printf ("got        "); mpfr_print_binary (z2); puts ("");
-          printf ("instead of "); mpfr_print_binary (z); puts ("");
+          printf ("got        "); mpfr_print_binary(z2); puts ("");
+          printf ("instead of "); mpfr_print_binary(z); puts ("");
           printf ("inex flag = %d\n", c);
           exit (1);
         }
@@ -494,21 +390,6 @@ check_inexact (void)
   mpfr_init (z);
   mpfr_init (u);
 
-  mpfr_set_prec (x, 53);
-  mpfr_set_str_binary (x, "0.11101100110010100011011000000100001111011111110010101E0");
-  mpfr_set_prec (u, 127);
-  mpfr_set_str_binary (u, "0.1000001100110110110101110110101101111000110000001111111110000000011111001010110100110010111111111101000001011011101011101101000E-2");
-  mpfr_set_prec (y, 95);
-  inexact = mpfr_div (y, x, u, GMP_RNDN);
-  if (inexact != (cmp = get_inexact (y, x, u)))
-    {
-      printf ("Wrong inexact flag (0): expected %d, got %d\n", cmp, inexact);
-      printf ("x="); mpfr_out_str (stdout, 10, 99, x, GMP_RNDN); printf ("\n");
-      printf ("u="); mpfr_out_str (stdout, 10, 99, u, GMP_RNDN); printf ("\n");
-      printf ("y="); mpfr_out_str (stdout, 10, 99, y, GMP_RNDN); printf ("\n");
-      exit (1);
-    }
-
   mpfr_set_prec (x, 33);
   mpfr_set_str_binary (x, "0.101111100011011101010011101100001E0");
   mpfr_set_prec (u, 2);
@@ -526,13 +407,11 @@ check_inexact (void)
   mpfr_set_prec (u, 15);
   mpfr_set_str_binary (u, "0.101101000001100E-1");
   mpfr_set_prec (y, 92);
-  if ((inexact = mpfr_div (y, x, u, GMP_RNDN)) <= 0)
+  if ((inexact = mpfr_div (y, x, u, GMP_RNDN) <= 0))
     {
-      printf ("Wrong inexact flag for rnd=GMP_RNDN(1): expected 1, got %d\n",
+      printf ("Wrong inexact flag (1): expected 1, got %d\n",
               inexact);
-      mpfr_dump (x);
-      mpfr_dump (u);
-      mpfr_dump (y);
+      mpfr_print_binary(y); puts ("");
       exit (1);
     }
 
@@ -549,7 +428,7 @@ check_inexact (void)
 	      mpfr_set_prec (y, py);
 	      mpfr_set_prec (z, py + pu);
 		{
-                  rnd = RND_RAND ();
+                  rnd = (mp_rnd_t) RND_RAND ();
 		  inexact = mpfr_div (y, x, u, rnd);
 		  if (mpfr_mul (z, y, u, rnd))
 		    {
@@ -696,7 +575,6 @@ main (int argc, char *argv[])
 {
   tests_start_mpfr ();
 
-  check_hard ();
   check_inexact ();
 
   check_nan ();

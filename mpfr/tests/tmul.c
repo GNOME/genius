@@ -1,6 +1,6 @@
 /* Test file for mpfr_mul.
 
-Copyright 1999, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 1999, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -217,7 +217,7 @@ check_exact (void)
         {
           mpfr_random (a);
           mpfr_random (b);
-          rnd = RND_RAND ();
+          rnd = (mp_rnd_t) RND_RAND ();
           inexact = mpfr_mul (c, a, b, rnd);
           if (mpfr_mul (d, a, b, rnd)) /* should be always exact */
             {

@@ -19,11 +19,10 @@ along with the MPFR Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 MA 02111-1307, USA. */
 
-#define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
 
-/* The computation of cosh is done by    *
- *  cosh= 1/2[e^(x)+e^(-x)]              */
+ /* The computation of cosh is done by
+        cosh= 1/2[e^(x)+e^(-x)]  */
 
 int
 mpfr_cosh (mpfr_ptr y, mpfr_srcptr xt , mp_rnd_t rnd_mode)
@@ -31,8 +30,7 @@ mpfr_cosh (mpfr_ptr y, mpfr_srcptr xt , mp_rnd_t rnd_mode)
   /****** Declaration ******/
   mpfr_t x;
   int inexact;
-  MPFR_SAVE_EXPO_DECL (expo);
-
+  
   if (MPFR_UNLIKELY(MPFR_IS_SINGULAR(xt)))
     {
       if (MPFR_IS_NAN(xt))
@@ -53,7 +51,7 @@ mpfr_cosh (mpfr_ptr y, mpfr_srcptr xt , mp_rnd_t rnd_mode)
 	}
     }
 
-  MPFR_SAVE_EXPO_MARK (expo);
+  mpfr_save_emin_emax (); 
   MPFR_TMP_INIT_ABS(x, xt);
   
   /* General case */
@@ -71,7 +69,7 @@ mpfr_cosh (mpfr_ptr y, mpfr_srcptr xt , mp_rnd_t rnd_mode)
     /* compute the precision of intermediary variable */
     Nt = MAX(Nx, Ny);
     /* The optimal number of bits : see algorithms.ps */
-    Nt = Nt + 3 + MPFR_INT_CEIL_LOG2 (Nt);
+    Nt = Nt + 3 + __gmpfr_ceil_log2 (Nt);
         
     /* initialise of intermediary variables */
     mpfr_init2 (t, Nt);
@@ -107,6 +105,6 @@ mpfr_cosh (mpfr_ptr y, mpfr_srcptr xt , mp_rnd_t rnd_mode)
     mpfr_clear (t);
   }
 
-  MPFR_SAVE_EXPO_FREE (expo);
+  mpfr_restore_emin_emax ();
   return mpfr_check_range (y, inexact, rnd_mode);
 }

@@ -1,6 +1,6 @@
 /* Test file for mpfr_ui_pow and mpfr_ui_pow_ui.
 
-Copyright 2001, 2002, 2003, 2004 Free Software Foundation.
+Copyright 2001, 2002, 2003, 2004, 2005 Free Software Foundation.
 Adapted from tarctan.c.
 
 This file is part of the MPFR Library.
@@ -29,13 +29,10 @@ MA 02111-1307, USA. */
 static void
 test1 (void)
 {
-  mpfr_t x, y, z, a;
-  int res1, res2;
+  mpfr_t x, y;
 
   mpfr_init2 (x, 32);
   mpfr_init2 (y, 65);
-  mpfr_init2 (z, 17);
-  mpfr_init2 (a, 17);
 
   mpfr_set_str_binary (x, "-0.101110001001011011011e-9");
   mpfr_ui_pow (y, 7, x, GMP_RNDN);
@@ -52,25 +49,11 @@ test1 (void)
       exit (1);
     }
 
-  /* Check for ui_pow_ui */
   mpfr_ui_pow_ui (x, 0, 1, GMP_RNDN);
   MPFR_ASSERTN(mpfr_cmp_ui (x, 0) == 0 && MPFR_IS_POS (x));
-  res1 = mpfr_ui_pow_ui (z, 17, 42, GMP_RNDD);
-  mpfr_set_ui (x, 17, GMP_RNDN);
-  mpfr_set_ui (y, 42, GMP_RNDN);
-  res2 = mpfr_pow (a, x, y, GMP_RNDD);
-  if (mpfr_cmp (z, a) || res1 != res2)
-    {
-      printf ("Error for ui_pow_ui for 17^42\n"
-	      "Inexact1 = %d Inexact2 = %d\n", res1, res2);
-      mpfr_dump (z);
-      mpfr_dump (a);
-    }
 
   mpfr_clear (x);
   mpfr_clear (y);
-  mpfr_clear (z);
-  mpfr_clear (a);
 }
 
 static void
@@ -238,7 +221,7 @@ main (int argc, char *argv[])
           int nt;
           nt = randlimb () & INT_MAX;
 	  mpfr_random (x);
-	  rnd = RND_RAND ();
+	  rnd = (mp_rnd_t) RND_RAND ();
           check1 (x, prec, nt, rnd);
 	}
     }

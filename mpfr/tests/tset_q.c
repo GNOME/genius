@@ -1,6 +1,6 @@
 /* Test file for mpfr_set_q.
 
-Copyright 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -75,24 +75,24 @@ static void check0(void)
   mpq_t y;
   mpfr_t x;
   int inexact;
-  mp_rnd_t r;
+  int r;
 
   /* Check for +0 */
-  mpfr_init(x);
-  mpq_init(y);
-  mpq_set_si(y, 0, 1);
-  for(r = 0 ; r < GMP_RND_MAX ; r++)
+  mpfr_init (x);
+  mpq_init (y);
+  mpq_set_si (y, 0, 1);
+  for (r = 0; r < GMP_RND_MAX; r++)
     {
-      inexact = mpfr_set_q(x, y, r);
+      inexact = mpfr_set_q(x, y, (mp_rnd_t) r);
       if (!MPFR_IS_ZERO(x) || !MPFR_IS_POS(x) || inexact)
         {
           printf("mpfr_set_q(x,0) failed for %s\n",
-                 mpfr_print_rnd_mode(r));
+                 mpfr_print_rnd_mode ((mp_rnd_t) r));
           exit(1);
         }
     }
-  mpfr_clear(x);
-  mpq_clear(y);
+  mpfr_clear (x);
+  mpq_clear (y);
 }
 
 int

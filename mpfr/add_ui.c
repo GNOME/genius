@@ -31,19 +31,18 @@ mpfr_add_ui (mpfr_ptr y, mpfr_srcptr x, unsigned long int u, mp_rnd_t rnd_mode)
       mp_limb_t up[1];
       unsigned long cnt;
       int inex;
-      MPFR_SAVE_EXPO_DECL (expo);
 
-      MPFR_TMP_INIT1 (up, uu, BITS_PER_MP_LIMB);
-      MPFR_ASSERTD (u == (mp_limb_t) u);
+      MPFR_TMP_INIT1(up, uu, BITS_PER_MP_LIMB);
+      MPFR_ASSERTN(u == (mp_limb_t) u);
       count_leading_zeros(cnt, (mp_limb_t) u);
-      up[0] = (mp_limb_t) u << cnt;
+      *up = (mp_limb_t) u << cnt;
 
       /* Optimization note: Exponent save/restore operations may be
 	 removed if mpfr_add works even when uu is out-of-range. */
-      MPFR_SAVE_EXPO_MARK (expo);
+      mpfr_save_emin_emax();
       MPFR_SET_EXP (uu, BITS_PER_MP_LIMB - cnt);
       inex = mpfr_add(y, x, uu, rnd_mode);
-      MPFR_SAVE_EXPO_FREE (expo);
+      mpfr_restore_emin_emax();
       return mpfr_check_range(y, inex, rnd_mode);
     }
   else

@@ -1,3 +1,21 @@
+Changes to 0.7.3
+
+* Update to mpfr 2.1.1
+* Documentation update, document the plotting functions for example.
+* Blinking cursor can now be turned off in gnome-genius
+* Set default precision to 128 bits.  Who needs 256 can set it in the
+  preferences.  Also save/restore the precision
+* Add LinePlotClear, LinePlotDrawLine functions to allow drawing arbitrary
+  lines and to allow a way to do parametric plots until that functionality
+  is actually added
+* Added: NewtonsMethodPoly, wait
+* Lots of work on the internal number structure to make it faster/more
+  memory efficient and to fix some possible bugs/issues
+* Fix float formatting bug that sometimes caused hangs and crashes
+* Fix large leak on element by element operations
+* Fix compilation with external mpfr
+* Bunch of other little bugs/issues fixed.
+
 Changes to 0.7.2
 
 * The manual is in Docbook and has been greatly updated (Kai Willadsen, me)
