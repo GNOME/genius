@@ -67,7 +67,7 @@
 
 /*calculator state*/
 calcstate_t curstate={
-	256,
+	128,
 	12,
 	FALSE,
 	FALSE,
@@ -756,6 +756,8 @@ set_properties (void)
 			      curstate.full_expressions);
 	gnome_config_set_int("/genius/properties/max_errors",
 			     curstate.max_errors);
+	gnome_config_set_int("/genius/properties/float_prec",
+			     curstate.float_prec);
 	
 	gnome_config_sync();
 }
@@ -2420,18 +2422,36 @@ get_properties (void)
 	g_snprintf(buf,256,"/genius/properties/max_digits=%d",
 		   curstate.max_digits);
 	curstate.max_digits = gnome_config_get_int(buf);
+	if (curstate.max_digits < 0)
+		curstate.max_digits = 0;
+	else if (curstate.max_digits > 256)
+		curstate.max_digits = 256;
+
 	g_snprintf(buf,256,"/genius/properties/results_as_floats=%s",
 		   curstate.results_as_floats?"true":"false");
 	curstate.results_as_floats = gnome_config_get_bool(buf);
+
 	g_snprintf(buf,256,"/genius/properties/scientific_notation=%s",
 		   curstate.scientific_notation?"true":"false");
 	curstate.scientific_notation = gnome_config_get_bool(buf);
+
 	g_snprintf(buf,256,"/genius/properties/full_expressions=%s",
 		   curstate.full_expressions?"true":"false");
 	curstate.full_expressions = gnome_config_get_bool(buf);
+
 	g_snprintf(buf,256,"/genius/properties/max_errors=%d",
 		   curstate.max_errors);
 	curstate.max_errors = gnome_config_get_int(buf);
+	if (curstate.max_errors < 0)
+		curstate.float_prec = 0;
+
+	g_snprintf(buf,256,"/genius/properties/float_prec=%d",
+		   curstate.float_prec);
+	curstate.float_prec = gnome_config_get_int(buf);
+	if (curstate.float_prec < 60)
+		curstate.float_prec = 60;
+	else if (curstate.float_prec > 16384)
+		curstate.float_prec = 16384;
 }
 
 static void

@@ -66,7 +66,7 @@
 
 /*calculator state*/
 calcstate_t curstate={
-	256,
+	128,
 	12,
 	FALSE,
 	FALSE,
@@ -218,11 +218,21 @@ main(int argc, char *argv[])
 			files = g_slist_append(files,argv[i]);
 		else if(strcmp(argv[i],"--")==0)
 			lastarg = TRUE;
-		else if(sscanf(argv[i],"--precision=%d",&val)==1)
+		else if(sscanf(argv[i],"--precision=%d",&val)==1) {
+			if (val < 60 || val > 16384) {
+				g_printerr (_("%s should be between %d and %d, using %d"),
+					    "--precision", 60, 16384, 128);
+				val = 128;
+			}
 			curstate.float_prec = val;
-		else if(sscanf(argv[i],"--maxdigits=%d",&val)==1)
+		} else if(sscanf(argv[i],"--maxdigits=%d",&val)==1) {
+			if (val < 0 || val > 256) {
+				g_printerr (_("%s should be between %d and %d, using %d"),
+					    "--maxdigits", 0, 256, 12);
+				val = 12;
+			}
 			curstate.max_digits = val;
-		else if(strcmp(argv[i],"--floatresult")==0)
+		} else if(strcmp(argv[i],"--floatresult")==0)
 			curstate.results_as_floats = TRUE;
 		else if(strcmp(argv[i],"--nofloatresult")==0)
 			curstate.results_as_floats = FALSE;
@@ -234,9 +244,14 @@ main(int argc, char *argv[])
 			curstate.full_expressions = TRUE;
 		else if(strcmp(argv[i],"--nofullexp")==0)
 			curstate.full_expressions = FALSE;
-		else if(sscanf(argv[i],"--maxerrors=%d",&val)==1)
+		else if(sscanf(argv[i],"--maxerrors=%d",&val)==1) {
+			if (val < 0) {
+				g_printerr (_("%s should be greater then or equal to %d, using %d"),
+					    "--maxerrors", 0, 5);
+				val = 5;
+			}
 			curstate.max_errors = val;
-		else if(strcmp(argv[i],"--mixed")==0)
+		} else if(strcmp(argv[i],"--mixed")==0)
 			curstate.mixed_fractions = TRUE;
 		else if(strcmp(argv[i],"--nomixed")==0)
 			curstate.mixed_fractions = FALSE;
@@ -274,7 +289,7 @@ main(int argc, char *argv[])
 				   "genius [options] [files]\n\n"
 				   "\t--help            \tPrint this help\n"
 				   "\t--version         \tPrint version number\n"
-				   "\t--precision=num   \tFloating point precision [256]\n"
+				   "\t--precision=num   \tFloating point precision [128]\n"
 				   "\t--maxdigits=num   \tMaximum digits to display (0=no limit) [0]\n"
 				   "\t--[no]floatresult \tAll results as floats [OFF]\n"
 				   "\t--[no]scinot      \tResults in scientific notation [OFF]\n"
