@@ -20,8 +20,10 @@ INCLUDES = \
 	-I$(includedir)						\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/vicious-extensions			\
+	-I$(top_srcdir)/gtkextra				\
 	-I$(top_builddir)					\
 	-I$(top_builddir)/vicious-extensions			\
+	-I$(top_builddir)/gtkextra				\
 	$(GMP_INCLUDEDIR)					\
 	$(GENIUS_CFLAGS)					\
 	$(EXTRA_WARNING_CFLAGS)
@@ -85,6 +87,8 @@ gnome_genius_SOURCES = 	\
 gnome_genius_LDADD = \
 	-L$(top_builddir)/vicious-extensions	\
 	-lviciousui				\
+	-L$(top_builddir)/gtkextra		\
+	-lgtkextra-genius			\
 	-lm					\
 	@GMP_LIB@				\
 	@MPFR_LIB@				\

@@ -134,6 +134,7 @@ Note:
 
   VICIOUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED"
   VICIOUS_GNOME_LIBS="libviciousui.a libviciousui-gnome.a libviciousui-minimal.a libvicious-gnome.a"
+  GTKEXTRA_LIBS="libgtkextra-genius.a"
   
   GNOME_GENIUS=gnome-genius
   GENIUS_READLINE_HELPER_FIFO=genius-readline-helper-fifo
@@ -143,6 +144,7 @@ else
   use_gtksourceview=no
   VICIOUS_MODULES="glib-2.0 >= $GLIB_REQUIRED gmodule-2.0 >= $GLIB_REQUIRED"
   VICIOUS_GNOME_LIBS=
+  GTKEXTRA_LIBS=
   GENIUS_CFLAGS="$GENIUS_NOGUI_CFLAGS"
   GENIUS_LIBS="$GENIUS_NOGUI_LIBS"
   GNOME_GENIUS=
@@ -151,6 +153,7 @@ else
 fi
 
 AC_SUBST(VICIOUS_GNOME_LIBS)
+AC_SUBST(GTKEXTRA_LIBS)
 AC_SUBST(GENIUS_CFLAGS)
 AC_SUBST(GENIUS_LIBS)
 AC_SUBST(GNOME_GENIUS)
@@ -241,6 +244,7 @@ lib/sets/Makefile
 lib/number_theory/Makefile
 lib/statistics/Makefile
 vicious-extensions/Makefile
+gtkextra/Makefile
 po/Makefile.in
 ])
 

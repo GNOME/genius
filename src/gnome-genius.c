@@ -305,6 +305,23 @@ static GnomeUIInfo toolbar[] = {
 
 #define ELEMENTS(x) (sizeof (x) / sizeof (x [0]))
 
+void
+genius_setup_window_cursor (GtkWidget *win, GdkCursorType type)
+{
+	GdkCursor *cursor = gdk_cursor_new (type);
+	if (win != NULL && win->window != NULL)
+		gdk_window_set_cursor (win->window, cursor);
+	gdk_cursor_unref (cursor);
+}
+
+void
+genius_unsetup_window_cursor (GtkWidget *win)
+{
+	if (win != NULL && win->window != NULL)
+		gdk_window_set_cursor (win->window, NULL);
+}
+
+
 static int
 count_char (const char *s, char c)
 {

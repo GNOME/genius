@@ -27,6 +27,8 @@
 
 #include <vicious.h>
 
+#include "gtkextra.h"
+
 #include "calc.h"
 #include "eval.h"
 #include "util.h"
@@ -42,12 +44,20 @@
 
 #include "graphing.h"
 
-static GtkWidget *graph_window = NULL;
-static GnomeCanvas *canvas = NULL;
-static GnomeCanvasGroup *root = NULL;
-static GnomeCanvasGroup *graph = NULL;
-
 #define MAXFUNC 10
+
+static GtkWidget *graph_window = NULL;
+static GtkWidget *plot_canvas = NULL;
+static GtkWidget *line_plot = NULL;
+
+static GtkWidget *plot_zoomout_item = NULL;
+static GtkWidget *plot_zoomin_item = NULL;
+static GtkWidget *plot_zoomfit_item = NULL;
+static GtkWidget *plot_print_item = NULL;
+static GtkWidget *plot_exportps_item = NULL;
+static GtkWidget *plot_exporteps_item = NULL;
+
+static GtkPlotData *line_data[MAXFUNC] = { NULL };
 
 static GtkWidget *plot_dialog = NULL;
 static GtkWidget *plot_entries[MAXFUNC] = { NULL };
@@ -63,30 +73,54 @@ static double defy1 = -1.1;
 static double defy2 = 1.1;
 
 /* Replotting info */
-static GelEFunc *replot_func[MAXFUNC] = { NULL };
-static double replotx1 = -M_PI;
-static double replotx2 = M_PI;
-static double reploty1 = -1.1;
-static double reploty2 = 1.1;
+static GelEFunc *plot_func[MAXFUNC] = { NULL };
+static double plotx1 = -M_PI;
+static double plotx2 = M_PI;
+static double ploty1 = -1.1;
+static double ploty2 = 1.1;
 
-static double replot_maxy = - G_MAXDOUBLE/2;
-static double replot_miny = G_MAXDOUBLE/2;
-static void replot_functions (GelCtx *ctx);
+static double plot_maxy = - G_MAXDOUBLE/2;
+static double plot_miny = G_MAXDOUBLE/2;
 
-static int replot_in_progress = 0;
+static GelCtx *plot_ctx = NULL;
+static GelETree *plot_arg = NULL;
 
-#define P2C_X(x) (((x)-x1)*xscale)
-#define P2C_Y(y) ((y2-(y))*yscale)
+static int plot_in_progress = 0;
+
+static void plot_functions (void);
+static void plot_axis (void);
 
 #define WIDTH 640
 #define HEIGHT 480
+#define ASPECT ((double)HEIGHT/(double)WIDTH)
+
+#define PROPORTION 0.85
+#define PROPORTION_OFFSET 0.075
 
 enum {
-	RESPONSE_STOP=1,
-	RESPONSE_ZOOMOUT,
-	RESPONSE_ZOOMFIT,
+	RESPONSE_STOP = 1,
 	RESPONSE_PLOT
 };
+
+static void
+plot_window_setup (void)
+{
+	if (graph_window != NULL) {
+		if (plot_in_progress)
+			genius_setup_window_cursor (plot_canvas, GDK_WATCH);
+		else
+			genius_unsetup_window_cursor (plot_canvas);
+
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (graph_window),
+						   RESPONSE_STOP, plot_in_progress);
+		gtk_widget_set_sensitive (plot_zoomout_item, ! plot_in_progress);
+		gtk_widget_set_sensitive (plot_zoomin_item, ! plot_in_progress);
+		gtk_widget_set_sensitive (plot_zoomfit_item, ! plot_in_progress);
+		gtk_widget_set_sensitive (plot_print_item, ! plot_in_progress);
+		gtk_widget_set_sensitive (plot_exportps_item, ! plot_in_progress);
+		gtk_widget_set_sensitive (plot_exporteps_item, ! plot_in_progress);
+	}
+}
 
 static void
 display_error (const char *err)
@@ -118,56 +152,136 @@ dialog_response (GtkWidget *w, int response, gpointer data)
 {
 	if (response == GTK_RESPONSE_CLOSE ||
 	    response == GTK_RESPONSE_DELETE_EVENT) {
-		if (replot_in_progress > 0)
+		if (plot_in_progress > 0)
 			interrupted = TRUE;
 		gtk_widget_destroy (graph_window);
-	} else if (response == RESPONSE_STOP && replot_in_progress > 0) {
+	} else if (response == RESPONSE_STOP && plot_in_progress > 0) {
 		interrupted = TRUE;
-	} else if (response == RESPONSE_ZOOMOUT && replot_in_progress == 0) {
-		GelCtx *ctx;
+	}
+}
+
+static void
+plot_print_cb (void)
+{
+	/* FIXME: print */
+}
+
+static void
+plot_exportps_cb (void)
+{
+#if 0
+	gtk_plot_export_ps_with_size (GTK_PLOT (line_plot),
+				      "out.ps",
+				      GTK_PLOT_PORTRAIT,
+				      FALSE /* epsflag */,
+				      GTK_PLOT_PSPOINTS,
+				      400, ASPECT * 400);
+	gtk_plot_export_ps (GTK_PLOT (line_plot),
+			    "out.ps",
+			    GTK_PLOT_LANDSCAPE,
+			    FALSE /* epsflag */,
+			    GTK_PLOT_LETTER);
+#endif
+	/* FIXME: exportps */
+}
+
+static void
+plot_exporteps_cb (void)
+{
+#if 0
+	gtk_plot_export_ps_with_size (GTK_PLOT (line_plot),
+				      "out.eps",
+				      GTK_PLOT_PORTRAIT,
+				      TRUE /* epsflag */,
+				      GTK_PLOT_PSPOINTS,
+				      400, ASPECT * 400);
+	/* FIXME: exporteps */
+#endif
+}
+
+static void
+plot_zoomin_cb (void)
+{
+	if (plot_in_progress == 0) {
 		double len;
 		gboolean last_info = genius_setup.info_box;
 		gboolean last_error = genius_setup.error_box;
 		genius_setup.info_box = TRUE;
 		genius_setup.error_box = TRUE;
 
-		len = replotx2 - replotx1;
-		replotx2 += len/2.0;
-		replotx1 -= len/2.0;
+		len = plotx2 - plotx1;
+		plotx2 -= len/4.0;
+		plotx1 += len/4.0;
 
-		len = reploty2 - reploty1;
-		reploty2 += len/2.0;
-		reploty1 -= len/2.0;
+		len = ploty2 - ploty1;
+		ploty2 -= len/4.0;
+		ploty1 += len/4.0;
 
-		ctx = eval_get_context ();
-		replot_functions (ctx);
-		eval_free_context (ctx);
+		plot_axis ();
+
+		if (interrupted)
+			interrupted = FALSE;
 
 		gel_printout_infos ();
 		genius_setup.info_box = last_info;
 		genius_setup.error_box = last_error;
-	} else if (response == RESPONSE_ZOOMFIT && replot_in_progress == 0) {
-		GelCtx *ctx;
+	}
+}
+
+static void
+plot_zoomout_cb (void)
+{
+	if (plot_in_progress == 0) {
+		double len;
+		gboolean last_info = genius_setup.info_box;
+		gboolean last_error = genius_setup.error_box;
+		genius_setup.info_box = TRUE;
+		genius_setup.error_box = TRUE;
+
+		len = plotx2 - plotx1;
+		plotx2 += len/2.0;
+		plotx1 -= len/2.0;
+
+		len = ploty2 - ploty1;
+		ploty2 += len/2.0;
+		ploty1 -= len/2.0;
+
+		plot_axis ();
+
+		if (interrupted)
+			interrupted = FALSE;
+
+		gel_printout_infos ();
+		genius_setup.info_box = last_info;
+		genius_setup.error_box = last_error;
+	}
+}
+
+static void
+plot_zoomfit_cb (void)
+{
+	if (plot_in_progress == 0) {
 		double size;
 		gboolean last_info = genius_setup.info_box;
 		gboolean last_error = genius_setup.error_box;
 		genius_setup.info_box = TRUE;
 		genius_setup.error_box = TRUE;
 
-		size = replot_maxy - replot_miny;
+		size = plot_maxy - plot_miny;
 		if (size <= 0)
 			size = 1.0;
 
-		reploty1 = replot_miny - size * 0.05;
-		reploty2 = replot_maxy + size * 0.05;
+		ploty1 = plot_miny - size * 0.05;
+		ploty2 = plot_maxy + size * 0.05;
 
 		/* sanity */
-		if (reploty2 < reploty1)
-			reploty2 = reploty1 + 0.1;
+		if (ploty2 < ploty1)
+			ploty2 = ploty1 + 0.1;
 
-		ctx = eval_get_context ();
-		replot_functions (ctx);
-		eval_free_context (ctx);
+		plot_axis ();
+
+		if (interrupted)
+			interrupted = FALSE;
 
 		gel_printout_infos ();
 		genius_setup.info_box = last_info;
@@ -175,129 +289,74 @@ dialog_response (GtkWidget *w, int response, gpointer data)
 	}
 }
 
-static double button_press_x1 = 0.0;
-static double button_press_y1 = 0.0;
-
-static GnomeCanvasItem *zoom_rect = NULL;
-static gboolean dragging = FALSE;
-
-/* 10 pixels */
-#define MINZOOM 10
-
-static gboolean
-mouse_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
-{
-	double xscale, yscale;
-
-	if (event->type == GDK_BUTTON_PRESS && event->button.button == 1) {
-		dragging = TRUE;
-		button_press_x1 = event->button.x;
-		button_press_y1 = event->button.y;
-	} else if (event->type == GDK_MOTION_NOTIFY && dragging) {
-		double x1, x2, y1, y2;
-		if (zoom_rect != NULL)
-			gtk_object_destroy (GTK_OBJECT (zoom_rect));
-		if (event->motion.x < button_press_x1) {
-			x1 = event->motion.x;
-			x2 = button_press_x1;
-		} else {
-			x1 = button_press_x1;
-			x2 = event->motion.x;
-		}
-
-		if (event->motion.y < button_press_y1) {
-			y1 = event->motion.y;
-			y2 = button_press_y1;
-		} else {
-			y1 = button_press_y1;
-			y2 = event->motion.y;
-		}
-
-		if (x2 - x1 < MINZOOM &&
-		    y2 - y1 < MINZOOM)
-			return FALSE;
-
-		if (x2 - x1 < MINZOOM)
-			x2 = x1 + MINZOOM;
-		if (y2 - y1 < MINZOOM)
-			y2 = y1 + MINZOOM;
-
-		zoom_rect =
-			gnome_canvas_item_new (root,
-					       gnome_canvas_rect_get_type (),
-					       "outline_color", "red",
-					       "width_units", 1.0,
-					       "x1", x1,
-					       "x2", x2,
-					       "y1", y1,
-					       "y2", y2,
-					       NULL);
-		g_signal_connect (G_OBJECT (zoom_rect), "destroy",
-				  G_CALLBACK (gtk_widget_destroyed), &zoom_rect);
-	} else if (event->type == GDK_BUTTON_RELEASE && dragging) {
-		double x1, x2, y1, y2;
-		GelCtx *ctx;
-
-		dragging = FALSE;
-
-		if (zoom_rect != NULL)
-			gtk_object_destroy (GTK_OBJECT (zoom_rect));
-
-		if (event->button.x < button_press_x1) {
-			x1 = event->button.x;
-			x2 = button_press_x1;
-		} else {
-			x1 = button_press_x1;
-			x2 = event->button.x;
-		}
-
-		if (event->button.y < button_press_y1) {
-			y1 = event->button.y;
-			y2 = button_press_y1;
-		} else {
-			y1 = button_press_y1;
-			y2 = event->button.y;
-		}
-
-		if (x2 - x1 < MINZOOM &&
-		    y2 - y1 < MINZOOM)
-			return FALSE;
-
-		if (x2 - x1 < MINZOOM)
-			x2 = x1 + MINZOOM;
-		if (y2 - y1 < MINZOOM)
-			y2 = y1 + MINZOOM;
-
-		/* get current scale */
-		xscale = WIDTH/(replotx2-replotx1);
-		yscale = HEIGHT/(reploty2-reploty1);
-
-		/* rescale */
-		replotx2 = x2 / xscale + replotx1;
-		replotx1 = x1 / xscale + replotx1;
-		/* note: y is flipped */
-		reploty1 = reploty2 - y2 / yscale;
-		reploty2 = reploty2 - y1 / yscale;
-
-		ctx = eval_get_context ();
-		replot_functions (ctx);
-		eval_free_context (ctx);
-	}
-
-	return FALSE;
-}
-
 static void
-canvas_realize (GtkWidget *win)
+plot_select_region (GtkPlotCanvas *canvas,
+		    gdouble xmin,
+		    gdouble ymin,
+		    gdouble xmax,
+		    gdouble ymax)
 {
-	GdkCursor *cursor = gdk_cursor_new (GDK_CROSSHAIR);
-	gdk_window_set_cursor (win->window, cursor);
-	gdk_cursor_unref (cursor);
+	if (plot_in_progress == 0) {
+		double len;
+		double px, py, pw, ph;
+		gboolean last_info = genius_setup.info_box;
+		gboolean last_error = genius_setup.error_box;
+		genius_setup.info_box = TRUE;
+		genius_setup.error_box = TRUE;
+
+		/* FIXME: evil because this is the selection thingie, hmmm, I dunno another
+		   way to do this though */
+
+		gtk_plot_get_position (GTK_PLOT (line_plot), &px, &py);
+		gtk_plot_get_size (GTK_PLOT (line_plot), &pw, &ph);
+
+		xmin -= px;
+		ymin -= py;
+		xmax -= px;
+		ymax -= py;
+
+		xmin /= pw;
+		ymin /= ph;
+		xmax /= pw;
+		ymax /= ph;
+
+		{ /* flip the y coordinate */
+			double oldymin = ymin;
+			ymin = 1.0 - ymax;
+			ymax = 1.0 - oldymin;
+		}
+
+		len = plotx2 - plotx1;
+		plotx1 += len * xmin;
+		plotx2 = plotx1 + (len * (xmax-xmin));
+
+		len = ploty2 - ploty1;
+		ploty1 += len * ymin;
+		ploty2 = ploty1 + (len * (ymax-ymin));
+
+		/* sanity */
+		if (plotx2 <= plotx1)
+			plotx2 = plotx1 + 0.00000001;
+		/* sanity */
+		if (ploty2 <= ploty1)
+			ploty2 = ploty1 + 0.00000001;
+
+		plot_axis ();
+
+		if (interrupted)
+			interrupted = FALSE;
+
+		gel_printout_infos ();
+		genius_setup.info_box = last_info;
+		genius_setup.error_box = last_error;
+	}
 }
 
 static void
 ensure_window (void)
 {
+	GtkWidget *menu, *menubar, *item;
+
 	if (graph_window != NULL) {
 		/* FIXME: present is evil in that it takes focus away */
 		gtk_widget_show (graph_window);
@@ -308,10 +367,6 @@ ensure_window (void)
 		(_("Genius Line Plot") /* title */,
 		 GTK_WINDOW (genius_window) /* parent */,
 		 0 /* flags */,
-		 _("_Zoom out"),
-		 RESPONSE_ZOOMOUT,
-		 _("_Fit Y Axis"),
-		 RESPONSE_ZOOMFIT,
 		 GTK_STOCK_STOP,
 		 RESPONSE_STOP,
 		 GTK_STOCK_CLOSE,
@@ -326,35 +381,95 @@ ensure_window (void)
 			  G_CALLBACK (dialog_response),
 			  NULL);
 
-	canvas = (GnomeCanvas *)gnome_canvas_new_aa ();
-	g_signal_connect (G_OBJECT (canvas),
-			  "realize",
-			  G_CALLBACK (canvas_realize),
-			  NULL);
-	root = gnome_canvas_root (canvas);
-	g_signal_connect (root, "event",
-			  G_CALLBACK (mouse_event),
-			  NULL);
-
+	menubar = gtk_menu_bar_new ();
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (graph_window)->vbox),
-			    GTK_WIDGET (canvas), TRUE, TRUE, 0);
+			    GTK_WIDGET (menubar), FALSE, TRUE, 0);
 
-	gtk_widget_set_size_request (GTK_WIDGET (canvas), WIDTH, HEIGHT);
+	menu = gtk_menu_new ();
+	item = gtk_menu_item_new_with_mnemonic (_("_Graph"));
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), menu);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), item);
 
-	gnome_canvas_set_scroll_region (canvas,
-					0 /*x1*/,
-					0 /*y1*/,
-					WIDTH /*x2*/,
-					HEIGHT /*y2*/);
+	item = gtk_menu_item_new_with_mnemonic (_("_Print..."));
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (plot_print_cb), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	plot_print_item = item;
 
-	gnome_canvas_item_new (root,
-			       gnome_canvas_rect_get_type (),
-			       "fill_color", "white",
-			       "x1", 0.0,
-			       "x2", (double)WIDTH,
-			       "y1", 0.0,
-			       "y2", (double)HEIGHT,
-			       NULL);
+	item = gtk_menu_item_new_with_mnemonic (_("_Export postscript..."));
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (plot_exportps_cb), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	plot_exportps_item = item;
+
+	item = gtk_menu_item_new_with_mnemonic (_("E_xport encapsulated postscript..."));
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (plot_exporteps_cb), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	plot_exporteps_item = item;
+
+
+	menu = gtk_menu_new ();
+	item = gtk_menu_item_new_with_mnemonic (_("_Zoom"));
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), menu);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), item);
+
+	item = gtk_menu_item_new_with_mnemonic (_("Zoom _out"));
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (plot_zoomout_cb), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	plot_zoomout_item = item;
+
+	item = gtk_menu_item_new_with_mnemonic (_("Zoom _in"));
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (plot_zoomin_cb), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	plot_zoomin_item = item;
+
+	item = gtk_menu_item_new_with_mnemonic (_("Fit Y axis"));
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (plot_zoomfit_cb), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	plot_zoomfit_item = item;
+
+
+	plot_canvas = gtk_plot_canvas_new (WIDTH, HEIGHT, 1.0);
+	GTK_PLOT_CANVAS_UNSET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
+				     GTK_PLOT_CANVAS_DND_FLAGS);
+	GTK_PLOT_CANVAS_SET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
+				   GTK_PLOT_CANVAS_CAN_SELECT);
+	g_signal_connect (G_OBJECT (plot_canvas), "select_region",
+			  G_CALLBACK (plot_select_region),
+			  NULL);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (graph_window)->vbox),
+			    GTK_WIDGET (plot_canvas), TRUE, TRUE, 0);
+
+	line_plot = gtk_plot_new_with_size (NULL, PROPORTION, PROPORTION);
+	gtk_plot_canvas_add_plot (GTK_PLOT_CANVAS (plot_canvas),
+				  GTK_PLOT (line_plot), PROPORTION_OFFSET, PROPORTION_OFFSET);
+
+	gtk_plot_axis_set_visible (GTK_PLOT (line_plot),
+				   GTK_PLOT_AXIS_TOP, TRUE);
+	gtk_plot_axis_set_visible (GTK_PLOT (line_plot),
+				   GTK_PLOT_AXIS_RIGHT, TRUE);
+	gtk_plot_grids_set_visible (GTK_PLOT (line_plot),
+				    FALSE, FALSE, FALSE, FALSE);
+	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
+				  GTK_PLOT_AXIS_TOP);
+	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
+				  GTK_PLOT_AXIS_RIGHT);
+	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
+				  GTK_PLOT_AXIS_LEFT);
+	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
+				  GTK_PLOT_AXIS_BOTTOM);
+	/*gtk_plot_axis_set_title (GTK_PLOT (line_plot),
+				 GTK_PLOT_AXIS_LEFT, "Y");
+	gtk_plot_axis_set_title (GTK_PLOT (line_plot),
+				 GTK_PLOT_AXIS_BOTTOM, "X");*/
+	gtk_plot_set_legends_border (GTK_PLOT (line_plot),
+				     GTK_PLOT_BORDER_LINE, 3);
+	gtk_plot_legends_move (GTK_PLOT (line_plot), .80, .05);
+	gtk_widget_show (line_plot);
 
 	gtk_widget_show_all (graph_window);
 }
@@ -363,218 +478,83 @@ ensure_window (void)
 static void
 clear_graph (void)
 {
-	if (graph != NULL)
-		gtk_object_destroy (GTK_OBJECT (graph));
-	graph = (GnomeCanvasGroup *)
-		gnome_canvas_item_new (root,
-				       gnome_canvas_group_get_type (),
-				       "x", 0.0,
-				       "y", 0.0,
-				       NULL);
-	g_signal_connect (G_OBJECT (graph),
-			  "destroy",
-			  G_CALLBACK (gtk_widget_destroyed),
-			  &graph);
+	int i;
+	for (i = 0; i < MAXFUNC; i++) {
+		if (line_data[i] != NULL) {
+			gtk_plot_remove_data (GTK_PLOT (line_plot),
+					      line_data[i]);
+			line_data[i] = NULL;
+		}
+	}
 }
 
 static void
-get_start_inc (double start, double end, double *first, double *inc, double *tol)
+get_ticks (double start, double end, double *tick, int *prec)
 {
 	int incs;
 	double len = end-start;
 
-	*inc = pow (10, floor (log10 (len)));
-	incs = floor (len / *inc);
+	*tick = pow (10, floor (log10 (len)));
+	incs = floor (len / *tick);
 
 	while (incs < 3) {
-		*inc /= 2.0;
-		incs = floor (len / *inc);
+		*tick /= 2.0;
+		incs = floor (len / *tick);
 	}
 
 	while (incs > 6) {
-		*inc *= 2.0;
-		incs = floor (len / *inc);
+		*tick *= 2.0;
+		incs = floor (len / *tick);
 	}
 
-	*first = ceil (start / *inc) * *inc;
-
-	if (start < 0.0 && end > 0.0) {
-		*first = -1.0 * incs * *inc;
-		while (*first < start)
-			*first += *inc;
+	if (*tick >= 0.99) {
+		*prec = 0;
+	} else {
+		*prec = - (int) log10 (*tick) + 1;
 	}
-
-	*tol = len / 1000.0;
 }
 
+static void
+plot_setup_axis (void)
+{
+	int xprec, yprec;
+	double xtick, ytick;
+
+	get_ticks (plotx1, plotx2, &xtick, &xprec);
+	get_ticks (ploty1, ploty2, &ytick, &yprec);
+
+	gtk_plot_set_range (GTK_PLOT (line_plot),
+			    plotx1, plotx2, ploty1, ploty2);
+	gtk_plot_axis_set_ticks (GTK_PLOT (line_plot), GTK_PLOT_AXIS_X, xtick, 10);
+	gtk_plot_axis_set_ticks (GTK_PLOT (line_plot), GTK_PLOT_AXIS_Y, ytick, 10);
+	gtk_plot_axis_set_labels_style (GTK_PLOT (line_plot),
+					GTK_PLOT_AXIS_X,
+					GTK_PLOT_LABEL_FLOAT,
+					xprec /* precision */);
+	gtk_plot_axis_set_labels_style (GTK_PLOT (line_plot),
+					GTK_PLOT_AXIS_Y,
+					GTK_PLOT_LABEL_FLOAT,
+					yprec /* precision */);
+}
 
 static void
-plot_axis (double xscale, double yscale, double x1, double x2, double y1, double y2)
+plot_axis (void)
 {
-	double inc, coord, tol, yleg, xleg;
-	GnomeCanvasPoints *points;
-	GtkAnchorType anchor, fanchor, canchor, lanchor;
-	gboolean printed_zero = FALSE;
+	plot_in_progress ++;
 
-	if (x1 <= 0 && x2 >= 0) {
-		points = gnome_canvas_points_new (2);
-		points->coords[0] = P2C_X (0);
-		points->coords[1] = P2C_Y (y1);
-		points->coords[2] = P2C_X (0);
-		points->coords[3] = P2C_Y (y2);
+	plot_window_setup ();
 
-		gnome_canvas_item_new (graph,
-				       gnome_canvas_line_get_type (),
-				       "fill_color", "black",
-				       "points", points,
-				       NULL);
+	plot_maxy = - G_MAXDOUBLE/2;
+	plot_miny = G_MAXDOUBLE/2;
 
-		gnome_canvas_points_unref (points);
+	plot_setup_axis ();
 
-		xleg = 0.0;
-	} else {
-		xleg = x1;
-	}
+	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+	if (plot_canvas != NULL)
+		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
 
-	if (y1 <= 0 && y2 >= 0) {
-		points = gnome_canvas_points_new (2);
-		points->coords[0] = P2C_X (x1);
-		points->coords[1] = P2C_Y (0);
-		points->coords[2] = P2C_X (x2);
-		points->coords[3] = P2C_Y (0);
-
-		gnome_canvas_item_new (graph,
-				       gnome_canvas_line_get_type (),
-				       "fill_color", "black",
-				       "points", points,
-				       NULL);
-
-		gnome_canvas_points_unref (points);
-
-		yleg = 0.0;
-	} else {
-		yleg = y1;
-	}
-
-	/*
-	 * X axis labels
-	 */
-	get_start_inc (x1, x2, &coord, &inc, &tol);
-
-	if (yleg < y1 + (y2-y1) / 8.0) {
-		fanchor = GTK_ANCHOR_SW;
-		lanchor = GTK_ANCHOR_SE;
-		canchor = GTK_ANCHOR_S;
-	} else {
-		fanchor = GTK_ANCHOR_NW;
-		lanchor = GTK_ANCHOR_NE;
-		canchor = GTK_ANCHOR_N;
-	}
-
-	if (coord - (inc/2.0) <= x1)
-		anchor = fanchor;
-	else
-		anchor = canchor;
-	do {
-		char buf[20];
-		if (fabs (coord) < tol) {
-			strcpy (buf, "0");
-			printed_zero = TRUE;
-		} else {
-			g_snprintf (buf, sizeof (buf), "%g", coord);
-		}
-
-		gnome_canvas_item_new (graph,
-				       gnome_canvas_text_get_type (),
-				       "text", buf,
-				       "fill_color", "black",
-				       "anchor", anchor,
-				       "x", P2C_X (coord),
-				       "y", P2C_Y (yleg),
-				       NULL);
-
-		points = gnome_canvas_points_new (2);
-		points->coords[0] = P2C_X (coord);
-		points->coords[1] = P2C_Y (yleg)-7;
-		points->coords[2] = P2C_X (coord);
-		points->coords[3] = P2C_Y (yleg)+7;
-
-		gnome_canvas_item_new (graph,
-				       gnome_canvas_line_get_type (),
-				       "fill_color", "black",
-				       "points", points,
-				       NULL);
-
-		gnome_canvas_points_unref (points);
-		
-		coord += inc;
-		if (coord + (inc/2.0) >= x2)
-			anchor = lanchor;
-		else
-			anchor = canchor;
-	} while (coord <= x2);
-
-	/*
-	 * Y axis labels
-	 */
-	get_start_inc (y1, y2, &coord, &inc, &tol);
-
-	if (xleg < x1 + (x2-x1) / 5.0) {
-		fanchor = GTK_ANCHOR_SW;
-		lanchor = GTK_ANCHOR_NW;
-		canchor = GTK_ANCHOR_W;
-	} else {
-		fanchor = GTK_ANCHOR_SE;
-		lanchor = GTK_ANCHOR_NE;
-		canchor = GTK_ANCHOR_E;
-	}
-
-	if (coord - (inc/2.0) <= y1)
-		anchor = fanchor;
-	else
-		anchor = canchor;
-	do {
-		char buf[20];
-		if (fabs (coord) < tol) {
-			if (printed_zero)
-				buf[0] = '\0';
-			else
-				strcpy (buf, "0");
-		} else {
-			g_snprintf (buf, sizeof (buf), "%g", coord);
-		}
-
-		if (buf[0] != '\0') {
-			gnome_canvas_item_new (graph,
-					       gnome_canvas_text_get_type (),
-					       "text", buf,
-					       "fill_color", "black",
-					       "anchor", anchor,
-					       "x", P2C_X (xleg),
-					       "y", P2C_Y (coord),
-					       NULL);
-
-			points = gnome_canvas_points_new (2);
-			points->coords[0] = P2C_X (xleg)-7;
-			points->coords[1] = P2C_Y (coord);
-			points->coords[2] = P2C_X (xleg)+7;
-			points->coords[3] = P2C_Y (coord);
-
-			gnome_canvas_item_new (graph,
-					       gnome_canvas_line_get_type (),
-					       "fill_color", "black",
-					       "points", points,
-					       NULL);
-
-			gnome_canvas_points_unref (points);
-		}
-		
-		coord += inc;
-		if (coord + (inc/2.0) >= y2)
-			anchor = lanchor;
-		else
-			anchor = canchor;
-	} while (coord <= y2);
+	plot_in_progress --;
+	plot_window_setup ();
 }
 
 static double
@@ -621,6 +601,7 @@ call_func (GelCtx *ctx, GelEFunc *func, GelETree *arg, gboolean *ex)
 	return retd;
 }
 
+/*
 static void
 plot_line (GnomeCanvasItem **line, GnomeCanvasItem **progress_line,
 	   const char *color,
@@ -654,114 +635,68 @@ plot_line (GnomeCanvasItem **line, GnomeCanvasItem **progress_line,
 
 	points->num_points = old_points;
 }
+*/
 
-static void
-plot_func (GelCtx *ctx, GelEFunc *func, const char *color, double xscale, double yscale, double x1, double x2, double y1, double y2)
+static double
+plot_func_data (GtkPlot *plot, GtkPlotData *data, double x, gboolean *error)
 {
-#define PERITER 2
-	GnomeCanvasItem *line = NULL;
-	GnomeCanvasItem *progress_line = NULL;
-	GelETree *arg;
-	mpw_t x;
-	int cur;
-	GnomeCanvasPoints *points = gnome_canvas_points_new (WIDTH/PERITER + 1);
-	GnomeCanvasPoints *progress_points = gnome_canvas_points_new (2);
+	static int hookrun = 0;
+	gboolean ex = FALSE;
 	int i;
+	double y;
 
-	progress_points->coords[0] = 0.0;
-	progress_points->coords[1] = (double)HEIGHT;
-	progress_points->coords[2] = 0.0;
-	progress_points->coords[3] = (double)HEIGHT;
+	if (error != NULL)
+		*error = FALSE;
 
-	cur = 0;
-	mpw_init (x);
-	arg = gel_makenum_use (x);
-	for (i = 0; i < WIDTH/PERITER + 1; i++) {
-		gboolean ex = FALSE;
-		double xd = x1+(i*PERITER)/xscale;
-		double y;
-		mpw_set_d (arg->val.value, xd);
-		y = call_func (ctx, func, arg, &ex);
+	if G_UNLIKELY (interrupted) {
+		if (error != NULL)
+			*error = TRUE;
+		return 0.0;
+	}
 
-		if G_UNLIKELY (y > replot_maxy)
-			replot_maxy = y;
-		if G_UNLIKELY (y < replot_miny)
-			replot_miny = y;
+	for (i = 0; i < MAXFUNC; i++) {
+		if (data == line_data[i])
+			break;
+	}
+	if G_UNLIKELY (i == MAXFUNC) {
+		if (error != NULL)
+			*error = TRUE;
+		return 0.0;
+	}
 
-		xd = P2C_X (xd);
-		y = P2C_Y (y);
+	mpw_set_d (plot_arg->val.value, x);
+	y = call_func (plot_ctx, plot_func[i], plot_arg, &ex);
 
-		/* FIXME: evil hack for infinity */
-		if (y >= HEIGHT*2) {
-			y = HEIGHT*2;
-		} else if (y <= -HEIGHT) {
-			y = -HEIGHT;
-		}
+	if G_UNLIKELY (ex) {
+		if (error != NULL)
+			*error = TRUE;
+	} else {
+		if G_UNLIKELY (y > plot_maxy)
+			plot_maxy = y;
+		if G_UNLIKELY (y < plot_miny)
+			plot_miny = y;
+	}
 
-		if (ex) {
-			if (points != NULL) {
-				/* FIXME: what about a single point? */
-				if (cur > 1)
-					plot_line (&line, &progress_line, color,
-						   points, progress_points, cur);
-				gnome_canvas_points_unref (points);
-				points = NULL;
-			}
-			line = NULL;
-			cur = -1;
-		} else {
-			if G_UNLIKELY (points == NULL) {
-				points = gnome_canvas_points_new (WIDTH/PERITER + 1);
-			}
-			points->coords[cur*2] = xd;
-			points->coords[cur*2 + 1] = y;
-		}
-
-		if G_UNLIKELY (points != NULL && i % 40 == 0 && cur > 0) {
-			plot_line (&line, &progress_line, color,
-				   points, progress_points, cur+1);
-		}
+	if (hookrun++ >= 10) {
+		hookrun = 0;
 		if (evalnode_hook != NULL) {
 			(*evalnode_hook)();
 			if G_UNLIKELY (interrupted) {
-				gel_freetree (arg);
-				gnome_canvas_points_unref (points);
-				return;
+				if (error != NULL)
+					*error = TRUE;
+				return y;
 			}
 		}
-
-		cur++;
 	}
-	gel_freetree (arg);
 
-	if (points != NULL && cur > 1)
-		plot_line (&line, &progress_line, color,
-			   points, NULL, cur);
-
-	if (points != NULL)
-		gnome_canvas_points_unref (points);
+	return y;
 }
 
-static void
-label_func (GelCtx *ctx, int i, GelEFunc *func, const char *color)
+static char *
+label_func (int i, GelEFunc *func, const char *color)
 {
-	char *text;
-	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
-	points->coords[0] = WIDTH-40;
-	points->coords[1] = 20+15*i;
-	points->coords[2] = WIDTH-20;
-	points->coords[3] = 20+15*i;
+	char *text = NULL;
 
-	gnome_canvas_item_new (graph,
-			       gnome_canvas_line_get_type (),
-			       "fill_color", color,
-			       "width_units", 1.5,
-			       "points", points,
-			       NULL);
-
-	gnome_canvas_points_unref (points);
-
-	text = NULL;
 	if (func->id != NULL) {
 		text = g_strdup_printf ("%s(x)", func->id->token);
 	} else if (func->type == GEL_USER_FUNC) {
@@ -800,17 +735,7 @@ label_func (GelCtx *ctx, int i, GelEFunc *func, const char *color)
 		text = g_strdup_printf (_("Function #%d"), i+1);
 	}
 
-	gnome_canvas_item_new (graph,
-			       gnome_canvas_text_get_type (),
-			       "x", (double)(WIDTH-45),
-			       "y", (double)(20+15*i),
-			       "font", "Monospace 10",
-			       "fill_color", "black",
-			       "anchor", GTK_ANCHOR_EAST,
-			       "text", text,
-			       NULL);
-
-	g_free (text);
+	return text;
 }
 
 #define GET_DOUBLE(var,argnum) \
@@ -900,7 +825,7 @@ make_matrix_from_limits (void)
 }
 
 static void
-replot_functions (GelCtx *ctx)
+plot_functions (void)
 {
 	char *colors[] = {
 		"darkblue",
@@ -914,57 +839,70 @@ replot_functions (GelCtx *ctx)
 		"red",
 		"brown",
 		NULL };
-	double xscale, yscale;
 	int i;
 
 	ensure_window ();
 
-	gtk_dialog_set_response_sensitive (GTK_DIALOG (graph_window),
-					   RESPONSE_STOP, TRUE);
-	gtk_dialog_set_response_sensitive (GTK_DIALOG (graph_window),
-					   RESPONSE_ZOOMOUT, FALSE);
+	plot_in_progress ++;
 
-	replot_in_progress ++;
+	plot_window_setup ();
+
+	if (evalnode_hook != NULL)
+		(*evalnode_hook)();
 
 	clear_graph ();
 
 	/* sanity */
-	if (replotx2 == replotx1)
-		replotx2 = replotx1 + 0.00000001;
+	if (plotx2 == plotx1)
+		plotx2 = plotx1 + 0.00000001;
 	/* sanity */
-	if (reploty2 == reploty1)
-		reploty2 = reploty1 + 0.00000001;
+	if (ploty2 == ploty1)
+		ploty2 = ploty1 + 0.00000001;
 
-	replot_maxy = - G_MAXDOUBLE/2;
-	replot_miny = G_MAXDOUBLE/2;
+	plot_maxy = - G_MAXDOUBLE/2;
+	plot_miny = G_MAXDOUBLE/2;
 
-	xscale = WIDTH/(replotx2-replotx1);
-	yscale = HEIGHT/(reploty2-reploty1);
+	plot_setup_axis ();
 
-	plot_axis (xscale, yscale, replotx1, replotx2, reploty1, reploty2);
-
-	for (i = 0; i < MAXFUNC && replot_func[i] != NULL; i++) {
-		plot_func (ctx, replot_func[i], colors[i],
-			   xscale, yscale, replotx1, replotx2, reploty1, reploty2);
-
-		if (interrupted) break;
-
-		label_func (ctx, i, replot_func[i], colors[i]);
-
-		if (evalnode_hook)
-			(*evalnode_hook)();
-
-		if (interrupted) break;
+	if G_UNLIKELY (plot_arg == NULL) {
+		plot_ctx = eval_get_context ();
+	}
+	if G_UNLIKELY (plot_arg == NULL) {
+		mpw_t xx;
+		mpw_init (xx);
+		plot_arg = gel_makenum_use (xx);
 	}
 
-	if (graph_window != NULL) {
-		gtk_dialog_set_response_sensitive (GTK_DIALOG (graph_window),
-						   RESPONSE_STOP, FALSE);
-		gtk_dialog_set_response_sensitive (GTK_DIALOG (graph_window),
-						   RESPONSE_ZOOMOUT, TRUE);
+	for (i = 0; i < MAXFUNC && plot_func[i] != NULL; i++) {
+		GdkColor color;
+		char *label;
+
+		line_data[i] = GTK_PLOT_DATA
+			(gtk_plot_data_new_function (plot_func_data));
+		gtk_plot_add_data (GTK_PLOT (line_plot),
+				   line_data[i]);
+
+		gtk_widget_show (GTK_WIDGET (line_data[i]));
+
+		gdk_color_parse (colors[i], &color);
+		gdk_color_alloc (gdk_colormap_get_system (), &color); 
+		gtk_plot_data_set_line_attributes (line_data[i],
+						   GTK_PLOT_LINE_SOLID,
+						   0, 0, 2, &color);
+
+		label = label_func (i, plot_func[i], colors[i]);
+		gtk_plot_data_set_legend (line_data[i], label);
+		g_free (label);
 	}
 
-	replot_in_progress --;
+	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+	/* could be whacked by closing the window or some such */
+	if (plot_canvas != NULL)
+		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+
+	plot_in_progress --;
+
+	plot_window_setup ();
 }
 
 /*exact answer callback*/
@@ -1196,7 +1134,6 @@ function_from_expression (const char *e, gboolean *ex)
 static void
 plot_from_dialog (void)
 {
-	GelCtx *ctx;
 	int funcs = 0;
 	GelEFunc *func[MAXFUNC] = { NULL };
 	double x1, x2, y1, y2;
@@ -1266,24 +1203,25 @@ plot_from_dialog (void)
 		goto whack_copied_funcs;
 	}
 
-	replotx1 = x1;
-	replotx2 = x2;
-	reploty1 = y1;
-	reploty2 = y2;
+	plotx1 = x1;
+	plotx2 = x2;
+	ploty1 = y1;
+	ploty2 = y2;
 
-	for (i = 0; i < MAXFUNC && replot_func[i] != NULL; i++) {
-		d_freefunc (replot_func[i]);
-		replot_func[i] = NULL;
+	for (i = 0; i < MAXFUNC && plot_func[i] != NULL; i++) {
+		d_freefunc (plot_func[i]);
+		plot_func[i] = NULL;
 	}
 
 	for (i = 0; i < MAXFUNC && func[i] != NULL; i++) {
-		replot_func[i] = func[i];
+		plot_func[i] = func[i];
 		func[i] = NULL;
 	}
 
-	ctx = eval_get_context ();
-	replot_functions (ctx);
-	eval_free_context (ctx);
+	plot_functions ();
+
+	if (interrupted)
+		interrupted = FALSE;
 
 	gel_printout_infos ();
 	genius_setup.info_box = last_info;
@@ -1439,22 +1377,22 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 		goto whack_copied_funcs;
 	}
 
-	for (i = 0; i < MAXFUNC && replot_func[i] != NULL; i++) {
-		d_freefunc (replot_func[i]);
-		replot_func[i] = NULL;
+	for (i = 0; i < MAXFUNC && plot_func[i] != NULL; i++) {
+		d_freefunc (plot_func[i]);
+		plot_func[i] = NULL;
 	}
 
 	for (i = 0; i < MAXFUNC && func[i] != NULL; i++) {
-		replot_func[i] = func[i];
+		plot_func[i] = func[i];
 		func[i] = NULL;
 	}
 
-	replotx1 = x1;
-	replotx2 = x2;
-	reploty1 = y1;
-	reploty2 = y2;
+	plotx1 = x1;
+	plotx2 = x2;
+	ploty1 = y1;
+	ploty2 = y2;
 
-	replot_functions (ctx);
+	plot_functions ();
 
 	if (interrupted)
 		return NULL;
