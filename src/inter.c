@@ -163,8 +163,8 @@ get_cb_p_expression(char *s, FILE *torlfp)
 {
 	int finished;
 	GelETree *ret;
-	/*             "Dr.Genius> "*/
-	char *prompt = "         > ";
+	/*             "genius> "*/
+	char *prompt = "      > ";
 	toplevelokg = old_toplevelokg;
 
 	if(interrupted) {
@@ -181,7 +181,7 @@ get_cb_p_expression(char *s, FILE *torlfp)
 		p_expr = NULL;
 		(*got_expr_func)(ret);
 		interrupted = FALSE;
-		prompt = "Dr.Genius> ";
+		prompt = "genius> ";
 		goto done_with_get;
 	}
 	if(!*s)	{
@@ -199,7 +199,7 @@ get_cb_p_expression(char *s, FILE *torlfp)
 		p_expr = NULL;
 		(*got_expr_func)(ret);
 		interrupted = FALSE;
-		prompt = "Dr.Genius> ";
+		prompt = "genius> ";
 	}
 done_with_get:
 	if(!p_expr) p_expr = g_string_new("");
@@ -227,7 +227,7 @@ start_cb_p_expression(void (*get_func)(GelETree *), FILE *torlfp)
 	toplevelokg = ok_for_top(p_expr->str);
 
 	write_all_state_to_rl(torlfp);
-	fprintf(torlfp,"READLINE Dr.Genius> \n");
+	fprintf(torlfp,"READLINE genius> \n");
 	fflush(torlfp);
 }
 

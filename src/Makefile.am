@@ -26,7 +26,7 @@ INCLUDES = \
 	$(EXTRA_WARNING_CFLAGS)
 
 
-bin_PROGRAMS = gnome-genius genius
+bin_PROGRAMS = gnome-genius genius genius-readline-helper
 
 gnome_genius_SOURCES = 	\
 	calc.c		\
@@ -78,6 +78,18 @@ gnome_genius_LDADD = \
 	$(GENIUS_LIBS)				\
 	@READLINE_LIB@				\
 	@TERMCAP_LIB@
+
+genius_readline_helper_SOURCES = \
+ 	genius_lists.c			\
+	genius-readline-helper.c
+
+# FIXME: no need for so many libs
+genius_readline_helper_LDADD = \
+	-lm					\
+	$(GENIUS_LIBS)				\
+	@READLINE_LIB@				\
+	@TERMCAP_LIB@
+
 
 genius_SOURCES = 	\
 	calc.c		\

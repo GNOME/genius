@@ -5,6 +5,7 @@
 
 #include <glib.h>
 #include <ctype.h>
+#include <errno.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -20,10 +21,10 @@ extern const char *genius_operators[];
 
 
 static char *
-command_generator (char *text, int state)
+command_generator (const char *text, int state)
 {
 	static int oi,ti,pi,len;
-	static GList *fli;
+	static GList *fli = NULL;
 
 	if(!state) {
 		oi = 0;
@@ -65,7 +66,7 @@ command_generator (char *text, int state)
 }
 
 static char *
-plugin_generator (char *text, int state)
+plugin_generator (const char *text, int state)
 {
 	static int len;
 	static GList *li;
@@ -100,7 +101,7 @@ tab_completion (char *text, int start, int end)
 	if(toplevelokg &&
 	   (strncmp(p,"plugin ",7)==0 ||
 	    strncmp(p,"plugin\t",7)==0)) {
-		return completion_matches (text, plugin_generator);
+		return rl_completion_matches (text, plugin_generator);
 	}
 	
 	
@@ -111,7 +112,7 @@ tab_completion (char *text, int start, int end)
 	else
 		addtoplevels = FALSE;
 
-	return completion_matches (text, command_generator);
+	return rl_completion_matches (text, command_generator);
 }
 
 int
@@ -129,12 +130,15 @@ main(int argc, char *argv[])
 		exit(1);
 	}
 
+	sscanf (argv[1], "%d", &infd);
+	sscanf (argv[2], "%d", &outfd);
+
+	rl_catch_signals = 1;
+	rl_catch_sigwinch = 1;
+	rl_terminal_name = "xterm";
 	rl_readline_name = "Genius";
 	rl_attempted_completion_function =
 		(CPPFunction *)tab_completion;
-
-	sscanf(argv[1],"%d",&infd);
-	sscanf(argv[2],"%d",&outfd);
 
 	infp = fdopen(infd,"r");
 	
