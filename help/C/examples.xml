@@ -35,40 +35,40 @@ Here is a larger example, this basically redefines the internal <command>ref</co
 function MyOwnREF(m) = (
   if not IsMatrix(m) or not IsValueOnly(m) then
     (error("ref: argument not a value only matrix");bailout);
-  s = min(rows(m), columns(m));
-  i = 1;
-  d = 1;
+  s := min(rows(m), columns(m));
+  i := 1;
+  d := 1;
   while d <= s and i <= columns(m) do (
 
     # This just makes the anchor element non-zero if at
     # all possible
     if m@(d,i) == 0 then (
-      j = d+1;
+      j := d+1;
       while j <= rows(m) do (
         if m@(j,i) == 0 then
           (j=j+1;continue);
-        a = m@(j,);
-        m@(j,) = m@(d,);
-        m@(d,) = a;
-        j = j+1;
+        a := m@(j,);
+        m@(j,) := m@(d,);
+        m@(d,) := a;
+        j := j+1;
         break
       )
     );
     if m@(d,i) == 0 then
-      (i=i+1;continue);
+      (i:=i+1;continue);
     
     # Here comes the actual zeroing of all but the anchor
     # element rows
-    j = d+1;
+    j := d+1;
     while j <= rows(m)) do (
       if m@(j,i) != 0 then (
-        m@(j,) = m@(j,)-(m@(j,i)/m@(d,i))*m@(d,)
+        m@(j,) := m@(j,)-(m@(j,i)/m@(d,i))*m@(d,)
       );
-      j = j+1
+      j := j+1
     );
-    m@(d,) = m@(d,) * (1/m@(d,i));
-    d = d+1;
-    i = i+1
+    m@(d,) := m@(d,) * (1/m@(d,i));
+    d := d+1;
+    i := i+1
   );
   m
 )

@@ -1188,19 +1188,27 @@ Lvalues
    lvalues are:
 
    a
-          identifier
+          Identifier.  Here  we  would  be setting the varable of
+          name a.
 
    *a
-          dereference of an identifier
+          Dereference  of  an  identifier. This will set whatever
+          variable a points to.
 
-   a@(&#12296;region&#12297;)
-          a  region  of  a  matrix (where the region is specified
-          normally as with the regular @() operator)
+   a@(<region>)
+          A  region  of  a  matrix.  Here the region is specified
+          normally as with the regular @() operator, and can be a
+          single entry, or an entire region of the matrix.
 
    Examples:
-a=4
-*tmp = 89
-a@(4..8,3)=[1,2,3,4,5]'
+a:=4
+*tmp := 89
+a@(1,1) := 5
+a@(4:8,3) := [1,2,3,4,5]'
+
+   Note  that  both  := and = can be used interchangably. That is
+   except  if  the  assignment appears in a condition. It is thus
+   always safer to just use := when you mean assignment.
      _________________________________________________________
 
 Advanced Programming with GEL
@@ -4165,40 +4173,40 @@ function f(x) = (
 function MyOwnREF(m) = (
   if not IsMatrix(m) or not IsValueOnly(m) then
     (error("ref: argument not a value only matrix");bailout);
-  s = min(rows(m), columns(m));
-  i = 1;
-  d = 1;
+  s := min(rows(m), columns(m));
+  i := 1;
+  d := 1;
   while d <= s and i <= columns(m) do (
 
     # This just makes the anchor element non-zero if at
     # all possible
     if m@(d,i) == 0 then (
-      j = d+1;
+      j := d+1;
       while j <= rows(m) do (
         if m@(j,i) == 0 then
           (j=j+1;continue);
-        a = m@(j,);
-        m@(j,) = m@(d,);
-        m@(d,) = a;
-        j = j+1;
+        a := m@(j,);
+        m@(j,) := m@(d,);
+        m@(d,) := a;
+        j := j+1;
         break
       )
     );
     if m@(d,i) == 0 then
-      (i=i+1;continue);
+      (i:=i+1;continue);
 
     # Here comes the actual zeroing of all but the anchor
     # element rows
-    j = d+1;
+    j := d+1;
     while j <= rows(m)) do (
       if m@(j,i) != 0 then (
-        m@(j,) = m@(j,)-(m@(j,i)/m@(d,i))*m@(d,)
+        m@(j,) := m@(j,)-(m@(j,i)/m@(d,i))*m@(d,)
       );
-      j = j+1
+      j := j+1
     );
-    m@(d,) = m@(d,) * (1/m@(d,i));
-    d = d+1;
-    i = i+1
+    m@(d,) := m@(d,) * (1/m@(d,i));
+    d := d+1;
+    i := i+1
   );
   m
 )
