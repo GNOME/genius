@@ -30,6 +30,8 @@
 #include <signal.h>
 #ifdef HAVE_WORDEXP
 #include <wordexp.h>
+#else
+#include <glob.h>
 #endif
 #include <stdio.h>
 #include <string.h>
