@@ -173,7 +173,8 @@ gel_matrix_conjugate_transpose (GelMatrixW *m)
 }
 
 void
-gel_value_matrix_multiply(GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2)
+gel_value_matrix_multiply (GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2,
+			   mpw_ptr modulo)
 {
 	int i,j,k;
 	mpw_t tmp;
@@ -188,6 +189,14 @@ gel_value_matrix_multiply(GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2)
 				GelETree *r = gel_matrixw_index(m2,i,k);
 				mpw_mul(tmp,l->val.value,r->val.value);
 				mpw_add(accu,accu,tmp);
+				if (modulo != NULL) {
+					mpw_mod (accu, accu, modulo);
+					if (error_num != 0) { /*FIXME: for now ignore errors in moding*/
+						error_num = 0;
+					}
+					if (mpw_sgn (accu) < 0)
+						mpw_add (accu, modulo, accu);
+				}
 				/*XXX: are there any problems that could occur
 				  here? ... I don't seem to see any, if there
 				  are catch them here*/
@@ -258,6 +267,7 @@ mul_sub_row(GelMatrixW *m, int row, mpw_t mul, int row2)
 
 /*NOTE: if simul is passed then we assume that it's the same size as m*/
 /* return FALSE if singular */
+/* FIXME: if modular arithmetic is on, work over the modulo!!!! */
 gboolean
 gel_value_matrix_gauss(GelMatrixW *m, gboolean reduce, gboolean uppertriang, gboolean stopsing, mpw_ptr detop, GelMatrixW *simul)
 {

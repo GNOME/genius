@@ -271,6 +271,7 @@ rand_op (GelCtx *ctx, GelETree * * a, int *exception)
 		int size, i;
 
 		if (a[0]->type != VALUE_NODE ||
+		    mpw_is_complex(a[0]->val.value) ||
 		     ! mpw_is_integer (a[0]->val.value)) {
 			(*errorout)(_("rand: arguments must be integers"));
 			return NULL;
@@ -303,6 +304,8 @@ rand_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 		if (a[0]->type != VALUE_NODE ||
 		    a[1]->type != VALUE_NODE ||
+		    mpw_is_complex(a[0]->val.value) ||
+		    mpw_is_complex(a[1]->val.value) ||
 		    ! mpw_is_integer (a[0]->val.value) ||
 		    ! mpw_is_integer (a[1]->val.value)) {
 			(*errorout)(_("rand: arguments must be integers"));
@@ -356,6 +359,7 @@ randint_op (GelCtx *ctx, GelETree * * a, int *exception)
 		mpw_t fr; 
 
 		if (a[0]->type != VALUE_NODE ||
+		    mpw_is_complex(a[0]->val.value) ||
 		    ! mpw_is_integer (a[0]->val.value)) {
 			(*errorout)(_("randint: arguments must be integers"));
 			return NULL;
@@ -376,6 +380,8 @@ randint_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 		if (a[0]->type != VALUE_NODE ||
 		    a[1]->type != VALUE_NODE ||
+		    mpw_is_complex (a[0]->val.value) ||
+		    mpw_is_complex (a[1]->val.value) ||
 		    ! mpw_is_integer (a[0]->val.value) ||
 		    ! mpw_is_integer (a[1]->val.value)) {
 			(*errorout)(_("randint: arguments must be integers"));
@@ -420,6 +426,9 @@ randint_op (GelCtx *ctx, GelETree * * a, int *exception)
 		if (a[0]->type != VALUE_NODE ||
 		    a[1]->type != VALUE_NODE ||
 		    a[2]->type != VALUE_NODE ||
+		    mpw_is_complex (a[0]->val.value) ||
+		    mpw_is_complex (a[1]->val.value) ||
+		    mpw_is_complex (a[2]->val.value) ||
 		    ! mpw_is_integer (a[0]->val.value) ||
 		    ! mpw_is_integer (a[1]->val.value) ||
 		    ! mpw_is_integer (a[2]->val.value)) {
@@ -593,6 +602,7 @@ apply_func_to_matrix (GelCtx *ctx, GelETree *mat,
 
 				gel_matrixw_set_index(new,i,j) = nn;
 			} else if (e->type == VALUE_NODE &&
+				   ! mpw_is_complex (e->val.value) &&
 				   mpw_is_integer (e->val.value) &&
 				   mpw_sgn (e->val.value) == 0) {
 				gel_freetree (e);
@@ -1284,7 +1294,8 @@ gcd_op(GelCtx *ctx, GelETree * * a, int *exception)
 			return gel_makenum_use (gcd);
 		} else if (a[0]->type == VALUE_NODE) {
 			mpw_t tmp;
-			if ( ! mpw_is_integer (a[0]->val.value)) {
+			if (mpw_is_complex (a[0]->val.value) ||
+			    ! mpw_is_integer (a[0]->val.value)) {
 				(*errorout)(_("gcd: argument must be an integer"));
 				return NULL;
 			}
@@ -1383,7 +1394,8 @@ lcm_op(GelCtx *ctx, GelETree * * a, int *exception)
 			return gel_makenum_use (lcm);
 		} else if (a[0]->type == VALUE_NODE) {
 			mpw_t tmp;
-			if ( ! mpw_is_integer (a[0]->val.value)) {
+			if (mpw_is_complex (a[0]->val.value) ||
+			    ! mpw_is_integer (a[0]->val.value)) {
 				(*errorout)(_("lcm: argument must be an integer"));
 				return NULL;
 			}
@@ -1741,7 +1753,8 @@ I_op(GelCtx *ctx, GelETree * * a, int *exception)
 	int i,j;
 
 	if(a[0]->type!=VALUE_NODE ||
-	   !mpw_is_integer(a[0]->val.value)) {
+	   mpw_is_complex (a[0]->val.value) ||
+	   ! mpw_is_integer(a[0]->val.value)) {
 		(*errorout)(_("I: argument not an integer"));
 		return NULL;
 	}
@@ -1773,10 +1786,12 @@ zeros_op (GelCtx *ctx, GelETree * * a, int *exception)
 	long rows, cols;
 
 	if(a[0]->type!=VALUE_NODE ||
+	   mpw_is_complex (a[0]->val.value) ||
 	   !mpw_is_integer(a[0]->val.value) ||
 	   a[1]->type!=VALUE_NODE ||
+	   mpw_is_complex (a[1]->val.value) ||
 	   !mpw_is_integer(a[1]->val.value)) {
-		(*errorout)(_("zeros: argument not an integer"));
+		(*errorout)(_("zeros: arguments not an integers"));
 		return NULL;
 	}
 
@@ -1805,8 +1820,10 @@ ones_op (GelCtx *ctx, GelETree * * a, int *exception)
 	int i, j;
 
 	if(a[0]->type!=VALUE_NODE ||
+	   mpw_is_complex (a[0]->val.value) ||
 	   !mpw_is_integer(a[0]->val.value) ||
 	   a[1]->type!=VALUE_NODE ||
+	   mpw_is_complex (a[1]->val.value) ||
 	   !mpw_is_integer(a[1]->val.value)) {
 		(*errorout)(_("ones: argument not an integer"));
 		return NULL;
@@ -2071,6 +2088,7 @@ prime_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return apply_func_to_matrix(ctx,a[0],prime_op,"prime");
 
 	if(a[0]->type!=VALUE_NODE ||
+	   mpw_is_complex (a[0]->val.value) ||
 	   !mpw_is_integer(a[0]->val.value)) {
 		(*errorout)(_("prime: argument not an integer"));
 		return NULL;
@@ -2607,6 +2625,278 @@ SetHelpAlias_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
+etree_out_of_int_vector (int *vec, int len)
+{
+	GelMatrix *mm;
+	int i;
+	GelETree *n;
+
+	mm = gel_matrix_new ();
+	gel_matrix_set_size (mm, len, 1, FALSE /* padding */);
+
+	for (i = 0; i < len; i++) {
+		gel_matrix_index (mm, i, 0) = gel_makenum_si (vec[i]);
+	}
+
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_new_with_matrix (mm);
+	n->mat.quoted = 0;
+
+	return n;
+}
+
+static GelETree *
+etree_out_of_etree_list (GSList *list, int len)
+{
+	GelMatrix *mm;
+	GSList *li;
+	int i;
+	GelETree *n;
+
+	mm = gel_matrix_new ();
+	gel_matrix_set_size (mm, len, 1, FALSE /* padding */);
+
+	li = list;
+	for (i = 0; i < len; i++) {
+		gel_matrix_index (mm, i, 0) = li->data;
+		li = li->next;
+	}
+
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_new_with_matrix (mm);
+	n->mat.quoted = 0;
+
+	return n;
+}
+
+static gboolean
+comb_get_next_combination (int *vec, int len, int n)
+{
+	int i = len;
+	int j;
+
+	/* do you like my gel -> C porting? */
+
+	while (i > 0 && vec[i-1] == n-(len-i)) {
+		i--;
+	}
+	if (i == 0) {
+		return FALSE;
+	} else {
+		vec[i-1] ++;
+		for (j = i+1; j <= len; j++)
+			vec[j-1] = vec[j-2]+1;
+	}
+	return TRUE;
+}
+
+static gboolean
+perm_is_pos_mobile (int *perm, char *arrow, int pos, int n)
+{
+	if (arrow[pos]=='L' && pos==0)
+		return FALSE;
+	else if (arrow[pos]=='R' && pos==n-1)
+		return FALSE;
+	else if (arrow[pos]=='L' && perm[pos] > perm[pos-1])
+		return TRUE;
+	else if (arrow[pos]=='R' && perm[pos] > perm[pos+1])
+		return TRUE;
+	else
+		return FALSE;
+}
+
+static int
+perm_get_highest_mobile (int *perm, char *arrow, int n)
+{
+	int highest = -1;
+	int i;
+	for (i = 0; i < n; i++) {
+		if (perm_is_pos_mobile (perm, arrow, i, n) &&
+		    (highest == -1 || perm[highest] < perm[i]))
+			highest = i;
+	}
+	return highest;
+}
+
+static void
+perm_move_pos (int *perm, char *arrow, int pos, int n)
+{
+	if (arrow[pos] == 'L') {
+		char t;
+		g_assert (pos > 0);
+		t = perm[pos];
+		perm[pos] = perm[pos-1];
+		perm[pos-1] = t;
+		t = arrow[pos];
+		arrow[pos] = arrow[pos-1];
+		arrow[pos-1] = t;
+	} else {
+		char t;
+		g_assert (pos < n-1);
+		t = perm[pos];
+		perm[pos] = perm[pos+1];
+		perm[pos+1] = t;
+		t = arrow[pos];
+		arrow[pos] = arrow[pos+1];
+		arrow[pos+1] = t;
+	}
+}
+
+static void
+perm_switch_all_above (int *perm, char *arrow, int pos, int n)
+{
+	int i;
+	for (i = 0; i < n; i++) {
+		if (perm[i] > perm[pos]) {
+			if (arrow[i] == 'L')
+				arrow[i] = 'R';
+			else
+				arrow[i] = 'L';
+		}
+	}
+}
+
+static GelETree *
+Combinations_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	long k, n;
+	int *comb;
+	int i;
+	GSList *list;
+	int len;
+	GelETree *r;
+
+	if (a[0]->type != VALUE_NODE ||
+	   mpw_is_complex (a[0]->val.value) ||
+	   ! mpw_is_integer (a[0]->val.value) ||
+	   a[1]->type != VALUE_NODE ||
+	   mpw_is_complex (a[1]->val.value) ||
+	   ! mpw_is_integer (a[1]->val.value)) {
+		(*errorout)(_("Combinations: arguments not an integers"));
+		return NULL;
+	}
+
+	error_num = 0;
+	k = mpw_get_long(a[0]->val.value);
+	if (error_num != 0) {
+		error_num = 0;
+		return NULL;
+	}
+	n = mpw_get_long(a[1]->val.value);
+	if (error_num != 0) {
+		error_num = 0;
+		return NULL;
+	}
+	if (n < 1 || n > INT_MAX || k < 1 || k > n) {
+		(*errorout)(_("Combinations: arguments out of range"));
+		return NULL;
+	}
+
+	list = NULL;
+	len = 0;
+
+	comb = g_new (int, k);
+	for (i = 0; i < k; i++)
+		comb[i] = i+1;
+
+	do {
+		list = g_slist_prepend (list, etree_out_of_int_vector (comb, k));
+		len++;
+	} while (comb_get_next_combination (comb, k, n));
+
+	g_free (comb);
+
+	list = g_slist_reverse (list);
+
+	r = etree_out_of_etree_list (list, len);
+
+	g_slist_free (list);
+
+	return r;
+}
+
+static GelETree *
+Permutations_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GelETree *r;
+	GSList *list;
+	long k, n, len;
+	int *comb;
+	int *perm;
+	char *arrow;
+	int i;
+
+	if (a[0]->type != VALUE_NODE ||
+	   mpw_is_complex (a[0]->val.value) ||
+	   ! mpw_is_integer (a[0]->val.value) ||
+	   a[1]->type != VALUE_NODE ||
+	   mpw_is_complex (a[1]->val.value) ||
+	   ! mpw_is_integer (a[1]->val.value)) {
+		(*errorout)(_("Permutations: arguments not an integers"));
+		return NULL;
+	}
+
+	error_num = 0;
+	k = mpw_get_long(a[0]->val.value);
+	if (error_num != 0) {
+		error_num = 0;
+		return NULL;
+	}
+	n = mpw_get_long(a[1]->val.value);
+	if (error_num != 0) {
+		error_num = 0;
+		return NULL;
+	}
+	if (n < 1 || n > INT_MAX || k < 1 || k > n) {
+		(*errorout)(_("Permutations: arguments out of range"));
+		return NULL;
+	}
+
+	arrow = g_new (char, k);
+	perm = g_new (int, k);
+	comb = g_new (int, k);
+
+	for (i = 0; i < k; i++)
+		comb[i] = i+1;
+
+	list = NULL;
+	len = 0;
+
+	do {
+		for (i = 0; i < k; i++)
+			perm[i] = comb[i];
+		for (i = 0; i < k; i++)
+			arrow[i] = 'L';
+		for (;;) {
+			int m;
+
+			list = g_slist_prepend (list, etree_out_of_int_vector (perm, k));
+			len++;
+
+			m = perm_get_highest_mobile (perm, arrow, k);
+			if (m == -1)
+				break;
+			perm_switch_all_above (perm, arrow, m, k);
+			perm_move_pos (perm, arrow, m, k);
+		}
+	} while (comb_get_next_combination (comb, k, n));
+
+	g_free (comb);
+	g_free (perm);
+	g_free (arrow);
+
+	list = g_slist_reverse (list);
+
+	r = etree_out_of_etree_list (list, len);
+
+	g_slist_free (list);
+
+	return r;
+}
+
+static GelETree *
 protect_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	GelToken *tok;
@@ -2644,6 +2934,7 @@ set_FloatPrecision (GelETree * a)
 	long bits;
 
 	if(a->type!=VALUE_NODE ||
+	   mpw_is_complex(a->val.value) ||
 	   !mpw_is_integer(a->val.value)) {
 		(*errorout)(_("FloatPrecision: argument not an integer"));
 		return NULL;
@@ -2681,6 +2972,7 @@ set_MaxDigits (GelETree * a)
 	long digits;
 
 	if(a->type!=VALUE_NODE ||
+	   mpw_is_complex(a->val.value) ||
 	   !mpw_is_integer(a->val.value)) {
 		(*errorout)(_("MaxDigits: argument not an integer"));
 		return NULL;
@@ -2839,6 +3131,7 @@ set_MaxErrors (GelETree * a)
 	long errors;
 
 	if(a->type!=VALUE_NODE ||
+	   mpw_is_complex(a->val.value) ||
 	   !mpw_is_integer(a->val.value)) {
 		(*errorout)(_("MaxErrors: argument not an integer"));
 		return NULL;
@@ -2900,6 +3193,7 @@ set_IntegerOutputBase (GelETree * a)
 	long base;
 
 	if(a->type!=VALUE_NODE ||
+	   mpw_is_complex(a->val.value) ||
 	   !mpw_is_integer(a->val.value)) {
 		(*errorout)(_("IntegerOutputBase: argument not an integer"));
 		return NULL;
@@ -3143,6 +3437,9 @@ gel_funclib_addall(void)
 	FUNC (IsPoly, 1, "p", "polynomial", _("Check if a vector is usable as a polynomial"));
 	VFUNC (PolyToString, 2, "p,var", "polynomial", _("Make string out of a polynomial (as vector)"));
 	FUNC (PolyToFunction, 1, "p", "polynomial", _("Make function out of a polynomial (as vector)"));
+
+	FUNC (Combinations, 2, "k,n", "combinatorics", _("Get all combinations of k numbers from 1 to n as a vector of vectors"));
+	FUNC (Permutations, 2, "k,n", "combinatorics", _("Get all permutations of k numbers from 1 to n as a vector of vectors"));
 
 	FUNC (protect, 1, "id", "basic", _("Protect a variable from being modified"));
 	FUNC (unprotect, 1, "id", "basic", _("Unprotect a variable from being modified"));

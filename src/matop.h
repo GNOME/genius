@@ -34,7 +34,7 @@ gboolean gel_is_matrix_value_only_real (GelMatrixW *m);
 gboolean gel_is_matrix_value_only_rational (GelMatrixW *m);
 gboolean gel_is_matrix_value_only_integer (GelMatrixW *m);
 void gel_matrix_conjugate_transpose (GelMatrixW *m);
-void gel_value_matrix_multiply (GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2);
+void gel_value_matrix_multiply (GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2, mpw_ptr modulo);
 gboolean gel_value_matrix_det (mpw_t rop, GelMatrixW *m);
 /*NOTE: if simul is passed then we assume that it's the same size as m*/
 /* return FALSE if singular */

@@ -1,3 +1,18 @@
+Fri Nov 01 11:58:39 2002  George Lebl <jirka@5z.com>
+
+	* src/funclib.c: add a Combinations and Permutations function.  Also
+	  fix checking for integers if complex numbers are passed
+
+	* lib/linear_algebra/linear_algebra.gel,
+	  lib/linear_algebra/misc.gel:  Whack GAMMA (use Combinations name),
+	  and fix some other naming, fix complex DotProduct add InnerProduct
+	  alias, switch arguemnts on JordanBlock, add OuterProduct of
+	  vectors, clean up norms to reduce it to 2 functions
+
+	* src/eval.c, src/matop.[ch], src/structs.h: Implement basic modular
+	  arithmetic.  Not currently too smart but usable for basic modulo
+	  operations. 
+
 Wed Oct 30 15:40:09 2002  George Lebl <jirka@5z.com>
 
 	* src/eval.c: fix optimization of the matrix expansion for 1x1

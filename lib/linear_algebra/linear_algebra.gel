@@ -192,6 +192,7 @@ protect ("DirectSum");
 # Note that given an integer matrix, returns true iff it is invertible OVER THE INTEGERS,
 # so for instance [2,0;0,1] is not invertible
 # FIXME: We need good coercion rules!
+SetHelp ("IsInvertible", "linear_algebra", "Is a matrix (or number) invertible (Integer matrix is invertible iff it's invertible over the integers)")
 function IsInvertible(n) =
 (
  if (IsInteger(n)) then return (|n|==1)     # Only invertible integers are 1, -1
@@ -203,6 +204,7 @@ function IsInvertible(n) =
 )
 protect ("IsInvertible")
 
+SetHelp ("IsInvertibleField", "linear_algebra", "Is a matrix (or number) invertible over a field")
 function IsInvertibleField(n) =
 (
  if (IsValue(n)) then return (n!=0)    # Elements of fields (Q,R,C) are invertible iff != 0
@@ -248,7 +250,7 @@ protect ("AuxilliaryUnitMatrix")
 
 # AuxilliaryUnitMatrix
 SetHelp("JordanBlock", "linear_algebra", "Get the jordan block corresponding to lambda and n")
-function JordanBlock(lambda,n) =
+function JordanBlock(n,lambda) =
 (
   if not IsInteger (n) or n < 1 then
     (error ("JordanBlock: n must be an integer greater then 0");bailout)
@@ -261,7 +263,7 @@ function JordanBlock(lambda,n) =
 )
 protect ("JordanBlock")
 SetHelpAlias("JordanBlock", "J")
-function J(lambda,n) = JordanBlock(lambda,n)
+J = JordanBlock
 protect ("J")
 
 # Dot product
@@ -271,50 +273,52 @@ function DotProduct(u,v) =
   if not IsVector (u) or not IsVector (v) then
     (error ("DotProduct: u,v must be vectors");bailout)
   else if columns (u) == 1 and columns (v) == 1 then
-    ( u .' * v )@(1)
+    ( u .' * conj (v) )@(1)
   else if rows (u) == 1 and columns (v) == 1 then
-    ( u * v )@(1)
+    ( u * conj (v) )@(1)
   else if rows (u) == 1 and rows (v) == 1 then
-    ( u * ( v .' ) )@(1)
+    ( u * (v') )@(1)
   else # if columns (u) == 1 and rows (v) == 1 then
-    ( ( u .' ) * ( v .' ) )@(1)
+    ( ( u .' ) * (v') )@(1)
 )
 protect ("DotProduct")
 
-# Norms
-SetHelp("L2Norm", "linear_algebra", "Get the L-2 Norm of a vector");
-function L2Norm(v) = (
-  if not IsVector (v) then
-    (error ("L2Norm: v must be a vector");bailout)
-  else
-    sqrt (DotProduct (v,v))
-)
-protect("L2Norm")
+SetHelpAlias("DotProduct", "InnerProduct")
+InnerProduct = DotProduct
+protect ("InnerProduct")
 
-SetHelp("LInfNorm", "linear_algebra", "Get the L-Inf Norm of a vector");
-function LInfNorm(v) = (
+# Outer product
+SetHelp("OuterProduct", "matrix", "Get the outer product of two vectors")
+function OuterProduct(u,v) =
+(
+  if not IsVector (u) or not IsVector (v) then
+    (error ("DotProduct: u,v must be vectors");bailout)
+  else if columns (u) == 1 and columns (v) == 1 then
+    ( u * (v') )@(1)
+  else if rows (u) == 1 and columns (v) == 1 then
+    ( (u.') * (v') )@(1)
+  else if rows (u) == 1 and rows (v) == 1 then
+    ( (u.') * conj(v) )@(1)
+  else # if columns (u) == 1 and rows (v) == 1 then
+    ( u * conj(v) )@(1)
+)
+protect ("OuterProduct")
+
+SetHelp("InfNorm", "linear_algebra", "Get the Inf Norm of a vector");
+function InfNorm(v) = (
   if not IsVector (v) then
-    (error ("LInfNorm: v must be a vector");bailout)
+    (error ("InfNorm: v must be a vector");bailout)
   else
     max (|v|)
 )
-protect("LInfNorm")
+protect("InfNorm")
 
-SetHelp("LpNorm", "linear_algebra", "Get the L-p Norm of a vector");
-function LpNorm(v,p) = (
-  if not IsVector (v) then
-    (error ("LpNorm: v must be a vector");bailout)
-  else
-    (sum k in v do (|k|^p))^(1/p)
-)
-protect("LpNorm")
-
-SetHelp("Norm", "linear_algebra", "Get the L-p Norm (or L-2 Norm) of a vector");
+SetHelp("Norm", "linear_algebra", "Get the p Norm (or 2 Norm if no p is supplied) of a vector");
 function Norm(v,p...) = (
   if not IsVector (v) then
     (error ("Norm: v must be a vector");bailout)
   else if IsNull(p) then
-    L2Norm (v)
+    sqrt (DotProduct (v,v))
   else if elements(p) > 1 or not IsInteger(p@(1)) then
     (error ("Norm: p must be an integer or not specified");bailout)
   else
@@ -333,7 +337,7 @@ function CharacteristicPolynomial(M) = (
 	n = columns(M);
 	v = [ det (M) ];
 	for i=2 to n-1 do
-		v@(i) = (-1) ^ (i-1) * sum gamma in GAMMA(n-i+1,n) do det (Submatrix (M, gamma, gamma));
+		v@(i) = (-1) ^ (i-1) * sum gamma in Combinations(n-i+1,n) do det (Submatrix (M, gamma, gamma));
 	v@(n) = (-1) ^ (n-1) * trace (M);
 	v@(n+1) = (-1) ^ n;
 	v
@@ -355,8 +359,8 @@ function DeterminantalDivisorsInteger(M) = (
 	n = rows (M);
 	for k=2 to n-1 do (
 		g = 0;
-		for gamma in GAMMA(k,n) do
-			for omega in GAMMA(k,n) do
+		for gamma in Combinations(k,n) do
+			for omega in Combinations(k,n) do
 				g = gcd (g, det (Submatrix (M, gamma, omega)));
 		v@(k) = g
 	);

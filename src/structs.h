@@ -254,6 +254,8 @@ enum {
 	GE_LOOP_COND,
 	GE_FOR,
 	GE_FORIN,
+	GE_MODULOOP,
+	GE_SETMODULO
 };
 
 /*should take up about a page
@@ -310,6 +312,7 @@ struct _GelCtx {
 	GelETree *res;
 	int post;
 	GelETree *current;
+	mpw_ptr modulo;
 };
 
 enum {
