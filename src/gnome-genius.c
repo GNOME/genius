@@ -101,6 +101,7 @@ static char *last_dir = NULL;
 GeniusSetup genius_setup = {
 	FALSE /* error_box */,
 	TRUE /* info_box */,
+	TRUE /* blinking_cursor */,
 	1000 /* scrollback */,
 	NULL /* font */,
 	FALSE /* black on white */
@@ -739,13 +740,18 @@ aboutcb(GtkWidget * widget, gpointer data)
 static void
 set_properties (void)
 {
-	gnome_config_set_bool("/genius/properties/black_on_white", genius_setup.black_on_white);
+	gnome_config_set_bool("/genius/properties/black_on_white",
+			      genius_setup.black_on_white);
 	gnome_config_set_string ("/genius/properties/pango_font",
 				 ve_sure_string (genius_setup.font));
-	gnome_config_set_int("/genius/properties/scrollback", genius_setup.scrollback);
-	gnome_config_set_bool("/genius/properties/error_box", genius_setup.error_box);
+	gnome_config_set_int("/genius/properties/scrollback",
+			     genius_setup.scrollback);
+	gnome_config_set_bool("/genius/properties/error_box",
+			      genius_setup.error_box);
 	gnome_config_set_bool("/genius/properties/info_box",
 			      genius_setup.info_box);
+	gnome_config_set_bool("/genius/properties/blinking_cursor",
+			      genius_setup.blinking_cursor);
 	gnome_config_set_int("/genius/properties/max_digits", 
 			      curstate.max_digits);
 	gnome_config_set_bool("/genius/properties/results_as_floats",
@@ -971,6 +977,10 @@ setup_response (GtkWidget *widget, gint resp, gpointer data)
 			   default_console_font :
 			   genius_setup.font);
 		setup_term_color ();
+		vte_terminal_set_cursor_blinks
+			(VTE_TERMINAL (term),
+			genius_setup.blinking_cursor);
+
 
 		if (resp == GTK_RESPONSE_OK ||
 		    resp == GTK_RESPONSE_CANCEL)
@@ -1231,6 +1241,14 @@ setup_calc(GtkWidget *widget, gpointer data)
 	g_signal_connect (G_OBJECT(w), "toggled",
 			  G_CALLBACK (optioncb),
 			  (gpointer)&tmpsetup.black_on_white);
+
+	w=gtk_check_button_new_with_label(_("Blinking cursor"));
+	gtk_box_pack_start(GTK_BOX(box),w,FALSE,FALSE,0);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), 
+				      tmpsetup.blinking_cursor);
+	g_signal_connect (G_OBJECT(w), "toggled",
+			  G_CALLBACK (optioncb),
+			  (gpointer)&tmpsetup.blinking_cursor);
 
 
 	g_signal_connect (G_OBJECT (setupdialog), "response",
@@ -2406,18 +2424,26 @@ get_properties (void)
 	g_snprintf(buf,256,"/genius/properties/black_on_white=%s",
 		   (genius_setup.black_on_white)?"true":"false");
 	genius_setup.black_on_white = gnome_config_get_bool(buf);
+
 	g_snprintf (buf, 256, "/genius/properties/pango_font=%s",
 		    ve_sure_string (genius_setup.font));
 	genius_setup.font = gnome_config_get_string (buf);
+
 	g_snprintf(buf,256,"/genius/properties/scrollback=%d",
 		   genius_setup.scrollback);
 	genius_setup.scrollback = gnome_config_get_int(buf);
+
 	g_snprintf(buf,256,"/genius/properties/error_box=%s",
 		   (genius_setup.error_box)?"true":"false");
 	genius_setup.error_box = gnome_config_get_bool(buf);
+
 	g_snprintf(buf,256,"/genius/properties/info_box=%s",
 		   (genius_setup.info_box)?"true":"false");
 	genius_setup.info_box = gnome_config_get_bool(buf);
+
+	g_snprintf(buf,256,"/genius/properties/blinking_cursor=%s",
+		   (genius_setup.blinking_cursor)?"true":"false");
+	genius_setup.blinking_cursor = gnome_config_get_bool(buf);
 	
 	g_snprintf(buf,256,"/genius/properties/max_digits=%d",
 		   curstate.max_digits);
@@ -3051,6 +3077,9 @@ main (int argc, char *argv[])
 					     default_console_font :
 					     genius_setup.font);
 	setup_term_color ();
+	vte_terminal_set_cursor_blinks
+		(VTE_TERMINAL (term),
+		 genius_setup.blinking_cursor);
 	vte_terminal_set_encoding (VTE_TERMINAL (term), "UTF-8");
 
 	gtk_widget_show_now (genius_window);

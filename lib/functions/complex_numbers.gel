@@ -52,3 +52,40 @@ protect("MoebiusMappingInftyToInfty");
 SetHelp("cis","functions","The cis function, that is cos(x)+i*sin(x)");
 function cis(x) = cos(x)+(sin(x))i
 protect("cis");
+
+# FIXME: this is too stupid, must have better implementation
+# to be at all useful
+#SetHelp("ZetaFunctionTolerance", "parameters", "Tolerance for the ZetaFunction");
+#parameter ZetaFunctionTolerance = 10.0^(-5);
+#
+#SetHelp("ZetaFunction","functions","The Riemann zeta function up to ZetaFunctuionTolerance");
+#function ZetaFunction(z) = (
+	#if z == 1 then (
+		#(error("ZetaFunction: 1 is a pole");bailout);
+	#) else if Re(z) > 0 then (
+		## FIXME: this is stupid!
+		#oldtol = SumProductTolerance;
+		#oldtries = SumProductNumberOfTries;
+		#SumProductTolerance = ZetaFunctionTolerance;
+		#SumProductNumberOfTries = 100000;
+		#zeta = InfiniteSum (`(n) = float(1/(n^z)), 1, 1);
+		#SumProductTolerance = oldtol;
+		#SumProductNumberOfTries = oldtries;
+		#if IsNull (zeta) then
+			#(error("ZetaFunction: Cannot do within tolerance");bailout);
+		#zeta
+	#) else (
+		## FIXME: implement this
+		#(error("ZetaFunction: Not yet defined for Re z < 0");bailout);
+	#)
+#)
+#protect("ZetaFunction");
+
+#SetHelp("GammaFunctionTolerance", "parameters", "Tolerance for the GammaFunction");
+#parameter GammaFunctionTolerance = 10.0^(-10);
+
+#SetHelp("GammaFunction","functions","The gamma function up to ZetaFunctuionTolerance");
+#function GammaFunction(z) = (
+# FIXME: implement
+#)
+#protect("GammaFunction");

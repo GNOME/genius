@@ -25,6 +25,7 @@
 typedef struct {
 	gboolean error_box;
 	gboolean info_box;
+	gboolean blinking_cursor;
 	int scrollback;
 	char *font;
 	gboolean black_on_white;
