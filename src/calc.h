@@ -25,9 +25,11 @@
 #include <stdio.h>
 #include <glib.h>
 
+#include "genius-i18n.h"
+
 #include "structs.h"
 
-#define COPYRIGHT_STRING "Copyright (C) 1997-2003 George Lebl"
+#define COPYRIGHT_STRING "Copyright (C) 1997-2004 George Lebl"
 
 typedef enum {
 	NO_ERROR = 0,

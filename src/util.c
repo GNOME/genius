@@ -21,11 +21,11 @@
 
 #include "config.h"
 
-#include <gnome.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
+#include "genius-i18n.h"
 #include "util.h"
 
 void *

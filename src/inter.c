@@ -21,17 +21,16 @@
 
 #include "config.h"
 
-#include <gnome.h>
-
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <glib.h>
 #include <ctype.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#include "dict.h"
 #include "calc.h"
+#include "dict.h"
 #include "plugin.h"
 
 #include "inter.h"

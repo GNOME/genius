@@ -20,8 +20,6 @@
  */
 #include "config.h"
 
-#include <gnome.h>
-
 #include <stdlib.h>
 #include <dirent.h>
 #include <unistd.h>

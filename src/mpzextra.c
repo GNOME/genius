@@ -21,13 +21,10 @@
 
 #include "config.h"
 
-#include <gnome.h>
-#include <locale.h>
-
 #include <string.h>
 #include <glib.h>
 
-#include "calc.h" /* for evalnode_hook */
+#include "calc.h" /* for evalnode_hook and i18n stuff */
 
 #include "mpzextra.h"
 

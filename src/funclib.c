@@ -21,18 +21,16 @@
 
 #include "config.h"
 
-#include <gnome.h>
-
 #include <string.h>
+#include <unistd.h>
 #include <math.h>
 #include <glib.h>
-#include <limits.h>
+#include "calc.h"
 #include "mpwrap.h"
 #include "mpzextra.h"
 #include "eval.h"
 #include "dict.h"
 #include "funclib.h"
-#include "calc.h"
 #include "matrix.h"
 #include "matrixw.h"
 #include "matop.h"
@@ -206,7 +204,7 @@ get_nonnegative_integer (mpw_ptr z, const char *funcname)
 		gel_errorout (_("%s: argument can't be negative or 0"), funcname);
 		return -1;
 	}
-	if G_UNLIKELY (i > INT_MAX) {
+	if G_UNLIKELY (i > G_MAXINT) {
 		gel_errorout (_("%s: argument too large"), funcname);
 		return -1;
 	}
@@ -2634,7 +2632,7 @@ Prime_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	last_prime = g_array_index (primes, unsigned int, numprimes-1);
 	primes = g_array_set_size(primes,num);
 	for(i=g_array_index(primes,unsigned int,numprimes-1)+2;
-	    numprimes<=num-1 && numprimes <= MAXPRIMES && i<=UINT_MAX-1;i+=2) {
+	    numprimes<=num-1 && numprimes <= MAXPRIMES && i<=G_MAXUINT-1;i+=2) {
 		if (is_prime_small (i)) {
 			g_array_index(primes,unsigned int,numprimes++) = i;
 			last_prime = i;
@@ -3752,7 +3750,7 @@ Combinations_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		error_num = 0;
 		return NULL;
 	}
-	if G_UNLIKELY (n < 1 || n > INT_MAX || k < 1 || k > n) {
+	if G_UNLIKELY (n < 1 || n > G_MAXINT || k < 1 || k > n) {
 		gel_errorout (_("%s: value out of range"),
 			      "Combinations");
 		return NULL;
@@ -3807,7 +3805,7 @@ Permutations_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		error_num = 0;
 		return NULL;
 	}
-	if G_UNLIKELY (n < 1 || n > INT_MAX || k < 1 || k > n) {
+	if G_UNLIKELY (n < 1 || n > G_MAXINT || k < 1 || k > n) {
 		gel_errorout (_("%s: value out of range"),
 			      "Permutations");
 		return NULL;

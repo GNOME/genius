@@ -21,14 +21,12 @@
 
 #include "config.h"
 
-#include <gnome.h>
-
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
+#include "calc.h"
 #include "mpwrap.h"
 #include "eval.h"
-#include "calc.h"
 #include "dict.h"
 #include "util.h"
 #include "funclib.h"

@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2003 George Lebl
+ * Copyright (C) 1997-2004 George Lebl
  *
  * Author: George Lebl
  *
@@ -24,8 +24,6 @@
  */
 
 #include "config.h"
-
-#include <gnome.h>
 
 #include <glib.h>
 
@@ -57,6 +55,8 @@
 #include "lexer.h"
 
 #include "plugin.h"
+
+#include "genius-i18n.h"
 
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -91,11 +91,11 @@ puterror(const char *s)
 	int line;
 	gel_get_file_info(&file,&line);
 	if(file)
-		fprintf(stderr,"%s:%d: %s\n",file,line,s);
+		g_printerr ("%s:%d: %s\n",file,line,s);
 	else if(line>0)
-		fprintf(stderr,_("line %d: %s\n"),line,s);
+		g_printerr (_("line %d: %s\n"),line,s);
 	else
-		fprintf(stderr,"%s\n",s);
+		g_printerr ("%s\n",s);
 }
 
 static void
@@ -111,7 +111,7 @@ void
 gel_printout_infos (void)
 {
 	if(errors_printed-curstate.max_errors > 0)
-		fprintf(stderr,_("Too many errors! (%d followed)\n"),
+		g_printerr (_("Too many errors! (%d followed)\n"),
 			errors_printed-curstate.max_errors);
 	errors_printed = 0;
 }
@@ -249,24 +249,24 @@ main(int argc, char *argv[])
 			be_quiet = FALSE;
 		else {
 			if(strcmp(argv[i],"--help")!=0) {
-				fprintf(stderr,"Unknown argument '%s'!\n\n",
+				g_printerr ("Unknown argument '%s'!\n\n",
 					argv[i]);
 			}
-			printf(_("Genius %s usage:\n\n"
-			       "genius [options] [files]\n\n"
-			       "\t--precision=num   \tFloating point precision [256]\n"
-			       "\t--maxdigits=num   \tMaximum digits to display (0=no limit) [0]\n"
-			       "\t--[no]floatresult \tAll results as floats [OFF]\n"
-			       "\t--[no]scinot      \tResults in scientific notation [OFF]\n"
-			       "\t--[no]fullexp     \tAlways print full expressions [OFF]\n"
-			       "\t--maxerrors=num   \tMaximum errors to display (0=no limit) [5]\n"
-			       "\t--[no]mixed       \tPrint fractions in mixed format\n"
-			       "\t--intoutbase=num  \tBase to use to print out integers [10]\n"
-			       "\t--[no]readline    \tUse readline if it is available [ON]\n"
-			       "\t--[no]compile     \tCompile everything and dump it to stdout [OFF]\n"
-			       "\t--[no]quiet       \tBe quiet during non-interactive mode,\n"
-			       "\t                  \t(always on when compiling) [OFF]\n\n"),
-			      VERSION);
+			g_print (_("Genius %s usage:\n\n"
+				   "genius [options] [files]\n\n"
+				   "\t--precision=num   \tFloating point precision [256]\n"
+				   "\t--maxdigits=num   \tMaximum digits to display (0=no limit) [0]\n"
+				   "\t--[no]floatresult \tAll results as floats [OFF]\n"
+				   "\t--[no]scinot      \tResults in scientific notation [OFF]\n"
+				   "\t--[no]fullexp     \tAlways print full expressions [OFF]\n"
+				   "\t--maxerrors=num   \tMaximum errors to display (0=no limit) [5]\n"
+				   "\t--[no]mixed       \tPrint fractions in mixed format\n"
+				   "\t--intoutbase=num  \tBase to use to print out integers [10]\n"
+				   "\t--[no]readline    \tUse readline if it is available [ON]\n"
+				   "\t--[no]compile     \tCompile everything and dump it to stdout [OFF]\n"
+				   "\t--[no]quiet       \tBe quiet during non-interactive mode,\n"
+				   "\t                  \t(always on when compiling) [OFF]\n\n"),
+				 VERSION);
 			exit(1);
 		}
 	}
@@ -293,14 +293,14 @@ main(int argc, char *argv[])
 	inter = isatty(0) && !files && !do_compile;
 	/*interactive mode, print welcome message*/
 	if(inter) {
-		printf(_("Genius %s\n"
-			 "%s\n"
-			 "This is free software with ABSOLUTELY NO WARRANTY.\n"
-			 "For license details type `warranty'.\n"
-			 "For help type 'manual' or 'help'.%s\n\n"),
-		       VERSION,
-		       COPYRIGHT_STRING,
-		       get_version_details ());
+		g_print (_("Genius %s\n"
+			   "%s\n"
+			   "This is free software with ABSOLUTELY NO WARRANTY.\n"
+			   "For license details type `warranty'.\n"
+			   "For help type 'manual' or 'help'.%s\n\n"),
+			 VERSION,
+			 COPYRIGHT_STRING,
+			 get_version_details ());
 		be_quiet = FALSE;
 	}
 

@@ -21,9 +21,6 @@
 
 #include "config.h"
 
-#include <gnome.h>
-#include <locale.h>
-
 #include <string.h>
 #include <glib.h>
 #include <time.h>
@@ -615,8 +612,8 @@ mympf_sin(mpf_t rop, mpf_t op, gboolean hyperbolic, gboolean reduceop)
 
 	for(i=2;;i+=2) {
 		mpf_mul(top,top,xsq);
-		/*this assumes that SHRT_MAX^2 can fit in an ulong*/
-		if(i<SHRT_MAX) {
+		/*this assumes that G_MAXSHORT^2 can fit in an ulong*/
+		if(i<G_MAXSHORT) {
 			mpf_mul_ui(bottom,bottom,i*(i+1));
 		} else {
 			mpf_mul_ui(bottom,bottom,i);
@@ -699,10 +696,10 @@ mympf_cos(mpf_t rop, mpf_t op, gboolean hyperbolic, gboolean reduceop)
 
 	mpf_mul(xsq,xsq,xsq);
 
-	for(i=1;i<ULONG_MAX;i+=2) {
+	for(i=1;i<G_MAXULONG;i+=2) {
 		mpf_mul(top,top,xsq);
-		/*this assumes that SHRT_MAX^2 can fit in an ulong*/
-		if(i<SHRT_MAX) {
+		/*this assumes that G_MAXSHORT^2 can fit in an ulong*/
+		if(i<G_MAXSHORT) {
 			mpf_mul_ui(bottom,bottom,i*(i+1));
 		} else {
 			mpf_mul_ui(bottom,bottom,i);
@@ -772,7 +769,7 @@ mympf_pi(mpf_ptr rop)
 	mpf_init(foldres);
 	mpf_set(foldres,top);
 
-	for(i=1;i<ULONG_MAX;i+=2) {
+	for(i=1;i<G_MAXULONG;i+=2) {
 		mpf_add_ui(bottom,bottom,2);
 		mpf_mul_ui(bottom2,bottom2,3);
 		mpf_mul(pi_mpf,bottom,bottom2);
@@ -841,7 +838,7 @@ mympf_exp(mpf_t rop,mpf_t op)
 		mpf_div_2exp(x,x,1);
 		f++;
 
-		if G_UNLIKELY (f == ULONG_MAX) {
+		if G_UNLIKELY (f == G_MAXULONG) {
 			mpf_clear(x);
 			mpf_clear(cmp);
 			(*errorout)(_("Number too large to compute exponential!"));
@@ -1597,14 +1594,14 @@ mpwl_set_si(MpwRealNum *rop,signed long int i)
 		mpwl_clear(rop);
 		break;
 	case MPW_INTEGER:
-		if(i==LONG_MIN) {
+		if(i==G_MINLONG) {
 			mpz_set_si(rop->data.ival,i);
 			return;
 		}
 		mpwl_clear(rop);
 		break;
 	}
-	if(i==LONG_MIN) {
+	if(i==G_MINLONG) {
 		mpwl_init_type(rop,MPW_INTEGER);
 		mpz_set_si(rop->data.ival,i);
 		return;
@@ -1616,7 +1613,7 @@ mpwl_set_si(MpwRealNum *rop,signed long int i)
 static void
 mpwl_set_ui(MpwRealNum *rop,unsigned long int i)
 {
-	if(i>LONG_MAX) {
+	if (i > G_MAXLONG) {
 		switch(rop->type) {
 		case MPW_FLOAT:
 			mpwl_clear(rop);
@@ -1716,12 +1713,12 @@ mympn_add(long *res, long op1, long op2)
 			return FALSE;
 	} else if (op1<0 && op2<0) {
 		r = op1+op2;
-		if(r>=0 || r==LONG_MIN)
+		if(r>=0 || r==G_MINLONG)
 			return FALSE;
 	} else {
 		/*we would get a one off error!*/
-		if(op1 == LONG_MIN ||
-		   op2 == LONG_MIN)
+		if(op1 == G_MINLONG ||
+		   op2 == G_MINLONG)
 			return FALSE;
 		r = op1+op2;
 	}
@@ -1807,9 +1804,9 @@ mpwl_add_ui(MpwRealNum *rop,MpwRealNum *op,unsigned long i)
 {
 	switch(op->type) {
 	case MPW_NATIVEINT:
-		/*this assumes that SHRT_MAX+SHRT_MAX can fit in an long*/
-		if(op->data.nval>=SHRT_MAX ||
-		   i>=SHRT_MAX) {
+		/*this assumes that G_MAXSHORT+G_MAXSHORT can fit in an long*/
+		if(op->data.nval>=G_MAXSHORT ||
+		   i>=G_MAXSHORT) {
 			long val = op->data.nval;
 			if(rop->type != MPW_INTEGER) {
 				mpwl_clear(rop);
@@ -1862,12 +1859,12 @@ mympn_sub(long *res, long op1, long op2)
 			return FALSE;
 	} else if (op1<0 && op2>=0) {
 		r = op1-op2;
-		if(r>=0 || r==LONG_MIN)
+		if(r>=0 || r==G_MINLONG)
 			return FALSE;
 	} else {
 		/*we would get a one off error!*/
-		if(op1 == LONG_MIN ||
-		   op2 == LONG_MIN)
+		if(op1 == G_MINLONG ||
+		   op2 == G_MINLONG)
 			return FALSE;
 		r = op1-op2;
 	}
@@ -1951,9 +1948,9 @@ mpwl_sub_ui(MpwRealNum *rop,MpwRealNum *op,unsigned long i)
 {
 	switch(op->type) {
 	case MPW_NATIVEINT:
-		/*this assumes that SHRT_MIN-SHRT_MAX can fit in an long*/
-		if(op->data.nval<=SHRT_MIN ||
-		   i>=SHRT_MAX) {
+		/*this assumes that G_MINSHORT-G_MAXSHORT can fit in an long*/
+		if(op->data.nval<=G_MINSHORT ||
+		   i>=G_MAXSHORT) {
 			long val = op->data.nval;
 			if(rop->type != MPW_INTEGER) {
 				mpwl_clear(rop);
@@ -2002,9 +1999,9 @@ mpwl_ui_sub(MpwRealNum *rop, unsigned long i, MpwRealNum *op)
 {
 	switch(op->type) {
 	case MPW_NATIVEINT:
-		/*this assumes that SHRT_MIN-SHRT_MAX can fit in an long*/
-		if(op->data.nval>=SHRT_MAX ||
-		   i<=SHRT_MIN) {
+		/*this assumes that G_MINSHORT-G_MAXSHORT can fit in an long*/
+		if(op->data.nval>=G_MAXSHORT ||
+		   i<=G_MINSHORT) {
 			long val = op->data.nval;
 			if(rop->type != MPW_INTEGER) {
 				mpwl_clear(rop);
@@ -2570,7 +2567,7 @@ mpwl_lucnum (MpwRealNum *rop, MpwRealNum *op)
 		return;
 	}
 	if(op->type==MPW_INTEGER) {
-		if G_UNLIKELY (mpz_cmp_ui(op->data.ival,ULONG_MAX)>0) {
+		if G_UNLIKELY (mpz_cmp_ui(op->data.ival,G_MAXULONG)>0) {
 			(*errorout)(_("Number too large to compute lucas number!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
@@ -2747,7 +2744,7 @@ mpwl_fac(MpwRealNum *rop,MpwRealNum *op)
 		return;
 	}
 	if(op->type==MPW_INTEGER) {
-		if G_UNLIKELY (mpz_cmp_ui(op->data.ival,ULONG_MAX)>0) {
+		if G_UNLIKELY (mpz_cmp_ui(op->data.ival,G_MAXULONG)>0) {
 			(*errorout)(_("Number too large to compute factorial!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
@@ -2795,7 +2792,7 @@ mpwl_dblfac (MpwRealNum *rop,MpwRealNum *op)
 		return;
 	}
 	if(op->type==MPW_INTEGER) {
-		if G_UNLIKELY (mpz_cmp_ui(op->data.ival,ULONG_MAX)>0) {
+		if G_UNLIKELY (mpz_cmp_ui(op->data.ival,G_MAXULONG)>0) {
 			(*errorout)(_("Number too large to compute factorial!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
@@ -2840,7 +2837,7 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		return TRUE;
 	}
 
-	if (mpz_cmp_ui (mpq_denref (op2->data.rval), ULONG_MAX) <= 0 &&
+	if (mpz_cmp_ui (mpq_denref (op2->data.rval), G_MAXULONG) <= 0 &&
 	    op1->type <= MPW_RATIONAL) {
 		den = mpz_get_ui (mpq_denref (op2->data.rval));
 		/* We can do square root, perhaps symbolically */
@@ -3042,7 +3039,7 @@ mpwl_pow_z(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		mpz_neg(op2->data.ival,op2->data.ival);
 	}
 
-	if(mpz_cmp_ui(op2->data.ival,ULONG_MAX)>0) {
+	if(mpz_cmp_ui(op2->data.ival,G_MAXULONG)>0) {
 		MpwRealNum r = {{NULL}};
 
 		switch(op1->type) {
@@ -3879,8 +3876,8 @@ mpwl_set_str_int(MpwRealNum *rop,const char *s,int base)
 		mpwl_init_type(rop,MPW_INTEGER);
 	}
 	mpz_set_str(rop->data.ival,s,base);
-	if(mpz_cmp_si(rop->data.ival,LONG_MAX)>0 ||
-	   mpz_cmp_si(rop->data.ival,LONG_MIN+1)<0)
+	if(mpz_cmp_si(rop->data.ival,G_MAXLONG)>0 ||
+	   mpz_cmp_si(rop->data.ival,G_MINLONG+1)<0)
 		return;
 	mpwl_make_type(rop,MPW_NATIVEINT);
 }
@@ -3899,8 +3896,8 @@ mpwl_get_long (MpwRealNum *op, int *ex)
 	} else if(op->type == MPW_NATIVEINT) {
 		return op->data.nval;
 	} else { /*real integer*/
-		if G_UNLIKELY (mpz_cmp_si (op->data.ival, LONG_MAX) > 0 ||
-			       mpz_cmp_si (op->data.ival, LONG_MIN) < 0) {
+		if G_UNLIKELY (mpz_cmp_si (op->data.ival, G_MAXLONG) > 0 ||
+			       mpz_cmp_si (op->data.ival, G_MINLONG) < 0) {
 			*ex = MPWL_EXCEPTION_NUMBER_TOO_LARGE;
 			return 0;
 		} else
@@ -3917,8 +3914,8 @@ mpwl_get_double (MpwRealNum *op, int *ex)
 
 	mpwl_make_extra_type (op, MPW_FLOAT);
 
-	if G_UNLIKELY (mpf_cmp_d (op->data.fval, DBL_MAX) > 0 ||
-		       mpf_cmp_d (op->data.fval, -DBL_MAX) < 0) {
+	if G_UNLIKELY (mpf_cmp_d (op->data.fval, G_MAXDOUBLE) > 0 ||
+		       mpf_cmp_d (op->data.fval, -G_MAXDOUBLE) < 0) {
 		*ex = MPWL_EXCEPTION_NUMBER_TOO_LARGE;
 		return 0;
 	}

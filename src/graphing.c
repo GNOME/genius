@@ -69,8 +69,8 @@ static double replotx2 = M_PI;
 static double reploty1 = -1.1;
 static double reploty2 = 1.1;
 
-static double replot_maxy = - DBL_MAX/2;
-static double replot_miny = DBL_MAX/2;
+static double replot_maxy = - G_MAXDOUBLE/2;
+static double replot_miny = G_MAXDOUBLE/2;
 static void replot_functions (GelCtx *ctx);
 
 static int replot_in_progress = 0;
@@ -936,8 +936,8 @@ replot_functions (GelCtx *ctx)
 	if (reploty2 == reploty1)
 		reploty2 = reploty1 + 0.00000001;
 
-	replot_maxy = - DBL_MAX/2;
-	replot_miny = DBL_MAX/2;
+	replot_maxy = - G_MAXDOUBLE/2;
+	replot_miny = G_MAXDOUBLE/2;
 
 	xscale = WIDTH/(replotx2-replotx1);
 	yscale = HEIGHT/(reploty2-reploty1);
@@ -1038,8 +1038,8 @@ create_plot_dialog (void)
 	w = gtk_label_new(_("X from:"));
 	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
 	adj = (GtkAdjustment *)gtk_adjustment_new (spinx1,
-						   -FLT_MAX,
-						   FLT_MAX,
+						   -G_MAXFLOAT,
+						   G_MAXFLOAT,
 						   1,
 						   10,
 						   100);
@@ -1055,8 +1055,8 @@ create_plot_dialog (void)
 	w = gtk_label_new(_("to:"));
 	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
 	adj = (GtkAdjustment *)gtk_adjustment_new (spinx2,
-						   -FLT_MAX,
-						   FLT_MAX,
+						   -G_MAXFLOAT,
+						   G_MAXFLOAT,
 						   1,
 						   10,
 						   100);
@@ -1077,8 +1077,8 @@ create_plot_dialog (void)
 	w = gtk_label_new(_("Y from:"));
 	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
 	adj = (GtkAdjustment *)gtk_adjustment_new (spiny1,
-						   -FLT_MAX,
-						   FLT_MAX,
+						   -G_MAXFLOAT,
+						   G_MAXFLOAT,
 						   1,
 						   10,
 						   100);
@@ -1094,8 +1094,8 @@ create_plot_dialog (void)
 	w = gtk_label_new(_("to:"));
 	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
 	adj = (GtkAdjustment *)gtk_adjustment_new (spiny2,
-						   -FLT_MAX,
-						   FLT_MAX,
+						   -G_MAXFLOAT,
+						   G_MAXFLOAT,
 						   1,
 						   10,
 						   100);

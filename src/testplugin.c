@@ -1,10 +1,9 @@
 #include "config.h"
 #include <stdio.h>
-#include <gnome.h>
-#include <gtk/gtk.h>
+#include <glib.h>
+#include "calc.h"
 #include "plug_api.h"
 #include "eval.h"
-#include "calc.h"
 #include "dict.h"
 #include "geloutput.h"
 

@@ -32,6 +32,7 @@ bin_PROGRAMS = gnome-genius genius
 libexec_PROGRAMS = genius-readline-helper-fifo
 
 gnome_genius_SOURCES = 	\
+	genius-i18n.h	\
 	calc.c		\
 	calc.h		\
 	eval.c		\
@@ -99,12 +100,13 @@ genius_readline_helper_fifo_LDADD = \
 	-L$(top_builddir)/vicious-extensions	\
 	-lvicious				\
 	-lm					\
-	$(GENIUS_LIBS)				\
+	$(GENIUS_NOGUI_LIBS)			\
 	@READLINE_LIB@				\
 	@TERMCAP_LIB@
 
 
 genius_SOURCES = 	\
+	genius-i18n.h	\
 	calc.c		\
 	calc.h		\
 	eval.c		\
@@ -156,11 +158,12 @@ genius_LDADD = \
 	@GMP_LIB@				\
 	@MPFR_LIB@				\
 	@LEXLIB@				\
-	$(GENIUS_LIBS)				\
+	$(GENIUS_NOGUI_LIBS)			\
 	@READLINE_LIB@				\
 	@TERMCAP_LIB@
 
 plugin_include_HEADERS = \
+	genius-i18n.h	\
 	plug_api.h	\
 	geloutput.h	\
 	mpwrap.h	\

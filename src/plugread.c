@@ -21,13 +21,13 @@
 
 #include "config.h"
 
-#include <gnome.h>
 #include <glib.h>
 #include <string.h>
 #include <vicious.h>
 #include "calc.h"
 #include "plugin.h"
 #include "plugread.h"
+#include "genius-i18n.h"
 
 GelPlugin *
 gel_readplugin (const char *dir_name, const char *file_name)

@@ -1,3 +1,15 @@
+Thu Mar 25 10:05:57 2004  George Lebl <jirka@5z.com>
+
+	* configure.in, src/*.[ch]: don't link the 'genius' binary with
+	  any gui libs, still the configure/build process requires gnome
+	  always, but I'm working on that.   Fix up the includes and
+	  add a genius-i18n.h header
+
+	* src/graphing.c, src/mpwrap.c, src/funclib.c: use the G_MAX/MIN
+	  macros instead of limits.h for I suppose better portability
+
+	* src/genius.c: use g_print* variants instead of printf and fprintf
+
 Wed Mar 24 17:10:55 2004  George Lebl <jirka@5z.com>
 
 	* src/calc.c: fix printing of functions
