@@ -5529,7 +5529,7 @@ eval_etree(GelCtx *ctx, GelETree *etree)
 	ctx->post = FALSE;
 	
 	level++;
-	
+
 	if(!iter_eval_etree(ctx)) {
 		gpointer data;
 		/*an exception happened*/
@@ -5556,6 +5556,7 @@ eval_etree(GelCtx *ctx, GelETree *etree)
 			g_free (ctx->modulo);
 		}
 		ctx->modulo = data;
+		GE_BLIND_POP_STACK (ctx);
 	}
 
 	return etree;

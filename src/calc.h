@@ -126,6 +126,8 @@ void set_new_calcstate(calcstate_t state);
 void set_new_errorout(void (*func)(const char *));
 void set_new_infoout(void (*func)(const char *));
 
+void gel_errorout   (const char *format, ...) G_GNUC_PRINTF (1, 2);
+void gel_infoout   (const char *format, ...) G_GNUC_PRINTF (1, 2);
 /* this is bad */
 extern void (*errorout)(const char *);
 extern void (*infoout)(const char *);

@@ -2818,3 +2818,33 @@ yyerror(char *s)
 	g_free(out);
 	error_num=PARSE_ERROR;
 }
+
+void 
+gel_errorout (const char *format, ...)
+{
+    va_list args;
+    char *s;
+
+    va_start (args, format);
+    s = g_strdup_vprintf (format, args);
+    va_end (args);
+
+    (*errorout) (s);
+    
+    g_free (s);
+}
+
+void 
+gel_infoout (const char *format, ...)
+{
+    va_list args;
+    char *s;
+
+    va_start (args, format);
+    s = g_strdup_vprintf (format, args);
+    va_end (args);
+
+    (*infoout) (s);
+    
+    g_free (s);
+}

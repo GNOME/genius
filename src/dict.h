@@ -75,6 +75,7 @@ void d_set_ref(GelEFunc *n,GelEFunc *ref);
 /*lookup a function in the dictionary in the current context*/
 GelEFunc * d_lookup_local(GelToken *id);
 GelEFunc * d_lookup_global_up1(GelToken *id);
+GelEFunc * d_lookup_only_global (GelToken *id);
 /*lookup a function in the dictionary, if there are more return the one in the
   highest context*/
 #define d_lookup_global(id) ((id)->curref)

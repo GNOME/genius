@@ -433,6 +433,30 @@ d_lookup_global_up1(GelToken *id)
 	return id->refs->next->data;
 }
 
+/*lookup a function in the dictionary but only in the toplevel context */
+GelEFunc *
+d_lookup_only_global (GelToken *id)
+{
+	GSList *li;
+	GelEFunc *func;
+	
+	if(!id ||
+	   !id->refs)
+		return NULL;
+
+	li = id->refs;
+	while (li->next != NULL)
+		li = li->next;
+
+	/* this must be our function */
+	func = li->data;
+	
+	if(func->context == 0)
+		return func;
+	else
+		return NULL;
+}
+
 GelToken *
 d_intern (const char *id)
 {

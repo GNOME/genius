@@ -1,3 +1,13 @@
+Mon Jun 02 10:13:13 2003  George Lebl <jirka@5z.com>
+
+	* src/eval.c: fix resetting the modulo after recursive eval call
+	  (was a crash)
+
+	* src/funclib.c, src/calc.[ch]: a lot of messages are now unified
+	  for ease of translation and argument checking is done with
+	  helper routines.  Also when the sqrt is called with mod try calling
+	  the SqrtModPrime or erroring out.
+
 Sun Jun 01 09:14:06 2003  George Lebl <jirka@5z.com>
 
 	* lib/number_theory/modulus.gel: add

@@ -60,9 +60,7 @@ check_argument_integer (GelETree **a, int argnum, const char *funcname)
 	if (a[argnum]->type != VALUE_NODE ||
 	    mpw_is_complex(a[argnum]->val.value) ||
 	    ! mpw_is_integer (a[argnum]->val.value)) {
-		char *s = g_strdup_printf (_("%s: argument number %d not an integer"), funcname, argnum+1);
-		(*errorout)(s);
-		g_free (s);
+		gel_errorout (_("%s: argument number %d not an integer"), funcname, argnum+1);
 		return FALSE;
 	}
 	return TRUE;
@@ -75,9 +73,38 @@ check_argument_positive_integer (GelETree **a, int argnum, const char *funcname)
 	    mpw_is_complex(a[argnum]->val.value) ||
 	    ! mpw_is_integer (a[argnum]->val.value) ||
 	    mpw_sgn (a[argnum]->val.value) < 0) {
-		char *s = g_strdup_printf (_("%s: argument number %d not a positive integer"), funcname, argnum+1);
-		(*errorout)(s);
-		g_free (s);
+		gel_errorout (_("%s: argument number %d not a positive integer"), funcname, argnum+1);
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static gboolean
+check_argument_number (GelETree **a, int argnum, const char *funcname)
+{
+	if(a[argnum]->type!=VALUE_NODE) {
+		gel_errorout (_("%s: argument number %d not a number"), funcname, argnum+1);
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static gboolean
+check_argument_real_number (GelETree **a, int argnum, const char *funcname)
+{
+	if(a[argnum]->type!=VALUE_NODE ||
+	   mpw_is_complex(a[argnum]->val.value)) {
+		gel_errorout (_("%s: argument number %d not a real number"), funcname, argnum+1);
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static gboolean
+check_argument_matrix (GelETree **a, int argnum, const char *funcname)
+{
+	if (a[argnum]->type != MATRIX_NODE) {
+		gel_errorout (_("%s: argument number %d not a matrix"), funcname, argnum+1);
 		return FALSE;
 	}
 	return TRUE;
@@ -661,10 +688,8 @@ ExpandMatrix_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	GelETree *n;
 
-	if (a[0]->type != MATRIX_NODE) {
-		(*errorout)(_("ExpandMatrix: argument not a matrix"));
+	if ( ! check_argument_matrix (a, 0, "ExpandMatrix"))
 		return NULL;
-	}
 
 	GET_NEW_NODE (n);
 	n->type = MATRIX_NODE;
@@ -679,10 +704,8 @@ RowsOf_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	GelETree *n;
 
-	if (a[0]->type != MATRIX_NODE) {
-		(*errorout)(_("RowsOf: argument not a matrix"));
+	if ( ! check_argument_matrix (a, 0, "RowsOf"))
 		return NULL;
-	}
 
 	GET_NEW_NODE (n);
 	n->type = MATRIX_NODE;
@@ -696,10 +719,8 @@ ColumnsOf_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	GelETree *n;
 
-	if (a[0]->type != MATRIX_NODE) {
-		(*errorout)(_("ColumnsOf: argument not a matrix"));
+	if ( ! check_argument_matrix (a, 0, "ColumnsOf"))
 		return NULL;
-	}
 
 	GET_NEW_NODE (n);
 	n->type = MATRIX_NODE;
@@ -713,10 +734,8 @@ DiagonalOf_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	GelETree *n;
 
-	if (a[0]->type != MATRIX_NODE) {
-		(*errorout)(_("DiagonalOf: argument not a matrix"));
+	if ( ! check_argument_matrix (a, 0, "DiagonalOf"))
 		return NULL;
-	}
 
 	GET_NEW_NODE (n);
 	n->type = MATRIX_NODE;
@@ -734,10 +753,8 @@ ComplexConjugate_op (GelCtx *ctx, GelETree * * a, int *exception)
 	if (a[0]->type == MATRIX_NODE)
 		return apply_func_to_matrix (ctx, a[0], ComplexConjugate_op, "ComplexConjugate");
 
-	if (a[0]->type != VALUE_NODE) {
-		(*errorout)(_("ComplexConjugate: argument not a number"));
+	if ( ! check_argument_number (a, 0, "ComplexConjugate"))
 		return NULL;
-	}
 
 	mpw_init (fr);
 
@@ -755,10 +772,8 @@ sin_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],sin_op,"sin");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("sin: argument not a number"));
+	if ( ! check_argument_number (a, 0, "sin"))
 		return NULL;
-	}
 
 	mpw_init(fr);
 
@@ -776,10 +791,8 @@ sinh_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],sinh_op,"sinh");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("sinh: argument not a number"));
+	if ( ! check_argument_number (a, 0, "sinh"))
 		return NULL;
-	}
 
 	mpw_init(fr);
 
@@ -797,10 +810,8 @@ cos_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],cos_op,"cos");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("cos: argument not a number"));
+	if ( ! check_argument_number (a, 0, "cos"))
 		return NULL;
-	}
 
 	mpw_init(fr);
 
@@ -818,10 +829,8 @@ cosh_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],cosh_op,"cosh");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("cosh: argument not a number"));
+	if ( ! check_argument_number (a, 0, "cosh"))
 		return NULL;
-	}
 
 	mpw_init(fr);
 
@@ -840,11 +849,8 @@ tan_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],tan_op,"tan");
 
-	if(a[0]->type!=VALUE_NODE ||
-	   mpw_is_complex(a[0]->val.value)) {
-		(*errorout)(_("tan: argument not a real number"));
+	if ( ! check_argument_real_number (a, 0, "tan"))
 		return NULL;
-	}
 
 	mpw_init(fr);
 	mpw_set(fr,a[0]->val.value);
@@ -868,10 +874,8 @@ atan_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],atan_op,"atan");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("atan: argument not a number"));
+	if ( ! check_argument_number (a, 0, "atan"))
 		return NULL;
-	}
 
 	mpw_init(fr);
 
@@ -1017,10 +1021,8 @@ IsReal_op(GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 IsMatrixReal_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
-	if (a[0]->type != MATRIX_NODE) {
-		(*errorout)(_("IsMatrixReal: argument not a matrix"));
+	if ( ! check_argument_matrix (a, 0, "IsMatrixReal"))
 		return NULL;
-	}
 
 	if (gel_is_matrix_value_only_real (a[0]->mat.matrix))
 		return gel_makenum_ui(1);
@@ -1063,10 +1065,8 @@ IsGaussInteger_op(GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 IsMatrixInteger_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
-	if (a[0]->type != MATRIX_NODE) {
-		(*errorout)(_("IsMatrixInteger: argument not a matrix"));
+	if ( ! check_argument_matrix (a, 0, "IsMatrixInteger"))
 		return NULL;
-	}
 
 	if (gel_is_matrix_value_only_integer (a[0]->mat.matrix))
 		return gel_makenum_ui(1);
@@ -1098,10 +1098,8 @@ IsComplexRational_op(GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 IsMatrixRational_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
-	if (a[0]->type != MATRIX_NODE) {
-		(*errorout)(_("IsMatrixRational: argument not a matrix"));
+	if ( ! check_argument_matrix (a, 0, "IsMatrixRational"))
 		return NULL;
-	}
 
 	if (gel_is_matrix_value_only_rational (a[0]->mat.matrix))
 		return gel_makenum_ui(1);
@@ -1128,10 +1126,8 @@ trunc_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],trunc_op,"trunc");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("trunc: argument not a number"));
+	if ( ! check_argument_number (a, 0, "trunc"))
 		return NULL;
-	}
 	mpw_init(fr);
 	mpw_trunc(fr,a[0]->val.value);
 	return gel_makenum_use(fr);
@@ -1144,10 +1140,8 @@ floor_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],floor_op,"floor");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("floor: argument not a number"));
+	if ( ! check_argument_number (a, 0, "floor"))
 		return NULL;
-	}
 	mpw_init(fr);
 	mpw_floor(fr,a[0]->val.value);
 	return gel_makenum_use(fr);
@@ -1160,10 +1154,8 @@ ceil_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],ceil_op,"ceil");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("ceil: argument not a number"));
+	if ( ! check_argument_number (a, 0, "ceil"))
 		return NULL;
-	}
 	mpw_init(fr);
 	mpw_ceil(fr,a[0]->val.value);
 	return gel_makenum_use(fr);
@@ -1176,10 +1168,8 @@ round_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],round_op,"round");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("round: argument not a number"));
+	if ( ! check_argument_number (a, 0, "round"))
 		return NULL;
-	}
 	mpw_init(fr);
 	mpw_round(fr,a[0]->val.value);
 	return gel_makenum_use(fr);
@@ -1192,10 +1182,8 @@ float_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],float_op,"float");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("float: argument not a number"));
+	if ( ! check_argument_number (a, 0, "float"))
 		return NULL;
-	}
 	mpw_init_set(fr,a[0]->val.value);
 	mpw_make_float(fr);
 	return gel_makenum_use(fr);
@@ -1209,10 +1197,8 @@ Numerator_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],Numerator_op,"Numerator");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("Numerator: argument not a number"));
+	if ( ! check_argument_number (a, 0, "Numerator"))
 		return NULL;
-	}
 	mpw_init(fr);
 	mpw_numerator(fr,a[0]->val.value);
 	if(error_num) {
@@ -1231,10 +1217,8 @@ Denominator_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],Denominator_op,"Denominator");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("Denominator: argument not a number"));
+	if ( ! check_argument_number (a, 0, "Denominator"))
 		return NULL;
-	}
 	mpw_init(fr);
 	mpw_denominator(fr,a[0]->val.value);
 	if(error_num) {
@@ -1253,10 +1237,8 @@ Re_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],Re_op,"Re");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("Re: argument not a number"));
+	if ( ! check_argument_number (a, 0, "Re"))
 		return NULL;
-	}
 	mpw_init(fr);
 	mpw_re(fr,a[0]->val.value);
 	return gel_makenum_use(fr);
@@ -1270,10 +1252,8 @@ Im_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],Im_op,"Im");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("Im: argument not a number"));
+	if ( ! check_argument_number (a, 0, "Im"))
 		return NULL;
-	}
 	mpw_init(fr);
 	mpw_im(fr,a[0]->val.value);
 	return gel_makenum_use(fr);
@@ -1282,18 +1262,54 @@ Im_op(GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 sqrt_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
-	mpw_t fr;
-
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],sqrt_op,"sqrt");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("sqrt: argument not a number"));
+	if ( ! check_argument_number (a, 0, "sqrt"))
 		return NULL;
+	if (ctx->modulo != NULL) {
+		GelETree *arg[3];
+		GelETree *ret;
+		gboolean is_prime;
+		mpz_ptr num;
+		mpz_t tmp;
+		GelEFunc *SqrtModPrime;
+		static GelToken *SqrtModPrime_id = NULL;
+
+		if ( ! check_argument_integer (a, 0, "sqrt"))
+			return NULL;
+
+		MPW_MPZ_REAL (num, ctx->modulo, tmp);
+		is_prime = mympz_is_prime (num, -1);
+		MPW_MPZ_KILL (num, tmp);
+
+		if ( ! is_prime) {
+			gel_errorout (_("%s: square root for composite moduli "
+					"is not yet implemented"), "sqrt");
+			return NULL;
+		}
+		if (SqrtModPrime_id == NULL)
+			SqrtModPrime_id = d_intern ("SqrtModPrime");
+		SqrtModPrime = d_lookup_only_global (SqrtModPrime_id);
+		if (SqrtModPrime == NULL) {
+			gel_errorout (_("%s: Cannot find square root function "
+					"for prime moduli"), "sqrt");
+			return NULL;
+		}
+		arg[0] = a[0];
+		arg[1] = gel_makenum (ctx->modulo);
+		arg[2] = NULL;
+		ret = funccall (ctx, SqrtModPrime, arg, 2);
+		gel_freetree (arg[1]);
+
+		return ret;
+	} else {
+		mpw_t fr;
+
+		mpw_init(fr);
+		mpw_sqrt(fr,a[0]->val.value);
+		return gel_makenum_use(fr);
 	}
-	mpw_init(fr);
-	mpw_sqrt(fr,a[0]->val.value);
-	return gel_makenum_use(fr);
 }
 
 static GelETree *
@@ -1310,10 +1326,8 @@ exp_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return funccall(ctx,_internal_exp_function,a,1);
 	}
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("exp: argument not a number"));
+	if ( ! check_argument_number (a, 0, "exp"))
 		return NULL;
-	}
 	mpw_init(fr);
 	mpw_exp(fr,a[0]->val.value);
 	return gel_makenum_use(fr);
@@ -1327,10 +1341,8 @@ ln_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],ln_op,"ln");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("ln: argument not a number"));
+	if ( ! check_argument_number (a, 0, "ln"))
 		return NULL;
-	}
 	mpw_init(fr);
 	mpw_ln(fr,a[0]->val.value);
 	if(error_num) {
@@ -1349,10 +1361,8 @@ log2_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],log2_op,"log2");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("log2: argument not a number"));
+	if ( ! check_argument_number (a, 0, "log2"))
 		return NULL;
-	}
 	mpw_init(fr);
 	mpw_log2(fr,a[0]->val.value);
 	if(error_num) {
@@ -1371,10 +1381,8 @@ log10_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],log10_op,"log10");
 
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("log10: argument not a number"));
+	if ( ! check_argument_number (a, 0, "log10"))
 		return NULL;
-	}
 	mpw_init(fr);
 	mpw_log10(fr,a[0]->val.value);
 	if(error_num) {
@@ -1394,12 +1402,9 @@ gcd2_op(GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type==MATRIX_NODE ||
 	   a[1]->type==MATRIX_NODE)
 		return apply_func_to_matrixen(ctx,a[0],a[1],gcd2_op,"gcd");
-
-	if(a[0]->type!=VALUE_NODE ||
-	   a[1]->type!=VALUE_NODE) {
-		(*errorout)(_("gcd: arguments must be numbers"));
+	if ( ! check_argument_number (a, 0, "gcd") ||
+	     ! check_argument_number (a, 1, "gcd"))
 		return NULL;
-	}
 
 	mpw_init(tmp);
 	mpw_gcd(tmp,
@@ -1929,10 +1934,8 @@ min_op (GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 IsValueOnly_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
-	if(a[0]->type!=MATRIX_NODE) {
-		(*errorout)(_("IsValueOnly: argument not a matrix"));
+	if ( ! check_argument_matrix (a, 0, "IsValueOnly"))
 		return NULL;
-	}
 	
 	if(gel_is_matrix_value_only(a[0]->mat.matrix))
 		return gel_makenum_ui(1);
@@ -2087,10 +2090,8 @@ rows_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if (a[0]->type == NULL_NODE)
 		return gel_makenum_ui (0);
-	if(a[0]->type!=MATRIX_NODE) {
-		(*errorout)(_("rows: argument not a matrix"));
+	if ( ! check_argument_matrix (a, 0, "rows"))
 		return NULL;
-	}
 	return gel_makenum_ui(gel_matrixw_height(a[0]->mat.matrix));
 }
 static GelETree *
@@ -2098,10 +2099,8 @@ columns_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if (a[0]->type == NULL_NODE)
 		return gel_makenum_ui (0);
-	if(a[0]->type!=MATRIX_NODE) {
-		(*errorout)(_("columns: argument not a matrix"));
+	if ( ! check_argument_matrix (a, 0, "columns"))
 		return NULL;
-	}
 	return gel_makenum_ui(gel_matrixw_width(a[0]->mat.matrix));
 }
 static GelETree *
@@ -2109,20 +2108,16 @@ elements_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if (a[0]->type == NULL_NODE)
 		return gel_makenum_ui (0);
-	if(a[0]->type!=MATRIX_NODE) {
-		(*errorout)(_("elements: argument not a matrix"));
+	if ( ! check_argument_matrix (a, 0, "elements"))
 		return NULL;
-	}
 	return gel_makenum_ui (gel_matrixw_width (a[0]->mat.matrix) *
 			       gel_matrixw_height (a[0]->mat.matrix));
 }
 static GelETree *
 IsMatrixSquare_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
-	if(a[0]->type!=MATRIX_NODE) {
-		(*errorout)(_("IsMatrixSquare: argument not a matrix"));
+	if ( ! check_argument_matrix (a, 0, "IsMatrixSquare"))
 		return NULL;
-	}
 	if (gel_matrixw_width (a[0]->mat.matrix) == gel_matrixw_height (a[0]->mat.matrix))
 		return gel_makenum_ui (1);
 	else
@@ -2133,12 +2128,13 @@ SetMatrixSize_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	GelETree *n;
 	long w,h;
-	if(a[0]->type!=MATRIX_NODE ||
-	   a[1]->type!=VALUE_NODE ||
-	   a[2]->type!=VALUE_NODE) {
-		(*errorout)(_("SetMatrixSize: wrong argument type"));
+
+	if ( ! check_argument_matrix (a, 0, "SetMatrixSize"))
 		return NULL;
-	}
+	if ( ! check_argument_number (a, 1, "SetMatrixSize"))
+		return NULL;
+	if ( ! check_argument_number (a, 2, "SetMatrixSize"))
+		return NULL;
 
 	w = get_nonnegative_integer (a[1]->val.value, "SetMatrixSize");
 	if (w < 0)
@@ -4202,6 +4198,7 @@ gel_funclib_addall(void)
 	ALIAS (gamma, 0, EulerConstant);
 
 	FUNC (sqrt, 1, "x", "numeric", _("The square root"));
+	f->propagate_mod = 1;
 	ALIAS (SquareRoot, 1, sqrt);
 	FUNC (exp, 1, "x", "numeric", _("The exponential function"));
 	FUNC (ln, 1, "x", "numeric", _("The natural logarithm"));
