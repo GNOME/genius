@@ -2165,9 +2165,6 @@ get_properties (void)
 	curstate.max_errors = gnome_config_get_int(buf);
 }
 
-static GArray *readbuf = NULL;
-static int readbufl = 0;
-
 static void
 feed_to_zvt_from_string (const char *str, int size)
 {
@@ -2253,10 +2250,7 @@ catch_interrupts (GtkWidget *w, GdkEvent *e)
 	if (e->type == GDK_KEY_PRESS &&
 	    e->key.keyval == GDK_c &&
 	    e->key.state & GDK_CONTROL_MASK) {
-		interrupted = TRUE;
-		if (readbuf != NULL)
-			readbuf = g_array_set_size(readbuf,0);
-		readbufl = 0;
+		genius_interrupt_calc ();
 		return TRUE;
 	}
 	return FALSE;
