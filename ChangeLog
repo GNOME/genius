@@ -1,3 +1,13 @@
+Mon Mar 10 11:49:22 2003  George Lebl <jirka@5z.com>
+
+	* src/funclib.c, src/eval.[ch], src/mpwrap.[ch]:  Add IsEven and
+	  IsOdd using the native gmp functions for speed improvement.  Also
+	  add StringToASCII, ASCIIToString, AlphabetToString and
+	  StringToAlphabet functions to make doing some cryptography stuff
+	  easier.
+
+	* lib/number_theory/misc.gel: whack IsEven and IsOdd
+
 Mon Mar 10 10:55:14 2003  George Lebl <jirka@5z.com>
 
 	* lib/number_theory/primes.gel: add MillerRabinTestSure, which

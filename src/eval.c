@@ -249,6 +249,18 @@ gel_makenum_string (const char *str)
 }
 
 GelETree *
+gel_makenum_string_use (char *str)
+{
+	GelETree *n;
+	GET_NEW_NODE (n);
+	n->type = STRING_NODE;
+	n->str.str = str; 
+	n->any.next = NULL;
+
+	return n;
+}
+
+GelETree *
 gel_makenum_ui(unsigned long num)
 {
 	GelETree *n;

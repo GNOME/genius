@@ -249,6 +249,8 @@ static void mpwl_nextprime (MpwRealNum *rop, MpwRealNum *op);
 static int mpwl_probab_prime_p (MpwRealNum *op, MpwRealNum *reps);
 static gboolean mpwl_perfect_square(MpwRealNum *op);
 static gboolean mpwl_perfect_power(MpwRealNum *op);
+static gboolean mpwl_even_p(MpwRealNum *op);
+static gboolean mpwl_odd_p(MpwRealNum *op);
 
 static void mpwl_neg(MpwRealNum *rop,MpwRealNum *op);
 
@@ -2430,6 +2432,40 @@ mpwl_perfect_power (MpwRealNum *op)
 		return mpz_perfect_power_p(op->data.ival);
 	} else {
 		(*errorout)(_("perfect_power: can't work on non-integers!"));
+		error_num=NUMERICAL_MPW_ERROR;
+		return FALSE;
+	}
+}
+
+static gboolean
+mpwl_even_p (MpwRealNum *op)
+{
+	if (op->type == MPW_NATIVEINT) {
+		if (op->data.nval & 0x1)
+			return FALSE;
+		else
+			return TRUE;
+	} else if(op->type == MPW_INTEGER) {
+		return mpz_even_p (op->data.ival);
+	} else {
+		(*errorout)(_("even_p: can't work on non-integers!"));
+		error_num=NUMERICAL_MPW_ERROR;
+		return FALSE;
+	}
+}
+
+static gboolean
+mpwl_odd_p (MpwRealNum *op)
+{
+	if (op->type == MPW_NATIVEINT) {
+		if (op->data.nval & 0x1)
+			return TRUE;
+		else
+			return FALSE;
+	} else if(op->type == MPW_INTEGER) {
+		return mpz_odd_p (op->data.ival);
+	} else {
+		(*errorout)(_("odd_p: can't work on non-integers!"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return FALSE;
 	}
@@ -4646,6 +4682,28 @@ mpw_perfect_power(mpw_ptr op)
 	} else {
 		error_num=NUMERICAL_MPW_ERROR;
 		(*errorout)(_("perfect_power: can't work on complex numbers"));
+		return FALSE;
+	}
+}
+gboolean
+mpw_even_p(mpw_ptr op)
+{
+	if(op->type==MPW_REAL) {
+		return mpwl_even_p(op->r);
+	} else {
+		error_num=NUMERICAL_MPW_ERROR;
+		(*errorout)(_("even_p: can't work on complex numbers"));
+		return FALSE;
+	}
+}
+gboolean
+mpw_odd_p(mpw_ptr op)
+{
+	if(op->type==MPW_REAL) {
+		return mpwl_odd_p(op->r);
+	} else {
+		error_num=NUMERICAL_MPW_ERROR;
+		(*errorout)(_("odd_p: can't work on complex numbers"));
 		return FALSE;
 	}
 }

@@ -1,20 +1,5 @@
 # Miscellaneous number theory functions
 
-function IsOdd(n) = (
- if not IsValue(n) or not IsInteger(n) then
- (
-  error("IsOdd: argument must be an integer");
-  bailout;
- );
- (n % 2)
-)
-SetHelp("IsOdd","number_theory","Tests if an integer is odd")
-protect("IsOdd")
-
-function IsEven(n) = not IsOdd(n)
-SetHelp("IsEven","number_theory","Tests if an integer is even")
-protect("IsEven")
-
 function IsNthPower(n,k) =
  (
   if not IsRational (n) then

@@ -1800,6 +1800,50 @@ IsPerfectPower_op(GelCtx *ctx, GelETree * * a, int *exception)
 	}
 }
 
+static GelETree *
+IsEven_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	if(a[0]->type==MATRIX_NODE)
+		return apply_func_to_matrix(ctx,a[0],IsEven_op,"IsEven");
+
+	if(a[0]->type!=VALUE_NODE) {
+		(*errorout)(_("IsEven: argument must be a number"));
+		return NULL;
+	}
+
+	if(mpw_even_p(a[0]->val.value)) {
+		return gel_makenum_ui(1);
+	} else {
+		if(error_num) {
+			error_num = 0;
+			return NULL;
+		}
+		return gel_makenum_ui(0);
+	}
+}
+
+static GelETree *
+IsOdd_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	if(a[0]->type==MATRIX_NODE)
+		return apply_func_to_matrix(ctx,a[0],IsOdd_op,"IsOdd");
+
+	if(a[0]->type!=VALUE_NODE) {
+		(*errorout)(_("IsOdd: argument must be a number"));
+		return NULL;
+	}
+
+	if(mpw_odd_p(a[0]->val.value)) {
+		return gel_makenum_ui(1);
+	} else {
+		if(error_num) {
+			error_num = 0;
+			return NULL;
+		}
+		return gel_makenum_ui(0);
+	}
+}
+
 /*max function for two elements */
 static GelETree *
 max2_op (GelCtx *ctx, GelETree * * a, int *exception)
@@ -2967,6 +3011,170 @@ PolyToFunction_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
+StringToASCII_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GelETree *n;
+	const char *s;
+	int size;
+	int i;
+	GelMatrixW *m;
+
+	if(a[0]->type!=STRING_NODE) {
+		(*errorout)(_("StringToASCII: argument must be a string"));
+		return NULL;
+	}
+
+	s = a[0]->str.str;
+	size = strlen(s);
+	if (size == 0)
+		return gel_makenum_null ();
+
+	GET_NEW_NODE(n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = m = gel_matrixw_new();
+	n->mat.quoted = 0;
+	gel_matrixw_set_size (m, size, 1);
+	
+	for (i = 0; i < size; i++) {
+		gel_matrixw_set_index (m, i, 0) = gel_makenum_si (s[i]);
+	}
+
+	return n;
+}
+
+static GelETree *
+ASCIIToString_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	char *s;
+	int size;
+	int i;
+	GelMatrixW *m;
+
+	if (a[0]->type == NULL_NODE)
+		return gel_makenum_string ("");
+
+	if (a[0]->type != MATRIX_NODE) {
+		(*errorout)(_("ASCIIToString: argument must be a matrix"));
+		return NULL;
+	}
+
+	m = a[0]->mat.matrix;
+
+	size = gel_matrixw_elements (m);
+
+	s = g_new0 (char, size+1);
+
+	for (i = 0; i < size; i++) {
+		GelETree *t;
+		t = gel_matrixw_vindex (m, i);
+		if (t->type != VALUE_NODE ||
+		    mpw_is_complex (t->val.value) ||
+		    ! mpw_is_integer (t->val.value) ||
+		    mpw_sgn (t->val.value) < 0 ||
+		    mpw_cmp_ui (t->val.value, 256) >= 0) {
+			g_free (s);
+			(*errorout)(_("ASCIIToString: value out of range"));
+			return NULL;
+		}
+		s[i] = mpw_get_long (t->val.value);
+	}
+
+	return gel_makenum_string_use (s);
+}
+
+static int
+alphabet_value (char a, const char *alph)
+{
+	int i;
+	for (i = 0; alph[i] != '\0'; i++) {
+		if (alph[i] == a)
+			return i;
+	}
+	return -1;
+}
+
+static GelETree *
+StringToAlphabet_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GelETree *n;
+	const char *s;
+	const char *alph;
+	int size;
+	int i;
+	GelMatrixW *m;
+
+	if (a[0]->type != STRING_NODE ||
+	    a[1]->type != STRING_NODE) {
+		(*errorout)(_("StringToAlphabet: arguments must be strings"));
+		return NULL;
+	}
+
+	s = a[0]->str.str;
+	alph = a[1]->str.str;
+	size = strlen(s);
+	if (size == 0)
+		return gel_makenum_null ();
+
+	GET_NEW_NODE(n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = m = gel_matrixw_new();
+	n->mat.quoted = 0;
+	gel_matrixw_set_size (m, size, 1);
+	
+	for (i = 0; i < size; i++) {
+		int val = alphabet_value (s[i], alph);
+		gel_matrixw_set_index (m, i, 0) = gel_makenum_si (val);
+	}
+
+	return n;
+}
+
+static GelETree *
+AlphabetToString_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	char *s;
+	const char *alph;
+	int size;
+	int alph_size;
+	int i;
+	GelMatrixW *m;
+
+	if (a[0]->type == NULL_NODE)
+		return gel_makenum_string ("");
+
+	if (a[0]->type != MATRIX_NODE ||
+	    a[1]->type != STRING_NODE) {
+		(*errorout)(_("AlphabetToString: argument must be a matrix and a string"));
+		return NULL;
+	}
+
+	m = a[0]->mat.matrix;
+	alph = a[1]->str.str;
+
+	size = gel_matrixw_elements (m);
+	alph_size = strlen (alph);
+
+	s = g_new0 (char, size+1);
+
+	for (i = 0; i < size; i++) {
+		GelETree *t;
+		t = gel_matrixw_vindex (m, i);
+		if (t->type != VALUE_NODE ||
+		    mpw_is_complex (t->val.value) ||
+		    ! mpw_is_integer (t->val.value) ||
+		    mpw_sgn (t->val.value) < 0 ||
+		    mpw_cmp_ui (t->val.value, alph_size) >= 0) {
+			g_free (s);
+			(*errorout)(_("AlphabetToString: value out of range"));
+			return NULL;
+		}
+		s[i] = alph[mpw_get_long (t->val.value)];
+	}
+
+	return gel_makenum_string_use (s);
+}
+
+static GelETree *
 SetHelp_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type!=STRING_NODE ||
@@ -3736,6 +3944,8 @@ gel_funclib_addall(void)
 	FUNC (IsPerfectPower, 1, "n", "number_theory", _("Check a number for being any perfect power (a^b)"));
 	FUNC (Prime, 1, "n", "number_theory", _("Return the n'th prime (up to a limit)"));
 	ALIAS (prime, 1, Prime);
+	FUNC (IsEven, 1, "n", "number_theory", _("Tests if an integer is even"));
+	FUNC (IsOdd, 1, "n", "number_theory", _("Tests if an integer is odd"));
 
 	FUNC (NextPrime, 1, "n", "number_theory", _("Returns the least prime greater than n (if n is positive)"));
 	FUNC (LucasNumber, 1, "n", "number_theory", _("Returns the n'th Lucas number"));
@@ -3819,6 +4029,12 @@ gel_funclib_addall(void)
 
 	FUNC (Combinations, 2, "k,n", "combinatorics", _("Get all combinations of k numbers from 1 to n as a vector of vectors"));
 	FUNC (Permutations, 2, "k,n", "combinatorics", _("Get all permutations of k numbers from 1 to n as a vector of vectors"));
+
+	FUNC (StringToASCII, 1, "str", "misc", _("Convert a string to a vector of ASCII values"));
+	FUNC (ASCIIToString, 1, "vec", "misc", _("Convert a vector of ASCII values to a string"));
+
+	FUNC (StringToAlphabet, 2, "str,alphabet", "misc", _("Convert a string to a vector of 0-based alphabet values (positions in the alphabet string), -1's for unknown letters"));
+	FUNC (AlphabetToString, 2, "vec,alphabet", "misc", _("Convert a vector of 0-based alphabet values (positions in the alphabet string) to a string"));
 
 	FUNC (protect, 1, "id", "basic", _("Protect a variable from being modified"));
 	FUNC (unprotect, 1, "id", "basic", _("Unprotect a variable from being modified"));

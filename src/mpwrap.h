@@ -178,6 +178,8 @@ void mpw_nextprime (mpw_ptr rop, mpw_ptr op);
 int mpw_probab_prime_p (mpw_ptr op, mpw_ptr reps);
 gboolean mpw_perfect_square(mpw_ptr op);
 gboolean mpw_perfect_power(mpw_ptr op);
+gboolean mpw_even_p(mpw_ptr op);
+gboolean mpw_odd_p(mpw_ptr op);
 
 void mpw_pow(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 void mpw_pow_ui(mpw_ptr rop,mpw_ptr op, unsigned long int e);
