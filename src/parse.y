@@ -72,7 +72,7 @@ void yyerror(char *);
 
 %token AT MAKEIMAGPARENTH
 
-%token SEPAR NEXTROW EQUALS
+%token SEPAR NEXTROW EQUALS DEFEQUALS
 
 %token TRANSPOSE
 
@@ -100,7 +100,7 @@ void yyerror(char *);
 
 %nonassoc CALL
 
-%right EQUALS
+%right EQUALS DEFEQUALS
 
 %nonassoc CMP_CMP
 %right EQ_CMP NE_CMP LT_CMP GT_CMP LE_CMP GE_CMP
@@ -149,6 +149,7 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 						     gel_makenum_use(i));
 					  PUSH_ACT(E_MUL); }
 	|	expr EQUALS expr	{ PUSH_ACT(E_EQUALS); }
+	|	expr DEFEQUALS expr	{ PUSH_ACT(E_DEFEQUALS); }
 	|	'|' expr '|'		{ PUSH_ACT(E_ABS); }
 	|	expr '+' expr		{ PUSH_ACT(E_PLUS); }
 	|	expr '-' expr		{ PUSH_ACT(E_MINUS); }
@@ -221,14 +222,14 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 	|	UNTIL expr DO expr	{ PUSH_ACT(E_UNTIL_CONS); }
 	|	DO expr WHILE expr	{ PUSH_ACT(E_DOWHILE_CONS); }
 	|	DO expr UNTIL expr	{ PUSH_ACT(E_DOUNTIL_CONS); }
-	|	FOR ident EQUALS expr TO expr DO expr { PUSH_ACT(E_FOR_CONS); }
-	|	FOR ident EQUALS expr TO expr BY expr DO expr { PUSH_ACT(E_FORBY_CONS); }
+	|	FOR ident anyequals expr TO expr DO expr { PUSH_ACT(E_FOR_CONS); }
+	|	FOR ident anyequals expr TO expr BY expr DO expr { PUSH_ACT(E_FORBY_CONS); }
 	|	FOR ident IN expr DO expr { PUSH_ACT(E_FORIN_CONS); }
-	|	SUM ident EQUALS expr TO expr DO expr { PUSH_ACT(E_SUM_CONS); }
-	|	SUM ident EQUALS expr TO expr BY expr DO expr { PUSH_ACT(E_SUMBY_CONS); }
+	|	SUM ident anyequals expr TO expr DO expr { PUSH_ACT(E_SUM_CONS); }
+	|	SUM ident anyequals expr TO expr BY expr DO expr { PUSH_ACT(E_SUMBY_CONS); }
 	|	SUM ident IN expr DO expr { PUSH_ACT(E_SUMIN_CONS); }
-	|	PROD ident EQUALS expr TO expr DO expr { PUSH_ACT(E_PROD_CONS); }
-	|	PROD ident EQUALS expr TO expr BY expr DO expr { PUSH_ACT(E_PRODBY_CONS); }
+	|	PROD ident anyequals expr TO expr DO expr { PUSH_ACT(E_PROD_CONS); }
+	|	PROD ident anyequals expr TO expr BY expr DO expr { PUSH_ACT(E_PRODBY_CONS); }
 	|	PROD ident IN expr DO expr { PUSH_ACT(E_PRODIN_CONS); }
 	|	IF expr THEN expr %prec LOWER_THEN_ELSE	{ PUSH_ACT(E_IF_CONS); }
 	|	IF expr THEN expr ELSE expr { PUSH_ACT(E_IFELSE_CONS); }
@@ -245,7 +246,7 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 	|	expr CALL '(' exprlist ')' { PUSH_ACT(E_CALL); }
 	|	expr CALL '(' ')'	{ gp_push_marker_simple(EXPRLIST_START_NODE);
 					  PUSH_ACT(E_CALL); }
-	|	FUNCTION ident funcdef	{ PUSH_ACT(E_EQUALS); }
+	|	FUNCTION ident funcdef	{ PUSH_ACT(E_DEFEQUALS); }
 	|	PARAMETER paramdef
 	|	FUNCTION funcdef
 	|	'`' funcdef
@@ -259,7 +260,7 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 	|	STRING			{ PUSH_STRING($<id>1); }
 	|	'.'			{ gp_push_null(); }
 	;
-	
+
 deref:		'*' ident		{ PUSH_ACT(E_DEREFERENCE); }
 	;
 
@@ -269,7 +270,7 @@ ident:		FUNCID			{
 					}
 	;
 
-paramdef: 	ident EQUALS expr		{
+paramdef: 	ident anyequals expr %prec EQUALS {
 			gp_prepare_push_param (FALSE);
 			PUSH_ACT (E_PARAMETER);
 		}
@@ -278,18 +279,22 @@ paramdef: 	ident EQUALS expr		{
 			PUSH_ACT (E_PARAMETER);
 		}*/
 	;
+
+anyequals:	EQUALS
+	|	DEFEQUALS
+	;
 	
-funcdef:	'(' identlist ')' EQUALS expr %prec FUNCTION {
+funcdef:	'(' identlist ')' anyequals expr %prec FUNCTION {
 			if ( ! gp_push_func (FALSE /* vararg */)) {
 				SYNTAX_ERROR;
 			}
 						}
-	|	'(' identlist THREEDOTS ')' EQUALS expr %prec FUNCTION {
+	|	'(' identlist THREEDOTS ')' anyequals expr %prec FUNCTION {
 			if ( ! gp_push_func (TRUE /* vararg */)) {
 				SYNTAX_ERROR;
 			}
 							}
-	|	'(' ')' EQUALS expr %prec FUNCTION {
+	|	'(' ')' anyequals expr %prec FUNCTION {
 			if ( ! gp_push_marker (EXPRLIST_START_NODE)) {
 				SYNTAX_ERROR;
 			}

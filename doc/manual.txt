@@ -151,13 +151,17 @@ Setting Variables and Parameters:
 
 Syntax:
   <identifier> = <value>
+  <identifier> := <value>
 
 Example:
   x = 3
 
 The same goes for parameters.  However the difference is that variables are
-local (setting a variable inside a function will not have effect outside)
-and paramaters are global (doesn't matter where you set them).
+local (setting a variable inside a function will not have effect outside) and
+paramaters are global (doesn't matter where you set them).  You can also use
+the := operator which is the same as = in this context.  On the other hand
+the = operator may mean testing for equality when used in a place where
+boolean expression is expected.
 
 
 Defining Functions:
@@ -229,6 +233,9 @@ All the GEL operators:
 
 a;b		separator, just evaluates both but returns only b
 a=b		assignment operator asigns b to a (a must be a valid lvalue)
+		(note however that this operator may be translated to == if
+		 used in a place where boolean expression is expected)
+a:=b		assignment operator asigns b to a (a must be a valid lvalue)
 |a|		absolute value
 a^b		exponentiation
 a.^b		element by element exponentiation
@@ -302,6 +309,14 @@ Examples:
   if c>0 then c=c-1 else c=0
   a = ( if b>0 then b else 1 )
 
+Note that = will be translted to == if used inside the expression for if, so
+
+  if a=5 then a=a-1
+
+will be interpreted as:
+
+  if a==5 then a:=a-1
+
 
 Loops:
 ------
@@ -313,7 +328,8 @@ Syntax:
   do <expression2> until <expression1>
 
 These are similiar to other languages, however they return the result of
-the last iteration or NULL if no iteration was done.
+the last iteration or NULL if no iteration was done.  In the boolean
+expression, = is translated into == just as for the if statement.
 
 
 For loops:

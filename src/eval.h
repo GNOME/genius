@@ -30,7 +30,7 @@
 /* builtin primitives */
 enum {
 	E_SEPAR = 0,
-	E_EQUALS,
+	E_EQUALS, /* see E_DEFEQUALS (on the end not to break bincompat) */
 	E_PARAMETER,
 	E_ABS,
 	E_PLUS,
@@ -93,6 +93,7 @@ enum {
 	E_CONTINUE,
 	E_BREAK,
 	E_MOD_CALC,
+	E_DEFEQUALS,
 	E_OPER_LAST
 };
 

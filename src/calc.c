@@ -987,6 +987,8 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_output_string(gelo,"(break)"); break;
 		case E_MOD_CALC:
 			append_binaryoper(gelo," mod ",n); break;
+		case E_DEFEQUALS:
+			append_binaryoper (gelo, ":=", n); break;
 
 		default:
 			gel_errorout (_("Unexpected operator!"));

@@ -214,6 +214,7 @@ branches(int op)
 		case E_CONTINUE: return 0;
 		case E_BREAK: return 0;
 		case E_MOD_CALC: return 2;
+		case E_DEFEQUALS: return 2;
 	}
 	return 0;
 }
@@ -2286,6 +2287,7 @@ static const GelOper prim_table[E_OPER_LAST] = {
 	/*E_CONTINUE*/ EMPTY_PRIM,
 	/*E_BREAK*/ EMPTY_PRIM,
 	/*E_MOD_CALC*/ EMPTY_PRIM,
+	/*E_DEFEQUALS*/ EMPTY_PRIM,
 	/*E_OPER_LAST*/
 };
 
@@ -4717,6 +4719,7 @@ iter_get_op_name(int oper)
 	switch(oper) {
 	case E_SEPAR:
 	case E_EQUALS:
+	case E_DEFEQUALS:
 	case E_PARAMETER: break;
 	case E_ABS: name = g_strdup(_("Absolute value")); break;
 	case E_PLUS: name = g_strdup(_("Addition")); break;
@@ -4896,6 +4899,7 @@ iter_operator_pre(GelCtx *ctx)
 	
 	switch(n->op.oper) {
 	case E_EQUALS:
+	case E_DEFEQUALS:
 		EDEBUG("  EQUALS PRE");
 		GE_PUSH_STACK(ctx,n,GE_POST);
 		iter_push_indexes_and_arg(ctx,n);
@@ -5110,6 +5114,7 @@ iter_operator_post(GelCtx *ctx)
 		break;
 
 	case E_EQUALS:
+	case E_DEFEQUALS:
 		EDEBUG("  EQUALS POST");
 		iter_equalsop(n);
 		iter_pop_stack(ctx);
@@ -5309,7 +5314,7 @@ gel_subst_local_vars (GSList *funclist, GelETree *n)
 	} else if(n->type == OPERATOR_NODE) {
 		/* special case to avoid more work
 		 * then needed */
-		if (n->op.oper == E_EQUALS &&
+		if ((n->op.oper == E_EQUALS || n->op.oper == E_DEFEQUALS) &&
 		    n->op.args->type == IDENTIFIER_NODE) {
 			funclist = gel_subst_local_vars (funclist, n->op.args->any.next);
 		} else {

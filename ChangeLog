@@ -1,3 +1,15 @@
+Tue Mar 23 15:21:12 2004  George Lebl <jirka@5z.com>
+
+	* src/lexer.l, src/parse.y, src/eval.[ch], src/calc.c:  Add
+	  := (E_DEFEQUALS) operator which is never translated to ==.
+	  Also use E_DEFEQUALS on function definitions always so that
+	  they don't get translated (that would just be plain
+	  confusing).
+
+	* src/geniustests.txt: add tests for :=
+
+	* doc/manual.txt: update for the := operator
+
 Tue Mar 23 14:35:09 2004  George Lebl <jirka@5z.com>
 
 	* src/Makefile.am, src/gnome-genius.[ch], src/calc.c, src/eval.c:

@@ -251,6 +251,7 @@ gel_lexer_close(FILE *fp)
 ">"		{ NO_RET; return GT_CMP; }
 
 =		{ NO_RET; return EQUALS; }
+:=		{ NO_RET; return DEFEQUALS; }
 
 not		{ NO_RET; return LOGICAL_NOT; }
 and		{ NO_RET; return LOGICAL_AND; }
