@@ -495,6 +495,27 @@ static char * mpwl_getstring(MpwRealNum * num, int max_digits,
 			     GelOutputStyle style,
 			     int integer_output_base,
 			     const char *postfix);
+
+#define mpwl_getstring_for_error(n) \
+		mpwl_getstring ((n),					\
+				12 /* max_digits */,			\
+				FALSE /* scientific_notation */,	\
+				FALSE /* results_as_floats */,		\
+				FALSE /* mixed_fractions */,		\
+				GEL_OUTPUT_NORMAL,			\
+				10 /* integer_output_base */,		\
+				"" /* postfix */);
+
+#define mpw_getstring_for_error(n) \
+		mpw_getstring ((n),					\
+			       12 /* max_digits */,			\
+			       FALSE /* scientific_notation */,		\
+			       FALSE /* results_as_floats */,		\
+			       FALSE /* mixed_fractions */,		\
+			       GEL_OUTPUT_NORMAL,			\
+			       10 /* integer_output_base */,		\
+			       FALSE /* add_parenths */);
+
 /*************************************************************************/
 /*low level stuff                                                        */
 /*************************************************************************/
@@ -2620,7 +2641,8 @@ mpwl_perfect_square(MpwRealNum *op)
 	} else if (op->type == MPW_RATIONAL) {
 		return mympq_perfect_square_p (op->data.rval);
 	} else {
-		(*errorout)(_("perfect_square: can't work on non-integers!"));
+		gel_errorout (_("%s: can't work on non-integers!"),
+			      "perfect_square");
 		error_num=NUMERICAL_MPW_ERROR;
 		return FALSE;
 	}
@@ -2639,7 +2661,8 @@ mpwl_perfect_power (MpwRealNum *op)
 	} else if(op->type==MPW_INTEGER) {
 		return mpz_perfect_power_p(op->data.ival);
 	} else {
-		(*errorout)(_("perfect_power: can't work on non-integers!"));
+		gel_errorout (_("%s: can't work on non-integers!"),
+			      "perfect_power");
 		error_num=NUMERICAL_MPW_ERROR;
 		return FALSE;
 	}
@@ -2656,7 +2679,8 @@ mpwl_even_p (MpwRealNum *op)
 	} else if(op->type == MPW_INTEGER) {
 		return mpz_even_p (op->data.ival);
 	} else {
-		(*errorout)(_("even_p: can't work on non-integers!"));
+		gel_errorout (_("%s: can't work on non-integers!"),
+			      "even_p");
 		error_num=NUMERICAL_MPW_ERROR;
 		return FALSE;
 	}
@@ -2673,7 +2697,8 @@ mpwl_odd_p (MpwRealNum *op)
 	} else if(op->type == MPW_INTEGER) {
 		return mpz_odd_p (op->data.ival);
 	} else {
-		(*errorout)(_("odd_p: can't work on non-integers!"));
+		gel_errorout (_("%s: can't work on non-integers!"),
+			      "odd_p");
 		error_num=NUMERICAL_MPW_ERROR;
 		return FALSE;
 	}
@@ -3163,7 +3188,8 @@ mpwl_powm (MpwRealNum *rop,
 	if G_UNLIKELY ((op1->type != MPW_INTEGER && op1->type != MPW_NATIVEINT) ||
 		       (op2->type != MPW_INTEGER && op2->type != MPW_NATIVEINT) ||
 		       (mod->type != MPW_INTEGER && mod->type != MPW_NATIVEINT)) {
-		(*errorout) (_("powm: Bad types for mod power"));
+		gel_errorout (_("%s: Bad types for mod power"),
+			      "powm");
 		error_num = NUMERICAL_MPW_ERROR;
 		return;
 	}
@@ -3198,7 +3224,13 @@ mpwl_powm (MpwRealNum *rop,
 			if G_UNLIKELY ( ! mpz_invert (r.data.ival,
 						      r.data.ival,
 						      mod->data.ival)) {
-				(*errorout)(_("Can't invert in powm"));
+				char *n1 = mpwl_getstring_for_error (&r);
+				char *n2 = mpwl_getstring_for_error (mod);
+				gel_errorout (_("Can't invert %s modulo %s "
+					       "in %s"),
+					      n1, n2, "powm");
+				g_free (n1);
+				g_free (n2);
 				error_num = NUMERICAL_MPW_ERROR;
 				mpwl_clear (&r);
 				return;
@@ -3221,7 +3253,13 @@ mpwl_powm (MpwRealNum *rop,
 			if G_UNLIKELY ( ! mpz_invert (r.data.ival,
 						      r.data.ival,
 						      mod->data.ival)) {
-				(*errorout)(_("Can't invert in powm"));
+				char *n1 = mpwl_getstring_for_error (&r);
+				char *n2 = mpwl_getstring_for_error (mod);
+				gel_errorout (_("Can't invert %s modulo %s "
+					       "in %s"),
+					      n1, n2, "powm");
+				g_free (n1);
+				g_free (n2);
 				error_num = NUMERICAL_MPW_ERROR;
 				mpwl_clear (&r);
 				return;
@@ -3251,7 +3289,8 @@ mpwl_powm_ui (MpwRealNum *rop,
 
 	if G_UNLIKELY ((op->type != MPW_INTEGER && op->type != MPW_NATIVEINT) ||
 		       (mod->type != MPW_INTEGER && mod->type != MPW_NATIVEINT)) {
-		(*errorout) (_("powm: Bad types for mod power"));
+		gel_errorout (_("%s: Bad types for mod power"),
+			      "powm");
 		error_num = NUMERICAL_MPW_ERROR;
 		return;
 	}
@@ -3535,7 +3574,7 @@ mpwl_rand (MpwRealNum *rop)
 {
 	gmp_randstate_t rand_state;
 	gmp_randinit_default (rand_state);
-	randstate_seed += (unsigned long)time (NULL) * (unsigned long) rand ();
+	randstate_seed ^= g_random_int ();
 	gmp_randseed_ui (rand_state, randstate_seed);
 	mpwl_clear (rop);
 	mpwl_init_type (rop, MPW_FLOAT);
@@ -3547,6 +3586,8 @@ static void
 mpwl_randint (MpwRealNum *rop, MpwRealNum *op)
 {
 	gmp_randstate_t rand_state;
+	long range;
+	int ex;
 
 	if G_UNLIKELY (op->type != MPW_NATIVEINT &&
 		       op->type != MPW_INTEGER) {
@@ -3560,18 +3601,37 @@ mpwl_randint (MpwRealNum *rop, MpwRealNum *op)
 		return;
 	}
 
+	ex = 0;
+	range = mpwl_get_long (op, &ex);
+	if G_LIKELY (ex == 0 && range >= 0 && range < G_MAXINT32) {
+		mpwl_clear (rop);
+		mpwl_init_type (rop, MPW_NATIVEINT);
+		rop->data.nval = g_random_int_range (0, range);
+		return;
+	}
+
 	gmp_randinit_default (rand_state);
-	randstate_seed += (unsigned long)time (NULL) * (unsigned long) rand ();
+	randstate_seed ^= g_random_int ();
 	gmp_randseed_ui (rand_state, randstate_seed);
 
-	mpwl_clear (rop);
-	mpwl_init_type (rop, MPW_INTEGER);
 	if (op->type == MPW_INTEGER) {
+		mpwl_clear (rop);
+		mpwl_init_type (rop, MPW_INTEGER);
 		mpz_urandomm (rop->data.ival, rand_state, op->data.ival);
+	} else if (op->type == MPW_INTEGER &&
+		   op == rop) {
+		mpz_t z;
+		mpz_init_set (z, op->data.ival);
+		mpwl_clear (rop);
+		mpwl_init_type (rop, MPW_INTEGER);
+		mpz_urandomm (rop->data.ival, rand_state, z);
+		mpz_clear (z);
 	} else {
 		mpz_t z;
 		mpz_init (z);
 		mpz_set_si (z, op->data.nval);
+		mpwl_clear (rop);
+		mpwl_init_type (rop, MPW_INTEGER);
 		mpz_urandomm (rop->data.ival, rand_state, z);
 		mpz_clear (z);
 	}
@@ -4931,13 +4991,24 @@ mpw_invert (mpw_ptr rop, mpw_ptr op1, mpw_ptr mod)
 		MAKE_REAL (rop);
 		MAKE_COPY (rop->r);
 		if G_UNLIKELY ( ! mpwl_invert (rop->r, op1->r, mod->r)) {
-			error_num = NUMERICAL_MPW_ERROR;
-			/* FIXME: give the numbers */
-			(*errorout)(_("No modulo inverse found!"));
+			if (op1->r->type <= MPW_INTEGER &&
+			    mod->r->type <= MPW_INTEGER) {
+				char *n1, *n2;
+				/* if the above just failed because of
+				   types */
+				n1 = mpwl_getstring_for_error (op1->r);
+				n2 = mpwl_getstring_for_error (mod->r);
+				error_num = NUMERICAL_MPW_ERROR;
+				gel_errorout (_("Inverse of %s modulo "
+						"%s not found!"),
+					      n1, n2);
+				g_free (n1);
+				g_free (n2);
+			}
 		}
 	} else {
 		error_num=NUMERICAL_MPW_ERROR;
-		(*errorout)(_("Can't do modulo invert on complex numbers"));
+		gel_errorout (_("Can't do modulo invert on complex numbers"));
 	}
 }
 
@@ -4950,7 +5021,7 @@ mpw_gcd(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 		mpwl_gcd(rop->r,op1->r,op2->r);
 	} else {
 		error_num=NUMERICAL_MPW_ERROR;
-		(*errorout)(_("Can't GCD complex numbers"));
+		gel_errorout (_("Can't GCD complex numbers"));
 	}
 }
 void
@@ -5044,7 +5115,8 @@ mpw_perfect_square(mpw_ptr op)
 		return mpwl_perfect_square(op->r);
 	} else {
 		error_num=NUMERICAL_MPW_ERROR;
-		(*errorout)(_("perfect_square: can't work on complex numbers"));
+		gel_errorout (_("%s: can't work on complex numbers"),
+			      "perfect_square");
 		return FALSE;
 	}
 }
@@ -5055,7 +5127,8 @@ mpw_perfect_power(mpw_ptr op)
 		return mpwl_perfect_power(op->r);
 	} else {
 		error_num=NUMERICAL_MPW_ERROR;
-		(*errorout)(_("perfect_power: can't work on complex numbers"));
+		gel_errorout (_("%s: can't work on complex numbers"),
+			      "perfect_power");
 		return FALSE;
 	}
 }
@@ -5066,7 +5139,8 @@ mpw_even_p(mpw_ptr op)
 		return mpwl_even_p(op->r);
 	} else {
 		error_num=NUMERICAL_MPW_ERROR;
-		(*errorout)(_("even_p: can't work on complex numbers"));
+		gel_errorout (_("%s: can't work on complex numbers"),
+			      "even_p");
 		return FALSE;
 	}
 }
@@ -5077,7 +5151,8 @@ mpw_odd_p(mpw_ptr op)
 		return mpwl_odd_p(op->r);
 	} else {
 		error_num=NUMERICAL_MPW_ERROR;
-		(*errorout)(_("odd_p: can't work on complex numbers"));
+		gel_errorout (_("%s: can't work on complex numbers"),
+			      "odd_p");
 		return FALSE;
 	}
 }
@@ -5159,7 +5234,8 @@ mpw_powm(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2, mpw_ptr mod)
 	if G_UNLIKELY (op1->type != MPW_REAL ||
 		       op2->type != MPW_REAL ||
 		       mod->type != MPW_REAL) {
-		(*errorout) (_("powm: Bad types for mod power"));
+		gel_errorout (_("%s: Bad types for mod power"),
+			      "powm");
 		error_num = NUMERICAL_MPW_ERROR;
 		return;
 	}
@@ -5175,7 +5251,8 @@ mpw_powm_ui (mpw_ptr rop,mpw_ptr op, unsigned long int e, mpw_ptr mod)
 {
 	if G_UNLIKELY (op->type != MPW_REAL ||
 		       mod->type != MPW_REAL) {
-		(*errorout) (_("powm: Bad types for mod power"));
+		gel_errorout (_("%s: Bad types for mod power"),
+			      "powm");
 		error_num = NUMERICAL_MPW_ERROR;
 		return;
 	}
@@ -5248,7 +5325,8 @@ mpw_ln(mpw_ptr rop,mpw_ptr op)
 {
 	if(op->type==MPW_REAL) {
 		if G_UNLIKELY (mpwl_sgn(op->r)==0) {
-			(*errorout)(_("ln: can't take logarithm of 0"));
+			gel_errorout (_("%s: can't take logarithm of 0"),
+				      "ln");
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
 		}
@@ -5318,7 +5396,8 @@ mpw_log2(mpw_ptr rop,mpw_ptr op)
 {
 	if(op->type==MPW_REAL) {
 		if G_UNLIKELY (mpwl_sgn(op->r)==0) {
-			(*errorout)(_("log2: can't take logarithm of 0"));
+			gel_errorout (_("%s: can't take logarithm of 0"),
+				      "log2");
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
 		}
@@ -5384,7 +5463,8 @@ mpw_log10(mpw_ptr rop,mpw_ptr op)
 {
 	if(op->type==MPW_REAL) {
 		if G_UNLIKELY (mpwl_sgn(op->r)==0) {
-			(*errorout)(_("log10: can't take logarithm of 0"));
+			gel_errorout (_("%s: can't take logarithm of 0"),
+				      "log10");
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
 		}

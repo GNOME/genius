@@ -167,6 +167,7 @@ void gel_expandmatrix (GelETree *n);
 /* Functions to fixup the parsed tree */
 GelETree * gather_comparisons(GelETree *n);
 void replace_equals (GelETree *n, gboolean in_expression);
+void replace_exp (GelETree *n);
 void fixup_num_neg (GelETree *n);
 void try_to_do_precalc(GelETree *n);
 

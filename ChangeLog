@@ -1,3 +1,14 @@
+Fri Mar 19 11:05:00 2004  George Lebl <jirka@5z.com>
+
+	* src/eval.[ch], src/calc.c: translate e^x to exp(x) since that is
+	  more precise
+
+	* src/mpwrap.c: better error reporting for inverses, better random
+	  number seeding, fix of mpw_randint function if rop==op, and minor
+	  general cleanup
+
+	* configure.in: raise version
+
 Wed Mar 10 21:22:00 2004 Alastair McKinstry <mckinstry@computer.org>
 
 	* configure.in: Added ga to ALL_LINGUAS (Irish).

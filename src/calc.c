@@ -2669,6 +2669,7 @@ gel_parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean tes
 		return NULL;
 	}
 	replace_equals (evalstack->data, FALSE /* in_expression */);
+	replace_exp (evalstack->data);
 	fixup_num_neg (evalstack->data);
 	evalstack->data = gather_comparisons (evalstack->data);
 	try_to_do_precalc (evalstack->data);

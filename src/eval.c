@@ -5702,6 +5702,56 @@ replace_equals (GelETree *n, gboolean in_expression)
 	}
 }
 
+void
+replace_exp (GelETree *n)
+{
+	if (n == NULL)
+		return;
+
+	if (n->type == SPACER_NODE) {
+		replace_exp (n->sp.arg);
+	} else if(n->type == OPERATOR_NODE) {
+		GelETree *args;
+		if (n->op.oper == E_EXP &&
+		    n->op.args->type == IDENTIFIER_NODE &&
+		    n->op.args->id.id->token != NULL &&
+		    strcmp (n->op.args->id.id->token, "e") == 0) {
+			n->op.oper = E_DIRECTCALL;
+			n->op.args->id.id = d_intern ("exp");
+		}
+
+		args = n->op.args;
+		while (args != NULL) {
+			replace_exp (args);
+			args = args->any.next;
+		}
+	} else if (n->type == MATRIX_NODE &&
+		   n->mat.matrix != NULL) {
+		int i,j;
+		int w,h;
+		w = gel_matrixw_width (n->mat.matrix);
+		h = gel_matrixw_height (n->mat.matrix);
+		gel_matrixw_make_private (n->mat.matrix);
+		for (i = 0; i < w; i++) {
+			for(j = 0; j < h; j++) {
+				GelETree *t = gel_matrixw_set_index
+					(n->mat.matrix, i, j);
+				if (t != NULL)
+					replace_exp (t);
+			}
+		}
+	} else if (n->type == SET_NODE ) {
+		GelETree *ali;
+		for(ali = n->set.items; ali != NULL; ali = ali->any.next)
+			replace_exp (ali);
+	} else if (n->type == FUNCTION_NODE &&
+		   (n->func.func->type == GEL_USER_FUNC ||
+		    n->func.func->type == GEL_VARIABLE_FUNC) &&
+		   n->func.func->data.user != NULL) {
+		replace_exp (n->func.func->data.user);
+	}
+}
+
 /* Fixup number negation */
 void
 fixup_num_neg (GelETree *n)
