@@ -809,7 +809,7 @@ ensure_window (void)
 	}
 
 	graph_window = gtk_dialog_new_with_buttons
-		(_("Genius Line Plot") /* title */,
+		(_("Plot") /* title */,
 		 GTK_WINDOW (genius_window) /* parent */,
 		 0 /* flags */,
 		 GTK_STOCK_STOP,
