@@ -18,6 +18,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
  * USA.
  */
+/*
+ * WARNING: X and Y are flipped on the surface plotting !!!!
+ */
 #include "config.h"
 
 #include <gnome.h>
@@ -179,11 +182,58 @@ plot_window_setup (void)
 }
 
 static void
+show_z_axis (gboolean do_show)
+{
+	if (do_show) {
+		gtk_plot3d_axis_show_labels (GTK_PLOT3D (surface_plot),
+					     GTK_PLOT_SIDE_ZY,
+					     GTK_PLOT_LABEL_OUT);
+		gtk_plot3d_axis_show_labels (GTK_PLOT3D (surface_plot),
+					     GTK_PLOT_SIDE_ZX,
+					     GTK_PLOT_LABEL_OUT);
+		gtk_plot3d_axis_show_ticks (GTK_PLOT3D (surface_plot),
+					    GTK_PLOT_SIDE_ZY,
+					    GTK_PLOT_TICKS_OUT,
+					    GTK_PLOT_TICKS_OUT);
+		gtk_plot3d_axis_show_ticks (GTK_PLOT3D (surface_plot),
+					    GTK_PLOT_SIDE_ZX,
+					    GTK_PLOT_TICKS_OUT,
+					    GTK_PLOT_TICKS_OUT);
+		gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
+					    GTK_PLOT_SIDE_ZX);
+		gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
+					    GTK_PLOT_SIDE_ZY);
+	} else {
+		gtk_plot3d_axis_show_labels (GTK_PLOT3D (surface_plot),
+					     GTK_PLOT_SIDE_ZY,
+					     GTK_PLOT_LABEL_NONE);
+		gtk_plot3d_axis_show_labels (GTK_PLOT3D (surface_plot),
+					     GTK_PLOT_SIDE_ZX,
+					     GTK_PLOT_LABEL_NONE);
+		gtk_plot3d_axis_show_ticks (GTK_PLOT3D (surface_plot),
+					    GTK_PLOT_SIDE_ZY,
+					    GTK_PLOT_TICKS_NONE,
+					    GTK_PLOT_TICKS_NONE);
+		gtk_plot3d_axis_show_ticks (GTK_PLOT3D (surface_plot),
+					    GTK_PLOT_SIDE_ZX,
+					    GTK_PLOT_TICKS_NONE,
+					    GTK_PLOT_TICKS_NONE);
+		gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
+					    GTK_PLOT_SIDE_ZX);
+		gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
+					    GTK_PLOT_SIDE_ZY);
+	}
+}
+
+static void
 rotate_x_cb (GtkWidget *button, gpointer data)
 {
 	int rot = GPOINTER_TO_INT (data);
 
-	gtk_plot3d_rotate_x (GTK_PLOT3D (surface_plot), rot);
+	/* x/y are flipped */
+	gtk_plot3d_rotate_y (GTK_PLOT3D (surface_plot), rot);
+
+	show_z_axis (TRUE);
 
 	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 	gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
@@ -194,7 +244,10 @@ rotate_y_cb (GtkWidget *button, gpointer data)
 {
 	int rot = GPOINTER_TO_INT (data);
 
-	gtk_plot3d_rotate_y (GTK_PLOT3D (surface_plot), rot);
+	/* x/y are flipped */
+	gtk_plot3d_rotate_x (GTK_PLOT3D (surface_plot), rot);
+
+	show_z_axis (TRUE);
 
 	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 	gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
@@ -206,6 +259,9 @@ rotate_z_cb (GtkWidget *button, gpointer data)
 	int rot = GPOINTER_TO_INT (data);
 
 	gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), rot);
+
+	/* don't neccessarily show the z axis here, if we're in top
+	   view this could be legitimate */
 
 	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 	gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
@@ -326,8 +382,9 @@ reset_angles_cb (GtkWidget *button, gpointer data)
 	if (surface_plot != NULL) {
 		gtk_plot3d_reset_angles (GTK_PLOT3D (surface_plot));
 		gtk_plot3d_rotate_y (GTK_PLOT3D (surface_plot), 30.0);
-		gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 60.0);
+		gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 330.0);
 
+		show_z_axis (TRUE);
 
 		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 		gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
@@ -340,7 +397,8 @@ top_view_cb (GtkWidget *button, gpointer data)
 	if (surface_plot != NULL) {
 		gtk_plot3d_reset_angles (GTK_PLOT3D (surface_plot));
 		gtk_plot3d_rotate_y (GTK_PLOT3D (surface_plot), 90.0);
-		gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 90.0);
+
+		show_z_axis (FALSE);
 
 		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 		gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
@@ -856,8 +914,8 @@ plot_select_region (GtkPlotCanvas *canvas,
 		genius_setup.info_box = TRUE;
 		genius_setup.error_box = TRUE;
 
-		/* FIXME: evil because this is the selection thingie, hmmm, I dunno another
-		   way to do this though */
+		/* FIXME: evil because this is the selection thingie,
+		   hmmm, I dunno another way to do this though */
 
 		gtk_plot_get_position (GTK_PLOT (line_plot), &px, &py);
 		gtk_plot_get_size (GTK_PLOT (line_plot), &pw, &ph);
@@ -951,23 +1009,24 @@ add_surface_plot (void)
 	gtk_plot_canvas_add_plot (GTK_PLOT_CANVAS (plot_canvas),
 				  GTK_PLOT (surface_plot), PROPORTION3D_OFFSET, PROPORTION3D_OFFSET);
 
-	/*gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
-				    GTK_PLOT_SIDE_XY);*/
-	gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
+	gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
+				    GTK_PLOT_SIDE_XY);
+	gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
 				    GTK_PLOT_SIDE_XZ);
-	gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
+	gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
 				    GTK_PLOT_SIDE_YX);
-	/*gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
-				    GTK_PLOT_SIDE_YZ);*/
-	gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
+	gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
+				    GTK_PLOT_SIDE_YZ);
+	gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
 				    GTK_PLOT_SIDE_ZX);
-	/*gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
-				    GTK_PLOT_SIDE_ZY);*/
+	gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
+				    GTK_PLOT_SIDE_ZY);
 
+	/* X/Y are flipped! */
 	gtk_plot_axis_set_title (GTK_PLOT (surface_plot),
-				 GTK_PLOT_AXIS_BOTTOM, "X");
+				 GTK_PLOT_AXIS_BOTTOM, "Y");
 	gtk_plot_axis_set_title (GTK_PLOT (surface_plot),
-				 GTK_PLOT_AXIS_LEFT, "Y");
+				 GTK_PLOT_AXIS_LEFT, "X");
 	gtk_plot_axis_set_title (GTK_PLOT (surface_plot),
 				 GTK_PLOT_AXIS_TOP, "Z");
 
@@ -1050,7 +1109,7 @@ ensure_window (void)
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	plot_zoomin_item = item;
 
-	item = gtk_menu_item_new_with_mnemonic (_("Fit dependent axis"));
+	item = gtk_menu_item_new_with_mnemonic (_("_Fit dependent axis"));
 	g_signal_connect (G_OBJECT (item), "activate",
 			  G_CALLBACK (plot_zoomfit_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -1058,7 +1117,7 @@ ensure_window (void)
 
 
 	menu = gtk_menu_new ();
-	item = gtk_menu_item_new_with_mnemonic (_("_Surface"));
+	item = gtk_menu_item_new_with_mnemonic (_("_View"));
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), menu);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), item);
 	surface_menu_item = item;
@@ -1073,7 +1132,7 @@ ensure_window (void)
 			  G_CALLBACK (top_view_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
-	item = gtk_menu_item_new_with_mnemonic (_("Rotate axis..."));
+	item = gtk_menu_item_new_with_mnemonic (_("R_otate axis..."));
 	g_signal_connect (G_OBJECT (item), "activate",
 			  G_CALLBACK (rotate_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -1180,11 +1239,13 @@ surface_setup_axis (void)
 	get_ticks (surfacey1, surfacey2, &ytick, &yprec);
 	get_ticks (surfacez1, surfacez2, &ztick, &zprec);
 
-	gtk_plot3d_axis_set_ticks (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_X, xtick, 1);
-	gtk_plot3d_axis_set_ticks (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_Y, ytick, 1);
+	/* X/Y are flipped! */
+	gtk_plot3d_axis_set_ticks (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_Y, xtick, 1);
+	gtk_plot3d_axis_set_ticks (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_X, ytick, 1);
 	gtk_plot3d_axis_set_ticks (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_Z, ztick, 1);
-	gtk_plot3d_set_xrange (GTK_PLOT3D (surface_plot), surfacex1, surfacex2);
-	gtk_plot3d_set_yrange (GTK_PLOT3D (surface_plot), surfacey1, surfacey2);
+	/* X/Y are flipped! */
+	gtk_plot3d_set_yrange (GTK_PLOT3D (surface_plot), surfacex1, surfacex2);
+	gtk_plot3d_set_xrange (GTK_PLOT3D (surface_plot), surfacey1, surfacey2);
 	gtk_plot3d_set_zrange (GTK_PLOT3D (surface_plot), surfacez1, surfacez2);
 
 	gtk_plot_axis_set_labels_style (GTK_PLOT (surface_plot),
@@ -1205,8 +1266,9 @@ surface_setup_axis (void)
 static void
 surface_setup_steps (void)
 {
-	gtk_plot_surface_set_xstep (GTK_PLOT_SURFACE (surface_data), (surfacex2-surfacex1)/30);
-	gtk_plot_surface_set_ystep (GTK_PLOT_SURFACE (surface_data), (surfacey2-surfacey1)/30);
+	/* X/Y are flipped! */
+	gtk_plot_surface_set_ystep (GTK_PLOT_SURFACE (surface_data), (surfacex2-surfacex1)/30);
+	gtk_plot_surface_set_xstep (GTK_PLOT_SURFACE (surface_data), (surfacey2-surfacey1)/30);
 
 	gtk_plot_data_set_gradient (surface_data,
 				    surfacez1,
@@ -1468,8 +1530,9 @@ plot_func_data (GtkPlot *plot, GtkPlotData *data, double x, gboolean *error)
 	return y;
 }
 
+/* NOTE: X and Y are flipped! */
 static double
-surface_func_data (GtkPlot *plot, GtkPlotData *data, double x, double y, gboolean *error)
+surface_func_data (GtkPlot *plot, GtkPlotData *data, double y, double x, gboolean *error)
 {
 	static int hookrun = 0;
 	gboolean ex = FALSE;
@@ -1905,6 +1968,10 @@ plot_surface_functions (void)
 	plot_miny = G_MAXDOUBLE/2;
 
 	surface_setup_axis ();
+
+	gtk_plot3d_reset_angles (GTK_PLOT3D (surface_plot));
+	gtk_plot3d_rotate_y (GTK_PLOT3D (surface_plot), 30.0);
+	gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 330.0);
 
 	if G_UNLIKELY (plot_arg == NULL) {
 		plot_ctx = eval_get_context ();
