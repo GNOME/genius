@@ -37,8 +37,6 @@
 #include "matop.h"
 #include "geloutput.h"
 
-extern void (*errorout)(char *);
-extern void (*infoout)(char *);
 extern calc_error_t error_num;
 extern int got_eof;
 extern calcstate_t calcstate;
@@ -648,17 +646,17 @@ ColumnsOf_op (GelCtx *ctx, GelETree * * a, int *exception)
 	return n;
 }
 
-/*conj function*/
+/*ComplexConjugate function*/
 static GelETree *
-conj_op (GelCtx *ctx, GelETree * * a, int *exception)
+ComplexConjugate_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	mpw_t fr;
 
 	if (a[0]->type == MATRIX_NODE)
-		return apply_func_to_matrix (ctx, a[0], conj_op, "conj");
+		return apply_func_to_matrix (ctx, a[0], ComplexConjugate_op, "ComplexConjugate");
 
 	if (a[0]->type != VALUE_NODE) {
-		(*errorout)(_("conj: argument not a number"));
+		(*errorout)(_("ComplexConjugate: argument not a number"));
 		return NULL;
 	}
 
@@ -2096,42 +2094,170 @@ polytofunc_op(GelCtx *ctx, GelETree * * a, int *exception)
 	return n;
 }
 
-static GelETree *
-help_op(GelCtx *ctx, GelETree * * a, int *exception)
+static char *
+make_function_with_aliases (const char *func, GSList *aliases)
 {
-	GSList *funcs;
 	GSList *li;
-	
-	funcs = d_getcontext();
-	if(!funcs) return gel_makenum_null();
-	funcs = g_slist_reverse(g_slist_copy(funcs));
-	for(li=funcs;li;li=g_slist_next(li)) {
-		GelEFunc *f = li->data;
-		char *s;
-		if(!f->id || !f->id->token ||
-		   strcmp(f->id->token,"ni")==0 ||
-		   strcmp(f->id->token,"shrubbery")==0)
-			continue;
-		s = g_strdup_printf("%-20s - %s",
-				    f->id->token,get_description(f->id->token));
-		(*infoout)(s);
-		g_free(s);
+	GString *gs = g_string_new (func);
+	for (li = aliases; li != NULL; li = li->next) {
+		g_string_append (gs, ",");
+		g_string_append (gs, li->data);
 	}
-	g_slist_free(funcs);
+	return g_string_free (gs, FALSE);
+}
+
+static void
+print_function_help (GelHelp *help)
+{
+	if (help->aliasfor == NULL) {
+		char *s, *f;
+		int len;
+		f = make_function_with_aliases (help->func, help->aliases);
+		len = strlen (f);
+		if (len <= 20)
+			s = g_strdup_printf ("%-20s - %s",
+					     f,
+					     help->description);
+		else
+			s = g_strdup_printf ("%-20s - %s",
+					     help->func,
+					     help->description);
+		g_free (f);
+		(*infoout) (s);
+		g_free (s);
+		/* if we didn't fit aliases on one line */
+		if (len > 20 && help->aliases != NULL) {
+			GSList *li;
+			GString *gs = g_string_new ("Aliases for ");
+			g_string_append (gs, help->func);
+			g_string_append (gs, ":");
+			for (li = help->aliases; li != NULL; li = li->next) {
+				g_string_append (gs, " ");
+				g_string_append (gs, li->data);
+			}
+			(*infoout) (gs->str);
+			g_string_free (gs, TRUE);
+		}
+	}
+}
+
+static GelETree *
+help_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GSList *categories = get_categories ();
+	GSList *functions;
+	GSList *cli, *fli;
+
+	for (cli = categories; cli != NULL; cli = cli->next) {
+		char *cat = cli->data;
+		functions = get_helps (cat);
+
+		if (functions != NULL) {
+			/* empty line */
+			(*infoout) ("");
+
+			(*infoout) (get_category_name (cat));
+
+			/* empty line */
+			(*infoout) ("");
+
+			for (fli = functions; fli != NULL; fli = fli->next) {
+				GelHelp *help = fli->data;
+				print_function_help (help);
+			}
+
+			g_slist_free (functions);
+		}
+
+		g_free (cat);
+	}
+	g_slist_free (categories);
+
+	functions = get_helps (NULL);
+	if (functions != NULL) {
+		/* empty line */
+		(*infoout) ("");
+
+		(*infoout) (get_category_name (NULL));
+
+		/* empty line */
+		(*infoout) ("");
+
+		for (fli = functions; fli != NULL; fli = fli->next) {
+			GelHelp *help = fli->data;
+			print_function_help (help);
+		}
+
+		g_slist_free (functions);
+	}
+
+	functions = get_undocumented ();
+	if (functions != NULL) {
+		GString *gs = g_string_new (NULL);
+		int len = 0;
+		/* empty line */
+		(*infoout) ("");
+
+		/* empty line */
+		(*infoout) (_("Undocumented:"));
+
+
+
+		for (fli = functions; fli != NULL; fli = fli->next) {
+			char *f = fli->data;
+			int flen = strlen (f);
+
+			if (len + flen + 1 > 78 && len > 0) {
+				(*infoout) (gs->str);
+				g_string_truncate (gs, 0);
+				len = 0;
+			}
+			g_string_append (gs, f);
+			len += flen;
+			if (fli->next != NULL) {
+				g_string_append_c (gs, ',');
+				len++;
+			}
+
+			g_free (f);
+		}
+		if (len > 0) {
+			(*infoout) (gs->str);
+		}
+		g_string_free (gs, TRUE);
+
+		g_slist_free (functions);
+	}
 
 	return gel_makenum_null();
 }
 
 static GelETree *
-sethelp_op(GelCtx *ctx, GelETree * * a, int *exception)
+SetHelp_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type!=STRING_NODE ||
-	   a[1]->type!=STRING_NODE) {
-		(*errorout)(_("sethelp: arguments must be strings (function name,help text)"));
+	   a[1]->type!=STRING_NODE ||
+	   a[2]->type!=STRING_NODE) {
+		(*errorout)(_("SetHelp: arguments must be strings (function name, category, help text)"));
 		return NULL;
 	}
 	
-	add_description(a[0]->str.str,a[1]->str.str);
+	add_category (a[0]->str.str, a[1]->str.str);
+	add_description (a[0]->str.str, a[2]->str.str);
+
+	return gel_makenum_null();
+}
+
+static GelETree *
+SetHelpAlias_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	if(a[0]->type!=STRING_NODE ||
+	   a[1]->type!=STRING_NODE) {
+		(*errorout)(_("SetHelpAlias: arguments must be strings (function name, alias)"));
+		return NULL;
+	}
+	
+	add_alias (a[0]->str.str, a[1]->str.str);
 
 	return gel_makenum_null();
 }
@@ -2461,146 +2587,151 @@ void
 gel_funclib_addall(void)
 {
 	GelEFunc *f;
-	d_addfunc(d_makebifunc(d_intern("warranty"),warranty_op,0));
-	add_description("warranty",_("Gives the warranty information"));
-	d_addfunc(d_makebifunc(d_intern("exit"),exit_op,0));
-	add_description("exit",_("Exits the program"));
-	d_addfunc(d_makebifunc(d_intern("quit"),exit_op,0));
-	add_description("quit",_("Exits the program"));
-	d_addfunc(d_makebifunc(d_intern("error"),error_op,1));
-	add_description("error",_("Prints a string to the error stream"));
-	d_addfunc(d_makebifunc(d_intern("print"),print_op,1));
-	add_description("print",_("Prints an expression"));
-	d_addfunc(d_makebifunc(d_intern("printn"),printn_op,1));
-	add_description("printn",_("Prints an expression without a trailing newline"));
-	d_addfunc(d_makebifunc(d_intern("display"),display_op,2));
-	add_description("display",_("Display a string and an expression"));
 
-	d_addfunc(d_makebifunc(d_intern("set"),set_op,2));
-	add_description("set",_("Set a global variable"));
+	new_category ("basic", _("Basic"));
+	new_category ("parameters", _("Parameters"));
+	new_category ("constants", _("Constants"));
+	new_category ("numeric", _("Numeric"));
+	new_category ("trigonometry", _("Trigonometry"));
+	new_category ("number_theory", _("Number Theory"));
+	new_category ("matrix", _("Matrix Manipulation"));
+	new_category ("linear_algebra", _("Linear Algebra"));
+	new_category ("combinatorics", _("Combinatorics"));
+	new_category ("calculus", _("Calculus"));
+	new_category ("functions", _("Functions"));
+	new_category ("equation_solving", _("Equation Solving"));
+	new_category ("statistics", _("Statistics"));
+	new_category ("misc", _("Miscellaneous"));
 
-	f = d_addfunc(d_makebifunc(d_intern("rand"),rand_op,1 /* one less actually */));
-	f->vararg = TRUE;
-	add_description("rand",_("Generate random float"));
-	f = d_addfunc(d_makebifunc(d_intern("randint"),randint_op,2 /* one less actually */));
-	f->vararg = TRUE;
-	add_description("randint",_("Generate random integer"));
+	/* FIXME: add more help fields */
+#define FUNC(name,args,category,desc) \
+	d_addfunc (d_makebifunc (d_intern ( #name ), name ## _op, args)); \
+	add_category ( #name , category); \
+	add_description ( #name , desc);
+#define VFUNC(name,args,category,desc) \
+	f = d_addfunc (d_makebifunc (d_intern ( #name ), name ## _op, args)); \
+	f->vararg = TRUE; \
+	add_category ( #name , category); \
+	add_description ( #name , desc);
+#define ALIAS(name,args,aliasfor) \
+	d_addfunc (d_makebifunc (d_intern ( #name ), aliasfor ## _op, args)); \
+	add_alias ( #aliasfor , #name );
+#define VALIAS(name,args,aliasfor) \
+	f = d_addfunc (d_makebifunc (d_intern ( #name ), aliasfor ## _op, args)); \
+	f->vararg = TRUE; \
+	add_alias ( #aliasfor , #name );
 
-	d_addfunc(d_makebifunc(d_intern("set_float_prec"),set_float_prec_op,1));
-	add_description("set_float_prec",_("Set floating point precision"));
-	d_addfunc(d_makebifunc(d_intern("get_float_prec"),get_float_prec_op,0));
-	add_description("get_float_prec",_("Get floating point precision"));
-	d_addfunc(d_makebifunc(d_intern("set_max_digits"),set_max_digits_op,1));
-	add_description("set_max_digits",_("Set maximum digits to display"));
-	d_addfunc(d_makebifunc(d_intern("get_max_digits"),get_max_digits_op,0));
-	add_description("get_max_digits",_("Get maximum digits to display"));
+	FUNC (warranty, 0, "basic", _("Gives the warranty information"));
+	FUNC (exit, 0, "basic", _("Exits the program"));
+	ALIAS (quit, 0, exit);
+	FUNC (error, 1, "basic", _("Prints a string to the error stream"));
+	FUNC (print, 1, "basic", _("Prints an expression"));
+	FUNC (printn, 1, "basic", _("Prints an expression without a trailing newline"));
+	FUNC (display, 2, "basic", _("Display a string and an expression"));
+	FUNC (set, 2, "basic", _("Set a global variable"));
+
+	FUNC (help, 0, "basic", _("Display function list with small help"));
+	FUNC (SetHelp, 3, "basic", _("Set the category and help description line for a function"));
+	FUNC (SetHelpAlias, 2, "basic", _("Sets up a help alias"));
+
+	VFUNC (rand, 1, "numeric", _("Generate random float"));
+	VFUNC (randint, 2, "numeric", _("Generate random integer"));
+
+	FUNC (set_float_prec, 1, "parameters", _("Set floating point precision"));
+	FUNC (get_float_prec, 0, "parameters", _("Get floating point precision"));
+	FUNC (set_max_digits, 1, "parameters", _("Set maximum digits to display"));
+	FUNC (get_max_digits, 0, "parameters", _("Get maximum digits to display"));
+	FUNC (set_max_errors, 1, "parameters", _("Set maximum errors to be printed"));
+	FUNC (get_max_errors, 0, "parameters", _("Get maximum errors to be printed"));
+	FUNC (set_output_style, 1, "parameters", _("Set output style (normal, latex or troff)"));
+	FUNC (get_output_style, 0, "parameters", _("Get output style (normal, latex or troff)"));
+	FUNC (set_integer_output_base, 1, "parameters", _("Set the integer output base"));
+	FUNC (get_integer_output_base, 0, "parameters", _("Get the integer output base"));
+
 	d_addfunc(d_makebifunc(d_intern("set_results_as_floats"),set_results_as_floats_op,1));
 	d_addfunc(d_makebifunc(d_intern("get_results_as_floats"),get_results_as_floats_op,0));
 	d_addfunc(d_makebifunc(d_intern("set_scientific_notation"),set_scientific_notation_op,1));
 	d_addfunc(d_makebifunc(d_intern("get_scientific_notation"),get_scientific_notation_op,0));
 	d_addfunc(d_makebifunc(d_intern("set_full_expressions"),set_full_expressions_op,1));
 	d_addfunc(d_makebifunc(d_intern("get_full_expressions"),get_full_expressions_op,0));
-	d_addfunc(d_makebifunc(d_intern("set_max_errors"),set_max_errors_op,1));
-	add_description("set_max_errors",_("Set maximum number of errors printed"));
-	d_addfunc(d_makebifunc(d_intern("get_max_errors"),get_max_errors_op,0));
-	add_description("get_max_errors",_("Get maximum number of errors printed"));
 	d_addfunc(d_makebifunc(d_intern("set_mixed_fractions"),set_mixed_fractions_op,1));
 	add_description("set_mixed_fractions",_("Set if we print fractions in mixed format"));
 	d_addfunc(d_makebifunc(d_intern("get_mixed_fractions"),get_mixed_fractions_op,0));
 	add_description("get_mixed_fractions",_("Get if we print fractions in mixed format"));
-	d_addfunc(d_makebifunc(d_intern("set_integer_output_base"),set_integer_output_base_op,1));
-	add_description("set_integer_output_base",_("Set the integer output base"));
-	d_addfunc(d_makebifunc(d_intern("get_integer_output_base"),get_integer_output_base_op,0));
-	add_description("get_integer_output_base",_("Get the integer output base"));
-	d_addfunc(d_makebifunc(d_intern("set_output_style"),set_output_style_op,1));
-	d_addfunc(d_makebifunc(d_intern("get_output_style"),get_output_style_op,0));
 
+	/* secret functions */
 	d_addfunc(d_makebifunc(d_intern("ni"),ni_op,0));
 	d_addfunc(d_makebifunc(d_intern("shrubbery"),shrubbery_op,0));
-	d_addfunc(d_makebifunc(d_intern("ExpandMatrix"),ExpandMatrix_op,1));
-	add_description("ExpandMatrix",_("Expands a matrix just like we do on unquoted matrix input"));
-	d_addfunc(d_makebifunc(d_intern("RowsOf"),RowsOf_op,1));
-	add_description("RowsOf",_("Gets the rows of a matrix as a vertical vector"));
-	d_addfunc(d_makebifunc(d_intern("ColumnsOf"),ColumnsOf_op,1));
-	add_description("ColumnsOf",_("Gets the columns of a matrix as a horizontal vector"));
-	d_addfunc(d_makebifunc(d_intern("conj"),conj_op,1));
-	add_description("conj",_("Calculates the conjugate"));
-	d_addfunc(d_makebifunc(d_intern("sin"),sin_op,1));
-	add_description("sin",_("Calculates the sine function"));
-	d_addfunc(d_makebifunc(d_intern("cos"),cos_op,1));
-	add_description("cos",_("Calculates the cosine function"));
-	d_addfunc(d_makebifunc(d_intern("sinh"),sinh_op,1));
-	add_description("sinh",_("Calculates the hyperbolic sine function"));
-	d_addfunc(d_makebifunc(d_intern("cosh"),cosh_op,1));
-	add_description("cosh",_("Calculates the hyperbolic cosine function"));
-	d_addfunc(d_makebifunc(d_intern("tan"),tan_op,1));
-	add_description("tan",_("Calculates the tan function"));
-	d_addfunc(d_makebifunc(d_intern("atan"),atan_op,1));
-	add_description("atan",_("Calculates the arctan function"));
-	d_addfunc(d_makebifunc(d_intern("pi"),pi_op,0));
-	add_description("pi",_("The number pi"));
-	d_addfunc(d_makebifunc(d_intern("e"),e_op,0));
-	add_description("e",_("The natural number e"));
-	d_addfunc(d_makebifunc(d_intern("i"),i_op,0));
-	add_description("i",_("The imaginary number"));
-	d_addfunc(d_makebifunc(d_intern("sqrt"),sqrt_op,1));
-	add_description("sqrt",_("The square root"));
-	d_addfunc(d_makebifunc(d_intern("exp"),exp_op,1));
-	add_description("exp",_("The exponential function"));
-	d_addfunc(d_makebifunc(d_intern("ln"),ln_op,1));
-	add_description("ln",_("The natural logarithm function"));
-	d_addfunc(d_makebifunc(d_intern("gcd"),gcd_op,2));
-	add_description("gcd",_("Greatest common divisor"));
-	d_addfunc(d_makebifunc(d_intern("lcm"),lcm_op,2));
-	add_description("lcm",_("Least common multiplier"));
+
+	FUNC (ExpandMatrix, 1, "matrix", _("Expands a matrix just like we do on unquoted matrix input"));
+	FUNC (RowsOf, 1, "matrix", _("Gets the rows of a matrix as a vertical vector"));
+	FUNC (ColumnsOf, 1, "matrix", _("Gets the columns of a matrix as a horizontal vector"));
+
+	FUNC (ComplexConjugate, 1, "numeric", _("Calculates the conjugate"));
+	ALIAS (conj, 1, ComplexConjugate);
+	ALIAS (Conj, 1, ComplexConjugate);
+
+	FUNC (sin, 1, "trigonometry", _("Calculates the sine function"));
+	FUNC (cos, 1, "trigonometry", _("Calculates the cossine function"));
+	FUNC (sinh, 1, "trigonometry", _("Calculates the hyperbolic sine function"));
+	FUNC (cosh, 1, "trigonometry", _("Calculates the hyperbolic cosine function"));
+	FUNC (tan, 1, "trigonometry", _("Calculates the tan function"));
+	FUNC (atan, 1, "trigonometry", _("Calculates the arctan function"));
+	ALIAS (arctan, 1, atan);
+
+	FUNC (pi, 1, "constants", _("The number pi"));
+	FUNC (e, 1, "constants", _("The natural number e"));
+	FUNC (i, 1, "constants", _("The imaginary number"));
+
+	FUNC (sqrt, 1, "numeric", _("The square root"));
+	FUNC (exp, 1, "numeric", _("The exponential function"));
+	FUNC (ln, 1, "numeric", _("The natural logarithm"));
+	FUNC (round, 1, "numeric", _("Round a number"));
+	FUNC (floor, 1, "numeric", _("Get the highest integer less then or equal to n"));
+	FUNC (ceil, 1, "numeric", _("Get the lowest integer more then or equal to n"));
+	FUNC (trunc, 1, "numeric", _("Truncate number to an integer"));
+	FUNC (Numerator, 1, "numeric", _("Get the numerator of a rational number"));
+	FUNC (Denominator, 1, "numeric", _("Get the denominator of a rational number"));
+
+	FUNC (gcd, 2, "number_theory", _("Greatest common divisor"));
+	FUNC (lcm, 2, "number_theory", _("Least common multiplier"));
+	FUNC (PerfectSquare, 1, "number_theory", _("Check a number for being a perfect square"));
+
 	d_addfunc(d_makebifunc(d_intern("jacobi"),jacobi_op,2));
 	d_addfunc(d_makebifunc(d_intern("legendre"),legendre_op,2));
-	d_addfunc(d_makebifunc(d_intern("PerfectSquare"),PerfectSquare_op,1));
-	add_description("PerfectSquare",_("Check a number for being a perfect square"));
 	d_addfunc(d_makebifunc(d_intern("max"),max_op,2));
 	add_description("max",_("Return the larger of two arguments"));
 	d_addfunc(d_makebifunc(d_intern("min"),min_op,2));
 	add_description("min",_("Return the smaller of two arguments"));
 	d_addfunc(d_makebifunc(d_intern("prime"),prime_op,1));
 	add_description("prime",_("Return the n'th prime (up to a limit)"));
-	d_addfunc(d_makebifunc(d_intern("round"),round_op,1));
-	add_description("round",_("Round a number"));
-	d_addfunc(d_makebifunc(d_intern("floor"),floor_op,1));
-	add_description("floor",_("Get the highest integer less then or equal to n"));
-	d_addfunc(d_makebifunc(d_intern("ceil"),ceil_op,1));
-	add_description("ceil",_("Get the lowest integer more then or equal to n"));
-	d_addfunc(d_makebifunc(d_intern("trunc"),trunc_op,1));
-	add_description("trunc",_("Truncate a number to an integer"));
 	d_addfunc(d_makebifunc(d_intern("float"),float_op,1));
 	add_description("float",_("Make number a float"));
-	d_addfunc(d_makebifunc(d_intern("Numerator"),Numerator_op,1));
-	add_description("Numerator",_("Get the Numerator of a rational"));
-	d_addfunc(d_makebifunc(d_intern("Denominator"),Denominator_op,1));
-	add_description("Denominator",_("Get the Denominator of a rational"));
-	d_addfunc(d_makebifunc(d_intern("Re"),Re_op,1));
-	add_description("Re",_("Get the real part of a complex number"));
-	d_addfunc(d_makebifunc(d_intern("Im"),Im_op,1));
-	add_description("Im",_("Get the imaginary part of a complex number"));
-	d_addfunc(d_makebifunc(d_intern("I"),I_op,1));
-	add_description("I",_("Make an identity matrix of a given size"));
-	d_addfunc(d_makebifunc(d_intern("eye"),I_op,1));
-	add_description("eye",_("Make an identity matrix of a given size"));
-	d_addfunc(d_makebifunc(d_intern("zeros"),zeros_op,2));
-	add_description("zeros",_("Make an matrix of all zeros"));
-	d_addfunc(d_makebifunc(d_intern("ones"),ones_op,2));
-	add_description("ones",_("Make an matrix of all ones"));
-	d_addfunc(d_makebifunc(d_intern("rows"),rows_op,1));
-	add_description("rows",_("Get the rows of a matrix"));
-	d_addfunc(d_makebifunc(d_intern("columns"),columns_op,1));
-	add_description("columns",_("Get the columns of a matrix"));
+
+	FUNC (Re, 1, "numeric", _("Get the real part of a complex number"));
+	ALIAS (RealPart, 1, Re);
+	FUNC (Im, 1, "numeric", _("Get the imaginary part of a complex number"));
+	ALIAS (ImaginaryPart, 1, Im);
+
+	FUNC (I, 1, "matrix", _("Make an identity matrix of a given size"));
+	ALIAS (eye, 1, I);
+	FUNC (zeros, 2, "matrix", _("Make an matrix of all zeros"));
+	FUNC (ones, 2, "matrix", _("Make an matrix of all ones"));
+
+	FUNC (rows, 1, "matrix", _("Get the number of rows of a matrix"));
+	FUNC (columns, 1, "matrix", _("Get the number of columns of a matrix"));
+
+	FUNC (ref, 1, "linear_algebra", _("Get the row echelon form of a matrix"));
+	ALIAS (REF, 1, ref);
+	ALIAS (RowEchelonForm, 1, ref);
+	FUNC (rref, 1, "linear_algebra", _("Get the reduced row echelon form of a matrix"));
+	ALIAS (RREF, 1, rref);
+	ALIAS (ReducedRowEchelonForm, 1, rref);
+
 	d_addfunc(d_makebifunc(d_intern("SetMatrixSize"),SetMatrixSize_op,3));
 	add_description("SetMatrixSize",_("Make new matrix of given size from old one"));
 	d_addfunc(d_makebifunc(d_intern("det"),det_op,1));
 	add_description("det",_("Get the determinant of a matrix"));
-	d_addfunc(d_makebifunc(d_intern("ref"),ref_op,1));
-	add_description("ref",_("Get the row echelon form of a matrix"));
-	d_addfunc(d_makebifunc(d_intern("rref"),rref_op,1));
-	add_description("rref",_("Get the reduced row echelon form of a matrix"));
 	d_addfunc(d_makebifunc(d_intern("is_value_only"),is_value_only_op,1));
 	add_description("is_value_only",_("Check if a matrix is a value only matrix"));
 	d_addfunc(d_makebifunc(d_intern("is_null"),is_null_op,1));
@@ -2634,10 +2765,7 @@ gel_funclib_addall(void)
 	d_addfunc(d_makebifunc(d_intern("is_poly"),is_poly_op,1));
 	d_addfunc(d_makebifunc(d_intern("polytostring"),polytostring_op,2));
 	d_addfunc(d_makebifunc(d_intern("polytofunc"),polytofunc_op,1));
-	d_addfunc(d_makebifunc(d_intern("help"),help_op,0));
-	add_description("help",_("Display function list with small help"));
-	d_addfunc(d_makebifunc(d_intern("sethelp"),sethelp_op,2));
-	add_description("sethelp",_("Set the help line for a function"));
+
 	d_addfunc(d_makebifunc(d_intern("protect"),protect_op,1));
 	add_description("protect",_("Protect a variable from being modified"));
 	d_addfunc(d_makebifunc(d_intern("unprotect"),unprotect_op,1));

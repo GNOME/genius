@@ -1,11 +1,11 @@
 # Miscellaneous number theory functions
 
 function IsOdd(n) = (n % 2);
-sethelp("IsOdd","Tests if an integer is odd");
+SetHelp("IsOdd","number_theory","Tests if an integer is odd");
 protect("IsOdd");
 
 function IsEven(n) = not(IsOdd(n));
-sethelp("IsEven","Tests if an integer is even");
+SetHelp("IsEven","number_theory","Tests if an integer is even");
 protect("IsEven");
 
 # FIXME: This should be done internally perhaps
@@ -23,16 +23,16 @@ function IsNthPower(n,k) =
   # Only integers/rationals can be perfect powers
   return 0;
  )
-sethelp("IsNthPower","Tests if a rational number is a perfect power");
+SetHelp("IsNthPower","number_theory","Tests if a rational number is a perfect power");
 protect("IsNthPower");
 
 function IsSquare(n) = IsNthPower(n,2);
-sethelp("IsSquare","Tests if a rational number is a perfect square");
+SetHelp("IsSquare","number_theory","Tests if a rational number is a perfect square");
 protect("IsSquare");
 
 # FIXME: this is just a hack until we get a real symbolic mode
 function SymbolicSquareRoot(n) = SymbolicNthRoot(n,2);
-sethelp("SymbolicSquareRoot","If square root is integer, then return as integer, else standard square root.");
+SetHelp("SymbolicSquareRoot","number_theory","If square root is integer, then return as integer, else standard square root.");
 protect("SymbolicSquareRoot");
 
 # FIXME: this is just a hack until we get a real symbolic mode
@@ -41,11 +41,11 @@ function SymbolicNthRoot(n,k) =
   if IsNthPower(n,k) then return IntegerPart(n^(1/k));
   return n^(1/k);
  )
-sethelp("SymbolicSquareRoot","If square root is integer, then return as integer, else standard square root.");
+SetHelp("SymbolicSquareRoot","number_theory","If square root is integer, then return as integer, else standard square root.");
 protect("SymbolicSquareRoot");
 
 function Divides(m,n) = not(n % m);
-sethelp("Divides","Checks divisibility");
+SetHelp("Divides","number_theory","Checks divisibility");
 protect("Divides");
 
 # Returns the highest power of p that divides n, where n is rational.
@@ -71,7 +71,7 @@ function PadicValuation(n,p) =
    );
   return valuation;
  )
-sethelp("PadicValuation","Returns the padic valuation (number of trailing zeros in base p).");
+SetHelp("PadicValuation","number_theory","Returns the padic valuation (number of trailing zeros in base p).");
 protect("PadicValuation");
 
 #FIXME: This should also be built-in to modular arithmatic,
@@ -88,5 +88,5 @@ function PowerMod(a,b,m) =
    );
   return n;
  )
-sethelp("PowerMod","Compute #1^#2 mod #3");
+SetHelp("PowerMod","number_theory","Compute #1^#2 mod #3");
 protect("PowerMod");

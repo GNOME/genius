@@ -57,9 +57,6 @@ GSList *plugin_list = NULL;
 static GHashTable *opened = NULL;
 static GHashTable *info = NULL;
 
-extern void (*errorout)(char *);
-extern void (*infoout)(char *);
-
 int genius_is_gui = FALSE;
 
 static void

@@ -1,12 +1,12 @@
 # Some linear algebra functions
 
 # Transpose of a matrix
-sethelp ("Transpose", "Transpose of a matrix")
+SetHelp ("Transpose", "linear_algebra", "Transpose of a matrix")
 function Transpose(M)=M.'
 protect ("Transpose")
 
 # Conjugate Transpose of a matrix
-sethelp ("ConjugateTranspose", "Conjugate transpose of a matrix")
+SetHelp ("ConjugateTranspose", "linear_algebra", "Conjugate transpose of a matrix")
 function ConjugateTranspose(M)=M'
 protect ("Conjugate Transpose")
 
@@ -143,7 +143,7 @@ function CrossProduct(v,w) =
  )
 
 # Direct sum of a vector of matrices
-sethelp ("DirectSumMatrixVector", "Direct sum of a vector of matrices")
+SetHelp ("DirectSumMatrixVector", "linear_algebra", "Direct sum of a vector of matrices")
 function DirectSumMatrixVector(v) = (
   if not is_matrix (v) or rows (v) > 1 then
     (error("DirectSumMatrixVector: argument not a horizontal vector");bailout);
@@ -157,7 +157,7 @@ function DirectSumMatrixVector(v) = (
 protect ("DirectSumMatrixVector");
 
 # Direct sum of matrices
-sethelp ("DirectSum", "Direct sum of matrices")
+SetHelp ("DirectSum", "linear_algebra", "Direct sum of matrices")
 function DirectSum(M,N...) = (
   if is_null (N) then
     [M] 

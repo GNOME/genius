@@ -11,7 +11,7 @@
 # as vectors to get it to work for matrices.
 function DiscreteDelta(v) = KroneckerDelta([0,v])
 protect("DiscreteDelta");
-sethelp("DiscreteDelta","returns true iff all elements are zero");
+SetHelp("DiscreteDelta","functions","returns true iff all elements are zero");
 
 ## Kronecker Delta
 ## Takes a vector v and returns 1 if all entries are equal,
@@ -24,11 +24,11 @@ function KroneckerDelta(v) =
   return 1
  )
 protect("KroneckerDelta");
-sethelp("KroneckerDelta","returns true iff all elements are equal");
+SetHelp("KroneckerDelta","functions","returns true iff all elements are equal");
 
 ## Unit Step Function
 ## The integral of the Dirac Delta function
 ## FIXME: should have option to make UnitStep(0) be undefined
 function UnitStep(x) = if (x<0) then 0 else 1
 protect("UnitStep");
-sethelp("UnitStep","the unit step function = 0 for x<0, 1 otherwise");
+SetHelp("UnitStep","functions","the unit step function = 0 for x<0, 1 otherwise");

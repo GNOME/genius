@@ -42,7 +42,7 @@ function ApplyOverMatrix2(a,b,func) = (
 protect("ApplyOverMatrix2")
 
 #calculate a trace function
-sethelp("Trace","Calculate the trace of a matrix");
+SetHelp("Trace", "linear_algebra","Calculate the trace of a matrix");
 function Trace(m) = (
 	if(not is_matrix(m) or not is_value_only(m)) then
 		(error("Trace: argument not a value only matrix");bailout)
@@ -56,7 +56,7 @@ trace = Trace
 protect("trace")
 
 #calculate convolution of two horizontal vectors
-sethelp("Convolution","Calculate convolution of two horizontal vectors");
+SetHelp("Convolution", "linear_algebra","Calculate convolution of two horizontal vectors");
 function Convolution(a,b) = (
 	if(not is_matrix(a) or not is_value_only(a) or
 	   not is_matrix(b) or not is_value_only(b) or
@@ -75,7 +75,7 @@ protect("convol")
 
 #calculate convolution of two horizontal vectors and return the result
 #not added together but in a vector
-sethelp("ConvolutionVector","Calculate convolution of two horizontal vectors");
+SetHelp("ConvolutionVector", "linear_algebra","Calculate convolution of two horizontal vectors");
 function ConvolutionVector(a,b) = (
 	if(not is_matrix(a) or not is_value_only(a) or
 	   not is_matrix(b) or not is_value_only(b) or
@@ -92,7 +92,7 @@ function ConvolutionVector(a,b) = (
 protect("ConvolutionVector")
 
 #calculate the sum of all elements in a matrix
-sethelp("MatrixSum","Calculate the sum of all elements in a matrix");
+SetHelp("MatrixSum", "matrix","Calculate the sum of all elements in a matrix");
 function MatrixSum(a) = (
 	if(not is_matrix(a) or not is_value_only(a)) then
 		(error("MatrixSum: argument not a value only matrix");bailout);
@@ -100,7 +100,7 @@ function MatrixSum(a) = (
 );
 protect("MatrixSum")
 
-sethelp("MatrixSumSquares","Calculate the sum of squares of all elements in a matrix");
+SetHelp("MatrixSumSquares", "matrix","Calculate the sum of squares of all elements in a matrix");
 function MatrixSumSquares(a) = (
 	if(not is_matrix(a) or not is_value_only(a)) then
 		(error("MatrixSumSquares: argument not a value only matrix");bailout);
@@ -109,7 +109,7 @@ function MatrixSumSquares(a) = (
 protect("MatrixSumSquares")
 
 #calculate the product of all elements in a matrix
-sethelp("MatrixProduct","Calculate the product of all elements in a matrix");
+SetHelp("MatrixProduct","matrix", "Calculate the product of all elements in a matrix");
 function MatrixProduct(a) = (
 	if(not is_matrix(a) or not is_value_only(a)) then
 		(error("matprod: argument not a value only matrix");bailout);
@@ -117,7 +117,7 @@ function MatrixProduct(a) = (
 );
 protect("MatrixProduct")
 
-sethelp("delrowcol","Remove column and row from a matrix");
+SetHelp("delrowcol", "matrix", "Remove column and row from a matrix");
 function delrowcol(m,row,col) = (
 	if(not is_matrix(m) or not is_integer(row) or not is_integer(col)) then
 		(error("swaprow: arguments are not the right type");bailout)
@@ -161,7 +161,7 @@ function Minor(M,i,j)=det(delrowcol(M,i,j))
 protect("Minor");
 
 #adjoint of a matrix
-sethelp("adj","Get the adjoint of a matrix");
+SetHelp("adj","linear_algebra", "Get the adjoint of a matrix");
 function adj(m) = (
 	if(not is_matrix(m) or not is_value_only(m)) then
 		(error("adj: argument not a value-only matrix");bailout)
@@ -180,7 +180,7 @@ function adj(m) = (
 );
 protect("adj")
 
-sethelp("MinimizeFunction","Find the first value where f(x)=0");
+SetHelp("MinimizeFunction","functions","Find the first value where f(x)=0");
 function MinimizeFunction(func,x,incr) = (
 	if(not is_value(x) or not is_value(incr)) then
 		(error("MinimizeFunction: x,incr arguments not values");bailout)
@@ -191,7 +191,7 @@ function MinimizeFunction(func,x,incr) = (
 );
 protect("MinimizeFunction")
 
-sethelp("MakeDiagonal","Make diagonal matrix from a vector");
+SetHelp("MakeDiagonal","matrix","Make diagonal matrix from a vector");
 function MakeDiagonal(v) = (
 	if(not is_matrix(v) or rows(v)>1) then
 		(error("MakeDiagonal: argument not a horizontal vector");bailout);
@@ -205,7 +205,7 @@ protect("MakeDiagonal")
 diag = MakeDiagonal
 protect("diag")
 
-sethelp("SwapRows","Swap two rows in a matrix");
+SetHelp("SwapRows","matrix","Swap two rows in a matrix");
 function SwapRows(m,row1,row2) = (
 	if(not is_matrix(m) or not is_integer(row1) or
 	   not is_integer(row2)) then
@@ -221,7 +221,7 @@ function SwapRows(m,row1,row2) = (
 );
 protect("SwapRows")
 
-sethelp("RowSum","Calculate sum of each row in a matrix");
+SetHelp("RowSum","matrix","Calculate sum of each row in a matrix");
 function RowSum(m) = (
 	if not is_matrix(m) then
 		(error("RowSum: argument not matrix");bailout);
@@ -234,7 +234,7 @@ function RowSum(m) = (
 );
 protect("RowSum")
 
-sethelp("RowSumSquares","Calculate sum of squares of each row in a matrix");
+SetHelp("RowSumSquares","matrix","Calculate sum of squares of each row in a matrix");
 function RowSumSquares(m) = (
 	if not is_matrix(m) then
 		(error("RowSumSquares: argument not matrix");bailout);
@@ -248,7 +248,7 @@ function RowSumSquares(m) = (
 protect("RowSumSquares")
 
 #sort a horizontal vector
-sethelp("SortVector","Sort a horizontal vector");
+SetHelp("SortVector","matrix","Sort a horizontal vector");
 function SortVector(v) = (
 	if not is_matrix(v) or rows(v)>1 then
 		(error("SortVector: argument not a horizontal vector");bailout);
@@ -269,7 +269,7 @@ function SortVector(v) = (
 );
 protect("SortVector")
 
-sethelp("ReverseVector","Reverse elements in a vector");
+SetHelp("ReverseVector","matrix","Reverse elements in a vector");
 function ReverseVector(v) = (
 	if not is_matrix(v) or rows(v)>1 then
 		(error("ReverseVector: argument not a horizontal vector");bailout);

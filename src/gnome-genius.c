@@ -185,7 +185,7 @@ printout_error_num_and_reset(void)
 
 /*get error message*/
 static void
-geniuserror(char *s)
+geniuserror(const char *s)
 {
 	char *file;
 	int line;
@@ -231,7 +231,7 @@ printout_info(void)
 
 /*get info message*/
 static void
-geniusinfo(char *s)
+geniusinfo(const char *s)
 {
 	char *file;
 	int line;

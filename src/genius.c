@@ -86,7 +86,7 @@ static int errors_printed = 0;
 static long total_errors_printed = 0;
 
 static void
-puterror(char *s)
+puterror(const char *s)
 {
 	char *file;
 	int line;
@@ -100,7 +100,7 @@ puterror(char *s)
 }
 
 static void
-calc_puterror(char *s)
+calc_puterror(const char *s)
 {
 	if(curstate.max_errors == 0 ||
 	   errors_printed++<curstate.max_errors)

@@ -47,7 +47,6 @@ struct _MpwCtx {
 	gpointer data;
 };
 
-extern void (*errorout)(char *);
 extern calc_error_t error_num;
 
 static MpwRealNum *free_reals = NULL;

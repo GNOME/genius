@@ -1,6 +1,6 @@
 # Basic statistics
 
-sethelp("rowmedian","Calculate median of each row in a matrix");
+SetHelp("rowmedian","statistics","Calculate median of each row in a matrix");
 function rowmedian(m) = (
 	if not is_matrix(m) or not is_value_only(m) then
 		(error("rowmedian: argument not value-only matrix");bailout);
@@ -21,7 +21,7 @@ function rowmedian(m) = (
 );
 protect("rowmedian")
 
-sethelp("median","Calculate median of an entire matrix");
+SetHelp("median","statistics","Calculate median of an entire matrix");
 function median(m) = (
 	if not is_matrix(m) or not is_value_only(m) then
 		(error("median: argument not value-only matrix");bailout);
@@ -39,7 +39,7 @@ function median(m) = (
 );
 protect("median")
 
-sethelp("rowaverage","Calculate average of each row in a matrix");
+SetHelp("rowaverage","statistics","Calculate average of each row in a matrix");
 function rowaverage(m) = (
 	if not is_matrix(m) or not is_value_only(m) then
 		(error("rowaverage: argument not value-only matrix");bailout);
@@ -53,7 +53,7 @@ function rowaverage(m) = (
 );
 protect("rowaverage")
 
-sethelp("average","Calculate average of an entire matrix");
+SetHelp("average","statistics","Calculate average of an entire matrix");
 function average(m) = (
 	if not is_matrix(m) or not is_value_only(m) then
 		(error("average: argument not value-only matrix");bailout);

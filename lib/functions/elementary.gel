@@ -5,7 +5,7 @@
 
 
 # These are most relevant here.
-sethelp("rad2deg","Convert radians to degrees");
+SetHelp("rad2deg","functions","Convert radians to degrees");
 function rad2deg(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,rad2deg)
@@ -15,7 +15,7 @@ function rad2deg(x) = (
 );
 protect("rad2deg")
 
-sethelp("deg2rad","Convert degrees to radians");
+SetHelp("deg2rad", "functions", "Convert degrees to radians");
 function deg2rad(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,deg2rad)
@@ -27,7 +27,7 @@ protect("deg2rad")
 
 #FIXME: these may not deal well with zero values.
 
-sethelp("asin","The arcsin (reverse sin) function");
+SetHelp("asin","trigonometry","The arcsin (reverse sin) function");
 function asin(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,asin)
@@ -38,7 +38,7 @@ function asin(x) = (
 );
 protect("asin")
 
-sethelp("asinh","The arcsinh (reverse sinh) function");
+SetHelp("asinh","trigonometry","The arcsinh (reverse sinh) function");
 function asinh(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,asinh)
@@ -48,7 +48,7 @@ function asinh(x) = (
 );
 protect("asinh")
 
-sethelp("acos","The arccos (reverse cos) function");
+SetHelp("acos","trigonometry","The arccos (reverse cos) function");
 function acos(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,acos)
@@ -59,7 +59,7 @@ function acos(x) = (
 );
 protect("acos")
 
-sethelp("acosh","The arccosh (reverse cosh) function");
+SetHelp("acosh","trigonometry","The arccosh (reverse cosh) function");
 function acosh(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,acosh)
@@ -69,7 +69,7 @@ function acosh(x) = (
 );
 protect("acosh")
 
-sethelp("cot","The cotangent function");
+SetHelp("cot","trigonometry","The cotangent function");
 function cot(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,cot)
@@ -79,7 +79,7 @@ function cot(x) = (
 );
 protect("cot")
 
-sethelp("coth","The hyperbolic cotangent function");
+SetHelp("coth","trigonometry","The hyperbolic cotangent function");
 function coth(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,coth)
@@ -89,7 +89,7 @@ function coth(x) = (
 );
 protect("coth")
 
-sethelp("acot","The arccot (reverse cot) function");
+SetHelp("acot","trigonometry","The arccot (reverse cot) function");
 function acot(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,acot)
@@ -99,7 +99,7 @@ function acot(x) = (
 );
 protect("acot")
 
-sethelp("acoth","The arccoth (reverse coth) function");
+SetHelp("acoth","trigonometry","The arccoth (reverse coth) function");
 function acoth(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,acoth)
@@ -109,7 +109,7 @@ function acoth(x) = (
 );
 protect("acoth")
 
-sethelp("tanh","The hyperbolic tangent function");
+SetHelp("tanh","trigonometry","The hyperbolic tangent function");
 function tanh(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,tanh)
@@ -119,7 +119,7 @@ function tanh(x) = (
 );
 protect("tanh")
 
-sethelp("atanh","The arctanh (reverse tanh) function");
+SetHelp("atanh","trigonometry","The arctanh (reverse tanh) function");
 function atanh(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,atanh)
@@ -201,7 +201,7 @@ function asech(x) = (
 );
 protect("asech")
 
-sethelp("log","Logarithm of any base");
+SetHelp("log","numeric","Logarithm of any base");
 function log(x,b) = (
 	if(is_matrix(x) or is_matrix(b)) then
 		return ApplyOverMatrix2(x,b,log)
@@ -211,7 +211,7 @@ function log(x,b) = (
 );
 protect("log")
 
-sethelp("log10","Base 10 logarithm");
+SetHelp("log10","numeric","Base 10 logarithm");
 function log10(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,log10)
@@ -221,7 +221,7 @@ function log10(x) = (
 );
 protect("log10")
 
-sethelp("log2","Base 2 logarithm");
+SetHelp("log2","numeric","Base 2 logarithm");
 function log2(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,log2)

@@ -75,12 +75,12 @@ function IsPrime(n) =
     error("Cannot determine primality. Probably prime, but not sure.");
     return null;
   )
-sethelp("IsPrime","Tests primality of integers");
+SetHelp("IsPrime","number_theory","Tests primality of integers");
 protect("IsPrime");
 
 IsPrimeLoopMax = 5000;           # IsPrime configuration variable
                                  # FIXME: This could be MUCH more elegant
-sethelp("IsPrimeLoopMax","Maximum number which IsPrime uses in trial division");
+SetHelp("IsPrimeLoopMax","parameters", "Maximum number which IsPrime uses in trial division");
 protect("IsPrimeLoopMax");
 
 function NextPrime(n) =
@@ -88,7 +88,7 @@ function NextPrime(n) =
   do n=n+1 while not(IsPrime(n));
   return n
  )
-sethelp("NextPrime","Returns the least prime greater than n");
+SetHelp("NextPrime","number_theory","Returns the least prime greater than n");
 protect("NextPrime");
 
 #####################################
@@ -104,7 +104,7 @@ function PseudoprimeTest(n,b) =
  (
   return (PowerMod(b,abs(n)-1,n) == 1);
  )
-sethelp("PseudoprimeTest","FIXME");
+SetHelp("PseudoprimeTest","number_theory","Pseudoprime test, true iff b^(n-1) == 1 (mod n)");
 protect("PseudoprimeTest");
 
 # An integer is said to be a PseudoPrime with base b iff it is:
@@ -115,7 +115,7 @@ function IsPseudoprime(n,b) =
  (
   return (IsOdd(n) and PseudoprimeTest(n,b) and not(IsPrime(n)));
  )
-sethelp("IsPseudoprime","FIXME");
+# SetHelp("IsPseudoprime","number_theory","FIXME");
 protect("IsPseudoprime");
 
 function StrongPseudoprimeTest(n,b) =
@@ -138,14 +138,14 @@ function StrongPseudoprimeTest(n,b) =
    );
   return 0;
  )
-sethelp("StrongPseudoprimeTest","FIXME");
+# SetHelp("StrongPseudoprimeTest","number_theory","FIXME");
 protect("StrongPseudoprimeTest");
 
 function IsStrongPseudoprime(n,b) =
  (
   return (IsOdd(n) and AreRelativelyPrime(n,b) and StrongPseudoprimeTest(n,b) and not (IsPrime(n)));
  )
-sethelp("IsStrongPseudoprime","FIXME");
+# SetHelp("IsStrongPseudoprime","number_theory","FIXME");
 protect("IsStrongPseudoprime");
 
 #################################################
@@ -178,5 +178,5 @@ function LucasLehmer(p) = (
 	else
 		return 0
 );
-sethelp("LucasLehmer","Test if Mp is a Mersenne prime using the Lucas-Lehmer test");
+SetHelp("LucasLehmer","number_theory","Test if Mp is a Mersenne prime using the Lucas-Lehmer test");
 protect("LucasLehmer")

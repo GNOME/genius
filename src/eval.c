@@ -48,8 +48,6 @@
 extern calc_error_t error_num;
 extern calcstate_t calcstate;
 
-extern void (*errorout)(char *);
-
 GelETree *free_trees = NULL;
 static GelEvalStack *free_stack = NULL;
 static GelEvalLoop *free_evl = NULL;

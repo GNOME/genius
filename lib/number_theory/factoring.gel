@@ -4,10 +4,10 @@
 # Built-in
 # Same for least common multiple
 GCD=gcd;
-sethelp("GCD","Greatest common divisor");
+SetHelpAlias("gcd","GCD");
 protect("GCD")
 LCM=lcm;
-sethelp("LCM","Least common multiplier");
+SetHelpAlias("lcm","LCM");
 protect("LCM")
 
 # FIXME: The first output column gets corrupted sometimes
@@ -75,18 +75,18 @@ function Factorize(n) =
 
 FactorizeLoopMax = 5000;         # Factorize configuration variable
                                  # FIXME: This could be MUCH more elegant
-sethelp("FactorizeLoopMax","Maximum number which Factorize uses in trial division");
+SetHelp("FactorizeLoopMax","parameters","Maximum number which Factorize uses in trial division");
 protect("FactorizeLoopMax");
 
 
 # FIXME: do it
 # given two factorizations, returns factorization of the product
 # (useful for factoring rational numbers, for instance)
-function CombineFactorizations(a,b) =
- (
-  error("FIXME: not implemented yet");
-  bailout;
- )
+# function CombineFactorizations(a,b) =
+# (
+#  error("FIXME: not implemented yet");
+#  bailout;
+# )
 
 # Returns all factors of n, i.e., all numbers between 1 and n that divide
 # n.

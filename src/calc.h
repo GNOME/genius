@@ -92,8 +92,11 @@ void load_compiled_file(const char *dirprefix, const char *file, gboolean warn);
 void load_file(const char *dirprefix, const char *file, gboolean warn);
 void load_guess_file(const char *dirprefix, const char *file, gboolean warn);
 void set_new_calcstate(calcstate_t state);
-void set_new_errorout(void (*func)(char *));
-void set_new_infoout(void (*func)(char *));
+void set_new_errorout(void (*func)(const char *));
+void set_new_infoout(void (*func)(const char *));
+
+extern void (*errorout)(const char *);
+extern void (*infoout)(const char *);
 
 /*This is for file/line info for errors*/
 void push_file_info(char *file,int line);
@@ -107,8 +110,40 @@ extern void (*evalnode_hook)(void);
 extern int run_hook_every;
 extern void (*statechange_hook)(calcstate_t);
 
+typedef struct {
+	char *func;
+
+	/* normally NULL, if not NULL, then the below
+	 * will be ignored */
+	char *aliasfor;
+
+	char *category;
+	char *description;
+	GSList *aliases;
+	/* should be ONE of the below */
+	char *help_link;
+	char *help_html;
+} GelHelp;
+
+/* well sorted */
+GSList *get_categories (void);
+const char *get_category_name (const char *category);
+/* null for uncategorized */
+GSList *get_helps (const char *category);
+/* gets undocumented functions */
+GSList *get_undocumented (void);
+
+void new_category (const char *category, const char *name);
+
+GelHelp *get_help (const char *func, gboolean insert);
+
 void add_description (const char *func, const char *desc);
 const char *get_description (const char *func);
+void add_category (const char *func, const char *category);
+void add_alias (const char *func, const char *alias);
+void add_help_link (const char *func, const char *link);
+void add_help_html (const char *func, const char *html);
+void whack_help (const char *func);
 
 extern GelOutput *main_out;
 

@@ -8,7 +8,7 @@
 ## Vector Subspace creation
 # Column Space of a matrix
 #Column reduce and kill zero vectors
-sethelp ("ColumnSpace", "Get a basis matrix for the columnspace of a matrix")
+SetHelp ("ColumnSpace", "linear_algebra", "Get a basis matrix for the columnspace of a matrix")
 function ColumnSpace(M) =
 (
   if not is_matrix (M) then
@@ -18,7 +18,7 @@ function ColumnSpace(M) =
 protect ("ColumnSpace")
 
 # Row Space of a matrix
-sethelp ("RowSpace", "Get a basis matrix for the rowspace of a matrix")
+SetHelp ("RowSpace", "linear_algebra", "Get a basis matrix for the rowspace of a matrix")
 function RowSpace(M) = (
   if not is_matrix (M) then
     (error("RowSpace: argument not a matrix");bailout);
@@ -27,7 +27,7 @@ function RowSpace(M) = (
 protect ("RowSpace")
 
 # Rank of a matrix
-sethelp ("Rank", "Get the rank of a matrix")
+SetHelp ("Rank", "linear_algebra", "Get the rank of a matrix")
 function Rank(M) =
 (
   if not is_matrix (M) then
@@ -35,11 +35,12 @@ function Rank(M) =
   columns (ColumnSpace (M))
 )
 protect ("Rank")
+SetHelpAlias ("Rank", "rank");
 function rank (M) = Rank (M)
 protect ("rank")
 
 # Nullity of a matrix
-sethelp ("Nullity", "Get the rank of a matrix")
+SetHelp ("Nullity", "linear_algebra", "Get the rank of a matrix")
 function Nullity (M) =
 (
   if not is_matrix (M) then
@@ -47,6 +48,7 @@ function Nullity (M) =
   columns (M) - columns (ColumnSpace (M))
 )
 protect ("Nullity")
+SetHelpAlias ("Nullity", "nullity");
 function nullity (M) = Nullity (M)
 protect ("nullity")
 

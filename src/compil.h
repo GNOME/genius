@@ -30,4 +30,7 @@
 char *gel_compile_tree(GelETree *t);
 GelETree *gel_decompile_tree(char *s);
 
+char * gel_encode_string (const char *s);
+char * gel_decode_string (const char *s);
+
 #endif

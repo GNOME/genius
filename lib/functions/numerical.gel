@@ -3,11 +3,11 @@
 #Indeed, some of these should probably be built-in
 
 #just for somewhat of "source compatibility"
-sethelp("abs","Absolute value");
+SetHelp("abs","numeric","Absolute value");
 function abs(x) = |x|
 protect("abs")
 
-sethelp("sign","Return the sign (-1,0,1)");
+SetHelp("sign","numeric","Return the sign (-1,0,1)");
 function sign(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,sign)

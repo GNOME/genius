@@ -67,7 +67,13 @@ void (*evalnode_hook)(void) = NULL;
 int run_hook_every = 1000;
 void (*statechange_hook)(calcstate_t) = NULL;
 
-static GHashTable *funcdesc = NULL;
+typedef struct {
+	char *category;
+	char *name;
+	GSList *funcs;
+} HelpCategory;
+static GSList *categories = NULL;
+static GHashTable *helphash = NULL;
 
 /*these two are used for test parses so that we know when we have a complete
   expression toevaluate*/
@@ -87,8 +93,8 @@ int got_eof = FALSE;
 calcstate_t calcstate = {0};
 
 /*error reporting function*/
-void (*errorout)(char *)=NULL;
-void (*infoout)(char *)=NULL;
+void (*errorout)(const char *)=NULL;
+void (*infoout)(const char *)=NULL;
 
 char *loadfile = NULL;
 char *loadfile_glob = NULL;
@@ -102,11 +108,279 @@ static GSList *curline = NULL;
 /*from lexer.l*/
 int my_yyinput(void);
 
+static int
+function_sort (gconstpointer data1, gconstpointer data2)
+{
+	return strcmp (data1, data2);
+}
+
+static int
+help_sort (gconstpointer data1, gconstpointer data2)
+{
+	const GelHelp *h1 = data1;
+	const GelHelp *h2 = data2;
+	return strcmp (h1->func, h1->func);
+}
+
+static HelpCategory *
+get_category (const char *category, gboolean insert)
+{
+	GSList *li;
+	for (li = categories; li != NULL; li = li->next) {
+		HelpCategory *cat = li->data;
+		if (strcmp (cat->category, category) == 0)
+			return cat;
+	}
+
+	if (insert) {
+		HelpCategory *cat = g_new0 (HelpCategory, 1);
+		cat->category = g_strdup (category);
+		categories = g_slist_append (categories, cat);
+		return cat;
+	} else {
+		return NULL;
+	}
+}
+
+GelHelp *
+get_help (const char *func, gboolean insert)
+{
+	GelHelp *help;
+
+	if (helphash == NULL)
+		helphash = g_hash_table_new (g_str_hash, g_str_equal);
+
+	help = g_hash_table_lookup (helphash, func);
+
+	if (help == NULL && insert) {
+		help = g_new0 (GelHelp, 1);
+		help->func = g_strdup (func);
+		g_hash_table_insert (helphash, help->func, help);
+	}
+
+	return help;
+}
+
+/* well sorted */
+GSList *
+get_categories (void)
+{
+	GSList *li, *list = NULL;
+	for (li = categories; li != NULL; li = li->next) {
+		HelpCategory *cat = li->data;
+		list = g_slist_prepend (list, g_strdup (cat->category));
+	}
+	return g_slist_reverse (list);
+}
+
+const char *
+get_category_name (const char *category)
+{
+	HelpCategory *cat;
+
+	if (category == NULL)
+		return _("Uncategorized");
+
+	cat = get_category (category, FALSE /* insert */);
+	if (cat == NULL || cat->name == NULL)
+		return category;
+	else
+		return cat->name;
+}
+
+/* gets undocumented functions */
+static GSList *
+get_uncategorized_documented (void)
+{
+	GSList *funcs;
+	GSList *li;
+	GSList *list;
+	
+	funcs = d_getcontext();
+	if (funcs == NULL)
+		return NULL;
+
+	list = NULL;
+	
+	for (li = funcs; li != NULL; li = li->next) {
+		GelEFunc *f = li->data;
+		GelHelp *help;
+		if (f->id == NULL ||
+		    f->id->token == NULL)
+			continue;
+		help = get_help (f->id->token, FALSE /* insert */);
+		if (help != NULL &&
+		    help->category == NULL)
+			list = g_slist_insert_sorted (list,
+						      help,
+						      help_sort);
+	}
+	return list;
+}
+
+/* null for uncategorized */
+GSList *
+get_helps (const char *category)
+{
+	HelpCategory *cat;
+
+	if (category == NULL) {
+		return get_uncategorized_documented ();
+	}
+
+	cat = get_category (category, FALSE /* insert */);
+	if (cat == NULL) {
+		return NULL;
+	} else {
+		GSList *li, *list = NULL;
+		for (li = cat->funcs; li != NULL; li = li->next) {
+			const char *func = li->data;
+			GelHelp *help = get_help (func, FALSE /* insert */);
+			if (help != NULL)
+				list = g_slist_prepend (list, help);
+		}
+		return g_slist_reverse (list);
+	}
+}
+
+/* gets undocumented functions */
+GSList *
+get_undocumented (void)
+{
+	GSList *funcs;
+	GSList *li;
+	GSList *list;
+	
+	funcs = d_getcontext();
+	if (funcs == NULL)
+		return NULL;
+
+	list = NULL;
+	
+	for (li = funcs; li != NULL; li = li->next) {
+		GelEFunc *f = li->data;
+		GelHelp *help;
+		if(f->id == NULL ||
+		   f->id->token == NULL ||
+		   strcmp (f->id->token, "ni") == 0 ||
+		   strcmp (f->id->token, "shrubbery") == 0)
+			continue;
+		help = get_help (f->id->token, FALSE /* insert */);
+		if (help == NULL)
+			list = g_slist_insert_sorted (list,
+						      g_strdup (f->id->token),
+						      function_sort);
+	}
+	return list;
+}
+
+void
+new_category (const char *category, const char *name)
+{
+	HelpCategory *cat = get_category (category, TRUE /* insert */);
+	g_free (cat->name);
+	cat->name = g_strdup (name);
+}
+
+static void
+remove_from_category (const char *func, const char *category)
+{
+	GSList *li;
+	HelpCategory *cat = get_category (category, TRUE /* insert */);
+
+	for (li = cat->funcs; li != NULL; li = li->next) {
+		char *f = li->data;
+		if (strcmp (f, func) == 0) {
+			g_free (f);
+			cat->funcs = g_slist_delete_link (cat->funcs, li);
+			return;
+		}
+	}
+}
+
+void
+add_category (const char *func, const char *category)
+{
+	GelHelp *help = get_help (func, TRUE /* insert */);
+	HelpCategory *cat = get_category (category, TRUE /* insert */);
+
+	if (help->category != NULL) {
+		if (strcmp (help->category, category) == 0)
+			return;
+		remove_from_category (func, help->category);
+		g_free (help->category);
+	}
+	help->category = g_strdup (category);
+
+	cat->funcs = g_slist_insert_sorted (cat->funcs,
+					    g_strdup (func),
+					    function_sort);
+}
+
+static void
+remove_alias (const char *func, const char *alias)
+{
+	GelHelp *help;
+	GSList *li;
+
+	help = get_help (func, TRUE /* insert */);
+	for (li = help->aliases; li != NULL; li = li->next) {
+		char *f = li->data;
+		if (strcmp (f, alias) == 0) {
+			g_free (f);
+			help->aliases = g_slist_delete_link
+				(help->aliases, li);
+			return;
+		}
+	}
+}
+
+void
+add_alias (const char *func, const char *alias)
+{
+	GelHelp *help, *ahelp;
+
+	help = get_help (func, TRUE /* insert */);
+	if (help->aliasfor != NULL) {
+		(* errorout)(_("Trying to set an alias for an alias"));
+		return;
+	}
+
+	ahelp = get_help (alias, TRUE /* insert */);
+	if (ahelp->aliasfor != NULL) {
+		remove_alias (ahelp->aliasfor, alias);
+		g_free (ahelp->aliasfor);
+	}
+	ahelp->aliasfor = g_strdup (func);
+
+	help->aliases = g_slist_append
+		(help->aliases, g_strdup (alias));
+}
+
+void
+add_help_link (const char *func, const char *link)
+{
+	GelHelp *help;
+
+	help = get_help (func, TRUE /* insert */);
+	g_free (help->help_html);
+	help->help_link = g_strdup (link);
+}
+
+void
+add_help_html (const char *func, const char *html)
+{
+	GelHelp *help;
+
+	help = get_help (func, TRUE /* insert */);
+	g_free (help->help_html);
+	help->help_html = g_strdup (html);
+}
+
 void
 add_description (const char *func, const char *desc)
 {
-	char *origkey;
-	char *origdesc;
+	GelHelp *help;
 	char *p;
 	char *d;
 	
@@ -120,29 +394,60 @@ add_description (const char *func, const char *desc)
 	if(strlen(d)>80) 
 		d[81]='\0';
 
-	if(!funcdesc)
-		funcdesc = g_hash_table_new(g_str_hash,g_str_equal);
-	
-	if(g_hash_table_lookup_extended(funcdesc,func,
-					(gpointer *)&origkey,
-					(gpointer *)&origdesc)) {
-		g_free(origdesc);
-		g_hash_table_insert(funcdesc,origkey,g_strdup(d));
-	} else
-		g_hash_table_insert(funcdesc,g_strdup(func),g_strdup(d));
-	g_free(d);
+	help = get_help (func, TRUE /* insert */);
+	g_free (help->description);
+	help->description = g_strdup (d);
+	g_free (d);
 }
 
 const char *
 get_description(const char *func)
 {
-	char *s;
-	if(!funcdesc)
-		return "";
-	
-	s = g_hash_table_lookup(funcdesc,func);
-	if(s) return s;
-	else return "";
+	GelHelp *help;
+
+	help = get_help (func, FALSE /* insert */);
+	if (help == NULL ||
+	    help->description == NULL)
+		return  "";
+	else
+		return help->description;
+}
+
+void
+whack_help (const char *func)
+{
+	GelHelp *help;
+
+	if (helphash == NULL)
+		return;
+
+	help = g_hash_table_lookup (helphash, func);
+	if (help != NULL) {
+		GSList *li, *list;
+
+		list = g_slist_copy (help->aliases);
+		for (li = list; li != NULL; li = li->next) {
+			whack_help (li->data);
+			g_free (li->data);
+		}
+		g_slist_free (list);
+
+		if (help->aliasfor != NULL)
+			remove_alias (help->aliasfor, func);
+		if (help->category != NULL)
+			remove_from_category (func, help->category);
+
+		g_hash_table_remove (helphash, func);
+
+		g_slist_free (help->aliases);
+		g_free (help->aliasfor);
+		g_free (help->category);
+		g_free (help->help_link);
+		g_free (help->help_html);
+		g_free (help->description);
+		g_free (help->func);
+		g_free (help);
+	}
 }
 
 void
@@ -938,9 +1243,9 @@ compile_all_user_funcs(FILE *outfile)
 	funcs = g_slist_reverse(g_slist_copy(funcs));
 	for(li=funcs;li;li=g_slist_next(li)) {
 		GelEFunc *func = li->data;
+		GelHelp *help;
 		char *body;
 		GSList *li;
-		const char *d;
 
 		if((func->type!=GEL_USER_FUNC &&
 		    func->type!=GEL_VARIABLE_FUNC) ||
@@ -972,9 +1277,35 @@ compile_all_user_funcs(FILE *outfile)
 
 		fprintf(outfile,"\n%s\n",body);
 		g_free(body);
-		d = get_description(func->id->token);
-		if(d && *d)
-			fprintf(outfile,"D;%s;%s\n",func->id->token,d);
+
+		help = get_help (func->id->token, FALSE /* insert */);
+		if (help != NULL && help->aliasfor != NULL) {
+			fprintf (outfile, "A;%s;%s\n",
+				 help->aliasfor,
+				 func->id->token);
+		} else if (help != NULL) {
+			if (help->category != NULL)
+				fprintf (outfile, "C;%s;%s\n",
+					 func->id->token,
+					 help->category);
+			if (help->description != NULL)
+				fprintf (outfile, "D;%s;%s\n",
+					 func->id->token,
+					 help->description);
+			if (help->help_link != NULL) {
+				char *s = gel_encode_string (help->help_link);
+				fprintf (outfile, "L;%s;%s\n",
+					 func->id->token, s);
+				g_free (s);
+			}
+			/* FIXME: This may be too demanding */
+			if (help->help_html != NULL) {
+				char *s = gel_encode_string (help->help_html);
+				fprintf (outfile, "H;%s;%s\n",
+					 func->id->token, s);
+				g_free (s);
+			}
+		}
 		if(func->id->protected)
 			fprintf(outfile,"P;%s\n",func->id->token);
 	}
@@ -984,12 +1315,12 @@ compile_all_user_funcs(FILE *outfile)
 static void
 load_compiled_fp(const char *file, FILE *fp)
 {
-	char buf[4096];
+	char buf[8192];
 
-	if(!fgets(buf,4096,fp))
+	if(!fgets(buf,sizeof(buf),fp))
 		return;
 	if(strcmp(buf,"CGEL "VERSION"\n")!=0) {
-		g_snprintf(buf,4096,_("File '%s' is a wrong version of GEL"),file);
+		g_snprintf(buf,sizeof(buf),_("File '%s' is a wrong version of GEL"),file);
 		(*errorout)(buf);
 		return;
 	}
@@ -1006,7 +1337,7 @@ load_compiled_fp(const char *file, FILE *fp)
 	  sure*/
 	g_assert(calcstate.float_prec>0);
 
-	while(fgets(buf,4096,fp)) {
+	while(fgets(buf,sizeof(buf),fp)) {
 		char *p;
 		char *b2;
 		GelToken *tok;
@@ -1027,6 +1358,34 @@ load_compiled_fp(const char *file, FILE *fp)
 		} else if(*p == 'T') {
 			(*errorout)(_("Record out of place"));
 			continue;
+		} else if(*p == 'A') {
+			char *d;
+			p = strtok(NULL,";");
+			if(!p) {
+				(*errorout)(_("Badly formed record"));
+				continue;
+			}
+			d = strtok(NULL,";");
+			if(!d) {
+				(*errorout)(_("Badly formed record"));
+				continue;
+			}
+			add_alias(p,d);
+			continue;
+		} else if(*p == 'C') {
+			char *d;
+			p = strtok(NULL,";");
+			if(!p) {
+				(*errorout)(_("Badly formed record"));
+				continue;
+			}
+			d = strtok(NULL,";");
+			if(!d) {
+				(*errorout)(_("Badly formed record"));
+				continue;
+			}
+			add_category(p,d);
+			continue;
 		} else if(*p == 'D') {
 			char *d;
 			p = strtok(NULL,";");
@@ -1040,6 +1399,38 @@ load_compiled_fp(const char *file, FILE *fp)
 				continue;
 			}
 			add_description(p,d);
+			continue;
+		} else if(*p == 'L') {
+			char *d, *h;
+			p = strtok(NULL,";");
+			if(!p) {
+				(*errorout)(_("Badly formed record"));
+				continue;
+			}
+			d = strtok(NULL,";");
+			if(!d) {
+				(*errorout)(_("Badly formed record"));
+				continue;
+			}
+			h = gel_decode_string (d);
+			add_help_link (p, h);
+			g_free (h);
+			continue;
+		} else if(*p == 'H') {
+			char *d, *h;
+			p = strtok(NULL,";");
+			if(!p) {
+				(*errorout)(_("Badly formed record"));
+				continue;
+			}
+			d = strtok(NULL,";");
+			if(!d) {
+				(*errorout)(_("Badly formed record"));
+				continue;
+			}
+			h = gel_decode_string (d);
+			add_help_html (p, h);
+			g_free (h);
 			continue;
 		} else if(*p == 'P') {
 			GelToken *tok;
@@ -1264,13 +1655,13 @@ load_guess_file (const char *dirprefix, const char *file, gboolean warn)
 }
 
 void
-set_new_errorout(void (*func)(char *))
+set_new_errorout(void (*func)(const char *))
 {
 	errorout = func;
 }
 
 void
-set_new_infoout(void (*func)(char *))
+set_new_infoout(void (*func)(const char *))
 {
 	infoout = func;
 }

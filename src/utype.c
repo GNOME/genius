@@ -39,8 +39,6 @@
 
 #include "utype.h"
 
-extern void (*errorout)(char *);
-
 typedef struct _UserType UserType;
 struct _UserType {
 	int type;

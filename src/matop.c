@@ -40,8 +40,6 @@
 extern calc_error_t error_num;
 extern calcstate_t calcstate;
 
-extern void (*errorout)(char *);
-
 gboolean
 gel_is_matrix_value_only (GelMatrixW *m)
 {

@@ -36,13 +36,11 @@
 
 #include "compil.h"
 
-extern void (*errorout)(char *);
-
 /*sort of weird encoding, use 'a'+upper 4 bits and 'a'+lower 4 bits*/
 static void
-append_string(GString *gs,char *s)
+append_string (GString *gs,const char *s)
 {
-	char *p;
+	const char *p;
 	char out[3]="aa";
 	for(p=s;*p;p++) {
 		out[0]='a'+((*p)&0xF);
@@ -52,11 +50,12 @@ append_string(GString *gs,char *s)
 }
 
 /*sort of weird encoding, use 'a'+upper 4 bits and 'a'+lower 4 bits*/
-static char *
-decode_string(char *s)
+char *
+gel_decode_string (const char *s)
 {
 	int len = strlen(s);
-	char *p,*pp,*ps;
+	const char *ps;
+	char *p,*pp;
 	if(len%2 == 1)
 		return NULL;
 	
@@ -72,6 +71,14 @@ decode_string(char *s)
 		*pp = (*ps-'a') + ((*(ps+1)-'a')<<4);
 	}
 	return p;
+}
+
+char *
+gel_encode_string (const char *s)
+{
+	GString *gs = g_string_new (NULL);
+	append_string (gs, s);
+	return g_string_free (gs, FALSE);
 }
 
 static void
@@ -290,7 +297,7 @@ gel_decompile_node(void)
 		if(*p=='E')
 			p = g_strdup("");
 		else {
-			p = decode_string(p);
+			p = gel_decode_string(p);
 			if(!p) return NULL;
 		}
 		GET_NEW_NODE(n);

@@ -5,7 +5,7 @@
 # This is the number of permutations of n objects that leaves none of the
 # objects unchanged.
 
-sethelp("catalan","Get n'th catalan number");
+SetHelp("catalan","combinatorics","Get n'th catalan number");
 function catalan(n) = (
 	if(is_matrix(n)) then
 		return ApplyOverMatrix(n,catalan)
@@ -61,7 +61,7 @@ protect("falling_factorial");
 
 ## Binomial Coefficients
 
-sethelp("nPr","Calculate permutations");
+SetHelp("nPr","combinatorics","Calculate permutations");
 function nPr(n,r) = (
 	if(is_matrix(n) or is_matrix(r)) then
 		return ApplyOverMatrix2(n,r,nPr)
@@ -83,7 +83,7 @@ function nPr(n,r) = (
 );
 protect("nPr")
 
-sethelp("nCr","Calculate combinations");
+SetHelp("nCr","combinatorics","Calculate combinations");
 function nCr(n,r) = (
 	if(is_matrix(n) or is_matrix(r)) then
 		return ApplyOverMatrix2(n,r,nCr)
@@ -112,7 +112,7 @@ protect("Binomial");
 function Multinomial(v) = matsum(v)!/matprod(ApplyOverMatrix(v,`(x)=x!))
 protect("Multinomial");
 
-sethelp("pascal","Get the pascal's triangle as a matrix");
+SetHelp("pascal","combinatorics","Get the pascal's triangle as a matrix");
 function pascal(i) = (
 	if not is_integer(i) then
 		(error("pascal: argument not an integer");bailout)
@@ -128,7 +128,7 @@ function pascal(i) = (
 );
 protect("pascal")
 
-sethelp("triangular", "Calculate the nth triangular number");
+SetHelp("triangular", "combinatorics", "Calculate the nth triangular number");
 function triangular(nth) = (
         if is_matrix(nth) then
                 return ApplyOverMatrix(nth, triangular)

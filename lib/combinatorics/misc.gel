@@ -12,7 +12,7 @@ function Hofstadter(n) =
 protect("Hofstadter");
 
 # return the fibbonachi number, calculated using an iterative method
-sethelp("Fibbonachi","Calculate n'th fibbonachi number");
+SetHelp("Fibbonachi", "combinatorics", "Calculate n'th fibbonachi number");
 function Fibbonachi(x) = (
 	if(is_matrix(x)) then
 		return ApplyOverMatrix(x,fib)
@@ -23,14 +23,17 @@ function Fibbonachi(x) = (
 	else (([1,1;1,0]^x)@(1,2))
 );
 protect("Fibbonachi")
+SetHelpAlias ("Fibbonachi", "fib");
 fib=Fibbonachi
 protect("fib")
 
 ## Harmonic Numbers
 ## H_n^(r) (the nth harmonic number of order r)
 ## = sum_{i=1}^n 1/i^r
+SetHelp("HarmonicNumber", "combinatorics", "Harmonic Number, the nth harmonic number of order r");
 function HarmonicNumber(n,r) = sum x=1 to n do x^(-r)
 protect("HarmonicNumber");
+SetHelpAlias ("HarmonicNumber", "HarmonicH");
 HarmonicH = HarmonicNumber;
 protect("HarmonicH");
 
