@@ -390,15 +390,12 @@ add_description (const char *func, const char *desc)
 	char *p;
 	char *d;
 	
-	/*kill \n's \r's and ;'s (for compiled parsing purposes)
-	  and cap the entry at 80*/
+	/*kill \n's \r's and ;'s (for compiled parsing purposes) */
 	d = g_strdup(desc);
 	if((p=strchr(d,'\n')))
 		*p = '\0';
 	if((p=strchr(d,'\r')))
 		*p = '\0';
-	if(strlen(d)>80) 
-		d[81]='\0';
 
 	help = get_help (func, TRUE /* insert */);
 	g_free (help->description);
