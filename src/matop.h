@@ -30,6 +30,7 @@
 #include "matrixw.h"
 
 gboolean gel_is_matrix_value_only (GelMatrixW *m);
+gboolean gel_is_matrix_value_or_bool_only (GelMatrixW *m);
 gboolean gel_is_matrix_value_only_real (GelMatrixW *m);
 gboolean gel_is_matrix_value_only_rational (GelMatrixW *m);
 gboolean gel_is_matrix_value_only_integer (GelMatrixW *m);

@@ -897,7 +897,7 @@ d_protect_all(void)
 		if(!func->id || strcmp(func->id->token,"Ans")==0)
 			continue;
 		if ( ! func->id->parameter)
-			func->id->protected = 1;
+			func->id->protected_ = 1;
 	}
 }
 

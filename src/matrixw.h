@@ -42,6 +42,8 @@ struct _GelMatrixW {
 	guint16 value_only_rational:1;
 	guint16 cached_value_only_integer:1;
 	guint16 value_only_integer:1;
+	guint16 cached_value_or_bool_only:1;
+	guint16 value_or_bool_only:1;
 };
 
 /*new matrix*/

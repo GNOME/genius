@@ -49,6 +49,12 @@ gel_is_matrix_value_only (GelMatrixW *m)
 			if(n && n->type != VALUE_NODE) {
 				m->cached_value_only = 1;
 				m->value_only = 0;
+				m->cached_value_only_real = 1;
+				m->value_only_real = 0;
+				m->cached_value_only_rational = 1;
+				m->value_only_rational = 0;
+				m->cached_value_only_integer = 1;
+				m->value_only_integer = 0;
 				return FALSE;
 			}
 		}
@@ -57,6 +63,50 @@ gel_is_matrix_value_only (GelMatrixW *m)
 	m->value_only = 1;
 	return TRUE;
 }
+
+gboolean
+gel_is_matrix_value_or_bool_only (GelMatrixW *m)
+{
+	int i,j;
+	gboolean got_bools = FALSE;
+	if (m->cached_value_or_bool_only)
+		return m->value_or_bool_only;
+	for(i=0;i<gel_matrixw_width(m);i++) {
+		for(j=0;j<gel_matrixw_height(m);j++) {
+			GelETree *n = gel_matrixw_set_index(m,i,j);
+			if ( ! n)
+				continue;
+			if (n->type == BOOL_NODE) {
+				got_bools = TRUE;
+				continue;
+			}
+
+			if (n->type != VALUE_NODE) {
+				m->cached_value_or_bool_only = 1;
+				m->value_or_bool_only = 0;
+				m->cached_value_only = 1;
+				m->value_only = 0;
+				m->cached_value_only_real = 1;
+				m->value_only_real = 0;
+				m->cached_value_only_rational = 1;
+				m->value_only_rational = 0;
+				m->cached_value_only_integer = 1;
+				m->value_only_integer = 0;
+				return FALSE;
+			}
+		}
+	}
+	m->cached_value_or_bool_only = 1;
+	m->value_or_bool_only = 1;
+
+	m->cached_value_only = 1;
+	if (got_bools)
+		m->value_only = 0;
+	else
+		m->value_only = 1;
+	return TRUE;
+}
+
 
 gboolean
 gel_is_matrix_value_only_real (GelMatrixW *m)

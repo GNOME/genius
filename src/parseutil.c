@@ -325,3 +325,31 @@ gp_push_null(void)
 
 	stack_push(&evalstack,tree);
 }
+
+void
+gp_convert_identifier_to_bool (void)
+{
+	GelETree *val;
+
+	val = stack_peek (&evalstack);
+	if (val == NULL ||
+	    val->type != IDENTIFIER_NODE) {
+		/**/g_warning ("NO IDENTIFIER TO CONVERT TO TRY TO CONVERT BOOL");
+		return;
+	}
+	if (val->id.id == NULL ||
+	    val->id.id->token == NULL)
+		return;
+
+	if (strcmp (val->id.id->token, "true") == 0 ||
+	     strcmp (val->id.id->token, "True") == 0 ||
+	     strcmp (val->id.id->token, "TRUE") == 0) {
+		stack_pop (&evalstack);
+		stack_push (&evalstack, gel_makenum_bool (TRUE));
+	} else if (strcmp (val->id.id->token, "false") == 0 ||
+		   strcmp (val->id.id->token, "False") == 0 ||
+		   strcmp (val->id.id->token, "FALSE") == 0) {
+		stack_pop (&evalstack);
+		stack_push (&evalstack, gel_makenum_bool (FALSE));
+	}
+}

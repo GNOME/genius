@@ -132,15 +132,27 @@ open_get_info (GelPlugin *plug)
 		g_hash_table_insert(opened,g_strdup(plug->file),mod);
 	}
 	if(!(inf=g_hash_table_lookup(info,mod))) {
+		gpointer f;
+		gboolean ret;
 		GelPluginInfo *(*init_func)(void);
 		
-		if(!g_module_symbol(mod,"init_func",(gpointer *)&init_func) ||
-		   !init_func || 
-		   !(inf=(*init_func)())) {
+		ret = g_module_symbol (mod, "init_func", &f);
+		
+		if ( ! ret ||
+		    f == NULL) {
 			gel_errorout (_("Can't initialize plugin!"));
 			return NULL;
 		}
-		g_hash_table_insert(info,mod,inf);
+
+		init_func = f;
+		inf = (*init_func)();
+
+		if (inf == NULL) {
+			gel_errorout (_("Can't initialize plugin!"));
+			return NULL;
+		}
+
+		g_hash_table_insert (info, mod, inf);
 	}
 
 	plug->running = TRUE;

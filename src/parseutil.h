@@ -27,6 +27,8 @@ gboolean gp_push_func (gboolean vararg) GEL_WEAK_FUNC;
 gboolean gp_prepare_push_param (gboolean setfunc) GEL_WEAK_FUNC;
 gboolean gp_prepare_push_region_sep (void) GEL_WEAK_FUNC;
 
+void gp_convert_identifier_to_bool (void) GEL_WEAK_FUNC;
+
 /*pops the last expression, pushes a marker
   entry and puts the last expression back*/
 int gp_push_marker(GelETreeType markertype) GEL_WEAK_FUNC;

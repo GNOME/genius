@@ -193,9 +193,9 @@ function IsPrimitiveModWithPrimeFactors(g,q,f) = (
      not IsPositiveInteger(q) or q < 2 or g < 2 then
     (error("IsPrimitiveModWithPrimeFactors: Bad arguments");bailout);
   for p in f do (
-    if g^((q-1)/p) == 1 mod q then return 0
+    if g^((q-1)/p) == 1 mod q then return false
   );
-  1
+  true
 )
 protect ("IsPrimitiveModWithPrimeFactors")
 
@@ -209,9 +209,9 @@ function IsPrimitiveMod(g,q) = (
      not IsPositiveInteger(q) or q < 2 or g < 2 then
     (error("IsPrimitiveMod: Bad arguments");bailout);
   for p in PrimeFactors (q-1) do (
-    if g^((q-1)/p) == 1 mod q then return 0
+    if g^((q-1)/p) == 1 mod q then return false
   );
-  1
+  true
 )
 protect ("IsPrimitiveMod")
 

@@ -5274,17 +5274,17 @@ mpw_cmp_ui(mpw_ptr op, unsigned long int i)
 	}
 }
 
-int
+gboolean
 mpw_eql(mpw_ptr op1, mpw_ptr op2)
 {
 	return (mpwl_cmp(op1->r,op2->r)==0 && mpwl_cmp(op1->i,op2->i)==0);
 }
 
-int
+gboolean 
 mpw_eql_ui(mpw_ptr op, unsigned long int i)
 {
-	if(op->type==MPW_REAL) {
-		return mpwl_cmp_ui(op->r,i);
+	if (op->type == MPW_REAL) {
+		return mpwl_cmp_ui (op->r, i) == 0;
 	} else {
 		return FALSE;
 	}

@@ -202,7 +202,7 @@ function IsInvertible(n) =
 (
  if (IsInteger(n)) then return (|n|==1)     # Only invertible integers are 1, -1
  else if (IsValue(n)) then return (n!=0)    # Elements of fields (Q,R,C) are invertible iff != 0
- else if (IsMatrix(n)) then (if IsMatrixSquare(n) then return (IsInvertible(det(n))) else return 0);
+ else if (IsMatrix(n)) then (if IsMatrixSquare(n) then return (IsInvertible(det(n))) else return false);
                                              # Matrices are invertible iff they are square and their
                                              #  determinant is a unit
  error ("IsInvertible: argument not a value or matrix");bailout
@@ -213,7 +213,7 @@ SetHelp ("IsInvertibleField", "linear_algebra", "Is a matrix (or number) inverti
 function IsInvertibleField(n) =
 (
  if (IsValue(n)) then return (n!=0)    # Elements of fields (Q,R,C) are invertible iff != 0
- else if (IsMatrix(n)) then (if IsMatrixSquare(n) then return (IsInvertible(det(n))) else return 0);
+ else if (IsMatrix(n)) then (if IsMatrixSquare(n) then return (IsInvertible(det(n))) else return true);
                                              # Matrices are invertible iff they are square and their
                                              #  determinant is a unit
  error ("IsInvertibleField: argument not a value or matrix");bailout

@@ -36,6 +36,7 @@ char * prependstr(char *s,const char *p);
 /*stack operations using GSList*/
 void stack_push(GSList **stack, gpointer data);
 gpointer stack_pop(GSList **stack);
+gpointer stack_peek(GSList **stack);
 
 /*escape/unescape \n\t\r\b\a\"\\ ... unescape also \<anything>==<anything>,
   nounescape means characters which to leave escaped*/

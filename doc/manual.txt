@@ -208,13 +208,49 @@ horizontal vector with all the arguments.  For example:
 Then "f(1,2,3)" yields "[2,3]", while "f(1)" yields a null
 
 
-Absoulte value:
+Boolean values:
 ---------------
+
+Genius supports native boolean types as well as numbers.  The two constants
+are defined as true and false, and those identifiers can be used just like
+any other variables.  You can also use the identifiers True, TRUE, False and
+FALSE as aliases for the above.  At all places where boolean expressions are
+expected you can place either booleans (true/false) or any expression that
+produces a number.  If genius needs to evaluate a number as a boolean it will
+use 0 to mean false and any other number to mean true.  Furthermore you can
+do some arithmetic with booleans.  For example:
+
+  ( (1 + true) - false ) * true
+
+is the same as
+
+  ( (true or true) or not false ) and true
+
+Only addition, subtraction and multiplication are supported.  Furthermore
+if you mix numbers with booleans in an expression then the numbers are
+converted to booleans according to the rule above.  This for example means
+that the expression
+
+  1 == true
+
+is always true since 1 will be converted to true before compared to
+true.  Similarly "2 == true" will also always evaluate to true.
+
+
+Absoulte value / Modulus:
+-------------------------
 
 You can make an absolute value of something by putting the |'s around it.
 Example:
 
-|a-b|
+  |a-b|
+
+In case the expression is a complex number the result will be the modulus
+(distance from the origin).  So for example
+
+  |3 * e^(1i*pi)|
+
+returns 3.
 
 
 Separator:
@@ -224,9 +260,9 @@ Finally there is the ';' operator, which is a way to separate expressions,
 such a combined expression will return whatever is the result of the last
 one, so
 
-3 ; 5
+  3 ; 5
 
-yeilds 5
+yeilds 5.
 
 This will require some parenthesizing to make it unambiguous sometimes,
 especially if the ; is not the top most primitive. This slightly differs
@@ -408,7 +444,7 @@ returns 0 and 'prod' returns 1 as is the standard convention.
 Comparison operators:
 ---------------------
 
-==,>=,<=,!=,<>,<,> return 1 for TRUE, 0 for FALSE
+==,>=,<=,!=,<>,<,> return true or false
 
 != and <> are the same thing and mean "is not equal to". Make sure
 you use == for equality however, as = will have the same outcomes as
@@ -419,7 +455,7 @@ it does in C.
 
 To build up logical expressions use the words "not","and","or","xor"
 
-"not" and "and" are special beasts as they evaluate their arguemnts one by
+"or" and "and" are special beasts as they evaluate their arguemnts one by
 one, so the usual trick for conditional evaluation works here as well.
 (E.g. "1 or a=1" will not set a=1 since the first argument was true)
 
@@ -456,8 +492,8 @@ keyword is for, it takes one argument which is the return value
 Example:
   function f(x) = (
     y=1;
-    while(1) do (
-      if(x>50) then return y;
+    while true do (
+      if x>50 then return y;
       y=y+1;
       x=x+1
     )
@@ -818,7 +854,7 @@ EXAMPLE PROGRAMS in GEL:
     Which is almost verbatim bc code, except for then and the function
     definition.
 
-    Here's a smaller, nicer, iterative version, that usese the product
+    Here's a smaller, nicer, iterative version, that uses the product
     loop.
 
       function f(x) = prod k=1 to x do k

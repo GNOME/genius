@@ -75,6 +75,17 @@ static int golden_ratio_iscached = FALSE;
 
 #define RAISE_EXCEPTION(e) { if ((e) != NULL) *(e) = TRUE; }
 
+static GelETree * apply_func_to_matrix (GelCtx *ctx,
+					GelETree *mat, 
+					GelBIFunction function,
+					const char *ident, 
+					gboolean *exception);
+static GelETree * apply_func_to_matrixen (GelCtx *ctx,
+					  GelETree *mat1,
+					  GelETree *mat2,
+					  GelBIFunction function,
+					  const char *ident,
+					  gboolean *exception);
 
 static inline gboolean
 check_argument_integer (GelETree **a, int argnum, const char *funcname)
@@ -120,6 +131,17 @@ check_argument_number (GelETree **a, int argnum, const char *funcname)
 {
 	if G_UNLIKELY (a[argnum]->type!=VALUE_NODE) {
 		gel_errorout (_("%s: argument number %d not a number"), funcname, argnum+1);
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static inline gboolean
+check_argument_bool (GelETree **a, int argnum, const char *funcname)
+{
+	if G_UNLIKELY (a[argnum]->type != VALUE_NODE &&
+		       a[argnum]->type != BOOL_NODE) {
+		gel_errorout (_("%s: argument number %d not a boolean"), funcname, argnum+1);
 		return FALSE;
 	}
 	return TRUE;
@@ -298,6 +320,39 @@ shrubbery_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	error_num = IGNORE_ERROR;
 	return NULL;
 }
+
+static GelETree *
+true_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	return gel_makenum_bool (1);
+}
+
+static GelETree *
+false_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	return gel_makenum_bool (0);
+}
+
+/*sin function*/
+static GelETree *
+IntegerFromBoolean_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	int i;
+	if (a[0]->type == MATRIX_NODE)
+		return apply_func_to_matrix
+			(ctx, a[0], IntegerFromBoolean_op, "IntegerFromBoolean",
+			 exception);
+
+	if G_UNLIKELY ( ! check_argument_bool (a, 0, "IntegerFromBoolean"))
+		return NULL;
+
+	if (a[0]->type == VALUE_NODE)
+		i = (mpw_sgn(a[0]->val.value)!=0) ? 1 : 0;
+	else /* a->type == BOOL_NODE */
+		i = a[0]->bool_.bool_ ? 1 : 0;
+
+	return gel_makenum_ui (i);
+}
 	
 /*error printing function*/
 static GelETree *
@@ -377,7 +432,7 @@ set_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		id = d_intern (a[0]->str.str);
 	}
 
-	if G_UNLIKELY (id->protected) {
+	if G_UNLIKELY (id->protected_) {
 		gel_errorout (_("%s: trying to set a protected id!"),
 			      "set");
 		return NULL;
@@ -1065,41 +1120,49 @@ static GelETree *
 IsNull_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if(a[0]->type==NULL_NODE)
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 static GelETree *
 IsValue_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if(a[0]->type==VALUE_NODE)
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 static GelETree *
-IsString_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+IsBoolean_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
-	if(a[0]->type==STRING_NODE)
-		return gel_makenum_ui(1);
+	if (a[0]->type == BOOL_NODE)
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
+}
+static GelETree *
+IsString_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	if (a[0]->type == STRING_NODE)
+		return gel_makenum_bool (1);
+	else
+		return gel_makenum_bool (0);
 }
 static GelETree *
 IsMatrix_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
-	if(a[0]->type==MATRIX_NODE)
-		return gel_makenum_ui(1);
+	if (a[0]->type == MATRIX_NODE)
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 static GelETree *
 IsFunction_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
-	if(a[0]->type==FUNCTION_NODE)
-		return gel_makenum_ui(1);
+	if (a[0]->type == FUNCTION_NODE)
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 static GelETree *
 IsFunctionRef_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
@@ -1110,29 +1173,29 @@ IsFunctionRef_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		g_assert(arg);
 		if(arg->type==IDENTIFIER_NODE &&
 		   d_lookup_global(arg->id.id))
-			return gel_makenum_ui(1);
+			return gel_makenum_bool (1);
 	}
-	return gel_makenum_ui(0);
+	return gel_makenum_bool (0);
 }
 static GelETree *
 IsComplex_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if(a[0]->type!=VALUE_NODE)
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 	else if(mpw_is_complex(a[0]->val.value))
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 static GelETree *
 IsReal_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if(a[0]->type!=VALUE_NODE)
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 	else if(mpw_is_complex(a[0]->val.value))
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 	else
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 }
 static GelETree *
 IsMatrixReal_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
@@ -1141,42 +1204,42 @@ IsMatrixReal_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 
 	if (gel_is_matrix_value_only_real (a[0]->mat.matrix))
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 static GelETree *
 IsInteger_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if(a[0]->type!=VALUE_NODE ||
 	   mpw_is_complex(a[0]->val.value))
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 	else if(mpw_is_integer(a[0]->val.value))
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 static GelETree *
 IsPositiveInteger_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if(a[0]->type!=VALUE_NODE ||
 	   mpw_is_complex(a[0]->val.value))
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 	else if(mpw_is_integer(a[0]->val.value) &&
 		mpw_sgn (a[0]->val.value) > 0)
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 static GelETree *
 IsGaussInteger_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if(a[0]->type!=VALUE_NODE)
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 	else if(mpw_is_complex_integer(a[0]->val.value))
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 static GelETree *
 IsMatrixInteger_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
@@ -1185,31 +1248,31 @@ IsMatrixInteger_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 
 	if (gel_is_matrix_value_only_integer (a[0]->mat.matrix))
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 static GelETree *
 IsRational_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if(a[0]->type!=VALUE_NODE ||
 	   mpw_is_complex(a[0]->val.value))
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 	else if(mpw_is_rational(a[0]->val.value) ||
 		mpw_is_integer(a[0]->val.value))
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 static GelETree *
 IsComplexRational_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if(a[0]->type!=VALUE_NODE)
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 	else if (mpw_is_complex_rational_or_integer (a[0]->val.value))
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 static GelETree *
 IsMatrixRational_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
@@ -1218,20 +1281,20 @@ IsMatrixRational_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 
 	if (gel_is_matrix_value_only_rational (a[0]->mat.matrix))
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 static GelETree *
 IsFloat_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if(a[0]->type!=VALUE_NODE ||
 	   mpw_is_complex(a[0]->val.value))
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 	else if(mpw_is_float(a[0]->val.value))
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 
 static GelETree *
@@ -1871,13 +1934,13 @@ IsPerfectSquare_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 
 	if(mpw_perfect_square(a[0]->val.value)) {
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	} else {
 		if G_UNLIKELY (error_num) {
 			error_num = 0;
 			return NULL;
 		}
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 	}
 }
 
@@ -1893,13 +1956,13 @@ IsPerfectPower_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 
 	if(mpw_perfect_power(a[0]->val.value)) {
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	} else {
 		if G_UNLIKELY (error_num) {
 			error_num = 0;
 			return NULL;
 		}
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 	}
 }
 
@@ -1913,13 +1976,13 @@ IsEven_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 
 	if(mpw_even_p(a[0]->val.value)) {
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	} else {
 		if G_UNLIKELY (error_num) {
 			error_num = 0;
 			return NULL;
 		}
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 	}
 }
 
@@ -1933,13 +1996,13 @@ IsOdd_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 
 	if(mpw_odd_p(a[0]->val.value)) {
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	} else {
 		if G_UNLIKELY (error_num) {
 			error_num = 0;
 			return NULL;
 		}
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 	}
 }
 
@@ -2112,9 +2175,9 @@ IsValueOnly_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 	
 	if(gel_is_matrix_value_only(a[0]->mat.matrix))
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 
 static GelETree *
@@ -2277,9 +2340,9 @@ IsMatrixSquare_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if G_UNLIKELY ( ! check_argument_matrix (a, 0, "IsMatrixSquare"))
 		return NULL;
 	if (gel_matrixw_width (a[0]->mat.matrix) == gel_matrixw_height (a[0]->mat.matrix))
-		return gel_makenum_ui (1);
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui (0);
+		return gel_makenum_bool (0);
 }
 static GelETree *
 SetMatrixSize_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
@@ -2713,7 +2776,7 @@ IsPrime_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	MPW_MPZ_KILL (num, tmp);
 
-	return gel_makenum_ui (ret);
+	return gel_makenum_bool (ret);
 }
 
 static GelETree *
@@ -2743,7 +2806,7 @@ StrongPseudoprimeTest_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	MPW_MPZ_KILL (num, tmp);
 	MPW_MPZ_KILL (b, tmpb);
 
-	return gel_makenum_ui (ret);
+	return gel_makenum_bool (ret);
 }
 
 static GelETree *
@@ -2771,7 +2834,7 @@ MillerRabinTest_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	MPW_MPZ_KILL (num, tmp);
 
-	return gel_makenum_ui (ret);
+	return gel_makenum_bool (ret);
 }
 
 static GelETree *
@@ -2800,7 +2863,7 @@ MillerRabinTestSure_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	MPW_MPZ_KILL (num, tmp);
 
-	return gel_makenum_ui (ret);
+	return gel_makenum_bool (ret);
 }
 
 static GelETree *
@@ -3200,9 +3263,9 @@ static GelETree *
 IsPoly_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if(check_poly(a,1,"IsPoly",FALSE))
-		return gel_makenum_ui(1);
+		return gel_makenum_bool (1);
 	else
-		return gel_makenum_ui(0);
+		return gel_makenum_bool (0);
 }
 
 static GelETree *
@@ -3867,7 +3930,7 @@ protect_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		tok = d_intern (a[0]->str.str);
 	}
 	
-	tok->protected = 1;
+	tok->protected_ = 1;
 
 	return gel_makenum_null();
 }
@@ -3886,7 +3949,7 @@ unprotect_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		tok = d_intern (a[0]->str.str);
 	}
 	
-	tok->protected = 0;
+	tok->protected_ = 0;
 
 	return gel_makenum_null();
 }
@@ -4011,68 +4074,59 @@ get_MaxDigits (void)
 static GelETree *
 set_ResultsAsFloats (GelETree * a)
 {
-	if G_UNLIKELY ( ! check_argument_number (&a, 0, "set_ResultsAsFloats"))
+	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_ResultsAsFloats"))
 		return NULL;
-	calcstate.results_as_floats = mpw_sgn(a->val.value)!=0;
+	if (a->type == VALUE_NODE)
+		calcstate.results_as_floats = mpw_sgn(a->val.value)!=0;
+	else /* a->type == BOOL_NODE */
+		calcstate.results_as_floats = a->bool_.bool_;
 	if(statechange_hook)
 		(*statechange_hook)(calcstate);
 
-	if(calcstate.results_as_floats)
-		return gel_makenum_ui(1);
-	else
-		return gel_makenum_ui(0);
+	return gel_makenum_bool (calcstate.results_as_floats);
 }
 static GelETree *
 get_ResultsAsFloats (void)
 {
-	if(calcstate.results_as_floats)
-		return gel_makenum_ui(1);
-	else
-		return gel_makenum_ui(0);
+	return gel_makenum_bool (calcstate.results_as_floats);
 }
 static GelETree *
 set_ScientificNotation (GelETree * a)
 {
-	if G_UNLIKELY ( ! check_argument_number (&a, 0, "set_ScientificNotation"))
+	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_ScientificNotation"))
 		return NULL;
-	calcstate.scientific_notation = mpw_sgn(a->val.value)!=0;
+	if (a->type == VALUE_NODE)
+		calcstate.scientific_notation = mpw_sgn(a->val.value)!=0;
+	else /* a->type == BOOL_NODE */
+		calcstate.scientific_notation = a->bool_.bool_;
 	if(statechange_hook)
 		(*statechange_hook)(calcstate);
 
-	if(calcstate.scientific_notation)
-		return gel_makenum_ui(1);
-	else
-		return gel_makenum_ui(0);
+	return gel_makenum_bool (calcstate.scientific_notation);
 }
 static GelETree *
 get_ScientificNotation (void)
 {
-	if(calcstate.scientific_notation)
-		return gel_makenum_ui(1);
-	else
-		return gel_makenum_ui(0);
+	return gel_makenum_bool (calcstate.scientific_notation);
 }
 static GelETree *
 set_FullExpressions (GelETree * a)
 {
-	if G_UNLIKELY ( ! check_argument_number (&a, 0, "set_FullExpressions"))
+	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_FullExpressions"))
 		return NULL;
-	calcstate.full_expressions = mpw_sgn(a->val.value)!=0;
+	if (a->type == VALUE_NODE)
+		calcstate.full_expressions = mpw_sgn(a->val.value)!=0;
+	else /* a->type == BOOL_NODE */
+		calcstate.full_expressions = a->bool_.bool_;
 	if(statechange_hook)
 		(*statechange_hook)(calcstate);
 
-	if(calcstate.full_expressions)
-		return gel_makenum_ui(1);
-	else
-		return gel_makenum_ui(0);
+	return gel_makenum_bool (calcstate.full_expressions);
 }
 static GelETree *
 get_FullExpressions (void)
 {
-	if(calcstate.full_expressions)
-		return gel_makenum_ui(1);
-	else
-		return gel_makenum_ui(0);
+	return gel_makenum_bool (calcstate.full_expressions);
 }
 
 static GelETree *
@@ -4162,24 +4216,21 @@ get_MaxErrors (void)
 static GelETree *
 set_MixedFractions (GelETree * a)
 {
-	if G_UNLIKELY ( ! check_argument_number (&a, 0, "set_MixedFractions"))
+	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_MixedFractions"))
 		return NULL;
-	calcstate.mixed_fractions = mpw_sgn(a->val.value)!=0;
+	if (a->type == VALUE_NODE)
+		calcstate.mixed_fractions = mpw_sgn(a->val.value)!=0;
+	else /* a->type == BOOL_NODE */
+		calcstate.mixed_fractions = a->bool_.bool_;
 	if(statechange_hook)
 		(*statechange_hook)(calcstate);
 
-	if(calcstate.mixed_fractions)
-		return gel_makenum_ui(1);
-	else
-		return gel_makenum_ui(0);
+	return gel_makenum_bool (calcstate.mixed_fractions);
 }
 static GelETree *
 get_MixedFractions (void)
 {
-	if(calcstate.mixed_fractions)
-		return gel_makenum_ui(1);
-	else
-		return gel_makenum_ui(0);
+	return gel_makenum_bool (calcstate.mixed_fractions);
 }
 
 static GelETree *
@@ -4299,6 +4350,19 @@ gel_funclib_addall(void)
 	FUNC (exit, 0, "", "basic", _("Exits the program"));
 	ALIAS (quit, 0, exit);
 	FUNC (error, 1, "str", "basic", _("Prints a string to the error stream"));
+	FUNC (true, 0, "", "basic", _("The true boolean value"));
+	ALIAS (True, 0, true);
+	FUNC (false, 0, "", "basic", _("The false boolean value"));
+	ALIAS (False, 0, false);
+
+	/* FIXME: TRUE, FALSE aliases can't be done with the above macros! */
+	d_addfunc (d_makebifunc (d_intern ("TRUE"), true_op, 0));
+	add_alias ("true", "TRUE");
+	d_addfunc (d_makebifunc (d_intern ("FALSE"), false_op, 0));
+	add_alias ("false", "FALSE");
+
+	FUNC (IntegerFromBoolean, 1, "", "basic", _("Make integer (0 or 1) from a boolean value"));
+
 	FUNC (print, 1, "str", "basic", _("Prints an expression"));
 	FUNC (chdir, 1, "dir", "basic", _("Changes current directory"));
 	FUNC (printn, 1, "str", "basic", _("Prints an expression without a trailing newline"));
@@ -4472,6 +4536,7 @@ gel_funclib_addall(void)
 
 	FUNC (IsNull, 1, "arg", "basic", _("Check if argument is a null"));
 	FUNC (IsValue, 1, "arg", "basic", _("Check if argument is a number"));
+	FUNC (IsBoolean, 1, "arg", "basic", _("Check if argument is a boolean (and not a number)"));
 	FUNC (IsString, 1, "arg", "basic", _("Check if argument is a text string"));
 	FUNC (IsMatrix, 1, "arg", "basic", _("Check if argument is a matrix"));
 	FUNC (IsFunction, 1, "arg", "basic", _("Check if argument is a function"));

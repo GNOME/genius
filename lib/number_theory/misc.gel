@@ -4,12 +4,12 @@ function IsNthPower(n,k) =
  (
   if not IsRational (n) then
 	# Only integers/rationals can be perfect powers
-	0
+	false
   else if k == 2 then
 	IsPerfectSquare(n)
   else if not IsPerfectPower(n) then
 	# We know this won't work
-	0
+	false
   else if IsInteger(n) then
 	IsInteger(n^(1/k))
 

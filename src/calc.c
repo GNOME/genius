@@ -1350,6 +1350,12 @@ gel_print_etree (GelOutput *gelo,
 	case COMPARISON_NODE:
 		appendcomp(gelo,n);
 		break;
+	case BOOL_NODE:
+		if (n->bool_.bool_)
+			gel_output_string (gelo, "true");
+		else
+			gel_output_string (gelo, "false");
+		break;
 	default:
 		gel_errorout (_("Unexpected node!"));
 		gel_output_string(gelo,"(?)");
@@ -1724,7 +1730,7 @@ compile_funcs_in_dict (FILE *outfile, GSList *dict, gboolean is_extra_dict)
 				g_free (s);
 			}
 		}
-		if (func->id->protected)
+		if (func->id->protected_)
 			fprintf (outfile,"P;%s\n",func->id->token);
 	}
 }
@@ -1893,7 +1899,7 @@ load_compiled_fp (const char *file, FILE *fp)
 				continue;
 			}
 			tok = d_intern(p);
-			tok->protected = 1;
+			tok->protected_ = 1;
 			continue;
 		} else if G_UNLIKELY (*p != 'F' && *p != 'V' && *p != 'f' && *p != 'v') {
 			gel_errorout (_("Badly formed record"));

@@ -133,6 +133,7 @@ gel_matrixw_new(void)
 	m->cached_value_only_real = 0;
 	m->cached_value_only_rational = 0;
 	m->cached_value_only_integer = 0;
+	m->cached_value_or_bool_only = 0;
 	
 	m->tr = 0;
 	m->regx = NULL;
@@ -162,6 +163,7 @@ gel_matrixw_new_with_matrix(GelMatrix *mat)
 	m->cached_value_only_real = 0;
 	m->cached_value_only_rational = 0;
 	m->cached_value_only_integer = 0;
+	m->cached_value_or_bool_only = 0;
 	
 	m->tr = 0;
 	m->regx = NULL;
@@ -890,6 +892,7 @@ internal_make_private (GelMatrixW *m, int w, int h)
 	m->cached_value_only_real = 0;
 	m->cached_value_only_rational = 0;
 	m->cached_value_only_integer = 0;
+	m->cached_value_or_bool_only = 0;
 
 #ifdef MATRIX_DEBUG
 	printf ("Make private %p %d %d\n", m, w, h);

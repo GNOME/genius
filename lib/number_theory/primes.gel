@@ -15,7 +15,7 @@
 SetHelp("PseudoprimeTest","number_theory","Pseudoprime test, true iff b^(n-1) == 1 (mod n)");
 function PseudoprimeTest(n,b) =
  (
-  b^(abs(n)-1) mod abs(n)
+  b^(abs(n)-1) == 1 mod abs(n)
  )
 protect("PseudoprimeTest");
 
@@ -47,8 +47,8 @@ function LucasLehmer(p) = (
                 return ApplyOverMatrix(p, LucasLehmer)
 	else if not IsPositiveInteger(p) then
 		(error("LucasLehmer: argument not an integer larger than 0");bailout);
-	if p==1 then return 0
-	else if p==2 then return 1;
+	if p==1 then return false
+	else if p==2 then return true;
 	S = 4;
 	n = 1;
 	Mp = (2^p) - 1;
@@ -57,8 +57,8 @@ function LucasLehmer(p) = (
 		n = n+1
 	);
 	if S == 0 then
-		return 1
+		return true
 	else
-		return 0
+		return false
 );
 protect("LucasLehmer")

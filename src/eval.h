@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2004 George Lebl
  *
  * Author: George Lebl
  *
@@ -98,7 +98,6 @@ enum {
 };
 
 
-
 /*table of operators, at least the primitive types*/
 enum {
 	GO_VALUE=1<<0,
@@ -107,6 +106,7 @@ enum {
 	GO_FUNCTION=1<<3,
 	GO_POLYNOMIAL=1<<4,
 	GO_IDENTIFIER=1<<5,
+	GO_BOOL=1<<6,
 };
 typedef gboolean (*GelEvalFunc)(GelCtx *ctx, GelETree *n, ...);
 /*primitive operations can be like this*/
@@ -115,7 +115,7 @@ struct _GelOperPrim {
 	guint32 arg[3]; /*bitmap of allowable types for arguments*/
 	GelEvalFunc evalfunc;
 };
-#define OP_TABLE_LEN 9
+#define OP_TABLE_LEN 10
 typedef struct _GelOper GelOper;
 struct _GelOper {
 	GelOperPrim prim[OP_TABLE_LEN];
@@ -127,6 +127,7 @@ GelETree * gel_makenum_use(mpw_t num); /*don't create a new number*/
 GelETree * gel_makenum_ui(unsigned long num);
 GelETree * gel_makenum_si(long num);
 GelETree * gel_makenum_d (double num);
+GelETree * gel_makenum_bool (gboolean bool_);
 GelETree * gel_makenum_null(void);
 GelETree * gel_makenum_identifier (GelToken *id);
 GelETree * gel_makenum_string (const char *str);
@@ -140,6 +141,7 @@ void gel_makenum_from(GelETree *n, mpw_t num);
 void gel_makenum_use_from(GelETree *n, mpw_t num); /*don't create a new number*/
 void gel_makenum_ui_from(GelETree *n, unsigned long num);
 void gel_makenum_si_from(GelETree *n, long num);
+void gel_makenum_bool_from (GelETree *n, gboolean bool_);
 void gel_makenum_null_from(GelETree *n);
 
 /*returns the number of args for an operator, or -1 if it takes up till
@@ -160,7 +162,7 @@ GelETree * eval_etree(GelCtx *ctx, GelETree *etree);
 
 /*return TRUE if node is true (a number node !=0, or nonempty string),
   false otherwise*/
-int isnodetrue(GelETree *n, int *bad_node);
+int gel_isnodetrue(GelETree *n, int *bad_node);
 
 /*call a function (arguments should have already been evaluated)*/
 GelETree * funccall(GelCtx *ctx, GelEFunc *func, GelETree **args, int nargs);

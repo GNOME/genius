@@ -5,15 +5,6 @@ SetHelp ("Identity", "basic", "Identity function, returns its argument")
 function Identity(x) = x
 protect ("Identity")
 
-###### Boolean constants
-# FIXME: must have builtin boolean, 0/1 is pretty ugly
-SetHelp ("true", "basic", "True (well really the value 1)")
-true = 1;
-protect ("true");
-SetHelp ("false", "basic", "False (well really the value 0)")
-false = 0;
-protect ("false");
-
 #make something a string
 SetHelp("string","basic","Make a string");
 function string(s) = s + ""

@@ -1,3 +1,26 @@
+Thu Jul 15 16:44:40 2004  George Lebl <jirka@5z.com>
+
+	* src/calc.c, src/compil.c, src/dict.c, src/eval.[ch], src/funclib.c,
+	  src/graphing.c, src/matop.[ch], src/matrixw.[ch], src/mpwrap.[ch],
+	  src/parse.y, src/parseutil.[ch], src/plugin.c, src/structs.h,
+	  src/util.[ch]:  Add native boolean types.  Make all boolean
+	  expressions return these, add the true and false functions and
+	  aliases, add IntegerFromBoolean and IsBoolean functions
+
+	* lib/functions/delta.gel, lib/linear_algebra/linear_algebra.gel,
+	  lib/misc/misc.gel, lib/number_theory/misc.gel,
+	  lib/number_theory/modulus.gel, lib/number_theory/primes.gel:
+	  Update for the boolean types, use where appropriate whack the
+	  old true/false functions.
+
+	* src/geniustests.txt: update tests to expect booleans where
+	  appropriate
+
+	* doc/manual.txt: updates for the booleans and some other cleanups
+	  and updates
+
+	* configure.in: raise version since the compiled format changed.
+
 Mon Jun 14 10:27:59 2004  George Lebl <jirka@5z.com>
 
 	* Release 0.6.1

@@ -233,7 +233,8 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 	|	PROD ident IN expr DO expr { PUSH_ACT(E_PRODIN_CONS); }
 	|	IF expr THEN expr %prec LOWER_THEN_ELSE	{ PUSH_ACT(E_IF_CONS); }
 	|	IF expr THEN expr ELSE expr { PUSH_ACT(E_IFELSE_CONS); }
-	|	ident
+	|	ident			{ gp_convert_identifier_to_bool ();
+					  /* convert true/false to bool */}
 	|	'`' ident		{ PUSH_ACT(E_QUOTE); }
 	|	'&' ident		{ PUSH_ACT(E_REFERENCE); }
 	|	deref

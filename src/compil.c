@@ -155,6 +155,10 @@ gel_compile_node(GelETree *t,GString *gs)
 			gel_compile_node(ali,gs);
 		}
 		break;
+	case BOOL_NODE:
+		g_string_append_printf (gs, ";%c", 
+					t->bool_.bool_ ? 't' : 'f');
+		break;
 	default:
 		g_assert_not_reached(); break;
 	}
@@ -405,6 +409,16 @@ gel_decompile_node(void)
 		n->comp.nargs = nargs;
 		n->comp.comp = oli;
 		return n;
+	case BOOL_NODE:
+		p = strtok (NULL, ";");
+		if (p == NULL)
+			return NULL;
+		if (*p == 't')
+			return gel_makenum_bool (TRUE);
+		else if (*p == 'f')
+			return gel_makenum_bool (FALSE);
+		else
+			return NULL;
 	default:
 		return NULL;
 	}

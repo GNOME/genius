@@ -47,6 +47,8 @@ typedef struct _GelETreeString GelETreeString;
 typedef struct _GelETreeFunction GelETreeFunction;
 typedef struct _GelETreeComparison GelETreeComparison;
 typedef struct _GelETreeUsertype GelETreeUsertype;
+typedef struct _GelETreeBool GelETreeBool;
+
 typedef struct _GelETreeMatrixRow GelETreeMatrixRow;
 /*typedef struct _GelETreeMatrixStart GelETreeMatrixStart;*/
 /*typedef struct _GelETreeExprlistStart GelETreeExprlistStart;*/
@@ -83,7 +85,7 @@ struct _GelToken {
 	gpointer data1;
 	gpointer data2;
 
-	guint8 protected:1;
+	guint8 protected_:1;
 	guint8 parameter:1;
 	guint8 built_in_parameter:1;
 };
@@ -128,6 +130,7 @@ typedef enum {
 	FUNCTION_NODE, /*stores an anonymous function*/
 	COMPARISON_NODE,
 	USERTYPE_NODE, /*for user types*/
+	BOOL_NODE, /*boolean*/
 	
 	/*marker nodes*/
 	MATRIX_ROW_NODE=1000,
@@ -240,6 +243,17 @@ struct _GelETreeUsertype {
 	gpointer data;
 };
 
+struct _GelETreeBool {
+	GelETreeType type;
+	GelETree *next;
+	gboolean bool_;
+
+	/* gboolean is faster, then a bitfield and we right now
+	   don't gain anything */
+	/* guint bool_:1; */
+};
+
+
 struct _GelETreeMatrixRow {
 	GelETreeType type;
 	GelETree *next;
@@ -277,6 +291,7 @@ union _GelETree {
 	GelETreeFunction func;
 	GelETreeComparison comp;
 	GelETreeUsertype ut;
+	GelETreeBool bool_;
 	GelETreeMatrixRow row;
 	/*GelETreeMatrixStart mats;*/
 	/*GelETreeExprlistStart exps;*/

@@ -606,7 +606,6 @@ call_func (GelCtx *ctx, GelEFunc *func, GelETree *arg, gboolean *ex)
 	}
 
 	if (ret == NULL || ret->type != VALUE_NODE) {
-
 		*ex = TRUE;
 		gel_freetree (ret);
 		return 0;

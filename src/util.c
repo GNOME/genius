@@ -80,7 +80,7 @@ prependstr(char *s,const char *p)
 void
 stack_push(GSList **stack, gpointer data)
 {
-	g_return_if_fail(stack);
+	g_return_if_fail (stack != NULL);
 	*stack = g_slist_prepend(*stack,data);
 }
 
@@ -90,7 +90,7 @@ stack_pop(GSList **stack)
 	gpointer data;
 	GSList *p;
 
-	g_return_val_if_fail(stack,NULL);
+	g_return_val_if_fail (stack != NULL, NULL);
 
 	if(*stack == NULL) {
 		g_warning(_("Stack underflow!"));
@@ -101,6 +101,22 @@ stack_pop(GSList **stack)
 	p = (*stack)->next;
 	g_slist_free_1(*stack);
 	*stack = p;
+	return data;
+}
+
+gpointer
+stack_peek (GSList **stack)
+{
+	gpointer data;
+
+	g_return_val_if_fail (stack != NULL, NULL);
+
+	if(*stack == NULL) {
+		g_warning(_("Stack underflow!"));
+		return NULL;
+	}
+
+	data = (*stack)->data;
 	return data;
 }
 
