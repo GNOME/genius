@@ -13,8 +13,8 @@ Kai Willadsen
 
     <kaiw@itee.uq.edu.au>
 
-   Copyright  (c)  1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
-   Jiri (George) Lebl
+   Copyright  (c) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
+   2005 Jiri (George) Lebl
 
    Copyright (c) 2004 Kai Willadsen
 
@@ -77,7 +77,7 @@ Kai Willadsen
    To report a bug or make a suggestion regarding the Genius Math
    Tool  application or this manual, follow the directions in the
    GNOME Feedback Page.
-   This manual describes version 0.7.2 of Genius.
+   This manual describes version 0.7.3 of Genius.
      _________________________________________________________
 
    Table of Contents
@@ -171,6 +171,7 @@ Kai Willadsen
         Polynomials
         Set Theory
         Miscellaneous
+        Plotting
 
    Example programs in GEL
    Settings
@@ -1603,6 +1604,12 @@ Basic
 
           Unprotect a variable from being modified
 
+   wait
+
+          wait (secs)
+
+          Waits a specified number of seconds.
+
    warranty
 
           warranty
@@ -1696,6 +1703,12 @@ Parameters
           Number  of  extra Miller-Rabin tests to run on a number
           before declaring it a prime in IsPrime
 
+   LinePlotWindow
+
+          LinePlotWindow = [x1,x2,y1,y2]
+
+          Sets the limits for line plotting (See LinePlot).
+
    MaxDigits
 
           MaxDigits = number
@@ -1771,6 +1784,12 @@ Parameters
           SumProductTolerance = number
 
           Tolerance for InfiniteSum and InfiniteProduct
+
+   SurfacePlotWindow
+
+          SurfacePlotWindow = [x1,x2,y1,y2,z1,z2]
+
+          Sets the limits for surface plotting (See SurfacePlot).
      _________________________________________________________
 
 Constants
@@ -1832,7 +1851,9 @@ Numeric
           Absolute  value of a number and if x is a complex value
           the modulus of x.
 
-          See Mathworld for more information.
+          See  Planetmath (absolute value), Planetmath (modulus),
+          Mathworld   (absolute   value)  or  Mathworld  (complex
+          modulus) for more information.
 
    Chop
 
@@ -2310,7 +2331,7 @@ Number Theory
           Are the real integers a and b relatively prime? Returns
           true or false.
 
-          See Mathworld for more information.
+          See Planetmath or Mathworld for more information.
 
    BernoulliNumber
 
@@ -2360,7 +2381,7 @@ Number Theory
           Find discrete log of n base b in F_q where q is a prime
           using the Silver-Pohlig-Hellman algoritm
 
-          See Mathworld for more information.
+          See Planetmath or Mathworld for more information.
 
    Divides
 
@@ -2514,7 +2535,7 @@ for n=1 to 1000 do (
           you have a prime you can use MillerRabinTestSure but it
           may take a lot longer.
 
-          See Mathworld for more information.
+          See Planetmath or Mathworld for more information.
 
    IsPrimitiveMod
 
@@ -2578,7 +2599,7 @@ for n=1 to 1000 do (
 
           Calculate the Legendre symbol (a/p).
 
-          See Mathworld for more information.
+          See Planetmath or Mathworld for more information.
 
    LucasLehmer
 
@@ -2587,7 +2608,7 @@ for n=1 to 1000 do (
           Test  if  Mp is a Mersenne prime using the Lucas-Lehmer
           test
 
-          See Mathworld for more information.
+          See Planetmath or Mathworld for more information.
 
    LucasNumber
 
@@ -2595,7 +2616,7 @@ for n=1 to 1000 do (
 
           Returns the n'th Lucas number
 
-          See Mathworld for more information.
+          See Planetmath or Mathworld for more information.
 
    MaximalPrimePowerFactors
 
@@ -2613,7 +2634,7 @@ for n=1 to 1000 do (
           IsPrime  since  that  is  faster  and better on smaller
           integers.
 
-          See Mathworld for more information.
+          See Planetmath or Mathworld for more information.
 
    MillerRabinTestSure
 
@@ -2623,13 +2644,15 @@ for n=1 to 1000 do (
           bases  that assuming the Generalized Reimann Hypothesis
           the result is deterministic.
 
-          See Mathworld for more information.
+          See Planetmath or Mathworld for more information.
 
    ModInvert
 
           ModInvert (n,m)
 
           Returns inverse of n mod m
+
+          See Mathworld for more information.
 
    MoebiusMu
 
@@ -2639,7 +2662,7 @@ for n=1 to 1000 do (
           it  returns  0 if n is not a product of distinct primes
           and (-1)^k if it is a product of k distinct primes.
 
-          See Mathworld for more information.
+          See Planetmath or Mathworld for more information.
 
    NextPrime
 
@@ -2650,9 +2673,12 @@ for n=1 to 1000 do (
           prime you can use -NextPrime(-n).
 
           This  uses  the  GMP's mpz_nextprime which in turn uses
-          the probabilistic Miller-Rabin test. The probability of
-          false  positive  is  not tunable, but is low enough for
-          all practical purposes.
+          the   probabilistic   Miller-Rabin   test   (See   also
+          MillerRabinTest).  The probability of false positive is
+          not  tunable,  but  is  low  enough  for  all practical
+          purposes.
+
+          See Planetmath or Mathworld for more information.
 
    PadicValuation
 
@@ -2661,11 +2687,13 @@ for n=1 to 1000 do (
           Returns  the  padic valuation (number of trailing zeros
           in base p).
 
+          See Planetmath for more information.
+
    PowerMod
 
           PowerMod (a,b,m)
 
-          Compute a^b mod m
+          Compute a^b mod m. The b's power of a modulo m.
 
    Prime
 
@@ -2675,25 +2703,34 @@ for n=1 to 1000 do (
 
           Return the n'th prime (up to a limit)
 
-          See Mathworld for more information.
+          See Planetmath or Mathworld for more information.
 
    PrimeFactors
 
           PrimeFactors (n)
 
-          Return all prime factors of a number
+          Return all prime factors of a number as a vector.
+
+          See Mathworld for more information.
 
    PseudoprimeTest
 
           PseudoprimeTest (n,b)
 
-          Pseudoprime test, true iff b^(n-1) == 1 (mod n)
+          Pseudoprime  test,  returns true if and only if b^(n-1)
+          == 1 mod n
+
+          See Planetmath or Mathworld for more information.
 
    RemoveFactor
 
           RemoveFactor (n,m)
 
-          Removes all instances of the factor m from the number n
+          Removes  all  instances of the factor m from the number
+          n.  That  is  divides  by  the largest power of m, that
+          divides n.
+
+          See Planetmath or Mathworld for more information.
 
    SilverPohligHellmanWithFactorization
 
@@ -2707,14 +2744,18 @@ for n=1 to 1000 do (
 
           SqrtModPrime (n,p)
 
-          Find square root of n mod p (a prime). Null is returned
-          if not a quadratic residue.
+          Find  square  root  of n modulo p (where p is a prime).
+          Null is returned if not a quadratic residue.
+
+          See Planetmath or Mathworld for more information.
 
    StrongPseudoprimeTest
 
           StrongPseudoprimeTest (n,b)
 
-          Run the strong pseudoprime test base b on n
+          Run the strong pseudoprime test base b on n.
+
+          See Planetmath or Mathworld for more information.
 
    gcd
 
@@ -2728,7 +2769,7 @@ for n=1 to 1000 do (
           one matrix of the same size then GCD is done element by
           element.
 
-          See Mathworld for more information.
+          See Planetmath or Mathworld for more information.
 
    lcm
 
@@ -2742,7 +2783,7 @@ for n=1 to 1000 do (
           one matrix of the same size then LCM is done element by
           element.
 
-          See Mathworld for more information.
+          See Planetmath or Mathworld for more information.
      _________________________________________________________
 
 Matrix Manipulation
@@ -2819,7 +2860,10 @@ Matrix Manipulation
 
           Aliases: eye
 
-          Make an identity matrix of a given size
+          Return an identity matrix of a given size, that is n by
+          n.
+
+          See Planetmath for more information.
 
    IndexComplement
 
@@ -2832,6 +2876,8 @@ Matrix Manipulation
           IsDiagonal (M)
 
           Is a matrix diagonal
+
+          See Planetmath for more information.
 
    IsLowerTriangular
 
@@ -2894,6 +2940,8 @@ Matrix Manipulation
           Aliases: diag
 
           Make diagonal matrix from a vector
+
+          See Planetmath for more information.
 
    MatrixProduct
 
@@ -3124,7 +3172,9 @@ Linear Algebra
           GramSchmidt (v,B)
 
           Apply  the  Gram-Schmidt  process (to the columns) with
-          respect to innter product given by #2
+          respect to innter product given by B
+
+          See Planetmath for more information.
 
    GramSchmidtDot
 
@@ -3132,6 +3182,8 @@ Linear Algebra
 
           Apply  the  Gram-Schmidt process (to the columns) using
           the dot product
+
+          See Planetmath for more information.
 
    HankelMatrix
 
@@ -3143,7 +3195,9 @@ Linear Algebra
 
           HilbertMatrix (n)
 
-          Hilbert matrix of order n
+          Hilbert matrix of order n.
+
+          See Planetmath for more information.
 
    Image
 
@@ -3155,7 +3209,8 @@ Linear Algebra
 
           InfNorm (v)
 
-          Get the Inf Norm of a vector
+          Get  the Inf Norm of a vector, sometimes called the sup
+          norm or the max norm.
 
    InvariantFactorsInteger
 
@@ -3168,13 +3223,18 @@ Linear Algebra
 
           InverseHilbertMatrix (n)
 
-          Inverse Hilbert matrix of order n
+          Inverse Hilbert matrix of order n.
+
+          See Planetmath for more information.
 
    IsHermitian
 
           IsHermitian (M)
 
-          Is a matrix hermitian
+          Is  a  matrix  hermitian.  That  is, is it equal to its
+          conjugate transpose.
+
+          See Planetmath for more information.
 
    IsInSubspace
 
@@ -3252,13 +3312,15 @@ Linear Algebra
           [0,1;1,0]  does  not and this function returns false in
           this case and sets L and U to null.
 
-          See Mathworld for more information.
+          See Planetmath or Mathworld for more information.
 
    Minor
 
           Minor (M,i,j)
 
-          Get the i-j minor of a matrix
+          Get the i-j minor of a matrix.
+
+          See Planetmath for more information.
 
    NonPivotColumns
 
@@ -3456,7 +3518,9 @@ Linear Algebra
 
           Aliases: Determinant
 
-          Get the determinant of a matrix
+          Get the determinant of a matrix.
+
+          See Planetmath for more information.
 
    ref
 
@@ -3464,7 +3528,9 @@ Linear Algebra
 
           Aliases: REF RowEchelonForm
 
-          Get the row echelon form of a matrix
+          Get the row echelon form of a matrix.
+
+          See Planetmath for more information.
 
    rref
 
@@ -3472,7 +3538,9 @@ Linear Algebra
 
           Aliases: RREF ReducedRowEchelonForm
 
-          Get the reduced row echelon form of a matrix
+          Get the reduced row echelon form of a matrix.
+
+          See Planetmath for more information.
      _________________________________________________________
 
 Combinatorics
@@ -3481,7 +3549,9 @@ Combinatorics
 
           Catalan (n)
 
-          Get n'th catalan number
+          Get n'th catalan number.
+
+          See Planetmath for more information.
 
    Combinations
 
@@ -3496,17 +3566,23 @@ Combinatorics
 
           Double factorial: n(n-2)(n-4)...
 
+          See Planetmath for more information.
+
    Factorial
 
           Factorial (n)
 
           Factorial: n(n-1)(n-2)...
 
+          See Planetmath for more information.
+
    FallingFactorial
 
           FallingFactorial (n,k)
 
           Falling factorial: (n)_k = n(n-1)...(n-(k-1))
+
+          See Planetmath for more information.
 
    Fibbonachi
 
@@ -3519,7 +3595,7 @@ Combinatorics
           +  Fibbonachi(n-2)  and Fibbonachi(1) = Fibbonachi(2) =
           1.
 
-          See Mathworld for more information.
+          See Planetmath or Mathworld for more information.
 
    GaloisMatrix
 
@@ -3534,7 +3610,7 @@ Combinatorics
 
           Aliases: HarmonicH
 
-          Harmonic Number, the nth harmonic number of order r
+          Harmonic Number, the n'th harmonic number of order r.
 
    Hofstadter
 
@@ -3577,6 +3653,8 @@ Combinatorics
           (Puchhammer)      Rising     factorial:     (n)_k     =
           n(n+1)...(n+(k-1))
 
+          See Planetmath for more information.
+
    Subfactorial
 
           Subfactorial (n)
@@ -3587,7 +3665,9 @@ Combinatorics
 
           Triangular (nth)
 
-          Calculate the nth triangular number
+          Calculate the n'th triangular number.
+
+          See Planetmath for more information.
 
    nCr
 
@@ -3612,7 +3692,9 @@ Calculus
 
           Integration  of  f  by  Composite Simpson's Rule on the
           interval  [a,b]  with  n  subintervals  with  error  of
-          max(f'''')*h^4*(b-a)/180, note that n should be even
+          max(f'''')*h^4*(b-a)/180, note that n should be even.
+
+          See Planetmath for more information.
 
    CompositeSimpsonsRuleTolerance
 
@@ -3620,7 +3702,9 @@ Calculus
 
           Integration  of  f  by  Composite Simpson's Rule on the
           interval  [a,b]  with the number of steps calculated by
-          the fourth derivative bound and the desired tolerance
+          the fourth derivative bound and the desired tolerance.
+
+          See Planetmath for more information.
 
    InfiniteProduct
 
@@ -3781,11 +3865,15 @@ Functions
 
           The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt
 
+          See Planetmath for more information.
+
    FejerKernel
 
           FejerKernel (n,t)
 
-          Fejer kernel of order n
+          Fejer kernel of order n evaluated at t
+
+          See Planetmath for more information.
 
    KroneckerDelta
 
@@ -3805,12 +3893,16 @@ Functions
 
           Moebius mapping of the disk to itself mapping a to 0
 
+          See Planetmath for more information.
+
    MoebiusMapping
 
           MoebiusMapping (z,z2,z3,z4)
 
           Moebius  mapping  using the cross ratio taking z2,z3,z4
           to 1,0, and infinity respectively
+
+          See Planetmath for more information.
 
    MoebiusMappingInftyToInfty
 
@@ -3819,6 +3911,8 @@ Functions
           Moebius  mapping  using the cross ratio taking infinity
           to infinity and z2,z3 to 1 and 0 respectively
 
+          See Planetmath for more information.
+
    MoebiusMappingInftyToOne
 
           MoebiusMappingInftyToOne (z,z3,z4)
@@ -3826,12 +3920,16 @@ Functions
           Moebius  mapping  using the cross ratio taking infinity
           to 1 and z3,z4 to 0 and infinity respectively
 
+          See Planetmath for more information.
+
    MoebiusMappingInftyToZero
 
           MoebiusMappingInftyToZero (z,z2,z4)
 
           Moebius  mapping  using the cross ratio taking infinity
           to 0 and z2,z4 to 1 and infinity respectively
+
+          See Planetmath for more information.
 
    PoissonKernel
 
@@ -4035,6 +4133,14 @@ Polynomials
 
           Multiply two polynomials (as vectors)
 
+   NewtonsMethodPoly
+
+          NewtonsMethodPoly (poly,guess,epsilon,maxn)
+
+          Run  newton's method on a polynomial to attempt to find
+          a  root, returns after two successive values are within
+          epsilon or after maxn tries (then returns null).
+
    Poly2ndDerivative
 
           Poly2ndDerivative (p)
@@ -4138,6 +4244,71 @@ Miscellaneous
           Convert a string to a vector of 0-based alphabet values
           (positions  in  the  alphabet string), -1's for unknown
           letters
+     _________________________________________________________
+
+Plotting
+
+   LinePlot
+
+          LinePlot (func1,func2,func3,...)
+
+          LinePlot (func1,func2,func3,x1,x2,y1,y2)
+
+          Plot  a  function  (or  several functions) with a line.
+          First up to 10 arguments are functions, then optionally
+          you  can  specify  the limits of the plotting window as
+          x1,  x2,  y1, y2. If limits are not specified, then the
+          currently set limits apply (See LinePlotWindow)
+
+          Examples:
+
+genius> LinePlot(sin,cos)
+   genius> LinePlot(`(x)=x^2,-1,1,0,1)
+
+   LinePlotClear
+
+          LinePlotClear ()
+
+          Show  the  line plot window and clear out functions and
+          any other lines that were drawn.
+
+   LinePlotDrawLine
+
+          LinePlotDrawLine (x1,y1,x2,y2,...)
+
+          LinePlotDrawLine (v,...)
+
+          Draw  a  line  from x1,y1 to x2,y2. x1,y1, x2,y2 can be
+          replaced by an n by 2 matrix for a longer line.
+
+          Extra parameters can be added to specify line color and
+          thickness,  by  adding  a string "color" or "thickness"
+          and  the  color  and  thickness  after  as  a string or
+          integer respectively.
+
+          Examples:
+
+genius> LinePlotDrawLine(0,0,1,1,"color","blue","thickness",3)
+   genius> LinePlotDrawLine([0,0;1,-1;-1,-1])
+
+   SurfacePlot
+
+          SurfacePlot (func)
+
+          SurfacePlot (func,x1,x2,y1,y2,z1,z2)
+
+          Plot   a   surface  function  which  takes  either  two
+          arguments or a complex number. First comes the function
+          then  optionally  limits  as x1, x2, y1, y2, z1, z2. If
+          limits are not specified, then the currently set limits
+          apply  (See  SurfacePlotWindow). Genius can only plot a
+          single surface function at this time.
+
+          Examples:
+
+genius> SurfacePlot(|sin|,-1,1,-1,1,0,1.5)
+genius> SurfacePlot(`(x,y)=x^2+y,-1,1,-1,1,-2,2)
+   genius> SurfacePlot(`(z)=|z|^2,-1,1,-1,1,0,2)
      _________________________________________________________
 
 Example programs in GEL
@@ -4310,6 +4481,12 @@ Terminal
 
    Black on white
           If to use black on white on the terminal.
+
+   Blinking cursor
+          If  the  cursor  in  the terminal should blink when the
+          terminal  is  in  focus. This can sometimes be annoying
+          and  it  generates idle traffic if you are using Genius
+          remotely.
      _________________________________________________________
 
 About Genius Math Tool
