@@ -8,18 +8,6 @@ To make myself look important, I also made up an official looking name for
 the programming language of Genius, it's called GEL, (Genius Extention
 Language) :)
 
-Here's what doesn't work or isn't done yet: (somewhat of a TODO list)
-
-- need to make more built-in functions!
-- complete matrix support, right it is not complete
-- CORBA interface
-- do a code clean-up (such as split up eval.[ch]) and make the names of
-  types, functions and variables more consistent
-- clean up calc.[ch] to be a better "interface to the calculator"
-- profile and make the code leaner and meaner
-- optimize the engine a bit more
-- fix modular arithmetic
-
 Features of Genius:
 
  * language is very close to real mathematical notation
@@ -34,6 +22,12 @@ Features of Genius:
  * matrix support
  * complex numbers
  * more ...
+
+Here's what doesn't work or isn't done yet: (somewhat of a TODO list)
+
+- profile and make the code leaner and meaner
+- optimize the engine a bit more
+- fix modular arithmetic
 
 How to use this thing: (this is just a quick description)
 
@@ -400,13 +394,20 @@ a;b		separator, just evaluates both but returns only b
 a=b		assignment operator asigns b to a (a must be a valid lvalue)
 |a|		absolute value
 a^b		exponentiation
+a.^b		element by element exponentiation
 a+b		addition
 a-b		subtraction
 a*b		multiplication
+a.*b		element by element multiplication
 a/b		division
+a./b		element by element division
+a\b		back division
+a.\b		element by element back division
 a%b		the mod operator
+a.%b		element by element the mod operator
 a mod b		mod evaluation operator (a evaluated mod b)
 a!		factorial operator
+a!!		double factorial operator
 a==b		equality operator (returns 1 or 0)
 a!=b		inequality operator (returns 1 or 0)
 a<>b		alternative inequality operator (returns 1 or 0)
