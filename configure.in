@@ -1,10 +1,14 @@
 AC_INIT(src/calc.c)
 
-AC_PROG_INTLTOOL([0.21])
-
 AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(genius,0.5.8)
+
+dnl make sure we keep ACLOCAL_FLAGS around for maintainer builds to work
+AC_SUBST(ACLOCAL_AMFLAGS, "$ACLOCAL_FLAGS")
+
 AM_MAINTAINER_MODE
+
+AC_PROG_INTLTOOL([0.21])
 
 dnl ================= Requirements ================================================
 

@@ -1,3 +1,13 @@
+Fri Mar 19 16:52:18 2004  George Lebl <jirka@5z.com>
+
+	* src/gnome-genius.c: use GtkFileChooser if compiled with a new
+	  enough gtk+, but still allow compilation with GtkFileSelector
+	  in case old gtk+ is used.  Also fix up some strings.  Finally
+	  add .gel as the file extension on Save As.. if no extension
+	  was used.
+
+	* configure.in: fixup a bit
+
 Fri Mar 19 11:11:01 2004  George Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c: apparently separator setting is just plain
