@@ -90,7 +90,7 @@ puterror(const char *s)
 {
 	char *file;
 	int line;
-	get_file_info(&file,&line);
+	gel_get_file_info(&file,&line);
 	if(file)
 		fprintf(stderr,"%s:%d: %s\n",file,line,s);
 	else if(line>0)
@@ -108,8 +108,8 @@ calc_puterror(const char *s)
 	total_errors_printed++;
 }
 
-static void
-printout_error_num_and_reset(void)
+void
+gel_printout_infos (void)
 {
 	if(errors_printed-curstate.max_errors > 0)
 		fprintf(stderr,_("Too many errors! (%d followed)\n"),
@@ -312,9 +312,11 @@ main(int argc, char *argv[])
 		 */
 		if (access ("../lib/lib.cgel", F_OK) == 0) {
 			/*try the library file in the current/../lib directory*/
-			load_compiled_file (NULL, "../lib/lib.cgel",FALSE);
+			gel_load_compiled_file (NULL, "../lib/lib.cgel", FALSE);
 		} else {
-			load_compiled_file (NULL, LIBRARY_DIR "/gel/lib.cgel", FALSE);
+			gel_load_compiled_file (NULL,
+						LIBRARY_DIR "/gel/lib.cgel",
+						FALSE);
 		}
 
 		/*
@@ -322,10 +324,10 @@ main(int argc, char *argv[])
 		 */
 		file = g_strconcat(g_getenv("HOME"),"/.geniusinit",NULL);
 		if(file)
-			load_file(NULL, file, FALSE);
+			gel_load_file(NULL, file, FALSE);
 		g_free(file);
 
-		load_file (NULL, "geniusinit.gel", FALSE);
+		gel_load_file (NULL, "geniusinit.gel", FALSE);
 
 		/*
 		 * Restore plugins
@@ -337,12 +339,12 @@ main(int argc, char *argv[])
 		GSList *t;
 		do {
 			fp = fopen(files->data,"r");
-			push_file_info(files->data,1);
+			gel_push_file_info(files->data,1);
 			t = files;
 			files = g_slist_remove_link(files,t);
 			g_slist_free_1(t);
 			if(!fp) {
-				pop_file_info();
+				gel_pop_file_info();
 				puterror(_("Can't open file"));
 			}
 		} while(!fp && files);
@@ -353,14 +355,14 @@ main(int argc, char *argv[])
 		}
 	} else {
 		fp = stdin;
-		push_file_info(NULL,1);
+		gel_push_file_info(NULL,1);
 	}
 	my_yy_open(fp);
 	if(inter && use_readline) {
 		init_inter();
 	}
 
-	printout_error_num_and_reset();
+	gel_printout_infos ();
 	
 	rl_event_hook = nop;
 
@@ -368,21 +370,21 @@ main(int argc, char *argv[])
 		for(;;) {
 			if(inter && use_readline) /*use readline mode*/ {
 				GelETree *e;
-				rewind_file_info();
+				gel_rewind_file_info();
 				line_len_cache = -1;
 				e = get_p_expression();
 				line_len_cache = -1;
-				if(e) evalexp_parsed(e,main_out,"= ",TRUE);
+				if(e) gel_evalexp_parsed(e,main_out,"= ",TRUE);
 				line_len_cache = -1;
 			} else {
 				line_len_cache = -1;
-				evalexp(NULL, fp, main_out, NULL, FALSE, NULL);
+				gel_evalexp(NULL, fp, main_out, NULL, FALSE, NULL);
 				line_len_cache = -1;
 				if(interrupted)
 					got_eof = TRUE;
 			}
 			if(inter)
-				printout_error_num_and_reset();
+				gel_printout_infos ();
 
 			if(got_eof) {
 				if(inter)
@@ -397,20 +399,20 @@ main(int argc, char *argv[])
 			/*fclose(fp);*/
 			do {
 				fp = fopen(files->data,"r");
-				push_file_info(files->data,1);
+				gel_push_file_info(files->data,1);
 				t = files;
 				files = g_slist_remove_link(files,t);
 				g_slist_free_1(t);
 				if(!fp) {
-					pop_file_info();
+					gel_pop_file_info();
 					puterror(_("Can't open file"));
 				}
 			} while(!fp && files);
 			if(!fp && !files) {
 				if(do_compile) {
-					push_file_info(NULL,0);
-					compile_all_user_funcs(stdout);
-					pop_file_info();
+					gel_push_file_info(NULL,0);
+					gel_compile_all_user_funcs(stdout);
+					gel_pop_file_info();
 					/* if we have gotten errors then
 					   signal by returning a 1 */
 					if(total_errors_printed)
@@ -425,16 +427,16 @@ main(int argc, char *argv[])
 			break;
 	}
 
-	printout_error_num_and_reset();
+	gel_printout_infos ();
 	
 	my_yy_close(fp);
 	/*if(fp != stdin)
 		fclose(fp);*/
 	
 	if(do_compile) {
-		push_file_info(NULL,0);
-		compile_all_user_funcs(stdout);
-		pop_file_info();
+		gel_push_file_info(NULL,0);
+		gel_compile_all_user_funcs(stdout);
+		gel_pop_file_info();
 		/* if we have gotten errors then
 		   signal by returning a 1 */
 		if(total_errors_printed)

@@ -78,6 +78,7 @@ enum {
 /* private struct, use accessors for fields */
 typedef struct _MpwCtx MpwCtx;
 
+#if 0
 /*************************************************************************/
 /*conext level stuff                                                     */
 /*************************************************************************/
@@ -104,6 +105,7 @@ gpointer mpw_ctx_get_data(MpwCtx *mctx);
 
 void mpw_ctx_ref(MpwCtx *mctx);
 void mpw_ctx_unref(MpwCtx *mctx);
+#endif
 
 
 /*************************************************************************/

@@ -35,6 +35,7 @@
 
 #include "mpwrap.h"
 
+#if 0
 struct _MpwCtx {
 	int ref_count;
 
@@ -46,6 +47,7 @@ struct _MpwCtx {
 	
 	gpointer data;
 };
+#endif
 
 extern calc_error_t error_num;
 
@@ -4861,6 +4863,7 @@ mpw_numerator(mpw_ptr rop, mpw_ptr op)
 	}
 }
 
+#if 0
 /*************************************************************************/
 /*conext level stuff                                                     */
 /*************************************************************************/
@@ -4943,6 +4946,7 @@ mpw_ctx_unref(MpwCtx *mctx)
 		g_free(mctx);
 	}
 }
+#endif
 
 #if 0
 /*************************************************************************/

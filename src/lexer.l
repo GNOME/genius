@@ -411,10 +411,10 @@ null		{ DO_RET; return '.'; }
 			return NUMBER;
 		}
 		
-\\\n		{ incr_file_info(); }
+\\\n		{ gel_incr_file_info(); }
 		
 [\t ]*\n	{ 
-			incr_file_info();
+			gel_incr_file_info();
 			if(matrix_entry) {
 				return NEXTROW;
 			} else if(return_ret) {

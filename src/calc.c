@@ -454,14 +454,14 @@ whack_help (const char *func)
 }
 
 void
-push_file_info(char *file,int line)
+gel_push_file_info(char *file,int line)
 {
 	curfile = g_slist_prepend(curfile,file?g_strdup(file):NULL);
 	curline = g_slist_prepend(curline,GINT_TO_POINTER(line));
 }
 
 void
-pop_file_info(void)
+gel_pop_file_info(void)
 {
 	GSList *li;
 	g_assert(curfile && curline);
@@ -476,7 +476,7 @@ pop_file_info(void)
 }
 
 void
-incr_file_info(void)
+gel_incr_file_info(void)
 {
 	int i;
 	
@@ -488,7 +488,7 @@ incr_file_info(void)
 }
 
 void
-rewind_file_info(void)
+gel_rewind_file_info(void)
 {
 	if(!curline)
 		return;
@@ -497,7 +497,7 @@ rewind_file_info(void)
 }
 
 void
-get_file_info(char **file, int *line)
+gel_get_file_info (char **file, int *line)
 {
 	if(!curline || !curfile) {
 		*file = NULL;
@@ -1365,7 +1365,7 @@ addparenth(char *s)
 }
 
 void
-compile_all_user_funcs(FILE *outfile)
+gel_compile_all_user_funcs(FILE *outfile)
 {
 	GSList *funcs;
 	GSList *li;
@@ -1516,7 +1516,7 @@ load_compiled_fp(const char *file, FILE *fp)
 		GSList *li = NULL;
 		int type;
 
-		incr_file_info();
+		gel_incr_file_info();
 
 		p=strchr(buf,'\n');
 		if(p) *p='\0';
@@ -1692,7 +1692,7 @@ load_compiled_fp(const char *file, FILE *fp)
 			g_slist_free(li);
 			goto continue_reading;
 		}
-		incr_file_info();
+		gel_incr_file_info();
 		p=strchr(b2,'\n');
 		if(p) *p='\0';
 
@@ -1730,7 +1730,7 @@ continue_reading:	;
 }
 
 void
-load_compiled_file (const char *dirprefix, const char *file, gboolean warn)
+gel_load_compiled_file (const char *dirprefix, const char *file, gboolean warn)
 {
 	FILE *fp;
 	char *newfile;
@@ -1739,9 +1739,9 @@ load_compiled_file (const char *dirprefix, const char *file, gboolean warn)
 	else
 		newfile = g_strdup (file);
 	if((fp = fopen(newfile,"r"))) {
-		push_file_info(newfile,1);
+		gel_push_file_info(newfile,1);
 		load_compiled_fp(newfile,fp);
-		pop_file_info();
+		gel_pop_file_info();
 	} else if (warn) {
 		char buf[256];
 		g_snprintf(buf,256,_("Can't open file: '%s'"), newfile);
@@ -2075,7 +2075,7 @@ load_fp(FILE *fp, char *dirprefix)
 {
 	my_yy_open(fp);
 	while(1) {
-		evalexp(NULL, fp, NULL, NULL, FALSE, dirprefix);
+		gel_evalexp(NULL, fp, NULL, NULL, FALSE, dirprefix);
 		if(got_eof) {
 			got_eof = FALSE;
 			break;
@@ -2088,7 +2088,7 @@ load_fp(FILE *fp, char *dirprefix)
 }
 
 void
-load_file (const char *dirprefix, const char *file, gboolean warn)
+gel_load_file (const char *dirprefix, const char *file, gboolean warn)
 {
 	FILE *fp;
 	char *newfile;
@@ -2101,9 +2101,9 @@ load_file (const char *dirprefix, const char *file, gboolean warn)
 
 	if((fp = fopen(newfile,"r"))) {
 		char *dir = g_dirname(newfile);
-		push_file_info(newfile,1);
+		gel_push_file_info(newfile,1);
 		load_fp(fp, dir);
-		pop_file_info();
+		gel_pop_file_info();
 		g_free(dir);
 		got_eof = oldgeof;
 	} else if (warn) {
@@ -2116,7 +2116,7 @@ load_file (const char *dirprefix, const char *file, gboolean warn)
 }
 
 void
-load_guess_file (const char *dirprefix, const char *file, gboolean warn)
+gel_load_guess_file (const char *dirprefix, const char *file, gboolean warn)
 {
 	FILE *fp;
 	char *newfile;
@@ -2129,7 +2129,7 @@ load_guess_file (const char *dirprefix, const char *file, gboolean warn)
 
 	if((fp = fopen(newfile,"r"))) {
 		char buf[6];
-		push_file_info(newfile,1);
+		gel_push_file_info(newfile,1);
 		if(fgets(buf,6,fp) &&
 		   strncmp(buf,"CGEL ",5)==0) {
 			rewind(fp);
@@ -2140,7 +2140,7 @@ load_guess_file (const char *dirprefix, const char *file, gboolean warn)
 			load_fp(fp, dir);
 			g_free(dir);
 		}
-		pop_file_info();
+		gel_pop_file_info();
 		got_eof = oldgeof;
 	} else if (warn) {
 		char buf[256];
@@ -2231,7 +2231,7 @@ do_exec_commands (const char *dirprefix)
 	case GEL_LOADFILE:
 		while (evalstack)
 			gel_freetree (stack_pop (&evalstack));
-		load_file (dirprefix, arg, TRUE);
+		gel_load_file (dirprefix, arg, TRUE);
 		ret = TRUE;
 		break;
 	case GEL_LOADFILE_GLOB:
@@ -2239,7 +2239,7 @@ do_exec_commands (const char *dirprefix)
 		while (evalstack)
 			gel_freetree (stack_pop (&evalstack));
 		for (li = list; li != NULL; li = li->next) {
-			load_guess_file (dirprefix, li->data, TRUE);
+			gel_load_guess_file (dirprefix, li->data, TRUE);
 			if (interrupted)
 				break;
 		}
@@ -2383,7 +2383,7 @@ do_exec_commands (const char *dirprefix)
 }
 
 GelETree *
-parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean testparse,
+gel_parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean testparse,
 	 gboolean *finished, const char *dirprefix)
 {
 	int stacklen;
@@ -2490,7 +2490,7 @@ parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean testpar
 }
 
 GelETree *
-runexp(GelETree *exp)
+gel_runexp (GelETree *exp)
 {
 	static int busy = FALSE;
 	GelETree *ret;
@@ -2505,13 +2505,13 @@ runexp(GelETree *exp)
 
 	error_num = NO_ERROR;
 	
-	push_file_info(NULL,0);
+	gel_push_file_info(NULL,0);
 
 	ctx = eval_get_context();
 	ret = eval_etree(ctx,copynode(exp));
 	eval_free_context(ctx);
 
-	pop_file_info();
+	gel_pop_file_info();
 
 	busy = FALSE;
 
@@ -2526,15 +2526,19 @@ runexp(GelETree *exp)
 }
 
 void
-evalexp_parsed(GelETree *parsed, GelOutput *gelo,
-	       const char *prefix, gboolean pretty)
+gel_evalexp_parsed (GelETree *parsed,
+		    GelOutput *gelo,
+		    const char *prefix,
+		    gboolean pretty)
 {
 	GelETree *ret;
 	
-	if(!parsed) return;
-	ret = runexp(parsed);
-	gel_freetree(parsed);
-	if(!ret) return;
+	if (parsed == NULL)
+		return;
+	ret = gel_runexp (parsed);
+	gel_freetree (parsed);
+	if (ret == NULL)
+		return;
 
 	if(ret->type != NULL_NODE && gelo) {
 		if(prefix) {
@@ -2571,12 +2575,16 @@ evalexp_parsed(GelETree *parsed, GelOutput *gelo,
 }
 
 void
-evalexp (const char *str, FILE *infile, GelOutput *gelo,
-	 const char *prefix, gboolean pretty, const char *dirprefix)
+gel_evalexp (const char *str,
+	     FILE *infile,
+	     GelOutput *gelo,
+	     const char *prefix,
+	     gboolean pretty,
+	     const char *dirprefix)
 {
 	GelETree *parsed;
-	parsed = parseexp (str, infile, TRUE, FALSE, NULL, dirprefix);
-	evalexp_parsed (parsed, gelo, prefix, pretty);
+	parsed = gel_parseexp (str, infile, TRUE, FALSE, NULL, dirprefix);
+	gel_evalexp_parsed (parsed, gelo, prefix, pretty);
 }
 
 /*just to make the compiler happy*/

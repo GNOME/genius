@@ -26,7 +26,7 @@ open (void)
 				       "Will evaluate 2+2 as a demonstration\n"
 				       "2+2 = "));
 
-	evalexp("2+2", NULL, main_out, NULL, TRUE, NULL);
+	gel_evalexp ("2+2", NULL, main_out, NULL, TRUE, NULL);
 
 	gel_output_printf (main_out, _("For my next trick I will add a "
 				       "function named "

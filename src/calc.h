@@ -76,34 +76,59 @@ char * addparenth(char *s);
   evaluate the xpression string and give back a string with the
   result, expression is in str or if str is NULL then in infd,
   pretty will use pretty_print_etree*/
-void evalexp(const char * str, FILE *infile, GelOutput *gelo, const char *prefix, gboolean pretty, const char *dirprefix);
+void gel_evalexp (const char *str /* string to evaluate */,
+		  FILE *infile /* file to evaluate */,
+		  GelOutput *gelo /* output to print to */,
+		  const char *prefix /* prefix to print before result */,
+		  gboolean pretty /* result should be in pretty print */,
+		  const char *dirprefix /* directory prefix where we are */);
 /*this is the normal evaluation for the frontends if they already parsed,
   it free's the parsed tree after use*/
-void evalexp_parsed(GelETree *parsed, GelOutput *gelo, const char *prefix, gboolean pretty);
+void gel_evalexp_parsed (GelETree *parsed /* parsed tree to evaluate */,
+			 GelOutput *gelo /* output to print to */,
+			 const char *prefix /* prefix to print before result */,
+			 gboolean pretty /* result should be in pretty print */);
+
+/* This function should be called at an end of running something to print
+ * out all errors and all such nonsense.  It is implemented in the particular
+ * frontend */
+void gel_printout_infos (void);
 
 /*these are parts of the above*/
 /*note that parseexp will actually load AND execute files if there are load
   toplevel instructions, as those don't translate into an GelETree*/
-GelETree * parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean testparse, gboolean *finished, const char *dirprefix);
-GelETree * runexp(GelETree *exp);
+GelETree * gel_parseexp (const char *str,
+			 FILE *infile,
+			 gboolean exec_commands,
+			 gboolean testparse,
+			 gboolean *finished,
+			 const char *dirprefix);
+GelETree * gel_runexp (GelETree *exp);
 
-void compile_all_user_funcs(FILE *outfile);
-void load_compiled_file(const char *dirprefix, const char *file, gboolean warn);
-void load_file(const char *dirprefix, const char *file, gboolean warn);
-void load_guess_file(const char *dirprefix, const char *file, gboolean warn);
+void gel_compile_all_user_funcs (FILE *outfile);
+void gel_load_compiled_file (const char *dirprefix,
+			     const char *file,
+			     gboolean warn);
+void gel_load_file (const char *dirprefix,
+		    const char *file,
+		    gboolean warn);
+void gel_load_guess_file (const char *dirprefix,
+			  const char *file,
+			  gboolean warn);
 void set_new_calcstate(calcstate_t state);
 void set_new_errorout(void (*func)(const char *));
 void set_new_infoout(void (*func)(const char *));
 
+/* this is bad */
 extern void (*errorout)(const char *);
 extern void (*infoout)(const char *);
 
 /*This is for file/line info for errors*/
-void push_file_info(char *file,int line);
-void pop_file_info(void);
-void incr_file_info(void);
-void rewind_file_info(void);
-void get_file_info(char **file, int *line);
+void gel_push_file_info(char *file,int line);
+void gel_pop_file_info(void);
+void gel_incr_file_info(void);
+void gel_rewind_file_info(void);
+void gel_get_file_info(char **file, int *line);
 
 extern FILE *outputfp;
 extern void (*evalnode_hook)(void);

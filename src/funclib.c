@@ -3444,19 +3444,20 @@ gel_funclib_addall(void)
 	_internal_ln_function = d_makeufunc(d_intern("<internal>ln"),
 					    /*FIXME:this is not the correct 
 					      function*/
-					    parseexp("error(\"ln not finished\")",
-						     NULL, FALSE, FALSE,
-						     NULL, NULL),
+					    gel_parseexp("error(\"ln not finished\")",
+							 NULL, FALSE, FALSE,
+							 NULL, NULL),
 					    g_slist_append(NULL,d_intern("x")),1,
 					    NULL);
 	_internal_exp_function = d_makeufunc(d_intern("<internal>exp"),
-					     parseexp("s = float(x^0); "
-						      "fact = 1; "
-						      "for i = 1 to 100 do "
-						      "(fact = fact * x / i; "
-						      "s = s + fact) ; s",
-						      NULL, FALSE, FALSE,
-						      NULL, NULL),
+					     gel_parseexp
+					       ("s = float(x^0); "
+						"fact = 1; "
+						"for i = 1 to 100 do "
+						"(fact = fact * x / i; "
+						"s = s + fact) ; s",
+						NULL, FALSE, FALSE,
+						NULL, NULL),
 					     g_slist_append(NULL,d_intern("x")),1,
 					     NULL);
 	/*protect EVERYthing up to this point*/

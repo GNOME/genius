@@ -90,7 +90,7 @@ get_p_expression(void)
 		if(!s) {
 			got_eof = TRUE;
 			g_string_append_c(gs,'\n');
-			ret = parseexp(gs->str, NULL, TRUE, FALSE, NULL, NULL);
+			ret = gel_parseexp(gs->str, NULL, TRUE, FALSE, NULL, NULL);
 			g_string_free(gs,TRUE);
 			return ret;
 		}
@@ -103,7 +103,7 @@ get_p_expression(void)
 		free(s);
 		g_string_append_c(gs,'\n');
 		
-		ret = parseexp(gs->str, NULL, TRUE, TRUE, &finished, NULL);
+		ret = gel_parseexp(gs->str, NULL, TRUE, TRUE, &finished, NULL);
 		if(got_eof)
 			got_eof = FALSE;
 		if(finished) {
@@ -179,7 +179,7 @@ get_cb_p_expression(char *s, FILE *torlfp)
 	if(!s) {
 		got_eof = TRUE;
 		g_string_append_c(p_expr, '\n');
-		ret = parseexp(p_expr->str, NULL, TRUE, FALSE, NULL, NULL);
+		ret = gel_parseexp(p_expr->str, NULL, TRUE, FALSE, NULL, NULL);
 		g_string_free(p_expr, TRUE);
 		p_expr = NULL;
 		(*got_expr_func)(ret);
@@ -194,7 +194,7 @@ get_cb_p_expression(char *s, FILE *torlfp)
 	g_string_append(p_expr,s);
 	g_string_append_c(p_expr,'\n');
 
-	ret = parseexp(p_expr->str, NULL, TRUE, TRUE, &finished, NULL);
+	ret = gel_parseexp(p_expr->str, NULL, TRUE, TRUE, &finished, NULL);
 	if(got_eof)
 		got_eof = FALSE;
 	if(finished) {
@@ -219,7 +219,7 @@ start_cb_p_expression(void (*get_func)(GelETree *), FILE *torlfp)
 {
 	interrupted = FALSE;
 	
-	rewind_file_info();
+	gel_rewind_file_info();
 	
 	if(p_expr) g_string_free(p_expr,TRUE);
 	p_expr = g_string_new("");

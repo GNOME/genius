@@ -201,7 +201,7 @@ geniuserror(const char *s)
 	   errors_printed++>=curstate.max_errors)
 		return;
 
-	get_file_info(&file,&line);
+	gel_get_file_info(&file,&line);
 	if(file)
 		str = g_strdup_printf("%s:%d: %s",file,line,s);
 	else if(line>0)
@@ -225,15 +225,19 @@ geniuserror(const char *s)
 	g_free(str);
 }
 
-static void
-printout_info (void)
+void
+gel_printout_infos (void)
 {
+	/* Print out the infos */
 	if (infos != NULL) {
 		geniusbox (FALSE, TRUE, infos->str);
 		g_string_free (infos, TRUE);
 		infos = NULL;
 	}
+
+	printout_error_num_and_reset ();
 }
+
 
 /*get info message*/
 static void
@@ -242,7 +246,7 @@ geniusinfo(const char *s)
 	char *file;
 	int line;
 	char *str;
-	get_file_info(&file,&line);
+	gel_get_file_info(&file,&line);
 	if(file)
 		str = g_strdup_printf("%s:%d: %s",file,line,s);
 	else if(line>0)
@@ -649,6 +653,14 @@ interrupt_calc(GtkWidget *widget, gpointer data)
 }
 
 static void
+warranty_call (GtkWidget *widget, gpointer data)
+{
+	/* perhaps a bit ugly */
+	gel_evalexp ("warranty", NULL, main_out, NULL, TRUE, NULL);
+	gel_printout_infos ();
+}
+
+static void
 fs_destroy_cb(GtkWidget *w, GtkWidget **fs)
 {
 	*fs = NULL;
@@ -665,11 +677,9 @@ really_load_cb (GtkWidget *w, GtkFileSelection *fs)
 				 _("Can not open file!"));
 		return;
 	}
-	load_guess_file (NULL, s, TRUE);
+	gel_load_guess_file (NULL, s, TRUE);
 
-	printout_info ();
-
-	printout_error_num_and_reset ();
+	gel_printout_infos ();
 }
 
 static void
@@ -721,7 +731,12 @@ static GnomeUIInfo calc_menu[] = {
 };
 
 static GnomeUIInfo help_menu[] = {  
-	GNOMEUIINFO_HELP("genius"),
+	/* FIXME: no help 
+	 * GNOMEUIINFO_HELP("genius"),*/
+	GNOMEUIINFO_ITEM_STOCK (N_("_Warranty"),
+				N_("Display warranty information"),
+				warranty_call,
+				GNOME_STOCK_MENU_ABOUT),
 	GNOMEUIINFO_MENU_ABOUT_ITEM(aboutcb,NULL),
 	GNOMEUIINFO_END,
 };
@@ -997,14 +1012,12 @@ static void
 genius_got_etree (GelETree *e)
 {
 	if (e != NULL) {
-		evalexp_parsed (e, main_out, "= \e[1;36m", TRUE);
+		gel_evalexp_parsed (e, main_out, "= \e[1;36m", TRUE);
 		gel_output_full_string (main_out, "\e[0m");
 		gel_output_flush (main_out);
 	}
 
-	printout_info ();
-
-	printout_error_num_and_reset ();
+	gel_printout_infos ();
 
 	if (got_eof) {
 		gel_output_full_string (main_out, "\n");
@@ -1046,6 +1059,7 @@ main (int argc, char *argv[])
 	GtkTooltips *tips;
 	char *file;
 	GnomeUIInfo *plugins;
+	int plugin_count = 0;
 
 	genius_is_gui = TRUE;
 
@@ -1123,7 +1137,6 @@ main (int argc, char *argv[])
 	if (gel_plugin_list != NULL) {
 		GSList *li;
 		int i;
-		int count = 0;
 		plugins = g_new0(GnomeUIInfo,g_slist_length(gel_plugin_list)+1);
 		genius_menu[PLUGIN_MENU].moreinfo = plugins;
 		
@@ -1139,14 +1152,9 @@ main (int argc, char *argv[])
 			plugins[i].moreinfo = GTK_SIGNAL_FUNC(open_plugin_cb);
 			plugins[i].user_data = plug;
 			plugins[i].pixmap_type = GNOME_APP_PIXMAP_NONE;
-			count ++;
+			plugin_count ++;
 		}
 		plugins[i].type = GNOME_APP_UI_ENDOFINFO;
-
-		if (count == 0) {
-			g_free (plugins);
-			genius_menu[PLUGIN_MENU].moreinfo = NULL;
-		}
 	}
 
 	/*set up the menu*/
@@ -1155,7 +1163,7 @@ main (int argc, char *argv[])
 	gnome_app_create_toolbar (GNOME_APP(window), toolbar);
 
 	/* if no plugins, hide the menu */
-	if (genius_menu[PLUGIN_MENU].moreinfo == NULL) {
+	if (plugin_count == 0) {
 		gtk_widget_hide (genius_menu[PLUGIN_MENU].widget);
 	}
 
@@ -1225,9 +1233,10 @@ main (int argc, char *argv[])
 	 */
 	if (access ("../lib/lib.cgel", F_OK) == 0) {
 		/*try the library file in the current/../lib directory*/
-		load_compiled_file (NULL, "../lib/lib.cgel",FALSE);
+		gel_load_compiled_file (NULL, "../lib/lib.cgel", FALSE);
 	} else {
-		load_compiled_file (NULL, LIBRARY_DIR "/gel/lib.cgel", FALSE);
+		gel_load_compiled_file (NULL, LIBRARY_DIR "/gel/lib.cgel",
+					FALSE);
 	}
 
 	/*
@@ -1235,19 +1244,17 @@ main (int argc, char *argv[])
 	 */
 	file = g_strconcat(g_getenv("HOME"),"/.geniusinit",NULL);
 	if(file)
-		load_file(NULL, file, FALSE);
+		gel_load_file(NULL, file, FALSE);
 	g_free(file);
 
-	load_file (NULL, "geniusinit.gel", FALSE);
+	gel_load_file (NULL, "geniusinit.gel", FALSE);
 
 	/*
 	 * Restore plugins
 	 */
 	gel_restore_plugins ();
 
-	printout_info ();
-
-	printout_error_num_and_reset ();
+	gel_printout_infos ();
 
 	gtk_widget_grab_focus (term);
 
