@@ -178,6 +178,7 @@ printout_error_num_and_reset(void)
 			gel_output_printf(main_out,
 					  _("\e[01;31mToo many errors! (%d followed)\e[0m\n"),
 					  errors_printed-curstate.max_errors);
+			gel_output_flush (main_out);
 		}
 	}
 	errors_printed = 0;

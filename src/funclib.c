@@ -1772,9 +1772,12 @@ ptf_makenew_term(mpw_t mul, GelToken *id, int power)
 {
 	GelETree *n;
 	
-	if(power==0) {
-		n = gel_makenum(mul);
-	} else if(mpw_cmp_ui(mul,1)==0) {
+	/* we do the zero power the same as >1 so
+	 * that we get an x^0 term.  This may seem
+	 * pointless but it allows evaluating matrices
+	 * as it will make the constant term act like
+	 * c*I(n) */
+	if (mpw_cmp_ui(mul,1)==0) {
 		n = ptf_makenew_power(id,power);
 	} else {
 		GET_NEW_NODE(n);
