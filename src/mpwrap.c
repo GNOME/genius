@@ -2940,6 +2940,7 @@ mpwl_getstring(MpwRealNum * num, int max_digits,
 		if ((rop)->i->alloc.usage==0)			\
 			mpwl_free ((rop)->i, FALSE);		\
 		(rop)->i = zero;				\
+		zero->alloc.usage ++;				\
 	}							\
 }
 

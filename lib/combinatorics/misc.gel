@@ -10,7 +10,15 @@ SetHelp("Hofstadter", "combinatorics", "Hofstadter's function q(n) defined by q(
 function Hofstadter(n) = (
     if not IsInteger(n) or n < 1 then
     	(error("Hofstadter: argument not a positive integer");bailout);
-    if ((n==1) or (n==2)) then 1 else Hofstadter(n-Hofstadter(n-1))+Hofstadter(n-Hofstadter(n-2));
+    # reason for doing this is that it's just plain faster then calling self
+    # again
+    function _h (n) = (
+    	if n <= 2 then
+		1
+	else
+		_h(n - _h(n-1)) + _h(n - _h(n-2))
+    );
+    _h (n)
 )
 
 protect("Hofstadter");

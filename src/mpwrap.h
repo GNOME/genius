@@ -45,11 +45,11 @@ enum {
 	MPW_COMPLEX
 };
 
-/* FIXME: we really have too many structures/pointers per number here
-   that should be remedied */
-
 /*number structures, this is where low level stuff is stored so it will be
   different for each lib, members should never be directly accessed!*/
+
+/* FIXME: we really have too many structures/pointers per number here
+   that should be remedied */
 
 /*real only structure*/
 typedef struct _MpwRealNum {

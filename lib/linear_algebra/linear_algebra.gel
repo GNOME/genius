@@ -75,7 +75,7 @@ protect ("DeleteColumn")
 
 # Column Reduced Echelon Form
 SetHelp("cref", "linear_algebra", "Compute the Column Reduced Echelon Form")
-function cref(M)=Transpose(rref(Transpose(M)))
+function cref(M)=(rref(M.').')
 protect ("cref")
 SetHelpAlias ("cref", "CREF")
 CREF = cref
@@ -110,7 +110,7 @@ function StripZeroRows (M) =
 (
   if not IsMatrix (M) then
     (error("StripZeroColumns: argument not a matrix");bailout);
-  Transpose (StripZeroColumns (Transpose (M)))
+  StripZeroColumns (M.').'
 )
 protect ("StripZeroRows")
 
@@ -224,7 +224,7 @@ protect ("IsInvertibleField")
 SetHelp("SmithNormalFormField", "linear_algebra", "Smith Normal Form for fields (will end up with 1's on the diagonal)")
 function SmithNormalFormField(A) =
 (
-  Transpose (ref (Transpose (ref (A))))
+  ref (ref (A).').'
 )
 protect ("SmithNormalFormField")
 

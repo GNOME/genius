@@ -1,3 +1,13 @@
+Wed Sep 22 11:05:07 2004  George Lebl <jirka@5z.com>
+
+	* src/mpwrap.[ch]: fix mpw_uncomplex which could undercount the zero
+	  allocation
+
+	* lib/combinatorics/misc.gel: Fix Hofstadter and optimize it
+
+	* lib/linear_algebra/linear_algebra.gel: Don't use Transpose but .'
+	  operator that should be slightly faster
+
 Wed Sep 22 09:40:10 2004  George Lebl <jirka@5z.com>
 
 	* src/compil.c, src/eval.[ch], src/funclib.c, src/parse.y,
