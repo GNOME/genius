@@ -1,11 +1,22 @@
 # Some Special Matrices
 
 #FIXME:
-#	companion matrix
 #	higham test matrices (a whole slew of 'em)
-#	hankel matrix (symmetric, constant across anti-diagonals)
-# 		Take first column, last row (if no last row, take last row zeros)
-#	HilbertMatrix(n)=HankelMatrix([1,1/2,1/3,...,1/n],[1/n,1/(n+1),...])
+
+SetHelp ("CompanionMatrix", "linear_algebra", "Companion matrix of a polynomial (as vector)")
+function CompanionMatrix(p)= (
+	if not IsPoly (p) or elements(p) < 2 then
+		(error("CompanionMatrix: argument not a polynomial (vector) order 2 or greater");bailout);
+	#make monic
+	if p@(elements(p)) != 1 then
+		p = p ./ p@(elements(p));
+	#make vertical
+	if columns(p) > 1 then
+		p = p.';
+	[ [0;I(elements(p)-2)] , -p@(1 .. elements(p)-1,1) ]
+)
+protect ("CompanionMatrix")
+
 SetHelp ("HankelMatrix", "linear_algebra", "Hankel matrix")
 function HankelMatrix(c,r)= (
 	H = [0];
