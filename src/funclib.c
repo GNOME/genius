@@ -3324,7 +3324,8 @@ set_FloatPrecision (GelETree * a)
 	
 	if(calcstate.float_prec != bits) {
 		calcstate.float_prec = bits;
-		mpw_set_default_prec(calcstate.float_prec);
+		mpw_set_default_prec (calcstate.float_prec);
+		gel_break_fp_caches ();
 		if(statechange_hook)
 			(*statechange_hook)(calcstate);
 	}
