@@ -2875,8 +2875,15 @@ iter_variableop(GelCtx *ctx, GelETree *n)
 	
 	f = d_lookup_global(n->id.id);
 	if G_UNLIKELY (f == NULL) {
-		gel_errorout (_("Variable '%s' used uninitialized"),
-			      n->id.id->token);
+		if (strcmp (n->id.id->token, "i") == 0) {
+			gel_errorout (_("Variable 'i' used uninitialized.  "
+					"Perhaps you meant to write '1i' for "
+					"the imaginary number (square root of "
+					"-1)."));
+		} else {
+			gel_errorout (_("Variable '%s' used uninitialized"),
+				      n->id.id->token);
+		}
 		return TRUE;
 	} else {
 		return iter_do_var(ctx,n,f);
