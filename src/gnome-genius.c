@@ -98,6 +98,18 @@ geniussetup_t cursetup = {
 	NULL
 };
 
+typedef struct {
+	char *name;
+	char *vname; /* visual name */
+	gboolean changed;
+	gboolean real_file;
+	gboolean selected;
+	GtkTextBuffer *buffer;
+	GtkWidget *label;
+} Program;
+
+static Program *selected_program = NULL;
+
 pid_t helper_pid = -1;
 
 static FILE *torlfp = NULL;
@@ -112,6 +124,123 @@ static char *arg0 = NULL;
 
 static void feed_to_zvt (gpointer data, gint source,
 			 GdkInputCondition condition);
+static void new_callback (GtkWidget *menu_item, gpointer data);
+static void open_callback (GtkWidget *w);
+static void close_callback (GtkWidget *menu_item, gpointer data);
+static void load_cb (GtkWidget *w);
+static void quitapp (GtkWidget * widget, gpointer data);
+static void copy_callback (GtkWidget *menu_item, gpointer data);
+static void paste_callback (GtkWidget *menu_item, gpointer data);
+static void clear_cb (GtkClipboard *clipboard, gpointer owner);
+static void copy_cb (GtkClipboard *clipboard, GtkSelectionData *data,
+		     guint info, gpointer owner);
+static void copy_answer (void);
+static void copy_as_plain (GtkWidget *menu_item, gpointer data);
+static void copy_as_latex (GtkWidget *menu_item, gpointer data);
+static void copy_as_troff (GtkWidget *menu_item, gpointer data);
+static void copy_as_mathml (GtkWidget *menu_item, gpointer data);
+static void setup_calc (GtkWidget *widget, gpointer data);
+static void run_program (GtkWidget *menu_item, gpointer data);
+static void manual_call (GtkWidget *widget, gpointer data);
+static void warranty_call (GtkWidget *widget, gpointer data);
+static void aboutcb (GtkWidget * widget, gpointer data);
+
+static GnomeUIInfo file_menu[] = {
+	GNOMEUIINFO_MENU_NEW_ITEM(N_("_New Program"), N_("Create new program tab"), new_callback, NULL),
+	GNOMEUIINFO_MENU_OPEN_ITEM (open_callback,NULL),
+#define FILE_CLOSE_ITEM 2
+	GNOMEUIINFO_MENU_CLOSE_ITEM (close_callback, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_STOCK(N_("_Load and Run"),N_("Load and execute a file in genius"), load_cb, GNOME_STOCK_MENU_OPEN),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_MENU_EXIT_ITEM (quitapp,NULL),
+	GNOMEUIINFO_END,
+};
+
+static GnomeUIInfo edit_menu[] = {  
+#define COPY_ITEM 0
+	GNOMEUIINFO_MENU_COPY_ITEM(copy_callback,NULL),
+	GNOMEUIINFO_MENU_PASTE_ITEM(paste_callback,NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As Plain _Text"),
+			       N_("Copy last answer into the clipboard in plain text"),
+			       copy_as_plain,
+			       GNOME_STOCK_MENU_COPY),
+	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As _LaTeX"),
+			       N_("Copy last answer into the clipboard as LaTeX"),
+			       copy_as_latex,
+			       GNOME_STOCK_MENU_COPY),
+	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As _MathML"),
+			       N_("Copy last answer into the clipboard as MathML"),
+			       copy_as_mathml,
+			       GNOME_STOCK_MENU_COPY),
+	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As T_roff"),
+			       N_("Copy last answer into the clipboard as Troff eqn"),
+			       copy_as_troff,
+			       GNOME_STOCK_MENU_COPY),
+	GNOMEUIINFO_END,
+};
+
+static GnomeUIInfo settings_menu[] = {  
+	GNOMEUIINFO_MENU_PREFERENCES_ITEM(setup_calc,NULL),
+	GNOMEUIINFO_END,
+};
+
+static GnomeUIInfo calc_menu[] = {  
+#define CALC_RUN_ITEM 0
+	GNOMEUIINFO_ITEM_STOCK(N_("_Run"),N_("Run current program"),run_program, GTK_STOCK_EXECUTE),
+	GNOMEUIINFO_ITEM_STOCK(N_("_Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GNOME_STOCK_MENU_STOP),
+	GNOMEUIINFO_END,
+};
+
+static GnomeUIInfo help_menu[] = {  
+	/* FIXME: no help 
+	 * GNOMEUIINFO_HELP("genius"),*/
+	GNOMEUIINFO_ITEM_STOCK (N_("_Manual"),
+				N_("Display the manual"),
+				manual_call,
+				GTK_STOCK_HELP),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Warranty"),
+				N_("Display warranty information"),
+				warranty_call,
+				GTK_STOCK_HELP),
+	GNOMEUIINFO_MENU_ABOUT_ITEM(aboutcb,NULL),
+	GNOMEUIINFO_END,
+};
+
+static GnomeUIInfo plugin_menu[] = {
+	GNOMEUIINFO_END,
+};
+
+static GnomeUIInfo programs_menu[] = {
+	GNOMEUIINFO_END,
+};
+  
+static GnomeUIInfo genius_menu[] = {
+	GNOMEUIINFO_MENU_FILE_TREE(file_menu),
+	GNOMEUIINFO_MENU_EDIT_TREE(edit_menu),
+	GNOMEUIINFO_SUBTREE(N_("_Calculator"),calc_menu),
+#define PLUGINS_MENU 3
+	GNOMEUIINFO_SUBTREE(N_("P_lugins"),plugin_menu),
+#define PROGRAMS_MENU 4
+	GNOMEUIINFO_SUBTREE(N_("_Programs"),programs_menu),
+	GNOMEUIINFO_MENU_SETTINGS_TREE(settings_menu),
+	GNOMEUIINFO_MENU_HELP_TREE(help_menu),
+	GNOMEUIINFO_END,
+};
+
+/* toolbar */
+static GnomeUIInfo toolbar[] = {
+	GNOMEUIINFO_ITEM_STOCK(N_("Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GNOME_STOCK_PIXMAP_STOP),
+#define TOOLBAR_RUN_ITEM 1
+	GNOMEUIINFO_ITEM_STOCK(N_("Run"),N_("Run current program"),run_program, GTK_STOCK_EXECUTE),
+	GNOMEUIINFO_ITEM_STOCK(N_("Open"),N_("Open a GEL file for running"), open_callback, GNOME_STOCK_PIXMAP_OPEN),
+	GNOMEUIINFO_ITEM_STOCK(N_("Exit"),N_("Exit genius"), quitapp, GNOME_STOCK_PIXMAP_EXIT),
+	GNOMEUIINFO_END,
+};
+
+
+#define ELEMENTS(x) (sizeof (x) / sizeof (x [0]))
 
 static int
 count_char (const char *s, char c)
@@ -842,7 +971,7 @@ really_load_cb (GtkWidget *w, GtkFileSelection *fs)
 }
 
 static void
-load_cb(GtkWidget *w)
+load_cb (GtkWidget *w)
 {
 	static GtkWidget *fs = NULL;
 	
@@ -1013,37 +1142,92 @@ copy_as_mathml (GtkWidget *menu_item, gpointer data)
 }
 
 static void
+setup_label (Program *p)
+{
+	char *s;
+	const char *vname;
+	const char *pre = "", *post = "", *mark = "";
+
+	g_assert (p != NULL);
+
+	if (p->selected) {
+		pre = "<b>";
+		post = "</b>";
+	}
+
+	if (p->real_file &&
+	    p->changed) {
+		mark = " [+]";
+	}
+
+	vname = p->vname;
+	if (vname == NULL)
+		vname = "???";
+
+	s = g_strdup_printf ("%s%s%s%s", pre, vname, mark, post);
+
+	gtk_label_set_markup (GTK_LABEL (p->label), s);
+}
+
+static void
+prog_menu_activated (GtkWidget *item, gpointer data)
+{
+	GtkWidget *w = data;
+	int num = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), w);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), num);
+}
+
+static void
+build_program_menu (void)
+{
+	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
+	int i;
+	GtkWidget *menu;
+
+	if (n <= 1) {
+		/* No programs in the menu */
+		gtk_widget_hide (genius_menu[PROGRAMS_MENU].widget);
+		return;
+	}
+
+	menu = gtk_menu_new ();
+	gtk_widget_show (menu);
+	for (i = 1; i < n; i++) {
+		GtkWidget *item;
+		GtkWidget *w = gtk_notebook_get_nth_page
+			(GTK_NOTEBOOK (notebook), i);
+		Program *p = g_object_get_data (G_OBJECT (w), "program");
+		g_assert (p != NULL);
+
+		item = gtk_menu_item_new_with_label (p->vname);
+		gtk_widget_show (item);
+		g_signal_connect (G_OBJECT (item), "activate",
+				  G_CALLBACK (prog_menu_activated), w);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	}
+
+	gtk_menu_item_set_submenu
+		(GTK_MENU_ITEM (genius_menu[PROGRAMS_MENU].widget), menu);
+	gtk_widget_show (genius_menu[PROGRAMS_MENU].widget);
+}
+
+static void
 changed_cb (GtkTextBuffer *buffer, GtkWidget *tab_widget)
 {
+	Program *p;
 	GtkTextIter iter, iter_end;
+
 	/* apply the foo tag to entered text */
 	gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
 	gtk_text_buffer_get_iter_at_offset (buffer, &iter_end, -1);
 	gtk_text_buffer_apply_tag_by_name (buffer, "foo",
 					   &iter, &iter_end);
 
-	if ( ! g_object_get_data (G_OBJECT (tab_widget), "changed")) {
-		const char *vname = g_object_get_data (G_OBJECT (tab_widget),
-						       "vname");
-		GtkWidget *label = g_object_get_data (G_OBJECT (tab_widget),
-						      "label");
-		gpointer real_file = g_object_get_data (G_OBJECT (tab_widget),
-							"real_file");
-		if (real_file) {
-			char *s;
-			if (vname == NULL)
-				vname = "???";
-
-			s = g_strdup_printf ("%s [+]", vname);
-
-			gtk_label_set (GTK_LABEL (label), s);
-
-			g_free (s);
-		}
-
-		g_object_set_data (G_OBJECT (tab_widget),
-				   "changed",
-				   GINT_TO_POINTER (1));
+	p = g_object_get_data (G_OBJECT (tab_widget), "program");
+	g_assert (p != NULL);
+	if ( ! p->changed) {
+		p->changed = TRUE;
+		setup_label (p);
 	}
 }
 
@@ -1053,10 +1237,8 @@ new_program (const char *filename)
 	static int cnt = 1;
 	GtkWidget *tv;
 	GtkWidget *sw;
-	GtkWidget *label;
 	GtkTextBuffer *buffer;
-	char *name;
-	char *vname;
+	Program *p;
 
 	sw = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
@@ -1072,15 +1254,22 @@ new_program (const char *filename)
 	gtk_container_add (GTK_CONTAINER (sw), tv);
 
 	gtk_widget_show_all (sw);
-	g_object_set_data (G_OBJECT (sw), "buffer", buffer);
+
+	p = g_new0 (Program, 1);
+	p->real_file = FALSE;
+	p->changed = FALSE;
+	p->selected = FALSE;
+	g_object_set_data (G_OBJECT (sw), "program", p);
+
+	p->buffer = buffer;
 
 	if (filename == NULL) {
-		name = g_strdup_printf (_("Program %d"), cnt++);
-		vname = g_strdup (name);
+		p->name = g_strdup_printf (_("Program %d"), cnt++);
+		p->vname = g_strdup (p->name);
 	} else {
 		char *contents;
 		int len;
-		name = g_strdup (filename);
+		p->name = g_strdup (filename);
 		if (g_file_get_contents (filename,
 					 &contents,
 					 &len,
@@ -1093,19 +1282,18 @@ new_program (const char *filename)
 		} else {
 			display_error (_("Cannot open file"));
 		}
-		vname = g_path_get_basename (name);
-		g_object_set_data (G_OBJECT (sw), "real_file", 
-				   GINT_TO_POINTER (1));
+		p->vname = g_path_get_basename (p->name);
+		p->real_file = TRUE;
 	}
-	g_object_set_data (G_OBJECT (sw), "name", name);
-	g_object_set_data (G_OBJECT (sw), "vname", name);
-	label = gtk_label_new (vname);
-	g_object_set_data (G_OBJECT (sw), "label", label);
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), sw, label);
+	/* the label will change after the set_current_page */
+	p->label = gtk_label_new (p->vname);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), sw, p->label);
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), -1);
 
 	g_signal_connect (G_OBJECT (buffer), "changed",
 			  G_CALLBACK (changed_cb), sw);
+
+	build_program_menu ();
 }
 
 static void
@@ -1160,41 +1348,59 @@ open_callback(GtkWidget *w)
 	gtk_widget_show (fs);
 }
 
+static void
+whack_program (Program *p)
+{
+	g_assert (p != NULL);
+
+	if (selected_program == p) {
+		p->selected = FALSE;
+		selected_program = NULL;
+		gtk_widget_set_sensitive (toolbar[TOOLBAR_RUN_ITEM].widget,
+					  FALSE);
+		gtk_widget_set_sensitive (calc_menu[CALC_RUN_ITEM].widget,
+					  FALSE);
+	}
+	g_free (p->name);
+	g_free (p->vname);
+	g_free (p);
+}
+
 
 static void
 close_callback (GtkWidget *menu_item, gpointer data)
 {
 	GtkWidget *w;
+	Program *p;
 	int current = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
 	if (current == 0) /* if the console */
 		return;
 	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), current);
-	g_free (g_object_get_data (G_OBJECT (w), "name"));
-	g_free (g_object_get_data (G_OBJECT (w), "vname"));
+	p = g_object_get_data (G_OBJECT (w), "program");
 	gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), current);
+	whack_program (p);
+
+	build_program_menu ();
 }
 
 static void
 run_program (GtkWidget *menu_item, gpointer data)
 {
-	GtkWidget *w;
-	GtkTextBuffer *buffer;
 	const char *vname;
 	const char *name;
-	int current = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
-	if (current == 0) /* if the console */ {
+	GtkTextBuffer *buffer;
+	if (selected_program == NULL) /* if nothing is selected */ {
 		display_error (_("<b>No program selected.</b>\n\n"
 				 "Create a new program, or select an "
 				 "existing tab in the notebook."));
 		return;
 	}
-	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), current);
-	buffer = g_object_get_data (G_OBJECT (w), "buffer");
-	vname = g_object_get_data (G_OBJECT (w), "vname");
-	name = g_object_get_data (G_OBJECT (w), "name");
+	buffer = selected_program->buffer;
 	/* sanity */
 	if (buffer == NULL)
 		return;
+	name = selected_program->name;
+	vname = selected_program->vname;
 	if (vname == NULL)
 		vname = "???";
 
@@ -1269,98 +1475,6 @@ run_program (GtkWidget *menu_item, gpointer data)
 	}
 
 }
-
-
-static GnomeUIInfo file_menu[] = {
-	GNOMEUIINFO_MENU_NEW_ITEM(N_("_New Program"), N_("Create new program tab"), new_callback, NULL),
-	GNOMEUIINFO_MENU_OPEN_ITEM (open_callback,NULL),
-#define FILE_CLOSE_ITEM 2
-	GNOMEUIINFO_MENU_CLOSE_ITEM (close_callback, NULL),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_STOCK(N_("_Load and Run"),N_("Load and execute a file in genius"), load_cb, GNOME_STOCK_MENU_OPEN),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_MENU_EXIT_ITEM(quitapp,NULL),
-	GNOMEUIINFO_END,
-};
-
-static GnomeUIInfo edit_menu[] = {  
-#define COPY_ITEM 0
-	GNOMEUIINFO_MENU_COPY_ITEM(copy_callback,NULL),
-	GNOMEUIINFO_MENU_PASTE_ITEM(paste_callback,NULL),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As Plain _Text"),
-			       N_("Copy last answer into the clipboard in plain text"),
-			       copy_as_plain,
-			       GNOME_STOCK_MENU_COPY),
-	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As _LaTeX"),
-			       N_("Copy last answer into the clipboard as LaTeX"),
-			       copy_as_latex,
-			       GNOME_STOCK_MENU_COPY),
-	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As _MathML"),
-			       N_("Copy last answer into the clipboard as MathML"),
-			       copy_as_mathml,
-			       GNOME_STOCK_MENU_COPY),
-	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As T_roff"),
-			       N_("Copy last answer into the clipboard as Troff eqn"),
-			       copy_as_troff,
-			       GNOME_STOCK_MENU_COPY),
-	GNOMEUIINFO_END,
-};
-
-static GnomeUIInfo settings_menu[] = {  
-	GNOMEUIINFO_MENU_PREFERENCES_ITEM(setup_calc,NULL),
-	GNOMEUIINFO_END,
-};
-
-static GnomeUIInfo calc_menu[] = {  
-#define CALC_RUN_ITEM 0
-	GNOMEUIINFO_ITEM_STOCK(N_("_Run"),N_("Run current program"),run_program, GTK_STOCK_EXECUTE),
-	GNOMEUIINFO_ITEM_STOCK(N_("_Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GNOME_STOCK_MENU_STOP),
-	GNOMEUIINFO_END,
-};
-
-static GnomeUIInfo help_menu[] = {  
-	/* FIXME: no help 
-	 * GNOMEUIINFO_HELP("genius"),*/
-	GNOMEUIINFO_ITEM_STOCK (N_("_Manual"),
-				N_("Display the manual"),
-				manual_call,
-				GTK_STOCK_HELP),
-	GNOMEUIINFO_ITEM_STOCK (N_("_Warranty"),
-				N_("Display warranty information"),
-				warranty_call,
-				GTK_STOCK_HELP),
-	GNOMEUIINFO_MENU_ABOUT_ITEM(aboutcb,NULL),
-	GNOMEUIINFO_END,
-};
-
-static GnomeUIInfo plugin_menu[] = {
-	GNOMEUIINFO_END,
-};
-  
-static GnomeUIInfo genius_menu[] = {
-	GNOMEUIINFO_MENU_FILE_TREE(file_menu),
-	GNOMEUIINFO_MENU_EDIT_TREE(edit_menu),
-	GNOMEUIINFO_SUBTREE(N_("_Calculator"),calc_menu),
-#define PLUGIN_MENU 3
-	GNOMEUIINFO_SUBTREE(N_("_Plugins"),plugin_menu),
-	GNOMEUIINFO_MENU_SETTINGS_TREE(settings_menu),
-	GNOMEUIINFO_MENU_HELP_TREE(help_menu),
-	GNOMEUIINFO_END,
-};
-
-/* toolbar */
-static GnomeUIInfo toolbar[] = {
-	GNOMEUIINFO_ITEM_STOCK(N_("Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GNOME_STOCK_PIXMAP_STOP),
-#define TOOLBAR_RUN_ITEM 1
-	GNOMEUIINFO_ITEM_STOCK(N_("Run"),N_("Run current program"),run_program, GTK_STOCK_EXECUTE),
-	GNOMEUIINFO_ITEM_STOCK(N_("Open"),N_("Open a GEL file for running"), open_callback, GNOME_STOCK_PIXMAP_OPEN),
-	GNOMEUIINFO_ITEM_STOCK(N_("Exit"),N_("Exit genius"), quitapp, GNOME_STOCK_PIXMAP_EXIT),
-	GNOMEUIINFO_END,
-};
-
-
-#define ELEMENTS(x) (sizeof (x) / sizeof (x [0]))
 
 /*main window creation, slightly copied from same-gnome:)*/
 static GtkWidget *
@@ -1662,20 +1776,37 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
 {
 	if (page_num == 0) {
 		/* console */
-		gtk_widget_set_sensitive (toolbar[TOOLBAR_RUN_ITEM].widget,
-					  FALSE);
-		gtk_widget_set_sensitive (calc_menu[CALC_RUN_ITEM].widget,
-					  FALSE);
 		gtk_widget_set_sensitive (file_menu[FILE_CLOSE_ITEM].widget,
 					  FALSE);
+		if (selected_program == NULL) {
+			gtk_widget_set_sensitive
+				(calc_menu[CALC_RUN_ITEM].widget,
+				 FALSE);
+			gtk_widget_set_sensitive
+				(toolbar[TOOLBAR_RUN_ITEM].widget,
+				 FALSE);
+		}
 	} else {
+		GtkWidget *w;
 		/* something else */
-		gtk_widget_set_sensitive (toolbar[TOOLBAR_RUN_ITEM].widget,
+		gtk_widget_set_sensitive (file_menu[FILE_CLOSE_ITEM].widget,
 					  TRUE);
 		gtk_widget_set_sensitive (calc_menu[CALC_RUN_ITEM].widget,
 					  TRUE);
-		gtk_widget_set_sensitive (file_menu[FILE_CLOSE_ITEM].widget,
+		gtk_widget_set_sensitive (toolbar[TOOLBAR_RUN_ITEM].widget,
 					  TRUE);
+
+		if (selected_program != NULL) {
+			selected_program->selected = FALSE;
+			setup_label (selected_program);
+		}
+
+		w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook),
+					       page_num);
+		selected_program = g_object_get_data (G_OBJECT (w), "program");
+		selected_program->selected = TRUE;
+
+		setup_label (selected_program);
 	}
 }
 
@@ -1784,7 +1915,7 @@ main (int argc, char *argv[])
 		GSList *li;
 		int i;
 		plugins = g_new0(GnomeUIInfo,g_slist_length(gel_plugin_list)+1);
-		genius_menu[PLUGIN_MENU].moreinfo = plugins;
+		genius_menu[PLUGINS_MENU].moreinfo = plugins;
 		
 		for (i = 0, li = gel_plugin_list;
 		     li != NULL;
@@ -1810,8 +1941,11 @@ main (int argc, char *argv[])
 
 	/* if no plugins, hide the menu */
 	if (plugin_count == 0) {
-		gtk_widget_hide (genius_menu[PLUGIN_MENU].widget);
+		gtk_widget_hide (genius_menu[PLUGINS_MENU].widget);
 	}
+
+	/* No programs in the menu */
+	gtk_widget_hide (genius_menu[PROGRAMS_MENU].widget);
 
 	/*setup appbar*/
 	w = gnome_appbar_new(FALSE, TRUE, GNOME_PREFERENCES_USER);
