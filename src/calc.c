@@ -2375,8 +2375,8 @@ full_help (void)
 	gel_output_pop_nonotify (main_out);
 }
 
-static void
-help_on (const char *text)
+void
+gel_help_on (const char *text)
 {
 	GelHelp *help;
 	GelHelp not_documented = { NULL /* func */,
@@ -2411,7 +2411,7 @@ help_on (const char *text)
 		gel_output_printf_full (main_out, FALSE,
 					_("%s is an alias for %s\n"),
 					text, help->aliasfor);
-		help_on (help->aliasfor);
+		gel_help_on (help->aliasfor);
 		do_black ();
 		gel_output_pop_nonotify (main_out);
 		return;
@@ -2467,7 +2467,8 @@ help_on (const char *text)
 	do_black ();
 	gel_output_pop_nonotify (main_out);
 
-	gel_call_help (text);
+	if (help != &not_documented)
+		gel_call_help (text);
 }
 
 static void
@@ -2845,7 +2846,7 @@ do_exec_commands (const char *dirprefix)
 		break;
 	case GEL_HELP_ARG:
 		g_strstrip (arg);
-		help_on (arg);
+		gel_help_on (arg);
 		ret = TRUE;
 		break;
 	default:

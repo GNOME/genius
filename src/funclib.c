@@ -4727,7 +4727,7 @@ gel_funclib_addall(void)
 	PARAMETER (FloatPrecision, N_("Floating point precision"));
 	PARAMETER (MaxDigits, N_("Maximum digits to display"));
 	PARAMETER (MaxErrors, N_("Maximum errors to display"));
-	PARAMETER (OutputStyle, N_("Output style: normal, latex or troff"));
+	PARAMETER (OutputStyle, N_("Output style: normal, latex, mathml or troff"));
 	PARAMETER (IntegerOutputBase, N_("Integer output base"));
 	PARAMETER (MixedFractions, N_("If true, mixed fractions are printed"));
 	PARAMETER (FullExpressions, N_("Print full expressions, even if more than a line"));

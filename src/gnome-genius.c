@@ -194,9 +194,10 @@ static void copy_as_troff (GtkWidget *menu_item, gpointer data);
 static void copy_as_mathml (GtkWidget *menu_item, gpointer data);
 static void setup_calc (GtkWidget *widget, gpointer data);
 static void run_program (GtkWidget *menu_item, gpointer data);
-static void manual_call (GtkWidget *widget, gpointer data);
 static void warranty_call (GtkWidget *widget, gpointer data);
 static void aboutcb (GtkWidget * widget, gpointer data);
+static void help_on_function (GtkWidget *menuitem, gpointer data);
+static void executing_warning (void);
 
 static GnomeUIInfo file_menu[] = {
 	GNOMEUIINFO_MENU_NEW_ITEM(N_("_New Program"), N_("Create new program tab"), new_callback, NULL),
@@ -258,11 +259,10 @@ static GnomeUIInfo calc_menu[] = {
 
 static GnomeUIInfo help_menu[] = {  
 	GNOMEUIINFO_HELP("genius"),
-	/* FIXME: remove this when the docbook help is good enough */
-	/*GNOMEUIINFO_ITEM_STOCK (N_("_Manual"),
-				N_("Display the manual"),
-				manual_call,
-				GTK_STOCK_HELP),*/
+	GNOMEUIINFO_ITEM_STOCK (N_("_Help on Function"),
+				N_("Help on a function or a command"),
+				help_on_function,
+				GTK_STOCK_HELP),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Warranty"),
 				N_("Display warranty information"),
 				warranty_call,
@@ -366,6 +366,54 @@ setup_term_color (void)
 	} else {
 		vte_terminal_set_default_colors (VTE_TERMINAL (term));
 	}
+}
+
+static void
+help_on_entry_activate (GtkWidget *e, gpointer data)
+{
+	GtkWidget *d = data;
+	gtk_dialog_response (GTK_DIALOG (d), GTK_RESPONSE_OK);
+}
+
+static void
+help_on_function (GtkWidget *menuitem, gpointer data)
+{
+	GtkWidget *d;
+	GtkWidget *e;
+	int ret;
+
+	d = gtk_dialog_new_with_buttons
+		(_("Help on Function"),
+		 GTK_WINDOW (genius_window) /* parent */,
+		 0 /* flags */,
+		 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		 GTK_STOCK_OK, GTK_RESPONSE_OK,
+		 NULL);
+
+	gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_OK);
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+			    gtk_label_new (_("Function or command name:")),
+			    FALSE, FALSE, 0);
+
+	e = gtk_entry_new ();
+	g_signal_connect (G_OBJECT (e), "activate",
+			  G_CALLBACK (help_on_entry_activate), d);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+			    e,
+			    FALSE, FALSE, 0);
+
+	gtk_widget_show_all (d);
+	ret = gtk_dialog_run (GTK_DIALOG (d));
+
+	if (ret == GTK_RESPONSE_OK) {
+		char *txt = g_strstrip (g_strdup (gtk_entry_get_text (GTK_ENTRY (e))));
+		gel_call_help (txt);
+		g_free (txt);
+	}
+
+	gtk_widget_destroy (d);
 }
 
 /*display a message in a messagebox*/
@@ -1171,24 +1219,6 @@ executing_warning (void)
 			   "Please try again later or interrupt the current "
 			   "operation."));
 }
-
-#if 0
-static void
-manual_call (GtkWidget *widget, gpointer data)
-{
-	if (calc_running) {
-		executing_warning ();
-		return;
-	} else {
-		/* perhaps a bit ugly */
-		gboolean last = genius_setup.info_box;
-		genius_setup.info_box = TRUE;
-		gel_evalexp ("manual", NULL, main_out, NULL, TRUE, NULL);
-		gel_printout_infos ();
-		genius_setup.info_box = last;
-	}
-}
-#endif
 
 static void
 warranty_call (GtkWidget *widget, gpointer data)
