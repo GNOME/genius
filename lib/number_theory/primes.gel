@@ -80,9 +80,7 @@ function IsPrime(n) =
 protect("IsPrime");
 
 SetHelp("IsPrimeLoopMax","parameters", "Maximum number which IsPrime uses in trial division");
-IsPrimeLoopMax = 5000;           # IsPrime configuration variable
-                                 # FIXME: This could be MUCH more elegant
-protect("IsPrimeLoopMax");
+parameter IsPrimeLoopMax = 5000;           # IsPrime configuration variable
 
 SetHelp("NextPrime","number_theory","Returns the least prime greater than n");
 function NextPrime(n) =

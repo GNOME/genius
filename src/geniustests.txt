@@ -168,7 +168,7 @@ lcm(4,6)							12
 function f(x)=(if(not IsInteger(x)) then bailout else 1);f(1.2)	(f(1.2))
 function f(x)=(if(not IsInteger(x)) then bailout else 1);f(100)	1
 prime(10)							29
-max_digits=12;exp(3*ln(2))					8
+MaxDigits=12;exp(3*ln(2))					8
 if(0)then 1;0							0
 24/2								12
 a@(1,2)=3;a							[0,3]
@@ -280,10 +280,10 @@ min([4,2,6],[2,5,1])						[2,2,1]
 max([4,2,&d],[2,5,1])						[4,5,(max((&d),1))]
 max([4,2,1],&d)							[(max(4,(&d))),(max(2,(&d))),(max(1,(&d)))]
 max(&d,[4,2,1])							[(max((&d),4)),(max((&d),2)),(max((&d),1))]
-max_digits=12;log([1000,9],[10,3])				[3,2]
-max_digits=12;log10([100,1000])					[2,3]
+MaxDigits=12;log([1000,9],[10,3])				[3,2]
+MaxDigits=12;log10([100,1000])					[2,3]
 IsMatrix(log([1,1000,9],[10,3]))				0
-max_digits=27;log([27,9],3)					[3,2]
+MaxDigits=27;log([27,9],3)					[3,2]
 sqrt(-9)							(0+3i)
 cos(3*pi)							-1
 cos(2*pi)							1
@@ -387,13 +387,13 @@ a=Pascal(4);b=delrowcol(a,5,1);b=delrowcol(a,5,1);rows(b)	4
 3 4/5								3 4/5
 4 6/5								5 1/5
 991/8								123 7/8
-mixed_fractions=0 ; 123 7/8					991/8
+MixedFractions=0 ; 123 7/8					991/8
 010								8
 0100								64
 8\100								64
-integer_output_base=16 ; 256					0x100
-integer_output_base=9 ; 81					9\100
-integer_output_base=12 ; 11					12\b
+IntegerOutputBase=16 ; 256					0x100
+IntegerOutputBase=9 ; 81					9\100
+IntegerOutputBase=12 ; 11					12\b
 c=[2,3;4,5];c+2;c						[2,3;4,5]
 c=[2,3;4,5];c*c;c						[2,3;4,5]
 c=[2,3;4,5];c^-1;c						[2,3;4,5]
@@ -427,7 +427,7 @@ function f(c...) = c ; f(1,2)					[1,2]
 15!!								2027025
 DoubleFactorial(8)						384
 [1,2]./[4,5]							[1/4,2/5]
-mixed_fractions=0; [1,2].\[4,5]					[4,5/2]
+MixedFractions=0; [1,2].\[4,5]					[4,5/2]
 [1,2].*[4,5]							[4,10]
 [1,2].^[4,5]							[1,32]
 [4,2].%[3,5]							[1,2]
@@ -435,3 +435,4 @@ Norm([3,4])							5
 LInfNorm([3,4])							4
 UpperTriangular([1,2;3,4])					[1,2;0,4]
 LowerTriangular([1,2;3,4])					[1,0;3,4]
+parameter foo=1;function h(x)=(foo=x);h(7);foo			7

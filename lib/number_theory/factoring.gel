@@ -1,15 +1,5 @@
 # Factoring
 
-# Return the Greatest Common Divisor of two numbers
-# Built-in
-# Same for least common multiple
-GCD=gcd;
-SetHelpAlias("gcd","GCD");
-protect("GCD")
-LCM=lcm;
-SetHelpAlias("lcm","LCM");
-protect("LCM")
-
 # FIXME: The first output column gets corrupted sometimes
 # FIXME!
 # Implement (in order of importance)
@@ -73,10 +63,8 @@ function Factorize(n) =
   return [factor_list,[n;1]];
  )
 
-FactorizeLoopMax = 5000;         # Factorize configuration variable
-                                 # FIXME: This could be MUCH more elegant
 SetHelp("FactorizeLoopMax","parameters","Maximum number which Factorize uses in trial division");
-protect("FactorizeLoopMax");
+parameter FactorizeLoopMax = 5000;         # Factorize configuration variable
 
 
 # FIXME: do it

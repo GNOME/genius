@@ -143,6 +143,7 @@ branches(int op)
 	switch(op) {
 		case E_SEPAR: return 2;
 		case E_EQUALS: return 2;
+		case E_PARAMETER: return 3;
 		case E_ABS: return 1;
 		case E_PLUS: return 2;
 		case E_MINUS: return 2;
@@ -609,18 +610,6 @@ makeoperator(int oper, GSList **stack)
 	
 	n->op.args = list;
 	n->op.nargs = args;
-	
-#if 0
-	/* FIXME: this is whacked
-	/* for "do <BODY> until <CONDITION>" and "do <BODY> while <CONDITION>"
-	   we need to swap it's arguments to keep consistent */
-	if(n->op.oper == E_DOWHILE_CONS ||
-	   n->op.oper == E_DOUNTIL_CONS) {
-		n->op.args = list->any.next;
-		n->op.args->any.next = list;
-		list->any.next = NULL;
-	}
-#endif
 	
 	/*try_to_precalc_op(n);*/
 
@@ -1773,6 +1762,7 @@ PRIM_NUM_FUNC_2(numerical_pow,mpw_pow)
 static const GelOper prim_table[E_OPER_LAST] = {
 	/*E_SEPAR*/ EMPTY_PRIM,
 	/*E_EQUALS*/ EMPTY_PRIM,
+	/*E_PARAMETER*/ EMPTY_PRIM,
 	/*E_ABS*/ 
 	{{
 		 {{GO_VALUE,0,0},(GelEvalFunc)numerical_abs},
@@ -2125,6 +2115,17 @@ static inline gboolean
 iter_variableop(GelCtx *ctx, GelETree *n)
 {
 	GelEFunc *f;
+
+	if (n->id.id->built_in_parameter) {
+		GelETree *r = NULL;
+		ParameterGetFunc getfunc = n->id.id->data2;
+		if (getfunc != NULL)
+			r = getfunc ();
+		else
+			r = gel_makenum_null ();
+		replacenode (n, r);
+		return TRUE;
+	}
 	
 	f = d_lookup_global(n->id.id);
 	if(!f) {
@@ -3604,6 +3605,25 @@ iter_get_matrix_p(GelETree *m, int *new_matrix)
 	return mat;
 }
 
+static GelETree *
+set_parameter (GelToken *token, GelETree *val)
+{
+	GelEFunc *func;
+
+	if (token->built_in_parameter) {
+		ParameterSetFunc setfunc = token->data1;
+		if (setfunc != NULL)
+			return setfunc (val);
+		return gel_makenum_null ();
+	} else {
+		func = d_makevfunc (token, copynode (val));
+		/* make function global */
+		func->context = 0;
+		d_addfunc_global (func);
+		return copynode (val);
+	}
+}
+
 static void
 iter_equalsop(GelETree *n)
 {
@@ -3627,7 +3647,11 @@ iter_equalsop(GelETree *n)
 			(*errorout)(_("Trying to set a protected id"));
 			return;
 		}
-		if(r->type == FUNCTION_NODE) {
+		if (l->id.id->parameter) {
+			GelETree *ret = set_parameter (l->id.id, r);
+			replacenode (n, ret);
+			return;
+		} else if(r->type == FUNCTION_NODE) {
 			d_addfunc(d_makerealfunc(r->func.func,l->id.id,FALSE));
 		} else if(r->type == OPERATOR_NODE &&
 			  r->op.oper == E_REFERENCE) {
@@ -3780,6 +3804,30 @@ iter_equalsop(GelETree *n)
 	/*remove from arglist so that it doesn't get freed on replacenode*/
 	n->op.args->any.next = NULL;
 	replacenode(n,r);
+}
+
+static void
+iter_parameterop (GelETree *n)
+{
+	GelETree *l,*r,*rr;
+
+	GET_LRR (n, l, r, rr);
+
+	/* FIXME: l should be the set func */
+	
+	g_assert (r->type == IDENTIFIER_NODE);
+
+	if (d_curcontext() != 0) {
+		(*errorout)(_("Parameters can only be created in the global context"));
+		return;
+	}
+	
+	d_addfunc (d_makevfunc (r->id.id, copynode (rr)));
+	r->id.id->parameter = 1;
+
+	/*remove from arglist so that it doesn't get freed on replacenode*/
+	n->op.args->any.next->any.next = NULL;
+	replacenode (n, rr);
 }
 
 static inline void
@@ -3952,7 +4000,8 @@ iter_get_op_name(int oper)
 
 	switch(oper) {
 	case E_SEPAR:
-	case E_EQUALS: break;
+	case E_EQUALS:
+	case E_PARAMETER: break;
 	case E_ABS: name = g_strdup(_("Absolute value")); break;
 	case E_PLUS: name = g_strdup(_("Addition")); break;
 	case E_MINUS: name = g_strdup(_("Subtraction")); break;
@@ -4061,6 +4110,14 @@ iter_operator_pre(GelCtx *ctx)
 		EDEBUG("  EQUALS PRE");
 		GE_PUSH_STACK(ctx,n,GE_POST);
 		iter_push_indexes_and_arg(ctx,n);
+		break;
+
+	case E_PARAMETER:
+		EDEBUG("  PARAMETER PRE");
+		GE_PUSH_STACK(ctx,n,GE_POST);
+		/* Push third parameter (the value) */
+		ctx->post = FALSE;
+		ctx->current = n->op.args->any.next->any.next;
 		break;
 
 	case E_SEPAR:
@@ -4248,6 +4305,12 @@ iter_operator_post(GelCtx *ctx)
 		iter_pop_stack(ctx);
 		break;
 
+	case E_PARAMETER:
+		EDEBUG("  EQUALS POST");
+		iter_parameterop (n);
+		iter_pop_stack (ctx);
+		break;
+
 	case E_PLUS:
 	case E_MINUS:
 	case E_MUL:
@@ -4363,6 +4426,7 @@ iter_operator_post(GelCtx *ctx)
 	return TRUE;
 }
 
+/* FIXME: this is broken!!!!!, should only be done on context pop */
 static void
 subst_local_vars (GelETree *n)
 {
@@ -4747,126 +4811,6 @@ replace_equals (GelETree *n, gboolean in_expression)
 		/* function bodies are a completely new thing */
 		replace_equals (n->func.func->data.user, FALSE);
 	}
-}
-
-
-/*return TRUE if the id is one of the settable parameters*/
-static int
-is_a_parameter(char *id)
-{
-	int i;
-	for(i=0;genius_params[i];i++) {
-		if(strcmp(genius_params[i],id)==0)
-			return TRUE;
-	}
-	return FALSE;
-}
-
-GelETree *
-replace_parameters(GelETree *n)
-{
-	GelETree *next,*ret;
-	if(!n) return NULL;
-
-	ret = n;
-	next = n->any.next;
-
-	if(n->type==OPERATOR_NODE) {
-		if(n->op.oper == E_EQUALS) {
-			GelETree *lval,*rval;
-			GET_LR(n,lval,rval);
-			if(lval->type == IDENTIFIER_NODE &&
-			   is_a_parameter(lval->id.id->token)) {
-				char *id;
-				id = g_strconcat("set_",lval->id.id->token,
-						 NULL);
-				lval->id.id = d_intern(id);
-				g_free(id);
-				n->op.oper = E_DIRECTCALL;
-				n->op.args->any.next =
-					replace_parameters(rval);
-			} else {
-				n->op.args =
-					replace_parameters(lval);
-				n->op.args->any.next =
-					replace_parameters(rval);
-			}
-		} else if(n->op.oper == E_DIRECTCALL) {
-			GelETree *lval;
-			GelETree *ali;
-			GET_L(n,lval);
-			if(lval->type == IDENTIFIER_NODE &&
-			   is_a_parameter(lval->id.id->token)) {
-				char *id;
-				id = g_strconcat("set_",lval->id.id->token,
-						 NULL);
-				lval->id.id = d_intern(id);
-				g_free(id);
-				n->op.oper = E_DIRECTCALL;
-			} else {
-				n->op.args =
-					replace_parameters(lval);
-			}
-			if(n->op.args->any.next) {
-				n->op.args->any.next =
-					replace_parameters(n->op.args->any.next);
-				for(ali=n->op.args->any.next;ali->any.next;
-				    ali=ali->any.next)
-					ali->any.next =
-						replace_parameters(ali->any.next);
-			}
-		} else {
-			GelETree *ali;
-			if(n->op.args) {
-				n->op.args = replace_parameters(n->op.args);
-				for(ali=n->op.args;ali->any.next;ali=ali->any.next)
-					ali->any.next =
-						replace_parameters(ali->any.next);
-			}
-		}
-	} else if(n->type==MATRIX_NODE) {
-		int i,j;
-		int w,h;
-		if(!n->mat.matrix) goto replace_parameters_end;
-		w = gel_matrixw_width(n->mat.matrix);
-		h = gel_matrixw_height(n->mat.matrix);
-		gel_matrixw_make_private(n->mat.matrix);
-		for(i=0;i<w;i++) {
-			for(j=0;j<h;j++) {
-				GelETree *t = gel_matrixw_set_index(n->mat.matrix,i,j);
-				if(t) {
-					gel_matrixw_set_index(n->mat.matrix,
-							      i,j) =
-						replace_parameters(t);
-				}
-			}
-		}
-	} else if(n->type==SET_NODE) {
-		GelETree *ali;
-		if(n->set.items) {
-			n->set.items = replace_parameters(n->set.items);
-			for(ali=n->set.items;ali->any.next;ali=ali->any.next)
-				ali->any.next =
-					replace_parameters(ali->any.next);
-		}
-	} else if(n->type==FUNCTION_NODE) {
-		if ((n->func.func->type == GEL_USER_FUNC ||
-		     n->func.func->type == GEL_VARIABLE_FUNC) &&
-		    n->func.func->data.user) {
-			n->func.func->data.user =
-				replace_parameters(n->func.func->data.user);
-		}
-	} else if(n->type==IDENTIFIER_NODE &&
-		  is_a_parameter(n->id.id->token)) {
-		char *id;
-		id = g_strconcat("get_",n->id.id->token,
-				 NULL);
-		n->id.id = d_intern(id);
-		g_free(id);
-	}
-replace_parameters_end:
-	ret->any.next = next;
-	return ret;
 }
 
 /*this means that it will precalc even complex and float

@@ -105,10 +105,9 @@ function TwoSidedFivePointFormula(f,x0,h) =
 SetHelp("TwoSidedFivePointFormula","calculus","Compute two-sided derivative using five-point formula");
 protect("TwoSidedFivePointFormula");
 
-# FIXME: There should be a better way of setting parameters
-DerivativeTolerance=10^(-5);
-DerivativeSFS=20;
-DerivativeNumberOfTries=100;
+parameter DerivativeTolerance=10^(-5);
+parameter DerivativeSFS=20;
+parameter DerivativeNumberOfTries=100;
 
 #FIXME: This file requires limits.gel and misc.gel for the simple NDerivative function
 # and for IsDifferentiable

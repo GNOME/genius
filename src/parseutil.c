@@ -37,7 +37,7 @@
 extern GSList *evalstack;
 
 
-int
+gboolean
 gp_push_func (gboolean vararg)
 {
 	GelETree * tree;
@@ -77,6 +77,33 @@ gp_push_func (gboolean vararg)
 	tree->func.func->vararg = vararg;
 
 	stack_push(&evalstack,tree);
+
+	return TRUE;
+}
+
+gboolean
+gp_prepare_push_param (gboolean setfunc)
+{
+	GelETree * ident;
+	GelETree * val;
+	GelETree * func;
+
+	/* FIXME: setfunc not yet implemented */
+	g_assert ( ! setfunc);
+
+	val = stack_pop (&evalstack);
+	if (val == NULL)
+		return FALSE;
+
+	ident = stack_pop (&evalstack);
+	if (ident == NULL)
+		return FALSE;
+
+	func = gel_makenum_null ();
+
+	stack_push (&evalstack, func);
+	stack_push (&evalstack, ident);
+	stack_push (&evalstack, val);
 
 	return TRUE;
 }

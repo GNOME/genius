@@ -56,7 +56,7 @@ extern char *load_plugin;
 %token <id> STRING
 %token <id> FUNCID
 
-%token FUNCTION CALL THREEDOTS
+%token FUNCTION CALL THREEDOTS PARAMETER
 
 %token RETURNTOK BAILOUT EXCEPTION CONTINUE BREAK
 
@@ -82,7 +82,7 @@ extern char *load_plugin;
 %left MOD
 
 %nonassoc LOWER_THEN_ELSE
-%nonassoc WHILE UNTIL DO IF FOR SUM PROD TO BY IN THEN ELSE FUNCTION CALL RETURNTOK
+%nonassoc WHILE UNTIL DO IF FOR SUM PROD TO BY IN THEN ELSE FUNCTION PARAMETER CALL RETURNTOK
 
 %left LOGICAL_XOR LOGICAL_OR
 %left LOGICAL_AND
@@ -211,6 +211,7 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 	|	expr CALL '(' ')'	{ gp_push_marker_simple(EXPRLIST_START_NODE);
 					  PUSH_ACT(E_CALL); }
 	|	FUNCTION ident funcdef	{ PUSH_ACT(E_EQUALS); }
+	|	PARAMETER paramdef
 	|	FUNCTION funcdef
 	|	'`' funcdef
 	|	RETURNTOK expr		{ PUSH_ACT(E_RETURN); }
@@ -231,6 +232,16 @@ ident:		FUNCID			{
 				PUSH_IDENTIFIER($<id>1);
 				g_free($<id>1);
 					}
+	;
+
+paramdef: 	ident EQUALS expr		{
+			gp_prepare_push_param (FALSE);
+			PUSH_ACT (E_PARAMETER);
+		}
+	/*|	'(' expr ')' ident EQUALS expr {
+			gp_prepare_push_param (TRUE);
+			PUSH_ACT (E_PARAMETER);
+		}*/
 	;
 	
 funcdef:	'(' identlist ')' EQUALS expr	{

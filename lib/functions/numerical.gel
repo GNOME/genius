@@ -34,9 +34,11 @@ function FractionalPart(x) =
 		x - IntegerPart (x)
 )
 protect ("FractionalPart")
+
 # Chop replaces very small number with zero
-# FIXME: parameters
-ChopTolerance = 10^(-10);
+parameter ChopTolerance = 10^(-10);
+SetHelp ("ChopTolerance", "parameters", "Tolerance of the Chop function")
+
 SetHelp ("Chop", "numeric", "Replace very small number with zero")
 function Chop(x) =
 (

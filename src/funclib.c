@@ -220,6 +220,11 @@ set_op (GelCtx *ctx, GelETree * * a, int *exception)
 		(*errorout)(_("set: trying to set a protected id!"));
 		return NULL;
 	}
+	if (id->parameter) {
+		/* FIXME: fix this, this should just work too */
+		(*errorout)(_("set: trying to set a parameter, use the equals sign"));
+		return NULL;
+	}
 
 	func = d_makevfunc (id, copynode (a[1]));
 	/* make function global */
@@ -234,8 +239,6 @@ static GelETree *
 rand_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	int args;
-	GelToken *id;
-	GelEFunc *func;
 
 	args = 0;
 	while (a != NULL && a[args] != NULL)
@@ -329,8 +332,6 @@ static GelETree *
 randint_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	int args;
-	GelToken *id;
-	GelEFunc *func;
 
 	args = 0;
 	while (a[args] != NULL)
@@ -817,17 +818,6 @@ e_op (GelCtx *ctx, GelETree * * a, int *exception)
 	return gel_makenum(e_cache);
 }
 
-/*i function (or i variable actually)*/
-static GelETree *
-i_op (GelCtx *ctx, GelETree * * a, int *exception)
-{
-	mpw_t i;
-	mpw_init (i);
-	mpw_i (i);
-
-	return gel_makenum_use (i);
-}
-
 /*pi function (or pi variable or whatever)*/
 static GelETree *
 pi_op(GelCtx *ctx, GelETree * * a, int *exception)
@@ -915,7 +905,6 @@ IsReal_op(GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 IsMatrixReal_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
-	int i, j;
 	if (a[0]->type != MATRIX_NODE) {
 		(*errorout)(_("IsMatrixReal: argument not a matrix"));
 		return NULL;
@@ -940,7 +929,6 @@ IsInteger_op(GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 IsMatrixInteger_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
-	int i, j;
 	if (a[0]->type != MATRIX_NODE) {
 		(*errorout)(_("IsMatrixInteger: argument not a matrix"));
 		return NULL;
@@ -966,7 +954,6 @@ IsRational_op(GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 IsMatrixRational_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
-	int i, j;
 	if (a[0]->type != MATRIX_NODE) {
 		(*errorout)(_("IsMatrixRational: argument not a matrix"));
 		return NULL;
@@ -2346,6 +2333,7 @@ do_green (void)
 	}
 }
 
+/*
 static void
 do_red (void)
 {
@@ -2353,6 +2341,7 @@ do_red (void)
 		gel_output_full_string (main_out, "\e[01;31m");
 	}
 }
+*/
 
 static void
 do_black (void)
@@ -2567,23 +2556,23 @@ unprotect_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-set_float_prec_op(GelCtx *ctx, GelETree * * a, int *exception)
+set_FloatPrecision (GelETree * a)
 {
 	long bits;
 
-	if(a[0]->type!=VALUE_NODE ||
-	   !mpw_is_integer(a[0]->val.value)) {
-		(*errorout)(_("set_float_prec: argument not an integer"));
+	if(a->type!=VALUE_NODE ||
+	   !mpw_is_integer(a->val.value)) {
+		(*errorout)(_("FloatPrecision: argument not an integer"));
 		return NULL;
 	}
 
-	bits = mpw_get_long(a[0]->val.value);
+	bits = mpw_get_long(a->val.value);
 	if(error_num) {
 		error_num = 0;
 		return NULL;
 	}
 	if(bits<60 || bits>16384) {
-		(*errorout)(_("set_float_prec: argument should be between 60 and 16384"));
+		(*errorout)(_("FloatPrecision: argument should be between 60 and 16384"));
 		return NULL;
 	}
 	
@@ -2598,29 +2587,29 @@ set_float_prec_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-get_float_prec_op(GelCtx *ctx, GelETree * * a, int *exception)
+get_FloatPrecision (void)
 {
 	return gel_makenum_ui(calcstate.float_prec);
 }
 
 static GelETree *
-set_max_digits_op(GelCtx *ctx, GelETree * * a, int *exception)
+set_MaxDigits (GelETree * a)
 {
 	long digits;
 
-	if(a[0]->type!=VALUE_NODE ||
-	   !mpw_is_integer(a[0]->val.value)) {
-		(*errorout)(_("set_max_digits: argument not an integer"));
+	if(a->type!=VALUE_NODE ||
+	   !mpw_is_integer(a->val.value)) {
+		(*errorout)(_("MaxDigits: argument not an integer"));
 		return NULL;
 	}
 
-	digits = mpw_get_long(a[0]->val.value);
+	digits = mpw_get_long(a->val.value);
 	if(error_num) {
 		error_num = 0;
 		return NULL;
 	}
 	if(digits<0 || digits>256) {
-		(*errorout)(_("set_max_digits: argument should be between 0 and 256"));
+		(*errorout)(_("MaxDigits: argument should be between 0 and 256"));
 		return NULL;
 	}
 	
@@ -2634,19 +2623,19 @@ set_max_digits_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-get_max_digits_op(GelCtx *ctx, GelETree * * a, int *exception)
+get_MaxDigits (void)
 {
 	return gel_makenum_ui(calcstate.max_digits);
 }
 
 static GelETree *
-set_results_as_floats_op(GelCtx *ctx, GelETree * * a, int *exception)
+set_ResultsAsFloats (GelETree * a)
 {
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("set_results_as_floats: argument not a value"));
+	if(a->type!=VALUE_NODE) {
+		(*errorout)(_("ResultsAsFloats: argument not a value"));
 		return NULL;
 	}
-	calcstate.results_as_floats = mpw_sgn(a[0]->val.value)!=0;
+	calcstate.results_as_floats = mpw_sgn(a->val.value)!=0;
 	if(statechange_hook)
 		(*statechange_hook)(calcstate);
 
@@ -2656,7 +2645,7 @@ set_results_as_floats_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 }
 static GelETree *
-get_results_as_floats_op(GelCtx *ctx, GelETree * * a, int *exception)
+get_ResultsAsFloats (void)
 {
 	if(calcstate.results_as_floats)
 		return gel_makenum_ui(1);
@@ -2664,13 +2653,13 @@ get_results_as_floats_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 }
 static GelETree *
-set_scientific_notation_op(GelCtx *ctx, GelETree * * a, int *exception)
+set_ScientificNotation (GelETree * a)
 {
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("set_scientific_notation: argument not a value"));
+	if(a->type!=VALUE_NODE) {
+		(*errorout)(_("ScientificNotation: argument not a value"));
 		return NULL;
 	}
-	calcstate.scientific_notation = mpw_sgn(a[0]->val.value)!=0;
+	calcstate.scientific_notation = mpw_sgn(a->val.value)!=0;
 	if(statechange_hook)
 		(*statechange_hook)(calcstate);
 
@@ -2680,7 +2669,7 @@ set_scientific_notation_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 }
 static GelETree *
-get_scientific_notation_op(GelCtx *ctx, GelETree * * a, int *exception)
+get_ScientificNotation (void)
 {
 	if(calcstate.scientific_notation)
 		return gel_makenum_ui(1);
@@ -2688,13 +2677,13 @@ get_scientific_notation_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 }
 static GelETree *
-set_full_expressions_op(GelCtx *ctx, GelETree * * a, int *exception)
+set_FullExpressions (GelETree * a)
 {
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("set_full_expressions: argument not a value"));
+	if(a->type!=VALUE_NODE) {
+		(*errorout)(_("FullExpressions: argument not a value"));
 		return NULL;
 	}
-	calcstate.full_expressions = mpw_sgn(a[0]->val.value)!=0;
+	calcstate.full_expressions = mpw_sgn(a->val.value)!=0;
 	if(statechange_hook)
 		(*statechange_hook)(calcstate);
 
@@ -2704,7 +2693,7 @@ set_full_expressions_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 }
 static GelETree *
-get_full_expressions_op(GelCtx *ctx, GelETree * * a, int *exception)
+get_FullExpressions (void)
 {
 	if(calcstate.full_expressions)
 		return gel_makenum_ui(1);
@@ -2713,17 +2702,21 @@ get_full_expressions_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-set_output_style_op (GelCtx *ctx, GelETree * * a, int *exception)
+set_OutputStyle (GelETree * a)
 {
 	const char *token;
 	GelOutputStyle output_style = GEL_OUTPUT_NORMAL;
 
-	if (a[0]->type != STRING_NODE) {
-		(*errorout)(_("set_output_style: argument not a string"));
+	if (a->type != STRING_NODE &&
+	    a->type != IDENTIFIER_NODE) {
+		(*errorout)(_("OutputStyle: argument not a string"));
 		return NULL;
 	}
 
-	token = a[0]->str.str;
+	if (a->type == STRING_NODE)
+		token = a->str.str;
+	else
+		token = a->id.id->token;
 
 	if (token != NULL && strcmp (token, "normal") == 0) {
 		output_style = GEL_OUTPUT_NORMAL;
@@ -2744,7 +2737,7 @@ set_output_style_op (GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-get_output_style_op (GelCtx *ctx, GelETree * * a, int *exception)
+get_OutputStyle (void)
 {
 	const char *token;
 
@@ -2758,23 +2751,23 @@ get_output_style_op (GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-set_max_errors_op(GelCtx *ctx, GelETree * * a, int *exception)
+set_MaxErrors (GelETree * a)
 {
 	long errors;
 
-	if(a[0]->type!=VALUE_NODE ||
-	   !mpw_is_integer(a[0]->val.value)) {
-		(*errorout)(_("set_max_errors: argument not an integer"));
+	if(a->type!=VALUE_NODE ||
+	   !mpw_is_integer(a->val.value)) {
+		(*errorout)(_("MaxErrors: argument not an integer"));
 		return NULL;
 	}
 
-	errors = mpw_get_long(a[0]->val.value);
+	errors = mpw_get_long(a->val.value);
 	if(error_num) {
 		error_num = 0;
 		return NULL;
 	}
 	if(errors<0) {
-		(*errorout)(_("set_max_errors: argument should be larger or equal to 0"));
+		(*errorout)(_("MaxErrors: argument should be larger or equal to 0"));
 		return NULL;
 	}
 	
@@ -2788,19 +2781,19 @@ set_max_errors_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-get_max_errors_op(GelCtx *ctx, GelETree * * a, int *exception)
+get_MaxErrors (void)
 {
 	return gel_makenum_ui(calcstate.max_errors);
 }
 
 static GelETree *
-set_mixed_fractions_op(GelCtx *ctx, GelETree * * a, int *exception)
+set_MixedFractions (GelETree * a)
 {
-	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("set_mixed_fractions: argument not a value"));
+	if(a->type!=VALUE_NODE) {
+		(*errorout)(_("MixedFractions: argument not a value"));
 		return NULL;
 	}
-	calcstate.mixed_fractions = mpw_sgn(a[0]->val.value)!=0;
+	calcstate.mixed_fractions = mpw_sgn(a->val.value)!=0;
 	if(statechange_hook)
 		(*statechange_hook)(calcstate);
 
@@ -2810,7 +2803,7 @@ set_mixed_fractions_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 }
 static GelETree *
-get_mixed_fractions_op(GelCtx *ctx, GelETree * * a, int *exception)
+get_MixedFractions (void)
 {
 	if(calcstate.mixed_fractions)
 		return gel_makenum_ui(1);
@@ -2819,23 +2812,23 @@ get_mixed_fractions_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-set_integer_output_base_op(GelCtx *ctx, GelETree * * a, int *exception)
+set_IntegerOutputBase (GelETree * a)
 {
 	long base;
 
-	if(a[0]->type!=VALUE_NODE ||
-	   !mpw_is_integer(a[0]->val.value)) {
-		(*errorout)(_("set_integer_output_base: argument not an integer"));
+	if(a->type!=VALUE_NODE ||
+	   !mpw_is_integer(a->val.value)) {
+		(*errorout)(_("IntegerOutputBase: argument not an integer"));
 		return NULL;
 	}
 
-	base = mpw_get_long(a[0]->val.value);
+	base = mpw_get_long(a->val.value);
 	if(error_num) {
 		error_num = 0;
 		return NULL;
 	}
 	if(base<2 || base>36) {
-		(*errorout)(_("set_integer_output_base: argument should be between 2 and 36"));
+		(*errorout)(_("IntegerOutputBase: argument should be between 2 and 36"));
 		return NULL;
 	}
 	
@@ -2849,7 +2842,7 @@ set_integer_output_base_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-get_integer_output_base_op(GelCtx *ctx, GelETree * * a, int *exception)
+get_IntegerOutputBase (void)
 {
 	return gel_makenum_ui(calcstate.integer_output_base);
 }
@@ -2859,6 +2852,7 @@ void
 gel_funclib_addall(void)
 {
 	GelEFunc *f;
+	GelToken *id;
 
 	new_category ("basic", _("Basic"));
 	new_category ("parameters", _("Parameters"));
@@ -2893,6 +2887,17 @@ gel_funclib_addall(void)
 	f = d_addfunc (d_makebifunc (d_intern ( #name ), aliasfor ## _op, args)); \
 	f->vararg = TRUE; \
 	add_alias ( #aliasfor , #name );
+#define PARAMETER(name,desc) \
+	id = d_intern ( #name ); \
+	id->parameter = 1; \
+	id->built_in_parameter = 1; \
+	id->data1 = set_ ## name; \
+	id->data2 = get_ ## name; \
+	add_category ( #name , "parameters"); \
+	add_description ( #name , desc); \
+	/* bogus value */ \
+	d_addfunc_global (d_makevfunc (id, gel_makenum_null()));
+
 
 	FUNC (warranty, 0, "basic", _("Gives the warranty information"));
 	FUNC (exit, 0, "basic", _("Exits the program"));
@@ -2910,25 +2915,15 @@ gel_funclib_addall(void)
 	VFUNC (rand, 1, "numeric", _("Generate random float"));
 	VFUNC (randint, 2, "numeric", _("Generate random integer"));
 
-	FUNC (set_float_prec, 1, "parameters", _("Set floating point precision"));
-	FUNC (get_float_prec, 0, "parameters", _("Get floating point precision"));
-	FUNC (set_max_digits, 1, "parameters", _("Set maximum digits to display"));
-	FUNC (get_max_digits, 0, "parameters", _("Get maximum digits to display"));
-	FUNC (set_max_errors, 1, "parameters", _("Set maximum errors to be printed"));
-	FUNC (get_max_errors, 0, "parameters", _("Get maximum errors to be printed"));
-	FUNC (set_output_style, 1, "parameters", _("Set output style (normal, latex or troff)"));
-	FUNC (get_output_style, 0, "parameters", _("Get output style (normal, latex or troff)"));
-	FUNC (set_integer_output_base, 1, "parameters", _("Set the integer output base"));
-	FUNC (get_integer_output_base, 0, "parameters", _("Get the integer output base"));
-	FUNC (set_mixed_fractions, 1, "parameters", _("Set if we print fractions in mixed format"));
-	FUNC (get_mixed_fractions, 0, "parameters", _("Get if we print fractions in mixed format"));
-	FUNC (set_full_expressions, 1, "parameters", _("Set if we print full expressions"));
-	FUNC (get_full_expressions, 0, "parameters", _("Get if we print full expressions"));
-
-	d_addfunc(d_makebifunc(d_intern("set_results_as_floats"),set_results_as_floats_op,1));
-	d_addfunc(d_makebifunc(d_intern("get_results_as_floats"),get_results_as_floats_op,0));
-	d_addfunc(d_makebifunc(d_intern("set_scientific_notation"),set_scientific_notation_op,1));
-	d_addfunc(d_makebifunc(d_intern("get_scientific_notation"),get_scientific_notation_op,0));
+	PARAMETER (FloatPrecision, _("Floating point precision"));
+	PARAMETER (MaxDigits, _("Maximum digits to display"));
+	PARAMETER (MaxErrors, _("Maximum errors to display"));
+	PARAMETER (OutputStyle, _("Output style: normal, latex or troff"));
+	PARAMETER (IntegerOutputBase, _("Integer output base"));
+	PARAMETER (MixedFractions, _("If true, mixed fractions are printed"));
+	PARAMETER (FullExpressions, _("Print full expressions, even if more then a line"));
+	PARAMETER (ResultsAsFloats, _("Convert all results to floats before printing"));
+	PARAMETER (ScientificNotation, _("Use scientific notation"));
 
 	/* secret functions */
 	d_addfunc(d_makebifunc(d_intern("ni"),ni_op,0));
@@ -2970,13 +2965,19 @@ gel_funclib_addall(void)
 	FUNC (Denominator, 1, "numeric", _("Get the denominator of a rational number"));
 
 	FUNC (gcd, 2, "number_theory", _("Greatest common divisor"));
+	ALIAS (GCD, 2, gcd);
 	FUNC (lcm, 2, "number_theory", _("Least common multiplier"));
+	ALIAS (LCM, 2, lcm);
 	FUNC (PerfectSquare, 1, "number_theory", _("Check a number for being a perfect square"));
 	FUNC (PerfectPower, 1, "number_theory", _("Check a number for being any perfect power (a^b)"));
 	FUNC (prime, 1, "number_theory", _("Return the n'th prime (up to a limit)"));
 
 	VFUNC (max, 2, "numeric", _("Returns the maximum of arguments or matrix"));
+	VALIAS (Max, 2, max);
+	VALIAS (Maximum, 2, max);
 	VFUNC (min, 2, "numeric", _("Returns the minimum of arguments or matrix"));
+	VALIAS (Min, 2, min);
+	VALIAS (Minimum, 2, min);
 
 	FUNC (Jacobi, 2, "number_theory", _("Calculate the Jacobi symbol (a/b) (b should be odd)"));
 	ALIAS (JacobiSymbol, 2, Jacobi);

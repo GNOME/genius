@@ -65,6 +65,9 @@ typedef struct _GelOutput GelOutput;
   matrixw.h includes structs.h*/
 typedef struct _GelMatrixW GelMatrixW;
 
+typedef GelETree *(* ParameterSetFunc) (GelETree *val);
+typedef GelETree *(* ParameterGetFunc) (void);
+
 /* tokens point to this structure globaly, there is
    one such structure for each token.  */
 struct _GelToken {
@@ -72,7 +75,14 @@ struct _GelToken {
 	GelEFunc *curref;
 	GSList *refs;
 
+	/* For built-in parameters this is the get and set function
+	 * of type ParameterGetFunc and ParameterSetFunc */
+	gpointer data1;
+	gpointer data2;
+
 	guint32 protected:1;
+	guint32 parameter:1;
+	guint32 built_in_parameter:1;
 };
 
 struct _GelEFunc {

@@ -31,6 +31,7 @@
 enum {
 	E_SEPAR = 0,
 	E_EQUALS,
+	E_PARAMETER,
 	E_ABS,
 	E_PLUS,
 	E_MINUS,
@@ -160,7 +161,6 @@ GelETree * funccall(GelCtx *ctx, GelEFunc *func, GelETree **args, int nargs);
 void gel_expandmatrix (GelETree *n);
 
 GelETree * gather_comparisons(GelETree *n);
-GelETree * replace_parameters(GelETree *n);
 void replace_equals (GelETree *n, gboolean in_expression);
 void try_to_do_precalc(GelETree *n);
 

@@ -22,15 +22,15 @@
 #define NULL ((void *)0)
 
 const char *genius_params[] = {
-	"float_prec",
-	"max_digits",
-	"results_as_floats",
-	"scientific_notation",
-	"full_expressions",
-	"max_errors",
-	"mixed_fractions",
-	"integer_output_base",
-	"output_style",
+	"FloatPrecision",
+	"MaxDigits",
+	"ResultsAsFloats",
+	"ScientificNotation",
+	"FullExpressions",
+	"MaxErrors",
+	"MixedFractions",
+	"IntegerOutputBase",
+	"OutputStyle",
 	NULL
 };
 const char *genius_toplevels[] = {
@@ -40,7 +40,7 @@ const char *genius_toplevels[] = {
 };
 const char *genius_operators[] = {
 	"not","and","xor","or","while","until","for","sum","prod","do","to","by","in","if",
-	"then","else","define","function","call","return","bailout","exception",
+	"then","else","define","function","parameter","call","return","bailout","exception",
 	"continue","break","null",
 	NULL
 };

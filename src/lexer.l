@@ -213,6 +213,7 @@ then		{ NO_RET; return THEN; }
 else		{ NO_RET; return ELSE; }
 
 function	{ NO_RET; return FUNCTION; }
+parameter	{ NO_RET; return PARAMETER; }
 call		{ NO_RET; return CALL; }
 
 return		{ NO_RET; return RETURNTOK; }

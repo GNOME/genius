@@ -51,10 +51,9 @@ function NumericalLimitAtInfinity(f,step_fun,tolerance,successive_for_success,N)
 # ...from the right
 # ...two-sided
 
-#FIXME: Better parameter setting!
-ContinuousTolerance=10^(-5);
-ContinuousSFS=20;
-ContinuousNumberOfTries=100;
+parameter ContinuousTolerance=10^(-5);
+parameter ContinuousSFS=20;
+parameter ContinuousNumberOfTries=100;
 
 function LeftLimit(f,x0) =
 	(

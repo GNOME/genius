@@ -121,7 +121,7 @@ help_sort (gconstpointer data1, gconstpointer data2)
 {
 	const GelHelp *h1 = data1;
 	const GelHelp *h2 = data2;
-	return strcmp (h1->func, h1->func);
+	return strcmp (h1->func, h2->func);
 }
 
 static HelpCategory *
@@ -542,6 +542,24 @@ appendoper(GelOutput *gelo, GelETree *n)
 			append_binaryoper(gelo,";",n); break;
 		case E_EQUALS:
 			append_binaryoper(gelo,"=",n); break;
+		case E_PARAMETER:
+			GET_LRR(n,l,r,rr);
+			if (l->type != NULL_NODE) {
+				gel_output_string(gelo,"(parameter (");
+				print_etree(gelo, l, FALSE);
+				gel_output_string(gelo,") ");
+				print_etree(gelo, r, FALSE);
+				gel_output_string(gelo," = ");
+				print_etree(gelo, rr, FALSE);
+				gel_output_string(gelo,")");
+			} else {
+				gel_output_string(gelo,"(parameter ");
+				print_etree(gelo, r, FALSE);
+				gel_output_string(gelo," = ");
+				print_etree(gelo, rr, FALSE);
+				gel_output_string(gelo,")");
+			}
+			break;
 		case E_ABS:
 			GET_L(n,l);
 			gel_output_string(gelo,"(|");
@@ -1877,7 +1895,6 @@ parseexp(const char *str, FILE *infile, gboolean load_files, gboolean testparse,
 	}
 	replace_equals (evalstack->data, FALSE /* in_expression */);
 	evalstack->data = gather_comparisons (evalstack->data);
-	evalstack->data = replace_parameters (evalstack->data);
 	try_to_do_precalc (evalstack->data);
 	
 	if (finished != NULL)

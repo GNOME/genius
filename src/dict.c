@@ -543,6 +543,7 @@ d_protect_all(void)
 		GelEFunc *func = li->data;
 		if(!func->id || strcmp(func->id->token,"Ans")==0)
 			continue;
-		func->id->protected = 1;
+		if ( ! func->id->parameter)
+			func->id->protected = 1;
 	}
 }
