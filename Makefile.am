@@ -1,4 +1,4 @@
-SUBDIRS = po vicious-extensions gtkextra src lib doc
+SUBDIRS = po vicious-extensions gtkextra src pixmaps lib doc
 
 mimeinfodir = $(datadir)/mime-info
 mimeinfo_DATA = genius.keys genius.mime
