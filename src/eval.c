@@ -2461,6 +2461,11 @@ iter_do_var(GelCtx *ctx, GelETree *n, GelEFunc *f)
 			return TRUE;
 		}
 		ret = (*f->data.func)(ctx,NULL,&exception);
+		/* interruption happened during the function, which
+		   means an exception */
+		if (interrupted) {
+			exception = TRUE;
+		}
 		if(exception) {
 			if(ret)
 				gel_freetree(ret);
@@ -3539,6 +3544,11 @@ iter_funccallop(GelCtx *ctx, GelETree *n)
 		if ( ! f->propagate_mod) {
 			g_assert (ctx->modulo == NULL);
 			ctx->modulo = old_modulo;
+		}
+		/* interruption happened during the function, which
+		   means an exception */
+		if (interrupted) {
+			exception = TRUE;
 		}
 		if(exception) {
 			if(ret)

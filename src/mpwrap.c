@@ -4389,10 +4389,11 @@ mpw_set_mpz_use (mpw_ptr rop, mpz_ptr op)
 	rop->r->alloc.usage--;
 	if(rop->r->alloc.usage==0)
 		mpwl_free(rop->r,FALSE);
-	rop->r = g_new0 (MpwRealNum, 1);
+	GET_NEW_REAL (rop->r);
 	rop->r->type = MPW_INTEGER;
 	rop->r->alloc.usage = 1;
-	rop->r->data.ival = op;
+	rop->r->data.ival = g_new (__mpz_struct, 1);
+	memcpy (rop->r->data.ival, op, sizeof (__mpz_struct));
 }
 
 void
@@ -4402,10 +4403,11 @@ mpw_set_mpq_use (mpw_ptr rop, mpq_ptr op)
 	rop->r->alloc.usage--;
 	if(rop->r->alloc.usage==0)
 		mpwl_free(rop->r,FALSE);
-	rop->r = g_new0 (MpwRealNum, 1);
+	GET_NEW_REAL (rop->r);
 	rop->r->type = MPW_RATIONAL;
 	rop->r->alloc.usage = 1;
-	rop->r->data.rval = op;
+	rop->r->data.rval = g_new (__mpq_struct, 1);
+	memcpy (rop->r->data.rval, op, sizeof (__mpq_struct));
 }
 
 void
@@ -4415,10 +4417,11 @@ mpw_set_mpf_use (mpw_ptr rop, mpf_ptr op)
 	rop->r->alloc.usage--;
 	if(rop->r->alloc.usage==0)
 		mpwl_free(rop->r,FALSE);
-	rop->r = g_new0 (MpwRealNum, 1);
+	GET_NEW_REAL (rop->r);
 	rop->r->type = MPW_FLOAT;
 	rop->r->alloc.usage = 1;
-	rop->r->data.fval = op;
+	rop->r->data.fval = g_new (__mpf_struct, 1);
+	memcpy (rop->r->data.fval, op, sizeof (__mpf_struct));
 }
 
 mpz_ptr

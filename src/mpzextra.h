@@ -30,4 +30,13 @@ gboolean mympz_miller_rabin_test_sure (mpz_srcptr n);
 
 extern long int mympz_is_prime_miller_rabin_reps;
 
+typedef struct {
+	mpz_t num;
+	unsigned long exp; 
+} GelFactor;
+
+GArray * mympz_pollard_rho_factorize (mpz_srcptr t);
+void mympz_factorization_free (GArray *fact);
+
+
 #endif /* MPZEXTRA_H */

@@ -2668,6 +2668,56 @@ MillerRabinTestSure_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
+Factorize_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	mpz_ptr num;
+	mpz_t tmp;
+	GArray *fact;
+	GelETree *n;
+	GelMatrixW *mn;
+	int i;
+
+	if (a[0]->type == MATRIX_NODE)
+		return apply_func_to_matrix (ctx, a[0],
+					     Factorize_op,
+					     "Factorize");
+
+	if ( ! check_argument_integer (a, 0, "Factorize"))
+		return NULL;
+
+	MPW_MPZ_REAL (num, a[0]->val.value, tmp);
+
+	fact = mympz_pollard_rho_factorize (num);
+
+	MPW_MPZ_KILL (num, tmp);
+
+	/* error or interrupt or whatnot */
+	if (fact == NULL) {
+		if(exception) *exception = TRUE; /*raise exception*/
+		return NULL;
+	}
+
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = mn = gel_matrixw_new();
+	n->mat.quoted = 0;
+	gel_matrixw_set_size (mn, fact->len, 2);
+	
+	for (i = 0; i < fact->len; i++) {
+		GelFactor f = g_array_index (fact, GelFactor, i);
+		mpw_t num;
+		mpw_init (num);
+		mpw_set_mpz_use (num, f.num);
+		gel_matrixw_set_index (mn, i, 0) = gel_makenum_use (num);
+		gel_matrixw_set_index (mn, i, 1) = gel_makenum_ui (f.exp);
+	}
+
+	g_array_free (fact, TRUE /*free segment */);
+
+	return n;
+}
+
+static GelETree *
 ModInvert_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	mpw_t ret;
@@ -4189,6 +4239,7 @@ gel_funclib_addall(void)
 	FUNC (StrongPseudoprimeTest, 2, "n,b", "number_theory", _("Run the strong pseudoprime test base b on n"));
 	FUNC (MillerRabinTest, 2, "n,reps", "number_theory", _("Use the Miller-Rabin primality test on n, reps number of times.  The probability of false positive is (1/4)^reps"));
 	FUNC (MillerRabinTestSure, 1, "n", "number_theory", _("Use the Miller-Rabin primality test on n with enough bases that assuming the Generalized Reimann Hypothesis the result is deterministic"));
+	FUNC (Factorize, 1, "n", "number_theory", _("Return factorization of a number as a matrix"));
 
 	VFUNC (max, 2, "a,args", "numeric", _("Returns the maximum of arguments or matrix"));
 	VALIAS (Max, 2, max);

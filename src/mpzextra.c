@@ -27,7 +27,11 @@
 #include <string.h>
 #include <glib.h>
 
+#include "calc.h" /* for evalnode_hook */
+
 #include "mpzextra.h"
+
+extern gboolean interrupted;
 
 /* The strong pseudoprime test code copied from GMP */
 
@@ -161,6 +165,13 @@ mympz_miller_rabin_test_sure (mpz_srcptr n)
 		  break;
 	  }
 	  mpz_add_ui (b, b, 1L);
+	  if (evalnode_hook != NULL) {
+		  (*evalnode_hook)();
+	  }
+	  if (interrupted) {
+		  is_prime = 0;
+		  break;
+	  }
   } while (mpz_cmp (b, m) <= 0);
 
   mpz_clear (b);
@@ -172,12 +183,12 @@ mympz_miller_rabin_test_sure (mpz_srcptr n)
   return is_prime;
 }
 
-/* we will really do 10+4 since we always test 2,3,5,7 as well,
+/* we will really do 22+4 since we always test 2,3,5,7 as well,
    so the probability that a wrong result is returned is
    about 1/(4^26) which is about 8.9*10^-16.  Knuth says
    25 passes are reasonable (according to gmp source),
    and Knuth is never wrong. */
-long int mympz_is_prime_miller_rabin_reps = 21;
+long int mympz_is_prime_miller_rabin_reps = 22;
 
 gboolean
 mympz_is_prime (mpz_srcptr n, int miller_rabin_reps)
@@ -231,5 +242,326 @@ mympz_is_prime (mpz_srcptr n, int miller_rabin_reps)
 	if (mpz_cmp (n, test) <= 0)
 		return 1;
 
+	if (evalnode_hook != NULL)
+		(*evalnode_hook)();
+	if (interrupted)
+		return 0;
+
 	return mpz_millerrabin (n, miller_rabin_reps-1);
+}
+
+static void
+append_factor (GArray *fact, mpz_srcptr num)
+{
+	GelFactor f;
+	int i;
+	/* FIXME: implement faster search, this is sorted */
+	/* We start at 1 since the 0 entry is always -1 or 1 */
+	for (i = 1; i < fact->len; i++) {
+		int cmp = mpz_cmp (g_array_index (fact, GelFactor, i).num, num);
+		if (cmp > 0) {
+			/* must add */
+			mpz_init_set (f.num, num);
+			f.exp = 1;
+			g_array_insert_val (fact, i, f);
+			return;
+		} else if (cmp == 0) {
+			/* already in the factorization */
+			g_array_index (fact, GelFactor, i).exp++;
+			return;
+		}
+	}
+	/* not found, must add */
+	mpz_init_set (f.num, num);
+	f.exp = 1;
+	g_array_append_val (fact, f);
+}
+
+static void
+append_factor_uint (GArray *fact, unsigned long num)
+{
+	mpz_t znum;
+	mpz_init_set_ui (znum, num);
+	append_factor (fact, znum);
+	mpz_clear (znum);
+}
+
+/* Pollard-Rho factorization code snarfed from the gmp examples */
+
+static unsigned add[] = {4, 2, 4, 2, 4, 6, 2, 6};
+static gboolean flag_verbose = FALSE;
+
+static void
+factor_using_division (GArray *fact, mpz_t t, unsigned int limit)
+{
+  mpz_t q, r;
+  unsigned long int f;
+  int ai;
+  unsigned *addv = add;
+  unsigned int failures;
+
+  if (flag_verbose)
+    {
+      printf ("[trial division (%u)] ", limit);
+      fflush (stdout);
+    }
+
+  mpz_init (q);
+  mpz_init (r);
+
+  f = mpz_scan1 (t, 0);
+  mpz_div_2exp (t, t, f);
+  while (f)
+    {
+      append_factor_uint (fact, 2);
+      --f;
+    }
+
+  for (;;)
+    {
+      mpz_tdiv_qr_ui (q, r, t, 3);
+      if (mpz_cmp_ui (r, 0) != 0)
+	break;
+      mpz_set (t, q);
+      append_factor_uint (fact, 3);
+    }
+
+  for (;;)
+    {
+      mpz_tdiv_qr_ui (q, r, t, 5);
+      if (mpz_cmp_ui (r, 0) != 0)
+	break;
+      mpz_set (t, q);
+      append_factor_uint (fact, 5);
+    }
+
+  failures = 0;
+  f = 7;
+  ai = 0;
+  while (mpz_cmp_ui (t, 1) != 0)
+    {
+      mpz_tdiv_qr_ui (q, r, t, f);
+      if (mpz_cmp_ui (r, 0) != 0)
+	{
+	  f += addv[ai];
+	  if (mpz_cmp_ui (q, f) < 0)
+	    break;
+	  ai = (ai + 1) & 7;
+	  failures++;
+	  if (failures > limit)
+	    break;
+	}
+      else
+	{
+	  mpz_swap (t, q);
+	  append_factor_uint (fact, f);
+	  failures = 0;
+	}
+    }
+
+  mpz_clear (q);
+  mpz_clear (r);
+}
+
+static void
+factor_using_pollard_rho (GArray *fact, mpz_t n, int a_int)
+{
+  mpz_t x, x1, y, P;
+  mpz_t a;
+  mpz_t g;
+  mpz_t t1, t2;
+  int k, l, c, i;
+
+  if (flag_verbose)
+    {
+      printf ("[pollard-rho (%d)] ", a_int);
+      fflush (stdout);
+    }
+
+  mpz_init (g);
+  mpz_init (t1);
+  mpz_init (t2);
+
+  mpz_init_set_si (a, a_int);
+  mpz_init_set_si (y, 2);
+  mpz_init_set_si (x, 2);
+  mpz_init_set_si (x1, 2);
+  k = 1;
+  l = 1;
+  mpz_init_set_ui (P, 1);
+  c = 0;
+
+  while (mpz_cmp_ui (n, 1) != 0)
+    {
+S2:
+      if (evalnode_hook != NULL) {
+	    static int i = 0;
+	    if (i++ > run_hook_every) {
+		    i = 0;
+		    (*evalnode_hook) ();
+	    }
+      }
+      if (interrupted) {
+	      mpz_set_ui (n, 1);
+	      continue;
+      }
+      mpz_mul (x, x, x); mpz_add (x, x, a); mpz_mod (x, x, n);
+      mpz_sub (t1, x1, x); mpz_mul (t2, P, t1); mpz_mod (P, t2, n);
+      c++;
+      if (c == 20)
+	{
+	  c = 0;
+	  mpz_gcd (g, P, n);
+	  if (mpz_cmp_ui (g, 1) != 0)
+	    goto S4;
+	  mpz_set (y, x);
+	}
+      k--;
+      if (k != 0)
+	goto S2;
+
+      mpz_gcd (g, P, n);
+      if (mpz_cmp_ui (g, 1) != 0)
+	goto S4;
+
+      mpz_set (x1, x);
+      k = l;
+      l = 2 * l;
+      for (i = 0; i < k; i++)
+	{
+	  mpz_mul (x, x, x); mpz_add (x, x, a); mpz_mod (x, x, n);
+	}
+      mpz_set (y, x);
+      c = 0;
+      goto S2;
+S4:
+      do
+	{
+	  mpz_mul (y, y, y); mpz_add (y, y, a); mpz_mod (y, y, n);
+	  mpz_sub (t1, x1, y); mpz_gcd (g, t1, n);
+	}
+      while (mpz_cmp_ui (g, 1) == 0);
+
+      if (!mympz_is_prime (g, -1))
+	{
+	  do
+            {
+              mp_limb_t a_limb;
+              mpn_random (&a_limb, (mp_size_t) 1);
+              a_int = (int) a_limb;
+            }
+	  while (a_int == -2 || a_int == 0);
+
+	  if (flag_verbose)
+	    {
+	      printf ("[composite factor--restarting pollard-rho] ");
+	      fflush (stdout);
+	    }
+	  factor_using_pollard_rho (fact, g, a_int);
+	  break;
+	}
+      else
+	{
+	  append_factor (fact, g);
+	}
+      mpz_div (n, n, g);
+      mpz_mod (x, x, n);
+      mpz_mod (x1, x1, n);
+      mpz_mod (y, y, n);
+      if (mympz_is_prime (n, -1))
+	{
+	  append_factor (fact, n);
+	  break;
+	}
+    }
+
+  mpz_clear (g);
+  mpz_clear (P);
+  mpz_clear (t2);
+  mpz_clear (t1);
+  mpz_clear (a);
+  mpz_clear (x1);
+  mpz_clear (x);
+  mpz_clear (y);
+}
+
+static void
+factor_number (GArray *fact, mpz_t t)
+{
+  unsigned int division_limit;
+
+  /* Set the trial division limit according the size of t.  */
+  division_limit = mpz_sizeinbase (t, 2);
+  if (division_limit > 1000)
+    division_limit = 1000 * 1000;
+  else
+    division_limit = division_limit * division_limit;
+
+  factor_using_division (fact, t, division_limit);
+
+  if (mpz_cmp_ui (t, 1) != 0)
+    {
+      if (flag_verbose)
+	{
+	  printf ("[is number prime?] ");
+	  fflush (stdout);
+	}
+      if (mympz_is_prime (t, -1))
+	append_factor (fact, t);
+      else
+	factor_using_pollard_rho (fact, t, 1);
+    }
+}
+
+GArray *
+mympz_pollard_rho_factorize (mpz_srcptr t)
+{
+	GArray *fact;
+	mpz_t n;
+	int sgn = mpz_sgn (t);
+
+	fact = g_array_new (FALSE /* zero_terminated */,
+			    FALSE /* clear */,
+			    sizeof (GelFactor) /* element_size */);
+
+	mpz_init_set (n, t);
+
+	if (sgn == 0) {
+		append_factor_uint (fact, 0);
+	} if (sgn < 0) {
+		GelFactor f;
+		/* for negative numbers, add -1 to the factors
+		   and factorize -t */
+		mpz_neg (n, n);
+
+		mpz_init_set_si (f.num, -1);
+		f.exp = 1;
+		g_array_append_val (fact, f);
+
+		factor_number (fact, n);
+	} else {
+		append_factor_uint (fact, 1);
+		/* just factor the number */
+		factor_number (fact, n);
+	}
+
+	mpz_clear (n);
+
+	if (interrupted) {
+		mympz_factorization_free (fact);
+		return NULL;
+	}
+
+	return fact;
+
+}
+
+void
+mympz_factorization_free (GArray *fact)
+{
+	int i;
+	for (i = 0; i < fact->len; i++) {
+		mpz_clear (g_array_index (fact, GelFactor, i).num);
+	}
+	g_array_free (fact, TRUE /* free_segment */);
 }
