@@ -43,16 +43,19 @@ open (void)
 }
 
 static gboolean
-save_state (const char *prefix)
+save_state (const char *unique_id)
 {
-	printf("testplugin save_state(%s)\n", prefix);
+	printf("testplugin save_state(%s)\n", unique_id);
 	return FALSE;
 }
 
 static void
-restore_state (const char *prefix)
+restore_state (const char *unique_id)
 {
-	printf ("testplugin restore_state(%s)\n", prefix);
+	printf ("testplugin restore_state(%s)\n", unique_id);
+
+	/* we open on restore */
+	open ();
 }
 
 static GelPluginInfo info = {

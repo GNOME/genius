@@ -259,9 +259,22 @@ main(int argc, char *argv[])
 		}
 	}
 
-	read_plugin_list();
+	{
+		/* FIXME: use this for option parsing,
+		 * we really only need gnome-program for
+		 * gnome_config, perhaps we should switch to
+		 * ve-config anyway */
+		char *fakeargv[] = { argv[0], NULL };
+		gnome_program_init ("genius", VERSION, 
+				    LIBGNOME_MODULE /* module_info */,
+				    1, fakeargv,
+				    /* GNOME_PARAM_POPT_TABLE, options, */
+				    NULL);
+	}
 
-	if(do_compile)
+	gel_read_plugin_list();
+
+	if (do_compile)
 		be_quiet = TRUE;
 	inter = isatty(0) && !files && !do_compile;
 	/*interactive mode, print welcome message*/
@@ -294,6 +307,9 @@ main(int argc, char *argv[])
 	d_singlecontext ();
 
 	if(!do_compile) {
+		/*
+		 * Read main library
+		 */
 		if (access ("../lib/lib.cgel", F_OK) == 0) {
 			/*try the library file in the current/../lib directory*/
 			load_compiled_file (NULL, "../lib/lib.cgel",FALSE);
@@ -301,15 +317,23 @@ main(int argc, char *argv[])
 			load_compiled_file (NULL, LIBRARY_DIR "/gel/lib.cgel", FALSE);
 		}
 
+		/*
+		 * Read init files
+		 */
 		file = g_strconcat(g_getenv("HOME"),"/.geniusinit",NULL);
 		if(file)
 			load_file(NULL, file, FALSE);
 		g_free(file);
 
 		load_file (NULL, "geniusinit.gel", FALSE);
+
+		/*
+		 * Restore plugins
+		 */
+		gel_restore_plugins ();
 	}
 
-	if(files) {
+	if (files != NULL) {
 		GSList *t;
 		do {
 			fp = fopen(files->data,"r");
@@ -322,8 +346,11 @@ main(int argc, char *argv[])
 				puterror(_("Can't open file"));
 			}
 		} while(!fp && files);
-		if(!fp && !files)
+		if(!fp && !files) {
+			if ( ! do_compile)
+				gel_save_plugins ();
 			return 0;
+		}
 	} else {
 		fp = stdin;
 		push_file_info(NULL,1);
@@ -388,6 +415,8 @@ main(int argc, char *argv[])
 					   signal by returning a 1 */
 					if(total_errors_printed)
 						return 1;
+				} else {
+					gel_save_plugins ();
 				}
 				return 0;
 			}
@@ -410,6 +439,8 @@ main(int argc, char *argv[])
 		   signal by returning a 1 */
 		if(total_errors_printed)
 			return 1;
+	} else {
+		gel_save_plugins ();
 	}
 
 	return 0;

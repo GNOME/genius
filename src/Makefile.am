@@ -13,6 +13,7 @@ INCLUDES = \
         -DGNOMELOCALEDIR=\""$(prefix)/$(DATADIRNAME)/locale"\"	\
 	-DG_LOG_DOMAIN=\"Genius\"				\
 	-DDATADIR=\""$(datadir)"\"				\
+	-DLIBEXECDIR=\""$(libexecdir)"\"			\
 	-DICONDIR=\""$(datadir)/pixmaps/genius"\"		\
 	-DLIBRARY_DIR=\""$(datadir)/genius/"\"			\
 	-I$(srcdir)						\
@@ -24,9 +25,9 @@ INCLUDES = \
 	$(EXTRA_WARNING_CFLAGS)
 
 
-# FIXME: the readline helper should go into a library
-# directory.  I've no clue how to set that up
-bin_PROGRAMS = gnome-genius genius genius-readline-helper-fifo
+bin_PROGRAMS = gnome-genius genius
+
+libexec_PROGRAMS = genius-readline-helper-fifo
 
 gnome_genius_SOURCES = 	\
 	calc.c		\
@@ -144,8 +145,15 @@ genius_LDADD = \
 
 plugin_include_HEADERS = \
 	plug_api.h	\
+	geloutput.h	\
+	mpwrap.h	\
 	structs.h	\
-	calc.h		\
+	matrix.h	\
+	matrixw.h	\
+	matop.h		\
+	compil.h	\
+	utype.h		\
+	dict.h		\
 	eval.h
 
 plugin_LTLIBRARIES = libtestplugin.la

@@ -1751,10 +1751,18 @@ load_compiled_file (const char *dirprefix, const char *file, gboolean warn)
 }
 
 static void
+do_cyan (void)
+{
+	if (genius_is_gui) {
+		gel_output_full_string (main_out, "\e[1;36m");
+	}
+}
+
+static void
 do_blue (void)
 {
 	if (genius_is_gui) {
-		gel_output_full_string (main_out, "\e[01;34m");
+		gel_output_full_string (main_out, "\e[1;34m");
 	}
 }
 
@@ -1804,7 +1812,7 @@ print_function_help (GelHelp *help)
 		int len;
 		f = make_function_with_aliases (help->func, help->aliases);
 		len = strlen (f);
-		do_blue ();
+		do_cyan ();
 		if (len <= 20)
 			gel_output_printf_full (main_out, FALSE,
 						"%-20s", f);
@@ -1840,7 +1848,7 @@ print_function_help (GelHelp *help)
 static void
 print_command_help (const char *cmd)
 {
-	do_blue ();
+	do_cyan ();
 	gel_output_printf_full (main_out, FALSE, "%-20s", cmd);
 	do_black ();
 	gel_output_full_string (main_out, " - ");
@@ -1928,7 +1936,7 @@ full_help (void)
 
 		gel_output_full_string (main_out,
 					_("\nUndocumented:\n"));
-		do_blue ();
+		do_cyan ();
 
 		for (fli = functions; fli != NULL; fli = fli->next) {
 			char *f = fli->data;
@@ -2000,7 +2008,7 @@ help_on (const char *text)
 		return;
 	}
 
-	do_blue ();
+	do_cyan ();
 
 	f = d_lookup_global (d_intern (text));
 	if (f == NULL) {
@@ -2253,14 +2261,14 @@ do_exec_commands (const char *dirprefix)
 	case GEL_LOADPLUGIN:
 		g_strstrip (arg);
 
-		for(li=plugin_list;li;li=g_slist_next(li)) {
-			plugin_t *plg = li->data;
-			if(strcmp(plg->base,arg)==0) {
-				open_plugin(plg);
+		for (li = gel_plugin_list; li != NULL; li = li->next) {
+			GelPlugin *plg = li->data;
+			if (strcmp (plg->base, arg)==0) {
+				gel_open_plugin (plg);
 				break;
 			}
 		}
-		if(!li) {
+		if (li == NULL) {
 			char *p = g_strdup_printf(_("Cannot open plugin '%s'!"),
 						  arg);
 			(*errorout)(p);
@@ -2279,7 +2287,12 @@ do_exec_commands (const char *dirprefix)
 					continue;
 				if (stat (de->d_name, &s) == 0 &&
 				    S_ISDIR (s.st_mode)) {
+					if (genius_is_gui)
+						do_blue ();
 					gel_output_string (main_out, de->d_name);
+					if (genius_is_gui)
+						do_black ();
+
 					gel_output_string (main_out, "/\n");
 				}
 			}
@@ -2291,7 +2304,15 @@ do_exec_commands (const char *dirprefix)
 					continue;
 				if (stat (de->d_name, &s) == 0 &&
 				     ! S_ISDIR (s.st_mode)) {
+					char *ext = strchr (de->d_name, '.');
+					if (genius_is_gui &&
+					    ext != NULL &&
+					    strcmp (ext, ".gel") == 0) {
+						do_green ();
+					}
 					gel_output_string (main_out, de->d_name);
+					if (genius_is_gui)
+						do_black ();
 					gel_output_string (main_out, "\n");
 				}
 			}
@@ -2307,7 +2328,11 @@ do_exec_commands (const char *dirprefix)
 			struct stat s;
 			if (stat (li->data, &s) == 0 &&
 			    S_ISDIR (s.st_mode)) {
+				if (genius_is_gui)
+					do_blue ();
 				gel_output_string (main_out, li->data);
+				if (genius_is_gui)
+					do_black ();
 				gel_output_string (main_out, "/\n");
 			}
 		}
@@ -2316,7 +2341,15 @@ do_exec_commands (const char *dirprefix)
 			struct stat s;
 			if (stat (li->data, &s) == 0 &&
 			    ! S_ISDIR (s.st_mode)) {
+				char *ext = strchr (li->data, '.');
+				if (genius_is_gui &&
+				    ext != NULL &&
+				    strcmp (ext, ".gel") == 0) {
+					do_green ();
+				}
 				gel_output_string (main_out, li->data);
+				if (genius_is_gui)
+					do_black ();
 				gel_output_string (main_out, "\n");
 			}
 		}

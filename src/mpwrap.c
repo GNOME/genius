@@ -113,6 +113,7 @@ static int default_mpf_prec = 0;
 	}						\
 }
 
+#if 0
 /*************************************************************************/
 /*cache system                                                           */
 /*************************************************************************/
@@ -126,6 +127,7 @@ struct _MpwCache {
 static MpwCache *mpw_chache_get(int prec);
 static void mpw_chache_unget(MpwCache *mc);
 static GHashTable *mpw_cache_ht = NULL;
+#endif
 
 /*************************************************************************/
 /*low level stuff prototypes                                             */
@@ -4942,6 +4944,7 @@ mpw_ctx_unref(MpwCtx *mctx)
 	}
 }
 
+#if 0
 /*************************************************************************/
 /*cache system                                                           */
 /*************************************************************************/
@@ -4969,3 +4972,4 @@ mpw_chache_unget(MpwCache *mc)
 	mc->use_count--;
 	/* FIXME: clear on 0 */
 }
+#endif

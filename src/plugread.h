@@ -6,6 +6,6 @@
 
 #include "plugin.h"
 
-plugin_t * readplugin(char *dir,char *file);
+GelPlugin * gel_readplugin (const char *dir, const char *file);
 
 #endif

@@ -1,3 +1,24 @@
+Wed Jan 08 13:37:09 2003  George Lebl <jirka@5z.com>
+
+	* src/Makefile.am, src/gnome-genius.c: move the helper program
+	  to libexec
+
+	* src/plugin.[ch], src/plug_api.h, src/Makefile.am,
+	  src/gnome-genius.c, src/calc.c, src/plugread.[ch],
+	  src/testplugin.c, src/genius.c: attempt to make the plugin
+	  stuff a bit more usable and implement the save state and
+	  restore state
+
+	* src/calc.c, src/inter.c: use nicer colors on gui version
+
+	* src/gnome-genius.c: fix saving of preferences, port the
+	  error/info dialog to new gtk
+
+	* src/eval.c, src/mpwrap.c, src/matrixw.c, src/lexer.l,
+	  src/parse.y: fix warnings
+
+	* configure.in: properly enable warnings
+
 Tue Jan 07 18:05:08 2003  George Lebl <jirka@5z.com>
 
 	* src/plug_api.h: minor fixes and a note about the state functions

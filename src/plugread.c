@@ -31,8 +31,8 @@
 #include "plugin.h"
 #include "plugread.h"
 
-plugin_t *
-readplugin(char *dir_name,char *file_name)
+GelPlugin *
+gel_readplugin (const char *dir_name, const char *file_name)
 {
 	char *p;
 	char *name;
@@ -41,7 +41,7 @@ readplugin(char *dir_name,char *file_name)
 	char *author;
 	char *description;
 	int gui;
-	plugin_t *plg;
+	GelPlugin *plg;
 
 	p = g_strconcat("=",dir_name,"/",file_name,
 			"=/Genius Plugin/",NULL);
@@ -66,7 +66,7 @@ readplugin(char *dir_name,char *file_name)
 		g_free(description);
 		return NULL;
 	}
-	plg = g_new0(plugin_t,1);
+	plg = g_new0 (GelPlugin, 1);
 	plg->name = name;
 	plg->base = g_strdup(file_name);
 	p = strstr(plg->base,".plugin");

@@ -45,6 +45,10 @@ extern gboolean pwd_command;
 extern gboolean ls_command;
 extern char *load_plugin;
 
+/* prototype for yylex */
+int yylex(void);
+void yyerror(char *);
+
 %}
 
 %union {

@@ -2935,7 +2935,6 @@ iter_push_args(GelCtx *ctx, GelETree *args)
 static inline void
 iter_push_args_no_modulo_on_2 (GelCtx *ctx, GelETree *args)
 {
-	GelETree *li;
 	ctx->post = FALSE;
 	ctx->current = args;
 	if (ctx->modulo != NULL) {

@@ -926,7 +926,6 @@ gel_matrixw_make_private (GelMatrixW *m)
 void
 gel_matrixw_free(GelMatrixW *m)
 {
-	int i,j;
 	GelMatrixWFreeList *mf;
 	
 	g_return_if_fail(m != NULL);

@@ -115,26 +115,35 @@ count_char (const char *s, char c)
 
 
 /*display a message in a messagebox*/
-static void
-geniusbox(int error, const char *s)
+static GtkWidget *
+geniusbox (gboolean error,
+	   gboolean bind_response,
+	   const char *s)
 {
 	GtkWidget *mb;
-	if(count_char(s,'\n')<=20) {
-		mb=gnome_message_box_new(s,
-					 error?GNOME_MESSAGE_BOX_ERROR:
-					   GNOME_MESSAGE_BOX_INFO,
-					 GNOME_STOCK_BUTTON_OK,NULL);
+	/* if less then 10 lines */
+	if (count_char (s, '\n') <= 10) {
+		GtkMessageType type = GTK_MESSAGE_INFO;
+		if (error)
+			type = GTK_MESSAGE_ERROR;
+		mb = gtk_message_dialog_new (GTK_WINDOW (window) /* parent */,
+					     0 /* flags */,
+					     type,
+					     GTK_BUTTONS_OK,
+					     "%s",
+					     s);
 	} else {
-		GtkWidget *sw,*t;
-		mb=gnome_dialog_new(error?_("Error"):_("Information"),
-				    GNOME_STOCK_BUTTON_OK,
-				    NULL);
-		gtk_signal_connect_object(GTK_OBJECT(mb),"clicked",
-					  GTK_SIGNAL_FUNC(gtk_widget_destroy),
-					  GTK_OBJECT(mb));
-		sw = gtk_scrolled_window_new(NULL,NULL);
-		gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(mb)->vbox),sw,
-				   TRUE,TRUE,0);
+		GtkWidget *sw, *t;
+		mb = gtk_dialog_new_with_buttons
+			(error?_("Error"):_("Information"),
+			 GTK_WINDOW (window) /* parent */,
+			 0 /* flags */,
+			 GTK_STOCK_OK, GTK_RESPONSE_OK,
+			 NULL);
+		sw = gtk_scrolled_window_new (NULL, NULL);
+		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (mb)->vbox),
+				    sw,
+				    TRUE, TRUE, 0);
 		t = gtk_text_new(NULL,NULL);
 		gtk_text_set_editable(GTK_TEXT(t),FALSE);
 		gtk_text_set_line_wrap(GTK_TEXT(t),TRUE);
@@ -145,10 +154,14 @@ geniusbox(int error, const char *s)
 		gtk_container_add(GTK_CONTAINER(sw),t);
 		gtk_widget_set_usize(sw,500,300);
 	}
-	gtk_window_set_transient_for(GTK_WINDOW(mb),
-				     GTK_WINDOW(window));
+	if (bind_response) {
+		g_signal_connect (G_OBJECT (mb), "response",
+				  G_CALLBACK (gtk_widget_destroy),
+				  NULL);
+	}
+	gtk_widget_show_all (mb);
 
-	gtk_widget_show_all(mb);
+	return mb;
 }
 
 
@@ -162,7 +175,7 @@ printout_error_num_and_reset(void)
 						  _("\nToo many errors! (%d followed)"),
 						  errors_printed-curstate.max_errors);
 			}
-			geniusbox(TRUE,errors->str);
+			geniusbox (TRUE, TRUE, errors->str);
 			g_string_free(errors,TRUE);
 			errors=NULL;
 		}
@@ -213,12 +226,12 @@ geniuserror(const char *s)
 }
 
 static void
-printout_info(void)
+printout_info (void)
 {
-	if(infos) {
-		geniusbox(FALSE,infos->str);
-		g_string_free(infos,TRUE);
-		infos=NULL;
+	if (infos != NULL) {
+		geniusbox (FALSE, TRUE, infos->str);
+		g_string_free (infos, TRUE);
+		infos = NULL;
 	}
 }
 
@@ -326,7 +339,6 @@ set_properties (void)
 static void
 quitapp (GtkWidget * widget, gpointer data)
 {
-	set_properties ();
 	gtk_main_quit ();
 }
 
@@ -881,9 +893,9 @@ catch_interrupts (GtkWidget *w, GdkEvent *e)
 }
 
 static void
-open_plugin_cb (GtkWidget *w, plugin_t * plug)
+open_plugin_cb (GtkWidget *w, GelPlugin * plug)
 {
-	open_plugin (plug);
+	gel_open_plugin (plug);
 }
 
 static void
@@ -897,30 +909,42 @@ fork_a_helper (void)
 	foo = NULL;
 	if (access ("./genius-readline-helper-fifo", X_OK) == 0)
 		foo = g_strdup ("./genius-readline-helper-fifo");
+	if (foo == NULL &&
+	    access (LIBEXECDIR "/genius-readline-helper-fifo", X_OK) == 0)
+		foo = g_strdup (LIBEXECDIR "/genius-readline-helper-fifo");
 	if (foo == NULL) {
 		dir = g_path_get_dirname (arg0);
 		foo = g_strconcat
-			(g_path_get_dirname (arg0),
-			 "/genius-readline-helper-fifo", NULL);
+			(dir, "/../libexec/genius-readline-helper-fifo", NULL);
 		if (access (foo, X_OK) != 0) {
 			g_free (foo);
 			foo = NULL;
 		}
+		if (foo == NULL) {
+			foo = g_strconcat
+				(dir, "/genius-readline-helper-fifo", NULL);
+			if (access (foo, X_OK) != 0) {
+				g_free (foo);
+				foo = NULL;
+			}
+		}
+
+		g_free (dir);
 	}
 	if (foo == NULL)
 		foo = g_find_program_in_path ("genius-readline-helper-fifo");
 
 	if (foo == NULL) {
-		/* FIXME: make this nicer */
-		gel_output_printf
-			(main_out,
-			 _("Can't execute genius-readline-helper-fifo!\n"));
-		gtk_main ();
+		GtkWidget *d = geniusbox (TRUE /* error */,
+					  FALSE,
+					  _("Can't execute genius-readline-helper-fifo!\n"));
+
+		gtk_dialog_run (GTK_DIALOG (d));
 
 		unlink (fromrlfifo);
 		unlink (torlfifo);
 
-		_exit (1);
+		exit (1);
 	}
 
 	argv[0] = foo;
@@ -973,7 +997,7 @@ static void
 genius_got_etree (GelETree *e)
 {
 	if (e != NULL) {
-		evalexp_parsed (e, main_out, "= \e[01;34m", TRUE);
+		evalexp_parsed (e, main_out, "= \e[1;36m", TRUE);
 		gel_output_full_string (main_out, "\e[0m");
 		gel_output_flush (main_out);
 	}
@@ -1054,7 +1078,7 @@ main (int argc, char *argv[])
 	evalnode_hook = check_events;
 	statechange_hook = set_state;
 
-	read_plugin_list ();
+	gel_read_plugin_list ();
 
 	/*read gnome_config parameters */
 	get_properties ();
@@ -1096,14 +1120,16 @@ main (int argc, char *argv[])
 		(vte_terminal_get_adjustment (VTE_TERMINAL (term)));
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 	
-	if (plugin_list != NULL) {
+	if (gel_plugin_list != NULL) {
 		GSList *li;
 		int i;
-		plugins = g_new0(GnomeUIInfo,g_slist_length(plugin_list)+1);
+		plugins = g_new0(GnomeUIInfo,g_slist_length(gel_plugin_list)+1);
 		genius_menu[PLUGIN_MENU].moreinfo = plugins;
 		
-		for(i=0,li=plugin_list;li;li=g_slist_next(li),i++) {
-			plugin_t *plug = li->data;
+		for (i = 0, li = gel_plugin_list;
+		     li != NULL;
+		     li = li->next, i++) {
+			GelPlugin *plug = li->data;
 			plugins[i].type = GNOME_APP_UI_ITEM;
 			plugins[i].label = g_strdup(plug->name);
 			plugins[i].hint = g_strdup(plug->description);
@@ -1180,6 +1206,9 @@ main (int argc, char *argv[])
 	  dictionary*/
 	d_singlecontext ();
 
+	/*
+	 * Read main library
+	 */
 	if (access ("../lib/lib.cgel", F_OK) == 0) {
 		/*try the library file in the current/../lib directory*/
 		load_compiled_file (NULL, "../lib/lib.cgel",FALSE);
@@ -1187,6 +1216,9 @@ main (int argc, char *argv[])
 		load_compiled_file (NULL, LIBRARY_DIR "/gel/lib.cgel", FALSE);
 	}
 
+	/*
+	 * Read init files
+	 */
 	file = g_strconcat(g_getenv("HOME"),"/.geniusinit",NULL);
 	if(file)
 		load_file(NULL, file, FALSE);
@@ -1194,15 +1226,26 @@ main (int argc, char *argv[])
 
 	load_file (NULL, "geniusinit.gel", FALSE);
 
-	printout_info();
+	/*
+	 * Restore plugins
+	 */
+	gel_restore_plugins ();
 
-	printout_error_num_and_reset();
+	printout_info ();
+
+	printout_error_num_and_reset ();
 
 	gtk_widget_grab_focus (term);
 
 	start_cb_p_expression (genius_got_etree, torlfp);
 
 	gtk_main ();
+
+	/*
+	 * Save properties and plugins
+	 */
+	set_properties ();
+	gel_save_plugins ();
 
 	close (fromrl);
 	fclose (torlfp);

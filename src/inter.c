@@ -139,15 +139,15 @@ write_all_state_to_rl(FILE *fp)
 	}
 
 	count = 0;
-	for(li = plugin_list;li;li=li->next) {
-		plugin_t *plg = li->data;
+	for(li = gel_plugin_list;li;li=li->next) {
+		GelPlugin *plg = li->data;
 		if(!plg->base)
 			continue;
 		count++;
 	}
 	fprintf(fp,"PLUGINS %d\n",count);
-	for(li = plugin_list;li;li=li->next) {
-		plugin_t *plg = li->data;
+	for(li = gel_plugin_list;li;li=li->next) {
+		GelPlugin *plg = li->data;
 		if(!plg->base)
 			continue;
 		fprintf(fp,"%s\n",plg->base);
@@ -184,7 +184,7 @@ get_cb_p_expression(char *s, FILE *torlfp)
 		p_expr = NULL;
 		(*got_expr_func)(ret);
 		interrupted = FALSE;
-		prompt = "genius> ";
+		prompt = "\e[1mgenius>\e[0m ";
 		goto done_with_get;
 	}
 	if(!*s)	{
@@ -202,7 +202,7 @@ get_cb_p_expression(char *s, FILE *torlfp)
 		p_expr = NULL;
 		(*got_expr_func)(ret);
 		interrupted = FALSE;
-		prompt = "genius> ";
+		prompt = "\e[1mgenius>\e[0m ";
 	}
 done_with_get:
 	if(!p_expr) p_expr = g_string_new("");
@@ -230,7 +230,7 @@ start_cb_p_expression(void (*get_func)(GelETree *), FILE *torlfp)
 	toplevelokg = ok_for_top(p_expr->str);
 
 	write_all_state_to_rl(torlfp);
-	fprintf(torlfp,"READLINE genius> \n");
+	fprintf(torlfp,"READLINE \e[1mgenius>\e[0m \n");
 	fflush(torlfp);
 }
 
@@ -307,11 +307,11 @@ plugin_generator (const char *text, int state)
 
 	if(!state) {
 		len = strlen (text);
-		li = plugin_list;
+		li = gel_plugin_list;
 	}
 
 	while(li) {
-		plugin_t *plg = li->data;
+		GelPlugin *plg = li->data;
 		li = g_slist_next(li);
 		if(!plg->base)
 			continue;

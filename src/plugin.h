@@ -19,23 +19,30 @@
  * USA.
  */
 
-#ifndef _PLUGIN_H_
-#define _PLUGIN_H_
+#ifndef PLUGIN_H__
+#define PLUGIN_H__
 
-typedef struct _plugin_t {
+typedef struct _GelPlugin {
 	char *base;
 	char *file;
 	char *name;
 	char *author;
 	char *copyright;
 	char *description;
-	int gui;
-} plugin_t;
+	gboolean gui;
+
+	/* flags while running */
+	gboolean running;
+	gboolean restore;
+	char *unique_id;
+} GelPlugin;
 
 /*read or reread the plugin list from the share/genius/plugins directory*/
-void read_plugin_list(void);
-extern GSList *plugin_list;
+void gel_read_plugin_list(void);
+extern GSList *gel_plugin_list;
 
-void open_plugin(plugin_t *plug);
+void gel_open_plugin (GelPlugin *plug);
+void gel_save_plugins (void);
+void gel_restore_plugins (void);
 
-#endif
+#endif /* PLUGIN_H__ */

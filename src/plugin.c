@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 #include <glib.h>
 #include <gmodule.h>
 #include <readline/readline.h>
@@ -52,13 +53,13 @@
 #include "plugin.h"
 #include "plugread.h"
 
-GSList *plugin_list = NULL;
+GSList *gel_plugin_list = NULL;
 
 static GHashTable *opened = NULL;
 static GHashTable *info = NULL;
 
 static void
-free_plugin(plugin_t *plg)
+free_plugin(GelPlugin *plg)
 {
 	g_free(plg->base);
 	g_free(plg->file);
@@ -70,16 +71,16 @@ free_plugin(plugin_t *plg)
 }
 
 void
-read_plugin_list(void)
+gel_read_plugin_list (void)
 {
 	DIR *dir;
 	char *dir_name;
 	struct dirent *dent;
 
 	/*free the previous list*/
-	g_slist_foreach(plugin_list,(GFunc)free_plugin,NULL);
-	g_slist_free(plugin_list);
-	plugin_list = NULL;
+	g_slist_foreach(gel_plugin_list,(GFunc)free_plugin,NULL);
+	g_slist_free(gel_plugin_list);
+	gel_plugin_list = NULL;
 	
 	dir_name = g_strconcat(LIBRARY_DIR,"/plugins",NULL);
 	dir = opendir(dir_name);
@@ -89,7 +90,7 @@ read_plugin_list(void)
 	}
 	while((dent = readdir (dir)) != NULL) {
 		char *p;
-		plugin_t *plg;
+		GelPlugin *plg;
 		if(dent->d_name[0] == '.' &&
 		   (dent->d_name[1] == '\0' ||
 		    (dent->d_name[1] == '.' &&
@@ -98,21 +99,21 @@ read_plugin_list(void)
 		p = strrchr(dent->d_name,'.');
 		if(!p || strcmp(p,".plugin")!=0)
 			continue;
-		plg = readplugin(dir_name,dent->d_name);
+		plg = gel_readplugin(dir_name,dent->d_name);
 		if(plg) {
 			if(plg->gui && !genius_is_gui)
 				free_plugin(plg);
 			else
-				plugin_list = g_slist_prepend(plugin_list,plg);
+				gel_plugin_list = g_slist_prepend(gel_plugin_list,plg);
 		}
 	}
 	closedir (dir);
 	g_free(dir_name);
-	plugin_list = g_slist_reverse(plugin_list);
+	gel_plugin_list = g_slist_reverse(gel_plugin_list);
 }
 
-void
-open_plugin(plugin_t *plug)
+static GelPluginInfo *
+open_get_info (GelPlugin *plug)
 {
 	GModule *mod;
 	GelPluginInfo *inf;
@@ -125,7 +126,7 @@ open_plugin(plugin_t *plug)
 		mod = g_module_open(plug->file,G_MODULE_BIND_LAZY);
 		if(!mod) {
 			(*errorout)(_("Can't open plugin!"));
-		 	return;
+		 	return NULL;
 		}
 		g_module_make_resident(mod);
 		g_hash_table_insert(opened,g_strdup(plug->file),mod);
@@ -137,10 +138,121 @@ open_plugin(plugin_t *plug)
 		   !init_func || 
 		   !(inf=(*init_func)())) {
 			(*errorout)(_("Can't initialize plugin!"));
-			return;
+			return NULL;
 		}
 		g_hash_table_insert(info,mod,inf);
 	}
-	
-	(*inf->open)();
+
+	plug->running = TRUE;
+
+	return inf;
+}
+
+void
+gel_open_plugin (GelPlugin *plug)
+{
+	GelPluginInfo *inf;
+
+	inf = open_get_info (plug);
+
+	if (inf != NULL)
+		(*inf->open)();
+}
+
+static void
+restore_plugin (GelPlugin *plug, const char *unique_id)
+{
+	GelPluginInfo *inf;
+
+	inf = open_get_info (plug);
+
+	if (inf != NULL)
+		(*inf->restore_state) (unique_id);
+}
+
+static GelPluginInfo *
+get_info (GelPlugin *plug)
+{
+	GModule *mod;
+	GelPluginInfo *inf;
+
+	if ( ! plug->running ||
+	    opened == NULL ||
+	    info == NULL)
+		return NULL;
+
+	mod = g_hash_table_lookup (opened, plug->file);
+	if (mod == NULL)
+		return NULL;
+
+	inf = g_hash_table_lookup (info, mod);
+
+	return inf;
+}
+
+void
+gel_save_plugins (void)
+{
+	static long int unique_id = 0;
+	GSList *li;
+	GelPluginInfo *inf;
+
+	if (unique_id == 0)
+		unique_id = time (NULL);
+
+	for (li = gel_plugin_list; li != NULL; li = li->next) {
+		GelPlugin *plug = li->data;
+		gboolean saved = FALSE;
+		inf = get_info (plug);
+		if (inf != NULL) {
+			if (plug->unique_id == NULL) {
+				plug->unique_id = g_strdup_printf
+					("ID-%ld", unique_id++);
+			}
+			plug->restore = inf->save_state (plug->unique_id);
+
+			if (plug->restore) {
+				char *key = g_strdup_printf
+					("/genius/plugins/plugin_restore_%s",
+					 plug->base);
+				gnome_config_set_string (key, plug->unique_id);
+				g_free (key);
+				saved = TRUE;
+			}
+		}
+		if ( ! saved) {
+			char *key = g_strdup_printf
+				("/genius/plugins/plugin_restore_%s",
+				 plug->base);
+			gnome_config_set_string (key, "NO");
+			g_free (key);
+		}
+	}
+	gnome_config_sync ();
+}
+
+void
+gel_restore_plugins (void)
+{
+	GSList *li;
+
+	for (li = gel_plugin_list; li != NULL; li = li->next) {
+		GelPlugin *plug = li->data;
+		char *key = g_strdup_printf
+			("/genius/plugins/plugin_restore_%s",
+			 plug->base);
+		char *unique_id = gnome_config_get_string (key);
+		g_free (key);
+
+		if (unique_id == NULL ||
+		    unique_id[0] == '\0' ||
+		    strcmp (unique_id, "NO") == 0) {
+			g_free (unique_id);
+			continue;
+		}
+
+		restore_plugin (plug, unique_id);
+
+		g_free (unique_id);
+	}
 }

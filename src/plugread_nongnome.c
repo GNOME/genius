@@ -27,8 +27,8 @@
 #include "plugin.h"
 #include "plugread.h"
 
-plugin_t *
-readplugin(char *dir_name,char *file_name)
+GelPlugin *
+gel_readplugin (const char *dir_name, const char *file_name)
 {
 	char buf[1024];
 	FILE *fp;
@@ -39,7 +39,7 @@ readplugin(char *dir_name,char *file_name)
 	char *author = NULL;
 	char *description = NULL;
 	int gui = FALSE;
-	plugin_t *plg;
+	GelPlugin *plg;
 	p = g_strconcat(dir_name,"/",file_name,NULL);
 	fp = fopen(p,"r");
 	g_free(p);
@@ -74,7 +74,7 @@ readplugin(char *dir_name,char *file_name)
 		g_free(description);
 		return NULL;
 	}
-	plg = g_new0(plugin_t,1);
+	plg = g_new0 (GelPlugin, 1);
 	plg->name = name;
 	plg->file = file;
 	plg->base = g_strdup(file_name);
