@@ -133,7 +133,7 @@ gel_compile_node(GelETree *t,GString *gs)
 		break;
 	case FUNCTION_NODE:
 		g_assert(t->func.func->type==GEL_USER_FUNC);
-		g_assert(t->func.func->id==NULL);
+		/*g_assert(t->func.func->id==NULL);*/
 		g_string_sprintfa(gs,";%d",t->func.func->nargs);
 		g_string_sprintfa(gs,";%d",t->func.func->vararg);
 		for(li=t->func.func->named_args;li;li=g_slist_next(li)) {

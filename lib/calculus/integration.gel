@@ -1,4 +1,4 @@
-# Numerial integration
+# Numerical integration
 # 
 # The algorithms are described in:
 # Numerical Analysis, 5th edition
@@ -73,3 +73,13 @@ function MidpointRule(f,a,b,n) =
   (s*len)/n
 )
 protect ("MidpointRule")
+
+SetHelp ("NumericalIntegralSteps", "parameters", "Steps to perform in NumericalIntegral")
+parameter NumericalIntegralSteps = 1000
+
+SetHelp ("NumericalIntegralFunction", "parameters", "The function used for numerical integration in NumericalIntegral")
+parameter NumericalIntegralFunction = CompositeSimpsonsRule
+
+SetHelp ("NumericalIntegral", "calculus", "Integration by rule set in NumericalIntegralFunction of f from a to b using NumericalIntegralSteps steps")
+function NumericalIntegral(f,a,b) = (NumericalIntegralFunction call (f,a,b,NumericalIntegralSteps))
+protect ("NumericalIntegral")
