@@ -21,9 +21,11 @@
 
 #include "config.h"
 
+#define GTK_ENABLE_BROKEN
+
 #include <gnome.h>
 #include <gtk/gtk.h>
-#include <zvt/zvtterm.h>
+#include <libzvt/libzvt.h>
 
 #include <string.h>
 #include <unistd.h>
@@ -262,25 +264,47 @@ geniusinfo(char *s)
 static void
 aboutcb(GtkWidget * widget, gpointer data)
 {
-	GtkWidget *mb;
-	char *authors[] = {
+	static GtkWidget *about;
+	static const char *authors[] = {
 		"George Lebl (jirka@5z.com)",
 		NULL
 	};
+	static const char *documenters[] = {
+		"George Lebl (jirka@5z.com)",
+		NULL
+	};
+	const char *translators;
 
-	mb=gnome_about_new (_("GENIUS Calculator"), VERSION,
-			    /* copyright notice */
-			    COPYRIGHT_STRING,
-			    (const char **)authors,
-			    /* another comments */
-			    _("The Gnome calculator style edition of "
-			      "the genius calculator.  For license/warranty "
-			      "details, type 'warranty' into the console."),
-			    NULL);
-	gtk_window_set_transient_for(GTK_WINDOW(mb),
-				     GTK_WINDOW(window));
-			   
-	gtk_widget_show(mb);
+	if (about == NULL) {
+		/* Translators should localize the following string
+		 * which will give them credit in the About box.
+		 * E.g. "Fulano de Tal <fulano@detal.com>"
+		 */
+		translators = _("translator_credits-PLEASE_ADD_YOURSELF_HERE");
+
+		about = gnome_about_new
+			(_("GENIUS Calculator"),
+			 VERSION,
+			 COPYRIGHT_STRING,
+			 _("The Gnome calculator style edition of "
+			   "the genius calculator.  For license/warranty "
+			   "details, type 'warranty' into the console."),
+			 authors,
+			 documenters,
+			(strcmp (translators, "translator_credits-PLEASE_ADD_YOURSELF_HERE")
+			 ? translators : NULL),
+			NULL);
+
+		gtk_window_set_transient_for (GTK_WINDOW (about),
+					      GTK_WINDOW (window));
+
+		g_signal_connect (about, "destroy",
+				  G_CALLBACK (gtk_widget_destroyed),
+				  &about);
+	}
+
+	gtk_widget_show_now (about);
+	gtk_window_present (GTK_WINDOW (about));
 }
 
 static void
@@ -624,19 +648,21 @@ fs_destroy_cb(GtkWidget *w, GtkWidget **fs)
 }
 
 static void
-really_load_cb(GtkWidget *w,GtkFileSelection *fs)
+really_load_cb (GtkWidget *w, GtkFileSelection *fs)
 {
-	char *s;
-	s = gtk_file_selection_get_filename(fs);
-	if(!s || !g_file_exists(s)) {
-		gnome_app_error(GNOME_APP(window), _("Can not open file!"));
+	const char *s;
+	s = gtk_file_selection_get_filename (fs);
+	if (s == NULL ||
+	    ! g_file_exists (s)) {
+		gnome_app_error (GNOME_APP (window),
+				 _("Can not open file!"));
 		return;
 	}
-	load_guess_file(NULL, s, TRUE);
+	load_guess_file (NULL, s, TRUE);
 
-	printout_info();
+	printout_info ();
 
-	printout_error_num_and_reset();
+	printout_error_num_and_reset ();
 }
 
 static void

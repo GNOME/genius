@@ -88,9 +88,9 @@ GelETree * parseexp(const char *str, FILE *infile, gboolean load_files, gboolean
 GelETree * runexp(GelETree *exp);
 
 void compile_all_user_funcs(FILE *outfile);
-void load_compiled_file(const char *dirprefix, const char *file, int warn);
-void load_file(const char *dirprefix, const char *file, int warn);
-void load_guess_file(const char *dirprefix, const char *file, int warn);
+void load_compiled_file(const char *dirprefix, const char *file, gboolean warn);
+void load_file(const char *dirprefix, const char *file, gboolean warn);
+void load_guess_file(const char *dirprefix, const char *file, gboolean warn);
 void set_new_calcstate(calcstate_t state);
 void set_new_errorout(void (*func)(char *));
 void set_new_infoout(void (*func)(char *));

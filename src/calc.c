@@ -1110,7 +1110,7 @@ continue_reading:	;
 }
 
 void
-load_compiled_file (const char *dirprefix, const char *file, int warn)
+load_compiled_file (const char *dirprefix, const char *file, gboolean warn)
 {
 	FILE *fp;
 	char *newfile;
@@ -1122,7 +1122,7 @@ load_compiled_file (const char *dirprefix, const char *file, int warn)
 		push_file_info(newfile,1);
 		load_compiled_fp(newfile,fp);
 		pop_file_info();
-	} else if(warn) {
+	} else if (warn) {
 		char buf[256];
 		g_snprintf(buf,256,_("Can't open file: '%s'"), newfile);
 		(*errorout)(buf);
@@ -1165,7 +1165,7 @@ load_fp(FILE *fp, char *dirprefix)
 }
 
 void
-load_file(const char *dirprefix, const char *file, int warn)
+load_file (const char *dirprefix, const char *file, gboolean warn)
 {
 	FILE *fp;
 	char *newfile;
@@ -1183,7 +1183,7 @@ load_file(const char *dirprefix, const char *file, int warn)
 		pop_file_info();
 		g_free(dir);
 		got_eof = oldgeof;
-	} else if(warn) {
+	} else if (warn) {
 		char buf[256];
 		g_snprintf(buf,256,_("Can't open file: '%s'"),newfile);
 		(*errorout)(buf);
@@ -1193,7 +1193,7 @@ load_file(const char *dirprefix, const char *file, int warn)
 }
 
 void
-load_guess_file(const char *dirprefix, const char *file, int warn)
+load_guess_file (const char *dirprefix, const char *file, gboolean warn)
 {
 	FILE *fp;
 	char *newfile;
@@ -1219,7 +1219,7 @@ load_guess_file(const char *dirprefix, const char *file, int warn)
 		}
 		pop_file_info();
 		got_eof = oldgeof;
-	} else if(warn) {
+	} else if (warn) {
 		char buf[256];
 		g_snprintf(buf,256,_("Can't open file: '%s'"), newfile);
 		(*errorout)(buf);
