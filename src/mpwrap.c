@@ -246,14 +246,13 @@ static int default_mpf_prec = 0;
 	}						\
 }
 #define MAKE_IMAG(n) {					\
-	if(n->type==MPW_COMPLEX) {			\
-		if(n->r != zero) {			\
-			n->r->alloc.usage--;		\
-			if(n->r->alloc.usage==0)	\
-				mpwl_free(n->r,FALSE);	\
-			n->r = zero;			\
-			zero->alloc.usage++;		\
-		}					\
+	n->type = MPW_COMPLEX;				\
+	if(n->r != zero) {				\
+		n->r->alloc.usage--;			\
+		if(n->r->alloc.usage==0)		\
+			mpwl_free(n->r,FALSE);		\
+		n->r = zero;				\
+		zero->alloc.usage++;			\
 	}						\
 }
 
@@ -1449,7 +1448,7 @@ mpwl_init_type(MpwRealNum *op,int type)
 }
 
 static void
-mpwl_free(MpwRealNum *op, int local)
+mpwl_free(MpwRealNum *op, gboolean local)
 {
 	if(!op) return;
 	mpwl_clear(op);
@@ -5059,28 +5058,73 @@ mpw_odd_p(mpw_ptr op)
 }
 
 void
-mpw_pow(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
+mpw_pow (mpw_ptr rop, mpw_ptr op1, mpw_ptr op2)
 {
 	if(op1->type==MPW_REAL && op2->type==MPW_REAL) {
 		MAKE_REAL(rop);
 		MAKE_COPY(rop->r);
 		if(mpwl_pow(rop->r,op1->r,op2->r)) {
-			mpw_t tmp;
-			mpw_init(tmp);
-			mpw_ln(tmp,op1);
-			mpw_mul(tmp,tmp,op2);
-			mpw_exp(tmp,tmp);
-			mpw_set(rop,tmp);
-			mpw_clear(tmp);
+			goto backup_mpw_pow;
 		}
+	} else if (op2->type == MPW_REAL &&
+		   (op2->r->type == MPW_INTEGER || op2->r->type == MPW_NATIVEINT) &&
+		   op1->i->type != MPW_FLOAT &&
+		   mpwl_sgn (op1->r) == 0) {
+		MpwRealNum t = {{NULL}};
+		MpwRealNum t2 = {{NULL}};
+		mpwl_init_type (&t, op1->i->type);
+		mpwl_init_type (&t2, op2->r->type);
+		mpwl_set (&t2, op2->r);
+
+		if (mpwl_pow (&t, op1->i, op2->r)) {
+			mpwl_free (&t2, TRUE);
+			mpwl_free (&t, TRUE);
+			goto backup_mpw_pow;
+
+		}
+
+		if (mpwl_even_p (op2->r)) {
+			/*even*/
+			MAKE_REAL (rop);
+			MAKE_COPY (rop->r);
+
+			mpwl_div_ui (&t2, &t2, 2);
+			if (mpwl_even_p (&t2)) {
+				/* divisible by 4 */
+				mpwl_set (rop->r, &t);
+			} else {
+				mpwl_neg (rop->r, &t);
+			}
+		} else {
+			/*odd*/
+			MAKE_IMAG (rop);
+			MAKE_COPY (rop->i);
+
+			mpwl_sub_ui (&t2, &t2, 1);
+			mpwl_div_ui (&t2, &t2, 2);
+			if (mpwl_even_p (&t2)) {
+				/* (exponent-1) divisible by 4 */
+				mpwl_set (rop->i, &t);
+			} else {
+				mpwl_neg (rop->i, &t);
+			}
+		}
+
+		mpwl_free (&t2, TRUE);
+		mpwl_free (&t, TRUE);
 	} else {
+		goto backup_mpw_pow;
+	}
+	return;
+backup_mpw_pow:
+	{
 		mpw_t tmp;
-		mpw_init(tmp);
-		mpw_ln(tmp,op1);
-		mpw_mul(tmp,tmp,op2);
-		mpw_exp(tmp,tmp);
-		mpw_set(rop,tmp);
-		mpw_clear(tmp);
+		mpw_init (tmp);
+		mpw_ln (tmp, op1);
+		mpw_mul (tmp, tmp, op2);
+		mpw_exp (tmp, tmp);
+		mpw_set (rop, tmp);
+		mpw_clear (tmp);
 	}
 }
 
