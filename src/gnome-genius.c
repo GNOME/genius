@@ -631,8 +631,8 @@ set_properties (void)
 	gnome_config_sync();
 }
 
-static void
-display_error (GtkWidget *parent, const char *err)
+void
+genius_display_error (GtkWidget *parent, const char *err)
 {
 	static GtkWidget *w = NULL;
 
@@ -687,8 +687,8 @@ display_warning (GtkWidget *parent, const char *warn)
 	gtk_widget_destroy (w);
 }
 
-static gboolean
-ask_question (GtkWidget *parent, const char *question)
+gboolean
+genius_ask_question (GtkWidget *parent, const char *question)
 {
 	int ret;
 	static GtkWidget *req = NULL;
@@ -748,31 +748,31 @@ quitapp (GtkWidget * widget, gpointer data)
 {
 	if (any_changed ()) {
 		if (calc_running) {
-			if ( ! ask_question (NULL,
-					     _("Genius is executing something, "
-					       "and furthermore there are "
-					       "unsaved programs.\nAre "
-					       "you sure you wish to quit?")))
+			if ( ! genius_ask_question (NULL,
+						    _("Genius is executing something, "
+						      "and furthermore there are "
+						      "unsaved programs.\nAre "
+						      "you sure you wish to quit?")))
 				return;
 			interrupted = TRUE;
 		} else {
-			if ( ! ask_question (NULL,
-					     _("There are unsaved programs, "
-					       "are you sure you wish to quit?")))
+			if ( ! genius_ask_question (NULL,
+						    _("There are unsaved programs, "
+						      "are you sure you wish to quit?")))
 				return;
 		}
 	} else {
 		if (calc_running) {
-			if ( ! ask_question (NULL,
-					     _("Genius is executing something, "
-					       "are you sure you wish to "
-					       "quit?")))
+			if ( ! genius_ask_question (NULL,
+						    _("Genius is executing something, "
+						      "are you sure you wish to "
+						      "quit?")))
 				return;
 			interrupted = TRUE;
 		} else {
-			if ( ! ask_question (NULL,
-					     _("Are you sure you wish "
-					       "to quit?")))
+			if ( ! genius_ask_question (NULL,
+						    _("Are you sure you wish "
+						      "to quit?")))
 				return;
 		}
 	}
@@ -1225,9 +1225,9 @@ really_load_cb (GtkWidget *w, GtkFileSelection *fs)
 	s = gtk_file_selection_get_filename (fs);
 #endif
 	if (s == NULL ||
-	    ! uri_exists (s)) {
-		display_error (GTK_WIDGET (fs),
-			       _("Cannot open file!"));
+	    access (s, F_OK) != 0) {
+		genius_display_error (GTK_WIDGET (fs),
+				      _("Cannot open file!"));
 		return;
 	}
 
@@ -1686,7 +1686,7 @@ reload_cb (GtkWidget *menu_item)
 		g_free (contents);
 		selected_program->changed = FALSE;
 	} else {
-		display_error (NULL, _("Cannot open file"));
+		genius_display_error (NULL, _("Cannot open file"));
 	}
 
 	selected_program->ignore_changes--;
@@ -1804,7 +1804,7 @@ new_program (const char *filename)
 			g_free (contents);
 		} else {
 			char *s = g_strdup_printf (_("Cannot open %s"), filename);
-			display_error (NULL, s);
+			genius_display_error (NULL, s);
 			g_free (s);
 		}
 		p->vname = g_path_get_basename (p->name);
@@ -1849,9 +1849,9 @@ really_open_cb (GtkWidget *w, GtkFileSelection *fs)
 	s = gtk_file_selection_get_filename (fs);
 #endif
 	if (s == NULL ||
-	    ! uri_exists (s) != 0) {
-		display_error (GTK_WIDGET (fs),
-			       _("Cannot open file!"));
+	    ! uri_exists (s)) {
+		genius_display_error (GTK_WIDGET (fs),
+				      _("Cannot open file!"));
 		return;
 	}
 
@@ -1975,7 +1975,7 @@ save_callback (GtkWidget *w)
 		char *err = g_strdup_printf (_("<b>Cannot save file</b>\n"
 					       "Details: %s"),
 					     g_strerror (errno));
-		display_error (NULL, err);
+		genius_display_error (NULL, err);
 		g_free (err);
 	}
 }
@@ -2019,8 +2019,8 @@ really_save_as_cb (GtkWidget *w, GtkFileSelection *fs)
 	}
 	g_free (base);
 	
-	if ( ! uri_exists (s) &&
-	    ! ask_question (GTK_WIDGET (fs),
+	if (uri_exists (s) &&
+	    ! genius_ask_question (GTK_WIDGET (fs),
 			    _("File already exists.  Overwrite it?"))) {
 		g_free (s);
 		return;
@@ -2030,7 +2030,7 @@ really_save_as_cb (GtkWidget *w, GtkFileSelection *fs)
 		char *err = g_strdup_printf (_("<b>Cannot save file</b>\n"
 					       "Details: %s"),
 					     g_strerror (errno));
-		display_error (GTK_WIDGET (fs), err);
+		genius_display_error (GTK_WIDGET (fs), err);
 		g_free (err);
 		g_free (s);
 		return;
@@ -2173,10 +2173,10 @@ run_program (GtkWidget *menu_item, gpointer data)
 	const char *name;
 	GtkTextBuffer *buffer;
 	if (selected_program == NULL) /* if nothing is selected */ {
-		display_error (NULL,
-			       _("<b>No program selected.</b>\n\n"
-				 "Create a new program, or select an "
-				 "existing tab in the notebook."));
+		genius_display_error (NULL,
+				      _("<b>No program selected.</b>\n\n"
+					"Create a new program, or select an "
+					"existing tab in the notebook."));
 		return;
 	}
 	buffer = selected_program->buffer;
@@ -2677,6 +2677,7 @@ get_version_details (void)
 	if (str != NULL)
 		return str->str;
 	str = g_string_new (NULL);
+
 #ifndef HAVE_MPFR
 	g_string_append (str, _("\nNote: Compiled without MPFR (some operations may be slow) "
 				"see www.mpfr.org"));

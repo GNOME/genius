@@ -123,31 +123,6 @@ plot_window_setup (void)
 }
 
 static void
-display_error (const char *err)
-{
-	static GtkWidget *w = NULL;
-
-	if (w != NULL)
-		gtk_widget_destroy (w);
-
-	w = gtk_message_dialog_new (GTK_WINDOW (genius_window) /* parent */,
-				    GTK_DIALOG_MODAL /* flags */,
-				    GTK_MESSAGE_ERROR,
-				    GTK_BUTTONS_CLOSE,
-				    "%s",
-				    err);
-	gtk_label_set_use_markup
-		(GTK_LABEL (GTK_MESSAGE_DIALOG (w)->label), TRUE);
-
-	g_signal_connect (G_OBJECT (w), "destroy",
-			  G_CALLBACK (gtk_widget_destroyed),
-			  &w);
-
-	gtk_dialog_run (GTK_DIALOG (w));
-	gtk_widget_destroy (w);
-}
-
-static void
 dialog_response (GtkWidget *w, int response, gpointer data)
 {
 	if (response == GTK_RESPONSE_CLOSE ||
@@ -161,42 +136,321 @@ dialog_response (GtkWidget *w, int response, gpointer data)
 }
 
 static void
+print_entry_activate (GtkWidget *entry, gpointer data)
+{
+	gtk_dialog_response (GTK_DIALOG (data), GTK_RESPONSE_OK);
+}
+
+
+static void
 plot_print_cb (void)
 {
-	/* FIXME: print */
+	gboolean ret;
+	GtkWidget *req = NULL;
+	GtkWidget *hbox, *w, *cmd;
+	int fd;
+	char tmpfile[] = "/tmp/genius-ps-XXXXXX";
+	static char *last_cmd = NULL;
+
+	if (last_cmd == NULL)
+		last_cmd = g_strdup ("lpr");
+
+	req = gtk_dialog_new_with_buttons
+		(_("Print") /* title */,
+		 GTK_WINDOW (graph_window) /* parent */,
+		 GTK_DIALOG_MODAL /* flags */,
+		 GTK_STOCK_CANCEL,
+		 GTK_RESPONSE_CANCEL,
+		 GTK_STOCK_PRINT,
+		 GTK_RESPONSE_OK,
+		 NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (req),
+					 GTK_RESPONSE_OK);
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (req), FALSE);
+
+	hbox = gtk_hbox_new (FALSE, GNOME_PAD);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+			    hbox, TRUE, TRUE, 0);
+
+	w = gtk_label_new (_("Print command: "));
+	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
+
+	cmd = gtk_entry_new ();
+	g_signal_connect (G_OBJECT (cmd), "activate",
+			  G_CALLBACK (print_entry_activate), req);
+	gtk_box_pack_start (GTK_BOX (hbox), cmd, TRUE, TRUE, 0);
+
+	gtk_entry_set_text (GTK_ENTRY (cmd), last_cmd);
+
+	gtk_widget_show_all (hbox);
+
+	g_signal_connect (G_OBJECT (req), "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &req);
+
+	if (gtk_dialog_run (GTK_DIALOG (req)) != GTK_RESPONSE_OK) {
+		gtk_widget_destroy (req);
+		return;
+	}
+
+	last_cmd = g_strdup (gtk_entry_get_text (GTK_ENTRY (cmd)));
+
+	gtk_widget_destroy (req);
+
+	fd = g_mkstemp (tmpfile);
+	if (fd < 0) {
+		genius_display_error (graph_window, _("Cannot open temporary file, cannot print."));
+		return;
+	}
+
+	plot_in_progress ++;
+	plot_window_setup ();
+
+	/* Letter will fit on A4, so just currently do that */
+	ret = gtk_plot_export_ps (GTK_PLOT (line_plot),
+				  tmpfile,
+				  GTK_PLOT_LANDSCAPE,
+				  FALSE /* epsflag */,
+				  GTK_PLOT_LETTER);
+
+	if ( ! ret || interrupted) {
+		plot_in_progress --;
+		plot_window_setup ();
+
+		if ( ! interrupted)
+			genius_display_error (graph_window, _("Printing failed"));
+		interrupted = FALSE;
+		close (fd);
+		unlink (tmpfile);
+		return;
+	}
+
+	{
+		char *cmdstring = g_strdup_printf ("cat %s | %s", tmpfile, last_cmd);
+		system (cmdstring);
+		g_free (cmdstring);
+	}
+
+	plot_in_progress --;
+	plot_window_setup ();
+
+	close (fd);
+	unlink (tmpfile);
+}
+
+static char *last_export_dir = NULL;
+
+#if ! GTK_CHECK_VERSION(2,3,5)
+static void
+setup_last_dir (const char *filename)
+{
+	char *s = g_path_get_dirname (filename);
+
+	g_free (last_export_dir);
+	if (s == NULL) {
+		last_export_dir = NULL;
+		return;
+	}
+	if (strcmp(s, "/") == 0) {
+		last_export_dir = s;
+		return;
+	}
+	last_export_dir = g_strconcat (s, "/", NULL);
+	g_free (s);
+}
+#endif
+
+#if GTK_CHECK_VERSION(2,3,5)
+static void
+really_export_cb (GtkFileChooser *fs, int response, gpointer data)
+#else
+static void
+really_export_cb (GtkWidget *w, GtkFileSelection *fs, gpointer data)
+#endif
+{
+	char *s;
+	char *base;
+	gboolean ret;
+	gboolean eps = GPOINTER_TO_INT (data);
+
+#if GTK_CHECK_VERSION(2,3,5)
+	if (response != GTK_RESPONSE_OK) {
+		gtk_widget_destroy (GTK_WIDGET (fs));
+		/* FIXME: don't want to deal with modality issues right now */
+		gtk_widget_set_sensitive (graph_window, TRUE);
+		return;
+	}
+#endif
+
+#if GTK_CHECK_VERSION(2,3,5)
+	s = g_strdup (gtk_file_chooser_get_filename (fs));
+#else
+	s = g_strdup (gtk_file_selection_get_filename (fs));
+#endif
+	if (s == NULL)
+		return;
+	base = g_path_get_basename (s);
+	if (base != NULL && base[0] != '\0' &&
+	    strchr (base, '.') == NULL) {
+		char *n;
+		if (eps)
+			n = g_strconcat (s, ".eps", NULL);
+		else
+			n = g_strconcat (s, ".ps", NULL);
+		g_free (s);
+		s = n;
+	}
+	g_free (base);
+	
+	if (access (s, F_OK) == 0 &&
+	    ! genius_ask_question (GTK_WIDGET (fs),
+				   _("File already exists.  Overwrite it?"))) {
+		g_free (s);
+		return;
+	}
+
+#if GTK_CHECK_VERSION(2,3,5)
+	g_free (last_export_dir);
+	last_export_dir = gtk_file_chooser_get_current_folder (fs);
+#else
+	setup_last_dir (s);
+#endif
+
+	gtk_widget_destroy (GTK_WIDGET (fs));
+	/* FIXME: don't want to deal with modality issues right now */
+	gtk_widget_set_sensitive (graph_window, TRUE);
+
+	plot_in_progress ++;
+	plot_window_setup ();
+
+	/* FIXME: There should be some options about size and stuff */
+	ret = gtk_plot_export_ps_with_size (GTK_PLOT (line_plot),
+					    s,
+					    GTK_PLOT_PORTRAIT,
+					    eps /* epsflag */,
+					    GTK_PLOT_PSPOINTS,
+					    400, ASPECT * 400);
+
+	plot_in_progress --;
+	plot_window_setup ();
+
+	if ( ! ret || interrupted) {
+		if ( ! interrupted)
+			genius_display_error (graph_window, _("Export failed"));
+		g_free (s);
+		interrupted = FALSE;
+		return;
+	}
+
+	g_free (s);
+}
+
+#if ! GTK_CHECK_VERSION(2,3,5)
+static void
+really_cancel_export_cb (GtkWidget *w, GtkFileSelection *fs)
+{
+	gtk_widget_destroy (GTK_WIDGET (fs));
+	/* FIXME: don't want to deal with modality issues right now */
+	gtk_widget_set_sensitive (graph_window, TRUE);
+}
+#endif
+
+static void
+do_export_cb (gboolean eps)
+{
+	static GtkWidget *fs = NULL;
+#if GTK_CHECK_VERSION(2,3,5)
+	GtkFileFilter *filter_ps;
+	GtkFileFilter *filter_all;
+#endif
+	const char *title;
+
+	if (fs != NULL) {
+		gtk_window_present (GTK_WINDOW (fs));
+		return;
+	}
+
+	/* FIXME: don't want to deal with modality issues right now */
+	gtk_widget_set_sensitive (graph_window, FALSE);
+
+	if (eps)
+		title = _("Export encapsulated postscript");
+	else
+		title = _("Export postscript");
+
+#if GTK_CHECK_VERSION(2,3,5)
+	fs = gtk_file_chooser_dialog_new (title,
+					  GTK_WINDOW (graph_window),
+					  GTK_FILE_CHOOSER_ACTION_SAVE,
+					  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					  GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					  NULL);
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (fs), TRUE);
+
+
+	filter_ps = gtk_file_filter_new ();
+	if (eps) {
+		gtk_file_filter_set_name (filter_ps, _("EPS files"));
+		gtk_file_filter_add_pattern (filter_ps, "*.eps");
+		gtk_file_filter_add_pattern (filter_ps, "*.EPS");
+	} else {
+		gtk_file_filter_set_name (filter_ps, _("PS files"));
+		gtk_file_filter_add_pattern (filter_ps, "*.ps");
+		gtk_file_filter_add_pattern (filter_ps, "*.PS");
+	}
+
+	filter_all = gtk_file_filter_new ();
+	gtk_file_filter_set_name (filter_all, _("All files"));
+	gtk_file_filter_add_pattern (filter_all, "*");
+
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (fs), filter_ps);
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (fs), filter_all);
+	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (fs), filter_ps);
+
+	g_signal_connect (G_OBJECT (fs), "destroy",
+			  G_CALLBACK (gtk_widget_destroyed), &fs);
+	g_signal_connect (G_OBJECT (fs), "response",
+			  G_CALLBACK (really_export_cb),
+			  GINT_TO_POINTER (eps));
+
+	if (last_export_dir != NULL) {
+		gtk_file_chooser_set_current_folder
+			(GTK_FILE_CHOOSER (fs), last_export_dir);
+	}
+#else
+	fs = gtk_file_selection_new (title);
+	
+	gtk_window_set_position (GTK_WINDOW (fs), GTK_WIN_POS_MOUSE);
+
+	g_signal_connect (G_OBJECT (fs), "destroy",
+			  G_CALLBACK (gtk_widget_destroyed), &fs);
+	
+	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
+			  "clicked", G_CALLBACK (really_export_cb),
+			  fs);
+	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->cancel_button),
+			  "clicked", G_CALLBACK (really_cancel_export_cb),
+			  fs);
+
+	if (last_export_dir != NULL)
+		gtk_file_selection_set_filename
+			(GTK_FILE_SELECTION (fs), last_export_dir);
+#endif
+
+	gtk_widget_show (fs);
 }
 
 static void
 plot_exportps_cb (void)
 {
-#if 0
-	gtk_plot_export_ps_with_size (GTK_PLOT (line_plot),
-				      "out.ps",
-				      GTK_PLOT_PORTRAIT,
-				      FALSE /* epsflag */,
-				      GTK_PLOT_PSPOINTS,
-				      400, ASPECT * 400);
-	gtk_plot_export_ps (GTK_PLOT (line_plot),
-			    "out.ps",
-			    GTK_PLOT_LANDSCAPE,
-			    FALSE /* epsflag */,
-			    GTK_PLOT_LETTER);
-#endif
-	/* FIXME: exportps */
+	do_export_cb (FALSE);
 }
 
 static void
 plot_exporteps_cb (void)
 {
-#if 0
-	gtk_plot_export_ps_with_size (GTK_PLOT (line_plot),
-				      "out.eps",
-				      GTK_PLOT_PORTRAIT,
-				      TRUE /* epsflag */,
-				      GTK_PLOT_PSPOINTS,
-				      400, ASPECT * 400);
-	/* FIXME: exporteps */
-#endif
+	do_export_cb (TRUE);
 }
 
 static void
@@ -600,42 +854,6 @@ call_func (GelCtx *ctx, GelEFunc *func, GelETree *arg, gboolean *ex)
 	gel_freetree (ret);
 	return retd;
 }
-
-/*
-static void
-plot_line (GnomeCanvasItem **line, GnomeCanvasItem **progress_line,
-	   const char *color,
-	   GnomeCanvasPoints *points,
-	   GnomeCanvasPoints *progress_points,
-	   int num)
-{
-	int old_points = points->num_points;
-	points->num_points = num;
-
-	if (*line != NULL)
-		gtk_object_destroy (GTK_OBJECT (*line));
-	if (*progress_line != NULL)
-		gtk_object_destroy (GTK_OBJECT (*progress_line));
-	*line = gnome_canvas_item_new (graph,
-				       gnome_canvas_line_get_type (),
-				       "fill_color", color,
-				       "width_units", 1.5,
-				       "points", points,
-				       NULL);
-	if (progress_points != NULL) {
-		progress_points->coords[2] = points->coords[(num-1)*2];
-		*progress_line = gnome_canvas_item_new
-			(graph,
-			 gnome_canvas_line_get_type (),
-			 "fill_color", color,
-			 "width_units", 10.0,
-			 "points", progress_points,
-			 NULL);
-	}
-
-	points->num_points = old_points;
-}
-*/
 
 static double
 plot_func_data (GtkPlot *plot, GtkPlotData *data, double x, gboolean *error)
@@ -1240,7 +1458,7 @@ whack_copied_funcs:
 	genius_setup.error_box = last_error;
 
 	if (error_to_print != NULL)
-		display_error (error_to_print);
+		genius_display_error (genius_window, error_to_print);
 }
 
 static void

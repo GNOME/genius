@@ -1,3 +1,20 @@
+Wed Aug 04 17:27:08 2004  George Lebl <jirka@5z.com>
+
+	* gui/gnome-genius.[ch], gui/graphing.c: implement the printing
+	  and ps/eps export at least in a rudimentary way.
+
+Wed Aug 04 17:27:06 2004  George Lebl <jirka@5z.com>
+
+	* gtkextra/*, configure.in: import some files from gtkextra-2 for the
+	  GtkPlot* and friends
+
+	* src/gnome-genius.[ch], src/graphing.c: whack the old graphing
+	  nonsense and use gtkextra gtkplot.  Right now it has no added
+	  functionality over the old plotting, but it looks different.
+	  However we will have PS/EPS export and printing pretty easily
+	  now and further we can now easily also add parametric and surface
+	  plots and flows and such.
+
 Thu Jul 29 09:55:10 2004  George Lebl <jirka@5z.com>
 
 	* src/eval.[ch]: Allocate all memory for GelETree's, and the
