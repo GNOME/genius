@@ -389,7 +389,7 @@ geniuserror(const char *s)
 		gtk_text_buffer_get_iter_at_line
 			(GTK_TEXT_BUFFER (running_program->buffer),
 			 &iter,
-			 line);
+			 line-1);
 		gtk_text_buffer_place_cursor
 			(GTK_TEXT_BUFFER (running_program->buffer),
 			 &iter);
