@@ -38,26 +38,7 @@ my_malloc(size_t size)
 void *
 my_realloc(void *ptr,size_t olds,size_t news)
 {
-	void *p;
-	
-	if(news<=0) /*what kind of request would that be*/
-		return NULL;
-
-	p=g_malloc(news);
-	if(!p) {
-		if(ptr) g_free(ptr);
-		return NULL;
-	}
-
-	if(ptr && olds>0) {
-		if(news<olds)
-			memcpy(p,ptr,news);
-		else
-			memcpy(p,ptr,olds);
-		g_free(ptr);
-	} else			/*in case it's a string and original was NULL*/
-		*(char *)p='\0';/*make an empty string*/
-	return p;
+	return g_realloc (ptr, news);
 }
 
 void
@@ -81,9 +62,11 @@ shiftstr(char *s,int n)
 
 /*allocate new space in s for p and append it*/
 char *
-appendstr(char *s,char *p)
+appendstr (char *s,const char *p)
 {
-	if(s) {
+	if (p == NULL || *p == '\0')
+		return s;
+	if (s) {
 		s=my_realloc(s,strlen(s)+1,strlen(s)+strlen(p)+1);
 		strcat(s,p);
 	} else {
@@ -95,9 +78,11 @@ appendstr(char *s,char *p)
 
 /*allocate new space in s for p and prepend it*/
 char *
-prependstr(char *s,char *p)
+prependstr(char *s,const char *p)
 {
 	char *p2;
+	if (p == NULL || *p == '\0')
+		return s;
 	if(s) {
 		p2=(char *)g_malloc(strlen(s)+strlen(p)+1);
 		strcpy(p2,p);

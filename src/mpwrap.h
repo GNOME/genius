@@ -28,13 +28,17 @@
 #include <gmp.h>
 #endif
 
-#define MPW_NATIVEINT	1
-#define MPW_INTEGER	2
-#define MPW_RATIONAL	3
-#define MPW_FLOAT	4
+enum {
+	MPW_NATIVEINT = 1,
+	MPW_INTEGER,
+	MPW_RATIONAL,
+	MPW_FLOAT
+};
 
-#define MPW_REAL	1
-#define MPW_COMPLEX	2
+enum {
+	MPW_REAL = 1,
+	MPW_COMPLEX
+};
 
 /*number structures, this is where low level stuff is stored so it will be
   different for each lib, members should never be directly accessed!*/
@@ -204,13 +208,20 @@ void mpw_make_float(mpw_ptr rop);
 void mpw_init_mp(void);
 
 /*get a string (g_malloc'ed) with the number in it*/
-char * mpw_getstring(mpw_ptr num,int max_digits,int scientific_notation,
-	int results_as_floats,int mixed_fractions, int integer_output_base);
+char * mpw_getstring (mpw_ptr num,
+		      int max_digits,
+		      gboolean scientific_notation,
+		      gboolean results_as_floats,
+		      gboolean mixed_fractions,
+		      /* FIXME: solve dependency, this is defined in calc.h */
+		      /* GelOutputStyle */int style,
+		      int integer_output_base);
 
 void mpw_set_str_float(mpw_ptr rop,const char *s,int base);
 
 /*reads only the imaginary part (use add for real part)*/
 void mpw_set_str_complex(mpw_ptr rop,const char *s,int base);
+void mpw_set_str_complex_int(mpw_ptr rop,const char *s,int base);
 
 void mpw_set_str_int(mpw_ptr rop,const char *s,int base);
 

@@ -1,3 +1,28 @@
+Fri Feb 14 16:10:30 2003  George Lebl <jirka@5z.com>
+
+	* lib/number_theory/*.gel: add MaximalPrimePowerFactors,
+	  PrimeFactors, fix Factors and add CombineFactorizations,
+	  also make a better implementation of EulerPhi using Factorize,
+	  which is a LOT faster then our previous braindead one.
+
+	* src/util.[ch]: fixup the my_realloc to just use g_realloc. and
+	  other minor cleanups
+
+	* src/mpwrap.[ch], src/lexer.l, calc.c, compil.c: rework printing of
+	  complex numbers, add latex/troff mode for fractions.  Allow
+	  rational/integer complex numbers.  Add fixmes for den/num
+	  functions for complex numbers.  For pure imaginary numbers just
+	  print the imaginary part without parentheses.
+
+	* src/geniustests.txt, src/geniustest.pl: add more tests, update
+	  for changes and printout error inputs if any at the end
+
+	* doc/manual.txt: update for the complex numbers
+
+	* src/parse.y: ':' now binds less then the standard arithmetic
+	  operators to fix stuff like foo@(2:a-1) to actually mean
+	  foo@(2:(a-1)) and not foo@((2:a)-1)
+
 Wed Feb 12 16:52:48 2003  George Lebl <jirka@5z.com>
 
 	* src/parser.y: allow more matlabish notation for getting whole

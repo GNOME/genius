@@ -112,6 +112,17 @@ static int default_mpf_prec = 0;
 		}					\
 	}						\
 }
+#define MAKE_IMAG(n) {					\
+	if(n->type==MPW_COMPLEX) {			\
+		if(n->r != zero) {			\
+			n->r->alloc.usage--;		\
+			if(n->r->alloc.usage==0)	\
+				mpwl_free(n->r,FALSE);	\
+			n->r = zero;			\
+			zero->alloc.usage++;		\
+		}					\
+	}						\
+}
 
 #if 0
 /*************************************************************************/
@@ -292,19 +303,28 @@ static char * str_format_float(char *p,long int e,int scientific_notation);
 
 static char * str_getstring_n(long num, int max_digits,
 			      int scientific_notation,
-			      int integer_output_base);
+			      int integer_output_base,
+			      const char *postfix);
 static char * str_getstring_z(mpz_t num, int max_digits,
 			      int scientific_notation,
-			      int integer_output_base);
+			      int integer_output_base,
+			      const char *postfix);
 static char * str_getstring_q(mpq_t num, int max_digits,
 			      int scientific_notation,
-			      int mixed_fractions);
+			      int mixed_fractions,
+			      GelOutputStyle style,
+			      const char *postfix);
 static char * str_getstring_f(mpf_t num, int max_digits,
-			      int scientific_notation);
+			      int scientific_notation,
+			      const char *postfix);
 
 static char * mpwl_getstring(MpwRealNum * num, int max_digits,
-			     int scientific_notation, int results_as_floats,
-			     int mixed_fractions, int integer_output_base);
+			     gboolean scientific_notation,
+			     gboolean results_as_floats,
+			     gboolean mixed_fractions,
+			     GelOutputStyle style,
+			     int integer_output_base,
+			     const char *postfix);
 /*************************************************************************/
 /*low level stuff                                                        */
 /*************************************************************************/
@@ -3331,7 +3351,7 @@ str_format_float(char *p,long int e,int scientific_notation)
 
 static char *
 str_getstring_n(long num, int max_digits,int scientific_notation,
-	       	int integer_output_base)
+	       	int integer_output_base, const char *postfix)
 {
 	char *p,*p2;
 	mpf_t fr;
@@ -3368,7 +3388,8 @@ str_getstring_n(long num, int max_digits,int scientific_notation,
 	if(max_digits>0 && max_digits<strlen(p)) {
 		mpf_init(fr);
 		mpf_set_si(fr,num);
-		p2=str_getstring_f(fr,max_digits,scientific_notation);
+		p2=str_getstring_f(fr,max_digits,scientific_notation,
+				   postfix);
 		mpf_clear(fr);
 		if(strlen(p2)>=strlen(p)) {
 			g_free(p2);
@@ -3378,12 +3399,13 @@ str_getstring_n(long num, int max_digits,int scientific_notation,
 			return p2;
 		}
 	}
+	p=appendstr(p,postfix);
 	return p;
 }
 
 static char *
 str_getstring_z(mpz_t num, int max_digits,int scientific_notation,
-		int integer_output_base)
+		int integer_output_base, const char *postfix)
 {
 	char *p,*p2;
 	mpf_t fr;
@@ -3405,7 +3427,7 @@ str_getstring_z(mpz_t num, int max_digits,int scientific_notation,
 	if(max_digits>0 && max_digits<strlen(p)) {
 		mpf_init(fr);
 		mpf_set_z(fr,num);
-		p2=str_getstring_f(fr,max_digits,scientific_notation);
+		p2=str_getstring_f(fr,max_digits,scientific_notation,postfix);
 		mpf_clear(fr);
 		if(strlen(p2)>=strlen(p)) {
 			g_free(p2);
@@ -3415,15 +3437,75 @@ str_getstring_z(mpz_t num, int max_digits,int scientific_notation,
 			return p2;
 		}
 	}
+	p=appendstr(p,postfix);
 	return p;
 }
 
 static char *
-str_getstring_q(mpq_t num, int max_digits,int scientific_notation,
-		int mixed_fractions)
+get_frac (mpz_t num,
+	  mpz_t den,
+	  GelOutputStyle style,
+	  const char *postfix,
+	  int *dig)
+{
+	char *p, *p2;
+	int digits = 0;
+
+	if (style == GEL_OUTPUT_LATEX) {
+		int l;
+		p=mpz_get_str(NULL,10,num);
+		digits = strlen(p);
+		p=prependstr(p,"\\frac{");
+		p=appendstr(p,"}{");
+		p2=mpz_get_str(NULL,10,den);
+		p=appendstr(p,p2);
+		l = strlen (p2);
+		if (l > digits)
+			digits = l;
+		g_free(p2);
+		p=appendstr(p,"}");
+		p=appendstr(p,postfix);
+	} else if (style == GEL_OUTPUT_TROFF) {
+		int l;
+		p=mpz_get_str(NULL,10,num);
+		digits = strlen(p);
+		p=prependstr(p,"{");
+		p=appendstr(p,"} over {");
+		p2=mpz_get_str(NULL,10,den);
+		p=appendstr(p,p2);
+		l = strlen (p2);
+		if (l > digits)
+			digits = l;
+		g_free(p2);
+		p=appendstr(p,"}");
+		p=appendstr(p,postfix);
+	} else {
+		p=mpz_get_str(NULL,10,num);
+		p=appendstr(p,postfix);
+		p=appendstr(p,"/");
+		p2=mpz_get_str(NULL,10,den);
+		p=appendstr(p,p2);
+		g_free(p2);
+		digits = strlen(p) - 1; /* don't count the / */
+		digits -= strlen (postfix); /* don't count the i */
+	}
+	
+	*dig += digits;
+
+	return p;
+}	
+
+static char *
+str_getstring_q(mpq_t num,
+		int max_digits,
+		int scientific_notation,
+		int mixed_fractions,
+		GelOutputStyle style,
+		const char *postfix)
 {
 	char *p,*p2;
 	mpf_t fr;
+	int digits = 0;
 	
 	if(mixed_fractions) {
 		if(mpq_sgn(num)>0) {
@@ -3438,12 +3520,10 @@ str_getstring_q(mpq_t num, int max_digits,int scientific_notation,
 	}
 
 	if(!mixed_fractions) {
-		p=mpz_get_str(NULL,10,mpq_numref(num));
-		p=appendstr(p,"/");
-		p2=mpz_get_str(NULL,10,mpq_denref(num));
-		p=appendstr(p,p2);
-		g_free(p2);
+		p = get_frac (mpq_numref (num), mpq_denref (num),
+			      style, postfix, &digits);
 	} else {
+		int d;
 		mpz_t tmp1,tmp2;
 		mpz_init(tmp1);
 		mpz_init(tmp2);
@@ -3451,18 +3531,20 @@ str_getstring_q(mpq_t num, int max_digits,int scientific_notation,
 		if(mpz_sgn(tmp2)<0)
 			mpz_neg(tmp2,tmp2);
 		p=mpz_get_str(NULL,10,tmp1);
+		digits = strlen (p);
+		p=appendstr(p,postfix);
 		p=appendstr(p," ");
-		p2=mpz_get_str(NULL,10,tmp2);
-		p=appendstr(p,p2);
-		p=appendstr(p,"/");
-		p2=mpz_get_str(NULL,10,mpq_denref(num));
+
+		p2 = get_frac (tmp2, mpq_denref (num),
+			       style, postfix, &d);
 		p=appendstr(p,p2);
 		g_free(p2);
 	}
-	if(max_digits>0 && max_digits<strlen(p)) {
+	if (max_digits > 0 && max_digits < digits) {
 		mpf_init(fr);
 		mpf_set_q(fr,num);
-		p2=str_getstring_f(fr,max_digits,scientific_notation);
+		p2=str_getstring_f(fr,max_digits,scientific_notation,
+				   postfix);
 		mpf_clear(fr);
 		if(strlen(p2)>=strlen(p)) {
 			g_free(p2);
@@ -3476,7 +3558,8 @@ str_getstring_q(mpq_t num, int max_digits,int scientific_notation,
 }
 
 static char *
-str_getstring_f(mpf_t num, int max_digits,int scientific_notation)
+str_getstring_f(mpf_t num, int max_digits,int scientific_notation,
+		const char *postfix)
 {
 	char *p;
 	long e;
@@ -3484,14 +3567,19 @@ str_getstring_f(mpf_t num, int max_digits,int scientific_notation)
 	p=mpf_get_str(NULL,&e,10,0,num);
 	str_make_max_digits (p, max_digits, &e);
 	p=str_format_float(p,e,scientific_notation);
+	p=appendstr(p,postfix);
 
 	return p;
 }
 
 static char *
-mpwl_getstring(MpwRealNum * num, int max_digits,int scientific_notation,
-	       int results_as_floats, int mixed_fractions,
-	       int integer_output_base)
+mpwl_getstring(MpwRealNum * num, int max_digits,
+	       gboolean scientific_notation,
+	       gboolean results_as_floats,
+	       gboolean mixed_fractions,
+	       GelOutputStyle style,
+	       int integer_output_base,
+	       const char *postfix)
 {
 	mpf_t fr;
 	char *p;
@@ -3501,39 +3589,48 @@ mpwl_getstring(MpwRealNum * num, int max_digits,int scientific_notation,
 			mpf_init(fr);
 			mpf_set_q(fr,num->data.rval);
 			p=str_getstring_f(fr,max_digits,
-					  scientific_notation);
+					  scientific_notation, postfix);
 			mpf_clear(fr);
 			return p;
 		}
-		return str_getstring_q(num->data.rval,max_digits,
-				       scientific_notation,mixed_fractions);
+		return str_getstring_q(num->data.rval,
+				       max_digits,
+				       scientific_notation,
+				       mixed_fractions,
+				       style,
+				       postfix);
 	case MPW_NATIVEINT:
 		if(results_as_floats) {
 			mpf_init(fr);
 			mpf_set_si(fr,num->data.nval);
 			p=str_getstring_f(fr,max_digits,
-					  scientific_notation);
+					  scientific_notation,
+					  postfix);
 			mpf_clear(fr);
 			return p;
 		}
 		return str_getstring_n(num->data.nval,max_digits,
 				       scientific_notation,
-				       integer_output_base);
+				       integer_output_base,
+				       postfix);
 	case MPW_INTEGER:
 		if(results_as_floats) {
 			mpf_init(fr);
 			mpf_set_z(fr,num->data.ival);
 			p=str_getstring_f(fr,max_digits,
-					  scientific_notation);
+					  scientific_notation,
+					  postfix);
 			mpf_clear(fr);
 			return p;
 		}
 		return str_getstring_z(num->data.ival,max_digits,
 				       scientific_notation,
-				       integer_output_base);
+				       integer_output_base,
+				       postfix);
 	case MPW_FLOAT:
 		return str_getstring_f(num->data.fval,max_digits,
-				       scientific_notation);
+				       scientific_notation,
+				       postfix);
 	}
 	/*something bad happened*/
 	return NULL;
@@ -4783,24 +4880,46 @@ mpw_init_mp(void)
 }
 
 char *
-mpw_getstring(mpw_ptr num, int max_digits,int scientific_notation,
-	      int results_as_floats,int mixed_fractions,
+mpw_getstring(mpw_ptr num, int max_digits,
+	      gboolean scientific_notation,
+	      gboolean results_as_floats,
+	      gboolean mixed_fractions,
+	      /* GelOutputStyle */ int style,
 	      int integer_output_base)
 {
 	mpw_uncomplex(num);
 	if(num->type==MPW_REAL) {
 		return mpwl_getstring(num->r,max_digits,scientific_notation,
-			results_as_floats,mixed_fractions,integer_output_base);
+			results_as_floats,mixed_fractions,style,
+			integer_output_base,"");
 	} else {
-		char *p1,*p2,*r;
-		p1 = mpwl_getstring(num->r,max_digits,scientific_notation,
-			results_as_floats,mixed_fractions,integer_output_base);
-		p2 = mpwl_getstring(num->i,max_digits,scientific_notation,
-			results_as_floats,mixed_fractions,integer_output_base);
-		if(mpwl_sgn(num->i)>=0)
-			r = g_strconcat("(",p1,"+",p2,"i)",NULL);
-		else
-			r = g_strconcat("(",p1,p2,"i)",NULL);
+		char *p1 = NULL, *p2, *r;
+		int justreal = mpwl_sgn(num->r) == 0;
+		if (! justreal)
+			p1 = mpwl_getstring(num->r,
+					    max_digits,
+					    scientific_notation,
+					    results_as_floats,
+					    mixed_fractions, 
+					    style,
+					    integer_output_base,
+					    "" /* postfix */);
+		p2 = mpwl_getstring(num->i,
+				    max_digits,
+				    scientific_notation,
+				    results_as_floats,
+				    mixed_fractions, 
+				    style,
+				    integer_output_base,
+				    "i" /* postfix */);
+		if (justreal) {
+			r = p2;
+			p2 = NULL;
+		} else if (mpwl_sgn(num->i)>=0) {
+			r = g_strconcat("(",p1,"+",p2,")",NULL);
+		} else {
+			r = g_strconcat("(",p1,p2,")",NULL);
+		}
 		g_free(p1);
 		g_free(p2);
 		return r;
@@ -4824,6 +4943,26 @@ mpw_set_str_int (mpw_ptr rop, const char *s, int base)
 }
 
 void
+mpw_set_str_complex_int(mpw_ptr rop,const char *s,int base)
+{
+	char *p;
+	int size;
+
+	rop->type = MPW_COMPLEX;
+
+	p = g_strdup(s);
+	size = strlen(p);
+	if(p[size-1] == 'i')
+		p[size-1] = '\0';
+	MAKE_COPY(rop->i);
+	mpwl_set_str_int(rop->i,p,base);
+
+	g_free(p);
+
+	mpw_uncomplex(rop);
+}
+
+void
 mpw_set_str_complex(mpw_ptr rop,const char *s,int base)
 {
 	char *p;
@@ -4843,6 +4982,18 @@ mpw_set_str_complex(mpw_ptr rop,const char *s,int base)
 	mpw_uncomplex(rop);
 }
 
+static gboolean
+looks_like_float (const char *s)
+{
+	/*floats, FIXME: this is pretty hackish */
+	if (strchr(s,'.') != NULL)
+		return TRUE;
+	return (strchr(s,'e') != NULL ||
+		strchr(s,'E') != NULL) &&
+		strncmp(s,"0x",2) != 0 &&
+		strchr(s,'\\') == NULL;
+}
+
 /*set one element (space separated)*/
 static void
 mpw_set_str_one(mpw_ptr rop,const char *s,int base)
@@ -4855,10 +5006,20 @@ mpw_set_str_one(mpw_ptr rop,const char *s,int base)
 
 		mpw_init(tmp);
 
+		/* numerator */
 		pp = strtok(p,"/");
-		mpw_set_str_int(rop,pp,base);
+		if (strchr (pp, 'i') == NULL)
+			mpw_set_str_int(rop,pp,base);
+		else
+			mpw_set_str_complex_int(rop,pp,base);
+
+		/* denominator */
 		pp = strtok(NULL,"/");
-		mpw_set_str_int(tmp,pp,base);
+		if (strchr (pp, 'i') == NULL)
+			mpw_set_str_int(tmp,pp,base);
+		else
+			mpw_set_str_complex_int(tmp,pp,base);
+
 		g_free(p);
 		
 		mpw_div(rop,rop,tmp);
@@ -4884,21 +5045,25 @@ mpw_set_str_one(mpw_ptr rop,const char *s,int base)
 		/*must be a pure imaginary*/
 		if(!*pp) {
 			g_free(p);
-			mpw_set_str_complex(rop,s,base);
+			if (looks_like_float (s))
+				mpw_set_str_complex(rop,s,base);
+			else
+				mpw_set_str_complex_int(rop,s,base);
 			return;
 		}
 		mpw_set_str(rop,p,base);
 		mpw_init(tmp);
-		mpw_set_str_complex(tmp,pp,base);
+		if (looks_like_float (pp))
+			mpw_set_str_complex(tmp,pp,base);
+		else
+			mpw_set_str_complex_int(tmp,pp,base);
 		mpw_add(rop,rop,tmp);
 		mpw_clear(tmp);
-	/*floats, FIXME: this is higly imperfect in fact it will
-	  guess numbers with high base to be floats, how shall
-	  we fix this???*/
-	} else if(strchr(s,'.') || strchr(s,'e') || strchr(s,'E'))
+	} else if (looks_like_float (s)) {
 		mpw_set_str_float(rop,s,base);
-	else
+	} else {
 		mpw_set_str_int(rop,s,base);
+	}
 }
 
 void
@@ -5060,12 +5225,23 @@ void
 mpw_denominator(mpw_ptr rop, mpw_ptr op)
 {
 	if(op->type==MPW_COMPLEX) {
+		if (mpwl_sgn(op->r) == 0) {
+			MAKE_REAL(rop);
+			MAKE_COPY(rop->r);
+			mpwl_denominator(rop->r, op->i);
+			return;
+		}
+		(*errorout)(_("Getting denominator of a complex number not implemented"));
+		error_num=NUMERICAL_MPW_ERROR;
+		return;
+		/* FIXME: this is not right, must get common denominator
 		MAKE_COPY(rop->r);
 		MAKE_COPY(rop->i);
 		mpwl_denominator(rop->r, op->r);
 		mpwl_denominator(rop->i, op->i);
 		rop->type = MPW_COMPLEX;
 		mpw_uncomplex(rop);
+		*/
 	} else {
 		MAKE_REAL(rop);
 		MAKE_COPY(rop->r);
@@ -5077,12 +5253,25 @@ void
 mpw_numerator(mpw_ptr rop, mpw_ptr op)
 {
 	if(op->type==MPW_COMPLEX) {
+		if (mpwl_sgn(op->r) == 0) {
+			MAKE_IMAG(rop);
+			MAKE_COPY(rop->i);
+			mpwl_numerator(rop->i, op->i);
+			rop->type = MPW_COMPLEX;
+			mpw_uncomplex(rop);
+			return;
+		}
+		(*errorout)(_("Getting numerator of a complex number not implemented"));
+		error_num=NUMERICAL_MPW_ERROR;
+		return;
+		/* FIXME: this is not right, must get common denominator
 		MAKE_COPY(rop->r);
 		MAKE_COPY(rop->i);
 		mpwl_numerator(rop->r, op->r);
 		mpwl_numerator(rop->i, op->i);
 		rop->type = MPW_COMPLEX;
 		mpw_uncomplex(rop);
+		*/
 	} else {
 		MAKE_REAL(rop);
 		MAKE_COPY(rop->r);

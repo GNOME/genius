@@ -2,6 +2,7 @@
 open(TESTS,"geniustests.txt") || die "can't open the geniustests.txt file";
 
 $errors = 0;
+$errorinputs = "";
 $tests = 0;
 $options = "";
 
@@ -38,6 +39,7 @@ while(<TESTS>) {
 		if($rep ne $shd) {
 			print "\e[01:31mERROR!\e[0m\n";
 			$errors++;
+			$errorinputs = $errorinputs . "\n$command";
 		}
 	} else {
 		chomp $shd;
@@ -46,6 +48,7 @@ while(<TESTS>) {
 		if($shd ne "") {
 			print "\e[01:31mERROR! NO OUTPUT\e[0m\n";
 			$errors++;
+			$errorinputs = $errorinputs . "\n$command";
 		}
 	}
 	print "\n";
@@ -54,4 +57,7 @@ while(<TESTS>) {
 	$i++;
 }
 
-print "tests: $tests, errors: $errors\n"
+print "tests: $tests, errors: $errors\n";
+if ($errors > 0) {
+	print "Inputs with errors: $errorinputs\n";
+}

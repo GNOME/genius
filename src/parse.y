@@ -103,12 +103,12 @@ void yyerror(char *);
 %nonassoc CMP_CMP
 %right EQ_CMP NE_CMP LT_CMP GT_CMP LE_CMP GE_CMP
 
+%right ':'
+
 %left '+' '-'
 %left '*' ELTELTMUL '/' ELTELTDIV '\\' ELTELTBACKDIV '%' ELTELTMOD
 
 %right '\'' TRANSPOSE
-
-%right ':'
 
 %right '!' DOUBLEFACT
 %right '^' ELTELTEXP

@@ -4,17 +4,11 @@
 # 1 and n that are relatively prime to n
 # Note that if the prime factorization of n is p_1^a_1 * ... p_r^a_r,
 # then EulerPhi(n)=n*(1-1/p_1)*...*(1-1/p_r). We use this to calculate
-# EulerPhi(n) FIXME: this implementation is stupid!
 SetHelp("EulerPhi","number_theory","Compute phi(n), the Euler phi function, that is the number of integers between 1 and n relatively prime to n");
 function EulerPhi(n) =
 (
 	if not IsValue(n) or not IsInteger(n) or not n>0 then
 		(error("EulerPhi: argument not an integer larger then 0");bailout);
-	count = 1;
-	for k=2 to n do (
-		if gcd(n,k) == 1 then
-			count = count+1
-	);
-	count
+	n * (prod p in PrimeFactors(n) do (1-(1/p)))
 )
 protect("EulerPhi");

@@ -34,10 +34,10 @@ void my_free(void *ptr,size_t s);
 void shiftstr(char *s,int n);
 
 /*allocate new space in s for p and append it*/
-char * appendstr(char *s,char *p);
+char * appendstr(char *s,const char *p);
 
 /*allocate new space in s for p and prepend it*/
-char * prependstr(char *s,char *p);
+char * prependstr(char *s,const char *p);
 
 /*stack operations using GSList*/
 void stack_push(GSList **stack, gpointer data);

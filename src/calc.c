@@ -1099,6 +1099,7 @@ appendpolynomial (GelOutput *gelo, GelETree *n)
 					   calcstate.scientific_notation,
 					   calcstate.results_as_floats,
 					   calcstate.mixed_fractions,
+					   calcstate.output_style,
 					   calcstate.integer_output_base);
 			gel_output_string (gelo, p);
 			g_free (p);
@@ -1161,6 +1162,7 @@ print_etree(GelOutput *gelo, GelETree *n, gboolean toplevel)
 				calcstate.scientific_notation,
 				calcstate.results_as_floats,
 				calcstate.mixed_fractions,
+				calcstate.output_style,
 				calcstate.integer_output_base);
 		/*if at toplevel, then always print the full number*/
 		if(toplevel)

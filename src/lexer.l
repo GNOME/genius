@@ -347,17 +347,24 @@ null		{ DO_RET; return '.'; }
 				DO_RET;
 				return FUNCID;
 			}
-			
-[1-9][0-9]*[ ][1-9][0-9]*[/][1-9][0-9]*	{
+
+[1-9][0-9]*i?[ ][1-9][0-9]*i?[/][1-9][0-9]*i?	{
 			mpw_init(yylval.val);
 			mpw_set_str(yylval.val,yytext,10);
 			DO_RET;
 			return NUMBER;
 		}
 
+[0-9]+i		{
+			mpw_init(yylval.val);
+			mpw_set_str_complex_int(yylval.val,yytext,10);
+			DO_RET;
+			return NUMBER;
+		}
+			
+
 [0-9]*\.[0-9]+[eE@][-+]?[0-9]+i	|
 [0-9]+[eE@][-+]?[0-9]+i		|
-[0-9]+i				|
 [0-9]*\.[0-9]+i	{
 			char *s;
 			if(yytext[0] == '.')
