@@ -184,12 +184,16 @@ set_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	GelToken *id;
 	GelEFunc *func;
-	if (a[0]->type != IDENTIFIER_NODE) {
-		(*errorout)(_("set: first argument must be an identifier!"));
+	if (a[0]->type != IDENTIFIER_NODE &&
+	    a[0]->type != STRING_NODE) {
+		(*errorout)(_("set: first argument must be an identifier or string!"));
 		return NULL;
 	}
-
-	id = a[0]->id.id;
+	if (a[0]->type == IDENTIFIER_NODE) {
+		id = a[0]->id.id;
+	} else /* STRING_NODE */ {
+		id = d_intern (a[0]->str.str);
+	}
 
 	if (id->protected) {
 		(*errorout)(_("set: trying to set a protected id!"));

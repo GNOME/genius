@@ -188,6 +188,7 @@ branches(int op)
 		case E_GET_REGION: return 3;
 		case E_GET_ROW_REGION: return 2;
 		case E_GET_COL_REGION: return 2;
+		case E_QUOTE: return 1;
 		case E_REFERENCE: return 1;
 		case E_DEREFERENCE: return 1;
 		case E_DIRECTCALL: return -2;
@@ -316,7 +317,7 @@ gel_makenum_use_from(GelETree *n, mpw_t num)
 }
 
 static inline void
-freetree_full(GelETree *n, int freeargs, int kill)
+freetree_full(GelETree *n, gboolean freeargs, gboolean kill)
 {
 
 	if(!n)
@@ -1826,6 +1827,7 @@ static const GelOper prim_table[E_OPER_LAST] = {
 	/*E_GET_REGION*/ EMPTY_PRIM,
 	/*E_GET_ROW_REGION*/ EMPTY_PRIM,
 	/*E_GET_COL_REGION*/ EMPTY_PRIM,
+	/*E_QUOTE*/ EMPTY_PRIM,
 	/*E_REFERENCE*/ EMPTY_PRIM,
 	/*E_DEREFERENCE*/ EMPTY_PRIM,
 	/*E_DIRECTCALL*/ EMPTY_PRIM,
@@ -4048,6 +4050,16 @@ iter_operator_pre(GelCtx *ctx)
 		iter_continue_break_op(ctx,FALSE);
 		break;
 
+	case E_QUOTE:
+		{
+			/* Just replace us with the quoted thing */
+			GelETree *arg = n->op.args;
+			n->op.args = NULL;
+			replacenode (n, arg);
+			iter_pop_stack(ctx);
+			break;
+		}
+
 	case E_REFERENCE:
 		iter_pop_stack(ctx);
 		break;
@@ -4172,6 +4184,7 @@ iter_operator_post(GelCtx *ctx)
 	/*This operators should never reach post, they are evaluated in pre,
 	  or dealt with through the pop_stack_special*/
 	case E_REGION_SEP:
+	case E_QUOTE:
 	case E_REFERENCE:
 	case E_LOGICAL_AND:
 	case E_LOGICAL_OR:
@@ -4440,6 +4453,71 @@ gather_comparisons_end:
 	ret->any.next = next;
 	return ret;
 }
+
+void
+replace_equals (GelETree *n, gboolean in_expression)
+{
+	if (n == NULL)
+		return;
+
+	if (n->type == SPACER_NODE) {
+		replace_equals (n->sp.arg, in_expression);
+	} else if(n->type == OPERATOR_NODE) {
+		gboolean run_through_args = TRUE;
+		if (n->op.oper == E_EQUALS &&
+		    in_expression) {
+			n->op.oper = E_EQ_CMP;
+		} else if (n->op.oper == E_WHILE_CONS ||
+			   n->op.oper == E_UNTIL_CONS ||
+			   n->op.oper == E_IF_CONS) {
+			run_through_args = FALSE;
+			replace_equals (n->op.args, TRUE);
+			replace_equals (n->op.args->any.next, in_expression);
+		} else if (n->op.oper == E_DOWHILE_CONS ||
+			   n->op.oper == E_DOUNTIL_CONS) {
+			run_through_args = FALSE;
+			replace_equals (n->op.args, in_expression);
+			replace_equals (n->op.args->any.next, TRUE);
+		} else if (n->op.oper == E_IFELSE_CONS) {
+			run_through_args = FALSE;
+			replace_equals (n->op.args, TRUE);
+			replace_equals (n->op.args->any.next, in_expression);
+			replace_equals (n->op.args->any.next->any.next, in_expression);
+		}
+
+		if (run_through_args) {
+			GelETree *args = n->op.args;
+			while (args != NULL) {
+				replace_equals (args, in_expression);
+				args = args->any.next;
+			}
+		}
+	} else if (n->type == MATRIX_NODE &&
+		   n->mat.matrix != NULL) {
+		int i,j;
+		int w,h;
+		w = gel_matrixw_width (n->mat.matrix);
+		h = gel_matrixw_height (n->mat.matrix);
+		gel_matrixw_make_private (n->mat.matrix);
+		for (i = 0; i < w; i++) {
+			for(j = 0; j < h; j++) {
+				GelETree *t = gel_matrixw_set_index
+					(n->mat.matrix, i, j);
+				if (t != NULL)
+					replace_equals (t, in_expression);
+			}
+		}
+	} else if (n->type == SET_NODE ) {
+		GelETree *ali;
+		for(ali = n->set.items; ali != NULL; ali = ali->any.next)
+			replace_equals (ali, in_expression);
+	} else if (n->type == FUNCTION_NODE &&
+		   n->func.func->type == GEL_USER_FUNC &&
+		   n->func.func->data.user != NULL) {
+		replace_equals (n->func.func->data.user, in_expression);
+	}
+}
+
 
 /*return TRUE if the id is one of the settable parameters*/
 static int

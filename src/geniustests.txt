@@ -385,3 +385,8 @@ Denominator(2/3)						3
 Denominator(1.2)						(Denominator(1.2))
 fib(7)								13
 fib(7);fib(7)							13
+q=5; function f(x) = ( q = 6; set(`q,x); q) ; f(10)		6
+q=5; function f(x) = ( q = 6; set(`q,x); q) ; f(10) ; q		10
+l=9 ; if (l=9) then 1						1
+l=9 ; if (l=10) then 1 else 2					2
+l=9 ; if (l=10) then 1 else 2 ; l				9

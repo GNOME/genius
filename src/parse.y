@@ -188,6 +188,7 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 	|	IF expr THEN expr %prec LOWER_THEN_ELSE	{ PUSH_ACT(E_IF_CONS); }
 	|	IF expr THEN expr ELSE expr { PUSH_ACT(E_IFELSE_CONS); }
 	|	ident
+	|	'`' ident		{ PUSH_ACT(E_QUOTE); }
 	|	'&' ident		{ PUSH_ACT(E_REFERENCE); }
 	|	deref
 	|	ident '(' ')'		{ gp_push_marker_simple(EXPRLIST_START_NODE);

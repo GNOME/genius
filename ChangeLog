@@ -1,3 +1,16 @@
+Sun Oct 06 20:44:18 2002  George Lebl <jirka@5z.com>
+
+	* src/funclib.c: set call can take a string
+
+	* src/disc.c: fix global set
+
+	* src/eval.[ch], src/parse.y, src/calc.c: allow passing of
+	  identifiers quoted with a backquote just like matrix, so
+	  that we can pass an identifier to a function.  Also replace
+	  = with == if we are in expression, so that if (a=1) works
+	  like if (a==1).  Basically do what the user means, not what
+	  he says.
+
 Sun Oct 06 19:08:00 2002  George Lebl <jirka@5z.com>
 
 	* configure.in, src/gnome-genius.c, Makefile.am: first pass

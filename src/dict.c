@@ -312,7 +312,7 @@ d_addfunc_global (GelEFunc *func)
 
 	/* get the function in the lowest context */
 	last = g_slist_last (func->id->refs);
-	n = last->data;
+	n = last != NULL ? last->data : NULL;
 	/* if this function is global */
 	if (n != NULL && n->context == 0) {
 		d_replacefunc (n, func);
@@ -325,6 +325,8 @@ d_addfunc_global (GelEFunc *func)
 	last->data = g_slist_prepend (last->data, func);
 	
 	func->id->refs = g_slist_append (func->id->refs, func);
+	if (func->id->curref == NULL)
+		func->id->curref = func;
 
 	return func;
 }

@@ -338,6 +338,8 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_output_string(gelo,"])");
 			break;
 
+		case E_QUOTE:
+			append_unaryoper(gelo,"`",n); break;
 		case E_REFERENCE:
 			append_unaryoper(gelo,"&",n); break;
 		case E_DEREFERENCE:
@@ -1426,12 +1428,14 @@ parseexp(const char *str, FILE *infile, gboolean load_files, gboolean testparse,
 		if(finished) *finished = FALSE;
 		return NULL;
 	}
-	evalstack->data = gather_comparisons(evalstack->data);
-	evalstack->data = replace_parameters(evalstack->data);
-	try_to_do_precalc(evalstack->data);
+	replace_equals (evalstack->data, FALSE /* in_expression */);
+	evalstack->data = gather_comparisons (evalstack->data);
+	evalstack->data = replace_parameters (evalstack->data);
+	try_to_do_precalc (evalstack->data);
 	
-	if(finished) *finished = TRUE;
-	return stack_pop(&evalstack);
+	if (finished != NULL)
+		*finished = TRUE;
+	return stack_pop (&evalstack);
 }
 
 GelETree *

@@ -74,6 +74,7 @@ enum {
 	E_GET_REGION,
 	E_GET_ROW_REGION,
 	E_GET_COL_REGION,
+	E_QUOTE,
 	E_REFERENCE,
 	E_DEREFERENCE,
 	E_DIRECTCALL,
@@ -152,6 +153,7 @@ GelETree * funccall(GelCtx *ctx, GelEFunc *func, GelETree **args, int nargs);
 
 GelETree * gather_comparisons(GelETree *n);
 GelETree * replace_parameters(GelETree *n);
+void replace_equals (GelETree *n, gboolean in_expression);
 void try_to_do_precalc(GelETree *n);
 
 
