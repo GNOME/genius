@@ -5460,6 +5460,66 @@ replace_equals (GelETree *n, gboolean in_expression)
 	}
 }
 
+/* Fixup number negation */
+void
+fixup_num_neg (GelETree *n)
+{
+	if (n == NULL)
+		return;
+
+	if (n->type == SPACER_NODE) {
+		fixup_num_neg (n->sp.arg);
+	} else if(n->type == OPERATOR_NODE) {
+		/* replace -1^2 with something like (-1)^2, only
+		 * for numbers.  If you typed parenthesis as in
+		 * -(1)^2, there would be a spacer node present
+		 * so the below would not happen */
+		if (n->op.oper == E_NEG &&
+		    n->op.args->type == OPERATOR_NODE &&
+		    (n->op.args->op.oper == E_EXP ||
+		     n->op.args->op.oper == E_ELTEXP) &&
+		    n->op.args->op.args->type == VALUE_NODE) {
+			GelETree *t = n->op.args;
+			n->op.args = NULL;
+			replacenode (n, t);
+			mpw_neg (n->op.args->val.value,
+				 n->op.args->val.value);
+			fixup_num_neg (n->op.args->any.next);
+		} else {
+			GelETree *args = n->op.args;
+			while (args != NULL) {
+				fixup_num_neg (args);
+				args = args->any.next;
+			}
+		}
+	} else if (n->type == MATRIX_NODE &&
+		   n->mat.matrix != NULL) {
+		int i,j;
+		int w,h;
+		w = gel_matrixw_width (n->mat.matrix);
+		h = gel_matrixw_height (n->mat.matrix);
+		gel_matrixw_make_private (n->mat.matrix);
+		for (i = 0; i < w; i++) {
+			for(j = 0; j < h; j++) {
+				GelETree *t = gel_matrixw_set_index
+					(n->mat.matrix, i, j);
+				if (t != NULL)
+					fixup_num_neg (t);
+			}
+		}
+	} else if (n->type == SET_NODE ) {
+		GelETree *ali;
+		for(ali = n->set.items; ali != NULL; ali = ali->any.next)
+			fixup_num_neg (ali);
+	} else if (n->type == FUNCTION_NODE &&
+		   (n->func.func->type == GEL_USER_FUNC ||
+		    n->func.func->type == GEL_VARIABLE_FUNC) &&
+		   n->func.func->data.user != NULL) {
+		fixup_num_neg (n->func.func->data.user);
+	}
+}
+
+
 /*this means that it will precalc even complex and float
   numbers*/
 static void

@@ -511,6 +511,28 @@ gel_get_file_info (char **file, int *line)
 }
 
 static void
+append_anal_binaryoper(GelOutput *gelo, char *p, GelETree *n)
+{
+	gboolean extra_param = FALSE;
+	GelETree *l,*r;
+	GET_LR(n,l,r);
+	if (l->type == VALUE_NODE &&
+	    (mpw_is_complex (l->val.value) ||
+	     mpw_sgn (l->val.value) < 0))
+		extra_param = TRUE;
+	if (extra_param)
+		gel_output_string(gelo, "((");
+	else
+		gel_output_string(gelo, "(");
+	print_etree(gelo, l, FALSE);
+	if (extra_param)
+		gel_output_string(gelo, ")");
+	gel_output_string(gelo, p);
+	print_etree(gelo, r, FALSE);
+	gel_output_string(gelo, ")");
+}
+
+static void
 append_binaryoper(GelOutput *gelo, char *p, GelETree *n)
 {
 	GelETree *l,*r;
@@ -601,9 +623,9 @@ appendoper(GelOutput *gelo, GelETree *n)
 		case E_NEG:
 			append_unaryoper(gelo,"-",n); break;
 		case E_EXP:
-			append_binaryoper(gelo,"^",n); break;
+			append_anal_binaryoper(gelo,"^",n); break;
 		case E_ELTEXP:
-			append_binaryoper(gelo,".^",n); break;
+			append_anal_binaryoper(gelo,".^",n); break;
 		case E_FACT:
 			GET_L(n,l);
 			gel_output_string(gelo, "(");
@@ -2622,6 +2644,7 @@ gel_parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean tes
 		return NULL;
 	}
 	replace_equals (evalstack->data, FALSE /* in_expression */);
+	fixup_num_neg (evalstack->data);
 	evalstack->data = gather_comparisons (evalstack->data);
 	try_to_do_precalc (evalstack->data);
 	

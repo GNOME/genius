@@ -1,3 +1,16 @@
+Thu Feb 27 18:07:58 2003  George Lebl <jirka@5z.com>
+
+	* src/mpwrap.c, src/lexer.l, src/parse.y, src/eval.[ch], src/calc.c:
+	  Make UMINUS bind less then factorials and powers and have factorials
+	  bind tighter then powers but then fixup the tree to make things
+	  like -1^k still come out as (-1)^k (but -a^k is -(a^k)).  One
+	  of those WYMIWYG things.
+
+	* src/graphing.c: fixup labels a bit
+
+	* src/calc.c: when printing a power be specific about how to parse
+	  any UMINUS
+
 Thu Feb 27 16:56:58 2003  George Lebl <jirka@5z.com>
 
 	* src/graphing.[ch], src/eval.[ch]: Copy the token into functions

@@ -45,6 +45,7 @@ void genius_interrupt_calc (void);
 extern GtkWidget *genius_window;
 extern int interrupted;
 extern GHashTable *uncompiled;
+extern calcstate_t calcstate;
 
 static GtkWidget *graph_window = NULL;
 static GnomeCanvas *canvas = NULL;
@@ -292,19 +293,34 @@ label_func (GelCtx *ctx, int i, GelEFunc *func, const char *color)
 
 	text = NULL;
 	if (func->id != NULL) {
-		text = g_strdup_printf ("%s (x)", func->id->token);
+		text = g_strdup_printf ("%s(x)", func->id->token);
 	} else if (func->type == GEL_USER_FUNC) {
+		int old_style, len;
 		GelOutput *out = gel_output_new ();
 		D_ENSURE_USER_BODY (func);
 		gel_output_setup_string (out, 0, NULL);
 
+		/* FIXME: the push/pop of style is UGLY */
+		old_style = calcstate.output_style;
+		calcstate.output_style = GEL_OUTPUT_NORMAL;
 		print_etree (out, func->data.user, TRUE /* toplevel */);
+		calcstate.output_style = old_style;
 
 		text = gel_output_snarf_string (out);
 		gel_output_unref (out);
 
+		len = strlen (text);
+
+		if (len > 2 &&
+		    text[0] == '(' &&
+		    text[len-1] == ')') {
+			text[len-1] = '\0';
+			strcpy (text, &text[1]);
+			len-=2;
+		}
+
 		/* only print bodies of short functions */
-		if (strlen (text) > 64) {
+		if (len > 64) {
 			g_free (text);
 			text = NULL;
 		}

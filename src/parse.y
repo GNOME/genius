@@ -110,9 +110,9 @@ void yyerror(char *);
 
 %right '\'' TRANSPOSE
 
-%right '!' DOUBLEFACT
-%right '^' ELTELTEXP
 %right UMINUS UPLUS
+%right '^' ELTELTEXP
+%right '!' DOUBLEFACT
 
 %left AT
 

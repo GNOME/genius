@@ -163,8 +163,10 @@ int isnodetrue(GelETree *n, int *bad_node);
 GelETree * funccall(GelCtx *ctx, GelEFunc *func, GelETree **args, int nargs);
 void gel_expandmatrix (GelETree *n);
 
+/* Functions to fixup the parsed tree */
 GelETree * gather_comparisons(GelETree *n);
 void replace_equals (GelETree *n, gboolean in_expression);
+void fixup_num_neg (GelETree *n);
 void try_to_do_precalc(GelETree *n);
 
 /* return a list of used local functions (copies of) */
