@@ -1784,6 +1784,8 @@ run_program (GtkWidget *menu_item, gpointer data)
 
 		calc_running --;
 
+		gel_printout_infos ();
+
 		vte_terminal_feed (VTE_TERMINAL (term),
 				   "\e[0m)))End", -1);
 
