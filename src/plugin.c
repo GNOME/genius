@@ -20,12 +20,7 @@
  */
 #include "config.h"
 
-#ifdef GNOME_SUPPORT
 #include <gnome.h>
-#else
-#include <libintl.h>
-#define _(x) gettext(x)
-#endif
 
 #include <stdlib.h>
 #include <dirent.h>

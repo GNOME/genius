@@ -21,13 +21,7 @@
 
 #include "config.h"
 
-#ifdef GNOME_SUPPORT
 #include <gnome.h>
-#else
-#include <libintl.h>
-#define _(x) gettext(x)
-#define N_(x) x
-#endif
 
 #include <stdio.h>
 #include <string.h>

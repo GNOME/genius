@@ -8,18 +8,25 @@ plugin_includedir = $(includedir)/genius
 
 #YACCFLAGS += -d -t
 YFLAGS += -d -t
-CFLAGS += @GNOME_SUPPORT@ -DLIBRARY_DIR=\""$(datadir)/genius/"\"
 
 INCLUDES = \
-	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
-	-DLOCALEDIR=\"$(datadir)/locale\" \
-	-I$(includedir) \
-	$(GMP_INCLUDEDIR) \
-	$(GNOME_INCLUDEDIR)
+        -DGNOMELOCALEDIR=\""$(prefix)/$(DATADIRNAME)/locale"\"	\
+	-DG_LOG_DOMAIN=\"Genius\"				\
+	-DDATADIR=\""$(datadir)"\"				\
+	-DICONDIR=\""$(datadir)/pixmaps/genius"\"		\
+	-DLIBRARY_DIR=\""$(datadir)/genius/"\"			\
+	-I$(srcdir)						\
+	-I$(includedir)						\
+	-I$(top_srcdir)						\
+	-I$(top_builddir)					\
+	-I$(top_srcdir)/libeog					\
+	-I$(top_builddir)/libeog				\
+	$(GMP_INCLUDEDIR)					\
+	$(GENIUS_CFLAGS)					\
+	$(EXTRA_WARNING_CFLAGS)
 
-bin_PROGRAMS = @GNOME_GENIUS@ genius
 
-EXTRA_PROGRAMS = gnome-genius
+bin_PROGRAMS = gnome-genius genius
 
 gnome_genius_SOURCES = 	\
 	calc.c		\
@@ -65,13 +72,11 @@ gnome_genius_SOURCES = 	\
 	geloutput.h
 
 gnome_genius_LDADD = \
-	$(GNOME_LIBDIR) \
-	$(GNOMEUI_LIBS) \
-	@GMP_LIB@ \
-	@LEXLIB@ \
-	$(INTLLIBS) \
-	@ZVT_LIBS@ \
-	@READLINE_LIB@ \
+	-lm					\
+	@GMP_LIB@				\
+	@LEXLIB@				\
+	$(GENIUS_LIBS)				\
+	@READLINE_LIB@				\
 	@TERMCAP_LIB@
 
 genius_SOURCES = 	\
@@ -118,12 +123,11 @@ genius_SOURCES = 	\
 	geloutput.h
 
 genius_LDADD = \
-	-lm \
-	$(GLIB_LIBS) \
-	@GMP_LIB@ \
-	@LEXLIB@ \
-	$(INTLLIBS) \
-	@READLINE_LIB@ \
+	-lm					\
+	@GMP_LIB@				\
+	@LEXLIB@				\
+	$(GENIUS_LIBS)				\
+	@READLINE_LIB@				\
 	@TERMCAP_LIB@
 
 plugin_include_HEADERS = \

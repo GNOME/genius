@@ -25,12 +25,7 @@
 
 #include "config.h"
 
-#ifdef GNOME_SUPPORT
 #include <gnome.h>
-#else
-#include <libintl.h>
-#define _(x) gettext(x)
-#endif
 
 #include <glib.h>
 
@@ -191,11 +186,7 @@ main(int argc, char *argv[])
 
 	genius_is_gui = FALSE;
 
-#ifdef GNOME_SUPPORT
 	bindtextdomain(PACKAGE,GNOMELOCALEDIR);
-#else
-	bindtextdomain(PACKAGE,LOCALEDIR);
-#endif
 	textdomain(PACKAGE);
 
 	signal(SIGINT,interrupt);
