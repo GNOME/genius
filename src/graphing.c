@@ -3170,10 +3170,80 @@ LinePlotClear_op (GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_null ();
 }
 
+static gboolean
+get_line_numbers (GelETree *a, double **x, double **y, int *len)
+{
+	int i;
+	GelMatrixW *m;
+
+	g_return_val_if_fail (a->type == MATRIX_NODE, FALSE);
+
+	m = a->mat.matrix;
+
+	if ( ! gel_is_matrix_value_only_real (m)) {
+		gel_errorout (_("%s: Line should be given as a real, n by 2 matrix "
+				"with columns for x and y, n>=2"),
+			      "LinePlotDrawLine");
+		return FALSE;
+	}
+
+	if (gel_matrixw_width (m) == 2 &&
+	    gel_matrixw_height (m) >= 2) {
+		*len = gel_matrixw_height (m);
+
+		*x = g_new (double, *len);
+		*y = g_new (double, *len);
+
+		for (i = 0; i < *len; i++) {
+			GelETree *t = gel_matrixw_index (m, 0, i);
+			(*x)[i] = mpw_get_double (t->val.value);
+			t = gel_matrixw_index (m, 1, i);
+			(*y)[i] = mpw_get_double (t->val.value);
+		}
+	} else if (gel_matrixw_width (m) == 1 &&
+		   gel_matrixw_height (m) % 2 == 0 &&
+		   gel_matrixw_height (m) >= 4) {
+		*len = gel_matrixw_height (m) / 2;
+
+		*x = g_new (double, *len);
+		*y = g_new (double, *len);
+
+		for (i = 0; i < *len; i++) {
+			GelETree *t = gel_matrixw_index (m, 0, 2*i);
+			(*x)[i] = mpw_get_double (t->val.value);
+			t = gel_matrixw_index (m, 0, (2*i) + 1);
+			(*y)[i] = mpw_get_double (t->val.value);
+		}
+	} else if (gel_matrixw_height (m) == 1 &&
+		   gel_matrixw_width (m) % 2 == 0 &&
+		   gel_matrixw_width (m) >= 4) {
+		*len = gel_matrixw_width (m) / 2;
+
+		*x = g_new (double, *len);
+		*y = g_new (double, *len);
+
+		for (i = 0; i < *len; i++) {
+			GelETree *t = gel_matrixw_index (m, 2*i, 0);
+			(*x)[i] = mpw_get_double (t->val.value);
+			t = gel_matrixw_index (m, (2*i) + 1, 0);
+			(*y)[i] = mpw_get_double (t->val.value);
+		}
+	} else {
+		gel_errorout (_("%s: Line should be given as a real, n by 2 matrix "
+				"with columns for x and y, n>=2"),
+			      "LinePlotDrawLine");
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+
 static GelETree *
 LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
-	double x1, y1, x2, y2;
+	int len;
+	int nextarg;
 	double *x, *y, *dx, *dy;
 	GdkColor color;
 	int thickness;
@@ -3191,15 +3261,35 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 		plot_setup_axis ();
 	}
 
-	GET_DOUBLE(x1, 0, "LinePlotDrawLine");
-	GET_DOUBLE(y1, 1, "LinePlotDrawLine");
-	GET_DOUBLE(x2, 2, "LinePlotDrawLine");
-	GET_DOUBLE(y2, 3, "LinePlotDrawLine");
+	if (a[0]->type == MATRIX_NODE) {
+		if ( ! get_line_numbers (a[0], &x, &y, &len))
+			return FALSE;
+		nextarg = 1;
+	} else {
+		double x1, y1, x2, y2;
+		if G_UNLIKELY (gel_count_arguments (a) < 4) {
+			gel_errorout (_("%s: Wrong number of arguments"),
+				      "LinePlotDrawLine");
+			return NULL;
+		}
+		GET_DOUBLE(x1, 0, "LinePlotDrawLine");
+		GET_DOUBLE(y1, 1, "LinePlotDrawLine");
+		GET_DOUBLE(x2, 2, "LinePlotDrawLine");
+		GET_DOUBLE(y2, 3, "LinePlotDrawLine");
+		len = 2;
+		x = g_new (double, 2);
+		x[0] = x1;
+		x[1] = x2;
+		y = g_new (double, 2);
+		y[0] = y1;
+		y[1] = y2;
+		nextarg = 4;
+	}
 
 	gdk_color_parse ("black", &color);
 	thickness = 2;
 
-	for (i = 4; a[i] != NULL; i++) {
+	for (i = nextarg; a[i] != NULL; i++) {
 		if G_LIKELY (a[i]->type == STRING_NODE ||
 			     a[i]->type == IDENTIFIER_NODE) {
 			GelToken *id;
@@ -3219,6 +3309,8 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				if G_UNLIKELY (a[i+1] == NULL)  {
 					gel_errorout (_("%s: No color specified"),
 						      "LinePlotDrawLine");
+					g_free (x);
+					g_free (y);
 					return NULL;
 				}
 				/* FIXME: helper routine for getting color */
@@ -3229,6 +3321,8 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				} else {
 					gel_errorout (_("%s: Color must be a string"),
 						      "LinePlotDrawLine");
+					g_free (x);
+					g_free (y);
 					return NULL;
 				}
 				i++;
@@ -3236,38 +3330,38 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				if G_UNLIKELY (a[i+1] == NULL)  {
 					gel_errorout (_("%s: No thicnkess specified"),
 						      "LinePlotDrawLine");
+					g_free (x);
+					g_free (y);
 					return NULL;
 				}
 				if G_UNLIKELY ( ! check_argument_positive_integer (a, i+1,
-										   "LinePlotDrawLine"))
+										   "LinePlotDrawLine")) {
+					g_free (x);
+					g_free (y);
 					return NULL;
+				}
 				thickness = gel_get_nonnegative_integer (a[i+1]->val.value,
 									 "LinePlotDrawLine");
 				i++;
 			} else {
 				gel_errorout (_("%s: Unknown style"), "LinePlotDrawLine");
+				g_free (x);
+				g_free (y);
+				return NULL;
 			}
 			
 		} else {
 			gel_errorout (_("%s: Bad parameter"), "LinePlotDrawLine");
+			g_free (x);
+			g_free (y);
 			return NULL;
 		}
 	}
 
 	data = GTK_PLOT_DATA (gtk_plot_data_new ());
-	x = g_new (double, 2);
-	x[0] = x1;
-	x[1] = x2;
-	y = g_new (double, 2);
-	y[0] = y1;
-	y[1] = y2;
-	dx = g_new (double, 2);
-	dx[0] = 0;
-	dx[1] = 0;
-	dy = g_new (double, 2);
-	dy[0] = 0;
-	dy[1] = 0;
-	gtk_plot_data_set_points (data, x, y, dx, dy, 2);
+	dx = g_new0 (double, len);
+	dy = g_new0 (double, len);
+	gtk_plot_data_set_points (data, x, y, dx, dy, len);
 	gtk_plot_add_data (GTK_PLOT (line_plot), data);
 	gtk_plot_data_hide_legend (data);
 
@@ -3341,7 +3435,7 @@ gel_add_graph_functions (void)
 	VFUNC (SurfacePlot, 2, "func,args", "plotting", N_("Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"));
 
 	FUNC (LinePlotClear, 0, "", "plotting", N_("Show the line plot window and clear out functions"));
-	VFUNC (LinePlotDrawLine, 5, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2"));
+	VFUNC (LinePlotDrawLine, 2, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"));
 
 	PARAMETER (LinePlotWindow, N_("Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"));
 	PARAMETER (SurfacePlotWindow, N_("Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,z2]"));

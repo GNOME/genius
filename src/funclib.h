@@ -41,5 +41,7 @@ GelETree * gel_apply_func_to_matrixen (GelCtx *ctx,
 
 int gel_get_nonnegative_integer (mpw_ptr z, const char *funcname);
 
+int gel_count_arguments (GelETree **a);
+
 
 #endif /* FUNCLIB_H_ */

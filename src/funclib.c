@@ -4566,6 +4566,18 @@ get_IsPrimeMillerRabinReps (void)
 	return gel_makenum_ui (mympz_is_prime_miller_rabin_reps);
 }
 
+int
+gel_count_arguments (GelETree **a)
+{
+	int args;
+
+	args = 0;
+	while (a != NULL && a[args] != NULL)
+		args++;
+
+	return args;
+}
+
 /*add the routines to the dictionary*/
 void
 gel_funclib_addall(void)
