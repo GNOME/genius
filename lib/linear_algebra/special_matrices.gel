@@ -77,4 +77,41 @@ RosserMatrix = [611,196,-192,407,-8,-52,-49,29
 -52,-43,49,44,-599,411,208,208
 -49,-8,8,59,208,208,99,-911
 29,-44,52,-23,208,208,-911,99];
-protect("RosserMatrix");
+protect("RosserMatrix")
+
+#Rotation matrices
+# See http://mathworld.wolfram.com/RotationMatrix.html
+
+SetHelp ("Rotation2D", "linear_algebra", "Rotation around origin in R^2")
+function Rotation2D(angle) = (
+ [cos(angle),sin(angle)
+  -sin(angle),cos(angle)]
+)
+protect("Rotation2D")
+SetHelpAlias ("Rotation2D", "RotationMatrix")
+RotationMatrix = Rotation2D
+protect ("RotationMatrix")
+
+SetHelp ("Rotation3DX", "linear_algebra", "Rotation around origin in R^3 about the x-axis")
+function Rotation3DX(angle) = (
+ [1,0,0
+  0,cos(angle),sin(angle)
+  0,-sin(angle),cos(angle)]
+)
+protect("Rotation3DX")
+
+SetHelp ("Rotation3DY", "linear_algebra", "Rotation around origin in R^3 about the y-axis")
+function Rotation3DY(angle) = (
+ [cos(angle),0,-sin(angle)
+  0,1,0
+  sin(angle),0,cos(angle)]
+)
+protect("Rotation3DY")
+
+SetHelp ("Rotation3DZ", "linear_algebra", "Rotation around origin in R^3 about the z-axis")
+function Rotation3DZ(angle) = (
+ [cos(angle),sin(angle),0
+  -sin(angle),cos(angle),0
+  0,0,1]
+)
+protect("Rotation3DZ")
