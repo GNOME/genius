@@ -1200,9 +1200,18 @@ mympz_pow_z(mpz_t rop,mpz_t op,mpz_t e)
 		unsigned int exp = mpz_get_ui (e);
 		mpz_pow_ui (rop, op, exp);
 	} else {
-		(*errorout)(_("Integer exponent too large to compute"));
-		error_num=NUMERICAL_MPW_ERROR;
-		mpz_set_ui (rop, 1);
+		if (mpz_cmp_ui (op, 1) == 0) {
+			mpz_set_ui (rop, 1);
+		} else if (mpz_cmp_si (op, -1) == 0) {
+			if (mpz_even_p (e))
+				mpz_set_ui (rop, 1);
+			else
+				mpz_set_si (rop, -1);
+		} else {
+			(*errorout)(_("Integer exponent too large to compute"));
+			error_num=NUMERICAL_MPW_ERROR;
+			mpz_set_ui (rop, 1);
+		}
 	}
 }
 
@@ -2239,6 +2248,7 @@ mpwl_div_ui(MpwRealNum *rop,MpwRealNum *op,unsigned long int i)
 		mpq_set_z(rop->data.rval,op->data.ival);
 		mpz_set_ui(mpq_denref(rop->data.rval),i);
 		mpwl_clear_extra_type(rop,t);
+		mpwl_make_int (rop);
 		break;
 	case MPW_NATIVEINT:
 		if(op->data.nval%i == 0) {
@@ -2252,6 +2262,7 @@ mpwl_div_ui(MpwRealNum *rop,MpwRealNum *op,unsigned long int i)
 		rop->type = MPW_RATIONAL;
 		mpq_set_si(rop->data.rval,op->data.nval,i);
 		mpwl_clear_extra_type(rop,t);
+		mpwl_make_int (rop);
 		break;
 	}
 }
@@ -2290,6 +2301,7 @@ mpwl_ui_div(MpwRealNum *rop,unsigned long int i,MpwRealNum *op)
 		mpz_set_ui(mpq_numref(rop->data.rval),i);
 		mpz_set(mpq_denref(rop->data.rval),op->data.ival);
 		mpwl_clear_extra_type(rop,t);
+		mpwl_make_int (rop);
 		break;
 	case MPW_NATIVEINT:
 		if(i%op->data.nval == 0) {
@@ -2308,6 +2320,7 @@ mpwl_ui_div(MpwRealNum *rop,unsigned long int i,MpwRealNum *op)
 			mpq_set_ui(rop->data.rval,-i,
 				   -(op->data.nval));
 		mpwl_clear_extra_type(rop,t);
+		mpwl_make_int (rop);
 		break;
 	}
 }
@@ -5083,7 +5096,7 @@ mpw_pow (mpw_ptr rop, mpw_ptr op1, mpw_ptr op2)
 
 		}
 
-		if (mpwl_even_p (op2->r)) {
+		if (mpwl_even_p (&t2)) {
 			/*even*/
 			MAKE_REAL (rop);
 			MAKE_COPY (rop->r);
