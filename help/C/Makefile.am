@@ -54,4 +54,4 @@ manualdir = $(datadir)/genius
 
 manual_DATA = genius.txt
 
-EXTRA_DIST = genius.txt
+EXTRA_DIST += genius.txt

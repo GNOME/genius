@@ -1,3 +1,18 @@
+Tue Jan 04 10:57:18 2005  George Lebl <jirka@5z.com>
+
+	* configure.in: use an existing mpfr function to check for the
+	  library, DUH!
+
+	* src/genius.c: include term.h AFTER everything since that happens to
+	  redefine the word 'tab' for it's own very evil purposes on some
+	  systems (some ncurses version or some such)
+
+Thu Dec 23 11:03:27 2004  George Lebl <jirka@5z.com>
+
+	* Release 0.7.2
+
+	* help/*: Fix the makefiles
+
 Thu Dec 23 10:45:11 2004  George Lebl <jirka@5z.com>
 
 	* help/C/*.xml: some fixes and use := rather then = in places

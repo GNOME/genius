@@ -35,18 +35,6 @@
 #include <stdio.h>
 #include <locale.h>
 
-#ifdef USE_NCURSES
-#ifdef INC_NCURSES
-#include <ncurses/curses.h>
-#include <ncurses/term.h>
-#else
-#include <curses.h>
-#include <term.h>
-#endif
-#else
-#include <termcap.h>
-#endif
-
 #include "calc.h"
 #include "eval.h"
 #include "util.h"
@@ -61,6 +49,18 @@
 
 #include <readline/readline.h>
 #include <readline/history.h>
+
+#ifdef USE_NCURSES
+#ifdef INC_NCURSES
+#include <ncurses/curses.h>
+#include <ncurses/term.h>
+#else
+#include <curses.h>
+#include <term.h>
+#endif
+#else
+#include <termcap.h>
+#endif
 
 /*Globals:*/
 
