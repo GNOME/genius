@@ -2143,6 +2143,8 @@ ones_op (GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 rows_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
+	if (a[0]->type == NULL_NODE)
+		return gel_makenum_ui (0);
 	if(a[0]->type!=MATRIX_NODE) {
 		(*errorout)(_("rows: argument not a matrix"));
 		return NULL;
@@ -2152,6 +2154,8 @@ rows_op(GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 columns_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
+	if (a[0]->type == NULL_NODE)
+		return gel_makenum_ui (0);
 	if(a[0]->type!=MATRIX_NODE) {
 		(*errorout)(_("columns: argument not a matrix"));
 		return NULL;
@@ -2161,6 +2165,8 @@ columns_op (GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 elements_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
+	if (a[0]->type == NULL_NODE)
+		return gel_makenum_ui (0);
 	if(a[0]->type!=MATRIX_NODE) {
 		(*errorout)(_("elements: argument not a matrix"));
 		return NULL;
