@@ -1,3 +1,10 @@
+Fri Mar 18 18:03:30 2005  George Lebl <jirka@5z.com>
+
+	* src/mpwrap.ch: fixup memory usage by whacking the duplicate
+	  pointers in the real number structure.
+
+	* src/eval.c: fix leaks on elt by elt matrix operations
+
 Fri Mar 18 11:48:14 2005  George Lebl <jirka@5z.com>
 
 	* src/mpwrap.[ch]: whack the unneeded type field from mpw_t to save

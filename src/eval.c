@@ -1745,19 +1745,22 @@ matrix_scalar_matrix_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 
 	for(i=0;i<gel_matrixw_width(m);i++) {
 		for(j=0;j<gel_matrixw_height(m);j++) {
+			GelETree *t = gel_matrixw_set_index(m,i,j);
 			if(order == 0) {
 				gel_matrixw_set_index(m,i,j) =
 					op_two_nodes(ctx,
-						     gel_matrixw_index(m,i,j),
+						     t ? t : the_zero,
 						     node, n->op.oper,
 						     FALSE /* no_push */);
 			} else {
 				gel_matrixw_set_index(m,i,j) =
 					op_two_nodes(ctx,node,
-						     gel_matrixw_index(m,i,j),
+						     t ? t : the_zero,
 						     n->op.oper,
 						     FALSE /* no_push */);
 			}
+			if (t != NULL)
+				gel_freetree (t);
 		}
 	}
 	n->op.args = NULL;
@@ -1846,11 +1849,14 @@ pure_matrix_eltbyelt_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	gel_matrixw_make_private(m1);
 	for(i=0;i<gel_matrixw_width(m1);i++) {
 		for(j=0;j<gel_matrixw_height(m1);j++) {
-			gel_matrixw_set_index(m1,i,j) =
-				op_two_nodes(ctx,gel_matrixw_index(m1,i,j),
-					     gel_matrixw_index(m2,i,j),
-					     n->op.oper,
-					     FALSE /* no_push */);
+			GelETree *t = gel_matrixw_set_index (m1, i, j);
+			gel_matrixw_set_index (m1, i, j)
+				= op_two_nodes (ctx, t ? t : the_zero,
+						gel_matrixw_index (m2, i, j),
+						n->op.oper,
+						FALSE /* no_push */);
+			if (t != NULL)
+				freetree_full (t, TRUE, TRUE);
 		}
 	}
 	/*remove l from arglist*/
@@ -5917,8 +5923,7 @@ iter_region_sep_op (GelCtx *ctx, GelETree *n)
 	}
 
 	count = 0;
-	mpw_init (tmp);
-	mpw_set (tmp, from->val.value);
+	mpw_init_set (tmp, from->val.value);
 	for (;;) {
 		GelETree *t = gel_makenum (tmp);
 

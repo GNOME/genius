@@ -182,6 +182,61 @@ static mpfr_ptr *free_mpf_top = free_mpf;
 	}						\
 }
 
+/* Just quick hacks to get a mpf, tmp should be an unused mpfr_ptr,
+   rop should be mpfr_ptr and op should be mpw_ptr */
+#define MPWL_MPF(rop,op,tmp) { \
+	if (op->type == MPW_FLOAT) { \
+		rop = op->data.fval; \
+		tmp = NULL; \
+	} else if (op->type == MPW_INTEGER) { \
+		GET_INIT_MPF (tmp); \
+		mpfr_set_z (tmp, op->data.ival, GMP_RNDN); \
+		rop = tmp; \
+	} else /* if (op->r->type == MPW_RATIONAL) */ { \
+		GET_INIT_MPF (tmp); \
+		mpfr_set_q (tmp, op->data.rval, GMP_RNDN); \
+		rop = tmp; \
+	} \
+}
+#define MPWL_MPF_KILL(rop,tmp) { if (tmp != NULL) {CLEAR_FREE_MPF (tmp);} }
+
+#define MPWL_MPZ(rop,op,tmp) { \
+	if (op->type == MPW_FLOAT) { \
+		GET_INIT_MPZ (tmp); \
+		mpz_set_fr (tmp, \
+			    op->data.fval, \
+			    GMP_RNDN); \
+		rop = tmp; \
+	} else if (op->type == MPW_INTEGER) { \
+		rop = op->data.ival; \
+		tmp = NULL; \
+	} else /* if (op->r->type == MPW_RATIONAL) */ { \
+		GET_INIT_MPZ (tmp); \
+		mpz_set_q (tmp, op->data.rval); \
+		rop = tmp; \
+	} \
+}
+#define MPWL_MPZ_KILL(rop,tmp) { if (tmp != NULL) {CLEAR_FREE_MPZ (tmp);} }
+
+#define MPWL_MPQ(rop,op,tmp) { \
+	if (op->type == MPW_FLOAT) { \
+		GET_INIT_MPQ (tmp); \
+		mympq_set_fr (tmp, \
+			      op->data.fval); \
+		rop = tmp; \
+	} else if (op->type == MPW_INTEGER) { \
+		GET_INIT_MPQ (tmp); \
+		mpq_set_z (tmp, op->data.ival); \
+		rop = tmp; \
+	} else /* if (op->r->type == MPW_RATIONAL) */ { \
+		rop = op->data.rval; \
+		tmp = NULL; \
+	} \
+}
+#define MPWL_MPQ_KILL(rop,tmp) { if (tmp != NULL) {CLEAR_FREE_MPQ (tmp);} }
+
+#define MPWL_MAX_TYPE(op1,op2) MAX(op1->type,op2->type)
+
 /*************************************************************************/
 /*low level stuff prototypes                                             */
 /*************************************************************************/
@@ -196,22 +251,7 @@ static gboolean mympq_perfect_square_p (mpq_t op);
 
 static void mympq_set_fr (mpq_ptr q, mpfr_srcptr fr);
 
-/*clear extra variables of type type, if type=op->type nothing is done*/
-static void mpwl_clear_extra_type(MpwRealNum *op,int type);
-
-/*only set the type, don't free it, and don't set the type variable
-  create an extra type of the variable for temporary use*/
-static void mpwl_make_extra_type (MpwRealNum *op, int type);
-static void mpwl_make_extra_type_no_convert (MpwRealNum *op, int type);
-
 static void mpwl_make_type(MpwRealNum *op,int type);
-
-/*this only adds a value of that type but does nto clear the old one!
-  retuns the new extra type set*/
-static int mpwl_make_same_extra_type(MpwRealNum *op1,MpwRealNum *op2);
-/*
-static int mpwl_make_same_extra_type_3(MpwRealNum *op1,MpwRealNum *op2);
-*/
 
 /*make new type and clear the old one*/
 static void mpwl_make_same_type(MpwRealNum *op1,MpwRealNum *op2);
@@ -477,13 +517,96 @@ mympz_pow_z(mpz_t rop,mpz_t op,mpz_t e)
 	}
 }
 
-/*clear extra variables of type type, if type=op->type nothing is done*/
-static void
-mpwl_clear_extra_type(MpwRealNum *op,int type)
+static gboolean
+mympq_perfect_square_p (mpq_t op)
 {
-	if(op->type==type)
+	return mpz_perfect_square_p (mpq_numref(op)) &&
+		mpz_perfect_square_p (mpq_denref(op));
+}
+
+static void
+mpwl_make_type (MpwRealNum *op, int type)
+{
+	if (op->type == type)
 		return;
-	switch(type) {
+	switch (type) {
+	case MPW_INTEGER:
+		{
+			mpz_ptr ival; 
+			GET_INIT_MPZ (ival);
+
+			if (op->type == MPW_FLOAT) {
+				mpz_set_fr (ival,
+					    op->data.fval,
+					    GMP_RNDN);
+				CLEAR_FREE_MPF (op->data.fval);
+			} else /* if(op->type==MPW_RATIONAL) */ {
+				mpz_set_q (ival, op->data.rval);
+				CLEAR_FREE_MPQ (op->data.rval);
+			}
+			op->type = MPW_INTEGER;
+			op->data.ival = ival;
+		}
+		break;
+	case MPW_RATIONAL:
+		{
+			mpq_ptr rval; 
+			GET_INIT_MPQ (rval);
+			if (op->type == MPW_INTEGER) {
+				mpq_set_z (rval, op->data.ival);
+				CLEAR_FREE_MPZ (op->data.ival);
+			} else /* if(op->type==MPW_FLOAT) */ {
+				mympq_set_fr (rval,op->data.fval);
+				CLEAR_FREE_MPF (op->data.fval);
+			}
+			op->type = MPW_RATIONAL;
+			op->data.rval = rval;
+		}
+		break;
+	case MPW_FLOAT:
+		{
+			mpfr_ptr fval; 
+			GET_INIT_MPF (fval);
+
+			if (op->type == MPW_INTEGER) {
+				mpf_set_z (fval, op->data.ival);
+				CLEAR_FREE_MPZ (op->data.ival);
+			} else /* if(op->type==MPW_RATIONAL) */ {
+				mpf_set_q (fval, op->data.rval);
+				/* XXX: a hack!!
+				 * get around a mpf_set_q bug*/
+				if (mpq_sgn (op->data.rval) < 0 &&
+				    mpf_sgn (fval) > 0) {
+					mpf_neg (fval, fval);
+				}
+				CLEAR_FREE_MPQ (op->data.rval);
+			}
+			op->type = MPW_FLOAT;
+			op->data.fval = fval;
+		}
+		break;
+	}
+}
+
+/*make new type and clear the old one*/
+static void
+mpwl_make_same_type(MpwRealNum *op1,MpwRealNum *op2)
+{
+	if(op1->type==op2->type)
+		return;
+	else if(op1->type > op2->type)
+		mpwl_make_type(op2,op1->type);
+	else /*if(op1->type < op2->type)*/
+		mpwl_make_type(op1,op2->type);
+}
+
+static void
+mpwl_clear(MpwRealNum *op)
+{
+	if (op == NULL)
+		return;
+
+	switch(op->type) {
 	case MPW_INTEGER:
 		if(op->data.ival) {
 			CLEAR_FREE_MPZ (op->data.ival);
@@ -502,164 +625,6 @@ mpwl_clear_extra_type(MpwRealNum *op,int type)
 			op->data.fval = NULL;
 		}
 		break;
-	}
-}
-
-static gboolean
-mympq_perfect_square_p (mpq_t op)
-{
-	return mpz_perfect_square_p (mpq_numref(op)) &&
-		mpz_perfect_square_p (mpq_denref(op));
-}
-
-/*only set the type, don't free it, and don't set the type variable
-  create an extra type of the variable for temporary use*/
-static void
-mpwl_make_extra_type(MpwRealNum *op,int type)
-{
-	if(op->type==type)
-		return;
-	switch(type) {
-	case MPW_INTEGER:
-		if (op->data.ival == NULL) {
-			GET_INIT_MPZ (op->data.ival);
-			if(op->type==MPW_FLOAT)
-				mpz_set_fr (op->data.ival,
-					    op->data.fval,
-					    GMP_RNDN);
-			else /* if(op->type==MPW_RATIONAL) */
-				mpz_set_q(op->data.ival,op->data.rval);
-		}
-		break;
-	case MPW_RATIONAL:
-		if (op->data.rval == NULL) {
-			GET_INIT_MPQ (op->data.rval);
-			if(op->type==MPW_INTEGER)
-				mpq_set_z(op->data.rval,op->data.ival);
-			else /* if(op->type==MPW_FLOAT) */
-				mympq_set_fr (op->data.rval,op->data.fval);
-		}
-		break;
-	case MPW_FLOAT:
-		if (op->data.fval == NULL) {
-			GET_INIT_MPF (op->data.fval);
-			if(op->type==MPW_INTEGER) {
-				mpf_set_z(op->data.fval,op->data.ival);
-			} else /* if(op->type==MPW_RATIONAL) */ {
-				mpf_set_q(op->data.fval,op->data.rval);
-				/* XXX: a hack!!
-				 * get around a mpf_set_q bug*/
-				if(mpq_sgn(op->data.rval)<0 &&
-				   mpf_sgn(op->data.fval)>0) {
-					mpf_neg(op->data.fval,op->data.fval);
-				}
-			}
-		}
-		break;
-	}
-}
-
-/*only set the type, don't free it, and don't set the type variable
-  create an extra type of the variable for temporary use*/
-
-static void
-mpwl_make_extra_type_no_convert (MpwRealNum *op, int type)
-{
-	if(op->type==type)
-		return;
-	switch(type) {
-	case MPW_INTEGER:
-		if (op->data.ival == NULL) {
-			GET_INIT_MPZ (op->data.ival);
-		}
-		break;
-	case MPW_RATIONAL:
-		if (op->data.rval == NULL) {
-			GET_INIT_MPQ (op->data.rval);
-		}
-		break;
-	case MPW_FLOAT:
-		if (op->data.fval == NULL) {
-			GET_INIT_MPF (op->data.fval);
-		}
-		break;
-	}
-}
-
-static void
-mpwl_make_type(MpwRealNum *op,int type)
-{
-	int t;
-
-	if(op->type==type)
-		return;
-	t=op->type;
-	mpwl_make_extra_type(op,type);
-	op->type=type;
-	mpwl_clear_extra_type(op,t);
-}
-
-/*this only adds a value of that type but does nto clear the old one!
-  retuns the new extra type set*/
-static int
-mpwl_make_same_extra_type (MpwRealNum *op1,MpwRealNum *op2)
-{
-	if (op1->type == op2->type) {
-		return op1->type;
-	} else if (op1->type > op2->type) {
-		mpwl_make_extra_type (op2, op1->type);
-		return op1->type;
-	} else { /*if(op1->type < op2->type)*/
-		mpwl_make_extra_type (op1, op2->type);
-		return op2->type;
-	}
-}
-
-#if 0
-/*this only adds a value of that type but does nto clear the old one!
-  retuns the new extra type set*/
-static int
-mpwl_make_same_extra_type_3 (MpwRealNum *op1, MpwRealNum *op2, MpwRealNum *op3)
-{
-	int maxtype = MAX (MAX (op1->type, op2->type), op3->type);
-	if (op1->type < maxtype)
-		mpwl_make_extra_type (op1, maxtype);
-	if (op2->type < maxtype)
-		mpwl_make_extra_type (op2, maxtype);
-	if (op3->type < maxtype)
-		mpwl_make_extra_type (op3, maxtype);
-	return maxtype;
-}
-#endif
-
-/*make new type and clear the old one*/
-static void
-mpwl_make_same_type(MpwRealNum *op1,MpwRealNum *op2)
-{
-	if(op1->type==op2->type)
-		return;
-	else if(op1->type > op2->type)
-		mpwl_make_type(op2,op1->type);
-	else /*if(op1->type < op2->type)*/
-		mpwl_make_type(op1,op2->type);
-}
-
-static void
-mpwl_clear(MpwRealNum *op)
-{
-	if(!op) return;
-
-	if(op->data.ival) {
-		CLEAR_FREE_MPZ (op->data.ival);
-		op->data.ival = NULL;
-	}
-	if(op->data.rval) {
-		CLEAR_FREE_MPQ (op->data.rval);
-		op->data.rval = NULL;
-	}
-	if(op->data.fval) {
-		CLEAR_FREE_MPF (op->data.fval);
-		op->data.fval = NULL;
 	}
 }
 
@@ -725,22 +690,44 @@ static int
 mpwl_cmp(MpwRealNum *op1, MpwRealNum *op2)
 {
 	int r=0;
-	int t;
 
-	t=mpwl_make_same_extra_type(op1,op2);
-	switch(t) {
-	case MPW_FLOAT:
-		r=mpf_cmp(op1->data.fval,op2->data.fval);
-		break;
-	case MPW_RATIONAL:
-		r=mpq_cmp(op1->data.rval,op2->data.rval);
-		break;
-	case MPW_INTEGER:
-		r=mpz_cmp(op1->data.ival,op2->data.ival);
-		break;
+	if (op1->type == op2->type) {
+		switch(op1->type) {
+		case MPW_FLOAT:
+			return mpf_cmp(op1->data.fval,op2->data.fval);
+		case MPW_RATIONAL:
+			return mpq_cmp(op1->data.rval,op2->data.rval);
+		case MPW_INTEGER:
+			return mpz_cmp(op1->data.ival,op2->data.ival);
+		}
+	} else {
+		switch (MPWL_MAX_TYPE (op1, op2)) {
+		case MPW_FLOAT:
+			{
+				mpfr_ptr op1_f, op1_tmp, op2_f, op2_tmp;
+				MPWL_MPF (op1_f, op1, op1_tmp);
+				MPWL_MPF (op2_f, op2, op2_tmp);
+				r = mpf_cmp (op1_f, op2_f);
+				MPWL_MPF_KILL (op1_f, op1_tmp);
+				MPWL_MPF_KILL (op2_f, op2_tmp);
+			}
+			break;
+		case MPW_RATIONAL:
+			{
+				mpq_ptr op1_q, op1_tmp, op2_q, op2_tmp;
+				MPWL_MPQ (op1_q, op1, op1_tmp);
+				MPWL_MPQ (op2_q, op2, op2_tmp);
+				r = mpq_cmp (op1_q, op2_q);
+				MPWL_MPQ_KILL (op1_q, op1_tmp);
+				MPWL_MPQ_KILL (op2_q, op2_tmp);
+			}
+			break;
+			/*
+		case MPW_INTEGER:
+			return mpz_cmp(op1->data.ival,op2->data.ival);
+			*/
+		}
 	}
-	mpwl_clear_extra_type(op1,t);
-	mpwl_clear_extra_type(op2,t);
 	return r;
 }
 
@@ -813,16 +800,8 @@ mpwl_move(MpwRealNum *rop,MpwRealNum *op)
 {
 	if (rop == op)
 		return;
-	
-	if (rop->data.ival != NULL) {
-		CLEAR_FREE_MPZ (rop->data.ival);
-	}
-	if (rop->data.rval != NULL) {
-		CLEAR_FREE_MPQ (rop->data.rval);
-	}
-	if (rop->data.fval != NULL) {
-		CLEAR_FREE_MPF (rop->data.fval);
-	}
+
+	mpwl_clear (rop);
 	memcpy(rop,op,sizeof(MpwRealNum));
 	rop->alloc.usage=1;
 	/* not necessary 
@@ -864,12 +843,12 @@ mpwl_add(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	MpwRealNum r = {{NULL}};
 	
 	/*special case*/
-	if(op1->type==op2->type && rop!=op1 && rop!=op2) {
-		if(rop->type != op1->type) {
-			mpwl_clear(rop);
-			mpwl_init_type(rop,op1->type);
+	if (op1->type == op2->type) {
+		if (rop->type != op1->type) {
+			mpwl_clear (rop);
+			mpwl_init_type (rop, op1->type);
 		}
-		switch(op1->type) {
+		switch (op1->type) {
 		case MPW_FLOAT:
 			mpf_add(rop->data.fval,op1->data.fval,op2->data.fval);
 			break;
@@ -884,25 +863,54 @@ mpwl_add(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		return;
 	}
 
-	t=mpwl_make_same_extra_type(op1,op2);
+	t = MPWL_MAX_TYPE (op1, op2);
+	mpwl_init_type (&r, t);
 
-	mpwl_init_type(&r,t);
-
-	switch(t) {
+	switch (t) {
 	case MPW_FLOAT:
-		mpf_add(r.data.fval,op1->data.fval,op2->data.fval);
+		if (op1->type == MPW_FLOAT) {
+			switch(op2->type) {
+			case MPW_RATIONAL:
+				mpfr_add_q (r.data.fval, op1->data.fval,
+					    op2->data.rval, GMP_RNDN);
+				break;
+			case MPW_INTEGER:
+				mpfr_add_z (r.data.fval, op1->data.fval,
+					    op2->data.ival, GMP_RNDN);
+				break;
+			}
+		} else /* op2 is MPW_FLOAT */ {
+			switch(op1->type) {
+			case MPW_RATIONAL:
+				mpfr_add_q (r.data.fval, op2->data.fval,
+					    op1->data.rval, GMP_RNDN);
+				break;
+			case MPW_INTEGER:
+				mpfr_add_z (r.data.fval, op2->data.fval,
+					    op1->data.ival, GMP_RNDN);
+				break;
+			}
+		}
 		break;
 	case MPW_RATIONAL:
-		mpq_add(r.data.rval,op1->data.rval,op2->data.rval);
-		mpwl_make_int(&r);
+		{
+			mpq_ptr op1_q, op1_tmp, op2_q, op2_tmp;
+			MPWL_MPQ (op1_q, op1, op1_tmp);
+			MPWL_MPQ (op2_q, op2, op2_tmp);
+			mpq_add (r.data.rval, op1_q, op2_q);
+			mpwl_make_int (&r);
+			MPWL_MPQ_KILL (op1_q, op1_tmp);
+			MPWL_MPQ_KILL (op2_q, op2_tmp);
+		}
 		break;
+		/*
 	case MPW_INTEGER:
-		mpz_add(r.data.ival,op1->data.ival,op2->data.ival);
+		mpz_add (r.data.ival, op1->data.ival, op2->data.ival);
 		break;
+		*/
 	}
-	mpwl_clear_extra_type(op1,t);
-	mpwl_clear_extra_type(op2,t);
-	mpwl_move(rop,&r);
+
+	mpwl_move (rop, &r);
 }
 
 static void
@@ -943,10 +951,10 @@ mpwl_sub(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	MpwRealNum r = {{NULL}};
 
 	/*special case*/
-	if(op1->type==op2->type && rop!=op1 && rop!=op2) {
-		if(rop->type != op1->type) {
-			mpwl_clear(rop);
-			mpwl_init_type(rop,op1->type);
+	if (op1->type == op2->type) {
+		if (rop->type != op1->type) {
+			mpwl_clear (rop);
+			mpwl_init_type (rop, op1->type);
 		}
 		switch(op1->type) {
 		case MPW_FLOAT:
@@ -963,25 +971,55 @@ mpwl_sub(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		return;
 	}
 
-	t=mpwl_make_same_extra_type(op1,op2);
+	t = MPWL_MAX_TYPE (op1, op2);
+	mpwl_init_type (&r, t);
 
-	mpwl_init_type(&r,t);
-
-	switch(t) {
+	switch (t) {
 	case MPW_FLOAT:
-		mpf_sub(r.data.fval,op1->data.fval,op2->data.fval);
+		if (op1->type == MPW_FLOAT) {
+			switch(op2->type) {
+			case MPW_RATIONAL:
+				mpfr_sub_q (r.data.fval, op1->data.fval,
+					    op2->data.rval, GMP_RNDN);
+				break;
+			case MPW_INTEGER:
+				mpfr_sub_z (r.data.fval, op1->data.fval,
+					    op2->data.ival, GMP_RNDN);
+				break;
+			}
+		} else /* op2 is MPW_FLOAT */ {
+			switch(op1->type) {
+			case MPW_RATIONAL:
+				mpfr_sub_q (r.data.fval, op2->data.fval,
+					    op1->data.rval, GMP_RNDN);
+				break;
+			case MPW_INTEGER:
+				mpfr_sub_z (r.data.fval, op2->data.fval,
+					    op1->data.ival, GMP_RNDN);
+				break;
+			}
+			mpfr_neg (r.data.fval, r.data.fval, GMP_RNDN);
+		}
 		break;
 	case MPW_RATIONAL:
-		mpq_sub(r.data.rval,op1->data.rval,op2->data.rval);
-		mpwl_make_int(&r);
+		{
+			mpq_ptr op1_q, op1_tmp, op2_q, op2_tmp;
+			MPWL_MPQ (op1_q, op1, op1_tmp);
+			MPWL_MPQ (op2_q, op2, op2_tmp);
+			mpq_sub (r.data.rval, op1_q, op2_q);
+			mpwl_make_int (&r);
+			MPWL_MPQ_KILL (op1_q, op1_tmp);
+			MPWL_MPQ_KILL (op2_q, op2_tmp);
+		}
 		break;
+		/*
 	case MPW_INTEGER:
-		mpz_sub(r.data.ival,op1->data.ival,op2->data.ival);
+		mpz_sub (r.data.ival, op1->data.ival, op2->data.ival);
 		break;
+		*/
 	}
-	mpwl_clear_extra_type(op1,t);
-	mpwl_clear_extra_type(op2,t);
-	mpwl_move(rop,&r);
+
+	mpwl_move (rop, &r);
 }
 
 static void
@@ -1055,81 +1093,93 @@ mpwl_mul(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	MpwRealNum r = {{NULL}};
 
 	/*special case*/
-	if(op1->type==op2->type && rop!=op1 && rop!=op2) {
+	if (op1->type == op2->type) {
+		if (rop->type != op1->type) {
+			mpwl_clear (rop);
+			mpwl_init_type (rop, op1->type);
+		}
 		switch(op1->type) {
 		case MPW_FLOAT:
-			if(rop->type != MPW_FLOAT) {
-				mpwl_clear(rop);
-				mpwl_init_type(rop,MPW_FLOAT);
-			}
 			mpf_mul(rop->data.fval,op1->data.fval,op2->data.fval);
 			break;
 		case MPW_RATIONAL:
-			if(rop->type != MPW_RATIONAL) {
-				mpwl_clear(rop);
-				mpwl_init_type(rop,MPW_RATIONAL);
-			}
 			mpq_mul(rop->data.rval,op1->data.rval,op2->data.rval);
 			mpwl_make_int(rop);
 			break;
 		case MPW_INTEGER:
-			if(rop->type != MPW_INTEGER) {
-				mpwl_clear(rop);
-				mpwl_init_type(rop,MPW_INTEGER);
-			}
 			mpz_mul(rop->data.ival,op1->data.ival,op2->data.ival);
 			break;
 		}
 		return;
 	}
 
-	t=mpwl_make_same_extra_type(op1,op2);
+	t = MPWL_MAX_TYPE (op1, op2);
+	mpwl_init_type (&r, t);
 
-	switch(t) {
+	switch (t) {
 	case MPW_FLOAT:
-		mpwl_init_type(&r,t);
-		mpf_mul(r.data.fval,op1->data.fval,op2->data.fval);
+		if (op1->type == MPW_FLOAT) {
+			switch(op2->type) {
+			case MPW_RATIONAL:
+				mpfr_mul_q (r.data.fval, op1->data.fval,
+					    op2->data.rval, GMP_RNDN);
+				break;
+			case MPW_INTEGER:
+				mpfr_mul_z (r.data.fval, op1->data.fval,
+					    op2->data.ival, GMP_RNDN);
+				break;
+			}
+		} else /* op2 is MPW_FLOAT */ {
+			switch(op1->type) {
+			case MPW_RATIONAL:
+				mpfr_mul_q (r.data.fval, op2->data.fval,
+					    op1->data.rval, GMP_RNDN);
+				break;
+			case MPW_INTEGER:
+				mpfr_mul_z (r.data.fval, op2->data.fval,
+					    op1->data.ival, GMP_RNDN);
+				break;
+			}
+		}
 		break;
 	case MPW_RATIONAL:
-		mpwl_init_type(&r,t);
-		mpq_mul(r.data.rval,op1->data.rval,op2->data.rval);
-		mpwl_make_int(&r);
+		{
+			mpq_ptr op1_q, op1_tmp, op2_q, op2_tmp;
+			MPWL_MPQ (op1_q, op1, op1_tmp);
+			MPWL_MPQ (op2_q, op2, op2_tmp);
+			mpq_mul (r.data.rval, op1_q, op2_q);
+			mpwl_make_int (&r);
+			MPWL_MPQ_KILL (op1_q, op1_tmp);
+			MPWL_MPQ_KILL (op2_q, op2_tmp);
+		}
 		break;
+		/*
 	case MPW_INTEGER:
-		mpwl_init_type(&r,t);
-		mpz_mul(r.data.ival,op1->data.ival,op2->data.ival);
+		mpz_mul (r.data.ival, op1->data.ival, op2->data.ival);
 		break;
+		*/
 	}
-	mpwl_clear_extra_type(op1,t);
-	mpwl_clear_extra_type(op2,t);
-	mpwl_move(rop,&r);
+
+	mpwl_move (rop, &r);
 }
 
 static void
 mpwl_mul_ui(MpwRealNum *rop,MpwRealNum *op,unsigned long int i)
 {
+	if (rop->type != op->type) {
+		mpwl_clear (rop);
+		mpwl_init_type (rop, op->type);
+	}
 	switch(op->type) {
 	case MPW_FLOAT:
-		if(rop->type!=MPW_FLOAT) {
-			mpwl_clear(rop);
-			mpwl_init_type(rop,MPW_FLOAT);
-		}
 		mpf_mul_ui(rop->data.fval,op->data.fval,i);
 		break;
 	case MPW_RATIONAL:
-		if(rop->type!=MPW_RATIONAL) {
-			mpwl_clear(rop);
-			mpwl_init_type(rop,MPW_RATIONAL);
-		}
 		mpz_mul_ui(mpq_numref(rop->data.rval),
 			   mpq_numref(op->data.rval),i);
 		mpwl_make_int(rop);
 		break;
 	case MPW_INTEGER:
-		if(rop->type!=MPW_INTEGER) {
-			mpwl_clear(rop);
-			mpwl_init_type(rop,MPW_INTEGER);
-		}
 		mpz_mul_ui(rop->data.ival,op->data.ival,i);
 		break;
 	}
@@ -1147,7 +1197,7 @@ mpwl_div(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	}
 
 	/*special case*/
-	if(op1->type > MPW_INTEGER && op1->type==op2->type && rop!=op2) {
+	if(op1->type > MPW_INTEGER && op1->type == op2->type) {
 		if(rop->type != op1->type) {
 			mpwl_clear(rop);
 			mpwl_init_type(rop,op1->type);
@@ -1165,35 +1215,47 @@ mpwl_div(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		return;
 	}
 
-	t=mpwl_make_same_extra_type(op1,op2);
+	t = MPWL_MAX_TYPE (op1, op2);
 
-	switch(t) {
+	switch (t) {
 	case MPW_FLOAT:
-		mpwl_init_type(&r,t);
-		mpf_div(r.data.fval,op1->data.fval,op2->data.fval);
+		mpwl_init_type (&r, t);
+		{
+			mpfr_ptr op1_f, op1_tmp, op2_f, op2_tmp;
+			MPWL_MPF (op1_f, op1, op1_tmp);
+			MPWL_MPF (op2_f, op2, op2_tmp);
+			mpf_div (r.data.fval, op1_f, op2_f);
+			MPWL_MPF_KILL (op1_f, op1_tmp);
+			MPWL_MPF_KILL (op2_f, op2_tmp);
+		}
 		break;
 	case MPW_RATIONAL:
-		mpwl_init_type(&r,t);
-		mpq_div(r.data.rval,op1->data.rval,op2->data.rval);
-		mpwl_make_int(&r);
+		mpwl_init_type (&r, t);
+		{
+			mpq_ptr op1_q, op1_tmp, op2_q, op2_tmp;
+			MPWL_MPQ (op1_q, op1, op1_tmp);
+			MPWL_MPQ (op2_q, op2, op2_tmp);
+			mpq_div (r.data.rval, op1_q, op2_q);
+			mpwl_make_int (&r);
+			MPWL_MPQ_KILL (op1_q, op1_tmp);
+			MPWL_MPQ_KILL (op2_q, op2_tmp);
+		}
 		break;
 	case MPW_INTEGER:
-		mpwl_init_type(&r,MPW_RATIONAL);
-		mpq_set_z(r.data.rval,op1->data.ival);
-		mpz_set(mpq_denref(r.data.rval),
-			op2->data.ival);
-		mpwl_make_int(&r);
+		/* types MUST BE equal as integer is the lowest type */
+		mpwl_init_type (&r, MPW_RATIONAL);
+		mpz_set (mpq_numref (r.data.rval), op1->data.ival);
+		mpz_set (mpq_denref (r.data.rval), op2->data.ival);
+		mpwl_make_int (&r);
 		break;
 	}
-	mpwl_clear_extra_type(op1,t);
-	mpwl_clear_extra_type(op2,t);
-	mpwl_move(rop,&r);
+
+	mpwl_move (rop, &r);
 }
 
 static void
 mpwl_div_ui(MpwRealNum *rop,MpwRealNum *op,unsigned long int i)
 {
-	int t;
 	if G_UNLIKELY (i==0) {
 		error_num=NUMERICAL_MPW_ERROR;
 		return;
@@ -1217,13 +1279,15 @@ mpwl_div_ui(MpwRealNum *rop,MpwRealNum *op,unsigned long int i)
 		mpwl_make_int(rop);
 		break;
 	case MPW_INTEGER:
-		t = rop->type;
-		mpwl_make_extra_type_no_convert (rop,MPW_RATIONAL);
-		rop->type = MPW_RATIONAL;
-		mpq_set_z(rop->data.rval,op->data.ival);
-		mpz_set_ui(mpq_denref(rop->data.rval),i);
-		mpwl_clear_extra_type(rop,t);
-		mpwl_make_int (rop);
+		{
+			MpwRealNum r = {{NULL}};
+			mpwl_init_type (&r, MPW_RATIONAL);
+
+			mpq_set_z (r.data.rval, op->data.ival);
+			mpz_set_ui (mpq_denref (r.data.rval), i);
+			mpwl_move (rop, &r);
+			mpwl_make_int (rop);
+		}
 		break;
 	}
 }
@@ -1231,7 +1295,6 @@ mpwl_div_ui(MpwRealNum *rop,MpwRealNum *op,unsigned long int i)
 static void
 mpwl_ui_div(MpwRealNum *rop,unsigned long int i,MpwRealNum *op)
 {
-	int t;
 	if G_UNLIKELY (mpwl_sgn(op)==0) {
 		error_num=NUMERICAL_MPW_ERROR;
 		return;
@@ -1256,13 +1319,14 @@ mpwl_ui_div(MpwRealNum *rop,unsigned long int i,MpwRealNum *op)
 		mpwl_make_int(rop);
 		break;
 	case MPW_INTEGER:
-		t = rop->type;
-		mpwl_make_extra_type_no_convert (rop,MPW_RATIONAL);
-		rop->type = MPW_RATIONAL;
-		mpz_set_ui(mpq_numref(rop->data.rval),i);
-		mpz_set(mpq_denref(rop->data.rval),op->data.ival);
-		mpwl_clear_extra_type(rop,t);
-		mpwl_make_int (rop);
+		{
+			MpwRealNum r = {{NULL}};
+			mpwl_init_type (&r, MPW_RATIONAL);
+			mpz_set_ui (mpq_numref (r.data.rval), i);
+			mpz_set (mpq_denref (r.data.rval), op->data.ival);
+			mpwl_move (rop, &r);
+			mpwl_make_int (rop);
+		}
 		break;
 	}
 }
@@ -1276,13 +1340,10 @@ mpwl_mod(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	}
 
 	if G_LIKELY (op1->type == MPW_INTEGER && op2->type == MPW_INTEGER) {
-		int t1;
-
-		t1 = rop->type;
-		mpwl_make_extra_type_no_convert (rop,MPW_INTEGER);
-		rop->type = MPW_INTEGER;
-		mpz_mod(rop->data.ival,op1->data.ival,op2->data.ival);
-		mpwl_clear_extra_type(rop,t1);
+		MpwRealNum r = {{NULL}};
+		mpwl_init_type (&r, MPW_INTEGER);
+		mpz_mod (r.data.ival, op1->data.ival, op2->data.ival);
+		mpwl_move (rop, &r);
 	} else {
 		gel_errorout (_("Can't do modulo of floats or rationals!"));
 		error_num=NUMERICAL_MPW_ERROR;
@@ -1293,13 +1354,10 @@ static void
 mpwl_gcd(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
 	if G_LIKELY (op1->type == MPW_INTEGER && op2->type == MPW_INTEGER) {
-		int t1;
-
-		t1 = rop->type;
-		mpwl_make_extra_type_no_convert (rop,MPW_INTEGER);
-		rop->type = MPW_INTEGER;
-		mpz_gcd(rop->data.ival,op1->data.ival,op2->data.ival);
-		mpwl_clear_extra_type(rop,t1);
+		MpwRealNum r = {{NULL}};
+		mpwl_init_type (&r, MPW_INTEGER);
+		mpz_gcd (r.data.ival, op1->data.ival, op2->data.ival);
+		mpwl_move (rop, &r);
 	} else {
 		gel_errorout (_("Can't do GCD of floats or rationals!"));
 		error_num=NUMERICAL_MPW_ERROR;
@@ -1583,13 +1641,15 @@ mpwl_dblfac (MpwRealNum *rop,MpwRealNum *op)
 static gboolean
 mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
+	mpf_ptr op1_f;
+	mpf_ptr op1_tmp;
+
 	mpf_t fr;
 	mpf_t fr2;
 	mpf_t frt;
 	mpf_t de;
 	mpz_t des;
 	unsigned long int den;
-	int t;
 	gboolean reverse = FALSE;
 
 	if G_UNLIKELY (op2->type!=MPW_RATIONAL) {
@@ -1675,8 +1735,7 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	if(mpq_sgn(op2->data.rval)<0)
 		reverse=TRUE;
 
-	mpwl_make_extra_type(op1,MPW_FLOAT);
-	t=MPW_FLOAT;
+	MPWL_MPF (op1_f, op1, op1_tmp);
 
 
 	/*
@@ -1686,11 +1745,11 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	mpf_init(fr);
 	mpf_init(fr2);
 	mpf_init(frt);
-	mpf_div_ui(fr,op1->data.fval,2); /*use half the value
+	mpf_div_ui (fr, op1_f, 2); /*use half the value
 					     as an initial guess*/
 	for(;;) {
 		mympfr_pow_z(fr2,fr,mpq_denref(op2->data.rval));
-		mpf_sub(fr2,fr2,op1->data.fval);
+		mpf_sub (fr2, fr2, op1_f);
 
 		mympfr_pow_z(frt,fr,des);
 		mpf_mul(frt,frt,de);
@@ -1719,7 +1778,7 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		mympfr_pow_z(fr,fr,mpq_numref(op2->data.rval));
 
 	/*op1 might have equaled rop so clear extra type here*/
-	mpwl_clear_extra_type(op1,t);
+	MPWL_MPF_KILL (op1_f, op1_tmp);
 
 	mpwl_clear(rop);
 	mpwl_init_type(rop,MPW_FLOAT);
@@ -1840,6 +1899,8 @@ mpwl_pow_z(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 static gboolean
 mpwl_pow_f(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
+	mpf_ptr op1_f;
+	mpf_ptr op1_tmp;
 	MpwRealNum r = {{NULL}};
 
 	if G_UNLIKELY (op2->type!=MPW_FLOAT) {
@@ -1849,13 +1910,13 @@ mpwl_pow_f(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	if(mpwl_sgn(op1)<=0)
 		return TRUE;
 	
-	mpwl_make_extra_type(op1,MPW_FLOAT);
+	MPWL_MPF (op1_f, op1, op1_tmp);
 	
-	mpwl_init_type(&r,MPW_FLOAT);
+	mpwl_init_type (&r, MPW_FLOAT);
 
-	mpfr_pow (r.data.fval, op1->data.fval, op2->data.fval, GMP_RNDN);
+	mpfr_pow (r.data.fval, op1_f, op2->data.fval, GMP_RNDN);
 
-	mpwl_clear_extra_type(op1,MPW_FLOAT);
+	MPWL_MPF_KILL (op1_f, op1_tmp);
 
 	mpwl_move(rop,&r);
 	return FALSE;
@@ -2007,10 +2068,14 @@ mpwl_sqrt (MpwRealNum *rop, MpwRealNum *op)
 		mpz_sqrt (mpq_numref (r.data.rval), mpq_numref (op->data.rval));
 		mpz_sqrt (mpq_denref (r.data.rval), mpq_denref (op->data.rval));
 	} else {
+		mpf_ptr op_f;
+		mpf_ptr op_tmp;
+
 		mpwl_init_type (&r, MPW_FLOAT);
-		mpwl_make_extra_type (op, MPW_FLOAT);
-		mpf_sqrt (r.data.fval, op->data.fval);
-		mpwl_clear_extra_type (op,MPW_FLOAT);
+
+		MPWL_MPF (op_f, op, op_tmp);
+		mpf_sqrt (r.data.fval, op_f);
+		MPWL_MPF_KILL (op_f, op_tmp);
 	}
 	if (is_complex)
 		mpwl_neg (op, op);
@@ -2019,39 +2084,28 @@ mpwl_sqrt (MpwRealNum *rop, MpwRealNum *op)
 	return is_complex;
 }
 
-static void
-mpwl_exp(MpwRealNum *rop,MpwRealNum *op)
-{
-	MpwRealNum r = {{NULL}};
-
-	mpwl_init_type(&r,MPW_FLOAT);
-	mpwl_make_extra_type(op,MPW_FLOAT);
-	mpfr_exp (r.data.fval, op->data.fval, GMP_RNDN);
-	mpwl_clear_extra_type(op,MPW_FLOAT);
-
-	mpwl_move(rop,&r);
-}
-
 static gboolean
 mpwl_ln(MpwRealNum *rop,MpwRealNum *op)
 {
+	mpf_ptr op_f;
+	mpf_ptr op_tmp;
 	gboolean ret;
 	MpwRealNum r = {{NULL}};
 
 	mpwl_init_type(&r,MPW_FLOAT);
-	mpwl_make_extra_type(op,MPW_FLOAT);
-	if (mpfr_sgn (op->data.fval) < 0) {
+	MPWL_MPF (op_f, op, op_tmp);
+	if (mpfr_sgn (op_f) < 0) {
 		mpfr_t f;
-		mpfr_init_set (f, op->data.fval, GMP_RNDN);
+		mpfr_init_set (f, op_f, GMP_RNDN);
 		mpfr_neg (f, f, GMP_RNDN);
 		mpfr_log (r.data.fval, f, GMP_RNDN);
 		mpfr_clear (f);
 		ret = FALSE;
 	} else {
-		mpfr_log (r.data.fval, op->data.fval, GMP_RNDN);
+		mpfr_log (r.data.fval, op_f, GMP_RNDN);
 		ret = TRUE;
 	}
-	mpwl_clear_extra_type(op,MPW_FLOAT);
+	MPWL_MPF_KILL (op_f, op_tmp);
 
 	mpwl_move(rop,&r);
 	
@@ -2061,23 +2115,25 @@ mpwl_ln(MpwRealNum *rop,MpwRealNum *op)
 static gboolean
 mpwl_log2(MpwRealNum *rop,MpwRealNum *op)
 {
+	mpf_ptr op_f;
+	mpf_ptr op_tmp;
 	gboolean ret;
 	MpwRealNum r = {{NULL}};
 
 	mpwl_init_type(&r,MPW_FLOAT);
-	mpwl_make_extra_type(op,MPW_FLOAT);
-	if (mpfr_sgn (op->data.fval) < 0) {
+	MPWL_MPF (op_f, op, op_tmp);
+	if (mpfr_sgn (op_f) < 0) {
 		mpfr_t f;
-		mpfr_init_set (f, op->data.fval, GMP_RNDN);
+		mpfr_init_set (f, op_f, GMP_RNDN);
 		mpfr_neg (f, f, GMP_RNDN);
 		mpfr_log2 (r.data.fval, f, GMP_RNDN);
 		mpfr_clear (f);
 		ret = FALSE;
 	} else {
-		mpfr_log2 (r.data.fval, op->data.fval, GMP_RNDN);
+		mpfr_log2 (r.data.fval, op_f, GMP_RNDN);
 		ret = TRUE;
 	}
-	mpwl_clear_extra_type(op,MPW_FLOAT);
+	MPWL_MPF_KILL (op_f, op_tmp);
 
 	mpwl_move(rop,&r);
 	
@@ -2087,89 +2143,53 @@ mpwl_log2(MpwRealNum *rop,MpwRealNum *op)
 static gboolean
 mpwl_log10(MpwRealNum *rop,MpwRealNum *op)
 {
+	mpf_ptr op_f;
+	mpf_ptr op_tmp;
 	gboolean ret;
 	MpwRealNum r = {{NULL}};
 
 	mpwl_init_type(&r,MPW_FLOAT);
-	mpwl_make_extra_type(op,MPW_FLOAT);
-	if (mpfr_sgn (op->data.fval) < 0) {
+	MPWL_MPF (op_f, op, op_tmp);
+	if (mpfr_sgn (op_f) < 0) {
 		mpfr_t f;
-		mpfr_init_set (f, op->data.fval, GMP_RNDN);
+		mpfr_init_set (f, op_f, GMP_RNDN);
 		mpfr_neg (f, f, GMP_RNDN);
 		mpfr_log10 (r.data.fval, f, GMP_RNDN);
 		mpfr_clear (f);
 		ret = FALSE;
 	} else {
-		mpfr_log10 (r.data.fval, op->data.fval, GMP_RNDN);
+		mpfr_log10 (r.data.fval, op_f, GMP_RNDN);
 		ret = TRUE;
 	}
-	mpwl_clear_extra_type(op,MPW_FLOAT);
+	MPWL_MPF_KILL (op_f, op_tmp);
 
 	mpwl_move(rop,&r);
 	
 	return ret;
 }
 
-static void
-mpwl_cos(MpwRealNum *rop,MpwRealNum *op)
-{
-	MpwRealNum r = {{NULL}};
-
-	mpwl_init_type(&r,MPW_FLOAT);
-	mpwl_make_extra_type(op,MPW_FLOAT);
-	mpfr_cos (r.data.fval, op->data.fval, GMP_RNDN);
-	mpwl_clear_extra_type(op,MPW_FLOAT);
-
-	mpwl_move(rop,&r);
+#define DEFINE_SIMPLE_MPWL_MPFR(mpwl_func,mpfr_func) \
+static void							\
+mpwl_func (MpwRealNum *rop,MpwRealNum *op)			\
+{								\
+	mpfr_ptr op_f;						\
+	mpfr_ptr op_tmp;					\
+	MpwRealNum r = {{NULL}};				\
+								\
+	mpwl_init_type(&r,MPW_FLOAT);				\
+	MPWL_MPF (op_f, op, op_tmp);				\
+	mpfr_func (r.data.fval, op_f, GMP_RNDN);	\
+	MPWL_MPF_KILL (op_f, op_tmp);				\
+								\
+	mpwl_move(rop,&r);					\
 }
-static void
-mpwl_sin(MpwRealNum *rop,MpwRealNum *op)
-{
-	MpwRealNum r = {{NULL}};
 
-	mpwl_init_type(&r,MPW_FLOAT);
-	mpwl_make_extra_type(op,MPW_FLOAT);
-	mpfr_sin (r.data.fval, op->data.fval, GMP_RNDN);
-	mpwl_clear_extra_type(op,MPW_FLOAT);
-
-	mpwl_move(rop,&r);
-}
-static void
-mpwl_cosh(MpwRealNum *rop,MpwRealNum *op)
-{
-	MpwRealNum r = {{NULL}};
-
-	mpwl_init_type(&r,MPW_FLOAT);
-	mpwl_make_extra_type(op,MPW_FLOAT);
-	mpfr_cosh (r.data.fval, op->data.fval, GMP_RNDN);
-	mpwl_clear_extra_type(op,MPW_FLOAT);
-
-	mpwl_move(rop,&r);
-}
-static void
-mpwl_sinh(MpwRealNum *rop,MpwRealNum *op)
-{
-	MpwRealNum r = {{NULL}};
-
-	mpwl_init_type(&r,MPW_FLOAT);
-	mpwl_make_extra_type(op,MPW_FLOAT);
-	mpfr_sinh (r.data.fval, op->data.fval, GMP_RNDN);
-	mpwl_clear_extra_type(op,MPW_FLOAT);
-
-	mpwl_move(rop,&r);
-}
-static void
-mpwl_arctan(MpwRealNum *rop,MpwRealNum *op)
-{
-	MpwRealNum r = {{NULL}};
-
-	mpwl_init_type(&r,MPW_FLOAT);
-	mpwl_make_extra_type(op,MPW_FLOAT);
-	mpfr_atan (r.data.fval, op->data.fval, GMP_RNDN);
-	mpwl_clear_extra_type(op,MPW_FLOAT);
-
-	mpwl_move(rop,&r);
-}
+DEFINE_SIMPLE_MPWL_MPFR (mpwl_exp, mpfr_exp)
+DEFINE_SIMPLE_MPWL_MPFR (mpwl_cos, mpfr_cos)
+DEFINE_SIMPLE_MPWL_MPFR (mpwl_sin, mpfr_sin)
+DEFINE_SIMPLE_MPWL_MPFR (mpwl_cosh, mpfr_cosh)
+DEFINE_SIMPLE_MPWL_MPFR (mpwl_sinh, mpfr_sinh)
+DEFINE_SIMPLE_MPWL_MPFR (mpwl_arctan, mpfr_atan)
 
 static void
 mpwl_pi (MpwRealNum *rop)
@@ -2283,14 +2303,12 @@ mpwl_make_int(MpwRealNum *rop)
 		case MPW_RATIONAL:
 			mpq_canonicalize(rop->data.rval);
 			if(mpz_cmp_ui(mpq_denref(rop->data.rval),1)==0) {
-				if (rop->data.ival == NULL) {
-					GET_INIT_MPZ (rop->data.ival);
-				}
-				mpz_set (rop->data.ival,
-					 mpq_numref (rop->data.rval));
+				mpz_ptr ival;
+				GET_INIT_MPZ (ival);
+				mpz_set (ival, mpq_numref (rop->data.rval));
 				CLEAR_FREE_MPQ (rop->data.rval);
-				rop->data.rval = NULL;
-				rop->type=MPW_INTEGER;
+				rop->data.ival = ival;
+				rop->type = MPW_INTEGER;
 			}
 			break;
 	}
@@ -2310,13 +2328,12 @@ mpwl_round(MpwRealNum *rop)
 {
 	if(rop->type > MPW_INTEGER) {
 		if(rop->type == MPW_FLOAT) {
-			rop->type=MPW_INTEGER;
-			if (rop->data.ival == NULL) {
-				GET_INIT_MPZ (rop->data.ival);
-			}
-			mpz_set_fr (rop->data.ival, rop->data.fval, GMP_RNDN);
+			mpz_ptr ival;
+			GET_INIT_MPZ (ival);
+			mpz_set_fr (ival, rop->data.fval, GMP_RNDN);
 			CLEAR_FREE_MPF (rop->data.fval);
-			rop->data.fval = NULL;
+			rop->data.ival = ival;
+			rop->type = MPW_INTEGER;
 		} else /*MPW_RATIONAL*/ {
 			mpq_ptr tmp;
 			GET_INIT_MPQ (tmp);
@@ -2348,24 +2365,22 @@ mpwl_ceil(MpwRealNum *rop)
 {
 	if(rop->type > MPW_INTEGER) {
 		if(rop->type == MPW_FLOAT) {
-			rop->type=MPW_INTEGER;
-			if (rop->data.ival == NULL) {
-				GET_INIT_MPZ (rop->data.ival);
-			}
-			mpz_set_fr (rop->data.ival, rop->data.fval, GMP_RNDU);
+			mpz_ptr ival;
+			GET_INIT_MPZ (ival);
+			mpz_set_fr (ival, rop->data.fval, GMP_RNDU);
 			CLEAR_FREE_MPF (rop->data.fval);
-			rop->data.fval = NULL;
+			rop->data.ival = ival;
+			rop->type = MPW_INTEGER;
 		} else /*MPW_RATIONAL*/ {
 			mpq_canonicalize(rop->data.rval);
 			if(mpz_cmp_ui(mpq_denref(rop->data.rval),1)==0) {
-				rop->type=MPW_INTEGER;
-				if (rop->data.ival == NULL) {
-					GET_INIT_MPZ (rop->data.ival);
-				}
-				mpz_set (rop->data.ival,
+				mpz_ptr ival;
+				GET_INIT_MPZ (ival);
+				mpz_set (ival,
 					 mpq_numref (rop->data.rval));
 				CLEAR_FREE_MPQ (rop->data.rval);
-				rop->data.rval = NULL;
+				rop->data.ival = ival;
+				rop->type = MPW_INTEGER;
 			} else {
 				if(mpq_sgn(rop->data.rval)>0) {
 					mpwl_make_type(rop,MPW_INTEGER);
@@ -2383,24 +2398,22 @@ mpwl_floor(MpwRealNum *rop)
 {
 	if(rop->type > MPW_INTEGER) {
 		if(rop->type == MPW_FLOAT) {
-			rop->type=MPW_INTEGER;
-			if (rop->data.ival == NULL) {
-				GET_INIT_MPZ (rop->data.ival);
-			}
-			mpz_set_fr (rop->data.ival, rop->data.fval, GMP_RNDD);
+			mpz_ptr ival;
+			GET_INIT_MPZ (ival);
+			mpz_set_fr (ival, rop->data.fval, GMP_RNDD);
 			CLEAR_FREE_MPF (rop->data.fval);
-			rop->data.fval = NULL;
+			rop->data.ival = ival;
+			rop->type = MPW_INTEGER;
 		} else /*MPW_RATIONAL*/ {
 			mpq_canonicalize(rop->data.rval);
 			if(mpz_cmp_ui(mpq_denref(rop->data.rval),1)==0) {
-				rop->type=MPW_INTEGER;
-				if (rop->data.ival == NULL) {
-					GET_INIT_MPZ (rop->data.ival);
-				}
-				mpz_set (rop->data.ival,
+				mpz_ptr ival;
+				GET_INIT_MPZ (ival);
+				mpz_set (ival,
 					 mpq_numref (rop->data.rval));
 				CLEAR_FREE_MPQ (rop->data.rval);
-				rop->data.rval = NULL;
+				rop->data.ival = ival;
+				rop->type = MPW_INTEGER;
 			} else {
 				if(mpq_sgn(rop->data.rval)<0) {
 					mpwl_make_type(rop,MPW_INTEGER);
@@ -2419,13 +2432,12 @@ mpwl_trunc(MpwRealNum *rop)
 	if (rop->type == MPW_RATIONAL) {
 		mpwl_make_type(rop,MPW_INTEGER);
 	} else if (rop->type == MPW_FLOAT) {
-		rop->type = MPW_INTEGER;
-		if (rop->data.ival == NULL) {
-			GET_INIT_MPZ (rop->data.ival);
-		}
-		mpz_set_fr (rop->data.ival, rop->data.fval, GMP_RNDZ);
+		mpz_ptr ival;
+		GET_INIT_MPZ (ival);
+		mpz_set_fr (ival, rop->data.fval, GMP_RNDZ);
 		CLEAR_FREE_MPF (rop->data.fval);
-		rop->data.fval = NULL;
+		rop->data.ival = ival;
+		rop->type = MPW_INTEGER;
 	}
 }
 
@@ -2444,13 +2456,12 @@ mpwl_numerator(MpwRealNum *rop, MpwRealNum *op)
 			mpwl_init_type(rop, MPW_INTEGER);
 			mpz_set(rop->data.ival, mpq_numref(op->data.rval));
 		} else {
-			if (rop->data.ival == NULL) {
-				GET_INIT_MPZ (rop->data.ival);
-			}
-			mpz_set (rop->data.ival,
-				 mpq_numref(rop->data.rval));
+			mpz_ptr ival;
+			GET_INIT_MPZ (ival);
+			mpz_set (ival,
+				 mpq_numref (rop->data.rval));
 			CLEAR_FREE_MPQ (rop->data.rval);
-			rop->data.rval = NULL;
+			rop->data.ival = ival;
 			rop->type = MPW_INTEGER;
 		}
 	}
@@ -2470,13 +2481,12 @@ mpwl_denominator(MpwRealNum *rop, MpwRealNum *op)
 			mpwl_init_type(rop, MPW_INTEGER);
 			mpz_set(rop->data.ival, mpq_denref(op->data.rval));
 		} else {
-			if (rop->data.ival == NULL) {
-				GET_INIT_MPZ (rop->data.ival);
-			}
-			mpz_set (rop->data.ival,
-				 mpq_denref(rop->data.rval));
+			mpz_ptr ival;
+			GET_INIT_MPZ (ival);
+			mpz_set (ival,
+				 mpq_denref (rop->data.rval));
 			CLEAR_FREE_MPQ (rop->data.rval);
-			rop->data.rval = NULL;
+			rop->data.ival = ival;
 			rop->type = MPW_INTEGER;
 		}
 	}
@@ -2542,19 +2552,32 @@ mpwl_get_long (MpwRealNum *op, int *ex)
 static double
 mpwl_get_double (MpwRealNum *op, int *ex)
 {
-	double d;
+	double d = 0.0;
 
-	mpwl_make_extra_type (op, MPW_FLOAT);
-
-	if G_UNLIKELY (mpfr_cmp_d (op->data.fval, G_MAXDOUBLE) > 0 ||
-		       mpfr_cmp_d (op->data.fval, -G_MAXDOUBLE) < 0) {
+	switch (op->type) {
+	case MPW_RATIONAL:
+		d = mpq_get_d (op->data.rval);
+		break;
+	case MPW_INTEGER:
+		d = mpz_get_d (op->data.ival);
+		break;
+	case MPW_FLOAT:
+		/*if G_UNLIKELY (mpfr_cmp_d (op->data.fval, G_MAXDOUBLE) > 0 ||
+			       mpfr_cmp_d (op->data.fval, -G_MAXDOUBLE) < 0) {
+			*ex = MPWL_EXCEPTION_NUMBER_TOO_LARGE;
+			return 0;
+		}*/
+		d = mpfr_get_d (op->data.fval, GMP_RNDN);
+		break;
+	default: break;
+	}
+/* What if this is not defined? */
+#ifdef isfinite
+	if G_UNLIKELY ( ! isfinite (d)) {
 		*ex = MPWL_EXCEPTION_NUMBER_TOO_LARGE;
 		return 0;
 	}
-
-	d = mpf_get_d (op->data.fval);
-
-	mpwl_clear_extra_type (op, MPW_FLOAT);
+#endif
 
 	return d;
 }
@@ -3016,6 +3039,11 @@ mpw_make_same_type(mpw_ptr op1,mpw_ptr op2)
 void
 mpw_set(mpw_ptr rop,mpw_ptr op)
 {
+	if (rop == op)
+		return;
+
+	mpw_clear (rop);
+
 	rop->r = op->r;
 	rop->r->alloc.usage++;
 	rop->i = op->i;
