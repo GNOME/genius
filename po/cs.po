@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-07 03:22+0200\n"
-"PO-Revision-Date: 2004-04-07 13:22+0200\n"
+"POT-Creation-Date: 2004-04-16 14:43+0200\n"
+"PO-Revision-Date: 2004-04-16 16:47+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "Neočekávaný operátor!"
 
 #. FIXME:
 #: src/calc.c:1166
-msgid "Cannot currently print polynomials of more then 3 vars"
+msgid "Cannot currently print polynomials of more than 3 vars"
 msgstr "Momentálně neumím tisknout polynomy více než 3 proměnných"
 
 #: src/calc.c:1241
@@ -281,7 +281,9 @@ msgstr "Nalezen nevyhodnotitelný typ funkce!"
 msgid ""
 "Variable 'i' used uninitialized.  Perhaps you meant to write '1i' for the "
 "imaginary number (square root of -1)."
-msgstr "Byla použita neinicializovaná proměnná'i'. Možná jste chtěli napsat '1i', imaginární číslo (odmocnina -1)."
+msgstr ""
+"Byla použita neinicializovaná proměnná'i'. Možná jste chtěli napsat '1i', "
+"imaginární číslo (odmocnina -1)."
 
 #: src/eval.c:2884 src/eval.c:2903 src/eval.c:3714
 #, c-format
@@ -294,7 +296,7 @@ msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
 "(should be %d)"
 msgstr ""
-"Volání '%s' se špatným počtem argumentů!\n"
+"Volání '%s' se špatným počtem parametrů!\n"
 "(mělo by jich být %d)"
 
 #: src/eval.c:2909
@@ -312,11 +314,11 @@ msgstr "Nemohu porovnávat matice"
 
 #: src/eval.c:3076
 msgid "Primitives must get numeric/matrix/string arguments"
-msgstr "Primitiva musí mít číselné/maticové/řetězcové argumenty"
+msgstr "Primitiva musí mít číselné/maticové/řetězcové parametry"
 
 #: src/eval.c:3149
 msgid "Bad argument to modular operation"
-msgstr "Špatný argument modulární operace"
+msgstr "Špatný parametr modulární operace"
 
 #: src/eval.c:3700
 #, c-format
@@ -332,14 +334,13 @@ msgstr "Nemohu dereferencovat '%s'!"
 msgid "Can't call a non-function!"
 msgstr "Nemohu volat nefunkci!"
 
-# FIXME: s/then/than/
 #: src/eval.c:3764
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
-"(should be greater then %d)"
+"(should be greater than %d)"
 msgstr ""
-"Volání '%s' se špatným počtem argumentů!\n"
+"Volání '%s' se špatným počtem parametrů!\n"
 "(mělo by jich být více než %d)"
 
 #: src/eval.c:3803
@@ -349,7 +350,7 @@ msgstr "Odkaz na nedefinovanou proměnnou %s!"
 
 #: src/eval.c:3913
 msgid "Reference function with arguments encountered!"
-msgstr "Nalezen odkaz na funkci s argumenty!"
+msgstr "Nalezen odkaz na funkci s parametry!"
 
 #: src/eval.c:3918
 msgid "Unnamed reference function encountered!"
@@ -373,7 +374,7 @@ msgstr "Continue nebo break mimo smyčku, předpokládám \"return null\""
 
 #: src/eval.c:4360
 msgid "Wrong argument type as matrix index"
-msgstr "Špatný typ argumentu jako indexu matice"
+msgstr "Špatný typ parametru jako indexu matice"
 
 #: src/eval.c:4370
 msgid "Matrix index too large"
@@ -568,57 +569,57 @@ msgstr "Tvorba vektorů funguje jen na číslech"
 #. FIXME: perhaps we should just return null like octave?
 #: src/eval.c:5196
 msgid "Impossible arguments to vector building operator"
-msgstr "Nemožné argumenty operátoru tvorby vektorů"
+msgstr "Nemožné parametry operátoru tvorby vektorů"
 
 #: src/funclib.c:85
 #, c-format
 msgid "%s: argument number %d not an integer"
-msgstr "%s: argument číslo %d není celé číslo"
+msgstr "%s: parametr číslo %d není celé číslo"
 
 #: src/funclib.c:98
 #, c-format
 msgid "%s: argument number %d not an integer or a matrix"
-msgstr "%s: argument číslo %d není celé číslo nebo matice"
+msgstr "%s: parametr číslo %d není celé číslo nebo matice"
 
 #: src/funclib.c:112
 #, c-format
 msgid "%s: argument number %d not a positive integer"
-msgstr "%s: argument číslo %d není kladné celé číslo"
+msgstr "%s: parametr číslo %d není kladné celé číslo"
 
 #: src/funclib.c:122 src/graphing.c:820
 #, c-format
 msgid "%s: argument number %d not a number"
-msgstr "%s: argument číslo %d není číslo"
+msgstr "%s: parametr číslo %d není číslo"
 
 #: src/funclib.c:133
 #, c-format
 msgid "%s: argument number %d not a real number"
-msgstr "%s: argument číslo %d není reálné číslo"
+msgstr "%s: parametr číslo %d není reálné číslo"
 
 #: src/funclib.c:143
 #, c-format
 msgid "%s: argument number %d not a matrix"
-msgstr "%s: argument číslo %d není matice"
+msgstr "%s: parametr číslo %d není matice"
 
 #: src/funclib.c:154
 #, c-format
 msgid "%s: argument number %d not a value only matrix"
-msgstr "%s: argument číslo %d není matice, která má jen hodnoty"
+msgstr "%s: parametr číslo %d není matice, která má jen hodnoty"
 
 #: src/funclib.c:164 src/funclib.c:175
 #, c-format
 msgid "%s: argument number %d not a string"
-msgstr "%s: argument číslo %d není řetězec"
+msgstr "%s: parametr číslo %d není řetězec"
 
 #: src/funclib.c:204
 #, c-format
 msgid "%s: argument can't be negative or 0"
-msgstr "%s: argument nesmí být záporný nebo 0"
+msgstr "%s: parametr nesmí být záporný nebo 0"
 
 #: src/funclib.c:208
 #, c-format
 msgid "%s: argument too large"
-msgstr "%s: příliš velký argument"
+msgstr "%s: příliš velký parametr"
 
 #: src/funclib.c:235
 msgid "Cannot locate the manual"
@@ -676,7 +677,7 @@ msgstr "%s: pokouším se nastavit parametr, použijte rovnítko"
 #: src/funclib.c:411 src/funclib.c:498
 #, c-format
 msgid "%s: Too many arguments, should be at most %d"
-msgstr "%s: Příliš mnoho argumentů, mělo by jich být nejvýše %d"
+msgstr "%s: Příliš mnoho parametrů, mělo by jich být nejvýše %d"
 
 #: src/funclib.c:640
 msgid "Cannot apply function to two differently sized matrixes"
@@ -695,37 +696,37 @@ msgstr "%s: Nemohu najít funkci odmocniny pro prvočíselný modul"
 #: src/funclib.c:1494
 #, c-format
 msgid "%s: matrix argument is not square"
-msgstr "%s: maticový argument není čtvercový"
+msgstr "%s: maticový parametr není čtvercový"
 
 #: src/funclib.c:1622 src/funclib.c:1722
 #, c-format
 msgid "%s: matrix argument must be integer only"
-msgstr "%s: maticový argument musí být jen z celých čísel"
+msgstr "%s: maticový parametr musí být jen z celých čísel"
 
 #: src/funclib.c:1644 src/funclib.c:1744
 #, c-format
 msgid "%s: argument must be an integer"
-msgstr "%s: argument musí být celé číslo"
+msgstr "%s: parametr musí být celé číslo"
 
 #: src/funclib.c:1979 src/funclib.c:2060
 #, c-format
 msgid "%s: matrix argument must be value only"
-msgstr "%s: maticový argument musí být jen hodnoty"
+msgstr "%s: maticový parametr musí být jen hodnoty"
 
 #: src/funclib.c:2174 src/funclib.c:2214 src/funclib.c:3229
 #, c-format
 msgid "%s: too many arguments"
-msgstr "%s: příliš mnoho argumentů"
+msgstr "%s: příliš mnoho parametrů"
 
 #: src/funclib.c:2337
 #, c-format
 msgid "%s: vector argument not value only"
-msgstr "%s: vektorový argument nejsou jen hodnoty"
+msgstr "%s: vektorový parametr nejsou jen hodnoty"
 
 #: src/funclib.c:2348 src/funclib.c:2377
 #, c-format
 msgid "%s: vector argument has too large entries"
-msgstr "%s: vektorový argument má příliš velké položky"
+msgstr "%s: vektorový parametr má příliš velké položky"
 
 #: src/funclib.c:2454 src/funclib.c:2460
 #, c-format
@@ -739,27 +740,26 @@ msgstr "%s: matice nemají stejnou výšku"
 
 #: src/funclib.c:2504
 msgid "third argument"
-msgstr "třetí argument"
+msgstr "třetí parametr"
 
 #: src/funclib.c:2509
 msgid "fourth argument"
-msgstr "čtvrtý argument"
+msgstr "čtvrtý parametr"
 
-# FIXME: s/then/than/
 #: src/funclib.c:2792
 #, c-format
-msgid "%s: argument must be greater then 2"
-msgstr "%s: argument musí být větší než 2"
+msgid "%s: argument must be greater than 2"
+msgstr "%s: parametr musí být větší než 2"
 
 #: src/funclib.c:2907
 #, c-format
 msgid "%s: arguments not horizontal vectors"
-msgstr "%s: argumenty nejsou vodorovné vektory"
+msgstr "%s: parametry nejsou vodorovné vektory"
 
 #: src/funclib.c:2916
 #, c-format
 msgid "%s: arguments not numeric only vectors"
-msgstr "%s: argumenty nejsou vektory jen s čísly"
+msgstr "%s: parametry nejsou vektory jen s čísly"
 
 #: src/funclib.c:3446 src/funclib.c:3535 src/funclib.c:3754 src/funclib.c:3809
 #, c-format
@@ -774,12 +774,12 @@ msgstr "%s: nedefinovaná funkce"
 #: src/funclib.c:3918
 #, c-format
 msgid "%s: flags argument must be a string"
-msgstr "%s: argument příznaků musí být řetězec"
+msgstr "%s: parametr příznaků musí být řetězec"
 
 #: src/funclib.c:3955 src/funclib.c:3991 src/funclib.c:4199
 #, c-format
 msgid "%s: argument should be between %d and %d"
-msgstr "%s: argument by měl být mezi %d a %d"
+msgstr "%s: parametr by měl být mezi %d a %d"
 
 #: src/funclib.c:4101
 msgid "OutputStyle must be one of normal, troff, latex or mathml"
@@ -788,7 +788,7 @@ msgstr "OutputStyle musí být jedno z normal, troff, latex nebo mathml"
 #: src/funclib.c:4142
 #, c-format
 msgid "%s: argument should be larger or equal to 0"
-msgstr "%s: argument by měl být větší nebo roven 0"
+msgstr "%s: parametr by měl být větší nebo roven 0"
 
 #: src/funclib.c:4249
 msgid "Basic"
@@ -932,7 +932,7 @@ msgid "If true, mixed fractions are printed"
 msgstr "Je-li true, jsou vypisovány smíšené zlomky"
 
 #: src/funclib.c:4322
-msgid "Print full expressions, even if more then a line"
+msgid "Print full expressions, even if more than a line"
 msgstr "Vypisovat úplné výrazy, i když jsou delší než řádek"
 
 #: src/funclib.c:4323
@@ -976,9 +976,8 @@ msgstr "Vypočítá konjugaci"
 msgid "Calculates the sine function"
 msgstr "Vypočítá funkci sinus"
 
-# FIXME: s/ss/s/
 #: src/funclib.c:4344
-msgid "Calculates the cossine function"
+msgid "Calculates the cosine function"
 msgstr "Vypočítá funkci kosinus"
 
 #: src/funclib.c:4346
@@ -1042,11 +1041,11 @@ msgid "Round a number"
 msgstr "Zaokrouhli číslo"
 
 #: src/funclib.c:4380
-msgid "Get the highest integer less then or equal to n"
+msgid "Get the highest integer less than or equal to n"
 msgstr "Získat největší celé číslo menší nebo rovné n"
 
 #: src/funclib.c:4383
-msgid "Get the lowest integer more then or equal to n"
+msgid "Get the lowest integer more than or equal to n"
 msgstr "Získat nejmenší celé číslo větší nebo rovné n"
 
 #: src/funclib.c:4386
@@ -1107,7 +1106,7 @@ msgstr "Vrátí inverz n mod m"
 
 #: src/funclib.c:4411
 msgid ""
-"Tests primality of integers, for numbers greater then 25*10^9 false positive "
+"Tests primality of integers, for numbers greater than 25*10^9 false positive "
 "is with low probability depending on IsPrimeMillerRabinReps"
 msgstr ""
 "Testuje prvočíselnost celých čísel, pro čísla větší než 25*10^9 je malá "
@@ -1139,11 +1138,11 @@ msgstr "Vrátí faktorizaci čísla jako matici"
 
 #: src/funclib.c:4417
 msgid "Returns the maximum of arguments or matrix"
-msgstr "Vrátí maximum argumentů nebo matice"
+msgstr "Vrátí maximum parametrů nebo matice"
 
 #: src/funclib.c:4420
 msgid "Returns the minimum of arguments or matrix"
-msgstr "Vrátí minimum argumentů nebo matice"
+msgstr "Vrátí minimum parametrů nebo matice"
 
 #: src/funclib.c:4424
 msgid "Calculate the Jacobi symbol (a/b) (b should be odd)"
@@ -1245,60 +1244,60 @@ msgstr "Zjistit, jestli je matice matice reálných (ne komplexních) čísel"
 
 #: src/funclib.c:4473
 msgid "Check if argument is a null"
-msgstr "Zjistit, jestli je argument null"
+msgstr "Zjistit, jestli je parametr null"
 
 #: src/funclib.c:4474
 msgid "Check if argument is a number"
-msgstr "Zjistit, jestli je argument číslo"
+msgstr "Zjistit, jestli je parametr číslo"
 
 #: src/funclib.c:4475
 msgid "Check if argument is a text string"
-msgstr "Zjistit, jestli je argument textový řetězec"
+msgstr "Zjistit, jestli je parametr textový řetězec"
 
 #: src/funclib.c:4476
 msgid "Check if argument is a matrix"
-msgstr "Zjistit, jestli je argument matice"
+msgstr "Zjistit, jestli je parametr matice"
 
 #: src/funclib.c:4477
 msgid "Check if argument is a function"
-msgstr "Zjistit, jestli je argument funkce"
+msgstr "Zjistit, jestli je parametr funkce"
 
 #: src/funclib.c:4478
 msgid "Check if argument is a function reference"
-msgstr "Zjistit, jestli je argument odkaz na funkci"
+msgstr "Zjistit, jestli je parametr odkaz na funkci"
 
 #: src/funclib.c:4480
 msgid "Check if argument is a complex (non-real) number"
-msgstr "Zjistit, jestli je argument komplexní (ne reálné) číslo"
+msgstr "Zjistit, jestli je parametr komplexní (ne reálné) číslo"
 
 #: src/funclib.c:4481
 msgid "Check if argument is a real number"
-msgstr "Zjistit, jestli je argument reálné číslo"
+msgstr "Zjistit, jestli je parametr reálné číslo"
 
 #: src/funclib.c:4482
 msgid "Check if argument is an integer (non-complex)"
-msgstr "Zjistit, jestli je argument celé (ne komplexní) číslo"
+msgstr "Zjistit, jestli je parametr celé (ne komplexní) číslo"
 
 #: src/funclib.c:4483
 msgid "Check if argument is a positive real integer"
-msgstr "Zjistit, jestli je argument kladné reálné celé číslo"
+msgstr "Zjistit, jestli je parametr kladné reálné celé číslo"
 
 #: src/funclib.c:4485
 msgid "Check if argument is a possibly complex integer"
-msgstr "Zjistit, jestli je argument možná komplexní celé číslo"
+msgstr "Zjistit, jestli je parametr možná komplexní celé číslo"
 
 #: src/funclib.c:4487
 msgid "Check if argument is a rational number (non-complex)"
-msgstr "Zjistit, jestli je argument racionální (ne komplexní) číslo"
+msgstr "Zjistit, jestli je parametr racionální (ne komplexní) číslo"
 
 #: src/funclib.c:4488
 msgid "Check if argument is a possibly complex rational number"
-msgstr "Zjistit, jestli je argument možná komplexní racionální číslo"
+msgstr "Zjistit, jestli je parametr možná komplexní racionální číslo"
 
 #: src/funclib.c:4489
 msgid "Check if argument is a floating point number (non-complex)"
 msgstr ""
-"Zjistit, jestli je argument (ne komplexní) číslo s plovoucí řádovou čárkou"
+"Zjistit, jestli je parametr (ne komplexní) číslo s plovoucí řádovou čárkou"
 
 #: src/funclib.c:4491
 msgid "Add two polynomials (vectors)"
@@ -1581,10 +1580,7 @@ msgstr "_Přerušit"
 msgid "Interrupt current calculation"
 msgstr "Přerušení aktuální výpočet"
 
-#. title
-#. parent
-#. flags
-#: src/gnome-genius.c:214 src/graphing.c:1334
+#: src/gnome-genius.c:214 src/graphing.c:1336
 msgid "_Plot"
 msgstr "_Vykreslit"
 
@@ -2009,7 +2005,7 @@ msgstr "%s: podporováno nejvýše 10 funkcí"
 #: src/graphing.c:1383
 #, c-format
 msgid "%s: argument not a function"
-msgstr "%s: argument není funkce"
+msgstr "%s: parametr není funkce"
 
 #: src/graphing.c:1434
 #, c-format
@@ -2082,7 +2078,7 @@ msgstr ""
 
 #: src/mpwrap.c:2216
 msgid "Lucas must get an integer argument!"
-msgstr "Lucas musí dostat celočíselný argument!"
+msgstr "Lucas musí dostat celočíselný parametr!"
 
 #: src/mpwrap.c:2222
 msgid "Number too large to compute lucas number!"
