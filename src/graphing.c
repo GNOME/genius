@@ -141,6 +141,7 @@ static GelETree *plot_arg2 = NULL;
 static GelETree *plot_arg3 = NULL;
 
 static int plot_in_progress = 0;
+static gboolean whack_window_after_plot = FALSE;
 
 static void plot_axis (void);
 
@@ -170,6 +171,13 @@ static void
 plot_window_setup (void)
 {
 	if (graph_window != NULL) {
+		if (plot_in_progress == 0 &&
+		    whack_window_after_plot) {
+			gtk_widget_destroy (graph_window);
+			whack_window_after_plot = FALSE;
+			return;
+		}
+
 		if (plot_in_progress)
 			genius_setup_window_cursor (plot_canvas, GDK_WATCH);
 		else
@@ -412,15 +420,30 @@ top_view_cb (GtkWidget *button, gpointer data)
 	}
 }
 
+static gboolean
+dialog_delete_event (GtkWidget *w, gpointer data)
+{
+	if (plot_in_progress > 0) {
+		interrupted = TRUE;
+		whack_window_after_plot = TRUE;
+		return TRUE;
+	} else {
+		return FALSE;
+	}
+}
+
 
 static void
 dialog_response (GtkWidget *w, int response, gpointer data)
 {
 	if (response == GTK_RESPONSE_CLOSE ||
 	    response == GTK_RESPONSE_DELETE_EVENT) {
-		if (plot_in_progress > 0)
+		if (plot_in_progress > 0) {
 			interrupted = TRUE;
-		gtk_widget_destroy (graph_window);
+			whack_window_after_plot = TRUE;
+		} else {
+			gtk_widget_destroy (graph_window);
+		}
 	} else if (response == RESPONSE_STOP && plot_in_progress > 0) {
 		interrupted = TRUE;
 	}
@@ -1218,6 +1241,9 @@ ensure_window (void)
 {
 	GtkWidget *menu, *menubar, *item;
 
+	/* ensure we don't whack things, just paranoia */
+	whack_window_after_plot = FALSE;
+
 	if (graph_window != NULL) {
 		/* FIXME: present is evil in that it takes focus away */
 		gtk_widget_show (graph_window);
@@ -1237,6 +1263,10 @@ ensure_window (void)
 			  "destroy",
 			  G_CALLBACK (gtk_widget_destroyed),
 			  &graph_window);
+	g_signal_connect (G_OBJECT (graph_window),
+			  "delete_event",
+			  G_CALLBACK (dialog_delete_event),
+			  NULL);
 	g_signal_connect (G_OBJECT (graph_window),
 			  "response",
 			  G_CALLBACK (dialog_response),
