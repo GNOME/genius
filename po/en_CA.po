@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-03 21:28-0400\n"
-"PO-Revision-Date: 2004-08-03 00:09-0400\n"
+"POT-Creation-Date: 2004-08-05 17:22-0400\n"
+"PO-Revision-Date: 2004-08-05 00:09-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: en_CA <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -291,6 +291,7 @@ msgstr ""
 "imaginary number (square root of -1)."
 
 #: src/eval.c:3222 src/eval.c:3250
+#, c-format
 msgid "Variable '%s' used uninitialized, perhaps you meant %s."
 msgstr "Variable '%s' used uninitialized; perhaps you meant %s."
 
@@ -612,7 +613,7 @@ msgstr "%s: argument number %d not an integer or a matrix"
 msgid "%s: argument number %d not a positive integer"
 msgstr "%s: argument number %d not a positive integer"
 
-#: src/funclib.c:133 src/graphing.c:819
+#: src/funclib.c:133 src/graphing.c:1406
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: argument number %d not a number"
@@ -951,7 +952,7 @@ msgstr "Generate random float"
 msgid "Generate random integer"
 msgstr "Generate random integer"
 
-#: src/funclib.c:4380 src/gnome-genius.c:989
+#: src/funclib.c:4380 src/gnome-genius.c:1006
 msgid "Floating point precision"
 msgstr "Floating point precision"
 
@@ -1443,7 +1444,7 @@ msgstr "line %d: %s\n"
 msgid "Too many errors! (%d followed)\n"
 msgstr "Too many errors! (%d followed)\n"
 
-#: src/genius.c:180 src/gnome-genius.c:2664
+#: src/genius.c:180 src/gnome-genius.c:2682
 msgid ""
 "\n"
 "Note: Compiled without MPFR (some operations may be slow) see www.mpfr.org"
@@ -1507,7 +1508,7 @@ msgstr ""
 "For help type 'manual' or 'help'.%s\n"
 "\n"
 
-#: src/genius.c:355 src/gnome-genius.c:2978
+#: src/genius.c:355 src/gnome-genius.c:2996
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -1627,7 +1628,7 @@ msgstr "_Interrupt"
 msgid "Interrupt current calculation"
 msgstr "Interrupt current calculation"
 
-#: src/gnome-genius.c:254 src/graphing.c:1335
+#: src/gnome-genius.c:254 src/graphing.c:2372
 msgid "_Plot"
 msgstr "_Plot"
 
@@ -1681,7 +1682,7 @@ msgstr "Open"
 msgid "Open a GEL file for running"
 msgstr "Open a GEL file for running"
 
-#: src/gnome-genius.c:300
+#: src/gnome-genius.c:300 src/graphing.c:812
 msgid "Plot"
 msgstr "Plot"
 
@@ -1693,15 +1694,15 @@ msgstr "Exit"
 msgid "Exit genius"
 msgstr "Exit genius"
 
-#: src/gnome-genius.c:378
+#: src/gnome-genius.c:395
 msgid "Error"
 msgstr "Error"
 
-#: src/gnome-genius.c:378
+#: src/gnome-genius.c:395
 msgid "Information"
 msgstr "Information"
 
-#: src/gnome-genius.c:433
+#: src/gnome-genius.c:450
 #, c-format
 msgid ""
 "\n"
@@ -1710,7 +1711,7 @@ msgstr ""
 "\n"
 "Too many errors! (%d followed)"
 
-#: src/gnome-genius.c:443
+#: src/gnome-genius.c:460
 #, c-format
 msgid "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
 msgstr "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
@@ -1719,15 +1720,15 @@ msgstr "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: src/gnome-genius.c:566
+#: src/gnome-genius.c:583
 msgid "translator_credits-PLEASE_ADD_YOURSELF_HERE"
 msgstr "Adam Weinberger <adamw@gnome.org>"
 
-#: src/gnome-genius.c:569
+#: src/gnome-genius.c:586
 msgid "About Genius"
 msgstr "About Genius"
 
-#: src/gnome-genius.c:572
+#: src/gnome-genius.c:589
 msgid ""
 "The Gnome calculator style edition of the genius calculator.  For license/"
 "warranty details, type 'warranty' into the console."
@@ -1735,7 +1736,7 @@ msgstr ""
 "The Gnome calculator style edition of the genius calculator.  For licence/"
 "warranty details, type 'warranty' into the console."
 
-#: src/gnome-genius.c:735
+#: src/gnome-genius.c:752
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -1743,67 +1744,67 @@ msgstr ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
 
-#: src/gnome-genius.c:743
+#: src/gnome-genius.c:760
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr "There are unsaved programs, are you sure you wish to quit?"
 
-#: src/gnome-genius.c:750
+#: src/gnome-genius.c:767
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr "Genius is executing something, are you sure you wish to quit?"
 
-#: src/gnome-genius.c:757
+#: src/gnome-genius.c:774
 msgid "Are you sure you wish to quit?"
 msgstr "Are you sure you wish to quit?"
 
-#: src/gnome-genius.c:860
+#: src/gnome-genius.c:877
 msgid "Genius Setup"
 msgstr "Genius Setup"
 
-#: src/gnome-genius.c:877
+#: src/gnome-genius.c:894
 msgid "Output"
 msgstr "Output"
 
-#: src/gnome-genius.c:880
+#: src/gnome-genius.c:897
 msgid "Number/Expression output options"
 msgstr "Number/Expression output options"
 
-#: src/gnome-genius.c:890
+#: src/gnome-genius.c:907
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Maximum digits to output (0=unlimited)"
 
-#: src/gnome-genius.c:910
+#: src/gnome-genius.c:927
 msgid "Results as floats"
 msgstr "Results as floats"
 
-#: src/gnome-genius.c:918
+#: src/gnome-genius.c:935
 msgid "Floats in scientific notation"
 msgstr "Floats in scientific notation"
 
-#: src/gnome-genius.c:926
+#: src/gnome-genius.c:943
 msgid "Always print full expressions"
 msgstr "Always print full expressions"
 
-#: src/gnome-genius.c:935
+#: src/gnome-genius.c:952
 msgid "Error/Info output options"
 msgstr "Error/Info output options"
 
-#: src/gnome-genius.c:943
+#: src/gnome-genius.c:960
 msgid "Display errors in a dialog"
 msgstr "Display errors in a dialog"
 
-#: src/gnome-genius.c:951
+#: src/gnome-genius.c:968
 msgid "Display information messages in a dialog"
 msgstr "Display information messages in a dialog"
 
-#: src/gnome-genius.c:962
+#: src/gnome-genius.c:979
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Maximum errors to display (0=unlimited)"
 
-#: src/gnome-genius.c:986
+#: src/gnome-genius.c:1003
 msgid "Precision"
 msgstr "Precision"
 
-#: src/gnome-genius.c:996
+#: src/gnome-genius.c:1013
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -1813,31 +1814,31 @@ msgstr ""
 "for all numbers immediately, only new numbers calculated\n"
 "and new variables will be affected."
 
-#: src/gnome-genius.c:1005
+#: src/gnome-genius.c:1022
 msgid "Floating point precision (bits)"
 msgstr "Floating point precision (bits)"
 
-#: src/gnome-genius.c:1029
+#: src/gnome-genius.c:1046
 msgid "Terminal"
 msgstr "Terminal"
 
-#: src/gnome-genius.c:1032
+#: src/gnome-genius.c:1049
 msgid "Terminal options"
 msgstr "Terminal options"
 
-#: src/gnome-genius.c:1041
+#: src/gnome-genius.c:1058
 msgid "Scrollback lines"
 msgstr "Scrollback lines"
 
-#: src/gnome-genius.c:1064
+#: src/gnome-genius.c:1081
 msgid "Font:"
 msgstr "Font:"
 
-#: src/gnome-genius.c:1079
+#: src/gnome-genius.c:1096
 msgid "Black on white"
 msgstr "Black on white"
 
-#: src/gnome-genius.c:1109
+#: src/gnome-genius.c:1126
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -1847,57 +1848,57 @@ msgstr ""
 "\n"
 "Please try again later or interrupt the current operation."
 
-#: src/gnome-genius.c:1174
+#: src/gnome-genius.c:1191
 msgid "GEL files"
 msgstr "GEL files"
 
-#: src/gnome-genius.c:1179
+#: src/gnome-genius.c:1196 src/graphing.c:480
 msgid "All files"
 msgstr "All files"
 
-#: src/gnome-genius.c:1213 src/gnome-genius.c:1837
+#: src/gnome-genius.c:1230 src/gnome-genius.c:1854
 msgid "Cannot open file!"
 msgstr "Cannot open file!"
 
-#: src/gnome-genius.c:1242 src/gnome-genius.c:1260
+#: src/gnome-genius.c:1259 src/gnome-genius.c:1277
 msgid "Load and Run"
 msgstr "Load and Run"
 
-#: src/gnome-genius.c:1246
+#: src/gnome-genius.c:1263
 msgid "_Load"
 msgstr "_Load"
 
-#: src/gnome-genius.c:1672
+#: src/gnome-genius.c:1689
 msgid "Cannot open file"
 msgstr "Cannot open file"
 
-#: src/gnome-genius.c:1704 src/gnome-genius.c:2649
+#: src/gnome-genius.c:1721 src/gnome-genius.c:2666
 #, c-format
 msgid "Line: %d"
 msgstr "Line: %d"
 
 #. the file name will have an underscore
-#: src/gnome-genius.c:1775
+#: src/gnome-genius.c:1792
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Program_%d.gel"
 
-#: src/gnome-genius.c:1776
+#: src/gnome-genius.c:1793
 #, c-format
 msgid "Program %d"
 msgstr "Program %d"
 
-#: src/gnome-genius.c:1789
+#: src/gnome-genius.c:1806
 #, c-format
 msgid "Cannot open %s"
 msgstr "Cannot open %s"
 
-#: src/gnome-genius.c:1864 src/gnome-genius.c:1883
+#: src/gnome-genius.c:1881 src/gnome-genius.c:1900
 msgid "Open..."
 msgstr "Open..."
 
 #. new fname
-#: src/gnome-genius.c:1958 src/gnome-genius.c:2013
+#: src/gnome-genius.c:1975 src/gnome-genius.c:2030
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -1906,15 +1907,15 @@ msgstr ""
 "<b>Cannot save file</b>\n"
 "Details: %s"
 
-#: src/gnome-genius.c:2007
+#: src/gnome-genius.c:2024 src/graphing.c:374
 msgid "File already exists.  Overwrite it?"
 msgstr "File already exists.  Overwrite it?"
 
-#: src/gnome-genius.c:2064 src/gnome-genius.c:2086
+#: src/gnome-genius.c:2081 src/gnome-genius.c:2103
 msgid "Save As..."
 msgstr "Save As..."
 
-#: src/gnome-genius.c:2160
+#: src/gnome-genius.c:2177
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -1924,16 +1925,16 @@ msgstr ""
 "\n"
 "Create a new program, or select an existing tab in the notebook."
 
-#: src/gnome-genius.c:2257
+#: src/gnome-genius.c:2274
 #, c-format
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: src/gnome-genius.c:2443
+#: src/gnome-genius.c:2460
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Can't execute genius-readline-helper-fifo!\n"
 
-#: src/gnome-genius.c:2668
+#: src/gnome-genius.c:2686
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -1941,11 +1942,11 @@ msgstr ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
 
-#: src/gnome-genius.c:2866
+#: src/gnome-genius.c:2884
 msgid "Console"
 msgstr "Console"
 
-#: src/gnome-genius.c:2911
+#: src/gnome-genius.c:2929
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -1970,43 +1971,103 @@ msgstr "Genius Math Tool"
 msgid "Genius Mathematical Tool and Calculator"
 msgstr "Genius Mathematical Tool and Calculator"
 
-#: src/graphing.c:308
-msgid "Genius Line Plot"
-msgstr "Genius Line Plot"
+#: src/graphing.c:214
+msgid "Print"
+msgstr "Print"
 
-#. title
-#. parent
-#. flags
-#: src/graphing.c:311
-msgid "_Zoom out"
-msgstr "_Zoom out"
+#: src/graphing.c:231
+msgid "Print command: "
+msgstr "Print command: "
 
-#: src/graphing.c:313
-msgid "_Fit Y Axis"
-msgstr "_Fit Y Axis"
+#: src/graphing.c:258
+msgid "Cannot open temporary file, cannot print."
+msgstr "Cannot open temporary file; cannot print."
 
-#: src/graphing.c:800
+#: src/graphing.c:287
+msgid "Printing failed"
+msgstr "Printing failed"
+
+#: src/graphing.c:416
+msgid "Export failed"
+msgstr "Export failed"
+
+#: src/graphing.c:454
+msgid "Export encapsulated postscript"
+msgstr "Export encapsulated postscript"
+
+#: src/graphing.c:456
+msgid "Export postscript"
+msgstr "Export postscript"
+
+#: src/graphing.c:470
+msgid "EPS files"
+msgstr "EPS files"
+
+#: src/graphing.c:474
+msgid "PS files"
+msgstr "PS files"
+
+#: src/graphing.c:834
+msgid "_Graph"
+msgstr "_Graph"
+
+#: src/graphing.c:838
+msgid "_Print..."
+msgstr "_Print..."
+
+#: src/graphing.c:844
+msgid "_Export postscript..."
+msgstr "_Export postscript..."
+
+#: src/graphing.c:850
+msgid "E_xport encapsulated postscript..."
+msgstr "E_xport encapsulated postscript..."
+
+#: src/graphing.c:858
+msgid "_Zoom"
+msgstr "_Zoom"
+
+#: src/graphing.c:862
+msgid "Zoom _out"
+msgstr "Zoom _out"
+
+#: src/graphing.c:868
+msgid "Zoom _in"
+msgstr "Zoom _in"
+
+#: src/graphing.c:874
+msgid "Fit dependent axis"
+msgstr "Fit dependent axis"
+
+#: src/graphing.c:1397
 #, c-format
 msgid "Function #%d"
 msgstr "Function #%d"
 
-#: src/graphing.c:832
+#: src/graphing.c:1419
 msgid "Graph limits not given as a 4-vector"
 msgstr "Graph limits not given as a 4-vector"
 
-#: src/graphing.c:838 src/graphing.c:844 src/graphing.c:850 src/graphing.c:856
+#: src/graphing.c:1425 src/graphing.c:1431 src/graphing.c:1437
+#: src/graphing.c:1443 src/graphing.c:1502 src/graphing.c:1508
+#: src/graphing.c:1514 src/graphing.c:1520 src/graphing.c:1526
+#: src/graphing.c:1532
 msgid "Graph limits not given as numbers"
 msgstr "Graph limits not given as numbers"
 
-#: src/graphing.c:1001
-msgid "Function line plot"
-msgstr "Function line plot"
+#: src/graphing.c:1496
+msgid "Graph limits not given as a 6-vector"
+msgstr "Graph limits not given as a 6-vector"
 
-#: src/graphing.c:1003
-msgid "Function/Expressions"
-msgstr "Function/Expressions"
+#: src/graphing.c:1796
+msgid "to:"
+msgstr "to:"
 
-#: src/graphing.c:1008
+#: src/graphing.c:1826
+msgid "Functions / Expressions"
+msgstr "Functions / Expressions"
+
+#: src/graphing.c:1831
 msgid ""
 "Type in function names or expressions involving the x variable in the boxes "
 "below to graph them"
@@ -2014,74 +2075,135 @@ msgstr ""
 "Type in function names or expressions involving the x variable in the boxes "
 "below to graph them"
 
-#: src/graphing.c:1026
+#: src/graphing.c:1851 src/graphing.c:1906
 msgid "Plot Window"
 msgstr "Plot Window"
 
-#: src/graphing.c:1037
+#.
+#. * X range
+#.
+#: src/graphing.c:1860 src/graphing.c:1915
 msgid "X from:"
 msgstr "X from:"
 
-#: src/graphing.c:1054 src/graphing.c:1093
-msgid "to:"
-msgstr "to:"
-
-#: src/graphing.c:1076
+#.
+#. * Y range
+#.
+#: src/graphing.c:1866 src/graphing.c:1921
 msgid "Y from:"
 msgstr "Y from:"
 
-#: src/graphing.c:1237
+#: src/graphing.c:1881
+msgid "Function / Expression"
+msgstr "Function / Expression"
+
+#: src/graphing.c:1886
+msgid ""
+"Type a function name or an expression involving the x and y variables (or "
+"the z variable which will be z=x+iy) in the boxes below to graph them.  "
+"Functions with one argument only will be passed a complex number."
+msgstr ""
+"Type a function name or an expression involving the x and y variables (or "
+"the z variable which will be z=x+iy) in the boxes below to graph them.  "
+"Functions with one argument only will be passed a complex number."
+
+#.
+#. * Z range
+#.
+#: src/graphing.c:1927
+msgid "Z from:"
+msgstr "Z from:"
+
+#: src/graphing.c:1940
+msgid "Function _line plot"
+msgstr "Function _line plot"
+
+#: src/graphing.c:1944
+msgid "_Surface plot"
+msgstr "_Surface plot"
+
+#: src/graphing.c:2143 src/graphing.c:2269
 msgid "No functions to plot or no functions could be parsed"
 msgstr "No functions to plot or no functions could be parsed"
 
-#: src/graphing.c:1260
+#: src/graphing.c:2174 src/graphing.c:2292
 msgid "Invalid X range"
 msgstr "Invalid X range"
 
-#: src/graphing.c:1265
+#: src/graphing.c:2179 src/graphing.c:2297
 msgid "Invalid Y range"
 msgstr "Invalid Y range"
 
-#: src/graphing.c:1330
-msgid "Create Line Plot"
-msgstr "Create Line Plot"
+#: src/graphing.c:2184
+msgid "Invalid Z range"
+msgstr "Invalid Z range"
 
-#: src/graphing.c:1377
-#, c-format
-msgid "%s: only up to 10 functions supported"
-msgstr "%s: only up to 10 functions supported"
+#: src/graphing.c:2367
+msgid "Create Plot"
+msgstr "Create Plot"
 
-#: src/graphing.c:1382
+#: src/graphing.c:2407 src/graphing.c:2550
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: argument not a function"
 
-#: src/graphing.c:1433
+#: src/graphing.c:2417
+#, c-format
+msgid "%s: only one function supported"
+msgstr "%s: only one function supported"
+
+#: src/graphing.c:2484 src/graphing.c:2601
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: invalid X range"
 
-#: src/graphing.c:1438
+#: src/graphing.c:2489 src/graphing.c:2606
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: invalid Y range"
 
-#: src/graphing.c:1500
+#: src/graphing.c:2494
+#, c-format
+msgid "%s: invalid Z range"
+msgstr "%s: invalid Z range"
+
+#: src/graphing.c:2545
+#, c-format
+msgid "%s: only up to 10 functions supported"
+msgstr "%s: only up to 10 functions supported"
+
+#: src/graphing.c:2691
 msgid "Plotting"
 msgstr "Plotting"
 
 #. bogus value
-#: src/graphing.c:1532
+#: src/graphing.c:2723
 msgid ""
-"Plot a function with a line (very rudimentary).  First come the functions "
-"(up to 10) then optionally limits as x1,x2,y1,y2"
+"Plot a function with a line.  First come the functions (up to 10) then "
+"optionally limits as x1,x2,y1,y2"
 msgstr ""
-"Plot a function with a line (very rudimentary).  First come the functions "
-"(up to 10) then optionally limits as x1,x2,y1,y2"
+"Plot a function with a line.  First come the functions (up to 10) then "
+"optionally limits as x1,x2,y1,y2"
 
-#: src/graphing.c:1534
-msgid "Plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
-msgstr "Plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
+#: src/graphing.c:2724
+msgid ""
+"Plot a surface function which takes either two arguments or a complex "
+"number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
+msgstr ""
+"Plot a surface function which takes either two arguments or a complex "
+"number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
+
+#: src/graphing.c:2726
+msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
+msgstr "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
+
+#: src/graphing.c:2727
+msgid ""
+"Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
+"z2]"
+msgstr ""
+"Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
+"z2]"
 
 #: src/matop.c:535
 msgid "Determinant of a non-square matrix is undefined"
@@ -2154,7 +2276,7 @@ msgstr "Number too large to compute factorial!"
 msgid "Can't do factorials of negative numbers!"
 msgstr "Can't do factorials of negative numbers!"
 
-#: src/mpwrap.c:2728 src/mpwrap.c:2796 src/mpwrap.c:4673 src/mpwrap.c:4690
+#: src/mpwrap.c:2728 src/mpwrap.c:2796 src/mpwrap.c:4683 src/mpwrap.c:4700
 #, c-format
 msgid "%s: Bad types for mod power"
 msgstr "%s: Bad types for mod power"
@@ -2176,95 +2298,95 @@ msgstr "Range for random integer must be positive"
 msgid "Can't get numerator of floating types"
 msgstr "Can't get numerator of floating types"
 
-#: src/mpwrap.c:4054 src/mpwrap.c:5275 src/mpwrap.c:5287
+#: src/mpwrap.c:4064 src/mpwrap.c:5285 src/mpwrap.c:5297
 msgid "Can't compare complex numbers"
 msgstr "Can't compare complex numbers"
 
-#: src/mpwrap.c:4263 src/mpwrap.c:4278 src/mpwrap.c:4329 src/mpwrap.c:4352
-#: src/mpwrap.c:4365 src/mpwrap.c:4410
+#: src/mpwrap.c:4273 src/mpwrap.c:4288 src/mpwrap.c:4339 src/mpwrap.c:4362
+#: src/mpwrap.c:4375 src/mpwrap.c:4420
 msgid "Division by zero!"
 msgstr "Division by zero!"
 
-#: src/mpwrap.c:4419
+#: src/mpwrap.c:4429
 msgid "Can't modulo complex numbers"
 msgstr "Can't modulo complex numbers"
 
-#: src/mpwrap.c:4438
+#: src/mpwrap.c:4448
 #, c-format
 msgid "Inverse of %s modulo %s not found!"
 msgstr "Inverse of %s modulo %s not found!"
 
-#: src/mpwrap.c:4447
+#: src/mpwrap.c:4457
 msgid "Can't do modulo invert on complex numbers"
 msgstr "Can't do modulo invert on complex numbers"
 
-#: src/mpwrap.c:4460
+#: src/mpwrap.c:4470
 msgid "Can't GCD complex numbers"
 msgstr "Can't GCD complex numbers"
 
-#: src/mpwrap.c:4483
+#: src/mpwrap.c:4493
 msgid "Can't LCM complex numbers"
 msgstr "Can't LCM complex numbers"
 
-#: src/mpwrap.c:4496
+#: src/mpwrap.c:4506
 msgid "Can't get jacobi symbols of complex numbers"
 msgstr "Can't get jacobi symbols of complex numbers"
 
-#: src/mpwrap.c:4508
+#: src/mpwrap.c:4518
 msgid "Can't get legendre symbols complex numbers"
 msgstr "Can't get legendre symbols complex numbers"
 
-#: src/mpwrap.c:4520
+#: src/mpwrap.c:4530
 msgid "Can't get jacobi symbol with Kronecker extension for complex numbers"
 msgstr "Can't get jacobi symbol with Kronecker extension for complex numbers"
 
-#: src/mpwrap.c:4532
+#: src/mpwrap.c:4542
 msgid "Can't get lucas number for complex numbers"
 msgstr "Can't get lucas number for complex numbers"
 
-#: src/mpwrap.c:4544
+#: src/mpwrap.c:4554
 msgid "Can't get next prime for complex numbers"
 msgstr "Can't get next prime for complex numbers"
 
-#: src/mpwrap.c:4554 src/mpwrap.c:4566 src/mpwrap.c:4578 src/mpwrap.c:4590
+#: src/mpwrap.c:4564 src/mpwrap.c:4576 src/mpwrap.c:4588 src/mpwrap.c:4600
 #, c-format
 msgid "%s: can't work on complex numbers"
 msgstr "%s: can't work on complex numbers"
 
-#: src/mpwrap.c:4764 src/mpwrap.c:4835 src/mpwrap.c:4902
+#: src/mpwrap.c:4774 src/mpwrap.c:4845 src/mpwrap.c:4912
 #, c-format
 msgid "%s: can't take logarithm of 0"
 msgstr "%s: can't take logarithm of 0"
 
-#: src/mpwrap.c:5204
+#: src/mpwrap.c:5214
 msgid "Can't make random integer out of a complex number"
 msgstr "Can't make random integer out of a complex number"
 
-#: src/mpwrap.c:5325 src/mpwrap.c:5338
+#: src/mpwrap.c:5335 src/mpwrap.c:5348
 msgid "Can't make factorials of complex numbers"
 msgstr "Can't make factorials of complex numbers"
 
-#: src/mpwrap.c:5619 src/mpwrap.c:5641 src/mpwrap.c:5663
+#: src/mpwrap.c:5629 src/mpwrap.c:5651 src/mpwrap.c:5673
 msgid "Can't determine type of a complex number"
 msgstr "Can't determine type of a complex number"
 
-#: src/mpwrap.c:5755 src/mpwrap.c:5778
+#: src/mpwrap.c:5765 src/mpwrap.c:5788
 msgid "Can't convert complex number into integer"
 msgstr "Can't convert complex number into integer"
 
-#: src/mpwrap.c:5761
+#: src/mpwrap.c:5771
 msgid "Can't convert real number to integer"
 msgstr "Can't convert real number to integer"
 
-#: src/mpwrap.c:5765
+#: src/mpwrap.c:5775
 msgid "Integer too large for this operation"
 msgstr "Integer too large for this operation"
 
-#: src/mpwrap.c:5787
+#: src/mpwrap.c:5797
 msgid "Can't convert real number to double"
 msgstr "Can't convert real number to double"
 
-#: src/mpwrap.c:5793
+#: src/mpwrap.c:5803
 msgid "Number too large for this operation"
 msgstr "Number too large for this operation"
 
