@@ -84,7 +84,7 @@ void evalexp_parsed(GelETree *parsed, GelOutput *gelo, const char *prefix, gbool
 /*these are parts of the above*/
 /*note that parseexp will actually load AND execute files if there are load
   toplevel instructions, as those don't translate into an GelETree*/
-GelETree * parseexp(const char *str, FILE *infile, gboolean load_files, gboolean testparse, gboolean *finished, const char *dirprefix);
+GelETree * parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean testparse, gboolean *finished, const char *dirprefix);
 GelETree * runexp(GelETree *exp);
 
 void compile_all_user_funcs(FILE *outfile);

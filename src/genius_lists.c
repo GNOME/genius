@@ -36,6 +36,9 @@ const char *genius_params[] = {
 const char *genius_toplevels[] = {
 	"load",
 	"plugin",
+	"cd",
+	"pwd",
+	"ls",
 	NULL
 };
 const char *genius_operators[] = {

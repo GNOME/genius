@@ -100,6 +100,10 @@ void (*infoout)(const char *)=NULL;
 
 char *loadfile = NULL;
 char *loadfile_glob = NULL;
+char *changedir = NULL;
+char *changedir_glob = NULL;
+gboolean ls_command = FALSE;
+gboolean pwd_command = FALSE;
 char *load_plugin = NULL;
 
 int interrupted = FALSE;
@@ -1708,7 +1712,20 @@ set_new_infoout(void (*func)(const char *))
 }
 
 static void
-do_load_files(const char *dirprefix)
+our_chdir (const char *dirprefix, const char *dir)
+{
+	if (dirprefix == NULL ||
+	    dir[0] == '/') {
+		chdir (dir);
+	} else {
+		char *d = g_strconcat (dirprefix, "/", dir, NULL);
+		chdir (d);
+		g_free (d);
+	}
+}
+
+static void
+do_exec_commands (const char *dirprefix)
 {
 	if(loadfile) {
 		char *file = loadfile;
@@ -1767,6 +1784,52 @@ do_load_files(const char *dirprefix)
 		free(flist);
 #endif
 	}
+
+	if (changedir != NULL) {
+		our_chdir (dirprefix, changedir);
+		g_free (changedir);
+		changedir = NULL;
+		while (evalstack != NULL)
+			gel_freetree (stack_pop (&evalstack));
+	}
+
+	if(changedir_glob) {
+#if HAVE_WORDEXP
+		wordexp_t we;
+		char *flist = loadfile_glob;
+		int i;
+		changedir_glob = NULL;
+		while(evalstack)
+			gel_freetree(stack_pop(&evalstack));
+		wordexp(flist,&we,WRDE_NOCMD);
+		for(i=0;i<we.we_wordc;i++) {
+			our_chdir (dirprefix, we.we_wordv[i]);
+		}
+		wordfree(&we);
+		free(flist);
+#else
+		char *s;
+		FILE *fp;
+		char buf[258]; /*so that we fit 256 chars in there*/
+		char *flist = loadfile_glob;
+
+		changedir_glob = NULL;
+		while(evalstack)
+			gel_freetree(stack_pop(&evalstack));
+		
+		s = g_strdup_printf("for n in %s ; do echo $n ; done",flist);
+		fp = popen(s,"r");
+		g_free(s);
+		while(fgets(buf,258,fp)) {
+			int len = strlen(buf);
+			if(buf[len-1]=='\n')
+				buf[len-1]='\0';
+			our_chdir (dirprefix, buf);
+		}
+		fclose(fp);
+		free(flist);
+#endif
+	}
 	
 	if(load_plugin) {
 		char *plugin = g_strstrip(load_plugin);
@@ -1790,10 +1853,34 @@ do_load_files(const char *dirprefix)
 
 		g_free(plugin);
 	}
+
+	if (ls_command) {
+		DIR *dir = opendir (".");
+		if (dir != NULL) {
+			struct dirent *de;
+			while ((de = readdir (dir)) != NULL) {
+				gel_output_string (main_out, de->d_name);
+				gel_output_string (main_out, "\n");
+			}
+
+			closedir (dir);
+		}
+		ls_command = FALSE;
+	}
+
+	if (pwd_command) {
+		char cur[4096] = "";
+		getcwd (cur, sizeof (cur));
+
+		gel_output_string (main_out, cur);
+		gel_output_string (main_out, "\n");
+
+		pwd_command = FALSE;
+	}
 }
 
 GelETree *
-parseexp(const char *str, FILE *infile, gboolean load_files, gboolean testparse,
+parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean testparse,
 	 gboolean *finished, const char *dirprefix)
 {
 	int stacklen;
@@ -1830,7 +1917,11 @@ parseexp(const char *str, FILE *infile, gboolean load_files, gboolean testparse,
 
 	g_free(loadfile); loadfile = NULL;
 	g_free(loadfile_glob); loadfile_glob = NULL;
+	g_free(changedir); changedir = NULL;
+	g_free(changedir_glob); changedir_glob = NULL;
 	g_free(load_plugin); load_plugin = NULL;
+	pwd_command = FALSE;
+	ls_command = FALSE;
 
 	lex_init = TRUE;
 	/*yydebug=TRUE;*/  /*turn debugging of parsing on here!*/
@@ -1851,12 +1942,22 @@ parseexp(const char *str, FILE *infile, gboolean load_files, gboolean testparse,
 		/*fclose(infile);*/
 	}
 	
-	if(!load_files) {
+	if(!exec_commands) {
 		g_free(loadfile); loadfile = NULL;
 		g_free(loadfile_glob); loadfile_glob = NULL;
 		g_free(load_plugin); load_plugin = NULL;
-	} else if(loadfile || loadfile_glob || load_plugin) {
-		do_load_files(dirprefix);
+		g_free(changedir); changedir = NULL;
+		g_free(changedir_glob); changedir_glob = NULL;
+		pwd_command = FALSE;
+		ls_command = FALSE;
+	} else if (loadfile ||
+		   loadfile_glob ||
+		   load_plugin ||
+		   changedir ||
+		   changedir_glob ||
+		   pwd_command ||
+		   ls_command) {
+		do_exec_commands (dirprefix);
 		if(finished) *finished = TRUE;
 		return NULL;
 	}

@@ -39,6 +39,10 @@ extern GSList *evalstack;
 extern int return_ret; /*should the lexer return on \n*/
 extern char *loadfile;
 extern char *loadfile_glob;
+extern char *changedir;
+extern char *changedir_glob;
+extern gboolean pwd_command;
+extern gboolean ls_command;
 extern char *load_plugin;
 
 %}
@@ -50,7 +54,7 @@ extern char *load_plugin;
 
 %token STARTTOK
 
-%token LOADFILE LOADFILE_GLOB LOAD_PLUGIN
+%token LOADFILE LOADFILE_GLOB LOAD_PLUGIN CHANGEDIR CHANGEDIR_GLOB PWD LS
 
 %token <val> NUMBER
 %token <id> STRING
@@ -108,6 +112,10 @@ extern char *load_plugin;
 fullexpr:	STARTTOK expr '\n' { YYACCEPT; }
 	|	STARTTOK LOADFILE '\n' { loadfile = $<id>2; YYACCEPT; }
 	|	STARTTOK LOADFILE_GLOB '\n' { loadfile_glob = $<id>2; YYACCEPT; }
+	|	STARTTOK CHANGEDIR '\n' { changedir = $<id>2; YYACCEPT; }
+	|	STARTTOK CHANGEDIR_GLOB '\n' { changedir_glob = $<id>2; YYACCEPT; }
+	|	STARTTOK PWD '\n' { pwd_command = TRUE; YYACCEPT; }
+	|	STARTTOK LS '\n' { ls_command = TRUE; YYACCEPT; }
 	|	STARTTOK LOAD_PLUGIN '\n' { load_plugin = $<id>2; YYACCEPT; }
 	|	STARTTOK '\n' { YYACCEPT; }
 	|	STARTTOK expr SEPAR '\n' { gp_push_null(); PUSH_ACT(E_SEPAR); YYACCEPT; }

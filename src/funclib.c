@@ -175,6 +175,16 @@ print_op (GelCtx *ctx, GelETree * * a, int *exception)
 }
 /*print function*/
 static GelETree *
+chdir_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	if (a[0]->type != STRING_NODE) {
+		(*errorout)(_("chdir: argument must be string!"));
+		return NULL;
+	}
+	return gel_makenum_si (chdir (a[0]->str.str));
+}
+/*print function*/
+static GelETree *
 printn_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type==STRING_NODE)
@@ -2904,6 +2914,7 @@ gel_funclib_addall(void)
 	ALIAS (quit, 0, exit);
 	FUNC (error, 1, "basic", _("Prints a string to the error stream"));
 	FUNC (print, 1, "basic", _("Prints an expression"));
+	FUNC (chdir, 1, "basic", _("Changes current directory"));
 	FUNC (printn, 1, "basic", _("Prints an expression without a trailing newline"));
 	FUNC (display, 2, "basic", _("Display a string and an expression"));
 	FUNC (set, 2, "basic", _("Set a global variable"));

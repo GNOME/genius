@@ -152,6 +152,31 @@ my_yy_close(FILE *fp)
 			return LOADFILE_GLOB;
 		}
 
+^[ 	]*cd[ 	]+<([^>]|\\>)*>[ 	]*$ {
+			char *s;
+			char *end;
+			if(evalstack || parenth_depth) {REJECT;}
+			s=strchr(yytext,'<')+1; /*find the beginning*/
+			end=strrchr(yytext,'>'); /*find the end*/
+			s = unescape_string(s,end,NULL);
+			yylval.id = g_strconcat(LIBRARY_DIR,"/",s,NULL);
+			g_free(s);
+			DO_RET;
+			return CHANGEDIR;
+		}
+
+^[ 	]*cd[ 	]+[^ 	].*$ {
+			char *s;
+			if(evalstack || parenth_depth) {REJECT;}
+			s=strchr(yytext,'d')+1; /*move after the load*/
+			/*btw from the above RE we know this will work*/
+			while(*s==' ' || *s=='\t')
+				s++;
+			yylval.id = g_strdup(s);
+			DO_RET;
+			return CHANGEDIR_GLOB;
+		}
+
 ^[ 	]*plugin[ 	]+[^ 	].*$ {
 			char *s;
 			if(evalstack || parenth_depth) {REJECT;}
@@ -162,6 +187,18 @@ my_yy_close(FILE *fp)
 			yylval.id = g_strdup(s);
 			DO_RET;
 			return LOAD_PLUGIN;
+		}
+
+^[ 	]*pwd[ 	]*$ {
+			if(evalstack || parenth_depth) {REJECT;}
+			DO_RET;
+			return PWD;
+		}
+
+^[ 	]*ls[ 	]*$ {
+			if(evalstack || parenth_depth) {REJECT;}
+			DO_RET;
+			return LS;
 		}
 
 ";"		{
