@@ -679,7 +679,7 @@ Absolute value / Modulus
 
 Separator
 
-   In  GEL  if you want to type more then one command you have to
+   In  GEL  if you want to type more than one command you have to
    use  the  ;  operator, which is a way to separate expressions,
    such  a combined expression will return whatever is the result
    of the last one, so
@@ -865,19 +865,19 @@ List of GEL operators
 
           a<=b
 
-          Less  then or equal operator, returns true if a is less
-          then or equal to b else returns false.
+          Less  than or equal operator, returns true if a is less
+          than or equal to b else returns false.
 
           a>=b
 
-          Greater  then  or  equal operator, returns true if a is
-          greater then or equal to b else returns false.
+          Greater  than  or  equal operator, returns true if a is
+          greater than or equal to b else returns false.
 
           a<=>b
 
           Comparison  operator.  If a is equal to b it returns 0,
-          if  a  is less then b it returns -1 and if a is greater
-          then b it returns 1.
+          if  a  is less than b it returns -1 and if a is greater
+          than b it returns 1.
 
           a and b
 
@@ -994,7 +994,7 @@ genius> 1:2:9
    Note The unitary minus operates in a different fashion
    depending on where it appears. If it appears before a number
    it binds very closely, if it appears in front of an expression
-   it binds less then the power and factorial operators. So for
+   it binds less than the power and factorial operators. So for
    example -1^k is really (-1)^k, but -foo(1)^k is really
    -(foo(1)^k). So be careful how you use it and if in doubt, add
       parentheses.
@@ -1047,8 +1047,8 @@ for <identifier> = <from> to <to> do <body>
 for <identifier> = <from> to <to> by <increment> do <body>
 
    Loop  with  identifier  being set to all values from <from> to
-   <to>,  optionally  using  an increment other then 1. These are
-   faster,  nicer  and more compact then the normal loops such as
+   <to>,  optionally  using  an increment other than 1. These are
+   faster,  nicer  and more compact than the normal loops such as
    above, but less flexible. The identifier must be an identifier
    and  can't  be  a  dereference. The value of identifier is the
    last  value  of  identifier,  or  <from>  if  body  was  never
@@ -1239,7 +1239,7 @@ Loading programs
    type  load  <list  of filenames> at the prompt. This has to be
    done  on the top level and not inside any function or whatnot,
    and  it  cannot  be  part  of  any  expression.  It also has a
-   slightly  different  syntax  then  the  rest  of  genius, more
+   slightly  different  syntax  than  the  rest  of  genius, more
    similiar  to a shell. You can enter the file in quotes. If you
    use  the  ''  quotes, you will get exactly the string that you
    typed,  if  you  use the "" quotes, special characters will be
@@ -1822,7 +1822,7 @@ Numeric
           Aliases: abs
 
           Absolute  value of a number and if x is a complex value
-          then returns the modulus of x.
+          the modulus of x.
 
           See Mathworld for more information.
 
@@ -2350,7 +2350,7 @@ Number Theory
 
           Return  n/d  but  only  if  d  divides n. If d does not
           divide  n then this function returns garbage. This is a
-          lot  faster  for  very large numbers then the operation
+          lot  faster  for  very large numbers than the operation
           n/d,  but  of  course  only useful if you know that the
           division is exact.
 
@@ -2690,9 +2690,9 @@ for n=1 to 1000 do (
 
           Greatest  common  divisor of integers. You can enter as
           many  integers  in the argument list, or you can give a
-          vector  or  a matrix of integers. If you give more then
-          one  matrix  of  the  same  size  then GCD is then done
-          element by element.
+          vector  or  a matrix of integers. If you give more than
+          one matrix of the same size then GCD is done element by
+          element.
 
           See Mathworld for more information.
 
@@ -2704,9 +2704,9 @@ for n=1 to 1000 do (
 
           Least  common  multiplier of integers. You can enter as
           many  integers  in the argument list, or you can give a
-          vector  or  a matrix of integers. If you give more then
-          one  matrix  of  the  same  size  then LCM is then done
-          element by element.
+          vector  or  a matrix of integers. If you give more than
+          one matrix of the same size then LCM is done element by
+          element.
 
           See Mathworld for more information.
      _________________________________________________________
@@ -4194,7 +4194,7 @@ Output
 
    Always print full expressions
           Should  we  print  out full expressions for non-numeric
-          return values (longer then a line) (FullExpressions)
+          return values (longer than a line) (FullExpressions)
 
    Display errors in a dialog
           If  set  the  errors  will  be  displayed  in a seprate
@@ -4211,7 +4211,7 @@ Output
           evaluation  (MaxErrors).  If you set this to 0 then all
           errors are always returned. Usually if some loop causes
           many  errors, then it is unlikely that you will be able
-          to  make  sense  out  of  more  then a few of these, so
+          to  make  sense  out  of  more  than a few of these, so
           seeing a long list of errors is usually not helpful.
 
    In  addition  to these preferences, there are some preferences
@@ -4221,7 +4221,7 @@ Output
 
    MixedFractions
           If  fractions should be printed as mixed fractions such
-          as "1 1/3" rather then "4/3"
+          as "1 1/3" rather than "4/3"
 
    IntegerOutputBase
           The base that will be used to output integers

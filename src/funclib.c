@@ -4259,7 +4259,7 @@ CompositeSimpsonsRule_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	}
 
 	if (mpw_cmp (ia, ib) > 0) {
-		gel_errorout (_("%s: argument 2 must be less then or equal to argument 3"),
+		gel_errorout (_("%s: argument 2 must be less than or equal to argument 3"),
 			      "CompositeSimpsonsRule");
 		return NULL;
 	}
@@ -4842,7 +4842,7 @@ gel_funclib_addall(void)
 	FUNC (LucasNumber, 1, "n", "number_theory", N_("Returns the n'th Lucas number"));
 	FUNC (ModInvert, 2, "n,m", "number_theory", N_("Returns inverse of n mod m"));
 	FUNC (Divides, 2, "m,n", "number_theory", N_("Checks divisibility (if m divides n)"));
-	FUNC (ExactDivision, 2, "n,d", "number_theory", N_("Return n/d but only if d divides n else returns garbage (this is faster then writing n/d)"));
+	FUNC (ExactDivision, 2, "n,d", "number_theory", N_("Return n/d but only if d divides n else returns garbage (this is faster than writing n/d)"));
 	FUNC (IsPrime, 1, "n", "number_theory", N_("Tests primality of integers, for numbers greater than 25*10^9 false positive is with low probability depending on IsPrimeMillerRabinReps"));
 	FUNC (StrongPseudoprimeTest, 2, "n,b", "number_theory", N_("Run the strong pseudoprime test base b on n"));
 	FUNC (MillerRabinTest, 2, "n,reps", "number_theory", N_("Use the Miller-Rabin primality test on n, reps number of times.  The probability of false positive is (1/4)^reps"));
