@@ -679,3 +679,20 @@ d_protect_all(void)
 			func->id->protected = 1;
 	}
 }
+
+void
+d_add_named_args (GelEFunc *f, const char *args)
+{
+	int i;
+	char **s;
+
+	if (args == NULL || args[0] == '\0')
+		return;
+       
+	s = g_strsplit (args, ",", -1);
+	for (i = 0; s[i] != NULL; i++) {
+		f->named_args = g_slist_append (f->named_args, d_intern (s[i]));
+	}
+	g_strfreev (s);
+}
+

@@ -2266,6 +2266,7 @@ do_exec_commands (const char *dirprefix)
 			(*errorout)(p);
 			g_free(p);
 		}
+		ret = TRUE;
 		break;
 	case GEL_LS:
 		dir = opendir (".");

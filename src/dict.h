@@ -111,6 +111,10 @@ void d_put_on_subst_list (GelEFunc *func);
 /*protect all variables currently in memory, except for "Ans"*/
 void d_protect_all(void);
 
+/* add named arguments to a function.  Note that this APPENDS the
+ * list and should only be used for built in functions */
+void d_add_named_args (GelEFunc *f, const char *args);
+
 #define D_ENSURE_USER_BODY(f) \
 	if (f->data.user == NULL) {					\
 		g_assert (uncompiled != NULL);				\

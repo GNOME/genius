@@ -3236,22 +3236,6 @@ get_IntegerOutputBase (void)
 	return gel_makenum_ui(calcstate.integer_output_base);
 }
 
-static void
-add_named_args (GelEFunc *f, const char *args)
-{
-	int i;
-	char **s;
-
-	if (args == NULL || args[0] == '\0')
-		return;
-       
-	s = g_strsplit (args, ",", -1);
-	for (i = 0; s[i] != NULL; i++) {
-		f->named_args = g_slist_append (f->named_args, d_intern (s[i]));
-	}
-	g_strfreev (s);
-}
-
 /*add the routines to the dictionary*/
 void
 gel_funclib_addall(void)
@@ -3278,12 +3262,12 @@ gel_funclib_addall(void)
 	/* FIXME: add more help fields */
 #define FUNC(name,args,argn,category,desc) \
 	f = d_addfunc (d_makebifunc (d_intern ( #name ), name ## _op, args)); \
-	add_named_args (f, argn); \
+	d_add_named_args (f, argn); \
 	add_category ( #name , category); \
 	add_description ( #name , desc);
 #define VFUNC(name,args,argn,category,desc) \
 	f = d_addfunc (d_makebifunc (d_intern ( #name ), name ## _op, args)); \
-	add_named_args (f, argn); \
+	d_add_named_args (f, argn); \
 	f->vararg = TRUE; \
 	add_category ( #name , category); \
 	add_description ( #name , desc);

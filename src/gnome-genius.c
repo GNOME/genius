@@ -993,12 +993,13 @@ genius_got_etree (GelETree *e)
 static char *
 make_a_fifo (void)
 {
-	/* doesn't truly need to be random */
-	static int tm = 0;
-        if (tm == 0)
-		tm = time (NULL) * getpid ();
+	static int cnt = 1;
 	for (;;) {
-		char *name = g_strdup_printf ("/tmp/genius-fifo-%d", tm++);
+		char *name = g_strdup_printf ("/tmp/genius-fifo-%d-%d",
+					      (int)getpid(), cnt++);
+		/* this will not work if we don't own this, but this will
+		 * make sure we clean up old links */
+		unlink (name);
 		if (mkfifo (name, 0600) == 0) {
 			return name;
 		}
@@ -1079,7 +1080,11 @@ main (int argc, char *argv[])
 	vte_terminal_set_scroll_on_output (VTE_TERMINAL (term), FALSE);
 	vte_terminal_set_word_chars (VTE_TERMINAL (term),
 				     "-A-Za-z0-9/_:.,?+%=");
-	/* FIXME: check del/bs key */
+	vte_terminal_set_backspace_binding (VTE_TERMINAL (term),
+					    VTE_ERASE_ASCII_BACKSPACE);
+	/* FIXME: how come does backspace and not delete */
+	vte_terminal_set_delete_binding (VTE_TERMINAL (term),
+					 VTE_ERASE_ASCII_DELETE);
 
 	g_signal_connect (G_OBJECT (term), "event",
 			  G_CALLBACK (catch_interrupts),
@@ -1091,7 +1096,7 @@ main (int argc, char *argv[])
 		(vte_terminal_get_adjustment (VTE_TERMINAL (term)));
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 	
-	if(plugin_list) {
+	if (plugin_list != NULL) {
 		GSList *li;
 		int i;
 		plugins = g_new0(GnomeUIInfo,g_slist_length(plugin_list)+1);
