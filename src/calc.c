@@ -1297,7 +1297,7 @@ compile_all_user_funcs(FILE *outfile)
 		GelEFunc *func = li->data;
 		GelHelp *help;
 		char *body;
-		GSList *li;
+		GSList *l;
 
 		if((func->type!=GEL_USER_FUNC &&
 		    func->type!=GEL_VARIABLE_FUNC) ||
@@ -1319,8 +1319,8 @@ compile_all_user_funcs(FILE *outfile)
 				func->id->token,
 				(int)func->nargs,
 				(int)func->vararg);
-			for(li=func->named_args;li;li=g_slist_next(li)) {
-				GelToken *tok = li->data;
+			for (l = func->named_args; l != NULL; l = l->next) {
+				GelToken *tok = l->data;
 				fprintf(outfile,";%s",tok->token);
 			}
 		} else /*GEL_VARIABLE_FUNC*/ {
@@ -1329,6 +1329,42 @@ compile_all_user_funcs(FILE *outfile)
 
 		fprintf(outfile,"\n%s\n",body);
 		g_free(body);
+
+		/* FIXME: ugly, make this into a subroutine */
+		for (l = func->extra_dict; l != NULL; l = l->next) {
+			GelEFunc *f = li->data;
+			GSList *nl;
+
+			if((f->type!=GEL_USER_FUNC &&
+			    f->type!=GEL_VARIABLE_FUNC) ||
+			   !f->id ||
+			   !f->id->token)
+				continue;
+
+			if(f->data.user) {
+				body = gel_compile_tree(f->data.user);
+			} else {
+				body = g_strdup(g_hash_table_lookup(uncompiled,f->id));
+				g_assert(body);
+			}
+			if(f->type==GEL_USER_FUNC) {
+				fprintf (outfile,
+					 "f;%d;%s;%d;%d",
+					 (int)strlen (body),
+					 f->id->token,
+					 (int)f->nargs,
+					 (int)f->vararg);
+				for (nl = f->named_args; nl != NULL; nl = nl->next) {
+					GelToken *tok = nl->data;
+					fprintf(outfile,";%s",tok->token);
+				}
+			} else /*GEL_VARIABLE_FUNC*/ {
+				fprintf(outfile,"v;%d;%s",(int)strlen(body),f->id->token);
+			}
+
+			fprintf(outfile,"\n%s\n",body);
+			g_free(body);
+		}
 
 		help = get_help (func->id->token, FALSE /* insert */);
 		if (help != NULL && help->aliasfor != NULL) {
@@ -1368,6 +1404,7 @@ static void
 load_compiled_fp(const char *file, FILE *fp)
 {
 	char buf[8192];
+	GelEFunc *last_func = NULL;
 
 	if(!fgets(buf,sizeof(buf),fp))
 		return;
@@ -1394,6 +1431,7 @@ load_compiled_fp(const char *file, FILE *fp)
 		char *b2;
 		GelToken *tok;
 		int size, nargs, vararg;
+		gboolean extra_dict = FALSE;
 		int i;
 		GSList *li = NULL;
 		int type;
@@ -1494,11 +1532,16 @@ load_compiled_fp(const char *file, FILE *fp)
 			tok = d_intern(p);
 			tok->protected = 1;
 			continue;
-		} else if(*p != 'F' && *p != 'V') {
+		} else if(*p != 'F' && *p != 'V' && *p != 'f' && *p != 'v') {
 			(*errorout)(_("Badly formed record"));
 			continue;
 		}
-		type = *p=='F'?GEL_USER_FUNC:GEL_VARIABLE_FUNC;
+		type = (*p == 'F' || *p == 'f') ? GEL_USER_FUNC : GEL_VARIABLE_FUNC;
+
+		if (*p == 'f' || *p == 'v')
+			extra_dict = TRUE;
+		else
+			extra_dict = FALSE;
 
 		/*size*/
 		p = strtok(NULL,";");
@@ -1572,15 +1615,34 @@ load_compiled_fp(const char *file, FILE *fp)
 		incr_file_info();
 		p=strchr(b2,'\n');
 		if(p) *p='\0';
-		if(!uncompiled)
-			uncompiled = g_hash_table_new(NULL,NULL);
-		g_hash_table_insert(uncompiled,tok,b2);
-		if(type == GEL_USER_FUNC) {
-			GelEFunc *func = d_makeufunc (tok, NULL, li, nargs);
-			func->vararg = vararg ? 1 : 0;
+
+		if (extra_dict) {
+			GelEFunc *func;
+			if (type == GEL_USER_FUNC) {
+				func = d_makeufunc (tok, NULL, li, nargs, NULL);
+				func->vararg = vararg ? 1 : 0;
+			} else /*GEL_VARIABLE_FUNC*/ {
+				func = d_makevfunc (tok, NULL);
+			}
+			func->context = -1;
+			if (last_func == NULL)
+				(*errorout)(_("Extra dictionary for NULL function"));
+			else
+				last_func->extra_dict = g_slist_append
+					(last_func->extra_dict, func);
+		} else {
+			GelEFunc *func;
+			if(!uncompiled)
+				uncompiled = g_hash_table_new(NULL,NULL);
+			g_hash_table_insert(uncompiled,tok,b2);
+			if(type == GEL_USER_FUNC) {
+				func = d_makeufunc (tok, NULL, li, nargs, NULL);
+				func->vararg = vararg ? 1 : 0;
+			} else /*GEL_VARIABLE_FUNC*/ {
+				func = d_makevfunc(tok,NULL);
+			}
+			last_func = func;
 			d_addfunc (func);
-		} else /*GEL_VARIABLE_FUNC*/ {
-			d_addfunc(d_makevfunc(tok,NULL));
 		}
 continue_reading:	;
 	}

@@ -120,11 +120,11 @@ function MatrixProduct(a) = (
 protect("MatrixProduct")
 
 SetHelp("Submatrix", "matrix", "Return column(s) and row(s) from a matrix")
-function Submatrix(m,r,c) = m@(r,c)
+function Submatrix(m,r,c) = [m@(r,c)]
 protect ("Submatrix")
 
 SetHelp("ComplementSubmatrix", "matrix", "Remove column(s) and row(s) from a matrix");
-function ComplementSubmatrix(m,r,c) = m@(IndexComplement(r, rows(m)), IndexComplement (c, columns (m)))
+function ComplementSubmatrix(m,r,c) = [m@(IndexComplement(r, rows(m)), IndexComplement (c, columns (m)))]
 protect ("ComplementSubmatrix")
 
 # Minor of a matrix (determinant of a submatrix given by deleting

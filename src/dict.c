@@ -32,10 +32,11 @@
 /*the context stack structure*/
 typedef struct _context_t {
 	GSList *stack;
+	GSList *subststack;
 	int top;
 } context_t;
 
-static context_t context={NULL,-1};
+static context_t context={NULL,NULL,-1};
 
 static GHashTable *dictionary;
 
@@ -65,8 +66,10 @@ d_makebifunc(GelToken *id, dictfunc f, int nargs)
 	n->id = id;
 	n->data.func = f;
 	n->nargs = nargs;
-	n->vararg = FALSE;
+	n->vararg = 0;
+	n->on_subst_list = 0;
 	n->named_args = NULL;
+	n->extra_dict = NULL;
 	n->context = context.top;
 	n->type = GEL_BUILTIN_FUNC;
 
@@ -75,7 +78,8 @@ d_makebifunc(GelToken *id, dictfunc f, int nargs)
 
 /*make a user function and return it*/
 GelEFunc *
-d_makeufunc(GelToken *id, GelETree *value, GSList *argnames, int nargs)
+d_makeufunc (GelToken *id, GelETree *value, GSList *argnames, int nargs,
+	     const GSList *extra_dict)
 {
 	GelEFunc *n;
 
@@ -88,10 +92,20 @@ d_makeufunc(GelToken *id, GelETree *value, GSList *argnames, int nargs)
 	n->id=id;
 	n->data.user=value;
 	n->nargs=nargs;
-	n->vararg = FALSE;
+	n->vararg = 0;
+	n->on_subst_list = 0;
 	n->named_args=argnames;
 	n->context=context.top;
 	n->type=GEL_USER_FUNC;
+
+	if (extra_dict != NULL) {
+		GSList *li;
+		n->extra_dict = g_slist_copy ((GSList *)extra_dict);
+		for (li = n->extra_dict; li != NULL; li = li->next)
+			li->data = d_copyfunc (li->data);
+	} else {
+		n->extra_dict = NULL;
+	}
 
 	return n;
 }
@@ -111,8 +125,10 @@ d_makevfunc(GelToken *id, GelETree *value)
 	n->id=id;
 	n->data.user=value;
 	n->nargs=0;
-	n->vararg = FALSE;
+	n->vararg = 0;
+	n->on_subst_list = 0;
 	n->named_args=NULL;
+	n->extra_dict = NULL;
 	n->context=context.top;
 	n->type=GEL_VARIABLE_FUNC;
 
@@ -131,13 +147,15 @@ d_makereffunc(GelToken *id, GelEFunc *ref)
 		n = free_funcs;
 		free_funcs = free_funcs->data.next;
 	}
-	n->id=id;
-	n->data.ref=ref;
-	n->nargs=0;
-	n->vararg = FALSE;
-	n->named_args=NULL;
-	n->context=context.top;
-	n->type=GEL_REFERENCE_FUNC;
+	n->id = id;
+	n->data.ref = ref;
+	n->nargs = 0;
+	n->vararg = 0;
+	n->on_subst_list = 0;
+	n->named_args = NULL;
+	n->extra_dict = NULL;
+	n->context = context.top;
+	n->type = GEL_REFERENCE_FUNC;
 
 	return n;
 }
@@ -147,6 +165,7 @@ GelEFunc *
 d_copyfunc(GelEFunc *o)
 {
 	GelEFunc *n;
+	GSList *li;
 
 	if(!free_funcs)
 		n = g_new(GelEFunc,1);
@@ -160,7 +179,16 @@ d_copyfunc(GelEFunc *o)
 		D_ENSURE_USER_BODY (o);
 		n->data.user=copynode(o->data.user);
 	}
-	n->named_args = g_slist_copy(o->named_args);
+	n->named_args = g_slist_copy (o->named_args);
+
+	n->extra_dict = g_slist_copy (o->extra_dict);
+	for (li = n->extra_dict; li != NULL; li = li->next)
+		li->data = d_copyfunc (li->data);
+
+	if (n->on_subst_list) {
+		n->on_subst_list = 0;
+		d_put_on_subst_list (n);
+	}
 	
 	return n;
 }
@@ -195,6 +223,20 @@ d_makerealfunc(GelEFunc *o,GelToken *id, int use)
 		o->named_args = 0;
 	} else
 		n->named_args = g_slist_copy(o->named_args);
+
+	if (use) {
+		o->extra_dict = NULL;
+	} else {
+		GSList *li;
+		n->extra_dict = g_slist_copy (o->extra_dict);
+		for (li = n->extra_dict; li != NULL; li = li->next)
+			li->data = d_copyfunc (li->data);
+	}
+
+	if (n->on_subst_list) {
+		n->on_subst_list = 0;
+		d_put_on_subst_list (n);
+	}
 	
 	return n;
 }
@@ -229,29 +271,43 @@ d_setrealfunc(GelEFunc *n,GelEFunc *fake, int use)
 		n->named_args = g_slist_copy(fake->named_args);
 		n->nargs = fake->nargs;
 	}
-}
 
+	if (use) {
+		n->extra_dict = fake->extra_dict;
+		fake->extra_dict = NULL;
+	} else {
+		GSList *li;
+		n->extra_dict = g_slist_copy (fake->extra_dict);
+		for (li = n->extra_dict; li != NULL; li = li->next)
+			li->data = d_copyfunc (li->data);
+	}
+
+	if (fake->on_subst_list) {
+		d_put_on_subst_list (n);
+	}
+}
 
 void
 d_initcontext(void)
 {
 	GelToken *tok;
-	context.top=0; /*0 means that element 0 exists!*/
-	/*add an empty dictionary*/
-	context.stack=g_slist_prepend(NULL,NULL);
 
-	dictionary = g_hash_table_new(g_str_hash,g_str_equal);
+	context.top = 0; /*0 means that element 0 exists!*/
+	/*add an empty dictionary*/
+	context.stack = g_slist_prepend (NULL,NULL);
+	context.subststack = g_slist_prepend (NULL,NULL);
+
+	dictionary = g_hash_table_new (g_str_hash, g_str_equal);
 
 	/*add Ans and ans as the same token*/
-
-	tok = g_new0(GelToken,1);
-	tok->token = g_strdup("Ans");
-	g_hash_table_insert(dictionary,tok->token,tok);
-	g_hash_table_insert(dictionary,g_strdup("ans"),tok);
+	tok = g_new0 (GelToken, 1);
+	tok->token = g_strdup ("Ans");
+	g_hash_table_insert (dictionary, tok->token, tok);
+	g_hash_table_insert (dictionary, g_strdup("ans"), tok);
 
 	/*this is where the built in functions register into the global
 	  dictionary*/
-	gel_funclib_addall();
+	gel_funclib_addall ();
 }
 
 /*compare two GelEFunc's by their context numbers*/
@@ -403,25 +459,61 @@ d_singlecontext(void)
 		d_initcontext();
 	else
 		while(context.top>0)
-			d_freedict(d_popcontext());
+			d_popcontext ();
 }
 
 /*free all memory allocated by a dictionary*/
 void
-d_freedict(GSList *n)
+d_freedict (GSList *n)
 {
 	GSList *li;
-	for(li=n;li!=NULL;li=g_slist_next(li))
-		d_freefunc(li->data);
-	g_slist_free(n);
+	for (li = n; li != NULL; li = li->next)
+		d_freefunc (li->data);
+	g_slist_free (n);
+}
+
+static void
+whack_from_lists (GelEFunc *func)
+{
+	GSList *li;
+	for (li = context.subststack; li != NULL; li = li->next) {
+		GSList *fl = g_slist_find (li->data, func);
+		if (fl != NULL) {
+			li->data = g_slist_delete_link (li->data, fl);
+			return;
+		}
+	}
+}
+
+/* Put on subst local var list for this current stack */
+void
+d_put_on_subst_list (GelEFunc *func)
+{
+	if (func->on_subst_list) {
+		/* On a lower stackframe? */
+		/* weird but true.  So whack it and put it here,
+		 * it will get to the lower one eventually */
+		whack_from_lists (func);
+	}
+	context.subststack->data = 
+		g_slist_prepend (context.subststack->data, func);
+	func->on_subst_list = 1;
 }
 
 void
-d_freefunc(GelEFunc *n)
+d_freefunc (GelEFunc *n)
 {
+	GSList *li;
 	if(!n)
 		return;
 	g_assert(!n->id || g_slist_find(n->id->refs,n)==NULL);
+
+
+	if (n->on_subst_list) {
+		whack_from_lists (n);
+		n->on_subst_list = 0;
+	}
+
 	/*if(n->id) {
 		n->id->refs = g_slist_remove(n->id->refs,n);
 		n->id->curref = n->id->refs?n->id->refs->data:NULL;
@@ -431,6 +523,9 @@ d_freefunc(GelEFunc *n)
 	   n->data.user)
 		gel_freetree(n->data.user);
 	g_slist_free(n->named_args);
+	for (li = n->extra_dict; li != NULL; li = li->next)
+		d_freefunc (li->data);
+	g_slist_free (n->extra_dict);
 	/*prepend to free list*/
 	n->data.next = free_funcs;
 	free_funcs = n;
@@ -442,14 +537,23 @@ d_freefunc(GelEFunc *n)
 void
 d_replacefunc(GelEFunc *old,GelEFunc *new)
 {
+	GSList *li;
+
 	g_return_if_fail(old && new);
 	g_return_if_fail(old->id == new->id);
 
 	if(old->type == GEL_USER_FUNC ||
 	   old->type == GEL_VARIABLE_FUNC)
 		gel_freetree(old->data.user);
+
 	g_slist_free(old->named_args);
+
+	for (li = old->extra_dict; li != NULL; li = li->next)
+		d_freefunc (li->data);
+	g_slist_free (old->extra_dict);
+
 	memcpy(old,new,sizeof(GelEFunc));
+
 	/*prepend to free list*/
 	new->data.next = free_funcs;
 	free_funcs = new;
@@ -493,32 +597,60 @@ d_set_value(GelEFunc *n,GelETree *value)
 int
 d_addcontext(void)
 {
-	context.stack = g_slist_prepend(context.stack,NULL);
+	context.stack = g_slist_prepend (context.stack, NULL);
+	context.subststack = g_slist_prepend (context.subststack, NULL);
 	context.top++;
 	return TRUE;
 }
 
-/*gimme the last dictionary and pop the context stack*/
-GSList *
+/*pop the context stack*/
+void
 d_popcontext(void)
 {
-	if(context.top==-1)
-		return NULL;
-	else {
+	if (context.top != -1) {
 		GSList *li;
 		GSList *dict = context.stack->data;
+		GSList *subst = context.subststack->data;
+		GSList *substlast = NULL;
 
-		for(li=dict;li!=NULL;li=g_slist_next(li)) {
+		if (context.top != 0) {
+			for (li = subst; li != NULL; li = li->next) {
+				GelEFunc *func = li->data;
+				if (context.top == 1)
+					func->on_subst_list = 0;
+
+				if (func->type == GEL_USER_FUNC ||
+				    func->type == GEL_VARIABLE_FUNC) {
+					D_ENSURE_USER_BODY (func);
+					func->extra_dict =
+						gel_subst_local_vars (func->extra_dict,
+								      func->data.user);
+				}
+
+				substlast = li;
+			}
+		}
+
+		for (li = dict; li != NULL; li = li->next) {
 			GelEFunc *func = li->data;
 			func->id->refs = g_slist_remove(func->id->refs,func);
 			func->id->curref =
 				func->id->refs?func->id->refs->data:NULL;
 		}
 		context.top--;
-		li = context.stack;
-		context.stack = g_slist_remove_link(context.stack,li);
-		g_slist_free_1(li);
-		return dict;
+
+		context.stack = g_slist_delete_link (context.stack, context.stack);
+		context.subststack = g_slist_delete_link (context.subststack, context.subststack);
+
+		/* substitute lower variables unless we are on the toplevel */
+		if (substlast != NULL && context.top > 0) {
+			context.subststack->data = subst;
+			substlast->next = context.subststack->data;
+			subst = NULL;
+		}
+
+		d_freedict (dict);
+		g_slist_free (subst);
 	}
 }
 

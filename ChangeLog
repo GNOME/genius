@@ -1,3 +1,16 @@
+Wed Oct 30 15:37:24 2002  George Lebl <jirka@5z.com>
+
+	* lib/linear_algebra/misc.gel: Submatrix functions always return
+	  a matrix
+
+	* src/dict.[ch], src/calc.c, src/eval.[ch], src/funclib.c,
+	  src/compil.c, parseutil.c, structs.h:  don't do local variable
+	  substitution on function nodes.  Rather push them onto a special
+	  stack (this bit is ugly) and then add a special dictionary
+	  to the function on context pop with the local vars.  This
+	  should work a lot nicer then the replacing that was going on
+	  before.
+
 Wed Oct 30 11:27:40 2002  George Lebl <jirka@5z.com>
 
 	* src/calc.c, src/eval.[ch], src/funclib.c, src/lexer.l, src/parse.y,

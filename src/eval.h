@@ -164,6 +164,8 @@ GelETree * gather_comparisons(GelETree *n);
 void replace_equals (GelETree *n, gboolean in_expression);
 void try_to_do_precalc(GelETree *n);
 
+/* return a list of used local functions (copies of) */
+GSList * gel_subst_local_vars (GSList *, GelETree *n);
 
 #define GET_ABCDE(n,a,b,c,d,e) { \
 	(a) = (n)->op.args; \

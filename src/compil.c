@@ -332,7 +332,7 @@ gel_decompile_node(void)
 			return NULL;
 		}
 
-		func = d_makeufunc(NULL,n,oli,nargs);
+		func = d_makeufunc(NULL,n,oli,nargs, NULL);
 		func->context = -1;
 		func->vararg = vararg ? 1 : 0;
 

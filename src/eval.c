@@ -815,7 +815,7 @@ gel_expandmatrix (GelETree *n)
 	GelMatrix *m;
 	gboolean need_colwise = FALSE;
 	GelMatrixW *nm;
-	int h;
+	int h,w;
 
 	nm = n->mat.matrix;
 
@@ -824,11 +824,27 @@ gel_expandmatrix (GelETree *n)
 	if ( ! mat_need_expand (nm))
 		return;
 
-	gel_matrixw_make_private(nm);
+	w = gel_matrixw_width (nm);
+	h = gel_matrixw_height (nm);
 
-	h = gel_matrixw_height(nm);
+	if (w == 1 || h == 1) {
+		GelETree *t = gel_matrixw_set_index (nm, 0, 0);
+		if (t != NULL &&
+		    t->type == MATRIX_NODE) {
+			if (nm->m->use == 1) {
+				gel_matrixw_set_index (nm, 0, 0) = NULL;
+			} else {
+				t = copynode (t);
+			}
+			replacenode (n, t);
+			return;
+		}
+	}
+
+	gel_matrixw_make_private (nm);
+
 	m = gel_matrix_new();
-	gel_matrix_set_size(m,gel_matrixw_width(nm),h, TRUE /* padding */);
+	gel_matrix_set_size(m, w, h, TRUE /* padding */);
 	
 	cols = gel_matrixw_width (nm);
 	
@@ -1041,7 +1057,7 @@ eqmatrix(GelETree *a, GelETree *b, int *error)
 				*error = TRUE;
 				return 0;
 			}
-			r = mpw_cmp(t->val.value,b->val.value)==0;
+			r = mpw_eql(t->val.value,b->val.value);
 		}
 	} else if(b->type == MATRIX_NODE) {
 		GelMatrixW *m = b->mat.matrix;
@@ -2059,10 +2075,16 @@ iter_do_var(GelCtx *ctx, GelETree *n, GelEFunc *f)
 		freetree_full(n,TRUE,FALSE);
 
 		n->type = FUNCTION_NODE;
-		n->func.func = d_makeufunc(NULL,copynode(f->data.user),
-					    g_slist_copy(f->named_args),f->nargs);
+		n->func.func = d_makeufunc (NULL,
+					    copynode (f->data.user),
+					    g_slist_copy (f->named_args),
+					    f->nargs,
+					    f->extra_dict);
 		n->func.func->context = -1;
 		n->func.func->vararg = f->vararg;
+		if (f->on_subst_list &&
+		    d_curcontext () != 0)
+			d_put_on_subst_list (n->func.func);
 	} else if(f->type == GEL_BUILTIN_FUNC) {
 		GelETree *ret;
 		int exception = FALSE;
@@ -2073,6 +2095,7 @@ iter_do_var(GelCtx *ctx, GelETree *n, GelEFunc *f)
 			n->func.func = d_makerealfunc(f,NULL,FALSE);
 			n->func.func->context = -1;
 			n->func.func->vararg = f->vararg;
+			/* FIXME: no need for extra_dict right? */
 			return TRUE;
 		}
 		ret = (*f->data.func)(ctx,NULL,&exception);
@@ -2349,7 +2372,7 @@ ev_free_special_data(GelCtx *ctx, gpointer data, int flag)
 	switch(flag) {
 	case GE_FUNCCALL:
 		/*we are crossing a boundary, we need to free a context*/
-		d_freedict(d_popcontext());
+		d_popcontext ();
 		gel_freetree(data);
 		GE_BLIND_POP_STACK(ctx);
 		break;
@@ -2462,7 +2485,7 @@ iter_pop_stack(GelCtx *ctx)
 				gpointer call;
 
 				/*pop the context*/
-				d_freedict(d_popcontext());
+				d_popcontext ();
 				
 				GE_POP_STACK(ctx,call,flag);
 
@@ -2920,6 +2943,14 @@ iter_funccallop(GelCtx *ctx, GelETree *n)
 		EDEBUG("     USER FUNC PUSHING CONTEXT");
 
 		d_addcontext();
+
+		/* add extra dictionary stuff */
+		for (li = f->extra_dict; li != NULL; li = li->next) {
+			GelEFunc *func = d_copyfunc (li->data);
+			func->context = d_curcontext ();
+			d_addfunc (func);
+		}
+
 		/*push arguments on context stack*/
 		li = f->named_args;
 		for(ali = n->op.args->any.next;
@@ -2937,7 +2968,7 @@ iter_funccallop(GelCtx *ctx, GelETree *n)
 				GelETree *t = ali->op.args;
 				GelEFunc *rf = d_lookup_global_up1(t->id.id);
 				if(!rf) {
-					d_freedict(d_popcontext());
+					d_popcontext ();
 					(*errorout)(_("Referencing an undefined variable!"));
 					goto funccall_done_ok;
 				}
@@ -3074,7 +3105,7 @@ iter_returnop(GelCtx *ctx, GelETree *n)
 			gel_freetree(data);
 			replacenode(fn,r);
 
-			d_freedict(d_popcontext());
+			d_popcontext ();
 
 			iter_pop_stack(ctx);
 			return;
@@ -3370,7 +3401,7 @@ iter_continue_break_op(GelCtx *ctx, gboolean cont)
 				      "assuming \"return null\""));
 			gel_freetree(data);
 
-			d_freedict(d_popcontext());
+			d_popcontext ();
 
 			/*pop the function call*/
 			GE_POP_STACK(ctx,data,flag);
@@ -3421,7 +3452,7 @@ iter_bailout_op(GelCtx *ctx)
 			EDEBUG("    FOUND FUNCCCALL");
 			gel_freetree(data);
 
-			d_freedict(d_popcontext());
+			d_popcontext ();
 
 			/*pop the function call off the stack*/
 			GE_BLIND_POP_STACK(ctx);
@@ -4677,39 +4708,47 @@ iter_operator_post(GelCtx *ctx)
 	return TRUE;
 }
 
-/* FIXME: this is broken!!!!!, should only be done on context pop */
-static void
-subst_local_vars (GelETree *n)
+static gboolean
+function_id_on_list (GSList *funclist, GelToken *id)
+{
+	GSList *li;
+       
+	for (li = funclist; li != NULL; li = li->next) {
+		GelEFunc *func = li->data;
+		if (func->id == id)
+			return TRUE;
+	}
+	return FALSE;
+}
+
+GSList *
+gel_subst_local_vars (GSList *funclist, GelETree *n)
 {
 	if (n == NULL)
-		return;
+		return funclist;
 
 	if (n->type == IDENTIFIER_NODE) {
 		GelEFunc *func = d_lookup_local (n->id.id);
 		if (func != NULL &&
-		    func->type == GEL_VARIABLE_FUNC) {
-			D_ENSURE_USER_BODY (func);
-			copyreplacenode (n, func->data.user);
-		} else if (func != NULL &&
-			   func->type == GEL_USER_FUNC) {
-			GelETree *nn;
-			D_ENSURE_USER_BODY (func);
-
-			func = d_copyfunc (func);
-			func->context = -1;
-
-			GET_NEW_NODE (nn);
-			nn->type = FUNCTION_NODE;
-			nn->func.func = func;
-			replacenode (n, nn);
+		    ! function_id_on_list (funclist, n->id.id)) {
+			GelEFunc *f = d_copyfunc (func);
+			f->context = -1;
+			funclist = g_slist_prepend (funclist, f);
 		}
 	} else if (n->type == SPACER_NODE) {
-		subst_local_vars (n->sp.arg);
+		funclist = gel_subst_local_vars (funclist, n->sp.arg);
 	} else if(n->type == OPERATOR_NODE) {
-		GelETree *args = n->op.args;
-		while (args != NULL) {
-			subst_local_vars (args);
-			args = args->any.next;
+		/* special case to avoid more work
+		 * then needed */
+		if (n->op.oper == E_EQUALS &&
+		    n->op.args->type == IDENTIFIER_NODE) {
+			funclist = gel_subst_local_vars (funclist, n->op.args->any.next);
+		} else {
+			GelETree *args = n->op.args;
+			while (args != NULL) {
+				funclist = gel_subst_local_vars (funclist, args);
+				args = args->any.next;
+			}
 		}
 	} else if (n->type == MATRIX_NODE &&
 		   n->mat.matrix != NULL) {
@@ -4723,19 +4762,20 @@ subst_local_vars (GelETree *n)
 				GelETree *t = gel_matrixw_set_index
 					(n->mat.matrix, i, j);
 				if (t != NULL)
-					subst_local_vars (t);
+					funclist = gel_subst_local_vars (funclist, t);
 			}
 		}
 	} else if (n->type == SET_NODE) {
 		GelETree *ali;
 		for(ali = n->set.items; ali != NULL; ali = ali->any.next)
-			subst_local_vars (ali);
+			funclist = gel_subst_local_vars (funclist, ali);
 	} else if (n->type == FUNCTION_NODE &&
 		   (n->func.func->type == GEL_USER_FUNC ||
 		    n->func.func->type == GEL_VARIABLE_FUNC)) {
 		D_ENSURE_USER_BODY (n->func.func);
-		subst_local_vars (n->func.func->data.user);
+		funclist = gel_subst_local_vars (funclist, n->func.func->data.user);
 	}
+	return funclist;
 }
 
 static gboolean
@@ -4799,8 +4839,7 @@ iter_eval_etree(GelCtx *ctx)
 			    (n->func.func->type == GEL_USER_FUNC ||
 			     n->func.func->type == GEL_VARIABLE_FUNC) &&
 			    d_curcontext () != 0) {
-				D_ENSURE_USER_BODY (n->func.func);
-				subst_local_vars (n->func.func->data.user);
+				d_put_on_subst_list (n->func.func);
 			}
 			iter_pop_stack(ctx);
 			break;

@@ -91,14 +91,20 @@ struct _GelEFunc {
 	int context; /*the context number this is used for .. if we pop this
 		       context, we will destroy the function*/
 	int nargs; /*number of arguments*/
-	gboolean vararg;
 	GSList *named_args; /*names of arguments*/
+
+	GSList *extra_dict;
+
 	union {
 		GelETree *user;
 		GelETree *(*func)(GelCtx *ctx, GelETree * *, int *); /*the integer is exception*/
 		GelEFunc *ref;
 		GelEFunc *next; /*this is for keeping a free list*/
 	} data;
+	/* if true, we must take this off the subst list for a context pop,
+	 * before we free the function */
+	guint32 on_subst_list:1;
+	guint32 vararg:1;
 };
 
 typedef enum {

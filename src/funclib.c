@@ -2570,7 +2570,7 @@ PolyToFunction_op(GelCtx *ctx, GelETree * * a, int *exception)
 
 	GET_NEW_NODE(n);
 	n->type = FUNCTION_NODE;
-	n->func.func = d_makeufunc(NULL,nn,g_slist_append(NULL,var),1);
+	n->func.func = d_makeufunc(NULL,nn,g_slist_append(NULL,var),1, NULL);
 	n->func.func->context = -1;
 
 	return n;
@@ -3154,7 +3154,8 @@ gel_funclib_addall(void)
 					    parseexp("error(\"ln not finished\")",
 						     NULL, FALSE, FALSE,
 						     NULL, NULL),
-					    g_slist_append(NULL,d_intern("x")),1);
+					    g_slist_append(NULL,d_intern("x")),1,
+					    NULL);
 	_internal_exp_function = d_makeufunc(d_intern("<internal>exp"),
 					     parseexp("s = float(x^0); "
 						      "fact = 1; "
@@ -3163,7 +3164,8 @@ gel_funclib_addall(void)
 						      "s = s + fact) ; s",
 						      NULL, FALSE, FALSE,
 						      NULL, NULL),
-					     g_slist_append(NULL,d_intern("x")),1);
+					     g_slist_append(NULL,d_intern("x")),1,
+					     NULL);
 	/*protect EVERYthing up to this point*/
 	d_protect_all();
 }

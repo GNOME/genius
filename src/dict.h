@@ -34,7 +34,8 @@ int d_curcontext(void);
 GelEFunc * d_makebifunc(GelToken *id, dictfunc f, int nargs);
 
 /*make a user function and return it*/
-GelEFunc * d_makeufunc(GelToken *id, GelETree *value, GSList *argnames, int nargs);
+GelEFunc * d_makeufunc (GelToken *id, GelETree *value, GSList *argnames, int nargs,
+			const GSList *extra_dict);
 
 /*make a variable function and return in*/
 GelEFunc * d_makevfunc(GelToken *id, GelETree *value);
@@ -99,10 +100,13 @@ void d_replacefunc(GelEFunc *old,GelEFunc *new);
 int d_addcontext(void);
 
 /*gimme the last dictinary and pop the context stack*/
-GSList * d_popcontext(void);
+void d_popcontext(void);
 
 /*gimme the current dictinary*/
 GSList * d_getcontext(void);
+
+/* Put on subst local var list for this current stack */
+void d_put_on_subst_list (GelEFunc *func);
 
 /*protect all variables currently in memory, except for "Ans"*/
 void d_protect_all(void);

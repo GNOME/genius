@@ -72,7 +72,7 @@ gp_push_func (gboolean vararg)
 	GET_NEW_NODE(tree);
 
 	tree->type = FUNCTION_NODE;
-	tree->func.func = d_makeufunc(NULL,val,list,i);
+	tree->func.func = d_makeufunc(NULL,val,list,i, NULL);
 	tree->func.func->context = -1;
 	tree->func.func->vararg = vararg;
 
