@@ -127,7 +127,10 @@ function CrossProduct(v,w) =
  )
 
 # Direct sum of two matrices
-function DirectSum(M,N)=[M,0;0,N]
+function DirectSum(M,N) = (
+  # FIXME: this should work: [M,0;0,N] 
+  [M,zeros(rows(M),columns(N));zeros(rows(N),columns(M)),N]
+)
 
 # (Kronecker) Tensor product of two matrices
 #FIXME!
@@ -146,3 +149,23 @@ function is_invertible(n) =
                                              # Matrices are invertible iff they are square and their
                                              #  determinant is a unit
 )
+
+# HermiteFormField
+function HermiteFormField(A) =
+(
+  ref(ref(A)')'
+)
+
+# AuxilliaryUnitMatrix
+function AuxilliaryUnitMatrix(n) =
+(
+  [0,I(n-1);0,0]
+)
+function U(n) = AxilliaryUnitMatrix(n)
+
+# AuxilliaryUnitMatrix
+function JordanBlock(lambda,n) =
+(
+  lambda * I(n) + AuxilliaryUnitMatrix(n)
+)
+function J(lambda,n) = JordanBlock(lambda,n)
