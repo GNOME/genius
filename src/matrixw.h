@@ -30,10 +30,14 @@
 struct _GelMatrixW {
 	GelMatrix *m;
 	guint32 tr:1; /*transposed*/
-	guint32 cached_value_only;
-	guint32 value_only;
-	guint32 cached_value_only_real;
-	guint32 value_only_real;
+	guint32 cached_value_only:1;
+	guint32 value_only:1;
+	guint32 cached_value_only_real:1;
+	guint32 value_only_real:1;
+	guint32 cached_value_only_rational:1;
+	guint32 value_only_rational:1;
+	guint32 cached_value_only_integer:1;
+	guint32 value_only_integer:1;
 	struct {
 		int x;
 		int y;

@@ -5,26 +5,32 @@
 # This is the number of permutations of n objects that leaves none of the
 # objects unchanged.
 
-SetHelp("catalan","combinatorics","Get n'th catalan number");
+SetHelp("Catalan","combinatorics","Get n'th catalan number");
 function catalan(n) = (
-	if(is_matrix(n)) then
-		return ApplyOverMatrix(n,catalan)
-	else if(not is_value(n) or not is_integer(n) or n<0) then
-		(error("catallan: argument not an integer >= 0");bailout);
+	if(IsMatrix(n)) then
+		return ApplyOverMatrix(n,Catalan)
+	else if(not IsValue(n) or not IsInteger(n) or n<0) then
+		(error("Catalan: argument not an integer >= 0");bailout);
 	nCr(2*n,n)/(n+1)
 );
-protect("catalan")
+protect("Catalan")
 
 ## Double Factorial
 ## Defined by n!! = n(n-2)(n-4)...
 # FIXME: make builtin!
-function DoubleFactorial(n) =
-	(error("DoubleFactorial: Not yet implemented");bailout;)
+SetHelp("DoubleFactorial","combinatorics","Double factorial: n(n-2)(n-4)...");
+function DoubleFactorial(n) = (
+	if not IsValue(n) or not IsInteger(n) or n < 0 then
+		(error("DoubleFactorial: argument not an integer >= 0");bailout);
+	prod k=n to 1 by -2 do k
+)
+protect("DoubleFactorial")
 
+SetHelp ("RisingFactorial", "combinatorics", "(Puchhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))")
 ## (Puchhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))
 function RisingFactorial(n,k) =
  (
-  if is_integer(n) then return (n+k-1)!/(n-1)!
+  if IsInteger(n) then return (n+k-1)!/(n-1)!
   else
    (
    # Return trivial values
@@ -35,16 +41,16 @@ function RisingFactorial(n,k) =
     return product
   );
  )
-protect("RisingFactorial");
-rising_factorial = RisingFactorial;
-protect("rising_factorial");
-Puchhammer = RisingFactorial;
-protect("Puchhammer");
+protect("RisingFactorial")
+SetHelpAlias ("RisingFactorial", "Puchhammer")
+Puchhammer = RisingFactorial
+protect("Puchhammer")
 
 # Falling factorial: (n)_k = n(n-1)...(n-(k-1))
+SetHelp ("FallingFactorial", "combinatorics", "Falling factorial: (n)_k = n(n-1)...(n-(k-1))")
 function FallingFactorial(n,k) =
 (
-  if is_integer(n) then return (n)!/(n-k)!
+  if IsInteger(n) then return (n)!/(n-k)!
   else
    (
    # Return trivial values
@@ -56,20 +62,18 @@ function FallingFactorial(n,k) =
    );
 )
 protect("FallingFactorial");
-falling_factorial=FallingFactorial;
-protect("falling_factorial");
 
 ## Binomial Coefficients
 
 SetHelp("nPr","combinatorics","Calculate permutations");
 function nPr(n,r) = (
-	if(is_matrix(n) or is_matrix(r)) then
+	if(IsMatrix(n) or IsMatrix(r)) then
 		return ApplyOverMatrix2(n,r,nPr)
-	else if(not is_real(n) or not is_integer(r)) then
+	else if(not IsReal(n) or not IsInteger(r)) then
 		(error("nPr: arguments not real and an integer");bailout)
 	else if(r<0 or n<0 or r>n) then
 		0
-	else if(is_integer(n)) then
+	else if(IsInteger(n)) then
 		(n!)/((n-r)!)
 	else (
 		ret = 1;
@@ -83,15 +87,15 @@ function nPr(n,r) = (
 );
 protect("nPr")
 
-SetHelp("nCr","combinatorics","Calculate combinations");
+SetHelp("nCr","combinatorics","Calculate combinations (binomial coefficient)");
 function nCr(n,r) = (
-	if(is_matrix(n) or is_matrix(r)) then
+	if(IsMatrix(n) or IsMatrix(r)) then
 		return ApplyOverMatrix2(n,r,nCr)
-	else if(not is_real(n) or not is_integer(r)) then
+	else if(not IsReal(n) or not IsInteger(r)) then
 		(error("nCr: arguments not real and an integer");bailout)
 	else if(r<0 or n<0 or r>n) then
 		0
-	else if(is_integer(n)) then
+	else if(IsInteger(n)) then
 		(n!)/(r!*(n-r)!)
 	else (
 		ret = 1;
@@ -104,20 +108,33 @@ function nCr(n,r) = (
 	)
 );
 protect("nCr")
+SetHelpAlias ("nCr", "Binomial")
 Binomial=nCr;
 protect("Binomial");
 
 ## Multinomial Coefficients
 ## Multinomial([a,b,c])=(a+b+c)!/a!b!c!
-function Multinomial(v) = matsum(v)!/matprod(ApplyOverMatrix(v,`(x)=x!))
+SetHelp ("Multinomial", "combinatorics", "Calculate multinomial coefficients")
+function Multinomial(v,arg...) = (
+	if not IsMatrix(v) and not IsValue(v) then
+		(error("Multinomial: argument not a value or vector");bailout);
+	# Not perfect argument checking
+
+	if IsNull (arg) then
+		m = [v]
+	else
+		m = [v, arg];
+
+	MatrixSum(m)!/MatrixProduct(ApplyOverMatrix(m,`(x)=x!))
+)
 protect("Multinomial");
 
-SetHelp("pascal","combinatorics","Get the pascal's triangle as a matrix");
-function pascal(i) = (
-	if not is_integer(i) then
-		(error("pascal: argument not an integer");bailout)
+SetHelp("Pascal","combinatorics","Get the pascal's triangle as a matrix");
+function Pascal(i) = (
+	if not IsInteger(i) then
+		(error("Pascal: argument not an integer");bailout)
 	else if i<0 then
-		(error("pascal: argument is negative");bailout);
+		(error("Pascal: argument is negative");bailout);
 	m = SetMatrixSize ([0],i+1,i+1);
 	for y = 0 to i do (
 		for x = 0 to y do (
@@ -126,14 +143,14 @@ function pascal(i) = (
 	);
 	m
 );
-protect("pascal")
+protect("Pascal")
 
-SetHelp("triangular", "combinatorics", "Calculate the nth triangular number");
-function triangular(nth) = (
-        if is_matrix(nth) then
+SetHelp("Triangular", "combinatorics", "Calculate the nth triangular number");
+function Triangular(nth) = (
+        if IsMatrix(nth) then
                 return ApplyOverMatrix(nth, triangular)
-	else if not is_integer(nth) or not nth>=0 then
-		(error("trianglular: argument not an integer larger then or equal to 0");bailout);
+	else if not IsInteger(nth) or not nth>=0 then
+		(error("Trianglular: argument not an integer larger then or equal to 0");bailout);
 	(nth*(nth+1))/2
 );
-protect("triangular")
+protect("Triangular")

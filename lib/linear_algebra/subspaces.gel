@@ -11,7 +11,7 @@
 SetHelp ("ColumnSpace", "linear_algebra", "Get a basis matrix for the columnspace of a matrix")
 function ColumnSpace(M) =
 (
-  if not is_matrix (M) then
+  if not IsMatrix (M) then
     (error("ColumnSpace: argument not a matrix");bailout);
   StripZeroColumns (cref (M))
 )
@@ -20,7 +20,7 @@ protect ("ColumnSpace")
 # Row Space of a matrix
 SetHelp ("RowSpace", "linear_algebra", "Get a basis matrix for the rowspace of a matrix")
 function RowSpace(M) = (
-  if not is_matrix (M) then
+  if not IsMatrix (M) then
     (error("RowSpace: argument not a matrix");bailout);
   ColumnSpace (Transpose (M))
 )
@@ -30,7 +30,7 @@ protect ("RowSpace")
 SetHelp ("Rank", "linear_algebra", "Get the rank of a matrix")
 function Rank(M) =
 (
-  if not is_matrix (M) then
+  if not IsMatrix (M) then
     (error("Rank: argument not a matrix");bailout);
   columns (ColumnSpace (M))
 )
@@ -43,7 +43,7 @@ protect ("rank")
 SetHelp ("Nullity", "linear_algebra", "Get the nullity of a matrix")
 function Nullity (M) =
 (
-  if not is_matrix (M) then
+  if not IsMatrix (M) then
     (error("Nullity: argument not a matrix");bailout);
   columns (M) - columns (ColumnSpace (M))
 )
@@ -83,7 +83,7 @@ SetHelp ("NullSpace", "linear_algebra", "Get the nullspace of a matrix")
 function NullSpace (T)=
   (
     non_pivots=NonPivotColumns(T);
-    if is_null(non_pivots) then return null; # injective transforms, so
+    if IsNull(non_pivots) then return null; # injective transforms, so
                                              # no kernel
     T=rref(T);
     dim_image=columns(T);
@@ -151,22 +151,3 @@ protect ("OrthogonalComplement")
 function IsInSubspace(v,W) = (v==Projection(v,W,.))
 protect ("IsInSubspace")
 
-# GramSchmidt process
-SetHelp ("GramSchmidt", "linear_algebra", "Apply the Gram-Schmidt process (to the columns)")
-function GramSchmidt(M) =
-(
-  if not is_matrix (M) then
-    (error("GramSchmidt: argument not a matrix");bailout);
-  
-  res = SetMatrixSize ([0], rows (M), columns (M));
-  # res@(,1) = M@(,1) / sqrt ( DotProduct ( M@(,1) , M@(,1) ) );
-  res@(,1) = M@(,1) / sqrt ( ( M@(,1) .' * M@(,1) )@(1) );
-  for j = 2 to columns (M) do (
-    # y = M@(,j) - DotProduct ( M@(,j) , res@(,j-1) ) * res@(,j-1);
-    y = M@(,j) - ( M@(,j) .' * res@(,j-1) )@(1) * res@(,j-1);
-    # res@(,j) = y / sqrt ( DotProduct (y,y) )
-    res@(,j) = y / sqrt ( ( y .' * y )@(1) )
-  );
-  res
-)
-protect ("GramSchmidt")

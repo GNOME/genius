@@ -10,11 +10,6 @@ SetHelp ("ConjugateTranspose", "linear_algebra", "Conjugate transpose of a matri
 function ConjugateTranspose(M)=M'
 protect ("Conjugate Transpose")
 
-# Checks to see if a matrix is square
-# Arguments: takes a matrix
-function is_square(n) =
- columns(n) == rows(n)
-
 #FIXME: We'll need more sophisticated tools for Tensors
 
 # Pivot Columns
@@ -73,7 +68,7 @@ function cref(M)=Transpose(rref(Transpose(M)))
 #This removes any all-zero columns of M
 function StripZeroColumns (M) =
  (
-  if not is_matrix (M) then
+  if not IsMatrix (M) then
     (error("StripZeroColumns: argument not a matrix");bailout);
   row_dim_M=rows(M);
   N=[0];
@@ -91,7 +86,7 @@ function StripZeroColumns (M) =
 
 function StripZeroRows (M) =
 (
-  if not is_matrix (M) then
+  if not IsMatrix (M) then
     (error("StripZeroColumns: argument not a matrix");bailout);
   Transpose (StripZeroColumns (Transpose (M)))
 )
@@ -145,7 +140,7 @@ function CrossProduct(v,w) =
 # Direct sum of a vector of matrices
 SetHelp ("DirectSumMatrixVector", "linear_algebra", "Direct sum of a vector of matrices")
 function DirectSumMatrixVector(v) = (
-  if not is_matrix (v) or rows (v) > 1 then
+  if not IsMatrix (v) or rows (v) > 1 then
     (error("DirectSumMatrixVector: argument not a horizontal vector");bailout);
   if columns (v) == 1 then
     [v@(1)]
@@ -159,7 +154,7 @@ protect ("DirectSumMatrixVector");
 # Direct sum of matrices
 SetHelp ("DirectSum", "linear_algebra", "Direct sum of matrices")
 function DirectSum(M,N...) = (
-  if is_null (N) then
+  if IsNull (N) then
     [M] 
   else if columns(N) == 1 then
     [M,0;0,N@(1)] 
@@ -179,9 +174,9 @@ protect ("DirectSum");
 # FIXME: We need good coercion rules!
 function IsInvertible(n) =
 (
- if (is_integer(n)) then return (|n|==1)     # Only invertible integers are 1, -1
- else if (is_value(n)) then return (n!=0)    # Elements of fields (Q,R,C) are invertible iff != 0
- else if (is_matrix(n)) then (if is_square(n) then return (IsInvertible(det(n))) else return 0);
+ if (IsInteger(n)) then return (|n|==1)     # Only invertible integers are 1, -1
+ else if (IsValue(n)) then return (n!=0)    # Elements of fields (Q,R,C) are invertible iff != 0
+ else if (IsMatrix(n)) then (if IsMatrixSquare(n) then return (IsInvertible(det(n))) else return 0);
                                              # Matrices are invertible iff they are square and their
                                              #  determinant is a unit
  error ("IsInvertible: argument not a value or matrix");bailout
@@ -190,8 +185,8 @@ protect ("IsInvertible")
 
 function IsInvertibleField(n) =
 (
- if (is_value(n)) then return (n!=0)    # Elements of fields (Q,R,C) are invertible iff != 0
- else if (is_matrix(n)) then (if is_square(n) then return (IsInvertible(det(n))) else return 0);
+ if (IsValue(n)) then return (n!=0)    # Elements of fields (Q,R,C) are invertible iff != 0
+ else if (IsMatrix(n)) then (if IsMatrixSquare(n) then return (IsInvertible(det(n))) else return 0);
                                              # Matrices are invertible iff they are square and their
                                              #  determinant is a unit
  error ("IsInvertibleField: argument not a value or matrix");bailout
@@ -209,7 +204,7 @@ protect ("HerminteFormField")
 SetHelp("AuxilliaryUnitMatrix", "linear_algebra", "Get the auxilliary unit matrix of size n")
 function AuxilliaryUnitMatrix(n) =
 (
-  if not is_integer (n) or n < 2 then
+  if not IsInteger (n) or n < 2 then
     (error ("AuxilliaryUnitMatrix: n must be an integer greater then 1");bailout)
   else
     [0,I(n-1);0,0]
@@ -223,9 +218,9 @@ protect ("U")
 SetHelp("JordanBlock", "linear_algebra", "Get the jordan block corresponding to lambda and n")
 function JordanBlock(lambda,n) =
 (
-  if not is_integer (n) or n < 1 then
+  if not IsInteger (n) or n < 1 then
     (error ("JordanBlock: n must be an integer greater then 0");bailout)
-  else if not is_value (n) or n < 1 then
+  else if not IsValue (n) or n < 1 then
     (error ("JordanBlock: lambda must be a value");bailout)
   else if n == 1 then
     [lambda]
@@ -241,7 +236,7 @@ protect ("J")
 SetHelp("DotProduct", "matrix", "Get the dot product of two vectors")
 function DotProduct(u,v) =
 (
-  if not is_matrix (u) or not is_matrix (v) then
+  if not IsMatrix (u) or not IsMatrix (v) then
     (error ("DotProduct: u,v must be vectors");bailout)
   else if columns (u) == 1 and columns (v) == 1 then
     ( u .' * v )@(1)

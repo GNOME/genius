@@ -4,7 +4,7 @@ SUBDIRS = calculus combinatorics equation_solving functions \
 
 Library_DATA = lib.cgel
 
-MOSTLYCLEANFILES = lib.cgel temp.cgel
+MOSTLYCLEANFILES = lib.cgel temp.cgel loader.gel
 
 EXTRA_DIST = make_loader_gel.sh
 

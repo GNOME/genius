@@ -15,13 +15,15 @@
 # recursively (if those values are cached), or solved in closed form
 # (and caching could be done intelligently etc.)
 
-function Prime(n) =
-  (
-   x=1;
-   for loop=1 to n do x=NextPrime(x);
-   return x;
-  )
+# There's a stupid built in function for this
+# function Prime(n) =
+#  (
+#   x=1;
+#   for loop=1 to n do x=NextPrime(x);
+#   return x;
+#  )
 
+SetHelp("IsPrime","number_theory","Tests primality of integers");
 function IsPrime(n) =
   (
     ### Part 0: Preparations/small numbers
@@ -75,20 +77,19 @@ function IsPrime(n) =
     error("Cannot determine primality. Probably prime, but not sure.");
     return null;
   )
-SetHelp("IsPrime","number_theory","Tests primality of integers");
 protect("IsPrime");
 
+SetHelp("IsPrimeLoopMax","parameters", "Maximum number which IsPrime uses in trial division");
 IsPrimeLoopMax = 5000;           # IsPrime configuration variable
                                  # FIXME: This could be MUCH more elegant
-SetHelp("IsPrimeLoopMax","parameters", "Maximum number which IsPrime uses in trial division");
 protect("IsPrimeLoopMax");
 
+SetHelp("NextPrime","number_theory","Returns the least prime greater than n");
 function NextPrime(n) =
  (
   do n=n+1 while not(IsPrime(n));
   return n
  )
-SetHelp("NextPrime","number_theory","Returns the least prime greater than n");
 protect("NextPrime");
 
 #####################################
@@ -100,11 +101,11 @@ protect("NextPrime");
 # Returns true iff b^(n-1) == 1 (mod n).
 # FIXME: Should we take abs(n) if n is negative?
 # FIXME: is there a good name for an integer that is EITHER a pseudoprime OR a prime?
+SetHelp("PseudoprimeTest","number_theory","Pseudoprime test, true iff b^(n-1) == 1 (mod n)");
 function PseudoprimeTest(n,b) =
  (
   return (PowerMod(b,abs(n)-1,n) == 1);
  )
-SetHelp("PseudoprimeTest","number_theory","Pseudoprime test, true iff b^(n-1) == 1 (mod n)");
 protect("PseudoprimeTest");
 
 # An integer is said to be a PseudoPrime with base b iff it is:
@@ -159,10 +160,11 @@ protect("IsStrongPseudoprime");
 ############## Misc ###################
 #######################################
 
+SetHelp("LucasLehmer","number_theory","Test if Mp is a Mersenne prime using the Lucas-Lehmer test");
 function LucasLehmer(p) = (
-        if is_matrix(p) then
+        if IsMatrix(p) then
                 return ApplyOverMatrix(p, LucasLehmer)
-	else if not is_value(p) or not is_integer(p) or not p>0 then
+	else if not IsValue(p) or not IsInteger(p) or not p>0 then
 		(error("LucasLehmer: argument not an integer larger then 0");bailout);
 	if p==1 then return 0
 	else if p==2 then return 1;
@@ -178,5 +180,4 @@ function LucasLehmer(p) = (
 	else
 		return 0
 );
-SetHelp("LucasLehmer","number_theory","Test if Mp is a Mersenne prime using the Lucas-Lehmer test");
 protect("LucasLehmer")

@@ -24,11 +24,11 @@ function find_root_bisection(f,a,b,TOL,N) =
 	(
 # check arguments
 ## check types
-	if(not is_function(f)) then
+	if(not IsFunction(f)) then
 		(error("find_root_bisection: argument 1 must be a function");bailout)
-	else if(not is_real(a) or not is_real(b) or not is_real(TOL)) then
+	else if(not IsReal(a) or not IsReal(b) or not IsReal(TOL)) then
 		(error("find_root_bisection: arguments 2, 3, 4 must be real values");bailout)
-	else if(not is_integer(N)) then
+	else if(not IsInteger(N)) then
 		(error("find_root_bisection: argument 5 must be an integer");bailout);
 ## check bounds
 	if(a>b) then (error("find_root_bisection: argument 2 must be less than or equal to argument 3");bailout)
@@ -56,11 +56,11 @@ function find_root_secant(f,a,b,TOL,N) =
 	(
 # check arguments
 ## check types
-	if(not is_function(f)) then
+	if(not IsFunction(f)) then
 		(error("find_root_secant: argument 1 must be a function");bailout)
-	else if(not is_real(a) or not is_real(b) or not is_real(TOL)) then
+	else if(not IsReal(a) or not IsReal(b) or not IsReal(TOL)) then
 		(error("find_root_secant: arguments 2, 3, 4 must be real values");bailout)
-	else if(not is_integer(N)) then
+	else if(not IsInteger(N)) then
 		(error("find_root_secant: argument 5 must be an integer");bailout);
 ## check bounds
 	if(a>b) then (error("find_root_secant: argument 2 must be less than or equal to argument 3");bailout)
@@ -89,11 +89,11 @@ function find_root_false_position(f,a,b,TOL,N) =
 	(
 # check arguments
 ## check types
-	if(not is_function(f)) then
+	if(not IsFunction(f)) then
 		(error("find_root_false_position: argument 1 must be a function");bailout)
-	else if(not is_real(a) or not is_real(b) or not is_real(TOL)) then
+	else if(not IsReal(a) or not IsReal(b) or not IsReal(TOL)) then
 		(error("find_root_false_position: arguments 2, 3, 4 must be real values");bailout)
-	else if(not is_integer(N)) then
+	else if(not IsInteger(N)) then
 		(error("find_root_false_position: argument 5 must be an integer");bailout);
 ## check bounds
 	if(a>b) then (error("find_root_false_position: argument 2 must be less than or equal to argument 3");bailout)
@@ -123,11 +123,11 @@ function find_root_mullers_method(f,x1,x2,x3,TOL,N) =
 	(
 # check arguments
 ## check types
-	if(not is_function(f)) then
+	if(not IsFunction(f)) then
 		(error("find_root_false_position: argument 1 must be a function");bailout)
-	else if(not is_real(x1) or not is_real(x2) or not is_real(x3) or not is_real(TOL)) then
+	else if(not IsReal(x1) or not IsReal(x2) or not IsReal(x3) or not IsReal(TOL)) then
 		(error("find_root_false_position: arguments 2, 3, 4, 5 must be real values");bailout)
-	else if(not is_integer(N)) then
+	else if(not IsInteger(N)) then
 		(error("find_root_false_position: argument 6 must be an integer");bailout);
 
 # Start calculating

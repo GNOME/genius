@@ -20,7 +20,7 @@
 # 
 
 # Limits:
-function numerical_limit_at_infinity(f,step_fun,tolerance,successive_for_success,N) =
+function NumericalLimitAtInfinity(f,step_fun,tolerance,successive_for_success,N) =
 # this evaluates f(step_fun(i)) as i goes from 1 to N.
 # If s_f_s of the pairwise successive differences are less than tolerance, then
 # it returns the last value; if this doesn't happen, it returns Null.
@@ -52,32 +52,32 @@ function numerical_limit_at_infinity(f,step_fun,tolerance,successive_for_success
 # ...two-sided
 
 #FIXME: Better parameter setting!
-continuous_tolerance=10^(-5);
-continuous_sfs=20;
-continuous_number_of_tries=100;
+ContinuousTolerance=10^(-5);
+ContinuousSFS=20;
+ContinuousNumberOfTries=100;
 
 function LeftLimit(f,x0) =
 	(
-	return numerical_limit_at_infinity(`(h)=(f(x0-h)),`(n)=(2^(-n)),continuous_tolerance,continuous_sfs,continuous_number_of_tries)
+	return NumericalLimitAtInfinity(`(h)=(f(x0-h)),`(n)=(2^(-n)),ContinuousTolerance,ContinuousSFS,ContinuousNumberOfTries)
 	)
 
 function RightLimit(f,x0) =
 	(
-	return numerical_limit_at_infinity(`(h)=(f(x0+h)),`(n)=(2^(-n)),continuous_tolerance,continuous_sfs,continuous_number_of_tries)
+	return NumericalLimitAtInfinity(`(h)=(f(x0+h)),`(n)=(2^(-n)),ContinuousTolerance,ContinuousSFS,ContinuousNumberOfTries)
 	)
 
 function Limit(f,x0) =
 	(
 	LeftLim=LeftLimit(f,x0);
 	RightLim=RightLimit(f,x0);
-	if |LeftLim-RightLim| < 2*continuous_tolerance
+	if |LeftLim-RightLim| < 2*ContinuousTolerance
 	 then return (LeftLim+RightLim)/2
 	 else return null
 	)
 
-function is_continuous(f,x0) =
+function IsContinuous(f,x0) =
 	(
-	if |Limit(f,x0)-f(x0)| < continuous_tolerance
+	if |Limit(f,x0)-f(x0)| < ContinuousTolerance
 	 then return true
          else return false
 	)

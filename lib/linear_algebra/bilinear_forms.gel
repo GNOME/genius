@@ -2,27 +2,27 @@
 # angles of vectors, GramSchmidt, etc.
 
 # Evaluate (v,w) with respect to the bilinear form given by the matrix A.
-function bilinear_form(v,A,w) = (v.'*A*w)@(1)
+function BilinearForm(v,A,w) = (v.'*A*w)@(1)
 
 # The angle of two vectors, given an inner product
 #FIXME: default inner product!
 function VectorAngle(v,w,B) = acos(B(v,w)/(B(v,v)*B(w,w)))
 
 #FIXME: Can't return anonymous function from functions correctly
-#function BilinearForm(A)=(`(v,w)=(v.'*A*w)@(1))
+function BilinearFormFunction(A)=(`(v,w)=(v.'*A*w)@(1))
 
 # Projection onto a vector space
 # Projection of vector v onto subspace W given a bilinear form B
 function Projection(v,W,B) =
   (
         # if you don't give anything, assume standard inner product
-	if is_null(B) then B=I(rows(W));
+	if IsNull(B) then B=I(rows(W));
 #FIXME: rows(W) should be W`dimension or such
 	# If it's a matrix, then use the bilinear form defined by that matrix
-	if is_matrix(B) then (A=B;function B(u,w)=bilinear_form(u,A,w);)
-#Projection(v,W,`(u,w)=bilinear_form(u,B,w))
+	if IsMatrix(B) then (A=B;function B(u,w)=BilinearForm(u,A,w);)
+#Projection(v,W,`(u,w)=BilinearForm(u,B,w))
 	# If B is just some function, assume that it's an inner product
-        else if not(is_function(B)) then bail;
+        else if not IsFunction(B) then bail;
     projection_of_v=0;
 # FIXME: should read: for loop in W`basis or such...
     for loop = 1 to columns(W) do
@@ -32,7 +32,8 @@ function Projection(v,W,B) =
 
 # Gram-Schmidt Orthogonalization
 # Described, for instance, in Hoffman & Kunze, ``Linear Algebra'' p.~280
-function gram_schmidt(v,B) =
+SetHelp ("GramSchmidt", "linear_algebra", "Apply the Gram-Schmidt process (to the columns) with respect to innter product given by #2")
+function GramSchmidt(v,B) =
 # Takes k column vectors v_1,...,v_k
 # and returns a collection, orthogonal with respect to the inner product given by B(-,-): V x V -> R
 # Note: if you plug in a bad function or a matrix that isn't symmetric and
@@ -43,3 +44,24 @@ function gram_schmidt(v,B) =
 		w=[w,v@(,i)-Projection(v@(,i),w,B)];
 	return w;
 	)
+protect ("GramSchmidt")
+
+# Simple GramSchmidt process
+SetHelp ("GramSchmidtDot", "linear_algebra", "Apply the Gram-Schmidt process (to the columns) using the dot product")
+function GramSchmidtDot(M) =
+(
+  if not IsMatrix (M) then
+    (error("GramSchmidt: argument not a matrix");bailout);
+  
+  res = SetMatrixSize ([0], rows (M), columns (M));
+  # res@(,1) = M@(,1) / sqrt ( DotProduct ( M@(,1) , M@(,1) ) );
+  res@(,1) = M@(,1) / sqrt ( ( M@(,1) .' * M@(,1) )@(1) );
+  for j = 2 to columns (M) do (
+    # y = M@(,j) - DotProduct ( M@(,j) , res@(,j-1) ) * res@(,j-1);
+    y = M@(,j) - ( M@(,j) .' * res@(,j-1) )@(1) * res@(,j-1);
+    # res@(,j) = y / sqrt ( DotProduct (y,y) )
+    res@(,j) = y / sqrt ( ( y .' * y )@(1) )
+  );
+  res
+)
+protect ("GramSchmidtDot")

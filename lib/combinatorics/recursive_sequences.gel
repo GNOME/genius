@@ -5,11 +5,14 @@
 # Galois Matrix
 # Given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1)),
 # gives the galois stepping matrix
-function galois_matrix(combining_rule) =
+SetHelp ("GaloisMatrix", "combinatorics", "Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))")
+function GaloisMatrix(combining_rule) = (
  [[0;I(columns(combining_rule)-1)],combining_rule.']
+)
+protect ("GaloisMatrix")
 
 # Linear recursive sequence
-function linear_recursive_sequence(seed_values,combining_rule,n) =
+function LinearRecursiveSequence(seed_values,combining_rule,n) =
 (
  k=columns(seed_values);
  if (k > n >= 0) then                      # If asks for one of the seed values, return it
@@ -24,3 +27,4 @@ function linear_recursive_sequence(seed_values,combining_rule,n) =
   else return null                         # (if sequence is reversible)
  )
 )
+protect ("LinearRecursiveSequence")

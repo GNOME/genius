@@ -86,6 +86,60 @@ gel_is_matrix_value_only_real (GelMatrixW *m)
 	return TRUE;
 }
 
+gboolean
+gel_is_matrix_value_only_rational (GelMatrixW *m)
+{
+	int i,j;
+	if (m->cached_value_only_real)
+		return m->value_only_real;
+	for(i=0;i<gel_matrixw_width(m);i++) {
+		for(j=0;j<gel_matrixw_height(m);j++) {
+			GelETree *n = gel_matrixw_set_index(m,i,j);
+			if (n != NULL &&
+			    (n->type != VALUE_NODE ||
+			     mpw_is_complex (n->val.value) ||
+			     mpw_is_float (n->val.value))) {
+				m->cached_value_only_rational = 1;
+				m->value_only_rational = 0;
+				return FALSE;
+			}
+		}
+	}
+	m->cached_value_only = 1;
+	m->value_only = 1;
+	m->cached_value_only_rational = 1;
+	m->value_only_rational = 1;
+	return TRUE;
+}
+
+gboolean
+gel_is_matrix_value_only_integer (GelMatrixW *m)
+{
+	int i,j;
+	if (m->cached_value_only_real)
+		return m->value_only_real;
+	for(i=0;i<gel_matrixw_width(m);i++) {
+		for(j=0;j<gel_matrixw_height(m);j++) {
+			GelETree *n = gel_matrixw_set_index(m,i,j);
+			if (n != NULL &&
+			    (n->type != VALUE_NODE ||
+			     mpw_is_complex (n->val.value) ||
+			     ! mpw_is_integer (n->val.value))) {
+				m->cached_value_only_integer = 1;
+				m->value_only_integer = 0;
+				return FALSE;
+			}
+		}
+	}
+	m->cached_value_only = 1;
+	m->value_only = 1;
+	m->cached_value_only_rational = 1;
+	m->value_only_rational = 1;
+	m->cached_value_only_integer = 1;
+	m->value_only_integer = 1;
+	return TRUE;
+}
+
 void
 gel_matrix_conjugate_transpose (GelMatrixW *m)
 {

@@ -11,17 +11,24 @@ protect("IsEven");
 # FIXME: This should be done internally perhaps
 function IsNthPower(n,k) =
  (
-  if is_integer(n) then return (floor((n)^(1/k))^k==n);
+  if not IsRational (n) then
+	# Only integers/rationals can be perfect powers
+	0
+  else if k == 2 then
+	PerfectSquare(n)
+  else if not PerfectPower(n) then
+	# We know this won't work
+	0
+  else if IsInteger(n) then
+	(floor((n)^(1/k))^k==n)
 # FIXME: should add some ``analytic'' testing, i.e., if the
 # fractional part is non-zero (or more that precision?), it can't
 # be a square
 
   # Since rational numbers are in reduced form, by unique factorization it
   # suffices to check if the numerator and denominator are Nth powers
-  if is_rational(n) then return(IsNthPower(Numerator(n),k)) and IsNthPower(Denominator(n),k);
-
-  # Only integers/rationals can be perfect powers
-  return 0;
+  else
+	(IsNthPower(Numerator(n),k)) and IsNthPower(Denominator(n),k)
  )
 SetHelp("IsNthPower","number_theory","Tests if a rational number is a perfect power");
 protect("IsNthPower");
@@ -30,19 +37,22 @@ function IsSquare(n) = IsNthPower(n,2);
 SetHelp("IsSquare","number_theory","Tests if a rational number is a perfect square");
 protect("IsSquare");
 
-# FIXME: this is just a hack until we get a real symbolic mode
-function SymbolicSquareRoot(n) = SymbolicNthRoot(n,2);
-SetHelp("SymbolicSquareRoot","number_theory","If square root is integer, then return as integer, else standard square root.");
+SetHelp("SymbolicSquareRoot","number_theory","If square root is integer, then return as integer, else standard square root. (note sqrt behaves the same way)");
+SymbolicSquareRoot = sqrt;
 protect("SymbolicSquareRoot");
 
 # FIXME: this is just a hack until we get a real symbolic mode
 function SymbolicNthRoot(n,k) =
  (
-  if IsNthPower(n,k) then return IntegerPart(n^(1/k));
-  return n^(1/k);
+  if IsRational(n) and k == 2 then
+	sqrt (n)
+  else if IsNthPower(n,k) then
+	return IntegerPart(n^(1/k))
+  else
+  	return n^(1/k);
  )
-SetHelp("SymbolicSquareRoot","number_theory","If square root is integer, then return as integer, else standard square root.");
-protect("SymbolicSquareRoot");
+SetHelp("SymbolicNthRoot","number_theory","If nth root is integer, then return as integer, else standard nth root.");
+protect("SymbolicNthRoot");
 
 function Divides(m,n) = not(n % m);
 SetHelp("Divides","number_theory","Checks divisibility");
@@ -53,9 +63,9 @@ protect("Divides");
 # of language.
 function PadicValuation(n,p) =
  (
-  if is_rational(n) and not(is_integer(n)) then
+  if IsRational(n) and not(IsInteger(n)) then
     return PadicValuation(Numerator(n))-PadicValuation(Denominator(n));
-  if not(is_integer(n)) then
+  if not(IsInteger(n)) then
    (
     error("PadicValuation: argument must be rational or integer");
     bailout;

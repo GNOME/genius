@@ -1,3 +1,19 @@
+Fri Oct 18 11:49:25 2002  George Lebl <jirka@5z.com>
+
+	* src/funclib.c, src/mpwrap.[ch], src/matrixw.[ch], src/matop.[ch]:
+	  Add a bunch of functions, make sqrt work nicely on perfect square
+	  integers and rationals.  Add JacobiKronecker from gmp, use gmp
+	  float unsigned long int power, add functions for checking
+	  matrix values all at once, add a bunch of aliases.  Also
+	  add a PerfectPower function
+
+	* lib/*/*.gel: Do a bunch of renaming and add some help strings
+	  and identify aliases.  Fix some minor bugs.  MakeDiagonal
+	  can now take many value arguments.  Whack functions which
+	  are built in or weren't implemented.  Implement DoubleFactorial.
+	  Fix the symbolic nth power stuff, it can use PerfectSquare
+	  PerfectPower and the standard sqrt function
+
 Thu Oct 17 01:00:35 2002  George Lebl <jirka@5z.com>
 
 	* lib/statistics/basic.gel: a bit of renaming, and some aliases

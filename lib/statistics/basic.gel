@@ -2,18 +2,18 @@
 
 SetHelp("RowMedian","statistics","Calculate median of each row in a matrix");
 function RowMedian(m) = (
-	if not is_matrix(m) or not is_value_only(m) then
+	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("RowMedian: argument not value-only matrix");bailout);
 	r = SetMatrixSize([0],rows(m),1);
 	if columns(m)%2 == 1 then (
-		for i = 1 to rows(m) do (
-			s = SortVector(m@(i,));
-			r@(i,1) = s@(1,trunc(columns(m)/2)+1)
+		for k = 1 to rows(m) do (
+			s = SortVector(m@(k,));
+			r@(k,1) = s@(1,trunc(columns(m)/2)+1)
 		)
 	) else (
-		for i = 1 to rows(m) do (
-			s = SortVector(m@(i,));
-			r@(i,1) = (s@(1,columns(m)/2) +
+		for k = 1 to rows(m) do (
+			s = SortVector(m@(k,));
+			r@(k,1) = (s@(1,columns(m)/2) +
 				   s@(1,(columns(m)/2)+1))/2
 		)
 	);
@@ -23,12 +23,12 @@ protect("RowMedian")
 
 SetHelp("Median","statistics","Calculate median of an entire matrix");
 function Median(m) = (
-	if not is_matrix(m) or not is_value_only(m) then
+	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("Median: argument not value-only matrix");bailout);
 	s = SetMatrixSize([0],1,rows(m)*columns(m));
-	i = 0;
+	k = 0;
 	for n in m do
-		s@(1,i=i+1)=n;
+		s@(1,k=k+1)=n;
 	s = SortVector(s);
 	
 	if columns(s)%2 == 1 then
@@ -44,13 +44,13 @@ protect("median")
 
 SetHelp("RowAverage","statistics","Calculate average of each row in a matrix");
 function rowaverage(m) = (
-	if not is_matrix(m) or not is_value_only(m) then
+	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("rowaverage: argument not value-only matrix");bailout);
 	r = SetMatrixSize([0],rows(m),1);
-	for i = 1 to rows(m) do (
+	for k = 1 to rows(m) do (
 		for j = 1 to columns(m) do
-			r@(i,1) = r@(i,1) + m@(i,j);
-		r@(i,1) = r@(i,1)/columns(m)
+			r@(k,1) = r@(k,1) + m@(k,j);
+		r@(k,1) = r@(k,1)/columns(m)
 	);
 	r
 );
@@ -58,12 +58,9 @@ protect("RowAverage")
 
 SetHelp("Average","statistics","Calculate average of an entire matrix");
 function Average(m) = (
-	if not is_matrix(m) or not is_value_only(m) then
+	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("Average: argument not value-only matrix");bailout);
-	r = 0;
-	for i in m do
-	       r = r + i;
-	r/(columns(m)*rows(m))
+	MatrixSum (m) / elements (m)
 );
 protect("Average")
 SetHelpAlias ("Average", "average")
@@ -77,57 +74,57 @@ mean = Average
 protect("mean")
 
 function rowstdev(m) = (
-	if not is_matrix(m) or not is_value_only(m) then
+	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("rowstdev: argument not value-only matrix");bailout)
 	else if columns(m)<2 then
 		(error("rowstdev: there must be at least two columns");bailout);
 	r = rowaverage(m);
-	for i = 1 to rows(m) do (
+	for k = 1 to rows(m) do (
 		rr = 0;
 		for j = 1 to columns(m) do
-			rr = rr + (m@(i,j)-r@(i,1))^2;
+			rr = rr + (m@(k,j)-r@(k,1))^2;
 		
-		r@(i,1) = sqrt(rr/(columns(m)-1))
+		r@(k,1) = sqrt(rr/(columns(m)-1))
 	);
 	r
 );
 protect("rowstdev")
 
 function rowstdevp(m) = (
-	if not is_matrix(m) or not is_value_only(m) then
+	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("rowstdevp: argument not value-only matrix");bailout);
 	r = rowaverage(m);
-	for i = 1 to rows(m) do (
+	for k = 1 to rows(m) do (
 		rr = 0;
 		for j = 1 to columns(m) do
-			rr = rr + (m@(i,j)-r@(i,1))^2;
+			rr = rr + (m@(k,j)-r@(k,1))^2;
 		
-		r@(i,1) = sqrt(rr/columns(m))
+		r@(k,1) = sqrt(rr/columns(m))
 	);
 	r
 );
 protect("rowstddevp")
 
 function stdev(m) = (
-	if not is_matrix(m) or not is_value_only(m) then
+	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("stdev: argument not value-only matrix");bailout)
-	else if columns(m)<2 then
-		(error("stdev: there must be at least two columns");bailout);
-	r = average(m);
+	else if lements(m)<2 then
+		(error("stdev: there must be at least two elements");bailout);
+	r = Average(m);
 	rr = 0;
-	for i in m do
-		rr = rr + (i-r)^2;
-	sqrt(rr/(columns(m)-1))
+	for k in m do
+		rr = rr + (k-r)^2;
+	sqrt(rr/(elements(m)-1))
 );
 protect("stdev")
 
 function stdevp(m) = (
-	if not is_matrix(m) or not is_value_only(m) then
+	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("stdevp: argument not value-only matrix");bailout);
-	r = average(m);
+	r = Average(m);
 	rr = 0;
-	for i in m do
-		rr = rr + (i-r)^2;
-	sqrt(rr/columns(m))
+	for k in m do
+		rr = rr + (k-r)^2;
+	sqrt(rr/elements(m))
 );
 protect("stdevp")

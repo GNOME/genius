@@ -490,6 +490,8 @@ gel_matrixw_make_private(GelMatrixW *m)
 	/* clear caches as we're gonna mess with this matrix */
 	m->cached_value_only = 0;
 	m->cached_value_only_real = 0;
+	m->cached_value_only_rational = 0;
+	m->cached_value_only_integer = 0;
 
 	if(m->m->use==1)
 		return;

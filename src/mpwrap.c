@@ -142,17 +142,18 @@ static void mympf_arctan(mpf_ptr rop, mpf_ptr op);
 static void mympf_pi(mpf_ptr rop);
 
 /*my own power function for floats, very simple :) */
-static void mympf_pow_ui(mpf_t rop,mpf_t op,unsigned long int e);
 static void mympf_pow_z(mpf_t rop,mpf_t op,mpz_t e);
 
 /*my own power function for ints, very simple :) */
 static void mympz_pow_z(mpz_t rop,mpz_t op,mpz_t e);
 
+static gboolean mympq_perfect_square_p (mpq_t op);
+
 /*simple exponential function*/
 static void mympf_exp(mpf_t rop,mpf_t op);
 
 /*ln function*/
-static int mympf_ln(mpf_t rop,mpf_t op);
+static gboolean mympf_ln(mpf_t rop,mpf_t op);
 
 /*clear extra variables of type type, if type=op->type nothing is done*/
 static void mpwl_clear_extra_type(MpwRealNum *op,int type);
@@ -208,7 +209,9 @@ static void mpwl_mod(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 static void mpwl_gcd(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 static void mpwl_jacobi(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 static void mpwl_legendre(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
-static int mpwl_perfect_square(MpwRealNum *op);
+static void mpwl_kronecker(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
+static gboolean mpwl_perfect_square(MpwRealNum *op);
+static gboolean mpwl_perfect_power(MpwRealNum *op);
 
 static void mpwl_neg(MpwRealNum *rop,MpwRealNum *op);
 
@@ -220,18 +223,18 @@ static int mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 
 /*power to an unsigned long and optionaly invert the answer*/
 static void mpwl_pow_ui(MpwRealNum *rop,MpwRealNum *op1,unsigned int e,
-			int reverse);
+			gboolean reverse);
 
 static void mpwl_pow_z(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 
-static int mpwl_pow_f(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
+static gboolean mpwl_pow_f(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 
-static int mpwl_pow(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
+static gboolean mpwl_pow(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 
-static int mpwl_sqrt(MpwRealNum *rop,MpwRealNum *op);
+static gboolean mpwl_sqrt(MpwRealNum *rop,MpwRealNum *op);
 
 static void mpwl_exp(MpwRealNum *rop,MpwRealNum *op);
-static int mpwl_ln(MpwRealNum *rop,MpwRealNum *op);
+static gboolean mpwl_ln(MpwRealNum *rop,MpwRealNum *op);
 
 static void mpwl_sin(MpwRealNum *rop,MpwRealNum *op);
 static void mpwl_cos(MpwRealNum *rop,MpwRealNum *op);
@@ -612,7 +615,7 @@ mympf_exp(mpf_t rop,mpf_t op)
 }
 
 /*ln function using 2*ln(x) == ln(x^2)*/
-static int
+static gboolean
 mympf_ln(mpf_t rop,mpf_t op)
 {
 	int neg = TRUE;
@@ -926,34 +929,6 @@ mympf_arctan(mpf_ptr rop,mpf_ptr op)
 
 /*my own power function for floats, very simple :) */
 static void
-mympf_pow_ui(mpf_t rop,mpf_t op,unsigned long int e)
-{
-	mpf_t base;
-
-	if(e==0) {
-		mpf_set_ui(rop,1);
-		return;
-	} else if(e==1) {
-		mpf_set(rop,op);
-		return;
-	}
-
-	mpf_init_set(base,op);
-	mpf_set_ui(rop,1);
-	while(e>0) {
-		if(e & 0x1) { /*if odd*/
-			mpf_mul(rop,rop,base);
-			e--;
-		} else { /* even */
-			mpf_mul(base,base,base);
-			e >>= 1; /*e /= 2*/
-		}
-	}
-	mpf_clear(base);
-}
-
-/*my own power function for floats, very simple :) */
-static void
 mympf_pow_z(mpf_t rop,mpf_t op,mpz_t e)
 {
 	unsigned long limb;
@@ -972,7 +947,7 @@ mympf_pow_z(mpf_t rop,mpf_t op,mpz_t e)
 		if(limb==0)
 			continue;
 
-		mympf_pow_ui(tmp,op,limb);
+		mpf_pow_ui (tmp, op, limb);
 
 		mpf_mul(answer,answer,tmp);
 	} while(mpz_sgn(locale)!=0);
@@ -1067,6 +1042,13 @@ mympq_set_f(mpq_t rop,mpf_t op)
 
 	mpq_canonicalize(rop);
 
+}
+
+static gboolean
+mympq_perfect_square_p (mpq_t op)
+{
+	return mpz_perfect_square_p (mpq_numref(op)) &&
+		mpz_perfect_square_p (mpq_denref(op));
 }
 
 /*only set the type, don't free it, and don't set the type variable
@@ -2206,7 +2188,7 @@ mpwl_legendre(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		case MPW_NATIVEINT:
 			mpz_init_set_si(i1,op1->data.nval);
 			mpz_init_set_si(i2,op2->data.nval);
-			ret = mpz_jacobi(i1,i2);
+			ret = mpz_legendre(i1,i2);
 			mpz_clear(i1);
 			mpz_clear(i2);
 			break;
@@ -2222,20 +2204,72 @@ mpwl_legendre(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	}
 }
 
-static int
+static void
+mpwl_kronecker (MpwRealNum *rop, MpwRealNum *op1, MpwRealNum *op2)
+{
+	if(op1->type<=MPW_INTEGER && op2->type<=MPW_INTEGER) {
+		int t=mpwl_make_same_extra_type(op1,op2);
+		int ret = 0;
+		mpz_t i1,i2;
+
+		switch(t) {
+		case MPW_INTEGER:
+			ret = mpz_kronecker(op1->data.ival,op2->data.ival);
+			break;
+		case MPW_NATIVEINT:
+			mpz_init_set_si(i1,op1->data.nval);
+			mpz_init_set_si(i2,op2->data.nval);
+			ret = mpz_kronecker(i1,i2);
+			mpz_clear(i1);
+			mpz_clear(i2);
+			break;
+		}
+		mpwl_clear_extra_type(op1,t);
+		mpwl_clear_extra_type(op2,t);
+		mpwl_clear(rop);
+		mpwl_init_type(rop,MPW_NATIVEINT);
+		rop->data.nval = ret;
+	} else {
+		(*errorout)(_("Can't get jacobi symbol with Kronecker extension of floats or rationals!"));
+		error_num=NUMERICAL_MPW_ERROR;
+	}
+}
+
+static gboolean
 mpwl_perfect_square(MpwRealNum *op)
 {
-	if(op->type==MPW_NATIVEINT) {
+	if (op->type == MPW_NATIVEINT) {
 		int ret;
 		mpz_t i;
 		mpz_init_set_si(i,op->data.nval);
 		ret = mpz_perfect_square_p(i);
 		mpz_clear(i);
 		return ret;
-	} else if(op->type==MPW_INTEGER) {
-		return mpz_perfect_square_p(op->data.ival);
+	} else if (op->type == MPW_INTEGER) {
+		return mpz_perfect_square_p (op->data.ival);
+	} else if (op->type == MPW_RATIONAL) {
+		return mympq_perfect_square_p (op->data.rval);
 	} else {
 		(*errorout)(_("perfect_square: can't work on non-integers!"));
+		error_num=NUMERICAL_MPW_ERROR;
+		return FALSE;
+	}
+}
+
+static gboolean
+mpwl_perfect_power (MpwRealNum *op)
+{
+	if(op->type==MPW_NATIVEINT) {
+		int ret;
+		mpz_t i;
+		mpz_init_set_si(i,op->data.nval);
+		ret = mpz_perfect_power_p(i);
+		mpz_clear(i);
+		return ret;
+	} else if(op->type==MPW_INTEGER) {
+		return mpz_perfect_power_p(op->data.ival);
+	} else {
+		(*errorout)(_("perfect_power: can't work on non-integers!"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return FALSE;
 	}
@@ -2393,7 +2427,7 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 
 /*power to an unsigned long and optionaly invert the answer*/
 static void
-mpwl_pow_ui(MpwRealNum *rop,MpwRealNum *op1,unsigned int e, int reverse)
+mpwl_pow_ui(MpwRealNum *rop,MpwRealNum *op1,unsigned int e, gboolean reverse)
 {
 	MpwRealNum r={0};
 
@@ -2438,7 +2472,7 @@ mpwl_pow_ui(MpwRealNum *rop,MpwRealNum *op1,unsigned int e, int reverse)
 		break;
 	case MPW_FLOAT:
 		mpwl_init_type(&r,MPW_FLOAT);
-		mympf_pow_ui(r.data.fval,op1->data.fval,e);
+		mpf_pow_ui (r.data.fval, op1->data.fval, e);
 
 		if(reverse)
 			mpf_ui_div(r.data.fval,1,r.data.fval);
@@ -2531,7 +2565,7 @@ mpwl_pow_z(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		mpz_neg(op2->data.ival,op2->data.ival);
 }
 
-static int
+static gboolean
 mpwl_pow_f(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
 	MpwRealNum r={0};
@@ -2557,7 +2591,7 @@ mpwl_pow_f(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	return FALSE;
 }
 
-static int
+static gboolean
 mpwl_pow(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
 	int sgn1 = mpwl_sgn(op1);
@@ -2590,24 +2624,41 @@ mpwl_pow(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	return FALSE;
 }
 
-static int
-mpwl_sqrt(MpwRealNum *rop,MpwRealNum *op)
+static gboolean
+mpwl_sqrt (MpwRealNum *rop, MpwRealNum *op)
 {
 	MpwRealNum r={0};
 	int complex=FALSE;
 
-	mpwl_init_type(&r,MPW_FLOAT);
-	if(mpwl_sgn(op)<0) {
+	if (mpwl_sgn (op) < 0) {
 		complex = TRUE;
-		mpwl_neg(op,op);
+		mpwl_neg (op, op);
 	}
-	mpwl_make_extra_type(op,MPW_FLOAT);
-	mpf_sqrt(r.data.fval,op->data.fval);
-	mpwl_clear_extra_type(op,MPW_FLOAT);
-	if(complex)
-		mpwl_neg(op,op);
+	if ((op->type == MPW_NATIVEINT ||
+	     op->type == MPW_INTEGER) &&
+	    mpwl_perfect_square (op)) {
+		mpwl_init_type (&r, MPW_INTEGER);
+		mpwl_make_extra_type (op, MPW_INTEGER);
+		mpz_sqrt (r.data.ival, op->data.ival);
+		mpwl_clear_extra_type (op, MPW_INTEGER);
+	} else if (op->type == MPW_RATIONAL &&
+		   mpwl_perfect_square (op)) {
+		mpwl_init_type (&r, MPW_RATIONAL);
+		mpz_sqrt (mpq_numref (r.data.rval), mpq_numref (op->data.rval));
+		mpz_sqrt (mpq_denref (r.data.rval), mpq_denref (op->data.rval));
+	} else if (op->type == MPW_NATIVEINT) {
+		mpwl_init_type (&r, MPW_FLOAT);
+		mpf_sqrt_ui (r.data.fval, op->data.nval);
+	} else {
+		mpwl_init_type (&r, MPW_FLOAT);
+		mpwl_make_extra_type (op, MPW_FLOAT);
+		mpf_sqrt (r.data.fval, op->data.fval);
+		mpwl_clear_extra_type (op,MPW_FLOAT);
+	}
+	if (complex)
+		mpwl_neg (op, op);
 
-	mpwl_move(rop,&r);
+	mpwl_move (rop, &r);
 	return complex;
 }
 
@@ -2624,7 +2675,7 @@ mpwl_exp(MpwRealNum *rop,MpwRealNum *op)
 	mpwl_move(rop,&r);
 }
 
-static int
+static gboolean
 mpwl_ln(MpwRealNum *rop,MpwRealNum *op)
 {
 	int ret;
@@ -3926,7 +3977,19 @@ mpw_legendre(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 		(*errorout)(_("Can't get legendre symbols complex numbers"));
 	}
 }
-int
+void
+mpw_kronecker(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
+{
+	if(op1->type==MPW_REAL && op2->type==MPW_REAL) {
+		MAKE_REAL(rop);
+		MAKE_COPY(rop->r);
+		mpwl_kronecker(rop->r,op1->r,op2->r);
+	} else {
+		error_num=NUMERICAL_MPW_ERROR;
+		(*errorout)(_("Can't get jacobi symbol with Kronecker extension for complex numbers"));
+	}
+}
+gboolean
 mpw_perfect_square(mpw_ptr op)
 {
 	if(op->type==MPW_REAL) {
@@ -3934,6 +3997,17 @@ mpw_perfect_square(mpw_ptr op)
 	} else {
 		error_num=NUMERICAL_MPW_ERROR;
 		(*errorout)(_("perfect_square: can't work on complex numbers"));
+		return FALSE;
+	}
+}
+gboolean
+mpw_perfect_power(mpw_ptr op)
+{
+	if(op->type==MPW_REAL) {
+		return mpwl_perfect_power(op->r);
+	} else {
+		error_num=NUMERICAL_MPW_ERROR;
+		(*errorout)(_("perfect_power: can't work on complex numbers"));
 		return FALSE;
 	}
 }

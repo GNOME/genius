@@ -7,9 +7,9 @@
 # These are most relevant here.
 SetHelp("rad2deg","functions","Convert radians to degrees");
 function rad2deg(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,rad2deg)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("rad2deg: argument not a value");bailout);
 	(x*180)/pi
 );
@@ -17,9 +17,9 @@ protect("rad2deg")
 
 SetHelp("deg2rad", "functions", "Convert degrees to radians");
 function deg2rad(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,deg2rad)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("deg2rad: argument not a value");bailout);
 	(x*pi)/180
 );
@@ -29,9 +29,9 @@ protect("deg2rad")
 
 SetHelp("asin","trigonometry","The arcsin (reverse sin) function");
 function asin(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,asin)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("asin: argument not a value");bailout);
 	if (x==1) then pi/2 else if (x==-1) then -pi/2
             else atan(x/sqrt(1-x^2))
@@ -42,9 +42,9 @@ SetHelpAlias ("asin", "arcsin");
 
 SetHelp("asinh","trigonometry","The arcsinh (reverse sinh) function");
 function asinh(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,asinh)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("asinh: argument not a value");bailout);
 	ln(x+sqrt((x^2)+1))
 );
@@ -54,9 +54,9 @@ SetHelpAlias ("asinh", "arcsinh");
 
 SetHelp("acos","trigonometry","The arccos (reverse cos) function");
 function acos(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,acos)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("acos: argument not a value");bailout);
         if (x==0) then pi/2 
            else atan(sqrt(1-x^2)/x)+(if x>0 then 0 else pi)
@@ -67,9 +67,9 @@ SetHelpAlias ("acos", "arccos");
 
 SetHelp("acosh","trigonometry","The arccosh (reverse cosh) function");
 function acosh(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,acosh)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("acosh: argument not a value");bailout);
 	ln(x+sqrt((x^2)-1))
 );
@@ -79,9 +79,9 @@ SetHelpAlias ("acosh", "arccosh");
 
 SetHelp("cot","trigonometry","The cotangent function");
 function cot(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,cot)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("cot: argument not a value");bailout);
 	1/tan(x)
 );
@@ -89,9 +89,9 @@ protect("cot")
 
 SetHelp("coth","trigonometry","The hyperbolic cotangent function");
 function coth(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,coth)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("coth: argument not a value");bailout);
 	1/tanh(x)
 );
@@ -99,9 +99,9 @@ protect("coth")
 
 SetHelp("acot","trigonometry","The arccot (reverse cot) function");
 function acot(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,acot)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("acot: argument not a value");bailout);
 	atan(1/x)
 );
@@ -111,9 +111,9 @@ SetHelpAlias ("acot", "arccot");
 
 SetHelp("acoth","trigonometry","The arccoth (reverse coth) function");
 function acoth(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,acoth)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("acoth: argument not a value");bailout);
 	atanh(1/x)
 );
@@ -123,9 +123,9 @@ SetHelpAlias ("acoth", "arccoth");
 
 SetHelp("tanh","trigonometry","The hyperbolic tangent function");
 function tanh(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,tanh)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("tanh: argument not a value");bailout);
 	sinh(x)/cosh(x)
 );
@@ -133,9 +133,9 @@ protect("tanh")
 
 SetHelp("atanh","trigonometry","The arctanh (reverse tanh) function");
 function atanh(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,atanh)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("atanh: argument not a value");bailout);
 	ln((1+x)/(1-x))/2
 );
@@ -145,9 +145,9 @@ SetHelpAlias ("atanh", "arctanh");
 
 SetHelp("csc","trigonometry","The cosecant function");
 function csc(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,csc)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("csc: argument not a value");bailout);
 	1/sin(x)
 );
@@ -155,9 +155,9 @@ protect("csc")
 
 SetHelp("csch","trigonometry","The hyperbolic cosecant function");
 function csch(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,csch)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("csch: argument not a value");bailout);
 	1/sinh(x)
 );
@@ -165,9 +165,9 @@ protect("csch")
 
 SetHelp("acsc","trigonometry","The reverse cosecant function");
 function acsc(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,acsc)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("acsch: argument not a value");bailout);
 	asin(1/x)
 );
@@ -177,9 +177,9 @@ SetHelpAlias ("acsc", "arccsc");
 
 SetHelp("acsch","trigonometry","The reverse hyperbolic cosecant function");
 function acsch(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,acsch)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("acsc: argument not a value");bailout);
 	asinh(1/x)
 );
@@ -189,9 +189,9 @@ SetHelpAlias ("acsch", "arccsch");
 
 SetHelp("sec","trigonometry","The secant function");
 function sec(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,sec)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("sec: argument not a value");bailout);
 	1/cos(x)
 );
@@ -199,9 +199,9 @@ protect("sec")
 
 SetHelp("sech","trigonometry","The hyperbolic secant function");
 function sech(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,sech)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("sech: argument not a value");bailout);
 	1/cosh(x)
 );
@@ -209,9 +209,9 @@ protect("sech")
 
 SetHelp("asec","trigonometry","The reverse secant function");
 function asec(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,asec)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("asec: argument not a value");bailout);
 	acos(1/x)
 );
@@ -221,9 +221,9 @@ SetHelpAlias ("asec", "arcsec");
 
 SetHelp("asech","trigonometry","The reverse hyperbolic secant function");
 function asech(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,asech)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("asech: argument not a value");bailout);
 	acosh(1/x)
 );
@@ -233,9 +233,9 @@ SetHelpAlias ("asech", "arcsech");
 
 SetHelp("log","numeric","Logarithm of any base");
 function log(x,b) = (
-	if(is_matrix(x) or is_matrix(b)) then
+	if(IsMatrix(x) or IsMatrix(b)) then
 		return ApplyOverMatrix2(x,b,log)
-	else if(not is_value(x) or not is_value(b)) then
+	else if(not IsValue(x) or not IsValue(b)) then
 		(error("log: arguments not values");bailout);
 	ln(x)/ln(b)
 );
@@ -243,9 +243,9 @@ protect("log")
 
 SetHelp("log10","numeric","Base 10 logarithm");
 function log10(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,log10)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("log10: argument not a value");bailout);
 	ln(x)/ln(10)
 );
@@ -253,9 +253,9 @@ protect("log10")
 
 SetHelp("log2","numeric","Base 2 logarithm");
 function log2(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,log2)
-	else if(not is_value(x)) then
+	else if(not IsValue(x)) then
 		(error("log2: argument not a value");bailout);
 	ln(x)/ln(2)
 );

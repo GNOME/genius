@@ -31,6 +31,8 @@
 
 gboolean gel_is_matrix_value_only (GelMatrixW *m);
 gboolean gel_is_matrix_value_only_real (GelMatrixW *m);
+gboolean gel_is_matrix_value_only_rational (GelMatrixW *m);
+gboolean gel_is_matrix_value_only_integer (GelMatrixW *m);
 void gel_matrix_cojugate_transpose (GelMatrixW *m);
 void gel_value_matrix_multiply (GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2);
 gboolean gel_value_matrix_det (mpw_t rop, GelMatrixW *m);

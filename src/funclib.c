@@ -840,7 +840,7 @@ pi_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-is_null_op(GelCtx *ctx, GelETree * * a, int *exception)
+IsNull_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type==NULL_NODE)
 		return gel_makenum_ui(1);
@@ -848,7 +848,7 @@ is_null_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 }
 static GelETree *
-is_value_op(GelCtx *ctx, GelETree * * a, int *exception)
+IsValue_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type==VALUE_NODE)
 		return gel_makenum_ui(1);
@@ -856,7 +856,7 @@ is_value_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 }
 static GelETree *
-is_string_op(GelCtx *ctx, GelETree * * a, int *exception)
+IsString_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type==STRING_NODE)
 		return gel_makenum_ui(1);
@@ -864,7 +864,7 @@ is_string_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 }
 static GelETree *
-is_matrix_op(GelCtx *ctx, GelETree * * a, int *exception)
+IsMatrix_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type==MATRIX_NODE)
 		return gel_makenum_ui(1);
@@ -872,7 +872,7 @@ is_matrix_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 }
 static GelETree *
-is_function_op(GelCtx *ctx, GelETree * * a, int *exception)
+IsFunction_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type==FUNCTION_NODE)
 		return gel_makenum_ui(1);
@@ -880,7 +880,7 @@ is_function_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 }
 static GelETree *
-is_function_ref_op(GelCtx *ctx, GelETree * * a, int *exception)
+IsFunctionRef_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type==OPERATOR_NODE &&
 	   a[0]->op.oper == E_REFERENCE) {
@@ -893,7 +893,7 @@ is_function_ref_op(GelCtx *ctx, GelETree * * a, int *exception)
 	return gel_makenum_ui(0);
 }
 static GelETree *
-is_complex_op(GelCtx *ctx, GelETree * * a, int *exception)
+IsComplex_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type!=VALUE_NODE)
 		return gel_makenum_ui(0);
@@ -903,7 +903,7 @@ is_complex_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 }
 static GelETree *
-is_real_op(GelCtx *ctx, GelETree * * a, int *exception)
+IsReal_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type!=VALUE_NODE)
 		return gel_makenum_ui(0);
@@ -913,7 +913,21 @@ is_real_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(1);
 }
 static GelETree *
-is_integer_op(GelCtx *ctx, GelETree * * a, int *exception)
+IsMatrixReal_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	int i, j;
+	if (a[0]->type != MATRIX_NODE) {
+		(*errorout)(_("IsMatrixReal: argument not a matrix"));
+		return NULL;
+	}
+
+	if (gel_is_matrix_value_only_real (a[0]->mat.matrix))
+		return gel_makenum_ui(1);
+	else
+		return gel_makenum_ui(0);
+}
+static GelETree *
+IsInteger_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type!=VALUE_NODE ||
 	   mpw_is_complex(a[0]->val.value))
@@ -924,7 +938,21 @@ is_integer_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 }
 static GelETree *
-is_rational_op(GelCtx *ctx, GelETree * * a, int *exception)
+IsMatrixInteger_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	int i, j;
+	if (a[0]->type != MATRIX_NODE) {
+		(*errorout)(_("IsMatrixInteger: argument not a matrix"));
+		return NULL;
+	}
+
+	if (gel_is_matrix_value_only_integer (a[0]->mat.matrix))
+		return gel_makenum_ui(1);
+	else
+		return gel_makenum_ui(0);
+}
+static GelETree *
+IsRational_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type!=VALUE_NODE ||
 	   mpw_is_complex(a[0]->val.value))
@@ -936,7 +964,21 @@ is_rational_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 }
 static GelETree *
-is_float_op(GelCtx *ctx, GelETree * * a, int *exception)
+IsMatrixRational_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	int i, j;
+	if (a[0]->type != MATRIX_NODE) {
+		(*errorout)(_("IsMatrixRational: argument not a matrix"));
+		return NULL;
+	}
+
+	if (gel_is_matrix_value_only_rational (a[0]->mat.matrix))
+		return gel_makenum_ui(1);
+	else
+		return gel_makenum_ui(0);
+}
+static GelETree *
+IsFloat_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type!=VALUE_NODE ||
 	   mpw_is_complex(a[0]->val.value))
@@ -1235,17 +1277,17 @@ lcm_op(GelCtx *ctx, GelETree * * a, int *exception)
 
 /*jacobi function*/
 static GelETree *
-jacobi_op(GelCtx *ctx, GelETree * * a, int *exception)
+Jacobi_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	mpw_t tmp;
 
 	if(a[0]->type==MATRIX_NODE ||
 	   a[1]->type==MATRIX_NODE)
-		return apply_func_to_matrixen(ctx,a[0],a[1],jacobi_op,"jacobi");
+		return apply_func_to_matrixen(ctx,a[0],a[1],Jacobi_op,"Jacobi");
 
 	if(a[0]->type!=VALUE_NODE ||
 	   a[1]->type!=VALUE_NODE) {
-		(*errorout)(_("jacobi: arguments must be numbers"));
+		(*errorout)(_("Jacobi: arguments must be numbers"));
 		return NULL;
 	}
 
@@ -1262,19 +1304,48 @@ jacobi_op(GelCtx *ctx, GelETree * * a, int *exception)
 	return gel_makenum_use(tmp);
 }
 
-/*legendre function*/
+/*kronecker function*/
 static GelETree *
-legendre_op(GelCtx *ctx, GelETree * * a, int *exception)
+JacobiKronecker_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	mpw_t tmp;
 
 	if(a[0]->type==MATRIX_NODE ||
 	   a[1]->type==MATRIX_NODE)
-		return apply_func_to_matrixen(ctx,a[0],a[1],legendre_op,"legendre");
+		return apply_func_to_matrixen (ctx, a[0], a[1], JacobiKronecker_op, "JacobiKronecker");
 
 	if(a[0]->type!=VALUE_NODE ||
 	   a[1]->type!=VALUE_NODE) {
-		(*errorout)(_("legendre: arguments must be numbers"));
+		(*errorout)(_("JacobiKronecker: arguments must be numbers"));
+		return NULL;
+	}
+
+	mpw_init(tmp);
+	mpw_kronecker(tmp,
+		      a[0]->val.value,
+		      a[1]->val.value);
+	if(error_num) {
+		error_num = 0;
+		mpw_clear(tmp);
+		return NULL;
+	}
+
+	return gel_makenum_use(tmp);
+}
+
+/*legendre function*/
+static GelETree *
+Legendre_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	mpw_t tmp;
+
+	if(a[0]->type==MATRIX_NODE ||
+	   a[1]->type==MATRIX_NODE)
+		return apply_func_to_matrixen(ctx,a[0],a[1],Legendre_op,"Legendre");
+
+	if(a[0]->type!=VALUE_NODE ||
+	   a[1]->type!=VALUE_NODE) {
+		(*errorout)(_("Legendre: arguments must be numbers"));
 		return NULL;
 	}
 
@@ -1304,6 +1375,30 @@ PerfectSquare_op(GelCtx *ctx, GelETree * * a, int *exception)
 	}
 
 	if(mpw_perfect_square(a[0]->val.value)) {
+		return gel_makenum_ui(1);
+	} else {
+		if(error_num) {
+			error_num = 0;
+			return NULL;
+		}
+		return gel_makenum_ui(0);
+	}
+}
+
+
+/*perfect square testing function*/
+static GelETree *
+PerfectPower_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	if(a[0]->type==MATRIX_NODE)
+		return apply_func_to_matrix(ctx,a[0],PerfectPower_op,"PerfectPower");
+
+	if(a[0]->type!=VALUE_NODE) {
+		(*errorout)(_("PerfectPower: argument must be a number"));
+		return NULL;
+	}
+
+	if(mpw_perfect_power(a[0]->val.value)) {
 		return gel_makenum_ui(1);
 	} else {
 		if(error_num) {
@@ -1475,10 +1570,10 @@ min_op (GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-is_value_only_op(GelCtx *ctx, GelETree * * a, int *exception)
+IsValueOnly_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type!=MATRIX_NODE) {
-		(*errorout)(_("is_value_only: argument not a matrix"));
+		(*errorout)(_("IsValueOnly: argument not a matrix"));
 		return NULL;
 	}
 	
@@ -1599,13 +1694,35 @@ rows_op(GelCtx *ctx, GelETree * * a, int *exception)
 	return gel_makenum_ui(gel_matrixw_height(a[0]->mat.matrix));
 }
 static GelETree *
-columns_op(GelCtx *ctx, GelETree * * a, int *exception)
+columns_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type!=MATRIX_NODE) {
 		(*errorout)(_("columns: argument not a matrix"));
 		return NULL;
 	}
 	return gel_makenum_ui(gel_matrixw_width(a[0]->mat.matrix));
+}
+static GelETree *
+elements_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	if(a[0]->type!=MATRIX_NODE) {
+		(*errorout)(_("elements: argument not a matrix"));
+		return NULL;
+	}
+	return gel_makenum_ui (gel_matrixw_width (a[0]->mat.matrix) *
+			       gel_matrixw_height (a[0]->mat.matrix));
+}
+static GelETree *
+IsMatrixSquare_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	if(a[0]->type!=MATRIX_NODE) {
+		(*errorout)(_("IsMatrixSquare: argument not a matrix"));
+		return NULL;
+	}
+	if (gel_matrixw_width (a[0]->mat.matrix) == gel_matrixw_height (a[0]->mat.matrix))
+		return gel_makenum_ui (1);
+	else
+		return gel_makenum_ui (0);
 }
 static GelETree *
 SetMatrixSize_op(GelCtx *ctx, GelETree * * a, int *exception)
@@ -1682,6 +1799,7 @@ rref_op(GelCtx *ctx, GelETree * * a, int *exception)
 	return n;
 }
 
+/* FIXME: this is utterly stupid */
 static int
 is_prime(unsigned long testnum)
 {
@@ -2828,15 +2946,19 @@ gel_funclib_addall(void)
 
 	FUNC (pi, 0, "constants", _("The number pi"));
 	FUNC (e, 0, "constants", _("The natural number e"));
-	FUNC (i, 0, "constants", _("The imaginary number"));
 
 	FUNC (sqrt, 1, "numeric", _("The square root"));
 	FUNC (exp, 1, "numeric", _("The exponential function"));
 	FUNC (ln, 1, "numeric", _("The natural logarithm"));
 	FUNC (round, 1, "numeric", _("Round a number"));
+	ALIAS (Round, 1, round);
 	FUNC (floor, 1, "numeric", _("Get the highest integer less then or equal to n"));
+	ALIAS (Floor, 1, floor);
 	FUNC (ceil, 1, "numeric", _("Get the lowest integer more then or equal to n"));
-	FUNC (trunc, 1, "numeric", _("Truncate number to an integer"));
+	ALIAS (Ceiling, 1, ceil);
+	FUNC (trunc, 1, "numeric", _("Truncate number to an integer (return the integer part)"));
+	ALIAS (Truncate, 1, trunc);
+	ALIAS (IntegerPart, 1, trunc);
 	FUNC (float, 1, "numeric", _("Make number a float"));
 	FUNC (Numerator, 1, "numeric", _("Get the numerator of a rational number"));
 	FUNC (Denominator, 1, "numeric", _("Get the denominator of a rational number"));
@@ -2844,13 +2966,18 @@ gel_funclib_addall(void)
 	FUNC (gcd, 2, "number_theory", _("Greatest common divisor"));
 	FUNC (lcm, 2, "number_theory", _("Least common multiplier"));
 	FUNC (PerfectSquare, 1, "number_theory", _("Check a number for being a perfect square"));
+	FUNC (PerfectPower, 1, "number_theory", _("Check a number for being any perfect power (a^b)"));
 	FUNC (prime, 1, "number_theory", _("Return the n'th prime (up to a limit)"));
 
 	VFUNC (max, 2, "numeric", _("Returns the maximum of arguments or matrix"));
 	VFUNC (min, 2, "numeric", _("Returns the minimum of arguments or matrix"));
 
-	d_addfunc(d_makebifunc(d_intern("jacobi"),jacobi_op,2));
-	d_addfunc(d_makebifunc(d_intern("legendre"),legendre_op,2));
+	FUNC (Jacobi, 2, "number_theory", _("Calculate the Jacobi symbol (a/b) (b should be odd)"));
+	ALIAS (JacobiSymbol, 2, Jacobi);
+	FUNC (JacobiKronecker, 2, "number_theory", _("Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even"));
+	ALIAS (JacobiKroneckerSymbol, 2, JacobiKronecker);
+	FUNC (Legendre, 2, "number_theory", _("Calculate the Legendre symbol (a/p)"));
+	ALIAS (LegendreSymbol, 2, Legendre);
 
 	FUNC (Re, 1, "numeric", _("Get the real part of a complex number"));
 	ALIAS (RealPart, 1, Re);
@@ -2864,6 +2991,8 @@ gel_funclib_addall(void)
 
 	FUNC (rows, 1, "matrix", _("Get the number of rows of a matrix"));
 	FUNC (columns, 1, "matrix", _("Get the number of columns of a matrix"));
+	FUNC (IsMatrixSquare, 1, "matrix", _("Is a matrix square"));
+	FUNC (elements, 1, "matrix", _("Get the number of elements of a matrix"));
 
 	FUNC (ref, 1, "linear_algebra", _("Get the row echelon form of a matrix"));
 	ALIAS (REF, 1, ref);
@@ -2877,30 +3006,24 @@ gel_funclib_addall(void)
 
 	FUNC (SetMatrixSize, 3, "matrix", _("Make new matrix of given size from old one"));
 
-	d_addfunc(d_makebifunc(d_intern("is_value_only"),is_value_only_op,1));
-	add_description("is_value_only",_("Check if a matrix is a value only matrix"));
-	d_addfunc(d_makebifunc(d_intern("is_null"),is_null_op,1));
-	add_description("is_null",_("Check if null"));
-	d_addfunc(d_makebifunc(d_intern("is_value"),is_value_op,1));
-	add_description("is_value",_("Check if a number"));
-	d_addfunc(d_makebifunc(d_intern("is_string"),is_string_op,1));
-	add_description("is_string",_("Check if a string"));
-	d_addfunc(d_makebifunc(d_intern("is_matrix"),is_matrix_op,1));
-	add_description("is_matrix",_("Check if a matrix"));
-	d_addfunc(d_makebifunc(d_intern("is_function"),is_function_op,1));
-	add_description("is_function",_("Check if a function"));
-	d_addfunc(d_makebifunc(d_intern("is_function_ref"),is_function_ref_op,1));
-	add_description("is_function_ref",_("Check if a function reference"));
-	d_addfunc(d_makebifunc(d_intern("is_complex"),is_complex_op,1));
-	add_description("is_complex",_("Check if a number is complex"));
-	d_addfunc(d_makebifunc(d_intern("is_real"),is_real_op,1));
-	add_description("is_real",_("Check if a number is real"));
-	d_addfunc(d_makebifunc(d_intern("is_integer"),is_integer_op,1));
-	add_description("is_integer",_("Check if a real number is an integer"));
-	d_addfunc(d_makebifunc(d_intern("is_rational"),is_rational_op,1));
-	add_description("is_rational",_("Check if a real number is rational"));
-	d_addfunc(d_makebifunc(d_intern("is_float"),is_float_op,1));
-	add_description("is_float",_("Check if a real number is a float"));
+	FUNC (IsValueOnly, 1, "matrix", _("Check if a matrix is a matrix of numbers"));
+	FUNC (IsMatrixInteger, 1, "matrix", _("Check if a matrix is an integer (non-complex) matrix"));
+	FUNC (IsMatrixRational, 1, "matrix", _("Check if a matrix is a rational (non-complex) matrix"));
+	FUNC (IsMatrixReal, 1, "matrix", _("Check if a matrix is a real (non-complex) matrix"));
+
+	FUNC (IsNull, 1, "basic", _("Check if argument is a null"));
+	FUNC (IsValue, 1, "basic", _("Check if argument is a number"));
+	FUNC (IsString, 1, "basic", _("Check if argument is a text string"));
+	FUNC (IsMatrix, 1, "basic", _("Check if argument is a matrix"));
+	FUNC (IsFunction, 1, "basic", _("Check if argument is a function"));
+	FUNC (IsFunctionRef, 1, "basic", _("Check if argument is a function reference"));
+
+	FUNC (IsComplex, 1, "numeric", _("Check if argument is a complex (non-real) number"));
+	FUNC (IsReal, 1, "numeric", _("Check if argument is a real number"));
+	FUNC (IsInteger, 1, "numeric", _("Check if argument is an integer (non-complex)"));
+	FUNC (IsRational, 1, "numeric", _("Check if argument is a rational number (non-complex)"));
+	FUNC (IsFloat, 1, "numeric", _("Check if argument is a floating point number (non-complex)"));
+
 	d_addfunc(d_makebifunc(d_intern("addpoly"),addpoly_op,2));
 	d_addfunc(d_makebifunc(d_intern("subpoly"),subpoly_op,2));
 	d_addfunc(d_makebifunc(d_intern("mulpoly"),mulpoly_op,2));

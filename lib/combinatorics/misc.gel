@@ -6,17 +6,21 @@
 # An Eternal Golden Braid.
 # It's kinda chaotic (and becomes increasingly so) -- it starts off
 # looking like n/2 or such...
-function Hofstadter(n) =
+SetHelp("Hofstadter", "combinatorics", "Hofstadter's function q(n) defined by q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q(n-2))")
+function Hofstadter(n) = (
+    if not IsInteger(n) or n < 1 then
+    	(error("Hofstadter: argument not a positive integer");bailout);
     if ((n==1) or (n==2)) then 1 else Hofstadter(n-Hofstadter(n-1))+Hofstadter(n-Hofstadter(n-2));
+)
 
 protect("Hofstadter");
 
 # return the fibbonachi number, calculated using an iterative method
 SetHelp("Fibbonachi", "combinatorics", "Calculate n'th fibbonachi number");
 function Fibbonachi(x) = (
-	if(is_matrix(x)) then
+	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,fib)
-	else if(not is_integer(x)) then
+	else if(not IsInteger(x)) then
 		(error("Fibbonachi: argument not an integer");bailout)
 	else if(x<0) then
 		(error("Fibbonachi: argument less then zero");bailout)

@@ -21,19 +21,20 @@
 # If we can get maximums and derivatives, this would allow us to determine
 # automatically what n should be.
 
-function composite_simpsons_rule(f,a,b,n) =
+SetHelp ("CompositeSimpsonsRule", "calculus", "Integration by Composite Simpson's Rule")
+function CompositeSimpsonsRule(f,a,b,n) =
 	(
 # check arguments
 ## check types
-	if(not is_function(f)) then
-		(error("composite_simpsons_rule: argument 1 must be a function");bailout)
-	else if(not is_real(a) or not is_real(b)) then
-		(error("composite_simpsons_rule: arguments 2, 3 must be real values");bailout)
-	else if(not is_integer(n)) then
-		(error("composite_simpsons_rule: argument 4 must be an integer");bailout);
+	if(not IsFunction(f)) then
+		(error("CompositeSimpsonsRule: argument 1 must be a function");bailout)
+	else if(not IsReal(a) or not IsReal(b)) then
+		(error("CompositeSimpsonsRule: arguments 2, 3 must be real values");bailout)
+	else if(not IsInteger(n)) then
+		(error("CompositeSimpsonsRule: argument 4 must be an integer");bailout);
 ## check bounds
-	if(a>b) then (error("composite_simpsons_rule: argument 2 must be less than or equal to argument 3");bailout)
-	else if(n<= 0) then (error("composite_simpsons_rule: argument 4 must be positive");bailout);
+	if(a>b) then (error("CompositeSimpsonsRule: argument 2 must be less than or equal to argument 3");bailout)
+	else if(n<= 0) then (error("CompositeSimpsonsRule: argument 4 must be positive");bailout);
 
 # Start calculating
 	h=(b-a)/n;       # Subdivision interval
@@ -50,3 +51,4 @@ function composite_simpsons_rule(f,a,b,n) =
 	);
         return h*(XI0+2*XI2+4*XI1)/3
 	)
+protect ("CompositeSimpsonsRule")
