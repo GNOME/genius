@@ -120,7 +120,7 @@ SetHelp("StandardDeviation", "statistics", "Calculate the standard deviation of 
 function StandardDeviation(m) = (
 	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("stdev: argument not value-only matrix");bailout)
-	else if lements(m)<2 then
+	else if elements(m)<2 then
 		(error("stdev: there must be at least two elements");bailout);
 	r = Average(m);
 	rr = 0;

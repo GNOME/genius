@@ -1,3 +1,27 @@
+Wed Jul 28 16:09:23 2004  George Lebl <jirka@5z.com>
+
+	* src/gnome-genius.desktop.in: Move Name/Comment to the end to allow
+	  quicker (perhaps) parsing, add Mime-Type key.
+
+	* lib/statistics/basic.gel: fix StandardDeviation
+
+	* eval.c: fix nargs problem when making binary operation functions
+
+	* calc.c, eval.[ch], genius.c, gnome-genius.c, parse.y, parseutil.[ch],
+	  structs.h:  Fix pushing multiple operator arguments onto the stack
+	  in the correct order.  Compact all the separator operations into
+	  one with many arguments during parsing, this saves copying.  Add a
+	  GE_WHACKARG flag to the stack flags and whack the node after use,
+	  this saves some memory which got wasted by keeping things in memory
+	  because of the separator compactification.  Also make the memory
+	  operations much nicer when MEM_DEBUG_FRIENDLY is defined.
+
+	* src/mpwrap.c: work around a mpfr problem where random values from
+	  mpf_urandomb can be negative sometimes.  Also cache the random
+	  state to avoid reiniting/reseeding it all the time.
+
+	* src/geniustests.txt, src/longtest.gel: add a long test file
+
 Thu Jul 15 16:44:40 2004  George Lebl <jirka@5z.com>
 
 	* src/calc.c, src/compil.c, src/dict.c, src/eval.[ch], src/funclib.c,

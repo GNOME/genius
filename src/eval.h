@@ -1,7 +1,7 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2004 George Lebl
+ * Copyright (C) 1997-2004 Jiri (George) Lebl
  *
- * Author: George Lebl
+ * Author: Jiri (George) Lebl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,11 @@
 
 #ifndef EVAL_H
 #define EVAL_H
+
+/* #define EVAL_DEBUG 1 */
+/* Note: this won't be completely mem-debug friendly, but only mostly */
+/* #define MEM_DEBUG_FRIENDLY 1 */
+/* #define MEM_DEBUG_SUPER_FRIENDLY 1 */
 
 #include "mpwrap.h"
 
@@ -144,10 +149,6 @@ void gel_makenum_si_from(GelETree *n, long num);
 void gel_makenum_bool_from (GelETree *n, gboolean bool_);
 void gel_makenum_null_from(GelETree *n);
 
-/*returns the number of args for an operator, or -1 if it takes up till
-  exprlist marker -2 if it takes 1 past the marker for the first argument*/
-int branches(int op) G_GNUC_CONST;
-
 /*copy a node*/
 GelETree * copynode(GelETree *o);
 
@@ -208,8 +209,15 @@ mpw_ptr gel_find_pre_function_modulo (GelCtx *ctx);
 #define GET_LR(n,l,r) { (l) = (n)->op.args; (r) = (n)->op.args->any.next; }
 #define GET_L(n,l) { (l) = (n)->op.args; }
 
+#include <time.h>
+
 extern GelETree *free_trees;
 
+#ifdef MEM_DEBUG_FRIENDLY
+#define GET_NEW_NODE(n) {				\
+	n = g_new0 (GelETree, 1);			\
+}
+#else /* MEM_DEBUG_FRIENDLY */
 #define GET_NEW_NODE(n) {				\
 	if(!free_trees)					\
 		n = g_new(GelETree,1);			\
@@ -218,6 +226,7 @@ extern GelETree *free_trees;
 		free_trees = free_trees->any.next;	\
 	}						\
 }
+#endif
 
 extern GelEFunc *_internal_ln_function;
 extern GelEFunc *_internal_exp_function;

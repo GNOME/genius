@@ -1,0 +1,76 @@
+
+function f1(n) = (
+	if n <= 0 then return null;
+	set(`count,count+1);
+	f1(n-1);
+);
+
+function f2(n) = (
+	if n <= 0 then 
+		null
+	else (
+	      set(`count,count+1);
+	      f2(n-1)
+	)
+);
+
+function randtest1() = (
+  for n=1 to 500 do (
+    a = rand () * 5 + 0.01;
+    b = rand () * 5 + 0.01;
+    xx = ((log(a) + log(b) <= 2*log(a+b)));
+    if not IsBoolean(xx) then return false
+  );
+  true
+);
+
+# check randomness a bit, standard deviation should be low
+function randtest2() = (
+  a = [0,0,0,0,0];
+  tests = 3000;
+  for n=1 to tests do (
+    k = randint (5);
+    a@(k+1) = a@(k+1) + 1
+  );
+  sd = float (StandardDeviation(a) / (tests/5));
+  if (sd > 0.11) then (
+    print (a);
+    print (sd);
+    false
+  ) else
+    true
+);
+
+function LongTest() = (
+	errors = 0;
+
+	#recursion test 1
+	set(`count,0);
+	f1(100);
+	if count != 100 then (error("error on recursion test 1");errors = errors + 1);
+
+	#recursion test 2
+	set(`count,0);
+	f1(500);
+	if count != 500 then (error("error on recursion test 2");errors = errors + 1);
+
+	#recursion test 3
+	set(`count,0);
+	f2(100);
+	if count != 100 then (error("error on recursion test 3");errors = errors + 1);
+
+	#random test 1
+	if not randtest1() then (error("error on random test 1");errors = errors + 1);
+
+	#random test 2
+	if not randtest2() then (error("error on random test 2");errors = errors + 1);
+
+	# We print instead of return since we normally use load to run this
+	# and load doesn't output the return value
+	if errors > 0 then
+		print(false)
+	else
+		print(true);
+);
+
+LongTest ()

@@ -1,7 +1,7 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2004 Jiri (George) Lebl
  *
- * Author: George Lebl
+ * Author: Jiri (George) Lebl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -129,7 +129,7 @@ typedef enum {
 	STRING_NODE,
 	FUNCTION_NODE, /*stores an anonymous function*/
 	COMPARISON_NODE,
-	USERTYPE_NODE, /*for user types*/
+	USERTYPE_NODE, /*for user types, FIXME: not finished*/
 	BOOL_NODE, /*boolean*/
 	
 	/*marker nodes*/
@@ -302,20 +302,29 @@ union _GelETree {
 
 /* The flag for the stack */
 enum {
-	GE_EMPTY_STACK,
-	GE_RESULT, /*used for recursive evluation with the same ctx*/
-	GE_PRE,
-	GE_POST,
-	GE_FUNCCALL,
-	GE_AND,
-	GE_OR,
-	GE_LOOP_LOOP,
-	GE_LOOP_COND,
-	GE_FOR,
-	GE_FORIN,
-	GE_MODULOOP,
-	GE_SETMODULO
+	GE_EMPTY_STACK = 0,
+	GE_RESULT      = 1, /*used for recursive evluation with the same ctx*/
+	GE_PRE         = 2,
+	GE_POST        = 3,
+	GE_FUNCCALL    = 4,
+	GE_AND         = 5,
+	GE_OR          = 6,
+	GE_LOOP_LOOP   = 7,
+	GE_LOOP_COND   = 8,
+	GE_FOR         = 9,
+	GE_FORIN       = 10,
+	GE_MODULOOP    = 11,
+	GE_SETMODULO   = 12,
+
+	/* flag mask */
+	GE_MASK        = 0xff,
+
+	/* bool flags */
+	GE_WHACKARG    = 1<<16 /* only on GE_PRE, GE_POST, GE_MODULOOP */
 };
+
+#define GE_ADDWHACKARG(flag,whackarg) \
+	((whackarg) ? ((flag) | GE_WHACKARG) : (flag))
 
 /*should take up about a page
   we will use a single pointer for data and the next pointer for post/pre flag
@@ -370,6 +379,7 @@ struct _GelCtx {
 	gpointer *topstack;
 	GelETree *res;
 	gboolean post;
+	gboolean whackarg;
 	GelETree *current;
 	mpw_ptr modulo;
 };

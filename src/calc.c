@@ -576,7 +576,16 @@ appendoper(GelOutput *gelo, GelETree *n)
 
 	switch(n->op.oper) {
 		case E_SEPAR:
-			append_binaryoper(gelo,";",n); break;
+			gel_output_string (gelo,"(");
+			r = n->op.args;
+			while (r != NULL) {
+				gel_print_etree (gelo, r, FALSE);
+				r = r->any.next;
+				if (r != NULL)
+					gel_output_string (gelo, ";");
+			}
+			gel_output_string (gelo,")");
+			break;
 		case E_EQUALS:
 			append_binaryoper(gelo,"=",n); break;
 		case E_PARAMETER:

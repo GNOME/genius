@@ -1828,7 +1828,6 @@ really_open_cb (GtkWidget *w, GtkFileSelection *fs)
 
 #if GTK_CHECK_VERSION(2,3,5)
 	s = gtk_file_chooser_get_uri (fs);
-	printf ("uri: '%s'\n", s);
 #else
 	s = gtk_file_selection_get_filename (fs);
 #endif

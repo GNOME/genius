@@ -33,6 +33,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <locale.h>
 
 #ifdef USE_NCURSES
 #ifdef INC_NCURSES
@@ -182,7 +183,6 @@ get_version_details (void)
 	return "";
 #endif
 }
-
 
 int
 main(int argc, char *argv[])

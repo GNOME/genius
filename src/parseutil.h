@@ -1,7 +1,7 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2004 Jiri (George) Lebl
  *
- * Author: George Lebl
+ * Author: Jiri (George) Lebl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ void gp_convert_identifier_to_bool (void) GEL_WEAK_FUNC;
 
 /*pops the last expression, pushes a marker
   entry and puts the last expression back*/
-int gp_push_marker(GelETreeType markertype) GEL_WEAK_FUNC;
+gboolean gp_push_marker(GelETreeType markertype) GEL_WEAK_FUNC;
 
 /*pushes a marker*/
 void gp_push_marker_simple(GelETreeType markertype) GEL_WEAK_FUNC;
