@@ -1,13 +1,6 @@
 Genius Calculator
 =================
 
-------------------------------------------------------------------
-NOTE: if you are using the vi mode of readline and the gui version
-of genius (gnome-genius), you need to patch readline since there
-is a bug in readline that makes it lock up. I've sent a patch to
-the maintainers. In the meantime apply the readline-4.0.patch.
-------------------------------------------------------------------
-
 Although it's under heavy development, it's actually very usable.
 I use it myself as my desktop calculator.
 
@@ -687,7 +680,7 @@ You can transpose a matrix by using the ' operator, example:
 We transpose the second vector to make matrix multiplication possible.
 
 
-Modular evaluation:
+Modular evaluation (doesn't currently work):
 
 Sometimes when working with large numbers, it might be faster if results
 are modded after each calculation. So there is a modular evaluation operator
@@ -889,11 +882,6 @@ EXAMPLE PROGRAM in GEL:
 
 
 ****************************************************************************
-
-NOTE: GMP sefaults on some very large numbers so factorials of large numbers
-will do this ... I'll try to catch those before they happen, but I don't
-see this as a high priority ... the listbox will segfault anyway on such
-numbers :)
 
 Requirements:
 	- lex (tested under flex)
