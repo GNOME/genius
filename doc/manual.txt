@@ -263,10 +263,13 @@ a'		matrix conjugate transpose
 a.'		matrix transpose
 a@(b,c)		get element of a matrix (or elements if b,c are vectors)
 a@(b,)		get row of a matrix (or elements if b is a vector)
+a@(b,:)		same as above
 a@(,c)		get column of a matrix (or elements if c is a vector)
+a@(:,c)		same as above
 a@(b)		get an element from a matrix treating it as a vector
 a:b		build a vector from a to b (or specify a row, column region)
 a:b:c		build a vector from a to c with b as a step
+(a)i		Make a imaginary (multiply a by i)
 
 NOTE: The @() operator makes the : operator most useful.  With this you can
 specify regions of a matrix.  So that a@(2:4,6) is the rows 2,3,4 of the
