@@ -185,10 +185,14 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 				}
 					}
 	
+	|	expr AT ':' ')'		{ /* FIXME: do nothing?, this is just a 
+					     get all */ }
 	|	expr AT expr ')'	{ PUSH_ACT(E_GET_VELEMENT); }
 	|	expr AT expr ',' expr ')' { PUSH_ACT(E_GET_ELEMENT); }
 	|	expr AT expr ',' ')'	{ PUSH_ACT(E_GET_ROW_REGION); }
+	|	expr AT expr ',' ':' ')'	{ PUSH_ACT(E_GET_ROW_REGION); }
 	|	expr AT ',' expr ')'	{ PUSH_ACT(E_GET_COL_REGION); }
+	|	expr AT ':' ',' expr ')'	{ PUSH_ACT(E_GET_COL_REGION); }
 	|	'[' matrixrows ']'	{ if(!gp_push_matrix(FALSE)) {SYNTAX_ERROR;} }
 	|	'`' '[' matrixrows ']'	{ if(!gp_push_matrix(TRUE)) {SYNTAX_ERROR;} }
 	/*This next rule DOESN'T work right, we need some sort of connection
