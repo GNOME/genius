@@ -2866,7 +2866,7 @@ gel_runexp (GelETree *exp)
 	gel_push_file_info(NULL,0);
 
 	ctx = eval_get_context();
-	ret = eval_etree(ctx,copynode(exp));
+	ret = eval_etree (ctx, exp);
 	eval_free_context(ctx);
 
 	gel_pop_file_info();
@@ -2883,6 +2883,7 @@ gel_runexp (GelETree *exp)
 	return ret;
 }
 
+/* 'parsed' is eaten */
 void
 gel_evalexp_parsed (GelETree *parsed,
 		    GelOutput *gelo,
@@ -2893,8 +2894,8 @@ gel_evalexp_parsed (GelETree *parsed,
 	
 	if (parsed == NULL)
 		return;
+	/* gel_runexp eats the 'parsed' */
 	ret = gel_runexp (parsed);
-	gel_freetree (parsed);
 	if (ret == NULL)
 		return;
 

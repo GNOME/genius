@@ -1,3 +1,23 @@
+Wed Jul 28 18:26:49 2004  George Lebl <jirka@5z.com>
+
+	* src/Makefile.am: add longtest.gel to EXTRA_DIST
+
+	* src/calc.[ch]: change the way that gel_runexp behaves
+	  to avoid extra copying of whole expressions all the time.
+	  it now eats the expression and thus is consistent with
+	  the other calls such as gel_evalexp_parsed.
+
+	* src/parseutils.c, src/eval.[ch]: plug a small leak
+	  on boolean conversion
+
+	* src/eval.[ch]: Add whole bunch of debugging functionality
+	  especially for debugging memory.  Keep list of new trees
+	  in between expressions to test for memory leaks when
+	  EVAL_DEBUG is defined and we are MEM_DEBUG_FRIENDLY
+
+	* src/eval.c: fix leak in the if operation when the main
+	  tree was WHACKARGed and we'd forget that
+
 Wed Jul 28 16:09:23 2004  George Lebl <jirka@5z.com>
 
 	* src/gnome-genius.desktop.in: Move Name/Comment to the end to allow

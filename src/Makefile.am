@@ -200,6 +200,7 @@ Desktop_DATA = $(Desktop_in_files:.desktop.in=.desktop)
 EXTRA_DIST = \
 	geniustest.pl \
 	geniustests.txt \
+	longtest.gel \
 	gnome-genius.desktop.in \
 	$(Desktop_in_files) \
 	$(Desktop_DATA) \

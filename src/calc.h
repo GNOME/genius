@@ -91,7 +91,7 @@ void gel_evalexp (const char *str /* string to evaluate */,
 		  gboolean pretty /* result should be in pretty print */,
 		  const char *dirprefix /* directory prefix where we are */);
 /*this is the normal evaluation for the frontends if they already parsed,
-  it free's the parsed tree after use*/
+  it frees the parsed tree after use so don't use it afterwards*/
 void gel_evalexp_parsed (GelETree *parsed /* parsed tree to evaluate */,
 			 GelOutput *gelo /* output to print to */,
 			 const char *prefix /* prefix to print before result */,
@@ -112,6 +112,8 @@ GelETree * gel_parseexp (const char *str,
 			 gboolean testparse,
 			 gboolean *finished,
 			 const char *dirprefix);
+/* This EATS the expression!  May even return the same node,
+ * but the expression is WHACKED. */
 GelETree * gel_runexp (GelETree *exp);
 
 void gel_compile_all_user_funcs (FILE *outfile);

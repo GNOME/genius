@@ -154,6 +154,7 @@ GelETree * copynode(GelETree *o);
 
 /*functions for reclaiming memory*/
 void gel_freetree(GelETree *n);
+void gel_emptytree(GelETree *n);
 
 /* you need to get, then free an evaluation context*/
 GelCtx * eval_get_context(void);
@@ -209,16 +210,31 @@ mpw_ptr gel_find_pre_function_modulo (GelCtx *ctx);
 #define GET_LR(n,l,r) { (l) = (n)->op.args; (r) = (n)->op.args->any.next; }
 #define GET_L(n,l) { (l) = (n)->op.args; }
 
-#include <time.h>
-
 extern GelETree *free_trees;
 
+
 #ifdef MEM_DEBUG_FRIENDLY
-#define GET_NEW_NODE(n) {				\
+
+# ifdef EVAL_DEBUG
+void register_new_tree (GelETree *n);
+void deregister_tree (GelETree *n);
+void print_live_trees (void);
+void deregister_all_trees (void);
+#  define GET_NEW_NODE(n) {				\
+	n = g_new0 (GelETree, 1);			\
+	printf ("%s NEW NODE %p\n", G_STRLOC, n);	\
+	register_new_tree (n);				\
+}
+# else /* EVAL_DEBUG */
+
+#  define GET_NEW_NODE(n) {				\
 	n = g_new0 (GelETree, 1);			\
 }
+# endif /* EVAL_DEBUG */
+
 #else /* MEM_DEBUG_FRIENDLY */
-#define GET_NEW_NODE(n) {				\
+
+# define GET_NEW_NODE(n) {				\
 	if(!free_trees)					\
 		n = g_new(GelETree,1);			\
 	else {						\

@@ -344,12 +344,12 @@ gp_convert_identifier_to_bool (void)
 	if (strcmp (val->id.id->token, "true") == 0 ||
 	     strcmp (val->id.id->token, "True") == 0 ||
 	     strcmp (val->id.id->token, "TRUE") == 0) {
-		stack_pop (&evalstack);
-		stack_push (&evalstack, gel_makenum_bool (TRUE));
+		gel_emptytree (val);
+		gel_makenum_bool_from (val, TRUE);
 	} else if (strcmp (val->id.id->token, "false") == 0 ||
 		   strcmp (val->id.id->token, "False") == 0 ||
 		   strcmp (val->id.id->token, "FALSE") == 0) {
-		stack_pop (&evalstack);
-		stack_push (&evalstack, gel_makenum_bool (FALSE));
+		gel_emptytree (val);
+		gel_makenum_bool_from (val, FALSE);
 	}
 }

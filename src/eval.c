@@ -532,7 +532,7 @@ freetree_full(GelETree *n, gboolean freeargs, gboolean kill)
 		int flag;
 		if (most_recent_ctx != NULL &&
 		    find_on_stack (most_recent_ctx, n, &flag)) {
-			g_warning ("FOUND ON STACK!!!! %d",
+			printf ("FOUND ON STACK (%p)!!!! %d\n", n,
 				   flag);
 		}
 		*/
@@ -540,15 +540,18 @@ freetree_full(GelETree *n, gboolean freeargs, gboolean kill)
 #ifdef MEM_DEBUG_FRIENDLY
 		if (most_recent_ctx != NULL &&
 		    most_recent_ctx->current == n) {
-			g_warning ("FOUND ON CURRENT!!!!");
+			printf ("FOUND ON CURRENT (%p)!!!!\n", n);
 		}
-#endif
 
-#ifdef MEM_DEBUG_FRIENDLY
+# ifdef EVAL_DEBUG
+		printf ("%s WHACKING NODE %p\n", G_STRLOC, n);
+		deregister_tree (n);
+# endif
+
 		memset (n, 0xaa, sizeof (GelETree));
-#ifdef MEM_DEBUG_SUPER_FRIENDLY
+# ifdef MEM_DEBUG_SUPER_FRIENDLY
 		g_free (n);
-#endif
+# endif
 #else
 		/*put onto the free list*/
 		n->any.next = free_trees;
@@ -563,6 +566,14 @@ gel_freetree(GelETree *n)
 	/*printf ("freeing: %p\n", n);*/
 	freetree_full(n,TRUE,TRUE);
 }
+
+void
+gel_emptytree(GelETree *n)
+{
+	/*printf ("freeing: %p\n", n);*/
+	freetree_full(n,TRUE,FALSE);
+}
+
 
 static inline void
 freenode(GelETree *n)
@@ -694,15 +705,21 @@ replacenode(GelETree *to, GelETree *from)
 	memcpy(to,from,sizeof(GelETree));
 
 #ifdef MEM_DEBUG_FRIENDLY
+
+# ifdef EVAL_DEBUG
+	printf ("%s WHACKING NODE %p\n", G_STRLOC, from);
+	deregister_tree (from);
+# endif
+
 	memset (from, 0xaa, sizeof (GelETree));
-#ifdef MEM_DEBUG_SUPER_FRIENDLY
+# ifdef MEM_DEBUG_SUPER_FRIENDLY
 	g_free (from);
-#endif
-#else
+# endif
+#else /* MEM_DEBUG_FRIENDLY */
 	/*put onto the free list*/
 	from->any.next = free_trees;
 	free_trees = from;
-#endif
+#endif /* MEM_DEBUG_FRIENDLY */
 	to->any.next = next;
 
 	/*printf ("replaced from: %p\n", from);*/
@@ -4298,12 +4315,16 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 
 		d_addcontext();
 
+		EDEBUG("     USER FUNC CONTEXT PUSHED TO ADD EXTRA DICT");
+
 		/* add extra dictionary stuff */
 		for (li = f->extra_dict; li != NULL; li = li->next) {
 			GelEFunc *func = d_copyfunc (li->data);
 			func->context = d_curcontext ();
 			d_addfunc (func);
 		}
+
+		EDEBUG("     USER FUNC EXTRA DICT ADDED, TO PUSH ARGS ON CONTEXT STACK");
 
 		/*push arguments on context stack*/
 		li = f->named_args;
@@ -4334,6 +4355,8 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 			if (li == NULL)
 				break;
 		}
+
+		EDEBUG("     USER FUNC ABOUT TO HANDLE VARARG");
 
 		if (f->vararg) {
 			if (last_arg == NULL) {
@@ -4366,6 +4389,8 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 				d_addfunc (d_makevfunc (last_arg, nn));
 			}
 		}
+
+		EDEBUG("     USER FUNC ABOUT TO ENSURE BODY");
 
 		D_ENSURE_USER_BODY (f);
 		
@@ -4479,6 +4504,9 @@ iter_returnop(GelCtx *ctx, GelETree *n)
 	/*now take it out of the argument list*/
 	r = n->op.args;
 	n->op.args = NULL;
+#ifdef MEM_DEBUG_FRIENDLY
+	ctx->current = NULL;
+#endif
 	EDEBUG("  RETURN");
 	for(;;) {
 		int flag;
@@ -4495,6 +4523,7 @@ iter_returnop(GelCtx *ctx, GelETree *n)
 			EDEBUG("    FOUND FUNCCCALL");
 			gel_freetree(data);
 			if (flag & GE_WHACKARG) {
+				EDEBUG("     WHACKING RETURN STUFF");
 				/* WHACKWHACK */
 				gel_freetree (fn);
 				gel_freetree (r);
@@ -4737,7 +4766,7 @@ iter_loop (GelCtx *ctx, GelETree *n, gboolean body_first, gboolean is_while)
 }
 
 static inline void
-iter_ifop(GelCtx *ctx, GelETree *n, gboolean has_else)
+iter_ifop(GelCtx *ctx, GelETree *n, gboolean has_else, gboolean *repushed)
 {
 	GelETree *l,*r,*rr = NULL;
 	gboolean ret;
@@ -4760,23 +4789,27 @@ iter_ifop(GelCtx *ctx, GelETree *n, gboolean has_else)
 	}
 	
 	if(ret) {
-		EDEBUG("    IF TRUE EVAL BODY");
+#ifdef EVAL_DEBUG
+		printf ("    IF TRUE EVAL BODY n %p l %p r %p\n", n, l, r);
+#endif
 		/*remove from arglist so that it doesn't get freed on
 		  replace node*/
 		n->op.args->any.next = n->op.args->any.next->any.next;
-		replacenode(n,r);
+		replacenode (n, r);
 		ctx->post = FALSE;
-		ctx->current = n;
-		ctx->whackarg = FALSE;
+		g_assert (ctx->current == n);
+		/* whackarg stays the same */
+		*repushed = TRUE;
 	} else if(has_else) {
 		EDEBUG("    IF FALSE EVAL ELSE BODY");
 		/*remove from arglist so that it doesn't get freed on
 		  replace node*/
 		n->op.args->any.next->any.next = NULL;
-		replacenode(n,rr);
+		replacenode (n, rr);
 		ctx->post = FALSE;
-		ctx->current = n;
-		ctx->whackarg = FALSE;
+		g_assert (ctx->current == n);
+		/* whackarg stays the same */
+		*repushed = TRUE;
 	} else {
 		EDEBUG("    IF FALSE RETURN NULL");
 		/*just return NULL*/
@@ -4807,9 +4840,13 @@ iter_ifop(GelCtx *ctx, GelETree *n, gboolean has_else)
 		/*pop loop call tree*/			\
 		GE_POP_STACK(ctx,n,flag);		\
 							\
-		/*null the tree*/			\
-		freetree_full(n,TRUE,FALSE);		\
-		n->type = NULL_NODE;			\
+		if (flag & GE_WHACKARG) {		\
+			gel_freetree (n);		\
+		} else {				\
+			/*null the tree*/		\
+			freetree_full(n,TRUE,FALSE);	\
+			n->type = NULL_NODE;		\
+		}					\
 							\
 		/*go on with the computation*/		\
 		iter_pop_stack(ctx);			\
@@ -6090,6 +6127,9 @@ iter_operator_pre(GelCtx *ctx)
 
 	default:
 		gel_errorout (_("Unexpected operator!"));
+#ifdef EVAL_DEBUG
+		printf ("!!!!!!!!!!!!!!!UNEXPECTED_OPERATOR PRE (%p) (%d)\n", n, n->op.oper);
+#endif
 		GE_PUSH_STACK (ctx, n,
 			       GE_ADDWHACKARG (GE_POST, ctx->whackarg));
 		break;
@@ -6230,10 +6270,10 @@ iter_operator_post (GelCtx *ctx, gboolean *repushed)
 		break;
 
 	case E_IF_CONS:
-		iter_ifop(ctx,n,FALSE);
+		iter_ifop (ctx, n, FALSE, repushed);
 		break;
 	case E_IFELSE_CONS:
-		iter_ifop(ctx,n,TRUE);
+		iter_ifop (ctx, n, TRUE, repushed);
 		break;
 
 	case E_DIRECTCALL:
@@ -6279,6 +6319,9 @@ iter_operator_post (GelCtx *ctx, gboolean *repushed)
 
 	default:
 		gel_errorout (_("Unexpected operator!"));
+#ifdef EVAL_DEBUG
+		printf ("!!!!!!!!!!!!!!!UNEXPECTED_OPERATOR POST (%p) (%d)\n", n, n->op.oper);
+#endif
 		iter_pop_stack(ctx);
 		break;
 	}
@@ -6497,11 +6540,20 @@ iter_eval_etree(GelCtx *ctx)
 			iter_pop_stack(ctx);
 			break;
 		case BOOL_NODE:
-			EDEBUG(" BOOL NODE");
+#ifdef EVAL_DEBUG
+			printf (" BOOL NODE -- %p %s\n", n, n->bool_.bool_ ? "true" : "false");
+#endif
 			iter_pop_stack(ctx);
 			break;
 		default:
 			gel_errorout (_("Unexpected node!"));
+#ifdef EVAL_DEBUG
+			{
+				char *s = gel_string_print_etree (n);
+				printf ("!!!!!!!!!!!!!!!UNEXPECTED_NODE (%p) (%d)\t-> %s\n", n, n->type, s);
+				g_free (s);
+			}
+#endif
 			iter_pop_stack(ctx);
 			break;
 		}
@@ -6540,7 +6592,7 @@ eval_free_context(GelCtx *ctx)
 }
 
 GelETree *
-eval_etree(GelCtx *ctx, GelETree *etree)
+eval_etree (GelCtx *ctx, GelETree *etree)
 {
 	/*level measures any recursion into here such as from
 	  external functions etc, so that we can purge free lists,
@@ -6548,6 +6600,14 @@ eval_etree(GelCtx *ctx, GelETree *etree)
 	static int level = 0;
 	int flag;
 	gpointer data;
+
+#ifdef MEM_DEBUG_FRIENDLY
+# ifdef EVAL_DEBUG
+	if (level == 0) {
+		deregister_all_trees ();
+	}
+# endif
+#endif
 
 	if (ctx->modulo != NULL) {
 		GE_PUSH_STACK (ctx, ctx->modulo, GE_SETMODULO);
@@ -6601,6 +6661,14 @@ eval_etree(GelCtx *ctx, GelETree *etree)
 		ctx->modulo = data;
 		GE_BLIND_POP_STACK (ctx);
 	}
+
+#ifdef MEM_DEBUG_FRIENDLY
+# ifdef EVAL_DEBUG
+	if (level == 0) {
+		print_live_trees ();
+	}
+# endif
+#endif
 
 	return etree;
 }
@@ -7028,3 +7096,40 @@ try_to_do_precalc(GelETree *n)
 			try_to_do_precalc(n->func.func->data.user);
 	}
 }
+
+#ifdef MEM_DEBUG_FRIENDLY
+# ifdef EVAL_DEBUG
+static GSList *trees_list = NULL;
+void
+register_new_tree (GelETree *n)
+{
+	trees_list = g_slist_prepend (trees_list, n);
+}
+void
+deregister_tree (GelETree *n)
+{
+	trees_list = g_slist_remove (trees_list, n);
+}
+void
+print_live_trees (void)
+{
+	GSList *li;
+	int count = 0;
+	for (li = trees_list; li != NULL; li = li->next) {
+		char *s;
+		GelETree *n = li->data;
+		s = gel_string_print_etree (n);
+		printf ("TREE %p:\t%s\n", n, s);
+		g_free (s);
+		count ++;
+	}
+	printf ("count %d:\n", count);
+}
+void
+deregister_all_trees (void)
+{
+	g_slist_free (trees_list);
+	trees_list = NULL;
+}
+# endif /* EVAL_DEBUG */
+#endif /* MEM_DEBUG_FRIENDLY */
