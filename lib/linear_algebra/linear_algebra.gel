@@ -443,3 +443,58 @@ protect ("Eigenvalues")
 eig = Eigenvalues;
 SetHelpAlias ("Eigenvalues", "eig")
 protect ("eig")
+
+# Written by David W. Hutchison, dahutchi@indiana.edu for Genius 0.7.1
+# Copyright (C) 2004 David W. Hutchison (GPL)
+# LU decomposition of a matrix, aka Crout and/or Cholesky reduction.
+# (ISBN 0-201-11577-8 pp.99-103)
+# This function will compute the lower and upper materices of a square matrix
+# 'a.' The upper triangular matrix features a diagonal of values 1 (one).  This
+# is not Doolittle's Method which features the 1's diagonal on the lower
+# matrix. 
+SetHelp("LUDecomposition", "linear_algebra", "Get the LU decomposition of A and store the result in the L and U which should be references.  If not possible returns false.")
+function LUDecomposition(A,L,U) = ( 
+	if not IsMatrix(A) or not IsMatrixSquare(A) then
+        	(error("LUDecomposition: A must be a square matrix");bailout);
+	if not IsFunctionRef(L) or not IsFunctionRef(U) then
+        	(error("LUDecomposition: L and U must be references");bailout);
+	if A@(1,1) == 0 then (
+		*L = null;
+		*U = null;
+		return false
+	);
+	n = rows(A);
+
+	for i = 1 to n do (
+		lower@(i,1) = A@(i,1);
+		);
+	for j = 1 to n do (
+		upper@(1,j) = A@(1,j)/lower@(1,1);
+		);
+	for j=2 to n do (
+		for i=j to n do (
+			SumL = 0;
+			for k=1 to j-1 do (
+				SumL = SumL + (lower@(i,k)*upper@(k,j));
+				);
+			lower@(i,j) = A@(i,j)-SumL;
+			);
+		if lower@(j,j) == 0 then (
+			*L = null;
+			*U = null;
+			return false
+		);
+		upper@(j,j) = 1;
+		for i = j+1 to n do (
+			SumU = 0;
+			for k=1 to j-1 do (
+				SumU = SumU + (lower@(j,k)*upper@(k,i));
+					);
+				upper@(j,i) = (A@(j,i)-SumU)/lower@(j,j);
+				);
+			);
+	*L = lower;
+	*U = upper;
+	true
+);
+protect("LUDecomposition");

@@ -2295,6 +2295,9 @@ create_lineplot_box (void)
 		b = gtk_hbox_new (FALSE, GNOME_PAD);
 		gtk_box_pack_start (GTK_BOX (box), b, FALSE, FALSE, 0);
 
+		gtk_box_pack_start (GTK_BOX (b),
+				    gtk_label_new ("y="), FALSE, FALSE, 0);
+
 		plot_entries[i] = gtk_entry_new ();
 		g_signal_connect (G_OBJECT (plot_entries[i]), "activate",
 				  entry_activate, NULL);

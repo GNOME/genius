@@ -1,3 +1,19 @@
+Wed Dec 22 16:58:23 2004  George Lebl <jirka@5z.com>
+
+	* src/graphing.c: add y= before the entries to make it clear what to
+	  type in.
+
+	* src/eval.c: when we encounter a reference to a non-existant
+	  variable make the variable in the current context.
+
+	* src/eval.c: fix errors in expensive matrix multiply, now doesn't
+	  crash!
+
+	* lib/linear_algebra/linear_algebra.gel: Add LUDecomposition function
+	  from David W. Hutchison <dahutchi@indiana.edu>
+
+	* help/C/*.xml: update
+
 Wed Dec 22 14:47:00 2004  George Lebl <jirka@5z.com>
 
 	* help/C/*.xml, help/C/genius.txt: make the text version and fix some
@@ -8,7 +24,13 @@ Wed Dec 22 14:42:01 2004  George Lebl <jirka@5z.com>
 	* lib/number_theory/misc.gel:  Added MoebiusMu from Alessio
 	  Frusciante <algol@firenze.linux.it>
 
-	* src/funclib.c: Added IsNonNegativeInteger
+	* lib/number_theory/misc.gel:  Fixed parameters of IsNthPower to
+	  be less confusing
+
+	* lib/combinatorics/factorial.gel:  Nicer, less heavy argument testing
+
+	* src/funclib.c: Added IsNonNegativeInteger and fix EulerConstant
+	  helpstring
 
 	* src/geniustests.txt: added some tests
 

@@ -2340,6 +2340,42 @@ number is specified) of the given size returned.  For example
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-LUDecomposition">
+         <term>LUDecomposition</term>
+         <listitem>
+          <synopsis>LUDecomposition (A, L, U)</synopsis>
+          <para>
+	    Get the LU decomposition of <varname>A</varname>
+	    and store the result in the <varname>L</varname> and
+	    <varname>U</varname> which should be references.  It returns null.
+	    For example suppose that A is a square matrix, then after running:
+	    <screen><prompt>genius></prompt> <userinput>LUDecomposition(A,&amp;L,&amp;U)</userinput>
+</screen>
+	    You will have the lower matrix stored in a variable called
+	    <varname>L</varname> and the upper matrix in a variable called
+	    <varname>U</varname>.
+	  </para>
+	  <para>
+	    This is the LU decomposition of a matrix aka Crout and/or Cholesky
+	    reduction.
+	    (ISBN 0-201-11577-8 pp.99-103)
+	    The upper triangular matrix features a diagonal
+	    of values 1 (one).  This is not Doolittle's Method which features
+	    the 1's diagonal on the lower matrix. 
+	  </para>
+	  <para>
+	    Not all matrices have LU decompositions, for example
+	    <userinput>[0,1;1,0]</userinput> does not and this function returns
+	    <literal>false</literal> in this case and sets <varname>L</varname>
+	    and <varname>U</varname> to null.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/LUDecomposition.html">Mathworld</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-Minor">
          <term>Minor</term>
          <listitem>

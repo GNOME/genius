@@ -1711,7 +1711,7 @@ op_two_nodes (GelCtx *ctx, GelETree *ll, GelETree *rr, int oper,
 		n->op.args->any.next = copynode(rr);
 		n->op.args->any.next->any.next = NULL;
 		n->op.nargs = 2;
-		
+
 		if ( ! no_push) {
 			GE_PUSH_STACK (ctx, n, GE_PRE);
 		}
@@ -1864,27 +1864,32 @@ static void
 expensive_matrix_multiply(GelCtx *ctx, GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2)
 {
 	int i,j,k;
-	for(i=0;i<gel_matrixw_width(res);i++) {
-		for(j=0;j<gel_matrixw_height(res);j++) {
+	for(i=0;i<gel_matrixw_width(res);i++) { /* columns M2 */
+		for(j=0;j<gel_matrixw_height(res);j++) { /* rows M1 */
 			GelETree *a = NULL;
-			for(k=0;k<gel_matrixw_width(m1);k++) {
+			for(k=0;k<gel_matrixw_width(m1);k++) { /* columns M1,
+							          rows M2 */
 				GelETree *t;
 				GelETree *t2;
-				t = op_two_nodes(ctx,gel_matrixw_index(m1,j,k),
-						 gel_matrixw_index(m2,k,i),
-						 E_MUL,
-						 FALSE /* no_push */);
-				if(!a) {
-					a=t;
+				t = op_two_nodes (ctx,
+						  gel_matrixw_index (m1, k, j),
+						  gel_matrixw_index (m2, i, k),
+						  E_MUL,
+						  TRUE /* no_push */);
+				if (a == NULL) {
+					a = t;
 				} else {
-					t2 = op_two_nodes(ctx,a,t,E_PLUS,
-							  FALSE /* no_push */);
-					gel_freetree(t);
-					gel_freetree(a);
+					t2 = op_two_nodes (ctx, a, t, E_PLUS,
+							   TRUE /* no_push */);
+					gel_freetree (t);
+					gel_freetree (a);
 					a = t2;
 				}
 			}
-			gel_matrixw_set_index(res,i,j) = a;
+			gel_matrixw_set_index (res, i, j) = a;
+			if (a->type == OPERATOR_NODE) {
+				GE_PUSH_STACK (ctx, a, GE_PRE);
+			}
 		}
 	}
 }
@@ -6204,12 +6209,26 @@ iter_operator_pre(GelCtx *ctx)
 		break;
 
 	case E_REFERENCE:
-		if (ctx->whackarg) {
-			gel_freetree (n);
-			ctx->current = NULL;
+		{
+			GelETree *t;
+			GelEFunc *rf;
+
+			if (ctx->whackarg) {
+				gel_freetree (n);
+				ctx->current = NULL;
+			}
+
+			/* If doesn't exist, make it and set it to null */
+			t = n->op.args;
+			rf = d_lookup_global (t->id.id);
+			if (rf == NULL) {
+				d_addfunc (d_makevfunc (t->id.id, 
+							gel_makenum_null ()));
+			}
+
+			iter_pop_stack(ctx);
+			break;
 		}
-		iter_pop_stack(ctx);
-		break;
 
 	case E_MOD_CALC:
 		/* Push modulo op, so that we may push the

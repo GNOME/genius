@@ -3193,6 +3193,33 @@ Linear Algebra
 
           Get the kernel (nullspace) of a linear transform
 
+   LUDecomposition
+
+          LUDecomposition (A, L, U)
+
+          Get  the  LU decomposition of A and store the result in
+          the  L  and  U  which  should be references. It returns
+          null.  For  example  suppose that A is a square matrix,
+          then after running:
+
+          genius> LUDecomposition(A,&L,&U)
+
+          You  will  have  the  lower matrix stored in a variable
+          called L and the upper matrix in a variable called U.
+
+          This  is  the  LU  decomposition  of a matrix aka Crout
+          and/or    Cholesky   reduction.   (ISBN   0-201-11577-8
+          pp.99-103)  The  upper  triangular  matrix  features  a
+          diagonal  of  values  1  (one). This is not Doolittle's
+          Method  which  features  the  1's diagonal on the lower
+          matrix.
+
+          Not  all  matrices  have LU decompositions, for example
+          [0,1;1,0]  does  not and this function returns false in
+          this case and sets L and U to null.
+
+          See Mathworld for more information.
+
    Minor
 
           Minor (M,i,j)
