@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2004 George Lebl
  *
  * Author: George Lebl
  *
@@ -300,18 +300,19 @@ gel_decompile_node(void)
 		n->id.id = d_intern(p);
 		return n;
 	case STRING_NODE:
-		p = strtok(NULL,";");
-		if(!p) return NULL;
+		p = strtok (NULL, ";");
+		if (p == NULL)
+			return NULL;
 		
-		if(*p=='E')
-			p = g_strdup("");
-		else {
-			p = gel_decode_string(p);
-			if(!p) return NULL;
+		if (*p=='E') {
+			n = gel_makenum_string_constant ("");
+		} else {
+			p = gel_decode_string (p);
+			if (p == NULL)
+				return NULL;
+			n = gel_makenum_string_constant (p);
+			g_free (p);
 		}
-		GET_NEW_NODE(n);
-		n->type = STRING_NODE;
-		n->str.str = p;
 		return n;
 	case FUNCTION_NODE:
 		p = strtok(NULL,";");

@@ -3473,6 +3473,7 @@ PolyToString_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	GET_NEW_NODE(n);
 	n->type = STRING_NODE;
 	n->str.str = r;
+	n->str.constant = FALSE;
 	
 	return n;
 }

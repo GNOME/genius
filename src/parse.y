@@ -258,17 +258,14 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 	|	BREAK			{ PUSH_ACT(E_BREAK); }
 	|	NUMBER			{ stack_push(&evalstack,
 						     gel_makenum_use($<val>1)); }
-	|	STRING			{ PUSH_STRING($<id>1); }
+	|	STRING			{ PUSH_CONST_STRING($<id>1); }
 	|	'.'			{ gp_push_null(); }
 	;
 
 deref:		'*' ident		{ PUSH_ACT(E_DEREFERENCE); }
 	;
 
-ident:		FUNCID			{
-				PUSH_IDENTIFIER($<id>1);
-				g_free($<id>1);
-					}
+ident:		FUNCID			{ PUSH_IDENTIFIER($<id>1); }
 	;
 
 paramdef: 	ident anyequals expr %prec EQUALS {

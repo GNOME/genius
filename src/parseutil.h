@@ -66,14 +66,14 @@ void gp_push_null(void) GEL_WEAK_FUNC;
 	tree->type = IDENTIFIER_NODE; \
 	tree->id.id = d_intern(ID); \
 	stack_push(&evalstack,tree); \
+	g_free (ID); \
 }
 
-#define PUSH_STRING(ID) { \
+#define PUSH_CONST_STRING(ID) { \
 	GelETree * tree; \
-	GET_NEW_NODE(tree); \
-	tree->type = STRING_NODE; \
-	tree->str.str = (ID); \
+	tree = gel_makenum_string_constant (ID); \
 	stack_push(&evalstack,tree); \
+	g_free (ID); \
 }
 
 #endif

@@ -220,6 +220,11 @@ struct _GelETreeString {
 	GelETreeType type;
 	GelETree *next;
 	char *str;
+
+	gboolean constant;
+	/* gboolean is faster, then a bitfield and we right now
+	   don't gain anything */
+	/* guint constant:1; */
 };
 
 struct _GelETreeFunction {

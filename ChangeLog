@@ -1,3 +1,10 @@
+Wed Sep 22 09:40:10 2004  George Lebl <jirka@5z.com>
+
+	* src/compil.c, src/eval.[ch], src/funclib.c, src/parse.y,
+	  src/parseutil.h, src/structs.h: Treat strings as constants (don't
+	  copy) thus getting speedups up to 10% (very optimistic) if running
+	  loops or things where strings are used.
+
 Thu Sep 16 18:22:28 2004  George Lebl <jirka@5z.com>
 
 	* src/mpwrap.c: fix round, ceil and trunc, plus round (0.5) should

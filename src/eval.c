@@ -346,6 +346,7 @@ gel_makenum_string (const char *str)
 	GET_NEW_NODE (n);
 	n->type = STRING_NODE;
 	n->str.str = g_strdup (str); 
+	n->str.constant = FALSE;
 	n->any.next = NULL;
 
 	return n;
@@ -358,6 +359,34 @@ gel_makenum_string_use (char *str)
 	GET_NEW_NODE (n);
 	n->type = STRING_NODE;
 	n->str.str = str; 
+	n->str.constant = FALSE;
+	n->any.next = NULL;
+
+	return n;
+}
+
+GelETree *
+gel_makenum_string_constant (const char *str)
+{
+	GelETree *n;
+	char *hstr;
+	static GHashTable *constant_strings = NULL;
+
+	if (constant_strings == NULL)
+		constant_strings = g_hash_table_new (g_str_hash, g_str_equal);
+
+	hstr = g_hash_table_lookup (constant_strings, str);
+
+	if (hstr == NULL) {
+		hstr = g_strdup (str);
+		g_hash_table_insert (constant_strings,
+				     hstr, hstr);
+	}
+
+	GET_NEW_NODE (n);
+	n->type = STRING_NODE;
+	n->str.str = hstr; 
+	n->str.constant = TRUE;
 	n->any.next = NULL;
 
 	return n;
@@ -508,7 +537,8 @@ freetree_full(GelETree *n, gboolean freeargs, gboolean kill)
 		}
 		break;
 	case STRING_NODE:
-		g_free(n->str.str);
+		if ( ! n->str.constant)
+			g_free (n->str.str);
 		break;
 	case FUNCTION_NODE:
 		d_freefunc(n->func.func);
@@ -669,7 +699,11 @@ copynode_to(GelETree *empty, GelETree *o)
 	case STRING_NODE:
 		empty->type = STRING_NODE;
 		empty->any.next = o->any.next;
-		empty->str.str = g_strdup(o->str.str);
+		empty->str.constant = o->str.constant;
+		if (o->str.constant)
+			empty->str.str = o->str.str;
+		else
+			empty->str.str = g_strdup (o->str.str);
 		break;
 	case FUNCTION_NODE:
 		empty->type = FUNCTION_NODE;
@@ -2305,6 +2339,7 @@ string_concat (GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	freetree_full (n, TRUE, FALSE);
 	n->type = STRING_NODE;
 	n->str.str = s;
+	n->str.constant = FALSE;
 
 	return TRUE;
 }
