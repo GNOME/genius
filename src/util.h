@@ -23,7 +23,6 @@
 #define _UTIL_H_
 
 #include <stdlib.h>
-#include <gtk/gtk.h>
 
 /*simple realloc/free functions using g_malloc/g_free confogming to gmp*/
 void * my_malloc(size_t size);

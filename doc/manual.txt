@@ -8,15 +8,16 @@ should be "what you mean is what you get", though of course that's not an
 entierly attainable goal.  It features using rationals, arbitrary precision
 integers and multiple precision floats using the GMP library.  It also fully
 supports complex numbers.  It can work with matrices and vectors and do
-rudimetary linear algebra.  The language can have user defined functions,
+rudimetary linear algebra.  The language can have user-defined functions,
 variables and parameters.
 
 Genius is licensed under the GPL, for more information type 'warranty' in the
 console.
 
-******************************************************************
-*It is still under development so beware that things might change*
-******************************************************************
+*********************************************************************
+* It is still under development so beware that things might change. *
+* However I will try to keep it as compatible as possible.          *
+*********************************************************************
 
 Basic usage:
 ===========
@@ -164,6 +165,18 @@ the = operator may mean testing for equality when used in a place where
 boolean expression is expected.
 
 
+Global variables:
+-----------------
+
+Sometimes you'd like to set a global variable from inside a function.  For
+this you can use the "set" function.  You pass a string or a quoted
+identifier to it and it sets the variable globally, so for example to set "a"
+to the value 3 you could call:
+  set(`a,3)
+or:
+  set("a",3)
+
+
 Defining Functions:
 -------------------
 
@@ -276,6 +289,7 @@ a@(b)		get an element from a matrix treating it as a vector
 a:b		build a vector from a to b (or specify a row, column region)
 a:b:c		build a vector from a to c with b as a step
 (a)i		Make a imaginary (multiply a by i)
+`a		Quote an identifier so that it doesn't get evaluated
 
 NOTE: The @() operator makes the : operator most useful.  With this you can
 specify regions of a matrix.  So that a@(2:4,6) is the rows 2,3,4 of the

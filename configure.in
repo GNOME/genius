@@ -101,33 +101,63 @@ AC_ARG_ENABLE(gtksourceview,
 [  --enable-gtksourceview  Use GtkSourceView library],
 use_gtksourceview="$enableval",use_gtksourceview=yes)
 
-#AC_ARG_ENABLE(gnomegui,
-#[  --enable-gnomegui  Use GtkSourceView library],
-#use_gnomegui="$enableval",use_gnomegui=yes)
-
-GENIUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED libgnome-2.0 >= $LIBGNOME_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED vte >= $VTE_REQUIRED gtksourceview-1.0 >= $GTKSOURCEVIEW_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED"
-GENIUS_MODULES_NOSRCVIEW="gtk+-2.0 >= $GTK_REQUIRED libgnome-2.0 >= $LIBGNOME_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED vte >= $VTE_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED"
-
-if test "x$use_gtksourceview" = "xyes" ; then
-  PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES,
-		    AC_DEFINE(HAVE_GTKSOURCEVIEW),
-		    [PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES_NOSRCVIEW)])
- # FIXME: warn if not compiled
-else
-  PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES_NOSRCVIEW)
-fi
-AC_SUBST(GENIUS_CFLAGS)
-AC_SUBST(GENIUS_LIBS)
-
-# This is used for vicious-extensions
-PKG_CHECK_MODULES(GUI, gtk+-2.0 >= $GTK_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED)
-AC_SUBST(GUI_CFLAGS)
-AC_SUBST(GUI_LIBS)
+AC_ARG_ENABLE(gnome,
+[  --enable-gnome  Compile the GNOME frontend (includes plotting)],
+use_gnome="$enableval",use_gnome=yes)
 
 # Used for the 'genius' binary
 PKG_CHECK_MODULES(GENIUS_NOGUI, glib-2.0 >= $GLIB_REQUIRED gmodule-2.0 >= $GLIB_REQUIRED)
 AC_SUBST(GENIUS_NOGUI_CFLAGS)
 AC_SUBST(GENIUS_NOGUI_LIBS)
+
+GENIUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED libgnome-2.0 >= $LIBGNOME_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED vte >= $VTE_REQUIRED gtksourceview-1.0 >= $GTKSOURCEVIEW_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED"
+GENIUS_MODULES_NOSRCVIEW="gtk+-2.0 >= $GTK_REQUIRED libgnome-2.0 >= $LIBGNOME_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED vte >= $VTE_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED"
+
+if test "x$use_gnome" = "xyes" ; then
+  echo " 
+Testing for presence of GNOME and GtkSourceView:
+Note:
+      You can compile without GNOME by using the --disable-gnome option
+"
+  if test "x$use_gtksourceview" = "xyes" ; then
+    PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES,
+		      AC_DEFINE(HAVE_GTKSOURCEVIEW),
+		      [use_gtksourceview=no
+		       PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES_NOSRCVIEW)])
+   # FIXME: warn if not compiled
+  else
+    PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES_NOSRCVIEW)
+  fi
+
+  VICIOUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED"
+  VICIOUS_GNOME_LIBS="libviciousui.a libviciousui-gnome.a libviciousui-minimal.a libvicious-gnome.a"
+  
+  GNOME_GENIUS=gnome-genius
+  GENIUS_READLINE_HELPER_FIFO=genius-readline-helper-fifo
+  GNOME_GENIUS_DESKTOP_IN="gnome-genius.desktop.in"
+
+else
+  use_gtksourceview=no
+  VICIOUS_MODULES="glib-2.0 >= $GLIB_REQUIRED gmodule-2.0 >= $GLIB_REQUIRED"
+  VICIOUS_GNOME_LIBS=
+  GENIUS_CFLAGS="$GENIUS_NOGUI_CFLAGS"
+  GENIUS_LIBS="$GENIUS_NOGUI_LIBS"
+  GNOME_GENIUS=
+  GENIUS_READLINE_HELPER_FIFO=
+  GNOME_GENIUS_DESKTOP_IN=
+fi
+
+AC_SUBST(VICIOUS_GNOME_LIBS)
+AC_SUBST(GENIUS_CFLAGS)
+AC_SUBST(GENIUS_LIBS)
+AC_SUBST(GNOME_GENIUS)
+AC_SUBST(GENIUS_READLINE_HELPER_FIFO)
+AC_SUBST(GNOME_GENIUS_DESKTOP_IN)
+
+# This is used for vicious-extensions
+PKG_CHECK_MODULES(VICIOUS, $VICIOUS_MODULES)
+AC_SUBST(VICIOUS_CFLAGS)
+AC_SUBST(VICIOUS_LIBS)
 
 AC_CHECK_LIB(popt, poptGetArgs, [POPT_LIBS="-lpopt"],
 AC_MSG_ERROR([popt is required to build genius.
@@ -223,6 +253,8 @@ Configuration:
 	Source code location:	  ${srcdir}
 	Compiler:		  ${CC} 
 	Using the MPFR library:   ${GOT_MPFR}
+	GNOME frontend:		  ${use_gnome}
+	Using GtkSourceView:	  ${use_gtksourceview}
 
 	Extra Compiler Warnings:  ${EXTRA_WARNING_CFLAGS}
 "

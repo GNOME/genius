@@ -3,8 +3,11 @@ Changes to 0.6.0
 * Zooming/Fitting support on the line plots
 * Line plots can now be invoked from a GUI
 * Scale is printed on line plots
-* In case GTK+ 2.4 is used, use the new file chooser dialog
+* In case GTK+ 2.4 is used, use the new file chooser dialog, but still
+  compile with older gtk
 * Some fixes in case GTK+ 2.4 is used
+* Allow compilation without GNOME to get the barebones command line
+  version
 * SYNTAX: Allow some arithmetic operations on functions, as well as passing
   functions to a few select 1 argument functions such as exp or ln, for
   example: exp(sin) returns a function which does exp(sin(x)) and

@@ -26,10 +26,12 @@ INCLUDES = \
 	$(GENIUS_CFLAGS)					\
 	$(EXTRA_WARNING_CFLAGS)
 
+bin_PROGRAMS = @GNOME_GENIUS@ genius
 
-bin_PROGRAMS = gnome-genius genius
+libexec_PROGRAMS = @GENIUS_READLINE_HELPER_FIFO@
 
-libexec_PROGRAMS = genius-readline-helper-fifo
+EXTRA_PROGRAMS = gnome-genius genius-readline-helper-fifo
+
 
 gnome_genius_SOURCES = 	\
 	genius-i18n.h	\
@@ -190,7 +192,7 @@ CLEANFILES += $(BUILT_SOURCES)
 
 Desktopdir = $(datadir)/applications
 Desktop_in_files = \
-	gnome-genius.desktop.in	
+	@GNOME_GENIUS_DESKTOP_IN@	
 Desktop_DATA = $(Desktop_in_files:.desktop.in=.desktop)
 
 @INTLTOOL_DESKTOP_RULE@
@@ -198,6 +200,7 @@ Desktop_DATA = $(Desktop_in_files:.desktop.in=.desktop)
 EXTRA_DIST = \
 	geniustest.pl \
 	geniustests.txt \
+	gnome-genius.desktop.in \
 	$(Desktop_in_files) \
 	$(Desktop_DATA) \
 	test.plugin.in \
