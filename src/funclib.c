@@ -2107,8 +2107,6 @@ ref_op(GelCtx *ctx, GelETree * * a, int *exception)
 	n->mat.matrix = gel_matrixw_copy(a[0]->mat.matrix);
 	gel_value_matrix_gauss(n->mat.matrix, FALSE, FALSE, FALSE, NULL, NULL);
 	n->mat.quoted = 0;
-	/* Mod if in modulo mode */
-	gel_mod_node (ctx, n);
 	return n;
 }
 static GelETree *
@@ -2126,8 +2124,6 @@ rref_op(GelCtx *ctx, GelETree * * a, int *exception)
 	n->mat.matrix = gel_matrixw_copy(a[0]->mat.matrix);
 	gel_value_matrix_gauss(n->mat.matrix, TRUE, FALSE, FALSE, NULL, NULL);
 	n->mat.quoted = 0;
-	/* Mod if in modulo mode */
-	gel_mod_node (ctx, n);
 	return n;
 }
 
