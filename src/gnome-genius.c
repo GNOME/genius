@@ -837,7 +837,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 					   GTK_UPDATE_ALWAYS);
 	gtk_spin_button_set_snap_to_ticks(GTK_SPIN_BUTTON(w),
 					  TRUE);
-	gtk_widget_set_size_request (w, 80, 0);
+	gtk_widget_set_size_request (w, 80, -1);
 	gtk_box_pack_start(GTK_BOX(b),w,FALSE,FALSE,0);
 	g_signal_connect (G_OBJECT (adj), "value_changed",
 			  G_CALLBACK (intspincb), &tmpstate.max_digits);
@@ -909,7 +909,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 					   GTK_UPDATE_ALWAYS);
 	gtk_spin_button_set_snap_to_ticks(GTK_SPIN_BUTTON(w),
 					  TRUE);
-	gtk_widget_set_size_request (w, 80, 0);
+	gtk_widget_set_size_request (w, 80, -1);
 	gtk_box_pack_start(GTK_BOX(b),w,FALSE,FALSE,0);
 	g_signal_connect (G_OBJECT (adj), "value_changed",
 			  G_CALLBACK (intspincb),&tmpstate.max_errors);
@@ -952,7 +952,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 					   GTK_UPDATE_ALWAYS);
 	gtk_spin_button_set_snap_to_ticks(GTK_SPIN_BUTTON(w),
 					  TRUE);
-	gtk_widget_set_size_request (w, 80, 0);
+	gtk_widget_set_size_request (w, 80, -1);
 	gtk_box_pack_start(GTK_BOX(b),w,FALSE,FALSE,0);
 	g_signal_connect (G_OBJECT (adj), "value_changed",
 			  G_CALLBACK (intspincb), &tmpstate.float_prec);
@@ -988,7 +988,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 					   GTK_UPDATE_ALWAYS);
 	gtk_spin_button_set_snap_to_ticks(GTK_SPIN_BUTTON(w),
 					  TRUE);
-	gtk_widget_set_size_request (w, 80, 0);
+	gtk_widget_set_size_request (w, 80, -1);
 	gtk_box_pack_start(GTK_BOX(b),w,FALSE,FALSE,0);
 	g_signal_connect (G_OBJECT (adj), "value_changed",
 			  G_CALLBACK (intspincb), &tmpsetup.scrollback);
