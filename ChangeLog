@@ -1,3 +1,15 @@
+Wed Aug 04 22:33:46 2004  George Lebl <jirka@5z.com>
+
+	* src/gnome-genius.[ch], src/graphing.c: some cleanup on the line
+	  plotting stuff, don't draw outside the box, etc...
+
+	* src/graphing.c, src/mpwrap.[ch]: Add surface plotting, only one
+	  function at a time and can take one or two arguments (complex
+	  number or x and y).  Added both a dialog entry method and a
+	  SurfacePlot function
+
+	* configure.in: now it merits to raise version to 0.7.0
+
 Wed Aug 04 17:27:08 2004  George Lebl <jirka@5z.com>
 
 	* gui/gnome-genius.[ch], gui/graphing.c: implement the printing

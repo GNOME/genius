@@ -48,7 +48,8 @@
 
 static GtkWidget *graph_window = NULL;
 static GtkWidget *plot_canvas = NULL;
-static GtkWidget *line_plot = NULL;
+static GtkWidget *plot_dialog = NULL;
+static GtkWidget *plot_notebook = NULL;
 
 static GtkWidget *plot_zoomout_item = NULL;
 static GtkWidget *plot_zoomin_item = NULL;
@@ -57,9 +58,18 @@ static GtkWidget *plot_print_item = NULL;
 static GtkWidget *plot_exportps_item = NULL;
 static GtkWidget *plot_exporteps_item = NULL;
 
+enum {
+	MODE_LINEPLOT,
+	MODE_SURFACE
+} plot_mode = MODE_LINEPLOT;
+
+/*
+   plot (lineplot)
+ */
+static GtkWidget *line_plot = NULL;
+
 static GtkPlotData *line_data[MAXFUNC] = { NULL };
 
-static GtkWidget *plot_dialog = NULL;
 static GtkWidget *plot_entries[MAXFUNC] = { NULL };
 static GtkWidget *plot_entries_status[MAXFUNC] = { NULL };
 static double spinx1 = -M_PI;
@@ -79,23 +89,67 @@ static double plotx2 = M_PI;
 static double ploty1 = -1.1;
 static double ploty2 = 1.1;
 
+
+/*
+   Surface
+ */
+static GtkWidget *surface_plot = NULL;
+
+static GtkPlotData *surface_data = NULL;
+
+static GtkWidget *surface_entry = NULL;
+static GtkWidget *surface_entry_status = NULL;
+static double surf_spinx1 = -M_PI;
+static double surf_spinx2 = M_PI;
+static double surf_spiny1 = -M_PI;
+static double surf_spiny2 = M_PI;
+static double surf_spinz1 = -1.1;
+static double surf_spinz2 = 1.1;
+
+static double surf_defx1 = -M_PI;
+static double surf_defx2 = M_PI;
+static double surf_defy1 = -M_PI;
+static double surf_defy2 = M_PI;
+static double surf_defz1 = -1.1;
+static double surf_defz2 = 1.1;
+
+/* Replotting info */
+static GelEFunc *surface_func = NULL;
+static double surfacex1 = -M_PI;
+static double surfacex2 = M_PI;
+static double surfacey1 = -M_PI;
+static double surfacey2 = M_PI;
+static double surfacez1 = -1.1;
+static double surfacez2 = 1.1;
+
+
+/* used for both */
 static double plot_maxy = - G_MAXDOUBLE/2;
 static double plot_miny = G_MAXDOUBLE/2;
 
 static GelCtx *plot_ctx = NULL;
 static GelETree *plot_arg = NULL;
+static GelETree *plot_arg2 = NULL;
+static GelETree *plot_arg3 = NULL;
 
 static int plot_in_progress = 0;
 
-static void plot_functions (void);
 static void plot_axis (void);
+
+/* lineplots */
+static void plot_functions (void);
+
+/* surfaces */
+static void plot_surface_functions (void);
 
 #define WIDTH 640
 #define HEIGHT 480
 #define ASPECT ((double)HEIGHT/(double)WIDTH)
 
 #define PROPORTION 0.85
+#define PROPORTION3D 0.80
 #define PROPORTION_OFFSET 0.075
+#define PROPORTION3D_OFFSET 0.1
 
 enum {
 	RESPONSE_STOP = 1,
@@ -151,6 +205,7 @@ plot_print_cb (void)
 	int fd;
 	char tmpfile[] = "/tmp/genius-ps-XXXXXX";
 	static char *last_cmd = NULL;
+	GtkWidget *the_plot;
 
 	if (last_cmd == NULL)
 		last_cmd = g_strdup ("lpr");
@@ -207,12 +262,22 @@ plot_print_cb (void)
 	plot_in_progress ++;
 	plot_window_setup ();
 
+	if (plot_mode == MODE_LINEPLOT)
+		the_plot = line_plot;
+	else if (plot_mode == MODE_SURFACE)
+		the_plot = surface_plot;
+	else
+		the_plot = NULL;
+
 	/* Letter will fit on A4, so just currently do that */
-	ret = gtk_plot_export_ps (GTK_PLOT (line_plot),
-				  tmpfile,
-				  GTK_PLOT_LANDSCAPE,
-				  FALSE /* epsflag */,
-				  GTK_PLOT_LETTER);
+	if (the_plot != NULL)
+		ret = gtk_plot_export_ps (GTK_PLOT (the_plot),
+					  tmpfile,
+					  GTK_PLOT_LANDSCAPE,
+					  FALSE /* epsflag */,
+					  GTK_PLOT_LETTER);
+	else
+		ret = FALSE;
 
 	if ( ! ret || interrupted) {
 		plot_in_progress --;
@@ -273,6 +338,7 @@ really_export_cb (GtkWidget *w, GtkFileSelection *fs, gpointer data)
 	char *base;
 	gboolean ret;
 	gboolean eps = GPOINTER_TO_INT (data);
+	GtkWidget *the_plot;
 
 #if GTK_CHECK_VERSION(2,3,5)
 	if (response != GTK_RESPONSE_OK) {
@@ -324,13 +390,23 @@ really_export_cb (GtkWidget *w, GtkFileSelection *fs, gpointer data)
 	plot_in_progress ++;
 	plot_window_setup ();
 
+	if (plot_mode == MODE_LINEPLOT)
+		the_plot = line_plot;
+	else if (plot_mode == MODE_SURFACE)
+		the_plot = surface_plot;
+	else
+		the_plot = NULL;
+
 	/* FIXME: There should be some options about size and stuff */
-	ret = gtk_plot_export_ps_with_size (GTK_PLOT (line_plot),
-					    s,
-					    GTK_PLOT_PORTRAIT,
-					    eps /* epsflag */,
-					    GTK_PLOT_PSPOINTS,
-					    400, ASPECT * 400);
+	if (the_plot != NULL)
+		ret = gtk_plot_export_ps_with_size (GTK_PLOT (the_plot),
+						    s,
+						    GTK_PLOT_PORTRAIT,
+						    eps /* epsflag */,
+						    GTK_PLOT_PSPOINTS,
+						    400, ASPECT * 400);
+	else
+		ret = FALSE;
 
 	plot_in_progress --;
 	plot_window_setup ();
@@ -463,13 +539,27 @@ plot_zoomin_cb (void)
 		genius_setup.info_box = TRUE;
 		genius_setup.error_box = TRUE;
 
-		len = plotx2 - plotx1;
-		plotx2 -= len/4.0;
-		plotx1 += len/4.0;
+		if (plot_mode == MODE_LINEPLOT) {
+			len = plotx2 - plotx1;
+			plotx2 -= len/4.0;
+			plotx1 += len/4.0;
 
-		len = ploty2 - ploty1;
-		ploty2 -= len/4.0;
-		ploty1 += len/4.0;
+			len = ploty2 - ploty1;
+			ploty2 -= len/4.0;
+			ploty1 += len/4.0;
+		} else if (plot_mode == MODE_SURFACE) {
+			len = surfacex2 - surfacex1;
+			surfacex2 -= len/4.0;
+			surfacex1 += len/4.0;
+
+			len = surfacey2 - surfacey1;
+			surfacey2 -= len/4.0;
+			surfacey1 += len/4.0;
+
+			len = surfacez2 - surfacez1;
+			surfacez2 -= len/4.0;
+			surfacez1 += len/4.0;
+		}
 
 		plot_axis ();
 
@@ -492,13 +582,27 @@ plot_zoomout_cb (void)
 		genius_setup.info_box = TRUE;
 		genius_setup.error_box = TRUE;
 
-		len = plotx2 - plotx1;
-		plotx2 += len/2.0;
-		plotx1 -= len/2.0;
+		if (plot_mode == MODE_LINEPLOT) {
+			len = plotx2 - plotx1;
+			plotx2 += len/2.0;
+			plotx1 -= len/2.0;
 
-		len = ploty2 - ploty1;
-		ploty2 += len/2.0;
-		ploty1 -= len/2.0;
+			len = ploty2 - ploty1;
+			ploty2 += len/2.0;
+			ploty1 -= len/2.0;
+		} else if (plot_mode == MODE_SURFACE) {
+			len = surfacex2 - surfacex1;
+			surfacex2 += len/2.0;
+			surfacex1 -= len/2.0;
+
+			len = surfacey2 - surfacey1;
+			surfacey2 += len/2.0;
+			surfacey1 -= len/2.0;
+
+			len = surfacez2 - surfacez1;
+			surfacez2 += len/2.0;
+			surfacez1 -= len/2.0;
+		}
 
 		plot_axis ();
 
@@ -525,12 +629,33 @@ plot_zoomfit_cb (void)
 		if (size <= 0)
 			size = 1.0;
 
-		ploty1 = plot_miny - size * 0.05;
-		ploty2 = plot_maxy + size * 0.05;
+		if (plot_mode == MODE_LINEPLOT) {
+			ploty1 = plot_miny - size * 0.05;
+			ploty2 = plot_maxy + size * 0.05;
 
-		/* sanity */
-		if (ploty2 < ploty1)
-			ploty2 = ploty1 + 0.1;
+			/* sanity */
+			if (ploty2 < ploty1)
+				ploty2 = ploty1 + 0.1;
+
+			/* sanity */
+			if (ploty1 < -(G_MAXDOUBLE/2))
+				ploty1 = -(G_MAXDOUBLE/2);
+			if (ploty2 > (G_MAXDOUBLE/2))
+				ploty2 = (G_MAXDOUBLE/2);
+		} else if (plot_mode == MODE_SURFACE) {
+			surfacez1 = plot_miny - size * 0.05;
+			surfacez2 = plot_maxy + size * 0.05;
+
+			/* sanity */
+			if (surfacez2 < surfacez1)
+				surfacez2 = surfacez1 + 0.1;
+
+			/* sanity */
+			if (surfacez1 < -(G_MAXDOUBLE/2))
+				surfacez1 = -(G_MAXDOUBLE/2);
+			if (surfacez2 > (G_MAXDOUBLE/2))
+				surfacez2 = (G_MAXDOUBLE/2);
+		}
 
 		plot_axis ();
 
@@ -550,7 +675,8 @@ plot_select_region (GtkPlotCanvas *canvas,
 		    gdouble xmax,
 		    gdouble ymax)
 {
-	if (plot_in_progress == 0) {
+	/* only for line plots! */
+	if (plot_in_progress == 0 && line_plot != NULL) {
 		double len;
 		double px, py, pw, ph;
 		gboolean last_info = genius_setup.info_box;
@@ -604,6 +730,71 @@ plot_select_region (GtkPlotCanvas *canvas,
 		genius_setup.info_box = last_info;
 		genius_setup.error_box = last_error;
 	}
+}
+
+static void
+add_line_plot (void)
+{
+	line_plot = gtk_plot_new_with_size (NULL, PROPORTION, PROPORTION);
+	gtk_widget_show (line_plot);
+	g_signal_connect (G_OBJECT (line_plot),
+			  "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &line_plot);
+	gtk_plot_canvas_add_plot (GTK_PLOT_CANVAS (plot_canvas),
+				  GTK_PLOT (line_plot), PROPORTION_OFFSET, PROPORTION_OFFSET);
+
+	gtk_plot_axis_set_visible (GTK_PLOT (line_plot),
+				   GTK_PLOT_AXIS_TOP, TRUE);
+	gtk_plot_axis_set_visible (GTK_PLOT (line_plot),
+				   GTK_PLOT_AXIS_RIGHT, TRUE);
+	gtk_plot_grids_set_visible (GTK_PLOT (line_plot),
+				    FALSE, FALSE, FALSE, FALSE);
+	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
+				  GTK_PLOT_AXIS_TOP);
+	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
+				  GTK_PLOT_AXIS_RIGHT);
+	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
+				  GTK_PLOT_AXIS_LEFT);
+	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
+				  GTK_PLOT_AXIS_BOTTOM);
+	/*gtk_plot_axis_set_title (GTK_PLOT (line_plot),
+				 GTK_PLOT_AXIS_LEFT, "Y");
+	gtk_plot_axis_set_title (GTK_PLOT (line_plot),
+				 GTK_PLOT_AXIS_BOTTOM, "X");*/
+	gtk_plot_set_legends_border (GTK_PLOT (line_plot),
+				     GTK_PLOT_BORDER_LINE, 3);
+	gtk_plot_legends_move (GTK_PLOT (line_plot), .80, .05);
+}
+
+static void
+add_surface_plot (void)
+{
+	surface_plot = gtk_plot3d_new_with_size (NULL, PROPORTION3D, PROPORTION3D);
+	gtk_widget_show (surface_plot);
+	g_signal_connect (G_OBJECT (surface_plot),
+			  "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &surface_plot);
+	gtk_plot_canvas_add_plot (GTK_PLOT_CANVAS (plot_canvas),
+				  GTK_PLOT (surface_plot), PROPORTION3D_OFFSET, PROPORTION3D_OFFSET);
+
+	gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
+				    GTK_PLOT_SIDE_XY);
+	gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
+				    GTK_PLOT_SIDE_XZ);
+	gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
+				    GTK_PLOT_SIDE_YX);
+	gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
+				    GTK_PLOT_SIDE_YZ);
+	gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
+				    GTK_PLOT_SIDE_ZX);
+	gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
+				    GTK_PLOT_SIDE_ZY);
+
+	gtk_plot_set_legends_border (GTK_PLOT (surface_plot),
+				     GTK_PLOT_BORDER_LINE, 3);
+	gtk_plot_legends_move (GTK_PLOT (surface_plot), .85, .05);
 }
 
 static void
@@ -680,7 +871,7 @@ ensure_window (void)
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	plot_zoomin_item = item;
 
-	item = gtk_menu_item_new_with_mnemonic (_("Fit Y axis"));
+	item = gtk_menu_item_new_with_mnemonic (_("Fit dependent axis"));
 	g_signal_connect (G_OBJECT (item), "activate",
 			  G_CALLBACK (plot_zoomfit_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -690,40 +881,13 @@ ensure_window (void)
 	plot_canvas = gtk_plot_canvas_new (WIDTH, HEIGHT, 1.0);
 	GTK_PLOT_CANVAS_UNSET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
 				     GTK_PLOT_CANVAS_DND_FLAGS);
-	GTK_PLOT_CANVAS_SET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
-				   GTK_PLOT_CANVAS_CAN_SELECT);
 	g_signal_connect (G_OBJECT (plot_canvas), "select_region",
 			  G_CALLBACK (plot_select_region),
 			  NULL);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (graph_window)->vbox),
 			    GTK_WIDGET (plot_canvas), TRUE, TRUE, 0);
 
-	line_plot = gtk_plot_new_with_size (NULL, PROPORTION, PROPORTION);
-	gtk_plot_canvas_add_plot (GTK_PLOT_CANVAS (plot_canvas),
-				  GTK_PLOT (line_plot), PROPORTION_OFFSET, PROPORTION_OFFSET);
 
-	gtk_plot_axis_set_visible (GTK_PLOT (line_plot),
-				   GTK_PLOT_AXIS_TOP, TRUE);
-	gtk_plot_axis_set_visible (GTK_PLOT (line_plot),
-				   GTK_PLOT_AXIS_RIGHT, TRUE);
-	gtk_plot_grids_set_visible (GTK_PLOT (line_plot),
-				    FALSE, FALSE, FALSE, FALSE);
-	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
-				  GTK_PLOT_AXIS_TOP);
-	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
-				  GTK_PLOT_AXIS_RIGHT);
-	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
-				  GTK_PLOT_AXIS_LEFT);
-	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
-				  GTK_PLOT_AXIS_BOTTOM);
-	/*gtk_plot_axis_set_title (GTK_PLOT (line_plot),
-				 GTK_PLOT_AXIS_LEFT, "Y");
-	gtk_plot_axis_set_title (GTK_PLOT (line_plot),
-				 GTK_PLOT_AXIS_BOTTOM, "X");*/
-	gtk_plot_set_legends_border (GTK_PLOT (line_plot),
-				     GTK_PLOT_BORDER_LINE, 3);
-	gtk_plot_legends_move (GTK_PLOT (line_plot), .80, .05);
-	gtk_widget_show (line_plot);
 
 	gtk_widget_show_all (graph_window);
 }
@@ -733,13 +897,22 @@ static void
 clear_graph (void)
 {
 	int i;
-	for (i = 0; i < MAXFUNC; i++) {
-		if (line_data[i] != NULL) {
-			gtk_plot_remove_data (GTK_PLOT (line_plot),
-					      line_data[i]);
-			line_data[i] = NULL;
-		}
+
+	if (surface_plot != NULL) {
+		gtk_widget_destroy (surface_plot);
+		surface_plot = NULL;
 	}
+
+	if (line_plot != NULL) {
+		gtk_widget_destroy (line_plot);
+		line_plot = NULL;
+	}
+
+	for (i = 0; i < MAXFUNC; i++) {
+		line_data[i] = NULL;
+	}
+
+	surface_data = NULL;
 }
 
 static void
@@ -777,10 +950,10 @@ plot_setup_axis (void)
 	get_ticks (plotx1, plotx2, &xtick, &xprec);
 	get_ticks (ploty1, ploty2, &ytick, &yprec);
 
+	gtk_plot_axis_set_ticks (GTK_PLOT (line_plot), GTK_PLOT_AXIS_X, xtick, 9);
+	gtk_plot_axis_set_ticks (GTK_PLOT (line_plot), GTK_PLOT_AXIS_Y, ytick, 9);
 	gtk_plot_set_range (GTK_PLOT (line_plot),
 			    plotx1, plotx2, ploty1, ploty2);
-	gtk_plot_axis_set_ticks (GTK_PLOT (line_plot), GTK_PLOT_AXIS_X, xtick, 10);
-	gtk_plot_axis_set_ticks (GTK_PLOT (line_plot), GTK_PLOT_AXIS_Y, ytick, 10);
 	gtk_plot_axis_set_labels_style (GTK_PLOT (line_plot),
 					GTK_PLOT_AXIS_X,
 					GTK_PLOT_LABEL_FLOAT,
@@ -789,19 +962,73 @@ plot_setup_axis (void)
 					GTK_PLOT_AXIS_Y,
 					GTK_PLOT_LABEL_FLOAT,
 					yprec /* precision */);
+
+	/* FIXME: log scale don't work
+	gtk_plot_set_xscale (GTK_PLOT (line_plot), GTK_PLOT_SCALE_LOG10);
+	gtk_plot_set_yscale (GTK_PLOT (line_plot), GTK_PLOT_SCALE_LOG10);
+	*/
+}
+
+static void
+surface_setup_axis (void)
+{
+	int xprec, yprec, zprec;
+	double xtick, ytick, ztick;
+
+	get_ticks (surfacex1, surfacex2, &xtick, &xprec);
+	get_ticks (surfacey1, surfacey2, &ytick, &yprec);
+	get_ticks (surfacez1, surfacez2, &ztick, &zprec);
+
+	gtk_plot3d_axis_set_ticks (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_X, xtick, 1);
+	gtk_plot3d_axis_set_ticks (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_Y, ytick, 1);
+	gtk_plot3d_axis_set_ticks (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_Z, ztick, 1);
+	gtk_plot3d_set_xrange (GTK_PLOT3D (surface_plot), surfacex1, surfacex2);
+	gtk_plot3d_set_yrange (GTK_PLOT3D (surface_plot), surfacey1, surfacey2);
+	gtk_plot3d_set_zrange (GTK_PLOT3D (surface_plot), surfacez1, surfacez2);
+
+	gtk_plot_axis_set_labels_style (GTK_PLOT (surface_plot),
+					GTK_PLOT_AXIS_X,
+					GTK_PLOT_LABEL_FLOAT,
+					xprec /* precision */);
+	gtk_plot_axis_set_labels_style (GTK_PLOT (surface_plot),
+					GTK_PLOT_AXIS_Y,
+					GTK_PLOT_LABEL_FLOAT,
+					yprec /* precision */);
+	gtk_plot_axis_set_labels_style (GTK_PLOT (surface_plot),
+					GTK_PLOT_AXIS_Z,
+					GTK_PLOT_LABEL_FLOAT,
+					zprec /* precision */);
+}
+
+/* FIXME: perhaps should be smarter ? */
+static void
+surface_setup_steps (void)
+{
+	gtk_plot_surface_set_xstep (GTK_PLOT_SURFACE (surface_data), (surfacex2-surfacex1)/30);
+	gtk_plot_surface_set_ystep (GTK_PLOT_SURFACE (surface_data), (surfacey2-surfacey1)/30);
+
+	gtk_plot_data_set_gradient (surface_data,
+				    surfacez1,
+				    surfacez2,
+				    10 /* nlevels */,
+				    0 /* nsublevels */);
 }
 
 static void
 plot_axis (void)
 {
 	plot_in_progress ++;
-
 	plot_window_setup ();
 
 	plot_maxy = - G_MAXDOUBLE/2;
 	plot_miny = G_MAXDOUBLE/2;
 
-	plot_setup_axis ();
+	if (plot_mode == MODE_LINEPLOT) {
+		plot_setup_axis ();
+	} else if (plot_mode == MODE_SURFACE) {
+		surface_setup_axis ();
+		surface_setup_steps ();
+	}
 
 	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 	if (plot_canvas != NULL)
@@ -809,6 +1036,97 @@ plot_axis (void)
 
 	plot_in_progress --;
 	plot_window_setup ();
+}
+
+static double
+call_func3 (GelCtx *ctx, GelEFunc *func, GelETree *arg, GelETree *arg2, GelETree *arg3, gboolean *ex)
+{
+	GelETree *ret;
+	double retd;
+	GelETree *args[4];
+
+	args[0] = arg;
+	args[1] = arg2;
+	args[2] = arg3;
+	args[3] = NULL;
+
+	ret = funccall (ctx, func, args, 3);
+
+	/* FIXME: handle errors! */
+	if (error_num != 0)
+		error_num = 0;
+
+	/* only do one level of indirection to avoid infinite loops */
+	if (ret != NULL && ret->type == FUNCTION_NODE && ret->func.func->nargs == 3) {
+		GelETree *ret2;
+		ret2 = funccall (ctx, ret->func.func, args, 3);
+		gel_freetree (ret);
+		ret = ret2;
+		/* FIXME: handle errors! */
+		if (error_num != 0)
+			error_num = 0;
+
+	}
+
+	if (ret == NULL || ret->type != VALUE_NODE) {
+		*ex = TRUE;
+		gel_freetree (ret);
+		return 0;
+	}
+
+	retd = mpw_get_double (ret->val.value);
+	if (error_num != 0) {
+		*ex = TRUE;
+		error_num = 0;
+	}
+	
+	gel_freetree (ret);
+	return retd;
+}
+
+static double
+call_func2 (GelCtx *ctx, GelEFunc *func, GelETree *arg, GelETree *arg2, gboolean *ex)
+{
+	GelETree *ret;
+	double retd;
+	GelETree *args[3];
+
+	args[0] = arg;
+	args[1] = arg2;
+	args[2] = NULL;
+
+	ret = funccall (ctx, func, args, 2);
+
+	/* FIXME: handle errors! */
+	if (error_num != 0)
+		error_num = 0;
+
+	/* only do one level of indirection to avoid infinite loops */
+	if (ret != NULL && ret->type == FUNCTION_NODE && ret->func.func->nargs == 2) {
+		GelETree *ret2;
+		ret2 = funccall (ctx, ret->func.func, args, 2);
+		gel_freetree (ret);
+		ret = ret2;
+		/* FIXME: handle errors! */
+		if (error_num != 0)
+			error_num = 0;
+
+	}
+
+	if (ret == NULL || ret->type != VALUE_NODE) {
+		*ex = TRUE;
+		gel_freetree (ret);
+		return 0;
+	}
+
+	retd = mpw_get_double (ret->val.value);
+	if (error_num != 0) {
+		*ex = TRUE;
+		error_num = 0;
+	}
+	
+	gel_freetree (ret);
+	return retd;
 }
 
 static double
@@ -895,6 +1213,12 @@ plot_func_data (GtkPlot *plot, GtkPlotData *data, double x, gboolean *error)
 			plot_miny = y;
 	}
 
+	if (y > ploty2 || y < ploty1) {
+		if (error != NULL)
+			*error = TRUE;
+	}
+
+
 	if (hookrun++ >= 10) {
 		hookrun = 0;
 		if (evalnode_hook != NULL) {
@@ -910,8 +1234,72 @@ plot_func_data (GtkPlot *plot, GtkPlotData *data, double x, gboolean *error)
 	return y;
 }
 
+static double
+surface_func_data (GtkPlot *plot, GtkPlotData *data, double x, double y, gboolean *error)
+{
+	static int hookrun = 0;
+	gboolean ex = FALSE;
+	double z, size;
+
+	if (error != NULL)
+		*error = FALSE;
+
+	if G_UNLIKELY (interrupted) {
+		if (error != NULL)
+			*error = TRUE;
+		return 0.0;
+	}
+
+	/* complex function */
+	if (surface_func->nargs == 1) {
+		mpw_set_d_complex (plot_arg->val.value, x, y);
+		z = call_func (plot_ctx, surface_func, plot_arg, &ex);
+	} else if (surface_func->nargs == 2) {
+		mpw_set_d (plot_arg->val.value, x);
+		mpw_set_d (plot_arg2->val.value, y);
+		z = call_func2 (plot_ctx, surface_func, plot_arg, plot_arg2, &ex);
+	} else {
+		mpw_set_d (plot_arg->val.value, x);
+		mpw_set_d (plot_arg2->val.value, y);
+		mpw_set_d_complex (plot_arg3->val.value, x, y);
+		z = call_func3 (plot_ctx, surface_func, plot_arg, plot_arg2, plot_arg3, &ex);
+	}
+
+	if G_UNLIKELY (ex) {
+		if (error != NULL)
+			*error = TRUE;
+	} else {
+		if G_UNLIKELY (z > plot_maxy)
+			plot_maxy = z;
+		if G_UNLIKELY (z < plot_miny)
+			plot_miny = z;
+	}
+
+	size = surfacez1 - surfacez2;
+
+	if (z > (surfacez2+size*0.2) || z < (surfacez1-size*0.2)) {
+		if (error != NULL)
+			*error = TRUE;
+	}
+
+
+	if (hookrun++ >= 10) {
+		hookrun = 0;
+		if (evalnode_hook != NULL) {
+			(*evalnode_hook)();
+			if G_UNLIKELY (interrupted) {
+				if (error != NULL)
+					*error = TRUE;
+				return z;
+			}
+		}
+	}
+
+	return z;
+}
+
 static char *
-label_func (int i, GelEFunc *func, const char *color)
+label_func (int i, GelEFunc *func)
 {
 	char *text = NULL;
 
@@ -1042,6 +1430,103 @@ make_matrix_from_limits (void)
 	return n;
 }
 
+static gboolean
+get_limits_from_matrix_surf (GelETree *m, double *x1, double *x2, double *y1, double *y2, double *z1, double *z2)
+{
+	GelETree *t;
+
+	if (m->type != MATRIX_NODE ||
+	    gel_matrixw_elements (m->mat.matrix) != 6) {
+		gel_errorout (_("Graph limits not given as a 6-vector"));
+		return FALSE;
+	}
+
+	t = gel_matrixw_vindex (m->mat.matrix, 0);
+	if (t->type != VALUE_NODE) {
+		gel_errorout (_("Graph limits not given as numbers"));
+		return FALSE;
+	}
+	*x1 = mpw_get_double (t->val.value);
+	t = gel_matrixw_vindex (m->mat.matrix, 1);
+	if (t->type != VALUE_NODE) {
+		gel_errorout (_("Graph limits not given as numbers"));
+		return FALSE;
+	}
+	*x2 = mpw_get_double (t->val.value);
+	t = gel_matrixw_vindex (m->mat.matrix, 2);
+	if (t->type != VALUE_NODE) {
+		gel_errorout (_("Graph limits not given as numbers"));
+		return FALSE;
+	}
+	*y1 = mpw_get_double (t->val.value);
+	t = gel_matrixw_vindex (m->mat.matrix, 3);
+	if (t->type != VALUE_NODE) {
+		gel_errorout (_("Graph limits not given as numbers"));
+		return FALSE;
+	}
+	*y2 = mpw_get_double (t->val.value);
+	t = gel_matrixw_vindex (m->mat.matrix, 4);
+	if (t->type != VALUE_NODE) {
+		gel_errorout (_("Graph limits not given as numbers"));
+		return FALSE;
+	}
+	*z1 = mpw_get_double (t->val.value);
+	t = gel_matrixw_vindex (m->mat.matrix, 5);
+	if (t->type != VALUE_NODE) {
+		gel_errorout (_("Graph limits not given as numbers"));
+		return FALSE;
+	}
+	*z2 = mpw_get_double (t->val.value);
+
+	/* FIXME: what about errors */
+	if (error_num != 0) {
+		error_num = 0;
+		return FALSE;
+	}
+
+	if (*x1 > *x2) {
+		double s = *x1;
+		*x1 = *x2;
+		*x2 = s;
+	}
+
+	if (*y1 > *y2) {
+		double s = *y1;
+		*y1 = *y2;
+		*y2 = s;
+	}
+
+	if (*z1 > *z2) {
+		double s = *z1;
+		*z1 = *z2;
+		*z2 = s;
+	}
+
+	return TRUE;
+}
+
+static GelETree *
+make_matrix_from_limits_surf (void)
+{
+	GelETree *n;
+	GelMatrixW *m;
+	/*make us a new empty node*/
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	m = n->mat.matrix = gel_matrixw_new ();
+	n->mat.quoted = FALSE;
+	gel_matrixw_set_size (m, 6, 1);
+
+	gel_matrixw_set_index (m, 0, 0) = gel_makenum_d (surf_defx1);
+	gel_matrixw_set_index (m, 1, 0) = gel_makenum_d (surf_defx2);
+	gel_matrixw_set_index (m, 2, 0) = gel_makenum_d (surf_defy1);
+	gel_matrixw_set_index (m, 3, 0) = gel_makenum_d (surf_defy2);
+	gel_matrixw_set_index (m, 4, 0) = gel_makenum_d (surf_defz1);
+	gel_matrixw_set_index (m, 5, 0) = gel_makenum_d (surf_defz2);
+
+	return n;
+}
+
 static void
 plot_functions (void)
 {
@@ -1059,16 +1544,20 @@ plot_functions (void)
 		NULL };
 	int i;
 
+	plot_mode = MODE_LINEPLOT;
 	ensure_window ();
 
-	plot_in_progress ++;
+	clear_graph ();
 
+	GTK_PLOT_CANVAS_SET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
+				   GTK_PLOT_CANVAS_CAN_SELECT);
+	add_line_plot ();
+
+	plot_in_progress ++;
 	plot_window_setup ();
 
 	if (evalnode_hook != NULL)
 		(*evalnode_hook)();
-
-	clear_graph ();
 
 	/* sanity */
 	if (plotx2 == plotx1)
@@ -1108,7 +1597,7 @@ plot_functions (void)
 						   GTK_PLOT_LINE_SOLID,
 						   0, 0, 2, &color);
 
-		label = label_func (i, plot_func[i], colors[i]);
+		label = label_func (i, plot_func[i]);
 		gtk_plot_data_set_legend (line_data[i], label);
 		g_free (label);
 	}
@@ -1119,7 +1608,89 @@ plot_functions (void)
 		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
 
 	plot_in_progress --;
+	plot_window_setup ();
+}
 
+static void
+plot_surface_functions (void)
+{
+	plot_mode = MODE_SURFACE;
+
+	ensure_window ();
+
+	clear_graph ();
+
+	add_surface_plot ();
+
+	GTK_PLOT_CANVAS_UNSET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
+				     GTK_PLOT_CANVAS_CAN_SELECT);
+
+	plot_in_progress ++;
+	plot_window_setup ();
+
+	if (evalnode_hook != NULL)
+		(*evalnode_hook)();
+
+	/* sanity */
+	if (surfacex2 == surfacex1)
+		surfacex2 = surfacex1 + 0.00000001;
+	if (surfacey2 == surfacey1)
+		surfacey2 = surfacey1 + 0.00000001;
+	if (surfacez2 == surfacez1)
+		surfacez2 = surfacez1 + 0.00000001;
+
+	plot_maxy = - G_MAXDOUBLE/2;
+	plot_miny = G_MAXDOUBLE/2;
+
+	surface_setup_axis ();
+
+	if G_UNLIKELY (plot_arg == NULL) {
+		plot_ctx = eval_get_context ();
+	}
+	if G_UNLIKELY (plot_arg == NULL) {
+		mpw_t xx;
+		mpw_init (xx);
+		plot_arg = gel_makenum_use (xx);
+	}
+	if G_UNLIKELY (plot_arg2 == NULL) {
+		mpw_t xx;
+		mpw_init (xx);
+		plot_arg2 = gel_makenum_use (xx);
+	}
+	if G_UNLIKELY (plot_arg3 == NULL) {
+		mpw_t xx;
+		mpw_init (xx);
+		plot_arg3 = gel_makenum_use (xx);
+	}
+
+	if (surface_func != NULL) {
+		char *label;
+
+		surface_data = GTK_PLOT_DATA
+			(gtk_plot_surface_new_function (surface_func_data));
+		gtk_plot_surface_use_amplitud (GTK_PLOT_SURFACE (surface_data), FALSE);
+		gtk_plot_surface_use_height_gradient (GTK_PLOT_SURFACE (surface_data), TRUE);
+		gtk_plot_surface_set_mesh_visible (GTK_PLOT_SURFACE (surface_data), TRUE);
+		gtk_plot_data_gradient_set_visible (GTK_PLOT_DATA (surface_data), TRUE);
+
+		gtk_plot_add_data (GTK_PLOT (surface_plot),
+				   surface_data);
+
+		surface_setup_steps ();
+
+		gtk_widget_show (GTK_WIDGET (surface_data));
+
+		label = label_func (0, surface_func);
+		gtk_plot_data_set_legend (surface_data, label);
+		g_free (label);
+	}
+
+	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+	/* could be whacked by closing the window or some such */
+	if (plot_canvas != NULL)
+		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+
+	plot_in_progress --;
 	plot_window_setup ();
 }
 
@@ -1139,24 +1710,60 @@ entry_activate (void)
 }
 
 static GtkWidget *
-create_plot_dialog (void)
+create_range_spinboxes (const char *title, double *val1, double *val2)
+{
+	GtkWidget *b, *w;
+	GtkAdjustment *adj;
+
+	b = gtk_hbox_new (FALSE, GNOME_PAD);
+	w = gtk_label_new(title);
+	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	adj = (GtkAdjustment *)gtk_adjustment_new (*val1,
+						   -G_MAXFLOAT,
+						   G_MAXFLOAT,
+						   1,
+						   10,
+						   100);
+	w = gtk_spin_button_new (adj, 1.0, 5);
+	g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
+	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
+	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
+	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
+	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	g_signal_connect (G_OBJECT (adj), "value_changed",
+			  G_CALLBACK (double_spin_cb), val1);
+
+	w = gtk_label_new(_("to:"));
+	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	adj = (GtkAdjustment *)gtk_adjustment_new (*val2,
+						   -G_MAXFLOAT,
+						   G_MAXFLOAT,
+						   1,
+						   10,
+						   100);
+	w = gtk_spin_button_new (adj, 1.0, 5);
+	g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
+	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
+	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
+	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
+	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	g_signal_connect (G_OBJECT (adj), "value_changed",
+			  G_CALLBACK (double_spin_cb), val2);
+
+	return b;
+}
+
+static GtkWidget *
+create_lineplot_box (void)
 {
 	GtkWidget *mainbox, *frame;
-	GtkWidget *box;
-	GtkWidget *b, *w;
-	GtkWidget *notebook;
-	GtkAdjustment *adj;
+	GtkWidget *box, *b, *w;
 	int i;
 
-	notebook = gtk_notebook_new ();
-	
 	mainbox = gtk_vbox_new (FALSE, GNOME_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (mainbox), GNOME_PAD);
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
-				  mainbox,
-				  gtk_label_new (_("Function line plot")));
 	
-	frame = gtk_frame_new (_("Function/Expressions"));
+	frame = gtk_frame_new (_("Functions / Expressions"));
 	gtk_box_pack_start (GTK_BOX (mainbox), frame, FALSE, FALSE, 0);
 	box = gtk_vbox_new(FALSE,GNOME_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
@@ -1188,82 +1795,92 @@ create_plot_dialog (void)
 	/*
 	 * X range
 	 */
-	b = gtk_hbox_new (FALSE, GNOME_PAD);
+	b = create_range_spinboxes (_("X from:"), &spinx1, &spinx2);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
-	w = gtk_label_new(_("X from:"));
-	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
-	adj = (GtkAdjustment *)gtk_adjustment_new (spinx1,
-						   -G_MAXFLOAT,
-						   G_MAXFLOAT,
-						   1,
-						   10,
-						   100);
-	w = gtk_spin_button_new (adj, 1.0, 5);
-	g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
-	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
-	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
-	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
-	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
-	g_signal_connect (G_OBJECT (adj), "value_changed",
-			  G_CALLBACK (double_spin_cb), &spinx1);
-
-	w = gtk_label_new(_("to:"));
-	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
-	adj = (GtkAdjustment *)gtk_adjustment_new (spinx2,
-						   -G_MAXFLOAT,
-						   G_MAXFLOAT,
-						   1,
-						   10,
-						   100);
-	w = gtk_spin_button_new (adj, 1.0, 5);
-	g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
-	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
-	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
-	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
-	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
-	g_signal_connect (G_OBJECT (adj), "value_changed",
-			  G_CALLBACK (double_spin_cb), &spinx2);
 
 	/*
 	 * Y range
 	 */
+	b = create_range_spinboxes (_("Y from:"), &spiny1, &spiny2);
+	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
+
+	return mainbox;
+}
+
+static GtkWidget *
+create_surface_box (void)
+{
+	GtkWidget *mainbox, *frame;
+	GtkWidget *box, *b, *w;
+
+	mainbox = gtk_vbox_new (FALSE, GNOME_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (mainbox), GNOME_PAD);
+	
+	frame = gtk_frame_new (_("Function / Expression"));
+	gtk_box_pack_start (GTK_BOX (mainbox), frame, FALSE, FALSE, 0);
+	box = gtk_vbox_new(FALSE,GNOME_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
+	gtk_container_add (GTK_CONTAINER (frame), box);
+	w = gtk_label_new (_("Type a function name or an expression involving "
+			     "the x and y variables (or the z variable which will be z=x+iy) "
+			     "in the boxes below to graph them.  Functions with one argument only "
+			     "will be passed a complex number."));
+	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
+
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+
 	b = gtk_hbox_new (FALSE, GNOME_PAD);
 	gtk_box_pack_start (GTK_BOX (box), b, FALSE, FALSE, 0);
-	w = gtk_label_new(_("Y from:"));
-	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
-	adj = (GtkAdjustment *)gtk_adjustment_new (spiny1,
-						   -G_MAXFLOAT,
-						   G_MAXFLOAT,
-						   1,
-						   10,
-						   100);
-	w = gtk_spin_button_new (adj, 1.0, 5);
-	g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
-	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
-	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
-	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
-	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
-	g_signal_connect (G_OBJECT (adj), "value_changed",
-			  G_CALLBACK (double_spin_cb), &spiny1);
 
-	w = gtk_label_new(_("to:"));
-	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
-	adj = (GtkAdjustment *)gtk_adjustment_new (spiny2,
-						   -G_MAXFLOAT,
-						   G_MAXFLOAT,
-						   1,
-						   10,
-						   100);
-	w = gtk_spin_button_new (adj, 1.0, 5);
-	g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
-	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
-	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
-	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
-	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
-	g_signal_connect (G_OBJECT (adj), "value_changed",
-			  G_CALLBACK (double_spin_cb), &spiny2);
+	surface_entry = gtk_entry_new ();
+	g_signal_connect (G_OBJECT (surface_entry), "activate",
+			  entry_activate, NULL);
+	gtk_box_pack_start (GTK_BOX (b), surface_entry, TRUE, TRUE, 0);
 
-	return notebook;
+	surface_entry_status = gtk_image_new ();
+	gtk_box_pack_start (GTK_BOX (b), surface_entry_status, FALSE, FALSE, 0);
+
+	frame = gtk_frame_new (_("Plot Window"));
+	gtk_box_pack_start (GTK_BOX (mainbox), frame, FALSE, FALSE, 0);
+	box = gtk_vbox_new(FALSE,GNOME_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
+	gtk_container_add (GTK_CONTAINER (frame), box);
+
+	/*
+	 * X range
+	 */
+	b = create_range_spinboxes (_("X from:"), &surf_spinx1, &surf_spinx2);
+	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
+
+	/*
+	 * Y range
+	 */
+	b = create_range_spinboxes (_("Y from:"), &surf_spiny1, &surf_spiny2);
+	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
+
+	/*
+	 * Z range
+	 */
+	b = create_range_spinboxes (_("Z from:"), &surf_spinz1, &surf_spinz2);
+	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
+
+	return mainbox;
+}
+
+static GtkWidget *
+create_plot_dialog (void)
+{
+	plot_notebook = gtk_notebook_new ();
+	
+	gtk_notebook_append_page (GTK_NOTEBOOK (plot_notebook),
+				  create_lineplot_box (),
+				  gtk_label_new (_("Function line plot")));
+
+	gtk_notebook_append_page (GTK_NOTEBOOK (plot_notebook),
+				  create_surface_box (),
+				  gtk_label_new (_("Surface plot")));
+	
+	return plot_notebook;
 }
 
 static gboolean
@@ -1349,6 +1966,201 @@ function_from_expression (const char *e, gboolean *ex)
 	return f;
 }
 
+static GelEFunc *
+function_from_expression2 (const char *e, gboolean *ex)
+{
+	GelEFunc *f = NULL;
+	GelETree *value;
+	char *ce;
+	gboolean got_x, got_y, got_z;
+
+	if (ve_string_empty (e))
+		return NULL;
+
+	ce = g_strstrip (g_strdup (e));
+	if (is_identifier (ce) &&
+	    strcmp (ce, "x") != 0 &&
+	    strcmp (ce, "y") != 0 &&
+	    strcmp (ce, "z") != 0) {
+		f = d_lookup_global (d_intern (ce));
+		g_free (ce);
+		if (f != NULL) {
+			f = d_copyfunc (f);
+			f->context = -1;
+		} else {
+			*ex = TRUE;
+		}
+		return f;
+	}
+
+	value = gel_parseexp (ce,
+			      NULL /* infile */,
+			      FALSE /* exec_commands */,
+			      FALSE /* testparse */,
+			      NULL /* finished */,
+			      NULL /* dirprefix */);
+	g_free (ce);
+
+	got_x = eval_find_identifier (value, d_intern ("x"));
+	got_y = eval_find_identifier (value, d_intern ("y"));
+	got_z = eval_find_identifier (value, d_intern ("z"));
+
+	/* FIXME: if "x" or "y" or "z" not used try to evaluate and if it returns a function use that */
+	if (value != NULL) {
+		if ( ! got_x && ! got_y && got_z) {
+			f = d_makeufunc (NULL /* id */,
+					 value,
+					 g_slist_append (NULL, d_intern ("z")),
+					 1,
+					 NULL /* extra_dict */);
+		} else if ( ! got_z) {
+			GSList *l = g_slist_append (NULL, d_intern ("x"));
+			l = g_slist_append (l, d_intern ("y"));
+			f = d_makeufunc (NULL /* id */,
+					 value,
+					 l,
+					 2,
+					 NULL /* extra_dict */);
+		} else {
+			GSList *l = g_slist_append (NULL, d_intern ("x"));
+			l = g_slist_append (l, d_intern ("y"));
+			l = g_slist_append (l, d_intern ("z"));
+			f = d_makeufunc (NULL /* id */,
+					 value,
+					 l,
+					 3,
+					 NULL /* extra_dict */);
+		}
+	}
+
+	if (f == NULL)
+		*ex = TRUE;
+
+	return f;
+}
+
+static void
+surface_from_dialog (void)
+{
+	GelEFunc *func = { NULL };
+	double x1, x2, y1, y2, z1, z2;
+	gboolean last_info;
+	gboolean last_error;
+	const char *error_to_print = NULL;
+	gboolean ex;
+	const char *str;
+
+	plot_mode = MODE_SURFACE;
+
+	last_info = genius_setup.info_box;
+	last_error = genius_setup.error_box;
+	genius_setup.info_box = TRUE;
+	genius_setup.error_box = TRUE;
+
+	ex = FALSE;
+	str = gtk_entry_get_text (GTK_ENTRY (surface_entry));
+	func = function_from_expression2 (str, &ex);
+	if (func != NULL) {
+		gtk_image_set_from_stock
+			(GTK_IMAGE (surface_entry_status),
+			 GTK_STOCK_YES,
+			 GTK_ICON_SIZE_MENU);
+	} else if (ex) {
+		gtk_image_set_from_stock
+			(GTK_IMAGE (surface_entry_status),
+			 GTK_STOCK_DIALOG_WARNING,
+			 GTK_ICON_SIZE_MENU);
+	} else {
+		gtk_image_set_from_pixbuf
+			(GTK_IMAGE (surface_entry_status),
+			 NULL);
+	}
+
+	if (func == NULL) {
+		error_to_print = _("No functions to plot or no functions "
+				   "could be parsed");
+		goto whack_copied_funcs;
+	}
+
+	x1 = surf_spinx1;
+	x2 = surf_spinx2;
+	y1 = surf_spiny1;
+	y2 = surf_spiny2;
+	z1 = surf_spinz1;
+	z2 = surf_spinz2;
+
+	if (x1 > x2) {
+		double s = x1;
+		x1 = x2;
+		x2 = s;
+	}
+
+	if (y1 > y2) {
+		double s = y1;
+		y1 = y2;
+		y2 = s;
+	}
+
+	if (z1 > z2) {
+		double s = z1;
+		z1 = z2;
+		z2 = s;
+	}
+
+	if (x1 == x2) {
+		error_to_print = _("Invalid X range");
+		goto whack_copied_funcs;
+	}
+
+	if (y1 == y2) {
+		error_to_print = _("Invalid Y range");
+		goto whack_copied_funcs;
+	}
+
+	if (z1 == z2) {
+		error_to_print = _("Invalid Z range");
+		goto whack_copied_funcs;
+	}
+
+	surfacex1 = x1;
+	surfacex2 = x2;
+	surfacey1 = y1;
+	surfacey2 = y2;
+	surfacez1 = z1;
+	surfacez2 = z2;
+
+	if (surface_func != NULL) {
+		d_freefunc (surface_func);
+		surface_func = NULL;
+	}
+
+	surface_func = func;
+
+	plot_surface_functions ();
+
+	if (interrupted)
+		interrupted = FALSE;
+
+	gel_printout_infos ();
+	genius_setup.info_box = last_info;
+	genius_setup.error_box = last_error;
+
+	return;
+
+whack_copied_funcs:
+	if (func != NULL) {
+		d_freefunc (func);
+		func = NULL;
+	}
+
+	gel_printout_infos ();
+	genius_setup.info_box = last_info;
+	genius_setup.error_box = last_error;
+
+	if (error_to_print != NULL)
+		genius_display_error (genius_window, error_to_print);
+}
+
 static void
 plot_from_dialog (void)
 {
@@ -1359,6 +2171,8 @@ plot_from_dialog (void)
 	gboolean last_info;
 	gboolean last_error;
 	const char *error_to_print = NULL;
+
+	plot_mode = MODE_LINEPLOT;
 
 	last_info = genius_setup.info_box;
 	last_error = genius_setup.error_box;
@@ -1468,12 +2282,16 @@ plot_dialog_response (GtkWidget *w, int response, gpointer data)
 	    response == GTK_RESPONSE_DELETE_EVENT) {
 		gtk_widget_destroy (plot_dialog);
 	} else if (response == RESPONSE_PLOT) {
-		plot_from_dialog ();
+		int pg = gtk_notebook_get_current_page (GTK_NOTEBOOK (plot_notebook));
+		if (pg == 0 /* line plot */)
+			plot_from_dialog ();
+		else if (pg == 1 /* surface plot */)
+			surface_from_dialog ();
 	}
 }
 
 void
-genius_lineplot_dialog (void)
+genius_plot_dialog (void)
 {
 	GtkWidget *insides;
 
@@ -1483,7 +2301,7 @@ genius_lineplot_dialog (void)
 	}
 
 	plot_dialog = gtk_dialog_new_with_buttons
-		(_("Create Line Plot") /* title */,
+		(_("Create Plot") /* title */,
 		 GTK_WINDOW (genius_window) /* parent */,
 		 0 /* flags */,
 		 GTK_STOCK_CLOSE,
@@ -1511,6 +2329,137 @@ genius_lineplot_dialog (void)
 
 	gtk_widget_show_all (plot_dialog);
 	gtk_widget_grab_focus (plot_entries[0]);
+}
+
+static GelETree *
+SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	double x1, x2, y1, y2, z1, z2;
+	int i;
+	GelEFunc *func = NULL;
+
+	i = 0;
+
+	if (a[i] != NULL && a[i]->type != FUNCTION_NODE) {
+		gel_errorout (_("%s: argument not a function"), "SurfacePlot");
+		goto whack_copied_funcs;
+	}
+
+	func = d_copyfunc (a[i]->func.func);
+	func->context = -1;
+
+	i++;
+
+	if (a[i] != NULL && a[i]->type == FUNCTION_NODE) {
+		gel_errorout (_("%s: only one function supported"), "SurfacePlot");
+		goto whack_copied_funcs;
+	}
+
+	/* Defaults */
+	x1 = surf_defx1;
+	x2 = surf_defx2;
+	y1 = surf_defy1;
+	y2 = surf_defy2;
+	z1 = surf_defz1;
+	z2 = surf_defz2;
+
+	if (a[i] != NULL) {
+		if (a[i]->type == MATRIX_NODE) {
+			if ( ! get_limits_from_matrix_surf (a[i], &x1, &x2, &y1, &y2, &z1, &z2))
+				goto whack_copied_funcs;
+			i++;
+		} else {
+			GET_DOUBLE(x1,i);
+			i++;
+			if (a[i] != NULL) {
+				GET_DOUBLE(x2,i);
+				i++;
+				if (a[i] != NULL) {
+					GET_DOUBLE(y1,i);
+					i++;
+					if (a[i] != NULL) {
+						GET_DOUBLE(y2,i);
+						i++;
+						if (a[i] != NULL) {
+							GET_DOUBLE(z1,i);
+							i++;
+							if (a[i] != NULL) {
+								GET_DOUBLE(z2,i);
+								i++;
+							}
+						}
+					}
+				}
+			}
+			/* FIXME: what about errors */
+			if (error_num != 0) {
+				error_num = 0;
+				goto whack_copied_funcs;
+			}
+		}
+	}
+
+	if (x1 > x2) {
+		double s = x1;
+		x1 = x2;
+		x2 = s;
+	}
+
+	if (y1 > y2) {
+		double s = y1;
+		y1 = y2;
+		y2 = s;
+	}
+
+	if (z1 > z2) {
+		double s = z1;
+		z1 = z2;
+		z2 = s;
+	}
+
+	if (x1 == x2) {
+		gel_errorout (_("%s: invalid X range"), "SurfacePlot");
+		goto whack_copied_funcs;
+	}
+
+	if (y1 == y2) {
+		gel_errorout (_("%s: invalid Y range"), "SurfacePlot");
+		goto whack_copied_funcs;
+	}
+
+	if (z1 == z2) {
+		gel_errorout (_("%s: invalid Z range"), "SurfacePlot");
+		goto whack_copied_funcs;
+	}
+
+	if (surface_func != NULL) {
+		d_freefunc (surface_func);
+	}
+
+	surface_func = func;
+	func = NULL;
+
+	surfacex1 = x1;
+	surfacex2 = x2;
+	surfacey1 = y1;
+	surfacey2 = y2;
+	surfacez1 = z1;
+	surfacez2 = z2;
+
+	plot_surface_functions ();
+
+	if (interrupted)
+		return NULL;
+	else
+		return gel_makenum_null ();
+
+whack_copied_funcs:
+	if (func != NULL) {
+		d_freefunc (func);
+		func = NULL;
+	}
+
+	return NULL;
 }
 
 static GelETree *
@@ -1647,6 +2596,29 @@ get_LinePlotWindow (void)
 	return make_matrix_from_limits ();
 }
 
+static GelETree *
+set_SurfacePlotWindow (GelETree * a)
+{
+	double x1, x2, y1, y2, z1, z2;
+	if ( ! get_limits_from_matrix_surf (a, &x1, &x2, &y1, &y2, &z1, &z2))
+		return NULL;
+
+	surf_defx1 = x1;
+	surf_defx2 = x2;
+	surf_defy1 = y1;
+	surf_defy2 = y2;
+	surf_defz1 = z1;
+	surf_defz2 = z2;
+
+	return make_matrix_from_limits_surf ();
+}
+
+static GelETree *
+get_SurfacePlotWindow (void)
+{
+	return make_matrix_from_limits_surf ();
+}
+
 void
 gel_add_graph_functions (void)
 {
@@ -1685,7 +2657,9 @@ gel_add_graph_functions (void)
 	/* bogus value */ \
 	d_addfunc_global (d_makevfunc (id, gel_makenum_null()));
 
-	VFUNC (LinePlot, 1, "", "plotting", _("Plot a function with a line (very rudimentary).  First come the functions (up to 10) then optionally limits as x1,x2,y1,y2"));
+	VFUNC (LinePlot, 1, "", "plotting", _("Plot a function with a line.  First come the functions (up to 10) then optionally limits as x1,x2,y1,y2"));
+	VFUNC (SurfacePlot, 1, "", "plotting", _("Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"));
 
-	PARAMETER (LinePlotWindow, _("Plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"));
+	PARAMETER (LinePlotWindow, _("Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"));
+	PARAMETER (SurfacePlotWindow, _("Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,z2]"));
 }

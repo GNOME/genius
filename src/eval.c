@@ -6970,6 +6970,60 @@ fixup_num_neg (GelETree *n)
 	}
 }
 
+/* find an identifier */
+gboolean
+eval_find_identifier (GelETree *n, GelToken *tok)
+{
+	if (n == NULL)
+		return FALSE;
+
+	if (n->type == SPACER_NODE) {
+		return eval_find_identifier (n->sp.arg, tok);
+	} else if (n->type == IDENTIFIER_NODE ) {
+		if (n->id.id == tok)
+			return TRUE;
+		else
+			return FALSE;
+	} else if(n->type == OPERATOR_NODE) {
+		GelETree *args = n->op.args;
+		while (args != NULL) {
+			if (eval_find_identifier (args, tok))
+				return TRUE;
+			args = args->any.next;
+		}
+		return FALSE;
+	} else if (n->type == MATRIX_NODE &&
+		   n->mat.matrix != NULL) {
+		int i,j;
+		int w,h;
+		w = gel_matrixw_width (n->mat.matrix);
+		h = gel_matrixw_height (n->mat.matrix);
+		for (i = 0; i < w; i++) {
+			for(j = 0; j < h; j++) {
+				GelETree *t = gel_matrixw_set_index
+					(n->mat.matrix, i, j);
+				if (t != NULL &&
+				    eval_find_identifier (t, tok))
+					return TRUE;
+			}
+		}
+		return FALSE;
+	} else if (n->type == SET_NODE ) {
+		GelETree *ali;
+		for (ali = n->set.items; ali != NULL; ali = ali->any.next) {
+			if (eval_find_identifier (ali, tok))
+				return TRUE;
+		}
+		return FALSE;
+	} else if (n->type == FUNCTION_NODE &&
+		   (n->func.func->type == GEL_USER_FUNC ||
+		    n->func.func->type == GEL_VARIABLE_FUNC) &&
+		   n->func.func->data.user != NULL) {
+		return eval_find_identifier (n->func.func->data.user, tok);
+	}
+	return FALSE;
+}
+
 
 /*this means that it will precalc even complex and float
   numbers*/

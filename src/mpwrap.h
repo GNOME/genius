@@ -148,6 +148,7 @@ void mpw_make_same_type(mpw_ptr op1,mpw_ptr op2);
 
 void mpw_set(mpw_ptr rop,mpw_ptr op);
 void mpw_set_d(mpw_ptr rop,double d);
+void mpw_set_d_complex (mpw_ptr rop, double real, double imag);
 void mpw_set_si(mpw_ptr rop,signed long int i);
 void mpw_set_ui(mpw_ptr rop,unsigned long int i);
 void mpw_set_mpz_use (mpw_ptr rop, mpz_ptr op);

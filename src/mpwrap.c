@@ -3895,6 +3895,16 @@ mpw_set_d(mpw_ptr rop,double d)
 }
 
 void
+mpw_set_d_complex (mpw_ptr rop, double real, double imag)
+{
+	MAKE_COPY (rop->r);
+	MAKE_COPY (rop->i);
+	rop->type = MPW_COMPLEX;
+	mpwl_set_d (rop->r, real);
+	mpwl_set_d (rop->i, imag);
+}
+
+void
 mpw_set_si(mpw_ptr rop,signed long int i)
 {
 	MAKE_REAL(rop);

@@ -181,6 +181,9 @@ void replace_exp (GelETree *n);
 void fixup_num_neg (GelETree *n);
 void try_to_do_precalc(GelETree *n);
 
+/* find an identifier */
+gboolean eval_find_identifier (GelETree *n, GelToken *tok);
+
 /* return a list of used local functions (copies of) */
 GSList * gel_subst_local_vars (GSList *, GelETree *n);
 

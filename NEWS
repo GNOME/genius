@@ -1,3 +1,20 @@
+Changes to 0.7.0
+
+* Replaced plotting with the plotting widget from GtkExtra-2 (private
+  copy included, no new dependency), this has several new implications:
+ - Plots can be printed or exported to PS or EPS
+ - 3D surface plots are supported
+* SYNTAX: Native boolean type, true/false are the constants and
+  added IntegerFromBoolean and IsBoolean functions.  Should still
+  be source compatible
+* Fixed saving files warnings about existing files and fixed bad
+  warning on loading files
+* StandardDeviation now works
+* Some memory profiling.  Allocate internal structures in long
+  continuous blocks and further fixup the engine to be nicer with
+  separator nodes which can now take a lot of arguments and really whack
+  the result of all but the last expressions at once.
+
 Changes to 0.6.1
 
 * On undefined identifier error, genius gives you close suggestions
