@@ -1,0 +1,83 @@
+# Limits of functions
+# this function is a general limit function and allows (for instance) one to
+# take limits of functions, derivatives, integrals, etc.
+#FIXME: I need a way to truncate the return value to disregard epsilon < tolerance (so 1/x -> 0 ;-).
+
+# documentation:
+# this detect the existence of a limit by a function being almost constant over
+# a long enough interval.
+# Because of the existence of continuous (even of smooth) function with compact
+# support (i.e., that vanish outside of some finite interval [a,b]),
+# it is impossible to determine the limit of an arbitrary continuous/smooth
+# function as it goes to infinity
+# in a finite number of steps, since it is always possible that a function will
+# become constant (or close to it), and then suddenly have a step or bulge at
+# 10^43 (for instance).
+# Thus, this function is necessarily imperfect.
+# If you have more information about a function (for instance, it is a
+# rational function), then there are other ways of computing its limits.
+# 
+# 
+
+# Limits:
+function numerical_limit_at_infinity(f,step_fun,tolerance,successive_for_success,N) =
+# this evaluates f(step_fun(i)) as i goes from 1 to N.
+# If s_f_s of the pairwise successive differences are less than tolerance, then
+# it returns the last value; if this doesn't happen, it returns Null.
+# INPUT: N had better be at least 1
+#FIXME: should have a way of dealing with +infinity, -infinity, and
+# bounded oscillation (like sin(x))
+	(
+	current_limit=f(step_fun(1));
+	number_of_consecutive_differences_within_tolerance=0;
+#FIXME: core-dumps RIGHT HERE!
+	for i = 2 to N do
+		(
+		 new_limit=f(step_fun(i));
+		 if (|new_limit-current_limit| < tolerance)
+		    then number_of_consecutive_differences_within_tolerance
+= number_of_consecutive_differences_within_tolerance+1
+	else number_of_consecutive_differences_within_tolerance=0;
+		current_limit=new_limit;
+		 if (number_of_consecutive_differences_within_tolerance == successive_for_success) then return current_limit;
+		);
+	return null
+	)
+
+
+# The following are simple functions to find
+# lim_{x -> x_0} f(x)
+# ...from the left
+# ...from the right
+# ...two-sided
+
+#FIXME: Better parameter setting!
+continuous_tolerance=10^(-5);
+continuous_sfs=20;
+continuous_number_of_tries=100;
+
+function LeftLimit(f,x0) =
+	(
+	return numerical_limit_at_infinity(`(h)=(f(x0-h)),`(n)=(2^(-n)),continuous_tolerance,continuous_sfs,continuous_number_of_tries)
+	)
+
+function RightLimit(f,x0) =
+	(
+	return numerical_limit_at_infinity(`(h)=(f(x0+h)),`(n)=(2^(-n)),continuous_tolerance,continuous_sfs,continuous_number_of_tries)
+	)
+
+function Limit(f,x0) =
+	(
+	LeftLim=LeftLimit(f,x0);
+	RightLim=RightLimit(f,x0);
+	if |LeftLim-RightLim| < 2*continuous_tolerance
+	 then return (LeftLim+RightLim)/2
+	 else return null
+	)
+
+function is_continuous(f,x0) =
+	(
+	if |Limit(f,x0)-f(x0)| < continuous_tolerance
+	 then return true
+         else return false
+	)

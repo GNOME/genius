@@ -1,0 +1,45 @@
+# Library for dealing with bilinear forms, and related topics like
+# angles of vectors, GramSchmidt, etc.
+
+# Evaluate (v,w) with respect to the bilinear form given by the matrix A.
+function bilinear_form(v,A,w) = (v'*A*w)@(1)
+
+# The angle of two vectors, given an inner product
+#FIXME: default inner product!
+function VectorAngle(v,w,B) = acos(B(v,w)/(B(v,v)*B(w,w)))
+
+#FIXME: Can't return anonymous function from functions correctly
+#function BilinearForm(A)=(`(v,w)=(v'*A*w)@(1))
+
+# Projection onto a vector space
+# Projection of vector v onto subspace W given a bilinear form B
+function Projection(v,W,B) =
+  (
+        # if you don't give anything, assume standard inner product
+	if is_null(B) then B=I(rows(W));
+#FIXME: rows(W) should be W`dimension or such
+	# If it's a matrix, then use the bilinear form defined by that matrix
+	if is_matrix(B) then (A=B;function B(u,w)=bilinear_form(u,A,w);)
+#Projection(v,W,`(u,w)=bilinear_form(u,B,w))
+	# If B is just some function, assume that it's an inner product
+        else if not(is_function(B)) then bail;
+    projection_of_v=0;
+# FIXME: should read: for loop in W`basis or such...
+    for loop = 1 to columns(W) do
+      projection_of_v=projection_of_v+B(v,W@(,loop))/B(W@(,loop),W@(,loop))*W@(,loop);
+    return projection_of_v
+  )
+
+# Gram-Schmidt Orthogonalization
+# Described, for instance, in Hoffman & Kunze, ``Linear Algebra'' p.~280
+function gram_schmidt(v,B) =
+# Takes k column vectors v_1,...,v_k
+# and returns a collection, orthogonal with respect to the inner product given by B(-,-): V x V -> R
+# Note: if you plug in a bad function or a matrix that isn't symmetric and
+# positive definite, then you'll get garbage as a result.
+	(
+	w=v@(,1);			# First vector
+	for i = 2 to columns(v) do	# now iterate
+		w=[w,v@(,i)-Projection(v@(,i),w,B)];
+	return w;
+	)

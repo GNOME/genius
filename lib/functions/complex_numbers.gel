@@ -1,0 +1,41 @@
+# Basic functions to do with complex numbers
+
+#-----
+#Re, Im are built-in
+RealPart = Re;
+ImaginaryPart = Im;
+sethelp("RealPart","Get the real part of a complex number");
+sethelp("ImaginaryPart","Get the imaginary part of a complex number");
+protect("RealPart");
+protect("ImaginaryPart");
+
+# Argument of a complex number
+# (branch cut on negative real axis, (-infty,0) -- always returns
+#  result in (-pi,pi]
+function Argument(z) = if (z != 0) then Im(ln(z)) else null;
+Arg=Argument;
+arg=Argument;
+sethelp("Argument","argument (angle) of complex number");
+sethelp("Arg","argument (angle) of complex number");
+sethelp("arg","argument (angle) of complex number");
+protect("Argument");
+protect("Arg");
+protect("arg");
+
+# Complex Conjugation
+# a+bi -> a-bi
+function ComplexConjugate(x) = (
+	if(is_matrix(x)) then
+		return ApplyOverMatrix(x,conj)
+	else if(not is_value(x)) then
+		(error("ComplexConjugate: argument not a value");bailout);
+	Re(x)-(Im(x)*1i)
+);
+Conj=ComplexConjugate;
+conj=ComplexConjugate;
+sethelp("ComplexConjugate","complex conjugate");
+sethelp("Conj","complex conjugate");
+sethelp("conj","complex conjugate");
+protect("ComplexConjugate");
+protect("Conj");
+protect("conj");

@@ -1,0 +1,108 @@
+# Factoring
+
+# Return the Greatest Common Divisor of two numbers
+# Built-in
+# Same for least common multiple
+GCD=gcd;
+sethelp("GCD","Greatest common divisor");
+protect("GCD")
+LCM=lcm;
+sethelp("LCM","Least common multiplier");
+protect("LCM")
+
+# FIXME: The first output column gets corrupted sometimes
+# FIXME!
+# Implement (in order of importance)
+# (might want to have a separate procedure that just does
+#  mid-size algorithms a bunch of times, then another one that
+#  does big ones a bunch of times)
+# (2) Pollard Rho
+# (3) Pollard p-1
+# (4) Quadratic Sieve (QS) (start at 18-20 digits)
+# (5) Elliptic Curve Method (ECM) (use from 8 digits to 25-30)
+# (6) Continued Fraction Algorithm (CFRAC) -- not actually useful, but
+#	a nice legacy addition
+function Factorize(n) =
+ (
+  # First, deal with trivial case (n=0) and get rid of the possible unit.
+  if (n==0) then return [0;1];
+  if (n<0) then (n=-n; factor_list=[-1;1];) else factor_list=[1;1];
+    # (1) Small primes via trial division
+    # First, check if it's divisible by 2 or 3
+    # FIXME: this repeated code should be done by an internal function
+    if Divides(2,n) then
+     (
+      valuation=PadicValuation(n,2);
+      factor_list=[factor_list,[2;valuation]];
+      n=n/(2^valuation);
+     );
+
+    if Divides(3,n) then
+     (
+      valuation=PadicValuation(n,3);
+      factor_list=[factor_list,[3;valuation]];
+      n=n/(3^valuation);
+     );
+    # Next, loop through all number between 5 and FactorizeLoopMax
+    # that = 1, 5 mod 6 (as in IsPrime).
+    loop=5;
+    do
+     (
+      if Divides(loop,n) then
+       (
+        valuation=PadicValuation(n,loop);
+        factor_list=[factor_list,[loop;valuation]];
+        n=n/(loop^valuation);
+       );
+      loop=loop+2;
+      if Divides(loop,n) then
+       (
+        valuation=PadicValuation(n,loop);
+        factor_list=[factor_list,[loop;valuation]];
+        n=n/(loop^valuation);
+       );
+      loop=loop+4;
+     ) while (loop<=FactorizeLoopMax) and (n != 1);
+
+  # If we're done, rejoice!
+  if (n==1) then return factor_list;
+  if (IsPrime(n)) then return [factor_list,[n;1]];
+
+  # If not, return the partial factorization and flag an error
+  error("Sorry, number has factors that are too big for us to deal with yet; the following is a partial factorization (the last term is composite).");
+  return [factor_list,[n;1]];
+ )
+
+FactorizeLoopMax = 5000;         # Factorize configuration variable
+                                 # FIXME: This could be MUCH more elegant
+sethelp("FactorizeLoopMax","Maximum number which Factorize uses in trial division");
+protect("FactorizeLoopMax");
+
+
+# FIXME: do it
+# given two factorizations, returns factorization of the product
+# (useful for factoring rational numbers, for instance)
+function CombineFactorizations(a,b) =
+ (
+  error("FIXME: not implemented yet");
+  bailout;
+ )
+
+# Returns all factors of n, i.e., all numbers between 1 and n that divide
+# n.
+# FIXME: this is a naive implementation. Better would be to compute
+# the prime factorization for n and then combine it in all possible ways.
+function Factors(n) =
+ (
+  front_list=[0];
+  back_list=[0];
+  for loop = 1 to floor(sqrt(n-1)) do
+   (
+    if Divides(loop,n) then
+     (
+      front_list=[front_list,loop];
+      back_list=[n/loop,back_list];
+     );
+   );
+  if IsSquare(n) then return [front_list,sqrt(n),back_list] else return [front_list,back_list];
+ )

@@ -1,0 +1,73 @@
+# Quadratic residues, quadratic forms
+
+# Computes the Jacobi symbol
+# Bressoud, Algorithm 7.9, p. 97-98
+#FIXME: oops! this is built-in (to gmp!)! okay, to salvage this, make
+# the step-by-step version.
+#FIXME: make a stepwise version of this that carries out the steps one by one.
+
+#function JacobiSymbol(n,m) =
+#  (
+##FIXME: this code was originally to compute the LegendreSymbol
+#   # Check parameters (addition
+#    if (m<=0) or IsEven(m) then return null; # FIXME: Flag an error!
+##m has to be a positive odd number!
+#
+#   # Check that they are relatively prime
+#    if gcd(n,m) != 1 then return 0; # This is (AFAIK) the only modification needed to work for a jacobi symbol instead of legendre
+#
+#   # Initialize
+#    legendre = 1;
+#    n = n % m;
+#
+#   # Check if 0
+##    if n==0 then return 0;    # If m divides n, then (n/m)=0
+## taken care of by above
+#
+#   # Make positive
+#    if n < 0 then (n=-1*n; if m % 4==3 then legendre=-1;);
+#
+##FIXME: fixup the `pull-twos' code
+#
+#   # Quad rec loop
+#     # Pull twos
+#      count = 0;
+#      while IsEven(n) do
+#       (
+#        n=n/2;
+#	count=1-count;
+#       );
+#      if count*(m*m-1) % 16 ==8 then legendre=-1*legendre;
+#
+#    while (n>1) do
+#     (
+#      if ((n-1)*(m-1)) % 8 == 4 then
+#        legendre=-1*legendre;
+#      temp = n;
+#      n = m % n;
+#      m = temp;
+#     # Pull twos
+#      count = 0;
+#      while IsEven(n) do
+#       (
+#        n=n/2;
+#	count=1-count;
+#       );
+#      if (count*(m*m-1)) % 16 == 8 then legendre=-1*legendre;
+#     );
+#
+#    return legendre
+#  )
+#
+## Legendre symbol
+#function LegendreSymbol(n,p) =
+#  (
+#    if not(IsPrime(p)) then (error("Legendre(n,p) only defined for p prime");bailout;);
+#    JacobiSymbol(n,p)
+#  )
+
+JacobiSymbol=jacobi;
+protect("JacobiSymbol");
+
+LegendreSymbol=legendre;
+protect("LegendreSymbol");

@@ -1,0 +1,81 @@
+# Numerical functions
+#FIXME: these need to be cleaned up!
+#Indeed, some of these should probably be built-in
+
+#just for somewhat of "source compatibility"
+sethelp("abs","Absolute value");
+function abs(x) = |x|
+protect("abs")
+
+sethelp("sign","Return the sign (-1,0,1)");
+function sign(x) = (
+	if(is_matrix(x)) then
+		return ApplyOverMatrix(x,sign)
+	else if(not is_value(x)) then
+		(error("sign: argument not a value");bailout);
+	if(is_complex(x)) then (
+		x/|x|
+	) else if(x>0) then (
+		1
+	) else if(x<0) then (
+		-1
+	) else 0
+);
+protect("sign")
+
+#-----
+
+Round = round;
+Floor = floor;
+ceiling = ceil;
+Ceiling = ceil;
+function IntegerPart(x) =
+ (
+  if is_complex(x) then return IntegerPart(Re(x))+IntegerPart(Im(x))*1i;
+  if (x>=0) then floor(x) else ceiling(x)
+ )
+function FractionalPart(x) = x-IntegerPart(x)
+# Chop replaces very small number with zero
+chop_tolerance = 10^(-10);
+function Chop(x) = if |x|< chop_tolerance then 0 else x
+
+#-----
+
+# A complex number is a gaussian integer iff 
+# its real and complex parts are integers
+function IsGaussianInteger(z) =
+ (
+  return is_integer(Re(z)) and is_integer(Im(z));
+ )
+
+# Returns maximum value of a vector/matrix
+# make this go to max(,) if it's small
+function Max(v) =
+ (
+  current_max=v@(1);
+  for i in v do
+   if current_max < i then current_max=i;
+#   current_max=max(current_max,v@(i)); #FIXME: which is more efficient?
+  current_max
+ )
+
+# same for min
+function Min(v) =
+ (
+  current_min=v@(1);
+  for i in v do
+   if current_min > i then current_min=i;
+#   current_min=min(current_min,v@(i)); #FIXME: which is more efficient?
+  current_min
+ )
+
+#-----
+# Mod (built-in)
+# FIXME: Mod with offset (m mod n offset d = something in [d,d+n-1])
+
+# Division w/o remainder
+function IntegerQuotient(m,n) = floor(m/n)
+# IntergerQuotient w/offset (such that d <= m-r*n < d+n
+# IntegerDigits = (convert interger to its list of digits, base b, of length len)
+# IntegerExponent = (number of trailing zeros in base b expansion = heighest power
+#		of b that divides n)

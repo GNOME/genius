@@ -1,0 +1,38 @@
+# Sums and products
+
+#calculate an infinite sum until the new terms stop making a difference
+sethelp("InfiniteSum","Try to calculate an infinite sum");
+function InfiniteSum (func, start, inc) = (
+	if(not is_value(start) or not is_value(inc)) then
+		(error("InfiniteSum: start,inc arguments not values");bailout)
+	else if(not is_function(func)) then
+		(error("InfiniteSum: func argument not a function");bailout);
+	s = 0.0;
+	while 1 do (
+		newsum = s + func(start);
+		if newsum==s then break;
+		s = newsum;
+		start = start + inc;
+	);
+	s
+);
+protect("InfiniteSum")
+
+#calculate an infinite sum until the new terms stop making a difference
+sethelp("InfiniteSum2","Try to calculate an infinite sum");
+function InfiniteSum2(func,arg,start,inc) = (
+	if(not is_value(start) or not is_value(inc)) then
+		(error("InfiniteSum2: start,inc arguments not values");bailout)
+	else if(not is_function(func)) then
+		(error("InfiniteSum2: func argument not a function");bailout);
+	s = 0.0;
+	while 1 do (
+		newsum = s + func(arg,start);
+		if newsum==s then break;
+		s = newsum;
+		start = start + inc;
+	);
+	s
+);
+protect("InfiniteSum2")
+

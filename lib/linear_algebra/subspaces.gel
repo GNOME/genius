@@ -1,0 +1,100 @@
+# Routines for creating and manipulating subspaces of vector spaces
+# FIXME: Currently pretty broken, since instead of
+# subspace objects, I have to work with matrices such that their
+# column span is the subspace. (which i make sure are linearly indep.)
+# FIXME: Also, I don't deal well with empty spaces/sets
+# FIXME: Also, I do no parameter checking
+
+## Vector Subspace creation
+# Column Space of a matrix
+#Column reduce and kill zero vectors
+function ColumnSpace(M) = strip_zero_columns(cref(M))
+
+# Row Space of a matrix
+function RowSpace(M)=ColumnSpace(Transpose(M))
+
+# Image of a linear transform (=column space of the corresponding matrix)
+function Image(T)=ColumnSpace(T)
+
+# Null space/kernel of a linear transform
+# Okay, here's the idea:
+# Row reduce a matrix. Then the non-pivot columns are basically
+# the independent variables, and the pivot columns are the dependent ones.
+# So if your row reduced matrix looks like this:
+# [1 0 0  2 4]
+# [0 0 1 -3 5]
+# then to find a basis for the kernel, look at your non-pivot columns
+# (4, 5)
+# and for each non-pivot column, you get one vector.
+# So take the fourth column, and start off with the vector [0,0,0,-1,0]'
+# (so a -1 in the fourth place)
+# Now in each pivot entry, you need to put a value to cancel what this
+# -1 gives you -- so the pivot column entries are 2 and -3 (the entries
+# of the fourth column that have a pivot to the left of them).
+# So the first vector is [2,0,-3,-1,0], and the second is
+# [4,0,5,0,-1]
+# This is poorly explained (FIXME), but some examples should make it
+# clear (find a good reference for this!)
+function Kernel(T)=NullSpace(T)
+function NullSpace(T)=
+  (
+    non_pivots=NonPivotColumns(T);
+    if is_null(non_pivots) then return null; # injective transforms, so
+                                             # no kernel
+    T=rref(T);
+    dim_image=columns(T);
+    pivots=PivotColumns(T);
+    number_of_pivots=columns(pivots);
+    null_space=[0];
+    for loop in non_pivots do
+     (
+       new_vector=[0];
+       new_vector=SetMatrixSize(new_vector,dim_image,1);
+       new_vector@(loop)=-1;
+       for inner_loop=1 to number_of_pivots do
+         if pivots@(1,inner_loop) < loop
+           then new_vector@(pivots@(1,inner_loop))
+                =T@(pivots@(2,inner_loop),loop)
+           else break;
+       null_space=[null_space,new_vector];
+     );
+    ColumnSpace(null_space) # automatically kills the zero column
+  )
+
+## Vector Subspace operations
+# Given W1, W2 subspaces of V, returns W1 + W2
+# = {w | w=w1+w2, w1 in W1, w2 in W2}
+function VectorSubspaceSum(M,N)=ColumnSpace([M,N])
+
+# Given vector spaces V1, V2, return V1 (+) V2 (the direct sum)
+# (given by the column space of the direct sum of matrices)
+function VectorSpaceDirectSum(M,N)=ColumnSpace(DirectSum(M,N))
+
+# Given vector spaces V1, V2, return V1 (x) V2 (the tensor product)
+# (given by the column space of the tensor product of matrices)
+#FIXME: check that this is right
+function VectorSpaceTensorProduct(M,N)=ColumnSpace(TensorProduct(M,N))
+
+# Given W1, W2, return W1 intersect W2
+# Given any inner product, this is given by
+# W1 cap W2 = (W1^perp+W2^perp)^perp
+function VectorSubspaceIntersection(M,N)= OrthogonalComplement(VectorSubspaceSum(OrthogonalComplement(M),OrthogonalComplement(N)))
+
+# Given a vector subspace of an Inner Product Space (or maybe just
+# a space with a (symmetric?) bilinear form (check lang),
+# return the orthogonal complement.
+# FIXME: currently assumes that the inner product is the standard
+# inner product on R^n
+function OrthogonalComplement(M)=NullSpace(Transpose(M))
+
+## (Vector space + a vector) operations
+
+# vector space membership
+# a vector is in a subspace iff it is equal to its
+# projection onto that space (in any inner product)
+# (in particular, the dot product)
+#FIXME: this is kinda a hack -- i should just ajoin it to a basis
+#and see if there's a dependence (oh wait, that might not work for
+#modules, since it might mean that a MULTIPLE of it is in the module
+#....)
+function IsInSubspace(v,W) = (v==Projection(v,W,.))

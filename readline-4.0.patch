@@ -1,0 +1,21 @@
+diff -ur readline-4.0.vanilla/vi_mode.c readline-4.0/vi_mode.c
+--- readline-4.0.vanilla/vi_mode.c	Mon Jun  8 12:48:00 1998
++++ readline-4.0/vi_mode.c	Sun May  2 18:00:31 1999
+@@ -1043,7 +1043,7 @@
+       if (vi_redoing)
+ 	target = _rl_vi_last_search_char;
+       else
+-	_rl_vi_last_search_char = target = rl_getc (rl_instream);
++	_rl_vi_last_search_char = target = (*rl_getc_function) (rl_instream);
+ 
+       switch (key)
+         {
+@@ -1159,7 +1159,7 @@
+   if (vi_redoing)
+     c = _rl_vi_last_replacement;
+   else
+-    _rl_vi_last_replacement = c = rl_getc (rl_instream);
++    _rl_vi_last_replacement = c = (*rl_getc_function) (rl_instream);
+ 
+   if (c == '\033' || c == CTRL ('C'))
+     return -1;

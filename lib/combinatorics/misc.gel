@@ -1,0 +1,50 @@
+# Miscellaneous Combinatorial functions
+
+# Hofstadter's function q(n) is defined for positive integers by
+# q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q(n-2))
+# Note: the Hofstadter function is described in Godel, Escher, Bach:
+# An Eternal Golden Braid.
+# It's kinda chaotic (and becomes increasingly so) -- it starts off
+# looking like n/2 or such...
+function Hofstadter(n) =
+    if ((n==1) or (n==2)) then 1 else Hofstadter(n-Hofstadter(n-1))+Hofstadter(n-Hofstadter(n-2));
+
+protect("Hofstadter");
+
+# return the fibbonachi number, calculated using an iterative method
+sethelp("Fibbonachi","Calculate n'th fibbonachi number");
+function Fibbonachi(x) = (
+	if(is_matrix(x)) then
+		return ApplyOverMatrix(x,fib)
+	else if(not is_integer(x)) then
+		(error("Fibbonachi: argument not an integer");bailout)
+	else if(x<0) then
+		(error("Fibbonachi: argument less then zero");bailout)
+	else (([1,1;1,0]^x)@(1,2))
+);
+protect("Fibbonachi")
+fib=Fibbonachi
+protect("fib")
+
+## Harmonic Numbers
+## H_n^(r) (the nth harmonic number of order r)
+## = sum_{i=1}^n 1/i^r
+function HarmonicNumber(n,r) = sum x=1 to n do x^(-r)
+protect("HarmonicNumber");
+HarmonicH = HarmonicNumber;
+protect("HarmonicH");
+
+## More: BernoulliNumber, BernoulliPolynomial,
+## EulerNumber, EulerPolynomial, StirlingNumberFirst (of the first kind)
+## StirlingNumber2 (of the second kind)
+#function BernoulliB(n) = BernoulliNumber(n)
+#function BernoulliB(n,x) = BernoulliPolynomial(n,x)
+#function EulerE(n) = EulerNumber(n)
+#function EulerE(n,x) = EulerPolynomial(n,x)
+function StirlingS1(n,m) = SterlingNumberFirst(n,m) #S_n^(m)
+function StirlingS2(n,m) = SterlingNumberSecond(n,m) #S_n^(m)
+function PartitionsP(n) = PartitionsUnrestricted(n) # Unrestricted partitions of n
+function PartitionsQ(n) = PartitionsDistinct(n) # Partitions of n into distinct parts
+
+# Partity (of a permutation)
+# ClebschGordan, ThreeJSymbol, SixJSymbol

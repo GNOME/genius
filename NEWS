@@ -1,0 +1,60 @@
+Changes to 0.4.6
+
+* accept more different formats of floats in scientific notation
+* fix problems with hangs on help and large dialogs
+
+Changes to 0.4.5
+
+* modular arithmetic support (e.g. "expr mod n")
+* different parsing of files on the load line (you can now pass multiple
+  files with quotes everywhere, just like in a shell
+* plugin toplevel command to load plugins from command line
+* more function descriptions for the help command
+* possibility to run gel function from inside of genius code
+* exp function now behaves properly for matrices (sort of)
+* setting calculator parameters is now more natural, just as setting variables
+* option for maximum line output length for expression output, and for
+  maximum number of errors printed
+* backdivision for matrices (e.g. X=A\B means A*X=B)
+* bug and portability fixes
+
+Changes to 0.4.4
+
+* bugfixes, bugfixes, bugfixes
+* very very very initial shlib plugin support
+
+Changes to 0.4.3
+
+* depreceated the bc way of adding functions
+* better interactive parsing
+* i18n actually works
+
+Changes to 0.4.[12]
+
+* new gnome frontend
+
+Changes to 0.4 (includes all changes from all >0.3.1)
+
+* new syntax for writing functions, more math like
+* functions are now passed by value not by reference, this is unfortunately
+  backwards incompatible but adds consistency and flexibility, so just instead
+  of sum(4,5,&func) you'd write sum(4,5,func), with anonymous functions,
+  the calling syntax does not change. inside the function then, one would use
+  func(...) instead of *func(...)
+* library file is compiled now for quick startup
+* many new functions
+* more matrix support
+* complete complex number support with new operators
+
+Changes to 0.3 (includes all changes from all >0.2.1)
+
+* matrix support
+* a couple of new operators (absolute value, get element/row/column, transpose)
+* whole bunch of new functions
+
+Changes to 0.2
+
+* no more postfix, no more prefix, everything is infix
+* conditionals are better
+* variable/function references
+* anonymous functions

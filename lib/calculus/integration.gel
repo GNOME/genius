@@ -1,0 +1,52 @@
+# Numerial integration
+# 
+# The algorithms are described in:
+# Numerical Analysis, 5th edition
+# by Richard L. Burden and J. Douglas Faires
+# PWS Publishing Company, Boston, 1993.
+# Library of congress: QA 297 B84 1993
+
+# In the below, f indicates the function whose integral we wish to determine,
+# a,b indicate the left and right endpoints of the interval over which
+# we wish to integrate, and n is the number of intervals into which we
+# divide [a,b]
+
+# These methods all return one value, the value of the integral
+
+# Currently only works for real functions of a real variable
+
+# Composite Simpson's Rule, Section 4.4, Algorithm 4.1, p. 186
+# Note that this has error term = max(f'''')*h^4*(b-a)/180,
+# where h=(b-a)/n
+# If we can get maximums and derivatives, this would allow us to determine
+# automatically what n should be.
+
+function composite_simpsons_rule(f,a,b,n) =
+	(
+# check arguments
+## check types
+	if(not is_function(f)) then
+		(error("composite_simpsons_rule: argument 1 must be a function");bailout)
+	else if(not is_real(a) or not is_real(b)) then
+		(error("composite_simpsons_rule: arguments 2, 3 must be real values");bailout)
+	else if(not is_integer(n)) then
+		(error("composite_simpsons_rule: argument 4 must be an integer");bailout);
+## check bounds
+	if(a>b) then (error("composite_simpsons_rule: argument 2 must be less than or equal to argument 3");bailout)
+	else if(n<= 0) then (error("composite_simpsons_rule: argument 4 must be positive");bailout);
+
+# Start calculating
+	h=(b-a)/n;       # Subdivision interval
+	XI0=f(a)+f(b);   # End points
+	XI1=0;           # odd points
+	XI2=0;           # even points
+        X=a;             # current position
+	for i = 1 to n-1 do
+	(
+         X=X+h;
+         if i%2 == 0
+          then XI2=XI2+f(X)
+          else XI1=XI1+f(X)
+	);
+        return h*(XI0+2*XI2+4*XI1)/3
+	)

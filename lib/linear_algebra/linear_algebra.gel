@@ -1,0 +1,148 @@
+# Some linear algebra functions
+
+# Transpose of a matrix
+function Transpose(M)=M'
+
+# Checks to see if a matrix is square
+# Arguments: takes a matrix
+function is_square(n) =
+ columns(n) == rows(n)
+
+#FIXME: We'll need more sophisticated tools for Tensors
+
+# Pivot Columns
+# Given a matrix in rref form, the columns which have a leading 1
+# in some row are the pivot columns.
+# (also returns in which row they occur)
+function PivotColumns(M) =
+  (
+    N=rref(M);
+    col_dim_N=columns(N);
+    pivot_columns=[0];
+    for loop=1 to min(rows(N),col_dim_N) do
+     (
+       for inner_loop=loop to col_dim_N do
+         if N@(loop,inner_loop) != 0 then
+          (pivot_columns=[pivot_columns,[inner_loop;loop]];break;);
+     );
+   DeleteColumn(pivot_columns,1)
+  )
+
+# Non-pivot columns
+function NonPivotColumns(M) =
+  (
+#FIXME: this should be a separate function
+#(actually, we should have a sequence construct!)
+    non_pivot=[0];
+    for loop=1 to columns(M) do
+      non_pivot=[non_pivot,loop];
+    non_pivot=DeleteColumn(non_pivot,1);
+    SetMinus(non_pivot,PivotColumns(M)@(1,))
+  )
+
+# Delete a row from a matrix
+# Shamelessly copied from delrowcol
+function DeleteRow(M,row) = (
+        row_dim_M=rows(M);
+        if row_dim_M==1 then return null;   # if delete the only row...
+	     if row==1         then M@(2..row_dim_M,)
+        else if row==row_dim_M then M@(1..row_dim_M-1,)
+        else                       [M@(1..row-1,);M@(row+1..row_dim_M,)]
+);
+
+# Delete a column from a matrix
+# Also shamelessly copied from delrowcol
+function DeleteColumn(M,col) = (
+        col_dim_M=columns(M);
+        if col_dim_M==1 then return null;   # if delete the only column...
+	     if col==1         then M@(,2..col_dim_M)
+        else if col==col_dim_M then M@(,1..col_dim_M-1)
+        else                       [M@(,1..col-1),M@(,col+1..col_dim_M)]
+);
+
+# Column Reduced Echelon Form
+function cref(M)=Transpose(rref(Transpose(M)))
+
+#This removes any all-zero columns of M
+function strip_zero_columns(M) =
+ (
+  row_dim_M=rows(M);
+  N=[0];
+  for loop=1 to columns(M) do
+  (
+#FIXME: this could be made more efficient
+   zero_flag=1;
+   for inner_loop=1 to row_dim_M do
+#    if M@(inner_loop,loop)!=0 then (zero_flag=0;break;);
+    zero_flag=(zero_flag and (M@(inner_loop,loop)==0));
+   if not(zero_flag) then N=[N,M@(,loop)];
+  );
+  DeleteColumn(N,1)
+ )
+
+# Cross product of two vectors (in R^3)
+##<refentry id="fun-linear-algebra-cross-product">
+##<indexterm zone="fun-linear-algebra-cross-product">
+##<primary>CrossProduct</primary>
+##</indexterm>
+##<indexterm>
+##<primary>cross product</primary>
+##<see>CrossProduct</see>
+##</indexterm>
+##
+##  <refmeta>
+##    <refentrytitle>CrossProduct</refentrytitle>
+##  </refmeta>
+##
+##  <refnamediv>
+##    <refname>CrossProduct</refname>
+##    <refpurpose>compute the cross product of two vectors</refpurpose>
+##  </refnamediv>
+##
+##      <funcprototype>
+##        <funcdef>Vector <function>CrossProduct</function></funcdef>
+##        <paramdef>Vector <parameter>v</parameter></paramdef>
+##        <paramdef>Vector <parameter>w</parameter></paramdef>
+##      </funcprototype>
+##    </funcsynopsis>
+##  </refsynopsisdiv>
+##
+##  <refsect1>
+##    <title>Description</title>
+##    <para><function>CrossProduct</function> computes the cross product
+##    of the vectors <parameter>v</parameter> and <parameter>w</parameter>,
+##    which need to be vectors in R<sup>3</sup>. FIXME: generalize to n-1
+##    vectors in R<sup>n</sup>.</para>
+##    <para>FIXME: define it, talk about it</para>
+##  </refsect1>
+##  <refsect1>
+##    <title>Examples</title>
+##    <para>Some examples...FIXME</para>
+##  </refsect1>
+##</refentry>
+function CrossProduct(v,w) =
+ (
+  M=[v;w;1,1,1];
+  [Minor(M,3,1),Minor(M,3,2),Minor(M,3,3)]
+ )
+
+# Direct sum of two matrices
+function DirectSum(M,N)=[M,0;0,N]
+
+# (Kronecker) Tensor product of two matrices
+#FIXME!
+function KroneckerProduct(M,N) = TensorProduct(M,N)
+function TensorProduct(M,N) = Null
+
+# Checks to see if a matrix/value is invertible
+# Note that given an integer matrix, returns true iff it is invertible OVER THE INTEGERS,
+# so for instance [2,0;0,1] is not invertible
+# FIXME: We need good coercion rules!
+function is_invertible(n) =
+(
+ if (is_integer(n)) then return (|n|==1)     # Only invertible integers are 1, -1
+ else if (is_value(n)) then return (n!=0)    # Elements of fields (Q,R,C) are invertible iff != 0
+ else if (is_matrix(n)) then (if is_square(n) then return (is_invertible(det(n))) else return 0)
+                                             # Matrices are invertible iff they are square and their
+                                             #  determinant is a unit
+)

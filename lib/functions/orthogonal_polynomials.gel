@@ -1,0 +1,50 @@
+# Several classes of orthogonal polynomials
+# These are described in:
+# Numerical Analysis, 5th edition
+# by Richard L. Burden and J. Douglas Faires
+# PWS Publishing Company, Boston, 1993.
+# Library of congress: QA.297.B84.1993
+# FIXME: Actually implement these!
+# These polynomials are all recursively defined.
+
+# Let's see...
+# LegendreP, SphericalHarmonicY, GegenbauerC, ChebyshevT (first kind)
+# ChebyshevU (second kind), HermiteH, LaguerreL, JacobiP
+# Legendre polynomials
+# Generated recursively by:
+# P_0=1, P_1=x,
+# P_n=[(2n-1)/n]*x*P_{n-1}-[(n-1)/n]*P_{n-2}
+# FIXME!
+function legendre_polynomial(n) =
+	(
+	return 0
+	)
+
+# Chebyshev polynomials
+# Generated recursively by:
+# T_0=1, T_1=x,
+# T_n=2x*T_{n-1}-T_{n-2}
+function chebyshev_polynomial(n) =
+	(
+	return 0
+	)
+
+# Laguerre polynomials
+# Generated recursively by:
+# L_0=1, L_1=1-x,
+# L_n=(2n-1-x)*L_{n-1}-(n-1)^2*L_{n-2}
+# FIXME!
+function laguerre_polynomial(n) =
+	(
+	return 0
+	)
+
+# Hermite polynomials
+# Generated recursively by:
+# H_0=1, H_1=2x,
+# H_n=2x*H_{n-1}-2(n-1)*H_{n-2}
+# FIXME!
+function hermite_polynomial(n) =
+	(
+	return 0
+	)

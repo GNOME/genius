@@ -1,0 +1,26 @@
+# Compute linear recursive sequences using galois stepping (I think --
+# or maybe I have it backwards)
+# FIXME: Check names for this stuff!
+
+# Galois Matrix
+# Given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1)),
+# gives the galois stepping matrix
+function galois_matrix(combining_rule) =
+ [[0;I(columns(combining_rule)-1)],combining_rule']
+
+# Linear recursive sequence
+function linear_recursive_sequence(seed_values,combining_rule,n) =
+(
+ k=columns(seed_values);
+ if (k > n >= 0) then                      # If asks for one of the seed values, return it
+   return seed_values@(n+1)
+ else                                      # otherwise...
+ (
+  G=galois_matrix(combining_rule);         # form the galois matrix
+  if (n >= k) then
+   return (seed_values*G^(n-k+1))@(k)       # ...and step it enough times
+  else if (is_invertible(G)) then
+   return (seed_values*G^n)@(1)             # ...or step it backwards
+  else return null                         # (if sequence is reversible)
+ )
+)

@@ -1,0 +1,92 @@
+# Miscellaneous number theory functions
+
+function IsOdd(n) = (n % 2);
+sethelp("IsOdd","Tests if an integer is odd");
+protect("IsOdd");
+
+function IsEven(n) = not(IsOdd(n));
+sethelp("IsEven","Tests if an integer is even");
+protect("IsEven");
+
+# FIXME: This should be done internally perhaps
+function IsNthPower(n,k) =
+ (
+  if is_integer(n) then return (floor((n)^(1/k))^k==n);
+# FIXME: should add some ``analytic'' testing, i.e., if the
+# fractional part is non-zero (or more that precision?), it can't
+# be a square
+
+  # Since rational numbers are in reduced form, by unique factorization it
+  # suffices to check if the numerator and denominator are Nth powers
+  if is_rational(n) then return(IsNthPower(Numerator(n),k)) and IsNthPower(Denominator(n),k);
+
+  # Only integers/rationals can be perfect powers
+  return 0;
+ )
+sethelp("IsNthPower","Tests if a rational number is a perfect power");
+protect("IsNthPower");
+
+function IsSquare(n) = IsNthPower(n,2);
+sethelp("IsSquare","Tests if a rational number is a perfect square");
+protect("IsSquare");
+
+# FIXME: this is just a hack until we get a real symbolic mode
+function SymbolicSquareRoot(n) = SymbolicNthRoot(n,2);
+sethelp("SymbolicSquareRoot","If square root is integer, then return as integer, else standard square root.");
+protect("SymbolicSquareRoot");
+
+# FIXME: this is just a hack until we get a real symbolic mode
+function SymbolicNthRoot(n,k) =
+ (
+  if IsNthPower(n,k) then return IntegerPart(n^(1/k));
+  return n^(1/k);
+ )
+sethelp("SymbolicSquareRoot","If square root is integer, then return as integer, else standard square root.");
+protect("SymbolicSquareRoot");
+
+function Divides(m,n) = not(n % m);
+sethelp("Divides","Checks divisibility");
+protect("Divides");
+
+# Returns the highest power of p that divides n, where n is rational.
+# FIXME: This is only a valuation if p is prime, so this is an abuse
+# of language.
+function PadicValuation(n,p) =
+ (
+  if is_rational(n) and not(is_integer(n)) then
+    return PadicValuation(Numerator(n))-PadicValuation(Denominator(n));
+  if not(is_integer(n)) then
+   (
+    error("PadicValuation: argument must be rational or integer");
+    bailout;
+   );
+#  if (n==0) then return Infinity; # FIXME: Infinity not yet implemented
+  if (n==0) then return null;
+
+  valuation=0;
+  while Divides(p,n) do
+   (
+    valuation=valuation+1;
+    n=n/p;
+   );
+  return valuation;
+ )
+sethelp("PadicValuation","Returns the padic valuation (number of trailing zeros in base p).");
+protect("PadicValuation");
+
+#FIXME: This should also be built-in to modular arithmatic,
+# though it is slightly more complicated
+# Computes a^b mod m
+function PowerMod(a,b,m) =
+ (
+  n=1;
+  while (b != 0) do
+   (
+    if IsOdd(b) then n=(n*a) % m;
+    b=floor(b/2);
+    a=(a*a) % m;
+   );
+  return n;
+ )
+sethelp("PowerMod","Compute #1^#2 mod #3");
+protect("PowerMod");

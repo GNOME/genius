@@ -1,0 +1,100 @@
+AC_INIT(src/calc.c)
+
+AM_CONFIG_HEADER(config.h)
+AM_INIT_AUTOMAKE(genius,0.5.0)
+AM_MAINTAINER_MODE
+AM_ACLOCAL_INCLUDE(macros)
+
+AC_ISC_POSIX
+AC_PROG_CC
+AC_STDC_HEADERS
+AC_PROG_YACC
+AM_PROG_LEX
+AC_ARG_PROGRAM
+AM_PROG_LIBTOOL
+AM_PATH_GLIB(1.2.0,,,gmodule)
+
+GNOME_COMPILE_WARNINGS
+
+
+dnl Let the user disable GNOME even if it can be found
+AC_ARG_ENABLE(gnome,
+	      [  --disable-gnome         Do not try to use GNOME ],
+	      enable_gnome="$enableval",)
+
+dnl Check for termcap
+AC_CHECK_LIB(termcap, tgetent,[TERMCAP_LIB="-ltermcap"],
+	     AC_MSG_ERROR(Termcap library not found))
+AC_SUBST(TERMCAP_LIB)
+
+dnl Check for readline
+AC_CHECK_LIB(readline,readline, [READLINE_LIB="-lreadline"],
+	     AC_MSG_ERROR(Readline library not found),
+	     $TERMCAP_LIB)
+AC_SUBST(READLINE_LIB)
+
+dnl If GNOME is found, run the script in square brackets.
+if test x$enable_gnome != xno ; then
+  GNOME_INIT_HOOK([have_gnome=yes])
+fi
+AM_CONDITIONAL(HAVE_GNOME, test x$have_gnome = xyes)
+
+GNOME_SUPPORT=-DGNOME_SUPPORT
+GNOME_GENIUS=gnome-genius
+ZVT_LIBS=
+if test x$have_gnome != xyes ; then
+  AC_MSG_WARN([*** The gnome version will not be built ***])
+  GNOME_GENIUS=
+  GNOME_SUPPORT=
+else
+  ZVT_LIBS=`$GNOME_CONFIG --libs zvt`
+fi
+AC_SUBST(GNOME_GENIUS)
+AC_SUBST(GNOME_SUPPORT)
+AC_SUBST(ZVT_LIBS)
+
+## this should come after `AC_PROG_CC'
+if test x$have_gnome != xno ; then
+  GNOME_X_CHECKS
+fi
+
+
+GMP_LIB=""
+AC_CHECK_LIB(gmp, __gmpz_init_set,[GMP_LIB=-lgmp], [
+	AC_CHECK_LIB(gmp2, __gmpz_init_set_d,[GMP_LIB=-lgmp2
+		AC_DEFINE(HAVE_GMP2_INCLUDE_DIR)],
+		AC_MSG_ERROR(GMP Library not found))])
+AC_SUBST(GMP_LIB)
+
+AC_SUBST(CFLAGS)
+AC_SUBST(CPPFLAGS)
+AC_SUBST(LDFLAGS)
+
+dnl ## internationalization support
+ALL_LINGUAS="cs de es fr it ko no pt sv pl"
+AM_GNU_GETTEXT
+AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
+
+dnl wordexp check, we have a hack replacement which doesn't work 100% so we
+dnl warn the user, we do this on the end so that the user notices
+AC_CHECK_FUNC(wordexp,AC_DEFINE(HAVE_WORDEXP),
+  	      [AC_MSG_WARN([*** You don't have wordexp, I'll use an ugly shell hack ***])])
+
+
+AC_OUTPUT([
+genius.spec
+Makefile
+src/Makefile
+lib/Makefile
+lib/calculus/Makefile
+lib/combinatorics/Makefile
+lib/equation_solving/Makefile
+lib/functions/Makefile
+lib/linear_algebra/Makefile
+lib/misc/Makefile
+lib/number_theory/Makefile
+lib/statistics/Makefile
+intl/Makefile
+po/Makefile.in
+macros/Makefile
+stamp.h],[sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile])

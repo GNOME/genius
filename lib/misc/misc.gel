@@ -1,0 +1,30 @@
+# Misc Constants/functions for Dr. Genius
+
+###### Boolean constants
+true = 1;
+false = 0;
+
+# Set-theoretic subtraction
+#FIXME: this should be built-in
+# Returns X - Y
+function SetMinus(X,Y) =
+  (
+   difference=0;
+   for x in X do
+    if not(IsIn(x,Y)) then difference=[difference,x];
+   DeleteColumn(difference,1)
+  )
+
+# Test for set membership
+#FIXME: this should be built-in
+function IsIn(x,X) =
+  (
+   for loop in X do
+    if x==loop then (return true);
+   return false
+  )
+
+#make something a string
+sethelp("string","Make a string");
+function string(s) = s + ""
+protect("string")

@@ -1,0 +1,182 @@
+# Primes and Primality
+
+# All algorithms come from Bressoud, Factorization and Primality
+# Testing (see Dr. Genius bibliography)
+
+# FIXME: This is a simple sieve. It should include caching (i.e.,
+# store what every 10'th (or 20'th, or 100'th) prime is, up to a
+# certain amount. This would make it MUCH faster for small values.
+# For large values, it would be nice to do something like invert PrimePi(x).
+
+# FIXME:
+# Actually, much better would be good code to deal with ALL sequences,
+# not just the sequence of primes.
+# For example, linear recursive sequences could be either computed
+# recursively (if those values are cached), or solved in closed form
+# (and caching could be done intelligently etc.)
+
+function Prime(n) =
+  (
+   x=1;
+   for loop=1 to n do x=NextPrime(x);
+   return x;
+  )
+
+function IsPrime(n) =
+  (
+    ### Part 0: Preparations/small numbers
+    if (n<0) then n=|n|; # Make sure n is non-negative
+
+    # First check if it's a small prime (the loop below doesn't like small primes)
+    # or a special case
+    if (n==0) or (n==1) then return 0;
+    if (n==2) or (n==3) or (n==5) or (n==7) or (n==11) then return 1;
+
+    # Then check if divisible by 2 or 3
+    if Divides(2,n) or Divides(3,n) then return 0;
+
+    ### Part I: Trial Division
+    # Trial division up to (at most) the square root of n, but stop once you get too high
+    loop_max=min(IsPrimeLoopMax,floor(sqrt(n)));
+
+    # Now loop through all numbers up to loop_max that are not divisible by 2 or 3
+    loop=5;
+    do
+     (
+      if Divides(loop,n) and (loop < n) then return 0;
+      loop=loop+2;
+      if Divides(loop,n) then return 0;
+      loop=loop+4;
+     ) while (loop<=loop_max);
+# If it's a small number, then we've tried all possible prime divisors, so
+# it's prime:
+    if (n<=IsPrimeLoopMax^2) then return 1;
+
+    ### Part II: Strong Pseudoprime Tests
+    if not(StrongPseudoprimeTest(n,2)) then return 0;
+    if not(StrongPseudoprimeTest(n,3)) then return 0;
+    if not(StrongPseudoprimeTest(n,5)) then return 0;
+    if not(StrongPseudoprimeTest(n,7)) then return 0;
+    # If it passes the pseudoprime test for base 2,3,5,7 and doesn't
+    # have small divisors, then it's probably prime. It definitely is
+    # if it's less than 25*10^9.
+    if n<25*10^9 then return 1;
+
+    ### Part III: Other things ... Lucas Sequences?
+    ## At this point we're pretty sure that n is prime, so we'd like to prove it.
+    ### FIXME: Lucas sequences/test
+      # according to m9a docs, good up to 10^16.
+
+    ### Part IV: Last try, then give up
+      # If Lucas sequences fail too, I don't know what to do -- I guess
+      # continue to try pseudoprime tests or do some fancy elliptic curve
+      # thing
+
+    error("Cannot determine primality. Probably prime, but not sure.");
+    return null;
+  )
+sethelp("IsPrime","Tests primality of integers");
+protect("IsPrime");
+
+IsPrimeLoopMax = 5000;           # IsPrime configuration variable
+                                 # FIXME: This could be MUCH more elegant
+sethelp("IsPrimeLoopMax","Maximum number which IsPrime uses in trial division");
+protect("IsPrimeLoopMax");
+
+function NextPrime(n) =
+ (
+  do n=n+1 while not(IsPrime(n));
+  return n
+ )
+sethelp("NextPrime","Returns the least prime greater than n");
+protect("NextPrime");
+
+#####################################
+#### (Strong) Pseudoprime tests #####
+#####################################
+# FIXME: references and definitions!
+
+# The ``pseudoprime test'':
+# Returns true iff b^(n-1) == 1 (mod n).
+# FIXME: Should we take abs(n) if n is negative?
+# FIXME: is there a good name for an integer that is EITHER a pseudoprime OR a prime?
+function PseudoprimeTest(n,b) =
+ (
+  return (PowerMod(b,abs(n)-1,n) == 1);
+ )
+sethelp("PseudoprimeTest","FIXME");
+protect("PseudoprimeTest");
+
+# An integer is said to be a PseudoPrime with base b iff it is:
+# odd, composite, and satisfies b^(n-1) == 1 (mod n).
+# We rearrange the order below to take advantage of lazy evaluation
+# (IsOdd and PseudoprimeTest are MUCH faster than IsPrime)
+function IsPseudoprime(n,b) =
+ (
+  return (IsOdd(n) and PseudoprimeTest(n,b) and not(IsPrime(n)));
+ )
+sethelp("IsPseudoprime","FIXME");
+protect("IsPseudoprime");
+
+function StrongPseudoprimeTest(n,b) =
+ (
+  # Find t and a satisfying n-1=2^a*t, t odd
+  t = n-1;
+  a = 0;
+  while IsEven(t) do
+   (
+    t=t/2;
+    a=a+1;
+   );
+
+  test=PowerMod(b,t,n);
+  if (test==1) or (test==n-1) then return 1;
+  for loop = 1 to a-1 do
+   (
+    test=(test*test) % n;
+    if (test==1) or (test==n-1) then return 1;
+   );
+  return 0;
+ )
+sethelp("StrongPseudoprimeTest","FIXME");
+protect("StrongPseudoprimeTest");
+
+function IsStrongPseudoprime(n,b) =
+ (
+  return (IsOdd(n) and AreRelativelyPrime(n,b) and StrongPseudoprimeTest(n,b) and not (IsPrime(n)));
+ )
+sethelp("IsStrongPseudoprime","FIXME");
+protect("IsStrongPseudoprime");
+
+#################################################
+#### FIXME: Certify primality/compositeness #####
+#################################################
+# 
+
+
+
+#######################################
+############## Misc ###################
+#######################################
+
+function LucasLehmer(p) = (
+        if is_matrix(p) then
+                return ApplyOverMatrix(p, LucasLehmer)
+	else if not is_value(p) or not is_integer(p) or not p>0 then
+		(error("LucasLehmer: argument not an integer larger then 0");bailout);
+	if p==1 then return 0
+	else if p==2 then return 1;
+	S = 4;
+	n = 1;
+	Mp = (2^p) - 1;
+	while n<p-1 do (
+		S = ((S^2) - 2) % Mp;
+		n = n+1
+	);
+	if S == 0 then
+		return 1
+	else
+		return 0
+);
+sethelp("LucasLehmer","Test if Mp is a Mersenne prime using the Lucas-Lehmer test");
+protect("LucasLehmer")

@@ -1,0 +1,160 @@
+# Several root-finding methods
+# The algorithms are described in:
+# Numerical Analysis, 5th edition
+# by Richard L. Burden and J. Douglas Faires
+# PWS Publishing Company, Boston, 1993.
+# Library of congress: QA 297 B84 1993
+
+# In the below, f indicates the function whose root we wish to find,
+# a,b indicate the left and right endpoints of the interval in which we
+# wish to find the solution, TOL is the tolerance -- to what precision
+# we want the answer, and N is the maximum number of iterations
+# (0 means infinite).
+
+# These methods all return two values:
+# success:boolean, last value:real, iteration:natural
+# success is true iff last value is within tolerance of a zero
+# last value is the last value computed
+# iteration is the number of iterations performed
+
+# Currently only works for real functions of a real variable
+
+# The Bisection Method, Section 2.1, Algorithm 2.1, pp. 41-42
+function find_root_bisection(f,a,b,TOL,N) =
+	(
+# check arguments
+## check types
+	if(not is_function(f)) then
+		(error("find_root_bisection: argument 1 must be a function");bailout)
+	else if(not is_real(a) or not is_real(b) or not is_real(TOL)) then
+		(error("find_root_bisection: arguments 2, 3, 4 must be real values");bailout)
+	else if(not is_integer(N)) then
+		(error("find_root_bisection: argument 5 must be an integer");bailout);
+## check bounds
+	if(a>b) then (error("find_root_bisection: argument 2 must be less than or equal to argument 3");bailout)
+	else if(f(a)*f(b)>0) then (error("find_root_bisection: value of endpoints must have differing sign");bailout);
+
+# Start calculating
+	iteration=1;
+	p=a;
+	while((iteration <= N) or (N==0)) do
+	(
+	 diff=(b-a)/2;
+	 p=a+diff;
+	 if(f(p)==0 or diff<TOL) then (return [1,p,iteration]);
+	 iteration=iteration+1;
+	 if(f(a)*f(b)>0) then (a=p) else (b=p)
+	);
+	return [0,p,iteration];
+	)
+
+#function root_find_newton
+#FIXME: I can't take derivatives, so this doesn't work
+
+# The Secant Method, Section 2.3, Algorithm 2.4, p. 62
+function find_root_secant(f,a,b,TOL,N) =
+	(
+# check arguments
+## check types
+	if(not is_function(f)) then
+		(error("find_root_secant: argument 1 must be a function");bailout)
+	else if(not is_real(a) or not is_real(b) or not is_real(TOL)) then
+		(error("find_root_secant: arguments 2, 3, 4 must be real values");bailout)
+	else if(not is_integer(N)) then
+		(error("find_root_secant: argument 5 must be an integer");bailout);
+## check bounds
+	if(a>b) then (error("find_root_secant: argument 2 must be less than or equal to argument 3");bailout)
+	else if(f(a)*f(b)>0) then (error("find_root_secant: value of endpoints must have differing sign");bailout);
+
+# Start calculating
+	iteration=2;
+	qa=f(a);
+	qb=f(b);
+	p=a;
+	while((iteration <= N) or (N==0)) do
+	(
+	 p=b-qb*(b-a)/(qb-qa);
+	 if(abs(p-b)<TOL) then (return [1,p,iteration]);
+	 iteration=iteration+1;
+	 a=b;
+	 qa=qb;
+         b=p;
+         qb=f(p);
+	);
+	return [0,p,iteration];
+)
+
+# The Method of False Position, Section 2.3, Algorithm 2.5, p. 64
+function find_root_false_position(f,a,b,TOL,N) =
+	(
+# check arguments
+## check types
+	if(not is_function(f)) then
+		(error("find_root_false_position: argument 1 must be a function");bailout)
+	else if(not is_real(a) or not is_real(b) or not is_real(TOL)) then
+		(error("find_root_false_position: arguments 2, 3, 4 must be real values");bailout)
+	else if(not is_integer(N)) then
+		(error("find_root_false_position: argument 5 must be an integer");bailout);
+## check bounds
+	if(a>b) then (error("find_root_false_position: argument 2 must be less than or equal to argument 3");bailout)
+	else if(f(a)*f(b)>0) then (error("find_root_false_position: value of endpoints must have differing sign");bailout);
+
+# Start calculating
+	iteration=2;
+	qa=f(a);
+	qb=f(b);
+	p=a;
+	while((iteration <= N) or (N==0)) do
+	(
+	 p=b-qb*(b-a)/(qb-qa);
+	 if(abs(p-b)<TOL) then (return [1,p,iteration]);
+	 iteration=iteration+1;
+	 q=f(p);
+	 if(q*qb<0) then (a=b;qa=qb);
+         b=p;
+         qb=q;
+	);
+	return [0,p,iteration];
+)
+
+# FIXME: This doesn't work right
+# The M"uller's Method, Section 2.6, Algorithm 2.8, p. 88
+function find_root_mullers_method(f,x1,x2,x3,TOL,N) =
+	(
+# check arguments
+## check types
+	if(not is_function(f)) then
+		(error("find_root_false_position: argument 1 must be a function");bailout)
+	else if(not is_real(x1) or not is_real(x2) or not is_real(x3) or not is_real(TOL)) then
+		(error("find_root_false_position: arguments 2, 3, 4, 5 must be real values");bailout)
+	else if(not is_integer(N)) then
+		(error("find_root_false_position: argument 6 must be an integer");bailout);
+
+# Start calculating
+	p=x1;
+	h1=x1-x0;
+	h2=x2-x1;
+	d1=(f(x1)-f(x0))/h1;
+	d2=(f(x2)-f(x1))/h2;
+	d=(d2-d1)/(h2+h1);
+	i=2;
+	while((i <= N) or (N==0)) do
+	(
+	b=d2+h2*d;
+	D=sqrt(b^2-4*f(x2)*d);	# This may use complex arithmatic
+	if (abs(b-D)<abs(b+d)) then (E=b+D) else (E=b-D);
+	h=-2*f(x2)/E;
+	p=x2+h;
+	if (abs(h)<TOL) then (return[1,p,iteration]);
+	x0=x1;
+	x1=x2;
+	x2=p;
+	h1=x1-x0;
+	h2=x2-x1;
+	d1=(f(x1)-f(x0))/h1;
+	d2=(f(x2)-f(x1))/h2;
+	d=(d2-d1)/(h2+h1);
+	i=i+1;
+	);
+	return [0,p,iteration];
+)
