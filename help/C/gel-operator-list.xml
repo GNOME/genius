@@ -1,55 +1,449 @@
 
     <sect1 id="genius-gel-operator-list">
       <title>List of GEL operators</title>
-<programlisting><![CDATA[
-a;b		separator, just evaluates both but returns only b
-a=b		assignment operator asigns b to a (a must be a valid lvalue)
-		(note however that this operator may be translated to == if
-		 used in a place where boolean expression is expected)
-a:=b		assignment operator asigns b to a (a must be a valid lvalue)
-|a|		absolute value
-a^b		exponentiation
-a.^b		element by element exponentiation
-a+b		addition
-a-b		subtraction
-a*b		multiplication
-a.*b		element by element multiplication
-a/b		division
-a./b		element by element division
-a\b		back division
-a.\b		element by element back division
-a%b		the mod operator
-a.%b		element by element the mod operator
-a mod b		mod evaluation operator (expression a evaluated mod b)
-a!		factorial operator
-a!!		double factorial operator
-a==b		equality operator (returns 1 or 0)
-a!=b		inequality operator (returns 1 or 0)
-a<>b		alternative inequality operator (returns 1 or 0)
-a<=b		inequality operator (returns 1 or 0)
-a>=b		inequality operator (returns 1 or 0)
-a<=>b		comparison operator (returns -1, 0 or 1)
-a and b		logical and
-a or b		logical or
-a xor b		logical xor
-not a		logical not
--a		negation operator
-&a		variable referencing (to pass a reference to something)
-*a		variable dereferencing (to access a referenced varible)
-a'		matrix conjugate transpose
-a.'		matrix transpose
-a@(b,c)		get element of a matrix (or elements if b,c are vectors)
-a@(b,)		get row of a matrix (or elements if b is a vector)
-a@(b,:)		same as above
-a@(,c)		get column of a matrix (or elements if c is a vector)
-a@(:,c)		same as above
-a@(b)		get an element from a matrix treating it as a vector
-a:b		build a vector from a to b (or specify a row, column region)
-a:b:c		build a vector from a to c with b as a step
-(a)i		Make a imaginary (multiply a by i)
-`a		Quote an identifier so that it doesn't get evaluated
-]]>
-</programlisting>
+
+      <variablelist>
+        <varlistentry>
+         <term><synopsis>a;b</synopsis></term>
+         <listitem>
+           <para>
+             separator, just evaluates both but returns only b
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a=b</synopsis></term>
+         <listitem>
+           <para>
+             assignment operator asigns b to a (a must be a valid lvalue) (note however that this operator may be translated to == if used in a place where boolean expression is expected)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a:=b</synopsis></term>
+         <listitem>
+           <para>
+             assignment operator asigns b to a (a must be a valid lvalue)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>|a|</synopsis></term>
+         <listitem>
+           <para>
+             absolute value
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a^b</synopsis></term>
+         <listitem>
+           <para>
+             exponentiation
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a.^b</synopsis></term>
+         <listitem>
+           <para>
+             element by element exponentiation
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a+b</synopsis></term>
+         <listitem>
+           <para>
+             addition
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a-b</synopsis></term>
+         <listitem>
+           <para>
+             subtraction
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a*b</synopsis></term>
+         <listitem>
+           <para>
+             multiplication
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a.*b</synopsis></term>
+         <listitem>
+           <para>
+             element by element multiplication
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a/b</synopsis></term>
+         <listitem>
+           <para>
+             division
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a./b</synopsis></term>
+         <listitem>
+           <para>
+             element by element division
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a\b</synopsis></term>
+         <listitem>
+           <para>
+             back division
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a.\b</synopsis></term>
+         <listitem>
+           <para>
+             element by element back division
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a%b</synopsis></term>
+         <listitem>
+           <para>
+             the mod operator
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a.%b</synopsis></term>
+         <listitem>
+           <para>
+             element by element the mod operator
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a mod b</synopsis></term>
+         <listitem>
+           <para>
+             mod evaluation operator (expression a evaluated mod b)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a!</synopsis></term>
+         <listitem>
+           <para>
+             factorial operator
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a!!</synopsis></term>
+         <listitem>
+           <para>
+             double factorial operator
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a==b</synopsis></term>
+         <listitem>
+           <para>
+             equality operator (returns 1 or 0)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a!=b</synopsis></term>
+         <listitem>
+           <para>
+             inequality operator (returns 1 or 0)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a&lt;&gt;b</synopsis></term>
+         <listitem>
+           <para>
+             alternative inequality operator (returns 1 or 0)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a&lt;=b</synopsis></term>
+         <listitem>
+           <para>
+             inequality operator (returns 1 or 0)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a&gt;=b</synopsis></term>
+         <listitem>
+           <para>
+             inequality operator (returns 1 or 0)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a&lt;=&gt;b</synopsis></term>
+         <listitem>
+           <para>
+             comparison operator (returns -1, 0 or 1)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a and b</synopsis></term>
+         <listitem>
+           <para>
+             logical and
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a or b</synopsis></term>
+         <listitem>
+           <para>
+             logical or
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a xor b</synopsis></term>
+         <listitem>
+           <para>
+             logical xor
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>not a</synopsis></term>
+         <listitem>
+           <para>
+             logical not
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>-a</synopsis></term>
+         <listitem>
+           <para>
+             negation operator
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>&amp;a</synopsis></term>
+         <listitem>
+           <para>
+             variable referencing (to pass a reference to something)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>*a</synopsis></term>
+         <listitem>
+           <para>
+             variable dereferencing (to access a referenced varible)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a'</synopsis></term>
+         <listitem>
+           <para>
+             matrix conjugate transpose
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a.'</synopsis></term>
+         <listitem>
+           <para>
+             matrix transpose
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a@(b,c)</synopsis></term>
+         <listitem>
+           <para>
+             get element of a matrix (or elements if b,c are vectors)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a@(b,)</synopsis></term>
+         <listitem>
+           <para>
+             get row of a matrix (or elements if b is a vector)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a@(b,:)</synopsis></term>
+         <listitem>
+           <para>
+             same as above
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a@(,c)</synopsis></term>
+         <listitem>
+           <para>
+             get column of a matrix (or elements if c is a vector)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a@(:,c)</synopsis></term>
+         <listitem>
+           <para>
+             same as above
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a@(b)</synopsis></term>
+         <listitem>
+           <para>
+             get an element from a matrix treating it as a vector
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a:b</synopsis></term>
+         <listitem>
+           <para>
+             build a vector from a to b (or specify a row, column region)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a:b:c</synopsis></term>
+         <listitem>
+           <para>
+             build a vector from a to c with b as a step
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>(a)i</synopsis></term>
+         <listitem>
+           <para>
+             Make a imaginary (multiply a by i)
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>`a</synopsis></term>
+         <listitem>
+           <para>
+             Quote an identifier so that it doesn't get evaluated
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+      </variablelist>
 
 <note>
 <para>
