@@ -1364,13 +1364,121 @@ gel_print_etree (GelOutput *gelo,
 	gel_output_pop_nonotify (gelo);
 }
 
+static int
+strlen_max (const char *s, int m)
+{
+	int i;
+	for (i = 0; i < m && s[i] != '\0'; i++)
+		;
+	return i;
+}
+
+static char *
+make_sep (int len)
+{
+	char sep[] = "----------------------------------------------------------------------------------";
+	sep[MIN(80,len)] = '\0';
+	return g_strdup (sep);
+}
+
+
+static void
+pretty_print_value_normal (GelOutput *gelo, GelETree *n)
+{
+	/* FIXME: what about mixed_fractions, what about rational
+	   complex values, etc... */
+	if ( ! mpw_is_complex (n->val.value) &&
+	    mpw_is_rational (n->val.value) &&
+	    ! calcstate.mixed_fractions) {
+		int lend, lenn;
+		mpw_t num, den;
+		mpz_ptr z;
+		char *nums, *dens;
+
+		mpw_init (num);
+		mpw_init (den);
+
+		mpw_numerator (num, n->val.value);
+		z = mpw_peek_real_mpz (num);
+		if (z == NULL ||
+		    mpz_sizeinbase (z, calcstate.integer_output_base) - 1
+		      > calcstate.max_digits) {
+			mpw_clear (num);
+			goto just_print_a_number;
+		}
+
+		mpw_denominator (den, n->val.value);
+		z = mpw_peek_real_mpz (den);
+		if (z == NULL ||
+		    mpz_sizeinbase (z, calcstate.integer_output_base) - 1
+		      > calcstate.max_digits) {
+			mpw_clear (num);
+			mpw_clear (den);
+			goto just_print_a_number;
+		}
+
+		/* we can possibly be one off with max_digits,
+		   since sizeinbase can be 1 off, but that's ok */
+
+		nums = mpw_getstring (num,
+				      0 /* calcstate.max_digits */,
+				      calcstate.scientific_notation,
+				      calcstate.results_as_floats,
+				      calcstate.mixed_fractions,
+				      calcstate.output_style,
+				      calcstate.integer_output_base,
+				      FALSE);
+		lenn = strlen_max (nums, 80);
+		dens = mpw_getstring (den,
+				      0 /* calcstate.max_digits */,
+				      calcstate.scientific_notation,
+				      calcstate.results_as_floats,
+				      calcstate.mixed_fractions,
+				      calcstate.output_style,
+				      calcstate.integer_output_base,
+				      FALSE);
+		lend = strlen_max (dens, 80);
+
+		/* this would look very weird so just use normal notation */
+		if (lenn <= 2 && lend <= 2) {
+			gel_output_string (gelo, nums);
+			gel_output_string (gelo, "/");
+			gel_output_string (gelo, dens);
+		} else {
+			char *sep = make_sep (MAX (lend, lenn));
+
+			gel_output_string (gelo, "\n");
+			gel_output_string (gelo, nums);
+			gel_output_string (gelo, "\n");
+			gel_output_string (gelo, sep);
+			gel_output_string (gelo, "\n");
+			gel_output_string (gelo, dens);
+
+			g_free (sep);
+		}
+		g_free (nums);
+		g_free (dens);
+
+		mpw_clear (num);
+		mpw_clear (den);
+
+		return;
+	}
+
+just_print_a_number:
+	gel_print_etree (gelo, n, TRUE);
+}
+
 void
 gel_pretty_print_etree (GelOutput *gelo, GelETree *n)
 {
 	/*do a nice printout of matrices if that's the
 	  top node*/
 	gel_output_push_nonotify (gelo);
-	if(n->type == MATRIX_NODE) {
+	if (n->type == VALUE_NODE &&
+	    calcstate.output_style == GEL_OUTPUT_NORMAL) {
+		pretty_print_value_normal (gelo, n);
+	} else if (n->type == MATRIX_NODE) {
 		int i,j;
 
 		if (calcstate.output_style == GEL_OUTPUT_TROFF) {

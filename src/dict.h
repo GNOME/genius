@@ -104,6 +104,10 @@ void d_popcontext(void);
 /*gimme the current dictinary*/
 GSList * d_getcontext(void);
 
+/*gimme the current global dictinary*/
+GSList * d_getcontext_global (void);
+GSList * d_find_similar_globals (const char *id);
+
 /* Put on subst local var list for this current stack */
 void d_put_on_subst_list (GelEFunc *func);
 

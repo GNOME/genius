@@ -45,6 +45,9 @@ static GHashTable *dictionary;
 
 extern GHashTable *uncompiled;
 
+extern const char *genius_toplevels[];
+extern const char *genius_operators[];
+
 GelEFunc *free_funcs = NULL;
 
 #define GET_NEW_FUNC(n) \
@@ -704,12 +707,182 @@ d_popcontext(void)
 
 /*gimme the current dictinary*/
 GSList *
-d_getcontext(void)
+d_getcontext (void)
 {
-	if(context.top==-1)
+	if (context.top == -1)
 		return NULL;
 	else
 		return context.stack->data;
+}
+
+/*gimme the current global dictinary*/
+GSList *
+d_getcontext_global (void)
+{
+	if (context.top == -1) {
+		return NULL;
+	} else {
+		GSList *last;
+		last = g_slist_last (context.stack);
+		g_assert (last != NULL);
+
+		return last->data;
+	}
+}
+
+static int
+lowercase_ascii_sum (const char *id)
+{
+	int sum = 0;
+	int i;
+	for (i = 0; id[i] != '\0'; i++) {
+		sum += g_ascii_tolower (id[i]) - 'a';
+	}
+	return sum;
+}
+
+static int
+lowercase_kronecker_difference (const char *id1, const char *id2)
+{
+	int sum = 0;
+	int i;
+	for (i = 0; id1[i] != '\0' && id2[i] != '\0'; i++) {
+		if (g_ascii_tolower (id1[i]) != g_ascii_tolower (id2[i]))
+			sum += 1;
+	}
+	/* plus the ends */
+	sum += strlen (&id1[i]);
+	sum += strlen (&id2[i]);
+	return sum;
+}
+
+static char *
+construct_deleted (const char *id, int d, int len)
+{
+	int i, y;
+	char *out = g_new0 (char, len);
+
+	y = 0;
+	for (i = 0; i < len; i++) {
+		if (i != d)
+			out[y++] = id[i];
+	}
+
+	return out;
+}
+
+static gboolean
+try_deletions (const char *id1, int len1, const char *id2)
+{
+	int i;
+	for (i = 0; i < len1; i++) {
+		char *d = construct_deleted (id1, i, len1);
+		int allowed = len1 * 0.2;
+		if (lowercase_kronecker_difference (id2, d) <= allowed) {
+			g_free (d);
+			return TRUE;
+		}
+		g_free (d);
+	}
+
+	return FALSE;
+}
+
+static gboolean
+are_ids_similar (const char *id1, const char *id2)
+{
+	int len1 = strlen (id1), len2 = strlen (id2);
+	int dif1, dif2, dif3;
+	int allowed;
+
+	if (ABS (len1 - len2) > 1)
+		return FALSE;
+
+	if (g_ascii_strcasecmp (id1, id2) == 0)
+		return TRUE;
+
+	if (len1 > 6 && len1 == len2) {
+		int sum1, sum2;
+
+		sum1 = lowercase_ascii_sum (id1);
+		sum2 = lowercase_ascii_sum (id2);
+
+		/* just a reordering (possibly)
+		   (won't work right on small words) */
+		if (sum1 == sum2) {
+			return TRUE;
+		}
+	}
+
+	/* simple cases for length 2 and 3 */
+	if (len1 == 2 &&
+	    len2 == len1 &&
+	    id1[0] == id2[1] &&
+	    id1[1] == id2[0]) {
+		return TRUE;
+	}
+
+	if (len1 == 3 &&
+	    len2 == len1 &&
+	    ( (id1[0] == id2[1] && id1[1] == id2[0] && id1[2] == id2[2]) ||
+	      (id1[0] == id2[0] && id1[1] == id2[2] && id1[2] == id2[1]) )) {
+		return TRUE;
+	}
+
+	if (len1 <= 2 && len2 <= 2) {
+		return FALSE;
+	}
+
+	if (try_deletions (id1, len1, id2))
+		return TRUE;
+	if (try_deletions (id2, len2, id1))
+		return TRUE;
+
+	dif1 = lowercase_kronecker_difference (id1, id2);
+	dif2 = lowercase_kronecker_difference (id1, &id2[1]);
+	dif3 = lowercase_kronecker_difference (&id1[1], id2);
+
+	allowed = 0.2 * len1;
+
+	if (dif1 > allowed+1 &&
+	    dif2 > allowed &&
+	    dif3 > allowed)
+		return FALSE;
+
+	return TRUE;
+}
+
+GSList *
+d_find_similar_globals (const char *id)
+{
+	GSList *ret = NULL;
+	GSList *li;
+	int i;
+
+	for (li = d_getcontext_global (); li != NULL; li = li->next) {
+		GelEFunc *n = li->data;
+		if (n->id != NULL &&
+		    n->id->token != NULL &&
+		    are_ids_similar (n->id->token, id)) {
+			ret = g_slist_prepend (ret, g_strdup (n->id->token));
+		}
+	}
+
+	for (i = 0; genius_toplevels[i] != NULL; i++) {
+		if (are_ids_similar (genius_toplevels[i], id)) {
+			ret = g_slist_prepend (ret,
+					       g_strdup (genius_toplevels[i]));
+		}
+	}
+
+	for (i = 0; genius_operators[i] != NULL; i++) {
+		if (are_ids_similar (genius_operators[i], id)) {
+			ret = g_slist_prepend (ret,
+					       g_strdup (genius_operators[i]));
+		}
+	}
+
+	return ret;
 }
 
 void

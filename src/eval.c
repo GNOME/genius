@@ -2857,6 +2857,39 @@ iter_do_var(GelCtx *ctx, GelETree *n, GelEFunc *f)
 	return TRUE;
 }
 
+static char *
+similar_possible_ids (const char *id)
+{
+	GSList *similar, *li;
+	GString *sim;
+
+	similar = d_find_similar_globals (id);
+
+	if (similar == NULL)
+		return NULL;
+
+	sim = g_string_new ("'");
+
+	for (li = similar; li != NULL; li = li->next) {
+		const char *id = li->data;
+
+		if (li->next == NULL &&
+		    li != similar)
+			g_string_append (sim, _("' or '"));
+		else if (li != similar)
+			g_string_append (sim, "', '");
+
+		g_string_append (sim, id);
+
+		li->data = NULL; /* paranoia */
+	}
+	g_slist_free (similar);
+
+	g_string_append (sim, "'");
+
+	return g_string_free (sim, FALSE);
+}
+
 static inline gboolean
 iter_variableop(GelCtx *ctx, GelETree *n)
 {
@@ -2875,11 +2908,20 @@ iter_variableop(GelCtx *ctx, GelETree *n)
 	
 	f = d_lookup_global(n->id.id);
 	if G_UNLIKELY (f == NULL) {
+		char *similar;
 		if (strcmp (n->id.id->token, "i") == 0) {
 			gel_errorout (_("Variable 'i' used uninitialized.  "
 					"Perhaps you meant to write '1i' for "
 					"the imaginary number (square root of "
 					"-1)."));
+		} else if ((similar = similar_possible_ids (n->id.id->token))
+			       != NULL) {
+			gel_errorout (_("Variable '%s' used uninitialized, "
+					"perhaps you meant %s."),
+				      n->id.id->token,
+				      similar);
+
+			g_free (similar);
 		} else {
 			gel_errorout (_("Variable '%s' used uninitialized"),
 				      n->id.id->token);
@@ -2900,8 +2942,18 @@ iter_derefvarop(GelCtx *ctx, GelETree *n)
 	
 	f = d_lookup_global(l->id.id);
 	if G_UNLIKELY (f == NULL) {
-		gel_errorout (_("Variable '%s' used uninitialized"),
-			      l->id.id->token);
+		char *similar = similar_possible_ids (l->id.id->token);
+		if (similar != NULL) {
+			gel_errorout (_("Variable '%s' used uninitialized, "
+					"perhaps you meant %s."),
+				      l->id.id->token,
+				      similar);
+
+			g_free (similar);
+		} else {
+			gel_errorout (_("Variable '%s' used uninitialized"),
+				      l->id.id->token);
+		}
 	} else if G_UNLIKELY (f->nargs != 0) {
 		gel_errorout (_("Call of '%s' with the wrong number of arguments!\n"
 				"(should be %d)"), f->id ? f->id->token : "anonymous", f->nargs);
@@ -3697,8 +3749,19 @@ get_func_from (GelETree *l, gboolean silent)
 		f = d_lookup_global(l->id.id);
 		if (f == NULL) {
 			if G_UNLIKELY ( ! silent) {
-				gel_errorout (_("Function '%s' used uninitialized"),
-					      l->id.id->token);
+				char * similar =
+					similar_possible_ids (l->id.id->token);
+				if (similar != NULL) {
+					gel_errorout (_("Function '%s' used uninitialized, "
+							"perhaps you meant %s."),
+						      l->id.id->token,
+						      similar);
+
+					g_free (similar);
+				} else {
+					gel_errorout (_("Function '%s' used uninitialized"),
+						      l->id.id->token);
+				}
 			}
 			return NULL;
 		}

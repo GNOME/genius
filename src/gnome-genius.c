@@ -1572,8 +1572,19 @@ save_contents_vfs (const char *file, const char *str, int size)
 	GnomeVFSFileSize bytes;
 	GnomeVFSResult result;
 
-	result = gnome_vfs_open (&handle, file,
-				 GNOME_VFS_OPEN_WRITE);
+	/* FIXME: we should handle errors better by perhaps moving
+	   to a different name first and erasing only when saving
+	   was all fine */
+
+	/* Be safe about saving files, unlink and create in
+	 * exclusive mode */
+	result = gnome_vfs_unlink (file);
+	/* FIXME: error handling, but not if it's
+	 * the file-doesn't-exist kind of error which is fine */
+	result = gnome_vfs_create (&handle, file,
+				   GNOME_VFS_OPEN_WRITE,
+				   TRUE /* exclusive */,
+				   0644);
 	if (result != GNOME_VFS_OK) {
 		/* FIXME: error handling */
 		return FALSE;
