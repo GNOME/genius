@@ -215,9 +215,11 @@ static gboolean mpwl_perfect_power(MpwRealNum *op);
 
 static void mpwl_neg(MpwRealNum *rop,MpwRealNum *op);
 
-static void mpwl_fac_ui(MpwRealNum *rop,unsigned int op);
+static void mpwl_fac_ui (MpwRealNum *rop, unsigned int op);
+static void mpwl_fac (MpwRealNum *rop, MpwRealNum *op);
 
-static void mpwl_fac(MpwRealNum *rop,MpwRealNum *op);
+static void mpwl_dblfac_ui (MpwRealNum *rop, unsigned int op);
+static void mpwl_dblfac (MpwRealNum *rop, MpwRealNum *op);
 
 static int mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 
@@ -2336,6 +2338,54 @@ mpwl_fac(MpwRealNum *rop,MpwRealNum *op)
 			return;
 		}
 		mpwl_fac_ui(rop,op->data.nval);
+	}
+}
+
+static void
+mpwl_dblfac_ui(MpwRealNum *rop,unsigned int op)
+{
+	if(rop->type!=MPW_INTEGER) {
+		mpwl_clear(rop);
+		mpwl_init_type(rop,MPW_INTEGER);
+	}
+	mpz_set_ui (rop->data.ival, 1);
+	if (op == 0)
+		return;
+	for (;;) {
+		mpz_mul_ui (rop->data.ival, rop->data.ival, op);
+		if (op <= 2)
+			break;
+		op -= 2;
+	}
+}
+
+static void
+mpwl_dblfac (MpwRealNum *rop,MpwRealNum *op)
+{
+	if(op->type!=MPW_INTEGER && op->type!=MPW_NATIVEINT) {
+		(*errorout)(_("Can't do factorials of rationals or floats!"));
+		error_num=NUMERICAL_MPW_ERROR;
+		return;
+	}
+	if(op->type==MPW_INTEGER) {
+		if(mpz_cmp_ui(op->data.ival,ULONG_MAX)>0) {
+			(*errorout)(_("Number too large to compute factorial!"));
+			error_num=NUMERICAL_MPW_ERROR;
+			return;
+		}
+		if(mpz_sgn(op->data.ival)<0) {
+			(*errorout)(_("Can't do factorials of negative numbers!"));
+			error_num=NUMERICAL_MPW_ERROR;
+			return;
+		}
+		mpwl_dblfac_ui(rop,mpz_get_ui(op->data.ival));
+	} else {
+		if(op->data.nval<0) {
+			(*errorout)(_("Can't do factorials of negative numbers!"));
+			error_num=NUMERICAL_MPW_ERROR;
+			return;
+		}
+		mpwl_dblfac_ui(rop,op->data.nval);
 	}
 }
 
@@ -4520,6 +4570,19 @@ mpw_fac(mpw_ptr rop,mpw_ptr op)
 		MAKE_REAL(rop);
 		MAKE_COPY(rop->r);
 		mpwl_fac(rop->r,op->r);
+	} else {
+		(*errorout)(_("Can't make factorials of complex numbers"));
+		error_num=NUMERICAL_MPW_ERROR;
+	}
+}
+
+void
+mpw_dblfac (mpw_ptr rop, mpw_ptr op)
+{
+	if (op->type==MPW_REAL) {
+		MAKE_REAL (rop);
+		MAKE_COPY (rop->r);
+		mpwl_dblfac (rop->r, op->r);
 	} else {
 		(*errorout)(_("Can't make factorials of complex numbers"));
 		error_num=NUMERICAL_MPW_ERROR;

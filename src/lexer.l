@@ -379,7 +379,14 @@ null		{ DO_RET; return '.'; }
 
 [ \t\r]+	; /*ignore whitespace*/
 
+\.\*		{ DO_RET; return ELTELTMUL; }
+\.\/		{ DO_RET; return ELTELTDIV; }
+\.\\		{ DO_RET; return ELTELTBACKDIV; }
+\.\%		{ DO_RET; return ELTELTMOD; }
+\.\^		{ DO_RET; return ELTELTEXP; }
 \.\'		{ DO_RET; return TRANSPOSE; }
+
+[!][!]		{ DO_RET; return DOUBLEFACT; }
 
 [!']		{
 			DO_RET;

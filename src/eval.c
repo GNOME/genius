@@ -147,12 +147,18 @@ branches(int op)
 		case E_PLUS: return 2;
 		case E_MINUS: return 2;
 		case E_MUL: return 2;
+		case E_ELTMUL: return 2;
 		case E_DIV: return 2;
+		case E_ELTDIV: return 2;
 		case E_BACK_DIV: return 2;
+		case E_ELT_BACK_DIV: return 2;
 		case E_MOD: return 2;
+		case E_ELTMOD: return 2;
 		case E_NEG: return 1;
 		case E_EXP: return 2;
+		case E_ELTEXP: return 2;
 		case E_FACT: return 1;
+		case E_DBLFACT: return 1;
 		case E_TRANSPOSE: return 1;
 		case E_CONJUGATE_TRANSPOSE: return 1;
 		case E_IF_CONS: return 2;
@@ -1119,16 +1125,24 @@ op_two_nodes (GelCtx *ctx, GelETree *ll, GelETree *rr, int oper,
 			mpw_sub(res,ll->val.value,rr->val.value);
 			break;
 		case E_MUL:
+		case E_ELTMUL:
 			mpw_mul(res,ll->val.value,rr->val.value);
 			break;
 		case E_DIV:
+		case E_ELTDIV:
 			mpw_div(res,ll->val.value,rr->val.value);
 			break;
 		case E_BACK_DIV:
+		case E_ELT_BACK_DIV:
 			mpw_div(res,rr->val.value,ll->val.value);
 			break;
 		case E_MOD:
+		case E_ELTMOD:
 			mpw_mod(res,ll->val.value,rr->val.value);
+			break;
+		case E_EXP:
+		case E_ELTEXP:
+			mpw_pow (res, ll->val.value, rr->val.value);
 			break;
 		default: g_assert_not_reached();
 		}
@@ -1229,8 +1243,9 @@ matrix_absnegfac_op(GelCtx *ctx, GelETree *n, GelETree *l)
 	for(i=0;i<gel_matrixw_width(m);i++) {
 		for(j=0;j<gel_matrixw_height(m);j++) {
 			GelETree *t = gel_matrixw_set_index(m,i,j);
-			if(!t) {
-				if(n->op.oper == E_FACT)
+			if(t == NULL) {
+				if(n->op.oper == E_FACT ||
+				   n->op.oper == E_DBLFACT)
 					gel_matrixw_set_index(m,i,j) = gel_makenum_ui(1);
 			} else if(t->type == VALUE_NODE) {
 				switch(n->op.oper) {
@@ -1242,6 +1257,9 @@ matrix_absnegfac_op(GelCtx *ctx, GelETree *n, GelETree *l)
 					break;
 				case E_FACT:
 					mpw_fac(t->val.value,t->val.value);
+					break;
+				case E_DBLFACT:
+					mpw_dblfac(t->val.value,t->val.value);
 					break;
 				default:
 					g_assert_not_reached();
@@ -1266,7 +1284,7 @@ matrix_absnegfac_op(GelCtx *ctx, GelETree *n, GelETree *l)
 }
 
 static int
-pure_matrix_addsub_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
+pure_matrix_eltbyelt_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 {
 	int i,j;
 	GelMatrixW *m1,*m2;
@@ -1274,7 +1292,11 @@ pure_matrix_addsub_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	m2 = r->mat.matrix;
 	if((gel_matrixw_width(m1) != gel_matrixw_width(m2)) ||
 	   (gel_matrixw_height(m1) != gel_matrixw_height(m2))) {
-		(*errorout)(_("Can't add/subtract two matricies of different sizes"));
+		if (n->op.oper == E_PLUS ||
+		    n->op.oper == E_MINUS)
+			(*errorout)(_("Can't add/subtract two matricies of different sizes"));
+		else
+			(*errorout)(_("Can't do element by element operations on two matricies of different sizes"));
 		return TRUE;
 	}
 	l->mat.quoted = l->mat.quoted || r->mat.quoted;
@@ -1737,6 +1759,7 @@ funcname(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)		\
 PRIM_NUM_FUNC_1(numerical_abs,mpw_abs)
 PRIM_NUM_FUNC_1(numerical_neg,mpw_neg)
 PRIM_NUM_FUNC_1(numerical_fac,mpw_fac)
+PRIM_NUM_FUNC_1(numerical_dblfac,mpw_dblfac)
 PRIM_NUM_FUNC_2(numerical_add,mpw_add)
 PRIM_NUM_FUNC_2(numerical_sub,mpw_sub)
 PRIM_NUM_FUNC_2(numerical_mul,mpw_mul)
@@ -1758,7 +1781,7 @@ static const GelOper prim_table[E_OPER_LAST] = {
 	/*E_PLUS*/
 	{{
 		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_add},
-		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_addsub_op},
+		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
 		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
 			 (GelEvalFunc)matrix_scalar_matrix_op},
 		 {{GO_VALUE|GO_MATRIX|GO_FUNCTION|GO_STRING,GO_STRING,0},
@@ -1769,7 +1792,7 @@ static const GelOper prim_table[E_OPER_LAST] = {
 	/*E_MINUS*/
 	{{
 		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_sub},
-		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_addsub_op},
+		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
 		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
 			 (GelEvalFunc)matrix_scalar_matrix_op},
 	 }},
@@ -1780,6 +1803,13 @@ static const GelOper prim_table[E_OPER_LAST] = {
 		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
 			 (GelEvalFunc)matrix_scalar_matrix_op},
 	 }},
+	/*E_ELTMUL*/
+	{{
+		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_mul},
+		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
+		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)matrix_scalar_matrix_op},
+	 }},
 	/*E_DIV*/
 	{{
 		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_div},
@@ -1787,14 +1817,35 @@ static const GelOper prim_table[E_OPER_LAST] = {
 		 {{GO_VALUE,GO_MATRIX,0}, (GelEvalFunc)value_matrix_div_op},
 		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_div_op},
 	 }},
+	/*E_ELTDIV*/
+	{{
+		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_div},
+		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
+		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)matrix_scalar_matrix_op},
+	 }},
 	/*E_BACK_DIV*/
 	{{
 		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_back_div},
 		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_div_op},
 	 }},
+	/*E_ELT_BACK_DIV*/
+	{{
+		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_back_div},
+		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
+		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)matrix_scalar_matrix_op},
+	 }},
 	/*E_MOD*/
 	{{
 		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_mod},
+	 }},
+	/*E_ELTMOD*/
+	{{
+		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_mod},
+		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
+		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)matrix_scalar_matrix_op},
 	 }},
 	/*E_NEG*/
 	{{
@@ -1806,9 +1857,21 @@ static const GelOper prim_table[E_OPER_LAST] = {
 		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_pow},
 		 {{GO_MATRIX,GO_VALUE,0},(GelEvalFunc)matrix_pow_op},
 	 }},
+	/*E_ELTEXP*/
+	{{
+		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_pow},
+		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
+		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)matrix_scalar_matrix_op},
+	 }},
 	/*E_FACT*/
 	{{
 		 {{GO_VALUE,0,0},(GelEvalFunc)numerical_fac},
+		 {{GO_MATRIX,0,0},(GelEvalFunc)matrix_absnegfac_op},
+	 }},
+	/*E_DBLFACT*/
+	{{
+		 {{GO_VALUE,0,0},(GelEvalFunc)numerical_dblfac},
 		 {{GO_MATRIX,0,0},(GelEvalFunc)matrix_absnegfac_op},
 	 }},
 	/*E_TRANSPOSE*/
@@ -3894,12 +3957,18 @@ iter_get_op_name(int oper)
 	case E_PLUS: name = g_strdup(_("Addition")); break;
 	case E_MINUS: name = g_strdup(_("Subtraction")); break;
 	case E_MUL: name = g_strdup(_("Multiplication")); break;
+	case E_ELTMUL: name = g_strdup(_("Element by element multiplication")); break;
 	case E_DIV: name = g_strdup(_("Division")); break;
+	case E_ELTDIV: name = g_strdup(_("Element by element division")); break;
 	case E_BACK_DIV: name = g_strdup(_("Back division")); break;
+	case E_ELT_BACK_DIV: name = g_strdup(_("Element by element back division")); break;
 	case E_MOD: name = g_strdup(_("Modulo")); break;
+	case E_ELTMOD: name = g_strdup(_("Element by element modulo")); break;
 	case E_NEG: name = g_strdup(_("Negation")); break;
 	case E_EXP: name = g_strdup(_("Power")); break;
+	case E_ELTEXP: name = g_strdup(_("Element by element power")); break;
 	case E_FACT: name = g_strdup(_("Factorial")); break;
+	case E_DBLFACT: name = g_strdup(_("Double factorial")); break;
 	case E_TRANSPOSE: name = g_strdup(_("Transpose")); break;
 	case E_CONJUGATE_TRANSPOSE: name = g_strdup(_("ConjugateTranspose")); break;
 	case E_CMP_CMP: name = g_strdup(_("Comparison (<=>)")); break;
@@ -3999,12 +4068,18 @@ iter_operator_pre(GelCtx *ctx)
 	case E_PLUS:
 	case E_MINUS:
 	case E_MUL:
+	case E_ELTMUL:
 	case E_DIV:
+	case E_ELTDIV:
 	case E_BACK_DIV:
+	case E_ELT_BACK_DIV:
 	case E_MOD:
+	case E_ELTMOD:
 	case E_NEG:
 	case E_EXP:
+	case E_ELTEXP:
 	case E_FACT:
+	case E_DBLFACT:
 	case E_TRANSPOSE:
 	case E_CONJUGATE_TRANSPOSE:
 	case E_CMP_CMP:
@@ -4176,10 +4251,15 @@ iter_operator_post(GelCtx *ctx)
 	case E_PLUS:
 	case E_MINUS:
 	case E_MUL:
+	case E_ELTMUL:
 	case E_DIV:
+	case E_ELTDIV:
 	case E_BACK_DIV:
+	case E_ELT_BACK_DIV:
 	case E_MOD:
+	case E_ELTMOD:
 	case E_EXP:
+	case E_ELTEXP:
 	case E_CMP_CMP:
 	case E_LOGICAL_XOR:
 		if(!iter_call2(ctx,&prim_table[n->op.oper],n))
@@ -4190,6 +4270,7 @@ iter_operator_post(GelCtx *ctx)
 	case E_ABS:
 	case E_NEG:
 	case E_FACT:
+	case E_DBLFACT:
 	case E_TRANSPOSE:
 	case E_CONJUGATE_TRANSPOSE:
 	case E_LOGICAL_NOT:
@@ -4863,12 +4944,16 @@ try_to_precalc_op(GelETree *n)
 	case E_NEG: op_precalc_all_1(n,mpw_neg); return;
 	case E_ABS: op_precalc_1(n,mpw_abs); return;
 	case E_FACT: op_precalc_1(n,mpw_fac); return;
+	case E_DBLFACT: op_precalc_1(n,mpw_dblfac); return;
 	case E_PLUS: op_precalc_2(n,mpw_add); return;
 	case E_MINUS: op_precalc_2(n,mpw_sub); return;
 	case E_MUL: op_precalc_2(n,mpw_mul); return;
+	case E_ELTMUL: op_precalc_2(n,mpw_mul); return;
 	case E_DIV: op_precalc_2(n,mpw_div); return;
+	case E_ELTDIV: op_precalc_2(n,mpw_div); return;
 	case E_MOD: op_precalc_2(n,mpw_mod); return;
 	case E_EXP: op_precalc_2(n,mpw_pow); return;
+	case E_ELTEXP: op_precalc_2(n,mpw_pow); return;
 	default: return;
 	}
 }

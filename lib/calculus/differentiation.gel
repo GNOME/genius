@@ -115,13 +115,15 @@ DerivativeNumberOfTries=100;
 
 # Simple test for differentiability
 function IsDifferentiable(f,x0) =
-	(
+(
 	# First, differentiable functions have to be CONTINUOUS
-	if not(IsContinuous(f,x0)) then return null;
-	if LeftLimit(`(h)=(OneSidedFivePointFormula(f,x0,h),0))==RightLimit(`(h)=(OneSidedFivePointFormula(f,x0,h),0))
-	 then return true
-	 else return false
+	if not IsContinuous(f,x0) then (
+		null
+	) else (
+		function helper(h) = (OneSidedFivePointFormula(f,x0,h),0);
+		LeftLimit (helper) == RightLimit (helper)
 	)
+)
 
 # Simple derivative function
 #FIXME!!!! BROKEN!!!!

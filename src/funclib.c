@@ -1912,14 +1912,14 @@ check_poly(GelETree * *a, int args, char *func, int complain)
 }
 
 static GelETree *
-addpoly_op(GelCtx *ctx, GelETree * * a, int *exception)
+AddPoly_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	GelETree *n;
 	long size;
 	int i;
 	GelMatrixW *m1,*m2,*mn;
 	
-	if(!check_poly(a,2,"addpoly",TRUE))
+	if(!check_poly(a,2,"AddPoly",TRUE))
 		return NULL;
 
 	m1 = a[0]->mat.matrix;
@@ -1957,14 +1957,14 @@ addpoly_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-subpoly_op(GelCtx *ctx, GelETree * * a, int *exception)
+SubtractPoly_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	GelETree *n;
 	long size;
 	int i;
 	GelMatrixW *m1,*m2,*mn;
 	
-	if(!check_poly(a,2,"subpoly",TRUE))
+	if(!check_poly(a,2,"SubtractPoly",TRUE))
 		return NULL;
 
 	m1 = a[0]->mat.matrix;
@@ -2005,7 +2005,7 @@ subpoly_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-mulpoly_op(GelCtx *ctx, GelETree * * a, int *exception)
+MultiplyPoly_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	GelETree *n;
 	long size;
@@ -2013,7 +2013,7 @@ mulpoly_op(GelCtx *ctx, GelETree * * a, int *exception)
 	mpw_t accu;
 	GelMatrixW *m1,*m2,*mn;
 	
-	if(!check_poly(a,2,"mulpoly",TRUE))
+	if(!check_poly(a,2,"MultiplyPoly",TRUE))
 		return NULL;
 	m1 = a[0]->mat.matrix;
 	m2 = a[1]->mat.matrix;
@@ -2053,13 +2053,13 @@ mulpoly_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-derpoly_op(GelCtx *ctx, GelETree * * a, int *exception)
+PolyDerivative_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	GelETree *n;
 	int i;
 	GelMatrixW *m,*mn;
 	
-	if(!check_poly(a,1,"derpoly",TRUE))
+	if(!check_poly(a,1,"PolyDerivative",TRUE))
 		return NULL;
 
 	m = a[0]->mat.matrix;
@@ -2089,13 +2089,13 @@ derpoly_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-der2poly_op(GelCtx *ctx, GelETree * * a, int *exception)
+Poly2ndDerivative_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	GelETree *n;
 	int i;
 	GelMatrixW *m,*mn;
 	
-	if(!check_poly(a,1,"der2poly",TRUE))
+	if(!check_poly(a,1,"Poly2ndDerivative",TRUE))
 		return NULL;
 
 	m = a[0]->mat.matrix;
@@ -2125,11 +2125,11 @@ der2poly_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-trimpoly_op(GelCtx *ctx, GelETree * * a, int *exception)
+TrimPoly_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	GelETree *n;
 	
-	if(!check_poly(a,1,"trimpoly",TRUE))
+	if(!check_poly(a,1,"TrimPoly",TRUE))
 		return NULL;
 
 	GET_NEW_NODE(n);
@@ -2143,16 +2143,16 @@ trimpoly_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-is_poly_op(GelCtx *ctx, GelETree * * a, int *exception)
+IsPoly_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
-	if(check_poly(a,1,"is_poly",FALSE))
+	if(check_poly(a,1,"IsPoly",FALSE))
 		return gel_makenum_ui(1);
 	else
 		return gel_makenum_ui(0);
 }
 
 static GelETree *
-polytostring_op (GelCtx *ctx, GelETree * * a, int *exception)
+PolyToString_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	GelETree *n;
 	int i;
@@ -2163,16 +2163,23 @@ polytostring_op (GelCtx *ctx, GelETree * * a, int *exception)
 	GelOutput *gelo;
 	char *r;
 	
-	if(!check_poly(a,1,"polytostring",TRUE))
+	if(!check_poly(a,1,"PolyToString",TRUE))
 		return NULL;
-	
-	if(a[1]->type!=STRING_NODE) {
-		(*errorout)(_("polytostring: 2nd argument not a string"));
+
+	if (a[1] == NULL) {
+		var = "x";
+	} else if (a[1]->type!=STRING_NODE) {
+		(*errorout)(_("PolyToString: 2nd argument not a string"));
 		return NULL;
+	} else {
+		if (a[2] != NULL) {
+			(*errorout)(_("PolyToString: too many arguments"));
+			return NULL;
+		}
+		var = a[1]->str.str;
 	}
 	
 	m = a[0]->mat.matrix;
-	var = a[1]->str.str;
 	
 	gs = g_string_new("");
 
@@ -2274,7 +2281,7 @@ ptf_makenew_term(mpw_t mul, GelToken *id, int power)
 }
 
 static GelETree *
-polytofunc_op(GelCtx *ctx, GelETree * * a, int *exception)
+PolyToFunction_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	GelETree *n;
 	GelETree *nn = NULL;
@@ -2283,7 +2290,7 @@ polytofunc_op(GelCtx *ctx, GelETree * * a, int *exception)
 
 	static GelToken *var = NULL;
 	
-	if(!check_poly(a,1,"polytofunc",TRUE))
+	if(!check_poly(a,1,"PolyToFunction",TRUE))
 		return NULL;
 	
 	if(!var)
@@ -2866,6 +2873,7 @@ gel_funclib_addall(void)
 	new_category ("functions", _("Functions"));
 	new_category ("equation_solving", _("Equation Solving"));
 	new_category ("statistics", _("Statistics"));
+	new_category ("polynomial", _("Polynomials"));
 	new_category ("misc", _("Miscellaneous"));
 
 	/* FIXME: add more help fields */
@@ -2912,17 +2920,15 @@ gel_funclib_addall(void)
 	FUNC (get_output_style, 0, "parameters", _("Get output style (normal, latex or troff)"));
 	FUNC (set_integer_output_base, 1, "parameters", _("Set the integer output base"));
 	FUNC (get_integer_output_base, 0, "parameters", _("Get the integer output base"));
+	FUNC (set_mixed_fractions, 1, "parameters", _("Set if we print fractions in mixed format"));
+	FUNC (get_mixed_fractions, 0, "parameters", _("Get if we print fractions in mixed format"));
+	FUNC (set_full_expressions, 1, "parameters", _("Set if we print full expressions"));
+	FUNC (get_full_expressions, 0, "parameters", _("Get if we print full expressions"));
 
 	d_addfunc(d_makebifunc(d_intern("set_results_as_floats"),set_results_as_floats_op,1));
 	d_addfunc(d_makebifunc(d_intern("get_results_as_floats"),get_results_as_floats_op,0));
 	d_addfunc(d_makebifunc(d_intern("set_scientific_notation"),set_scientific_notation_op,1));
 	d_addfunc(d_makebifunc(d_intern("get_scientific_notation"),get_scientific_notation_op,0));
-	d_addfunc(d_makebifunc(d_intern("set_full_expressions"),set_full_expressions_op,1));
-	d_addfunc(d_makebifunc(d_intern("get_full_expressions"),get_full_expressions_op,0));
-	d_addfunc(d_makebifunc(d_intern("set_mixed_fractions"),set_mixed_fractions_op,1));
-	add_description("set_mixed_fractions",_("Set if we print fractions in mixed format"));
-	d_addfunc(d_makebifunc(d_intern("get_mixed_fractions"),get_mixed_fractions_op,0));
-	add_description("get_mixed_fractions",_("Get if we print fractions in mixed format"));
 
 	/* secret functions */
 	d_addfunc(d_makebifunc(d_intern("ni"),ni_op,0));
@@ -3024,15 +3030,15 @@ gel_funclib_addall(void)
 	FUNC (IsRational, 1, "numeric", _("Check if argument is a rational number (non-complex)"));
 	FUNC (IsFloat, 1, "numeric", _("Check if argument is a floating point number (non-complex)"));
 
-	d_addfunc(d_makebifunc(d_intern("addpoly"),addpoly_op,2));
-	d_addfunc(d_makebifunc(d_intern("subpoly"),subpoly_op,2));
-	d_addfunc(d_makebifunc(d_intern("mulpoly"),mulpoly_op,2));
-	d_addfunc(d_makebifunc(d_intern("derpoly"),derpoly_op,1));
-	d_addfunc(d_makebifunc(d_intern("der2poly"),der2poly_op,1));
-	d_addfunc(d_makebifunc(d_intern("trimpoly"),trimpoly_op,1));
-	d_addfunc(d_makebifunc(d_intern("is_poly"),is_poly_op,1));
-	d_addfunc(d_makebifunc(d_intern("polytostring"),polytostring_op,2));
-	d_addfunc(d_makebifunc(d_intern("polytofunc"),polytofunc_op,1));
+	FUNC (AddPoly, 2, "polynomial", _("Add two polynomials (vectors)"));
+	FUNC (SubtractPoly, 2, "polynomial", _("Subtract two polynomials (as vectors)"));
+	FUNC (MultiplyPoly, 2, "polynomial", _("Multiply two polynomials (as vectors)"));
+	FUNC (PolyDerivative, 1, "polynomial", _("Take polynomial (as vector) derivative"));
+	FUNC (Poly2ndDerivative, 1, "polynomial", _("Take second polynomial (as vector) derivative"));
+	FUNC (TrimPoly, 1, "polynomial", _("Trim zeros from a polynomial (as vector)"));
+	FUNC (IsPoly, 1, "polynomial", _("Check if a vector is usable as a polynomial"));
+	VFUNC (PolyToString, 2, "polynomial", _("Make string out of a polynomial (as vector)"));
+	FUNC (PolyToFunction, 1, "polynomial", _("Make function out of a polynomial (as vector)"));
 
 	FUNC (protect, 1, "basic", _("Protect a variable from being modified"));
 	FUNC (unprotect, 1, "basic", _("Unprotect a variable from being modified"));

@@ -68,6 +68,8 @@ extern char *load_plugin;
 
 %token TRANSPOSE
 
+%token ELTELTDIV ELTELTMUL ELTELTEXP ELTELTMOD DOUBLEFACT
+
 %token EQ_CMP NE_CMP CMP_CMP LT_CMP GT_CMP LE_CMP GE_CMP
 
 %token LOGICAL_XOR LOGICAL_OR LOGICAL_AND LOGICAL_NOT
@@ -92,11 +94,11 @@ extern char *load_plugin;
 %right EQ_CMP NE_CMP LT_CMP GT_CMP LE_CMP GE_CMP
 
 %left '+' '-'
-%left '*' '/' '\\' '%'
+%left '*' ELTELTMUL '/' ELTELTDIV '\\' ELTELTBACKDIV '%' ELTELTMOD
 
 %right '\'' TRANSPOSE
-%right '!'
-%right '^'
+%right '!' DOUBLEFACT
+%right '^' ELTELTEXP
 %right UMINUS UPLUS
 
 %left AT
@@ -123,9 +125,13 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 	|	expr '+' expr		{ PUSH_ACT(E_PLUS); }
 	|	expr '-' expr		{ PUSH_ACT(E_MINUS); }
 	|	expr '*' expr		{ PUSH_ACT(E_MUL); }
+	|	expr ELTELTMUL expr	{ PUSH_ACT(E_ELTMUL); }
 	|	expr '/' expr		{ PUSH_ACT(E_DIV); }
+	|	expr ELTELTDIV expr	{ PUSH_ACT(E_ELTDIV); }
 	|	expr '\\' expr		{ PUSH_ACT(E_BACK_DIV); }
+	|	expr ELTELTBACKDIV expr	{ PUSH_ACT(E_ELT_BACK_DIV); }
 	|	expr '%' expr		{ PUSH_ACT(E_MOD); }
+	|	expr ELTELTMOD expr	{ PUSH_ACT(E_ELTMOD); }
 	|	expr CMP_CMP expr	{ PUSH_ACT(E_CMP_CMP); }
 
 	|	expr EQ_CMP expr	{ PUSH_ACT(E_EQ_CMP); }
@@ -144,11 +150,13 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 	|	expr LOGICAL_NOT IN expr	{ PUSH_ACT(E_NOT_EXISTS_IN); }*/
 
 	|	expr '!'		{ PUSH_ACT(E_FACT); }
+	|	expr DOUBLEFACT		{ PUSH_ACT(E_DBLFACT); }
 	|	expr '\''		{ PUSH_ACT(E_CONJUGATE_TRANSPOSE); }
 	|	expr TRANSPOSE		{ PUSH_ACT(E_TRANSPOSE); }
 	|	'-' expr %prec UMINUS	{ PUSH_ACT(E_NEG); }
 	|	'+' expr %prec UPLUS
 	| 	expr '^' expr		{ PUSH_ACT(E_EXP); }
+	| 	expr ELTELTEXP expr	{ PUSH_ACT(E_ELTEXP); }
 	
 	|	expr AT expr ')'	{ PUSH_ACT(E_GET_VELEMENT); }
 	|	expr AT expr ',' expr ')' { PUSH_ACT(E_GET_ELEMENT); }

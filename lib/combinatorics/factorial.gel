@@ -6,7 +6,7 @@
 # objects unchanged.
 
 SetHelp("Catalan","combinatorics","Get n'th catalan number");
-function catalan(n) = (
+function Catalan(n) = (
 	if(IsMatrix(n)) then
 		return ApplyOverMatrix(n,Catalan)
 	else if(not IsValue(n) or not IsInteger(n) or n<0) then
@@ -15,14 +15,23 @@ function catalan(n) = (
 );
 protect("Catalan")
 
+## Factorial
+## Defined by n! = n(n-1)(n-2)...
+SetHelp("Factorial","combinatorics","Factorial: n(n-1)(n-2)...");
+function Factorial(n) = (
+	if not IsValue(n) or not IsInteger(n) or n < 0 then
+		(error("Factorial: argument not an integer >= 0");bailout);
+	n!
+)
+protect("Factorial")
+
 ## Double Factorial
 ## Defined by n!! = n(n-2)(n-4)...
-# FIXME: make builtin!
 SetHelp("DoubleFactorial","combinatorics","Double factorial: n(n-2)(n-4)...");
 function DoubleFactorial(n) = (
 	if not IsValue(n) or not IsInteger(n) or n < 0 then
 		(error("DoubleFactorial: argument not an integer >= 0");bailout);
-	prod k=n to 1 by -2 do k
+	n!!
 )
 protect("DoubleFactorial")
 

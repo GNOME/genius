@@ -183,6 +183,7 @@ int mpw_eql_ui(mpw_ptr op, unsigned long int i);
 
 void mpw_fac_ui(mpw_ptr rop,unsigned long int i);
 void mpw_fac(mpw_ptr rop,mpw_ptr op);
+void mpw_dblfac(mpw_ptr rop,mpw_ptr op);
 
 /*make a number int if possible*/
 void mpw_make_int(mpw_ptr rop);

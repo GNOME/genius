@@ -36,7 +36,7 @@ while(<TESTS>) {
 		print " (should be)=$shd\n";
 		print " (reported)=$rep\n";
 		if($rep ne $shd) {
-			print "ERROR!\n";
+			print "\e[01:31mERROR!\e[0m\n";
 			$errors++;
 		}
 	} else {

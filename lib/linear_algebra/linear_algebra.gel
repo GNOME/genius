@@ -236,7 +236,7 @@ protect ("J")
 SetHelp("DotProduct", "matrix", "Get the dot product of two vectors")
 function DotProduct(u,v) =
 (
-  if not IsMatrix (u) or not IsMatrix (v) then
+  if not IsVector (u) or not IsVector (v) then
     (error ("DotProduct: u,v must be vectors");bailout)
   else if columns (u) == 1 and columns (v) == 1 then
     ( u .' * v )@(1)
@@ -244,9 +244,38 @@ function DotProduct(u,v) =
     ( u * v )@(1)
   else if rows (u) == 1 and rows (v) == 1 then
     ( u * ( v .' ) )@(1)
-  else if columns (u) == 1 and rows (v) == 1 then
+  else # if columns (u) == 1 and rows (v) == 1 then
     ( ( u .' ) * ( v .' ) )@(1)
-  else
-    (error ("DotProduct: u,v must be vectors");bailout)
 )
 protect ("DotProduct")
+
+# Norms
+SetHelp("L2Norm", "linear_algebra", "Get the L-2 Norm of a vector");
+function L2Norm(v) = (
+  if not IsVector (v) then
+    (error ("L2Norm: v must be a vector");bailout)
+  else
+    sqrt (DotProduct (v,v))
+)
+protect("L2Norm")
+SetHelpAlias ("L2Norm", "Norm")
+Norm = L2Norm
+protect("Norm")
+
+SetHelp("LInfNorm", "linear_algebra", "Get the L-Inf Norm of a vector");
+function LInfNorm(v) = (
+  if not IsVector (v) then
+    (error ("LInfNorm: v must be a vector");bailout)
+  else
+    max (|v|)
+)
+protect("LInfNorm")
+
+SetHelp("LpNorm", "linear_algebra", "Get the L-p Norm of a vector");
+function LpNorm(v,p) = (
+  if not IsVector (v) then
+    (error ("LpNorm: v must be a vector");bailout)
+  else
+    (sum k in v do (|k|^p))^(1/p)
+)
+protect("LpNorm")

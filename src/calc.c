@@ -554,8 +554,12 @@ appendoper(GelOutput *gelo, GelETree *n)
 			append_binaryoper(gelo,"-",n); break;
 		case E_MUL:
 			append_binaryoper(gelo,"*",n); break;
+		case E_ELTMUL:
+			append_binaryoper(gelo,".*",n); break;
 		case E_DIV:
 			append_binaryoper(gelo,"/",n); break;
+		case E_ELTDIV:
+			append_binaryoper(gelo,"./",n); break;
 		case E_BACK_DIV:
 			if(n->op.args->type == VALUE_NODE &&
 			   n->op.args->any.next->type == VALUE_NODE)
@@ -563,17 +567,34 @@ appendoper(GelOutput *gelo, GelETree *n)
 			else
 				append_binaryoper(gelo,"\\",n);
 			break;
+		case E_ELT_BACK_DIV:
+			if(n->op.args->type == VALUE_NODE &&
+			   n->op.args->any.next->type == VALUE_NODE)
+				append_binaryoper(gelo," .\\ ",n);
+			else
+				append_binaryoper(gelo,".\\",n);
+			break;
 		case E_MOD:
 			append_binaryoper(gelo,"%",n); break;
+		case E_ELTMOD:
+			append_binaryoper(gelo,".%",n); break;
 		case E_NEG:
 			append_unaryoper(gelo,"-",n); break;
 		case E_EXP:
 			append_binaryoper(gelo,"^",n); break;
+		case E_ELTEXP:
+			append_binaryoper(gelo,".^",n); break;
 		case E_FACT:
 			GET_L(n,l);
 			gel_output_string(gelo, "(");
 			print_etree(gelo, l, FALSE);
 			gel_output_string(gelo, "!)");
+			break;
+		case E_DBLFACT:
+			GET_L(n,l);
+			gel_output_string(gelo, "(");
+			print_etree(gelo, l, FALSE);
+			gel_output_string(gelo, "!!)");
 			break;
 
 		case E_TRANSPOSE:

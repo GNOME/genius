@@ -95,6 +95,7 @@ gcd(77438,723654)						2
 |-5+|-4||							1
 |4|								4
 a=-74;|a|							74
+|[1,2,-4]|							[1,2,4]
 round(0)							0
 round(0.3)							0
 round(0.5)							1
@@ -152,20 +153,20 @@ a=[1,2;3,4];a@(1,2)						2
 a=[1,2;3,4];a@(2,2)						4
 a=[1,2;3,4];a@(2,3)						([1,2;3,4]@(2,3))
 [1,2;3,4]@(2,1)							3
-is_integer(4)							1
-is_integer(3/4)							0
-is_rational(3/4)						1
-is_rational(3.1)						0
-is_rational(3)							1
-is_complex(3i)							1
-is_complex(3)							0
-is_float(3.1)							1
-is_float(3)							0
+IsInteger(4)							1
+IsInteger(3/4)							0
+IsRational(3/4)							1
+IsRational(3.1)							0
+IsRational(3)							1
+IsComplex(3i)							1
+IsComplex(3)							0
+IsFloat(3.1)							1
+IsFloat(3)							0
 I(4)								[1,0,0,0;0,1,0,0;0,0,1,0;0,0,0,1]
 I(0)								(I(0))
 lcm(4,6)							12
-function f(x)=(if(not is_integer(x)) then bailout else 1);f(1.2)	(f(1.2))
-function f(x)=(if(not is_integer(x)) then bailout else 1);f(100)	1
+function f(x)=(if(not IsInteger(x)) then bailout else 1);f(1.2)	(f(1.2))
+function f(x)=(if(not IsInteger(x)) then bailout else 1);f(100)	1
 prime(10)							29
 max_digits=12;exp(3*ln(2))					8
 if(0)then 1;0							0
@@ -198,8 +199,8 @@ not &d								(not (&d))
 not 3i								(not (0+3i))
 if(3=="3")then 1 else 0						1
 if(3=="3 ")then 1 else 0					0
-is_null(1)							0
-is_null(.)							1
+IsNull(1)							0
+IsNull(.)							1
 [1,2;3,4]+[5,6;7,8]						[6,8;10,12]
 ["ABC","DEF","GHI"]+["GGG","HHH","III"]				["ABCGGG","DEFHHH","GHIIII"]
 [1,2;3,4]*2							[2,4;6,8]
@@ -211,24 +212,24 @@ is_null(.)							1
 [1,2;3,4]'							[1,3;2,4]
 1'								(1')
 [1,2]*[3,4]'							[11]
-addpoly([1,1,2],[0,1])						[1,2,2]
-subpoly([1,1,2],[0,1])						[1,0,2]
-trimpoly([1,1,0])						[1,1]
-trimpoly([0,0,0])						[0]
-polytostring([2,-1,2,3],"x")					"3*x^3 + 2*x^2 - x + 2"
-polytostring([3,-1,1,-1],"x")					"-x^3 + x^2 - x + 3"
-polytostring([0,0,0,1],"x")					"x^3"
-is_poly([0,1,2,3])						1
-is_poly([0,1,2,3;1])						0
-is_poly([0,1,2,&d])						0
-polytostring(mulpoly([1,1],[1,1]),"x")				"x^2 + 2*x + 1"
-polytostring(mulpoly([-1,1],[1,1]),"x")				"x^2 - 1"
-f=polytofunc([3,1,1]);f(2)					9
-is_function(`(x)=x+1)						1
-is_function(function(x)=x+1)					1
-is_function(1)							0
-a=`(x)=(x+1);b=&a;is_function_ref(b)				1
-is_function_ref(1)						0
+AddPoly([1,1,2],[0,1])						[1,2,2]
+SubtractPoly([1,1,2],[0,1])						[1,0,2]
+TrimPoly([1,1,0])						[1,1]
+TrimPoly([0,0,0])						[0]
+PolyToString([2,-1,2,3],"x")					"3*x^3 + 2*x^2 - x + 2"
+PolyToString([3,-1,1,-1],"x")					"-x^3 + x^2 - x + 3"
+PolyToString([0,0,0,1],"x")					"x^3"
+IsPoly([0,1,2,3])						1
+IsPoly([0,1,2,3;1])						0
+IsPoly([0,1,2,&d])						0
+PolyToString(MultiplyPoly([1,1],[1,1]),"x")				"x^2 + 2*x + 1"
+PolyToString(MultiplyPoly([-1,1],[1,1]),"x")				"x^2 - 1"
+f=PolyToFunction([3,1,1]);f(2)					9
+IsFunction(`(x)=x+1)						1
+IsFunction(function(x)=x+1)					1
+IsFunction(1)							0
+a=`(x)=(x+1);b=&a;IsFunctionRef(b)				1
+IsFunctionRef(1)						0
 k=0;a=0;b=0;while(k<20)do(k=k+1;b=1;continue;a=2);[a,b]		[0,1]
 k=0;a=0;b=0;while(k<20)do(k=k+1;b=1;break;a=2);[a,b]		[0,1]
 break
@@ -281,7 +282,7 @@ max([4,2,1],&d)							[(max(4,(&d))),(max(2,(&d))),(max(1,(&d)))]
 max(&d,[4,2,1])							[(max((&d),4)),(max((&d),2)),(max((&d),1))]
 max_digits=12;log([1000,9],[10,3])				[3,2]
 max_digits=12;log10([100,1000])					[2,3]
-is_matrix(log([1,1000,9],[10,3]))				0
+IsMatrix(log([1,1000,9],[10,3]))				0
 max_digits=27;log([27,9],3)					[3,2]
 sqrt(-9)							(0+3i)
 cos(3*pi)							-1
@@ -295,9 +296,9 @@ a=0;for k = 3 to 3 do a=a+1;a					1
 a=0;for k = 1 to 3 by 2 do a=a+1;a				2
 a=0;for k = 1 to 2 by 2 do a=a+1;a				1
 for k = 1 to 2 by 2 do .;k					1
-[catalan(3),catalan(4),catalan(5)]				[5,14,42]
-catalan([3,4,5])						[5,14,42]
-catalan(-1)							(catalan(-1))
+[Catalan(3),Catalan(4),Catalan(5)]				[5,14,42]
+Catalan([3,4,5])						[5,14,42]
+Catalan(-1)							(Catalan(-1))
 for k = &d to 4 do .						(for k = (&d) to 4 do (null))
 for k = 1 to 10 by &a do .					(for k = 1 to 10 by (&a) do (null))
 print(null)							(null)
@@ -339,9 +340,9 @@ t=0;for k in [1,2,3;4,5,6;7,8,9] do t=t+k;t			45
 t=0;for k in 3 do t=t+k;t					3
 for k in [1,2,3] do k						3
 for n in &d do .						(for n in (&d) do (null))
-rowmedian([1,2,2,3;1,2,3,4;2,2,2,2;2,2,3,2])			[2;2 1/2;2;2]
-median([1,2,3])							2
-median([1,4,2,3])						2 1/2
+RowMedian([1,2,2,3;1,2,3,4;2,2,2,2;2,2,3,2])			[2;2 1/2;2;2]
+Median([1,2,3])							2
+Median([1,4,2,3])						2 1/2
 SortVector([1,2,2,3,1,2,3,4,2,2,2,2,2,2,3,2])			[1,1,2,2,2,2,2,2,2,2,2,2,3,3,3,4]
 [1,2,3;4,5,6;7,8,8]^-2						[17,-20 2/3,9;-25 1/3,31 2/3,-14;10 1/3,-13 1/3,6]
 [1,2,3;4,5,6;7,8,8]^4						[6981,8598,9597;15876,19557,21834;23273,28672,32014]
@@ -364,8 +365,8 @@ b=[1,2,3;4,5,6;7,8,10];b@(9)					10
 b=[1,2,3;4,5,6;7,8,10];b@(10)					([1,2,3;4,5,6;7,8,10]@(10))
 b=[1,2,3;4,5,6;7,8,10];b@(10)=99;b				[1,2,3;4,5,6;7,8,10;99,0,0]
 a@(3)=9;a							[0,0,9]
-(adj(pascal(10)^-1)^-1)*pascal(10)==I(11)			1
-pascal(3)							[1,0,0,0;1,1,0,0;1,2,1,0;1,3,3,1]
+(adj(Pascal(10)^-1)^-1)*Pascal(10)==I(11)			1
+Pascal(3)							[1,0,0,0;1,1,0,0;1,2,1,0;1,3,3,1]
 +1								1
 ---+-+++-+++-+-+-+3						3
 2/4								1/2
@@ -382,7 +383,7 @@ pascal(3)							[1,0,0,0;1,1,0,0;1,2,1,0;1,3,3,1]
 1^(-1)								1
 [1]^1								[1]
 [1]^0								[1]
-a=pascal(4);b=delrowcol(a,5,1);b=delrowcol(a,5,1);rows(b)	4
+a=Pascal(4);b=delrowcol(a,5,1);b=delrowcol(a,5,1);rows(b)	4
 3 4/5								3 4/5
 4 6/5								5 1/5
 991/8								123 7/8
@@ -418,3 +419,19 @@ function f(a,b,c...) = c ; f(1,2,3,4)				[3,4]
 function f(c...) = c ; f()+1					((null)+1)
 function f(c...) = c ; f(1)					[1]
 function f(c...) = c ; f(1,2)					[1,2]
+0!								1
+-1!								(-1!)
+-1!!								(-1!!)
+0!!								1
+8!!								384
+15!!								2027025
+DoubleFactorial(8)						384
+[1,2]./[4,5]							[1/4,2/5]
+mixed_fractions=0; [1,2].\[4,5]					[4,5/2]
+[1,2].*[4,5]							[4,10]
+[1,2].^[4,5]							[1,32]
+[4,2].%[3,5]							[1,2]
+Norm([3,4])							5
+LInfNorm([3,4])							4
+UpperTriangular([1,2;3,4])					[1,2;0,4]
+LowerTriangular([1,2;3,4])					[1,0;3,4]

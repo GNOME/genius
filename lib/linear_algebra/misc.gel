@@ -260,18 +260,18 @@ function RowSumSquares(m) = (
 protect("RowSumSquares")
 
 #sort a horizontal vector
-SetHelp("SortVector","matrix","Sort a horizontal vector");
+SetHelp("SortVector","matrix","Sort vector elements");
 function SortVector(v) = (
-	if not IsMatrix(v) or rows(v)>1 then
-		(error("SortVector: argument not a horizontal vector");bailout);
+	if not IsVector(v) then
+		(error("SortVector: argument not a vector");bailout);
 	j = 1;
 	do (
 		sorted = 1;
-		for i = 1 to columns(v)-j do (
-			if v@(1,i)>v@(1,i+1) then (
-				t = v@(1,i);
-				v@(1,i) = v@(1,i+1);
-				v@(1,i+1) = t;
+		for i = 1 to elements(v)-j do (
+			if v@(i)>v@(i+1) then (
+				t = v@(i);
+				v@(i) = v@(i+1);
+				v@(i+1) = t;
 				sorted = 0
 			)
 		);
@@ -283,11 +283,36 @@ protect("SortVector")
 
 SetHelp("ReverseVector","matrix","Reverse elements in a vector");
 function ReverseVector(v) = (
-	if not IsMatrix(v) or rows(v)>1 then
-		(error("ReverseVector: argument not a horizontal vector");bailout);
-	r = SetMatrixSize ([0],1,columns(v));
-	for i = 1 to columns(v) do
-		r@(1,i) = v@(1,columns(v)-i+1);
+	if not IsVector(v) then
+		(error("ReverseVector: argument not a vector");bailout);
+	r = SetMatrixSize ([0],rows(v),columns(v));
+	for i = 1 to elements(v) do
+		r@(i) = v@(elements(v)-i+1);
 	r
 );
 protect("ReverseVector")
+
+SetHelp("IsVector", "matrix", "Is argument a horizontal or a vertical vector")
+function IsVector(v) = (IsMatrix(v) and (columns(v) == 1 or rows(v) == 1))
+protect("IsVector")
+
+SetHelp("UpperTriangular", "matrix", "Zero out entries below the diagonal")
+function UpperTriangular(M) = (
+	if not IsMatrix(M) or not IsMatrixSquare(M) then
+		(error("UpperTriangular: argument not a square matrix");bailout);
+	for i=2 to rows(M) do (
+		for j=1 to i-1 do (
+			M@(i,j) = 0
+		)
+	);
+	M
+)
+protect ("UpperTriangular")
+
+SetHelp("LowerTriangular", "matrix", "Zero out entries above the diagonal")
+function LowerTriangular(M) = (
+	if not IsMatrix(M) or not IsMatrixSquare(M) then
+		(error("LowerTriangular: argument not a square matrix");bailout);
+	UpperTriangular (M.').'
+)
+protect ("LowerTriangular")
