@@ -6,6 +6,9 @@
 #include <glib.h>
 #include <ctype.h>
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -120,18 +123,28 @@ main(int argc, char *argv[])
 {
 	char buf[4096];
 	FILE *infp;
-
-	int infd;
 	int outfd;
 
 	if(argc != 3) {
 		printf("argc==%d\n",argc);
-		puts("WRONG NUMBER OF ARGS");
+		puts("SOMETHING IS VERY VERY WRONG WITH GENIUS INSTALLATION!\n"
+		     "WRONG NUMBER OF ARGS");
 		exit(1);
 	}
 
-	sscanf (argv[1], "%d", &infd);
-	sscanf (argv[2], "%d", &outfd);
+	infp = fopen (argv[1], "r");
+	if (infp == NULL) {
+		puts("SOMETHING IS VERY VERY WRONG WITH GENIUS INSTALLATION!\n"
+		     "CANNOT OPEN READLINE IN FIFO");
+		exit(1);
+	}
+
+	outfd = open (argv[2], O_WRONLY);
+	if (outfd < 0) {
+		puts("SOMETHING IS VERY VERY WRONG WITH GENIUS INSTALLATION!\n"
+		     "CANNOT OPEN READLINE OUT FIFO");
+		exit(1);
+	}
 
 	rl_catch_signals = 1;
 	rl_catch_sigwinch = 1;
@@ -140,8 +153,6 @@ main(int argc, char *argv[])
 	rl_attempted_completion_function =
 		(CPPFunction *)tab_completion;
 
-	infp = fdopen(infd,"r");
-	
 	while(fgets(buf,4096,infp)) {
 		int count;
 		if(sscanf(buf,"PLUGINS %d\n",&count) == 1) {

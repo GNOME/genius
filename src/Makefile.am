@@ -24,7 +24,9 @@ INCLUDES = \
 	$(EXTRA_WARNING_CFLAGS)
 
 
-bin_PROGRAMS = gnome-genius genius genius-readline-helper
+# FIXME: the readline helper should go into a library
+# directory.  I've no clue how to set that up
+bin_PROGRAMS = gnome-genius genius genius-readline-helper-fifo
 
 gnome_genius_SOURCES = 	\
 	calc.c		\
@@ -77,12 +79,12 @@ gnome_genius_LDADD = \
 	@READLINE_LIB@				\
 	@TERMCAP_LIB@
 
-genius_readline_helper_SOURCES = \
+genius_readline_helper_fifo_SOURCES = \
  	genius_lists.c			\
 	genius-readline-helper.c
 
 # FIXME: no need for so many libs
-genius_readline_helper_LDADD = \
+genius_readline_helper_fifo_LDADD = \
 	-lm					\
 	$(GENIUS_LIBS)				\
 	@READLINE_LIB@				\

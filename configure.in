@@ -8,7 +8,7 @@ GNOME_PLATFORM_GNOME_2
 
 dnl ================= Requirements ================================================
 
-LIBZVT_REQUIRED=2.0.0
+VTE_REQUIRED=0.8.19
 LIBGNOMEUI_REQUIRED=1.115.0
 
 dnl ===============================================================================
@@ -74,7 +74,7 @@ fi
 AC_SUBST(GCONF_CONFIG_SOURCE)
 AC_SUBST(INSTALL_GCONF_CONFIG_SOURCE)
 
-GENIUS_MODULES="libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED libzvt-2.0 >= $LIBZVT_REQUIRED"
+GENIUS_MODULES="libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED vte >= $VTE_REQUIRED"
 PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES)
 AC_SUBST(GENIUS_CFLAGS)
 AC_SUBST(GENIUS_LIBS)

@@ -1,3 +1,17 @@
+Tue Jan 07 16:28:34 2003  George Lebl <jirka@5z.com>
+
+	* configure.in: require vte since libzvt is broken and all that
+
+	* src/calc.c: fix green color in help
+
+	* src/genius-readline-helper.c, src/gnome-genius.c: port to vte
+	  since libzvt is just giving me fits and we'll all use vte 
+	  sooner or later
+
+	* src/Makefile.am, src/gnome-genius.c: rename the readline helper
+	  to avoid a hang in case we find an old readline helper hanging
+	  around
+
 Fri Jan 03 11:27:21 2003  George Lebl <jirka@5z.com>
 
 	* Release 0.5.1

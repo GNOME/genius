@@ -25,7 +25,7 @@
 
 #include <gnome.h>
 #include <gtk/gtk.h>
-#include <libzvt/libzvt.h>
+#include <vte/vte.h>
 
 #include <string.h>
 #include <unistd.h>
@@ -48,8 +48,7 @@
 
 /*Globals:*/
 
-/* default font (from zvtterm.c) */
-#define DEFAULT_FONT "-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso8859-1"
+#define DEFAULT_FONT "Monospace 10"
 
 /*calculator state*/
 calcstate_t curstate={
@@ -70,7 +69,7 @@ extern int interrupted;
 
 static GtkWidget *setupdialog = NULL;
 static GtkWidget *window = NULL;
-static GtkWidget *zvt = NULL;
+static GtkWidget *term = NULL;
 static GString *errors=NULL;
 static GString *infos=NULL;
 
@@ -90,10 +89,13 @@ geniussetup_t cursetup = {
 	NULL
 };
 
-static int torl[2];
 static FILE *torlfp = NULL;
-static int fromrl[2];
+static int fromrl;
+
 static int forzvt[2];
+
+static char *torlfifo = NULL;
+static char *fromrlfifo = NULL;
 
 static char *arg0 = NULL;
 
@@ -137,8 +139,9 @@ geniusbox(int error, const char *s)
 		gtk_text_set_editable(GTK_TEXT(t),FALSE);
 		gtk_text_set_line_wrap(GTK_TEXT(t),TRUE);
 		gtk_text_set_word_wrap(GTK_TEXT(t),TRUE);
-		gtk_text_insert(GTK_TEXT(t),ZVT_TERM(zvt)->font,
-				NULL,NULL,s,strlen(s));
+		gtk_text_insert (GTK_TEXT (t),
+				 NULL /* FIXME ZVT_TERM(zvt)->font*/,
+				 NULL,NULL,s,strlen(s));
 		gtk_container_add(GTK_CONTAINER(sw),t);
 		gtk_widget_set_usize(sw,500,300);
 	}
@@ -300,7 +303,7 @@ aboutcb(GtkWidget * widget, gpointer data)
 static void
 set_properties (void)
 {
-	gnome_config_set_string("/genius/properties/font", cursetup.font?
+	gnome_config_set_string("/genius/properties/pango_font", cursetup.font?
 				cursetup.font:DEFAULT_FONT);
 	gnome_config_set_int("/genius/properties/scrollback", cursetup.scrollback);
 	gnome_config_set_bool("/genius/properties/error_box", cursetup.error_box);
@@ -373,9 +376,11 @@ do_setup(GtkWidget *widget, gint page, gpointer data)
 		curstate = tmpstate;
 
 		set_new_calcstate(curstate);
-		zvt_term_set_scrollback(ZVT_TERM(zvt),cursetup.scrollback);
-		zvt_term_set_font_name(ZVT_TERM(zvt),cursetup.font?
-				       cursetup.font:DEFAULT_FONT);
+		vte_terminal_set_scrollback_lines (VTE_TERMINAL (term),
+						   cursetup.scrollback);
+		vte_terminal_set_font_from_string (VTE_TERMINAL (term),
+						   cursetup.font ?
+						   cursetup.font : DEFAULT_FONT);
 	}
 }
 
@@ -607,10 +612,11 @@ setup_calc(GtkWidget *widget, gpointer data)
 		   FALSE,FALSE,0);
 	
         w = gnome_font_picker_new();
-	gnome_font_picker_set_font_name(GNOME_FONT_PICKER(w),
-					tmpsetup.font?tmpsetup.font:
-					DEFAULT_FONT);
-        gnome_font_picker_set_mode(GNOME_FONT_PICKER(w),GNOME_FONT_PICKER_MODE_FONT_INFO);
+	gnome_font_picker_set_font_name (GNOME_FONT_PICKER (w),
+					 tmpsetup.font ? tmpsetup.font :
+					 DEFAULT_FONT);
+        gnome_font_picker_set_mode (GNOME_FONT_PICKER (w),
+				    GNOME_FONT_PICKER_MODE_FONT_INFO);
         gtk_box_pack_start(GTK_BOX(b),w,TRUE,TRUE,0);
         gtk_signal_connect(GTK_OBJECT(w),"font_set",
                            GTK_SIGNAL_FUNC(fontsetcb),
@@ -755,9 +761,9 @@ get_properties (void)
 {
 	gchar buf[256];
 
-	g_snprintf(buf,256,"/genius/properties/font=%s",
-		   cursetup.font?cursetup.font:DEFAULT_FONT);
-	cursetup.font = gnome_config_get_string(buf);
+	g_snprintf (buf, 256, "/genius/properties/pango_font=%s",
+		    cursetup.font ? cursetup.font : DEFAULT_FONT);
+	cursetup.font = gnome_config_get_string (buf);
 	g_snprintf(buf,256,"/genius/properties/scrollback=%d",
 		   cursetup.scrollback);
 	cursetup.scrollback = gnome_config_get_int(buf);
@@ -797,7 +803,8 @@ feed_to_zvt_from_string (const char *str, int size)
 	for(i=0,sz=0;i<size;i++,sz++)
 		if(str[i]=='\n') sz++;
 	if (sz == size) {
-		zvt_term_feed(ZVT_TERM(zvt), (char *)str, size);
+		vte_terminal_feed (VTE_TERMINAL (term), 
+				   str, size);
 		return;
 	}
 	s = g_new(char,sz);
@@ -807,7 +814,7 @@ feed_to_zvt_from_string (const char *str, int size)
 			s[sz] = '\r';
 		} else s[sz] = str[i];
 	}
-	zvt_term_feed(ZVT_TERM(zvt),s,sz);
+	vte_terminal_feed (VTE_TERMINAL (term), s, sz);
 	g_free(s);
 }
 
@@ -835,7 +842,7 @@ output_notify_func (GelOutput *output)
 static int
 get_term_width(GelOutput *gelo)
 {
-	return ZVT_TERM(zvt)->vx->vt.width;
+	return vte_terminal_get_column_count (VTE_TERMINAL (term));
 }
 
 static void
@@ -880,43 +887,59 @@ open_plugin_cb (GtkWidget *w, plugin_t * plug)
 }
 
 static void
-fork_a_helper (ZvtTerm *term)
+fork_a_helper (void)
 {
-	int pid;
-	
-	pid = zvt_term_forkpty (term, 0);
-	if (pid < 0) {
-		/*FIXME: handle an error*/
-		return;
-	} else if (pid == 0) {
-		char *p1, *p2;
-		char *foo;
+	pid_t pid;
+	char *argv[6];
+	char *foo;
+	char *dir;
 
-		/* the child */
-		close (fromrl[0]);
-		close (torl[1]);
-
-		p1 = g_strdup_printf ("%d", torl[0]);
-		p2 = g_strdup_printf ("%d", fromrl[1]);
-
-		execl ("./genius-readline-helper",
-		       "./genius-readline-helper",
-		       p1, p2, NULL);
-		/* FIXME: should be in library dir or
-		 * some such */
+	foo = NULL;
+	if (access ("./genius-readline-helper-fifo", X_OK) == 0)
+		foo = g_strdup ("./genius-readline-helper-fifo");
+	if (foo == NULL) {
+		dir = g_path_get_dirname (arg0);
 		foo = g_strconcat
 			(g_path_get_dirname (arg0),
-			 "/genius-readline-helper", NULL);
-		execl (foo, foo, p1, p2, NULL);
-		execlp ("genius-readline-helper",
-			"genius-readline-helper",
-			p1, p2, NULL);
+			 "/genius-readline-helper-fifo", NULL);
+		if (access (foo, X_OK) != 0) {
+			g_free (foo);
+			foo = NULL;
+		}
+	}
+	if (foo == NULL)
+		foo = g_find_program_in_path ("genius-readline-helper-fifo");
 
-		printf (_("Can't execute genius-readline-helper!\n"));
-		fflush (stdout);
+	if (foo == NULL) {
+		/* FIXME: make this nicer */
+		gel_output_printf
+			(main_out,
+			 _("Can't execute genius-readline-helper-fifo!\n"));
+		gtk_main ();
+
+		unlink (fromrlfifo);
+		unlink (torlfifo);
 
 		_exit (1);
 	}
+
+	argv[0] = foo;
+
+	argv[1] = torlfifo;
+	argv[2] = fromrlfifo;
+
+	argv[3] = NULL;
+
+	pid = vte_terminal_fork_command (VTE_TERMINAL (term),
+					 foo,
+					 argv,
+					 NULL /* envv */,
+					 NULL /* directory */,
+					 FALSE /* lastlog */,
+					 FALSE /* utmp */,
+					 FALSE /* wtmp */);
+
+	g_free (foo);
 }
 
 static void
@@ -967,6 +990,29 @@ genius_got_etree (GelETree *e)
 	}
 }
 
+static char *
+make_a_fifo (void)
+{
+	/* doesn't truly need to be random */
+	static int tm = 0;
+        if (tm == 0)
+		tm = time (NULL) * getpid ();
+	for (;;) {
+		char *name = g_strdup_printf ("/tmp/genius-fifo-%d", tm++);
+		if (mkfifo (name, 0600) == 0) {
+			return name;
+		}
+		g_free (name);
+	}
+}
+
+static void
+setup_rl_fifos (void)
+{
+	torlfifo = make_a_fifo ();
+	fromrlfifo = make_a_fifo ();
+}
+
 int
 main (int argc, char *argv[])
 {
@@ -992,20 +1038,13 @@ main (int argc, char *argv[])
 
 	if (pipe (forzvt) < 0)
 		g_error ("Can't pipe");
-	if (pipe (torl) < 0)
-		g_error ("Can't pipe");
-	if (pipe (fromrl) < 0)
-		g_error ("Can't pipe");
 
-	gdk_input_add (fromrl[0], GDK_INPUT_READ,
-		       get_new_line, NULL);
+	setup_rl_fifos ();
 
 	fcntl (forzvt[0], F_SETFL, O_NONBLOCK);
 	gdk_input_add (forzvt[0],
 		       GDK_INPUT_READ,
 		       feed_to_zvt, NULL);
-
-	torlfp = fdopen (torl[1], "w");
 
 	main_out = gel_output_new();
 	gel_output_setup_string (main_out, 80, get_term_width);
@@ -1014,44 +1053,43 @@ main (int argc, char *argv[])
 	evalnode_hook = check_events;
 	statechange_hook = set_state;
 
-	read_plugin_list();
+	read_plugin_list ();
 
 	/*read gnome_config parameters */
-	get_properties();
+	get_properties ();
 	
         /*set up the top level window*/
-	window=create_main_window();
+	window = create_main_window();
 
 	/*set up the tooltips*/
-	tips=gtk_tooltips_new();
+	tips = gtk_tooltips_new();
 
 	/*the main box to put everything in*/
-	hbox=gtk_hbox_new(FALSE,0);
+	hbox = gtk_hbox_new(FALSE,0);
+
+	term = vte_terminal_new ();
+	vte_terminal_set_scrollback_lines (VTE_TERMINAL (term),
+					   cursetup.scrollback);
+	vte_terminal_set_font_from_string (VTE_TERMINAL (term),
+					   cursetup.font ?
+					   cursetup.font : DEFAULT_FONT);
+	vte_terminal_set_cursor_blinks (VTE_TERMINAL (term), TRUE);
+	vte_terminal_set_audible_bell (VTE_TERMINAL (term), TRUE);
+	vte_terminal_set_scroll_on_keystroke (VTE_TERMINAL (term), TRUE);
+	vte_terminal_set_scroll_on_output (VTE_TERMINAL (term), FALSE);
+	vte_terminal_set_word_chars (VTE_TERMINAL (term),
+				     "-A-Za-z0-9/_:.,?+%=");
+	/* FIXME: check del/bs key */
+
+	g_signal_connect (G_OBJECT (term), "event",
+			  G_CALLBACK (catch_interrupts),
+			  NULL);
+
+	gtk_box_pack_start (GTK_BOX (hbox), term, TRUE, TRUE, 0);
 	
-	zvt = zvt_term_new (); /*(80, 24);*/
-
-	zvt_term_set_scrollback(ZVT_TERM(zvt),cursetup.scrollback);
-	zvt_term_set_font_name(ZVT_TERM(zvt),cursetup.font?
-			       cursetup.font:DEFAULT_FONT);
-
-	zvt_term_set_shadow_type (ZVT_TERM (zvt), GTK_SHADOW_IN);
-	zvt_term_set_blink (ZVT_TERM (zvt), TRUE);
-	zvt_term_set_bell (ZVT_TERM (zvt), TRUE);
-	zvt_term_set_scroll_on_keystroke (ZVT_TERM (zvt), TRUE);
-	zvt_term_set_scroll_on_output (ZVT_TERM (zvt), FALSE);
-	zvt_term_set_background (ZVT_TERM (zvt), NULL, 0, 0);
-	zvt_term_set_wordclass (ZVT_TERM (zvt), "-A-Za-z0-9/_:.,?+%=");
-	zvt_term_set_del_key_swap (ZVT_TERM (zvt), TRUE);
-	zvt_term_set_del_is_del (ZVT_TERM (zvt), FALSE);
-
-	gtk_signal_connect(GTK_OBJECT(zvt),"event",
-			   GTK_SIGNAL_FUNC(catch_interrupts),
-			   NULL);
-
-	gtk_box_pack_start(GTK_BOX(hbox),zvt,TRUE,TRUE,0);
-	
-	w = gtk_vscrollbar_new (GTK_ADJUSTMENT (ZVT_TERM (zvt)->adjustment));
-	gtk_box_pack_start(GTK_BOX(hbox),w,FALSE,FALSE,0);
+	w = gtk_vscrollbar_new
+		(vte_terminal_get_adjustment (VTE_TERMINAL (term)));
+	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 	
 	if(plugin_list) {
 		GSList *li;
@@ -1087,7 +1125,9 @@ main (int argc, char *argv[])
 
 	/*set up the main window*/
 	gnome_app_set_contents (GNOME_APP (window), hbox);
+	/* FIXME:
 	gtk_widget_queue_resize (zvt);
+	*/
 	gtk_container_border_width(
 		GTK_CONTAINER (GNOME_APP (window)->contents), 5);
 
@@ -1120,8 +1160,15 @@ main (int argc, char *argv[])
 	set_new_errorout (geniuserror);
 	set_new_infoout (geniusinfo);
 
-	fork_a_helper (ZVT_TERM (zvt));
-	
+	fork_a_helper ();
+
+	torlfp = fopen (torlfifo, "w");
+
+	fromrl = open (fromrlfifo, O_RDONLY);
+	g_assert (fromrl >= 0);
+	gdk_input_add (fromrl, GDK_INPUT_READ,
+		       get_new_line, NULL);
+
 	/*init the context stack and clear out any stale dictionaries
 	  except the global one, if this is the first time called it
 	  will also register the builtin routines with the global
@@ -1146,11 +1193,17 @@ main (int argc, char *argv[])
 
 	printout_error_num_and_reset();
 
-	gtk_widget_grab_focus (zvt);
+	gtk_widget_grab_focus (term);
 
 	start_cb_p_expression (genius_got_etree, torlfp);
 
 	gtk_main ();
+
+	close (fromrl);
+	fclose (torlfp);
+
+	unlink (fromrlfifo);
+	unlink (torlfifo);
 
 	return 0;
 }

@@ -1762,7 +1762,7 @@ static void
 do_green (void)
 {
 	if (genius_is_gui) {
-		gel_output_full_string (main_out, "\e[0:32m");
+		gel_output_full_string (main_out, "\e[0;32m");
 	}
 }
 
