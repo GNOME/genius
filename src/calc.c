@@ -269,7 +269,7 @@ get_undocumented (void)
 		if(f->id == NULL ||
 		   f->id->token == NULL ||
 		   strcmp (f->id->token, "Ans") == 0 ||
-		   strcmp (f->id->token, "ni") == 0 ||
+		   strcmp (f->id->token, "ninini") == 0 ||
 		   strcmp (f->id->token, "shrubbery") == 0)
 			continue;
 		help = get_help (f->id->token, FALSE /* insert */);

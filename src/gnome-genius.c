@@ -85,6 +85,8 @@ static int calc_running = 0;
 
 static int errors_printed = 0;
 
+static char *last_dir = NULL;
+
 typedef struct {
 	gboolean error_box;
 	gboolean info_box;
@@ -1015,6 +1017,24 @@ warranty_call (GtkWidget *widget, gpointer data)
 }
 
 static void
+setup_last_dir (const char *filename)
+{
+	char *s = g_path_get_dirname (filename);
+
+	g_free (last_dir);
+	if (s == NULL) {
+		last_dir = NULL;
+		return;
+	}
+	if (strcmp(s, "/") == 0) {
+		last_dir = s;
+		return;
+	}
+	last_dir = g_strconcat (s, "/", NULL);
+	g_free (s);
+}
+
+static void
 fs_destroy_cb(GtkWidget *w, GtkWidget **fs)
 {
 	*fs = NULL;
@@ -1031,6 +1051,8 @@ really_load_cb (GtkWidget *w, GtkFileSelection *fs)
 			       _("Cannot open file!"));
 		return;
 	}
+
+	setup_last_dir (s);
 
 	gtk_widget_destroy (GTK_WIDGET (fs));
 
@@ -1064,6 +1086,9 @@ load_cb (GtkWidget *w)
 	gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (fs)->cancel_button),
 				   "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy),
 				   GTK_OBJECT(fs));
+	if (last_dir != NULL)
+		gtk_file_selection_set_filename
+			(GTK_FILE_SELECTION (fs), last_dir);
 
 	gtk_widget_show (fs);
 }
@@ -1428,8 +1453,10 @@ new_program (const char *filename)
 	g_object_set_data (G_OBJECT (sw), "program", p);
 
 	if (filename == NULL) {
-		p->name = g_strdup_printf (_("Program %d"), cnt++);
-		p->vname = g_strdup (p->name);
+		/* the file name will have an underscore */
+		p->name = g_strdup_printf (_("Program_%d.gel"), cnt);
+		p->vname = g_strdup_printf (_("Program %d"), cnt);
+		cnt++;
 	} else {
 		char *contents;
 		int len;
@@ -1477,9 +1504,12 @@ really_open_cb (GtkWidget *w, GtkFileSelection *fs)
 			       _("Cannot open file!"));
 		return;
 	}
-	gtk_widget_destroy (GTK_WIDGET (fs));
+
+	setup_last_dir (s);
 
 	new_program (s);
+
+	gtk_widget_destroy (GTK_WIDGET (fs));
 }
 
 static void
@@ -1507,6 +1537,9 @@ open_callback (GtkWidget *w)
 	gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (fs)->cancel_button),
 				   "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy),
 				   GTK_OBJECT(fs));
+	if (last_dir != NULL)
+		gtk_file_selection_set_filename
+			(GTK_FILE_SELECTION (fs), last_dir);
 
 	gtk_widget_show (fs);
 }
@@ -1550,10 +1583,12 @@ save_program (Program *p, const char *new_fname)
 	g_free (prog);
 	fclose (fp);
 
-	g_free (p->name);
+	if (p->name != fname) {
+		g_free (p->name);
+		p->name = g_strdup (fname);
+	}
 	g_free (p->vname);
-	p->name = g_strdup (new_fname);
-	p->vname = g_path_get_basename (new_fname);
+	p->vname = g_path_get_basename (fname);
 	p->real_file = TRUE;
 	p->changed = FALSE;
 
@@ -1611,6 +1646,8 @@ really_save_as_cb (GtkWidget *w, GtkFileSelection *fs)
 		return;
 	}
 
+	setup_last_dir (s);
+
 	gtk_widget_destroy (GTK_WIDGET (fs));
 	/* FIXME: don't want to deal with modality issues right now */
 	gtk_widget_set_sensitive (genius_window, TRUE);
@@ -1655,6 +1692,12 @@ save_as_callback (GtkWidget *w)
 	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->cancel_button),
 			  "clicked", G_CALLBACK (really_cancel_save_as_cb),
 			  fs);
+
+	if (last_dir != NULL)
+		gtk_file_selection_set_filename
+			(GTK_FILE_SELECTION (fs), last_dir);
+	gtk_file_selection_set_filename
+		(GTK_FILE_SELECTION (fs), selected_program->name);
 
 	gtk_widget_show (fs);
 }

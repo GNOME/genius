@@ -1,3 +1,19 @@
+Sat May 31 15:11:04 2003  George Lebl <jirka@5z.com>
+
+	* lib/numbertheory/modulus.gel: add IsPrimitiveModWithPrimeFactors,
+	  which is like IsPrimitiveMod, but we already put in the
+	  prime factors of q-1, so this is faster if we are testing a whole
+	  bunch of numbers or if we know factorization of q-1 beforehand.
+	  Use this for the primitive element finding routines.
+	  Also add SqrtModPrime which computes square roots modulo a prime.
+
+	* src/gnome-genius.c: Fix saving and opening of files (DOH!) also
+	  set the filename and the directory each time when openning the
+	  fileselector so that you don't have to retype everything.
+
+	* src/calc.c, src/funclib.c: rename an easter egg to prevent
+	  name conflict
+
 Fri May 30 17:13:43 2003  George Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c: print out errors/infos after program run.  DOH!

@@ -191,7 +191,7 @@ exit_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
-ni_op(GelCtx *ctx, GelETree * * a, int *exception)
+ninini_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	(*infoout)("We are the Knights Who Say... Ni!");
 	if(exception) *exception = TRUE; /*raise exception*/
@@ -4173,7 +4173,7 @@ gel_funclib_addall(void)
 	PARAMETER (IsPrimeMillerRabinReps, _("Number of extra Miller-Rabin tests to run on a number before declaring it a prime in IsPrime"));
 
 	/* secret functions */
-	d_addfunc(d_makebifunc(d_intern("ni"),ni_op,0));
+	d_addfunc(d_makebifunc(d_intern("ninini"),ninini_op,0));
 	d_addfunc(d_makebifunc(d_intern("shrubbery"),shrubbery_op,0));
 
 	FUNC (ExpandMatrix, 1, "M", "matrix", _("Expands a matrix just like we do on unquoted matrix input"));

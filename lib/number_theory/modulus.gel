@@ -171,6 +171,27 @@ function IndexCalculus (n, b, q, S) = (
 );
 protect ("IndexCalculus")
 
+# g is primitive mod p iff g^((g-1)/p) == 1 mod q  for all prime
+# factors p of q-1
+#ref: 
+# Neil Koblitz, A Course in Number Theory and Cryptography, Springer, 1987
+SetHelp("IsPrimitiveModWithPrimeFactors", "number_theory", "Check if g is primitive in F_q, where q is a prime and f is a vector of prime factors of q-1.  If q is not prime results are bogus.");
+function IsPrimitiveModWithPrimeFactors(g,q,f) = (
+  if not IsMatrix(f) or
+     not IsPositiveInteger(g) or
+     not IsPositiveInteger(q) or q < 2 or g < 2 then
+    (error("IsPrimitiveModWithPrimeFactors: Bad arguments");bailout);
+  for p in f do (
+    if g^((q-1)/p) == 1 mod q then return 0
+  );
+  1
+)
+protect ("IsPrimitiveModWithPrimeFactors")
+
+# g is primitive mod p iff g^((g-1)/p) == 1 mod q  for all prime
+# factors p of q-1
+#ref: 
+# Neil Koblitz, A Course in Number Theory and Cryptography, Springer, 1987
 SetHelp("IsPrimitiveMod", "number_theory", "Check if g is primitive in F_q, where q is a prime.  If q is not prime results are bogus.");
 function IsPrimitiveMod(g,q) = (
   if not IsPositiveInteger(g) or
@@ -186,10 +207,11 @@ protect ("IsPrimitiveMod")
 # Find the first primitive element
 SetHelp("FindPrimitiveElementMod", "number_theory", "Find the first primitive element in F_q (q must be a prime)");
 function FindPrimitiveElementMod(q) = (
+  f = PrimeFactors (q-1);
   if not IsPositiveInteger(q) or q < 2 then
     (error("FindPrimitiveElementMod: Bad arguments");bailout);
   g = 2;
-  while not IsPrimitiveMod(g,q) and g < q do
+  while not IsPrimitiveModWithPrimeFactors(g,q,f) and g < q do
     g = g+1;
 
   if g == q then null else g
@@ -199,8 +221,61 @@ protect ("FindPrimitiveElementMod")
 # Find a random primitive element
 SetHelp("FindRandomPrimitiveElementMod", "number_theory", "Find a random primitive element in F_q (q must be a prime)");
 function FindRandomPrimitiveElementMod(q) = (
+  f = PrimeFactors (q-1);
   do
     g = randint(q)
-  while not IsPrimitiveMod(g,q)
+  while not IsPrimitiveModWithPrimeFactors(g,q,f)
 );
 protect ("FindRandomPrimitiveElementMod")
+
+#ref: 
+# Alfred J. Menezes, Paul C. van Oorschot, Scott A. Vanstone,
+# Handbook of Applied Cryptography, CRC Press, 1997
+# page 100-101
+SetHelp("SqrtModPrime", "number_theory", "Find square root of n mod p (a prime). Null is returned if not a quadratic residue.")
+function SqrtModPrime(n,p) = (
+  if not IsPositiveInteger(n) or
+     not IsPositiveInteger(p) then
+    (error("SqrtModPrime: Bad arguments");bailout);
+  if Legendre(n,p) == -1 then return null;
+  if p%4 == 3 then (
+    r = n^((p+1)/4) mod p;
+    return [r,-r] mod p;
+  ) else if p%8 == 5 then (
+    d = n^((p-1)/4) mod p;
+    if d == 1 then
+      r = n^((p+3)/8) mod p
+    else # d == p-1 (that is: -1)
+      r = 2*n*(4*n)^((p-5)/8) mod p;
+    return [r,-r] mod p;
+  ) else (
+    do 
+      b = randint(p-2)+1
+    until Legendre(b,p) == -1;
+
+    # FIXME this can be done more efficently (there are
+    # gmp functions for this since gmp already does things
+    # in binary)
+    # we want s and t such that p-1 = 2^s * t, where t odd
+    s=1; t=(p-1)/2;
+    while IsEven(t) do (
+      t = t/2;
+      s = s+1
+    );
+
+    nn = n^-1 mod p;
+    c = b^t mod p;
+    r = n^((t+1)/2) mod p;
+
+    # FIXME: this can be done more efficently, this is just direct
+    # copy from the book
+    for i=1 to s-1 do (
+      d = (r^2 * nn)^(2^(s-i-1)) mod p;
+      if d == p-1 then (r = r*c mod p);
+      c = c^2 mod p
+    );
+
+    return [r,-r] mod p;
+  )
+)
+protect ("SqrtModPrime")
