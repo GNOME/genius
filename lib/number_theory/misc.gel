@@ -105,3 +105,34 @@ protect("ChineseRemainder");
 SetHelpAlias ("ChineseRemainder", "CRT")
 CRT = ChineseRemainder
 protect("CRT")
+
+SetHelp("ConvertToBase", "number_theory", "Convert a number to a vector of powers for elements in base b");
+function ConvertToBase(n,b) = (
+  if not IsInteger(n) or n < 0 or not IsInteger(b) or b <= 1 then
+   (
+    error("ConvertToBase: arguments must be integers with n >= 0 and b > 1");
+    bailout;
+   );
+  ret = null;
+  while n != 0 do (
+    r = n % b;
+    n = (n-r)/b;
+    ret = [ret;r];
+  );
+  ret
+)
+protect("ConvertToBase");
+
+SetHelp("ConvertFromBase", "number_theory", "Convert a vector of values indicating powers of b to a number");
+function ConvertFromBase(v,b) = (
+  n = 0;
+  if not IsMatrix(v) or not IsInteger(b) or b <= 1 then
+   (
+    error("ConvertFromBase: bad arguments");
+    bailout;
+   );
+  for i=1 to elements(v) do
+    n = n + v@(i)*b^(i-1);
+  n
+)
+protect("ConvertFromBase");

@@ -302,6 +302,9 @@ identlist:	identlist ',' ident
 	;
 
 exprlist:	exprlist ',' expr
+	/* We ignore the NEXTROW mark after a comma as it's just a return
+	 * breaking a long vector */
+	|	exprlist ',' NEXTROW expr
 	|	expr { if(!gp_push_marker(EXPRLIST_START_NODE)) {SYNTAX_ERROR;} }
 	;
 	
