@@ -153,13 +153,7 @@ d_copyfunc(GelEFunc *o)
 	memcpy(n,o,sizeof(GelEFunc));
 	if(n->type == GEL_USER_FUNC ||
 	   n->type == GEL_VARIABLE_FUNC) {
-		if(!o->data.user) {
-			g_assert(uncompiled);
-			o->data.user =
-				gel_decompile_tree(g_hash_table_lookup(uncompiled,o->id));
-			g_hash_table_remove(uncompiled,o->id);
-			g_assert(o->data.user);
-		}
+		D_ENSURE_USER_BODY (o);
 		n->data.user=copynode(o->data.user);
 	}
 	n->named_args = g_slist_copy(o->named_args);
@@ -185,13 +179,7 @@ d_makerealfunc(GelEFunc *o,GelToken *id, int use)
 
 	if(n->type == GEL_USER_FUNC ||
 	   n->type == GEL_VARIABLE_FUNC) {
-		if(!o->data.user) {
-			g_assert(uncompiled);
-			o->data.user =
-				gel_decompile_tree(g_hash_table_lookup(uncompiled,o->id));
-			g_hash_table_remove(uncompiled,o->id);
-			g_assert(o->data.user);
-		}
+		D_ENSURE_USER_BODY (o);
 		if(use) {
 			n->data.user = o->data.user;
 			o->data.user = NULL;
@@ -220,13 +208,7 @@ d_setrealfunc(GelEFunc *n,GelEFunc *fake, int use)
 	n->data = fake->data;
 	if(n->type == GEL_USER_FUNC ||
 	   n->type == GEL_VARIABLE_FUNC) {
-		if(!fake->data.user) {
-			g_assert(uncompiled);
-			fake->data.user =
-				gel_decompile_tree(g_hash_table_lookup(uncompiled,fake->id));
-			g_hash_table_remove(uncompiled,fake->id);
-			g_assert(fake->data.user);
-		}
+		D_ENSURE_USER_BODY (fake);
 		if(use) {
 			n->data.user = fake->data.user;
 			fake->data.user = NULL;

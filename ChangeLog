@@ -1,3 +1,15 @@
+Fri Oct 11 12:02:19 2002  George Lebl <jirka@5z.com>
+
+	* src/genius.c: fix a warning
+
+	* src/eval.c, src/dict.[ch], src/calc.c: ensuring user body done
+	  in a macro
+
+	* src/eval.c: when we define a function within a non global context
+	  immediately evaluate all local identifiers.  This allows for
+	  returning of functions.  Also ensure user bodies on all treewalking
+	  functions.
+
 Fri Oct 11 10:56:59 2002  George Lebl <jirka@5z.com>
 
 	* src/*.c, src/eval.h: put the free_trees extern in the header

@@ -107,4 +107,15 @@ GSList * d_getcontext(void);
 /*protect all variables currently in memory, except for "Ans"*/
 void d_protect_all(void);
 
+#define D_ENSURE_USER_BODY(f) \
+	if (f->data.user == NULL) {					\
+		g_assert (uncompiled != NULL);				\
+		f->data.user =						\
+			gel_decompile_tree (g_hash_table_lookup		\
+					    (uncompiled, f->id));	\
+		g_hash_table_remove (uncompiled, f->id);		\
+		g_assert (f->data.user != NULL);			\
+	}								\
+
+
 #endif

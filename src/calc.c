@@ -783,13 +783,7 @@ print_etree(GelOutput *gelo, GelETree *n, gboolean toplevel)
 
 			if(f->type==GEL_USER_FUNC) {
 				gel_output_string(gelo,")=(");
-				if(!f->data.user) {
-					g_assert(uncompiled);
-					f->data.user =
-						gel_decompile_tree(g_hash_table_lookup(uncompiled,f->id));
-					g_hash_table_remove(uncompiled,f->id);
-					g_assert(f->data.user);
-				}
+				D_ENSURE_USER_BODY (f);
 				print_etree(gelo, f->data.user, FALSE);
 				gel_output_string(gelo,"))");
 			} else {

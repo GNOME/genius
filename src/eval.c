@@ -2001,22 +2001,10 @@ static gboolean
 iter_do_var(GelCtx *ctx, GelETree *n, GelEFunc *f)
 {
 	if(f->type == GEL_VARIABLE_FUNC) {
-		if(!f->data.user) {
-			g_assert(uncompiled);
-			f->data.user =
-				gel_decompile_tree(g_hash_table_lookup(uncompiled,f->id));
-			g_hash_table_remove(uncompiled,f->id);
-			g_assert(f->data.user);
-		}
+		D_ENSURE_USER_BODY (f);
 		copyreplacenode(n,f->data.user);
 	} else if(f->type == GEL_USER_FUNC) {
-		if(!f->data.user) {
-			g_assert(uncompiled);
-			f->data.user =
-				gel_decompile_tree(g_hash_table_lookup(uncompiled,f->id));
-			g_hash_table_remove(uncompiled,f->id);
-			g_assert(f->data.user);
-		}
+		D_ENSURE_USER_BODY (f);
 		freetree_full(n,TRUE,FALSE);
 
 		n->type = FUNCTION_NODE;
@@ -2876,13 +2864,7 @@ iter_funccallop(GelCtx *ctx, GelETree *n)
 				d_addfunc(d_makevfunc(li->data,copynode(ali)));
 		}
 
-		if(!f->data.user) {
-			g_assert(uncompiled);
-			f->data.user =
-				gel_decompile_tree(g_hash_table_lookup(uncompiled,f->id));
-			g_hash_table_remove(uncompiled,f->id);
-			g_assert(f->data.user);
-		}
+		D_ENSURE_USER_BODY (f);
 		
 		/*push self as post AGAIN*/
 		GE_PUSH_STACK(ctx,ctx->current,GE_POST);
@@ -3441,13 +3423,7 @@ iter_get_matrix_p(GelETree *m, int *new_matrix)
 			(*errorout)(_("Indexed Lvalue not user function"));
 			return NULL;
 		}
-		if(!f->data.user) {
-			g_assert(uncompiled);
-			f->data.user =
-				gel_decompile_tree(g_hash_table_lookup(uncompiled,f->id));
-			g_hash_table_remove(uncompiled,f->id);
-			g_assert(f->data.user);
-		}
+		D_ENSURE_USER_BODY (f);
 		if(f->data.user->type != MATRIX_NODE) {
 			GelETree *t;
 			GET_NEW_NODE(t);
@@ -3490,13 +3466,7 @@ iter_get_matrix_p(GelETree *m, int *new_matrix)
 			(*errorout)(_("Trying to set a protected id"));
 			return NULL;
 		}
-		if(!f->data.ref->data.user) {
-			g_assert(uncompiled);
-			f->data.ref->data.user =
-				gel_decompile_tree(g_hash_table_lookup(uncompiled,f->data.ref->id));
-			g_hash_table_remove(uncompiled,f->id);
-			g_assert(f->data.user);
-		}
+		D_ENSURE_USER_BODY (f->data.ref);
 		if(f->data.ref->data.user->type != MATRIX_NODE) {
 			GelETree *t;
 			GET_NEW_NODE(t);
@@ -4257,6 +4227,66 @@ iter_operator_post(GelCtx *ctx)
 	return TRUE;
 }
 
+static void
+subst_local_vars (GelETree *n)
+{
+	if (n == NULL)
+		return;
+
+	if (n->type == IDENTIFIER_NODE) {
+		GelEFunc *func = d_lookup_local (n->id.id);
+		if (func != NULL &&
+		    func->type == GEL_VARIABLE_FUNC) {
+			D_ENSURE_USER_BODY (func);
+			copyreplacenode (n, func->data.user);
+		} else if (func != NULL &&
+			   func->type == GEL_USER_FUNC) {
+			GelETree *nn;
+			D_ENSURE_USER_BODY (func);
+
+			func = d_copyfunc (func);
+			func->context = -1;
+
+			GET_NEW_NODE (nn);
+			nn->type = FUNCTION_NODE;
+			nn->func.func = func;
+			replacenode (n, nn);
+		}
+	} else if (n->type == SPACER_NODE) {
+		subst_local_vars (n->sp.arg);
+	} else if(n->type == OPERATOR_NODE) {
+		GelETree *args = n->op.args;
+		while (args != NULL) {
+			subst_local_vars (args);
+			args = args->any.next;
+		}
+	} else if (n->type == MATRIX_NODE &&
+		   n->mat.matrix != NULL) {
+		int i,j;
+		int w,h;
+		w = gel_matrixw_width (n->mat.matrix);
+		h = gel_matrixw_height (n->mat.matrix);
+		gel_matrixw_make_private (n->mat.matrix);
+		for (i = 0; i < w; i++) {
+			for(j = 0; j < h; j++) {
+				GelETree *t = gel_matrixw_set_index
+					(n->mat.matrix, i, j);
+				if (t != NULL)
+					subst_local_vars (t);
+			}
+		}
+	} else if (n->type == SET_NODE) {
+		GelETree *ali;
+		for(ali = n->set.items; ali != NULL; ali = ali->any.next)
+			subst_local_vars (ali);
+	} else if (n->type == FUNCTION_NODE &&
+		   (n->func.func->type == GEL_USER_FUNC ||
+		    n->func.func->type == GEL_VARIABLE_FUNC)) {
+		D_ENSURE_USER_BODY (n->func.func);
+		subst_local_vars (n->func.func->data.user);
+	}
+}
+
 static gboolean
 iter_eval_etree(GelCtx *ctx)
 {
@@ -4308,10 +4338,22 @@ iter_eval_etree(GelCtx *ctx)
 			iter_pop_stack(ctx);
 			break;
 		case STRING_NODE:
-		case FUNCTION_NODE:
-			EDEBUG(" STRING/FUNCTION NODE");
+			EDEBUG(" STRING NODE");
 			iter_pop_stack(ctx);
 			break;
+
+		case FUNCTION_NODE:
+			EDEBUG(" FUNCTION NODE");
+			if (n->func.func != NULL &&
+			    (n->func.func->type == GEL_USER_FUNC ||
+			     n->func.func->type == GEL_VARIABLE_FUNC) &&
+			    d_curcontext () != 0) {
+				D_ENSURE_USER_BODY (n->func.func);
+				subst_local_vars (n->func.func->data.user);
+			}
+			iter_pop_stack(ctx);
+			break;
+
 		case COMPARISON_NODE:
 			EDEBUG(" COMPARISON NODE");
 			if(!ctx->post) {
@@ -4493,8 +4535,9 @@ gather_comparisons(GelETree *n)
 					gather_comparisons(ali->any.next);
 		}
 	} else if(n->type==FUNCTION_NODE) {
-		if(n->func.func->type==GEL_USER_FUNC &&
-		   n->func.func->data.user) {
+		if ((n->func.func->type == GEL_USER_FUNC ||
+		     n->func.func->type == GEL_VARIABLE_FUNC) &&
+		    n->func.func->data.user) {
 			n->func.func->data.user =
 				gather_comparisons(n->func.func->data.user);
 		}
@@ -4562,7 +4605,8 @@ replace_equals (GelETree *n, gboolean in_expression)
 		for(ali = n->set.items; ali != NULL; ali = ali->any.next)
 			replace_equals (ali, in_expression);
 	} else if (n->type == FUNCTION_NODE &&
-		   n->func.func->type == GEL_USER_FUNC &&
+		   (n->func.func->type == GEL_USER_FUNC ||
+		    n->func.func->type == GEL_VARIABLE_FUNC) &&
 		   n->func.func->data.user != NULL) {
 		/* function bodies are a completely new thing */
 		replace_equals (n->func.func->data.user, FALSE);
@@ -4670,8 +4714,9 @@ replace_parameters(GelETree *n)
 					replace_parameters(ali->any.next);
 		}
 	} else if(n->type==FUNCTION_NODE) {
-		if(n->func.func->type==GEL_USER_FUNC &&
-		   n->func.func->data.user) {
+		if ((n->func.func->type == GEL_USER_FUNC ||
+		     n->func.func->type == GEL_VARIABLE_FUNC) &&
+		    n->func.func->data.user) {
 			n->func.func->data.user =
 				replace_parameters(n->func.func->data.user);
 		}
@@ -4814,8 +4859,9 @@ try_to_do_precalc(GelETree *n)
 				try_to_do_precalc(ali);
 		}
 	} else if(n->type==FUNCTION_NODE) {
-		if(n->func.func->type==GEL_USER_FUNC &&
-		   n->func.func->data.user)
+		if ((n->func.func->type == GEL_USER_FUNC ||
+		     n->func.func->type == GEL_VARIABLE_FUNC) &&
+		    n->func.func->data.user)
 			try_to_do_precalc(n->func.func->data.user);
 	}
 }

@@ -121,7 +121,7 @@ static int
 long_get_term_width (void)
 {
 	char buf[2048];
-	char *term = g_getenv("TERM");
+	const char *term = g_getenv("TERM");
 
 	if(!term) return 80;
 
