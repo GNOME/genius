@@ -1139,63 +1139,63 @@ mympf_arctan(mpf_ptr rop,mpf_ptr op)
 static void
 mympf_pow_z(mpf_t rop,mpf_t op,mpz_t e)
 {
-	unsigned long limb;
-	mpf_t answer;
-	mpf_t tmp;
-	mpz_t locale;
+	int esgn = mpz_sgn (e);
+	gboolean neg = FALSE;
+	if (esgn == 0) {
+		mpf_set_ui (rop, 1);
+		return;
+	} else if (esgn < 0) {
+		neg = TRUE;
+		mpz_neg (e, e);
+	}
 
-	mpf_init_set_ui(answer,1);
-	mpf_init(tmp);
-	mpz_init_set(locale,e);
+	if (mpz_fits_ulong_p (e)) {
+		unsigned int exp = mpz_get_ui (e);
+		mpf_pow_ui (rop, op, exp);
+		if (neg) {
+			mpf_ui_div (rop, 1, rop);
+			mpz_neg (e, e);
+		}
+	} else {
+		mpf_t fe;
 
-	do {
-		limb=mpz_get_ui(locale);
-		mpz_tdiv_q_2exp(locale,locale,CHAR_BIT*sizeof(unsigned long));
+		/* we don't need a negative here */
+		if (neg) {
+			mpz_neg (e, e);
+		}
 
-		if(limb==0)
-			continue;
-
-		mpf_pow_ui (tmp, op, limb);
-
-		mpf_mul(answer,answer,tmp);
-	} while(mpz_sgn(locale)!=0);
-
-	mpf_set(rop,answer);
-	mpf_clear(answer);
-	mpf_clear(tmp);
-	mpz_clear(locale);
+		mpf_init (fe);
+		mpf_set_z (fe, e);
+#ifdef HAVE_MPFR
+		mpfr_pow (rop, op, fe, GMP_RNDN);
+#else
+		mympf_ln (rop, op);
+		mpf_mul (rop, rop, fe);
+		mympf_exp (rop, rop);
+#endif
+		mpf_clear (fe);
+	}
 }
 
 
-/*my own power function for ints, very simple :) */
+/*my own power function for ints, very simple :), assumes that
+ * e is positive */
 static void
 mympz_pow_z(mpz_t rop,mpz_t op,mpz_t e)
 {
-	unsigned long limb;
-	mpz_t answer;
-	mpz_t tmp;
-	mpz_t locale;
+	if (mpz_sgn (e) == 0) {
+		mpz_set_ui (rop, 1);
+		return;
+	}
 
-	mpz_init_set_ui(answer,1);
-	mpz_init(tmp);
-	mpz_init_set(locale,e);
-
-	do {
-		limb=mpz_get_ui(locale);
-		mpz_tdiv_q_2exp(locale,locale,CHAR_BIT*sizeof(unsigned long));
-
-		if(limb==0)
-			continue;
-
-		mpz_pow_ui(tmp,op,limb);
-
-		mpz_mul(answer,answer,tmp);
-	} while(mpz_sgn(locale)!=0);
-
-	mpz_set(rop,answer);
-	mpz_clear(answer);
-	mpz_clear(tmp);
-	mpz_clear(locale);
+	if (mpz_fits_ulong_p (e)) {
+		unsigned int exp = mpz_get_ui (e);
+		mpz_pow_ui (rop, op, exp);
+	} else {
+		(*errorout)(_("Integer exponent too large to compute"));
+		error_num=NUMERICAL_MPW_ERROR;
+		mpz_set_ui (rop, 1);
+	}
 }
 
 /*clear extra variables of type type, if type=op->type nothing is done*/

@@ -1,3 +1,11 @@
+Wed May 21 16:42:05 2003  George Lebl <jirka@5z.com>
+
+	* src/mpwrap.c: the int power functions were stupid and weren't
+	  working for greater then ulong powers anyway.  So for the floating
+	  one convert to a float if the power is too big, for the integer
+	  one just make an error, since the number would be too big to be
+	  useful (as an integer of course)
+
 Wed May 21 16:06:28 2003  George Lebl <jirka@5z.com>
 
 	* src/mpwrap.[ch]: allow access to the low level gmp types
