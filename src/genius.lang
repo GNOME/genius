@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="Genius" version="1.0" _section="Scripts" mimetypes="text/x-genius">
+	
+	<escape-char>\</escape-char>
+
+	<string _name = "String" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&quot;</start-regex>
+		<end-regex>&quot;</end-regex>
+	</string>
+
+	<line-comment _name = "Line Comment" style= "Comment">
+		<start-regex>#</start-regex>
+	</line-comment>
+
+	<pattern-item _name = "Base-N Integers" style = "Base-N Integer">
+		<regex>\b(([1-3][0-9]|[1-9])\\[0-9a-zA-Z]+|0x[0-9a-fA-F]+|0[0-7]+)\b</regex>
+	</pattern-item>
+
+	<pattern-item _name = "Decimal Integers" style = "Decimal">
+		<regex>\b([1-9][0-9]*|0)\b</regex>
+	</pattern-item>
+
+	<pattern-item _name = "Floats" style = "Floating Point">
+		<regex>\b([0-9]*\.[0-9]+[eE@][-+]?[0-9]+|[0-9]+[eE@][-+]?[0-9]+|[0-9]*\.[0-9]+)\b</regex>
+	</pattern-item>
+
+	<keyword-list _name = "Commands" style = "Others" case-sensitive="TRUE"
+		beginning-regex = "^">
+		<keyword>load</keyword>
+		<keyword>plugin</keyword>
+		<keyword>cd</keyword>
+		<keyword>ls</keyword>
+		<keyword>pwd</keyword>
+		<keyword>help</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Keywords" style = "Keyword" case-sensitive="TRUE">
+		<keyword>not</keyword>
+		<keyword>and</keyword>
+		<keyword>xor</keyword>
+		<keyword>or</keyword>
+		<keyword>while</keyword>
+		<keyword>until</keyword>
+		<keyword>for</keyword>
+		<keyword>sum</keyword>
+		<keyword>prod</keyword>
+		<keyword>do</keyword>
+		<keyword>to</keyword>
+		<keyword>by</keyword>
+		<keyword>in</keyword>
+		<keyword>if</keyword>
+		<keyword>then</keyword>
+		<keyword>else</keyword>
+		<keyword>function</keyword>
+		<keyword>parameter</keyword>
+		<keyword>call</keyword>
+		<keyword>return</keyword>
+		<keyword>bailout</keyword>
+		<keyword>exception</keyword>
+		<keyword>continue</keyword>
+		<keyword>break</keyword>
+		<keyword>mod</keyword>
+		<keyword>null</keyword>
+	</keyword-list>
+
+</language>

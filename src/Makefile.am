@@ -1,5 +1,6 @@
 Librarydir = $(datadir)/genius/gel
 Plugindescdir = $(datadir)/genius/plugins
+Langdescdir = $(datadir)/genius/gtksourceview/
 
 plugindir = $(libdir)/genius
 
@@ -187,9 +188,12 @@ EXTRA_DIST = \
 	geniustests.txt \
 	$(Desktop_in_files) \
 	$(Desktop_DATA) \
-	test.plugin.in
+	test.plugin.in \
+	genius.lang
 
 Plugindesc_DATA = test.plugin
+
+Langdesc_DATA = $(srcdir)/genius.lang
 
 parse.h: parse.y
 	$(YACC) $(YFLAGS) $<

@@ -48,6 +48,13 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+#ifdef HAVE_GTKSOURCEVIEW
+#include <gtksourceview/gtksourceview.h>
+#include <gtksourceview/gtksourcelanguage.h>
+#include <gtksourceview/gtksourcelanguagesmanager.h>
+#include <gtksourceview/gtksourceprintjob.h>
+#endif
+
 /* FIXME: need header */
 void genius_interrupt_calc (void);
 
@@ -315,8 +322,8 @@ geniusbox (gboolean error,
 				    TRUE, TRUE, 0);
 
 		tv = gtk_text_view_new ();
-		gtk_text_view_set_editable (GTK_TEXT_VIEW (tv), FALSE);
 		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
+		gtk_text_view_set_editable (GTK_TEXT_VIEW (tv), FALSE);
 		gtk_text_buffer_create_tag (buffer, "foo",
 					    "editable", FALSE,
 					    "family", "monospace",
@@ -1502,13 +1509,40 @@ new_program (const char *filename)
 	GtkWidget *sw;
 	GtkTextBuffer *buffer;
 	Program *p;
+#ifdef HAVE_GTKSOURCEVIEW
+	GtkSourceLanguage *lang;
+	GtkSourceLanguagesManager *lm;
+	GList lang_dirs;
+#endif
 
 	sw = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
+#ifdef HAVE_GTKSOURCEVIEW
+	tv = gtk_source_view_new ();
+	gtk_source_view_set_show_line_numbers (GTK_SOURCE_VIEW (tv), TRUE);
+	gtk_source_view_set_auto_indent (GTK_SOURCE_VIEW (tv), TRUE);
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
+	lang_dirs.data = DATADIR "/genius/gtksourceview/";
+	lang_dirs.prev = NULL;
+	lang_dirs.next = NULL;
+	lm = GTK_SOURCE_LANGUAGES_MANAGER
+		(g_object_new (GTK_TYPE_SOURCE_LANGUAGES_MANAGER,
+			       "lang_files_dirs", &lang_dirs,
+			       NULL));
+
+	lang = gtk_source_languages_manager_get_language_from_mime_type
+		(lm, "text/x-genius");
+	if (lang != NULL) {
+		g_object_set (G_OBJECT (buffer), "highlight", TRUE, NULL);
+		gtk_source_buffer_set_language
+			(GTK_SOURCE_BUFFER (buffer), lang);
+	}
+#else
 	tv = gtk_text_view_new ();
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
+#endif
 
 	gtk_text_buffer_create_tag (buffer, "foo",
 				    "family", "monospace",
@@ -2296,12 +2330,18 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
 static const char *
 get_version_details (void)
 {
+	static GString *str = NULL;
+	if (str != NULL)
+		return str->str;
+	str = g_string_new (NULL);
 #ifndef HAVE_MPFR
-	return _("\nNote: Compiled without MPFR (some operations may be slow) "
-		 "see www.mpfr.org");
-#else
-	return "";
+	g_string_append (str, _("\nNote: Compiled without MPFR (some operations may be slow) "
+				"see www.mpfr.org"));
 #endif
+#ifndef HAVE_GTKSOURCEVIEW
+	g_string_append (str, _("\nNote: Compiled without GtkSourceView (better source editor)"));
+#endif
+	return str->str;
 }
 
 int

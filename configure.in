@@ -12,6 +12,7 @@ VTE_REQUIRED=0.8.19
 LIBGNOMEUI_REQUIRED=2.0.0
 LIBGNOME_REQUIRED=2.0.0
 GTK_REQUIRED=2.0.0
+GTKSOURCEVIEW_REQUIRED=0.3.0
 
 dnl ===============================================================================
 
@@ -82,8 +83,21 @@ fi
 AC_SUBST(GCONF_CONFIG_SOURCE)
 AC_SUBST(INSTALL_GCONF_CONFIG_SOURCE)
 
-GENIUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED libgnome-2.0 >= $LIBGNOME_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED vte >= $VTE_REQUIRED"
-PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES)
+AC_ARG_ENABLE(gtksourceview,
+[  --enable-gtksourceview  Use GtkSourceView library],
+use_gtksourceview="$enableval",use_gtksourceview=yes)
+
+GENIUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED libgnome-2.0 >= $LIBGNOME_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED vte >= $VTE_REQUIRED gtksourceview-1.0 >= $GTKSOURCEVIEW_REQUIRED"
+GENIUS_MODULES_NOSRCVIEW="gtk+-2.0 >= $GTK_REQUIRED libgnome-2.0 >= $LIBGNOME_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED vte >= $VTE_REQUIRED"
+
+if test "x$use_gtksourceview" = "xyes" ; then
+  PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES,
+		    AC_DEFINE(HAVE_GTKSOURCEVIEW),
+		    [PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES_NOSRCVIEW)])
+ # FIXME: warn if not compiled
+else
+  PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES_NOSRCVIEW)
+fi
 AC_SUBST(GENIUS_CFLAGS)
 AC_SUBST(GENIUS_LIBS)
 
