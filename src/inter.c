@@ -171,6 +171,8 @@ get_cb_p_expression(char *s, FILE *torlfp)
 	toplevelokg = old_toplevelokg;
 
 	if(interrupted) {
+		prompt = "\e[1mgenius>\e[0m ";
+		interrupted = FALSE;
 		if(p_expr) g_string_free(p_expr,TRUE);
 		p_expr = NULL;
 		goto done_with_get;

@@ -48,6 +48,9 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+/* FIXME: need header */
+void genius_interrupt_calc (void);
+
 /*Globals:*/
 
 #define DEFAULT_FONT "Monospace 10"
@@ -742,10 +745,13 @@ setup_calc(GtkWidget *widget, gpointer data)
 	gtk_widget_show_all(setupdialog);
 }
 
-static void
-interrupt_calc(GtkWidget *widget, gpointer data)
+void
+genius_interrupt_calc (void)
 {
 	interrupted = TRUE;
+	if (!calc_running) {
+		vte_terminal_feed_child (VTE_TERMINAL (term), "\n", 1);
+	}
 }
 
 static void
@@ -1009,7 +1015,7 @@ static GnomeUIInfo settings_menu[] = {
 };
 
 static GnomeUIInfo calc_menu[] = {  
-	GNOMEUIINFO_ITEM_STOCK(N_("_Interrupt"),N_("Interrupt current calculation"),interrupt_calc,GNOME_STOCK_MENU_STOP),
+	GNOMEUIINFO_ITEM_STOCK(N_("_Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GNOME_STOCK_MENU_STOP),
 	GNOMEUIINFO_END,
 };
 
@@ -1045,7 +1051,7 @@ static GnomeUIInfo genius_menu[] = {
 
 /* toolbar */
 static GnomeUIInfo toolbar[] = {
-	GNOMEUIINFO_ITEM_STOCK(N_("Interrupt"),N_("Interrupt current calculation"),interrupt_calc,GNOME_STOCK_PIXMAP_STOP),
+	GNOMEUIINFO_ITEM_STOCK(N_("Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GNOME_STOCK_PIXMAP_STOP),
 	GNOMEUIINFO_ITEM_STOCK(N_("Load"),N_("Load and execute a file in genius"),load_cb, GNOME_STOCK_PIXMAP_OPEN),
 	GNOMEUIINFO_ITEM_STOCK(N_("Exit"),N_("Exit genius"), quitapp, GNOME_STOCK_PIXMAP_EXIT),
 	GNOMEUIINFO_END,

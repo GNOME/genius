@@ -39,6 +39,9 @@
 
 #include "graphing.h"
 
+/* FIXME: need header for gnome-genius.c */
+void genius_interrupt_calc (void);
+
 extern GtkWidget *genius_window;
 extern int interrupted;
 
@@ -56,7 +59,7 @@ dialog_response (GtkWidget *w, int response, gpointer data)
 	if (response == GTK_RESPONSE_CLOSE) {
 		gtk_widget_destroy (graph_window);
 	} else if (response == 1 /* stop/interrupt */) {
-		interrupted = TRUE;
+		genius_interrupt_calc ();
 	}
 }
 
@@ -196,9 +199,29 @@ call_func (GelCtx *ctx, GelEFunc *func, GelETree *arg)
 }
 
 static void
+plot_line (GnomeCanvasItem **line, const char *color,
+	   GnomeCanvasPoints *points, int num)
+{
+	int old_points = points->num_points;
+	points->num_points = num;
+
+	if (*line != NULL) {
+		gtk_object_destroy (GTK_OBJECT (*line));
+	}
+	*line = gnome_canvas_item_new (graph,
+				       gnome_canvas_line_get_type (),
+				       "fill_color", color,
+				       "points", points,
+				       NULL);
+
+	points->num_points = old_points;
+}
+
+static void
 plot_func (GelCtx *ctx, GelEFunc *func, const char *color, double xscale, double yscale, double x1, double x2, double y1, double y2)
 {
 #define PERITER 2
+	GnomeCanvasItem *line = NULL;
 	GelETree *arg;
 	mpw_t x;
 	GnomeCanvasPoints *points = gnome_canvas_points_new (WIDTH/PERITER + 1);
@@ -218,6 +241,9 @@ plot_func (GelCtx *ctx, GelEFunc *func, const char *color, double xscale, double
 		/* hack for "infinity" */
 		else if (points->coords[i*2 + 1] <= -HEIGHT)
 			points->coords[i*2 + 1] = -HEIGHT;
+		if (i%50 == 0 && i>0) {
+			plot_line (&line, color, points, i+1);
+		}
 		if(evalnode_hook) {
 			(*evalnode_hook)();
 			if (interrupted) {
@@ -229,11 +255,7 @@ plot_func (GelCtx *ctx, GelEFunc *func, const char *color, double xscale, double
 	}
 	gel_freetree (arg);
 
-	gnome_canvas_item_new (graph,
-			       gnome_canvas_line_get_type (),
-			       "fill_color", color,
-			       "points", points,
-			       NULL);
+	plot_line (&line, color, points, WIDTH/PERITER + 1);
 
 	gnome_canvas_points_unref (points);
 }
