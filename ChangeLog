@@ -1,7 +1,15 @@
+Tue Mar 30 15:08:05 2004  George Lebl <jirka@5z.com>
+
+	* Release 0.6.0
+
+	* src/mpwrap.c: define G_MAXINT32 if not defined to allow compilation
+	  with older glib
+
 Tue Mar 30 14:56:27 2004  George Lebl <jirka@5z.com>
 
 	* src/mpwrap.c: further optimization of the mp* free lists gets some
-	  improvement mainly for floats
+	  improvement mainly for floats.  Plus fix the mpf free list when
+	  changing precision.
 
 Tue Mar 30 11:36:13 2004  George Lebl <jirka@5z.com>
 

@@ -33,6 +33,11 @@
 
 #include "mpwrap.h"
 
+/* for backward compat */
+#ifndef G_MAXINT32
+#define G_MAXINT32        ((gint32)  0x7fffffff)
+#endif
+
 #if 0
 /* Context sutff */
 struct _MpwCtx {
