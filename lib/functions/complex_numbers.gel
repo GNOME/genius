@@ -12,3 +12,39 @@ SetHelpAlias ("Argument", "Arg");
 protect("Argument");
 protect("Arg");
 protect("arg");
+
+
+#
+# For Moebius mapping discussion see
+# John B. Conway, Functions of One Complex Variable I
+# 1978, Springer-Verlag, New York, Inc.
+#
+SetHelp("MoebiusDiskMapping","functions","Moebius mapping of the disk to itself mapping a to 0");
+function MoebiusDiskMapping(a,z) = (
+	(z-a)/(1-conj(a)*z)
+)
+protect("MoebiusDiskMapping");
+
+SetHelp("MoebiusMapping","functions","Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity respectively");
+function MoebiusMapping(z,z2,z3,z4) = (
+	((z-z3)/(z-z4))/((z2-z3)/(z2-z4))
+)
+protect("MoebiusMapping");
+
+SetHelp("MoebiusMappingInftyToOne","functions","Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 and infinity respectively");
+function MoebiusMappingInftyToOne(z,z3,z4) = (
+	(z-z3)/(z-z4)
+)
+protect("MoebiusMappingInftyToOne");
+
+SetHelp("MoebiusMappingInftyToZero","functions","Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 and infinity respectively");
+function MoebiusMappingInftyToOne(z,z2,z4) = (
+	(z2-z4)/(z-z4)
+)
+protect("MoebiusMappingInftyToZero");
+
+SetHelp("MoebiusMappingInftyToInfty","functions","Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 to 1 and 0 respectively");
+function MoebiusMappingInftyToOne(z,z2,z3) = (
+	(z-z3)/(z2-z3)
+)
+protect("MoebiusMappingInftyToInfty");

@@ -189,12 +189,12 @@ main(int argc, char *argv[])
 {
 	int i;
 	int inter;
-	int lastarg = FALSE;
+	gboolean lastarg = FALSE;
 	GSList *files = NULL;
 	char *file;
 	FILE *fp;
-	int do_compile = FALSE;
-	int be_quiet = FALSE;
+	gboolean do_compile = FALSE;
+	gboolean be_quiet = FALSE;
 
 	genius_is_gui = FALSE;
 
@@ -292,7 +292,7 @@ main(int argc, char *argv[])
 		be_quiet = TRUE;
 	inter = isatty(0) && !files && !do_compile;
 	/*interactive mode, print welcome message*/
-	if(inter) {
+	if (inter) {
 		g_print (_("Genius %s\n"
 			   "%s\n"
 			   "This is free software with ABSOLUTELY NO WARRANTY.\n"
@@ -322,7 +322,7 @@ main(int argc, char *argv[])
 	  dictionary*/
 	d_singlecontext ();
 
-	if(!do_compile) {
+	if ( ! do_compile) {
 		/*
 		 * Read main library
 		 */
@@ -433,7 +433,7 @@ main(int argc, char *argv[])
 				}
 			} while(!fp && files);
 			if(!fp && !files) {
-				if(do_compile) {
+				if (do_compile) {
 					gel_push_file_info(NULL,0);
 					gel_compile_all_user_funcs(stdout);
 					gel_pop_file_info();

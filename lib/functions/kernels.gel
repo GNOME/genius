@@ -1,0 +1,40 @@
+# Poisson, Dirichlet and Fejer kernels
+
+# See
+# Eric W. Weisstein. "Poisson Kernel." From MathWorld--A Wolfram Web Resource.
+# http://mathworld.wolfram.com/PoissonKernel.html
+
+SetHelp("PoissonKernel","functions","Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is 2pi)");
+function PoissonKernel(r,sigma) = (
+	(1 - r^2) / (1 - 2*r*cos(sigma) + r^2)
+)
+protect("PoissonKernel")
+
+SetHelp("PoissonKernelRadius","functions","Poisson kernel on D(0,R) (not normalized to 1)");
+function PoissonKernelRadius(r,sigma) = (
+	(R^2 - r^2) / (R^2 - 2*R*r*cos(sigma) + r^2)
+)
+protect("PoissonKernelRadius")
+
+# See Planetmath http://planetmath.org/encyclopedia/DirchletKernel.html
+SetHelp("DirichletKernel","functions","Dirichlet kernel of order n");
+function DirichletKernel(n,t) = (
+	if t == 0 then (
+		2*n+1
+	) else (
+		( sin ((n+0.5)*t) ) / ( sin(t/2))
+	)
+)
+protect("DirichletKernel")
+
+# See Planetmath http://planetmath.org/encyclopedia/FejerKernel.html
+SetHelp("FejerKernel","functions","Fejer kernel of order n");
+function FejerKernel(n,t) = (
+	if t == 0 then (
+		n
+	) else (
+		(1/n) *
+		( ( sin ((n*t)/2) ) / ( sin(t/2)) )^2
+	)
+)
+protect("FejerKernel")

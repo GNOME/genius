@@ -1,3 +1,15 @@
+Tue Mar 30 09:52:39 2004  George Lebl <jirka@5z.com>
+
+	* lib/functions/Makefile.am, lib/functions/kernels.gel:
+	  Add PoissonKernel, DirichletKernel and FejerKernel
+
+	* lib/functions/complex_numbers.gel: Add MoebiusDiskMapping,
+	  MoebiusMapping, MoebiusMappingInftyToOne, MoebiusMappingInftyToZero
+	  and MoebiusMappingInftyToInfty
+
+	* src/calc.c, src/genius.c: fix compilation of parameters, avoid
+	  compilation of built in parameters plus minor cleanup
+
 2003-03-28  Kostas Papadimas  <pkst@gnome.org>
 
 	* configure.in (ALL_LINGUAS): Added "el" (Greek).
