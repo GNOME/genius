@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-05 17:22-0400\n"
-"PO-Revision-Date: 2004-08-05 00:09-0400\n"
+"POT-Creation-Date: 2004-08-07 17:16-0400\n"
+"PO-Revision-Date: 2004-08-07 00:09-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: en_CA <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -613,7 +613,7 @@ msgstr "%s: argument number %d not an integer or a matrix"
 msgid "%s: argument number %d not a positive integer"
 msgstr "%s: argument number %d not a positive integer"
 
-#: src/funclib.c:133 src/graphing.c:1406
+#: src/funclib.c:133 src/graphing.c:1670
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: argument number %d not a number"
@@ -1628,7 +1628,7 @@ msgstr "_Interrupt"
 msgid "Interrupt current calculation"
 msgstr "Interrupt current calculation"
 
-#: src/gnome-genius.c:254 src/graphing.c:2372
+#: src/gnome-genius.c:254 src/graphing.c:2645
 msgid "_Plot"
 msgstr "_Plot"
 
@@ -1682,7 +1682,7 @@ msgstr "Open"
 msgid "Open a GEL file for running"
 msgstr "Open a GEL file for running"
 
-#: src/gnome-genius.c:300 src/graphing.c:812
+#: src/gnome-genius.c:300 src/graphing.c:1050
 msgid "Plot"
 msgstr "Plot"
 
@@ -1852,7 +1852,7 @@ msgstr ""
 msgid "GEL files"
 msgstr "GEL files"
 
-#: src/gnome-genius.c:1196 src/graphing.c:480
+#: src/gnome-genius.c:1196 src/graphing.c:710
 msgid "All files"
 msgstr "All files"
 
@@ -1907,7 +1907,7 @@ msgstr ""
 "<b>Cannot save file</b>\n"
 "Details: %s"
 
-#: src/gnome-genius.c:2024 src/graphing.c:374
+#: src/gnome-genius.c:2024 src/graphing.c:604
 msgid "File already exists.  Overwrite it?"
 msgstr "File already exists.  Overwrite it?"
 
@@ -1971,103 +1971,135 @@ msgstr "Genius Math Tool"
 msgid "Genius Mathematical Tool and Calculator"
 msgstr "Genius Mathematical Tool and Calculator"
 
-#: src/graphing.c:214
+#: src/graphing.c:281
+msgid "Rotate"
+msgstr "Rotate"
+
+#: src/graphing.c:300
+msgid "Rotate X: "
+msgstr "Rotate X: "
+
+#: src/graphing.c:325
+msgid "Rotate Y: "
+msgstr "Rotate Y: "
+
+#: src/graphing.c:350
+msgid "Rotate Z: "
+msgstr "Rotate Z: "
+
+#: src/graphing.c:444
 msgid "Print"
 msgstr "Print"
 
-#: src/graphing.c:231
+#: src/graphing.c:461
 msgid "Print command: "
 msgstr "Print command: "
 
-#: src/graphing.c:258
+#: src/graphing.c:488
 msgid "Cannot open temporary file, cannot print."
 msgstr "Cannot open temporary file; cannot print."
 
-#: src/graphing.c:287
+#: src/graphing.c:517
 msgid "Printing failed"
 msgstr "Printing failed"
 
-#: src/graphing.c:416
+#: src/graphing.c:646
 msgid "Export failed"
 msgstr "Export failed"
 
-#: src/graphing.c:454
+#: src/graphing.c:684
 msgid "Export encapsulated postscript"
 msgstr "Export encapsulated postscript"
 
-#: src/graphing.c:456
+#: src/graphing.c:686
 msgid "Export postscript"
 msgstr "Export postscript"
 
-#: src/graphing.c:470
+#: src/graphing.c:700
 msgid "EPS files"
 msgstr "EPS files"
 
-#: src/graphing.c:474
+#: src/graphing.c:704
 msgid "PS files"
 msgstr "PS files"
 
-#: src/graphing.c:834
+#: src/graphing.c:1072
 msgid "_Graph"
 msgstr "_Graph"
 
-#: src/graphing.c:838
+#: src/graphing.c:1076
 msgid "_Print..."
 msgstr "_Print..."
 
-#: src/graphing.c:844
+#: src/graphing.c:1082
 msgid "_Export postscript..."
 msgstr "_Export postscript..."
 
-#: src/graphing.c:850
+#: src/graphing.c:1088
 msgid "E_xport encapsulated postscript..."
 msgstr "E_xport encapsulated postscript..."
 
-#: src/graphing.c:858
+#: src/graphing.c:1096
 msgid "_Zoom"
 msgstr "_Zoom"
 
-#: src/graphing.c:862
+#: src/graphing.c:1100
 msgid "Zoom _out"
 msgstr "Zoom _out"
 
-#: src/graphing.c:868
+#: src/graphing.c:1106
 msgid "Zoom _in"
 msgstr "Zoom _in"
 
-#: src/graphing.c:874
-msgid "Fit dependent axis"
-msgstr "Fit dependent axis"
+#: src/graphing.c:1112
+msgid "_Fit dependent axis"
+msgstr "_Fit dependent axis"
 
-#: src/graphing.c:1397
+#: src/graphing.c:1120
+msgid "_View"
+msgstr "_View"
+
+#: src/graphing.c:1125
+msgid "_Reset angles"
+msgstr "_Reset angles"
+
+#: src/graphing.c:1130
+msgid "_Top view"
+msgstr "_Top view"
+
+#: src/graphing.c:1135
+msgid "R_otate axis..."
+msgstr "R_otate axis..."
+
+#: src/graphing.c:1661
 #, c-format
 msgid "Function #%d"
 msgstr "Function #%d"
 
-#: src/graphing.c:1419
+#: src/graphing.c:1683
 msgid "Graph limits not given as a 4-vector"
 msgstr "Graph limits not given as a 4-vector"
 
-#: src/graphing.c:1425 src/graphing.c:1431 src/graphing.c:1437
-#: src/graphing.c:1443 src/graphing.c:1502 src/graphing.c:1508
-#: src/graphing.c:1514 src/graphing.c:1520 src/graphing.c:1526
-#: src/graphing.c:1532
+#: src/graphing.c:1689 src/graphing.c:1695 src/graphing.c:1701
+#: src/graphing.c:1707 src/graphing.c:1766 src/graphing.c:1772
+#: src/graphing.c:1778 src/graphing.c:1784 src/graphing.c:1790
+#: src/graphing.c:1796
 msgid "Graph limits not given as numbers"
 msgstr "Graph limits not given as numbers"
 
-#: src/graphing.c:1496
+#: src/graphing.c:1760
 msgid "Graph limits not given as a 6-vector"
 msgstr "Graph limits not given as a 6-vector"
 
-#: src/graphing.c:1796
+#: src/graphing.c:2069
 msgid "to:"
 msgstr "to:"
 
-#: src/graphing.c:1826
+#: src/graphing.c:2099
 msgid "Functions / Expressions"
 msgstr "Functions / Expressions"
 
-#: src/graphing.c:1831
+#: src/graphing.c:2104
 msgid ""
 "Type in function names or expressions involving the x variable in the boxes "
 "below to graph them"
@@ -2075,29 +2107,29 @@ msgstr ""
 "Type in function names or expressions involving the x variable in the boxes "
 "below to graph them"
 
-#: src/graphing.c:1851 src/graphing.c:1906
+#: src/graphing.c:2124 src/graphing.c:2179
 msgid "Plot Window"
 msgstr "Plot Window"
 
 #.
 #. * X range
 #.
-#: src/graphing.c:1860 src/graphing.c:1915
+#: src/graphing.c:2133 src/graphing.c:2188
 msgid "X from:"
 msgstr "X from:"
 
 #.
 #. * Y range
 #.
-#: src/graphing.c:1866 src/graphing.c:1921
+#: src/graphing.c:2139 src/graphing.c:2194
 msgid "Y from:"
 msgstr "Y from:"
 
-#: src/graphing.c:1881
+#: src/graphing.c:2154
 msgid "Function / Expression"
 msgstr "Function / Expression"
 
-#: src/graphing.c:1886
+#: src/graphing.c:2159
 msgid ""
 "Type a function name or an expression involving the x and y variables (or "
 "the z variable which will be z=x+iy) in the boxes below to graph them.  "
@@ -2110,74 +2142,74 @@ msgstr ""
 #.
 #. * Z range
 #.
-#: src/graphing.c:1927
+#: src/graphing.c:2200
 msgid "Z from:"
 msgstr "Z from:"
 
-#: src/graphing.c:1940
+#: src/graphing.c:2213
 msgid "Function _line plot"
 msgstr "Function _line plot"
 
-#: src/graphing.c:1944
+#: src/graphing.c:2217
 msgid "_Surface plot"
 msgstr "_Surface plot"
 
-#: src/graphing.c:2143 src/graphing.c:2269
+#: src/graphing.c:2416 src/graphing.c:2542
 msgid "No functions to plot or no functions could be parsed"
 msgstr "No functions to plot or no functions could be parsed"
 
-#: src/graphing.c:2174 src/graphing.c:2292
+#: src/graphing.c:2447 src/graphing.c:2565
 msgid "Invalid X range"
 msgstr "Invalid X range"
 
-#: src/graphing.c:2179 src/graphing.c:2297
+#: src/graphing.c:2452 src/graphing.c:2570
 msgid "Invalid Y range"
 msgstr "Invalid Y range"
 
-#: src/graphing.c:2184
+#: src/graphing.c:2457
 msgid "Invalid Z range"
 msgstr "Invalid Z range"
 
-#: src/graphing.c:2367
+#: src/graphing.c:2640
 msgid "Create Plot"
 msgstr "Create Plot"
 
-#: src/graphing.c:2407 src/graphing.c:2550
+#: src/graphing.c:2680 src/graphing.c:2823
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: argument not a function"
 
-#: src/graphing.c:2417
+#: src/graphing.c:2690
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: only one function supported"
 
-#: src/graphing.c:2484 src/graphing.c:2601
+#: src/graphing.c:2757 src/graphing.c:2874
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: invalid X range"
 
-#: src/graphing.c:2489 src/graphing.c:2606
+#: src/graphing.c:2762 src/graphing.c:2879
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: invalid Y range"
 
-#: src/graphing.c:2494
+#: src/graphing.c:2767
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: invalid Z range"
 
-#: src/graphing.c:2545
+#: src/graphing.c:2818
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: only up to 10 functions supported"
 
-#: src/graphing.c:2691
+#: src/graphing.c:2964
 msgid "Plotting"
 msgstr "Plotting"
 
 #. bogus value
-#: src/graphing.c:2723
+#: src/graphing.c:2996
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -2185,7 +2217,7 @@ msgstr ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
 
-#: src/graphing.c:2724
+#: src/graphing.c:2997
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -2193,11 +2225,11 @@ msgstr ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
 
-#: src/graphing.c:2726
+#: src/graphing.c:2999
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 
-#: src/graphing.c:2727
+#: src/graphing.c:3000
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
