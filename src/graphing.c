@@ -1331,10 +1331,10 @@ genius_lineplot_dialog (void)
 		(_("Create Line Plot") /* title */,
 		 GTK_WINDOW (genius_window) /* parent */,
 		 0 /* flags */,
-		 _("_Plot"),
-		 RESPONSE_PLOT,
 		 GTK_STOCK_CLOSE,
 		 GTK_RESPONSE_CLOSE,
+		 _("_Plot"),
+		 RESPONSE_PLOT,
 		 NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (plot_dialog),
 					 RESPONSE_PLOT);
