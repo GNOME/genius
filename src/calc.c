@@ -95,7 +95,7 @@ GSList *evalstack=NULL;
 
 /*error .. global as well*/
 GeniusError error_num = NO_ERROR;
-int got_eof = FALSE;
+gboolean gel_got_eof = FALSE;
 
 /*the current state of the calculator*/
 calcstate_t calcstate = {0};
@@ -2277,8 +2277,8 @@ load_fp(FILE *fp, char *dirprefix)
 	gel_lexer_open(fp);
 	while(1) {
 		gel_evalexp(NULL, fp, NULL, NULL, FALSE, dirprefix);
-		if(got_eof) {
-			got_eof = FALSE;
+		if (gel_got_eof) {
+			gel_got_eof = FALSE;
 			break;
 		}
 		if(interrupted)
@@ -2293,8 +2293,8 @@ gel_load_file (const char *dirprefix, const char *file, gboolean warn)
 {
 	FILE *fp;
 	char *newfile;
-	int oldgeof = got_eof;
-	got_eof = FALSE;
+	gboolean oldgeof = gel_got_eof;
+	gel_got_eof = FALSE;
 	if(dirprefix && file[0]!='/')
 		newfile = g_strconcat(dirprefix, "/", file, NULL);
 	else
@@ -2306,12 +2306,10 @@ gel_load_file (const char *dirprefix, const char *file, gboolean warn)
 		load_fp(fp, dir);
 		gel_pop_file_info();
 		g_free(dir);
-		got_eof = oldgeof;
+		gel_got_eof = oldgeof;
 	} else if G_UNLIKELY (warn) {
-		char buf[256];
-		g_snprintf(buf,256,_("Can't open file: '%s'"),newfile);
-		(*errorout)(buf);
-		got_eof = oldgeof;
+		gel_errorout (_("Can't open file: '%s'"),newfile);
+		gel_got_eof = oldgeof;
 	}
 	g_free(newfile);
 }
@@ -2321,8 +2319,8 @@ gel_load_guess_file (const char *dirprefix, const char *file, gboolean warn)
 {
 	FILE *fp;
 	char *newfile;
-	int oldgeof = got_eof;
-	got_eof = FALSE;
+	gboolean oldgeof = gel_got_eof;
+	gel_got_eof = FALSE;
 	if(dirprefix && file[0]!='/')
 		newfile = g_strconcat(dirprefix, "/", file, NULL);
 	else
@@ -2342,12 +2340,10 @@ gel_load_guess_file (const char *dirprefix, const char *file, gboolean warn)
 			g_free(dir);
 		}
 		gel_pop_file_info();
-		got_eof = oldgeof;
+		gel_got_eof = oldgeof;
 	} else if G_UNLIKELY (warn) {
-		char buf[256];
-		g_snprintf(buf,256,_("Can't open file: '%s'"), newfile);
-		(*errorout)(buf);
-		got_eof = oldgeof;
+		gel_errorout (_("Can't open file: '%s'"), newfile);
+		gel_got_eof = oldgeof;
 	}
 	g_free (newfile);
 }
@@ -2385,9 +2381,7 @@ get_wordlist (const char *lst)
 	wordexp_t we;
 	int i;
 	if G_UNLIKELY (wordexp (lst, &we, WRDE_NOCMD) != 0) {
-		char *s = g_strdup_printf (_("Can't expand '%s'"), lst);
-		(*errorout) (s);
-		g_free (s);
+		gel_errorout (_("Can't expand '%s'"), lst);
 		return NULL;
 	}
 	for (i = 0; i < we.we_wordc; i++) {
@@ -2398,9 +2392,7 @@ get_wordlist (const char *lst)
 	glob_t gl;
 	int i;
 	if G_UNLIKELY (glob (lst, 0, NULL, &gl) != 0) {
-		char *s = g_strdup_printf (_("Can't expand '%s'"), lst);
-		(*errorout) (s);
-		g_free (s);
+		gel_errorout (_("Can't expand '%s'"), lst);
 		return NULL;
 	}
 	for (i = 0; i < gl.gl_pathc; i++) {
@@ -2470,10 +2462,8 @@ do_exec_commands (const char *dirprefix)
 			}
 		}
 		if G_UNLIKELY (li == NULL) {
-			char *p = g_strdup_printf(_("Cannot open plugin '%s'!"),
-						  arg);
-			(*errorout)(p);
-			g_free(p);
+			gel_errorout (_("Cannot open plugin '%s'!"),
+				      arg);
 		}
 		ret = TRUE;
 		break;
@@ -2597,7 +2587,7 @@ gel_parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean tes
 	  dictionary*/
 	d_singlecontext();
 
-	error_num=NO_ERROR;
+	error_num = NO_ERROR;
 
 	/*if we this was set, then the mp library was initialized for
 	  sure*/
@@ -2795,7 +2785,6 @@ void yyerror(char *s);
 void
 yyerror(char *s)
 {
-	char *out=NULL;
 	char *p;
 	
 	if(ignore_end_parse_errors && yytext[0]=='\0') {
@@ -2804,21 +2793,20 @@ yyerror(char *s)
 	}
 	
 	if(strcmp(yytext,"\n")==0) {
-		out=g_strconcat(_("ERROR: "),s,_(" before newline"),NULL);
+		gel_errorout (_("ERROR: %s before newline"), s);
 	} else if(yytext[0]=='\0') {
-		out=g_strconcat(_("ERROR: "),s,_(" at end of input"),NULL);
+		gel_errorout (_("ERROR: %s at end of input"), s);
 	} else {
-		char *tmp = g_strdup(yytext);
-		while((p=strchr(tmp,'\n')))
+		char *tmp = g_strdup (yytext);
+		p = tmp;
+		while( (p = strchr (p, '\n')) != NULL)
 			*p='.';
 
-		out=g_strconcat(_("ERROR: "),s,_(" before '"),tmp,"'",NULL);
-		g_free(tmp);
+		gel_errorout (_("ERROR: %s before '%s'"), s, tmp);
+		g_free (tmp);
 	}
 
-	(*errorout)(out);
-	g_free(out);
-	error_num=PARSE_ERROR;
+	error_num = PARSE_ERROR;
 }
 
 void 

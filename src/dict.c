@@ -47,36 +47,42 @@ extern GHashTable *uncompiled;
 
 GelEFunc *free_funcs = NULL;
 
+#define GET_NEW_FUNC(n) \
+	if (free_funcs == NULL) {			\
+		n = g_new (GelEFunc, 1);		\
+	} else {					\
+		n = free_funcs;				\
+		free_funcs = free_funcs->data.next;	\
+	}
+
 /*return current context number (0 is global, -1 is uninitialized)*/
 int
-d_curcontext(void)
+d_curcontext (void)
 {
 	return context.top;
 }
 
 /*make builtin function and return it*/
 GelEFunc *
-d_makebifunc(GelToken *id, dictfunc f, int nargs)
+d_makebifunc (GelToken *id, GelBIFunction f, int nargs)
 {
 	GelEFunc *n;
 
-	if(!free_funcs)
-		n = g_new(GelEFunc,1);
-	else {
-		n = free_funcs;
-		free_funcs = free_funcs->data.next;
-	}
+	GET_NEW_FUNC (n);
+	memset (n, 0, sizeof (GelEFunc));
 	n->id = id;
 	n->data.func = f;
 	n->nargs = nargs;
+	n->context = context.top;
+	n->type = GEL_BUILTIN_FUNC;
+	/*
 	n->vararg = 0;
 	n->on_subst_list = 0;
 	n->named_args = NULL;
 	n->extra_dict = NULL;
-	n->context = context.top;
 	n->no_mod_all_args = FALSE;
 	n->propagate_mod = FALSE;
-	n->type = GEL_BUILTIN_FUNC;
+	*/
 
 	return n;
 }
@@ -88,30 +94,29 @@ d_makeufunc (GelToken *id, GelETree *value, GSList *argnames, int nargs,
 {
 	GelEFunc *n;
 
-	if(!free_funcs)
-		n = g_new(GelEFunc,1);
-	else {
-		n = free_funcs;
-		free_funcs = free_funcs->data.next;
-	}
-	n->id=id;
-	n->data.user=value;
-	n->nargs=nargs;
+	GET_NEW_FUNC (n);
+	memset (n, 0, sizeof (GelEFunc));
+
+	n->id = id;
+	n->data.user = value;
+	n->nargs = nargs;
+	n->named_args = argnames;
+	n->context = context.top;
+	n->type = GEL_USER_FUNC;
+
+	/* look at the memset
 	n->vararg = 0;
 	n->on_subst_list = 0;
-	n->named_args=argnames;
-	n->context=context.top;
 	n->no_mod_all_args = FALSE;
 	n->propagate_mod = FALSE;
-	n->type=GEL_USER_FUNC;
+	n->extra_dict = NULL;
+	*/
 
 	if (extra_dict != NULL) {
 		GSList *li;
 		n->extra_dict = g_slist_copy ((GSList *)extra_dict);
 		for (li = n->extra_dict; li != NULL; li = li->next)
 			li->data = d_copyfunc (li->data);
-	} else {
-		n->extra_dict = NULL;
 	}
 
 	return n;
@@ -123,23 +128,23 @@ d_makevfunc(GelToken *id, GelETree *value)
 {
 	GelEFunc *n;
 
-	if(!free_funcs)
-		n = g_new(GelEFunc,1);
-	else {
-		n = free_funcs;
-		free_funcs = free_funcs->data.next;
-	}
-	n->id=id;
-	n->data.user=value;
-	n->nargs=0;
+	GET_NEW_FUNC (n);
+	memset (n, 0, sizeof (GelEFunc));
+
+	n->id = id;
+	n->data.user = value;
+	n->context = context.top;
+	n->type = GEL_VARIABLE_FUNC;
+
+	/* look at the memset
+	n->nargs = 0;
 	n->vararg = 0;
 	n->on_subst_list = 0;
-	n->named_args=NULL;
+	n->named_args = NULL;
 	n->extra_dict = NULL;
-	n->context=context.top;
 	n->no_mod_all_args = FALSE;
 	n->propagate_mod = FALSE;
-	n->type=GEL_VARIABLE_FUNC;
+	*/
 
 	return n;
 }
@@ -150,23 +155,23 @@ d_makereffunc(GelToken *id, GelEFunc *ref)
 {
 	GelEFunc *n;
 
-	if(!free_funcs)
-		n = g_new(GelEFunc,1);
-	else {
-		n = free_funcs;
-		free_funcs = free_funcs->data.next;
-	}
+	GET_NEW_FUNC (n);
+	memset (n, 0, sizeof (GelEFunc));
+
 	n->id = id;
 	n->data.ref = ref;
+	n->context = context.top;
+	n->type = GEL_REFERENCE_FUNC;
+
+	/* look at the memset
 	n->nargs = 0;
 	n->vararg = 0;
 	n->on_subst_list = 0;
 	n->named_args = NULL;
 	n->extra_dict = NULL;
-	n->context = context.top;
 	n->no_mod_all_args = FALSE;
 	n->propagate_mod = FALSE;
-	n->type = GEL_REFERENCE_FUNC;
+	*/
 
 	return n;
 }
@@ -178,13 +183,9 @@ d_copyfunc(GelEFunc *o)
 	GelEFunc *n;
 	GSList *li;
 
-	if(!free_funcs)
-		n = g_new(GelEFunc,1);
-	else {
-		n = free_funcs;
-		free_funcs = free_funcs->data.next;
-	}
-	memcpy(n,o,sizeof(GelEFunc));
+	GET_NEW_FUNC (n);
+	memcpy (n, o, sizeof (GelEFunc));
+
 	if(n->type == GEL_USER_FUNC ||
 	   n->type == GEL_VARIABLE_FUNC) {
 		D_ENSURE_USER_BODY (o);
@@ -206,17 +207,12 @@ d_copyfunc(GelEFunc *o)
 
 /*make a real function from a fake*/
 GelEFunc *
-d_makerealfunc(GelEFunc *o,GelToken *id, int use)
+d_makerealfunc(GelEFunc *o,GelToken *id, gboolean use)
 {
 	GelEFunc *n;
 
-	if(!free_funcs)
-		n = g_new(GelEFunc,1);
-	else {
-		n = free_funcs;
-		free_funcs = free_funcs->data.next;
-	}
-	memcpy(n,o,sizeof(GelEFunc));
+	GET_NEW_FUNC (n);
+	memcpy (n, o, sizeof (GelEFunc));
 	n->id = id;
 	n->context = context.top;
 
@@ -255,7 +251,7 @@ d_makerealfunc(GelEFunc *o,GelToken *id, int use)
 /*make real func and replace n with it, without changing n's context or id*/
 /*if use is set, we USE the original function, NULLing approriately*/
 void
-d_setrealfunc(GelEFunc *n,GelEFunc *fake, int use)
+d_setrealfunc(GelEFunc *n,GelEFunc *fake, gboolean use)
 {
 	if(n->type == GEL_USER_FUNC ||
 	   n->type == GEL_VARIABLE_FUNC)
@@ -386,8 +382,8 @@ d_addfunc_global (GelEFunc *func)
 
 /*set value of an existing function (in local context), used for arguments
   WARNING, does not free the memory allocated by previous value!*/
-int
-d_setvalue(GelToken *id,GelETree *value)
+gboolean
+d_setvalue (GelToken *id, GelETree *value)
 {
 	GelEFunc *f;
 	f=d_lookup_local(id);
@@ -477,7 +473,7 @@ d_intern (const char *id)
 	return tok;
 }
 
-int
+gboolean
 d_delete(GelToken *id)
 {
 	/*FIXME: Delete function!*/
@@ -646,7 +642,7 @@ d_set_value(GelEFunc *n,GelETree *value)
 }
 
 /*push a new dictionary onto the context stack*/
-int
+gboolean
 d_addcontext(void)
 {
 	context.stack = g_slist_prepend (context.stack, NULL);

@@ -39,7 +39,6 @@ int return_ret = FALSE;
 int parenth_depth = 0;
 int lex_init = TRUE;
 extern GSList *evalstack;
-extern int got_eof;
 static int matrix_entry = 0;
 static GSList *matrix_entry_stack = NULL;
 
@@ -472,7 +471,7 @@ null		{ DO_RET; return '.'; }
 \|		{ DO_RET; return '|'; }
 
 <<EOF>>		{
-			got_eof = TRUE;
+			gel_got_eof = TRUE;
 			return '\n';
 		}
 

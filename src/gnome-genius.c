@@ -74,7 +74,6 @@ calcstate_t curstate={
 	10
 	};
 	
-extern int got_eof;
 extern int parenth_depth;
 extern int interrupted;
 
@@ -1938,8 +1937,8 @@ run_program (GtkWidget *menu_item, gpointer data)
 			gel_evalexp (NULL, fp, main_out, "= \e[1;36m",
 				     TRUE, NULL);
 			gel_output_full_string (main_out, "\e[0m");
-			if(got_eof) {
-				got_eof = FALSE;
+			if (gel_got_eof) {
+				gel_got_eof = FALSE;
 				break;
 			}
 			if(interrupted)
@@ -2223,10 +2222,10 @@ genius_got_etree (GelETree *e)
 
 	gel_printout_infos ();
 
-	if (got_eof) {
+	if (gel_got_eof) {
 		gel_output_full_string (main_out, "\n");
 		gel_output_flush (main_out);
-		got_eof = FALSE;
+		gel_got_eof = FALSE;
 		gtk_main_quit();
 	}
 }

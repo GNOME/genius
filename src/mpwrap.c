@@ -278,9 +278,9 @@ static GHashTable *mpw_cache_ht = NULL;
 
 #ifndef HAVE_MPFR
 /*get sin*/
-static void mympf_sin(mpf_t rop, mpf_t op, int hyperbolic, int reduceop);
+static void mympf_sin(mpf_t rop, mpf_t op, gboolean hyperbolic, gboolean reduceop);
 /*get cos*/
-static void mympf_cos(mpf_t rop, mpf_t op, int hyperbolic, int reduceop);
+static void mympf_cos(mpf_t rop, mpf_t op, gboolean hyperbolic, gboolean reduceop);
 /*get arctan*/
 static void mympf_arctan(mpf_ptr rop, mpf_ptr op);
 #endif
@@ -546,7 +546,7 @@ mympfr_cmp_d (mpfr_srcptr a, double b)
 #ifndef HAVE_MPFR
 /*get sin*/
 static void
-mympf_sin(mpf_t rop, mpf_t op, int hyperbolic, int reduceop)
+mympf_sin(mpf_t rop, mpf_t op, gboolean hyperbolic, gboolean reduceop)
 {
 	mpf_t top;
 	mpf_t bottom;
@@ -555,7 +555,7 @@ mympf_sin(mpf_t rop, mpf_t op, int hyperbolic, int reduceop)
 	mpf_t xsq;
 	mpz_t q;
 	unsigned long int i;
-	int negate=TRUE;
+	gboolean negate = TRUE;
 
 	/*special case*/
 	if(mpf_cmp_ui(op,0)==0) {
@@ -624,7 +624,7 @@ mympf_sin(mpf_t rop, mpf_t op, int hyperbolic, int reduceop)
 
 /*get cos*/
 static void
-mympf_cos(mpf_t rop, mpf_t op, int hyperbolic, int reduceop)
+mympf_cos(mpf_t rop, mpf_t op, gboolean hyperbolic, gboolean reduceop)
 {
 	mpf_t top;
 	mpf_t bottom;
@@ -633,7 +633,7 @@ mympf_cos(mpf_t rop, mpf_t op, int hyperbolic, int reduceop)
 	mpf_t xsq;
 	mpz_t q;
 	unsigned long int i;
-	int negate=TRUE;
+	gboolean negate = TRUE;
 	int prec;
 	int old_prec;
 	
@@ -720,7 +720,7 @@ mympf_pi(mpf_ptr rop)
 	mpf_t bottom;
 	mpf_t bottom2;
 	mpf_t top;
-	int negate = TRUE;
+	gboolean negate = TRUE;
 	unsigned long i;
 #endif
 
@@ -871,7 +871,8 @@ mympf_exp(mpf_t rop,mpf_t op)
 static gboolean
 mympf_ln(mpf_t rop,mpf_t op)
 {
-	int neg = TRUE;
+	gboolean neg = TRUE;
+
 	mpf_t x;
 	mpf_t top;
 	mpf_t fres;
@@ -881,7 +882,7 @@ mympf_ln(mpf_t rop,mpf_t op)
 	unsigned long int f = 0;
 	unsigned long int prec;
 	unsigned long int old_prec;
-	int inverse = FALSE;
+	gboolean inverse = FALSE;
 
 	if(mpf_cmp_ui(op,0)<=0)
 		inverse = TRUE;
@@ -958,7 +959,7 @@ mympf_log2(mpf_t rop,mpf_t op)
 {
 	mpf_t x;
 	mpf_t two;
-	int inverse = FALSE;
+	gboolean inverse = FALSE;
 
 	if (mpf_cmp_ui (op, 0)<=0)
 		inverse = TRUE;
@@ -988,7 +989,7 @@ mympf_log10(mpf_t rop,mpf_t op)
 {
 	mpf_t x;
 	mpf_t ten;
-	int inverse = FALSE;
+	gboolean inverse = FALSE;
 
 	if (mpf_cmp_ui (op, 0)<=0)
 		inverse = TRUE;
@@ -2745,7 +2746,7 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	mpz_t des;
 	unsigned long int den;
 	int t;
-	int reverse=FALSE;
+	gboolean reverse = FALSE;
 
 	if G_UNLIKELY (op2->type!=MPW_RATIONAL) {
 		error_num=INTERNAL_MPW_ERROR;
@@ -2949,7 +2950,7 @@ mpwl_pow_ui(MpwRealNum *rop,MpwRealNum *op1,unsigned int e, gboolean reverse)
 static void
 mpwl_pow_z(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
-	int reverse = FALSE;;
+	gboolean reverse = FALSE;;
 	if G_UNLIKELY (op2->type!=MPW_INTEGER) {
 		error_num=INTERNAL_MPW_ERROR;
 		return;
@@ -3223,7 +3224,7 @@ static gboolean
 mpwl_sqrt (MpwRealNum *rop, MpwRealNum *op)
 {
 	MpwRealNum r={0};
-	int is_complex=FALSE;
+	gboolean is_complex = FALSE;
 
 	if (mpwl_sgn (op) < 0) {
 		is_complex = TRUE;
@@ -5749,8 +5750,10 @@ mpw_make_float(mpw_ptr rop)
 void
 mpw_init_mp(void)
 {
-	static int done = FALSE;
-	if(done) return;
+	static gboolean done = FALSE;
+	if (done)
+		return;
+
 	mp_set_memory_functions(my_malloc,my_realloc,my_free);
 	GET_NEW_REAL(zero);
 	mpwl_init_type(zero,MPW_NATIVEINT);

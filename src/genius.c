@@ -75,7 +75,6 @@ calcstate_t curstate={
 	10
 	};
 	
-extern int got_eof;
 extern int parenth_depth;
 
 extern int interrupted;
@@ -403,16 +402,16 @@ main(int argc, char *argv[])
 				line_len_cache = -1;
 				gel_evalexp(NULL, fp, main_out, NULL, FALSE, NULL);
 				line_len_cache = -1;
-				if(interrupted)
-					got_eof = TRUE;
+				if (interrupted)
+					gel_got_eof = TRUE;
 			}
 			if(inter)
 				gel_printout_infos ();
 
-			if(got_eof) {
+			if (gel_got_eof) {
 				if(inter)
 					puts("");
-				got_eof = FALSE;
+				gel_got_eof = FALSE;
 				break;
 			}
 		}

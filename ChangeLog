@@ -1,3 +1,13 @@
+Thu Aug 28 23:29:12 2003  George Lebl <jirka@5z.com>
+
+	* src/calc.[ch], src/dict.[ch], src/eval.c, src/funclib.c,
+	  src/genius.c, src/gnome-genius.c, src/inter.c, src/lexer.l,
+	  src/mpwrap.c, src/structs.h:  Can't sleep so doing general
+	  cleanup such as using standard argument checking for functions,
+	  fixing up error output, converting to gel_errorout/infoout,
+	  and s/int/gboolean/ where appropriate.  Also fixed up the
+	  function structure to save sizeof(int) bytes per function.
+
 Thu Aug 28 17:51:35 2003  George Lebl <jirka@5z.com>
 
 	* src/funclib.c: move stuff to generalized function parameter

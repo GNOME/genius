@@ -25,13 +25,11 @@
 /*declarations of structures*/
 #include "structs.h"
 
-typedef GelETree *(*dictfunc)(GelCtx *ctx, GelETree * * /*arguments*/,int * /*exception*/);
-
 /*return current context number (0 is global, -1 is uninitialized)*/
 int d_curcontext(void);
 
 /*make builtin function and return it*/
-GelEFunc * d_makebifunc(GelToken *id, dictfunc f, int nargs);
+GelEFunc * d_makebifunc(GelToken *id, GelBIFunction f, int nargs);
 
 /*make a user function and return it*/
 GelEFunc * d_makeufunc (GelToken *id, GelETree *value, GSList *argnames, int nargs,
@@ -47,11 +45,11 @@ GelEFunc * d_makereffunc(GelToken *id, GelEFunc *ref);
 GelEFunc *d_copyfunc(GelEFunc *o);
 
 /*make a real function from a fake*/
-GelEFunc * d_makerealfunc(GelEFunc *o,GelToken *id, int use);
+GelEFunc * d_makerealfunc(GelEFunc *o,GelToken *id, gboolean use);
 
 /*make real func and replace o with it, without changing o's context or id*/
 /*if use is set, we USE the original function, NULLing approriately*/
-void d_setrealfunc(GelEFunc *n,GelEFunc *fake, int use);
+void d_setrealfunc(GelEFunc *n,GelEFunc *fake, gboolean use);
 
 void d_initcontext(void);
 
@@ -62,7 +60,7 @@ GelEFunc * d_addfunc_global (GelEFunc *func);
 
 /*set value of an existing function (in local context), used for arguments
   WARNING, does not free the memory allocated by previous value!*/
-int d_setvalue(GelToken *id,GelETree *value);
+gboolean d_setvalue (GelToken *id,GelETree *value);
 
 /*this will work right in all situations*/
 void d_set_value(GelEFunc *n,GelETree *value);
@@ -82,7 +80,7 @@ GelEFunc * d_lookup_only_global (GelToken *id);
 
 GelToken * d_intern (const char *id);
 
-int d_delete(GelToken *id);
+gboolean d_delete(GelToken *id);
 
 /*clear all context dictionaries and pop out all the contexts except
   the global one
@@ -95,10 +93,10 @@ void d_freedict(GSList *n);
 void d_freefunc(GelEFunc *n);
 
 /*replace old with stuff from new and free new*/
-void d_replacefunc(GelEFunc *old,GelEFunc *new);
+void d_replacefunc (GelEFunc *old, GelEFunc *new);
 
 /*push a new dictionary onto the context stack*/
-int d_addcontext(void);
+gboolean d_addcontext(void);
 
 /*gimme the last dictinary and pop the context stack*/
 void d_popcontext(void);

@@ -37,7 +37,6 @@
 #include "inter.h"
 
 extern int interrupted;
-extern int got_eof;
 
 static int toplevelokg = TRUE;
 
@@ -88,7 +87,7 @@ get_p_expression(void)
 
 		prompt = "      > ";
 		if(!s) {
-			got_eof = TRUE;
+			gel_got_eof = TRUE;
 			g_string_append_c(gs,'\n');
 			ret = gel_parseexp(gs->str, NULL, TRUE, FALSE, NULL, NULL);
 			g_string_free(gs,TRUE);
@@ -104,8 +103,8 @@ get_p_expression(void)
 		g_string_append_c(gs,'\n');
 		
 		ret = gel_parseexp(gs->str, NULL, TRUE, TRUE, &finished, NULL);
-		if(got_eof)
-			got_eof = FALSE;
+		if (gel_got_eof)
+			gel_got_eof = FALSE;
 		if(finished) {
 			g_string_free(gs,TRUE);
 			return ret;
@@ -185,7 +184,7 @@ get_cb_p_expression(char *s, FILE *torlfp)
 	}
 
 	if(!s) {
-		got_eof = TRUE;
+		gel_got_eof = TRUE;
 		g_string_append_c(p_expr, '\n');
 		ret = gel_parseexp(p_expr->str, NULL, TRUE, FALSE, NULL, NULL);
 		g_string_free(p_expr, TRUE);
@@ -203,8 +202,8 @@ get_cb_p_expression(char *s, FILE *torlfp)
 	g_string_append_c(p_expr,'\n');
 
 	ret = gel_parseexp(p_expr->str, NULL, TRUE, TRUE, &finished, NULL);
-	if(got_eof)
-		got_eof = FALSE;
+	if (gel_got_eof)
+		gel_got_eof = FALSE;
 	if(finished) {
 		g_string_free(p_expr,TRUE);
 		p_expr = NULL;

@@ -69,6 +69,8 @@ typedef struct _GelMatrixW GelMatrixW;
 typedef GelETree *(* ParameterSetFunc) (GelETree *val);
 typedef GelETree *(* ParameterGetFunc) (void);
 
+typedef	GelETree *(* GelBIFunction) (GelCtx *ctx, GelETree * *, gboolean *); /*the gboolean is exception*/
+
 /* tokens point to this structure globaly, there is
    one such structure for each token.  */
 struct _GelToken {
@@ -91,14 +93,13 @@ struct _GelEFunc {
 	GelEFuncType type;
 	int context; /*the context number this is used for .. if we pop this
 		       context, we will destroy the function*/
-	int nargs; /*number of arguments*/
 	GSList *named_args; /*names of arguments*/
 
 	GSList *extra_dict;
 
 	union {
 		GelETree *user;
-		GelETree *(*func)(GelCtx *ctx, GelETree * *, int *); /*the integer is exception*/
+		GelBIFunction func;
 		GelEFunc *ref;
 		GelEFunc *next; /*this is for keeping a free list*/
 	} data;
@@ -108,6 +109,8 @@ struct _GelEFunc {
 	guint32 vararg:1;
 	guint32 propagate_mod:1;
 	guint32 no_mod_all_args:1;
+
+	guint32 nargs:16; /*number of arguments*/
 };
 
 typedef enum {
@@ -150,7 +153,13 @@ struct _GelETreeMatrix {
 	GelETreeType type;
 	GelETree *next;
 	GelMatrixW *matrix;
+	gboolean quoted;
+	
+	/* gboolean is faster, then a bitfield and we right now
+	   don't gain anything */
+	/*
 	guint quoted:1;
+	*/
 };
 
 /* FIXME: Not implemented */
@@ -158,7 +167,13 @@ struct _GelETreeSet {
 	GelETreeType type;
 	GelETree *next;
 	GelETree *items;
+	gboolean multiset;
+
+	/* gboolean is faster, then a bitfield and we right now
+	   don't gain anything */
+	/*
 	guint multiset:1;
+	*/
 };
 
 struct _GelETreePolynomial {

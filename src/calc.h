@@ -199,4 +199,6 @@ extern char *gel_command_arg;
 
 extern GelOutput *main_out;
 
+extern gboolean gel_got_eof;
+
 #endif /* CALC_H_ */
