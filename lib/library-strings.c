@@ -39,6 +39,7 @@ char *fake = N_("The secant function");
 char *fake = N_("The hyperbolic secant function");
 char *fake = N_("The hyperbolic tangent function");
 char *fake = N_("Are a and b relatively prime?");
+char *fake = N_("Return the nth Bernoulli number");
 char *fake = N_("Find the x that solves the system given by the vector a and modulo the elements of m, using the Chinese Remainder Theorem");
 char *fake = N_("Given two factorizations, give the factorization of the product, see Factorize");
 char *fake = N_("Convert a vector of values indicating powers of b to a number");

@@ -632,4 +632,5 @@ function f(x) = (if x < 0 then 0 else 1); IsContinuous(f,-0.1)	true
 |InfiniteSum2(`(a,n)=(2.0^(-n)),99,1,1)-1|<SumProductTolerance	true
 |InfiniteProduct(`(n)=(1+2.0^(-n)),1,1)-2.38423102903|<SumProductTolerance	true
 |InfiniteProduct2(`(a,n)=(1+2.0^(-n)),99,1,1)-2.38423102903|<SumProductTolerance	true
+BernoulliNumber([0:10])						[1,-1/2,1/6,0,-1/30,0,1/42,0,-1/30,0,5/66]
 load "longtest.gel"						true

@@ -2,7 +2,9 @@
 
 function IsNthPower(n,k) =
  (
-  if not IsRational (n) then
+  if IsMatrix (n) or IsMatrix (k) then
+  	return ApplyOverMatrix2 (n, k, IsNthPower)
+  else if not IsRational (n) then
 	# Only integers/rationals can be perfect powers
 	false
   else if k == 2 then
@@ -21,7 +23,11 @@ function IsNthPower(n,k) =
 SetHelp("IsNthPower","number_theory","Tests if a rational number is a perfect power");
 protect("IsNthPower");
 
-function Divides(m,n) = not n % m;
+function Divides(m,n) = (
+	if IsMatrix (m) or IsMatrix (n) then
+		return ApplyOverMatrix2 (m, n, Divides);
+	not n % m
+)
 SetHelp("Divides","number_theory","Checks divisibility (if m divides n)");
 protect("Divides");
 
@@ -73,7 +79,11 @@ function PowerMod(a,b,m) = a^b mod m
 SetHelp("PowerMod","number_theory","Compute a^b mod m");
 protect("PowerMod");
 
-function AreRelativelyPrime(a,b) = (gcd(a,b) == 1)
+function AreRelativelyPrime(a,b) = (
+	if IsMatrix (a) or IsMatrix (b) then
+		return ApplyOverMatrix2 (a, b, AreRelativelyPrime);
+	gcd(a,b) == 1
+)
 SetHelp("AreRelativelyPrime","number_theory","Are a and b relatively prime?");
 protect("AreRelativelyPrime");
 
@@ -136,3 +146,24 @@ function ConvertFromBase(v,b) = (
   n
 )
 protect("ConvertFromBase");
+
+# Eric W. Weisstein. "Bernoulli Number." From MathWorld--A Wolfram Web Resource. http://mathworld.wolfram.com/BernoulliNumber.html
+SetHelp("BernoulliNumber", "number_theory", "Return the nth Bernoulli number");
+function BernoulliNumber(n) = (
+	if IsMatrix (n) then
+		return ApplyOverMatrix (n, BernoulliNumber);
+
+  	if not IsInteger(n) or n < 0 then (
+    		error("BernoulliNumber: bad arguments");
+    		bailout;
+	);
+	if n > 1 and IsOdd(n) then return 0;
+	sum k=0 to n do (
+        	(1/(k+1)) * (
+			sum r=0 to k do (
+				(-1)^r * nCr (k, r) * r^n
+			)
+		)
+	)
+)
+protect("BernoulliNumber");
