@@ -42,6 +42,8 @@ gnome_genius_SOURCES = 	\
 	funclib.h	\
 	mpwrap.c	\
 	mpwrap.h	\
+	mpzextra.c	\
+	mpzextra.h	\
 	matrix.c	\
 	matrix.h	\
 	matrixw.c	\
@@ -108,6 +110,8 @@ genius_SOURCES = 	\
 	funclib.h	\
 	mpwrap.c	\
 	mpwrap.h	\
+	mpzextra.c	\
+	mpzextra.h	\
 	matrix.c	\
 	matrix.h	\
 	matrixw.c	\
@@ -150,6 +154,7 @@ plugin_include_HEADERS = \
 	plug_api.h	\
 	geloutput.h	\
 	mpwrap.h	\
+	mpzextra.h	\
 	structs.h	\
 	matrix.h	\
 	matrixw.h	\

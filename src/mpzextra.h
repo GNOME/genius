@@ -19,12 +19,15 @@
  * USA.
  */
 
-#ifndef FUNCLIB_H_
-#define FUNCLIB_H_
+#ifndef MPZEXTRA_H
+#define MPZEXTRA_H
 
-/*add the routines to the dictionary*/
-void gel_funclib_addall(void);
-/*remove all cached floating point values*/
-void gel_break_fp_caches(void);
+#include "mpwrap.h"
 
-#endif /* FUNCLIB_H_ */
+gboolean mympz_strong_pseudoprime_test (mpz_srcptr n, mpz_srcptr b);
+gboolean mympz_is_prime (mpz_srcptr n, int miller_rabin_reps);
+gboolean mympz_miller_rabin_test_sure (mpz_srcptr n);
+
+extern long int mympz_is_prime_miller_rabin_reps;
+
+#endif /* MPZEXTRA_H */

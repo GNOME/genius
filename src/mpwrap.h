@@ -19,8 +19,8 @@
  * USA.
  */
 
-#ifndef _MPWRAP_H_
-#define _MPWRAP_H_
+#ifndef MPWRAP_H_
+#define MPWRAP_H_
 
 #ifdef HAVE_GMP2_INCLUDE_DIR
 #include <gmp2/gmp.h>
@@ -144,6 +144,34 @@ void mpw_set(mpw_ptr rop,mpw_ptr op);
 void mpw_set_d(mpw_ptr rop,double d);
 void mpw_set_si(mpw_ptr rop,signed long int i);
 void mpw_set_ui(mpw_ptr rop,unsigned long int i);
+void mpw_set_mpz_use (mpw_ptr rop, mpz_ptr op);
+void mpw_set_mpq_use (mpw_ptr rop, mpq_ptr op);
+void mpw_set_mpf_use (mpw_ptr rop, mpf_ptr op);
+
+mpz_ptr mpw_peek_real_mpz (mpw_ptr op);
+mpq_ptr mpw_peek_real_mpq (mpw_ptr op);
+mpf_ptr mpw_peek_real_mpf (mpw_ptr op);
+
+mpz_ptr mpw_peek_imag_mpz (mpw_ptr op);
+mpq_ptr mpw_peek_imag_mpq (mpw_ptr op);
+mpf_ptr mpw_peek_imag_mpf (mpw_ptr op);
+
+/* Just quick hacks to get an mpz, tmp should be an unused mpz_t,
+   rop should be mpz_ptr and op should be mpw_ptr */
+#define MPW_MPZ_REAL(rop,op,tmp) { if (op->r->type == MPW_NATIVEINT) { \
+			           mpz_init_set_si (tmp, op->r->data.nval); \
+				   rop = tmp; \
+			       } else { \
+				   rop = mpw_peek_real_mpz (op); \
+			       } }
+#define MPW_MPZ_IMAG(rop,op,tmp) { if (op->i->type == MPW_NATIVEINT) { \
+			           mpz_init_set_si (tmp, op->i->data.nval); \
+				   rop = tmp; \
+			       } else { \
+				   rop = mpw_peek_imag_mpz (op); \
+			       } }
+#define MPW_MPZ_KILL(rop,tmp) { if (rop == tmp) mpz_clear (tmp); }
+
 
 void mpw_abs(mpw_ptr rop,mpw_ptr op);
 
@@ -175,7 +203,6 @@ void mpw_legendre(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 void mpw_kronecker(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 void mpw_lucnum (mpw_ptr rop, mpw_ptr op);
 void mpw_nextprime (mpw_ptr rop, mpw_ptr op);
-int mpw_probab_prime_p (mpw_ptr op, mpw_ptr reps);
 gboolean mpw_perfect_square(mpw_ptr op);
 gboolean mpw_perfect_power(mpw_ptr op);
 gboolean mpw_even_p(mpw_ptr op);
@@ -189,6 +216,8 @@ void mpw_sqrt(mpw_ptr rop,mpw_ptr op);
 
 void mpw_exp(mpw_ptr rop,mpw_ptr op);
 void mpw_ln(mpw_ptr rop,mpw_ptr op);
+void mpw_log2(mpw_ptr rop,mpw_ptr op);
+void mpw_log10(mpw_ptr rop,mpw_ptr op);
 
 void mpw_sin(mpw_ptr rop,mpw_ptr op);
 void mpw_cos(mpw_ptr rop,mpw_ptr op);
@@ -196,6 +225,7 @@ void mpw_sinh(mpw_ptr rop,mpw_ptr op);
 void mpw_cosh(mpw_ptr rop,mpw_ptr op);
 void mpw_arctan(mpw_ptr rop,mpw_ptr op);
 void mpw_pi (mpw_ptr rop);
+void mpw_euler_constant (mpw_ptr rop);
 void mpw_i (mpw_ptr rop);
 void mpw_rand (mpw_ptr rop);
 void mpw_randint (mpw_ptr rop, mpw_ptr op);

@@ -253,23 +253,3 @@ function log(x,b...) = (
 	ln(x)/ln(base)
 );
 protect("log")
-
-SetHelp("log10","numeric","Base 10 logarithm");
-function log10(x) = (
-	if(IsMatrix(x)) then
-		return ApplyOverMatrix(x,log10)
-	else if(not IsValue(x)) then
-		(error("log10: argument not a value");bailout);
-	ln(x)/ln(10)
-);
-protect("log10")
-
-SetHelp("log2","numeric","Base 2 logarithm");
-function log2(x) = (
-	if(IsMatrix(x)) then
-		return ApplyOverMatrix(x,log2)
-	else if(not IsValue(x)) then
-		(error("log2: argument not a value");bailout);
-	ln(x)/ln(2)
-);
-protect("log2")

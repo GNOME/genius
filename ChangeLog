@@ -1,3 +1,36 @@
+Wed May 21 16:06:28 2003  George Lebl <jirka@5z.com>
+
+	* src/mpwrap.[ch]: allow access to the low level gmp types
+
+	* lib/number_theory/primes.gel, src/mpzextra.[ch], src/mpwrap.[ch],
+	  src/funclib.[ch], src/Makefile.am:
+	  rework the prime testing stuff.  Use the mpz MillerRabin test,
+	  and also snatch the strong pseudoprime test from gmp and make it
+	  internal and whack StrongPseudoprimeSub.  MillerRabinTest now
+	  takes the number of reps as an argument (an integer) and not an
+	  epsilon!  IsPrime is rewritten internally as well for speed using
+	  first mpz_probab_prime_p for the trial factoring, and then strong
+	  pseudoprime tests for 2,3,5,7 and then some Miller-Rabin for good
+	  measure.  Whack the IsPrimeLoopMax and PrimeProbabilityEpsilon
+	  parameters and add IsPrimeMillerRabinReps parameter.  Whack the
+	  IsPrimeProbability since it doesn't fit with the above and IsPrime
+	  really does that.  MillerRabinTestSure is also now internal.
+
+	* src/mpwrap.[ch], src/funclib.c: the EulerConstant is now taken
+	  from MPFR if available instead of compiling in the long string
+	  version and reading that each time.
+
+	* src/funclib.c: a little bit of argument checking cleanup.
+
+	* lib/functions/elementary.gel, src/mpwrap.c: Use MPFR for log10
+	  and log2, or do some these functions internally with ln, also
+	  add lg as an alias to log2
+
+	* src/geniustests.txt: fix a wrong test (misread strong pseudoprime
+	  and pseudoprime. 341 is the first pseudoprime to base 2,
+	  not strong pseudoprime to base 2.  Also add some tests, and remove
+	  tests for IsPrimeProbability.
+
 Mon Apr 28 18:04:00 2003  George Lebl <jirka@5z.com>
 
 	* src/eval.c: allow null for the set in the "for in" type loops to

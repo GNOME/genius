@@ -486,8 +486,6 @@ function w(h) = (function a(x) = h+x ; a(7)) ; w(7)		14
 1/10 mod 23							7
 IsPrime(7)							1
 IsPrime(8)							0
-IsPrimeProbability(7,5)						2
-IsPrimeProbability(8,5)						0
 NextPrime(23)							29
 NextPrime(28)							29
 function f(x) = 3*x + 4 mod 11 ; f(8)				6
@@ -542,13 +540,15 @@ AlphabetToString ([1,2,3],"abcd")				"bcd"
 AlphabetToString (null,"abcd")					""
 StringToAlphabet ("bbc","abcd")					[1,1,2]
 StrongPseudoprimeTest(17,2)					1
+StrongPseudoprimeTest(3215031751,2)				1
 IsStrongPseudoprime(17,2)					0
 PseudoprimeTest(17,2)						1
 IsPseudoprime(17,2)						0
 IsPseudoprime(91,3)						1
 IsStrongPseudoprime(91,3)					0
-IsStrongPseudoprime(341,2)					1
-IsStrongPseudoprime(341,3)					0
+IsStrongPseudoprime(3215031751,2)				1
+IsStrongPseudoprime(3215031751,3)				1
+StrongPseudoprimeTest(3215031751,11)				0
 IsPseudoprime(341,2)						1
 -[1,2] mod 3							[2,1]
 DiscreteLog(153,2,181)						107
