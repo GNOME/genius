@@ -1032,6 +1032,33 @@ appendmatrix_latex (GelOutput *gelo, GelMatrixW *m, gboolean nice)
 }
 
 static void
+appendmatrix_mathml (GelOutput *gelo, GelMatrixW *m, gboolean nice)
+{
+	int i, j;
+	if (nice)
+		gel_output_string (gelo, "\n");
+	gel_output_string (gelo, "<m:math><m:matrix>");
+	if (nice)
+		gel_output_string (gelo, "\n");
+	
+	for (j = 0; j < gel_matrixw_height (m); j++) {
+		if (nice)
+			gel_output_string (gelo, " ");
+		gel_output_string (gelo, "<m:matrixrow><m:ci>");
+		print_etree (gelo, gel_matrixw_index (m, 0, j), FALSE);
+		for(i = 1; i < gel_matrixw_width (m); i++) {
+			gel_output_string (gelo, "</m:ci><m:ci>");
+			print_etree (gelo, gel_matrixw_index (m, i, j), FALSE);
+		}
+		gel_output_string (gelo, "</m:ci></m:matrixrow>");
+		if (nice)
+			gel_output_string (gelo, "\n");
+	}
+	
+	gel_output_string (gelo, "</m:matrix></m:math>");
+}
+
+static void
 appendmatrix (GelOutput *gelo, GelMatrixW *m)
 {
 	int i,j;
@@ -1041,6 +1068,9 @@ appendmatrix (GelOutput *gelo, GelMatrixW *m)
 		return;
 	} else if (calcstate.output_style == GEL_OUTPUT_LATEX) {
 		appendmatrix_latex (gelo, m, FALSE /* nice */);
+		return;
+	} else if (calcstate.output_style == GEL_OUTPUT_MATHML) {
+		appendmatrix_mathml (gelo, m, FALSE /* nice */);
 		return;
 	}
 
@@ -1179,6 +1209,7 @@ print_etree(GelOutput *gelo, GelETree *n, gboolean toplevel)
 	case MATRIX_NODE:
 		if (calcstate.output_style != GEL_OUTPUT_TROFF &&
 		    calcstate.output_style != GEL_OUTPUT_LATEX &&
+		    calcstate.output_style != GEL_OUTPUT_MATHML &&
 		    n->mat.quoted)
 			gel_output_string (gelo, "`");
 		appendmatrix (gelo, n->mat.matrix);
@@ -1270,6 +1301,10 @@ pretty_print_etree(GelOutput *gelo, GelETree *n)
 			return;
 		} else if (calcstate.output_style == GEL_OUTPUT_LATEX) {
 			appendmatrix_latex (gelo, n->mat.matrix, TRUE /* nice */);
+			gel_output_pop_nonotify (gelo);
+			return;
+		} else if (calcstate.output_style == GEL_OUTPUT_MATHML) {
+			appendmatrix_mathml (gelo, n->mat.matrix, TRUE /* nice */);
 			gel_output_pop_nonotify (gelo);
 			return;
 		}

@@ -3465,14 +3465,16 @@ set_OutputStyle (GelETree * a)
 	else
 		token = a->id.id->token;
 
-	if (token != NULL && strcmp (token, "normal") == 0) {
+	if (token != NULL && g_ascii_strcasecmp (token, "normal") == 0) {
 		output_style = GEL_OUTPUT_NORMAL;
-	} else if (token != NULL && strcmp (token, "troff") == 0) {
+	} else if (token != NULL && g_ascii_strcasecmp (token, "troff") == 0) {
 		output_style = GEL_OUTPUT_TROFF;
-	} else if (token != NULL && strcmp (token, "latex") == 0) {
+	} else if (token != NULL && g_ascii_strcasecmp (token, "latex") == 0) {
 		output_style = GEL_OUTPUT_LATEX;
+	} else if (token != NULL && g_ascii_strcasecmp (token, "mathml") == 0) {
+		output_style = GEL_OUTPUT_MATHML;
 	} else {
-		(*errorout)(_("set_output_style: argument not one of normal, troff or latex"));
+		(*errorout)(_("OutputStyle must be one of normal, troff, latex or mathml"));
 		return NULL;
 	}
 
@@ -3493,6 +3495,8 @@ get_OutputStyle (void)
 		token = "troff";
 	else if (calcstate.output_style == GEL_OUTPUT_LATEX)
 		token = "latex";
+	else if (calcstate.output_style == GEL_OUTPUT_MATHML)
+		token = "mathml";
 
 	return gel_makenum_string (token);
 }

@@ -149,6 +149,7 @@ set_state(calcstate_t state)
 
 	if (state.full_expressions ||
 	    state.output_style == GEL_OUTPUT_LATEX ||
+	    state.output_style == GEL_OUTPUT_MATHML ||
 	    state.output_style == GEL_OUTPUT_TROFF)
 		gel_output_set_length_limit (main_out, FALSE);
 	else

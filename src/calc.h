@@ -45,7 +45,8 @@ extern GeniusError error_num;
 typedef enum {
 	GEL_OUTPUT_NORMAL,
 	GEL_OUTPUT_TROFF,
-	GEL_OUTPUT_LATEX
+	GEL_OUTPUT_LATEX,
+	GEL_OUTPUT_MATHML
 } GelOutputStyle;
 
 typedef struct _calcstate_t {
