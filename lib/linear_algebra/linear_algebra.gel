@@ -139,8 +139,7 @@ function CrossProduct(v,w) =
 
 # Direct sum of two matrices
 function DirectSum(M,N) = (
-  # FIXME: this should work: [M,0;0,N] 
-  [M,zeros(rows(M),columns(N));zeros(rows(N),columns(M)),N]
+  [M,0;0,N] 
 )
 protect ("DirectSum");
 

@@ -605,6 +605,8 @@ makeoperator(int oper, GSList **stack)
 	n->op.args = list;
 	n->op.nargs = args;
 	
+#if 0
+	/* FIXME: this is whacked
 	/* for "do <BODY> until <CONDITION>" and "do <BODY> while <CONDITION>"
 	   we need to swap it's arguments to keep consistent */
 	if(n->op.oper == E_DOWHILE_CONS ||
@@ -613,6 +615,7 @@ makeoperator(int oper, GSList **stack)
 		n->op.args->any.next = list;
 		list->any.next = NULL;
 	}
+#endif
 	
 	/*try_to_precalc_op(n);*/
 
@@ -621,10 +624,10 @@ makeoperator(int oper, GSList **stack)
 
 /*need_colwise will return if we need column wise expansion*/
 static int
-expand_row(GelMatrix *dest, GelMatrixW *src, int di, int si, int *need_col, int *need_colwise)
+expand_row (GelMatrix *dest, GelMatrixW *src, int di, int si, gboolean *need_colwise)
 {
 	int i;
-	int w = 1;
+	int height = 1;
 	int roww;
 	
 	roww = 0;
@@ -632,16 +635,15 @@ expand_row(GelMatrix *dest, GelMatrixW *src, int di, int si, int *need_col, int 
 		if(!gel_matrixw_set_index(src,i,si)) continue;
 		roww = i+1;
 	}
-	*need_col = roww;
 
 	for(i=0;i<roww;i++) {
 		GelETree *et = gel_matrixw_set_index(src,i,si);
 		if(et && et->type == MATRIX_NODE &&
-		   gel_matrixw_height(et->mat.matrix)>w)
-			w = gel_matrixw_height(et->mat.matrix);
+		   gel_matrixw_height(et->mat.matrix)>height)
+			height = gel_matrixw_height(et->mat.matrix);
 	}
 	
-	gel_matrix_set_at_least_size(dest,1,di+w);
+	gel_matrix_set_at_least_size(dest,1,di+height);
 	
 	for(i=roww-1;i>=0;i--) {
 		int x;
@@ -650,12 +652,12 @@ expand_row(GelMatrix *dest, GelMatrixW *src, int di, int si, int *need_col, int 
 		
 		/*0 node*/
 		if(!et) {
-			for(x=0;x<w;x++)
+			for(x=0;x<height;x++)
 				gel_matrix_index(dest,i,di+x) = NULL;
 		/*non-matrix node*/
 		} else if(et->type!=MATRIX_NODE) {
 			gel_matrix_index(dest,i,di) = et;
-			for(x=1;x<w;x++)
+			for(x=1;x<height;x++)
 				gel_matrix_index(dest,i,di+x) = copynode(et);
 		/*single column matrix, convert to regular nodes*/
 		} else if(gel_matrixw_width(et->mat.matrix) == 1) {
@@ -667,7 +669,7 @@ expand_row(GelMatrix *dest, GelMatrixW *src, int di, int si, int *need_col, int 
 				gel_matrixw_set_index(et->mat.matrix,0,x) = NULL;
 			}
 			xx = 0;
-			for(x=gel_matrixw_height(et->mat.matrix);x<w;x++) {
+			for(x=gel_matrixw_height(et->mat.matrix);x<height;x++) {
 				gel_matrix_index(dest,i,di+x) =
 					copynode(gel_matrix_index(dest,i,di+xx));
 				if((++xx)>=gel_matrixw_height(et->mat.matrix))
@@ -679,8 +681,6 @@ expand_row(GelMatrix *dest, GelMatrixW *src, int di, int si, int *need_col, int 
 			int xx;
 
 			gel_matrixw_make_private(et->mat.matrix);
-
-			*need_col += gel_matrixw_width(et->mat.matrix) - 1;
 
 			for(x=0;x<gel_matrixw_height(et->mat.matrix);x++) {
 				GelETree *n;
@@ -703,7 +703,7 @@ expand_row(GelMatrix *dest, GelMatrixW *src, int di, int si, int *need_col, int 
 				*need_colwise = TRUE;
 			}
 			xx = 0;
-			for(x=gel_matrixw_height(et->mat.matrix);x<w;x++) {
+			for(x=gel_matrixw_height(et->mat.matrix);x<height;x++) {
 				gel_matrix_index(dest,i,di+x) =
 					copynode(gel_matrix_index(dest,i,di+xx));
 				if((++xx)>=gel_matrixw_height(et->mat.matrix))
@@ -713,77 +713,102 @@ expand_row(GelMatrix *dest, GelMatrixW *src, int di, int si, int *need_col, int 
 		}
 	}
 	
-	return w;
+	return height;
 }
 
 
 static int
-expand_col(GelMatrix *dest, GelMatrix *src, int di[], int si, GSList *roww)
+expand_col (GelMatrix *dest, GelMatrix *src, int si, int di, int w)
 {
 	int i;
-	int w;
 	int cols;
 	
 	cols = dest->width;
 
-	w = 1;
-	for(i=0;i<src->height;i++) {
-		GelETree *et = gel_matrix_index(src,si,i);
-		if(!et || et->type != MATRIX_ROW_NODE)
-			continue;
-		if(et->row.nargs>w)
-			w = et->row.nargs;
-	}
-	
-	for(i=0;i<src->height;roww=g_slist_next(roww),i++) {
-		GelETree *et = gel_matrix_index(src,si,i);
-		int wid = GPOINTER_TO_INT(roww->data);
-		if(!et) continue;
-		else if(et->type != MATRIX_ROW_NODE) {
+	for (i = 0; i < src->height; i++) {
+		GelETree *et = gel_matrix_index (src, si, i);
+		if (et == NULL) {
 			int x;
-			int exp;
-			gel_matrix_index(dest,di[i],i) = et;
-			
-			exp = MIN(w-1,cols-wid);
-			
-			roww->data = GINT_TO_POINTER(wid + exp);
-
-			for(x=1;x<=exp;x++)
-				gel_matrix_index(dest,di[i]+x,i) =
-					copynode(et);
-			di[i] += x;
+			for (x = 0; x < w; x++)
+				gel_matrix_index (dest, di+x, i) = NULL;
+		} else if (et->type != MATRIX_ROW_NODE) {
+			int x;
+			gel_matrix_index (dest, di, i) = et;
+			for (x = 1; x < w; x++)
+				gel_matrix_index (dest, di+x, i) = copynode (et);
 		} else {
 			int x;
 			int xx;
-			int exp;
-			GelETree *li;
-			for(li=et->row.args,x=0;li!=NULL;x++) {
-				if(li->type == VALUE_NODE &&
-				   mpw_sgn(li->val.value)==0) {
-					GelETree *next=li->any.next;
-					gel_matrix_index(dest,di[i]+x,i) = NULL;
-					gel_freetree(li);
-					li = next;
+			GelETree *iter;
+
+			iter = et->row.args;
+			for (iter = et->row.args, x=0; iter != NULL; x++) {
+				if (iter->type == VALUE_NODE &&
+				    mpw_sgn (iter->val.value) == 0) {
+					GelETree *next = iter->any.next;
+					gel_matrix_index (dest, di+x, i) = NULL;
+					iter->any.next = NULL;
+					gel_freetree (iter);
+					iter = next;
 				} else {
-					gel_matrix_index(dest,di[i]+x,i) = li;
-					li=li->any.next;
+					GelETree *old = iter;
+					gel_matrix_index (dest, di+x, i) = iter;
+					iter = iter->any.next;
+					old->any.next = NULL;
 				}
 			}
-			exp = MIN(w-1,cols-wid);
-			roww->data = GINT_TO_POINTER(wid + exp);
+
 			xx = 0;
-			for(x=et->row.nargs;x<=exp;x++) {
-				gel_matrix_index(dest,di[i]+x,i) =
-					copynode(gel_matrix_index(dest,di[i]+xx,i));
-				if((++xx)>=et->row.nargs)
-					xx=0;
+			for (; x < w; x++) {
+				gel_matrix_index (dest, di+x, i) =
+					copynode (gel_matrix_index (dest, di+xx, i));
+				xx++;
+				if (xx >= et->row.nargs)
+					xx = 0;
 			}
-			di[i] += x;
-			freenode(et);
+			freenode (et);
 		}
 	}
 	
 	return w;
+}
+
+static int
+get_cols (GelMatrix *m, int *colwidths)
+{
+	int i,j;
+	int maxcol;
+	int cols = 0;
+
+	for (i = 0; i < m->width; i++) {
+		maxcol = 1;
+		for (j = 0; j < m->height; j++) {
+			GelETree *et = gel_matrix_index (m, i, j);
+			if (et == NULL ||
+			    et->type != MATRIX_ROW_NODE)
+				continue;
+			if (et->row.nargs > maxcol)
+				maxcol = et->row.nargs;
+		}
+		colwidths[i] = maxcol;
+		cols += maxcol;
+	}
+	
+	return cols;
+}
+
+static gboolean
+mat_need_expand (GelMatrixW *m)
+{
+	int i, j;
+	for (i = 0; i < gel_matrixw_width (m); i++) {
+		for (j = 0; j < gel_matrixw_height (m); j++) {
+			GelETree *et = gel_matrixw_set_index (m, i, j);
+			if (et != NULL && et->type == MATRIX_NODE)
+				return TRUE;
+		}
+	}
+	return FALSE;
 }
 
 /*evaluate a matrix (or try to), it will try to expand the matrix and
@@ -796,12 +821,15 @@ evalmatrix(GelETree *n)
 	int k;
 	int cols;
 	GelMatrix *m;
-	int need_colwise = FALSE;
-	GSList *roww = NULL;
+	gboolean need_colwise = FALSE;
 	GelMatrixW *nm;
 	int h;
+	int *colwidths;
 
 	nm = n->mat.matrix;
+
+	if ( ! mat_need_expand (nm))
+		return;
 
 	gel_matrixw_make_private(nm);
 
@@ -809,36 +837,30 @@ evalmatrix(GelETree *n)
 	m = gel_matrix_new();
 	gel_matrix_set_size(m,gel_matrixw_width(nm),h);
 	
-	cols = gel_matrixw_width(nm);
+	cols = gel_matrixw_width (nm);
 	
-	for(i=0,k=0;i<h;i++) {
-		int c;
+	for (i = 0, k = 0; i < h; i++) {
 		int w;
-		w = expand_row(m,nm,k,i,&c,&need_colwise);
+		w = expand_row (m, nm, k, i, &need_colwise);
 		k += w;
-		for(;w>0;w--)
-			roww = g_slist_prepend(roww,GINT_TO_POINTER(c));
-
-		if(cols<c)
-			cols = c;
 	}
-	
-	roww = g_slist_reverse(roww);
+
+	colwidths = g_new (int, m->width);
+	cols = get_cols (m, colwidths);
 	
 	if(need_colwise) {
+		int ii;
 		GelMatrix *tm = gel_matrix_new();
-		guint *di = g_new0(guint,k);
 		gel_matrix_set_size(tm,cols,m->height);
-		for(i=0;i<m->width;i++)
-			expand_col(tm,m,di,i,roww);
-		g_free(di);
+		for (i = 0, ii = 0; i < m->width; i++, ii += colwidths[i])
+			expand_col (tm, m, i, ii, colwidths[i]);
 		gel_matrix_free(m);
 		m = tm;
 	}
+
+	g_free (colwidths);
 	
-	g_slist_free(roww);
-	
-	freetree_full(n,TRUE,FALSE);
+	freetree_full (n, TRUE, FALSE);
 
 	n->type = MATRIX_NODE;
 	n->mat.matrix = gel_matrixw_new_with_matrix(m);
@@ -2435,7 +2457,7 @@ iter_pop_stack(GelCtx *ctx)
 		case GE_LOOP_LOOP:
 			{
 				GelEvalLoop *evl = data;
-				GelETree *n,*l;
+				GelETree *n,*l,*r;
 				int n_flag;
 				g_assert(evl->body);
 
@@ -2445,8 +2467,8 @@ iter_pop_stack(GelCtx *ctx)
 
 				EDEBUG("    LOOP LOOP BODY FINISHED");
 
-				GET_L(n,l);
-				evl->condition = copynode(l);
+				GET_LR(n,l,r);
+				evl->condition = copynode(r);
 				ctx->current = evl->condition;
 				ctx->post = FALSE;
 				GE_PUSH_STACK(ctx,evl,GE_LOOP_COND);
@@ -3111,7 +3133,7 @@ iter_loop(GelCtx *ctx, GelETree *n, gboolean body_first, gboolean is_while)
 	GE_PUSH_STACK(ctx,ctx->current,GE_POST);
 	if(body_first) {
 		EDEBUG("    BODY FIRST");
-		evl = evl_new(NULL,copynode(r),is_while);
+		evl = evl_new(NULL,copynode(l),is_while);
 		GE_PUSH_STACK(ctx,evl,GE_LOOP_LOOP);
 		ctx->current = evl->body;
 		ctx->post = FALSE;
@@ -4514,7 +4536,8 @@ replace_equals (GelETree *n, gboolean in_expression)
 	} else if (n->type == FUNCTION_NODE &&
 		   n->func.func->type == GEL_USER_FUNC &&
 		   n->func.func->data.user != NULL) {
-		replace_equals (n->func.func->data.user, in_expression);
+		/* function bodies are a completely new thing */
+		replace_equals (n->func.func->data.user, FALSE);
 	}
 }
 
