@@ -1,7 +1,7 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2004 George Lebl
+ * Copyright (C) 1997-2004 Jiri (George) Lebl
  *
- * Author: George Lebl
+ * Author: Jiri (George) Lebl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -2702,13 +2702,21 @@ main (int argc, char *argv[])
 	gtk_widget_show_now (genius_window);
 
 	gel_output_printf (main_out,
-			   _("\e[0;32mGenius %s\e[0m\n"
+			   _("%sGenius %s%s\n"
 			     "%s\n"
 			     "This is free software with ABSOLUTELY NO WARRANTY.\n"
-			     "For license details type `\e[01;36mwarranty\e[0m'.\n"
-			     "For help type '\e[01;36mmanual\e[0m' or '\e[01;36mhelp\e[0m'.%s\n\n"),
+			     "For license details type `%swarranty%s'.\n"
+			     "For help type '%smanual%s' or '%shelp%s'.%s\n\n"),
+			   "\e[0;32m" /* green */,
+			   "\e[0m" /* white on black */,
 			   VERSION,
 			   COPYRIGHT_STRING,
+			   "\e[01;36m" /* cyan */,
+			   "\e[0m" /* white on black */,
+			   "\e[01;36m" /* cyan */,
+			   "\e[0m" /* white on black */,
+			   "\e[01;36m" /* cyan */,
+			   "\e[0m" /* white on black */,
 			   get_version_details ());
 	gel_output_flush (main_out);
 	check_events ();

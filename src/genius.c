@@ -1,7 +1,7 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2004 George Lebl
+ * Copyright (C) 1997-2004 Jiri (George) Lebl
  *
- * Author: George Lebl
+ * Author: Jiri (George) Lebl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -157,12 +157,12 @@ set_state(calcstate_t state)
 }
 
 static void
-interrupt(int sig)
+interrupt (int sig)
 {
 	interrupted = TRUE;
-	if(use_readline)
-		rl_stuff_char('\n');
-	signal(SIGINT,interrupt);
+	if (use_readline)
+		rl_stuff_char ('\n');
+	signal (SIGINT, interrupt);
 }
 
 static int
@@ -198,10 +198,14 @@ main(int argc, char *argv[])
 
 	genius_is_gui = FALSE;
 
-	bindtextdomain(GETTEXT_PACKAGE,GNOMELOCALEDIR);
-	textdomain(GETTEXT_PACKAGE);
+	/* Hmmm, everything in UTF-8? */
+	bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	textdomain (GETTEXT_PACKAGE);
 
-	signal(SIGINT,interrupt);
+	setlocale (LC_ALL, "");
+
+	signal (SIGINT, interrupt);
 
 	statechange_hook = set_state;
 
