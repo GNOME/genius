@@ -26,6 +26,8 @@
 SetHelp("IsPrime","number_theory","Tests primality of integers");
 function IsPrime(n) =
   (
+    if not IsValue(n) or not IsInteger(n) then
+	(error("IsPrime: argument not an integer");bailout);
     ### Part 0: Preparations/small numbers
     if (n<0) then n=|n|; # Make sure n is non-negative
 
@@ -82,9 +84,11 @@ protect("IsPrime");
 SetHelp("IsPrimeLoopMax","parameters", "Maximum number which IsPrime uses in trial division");
 parameter IsPrimeLoopMax = 5000;           # IsPrime configuration variable
 
-SetHelp("NextPrime","number_theory","Returns the least prime greater than n");
+SetHelp("NextPrime","number_theory","Returns the least prime greater than n (if n is positive)");
 function NextPrime(n) =
  (
+    if not IsValue(n) or not IsInteger(n) then
+	(error("NextPrime: argument not an integer");bailout);
   do n=n+1 while not(IsPrime(n));
   return n
  )

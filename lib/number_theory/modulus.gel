@@ -1,14 +1,20 @@
 # GEL routines for working in Z/n (the integer modulo n)
 
-#function EulerPhi(n) =
 # phi(n), the Euler phi function, i.e., the number of integers between
 # 1 and n that are relatively prime to n
 # Note that if the prime factorization of n is p_1^a_1 * ... p_r^a_r,
 # then EulerPhi(n)=n*(1-1/p_1)*...*(1-1/p_r). We use this to calculate
-# EulerPhi(n)
-# FIXME!!!
-# (
-#  return null
-# )
-#SetHelp("EulerPhi","number_theory","Compute phi(n), the Euler phi function");
-#protect("EulerPhi");
+# EulerPhi(n) FIXME: this implementation is stupid!
+SetHelp("EulerPhi","number_theory","Compute phi(n), the Euler phi function");
+function EulerPhi(n) =
+(
+	if not IsValue(n) or not IsInteger(n) or not n>0 then
+		(error("EulerPhi: argument not an integer larger then 0");bailout);
+	count = 1;
+	for k=2 to n do (
+		if gcd(n,k) == 1 then
+			count = count+1
+	);
+	count
+)
+protect("EulerPhi");
