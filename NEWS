@@ -1,3 +1,17 @@
+Changes to 0.5.7
+
+* Add ErrorFunction (erf), InfiniteProduct, InfiniteProduct2
+* Allow large integer powers of 1,-1,1i,-1i and do it very fast
+* Be nicer with integer powers of pure imaginary numbers
+* mpfr seems broken in 4.1.2 causing something like 0.1^(-1.0) to come out
+  as 0.1 rather then 10.  Powers will just use exp and ln for now which
+  are correct.
+* Fix warnings on Kernel([0])
+* Don't use DEPRECATED defines to allow compiling with newer gtk+
+* Translation updates (Vincent van Adrighem, Metin Amiroff, Jordi Mallach,
+  Xavier Conde Rueda, Christian Rose, Miloslav Trmac, Duarte Loreto,
+  Tino Meinen)
+
 Changes to 0.5.6
 
 * Several leaks fixed
