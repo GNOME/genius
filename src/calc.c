@@ -25,6 +25,8 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <signal.h>
 #ifdef HAVE_WORDEXP
 #include <wordexp.h>
@@ -1750,12 +1752,12 @@ do_exec_commands (const char *dirprefix)
 			load_guess_file(dirprefix,we.we_wordv[i],TRUE);
 			if(interrupted) {
 				wordfree(&we);
-				free(flist);
+				g_free(flist);
 				return;
 			}
 		}
 		wordfree(&we);
-		free(flist);
+		g_free(flist);
 #else
 		char *s;
 		FILE *fp;
@@ -1776,12 +1778,12 @@ do_exec_commands (const char *dirprefix)
 			load_guess_file(dirprefix,buf,TRUE);
 			if(interrupted) {
 				fclose(fp);
-				free(flist);
+				g_free(flist);
 				return;
 			}
 		}
 		fclose(fp);
-		free(flist);
+		g_free(flist);
 #endif
 	}
 
@@ -1796,7 +1798,7 @@ do_exec_commands (const char *dirprefix)
 	if(changedir_glob) {
 #if HAVE_WORDEXP
 		wordexp_t we;
-		char *flist = loadfile_glob;
+		char *flist = changedir_glob;
 		int i;
 		changedir_glob = NULL;
 		while(evalstack)
@@ -1806,7 +1808,7 @@ do_exec_commands (const char *dirprefix)
 			our_chdir (dirprefix, we.we_wordv[i]);
 		}
 		wordfree(&we);
-		free(flist);
+		g_free(flist);
 #else
 		char *s;
 		FILE *fp;
@@ -1827,7 +1829,7 @@ do_exec_commands (const char *dirprefix)
 			our_chdir (dirprefix, buf);
 		}
 		fclose(fp);
-		free(flist);
+		g_free(flist);
 #endif
 	}
 	
@@ -1859,8 +1861,27 @@ do_exec_commands (const char *dirprefix)
 		if (dir != NULL) {
 			struct dirent *de;
 			while ((de = readdir (dir)) != NULL) {
-				gel_output_string (main_out, de->d_name);
-				gel_output_string (main_out, "\n");
+				struct stat s;
+				if (strcmp (de->d_name, ".") == 0 ||
+				    strcmp (de->d_name, "..") == 0)
+					continue;
+				if (stat (de->d_name, &s) == 0 &&
+				    S_ISDIR (s.st_mode)) {
+					gel_output_string (main_out, de->d_name);
+					gel_output_string (main_out, "/\n");
+				}
+			}
+			rewinddir (dir);
+			while ((de = readdir (dir)) != NULL) {
+				struct stat s;
+				if (strcmp (de->d_name, ".") == 0 ||
+				    strcmp (de->d_name, "..") == 0)
+					continue;
+				if (stat (de->d_name, &s) == 0 &&
+				     ! S_ISDIR (s.st_mode)) {
+					gel_output_string (main_out, de->d_name);
+					gel_output_string (main_out, "\n");
+				}
 			}
 
 			closedir (dir);

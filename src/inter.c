@@ -48,7 +48,10 @@ ok_for_top(char *s)
 {
 	char *t = g_strstrip(g_strdup(s));
 	if(strncmp(t,"plugin",strlen(t))==0 ||
-	   strncmp(t,"load",strlen(t))==0) {
+	   strncmp(t,"load",strlen(t))==0 ||
+	   strncmp(t,"cd",strlen(t))==0 ||
+	   strncmp(t,"pwd",strlen(t))==0 ||
+	   strncmp(t,"ls",strlen(t))==0) {
 		g_free(t);
 		return TRUE;
 	} else {
@@ -328,6 +331,11 @@ tab_completion (const char *text, int start, int end)
 	if(toplevelokg &&
 	   (strncmp(p,"load ",5)==0 ||
 	    strncmp(p,"load\t",5)==0)) {
+		return NULL;
+	}
+	if(toplevelokg &&
+	   (strncmp(p,"cd ",3)==0 ||
+	    strncmp(p,"cd\t",3)==0)) {
 		return NULL;
 	}
 
