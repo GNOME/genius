@@ -37,6 +37,7 @@
 #include "mpwrap.h"
 
 #if 0
+/* Context sutff */
 struct _MpwCtx {
 	int ref_count;
 
@@ -1662,7 +1663,7 @@ static void
 mpwl_add(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
 	int t;
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 	
 	/*special case*/
 	if(op1->type==op2->type && rop!=op1 && rop!=op2) {
@@ -1808,7 +1809,7 @@ static void
 mpwl_sub(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
 	int t;
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 
 	/*special case*/
 	if(op1->type==op2->type && rop!=op1 && rop!=op2) {
@@ -1981,7 +1982,7 @@ static void
 mpwl_mul(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
 	int t;
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 
 	/*special case*/
 	if(op1->type==op2->type && rop!=op1 && rop!=op2) {
@@ -2102,7 +2103,7 @@ static void
 mpwl_div(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
 	int t;
-	MpwRealNum r = {0};
+	MpwRealNum r = {{NULL}};
 
 	if G_UNLIKELY (mpwl_sgn(op2)==0) {
 		error_num=NUMERICAL_MPW_ERROR;
@@ -2765,7 +2766,7 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		den = mpz_get_ui (mpq_denref (op2->data.rval));
 		/* We can do square root, perhaps symbolically */
 		if (den == 2 || den == 4 || den == 8 || den == 16) {
-			MpwRealNum n={0};
+			MpwRealNum n = {{NULL}};
 			mpwl_init_type (&n, MPW_INTEGER);
 			mpz_set (n.data.ival, mpq_numref (op2->data.rval));
 			mpwl_sqrt (rop, op1);
@@ -2895,7 +2896,7 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 static void
 mpwl_pow_ui(MpwRealNum *rop,MpwRealNum *op1,unsigned int e, gboolean reverse)
 {
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 
 	switch(op1->type) {
 	case MPW_NATIVEINT:
@@ -2963,7 +2964,7 @@ mpwl_pow_z(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	}
 
 	if(mpz_cmp_ui(op2->data.ival,ULONG_MAX)>0) {
-		MpwRealNum r={0};
+		MpwRealNum r = {{NULL}};
 
 		switch(op1->type) {
 		case MPW_NATIVEINT:
@@ -3034,7 +3035,7 @@ mpwl_pow_z(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 static gboolean
 mpwl_pow_f(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 
 	if G_UNLIKELY (op2->type!=MPW_FLOAT) {
 		error_num=INTERNAL_MPW_ERROR;
@@ -3097,7 +3098,7 @@ mpwl_powm (MpwRealNum *rop,
 	   MpwRealNum *mod)
 {
 	int sgn1, sgn2;
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 
 	if G_UNLIKELY ((op1->type != MPW_INTEGER && op1->type != MPW_NATIVEINT) ||
 		       (op2->type != MPW_INTEGER && op2->type != MPW_NATIVEINT) ||
@@ -3186,7 +3187,7 @@ mpwl_powm_ui (MpwRealNum *rop,
 	      MpwRealNum *mod)
 {
 	int sgn;
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 
 	if G_UNLIKELY ((op->type != MPW_INTEGER && op->type != MPW_NATIVEINT) ||
 		       (mod->type != MPW_INTEGER && mod->type != MPW_NATIVEINT)) {
@@ -3223,7 +3224,7 @@ mpwl_powm_ui (MpwRealNum *rop,
 static gboolean
 mpwl_sqrt (MpwRealNum *rop, MpwRealNum *op)
 {
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 	gboolean is_complex = FALSE;
 
 	if (mpwl_sgn (op) < 0) {
@@ -3261,7 +3262,7 @@ mpwl_sqrt (MpwRealNum *rop, MpwRealNum *op)
 static void
 mpwl_exp(MpwRealNum *rop,MpwRealNum *op)
 {
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
@@ -3279,7 +3280,7 @@ static gboolean
 mpwl_ln(MpwRealNum *rop,MpwRealNum *op)
 {
 	gboolean ret;
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
@@ -3309,7 +3310,7 @@ static gboolean
 mpwl_log2(MpwRealNum *rop,MpwRealNum *op)
 {
 	gboolean ret;
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
@@ -3339,7 +3340,7 @@ static gboolean
 mpwl_log10(MpwRealNum *rop,MpwRealNum *op)
 {
 	gboolean ret;
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
@@ -3368,7 +3369,7 @@ mpwl_log10(MpwRealNum *rop,MpwRealNum *op)
 static void
 mpwl_cos(MpwRealNum *rop,MpwRealNum *op)
 {
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
@@ -3384,7 +3385,7 @@ mpwl_cos(MpwRealNum *rop,MpwRealNum *op)
 static void
 mpwl_sin(MpwRealNum *rop,MpwRealNum *op)
 {
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
@@ -3400,7 +3401,7 @@ mpwl_sin(MpwRealNum *rop,MpwRealNum *op)
 static void
 mpwl_cosh(MpwRealNum *rop,MpwRealNum *op)
 {
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
@@ -3416,7 +3417,7 @@ mpwl_cosh(MpwRealNum *rop,MpwRealNum *op)
 static void
 mpwl_sinh(MpwRealNum *rop,MpwRealNum *op)
 {
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
@@ -3432,7 +3433,7 @@ mpwl_sinh(MpwRealNum *rop,MpwRealNum *op)
 static void
 mpwl_arctan(MpwRealNum *rop,MpwRealNum *op)
 {
-	MpwRealNum r={0};
+	MpwRealNum r = {{NULL}};
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
@@ -4509,7 +4510,7 @@ mpw_abs(mpw_ptr rop,mpw_ptr op)
 		else
 			mpw_set(rop,op);
 	} else {
-		MpwRealNum t={0};
+		MpwRealNum t = {{NULL}};
 
 		MAKE_REAL(rop);
 		MAKE_COPY(rop->r);
@@ -4641,8 +4642,8 @@ mpw_mul(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 		MAKE_COPY(rop->r);
 		mpwl_mul(rop->r,op1->r,op2->r);
 	} else {
-		MpwRealNum tr={0};
-		MpwRealNum ti={0};
+		MpwRealNum tr = {{NULL}};
+		MpwRealNum ti = {{NULL}};
 		MpwRealNum *r1;
 		MpwRealNum *i1;
 		MpwRealNum *r2;
@@ -4711,8 +4712,8 @@ mpw_div(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 		MAKE_COPY(rop->r);
 		mpwl_div(rop->r,op1->r,op2->r);
 	} else {
-		MpwRealNum t1={0};
-		MpwRealNum t2={0};
+		MpwRealNum t1 = {{NULL}};
+		MpwRealNum t2 = {{NULL}};
 		MpwRealNum *r1;
 		MpwRealNum *i1;
 		MpwRealNum *r2;
@@ -4800,8 +4801,8 @@ mpw_ui_div(mpw_ptr rop,unsigned int in,mpw_ptr op)
 		MAKE_COPY(rop->r);
 		mpwl_ui_div(rop->r,in,op->r);
 	} else {
-		MpwRealNum t1={0};
-		MpwRealNum t2={0};
+		MpwRealNum t1 = {{NULL}};
+		MpwRealNum t2 = {{NULL}};
 		MpwRealNum *r;
 		MpwRealNum *i;
 		if G_UNLIKELY (mpwl_sgn(op->r)==0 && mpwl_sgn(op->i)==0) {
@@ -4896,7 +4897,7 @@ void
 mpw_lcm (mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 {
 	if G_LIKELY (op1->type==MPW_REAL && op2->type==MPW_REAL) {
-		MpwRealNum gcd = {0};
+		MpwRealNum gcd = {{NULL}};
 		mpwl_init_type (&gcd, MPW_NATIVEINT);
 
 		mpwl_gcd (&gcd, op1->r, op2->r);
@@ -5108,7 +5109,7 @@ mpw_exp(mpw_ptr rop,mpw_ptr op)
 		MAKE_COPY(rop->r);
 		mpwl_exp(rop->r,op->r);
 	} else {
-		MpwRealNum t={0};
+		MpwRealNum t = {{NULL}};
 		MpwRealNum *r;
 		MpwRealNum *i;
 		rop->type = MPW_COMPLEX;
@@ -5155,7 +5156,7 @@ mpw_ln(mpw_ptr rop,mpw_ptr op)
 			mpwl_pi(rop->i);
 		}
 	} else {
-		MpwRealNum t={0};
+		MpwRealNum t = {{NULL}};
 		MpwRealNum *r;
 		MpwRealNum *i;
 		rop->type = MPW_COMPLEX;
@@ -5220,7 +5221,7 @@ mpw_log2(mpw_ptr rop,mpw_ptr op)
 		MAKE_REAL(rop);
 		MAKE_COPY(rop->r);
 		if(!mpwl_log2(rop->r,op->r)) {
-			MpwRealNum t = {0};
+			MpwRealNum t = {{NULL}};
 			rop->type = MPW_COMPLEX;
 			MAKE_COPY(rop->i);
 			mpwl_pi (rop->i);
@@ -5235,7 +5236,7 @@ mpw_log2(mpw_ptr rop,mpw_ptr op)
 	} else {
 		mpw_t two;
 		if (mpwl_sgn(op->r)==0) {
-			MpwRealNum t = {0};
+			MpwRealNum t = {{NULL}};
 			rop->type = MPW_COMPLEX;
 
 			MAKE_COPY(rop->r);
@@ -5286,7 +5287,7 @@ mpw_log10(mpw_ptr rop,mpw_ptr op)
 		MAKE_REAL(rop);
 		MAKE_COPY(rop->r);
 		if(!mpwl_log10(rop->r,op->r)) {
-			MpwRealNum t = {0};
+			MpwRealNum t = {{NULL}};
 			rop->type = MPW_COMPLEX;
 			MAKE_COPY(rop->i);
 			mpwl_pi (rop->i);
@@ -5300,7 +5301,7 @@ mpw_log10(mpw_ptr rop,mpw_ptr op)
 	} else {
 		mpw_t ten;
 		if (mpwl_sgn(op->r)==0) {
-			MpwRealNum t = {0};
+			MpwRealNum t = {{NULL}};
 			rop->type = MPW_COMPLEX;
 
 			MAKE_COPY(rop->r);
@@ -5344,7 +5345,7 @@ mpw_sin(mpw_ptr rop,mpw_ptr op)
 		MAKE_COPY(rop->r);
 		mpwl_sin(rop->r,op->r);
 	} else {
-		MpwRealNum t={0};
+		MpwRealNum t = {{NULL}};
 		MpwRealNum *r;
 		MpwRealNum *i;
 		rop->type = MPW_COMPLEX;
@@ -5380,7 +5381,7 @@ mpw_cos(mpw_ptr rop,mpw_ptr op)
 		MAKE_COPY(rop->r);
 		mpwl_cos(rop->r,op->r);
 	} else {
-		MpwRealNum t={0};
+		MpwRealNum t = {{NULL}};
 		MpwRealNum *r;
 		MpwRealNum *i;
 		rop->type = MPW_COMPLEX;
@@ -5417,7 +5418,7 @@ mpw_sinh(mpw_ptr rop,mpw_ptr op)
 		MAKE_COPY(rop->r);
 		mpwl_sinh(rop->r,op->r);
 	} else {
-		MpwRealNum t={0};
+		MpwRealNum t = {{NULL}};
 		MpwRealNum *r;
 		MpwRealNum *i;
 		rop->type = MPW_COMPLEX;
@@ -5453,7 +5454,7 @@ mpw_cosh(mpw_ptr rop,mpw_ptr op)
 		MAKE_COPY(rop->r);
 		mpwl_cosh(rop->r,op->r);
 	} else {
-		MpwRealNum t={0};
+		MpwRealNum t = {{NULL}};
 		MpwRealNum *r;
 		MpwRealNum *i;
 		rop->type = MPW_COMPLEX;
@@ -6180,8 +6181,8 @@ void
 mpw_denominator(mpw_ptr rop, mpw_ptr op)
 {
 	if(op->type==MPW_COMPLEX) {
-		MpwRealNum r1 = {0};
-		MpwRealNum r2 = {0};
+		MpwRealNum r1 = {{NULL}};
+		MpwRealNum r2 = {{NULL}};
 
 		mpwl_init_type (&r1, MPW_NATIVEINT);
 		mpwl_init_type (&r1, MPW_NATIVEINT);
@@ -6215,10 +6216,10 @@ void
 mpw_numerator(mpw_ptr rop, mpw_ptr op)
 {
 	if(op->type==MPW_COMPLEX) {
-		MpwRealNum r1 = {0};
-		MpwRealNum r2 = {0};
-		MpwRealNum n1 = {0};
-		MpwRealNum n2 = {0};
+		MpwRealNum r1 = {{NULL}};
+		MpwRealNum r2 = {{NULL}};
+		MpwRealNum n1 = {{NULL}};
+		MpwRealNum n2 = {{NULL}};
 
 		mpwl_init_type (&r1, MPW_NATIVEINT);
 		mpwl_init_type (&r1, MPW_NATIVEINT);

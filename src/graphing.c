@@ -372,7 +372,7 @@ label_func (GelCtx *ctx, int i, GelEFunc *func, const char *color)
 #define GET_DOUBLE(var,argnum) \
 	{ \
 	if (a[argnum]->type != VALUE_NODE) { \
-		(*errorout)(_("LinePlot: argument not a number")); \
+		gel_errorout (_("%s: argument number %d not a number"), "LinePlot", argnum+1); \
 		return NULL; \
 	} \
 	var = mpw_get_double (a[argnum]->val.value); \
@@ -385,31 +385,31 @@ get_limits_from_matrix (GelETree *m, double *x1, double *x2, double *y1, double 
 
 	if (m->type != MATRIX_NODE ||
 	    gel_matrixw_elements (m->mat.matrix) != 4) {
-		(*errorout)(_("Graph limits not given as a 4-vector"));
+		gel_errorout (_("Graph limits not given as a 4-vector"));
 		return FALSE;
 	}
 
 	t = gel_matrixw_vindex (m->mat.matrix, 0);
 	if (t->type != VALUE_NODE) {
-		(*errorout)(_("Graph limits not given as numbers"));
+		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*x1 = mpw_get_double (t->val.value);
 	t = gel_matrixw_vindex (m->mat.matrix, 1);
 	if (t->type != VALUE_NODE) {
-		(*errorout)(_("Graph limits not given as numbers"));
+		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*x2 = mpw_get_double (t->val.value);
 	t = gel_matrixw_vindex (m->mat.matrix, 2);
 	if (t->type != VALUE_NODE) {
-		(*errorout)(_("Graph limits not given as numbers"));
+		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*y1 = mpw_get_double (t->val.value);
 	t = gel_matrixw_vindex (m->mat.matrix, 3);
 	if (t->type != VALUE_NODE) {
-		(*errorout)(_("Graph limits not given as numbers"));
+		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*y2 = mpw_get_double (t->val.value);
@@ -483,12 +483,12 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	}
 
 	if (a[i] != NULL && a[i]->type == FUNCTION_NODE) {
-		(*errorout)(_("LinePlot: only up to 10 functions supported"));
+		gel_errorout (_("%s: only up to 10 functions supported"), "LinePlot");
 		return NULL;
 	}
 
 	if (funcs == 0) {
-		(*errorout)(_("LinePlot: argument not a function"));
+		gel_errorout (_("%s: argument not a function"), "LinePlot");
 		return NULL;
 	}
 

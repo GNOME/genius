@@ -29,19 +29,19 @@
 /*the GelMatrixW typedef is in structs.h*/
 struct _GelMatrixW {
 	GelMatrix *m;
-	guint32 tr:1; /*transposed*/
-	guint32 cached_value_only:1;
-	guint32 value_only:1;
-	guint32 cached_value_only_real:1;
-	guint32 value_only_real:1;
-	guint32 cached_value_only_rational:1;
-	guint32 value_only_rational:1;
-	guint32 cached_value_only_integer:1;
-	guint32 value_only_integer:1;
 	int *regx;
 	int *regy;
 	int regw;
 	int regh;
+	guint16 tr:1; /*transposed*/
+	guint16 cached_value_only:1;
+	guint16 value_only:1;
+	guint16 cached_value_only_real:1;
+	guint16 value_only_real:1;
+	guint16 cached_value_only_rational:1;
+	guint16 value_only_rational:1;
+	guint16 cached_value_only_integer:1;
+	guint16 value_only_integer:1;
 };
 
 /*new matrix*/

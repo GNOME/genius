@@ -54,7 +54,7 @@ protect ("NumericalLimitAtInfinity")
 # ...two-sided
 
 SetHelp ("ContinuousTolerance", "parameters", "Tolerance for continuity of functions and for calculating the limit")
-parameter ContinuousTolerance=10^(-5);
+parameter ContinuousTolerance=10.0^(-5);
 SetHelp ("ContinuousSFS", "parameters", "How many successive steps to be within tolerance for calculation of continuity")
 parameter ContinuousSFS=20;
 SetHelp ("ContinuousNumberOfTries", "parameters", "How many iterations to try to find the limit for continuity and limits")

@@ -51,12 +51,14 @@ enum {
 	MPW_COMPLEX
 };
 
+/* FIXME: we really have too many structures/pointers per number here
+   that should be remedied */
+
 /*number structures, this is where low level stuff is stored so it will be
   different for each lib, members should never be directly accessed!*/
 
 /*real only structure*/
 typedef struct _MpwRealNum {
-	int type;
 	struct { /*this is done as a struct so that conversions don't require
 		   a temporary, make sure to clear the old one!, in the worst
 		   case we have two unused pointers*/
@@ -69,6 +71,7 @@ typedef struct _MpwRealNum {
 		struct _MpwRealNum *next; /*used for free lists*/
 		int usage; /*used for copy-on-write*/
 	} alloc; /*private union for memory managment stuff*/
+	guint8 type;
 } MpwRealNum;
 
 /*any number (includes complex) so it includes an imaginary member if type
@@ -76,27 +79,32 @@ typedef struct _MpwRealNum {
 
   this is used as the number type*/
 struct _mpw_t {
-	int type;
 	MpwRealNum *r; /*real*/
 	MpwRealNum *i; /*imaginary*/
+	guint8 type;
 };
 
 typedef struct _mpw_t mpw_t[1];
 typedef struct _mpw_t *mpw_ptr;
 
+/* FIXME: this is evil, error_num is used elsewhere, should
+ * be some more generalized error interface */
 enum {
 	MPW_NO_ERROR=0,
 	MPW_INTERNAL_ERROR,
 	MPW_NUMERICAL_ERROR,
 };
 
-/* private struct, use accessors for fields */
-typedef struct _MpwCtx MpwCtx;
 
 #if 0
+/* If we ever will need different contexts, currently very much on the
+   backburner */
 /*************************************************************************/
 /*conext level stuff                                                     */
 /*************************************************************************/
+
+/* private struct, use accessors for fields */
+typedef struct _MpwCtx MpwCtx;
 
 typedef void (*MpwErrorFunc) (MpwCtx *, char *);
 

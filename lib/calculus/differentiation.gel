@@ -18,7 +18,7 @@
 # accuracy.
 # Thus, it would make sense to jack up the precision when letting h get small
 # if doing this in an automated way
-# However, with the default precision in Dr. Genius 0.4.5, these methods
+# However, with the default precision in Genius 0.4.5, these methods
 # seem to be pretty stable down to h=10^-20, and only start getting really bad
 # around 10^-70
 
@@ -105,7 +105,7 @@ function TwoSidedFivePointFormula(f,x0,h) =
 SetHelp("TwoSidedFivePointFormula","calculus","Compute two-sided derivative using five-point formula");
 protect("TwoSidedFivePointFormula");
 
-parameter DerivativeTolerance=10^(-5);
+parameter DerivativeTolerance=10.0^(-5);
 parameter DerivativeSFS=20;
 parameter DerivativeNumberOfTries=100;
 

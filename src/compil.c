@@ -415,22 +415,22 @@ gel_decompile_tree (char *s)
 	GelETree *t;
 	char *p;
 	
-	if(!s) return NULL;
+	if G_UNLIKELY (s == NULL) return NULL;
 	
-	p = strtok(s,";");
+	p = strtok (s, ";");
 	
-	if(strcmp(p,"T")!=0) {
-		(*errorout)(_("Bad tree record when decompiling"));
+	if G_UNLIKELY (strcmp (p, "T") != 0) {
+		gel_errorout (_("Bad tree record when decompiling"));
 		return NULL;
 	}
 	
 	t = gel_decompile_node();
-	if(!t) {
-		(*errorout)(_("Bad tree record when decompiling"));
+	if G_UNLIKELY (t == NULL) {
+		gel_errorout (_("Bad tree record when decompiling"));
 		return NULL;
 	}
 
-	g_free(s);
+	g_free (s);
 	
 	return t;
 }

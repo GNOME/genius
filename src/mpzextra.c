@@ -289,7 +289,6 @@ append_factor_uint (GArray *fact, unsigned long num)
 /* Pollard-Rho factorization code snarfed from the gmp examples */
 
 static unsigned add[] = {4, 2, 4, 2, 4, 6, 2, 6};
-static gboolean flag_verbose = FALSE;
 
 static void
 factor_using_division (GArray *fact, mpz_t t, unsigned int limit)
@@ -299,12 +298,6 @@ factor_using_division (GArray *fact, mpz_t t, unsigned int limit)
   int ai;
   unsigned *addv = add;
   unsigned int failures;
-
-  if (flag_verbose)
-    {
-      printf ("[trial division (%u)] ", limit);
-      fflush (stdout);
-    }
 
   mpz_init (q);
   mpz_init (r);
@@ -371,12 +364,6 @@ factor_using_pollard_rho (GArray *fact, mpz_t n, int a_int)
   mpz_t g;
   mpz_t t1, t2;
   int k, l, c, i;
-
-  if (flag_verbose)
-    {
-      printf ("[pollard-rho (%d)] ", a_int);
-      fflush (stdout);
-    }
 
   mpz_init (g);
   mpz_init (t1);
@@ -452,11 +439,6 @@ S4:
             }
 	  while (a_int == -2 || a_int == 0);
 
-	  if (flag_verbose)
-	    {
-	      printf ("[composite factor--restarting pollard-rho] ");
-	      fflush (stdout);
-	    }
 	  factor_using_pollard_rho (fact, g, a_int);
 	  break;
 	}
@@ -501,11 +483,6 @@ factor_number (GArray *fact, mpz_t t)
 
   if (mpz_cmp_ui (t, 1) != 0)
     {
-      if (flag_verbose)
-	{
-	  printf ("[is number prime?] ");
-	  fflush (stdout);
-	}
       if (mympz_is_prime (t, -1))
 	append_factor (fact, t);
       else

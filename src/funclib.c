@@ -2208,7 +2208,7 @@ IndexComplement_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 			GelETree *t = gel_matrixw_vindex (m, i);
 			int elt;
 			if G_UNLIKELY (t->type != VALUE_NODE) {
-				(*errorout)(_("IndexComplement: vector argument not value only"));
+				gel_errorout (_("%s: vector argument not value only"), "IndexComplement");
 				g_free (index);
 				return NULL;
 			}
@@ -2219,7 +2219,7 @@ IndexComplement_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 			}
 			elt--;
 			if G_UNLIKELY (elt >= len) {
-				(*errorout)(_("IndexComplement: vector argument has too large entries"));
+				gel_errorout (_("%s: vector argument has too large entries"), "IndexComplement");
 				g_free (index);
 				return NULL;
 			}
@@ -2248,7 +2248,7 @@ IndexComplement_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		if G_UNLIKELY (elt < 0)
 			return NULL;
 		if G_UNLIKELY (elt > len) {
-			(*errorout)(_("IndexComplement: vector argument has too large entries"));
+			gel_errorout (_("%s: vector argument has too large entries"), "IndexComplement");
 			return NULL;
 		}
 		if (len == 1 && elt == 1)
@@ -3972,7 +3972,7 @@ set_OutputStyle (GelETree * a)
 	} else if (token != NULL && g_ascii_strcasecmp (token, "mathml") == 0) {
 		output_style = GEL_OUTPUT_MATHML;
 	} else {
-		(*errorout)(_("OutputStyle must be one of normal, troff, latex or mathml"));
+		gel_errorout (_("OutputStyle must be one of normal, troff, latex or mathml"));
 		return NULL;
 	}
 

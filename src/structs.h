@@ -31,7 +31,7 @@ typedef enum {
 	GEL_USER_FUNC, /*function that points to an GelETree for evaluation*/
 	GEL_VARIABLE_FUNC, /*function that points to an GelETree result */
 	GEL_REFERENCE_FUNC /*a function that points to some other GelEFunc*/
-} GelEFuncType;
+} GelEFuncType; /* should fit in 3 bits (it does) */
 
 typedef struct _GelEFunc GelEFunc;
 typedef union _GelETree GelETree;
@@ -90,7 +90,6 @@ struct _GelToken {
 
 struct _GelEFunc {
 	GelToken *id;
-	GelEFuncType type;
 	int context; /*the context number this is used for .. if we pop this
 		       context, we will destroy the function*/
 	GSList *named_args; /*names of arguments*/
@@ -103,14 +102,18 @@ struct _GelEFunc {
 		GelEFunc *ref;
 		GelEFunc *next; /*this is for keeping a free list*/
 	} data;
+
+	guint16 nargs; /*number of arguments*/
+
+	/* GelEFuncType type; */
+	guint8 type:3;
+
 	/* if true, we must take this off the subst list for a context pop,
 	 * before we free the function */
-	guint32 on_subst_list:1;
-	guint32 vararg:1;
-	guint32 propagate_mod:1;
-	guint32 no_mod_all_args:1;
-
-	guint32 nargs:16; /*number of arguments*/
+	guint8 on_subst_list:1;
+	guint8 vararg:1;
+	guint8 propagate_mod:1;
+	guint8 no_mod_all_args:1;
 };
 
 typedef enum {
@@ -319,8 +322,8 @@ typedef enum {
 struct _GelEvalLoop {
 	GelETree * condition;
 	GelETree * body;
-	guint32 is_while:1; /*if false, this is an until loop*/
-	guint32 body_first:1; /*if true body is the first argument*/
+	guint8 is_while:1; /*if false, this is an until loop*/
+	guint8 body_first:1; /*if true body is the first argument*/
 };
 /*data structure for 'for' loops*/
 struct _GelEvalFor {
@@ -328,7 +331,7 @@ struct _GelEvalFor {
 	mpw_ptr x;
 	mpw_ptr by;
 	mpw_ptr to;
-	int init_cmp;
+	gint8 init_cmp;
 	GelETree * result;
 	GelETree * body;
 	GelETree * orig_body;
@@ -351,7 +354,7 @@ struct _GelCtx {
 	GelEvalStack *stack;
 	gpointer *topstack;
 	GelETree *res;
-	int post;
+	gboolean post;
 	GelETree *current;
 	mpw_ptr modulo;
 };

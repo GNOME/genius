@@ -115,7 +115,7 @@ void d_protect_all(void);
 void d_add_named_args (GelEFunc *f, const char *args);
 
 #define D_ENSURE_USER_BODY(f) \
-	if (f->data.user == NULL) {					\
+	if G_UNLIKELY (f->data.user == NULL) {				\
 		g_assert (uncompiled != NULL);				\
 		f->data.user =						\
 			gel_decompile_tree (g_hash_table_lookup		\
