@@ -46,14 +46,14 @@ enum {
 /*real only structure*/
 typedef struct _MpwRealNum {
 	union {
-		mpz_ptr ival;
-		mpq_ptr rval;
-		mpfr_ptr fval;
-	} data;
-	union {
 		struct _MpwRealNum *next; /*used for free lists*/
 		int usage; /*used for copy-on-write*/
 	} alloc; /*private union for memory managment stuff*/
+	union {
+		mpz_t ival;
+		mpq_t rval;
+		mpfr_t fval;
+	} data;
 	guint8 type;
 } MpwRealNum;
 

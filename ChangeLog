@@ -1,3 +1,10 @@
+Mon Mar 21 11:18:57 2005  George Lebl <jirka@5z.com>
+
+	* src/mpwrap.[ch]: move the whole gmp structures into the MpwRealNum
+	  struct to avoid another pointer.  Further avoid initializing a new
+	  number just to throw it away if possible and be smarter with
+	  initialization types.  Fix some leaks and errors.
+
 Fri Mar 18 18:03:30 2005  George Lebl <jirka@5z.com>
 
 	* src/mpwrap.ch: fixup memory usage by whacking the duplicate
