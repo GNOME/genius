@@ -27,6 +27,7 @@ typedef struct {
 	gboolean info_box;
 	int scrollback;
 	char *font;
+	gboolean black_on_white;
 } GeniusSetup;
 
 extern GeniusSetup genius_setup;

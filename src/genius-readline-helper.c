@@ -237,6 +237,8 @@ main(int argc, char *argv[])
 		}
 	}
 end_with_an_error:
+	unlink (argv[1]);
+	unlink (argv[2]);
 	fprintf(stderr,"ERROR! pipe connection broken\n");
 	exit(1);
 }
