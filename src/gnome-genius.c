@@ -72,6 +72,8 @@ static GtkWidget *term = NULL;
 static GString *errors=NULL;
 static GString *infos=NULL;
 
+static int calc_running = 0;
+
 static int errors_printed = 0;
 
 typedef struct {
@@ -360,10 +362,52 @@ set_properties (void)
 	gnome_config_sync();
 }
 
+static gboolean
+ask_question (const char *question)
+{
+	int ret;
+	static GtkWidget *req = NULL;
+
+	if (req != NULL)
+		gtk_widget_destroy (req);
+
+	req = gtk_message_dialog_new (GTK_WINDOW (window) /* parent */,
+				      GTK_DIALOG_MODAL /* flags */,
+				      GTK_MESSAGE_QUESTION,
+				      GTK_BUTTONS_YES_NO,
+				      "%s",
+				      question);
+	gtk_label_set_use_markup
+		(GTK_LABEL (GTK_MESSAGE_DIALOG (req)->label), TRUE);
+
+	g_signal_connect (G_OBJECT (req), "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &req);
+
+
+	ret = gtk_dialog_run (GTK_DIALOG (req));
+	gtk_widget_destroy (req);
+
+	if (ret == GTK_RESPONSE_YES)
+		return TRUE;
+	else /* this includes window close */
+		return FALSE;
+}
+
 /* quit */
 static void
 quitapp (GtkWidget * widget, gpointer data)
 {
+	if (calc_running) {
+		if ( ! ask_question (_("Genius is executing something, are "
+				       "you sure you wish to quit?")))
+			return;
+		interrupted = TRUE;
+	} else {
+		if ( ! ask_question (_("Are you sure you wish to quit?")))
+			return;
+	}
+
 	gtk_main_quit ();
 }
 
@@ -1068,7 +1112,9 @@ static void
 genius_got_etree (GelETree *e)
 {
 	if (e != NULL) {
+		calc_running ++;
 		gel_evalexp_parsed (e, main_out, "= \e[1;36m", TRUE);
+		calc_running --;
 		gel_output_full_string (main_out, "\e[0m");
 		gel_output_flush (main_out);
 	}

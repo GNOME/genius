@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <gnome.h>
+#include <locale.h>
 
 #include <string.h>
 #include <glib.h>

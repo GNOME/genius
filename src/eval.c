@@ -45,6 +45,10 @@
 #define EDEBUG(x) ;
 #endif
 
+/* Note: this won't be completely mem-debug friendly,
+ * only free_trees are for now ignored with this */
+/* #define MEM_DEBUG_FRIENDLY 1*/
+
 extern calcstate_t calcstate;
 
 GelETree *free_trees = NULL;
@@ -391,15 +395,20 @@ freetree_full(GelETree *n, gboolean freeargs, gboolean kill)
 	default: break;
 	}
 	if(kill) {
+#ifdef MEM_DEBUG_FRIENDLY
+		g_free (n);
+#else
 		/*put onto the free list*/
 		n->any.next = free_trees;
 		free_trees = n;
+#endif
 	}
 }
 
 void
 gel_freetree(GelETree *n)
 {
+	/*printf ("freeing: %p\n", n);*/
 	freetree_full(n,TRUE,TRUE);
 }
 
@@ -526,10 +535,17 @@ replacenode(GelETree *to, GelETree *from)
 	GelETree *next = to->any.next;
 	freetree_full(to,TRUE,FALSE);
 	memcpy(to,from,sizeof(GelETree));
+
+#ifdef MEM_DEBUG_FRIENDLY
+	g_free (from);
+#else
 	/*put onto the free list*/
 	from->any.next = free_trees;
 	free_trees = from;
+#endif
 	to->any.next = next;
+
+	/*printf ("replaced from: %p\n", from);*/
 }
 static inline void
 copyreplacenode(GelETree *to, GelETree *from)
@@ -2165,6 +2181,13 @@ evl_free(GelEvalLoop *evl)
 	free_evl = evl;
 }
 
+static void
+evl_free_with_cond(GelEvalLoop *evl)
+{
+	gel_freetree(evl->condition);
+	evl_free (evl);
+}
+
 static inline GelEvalFor *
 evf_new (GelEvalForType type,
 	 mpw_ptr x, mpw_ptr to, mpw_ptr by, int init_cmp,
@@ -2741,6 +2764,7 @@ iter_pop_stack(GelCtx *ctx)
 					} else {
 						replacenode (n, evl->body);
 					}
+					gel_freetree (evl->condition);
 					evl_free (evl);
 					GE_BLIND_POP_STACK (ctx);
 					break;
@@ -3253,6 +3277,7 @@ iter_funccallop(GelCtx *ctx, GelETree *n)
 		/*the next to be evaluated is the body*/
 		ctx->post = FALSE;
 		ctx->current = copynode(f->data.user);
+		/*printf("copying: %p\n", ctx->current);*/
 
 		GE_PUSH_STACK(ctx,ctx->current,GE_FUNCCALL);
 
@@ -3656,7 +3681,7 @@ iter_continue_break_op(GelCtx *ctx, gboolean cont)
 			iter_pop_stack(ctx);
 			return;
 		case GE_LOOP_LOOP:
-			LOOP_BREAK_CONT (GelEvalLoop, evl_free, GE_LOOP_LOOP);
+			LOOP_BREAK_CONT (GelEvalLoop, evl_free_with_cond, GE_LOOP_LOOP);
 		case GE_FOR:
 			LOOP_BREAK_CONT (GelEvalFor, evf_free, GE_FOR);
 		case GE_FORIN:

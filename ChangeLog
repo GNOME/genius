@@ -1,3 +1,19 @@
+Mon Feb 24 15:58:47 2003  George Lebl <jirka@5z.com>
+
+	* src/mpwrap.c: add locale.h
+
+	* src/gnome-genius.c: allow quitting while calculations are running
+	  and add a "really want to quit dialog" to be replaced by "really
+	  want to quit without saving state" dialog at some point in future.
+
+	* src/eval.c: some leak hunting (still there are leaks)
+
+	* lib/number_theory/misc.gel: better help string for Divides
+ 
+	* lib/number_theory/primes.gel: make the MillerRabin config
+	  param 10 times larger for IsPrime, 10^-100 should be plenty
+	  small
+
 Fri Feb 21 14:05:10 2003  George Lebl <jirka@5z.com>
 
 	* src/funclib.c, src/mpwrap.[ch]: add IsGaussInteger,

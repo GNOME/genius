@@ -76,7 +76,6 @@ function IsPrime(n) =
       # continue to try pseudoprime tests or do some fancy elliptic curve
       # thing
 
-    # FIXME: the 10^-1000 should be tunable
     return MillerRabinTest(n,PrimeProbabilityEpsilon);
    
 
@@ -89,7 +88,7 @@ SetHelp("IsPrimeLoopMax","parameters", "Maximum number which IsPrime uses in tri
 parameter IsPrimeLoopMax = 5000;           # IsPrime configuration variable
 
 SetHelp("PrimeProbabilityEpsilon","parameters", "The epsilon used for the MillerRabinTest from within IsPrime");
-parameter PrimeProbabilityEpsilon = 10^-1000;  # IsPrime configuration variable
+parameter PrimeProbabilityEpsilon = 10^-100;  # IsPrime configuration variable
 
 #####################################
 #### (Strong) Pseudoprime tests #####
