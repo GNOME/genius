@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-22 03:43+0100\n"
-"PO-Revision-Date: 2004-03-22 10:08+0100\n"
+"POT-Creation-Date: 2004-03-23 03:33+0100\n"
+"PO-Revision-Date: 2004-03-23 13:22+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -565,7 +565,7 @@ msgstr "%s: argument číslo %d není celé číslo nebo matice"
 msgid "%s: argument number %d not a positive integer"
 msgstr "%s: argument číslo %d není kladné celé číslo"
 
-#: src/funclib.c:101 src/graphing.c:376
+#: src/funclib.c:101 src/graphing.c:700
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: argument číslo %d není číslo"
@@ -1886,39 +1886,56 @@ msgstr "Matematický nástroj Genius"
 msgid "Genius Mathematical Tool and Calculator"
 msgstr "Matematický nástroj a kalkulátor Genius"
 
-#: src/graphing.c:84
+#: src/graphing.c:239
 msgid "Genius Line Plot"
 msgstr "Čárový graf Genius"
 
-#: src/graphing.c:357
+#. title
+#. parent
+#. flags
+#: src/graphing.c:242
+msgid "_Zoom out"
+msgstr "Z_menšit"
+
+#: src/graphing.c:681
 #, c-format
 msgid "Function #%d"
 msgstr "Funkce #%d"
 
-#: src/graphing.c:389
+#: src/graphing.c:713
 msgid "Graph limits not given as a 4-vector"
 msgstr "Limity grafu nebyly zadány jako čtyřprvkový vektor"
 
-#: src/graphing.c:395 src/graphing.c:401 src/graphing.c:407 src/graphing.c:413
+#: src/graphing.c:719 src/graphing.c:725 src/graphing.c:731 src/graphing.c:737
 msgid "Graph limits not given as numbers"
 msgstr "Limity grafu nebyly zadány jako čísla"
 
-#: src/graphing.c:487
+#: src/graphing.c:869
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: podporováno nejvýše 10 funkcí"
 
-#: src/graphing.c:492
+#: src/graphing.c:874
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: argument není funkce"
 
-#: src/graphing.c:592
+#: src/graphing.c:925
+#, c-format
+msgid "%s: invalid X range"
+msgstr "%s: neplatný rozsah X"
+
+#: src/graphing.c:930
+#, c-format
+msgid "%s: invalid Y range"
+msgstr "%s: neplatný rozsah Y"
+
+#: src/graphing.c:974
 msgid "Plotting"
 msgstr "Kreslím"
 
 #. bogus value
-#: src/graphing.c:624
+#: src/graphing.c:1006
 msgid ""
 "Plot a function with a line (very rudimentary).  First come the functions "
 "(up to 10) then optionally limits as x1,x2,y1,y2"
@@ -1926,7 +1943,7 @@ msgstr ""
 "Vykreslit funkci jako křivku (velice primitivní). Nejdříve jsou funkce "
 "(nejvýš 10), pak nepovinně limity jako x1, x2, y1, y2"
 
-#: src/graphing.c:626
+#: src/graphing.c:1008
 msgid "Plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr ""
 "Okno vykreslování (limity) jako čtyřprvkový vektor ve tvaru [x1,x2,y1,y2]"
