@@ -198,6 +198,7 @@ static void warranty_call (GtkWidget *widget, gpointer data);
 static void aboutcb (GtkWidget * widget, gpointer data);
 static void help_on_function (GtkWidget *menuitem, gpointer data);
 static void executing_warning (void);
+static void display_warning (GtkWidget *parent, const char *warn);
 
 static GnomeUIInfo file_menu[] = {
 	GNOMEUIINFO_MENU_NEW_ITEM(N_("_New Program"), N_("Create new program tab"), new_callback, NULL),
@@ -404,12 +405,47 @@ help_on_function (GtkWidget *menuitem, gpointer data)
 			    e,
 			    FALSE, FALSE, 0);
 
+run_help_dlg_again:
 	gtk_widget_show_all (d);
 	ret = gtk_dialog_run (GTK_DIALOG (d));
 
 	if (ret == GTK_RESPONSE_OK) {
 		char *txt = g_strstrip (g_strdup (gtk_entry_get_text (GTK_ENTRY (e))));
-		gel_call_help (txt);
+		GelHelp *help = get_help (txt, FALSE /* insert */);
+		gboolean found = FALSE;
+		int i;
+
+		for (i = 0; genius_toplevels[i] != NULL; i++) {
+			if (strcmp (txt, genius_toplevels[i]) == 0) {
+				gel_call_help (txt);
+				found = TRUE;
+				break;
+			}
+		}
+
+		if ( ! found && help == NULL) {
+			char *similar_ids = gel_similar_possible_ids (txt);
+			char *warn;
+			if (similar_ids == NULL) {
+				warn = g_strdup_printf
+					(_("<b>Help on %s not found</b>"),
+					 txt);
+			} else {
+				warn = g_strdup_printf
+					(_("<b>Help on %s not found</b>\n\n"
+					   "Perhaps you meant %s."),
+					 txt, similar_ids);
+				g_free (similar_ids);
+			}
+			display_warning (genius_window, warn);
+			g_free (warn);
+			goto run_help_dlg_again;
+		} else if ( ! found && help != NULL) {
+			if (help->aliasfor != NULL)
+				gel_call_help (help->aliasfor);
+			else
+				gel_call_help (txt);
+		}
 		g_free (txt);
 	}
 

@@ -2402,7 +2402,14 @@ gel_help_on (const char *text)
 
 	help = get_help (text, FALSE /*insert*/);
 	if (help == NULL) {
-		gel_errorout (_("'%s' is not documented"), text);
+		char *similar_ids = gel_similar_possible_ids (text);
+		if (similar_ids == NULL) {
+			gel_errorout (_("'%s' is not documented"), text);
+		} else {
+			gel_errorout (_("'%s' is not documented.  Perhaps "
+					"you meant %s."), text, similar_ids);
+			g_free (similar_ids);
+		}
 		not_documented.func = (char *)text;
 		help = &not_documented;
 	}

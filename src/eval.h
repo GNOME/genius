@@ -188,6 +188,9 @@ void try_to_do_precalc(GelETree *n);
 /* find an identifier */
 gboolean eval_find_identifier (GelETree *n, GelToken *tok);
 
+char * gel_similar_possible_ids (const char *id);
+
+
 /* return a list of used local functions (copies of) */
 GSList * gel_subst_local_vars (GSList *, GelETree *n);
 

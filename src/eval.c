@@ -3229,8 +3229,8 @@ iter_do_var(GelCtx *ctx, GelETree *n, GelEFunc *f)
 	return TRUE;
 }
 
-static char *
-similar_possible_ids (const char *id)
+char *
+gel_similar_possible_ids (const char *id)
 {
 	GSList *similar, *li;
 	GString *sim;
@@ -3286,7 +3286,7 @@ iter_variableop(GelCtx *ctx, GelETree *n)
 					"Perhaps you meant to write '1i' for "
 					"the imaginary number (square root of "
 					"-1)."));
-		} else if ((similar = similar_possible_ids (n->id.id->token))
+		} else if ((similar = gel_similar_possible_ids (n->id.id->token))
 			       != NULL) {
 			gel_errorout (_("Variable '%s' used uninitialized, "
 					"perhaps you meant %s."),
@@ -3314,7 +3314,7 @@ iter_derefvarop(GelCtx *ctx, GelETree *n)
 	
 	f = d_lookup_global(l->id.id);
 	if G_UNLIKELY (f == NULL) {
-		char *similar = similar_possible_ids (l->id.id->token);
+		char *similar = gel_similar_possible_ids (l->id.id->token);
 		if (similar != NULL) {
 			gel_errorout (_("Variable '%s' used uninitialized, "
 					"perhaps you meant %s."),
@@ -4309,7 +4309,7 @@ get_func_from (GelETree *l, gboolean silent)
 		if (f == NULL) {
 			if G_UNLIKELY ( ! silent) {
 				char * similar =
-					similar_possible_ids (l->id.id->token);
+					gel_similar_possible_ids (l->id.id->token);
 				if (similar != NULL) {
 					gel_errorout (_("Function '%s' used uninitialized, "
 							"perhaps you meant %s."),
