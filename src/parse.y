@@ -35,7 +35,6 @@
 #include "parseutil.h"
 
 extern GSList *evalstack;
-extern GelETree *free_trees;
 
 extern int return_ret; /*should the lexer return on \n*/
 extern char *loadfile;

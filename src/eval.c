@@ -835,7 +835,7 @@ gel_expandmatrix (GelETree *n)
 
 	h = gel_matrixw_height(nm);
 	m = gel_matrix_new();
-	gel_matrix_set_size(m,gel_matrixw_width(nm),h);
+	gel_matrix_set_size(m,gel_matrixw_width(nm),h, TRUE /* padding */);
 	
 	cols = gel_matrixw_width (nm);
 	
@@ -851,7 +851,7 @@ gel_expandmatrix (GelETree *n)
 		int *colwidths = g_new (int, m->width);
 
 		cols = get_cols (m, colwidths);
-		gel_matrix_set_size (tm,cols,m->height);
+		gel_matrix_set_size (tm,cols,m->height, TRUE /* padding */);
 		for (i = 0, ii = 0; i < m->width; ii += colwidths[i], i++)
 			expand_col (tm, m, i, ii, colwidths[i]);
 		gel_matrix_free (m);

@@ -115,7 +115,7 @@ make_us_a_copy(GelMatrixW *m, int neww, int newh)
 	
 	m->m = gel_matrix_new();
 	m->m->use = 1;
-	gel_matrix_set_size(m->m,neww,newh);
+	gel_matrix_set_size(m->m,neww,newh, TRUE /* padding */);
 	w = MIN(neww,m->region.w);
 	h = MIN(newh,m->region.h);
 	for(i=0;i<w;i++) {
@@ -174,7 +174,7 @@ gel_matrixw_set_size(GelMatrixW *m, int width, int height)
 		GelMatrix *old = m->m;
 		m->m = gel_matrix_new();
 		m->m->use = 1;
-		gel_matrix_set_size(m->m,width,height);
+		gel_matrix_set_size(m->m,width,height, TRUE /* padding */);
 		for(i=0;i<width;i++) {
 			for(j=0;j<height;j++) {
 				int oi,oj;
@@ -208,7 +208,7 @@ gel_matrixw_set_size(GelMatrixW *m, int width, int height)
 				}
 			}
 		}
-		gel_matrix_set_size(m->m,m->region.x+width,m->region.y+height);
+		gel_matrix_set_size(m->m,m->region.x+width,m->region.y+height, TRUE /* padding */);
 		m->region.w = width - m->region.x;
 		m->region.h = height - m->region.y;
 	}
@@ -411,6 +411,61 @@ gel_matrixw_copy(GelMatrixW *source)
 	memcpy(m,source,sizeof(GelMatrixW));
 	m->m->use++;
 	return m;
+}
+
+GelMatrixW *
+gel_matrixw_rowsof (GelMatrixW *source)
+{
+	GelMatrix *mm;
+	int i, width, height;
+
+	g_return_val_if_fail (source != NULL, NULL);
+
+	width = gel_matrixw_width (source);
+	height = gel_matrixw_height (source);
+
+	mm = gel_matrix_new ();
+	gel_matrix_set_size (mm, 1, height, FALSE /* padding */);
+
+	for (i = 0; i < height; i++) {
+		GelETree *n;
+
+		GET_NEW_NODE (n);
+		n->type = MATRIX_NODE;
+		n->mat.matrix = gel_matrixw_get_region (source, 0, i, width, 1);
+
+		gel_matrix_index (mm, 0, i) = n;
+	}
+		
+	return gel_matrixw_new_with_matrix (mm);
+}
+
+GelMatrixW *
+gel_matrixw_columnsof (GelMatrixW *source)
+{
+	GelMatrix *mm;
+	int i, width, height;
+
+	g_return_val_if_fail (source != NULL, NULL);
+
+	width = gel_matrixw_width (source);
+	height = gel_matrixw_height (source);
+
+	mm = gel_matrix_new ();
+	gel_matrix_set_size (mm, width, 1, FALSE /* padding */);
+
+	for (i = 0; i < width; i++) {
+		GelETree *n;
+
+		GET_NEW_NODE (n);
+		n->type = MATRIX_NODE;
+		n->mat.matrix = gel_matrixw_get_region (source, i, 0, 1, height);
+		n->mat.quoted = 0;
+
+		gel_matrix_index (mm, i, 0) = n;
+	}
+		
+	return gel_matrixw_new_with_matrix (mm);
 }
 
 /*transpose a matrix*/

@@ -63,7 +63,7 @@ gel_matrix_new(void)
 
 /*set size of a matrix*/
 void
-gel_matrix_set_size(GelMatrix *matrix, int width, int height)
+gel_matrix_set_size (GelMatrix *matrix, int width, int height, gboolean padding)
 {
 	GPtrArray *na;
 	int i;
@@ -73,12 +73,18 @@ gel_matrix_set_size(GelMatrix *matrix, int width, int height)
 	g_return_if_fail(matrix != NULL);
 	g_return_if_fail(width>0);
 	g_return_if_fail(height>0);
+
+	if ( ! padding) {
+		wpadding = 0;
+		hpadding = 0;
+	} else {
+		wpadding = width >> 4;
+		hpadding = height >> 4;
+		if(wpadding > 10) wpadding = 10;
+		if(hpadding > 10) hpadding = 10;
+	}
 	
 	if(!matrix->data) {
-		wpadding = width/10;
-		hpadding = height/10;
-		if(wpadding>10) wpadding = 10;
-		if(hpadding>10) hpadding = 10;
 		matrix->width = width;
 		matrix->realwidth = width+wpadding;
 		matrix->height = height;
@@ -111,11 +117,6 @@ gel_matrix_set_size(GelMatrix *matrix, int width, int height)
 		return;
 	}
 
-	wpadding = width/10;
-	hpadding = height/10;
-	if(wpadding>10) wpadding = 10;
-	if(hpadding>10) hpadding = 10;
-	
 	matrix->fullsize = (width+wpadding)*(height+hpadding);
 	na = g_ptr_array_new();
 	g_ptr_array_set_size(na,matrix->fullsize);
@@ -145,8 +146,10 @@ gel_matrix_set_at_least_size(GelMatrix *matrix, int width, int height)
 	g_return_if_fail(height>=0);
 	
 	if(width>matrix->width || height>matrix->height)
-		gel_matrix_set_size(matrix,MAX(width,matrix->width),
-				MAX(height,matrix->height));
+		gel_matrix_set_size (matrix,
+				     MAX(width,matrix->width),
+				     MAX(height,matrix->height),
+				     TRUE /* padding */);
 }
 
 /*set element*/
@@ -158,8 +161,10 @@ gel_matrix_set_element(GelMatrix *matrix, int x, int y, gpointer data)
 	g_return_if_fail(y>=0);
 	
 	if(x>=matrix->width || y>=matrix->height)
-		gel_matrix_set_size(matrix,MAX(x+1,matrix->width),
-				MAX(y+1,matrix->height));
+		gel_matrix_set_size (matrix,
+				     MAX(x+1,matrix->width),
+				     MAX(y+1,matrix->height),
+				     TRUE /* padding */);
 	g_return_if_fail(matrix->data!=NULL);
 	
 	matrix->data->pdata[x+y*matrix->realwidth]=data;
@@ -185,7 +190,7 @@ gel_matrix_copy(GelMatrix *source, GelElementCopyFunc el_copy, gpointer func_dat
 		return matrix;
 
 	/*make us a new matrix data array*/
-	gel_matrix_set_size(matrix,source->width,source->height);
+	gel_matrix_set_size (matrix, source->width,source->height, TRUE /* padding */);
 	
 	/*copy the data*/
 	if(el_copy) {
@@ -219,7 +224,7 @@ gel_matrix_transpose(GelMatrix *matrix)
 	if(!matrix->data)
 		return new;
 
-	gel_matrix_set_size(new,matrix->height,matrix->width);
+	gel_matrix_set_size (new, matrix->height, matrix->width, TRUE /* padding */);
 	
 	for(i=0;i<matrix->width;i++)
 		for(j=0;j<matrix->height;j++)

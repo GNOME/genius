@@ -409,7 +409,8 @@ not a		logical not
 -a		negation operator
 &a		variable referencing (to pass a reference to something)
 *a		variable dereferencing (to access a referenced varible)
-a'		matrix transpose
+a'		matrix conjugate transpose
+a.'		matrix transpose
 a@(b,c)		get element of a matrix
 a@(b,)		get row of a matrix
 a@(,c)		get column of a matrix
@@ -496,6 +497,14 @@ For each element, going row by row from left to right do the body. To
 print numbers 1,2,3 and 4 in this order you could do:
 
 for n in [1,2:3,4] do print(n)
+
+If you wish to run through the rows and columns of a matrix, you can use
+the RowsOf and ColumnsOf functions which return a vector of the rows or
+columns of the matrix.  So
+
+for n in RowsOf ([1,2:3,4]) do print(n)
+
+will print out [1,2] and then [3,4].
 
 Sums and Products
 
@@ -775,14 +784,20 @@ There are several parameters that one can set that control the behaviour
 of the calculator. You can either use functions with the prefixes get_ or
 set_. The available parameters are:
 
-float_prec		the floating point precision
-max_digits		the maximum digits in a result
-results_as_floats	if the results should be always printed as floats
-scientific_notation	if floats should be in scientific notation
-full_expressions	boolean, should we print out full expressions
+float_prec		The floating point precision
+max_digits		The maximum digits in a result
+results_as_floats	If the results should be always printed as floats
+scientific_notation	If floats should be in scientific notation
+full_expressions	Boolean, should we print out full expressions
 			for non-numeric return values (longer then a line)
-max_errors		the maximum number of errors to return on one
+max_errors		The maximum number of errors to return on one
 			evaluation
+mixed_fractions		If fractions should be printed as mixed fractions
+		        such as "1 1/3" rather then "4/3"
+integer_output_base	The base that will be used to output integers
+output_style		A string, can be "normal", "latex" or "troff"
+			and it will effect how matrices (and perhaps other
+			stuff) is printed, useful for pasting into documents
 
 You can use the parameters just like a variable, and you can put the name
 on the left side of an equals sign. However, the parameters are not treated

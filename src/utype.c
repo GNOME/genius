@@ -40,7 +40,6 @@
 #include "utype.h"
 
 extern void (*errorout)(char *);
-extern GelETree *free_trees;
 
 typedef struct _UserType UserType;
 struct _UserType {

@@ -35,7 +35,6 @@
 #include "parseutil.h"
 
 extern GSList *evalstack;
-extern GelETree *free_trees;
 
 
 int
@@ -231,7 +230,7 @@ gp_push_matrix(int quoted)
 	}
 
 	matrix = gel_matrix_new();
-	gel_matrix_set_size(matrix, cols, rows);
+	gel_matrix_set_size(matrix, cols, rows, TRUE /* padding */);
 	
 	for(j=0,liy=rowl;liy;j++,liy=g_slist_next(liy)) {
 		for(i=0,lix=liy->data;lix;i++,lix=lix->any.next) {

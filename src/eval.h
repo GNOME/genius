@@ -180,6 +180,8 @@ void try_to_do_precalc(GelETree *n);
 #define GET_LR(n,l,r) { (l) = (n)->op.args; (r) = (n)->op.args->any.next; }
 #define GET_L(n,l) { (l) = (n)->op.args; }
 
+extern GelETree *free_trees;
+
 #define GET_NEW_NODE(n) {				\
 	if(!free_trees)					\
 		n = g_new(GelETree,1);			\

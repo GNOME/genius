@@ -57,6 +57,10 @@ void gel_matrixw_set_element(GelMatrixW *m, int x, int y, gpointer data);
 /*copy a matrix*/
 GelMatrixW * gel_matrixw_copy(GelMatrixW *source);
 
+/* get rowsof and columsof matrices */
+GelMatrixW * gel_matrixw_rowsof (GelMatrixW *source);
+GelMatrixW * gel_matrixw_columnsof (GelMatrixW *source);
+
 GelMatrixW * gel_matrixw_get_region(GelMatrixW *m, int x, int y, int w, int h);
 void gel_matrixw_set_region(GelMatrixW *m, GelMatrixW *src,
 			int srcx, int srcy, int destx, int desty,

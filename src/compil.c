@@ -38,8 +38,6 @@
 
 extern void (*errorout)(char *);
 
-extern GelETree *free_trees;
-
 /*sort of weird encoding, use 'a'+upper 4 bits and 'a'+lower 4 bits*/
 static void
 append_string(GString *gs,char *s)

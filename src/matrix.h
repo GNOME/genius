@@ -45,7 +45,7 @@ typedef gpointer (*GelElementCopyFunc)(gpointer,gpointer);
 GelMatrix * gel_matrix_new(void);
 
 /*set size of a matrix*/
-void gel_matrix_set_size(GelMatrix *matrix, int width, int height);
+void gel_matrix_set_size(GelMatrix *matrix, int width, int height, gboolean padding);
 /*set the size of the matrix to be at least this*/
 void gel_matrix_set_at_least_size(GelMatrix *matrix, int width, int height);
 

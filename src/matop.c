@@ -42,8 +42,6 @@ extern calcstate_t calcstate;
 
 extern void (*errorout)(char *);
 
-extern GelETree *free_trees;
-
 gboolean
 gel_is_matrix_value_only (GelMatrixW *m)
 {

@@ -63,8 +63,6 @@ gel_break_fp_caches(void)
 	}
 }
 
-extern GelETree *free_trees;
-
 static GelETree *
 warranty_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
@@ -362,7 +360,41 @@ ExpandMatrix_op (GelCtx *ctx, GelETree * * a, int *exception)
 	GET_NEW_NODE (n);
 	n->type = MATRIX_NODE;
 	n->mat.matrix = gel_matrixw_copy (a[0]->mat.matrix);
-	gel_expandmatrix (n->mat.matrix);
+	gel_expandmatrix (n);
+	n->mat.quoted = 0;
+	return n;
+}
+
+static GelETree *
+RowsOf_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GelETree *n;
+
+	if (a[0]->type != MATRIX_NODE) {
+		(*errorout)(_("RowsOf: argument not a matrix"));
+		return NULL;
+	}
+
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_rowsof (a[0]->mat.matrix);
+	n->mat.quoted = 0;
+	return n;
+}
+
+static GelETree *
+ColumnsOf_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GelETree *n;
+
+	if (a[0]->type != MATRIX_NODE) {
+		(*errorout)(_("ColumnsOf: argument not a matrix"));
+		return NULL;
+	}
+
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_columnsof (a[0]->mat.matrix);
 	n->mat.quoted = 0;
 	return n;
 }
@@ -2301,6 +2333,10 @@ gel_funclib_addall(void)
 	d_addfunc(d_makebifunc(d_intern("shrubbery"),shrubbery_op,0));
 	d_addfunc(d_makebifunc(d_intern("ExpandMatrix"),ExpandMatrix_op,1));
 	add_description("ExpandMatrix",_("Expands a matrix just like we do on unquoted matrix input"));
+	d_addfunc(d_makebifunc(d_intern("RowsOf"),RowsOf_op,1));
+	add_description("RowsOf",_("Gets the rows of a matrix as a vertical vector"));
+	d_addfunc(d_makebifunc(d_intern("ColumnsOf"),ColumnsOf_op,1));
+	add_description("ColumnsOf",_("Gets the columns of a matrix as a horizontal vector"));
 	d_addfunc(d_makebifunc(d_intern("conj"),conj_op,1));
 	add_description("conj",_("Calculates the conjugate"));
 	d_addfunc(d_makebifunc(d_intern("sin"),sin_op,1));
