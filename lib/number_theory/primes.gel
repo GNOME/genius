@@ -46,7 +46,7 @@ function LucasLehmer(p) = (
         if IsMatrix(p) then
                 return ApplyOverMatrix(p, LucasLehmer)
 	else if not IsPositiveInteger(p) then
-		(error("LucasLehmer: argument not an integer larger then 0");bailout);
+		(error("LucasLehmer: argument not an integer larger than 0");bailout);
 	if p==1 then return 0
 	else if p==2 then return 1;
 	S = 4;

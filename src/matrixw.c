@@ -423,8 +423,8 @@ gel_matrixw_set_size (GelMatrixW *m, int nwidth, int nheight)
 		m->regw = width;
 		m->regh = height;
 	} else if (m->m->use > 1) {
-		/* since the use is greater then 1, we WILL get a copy of this matrix at
-		 * the right size */
+		/* since the use is greater than 1, we WILL get a copy of
+		 * this matrix at the right size */
 		internal_make_private (m, width, height);
 		g_assert (m->m->use == 1);
 	} else /* m->m->use == 1 */{

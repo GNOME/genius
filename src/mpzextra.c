@@ -230,7 +230,7 @@ mympz_is_prime (mpz_srcptr n, int miller_rabin_reps)
 	}
 
 	/* if n < 25*10^9, we are now sure this
-	   is a prime since the only n less then that
+	   is a prime since the only n less than that
 	   that is a composite and strong pseudoprime to 2,3,5,7
 	   is n = 3215031751
         ref:

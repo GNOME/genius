@@ -3648,7 +3648,7 @@ matrix_to_be_evaluated(GelMatrixW *m)
 	return FALSE;
 }
 
-/*when a matrix contains other things then NULLs, VALUEs, and STRINGs,
+/*when a matrix contains other things than NULLs, VALUEs, and STRINGs,
   make a copy of it and evaluate it's nodes*/
 static inline void
 iter_push_matrix(GelCtx *ctx, GelETree *n, GelMatrixW *m)
@@ -3762,7 +3762,7 @@ iter_funccallop(GelCtx *ctx, GelETree *n)
 				      f->nargs);
 		else
 			gel_errorout (_("Call of '%s' with the wrong number of arguments!\n"
-				      "(should be greater then %d)"),
+				      "(should be greater than %d)"),
 				    f->id != NULL ? f->id->token : "anonymous",
 				    f->nargs-2);
 	} else if(f->type == GEL_USER_FUNC ||
@@ -5676,7 +5676,7 @@ gel_subst_local_vars (GSList *funclist, GelETree *n)
 		funclist = gel_subst_local_vars (funclist, n->sp.arg);
 	} else if(n->type == OPERATOR_NODE) {
 		/* special case to avoid more work
-		 * then needed */
+		 * than needed */
 		if ((n->op.oper == E_EQUALS || n->op.oper == E_DEFEQUALS) &&
 		    n->op.args->type == IDENTIFIER_NODE) {
 			funclist = gel_subst_local_vars (funclist, n->op.args->any.next);

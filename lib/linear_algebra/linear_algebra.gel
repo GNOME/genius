@@ -247,7 +247,7 @@ SetHelp("AuxilliaryUnitMatrix", "linear_algebra", "Get the auxilliary unit matri
 function AuxilliaryUnitMatrix(n) =
 (
   if not IsInteger (n) or n < 2 then
-    (error ("AuxilliaryUnitMatrix: n must be an integer greater then 1");bailout)
+    (error ("AuxilliaryUnitMatrix: n must be an integer greater than 1");bailout)
   else
     [0,I(n-1);0,0]
 )
@@ -258,7 +258,7 @@ SetHelp("JordanBlock", "linear_algebra", "Get the jordan block corresponding to 
 function JordanBlock(n,lambda) =
 (
   if not IsInteger (n) or n < 1 then
-    (error ("JordanBlock: n must be an integer greater then 0");bailout)
+    (error ("JordanBlock: n must be an integer greater than 0");bailout)
   else if not IsValue (n) or n < 1 then
     (error ("JordanBlock: lambda must be a value");bailout)
   else if n == 1 then

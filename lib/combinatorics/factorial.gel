@@ -166,7 +166,7 @@ function Triangular(nth) = (
         if IsMatrix(nth) then
                 return ApplyOverMatrix(nth, triangular)
 	else if not IsInteger(nth) or not nth>=0 then
-		(error("Trianglular: argument not an integer larger then or equal to 0");bailout);
+		(error("Trianglular: argument not an integer larger than or equal to 0");bailout);
 	(nth*(nth+1))/2
 );
 protect("Triangular")

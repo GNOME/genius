@@ -1164,7 +1164,7 @@ appendpolynomial (GelOutput *gelo, GelETree *n)
 	if G_UNLIKELY (n->poly.vars > 3) {
 		/* FIXME: */
 		gel_errorout (_("Cannot currently print polynomials of "
-				"more then 3 vars"));
+				"more than 3 vars"));
 		gel_output_string (gelo, "(?)");
 		return;
 	}

@@ -6,7 +6,7 @@
 SetHelp("PrimeFactors", "number_theory", "Return all prime factors of a number")
 function PrimeFactors (n) = (
 	if not IsPositiveInteger(n) then
-		(error("PrimeFactors: argument not an integer larger then 0");bailout);
+		(error("PrimeFactors: argument not an integer larger than 0");bailout);
 	if n == 1 then return null;
 
 	fac = Factorize(n);
@@ -19,7 +19,7 @@ protect("PrimeFactors")
 SetHelp("MaximalPrimePowerFactors", "number_theory", "Return all maximal prime power factors of a number")
 function MaximalPrimePowerFactors (n) = (
 	if not IsPositiveInteger(n) then
-		(error("MaximalPrimePowerFactors: argument not an integer larger then 0");bailout);
+		(error("MaximalPrimePowerFactors: argument not an integer larger than 0");bailout);
 	if n == 1 then return null;
 
 	fac = Factorize(n);

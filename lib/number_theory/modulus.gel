@@ -8,7 +8,7 @@ SetHelp("EulerPhi","number_theory","Compute phi(n), the Euler phi function, that
 function EulerPhi(n) =
 (
 	if not IsPositiveInteger(n) then
-		(error("EulerPhi: argument not an integer larger then 0");bailout);
+		(error("EulerPhi: argument not an integer larger than 0");bailout);
 	n * (prod p in PrimeFactors(n) do (1-(1/p)))
 )
 protect("EulerPhi");

@@ -284,7 +284,7 @@ geniusbox (gboolean error,
 	   const char *s)
 {
 	GtkWidget *mb;
-	/* if less then 10 lines */
+	/* if less than 10 lines */
 	if (count_char (s, '\n') <= 10) {
 		GtkMessageType type = GTK_MESSAGE_INFO;
 		if (error)
