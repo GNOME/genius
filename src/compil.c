@@ -88,7 +88,7 @@ gel_compile_node(GelETree *t,GString *gs)
 	int i,j;
 	GSList *li;
 	GelETree *ali;
-	g_string_sprintfa(gs,";%d",t->type);
+	g_string_append_printf (gs, ";%d", t->type);
 	switch(t->type) {
 	case NULL_NODE:
 		break;
@@ -99,9 +99,10 @@ gel_compile_node(GelETree *t,GString *gs)
 		g_free(s);
 		break;
 	case MATRIX_NODE:
-		g_string_sprintfa(gs,";%dx%d;%d",gel_matrixw_width(t->mat.matrix),
-				 gel_matrixw_height(t->mat.matrix),
-				 t->mat.quoted);
+		g_string_append_printf (gs, ";%dx%d;%d",
+					gel_matrixw_width (t->mat.matrix),
+					gel_matrixw_height (t->mat.matrix),
+					t->mat.quoted);
 		for(i=0;i<gel_matrixw_width(t->mat.matrix);i++) {
 			for(j=0;j<gel_matrixw_height(t->mat.matrix);j++) {
 				GelETree *tt = gel_matrixw_set_index(t->mat.matrix,i,j);
@@ -114,14 +115,15 @@ gel_compile_node(GelETree *t,GString *gs)
 		}
 		break;
 	case OPERATOR_NODE:
-		g_string_sprintfa(gs,";%d;%d",t->op.oper,
-				  t->op.nargs);
+		g_string_append_printf (gs, ";%d;%d",
+					t->op.oper,
+					t->op.nargs);
 		for(ali=t->op.args;ali;ali=ali->any.next) {
 			gel_compile_node(ali,gs);
 		}
 		break;
 	case IDENTIFIER_NODE:
-		g_string_sprintfa(gs,";%s",t->id.id->token);
+		g_string_append_printf (gs, ";%s", t->id.id->token);
 		break;
 	case STRING_NODE:
 		if(*t->str.str) {
@@ -134,21 +136,22 @@ gel_compile_node(GelETree *t,GString *gs)
 	case FUNCTION_NODE:
 		g_assert(t->func.func->type==GEL_USER_FUNC);
 		/*g_assert(t->func.func->id==NULL);*/
-		g_string_sprintfa(gs,";%d",t->func.func->nargs);
-		g_string_sprintfa(gs,";%d",t->func.func->vararg);
-		g_string_sprintfa(gs,";%d",t->func.func->propagate_mod);
-		g_string_sprintfa(gs,";%d",t->func.func->no_mod_all_args);
+		g_string_append_printf (gs, ";%d;%d;%d;%d",
+					t->func.func->nargs,
+					t->func.func->vararg,
+					t->func.func->propagate_mod,
+					t->func.func->no_mod_all_args);
 		for(li=t->func.func->named_args;li;li=g_slist_next(li)) {
 			GelToken *tok = li->data;
-			g_string_sprintfa(gs,";%s",tok->token);
+			g_string_append_printf (gs, ";%s", tok->token);
 		}
 		gel_compile_node(t->func.func->data.user,gs);
 		break;
 	case COMPARISON_NODE:
-		g_string_sprintfa(gs,";%d",t->comp.nargs);
+		g_string_append_printf (gs, ";%d", t->comp.nargs);
 		for(li=t->comp.comp;li;li=g_slist_next(li)) {
 			int oper = GPOINTER_TO_INT(li->data);
-			g_string_sprintfa(gs,";%d",oper);
+			g_string_append_printf (gs, ";%d", oper);
 		}
 		for(ali=t->comp.args;ali;ali=ali->any.next) {
 			gel_compile_node(ali,gs);

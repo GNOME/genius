@@ -3143,9 +3143,9 @@ PolyToString_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			mpw_neg(t->val.value,t->val.value);
 		}
 		if(i==1)
-			g_string_sprintfa(gs,"%s",var);
+			g_string_append_printf (gs, "%s", var);
 		else if(i>1)
-			g_string_sprintfa(gs,"%s^%d",var,i);
+			g_string_append_printf (gs, "%s^%d", var, i);
 		any = TRUE;
 	}
 	if(!any)

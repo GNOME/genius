@@ -2298,7 +2298,7 @@ gel_load_file (const char *dirprefix, const char *file, gboolean warn)
 		newfile = g_strdup (file);
 
 	if G_LIKELY ((fp = fopen(newfile,"r"))) {
-		char *dir = g_dirname(newfile);
+		char *dir = g_path_get_dirname (newfile);
 		gel_push_file_info(newfile,1);
 		load_fp(fp, dir);
 		gel_pop_file_info();
@@ -2331,7 +2331,7 @@ gel_load_guess_file (const char *dirprefix, const char *file, gboolean warn)
 			rewind(fp);
 			load_compiled_fp(newfile,fp);
 		} else {
-			char *dir = g_dirname(newfile);
+			char *dir = g_path_get_dirname(newfile);
 			rewind(fp);
 			load_fp(fp, dir);
 			g_free(dir);

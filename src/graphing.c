@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <gnome.h>
+#include <string.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 #include <math.h>
 
@@ -102,7 +103,7 @@ ensure_window (void)
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (graph_window)->vbox),
 			    GTK_WIDGET (canvas), TRUE, TRUE, 0);
 
-	gtk_widget_set_usize (GTK_WIDGET (canvas), WIDTH, HEIGHT);
+	gtk_widget_set_size_request (GTK_WIDGET (canvas), WIDTH, HEIGHT);
 
 	gnome_canvas_set_scroll_region (canvas,
 					0 /*x1*/,
@@ -360,7 +361,7 @@ label_func (GelCtx *ctx, int i, GelEFunc *func, const char *color)
 			       gnome_canvas_text_get_type (),
 			       "x", (double)(WIDTH-45),
 			       "y", (double)(20+15*i),
-			       "font", "Monospace 12",
+			       "font", "Monospace 10",
 			       "fill_color", "black",
 			       "anchor", GTK_ANCHOR_EAST,
 			       "text", text,
