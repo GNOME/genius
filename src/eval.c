@@ -827,7 +827,7 @@ gel_expandmatrix (GelETree *n)
 	w = gel_matrixw_width (nm);
 	h = gel_matrixw_height (nm);
 
-	if (w == 1 || h == 1) {
+	if (w == 1 && h == 1) {
 		GelETree *t = gel_matrixw_set_index (nm, 0, 0);
 		if (t != NULL &&
 		    t->type == MATRIX_NODE) {
