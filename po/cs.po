@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-24 03:57+0100\n"
-"PO-Revision-Date: 2004-01-25 02:15+0100\n"
+"POT-Creation-Date: 2004-03-22 03:43+0100\n"
+"PO-Revision-Date: 2004-03-22 10:08+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -189,21 +189,21 @@ msgstr "Nemohu otevřít zásuvný modul '%s'!"
 msgid "ERROR: Probably corrupt stack!"
 msgstr "CHYBA: Zásobník pravděpodobně poškozen!"
 
-#: src/calc.c:2689
+#: src/calc.c:2690
 msgid "ERROR: Can't execute more things at once!"
 msgstr "CHYBA: Nemohu spouštět více věcí zároveň!"
 
-#: src/calc.c:2793
+#: src/calc.c:2794
 #, c-format
 msgid "ERROR: %s before newline"
 msgstr "CHYBA: %s před koncem řádku"
 
-#: src/calc.c:2795
+#: src/calc.c:2796
 #, c-format
 msgid "ERROR: %s at end of input"
 msgstr "CHYBA: %s na konci vstupu"
 
-#: src/calc.c:2802
+#: src/calc.c:2803
 #, c-format
 msgid "ERROR: %s before '%s'"
 msgstr "CHYBA: %s před '%s'"
@@ -638,7 +638,8 @@ msgstr ""
 "    KONKRÉTNÍ ÚČEL. Další podrobnosti najdete v GNU General Public License.\n"
 "\n"
 "    Kopii GNU General Public License byste měli obdržet spolu s tímto\n"
-"    programem. Pokud se tak nestalo, napište Free Software Foundation, Inc.,\n"
+"    programem. Pokud se tak nestalo, napište Free Software Foundation, "
+"Inc.,\n"
 "    59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.\n"
 
 #: src/funclib.c:360
@@ -886,7 +887,7 @@ msgstr "Vygenerovat náhodné číslo s plovoucí řádovou čárkou"
 msgid "Generate random integer"
 msgstr "Vygenerovat náhodné celé číslo"
 
-#: src/funclib.c:4190 src/gnome-genius.c:925
+#: src/funclib.c:4190 src/gnome-genius.c:921
 msgid "Floating point precision"
 msgstr "Přesnost čísel s plovoucí řádovou čárkou"
 
@@ -1100,13 +1101,17 @@ msgstr "Spustit silný test pseudoprvočíselnosti o základu b na n"
 msgid ""
 "Use the Miller-Rabin primality test on n, reps number of times.  The "
 "probability of false positive is (1/4)^reps"
-msgstr "Použít reps-krát Miller-Rabinův test prvočíselnosti na n. Pravděpodobnost falešných pozitiv je (1/4)^reps"
+msgstr ""
+"Použít reps-krát Miller-Rabinův test prvočíselnosti na n. Pravděpodobnost "
+"falešných pozitiv je (1/4)^reps"
 
 #: src/funclib.c:4269
 msgid ""
 "Use the Miller-Rabin primality test on n with enough bases that assuming the "
 "Generalized Reimann Hypothesis the result is deterministic"
-msgstr "Použít Miller-Rabinův test prvočíselnosti na n s tolika bázemi, že za předpokladu zobecněné Riemannovy hypotézy je výsledek deterministický"
+msgstr ""
+"Použít Miller-Rabinův test prvočíselnosti na n s tolika bázemi, že za "
+"předpokladu zobecněné Riemannovy hypotézy je výsledek deterministický"
 
 #: src/funclib.c:4270
 msgid "Return factorization of a number as a matrix"
@@ -1339,7 +1344,9 @@ msgstr ""
 msgid ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string"
-msgstr "Převést vektor hodnot abecedy počítaných od 0 (pozic v řetězci abecedy) na řetězec"
+msgstr ""
+"Převést vektor hodnot abecedy počítaných od 0 (pozic v řetězci abecedy) na "
+"řetězec"
 
 #: src/funclib.c:4363
 msgid "Protect a variable from being modified"
@@ -1370,7 +1377,7 @@ msgstr "řádek %d: %s\n"
 msgid "Too many errors! (%d followed)\n"
 msgstr "Příliš mnoho chyb! (dalších %d)\n"
 
-#: src/genius.c:179 src/gnome-genius.c:2371
+#: src/genius.c:179 src/gnome-genius.c:2511
 msgid ""
 "\n"
 "Note: Compiled without MPFR (some operations may be slow) see www.mpfr.org"
@@ -1435,7 +1442,7 @@ msgstr ""
 "Pro nápovědu napište 'manual' nebo 'help'.%s\n"
 "\n"
 
-#: src/genius.c:351 src/gnome-genius.c:2631
+#: src/genius.c:351 src/gnome-genius.c:2771
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -1491,7 +1498,7 @@ msgid "Create new program tab"
 msgstr "Vytvořit novou kartu programu"
 
 #: src/gnome-genius.c:176
-msgid "_Reload From Disk"
+msgid "_Reload from Disk"
 msgstr "Znovu načíst z _disku"
 
 #: src/gnome-genius.c:176
@@ -1499,8 +1506,8 @@ msgid "Reload the selected program from disk"
 msgstr "Znovu načíst vybraný program z disku"
 
 #: src/gnome-genius.c:180
-msgid "_Load and Run"
-msgstr "_Načíst a spustit"
+msgid "_Load and Run..."
+msgstr "_Načíst a spustit..."
 
 #: src/gnome-genius.c:180
 msgid "Load and execute a file in genius"
@@ -1608,15 +1615,15 @@ msgstr "Ukončit"
 msgid "Exit genius"
 msgstr "Ukončit genius"
 
-#: src/gnome-genius.c:311
+#: src/gnome-genius.c:310
 msgid "Error"
 msgstr "Chyba"
 
-#: src/gnome-genius.c:311
+#: src/gnome-genius.c:310
 msgid "Information"
 msgstr "Informace"
 
-#: src/gnome-genius.c:366
+#: src/gnome-genius.c:365
 #, c-format
 msgid ""
 "\n"
@@ -1625,7 +1632,7 @@ msgstr ""
 "\n"
 "Příliš mnoho chyb! (dalších %d)"
 
-#: src/gnome-genius.c:376
+#: src/gnome-genius.c:375
 #, c-format
 msgid "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
 msgstr "\\e[01;31mPříliš mnoho chyb! (dalších %d)\\e[0m\n"
@@ -1634,17 +1641,17 @@ msgstr "\\e[01;31mPříliš mnoho chyb! (dalších %d)\\e[0m\n"
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: src/gnome-genius.c:499
+#: src/gnome-genius.c:498
 msgid "translator_credits-PLEASE_ADD_YOURSELF_HERE"
 msgstr ""
 "Jirka\n"
 "Miloslav Trmač <mitr@volny.cz>"
 
-#: src/gnome-genius.c:502 src/gnome-genius.c:1977
+#: src/gnome-genius.c:501 src/gnome-genius.c:2123
 msgid "GENIUS Calculator"
 msgstr "Kalkulátor GENIUS"
 
-#: src/gnome-genius.c:505
+#: src/gnome-genius.c:504
 msgid ""
 "The Gnome calculator style edition of the genius calculator.  For license/"
 "warranty details, type 'warranty' into the console."
@@ -1652,7 +1659,7 @@ msgstr ""
 "Vydání kalkulátoru genius ve stylu kalkulátoru Gnome. Pro informace o "
 "licenci/záruce, napište v konzole 'warranty'."
 
-#: src/gnome-genius.c:669
+#: src/gnome-genius.c:665
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -1660,67 +1667,67 @@ msgstr ""
 "Genius něco dělá a navíc máte neuložené programy.\n"
 "Jste si jisti, že chcete skončit?"
 
-#: src/gnome-genius.c:677
+#: src/gnome-genius.c:673
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr "Máte neuložené programy, jste si jisti, že chcete skončit?"
 
-#: src/gnome-genius.c:684
+#: src/gnome-genius.c:680
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr "Genius něco dělá, jste si jisti, že chcete skončit?"
 
-#: src/gnome-genius.c:691
+#: src/gnome-genius.c:687
 msgid "Are you sure you wish to quit?"
 msgstr "Jste si jisti, že chcete skončit?"
 
-#: src/gnome-genius.c:796
+#: src/gnome-genius.c:792
 msgid "GENIUS Calculator Setup"
 msgstr "Nastavení kalkulátoru GENIUS"
 
-#: src/gnome-genius.c:813
+#: src/gnome-genius.c:809
 msgid "Output"
 msgstr "Výstup"
 
-#: src/gnome-genius.c:816
+#: src/gnome-genius.c:812
 msgid "Number/Expression output options"
 msgstr "Možnosti výstupu čísel/výrazů"
 
-#: src/gnome-genius.c:826
+#: src/gnome-genius.c:822
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Maximum číslic na výstupu (0=neomezeně)"
 
-#: src/gnome-genius.c:846
+#: src/gnome-genius.c:842
 msgid "Results as floats"
 msgstr "Výsledky jako čísla s plovoucí řádovou čárkou"
 
-#: src/gnome-genius.c:854
+#: src/gnome-genius.c:850
 msgid "Floats in scientific notation"
 msgstr "Čísla s plovoucí řádovou čárkou ve vědecké notaci"
 
-#: src/gnome-genius.c:862
+#: src/gnome-genius.c:858
 msgid "Always print full expressions"
 msgstr "Vždy vypisovat celé výrazy"
 
-#: src/gnome-genius.c:871
+#: src/gnome-genius.c:867
 msgid "Error/Info output options"
 msgstr "Možnosti výstupu chyb/informací"
 
-#: src/gnome-genius.c:879
+#: src/gnome-genius.c:875
 msgid "Display errors in a dialog"
 msgstr "Zobrazovat chyby v dialogu"
 
-#: src/gnome-genius.c:887
+#: src/gnome-genius.c:883
 msgid "Display information messages in a dialog"
 msgstr "Zobrazovat informativní zprávy v dialogu"
 
-#: src/gnome-genius.c:898
+#: src/gnome-genius.c:894
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Maximum zobrazovaných chyb (0=neomezeně)"
 
-#: src/gnome-genius.c:922
+#: src/gnome-genius.c:918
 msgid "Precision"
 msgstr "Přesnost"
 
-#: src/gnome-genius.c:932
+#: src/gnome-genius.c:928
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -1730,27 +1737,27 @@ msgstr ""
 "nemusí projevit pro všechna čísla okamžitě, má vliv jen\n"
 "na nově vypočtená čísla a nové proměnné."
 
-#: src/gnome-genius.c:941
+#: src/gnome-genius.c:937
 msgid "Floating point precision (bits)"
 msgstr "Přesnost operací s plovoucí řádovou čárkou (bitů)"
 
-#: src/gnome-genius.c:965
+#: src/gnome-genius.c:961
 msgid "Terminal"
 msgstr "Terminál"
 
-#: src/gnome-genius.c:968
+#: src/gnome-genius.c:964
 msgid "Terminal options"
 msgstr "Možnosti terminálu"
 
-#: src/gnome-genius.c:977
+#: src/gnome-genius.c:973
 msgid "Scrollback lines"
 msgstr "Paměť řádků"
 
-#: src/gnome-genius.c:1000
+#: src/gnome-genius.c:996
 msgid "Font:"
 msgstr "Písmo:"
 
-#: src/gnome-genius.c:1035
+#: src/gnome-genius.c:1031
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -1760,45 +1767,57 @@ msgstr ""
 "\n"
 "Zkuste to prosím později nebo přerušte aktuální operaci."
 
-#: src/gnome-genius.c:1104 src/gnome-genius.c:1629
+#: src/gnome-genius.c:1096
+msgid "GEL files"
+msgstr "Soubory GEL"
+
+#: src/gnome-genius.c:1101
+msgid "All files"
+msgstr "Všechny soubory"
+
+#: src/gnome-genius.c:1135 src/gnome-genius.c:1690
 msgid "Cannot open file!"
 msgstr "Nemohu otevřít soubor!"
 
-#: src/gnome-genius.c:1128
-msgid "Load GEL file"
-msgstr "Načíst soubor GEL"
+#: src/gnome-genius.c:1164 src/gnome-genius.c:1182
+msgid "Load and Run"
+msgstr "Načíst a spustit"
 
-#: src/gnome-genius.c:1477
+#: src/gnome-genius.c:1168
+msgid "_Load"
+msgstr "_Načíst"
+
+#: src/gnome-genius.c:1522
 msgid "Cannot open file"
 msgstr "Nemohu otevřít soubor"
 
-#: src/gnome-genius.c:1509 src/gnome-genius.c:2356
+#: src/gnome-genius.c:1554 src/gnome-genius.c:2496
 #, c-format
 msgid "Line: %d"
 msgstr "Řádek: %d"
 
 #. the file name will have an underscore
-#: src/gnome-genius.c:1580
+#: src/gnome-genius.c:1625
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Program_%d.gel"
 
-#: src/gnome-genius.c:1581
+#: src/gnome-genius.c:1626
 #, c-format
 msgid "Program %d"
 msgstr "Program %d"
 
-#: src/gnome-genius.c:1597
+#: src/gnome-genius.c:1642
 #, c-format
 msgid "Cannot open %s"
 msgstr "Nemohu otevřít %s"
 
-#: src/gnome-genius.c:1651 src/gnome-genius.c:1807
-msgid "Open GEL file"
-msgstr "Otevřít soubor GEL"
+#: src/gnome-genius.c:1717 src/gnome-genius.c:1735
+msgid "Open..."
+msgstr "Otevřít..."
 
 #. new fname
-#: src/gnome-genius.c:1740 src/gnome-genius.c:1766
+#: src/gnome-genius.c:1825 src/gnome-genius.c:1880
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -1807,11 +1826,15 @@ msgstr ""
 "<B>nemohu uložit soubor</b>\n"
 "Detaily: %s"
 
-#: src/gnome-genius.c:1762
+#: src/gnome-genius.c:1874
 msgid "File already exists.  Overwrite it?"
 msgstr "Soubor již existuje. Přepsat jej?"
 
-#: src/gnome-genius.c:1880
+#: src/gnome-genius.c:1931 src/gnome-genius.c:1952
+msgid "Save As..."
+msgstr "Uložit jako..."
+
+#: src/gnome-genius.c:2026
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -1821,11 +1844,11 @@ msgstr ""
 "\n"
 "Vytvořte nový program nebo vyberte existující kartu."
 
-#: src/gnome-genius.c:2163
+#: src/gnome-genius.c:2303
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Nemohu spustit genius-readline-helper-fifo!\n"
 
-#: src/gnome-genius.c:2375
+#: src/gnome-genius.c:2515
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -1833,11 +1856,11 @@ msgstr ""
 "\n"
 "Poznámka: Přeloženo bez GtkSourceView (lepší editor zdrojových kódů)"
 
-#: src/gnome-genius.c:2540
+#: src/gnome-genius.c:2680
 msgid "Console"
 msgstr "Konzola"
 
-#: src/gnome-genius.c:2572
+#: src/gnome-genius.c:2712
 #, c-format
 msgid ""
 "\\e[0;32mGenius %s\\e[0m\n"
@@ -1899,7 +1922,9 @@ msgstr "Kreslím"
 msgid ""
 "Plot a function with a line (very rudimentary).  First come the functions "
 "(up to 10) then optionally limits as x1,x2,y1,y2"
-msgstr "Vykreslit funkci jako křivku (velice primitivní). Nejdříve jsou funkce (nejvýš 10), pak nepovinně limity jako x1, x2, y1, y2"
+msgstr ""
+"Vykreslit funkci jako křivku (velice primitivní). Nejdříve jsou funkce "
+"(nejvýš 10), pak nepovinně limity jako x1, x2, y1, y2"
 
 #: src/graphing.c:626
 msgid "Plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
@@ -1910,214 +1935,188 @@ msgstr ""
 msgid "Determinant of a non-square matrix is undefined"
 msgstr "Determinant nečtvercové matice není definován"
 
-#: src/mpwrap.c:826
+#: src/mpwrap.c:847
 msgid "Number too large to compute exponential!"
 msgstr "Číslo je příliš velké pro výpočet exponenciely!"
 
-#: src/mpwrap.c:1217
+#: src/mpwrap.c:1238
 msgid "Integer exponent too large to compute"
 msgstr "Celočíselný exponent je příliš velký pro výpočet"
 
-#: src/mpwrap.c:2365
+#: src/mpwrap.c:2386
 msgid "Can't do modulo of floats or rationals!"
 msgstr "Nemohu provádět modulo čísel s plovoucí řádovou čárkou nebo zlomků!"
 
-#: src/mpwrap.c:2404
+#: src/mpwrap.c:2425
 msgid "Can't do GCD of floats or rationals!"
 msgstr "Nemohu provádět NSD čísel s plovoucí řádovou čárkou nebo zlomků!"
 
-#: src/mpwrap.c:2443
+#: src/mpwrap.c:2464
 msgid "Can't modulo invert non integers!"
 msgstr "Nemohu počítat inverz modulo čísel, která nejsou celá!"
 
-#: src/mpwrap.c:2476
+#: src/mpwrap.c:2497
 msgid "Can't get jacobi symbols of floats or rationals!"
 msgstr ""
 "Nemohu získat jacobiho symbol čísel s plovoucí řádovou čárkou nebo zlomků!"
 
-#: src/mpwrap.c:2507
+#: src/mpwrap.c:2528
 msgid "Can't get legendre symbols of floats or rationals!"
 msgstr ""
 "Nemohu získat legerdrovy symboly čísel s plovoucí řádovou čárkou nebo zlomků!"
 
-#: src/mpwrap.c:2538
+#: src/mpwrap.c:2559
 msgid ""
 "Can't get jacobi symbol with Kronecker extension of floats or rationals!"
 msgstr ""
 "Nemohu získat jacobiho symbol s kroneckerovým rozšířením čísel s plovoucí "
 "řádovou čárkou nebo zlomků!"
 
-#: src/mpwrap.c:2547
+#: src/mpwrap.c:2568
 msgid "Lucas must get an integer argument!"
 msgstr "Lucas musí dostat celočíselný argument!"
 
-#: src/mpwrap.c:2553
+#: src/mpwrap.c:2574
 msgid "Number too large to compute lucas number!"
 msgstr "Číslo je příliš velké pro výpočet lucasova čísla!"
 
-#: src/mpwrap.c:2558 src/mpwrap.c:2569
+#: src/mpwrap.c:2579 src/mpwrap.c:2590
 msgid "No such thing as negative lucas numbers!"
 msgstr "Neexistují záporná lucasova čísla!"
 
-#: src/mpwrap.c:2585
+#: src/mpwrap.c:2606
 msgid "Cannot get next prime after non-integer!"
 msgstr "Nemohu získat následující prvočíslo po číslu, které není celé!"
 
-#: src/mpwrap.c:2623
-msgid "perfect_square: can't work on non-integers!"
-msgstr "perfect_square: nemohu pracovat na číslech, která nejsou celá!"
+#: src/mpwrap.c:2644 src/mpwrap.c:2664 src/mpwrap.c:2682 src/mpwrap.c:2700
+#, c-format
+msgid "%s: can't work on non-integers!"
+msgstr "%s: nemohu pracovat na číslech, která nejsou celá!"
 
-#: src/mpwrap.c:2642
-msgid "perfect_power: can't work on non-integers!"
-msgstr "perfect_power: nemohu pracovat na číslech, která nejsou celá!"
-
-#: src/mpwrap.c:2659
-msgid "even_p: can't work on non-integers!"
-msgstr "even_p: nemohu pracovat na číslech, která nejsou celá!"
-
-#: src/mpwrap.c:2676
-msgid "odd_p: can't work on non-integers!"
-msgstr "odd_p: nemohu pracovat na číslech, která nejsou celá!"
-
-#: src/mpwrap.c:2720 src/mpwrap.c:2768
+#: src/mpwrap.c:2745 src/mpwrap.c:2793
 msgid "Can't do factorials of rationals or floats!"
 msgstr "Nemohu počítat faktoriály zlomků nebo čísel s plovoucí řádovou čárkou!"
 
-#: src/mpwrap.c:2726 src/mpwrap.c:2774
+#: src/mpwrap.c:2751 src/mpwrap.c:2799
 msgid "Number too large to compute factorial!"
 msgstr "Číslo je příliš velké pro výpočet faktoriálu"
 
-#: src/mpwrap.c:2731 src/mpwrap.c:2738 src/mpwrap.c:2779 src/mpwrap.c:2786
+#: src/mpwrap.c:2756 src/mpwrap.c:2763 src/mpwrap.c:2804 src/mpwrap.c:2811
 msgid "Can't do factorials of negative numbers!"
 msgstr "Nemohu počítat faktoriály záporných čísel!"
 
-#: src/mpwrap.c:3166 src/mpwrap.c:3254 src/mpwrap.c:5162 src/mpwrap.c:5178
-msgid "powm: Bad types for mod power"
-msgstr "powm: Špatné typy pro umocnění mod"
+#: src/mpwrap.c:3191 src/mpwrap.c:3292 src/mpwrap.c:5237 src/mpwrap.c:5254
+#, c-format
+msgid "%s: Bad types for mod power"
+msgstr "%s: Špatné typy pro umocnění mod"
 
-#: src/mpwrap.c:3201 src/mpwrap.c:3224
-msgid "Can't invert in powm"
-msgstr "Nemohu invertovat v powm"
+#: src/mpwrap.c:3229 src/mpwrap.c:3258
+#, c-format
+msgid "Can't invert %s modulo %s in %s"
+msgstr "Nemohu invertovat %s modulo %s v %s"
 
-#: src/mpwrap.c:3553
+#: src/mpwrap.c:3594
 msgid "Can't make random integer from a non-integer"
 msgstr "Nemohu vytvořit náhodné celé číslo z čísla, které není celé"
 
-#: src/mpwrap.c:3558
+#: src/mpwrap.c:3599
 msgid "Range for random integer must be positive"
 msgstr "Rozsah pro náhodné celé číslo musí být kladný"
 
-#: src/mpwrap.c:3743 src/mpwrap.c:3770
+#: src/mpwrap.c:3803 src/mpwrap.c:3830
 msgid "Can't get numerator of floating types"
 msgstr "Nemohu získat jmenovatel typů s plovoucí řádovou čárkou"
 
-#: src/mpwrap.c:4558 src/mpwrap.c:5759 src/mpwrap.c:5771
+#: src/mpwrap.c:4618 src/mpwrap.c:5839 src/mpwrap.c:5851
 msgid "Can't compare complex numbers"
 msgstr "Nemohu porovnávat komplexní čísla!"
 
-#: src/mpwrap.c:4767 src/mpwrap.c:4782 src/mpwrap.c:4833 src/mpwrap.c:4856
-#: src/mpwrap.c:4869 src/mpwrap.c:4914
+#: src/mpwrap.c:4827 src/mpwrap.c:4842 src/mpwrap.c:4893 src/mpwrap.c:4916
+#: src/mpwrap.c:4929 src/mpwrap.c:4974
 msgid "Division by zero!"
 msgstr "Dělení nulou!"
 
-#: src/mpwrap.c:4923
+#: src/mpwrap.c:4983
 msgid "Can't modulo complex numbers"
 msgstr "Nemohu počítat modulo komplexních čísel"
 
-#. FIXME: give the numbers
-#: src/mpwrap.c:4936
-msgid "No modulo inverse found!"
-msgstr "Nenalezen inverz modulo!"
+#: src/mpwrap.c:5002
+#, c-format
+msgid "Inverse of %s modulo %s not found!"
+msgstr "Inverz %s modulo %s nenalezen!"
 
-#: src/mpwrap.c:4940
+#: src/mpwrap.c:5011
 msgid "Can't do modulo invert on complex numbers"
 msgstr "Nemohu počítat inverz modulo komplexních čísel"
 
-#: src/mpwrap.c:4953
+#: src/mpwrap.c:5024
 msgid "Can't GCD complex numbers"
 msgstr "Nemohu počítat NSD komplexních čísel"
 
-#: src/mpwrap.c:4976
+#: src/mpwrap.c:5047
 msgid "Can't LCM complex numbers"
 msgstr "Nemohu počítat NSN komplexních čísel"
 
-#: src/mpwrap.c:4989
+#: src/mpwrap.c:5060
 msgid "Can't get jacobi symbols of complex numbers"
 msgstr "Nemohu získat jacobiho symboly komplexních čísel"
 
-#: src/mpwrap.c:5001
+#: src/mpwrap.c:5072
 msgid "Can't get legendre symbols complex numbers"
 msgstr "Nemohu získat legendrovy symboly komplexních čísel"
 
-#: src/mpwrap.c:5013
+#: src/mpwrap.c:5084
 msgid "Can't get jacobi symbol with Kronecker extension for complex numbers"
-msgstr "Nemohu získat jacobiho symboly s Kroneckerovým rozšířením komplexních čísel"
+msgstr ""
+"Nemohu získat jacobiho symboly s Kroneckerovým rozšířením komplexních čísel"
 
-#: src/mpwrap.c:5025
+#: src/mpwrap.c:5096
 msgid "Can't get lucas number for complex numbers"
 msgstr "Nemohu získat lucasova čísla komplexních čísel"
 
-#: src/mpwrap.c:5037
+#: src/mpwrap.c:5108
 msgid "Can't get next prime for complex numbers"
 msgstr "Nemohu získat následující prvočíslo po komplexním číslu"
 
-#: src/mpwrap.c:5047
-msgid "perfect_square: can't work on complex numbers"
-msgstr "perfect_square: nemohu pracovat na komplexních číslech"
+#: src/mpwrap.c:5118 src/mpwrap.c:5130 src/mpwrap.c:5142 src/mpwrap.c:5154
+#, c-format
+msgid "%s: can't work on complex numbers"
+msgstr "%s: nemohu pracovat na komplexních číslech"
 
-#: src/mpwrap.c:5058
-msgid "perfect_power: can't work on complex numbers"
-msgstr "perfect_power: nemohu pracovat na komplexních číslech"
+#: src/mpwrap.c:5328 src/mpwrap.c:5399 src/mpwrap.c:5466
+#, c-format
+msgid "%s: can't take logarithm of 0"
+msgstr "%s: nemohu získat logaritmus 0"
 
-#: src/mpwrap.c:5069
-msgid "even_p: can't work on complex numbers"
-msgstr "even_p: nemohu pracovat na komplexních číslech"
-
-#: src/mpwrap.c:5080
-msgid "odd_p: can't work on complex numbers"
-msgstr "odd_p: nemohu pracovat na komplexních číslech"
-
-#: src/mpwrap.c:5251
-msgid "ln: can't take logarithm of 0"
-msgstr "ln: nemohu získat logaritmus 0"
-
-#: src/mpwrap.c:5321
-msgid "log2: can't take logarithm of 0"
-msgstr "log2: nemohu získat logaritmus 0"
-
-#: src/mpwrap.c:5387
-msgid "log10: can't take logarithm of 0"
-msgstr "log10: nemohu získat logaritmus 0"
-
-#: src/mpwrap.c:5688
+#: src/mpwrap.c:5768
 msgid "Can't make random integer out of a complex number"
 msgstr "Nemohu vytvořit náhodné celé číslo z komplexního čísla"
 
-#: src/mpwrap.c:5809 src/mpwrap.c:5822
+#: src/mpwrap.c:5889 src/mpwrap.c:5902
 msgid "Can't make factorials of complex numbers"
 msgstr "Nemohu počítat faktoriály komplexních čísel"
 
-#: src/mpwrap.c:6104 src/mpwrap.c:6126 src/mpwrap.c:6148
+#: src/mpwrap.c:6184 src/mpwrap.c:6206 src/mpwrap.c:6228
 msgid "Can't determine type of a complex number"
 msgstr "Nemohu určit typ komplexního čísla"
 
-#: src/mpwrap.c:6240 src/mpwrap.c:6263
+#: src/mpwrap.c:6320 src/mpwrap.c:6343
 msgid "Can't convert complex number into integer"
 msgstr "Nemohu převést komplexní číslo na celé číslo"
 
-#: src/mpwrap.c:6246
+#: src/mpwrap.c:6326
 msgid "Can't convert real number to integer"
 msgstr "Nemohu převést reálné číslo na celé číslo"
 
-#: src/mpwrap.c:6250
+#: src/mpwrap.c:6330
 msgid "Integer too large for this operation"
 msgstr "Celé číslo je pro tuto operaci příliš velké"
 
-#: src/mpwrap.c:6272
+#: src/mpwrap.c:6352
 msgid "Can't convert real number to double"
 msgstr "Nemohu převést reálné číslo na dvojitou přesnost"
 
-#: src/mpwrap.c:6278
+#: src/mpwrap.c:6358
 msgid "Number too large for this operation"
 msgstr "Číslo je pro tuto operaci příliš velké"
 
@@ -2149,7 +2148,9 @@ msgstr ""
 msgid ""
 "For my next trick I will add a function named TestPluginFunction\n"
 "\n"
-msgstr "Pro můj další trik přidám funkci nazvanou TestPluginFunction\n\n"
+msgstr ""
+"Pro můj další trik přidám funkci nazvanou TestPluginFunction\n"
+"\n"
 
 #: src/testplugin.c:42
 msgid ""
