@@ -2,8 +2,14 @@
 SUBDIRS=.
 
 INCLUDES = \
- 	-I.					\
-	-I..					\
+	-I$(srcdir)						\
+	-I$(includedir)						\
+	-I$(top_srcdir)						\
+	-I$(top_srcdir)/vicious-extensions			\
+	-I$(top_srcdir)/gtkextra				\
+	-I$(top_builddir)					\
+	-I$(top_builddir)/vicious-extensions			\
+	-I$(top_builddir)/gtkextra				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 	$(GENIUS_CFLAGS)
 
