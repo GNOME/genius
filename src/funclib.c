@@ -2716,9 +2716,9 @@ gel_funclib_addall(void)
 	FUNC (atan, 1, "trigonometry", _("Calculates the arctan function"));
 	ALIAS (arctan, 1, atan);
 
-	FUNC (pi, 1, "constants", _("The number pi"));
-	FUNC (e, 1, "constants", _("The natural number e"));
-	FUNC (i, 1, "constants", _("The imaginary number"));
+	FUNC (pi, 0, "constants", _("The number pi"));
+	FUNC (e, 0, "constants", _("The natural number e"));
+	FUNC (i, 0, "constants", _("The imaginary number"));
 
 	FUNC (sqrt, 1, "numeric", _("The square root"));
 	FUNC (exp, 1, "numeric", _("The exponential function"));
