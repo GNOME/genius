@@ -34,11 +34,12 @@ const char *genius_params[] = {
 	NULL
 };
 const char *genius_toplevels[] = {
+	"help",
 	"load",
-	"plugin",
 	"cd",
 	"pwd",
 	"ls",
+	"plugin",
 	NULL
 };
 const char *genius_operators[] = {

@@ -147,6 +147,22 @@ void whack_help (const char *func);
 
 extern gboolean genius_is_gui;
 
+typedef enum {
+	GEL_NO_COMMAND,
+	GEL_LOADFILE,
+	GEL_LOADFILE_GLOB,
+	GEL_LOADPLUGIN,
+	GEL_LS,
+	GEL_LS_ARG,
+	GEL_PWD,
+	GEL_CHANGEDIR,
+	GEL_HELP,
+	GEL_HELP_ARG
+} GelCommand;
+
+extern GelCommand gel_command;
+extern char *gel_command_arg;
+
 extern GelOutput *main_out;
 
 #endif /* CALC_H_ */

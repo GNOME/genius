@@ -54,7 +54,7 @@ extern char *load_plugin;
 
 %token STARTTOK
 
-%token LOADFILE LOADFILE_GLOB LOAD_PLUGIN CHANGEDIR CHANGEDIR_GLOB PWD LS
+%token LOADFILE LOADFILE_GLOB LOAD_PLUGIN CHANGEDIR CHANGEDIR_GLOB PWD LS LS_ARG HELP HELP_ARG
 
 %token <val> NUMBER
 %token <id> STRING
@@ -110,13 +110,15 @@ extern char *load_plugin;
 %%
 
 fullexpr:	STARTTOK expr '\n' { YYACCEPT; }
-	|	STARTTOK LOADFILE '\n' { loadfile = $<id>2; YYACCEPT; }
-	|	STARTTOK LOADFILE_GLOB '\n' { loadfile_glob = $<id>2; YYACCEPT; }
-	|	STARTTOK CHANGEDIR '\n' { changedir = $<id>2; YYACCEPT; }
-	|	STARTTOK CHANGEDIR_GLOB '\n' { changedir_glob = $<id>2; YYACCEPT; }
-	|	STARTTOK PWD '\n' { pwd_command = TRUE; YYACCEPT; }
-	|	STARTTOK LS '\n' { ls_command = TRUE; YYACCEPT; }
-	|	STARTTOK LOAD_PLUGIN '\n' { load_plugin = $<id>2; YYACCEPT; }
+	|	STARTTOK LOADFILE '\n' { gel_command = GEL_LOADFILE; gel_command_arg = $<id>2; YYACCEPT; }
+	|	STARTTOK LOADFILE_GLOB '\n' { gel_command = GEL_LOADFILE_GLOB; gel_command_arg = $<id>2; YYACCEPT; }
+	|	STARTTOK CHANGEDIR '\n' { gel_command = GEL_CHANGEDIR; gel_command_arg = $<id>2; YYACCEPT; }
+	|	STARTTOK LS '\n' { gel_command = GEL_LS; YYACCEPT; }
+	|	STARTTOK LS_ARG '\n' { gel_command = GEL_LS_ARG; gel_command_arg = $<id>2; YYACCEPT; }
+	|	STARTTOK HELP '\n' { gel_command = GEL_HELP; YYACCEPT; }
+	|	STARTTOK HELP_ARG '\n' { gel_command = GEL_HELP_ARG; gel_command_arg = $<id>2; YYACCEPT; }
+	|	STARTTOK PWD '\n' { gel_command = GEL_PWD; YYACCEPT; }
+	|	STARTTOK LOAD_PLUGIN '\n' { gel_command = GEL_LOADPLUGIN; gel_command_arg = $<id>2; YYACCEPT; }
 	|	STARTTOK '\n' { YYACCEPT; }
 	|	STARTTOK expr SEPAR '\n' { gp_push_null(); PUSH_ACT(E_SEPAR); YYACCEPT; }
 	|	error '\n' { return_ret = TRUE; yyclearin; YYABORT; }

@@ -334,6 +334,11 @@ tab_completion (const char *text, int start, int end)
 		return NULL;
 	}
 	if(toplevelokg &&
+	   (strncmp(p,"ls ",3)==0 ||
+	    strncmp(p,"ls\t",3)==0)) {
+		return NULL;
+	}
+	if(toplevelokg &&
 	   (strncmp(p,"cd ",3)==0 ||
 	    strncmp(p,"cd\t",3)==0)) {
 		return NULL;
@@ -347,7 +352,12 @@ tab_completion (const char *text, int start, int end)
 	
 	
 	if(toplevelokg &&
-	   (!*p || strncmp(p,"load",strlen(p))==0 ||
+	   (!*p ||
+	    strncmp(p,"load",strlen(p))==0 ||
+	    strncmp(p,"cd",strlen(p))==0 ||
+	    strncmp(p,"ls",strlen(p))==0 ||
+	    strncmp(p,"pwd",strlen(p))==0 ||
+	    strncmp(p,"help",strlen(p))==0 ||
 	    strncmp(p,"plugin",strlen(p))==0))
 		addtoplevels = TRUE;
 	else

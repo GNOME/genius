@@ -658,6 +658,23 @@ ColumnsOf_op (GelCtx *ctx, GelETree * * a, int *exception)
 	return n;
 }
 
+static GelETree *
+DiagonalOf_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GelETree *n;
+
+	if (a[0]->type != MATRIX_NODE) {
+		(*errorout)(_("DiagonalOf: argument not a matrix"));
+		return NULL;
+	}
+
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_diagonalof (a[0]->mat.matrix);
+	n->mat.quoted = 0;
+	return n;
+}
+
 /*ComplexConjugate function*/
 static GelETree *
 ComplexConjugate_op (GelCtx *ctx, GelETree * * a, int *exception)
@@ -2327,182 +2344,6 @@ PolyToFunction_op(GelCtx *ctx, GelETree * * a, int *exception)
 	return n;
 }
 
-static void
-do_blue (void)
-{
-	if (genius_is_gui) {
-		gel_output_full_string (main_out, "\e[01;34m");
-	}
-}
-
-static void
-do_green (void)
-{
-	if (genius_is_gui) {
-		gel_output_full_string (main_out, "\e[32m");
-	}
-}
-
-/*
-static void
-do_red (void)
-{
-	if (genius_is_gui) {
-		gel_output_full_string (main_out, "\e[01;31m");
-	}
-}
-*/
-
-static void
-do_black (void)
-{
-	if (genius_is_gui) {
-		gel_output_full_string (main_out, "\e[0m");
-	}
-}
-
-static char *
-make_function_with_aliases (const char *func, GSList *aliases)
-{
-	GSList *li;
-	GString *gs = g_string_new (func);
-	for (li = aliases; li != NULL; li = li->next) {
-		g_string_append (gs, ",");
-		g_string_append (gs, li->data);
-	}
-	return g_string_free (gs, FALSE);
-}
-
-static void
-print_function_help (GelHelp *help)
-{
-	if (help->aliasfor == NULL) {
-		char *f;
-		int len;
-		f = make_function_with_aliases (help->func, help->aliases);
-		len = strlen (f);
-		do_blue ();
-		if (len <= 20)
-			gel_output_printf_full (main_out, FALSE,
-						"%-20s", f);
-		else
-			gel_output_printf_full (main_out, FALSE,
-						"%-20s", help->func);
-		g_free (f);
-		do_black ();
-		gel_output_full_string (main_out, " - ");
-		do_green ();
-		if (help->description != NULL)
-			gel_output_printf_full (main_out, FALSE,
-						"%s\n", help->description);
-		else
-			gel_output_full_string (main_out, "\n");
-		/* if we didn't fit aliases on one line */
-		if (len > 20 && help->aliases != NULL) {
-			GSList *li;
-			GString *gs = g_string_new ("Aliases for ");
-			g_string_append (gs, help->func);
-			g_string_append (gs, ":");
-			for (li = help->aliases; li != NULL; li = li->next) {
-				g_string_append (gs, " ");
-				g_string_append (gs, li->data);
-			}
-			gel_output_printf_full (main_out, FALSE,
-						"%s\n", gs->str);
-			g_string_free (gs, TRUE);
-		}
-	}
-}
-
-static GelETree *
-help_op (GelCtx *ctx, GelETree * * a, int *exception)
-{
-	GSList *categories = get_categories ();
-	GSList *functions;
-	GSList *cli, *fli;
-
-	gel_output_push_nonotify (main_out);
-
-	for (cli = categories; cli != NULL; cli = cli->next) {
-		char *cat = cli->data;
-		functions = get_helps (cat);
-
-		if (functions != NULL) {
-			do_black ();
-			gel_output_printf_full (main_out, FALSE, "\n%s\n",
-						get_category_name (cat));
-
-			for (fli = functions; fli != NULL; fli = fli->next) {
-				GelHelp *help = fli->data;
-				print_function_help (help);
-			}
-
-			g_slist_free (functions);
-		}
-
-		g_free (cat);
-	}
-	g_slist_free (categories);
-
-	functions = get_helps (NULL);
-	if (functions != NULL) {
-		do_black ();
-		gel_output_printf_full (main_out, FALSE, "\n%s\n",
-					get_category_name (NULL));
-
-		for (fli = functions; fli != NULL; fli = fli->next) {
-			GelHelp *help = fli->data;
-			print_function_help (help);
-		}
-
-		g_slist_free (functions);
-	}
-
-	functions = get_undocumented ();
-	if (functions != NULL) {
-		GString *gs = g_string_new (NULL);
-		int len = 0;
-
-		do_black ();
-
-		gel_output_full_string (main_out,
-					_("\nUndocumented:\n"));
-		do_blue ();
-
-		for (fli = functions; fli != NULL; fli = fli->next) {
-			char *f = fli->data;
-			int flen = strlen (f);
-
-			if (len + flen + 1 > 78 && len > 0) {
-				gel_output_printf_full (main_out, FALSE, "%s\n",
-							gs->str);
-				g_string_truncate (gs, 0);
-				len = 0;
-			}
-			g_string_append (gs, f);
-			len += flen;
-			if (fli->next != NULL) {
-				g_string_append_c (gs, ',');
-				len++;
-			}
-
-			g_free (f);
-		}
-		if (len > 0) {
-			gel_output_printf_full (main_out, FALSE, "%s\n",
-						gs->str);
-		}
-		g_string_free (gs, TRUE);
-
-		g_slist_free (functions);
-	}
-	do_blue ();
-
-	gel_output_pop_nonotify (main_out);
-
-	return gel_makenum_null ();
-}
-
 static GelETree *
 SetHelp_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
@@ -2857,6 +2698,22 @@ get_IntegerOutputBase (void)
 	return gel_makenum_ui(calcstate.integer_output_base);
 }
 
+static void
+add_named_args (GelEFunc *f, const char *args)
+{
+	int i;
+	char **s;
+
+	if (args == NULL || args[0] == '\0')
+		return;
+       
+	s = g_strsplit (args, ",", -1);
+	for (i = 0; s[i] != NULL; i++) {
+		f->named_args = g_slist_append (f->named_args, d_intern (s[i]));
+	}
+	g_strfreev (s);
+}
+
 /*add the routines to the dictionary*/
 void
 gel_funclib_addall(void)
@@ -2881,12 +2738,14 @@ gel_funclib_addall(void)
 	new_category ("misc", _("Miscellaneous"));
 
 	/* FIXME: add more help fields */
-#define FUNC(name,args,category,desc) \
-	d_addfunc (d_makebifunc (d_intern ( #name ), name ## _op, args)); \
+#define FUNC(name,args,argn,category,desc) \
+	f = d_addfunc (d_makebifunc (d_intern ( #name ), name ## _op, args)); \
+	add_named_args (f, argn); \
 	add_category ( #name , category); \
 	add_description ( #name , desc);
-#define VFUNC(name,args,category,desc) \
+#define VFUNC(name,args,argn,category,desc) \
 	f = d_addfunc (d_makebifunc (d_intern ( #name ), name ## _op, args)); \
+	add_named_args (f, argn); \
 	f->vararg = TRUE; \
 	add_category ( #name , category); \
 	add_description ( #name , desc);
@@ -2909,22 +2768,21 @@ gel_funclib_addall(void)
 	d_addfunc_global (d_makevfunc (id, gel_makenum_null()));
 
 
-	FUNC (warranty, 0, "basic", _("Gives the warranty information"));
-	FUNC (exit, 0, "basic", _("Exits the program"));
+	FUNC (warranty, 0, "", "basic", _("Gives the warranty information"));
+	FUNC (exit, 0, "", "basic", _("Exits the program"));
 	ALIAS (quit, 0, exit);
-	FUNC (error, 1, "basic", _("Prints a string to the error stream"));
-	FUNC (print, 1, "basic", _("Prints an expression"));
-	FUNC (chdir, 1, "basic", _("Changes current directory"));
-	FUNC (printn, 1, "basic", _("Prints an expression without a trailing newline"));
-	FUNC (display, 2, "basic", _("Display a string and an expression"));
-	FUNC (set, 2, "basic", _("Set a global variable"));
+	FUNC (error, 1, "str", "basic", _("Prints a string to the error stream"));
+	FUNC (print, 1, "str", "basic", _("Prints an expression"));
+	FUNC (chdir, 1, "dir", "basic", _("Changes current directory"));
+	FUNC (printn, 1, "str", "basic", _("Prints an expression without a trailing newline"));
+	FUNC (display, 2, "str,expr", "basic", _("Display a string and an expression"));
+	FUNC (set, 2, "id,val", "basic", _("Set a global variable"));
 
-	FUNC (help, 0, "basic", _("Display function list with small help"));
-	FUNC (SetHelp, 3, "basic", _("Set the category and help description line for a function"));
-	FUNC (SetHelpAlias, 2, "basic", _("Sets up a help alias"));
+	FUNC (SetHelp, 3, "id,category,desc", "basic", _("Set the category and help description line for a function"));
+	FUNC (SetHelpAlias, 2, "id,alias", "basic", _("Sets up a help alias"));
 
-	VFUNC (rand, 1, "numeric", _("Generate random float"));
-	VFUNC (randint, 2, "numeric", _("Generate random integer"));
+	VFUNC (rand, 1, "size", "numeric", _("Generate random float"));
+	VFUNC (randint, 2, "max,size", "numeric", _("Generate random integer"));
 
 	PARAMETER (FloatPrecision, _("Floating point precision"));
 	PARAMETER (MaxDigits, _("Maximum digits to display"));
@@ -2940,120 +2798,121 @@ gel_funclib_addall(void)
 	d_addfunc(d_makebifunc(d_intern("ni"),ni_op,0));
 	d_addfunc(d_makebifunc(d_intern("shrubbery"),shrubbery_op,0));
 
-	FUNC (ExpandMatrix, 1, "matrix", _("Expands a matrix just like we do on unquoted matrix input"));
-	FUNC (RowsOf, 1, "matrix", _("Gets the rows of a matrix as a vertical vector"));
-	FUNC (ColumnsOf, 1, "matrix", _("Gets the columns of a matrix as a horizontal vector"));
+	FUNC (ExpandMatrix, 1, "M", "matrix", _("Expands a matrix just like we do on unquoted matrix input"));
+	FUNC (RowsOf, 1, "M", "matrix", _("Gets the rows of a matrix as a vertical vector"));
+	FUNC (ColumnsOf, 1, "M", "matrix", _("Gets the columns of a matrix as a horizontal vector"));
+	FUNC (DiagonalOf, 1, "M", "matrix", _("Gets the diagonal entries of a matrix as a horizontal vector"));
 
-	FUNC (ComplexConjugate, 1, "numeric", _("Calculates the conjugate"));
+	FUNC (ComplexConjugate, 1, "M", "numeric", _("Calculates the conjugate"));
 	ALIAS (conj, 1, ComplexConjugate);
 	ALIAS (Conj, 1, ComplexConjugate);
 
-	FUNC (sin, 1, "trigonometry", _("Calculates the sine function"));
-	FUNC (cos, 1, "trigonometry", _("Calculates the cossine function"));
-	FUNC (sinh, 1, "trigonometry", _("Calculates the hyperbolic sine function"));
-	FUNC (cosh, 1, "trigonometry", _("Calculates the hyperbolic cosine function"));
-	FUNC (tan, 1, "trigonometry", _("Calculates the tan function"));
-	FUNC (atan, 1, "trigonometry", _("Calculates the arctan function"));
+	FUNC (sin, 1, "x", "trigonometry", _("Calculates the sine function"));
+	FUNC (cos, 1, "x", "trigonometry", _("Calculates the cossine function"));
+	FUNC (sinh, 1, "x", "trigonometry", _("Calculates the hyperbolic sine function"));
+	FUNC (cosh, 1, "x", "trigonometry", _("Calculates the hyperbolic cosine function"));
+	FUNC (tan, 1, "x", "trigonometry", _("Calculates the tan function"));
+	FUNC (atan, 1, "x", "trigonometry", _("Calculates the arctan function"));
 	ALIAS (arctan, 1, atan);
 
-	FUNC (pi, 0, "constants", _("The number pi"));
-	FUNC (e, 0, "constants", _("The natural number e"));
+	FUNC (pi, 0, "", "constants", _("The number pi"));
+	FUNC (e, 0, "", "constants", _("The natural number e"));
 
-	FUNC (sqrt, 1, "numeric", _("The square root"));
-	FUNC (exp, 1, "numeric", _("The exponential function"));
-	FUNC (ln, 1, "numeric", _("The natural logarithm"));
-	FUNC (round, 1, "numeric", _("Round a number"));
+	FUNC (sqrt, 1, "x", "numeric", _("The square root"));
+	FUNC (exp, 1, "x", "numeric", _("The exponential function"));
+	FUNC (ln, 1, "x", "numeric", _("The natural logarithm"));
+	FUNC (round, 1, "x", "numeric", _("Round a number"));
 	ALIAS (Round, 1, round);
-	FUNC (floor, 1, "numeric", _("Get the highest integer less then or equal to n"));
+	FUNC (floor, 1, "x", "numeric", _("Get the highest integer less then or equal to n"));
 	ALIAS (Floor, 1, floor);
-	FUNC (ceil, 1, "numeric", _("Get the lowest integer more then or equal to n"));
+	FUNC (ceil, 1, "x", "numeric", _("Get the lowest integer more then or equal to n"));
 	ALIAS (Ceiling, 1, ceil);
-	FUNC (trunc, 1, "numeric", _("Truncate number to an integer (return the integer part)"));
+	FUNC (trunc, 1, "x", "numeric", _("Truncate number to an integer (return the integer part)"));
 	ALIAS (Truncate, 1, trunc);
 	ALIAS (IntegerPart, 1, trunc);
-	FUNC (float, 1, "numeric", _("Make number a float"));
-	FUNC (Numerator, 1, "numeric", _("Get the numerator of a rational number"));
-	FUNC (Denominator, 1, "numeric", _("Get the denominator of a rational number"));
+	FUNC (float, 1, "x", "numeric", _("Make number a float"));
+	FUNC (Numerator, 1, "x", "numeric", _("Get the numerator of a rational number"));
+	FUNC (Denominator, 1, "x", "numeric", _("Get the denominator of a rational number"));
 
-	FUNC (gcd, 2, "number_theory", _("Greatest common divisor"));
+	FUNC (gcd, 2, "a,b", "number_theory", _("Greatest common divisor"));
 	ALIAS (GCD, 2, gcd);
-	FUNC (lcm, 2, "number_theory", _("Least common multiplier"));
+	FUNC (lcm, 2, "a,b", "number_theory", _("Least common multiplier"));
 	ALIAS (LCM, 2, lcm);
-	FUNC (PerfectSquare, 1, "number_theory", _("Check a number for being a perfect square"));
-	FUNC (PerfectPower, 1, "number_theory", _("Check a number for being any perfect power (a^b)"));
-	FUNC (prime, 1, "number_theory", _("Return the n'th prime (up to a limit)"));
+	FUNC (PerfectSquare, 1, "n", "number_theory", _("Check a number for being a perfect square"));
+	FUNC (PerfectPower, 1, "n", "number_theory", _("Check a number for being any perfect power (a^b)"));
+	FUNC (prime, 1, "n", "number_theory", _("Return the n'th prime (up to a limit)"));
 
-	VFUNC (max, 2, "numeric", _("Returns the maximum of arguments or matrix"));
+	VFUNC (max, 2, "a,args", "numeric", _("Returns the maximum of arguments or matrix"));
 	VALIAS (Max, 2, max);
 	VALIAS (Maximum, 2, max);
-	VFUNC (min, 2, "numeric", _("Returns the minimum of arguments or matrix"));
+	VFUNC (min, 2, "a,args", "numeric", _("Returns the minimum of arguments or matrix"));
 	VALIAS (Min, 2, min);
 	VALIAS (Minimum, 2, min);
 
-	FUNC (Jacobi, 2, "number_theory", _("Calculate the Jacobi symbol (a/b) (b should be odd)"));
+	FUNC (Jacobi, 2, "a,b", "number_theory", _("Calculate the Jacobi symbol (a/b) (b should be odd)"));
 	ALIAS (JacobiSymbol, 2, Jacobi);
-	FUNC (JacobiKronecker, 2, "number_theory", _("Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even"));
+	FUNC (JacobiKronecker, 2, "a,b", "number_theory", _("Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even"));
 	ALIAS (JacobiKroneckerSymbol, 2, JacobiKronecker);
-	FUNC (Legendre, 2, "number_theory", _("Calculate the Legendre symbol (a/p)"));
+	FUNC (Legendre, 2, "a,p", "number_theory", _("Calculate the Legendre symbol (a/p)"));
 	ALIAS (LegendreSymbol, 2, Legendre);
 
-	FUNC (Re, 1, "numeric", _("Get the real part of a complex number"));
+	FUNC (Re, 1, "z", "numeric", _("Get the real part of a complex number"));
 	ALIAS (RealPart, 1, Re);
-	FUNC (Im, 1, "numeric", _("Get the imaginary part of a complex number"));
+	FUNC (Im, 1, "z", "numeric", _("Get the imaginary part of a complex number"));
 	ALIAS (ImaginaryPart, 1, Im);
 
-	FUNC (I, 1, "matrix", _("Make an identity matrix of a given size"));
+	FUNC (I, 1, "n", "matrix", _("Make an identity matrix of a given size"));
 	ALIAS (eye, 1, I);
-	FUNC (zeros, 2, "matrix", _("Make an matrix of all zeros"));
-	FUNC (ones, 2, "matrix", _("Make an matrix of all ones"));
+	FUNC (zeros, 2, "rows,columns", "matrix", _("Make an matrix of all zeros"));
+	FUNC (ones, 2, "rows,columns", "matrix", _("Make an matrix of all ones"));
 
-	FUNC (rows, 1, "matrix", _("Get the number of rows of a matrix"));
-	FUNC (columns, 1, "matrix", _("Get the number of columns of a matrix"));
-	FUNC (IsMatrixSquare, 1, "matrix", _("Is a matrix square"));
-	FUNC (elements, 1, "matrix", _("Get the number of elements of a matrix"));
+	FUNC (rows, 1, "M", "matrix", _("Get the number of rows of a matrix"));
+	FUNC (columns, 1, "M", "matrix", _("Get the number of columns of a matrix"));
+	FUNC (IsMatrixSquare, 1, "M", "matrix", _("Is a matrix square"));
+	FUNC (elements, 1, "M", "matrix", _("Get the number of elements of a matrix"));
 
-	FUNC (ref, 1, "linear_algebra", _("Get the row echelon form of a matrix"));
+	FUNC (ref, 1, "M", "linear_algebra", _("Get the row echelon form of a matrix"));
 	ALIAS (REF, 1, ref);
 	ALIAS (RowEchelonForm, 1, ref);
-	FUNC (rref, 1, "linear_algebra", _("Get the reduced row echelon form of a matrix"));
+	FUNC (rref, 1, "M", "linear_algebra", _("Get the reduced row echelon form of a matrix"));
 	ALIAS (RREF, 1, rref);
 	ALIAS (ReducedRowEchelonForm, 1, rref);
 
-	FUNC (det, 1, "linear_algebra", _("Get the determinant of a matrix"));
+	FUNC (det, 1, "M", "linear_algebra", _("Get the determinant of a matrix"));
 	ALIAS (Determinant, 1, det);
 
-	FUNC (SetMatrixSize, 3, "matrix", _("Make new matrix of given size from old one"));
+	FUNC (SetMatrixSize, 3, "M,rows,columns", "matrix", _("Make new matrix of given size from old one"));
 
-	FUNC (IsValueOnly, 1, "matrix", _("Check if a matrix is a matrix of numbers"));
-	FUNC (IsMatrixInteger, 1, "matrix", _("Check if a matrix is an integer (non-complex) matrix"));
-	FUNC (IsMatrixRational, 1, "matrix", _("Check if a matrix is a rational (non-complex) matrix"));
-	FUNC (IsMatrixReal, 1, "matrix", _("Check if a matrix is a real (non-complex) matrix"));
+	FUNC (IsValueOnly, 1, "M", "matrix", _("Check if a matrix is a matrix of numbers"));
+	FUNC (IsMatrixInteger, 1, "M", "matrix", _("Check if a matrix is an integer (non-complex) matrix"));
+	FUNC (IsMatrixRational, 1, "M", "matrix", _("Check if a matrix is a rational (non-complex) matrix"));
+	FUNC (IsMatrixReal, 1, "M", "matrix", _("Check if a matrix is a real (non-complex) matrix"));
 
-	FUNC (IsNull, 1, "basic", _("Check if argument is a null"));
-	FUNC (IsValue, 1, "basic", _("Check if argument is a number"));
-	FUNC (IsString, 1, "basic", _("Check if argument is a text string"));
-	FUNC (IsMatrix, 1, "basic", _("Check if argument is a matrix"));
-	FUNC (IsFunction, 1, "basic", _("Check if argument is a function"));
-	FUNC (IsFunctionRef, 1, "basic", _("Check if argument is a function reference"));
+	FUNC (IsNull, 1, "arg", "basic", _("Check if argument is a null"));
+	FUNC (IsValue, 1, "arg", "basic", _("Check if argument is a number"));
+	FUNC (IsString, 1, "arg", "basic", _("Check if argument is a text string"));
+	FUNC (IsMatrix, 1, "arg", "basic", _("Check if argument is a matrix"));
+	FUNC (IsFunction, 1, "arg", "basic", _("Check if argument is a function"));
+	FUNC (IsFunctionRef, 1, "arg", "basic", _("Check if argument is a function reference"));
 
-	FUNC (IsComplex, 1, "numeric", _("Check if argument is a complex (non-real) number"));
-	FUNC (IsReal, 1, "numeric", _("Check if argument is a real number"));
-	FUNC (IsInteger, 1, "numeric", _("Check if argument is an integer (non-complex)"));
-	FUNC (IsRational, 1, "numeric", _("Check if argument is a rational number (non-complex)"));
-	FUNC (IsFloat, 1, "numeric", _("Check if argument is a floating point number (non-complex)"));
+	FUNC (IsComplex, 1, "num", "numeric", _("Check if argument is a complex (non-real) number"));
+	FUNC (IsReal, 1, "num", "numeric", _("Check if argument is a real number"));
+	FUNC (IsInteger, 1, "num", "numeric", _("Check if argument is an integer (non-complex)"));
+	FUNC (IsRational, 1, "num", "numeric", _("Check if argument is a rational number (non-complex)"));
+	FUNC (IsFloat, 1, "num", "numeric", _("Check if argument is a floating point number (non-complex)"));
 
-	FUNC (AddPoly, 2, "polynomial", _("Add two polynomials (vectors)"));
-	FUNC (SubtractPoly, 2, "polynomial", _("Subtract two polynomials (as vectors)"));
-	FUNC (MultiplyPoly, 2, "polynomial", _("Multiply two polynomials (as vectors)"));
-	FUNC (PolyDerivative, 1, "polynomial", _("Take polynomial (as vector) derivative"));
-	FUNC (Poly2ndDerivative, 1, "polynomial", _("Take second polynomial (as vector) derivative"));
-	FUNC (TrimPoly, 1, "polynomial", _("Trim zeros from a polynomial (as vector)"));
-	FUNC (IsPoly, 1, "polynomial", _("Check if a vector is usable as a polynomial"));
-	VFUNC (PolyToString, 2, "polynomial", _("Make string out of a polynomial (as vector)"));
-	FUNC (PolyToFunction, 1, "polynomial", _("Make function out of a polynomial (as vector)"));
+	FUNC (AddPoly, 2, "p1,p2", "polynomial", _("Add two polynomials (vectors)"));
+	FUNC (SubtractPoly, 2, "p1,p2", "polynomial", _("Subtract two polynomials (as vectors)"));
+	FUNC (MultiplyPoly, 2, "p1,p2", "polynomial", _("Multiply two polynomials (as vectors)"));
+	FUNC (PolyDerivative, 1, "p", "polynomial", _("Take polynomial (as vector) derivative"));
+	FUNC (Poly2ndDerivative, 1, "p", "polynomial", _("Take second polynomial (as vector) derivative"));
+	FUNC (TrimPoly, 1, "p", "polynomial", _("Trim zeros from a polynomial (as vector)"));
+	FUNC (IsPoly, 1, "p", "polynomial", _("Check if a vector is usable as a polynomial"));
+	VFUNC (PolyToString, 2, "p,var", "polynomial", _("Make string out of a polynomial (as vector)"));
+	FUNC (PolyToFunction, 1, "p", "polynomial", _("Make function out of a polynomial (as vector)"));
 
-	FUNC (protect, 1, "basic", _("Protect a variable from being modified"));
-	FUNC (unprotect, 1, "basic", _("Unprotect a variable from being modified"));
+	FUNC (protect, 1, "id", "basic", _("Protect a variable from being modified"));
+	FUNC (unprotect, 1, "id", "basic", _("Unprotect a variable from being modified"));
 
 	/*temporary until well done internal functions are done*/
 	_internal_ln_function = d_makeufunc(d_intern("<internal>ln"),

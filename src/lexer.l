@@ -152,35 +152,22 @@ my_yy_close(FILE *fp)
 			return LOADFILE_GLOB;
 		}
 
-^[ 	]*cd[ 	]+<([^>]|\\>)*>[ 	]*$ {
-			char *s;
-			char *end;
-			if(evalstack || parenth_depth) {REJECT;}
-			s=strchr(yytext,'<')+1; /*find the beginning*/
-			end=strrchr(yytext,'>'); /*find the end*/
-			s = unescape_string(s,end,NULL);
-			yylval.id = g_strconcat(LIBRARY_DIR,"/",s,NULL);
-			g_free(s);
-			DO_RET;
-			return CHANGEDIR;
-		}
-
 ^[ 	]*cd[ 	]+[^ 	].*$ {
 			char *s;
 			if(evalstack || parenth_depth) {REJECT;}
-			s=strchr(yytext,'d')+1; /*move after the load*/
+			s=strchr(yytext,'d')+1; /*move after the cd*/
 			/*btw from the above RE we know this will work*/
 			while(*s==' ' || *s=='\t')
 				s++;
 			yylval.id = g_strdup(s);
 			DO_RET;
-			return CHANGEDIR_GLOB;
+			return CHANGEDIR;
 		}
 
 ^[ 	]*plugin[ 	]+[^ 	].*$ {
 			char *s;
 			if(evalstack || parenth_depth) {REJECT;}
-			s=strchr(yytext,'n')+1; /*move after the load*/
+			s=strchr(yytext,'n')+1; /*move after the plugin*/
 			/*btw from the above RE we know this will work*/
 			while(*s==' ' || *s=='\t')
 				s++;
@@ -195,11 +182,42 @@ my_yy_close(FILE *fp)
 			return PWD;
 		}
 
+^[ 	]*ls[ 	]+[^ 	].*$ {
+			char *s;
+			if(evalstack || parenth_depth) {REJECT;}
+			s=strchr(yytext,'s')+1; /*move after the ls*/
+			/*btw from the above RE we know this will work*/
+			while(*s==' ' || *s=='\t')
+				s++;
+			yylval.id = g_strdup(s);
+			DO_RET;
+			return LS_ARG;
+		}
+
 ^[ 	]*ls[ 	]*$ {
 			if(evalstack || parenth_depth) {REJECT;}
 			DO_RET;
 			return LS;
 		}
+
+^[ 	]*help[ 	]+[^ 	].*$ {
+			char *s;
+			if(evalstack || parenth_depth) {REJECT;}
+			s=strchr(yytext,'p')+1; /*move after the help*/
+			/*btw from the above RE we know this will work*/
+			while(*s==' ' || *s=='\t')
+				s++;
+			yylval.id = g_strdup(s);
+			DO_RET;
+			return HELP_ARG;
+		}
+
+^[ 	]*help[ 	]*$ {
+			if(evalstack || parenth_depth) {REJECT;}
+			DO_RET;
+			return HELP;
+		}
+
 
 ";"		{
 			if (matrix_entry &&

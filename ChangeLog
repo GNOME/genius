@@ -1,3 +1,14 @@
+Wed Oct 23 12:29:10 2002  George Lebl <jirka@5z.com>
+
+	* src/parse.y, src/lexer.l, src/calc.[ch], src/funclib.c,
+	  src/genius_lists.c, src/inter.c: remove the help function add a
+	  help command, and add help on specific functions add help on commands.
+	  Add possible argument to ls.  Remove the shell hack as it's
+	  dangerous and just use glob if wordexp isn't available.  Also clean
+	  up the command stuff.
+
+	* src/funclib.c, src/matrixw.[ch]: add DiagonalOf function
+
 Fri Oct 18 22:49:22 2002  George Lebl <jirka@5z.com>
 
 	* src/calc.c: fix cd command, improve ls command

@@ -468,6 +468,33 @@ gel_matrixw_columnsof (GelMatrixW *source)
 	return gel_matrixw_new_with_matrix (mm);
 }
 
+GelMatrixW *
+gel_matrixw_diagonalof (GelMatrixW *source)
+{
+	GelMatrix *mm;
+	int i, width, height;
+	int len;
+
+	g_return_val_if_fail (source != NULL, NULL);
+
+	width = gel_matrixw_width (source);
+	height = gel_matrixw_height (source);
+	len = MIN(width,height);
+
+	mm = gel_matrix_new ();
+	gel_matrix_set_size (mm, len, 1, FALSE /* padding */);
+
+	for (i = 0; i < len; i++) {
+		GelETree *n = gel_matrixw_set_index (source, i, i);
+		if (n != NULL)
+			n = copynode (n);
+
+		gel_matrix_index (mm, i, 0) = n;
+	}
+		
+	return gel_matrixw_new_with_matrix (mm);
+}
+
 /*transpose a matrix*/
 GelMatrixW *
 gel_matrixw_transpose(GelMatrixW *m)

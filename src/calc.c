@@ -63,6 +63,8 @@ extern int lex_init;
 extern char *yytext;
 extern int yydebug;
 
+extern const char *genius_toplevels[];
+
 gboolean genius_is_gui = FALSE;
 
 GelOutput *main_out = NULL;
@@ -100,13 +102,8 @@ calcstate_t calcstate = {0};
 void (*errorout)(const char *)=NULL;
 void (*infoout)(const char *)=NULL;
 
-char *loadfile = NULL;
-char *loadfile_glob = NULL;
-char *changedir = NULL;
-char *changedir_glob = NULL;
-gboolean ls_command = FALSE;
-gboolean pwd_command = FALSE;
-char *load_plugin = NULL;
+GelCommand gel_command = GEL_NO_COMMAND;
+char *gel_command_arg = NULL;
 
 int interrupted = FALSE;
 
@@ -218,7 +215,8 @@ get_uncategorized_documented (void)
 			continue;
 		help = get_help (f->id->token, FALSE /* insert */);
 		if (help != NULL &&
-		    help->category == NULL)
+		    help->category == NULL &&
+		    help->aliasfor == NULL)
 			list = g_slist_insert_sorted (list,
 						      help,
 						      help_sort);
@@ -1603,6 +1601,301 @@ load_compiled_file (const char *dirprefix, const char *file, gboolean warn)
 	g_free (newfile);
 }
 
+static void
+do_blue (void)
+{
+	if (genius_is_gui) {
+		gel_output_full_string (main_out, "\e[01;34m");
+	}
+}
+
+static void
+do_green (void)
+{
+	if (genius_is_gui) {
+		gel_output_full_string (main_out, "\e[0:32m");
+	}
+}
+
+/*
+static void
+do_red (void)
+{
+	if (genius_is_gui) {
+		gel_output_full_string (main_out, "\e[01;31m");
+	}
+}
+*/
+
+static void
+do_black (void)
+{
+	if (genius_is_gui) {
+		gel_output_full_string (main_out, "\e[0m");
+	}
+}
+
+static char *
+make_function_with_aliases (const char *func, GSList *aliases)
+{
+	GSList *li;
+	GString *gs = g_string_new (func);
+	for (li = aliases; li != NULL; li = li->next) {
+		g_string_append (gs, ",");
+		g_string_append (gs, li->data);
+	}
+	return g_string_free (gs, FALSE);
+}
+
+static void
+print_function_help (GelHelp *help)
+{
+	if (help->aliasfor == NULL) {
+		char *f;
+		int len;
+		f = make_function_with_aliases (help->func, help->aliases);
+		len = strlen (f);
+		do_blue ();
+		if (len <= 20)
+			gel_output_printf_full (main_out, FALSE,
+						"%-20s", f);
+		else
+			gel_output_printf_full (main_out, FALSE,
+						"%-20s", help->func);
+		g_free (f);
+		do_black ();
+		gel_output_full_string (main_out, " - ");
+		do_green ();
+		if (help->description != NULL)
+			gel_output_printf_full (main_out, FALSE,
+						"%s\n", help->description);
+		else
+			gel_output_full_string (main_out, "\n");
+		/* if we didn't fit aliases on one line */
+		if (len > 20 && help->aliases != NULL) {
+			GSList *li;
+			GString *gs = g_string_new (_("Aliases for "));
+			g_string_append (gs, help->func);
+			g_string_append (gs, ":");
+			for (li = help->aliases; li != NULL; li = li->next) {
+				g_string_append (gs, " ");
+				g_string_append (gs, li->data);
+			}
+			gel_output_printf_full (main_out, FALSE,
+						"%s\n", gs->str);
+			g_string_free (gs, TRUE);
+		}
+	}
+}
+
+static void
+print_command_help (const char *cmd)
+{
+	do_blue ();
+	gel_output_printf_full (main_out, FALSE, "%-20s", cmd);
+	do_black ();
+	gel_output_full_string (main_out, " - ");
+	do_green ();
+
+	if (strcmp (cmd, "load") == 0) {
+		gel_output_full_string (main_out,
+					_("Load a file into the interpretor"));
+	} else if (strcmp (cmd, "plugin") == 0) {
+		gel_output_full_string (main_out,
+					_("Load a plugin"));
+	} else if (strcmp (cmd, "ls") == 0) {
+		gel_output_full_string (main_out,
+					_("List files in the current directory"));
+	} else if (strcmp (cmd, "cd") == 0) {
+		gel_output_full_string (main_out,
+					_("Change directory"));
+	} else if (strcmp (cmd, "pwd") == 0) {
+		gel_output_full_string (main_out,
+					_("Print current directory"));
+	} else if (strcmp (cmd, "help") == 0) {
+		gel_output_full_string (main_out,
+					_("Print help (or help on a function/command)"));
+	}
+	gel_output_full_string (main_out, "\n");
+}
+
+static void
+full_help (void)
+{
+	GSList *categories = get_categories ();
+	GSList *functions;
+	GSList *cli, *fli;
+	int i;
+
+	gel_output_push_nonotify (main_out);
+
+	do_black ();
+	gel_output_full_string (main_out,
+				"\nCommands:\n");
+	for (i = 0; genius_toplevels[i] != NULL; i++)
+		print_command_help (genius_toplevels[i]);
+
+	for (cli = categories; cli != NULL; cli = cli->next) {
+		char *cat = cli->data;
+		functions = get_helps (cat);
+
+		if (functions != NULL) {
+			do_black ();
+			gel_output_printf_full (main_out, FALSE, "\n%s:\n",
+						get_category_name (cat));
+
+			for (fli = functions; fli != NULL; fli = fli->next) {
+				GelHelp *help = fli->data;
+				print_function_help (help);
+			}
+
+			g_slist_free (functions);
+		}
+
+		g_free (cat);
+	}
+	g_slist_free (categories);
+
+	functions = get_helps (NULL);
+	if (functions != NULL) {
+		do_black ();
+		gel_output_printf_full (main_out, FALSE, "\n%s:\n",
+					get_category_name (NULL));
+
+		for (fli = functions; fli != NULL; fli = fli->next) {
+			GelHelp *help = fli->data;
+			print_function_help (help);
+		}
+
+		g_slist_free (functions);
+	}
+
+	functions = get_undocumented ();
+	if (functions != NULL) {
+		GString *gs = g_string_new (NULL);
+		int len = 0;
+
+		do_black ();
+
+		gel_output_full_string (main_out,
+					_("\nUndocumented:\n"));
+		do_blue ();
+
+		for (fli = functions; fli != NULL; fli = fli->next) {
+			char *f = fli->data;
+			int flen = strlen (f);
+
+			if (len + flen + 1 > 78 && len > 0) {
+				gel_output_printf_full (main_out, FALSE, "%s\n",
+							gs->str);
+				g_string_truncate (gs, 0);
+				len = 0;
+			}
+			g_string_append (gs, f);
+			len += flen;
+			if (fli->next != NULL) {
+				g_string_append_c (gs, ',');
+				len++;
+			}
+
+			g_free (f);
+		}
+		if (len > 0) {
+			gel_output_printf_full (main_out, FALSE, "%s\n",
+						gs->str);
+		}
+		g_string_free (gs, TRUE);
+
+		g_slist_free (functions);
+	}
+
+	do_black ();
+
+	gel_output_pop_nonotify (main_out);
+}
+
+static void
+help_on (const char *text)
+{
+	GelHelp *help;
+	GelEFunc *f;
+	int i;
+
+	gel_output_push_nonotify (main_out);
+
+	for (i = 0; genius_toplevels[i] != NULL; i++)
+		if (strcmp (text, genius_toplevels[i]) == 0) {
+			print_command_help (text);
+			do_black ();
+			gel_output_pop_nonotify (main_out);
+			return;
+		}
+
+	help = get_help (text, FALSE /*insert*/);
+	if (help == NULL) {
+		char *s = g_strdup_printf (_("'%s' is not documented"), text);
+		(*errorout) (s);
+		g_free (s);
+		do_black ();
+		gel_output_pop_nonotify (main_out);
+		return;
+	}
+
+	if (help->aliasfor) {
+		gel_output_printf_full (main_out, FALSE,
+					"%s is an alias for %s\n",
+					text, help->aliasfor);
+		help_on (help->aliasfor);
+		do_black ();
+		gel_output_pop_nonotify (main_out);
+		return;
+	}
+
+	do_blue ();
+
+	f = d_lookup_global (d_intern (text));
+	if (f == NULL) {
+		gel_output_printf_full (main_out, FALSE, "%s\n", text);
+	} else {
+		GSList *li;
+		gel_output_printf_full (main_out, FALSE, "%s (", text);
+
+		for (li = f->named_args; li != NULL; li = li->next) {
+			GelToken *id = li->data;
+			if (li != f->named_args)
+				gel_output_full_string (main_out, ",");
+			gel_output_full_string (main_out, id->token);
+		}
+
+		if (f->vararg)
+			gel_output_full_string (main_out, "...");
+		gel_output_full_string (main_out, ")\n");
+	}
+	do_green ();
+
+	if (help->aliases != NULL) {
+		GSList *li;
+		GString *gs = g_string_new (_("Aliases:"));
+		for (li = help->aliases; li != NULL; li = li->next) {
+			g_string_append (gs, " ");
+			g_string_append (gs, li->data);
+		}
+		gel_output_printf_full (main_out, FALSE,
+					"%s\n", gs->str);
+		g_string_free (gs, TRUE);
+	}
+
+	if (help->description != NULL) {
+		gel_output_printf_full (main_out, FALSE,
+					_("Description: %s\n"),
+					help->description);
+	}
+
+	do_black ();
+	gel_output_pop_nonotify (main_out);
+}
+
+
 void
 set_new_calcstate(calcstate_t state)
 {
@@ -1726,138 +2019,107 @@ our_chdir (const char *dirprefix, const char *dir)
 	}
 }
 
-static void
+static GSList *
+get_wordlist (const char *lst)
+{
+	GSList *list = NULL;
+#if HAVE_WORDEXP
+	wordexp_t we;
+	int i;
+	if (wordexp (lst, &we, WRDE_NOCMD) != 0) {
+		char *s = g_strdup_printf (_("Can't expand '%s'"), lst);
+		(*errorout) (s);
+		g_free (s);
+		return NULL;
+	}
+	for (i = 0; i < we.we_wordc; i++) {
+		list = g_slist_prepend (list, g_strdup (we.we_wordv[i]));
+	}
+	wordfree (&we);
+#else
+	glob_t gl;
+	int i;
+	if (glob (lst, 0, NULL, &gl) != 0) {
+		char *s = g_strdup_printf (_("Can't expand '%s'"), lst);
+		(*errorout) (s);
+		g_free (s);
+		return NULL;
+	}
+	for (i = 0; i < gl.gl_pathc; i++) {
+		list = g_slist_prepend (list, g_strdup (gl.gl_pathc[i]));
+	}
+	globfree (&gl);
+#endif
+	return list;
+}
+
+
+static gboolean
 do_exec_commands (const char *dirprefix)
 {
-	if(loadfile) {
-		char *file = loadfile;
-		loadfile = NULL;
-		while(evalstack)
-			gel_freetree(stack_pop(&evalstack));
-		load_file(dirprefix, file, TRUE);
-		g_free(file);
-	}
+	GelCommand cmd = gel_command;
+	char *arg = gel_command_arg;
+	gboolean ret = FALSE;
+	GSList *list, *li;
+	DIR *dir;
+	char buf[4096] = "";
 
-	if(loadfile_glob) {
-#if HAVE_WORDEXP
-		wordexp_t we;
-		char *flist = loadfile_glob;
-		int i;
-		loadfile_glob = NULL;
-		while(evalstack)
-			gel_freetree(stack_pop(&evalstack));
-		wordexp(flist,&we,WRDE_NOCMD);
-		for(i=0;i<we.we_wordc;i++) {
-			
-			load_guess_file(dirprefix,we.we_wordv[i],TRUE);
-			if(interrupted) {
-				wordfree(&we);
-				g_free(flist);
-				return;
-			}
-		}
-		wordfree(&we);
-		g_free(flist);
-#else
-		char *s;
-		FILE *fp;
-		char buf[258]; /*so that we fit 256 chars in there*/
-		char *flist = loadfile_glob;
+	gel_command = GEL_NO_COMMAND;
+	gel_command_arg = NULL;
 
-		loadfile_glob = NULL;
-		while(evalstack)
-			gel_freetree(stack_pop(&evalstack));
-		
-		s = g_strdup_printf("for n in %s ; do echo $n ; done",flist);
-		fp = popen(s,"r");
-		g_free(s);
-		while(fgets(buf,258,fp)) {
-			int len = strlen(buf);
-			if(buf[len-1]=='\n')
-				buf[len-1]='\0';
-			load_guess_file(dirprefix,buf,TRUE);
-			if(interrupted) {
-				fclose(fp);
-				g_free(flist);
-				return;
-			}
-		}
-		fclose(fp);
-		g_free(flist);
-#endif
-	}
-
-	if (changedir != NULL) {
-		our_chdir (dirprefix, changedir);
-		g_free (changedir);
-		changedir = NULL;
-		while (evalstack != NULL)
+	switch (cmd) {
+	case GEL_NO_COMMAND:
+		ret = FALSE;
+		break;
+	case GEL_LOADFILE:
+		while (evalstack)
 			gel_freetree (stack_pop (&evalstack));
-	}
-
-	if(changedir_glob) {
-#if HAVE_WORDEXP
-		wordexp_t we;
-		char *flist = changedir_glob;
-		int i;
-		changedir_glob = NULL;
-		while(evalstack)
-			gel_freetree(stack_pop(&evalstack));
-		wordexp(flist,&we,WRDE_NOCMD);
-		for(i=0;i<we.we_wordc;i++) {
-			our_chdir (dirprefix, we.we_wordv[i]);
+		load_file (dirprefix, arg, TRUE);
+		ret = TRUE;
+		break;
+	case GEL_LOADFILE_GLOB:
+		list = get_wordlist (arg);
+		while (evalstack)
+			gel_freetree (stack_pop (&evalstack));
+		for (li = list; li != NULL; li = li->next) {
+			load_guess_file (dirprefix, li->data, TRUE);
+			if (interrupted)
+				break;
 		}
-		wordfree(&we);
-		g_free(flist);
-#else
-		char *s;
-		FILE *fp;
-		char buf[258]; /*so that we fit 256 chars in there*/
-		char *flist = loadfile_glob;
-
-		changedir_glob = NULL;
-		while(evalstack)
-			gel_freetree(stack_pop(&evalstack));
-		
-		s = g_strdup_printf("for n in %s ; do echo $n ; done",flist);
-		fp = popen(s,"r");
-		g_free(s);
-		while(fgets(buf,258,fp)) {
-			int len = strlen(buf);
-			if(buf[len-1]=='\n')
-				buf[len-1]='\0';
-			our_chdir (dirprefix, buf);
+		g_slist_foreach (list, (GFunc)g_free, NULL);
+		g_slist_free (list);
+		ret = TRUE;
+		break;
+	case GEL_CHANGEDIR:
+		list = get_wordlist (arg);
+		while (evalstack)
+			gel_freetree (stack_pop (&evalstack));
+		for (li = list; li != NULL; li = li->next) {
+			our_chdir (dirprefix, li->data);
 		}
-		fclose(fp);
-		g_free(flist);
-#endif
-	}
-	
-	if(load_plugin) {
-		char *plugin = g_strstrip(load_plugin);
-		GSList *li;
+		g_slist_foreach (list, (GFunc)g_free, NULL);
+		g_slist_free (list);
+		ret = TRUE;
+		break;
+	case GEL_LOADPLUGIN:
+		g_strstrip (arg);
 
-		load_plugin = NULL;
-		
 		for(li=plugin_list;li;li=g_slist_next(li)) {
 			plugin_t *plg = li->data;
-			if(strcmp(plg->base,plugin)==0) {
+			if(strcmp(plg->base,arg)==0) {
 				open_plugin(plg);
 				break;
 			}
 		}
 		if(!li) {
 			char *p = g_strdup_printf(_("Cannot open plugin '%s'!"),
-						  plugin);
+						  arg);
 			(*errorout)(p);
 			g_free(p);
 		}
-
-		g_free(plugin);
-	}
-
-	if (ls_command) {
-		DIR *dir = opendir (".");
+		break;
+	case GEL_LS:
+		dir = opendir (".");
 		if (dir != NULL) {
 			struct dirent *de;
 			while ((de = readdir (dir)) != NULL) {
@@ -1886,18 +2148,55 @@ do_exec_commands (const char *dirprefix)
 
 			closedir (dir);
 		}
-		ls_command = FALSE;
-	}
+		ret = TRUE;
+		break;
+	case GEL_LS_ARG:
+		list = get_wordlist (arg);
 
-	if (pwd_command) {
-		char cur[4096] = "";
-		getcwd (cur, sizeof (cur));
+		for (li = list; li != NULL; li = li->next) {
+			struct stat s;
+			if (stat (li->data, &s) == 0 &&
+			    S_ISDIR (s.st_mode)) {
+				gel_output_string (main_out, li->data);
+				gel_output_string (main_out, "/\n");
+			}
+		}
 
-		gel_output_string (main_out, cur);
+		for (li = list; li != NULL; li = li->next) {
+			struct stat s;
+			if (stat (li->data, &s) == 0 &&
+			    ! S_ISDIR (s.st_mode)) {
+				gel_output_string (main_out, li->data);
+				gel_output_string (main_out, "\n");
+			}
+		}
+
+		g_slist_foreach (list, (GFunc)g_free, NULL);
+		g_slist_free (list);
+		ret = TRUE;
+		break;
+	case GEL_PWD:
+		getcwd (buf, sizeof (buf));
+
+		gel_output_string (main_out, buf);
 		gel_output_string (main_out, "\n");
-
-		pwd_command = FALSE;
+		ret = TRUE;
+		break;
+	case GEL_HELP:
+		full_help ();
+		ret = TRUE;
+		break;
+	case GEL_HELP_ARG:
+		g_strstrip (arg);
+		help_on (arg);
+		ret = TRUE;
+		break;
+	default:
+		g_assert_not_reached ();
+		break;
 	}
+	g_free (arg);
+	return ret;
 }
 
 GelETree *
@@ -1936,13 +2235,8 @@ parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean testpar
 		my_yy_open(infile);
 	}
 
-	g_free(loadfile); loadfile = NULL;
-	g_free(loadfile_glob); loadfile_glob = NULL;
-	g_free(changedir); changedir = NULL;
-	g_free(changedir_glob); changedir_glob = NULL;
-	g_free(load_plugin); load_plugin = NULL;
-	pwd_command = FALSE;
-	ls_command = FALSE;
+	gel_command = GEL_NO_COMMAND;
+	g_free (gel_command_arg); gel_command_arg = NULL;
 
 	lex_init = TRUE;
 	/*yydebug=TRUE;*/  /*turn debugging of parsing on here!*/
@@ -1963,22 +2257,10 @@ parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean testpar
 		/*fclose(infile);*/
 	}
 	
-	if(!exec_commands) {
-		g_free(loadfile); loadfile = NULL;
-		g_free(loadfile_glob); loadfile_glob = NULL;
-		g_free(load_plugin); load_plugin = NULL;
-		g_free(changedir); changedir = NULL;
-		g_free(changedir_glob); changedir_glob = NULL;
-		pwd_command = FALSE;
-		ls_command = FALSE;
-	} else if (loadfile ||
-		   loadfile_glob ||
-		   load_plugin ||
-		   changedir ||
-		   changedir_glob ||
-		   pwd_command ||
-		   ls_command) {
-		do_exec_commands (dirprefix);
+	if ( ! exec_commands) {
+		gel_command = GEL_NO_COMMAND;
+		g_free(gel_command_arg); gel_command_arg = NULL;
+	} else if (do_exec_commands (dirprefix)) {
 		if(finished) *finished = TRUE;
 		return NULL;
 	}
