@@ -67,9 +67,7 @@ sqrt(-1)							1i
 OPTIONS		--maxdigits=0
 50!	30414093201713378043612608166064768844377641568960512000000000000
 function t()=(1+2);t						(`()=(3))
-function t()=(1+2);t+3						((`()=(3))+3)
-function t()=(1+2);a=t+3;a					((`()=(3))+3)
-function t()=(1+2);a=t+3;a()					((`()=(3))+3)
+function t()=(1+2);t()						3
 function t()=(g=1;g=g+1;g);t()					2
 t = `()=(g=1;g=g+1;g);t()					2
 function t(x)=(if(x)then(t(x-1))else(0));t(5)+t(4)		0
@@ -582,3 +580,13 @@ a=5 ; if a=5 then 1 else 0					1
 a=2 ; if a=5 then 1 else 0 ; a					2
 a=2 ; if a:=5 then 1 else 0					1
 a=2 ; if a:=5 then 1 else 0 ; a					5
+function f(a,b)=a+b;function g(a,b)=a*b; f+g call (4,5)		29
+function f(a,b)=a+2*b;function g(a,b)=a-b; f+g call (4,5)	13
+sin*sin call (5) == sin(5)*sin(5)				1
+sin^2 call (5) == sin(5)^2					1
+sin^2 call (6) == sin(5)^2					0
+2^sin call (5) == 2^sin(5)					1
+f = abs! ; f(-5)						120
+exp(sin) call (3) == exp(sin(3))				1
+exp(cos*sin) call (3) == exp(cos(3)*sin(3))			1
+e^sin call (3) == e^(sin(3))					1

@@ -946,8 +946,14 @@ appendoper(GelOutput *gelo, GelETree *n)
 		case E_CALL:
 			GET_L(n,l);
 			gel_output_string(gelo,"(");
-			if(l->type==IDENTIFIER_NODE) {
-				gel_output_string(gelo,l->id.id->token);
+			if (l->type==IDENTIFIER_NODE) {
+				gel_output_string (gelo, l->id.id->token);
+			} else if (l->type == FUNCTION_NODE) {
+				if (l->func.func->id != NULL) {
+					gel_output_string (gelo, l->func.func->id->token);
+				} else {
+					print_etree (gelo, l, FALSE);
+				}
 			} else if(l->type == OPERATOR_NODE && l->op.oper == E_DEREFERENCE) {
 				GelETree *t;
 				GET_L(l,t);

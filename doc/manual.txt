@@ -662,6 +662,29 @@ you can use "exception".
 Look at lib.gel for some examples.
 
 
+Operations on functions:
+------------------------
+
+Some functions allow arithmetic operations to be done on them, and also
+some single argument functions such as for example exp or ln.  When you
+call
+
+  exp(sin*cos+4)
+
+it will return a function that does "exp(sin(x)*cos(x)+4)".  Not all
+functions are supported however and when you use a binary operation the
+functions must take the same arguments of course.  This can be useful when
+quickly defining functions for example do to a function that does the above
+you can just do:
+
+  f = exp(sin*cos+4)
+
+It is also useful for plotting.  For example to plot sin squared you can just
+do:
+
+  LinePlot(sin^2)
+
+
 Polynomials:
 ------------
 

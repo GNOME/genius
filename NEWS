@@ -1,14 +1,18 @@
-Changes to 0.5.8
+Changes to 0.6.0
 
 * Zooming/Fitting support on the line plots
 * Line plots can now be invoked from a GUI
 * Scale is printed on line plots
 * In case GTK+ 2.4 is used, use the new file chooser dialog
 * Some fixes in case GTK+ 2.4 is used
+* SYNTAX: Allow some arithmetic operations on functions, as well as passing
+  functions to a few select 1 argument functions such as exp or ln, for
+  example: exp(sin) returns a function which does exp(sin(x)) and
+  sin^2 returns a function that does sin(x)^2
 * SYNTAX: New operator := which acts just like = but is never translated
   to ==
-* e^x now translated to exp(x) for better precision (and should be teeny
-  bit faster too)
+* SYNTAX: e^x now translated to exp(x) for better precision (and should be
+  teeny bit faster too)
 * Add rotation matrices (2D and 3D euclidean space)
 * Fix interruption with ^C
 * Lots of other minor fixes

@@ -142,6 +142,7 @@ ge_remove_stack_array(GelCtx *ctx)
 
 static void mod_node(GelETree *n, mpw_ptr mod);
 static void mod_matrix (GelMatrixW *m, mpw_ptr mod);
+static inline GelEFunc * get_func_from (GelETree *l, gboolean silent);
 
 
 /*returns the number of args for an operator, or -1 if it takes up till
@@ -2110,8 +2111,263 @@ numerical_pow (GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	gel_makenum_use_from (n, res);
 	return TRUE;
 }
+
+static GelToken *
+get_fake_token (int i)
+{
+	static GelToken *ids[10] = { NULL, };
+	if G_UNLIKELY (i >= 10) {
+		GelToken *id;
+		char *s = g_strdup_printf ("_x%d", i);
+		id = d_intern (s);
+		g_free (s);
+		return id;
+	}
+
+	if G_UNLIKELY (ids[i] == NULL) {
+		char *s = g_strdup_printf ("_x%d", i);
+		ids[i] = d_intern (s);
+		g_free (s);
+	}
+
+	return ids[i];
+}
+
+static GelETree *
+make_funccall (GelEFunc *a)
+{
+	int i;
+	GelETree *n;
+	GelETree *nn;
+
+	GET_NEW_NODE (n);
+	n->type = OPERATOR_NODE;
+	n->op.oper = E_DIRECTCALL;
+	n->op.nargs = a->nargs+1;
+
+	GET_NEW_NODE (nn);
+	nn->type = FUNCTION_NODE;
+	nn->func.func = d_copyfunc (a);
+	nn->func.func->context = -1;
+
+	n->op.args = nn;
+
+	for (i = 0; i < a->nargs; i++) {
+		GelETree *nnn;
+		nnn = gel_makenum_identifier (get_fake_token (i));
+		nn->any.next = nnn;
+		nn = nnn;
+	}
+	nn->any.next = NULL;
+
+	return n;
+}
+
+static gboolean
+function_finish_bin_op (GelCtx *ctx, GelETree *n, int nargs, GelETree *la, GelETree *lb)
+{
+	int i;
+	GSList *args;
+	GelETree *nn;
+	GelEFunc *f;
+
+	GET_NEW_NODE (nn);
+	nn->type = OPERATOR_NODE;
+	nn->op.oper = n->op.oper;
+	nn->op.args = la;
+	nn->op.args->any.next = lb;
+	nn->op.args->any.next->any.next = NULL;
+	nn->op.nargs = 1;
+
+	args = NULL;
+	for (i = nargs -1; i >= 0; i--) {
+		args = g_slist_prepend (args, get_fake_token (i));
+	}
+
+	f = d_makeufunc (NULL /* id */,
+			 nn /* value */,
+			 args, nargs,
+			 NULL /* extra_dict */);
+	freetree_full (n, TRUE /* free args */, FALSE /* kill */);
+	n->type = FUNCTION_NODE;
+	n->func.func = f;
+
+	return TRUE;
+}
+
+static gboolean
+function_bin_op (GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
+{
+	GelETree *la, *lb;
+	GelEFunc *a, *b;
+
+	a = get_func_from (l, FALSE /* silent */);
+	b = get_func_from (r, FALSE /* silent */);
+	if (a == NULL || b == NULL) {
+		return TRUE;
+	}
+
+	if (a->vararg || b->vararg) {
+		gel_errorout (_("Operations on functions with variable argument list not supported"));
+		return TRUE;
+	}
+
+	if (a->nargs != b->nargs) {
+		gel_errorout (_("Operations on functions with different number of arguments not supported"));
+		return TRUE;
+	}
+
+	la = make_funccall (a);
+	lb = make_funccall (b);
+
+	return function_finish_bin_op (ctx, n, a->nargs, la, lb);
+}
+
+static gboolean
+function_something_bin_op (GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
+{
+	GelETree *la;
+	GelEFunc *a;
+
+	a = get_func_from (l, FALSE /* silent */);
+	if (a == NULL) {
+		return TRUE;
+	}
+
+	if (a->vararg) {
+		gel_errorout (_("Operations on functions with variable argument list not supported"));
+		return TRUE;
+	}
+
+	la = make_funccall (a);
+
+	return function_finish_bin_op (ctx, n, a->nargs, la, copynode (r));
+}
+
+static gboolean
+something_function_bin_op (GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
+{
+	GelETree *lb;
+	GelEFunc *b;
+
+	b = get_func_from (r, FALSE /* silent */);
+	if (b == NULL) {
+		return TRUE;
+	}
+
+	if (b->vararg) {
+		gel_errorout (_("Operations on functions with variable argument list not supported"));
+		return TRUE;
+	}
+
+	lb = make_funccall (b);
+
+	return function_finish_bin_op (ctx, n, b->nargs, copynode (l), lb);
+}
+
+static gboolean
+function_uni_op (GelCtx *ctx, GelETree *n, GelETree *l)
+{
+	int i;
+	GSList *args;
+	GelETree *la;
+	GelETree *nn;
+	GelEFunc *f, *a;
+
+	a = get_func_from (l, FALSE /* silent */);
+	if (a == NULL) {
+		return TRUE;
+	}
+
+	if (a->vararg) {
+		gel_errorout (_("Operations on functions with variable argument list not supported"));
+		return TRUE;
+	}
+
+	la = make_funccall (a);
+
+	GET_NEW_NODE (nn);
+	nn->type = OPERATOR_NODE;
+	nn->op.oper = n->op.oper;
+	nn->op.args = la;
+	nn->op.args->any.next = NULL;
+	nn->op.nargs = 1;
+
+	args = NULL;
+	for (i = a->nargs -1; i >= 0; i--) {
+		args = g_slist_prepend (args, get_fake_token (i));
+	}
+
+	f = d_makeufunc (NULL /* id */,
+			 nn /* value */,
+			 args, a->nargs,
+			 NULL /* extra_dict */);
+	freetree_full (n, TRUE /* free args */, FALSE /* kill */);
+	n->type = FUNCTION_NODE;
+	n->func.func = f;
+
+	return TRUE;
+}
+
+GelETree *
+function_from_function (GelEFunc *func, GelETree *l)
+{
+	int i;
+	GSList *args;
+	GelETree *la;
+	GelETree *n;
+	GelETree *nn;
+	GelEFunc *f, *a;
+
+	a = get_func_from (l, FALSE /* silent */);
+	if (a == NULL) {
+		return NULL;
+	}
+
+	if (a->vararg) {
+		gel_errorout (_("Operations on functions with variable argument list not supported"));
+		return NULL;
+	}
+
+	if (func->nargs != 1) {
+		gel_errorout (_("Function creation with wrong number of arguments"));
+		return NULL;
+	}
+
+	la = make_funccall (a);
+
+	GET_NEW_NODE (n);
+	n->type = FUNCTION_NODE;
+	n->func.func = d_copyfunc (func);
+	n->func.func->context = -1;
+
+	GET_NEW_NODE (nn);
+	nn->type = OPERATOR_NODE;
+	nn->op.oper = E_DIRECTCALL;
+	nn->op.args = n;
+	nn->op.args->any.next = la;
+	nn->op.args->any.next->any.next = NULL;
+	nn->op.nargs = 2;
+
+	args = NULL;
+	for (i = a->nargs -1; i >= 0; i--) {
+		args = g_slist_prepend (args, get_fake_token (i));
+	}
+
+	f = d_makeufunc (NULL /* id */,
+			 nn /* value */,
+			 args, a->nargs,
+			 NULL /* extra_dict */);
+	GET_NEW_NODE (n);
+	n->type = FUNCTION_NODE;
+	n->func.func = f;
+
+	return n;
+}
+
 	
 #define EMPTY_PRIM {{{{0}}}}
+/* May have to raise OP_TABLE_LEN in eval.h if you add entries below */
 
 static const GelOper prim_table[E_OPER_LAST] = {
 	/*E_SEPAR*/ EMPTY_PRIM,
@@ -2121,6 +2377,8 @@ static const GelOper prim_table[E_OPER_LAST] = {
 	{{
 		 {{GO_VALUE,0,0},(GelEvalFunc)numerical_abs},
 		 {{GO_MATRIX,0,0},(GelEvalFunc)matrix_absnegfac_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,0,0},
+			 (GelEvalFunc)function_uni_op},
 	 }},
 	/*E_PLUS*/
 	{{
@@ -2132,6 +2390,12 @@ static const GelOper prim_table[E_OPER_LAST] = {
 			 (GelEvalFunc)string_concat},
 		 {{GO_STRING,GO_VALUE|GO_MATRIX|GO_FUNCTION|GO_STRING,0},
 			 (GelEvalFunc)string_concat},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)function_bin_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)function_something_bin_op},
+		 {{GO_VALUE|GO_MATRIX,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)something_function_bin_op},
 		 {{GO_VALUE|GO_POLYNOMIAL,GO_VALUE|GO_POLYNOMIAL,0},
 			 (GelEvalFunc)polynomial_add_sub_op},
 	 }},
@@ -2143,6 +2407,12 @@ static const GelOper prim_table[E_OPER_LAST] = {
 			 (GelEvalFunc)matrix_scalar_matrix_op},
 		 {{GO_VALUE|GO_POLYNOMIAL,GO_VALUE|GO_POLYNOMIAL,0},
 			 (GelEvalFunc)polynomial_add_sub_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)function_bin_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)function_something_bin_op},
+		 {{GO_VALUE|GO_MATRIX,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)something_function_bin_op},
 	 }},
 	/*E_MUL*/
 	{{
@@ -2150,6 +2420,12 @@ static const GelOper prim_table[E_OPER_LAST] = {
 		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_mul_op},
 		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
 			 (GelEvalFunc)matrix_scalar_matrix_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)function_bin_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)function_something_bin_op},
+		 {{GO_VALUE|GO_MATRIX,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)something_function_bin_op},
 	 }},
 	/*E_ELTMUL*/
 	{{
@@ -2157,6 +2433,12 @@ static const GelOper prim_table[E_OPER_LAST] = {
 		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
 		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
 			 (GelEvalFunc)matrix_scalar_matrix_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)function_bin_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)function_something_bin_op},
+		 {{GO_VALUE|GO_MATRIX,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)something_function_bin_op},
 	 }},
 	/*E_DIV*/
 	{{
@@ -2164,6 +2446,12 @@ static const GelOper prim_table[E_OPER_LAST] = {
 		 {{GO_MATRIX,GO_VALUE,0}, (GelEvalFunc)matrix_scalar_matrix_op},
 		 {{GO_VALUE,GO_MATRIX,0}, (GelEvalFunc)value_matrix_div_op},
 		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_div_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)function_bin_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)function_something_bin_op},
+		 {{GO_VALUE|GO_MATRIX,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)something_function_bin_op},
 	 }},
 	/*E_ELTDIV*/
 	{{
@@ -2171,11 +2459,23 @@ static const GelOper prim_table[E_OPER_LAST] = {
 		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
 		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
 			 (GelEvalFunc)matrix_scalar_matrix_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)function_bin_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)function_something_bin_op},
+		 {{GO_VALUE|GO_MATRIX,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)something_function_bin_op},
 	 }},
 	/*E_BACK_DIV*/
 	{{
 		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_back_div},
 		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_div_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)function_bin_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)function_something_bin_op},
+		 {{GO_VALUE|GO_MATRIX,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)something_function_bin_op},
 	 }},
 	/*E_ELT_BACK_DIV*/
 	{{
@@ -2183,10 +2483,22 @@ static const GelOper prim_table[E_OPER_LAST] = {
 		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
 		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
 			 (GelEvalFunc)matrix_scalar_matrix_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)function_bin_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)function_something_bin_op},
+		 {{GO_VALUE|GO_MATRIX,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)something_function_bin_op},
 	 }},
 	/*E_MOD*/
 	{{
 		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_mod},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)function_bin_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_VALUE,0},
+			 (GelEvalFunc)function_something_bin_op},
+		 {{GO_VALUE,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)something_function_bin_op},
 	 }},
 	/*E_ELTMOD*/
 	{{
@@ -2194,16 +2506,30 @@ static const GelOper prim_table[E_OPER_LAST] = {
 		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
 		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
 			 (GelEvalFunc)matrix_scalar_matrix_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)function_bin_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)function_something_bin_op},
+		 {{GO_VALUE|GO_MATRIX,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)something_function_bin_op},
 	 }},
 	/*E_NEG*/
 	{{
 		 {{GO_VALUE,0,0},(GelEvalFunc)numerical_neg},
 		 {{GO_MATRIX,0,0},(GelEvalFunc)matrix_absnegfac_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,0,0},
+			 (GelEvalFunc)function_uni_op},
 	 }},
 	/*E_EXP*/
 	{{
 		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_pow},
 		 {{GO_MATRIX,GO_VALUE,0},(GelEvalFunc)matrix_pow_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)function_bin_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)function_something_bin_op},
+		 {{GO_VALUE|GO_MATRIX,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)something_function_bin_op},
 	 }},
 	/*E_ELTEXP*/
 	{{
@@ -2211,24 +2537,38 @@ static const GelOper prim_table[E_OPER_LAST] = {
 		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
 		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
 			 (GelEvalFunc)matrix_scalar_matrix_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)function_bin_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)function_something_bin_op},
+		 {{GO_VALUE|GO_MATRIX,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)something_function_bin_op},
 	 }},
 	/*E_FACT*/
 	{{
 		 {{GO_VALUE,0,0},(GelEvalFunc)numerical_fac},
 		 {{GO_MATRIX,0,0},(GelEvalFunc)matrix_absnegfac_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,0,0},
+			 (GelEvalFunc)function_uni_op},
 	 }},
 	/*E_DBLFACT*/
 	{{
 		 {{GO_VALUE,0,0},(GelEvalFunc)numerical_dblfac},
 		 {{GO_MATRIX,0,0},(GelEvalFunc)matrix_absnegfac_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,0,0},
+			 (GelEvalFunc)function_uni_op},
 	 }},
 	/*E_TRANSPOSE*/
 	{{
 		 {{GO_MATRIX,0,0},(GelEvalFunc)transpose_matrix},
+		 {{GO_FUNCTION|GO_IDENTIFIER,0,0},
+			 (GelEvalFunc)function_uni_op},
 	 }},
 	/*E_CONJUGATE_TRANSPOSE*/
 	{{
 		 {{GO_MATRIX,0,0},(GelEvalFunc)conjugate_transpose_matrix},
+		 {{GO_FUNCTION|GO_IDENTIFIER,0,0},
+			 (GelEvalFunc)function_uni_op},
 	 }},
 	/*E_IF_CONS*/ EMPTY_PRIM,
 	/*E_IFELSE_CONS*/ EMPTY_PRIM,
@@ -2269,6 +2609,8 @@ static const GelOper prim_table[E_OPER_LAST] = {
 	/*E_LOGICAL_NOT*/
 	{{
 		 {{GO_VALUE|GO_STRING,0,0},(GelEvalFunc)logicalnotop},
+		 {{GO_FUNCTION|GO_IDENTIFIER,0,0},
+			 (GelEvalFunc)function_uni_op},
 	 }},
 	/*E_REGION_SEP*/ EMPTY_PRIM,
 	/*E_REGION_SEP_BY*/ EMPTY_PRIM,
@@ -3334,12 +3676,9 @@ iter_push_matrix(GelCtx *ctx, GelETree *n, GelMatrixW *m)
 }
 
 static GelEFunc *
-get_func_from_arg (GelCtx *ctx, GelETree *n, gboolean silent)
+get_func_from (GelETree *l, gboolean silent)
 {
 	GelEFunc *f;
-	GelETree *l;
-
-	GET_L(n,l);
 
 	if(l->type == IDENTIFIER_NODE) {
 		f = d_lookup_global(l->id.id);
@@ -3379,6 +3718,15 @@ get_func_from_arg (GelCtx *ctx, GelETree *n, gboolean silent)
 	return f;
 }
 
+static GelEFunc *
+get_func_from_arg (GelETree *n, gboolean silent)
+{
+	GelETree *l;
+
+	GET_L (n,l);
+	return get_func_from (l, silent);
+}
+
 static gboolean
 iter_funccallop(GelCtx *ctx, GelETree *n)
 {
@@ -3386,7 +3734,7 @@ iter_funccallop(GelCtx *ctx, GelETree *n)
 	
 	EDEBUG("    FUNCCALL");
 
-	f = get_func_from_arg (ctx, n, FALSE /* silent */);
+	f = get_func_from_arg (n, FALSE /* silent */);
 	if (f == NULL)
 		goto funccall_done_ok;
 	
@@ -4687,6 +5035,8 @@ iter_get_arg(GelETree *n)
 	case MATRIX_NODE: return GO_MATRIX;
 	case STRING_NODE: return GO_STRING;
 	case FUNCTION_NODE: return GO_FUNCTION;
+	case IDENTIFIER_NODE: return GO_IDENTIFIER;
+	case POLYNOMIAL_NODE: return GO_POLYNOMIAL;
 	default: return 0;
 	}
 }
@@ -4968,7 +5318,7 @@ iter_operator_pre(GelCtx *ctx)
 			GelEFunc *f;
 			EDEBUG("  DIRECT:PUSH US AS POST AND 2nd AND HIGHER ARGS AS PRE");
 			GE_PUSH_STACK(ctx,n,GE_POST);
-			f = get_func_from_arg (ctx, n, TRUE /* silent */);
+			f = get_func_from_arg (n, TRUE /* silent */);
 			if (f != NULL && f->no_mod_all_args)
 				iter_push_args_no_modulo (ctx, n->op.args->any.next);
 			else

@@ -592,7 +592,21 @@ call_func (GelCtx *ctx, GelEFunc *func, GelETree *arg, gboolean *ex)
 	/* FIXME: handle errors! */
 	if (error_num != 0)
 		error_num = 0;
+
+	/* only do one level of indirection to avoid infinite loops */
+	if (ret != NULL && ret->type == FUNCTION_NODE && ret->func.func->nargs == 1) {
+		GelETree *ret2;
+		ret2 = funccall (ctx, ret->func.func, args, 1);
+		gel_freetree (ret);
+		ret = ret2;
+		/* FIXME: handle errors! */
+		if (error_num != 0)
+			error_num = 0;
+
+	}
+
 	if (ret == NULL || ret->type != VALUE_NODE) {
+
 		*ex = TRUE;
 		gel_freetree (ret);
 		return 0;
@@ -1034,7 +1048,6 @@ create_plot_dialog (void)
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
 	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
 	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
-	/*gtk_widget_set_size_request (w, 80, -1);*/
 	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
 	g_signal_connect (G_OBJECT (adj), "value_changed",
 			  G_CALLBACK (double_spin_cb), &spinx1);
@@ -1052,7 +1065,6 @@ create_plot_dialog (void)
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
 	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
 	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
-	/*gtk_widget_set_size_request (w, 80, -1);*/
 	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
 	g_signal_connect (G_OBJECT (adj), "value_changed",
 			  G_CALLBACK (double_spin_cb), &spinx2);
@@ -1075,7 +1087,6 @@ create_plot_dialog (void)
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
 	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
 	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
-	/*gtk_widget_set_size_request (w, 80, -1);*/
 	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
 	g_signal_connect (G_OBJECT (adj), "value_changed",
 			  G_CALLBACK (double_spin_cb), &spiny1);
@@ -1093,7 +1104,6 @@ create_plot_dialog (void)
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
 	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
 	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
-	/*gtk_widget_set_size_request (w, 80, -1);*/
 	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
 	g_signal_connect (G_OBJECT (adj), "value_changed",
 			  G_CALLBACK (double_spin_cb), &spiny2);
@@ -1167,6 +1177,8 @@ function_from_expression (const char *e, gboolean *ex)
 			      NULL /* finished */,
 			      NULL /* dirprefix */);
 	g_free (ce);
+
+	/* FIXME: if "x" not used try to evaluate and if it returns a function use that */
 
 	if (value != NULL) {
 		f = d_makeufunc (NULL /* id */,
@@ -1352,8 +1364,8 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	for (i = 0;
 	     i < MAXFUNC && a[i] != NULL && a[i]->type == FUNCTION_NODE;
 	     i++) {
-		replot_func[funcs] = d_copyfunc (a[i]->func.func);
-		replot_func[funcs]->context = -1;
+		func[funcs] = d_copyfunc (a[i]->func.func);
+		func[funcs]->context = -1;
 		funcs++;
 	}
 

@@ -1,3 +1,23 @@
+Wed Mar 24 16:39:18 2004  George Lebl <jirka@5z.com>
+
+	* src/eval.[ch], src/calc.c: Add basic arithmethic operations on
+	  functions, for example sin^2 will make a new function that
+	  does sin(x)^2, so you can do say "LinePlot(sin^2)", or
+	  more uselessly "sin^2 call (x)" 
+
+	* src/geniustests.txt: update the tests a bit
+
+	* src/funclib.c, src/eval.[ch]: Add "function return" to some 
+	  1 value functions such as exp, so that e.g. exp(sin) returns
+	  a function that does exp(sin(x)).  Currently supported are:
+	  conj, sin, cos, sinh, cosh, tan, atan, sqrt, exp, ln, log2, log10,
+	  round, floor, ceil, trunc, float, Numerator, Denominator, Re and
+	  Im.
+
+	* src/graphing.c: Fix LinePlot function (we messed up the replot
+	  data), also if the function returns functions, then evaluate those
+	  instead (don't recurse further though)
+
 Wed Mar 24 11:04:26 2004  George Lebl <jirka@5z.com>
 
 	* doc/manual.txt, lib/linear_algebra/*.gel: fixup some documentation

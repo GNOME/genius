@@ -43,6 +43,28 @@ extern calcstate_t calcstate;
 GelEFunc *_internal_ln_function = NULL;
 GelEFunc *_internal_exp_function = NULL;
 
+GelEFunc *conj_function = NULL;
+GelEFunc *sin_function = NULL;
+GelEFunc *cos_function = NULL;
+GelEFunc *sinh_function = NULL;
+GelEFunc *cosh_function = NULL;
+GelEFunc *tan_function = NULL;
+GelEFunc *atan_function = NULL;
+GelEFunc *sqrt_function = NULL;
+GelEFunc *exp_function = NULL;
+GelEFunc *ln_function = NULL;
+GelEFunc *log2_function = NULL;
+GelEFunc *log10_function = NULL;
+GelEFunc *round_function = NULL;
+GelEFunc *floor_function = NULL;
+GelEFunc *ceil_function = NULL;
+GelEFunc *trunc_function = NULL;
+GelEFunc *float_function = NULL;
+GelEFunc *Numerator_function = NULL;
+GelEFunc *Denominator_function = NULL;
+GelEFunc *Re_function = NULL;
+GelEFunc *Im_function = NULL;
+
 /*maximum number of primes to precalculate and store*/
 #define MAXPRIMES 30000
 GArray *primes = NULL;
@@ -54,6 +76,7 @@ static mpw_t golden_ratio_cache;
 static int golden_ratio_iscached = FALSE;
 
 #define RAISE_EXCEPTION(e) { if ((e) != NULL) *(e) = TRUE; }
+
 
 static inline gboolean
 check_argument_integer (GelETree **a, int argnum, const char *funcname)
@@ -810,6 +833,11 @@ ComplexConjugate_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
 
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (conj_function, a[0]);
+	}
+
 	if (a[0]->type == MATRIX_NODE)
 		return apply_func_to_matrix (ctx, a[0], ComplexConjugate_op, "ComplexConjugate", exception);
 
@@ -828,6 +856,11 @@ static GelETree *
 sin_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
+
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (sin_function, a[0]);
+	}
 
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],sin_op,"sin", exception);
@@ -848,6 +881,11 @@ sinh_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
 
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (sinh_function, a[0]);
+	}
+
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],sinh_op,"sinh", exception);
 
@@ -866,6 +904,11 @@ static GelETree *
 cos_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
+
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (cos_function, a[0]);
+	}
 
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],cos_op,"cos", exception);
@@ -886,6 +929,11 @@ cosh_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
 
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (cosh_function, a[0]);
+	}
+
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],cosh_op,"cosh", exception);
 
@@ -905,6 +953,11 @@ tan_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
 	mpw_t fr2;
+
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (tan_function, a[0]);
+	}
 
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],tan_op,"tan", exception);
@@ -930,6 +983,11 @@ static GelETree *
 atan_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
+
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (atan_function, a[0]);
+	}
 
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],atan_op,"atan", exception);
@@ -1183,6 +1241,11 @@ trunc_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
 
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (trunc_function, a[0]);
+	}
+
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],trunc_op,"trunc", exception);
 
@@ -1196,6 +1259,11 @@ static GelETree *
 floor_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
+
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (floor_function, a[0]);
+	}
 
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],floor_op,"floor", exception);
@@ -1211,6 +1279,11 @@ ceil_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
 
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (ceil_function, a[0]);
+	}
+
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],ceil_op,"ceil", exception);
 
@@ -1224,6 +1297,11 @@ static GelETree *
 round_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
+
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (round_function, a[0]);
+	}
 
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],round_op,"round", exception);
@@ -1239,6 +1317,11 @@ float_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
 
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (float_function, a[0]);
+	}
+
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],float_op,"float", exception);
 
@@ -1253,6 +1336,11 @@ static GelETree *
 Numerator_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
+
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (Numerator_function, a[0]);
+	}
 
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],Numerator_op,"Numerator", exception);
@@ -1274,6 +1362,11 @@ Denominator_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
 
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (Denominator_function, a[0]);
+	}
+
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],Denominator_op,"Denominator", exception);
 
@@ -1294,6 +1387,11 @@ Re_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
 
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (Re_function, a[0]);
+	}
+
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],Re_op,"Re", exception);
 
@@ -1309,6 +1407,11 @@ Im_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
 
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (Im_function, a[0]);
+	}
+
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],Im_op,"Im", exception);
 
@@ -1322,6 +1425,11 @@ Im_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 static GelETree *
 sqrt_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (sqrt_function, a[0]);
+	}
+
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],sqrt_op,"sqrt", exception);
 
@@ -1377,6 +1485,11 @@ exp_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
 
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (exp_function, a[0]);
+	}
+
 	if(a[0]->type==MATRIX_NODE) {
 		if(gel_matrixw_width(a[0]->mat.matrix) !=
 		   gel_matrixw_height(a[0]->mat.matrix)) {
@@ -1399,6 +1512,11 @@ ln_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
 
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (ln_function, a[0]);
+	}
+
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],ln_op,"ln", exception);
 
@@ -1419,6 +1537,11 @@ log2_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
 
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (log2_function, a[0]);
+	}
+
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],log2_op,"log2", exception);
 
@@ -1438,6 +1561,11 @@ static GelETree *
 log10_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpw_t fr;
+
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (log10_function, a[0]);
+	}
 
 	if(a[0]->type==MATRIX_NODE)
 		return apply_func_to_matrix(ctx,a[0],log10_op,"log10", exception);
@@ -4209,15 +4337,22 @@ gel_funclib_addall(void)
 	FUNC (DiagonalOf, 1, "M", "matrix", _("Gets the diagonal entries of a matrix as a horizontal vector"));
 
 	FUNC (ComplexConjugate, 1, "M", "numeric", _("Calculates the conjugate"));
+	conj_function = f;
 	ALIAS (conj, 1, ComplexConjugate);
 	ALIAS (Conj, 1, ComplexConjugate);
 
 	FUNC (sin, 1, "x", "trigonometry", _("Calculates the sine function"));
+	sin_function = f;
 	FUNC (cos, 1, "x", "trigonometry", _("Calculates the cossine function"));
+	cos_function = f;
 	FUNC (sinh, 1, "x", "trigonometry", _("Calculates the hyperbolic sine function"));
+	sinh_function = f;
 	FUNC (cosh, 1, "x", "trigonometry", _("Calculates the hyperbolic cosine function"));
+	cosh_function = f;
 	FUNC (tan, 1, "x", "trigonometry", _("Calculates the tan function"));
+	tan_function = f;
 	FUNC (atan, 1, "x", "trigonometry", _("Calculates the arctan function"));
+	atan_function = f;
 	ALIAS (arctan, 1, atan);
 
 	FUNC (pi, 0, "", "constants", _("The number pi"));
@@ -4230,24 +4365,36 @@ gel_funclib_addall(void)
 
 	FUNC (sqrt, 1, "x", "numeric", _("The square root"));
 	f->propagate_mod = 1;
+	sqrt_function = f;
 	ALIAS (SquareRoot, 1, sqrt);
 	FUNC (exp, 1, "x", "numeric", _("The exponential function"));
+	exp_function = f;
 	FUNC (ln, 1, "x", "numeric", _("The natural logarithm"));
+	ln_function = f;
 	FUNC (log2, 1, "x", "numeric", _("Logarithm of x base 2"));
+	log2_function = f;
 	ALIAS (lg, 1, log2);
 	FUNC (log10, 1, "x", "numeric", _("Logarithm of x base 10"));
+	log10_function = f;
 	FUNC (round, 1, "x", "numeric", _("Round a number"));
+	round_function = f;
 	ALIAS (Round, 1, round);
 	FUNC (floor, 1, "x", "numeric", _("Get the highest integer less then or equal to n"));
+	floor_function = f;
 	ALIAS (Floor, 1, floor);
 	FUNC (ceil, 1, "x", "numeric", _("Get the lowest integer more then or equal to n"));
+	ceil_function = f;
 	ALIAS (Ceiling, 1, ceil);
 	FUNC (trunc, 1, "x", "numeric", _("Truncate number to an integer (return the integer part)"));
+	trunc_function = f;
 	ALIAS (Truncate, 1, trunc);
 	ALIAS (IntegerPart, 1, trunc);
 	FUNC (float, 1, "x", "numeric", _("Make number a float"));
+	float_function = f;
 	FUNC (Numerator, 1, "x", "numeric", _("Get the numerator of a rational number"));
+	Numerator_function = f;
 	FUNC (Denominator, 1, "x", "numeric", _("Get the denominator of a rational number"));
+	Denominator_function = f;
 
 	VFUNC (gcd, 2, "a,args", "number_theory", _("Greatest common divisor"));
 	ALIAS (GCD, 2, gcd);
@@ -4284,8 +4431,10 @@ gel_funclib_addall(void)
 	ALIAS (LegendreSymbol, 2, Legendre);
 
 	FUNC (Re, 1, "z", "numeric", _("Get the real part of a complex number"));
+	Re_function = f;
 	ALIAS (RealPart, 1, Re);
 	FUNC (Im, 1, "z", "numeric", _("Get the imaginary part of a complex number"));
+	Im_function = f;
 	ALIAS (ImaginaryPart, 1, Im);
 
 	FUNC (I, 1, "n", "matrix", _("Make an identity matrix of a given size"));
