@@ -106,6 +106,7 @@ read_plugin_list(void)
 				plugin_list = g_slist_prepend(plugin_list,plg);
 		}
 	}
+	closedir (dir);
 	g_free(dir_name);
 	plugin_list = g_slist_reverse(plugin_list);
 }

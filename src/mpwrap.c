@@ -97,6 +97,7 @@ static int default_mpf_prec = 0;
 		m->alloc.usage = 1;			\
 		mpwl_init_type(m,n->type);		\
 		mpwl_set(m,n);				\
+		n->alloc.usage --;			\
 		n = m;					\
 	}						\
 }

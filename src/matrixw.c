@@ -936,6 +936,11 @@ gel_matrixw_free(GelMatrixW *m)
 #endif
 
 	internal_matrix_free (m->m);
+
+	if (m->regx != NULL)
+		g_free (m->regx);
+	if (m->regy != NULL)
+		g_free (m->regy);
 	
 	mf = (GelMatrixWFreeList *)m;
 	
