@@ -59,7 +59,7 @@ main (void)
   inexact = mpfr_init_set_d (u, 1.0, GMP_RNDN);
 
   mpfr_set_nan (x);
-  mpfr_set (y, x, GMP_RNDN);
+  (mpfr_set) (y, x, GMP_RNDN);
   MPFR_ASSERTN(mpfr_nan_p (y));
 
   mpfr_set_inf (x, 1);
@@ -80,13 +80,22 @@ main (void)
   MPFR_ASSERTN(mpfr_cmp_ui (y, 0) == 0 && MPFR_IS_NEG(y));
 
   emax = mpfr_get_emax ();
-  mpfr_set_emax (0);
+  set_emax (0);
   mpfr_set_prec (x, 3);
   mpfr_set_str_binary (x, "0.111");
   mpfr_set_prec (y, 2);
   mpfr_set (y, x, GMP_RNDU);
-  MPFR_ASSERTN(mpfr_inf_p (y) && mpfr_sgn (y) > 0);
-  mpfr_set_emax (emax);
+  if (!(MPFR_IS_INF (y) && MPFR_SIGN (y) > 0))
+    {
+      printf ("Error for y=x=0.111 with px=3, py=2 and emax=0\nx=");
+      mpfr_dump (x);
+      printf ("y=");
+      mpfr_dump (y);
+      exit (1);
+    }
+
+  MPFR_ASSERTN (MPFR_IS_INF (y) && MPFR_SIGN (y) > 0);
+  set_emax (emax);
 
   mpfr_set_prec (y, 11);
   mpfr_set_str_binary (y, "0.11111111100E-8");

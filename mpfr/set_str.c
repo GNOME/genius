@@ -25,6 +25,10 @@ MA 02111-1307, USA. */
 
 #define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
+
+/* Old code */
+#if 0
+
 #include "log_b2.h"
 
 static double __gmpfr_ceil _MPFR_PROTO((double));
@@ -384,6 +388,19 @@ mpfr_set_str (mpfr_t x, const char *str, int base, mp_rnd_t rnd)
 
   return res;
 }
+#endif
+
+int
+mpfr_set_str (mpfr_t x, const char *str, int base, mp_rnd_t rnd)
+{
+  char *p;
+
+  if (MPFR_UNLIKELY (*str == 0))
+    return -1;
+  mpfr_strtofr (x, str, &p, base, rnd);
+  return (*p == 0) ? 0 : -1;
+}
+
 
 int
 mpfr_init_set_str (mpfr_ptr x, const char *str, int base, mp_rnd_t rnd)

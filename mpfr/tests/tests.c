@@ -19,12 +19,15 @@ along with the MPFR Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 MA 02111-1307, USA. */
 
-#if HAVE_CONFIG_H
-#include "config.h"     /* for a build within gmp */
+#ifdef HAVE_CONFIG_H
+# if HAVE_CONFIG_H
+#  include "config.h"     /* for a build within gmp */
+# endif
 #endif
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <float.h>
 
 #if TIME_WITH_SYS_TIME
@@ -36,10 +39,14 @@ MA 02111-1307, USA. */
 #  include <time.h>
 #endif
 
+#if HAVE_SYS_FPU_H
+# include <sys/fpu.h>
+#endif
+
 #include "mpfr-test.h"
 
-void tests_rand_start _MPFR_PROTO ((void));
-void tests_rand_end   _MPFR_PROTO ((void));
+static void tests_rand_start (void);
+static void tests_rand_end   (void);
 
 void
 tests_start_mpfr (void)
@@ -59,7 +66,7 @@ tests_end_mpfr (void)
   tests_memory_end ();
 }
 
-void
+static void
 tests_rand_start (void)
 {
   gmp_randstate_ptr  rands;
@@ -103,18 +110,19 @@ tests_rand_start (void)
     }
 }
 
-void
+static void
 tests_rand_end (void)
 {
   RANDS_CLEAR ();
 }
 
-/* initialization function for tests using the hardware floats */
+/* initialization function for tests using the hardware floats
+   Not very usefull now. */
 void
 mpfr_test_init ()
 {
-  double c, d, eps;
-#ifdef __mips
+  double d;
+#if HAVE_FPC_CSR
   /* to get denormalized numbers on IRIX64 */
   union fpc_csr exp;
 
@@ -131,11 +139,10 @@ mpfr_test_init ()
     }
 #endif
 
-  tests_machine_prec_double ();
-
   /* generate DBL_EPSILON with a loop to avoid that the compiler
      optimizes the code below in non-IEEE 754 mode, deciding that
      c = d is always false. */
+#if 0
   for (eps = 1.0; eps != DBL_EPSILON; eps /= 2.0);
   c = 1.0 + eps;
   d = eps * (1.0 - eps) / 2.0;
@@ -146,30 +153,6 @@ mpfr_test_init ()
               "         (maybe extended precision not disabled)\n"
               "         Some tests may fail\n");
     }
-}
-
-
-/* Set the machine floating point precision, to double or long double.
-
-   On i386 this controls the mantissa precision on the x87 stack, but the
-   exponent range is only enforced when storing to memory.
-
-   For reference, on most i386 systems the default is 64-bit "long double"
-   precision, but on FreeBSD 3.x and amd64 5.x it's 53-bit "double".  */
-
-void
-tests_machine_prec_double (void)
-{
-#if MPFR_HAVE_TESTS_x86
-  x86_fldcw ((x86_fstcw () & ~0x300) | 0x200);
-#endif
-}
-
-void
-tests_machine_prec_long_double (void)
-{
-#if MPFR_HAVE_TESTS_x86
-  x86_fldcw (x86_fstcw () | 0x300);
 #endif
 }
 
@@ -284,4 +267,43 @@ ld_trace (const char *name, long double ld)
       printf ("%02X", (int) u.b[i]);
     }
   printf ("] %.20Lg\n", ld);
+}
+
+/* Open a file in the src directory - can't use fopen directly */
+FILE *src_fopen (const char *filename, const char *mode)
+{
+  const char *srcdir = getenv ("srcdir");
+  char *buffer;
+  FILE *f;
+
+  if (srcdir == NULL)
+    return fopen (filename, mode);
+  buffer = malloc (strlen (filename) + strlen (srcdir) + 1);
+  if (buffer == NULL)
+    {
+      printf ("src_fopen: failed to alloc memory)\n");
+      exit (1);
+    }
+  sprintf (buffer, "%s/%s", srcdir, filename);
+  f = fopen (buffer, mode);
+  free (buffer);
+  return f;
+}
+
+void set_emin (mp_exp_t exponent)
+{
+  if (mpfr_set_emin (exponent))
+    {
+      printf ("set_emin: setting emin to %ld failed\n", (long int) exponent);
+      exit (1);
+    }
+}
+
+void set_emax (mp_exp_t exponent)
+{
+  if (mpfr_set_emax (exponent))
+    {
+      printf ("set_emax: setting emax to %ld failed\n", (long int) exponent);
+      exit (1);
+    }
 }

@@ -41,20 +41,19 @@ static int mpfr_pi_machin3 _MPFR_PROTO ((mpfr_ptr, mp_rnd_t));
 static int
 mpfr_pi_machin3 (mpfr_ptr mylog, mp_rnd_t rnd_mode)
 {
-  int prec, logn, prec_x;
-  int prec_i_want;
+  mp_prec_t prec, logn, prec_x;
+  mp_prec_t prec_i_want;
   mpfr_t tmp1, tmp2, result, tmp3, tmp4, tmp5, tmp6;
   mpz_t cst;
   int inex = 0;  /* here, 0 means not set */
 
-  MPFR_CLEAR_FLAGS (mylog);
   prec_i_want = MPFR_PREC (mylog);
-  logn = __gmpfr_ceil_log2 ((double) prec_i_want);
+  logn = MPFR_INT_CEIL_LOG2 (prec_i_want);
   prec_x = prec_i_want + logn;
   mpz_init (cst);
   while (!inex)
     {
-      prec = __gmpfr_ceil_log2 ((double) prec_x);
+      prec = MPFR_INT_CEIL_LOG2 (prec_x);
 
       mpfr_init2(tmp1, prec_x);
       mpfr_init2(tmp2, prec_x);
@@ -150,12 +149,13 @@ so Pi*16^N-S'(N) <= N+1 (as 1/4/N^2 < 1)
 int
 (mpfr_const_pi) (mpfr_ptr x, mp_rnd_t rnd_mode)
 {
-  int N, oldN, n;
+  mp_prec_t N, oldN, n;
   mpfr_prec_t prec;
   mpz_t pi, num, den, d3, d2, tmp;
   int inex;
+  MPFR_SAVE_EXPO_DECL (expo);
 
-  mpfr_save_emin_emax ();
+  MPFR_SAVE_EXPO_MARK (expo);
 
   prec = MPFR_PREC(x);
 
@@ -163,12 +163,10 @@ int
     {
       /* need to recompute */
       N=1;
-      do
-        {
-          oldN = N;
-          N = (prec+3)/4 + __gmpfr_ceil_log2((double) N + 1.0);
-        }
-      while (N != oldN);
+      do {
+	oldN = N;
+	N = (prec+3)/4 + MPFR_INT_CEIL_LOG2 (N + 1);
+      } while (N != oldN);
       mpz_init(pi);
       mpz_init(num);
       mpz_init(den);
@@ -223,7 +221,6 @@ int
   else
     inex = mpfr_pi_machin3 (x, rnd_mode);
 
-  mpfr_restore_emin_emax ();
-
+  MPFR_SAVE_EXPO_FREE (expo);
   return mpfr_check_range(x, inex, rnd_mode);
 }

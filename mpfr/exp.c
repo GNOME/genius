@@ -31,8 +31,11 @@ MA 02111-1307, USA. */
 int
 mpfr_exp (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode)
 {
-  int expx, precy, inexact;
+  mp_exp_t expx;
+  mp_prec_t precy;
+  int inexact;
   double d;
+  MPFR_SAVE_EXPO_DECL (expo);
 
   if (MPFR_UNLIKELY( MPFR_IS_SINGULAR(x) ))
     {
@@ -58,13 +61,14 @@ mpfr_exp (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode)
     }
   MPFR_CLEAR_FLAGS(y);
 
-  expx = MPFR_GET_EXP (x);
-  precy = MPFR_PREC(y);
+  expx  = MPFR_GET_EXP (x);
+  precy = MPFR_PREC (y);
 
   /* result is +Inf when exp(x) >= 2^(__gmpfr_emax), i.e.
      x >= __gmpfr_emax * log(2) */
+  /* TODO: Don't convert to double! */
   d = mpfr_get_d1 (x);
-  if (MPFR_UNLIKELY(d >= (double) __gmpfr_emax * LOG2))
+  if (MPFR_UNLIKELY (d >= (double) __gmpfr_emax * LOG2))
     return mpfr_set_overflow (y, rnd_mode, 1);
 
   /* result is 0 when exp(x) < 1/2*2^(__gmpfr_emin), i.e.
@@ -78,7 +82,7 @@ mpfr_exp (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode)
     }
 
   /* if x < 2^(-precy), then exp(x) i.e. gives 1 +/- 1 ulp(1) */
-  if (MPFR_UNLIKELY(expx < -precy))
+  if (MPFR_UNLIKELY (expx < 0 && (mpfr_uexp_t) (-expx) > precy))
     {
       int signx = MPFR_SIGN(x);
 
@@ -102,11 +106,11 @@ mpfr_exp (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode)
       return -MPFR_FROM_SIGN_TO_INT(signx);
     }
 
-  mpfr_save_emin_emax ();
-  if (MPFR_UNLIKELY(precy > MPFR_EXP_THRESHOLD))
+  MPFR_SAVE_EXPO_MARK (expo);
+  if (MPFR_UNLIKELY (precy > MPFR_EXP_THRESHOLD))
     inexact = mpfr_exp_3 (y, x, rnd_mode); /* O(M(n) log(n)^2) */
   else
     inexact = mpfr_exp_2 (y, x, rnd_mode); /* O(n^(1/3) M(n)) */
-  mpfr_restore_emin_emax ();
+  MPFR_SAVE_EXPO_FREE (expo);
   return mpfr_check_range (y, inexact, rnd_mode);
 }

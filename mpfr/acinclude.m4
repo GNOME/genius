@@ -1,6 +1,6 @@
 dnl  MPFR specific autoconf macros
 
-dnl  Copyright 2000, 2002, 2003 Free Software Foundation.
+dnl  Copyright 2000, 2002, 2003, 2004 Free Software Foundation.
 dnl  Contributed by the Spaces project, INRIA Lorraine.
 dnl  
 dnl  This file is part of the MPFR Library.
@@ -26,29 +26,6 @@ dnl  both autoconf 2.13 and autoconf 2.50.
 dnl  The following line allows the autoconf wrapper (when installed)
 dnl  to work as expected.
 AC_PREREQ(2.50)
-
-AC_DEFUN([AC_MY_LIBS],
-[
-if ` test "$1" `
-then  
-  AC_MSG_CHECKING($2 library)
-	if  test -r "$1/lib$2.a"
-	then
-	  LDADD="$LDADD $1/lib$2.a"
-	else
-	if  test -r "$1/lib$2.so"
-	then
-	  LDADD="$LDADD $1/lib$2.so"
-	else
-	   AC_MSG_ERROR($1/lib$2.a/so not found)
-	fi
-	fi
-  AC_MSG_RESULT(yes)
-else
-  AC_CHECK_LIB($2, main, , AC_MSG_ERROR($2 not found))
-fi
-]
-)
 
 dnl FIXME: Buggy?
 AC_DEFUN([AC_MY_HEADERS], 
@@ -84,19 +61,6 @@ AC_DEFUN([MPFR_CONFIGS],
 AC_REQUIRE([AC_OBJEXT])
 AC_REQUIRE([MPFR_CHECK_LIBM])
 AC_REQUIRE([AC_HEADER_TIME])
-
-# CPU-dependent objects for the test programs
-case $host in
-  X86_PATTERN)
-    AC_SUBST(TESTS_ASM_OBJECTS, x86.$OBJEXT)
-    AC_DEFINE(MPFR_HAVE_TESTS_x86, 1,
-              [Define to 1 if mpfr x86/amd64 test routines are available.])
-    ;;
-  amd64-*-*)
-    AC_SUBST(TESTS_ASM_OBJECTS, amd64.$OBJEXT)
-    AC_DEFINE(MPFR_HAVE_TESTS_x86, 1)
-    ;;
-esac
 
 dnl Check for sizeof size_t
 dnl AC_CHECK_SIZEOF
@@ -145,6 +109,13 @@ esac
 #   sys/fpu.h - MIPS specific
 #
 AC_CHECK_HEADERS(sys/fpu.h)
+
+AC_CHECK_TYPE( [union fpc_csr], AC_DEFINE(HAVE_FPC_CSR), , 
+[
+#if HAVE_SYS_FPU_H
+#  include <sys/fpu.h>
+#endif
+])
 
 dnl Check for fesetround
 AC_CACHE_CHECK([for fesetround], mpfr_cv_have_fesetround, [

@@ -19,12 +19,12 @@ along with the MPFR Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 MA 02111-1307, USA. */
 
+#define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
 
- /* The computation of asinh is done by
+/* The computation of asinh is done by  *
+ *    asinh = ln(x + sqrt(x^2 + 1))     */
 
-    asinh = ln(x + sqrt(x^2 + 1))
- */
 int
 mpfr_asinh (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode)
 {
@@ -33,6 +33,7 @@ mpfr_asinh (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode)
   mp_prec_t Nx, Ny, Nt;
   mpfr_t t, te, ti; /* auxiliary variables */
   long int err;
+  MPFR_SAVE_EXPO_DECL (expo);
 
   if (MPFR_UNLIKELY( MPFR_IS_SINGULAR(x) ))
     {
@@ -68,14 +69,14 @@ mpfr_asinh (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode)
   Nt = MAX(Nx, Ny);
 
   /* the optimal number of bits : see algorithms.ps */
-  Nt = Nt + 4 + __gmpfr_ceil_log2 (Nt);
+  Nt = Nt + 4 + MPFR_INT_CEIL_LOG2 (Nt);
+
+  MPFR_SAVE_EXPO_MARK (expo);
 
   /* initialize intermediary variables */
   mpfr_init2 (t, 2);
   mpfr_init2 (te, 2);
   mpfr_init2 (ti, 2);
-
-  mpfr_save_emin_emax ();
 
   /* First computation of asinh */
   do
@@ -102,7 +103,7 @@ mpfr_asinh (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode)
                                         Ny + (rnd_mode == GMP_RNDN))
                        || MPFR_IS_ZERO(t)));
 
-  mpfr_restore_emin_emax ();
+  MPFR_SAVE_EXPO_FREE (expo);
   
   if (neg)
     MPFR_CHANGE_SIGN(t);

@@ -26,12 +26,13 @@ MA 02111-1307, USA. */
 
 #include "mpfr-test.h"
 
-#define ERROR(str) {printf("Error for "str); exit(1);}
+#define ERROR(str) {printf("Error for "str"\n"); exit(1);}
 
 static void
 test_2exp (void)
 {
   mpfr_t x;
+  int res;
 
   mpfr_init2 (x, 32);
   
@@ -59,6 +60,15 @@ test_2exp (void)
   if (mpfr_cmp_str (x, "-1ABCDEF0@-64", 16, GMP_RNDN))
     ERROR("(-x1ABCDEF0,-256)");
 
+  mpfr_set_prec (x, 2);
+  res = mpfr_set_si_2exp (x, 7, 10, GMP_RNDU);
+  if (mpfr_cmp_ui (x, 1<<13) || res <= 0)
+    ERROR ("Prec 2 + si_2exp");
+
+  res = mpfr_set_ui_2exp (x, 7, 10, GMP_RNDU);
+  if (mpfr_cmp_ui (x, 1<<13) || res <= 0)
+    ERROR ("Prec 2 + ui_2exp");
+
   mpfr_clear (x);
 }
 
@@ -79,7 +89,7 @@ main (int argc, char *argv[])
 
   mpfr_init2 (x, 100);
 
-  N = (argc==1) ? 200000 : atol (argv[1]);
+  N = (argc==1) ? 100000 : atol (argv[1]);
 
   for (k = 1; k <= N; k++)
     {
@@ -190,17 +200,17 @@ main (int argc, char *argv[])
   
   /* check potential bug in case mp_limb_t is unsigned */
   emax = mpfr_get_emax ();
-  mpfr_set_emax (0);
+  set_emax (0);
   mpfr_set_si (x, -1, GMP_RNDN);
   if (mpfr_sgn (x) >= 0)
     {
       printf ("mpfr_set_si (x, -1) fails\n");
       exit (1);
     }
-  mpfr_set_emax (emax);
+  set_emax (emax);
 
   emax = mpfr_get_emax ();
-  mpfr_set_emax (5);
+  set_emax (5);
   mpfr_set_prec (x, 2);
   mpfr_set_si (x, -31, GMP_RNDN);
   if (mpfr_sgn (x) >= 0)
@@ -208,7 +218,7 @@ main (int argc, char *argv[])
       printf ("mpfr_set_si (x, -31) fails\n");
       exit (1);
     }
-  mpfr_set_emax (emax);
+  set_emax (emax);
 
   /* test for get_ui */
   mpfr_set_ui (x, 0, GMP_RNDN);
@@ -216,6 +226,25 @@ main (int argc, char *argv[])
   mpfr_set_ui (x, ULONG_MAX, GMP_RNDU);
   mpfr_nextabove (x);
   mpfr_get_ui (x, GMP_RNDU);
+
+  /* another test for get_ui */
+  mpfr_set_prec (x, 10);
+  mpfr_set_str_binary (x, "10.101");
+  dl = mpfr_get_ui (x, GMP_RNDN);
+  MPFR_ASSERTN (dl == 3);
+
+  mpfr_set_str_binary (x, "-1.0");
+  mpfr_get_ui (x, GMP_RNDN);
+
+  mpfr_set_str_binary (x, "0.1");
+  dl = mpfr_get_ui (x, GMP_RNDN);
+  MPFR_ASSERTN (dl == 0);
+  dl = mpfr_get_ui (x, GMP_RNDZ);
+  MPFR_ASSERTN (dl == 0);
+  dl = mpfr_get_ui (x, GMP_RNDD);
+  MPFR_ASSERTN (dl == 0);
+  dl = mpfr_get_ui (x, GMP_RNDU);
+  MPFR_ASSERTN (dl == 1);
 
   /* coverage tests */
   mpfr_set_prec (x, 2);
@@ -225,14 +254,70 @@ main (int argc, char *argv[])
   mpfr_set_ui (x, 7, GMP_RNDU);
   MPFR_ASSERTN(mpfr_cmp_ui (x, 8) == 0);
   emax = mpfr_get_emax ();
-  mpfr_set_emax (3);
+  set_emax (3);
   mpfr_set_ui (x, 7, GMP_RNDU);
   MPFR_ASSERTN(mpfr_inf_p (x) && mpfr_sgn (x) > 0);
-  mpfr_set_emax (1);
+  set_emax (1);
   MPFR_ASSERTN( mpfr_set_ui (x, 7, GMP_RNDU) );
   MPFR_ASSERTN(mpfr_inf_p (x) && mpfr_sgn (x) > 0);
-  mpfr_set_emax (emax);
+  set_emax (emax);
 
+  /* Test for ERANGE flag + correct behaviour if overflow */
+  mpfr_set_prec (x, 256); 
+  mpfr_set_ui (x, ULONG_MAX, GMP_RNDN);
+  mpfr_clear_erangeflag ();
+  dl = mpfr_get_ui (x, GMP_RNDN);
+  if (dl != ULONG_MAX || mpfr_erangeflag_p ())
+    {
+      printf ("ERROR for get_ui + ERANGE + ULONG_MAX (1)\n");
+      exit (1);
+    }
+  mpfr_add_ui (x, x, 1, GMP_RNDN);
+  dl = mpfr_get_ui (x, GMP_RNDN);
+  if (dl != ULONG_MAX || !mpfr_erangeflag_p ())
+    {
+      printf ("ERROR for get_ui + ERANGE + ULONG_MAX (2)\n");
+      exit (1);
+    }
+  mpfr_set_si (x, -1, GMP_RNDN);
+  mpfr_clear_erangeflag ();
+  dl = mpfr_get_ui (x, GMP_RNDN);
+  if (dl != 0 || !mpfr_erangeflag_p ())
+    {
+      printf ("ERROR for get_ui + ERANGE + -1 \n");
+      exit (1);
+    }
+  mpfr_set_si (x, LONG_MAX, GMP_RNDN);
+  mpfr_clear_erangeflag ();
+  d = mpfr_get_si (x, GMP_RNDN);
+  if (d != LONG_MAX || mpfr_erangeflag_p ())
+    {
+      printf ("ERROR for get_si + ERANGE + LONG_MAX (1): %ld\n", d);
+      exit (1);
+    }
+  mpfr_add_ui (x, x, 1, GMP_RNDN);
+  d = mpfr_get_si (x, GMP_RNDN);
+  if (d != LONG_MAX || !mpfr_erangeflag_p ())
+    {
+      printf ("ERROR for get_si + ERANGE + LONG_MAX (2)\n");
+      exit (1);
+    }
+  mpfr_set_si (x, LONG_MIN, GMP_RNDN);
+  mpfr_clear_erangeflag ();
+  d = mpfr_get_si (x, GMP_RNDN);
+  if (d != LONG_MIN || mpfr_erangeflag_p ())
+    {
+      printf ("ERROR for get_si + ERANGE + LONG_MIN (1)\n");
+      exit (1);
+    }
+  mpfr_sub_ui (x, x, 1, GMP_RNDN);
+  d = mpfr_get_si (x, GMP_RNDN);
+  if (d != LONG_MIN || !mpfr_erangeflag_p ())
+    {
+      printf ("ERROR for get_si + ERANGE + LONG_MIN (2)\n");
+      exit (1);
+    }
+ 
   mpfr_clear (x);
 
   test_2exp ();

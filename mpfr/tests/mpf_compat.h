@@ -1,6 +1,6 @@
 /* Test compatibility mpf-mpfr.
 
-Copyright 2003 Free Software Foundation.
+Copyright 2003, 2004 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -160,19 +160,28 @@ main ()
   /* Input and Output Functions */
 
   f = fopen ("/dev/null", "w");
-  mpf_out_str (f, 10, 10, x);
-  fclose (f);
+  if (f != NULL)
+    {
+      mpf_out_str (f, 10, 10, x);
+      fclose (f);
+    }
 
   mpf_set_prec (x, 15);
   mpf_set_prec (y, 15);
+  /* We may use src_fopen instead of fopen, but it is defined
+     in mpfr-test, and not in mpfr.h and gmp.h, and we want
+     to test theses includes files. */
   f = fopen ("inp_str.data", "r");
-  i = mpf_inp_str (x, f, 10);
-  if ((i == 0) || mpf_cmp_ui (x, 31415))
+  if (f != NULL)
     {
-      printf ("Error in reading 1st line from file inp_str.data\n");
-      exit (1);
+      i = mpf_inp_str (x, f, 10);
+      if ((i == 0) || mpf_cmp_ui (x, 31415))
+        {
+          printf ("Error in reading 1st line from file inp_str.data\n");
+          exit (1);
+        }
+      fclose (f);
     }
-  fclose (f);
 
   /* Miscellaneous Functions */
 

@@ -26,6 +26,20 @@ MA 02111-1307, USA. */
 
 #define ERROR(s) do { printf(s); exit(1); } while(0)
 
+/* Test powerof2 */
+static void
+check_powerof2 (void)
+{
+  mpfr_t x;
+
+  mpfr_init (x);
+  mpfr_set_ui (x, 1, GMP_RNDN);
+  MPFR_ASSERTN (mpfr_powerof2_raw (x));
+  mpfr_set_ui (x, 3, GMP_RNDN);
+  MPFR_ASSERTN (!mpfr_powerof2_raw (x));
+  mpfr_clear (x);
+}
+
 /* Test default rounding mode */
 static void
 check_default_rnd (void)
@@ -34,7 +48,7 @@ check_default_rnd (void)
   for(r = 0 ; r < GMP_RND_MAX ; r++)
     {
       mpfr_set_default_rounding_mode (r);
-      t = mpfr_get_default_rounding_mode();
+      t = (mpfr_get_default_rounding_mode) ();
       if (r !=t)
 	ERROR("ERROR in setting / getting default rounding mode (1)\n");
     }
@@ -63,12 +77,37 @@ check_emin_emax (void)
     ERROR("get_emax FAILED!");
   if ((mpfr_set_emax)(MPFR_EMAX_MAX+1) == 0)
     ERROR("set_emax failed! (2)");  
+
+  if ((mpfr_get_emin_min) () != MPFR_EMIN_MIN)
+    ERROR ("get_emin_min");
+  if ((mpfr_get_emin_max) () != MPFR_EMIN_MAX)
+    ERROR ("get_emin_max");
+  if ((mpfr_get_emax_min) () != MPFR_EMAX_MIN)
+    ERROR ("get_emax_min");
+  if ((mpfr_get_emax_max) () != MPFR_EMAX_MAX)
+    ERROR ("get_emax_max");
+}
+
+static void
+check_set_get_prec (void)
+{
+  mpfr_t x;
+
+  mpfr_init2 (x, 17);
+  if (mpfr_get_prec (x) != 17 || (mpfr_get_prec)(x) != 17)
+    ERROR ("mpfr_get_prec");
+  mpfr_clear (x);
 }
 
 static void
 mpfr_set_double_range (void)
 {
+  mpfr_set_default_prec (54);
+  if (mpfr_get_default_prec () != 54)
+    ERROR ("get_default_prec failed (1)");
   mpfr_set_default_prec (53);
+  if ((mpfr_get_default_prec) () != 53)
+    ERROR ("get_default_prec failed (2)");
 
   /* in double precision format, the unbiased exponent is between 0 and
      2047, where 0 is used for subnormal numbers, and 2047 for special
@@ -82,8 +121,8 @@ mpfr_set_double_range (void)
      (We have to add one for mpfr since mantissa are between 1/2 and 1.)
   */
 
-  mpfr_set_emin (-1021);
-  mpfr_set_emax (1024);
+  set_emin (-1021);
+  set_emax (1024);
 }
 
 static void
@@ -101,21 +140,31 @@ check_flags (void)
   mpfr_mul_2exp (x, x, 1024, GMP_RNDN);
   if (!(mpfr_overflow_p)())
     ERROR("ERROR: No overflow detected!\n");
+
   (mpfr_clear_underflow)();
   mpfr_set_ui (x, 1, GMP_RNDN);
   mpfr_div_2exp (x, x, 1025, GMP_RNDN);
   if (!(mpfr_underflow_p)())
     ERROR("ERROR: No underflow detected!\n");
+
   (mpfr_clear_nanflag)();
   MPFR_SET_NAN(x);
   mpfr_add (x, x, x, GMP_RNDN);
   if (!(mpfr_nanflag_p)())
     ERROR("ERROR: No NaN flag!\n");
+
   (mpfr_clear_inexflag)();
   mpfr_set_ui(x, 2, GMP_RNDN);
   mpfr_cos(x, x, GMP_RNDN);
   if (!(mpfr_inexflag_p)())
     ERROR("ERROR: No inexact flag!\n");
+
+  (mpfr_clear_erangeflag) ();
+  mpfr_set_ui (x, 1, GMP_RNDN);
+  mpfr_mul_2exp (x, x, 1024, GMP_RNDN); 
+  mpfr_get_ui (x, GMP_RNDN);
+  if (!(mpfr_erangeflag_p)())
+    ERROR ("ERROR: No erange flag!\n");
 
   mpfr_clear(x);
 }
@@ -239,7 +288,7 @@ main (int argc, char *argv[])
       exit (1);
     }
 
-  mpfr_set_emax (1025);
+  set_emax (1025);
   mpfr_set_ui (x, 1, GMP_RNDN);
   mpfr_mul_2exp (x, x, 1024, GMP_RNDN);
   mpfr_set_double_range ();
@@ -283,7 +332,7 @@ main (int argc, char *argv[])
       exit (1);
     }
 
-  mpfr_set_emin (-1026);
+  set_emin (-1026);
   mpfr_set_ui (x, 1, GMP_RNDN);
   mpfr_div_2exp (x, x, 1025, GMP_RNDN);
   mpfr_set_double_range ();
@@ -301,7 +350,8 @@ main (int argc, char *argv[])
 
   check_emin_emax();
   check_flags();
-
+  check_set_get_prec ();
+  check_powerof2 ();
   tests_end_mpfr ();
   return 0;
 }

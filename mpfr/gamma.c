@@ -24,7 +24,7 @@ MA 02111-1307, USA. */
 #include <stdlib.h>
 #endif
 
-
+#define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
 
 /* We use the reflection formula 
@@ -50,6 +50,7 @@ mpfr_gamma (mpfr_ptr gamma, mpfr_srcptr x, mp_rnd_t rnd_mode)
   unsigned long k;
   int sign;
   int inex;
+  MPFR_SAVE_EXPO_DECL (expo);
 
   /* Trivial cases */
   if (MPFR_UNLIKELY( MPFR_IS_SINGULAR(x) ))
@@ -90,16 +91,14 @@ mpfr_gamma (mpfr_ptr gamma, mpfr_srcptr x, mp_rnd_t rnd_mode)
     return mpfr_set_ui (gamma, 1, rnd_mode);
 
   /* if x is an integer that fits into an unsigned long, use mpfr_fac_ui */
-  if (mpfr_integer_p (x))
+  if (mpfr_integer_p (x) && mpfr_fits_ulong_p (x, GMP_RNDN))
     {
       unsigned long int u;
       u = mpfr_get_ui (x, GMP_RNDN);
-      /* u = 0 when x is 0 or x does not fit in an unsigned long */
-      if (u != 0)
-        return mpfr_fac_ui (gamma, u - 1, rnd_mode);
+      return mpfr_fac_ui (gamma, u - 1, rnd_mode);
     }
 
-  mpfr_save_emin_emax ();
+  MPFR_SAVE_EXPO_MARK (expo);
 
   realprec = prec_gamma + 10;
 
@@ -211,7 +210,7 @@ mpfr_gamma (mpfr_ptr gamma, mpfr_srcptr x, mp_rnd_t rnd_mode)
                           MPFR_PREC(gamma) + (rnd_mode == GMP_RNDN)))
         break;
       
-      realprec += __gmpfr_ceil_log2 ((double) realprec);
+      realprec += MPFR_INT_CEIL_LOG2 (realprec);
     }
   inex = mpfr_set (gamma, GammaTrial, rnd_mode);
 
@@ -222,7 +221,8 @@ mpfr_gamma (mpfr_ptr gamma, mpfr_srcptr x, mp_rnd_t rnd_mode)
   mpfr_clear(GammaTrial);
 
   mpfr_clear (xp);
-  mpfr_restore_emin_emax ();
+
+  MPFR_SAVE_EXPO_FREE (expo);
 
   return mpfr_check_range(gamma, inex, rnd_mode); 
 }

@@ -28,6 +28,13 @@ MA 02111-1307, USA. */
 #include <stdlib.h>
 #include <limits.h>
 
+/* The ISO C99 standard specifies that in C++ implementations the
+   INTMAX_MAX, ... macros should only be defined if explicitly requested.  */
+#if defined __cplusplus
+# define __STDC_LIMIT_MACROS
+# define __STDC_CONSTANT_MACROS
+#endif
+
 #ifdef HAVE_STDINT_H
 # include <stdint.h>
 #endif
@@ -42,6 +49,12 @@ int main() { return 0; }
 #else
 
 #define ERROR(str) {printf("Error for "str"\n"); exit(1);}
+
+static int 
+inexact_sign (int x)
+{
+  return (x < 0) ? -1 : (x > 0);
+}
 
 static void
 check_set_uj (mp_prec_t pmin, mp_prec_t pmax, int N)
@@ -71,7 +84,7 @@ check_set_uj (mp_prec_t pmin, mp_prec_t pmax, int N)
 	      printf ("Y="); mpfr_dump (y);
 	      exit (1);
 	    }
-	  if (inex1 != inex2)
+	  if (inexact_sign (inex1) != inexact_sign (inex2))
 	    {
 	      printf ("ERROR for inexact(set_uj): j=%lu p=%lu\n"
 		      "Inexact1= %d Inexact2= %d\n",
@@ -89,6 +102,9 @@ check_set_uj (mp_prec_t pmin, mp_prec_t pmax, int N)
   if (inex1 != 0 || !mpfr_powerof2_raw (x)
       || MPFR_EXP (x) != (sizeof(uintmax_t)*CHAR_BIT+1) )
     ERROR ("power of 2");
+  mpfr_set_uj (x, 0, GMP_RNDN);
+  if (!MPFR_IS_ZERO (x))
+    ERROR ("Setting 0");
 
   mpfr_clears (x, y, NULL);
 }

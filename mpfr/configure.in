@@ -49,6 +49,21 @@ AC_CANONICAL_HOST
 AC_CHECK_OS
 AC_CHECK_MACHTYPE
 
+dnl Check if compiler is ICC, and if such a case, disable GCC
+dnl And add some specific flags.
+dnl Don't add Warnings Flags (Otherwise you'll get more than 20000 warnings).
+dnl Add -long_double flags ?
+dnl Don't use -pc64 !
+AC_MSG_CHECKING(for ICC)
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+#if !defined(__ICC)
+# error "ICC Not Found"
+#endif
+]], [[]])],[AC_MSG_RESULT(yes)
+ GCC=
+ CFLAGS="-fp_port -mp -wd1572 -wd265 -wd186 -wd239 $CFLAGS"
+],[AC_MSG_RESULT(no)])
+
 dnl If compiler is gcc, then use some specific flags.
 dnl But don't touch user specified flags.
 if test "$test_CFLAGS" != set && test -n "$GCC"; then
@@ -93,11 +108,11 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 AC_MSG_CHECKING(for recent GMP)
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 #include "gmp.h"
-#if (__GNU_MP_VERSION*100+__GNU_MP_VERSION_MINOR*10+__GNU_MP_VERSION_PATCHLEVEL < 412)
-# error "min GMP version is 4.1.2"
+#if (__GNU_MP_VERSION*100+__GNU_MP_VERSION_MINOR*10 < 410)
+# error "min GMP version is 4.1.0"
 #endif
 ]], [[]])],[AC_MSG_RESULT(yes)],[AC_MSG_RESULT(no)
-     AC_MSG_ERROR([GMP 4.0.0 min required])
+     AC_MSG_ERROR([GMP 4.1.0 min required])
 ])
 
 dnl Check if we can use internal header files of GMP.
@@ -141,7 +156,32 @@ if test -f confdefs.h; then
   mv confdefs.tmp confdefs.h
 fi
 
-AC_MY_LIBS($with_gmp_lib, gmp)
+dnl AC_CHECK_LIB doesn't do what we want
+AC_MSG_CHECKING(for GMP library)
+if test -r "$with_gmp_lib/libgmp.a"; then
+  LIBS="$with_gmp_lib/libgmp.a $LIBS"
+elif test -r "$with_gmp_lib/libgmp.so"; then
+  LIBS="$with_gmp_lib/libgmp.so $LIBS"
+elif test -r "$with_gmp_lib/libgmp.lib"; then
+  LIBS="$with_gmp_lib/libgmp.lib $LIBS"
+else
+  if test -d "$with_gmp_lib"; then
+    LDFLAGS="-L$with_gmp_lib $LDFLAGS"
+  fi  
+  LIBS="-lgmp $LIBS"
+fi
+dnl FIXME: If AC_RUN_IFELSE failed try with AC_LINK_IFELSE?
+AC_RUN_IFELSE([AC_LANG_SOURCE([[
+#include "gmp.h"
+int main() { return !gmp_version; }
+  ]])], [
+    AC_MSG_RESULT(yes)
+  ], [
+    AC_MSG_RESULT(no)
+    AC_MSG_ERROR(libgmp not found)
+  ], [
+    AC_MSG_RESULT([can't test])
+  ])
 
 dnl Check for corresponding 'gmp.h' and libgmp.a
 AC_MSG_CHECKING(if gmp.h version and libgmp version are the same)
@@ -152,11 +192,15 @@ AC_TRY_RUN([
 int main()
 {
   char buffer[100];
-  sprintf (buffer, "%d.%d.%d", __GNU_MP_VERSION, __GNU_MP_VERSION_MINOR,
-  __GNU_MP_VERSION_PATCHLEVEL);
-  return strcmp (buffer, gmp_version);
+  if (__GNU_MP_VERSION_PATCHLEVEL != 0)
+    sprintf (buffer, "%d.%d.%d", __GNU_MP_VERSION, __GNU_MP_VERSION_MINOR,
+	    __GNU_MP_VERSION_PATCHLEVEL);
+  else
+    sprintf (buffer, "%d.%d", __GNU_MP_VERSION, __GNU_MP_VERSION_MINOR);
+  printf ("(%s/%s) ", buffer, gmp_version);
+  return (strcmp (buffer, gmp_version) != 0) ? 1 : 0;
 }
-], AC_MSG_RESULT(yes), 
+], AC_MSG_RESULT(yes),
    [AC_MSG_RESULT(no)
     AC_MSG_ERROR(['gmp.h' and 'libgmp' have different versions! you have to properly reinstall GMP.])],
     AC_MSG_RESULT([can't test])

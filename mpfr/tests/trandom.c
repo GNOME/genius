@@ -122,6 +122,10 @@ test_random2 (long nbtests, mp_prec_t prec, int verbose)
   mpfr_random2 (x, 0, 0);
   MPFR_ASSERTN(mpfr_cmp_ui (x, 0) == 0 && MPFR_IS_POS(x));
 
+  /* test size < 0 */
+  mpfr_random2 (x, -1, 0);
+  MPFR_ASSERTN (MPFR_IS_NEG (x) && MPFR_EXP (x) == 0);
+
   mpfr_clear (x);
   if (!verbose)
     {
@@ -188,7 +192,7 @@ test_urandomb (long nbtests, mp_prec_t prec, int verbose)
 
   /* coverage test */
   emin = mpfr_get_emin ();
-  mpfr_set_emin (1); /* the generated number in [0,1[ is not in the exponent
+  set_emin (1); /* the generated number in [0,1[ is not in the exponent
                         range, except if it is zero */
   k = mpfr_urandomb (x, state);
   if (MPFR_IS_ZERO(x) == 0 && (k == 0 || mpfr_nan_p (x) == 0))
@@ -197,7 +201,7 @@ test_urandomb (long nbtests, mp_prec_t prec, int verbose)
       mpfr_dump (x);
       exit (1);
     }
-  mpfr_set_emin (emin);
+  set_emin (emin);
 
   mpfr_clear (x);
   gmp_randclear (state);

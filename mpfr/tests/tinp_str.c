@@ -30,13 +30,12 @@ main (int argc, char *argv[])
   mpfr_t x;
   FILE *f;
   int i;
-
   tests_start_mpfr ();
 
   mpfr_init (x);
 
   mpfr_set_prec (x, 15);
-  f = fopen ("inp_str.data", "r");
+  f = src_fopen ("inp_str.data", "r");
   if (f == NULL)
     {
       printf ("Error, can't open inp_str.data\n");
@@ -45,21 +44,24 @@ main (int argc, char *argv[])
   i = mpfr_inp_str (x, f, 10, GMP_RNDN);
   if (i == 0 || mpfr_cmp_ui (x, 31415))
     {
-      printf ("Error in reading 1st line from file inp_str.data\n");
+      printf ("Error in reading 1st line from file inp_str.data (%d)\n", i);
+      mpfr_dump (x);
       exit (1);
     }
   getc (f);
   i = mpfr_inp_str (x, f, 10, GMP_RNDN);
   if ((i == 0) || mpfr_cmp_ui (x, 31416))
     {
-      printf ("Error in reading 2nd line from file inp_str.data\n");
+      printf ("Error in reading 2nd line from file inp_str.data (%d)\n", i);
+      mpfr_dump (x);
       exit (1);
     }
   getc (f);
   i = mpfr_inp_str (x, f, 10, GMP_RNDN);
   if (i != 0)
     {
-      printf ("Error in reading 3rd line from file inp_str.data\n");
+      printf ("Error in reading 3rd line from file inp_str.data (%d)\n", i);
+      mpfr_dump (x);
       exit (1);
     }
   fclose (f);

@@ -19,7 +19,7 @@ along with the MPFR Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 MA 02111-1307, USA. */
 
-
+#include <limits.h>
 #include "mpfr-impl.h"
 
 long
@@ -28,25 +28,40 @@ mpfr_get_si (mpfr_srcptr f, mp_rnd_t rnd)
   mp_prec_t prec;
   long s;
   mpfr_t x;
-  mp_size_t n;
-  mp_exp_t exp;
 
-  if (!mpfr_fits_slong_p (f, rnd) || MPFR_IS_ZERO(f))
-    return (long) 0;
+  if (!mpfr_fits_slong_p (f, rnd))
+    {
+      MPFR_SET_ERANGE ();
+      return MPFR_IS_NEG (f) ? LONG_MIN : LONG_MAX;
+    }
+  
+  if (MPFR_IS_ZERO (f))
+     return (long) 0;
 
   /* determine prec of long */
   for (s = LONG_MIN, prec = 0; s != 0; s /= 2, prec ++);
 
   /* first round to prec bits */
   mpfr_init2 (x, prec);
-  mpfr_set (x, f, rnd);
+  mpfr_rint (x, f, rnd);
 
-  /* now the result is in the most significant limb of x */
-  exp = MPFR_GET_EXP (x); /* since |x| >= 1, exp >= 1 */
-  n = MPFR_LIMB_SIZE(x);
-  s = MPFR_MANT(x)[n - 1] >> (BITS_PER_MP_LIMB - exp);
+  /* warning: if x=0, taking its exponent is illegal */
+  if (MPFR_IS_ZERO(x))
+    s = 0;
+  else
+    {
+      mp_limb_t a;
+      mp_size_t n;
+      mp_exp_t exp;
+
+      /* now the result is in the most significant limb of x */
+      exp = MPFR_GET_EXP (x); /* since |x| >= 1, exp >= 1 */
+      n = MPFR_LIMB_SIZE(x);
+      a = MPFR_MANT(x)[n - 1] >> (BITS_PER_MP_LIMB - exp);
+      s = MPFR_SIGN(f) > 0 ? a : a <= LONG_MAX ? - (long) a : LONG_MIN;
+    }
 
   mpfr_clear (x);
 
-  return MPFR_SIGN(f) * s;
+  return s;
 }

@@ -19,6 +19,7 @@ along with the MPFR Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 MA 02111-1307, USA. */
 
+#define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
 
  /* The computation of cosh is done by
@@ -29,7 +30,8 @@ mpfr_tanh (mpfr_ptr y, mpfr_srcptr xt , mp_rnd_t rnd_mode)
     /****** Declaration ******/
     mpfr_t x;
     int inexact;
-    
+    MPFR_SAVE_EXPO_DECL (expo);
+
     /* Special value checking */
     if (MPFR_UNLIKELY(MPFR_IS_SINGULAR(xt)))
       {
@@ -54,7 +56,7 @@ mpfr_tanh (mpfr_ptr y, mpfr_srcptr xt , mp_rnd_t rnd_mode)
 	  }
       }
 
-    mpfr_save_emin_emax ();
+    MPFR_SAVE_EXPO_MARK (expo);
     MPFR_TMP_INIT_ABS (x, xt);
 
     /* General case */
@@ -72,7 +74,7 @@ mpfr_tanh (mpfr_ptr y, mpfr_srcptr xt , mp_rnd_t rnd_mode)
       /* Compute the precision of intermediary variable */
       Nt = MAX (Nx, Ny);
       /* The optimal number of bits: see algorithms.ps */
-      Nt = Nt + /*__gmpfr_ceil_log2 (9)*/ 4 + __gmpfr_ceil_log2 (Nt);
+      Nt = Nt + /*MPFR_INT_CEIL_LOG2 (9)*/ 4 + MPFR_INT_CEIL_LOG2 (Nt);
 
       /* initialise of intermediary variable */
       mpfr_init2 (t, Nt); 
@@ -113,7 +115,7 @@ mpfr_tanh (mpfr_ptr y, mpfr_srcptr xt , mp_rnd_t rnd_mode)
       mpfr_clear (te);
       mpfr_clear (t);
     }
-    mpfr_restore_emin_emax ();
+    MPFR_SAVE_EXPO_FREE (expo);
     return mpfr_check_range (y, inexact, rnd_mode);
 }
 

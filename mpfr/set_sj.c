@@ -23,6 +23,13 @@ MA 02111-1307, USA. */
 # include "config.h"       /* for a build within gmp */
 #endif
 
+/* The ISO C99 standard specifies that in C++ implementations the
+   INTMAX_MAX, ... macros should only be defined if explicitly requested.  */
+#if defined __cplusplus
+# define __STDC_LIMIT_MACROS
+# define __STDC_CONSTANT_MACROS
+#endif
+
 #ifdef HAVE_STDINT_H
 # include <stdint.h>
 #endif
@@ -30,7 +37,6 @@ MA 02111-1307, USA. */
 # include <inttypes.h>
 #endif
 
-#define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
 
 #ifdef _MPFR_H_HAVE_INTMAX_T
@@ -49,7 +55,7 @@ mpfr_set_sj_2exp (mpfr_t x, intmax_t j, intmax_t e, mp_rnd_t rnd)
   else
     {
       int inex;
-      inex = mpfr_set_uj_2exp (x, -j, e, MPFR_INVERT_RND (rnd) );
+      inex = mpfr_set_uj_2exp (x, - (uintmax_t) j, e, MPFR_INVERT_RND (rnd));
       MPFR_CHANGE_SIGN (x);
       return -inex;
     }

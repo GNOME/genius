@@ -23,6 +23,7 @@ MA 02111-1307, USA. */
 #include <stdlib.h>
 #include <float.h>
 #include <time.h>
+#include <limits.h>
 
 #include "mpfr-test.h"
 
@@ -99,9 +100,8 @@ main (int argc, char *argv[])
 
   tests_start_mpfr ();
   mpfr_test_init ();
-  tests_machine_prec_long_double ();
 
-  mpfr_init2 (x, 113);
+  mpfr_init2 (x, sizeof(long double)*CHAR_BIT);
 
   /* check +0.0 and -0.0 */
   d = 0.0;
@@ -133,7 +133,7 @@ main (int argc, char *argv[])
   d = mpfr_get_ld (x, GMP_RNDN);
   check_set_get (d, x);
 
-  /* checks the largest power of two */
+  /* checks the largest power of two */  
   d = 1.0; while (d < LDBL_MAX / 2.0) d += d;
   check_set_get (d, x);
   check_set_get (-d, x);
@@ -172,14 +172,14 @@ main (int argc, char *argv[])
   /* check with reduced emax to exercise overflow */
   emax = mpfr_get_emax ();
   mpfr_set_prec (x, 2);
-  mpfr_set_emax (1);
+  set_emax (1);
   mpfr_set_ld (x, (long double) 2.0, GMP_RNDN);
   MPFR_ASSERTN(mpfr_inf_p (x) && mpfr_sgn (x) > 0);
   for (d = (long double) 2.0, i = 0; i < 13; i++, d *= d);
   /* now d = 2^8192 */
   mpfr_set_ld (x, d, GMP_RNDN);
   MPFR_ASSERTN(mpfr_inf_p (x) && mpfr_sgn (x) > 0);
-  mpfr_set_emax (emax);
+  set_emax (emax);
 
   mpfr_clear (x);
 

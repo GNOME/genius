@@ -19,13 +19,13 @@ along with the MPFR Library; see the file COPYING.LIB.  If not, write to
 the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 MA 02111-1307, USA. */
 
+#define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
 
- /* The computation of y=pow(x,z) is done by
-
-    y=pow_ui(x,z) if z>0
-  else
-    y=1/pow_ui(x,z) if z<0
+/* The computation of y=pow(x,z) is done by
+ *    y=pow_ui(x,z) if z>0
+ * else
+ *    y=1/pow_ui(x,z) if z<0
  */
 
 int
@@ -37,28 +37,28 @@ mpfr_pow_si (mpfr_ptr y, mpfr_srcptr x, long int n, mp_rnd_t rnd_mode)
     {
       if (MPFR_UNLIKELY( MPFR_IS_SINGULAR(x) ))
 	{
-	  if (MPFR_IS_NAN(x))
+	  if (MPFR_IS_NAN (x))
 	    {
-	      MPFR_SET_NAN(y);
+	      MPFR_SET_NAN (y);
 	      MPFR_RET_NAN;
 	    }
-	  else if (MPFR_IS_INF(x))
+	  else if (MPFR_IS_INF (x))
 	    {
-	      MPFR_SET_ZERO(y);
-	      if (MPFR_IS_POS(x) || ((unsigned) n & 1) == 0)
-		MPFR_SET_POS(y);
+	      MPFR_SET_ZERO (y);
+	      if (MPFR_IS_POS (x) || ((unsigned) n & 1) == 0)
+		MPFR_SET_POS (y);
 	      else
-		MPFR_SET_NEG(y);
-	      MPFR_RET(0);
+		MPFR_SET_NEG (y);
+	      MPFR_RET (0);
 	    }
 	  else /* x is zero */
 	    {
-              MPFR_ASSERTD(MPFR_IS_ZERO(x));
+              MPFR_ASSERTD (MPFR_IS_ZERO(x));
 	      MPFR_SET_INF(y);
-	      if (MPFR_IS_POS(x) || ((unsigned) n & 1) == 0)
-		MPFR_SET_POS(y);
+	      if (MPFR_IS_POS (x) || ((unsigned) n & 1) == 0)
+		MPFR_SET_POS (y);
 	      else
-		MPFR_SET_NEG(y);
+		MPFR_SET_NEG (y);
 	      MPFR_RET(0);
 	    }
 	}
@@ -67,11 +67,11 @@ mpfr_pow_si (mpfr_ptr y, mpfr_srcptr x, long int n, mp_rnd_t rnd_mode)
       /* detect exact powers: x^(-n) is exact iff x is a power of 2 */
       if (mpfr_cmp_si_2exp (x, MPFR_SIGN(x), MPFR_EXP(x) - 1) == 0)
         {
-          mp_exp_t expx = MPFR_EXP(x); /* warning: x and y may be the same
+          mp_exp_t expx = MPFR_EXP (x); /* warning: x and y may be the same
                                             variable */
-          mpfr_set_si (y, (n % 2) ? MPFR_SIGN(x) : 1, rnd_mode);
+          mpfr_set_si (y, (n % 2) ? MPFR_INT_SIGN(x) : 1, rnd_mode);
           MPFR_EXP(y) += n * (expx - 1);
-          return 0;
+          return mpfr_check_range (y, 0, rnd_mode);
         }
 
       n = -n;
@@ -88,13 +88,14 @@ mpfr_pow_si (mpfr_ptr y, mpfr_srcptr x, long int n, mp_rnd_t rnd_mode)
         mp_prec_t Nt;   /* Precision of the intermediary variable */
         long int err;   /* Precision of error */
         int inexact;
+	MPFR_SAVE_EXPO_DECL (expo);
 
         /* compute the precision of intermediary variable */
         Nt = MAX(Nx,Ny);
         /* the optimal number of bits : see algorithms.ps */
-        Nt = Nt + 3 + __gmpfr_ceil_log2 (Nt);
+        Nt = Nt + 3 + MPFR_INT_CEIL_LOG2 (Nt);
 
-        mpfr_save_emin_emax ();
+	MPFR_SAVE_EXPO_MARK (expo);
 
         /* initialise of intermediary	variable */
         mpfr_init2 (t, Nt);
@@ -124,7 +125,7 @@ mpfr_pow_si (mpfr_ptr y, mpfr_srcptr x, long int n, mp_rnd_t rnd_mode)
         inexact = mpfr_set (y, t, rnd_mode);
         mpfr_clear (t);
         mpfr_clear (ti);
-        mpfr_restore_emin_emax ();
+	MPFR_SAVE_EXPO_FREE (expo);
         return mpfr_check_range (y, inexact, rnd_mode);
       }
     }

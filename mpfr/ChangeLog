@@ -1,3 +1,362 @@
+2004-10-27  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* mpfr-impl.h, set_d.c:
+	Removed the definitions of DBL_POS_INF/DBL_NEG_INF/DBL_NAN for
+	Visual C++ as they were incorrect. Modified DOUBLE_ISINF(x) so
+	that infinities are no longer used (this should fix a part of
+	the problem for Visual C++). If IEEE 754 is not supported, one
+	should probably use the standard INFINITY macro instead of
+	(1.0/0.0), since (1.0/0.0) is specific to IEEE 754.
+
+	* acinclude.m4, tests/tests.c:
+	Applied patch by Steve M. Robbins for non-IRIX MIPS systems
+	(originally for MPFR 2.0.3).
+
+2004-10-26  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* tests/tadd1sp.c, tests/tsub1sp.c: Reformatted the code.
+
+	* tests/tsub1sp.c, tests/ttanh.c, tests/tset_ld.c, tests/tset_si.c, tests/tset_str.c, tests/tset_z.c, tests/tround_prec.c, tests/tset.c, tests/tset_exp.c, tests/trint.c, tests/trandom.c, tests/tlog.c, tests/tmul.c, tests/tmul_ui.c, tests/texp2.c, tests/tgamma.c, tests/tcosh.c, tests/tdiv.c, tests/tests.c, tests/texceptions.c, tests/texp.c, tests/tcos.c, tests/tacos.c, tests/tadd1sp.c, tests/tasin.c, tests/tatan.c, mpfr-test.h:
+	Replaced mpfr_set_emin/emax by set_emin/emax in tests to check
+	the return value; defined set_emin/emax in "tests/tests.c".
+	Fix: added missing #include <string.h> in "tests/tests.c".
+	Removed variable names in prototypes in "mpfr-test.h".
+
+2004-10-22  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* tests/mpf_compat.h: Reformatted the code -> GNU style.
+
+	* tests/tinp_str.c, tests/tout_str.c, tests/tset_str.c, tests/tstrtofr.c, mul.c, set_str.c, strtofr.c, tests/mpf_compat.h, tests/tests.c, mpfr-impl.h, mpfr-test.h, mpfr.h, mpfr.texi, INSTALL, NEWS, README, README.dev, configure.in, AUTHORS, BUGS, ChangeLog:
+	Ported the latest modifications to the 2.1 branch.
+
+	* ChangeLog: Update.
+
+2004-10-22  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* tests/tests.c:
+	Declaration of "tests_rand_start" and "tests_rand_end" with the same storage class specifier
+	in tests.c (static missing line 65 and 109).
+
+2004-10-21  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* strtofr.c:
+	Bug fixed: cast to unsigned char instead of int for isspace (no,
+	these are not "psycho" systems, just systems with signed chars).
+	Untabified the source.
+
+2004-10-20  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* configure.in: Improve ICC CFLAGS by removins meaningless warnings.
+
+	* strtofr.c: Remove some warnings on some "psycho" systems.
+
+	* README.dev: Update the chapter "Make a release".
+
+	* mpfr-test.h, tests/mpf_compat.h, tests/tests.c, tests/tinp_str.c:
+	Fix bug when you build MPFR outside source directory.
+	Add function src_fopen to open a file in the source directory, which
+	may be different from the current directory.
+
+	* INSTALL: Fix a typo.
+
+2004-10-19  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* mpfr.texi: Another correction (English).
+
+	* mpfr.texi: Minor correction.
+
+2004-10-19  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* NEWS: Update NEWS to reflect the change in mpfr_set_str.
+
+	* mpfr.texi, set_str.c, tests/tset_str.c:
+	Update mpfr_set_str to be much more like strtofr.
+	Update the documentation to reflect the changes.
+
+2004-10-19  Paul Zimmermann  <Paul.Zimmermann@loria.fr>
+
+	* mpfr.texi: changed contributors section
+
+2004-10-19  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* NEWS: Add a line about binary compatibility.
+
+2004-10-19  Paul Zimmermann  <Paul.Zimmermann@loria.fr>
+
+	* mpfr.texi: changed "contributors" section
+
+	* mul.c: changed rights (remove executable permission)
+
+2004-10-18  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* mpfr.texi: Misc corrections:
+	  + spelling mistakes
+	  + consistency: in direction @var{rnd} -> in the direction @var{rnd}
+	  + @code{NULL} pointer -> null pointer (as in the C standard)
+	  + in the example for mpfr_inits2 / mpfr_clears: NULL -> (void *) 0
+	    as NULL isn't necessarily a pointer.
+
+2004-10-18  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* BUGS, README: Update
+
+	* tests/tstrtofr.c, set_str.c, strtofr.c, tests/tset_str.c, mpfr.h, mpfr.texi:
+	Change "unsigned int" to "int" for base in proto of strtofr.
+	Change set_str to use strtofr (Fix a bug too).
+	Limit base to 36 in strtofr (since get_str is limited to 36).
+	Update documentation to reflect the changes.
+	mpfr_get_d1 is moved to section internal in the documentation.
+	Update the tests.
+
+	* mpfr-impl.h: Hard code NAN, +INF and -INF values for MVC.
+
+	* tests/mpf_compat.h, tests/tout_str.c:
+	Fix problem on systems where "/dev/null" doesn't exist.
+
+2004-10-16  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* AUTHORS, mpfr.texi: Misc corrections.
+
+2004-10-15  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* README.dev: Updated the section "To make a release".
+
+	* VERSION, mpfr.h, mpfr.texi, version.c:
+	Updated the version on the trunk.
+
+	* ChangeLog: Update.
+
+	* NEWS: Update for 2.1.0.
+
+2004-10-13  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* README.dev:
+	Added a comment about autoreconf and a bug in Debian (now fixed).
+
+2004-10-12  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* INSTALL: Add a note about Windows 64.
+
+2004-10-11  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* mpfr.texi: Update documentation.
+
+	* INSTALL: Improve Windows installation.
+
+	* README.dev: Add a line about "near" and "far".
+
+2004-10-07  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* acinclude.m4, configure.in, tests/tget_str.c:
+	Add support for ".lib" since it seems to work.
+	Display GMP version inside the configure.
+
+2004-10-05  Paul Zimmermann  <Paul.Zimmermann@loria.fr>
+
+	* tests/tget_str.c: added one new test
+
+2004-10-04  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* tests/tget_str.c: Added worst cases.
+
+2004-10-02  Paul Zimmermann  <Paul.Zimmermann@loria.fr>
+
+	* tests/tset_str.c: added new tests (worst-case)
+
+2004-10-01  Paul Zimmermann  <Paul.Zimmermann@loria.fr>
+
+	* tests/tget_str.c: added new worst-cases (directed rounding)
+
+	* TODO: added new function to implement (dilog)
+
+2004-09-30  Paul Zimmermann  <Paul.Zimmermann@loria.fr>
+
+	* get_str.c: fixed bug in get_str_aux when one extra digit
+
+2004-09-30  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* mpfr.h, mpfr.texi, rint.c, tests/trint.c:
+	Added functions mpfr_rint_round, mpfr_rint_trunc, mpfr_rint_ceil,
+	mpfr_rint_floor.
+
+2004-09-30  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* tests/tget_str.c: Add new test (One failed).
+
+2004-09-30  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* get_sj.c:
+	The cast to uintmax_t wasn't really useful, so I removed it.
+	Added a comment.
+
+	* get_sj.c: The real fix for sizeof(intmax_t) == sizeof(mp_limb_t).
+
+2004-09-30  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* get_sj.c: Fix a bug if sizeof(intmax_t) == sizeof(mp_limb_t)
+
+2004-09-29  Paul Zimmermann  <Paul.Zimmermann@loria.fr>
+
+	* tests/tget_str.c: added worst-case
+
+2004-09-29  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* TODO, cmp.c, cmp_abs.c, cmp_d.c, cmp_si.c, cmp_ui.c, mpfr.texi, tests/tcmp.c, tests/tcmp_d.c, tests/tcmp_ld.c, tests/tcmp_ui.c, tests/tcmpabs.c:
+	cmp(x,y) if x=NAN or y=NAN returns 0 and erange flag.
+
+	* NEWS, mpfr.texi:
+	Update documentation and NEWS to reflect new functions
+	and functionnality.
+
+	* get_z.c, strtofr.c: Improve assertion.
+
+	* tests/tset_si.c, exceptions.c, get_si.c, get_sj.c, get_ui.c, get_uj.c, mpfr-impl.h, set_sj.c, set_uj.c, tests/texceptions.c, tests/tget_sj.c, tests/tset_sj.c:
+	Add mpfr_clear_erangeflag and mpfr_erangeflag_p.
+	Add test for theses two functions.
+	mpfr_get_[s/u][i/j] have a deterministic behavior in case of OVERFLOW.
+	(Return the MINIMUM or the MAXIMUM in the current type, and set
+	ERANGE_flag).
+
+	* Makefile.am, fits_intmax.c, fits_uintmax.c, mpfr.h, tests/tfits.c:
+	Add mpfr_uintmax_p and mpfr_intmax_p.
+
+	* TODO, INSTALL: Update INSTALL about C++
+	Update TODO and VERSION.
+
+	* mpfr-impl.h, mpfr.texi, mpfr.h:
+	Move mpfr_inits from mpfr-impl to mpfr.h.
+	Add doc too.
+
+2004-09-28  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* get_sj.c, get_uj.c: Reindent the sources (again).
+
+	* mpn_exp.c:
+	Fix how to detect overflow so that it can be build with GCC -ftrapv
+	option without any bugs (In the previous code, the overflow was
+	detected afterwards, whereas, now, it is detected before).
+	Fix also another real problem of overflow (Addition of two signed integers).
+
+	* div.c: Rename this variable again.
+
+	* div.c:
+	Replace variable 'near' to 'the_real_near' since MSVC incorreclty
+	recognize "far" and "near" as obsolete keywords (100% incorrect, and
+	clearly MSVC fault but it doesn't cost many things to change the name).
+
+2004-09-27  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* mpfr.texi: Fix typo in the documentation about get_ functions.
+
+	* get_sj.c, get_uj.c: Retab the sources.
+
+2004-09-27  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* NEWS:
+	Added mpfr_get_uj and mpfr_get_sj in the changes 2.0.3 -> 2.1.0.
+
+	* TODO: Added an item about the future MPFR_FLAGS_ERANGE flag.
+
+	* Makefile.am, get_sj.c, get_uj.c, mpfr.h, mpfr.texi, tests/Makefile.am, tests/tget_sj.c:
+	New functions mpfr_get_sj and mpfr_get_uj, with tests.
+
+2004-09-27  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* set_sj.c: Remove MPFR_NEED_LONGLONG_H macro.
+
+2004-09-26  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* set_sj.c: Added a cast to avoid an integer overflow.
+
+2004-09-24  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* get_si.c: Fixed integer overflow.
+
+	* get_si.c: Fixed bugs (like those in mpfr_get_ui).
+
+	* README.dev:
+	The standard autoreconf script should now be used instead of prepare.
+
+2004-09-24  Paul Zimmermann  <Paul.Zimmermann@loria.fr>
+
+	* get_ui.c: forgot to check for 0
+
+	* get_ui.c: now use mpfr_rint()
+
+2004-09-24  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* mpfr.texi: Update doc of mpfr_get_str (Minimum space is 7).
+
+2004-09-24  Paul Zimmermann  <Paul.Zimmermann@loria.fr>
+
+	* get_ui.c, tests/tset_si.c: fixed double-rounding bug in get_ui
+
+2004-09-23  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* mpf2mpfr.h: Prevent from multiple inclusion.
+	mpf_init inits to 0 rather than NAN.
+
+	* mpfr.h: Fix some tiny problems.
+
+2004-09-23  Paul Zimmermann  <Paul.Zimmermann@loria.fr>
+
+	* TODO: added item on rounding to odd
+
+2004-09-21  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* strtofr.c: Fix a bug in FreeBsd 5.20 / Alpha / Gcc 3.3.3.
+	Nor a MPFR bug, but add some code to avoid it.
+
+	* strtofr.c, tests/tstrtofr.c: Add a new test and clarify a comment.
+
+	* strtofr.c: Update Assertion for pow2.
+
+2004-09-20  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* NEWS: Update NEWS.
+
+	* TODO: Update TODO due to new function mpfr_strtofr
+
+	* configure.in, get_d.c, mpfr-impl.h, mpfr.h, set_d.c, strtofr.c, tests/memory.c, tests/tdiv.c, tests/tests.c, tests/tget_str.c, tests/trint.c, tests/tset_d.c, tests/tset_q.c, tests/tset_str.c, tests/tstrtofr.c:
+	Add ICC detection && support.
+	Remove some potential warnings in the test files.
+
+	* Makefile.am, mpfr.texi, strtofr.c, tests/Makefile.am, tests/tstrtofr.c:
+	Add mpfr_strtofr function.
+	Add mpfr_strtofr test file.
+	Add mpfr_strtofr documentation.
+
+	* configure.in: Improve GMP.h vs libgmp.a version checking.
+
+2004-09-17  Paul Zimmermann  <Paul.Zimmermann@loria.fr>
+
+	* TODO: added one entry (new function 1/sqrt(x))
+
+2004-09-17  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* acinclude.m4, configure.in, tests/Makefile.am:
+	Use LIBS instead of LDADD for libraries (GMP).
+
+	* configure.in: Min GMP version is 4.1.0 now.
+
+2004-09-16  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* configure.in:
+	Add a check if both gmp.h and libgmp.a have the same version.
+
+	* mpfr-impl.h: Fix a typo.
+
+2004-09-15  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
+
+	* tests/tset_str.c: Add a forgotten regression test "1.2.3"
+
+2004-09-15  Vincent Lefevre  <Vincent.Lefevre@loria.fr>
+
+	* config.sub, config.guess:
+	Update from the autotools-dev Debian package.
+
+	* ChangeLog: Update.
+
 2004-09-14  Patrick Pelissier  <Patrick.Pelissier@loria.fr>
 
 	* mpfr-impl.h: Add 2 new macros for handling correctly overflow.
