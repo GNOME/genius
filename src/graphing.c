@@ -57,6 +57,7 @@ static GtkWidget *plot_zoomfit_item = NULL;
 static GtkWidget *plot_print_item = NULL;
 static GtkWidget *plot_exportps_item = NULL;
 static GtkWidget *plot_exporteps_item = NULL;
+static GtkWidget *surface_menu_item = NULL;
 
 enum {
 	MODE_LINEPLOT,
@@ -173,8 +174,179 @@ plot_window_setup (void)
 		gtk_widget_set_sensitive (plot_print_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_exportps_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_exporteps_item, ! plot_in_progress);
+		gtk_widget_set_sensitive (surface_menu_item, ! plot_in_progress);
 	}
 }
+
+static void
+rotate_x_cb (GtkWidget *button, gpointer data)
+{
+	int rot = GPOINTER_TO_INT (data);
+
+	gtk_plot3d_rotate_x (GTK_PLOT3D (surface_plot), rot);
+
+	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+	gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+}
+
+static void
+rotate_y_cb (GtkWidget *button, gpointer data)
+{
+	int rot = GPOINTER_TO_INT (data);
+
+	gtk_plot3d_rotate_y (GTK_PLOT3D (surface_plot), rot);
+
+	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+	gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+}
+
+static void
+rotate_z_cb (GtkWidget *button, gpointer data)
+{
+	int rot = GPOINTER_TO_INT (data);
+
+	gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), rot);
+
+	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+	gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+}
+
+static void
+rotate_cb (GtkWidget *item, gpointer data)
+{
+	GtkWidget *req = NULL;
+	GtkWidget *hbox, *w, *b;
+        GtkSizeGroup *sg;
+
+	if (surface_plot == NULL)
+		return;
+
+	req = gtk_dialog_new_with_buttons
+		(_("Rotate") /* title */,
+		 GTK_WINDOW (graph_window) /* parent */,
+		 GTK_DIALOG_MODAL /* flags */,
+		 GTK_STOCK_CLOSE,
+		 GTK_RESPONSE_CLOSE,
+		 NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (req),
+					 GTK_RESPONSE_CLOSE);
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (req), FALSE);
+
+	sg = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+
+	/* X dir */
+
+	hbox = gtk_hbox_new (FALSE, GNOME_PAD);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+			    hbox, TRUE, TRUE, 0);
+
+	w = gtk_label_new (_("Rotate X: "));
+	gtk_size_group_add_widget (sg, w);
+	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
+
+	b = gtk_button_new ();
+	gtk_box_pack_start (GTK_BOX (hbox), b, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (b),
+			   gtk_arrow_new (GTK_ARROW_LEFT, GTK_SHADOW_NONE));
+	g_signal_connect (G_OBJECT (b), "clicked",
+			  G_CALLBACK (rotate_x_cb),
+			  GINT_TO_POINTER (360-10));
+	b = gtk_button_new ();
+	gtk_box_pack_start (GTK_BOX (hbox), b, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (b),
+			   gtk_arrow_new (GTK_ARROW_RIGHT, GTK_SHADOW_NONE));
+	g_signal_connect (G_OBJECT (b), "clicked",
+			  G_CALLBACK (rotate_x_cb),
+			  GINT_TO_POINTER (10));
+
+	/* Y dir */
+
+	hbox = gtk_hbox_new (FALSE, GNOME_PAD);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+			    hbox, TRUE, TRUE, 0);
+
+	w = gtk_label_new (_("Rotate Y: "));
+	gtk_size_group_add_widget (sg, w);
+	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
+
+	b = gtk_button_new ();
+	gtk_box_pack_start (GTK_BOX (hbox), b, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (b),
+			   gtk_arrow_new (GTK_ARROW_LEFT, GTK_SHADOW_NONE));
+	g_signal_connect (G_OBJECT (b), "clicked",
+			  G_CALLBACK (rotate_y_cb),
+			  GINT_TO_POINTER (360-10));
+	b = gtk_button_new ();
+	gtk_box_pack_start (GTK_BOX (hbox), b, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (b),
+			   gtk_arrow_new (GTK_ARROW_RIGHT, GTK_SHADOW_NONE));
+	g_signal_connect (G_OBJECT (b), "clicked",
+			  G_CALLBACK (rotate_y_cb),
+			  GINT_TO_POINTER (10));
+
+	/* Z dir */
+
+	hbox = gtk_hbox_new (FALSE, GNOME_PAD);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+			    hbox, TRUE, TRUE, 0);
+
+	w = gtk_label_new (_("Rotate Z: "));
+	gtk_size_group_add_widget (sg, w);
+	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
+
+	b = gtk_button_new ();
+	gtk_box_pack_start (GTK_BOX (hbox), b, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (b),
+			   gtk_arrow_new (GTK_ARROW_LEFT, GTK_SHADOW_NONE));
+	g_signal_connect (G_OBJECT (b), "clicked",
+			  G_CALLBACK (rotate_z_cb),
+			  GINT_TO_POINTER (360-10));
+	b = gtk_button_new ();
+	gtk_box_pack_start (GTK_BOX (hbox), b, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (b),
+			   gtk_arrow_new (GTK_ARROW_RIGHT, GTK_SHADOW_NONE));
+	g_signal_connect (G_OBJECT (b), "clicked",
+			  G_CALLBACK (rotate_z_cb),
+			  GINT_TO_POINTER (10));
+
+	g_signal_connect (G_OBJECT (req), "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &req);
+
+	gtk_widget_show_all (req);
+
+	gtk_dialog_run (GTK_DIALOG (req));
+	gtk_widget_destroy (req);
+}
+
+static void
+reset_angles_cb (GtkWidget *button, gpointer data)
+{
+	if (surface_plot != NULL) {
+		gtk_plot3d_reset_angles (GTK_PLOT3D (surface_plot));
+		gtk_plot3d_rotate_y (GTK_PLOT3D (surface_plot), 30.0);
+		gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 60.0);
+
+
+		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+		gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+	}
+}
+
+static void
+top_view_cb (GtkWidget *button, gpointer data)
+{
+	if (surface_plot != NULL) {
+		gtk_plot3d_reset_angles (GTK_PLOT3D (surface_plot));
+		gtk_plot3d_rotate_y (GTK_PLOT3D (surface_plot), 90.0);
+		gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 90.0);
+
+		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+		gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+	}
+}
+
 
 static void
 dialog_response (GtkWidget *w, int response, gpointer data)
@@ -779,18 +951,25 @@ add_surface_plot (void)
 	gtk_plot_canvas_add_plot (GTK_PLOT_CANVAS (plot_canvas),
 				  GTK_PLOT (surface_plot), PROPORTION3D_OFFSET, PROPORTION3D_OFFSET);
 
-	gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
-				    GTK_PLOT_SIDE_XY);
+	/*gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
+				    GTK_PLOT_SIDE_XY);*/
 	gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
 				    GTK_PLOT_SIDE_XZ);
 	gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
 				    GTK_PLOT_SIDE_YX);
-	gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
-				    GTK_PLOT_SIDE_YZ);
+	/*gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
+				    GTK_PLOT_SIDE_YZ);*/
 	gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
 				    GTK_PLOT_SIDE_ZX);
-	gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
-				    GTK_PLOT_SIDE_ZY);
+	/*gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
+				    GTK_PLOT_SIDE_ZY);*/
+
+	gtk_plot_axis_set_title (GTK_PLOT (surface_plot),
+				 GTK_PLOT_AXIS_BOTTOM, "X");
+	gtk_plot_axis_set_title (GTK_PLOT (surface_plot),
+				 GTK_PLOT_AXIS_LEFT, "Y");
+	gtk_plot_axis_set_title (GTK_PLOT (surface_plot),
+				 GTK_PLOT_AXIS_TOP, "Z");
 
 	gtk_plot_set_legends_border (GTK_PLOT (surface_plot),
 				     GTK_PLOT_BORDER_LINE, 3);
@@ -876,6 +1055,28 @@ ensure_window (void)
 			  G_CALLBACK (plot_zoomfit_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	plot_zoomfit_item = item;
+
+
+	menu = gtk_menu_new ();
+	item = gtk_menu_item_new_with_mnemonic (_("_Surface"));
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), menu);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), item);
+	surface_menu_item = item;
+
+	item = gtk_menu_item_new_with_mnemonic (_("_Reset angles"));
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (reset_angles_cb), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	item = gtk_menu_item_new_with_mnemonic (_("_Top view"));
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (top_view_cb), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	item = gtk_menu_item_new_with_mnemonic (_("Rotate axis..."));
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (rotate_cb), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 
 	plot_canvas = gtk_plot_canvas_new (WIDTH, HEIGHT, 1.0);
@@ -1605,9 +1806,12 @@ plot_functions (void)
 
 	clear_graph ();
 
+	add_line_plot ();
+
+	gtk_widget_hide (surface_menu_item);
+
 	GTK_PLOT_CANVAS_SET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
 				   GTK_PLOT_CANVAS_CAN_SELECT);
-	add_line_plot ();
 
 	plot_in_progress ++;
 	plot_window_setup ();
@@ -1677,6 +1881,8 @@ plot_surface_functions (void)
 	clear_graph ();
 
 	add_surface_plot ();
+
+	gtk_widget_show (surface_menu_item);
 
 	GTK_PLOT_CANVAS_UNSET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
 				     GTK_PLOT_CANVAS_CAN_SELECT);
