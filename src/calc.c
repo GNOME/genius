@@ -1805,6 +1805,40 @@ make_function_with_aliases (const char *func, GSList *aliases)
 }
 
 static void
+print_description (int start, const char *desc)
+{
+	int ll = gel_output_get_columns (main_out) - start - 3;
+	char **words;
+	int i;
+	int cur;
+
+	if (ll <= 5) {
+		gel_output_printf_full (main_out, FALSE,
+					"%s\n", desc);
+		return;
+	}
+
+	words = g_strsplit (desc, " ", -1);
+	cur = 0;
+	for (i = 0; words[i] != NULL; i++) {
+		int len = strlen (words[i]);
+		if (cur != 0 && cur + len >= ll) {
+			cur = 0;
+			gel_output_full_string
+				(main_out, "\n                       ");
+		} else if (cur != 0) {
+			gel_output_full_string (main_out, " ");
+			cur++;
+		}
+		gel_output_full_string (main_out, words[i]);
+		cur += len;
+	}
+	g_strfreev (words);
+
+	gel_output_full_string (main_out, "\n");
+}
+
+static void
 print_function_help (GelHelp *help)
 {
 	if (help->aliasfor == NULL) {
@@ -1813,22 +1847,23 @@ print_function_help (GelHelp *help)
 		f = make_function_with_aliases (help->func, help->aliases);
 		len = strlen (f);
 		do_cyan ();
-		if (len <= 20)
+		/*if (len <= 20)*/
 			gel_output_printf_full (main_out, FALSE,
 						"%-20s", f);
-		else
+		/*else
 			gel_output_printf_full (main_out, FALSE,
-						"%-20s", help->func);
+						"%-20s", help->func);*/
 		g_free (f);
 		do_black ();
 		gel_output_full_string (main_out, " - ");
 		do_green ();
 		if (help->description != NULL)
-			gel_output_printf_full (main_out, FALSE,
-						"%s\n", help->description);
+			print_description (MAX (20, len),
+					   help->description);
 		else
 			gel_output_full_string (main_out, "\n");
 		/* if we didn't fit aliases on one line */
+		/*
 		if (len > 20 && help->aliases != NULL) {
 			GSList *li;
 			GString *gs = g_string_new (_("Aliases for "));
@@ -1842,6 +1877,7 @@ print_function_help (GelHelp *help)
 						"%s\n", gs->str);
 			g_string_free (gs, TRUE);
 		}
+		*/
 	}
 }
 

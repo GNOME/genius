@@ -20,7 +20,9 @@
 # Currently only works for real functions of a real variable
 
 # The Bisection Method, Section 2.1, Algorithm 2.1, pp. 41-42
-function find_root_bisection(f,a,b,TOL,N) =
+SetHelp ("FindRootBisection", "equation_solving",
+         "Find root of a function using the bisection method")
+function FindRootBisection(f,a,b,TOL,N) =
 	(
 # check arguments
 ## check types
@@ -47,12 +49,15 @@ function find_root_bisection(f,a,b,TOL,N) =
 	);
 	return [0,p,iteration];
 	)
+protect ("FindRootBisection")
 
 #function root_find_newton
 #FIXME: I can't take derivatives, so this doesn't work
 
 # The Secant Method, Section 2.3, Algorithm 2.4, p. 62
-function find_root_secant(f,a,b,TOL,N) =
+SetHelp ("FindRootSecant", "equation_solving",
+         "Find root of a function using the secant method (FIXME: doesn't work right, check this)")
+function FindRootSecant(f,a,b,TOL,N) =
 	(
 # check arguments
 ## check types
@@ -83,9 +88,12 @@ function find_root_secant(f,a,b,TOL,N) =
 	);
 	return [0,p,iteration];
 )
+protect ("FindRootSecant")
 
 # The Method of False Position, Section 2.3, Algorithm 2.5, p. 64
-function find_root_false_position(f,a,b,TOL,N) =
+SetHelp ("FindRootFalsePosition", "equation_solving",
+         "Find root of a function using the method of false position")
+function FindRootFalsePosition(f,a,b,TOL,N) =
 	(
 # check arguments
 ## check types
@@ -116,10 +124,13 @@ function find_root_false_position(f,a,b,TOL,N) =
 	);
 	return [0,p,iteration];
 )
+protect ("FindRootFalsePosition")
 
 # FIXME: This doesn't work right
 # The M"uller's Method, Section 2.6, Algorithm 2.8, p. 88
-function find_root_mullers_method(f,x1,x2,x3,TOL,N) =
+SetHelp ("FindRootMullersMethod", "equation_solving",
+         "Find root of a function using the Muller's method (FIXME: doesn't work right, check this)")
+function FindRootMullersMethod(f,x1,x2,x3,TOL,N) =
 	(
 # check arguments
 ## check types
@@ -158,3 +169,4 @@ function find_root_mullers_method(f,x1,x2,x3,TOL,N) =
 	);
 	return [0,p,iteration];
 )
+protect ("FindRootMullersMethod")

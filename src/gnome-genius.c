@@ -880,9 +880,9 @@ set_state (calcstate_t state)
 	if (state.full_expressions ||
 	    state.output_style == GEL_OUTPUT_LATEX ||
 	    state.output_style == GEL_OUTPUT_TROFF)
-		gel_output_set_line_length (main_out, 0, NULL);
+		gel_output_set_length_limit (main_out, FALSE);
 	else
-		gel_output_set_line_length (main_out, 80, get_term_width);
+		gel_output_set_length_limit (main_out, TRUE);
 }
 
 static void

@@ -345,6 +345,7 @@ struct _GelOutput {
 
 	int output_type;
 
+	gboolean length_limit; /* if TRUE limit by below, else don't */
 	int line_length; /* limit the output to this number of characters,
 			    if <=0 then always print normally */
 	GelOutputLineFunc line_length_get;

@@ -84,6 +84,8 @@ void		gel_output_get_line_length	(GelOutput *gelo,
 void		gel_output_set_line_length	(GelOutput *gelo, 
 						 int line_length,
 						 GelOutputLineFunc line_length_get);
+void		gel_output_set_length_limit	(GelOutput *gelo,
+						 gboolean length_limit);
 
 /* This gets the current line length (columns) */
 int		gel_output_get_columns		(GelOutput *gelo);

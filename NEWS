@@ -1,3 +1,19 @@
+Changes to 0.5.2
+
+* Use vte instead of zvt since zvt was giving me fits (vte is on the other
+  hand giving me different fits).
+* Using rationals in modular mode will take the inverses mod n
+* Implement IsPrimeProbability, LucasNumber, ModInvert, EulerPhi,
+  Subfactorial, GoldenRatio
+* Use gmp for NextPrime
+* Kill some unimplemented functions so that people don't get confused
+* Some function renaming (where old syntax was used) and some more help
+  strings
+* The help output is now nicer
+* The readline helper is now in the libexec directory as it should be
+* Fixup the plugin API a bit and hide the test plugin from the GUI
+* Random minor fixes and cleanup
+
 Changes to 0.5.1
 
 * Fix rounding when first digit is rounded and is 9 (reported by
