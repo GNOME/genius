@@ -300,3 +300,25 @@ function LpNorm(v,p) = (
     (sum k in v do (|k|^p))^(1/p)
 )
 protect("LpNorm")
+
+SetHelp ("CharacteristicPolynomial", "linear_algebra", "Get the characteristic polynomial as a vector")
+function CharacteristicPolynomial(M) = (
+	if not IsMatrix (M) or not IsMatrixSquare(M) then
+		(error ("CharacteristicPolynomial: M must be a square matrix");bailout);
+
+	n = columns(M);
+	v = [ det (M) ];
+	for i=2 to n-1 do
+		v@(i) = (-1) ^ (i-1) * sum gamma in GAMMA(n-i+1,n) do det (Submatrix (M, gamma, gamma));
+	v@(n) = (-1) ^ (n-1) * trace (M);
+	v@(n+1) = (-1) ^ n;
+	v
+)
+protect("CharacteristicPolynomial")
+SetHelpAlias ("CharacteristicPolynomial", "CharPoly")
+CharPoly = CharacteristicPolynomial
+protect("CharPoly")
+
+SetHelp ("CharacteristicPolynomialFunction", "linear_algebra", "Get the characteristic polynomial as a function")
+function CharacteristicPolynomialFunction(M) = PolyToFunction (CharacteristicPolynomial (M))
+protect("CharacteristicPolynomialFunction")
