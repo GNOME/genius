@@ -1251,6 +1251,15 @@ copy_answer (void)
 	clipboard_str = gel_output_snarf_string (out);
 	gel_output_unref (out);
 
+	cb = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
+
+	gtk_clipboard_set_with_owner (cb,
+				      targets,
+				      G_N_ELEMENTS(targets),
+				      copy_cb,
+				      clear_cb,
+				      G_OBJECT (genius_window));
+
 	cb = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
 	gtk_clipboard_set_with_owner (cb,
