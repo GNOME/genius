@@ -65,7 +65,7 @@
 
 /*calculator state*/
 calcstate_t curstate={
-	128,
+	256,
 	12,
 	FALSE,
 	FALSE,
@@ -255,7 +255,7 @@ main(int argc, char *argv[])
 			}
 			printf(_("Genius %s usage:\n\n"
 			       "genius [options] [files]\n\n"
-			       "\t--precision=num   \tFloating point precision [128]\n"
+			       "\t--precision=num   \tFloating point precision [256]\n"
 			       "\t--maxdigits=num   \tMaximum digits to display (0=no limit) [0]\n"
 			       "\t--[no]floatresult \tAll results as floats [OFF]\n"
 			       "\t--[no]scinot      \tResults in scientific notation [OFF]\n"
