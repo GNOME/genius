@@ -354,6 +354,17 @@ function addup(a,b,c) = a+b+c
 
 then "addup(1,1,1)" yields 3
 
+Variable argument lists:
+
+If you include "..." after the last argument name, then genius will allow
+any number of arguments to be passed in place of that argument.  If no arguments
+were passed then that argument will be set to null.  Else it will be a horizontal
+vector with all the arguments.  For example:
+
+function f(a,b...) = b
+
+Then "f(1,2,3)" yields "[2,3]", while "f(1)" yields a null
+
 Absoulte value:
 
 You can make an absolute value of something by putting the |'s around it.

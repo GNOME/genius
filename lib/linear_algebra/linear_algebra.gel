@@ -142,9 +142,29 @@ function CrossProduct(v,w) =
   [Minor(M,3,1),Minor(M,3,2),Minor(M,3,3)]
  )
 
-# Direct sum of two matrices
-function DirectSum(M,N) = (
-  [M,0;0,N] 
+# Direct sum of a vector of matrices
+sethelp ("DirectSumMatrixVector", "Direct sum of a vector of matrices")
+function DirectSumMatrixVector(v) = (
+  if not is_matrix (v) or rows (v) > 1 then
+    (error("DirectSumMatrixVector: argument not a horizontal vector");bailout);
+  if columns (v) == 1 then
+    [v@(1)]
+  else if columns (v) == 2 then
+    [v@(1),0;0,v@(2)]
+  else
+    [v@(1),0;0,DirectSumMatrixVector(v@(1,2..columns(v)))] 
+)
+protect ("DirectSumMatrixVector");
+
+# Direct sum of matrices
+sethelp ("DirectSum", "Direct sum of matrices")
+function DirectSum(M,N...) = (
+  if is_null (N) then
+    [M] 
+  else if columns(N) == 1 then
+    [M,0;0,N@(1)] 
+  else
+    [M,0;0,DirectSumMatrixVector(N)] 
 )
 protect ("DirectSum");
 
@@ -157,14 +177,26 @@ protect ("DirectSum");
 # Note that given an integer matrix, returns true iff it is invertible OVER THE INTEGERS,
 # so for instance [2,0;0,1] is not invertible
 # FIXME: We need good coercion rules!
-function is_invertible(n) =
+function IsInvertible(n) =
 (
  if (is_integer(n)) then return (|n|==1)     # Only invertible integers are 1, -1
  else if (is_value(n)) then return (n!=0)    # Elements of fields (Q,R,C) are invertible iff != 0
- else if (is_matrix(n)) then (if is_square(n) then return (is_invertible(det(n))) else return 0)
+ else if (is_matrix(n)) then (if is_square(n) then return (IsInvertible(det(n))) else return 0);
                                              # Matrices are invertible iff they are square and their
                                              #  determinant is a unit
+ error ("IsInvertible: argument not a value or matrix");bailout
 )
+protect ("IsInvertible")
+
+function IsInvertibleField(n) =
+(
+ if (is_value(n)) then return (n!=0)    # Elements of fields (Q,R,C) are invertible iff != 0
+ else if (is_matrix(n)) then (if is_square(n) then return (IsInvertible(det(n))) else return 0);
+                                             # Matrices are invertible iff they are square and their
+                                             #  determinant is a unit
+ error ("IsInvertibleField: argument not a value or matrix");bailout
+)
+protect ("IsInvertibleField")
 
 # Hermite Form for fields (will end up with 1's on the diagonal)
 function HermiteFormField(A) =
@@ -176,7 +208,10 @@ protect ("HerminteFormField")
 # AuxilliaryUnitMatrix
 function AuxilliaryUnitMatrix(n) =
 (
-  [0,I(n-1);0,0]
+  if not is_integer (n) or n < 2 then
+    (error ("AuxilliaryUnitMatrix: n must be an integer greater then 1");bailout)
+  else
+    [0,I(n-1);0,0]
 )
 protect ("AuxilliaryUnitMatrix")
 function U(n) = AxilliaryUnitMatrix(n)
@@ -185,7 +220,14 @@ protect ("U")
 # AuxilliaryUnitMatrix
 function JordanBlock(lambda,n) =
 (
-  lambda * I(n) + AuxilliaryUnitMatrix(n)
+  if not is_integer (n) or n < 1 then
+    (error ("JordanBlock: n must be an integer greater then 0");bailout)
+  else if not is_value (n) or n < 1 then
+    (error ("JordanBlock: lambda must be a value");bailout)
+  else if n == 1 then
+    [lambda]
+  else
+    lambda * I(n) + AuxilliaryUnitMatrix(n)
 )
 protect ("JordanBlock")
 function J(lambda,n) = JordanBlock(lambda,n)

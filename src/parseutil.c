@@ -38,7 +38,7 @@ extern GSList *evalstack;
 
 
 int
-gp_push_func(void)
+gp_push_func (gboolean vararg)
 {
 	GelETree * tree;
 	GelETree * val;
@@ -74,6 +74,7 @@ gp_push_func(void)
 	tree->type = FUNCTION_NODE;
 	tree->func.func = d_makeufunc(NULL,val,list,i);
 	tree->func.func->context = -1;
+	tree->func.func->vararg = vararg;
 
 	stack_push(&evalstack,tree);
 

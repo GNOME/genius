@@ -81,6 +81,7 @@ struct _GelEFunc {
 	int context; /*the context number this is used for .. if we pop this
 		       context, we will destroy the function*/
 	int nargs; /*number of arguments*/
+	gboolean vararg;
 	GSList *named_args; /*names of arguments*/
 	union {
 		GelETree *user;

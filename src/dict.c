@@ -62,12 +62,13 @@ d_makebifunc(GelToken *id, dictfunc f, int nargs)
 		n = free_funcs;
 		free_funcs = free_funcs->data.next;
 	}
-	n->id=id;
-	n->data.func=f;
-	n->nargs=nargs;
+	n->id = id;
+	n->data.func = f;
+	n->nargs = nargs;
+	n->vararg = FALSE;
 	n->named_args = NULL;
-	n->context=context.top;
-	n->type=GEL_BUILTIN_FUNC;
+	n->context = context.top;
+	n->type = GEL_BUILTIN_FUNC;
 
 	return n;
 }
@@ -87,6 +88,7 @@ d_makeufunc(GelToken *id, GelETree *value, GSList *argnames, int nargs)
 	n->id=id;
 	n->data.user=value;
 	n->nargs=nargs;
+	n->vararg = FALSE;
 	n->named_args=argnames;
 	n->context=context.top;
 	n->type=GEL_USER_FUNC;
@@ -109,6 +111,7 @@ d_makevfunc(GelToken *id, GelETree *value)
 	n->id=id;
 	n->data.user=value;
 	n->nargs=0;
+	n->vararg = FALSE;
 	n->named_args=NULL;
 	n->context=context.top;
 	n->type=GEL_VARIABLE_FUNC;
@@ -131,6 +134,7 @@ d_makereffunc(GelToken *id, GelEFunc *ref)
 	n->id=id;
 	n->data.ref=ref;
 	n->nargs=0;
+	n->vararg = FALSE;
 	n->named_args=NULL;
 	n->context=context.top;
 	n->type=GEL_REFERENCE_FUNC;
@@ -262,7 +266,7 @@ compare_func_bycontext(gconstpointer p1, gconstpointer p2)
 
 /*add a function struct to the dict (in current context)*/
 GelEFunc *
-d_addfunc(GelEFunc *func)
+d_addfunc (GelEFunc *func)
 {
 	GelEFunc *n;
 	

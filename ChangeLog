@@ -1,3 +1,16 @@
+Fri Oct 11 13:37:14 2002  George Lebl <jirka@5z.com>
+
+	* src/calc.c, src/eval.c, src/parse.y, src/lexer.l,
+	  src/parseutils.[ch], src/structs.h, compil.c: Add vararg functions
+
+	* lib/linear_algebra/linear_algebra.gel: Add vector of matrices
+	  direct sum function, and make the direct sum use varargs.
+	  Also change is_invertible to IsInvertible and add
+	  IsInvertibleField.  Also fix Jordan block function for n==1
+	  and add some argument checking
+
+	* lib/combinatorics/recursive_sequences.gel: use IsInvertible name
+
 Fri Oct 11 12:02:19 2002  George Lebl <jirka@5z.com>
 
 	* src/genius.c: fix a warning

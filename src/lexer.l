@@ -234,6 +234,11 @@ null		{ DO_RET; return '.'; }
 			NO_RET;
 			return AT;
 		}
+\.\.\.		{
+			NO_RET;
+			return THREEDOTS;
+		}
+
 \.\.		{
 			NO_RET;
 			return REGION_SEP;

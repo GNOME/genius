@@ -781,6 +781,9 @@ print_etree(GelOutput *gelo, GelETree *n, gboolean toplevel)
 				gel_output_string(gelo,id->token);
 			}
 
+			if (f->vararg)
+				gel_output_string (gelo, "...");
+
 			if(f->type==GEL_USER_FUNC) {
 				gel_output_string(gelo,")=(");
 				D_ENSURE_USER_BODY (f);
@@ -946,7 +949,12 @@ compile_all_user_funcs(FILE *outfile)
 			g_assert(body);
 		}
 		if(func->type==GEL_USER_FUNC) {
-			fprintf(outfile,"F;%d;%s;%d",(int)strlen(body),func->id->token,(int)func->nargs);
+			fprintf (outfile,
+				 "F;%d;%s;%d;%d",
+				(int)strlen (body),
+				func->id->token,
+				(int)func->nargs,
+				(int)func->vararg);
 			for(li=func->named_args;li;li=g_slist_next(li)) {
 				GelToken *tok = li->data;
 				fprintf(outfile,";%s",tok->token);
@@ -995,7 +1003,7 @@ load_compiled_fp(const char *file, FILE *fp)
 		char *p;
 		char *b2;
 		GelToken *tok;
-		int size,nargs;
+		int size, nargs, vararg;
 		int i;
 		GSList *li = NULL;
 		int type;
@@ -1072,7 +1080,20 @@ load_compiled_fp(const char *file, FILE *fp)
 			}
 			nargs = -1;
 			sscanf(p,"%d",&nargs);
-			if(size==-1) {
+			if (nargs == -1) {
+				(*errorout)(_("Badly formed record"));
+				continue;
+			}
+
+			/*vararg*/
+			p = strtok(NULL,";");
+			if(!p) {
+				(*errorout)(_("Badly formed record"));
+				continue;
+			}
+			vararg = -1;
+			sscanf(p,"%d",&vararg);
+			if (vararg == -1) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
@@ -1104,10 +1125,13 @@ load_compiled_fp(const char *file, FILE *fp)
 		if(!uncompiled)
 			uncompiled = g_hash_table_new(NULL,NULL);
 		g_hash_table_insert(uncompiled,tok,b2);
-		if(type == GEL_USER_FUNC)
-			d_addfunc(d_makeufunc(tok,NULL,li,nargs));
-		else /*GEL_VARIABLE_FUNC*/
+		if(type == GEL_USER_FUNC) {
+			GelEFunc *func = d_makeufunc (tok, NULL, li, nargs);
+			func->vararg = vararg ? 1 : 0;
+			d_addfunc (func);
+		} else /*GEL_VARIABLE_FUNC*/ {
 			d_addfunc(d_makevfunc(tok,NULL));
+		}
 continue_reading:	;
 	}
 	fclose(fp);

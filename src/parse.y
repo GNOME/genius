@@ -56,7 +56,7 @@ extern char *load_plugin;
 %token <id> STRING
 %token <id> FUNCID
 
-%token FUNCTION CALL
+%token FUNCTION CALL THREEDOTS
 
 %token RETURNTOK BAILOUT EXCEPTION CONTINUE BREAK
 
@@ -225,11 +225,24 @@ ident:		FUNCID			{
 					}
 	;
 	
-funcdef:	'(' identlist')' EQUALS expr { if(!gp_push_func()) {SYNTAX_ERROR;} }
-	|	'(' ')' EQUALS expr	{ if(!gp_push_marker(EXPRLIST_START_NODE))
-						{SYNTAX_ERROR;}
-					  if(!gp_push_func())
-					  	{SYNTAX_ERROR;} }
+funcdef:	'(' identlist ')' EQUALS expr	{
+			if ( ! gp_push_func (FALSE /* vararg */)) {
+				SYNTAX_ERROR;
+			}
+						}
+	|	'(' identlist THREEDOTS ')' EQUALS expr {
+			if ( ! gp_push_func (TRUE /* vararg */)) {
+				SYNTAX_ERROR;
+			}
+							}
+	|	'(' ')' EQUALS expr	{
+			if ( ! gp_push_marker (EXPRLIST_START_NODE)) {
+				SYNTAX_ERROR;
+			}
+			if ( ! gp_push_func (FALSE /* vararg */)) {
+				SYNTAX_ERROR;
+			}
+					}
 	;
 	
 identlist:	identlist ',' ident

@@ -205,10 +205,10 @@ branches(int op)
 }
 
 GelETree *
-gel_makenum_null(void)
+gel_makenum_null (void)
 {
 	GelETree *n;
-	GET_NEW_NODE(n);
+	GET_NEW_NODE (n);
 	n->type = NULL_NODE;
 	return n;
 }
@@ -2011,6 +2011,7 @@ iter_do_var(GelCtx *ctx, GelETree *n, GelEFunc *f)
 		n->func.func = d_makeufunc(NULL,copynode(f->data.user),
 					    g_slist_copy(f->named_args),f->nargs);
 		n->func.func->context = -1;
+		n->func.func->vararg = f->vararg;
 	} else if(f->type == GEL_BUILTIN_FUNC) {
 		GelETree *ret;
 		int exception = FALSE;
@@ -2020,6 +2021,7 @@ iter_do_var(GelCtx *ctx, GelETree *n, GelEFunc *f)
 			n->type = FUNCTION_NODE;
 			n->func.func = d_makerealfunc(f,NULL,FALSE);
 			n->func.func->context = -1;
+			n->func.func->vararg = f->vararg;
 			return TRUE;
 		}
 		ret = (*f->data.func)(ctx,NULL,&exception);
@@ -2831,24 +2833,42 @@ iter_funccallop(GelCtx *ctx, GelETree *n)
 	
 	g_assert(f);
 	
-	if(f->nargs + 1 != n->op.nargs) {
+	if ((f->vararg && f->nargs > n->op.nargs) ||
+	    (! f->vararg && f->nargs != n->op.nargs - 1)) {
 		char buf[256];
-		g_snprintf(buf,256,_("Call of '%s' with the wrong number of arguments!\n"
-				     "(should be %d)"),f->id?f->id->token:"anonymous",f->nargs);
+		if ( ! f->vararg)
+			g_snprintf (buf, 256,
+				    _("Call of '%s' with the wrong number of arguments!\n"
+				      "(should be %d)"),
+				    f->id != NULL ? f->id->token : "anonymous",
+				    f->nargs);
+		else
+			g_snprintf (buf, 256,
+				    _("Call of '%s' with the wrong number of arguments!\n"
+				      "(should be greater then %d)"),
+				    f->id != NULL ? f->id->token : "anonymous",
+				    f->nargs-2);
 		(*errorout)(buf);
 	} else if(f->type == GEL_USER_FUNC ||
 		  f->type == GEL_VARIABLE_FUNC) {
 		GSList *li;
 		GelETree *ali;
+		GelToken *last_arg = NULL;
 		
 		EDEBUG("     USER FUNC PUSHING CONTEXT");
 
 		d_addcontext();
 		/*push arguments on context stack*/
-		for(ali=n->op.args->any.next,li=f->named_args;
-		    ali;
-		    ali=ali->any.next,li=li->next) {
-			if(ali->type == FUNCTION_NODE) {
+		li = f->named_args;
+		for(ali = n->op.args->any.next;
+		    ali != NULL;
+		    ali = ali->any.next) {
+			if (li->next == NULL) {
+				last_arg = li->data;
+				if (f->vararg)
+					break;
+			}
+			if (ali->type == FUNCTION_NODE) {
 				d_addfunc(d_makerealfunc(ali->func.func,li->data,FALSE));
 			} else if(ali->type == OPERATOR_NODE &&
 				  ali->op.oper == E_REFERENCE) {
@@ -2860,8 +2880,44 @@ iter_funccallop(GelCtx *ctx, GelETree *n)
 					goto funccall_done_ok;
 				}
 				d_addfunc(d_makereffunc(li->data,rf));
-			} else
+			} else {
 				d_addfunc(d_makevfunc(li->data,copynode(ali)));
+			}
+			li = li->next;
+			if (li == NULL)
+				break;
+		}
+
+		if (f->vararg) {
+			if (last_arg == NULL) {
+				li = g_slist_last (f->named_args);
+				g_assert (li != NULL);
+				last_arg = li->data;
+			}
+			/* no extra argument */
+			if (n->op.nargs == f->nargs) {
+				d_addfunc (d_makevfunc (last_arg, gel_makenum_null ()));
+			} else {
+				GelETree *nn;
+				GelMatrix *m;
+				int i;
+
+				m = gel_matrix_new ();
+				gel_matrix_set_size (m, n->op.nargs - f->nargs, 1, FALSE /* padding */);
+
+				/* continue with ali */
+				i = 0;
+				for (; ali != NULL; ali = ali->any.next) {
+					gel_matrix_index (m, i++, 0) = copynode (ali);
+				}
+
+				GET_NEW_NODE (nn);
+				nn->type = MATRIX_NODE;
+				nn->mat.quoted = FALSE;
+				nn->mat.matrix = gel_matrixw_new_with_matrix (m);
+
+				d_addfunc (d_makevfunc (last_arg, nn));
+			}
 		}
 
 		D_ENSURE_USER_BODY (f);
@@ -2880,15 +2936,16 @@ iter_funccallop(GelCtx *ctx, GelETree *n)
 		int exception = FALSE;
 		GelETree *ret;
 		
-		if(f->nargs>0) {
+		if (n->op.nargs > 1) {
 			GelETree **r;
 			GelETree *li;
 			int i;
-			r = g_new(GelETree *,f->nargs);
+			r = g_new (GelETree *, n->op.nargs);
 			for(i=0,li=n->op.args->any.next;li;i++,li=li->any.next)
-				r[i]=li;
+				r[i] = li;
+			r[i] = NULL;
 			ret = (*f->data.func)(ctx,r,&exception);
-			g_free(r);
+			g_free (r);
 		} else {
 			ret = (*f->data.func)(ctx,NULL,&exception);
 		}

@@ -23,7 +23,7 @@
 
 #include "extra.h"
 
-int gp_push_func(void) GEL_WEAK_FUNC;
+int gp_push_func (gboolean vararg) GEL_WEAK_FUNC;
 
 /*pops the last expression, pushes a marker
   entry and puts the last expression back*/

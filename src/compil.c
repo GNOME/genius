@@ -128,6 +128,7 @@ gel_compile_node(GelETree *t,GString *gs)
 		g_assert(t->func.func->type==GEL_USER_FUNC);
 		g_assert(t->func.func->id==NULL);
 		g_string_sprintfa(gs,";%d",t->func.func->nargs);
+		g_string_sprintfa(gs,";%d",t->func.func->vararg);
 		for(li=t->func.func->named_args;li;li=g_slist_next(li)) {
 			GelToken *tok = li->data;
 			g_string_sprintfa(gs,";%s",tok->token);
@@ -169,8 +170,9 @@ gel_decompile_node(void)
 {
 	GelETree *n;
 	char *p;
-	int type=-1;
-	int nargs=-1;
+	int type = -1;
+	int nargs = -1;
+	int vararg = -1;
 	int quote;
 	int oper;
 	int i,j;
@@ -302,6 +304,11 @@ gel_decompile_node(void)
 		sscanf(p,"%d",&nargs);
 		if(nargs==-1) return NULL;
 
+		p = strtok(NULL,";");
+		if(!p) return NULL;
+		sscanf(p,"%d",&vararg);
+		if (vararg == -1) return NULL;
+
 		oli = NULL;
 		for(i=0;i<nargs;i++) {
 			p = strtok(NULL,";");
@@ -320,6 +327,7 @@ gel_decompile_node(void)
 
 		func = d_makeufunc(NULL,n,oli,nargs);
 		func->context = -1;
+		func->vararg = vararg ? 1 : 0;
 
 		GET_NEW_NODE(n);
 		n->type = FUNCTION_NODE;
