@@ -43,9 +43,9 @@ median = Median
 protect("median")
 
 SetHelp("RowAverage","statistics","Calculate average of each row in a matrix");
-function rowaverage(m) = (
+function RowAverage(m) = (
 	if not IsMatrix(m) or not IsValueOnly(m) then
-		(error("rowaverage: argument not value-only matrix");bailout);
+		(error("RowAverage: argument not value-only matrix");bailout);
 	r = SetMatrixSize([0],rows(m),1);
 	for k = 1 to rows(m) do (
 		for j = 1 to columns(m) do
@@ -55,6 +55,9 @@ function rowaverage(m) = (
 	r
 );
 protect("RowAverage")
+SetHelpAlias("RowAverage", "RowMean")
+RowMean = RowAverage
+protect("RowMean")
 
 SetHelp("Average","statistics","Calculate average of an entire matrix");
 function Average(m) = (
