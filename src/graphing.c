@@ -1204,6 +1204,7 @@ plot_from_dialog (void)
 	int i;
 	gboolean last_info;
 	gboolean last_error;
+	const char *error_to_print = NULL;
 
 	last_info = genius_setup.info_box;
 	last_error = genius_setup.error_box;
@@ -1234,7 +1235,8 @@ plot_from_dialog (void)
 	}
 
 	if (funcs == 0) {
-		display_error (_("No functions to plot or no functions could be parsed"));
+		error_to_print = _("No functions to plot or no functions "
+				   "could be parsed");
 		goto whack_copied_funcs;
 	}
 
@@ -1256,12 +1258,12 @@ plot_from_dialog (void)
 	}
 
 	if (x1 == x2) {
-		display_error (_("Invalid X range"));
+		error_to_print = _("Invalid X range");
 		goto whack_copied_funcs;
 	}
 
 	if (y1 == y2) {
-		display_error (_("Invalid Y range"));
+		error_to_print = _("Invalid Y range");
 		goto whack_copied_funcs;
 	}
 
@@ -1299,6 +1301,9 @@ whack_copied_funcs:
 	gel_printout_infos ();
 	genius_setup.info_box = last_info;
 	genius_setup.error_box = last_error;
+
+	if (error_to_print != NULL)
+		display_error (error_to_print);
 }
 
 static void
