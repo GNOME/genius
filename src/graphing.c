@@ -1043,7 +1043,13 @@ plot_axis (void)
 }
 
 static double
-call_func3 (GelCtx *ctx, GelEFunc *func, GelETree *arg, GelETree *arg2, GelETree *arg3, gboolean *ex)
+call_func3 (GelCtx *ctx,
+	    GelEFunc *func,
+	    GelETree *arg,
+	    GelETree *arg2,
+	    GelETree *arg3,
+	    gboolean *ex,
+	    GelETree **func_ret)
 {
 	GelETree *ret;
 	double retd;
@@ -1061,14 +1067,19 @@ call_func3 (GelCtx *ctx, GelEFunc *func, GelETree *arg, GelETree *arg2, GelETree
 		error_num = 0;
 
 	/* only do one level of indirection to avoid infinite loops */
-	if (ret != NULL && ret->type == FUNCTION_NODE && ret->func.func->nargs == 3) {
-		GelETree *ret2;
-		ret2 = funccall (ctx, ret->func.func, args, 3);
-		gel_freetree (ret);
-		ret = ret2;
-		/* FIXME: handle errors! */
-		if (error_num != 0)
-			error_num = 0;
+	if (ret != NULL && ret->type == FUNCTION_NODE) {
+		if (ret->func.func->nargs == 3) {
+			GelETree *ret2;
+			ret2 = funccall (ctx, ret->func.func, args, 3);
+			gel_freetree (ret);
+			ret = ret2;
+			/* FIXME: handle errors! */
+			if (error_num != 0)
+				error_num = 0;
+		} else if (func_ret != NULL) {
+			*func_ret = ret;
+			return 0.0;
+		}
 
 	}
 
@@ -1089,7 +1100,12 @@ call_func3 (GelCtx *ctx, GelEFunc *func, GelETree *arg, GelETree *arg2, GelETree
 }
 
 static double
-call_func2 (GelCtx *ctx, GelEFunc *func, GelETree *arg, GelETree *arg2, gboolean *ex)
+call_func2 (GelCtx *ctx,
+	    GelEFunc *func,
+	    GelETree *arg,
+	    GelETree *arg2,
+	    gboolean *ex,
+	    GelETree **func_ret)
 {
 	GelETree *ret;
 	double retd;
@@ -1106,15 +1122,19 @@ call_func2 (GelCtx *ctx, GelEFunc *func, GelETree *arg, GelETree *arg2, gboolean
 		error_num = 0;
 
 	/* only do one level of indirection to avoid infinite loops */
-	if (ret != NULL && ret->type == FUNCTION_NODE && ret->func.func->nargs == 2) {
-		GelETree *ret2;
-		ret2 = funccall (ctx, ret->func.func, args, 2);
-		gel_freetree (ret);
-		ret = ret2;
-		/* FIXME: handle errors! */
-		if (error_num != 0)
-			error_num = 0;
-
+	if (ret != NULL && ret->type == FUNCTION_NODE) {
+		if (ret->func.func->nargs == 2) {
+			GelETree *ret2;
+			ret2 = funccall (ctx, ret->func.func, args, 2);
+			gel_freetree (ret);
+			ret = ret2;
+			/* FIXME: handle errors! */
+			if (error_num != 0)
+				error_num = 0;
+		} else if (func_ret != NULL) {
+			*func_ret = ret;
+			return 0.0;
+		}
 	}
 
 	if (ret == NULL || ret->type != VALUE_NODE) {
@@ -1134,7 +1154,11 @@ call_func2 (GelCtx *ctx, GelEFunc *func, GelETree *arg, GelETree *arg2, gboolean
 }
 
 static double
-call_func (GelCtx *ctx, GelEFunc *func, GelETree *arg, gboolean *ex)
+call_func (GelCtx *ctx,
+	   GelEFunc *func,
+	   GelETree *arg,
+	   gboolean *ex,
+	   GelETree **func_ret)
 {
 	GelETree *ret;
 	double retd;
@@ -1150,14 +1174,19 @@ call_func (GelCtx *ctx, GelEFunc *func, GelETree *arg, gboolean *ex)
 		error_num = 0;
 
 	/* only do one level of indirection to avoid infinite loops */
-	if (ret != NULL && ret->type == FUNCTION_NODE && ret->func.func->nargs == 1) {
-		GelETree *ret2;
-		ret2 = funccall (ctx, ret->func.func, args, 1);
-		gel_freetree (ret);
-		ret = ret2;
-		/* FIXME: handle errors! */
-		if (error_num != 0)
-			error_num = 0;
+	if (ret != NULL && ret->type == FUNCTION_NODE) {
+		if (ret->func.func->nargs == 1) {
+			GelETree *ret2;
+			ret2 = funccall (ctx, ret->func.func, args, 1);
+			gel_freetree (ret);
+			ret = ret2;
+			/* FIXME: handle errors! */
+			if (error_num != 0)
+				error_num = 0;
+		} else if (func_ret != NULL) {
+			*func_ret = ret;
+			return 0.0;
+		}
 
 	}
 
@@ -1205,7 +1234,7 @@ plot_func_data (GtkPlot *plot, GtkPlotData *data, double x, gboolean *error)
 	}
 
 	mpw_set_d (plot_arg->val.value, x);
-	y = call_func (plot_ctx, plot_func[i], plot_arg, &ex);
+	y = call_func (plot_ctx, plot_func[i], plot_arg, &ex, NULL);
 
 	if G_UNLIKELY (ex) {
 		if (error != NULL)
@@ -1244,6 +1273,7 @@ surface_func_data (GtkPlot *plot, GtkPlotData *data, double x, double y, gboolea
 	static int hookrun = 0;
 	gboolean ex = FALSE;
 	double z, size;
+	GelETree *func_ret = NULL;
 
 	if (error != NULL)
 		*error = FALSE;
@@ -1257,16 +1287,38 @@ surface_func_data (GtkPlot *plot, GtkPlotData *data, double x, double y, gboolea
 	/* complex function */
 	if (surface_func->nargs == 1) {
 		mpw_set_d_complex (plot_arg->val.value, x, y);
-		z = call_func (plot_ctx, surface_func, plot_arg, &ex);
+		z = call_func (plot_ctx, surface_func, plot_arg, &ex,
+			       &func_ret);
 	} else if (surface_func->nargs == 2) {
 		mpw_set_d (plot_arg->val.value, x);
 		mpw_set_d (plot_arg2->val.value, y);
-		z = call_func2 (plot_ctx, surface_func, plot_arg, plot_arg2, &ex);
+		z = call_func2 (plot_ctx, surface_func, plot_arg, plot_arg2,
+				&ex, &func_ret);
 	} else {
 		mpw_set_d (plot_arg->val.value, x);
 		mpw_set_d (plot_arg2->val.value, y);
 		mpw_set_d_complex (plot_arg3->val.value, x, y);
-		z = call_func3 (plot_ctx, surface_func, plot_arg, plot_arg2, plot_arg3, &ex);
+		z = call_func3 (plot_ctx, surface_func, plot_arg, plot_arg2,
+				plot_arg3, &ex, &func_ret);
+	}
+	if (func_ret != NULL) {
+		/* complex function */
+		if (func_ret->func.func->nargs == 1) {
+			mpw_set_d_complex (plot_arg->val.value, x, y);
+			z = call_func (plot_ctx, func_ret->func.func, plot_arg, &ex,
+				       NULL);
+		} else if (func_ret->func.func->nargs == 2) {
+			mpw_set_d (plot_arg->val.value, x);
+			mpw_set_d (plot_arg2->val.value, y);
+			z = call_func2 (plot_ctx, func_ret->func.func, plot_arg, plot_arg2,
+					&ex, NULL);
+		} else {
+			mpw_set_d (plot_arg->val.value, x);
+			mpw_set_d (plot_arg2->val.value, y);
+			mpw_set_d_complex (plot_arg3->val.value, x, y);
+			z = call_func3 (plot_ctx, func_ret->func.func, plot_arg, plot_arg2,
+					plot_arg3, &ex, NULL);
+		}
 	}
 
 	if G_UNLIKELY (ex) {
