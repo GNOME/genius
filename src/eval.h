@@ -234,13 +234,12 @@ void deregister_all_trees (void);
 
 #else /* MEM_DEBUG_FRIENDLY */
 
+void _gel_make_free_trees (void);
 # define GET_NEW_NODE(n) {				\
-	if(!free_trees)					\
-		n = g_new(GelETree,1);			\
-	else {						\
-		n = free_trees;				\
-		free_trees = free_trees->any.next;	\
-	}						\
+	if G_UNLIKELY (free_trees == NULL)		\
+		_gel_make_free_trees ();		\
+	n = free_trees;					\
+	free_trees = free_trees->any.next;		\
 }
 #endif
 

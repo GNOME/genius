@@ -49,6 +49,12 @@ static GelEvalLoop *free_evl = NULL;
 static GelEvalFor *free_evf = NULL;
 static GelEvalForIn *free_evfi = NULL;
 
+#ifndef MEM_DEBUG_FRIENDLY
+static void _gel_make_free_evl (void);
+static void _gel_make_free_evf (void);
+static void _gel_make_free_evfi (void);
+#endif /* ! MEM_DEBUG_FRIENDLY */
+
 extern GHashTable *uncompiled;
 
 extern gboolean interrupted;
@@ -98,9 +104,9 @@ ge_remove_stack_array(GelCtx *ctx)
 	/*push it onto the list of free stack entries*/
 #ifdef MEM_DEBUG_FRIENDLY
 	memset (ctx->stack, 0xaa, sizeof (GelEvalStack));
-#ifdef MEM_DEBUG_SUPER_FRIENDLY
+# ifndef MEM_DEBUG_SUPER_FRIENDLY
 	g_free (ctx->stack);
-#endif /* MEM_DEBUG_SUPER_FRIENDLY */
+# endif /* !MEM_DEBUG_SUPER_FRIENDLY */
 #else /* MEM_DEBUG_FRIENDLY */
 	ctx->stack->next = free_stack;
 	free_stack = ctx->stack;
@@ -316,6 +322,7 @@ gel_makenum_null (void)
 	GelETree *n;
 	GET_NEW_NODE (n);
 	n->type = NULL_NODE;
+	n->any.next = NULL;
 	return n;
 }
 
@@ -363,6 +370,7 @@ gel_makenum_ui(unsigned long num)
 	n->type=VALUE_NODE;
 	mpw_init(n->val.value);
 	mpw_set_ui(n->val.value,num);
+	n->any.next = NULL;
 	return n;
 }
 
@@ -374,6 +382,7 @@ gel_makenum_si(long num)
 	n->type=VALUE_NODE;
 	mpw_init(n->val.value);
 	mpw_set_si(n->val.value,num);
+	n->any.next = NULL;
 	return n;
 }
 
@@ -385,6 +394,7 @@ gel_makenum_d (double num)
 	n->type = VALUE_NODE;
 	mpw_init (n->val.value);
 	mpw_set_d (n->val.value, num);
+	n->any.next = NULL;
 	return n;
 }
 
@@ -395,6 +405,7 @@ gel_makenum_bool (gboolean bool_)
 	GET_NEW_NODE (n);
 	n->type = BOOL_NODE;
 	n->bool_.bool_ = bool_ ? 1 : 0;
+	n->any.next = NULL;
 	return n;
 }
 
@@ -405,6 +416,7 @@ gel_makenum(mpw_t num)
 	GET_NEW_NODE(n);
 	n->type=VALUE_NODE;
 	mpw_init_set(n->val.value,num);
+	n->any.next = NULL;
 	return n;
 }
 
@@ -416,6 +428,7 @@ gel_makenum_use(mpw_t num)
 	GET_NEW_NODE(n);
 	n->type=VALUE_NODE;
 	memcpy(n->val.value,num,sizeof(struct _mpw_t));
+	n->any.next = NULL;
 	return n;
 }
 
@@ -549,9 +562,9 @@ freetree_full(GelETree *n, gboolean freeargs, gboolean kill)
 # endif
 
 		memset (n, 0xaa, sizeof (GelETree));
-# ifdef MEM_DEBUG_SUPER_FRIENDLY
+# ifndef MEM_DEBUG_SUPER_FRIENDLY
 		g_free (n);
-# endif
+# endif /* ! MEM_DEBUG_SUPER_FRIENDLY */
 #else
 		/*put onto the free list*/
 		n->any.next = free_trees;
@@ -712,7 +725,7 @@ replacenode(GelETree *to, GelETree *from)
 # endif
 
 	memset (from, 0xaa, sizeof (GelETree));
-# ifdef MEM_DEBUG_SUPER_FRIENDLY
+# ifndef MEM_DEBUG_SUPER_FRIENDLY
 	g_free (from);
 # endif
 #else /* MEM_DEBUG_FRIENDLY */
@@ -2921,6 +2934,11 @@ purge_free_lists(void)
 		free_stack = free_stack->next;
 		g_free(evs);
 	}
+	/* FIXME: we should have some sort of compression stuff, but
+	   we allocate these in chunks, so normally we can never free
+	   them again.  We could use the type field to mark things
+	   and then do some compression. */
+#if 0
 	while(free_evl) {
 		GelEvalLoop *evl = free_evl;
 		free_evl = (GelEvalLoop *)free_evl->condition;
@@ -2941,22 +2959,21 @@ purge_free_lists(void)
 		free_trees = free_trees->any.next;
 		g_free(et);
 	}
+#endif
 }
 
 static inline GelEvalLoop *
 evl_new (GelETree *cond, GelETree *body, gboolean is_while, gboolean body_first)
 {
 	GelEvalLoop *evl;
-	if(!free_evl) {
 #ifdef MEM_DEBUG_FRIENDLY
-		evl = g_new0 (GelEvalLoop, 1);
+	evl = g_new0 (GelEvalLoop, 1);
 #else
-		evl = g_new (GelEvalLoop, 1);
+	if G_UNLIKELY (free_evl == NULL)
+		_gel_make_free_evl ();
+	evl = free_evl;
+	free_evl = (GelEvalLoop *)free_evl->condition;
 #endif
-	} else {
-		evl = free_evl;
-		free_evl = (GelEvalLoop *)free_evl->condition;
-	}
 	evl->condition = cond;
 	evl->body = body;
 	evl->is_while = is_while ? 1 : 0;
@@ -2969,9 +2986,9 @@ evl_free(GelEvalLoop *evl)
 {
 #ifdef MEM_DEBUG_FRIENDLY
 	memset (evl, 0xaa, sizeof (GelEvalLoop));
-#ifdef MEM_DEBUG_SUPER_FRIENDLY
+# ifndef MEM_DEBUG_SUPER_FRIENDLY
 	g_free (evl);
-#endif
+# endif
 #else
 	evl->condition = (gpointer)free_evl;
 	free_evl = evl;
@@ -2996,16 +3013,14 @@ evf_new (GelEvalForType type,
 	 GelToken *id)
 {
 	GelEvalFor *evf;
-	if(!free_evf) {
 #ifdef MEM_DEBUG_FRIENDLY
-		evf = g_new0 (GelEvalFor, 1);
+	evf = g_new0 (GelEvalFor, 1);
 #else
-		evf = g_new (GelEvalFor, 1);
+	if G_UNLIKELY (free_evf == NULL)
+		_gel_make_free_evf ();
+	evf = free_evf;
+	free_evf = (GelEvalFor *)free_evf->body;
 #endif
-	} else {
-		evf = free_evf;
-		free_evf = (GelEvalFor *)free_evf->body;
-	}
 	evf->type = type;
 	evf->x = x;
 	evf->to = to;
@@ -3023,9 +3038,9 @@ evf_free(GelEvalFor *evf)
 {
 #ifdef MEM_DEBUG_FRIENDLY
 	memset (evf, 0xaa, sizeof (GelEvalFor));
-#ifdef MEM_DEBUG_SUPER_FRIENDLY
+# ifndef MEM_DEBUG_SUPER_FRIENDLY
 	g_free (evf);
-#endif
+# endif
 #else
 	evf->body = (gpointer)free_evf;
 	free_evf = evf;
@@ -3036,16 +3051,14 @@ static inline GelEvalForIn *
 evfi_new (GelEvalForType type, GelMatrixW *mat, GelETree *body, GelETree *orig_body, GelToken *id)
 {
 	GelEvalForIn *evfi;
-	if(!free_evfi) {
 #ifdef MEM_DEBUG_FRIENDLY
-		evfi = g_new0 (GelEvalForIn, 1);
+	evfi = g_new0 (GelEvalForIn, 1);
 #else
-		evfi = g_new (GelEvalForIn, 1);
+	if G_UNLIKELY (free_evfi == NULL)
+		_gel_make_free_evfi ();
+	evfi = free_evfi;
+	free_evfi = (GelEvalForIn *)free_evfi->body;
 #endif
-	} else {
-		evfi = free_evfi;
-		free_evfi = (GelEvalForIn *)free_evfi->body;
-	}
 	evfi->type = type;
 	evfi->i = evfi->j = 0;
 	evfi->mat = mat;
@@ -3061,9 +3074,9 @@ evfi_free(GelEvalForIn *evfi)
 {
 #ifdef MEM_DEBUG_FRIENDLY
 	memset (evfi, 0xaa, sizeof (GelEvalForIn));
-#ifdef MEM_DEBUG_SUPER_FRIENDLY
+# ifndef MEM_DEBUG_SUPER_FRIENDLY
 	g_free (evfi);
-#endif
+# endif
 #else
 	evfi->body = (gpointer)free_evfi;
 	free_evfi = evfi;
@@ -7096,6 +7109,79 @@ try_to_do_precalc(GelETree *n)
 			try_to_do_precalc(n->func.func->data.user);
 	}
 }
+
+#ifndef MEM_DEBUG_FRIENDLY
+/* In tests it seems that this achieves better then 4096 */
+#define GEL_CHUNK_SIZE 4048
+#define ALIGNED_SIZE(t) (sizeof(t) + sizeof (t) % G_MEM_ALIGN)
+void
+_gel_make_free_trees (void)
+{
+	int i;
+	char *p;
+
+	p = g_malloc ((GEL_CHUNK_SIZE / ALIGNED_SIZE (GelETree)) *
+		      ALIGNED_SIZE (GelETree));
+	for (i = 0; i < (GEL_CHUNK_SIZE / ALIGNED_SIZE (GelETree)); i++) {
+		GelETree *t = (GelETree *)p;
+		/*put onto the free list*/
+		t->any.next = free_trees;
+		free_trees = t;
+		p += ALIGNED_SIZE (GelETree);
+	}
+}
+
+static void
+_gel_make_free_evl (void)
+{
+	int i;
+	char *p;
+
+	p = g_malloc ((GEL_CHUNK_SIZE / ALIGNED_SIZE (GelEvalLoop)) *
+		      ALIGNED_SIZE (GelEvalLoop));
+	for (i = 0; i < (GEL_CHUNK_SIZE / ALIGNED_SIZE (GelEvalLoop)); i++) {
+		GelEvalLoop *t = (GelEvalLoop *)p;
+		/*put onto the free list*/
+		t->condition = (gpointer)free_evl;
+		free_evl = t;
+		p += ALIGNED_SIZE (GelEvalLoop);
+	}
+}
+
+static void
+_gel_make_free_evf (void)
+{
+	int i;
+	char *p;
+
+	p = g_malloc ((GEL_CHUNK_SIZE / ALIGNED_SIZE (GelEvalFor)) *
+		      ALIGNED_SIZE (GelEvalFor));
+	for (i = 0; i < (GEL_CHUNK_SIZE / ALIGNED_SIZE (GelEvalFor)); i++) {
+		GelEvalFor *t = (GelEvalFor *)p;
+		/*put onto the free list*/
+		t->body = (gpointer)free_evf;
+		free_evf = t;
+		p += ALIGNED_SIZE (GelEvalFor);
+	}
+}
+
+static void
+_gel_make_free_evfi (void)
+{
+	int i;
+	char *p;
+
+	p = g_malloc ((GEL_CHUNK_SIZE / ALIGNED_SIZE (GelEvalForIn)) *
+		      ALIGNED_SIZE (GelEvalForIn));
+	for (i = 0; i < (GEL_CHUNK_SIZE / ALIGNED_SIZE (GelEvalForIn)); i++) {
+		GelEvalForIn *t = (GelEvalForIn *)p;
+		/*put onto the free list*/
+		t->body = (gpointer)free_evfi;
+		free_evfi = t;
+		p += ALIGNED_SIZE (GelEvalForIn);
+	}
+}
+#endif /* ! MEM_DEBUG_FRIENDLY */
 
 #ifdef MEM_DEBUG_FRIENDLY
 # ifdef EVAL_DEBUG

@@ -23,6 +23,9 @@ GTKSOURCEVIEW_REQUIRED=0.3.0
 dnl ===============================================================================
 
 AC_PROG_CC
+if test "x$GCC" = xyes ; then
+	CFLAGS="$CFLAGS -O3"
+fi
 AC_ISC_POSIX
 AC_HEADER_STDC
 AM_PROG_LEX

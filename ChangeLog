@@ -1,3 +1,18 @@
+Thu Jul 29 09:55:10 2004  George Lebl <jirka@5z.com>
+
+	* src/eval.[ch]: Allocate all memory for GelETree's, and the
+	  various loop structures in long continuous spaces with the
+	  structures aligned properly.  This seems to have little
+	  impact on speed but it has some impact on memory usage, about
+	  20% in a test that uses deep recursion.  As a side effect the
+	  free lists are no longer purged.  Also fix the MEM_DEBUG_FRIENDLY
+	  mode to actually free memory unless the MEM_DEBUG_SUPER_FRIENDLY
+	  is on.
+
+	* configure.in: automatically turn on -O3 for gcc, this seems
+	  to make a very minor dent in performance.  -fomit-frame-pointer
+	  does better, but we really don't want no debugging on this code.
+
 Wed Jul 28 18:26:49 2004  George Lebl <jirka@5z.com>
 
 	* src/Makefile.am: add longtest.gel to EXTRA_DIST
