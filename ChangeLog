@@ -1,3 +1,10 @@
+Mon Mar 24 15:04:43 2003  George Lebl <jirka@5z.com>
+
+	* src/eval.c: mod matrices after primitives, and add a fixme,
+	  most operations already do modding so this is not very efficent,
+	  but at least it's correct for now.  Fixes for example
+	  "-[1] mod 2"
+
 Mon Mar 24 14:31:29 2003  George Lebl <jirka@5z.com>
 
 	* src/dict.c, src/eval.c: fix var substitution crash, and add

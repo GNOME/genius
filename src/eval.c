@@ -2012,7 +2012,7 @@ funcname(GelCtx *ctx, GelETree *n, GelETree *l)			\
 }
 #define PRIM_NUM_FUNC_2(funcname,mpwfunc) \
 static int							\
-funcname(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)		\
+funcname(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)	\
 {								\
 	mpw_t res;						\
 								\
@@ -5025,7 +5025,12 @@ iter_operator_post(GelCtx *ctx)
 		if(!iter_call2(ctx,&prim_table[n->op.oper],n))
 			return FALSE;
 		if (ctx->modulo != NULL &&
-		    n->type == VALUE_NODE)
+		    (n->type == VALUE_NODE ||
+		     /* FIXME: note, most matrix operations already
+		      * mod, so this will just make things slower,
+		      * but currently it is needed for correct
+		      * behaviour */
+		     n->type == MATRIX_NODE))
 			mod_node (n, ctx->modulo);
 		iter_pop_stack(ctx);
 		break;
@@ -5040,7 +5045,12 @@ iter_operator_post(GelCtx *ctx)
 		if(!iter_call1(ctx,&prim_table[n->op.oper],n))
 			return FALSE;
 		if (ctx->modulo != NULL &&
-		    n->type == VALUE_NODE)
+		    (n->type == VALUE_NODE ||
+		     /* FIXME: note, most matrix operations already
+		      * mod, so this will just make things slower,
+		      * but currently it is needed for correct
+		      * behaviour */
+		     n->type == MATRIX_NODE))
 			mod_node (n, ctx->modulo);
 		iter_pop_stack(ctx);
 		break;
