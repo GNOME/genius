@@ -5,12 +5,21 @@
 # Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>, 2003.
 # Tino Meinen <a.t.meinen@chello.nl>, 2003, 2004
 #
+# consistent maken:
+# get   geef/tonen/(helemaal weglaten i.e. niet vertalen)
+# calculate/calculates  bereken/berekenen
+# return/returns
+# tests/checks if
+# ---
+# dot product - inproduct/inwendig product
+# cross product - uitproduct/uitwendig product/kruisproduct
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Genius cvs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-17 19:28+0200\n"
-"PO-Revision-Date: 2004-09-18 04:08+0200\n"
+"POT-Creation-Date: 2004-09-23 03:23+0200\n"
+"PO-Revision-Date: 2004-09-23 04:28+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +38,7 @@ msgstr "U probeert een alias voor een alias te maken"
 msgid "Bad identifier for function node!"
 msgstr "Foutieve identifier voor functie-knooppunt!"
 
-#: src/calc.c:974 src/eval.c:6190 src/eval.c:6382
+#: src/calc.c:974 src/eval.c:6225 src/eval.c:6417
 msgid "Unexpected operator!"
 msgstr "Onverwachte operand!"
 
@@ -52,7 +61,7 @@ msgstr "NULL functie!"
 msgid "Unexpected function type!"
 msgstr "Onverwacht functie-type!"
 
-#: src/calc.c:1357 src/eval.c:6610
+#: src/calc.c:1357 src/eval.c:6645
 msgid "Unexpected node!"
 msgstr "Onverwacht knooppunt!"
 
@@ -213,70 +222,70 @@ msgstr "FOUT: %s aan het einde van de invoer"
 msgid "ERROR: %s before '%s'"
 msgstr "FOUT: %s voor '%s'"
 
-#: src/compil.c:438 src/compil.c:444
+#: src/compil.c:439 src/compil.c:445
 msgid "Bad tree record when decompiling"
 msgstr "Foutief tree-record bij het decompileren"
 
-#: src/eval.c:1390 src/eval.c:1444 src/eval.c:1459
+#: src/eval.c:1424 src/eval.c:1478 src/eval.c:1493
 msgid "Cannot compare non value or bool only matrixes"
 msgstr "Kan matrices met aleen non-waarden of boleaanse niet vergelijken"
 
 #. also on rationals but as integers
-#: src/eval.c:1515 src/eval.c:1561
+#: src/eval.c:1549 src/eval.c:1595
 msgid "Modulo arithmetic only works on integers"
 msgstr "Modulo rekenkunde werkt alleen op gehele getallen"
 
-#: src/eval.c:1806
+#: src/eval.c:1840
 msgid "Can't add/subtract two matricies of different sizes"
 msgstr "Kan geen matrices met verschillende afmetingen aftrekken/optellen"
 
-#: src/eval.c:1808
+#: src/eval.c:1842
 msgid ""
 "Can't do element by element operations on two matricies of different sizes"
 msgstr ""
 "Kan geen bewerkingen element voor element uitvoeren bij matrices met "
 "verschillende afmetingen"
 
-#: src/eval.c:1866
+#: src/eval.c:1900
 msgid "Can't multiply matricies of wrong sizes"
 msgstr "Kan geen matrices met verschillende afmetingen vermenigvuldigen"
 
-#: src/eval.c:1915
+#: src/eval.c:1949
 msgid "Powers are defined on (square matrix)^(integer) only"
 msgstr ""
 "Machtsverheffen is alleen gedefinieerd bij (vierkante matrix)^(geheel getal)"
 
-#: src/eval.c:1921
+#: src/eval.c:1955
 msgid "Powers on matrices in modulo mode are defined on integer matrices only"
 msgstr ""
 "Machtsverheffen op matrices in modulo-modus is alleen gedefinieerd op "
 "matrices met gehele getallen"
 
-#: src/eval.c:1929
+#: src/eval.c:1963
 msgid "Exponent too large"
 msgstr "Exponent te groot"
 
-#: src/eval.c:1957 src/eval.c:2073 src/eval.c:2140
+#: src/eval.c:1991 src/eval.c:2107 src/eval.c:2174
 msgid "Matrix appears singular and can't be inverted"
 msgstr "Matrix is singulair en kan niet worden geïnverteerd"
 
-#: src/eval.c:2049
+#: src/eval.c:2083
 msgid "Can't divide matrices of different sizes or non-square matrices"
 msgstr ""
 "Kan geen deling uitvoeren met matrices van verschillende afmetingen of op "
 "niet-verkante matrices"
 
-#: src/eval.c:2121
+#: src/eval.c:2155
 msgid "Can't divide by a non-square matrix"
 msgstr "Kan niet delen door een niet-vierkante matrix"
 
-#: src/eval.c:2529 src/eval.c:2556 src/eval.c:2577 src/eval.c:2601
-#: src/eval.c:2646
+#: src/eval.c:2564 src/eval.c:2591 src/eval.c:2612 src/eval.c:2636
+#: src/eval.c:2681
 msgid "Operations on functions with variable argument list not supported"
 msgstr ""
 "Bewerkingen op functies met variabele argumentenlijst worden niet ondersteund"
 
-#: src/eval.c:2534
+#: src/eval.c:2569
 msgid ""
 "Operations on functions with different number of arguments not supported"
 msgstr ""
@@ -286,19 +295,19 @@ msgstr ""
 # aangemaakt is niet helemaal juiste vertaling.
 # creation - schepping is lelijk.
 # foutief ipv verkeerd?
-#: src/eval.c:2651
+#: src/eval.c:2686
 msgid "Function creation with wrong number of arguments"
 msgstr "Functie aangemaakt met verkeerd aantal argumenten"
 
-#: src/eval.c:3193 src/eval.c:4548
+#: src/eval.c:3228 src/eval.c:4583
 msgid "Unevaluatable function type encountered!"
 msgstr "Niet evalueerbaar functietype ontdekt!"
 
-#: src/eval.c:3215
+#: src/eval.c:3250
 msgid "' or '"
 msgstr "' of '"
 
-#: src/eval.c:3250
+#: src/eval.c:3285
 msgid ""
 "Variable 'i' used uninitialized.  Perhaps you meant to write '1i' for the "
 "imaginary number (square root of -1)."
@@ -306,18 +315,18 @@ msgstr ""
 "Variabele 'i' is niet geïnitialiseerd gebruikt. Misschien bedoelde u '1i' "
 "voor het imaginaire getal (de wortel van -1)."
 
-#: src/eval.c:3256 src/eval.c:3284
+#: src/eval.c:3291 src/eval.c:3319
 #, c-format
 msgid "Variable '%s' used uninitialized, perhaps you meant %s."
 msgstr ""
 "Variabele '%s' wordt ongeïnitialiseerd gebruikt, misschien bedoelde u %s."
 
-#: src/eval.c:3263 src/eval.c:3291 src/eval.c:4301
+#: src/eval.c:3298 src/eval.c:3326 src/eval.c:4336
 #, c-format
 msgid "Variable '%s' used uninitialized"
 msgstr "Variabele '%s' wordt ongeïnitialiseerd gebruikt"
 
-#: src/eval.c:3295 src/eval.c:4346
+#: src/eval.c:3330 src/eval.c:4381
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -326,49 +335,49 @@ msgstr ""
 "Aanroep van '%s' met het verkeerde aantal argumenten!\n"
 "(moet %d zijn)"
 
-#: src/eval.c:3298
+#: src/eval.c:3333
 #, c-format
 msgid "Trying to dereference '%s' which is not a reference!\n"
 msgstr ""
 "Probeer '%s' als referentie te verwijderen, maar het is geen referentie!\n"
 
-#: src/eval.c:3303
+#: src/eval.c:3338
 msgid "NULL reference encountered!"
 msgstr "NULL-referentie tegengekomen!"
 
-#: src/eval.c:3430
+#: src/eval.c:3465
 msgid "Cannot compare matrixes"
 msgstr "Kan matrices niet vergelijken"
 
-#: src/eval.c:3472
+#: src/eval.c:3507
 msgid "Primitives must get numeric/matrix/string arguments"
 msgstr "Primitieven moeten numerieke/matrix/tekenreeks argumenten krijgen"
 
-#: src/eval.c:3550
+#: src/eval.c:3585
 msgid "Bad argument to modular operation"
 msgstr "Foutief argument voor modulaire bewerking"
 
-#: src/eval.c:4279
+#: src/eval.c:4314
 #, c-format
 msgid "Function '%s' used uninitialized, perhaps you meant %s."
 msgstr ""
 "Functie '%s' wordt ongeïnitialiseerd gebruikt, misschien bedoelde u %s."
 
-#: src/eval.c:4286
+#: src/eval.c:4321
 #, c-format
 msgid "Function '%s' used uninitialized"
 msgstr "Functie '%s' wordt ongeïnitialiseerd gebruikt"
 
-#: src/eval.c:4307
+#: src/eval.c:4342
 #, c-format
 msgid "Can't dereference '%s'!"
 msgstr "Kan referentie '%s' niet verwijderen!"
 
-#: src/eval.c:4315
+#: src/eval.c:4350
 msgid "Can't call a non-function!"
 msgstr "Kan geen non-functie aanroepen!"
 
-#: src/eval.c:4351
+#: src/eval.c:4386
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -377,247 +386,247 @@ msgstr ""
 "Aanroep van '%s' met het verkeerde aantal argumenten!\n"
 "(moet groter zijn dan %d)"
 
-#: src/eval.c:4394
+#: src/eval.c:4429
 #, c-format
 msgid "Referencing an undefined variable %s!"
 msgstr "Verwijzing naar een niet gedefinieerde variabele %s!"
 
-#: src/eval.c:4527
+#: src/eval.c:4562
 msgid "Reference function with arguments encountered!"
 msgstr "Verwijzingsfunctie met argumenten ontdekt!"
 
-#: src/eval.c:4532
+#: src/eval.c:4567
 msgid "Unnamed reference function encountered!"
 msgstr "Ongenoemde verwijzingsfunctie ontdekt!"
 
-#: src/eval.c:4652
+#: src/eval.c:4687
 msgid "Bad type for 'for/sum/prod' loop!"
 msgstr "Foutief type voor 'for/sum/prod/ loop!"
 
-#: src/eval.c:4657
+#: src/eval.c:4692
 msgid "'for/sum/prod' loop increment can't be 0"
 msgstr "'for/sum/prod' loop verhoging kan niet 0 zijn"
 
-#: src/eval.c:4768
+#: src/eval.c:4803
 msgid "Bad type for 'for in' loop!"
 msgstr "Foutief type voor 'for in' loop!"
 
-#: src/eval.c:4928 src/eval.c:4961
+#: src/eval.c:4963 src/eval.c:4996
 msgid "Continue or break outside a loop, assuming \"return null\""
 msgstr "Continue of break buiten een loop, aangenomen wordt \"return null\""
 
-#: src/eval.c:5022
+#: src/eval.c:5057
 msgid "Wrong argument type as matrix index"
 msgstr "Verkeerd argumenttype als matrixindex"
 
-#: src/eval.c:5032
+#: src/eval.c:5067
 msgid "Matrix index too large"
 msgstr "Matrixindex te groot"
 
-#: src/eval.c:5035
+#: src/eval.c:5070
 msgid "Matrix index less than 1"
 msgstr "Matrixindex kleiner dan 1"
 
-#: src/eval.c:5058 src/eval.c:5073
+#: src/eval.c:5093 src/eval.c:5108
 msgid "Matrix index out of range"
 msgstr "Matrixindex buiten bereik"
 
-#: src/eval.c:5120 src/eval.c:5182 src/eval.c:5245 src/eval.c:5290
+#: src/eval.c:5155 src/eval.c:5217 src/eval.c:5280 src/eval.c:5325
 #, c-format
 msgid "Trying to set a protected id '%s'"
 msgstr "Een beschermde id '%s' wordt gepoogd in te stellen"
 
-#: src/eval.c:5138 src/eval.c:5177
+#: src/eval.c:5173 src/eval.c:5212
 msgid "Indexed Lvalue not user function"
 msgstr "Geïndexeerde Lwaarde geen gebruikersfunctie"
 
-#: src/eval.c:5161 src/eval.c:5274
+#: src/eval.c:5196 src/eval.c:5309
 msgid "Dereference of non-identifier!"
 msgstr "Dereferentie van non-identifier!"
 
-#: src/eval.c:5167 src/eval.c:5280
+#: src/eval.c:5202 src/eval.c:5315
 msgid "Dereference of undefined variable!"
 msgstr "Dereferentie van ongedefinieerde variabele!"
 
-#: src/eval.c:5171 src/eval.c:5284
+#: src/eval.c:5206 src/eval.c:5319
 msgid "Dereference of non-reference!"
 msgstr "Dereferentie van non-referentie!"
 
-#: src/eval.c:5200
+#: src/eval.c:5235
 msgid "Indexed Lvalue not an identifier or a dereference"
 msgstr "Geïndexeerde Lwaarde geen identifier of dereferentie"
 
-#: src/eval.c:5238
+#: src/eval.c:5273
 msgid "Lvalue not an identifier/dereference/matrix location!"
 msgstr "Lwaarde geen identifier/dereferentie/matrix locatie!"
 
-#: src/eval.c:5261 src/eval.c:5302
+#: src/eval.c:5296 src/eval.c:5337
 msgid "Referencing an undefined variable!"
 msgstr "Verwijzing naar ongedefinieerde variabele!"
 
-#: src/eval.c:5348 src/eval.c:5426 src/eval.c:5435
+#: src/eval.c:5383 src/eval.c:5461 src/eval.c:5470
 msgid "Wrong matrix dimensions when setting"
 msgstr "Verkeerde matrix-dimensies bij instellen"
 
-#: src/eval.c:5366 src/eval.c:5406 src/eval.c:5472 src/eval.c:5654
-#: src/eval.c:5707
+#: src/eval.c:5401 src/eval.c:5441 src/eval.c:5507 src/eval.c:5689
+#: src/eval.c:5742
 msgid "Matrix index not an integer or a vector"
 msgstr "Matrixindex geen geheel getal of vector"
 
-#: src/eval.c:5493
+#: src/eval.c:5528
 msgid "Parameters can only be created in the global context"
 msgstr "Parameters kunnen enkel worden aangemaakt in de globale context"
 
-#: src/eval.c:5549 src/eval.c:5591 src/eval.c:5666
+#: src/eval.c:5584 src/eval.c:5626 src/eval.c:5701
 msgid "Index works only on matricies"
 msgstr "Index werkt alleen op matrices"
 
-#: src/eval.c:5579
+#: src/eval.c:5614
 msgid "Vector index not an integer or a vector"
 msgstr "Vectorindex geen geheel getal of een vector"
 
-#: src/eval.c:5730
+#: src/eval.c:5765
 msgid "number"
 msgstr "getal"
 
-#: src/eval.c:5731
+#: src/eval.c:5766
 msgid "matrix"
 msgstr "matrix"
 
-#: src/eval.c:5732
+#: src/eval.c:5767
 msgid "string"
 msgstr "tekenreeks"
 
-#: src/eval.c:5733
+#: src/eval.c:5768
 msgid "function"
 msgstr "functie"
 
 # aanwijzer?
-#: src/eval.c:5734
+#: src/eval.c:5769
 msgid "identifier"
 msgstr "aanwijzer"
 
-#: src/eval.c:5735
+#: src/eval.c:5770
 msgid "polynomial"
 msgstr "polynoom"
 
-#: src/eval.c:5736
+#: src/eval.c:5771
 msgid "boolean"
 msgstr "booleaan"
 
-#: src/eval.c:5755 lib/library-strings.c:16
+#: src/eval.c:5790 lib/library-strings.c:16
 msgid "Absolute value"
 msgstr "Absolute waarde"
 
-#: src/eval.c:5756
+#: src/eval.c:5791
 msgid "Addition"
 msgstr "Optelling"
 
-#: src/eval.c:5757
+#: src/eval.c:5792
 msgid "Subtraction"
 msgstr "Aftrekking"
 
-#: src/eval.c:5758
+#: src/eval.c:5793
 msgid "Multiplication"
 msgstr "Vermenigvuldiging"
 
-#: src/eval.c:5759
+#: src/eval.c:5794
 msgid "Element by element multiplication"
 msgstr "Vermenigvuldiging element voor element"
 
-#: src/eval.c:5760
+#: src/eval.c:5795
 msgid "Division"
 msgstr "Deling"
 
-#: src/eval.c:5761
+#: src/eval.c:5796
 msgid "Element by element division"
 msgstr "Deling element voor element"
 
 # is dit goed?
-#: src/eval.c:5762
+#: src/eval.c:5797
 msgid "Back division"
 msgstr "Terugdeling"
 
-#: src/eval.c:5763
+#: src/eval.c:5798
 msgid "Element by element back division"
 msgstr "Terugdeling element voor element"
 
-#: src/eval.c:5764
+#: src/eval.c:5799
 msgid "Modulo"
 msgstr "Modulo"
 
-#: src/eval.c:5765
+#: src/eval.c:5800
 msgid "Element by element modulo"
 msgstr "Modulo element voor element"
 
-#: src/eval.c:5766
+#: src/eval.c:5801
 msgid "Negation"
 msgstr "Negatie"
 
-#: src/eval.c:5767
+#: src/eval.c:5802
 msgid "Power"
 msgstr "Macht"
 
-#: src/eval.c:5768
+#: src/eval.c:5803
 msgid "Element by element power"
 msgstr "Macht element voor element"
 
-#: src/eval.c:5769
+#: src/eval.c:5804
 msgid "Factorial"
 msgstr "Faculteit"
 
-#: src/eval.c:5770
+#: src/eval.c:5805
 msgid "Double factorial"
 msgstr "Dubbele faculteit"
 
-#: src/eval.c:5771
+#: src/eval.c:5806
 msgid "Transpose"
 msgstr "Transponeren"
 
 # moet dit aan elkaar?
-#: src/eval.c:5772
+#: src/eval.c:5807
 msgid "ConjugateTranspose"
 msgstr "GeconjugeerdTransponeren"
 
-#: src/eval.c:5773
+#: src/eval.c:5808
 msgid "Comparison (<=>)"
 msgstr "Vergelijking (<=>)"
 
-#: src/eval.c:5774
+#: src/eval.c:5809
 msgid "XOR"
 msgstr "XOR"
 
-#: src/eval.c:5775
+#: src/eval.c:5810
 msgid "NOT"
 msgstr "NOT"
 
-#: src/eval.c:5795
+#: src/eval.c:5830
 #, c-format
 msgid "Bad types for '%s'"
 msgstr "Foutieve typen voor '%s'"
 
 # op ipv bij?
-#: src/eval.c:5806
+#: src/eval.c:5841
 #, c-format
 msgid "%s not defined on <%s> and <%s>"
 msgstr "%s niet gedefinieerd bij <%s> en <%s>"
 
-#: src/eval.c:5825
+#: src/eval.c:5860
 #, c-format
 msgid "Bad type for '%s'"
 msgstr "Foutief type voor '%s'"
 
-#: src/eval.c:5835
+#: src/eval.c:5870
 #, c-format
 msgid "%s not defined on <%s>"
 msgstr "%s niet gedefinieerd bij <%s>"
 
-#: src/eval.c:5854 src/eval.c:5871
+#: src/eval.c:5889 src/eval.c:5906
 msgid "Vector building only works on numbers"
 msgstr "Vectorbouwen werkt alleen op getallen"
 
 #. FIXME: perhaps we should just return null like octave?
-#: src/eval.c:5864
+#: src/eval.c:5899
 msgid "Impossible arguments to vector building operator"
 msgstr "Onmogelijke argumenten voor vectorbouwen-operand"
 
@@ -810,8 +819,8 @@ msgstr "vierde argument"
 msgid "%s: argument must be greater than 2"
 msgstr "%s: argument moet groter zijn dan 2"
 
-#: src/funclib.c:3029 src/funclib.c:3058 src/mpwrap.c:3421 src/mpwrap.c:3436
-#: src/mpwrap.c:3487 src/mpwrap.c:3510 src/mpwrap.c:3523 src/mpwrap.c:3568
+#: src/funclib.c:3029 src/funclib.c:3058 src/mpwrap.c:3422 src/mpwrap.c:3437
+#: src/mpwrap.c:3488 src/mpwrap.c:3511 src/mpwrap.c:3524 src/mpwrap.c:3569
 msgid "Division by zero!"
 msgstr "Deling door nul!"
 
@@ -825,224 +834,224 @@ msgstr "%s: argumenten zijn geen horizontale vectoren"
 msgid "%s: arguments not numeric only vectors"
 msgstr "%s: argumenten zijn geen 'alleen getallen' vectoren"
 
-#: src/funclib.c:3636 src/funclib.c:3725 src/funclib.c:3953 src/funclib.c:4008
+#: src/funclib.c:3637 src/funclib.c:3726 src/funclib.c:3954 src/funclib.c:4009
 #, c-format
 msgid "%s: value out of range"
 msgstr "%s: waarde buiten bereik"
 
-#: src/funclib.c:4111
+#: src/funclib.c:4112
 #, c-format
 msgid "%s: undefined function"
 msgstr "%s: ongedefinieerde functie"
 
-#: src/funclib.c:4117
+#: src/funclib.c:4118
 #, c-format
 msgid "%s: flags argument must be a string"
 msgstr "%s: vlag-argument moet een tekenreeks zijn"
 
-#: src/funclib.c:4154 src/funclib.c:4190 src/funclib.c:4386
+#: src/funclib.c:4155 src/funclib.c:4191 src/funclib.c:4387
 #, c-format
 msgid "%s: argument should be between %d and %d"
 msgstr "%s: argument moet liggen tussen %d en %d"
 
-#: src/funclib.c:4291
+#: src/funclib.c:4292
 msgid "OutputStyle must be one of normal, troff, latex or mathml"
 msgstr "OutputStyle moet zijn: normal, troff, latex of mathml"
 
-#: src/funclib.c:4332
+#: src/funclib.c:4333
 #, c-format
 msgid "%s: argument should be larger or equal to 0"
 msgstr "%s: argument moet groter of gelijk aan 0 zijn"
 
-#: src/funclib.c:4436
+#: src/funclib.c:4437
 msgid "Basic"
 msgstr "Eenvoudig"
 
 #. internal
-#: src/funclib.c:4437
+#: src/funclib.c:4438
 msgid "Parameters"
 msgstr "Parameters"
 
 #. internal
-#: src/funclib.c:4438
+#: src/funclib.c:4439
 msgid "Constants"
 msgstr "Constanten"
 
 #. internal
-#: src/funclib.c:4439
+#: src/funclib.c:4440
 msgid "Numeric"
 msgstr "Numeriek"
 
 #. internal
-#: src/funclib.c:4440
+#: src/funclib.c:4441
 msgid "Trigonometry"
 msgstr "Trigonometrie"
 
 #. internal
-#: src/funclib.c:4441
+#: src/funclib.c:4442
 msgid "Number Theory"
 msgstr "Getal Theorie"
 
 #. internal
-#: src/funclib.c:4442
+#: src/funclib.c:4443
 msgid "Matrix Manipulation"
 msgstr "Matrix manipulatie"
 
 #. internal
-#: src/funclib.c:4443
+#: src/funclib.c:4444
 msgid "Linear Algebra"
 msgstr "Lineaire algebra"
 
 #. internal
-#: src/funclib.c:4444
+#: src/funclib.c:4445
 msgid "Combinatorics"
 msgstr "Combinatoriek"
 
 #. internal
-#: src/funclib.c:4445
+#: src/funclib.c:4446
 msgid "Calculus"
 msgstr "Calculus"
 
 #. internal
-#: src/funclib.c:4446
+#: src/funclib.c:4447
 msgid "Functions"
 msgstr "Functies"
 
 #. internal
-#: src/funclib.c:4447
+#: src/funclib.c:4448
 msgid "Equation Solving"
 msgstr "Vergelijking oplossen"
 
 #. internal
-#: src/funclib.c:4448
+#: src/funclib.c:4449
 msgid "Statistics"
 msgstr "Statistieken"
 
 #. internal
-#: src/funclib.c:4449
+#: src/funclib.c:4450
 msgid "Polynomials"
 msgstr "Polynomen"
 
 #. internal
-#: src/funclib.c:4450
+#: src/funclib.c:4451
 msgid "Set Theory"
 msgstr "Verzamelingen"
 
 #. internal
-#: src/funclib.c:4451
+#: src/funclib.c:4452
 msgid "Miscellaneous"
 msgstr "Diversen"
 
 #. bogus value
-#: src/funclib.c:4484
+#: src/funclib.c:4485
 msgid "Displays the user manual"
 msgstr "Geeft de gebruikshandleiding weer"
 
-#: src/funclib.c:4485
+#: src/funclib.c:4486
 msgid "Gives the warranty information"
 msgstr "Toont informatie over de garantie"
 
-#: src/funclib.c:4486
+#: src/funclib.c:4487
 msgid "Exits the program"
 msgstr "Sluit het programma af"
 
-#: src/funclib.c:4488
+#: src/funclib.c:4489
 msgid "Prints a string to the error stream"
 msgstr "Voert een tekenreeks naar de fout-stroom"
 
-#: src/funclib.c:4489
+#: src/funclib.c:4490
 msgid "The true boolean value"
 msgstr "De booleaanse waarde: waar"
 
-#: src/funclib.c:4491
+#: src/funclib.c:4492
 msgid "The false boolean value"
 msgstr "De booleaanse waarde: onwaar"
 
-#: src/funclib.c:4500
+#: src/funclib.c:4501
 msgid "Make integer (0 or 1) from a boolean value"
 msgstr "Getal maken (0 of 1) van booleaanse waarde"
 
 # beter woord voor print?
 # er wordt hier niets op papier afgedrukt
-#: src/funclib.c:4502
+#: src/funclib.c:4503
 msgid "Prints an expression"
 msgstr "Print een expressie"
 
-#: src/funclib.c:4503
+#: src/funclib.c:4504
 msgid "Changes current directory"
 msgstr "Verandert de huidige map"
 
-#: src/funclib.c:4504
+#: src/funclib.c:4505
 msgid "Prints an expression without a trailing newline"
 msgstr "Geeft een expressie zonder nieuweregel-teken op het einde"
 
-#: src/funclib.c:4505
+#: src/funclib.c:4506
 msgid "Display a string and an expression"
 msgstr "Een tekenreeks en een expressie weergeven"
 
 # betere woord voor globaal?
-#: src/funclib.c:4506
+#: src/funclib.c:4507
 msgid "Set a global variable"
 msgstr "Een globale variabele instellen"
 
-#: src/funclib.c:4508
+#: src/funclib.c:4509
 msgid "Set the category and help description line for a function"
 msgstr "De categorie en hulpbeschrijving voor een functie instellen"
 
-#: src/funclib.c:4509
+#: src/funclib.c:4510
 msgid "Sets up a help alias"
 msgstr "Stelt een hulpalias in"
 
-#: src/funclib.c:4511
+#: src/funclib.c:4512
 msgid "Identity function, returns its argument"
 msgstr "Eenheidsfunctiem, geeft zijn eigen argument terug"
 
-#: src/funclib.c:4513
+#: src/funclib.c:4514
 msgid "Generate random float"
 msgstr "Een willekeurig getal genereren"
 
-#: src/funclib.c:4515
+#: src/funclib.c:4516
 msgid "Generate random integer"
 msgstr "Een willekeurig geheel getal genereren"
 
-#: src/funclib.c:4518 src/gnome-genius.c:1021
+#: src/funclib.c:4519 src/gnome-genius.c:1021
 msgid "Floating point precision"
 msgstr "Floating point nauwkeurigheid"
 
-#: src/funclib.c:4519
+#: src/funclib.c:4520
 msgid "Maximum digits to display"
 msgstr "Maximum aantal weergegeven cijfers "
 
-#: src/funclib.c:4520
+#: src/funclib.c:4521
 msgid "Maximum errors to display"
 msgstr "Mamimum aantal weergegeven fouten"
 
-#: src/funclib.c:4521
+#: src/funclib.c:4522
 msgid "Output style: normal, latex or troff"
 msgstr "Uitvoerstijl: normaal, latex, of troff"
 
-#: src/funclib.c:4522
+#: src/funclib.c:4523
 msgid "Integer output base"
 msgstr "Geheel getal uitvoerbasis"
 
 # dit kan beter!
-#: src/funclib.c:4523
+#: src/funclib.c:4524
 msgid "If true, mixed fractions are printed"
 msgstr "Indien waar, worden gemengde breuken afgedrukt"
 
-#: src/funclib.c:4524
+#: src/funclib.c:4525
 msgid "Print full expressions, even if more than a line"
 msgstr "Volledige expressies afdrukken, zelfs indien meer dan een regel"
 
-#: src/funclib.c:4525
+#: src/funclib.c:4526
 msgid "Convert all results to floats before printing"
 msgstr "Voor het afdrukken, alle resultaten omzetten naar floats"
 
-#: src/funclib.c:4526
+#: src/funclib.c:4527
 msgid "Use scientific notation"
 msgstr "Wetenschappelijke notatie gebruiken"
 
-#: src/funclib.c:4528
+#: src/funclib.c:4529
 msgid ""
 "Number of extra Miller-Rabin tests to run on a number before declaring it a "
 "prime in IsPrime"
@@ -1050,69 +1059,69 @@ msgstr ""
 "Aantal uitgevoerde Miller-Rabin tests voordat een getal priem wordt "
 "verklaard in IsPrime"
 
-#: src/funclib.c:4534
+#: src/funclib.c:4535
 msgid "Expands a matrix just like we do on unquoted matrix input"
 msgstr ""
 "Breidt een matrix uit zoals dit bij matrixinvoer zonder aanhalingstekens "
 "gebeurt"
 
-#: src/funclib.c:4535
+#: src/funclib.c:4536
 msgid "Gets the rows of a matrix as a vertical vector"
 msgstr "Geeft de rijen van een matrix als een verticale vector"
 
-#: src/funclib.c:4536
+#: src/funclib.c:4537
 msgid "Gets the columns of a matrix as a horizontal vector"
 msgstr "Geeft de kolommen van een matrix als een horzontale vector"
 
-#: src/funclib.c:4537
+#: src/funclib.c:4538
 msgid "Gets the diagonal entries of a matrix as a horizontal vector"
 msgstr "Geeft de diagonaal van een matrix als een horizontale vector"
 
-#: src/funclib.c:4539
+#: src/funclib.c:4540
 msgid "Calculates the conjugate"
 msgstr "Berekent de geconjugeerde"
 
-#: src/funclib.c:4544
+#: src/funclib.c:4545
 msgid "Calculates the sine function"
 msgstr "Berekent de sinus"
 
-#: src/funclib.c:4546
+#: src/funclib.c:4547
 msgid "Calculates the cosine function"
 msgstr "Berekent de cosinus"
 
-#: src/funclib.c:4548
+#: src/funclib.c:4549
 msgid "Calculates the hyperbolic sine function"
 msgstr "Berekent de sinushyperbolicus"
 
-#: src/funclib.c:4550
+#: src/funclib.c:4551
 msgid "Calculates the hyperbolic cosine function"
 msgstr "Berekent de cosinushyperbolicus"
 
-#: src/funclib.c:4552
+#: src/funclib.c:4553
 msgid "Calculates the tan function"
 msgstr "Berekent de tangens"
 
-#: src/funclib.c:4554
+#: src/funclib.c:4555
 msgid "Calculates the arctan function"
 msgstr "Berekent de arctangens"
 
-#: src/funclib.c:4558
+#: src/funclib.c:4559
 msgid "The number pi"
 msgstr "Het getal pi"
 
-#: src/funclib.c:4559
+#: src/funclib.c:4560
 msgid "The natural number e"
 msgstr "Het natuurlijke getal e"
 
-#: src/funclib.c:4560
+#: src/funclib.c:4561
 msgid "The Golden Ratio"
 msgstr "De gulden verdeling"
 
-#: src/funclib.c:4561
+#: src/funclib.c:4562
 msgid "Free fall acceleration"
 msgstr "Zwaartekrachtsversnelling"
 
-#: src/funclib.c:4563
+#: src/funclib.c:4564
 msgid "Euler's Constant gamma good up to about precision of 9516 digits"
 msgstr "Eulers contante gamma, met een precisie van 9516 cijfers nauwkeurig"
 
@@ -1125,108 +1134,108 @@ msgstr "Eulers contante gamma, met een precisie van 9516 cijfers nauwkeurig"
 #. RiemannZeta_function = f;
 #. ALIAS (zeta, 1, RiemannZeta);
 #.
-#: src/funclib.c:4576
+#: src/funclib.c:4577
 msgid "The square root"
 msgstr "De vierkantswortel"
 
-#: src/funclib.c:4580
+#: src/funclib.c:4581
 msgid "The exponential function"
 msgstr "De exponentiële functie"
 
-#: src/funclib.c:4582
+#: src/funclib.c:4583
 msgid "The natural logarithm"
 msgstr "Het natuurlijke logaritme"
 
-#: src/funclib.c:4584
+#: src/funclib.c:4585
 msgid "Logarithm of x base 2"
 msgstr "Logaritme van x, grondtal 2"
 
-#: src/funclib.c:4587
+#: src/funclib.c:4588
 msgid "Logarithm of x base 10"
 msgstr "Logaritme van x, grondtal 10"
 
-#: src/funclib.c:4589
+#: src/funclib.c:4590
 msgid "Round a number"
 msgstr "Een getal afronden"
 
-#: src/funclib.c:4592
+#: src/funclib.c:4593
 msgid "Get the highest integer less than or equal to n"
 msgstr "Geef het grootste gehele getal kleiner of gelijk aan n"
 
-#: src/funclib.c:4595
+#: src/funclib.c:4596
 msgid "Get the lowest integer more than or equal to n"
 msgstr "Geef het laagste gehele getal groter of gelijk aan n"
 
-#: src/funclib.c:4598
+#: src/funclib.c:4599
 msgid "Truncate number to an integer (return the integer part)"
 msgstr "Het getal afkappen tot een geheel getal (geeft het gehele deel)"
 
-#: src/funclib.c:4602
+#: src/funclib.c:4603
 msgid "Make number a float"
 msgstr "Maak van het getal een float"
 
 # teller
-#: src/funclib.c:4604
+#: src/funclib.c:4605
 msgid "Get the numerator of a rational number"
 msgstr "Geef de teller van een rationeel getal"
 
 # noemer
-#: src/funclib.c:4606
+#: src/funclib.c:4607
 msgid "Get the denominator of a rational number"
 msgstr "Geef de noemer van een rationeel getal"
 
-#: src/funclib.c:4609
+#: src/funclib.c:4610
 msgid "Greatest common divisor"
 msgstr "Grootste gemene deler"
 
-#: src/funclib.c:4611
+#: src/funclib.c:4612
 msgid "Least common multiplier"
 msgstr "Kleinste gemene veelvoud"
 
-#: src/funclib.c:4613
+#: src/funclib.c:4614
 msgid "Check a number for being a perfect square"
 msgstr "Conroleren of het getal een perfect kwadraat is"
 
-#: src/funclib.c:4614
+#: src/funclib.c:4615
 msgid "Check a number for being any perfect power (a^b)"
 msgstr "Controleren of het getal een perfecte macht is (a^b)"
 
-#: src/funclib.c:4615
+#: src/funclib.c:4616
 msgid "Return the n'th prime (up to a limit)"
 msgstr "Geef het n-de priemgetal (tot een bepaalde limiet)"
 
-#: src/funclib.c:4617
+#: src/funclib.c:4618
 msgid "Tests if an integer is even"
 msgstr "Testen of een getal even is"
 
-#: src/funclib.c:4618
+#: src/funclib.c:4619
 msgid "Tests if an integer is odd"
 msgstr "testen of een getal oneven is"
 
-#: src/funclib.c:4620
+#: src/funclib.c:4621
 msgid "Returns the least prime greater than n (if n is positive)"
 msgstr "Geeft het kleinste priemgetal groter dan n (als n positief is)"
 
-#: src/funclib.c:4621
+#: src/funclib.c:4622
 msgid "Returns the n'th Lucas number"
 msgstr "Geeft het n-de Lucasgetal"
 
-#: src/funclib.c:4622
+#: src/funclib.c:4623
 msgid "Returns inverse of n mod m"
 msgstr "Geeft de inverse van n mod m"
 
 # goed opletten of n en m niet omgewisseld zijn!
-#: src/funclib.c:4623
+#: src/funclib.c:4624
 msgid "Checks divisibility (if m divides n)"
 msgstr "Controleert op deelbaarheid (of n deelbaar is door m)"
 
-#: src/funclib.c:4624
+#: src/funclib.c:4625
 msgid ""
 "Return n/d but only if d divides n else returns garbage (this is faster then "
 "writing n/d)"
-msgstr ""
+msgstr "Geeft t/n maar alleen als t deelbaar is door n, anders geeft het onzin (dit is namelijk sneller dan het schrijven van n/d)"
 
-#: src/funclib.c:4625
+#: src/funclib.c:4626
 msgid ""
 "Tests primality of integers, for numbers greater than 25*10^9 false positive "
 "is with low probability depending on IsPrimeMillerRabinReps"
@@ -1235,11 +1244,11 @@ msgstr ""
 "kleine kans op een foutief positief die afhankelijk is van "
 "IsPrimeMillerRabinReps"
 
-#: src/funclib.c:4626
+#: src/funclib.c:4627
 msgid "Run the strong pseudoprime test base b on n"
 msgstr "De sterke pseudopriemtest basis b op n uitvoeren"
 
-#: src/funclib.c:4627
+#: src/funclib.c:4628
 msgid ""
 "Use the Miller-Rabin primality test on n, reps number of times.  The "
 "probability of false positive is (1/4)^reps"
@@ -1248,7 +1257,7 @@ msgstr ""
 "kans op een foutief positief is (1/4)^herh"
 
 # het is Riemann, niet Reimann
-#: src/funclib.c:4628
+#: src/funclib.c:4629
 msgid ""
 "Use the Miller-Rabin primality test on n with enough bases that assuming the "
 "Generalized Reimann Hypothesis the result is deterministic"
@@ -1257,83 +1266,86 @@ msgstr ""
 "aanname van de Algemene Riemann-Hypothese, zodat het resultaat "
 "deterministisch is."
 
-#: src/funclib.c:4629
+#: src/funclib.c:4630
 msgid "Return factorization of a number as a matrix"
 msgstr "Geef de factorisatie van een getal als een matrix"
 
 # wat betekent dit?
-#: src/funclib.c:4631
+#: src/funclib.c:4632
 msgid "Returns the maximum of arguments or matrix"
 msgstr "Geeft het maximum aantal argumenten of matrix"
 
-#: src/funclib.c:4634
+#: src/funclib.c:4635
 msgid "Returns the minimum of arguments or matrix"
 msgstr "Geeft het minimum aantal argumenten of matrix"
 
-#: src/funclib.c:4638
+# was eerst:
+# Het Jacobi-symbool (a/b) berekenen (b moet oneven zijn)
+# ivm consistentie omgezet naar:
+# bereken het Jacobi-symbool....
+#
+#: src/funclib.c:4639
 msgid "Calculate the Jacobi symbol (a/b) (b should be odd)"
-msgstr "Het Jacobi-symbool (a/b) berekenen (b moet oneven zijn)"
+msgstr "Bereken het Jacobi-symbool (a/b) (b moet oneven zijn)"
 
-#: src/funclib.c:4640
+#: src/funclib.c:4641
 msgid ""
 "Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) "
 "when a odd, or (a/2)=0 when a even"
-msgstr ""
-"Het Jacobi-symbool (a/b) berekenen met de Kronecker-extensie (a/2)=(2/a) bij "
-"oneven a, en (a/2)=0 bij even a."
+msgstr "Bereken het Jacobi-symbool (a/b) met de Kronecker-extensie (a/2)=(2/a) bij oneven a, en (a/2)=0 bij even a."
 
-#: src/funclib.c:4642
+#: src/funclib.c:4643
 msgid "Calculate the Legendre symbol (a/p)"
-msgstr "Het Legendre-symbool (a/p) berekenen"
+msgstr "Bereken het Legendre-symbool (a/p)"
 
-#: src/funclib.c:4645
+#: src/funclib.c:4646
 msgid "Get the real part of a complex number"
 msgstr "Het reële deel van een complex getal tonen"
 
-#: src/funclib.c:4648
+#: src/funclib.c:4649
 msgid "Get the imaginary part of a complex number"
 msgstr "Het imaginaire deel van een complex getal tonen"
 
-#: src/funclib.c:4652
+#: src/funclib.c:4653
 msgid "Make an identity matrix of a given size"
 msgstr "Een eenheidsmatrix met een bepaalde grootte maken"
 
-#: src/funclib.c:4655
+#: src/funclib.c:4656
 msgid "Make an matrix of all zeros (or a row vector)"
 msgstr "Een matrix met allemaal nullen maken (of een rij-vector)"
 
-#: src/funclib.c:4657
+#: src/funclib.c:4658
 msgid "Make an matrix of all ones (or a row vector)"
 msgstr "Een matrix met allemaal enen maken (of een rij-vector)"
 
-#: src/funclib.c:4660
+#: src/funclib.c:4661
 msgid "Get the number of rows of a matrix"
 msgstr "Het aantal rijen van een matrix tonen"
 
-#: src/funclib.c:4661
+#: src/funclib.c:4662
 msgid "Get the number of columns of a matrix"
 msgstr "Het aantal kolommen van een matrix tonen"
 
 # dit is waarschijnlijk een vraag:
 # Is deze matrix vierkant?
-#: src/funclib.c:4662
+#: src/funclib.c:4663
 msgid "Is a matrix square"
 msgstr "Is de matrix vierkant?"
 
-#: src/funclib.c:4663
+#: src/funclib.c:4664
 msgid "Get the number of elements of a matrix"
 msgstr "Het aantal elementen van een matrix tonen"
 
-#: src/funclib.c:4665
+#: src/funclib.c:4666
 msgid "Get the row echelon form of a matrix"
 msgstr "Geef de rij-rang vorm van een matrix"
 
 # vertaling echelon? rang/niveau/laag/echelon
-#: src/funclib.c:4669
+#: src/funclib.c:4670
 msgid "Get the reduced row echelon form of a matrix"
 msgstr "Geef de gereduceerde rij-rang vorm van een matrix"
 
-#: src/funclib.c:4673
+#: src/funclib.c:4674
 msgid ""
 "Solve linear system Mx=V, return solution V if there is a unique solution, "
 "null otherwise.  Extra two reference parameters can optionally be used to "
@@ -1345,151 +1357,151 @@ msgstr ""
 
 # tonen ipv geven of krijgen. bij geven zou de gebruiker denken dat
 # hij zelf iets moet geven.
-#: src/funclib.c:4676
+#: src/funclib.c:4677
 msgid "Get the determinant of a matrix"
 msgstr "De determinant van een matrix tonen"
 
-#: src/funclib.c:4679
+#: src/funclib.c:4680
 msgid "Make new matrix of given size from old one"
 msgstr "Een nieuwe matrix van een bepaalde grootte maken uit de oude matrix"
 
-#: src/funclib.c:4680
+#: src/funclib.c:4681
 msgid "Return the index complement of a vector of indexes"
 msgstr "Geef het indexcomplement van een vector van indexes"
 
-#: src/funclib.c:4682
+#: src/funclib.c:4683
 msgid "Check if a matrix is a matrix of numbers"
 msgstr "Controleer of een matrix een matrix van getallen is"
 
-#: src/funclib.c:4683
+#: src/funclib.c:4684
 msgid "Check if a matrix is an integer (non-complex) matrix"
 msgstr "Controleer of een matrix een gehele (niet-complexe) matrix is"
 
-#: src/funclib.c:4684
+#: src/funclib.c:4685
 msgid "Check if a matrix is a rational (non-complex) matrix"
 msgstr "Controleer of een matrix een rationale (niet-complexe) matrix is"
 
-#: src/funclib.c:4685
+#: src/funclib.c:4686
 msgid "Check if a matrix is a real (non-complex) matrix"
 msgstr "Contoleer of een matrix een reële (niet-complexe) matrix is"
 
-#: src/funclib.c:4687
+#: src/funclib.c:4688
 msgid "Check if argument is a null"
 msgstr "Controleer of het argument een null is"
 
-#: src/funclib.c:4688
+#: src/funclib.c:4689
 msgid "Check if argument is a number"
 msgstr "Controleer of het argument een getal is"
 
-#: src/funclib.c:4689
+#: src/funclib.c:4690
 msgid "Check if argument is a boolean (and not a number)"
 msgstr "Controleer of het argument een booleaan is (en geen getal)"
 
-#: src/funclib.c:4690
+#: src/funclib.c:4691
 msgid "Check if argument is a text string"
 msgstr "Controleer of het argument een tekenreeks is"
 
-#: src/funclib.c:4691
+#: src/funclib.c:4692
 msgid "Check if argument is a matrix"
 msgstr "Controleer of het argument een matrix is"
 
-#: src/funclib.c:4692
+#: src/funclib.c:4693
 msgid "Check if argument is a function"
 msgstr "Controleer of het argument een functie is"
 
-#: src/funclib.c:4693
+#: src/funclib.c:4694
 msgid "Check if argument is a function reference"
 msgstr "Controleer of het argument een functieverwijzing is"
 
-#: src/funclib.c:4695
+#: src/funclib.c:4696
 msgid "Check if argument is a complex (non-real) number"
 msgstr "Controleer of het argument een complex (niet-reëel) getal is"
 
-#: src/funclib.c:4696
+#: src/funclib.c:4697
 msgid "Check if argument is a real number"
 msgstr "Controleer of het argument een reëel getal is"
 
-#: src/funclib.c:4697
+#: src/funclib.c:4698
 msgid "Check if argument is an integer (non-complex)"
 msgstr "Controleer of het argument een geheel (niet-complex) getal is "
 
-#: src/funclib.c:4698
+#: src/funclib.c:4699
 msgid "Check if argument is a positive real integer"
 msgstr "Controleer of het argument een positief reëel geheel getal is"
 
-#: src/funclib.c:4700
+#: src/funclib.c:4701
 msgid "Check if argument is a possibly complex integer"
 msgstr "Controleer of het argument een mogelijk complex geheel getal is"
 
-#: src/funclib.c:4702
+#: src/funclib.c:4703
 msgid "Check if argument is a rational number (non-complex)"
 msgstr "Controleer of het argument een (niet-complex) rationeel getal is"
 
-#: src/funclib.c:4703
+#: src/funclib.c:4704
 msgid "Check if argument is a possibly complex rational number"
 msgstr "Controleer of het argument een mogelijk complex rationeel getal is"
 
-#: src/funclib.c:4704
+#: src/funclib.c:4705
 msgid "Check if argument is a floating point number (non-complex)"
 msgstr "Controleer of het argument een (niet-complex) floating-point getal is"
 
-#: src/funclib.c:4706
+#: src/funclib.c:4707
 msgid "Add two polynomials (vectors)"
 msgstr "Twee polynomen (als vectoren) optellen"
 
-#: src/funclib.c:4707
+#: src/funclib.c:4708
 msgid "Subtract two polynomials (as vectors)"
 msgstr "Twee polynomen (als vectoren) aftrekken"
 
-#: src/funclib.c:4708
+#: src/funclib.c:4709
 msgid "Multiply two polynomials (as vectors)"
 msgstr "Twee polynomen (als vectoren) vermenigvuldingen"
 
-#: src/funclib.c:4709
+#: src/funclib.c:4710
 msgid "Take polynomial (as vector) derivative"
 msgstr "Polynoom (als vector) afgeleide nemen"
 
-#: src/funclib.c:4710
+#: src/funclib.c:4711
 msgid "Take second polynomial (as vector) derivative"
 msgstr "Polynoom (als vector) tweede afgeleide nemen"
 
-#: src/funclib.c:4711
+#: src/funclib.c:4712
 msgid "Trim zeros from a polynomial (as vector)"
 msgstr "Nullen van een polynoom (als vector) weglaten"
 
-#: src/funclib.c:4712
+#: src/funclib.c:4713
 msgid "Check if a vector is usable as a polynomial"
 msgstr "Controleer of een vector bruikbaar is al polynoom"
 
-#: src/funclib.c:4713
+#: src/funclib.c:4714
 msgid "Make string out of a polynomial (as vector)"
 msgstr "Een tekenreeks maken van een polynoom (als vector)"
 
-#: src/funclib.c:4714
+#: src/funclib.c:4715
 msgid "Make function out of a polynomial (as vector)"
 msgstr "Een functie maken van een polynoom (als vector)"
 
-#: src/funclib.c:4716
+#: src/funclib.c:4717
 msgid "Get all combinations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
 "Alle combinaties tonen, van k getallen van 1 tot n, als een vector van "
 "vectoren"
 
-#: src/funclib.c:4717
+#: src/funclib.c:4718
 msgid "Get all permutations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
 "Alle permutaties tonen, van k getallen van 1 tot n, als een vector van "
 "vectoren"
 
-#: src/funclib.c:4719
+#: src/funclib.c:4720
 msgid "Convert a string to a vector of ASCII values"
 msgstr "Een tekenreeks omzetten naar een vector van ASCII-waarden"
 
-#: src/funclib.c:4720
+#: src/funclib.c:4721
 msgid "Convert a vector of ASCII values to a string"
 msgstr "Een vector met ASCII-waarden omzetten naar een tekenreeks"
 
-#: src/funclib.c:4722
+#: src/funclib.c:4723
 msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters"
@@ -1497,7 +1509,7 @@ msgstr ""
 "Een tekenreeks omzetten naar een vector van op 0 gebaseerde alfabetische "
 "waarden (posities in het alfabet), -1 voor onbekende letters"
 
-#: src/funclib.c:4723
+#: src/funclib.c:4724
 msgid ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string"
@@ -1505,15 +1517,15 @@ msgstr ""
 "Een vector van op 0 gebaseerde alfabetische waarden (posities in het "
 "alfabet) omzetten naar een tekenreeks"
 
-#: src/funclib.c:4725
+#: src/funclib.c:4726
 msgid "Protect a variable from being modified"
 msgstr "Een variabele voor verandering beveiligen"
 
-#: src/funclib.c:4726
+#: src/funclib.c:4727
 msgid "Unprotect a variable from being modified"
 msgstr "Beveiliging voor verandering van een variabele opheffen"
 
-#: src/funclib.c:4727
+#: src/funclib.c:4728
 msgid ""
 "Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
 "\""
@@ -1521,7 +1533,7 @@ msgstr ""
 "Vlaggen voor een functie instellen, momenteel \"PropagateMod\" en "
 "\"NoModuloArguments\""
 
-#: src/funclib.c:4728
+#: src/funclib.c:4729
 msgid "Get current modulo from the context outside the function"
 msgstr "De huidige module verkrijgen uit de context buiten de functie"
 
@@ -2425,7 +2437,7 @@ msgstr "Getal te groot om de faculteit te berekenen!"
 msgid "Can't do factorials of negative numbers!"
 msgstr "Kan geen faculteit geven van negatieve getallen!"
 
-#: src/mpwrap.c:1901 src/mpwrap.c:1969 src/mpwrap.c:3831 src/mpwrap.c:3848
+#: src/mpwrap.c:1901 src/mpwrap.c:1969 src/mpwrap.c:3832 src/mpwrap.c:3849
 #, c-format
 msgid "%s: Bad types for mod power"
 msgstr "%s: Foutief type voor mod power"
@@ -2447,92 +2459,92 @@ msgstr "Bereik voor een willekeurig geheel getal moet positief zijn"
 msgid "Can't get numerator of floating types"
 msgstr "Kan teller van type float niet verkrijgen"
 
-#: src/mpwrap.c:3212 src/mpwrap.c:4432 src/mpwrap.c:4444
+#: src/mpwrap.c:3213 src/mpwrap.c:4433 src/mpwrap.c:4445
 msgid "Can't compare complex numbers"
 msgstr "Kan geen complexe getallen vergelijken"
 
-#: src/mpwrap.c:3577
+#: src/mpwrap.c:3578
 msgid "Can't modulo complex numbers"
 msgstr "Kan geen modulo van een complex getal geven"
 
-#: src/mpwrap.c:3596
+#: src/mpwrap.c:3597
 #, c-format
 msgid "Inverse of %s modulo %s not found!"
 msgstr "Inverse van %s modulo %s niet gevonden!"
 
-#: src/mpwrap.c:3605
+#: src/mpwrap.c:3606
 msgid "Can't do modulo invert on complex numbers"
 msgstr "Kan geen inverse modulo nemen van complexe getallen"
 
-#: src/mpwrap.c:3618
+#: src/mpwrap.c:3619
 msgid "Can't GCD complex numbers"
 msgstr "Kan geen GGD van complexe getallen bepalen"
 
-#: src/mpwrap.c:3641
+#: src/mpwrap.c:3642
 msgid "Can't LCM complex numbers"
 msgstr "Kan geen KGV van complexe getallen bepalen"
 
-#: src/mpwrap.c:3654
+#: src/mpwrap.c:3655
 msgid "Can't get jacobi symbols of complex numbers"
 msgstr "Kan geen Jacobi-symbolen van complexe getallen bepalen"
 
-#: src/mpwrap.c:3666
+#: src/mpwrap.c:3667
 msgid "Can't get legendre symbols complex numbers"
 msgstr "Kan geen Legendre-symbolen van complexe getallen bepalen"
 
-#: src/mpwrap.c:3678
+#: src/mpwrap.c:3679
 msgid "Can't get jacobi symbol with Kronecker extension for complex numbers"
 msgstr ""
 "Kan geen Jacobi-symbolen met Kronecker extensie voor complexe getallen "
 "bepalen"
 
-#: src/mpwrap.c:3690
+#: src/mpwrap.c:3691
 msgid "Can't get lucas number for complex numbers"
 msgstr "Kan geen Lucasgetal voor complexe getallen bepalen"
 
-#: src/mpwrap.c:3702
+#: src/mpwrap.c:3703
 msgid "Can't get next prime for complex numbers"
 msgstr "Kan het volgende priemgetal voor complexe getallen bepalen"
 
-#: src/mpwrap.c:3712 src/mpwrap.c:3724 src/mpwrap.c:3736 src/mpwrap.c:3748
+#: src/mpwrap.c:3713 src/mpwrap.c:3725 src/mpwrap.c:3737 src/mpwrap.c:3749
 #, c-format
 msgid "%s: can't work on complex numbers"
 msgstr "%s: kan niet op complexe getallen"
 
-#: src/mpwrap.c:3922 src/mpwrap.c:3993 src/mpwrap.c:4051
+#: src/mpwrap.c:3923 src/mpwrap.c:3994 src/mpwrap.c:4052
 #, c-format
 msgid "%s: can't take logarithm of 0"
 msgstr "%s: kan geen logaritme van 0 nemen"
 
-#: src/mpwrap.c:4361
+#: src/mpwrap.c:4362
 msgid "Can't make random integer out of a complex number"
 msgstr "Kan geen willekeurig geheel getal van een complex getal maken"
 
-#: src/mpwrap.c:4482 src/mpwrap.c:4495
+#: src/mpwrap.c:4483 src/mpwrap.c:4496
 msgid "Can't make factorials of complex numbers"
 msgstr "Kan geen faculteit van een complex getal nemen"
 
-#: src/mpwrap.c:4776 src/mpwrap.c:4798 src/mpwrap.c:4820
+#: src/mpwrap.c:4777 src/mpwrap.c:4799 src/mpwrap.c:4821
 msgid "Can't determine type of a complex number"
 msgstr "Kan het type van een complexe getal niet bepalen"
 
-#: src/mpwrap.c:4912 src/mpwrap.c:4935
+#: src/mpwrap.c:4913 src/mpwrap.c:4936
 msgid "Can't convert complex number into integer"
 msgstr "Kan geen complex getal omzetten naar geheel getal"
 
-#: src/mpwrap.c:4918
+#: src/mpwrap.c:4919
 msgid "Can't convert real number to integer"
 msgstr "Kan geen reëel getal omzetten naar geheel getal"
 
-#: src/mpwrap.c:4922
+#: src/mpwrap.c:4923
 msgid "Integer too large for this operation"
 msgstr "Geheel getal te groot voor deze bewerking"
 
-#: src/mpwrap.c:4944
+#: src/mpwrap.c:4945
 msgid "Can't convert real number to double"
 msgstr "Kan reëel getal niet omzetten naar een double"
 
-#: src/mpwrap.c:4950
+#: src/mpwrap.c:4951
 msgid "Number too large for this operation"
 msgstr "Getal is te groot voor deze bewerking"
 
@@ -2593,19 +2605,20 @@ msgstr "Een tekenreeks maken"
 msgid "Tolerance of the Chop function"
 msgstr "Tolerantie van de functie Chop"
 
+# hmm: the limit for continuity and limits?
 #: lib/library-strings.c:4
 msgid "How many iterations to try to find the limit for continuity and limits"
-msgstr ""
+msgstr "Hoeveel iteraties geprobeerd worden om de limiet voor continuïteit en limieten te vinden"
 
 #: lib/library-strings.c:5
 msgid ""
 "How many successive steps to be within tolerance for calculation of "
 "continuity"
-msgstr ""
+msgstr "hoeveel opeenvolgende stappen nog binnen de tolerantie zijn voor de berekening van continuïteit"
 
 #: lib/library-strings.c:6
 msgid "Tolerance for continuity of functions and for calculating the limit"
-msgstr ""
+msgstr "Tolerantie voor continuïteit van functies en voor berekening van de limiet"
 
 #: lib/library-strings.c:7
 msgid "How many iterations to try to find the limit for derivative"
@@ -2619,11 +2632,11 @@ msgstr ""
 
 #: lib/library-strings.c:9
 msgid "Tolerance for calculating the derivatives of functions"
-msgstr ""
+msgstr "Tolerantie voor berekening van de afgeleide van functies"
 
 #: lib/library-strings.c:10
 msgid "Tolerance of the ErrorFunction"
-msgstr "Tolerantie van de Error functie"
+msgstr "Tolerantie van de Error-functie"
 
 #: lib/library-strings.c:11
 msgid "The function used for numerical integration in NumericalIntegral"
@@ -2649,7 +2662,7 @@ msgstr ""
 
 #: lib/library-strings.c:17
 msgid "Replace very small number with zero"
-msgstr ""
+msgstr "Erg kleine getallen vervangen door nul"
 
 #: lib/library-strings.c:18
 msgid "Return the fractional part of a number"
@@ -2800,11 +2813,11 @@ msgstr ""
 
 #: lib/library-strings.c:51
 msgid "Find the first primitive element in F_q (q must be a prime)"
-msgstr ""
+msgstr "Zoek het eerste primitieve element in F_q (q moet een priemgetal zijn)"
 
 #: lib/library-strings.c:52
 msgid "Find a random primitive element in F_q (q must be a prime)"
-msgstr ""
+msgstr "Zoek een willekeurig primitief element in F_q (q moet een priemgetal zijn)"
 
 #: lib/library-strings.c:53
 msgid ""
@@ -2854,7 +2867,8 @@ msgstr ""
 
 #: lib/library-strings.c:61
 msgid "Test if Mp is a Mersenne prime using the Lucas-Lehmer test"
-msgstr "Testen of Mp een Mersenne priem is gebruik makend van de Lucas-Lehmer test"
+msgstr ""
+"Testen of Mp een Mersenne priem is gebruik makend van de Lucas-Lehmer test"
 
 #: lib/library-strings.c:62
 msgid "Return all maximal prime power factors of a number"
@@ -2874,7 +2888,7 @@ msgstr "Geef alle priemfactoren van een getal"
 
 #: lib/library-strings.c:66
 msgid "Pseudoprime test, true iff b^(n-1) == 1 (mod n)"
-msgstr ""
+msgstr "Pseudopriem-test, waar iff b^(n-1) == 1 (mod n)"
 
 #: lib/library-strings.c:67
 msgid "Removes all instances of the factor m from the number n"
@@ -2908,24 +2922,23 @@ msgstr ""
 msgid "Remove column(s) and row(s) from a matrix"
 msgstr ""
 
+# Engels spelfout: compund
+# Calculate the kth compund matrix of A
 #: lib/library-strings.c:73
-#, fuzzy
 msgid "Calculate the kth compund matrix of A"
-msgstr "Berekent de tangens"
+msgstr "Bereken de k-de samengestelde matrix van A"
 
 #: lib/library-strings.c:74
-#, fuzzy
 msgid "Delete a column of a matrix"
-msgstr "Het aantal kolommen van een matrix tonen"
+msgstr "Een kolom uit een matrix verwijderen"
 
 #: lib/library-strings.c:75
-#, fuzzy
 msgid "Delete a row of a matrix"
-msgstr "Het aantal rijen van een matrix tonen"
+msgstr "Een rij uit een matrix verwijderen"
 
 #: lib/library-strings.c:76
 msgid "Get the dot product of two vectors"
-msgstr ""
+msgstr "Het inwendig product van twee vectoren"
 
 # dit is waarschijnlijk een vraag
 # Is deze matrix diagonaal?
@@ -2935,62 +2948,57 @@ msgstr ""
 msgid "Is a matrix diagonal"
 msgstr "Is de matrix diagonaal?"
 
+# is dit een onderdriehoeksmatrix
+# dit is een ...
 #: lib/library-strings.c:78
-#, fuzzy
 msgid "Is a matrix lower triangular"
-msgstr "Is een matrix-kwadraat"
+msgstr "Is dit een onderdriehoeksmatrix?"
 
 #: lib/library-strings.c:79
-#, fuzzy
 msgid "Is a matrix upper triangular"
-msgstr "Is een matrix-kwadraat"
+msgstr "Is dit een bovendriehoeksmatrix?"
 
 #: lib/library-strings.c:80
-#, fuzzy
 msgid "Is argument a horizontal or a vertical vector"
-msgstr "%s: argumenten zijn geen horizontale vectoren"
+msgstr "Is het argument een horizontale of verticale vector?"
 
 #: lib/library-strings.c:81
 msgid "Zero out entries above the diagonal"
-msgstr ""
+msgstr "Elementen boven de diagonaal nul maken"
 
 #: lib/library-strings.c:82
 #, fuzzy
 msgid "Make diagonal matrix from a vector"
 msgstr "Een matrix met allemaal nullen maken (of een rij-vector)"
 
+# van een matrix/in een matrix
 #: lib/library-strings.c:83
-#, fuzzy
 msgid "Calculate the product of all elements in a matrix"
-msgstr "Het aantal elementen van een matrix tonen"
+msgstr "Bereken het product van alle elementen in een matrix"
 
 #: lib/library-strings.c:84
-#, fuzzy
 msgid "Calculate the sum of all elements in a matrix"
-msgstr "Het aantal elementen van een matrix tonen"
+msgstr "Bereken de som van alle elementen in een matrix"
 
 #: lib/library-strings.c:85
-#, fuzzy
 msgid "Calculate the sum of squares of all elements in a matrix"
-msgstr "Het aantal elementen van een matrix tonen"
+msgstr "Bereken de som van alle kwadraten van alle elementen in een matrix"
 
 #: lib/library-strings.c:86
-#, fuzzy
 msgid "Get the outer product of two vectors"
-msgstr "Het aantal rijen van een matrix tonen"
+msgstr "Het uitwendig product van twee vectoren"
 
 #: lib/library-strings.c:87
 msgid "Reverse elements in a vector"
-msgstr ""
+msgstr "Elementen in een vector omdraaien"
 
 #: lib/library-strings.c:88
-#, fuzzy
 msgid "Calculate sum of each row in a matrix"
-msgstr "Het aantal rijen van een matrix tonen"
+msgstr "Bereken de som van elke rij in een matrix"
 
 #: lib/library-strings.c:89
 msgid "Calculate sum of squares of each row in a matrix"
-msgstr ""
+msgstr "Bereken de som van kwadraten van elke rij in een matrix"
 
 #: lib/library-strings.c:90
 msgid "Sort vector elements"
@@ -3010,9 +3018,8 @@ msgid "Return column(s) and row(s) from a matrix"
 msgstr "Het aantal kolommen van een matrix tonen"
 
 #: lib/library-strings.c:94
-#, fuzzy
 msgid "Swap two rows in a matrix"
-msgstr "Het aantal rijen van een matrix tonen"
+msgstr "Twee rijen in een matrix verwisselen"
 
 #: lib/library-strings.c:95
 msgid "Zero out entries below the diagonal"
@@ -3055,11 +3062,12 @@ msgstr "Een functie maken van een polynoom (als vector)"
 msgid "Conjugate transpose of a matrix (adjoint)"
 msgstr ""
 
+# convoluerende/?convolutie
 #: lib/library-strings.c:104 lib/library-strings.c:105
-#, fuzzy
 msgid "Calculate convolution of two horizontal vectors"
-msgstr "%s: argumenten zijn geen horizontale vectoren"
+msgstr "Bereken de convolutie van twee horizontale vectoren"
 
+# uitwendig product
 #: lib/library-strings.c:106
 msgid "CrossProduct of two vectors in R^3"
 msgstr "Kruisproduct van twee vectoren in R^3"
@@ -3081,7 +3089,9 @@ msgstr ""
 msgid ""
 "Get the eigenvalues of a matrix (Currently only for 2x2 and triangular "
 "matrices)"
-msgstr "De eigenwaarden van een matrix berekenen (momenteel alleen voor 2x2 en driekhoeks matrices)"
+msgstr ""
+"De eigenwaarden van een matrix berekenen (momenteel alleen voor 2x2 en "
+"driekhoeks matrices)"
 
 #: lib/library-strings.c:111
 msgid ""
@@ -3099,7 +3109,7 @@ msgstr "Hankel matrix"
 
 #: lib/library-strings.c:114
 msgid "Hilbert matrix of order n"
-msgstr "Hilbert matrix van orde n"
+msgstr "Hilbert-matrix van orde n"
 
 #: lib/library-strings.c:115
 #, fuzzy
@@ -3156,7 +3166,7 @@ msgstr "Is de matrix unitair?"
 
 #: lib/library-strings.c:126
 msgid "Get the jordan block corresponding to lambda and n"
-msgstr "Bereken het jordan-blok corresponderend met lambda en n"
+msgstr "Bereken het Jordan-blok corresponderend met lambda en n"
 
 #: lib/library-strings.c:127
 msgid "Get the kernel (nullspace) of a linear transform"
@@ -3176,7 +3186,7 @@ msgstr "Het aantal kolommen van een matrix tonen"
 
 #: lib/library-strings.c:130
 msgid "Get the p Norm (or 2 Norm if no p is supplied) of a vector"
-msgstr ""
+msgstr "Geef de p-Norm (of 2-Norm indien geen p gegeven) van een vector"
 
 # tonen ipv geven of krijgen. bij geven zou de gebruiker denken dat
 # hij zelf iets moet geven.
@@ -3194,7 +3204,7 @@ msgstr "De determinant van een matrix tonen"
 
 #: lib/library-strings.c:133
 msgid "Get the orthogonal complement of the columnspace"
-msgstr ""
+msgstr "Geef het orthogonale complement van de kolomruimte"
 
 #: lib/library-strings.c:134
 msgid ""
@@ -3207,9 +3217,8 @@ msgid "Projection of vector v onto subspace W given a bilinear form B"
 msgstr ""
 
 #: lib/library-strings.c:136
-#, fuzzy
 msgid "Return the Raleigh Quotient of a matrix and a vector"
-msgstr "Geeft de diagonaal van een matrix als een horizontale vector"
+msgstr "Geef de Raleigh-quotiënt van een matrix en een vector"
 
 # tonen ipv geven of krijgen. bij geven zou de gebruiker denken dat
 # hij zelf iets moet geven.
@@ -3252,45 +3261,39 @@ msgid "Smith Normal Form for square integer matrices (not its characteristic)"
 msgstr ""
 
 #: lib/library-strings.c:146
-#, fuzzy
 msgid "Calculate the trace of a matrix"
-msgstr "Berekent de tangens"
+msgstr "Bereken het spoor van een matrix"
 
 #: lib/library-strings.c:147
-#, fuzzy
 msgid "Transpose of a matrix"
-msgstr "Transponeren"
+msgstr "De getransponeerde matrix"
 
 # tonen ipv geven of krijgen. bij geven zou de gebruiker denken dat
 # hij zelf iets moet geven.
 #: lib/library-strings.c:148
-#, fuzzy
 msgid "Return the Vandermonde matrix"
-msgstr "De determinant van een matrix tonen"
+msgstr "De Vandermonde-matrix tonen"
 
 #: lib/library-strings.c:149
 msgid "The angle of two vectors, given an inner product"
-msgstr ""
+msgstr "De hoek tussen twee vectoren, gegeven hun inwendig product."
 
 #: lib/library-strings.c:150
 msgid "The direct sum of the vector spaces M and N"
-msgstr ""
+msgstr "De directe som van twee vectorruimtes M en N"
 
 #: lib/library-strings.c:151
 msgid "Intersection of the subspaces given by M and N"
-msgstr ""
+msgstr "Intersectie van de subruimtes gegeven door M en N"
 
 #: lib/library-strings.c:152
 msgid ""
 "The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}"
-msgstr ""
+msgstr "De som van de vectorruimtes M en N, dat wil zeggen {w | w=m+n, m in M, n in N}"
 
-# tonen ipv geven of krijgen. bij geven zou de gebruiker denken dat
-# hij zelf iets moet geven.
 #: lib/library-strings.c:153
-#, fuzzy
 msgid "Get the classical adjoint (adjugate) of a matrix"
-msgstr "De determinant van een matrix tonen"
+msgstr "Geef de klassieke geadjugeerde van een matrix"
 
 #: lib/library-strings.c:154
 msgid "Compute the Column Reduced Echelon Form"
@@ -3302,22 +3305,21 @@ msgid "Get n'th catalan number"
 msgstr "Geeft het n-de Lucasgetal"
 
 #: lib/library-strings.c:156
-#, fuzzy
 msgid "Double factorial: n(n-2)(n-4)..."
-msgstr "Dubbele faculteit"
+msgstr "Dubbele faculteit: n(n-2)(n-4)..."
 
 #: lib/library-strings.c:157
 msgid "Factorial: n(n-1)(n-2)..."
-msgstr ""
+msgstr "Faculteit: n(n-1)(n-2)..."
 
 #: lib/library-strings.c:158
 msgid "Falling factorial: (n)_k = n(n-1)...(n-(k-1))"
 msgstr ""
 
+# engels spelfout: fibbonachi
 #: lib/library-strings.c:159
-#, fuzzy
 msgid "Calculate n'th fibbonachi number"
-msgstr "Berekent de tangens"
+msgstr "Bereken het n-de Fibonacci-getal"
 
 #: lib/library-strings.c:160
 msgid ""
@@ -3332,7 +3334,7 @@ msgstr ""
 msgid ""
 "Hofstadter's function q(n) defined by q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q"
 "(n-2))"
-msgstr ""
+msgstr "Hofstadter's functie q(n) gedefinieerd door q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q(n-2))"
 
 #: lib/library-strings.c:163
 msgid "Compute linear recursive sequence using galois stepping"
@@ -3340,7 +3342,7 @@ msgstr ""
 
 #: lib/library-strings.c:164
 msgid "Calculate multinomial coefficients"
-msgstr ""
+msgstr "Bereken multinomiale coëfficiënten"
 
 # tonen ipv geven of krijgen. bij geven zou de gebruiker denken dat
 # hij zelf iets moet geven.
@@ -3363,16 +3365,15 @@ msgstr "Bereken het n-de driehoeksgetal"
 
 #: lib/library-strings.c:169
 msgid "Calculate combinations (binomial coefficient)"
-msgstr ""
+msgstr "Bereken combinaties (binomiale coëfficiënt)"
 
-# berekent? ipv bereken
 #: lib/library-strings.c:170
 msgid "Calculate permutations"
-msgstr "Bereken de permutaties"
+msgstr "Bereken permutaties"
 
 #: lib/library-strings.c:171
 msgid "Integration by Composite Simpson's Rule"
-msgstr ""
+msgstr "Integratie door samengestelde regel van Simpson"
 
 #: lib/library-strings.c:172
 msgid "Try to calculate an infinite product for a single parameter function"
@@ -3407,9 +3408,8 @@ msgid ""
 msgstr ""
 
 #: lib/library-strings.c:178
-#, fuzzy
 msgid "Calculate the left limit of a real-valued function at x0"
-msgstr "Berekent de arctangens"
+msgstr "Bereken de linker limiet van een reële functie op x0"
 
 #: lib/library-strings.c:179
 msgid ""
@@ -3419,7 +3419,7 @@ msgstr ""
 
 #: lib/library-strings.c:180
 msgid "Integration by midpoint rule"
-msgstr ""
+msgstr "Integratie door middelpuntsregel"
 
 #: lib/library-strings.c:181
 msgid "Attempt to calculate numerical derivative"
@@ -3445,28 +3445,27 @@ msgstr ""
 
 #: lib/library-strings.c:186
 msgid "Compute one-sided derivative using five point formula"
-msgstr ""
+msgstr "Bereken eenzijdige afgeleide middels vijfpunts-formule"
 
 #: lib/library-strings.c:187
 msgid "Compute one-sided derivative using three-point formula"
-msgstr ""
+msgstr "Bereken eenzijdige afgeleide middels driepunts-formule"
 
 #: lib/library-strings.c:188
 msgid "Calculate the right limit of a real-valued function at x0"
-msgstr ""
+msgstr "Bereken de rechter limiet van een reële functie op x0"
 
 #: lib/library-strings.c:189
 msgid "Compute two-sided derivative using five-point formula"
-msgstr ""
+msgstr "Bereken tweezijdige afgeleide middels vijfpunts-formule"
 
 #: lib/library-strings.c:190
 msgid "Compute two-sided derivative using three-point formula"
-msgstr ""
+msgstr "Bereken tweezijdige afgeleide middels driepunts-formule"
 
 #: lib/library-strings.c:191
-#, fuzzy
 msgid "argument (angle) of complex number"
-msgstr "Kan geen modulo van een complex getal geven"
+msgstr "argument (hoek) van een complex getal"
 
 #: lib/library-strings.c:192
 msgid "Dirichlet kernel of order n"
@@ -3474,11 +3473,11 @@ msgstr ""
 
 #: lib/library-strings.c:193
 msgid "Returns 1 iff all elements are zero"
-msgstr ""
+msgstr "Geeft 1 iff alle elementen nul zijn"
 
 #: lib/library-strings.c:194
 msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
-msgstr ""
+msgstr "De error-functie, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
 
 #: lib/library-strings.c:195
 msgid "Fejer kernel of order n"
@@ -3486,7 +3485,7 @@ msgstr ""
 
 #: lib/library-strings.c:196
 msgid "Returns 1 iff all elements are equal"
-msgstr ""
+msgstr "Geeft 1 iff alle elementen gelijk zijn"
 
 #: lib/library-strings.c:197
 msgid "Find the first value where f(x)=0"
@@ -3566,23 +3565,23 @@ msgstr ""
 
 #: lib/library-strings.c:213
 msgid "Calculate average of an entire matrix"
-msgstr ""
+msgstr "Bereken het gemiddelde van een gehele matrix"
 
 #: lib/library-strings.c:214
 msgid "Calculate median of an entire matrix"
-msgstr ""
+msgstr "Bereken de mediaan van een gehele matrix"
 
 #: lib/library-strings.c:215
 msgid "Calculate the population standard deviation of a whole matrix"
-msgstr ""
+msgstr "Bereken de populatie standaarddeviatie van een gehele matrix"
 
 #: lib/library-strings.c:216
 msgid "Calculate average of each row in a matrix"
-msgstr ""
+msgstr "Bereken het gemiddelde van elke rij in een matrix"
 
 #: lib/library-strings.c:217
 msgid "Calculate median of each row in a matrix"
-msgstr ""
+msgstr "Bereken de mediaan van elke rij in een matrix"
 
 #: lib/library-strings.c:218
 #, fuzzy
@@ -3600,7 +3599,7 @@ msgstr "Geeft de rijen van een matrix als een verticale vector"
 
 #: lib/library-strings.c:220
 msgid "Calculate the standard deviation of a whole matrix"
-msgstr ""
+msgstr "Bereken de standaarddeviatie van een gehele matrix"
 
 #: lib/library-strings.c:221
 msgid ""
@@ -3612,7 +3611,7 @@ msgstr ""
 msgid ""
 "Returns true if the element x is in the set X (where X is a vector "
 "pretending to be a set)"
-msgstr ""
+msgstr "Geeft waar indien het element x in de verzameling X zit (waarbij X een vector is die doet alsof het een verzameling is)"
 
 #: lib/library-strings.c:223
 msgid "Returns a set where every element of X appears only once"
