@@ -32,7 +32,6 @@ typedef struct {
 
 extern GeniusSetup genius_setup;
 extern GtkWidget *genius_window;
-extern gboolean interrupted;
 extern GHashTable *uncompiled;
 extern calcstate_t calcstate;
 

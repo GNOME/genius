@@ -1,3 +1,19 @@
+Thu Jan 06 10:06:10 2005  George Lebl <jirka@5z.com>
+
+	* src/graphing.c, src/funclib.[ch], src/Makefile.am,
+	  src/funclibhelper.cP: make some functions/macros sharable by
+	  either making them extern or putting them inside a includable
+	  file
+
+	* src/graphing.c: make LinePlotWindow parameter behave correctly with
+	  respect to the new drawing routines and read color and thickness
+	  style from the argument list of LinePlotDrawLine
+
+	* src/funclib.c: add 'wait' function
+
+	* src/gnome-genius.h, src/calc.h: move the interrupted extern
+	  declaration
+
 Tue Jan 04 18:21:36 2005  George Lebl <jirka@5z.com>
 
 	* src/graphing.c: add LinePlotClear and LinePlotDrawLine, but these

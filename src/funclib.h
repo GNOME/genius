@@ -27,4 +27,19 @@ void gel_funclib_addall(void);
 /*remove all cached floating point values*/
 void gel_break_fp_caches(void);
 
+GelETree * gel_apply_func_to_matrix (GelCtx *ctx,
+				     GelETree *mat, 
+				     GelBIFunction function,
+				     const char *ident, 
+				     gboolean *exception);
+GelETree * gel_apply_func_to_matrixen (GelCtx *ctx,
+				       GelETree *mat1,
+				       GelETree *mat2,
+				       GelBIFunction function,
+				       const char *ident,
+				       gboolean *exception);
+
+int gel_get_nonnegative_integer (mpw_ptr z, const char *funcname);
+
+
 #endif /* FUNCLIB_H_ */

@@ -42,6 +42,7 @@
 #include "plugin.h"
 #include "geloutput.h"
 #include "mpwrap.h"
+#include "matop.h"
 
 #include "gnome-genius.h"
 
@@ -157,6 +158,8 @@ static void plot_surface_functions (void);
 #define PROPORTION3D 0.80
 #define PROPORTION_OFFSET 0.075
 #define PROPORTION3D_OFFSET 0.1
+
+#include "funclibhelper.cP"
 
 enum {
 	RESPONSE_STOP = 1,
@@ -3143,7 +3146,9 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 	double x1, y1, x2, y2;
 	double *x, *y, *dx, *dy;
 	GdkColor color;
+	int thickness;
 	GtkPlotData *data;
+	int i;
 
 	ensure_window ();
 
@@ -3161,7 +3166,63 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 	GET_DOUBLE(x2, 2, "LinePlotDrawLine");
 	GET_DOUBLE(y2, 3, "LinePlotDrawLine");
 
-	/* FIXME: read styles */
+	gdk_color_parse ("black", &color);
+	thickness = 2;
+
+	for (i = 4; a[i] != NULL; i++) {
+		if G_LIKELY (a[i]->type == STRING_NODE ||
+			     a[i]->type == IDENTIFIER_NODE) {
+			GelToken *id;
+			static GelToken *colorid = NULL;
+			static GelToken *thicknessid = NULL;
+
+			if (colorid == NULL) {
+				colorid = d_intern ("color");
+				thicknessid = d_intern ("thickness");
+			}
+
+			if (a[i]->type == STRING_NODE)
+				id = d_intern (a[i]->str.str);
+			else
+				id = a[i]->id.id;
+			if (id == colorid) {
+				if G_UNLIKELY (a[i+1] == NULL)  {
+					gel_errorout (_("%s: No color specified"),
+						      "LinePlotDrawLine");
+					return NULL;
+				}
+				/* FIXME: helper routine for getting color */
+				if (a[i+1]->type == STRING_NODE) {
+					gdk_color_parse (a[i+1]->str.str, &color);
+				} else if (a[i+1]->type == IDENTIFIER_NODE) {
+					gdk_color_parse (a[i+1]->id.id->token, &color);
+				} else {
+					gel_errorout (_("%s: Color must be a string"),
+						      "LinePlotDrawLine");
+					return NULL;
+				}
+				i++;
+			} else if (id == thicknessid) {
+				if G_UNLIKELY (a[i+1] == NULL)  {
+					gel_errorout (_("%s: No thicnkess specified"),
+						      "LinePlotDrawLine");
+					return NULL;
+				}
+				if G_UNLIKELY ( ! check_argument_positive_integer (a, i+1,
+										   "LinePlotDrawLine"))
+					return NULL;
+				thickness = gel_get_nonnegative_integer (a[i+1]->val.value,
+									 "LinePlotDrawLine");
+				i++;
+			} else {
+				gel_errorout (_("%s: Unknown style"), "LinePlotDrawLine");
+			}
+			
+		} else {
+			gel_errorout (_("%s: Bad parameter"), "LinePlotDrawLine");
+			return NULL;
+		}
+	}
 
 	data = GTK_PLOT_DATA (gtk_plot_data_new ());
 	x = g_new (double, 2);
@@ -3180,12 +3241,11 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 	gtk_plot_add_data (GTK_PLOT (line_plot), data);
 	gtk_plot_data_hide_legend (data);
 
-	gdk_color_parse ("black", &color);
 	gdk_color_alloc (gdk_colormap_get_system (), &color); 
 
 	gtk_plot_data_set_line_attributes (data,
 					   GTK_PLOT_LINE_SOLID,
-					   0, 0, 2, &color);
+					   0, 0, thickness, &color);
 
 	gtk_widget_show (GTK_WIDGET (data));
 
@@ -3202,10 +3262,10 @@ set_LinePlotWindow (GelETree * a)
 	if ( ! get_limits_from_matrix (a, &x1, &x2, &y1, &y2))
 		return NULL;
 
-	defx1 = x1;
-	defx2 = x2;
-	defy1 = y1;
-	defy2 = y2;
+	plotx1 = defx1 = x1;
+	plotx2 = defx2 = x2;
+	ploty1 = defy1 = y1;
+	ploty2 = defy2 = y2;
 
 	return make_matrix_from_limits ();
 }
@@ -3246,36 +3306,6 @@ gel_add_graph_functions (void)
 	GelToken *id;
 
 	new_category ("plotting", N_("Plotting"), TRUE /* internal */);
-
-	/* FIXME: add more help fields */
-#define FUNC(name,args,argn,category,desc) \
-	f = d_addfunc (d_makebifunc (d_intern ( #name ), name ## _op, args)); \
-	d_add_named_args (f, argn); \
-	add_category ( #name , category); \
-	add_description ( #name , desc);
-#define VFUNC(name,args,argn,category,desc) \
-	f = d_addfunc (d_makebifunc (d_intern ( #name ), name ## _op, args)); \
-	d_add_named_args (f, argn); \
-	f->vararg = TRUE; \
-	add_category ( #name , category); \
-	add_description ( #name , desc);
-#define ALIAS(name,args,aliasfor) \
-	d_addfunc (d_makebifunc (d_intern ( #name ), aliasfor ## _op, args)); \
-	add_alias ( #aliasfor , #name );
-#define VALIAS(name,args,aliasfor) \
-	f = d_addfunc (d_makebifunc (d_intern ( #name ), aliasfor ## _op, args)); \
-	f->vararg = TRUE; \
-	add_alias ( #aliasfor , #name );
-#define PARAMETER(name,desc) \
-	id = d_intern ( #name ); \
-	id->parameter = 1; \
-	id->built_in_parameter = 1; \
-	id->data1 = set_ ## name; \
-	id->data2 = get_ ## name; \
-	add_category ( #name , "parameters"); \
-	add_description ( #name , desc); \
-	/* bogus value */ \
-	d_addfunc_global (d_makevfunc (id, gel_makenum_null()));
 
 	VFUNC (LinePlot, 2, "func,args", "plotting", N_("Plot a function with a line.  First come the functions (up to 10) then optionally limits as x1,x2,y1,y2"));
 	VFUNC (SurfacePlot, 2, "func,args", "plotting", N_("Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"));

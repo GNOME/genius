@@ -95,7 +95,8 @@ gnome_genius_SOURCES = 	\
 	geloutput.c	\
 	geloutput.h	\
 	graphing.h	\
-	graphing.c
+	graphing.c	\
+	funclibhelper.cP
 
 gnome_genius_LDADD = \
 	-L$(top_builddir)/vicious-extensions	\
@@ -169,7 +170,8 @@ genius_SOURCES = 	\
 	utype.h		\
 	extra.h		\
 	geloutput.c	\
-	geloutput.h
+	geloutput.h	\
+	funclibhelper.cP
 
 genius_LDADD = \
 	-L$(top_builddir)/vicious-extensions	\
