@@ -10,8 +10,9 @@ Changes to 0.5.3
 * Fractions printed nicely in troff and latex mode
 * Fix crash on setting built in parameters if there is an exception
 * Add MaximalPrimePowerFactors, PrimeFactors and CombineFactorizations,
-  RemoveFactor, g (the gravitational constant), EulerConstant,
-  FermatFactorization
+  RemoveFactor, Gravity (the gravitational constant), EulerConstant,
+  FermatFactorization, IsGaussInteger, IsPositiveInteger, MillerRabinTest
+* Use MillerRabinTest in IsPrime adding a config parameter for this
 * Remove SymbolicSquareRoot (sqrt is the same thing)
 * Add some new aliases for a few functions
 * Better EulerPhi implementation
@@ -20,6 +21,7 @@ Changes to 0.5.3
 * Rational powers with denominators of 2, 4, 8 or 16 now return integers
   if possible
 * Add an Edit menu with Copy and Paste
+* Allow reading arbitrarily long compiled file record lines
 * Fix precedence of : to be lower then that of standard arithmetic operators
 
 Changes to 0.5.2

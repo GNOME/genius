@@ -7,7 +7,7 @@
 SetHelp("EulerPhi","number_theory","Compute phi(n), the Euler phi function, that is the number of integers between 1 and n relatively prime to n");
 function EulerPhi(n) =
 (
-	if not IsValue(n) or not IsInteger(n) or not n>0 then
+	if not IsPositiveInteger(n) then
 		(error("EulerPhi: argument not an integer larger then 0");bailout);
 	n * (prod p in PrimeFactors(n) do (1-(1/p)))
 )

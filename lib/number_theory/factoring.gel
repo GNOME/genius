@@ -15,7 +15,7 @@
 SetHelp("Factorize", "number_theory", "Return factorization of a number as a matrix")
 function Factorize(n) =
  (
-  if not IsValue(n) or not IsInteger(n) then
+  if not IsInteger(n) then
   	(error("Factorize: argument not an integer");bailout);
   # First, deal with trivial case (n=0) and get rid of the possible unit.
   if (n==0) then return [0;1];
@@ -64,9 +64,9 @@ function Factorize(n) =
   # FIXME: Perhaps the 100000 should be configurable, in any case,
   # we should use better factorization methods
   fem = FermatFactorization (n, 100000);
-  if not IsNull(fem) then (
-    a = fem@(0)-fem@(1);
-    b = fem@(0)+fem@(1);
+  if IsMatrix(fem) then (
+    a = fem@(1)-fem@(2);
+    b = fem@(1)+fem@(2);
     if not IsPrime(a) or not IsPrime(a) then (
       # If not, return the partial factorization and flag an error
       error("Sorry, number has factors that are too big for us to deal with yet; the following is a partial factorization (the last term is composite).");
@@ -86,7 +86,7 @@ parameter FactorizeLoopMax = 50000;         # Factorize configuration variable
 
 SetHelp("PrimeFactors", "number_theory", "Return all prime factors of a number")
 function PrimeFactors (n) = (
-	if not IsValue(n) or not IsInteger(n) or not n>0 then
+	if not IsPositiveInteger(n) then
 		(error("PrimeFactors: argument not an integer larger then 0");bailout);
 	if n == 1 then return null;
 
@@ -99,7 +99,7 @@ protect("PrimeFactors")
 
 SetHelp("MaximalPrimePowerFactors", "number_theory", "Return all maximal prime power factors of a number")
 function MaximalPrimePowerFactors (n) = (
-	if not IsValue(n) or not IsInteger(n) or not n>0 then
+	if not IsPositiveInteger(n) then
 		(error("MaximalPrimePowerFactors: argument not an integer larger then 0");bailout);
 	if n == 1 then return null;
 
@@ -157,7 +157,7 @@ protect ("CombineFactorizations")
 SetHelp("Factors", "number_theory", "Return all factors of a number")
 function Factors(n) =
  (
-  if not IsValue(n) or not IsInteger(n) then
+  if not IsInteger(n) then
   	(error("Factors: argument not an integer");bailout);
   if n == 0 then return null;
 
@@ -188,7 +188,7 @@ protect("Factors")
 
 SetHelp("FermatFactorization", "number_theory", "Attempt fermat factorization of n into (t-s)*(t+s), returns t and s if possible, null otherwise")
 function FermatFactorization(n,tries) = (
-  if not IsValue(n) or not IsInteger(n) or not IsValue(tries) or IsInteger(tries) or n <= 0 or tries <= 0 then
+  if not IsPositiveInteger(n) or not IsPositiveInteger(tries) then
   	(error("FermatFactorization: arguments not positive integers");bailout);
   t = floor(sqrt(n));
   for i=1 to tries do (

@@ -5311,14 +5311,14 @@ mpw_set_str(mpw_ptr rop,const char *s,int base)
 	g_free(d);
 }
 
-int
+gboolean
 mpw_is_complex(mpw_ptr op)
 {
 	mpw_uncomplex(op);
 	return op->type == MPW_COMPLEX;
 }
 
-int
+gboolean
 mpw_is_integer(mpw_ptr op)
 {
 	if(op->type == MPW_COMPLEX) {
@@ -5329,7 +5329,18 @@ mpw_is_integer(mpw_ptr op)
 	return op->r->type == MPW_INTEGER || op->r->type == MPW_NATIVEINT;
 }
 
-int
+gboolean
+mpw_is_complex_integer(mpw_ptr op)
+{
+	if(op->type == MPW_COMPLEX) {
+		return op->r->type <= MPW_INTEGER &&
+		       op->i->type <= MPW_INTEGER;
+	} else {
+		return op->r->type == MPW_INTEGER || op->r->type == MPW_NATIVEINT;
+	}
+}
+
+gboolean
 mpw_is_rational(mpw_ptr op)
 {
 	if(op->type == MPW_COMPLEX) {
@@ -5340,7 +5351,18 @@ mpw_is_rational(mpw_ptr op)
 	return op->r->type == MPW_RATIONAL;
 }
 
-int
+gboolean
+mpw_is_complex_rational_or_integer(mpw_ptr op)
+{
+	if(op->type == MPW_COMPLEX) {
+		return op->r->type <= MPW_RATIONAL &&
+			op->i->type <= MPW_RATIONAL;
+	} else {
+		return op->r->type <= MPW_RATIONAL;
+	}
+}
+
+gboolean
 mpw_is_float(mpw_ptr op)
 {
 	if(op->type == MPW_COMPLEX) {
@@ -5349,6 +5371,17 @@ mpw_is_float(mpw_ptr op)
 		return FALSE;
 	}
 	return op->r->type == MPW_FLOAT;
+}
+
+gboolean
+mpw_is_complex_float(mpw_ptr op)
+{
+	if(op->type == MPW_COMPLEX) {
+		return op->r->type == MPW_FLOAT ||
+			op->i->type == MPW_FLOAT;
+	} else {
+		return op->r->type == MPW_FLOAT;
+	}
 }
 
 void

@@ -23,10 +23,10 @@
 #   return x;
 #  )
 
-SetHelp("IsPrime","number_theory","Tests primality of integers");
+SetHelp("IsPrime","number_theory","Tests primality of integers, for numbers greater then 25*10^9 false positive is with probability of less then PrimeProbabilityEpsilon");
 function IsPrime(n) =
   (
-    if not IsValue(n) or not IsInteger(n) then
+    if not IsInteger(n) then
 	(error("IsPrime: argument not an integer");bailout);
     ### Part 0: Preparations/small numbers
     if (n<0) then n=|n|; # Make sure n is non-negative
@@ -76,13 +76,20 @@ function IsPrime(n) =
       # continue to try pseudoprime tests or do some fancy elliptic curve
       # thing
 
-    error("Cannot determine primality. Probably prime, but not sure.");
-    return null;
+    # FIXME: the 10^-1000 should be tunable
+    return MillerRabinTest(n,PrimeProbabilityEpsilon);
+   
+
+    # error("Cannot determine primality. Probably prime, but not sure.");
+    # return null;
   )
 protect("IsPrime");
 
 SetHelp("IsPrimeLoopMax","parameters", "Maximum number which IsPrime uses in trial division");
 parameter IsPrimeLoopMax = 5000;           # IsPrime configuration variable
+
+SetHelp("PrimeProbabilityEpsilon","parameters", "The epsilon used for the MillerRabinTest from within IsPrime");
+parameter PrimeProbabilityEpsilon = 10^-1000;  # IsPrime configuration variable
 
 #####################################
 #### (Strong) Pseudoprime tests #####
@@ -141,6 +148,22 @@ function IsStrongPseudoprime(n,b) =
 SetHelp("IsStrongPseudoprime","number_theory","Test if n is a strong pseudoprime to base b but not a prime");
 protect("IsStrongPseudoprime");
 
+function MillerRabinTest(n,epsilon) =
+(
+  if not IsInteger(n) or not IsValue(epsilon) or epsilon <= 0 or n <= 2 then
+    (error("MillerRabinTest: n not an odd positive integer or epsilon not greater then 0"); bailout);
+  a = 0;
+  do (
+    a = a+1;
+    b = randint(n-2)+2;
+    if gcd (b, n) != 1 then return 0;
+    if not StrongPseudoprimeTest (n, b) then return 0;
+  ) while 1/(4^a) > epsilon;
+  1
+)
+SetHelp("MillerRabinTest", "number_theory", "Use the Miller-Rabin test on n, such that the probability of false positive is less then epsilon");
+protect("MillerRabinTest")
+
 #################################################
 #### FIXME: Certify primality/compositeness #####
 #################################################
@@ -156,7 +179,7 @@ SetHelp("LucasLehmer","number_theory","Test if Mp is a Mersenne prime using the 
 function LucasLehmer(p) = (
         if IsMatrix(p) then
                 return ApplyOverMatrix(p, LucasLehmer)
-	else if not IsValue(p) or not IsInteger(p) or not p>0 then
+	else if not IsPositiveInteger(p) then
 		(error("LucasLehmer: argument not an integer larger then 0");bailout);
 	if p==1 then return 0
 	else if p==2 then return 1;

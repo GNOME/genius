@@ -394,7 +394,7 @@ gel_decompile_node(void)
 }
 
 GelETree *
-gel_decompile_tree(char *s)
+gel_decompile_tree (char *s)
 {
 	GelETree *t;
 	char *p;

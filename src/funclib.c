@@ -1023,7 +1023,7 @@ e_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 /* Free fall accelleration */
 static GelETree *
-g_op (GelCtx *ctx, GelETree * * a, int *exception)
+Gravity_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	mpw_t g;
 	mpw_init (g);
@@ -1165,6 +1165,28 @@ IsInteger_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 }
 static GelETree *
+IsPositiveInteger_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	if(a[0]->type!=VALUE_NODE ||
+	   mpw_is_complex(a[0]->val.value))
+		return gel_makenum_ui(0);
+	else if(mpw_is_integer(a[0]->val.value) &&
+		mpw_sgn (a[0]->val.value) > 0)
+		return gel_makenum_ui(1);
+	else
+		return gel_makenum_ui(0);
+}
+static GelETree *
+IsGaussInteger_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	if(a[0]->type!=VALUE_NODE)
+		return gel_makenum_ui(0);
+	else if(mpw_is_complex_integer(a[0]->val.value))
+		return gel_makenum_ui(1);
+	else
+		return gel_makenum_ui(0);
+}
+static GelETree *
 IsMatrixInteger_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if (a[0]->type != MATRIX_NODE) {
@@ -1185,6 +1207,16 @@ IsRational_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_ui(0);
 	else if(mpw_is_rational(a[0]->val.value) ||
 		mpw_is_integer(a[0]->val.value))
+		return gel_makenum_ui(1);
+	else
+		return gel_makenum_ui(0);
+}
+static GelETree *
+IsComplexRational_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	if(a[0]->type!=VALUE_NODE)
+		return gel_makenum_ui(0);
+	else if (mpw_is_complex_rational_or_integer (a[0]->val.value))
 		return gel_makenum_ui(1);
 	else
 		return gel_makenum_ui(0);
@@ -3669,7 +3701,7 @@ gel_funclib_addall(void)
 	FUNC (pi, 0, "", "constants", _("The number pi"));
 	FUNC (e, 0, "", "constants", _("The natural number e"));
 	FUNC (GoldenRatio, 0, "", "constants", _("The Golden Ratio"));
-	FUNC (g, 0, "", "constants", _("Free fall acceleration"));
+	FUNC (Gravity, 0, "", "constants", _("Free fall acceleration"));
 	FUNC (EulerConstant, 0, "", "constants",
 	      _("Euler's Constant gamma good up to about precision of 9516 digits"));
 	ALIAS (gamma, 0, EulerConstant);
@@ -3762,7 +3794,12 @@ gel_funclib_addall(void)
 	FUNC (IsComplex, 1, "num", "numeric", _("Check if argument is a complex (non-real) number"));
 	FUNC (IsReal, 1, "num", "numeric", _("Check if argument is a real number"));
 	FUNC (IsInteger, 1, "num", "numeric", _("Check if argument is an integer (non-complex)"));
+	FUNC (IsPositiveInteger, 1, "num", "numeric", _("Check if argument is a positive real integer"));
+	ALIAS (IsNaturalNumber, 1, IsPositiveInteger);
+	FUNC (IsGaussInteger, 1, "num", "numeric", _("Check if argument is a possibly complex integer"));
+	ALIAS (IsComplexInteger, 1, IsGaussInteger);
 	FUNC (IsRational, 1, "num", "numeric", _("Check if argument is a rational number (non-complex)"));
+	FUNC (IsComplexRational, 1, "num", "numeric", _("Check if argument is a possibly complex rational number"));
 	FUNC (IsFloat, 1, "num", "numeric", _("Check if argument is a floating point number (non-complex)"));
 
 	FUNC (AddPoly, 2, "p1,p2", "polynomial", _("Add two polynomials (vectors)"));

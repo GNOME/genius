@@ -230,10 +230,14 @@ void mpw_set_str_int(mpw_ptr rop,const char *s,int base);
 
 void mpw_set_str (mpw_ptr rop, const char *s, int base);
 
-int mpw_is_complex(mpw_ptr op);
-int mpw_is_integer(mpw_ptr op);
-int mpw_is_rational(mpw_ptr op);
-int mpw_is_float(mpw_ptr op);
+gboolean mpw_is_complex(mpw_ptr op);
+gboolean mpw_is_integer(mpw_ptr op);
+gboolean mpw_is_complex_integer(mpw_ptr op);
+gboolean mpw_is_rational(mpw_ptr op);
+gboolean mpw_is_rational_or_integer(mpw_ptr op);
+gboolean mpw_is_complex_rational_or_integer(mpw_ptr op);
+gboolean mpw_is_float(mpw_ptr op);
+gboolean mpw_is_complex_float(mpw_ptr op);
 
 void mpw_im(mpw_ptr rop, mpw_ptr op);
 void mpw_re(mpw_ptr rop, mpw_ptr op);

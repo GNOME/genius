@@ -1,3 +1,18 @@
+Fri Feb 21 14:05:10 2003  George Lebl <jirka@5z.com>
+
+	* src/funclib.c, src/mpwrap.[ch]: add IsGaussInteger,
+	  IsComplexRational and IsPositiveInteger, also rename g
+	  to Gravity
+
+	* lib/number_theory/primes.gel: Add MillerRabinTest and use it
+	  in IsPrime
+
+	* lib/number_theory/*.gel: simplify argument checking in bunch of
+	  places
+
+	* src/calc.c, src/compil.[ch]: When reading compiled file allow
+	  arbitrarily long record lines
+
 Thu Feb 20 00:56:49 2003  George Lebl <jirka@5z.com>
 
 	* lib/number_theory/factoring.gel: it's too late and I can't think

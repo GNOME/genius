@@ -1491,14 +1491,21 @@ gel_compile_all_user_funcs(FILE *outfile)
 static void
 load_compiled_fp(const char *file, FILE *fp)
 {
-	char buf[8192];
+	char *buf;
+	int buf_size = 4096;
+	gboolean break_on_next = FALSE;
 	GelEFunc *last_func = NULL;
 
-	if(!fgets(buf,sizeof(buf),fp))
+	buf = g_new(char, buf_size);
+
+	if(!fgets(buf,buf_size,fp)) {
+		g_free (buf);
 		return;
+	}
 	if(strcmp(buf,"CGEL "VERSION"\n")!=0) {
-		g_snprintf(buf,sizeof(buf),_("File '%s' is a wrong version of GEL"),file);
+		g_snprintf(buf,buf_size,_("File '%s' is a wrong version of GEL"),file);
 		(*errorout)(buf);
+		g_free (buf);
 		return;
 	}
 
@@ -1514,7 +1521,7 @@ load_compiled_fp(const char *file, FILE *fp)
 	  sure*/
 	g_assert(calcstate.float_prec>0);
 
-	while(fgets(buf,sizeof(buf),fp)) {
+	while( ! break_on_next && fgets(buf,buf_size,fp)) {
 		char *p;
 		char *b2;
 		GelToken *tok;
@@ -1526,8 +1533,21 @@ load_compiled_fp(const char *file, FILE *fp)
 
 		gel_incr_file_info();
 
-		p=strchr(buf,'\n');
-		if(p) *p='\0';
+		for(;;) {
+			int len;
+			p = strchr (buf,'\n');
+			if (p != NULL) {
+				*p = '\0';
+				break;
+			}
+			buf_size *= 2;
+			len = strlen (buf);
+			buf = g_realloc (buf, buf_size);
+			if (fgets (buf+len, buf_size-len, fp) == NULL) {
+				break_on_next = TRUE;
+				break;
+			}
+		}
 
 		p = strtok(buf,";");
 		if(!p) {
@@ -1735,6 +1755,7 @@ load_compiled_fp(const char *file, FILE *fp)
 continue_reading:	;
 	}
 	fclose(fp);
+	g_free (buf);
 }
 
 void
