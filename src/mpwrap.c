@@ -531,16 +531,16 @@ static void str_trim_trailing_zeros(char *s);
 static char * str_format_float(char *p,long int e,int scientific_notation);
 
 static char * str_getstring_z(mpz_t num, int max_digits,
-			      int scientific_notation,
+			      gboolean scientific_notation,
 			      int integer_output_base,
 			      const char *postfix);
 static char * str_getstring_q(mpq_t num, int max_digits,
-			      int scientific_notation,
-			      int mixed_fractions,
+			      gboolean scientific_notation,
+			      gboolean mixed_fractions,
 			      GelOutputStyle style,
 			      const char *postfix);
 static char * str_getstring_f(mpf_t num, int max_digits,
-			      int scientific_notation,
+			      gboolean scientific_notation,
 			      const char *postfix);
 
 static char * mpwl_getstring(MpwRealNum * num, int max_digits,
@@ -3620,8 +3620,8 @@ get_frac (mpz_t num,
 static char *
 str_getstring_q(mpq_t num,
 		int max_digits,
-		int scientific_notation,
-		int mixed_fractions,
+		gboolean scientific_notation,
+		gboolean mixed_fractions,
 		GelOutputStyle style,
 		const char *postfix)
 {
@@ -3704,7 +3704,9 @@ str_getstring_q(mpq_t num,
 }
 
 static char *
-str_getstring_f(mpf_t num, int max_digits,int scientific_notation,
+str_getstring_f(mpf_t num,
+		int max_digits,
+		gboolean scientific_notation,
 		const char *postfix)
 {
 	char *p;

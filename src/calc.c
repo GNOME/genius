@@ -1381,39 +1381,93 @@ make_sep (int len)
 	return g_strdup (sep);
 }
 
+static char *
+make_empty (int len)
+{
+	char sep[] = "                                                                                 ";
+	sep[MIN(80,len)] = '\0';
+	return g_strdup (sep);
+}
 
 static void
 pretty_print_value_normal (GelOutput *gelo, GelETree *n)
 {
+	int columns = gel_output_get_columns (gelo);
+
 	/* FIXME: what about mixed_fractions, what about rational
 	   complex values, etc... */
 	if ( ! mpw_is_complex (n->val.value) &&
-	    mpw_is_rational (n->val.value) &&
-	    ! calcstate.mixed_fractions) {
-		int lend, lenn;
-		mpw_t num, den;
+	    mpw_is_rational (n->val.value)) {
+		int lend, lenn, lenw;
+		mpw_t num, den, whole;
 		mpz_ptr z;
-		char *nums, *dens;
+		char *nums, *dens, *wholes, *sep;
 
 		mpw_init (num);
 		mpw_init (den);
+		mpw_init (whole);
 
 		mpw_numerator (num, n->val.value);
-		z = mpw_peek_real_mpz (num);
-		if (z == NULL ||
-		    mpz_sizeinbase (z, calcstate.integer_output_base) - 1
-		      > calcstate.max_digits) {
-			mpw_clear (num);
-			goto just_print_a_number;
-		}
-
 		mpw_denominator (den, n->val.value);
+
 		z = mpw_peek_real_mpz (den);
 		if (z == NULL ||
 		    mpz_sizeinbase (z, calcstate.integer_output_base) - 1
 		      > calcstate.max_digits) {
-			mpw_clear (num);
 			mpw_clear (den);
+			mpw_clear (num);
+			mpw_clear (whole);
+			goto just_print_a_number;
+		}
+
+		if (calcstate.mixed_fractions &&
+		    mpw_cmp (num, den) > 0) {
+			mpz_t quot;
+			mpz_t rem;
+			mpz_ptr denz;
+
+			mpz_init (quot);
+			mpz_init (rem);
+
+			z = mpw_peek_real_mpz (num);
+			denz = mpw_peek_real_mpz (den);
+
+			mpz_tdiv_qr (quot, rem, z, denz);
+
+			mpw_set_mpz_use (whole, quot);
+			mpw_set_mpz_use (num, rem);
+
+			z = mpw_peek_real_mpz (whole);
+			if (z == NULL ||
+			    mpz_sizeinbase (z, calcstate.integer_output_base) - 1
+			    > calcstate.max_digits) {
+				mpw_clear (den);
+				mpw_clear (num);
+				mpw_clear (whole);
+				goto just_print_a_number;
+			}
+
+			wholes = mpw_getstring (whole,
+						0 /* calcstate.max_digits */,
+						calcstate.scientific_notation,
+						calcstate.results_as_floats,
+						calcstate.mixed_fractions,
+						calcstate.output_style,
+						calcstate.integer_output_base,
+						FALSE);
+			lenw = strlen_max (wholes, columns);
+		} else {
+			wholes = NULL;
+			lenw = -1;
+		}
+
+		z = mpw_peek_real_mpz (num);
+		if (z == NULL ||
+		    mpz_sizeinbase (z, calcstate.integer_output_base) - 1
+		      > calcstate.max_digits) {
+			mpw_clear (den);
+			mpw_clear (num);
+			mpw_clear (whole);
 			goto just_print_a_number;
 		}
 
@@ -1428,7 +1482,7 @@ pretty_print_value_normal (GelOutput *gelo, GelETree *n)
 				      calcstate.output_style,
 				      calcstate.integer_output_base,
 				      FALSE);
-		lenn = strlen_max (nums, 80);
+		lenn = strlen_max (nums, columns);
 		dens = mpw_getstring (den,
 				      0 /* calcstate.max_digits */,
 				      calcstate.scientific_notation,
@@ -1437,30 +1491,52 @@ pretty_print_value_normal (GelOutput *gelo, GelETree *n)
 				      calcstate.output_style,
 				      calcstate.integer_output_base,
 				      FALSE);
-		lend = strlen_max (dens, 80);
+		lend = strlen_max (dens, columns);
 
-		/* this would look very weird so just use normal notation */
-		if (lenn <= 2 && lend <= 2) {
+		if ((lenn + 1 + lenw) >= columns ||
+		    (lend + 1 + lenw) >= columns ||
+		    (lenn <= 2 && lend <= 2)) {
+			mpw_clear (den);
+			mpw_clear (num);
+			mpw_clear (whole);
+			g_free (dens);
+			g_free (nums);
+			g_free (wholes);
+			goto just_print_a_number;
+		}
+
+		gel_output_string (gelo, "\n");
+
+		sep = make_sep (MAX (lend, lenn));
+
+		if (lenw > 0) {
+			char *spacer = make_empty (lenw+1);
+			gel_output_string (gelo, spacer);
 			gel_output_string (gelo, nums);
-			gel_output_string (gelo, "/");
+			gel_output_string (gelo, "\n");
+			gel_output_string (gelo, wholes);
+			gel_output_string (gelo, " ");
+			gel_output_string (gelo, sep);
+			gel_output_string (gelo, "\n");
+			gel_output_string (gelo, spacer);
 			gel_output_string (gelo, dens);
+			g_free (spacer);
 		} else {
-			char *sep = make_sep (MAX (lend, lenn));
-
 			gel_output_string (gelo, "\n");
 			gel_output_string (gelo, nums);
 			gel_output_string (gelo, "\n");
 			gel_output_string (gelo, sep);
 			gel_output_string (gelo, "\n");
 			gel_output_string (gelo, dens);
-
-			g_free (sep);
 		}
+		g_free (sep);
 		g_free (nums);
 		g_free (dens);
+		g_free (wholes);
 
-		mpw_clear (num);
 		mpw_clear (den);
+		mpw_clear (num);
+		mpw_clear (whole);
 
 		return;
 	}
