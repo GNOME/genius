@@ -326,7 +326,7 @@ static void mpwl_clear_extra_type(MpwRealNum *op,int type);
 /*only set the type, don't free it, and don't set the type variable
   create an extra type of the variable for temporary use*/
 static void mpwl_make_extra_type (MpwRealNum *op, int type);
-/*static void mpwl_make_extra_type_no_convert (MpwRealNum *op, int type);*/
+static void mpwl_make_extra_type_no_convert (MpwRealNum *op, int type);
 
 static void mpwl_make_type(MpwRealNum *op,int type);
 
@@ -1258,47 +1258,50 @@ mpwl_make_extra_type(MpwRealNum *op,int type)
 			op->data.nval = mpz_get_si(op->data.ival);
 		else if(op->type==MPW_RATIONAL)
 			op->data.nval = mpq_get_d(op->data.rval);
-		else if(op->type==MPW_FLOAT)
+		else /* if(op->type==MPW_FLOAT) */
 			op->data.nval = mpf_get_d(op->data.fval);
 		break;
 	case MPW_INTEGER:
-		if(!op->data.ival)
+		if (op->data.ival == NULL) {
 			op->data.ival = g_new(__mpz_struct,1);
-		mpz_init(op->data.ival);
-		if(op->type==MPW_FLOAT)
-			mpz_set_f(op->data.ival,op->data.fval);
-		else if(op->type==MPW_RATIONAL)
-			mpz_set_q(op->data.ival,op->data.rval);
-		else if(op->type==MPW_NATIVEINT)
-			mpz_set_si(op->data.ival,op->data.nval);
+			mpz_init(op->data.ival);
+			if(op->type==MPW_FLOAT)
+				mpz_set_f(op->data.ival,op->data.fval);
+			else if(op->type==MPW_RATIONAL)
+				mpz_set_q(op->data.ival,op->data.rval);
+			else /* if(op->type==MPW_NATIVEINT) */
+				mpz_set_si(op->data.ival,op->data.nval);
+		}
 		break;
 	case MPW_RATIONAL:
-		if(!op->data.rval)
+		if (op->data.rval == NULL) {
 			op->data.rval = g_new(__mpq_struct,1);
-		mpq_init(op->data.rval);
-		if(op->type==MPW_INTEGER)
-			mpq_set_z(op->data.rval,op->data.ival);
-		else if(op->type==MPW_FLOAT)
-			mpq_set_f(op->data.rval,op->data.fval);
-		else if(op->type==MPW_NATIVEINT)
-			mpq_set_si(op->data.rval,op->data.nval,1);
+			mpq_init(op->data.rval);
+			if(op->type==MPW_INTEGER)
+				mpq_set_z(op->data.rval,op->data.ival);
+			else if(op->type==MPW_FLOAT)
+				mpq_set_f(op->data.rval,op->data.fval);
+			else /* if(op->type==MPW_NATIVEINT) */
+				mpq_set_si(op->data.rval,op->data.nval,1);
+		}
 		break;
 	case MPW_FLOAT:
-		if(!op->data.fval)
+		if (op->data.fval == NULL) {
 			op->data.fval = g_new(__mpf_struct,1);
-		mpf_init(op->data.fval);
-		if(op->type==MPW_INTEGER)
-			mpf_set_z(op->data.fval,op->data.ival);
-		else if(op->type==MPW_RATIONAL) {
-			mpf_set_q(op->data.fval,op->data.rval);
-			/* XXX: a hack!!
-			 * get around a mpf_set_q bug*/
-			if(mpq_sgn(op->data.rval)<0 &&
-			   mpf_sgn(op->data.fval)>0) {
-				mpf_neg(op->data.fval,op->data.fval);
-			}
-		} else if(op->type==MPW_NATIVEINT)
-			mpf_set_si(op->data.fval,op->data.nval);
+			mpf_init(op->data.fval);
+			if(op->type==MPW_INTEGER)
+				mpf_set_z(op->data.fval,op->data.ival);
+			else if(op->type==MPW_RATIONAL) {
+				mpf_set_q(op->data.fval,op->data.rval);
+				/* XXX: a hack!!
+				 * get around a mpf_set_q bug*/
+				if(mpq_sgn(op->data.rval)<0 &&
+				   mpf_sgn(op->data.fval)>0) {
+					mpf_neg(op->data.fval,op->data.fval);
+				}
+			} else /* if(op->type==MPW_NATIVEINT) */
+				mpf_set_si(op->data.fval,op->data.nval);
+		}
 		break;
 	}
 }
@@ -1306,11 +1309,6 @@ mpwl_make_extra_type(MpwRealNum *op,int type)
 /*only set the type, don't free it, and don't set the type variable
   create an extra type of the variable for temporary use*/
 
-#define mpwl_make_extra_type_no_convert mpwl_make_extra_type
-	/* FIXME: something is very wrong, see test:
-	   Numerator (3i/7)
-	 */
-/*
 static void
 mpwl_make_extra_type_no_convert (MpwRealNum *op, int type)
 {
@@ -1320,23 +1318,25 @@ mpwl_make_extra_type_no_convert (MpwRealNum *op, int type)
 	case MPW_NATIVEINT:
 		break;
 	case MPW_INTEGER:
-		if(!op->data.ival)
+		if (op->data.ival == NULL) {
 			op->data.ival = g_new(__mpz_struct,1);
-		mpz_init(op->data.ival);
+			mpz_init(op->data.ival);
+		}
 		break;
 	case MPW_RATIONAL:
-		if(!op->data.rval)
+		if (op->data.rval == NULL) {
 			op->data.rval = g_new(__mpq_struct,1);
-		mpq_init(op->data.rval);
+			mpq_init(op->data.rval);
+		}
 		break;
 	case MPW_FLOAT:
-		if(!op->data.fval)
+		if (op->data.fval == NULL) {
 			op->data.fval = g_new(__mpf_struct,1);
-		mpf_init(op->data.fval);
+			mpf_init(op->data.fval);
+		}
 		break;
 	}
 }
-*/
 
 static void
 mpwl_make_type(MpwRealNum *op,int type)

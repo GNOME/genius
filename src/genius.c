@@ -271,6 +271,7 @@ main(int argc, char *argv[])
 		}
 	}
 
+#if 0
 	{
 		/* FIXME: use this for option parsing,
 		 * we really only need gnome-program for
@@ -283,6 +284,7 @@ main(int argc, char *argv[])
 				    /* GNOME_PARAM_POPT_TABLE, options, */
 				    NULL);
 	}
+#endif
 
 	gel_read_plugin_list();
 

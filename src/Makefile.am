@@ -19,7 +19,9 @@ INCLUDES = \
 	-I$(srcdir)						\
 	-I$(includedir)						\
 	-I$(top_srcdir)						\
+	-I$(top_srcdir)/vicious-extensions			\
 	-I$(top_builddir)					\
+	-I$(top_builddir)/vicious-extensions			\
 	$(GMP_INCLUDEDIR)					\
 	$(GENIUS_CFLAGS)					\
 	$(EXTRA_WARNING_CFLAGS)
@@ -77,6 +79,8 @@ gnome_genius_SOURCES = 	\
 	graphing.c
 
 gnome_genius_LDADD = \
+	-L$(top_builddir)/vicious-extensions	\
+	-lviciousui				\
 	-lm					\
 	@GMP_LIB@				\
 	@MPFR_LIB@				\
@@ -91,6 +95,8 @@ genius_readline_helper_fifo_SOURCES = \
 
 # FIXME: no need for so many libs
 genius_readline_helper_fifo_LDADD = \
+	-L$(top_builddir)/vicious-extensions	\
+	-lvicious				\
 	-lm					\
 	$(GENIUS_LIBS)				\
 	@READLINE_LIB@				\
@@ -130,7 +136,7 @@ genius_SOURCES = 	\
 	lexer.h		\
 	plugin.c	\
 	plugin.h	\
-	plugread_nongnome.c	\
+	plugread.c	\
 	plugread.h	\
 	plug_api.h	\
 	parse.h		\
@@ -143,6 +149,8 @@ genius_SOURCES = 	\
 	geloutput.h
 
 genius_LDADD = \
+	-L$(top_builddir)/vicious-extensions	\
+	-lvicious				\
 	-lm					\
 	@GMP_LIB@				\
 	@MPFR_LIB@				\

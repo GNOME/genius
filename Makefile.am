@@ -1,4 +1,4 @@
-SUBDIRS = po src lib doc
+SUBDIRS = po vicious-extensions src lib doc
 
 EXTRA_DIST = \
 	genius.spec \

@@ -19,14 +19,12 @@
  * USA.
  */
 
-/*This file requires gnome, use readplugin_nongnome.c for the simpler, dumber,
-  non-gnome version*/
-
 #include "config.h"
 
 #include <gnome.h>
 #include <glib.h>
 #include <string.h>
+#include <vicious.h>
 #include "calc.h"
 #include "plugin.h"
 #include "plugread.h"
@@ -43,36 +41,35 @@ gel_readplugin (const char *dir_name, const char *file_name)
 	gboolean gui;
 	gboolean hide;
 	GelPlugin *plg;
+	VeConfig *cfg;
 
-	p = g_strconcat("=",dir_name,"/",file_name,
-			"=/Genius Plugin/",NULL);
-	gnome_config_push_prefix(p);
-	g_free(p);
-	name = gnome_config_get_translated_string("Name");
-	file = gnome_config_get_string("File");
-	copyright = gnome_config_get_translated_string("Copyright");
-	author = gnome_config_get_string("Author");
-	description = gnome_config_get_translated_string("Description");
-	gui = gnome_config_get_bool("GUI=false");
-	hide = gnome_config_get_bool("Hide=false");
-	gnome_config_pop_prefix();
-	p = g_strconcat("=",dir_name,"/",file_name,
-			"=",NULL);
-	gnome_config_drop_file(p);
-	g_free(p);
-	if(!name || !*name || !file || !*file) {
-		g_free(name);
-		g_free(file);
-		g_free(copyright);
-		g_free(author);
-		g_free(description);
+	p = g_strconcat (ve_sure_string (dir_name), "/", ve_sure_string (file_name), NULL);
+	cfg = ve_config_new (p);
+	g_free (p);
+
+	name = ve_config_get_translated_string (cfg, "/Genius Plugin/Name");
+	file = ve_config_get_string (cfg, "/Genius Plugin/File");
+	copyright = ve_config_get_translated_string (cfg, "/Genius Plugin/Copyright");
+	author = ve_config_get_string (cfg, "/Genius Plugin/Author");
+	description = ve_config_get_translated_string (cfg, "/Genius Plugin/Description");
+	gui = ve_config_get_bool (cfg, "/Genius Plugin/GUI=false");
+	hide = ve_config_get_bool (cfg, "/Genius Plugin/Hide=false");
+	ve_config_destroy (cfg);
+
+	if (ve_string_empty (name) ||
+	    ve_string_empty (file)) {
+		g_free (name);
+		g_free (file);
+		g_free (copyright);
+		g_free (author);
+		g_free (description);
 		return NULL;
 	}
 	plg = g_new0 (GelPlugin, 1);
 	plg->name = name;
-	plg->base = g_strdup(file_name);
-	p = strstr(plg->base,".plugin");
-	if(p) *p='\0';
+	plg->base = g_strdup (file_name);
+	p = strstr (plg->base,".plugin");
+	if (p != NULL) *p='\0';
 	plg->file = file;
 	plg->copyright = copyright;
 	plg->author = author;

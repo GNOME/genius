@@ -37,6 +37,8 @@
 #include <readline/history.h>
 #include <readline/tilde.h>
 
+#include <vicious.h>
+
 #include "calc.h"
 #include "eval.h"
 #include "util.h"
@@ -196,6 +198,12 @@ gel_save_plugins (void)
 	static long int unique_id = 0;
 	GSList *li;
 	GelPluginInfo *inf;
+	VeConfig *cfg;
+	char *path;
+
+	path = g_strconcat (ve_sure_string (g_getenv ("HOME")), "/.gnome2/genius", NULL);
+	cfg = ve_config_get (path);
+	g_free (path);
 
 	if (unique_id == 0)
 		unique_id = time (NULL);
@@ -213,39 +221,44 @@ gel_save_plugins (void)
 
 			if (plug->restore) {
 				char *key = g_strdup_printf
-					("/genius/plugins/plugin_restore_%s",
+					("/plugins/plugin_restore_%s",
 					 plug->base);
-				gnome_config_set_string (key, plug->unique_id);
+				ve_config_set_string (cfg, key, plug->unique_id);
 				g_free (key);
 				saved = TRUE;
 			}
 		}
 		if ( ! saved) {
 			char *key = g_strdup_printf
-				("/genius/plugins/plugin_restore_%s",
+				("/plugins/plugin_restore_%s",
 				 plug->base);
-			gnome_config_set_string (key, "NO");
+			ve_config_set_string (cfg, key, "NO");
 			g_free (key);
 		}
 	}
-	gnome_config_sync ();
+	ve_config_save (cfg, FALSE /* force */);
 }
 
 void
 gel_restore_plugins (void)
 {
 	GSList *li;
+	VeConfig *cfg;
+	char *path;
+
+	path = g_strconcat (ve_sure_string (g_getenv ("HOME")), "/.gnome2/genius", NULL);
+	cfg = ve_config_get (path);
+	g_free (path);
 
 	for (li = gel_plugin_list; li != NULL; li = li->next) {
 		GelPlugin *plug = li->data;
 		char *key = g_strdup_printf
-			("/genius/plugins/plugin_restore_%s",
+			("/plugins/plugin_restore_%s",
 			 plug->base);
-		char *unique_id = gnome_config_get_string (key);
+		char *unique_id = ve_config_get_string (cfg, key);
 		g_free (key);
 
-		if (unique_id == NULL ||
-		    unique_id[0] == '\0' ||
+		if (ve_string_empty (unique_id) ||
 		    strcmp (unique_id, "NO") == 0) {
 			g_free (unique_id);
 			continue;

@@ -1,3 +1,19 @@
+Tue Oct 07 10:04:59 2003  George Lebl <jirka@5z.com>
+
+	* configure.in, Makefile.am, src/Makefile.am, src/plugin.c,
+	  src/plugread.c, src/genius.c: Kill gnome dependency in
+	  the command line genius by using ve-config and
+	  vicious-extensions.  Only codewise though, it is still linked
+	  to gnome.  Though that should not be too hard to fix and
+	  non-gnome non-gui builds may again be possible.  Not to mention
+	  that startup of non-gui code is faster meaning faster testing
+	  and less other whacky code to screw up valgrind runs etc...
+
+	* src/mpwrap.c: fix corruption with respect to extra types when
+	  rop == op1 or op2 and reenable the no_convert extra type
+	  optimization.  Also fixes a leak of gmp internal data on all
+	  divisions and gcd and mod operations.
+
 Mon Oct 06 18:02:07 2003  George Lebl <jirka@5z.com>
 
 	* src/mpwrap.c: revert the change (sort of) something is wrong,
