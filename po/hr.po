@@ -1,11 +1,11 @@
 # Translation of genius to Croatiann
 # Copyright (C) Croatiann team
-# Translators: Antun Krasic <butch@gawab.com>,Automatski Prijevod <>,Boris Tudan <boris.tudan@ka.htnet.hr>,Danijel Studen <dstuden@vuka.hr>,Denis Lackovic <delacko@fly.srk.fer.hr>,Jerko Škifić <skific@riteh.hr>,Nikola Planinac <>,pr pr <delacko@192.168.0.1>,Vedran Vyroubal <vedran.vyroubal@inet.hr>,
+# Translators: Antun Krasic <butch@gawab.com>,Automatski Prijevod <>,Boris Tudan <boris.tudan@ka.htnet.hr>,Danijel Studen <dstuden@vuka.hr>,Denis Lackovic <delacko@fly.srk.fer.hr>,Jerko Škifić <skific@riteh.hr>,Nikola Planinac <>,pr pr <delacko@192.168.0.1>,Robert Sedak <robert.sedak@sk.tel.hr>,Vedran Vyroubal <vedran.vyroubal@inet.hr>,
 msgid ""
 msgstr ""
 "Project-Id-Version: genius 0\n"
-"POT-Creation-Date: 2004-02-01 16:55+0100\n"
-"PO-Revision-Date: 2004-02-04 16:02+CET\n"
+"POT-Creation-Date: 2004-03-20 14:48+0100\n"
+"PO-Revision-Date: 2004-03-20 14:48+CET\n"
 "Last-Translator: auto\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,6 @@ msgstr "Neispravna oznaka za čvor funkcije!"
 msgid "Unexpected operator!"
 msgstr "Neočekivani operator!"
 
-#. FIXME:
 #: src/calc.c:1165
 msgid "Cannot currently print polynomials of more then 3 vars"
 msgstr "Trenutno ne mogu ispisivati polinome s više od 3 varijable"
@@ -79,7 +78,7 @@ msgstr "Dodarni rječnik za nula-funkciju"
 
 #: src/calc.c:1893 src/calc.c:2308 src/calc.c:2342
 msgid "Can't open file: '%s'"
-msgstr "Ne mogu otvoriti datoteku: „%s“"
+msgstr "Ne mogu otvoriti datoteku: \"%s\""
 
 #: src/calc.c:2040
 msgid "Load a file into the interpretor"
@@ -171,11 +170,11 @@ msgstr "Opis: %s\n"
 
 #: src/calc.c:2381 src/calc.c:2392
 msgid "Can't expand '%s'"
-msgstr "Ne mogu proširiti „%s“"
+msgstr "Ne mogu proširiti \"%s\""
 
 #: src/calc.c:2462
 msgid "Cannot open plugin '%s'!"
-msgstr "Ne mogu otvoriti umetak „%s“!"
+msgstr "Ne mogu otvoriti umetak \"%s\"!"
 
 #: src/calc.c:2667
 msgid "ERROR: Probably corrupt stack!"
@@ -195,7 +194,7 @@ msgstr "Greška: %s na kraju unosa"
 
 #: src/calc.c:2802
 msgid "ERROR: %s before '%s'"
-msgstr "Greška: %s prije „%s“"
+msgstr "Greška: %s prije \"%s\""
 
 #: src/compil.c:426 src/compil.c:432
 msgid "Bad tree record when decompiling"
@@ -252,19 +251,19 @@ msgstr "Naišao sam na tip neizračunljive funkcije!"
 
 #: src/eval.c:2528 src/eval.c:2546 src/eval.c:3360
 msgid "Variable '%s' used uninitialized"
-msgstr "Varijabla „%s“ se koristi neinicijalizirana"
+msgstr "Varijabla \"%s\" se koristi neinicijalizirana"
 
 #: src/eval.c:2549 src/eval.c:3396
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
 "(should be %d)"
 msgstr ""
-"Poziv „%s“ s pogrešnim brojem argumenata!\n"
+"Poziv \"%s\" s pogrešnim brojem argumenata!\n"
 "(treba biti %d)"
 
 #: src/eval.c:2552
 msgid "Trying to dereference '%s' which is not a reference!\n"
-msgstr "Pokušavam dereferencirati „%s“ što ne predstavlja referencu!\n"
+msgstr "Pokušavam dereferencirati \"%s\" što ne predstavlja referencu!\n"
 
 #: src/eval.c:2557
 msgid "NULL reference encountered!"
@@ -284,11 +283,11 @@ msgstr "Neispravan argument za operaciju po ostatku"
 
 #: src/eval.c:3346
 msgid "Function '%s' used uninitialized"
-msgstr "Funkcija „%s“ se koristi neinicijalizirana"
+msgstr "Funkcija \"%s\" se koristi neinicijalizirana"
 
 #: src/eval.c:3366
 msgid "Can't dereference '%s'!"
-msgstr "Ne mogu deferencirti „%s“!"
+msgstr "Ne mogu deferencirti \"%s\"!"
 
 #: src/eval.c:3374
 msgid "Can't call a non-function!"
@@ -299,7 +298,7 @@ msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
 "(should be greater then %d)"
 msgstr ""
-"Poziv „%s“ s pogrešnim brojem argumenata!\n"
+"Poziv \"%s\" s pogrešnim brojem argumenata!\n"
 "(treba biti veći od %d)"
 
 #: src/eval.c:3440
@@ -316,7 +315,7 @@ msgstr "Naišao sam na bezimenu pozivanu funkciju!"
 
 #: src/eval.c:3664
 msgid "Bad type for 'for/sum/prod' loop!"
-msgstr "Neispravan tip za petlju „for/sum/prod“!"
+msgstr "Neispravan tip za petlju \"for/sum/prod\"!"
 
 #: src/eval.c:3669
 msgid "'for/sum/prod' loop increment can't be 0"
@@ -324,11 +323,11 @@ msgstr "'for/sum/prod' korak petlje ne može bii 0 "
 
 #: src/eval.c:3775
 msgid "Bad type for 'for in' loop!"
-msgstr "Neispravan tip za petlju „for in“!"
+msgstr "Neispravan tip za petlju \"for in\"!"
 
 #: src/eval.c:3919 src/eval.c:3947
 msgid "Continue or break outside a loop, assuming \"return null\""
-msgstr "Nastavi ili izađi iz petlje, pretpostavljajući „return null“"
+msgstr "Nastavi ili izađi iz petlje, pretpostavljajući \"return null\""
 
 #: src/eval.c:3997
 msgid "Wrong argument type as matrix index"
@@ -348,7 +347,7 @@ msgstr "Indeks matrice je izvan opsega"
 
 #: src/eval.c:4095 src/eval.c:4156 src/eval.c:4218 src/eval.c:4262
 msgid "Trying to set a protected id '%s'"
-msgstr "Pokušava postaviti zaštićeni id „%s“"
+msgstr "Pokušava postaviti zaštićeni id \"%s\""
 
 #: src/eval.c:4113 src/eval.c:4152
 msgid "Indexed Lvalue not user function"
@@ -501,7 +500,7 @@ msgstr "NE"
 
 #: src/eval.c:4761
 msgid "Bad types for '%s'"
-msgstr "Neispravni tipovi za „%s“"
+msgstr "Neispravni tipovi za \"%s\""
 
 #: src/eval.c:4772
 #, c-format
@@ -510,7 +509,7 @@ msgstr "%s nije definiran na <%s> i <%s>"
 
 #: src/eval.c:4791
 msgid "Bad type for '%s'"
-msgstr "Neispravan tip za „%s“"
+msgstr "Neispravan tip za \"%s\""
 
 #: src/eval.c:4801
 #, c-format
@@ -1300,14 +1299,14 @@ msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters"
 msgstr ""
-"Pretvori niz u vektor vrijednosti prema abecednom poretku („a“ je 0), a -1 "
+"Pretvori niz u vektor vrijednosti prema abecednom poretku (\"a\" je 0), a -1 "
 "za nepoznata slova"
 
 #: src/funclib.c:4361
 msgid ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string"
-msgstr "Pretvori vektor vrijednosti prema abecednom poretku („a“ je 0) u niz"
+msgstr "Pretvori vektor vrijednosti prema abecednom poretku (\"a\" je 0) u niz"
 
 #: src/funclib.c:4363
 msgid "Protect a variable from being modified"
@@ -1321,7 +1320,7 @@ msgstr "Omogući izmjene varijable"
 msgid ""
 "Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
 "\""
-msgstr "Postavlja oznake za funkciju, trenutno „PropagateMod“ i „NoModuloArguments“"
+msgstr "Postavlja oznake za funkciju, trenutno \"PropagateMod\" i \"NoModuloArguments\""
 
 #: src/funclib.c:4366
 msgid "Get current modulo from the context outside the function"
@@ -1394,8 +1393,8 @@ msgstr ""
 "Genius %s\n"
 "%s\n"
 "Ovo je slobodni softver bez ikakve garancije.\n"
-"Za detalje o licenci unesite „warranty“.\n"
-"Za pomoć unesite „manual“ ili „help“.%s\n"
+"Za detalje o licenci unesite \"warranty\".\n"
+"Za pomoć unesite \"manual\" ili \"help\".%s\n"
 "\n"
 
 #: src/genius.c:351 src/gnome-genius.c:2631
@@ -1595,7 +1594,7 @@ msgstr "\\e[01;31mPreviše grešaka! (slijedi %d)\\e[0m\n"
 #.  * E.g. "Fulano de Tal <fulano@detal.com>"
 #: src/gnome-genius.c:499
 msgid "translator_credits-PLEASE_ADD_YOURSELF_HERE"
-msgstr "translator_credits-Denis Lacković"
+msgstr "lokalizacija@linux.hr"
 
 #: src/gnome-genius.c:502 src/gnome-genius.c:1977
 msgid "GENIUS Calculator"
@@ -1607,7 +1606,7 @@ msgid ""
 "warranty details, type 'warranty' into the console."
 msgstr ""
 "Izdanje Genius kalkulatora u stilu Gnome kalkulatora. Za detalje o "
-"licenci/garanciji unesite „warranty“ u konzolu."
+"licenci/garanciji unesite \"warranty\" u konzolu."
 
 #: src/gnome-genius.c:669
 msgid ""
@@ -1750,7 +1749,6 @@ msgstr "Ne mogu otvoriti %s"
 msgid "Open GEL file"
 msgstr "Otvori GEL datoteku"
 
-#. new fname
 #: src/gnome-genius.c:1740 src/gnome-genius.c:1766
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -1801,8 +1799,8 @@ msgstr ""
 "\\e[0;32mGenius %s\\e[0m\n"
 "%s\n"
 "Ovo je slobodan softver bez ikakve garancije.\n"
-"Za detalje o licenci unesite „\\e[01;36mwarranty\\e[0m“.\n"
-"Za pomoć unesite „\\e[01;36mmanual\\e[0m“ ili „\\e[01;36mhelp\\e[0m“.%s\n"
+"Za detalje o licenci unesite \"\\e[01;36mwarranty\\e[0m\".\n"
+"Za pomoć unesite \"\\e[01;36mmanual\\e[0m\" ili \"\\e[01;36mhelp\\e[0m\".%s\n"
 "\n"
 
 #: src/gnome-genius.desktop.in.h:1
