@@ -1006,7 +1006,7 @@ appendmatrix_latex (GelOutput *gelo, GelMatrixW *m, gboolean nice)
 	int i, j;
 	if (nice)
 		gel_output_string (gelo, "\n");
-	gel_output_string (gelo, "\\left( \\begin{array}{");
+	gel_output_string (gelo, "\\left[ \\begin{array}{");
 	for (i = 0; i < gel_matrixw_width (m); i++)
 		gel_output_string (gelo, "r");
 	gel_output_string (gelo, "}");
@@ -1028,7 +1028,7 @@ appendmatrix_latex (GelOutput *gelo, GelMatrixW *m, gboolean nice)
 			gel_output_string (gelo, " ");
 	}
 	
-	gel_output_string (gelo, "\\end{array} \\right)");
+	gel_output_string (gelo, "\\end{array} \\right]");
 }
 
 static void
