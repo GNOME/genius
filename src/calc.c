@@ -513,23 +513,35 @@ gel_get_file_info (char **file, int *line)
 static void
 append_anal_binaryoper(GelOutput *gelo, char *p, GelETree *n)
 {
-	gboolean extra_param = FALSE;
+	gboolean extra_param1 = FALSE;
+	gboolean extra_param2 = FALSE;
 	GelETree *l,*r;
 	GET_LR(n,l,r);
 	if (l->type == VALUE_NODE &&
 	    (mpw_is_complex (l->val.value) ||
-	     mpw_sgn (l->val.value) < 0))
-		extra_param = TRUE;
-	if (extra_param)
+	     mpw_sgn (l->val.value) < 0 ||
+	     mpw_is_rational (l->val.value)))
+		extra_param1 = TRUE;
+	if (r->type == VALUE_NODE &&
+	    (mpw_is_complex (r->val.value) ||
+	     mpw_sgn (r->val.value) < 0 ||
+	     mpw_is_rational (r->val.value)))
+		extra_param2 = TRUE;
+	if (extra_param1)
 		gel_output_string(gelo, "((");
 	else
 		gel_output_string(gelo, "(");
 	print_etree(gelo, l, FALSE);
-	if (extra_param)
+	if (extra_param1)
 		gel_output_string(gelo, ")");
 	gel_output_string(gelo, p);
+	if (extra_param2)
+		gel_output_string(gelo, "(");
 	print_etree(gelo, r, FALSE);
-	gel_output_string(gelo, ")");
+	if (extra_param2)
+		gel_output_string(gelo, "))");
+	else
+		gel_output_string(gelo, ")");
 }
 
 static void
@@ -629,13 +641,31 @@ appendoper(GelOutput *gelo, GelETree *n)
 		case E_FACT:
 			GET_L(n,l);
 			gel_output_string(gelo, "(");
-			print_etree(gelo, l, FALSE);
+			if (l->type == VALUE_NODE &&
+			    (mpw_is_complex (l->val.value) ||
+			     mpw_sgn (l->val.value) < 0 ||
+			     mpw_is_rational (l->val.value))) {
+				gel_output_string(gelo, "(");
+				print_etree(gelo, l, FALSE);
+				gel_output_string(gelo, ")");
+			} else {
+				print_etree(gelo, l, FALSE);
+			}
 			gel_output_string(gelo, "!)");
 			break;
 		case E_DBLFACT:
 			GET_L(n,l);
 			gel_output_string(gelo, "(");
-			print_etree(gelo, l, FALSE);
+			if (l->type == VALUE_NODE &&
+			    (mpw_is_complex (l->val.value) ||
+			     mpw_sgn (l->val.value) < 0 ||
+			     mpw_is_rational (l->val.value))) {
+				gel_output_string(gelo, "(");
+				print_etree(gelo, l, FALSE);
+				gel_output_string(gelo, ")");
+			} else {
+				print_etree(gelo, l, FALSE);
+			}
 			gel_output_string(gelo, "!!)");
 			break;
 

@@ -1,5 +1,7 @@
 Changes to 0.5.3
 
+Note the syntax changes marked with 'SYNTAX:'
+
 * Very basic line graphing of R->R functions with LinePlot function
 * Use MPFR for some floating point functions such as powers, logs, sin/cos
   and such.  This increases the speed of those operations by about 10 fold
@@ -8,12 +10,14 @@ Changes to 0.5.3
 * "a^b mod m" is now done sanely and fast just like the PowerMod function
 * Rudimentary MathML output support
 * Add Copy Answer As Plain/LaTeX/MathML/Troff menu items
-* Allow rationals and integers as complex numbers though this support is
+* SYNTAX: A null inside a matrix expansion is treated as an empty matrix.  So
+  [null,1,2] will be expanded as [1,2]
+* SYNTAX: Allow rationals and integers as complex numbers though this support is
   kind of experimental
 * Increase some limits on factorizations
-* Add (<expr>)i operator macro which will multiply <expr> by i
-* Negation parsing changed -1^k still parses as (-1)^k but -a^k parses as
-  -(a^k) (where a is anything but a number
+* SYNTAX: Add (<expr>)i operator macro which will multiply <expr> by i
+* SYNTAX: Negation parsing changed -1^k still parses as (-1)^k but -a^k parses
+  as -(a^k) (where a is anything but a number
 * Rational powers now return integers if possible, and so the
   SymbolicSquareRoot and SymbolicNthRoot functions are not neccessary
 * Nicer printing of complex numbers
@@ -29,9 +33,10 @@ Changes to 0.5.3
 * Add some new aliases for a few functions
 * Better EulerPhi implementation
 * Fix Factors
-* Fix precedence of : to be lower then that of standard arithmetic operators
-* factorial now binds more closely then power
-* Allow more matlab like notation of getting whole rows/columns
+* SYNTAX: Fix precedence of : to be lower then that of standard arithmetic
+  operators
+* SYNTAX: Factorial now binds more closely then power
+* SYNTAX: Allow more matlab like notation of getting whole rows/columns
   (such as foo@(2,:))
 * Add an Edit menu with Copy and Paste
 * Add "Really want to quit" dialog and allow quitting while calculations are

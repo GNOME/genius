@@ -1,3 +1,12 @@
+Wed Mar 05 14:13:03 2003  George Lebl <jirka@5z.com>
+
+	* src/eval.c, src/parseutil.c: when expanding matrices treat nulls
+	  as empty matrices to allow easy appending, prepending and all such
+	  stuff.
+
+	* src/calc.c: be anal on printing numbers with powers and factorials
+	  so that the output is genius parsable
+
 Sat Mar 01 10:03:32 2003  George Lebl <jirka@5z.com>
 
 	* src/funclib.c: on setting FloatPrecision actually break e and

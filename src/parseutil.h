@@ -36,15 +36,15 @@ void gp_push_marker_simple(GelETreeType markertype) GEL_WEAK_FUNC;
 
 /*puts a spacer into the tree, spacers are just useless nodes to be removed
   before evaluation, they just signify where there were parenthesis*/
-int gp_push_spacer(void) GEL_WEAK_FUNC;
+gboolean gp_push_spacer(void) GEL_WEAK_FUNC;
 
 /*gather all expressions up until a row start marker and push the
   result as a MATRIX_ROW_NODE*/
-int gp_push_matrix_row(void) GEL_WEAK_FUNC;
+gboolean gp_push_matrix_row(void) GEL_WEAK_FUNC;
 
 /*gather all expressions up until a row start marker and push the
   result as a matrix*/
-int gp_push_matrix(int quoted) GEL_WEAK_FUNC;
+gboolean gp_push_matrix(gboolean quoted) GEL_WEAK_FUNC;
 
 /*pushes a NULL onto the stack, null cannot be evaluated, it will be
   read as ""*/

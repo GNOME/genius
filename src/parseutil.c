@@ -168,7 +168,7 @@ gp_push_marker_simple(GelETreeType markertype)
 
 /*puts a spacer into the tree, spacers are just useless nodes to be removed
   before evaluation, they just signify where there were parenthesis*/
-int
+gboolean
 gp_push_spacer(void)
 {
 	GelETree * last_expr = stack_pop(&evalstack);
@@ -189,7 +189,7 @@ gp_push_spacer(void)
 	
 /*gather all expressions up until a row start marker and push the
   result as a MATRIX_ROW_NODE*/
-int
+gboolean
 gp_push_matrix_row(void)
 {
 	GelETree *tree;
@@ -227,8 +227,8 @@ gp_push_matrix_row(void)
 	
 /*gather all expressions up until a row start marker and push the
   result as a matrix*/
-int
-gp_push_matrix(int quoted)
+gboolean
+gp_push_matrix(gboolean quoted)
 {
 	GelETree *tree;
 	int i,j;
@@ -294,13 +294,21 @@ gp_push_matrix(int quoted)
 		for(i=0,lix=liy->data;lix;i++,lix=lix->any.next) {
 			gel_matrix_index(matrix,i,j) = lix;
 		}
+		/* On non-quoted matrices fill the matrix with nulls
+		 * since those may be converted to zeros */
+		if ( ! quoted) {
+			for(;i < cols;i++) {
+				gel_matrix_index (matrix, i, j) =
+					gel_makenum_null ();
+			}
+		}
 	}
 	g_slist_free(rowl);
 	
 	GET_NEW_NODE(tree);
 	tree->type = MATRIX_NODE;
 	tree->mat.matrix = gel_matrixw_new_with_matrix(matrix);
-	tree->mat.quoted = quoted?1:0;
+	tree->mat.quoted = quoted ? 1 : 0;
 	
 	stack_push(&evalstack,tree);
 	return TRUE;
