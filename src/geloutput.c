@@ -28,8 +28,8 @@
 #include "geloutput.h"
 
 
-static int
-get_cur_len (GelOutput *gelo)
+int
+gel_output_get_columns (GelOutput *gelo)
 {
 	if (gelo->line_length_get != NULL)
 		return gelo->line_length_get(gelo);
@@ -71,7 +71,7 @@ gel_output_putchar(GelOutput *gelo, char ch, gboolean limit, int ll)
 static void
 gel_output_print_string (GelOutput *gelo, const char *string, gboolean limit)
 {
-	int ll = get_cur_len (gelo);
+	int ll = gel_output_get_columns (gelo);
 	const char *p;
 
 	if (gelo->output_type == GEL_OUTPUT_BLACK_HOLE) {

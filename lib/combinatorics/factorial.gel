@@ -4,6 +4,13 @@
 # Subfactorial(n)=n! times \sum_{k=1}^n (-1)^k/k!
 # This is the number of permutations of n objects that leaves none of the
 # objects unchanged.
+SetHelp("Subfactorial","combinatorics","Subfactorial: n! times sum_{k=1}^n (-1)^k/k!");
+function Subfactorial(n) = (
+	if not IsValue(n) or not IsInteger(n) or n < 0 then
+		(error("Subfactorial: argument not an integer >= 0");bailout);
+	(n!) * sum k=1 to n do ((-1)^k)/(k!)
+)
+protect("Subfactorial")
 
 SetHelp("Catalan","combinatorics","Get n'th catalan number");
 function Catalan(n) = (

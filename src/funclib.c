@@ -51,13 +51,19 @@ int numprimes = 0;
 
 static mpw_t e_cache;
 static int e_iscached = FALSE;
+static mpw_t golden_ratio_cache;
+static int golden_ratio_iscached = FALSE;
 
 void
-gel_break_fp_caches(void)
+gel_break_fp_caches (void)
 {
-	if(e_iscached) {
+	if (e_iscached) {
 		e_iscached = FALSE;
-		mpw_clear(e_cache);
+		mpw_clear (e_cache);
+	}
+	if (golden_ratio_iscached) {
+		golden_ratio_iscached = FALSE;
+		mpw_clear (golden_ratio_cache);
 	}
 }
 
@@ -845,25 +851,40 @@ atan_op(GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 e_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
-	if(e_iscached)
-		return gel_makenum(e_cache);
+	if (e_iscached)
+		return gel_makenum (e_cache);
 
-	mpw_init(e_cache);
-	mpw_set_ui(e_cache,1);
-	mpw_exp(e_cache,e_cache);
+	mpw_init (e_cache);
+	mpw_set_ui (e_cache,1);
+	mpw_exp (e_cache, e_cache);
 	e_iscached = TRUE;
-	return gel_makenum(e_cache);
+	return gel_makenum (e_cache);
 }
 
 /*pi function (or pi variable or whatever)*/
 static GelETree *
-pi_op(GelCtx *ctx, GelETree * * a, int *exception)
+pi_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	mpw_t fr; 
-	mpw_init(fr);
-	mpw_pi(fr);
+	mpw_init (fr);
+	mpw_pi (fr);
 
-	return gel_makenum_use(fr);
+	return gel_makenum_use (fr);
+}
+
+static GelETree *
+GoldenRatio_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	if (golden_ratio_iscached)
+		return gel_makenum (golden_ratio_cache);
+
+	mpw_init (golden_ratio_cache);
+	mpw_set_ui (golden_ratio_cache, 5);
+	mpw_sqrt (golden_ratio_cache, golden_ratio_cache);
+	mpw_add_ui (golden_ratio_cache, golden_ratio_cache, 1);
+	mpw_div_ui (golden_ratio_cache, golden_ratio_cache, 2);
+	golden_ratio_iscached = TRUE;
+	return gel_makenum (golden_ratio_cache);
 }
 
 static GelETree *
@@ -3339,6 +3360,7 @@ gel_funclib_addall(void)
 
 	FUNC (pi, 0, "", "constants", _("The number pi"));
 	FUNC (e, 0, "", "constants", _("The natural number e"));
+	FUNC (GoldenRatio, 0, "", "constants", _("The Golden Ratio"));
 
 	FUNC (sqrt, 1, "x", "numeric", _("The square root"));
 	FUNC (exp, 1, "x", "numeric", _("The exponential function"));

@@ -1931,6 +1931,7 @@ full_help (void)
 	if (functions != NULL) {
 		GString *gs = g_string_new (NULL);
 		int len = 0;
+		int line_len = gel_output_get_columns (main_out);
 
 		do_black ();
 
@@ -1942,7 +1943,7 @@ full_help (void)
 			char *f = fli->data;
 			int flen = strlen (f);
 
-			if (len + flen + 1 > 78 && len > 0) {
+			if (len + flen + 1 > line_len-2 && len > 0) {
 				gel_output_printf_full (main_out, FALSE, "%s\n",
 							gs->str);
 				g_string_truncate (gs, 0);

@@ -1109,9 +1109,6 @@ main (int argc, char *argv[])
 	term = vte_terminal_new ();
 	vte_terminal_set_scrollback_lines (VTE_TERMINAL (term),
 					   cursetup.scrollback);
-	vte_terminal_set_font_from_string (VTE_TERMINAL (term),
-					   cursetup.font ?
-					   cursetup.font : DEFAULT_FONT);
 	vte_terminal_set_cursor_blinks (VTE_TERMINAL (term), TRUE);
 	vte_terminal_set_audible_bell (VTE_TERMINAL (term), TRUE);
 	vte_terminal_set_scroll_on_keystroke (VTE_TERMINAL (term), TRUE);
@@ -1197,6 +1194,15 @@ main (int argc, char *argv[])
 	}
 
 	gtk_widget_show_all (window);
+
+	/* for some reason we must set the font here and not above
+	 * or the "monospace 12" (or default terminal font or whatnot)
+	 * will get used */
+	vte_terminal_set_font_from_string (VTE_TERMINAL (term), 
+					   cursetup.font ?
+					   cursetup.font : DEFAULT_FONT);
+
+
 	gtk_widget_show_now (window);
 
 	gel_output_printf (main_out,

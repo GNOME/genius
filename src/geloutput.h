@@ -76,13 +76,17 @@ void		gel_output_setup_file		(GelOutput *gelo,
 /* Black hole setup */
 void		gel_output_setup_black_hole	(GelOutput *gelo);
 
-/* some accessors */
+/* some accessors, this line length is not the current one,
+ * just the default one */
 void		gel_output_get_line_length	(GelOutput *gelo,
 						 int *line_length,
 						 GelOutputLineFunc *line_length_get);
 void		gel_output_set_line_length	(GelOutput *gelo, 
 						 int line_length,
 						 GelOutputLineFunc line_length_get);
+
+/* This gets the current line length (columns) */
+int		gel_output_get_columns		(GelOutput *gelo);
 
 /* quivalent to fflush on the FILE pointer */
 void		gel_output_flush		(GelOutput *gelo);
