@@ -75,7 +75,8 @@ gel_output_print_string (GelOutput *gelo, const char *string, gboolean limit)
 	const char *p;
 
 	if (gelo->output_type == GEL_OUTPUT_BLACK_HOLE) {
-		if (gelo->notify != NULL)
+		if (gelo->notify != NULL &&
+		    ! gelo->no_notify)
 			gelo->notify (gelo);
 		return;
 	}
@@ -107,7 +108,8 @@ gel_output_print_string (GelOutput *gelo, const char *string, gboolean limit)
 		g_string_truncate (gelo->outs, 0);
 	}
 
-	if (gelo->notify != NULL)
+	if (gelo->notify != NULL &&
+	    ! gelo->no_notify)
 		gelo->notify (gelo);
 }
 
@@ -167,6 +169,7 @@ gel_output_new (void)
 
 	gelo = g_new0 (GelOutput, 1);
 	gelo->ref_count = 1;
+	gelo->no_notify = 0;
 	gelo->output_type = GEL_OUTPUT_FILE;
 	gelo->outfp = stdout;
 
@@ -370,7 +373,7 @@ gel_output_get_data(GelOutput *gelo)
 void
 gel_output_flush(GelOutput *gelo)
 {
-	g_return_if_fail(gelo!=NULL);
+	g_return_if_fail (gelo != NULL);
 
 	if(gelo->output_type == GEL_OUTPUT_FILE) {
 		g_assert (gelo->outfp != NULL);
@@ -380,4 +383,21 @@ gel_output_flush(GelOutput *gelo)
 		}
 		fflush(gelo->outfp);
 	}
+}
+
+void
+gel_output_push_nonotify (GelOutput *gelo)
+{
+	g_return_if_fail (gelo != NULL);
+	gelo->no_notify++;
+}
+
+void
+gel_output_pop_nonotify (GelOutput *gelo)
+{
+	g_return_if_fail (gelo != NULL);
+	gelo->no_notify--;
+	if (gelo->no_notify <= 0 &&
+	    gelo->notify != NULL)
+		gelo->notify (gelo);
 }

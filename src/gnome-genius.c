@@ -94,7 +94,6 @@ static int torl[2];
 static FILE *torlfp = NULL;
 static int fromrl[2];
 static int forzvt[2];
-static FILE *outputfp = NULL;
 
 static char *arg0 = NULL;
 
@@ -1031,10 +1030,10 @@ main (int argc, char *argv[])
 		       feed_to_zvt, NULL);
 
 	torlfp = fdopen (torl[1], "w");
-	outputfp = fdopen (forzvt[1], "w");
 
 	main_out = gel_output_new();
-	gel_output_setup_file (main_out, outputfp, 80, get_term_width);
+	gel_output_setup_string (main_out, 80, get_term_width);
+	gel_output_set_notify (main_out, output_notify_func);
 	
 	evalnode_hook = check_events;
 	statechange_hook = set_state;

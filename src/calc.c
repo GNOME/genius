@@ -719,6 +719,8 @@ print_etree(GelOutput *gelo, GelETree *n, gboolean toplevel)
 		return;
 	}
 
+	gel_output_push_nonotify (gelo);
+
 	switch(n->type) {
 	case NULL_NODE:
 		gel_output_string (gelo, "(null)");
@@ -805,6 +807,7 @@ print_etree(GelOutput *gelo, GelETree *n, gboolean toplevel)
 		gel_output_string(gelo,"(?)");
 	       break;
 	}
+	gel_output_pop_nonotify (gelo);
 }
 
 void
@@ -812,14 +815,17 @@ pretty_print_etree(GelOutput *gelo, GelETree *n)
 {
 	/*do a nice printout of matrices if that's the
 	  top node*/
+	gel_output_push_nonotify (gelo);
 	if(n->type == MATRIX_NODE) {
 		int i,j;
 
 		if (calcstate.output_style == GEL_OUTPUT_TROFF) {
 			appendmatrix_troff (gelo, n->mat.matrix, TRUE /* nice */);
+			gel_output_pop_nonotify (gelo);
 			return;
 		} else if (calcstate.output_style == GEL_OUTPUT_LATEX) {
 			appendmatrix_latex (gelo, n->mat.matrix, TRUE /* nice */);
+			gel_output_pop_nonotify (gelo);
 			return;
 		}
 
@@ -845,6 +851,7 @@ pretty_print_etree(GelOutput *gelo, GelETree *n)
 	} else {
 		print_etree (gelo, n, FALSE);
 	}
+	gel_output_pop_nonotify (gelo);
 }
 
 /*make a string representation of an expression*/

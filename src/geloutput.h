@@ -44,6 +44,8 @@ void		gel_output_unref		(GelOutput *gelo);
 /* set input notify handler */
 void		gel_output_set_notify		(GelOutput *gelo,
 						 GelOutputNotifyFunc notify);
+void		gel_output_push_nonotify	(GelOutput *gelo);
+void		gel_output_pop_nonotify		(GelOutput *gelo);
 
 /* user data */
 /* usable outside of genius */

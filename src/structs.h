@@ -324,6 +324,7 @@ struct _GelOutput {
 
 	/* new data notifier */
 	GelOutputNotifyFunc notify;
+	int no_notify;
 	
 	gpointer data;
 };
