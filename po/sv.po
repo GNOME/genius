@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: genius\n"
-"POT-Creation-Date: 2003-08-17 00:36+0200\n"
-"PO-Revision-Date: 2003-08-17 00:37+0200\n"
+"POT-Creation-Date: 2003-08-18 01:12+0200\n"
+"PO-Revision-Date: 2003-08-18 01:18+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -743,7 +743,7 @@ msgstr "min: matrisargumentet måste vara endast värde"
 
 #: src/funclib.c:1958
 msgid "I: argument not an integer"
-msgstr "I: argumentet inte ett heltal"
+msgstr "I: argumentet är inte ett heltal"
 
 #: src/funclib.c:2005
 msgid "zeros: arguments not an integers"
@@ -903,7 +903,10 @@ msgstr "SetFunctionFlags: argumentet måste vara en sträng"
 
 #: src/funclib.c:3728
 msgid "SetFunctionFlags: undefined function"
-msgstr ""
+msgstr "SetFunctionFlags: odefinierad funktion"
+
+msgid "%s: undefined function"
+msgstr "%s: odefinierad funktion"
 
 #: src/funclib.c:3734
 msgid "SetFunctionFlags: flags argument must be a string"
@@ -911,31 +914,37 @@ msgstr "SetFunctionFlags: flags-argumentet måste vara en sträng"
 
 #: src/funclib.c:3764
 msgid "FloatPrecision: argument not an integer"
-msgstr ""
+msgstr "FloatPrecision: argumentet är inte ett heltal"
 
 #: src/funclib.c:3774
 msgid "FloatPrecision: argument should be between 60 and 16384"
-msgstr ""
+msgstr "FloatPrecision: argumentet måste vara mellan 60 och 16384"
 
 #: src/funclib.c:3803
 msgid "MaxDigits: argument not an integer"
-msgstr ""
+msgstr "MaxDigits: argumentet är inte ett heltal"
 
 #: src/funclib.c:3813
 msgid "MaxDigits: argument should be between 0 and 256"
-msgstr ""
+msgstr "MaxDigits: argumentet måste vara mellan 0 och 256"
+
+msgid "%s: argument should be between 0 and 256"
+msgstr "%s: argumentet måste vara mellan 0 och 256"
 
 #: src/funclib.c:3836
 msgid "ResultsAsFloats: argument not a value"
-msgstr ""
+msgstr "ResultsAsFloats: argumentet är inte ett värde"
+
+msgid "%s: argument not a value"
+msgstr "%s: argumentet är inte ett värde"
 
 #: src/funclib.c:3860
 msgid "ScientificNotation: argument not a value"
-msgstr ""
+msgstr "ScientificNotation: argumentet är inte ett värde"
 
 #: src/funclib.c:3884
 msgid "FullExpressions: argument not a value"
-msgstr ""
+msgstr "FullExpressions: argumentet är inte ett värde"
 
 #: src/funclib.c:3913
 msgid "OutputStyle: argument not a string"
@@ -943,31 +952,40 @@ msgstr "OutputStyle: argumentet är inte en sträng"
 
 #: src/funclib.c:3931
 msgid "OutputStyle must be one of normal, troff, latex or mathml"
-msgstr ""
+msgstr "Utdatastil måste vara en av normal, troff, latex eller mathml"
 
 #: src/funclib.c:3966
 msgid "MaxErrors: argument not an integer"
-msgstr ""
+msgstr "MaxErrors: argumentet är inte ett heltal"
 
 #: src/funclib.c:3976
 msgid "MaxErrors: argument should be larger or equal to 0"
-msgstr ""
+msgstr "MaxErrors: argumentet måste vara större än eller lika med 0"
+
+msgid "%s: argument should be larger or equal to 0"
+msgstr "%s: argumentet måste vara större än eller lika med 0"
 
 #: src/funclib.c:3999
 msgid "MixedFractions: argument not a value"
-msgstr ""
+msgstr "MixedFractions: argumentet är inte ett värde"
 
 #: src/funclib.c:4028
 msgid "IntegerOutputBase: argument not an integer"
-msgstr ""
+msgstr "IntegerOutputBase: argumentet är inte ett heltal"
 
 #: src/funclib.c:4038
 msgid "IntegerOutputBase: argument should be between 2 and 36"
-msgstr ""
+msgstr "IntegerOutputBase: argumentet måste vara mellan 2 och 36"
+
+msgid "%s: argument should be between 2 and 36"
+msgstr "%s: argumentet måste vara mellan 2 och 36"
 
 #: src/funclib.c:4066
 msgid "IsPrimeMillerRabinReps: must be a positive integer"
-msgstr ""
+msgstr "IsPrimeMillerRabinReps: måste vara ett positivt heltal"
+
+msgid "%s: must be a positive integer"
+msgstr "%s: måste vara ett positivt heltal"
 
 #: src/funclib.c:4092
 msgid "Basic"
@@ -1048,7 +1066,7 @@ msgstr "Avslutar programmet"
 
 #: src/funclib.c:4144
 msgid "Prints a string to the error stream"
-msgstr ""
+msgstr "Skriver ut en sträng till felflödet"
 
 #: src/funclib.c:4145
 msgid "Prints an expression"
@@ -1060,7 +1078,7 @@ msgstr "Byter aktuell katalog"
 
 #: src/funclib.c:4147
 msgid "Prints an expression without a trailing newline"
-msgstr ""
+msgstr "Skriver ut ett uttryck utan en avslutande nyrad"
 
 #: src/funclib.c:4148
 msgid "Display a string and an expression"
@@ -1072,19 +1090,19 @@ msgstr "Ställ in en global variabel"
 
 #: src/funclib.c:4151
 msgid "Set the category and help description line for a function"
-msgstr ""
+msgstr "Ställer in kategori- och hjälpbeskrivningsraderna för en funktion"
 
 #: src/funclib.c:4152
 msgid "Sets up a help alias"
-msgstr ""
+msgstr "Konfigurerar ett hjälpalias"
 
 #: src/funclib.c:4154
 msgid "Generate random float"
-msgstr ""
+msgstr "Generera slumpflyttal"
 
 #: src/funclib.c:4156
 msgid "Generate random integer"
-msgstr ""
+msgstr "Generera slumpheltal"
 
 #: src/funclib.c:4159 src/gnome-genius.c:924
 msgid "Floating point precision"
@@ -1100,23 +1118,23 @@ msgstr "Maximalt antal fel att visa"
 
 #: src/funclib.c:4162
 msgid "Output style: normal, latex or troff"
-msgstr ""
+msgstr "Utdatastil: normal, latex eller troff"
 
 #: src/funclib.c:4163
 msgid "Integer output base"
-msgstr ""
+msgstr "Heltalsutdatabas"
 
 #: src/funclib.c:4164
 msgid "If true, mixed fractions are printed"
-msgstr ""
+msgstr "Om sant skrivs blandade bråk ut"
 
 #: src/funclib.c:4165
 msgid "Print full expressions, even if more then a line"
-msgstr ""
+msgstr "Skriv ut fullständiga uttryck, även om mer än en rad"
 
 #: src/funclib.c:4166
 msgid "Convert all results to floats before printing"
-msgstr ""
+msgstr "Konvertera alla resultat till flyttal före utskrift"
 
 #: src/funclib.c:4167
 msgid "Use scientific notation"
@@ -1127,22 +1145,24 @@ msgid ""
 "Number of extra Miller-Rabin tests to run on a number before declaring it a "
 "prime in IsPrime"
 msgstr ""
+"Antal extra Miller-Rabin-test att köra på ett tal innan det deklareras som "
+"ett primtal i IsPrime"
 
 #: src/funclib.c:4175
 msgid "Expands a matrix just like we do on unquoted matrix input"
-msgstr ""
+msgstr "Expanderar en matris precis som vi gör med ociterad matrisindata"
 
 #: src/funclib.c:4176
 msgid "Gets the rows of a matrix as a vertical vector"
-msgstr ""
+msgstr "Hämtar raderna i en matris som en vertikal vektor"
 
 #: src/funclib.c:4177
 msgid "Gets the columns of a matrix as a horizontal vector"
-msgstr ""
+msgstr "Hämtar kolumnerna i en matris som en horisontell vektor"
 
 #: src/funclib.c:4178
 msgid "Gets the diagonal entries of a matrix as a horizontal vector"
-msgstr ""
+msgstr "Hämtar diagonalposterna i en matris som en horisontell vektor"
 
 #: src/funclib.c:4180
 msgid "Calculates the conjugate"
@@ -1182,7 +1202,7 @@ msgstr "Det naturliga talet e"
 
 #: src/funclib.c:4194
 msgid "The Golden Ratio"
-msgstr ""
+msgstr "Det gyllene snittet"
 
 #: src/funclib.c:4195
 msgid "Free fall acceleration"
@@ -1190,7 +1210,7 @@ msgstr "Frifallsacceleration"
 
 #: src/funclib.c:4197
 msgid "Euler's Constant gamma good up to about precision of 9516 digits"
-msgstr ""
+msgstr "Eulers konstant gamma, god för en precision upp till 9516 siffror"
 
 #: src/funclib.c:4200
 msgid "The square root"
@@ -1206,11 +1226,11 @@ msgstr "Den naturliga logaritmen"
 
 #: src/funclib.c:4205
 msgid "Logarithm of x base 2"
-msgstr ""
+msgstr "Logaritmen av x bas 2"
 
 #: src/funclib.c:4207
 msgid "Logarithm of x base 10"
-msgstr ""
+msgstr "Logaritmen av x bas 10"
 
 #: src/funclib.c:4208
 msgid "Round a number"
@@ -1218,15 +1238,15 @@ msgstr "Avrunda ett tal"
 
 #: src/funclib.c:4210
 msgid "Get the highest integer less then or equal to n"
-msgstr ""
+msgstr "Hämta det högsta heltalet mindre än eller lika med n"
 
 #: src/funclib.c:4212
 msgid "Get the lowest integer more then or equal to n"
-msgstr ""
+msgstr "Hämta det lägsta heltalet större än eller lika med n"
 
 #: src/funclib.c:4214
 msgid "Truncate number to an integer (return the integer part)"
-msgstr ""
+msgstr "Trunkera talet till ett heltal (returnera heltalsdelen)"
 
 #: src/funclib.c:4217
 msgid "Make number a float"
@@ -1234,99 +1254,107 @@ msgstr "Gör ett tal till ett flyttal"
 
 #: src/funclib.c:4218
 msgid "Get the numerator of a rational number"
-msgstr ""
+msgstr "Hämta numeratorn för ett rationellt tal"
 
 #: src/funclib.c:4219
 msgid "Get the denominator of a rational number"
-msgstr ""
+msgstr "Hämta denominator för ett rationellt tal"
 
 #: src/funclib.c:4221
 msgid "Greatest common divisor"
-msgstr ""
+msgstr "Största gemensamma nämnare"
 
 #: src/funclib.c:4223
 msgid "Least common multiplier"
-msgstr ""
+msgstr "Minsta gemensamma faktor"
 
 #: src/funclib.c:4225
 msgid "Check a number for being a perfect square"
-msgstr ""
+msgstr "Kontrollera om ett tal är en perfekt kvadrat"
 
 #: src/funclib.c:4226
 msgid "Check a number for being any perfect power (a^b)"
-msgstr ""
+msgstr "Kontrollera om ett tal är en perfekt exponent (a^b)"
 
 #: src/funclib.c:4227
 msgid "Return the n'th prime (up to a limit)"
-msgstr ""
+msgstr "Returnera det n:te primtalet (upp till en gräns)"
 
 #: src/funclib.c:4229
 msgid "Tests if an integer is even"
-msgstr ""
+msgstr "Testar om ett heltal är jämnt"
 
 #: src/funclib.c:4230
 msgid "Tests if an integer is odd"
-msgstr ""
+msgstr "Testar om ett heltal är udda"
 
 #: src/funclib.c:4232
 msgid "Returns the least prime greater than n (if n is positive)"
-msgstr ""
+msgstr "Returnera det minsta primtalet som är större än n (om n är positivt)"
 
 #: src/funclib.c:4233
 msgid "Returns the n'th Lucas number"
-msgstr ""
+msgstr "Returnerar det n:te Lucas-talet"
 
 #: src/funclib.c:4234
 msgid "Returns inverse of n mod m"
-msgstr ""
+msgstr "Returnerar inversen av n mod m"
 
 #: src/funclib.c:4235
 msgid ""
 "Tests primality of integers, for numbers greater then 25*10^9 false positive "
 "is with low probability depending on IsPrimeMillerRabinReps"
 msgstr ""
+"Testar primaliteten för heltal, för tal större än 25*10^9 är falska positiva "
+"med låg sannolikhet beroende på IsPrimeMillerRabinReps"
 
 #: src/funclib.c:4236
 msgid "Run the strong pseudoprime test base b on n"
-msgstr ""
+msgstr "Kör det starka pseudoprimtalstestet bas b på n"
 
 #: src/funclib.c:4237
 msgid ""
 "Use the Miller-Rabin primality test on n, reps number of times.  The "
 "probability of false positive is (1/4)^reps"
 msgstr ""
+"Används Miller-Rabin-primalitetstestet på n, reps gånger. Sannolikheten för "
+"falska positiva är (1/4)^reps"
 
 #: src/funclib.c:4238
 msgid ""
 "Use the Miller-Rabin primality test on n with enough bases that assuming the "
 "Generalized Reimann Hypothesis the result is deterministic"
 msgstr ""
+"Används Miller-Rabin-primalitetstestet på n med tillräckliga baser för att, "
+"givet den allmänna Reimann-hypotesen, resultatet ska vara deterministiskt"
 
 #: src/funclib.c:4239
 msgid "Return factorization of a number as a matrix"
-msgstr ""
+msgstr "Returnera faktoriseringen av ett tal som en matris"
 
 #: src/funclib.c:4241
 msgid "Returns the maximum of arguments or matrix"
-msgstr ""
+msgstr "Returnera maximum av argumenten eller matris"
 
 #: src/funclib.c:4244
 msgid "Returns the minimum of arguments or matrix"
-msgstr ""
+msgstr "Returnera minimum av argumenten eller matris"
 
 #: src/funclib.c:4248
 msgid "Calculate the Jacobi symbol (a/b) (b should be odd)"
-msgstr ""
+msgstr "Beräkna Jacobi-symbolen (a/b) (b måste vara udda)"
 
 #: src/funclib.c:4250
 msgid ""
 "Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) "
 "when a odd, or (a/2)=0 when a even"
 msgstr ""
+"Beräkna Jacobi-symbolen (a/b) med Kronecker-tillägget (a/2)=(2/a) när ett "
+"udda, eller (a/2)=0 när ett jämnt"
 
 #: src/funclib.c:4252
 msgid "Calculate the Legendre symbol (a/p)"
-msgstr ""
+msgstr "Beräkna Legendre-symbolen (a/p)"
 
 #: src/funclib.c:4255
 msgid "Get the real part of a complex number"
@@ -1342,35 +1370,36 @@ msgstr "Skapa en enhetsmatris av en given storlek"
 
 #: src/funclib.c:4263
 msgid "Make an matrix of all zeros (or a row vector)"
-msgstr ""
+msgstr "Skapa en matris med nollor överallt (eller en radvektor)"
 
 #: src/funclib.c:4265
 msgid "Make an matrix of all ones (or a row vector)"
-msgstr ""
+msgstr "Skapa en matris med ettor överallt (eller en radvektor)"
 
 #: src/funclib.c:4268
 msgid "Get the number of rows of a matrix"
-msgstr ""
+msgstr "Hämta antalet rader i en matris"
 
 #: src/funclib.c:4269
 msgid "Get the number of columns of a matrix"
-msgstr ""
+msgstr "Hämta antalet kolumner i en matris"
 
 #: src/funclib.c:4270
 msgid "Is a matrix square"
-msgstr ""
+msgstr "Är en matris kvadratisk"
 
 #: src/funclib.c:4271
 msgid "Get the number of elements of a matrix"
-msgstr ""
+msgstr "Hämta antalet element i en matris"
 
+# Vad är echelon?
 #: src/funclib.c:4273
 msgid "Get the row echelon form of a matrix"
-msgstr ""
+msgstr "Hämta radekolonformen av en matris"
 
 #: src/funclib.c:4277
 msgid "Get the reduced row echelon form of a matrix"
-msgstr ""
+msgstr "Hämta den reducerade radekolonformen av en matris"
 
 #: src/funclib.c:4281
 msgid ""
@@ -1378,90 +1407,93 @@ msgid ""
 "null otherwise.  Extra two reference parameters can optionally be used to "
 "get the reduced M and V."
 msgstr ""
+"Lös det linjära systemet Mx=V, returnera lösningen V om det finns en unik "
+"lösning, returnera null annars. Två extra parametrar kan valfritt användas "
+"för att få tag i de reducerade M och V."
 
 #: src/funclib.c:4284
 msgid "Get the determinant of a matrix"
-msgstr ""
+msgstr "Hämta determinanten av en matris"
 
 #: src/funclib.c:4287
 msgid "Make new matrix of given size from old one"
-msgstr ""
+msgstr "Gör ny matris med given storlek från en gammal"
 
 #: src/funclib.c:4288
 msgid "Return the index complement of a vector of indexes"
-msgstr ""
+msgstr "Returnerar indexkomplementet av en vektor med index"
 
 #: src/funclib.c:4290
 msgid "Check if a matrix is a matrix of numbers"
-msgstr ""
+msgstr "Kontrollera om en matris är en matris med tal"
 
 #: src/funclib.c:4291
 msgid "Check if a matrix is an integer (non-complex) matrix"
-msgstr ""
+msgstr "Kontrollera om en matris är en (icke-komplex) heltalsmatris"
 
 #: src/funclib.c:4292
 msgid "Check if a matrix is a rational (non-complex) matrix"
-msgstr ""
+msgstr "Kontrollera om en matris är en rationell (icke-komplex) matris"
 
 #: src/funclib.c:4293
 msgid "Check if a matrix is a real (non-complex) matrix"
-msgstr ""
+msgstr "Kontrollera om en matris är en reell (icke-komplex) matris"
 
 #: src/funclib.c:4295
 msgid "Check if argument is a null"
-msgstr ""
+msgstr "Kontrollera om argumentet är ett null"
 
 #: src/funclib.c:4296
 msgid "Check if argument is a number"
-msgstr ""
+msgstr "Kontrollera om argumentet är ett tal"
 
 #: src/funclib.c:4297
 msgid "Check if argument is a text string"
-msgstr ""
+msgstr "Kontrollera om argumentet är en textsträng"
 
 #: src/funclib.c:4298
 msgid "Check if argument is a matrix"
-msgstr ""
+msgstr "Kontrollera om argumentet är en matris"
 
 #: src/funclib.c:4299
 msgid "Check if argument is a function"
-msgstr ""
+msgstr "Kontrollera om argumentet är en funktion"
 
 #: src/funclib.c:4300
 msgid "Check if argument is a function reference"
-msgstr ""
+msgstr "Kontrollera om argumentet är en funktionsreferens"
 
 #: src/funclib.c:4302
 msgid "Check if argument is a complex (non-real) number"
-msgstr ""
+msgstr "Kontrollera om argumentet är ett komplext (icke-reellt) tal"
 
 #: src/funclib.c:4303
 msgid "Check if argument is a real number"
-msgstr ""
+msgstr "Kontrollera om argumentet är ett reellt tal"
 
 #: src/funclib.c:4304
 msgid "Check if argument is an integer (non-complex)"
-msgstr ""
+msgstr "Kontrollera om argumentet är ett heltal (icke-komplext)"
 
 #: src/funclib.c:4305
 msgid "Check if argument is a positive real integer"
-msgstr ""
+msgstr "Kontrollera om argumentet är ett positivt reellt heltal"
 
 #: src/funclib.c:4307
 msgid "Check if argument is a possibly complex integer"
-msgstr ""
+msgstr "Kontrollera om argumentet är ett möjligtvis komplext heltal"
 
 #: src/funclib.c:4309
 msgid "Check if argument is a rational number (non-complex)"
-msgstr ""
+msgstr "Kontrollera om argumentet är ett rationellt tal (icke-komplext)"
 
 #: src/funclib.c:4310
 msgid "Check if argument is a possibly complex rational number"
-msgstr ""
+msgstr "Kontrollera om argumentet är ett möjligtvis komplext rationellt tal"
 
 #: src/funclib.c:4311
 msgid "Check if argument is a floating point number (non-complex)"
-msgstr ""
+msgstr "Kontrollera om argumentet är ett flyttal (icke-komplext)"
 
 #: src/funclib.c:4313
 msgid "Add two polynomials (vectors)"
@@ -1489,23 +1521,25 @@ msgstr "Ta bort nollor från ett polynom (som vektor)"
 
 #: src/funclib.c:4319
 msgid "Check if a vector is usable as a polynomial"
-msgstr ""
+msgstr "Kontrollera om en vektor är användbar som ett polynom"
 
 #: src/funclib.c:4320
 msgid "Make string out of a polynomial (as vector)"
-msgstr ""
+msgstr "Skapa sträng av ett polynom (som en vektor)"
 
 #: src/funclib.c:4321
 msgid "Make function out of a polynomial (as vector)"
-msgstr ""
+msgstr "Skapa funktion av ett polynom (som en vektor)"
 
 #: src/funclib.c:4323
 msgid "Get all combinations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
+"Hämta alla kombinationer av k tal från 1 till n som en vektor av vektorer"
 
 #: src/funclib.c:4324
 msgid "Get all permutations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
+"Hämta alla permutationer av k tal från 1 till n som en vektor av vektorer"
 
 #: src/funclib.c:4326
 msgid "Convert a string to a vector of ASCII values"
@@ -1520,12 +1554,16 @@ msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters"
 msgstr ""
+"Konvertera en sträng till en vektor med 0-baserade alfabetvärden (positioner "
+"i alfabetsträngen) "
 
 #: src/funclib.c:4330
 msgid ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string"
 msgstr ""
+"Konvertera en vektor med 0-baserade alfabetvärden (positioner i "
+"alfabetsträngen) till en sträng"
 
 #: src/funclib.c:4332
 msgid "Protect a variable from being modified"
@@ -1540,10 +1578,12 @@ msgid ""
 "Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
 "\""
 msgstr ""
+"Ställ in flaggor för en function, för tillfället \"PropagateMod\" och "
+"\"NoModuloArguments\""
 
 #: src/funclib.c:4335
 msgid "Get current modulo from the context outside the function"
-msgstr ""
+msgstr "Hämta aktuell modulo från sammanhanget utanför funktionen"
 
 #: src/genius.c:97
 #, c-format
@@ -1560,6 +1600,9 @@ msgid ""
 "\n"
 "Note: Compiled without MPFR (some operations may be slow) see www.mpfr.org"
 msgstr ""
+"\n"
+"Obs: Kompilerad utan MPFR (en del operationer kan vara långsamma) se "
+"www.mpfr.org"
 
 #: src/genius.c:256
 #, c-format
@@ -1833,6 +1876,8 @@ msgid ""
 "The Gnome calculator style edition of the genius calculator.  For license/"
 "warranty details, type 'warranty' into the console."
 msgstr ""
+"Gnome-miniräknarstilen på genius-miniräknaren. Skriv \"warranty\" på "
+"konsollen för garantidetaljer."
 
 #: src/gnome-genius.c:668
 msgid ""
@@ -2046,7 +2091,7 @@ msgstr "Matematikverktyget och miniräknaren Genius"
 
 #: src/graphing.c:83
 msgid "Genius Line Plot"
-msgstr ""
+msgstr "Genius-linjeplott"
 
 #: src/graphing.c:356
 #, c-format
@@ -2083,10 +2128,12 @@ msgid ""
 "Plot a function with a line (very rudimentary).  First come the functions "
 "(up to 10) then optionally limits as x1,x2,y1,y2"
 msgstr ""
+"Plotta en funktion med en linje (väldigt ungefärligt). Först kommer "
+"funktionerna (upp till 10) och sedan valfritt gränserna som x1,x2,y1,y2"
 
 #: src/graphing.c:625
 msgid "Plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
-msgstr ""
+msgstr "Plottar fönster (gränser) som en 4-vektor på formen [x1,x2,y1,y2]"
 
 #: src/matop.c:487
 msgid "Determinant of a non-square matrix is undefined"
@@ -2312,7 +2359,7 @@ msgstr "Kan inte initiera insticksmodul!"
 
 #: src/testplugin.c:14
 msgid "This is the test-plugin function\n"
-msgstr ""
+msgstr "Detta är testinsticksmodulsfunktionen\n"
 
 #: src/testplugin.c:25
 msgid ""
@@ -2321,12 +2368,19 @@ msgid ""
 "Will evaluate 2+2 as a demonstration\n"
 "2+2 = "
 msgstr ""
+"Du har öppnat testinsticksmodulen!\n"
+"\n"
+"Vi kommer att beräkna 2+2 som en demonstration\n"
+"2+2 = "
 
 #: src/testplugin.c:31
 msgid ""
 "For my next trick I will add a function named TestPluginFunction\n"
 "\n"
 msgstr ""
+"I nästa trick kommer jag att lägga till en funktion med namnet "
+"TestPluginFunction\n"
+"\n"
 
 #: src/testplugin.c:42
 msgid ""
@@ -2390,7 +2444,7 @@ msgstr "Stackunderspill!"
 #~ msgstr "%s: matrisargumentet måste vara endast värde"
 
 #~ msgid "%s: argument not an integer"
-#~ msgstr "%s: argumentet inte ett heltal"
+#~ msgstr "%s: argumentet är inte ett heltal"
 
 #~ msgid "zeros: arguments not integers"
 #~ msgstr "zeros: argumenten är inte heltal"
