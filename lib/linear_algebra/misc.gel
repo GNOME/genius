@@ -162,8 +162,8 @@ protect("delrowcol")
 function Minor(M,i,j)=det(delrowcol(M,i,j))
 protect("Minor");
 
-#adjoint of a matrix
-SetHelp("adj","linear_algebra", "Get the adjoint of a matrix");
+#classical adjoint (adjugate) of a matrix
+SetHelp("adj","linear_algebra", "Get the classical adjoint (adjugate) of a matrix");
 function adj(m) = (
 	if(not IsMatrix(m) or not IsValueOnly(m)) then
 		(error("adj: argument not a value-only matrix");bailout)
@@ -181,9 +181,9 @@ function adj(m) = (
 	a
 );
 protect("adj")
-SetHelpAlias ("adj", "Adjoint")
+SetHelpAlias ("adj", "Adjugate")
 Adjoint = adj
-protect("Adjoint")
+protect("Adjugate")
 
 SetHelp("MinimizeFunction","functions","Find the first value where f(x)=0");
 function MinimizeFunction(func,x,incr) = (
