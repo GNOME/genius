@@ -5065,8 +5065,8 @@ mpw_sinh(mpw_ptr rop,mpw_ptr op)
 		mpwl_cos(&t,i);
 		mpwl_mul(rop->r,rop->r,&t);
 
-		mpwl_cosh(rop->i,i);
-		mpwl_sin(&t,r);
+		mpwl_cosh(rop->i,r);
+		mpwl_sin(&t,i);
 		mpwl_mul(rop->i,rop->i,&t);
 		
 		mpwl_free(&t,TRUE);
@@ -5101,8 +5101,8 @@ mpw_cosh(mpw_ptr rop,mpw_ptr op)
 		mpwl_cos(&t,i);
 		mpwl_mul(rop->r,rop->r,&t);
 
-		mpwl_sinh(rop->i,i);
-		mpwl_sin(&t,r);
+		mpwl_sinh(rop->i,r);
+		mpwl_sin(&t,i);
 		mpwl_mul(rop->i,rop->i,&t);
 		
 		mpwl_free(&t,TRUE);
