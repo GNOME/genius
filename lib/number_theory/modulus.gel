@@ -13,6 +13,9 @@ function EulerPhi(n) =
 )
 protect("EulerPhi");
 
+# Silver-Pohlig-Hellman as described in
+# Neil Koblitz, A Course in Number Theory and Cryptography, Springer, 1987
+# page 102-103
 SetHelp("DiscreteLog", "number_theory", "Find discrete log of n base b in F_q where q is a prime using the Silver-Pohlig-Hellman algoritm");
 function DiscreteLog(n,b,q) = (
   if not IsPositiveInteger(n) or
@@ -61,3 +64,15 @@ function DiscreteLog(n,b,q) = (
   ChineseRemainder(x,m)
 )
 protect ("DiscreteLog")
+
+SetHelp("IsPrimitiveMod", "number_theory", "Check if g is primitive in F_q, where q is a prime.  If q is not prime results are bogus.");
+function IsPrimitiveMod(g,q) = (
+  if not IsPositiveInteger(g) or
+     not IsPositiveInteger(q) or q < 2 or g < 2 then
+    (error("IsPrimitiveMod: Bad arguments");bailout);
+  for p in PrimeFactors (q-1) do (
+    if g^((q-1)/p) == 1 mod q then return 0
+  );
+  1
+)
+protect ("IsPrimitiveMod")
