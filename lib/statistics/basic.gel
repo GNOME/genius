@@ -1,9 +1,9 @@
 # Basic statistics
 
-SetHelp("rowmedian","statistics","Calculate median of each row in a matrix");
-function rowmedian(m) = (
+SetHelp("RowMedian","statistics","Calculate median of each row in a matrix");
+function RowMedian(m) = (
 	if not is_matrix(m) or not is_value_only(m) then
-		(error("rowmedian: argument not value-only matrix");bailout);
+		(error("RowMedian: argument not value-only matrix");bailout);
 	r = SetMatrixSize([0],rows(m),1);
 	if columns(m)%2 == 1 then (
 		for i = 1 to rows(m) do (
@@ -19,12 +19,12 @@ function rowmedian(m) = (
 	);
 	r
 );
-protect("rowmedian")
+protect("RowMedian")
 
-SetHelp("median","statistics","Calculate median of an entire matrix");
-function median(m) = (
+SetHelp("Median","statistics","Calculate median of an entire matrix");
+function Median(m) = (
 	if not is_matrix(m) or not is_value_only(m) then
-		(error("median: argument not value-only matrix");bailout);
+		(error("Median: argument not value-only matrix");bailout);
 	s = SetMatrixSize([0],1,rows(m)*columns(m));
 	i = 0;
 	for n in m do
@@ -37,9 +37,12 @@ function median(m) = (
 		(s@(1,columns(s)/2) +
 		 s@(1,(columns(s)/2)+1))/2
 );
+protect("Median")
+SetHelpAlias ("Median", "median")
+median = Median
 protect("median")
 
-SetHelp("rowaverage","statistics","Calculate average of each row in a matrix");
+SetHelp("RowAverage","statistics","Calculate average of each row in a matrix");
 function rowaverage(m) = (
 	if not is_matrix(m) or not is_value_only(m) then
 		(error("rowaverage: argument not value-only matrix");bailout);
@@ -51,18 +54,27 @@ function rowaverage(m) = (
 	);
 	r
 );
-protect("rowaverage")
+protect("RowAverage")
 
-SetHelp("average","statistics","Calculate average of an entire matrix");
-function average(m) = (
+SetHelp("Average","statistics","Calculate average of an entire matrix");
+function Average(m) = (
 	if not is_matrix(m) or not is_value_only(m) then
-		(error("average: argument not value-only matrix");bailout);
+		(error("Average: argument not value-only matrix");bailout);
 	r = 0;
 	for i in m do
 	       r = r + i;
 	r/(columns(m)*rows(m))
 );
+protect("Average")
+SetHelpAlias ("Average", "average")
+average = Average
 protect("average")
+SetHelpAlias ("Average", "Mean")
+Mean = Average
+protect("Mean")
+SetHelpAlias ("Average", "mean")
+mean = Average
+protect("mean")
 
 function rowstdev(m) = (
 	if not is_matrix(m) or not is_value_only(m) then
