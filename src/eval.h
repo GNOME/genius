@@ -156,6 +156,9 @@ GelETree * copynode(GelETree *o);
 void gel_freetree(GelETree *n);
 void gel_emptytree(GelETree *n);
 
+/* Makes a new node and replaces the old one with NULL_NODE */
+GelETree * gel_stealnode (GelETree *n);
+
 /* you need to get, then free an evaluation context*/
 GelCtx * eval_get_context(void);
 void eval_free_context(GelCtx *ctx);

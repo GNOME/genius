@@ -47,7 +47,7 @@ function FindRootBisection(f,a,b,TOL,N) =
 	 iteration=iteration+1;
 	 if(f(a)*f(b)>0) then (a=p) else (b=p)
 	);
-	return [0,p,iteration];
+	[0,p,iteration]
 	)
 protect ("FindRootBisection")
 
@@ -79,14 +79,14 @@ function FindRootSecant(f,a,b,TOL,N) =
 	while((iteration <= N) or (N==0)) do
 	(
 	 p=b-qb*(b-a)/(qb-qa);
-	 if(abs(p-b)<TOL) then (return [1,p,iteration]);
+	 if(|p-b|<TOL) then (return [1,p,iteration]);
 	 iteration=iteration+1;
 	 a=b;
 	 qa=qb;
          b=p;
          qb=f(p);
 	);
-	return [0,p,iteration];
+	[0,p,iteration]
 )
 protect ("FindRootSecant")
 
@@ -115,14 +115,14 @@ function FindRootFalsePosition(f,a,b,TOL,N) =
 	while((iteration <= N) or (N==0)) do
 	(
 	 p=b-qb*(b-a)/(qb-qa);
-	 if(abs(p-b)<TOL) then (return [1,p,iteration]);
+	 if(|p-b|<TOL) then (return [1,p,iteration]);
 	 iteration=iteration+1;
 	 q=f(p);
 	 if(q*qb<0) then (a=b;qa=qb);
          b=p;
          qb=q;
 	);
-	return [0,p,iteration];
+	[0,p,iteration]
 )
 protect ("FindRootFalsePosition")
 
@@ -153,10 +153,10 @@ function FindRootMullersMethod(f,x1,x2,x3,TOL,N) =
 	(
 	b=d2+h2*d;
 	D=sqrt(b^2-4*f(x2)*d);	# This may use complex arithmatic
-	if (abs(b-D)<abs(b+d)) then (E=b+D) else (E=b-D);
+	if (|b-D|<|b+d|) then (E=b+D) else (E=b-D);
 	h=-2*f(x2)/E;
 	p=x2+h;
-	if (abs(h)<TOL) then (return[1,p,iteration]);
+	if (|h|<TOL) then (return[1,p,iteration]);
 	x0=x1;
 	x1=x2;
 	x2=p;
@@ -167,6 +167,6 @@ function FindRootMullersMethod(f,x1,x2,x3,TOL,N) =
 	d=(d2-d1)/(h2+h1);
 	i=i+1;
 	);
-	return [0,p,iteration];
+	[0,p,iteration]
 )
 protect ("FindRootMullersMethod")

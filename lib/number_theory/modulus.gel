@@ -251,14 +251,14 @@ function SqrtModPrime(n,p) = (
   if Legendre(n,p) == -1 then return null;
   if p%4 == 3 then (
     r = n^((p+1)/4) mod p;
-    return [r,-r] mod p;
+    [r,-r] mod p
   ) else if p%8 == 5 then (
     d = n^((p-1)/4) mod p;
     if d == 1 then
       r = n^((p+3)/8) mod p
     else # d == p-1 (that is: -1)
       r = 2*n*(4*n)^((p-5)/8) mod p;
-    return [r,-r] mod p;
+    [r,-r] mod p
   ) else (
     do 
       b = randint(p-2)+1
@@ -286,7 +286,7 @@ function SqrtModPrime(n,p) = (
       c = c^2 mod p
     );
 
-    return [r,-r] mod p;
+    [r,-r] mod p
   )
 )
 protect ("SqrtModPrime")

@@ -49,7 +49,7 @@ function CompositeSimpsonsRule(f,a,b,n) =
           then XI2=XI2+f(X)
           else XI1=XI1+f(X)
 	);
-        return h*(XI0+2*XI2+4*XI1)/3
+        h*(XI0+2*XI2+4*XI1)/3
 	)
 protect ("CompositeSimpsonsRule")
 

@@ -449,7 +449,10 @@ set_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	func->context = 0;
 	d_addfunc_global (func);
 
-	return copynode (a[1]);
+	/*
+	 * Evil optimization to avoid copying the node from the argument
+	 */
+	return gel_stealnode (a[1]);
 }
 
 /*rand function*/
@@ -2019,13 +2022,13 @@ max2_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 
 	if(mpw_cmp(a[0]->val.value,a[1]->val.value)<0)
-		return gel_makenum(a[1]->val.value);
+		return copynode (a[1]);
 	else {
 		if G_UNLIKELY (error_num) {
 			error_num = 0;
 			return NULL;
 		}
-		return gel_makenum(a[0]->val.value);
+		return copynode (a[0]);
 	}
 }
 
@@ -2057,9 +2060,12 @@ max_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 				}
 			}
 			g_assert (max != NULL);
-			return gel_makenum (max->val.value);
+			return copynode (max);
 		} else if (a[0]->type == VALUE_NODE) {
-			return copynode (a[0]);
+			/*
+			 * Evil optimization to avoid copying the node from the argument
+			 */
+			return gel_stealnode (a[0]);
 		}
 	}
 
@@ -2082,7 +2088,10 @@ max_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		max = res;
 	}
 	if (max == a[0])
-		return copynode (a[0]);
+		/*
+		 * Evil optimization to avoid copying the node from the argument
+		 */
+		return gel_stealnode (a[0]);
 	else
 		return max;
 }
@@ -2100,13 +2109,13 @@ min2_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 
 	if(mpw_cmp(a[0]->val.value,a[1]->val.value)>0)
-		return gel_makenum(a[1]->val.value);
+		return copynode (a[1]);
 	else {
 		if G_UNLIKELY (error_num) {
 			error_num = 0;
 			return NULL;
 		}
-		return gel_makenum(a[0]->val.value);
+		return copynode (a[0]);
 	}
 }
 
@@ -2138,9 +2147,12 @@ min_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 				}
 			}
 			g_assert (min != NULL);
-			return gel_makenum (min->val.value);
+			return copynode (min);
 		} else if (a[0]->type == VALUE_NODE) {
-			return copynode (a[0]);
+			/*
+			 * Evil optimization to avoid copying the node from the argument
+			 */
+			return gel_stealnode (a[0]);
 		}
 	}
 
@@ -2163,7 +2175,10 @@ min_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		min = res;
 	}
 	if (min == a[0])
-		return copynode (a[0]);
+		/*
+		 * Evil optimization to avoid copying the node from the argument
+		 */
+		return gel_stealnode (a[0]);
 	else
 		return min;
 }
@@ -2364,7 +2379,7 @@ SetMatrixSize_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if G_UNLIKELY (h < 0)
 		return NULL;
 
-	n = copynode(a[0]);
+	n = gel_stealnode (a[0]);
 	gel_matrixw_set_size (n->mat.matrix, h, w);
 	return n;
 }
@@ -3655,6 +3670,15 @@ SetHelpAlias_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 }
 
 static GelETree *
+Identity_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	/*
+	 * Evil optimization to avoid copying the node from the argument
+	 */
+	return gel_stealnode (a[0]);
+}
+
+static GelETree *
 etree_out_of_int_vector (int *vec, int len)
 {
 	GelMatrix *mm;
@@ -4371,6 +4395,8 @@ gel_funclib_addall(void)
 
 	FUNC (SetHelp, 3, "id,category,desc", "basic", _("Set the category and help description line for a function"));
 	FUNC (SetHelpAlias, 2, "id,alias", "basic", _("Sets up a help alias"));
+
+	FUNC (Identity, 1, "x", "basic", _("Identity function, returns its argument"));
 
 	VFUNC (rand, 1, "size", "numeric", _("Generate random float"));
 	f->no_mod_all_args = 1;

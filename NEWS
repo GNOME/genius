@@ -1,3 +1,24 @@
+Changes to 0.7.1
+
+* Run EPS output through ps2epsi if it's there which adds a bitmap preview,
+  even though this bitmap preview is fairly crappy
+* Add PNG export for plots
+* Remove some parenthesis from output where they are not needed
+* SYNTAX: InfiniteSum, InfiniteSum2, InfiniteProduct, InfiniteProduct2,
+  now no longer take the tolerance argument and behaviour is controlled
+  by the SumProductTolerance, SumProductSFS and SumProductNumberOfTries like
+  other limits and they return null when limit can't seem to be found
+* Add: NumericalLeftDerivative, NumericalRightDerivative
+* Fix the NumericalLimitAtInfinity function and its use and with that fix
+  NDerivative (which is now an alias for NumericalDerivative), IsContinuous,
+  IsDifferentiable, Limit, LeftLimit, RightLimit
+* Fix the specfile and custom CFLAGS are added after the default ones
+  (Florin Andrei, me)
+* LinePlot and SurfacePlot no longer crash when called without arguments
+* Fix EPS/PS export for older gtk
+* Fixup compilation of GtkExtra-2 with gcc 3.4
+* Bunch of "optimizations" and minor fixes
+
 Changes to 0.7.0
 
 * Replaced plotting with the plotting widget from GtkExtra-2 (private

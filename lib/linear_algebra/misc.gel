@@ -48,8 +48,7 @@ function Trace(m) = (
 		(error("Trace: argument not a value only matrix");bailout)
 	else if(rows(m)!=columns(m)) then
 		(error("Trace: matrix not a square");bailout);
-	a=0;
-	for i = 1 to rows(m) do (a=a+m@(i,i))
+	sum i = 1 to rows(m) do m@(i,i)
 );
 protect("Trace")
 SetHelpAlias("Trace", "trace")
@@ -65,10 +64,8 @@ function Convolution(a,b) = (
 		(error("Convolution: arguments not value only horizontal vectors");bailout)
 	else if(columns(a)!=columns(b)) then
 		(error("Convolution: arguments must be identical vectors");bailout);
-	s = 0;
-	for i = 1 to columns(a) do (
-		s = s + a@(1,i)*b@(1,columns(a)-i+1)
-	)
+	ca = columns(a);
+	sum i = 1 to ca do a@(1,i)*b@(1,ca-i+1)
 );
 protect("Convolution")
 SetHelpAlias("Convolution", "convol")
@@ -85,9 +82,10 @@ function ConvolutionVector(a,b) = (
 		(error("ConvolutionVector: arguments not value only horizontal vectors");bailout)
 	else if(columns(a)!=columns(b)) then
 		(error("ConvolutionVector: arguments must be identical vectors");bailout);
-	r = SetMatrixSize ([0],1,columns(a));
-	for i = 1 to columns(a) do (
-		r@(1,i) = a@(1,i)*b@(1,columns(a)-i+1)
+	ca = columns(a);
+	r = SetMatrixSize ([0],1,ca);
+	for i = 1 to ca do (
+		r@(1,i) = a@(1,i)*b@(1,ca-i+1)
 	);
 	r
 );
@@ -237,13 +235,13 @@ function SortVector(v) = (
 		(error("SortVector: argument not a vector");bailout);
 	j = 1;
 	do (
-		sorted = 1;
+		sorted = true;
 		for i = 1 to elements(v)-j do (
 			if v@(i)>v@(i+1) then (
 				t = v@(i);
 				v@(i) = v@(i+1);
 				v@(i+1) = t;
-				sorted = 0
+				sorted = false
 			)
 		);
 		j=j+1
@@ -257,8 +255,9 @@ function ReverseVector(v) = (
 	if not IsVector(v) then
 		(error("ReverseVector: argument not a vector");bailout);
 	r = SetMatrixSize ([0],rows(v),columns(v));
-	for i = 1 to elements(v) do
-		r@(i) = v@(elements(v)-i+1);
+	ev = elements(v);
+	for i = 1 to ev do
+		r@(i) = v@(ev-i+1);
 	r
 );
 protect("ReverseVector")

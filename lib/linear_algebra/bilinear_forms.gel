@@ -31,7 +31,7 @@ function Projection(v,W,B) =
 	if IsMatrix(B) then (A=B;function B(u,w)=BilinearForm(u,A,w);)
 #Projection(v,W,`(u,w)=BilinearForm(u,B,w))
 	# If B is just some function, assume that it's an inner product
-        else if not IsFunction(B) then bail;
+        else if not IsFunction(B) then (error("Projection: argument B not a function or Matrix");bailout);
     projection_of_v=0;
 # FIXME: should read: for loop in W`basis or such...
     for loop = 1 to columns(W) do
@@ -52,7 +52,7 @@ function GramSchmidt(v,B) =
 	w=v@(,1);			# First vector
 	for i = 2 to columns(v) do	# now iterate
 		w=[w,v@(,i)-Projection(v@(,i),w,B)];
-	return w;
+	w
 	)
 protect ("GramSchmidt")
 

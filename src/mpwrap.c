@@ -3786,15 +3786,17 @@ mpwl_getstring(MpwRealNum * num, int max_digits,
 	return NULL;
 }
 
-/* FIXME: the init is bogus! */
 #define mpw_uncomplex(rop)					\
 {								\
-	if(mpwl_sgn(rop->i)==0) {				\
-		rop->type=MPW_REAL;				\
-		if(rop->i->type!=MPW_INTEGER) {		\
-			mpwl_clear(rop->i);			\
-			mpwl_init_type(rop->i,MPW_INTEGER);	\
-		}						\
+	if ((rop)->i == zero) {					\
+		(rop)->type = MPW_REAL;				\
+	} else if ((rop)->type == MPW_COMPLEX &&		\
+		   mpwl_sgn ((rop)->i) == 0) {			\
+		(rop)->type = MPW_REAL;				\
+		(rop)->i->alloc.usage--;			\
+		if ((rop)->i->alloc.usage==0)			\
+			mpwl_free ((rop)->i, FALSE);		\
+		(rop)->i = zero;				\
 	}							\
 }
 
@@ -3838,14 +3840,24 @@ mpw_init (mpw_ptr op)
 }
 
 void
-mpw_init_set(mpw_ptr rop,mpw_ptr op)
+mpw_init_set(mpw_ptr rop, mpw_ptr op)
 {
-	rop->type=op->type;
+	rop->type = op->type;
 	rop->r = op->r;
 	rop->r->alloc.usage++;
 	rop->i = op->i;
 	rop->i->alloc.usage++;
-	mpw_uncomplex(rop);
+	mpw_uncomplex (rop);
+}
+
+void
+mpw_init_set_no_uncomplex (mpw_ptr rop, mpw_ptr op)
+{
+	rop->type = op->type;
+	rop->r = op->r;
+	rop->r->alloc.usage++;
+	rop->i = op->i;
+	rop->i->alloc.usage++;
 }
 
 /*clear memory held by number*/

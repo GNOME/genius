@@ -17,15 +17,15 @@ function LinearRecursiveSequence(seed_values,combining_rule,n) =
 (
  k=columns(seed_values);
  if (k > n >= 0) then                      # If asks for one of the seed values, return it
-   return seed_values@(n+1)
+   seed_values@(n+1)
  else                                      # otherwise...
  (
   G=galois_matrix(combining_rule);         # form the galois matrix
   if (n >= k) then
-   return (seed_values*G^(n-k+1))@(k)       # ...and step it enough times
+   (seed_values*G^(n-k+1))@(k)       # ...and step it enough times
   else if (IsInvertible(G)) then
-   return (seed_values*G^n)@(1)             # ...or step it backwards
-  else return null                         # (if sequence is reversible)
+   (seed_values*G^n)@(1)             # ...or step it backwards
+  else null                         # (if sequence is reversible)
  )
 )
 protect ("LinearRecursiveSequence")

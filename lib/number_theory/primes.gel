@@ -10,12 +10,12 @@
 
 # The ``pseudoprime test'':
 # Returns true iff b^(n-1) == 1 (mod n).
-# FIXME: Should we take abs(n) if n is negative?
+# FIXME: Should we take |n| if n is negative?
 # FIXME: is there a good name for an integer that is EITHER a pseudoprime OR a prime?
 SetHelp("PseudoprimeTest","number_theory","Pseudoprime test, true iff b^(n-1) == 1 (mod n)");
 function PseudoprimeTest(n,b) =
  (
-  b^(abs(n)-1) == 1 mod abs(n)
+  b^(|n|-1) == 1 mod |n|
  )
 protect("PseudoprimeTest");
 
@@ -56,9 +56,6 @@ function LucasLehmer(p) = (
 		S = ((S^2) - 2) % Mp;
 		n = n+1
 	);
-	if S == 0 then
-		return true
-	else
-		return false
+	S == 0
 );
 protect("LucasLehmer")

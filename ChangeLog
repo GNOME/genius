@@ -1,3 +1,37 @@
+Thu Aug 19 16:15:32 2004  George Lebl <jirka@5z.com>
+
+	* lib/calculus/differentiation.gel, lib/calculus/limits.gel:
+	  Optimize and clean up the limitting/differentiating functions
+	  a bit, and add NumericalLeftDerivative and NumericalRightDerivative
+
+	* lib/misc/misc.gel, src/funclib.c, src/eval.[ch]: Make Identity
+	  built-in for speed.  Also allow for stealing out of the parameter
+	  list and use this technique in some places to further increased
+	  speed (though this is a very small gain as numbers/matrices are
+	  already copy-on-write, so we just avoid copying some structures)
+
+	* src/mpwrap.c: fix mpw_uncomplex and allow setting without resorting
+	  to mpw_uncomplex
+
+	* lib/equation_solving/find_root.gel,
+	  lib/linear_algebra/linear_algebra.gel,
+	  lib/number_theory/primes.gel, lib/calculus/integration.gel,
+	  lib/calculus/integration.gel, lib/combinatorics/factorial.gel,
+	  lib/combinatorics/recursive_sequences.gel,
+	  lib/equation_solving/find_root.gel,
+	  lib/functions/complex_numbers.gel, lib/functions/delta.gel,
+	  lib/linear_algebra/bilinear_forms.gel,
+	  lib/linear_algebra/linear_algebra.gel, lib/linear_algebra/misc.gel,
+	  lib/number_theory/modulus.gel, lib/number_theory/primes.gel,
+	  lib/sets/basic.gel: tiny bit of optimizations and gel style cleanup 
+
+	* lib/calculus/sums_products.gel: Fix InfiniteProduct2, change
+	  behaviour of InfiniteSum/Product(2) no longer takes tolerance
+	  argument but has similar parameters like the limiting operations
+	  with SumProductTolerance, SumProductSFS, SumProductNumberOfTries
+
+	* src/geniustests.txt: add more tests
+
 Thu Aug 19 12:02:28 2004  George Lebl <jirka@5z.com>
 
 	* src/eval.c: be even nicer in mem debug friendly mode and some

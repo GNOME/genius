@@ -624,7 +624,12 @@ function f(x) = x^2 ; IsDifferentiable(f,10)			true
 function f(x) = |x| ; IsDifferentiable(f,0)			false
 function f(x) = |x| ; IsDifferentiable(f,10)			true
 function f(x) = x^2 ; IsContinuous(f,10)			true
+function f(x) = (if x < 0 then 0 else 1); IsDifferentiable(f,0)	false
 function f(x) = (if x < 0 then 0 else 1); IsContinuous(f,0)	false
 function f(x) = (if x < 0 then 0 else 1); IsContinuous(f,0.1)	true
 function f(x) = (if x < 0 then 0 else 1); IsContinuous(f,-0.1)	true
+|InfiniteSum(`(n)=(2.0^(-n)),1,1)-1|<SumProductTolerance	true
+|InfiniteSum2(`(a,n)=(2.0^(-n)),99,1,1)-1|<SumProductTolerance	true
+|InfiniteProduct(`(n)=(1+2.0^(-n)),1,1)-2.38423102903|<SumProductTolerance	true
+|InfiniteProduct2(`(a,n)=(1+2.0^(-n)),99,1,1)-2.38423102903|<SumProductTolerance	true
 load "longtest.gel"						true

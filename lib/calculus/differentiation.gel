@@ -111,35 +111,24 @@ SetHelp ("DerivativeNumberOfTries", "parameters", "How many iterations to try to
 parameter DerivativeNumberOfTries=100;
 
 # Simple test for differentiability
-function IsDifferentiable(_f,_x0) =
+function IsDifferentiable(f,x0) =
 (
-	# First, differentiable functions have to be CONTINUOUS
-	if not IsContinuous(_f,_x0) then (
-		null
-	) else (
-		ll = NumericalLimitAtInfinity (`(h)=(OneSidedFivePointFormula(_f,_x0,-h)),
-					       `(n)=(2.0^(-n)),
-					       DerivativeTolerance,
-					       DerivativeSFS,
-					       DerivativeNumberOfTries);
-		rl = NumericalLimitAtInfinity (`(h)=(OneSidedFivePointFormula(_f,_x0,h)),
-					       `(n)=(2.0^(-n)),
-					       DerivativeTolerance,
-					       DerivativeSFS,
-					       DerivativeNumberOfTries);
-		| ll - rl | < 2*DerivativeTolerance
-	)
+	# differentiable functions have to be continuous and left and right derivatives must
+	# be equal
+	IsContinuous (f, x0) and
+	| NumericalLeftDerivative (f,x0) - NumericalRightDerivative (f,x0) | < 2*DerivativeTolerance
 )
 SetHelp("IsDifferentiable","calculus","Test for differentiability by approximating the left and right limits and comparing");
 protect("IsDifferentiable");
 
 # Simple derivative function
 #FIXME!!!! BROKEN!!!! ???
-function NumericalDerivative(_f,_x0) =
+function NumericalDerivative(f,x0) =
 # returns f'(x0)
 (
-    NumericalLimitAtInfinity (`(x)=(TwoSidedFivePointFormula(_f,_x0,x)),
-			      `(x)=(2.0^(-x)),
+    # FIXME: perhaps check differentiability first, but then we're doing so many limits already
+    NumericalLimitAtInfinity (`(n)=(TwoSidedFivePointFormula(f,x0,2.0^(-n))),
+			      Identity,
 			      DerivativeTolerance,
 			      DerivativeSFS,
 			      DerivativeNumberOfTries)
@@ -149,3 +138,25 @@ protect("NumericalDerivative");
 SetHelpAlias ("NumericalDerivative", "NDerivative");
 NDerivative = NumericalDerivative
 protect("NDerivative");
+
+function NumericalLeftDerivative(f,x0) =
+(
+    NumericalLimitAtInfinity (`(n)=(OneSidedFivePointFormula(f,x0,-(2.0^(-n)))),
+			      Identity,
+			      DerivativeTolerance,
+			      DerivativeSFS,
+			      DerivativeNumberOfTries)
+)
+SetHelp("NumericalLeftDerivative","calculus","Attempt to calculate numerical left derivative");
+protect("NumericalLeftDerivative");
+
+function NumericalRightDerivative(f,x0) =
+(
+    NumericalLimitAtInfinity (`(n)=(OneSidedFivePointFormula(f,x0,2.0^(-n))),
+			      Identity,
+			      DerivativeTolerance,
+			      DerivativeSFS,
+			      DerivativeNumberOfTries)
+)
+SetHelp("NumericalRightDerivative","calculus","Attempt to calculate numerical right derivative");
+protect("NumericalRightDerivative");

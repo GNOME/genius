@@ -2,8 +2,8 @@
 
 # Argument of a complex number
 # (branch cut on negative real axis, (-infty,0) -- always returns
-#  result in (-pi,pi]
-function Argument(z) = if (z != 0) then Im(ln(z)) else null;
+#  result in (-pi,pi] returns null for 0
+function Argument(z) = if (z != 0) then Im(ln(z)) # else null;
 Arg=Argument;
 arg=Argument;
 SetHelp("Argument","functions","argument (angle) of complex number");

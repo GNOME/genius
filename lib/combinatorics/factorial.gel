@@ -46,15 +46,11 @@ SetHelp ("RisingFactorial", "combinatorics", "(Puchhammer) Rising factorial: (n)
 ## (Puchhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))
 function RisingFactorial(n,k) =
  (
-  if IsInteger(n) then return (n+k-1)!/(n-1)!
+  if IsInteger(n) and k > 10 then
+    (n+k-1)!/(n-1)!
   else
    (
-   # Return trivial values
-    product=1;
-   # Compute non-trivial values
-    for i=0 to (k-1) do
-    product=product*(n+i);
-    return product
+    prod i=0 to (k-1) do (n+i)
   );
  )
 protect("RisingFactorial")
@@ -66,16 +62,12 @@ protect("Puchhammer")
 SetHelp ("FallingFactorial", "combinatorics", "Falling factorial: (n)_k = n(n-1)...(n-(k-1))")
 function FallingFactorial(n,k) =
 (
-  if IsInteger(n) then return (n)!/(n-k)!
+  if IsInteger(n) and k > 10 then
+    return (n)!/(n-k)!
   else
    (
-   # Return trivial values
-    product=1;
-   # Compute non-trivial values
-    for i=0 to (k-1) do
-    product=product*(n-i);
-    return product
-   );
+    prod i=0 to (k-1) do (n-i)
+   )
 )
 protect("FallingFactorial");
 
@@ -92,13 +84,7 @@ function nPr(n,r) = (
 	else if(IsInteger(n)) then
 		(n!)/((n-r)!)
 	else (
-		ret = 1;
-		i=0;
-		while(i<r) do (
-			ret = ret*(n-i);
-			i = i+1
-		);
-		ret
+		prod i=0 to (r-1) do (n-i)
 	)
 );
 protect("nPr")
@@ -114,13 +100,7 @@ function nCr(n,r) = (
 	else if(IsInteger(n)) then
 		(n!)/(r!*(n-r)!)
 	else (
-		ret = 1;
-		i=0;
-		while(i<r) do (
-			ret = ret*(n-i);
-			i = i+1
-		);
-		ret/(r!)
+		(prod i=0 to (r-1) do (n-i))/(r!)
 	)
 );
 protect("nCr")

@@ -21,18 +21,18 @@
 
 # Limits:
 SetHelp ("NumericalLimitAtInfinity", "calculus", "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N")
-function NumericalLimitAtInfinity(f,step_fun,tolerance,successive_for_success,N) =
-# this evaluates f(step_fun(i)) as i goes from 1 to N.
+function NumericalLimitAtInfinity(_f,step_fun,tolerance,successive_for_success,N) =
+# this evaluates _f(step_fun(i)) as i goes from 1 to N.
 # If s_f_s of the pairwise successive differences are less than tolerance, then
 # it returns the last value; if this doesn't happen, it returns Null.
 # INPUT: N had better be at least 1
 #FIXME: should have a way of dealing with +infinity, -infinity, and
 # bounded oscillation (like sin(x))
 (
-    current_limit = f(step_fun(1));
+    current_limit = _f(step_fun(1));
     number_of_consecutive_differences_within_tolerance = 0;
     for i = 2 to N do (
-        new_limit = f(step_fun(i));
+        new_limit = _f(step_fun(i));
         if (|new_limit-current_limit| < tolerance) then (
             number_of_consecutive_differences_within_tolerance = number_of_consecutive_differences_within_tolerance+1
         ) else (
@@ -61,20 +61,24 @@ SetHelp ("ContinuousNumberOfTries", "parameters", "How many iterations to try to
 parameter ContinuousNumberOfTries=100;
 
 SetHelp ("LeftLimit", "calculus", "Calculate the left limit of a real-valued function at x0")
-function LeftLimit(_f,_x0) =
+function LeftLimit(f,x0) =
 (
-	# FIXME: Note that we have to use an underscore for _f else we're going to get into
-	# infinite recursion.  This is just a bad substitution behaviour
-	NumericalLimitAtInfinity(`(h)=(_f(_x0-h)),`(n)=(2.0^(-n)),ContinuousTolerance,ContinuousSFS,ContinuousNumberOfTries)
+	NumericalLimitAtInfinity (f,
+				  `(n)=(x0-2.0^(-n)),
+				  ContinuousTolerance,
+				  ContinuousSFS,
+				  ContinuousNumberOfTries)
 )
 protect ("LeftLimit")
 
 SetHelp ("RightLimit", "calculus", "Calculate the right limit of a real-valued function at x0")
-function RightLimit(_f,_x0) =
+function RightLimit(f,x0) =
 (
-	# FIXME: Note that we have to use an underscore for _f else we're going to get into
-	# infinite recursion.  This is just a bad substitution behaviour
-	NumericalLimitAtInfinity(`(h)=(_f(_x0+h)),`(n)=(2.0^(-n)),ContinuousTolerance,ContinuousSFS,ContinuousNumberOfTries)
+	NumericalLimitAtInfinity (f,
+				  `(n)=(x0+2.0^(-n)),
+				  ContinuousTolerance,
+				  ContinuousSFS,
+				  ContinuousNumberOfTries)
 )
 protect ("RightLimit")
 

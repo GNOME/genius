@@ -19,9 +19,10 @@ SetHelp("DiscreteDelta","functions","Returns 1 iff all elements are zero");
 function KroneckerDelta(v) = 
  (
   test_value=v@(1);
-  for i in v do
-    if i != test_value then return 0;
-  return 1
+  for i in v do (
+    if i != test_value then return 0
+  );
+  1
  )
 protect("KroneckerDelta");
 SetHelp("KroneckerDelta","functions","Returns 1 iff all elements are equal");

@@ -369,7 +369,7 @@ function DeterminantalDivisorsInteger(M) = (
 				g = gcd (g, det (Submatrix (M, gamma, omega)));
 		v@(k) = g
 	);
-	v@(n) = abs (det (M));
+	v@(n) = |det (M)|;
 	v
 )
 protect("DeterminantalDivisorsInteger")

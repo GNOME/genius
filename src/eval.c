@@ -596,6 +596,31 @@ gel_emptytree(GelETree *n)
 	freetree_full(n,TRUE,FALSE);
 }
 
+/* Makes a new node and replaces the old one with NULL_NODE */
+GelETree *
+gel_stealnode (GelETree *n)
+{
+	GelETree *nn;
+
+	if (n == NULL)
+		return NULL;
+
+	GET_NEW_NODE (nn);
+	memcpy (nn, n, sizeof(GelETree));
+
+#ifdef MEM_DEBUG_FRIENDLY
+	{
+		GelETree *next = n->any.next;
+		memset (n, 0, sizeof (GelETree));
+		n->any.next = next;
+	}
+#endif /* MEM_DEBUG_FRIENDLY */
+	n->type = NULL_NODE;
+	nn->any.next = NULL;
+	
+	return nn;
+}
+
 
 static inline void
 freenode(GelETree *n)
@@ -614,7 +639,7 @@ copynode_to(GelETree *empty, GelETree *o)
 	case VALUE_NODE:
 		empty->type = VALUE_NODE;
 		empty->any.next = o->any.next;
-		mpw_init_set(empty->val.value,o->val.value);
+		mpw_init_set_no_uncomplex (empty->val.value,o->val.value);
 		break;
 	case MATRIX_NODE:
 		empty->type = MATRIX_NODE;
@@ -3530,7 +3555,7 @@ push_setmod (GelCtx *ctx, GelETree *n, gboolean whackarg)
 	GE_PUSH_STACK (ctx, ctx->modulo, GE_SETMODULO);
 
 	ctx->modulo = g_new (struct _mpw_t, 1);
-	mpw_init_set (ctx->modulo, r->val.value);
+	mpw_init_set_no_uncomplex (ctx->modulo, r->val.value);
 
 	ctx->post = FALSE;
 	ctx->current = l;
@@ -4162,7 +4187,7 @@ iter_push_two_args_no_modulo_on_2 (GelCtx *ctx, GelETree *args)
 
 	if (ctx->modulo != NULL) {
 		mpw_ptr ptr = g_new (struct _mpw_t, 1);
-		mpw_init_set (ptr, ctx->modulo);
+		mpw_init_set_no_uncomplex (ptr, ctx->modulo);
 
 		GE_PUSH_STACK (ctx, ptr, GE_SETMODULO);
 	}
@@ -4461,6 +4486,15 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 			for(i=0,li=n->op.args->any.next;li;i++,li=li->any.next)
 				r[i] = li;
 			r[i] = NULL;
+
+			/*
+			 * Note that we ARE allowing for the function to modify
+			 * the arguments.  This can be used for optimization
+			 * such as the Identity function.  The function should
+			 * however not just steal the GelETree, it should replace
+			 * it with a NULL_NODE or some such.
+			 */
+
 			ret = (*f->data.func)(ctx,r,&exception);
 #ifdef MEM_DEBUG_FRIENDLY
 			memset (r, 0xaa, sizeof(GelETree *) * n->op.nargs);
