@@ -40,9 +40,9 @@
 #include "graphing.h"
 
 static GtkWidget *graph_window = NULL;
-static GnomeCanvas *canvas;
-static GnomeCanvasGroup *root;
-static GnomeCanvasGroup *graph;
+static GnomeCanvas *canvas = NULL;
+static GnomeCanvasGroup *root = NULL;
+static GnomeCanvasGroup *graph = NULL;
 
 #define WIDTH 640
 #define HEIGHT 480
@@ -137,20 +137,16 @@ plot_axis (double xscale, double yscale, double x1, double x2, double y1, double
 }
 
 static double
-call_func (GelCtx *ctx, GelEFunc *func, double x)
+call_func (GelCtx *ctx, GelEFunc *func, GelETree *arg)
 {
 	GelETree *ret;
 	double retd;
-	mpw_t num;
 	GelETree *args[2];
-	mpw_init (num);
-	mpw_set_d (num, x);
 
-	args[0] = gel_makenum_use (num);
+	args[0] = arg;
 	args[1] = NULL;
 
 	ret = funccall (ctx, func, args, 1);
-	gel_freetree (args[0]);
 
 	/* FIXME: handle errors! */
 	if (error_num != 0)
@@ -173,15 +169,22 @@ call_func (GelCtx *ctx, GelEFunc *func, double x)
 static void
 plot_func (GelCtx *ctx, GelEFunc *func, double xscale, double yscale, double x1, double x2, double y1, double y2)
 {
-#define PERITER 5
+#define PERITER 2
+	GelETree *arg;
+	mpw_t x;
 	GnomeCanvasPoints *points = gnome_canvas_points_new (WIDTH/PERITER + 1);
 	int i;
+	mpw_init (x);
+	arg = gel_makenum_use (x);
 	for (i = 0; i < WIDTH/PERITER + 1; i++) {
-		double x = x1+(i*PERITER)/xscale;
-		double y = call_func (ctx, func, x);
-		points->coords[i*2] = P2C_X (x);
+		double xd = x1+(i*PERITER)/xscale;
+		double y;
+		mpw_set_d (arg->val.value, xd);
+		y = call_func (ctx, func, arg);
+		points->coords[i*2] = P2C_X (xd);
 		points->coords[i*2 + 1] = P2C_Y (y);
 	}
+	gel_freetree (arg);
 
 	gnome_canvas_item_new (graph,
 			       gnome_canvas_line_get_type (),
