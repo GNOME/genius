@@ -169,6 +169,8 @@ void try_to_do_precalc(GelETree *n);
 /* return a list of used local functions (copies of) */
 GSList * gel_subst_local_vars (GSList *, GelETree *n);
 
+void gel_mod_node (GelCtx *ctx, GelETree *n);
+
 #define GET_ABCDE(n,a,b,c,d,e) { \
 	(a) = (n)->op.args; \
 	(b) = (n)->op.args->any.next; \

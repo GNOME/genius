@@ -110,12 +110,12 @@ you'd do "Ans+389"
 Using Functions and Variables:
 ------------------------------
 
-For variables use the = operator, that operator sets the variable and
-returns the number you set, so you can do something like "a=b=5", just
-like in C.  Note that the names of functions are case sensitive.  Also
-you can use TAB completion to finish the function name.  Just start the
-name and press TAB.  (Note: Built in functions with no arguments are
-sometimes indistinguishable from variables)
+For variables use the = operator, that operator sets the variable and returns
+the number you set, so you can do something like "a=b=5", just like in C.
+Note that the names of functions and variables are CASE SENSITIVE.  Also you
+can use TAB completion to finish the function name.  Just start the name and
+press TAB.  (Note: Built in functions with no arguments are sometimes
+indistinguishable from variables)
 
 There are a number of built in functions and variables (such as "e" "pi"
 "sin" "cos" "tan", and more)
@@ -239,7 +239,7 @@ a\b		back division
 a.\b		element by element back division
 a%b		the mod operator
 a.%b		element by element the mod operator
-a mod b		mod evaluation operator (a evaluated mod b)
+a mod b		mod evaluation operator (expression a evaluated mod b)
 a!		factorial operator
 a!!		double factorial operator
 a==b		equality operator (returns 1 or 0)
@@ -260,9 +260,9 @@ a.'		matrix transpose
 a@(b,c)		get element of a matrix (or elements if b,c are vectors)
 a@(b,)		get row of a matrix (or elements if b is a vector)
 a@(,c)		get column of a matrix (or elements if c is a vector)
+a@(b)		get an element from a matrix treating it as a vector
 a:b		build a vector from a to b (or specify a row, column region)
 a:b:c		build a vector from a to c with b as a step
-a@(b)		get an element from a matrix treating it as a vector
 
 NOTE: The @() operator makes the : operator most useful.  With this you can
 specify regions of a matrix.  So that a@(2:4,6) is the rows 2,3,4 of the
@@ -300,8 +300,8 @@ Syntax:
   do <expression2> while <expression1>
   do <expression2> until <expression1>
 
-These are similiar to other languages, they return the result of
-the last iteration or NULL if no iteration was done
+These are similiar to other languages, however they return the result of
+the last iteration or NULL if no iteration was done.
 
 
 For loops:
@@ -576,7 +576,17 @@ rational numbers (of course the inverse has to exist).
 Examples:
   10^-1 mod 101
   1/10 mod 101
-  
+
+You can also do modular evaluation with matrices including taking inverses,
+powers and dividing.
+
+Example:
+  A = [1,2;3,4]
+  B = A^-1 mod 5
+  A*B mod 5
+
+This should yield the identity matrix as B will be the inverse of A mod 5.
+
 
 Strings:
 --------
@@ -659,10 +669,15 @@ quotes. If you use the '' quotes, you will get exactly the string
 that you typed, if you use the "" quotes, special characters will be
 unescaped as they are for strings. Example:
 
-load program1.gel program2.gel
-load "Weird File Name With SPACES.gel"
+  load program1.gel program2.gel
+  load "Weird File Name With SPACES.gel"
 
-There are also cd, pwd and ls commands built in
+There are also cd, pwd and ls commands built in.  "cd" can will take one
+argument, "ls" will take an argument which is like the glob in the unix shell,
+that is you can use wildcards.  "pwd" will take no arguments.  Example:
+
+  cd directory_with_gel_programs
+  ls *.gel
 
 
 Calculator parameters:
@@ -705,7 +720,7 @@ If you ever change the lib.gel in it's installed place, you'll have to
 first compile it with "genius --compile lib.gel > lib.cgel"
 
 
-EXAMPLE PROGRAM in GEL:
+EXAMPLE PROGRAMS in GEL:
 =======================
 
     a user factorial function (there already is one built in so
@@ -742,8 +757,8 @@ EXAMPLE PROGRAM in GEL:
     Here's a larger example, this basically redefines the internal ref
     function to calculate the same thing, but written in GEL:
 
-    #calculate the row-echelon form of a matrix
-    function ref(m) = (
+    # Calculate the row-echelon form of a matrix
+    function MyOwnREF(m) = (
       if not IsMatrix(m) or not IsValueOnly(m) then
         (error("ref: argument not a value only matrix");bailout);
       s = min(rows(m), columns(m));
