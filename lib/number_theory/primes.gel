@@ -192,6 +192,33 @@ function MillerRabinTest(n,epsilon) =
 SetHelp("MillerRabinTest", "number_theory", "Use the Miller-Rabin test on n, such that the probability of false positive is less then epsilon");
 protect("MillerRabinTest")
 
+function MillerRabinTestSure(n) =
+(
+  if not IsInteger(n) or n <= 2 then
+    (error("MillerRabinTestSure: n not an odd positive integer"); bailout);
+
+  # Find t and a satisfying n-1=2^a*t, t odd
+  t = n-1;
+  a = 0;
+  while IsEven(t) do
+   (
+    t=t/2;
+    a=a+1;
+   );
+
+  m = floor(2*log(n,2)^2);
+
+  b = 2;
+  do (
+    if gcd (b, n) != 1 then return 0;
+    if not StrongPseudoprimeTestSub (n, a, t, b) then return 0;
+    b = b+1;
+  ) while b <= m;
+  1
+)
+SetHelp("MillerRabinTestSure", "number_theory", "Use the Miller-Rabin test on n, assuming the Generalized Reimann Hypothesis so the result is deterministic");
+protect("MillerRabinTestSure")
+
 #################################################
 #### FIXME: Certify primality/compositeness #####
 #################################################
