@@ -948,12 +948,9 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_output_string(gelo,"(");
 			if (l->type==IDENTIFIER_NODE) {
 				gel_output_string (gelo, l->id.id->token);
-			} else if (l->type == FUNCTION_NODE) {
-				if (l->func.func->id != NULL) {
-					gel_output_string (gelo, l->func.func->id->token);
-				} else {
-					print_etree (gelo, l, FALSE);
-				}
+			} else if (l->type == FUNCTION_NODE &&
+				   l->func.func->id != NULL) {
+				gel_output_string (gelo, l->func.func->id->token);
 			} else if(l->type == OPERATOR_NODE && l->op.oper == E_DEREFERENCE) {
 				GelETree *t;
 				GET_L(l,t);
@@ -965,9 +962,8 @@ appendoper(GelOutput *gelo, GelETree *n)
 				gel_output_string(gelo,"*");
 				gel_output_string(gelo,t->id.id->token);
 			} else {
-				gel_errorout (_("Bad identifier for function node!"));
-				gel_output_string(gelo,"?)");
-				break;
+				print_etree (gelo, l, FALSE);
+				gel_output_string (gelo, " call ");
 			}
 			gel_output_string(gelo,"(");
 			li = n->op.args->any.next;
