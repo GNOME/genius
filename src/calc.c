@@ -2404,7 +2404,7 @@ get_wordlist (const char *lst)
 		return NULL;
 	}
 	for (i = 0; i < gl.gl_pathc; i++) {
-		list = g_slist_prepend (list, g_strdup (gl.gl_pathc[i]));
+		list = g_slist_prepend (list, g_strdup (gl.gl_pathv[i]));
 	}
 	globfree (&gl);
 #endif
