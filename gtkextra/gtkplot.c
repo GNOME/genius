@@ -1264,12 +1264,12 @@ gtk_plot_draw_labels(GtkPlot *plot,
       }
 
       if(axis->labels_prefix){
-        g_snprintf(new_label, 100, "%s%s", axis->labels_prefix, label);
-        g_snprintf(label, 100, "%s", new_label);
+        g_snprintf(new_label, LABEL_MAX_LENGTH, "%s%s", axis->labels_prefix, label);
+        g_snprintf(label, LABEL_MAX_LENGTH, "%s", new_label);
       }
       if(axis->labels_suffix){
-        g_snprintf(new_label, 100, "%s%s", label, axis->labels_suffix);
-        g_snprintf(label, 100, "%s", new_label);
+        g_snprintf(new_label, LABEL_MAX_LENGTH, "%s%s", label, axis->labels_suffix);
+        g_snprintf(label, LABEL_MAX_LENGTH, "%s", new_label);
       }
 
       tick.text = label;
@@ -1577,18 +1577,18 @@ gtk_plot_parse_label(gdouble val, gint precision, gint style, gchar *label, GtkP
 
   switch(style){
     case GTK_PLOT_LABEL_EXP:    
-      sprintf (label, "%*.*E", 1, precision, val);
+      g_snprintf (label, LABEL_MAX_LENGTH, "%*.*E", 1, precision, val);
       break;
     case GTK_PLOT_LABEL_POW:    
       if(scale == GTK_PLOT_SCALE_LOG10)
-        sprintf (label, "10\\S%i", power);
+        g_snprintf (label, LABEL_MAX_LENGTH, "10\\S%i", power);
       else
-        sprintf (label, "%*.*f\\4x\\N10\\S%i", 1, precision, v, power);
+        g_snprintf (label, LABEL_MAX_LENGTH, "%*.*f\\4x\\N10\\S%i", 1, precision, v, power);
       break;
     case GTK_PLOT_LABEL_FLOAT:
     default:
       if(fabs(val) < pow(10,-precision)) val = 0.0f;
-      sprintf (label, "%*.*f", intspace, precision, val);
+      g_snprintf (label, LABEL_MAX_LENGTH, "%*.*f", intspace, precision, val);
   }
 
 }
