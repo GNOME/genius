@@ -45,7 +45,6 @@ char *fake = N_("Given two factorizations, give the factorization of the product
 char *fake = N_("Convert a vector of values indicating powers of b to a number");
 char *fake = N_("Convert a number to a vector of powers for elements in base b");
 char *fake = N_("Find discrete log of n base b in F_q where q is a prime using the Silver-Pohlig-Hellman algoritm");
-char *fake = N_("Checks divisibility (if m divides n)");
 char *fake = N_("Compute phi(n), the Euler phi function, that is the number of integers between 1 and n relatively prime to n");
 char *fake = N_("Return all factors of a number");
 char *fake = N_("Attempt fermat factorization of n into (t-s)*(t+s), returns t and s as a vector if possible, null otherwise");

@@ -1,3 +1,13 @@
+Tue Sep 14 17:14:53 2004  George Lebl <jirka@5z.com>
+
+	* src/funclib.c, lib/number_theory/misc.gel: make Divides built-in
+	  which should make a number of things faster.  Also add
+	  ExactDivision function using gmp's divexact which does exact
+	  division much faster once we know that the two numbers actually
+	  divide one another (it returns garbage otherwise).
+
+	* src/geniustests.txt: add some tests
+
 Tue Sep 14 16:31:51 2004  George Lebl <jirka@5z.com>
 
 	* lib/number_theory/misc.gel: Use ApplyOverMatrix(2) on a few

@@ -23,14 +23,6 @@ function IsNthPower(n,k) =
 SetHelp("IsNthPower","number_theory","Tests if a rational number is a perfect power");
 protect("IsNthPower");
 
-function Divides(m,n) = (
-	if IsMatrix (m) or IsMatrix (n) then
-		return ApplyOverMatrix2 (m, n, Divides);
-	not n % m
-)
-SetHelp("Divides","number_theory","Checks divisibility (if m divides n)");
-protect("Divides");
-
 # Returns the highest power of p that divides n, where n is rational.
 # FIXME: This is only a valuation if p is prime, so this is an abuse
 # of language.
@@ -50,9 +42,9 @@ function PadicValuation(n,p) =
   while Divides(p,n) do
    (
     valuation=valuation+1;
-    n=n/p;
+    n=ExactDivision(n,p);
    );
-  return valuation;
+  valuation
  )
 SetHelp("PadicValuation","number_theory","Returns the padic valuation (number of trailing zeros in base p).");
 protect("PadicValuation");
@@ -68,9 +60,9 @@ function RemoveFactor(n,m) =
 
   while Divides(m,n) do
    (
-    n=n/m;
+    n = ExactDivision(n,m);
    );
-  return n;
+  n
  )
 SetHelp("RemoveFactor","number_theory","Removes all instances of the factor m from the number n");
 protect("RemoveFactor");

@@ -633,4 +633,12 @@ function f(x) = (if x < 0 then 0 else 1); IsContinuous(f,-0.1)	true
 |InfiniteProduct(`(n)=(1+2.0^(-n)),1,1)-2.38423102903|<SumProductTolerance	true
 |InfiniteProduct2(`(a,n)=(1+2.0^(-n)),99,1,1)-2.38423102903|<SumProductTolerance	true
 BernoulliNumber([0:10])						[1,-1/2,1/6,0,-1/30,0,1/42,0,-1/30,0,5/66]
+Divides(5,10)							true
+Divides(5,9)							false
+Divides([1,2,3],9)						[true,false,true]
+Divides(0,5)							Divides(0,5)
+ExactDivision(123*7,7)						123
+ExactDivision(1,0)						ExactDivision(1,0)
+PadicValuation(2^4 * 7^8, 7)					8
+RemoveFactor(2^4 * 7^8, 7)					16
 load "longtest.gel"						true

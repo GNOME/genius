@@ -2957,6 +2957,81 @@ ModInvert_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	return gel_makenum_use (ret);
 }
 
+static GelETree *
+Divides_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	int ret;
+	mpz_ptr numa, numb;
+	mpz_t tmpa, tmpb;
+
+	if (a[0]->type == MATRIX_NODE ||
+	    a[1]->type == MATRIX_NODE)
+		return apply_func_to_matrixen (ctx, a[0], a[1], Divides_op, "Divides", exception);
+
+	if G_UNLIKELY ( ! check_argument_integer (a, 0, "Divides") ||
+			! check_argument_integer (a, 1, "Divides"))
+		return NULL;
+
+	MPW_MPZ_REAL (numa, a[0]->val.value, tmpa);
+	MPW_MPZ_REAL (numb, a[1]->val.value, tmpb);
+
+	if (mpz_sgn (numa) == 0) {
+		MPW_MPZ_KILL (numa, tmpa);
+		MPW_MPZ_KILL (numb, tmpb);
+
+		gel_errorout (_("Division by zero!"));
+
+		return NULL;
+	}
+
+	ret = mpz_divisible_p (numb, numa);
+
+	MPW_MPZ_KILL (numa, tmpa);
+	MPW_MPZ_KILL (numb, tmpb);
+
+	return gel_makenum_bool (ret);
+}
+
+static GelETree *
+ExactDivision_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	mpz_ptr numa, numb;
+	mpz_t tmpa, tmpb;
+	mpz_t ret;
+	mpw_t retw;
+
+	if (a[0]->type == MATRIX_NODE ||
+	    a[1]->type == MATRIX_NODE)
+		return apply_func_to_matrixen (ctx, a[0], a[1], ExactDivision_op, "ExactDivision", exception);
+
+	if G_UNLIKELY ( ! check_argument_integer (a, 0, "ExactDivision") ||
+			! check_argument_integer (a, 1, "ExactDivision"))
+		return NULL;
+
+	MPW_MPZ_REAL (numa, a[0]->val.value, tmpa);
+	MPW_MPZ_REAL (numb, a[1]->val.value, tmpb);
+
+	if (mpz_sgn (numb) == 0) {
+		MPW_MPZ_KILL (numa, tmpa);
+		MPW_MPZ_KILL (numb, tmpb);
+
+		gel_errorout (_("Division by zero!"));
+
+		return NULL;
+	}
+
+	mpz_init (ret);
+	mpz_divexact (ret, numa, numb);
+
+	MPW_MPZ_KILL (numa, tmpa);
+	MPW_MPZ_KILL (numb, tmpb);
+
+	mpw_init (retw);
+	mpw_set_mpz_use (retw, ret);
+
+	return gel_makenum (retw);
+}
+
 static void
 poly_cut_zeros(GelMatrixW *m)
 {
@@ -4498,6 +4573,8 @@ gel_funclib_addall(void)
 	FUNC (NextPrime, 1, "n", "number_theory", N_("Returns the least prime greater than n (if n is positive)"));
 	FUNC (LucasNumber, 1, "n", "number_theory", N_("Returns the n'th Lucas number"));
 	FUNC (ModInvert, 2, "n,m", "number_theory", N_("Returns inverse of n mod m"));
+	FUNC (Divides, 2, "m,n", "number_theory", N_("Checks divisibility (if m divides n)"));
+	FUNC (ExactDivision, 2, "n,d", "number_theory", N_("Return n/d but only if d divides n else returns garbage (this is faster then writing n/d)"));
 	FUNC (IsPrime, 1, "n", "number_theory", N_("Tests primality of integers, for numbers greater than 25*10^9 false positive is with low probability depending on IsPrimeMillerRabinReps"));
 	FUNC (StrongPseudoprimeTest, 2, "n,b", "number_theory", N_("Run the strong pseudoprime test base b on n"));
 	FUNC (MillerRabinTest, 2, "n,reps", "number_theory", N_("Use the Miller-Rabin primality test on n, reps number of times.  The probability of false positive is (1/4)^reps"));
