@@ -24,11 +24,6 @@
 
 #include <stdlib.h>
 
-/*simple realloc/free functions using g_malloc/g_free confogming to gmp*/
-void * my_malloc(size_t size);
-void * my_realloc(void *ptr,size_t olds,size_t news);
-void my_free(void *ptr,size_t s);
-
 /*shift the sring to the right by n*/
 void shiftstr(char *s,int n);
 
@@ -47,9 +42,5 @@ gpointer stack_pop(GSList **stack);
 char *unescape_string(char *s, char *end, char *nounescape);
 /*escape also "'s and \'s*/
 char *escape_string(char *s);
-
-/*get the terminal width, 80 is returned if we fail somehow*/
-/*this function is not defined in util.c but in the appropriate main file!!!*/
-/*int get_term_width(void);*/
 
 #endif

@@ -28,26 +28,6 @@
 #include "genius-i18n.h"
 #include "util.h"
 
-void *
-my_malloc(size_t size)
-{
-	return g_malloc(size);
-}
-
-/*simple realloc/free functions using g_malloc/g_free confogming to gmp*/
-void *
-my_realloc(void *ptr,size_t olds,size_t news)
-{
-	return g_realloc (ptr, news);
-}
-
-void
-my_free(void *ptr,size_t s)
-{
-	g_free(ptr);
-}
-
-
 /*shift the sring to the right by n*/
 void
 shiftstr(char *s,int n)
@@ -67,7 +47,7 @@ appendstr (char *s,const char *p)
 	if (p == NULL || *p == '\0')
 		return s;
 	if (s) {
-		s=my_realloc(s,strlen(s)+1,strlen(s)+strlen(p)+1);
+		s = g_realloc (s, strlen(s)+strlen(p)+1);
 		strcat(s,p);
 	} else {
 		s=(char*)g_malloc(strlen(p)+1);

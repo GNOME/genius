@@ -3463,11 +3463,10 @@ str_format_float(char *p,long int e,int scientific_notation)
 	long int len;
 	int i;
 	if(((e-1)<-8 || (e-1)>8) || scientific_notation) {
-		if(e!=0)
-			p=my_realloc(p,strlen(p)+1,
-				strlen(p)+1+((int)log10(abs(e))+2)+1);
+		if (e != 0)
+			p = g_realloc (p, strlen(p)+1+((int)log10(abs(e))+2)+1);
 		else
-			p=my_realloc(p,strlen(p)+1,strlen(p)+3);
+			p = g_realloc (p, strlen(p) + 3);
 			
 		if(p[0]=='-') {
 			if(strlen(p)>2) {
@@ -3489,8 +3488,7 @@ str_format_float(char *p,long int e,int scientific_notation)
 		if(p[0]=='-')
 			len--;
 		if(e>len) {
-			p=my_realloc(p,strlen(p)+1,
-				strlen(p)+1+e-len);
+			p = g_realloc (p, strlen(p)+1+e-len);
 			for(i=0;i<e-len;i++)
 				strcat(p,"0");
 		} else if(e<len) {
@@ -3505,10 +3503,9 @@ str_format_float(char *p,long int e,int scientific_notation)
 		str_trim_trailing_zeros(p);
 	} else { /*e<=0*/
 		if(strlen(p)==0) {
-			p=g_strdup("0");
+			p = g_strdup ("0");
 		} else {
-			p=my_realloc(p,strlen(p)+1,
-				strlen(p)+1+(-e)+2);
+			p = g_realloc (p, strlen(p)+1+(-e)+2);
 			if(p[0]=='-') {
 				shiftstr(p+1,2+(-e));
 				p[1]='0';
@@ -5361,7 +5358,6 @@ mpw_init_mp(void)
 	if (done)
 		return;
 
-	mp_set_memory_functions(my_malloc,my_realloc,my_free);
 	GET_NEW_REAL(zero);
 	mpwl_init_type(zero,MPW_INTEGER);
 	mpwl_set_ui(zero,0);

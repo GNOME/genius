@@ -1,3 +1,9 @@
+Tue Apr 06 15:41:18 2004  George Lebl <jirka@5z.com>
+
+	* src/util.[ch], src/mpwrap.c: whack the custom mem-allocation cruft
+	  and let gmp use its own allocation.  Doesn't seem to improve speed
+	  by much at all, but reduces cruft.
+
 Sun Apr 04 22:30:12 2004  George Lebl <jirka@5z.com>
 
 	* src/geniustests.txt: added some tests that went wrong at some
