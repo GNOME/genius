@@ -199,8 +199,8 @@ main(int argc, char *argv[])
 
 	genius_is_gui = FALSE;
 
-	bindtextdomain(PACKAGE,GNOMELOCALEDIR);
-	textdomain(PACKAGE);
+	bindtextdomain(GETTEXT_PACKAGE,GNOMELOCALEDIR);
+	textdomain(GETTEXT_PACKAGE);
 
 	signal(SIGINT,interrupt);
 

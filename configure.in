@@ -46,7 +46,12 @@ AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
 
 dnl Check for termcap
 AC_CHECK_LIB(termcap, tgetent,[TERMCAP_LIB="-ltermcap"],
-	     AC_MSG_ERROR(Termcap library not found))
+	     [AC_CHECK_LIB(ncurses, tgetent,
+                           [TERMCAP_LIB="-lncurses"
+                            AC_DEFINE(USE_NCURSES)
+                            AC_CHECK_HEADER(ncurses/curses.h, [
+					    AC_DEFINE(INC_NCURSES)])], [
+			   AC_MSG_ERROR(Termcap library not found)])])
 AC_SUBST(TERMCAP_LIB)
 
 dnl Check for readline
