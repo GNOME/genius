@@ -421,3 +421,20 @@ function RaleighQuotient(A,x) = (
 	( x' * A * x ) / ( x' * x )
 )
 protect ("RaleighQuotient")
+
+SetHelp("Eigenvalues", "linear_algebra", "Get the eigenvalues of a matrix (Currently only for 2x2 and triangular matrices)")
+function Eigenvalues(M) = (
+	if not IsMatrix (M) or not IsMatrixSquare (M) then
+		(error("Eigenvalues: argument not a square matrix");bailout);
+	if columns (M) == 2 then (
+		b = - trace (M) ; c = det (M);
+		return [ ( -b - sqrt (b^2 - 4*c) ) / 2 ; ( -b + sqrt (b^2 - 4*c) ) / 2 ]
+	) else if IsUpperTriangular (M) or IsLowerTriangular (M) then (
+		return DiagonalOf (M)
+	) else
+		(error("Eigenvalues: FIXME: can currently only work with 2x2 and triangular matrices");bailout);
+)
+protect ("Eigenvalues")
+eig = Eigenvalues;
+SetHelpAlias ("Eigenvalues", "eig")
+protect ("eig")
