@@ -1,3 +1,21 @@
+Thu Aug 19 12:02:28 2004  George Lebl <jirka@5z.com>
+
+	* src/eval.c: be even nicer in mem debug friendly mode and some
+	  cleanup
+
+	* src/mpwrap.c: a bit of cleanup
+
+	* lib/calculus/differentiation.gel, lib/calculus/limits.gel,
+	  lib/combinatorics/recursive_sequences.gel:  Fixup limit/derivative
+	  functions.  Use better name NumericalDerivative instead of
+	  NDerivative (but keep that as an alias) and add help strings to
+	  everything (yay 100% of library functions have the simple help
+	  strings now)
+
+	* src/geniustests.txt: add tests for the
+	  NDerivative/IsContinuous/IsDifferentiable functions.  Also update
+	  tests for the change in parenthesis printing
+
 Fri Aug 13 10:13:46 2004  George Lebl <jirka@5z.com>
 
 	* src/graphing.c: fix crash of LinePlot() when no arguments are

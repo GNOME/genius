@@ -45,11 +45,12 @@ extern calcstate_t calcstate;
 
 GelETree *free_trees = NULL;
 static GelEvalStack *free_stack = NULL;
+
+#ifndef MEM_DEBUG_FRIENDLY
 static GelEvalLoop *free_evl = NULL;
 static GelEvalFor *free_evf = NULL;
 static GelEvalForIn *free_evfi = NULL;
 
-#ifndef MEM_DEBUG_FRIENDLY
 static void _gel_make_free_evl (void);
 static void _gel_make_free_evf (void);
 static void _gel_make_free_evfi (void);
@@ -69,16 +70,16 @@ static inline void
 ge_add_stack_array(GelCtx *ctx)
 {
 	GelEvalStack *newstack;
-	if(!free_stack) {
 #ifdef MEM_DEBUG_FRIENDLY
-		newstack = g_new0 (GelEvalStack, 1);
+	newstack = g_new0 (GelEvalStack, 1);
 #else
+	if (free_stack == NULL) {
 		newstack = g_new (GelEvalStack, 1);
-#endif
 	} else {
 		newstack = free_stack;
 		free_stack = free_stack->next;
 	}
+#endif
 	
 	newstack->next = ctx->stack;
 	ctx->stack = newstack;
@@ -559,18 +560,26 @@ freetree_full(GelETree *n, gboolean freeargs, gboolean kill)
 # ifdef EVAL_DEBUG
 		printf ("%s WHACKING NODE %p\n", G_STRLOC, n);
 		deregister_tree (n);
-# endif
+# endif /* EVAL_DEBUG */
 
 		memset (n, 0xaa, sizeof (GelETree));
 # ifndef MEM_DEBUG_SUPER_FRIENDLY
 		g_free (n);
 # endif /* ! MEM_DEBUG_SUPER_FRIENDLY */
-#else
+#else /* ! MEM_DEBUG_FRIENDLY */
 		/*put onto the free list*/
 		n->any.next = free_trees;
 		free_trees = n;
 #endif
+
 	}
+#ifdef MEM_DEBUG_FRIENDLY
+	else {
+		GelETree *next = n->any.next;
+		memset (n, 0, sizeof (GelETree));
+		n->any.next = next;
+	}
+#endif /* MEM_DEBUG_FRIENDLY */
 }
 
 void
@@ -4931,6 +4940,11 @@ static inline void
 iter_bailout_op(GelCtx *ctx)
 {
 	EDEBUG("  BAILOUT");
+
+#ifdef MEM_DEBUG_FRIENDLY
+	/* Current will be changed and possibly whacked */
+	ctx->current = NULL;
+#endif
 	for(;;) {
 		int flag;
 		gpointer data;
@@ -6646,7 +6660,8 @@ eval_etree (GelCtx *ctx, GelETree *etree)
 	if(!iter_eval_etree(ctx)) {
 		gpointer data;
 		/*an exception happened*/
-		gel_freetree(ctx->res);
+		ctx->current = NULL;
+		gel_freetree (ctx->res);
 		etree = ctx->res = NULL;
 		do {
 			GE_POP_STACK(ctx,data,flag);

@@ -12,6 +12,7 @@ function GaloisMatrix(combining_rule) = (
 protect ("GaloisMatrix")
 
 # Linear recursive sequence
+SetHelp ("LinearRecursiveSequence", "combinatorics", "Compute linear recursive sequence using galois stepping")
 function LinearRecursiveSequence(seed_values,combining_rule,n) =
 (
  k=columns(seed_values);

@@ -286,35 +286,35 @@ static mpf_ptr *free_mpf_top = free_mpf;
 	}						\
 }
 #define MAKE_COPY(n) {					\
-	if(n->alloc.usage>1) {				\
+	if((n)->alloc.usage>1) {			\
 		MpwRealNum *m;				\
 		GET_NEW_REAL(m);			\
 		m->alloc.usage = 1;			\
-		mpwl_init_type(m,n->type);		\
-		mpwl_set(m,n);				\
-		n->alloc.usage --;			\
-		n = m;					\
+		mpwl_init_type(m,(n)->type);		\
+		mpwl_set(m,(n));			\
+		(n)->alloc.usage --;			\
+		(n) = m;				\
 	}						\
 }
 #define MAKE_REAL(n) {					\
-	if(n->type==MPW_COMPLEX) {			\
-		n->type=MPW_REAL;			\
-		if(n->i != zero) {			\
-			n->i->alloc.usage--;		\
-			if(n->i->alloc.usage==0)	\
-				mpwl_free(n->i,FALSE);	\
-			n->i = zero;			\
+	if ((n)->type == MPW_COMPLEX) {			\
+		(n)->type = MPW_REAL;			\
+		if((n)->i != zero) {			\
+			(n)->i->alloc.usage--;		\
+			if((n)->i->alloc.usage==0)	\
+				mpwl_free((n)->i,FALSE);\
+			(n)->i = zero;			\
 			zero->alloc.usage++;		\
 		}					\
 	}						\
 }
 #define MAKE_IMAG(n) {					\
-	n->type = MPW_COMPLEX;				\
-	if(n->r != zero) {				\
-		n->r->alloc.usage--;			\
-		if(n->r->alloc.usage==0)		\
-			mpwl_free(n->r,FALSE);		\
-		n->r = zero;				\
+	(n)->type = MPW_COMPLEX;			\
+	if((n)->r != zero) {				\
+		(n)->r->alloc.usage--;			\
+		if((n)->r->alloc.usage==0)		\
+			mpwl_free((n)->r,FALSE);	\
+		(n)->r = zero;				\
 		zero->alloc.usage++;			\
 	}						\
 }

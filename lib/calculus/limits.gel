@@ -28,22 +28,22 @@ function NumericalLimitAtInfinity(f,step_fun,tolerance,successive_for_success,N)
 # INPUT: N had better be at least 1
 #FIXME: should have a way of dealing with +infinity, -infinity, and
 # bounded oscillation (like sin(x))
-	(
-	current_limit=f(step_fun(1));
-	number_of_consecutive_differences_within_tolerance=0;
-#FIXME: core-dumps RIGHT HERE!
-	for i = 2 to N do
-		(
-		 new_limit=f(step_fun(i));
-		 if (|new_limit-current_limit| < tolerance)
-		    then number_of_consecutive_differences_within_tolerance
-= number_of_consecutive_differences_within_tolerance+1
-	else number_of_consecutive_differences_within_tolerance=0;
-		current_limit=new_limit;
-		 if (number_of_consecutive_differences_within_tolerance == successive_for_success) then return current_limit;
-		);
-	return null
-	)
+(
+    current_limit = f(step_fun(1));
+    number_of_consecutive_differences_within_tolerance = 0;
+    for i = 2 to N do (
+        new_limit = f(step_fun(i));
+        if (|new_limit-current_limit| < tolerance) then (
+            number_of_consecutive_differences_within_tolerance = number_of_consecutive_differences_within_tolerance+1
+        ) else (
+            number_of_consecutive_differences_within_tolerance = 0
+        );
+        current_limit = new_limit;
+        if (number_of_consecutive_differences_within_tolerance >= successive_for_success) then
+            return current_limit;
+    );
+    null
+)
 protect ("NumericalLimitAtInfinity")
 
 
@@ -61,40 +61,39 @@ SetHelp ("ContinuousNumberOfTries", "parameters", "How many iterations to try to
 parameter ContinuousNumberOfTries=100;
 
 SetHelp ("LeftLimit", "calculus", "Calculate the left limit of a real-valued function at x0")
-function LeftLimit(f,x0) =
+function LeftLimit(_f,_x0) =
 (
-	NumericalLimitAtInfinity(`(h)=(f(x0-h)),`(n)=(2^(-n)),ContinuousTolerance,ContinuousSFS,ContinuousNumberOfTries)
+	# FIXME: Note that we have to use an underscore for _f else we're going to get into
+	# infinite recursion.  This is just a bad substitution behaviour
+	NumericalLimitAtInfinity(`(h)=(_f(_x0-h)),`(n)=(2.0^(-n)),ContinuousTolerance,ContinuousSFS,ContinuousNumberOfTries)
 )
 protect ("LeftLimit")
 
 SetHelp ("RightLimit", "calculus", "Calculate the right limit of a real-valued function at x0")
-function RightLimit(f,x0) =
+function RightLimit(_f,_x0) =
 (
-	NumericalLimitAtInfinity(`(h)=(f(x0+h)),`(n)=(2^(-n)),ContinuousTolerance,ContinuousSFS,ContinuousNumberOfTries)
+	# FIXME: Note that we have to use an underscore for _f else we're going to get into
+	# infinite recursion.  This is just a bad substitution behaviour
+	NumericalLimitAtInfinity(`(h)=(_f(_x0+h)),`(n)=(2.0^(-n)),ContinuousTolerance,ContinuousSFS,ContinuousNumberOfTries)
 )
 protect ("RightLimit")
 
 SetHelp ("Limit", "calculus", "Calculate the limit of a real-valued function at x0.  Tries to calculate both left and right limits.")
 function Limit(f,x0) =
 (
-	LeftLim=LeftLimit(f,x0);
-	RightLim=RightLimit(f,x0);
-	if IsNull(LeftLim) or IsNull(RightLim) then
-		return null;
-	if |LeftLim-RightLim| < 2*ContinuousTolerance
-	 then return (LeftLim+RightLim)/2
-	 else return null
+	LeftLim = LeftLimit(f,x0);
+	RightLim = RightLimit(f,x0);
+	if ( not IsNull(LeftLim) and
+	     not IsNull(RightLim) and
+	     |LeftLim-RightLim| < 2*ContinuousTolerance ) then
+		(LeftLim+RightLim)/2
 )
 protect ("Limit")
 
 SetHelp ("IsContinuous", "calculus", "Try and see if a real-valued function is continuous at x0 by calculating the limit there")
 function IsContinuous(f,x0) =
 (
-	l = Limit(f,x0);
-	if IsNull(l) then
-		return false;
-	if |l-f(x0)| < ContinuousTolerance
-	 then return true
-         else return false
+    l = Limit(f,x0);
+    not IsNull(l) and |l-f(x0)| < ContinuousTolerance
 )
 protect ("IsContinuous")

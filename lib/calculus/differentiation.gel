@@ -2,8 +2,6 @@
 # 
 # The algorithms are described in:
 # BurdenFaires
-#FIXME: This file requires limits.gel and misc.gel for the simple NDerivative function
-# and for is_differentiable
 
 # In the below, f indicates the function whose derivative we wish to
 # determine, x0 the point at which we wish to differentiate, and h how
@@ -95,7 +93,7 @@ function TwoSidedFivePointFormula(f,x0,h) =
 	if(not IsFunction(f)) then
 		(error("TwoSidedFivePointFormula: argument 1 must be a function");bailout)
 	else if(not IsReal(h)) then
-		(error("TwoSidedFivePointFormula: argument 2 must be real values");bailout);
+		(error("TwoSidedFivePointFormula: argument 2 must be a real value");bailout);
 ## check bounds
 	if(h==0) then (error("TwoSidedFivePointFormula: argument 2 must be non-zero");bailout);
 
@@ -105,31 +103,49 @@ function TwoSidedFivePointFormula(f,x0,h) =
 SetHelp("TwoSidedFivePointFormula","calculus","Compute two-sided derivative using five-point formula");
 protect("TwoSidedFivePointFormula");
 
+SetHelp ("DerivativeTolerance", "parameters", "Tolerance for calculating the derivatives of functions")
 parameter DerivativeTolerance=10.0^(-5);
+SetHelp ("DerivativeSFS", "parameters", "How many successive steps to be within tolerance for calculation of derivative")
 parameter DerivativeSFS=20;
+SetHelp ("DerivativeNumberOfTries", "parameters", "How many iterations to try to find the limit for derivative")
 parameter DerivativeNumberOfTries=100;
 
-#FIXME: This file requires limits.gel and misc.gel for the simple NDerivative function
-# and for IsDifferentiable
-
 # Simple test for differentiability
-function IsDifferentiable(f,x0) =
+function IsDifferentiable(_f,_x0) =
 (
 	# First, differentiable functions have to be CONTINUOUS
-	if not IsContinuous(f,x0) then (
+	if not IsContinuous(_f,_x0) then (
 		null
 	) else (
-		function helper(h) = (OneSidedFivePointFormula(f,x0,h),0);
-		LeftLimit (helper) == RightLimit (helper)
+		ll = NumericalLimitAtInfinity (`(h)=(OneSidedFivePointFormula(_f,_x0,-h)),
+					       `(n)=(2.0^(-n)),
+					       DerivativeTolerance,
+					       DerivativeSFS,
+					       DerivativeNumberOfTries);
+		rl = NumericalLimitAtInfinity (`(h)=(OneSidedFivePointFormula(_f,_x0,h)),
+					       `(n)=(2.0^(-n)),
+					       DerivativeTolerance,
+					       DerivativeSFS,
+					       DerivativeNumberOfTries);
+		| ll - rl | < 2*DerivativeTolerance
 	)
 )
+SetHelp("IsDifferentiable","calculus","Test for differentiability by approximating the left and right limits and comparing");
+protect("IsDifferentiable");
 
 # Simple derivative function
-#FIXME!!!! BROKEN!!!!
-function NDerivative(f,x0) =
+#FIXME!!!! BROKEN!!!! ???
+function NumericalDerivative(_f,_x0) =
 # returns f'(x0)
-	(
-	if (IsDifferentiable(f,x0))
-	 then return NumericalLimitAtInfinity(`(x)=(TwoSidedFivePointFormula(f,x0,x)),`(x)=(2^(-x)),DerivativeTolerance,DerivativeSFS,DerivativeNumberOfTries)
-         else return null
-	)
+(
+    NumericalLimitAtInfinity (`(x)=(TwoSidedFivePointFormula(_f,_x0,x)),
+			      `(x)=(2.0^(-x)),
+			      DerivativeTolerance,
+			      DerivativeSFS,
+			      DerivativeNumberOfTries)
+)
+SetHelp("NumericalDerivative","calculus","Attempt to calculate numerical derivative");
+protect("NumericalDerivative");
+SetHelpAlias ("NumericalDerivative", "NDerivative");
+NDerivative = NumericalDerivative
+protect("NDerivative");
