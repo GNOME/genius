@@ -76,9 +76,6 @@ protect ("Image")
 # [4,0,5,0,-1]
 # This is poorly explained (FIXME), but some examples should make it
 # clear (find a good reference for this!)
-SetHelp ("Kernel", "linear_algebra", "Get the kernel (nullspace) of a linear transform")
-function Kernel (T) = NullSpace(T)
-protect ("Kernel")
 SetHelp ("NullSpace", "linear_algebra", "Get the nullspace of a matrix")
 function NullSpace (T)=
   (
@@ -89,11 +86,10 @@ function NullSpace (T)=
     dim_image=columns(T);
     pivots=PivotColumns(T);
     number_of_pivots=columns(pivots);
-    null_space=[0];
+    null_space=null;
     for loop in non_pivots do
      (
-       new_vector=[0];
-       new_vector=SetMatrixSize(new_vector,dim_image,1);
+       new_vector=SetMatrixSize([0],dim_image,1);
        new_vector@(loop)=-1;
        for inner_loop=1 to number_of_pivots do
          if pivots@(1,inner_loop) < loop
@@ -102,9 +98,13 @@ function NullSpace (T)=
            else break;
        null_space=[null_space,new_vector];
      );
-    ColumnSpace(null_space) # automatically kills the zero column
+    ColumnSpace(null_space)
   )
 protect ("NullSpace")
+
+SetHelp ("Kernel", "linear_algebra", "Get the kernel (nullspace) of a linear transform")
+Kernel = NullSpace
+protect ("Kernel")
 
 ## Vector Subspace operations
 # Given W1, W2 subspaces of V, returns W1 + W2
