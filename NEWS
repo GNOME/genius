@@ -1,3 +1,16 @@
+Changes to 0.5.1
+
+* Fix rounding when first digit is rounded and is 9 (reported by
+  Kai Arstila)
+* Fix atan by using implementation from Guillermo Ballester Valor
+  (reported by Kai Arstila)
+* Few more functions: Stupid eigenvalue function for 2x2 matrices,
+  RaleighQuotient
+* Reverse the direction of the vandermonde matrix to coincide with how
+  we use polynomials
+* Fix modular arithmetic on single values and matrices
+* Cache identity matrices for speed
+
 Changes to 0.5.0
 
 * Stack based execution engine, allows much deeper recursion

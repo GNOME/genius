@@ -332,22 +332,20 @@ gel_value_matrix_gauss(GelMatrixW *m, gboolean reduce, gboolean uppertriang, gbo
 			}
 		}
 
-		if (reduce) {
-			for(ii=i+1;ii<gel_matrixw_width(m);ii++) {
-				GelETree *t = gel_matrixw_set_index(m,ii,d);
-				if(t) {
-					mpw_div(t->val.value,
-						t->val.value,
-						piv->val.value);
-				}
+		for(ii=i+1;ii<gel_matrixw_width(m);ii++) {
+			GelETree *t = gel_matrixw_set_index(m,ii,d);
+			if(t) {
+				mpw_div(t->val.value,
+					t->val.value,
+					piv->val.value);
 			}
-			if(detop)
-				mpw_div(detop,detop,piv->val.value);
-			if(simul)
-				div_row(simul,d,piv->val.value);
-
-			mpw_set_ui(piv->val.value,1);
 		}
+		if(detop)
+			mpw_div(detop,detop,piv->val.value);
+		if(simul)
+			div_row(simul,d,piv->val.value);
+
+		mpw_set_ui(piv->val.value,1);
 		d++;
 	}
 	

@@ -56,7 +56,6 @@ static MpwRealNum *zero = NULL;
 static MpwRealNum *one = NULL;
 
 static mpf_ptr pi_mpf = NULL;
-static mpf_ptr atan_0_2_mpf;
 
 static int default_mpf_prec = 0;
 
@@ -122,7 +121,6 @@ struct _MpwCache {
 	int prec;
 	int use_count;
 	mpf_ptr pi_mpf;
-	mpf_ptr atan_0_2_mpf;
 };
 
 static MpwCache *mpw_chache_get(int prec);
@@ -276,7 +274,7 @@ static void mpwl_denominator(MpwRealNum *rop, MpwRealNum *op);
 static long mpwl_get_long(MpwRealNum *op, int *ex);
 
 /*round off the number at some digits*/
-static void str_make_max_digits(char *s,int digits);
+static void str_make_max_digits (char *s, int digits, long *exponent);
 /*trim trailing zeros*/
 static void str_trim_trailing_zeros(char *s);
 
@@ -755,179 +753,79 @@ mympf_ln_top(mpf_t rop,mpf_t op)
 }
 #endif
 
-/*arctan for op<=1*/
-static int
-mympf_arctan_bottom(mpf_t rop,mpf_t op)
-{
-	int neg = TRUE;
-	mpf_t x;
-	mpf_t top;
-	mpf_t fres;
-	mpf_t foldres;
-	unsigned long int i;
-	unsigned long int prec;
-	unsigned long int old_prec;
-
-	if(mpf_cmp_ui(op,0)<=0)
-		return FALSE;
-
-	/* 4bits is about 1 digit I guess */
-	old_prec = mpf_get_prec(op);
-	prec = 6*4 + old_prec;
-	
-	mpf_init2(x,prec);
-	mpf_mul(x,op,op);
-	
-	mpf_init2(fres,prec);
-	mpf_init2(foldres,prec);
-	mpf_set(foldres,op);
-
-	mpf_init2(top,prec);
-	mpf_set(top,op);
-
-	for(i=3;;i+=2) {
-		mpf_mul(top,top,x);
-		mpf_div_ui(fres,top,i);
-		
-		if(neg)
-			mpf_sub(fres,foldres,fres);
-		else
-			mpf_add(fres,foldres,fres);
-		neg = !neg;
-
-		if(mpf_eq(foldres,fres,old_prec)==0)
-			break;
-		mpf_set(foldres,fres);
-	}
-
-	mpf_clear(foldres);
-	mpf_clear(top);
-	mpf_clear(x);
-
-	mpf_set(rop,fres);
-
-	mpf_clear(fres);
-	
-	return TRUE;
-}
-
-/*arctan for op>=1*/
-static int
-mympf_arctan_top(mpf_t rop,mpf_t op)
-{
-	int neg = FALSE;
-	mpf_t x;
-	mpf_t xacc;
-	mpf_t fres;
-	mpf_t foldres;
-	unsigned long int i;
-	unsigned long int prec;
-	unsigned long int old_prec;
-
-	if(mpf_cmp_ui(op,0)<=0)
-		return FALSE;
-
-	/* 4bits is about 1 digit I guess */
-	old_prec = mpf_get_prec(op);
-	prec = 6*4 + old_prec;
-	
-	mpf_init2(x,prec);
-	mpf_mul(x,op,op);
-	mpf_ui_div(x,1,x);
-	
-	mpf_init2(fres,prec);
-	mpf_init2(foldres,prec);
-	mpf_ui_div(foldres,1,op);
-
-	if(!pi_mpf)
-		mympf_pi(NULL);
-	
-	mpf_div_ui(fres,pi_mpf,2);
-	/*we never give it a negative argument*/
-	/*
-	if(mpf_sgn(op)<0)
-		mpf_neg(fres,fres);
-		*/
-	
-	mpf_sub(foldres,fres,foldres);
-
-	mpf_init2(xacc,prec);
-	mpf_ui_div(xacc,1,op);
-
-	for(i=3;;i+=2) {
-		mpf_mul(xacc,xacc,x);
-		mpf_div_ui(fres,xacc,i);
-		
-		if(neg)
-			mpf_sub(fres,foldres,fres);
-		else
-			mpf_add(fres,foldres,fres);
-		neg = !neg;
-
-		if(mpf_eq(foldres,fres,old_prec)==0)
-			break;
-		mpf_set(foldres,fres);
-	}
-
-	mpf_clear(foldres);
-	mpf_clear(xacc);
-	mpf_clear(x);
-
-	mpf_set(rop,fres);
-
-	mpf_clear(fres);
-	
-	return TRUE;
-}
+/* Following function stolen from internet post by:
+ * Guillermo Ballester Valor <gbv@oxixares.com> */
 
 /*arctan function*/
 static void
 mympf_arctan(mpf_ptr rop,mpf_ptr op)
 {
-	int negate = FALSE;
-	if(mpf_sgn(op)<0) {
-		mpf_neg(op,op);
-		negate = TRUE;
-	}
+	mpf_t halfpi;
+  mpf_t aux,sum,num,op2,limit;
+  unsigned long int n=3;
 
-	if(mpf_cmp_ui(op,2)>=0)
-		mympf_arctan_top(rop,op);
-	else {
-		mpf_t tmp;
-		mpf_init_set_d(tmp,0.8);
-		if(mpf_cmp(op,tmp)<=0)
-			mympf_arctan_bottom(rop,op);
-		else {
-			/* 2>op>0.8 */
-			/* we'll calculate it as follows:
-			   atan(.2)+atan((op-0.2)/(op+0.2))*/
-			mpf_t tmp2;
-			mpf_init(tmp2);
+  if(!pi_mpf)
+	  mympf_pi(NULL);
 
-			mpf_set_d(tmp,0.2);
-			mpf_add(tmp2,op,tmp);
-			mpf_sub(tmp,op,tmp);
-			mpf_div(tmp,tmp,tmp2);
-			
-			mpf_clear(tmp2);
+  mpf_init(halfpi);
+  mpf_div_ui (halfpi, pi_mpf, 2);
+  
+  /* 
+     Trying to avoid the danger op == 1 
+     which make a slooooow convergence
+  */
+  mpf_init(sum);
+  mpf_abs(sum,op);
+  mpf_add(sum,sum,sum);/* An error in GMP ? */
+  if( (mpf_cmp_ui(sum,1) > 0) && (mpf_cmp_ui( sum,4) < 0) )
+    {
+      mpf_init(aux);
+      mpf_mul(aux,op,op);
+      mpf_add_ui(aux,aux,1U);
+      mpf_sqrt(aux,aux);
+      mpf_sub_ui(aux,aux,1U);
+      mpf_div(aux,aux,op);
+      /* recursive call */
+      mympf_arctan(sum,aux);
+     
+      mpf_mul_ui(rop,sum,2U);
+      mpf_clear(sum);
+      mpf_clear(aux);
+      return;
+    }
+  
+  mpf_set_ui(sum,0U);
+  mpf_init(op2); mpf_init(aux);
+  mpf_init(num); mpf_init(limit);
+  
+  mpf_mul(op2, op, op);
+  mpf_set(num, op);
+  if(mpf_cmp_ui(op2,1U) > 0) 
+    {
+      mpf_ui_div(op2, 1U, op2);
+      mpf_set(sum,halfpi);
+      if(mpf_cmp_si(op, 0L) < 0)  mpf_neg(sum,sum);
+      mpf_ui_div(num,1U,num);
+      mpf_neg(num,num);
+    }
+  mpf_neg(op2, op2);
+  mpf_add(sum,sum,num);
 
-			if(!atan_0_2_mpf) {
-				atan_0_2_mpf = g_new(__mpf_struct,1);
-				mpf_init_set_d(atan_0_2_mpf,0.2);
-				mympf_arctan_bottom(atan_0_2_mpf,atan_0_2_mpf);
-			}
-			
-			mympf_arctan_bottom(rop,tmp);
-			mpf_add(rop,rop,atan_0_2_mpf);
-		}
-		mpf_clear(tmp);
-	}
-	
-	if(negate) {
-		mpf_neg(op,op);
-		if(op!=rop)
-			mpf_neg(rop,rop);
-	}
+  do {
+    mpf_set(limit,sum);
+    mpf_mul(num,num,op2);
+    mpf_div_ui(aux,num,n);
+    mpf_add(sum,sum,aux);
+
+    n+=2;
+    /*mpf_out_str(stdout, 10, 0, sum);
+      fprintf(stdout,"\n");*/
+
+  } while (mpf_cmp(sum,limit));
+  mpf_set(rop,sum);
+  mpf_clear(sum); mpf_clear(aux); mpf_clear(num);
+  mpf_clear(op2); mpf_clear(limit);
+  mpf_clear(halfpi);
 }
 
 /*my own power function for floats, very simple :) */
@@ -3130,7 +3028,7 @@ mpwl_get_long(MpwRealNum *op, int *ex)
 
 /*round off the number at some digits*/
 static void
-str_make_max_digits(char *s,int digits)
+str_make_max_digits (char *s, int digits, long *exponent)
 {
 	int i;
 	int sd=0; /*digit where the number starts*/
@@ -3159,8 +3057,10 @@ str_make_max_digits(char *s,int digits)
 		}
 		s[i]='\0';
 	}
-	shiftstr(s,1);
+	shiftstr (s, 1);
 	s[sd]='1';
+	/* if we add a digit in front increase exponent */
+	(*exponent) ++;
 }
 
 /*trim trailing zeros*/
@@ -3403,7 +3303,7 @@ str_getstring_f(mpf_t num, int max_digits,int scientific_notation)
 	long e;
 
 	p=mpf_get_str(NULL,&e,10,0,num);
-	str_make_max_digits(p,max_digits);
+	str_make_max_digits (p, max_digits, &e);
 	p=str_format_float(p,e,scientific_notation);
 
 	return p;
@@ -3480,11 +3380,6 @@ void
 mpw_set_default_prec(unsigned long int i)
 {
 	mpf_set_default_prec(i);
-	if(atan_0_2_mpf) {
-		mpf_clear(atan_0_2_mpf);
-		g_free(atan_0_2_mpf);
-		atan_0_2_mpf = NULL;
-	}
 	if(pi_mpf) {
 		mpf_clear(pi_mpf);
 		g_free(pi_mpf);

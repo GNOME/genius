@@ -1,3 +1,16 @@
+Fri Jan 03 11:23:38 2003  George Lebl <jirka@5z.com>
+
+	* configure.in: increase version and fixup
+
+	* src/matop.c: stop being confused about REF definition and make the
+	  pivots 1 again
+
+	* src/mpwrap.c: Fix two errors pointed out by Kai Arstila
+	  <Kai.Arstila@Helsinki.FI>.  First fix rounding when first digit
+	  is rounded.  Second fix arctan by using an implementation by
+	  Guillermo Ballester Valor <gbv@oxixares.com> which I found on the
+	  net.
+
 Thu Dec 19 15:12:49 2002  George Lebl <jirka@5z.com>
 
 	* src/eval.h, src/structs.h, src/eval.c, src/calc.c: start adding
