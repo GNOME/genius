@@ -189,64 +189,64 @@ static mpf_ptr pi_mpf = NULL;
 
 static int default_mpf_prec = 0;
 
-#define FREE_LIST_SIZE 200
-int free_mpz_top = -1;
+#define FREE_LIST_SIZE 1000
 static mpz_ptr free_mpz[FREE_LIST_SIZE] = { NULL, };
-int free_mpq_top = -1;
+static mpz_ptr *free_mpz_top = free_mpz;
 static mpq_ptr free_mpq[FREE_LIST_SIZE] = { NULL, };
-int free_mpf_top = -1;
+static mpq_ptr *free_mpq_top = free_mpq;
 static mpf_ptr free_mpf[FREE_LIST_SIZE] = { NULL, };
+static mpf_ptr *free_mpf_top = free_mpf;
 
 #define GET_INIT_MPZ(THE_z)				\
-	if (free_mpz_top < 0) {				\
+	if (free_mpz_top == free_mpz) {			\
 		THE_z = g_new(__mpz_struct,1);		\
 		mpz_init (THE_z);			\
 	} else {					\
-		THE_z = free_mpz[free_mpz_top--];	\
+		free_mpz_top--;				\
+		THE_z = *free_mpz_top;			\
 	}
 #define CLEAR_FREE_MPZ(THE_z)				\
-	if (free_mpz_top >= FREE_LIST_SIZE-1 ||		\
+	if (free_mpz_top == &free_mpz[FREE_LIST_SIZE-1] || \
 	    mpz_size (THE_z) > 2) {			\
 		mpz_clear (THE_z);			\
 		g_free (THE_z);				\
 	} else {					\
-		free_mpz[++free_mpz_top] = THE_z;	\
+		*free_mpz_top = THE_z;			\
+		free_mpz_top++;				\
 	}
 #define GET_INIT_MPQ(THE_q)				\
-	if (free_mpq_top < 0) {				\
+	if (free_mpq_top == free_mpq) {			\
 		THE_q = g_new(__mpq_struct,1);		\
 		mpq_init (THE_q);			\
 	} else {					\
-		THE_q = free_mpq[free_mpq_top--];	\
+		free_mpq_top--;				\
+		THE_q = *free_mpq_top;			\
 	}
 #define CLEAR_FREE_MPQ(THE_q)				\
-	if (free_mpq_top >= FREE_LIST_SIZE-1 ||		\
+	if (free_mpq_top == &free_mpq[FREE_LIST_SIZE-1] || \
 	    mpz_size (mpq_denref (THE_q)) > 2 ||	\
 	    mpz_size (mpq_numref (THE_q)) > 2) {	\
 		mpq_clear (THE_q);			\
 		g_free (THE_q);				\
 	} else {					\
-		free_mpq[++free_mpq_top] = THE_q;	\
+		*free_mpq_top = THE_q;			\
+		free_mpq_top++;				\
 	}
 #define GET_INIT_MPF(THE_f)				\
-	if (free_mpf_top < 0) {				\
+	if (free_mpf_top == free_mpf) {			\
 		THE_f = g_new(__mpf_struct,1);		\
 		mpf_init (THE_f);			\
 	} else {					\
-		THE_f = free_mpf[free_mpf_top--];	\
+		free_mpf_top--;				\
+		THE_f = *free_mpf_top;			\
 	}
-#ifdef HAVE_MPFR
-#define mympf_size(f) ABS((f)->_mpfr_size)
-#else
-#define mympf_size mpf_size
-#endif
 #define CLEAR_FREE_MPF(THE_f)				\
-	if (free_mpf_top >= FREE_LIST_SIZE-1 ||		\
-	    mympf_size (THE_f) > 2) {			\
+	if (free_mpf_top == &free_mpf[FREE_LIST_SIZE-1]) { \
 		mpf_clear (THE_f);			\
 		g_free (THE_f);				\
 	} else {					\
-		free_mpf[++free_mpf_top] = THE_f;	\
+		*free_mpf_top = THE_f;			\
+		free_mpf_top++;				\
 	}
 
 #define MAKE_CPLX_OPS(THE_op,THE_r,THE_i) {		\
@@ -3368,12 +3368,12 @@ mpwl_get_long (MpwRealNum *op, int *ex)
 		*ex = MPWL_EXCEPTION_CONVERSION_ERROR;
 		return 0;
 	} else { /*real integer*/
-		if G_UNLIKELY (mpz_cmp_si (op->data.ival, G_MAXLONG) > 0 ||
-			       mpz_cmp_si (op->data.ival, G_MINLONG) < 0) {
+		if G_UNLIKELY ( ! mpz_fits_slong_p (op->data.ival)) {
 			*ex = MPWL_EXCEPTION_NUMBER_TOO_LARGE;
 			return 0;
-		} else
+		} else {
 			return mpz_get_si(op->data.ival);
+		}
 	}
 
 }
@@ -3784,16 +3784,26 @@ mpwl_getstring(MpwRealNum * num, int max_digits,
 
 /*set default precision*/
 void
-mpw_set_default_prec(unsigned long int i)
+mpw_set_default_prec (unsigned long int prec)
 {
-	mpf_set_default_prec(i);
-	/* no need for the cache here */
+	mpf_ptr *p;
+	mpf_set_default_prec (prec);
+
+	/* whack the pi cache */
 	if (pi_mpf != NULL) {
 		mpf_clear (pi_mpf);
 		g_free (pi_mpf);
 		pi_mpf = NULL;
 	}
-	default_mpf_prec = i;
+
+	/* whack the mpf cache */
+	for (p = free_mpf; p != free_mpf_top; p++) {
+		mpf_clear (*p);
+		g_free (*p);
+	}
+	free_mpf_top = free_mpf;
+
+	default_mpf_prec = prec;
 }
 
 /*initialize a number*/

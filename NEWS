@@ -16,13 +16,19 @@ Changes to 0.6.0
   to ==
 * SYNTAX: e^x now translated to exp(x) for better precision (and should be
   teeny bit faster too)
+* Optimize/cleanup the mp wrapper code which on my tests can gain something
+  like 40% improvement on code that does lots of handling of smaller integers.
+* Add PoissonKernel, DirichletKernel, FejerKernel, MoebiusDiskMapping,
+  MoebiusMapping, MoebiusMappingInftyToOne, MoebiusMappingInftyToZero
+  and MoebiusMappingInftyToInfty
 * Add rotation matrices (2D and 3D euclidean space)
+* Fix compilation of parameters
 * Fix interruption with ^C
 * Lots of other minor fixes
 * Documentation updates
-* Translation updates (Vincent van Adrighem, Tino Meinen,
-  Miloslav Trmac, Robert Sedak Alastair McKinstry, Guntupalli Karunakar,
-  Christophe Merlet, Sebastien Bacher)
+* Translation updates (Kostas Papadimas, Petrow Velonis, Vincent van Adrighem,
+  Tino Meinen, Danilo Segan, Miloslav Trmac, Robert Sedak, Alastair McKinstry,
+  Guntupalli Karunakar, Christophe Merlet, Sebastien Bacher)
 
 Changes to 0.5.7.1
 
