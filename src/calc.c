@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2003 George Lebl
  *
  * Author: George Lebl
  *
@@ -455,7 +455,7 @@ whack_help (const char *func)
 }
 
 void
-gel_push_file_info(char *file,int line)
+gel_push_file_info(const char *file,int line)
 {
 	curfile = g_slist_prepend(curfile,file?g_strdup(file):NULL);
 	curline = g_slist_prepend(curline,GINT_TO_POINTER(line));
@@ -2272,7 +2272,7 @@ set_new_calcstate(calcstate_t state)
 static void
 load_fp(FILE *fp, char *dirprefix)
 {
-	my_yy_open(fp);
+	gel_lexer_open(fp);
 	while(1) {
 		gel_evalexp(NULL, fp, NULL, NULL, FALSE, dirprefix);
 		if(got_eof) {
@@ -2282,7 +2282,7 @@ load_fp(FILE *fp, char *dirprefix)
 		if(interrupted)
 			break;
 	}
-	my_yy_close(fp);
+	gel_lexer_close(fp);
 	/*fclose(fp);*/
 }
 
@@ -2614,7 +2614,7 @@ gel_parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean tes
 		if(str[l-1] != '\n')
 			write(lex_fd[1], "\n", 1);
 		close(lex_fd[1]);
-		my_yy_open(infile);
+		gel_lexer_open(infile);
 	}
 
 	gel_command = GEL_NO_COMMAND;
@@ -2624,7 +2624,7 @@ gel_parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean tes
 	/*yydebug=TRUE;*/  /*turn debugging of parsing on here!*/
 	if(testparse) ignore_end_parse_errors = TRUE;
 	got_end_too_soon = FALSE;
-	my_yy_parse(infile);
+	gel_lexer_parse(infile);
 	ignore_end_parse_errors = FALSE;
 
 	/*while(yyparse() && !feof(yyin))
@@ -2635,7 +2635,7 @@ gel_parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean tes
 			;
 		close(lex_fd[0]);
 		fflush(infile);
-		my_yy_close(infile);
+		gel_lexer_close(infile);
 		/*fclose(infile);*/
 	}
 	

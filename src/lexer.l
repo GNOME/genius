@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2003 George Lebl
  *
  * Author: George Lebl
  *
@@ -58,12 +58,12 @@ int yylex(void);
 
 static GHashTable *fp_hash = NULL;
 
-void my_yy_open(FILE *fp);
-void my_yy_parse(FILE *fp);
-void my_yy_close(FILE *fp);
+void gel_lexer_open(FILE *fp);
+void gel_lexer_parse(FILE *fp);
+void gel_lexer_close(FILE *fp);
 
 void
-my_yy_open(FILE *fp)
+gel_lexer_open(FILE *fp)
 {
 	YY_BUFFER_STATE buf;
 	if(!fp_hash)
@@ -78,7 +78,7 @@ my_yy_open(FILE *fp)
 }
 
 void
-my_yy_parse(FILE *fp)
+gel_lexer_parse(FILE *fp)
 {
 	YY_BUFFER_STATE buf;
 
@@ -91,7 +91,7 @@ my_yy_parse(FILE *fp)
 }
 
 void
-my_yy_close(FILE *fp)
+gel_lexer_close(FILE *fp)
 {
 	YY_BUFFER_STATE buf;
 

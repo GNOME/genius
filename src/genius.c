@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2003 George Lebl
  *
  * Author: George Lebl
  *
@@ -380,7 +380,7 @@ main(int argc, char *argv[])
 		fp = stdin;
 		gel_push_file_info(NULL,1);
 	}
-	my_yy_open(fp);
+	gel_lexer_open(fp);
 	if(inter && use_readline) {
 		init_inter();
 	}
@@ -418,7 +418,7 @@ main(int argc, char *argv[])
 		}
 		if(files) {
 			GSList *t;
-			my_yy_close(fp);
+			gel_lexer_close(fp);
 			/*fclose(fp);*/
 			do {
 				fp = fopen(files->data,"r");
@@ -445,14 +445,14 @@ main(int argc, char *argv[])
 				}
 				return 0;
 			}
-			my_yy_open(fp);
+			gel_lexer_open(fp);
 		} else
 			break;
 	}
 
 	gel_printout_infos ();
 	
-	my_yy_close(fp);
+	gel_lexer_close(fp);
 	/*if(fp != stdin)
 		fclose(fp);*/
 	

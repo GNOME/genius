@@ -162,6 +162,7 @@ plugin_include_HEADERS = \
 	compil.h	\
 	utype.h		\
 	dict.h		\
+	lexer.h		\
 	eval.h
 
 plugin_LTLIBRARIES = libtestplugin.la

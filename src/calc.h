@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2003 George Lebl
  *
  * Author: George Lebl
  *
@@ -77,6 +77,7 @@ char * string_print_etree(GelETree *n);
 /*add the right parenthesis and brackets to the end of the expression*/
 char * addparenth(char *s);
 
+/* Note that infile must be gel_lexer_open'ed */
 /*this is the function to be mostly called outsied of calc.c
   evaluate the xpression string and give back a string with the
   result, expression is in str or if str is NULL then in infd,
@@ -102,6 +103,7 @@ void gel_printout_infos (void);
 /*these are parts of the above*/
 /*note that parseexp will actually load AND execute files if there are load
   toplevel instructions, as those don't translate into an GelETree*/
+/* Note that infile must be gel_lexer_open'ed */
 GelETree * gel_parseexp (const char *str,
 			 FILE *infile,
 			 gboolean exec_commands,
@@ -129,7 +131,7 @@ extern void (*errorout)(const char *);
 extern void (*infoout)(const char *);
 
 /*This is for file/line info for errors*/
-void gel_push_file_info(char *file,int line);
+void gel_push_file_info(const char *file,int line);
 void gel_pop_file_info(void);
 void gel_incr_file_info(void);
 void gel_rewind_file_info(void);

@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2003 George Lebl
  *
  * Author: George Lebl
  *
@@ -21,8 +21,6 @@
 
 #include "config.h"
 
-#define GTK_ENABLE_BROKEN
-
 #include <gnome.h>
 #include <gtk/gtk.h>
 #include <vte/vte.h>
@@ -39,6 +37,7 @@
 #include "util.h"
 #include "dict.h"
 #include "eval.h"
+#include "lexer.h"
 #include "geloutput.h"
 #include "graphing.h"
 
@@ -75,6 +74,7 @@ GtkWidget *genius_window = NULL;
 
 static GtkWidget *setupdialog = NULL;
 static GtkWidget *term = NULL;
+static GtkWidget *notebook = NULL;
 static GString *errors=NULL;
 static GString *infos=NULL;
 
@@ -164,6 +164,7 @@ geniusbox (gboolean error,
 				    TRUE, TRUE, 0);
 
 		tv = gtk_text_view_new ();
+		gtk_text_view_set_editable (GTK_TEXT_VIEW (tv), FALSE);
 		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
 		gtk_text_buffer_create_tag (buffer, "foo",
 					    "editable", FALSE,
@@ -371,6 +372,31 @@ set_properties (void)
 }
 
 static void
+display_error (const char *err)
+{
+	static GtkWidget *w = NULL;
+
+	if (w != NULL)
+		gtk_widget_destroy (w);
+
+	w = gtk_message_dialog_new (GTK_WINDOW (genius_window) /* parent */,
+				       GTK_DIALOG_MODAL /* flags */,
+				       GTK_MESSAGE_ERROR,
+				       GTK_BUTTONS_CLOSE,
+				       "%s",
+				       err);
+	gtk_label_set_use_markup
+		(GTK_LABEL (GTK_MESSAGE_DIALOG (w)->label), TRUE);
+
+	g_signal_connect (G_OBJECT (w), "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &w);
+
+	gtk_dialog_run (GTK_DIALOG (w));
+	gtk_widget_destroy (w);
+}
+
+static void
 display_warning (const char *warn)
 {
 	static GtkWidget *w = NULL;
@@ -390,7 +416,6 @@ display_warning (const char *warn)
 	g_signal_connect (G_OBJECT (w), "destroy",
 			  G_CALLBACK (gtk_widget_destroyed),
 			  &w);
-
 
 	gtk_dialog_run (GTK_DIALOG (w));
 	gtk_widget_destroy (w);
@@ -565,8 +590,8 @@ setup_calc(GtkWidget *widget, gpointer data)
 					  TRUE);
 	gtk_widget_set_usize(w,80,0);
 	gtk_box_pack_start(GTK_BOX(b),w,FALSE,FALSE,0);
-	gtk_signal_connect(GTK_OBJECT(adj),"value_changed",
-			   GTK_SIGNAL_FUNC(intspincb),&tmpstate.max_digits);
+	g_signal_connect (G_OBJECT (adj), "value_changed",
+			  G_CALLBACK (intspincb), &tmpstate.max_digits);
 
 
 	w=gtk_check_button_new_with_label(_("Results as floats"));
@@ -738,10 +763,10 @@ setup_calc(GtkWidget *widget, gpointer data)
 			   &tmpsetup.font);
 
 
-	gtk_signal_connect(GTK_OBJECT(setupdialog), "apply",
-			   GTK_SIGNAL_FUNC(do_setup), NULL);	
-	gtk_signal_connect(GTK_OBJECT(setupdialog), "destroy",
-			   GTK_SIGNAL_FUNC(destroy_setup), NULL);
+	g_signal_connect (G_OBJECT (setupdialog), "apply",
+			  G_CALLBACK (do_setup), NULL);	
+	g_signal_connect (G_OBJECT (setupdialog), "destroy",
+			  G_CALLBACK (destroy_setup), NULL);
 	gtk_widget_show_all(setupdialog);
 }
 
@@ -755,10 +780,18 @@ genius_interrupt_calc (void)
 }
 
 static void
+executing_warning (void)
+{
+	display_warning (_("<b>Genius is currently executing something.</b>\n\n"
+			   "Please try again later or interrupt the current "
+			   "operation."));
+}
+
+static void
 manual_call (GtkWidget *widget, gpointer data)
 {
 	if (calc_running) {
-		display_warning (_("Genius is currently executing something, please try again later"));
+		executing_warning ();
 		return;
 	} else {
 		/* perhaps a bit ugly */
@@ -774,7 +807,7 @@ static void
 warranty_call (GtkWidget *widget, gpointer data)
 {
 	if (calc_running) {
-		display_warning (_("Genius is currently executing something, please try again later"));
+		executing_warning ();
 		return;
 	} else {
 		/* perhaps a bit ugly */
@@ -823,12 +856,12 @@ load_cb(GtkWidget *w)
 	
 	gtk_window_position (GTK_WINDOW (fs), GTK_WIN_POS_MOUSE);
 
-	gtk_signal_connect (GTK_OBJECT (fs), "destroy",
-			    GTK_SIGNAL_FUNC(fs_destroy_cb), &fs);
+	g_signal_connect (G_OBJECT (fs), "destroy",
+			  G_CALLBACK (fs_destroy_cb), &fs);
 	
-	gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
-			    "clicked", GTK_SIGNAL_FUNC(really_load_cb),
-			    fs);
+	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
+			  "clicked", G_CALLBACK (really_load_cb),
+			  fs);
 
 	gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
 				   "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy),
@@ -907,7 +940,7 @@ static void
 copy_as_plain (GtkWidget *menu_item, gpointer data)
 {
 	if (calc_running) {
-		display_warning (_("Genius is currently executing something, please try again later"));
+		executing_warning ();
 		return;
 	} else {
 		/* FIXME: Ugly push/pop of output style */
@@ -926,7 +959,7 @@ static void
 copy_as_latex (GtkWidget *menu_item, gpointer data)
 {
 	if (calc_running) {
-		display_warning (_("Genius is currently executing something, please try again later"));
+		executing_warning ();
 		return;
 	} else {
 		/* FIXME: Ugly push/pop of output style */
@@ -945,7 +978,7 @@ static void
 copy_as_troff (GtkWidget *menu_item, gpointer data)
 {
 	if (calc_running) {
-		display_warning (_("Genius is currently executing something, please try again later"));
+		executing_warning ();
 		return;
 	} else {
 		/* FIXME: Ugly push/pop of output style */
@@ -964,7 +997,7 @@ static void
 copy_as_mathml (GtkWidget *menu_item, gpointer data)
 {
 	if (calc_running) {
-		display_warning (_("Genius is currently executing something, please try again later"));
+		executing_warning ();
 		return;
 	} else {
 		/* FIXME: Ugly push/pop of output style */
@@ -979,8 +1012,169 @@ copy_as_mathml (GtkWidget *menu_item, gpointer data)
 	}
 }
 
+static void
+changed_cb (GtkTextBuffer *buffer, GtkWidget *tab_widget)
+{
+	GtkTextIter iter, iter_end;
+	/* apply the foo tag to entered text */
+	gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
+	gtk_text_buffer_get_iter_at_offset (buffer, &iter_end, -1);
+	gtk_text_buffer_apply_tag_by_name (buffer, "foo",
+					   &iter, &iter_end);
+
+	g_object_set_data (G_OBJECT (tab_widget),
+			   "changed",
+			   GINT_TO_POINTER (1));
+}
+
+static void
+new_callback (GtkWidget *menu_item, gpointer data)
+{
+	static int cnt = 1;
+	GtkWidget *tv;
+	GtkWidget *sw;
+	GtkTextBuffer *buffer;
+	char *s;
+
+	sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+	tv = gtk_text_view_new ();
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
+	g_signal_connect (G_OBJECT (buffer), "changed",
+			  G_CALLBACK (changed_cb), sw);
+
+	gtk_text_buffer_create_tag (buffer, "foo",
+				    "family", "monospace",
+				    NULL);
+
+	gtk_container_add (GTK_CONTAINER (sw), tv);
+
+	gtk_widget_show_all (sw);
+	g_object_set_data (G_OBJECT (sw), "buffer", buffer);
+
+	s = g_strdup_printf (_("Program %d"), cnt++);
+	g_object_set_data (G_OBJECT (sw), "name", s);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
+				  sw,
+				  gtk_label_new (s));
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), -1);
+}
+
+static void
+close_callback (GtkWidget *menu_item, gpointer data)
+{
+	GtkWidget *w;
+	int current = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	if (current == 0) /* if the console */
+		return;
+	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), current);
+	g_free (g_object_get_data (G_OBJECT (w), "name"));
+	gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), current);
+}
+
+static void
+run_program (GtkWidget *menu_item, gpointer data)
+{
+	GtkWidget *w;
+	GtkTextBuffer *buffer;
+	const char *name;
+	int current = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	if (current == 0) /* if the console */ {
+		display_error (_("<b>No program selected.</b>\n\n"
+				 "Create a new program, or select an "
+				 "existing tab in the notebook."));
+		return;
+	}
+	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), current);
+	buffer = g_object_get_data (G_OBJECT (w), "buffer");
+	name = g_object_get_data (G_OBJECT (w), "name");
+	/* sanity */
+	if (buffer == NULL)
+		return;
+	if (name == NULL)
+		name = "???";
+
+	if (calc_running) {
+		executing_warning ();
+		return;
+	} else {
+		GtkTextIter iter, iter_end;
+		char *prog;
+		int p[2];
+		FILE *fp;
+		/* apply the foo tag to entered text */
+		gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
+		gtk_text_buffer_get_iter_at_offset (buffer, &iter_end, -1);
+		prog = gtk_text_buffer_get_text (buffer, &iter, &iter_end,
+						 FALSE /* include_hidden_chars */);
+
+		vte_terminal_feed (VTE_TERMINAL (term),
+				   "\r\n\e[0mOutput from \e[0;32m", -1);
+		vte_terminal_feed (VTE_TERMINAL (term), name, -1);
+		vte_terminal_feed (VTE_TERMINAL (term),
+				   "\e[0m (((\r\n", -1);
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
+
+		pipe (p);
+
+		/* run this in a fork so that we don't block on very
+		   long input */
+		if (fork () == 0) {
+			close (p[0]);
+			write (p[1], prog, strlen (prog));
+			close (p[1]);
+			_exit (0);
+		}
+		close (p[1]);
+		fp = fdopen (p[0], "r");
+		gel_lexer_open (fp);
+
+		calc_running ++;
+
+		g_free (prog);
+
+		gel_push_file_info (name, 1);
+		/* FIXME: Should not use main_out, we should have a separate
+		   console for output, the switching is annoying */
+		while (1) {
+			gel_evalexp (NULL, fp, main_out, "= \e[1;36m",
+				     TRUE, NULL);
+			gel_output_full_string (main_out, "\e[0m");
+			if(got_eof) {
+				got_eof = FALSE;
+				break;
+			}
+			if(interrupted)
+				break;
+		}
+
+		gel_pop_file_info ();
+
+		gel_lexer_close (fp);
+		fclose (fp);
+
+		calc_running --;
+
+		vte_terminal_feed (VTE_TERMINAL (term),
+				   "\e[0m)))End", -1);
+
+		/* interrupt the current command line */
+		interrupted = TRUE;
+		vte_terminal_feed_child (VTE_TERMINAL (term), "\n", 1);
+
+	}
+
+}
+
+
 static GnomeUIInfo file_menu[] = {
+	GNOMEUIINFO_MENU_NEW_ITEM(N_("_New Program"), N_("Create new program tab"), new_callback, NULL),
+	GNOMEUIINFO_MENU_CLOSE_ITEM (close_callback, NULL),
+	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_STOCK(N_("_Load"),N_("Load and execute a file in genius"),load_cb, GNOME_STOCK_MENU_OPEN),
+	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_MENU_EXIT_ITEM(quitapp,NULL),
 	GNOMEUIINFO_END,
 };
@@ -1015,6 +1209,7 @@ static GnomeUIInfo settings_menu[] = {
 };
 
 static GnomeUIInfo calc_menu[] = {  
+	GNOMEUIINFO_ITEM_STOCK(N_("_Run"),N_("Run current program"),run_program, GTK_STOCK_EXECUTE),
 	GNOMEUIINFO_ITEM_STOCK(N_("_Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GNOME_STOCK_MENU_STOP),
 	GNOMEUIINFO_END,
 };
@@ -1052,6 +1247,7 @@ static GnomeUIInfo genius_menu[] = {
 /* toolbar */
 static GnomeUIInfo toolbar[] = {
 	GNOMEUIINFO_ITEM_STOCK(N_("Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GNOME_STOCK_PIXMAP_STOP),
+	GNOMEUIINFO_ITEM_STOCK(N_("Run"),N_("Run current program"),run_program, GTK_STOCK_EXECUTE),
 	GNOMEUIINFO_ITEM_STOCK(N_("Load"),N_("Load and execute a file in genius"),load_cb, GNOME_STOCK_PIXMAP_OPEN),
 	GNOMEUIINFO_ITEM_STOCK(N_("Exit"),N_("Exit genius"), quitapp, GNOME_STOCK_PIXMAP_EXIT),
 	GNOMEUIINFO_END,
@@ -1069,8 +1265,8 @@ create_main_window(void)
 	gtk_window_set_wmclass (GTK_WINDOW (w), "gnome-genius", "gnome-genius");
 	gtk_window_set_policy (GTK_WINDOW (w), TRUE, FALSE, TRUE);
 
-        gtk_signal_connect(GTK_OBJECT(w), "delete_event",
-		GTK_SIGNAL_FUNC(quitapp), NULL);
+        g_signal_connect (G_OBJECT (w), "delete_event",
+			  G_CALLBACK (quitapp), NULL);
         gtk_window_set_policy(GTK_WINDOW(w),1,1,0);
         return w;
 }
@@ -1418,6 +1614,11 @@ main (int argc, char *argv[])
 	/*set up the tooltips*/
 	tips = gtk_tooltips_new();
 
+	/* setup the notebook */
+	notebook = gtk_notebook_new ();
+	gtk_widget_show (notebook);
+	gnome_app_set_contents (GNOME_APP (genius_window), notebook);
+
 	/*the main box to put everything in*/
 	hbox = gtk_hbox_new(FALSE,0);
 
@@ -1490,9 +1691,10 @@ main (int argc, char *argv[])
 	gnome_app_install_menu_hints(GNOME_APP(genius_window),
 				     genius_menu);
 
-
 	/*set up the main window*/
-	gnome_app_set_contents (GNOME_APP (genius_window), hbox);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
+				  hbox,
+				  gtk_label_new (_("Console")));
 	/* FIXME:
 	gtk_widget_queue_resize (zvt);
 	*/
