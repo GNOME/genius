@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-29 20:16+0200\n"
-"PO-Revision-Date: 2004-06-29 21:40+0100\n"
+"POT-Creation-Date: 2004-07-24 13:30+0100\n"
+"PO-Revision-Date: 2004-07-24 13:31+0100\n"
 "Last-Translator: Gareth Owen <gowen72@yahoo.comg>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "Trying to set an alias for an alias"
 msgid "Bad identifier for function node!"
 msgstr "Bad identifier for function node!"
 
-#: src/calc.c:977 src/eval.c:5520 src/eval.c:5704
+#: src/calc.c:977 src/eval.c:5685 src/eval.c:5870
 msgid "Unexpected operator!"
 msgstr "Unexpected operator!"
 
@@ -51,90 +51,90 @@ msgstr "NULL function!"
 msgid "Unexpected function type!"
 msgstr "Unexpected function type!"
 
-#: src/calc.c:1354 src/eval.c:5878
+#: src/calc.c:1360 src/eval.c:6048
 msgid "Unexpected node!"
 msgstr "Unexpected node!"
 
-#: src/calc.c:1762
+#: src/calc.c:1768
 #, c-format
 msgid "File '%s' is a wrong version of GEL"
 msgstr "File '%s' is a wrong version of GEL"
 
-#: src/calc.c:1809 src/calc.c:1818 src/calc.c:1823 src/calc.c:1832
-#: src/calc.c:1837 src/calc.c:1846 src/calc.c:1851 src/calc.c:1860
-#: src/calc.c:1865 src/calc.c:1876 src/calc.c:1881 src/calc.c:1892
-#: src/calc.c:1899 src/calc.c:1912 src/calc.c:1918 src/calc.c:1925
-#: src/calc.c:1934 src/calc.c:1940 src/calc.c:1947 src/calc.c:1953
-#: src/calc.c:1962 src/calc.c:1972
+#: src/calc.c:1815 src/calc.c:1824 src/calc.c:1829 src/calc.c:1838
+#: src/calc.c:1843 src/calc.c:1852 src/calc.c:1857 src/calc.c:1866
+#: src/calc.c:1871 src/calc.c:1882 src/calc.c:1887 src/calc.c:1898
+#: src/calc.c:1905 src/calc.c:1918 src/calc.c:1924 src/calc.c:1931
+#: src/calc.c:1940 src/calc.c:1946 src/calc.c:1953 src/calc.c:1959
+#: src/calc.c:1968 src/calc.c:1978
 msgid "Badly formed record"
 msgstr "Badly formed record"
 
-#: src/calc.c:1812
+#: src/calc.c:1818
 msgid "Record out of place"
 msgstr "Record out of place"
 
-#: src/calc.c:1987
+#: src/calc.c:1993
 msgid "Missing value for function"
 msgstr "Missing value for function"
 
-#: src/calc.c:2006
+#: src/calc.c:2012
 msgid "Extra dictionary for NULL function"
 msgstr "Extra dictionary for NULL function"
 
-#: src/calc.c:2046 src/calc.c:2461 src/calc.c:2495
+#: src/calc.c:2052 src/calc.c:2467 src/calc.c:2501
 #, c-format
 msgid "Can't open file: '%s'"
 msgstr "Can't open file: '%s'"
 
-#: src/calc.c:2193
+#: src/calc.c:2199
 msgid "Load a file into the interpretor"
 msgstr "Load a file into the interpretor"
 
-#: src/calc.c:2196
+#: src/calc.c:2202
 msgid "Load a plugin"
 msgstr "Load a plugin"
 
-#: src/calc.c:2199
+#: src/calc.c:2205
 msgid "List files in the current directory"
 msgstr "List files in the current directory"
 
-#: src/calc.c:2202
+#: src/calc.c:2208
 msgid "Change directory"
 msgstr "Change directory"
 
-#: src/calc.c:2205
+#: src/calc.c:2211
 msgid "Print current directory"
 msgstr "Print current directory"
 
-#: src/calc.c:2208
+#: src/calc.c:2214
 msgid "Print help (or help on a function/command)"
 msgstr "Print help (or help on a function/command)"
-
-#: src/calc.c:2225
-msgid ""
-"\n"
-"For a manual on using Genius and the GEL language type:\n"
-msgstr ""
-"\n"
-"For a manual on using Genius and the GEL language type:\n"
-
-#: src/calc.c:2227
-msgid "  manual\n"
-msgstr "  manual\n"
 
 #: src/calc.c:2231
 msgid ""
 "\n"
+"For a manual on using Genius and the GEL language type:\n"
+msgstr ""
+"\n"
+"For a manual on using Genius and the GEL language type:\n"
+
+#: src/calc.c:2233
+msgid "  manual\n"
+msgstr "  manual\n"
+
+#: src/calc.c:2237
+msgid ""
+"\n"
 "For help on a specific function type:\n"
 msgstr ""
 "\n"
 "For help on a specific function type:\n"
 
-#: src/calc.c:2233
+#: src/calc.c:2239
 msgid "  help FunctionName\n"
 msgstr "  help FunctionName\n"
 
-#: src/calc.c:2237
+#: src/calc.c:2243
 msgid ""
 "\n"
 "Commands:\n"
@@ -142,7 +142,7 @@ msgstr ""
 "\n"
 "Commands:\n"
 
-#: src/calc.c:2285
+#: src/calc.c:2291
 msgid ""
 "\n"
 "Undocumented:\n"
@@ -153,137 +153,137 @@ msgstr ""
 #. func
 #. aliasfor
 #. category
-#: src/calc.c:2328
+#: src/calc.c:2334
 msgid "Not documented"
 msgstr "Not documented"
 
-#: src/calc.c:2347
+#: src/calc.c:2353
 #, c-format
 msgid "'%s' is not documented"
 msgstr "'%s' is not documented"
 
-#: src/calc.c:2354
+#: src/calc.c:2360
 #, c-format
 msgid "%s is an alias for %s\n"
 msgstr "%s is an alias for %s\n"
 
-#: src/calc.c:2386
+#: src/calc.c:2392
 msgid "Aliases:"
 msgstr "Aliases:"
 
-#: src/calc.c:2398
+#: src/calc.c:2404
 #, c-format
 msgid "Description: %s\n"
 msgstr "Description: %s\n"
 
-#: src/calc.c:2534 src/calc.c:2545
+#: src/calc.c:2540 src/calc.c:2551
 #, c-format
 msgid "Can't expand '%s'"
 msgstr "Can't expand '%s'"
 
-#: src/calc.c:2615
+#: src/calc.c:2621
 #, c-format
 msgid "Cannot open plugin '%s'!"
 msgstr "Cannot open plugin '%s'!"
 
-#: src/calc.c:2820
+#: src/calc.c:2826
 msgid "ERROR: Probably corrupt stack!"
 msgstr "ERROR: Probably corrupted stack!"
 
-#: src/calc.c:2843
+#: src/calc.c:2849
 msgid "ERROR: Can't execute more things at once!"
 msgstr "ERROR: Can't execute anymore things at once!"
 
-#: src/calc.c:2947
+#: src/calc.c:2953
 #, c-format
 msgid "ERROR: %s before newline"
 msgstr "ERROR: %s before newline"
 
-#: src/calc.c:2949
+#: src/calc.c:2955
 #, c-format
 msgid "ERROR: %s at end of input"
 msgstr "ERROR: %s at end of input"
 
-#: src/calc.c:2956
+#: src/calc.c:2962
 #, c-format
 msgid "ERROR: %s before '%s'"
 msgstr "ERROR: %s before '%s'"
 
-#: src/compil.c:424 src/compil.c:430
+#: src/compil.c:438 src/compil.c:444
 msgid "Bad tree record when decompiling"
 msgstr "Bad tree record when decompiling"
 
-#: src/eval.c:1186 src/eval.c:1223 src/eval.c:1237
-msgid "Cannot compare non value-only matrixes"
-msgstr "Cannot compare non value-only matrices"
+#: src/eval.c:1219 src/eval.c:1273 src/eval.c:1288
+msgid "Cannot compare non value or bool only matrixes"
+msgstr "Cannot compare non value or bool only matrices"
 
 #. also on rationals but as integers
-#: src/eval.c:1293 src/eval.c:1339
+#: src/eval.c:1344 src/eval.c:1390
 msgid "Modulo arithmetic only works on integers"
 msgstr "Modulo arithmetic only works on integers"
 
-#: src/eval.c:1543
+#: src/eval.c:1635
 msgid "Can't add/subtract two matricies of different sizes"
 msgstr "Can't add/subtract two matrices of different sizes"
 
-#: src/eval.c:1545
+#: src/eval.c:1637
 msgid ""
 "Can't do element by element operations on two matricies of different sizes"
 msgstr ""
 "Can't do element by element operations on two matrices of different sizes"
 
-#: src/eval.c:1603
+#: src/eval.c:1695
 msgid "Can't multiply matricies of wrong sizes"
 msgstr "Can't multiply matrices of wrong sizes"
 
-#: src/eval.c:1652
+#: src/eval.c:1744
 msgid "Powers are defined on (square matrix)^(integer) only"
 msgstr "Powers are defined on (square matrix)^(integer) only"
 
-#: src/eval.c:1658
+#: src/eval.c:1750
 msgid "Powers on matrices in modulo mode are defined on integer matrices only"
 msgstr "Powers on matrices in modulo mode are defined on integer matrices only"
 
-#: src/eval.c:1666
+#: src/eval.c:1758
 msgid "Exponent too large"
 msgstr "Exponent too large"
 
-#: src/eval.c:1694 src/eval.c:1810 src/eval.c:1877
+#: src/eval.c:1786 src/eval.c:1902 src/eval.c:1969
 msgid "Matrix appears singular and can't be inverted"
 msgstr "Matrix appears singular and can't be inverted"
 
-#: src/eval.c:1786
+#: src/eval.c:1878
 msgid "Can't divide matrices of different sizes or non-square matrices"
 msgstr "Can't divide matrices of different sizes or non-square matrices"
 
-#: src/eval.c:1858
+#: src/eval.c:1950
 msgid "Can't divide by a non-square matrix"
 msgstr "Can't divide by a non-square matrix"
 
-#: src/eval.c:2217 src/eval.c:2244 src/eval.c:2265 src/eval.c:2289
-#: src/eval.c:2334
+#: src/eval.c:2358 src/eval.c:2385 src/eval.c:2406 src/eval.c:2430
+#: src/eval.c:2475
 msgid "Operations on functions with variable argument list not supported"
 msgstr "Operations on functions with variable argument list not supported"
 
-#: src/eval.c:2222
+#: src/eval.c:2363
 msgid ""
 "Operations on functions with different number of arguments not supported"
 msgstr ""
 "Operations on functions with different number of arguments not supported"
 
-#: src/eval.c:2339
+#: src/eval.c:2480
 msgid "Function creation with wrong number of arguments"
 msgstr "Function creation with wrong number of arguments"
 
-#: src/eval.c:2856 src/eval.c:3997
+#: src/eval.c:3002 src/eval.c:4157
 msgid "Unevaluatable function type encountered!"
 msgstr "Encountered function type that can't be evaulated!"
 
-#: src/eval.c:2878
+#: src/eval.c:3024
 msgid "' or '"
 msgstr "' or '"
 
-#: src/eval.c:2913
+#: src/eval.c:3059
 msgid ""
 "Variable 'i' used uninitialized.  Perhaps you meant to write '1i' for the "
 "imaginary number (square root of -1)."
@@ -291,17 +291,17 @@ msgstr ""
 "Variable 'i' used uninitialised.  Perhaps you meant to write '1i' for the "
 "imaginary number (square root of -1)."
 
-#: src/eval.c:2919 src/eval.c:2947
+#: src/eval.c:3065 src/eval.c:3093
 #, c-format
 msgid "Variable '%s' used uninitialized, perhaps you meant %s."
 msgstr "Variable '%s' used uninitialised, perhaps you meant %s."
 
-#: src/eval.c:2926 src/eval.c:2954 src/eval.c:3777
+#: src/eval.c:3072 src/eval.c:3100 src/eval.c:3937
 #, c-format
 msgid "Variable '%s' used uninitialized"
 msgstr "Variable '%s' used uninitialised"
 
-#: src/eval.c:2958 src/eval.c:3822
+#: src/eval.c:3104 src/eval.c:3982
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -310,47 +310,47 @@ msgstr ""
 "Call of '%s' with the wrong number of arguments!\n"
 "(should be %d)"
 
-#: src/eval.c:2961
+#: src/eval.c:3107
 #, c-format
 msgid "Trying to dereference '%s' which is not a reference!\n"
 msgstr "Trying to dereference '%s' which is not a reference!\n"
 
-#: src/eval.c:2966
+#: src/eval.c:3112
 msgid "NULL reference encountered!"
 msgstr "NULL reference encountered!"
 
-#: src/eval.c:3086
+#: src/eval.c:3239
 msgid "Cannot compare matrixes"
 msgstr "Cannot compare matrices"
 
-#: src/eval.c:3128
+#: src/eval.c:3281
 msgid "Primitives must get numeric/matrix/string arguments"
 msgstr "Primitives must get numeric/matrix/string arguments"
 
-#: src/eval.c:3201
+#: src/eval.c:3354
 msgid "Bad argument to modular operation"
 msgstr "Bad argument to modular operation"
 
-#: src/eval.c:3755
+#: src/eval.c:3915
 #, c-format
 msgid "Function '%s' used uninitialized, perhaps you meant %s."
 msgstr "Function '%s' used uninitialised, perhaps you meant %s."
 
-#: src/eval.c:3762
+#: src/eval.c:3922
 #, c-format
 msgid "Function '%s' used uninitialized"
 msgstr "Function '%s' used uninitialised"
 
-#: src/eval.c:3783
+#: src/eval.c:3943
 #, c-format
 msgid "Can't dereference '%s'!"
 msgstr "Can't dereference '%s'!"
 
-#: src/eval.c:3791
+#: src/eval.c:3951
 msgid "Can't call a non-function!"
 msgstr "Can't call a non-function!"
 
-#: src/eval.c:3827
+#: src/eval.c:3987
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -359,289 +359,306 @@ msgstr ""
 "Call of '%s' with the wrong number of arguments!\n"
 "(should be greater then %d)"
 
-#: src/eval.c:3866
+#: src/eval.c:4026
 #, c-format
 msgid "Referencing an undefined variable %s!"
 msgstr "Referencing an undefined variable %s!"
 
-#: src/eval.c:3976
+#: src/eval.c:4136
 msgid "Reference function with arguments encountered!"
 msgstr "Reference function with arguments encountered!"
 
-#: src/eval.c:3981
+#: src/eval.c:4141
 msgid "Unnamed reference function encountered!"
 msgstr "Unnamed reference function encountered!"
 
-#: src/eval.c:4090
+#: src/eval.c:4250
 msgid "Bad type for 'for/sum/prod' loop!"
 msgstr "Bad type for 'for/sum/prod' loop!"
 
-#: src/eval.c:4095
+#: src/eval.c:4255
 msgid "'for/sum/prod' loop increment can't be 0"
 msgstr "'for/sum/prod' loop increment can't be 0"
 
-#: src/eval.c:4201
+#: src/eval.c:4363
 msgid "Bad type for 'for in' loop!"
 msgstr "Bad type for 'for in' loop!"
 
-#: src/eval.c:4345 src/eval.c:4373
+#: src/eval.c:4507 src/eval.c:4535
 msgid "Continue or break outside a loop, assuming \"return null\""
 msgstr "Continue or break outside a loop, assuming \"return null\""
 
-#: src/eval.c:4423
+#: src/eval.c:4585
 msgid "Wrong argument type as matrix index"
 msgstr "Wrong argument type as matrix index"
 
-#: src/eval.c:4433
+#: src/eval.c:4595
 msgid "Matrix index too large"
 msgstr "Matrix index too large"
 
-#: src/eval.c:4436
+#: src/eval.c:4598
 msgid "Matrix index less than 1"
 msgstr "Matrix index less than 1"
 
-#: src/eval.c:4459 src/eval.c:4474
+#: src/eval.c:4621 src/eval.c:4636
 msgid "Matrix index out of range"
 msgstr "Matrix index out of range"
 
-#: src/eval.c:4521 src/eval.c:4582 src/eval.c:4644 src/eval.c:4688
+#: src/eval.c:4683 src/eval.c:4745 src/eval.c:4808 src/eval.c:4853
 #, c-format
 msgid "Trying to set a protected id '%s'"
 msgstr "Trying to set a protected id '%s'"
 
-#: src/eval.c:4539 src/eval.c:4578
+#: src/eval.c:4701 src/eval.c:4740
 msgid "Indexed Lvalue not user function"
 msgstr "Indexed Lvalue not user function"
 
-#: src/eval.c:4562 src/eval.c:4673
+#: src/eval.c:4724 src/eval.c:4837
 msgid "Dereference of non-identifier!"
 msgstr "Dereference of non-identifier!"
 
-#: src/eval.c:4568 src/eval.c:4679
+#: src/eval.c:4730 src/eval.c:4843
 msgid "Dereference of undefined variable!"
 msgstr "Dereference of undefined variable!"
 
-#: src/eval.c:4572 src/eval.c:4683
+#: src/eval.c:4734 src/eval.c:4847
 msgid "Dereference of non-reference!"
 msgstr "Dereference of non-reference!"
 
-#: src/eval.c:4600
+#: src/eval.c:4763
 msgid "Indexed Lvalue not an identifier or a dereference"
 msgstr "Indexed Lvalue not an identifier or a dereference"
 
-#: src/eval.c:4638
+#: src/eval.c:4801
 msgid "Lvalue not an identifier/dereference/matrix location!"
 msgstr "Lvalue not an identifier/dereference/matrix location!"
 
-#: src/eval.c:4660 src/eval.c:4700
+#: src/eval.c:4824 src/eval.c:4865
 msgid "Referencing an undefined variable!"
 msgstr "Referencing an undefined variable!"
 
-#: src/eval.c:4746 src/eval.c:4824 src/eval.c:4833
+#: src/eval.c:4911 src/eval.c:4989 src/eval.c:4998
 msgid "Wrong matrix dimensions when setting"
 msgstr "Wrong matrix dimensions when setting"
 
-#: src/eval.c:4764 src/eval.c:4804 src/eval.c:4870 src/eval.c:5049
-#: src/eval.c:5102
+#: src/eval.c:4929 src/eval.c:4969 src/eval.c:5035 src/eval.c:5214
+#: src/eval.c:5267
 msgid "Matrix index not an integer or a vector"
 msgstr "Matrix index not an integer or a vector"
 
-#: src/eval.c:4891
+#: src/eval.c:5056
 msgid "Parameters can only be created in the global context"
 msgstr "Parameters can only be created in the global context"
 
-#: src/eval.c:4944 src/eval.c:4986 src/eval.c:5061
+#: src/eval.c:5109 src/eval.c:5151 src/eval.c:5226
 msgid "Index works only on matricies"
 msgstr "Index works only on matrices"
 
-#: src/eval.c:4974
+#: src/eval.c:5139
 msgid "Vector index not an integer or a vector"
 msgstr "Vector index not an integer or a vector"
 
-#: src/eval.c:5123
+#: src/eval.c:5290
 msgid "number"
 msgstr "number"
 
-#: src/eval.c:5124
+#: src/eval.c:5291
 msgid "matrix"
 msgstr "matrix"
 
-#: src/eval.c:5125
+#: src/eval.c:5292
 msgid "string"
 msgstr "string"
 
-#: src/eval.c:5126
+#: src/eval.c:5293
 msgid "function"
 msgstr "function"
 
-#: src/eval.c:5150
+#: src/eval.c:5294
+msgid "identifier"
+msgstr "identifier"
+
+#: src/eval.c:5295
+msgid "polynomial"
+msgstr "polynomial"
+
+#: src/eval.c:5296
+msgid "boolean"
+msgstr "boolean"
+
+#: src/eval.c:5315
 msgid "Absolute value"
 msgstr "Absolute value"
 
-#: src/eval.c:5151
+#: src/eval.c:5316
 msgid "Addition"
 msgstr "Addition"
 
-#: src/eval.c:5152
+#: src/eval.c:5317
 msgid "Subtraction"
 msgstr "Subtraction"
 
-#: src/eval.c:5153
+#: src/eval.c:5318
 msgid "Multiplication"
 msgstr "Multiplication"
 
-#: src/eval.c:5154
+#: src/eval.c:5319
 msgid "Element by element multiplication"
 msgstr "Element by element multiplication"
 
-#: src/eval.c:5155
+#: src/eval.c:5320
 msgid "Division"
 msgstr "Division"
 
-#: src/eval.c:5156
+#: src/eval.c:5321
 msgid "Element by element division"
 msgstr "Element by element division"
 
-#: src/eval.c:5157
+#: src/eval.c:5322
 msgid "Back division"
 msgstr "Back division"
 
-#: src/eval.c:5158
+#: src/eval.c:5323
 msgid "Element by element back division"
 msgstr "Element by element back division"
 
-#: src/eval.c:5159
+#: src/eval.c:5324
 msgid "Modulo"
 msgstr "Modulo"
 
-#: src/eval.c:5160
+#: src/eval.c:5325
 msgid "Element by element modulo"
 msgstr "Element by element modulo"
 
-#: src/eval.c:5161
+#: src/eval.c:5326
 msgid "Negation"
 msgstr "Negation"
 
-#: src/eval.c:5162
+#: src/eval.c:5327
 msgid "Power"
 msgstr "Power"
 
-#: src/eval.c:5163
+#: src/eval.c:5328
 msgid "Element by element power"
 msgstr "Element by element power"
 
-#: src/eval.c:5164
+#: src/eval.c:5329
 msgid "Factorial"
 msgstr "Factorial"
 
-#: src/eval.c:5165
+#: src/eval.c:5330
 msgid "Double factorial"
 msgstr "Double factorial"
 
-#: src/eval.c:5166
+#: src/eval.c:5331
 msgid "Transpose"
 msgstr "Transpose"
 
-#: src/eval.c:5167
+#: src/eval.c:5332
 msgid "ConjugateTranspose"
 msgstr "ConjugateTranspose"
 
-#: src/eval.c:5168
+#: src/eval.c:5333
 msgid "Comparison (<=>)"
 msgstr "Comparison (<=>)"
 
-#: src/eval.c:5169
+#: src/eval.c:5334
 msgid "XOR"
 msgstr "XOR"
 
-#: src/eval.c:5170
+#: src/eval.c:5335
 msgid "NOT"
 msgstr "NOT"
 
-#: src/eval.c:5190
+#: src/eval.c:5355
 #, c-format
 msgid "Bad types for '%s'"
 msgstr "Bad types for '%s'"
 
-#: src/eval.c:5201
+#: src/eval.c:5366
 #, c-format
 msgid "%s not defined on <%s> and <%s>"
 msgstr "%s not defined on <%s> and <%s>"
 
-#: src/eval.c:5220
+#: src/eval.c:5385
 #, c-format
 msgid "Bad type for '%s'"
 msgstr "Bad type for '%s'"
 
-#: src/eval.c:5230
+#: src/eval.c:5395
 #, c-format
 msgid "%s not defined on <%s>"
 msgstr "%s not defined on <%s>"
 
-#: src/eval.c:5249 src/eval.c:5266
+#: src/eval.c:5414 src/eval.c:5431
 msgid "Vector building only works on numbers"
 msgstr "Vector building only works on numbers"
 
 #. FIXME: perhaps we should just return null like octave?
-#: src/eval.c:5259
+#: src/eval.c:5424
 msgid "Impossible arguments to vector building operator"
 msgstr "Impossible arguments to vector building operator"
 
-#: src/funclib.c:85
+#: src/funclib.c:96
 #, c-format
 msgid "%s: argument number %d not an integer"
 msgstr "%s: argument number %d not an integer"
 
-#: src/funclib.c:98
+#: src/funclib.c:109
 #, c-format
 msgid "%s: argument number %d not an integer or a matrix"
 msgstr "%s: argument number %d not an integer or a matrix"
 
-#: src/funclib.c:112
+#: src/funclib.c:123
 #, c-format
 msgid "%s: argument number %d not a positive integer"
 msgstr "%s: argument number %d not a positive integer"
 
-#: src/funclib.c:122 src/graphing.c:820
+#: src/funclib.c:133 src/graphing.c:819
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: argument number %d not a number"
 
-#: src/funclib.c:133
+#: src/funclib.c:144
+#, c-format
+msgid "%s: argument number %d not a boolean"
+msgstr "%s: argument number %d not a boolean"
+
+#: src/funclib.c:155
 #, c-format
 msgid "%s: argument number %d not a real number"
 msgstr "%s: argument number %d not a real number"
 
-#: src/funclib.c:143
+#: src/funclib.c:165
 #, c-format
 msgid "%s: argument number %d not a matrix"
 msgstr "%s: argument number %d not a matrix"
 
-#: src/funclib.c:154
+#: src/funclib.c:176
 #, c-format
 msgid "%s: argument number %d not a value only matrix"
 msgstr "%s: argument number %d not a value only matrix"
 
-#: src/funclib.c:164 src/funclib.c:175
+#: src/funclib.c:186 src/funclib.c:197
 #, c-format
 msgid "%s: argument number %d not a string"
 msgstr "%s: argument number %d not a string"
 
-#: src/funclib.c:204
+#: src/funclib.c:226
 #, c-format
 msgid "%s: argument can't be negative or 0"
 msgstr "%s: argument can't be negative or 0"
 
-#: src/funclib.c:208
+#: src/funclib.c:230
 #, c-format
 msgid "%s: argument too large"
 msgstr "%s: argument too large"
 
-#: src/funclib.c:235
+#: src/funclib.c:257
 msgid "Cannot locate the manual"
 msgstr "Cannot locate the manual"
 
-#: src/funclib.c:251
+#: src/funclib.c:273
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -680,287 +697,299 @@ msgstr ""
 "    Foundation,  Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,\n"
 "    USA.\n"
 
-#: src/funclib.c:381
+#: src/funclib.c:436
 #, c-format
 msgid "%s: trying to set a protected id!"
 msgstr "%s: trying to set a protected id!"
 
 #. FIXME: fix this, this should just work too
-#: src/funclib.c:387
+#: src/funclib.c:442
 #, c-format
 msgid "%s: trying to set a parameter, use the equals sign"
 msgstr "%s: trying to set a parameter, use the equals sign"
 
-#: src/funclib.c:411 src/funclib.c:498
+#: src/funclib.c:466 src/funclib.c:553
 #, c-format
 msgid "%s: Too many arguments, should be at most %d"
 msgstr "%s: Too many arguments, should be at most %d"
 
-#: src/funclib.c:640
+#: src/funclib.c:695
 msgid "Cannot apply function to two differently sized matrixes"
 msgstr "Cannot apply function to two differently sized matrices"
 
-#: src/funclib.c:1453
+#: src/funclib.c:1516
 #, c-format
 msgid "%s: square root for composite moduli is not yet implemented"
 msgstr "%s: square root for composite moduli is not yet implemented"
 
-#: src/funclib.c:1461
+#: src/funclib.c:1524
 #, c-format
 msgid "%s: Cannot find square root function for prime moduli"
 msgstr "%s: Cannot find square root function for prime moduli"
 
-#: src/funclib.c:1494
+#: src/funclib.c:1557
 #, c-format
 msgid "%s: matrix argument is not square"
 msgstr "%s: matrix argument is not square"
 
-#: src/funclib.c:1622 src/funclib.c:1722
+#: src/funclib.c:1685 src/funclib.c:1785
 #, c-format
 msgid "%s: matrix argument must be integer only"
 msgstr "%s: matrix argument must be integer only"
 
-#: src/funclib.c:1644 src/funclib.c:1744
+#: src/funclib.c:1707 src/funclib.c:1807
 #, c-format
 msgid "%s: argument must be an integer"
 msgstr "%s: argument must be an integer"
 
-#: src/funclib.c:1979 src/funclib.c:2060
+#: src/funclib.c:2042 src/funclib.c:2123
 #, c-format
 msgid "%s: matrix argument must be value only"
 msgstr "%s: matrix argument must be value only"
 
-#: src/funclib.c:2174 src/funclib.c:2214 src/funclib.c:3229
+#: src/funclib.c:2237 src/funclib.c:2277 src/funclib.c:3292
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: too many arguments"
 
-#: src/funclib.c:2337
+#: src/funclib.c:2400
 #, c-format
 msgid "%s: vector argument not value only"
 msgstr "%s: vector argument not value only"
 
-#: src/funclib.c:2348 src/funclib.c:2377
+#: src/funclib.c:2411 src/funclib.c:2440
 #, c-format
 msgid "%s: vector argument has too large entries"
 msgstr "%s: vector argument has too large entries"
 
-#: src/funclib.c:2454 src/funclib.c:2460
+#: src/funclib.c:2517 src/funclib.c:2523
 #, c-format
 msgid "%s: %s not a reference"
 msgstr "%s: %s not a reference"
 
-#: src/funclib.c:2499
+#: src/funclib.c:2562
 #, c-format
 msgid "%s: matrices not of the same height"
 msgstr "%s: matrices not of the same height"
 
-#: src/funclib.c:2504
+#: src/funclib.c:2567
 msgid "third argument"
 msgstr "third argument"
 
-#: src/funclib.c:2509
+#: src/funclib.c:2572
 msgid "fourth argument"
 msgstr "fourth argument"
 
-#: src/funclib.c:2792
+#: src/funclib.c:2855
 #, c-format
 msgid "%s: argument must be greater than 2"
 msgstr "%s: argument must be greater then 2"
 
-#: src/funclib.c:2907
+#: src/funclib.c:2970
 #, c-format
 msgid "%s: arguments not horizontal vectors"
 msgstr "%s: arguments not horizontal vectors"
 
-#: src/funclib.c:2916
+#: src/funclib.c:2979
 #, c-format
 msgid "%s: arguments not numeric only vectors"
 msgstr "%s: arguments not numeric only vectors"
 
-#: src/funclib.c:3446 src/funclib.c:3535 src/funclib.c:3754 src/funclib.c:3809
+#: src/funclib.c:3509 src/funclib.c:3598 src/funclib.c:3817 src/funclib.c:3872
 #, c-format
 msgid "%s: value out of range"
 msgstr "%s: value out of range"
 
-#: src/funclib.c:3912
+#: src/funclib.c:3975
 #, c-format
 msgid "%s: undefined function"
 msgstr "%s: undefined function"
 
-#: src/funclib.c:3918
+#: src/funclib.c:3981
 #, c-format
 msgid "%s: flags argument must be a string"
 msgstr "%s: flags argument must be a string"
 
-#: src/funclib.c:3955 src/funclib.c:3991 src/funclib.c:4199
+#: src/funclib.c:4018 src/funclib.c:4054 src/funclib.c:4250
 #, c-format
 msgid "%s: argument should be between %d and %d"
 msgstr "%s: argument should be between %d and %d"
 
-#: src/funclib.c:4101
+#: src/funclib.c:4155
 msgid "OutputStyle must be one of normal, troff, latex or mathml"
 msgstr "OutputStyle must be one of normal, troff, latex or mathml"
 
-#: src/funclib.c:4142
+#: src/funclib.c:4196
 #, c-format
 msgid "%s: argument should be larger or equal to 0"
 msgstr "%s: argument should be larger or equal to 0"
 
-#: src/funclib.c:4249
+#: src/funclib.c:4300
 msgid "Basic"
 msgstr "Basic"
 
-#: src/funclib.c:4250
+#: src/funclib.c:4301
 msgid "Parameters"
 msgstr "Parameters"
 
-#: src/funclib.c:4251
+#: src/funclib.c:4302
 msgid "Constants"
 msgstr "Constants"
 
-#: src/funclib.c:4252
+#: src/funclib.c:4303
 msgid "Numeric"
 msgstr "Numeric"
 
-#: src/funclib.c:4253
+#: src/funclib.c:4304
 msgid "Trigonometry"
 msgstr "Trigonometry"
 
-#: src/funclib.c:4254
+#: src/funclib.c:4305
 msgid "Number Theory"
 msgstr "Number Theory"
 
-#: src/funclib.c:4255
+#: src/funclib.c:4306
 msgid "Matrix Manipulation"
 msgstr "Matrix Manipulation"
 
-#: src/funclib.c:4256
+#: src/funclib.c:4307
 msgid "Linear Algebra"
 msgstr "Linear Algebra"
 
-#: src/funclib.c:4257
+#: src/funclib.c:4308
 msgid "Combinatorics"
 msgstr "Combinatorics"
 
-#: src/funclib.c:4258
+#: src/funclib.c:4309
 msgid "Calculus"
 msgstr "Calculus"
 
-#: src/funclib.c:4259
+#: src/funclib.c:4310
 msgid "Functions"
 msgstr "Functions"
 
-#: src/funclib.c:4260
+#: src/funclib.c:4311
 msgid "Equation Solving"
 msgstr "Equation Solving"
 
-#: src/funclib.c:4261
+#: src/funclib.c:4312
 msgid "Statistics"
 msgstr "Statistics"
 
-#: src/funclib.c:4262
+#: src/funclib.c:4313
 msgid "Polynomials"
 msgstr "Polynomials"
 
-#: src/funclib.c:4263
+#: src/funclib.c:4314
 msgid "Set Theory"
 msgstr "Set Theory"
 
-#: src/funclib.c:4264
+#: src/funclib.c:4315
 msgid "Miscellaneous"
 msgstr "Miscellaneous"
 
 #. bogus value
-#: src/funclib.c:4297
+#: src/funclib.c:4348
 msgid "Displays the user manual"
 msgstr "Displays the user manual"
 
-#: src/funclib.c:4298
+#: src/funclib.c:4349
 msgid "Gives the warranty information"
 msgstr "Gives the warranty information"
 
-#: src/funclib.c:4299
+#: src/funclib.c:4350
 msgid "Exits the program"
 msgstr "Exits the program"
 
-#: src/funclib.c:4301
+#: src/funclib.c:4352
 msgid "Prints a string to the error stream"
 msgstr "Prints a string to the error stream"
 
-#: src/funclib.c:4302
+#: src/funclib.c:4353
+msgid "The true boolean value"
+msgstr "The true boolean value"
+
+#: src/funclib.c:4355
+msgid "The false boolean value"
+msgstr "The false boolean value"
+
+#: src/funclib.c:4364
+msgid "Make integer (0 or 1) from a boolean value"
+msgstr "Make integer (0 or 1) from a boolean value"
+
+#: src/funclib.c:4366
 msgid "Prints an expression"
 msgstr "Prints an expression"
 
-#: src/funclib.c:4303
+#: src/funclib.c:4367
 msgid "Changes current directory"
 msgstr "Changes current directory"
 
-#: src/funclib.c:4304
+#: src/funclib.c:4368
 msgid "Prints an expression without a trailing newline"
 msgstr "Prints an expression without a trailing newline"
 
-#: src/funclib.c:4305
+#: src/funclib.c:4369
 msgid "Display a string and an expression"
 msgstr "Display a string and an expression"
 
-#: src/funclib.c:4306
+#: src/funclib.c:4370
 msgid "Set a global variable"
 msgstr "Set a global variable"
 
-#: src/funclib.c:4308
+#: src/funclib.c:4372
 msgid "Set the category and help description line for a function"
 msgstr "Set the category and help description line for a function"
 
-#: src/funclib.c:4309
+#: src/funclib.c:4373
 msgid "Sets up a help alias"
 msgstr "Sets up a help alias"
 
-#: src/funclib.c:4311
+#: src/funclib.c:4375
 msgid "Generate random float"
 msgstr "Generate random float"
 
-#: src/funclib.c:4313
+#: src/funclib.c:4377
 msgid "Generate random integer"
 msgstr "Generate random integer"
 
-#: src/funclib.c:4316 src/gnome-genius.c:989
+#: src/funclib.c:4380 src/gnome-genius.c:989
 msgid "Floating point precision"
 msgstr "Floating point precision"
 
-#: src/funclib.c:4317
+#: src/funclib.c:4381
 msgid "Maximum digits to display"
 msgstr "Maximum digits to display"
 
-#: src/funclib.c:4318
+#: src/funclib.c:4382
 msgid "Maximum errors to display"
 msgstr "Maximum errors to display"
 
-#: src/funclib.c:4319
+#: src/funclib.c:4383
 msgid "Output style: normal, latex or troff"
 msgstr "Output style: normal, latex or troff"
 
-#: src/funclib.c:4320
+#: src/funclib.c:4384
 msgid "Integer output base"
 msgstr "Integer output base"
 
-#: src/funclib.c:4321
+#: src/funclib.c:4385
 msgid "If true, mixed fractions are printed"
 msgstr "If true, mixed fractions are printed"
 
-#: src/funclib.c:4322
+#: src/funclib.c:4386
 msgid "Print full expressions, even if more than a line"
 msgstr "Print full expressions, even if more than a line"
 
-#: src/funclib.c:4323
+#: src/funclib.c:4387
 msgid "Convert all results to floats before printing"
 msgstr "Convert all results to floats before printing"
 
-#: src/funclib.c:4324
+#: src/funclib.c:4388
 msgid "Use scientific notation"
 msgstr "Use scientific notation"
 
-#: src/funclib.c:4326
+#: src/funclib.c:4390
 msgid ""
 "Number of extra Miller-Rabin tests to run on a number before declaring it a "
 "prime in IsPrime"
@@ -968,159 +997,159 @@ msgstr ""
 "Number of extra Miller-Rabin tests to run on a number before declaring it a "
 "prime in IsPrime"
 
-#: src/funclib.c:4332
+#: src/funclib.c:4396
 msgid "Expands a matrix just like we do on unquoted matrix input"
 msgstr "Expands a matrix just like we do on unquoted matrix input"
 
-#: src/funclib.c:4333
+#: src/funclib.c:4397
 msgid "Gets the rows of a matrix as a vertical vector"
 msgstr "Gets the rows of a matrix as a vertical vector"
 
-#: src/funclib.c:4334
+#: src/funclib.c:4398
 msgid "Gets the columns of a matrix as a horizontal vector"
 msgstr "Gets the columns of a matrix as a horizontal vector"
 
-#: src/funclib.c:4335
+#: src/funclib.c:4399
 msgid "Gets the diagonal entries of a matrix as a horizontal vector"
 msgstr "Gets the diagonal entries of a matrix as a horizontal vector"
 
-#: src/funclib.c:4337
+#: src/funclib.c:4401
 msgid "Calculates the conjugate"
 msgstr "Calculates the conjugate"
 
-#: src/funclib.c:4342
+#: src/funclib.c:4406
 msgid "Calculates the sine function"
 msgstr "Calculates the sine function"
 
-#: src/funclib.c:4344
+#: src/funclib.c:4408
 msgid "Calculates the cosine function"
 msgstr "Calculates the cosine function"
 
-#: src/funclib.c:4346
+#: src/funclib.c:4410
 msgid "Calculates the hyperbolic sine function"
 msgstr "Calculates the hyperbolic sine function"
 
-#: src/funclib.c:4348
+#: src/funclib.c:4412
 msgid "Calculates the hyperbolic cosine function"
 msgstr "Calculates the hyperbolic cosine function"
 
-#: src/funclib.c:4350
+#: src/funclib.c:4414
 msgid "Calculates the tan function"
 msgstr "Calculates the tangent function"
 
-#: src/funclib.c:4352
+#: src/funclib.c:4416
 msgid "Calculates the arctan function"
 msgstr "Calculates the arctangent function"
 
-#: src/funclib.c:4356
+#: src/funclib.c:4420
 msgid "The number pi"
 msgstr "The number pi"
 
-#: src/funclib.c:4357
+#: src/funclib.c:4421
 msgid "The natural number e"
 msgstr "The natural number e"
 
-#: src/funclib.c:4358
+#: src/funclib.c:4422
 msgid "The Golden Ratio"
 msgstr "The Golden Ratio"
 
-#: src/funclib.c:4359
+#: src/funclib.c:4423
 msgid "Free fall acceleration"
 msgstr "Free fall acceleration"
 
-#: src/funclib.c:4361
+#: src/funclib.c:4425
 msgid "Euler's Constant gamma good up to about precision of 9516 digits"
 msgstr "Euler's Constant gamma good up to about precision of 9516 digits"
 
-#: src/funclib.c:4364
+#: src/funclib.c:4428
 msgid "The square root"
 msgstr "The square root"
 
-#: src/funclib.c:4368
+#: src/funclib.c:4432
 msgid "The exponential function"
 msgstr "The exponential function"
 
-#: src/funclib.c:4370
+#: src/funclib.c:4434
 msgid "The natural logarithm"
 msgstr "The natural logarithm"
 
-#: src/funclib.c:4372
+#: src/funclib.c:4436
 msgid "Logarithm of x base 2"
 msgstr "Logarithm of x base 2"
 
-#: src/funclib.c:4375
+#: src/funclib.c:4439
 msgid "Logarithm of x base 10"
 msgstr "Logarithm of x base 10"
 
-#: src/funclib.c:4377
+#: src/funclib.c:4441
 msgid "Round a number"
 msgstr "Round a number"
 
-#: src/funclib.c:4380
+#: src/funclib.c:4444
 msgid "Get the highest integer less than or equal to n"
 msgstr "Get the highest integer less than or equal to n"
 
-#: src/funclib.c:4383
+#: src/funclib.c:4447
 msgid "Get the lowest integer more than or equal to n"
 msgstr "Get the lowest integer more than or equal to n"
 
-#: src/funclib.c:4386
+#: src/funclib.c:4450
 msgid "Truncate number to an integer (return the integer part)"
 msgstr "Truncate number to an integer (return the integer part)"
 
-#: src/funclib.c:4390
+#: src/funclib.c:4454
 msgid "Make number a float"
 msgstr "Make number a float"
 
-#: src/funclib.c:4392
+#: src/funclib.c:4456
 msgid "Get the numerator of a rational number"
 msgstr "Get the numerator of a rational number"
 
-#: src/funclib.c:4394
+#: src/funclib.c:4458
 msgid "Get the denominator of a rational number"
 msgstr "Get the denominator of a rational number"
 
-#: src/funclib.c:4397
+#: src/funclib.c:4461
 msgid "Greatest common divisor"
 msgstr "Greatest common divisor"
 
-#: src/funclib.c:4399
+#: src/funclib.c:4463
 msgid "Least common multiplier"
 msgstr "Least common multiplier"
 
-#: src/funclib.c:4401
+#: src/funclib.c:4465
 msgid "Check a number for being a perfect square"
 msgstr "Check a number for being a perfect square"
 
-#: src/funclib.c:4402
+#: src/funclib.c:4466
 msgid "Check a number for being any perfect power (a^b)"
 msgstr "Check a number for being any perfect power (a^b)"
 
-#: src/funclib.c:4403
+#: src/funclib.c:4467
 msgid "Return the n'th prime (up to a limit)"
 msgstr "Return the n'th prime (up to a limit)"
 
-#: src/funclib.c:4405
+#: src/funclib.c:4469
 msgid "Tests if an integer is even"
 msgstr "Tests if an integer is even"
 
-#: src/funclib.c:4406
+#: src/funclib.c:4470
 msgid "Tests if an integer is odd"
 msgstr "Tests if an integer is odd"
 
-#: src/funclib.c:4408
+#: src/funclib.c:4472
 msgid "Returns the least prime greater than n (if n is positive)"
 msgstr "Returns the least prime greater than n (if n is positive)"
 
-#: src/funclib.c:4409
+#: src/funclib.c:4473
 msgid "Returns the n'th Lucas number"
 msgstr "Returns the n'th Lucas number"
 
-#: src/funclib.c:4410
+#: src/funclib.c:4474
 msgid "Returns inverse of n mod m"
 msgstr "Returns inverse of n mod m"
 
-#: src/funclib.c:4411
+#: src/funclib.c:4475
 msgid ""
 "Tests primality of integers, for numbers greater than 25*10^9 false positive "
 "is with low probability depending on IsPrimeMillerRabinReps"
@@ -1128,11 +1157,11 @@ msgstr ""
 "Tests primality of integers, for numbers greater than 25*10^9 false positive "
 "is with low probability depending on IsPrimeMillerRabinReps"
 
-#: src/funclib.c:4412
+#: src/funclib.c:4476
 msgid "Run the strong pseudoprime test base b on n"
 msgstr "Run the strong pseudoprime test base b on n"
 
-#: src/funclib.c:4413
+#: src/funclib.c:4477
 msgid ""
 "Use the Miller-Rabin primality test on n, reps number of times.  The "
 "probability of false positive is (1/4)^reps"
@@ -1140,7 +1169,7 @@ msgstr ""
 "Use the Miller-Rabin primality test on n, reps number of times.  The "
 "probability of false positive is (1/4)^reps"
 
-#: src/funclib.c:4414
+#: src/funclib.c:4478
 msgid ""
 "Use the Miller-Rabin primality test on n with enough bases that assuming the "
 "Generalized Reimann Hypothesis the result is deterministic"
@@ -1148,23 +1177,23 @@ msgstr ""
 "Use the Miller-Rabin primality test on n with enough bases that assuming the "
 "Generalised Reimann Hypothesis the result is deterministic"
 
-#: src/funclib.c:4415
+#: src/funclib.c:4479
 msgid "Return factorization of a number as a matrix"
 msgstr "Return factorisation of a number as a matrix"
 
-#: src/funclib.c:4417
+#: src/funclib.c:4481
 msgid "Returns the maximum of arguments or matrix"
 msgstr "Returns the maximum of arguments or matrix"
 
-#: src/funclib.c:4420
+#: src/funclib.c:4484
 msgid "Returns the minimum of arguments or matrix"
 msgstr "Returns the minimum of arguments or matrix"
 
-#: src/funclib.c:4424
+#: src/funclib.c:4488
 msgid "Calculate the Jacobi symbol (a/b) (b should be odd)"
 msgstr "Calculate the Jacobi symbol (a/b) (b should be odd)"
 
-#: src/funclib.c:4426
+#: src/funclib.c:4490
 msgid ""
 "Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) "
 "when a odd, or (a/2)=0 when a even"
@@ -1172,55 +1201,55 @@ msgstr ""
 "Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) "
 "when a odd, or (a/2)=0 when a even"
 
-#: src/funclib.c:4428
+#: src/funclib.c:4492
 msgid "Calculate the Legendre symbol (a/p)"
 msgstr "Calculate the Legendre symbol (a/p)"
 
-#: src/funclib.c:4431
+#: src/funclib.c:4495
 msgid "Get the real part of a complex number"
 msgstr "Get the real part of a complex number"
 
-#: src/funclib.c:4434
+#: src/funclib.c:4498
 msgid "Get the imaginary part of a complex number"
 msgstr "Get the imaginary part of a complex number"
 
-#: src/funclib.c:4438
+#: src/funclib.c:4502
 msgid "Make an identity matrix of a given size"
 msgstr "Make an identity matrix of a given size"
 
-#: src/funclib.c:4441
+#: src/funclib.c:4505
 msgid "Make an matrix of all zeros (or a row vector)"
 msgstr "Make an matrix of all zeros (or a row vector)"
 
-#: src/funclib.c:4443
+#: src/funclib.c:4507
 msgid "Make an matrix of all ones (or a row vector)"
 msgstr "Make an matrix of all ones (or a row vector)"
 
-#: src/funclib.c:4446
+#: src/funclib.c:4510
 msgid "Get the number of rows of a matrix"
 msgstr "Get the number of rows of a matrix"
 
-#: src/funclib.c:4447
+#: src/funclib.c:4511
 msgid "Get the number of columns of a matrix"
 msgstr "Get the number of columns of a matrix"
 
-#: src/funclib.c:4448
+#: src/funclib.c:4512
 msgid "Is a matrix square"
 msgstr "Is a matrix square"
 
-#: src/funclib.c:4449
+#: src/funclib.c:4513
 msgid "Get the number of elements of a matrix"
 msgstr "Get the number of elements of a matrix"
 
-#: src/funclib.c:4451
+#: src/funclib.c:4515
 msgid "Get the row echelon form of a matrix"
 msgstr "Get the row echelon form of a matrix"
 
-#: src/funclib.c:4455
+#: src/funclib.c:4519
 msgid "Get the reduced row echelon form of a matrix"
 msgstr "Get the reduced row echelon form of a matrix"
 
-#: src/funclib.c:4459
+#: src/funclib.c:4523
 msgid ""
 "Solve linear system Mx=V, return solution V if there is a unique solution, "
 "null otherwise.  Extra two reference parameters can optionally be used to "
@@ -1230,143 +1259,147 @@ msgstr ""
 "null otherwise.  Extra two reference parameters can optionally be used to "
 "get the reduced M and V."
 
-#: src/funclib.c:4462
+#: src/funclib.c:4526
 msgid "Get the determinant of a matrix"
 msgstr "Get the determinant of a matrix"
 
-#: src/funclib.c:4465
+#: src/funclib.c:4529
 msgid "Make new matrix of given size from old one"
 msgstr "Make new matrix of given size from old one"
 
-#: src/funclib.c:4466
+#: src/funclib.c:4530
 msgid "Return the index complement of a vector of indexes"
 msgstr "Return the index complement of a vector of indexes"
 
-#: src/funclib.c:4468
+#: src/funclib.c:4532
 msgid "Check if a matrix is a matrix of numbers"
 msgstr "Check if a matrix is a matrix of numbers"
 
-#: src/funclib.c:4469
+#: src/funclib.c:4533
 msgid "Check if a matrix is an integer (non-complex) matrix"
 msgstr "Check if a matrix is an integer (non-complex) matrix"
 
-#: src/funclib.c:4470
+#: src/funclib.c:4534
 msgid "Check if a matrix is a rational (non-complex) matrix"
 msgstr "Check if a matrix is a rational (non-complex) matrix"
 
-#: src/funclib.c:4471
+#: src/funclib.c:4535
 msgid "Check if a matrix is a real (non-complex) matrix"
 msgstr "Check if a matrix is a real (non-complex) matrix"
 
-#: src/funclib.c:4473
+#: src/funclib.c:4537
 msgid "Check if argument is a null"
 msgstr "Check if argument is a null"
 
-#: src/funclib.c:4474
+#: src/funclib.c:4538
 msgid "Check if argument is a number"
 msgstr "Check if argument is a number"
 
-#: src/funclib.c:4475
+#: src/funclib.c:4539
+msgid "Check if argument is a boolean (and not a number)"
+msgstr "Check if argument is a boolean (and not a number)"
+
+#: src/funclib.c:4540
 msgid "Check if argument is a text string"
 msgstr "Check if argument is a text string"
 
-#: src/funclib.c:4476
+#: src/funclib.c:4541
 msgid "Check if argument is a matrix"
 msgstr "Check if argument is a matrix"
 
-#: src/funclib.c:4477
+#: src/funclib.c:4542
 msgid "Check if argument is a function"
 msgstr "Check if argument is a function"
 
-#: src/funclib.c:4478
+#: src/funclib.c:4543
 msgid "Check if argument is a function reference"
 msgstr "Check if argument is a function reference"
 
-#: src/funclib.c:4480
+#: src/funclib.c:4545
 msgid "Check if argument is a complex (non-real) number"
 msgstr "Check if argument is a complex (non-real) number"
 
-#: src/funclib.c:4481
+#: src/funclib.c:4546
 msgid "Check if argument is a real number"
 msgstr "Check if argument is a real number"
 
-#: src/funclib.c:4482
+#: src/funclib.c:4547
 msgid "Check if argument is an integer (non-complex)"
 msgstr "Check if argument is an integer (non-complex)"
 
-#: src/funclib.c:4483
+#: src/funclib.c:4548
 msgid "Check if argument is a positive real integer"
 msgstr "Check if argument is a positive real integer"
 
-#: src/funclib.c:4485
+#: src/funclib.c:4550
 msgid "Check if argument is a possibly complex integer"
 msgstr "Check if argument is a possibly complex integer"
 
-#: src/funclib.c:4487
+#: src/funclib.c:4552
 msgid "Check if argument is a rational number (non-complex)"
 msgstr "Check if argument is a rational number (non-complex)"
 
-#: src/funclib.c:4488
+#: src/funclib.c:4553
 msgid "Check if argument is a possibly complex rational number"
 msgstr "Check if argument is a possibly complex rational number"
 
-#: src/funclib.c:4489
+#: src/funclib.c:4554
 msgid "Check if argument is a floating point number (non-complex)"
 msgstr "Check if argument is a floating point number (non-complex)"
 
-#: src/funclib.c:4491
+#: src/funclib.c:4556
 msgid "Add two polynomials (vectors)"
 msgstr "Add two polynomials (vectors)"
 
-#: src/funclib.c:4492
+#: src/funclib.c:4557
 msgid "Subtract two polynomials (as vectors)"
 msgstr "Subtract two polynomials (as vectors)"
 
-#: src/funclib.c:4493
+#: src/funclib.c:4558
 msgid "Multiply two polynomials (as vectors)"
 msgstr "Multiply two polynomials (as vectors)"
 
-#: src/funclib.c:4494
+#: src/funclib.c:4559
 msgid "Take polynomial (as vector) derivative"
 msgstr "Take polynomial (as vector) derivative"
 
-#: src/funclib.c:4495
+#: src/funclib.c:4560
 msgid "Take second polynomial (as vector) derivative"
 msgstr "Take second polynomial (as vector) derivative"
 
-#: src/funclib.c:4496
+#: src/funclib.c:4561
 msgid "Trim zeros from a polynomial (as vector)"
 msgstr "Trim zeros from a polynomial (as vector)"
 
-#: src/funclib.c:4497
+#: src/funclib.c:4562
 msgid "Check if a vector is usable as a polynomial"
 msgstr "Check if a vector is usable as a polynomial"
 
-#: src/funclib.c:4498
+#: src/funclib.c:4563
 msgid "Make string out of a polynomial (as vector)"
 msgstr "Make string out of a polynomial (as vector)"
 
-#: src/funclib.c:4499
+#: src/funclib.c:4564
 msgid "Make function out of a polynomial (as vector)"
 msgstr "Make function out of a polynomial (as vector)"
 
-#: src/funclib.c:4501
+#: src/funclib.c:4566
 msgid "Get all combinations of k numbers from 1 to n as a vector of vectors"
 msgstr "Get all combinations of k numbers from 1 to n as a vector of vectors"
 
-#: src/funclib.c:4502
+#: src/funclib.c:4567
 msgid "Get all permutations of k numbers from 1 to n as a vector of vectors"
 msgstr "Get all permutations of k numbers from 1 to n as a vector of vectors"
 
-#: src/funclib.c:4504
+#: src/funclib.c:4569
 msgid "Convert a string to a vector of ASCII values"
 msgstr "Convert a string to a vector of ASCII values"
 
-#: src/funclib.c:4505
+#: src/funclib.c:4570
 msgid "Convert a vector of ASCII values to a string"
 msgstr "Convert a vector of ASCII values to a string"
 
-#: src/funclib.c:4507
+#: src/funclib.c:4572
 msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters"
@@ -1374,7 +1407,7 @@ msgstr ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters"
 
-#: src/funclib.c:4508
+#: src/funclib.c:4573
 msgid ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string"
@@ -1382,15 +1415,15 @@ msgstr ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string"
 
-#: src/funclib.c:4510
+#: src/funclib.c:4575
 msgid "Protect a variable from being modified"
 msgstr "Protect a variable from being modified"
 
-#: src/funclib.c:4511
+#: src/funclib.c:4576
 msgid "Unprotect a variable from being modified"
 msgstr "Unprotect a variable from being modified"
 
-#: src/funclib.c:4512
+#: src/funclib.c:4577
 msgid ""
 "Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
 "\""
@@ -1398,7 +1431,7 @@ msgstr ""
 "Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
 "\""
 
-#: src/funclib.c:4513
+#: src/funclib.c:4578
 msgid "Get current modulo from the context outside the function"
 msgstr "Get current modulo from the context outside the function"
 
@@ -1596,7 +1629,7 @@ msgstr "_Interrupt"
 msgid "Interrupt current calculation"
 msgstr "Interrupt current calculation"
 
-#: src/gnome-genius.c:254 src/graphing.c:1336
+#: src/gnome-genius.c:254 src/graphing.c:1335
 msgid "_Plot"
 msgstr "_Plot"
 
@@ -1958,28 +1991,28 @@ msgstr "_Zoom out"
 msgid "_Fit Y Axis"
 msgstr "_Fit Y Axis"
 
-#: src/graphing.c:801
+#: src/graphing.c:800
 #, c-format
 msgid "Function #%d"
 msgstr "Function #%d"
 
-#: src/graphing.c:833
+#: src/graphing.c:832
 msgid "Graph limits not given as a 4-vector"
 msgstr "Graph limits not given as a 4-vector"
 
-#: src/graphing.c:839 src/graphing.c:845 src/graphing.c:851 src/graphing.c:857
+#: src/graphing.c:838 src/graphing.c:844 src/graphing.c:850 src/graphing.c:856
 msgid "Graph limits not given as numbers"
 msgstr "Graph limits not given as numbers"
 
-#: src/graphing.c:1002
+#: src/graphing.c:1001
 msgid "Function line plot"
 msgstr "Function line plot"
 
-#: src/graphing.c:1004
+#: src/graphing.c:1003
 msgid "Function/Expressions"
 msgstr "Function/Expressions"
 
-#: src/graphing.c:1009
+#: src/graphing.c:1008
 msgid ""
 "Type in function names or expressions involving the x variable in the boxes "
 "below to graph them"
@@ -1987,64 +2020,64 @@ msgstr ""
 "Type in function names or expressions involving the x variable in the boxes "
 "below to graph them"
 
-#: src/graphing.c:1027
+#: src/graphing.c:1026
 msgid "Plot Window"
 msgstr "Plot Window"
 
-#: src/graphing.c:1038
+#: src/graphing.c:1037
 msgid "X from:"
 msgstr "X from:"
 
-#: src/graphing.c:1055 src/graphing.c:1094
+#: src/graphing.c:1054 src/graphing.c:1093
 msgid "to:"
 msgstr "to:"
 
-#: src/graphing.c:1077
+#: src/graphing.c:1076
 msgid "Y from:"
 msgstr "Y from:"
 
-#: src/graphing.c:1238
+#: src/graphing.c:1237
 msgid "No functions to plot or no functions could be parsed"
 msgstr "No functions to plot or no functions could be parsed"
 
-#: src/graphing.c:1261
+#: src/graphing.c:1260
 msgid "Invalid X range"
 msgstr "Invalid X range"
 
-#: src/graphing.c:1266
+#: src/graphing.c:1265
 msgid "Invalid Y range"
 msgstr "Invalid Y range"
 
-#: src/graphing.c:1331
+#: src/graphing.c:1330
 msgid "Create Line Plot"
 msgstr "Create Line Plot"
 
-#: src/graphing.c:1378
+#: src/graphing.c:1377
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: only up to 10 functions supported"
 
-#: src/graphing.c:1383
+#: src/graphing.c:1382
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: argument not a function"
 
-#: src/graphing.c:1434
+#: src/graphing.c:1433
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: invalid X range"
 
-#: src/graphing.c:1439
+#: src/graphing.c:1438
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: invalid Y range"
 
-#: src/graphing.c:1501
+#: src/graphing.c:1500
 msgid "Plotting"
 msgstr "Plotting"
 
 #. bogus value
-#: src/graphing.c:1533
+#: src/graphing.c:1532
 msgid ""
 "Plot a function with a line (very rudimentary).  First come the functions "
 "(up to 10) then optionally limits as x1,x2,y1,y2"
@@ -2052,11 +2085,11 @@ msgstr ""
 "Plot a function with a line (very rudimentary).  First come the functions "
 "(up to 10) then optionally limits as x1,x2,y1,y2"
 
-#: src/graphing.c:1535
+#: src/graphing.c:1534
 msgid "Plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr "Plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 
-#: src/matop.c:485
+#: src/matop.c:535
 msgid "Determinant of a non-square matrix is undefined"
 msgstr "Determinant of a non-square matrix is undefined"
 
@@ -2245,7 +2278,7 @@ msgstr "Number too large for this operation"
 msgid "Can't open plugin!"
 msgstr "Can't open plugin!"
 
-#: src/plugin.c:140
+#: src/plugin.c:143 src/plugin.c:151
 msgid "Can't initialize plugin!"
 msgstr "Can't initialise plugin!"
 
@@ -2281,7 +2314,7 @@ msgstr ""
 "That's it, isn't this fun\n"
 "\n"
 
-#: src/util.c:96
+#: src/util.c:96 src/util.c:115
 msgid "Stack underflow!"
 msgstr "Stack underflow!"
 
