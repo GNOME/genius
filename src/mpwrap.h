@@ -40,11 +40,6 @@ enum {
 	MPW_FLOAT
 };
 
-enum {
-	MPW_REAL = 1,
-	MPW_COMPLEX
-};
-
 /*number structures, this is where low level stuff is stored so it will be
   different for each lib, members should never be directly accessed!*/
 
@@ -67,15 +62,20 @@ typedef struct _MpwRealNum {
 	guint8 type;
 } MpwRealNum;
 
-/*any number (includes complex) so it includes an imaginary member if type
-  is MPW_COMPLEX
-
+/*any number (includes complex) so it includes an imaginary member if 
+  i is not equal to gel_zero
   this is used as the number type*/
 struct _mpw_t {
 	MpwRealNum *r; /*real*/
 	MpwRealNum *i; /*imaginary*/
-	guint8 type;
 };
+
+#define MPW_IS_COMPLEX(n) ((n)->i != gel_zero)
+#define MPW_IS_REAL(n) ((n)->i == gel_zero)
+
+/* Should not be used outside */
+extern MpwRealNum *gel_zero;
+extern MpwRealNum *gel_one;
 
 typedef struct _mpw_t mpw_t[1];
 typedef struct _mpw_t *mpw_ptr;
