@@ -1028,6 +1028,10 @@ plot_axis (void)
 	} else if (plot_mode == MODE_SURFACE) {
 		surface_setup_axis ();
 		surface_setup_steps ();
+		/* FIXME: this doesn't work (crashes) must fix in GtkExtra, then
+		   we can always just autoscale stuff
+		   gtk_plot3d_autoscale (GTK_PLOT3D (surface_plot));
+		 */
 	}
 
 	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
@@ -1685,6 +1689,10 @@ plot_surface_functions (void)
 		g_free (label);
 	}
 
+	/* FIXME: this doesn't work (crashes) must fix in GtkExtra
+	gtk_plot3d_autoscale (GTK_PLOT3D (surface_plot));
+	*/
+
 	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 	/* could be whacked by closing the window or some such */
 	if (plot_canvas != NULL)
@@ -1771,6 +1779,8 @@ create_lineplot_box (void)
 	w = gtk_label_new (_("Type in function names or expressions involving "
 			     "the x variable in the boxes below to graph "
 			     "them"));
+	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.5);
+	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 
 	for (i = 0; i < MAXFUNC; i++) {
@@ -1825,6 +1835,7 @@ create_surface_box (void)
 			     "the x and y variables (or the z variable which will be z=x+iy) "
 			     "in the boxes below to graph them.  Functions with one argument only "
 			     "will be passed a complex number."));
+	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.5);
 	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
 
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
@@ -1874,11 +1885,11 @@ create_plot_dialog (void)
 	
 	gtk_notebook_append_page (GTK_NOTEBOOK (plot_notebook),
 				  create_lineplot_box (),
-				  gtk_label_new (_("Function line plot")));
+				  gtk_label_new_with_mnemonic (_("Function _line plot")));
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (plot_notebook),
 				  create_surface_box (),
-				  gtk_label_new (_("Surface plot")));
+				  gtk_label_new_with_mnemonic (_("_Surface plot")));
 	
 	return plot_notebook;
 }
