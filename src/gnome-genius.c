@@ -747,9 +747,28 @@ load_cb(GtkWidget *w)
 	gtk_widget_show (fs);
 }
 
+static void
+copy_callback (GtkWidget *menu_item, gpointer data)
+{
+	vte_terminal_copy_clipboard (VTE_TERMINAL (term));
+}
+
+static void
+paste_callback (GtkWidget *menu_item, gpointer data)
+{
+	vte_terminal_paste_clipboard (VTE_TERMINAL (term));
+}
+
 static GnomeUIInfo file_menu[] = {
 	GNOMEUIINFO_ITEM_STOCK(N_("_Load"),N_("Load and execute a file in genius"),load_cb, GNOME_STOCK_MENU_OPEN),
 	GNOMEUIINFO_MENU_EXIT_ITEM(quitapp,NULL),
+	GNOMEUIINFO_END,
+};
+
+static GnomeUIInfo edit_menu[] = {  
+#define COPY_ITEM 0
+	GNOMEUIINFO_MENU_COPY_ITEM(copy_callback,NULL),
+	GNOMEUIINFO_MENU_PASTE_ITEM(paste_callback,NULL),
 	GNOMEUIINFO_END,
 };
 
@@ -784,8 +803,9 @@ static GnomeUIInfo plugin_menu[] = {
   
 static GnomeUIInfo genius_menu[] = {
 	GNOMEUIINFO_MENU_FILE_TREE(file_menu),
+	GNOMEUIINFO_MENU_EDIT_TREE(edit_menu),
 	GNOMEUIINFO_SUBTREE(N_("_Calculator"),calc_menu),
-#define PLUGIN_MENU 2
+#define PLUGIN_MENU 3
 	GNOMEUIINFO_SUBTREE(N_("_Plugins"),plugin_menu),
 	GNOMEUIINFO_MENU_SETTINGS_TREE(settings_menu),
 	GNOMEUIINFO_MENU_HELP_TREE(help_menu),
@@ -1087,6 +1107,14 @@ setup_rl_fifos (void)
 	fromrlfifo = make_a_fifo ();
 }
 
+static void
+selection_changed (GtkWidget *terminal, gpointer data)
+{
+	gboolean can_copy =
+		vte_terminal_get_has_selection (VTE_TERMINAL (term));
+	gtk_widget_set_sensitive (edit_menu[COPY_ITEM].widget, can_copy);
+}
+
 int
 main (int argc, char *argv[])
 {
@@ -1157,6 +1185,9 @@ main (int argc, char *argv[])
 	vte_terminal_set_delete_binding (VTE_TERMINAL (term),
 					 VTE_ERASE_ASCII_DELETE);
 
+	g_signal_connect (G_OBJECT (term), "selection_changed",
+			  G_CALLBACK (selection_changed),
+			  NULL);
 	g_signal_connect (G_OBJECT (term), "event",
 			  G_CALLBACK (catch_interrupts),
 			  NULL);
@@ -1300,6 +1331,9 @@ main (int argc, char *argv[])
 	gel_printout_infos ();
 
 	gtk_widget_grab_focus (term);
+
+	/* act like the selection changed to disable the copy item */
+	selection_changed (term, NULL);
 
 	start_cb_p_expression (genius_got_etree, torlfp);
 

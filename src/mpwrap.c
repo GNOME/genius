@@ -240,7 +240,7 @@ static void mpwl_fac (MpwRealNum *rop, MpwRealNum *op);
 static void mpwl_dblfac_ui (MpwRealNum *rop, unsigned int op);
 static void mpwl_dblfac (MpwRealNum *rop, MpwRealNum *op);
 
-static int mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
+static gboolean mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 
 /*power to an unsigned long and optionaly invert the answer*/
 static void mpwl_pow_ui(MpwRealNum *rop,MpwRealNum *op1,unsigned int e,
@@ -2496,15 +2496,15 @@ mpwl_dblfac (MpwRealNum *rop,MpwRealNum *op)
 	}
 }
 
-static int
+static gboolean
 mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
 	mpf_t fr;
 	mpf_t fr2;
 	mpf_t frt;
-	unsigned long i;
 	mpf_t de;
 	mpz_t des;
+	unsigned long int den;
 	int t;
 	int reverse=FALSE;
 
@@ -2513,11 +2513,32 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		return FALSE;
 	}
 
-	i=mpz_get_ui(mpq_denref(op2->data.rval));
-	if(mpwl_sgn(op1)<0 && !(i & 0x1)) {
+	if (mpwl_sgn (op1) < 0 &&
+	    mpz_even_p (mpq_denref(op2->data.rval))) {
 		/*it's gonna be complex*/
 		error_num=NUMERICAL_MPW_ERROR;
 		return TRUE;
+	}
+
+	den = mpz_get_ui (mpq_denref (op2->data.rval));
+	/* We can do square root, perhaps symbolically */
+	if (den == 2 || den == 4 || den == 8 || den == 16) {
+		MpwRealNum n={0};
+		mpwl_init_type (&n, MPW_INTEGER);
+		mpz_set (n.data.ival, mpq_numref (op2->data.rval));
+		mpwl_sqrt (rop, op1);
+		if (den > 2) {
+			mpwl_sqrt (rop, rop);
+			if (den > 4) {
+				mpwl_sqrt (rop, rop);
+				if (den > 8)
+					mpwl_sqrt (rop, rop);
+			}
+		}
+		mpwl_pow_z (rop, rop, &n);
+		mpwl_clear (&n);
+
+		return FALSE;
 	}
 
 	mpz_init_set(des,mpq_denref(op2->data.rval));
