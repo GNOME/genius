@@ -8,13 +8,51 @@
 ## Vector Subspace creation
 # Column Space of a matrix
 #Column reduce and kill zero vectors
-function ColumnSpace(M) = strip_zero_columns(cref(M))
+sethelp ("ColumnSpace", "Get a basis matrix for the columnspace of a matrix")
+function ColumnSpace(M) =
+(
+  if not is_matrix (M) then
+    (error("ColumnSpace: argument not a matrix");bailout);
+  StripZeroColumns (cref (M))
+)
+protect ("ColumnSpace")
 
 # Row Space of a matrix
-function RowSpace(M)=ColumnSpace(Transpose(M))
+sethelp ("RowSpace", "Get a basis matrix for the rowspace of a matrix")
+function RowSpace(M) = (
+  if not is_matrix (M) then
+    (error("RowSpace: argument not a matrix");bailout);
+  ColumnSpace (Transpose (M))
+)
+protect ("RowSpace")
+
+# Rank of a matrix
+sethelp ("Rank", "Get the rank of a matrix")
+function Rank(M) =
+(
+  if not is_matrix (M) then
+    (error("Rank: argument not a matrix");bailout);
+  columns (ColumnSpace (M))
+)
+protect ("Rank")
+function rank (M) = Rank (M)
+protect ("rank")
+
+# Nullity of a matrix
+sethelp ("Nullity", "Get the rank of a matrix")
+function Nullity (M) =
+(
+  if not is_matrix (M) then
+    (error("Nullity: argument not a matrix");bailout);
+  columns (M) - columns (ColumnSpace (M))
+)
+protect ("Nullity")
+function nullity (M) = Nullity (M)
+protect ("nullity")
 
 # Image of a linear transform (=column space of the corresponding matrix)
-function Image(T)=ColumnSpace(T)
+function Image(T) = ColumnSpace(T)
+protect ("Image")
 
 # Null space/kernel of a linear transform
 # Okay, here's the idea:
@@ -35,8 +73,9 @@ function Image(T)=ColumnSpace(T)
 # [4,0,5,0,-1]
 # This is poorly explained (FIXME), but some examples should make it
 # clear (find a good reference for this!)
-function Kernel(T)=NullSpace(T)
-function NullSpace(T)=
+function Kernel (T) = NullSpace(T)
+protect ("Kernel")
+function NullSpace (T)=
   (
     non_pivots=NonPivotColumns(T);
     if is_null(non_pivots) then return null; # injective transforms, so
@@ -60,25 +99,30 @@ function NullSpace(T)=
      );
     ColumnSpace(null_space) # automatically kills the zero column
   )
+protect ("NullSpace")
 
 ## Vector Subspace operations
 # Given W1, W2 subspaces of V, returns W1 + W2
 # = {w | w=w1+w2, w1 in W1, w2 in W2}
 function VectorSubspaceSum(M,N)=ColumnSpace([M,N])
+protect ("VectorSubspaceSum")
 
 # Given vector spaces V1, V2, return V1 (+) V2 (the direct sum)
 # (given by the column space of the direct sum of matrices)
 function VectorSpaceDirectSum(M,N)=ColumnSpace(DirectSum(M,N))
+protect ("VectorSpaceDirectSum")
 
 # Given vector spaces V1, V2, return V1 (x) V2 (the tensor product)
 # (given by the column space of the tensor product of matrices)
 #FIXME: check that this is right
-function VectorSpaceTensorProduct(M,N)=ColumnSpace(TensorProduct(M,N))
+#FIXME: need tensorproduct
+# function VectorSpaceTensorProduct(M,N)=ColumnSpace(TensorProduct(M,N))
 
 # Given W1, W2, return W1 intersect W2
 # Given any inner product, this is given by
 # W1 cap W2 = (W1^perp+W2^perp)^perp
 function VectorSubspaceIntersection(M,N)= OrthogonalComplement(VectorSubspaceSum(OrthogonalComplement(M),OrthogonalComplement(N)))
+protect ("VectorSubspaceIntersection")
 
 # Given a vector subspace of an Inner Product Space (or maybe just
 # a space with a (symmetric?) bilinear form (check lang),
@@ -86,6 +130,7 @@ function VectorSubspaceIntersection(M,N)= OrthogonalComplement(VectorSubspaceSum
 # FIXME: currently assumes that the inner product is the standard
 # inner product on R^n
 function OrthogonalComplement(M)=NullSpace(Transpose(M))
+protect ("OrthogonalComplement")
 
 ## (Vector space + a vector) operations
 
@@ -98,3 +143,4 @@ function OrthogonalComplement(M)=NullSpace(Transpose(M))
 #modules, since it might mean that a MULTIPLE of it is in the module
 #....)
 function IsInSubspace(v,W) = (v==Projection(v,W,.))
+protect ("IsInSubspace")

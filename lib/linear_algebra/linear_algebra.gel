@@ -1,7 +1,9 @@
 # Some linear algebra functions
 
 # Transpose of a matrix
+sethelp ("Transpose", "Transpose of a matrix")
 function Transpose(M)=M'
+protect ("Transpose")
 
 # Checks to see if a matrix is square
 # Arguments: takes a matrix
@@ -64,8 +66,10 @@ function DeleteColumn(M,col) = (
 function cref(M)=Transpose(rref(Transpose(M)))
 
 #This removes any all-zero columns of M
-function strip_zero_columns(M) =
+function StripZeroColumns (M) =
  (
+  if not is_matrix (M) then
+    (error("StripZeroColumns: argument not a matrix");bailout);
   row_dim_M=rows(M);
   N=[0];
   for loop=1 to columns(M) do
@@ -79,6 +83,13 @@ function strip_zero_columns(M) =
   );
   DeleteColumn(N,1)
  )
+
+function StripZeroRows (M) =
+(
+  if not is_matrix (M) then
+    (error("StripZeroColumns: argument not a matrix");bailout);
+  Transpose (StripZeroColumns (Transpose (M)))
+)
 
 # Cross product of two vectors (in R^3)
 ##<refentry id="fun-linear-algebra-cross-product">
@@ -131,11 +142,12 @@ function DirectSum(M,N) = (
   # FIXME: this should work: [M,0;0,N] 
   [M,zeros(rows(M),columns(N));zeros(rows(N),columns(M)),N]
 )
+protect ("DirectSum");
 
 # (Kronecker) Tensor product of two matrices
 #FIXME!
-function KroneckerProduct(M,N) = TensorProduct(M,N)
-function TensorProduct(M,N) = Null
+# function KroneckerProduct(M,N) = TensorProduct(M,N)
+# function TensorProduct(M,N) = Null
 
 # Checks to see if a matrix/value is invertible
 # Note that given an integer matrix, returns true iff it is invertible OVER THE INTEGERS,
@@ -150,22 +162,27 @@ function is_invertible(n) =
                                              #  determinant is a unit
 )
 
-# HermiteFormField
+# Hermite Form for fields (will end up with 1's on the diagonal)
 function HermiteFormField(A) =
 (
-  ref(ref(A)')'
+  Transpose (ref (Transpose (ref (A))))
 )
+protect ("HerminteFormField")
 
 # AuxilliaryUnitMatrix
 function AuxilliaryUnitMatrix(n) =
 (
   [0,I(n-1);0,0]
 )
+protect ("AuxilliaryUnitMatrix")
 function U(n) = AxilliaryUnitMatrix(n)
+protect ("U")
 
 # AuxilliaryUnitMatrix
 function JordanBlock(lambda,n) =
 (
   lambda * I(n) + AuxilliaryUnitMatrix(n)
 )
+protect ("JordanBlock")
 function J(lambda,n) = JordanBlock(lambda,n)
+protect ("J")
