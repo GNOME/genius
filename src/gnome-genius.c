@@ -75,6 +75,7 @@ GtkWidget *genius_window = NULL;
 
 static GtkWidget *setupdialog = NULL;
 static GtkWidget *term = NULL;
+static GtkWidget *appbar = NULL;
 static GtkWidget *notebook = NULL;
 static GString *errors=NULL;
 static GString *infos=NULL;
@@ -105,6 +106,7 @@ typedef struct {
 	char *name;
 	char *vname; /* visual name */
 	int ignore_changes;
+	int curline;
 	gboolean changed;
 	gboolean real_file;
 	gboolean selected;
@@ -114,6 +116,7 @@ typedef struct {
 } Program;
 
 static Program *selected_program = NULL;
+static Program *running_program = NULL;
 
 pid_t helper_pid = -1;
 
@@ -380,6 +383,21 @@ geniuserror(const char *s)
 		return;
 
 	gel_get_file_info(&file,&line);
+	/* put insertion point at the line of the error */
+	if (line > 0 && running_program != NULL) {
+		GtkTextIter iter;
+		gtk_text_buffer_get_iter_at_line
+			(GTK_TEXT_BUFFER (running_program->buffer),
+			 &iter,
+			 line);
+		gtk_text_buffer_place_cursor
+			(GTK_TEXT_BUFFER (running_program->buffer),
+			 &iter);
+		gtk_text_view_scroll_mark_onscreen
+			(GTK_TEXT_VIEW (running_program->tv),
+			 gtk_text_buffer_get_mark (running_program->buffer,
+						   "insert"));
+	}
 	if(file)
 		str = g_strdup_printf("%s:%d: %s",file,line,s);
 	else if(line>0)
@@ -1421,6 +1439,35 @@ reload_cb (GtkWidget *menu_item)
 }
 
 static void
+move_cursor (GtkTextBuffer *buffer,
+	     const GtkTextIter *new_location,
+	     GtkTextMark *mark,
+	     gpointer data)
+{
+	Program *p = data;
+	GtkTextIter iter;
+	int line;
+	char *s;
+
+	gtk_text_buffer_get_iter_at_mark
+		(p->buffer,
+		 &iter,
+		 gtk_text_buffer_get_insert (p->buffer));
+	
+	line = gtk_text_iter_get_line (&iter);
+
+	if (line == p->curline)
+		return;
+
+	p->curline = line;
+
+	gnome_appbar_pop (GNOME_APPBAR (appbar));
+	s = g_strdup_printf (_("Line: %d"), line+1);
+	gnome_appbar_push (GNOME_APPBAR (appbar), s);
+	g_free (s);
+}
+
+static void
 new_program (const char *filename)
 {
 	static int cnt = 1;
@@ -1450,7 +1497,12 @@ new_program (const char *filename)
 	p->selected = FALSE;
 	p->buffer = buffer;
 	p->tv = tv;
+	p->curline = 0;
 	g_object_set_data (G_OBJECT (sw), "program", p);
+
+	g_signal_connect_after (G_OBJECT (p->buffer), "mark_set",
+				G_CALLBACK (move_cursor),
+				p);
 
 	if (filename == NULL) {
 		/* the file name will have an underscore */
@@ -1805,6 +1857,8 @@ run_program (GtkWidget *menu_item, gpointer data)
 
 		g_free (prog);
 
+		running_program = selected_program;
+
 		gel_push_file_info (name, 1);
 		/* FIXME: Should not use main_out, we should have a separate
 		   console for output, the switching is annoying */
@@ -1828,6 +1882,8 @@ run_program (GtkWidget *menu_item, gpointer data)
 		calc_running --;
 
 		gel_printout_infos ();
+
+		running_program = NULL;
 
 		vte_terminal_feed (VTE_TERMINAL (term),
 				   "\e[0m)))End", -1);
@@ -2167,7 +2223,9 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
 		selection_changed ();
 		gtk_widget_set_sensitive (edit_menu[EDIT_CUT_ITEM].widget,
 					  FALSE);
+		gnome_appbar_pop (GNOME_APPBAR (appbar));
 	} else {
+		char *s;
 		GtkWidget *w;
 		/* something else */
 		gtk_widget_set_sensitive (edit_menu[EDIT_CUT_ITEM].widget,
@@ -2199,6 +2257,12 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
 					  selected_program->real_file);
 		gtk_widget_set_sensitive (file_menu[FILE_SAVE_ITEM].widget,
 					  selected_program->real_file);
+
+		gnome_appbar_pop (GNOME_APPBAR (appbar));
+		s = g_strdup_printf (_("Line: %d"),
+				     selected_program->curline + 1);
+		gnome_appbar_push (GNOME_APPBAR (appbar), s);
+		g_free (s);
 	}
 }
 
@@ -2340,9 +2404,9 @@ main (int argc, char *argv[])
 	gtk_widget_hide (genius_menu[PROGRAMS_MENU].widget);
 
 	/*setup appbar*/
-	w = gnome_appbar_new(FALSE, TRUE, GNOME_PREFERENCES_USER);
-	gnome_app_set_statusbar(GNOME_APP(genius_window), w);
-	gtk_widget_show(w);
+	appbar = gnome_appbar_new(FALSE, TRUE, GNOME_PREFERENCES_USER);
+	gnome_app_set_statusbar(GNOME_APP(genius_window), appbar);
+	gtk_widget_show(appbar);
 
 	gnome_app_install_menu_hints(GNOME_APP(genius_window),
 				     genius_menu);
