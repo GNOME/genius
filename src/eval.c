@@ -3753,6 +3753,28 @@ iter_forinloop(GelCtx *ctx, GelETree *n)
 	
 	EDEBUG("   ITER FORIN LOOP");
 
+	/* If there is nothing to sum */
+	if (from->type == NULL_NODE) {
+		/* replace n with the appropriate nothingness */
+		freetree_full (n, TRUE, FALSE);
+		switch (n->op.oper) {
+		case E_FORIN_CONS:
+			n->type = NULL_NODE;
+			break;
+		case E_SUMIN_CONS:
+			gel_makenum_ui_from (n, 0);
+			break;
+		case E_PRODIN_CONS:
+			gel_makenum_ui_from (n, 1);
+			break;
+		default:
+			g_assert_not_reached ();
+			break;
+		}
+		iter_pop_stack (ctx);
+		return;
+	}
+
 	if(from->type != VALUE_NODE &&
 	   from->type != MATRIX_NODE) {
 		(*errorout)(_("Bad type for 'for in' loop!"));

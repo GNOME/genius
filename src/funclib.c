@@ -4037,6 +4037,7 @@ gel_funclib_addall(void)
 	new_category ("equation_solving", _("Equation Solving"));
 	new_category ("statistics", _("Statistics"));
 	new_category ("polynomial", _("Polynomials"));
+	new_category ("sets", _("Set Theory"));
 	new_category ("misc", _("Miscellaneous"));
 
 	/* FIXME: add more help fields */

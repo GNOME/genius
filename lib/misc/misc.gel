@@ -1,6 +1,7 @@
 # Misc Constants/functions for Dr. Genius
 
 ###### Boolean constants
+# FIXME: must have builtin boolean, 0/1 is pretty ugly
 SetHelp ("true", "basic", "True (well really the value 1)")
 true = 1;
 protect ("true");
@@ -8,25 +9,63 @@ SetHelp ("false", "basic", "False (well really the value 0)")
 false = 0;
 protect ("false");
 
+#FIXME: move to a different file
 # Set-theoretic subtraction
 #FIXME: this should be built-in
 # Returns X - Y
+SetHelp ("SetMinus", "sets", "Returns a set theoretic difference X-Y (X and Y are vectors pretending to be sets)");
 function SetMinus(X,Y) =
   (
-   difference=0;
+   difference=null;
    for x in X do
-    if not(IsIn(x,Y)) then difference=[difference,x];
-   DeleteColumn(difference,1)
+    if not IsIn(x,Y) then difference=[difference,x];
+   difference
   )
+protect("SetMinus");
+
+#FIXME: move to a different file
+SetHelp ("Union", "sets", "Returns a set theoretic union of X and Y (X and Y are vectors pretending to be sets)");
+function Union(X,Y) =
+  (
+   for x in X do
+    if not IsIn(x,Y) then Y=[Y,x];
+   Y
+  )
+protect("Union");
+
+#FIXME: move to a different file
+SetHelp ("Intersection", "sets", "Returns a set theoretic intersection of X and Y (X and Y are vectors pretending to be sets)");
+function Intersection(X,Y) =
+  (
+   intersect = null;
+   for x in X do
+    if IsIn(x,Y) then intersect=[intersect,x];
+   intersect
+  )
+protect("Intersection");
+
+#FIXME: move to a different file
+SetHelp ("MakeSet", "sets", "Returns a set where every element of X appears only once");
+function MakeSet(X) =
+  (
+   S = null;
+   for x in X do
+    if not IsIn(x,S) then S=[S,x];
+   S
+  )
+protect("MakeSet");
 
 # Test for set membership
 #FIXME: this should be built-in
+#FIXME: move to a different file
+SetHelp ("IsIn", "sets", "Returns true if the element x is in the set X (where X is a vector pretending to be a set)");
 function IsIn(x,X) =
   (
    for loop in X do
     if x==loop then (return true);
    return false
   )
+protect ("IsIn");
 
 #make something a string
 SetHelp("string","basic","Make a string");
