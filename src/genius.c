@@ -176,12 +176,7 @@ nop (void)
 static const char *
 get_version_details (void)
 {
-#ifndef HAVE_MPFR
-	return _("\nNote: Compiled without MPFR (some operations may be slow) "
-		 "see www.mpfr.org");
-#else
 	return "";
-#endif
 }
 
 int

@@ -29,14 +29,9 @@
 #endif
 
 /* FIXME: we may need the same as above */
-#ifdef HAVE_MPFR
 #include <mpfr.h>
+/* FIXME: get rid of mpf usage altogether */
 #include <mpf2mpfr.h>
-
-/* FIXME: ugly hack to get pi_mpf and the structs to work */
-#define mpf_ptr mpfr_ptr
-#define __mpf_struct __mpfr_struct
-#endif
 
 
 enum {
@@ -63,7 +58,7 @@ typedef struct _MpwRealNum {
 		   case we have two unused pointers*/
 		mpz_ptr ival;
 		mpq_ptr rval;
-		mpf_ptr fval;
+		mpfr_ptr fval;
 	} data;
 	union {
 		struct _MpwRealNum *next; /*used for free lists*/
@@ -93,42 +88,6 @@ enum {
 	MPW_NUMERICAL_ERROR,
 };
 
-
-#if 0
-/* If we ever will need different contexts, currently very much on the
-   backburner */
-/*************************************************************************/
-/*conext level stuff                                                     */
-/*************************************************************************/
-
-/* private struct, use accessors for fields */
-typedef struct _MpwCtx MpwCtx;
-
-typedef void (*MpwErrorFunc) (MpwCtx *, char *);
-
-/* make new context with a refcount of 1 */
-MpwCtx *mpw_ctx_new(MpwErrorFunc errorout,
-		    int default_mpf_prec,
-		    gboolean double_math,
-		    gpointer data);
-
-void mpw_ctx_set_errorout(MpwCtx *mctx, MpwErrorFunc errorout);
-void mpw_ctx_set_default_mpf_prec(MpwCtx *mctx, int default_mpf_prec);
-void mpw_ctx_set_double_math(MpwCtx *mctx, gboolean double_math);
-/* if mctx is one gotten from an GelExecCtx, then user code should not
-   use data as it points to the GelExecCtx */
-void mpw_ctx_set_data(MpwCtx *mctx, gpointer data);
-
-MpwErrorFunc mpw_ctx_get_errorout(MpwCtx *mctx);
-int mpw_ctx_get_default_mpf_prec(MpwCtx *mctx);
-gboolean mpw_ctx_get_double_math(MpwCtx *mctx);
-gpointer mpw_ctx_get_data(MpwCtx *mctx);
-
-void mpw_ctx_ref(MpwCtx *mctx);
-void mpw_ctx_unref(MpwCtx *mctx);
-#endif
-
-
 /*************************************************************************/
 /*high level stuff                                                       */
 /*************************************************************************/
@@ -155,25 +114,45 @@ void mpw_set_si(mpw_ptr rop,signed long int i);
 void mpw_set_ui(mpw_ptr rop,unsigned long int i);
 void mpw_set_mpz_use (mpw_ptr rop, mpz_ptr op);
 void mpw_set_mpq_use (mpw_ptr rop, mpq_ptr op);
-void mpw_set_mpf_use (mpw_ptr rop, mpf_ptr op);
+void mpw_set_mpf_use (mpw_ptr rop, mpfr_ptr op);
 
 mpz_ptr mpw_peek_real_mpz (mpw_ptr op);
 mpq_ptr mpw_peek_real_mpq (mpw_ptr op);
-mpf_ptr mpw_peek_real_mpf (mpw_ptr op);
+mpfr_ptr mpw_peek_real_mpf (mpw_ptr op);
 
 mpz_ptr mpw_peek_imag_mpz (mpw_ptr op);
 mpq_ptr mpw_peek_imag_mpq (mpw_ptr op);
-mpf_ptr mpw_peek_imag_mpf (mpw_ptr op);
+mpfr_ptr mpw_peek_imag_mpf (mpw_ptr op);
 
-/* Just quick hacks to get an mpz, tmp should be an unused mpz_t,
-   rop should be mpz_ptr and op should be mpw_ptr */
-#define MPW_MPZ_REAL(rop,op,tmp) { \
-				   rop = mpw_peek_real_mpz (op); \
+/* Just quick hacks to get a mpf, tmp should be an unused mpfr_t,
+   rop should be mpfr_ptr and op should be mpw_ptr */
+#define MPW_MPF_REAL(rop,op,tmp) { \
+				   if (op->r->type == MPW_FLOAT) { \
+					   rop = mpw_peek_real_mpf (op); \
+				   } else if (op->r->type == MPW_INTEGER) { \
+					   mpfr_init (tmp); \
+					   mpfr_set_z (tmp, op->r->data.ival); \
+					   rop = tmp; \
+				   } else /* if (op->r->type == MPW_RATIONAL) */ { \
+					   mpfr_init (tmp); \
+					   mpfr_set_q (tmp, op->r->data.rval); \
+					   rop = tmp; \
+				   } \
 			       }
-#define MPW_MPZ_IMAG(rop,op,tmp) {  \
-				   rop = mpw_peek_imag_mpz (op); \
+#define MPW_MPF_IMAG(rop,op,tmp) { \
+				   if (op->i->type == MPW_FLOAT) { \
+					   rop = mpw_peek_imag_mpf (op); \
+				   } else if (op->i->type == MPW_INTEGER) { \
+					   mpfr_init (tmp); \
+					   mpfr_set_z (tmp, op->i->data.ival); \
+					   rop = tmp; \
+				   } else /* if (op->r->type == MPW_RATIONAL) */ { \
+					   mpfr_init (tmp); \
+					   mpfr_set_q (tmp, op->i->data.rval); \
+					   rop = tmp; \
+				   } \
 			       }
-#define MPW_MPZ_KILL(rop,tmp) { if (rop == tmp) mpz_clear (tmp); }
+#define MPW_MPF_KILL(rop,tmp) { if (rop == tmp) mpfr_clear (tmp); }
 
 
 void mpw_abs(mpw_ptr rop,mpw_ptr op);
@@ -228,6 +207,7 @@ void mpw_sinh(mpw_ptr rop,mpw_ptr op);
 void mpw_cosh(mpw_ptr rop,mpw_ptr op);
 void mpw_arctan(mpw_ptr rop,mpw_ptr op);
 void mpw_pi (mpw_ptr rop);
+void mpw_ln2 (mpw_ptr rop);
 void mpw_euler_constant (mpw_ptr rop);
 void mpw_i (mpw_ptr rop);
 void mpw_rand (mpw_ptr rop);

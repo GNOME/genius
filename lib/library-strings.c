@@ -191,7 +191,7 @@ char *fake = N_("Compute two-sided derivative using three-point formula");
 char *fake = N_("argument (angle) of complex number");
 char *fake = N_("Dirichlet kernel of order n");
 char *fake = N_("Returns 1 iff all elements are zero");
-char *fake = N_("The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt");
+char *fake = N_("The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt");
 char *fake = N_("Fejer kernel of order n");
 char *fake = N_("Returns 1 iff all elements are equal");
 char *fake = N_("Find the first value where f(x)=0");

@@ -62,6 +62,8 @@ GelEFunc *Numerator_function = NULL;
 GelEFunc *Denominator_function = NULL;
 GelEFunc *Re_function = NULL;
 GelEFunc *Im_function = NULL;
+/* GelEFunc *ErrorFunction_function = NULL; */
+/* GelEFunc *RiemannZeta_function = NULL; */
 
 /*maximum number of primes to precalculate and store*/
 #define MAXPRIMES 30000
@@ -1119,6 +1121,73 @@ GoldenRatio_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	return gel_makenum (golden_ratio_cache);
 }
 
+/*
+static GelETree *
+ErrorFunction_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	mpfr_ptr num;
+	mpfr_t tmp;
+	mpfr_t ret;
+	mpw_t retw;
+
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (ErrorFunction_function, a[0]);
+	}
+
+	if (a[0]->type == MATRIX_NODE)
+		return apply_func_to_matrix (ctx, a[0], ErrorFunction_op, "ErrorFunction", exception);
+
+	if G_UNLIKELY ( ! check_argument_real_number (a, 0, "ErrorFunction"))
+		return NULL;
+
+	MPW_MPF_REAL (num, a[0]->val.value, tmp);
+
+	mpf_init (ret);
+	mpfr_erf (ret, num, GMP_RNDN);
+
+	MPW_MPF_KILL (num, tmp);
+
+	mpw_init (retw);
+	mpw_set_mpf_use (retw, ret);
+
+	return gel_makenum (retw);
+}
+
+static GelETree *
+RiemannZeta_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	mpfr_ptr num;
+	mpfr_t tmp;
+	mpfr_t ret;
+	mpw_t retw;
+
+	if (a[0]->type == FUNCTION_NODE ||
+	    a[0]->type == IDENTIFIER_NODE) {
+		return function_from_function (RiemannZeta_function, a[0]);
+	}
+
+	if (a[0]->type == MATRIX_NODE)
+		return apply_func_to_matrix (ctx, a[0], RiemannZeta_op, "RiemannZeta", exception);
+
+	if G_UNLIKELY ( ! check_argument_real_number (a, 0, "RiemannZeta"))
+		return NULL;
+
+	MPW_MPF_REAL (num, a[0]->val.value, tmp);
+
+	mpf_init (ret);
+	mpfr_erf (ret, num, GMP_RNDN);
+
+	MPW_MPF_KILL (num, tmp);
+
+	mpw_init (retw);
+	mpw_set_mpf_use (retw, ret);
+
+	return gel_makenum (retw);
+}
+*/
+
+
 static GelETree *
 IsNull_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
@@ -1504,16 +1573,14 @@ sqrt_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		GelETree *ret;
 		gboolean is_prime;
 		mpz_ptr num;
-		mpz_t tmp;
 		GelEFunc *SqrtModPrime;
 		static GelToken *SqrtModPrime_id = NULL;
 
 		if G_UNLIKELY ( ! check_argument_integer (a, 0, "sqrt"))
 			return NULL;
 
-		MPW_MPZ_REAL (num, ctx->modulo, tmp);
+		num = mpw_peek_real_mpz (ctx->modulo);
 		is_prime = mympz_is_prime (num, -1);
-		MPW_MPZ_KILL (num, tmp);
 
 		if ( ! is_prime) {
 			gel_errorout (_("%s: square root for composite moduli "
@@ -2777,7 +2844,6 @@ IsPrime_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	int ret;
 	mpz_ptr num;
-	mpz_t tmp;
 
 	if (a[0]->type == MATRIX_NODE)
 		return apply_func_to_matrix (ctx, a[0], IsPrime_op, "IsPrime", exception);
@@ -2785,11 +2851,9 @@ IsPrime_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if G_UNLIKELY ( ! check_argument_integer (a, 0, "IsPrime"))
 		return NULL;
 
-	MPW_MPZ_REAL (num, a[0]->val.value, tmp);
+	num = mpw_peek_real_mpz (a[0]->val.value);
 
 	ret = mympz_is_prime (num, -1);
-
-	MPW_MPZ_KILL (num, tmp);
 
 	return gel_makenum_bool (ret);
 }
@@ -2799,9 +2863,7 @@ StrongPseudoprimeTest_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	int ret;
 	mpz_ptr num;
-	mpz_t tmp;
 	mpz_ptr b;
-	mpz_t tmpb;
 
 	if (a[0]->type == MATRIX_NODE)
 		return apply_func_to_matrixen (ctx, a[0], a[1],
@@ -2813,13 +2875,10 @@ StrongPseudoprimeTest_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 			! check_argument_positive_integer (a, 1, "StrongPseudoprimeTest"))
 		return NULL;
 
-	MPW_MPZ_REAL (num, a[0]->val.value, tmp);
-	MPW_MPZ_REAL (b, a[1]->val.value, tmpb);
+	num = mpw_peek_real_mpz (a[0]->val.value);
+	b = mpw_peek_real_mpz (a[1]->val.value);
 
 	ret = mympz_strong_pseudoprime_test (num, b);
-
-	MPW_MPZ_KILL (num, tmp);
-	MPW_MPZ_KILL (b, tmpb);
 
 	return gel_makenum_bool (ret);
 }
@@ -2830,7 +2889,6 @@ MillerRabinTest_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	int ret;
 	int reps;
 	mpz_ptr num;
-	mpz_t tmp;
 
 	if (a[0]->type == MATRIX_NODE)
 		return apply_func_to_matrixen (ctx, a[0], a[1],
@@ -2843,11 +2901,10 @@ MillerRabinTest_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 
 	reps = get_nonnegative_integer (a[1]->val.value, "MillerRabinTest");
-	MPW_MPZ_REAL (num, a[0]->val.value, tmp);
+
+	num = mpw_peek_real_mpz (a[0]->val.value);
 
 	ret = mpz_millerrabin (num, reps);
-
-	MPW_MPZ_KILL (num, tmp);
 
 	return gel_makenum_bool (ret);
 }
@@ -2857,7 +2914,6 @@ MillerRabinTestSure_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	int ret;
 	mpz_ptr num;
-	mpz_t tmp;
 
 	if (a[0]->type == MATRIX_NODE)
 		return apply_func_to_matrix (ctx, a[0],
@@ -2872,11 +2928,9 @@ MillerRabinTestSure_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 	}
 
-	MPW_MPZ_REAL (num, a[0]->val.value, tmp);
+	num = mpw_peek_real_mpz (a[0]->val.value);
 
 	ret = mympz_miller_rabin_test_sure (num);
-
-	MPW_MPZ_KILL (num, tmp);
 
 	return gel_makenum_bool (ret);
 }
@@ -2885,7 +2939,6 @@ static GelETree *
 Factorize_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpz_ptr num;
-	mpz_t tmp;
 	GArray *fact;
 	GelETree *n;
 	GelMatrixW *mn;
@@ -2899,11 +2952,9 @@ Factorize_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if G_UNLIKELY ( ! check_argument_integer (a, 0, "Factorize"))
 		return NULL;
 
-	MPW_MPZ_REAL (num, a[0]->val.value, tmp);
+	num = mpw_peek_real_mpz (a[0]->val.value);
 
 	fact = mympz_pollard_rho_factorize (num);
-
-	MPW_MPZ_KILL (num, tmp);
 
 	/* error or interrupt or whatnot */
 	if G_UNLIKELY (fact == NULL) {
@@ -2962,7 +3013,6 @@ Divides_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	int ret;
 	mpz_ptr numa, numb;
-	mpz_t tmpa, tmpb;
 
 	if (a[0]->type == MATRIX_NODE ||
 	    a[1]->type == MATRIX_NODE)
@@ -2972,22 +3022,16 @@ Divides_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			! check_argument_integer (a, 1, "Divides"))
 		return NULL;
 
-	MPW_MPZ_REAL (numa, a[0]->val.value, tmpa);
-	MPW_MPZ_REAL (numb, a[1]->val.value, tmpb);
+	numa = mpw_peek_real_mpz (a[0]->val.value);
+	numb = mpw_peek_real_mpz (a[1]->val.value);
 
 	if (mpz_sgn (numa) == 0) {
-		MPW_MPZ_KILL (numa, tmpa);
-		MPW_MPZ_KILL (numb, tmpb);
-
 		gel_errorout (_("Division by zero!"));
 
 		return NULL;
 	}
 
 	ret = mpz_divisible_p (numb, numa);
-
-	MPW_MPZ_KILL (numa, tmpa);
-	MPW_MPZ_KILL (numb, tmpb);
 
 	return gel_makenum_bool (ret);
 }
@@ -2996,7 +3040,6 @@ static GelETree *
 ExactDivision_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	mpz_ptr numa, numb;
-	mpz_t tmpa, tmpb;
 	mpz_t ret;
 	mpw_t retw;
 
@@ -3008,13 +3051,10 @@ ExactDivision_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			! check_argument_integer (a, 1, "ExactDivision"))
 		return NULL;
 
-	MPW_MPZ_REAL (numa, a[0]->val.value, tmpa);
-	MPW_MPZ_REAL (numb, a[1]->val.value, tmpb);
+	numa = mpw_peek_real_mpz (a[0]->val.value);
+	numb = mpw_peek_real_mpz (a[1]->val.value);
 
 	if (mpz_sgn (numb) == 0) {
-		MPW_MPZ_KILL (numa, tmpa);
-		MPW_MPZ_KILL (numb, tmpb);
-
 		gel_errorout (_("Division by zero!"));
 
 		return NULL;
@@ -3022,9 +3062,6 @@ ExactDivision_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	mpz_init (ret);
 	mpz_divexact (ret, numa, numb);
-
-	MPW_MPZ_KILL (numa, tmpa);
-	MPW_MPZ_KILL (numb, tmpb);
 
 	mpw_init (retw);
 	mpw_set_mpz_use (retw, ret);
@@ -4525,6 +4562,16 @@ gel_funclib_addall(void)
 	FUNC (EulerConstant, 0, "", "constants",
 	      N_("Euler's Constant gamma good up to about precision of 9516 digits"));
 	ALIAS (gamma, 0, EulerConstant);
+
+	/* FIXME: need to handle complex values */
+	/*
+	FUNC (ErrorFunction, 1, "x", "functions", N_("The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt"));
+	ErrorFunction_function = f;
+	ALIAS (erf, 1, ErrorFunction);
+	FUNC (RiemannZeta, 1, "x", "functions", N_("The Riemann zeta function"));
+	RiemannZeta_function = f;
+	ALIAS (zeta, 1, RiemannZeta);
+	*/
 
 	FUNC (sqrt, 1, "x", "numeric", N_("The square root"));
 	f->propagate_mod = 1;

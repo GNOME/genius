@@ -54,144 +54,11 @@ struct _MpwCtx {
 };
 #endif
 
-#ifndef HAVE_MPFR
-/* As calculated by Thomas Papanikolaou taken from
- * http://www.cecm.sfu.ca/projects/ISC/dataB/isc/C/gamma.txt */
-/* We only need this if not compiling with MPFR since MPFR does this
- * for us at any precision we want */
-const char *euler_constant =
-"0.5772156649015328606065120900824024310421593359399235988057672348848677267776\
-646709369470632917467495146314472498070824809605040144865428362241739976449235\
-362535003337429373377376739427925952582470949160087352039481656708532331517766\
-115286211995015079847937450857057400299213547861466940296043254215190587755352\
-673313992540129674205137541395491116851028079842348775872050384310939973613725\
-530608893312676001724795378367592713515772261027349291394079843010341777177808\
-815495706610750101619166334015227893586796549725203621287922655595366962817638\
-879272680132431010476505963703947394957638906572967929601009015125195950922243\
-501409349871228247949747195646976318506676129063811051824197444867836380861749\
-455169892792301877391072945781554316005002182844096053772434203285478367015177\
-394398700302370339518328690001558193988042707411542227819716523011073565833967\
-348717650491941812300040654693142999297779569303100503086303418569803231083691\
-640025892970890985486825777364288253954925873629596133298574739302373438847070\
-370284412920166417850248733379080562754998434590761643167103146710722370021810\
-745044418664759134803669025532458625442225345181387912434573501361297782278288\
-148945909863846006293169471887149587525492366493520473243641097268276160877595\
-088095126208404544477992299157248292516251278427659657083214610298214617951957\
-959095922704208989627971255363217948873764210660607065982561990102880756125199\
-137511678217643619057058440783573501580056077457934213144988500786415171615194\
-565706170432450750081687052307890937046143066848179164968425491504967243121837\
-838753564894950868454102340601622508515583867234944187880440940770106883795111\
-307872023426395226920971608856908382511378712836820491178925944784861991185293\
-910293099059255266917274468920443869711147174571574573203935209122316085086827\
-558890109451681181016874975470969366671210206304827165895049327314860874940207\
-006742590918248759621373842311442653135029230317517225722162832488381124589574\
-386239870375766285513033143929995401853134141586212788648076110030152119657800\
-681177737635016818389733896639868957932991456388644310370608078174489957958324\
-579418962026049841043922507860460362527726022919682995860988339013787171422691\
-788381952984456079160519727973604759102510995779133515791772251502549293246325\
-028747677948421584050759929040185576459901862692677643726605711768133655908815\
-548107470000623363725288949554636971433012007913085552639595497823023144039149\
-740494746825947320846185246058776694882879530104063491722921858008706770690427\
-926743284446968514971825678095841654491851457533196406331199373821573450874988\
-325560888873528019019155089688554682592454445277281730573010806061770113637731\
-824629246600812771621018677446849595142817901451119489342288344825307531187018\
-609761224623176749775564124619838564014841235871772495542248201615176579940806\
-296834242890572594739269638633838743805471319676429268372490760875073785283702\
-304686503490512034227217436689792848629729088926789777032624623912261888765300\
-577862743606094443603928097708133836934235508583941126709218734414512187803276\
-150509478055466300586845563152454605315113252818891079231491311032344302450933\
-450003076558648742229717700331784539150566940159988492916091140029486902088485\
-381697009551566347055445221764035862939828658131238701325358800625686626926997\
-767737730683226900916085104515002261071802554659284938949277595897540761559933\
-782648241979506418681437881718508854080367996314239540091964388750078900000627\
-997942809886372992591977765040409922037940427616817837156686530669398309165243\
-227059553041766736640116792959012930537449718308004275848635083808042466735093\
-559832324116969214860649892763624432958854873789701489713343538448002890466650\
-902845376896223983048814062730540879591189670574938544324786914808533770264067\
-758081275458731117636478787430739206642011251352727499617545053085582356683068\
-322917676677041035231535032510124656386156706449847132695969330167866138333333\
-441657900605867497103646895174569597181553764078377650184278345991842015995431\
-449047725552306147670165993416390660912054005322158902091340802782251533852899\
-511665452245869185993671220132150144801424230986254604488672569343148870491593\
-044640189164502022405495386291847586293077889350643771596606909604681243702305\
-465703160679992587166675247219409777980186362625633582526279422393254860132693\
-530701388937436923842878938512764740856548650281563067740442203064403756826309\
-102917514572234441050369317711452170888907446416048688701083862311426128441425\
-960956370400619200579335034155242624026206465693543061258526583452192121497771\
-878069586608516334922104836737994592594340379560002192785418379417760203365594\
-673078879838084816314678241492354649148876683368407492893865281863048589820354\
-818624383848175997635849075180791480634943916284705482200754945348986133827235\
-730922190030740096800337666844932505567654937530318112516410552492384077645149\
-842395762012781552322944928854557853820248918942441857095919558208100071578384\
-039627479985817880888865716830699436060735990421068511427913169699596792300828\
-988156097538338059109360341252998656790389568795673455083362907823862638563490\
-747319275278740166557531190111543470018186256971261120126852923129937161403906\
-965112224816615082353643982396620532633322248505191593682690715004315589871802\
-783353845448309107249498057880961717996337167036554180041464667538719586948483\
-331543583330641935929487420951478832347748481418149776871694413640056645156936\
-116524161555734141935424721373067468333849054426626038372788217552709930958141\
-026136979500786465876771608630804460749802801576962675913897794772214337515470\
-829345879123898433055067223474969984942486706721502569273529585065869588997486\
-535562186958043997125168976654169862653862891977542187721939605817001104236414\
-158780810386172101557551923711160049880682291618097732421958328974869227183979\
-190467716542668138893379296036815457939611339621922245430151580631743708405608\
-536416031384982969518566952612822123716939368130321296561939718710207098007948\
-833910197535104307441823448833331796978277332091143324514305086573457500687391\
-475470777577559918467118308583660159437193718449039061770232536567977596744475\
-747511584195746700997345002454428406585024508585646392791246119879093693072019\
-804029303603738838430742162821201635386466226097198958436799430572030149638050\
-832232365825557724534237187737439818333306454662906993311125973721950274646899\
-065457155440303917835419756434315739034883866750542742161831050060550464223545\
-708427393549359051762717479299472398908632970101905610107742690926475235740304\
-630159243442464900834188630859320685522507790910195858895314328799817570981916\
-829315940453005632543314488517357302698256937253469964013440871580108145287865\
-790408663637945071108505104241797691911292615132010316363498086606948624407800\
-668400671696221463718114777268341846646364242734053003138077349611998146861768\
-585463120816316479893796426373835661893831371098328956490521148813402974238886\
-863154313297876579912545424333856347200268129048994955042698088213026726358153\
-248067538790323057421040330149788786752377860705468861472100992632942510887801\
-970284117922402591091466584809257857192786282147667074087863519714256292427867\
-028407703241437569931883243331559002433304769111009247979118006286202213707800\
-621725732904735994398883139279927969397063567628116694054128859081982023838277\
-035483496879734048888293016736770941584654400954862465146101353913496855912040\
-236361872150992980651905861682815302875042754525860533196343259577747881343723\
-939499124380614375449859068607518563142725525564259396701498041425981823785257\
-682943639596562438852065654807103884546394453770191784571874101186223227802525\
-194362657438242256093567692582387749116073775945140144703190224153559112506138\
-178297421264982641618724606313340891926702359795802365841631755679233566210123\
-133584549459059006998420067226025116774384736482438571540714626594564239112717\
-078030637141692638644010057131095896063264963755295676936468941051795200061645\
-202188435340473018243930514881984593076296404445687762416528716207276731860632\
-540801428874571198657307471701886603687970364770854852871670003622928528837468\
-246605881411754047446061676354303739923756596593696708792316774468569310838210\
-783048315919643002144125970228906320317410114936648095290301171633453191792293\
-924242877283787234956992923213609223494722645824375509451533552011761289751733\
-951371782933287158609438662701179184155458726489825139255594379519731786744876\
-992532617942338129994127939860264424519600605436818664670986594436593015437629\
-148697959769499653352721002002096791043948254724411334224487005463765684086676\
-215337362746159120547008629057169825735370523976123123841256434941178949861582\
-859702097109703919635216812258224756271951938272828520914718237534365525402074\
-620306673047695247009441381456178282666319613967359367257264603388494642489472\
-448978481596715306153846712236987128231978476931105716623637326207595971180401\
-514389623170601958570982381392466613527913695637655904861676205129740998314965\
-597860253410129454399867288300624408440186181511750687088764671609799292017769\
-624963301575829259618849485872002292248060628812177873383145882551293953651088\
-191865120044923154983947731473578688973142047310945381464822632102331079439597\
-462852354129575191063558792300195618131294612030157576340159785681751749842377\
-882447375398247457599686770740854557432942402678193848220354096210606072192499\
-082510485400318496319986322156908909761405310716511312932685349852440286448293\
-470591608586995981988903959955918110764134466588145254256588153545028884739975\
-324327809021522569521844145298650835512983980226238264974881811581525034599749\
-";
-#endif /* ! HAVE_MPFR */
-
 static MpwRealNum *free_reals = NULL;
 static int free_reals_n = 0;
 
 static MpwRealNum *zero = NULL;
 static MpwRealNum *one = NULL;
-
-static mpf_ptr pi_mpf = NULL;
 
 static int default_mpf_prec = 0;
 
@@ -200,8 +67,8 @@ static mpz_ptr free_mpz[FREE_LIST_SIZE] = { NULL, };
 static mpz_ptr *free_mpz_top = free_mpz;
 static mpq_ptr free_mpq[FREE_LIST_SIZE] = { NULL, };
 static mpq_ptr *free_mpq_top = free_mpq;
-static mpf_ptr free_mpf[FREE_LIST_SIZE] = { NULL, };
-static mpf_ptr *free_mpf_top = free_mpf;
+static mpfr_ptr free_mpf[FREE_LIST_SIZE] = { NULL, };
+static mpfr_ptr *free_mpf_top = free_mpf;
 
 #define GET_INIT_MPZ(THE_z)				\
 	if (free_mpz_top == free_mpz) {			\
@@ -240,7 +107,7 @@ static mpf_ptr *free_mpf_top = free_mpf;
 	}
 #define GET_INIT_MPF(THE_f)				\
 	if (free_mpf_top == free_mpf) {			\
-		THE_f = g_new(__mpf_struct,1);		\
+		THE_f = g_new(__mpfr_struct,1);		\
 		mpf_init (THE_f);			\
 	} else {					\
 		free_mpf_top--;				\
@@ -319,68 +186,19 @@ static mpf_ptr *free_mpf_top = free_mpf;
 	}						\
 }
 
-#if 0
-/*************************************************************************/
-/*cache system                                                           */
-/*************************************************************************/
-typedef struct _MpwCache MpwCache;
-struct _MpwCache {
-	int prec;
-	int use_count;
-	mpf_ptr pi_mpf;
-};
-
-static MpwCache *mpw_chache_get(int prec);
-static void mpw_chache_unget(MpwCache *mc);
-static GHashTable *mpw_cache_ht = NULL;
-#endif
-
 /*************************************************************************/
 /*low level stuff prototypes                                             */
 /*************************************************************************/
 
-#ifndef HAVE_MPFR
-/*get sin*/
-static void mympf_sin(mpf_t rop, mpf_t op, gboolean hyperbolic, gboolean reduceop);
-/*get cos*/
-static void mympf_cos(mpf_t rop, mpf_t op, gboolean hyperbolic, gboolean reduceop);
-/*get arctan*/
-static void mympf_arctan(mpf_ptr rop, mpf_ptr op);
-#endif
-/*get pi*/ /* This will use MPFR if needed and does the caching */
-/* FIXME: this should be done differently */
-static void mympf_pi(mpf_ptr rop);
-
 /*my own power function for floats, very simple :) */
-static void mympf_pow_z(mpf_t rop,mpf_t op,mpz_t e);
+static void mympfr_pow_z(mpf_t rop,mpf_t op,mpz_t e);
 
 /*my own power function for ints, very simple :) */
 static void mympz_pow_z(mpz_t rop,mpz_t op,mpz_t e);
 
 static gboolean mympq_perfect_square_p (mpq_t op);
 
-#ifndef HAVE_MPFR
-/*simple exponential function*/
-static void mympf_exp(mpf_t rop,mpf_t op);
-
-/*ln function*/
-static gboolean mympf_ln(mpf_t rop,mpf_t op);
-static gboolean mympf_log2(mpf_t rop,mpf_t op);
-static gboolean mympf_log10(mpf_t rop,mpf_t op);
-#endif /* ! HAVE_MPFR */
-
-#ifdef HAVE_MPFR
-static void mympz_set_fr (mpz_ptr z, mpfr_srcptr fr);
 static void mympq_set_fr (mpq_ptr q, mpfr_srcptr fr);
-static int mympfr_cmp_d (mpfr_srcptr a, double b);
-/* FIXME: an UGLY UGLY HACK */
-#undef mpz_set_f
-#undef mpq_set_f
-#undef mpf_cmp_d
-#define mpz_set_f mympz_set_fr
-#define mpq_set_f mympq_set_fr
-#define mpf_cmp_d mympfr_cmp_d
-#endif
 
 /*clear extra variables of type type, if type=op->type nothing is done*/
 static void mpwl_clear_extra_type(MpwRealNum *op,int type);
@@ -485,6 +303,7 @@ static void mpwl_sinh(MpwRealNum *rop,MpwRealNum *op);
 static void mpwl_cosh(MpwRealNum *rop,MpwRealNum *op);
 static void mpwl_arctan(MpwRealNum *rop,MpwRealNum *op);
 static void mpwl_pi (MpwRealNum *rop);
+static void mpwl_ln2 (MpwRealNum *rop);
 static void mpwl_euler_constant (MpwRealNum *rop);
 static void mpwl_rand (MpwRealNum *rop);
 static void mpwl_randint (MpwRealNum *rop, MpwRealNum *op);
@@ -576,21 +395,6 @@ static char * mpwl_getstring(MpwRealNum * num, int max_digits,
 /*low level stuff                                                        */
 /*************************************************************************/
 
-#ifdef HAVE_MPFR
-static void
-mympz_set_fr (mpz_ptr z, mpfr_srcptr fr)
-{
-	long exp;
-	int sgn = mpfr_sgn (fr);
-	
-	exp = mpfr_get_z_exp (z, fr);
-	if (exp > 0)
-		mpz_mul_2exp (z, z, exp);
-	else if (exp < 0)
-		mpz_div_2exp (z, z, -exp);
-	if (sgn < 0)
-		mpz_neg (z, z);
-}
 
 static void
 mympq_set_fr (mpq_ptr q, mpfr_srcptr fr)
@@ -609,625 +413,14 @@ mympq_set_fr (mpq_ptr q, mpfr_srcptr fr)
 		mpq_neg (q, q);
 }
 
-static int
-mympfr_cmp_d (mpfr_srcptr a, double b)
-{
-	mpfr_t fr;
-	int ret;
-	mpfr_init_set_d (fr, b, GMP_RNDN);
-	ret = mpfr_cmp (a, fr);
-	mpfr_clear (fr);
-	return ret;
-}
-#endif
-
-#ifndef HAVE_MPFR
-/*get sin*/
-static void
-mympf_sin(mpf_t rop, mpf_t op, gboolean hyperbolic, gboolean reduceop)
-{
-	mpf_t top;
-	mpf_t bottom;
-	mpf_t fres;
-	mpf_t foldres;
-	mpf_t xsq;
-	mpz_t q;
-	unsigned long int i;
-	gboolean negate = TRUE;
-
-	/*special case*/
-	if(mpf_cmp_ui(op,0)==0) {
-		mpf_set_ui(rop,0);
-		return;
-	}
-	
-	if(!hyperbolic && reduceop) {
-		if(!pi_mpf)
-			mympf_pi(NULL);
-
-		/*make xsq be op but in the range of -pi*2<xsq<pi*2 */
-		mpf_init(xsq);
-		mpf_mul_ui(xsq,pi_mpf,2);
-		mpf_div(xsq,op,xsq);
-		mpz_init(q);
-		mpz_set_f(q,xsq);
-		mpf_set_z(xsq,q);
-		mpz_clear(q);
-		mpf_mul(xsq,xsq,pi_mpf);
-		mpf_mul_ui(xsq,xsq,2);
-		mpf_sub(xsq,op,xsq);
-	} else 
-		mpf_init_set(xsq,op);
-	
-	mpf_init_set(top,xsq);
-	mpf_init(bottom);
-	mpf_set_ui(bottom,1);
-
-	mpf_init(fres);
-	mpf_init(foldres);
-	mpf_set(foldres,top);
-
-	mpf_mul(xsq,xsq,xsq);
-
-	for(i=2;;i+=2) {
-		mpf_mul(top,top,xsq);
-		/*this assumes that G_MAXSHORT^2 can fit in an ulong*/
-		if(i<G_MAXSHORT) {
-			mpf_mul_ui(bottom,bottom,i*(i+1));
-		} else {
-			mpf_mul_ui(bottom,bottom,i);
-			mpf_mul_ui(bottom,bottom,i+1);
-		}
-		mpf_div(fres,top,bottom);
-		if(!hyperbolic && negate)
-			mpf_sub(fres,foldres,fres);
-		else
-			mpf_add(fres,foldres,fres);
-		negate= !negate;
-
-		if(mpf_cmp(foldres,fres)==0)
-			break;
-		mpf_set(foldres,fres);
-	}
-	
-	mpf_clear(top);
-	mpf_clear(bottom);
-	mpf_clear(foldres);
-	mpf_clear(xsq);
-
-	mpf_set(rop,fres);
-
-	mpf_clear(fres);
-}
-
-/*get cos*/
-static void
-mympf_cos(mpf_t rop, mpf_t op, gboolean hyperbolic, gboolean reduceop)
-{
-	mpf_t top;
-	mpf_t bottom;
-	mpf_t fres;
-	mpf_t foldres;
-	mpf_t xsq;
-	mpz_t q;
-	unsigned long int i;
-	gboolean negate = TRUE;
-	int prec;
-	int old_prec;
-	
-	old_prec = mpf_get_prec(op);
-	prec = 6*4 + old_prec;
-
-	mpf_set_default_prec(prec);
-
-	/*special case*/
-	if(mpf_cmp_ui(op,0)==0) {
-		mpf_set_ui(rop,1);
-		return;
-	}
-
-	if(!hyperbolic && reduceop) {
-		if(!pi_mpf)
-			mympf_pi(NULL);
-
-		/*make xsq be op but in the range of -pi*2<xsq<pi*2 */
-		mpf_init(xsq);
-		mpf_mul_ui(xsq,pi_mpf,2);
-		mpf_div(xsq,op,xsq);
-		mpz_init(q);
-		mpz_set_f(q,xsq);
-		mpf_set_z(xsq,q);
-		mpz_clear(q);
-		mpf_mul(xsq,xsq,pi_mpf);
-		mpf_mul_ui(xsq,xsq,2);
-		mpf_sub(xsq,op,xsq);
-	} else
-		mpf_init_set(xsq,op);
-	
-	mpf_init(top);
-	mpf_set_ui(top,1);
-	mpf_init(bottom);
-	mpf_set_ui(bottom,1);
-
-	mpf_init(fres);
-	mpf_init(foldres);
-	mpf_set_ui(foldres,1);
-
-	mpf_mul(xsq,xsq,xsq);
-
-	for(i=1;i<G_MAXULONG;i+=2) {
-		mpf_mul(top,top,xsq);
-		/*this assumes that G_MAXSHORT^2 can fit in an ulong*/
-		if(i<G_MAXSHORT) {
-			mpf_mul_ui(bottom,bottom,i*(i+1));
-		} else {
-			mpf_mul_ui(bottom,bottom,i);
-			mpf_mul_ui(bottom,bottom,i+1);
-		}
-		mpf_div(fres,top,bottom);
-		if(!hyperbolic && negate)
-			mpf_sub(fres,foldres,fres);
-		else
-			mpf_add(fres,foldres,fres);
-		negate= !negate;
-
-		if(mpf_eq(foldres,fres,old_prec))
-			break;
-		mpf_set(foldres,fres);
-	}
-	
-	mpf_clear(top);
-	mpf_clear(bottom);
-	mpf_clear(foldres);
-	mpf_clear(xsq);
-
-	mpf_set(rop,fres);
-
-	mpf_clear(fres);
-
-	mpf_set_default_prec(default_mpf_prec);
-}
-#endif /* ! HAVE_MPFR */
-
-/*get the value for pi*/
-void
-mympf_pi(mpf_ptr rop)
-{
-#ifndef HAVE_MPFR
-	mpf_t foldres;
-	mpf_t bottom;
-	mpf_t bottom2;
-	mpf_t top;
-	gboolean negate = TRUE;
-	unsigned long i;
-#endif
-
-	if(pi_mpf) {
-		if(rop) {mpf_set(rop,pi_mpf);}
-		return;
-	}
-	pi_mpf = g_new (__mpf_struct, 1);
-	mpf_init (pi_mpf);
-
-#ifdef HAVE_MPFR
-	mpfr_const_pi (pi_mpf, GMP_RNDN);
-#else
-
-	default_mpf_prec += 6*4;
-	mpf_set_default_prec(default_mpf_prec);
-
-	mpf_init(bottom);
-	mpf_set_ui(bottom,1);
-	mpf_init(bottom2);
-	mpf_set_ui(bottom2,1);
-	
-	mpf_init(top);
-	mpf_sqrt_ui(top,3);
-	mpf_mul_ui(top,top,2);
-
-	mpf_init(foldres);
-	mpf_set(foldres,top);
-
-	for(i=1;i<G_MAXULONG;i+=2) {
-		mpf_add_ui(bottom,bottom,2);
-		mpf_mul_ui(bottom2,bottom2,3);
-		mpf_mul(pi_mpf,bottom,bottom2);
-		mpf_div(pi_mpf,top,pi_mpf);
-		if(negate)
-			mpf_sub(pi_mpf,foldres,pi_mpf);
-		else
-			mpf_add(pi_mpf,foldres,pi_mpf);
-		negate= !negate;
-
-		if(mpf_cmp(foldres,pi_mpf)==0)
-			break;
-		mpf_set(foldres,pi_mpf);
-	}
-	
-	mpf_clear(top);
-	mpf_clear(bottom);
-	mpf_clear(bottom2);
-	mpf_clear(foldres);
-
-	default_mpf_prec -= 6*4;
-	mpf_set_default_prec(default_mpf_prec);
-#endif
-
-	if(rop) mpf_set(rop,pi_mpf);
-}
-
-
-#ifndef HAVE_MPFR
-/*exponential function uses the fact that e^x == (e^(x/2))^2*/
-/*precision is OFF ... bc mathlib defines it as "scale = 6 + scale + .44*x"*/
-static void
-mympf_exp(mpf_t rop,mpf_t op)
-{
-	mpf_t x;
-	mpf_t fres;
-	mpf_t foldres;
-	mpf_t fact;
-	mpf_t top;
-	mpf_t cmp;
-	unsigned long int i;
-	unsigned long int f=0;
-	unsigned long int prec;
-	unsigned long int old_prec;
-
-	int sgn;
-	
-	sgn = mpf_sgn(op);
-	if(sgn == 0) {
-		mpf_set_ui(rop,1);
-		return;
-	}
-
-	/* 4bits is about 1 digit I guess */
-	old_prec = mpf_get_prec(op);
-	prec = 6*4 + old_prec;
-
-	mpf_init2(x,prec);
-	mpf_set(x,op);
-
-	if(sgn<0)
-		mpf_neg(x,x);
-	
-	mpf_init_set_d(cmp,1.0);
-	while(mpf_cmp(x,cmp)>0) {
-		mpf_div_2exp(x,x,1);
-		f++;
-
-		if G_UNLIKELY (f == G_MAXULONG) {
-			mpf_clear(x);
-			mpf_clear(cmp);
-			gel_errorout (_("Number too large to compute exponential!"));
-			error_num=NUMERICAL_MPW_ERROR;
-			return;
-		}
-	}
-	mpf_clear(cmp);
-	
-	mpf_init2(fres,prec);
-	mpf_init2(foldres,prec);
-	mpf_set_d(foldres,1.0);
-
-	mpf_init2(fact,prec);
-	mpf_set_d(fact,1.0);
-
-	mpf_init2(top,prec);
-	mpf_set_d(top,1.0);
-
-	for(i=1;;i++) {
-		mpf_mul_ui(fact,fact,i);
-		mpf_mul(top,top,x);
-		mpf_div(fres,top,fact);
-		
-		mpf_add(fres,foldres,fres);
-
-		if(mpf_eq(foldres,fres,old_prec+1))
-			break;
-		mpf_set(foldres,fres);
-	}
-	
-	mpf_clear(fact);
-	mpf_clear(x);
-	mpf_clear(top);
-	mpf_clear(foldres);
-	
-	while(f--)
-		mpf_mul(fres,fres,fres);
-	
-	if(sgn<0)
-		mpf_ui_div(fres,1,fres);
-
-	mpf_set(rop,fres);
-
-	mpf_clear(fres);
-}
-
-/*ln function using 2*ln(x) == ln(x^2)*/
-static gboolean
-mympf_ln(mpf_t rop,mpf_t op)
-{
-	gboolean neg = TRUE;
-
-	mpf_t x;
-	mpf_t top;
-	mpf_t fres;
-	mpf_t foldres;
-	mpf_t cmp;
-	unsigned long int i;
-	unsigned long int f = 0;
-	unsigned long int prec;
-	unsigned long int old_prec;
-	gboolean inverse = FALSE;
-
-	if(mpf_cmp_ui(op,0)<=0)
-		inverse = TRUE;
-
-	/* 4bits is about 1 digit I guess */
-	old_prec = mpf_get_prec(op);
-	prec = 6*4 + old_prec;
-	
-	mpf_init2(x,prec);
-	if(inverse)
-		mpf_neg(x,op);
-	else
-		mpf_set(x,op);
-	
-	/*make x be 1/2 < x < 2 and set 2^f to the approriate multiplier*/
-
-	mpf_init_set_d(cmp,0.5);
-	while(mpf_cmp(x,cmp)<0) {
-		f++;
-		mpf_sqrt(x,x);
-	}
-
-	mpf_set_d(cmp,2.0);
-	while(mpf_cmp(x,cmp)>=0) {
-		f++;
-		mpf_sqrt(x,x);
-	}
-	mpf_clear(cmp);
-	
-	/*we must work with -1 < x < 1*/
-	mpf_sub_ui(x,x,1);
-	
-	mpf_init2(fres,prec);
-	mpf_init2(foldres,prec);
-
-	mpf_init2(top,prec);
-	mpf_set_ui(top,1);
-
-	/* x = op-1 */
-	/* sum from 1 to infinity of (-1)^i * x^i / i*/
-	for(i=1;;i++) {
-		mpf_mul(top,top,x);
-		mpf_div_ui(fres,top,i);
-		
-		if(neg)
-			mpf_sub(fres,foldres,fres);
-		else
-			mpf_add(fres,foldres,fres);
-		neg = !neg;
-
-		if(mpf_eq(foldres,fres,old_prec))
-			break;
-		mpf_set(foldres,fres);
-	}
-
-	mpf_clear(foldres);
-	mpf_clear(top);
-	mpf_clear(x);
-
-	mpf_mul_2exp(fres,fres,f);
-
-	mpf_neg(fres,fres);
-
-	mpf_set(rop,fres);
-
-	mpf_clear(fres);
-	
-	return inverse?FALSE:TRUE;
-}
-
-/* an evil and bad function, you should really install mpfr */
-static gboolean
-mympf_log2(mpf_t rop,mpf_t op)
-{
-	mpf_t x;
-	mpf_t two;
-	gboolean inverse = FALSE;
-
-	if (mpf_cmp_ui (op, 0)<=0)
-		inverse = TRUE;
-
-	mpf_init (x);
-	if (inverse)
-		mpf_neg (x, op);
-	else
-		mpf_set (x, op);
-	mpf_init (two);
-	mpf_set_ui (two, 2);
-
-	mympf_ln (two, two);
-	mympf_ln (x, x);
-
-	mpf_div (rop, x, two);
-
-	mpf_clear (two);
-	mpf_clear (x);
-
-	return inverse?FALSE:TRUE;
-}
-
-/* an evil and bad function, you should really install mpfr */
-static gboolean
-mympf_log10(mpf_t rop,mpf_t op)
-{
-	mpf_t x;
-	mpf_t ten;
-	gboolean inverse = FALSE;
-
-	if (mpf_cmp_ui (op, 0)<=0)
-		inverse = TRUE;
-
-	mpf_init (x);
-	if (inverse)
-		mpf_neg (x, op);
-	else
-		mpf_set (x, op);
-	mpf_init (ten);
-	mpf_set_ui (ten, 10);
-
-	mympf_ln (ten, ten);
-	mympf_ln (x, x);
-
-	mpf_div (rop, x, ten);
-
-	mpf_clear (ten);
-	mpf_clear (x);
-
-	return inverse?FALSE:TRUE;
-}
-
-/*these functions may be more precise but slow as HELL*/
-#if 0
-/*ln function for ranges op>=1/2*/
-static void
-mympf_ln_top(mpf_t rop,mpf_t op)
-{
-	mpf_t x;
-	mpf_t top;
-	mpf_t bottom;
-	mpf_t fres;
-	mpf_t foldres;
-	unsigned long int i;
-	
-	mpf_init_set(x,op);
-	mpf_sub_ui(x,x,1);
-	
-	mpf_init(fres);
-	mpf_init(foldres);
-
-	mpf_init(top);
-	mpf_set_ui(top,1);
-	mpf_init(bottom);
-	mpf_set_ui(bottom,1);
-
-	/* x = op-1 */
-	/* sum from 1 to infinity of x^i / ( i * op^i ) */
-	/* top = x^i, bottom = op^i */
-	for(i=1;;i++) {
-		mpf_mul(top,top,x);
-
-		mpf_mul(bottom,bottom,op);
-		mpf_mul_ui(fres,bottom,i);
-
-		mpf_div(fres,top,fres);
-		
-		mpf_add(fres,fres,foldres);
-
-		if(mpf_cmp(foldres,fres)==0)
-			break;
-		mpf_set(foldres,fres);
-	}
-	
-	mpf_clear(foldres);
-	mpf_clear(top);
-	mpf_clear(bottom);
-	mpf_clear(x);
-
-	mpf_set(rop,fres);
-
-	mpf_clear(fres);
-}
-#endif
-
-/* Following function stolen from internet post by:
- * Guillermo Ballester Valor <gbv@oxixares.com> */
-
-/*arctan function*/
-static void
-mympf_arctan(mpf_ptr rop,mpf_ptr op)
-{
-	mpf_t halfpi;
-  mpf_t aux,sum,num,op2,limit;
-  unsigned long int n=3;
-
-  if(!pi_mpf)
-	  mympf_pi(NULL);
-
-  mpf_init(halfpi);
-  mpf_div_ui (halfpi, pi_mpf, 2);
-  
-  /* 
-     Trying to avoid the danger op == 1 
-     which make a slooooow convergence
-  */
-  mpf_init(sum);
-  mpf_abs(sum,op);
-  mpf_add(sum,sum,sum);/* An error in GMP ? */
-  if( (mpf_cmp_ui(sum,1) > 0) && (mpf_cmp_ui( sum,4) < 0) )
-    {
-      mpf_init(aux);
-      mpf_mul(aux,op,op);
-      mpf_add_ui(aux,aux,1U);
-      mpf_sqrt(aux,aux);
-      mpf_sub_ui(aux,aux,1U);
-      mpf_div(aux,aux,op);
-      /* recursive call */
-      mympf_arctan(sum,aux);
-     
-      mpf_mul_ui(rop,sum,2U);
-      mpf_clear(sum);
-      mpf_clear(aux);
-      return;
-    }
-  
-  mpf_set_ui(sum,0U);
-  mpf_init(op2); mpf_init(aux);
-  mpf_init(num); mpf_init(limit);
-  
-  mpf_mul(op2, op, op);
-  mpf_set(num, op);
-  if(mpf_cmp_ui(op2,1U) > 0) 
-    {
-      mpf_ui_div(op2, 1U, op2);
-      mpf_set(sum,halfpi);
-      if(mpf_cmp_si(op, 0L) < 0)  mpf_neg(sum,sum);
-      mpf_ui_div(num,1U,num);
-      mpf_neg(num,num);
-    }
-  mpf_neg(op2, op2);
-  mpf_add(sum,sum,num);
-
-  do {
-    mpf_set(limit,sum);
-    mpf_mul(num,num,op2);
-    mpf_div_ui(aux,num,n);
-    mpf_add(sum,sum,aux);
-
-    n+=2;
-    /*mpf_out_str(stdout, 10, 0, sum);
-      fprintf(stdout,"\n");*/
-
-  } while (mpf_cmp(sum,limit));
-  mpf_set(rop,sum);
-  mpf_clear(sum); mpf_clear(aux); mpf_clear(num);
-  mpf_clear(op2); mpf_clear(limit);
-  mpf_clear(halfpi);
-}
-#endif /* ! HAVE_MPFR */
-
 /*my own power function for floats, very simple :) */
 static void
-mympf_pow_z(mpf_t rop,mpf_t op,mpz_t e)
+mympfr_pow_z(mpfr_t rop,mpfr_t op,mpz_t e)
 {
 	int esgn = mpz_sgn (e);
 	gboolean neg = FALSE;
 	if (esgn == 0) {
-		mpf_set_ui (rop, 1);
+		mpfr_set_ui (rop, 1, GMP_RNDN);
 		return;
 	} else if (esgn < 0) {
 		neg = TRUE;
@@ -1236,35 +429,25 @@ mympf_pow_z(mpf_t rop,mpf_t op,mpz_t e)
 
 	if (mpz_fits_ulong_p (e)) {
 		unsigned int exp = mpz_get_ui (e);
-		mpf_pow_ui (rop, op, exp);
+		mpfr_pow_ui (rop, op, exp, GMP_RNDN);
 		if (neg) {
-			mpf_ui_div (rop, 1, rop);
+			mpfr_ui_div (rop, 1, rop, GMP_RNDN);
 			mpz_neg (e, e);
 		}
 	} else {
-		mpf_t fe;
+		mpfr_t fe;
 
 		/* we don't need a negative here */
 		if (neg) {
 			mpz_neg (e, e);
 		}
 
-		mpf_init (fe);
-		mpf_set_z (fe, e);
-#ifdef HAVE_MPFR
-		/* FIXME: mpfr_pow is BROKEN!, try 6.0^(-1.0) and you get 6.0 */
-		/*
-		   mpfr_pow (rop, op, fe, GMP_RNDN);
-		   */
-		mpfr_log (rop, op, GMP_RNDN);
-		mpfr_mul (rop, rop, fe, GMP_RNDN);
-		mpfr_exp (rop, rop, GMP_RNDN);
-#else
-		mympf_ln (rop, op);
-		mpf_mul (rop, rop, fe);
-		mympf_exp (rop, rop);
-#endif
-		mpf_clear (fe);
+		mpfr_init (fe);
+		mpfr_set_z (fe, e, GMP_RNDN);
+
+		mpfr_pow (rop, op, fe, GMP_RNDN);
+
+		mpfr_clear (fe);
 	}
 }
 
@@ -1345,7 +528,9 @@ mpwl_make_extra_type(MpwRealNum *op,int type)
 		if (op->data.ival == NULL) {
 			GET_INIT_MPZ (op->data.ival);
 			if(op->type==MPW_FLOAT)
-				mpz_set_f(op->data.ival,op->data.fval);
+				mpz_set_fr (op->data.ival,
+					    op->data.fval,
+					    GMP_RNDN);
 			else /* if(op->type==MPW_RATIONAL) */
 				mpz_set_q(op->data.ival,op->data.rval);
 		}
@@ -1356,7 +541,7 @@ mpwl_make_extra_type(MpwRealNum *op,int type)
 			if(op->type==MPW_INTEGER)
 				mpq_set_z(op->data.rval,op->data.ival);
 			else /* if(op->type==MPW_FLOAT) */
-				mpq_set_f(op->data.rval,op->data.fval);
+				mympq_set_fr (op->data.rval,op->data.fval);
 		}
 		break;
 	case MPW_FLOAT:
@@ -2508,10 +1693,10 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	mpf_div_ui(fr,op1->data.fval,2); /*use half the value
 					     as an initial guess*/
 	for(;;) {
-		mympf_pow_z(fr2,fr,mpq_denref(op2->data.rval));
+		mympfr_pow_z(fr2,fr,mpq_denref(op2->data.rval));
 		mpf_sub(fr2,fr2,op1->data.fval);
 
-		mympf_pow_z(frt,fr,des);
+		mympfr_pow_z(frt,fr,des);
 		mpf_mul(frt,frt,de);
 		mpf_div(fr2,fr2,frt);
 		mpf_neg(fr2,fr2);
@@ -2530,12 +1715,12 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	if(reverse) {
 		/*numerator will be negative*/
 		mpz_neg(mpq_numref(op2->data.rval),mpq_numref(op2->data.rval));
-		mympf_pow_z(fr,fr,mpq_numref(op2->data.rval));
+		mympfr_pow_z(fr,fr,mpq_numref(op2->data.rval));
 		mpz_neg(mpq_numref(op2->data.rval),mpq_numref(op2->data.rval));
 
 		mpf_ui_div(fr,1,fr);
 	} else
-		mympf_pow_z(fr,fr,mpq_numref(op2->data.rval));
+		mympfr_pow_z(fr,fr,mpq_numref(op2->data.rval));
 
 	/*op1 might have equaled rop so clear extra type here*/
 	mpwl_clear_extra_type(op1,t);
@@ -2637,7 +1822,7 @@ mpwl_pow_z(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 			break;
 		case MPW_FLOAT:
 			mpwl_init_type(&r,MPW_FLOAT);
-			mympf_pow_z(r.data.fval,op1->data.fval,
+			mympfr_pow_z(r.data.fval,op1->data.fval,
 				    op2->data.ival);
 
 			if(reverse)
@@ -2672,19 +1857,7 @@ mpwl_pow_f(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	
 	mpwl_init_type(&r,MPW_FLOAT);
 
-#ifdef HAVE_MPFR
-	/* FIXME: mpfr_pow is BROKEN!, try 6.0^(-1.0) and you get 6.0 */
-	/* 
-	   mpfr_pow (r.data.fval, op1->data.fval, op2->data.fval, GMP_RNDN);
-	   */
-	mpfr_log (r.data.fval, op1->data.fval, GMP_RNDN);
-	mpfr_mul (r.data.fval, r.data.fval, op2->data.fval, GMP_RNDN);
-	mpfr_exp (r.data.fval, r.data.fval, GMP_RNDN);
-#else
-	mympf_ln(r.data.fval,op1->data.fval);
-	mpf_mul(r.data.fval,r.data.fval,op2->data.fval);
-	mympf_exp(r.data.fval,r.data.fval);
-#endif
+	mpfr_pow (r.data.fval, op1->data.fval, op2->data.fval, GMP_RNDN);
 
 	mpwl_clear_extra_type(op1,MPW_FLOAT);
 
@@ -2857,11 +2030,7 @@ mpwl_exp(MpwRealNum *rop,MpwRealNum *op)
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
-#ifdef HAVE_MPFR
 	mpfr_exp (r.data.fval, op->data.fval, GMP_RNDN);
-#else
-	mympf_exp(r.data.fval,op->data.fval);
-#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
@@ -2875,7 +2044,6 @@ mpwl_ln(MpwRealNum *rop,MpwRealNum *op)
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
-#ifdef HAVE_MPFR
 	if (mpfr_sgn (op->data.fval) < 0) {
 		mpfr_t f;
 		mpfr_init_set (f, op->data.fval, GMP_RNDN);
@@ -2887,9 +2055,6 @@ mpwl_ln(MpwRealNum *rop,MpwRealNum *op)
 		mpfr_log (r.data.fval, op->data.fval, GMP_RNDN);
 		ret = TRUE;
 	}
-#else
-	ret = mympf_ln(r.data.fval,op->data.fval);
-#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
@@ -2905,7 +2070,6 @@ mpwl_log2(MpwRealNum *rop,MpwRealNum *op)
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
-#ifdef HAVE_MPFR
 	if (mpfr_sgn (op->data.fval) < 0) {
 		mpfr_t f;
 		mpfr_init_set (f, op->data.fval, GMP_RNDN);
@@ -2917,9 +2081,6 @@ mpwl_log2(MpwRealNum *rop,MpwRealNum *op)
 		mpfr_log2 (r.data.fval, op->data.fval, GMP_RNDN);
 		ret = TRUE;
 	}
-#else
-	ret = mympf_log2 (r.data.fval,op->data.fval);
-#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
@@ -2935,7 +2096,6 @@ mpwl_log10(MpwRealNum *rop,MpwRealNum *op)
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
-#ifdef HAVE_MPFR
 	if (mpfr_sgn (op->data.fval) < 0) {
 		mpfr_t f;
 		mpfr_init_set (f, op->data.fval, GMP_RNDN);
@@ -2947,9 +2107,6 @@ mpwl_log10(MpwRealNum *rop,MpwRealNum *op)
 		mpfr_log10 (r.data.fval, op->data.fval, GMP_RNDN);
 		ret = TRUE;
 	}
-#else
-	ret = mympf_log10 (r.data.fval,op->data.fval);
-#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
@@ -2964,11 +2121,7 @@ mpwl_cos(MpwRealNum *rop,MpwRealNum *op)
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
-#ifdef HAVE_MPFR
 	mpfr_cos (r.data.fval, op->data.fval, GMP_RNDN);
-#else
-	mympf_cos(r.data.fval,op->data.fval,FALSE,TRUE);
-#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
@@ -2980,11 +2133,7 @@ mpwl_sin(MpwRealNum *rop,MpwRealNum *op)
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
-#ifdef HAVE_MPFR
 	mpfr_sin (r.data.fval, op->data.fval, GMP_RNDN);
-#else
-	mympf_sin(r.data.fval,op->data.fval,FALSE,TRUE);
-#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
@@ -2996,11 +2145,7 @@ mpwl_cosh(MpwRealNum *rop,MpwRealNum *op)
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
-#ifdef HAVE_MPFR
 	mpfr_cosh (r.data.fval, op->data.fval, GMP_RNDN);
-#else
-	mympf_cos(r.data.fval,op->data.fval,TRUE,FALSE);
-#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
@@ -3012,11 +2157,7 @@ mpwl_sinh(MpwRealNum *rop,MpwRealNum *op)
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
-#ifdef HAVE_MPFR
 	mpfr_sinh (r.data.fval, op->data.fval, GMP_RNDN);
-#else
-	mympf_sin(r.data.fval,op->data.fval,TRUE,FALSE);
-#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
@@ -3028,11 +2169,7 @@ mpwl_arctan(MpwRealNum *rop,MpwRealNum *op)
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
-#ifdef HAVE_MPFR
 	mpfr_atan (r.data.fval, op->data.fval, GMP_RNDN);
-#else
-	mympf_arctan(r.data.fval,op->data.fval);
-#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
@@ -3043,7 +2180,15 @@ mpwl_pi (MpwRealNum *rop)
 {
 	mpwl_clear(rop);
 	mpwl_init_type(rop,MPW_FLOAT);
-	mympf_pi(rop->data.fval);
+	mpfr_const_pi (rop->data.fval, GMP_RNDN);
+}
+
+static void
+mpwl_ln2 (MpwRealNum *rop)
+{
+	mpwl_clear(rop);
+	mpwl_init_type(rop,MPW_FLOAT);
+	mpfr_const_log2 (rop->data.fval, GMP_RNDN);
 }
 
 static void
@@ -3051,11 +2196,7 @@ mpwl_euler_constant (MpwRealNum *rop)
 {
 	mpwl_clear (rop);
 	mpwl_init_type (rop, MPW_FLOAT);
-#ifdef HAVE_MPFR
 	mpfr_const_euler (rop->data.fval, GMP_RNDN);
-#else
-	mpf_set_str (rop->data.fval, euler_constant, 10);
-#endif
 }
 
 /* Random state stuff: FIXME: this is evil */
@@ -3173,7 +2314,7 @@ mpwl_round(MpwRealNum *rop)
 {
 	if(rop->type > MPW_INTEGER) {
 		if(rop->type == MPW_FLOAT) {
-			mpf_ptr tmp;
+			mpfr_ptr tmp;
 			GET_INIT_MPF (tmp);
 			mpf_set_d(tmp,0.5);
 			if(mpf_sgn(rop->data.fval)<0)
@@ -3205,7 +2346,7 @@ mpwl_ceil(MpwRealNum *rop)
 			if (rop->data.ival == NULL) {
 				GET_INIT_MPZ (rop->data.ival);
 			}
-			mpz_set_f(rop->data.ival,rop->data.fval);
+			mpz_set_fr (rop->data.ival, rop->data.fval, GMP_RNDN);
 			mpf_init(fr);
 			mpf_set_z(fr,rop->data.ival);
 			if(mpf_cmp(fr,rop->data.fval)!=0) {
@@ -3249,9 +2390,9 @@ mpwl_floor(MpwRealNum *rop)
 			if (rop->data.ival == NULL) {
 				GET_INIT_MPZ (rop->data.ival);
 			}
-			mpz_set_f(rop->data.ival,rop->data.fval);
-			mpf_init(fr);
-			mpf_set_z(fr,rop->data.ival);
+			mpz_set_fr (rop->data.ival, rop->data.fval, GMP_RNDN);
+			mpfr_init (fr);
+			mpfr_set_z (fr, rop->data.ival, GMP_RNDN);
 			if(mpf_cmp(fr,rop->data.fval)!=0) {
 				if(mpf_sgn(rop->data.fval)<0)
 					mpz_sub_ui(rop->data.ival,
@@ -3407,8 +2548,8 @@ mpwl_get_double (MpwRealNum *op, int *ex)
 
 	mpwl_make_extra_type (op, MPW_FLOAT);
 
-	if G_UNLIKELY (mpf_cmp_d (op->data.fval, G_MAXDOUBLE) > 0 ||
-		       mpf_cmp_d (op->data.fval, -G_MAXDOUBLE) < 0) {
+	if G_UNLIKELY (mpfr_cmp_d (op->data.fval, G_MAXDOUBLE) > 0 ||
+		       mpfr_cmp_d (op->data.fval, -G_MAXDOUBLE) < 0) {
 		*ex = MPWL_EXCEPTION_NUMBER_TOO_LARGE;
 		return 0;
 	}
@@ -3546,7 +2687,7 @@ str_getstring_z(mpz_t num, int max_digits,int scientific_notation,
 		int integer_output_base, const char *postfix)
 {
 	char *p,*p2;
-	mpf_t fr;
+	mpfr_t fr;
 
 	p=mpz_get_str(NULL,integer_output_base,num);
 	if(integer_output_base==16) {
@@ -3563,8 +2704,8 @@ str_getstring_z(mpz_t num, int max_digits,int scientific_notation,
 		p = p2;
 	}
 	if(max_digits>0 && max_digits<strlen(p)) {
-		mpf_init(fr);
-		mpf_set_z(fr,num);
+		mpfr_init(fr);
+		mpfr_set_z(fr,num, GMP_RNDN);
 		p2=str_getstring_f(fr,max_digits,scientific_notation,postfix);
 		mpf_clear(fr);
 		if(strlen(p2)>=strlen(p)) {
@@ -3808,15 +2949,8 @@ mpwl_getstring(MpwRealNum * num, int max_digits,
 void
 mpw_set_default_prec (unsigned long int prec)
 {
-	mpf_ptr *p;
+	mpfr_ptr *p;
 	mpf_set_default_prec (prec);
-
-	/* whack the pi cache */
-	if (pi_mpf != NULL) {
-		mpf_clear (pi_mpf);
-		g_free (pi_mpf);
-		pi_mpf = NULL;
-	}
 
 	/* whack the mpf cache */
 	for (p = free_mpf; p != free_mpf_top; p++) {
@@ -3997,7 +3131,7 @@ mpw_set_mpq_use (mpw_ptr rop, mpq_ptr op)
 }
 
 void
-mpw_set_mpf_use (mpw_ptr rop, mpf_ptr op)
+mpw_set_mpf_use (mpw_ptr rop, mpfr_ptr op)
 {
 	MAKE_REAL(rop);
 	rop->r->alloc.usage--;
@@ -4006,8 +3140,8 @@ mpw_set_mpf_use (mpw_ptr rop, mpf_ptr op)
 	GET_NEW_REAL (rop->r);
 	rop->r->type = MPW_FLOAT;
 	rop->r->alloc.usage = 1;
-	rop->r->data.fval = g_new (__mpf_struct, 1);
-	memcpy (rop->r->data.fval, op, sizeof (__mpf_struct));
+	rop->r->data.fval = g_new (__mpfr_struct, 1);
+	memcpy (rop->r->data.fval, op, sizeof (__mpfr_struct));
 }
 
 mpz_ptr
@@ -4028,7 +3162,7 @@ mpw_peek_real_mpq (mpw_ptr op)
 		return NULL;
 }
 
-mpf_ptr
+mpfr_ptr
 mpw_peek_real_mpf (mpw_ptr op)
 {
 	if (op->r->type == MPW_FLOAT)
@@ -4057,7 +3191,7 @@ mpw_peek_imag_mpq (mpw_ptr op)
 		return NULL;
 }
 
-mpf_ptr
+mpfr_ptr
 mpw_peek_imag_mpf (mpw_ptr op)
 {
 	if (op->type == MPW_COMPLEX &&
@@ -4867,11 +4001,8 @@ mpw_log2(mpw_ptr rop,mpw_ptr op)
 			rop->type = MPW_COMPLEX;
 			MAKE_COPY(rop->i);
 			mpwl_pi (rop->i);
-			/* FIXME: implement caching or use the const log2
-			   function from mpfr */
-			mpwl_init_type (&t, MPW_FLOAT);
-			mpwl_set_ui (&t, 2);
-			mpwl_ln (&t, &t);
+			/* no need for init ln2 does that for us */
+			mpwl_ln2 (&t);
 			mpwl_div (rop->i, rop->i, &t);
 			mpwl_free (&t,TRUE);
 		}
@@ -4895,21 +4026,15 @@ mpw_log2(mpw_ptr rop,mpw_ptr op)
 				mpwl_div_ui(rop->i,rop->i,2);
 				mpwl_neg(rop->i,rop->i);
 			}
-			/* FIXME: implement caching or use the const log2
-			   function from mpfr */
-			mpwl_init_type (&t, MPW_FLOAT);
-			mpwl_set_ui (&t, 2);
-			mpwl_ln (&t, &t);
+			/* no need for init ln2 does that for us */
+			mpwl_ln2 (&t);
 			mpwl_div (rop->i, rop->i, &t);
 			mpwl_free (&t,TRUE);
 			return;
 		}
 		/* this is stupid, but simple to implement for now */
 		mpw_init (two);
-		/* FIXME: implement caching or use the const log2
-		   function from mpfr */
-		mpw_set_ui (two, 2);
-		mpw_ln (two, two);
+		mpw_ln2 (two);
 		mpw_ln (rop, op);
 		mpw_div (rop, rop, two);
 		mpw_clear (two);
@@ -5201,6 +4326,14 @@ mpw_pi (mpw_ptr rop)
 	MAKE_REAL (rop);
 	MAKE_COPY (rop->r);
 	mpwl_pi (rop->r);
+}
+
+void
+mpw_ln2 (mpw_ptr rop)
+{
+	MAKE_REAL (rop);
+	MAKE_COPY (rop->r);
+	mpwl_ln2 (rop->r);
 }
 
 void
@@ -5905,118 +5038,3 @@ mpw_numerator(mpw_ptr rop, mpw_ptr op)
 		mpwl_numerator(rop->r, op->r);
 	}
 }
-
-#if 0
-/*************************************************************************/
-/*conext level stuff                                                     */
-/*************************************************************************/
-
-/* make new context with a refcount of 1 */
-MpwCtx *
-mpw_ctx_new(MpwErrorFunc errorout,
-	    int default_mpf_prec,
-	    gboolean double_math,
-	    gpointer data)
-{
-	MpwCtx *mctx = g_new0(MpwCtx,1);
-	mctx->errorout = errorout;
-	mctx->default_mpf_prec = default_mpf_prec;
-	mctx->double_math = double_math;
-	mctx->data = data;
-
-	return mctx;
-}
-
-void
-mpw_ctx_set_errorout(MpwCtx *mctx, MpwErrorFunc errorout)
-{
-	mctx->errorout = errorout;
-}
-
-void
-mpw_ctx_set_default_mpf_prec(MpwCtx *mctx, int default_mpf_prec)
-{
-	mctx->default_mpf_prec = default_mpf_prec;
-}
-
-void
-mpw_ctx_set_double_math(MpwCtx *mctx, gboolean double_math)
-{
-	mctx->double_math = double_math;
-}
-
-void
-mpw_ctx_set_data(MpwCtx *mctx, gpointer data)
-{
-	mctx->data = data;
-}
-
-MpwErrorFunc
-mpw_ctx_get_errorout(MpwCtx *mctx)
-{
-	return mctx->errorout;
-}
-
-int
-mpw_ctx_get_default_mpf_prec(MpwCtx *mctx)
-{
-	return mctx->default_mpf_prec;
-}
-
-gboolean
-mpw_ctx_get_double_math(MpwCtx *mctx)
-{
-	return mctx->double_math;
-}
-
-gpointer
-mpw_ctx_get_data(MpwCtx *mctx)
-{
-	return mctx->data;
-}
-
-void
-mpw_ctx_ref(MpwCtx *mctx)
-{
-	mctx->ref_count++;
-}
-
-void
-mpw_ctx_unref(MpwCtx *mctx)
-{
-	mctx->ref_count--;
-	if(mctx->ref_count <= 0) {
-		g_free(mctx);
-	}
-}
-#endif
-
-#if 0
-/*************************************************************************/
-/*cache system                                                           */
-/*************************************************************************/
-static MpwCache *
-mpw_chache_get(int prec)
-{
-	MpwCache *mc;
-	if(!mpw_cache_ht)
-		mpw_cache_ht = g_hash_table_new(NULL, NULL);
-	mc = g_hash_table_lookup(mpw_cache_ht, GINT_TO_POINTER(prec));
-	if(mc) {
-		mc->use_count++;
-	} else {
-		mc = g_new0(MpwCache,1);
-		mc->use_count = 1;
-		g_hash_table_insert(mpw_cache_ht,
-				    GINT_TO_POINTER(prec), mc);
-	}
-	return mc;
-}
-
-static void
-mpw_chache_unget(MpwCache *mc)
-{
-	mc->use_count--;
-	/* FIXME: clear on 0 */
-}
-#endif

@@ -9,6 +9,18 @@ plugin_includedir = $(includedir)/genius
 #YACCFLAGS += -d -t
 YFLAGS += -d -t
 
+if INTERNAL_MPFR
+MPFR_INCLUDEDIR = \
+	-I$(top_srcdir)/mpfr					\
+	-I$(top_builddir)/mpfr
+MPFR_LIBDIR = \
+	-L$(top_srcdir)/mpfr					\
+	-L$(top_builddir)/mpfr
+else
+MPFR_INCLUDEDIR =
+MPFR_LIBDIR =
+endif
+
 INCLUDES = \
         -DGNOMELOCALEDIR=\""$(prefix)/$(DATADIRNAME)/locale"\"	\
 	-DG_LOG_DOMAIN=\"Genius\"				\
@@ -24,6 +36,7 @@ INCLUDES = \
 	-I$(top_builddir)					\
 	-I$(top_builddir)/vicious-extensions			\
 	-I$(top_builddir)/gtkextra				\
+	$(MPFR_INCLUDEDIR)					\
 	$(GMP_INCLUDEDIR)					\
 	$(GENIUS_CFLAGS)					\
 	$(EXTRA_WARNING_CFLAGS)
@@ -91,7 +104,8 @@ gnome_genius_LDADD = \
 	-lgtkextra-genius			\
 	-lm					\
 	@GMP_LIB@				\
-	@MPFR_LIB@				\
+	$(MPFR_LIBDIR)				\
+	-lmpfr					\
 	@LEXLIB@				\
 	$(GENIUS_LIBS)				\
 	@READLINE_LIB@				\
@@ -162,7 +176,8 @@ genius_LDADD = \
 	-lvicious				\
 	-lm					\
 	@GMP_LIB@				\
-	@MPFR_LIB@				\
+	$(MPFR_LIBDIR)				\
+	-lmpfr					\
 	@LEXLIB@				\
 	$(GENIUS_NOGUI_LIBS)			\
 	@READLINE_LIB@				\

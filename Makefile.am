@@ -1,4 +1,7 @@
-SUBDIRS = vicious-extensions gtkextra src pixmaps lib doc po
+if INTERNAL_MPFR
+MAYBE_MPFR = mpfr
+endif
+SUBDIRS = $(MAYBE_MPFR) vicious-extensions gtkextra src pixmaps lib doc po
 
 mimeinfodir = $(datadir)/mime-info
 mimeinfo_DATA = genius.keys genius.mime

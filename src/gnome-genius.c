@@ -2693,10 +2693,6 @@ get_version_details (void)
 		return str->str;
 	str = g_string_new (NULL);
 
-#ifndef HAVE_MPFR
-	g_string_append (str, _("\nNote: Compiled without MPFR (some operations may be slow) "
-				"see www.mpfr.org"));
-#endif
 #ifndef HAVE_GTKSOURCEVIEW
 	g_string_append (str, _("\nNote: Compiled without GtkSourceView (better source editor)"));
 #endif

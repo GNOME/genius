@@ -82,12 +82,37 @@ AC_CHECK_LIB(gmp, __gmpz_init_set,[GMP_LIB=-lgmp], [
 		AC_MSG_ERROR(GMP Library not found))])
 AC_SUBST(GMP_LIB)
 
-MPFR_LIB=""
-AC_CHECK_LIB(mpfr, mpfr_init,[
-	MPFR_LIB=-lmpfr
-	AC_DEFINE(HAVE_MPFR)], [
-	AC_MSG_WARN([*** MPFR Library not found ***])],"$GMP_LIB")
-AC_SUBST(MPFR_LIB)
+AC_ARG_ENABLE(internal-mpfr,
+  [  --enable-internal-mpfr=[auto/no/yes]  Use the internal version of MPFR [default=auto]],,
+  enable_internal_mpfr=auto)
+
+USE_INTERNAL_MPFR="yes"
+
+if test "x$enable_internal_mpfr" = "xyes" ; then
+	USE_INTERNAL_MPFR="yes"
+	echo "Using internal MPFR"
+	AM_CONDITIONAL(INTERNAL_MPFR, true)
+else
+	GOT_MPFR="no"
+	AC_CHECK_LIB(mpfr, mpfr_cmd_d, [GOT_MPFR="yes"], [GOT_MPFR="no"], "$GMP_LIB")
+	if test "x$enable_internal_mpfr" = "xno" -a "x$GOT_MPFR" = "xno" ; then
+		AC_MSG_ERROR(Internal MPFR not requested but I can't find a new enough external MPFR)
+	fi
+	
+	if test "x$GOT_MPFR" = "xno" ; then
+		echo "Using internal MPFR"
+		USE_INTERNAL_MPFR="yes"
+		AM_CONDITIONAL(INTERNAL_MPFR, true)
+	else
+		echo "Using external MPFR"
+		USE_INTERNAL_MPFR="no"
+		AM_CONDITIONAL(INTERNAL_MPFR, false)
+	fi
+fi 
+
+if test "x$USE_INTERNAL_MPFR" = "xyes" ; then
+	AC_CONFIG_SUBDIRS(mpfr)
+fi
 
 # No schemas yet so ignore this section for now
 #AC_PATH_PROG(GCONFTOOL, gconftool-2)
@@ -216,8 +241,7 @@ else
 	AC_MSG_RESULT(no)
 fi
 CFLAGS="$realsave_CFLAGS"
-EXTRA_WARNING_CFLAGS=" \
-	$warning_flags"
+EXTRA_WARNING_CFLAGS="$warning_flags"
 #	-DG_DISABLE_DEPRECATED \
 #	-DGDK_PIXBUF_DISABLE_DEPRECATED \
 #	-DGDK_DISABLE_DEPRECATED \
@@ -255,30 +279,14 @@ pixmaps/48x48/Makefile
 po/Makefile.in
 ])
 
-if test "x$MPFR_LIB" = x; then
-   GOT_MPFR="no"
-else
-   GOT_MPFR="yes"
-fi
-
 echo "
 Configuration:
 
-	Source code location:	  ${srcdir}
-	Compiler:		  ${CC} 
-	Using the MPFR library:   ${GOT_MPFR}
-	GNOME frontend:		  ${use_gnome}
-	Using GtkSourceView:	  ${use_gtksourceview}
+	Source code location:	     ${srcdir}
+	Compiler:		     ${CC} 
+	Using internal MPFR library: ${USE_INTERNAL_MPFR}
+	GNOME frontend:		     ${use_gnome}
+	Using GtkSourceView:	     ${use_gtksourceview}
 
-	Extra Compiler Warnings:  ${EXTRA_WARNING_CFLAGS}
+	Extra Compiler Warnings:     ${EXTRA_WARNING_CFLAGS}
 "
-
-if test "x$MPFR_LIB" = x; then
-  echo " 
-WARNING:
-     You are compiling without the MPFR library and genius will then use
-     it's own implementations for things like exp, ln, pow, sin, and such
-     but these are very slow.  Please use a gmp library compiled with
-     --enable-mpfr, or get and compile the mpfr library from www.mpfr.org
-"
-fi
