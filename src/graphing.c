@@ -1,7 +1,7 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2004 George Lebl
+ * Copyright (C) 2003-2004 Jiri (George) Lebl
  *
- * Author: George Lebl
+ * Author: Jiri (George) Lebl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -774,7 +774,7 @@ label_func (GelCtx *ctx, int i, GelEFunc *func, const char *color)
 		/* FIXME: the push/pop of style is UGLY */
 		old_style = calcstate.output_style;
 		calcstate.output_style = GEL_OUTPUT_NORMAL;
-		print_etree (out, func->data.user, TRUE /* toplevel */);
+		gel_print_etree (out, func->data.user, TRUE /* toplevel */);
 		calcstate.output_style = old_style;
 
 		text = gel_output_snarf_string (out);

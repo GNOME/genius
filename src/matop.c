@@ -482,7 +482,7 @@ gel_value_matrix_det (GelCtx *ctx, mpw_t rop, GelMatrixW *m)
 	g_assert (ctx->modulo == NULL);
 
 	if(w != h) {
-		(*errorout)(_("Determinant of a non-square matrix is undefined"));
+		gel_errorout (_("Determinant of a non-square matrix is undefined"));
 		return FALSE;
 	}
 	switch(w) {

@@ -1,7 +1,7 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2003 George Lebl
+ * Copyright (C) 1997-2004 Jiri (George) Lebl
  *
- * Author: George Lebl
+ * Author: Jiri (George) Lebl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -309,9 +309,9 @@ error_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		GelOutput *gelo = gel_output_new();
 		char *s;
 		gel_output_setup_string (gelo, 0, NULL);
-		pretty_print_etree(gelo, a[0]);
-		s = gel_output_snarf_string(gelo);
-		gel_output_unref(gelo);
+		gel_pretty_print_etree (gelo, a[0]);
+		s = gel_output_snarf_string (gelo);
+		gel_output_unref (gelo);
 		gel_errorout (s != NULL ? s : "");
 		g_free (s);
 	}
@@ -325,7 +325,7 @@ print_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		gel_output_printf_full (main_out, FALSE, "%s\n", a[0]->str.str);
 	} else {
 		/* FIXME: whack limit */
-		pretty_print_etree (main_out, a[0]);
+		gel_pretty_print_etree (main_out, a[0]);
 		gel_output_string (main_out,"\n");
 	}
 	gel_output_flush (main_out);
@@ -344,9 +344,9 @@ static GelETree *
 printn_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if(a[0]->type==STRING_NODE)
-		gel_output_printf(main_out, "%s", a[0]->str.str);
+		gel_output_printf (main_out, "%s", a[0]->str.str);
 	else
-		print_etree(main_out, a[0], TRUE);
+		gel_print_etree (main_out, a[0], TRUE);
 	gel_output_flush(main_out);
 	return gel_makenum_null();
 }
@@ -357,7 +357,7 @@ display_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if G_UNLIKELY ( ! check_argument_string (a, 0, "display"))
 		return NULL;
 	gel_output_printf(main_out, "%s: ", a[0]->str.str);
-	pretty_print_etree(main_out, a[1]);
+	gel_pretty_print_etree (main_out, a[1]);
 	gel_output_string(main_out, "\n");
 	gel_output_flush(main_out);
 	return gel_makenum_null();
@@ -3250,9 +3250,9 @@ PolyToString_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		if(mpw_sgn(t->val.value)>0) {
 			if(any) g_string_append(gs," + ");
 			if(i==0)
-				print_etree(gelo,t,FALSE);
+				gel_print_etree (gelo, t, FALSE);
 			else if(mpw_cmp_ui(t->val.value,1)!=0) {
-				print_etree(gelo,t,FALSE);
+				gel_print_etree (gelo, t, FALSE);
 				g_string_append_c(gs,'*');
 			}
 			/*negative*/
@@ -3261,9 +3261,9 @@ PolyToString_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			else g_string_append_c(gs,'-');
 			mpw_neg(t->val.value,t->val.value);
 			if(i==0)
-				print_etree(gelo,t,FALSE);
+				gel_print_etree (gelo, t, FALSE);
 			else if(mpw_cmp_ui(t->val.value,1)!=0) {
-				print_etree(gelo,t,FALSE);
+				gel_print_etree (gelo, t, FALSE);
 				g_string_append_c(gs,'*');
 			}
 			mpw_neg(t->val.value,t->val.value);

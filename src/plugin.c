@@ -125,7 +125,7 @@ open_get_info (GelPlugin *plug)
 	if(!(mod=g_hash_table_lookup(opened,plug->file))) {
 		mod = g_module_open(plug->file,G_MODULE_BIND_LAZY);
 		if(!mod) {
-			(*errorout)(_("Can't open plugin!"));
+			gel_errorout (_("Can't open plugin!"));
 		 	return NULL;
 		}
 		g_module_make_resident(mod);
@@ -137,7 +137,7 @@ open_get_info (GelPlugin *plug)
 		if(!g_module_symbol(mod,"init_func",(gpointer *)&init_func) ||
 		   !init_func || 
 		   !(inf=(*init_func)())) {
-			(*errorout)(_("Can't initialize plugin!"));
+			gel_errorout (_("Can't initialize plugin!"));
 			return NULL;
 		}
 		g_hash_table_insert(info,mod,inf);

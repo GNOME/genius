@@ -1,7 +1,7 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2003 George Lebl
+ * Copyright (C) 1997-2004 Jiri (George) Lebl
  *
- * Author: George Lebl
+ * Author: Jiri (George) Lebl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 
 #include "structs.h"
 
-#define COPYRIGHT_STRING "Copyright (C) 1997-2004 George Lebl"
+#define COPYRIGHT_STRING "Copyright (C) 1997-2004 Jiri (George) Lebl"
 
 typedef enum {
 	NO_ERROR = 0,
@@ -69,15 +69,15 @@ typedef struct _calcstate_t {
 int yyparse(void);
 
 /*make a string representation of an expression*/
-void print_etree(GelOutput *gelo, GelETree *n, gboolean toplevel);
+void	gel_print_etree		(GelOutput *gelo,
+				 GelETree *n,
+				 gboolean toplevel);
 /*make a string representation of an expression, with the first node prettied
   (currently only for matrix)*/
-void pretty_print_etree(GelOutput *gelo, GelETree *n);
+void	gel_pretty_print_etree	(GelOutput *gelo,
+				 GelETree *n);
 /* make a newly allocated string for this */
-char * string_print_etree(GelETree *n);
-
-/*add the right parenthesis and brackets to the end of the expression*/
-char * addparenth(char *s);
+char *	gel_string_print_etree	(GelETree *n);
 
 /* Note that infile must be gel_lexer_open'ed */
 /*this is the function to be mostly called outsied of calc.c
