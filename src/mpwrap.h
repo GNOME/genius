@@ -28,6 +28,17 @@
 #include <gmp.h>
 #endif
 
+/* FIXME: we may need the same as above */
+#ifdef HAVE_MPFR
+#include <mpfr.h>
+#include <mpf2mpfr.h>
+
+/* FIXME: ugly hack to get pi_mpf and the structs to work */
+#define mpf_ptr mpfr_ptr
+#define __mpf_struct __mpfr_struct
+#endif
+
+
 enum {
 	MPW_NATIVEINT = 1,
 	MPW_INTEGER,

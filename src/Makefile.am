@@ -76,6 +76,7 @@ gnome_genius_SOURCES = 	\
 gnome_genius_LDADD = \
 	-lm					\
 	@GMP_LIB@				\
+	@MPFR_LIB@				\
 	@LEXLIB@				\
 	$(GENIUS_LIBS)				\
 	@READLINE_LIB@				\
@@ -139,6 +140,7 @@ genius_SOURCES = 	\
 genius_LDADD = \
 	-lm					\
 	@GMP_LIB@				\
+	@MPFR_LIB@				\
 	@LEXLIB@				\
 	$(GENIUS_LIBS)				\
 	@READLINE_LIB@				\

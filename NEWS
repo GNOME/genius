@@ -1,6 +1,10 @@
 Changes to 0.5.3
 
 * Very basic line graphing of R->R functions with LinePlot function
+* Use MPFR for some floating point functions such as powers, logs, sin/cos
+  and such.  This increases the speed of those operations by about 10 fold
+  or more.  I will start migrating towards MPFR only support in the future.
+  See www.mpfr.org.
 * "a^b mod m" is now done sanely and fast just like the PowerMod function
 * Rudimentary MathML output support
 * Add Copy Answer As Plain/LaTeX/MathML/Troff menu items

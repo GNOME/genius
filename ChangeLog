@@ -1,3 +1,19 @@
+Fri Feb 28 11:11:56 2003  George Lebl <jirka@5z.com>
+
+	* src/mpwrap.[ch], configure.in, src/Makefile.am:  If MPFR is present
+	  use it for functions like sin, cos, atan, pow, log, exp.  This
+	  increases speed of those operations by a LOT (simple test gave
+	  about 10 times the speedup).  Still you can use genius without
+	  mpfr, since it usually doesn't seem to be present in GMP packages
+	  since packagers tend to not add --enable-mpfr (I don't know why
+	  it's not the default).  In any case since mpfr is a static library
+	  so far I think builds that I make on my system will work for people
+	  with the standard GMP package from redhat.
+
+	* src/gnome-genius.c, src/genius.c: add a note in case MPFR isn't
+	  compiled in to the copyright string so that people know if they
+	  are running without it.
+
 Thu Feb 27 18:07:58 2003  George Lebl <jirka@5z.com>
 
 	* src/mpwrap.c, src/lexer.l, src/parse.y, src/eval.[ch], src/calc.c:

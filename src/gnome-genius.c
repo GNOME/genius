@@ -1355,6 +1355,17 @@ selection_changed (GtkWidget *terminal, gpointer data)
 	gtk_widget_set_sensitive (edit_menu[COPY_ITEM].widget, can_copy);
 }
 
+static const char *
+get_version_details (void)
+{
+#ifndef HAVE_MPFR
+	return _("\nNote: Compiled without MPFR (some operations may be slow) "
+		 "see www.mpfr.org");
+#else
+	return "";
+#endif
+}
+
 int
 main (int argc, char *argv[])
 {
@@ -1517,9 +1528,10 @@ main (int argc, char *argv[])
 			     "%s\n"
 			     "This is free software with ABSOLUTELY NO WARRANTY.\n"
 			     "For license details type `\e[01;36mwarranty\e[0m'.\n"
-			     "For help type '\e[01;36mmanual\e[0m' or '\e[01;36mhelp\e[0m'.\n\n"),
+			     "For help type '\e[01;36mmanual\e[0m' or '\e[01;36mhelp\e[0m'.%s\n\n"),
 			   VERSION,
-			   COPYRIGHT_STRING);
+			   COPYRIGHT_STRING,
+			   get_version_details ());
 	gel_output_flush (main_out);
 	check_events ();
 

@@ -173,6 +173,18 @@ nop (void)
 	return 0;
 }
 
+static const char *
+get_version_details (void)
+{
+#ifndef HAVE_MPFR
+	return _("\nNote: Compiled without MPFR (some operations may be slow) "
+		 "see www.mpfr.org");
+#else
+	return "";
+#endif
+}
+
+
 int
 main(int argc, char *argv[])
 {
@@ -284,9 +296,10 @@ main(int argc, char *argv[])
 			 "%s\n"
 			 "This is free software with ABSOLUTELY NO WARRANTY.\n"
 			 "For license details type `warranty'.\n"
-			 "For help type 'manual' or 'help'.\n\n"),
+			 "For help type 'manual' or 'help'.%s\n\n"),
 		       VERSION,
-		       COPYRIGHT_STRING);
+		       COPYRIGHT_STRING,
+		       get_version_details ());
 		be_quiet = FALSE;
 	}
 

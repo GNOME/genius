@@ -145,13 +145,16 @@ static GHashTable *mpw_cache_ht = NULL;
 /*low level stuff prototypes                                             */
 /*************************************************************************/
 
+#ifndef HAVE_MPFR
 /*get sin*/
 static void mympf_sin(mpf_t rop, mpf_t op, int hyperbolic, int reduceop);
 /*get cos*/
 static void mympf_cos(mpf_t rop, mpf_t op, int hyperbolic, int reduceop);
 /*get arctan*/
 static void mympf_arctan(mpf_ptr rop, mpf_ptr op);
-/*get pi*/
+#endif
+/*get pi*/ /* This will use MPFR if needed and does the caching */
+/* FIXME: this should be done differently */
 static void mympf_pi(mpf_ptr rop);
 
 /*my own power function for floats, very simple :) */
@@ -162,11 +165,26 @@ static void mympz_pow_z(mpz_t rop,mpz_t op,mpz_t e);
 
 static gboolean mympq_perfect_square_p (mpq_t op);
 
+#ifndef HAVE_MPFR
 /*simple exponential function*/
 static void mympf_exp(mpf_t rop,mpf_t op);
 
 /*ln function*/
 static gboolean mympf_ln(mpf_t rop,mpf_t op);
+#endif /* ! HAVE_MPFR */
+
+#ifdef HAVE_MPFR
+static void mympz_set_fr (mpz_ptr z, mpfr_srcptr fr);
+static void mympq_set_fr (mpq_ptr q, mpfr_srcptr fr);
+static int mympfr_cmp_d (mpfr_srcptr a, double b);
+/* FIXME: an UGLY UGLY HACK */
+#undef mpz_set_f
+#undef mpq_set_f
+#undef mpf_cmp_d
+#define mpz_set_f mympz_set_fr
+#define mpq_set_f mympq_set_fr
+#define mpf_cmp_d mympfr_cmp_d
+#endif
 
 /*clear extra variables of type type, if type=op->type nothing is done*/
 static void mpwl_clear_extra_type(MpwRealNum *op,int type);
@@ -184,7 +202,6 @@ static int mpwl_make_same_extra_type(MpwRealNum *op1,MpwRealNum *op2);
 static int mpwl_make_same_extra_type_3(MpwRealNum *op1,MpwRealNum *op2);
 */
 
-static void mympq_set_f(mpq_t rop,mpf_t op);
 /*make new type and clear the old one*/
 static void mpwl_make_same_type(MpwRealNum *op1,MpwRealNum *op2);
 
@@ -340,6 +357,45 @@ static char * mpwl_getstring(MpwRealNum * num, int max_digits,
 /*low level stuff                                                        */
 /*************************************************************************/
 
+#ifdef HAVE_MPFR
+static void
+mympz_set_fr (mpz_ptr z, mpfr_srcptr fr)
+{
+	mp_exp_t exp;
+	
+	exp = mpfr_get_z_exp (z, fr);
+	if (exp > 0)
+		mpz_mul_2exp (z, z, exp);
+	else if (exp < 0)
+		mpz_div_2exp (z, z, exp);
+}
+
+static void
+mympq_set_fr (mpq_ptr q, mpfr_srcptr fr)
+{
+	mp_exp_t exp;
+	
+	mpz_set_ui (mpq_denref (q), 1);
+	exp = mpfr_get_z_exp (mpq_numref (q), fr);
+	if (exp > 0)
+		mpq_mul_2exp (q, q, exp);
+	else if (exp < 0)
+		mpq_div_2exp (q, q, exp);
+}
+
+static int
+mympfr_cmp_d (mpfr_srcptr a, double b)
+{
+	mpfr_t fr;
+	int ret;
+	mpfr_init_set_d (fr, b, GMP_RNDN);
+	ret = mpfr_cmp (a, fr);
+	mpfr_clear (fr);
+	return ret;
+}
+#endif
+
+#ifndef HAVE_MPFR
 /*get sin*/
 static void
 mympf_sin(mpf_t rop, mpf_t op, int hyperbolic, int reduceop)
@@ -505,24 +561,31 @@ mympf_cos(mpf_t rop, mpf_t op, int hyperbolic, int reduceop)
 
 	mpf_set_default_prec(default_mpf_prec);
 }
+#endif /* ! HAVE_MPFR */
 
 /*get the value for pi*/
 void
 mympf_pi(mpf_ptr rop)
 {
+#ifndef HAVE_MPFR
 	mpf_t foldres;
 	mpf_t bottom;
 	mpf_t bottom2;
 	mpf_t top;
 	int negate = TRUE;
 	unsigned long i;
+#endif
 
 	if(pi_mpf) {
-		if(rop) mpf_set(rop,pi_mpf);
+		if(rop) {mpf_set(rop,pi_mpf);}
 		return;
 	}
-	
 	pi_mpf = g_new(__mpf_struct,1);
+	mpf_init(pi_mpf);
+
+#ifdef HAVE_MPFR
+	mpfr_const_pi (pi_mpf, GMP_RNDN);
+#else
 
 	default_mpf_prec += 6*4;
 	mpf_set_default_prec(default_mpf_prec);
@@ -536,7 +599,6 @@ mympf_pi(mpf_ptr rop)
 	mpf_sqrt_ui(top,3);
 	mpf_mul_ui(top,top,2);
 
-	mpf_init(pi_mpf);
 	mpf_init(foldres);
 	mpf_set(foldres,top);
 
@@ -563,11 +625,13 @@ mympf_pi(mpf_ptr rop)
 
 	default_mpf_prec -= 6*4;
 	mpf_set_default_prec(default_mpf_prec);
+#endif
 
 	if(rop) mpf_set(rop,pi_mpf);
 }
 
 
+#ifndef HAVE_MPFR
 /*exponential function uses the fact that e^x == (e^(x/2))^2*/
 /*precision is OFF ... bc mathlib defines it as "scale = 6 + scale + .44*x"*/
 static void
@@ -867,6 +931,7 @@ mympf_arctan(mpf_ptr rop,mpf_ptr op)
   mpf_clear(op2); mpf_clear(limit);
   mpf_clear(halfpi);
 }
+#endif /* ! HAVE_MPFR */
 
 /*my own power function for floats, very simple :) */
 static void
@@ -962,29 +1027,6 @@ mpwl_clear_extra_type(MpwRealNum *op,int type)
 	}
 }
 
-static void
-mympq_set_f(mpq_t rop,mpf_t op)
-{
-	char *s;
-	long int e;
-
-	s=mpf_get_str(NULL,&e,10,0,op);
-	e-=strlen(s);
-	if(e>0) {
-		s=my_realloc(s,strlen(s)+1,strlen(s)+e+1);
-		for(;e>0;e--)
-			strcat(s,"0");
-	}
-	mpz_set_str(mpq_numref(rop),s,10);
-	mpz_set_ui(mpq_denref(rop),10);
-	mpz_pow_ui(mpq_denref(rop),mpq_denref(rop),-e);
-
-	g_free(s);
-
-	mpq_canonicalize(rop);
-
-}
-
 static gboolean
 mympq_perfect_square_p (mpq_t op)
 {
@@ -1026,7 +1068,7 @@ mpwl_make_extra_type(MpwRealNum *op,int type)
 		if(op->type==MPW_INTEGER)
 			mpq_set_z(op->data.rval,op->data.ival);
 		else if(op->type==MPW_FLOAT)
-			mympq_set_f(op->data.rval,op->data.fval);
+			mpq_set_f(op->data.rval,op->data.fval);
 		else if(op->type==MPW_NATIVEINT)
 			mpq_set_si(op->data.rval,op->data.nval,1);
 		break;
@@ -2761,9 +2803,13 @@ mpwl_pow_f(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	
 	mpwl_init_type(&r,MPW_FLOAT);
 
+#ifdef HAVE_MPFR
+	mpfr_pow (r.data.fval, op1->data.fval, op2->data.fval, GMP_RNDN);
+#else
 	mympf_ln(r.data.fval,op1->data.fval);
 	mpf_mul(r.data.fval,r.data.fval,op2->data.fval);
 	mympf_exp(r.data.fval,r.data.fval);
+#endif
 
 	mpwl_clear_extra_type(op1,MPW_FLOAT);
 
@@ -2975,7 +3021,11 @@ mpwl_exp(MpwRealNum *rop,MpwRealNum *op)
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
+#ifdef HAVE_MPFR
+	mpfr_exp (r.data.fval, op->data.fval, GMP_RNDN);
+#else
 	mympf_exp(r.data.fval,op->data.fval);
+#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
@@ -2984,12 +3034,26 @@ mpwl_exp(MpwRealNum *rop,MpwRealNum *op)
 static gboolean
 mpwl_ln(MpwRealNum *rop,MpwRealNum *op)
 {
-	int ret;
+	gboolean ret;
 	MpwRealNum r={0};
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
+#ifdef HAVE_MPFR
+	if (mpfr_sgn (op->data.fval) < 0) {
+		mpfr_t f;
+		mpfr_init_set (f, op->data.fval, GMP_RNDN);
+		mpfr_neg (f, f, GMP_RNDN);
+		mpfr_log (r.data.fval, f, GMP_RNDN);
+		mpfr_clear (f);
+		ret = FALSE;
+	} else {
+		mpfr_log (r.data.fval, op->data.fval, GMP_RNDN);
+		ret = TRUE;
+	}
+#else
 	ret = mympf_ln(r.data.fval,op->data.fval);
+#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
@@ -3004,7 +3068,11 @@ mpwl_cos(MpwRealNum *rop,MpwRealNum *op)
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
+#ifdef HAVE_MPFR
+	mpfr_cos (r.data.fval, op->data.fval, GMP_RNDN);
+#else
 	mympf_cos(r.data.fval,op->data.fval,FALSE,TRUE);
+#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
@@ -3016,7 +3084,11 @@ mpwl_sin(MpwRealNum *rop,MpwRealNum *op)
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
+#ifdef HAVE_MPFR
+	mpfr_sin (r.data.fval, op->data.fval, GMP_RNDN);
+#else
 	mympf_sin(r.data.fval,op->data.fval,FALSE,TRUE);
+#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
@@ -3028,7 +3100,11 @@ mpwl_cosh(MpwRealNum *rop,MpwRealNum *op)
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
+#ifdef HAVE_MPFR
+	mpfr_cosh (r.data.fval, op->data.fval, GMP_RNDN);
+#else
 	mympf_cos(r.data.fval,op->data.fval,TRUE,FALSE);
+#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
@@ -3040,7 +3116,11 @@ mpwl_sinh(MpwRealNum *rop,MpwRealNum *op)
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
+#ifdef HAVE_MPFR
+	mpfr_sinh (r.data.fval, op->data.fval, GMP_RNDN);
+#else
 	mympf_sin(r.data.fval,op->data.fval,TRUE,FALSE);
+#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
@@ -3052,7 +3132,11 @@ mpwl_arctan(MpwRealNum *rop,MpwRealNum *op)
 
 	mpwl_init_type(&r,MPW_FLOAT);
 	mpwl_make_extra_type(op,MPW_FLOAT);
+#ifdef HAVE_MPFR
+	mpfr_atan (r.data.fval, op->data.fval, GMP_RNDN);
+#else
 	mympf_arctan(r.data.fval,op->data.fval);
+#endif
 	mpwl_clear_extra_type(op,MPW_FLOAT);
 
 	mpwl_move(rop,&r);
