@@ -1,4 +1,3 @@
-Utilitiesdir = $(datadir)/apps/Utilities
 Librarydir = $(datadir)/genius/gel
 Plugindescdir = $(datadir)/genius/plugins
 

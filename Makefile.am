@@ -1,6 +1,13 @@
 SUBDIRS = po src lib doc
 
-EXTRA_DIST = genius.spec.in
+EXTRA_DIST = \
+	genius.spec \
+	genius.spec.in \
+	intltool-extract.in	\
+	intltool-merge.in	\
+	intltool-update.in
 
-dist-hook:
-	cp genius.spec $(distdir)
+DISTCLEANFILES = \
+	intltool-extract	\
+	intltool-merge		\
+	intltool-update
