@@ -951,7 +951,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			} else if(l->type == OPERATOR_NODE && l->op.oper == E_DEREFERENCE) {
 				GelETree *t;
 				GET_L(l,t);
-				if(t->type!=IDENTIFIER_NODE) {
+				if G_UNLIKELY (t->type!=IDENTIFIER_NODE) {
 					(*errorout)(_("Bad identifier for function node!"));
 					gel_output_string(gelo,"?)");
 					break;
@@ -1160,7 +1160,7 @@ appendpolynomial (GelOutput *gelo, GelETree *n)
 	int stride;
 	gboolean first = TRUE;
 
-	if (n->poly.vars > 3) {
+	if G_UNLIKELY (n->poly.vars > 3) {
 		/* FIXME: */
 		(*errorout)(_("Cannot currently print polynomials of "
 			      "more then 3 vars"));
@@ -1234,7 +1234,7 @@ print_etree(GelOutput *gelo, GelETree *n, gboolean toplevel)
 {
 	char *p;
 
-	if (n == NULL) {
+	if G_UNLIKELY (n == NULL) {
 		(*errorout)(_("NULL tree!"));
 		gel_output_string (gelo, "(?)");
 		return;
@@ -1309,7 +1309,7 @@ print_etree(GelOutput *gelo, GelETree *n, gboolean toplevel)
 			GelEFunc *f;
 			
 			f = n->func.func;
-			if(!f) {
+			if G_UNLIKELY (f == NULL) {
 				(*errorout)(_("NULL function!"));
 				gel_output_string(gelo,"(?)");
 				break;
@@ -1331,7 +1331,7 @@ print_etree(GelOutput *gelo, GelETree *n, gboolean toplevel)
 			if (f->vararg)
 				gel_output_string (gelo, "...");
 
-			if(f->type==GEL_USER_FUNC) {
+			if G_LIKELY (f->type==GEL_USER_FUNC) {
 				gel_output_string(gelo,")=(");
 				D_ENSURE_USER_BODY (f);
 				print_etree(gelo, f->data.user, FALSE);
@@ -1619,7 +1619,7 @@ load_compiled_fp(const char *file, FILE *fp)
 		g_free (buf);
 		return;
 	}
-	if(strcmp(buf,"CGEL "VERSION"\n")!=0) {
+	if G_UNLIKELY (strcmp(buf,"CGEL "VERSION"\n")!=0) {
 		g_snprintf(buf,buf_size,_("File '%s' is a wrong version of GEL"),file);
 		(*errorout)(buf);
 		g_free (buf);
@@ -1667,21 +1667,21 @@ load_compiled_fp(const char *file, FILE *fp)
 		}
 
 		p = strtok(buf,";");
-		if(!p) {
+		if G_UNLIKELY (!p) {
 			(*errorout)(_("Badly formed record"));
 			continue;
-		} else if(*p == 'T') {
+		} else if G_UNLIKELY (*p == 'T') {
 			(*errorout)(_("Record out of place"));
 			continue;
 		} else if(*p == 'A') {
 			char *d;
 			p = strtok(NULL,";");
-			if(!p) {
+			if G_UNLIKELY (!p) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
 			d = strtok(NULL,";");
-			if(!d) {
+			if G_UNLIKELY (!d) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
@@ -1690,12 +1690,12 @@ load_compiled_fp(const char *file, FILE *fp)
 		} else if(*p == 'C') {
 			char *d;
 			p = strtok(NULL,";");
-			if(!p) {
+			if G_UNLIKELY (!p) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
 			d = strtok(NULL,";");
-			if(!d) {
+			if G_UNLIKELY (!d) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
@@ -1704,12 +1704,12 @@ load_compiled_fp(const char *file, FILE *fp)
 		} else if(*p == 'D') {
 			char *d;
 			p = strtok(NULL,";");
-			if(!p) {
+			if G_UNLIKELY (!p) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
 			d = strtok(NULL,";");
-			if(!d) {
+			if G_UNLIKELY (!d) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
@@ -1718,12 +1718,12 @@ load_compiled_fp(const char *file, FILE *fp)
 		} else if(*p == 'L') {
 			char *d, *h;
 			p = strtok(NULL,";");
-			if(!p) {
+			if G_UNLIKELY (!p) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
 			d = strtok(NULL,";");
-			if(!d) {
+			if G_UNLIKELY (!d) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
@@ -1734,12 +1734,12 @@ load_compiled_fp(const char *file, FILE *fp)
 		} else if(*p == 'H') {
 			char *d, *h;
 			p = strtok(NULL,";");
-			if(!p) {
+			if G_UNLIKELY (!p) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
 			d = strtok(NULL,";");
-			if(!d) {
+			if G_UNLIKELY (!d) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
@@ -1750,14 +1750,14 @@ load_compiled_fp(const char *file, FILE *fp)
 		} else if(*p == 'P') {
 			GelToken *tok;
 			p = strtok(NULL,";");
-			if(!p) {
+			if G_UNLIKELY (!p) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
 			tok = d_intern(p);
 			tok->protected = 1;
 			continue;
-		} else if(*p != 'F' && *p != 'V' && *p != 'f' && *p != 'v') {
+		} else if G_UNLIKELY (*p != 'F' && *p != 'V' && *p != 'f' && *p != 'v') {
 			(*errorout)(_("Badly formed record"));
 			continue;
 		}
@@ -1770,20 +1770,20 @@ load_compiled_fp(const char *file, FILE *fp)
 
 		/*size*/
 		p = strtok(NULL,";");
-		if(!p) {
+		if G_UNLIKELY (!p) {
 			(*errorout)(_("Badly formed record"));
 			continue;
 		}
 		size = -1;
 		sscanf(p,"%d",&size);
-		if(size==-1) {
+		if G_UNLIKELY (size==-1) {
 			(*errorout)(_("Badly formed record"));
 			continue;
 		}
 
 		/*id*/
 		p = strtok(NULL,";");
-		if(!p) {
+		if G_UNLIKELY (!p) {
 			(*errorout)(_("Badly formed record"));
 			continue;
 		}
@@ -1792,26 +1792,26 @@ load_compiled_fp(const char *file, FILE *fp)
 		if(type == GEL_USER_FUNC) {
 			/*nargs*/
 			p = strtok(NULL,";");
-			if(!p) {
+			if G_UNLIKELY (!p) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
 			nargs = -1;
 			sscanf(p,"%d",&nargs);
-			if (nargs == -1) {
+			if G_UNLIKELY (nargs == -1) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
 
 			/*vararg*/
 			p = strtok(NULL,";");
-			if(!p) {
+			if (p == NULL) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
 			vararg = -1;
 			sscanf(p,"%d",&vararg);
-			if (vararg == -1) {
+			if G_UNLIKELY (vararg == -1) {
 				(*errorout)(_("Badly formed record"));
 				continue;
 			}
@@ -1820,7 +1820,7 @@ load_compiled_fp(const char *file, FILE *fp)
 			li = NULL;
 			for(i=0;i<nargs;i++) {
 				p = strtok(NULL,";");
-				if(!p) {
+				if G_UNLIKELY (p == NULL) {
 					(*errorout)(_("Badly formed record"));
 					g_slist_free(li);
 					goto continue_reading;
@@ -1831,7 +1831,7 @@ load_compiled_fp(const char *file, FILE *fp)
 
 		/*the value*/
 		b2 = g_new(char,size+2);
-		if(!fgets(b2,size+2,fp)) {
+		if G_UNLIKELY (!fgets(b2,size+2,fp)) {
 			(*errorout)(_("Missing value for function"));
 			g_free(b2);
 			g_slist_free(li);
@@ -1850,7 +1850,7 @@ load_compiled_fp(const char *file, FILE *fp)
 				func = d_makevfunc (tok, NULL);
 			}
 			func->context = -1;
-			if (last_func == NULL)
+			if G_UNLIKELY (last_func == NULL)
 				(*errorout)(_("Extra dictionary for NULL function"));
 			else
 				last_func->extra_dict = g_slist_append
@@ -1888,7 +1888,7 @@ gel_load_compiled_file (const char *dirprefix, const char *file, gboolean warn)
 		gel_push_file_info(newfile,1);
 		load_compiled_fp(newfile,fp);
 		gel_pop_file_info();
-	} else if (warn) {
+	} else if G_UNLIKELY (warn) {
 		char buf[256];
 		g_snprintf(buf,256,_("Can't open file: '%s'"), newfile);
 		(*errorout)(buf);
@@ -2300,14 +2300,14 @@ gel_load_file (const char *dirprefix, const char *file, gboolean warn)
 	else
 		newfile = g_strdup (file);
 
-	if((fp = fopen(newfile,"r"))) {
+	if G_LIKELY ((fp = fopen(newfile,"r"))) {
 		char *dir = g_dirname(newfile);
 		gel_push_file_info(newfile,1);
 		load_fp(fp, dir);
 		gel_pop_file_info();
 		g_free(dir);
 		got_eof = oldgeof;
-	} else if (warn) {
+	} else if G_UNLIKELY (warn) {
 		char buf[256];
 		g_snprintf(buf,256,_("Can't open file: '%s'"),newfile);
 		(*errorout)(buf);
@@ -2328,7 +2328,7 @@ gel_load_guess_file (const char *dirprefix, const char *file, gboolean warn)
 	else
 		newfile = g_strdup (file);
 
-	if((fp = fopen(newfile,"r"))) {
+	if G_LIKELY ((fp = fopen(newfile,"r"))) {
 		char buf[6];
 		gel_push_file_info(newfile,1);
 		if(fgets(buf,6,fp) &&
@@ -2343,7 +2343,7 @@ gel_load_guess_file (const char *dirprefix, const char *file, gboolean warn)
 		}
 		gel_pop_file_info();
 		got_eof = oldgeof;
-	} else if (warn) {
+	} else if G_UNLIKELY (warn) {
 		char buf[256];
 		g_snprintf(buf,256,_("Can't open file: '%s'"), newfile);
 		(*errorout)(buf);
@@ -2384,7 +2384,7 @@ get_wordlist (const char *lst)
 #if HAVE_WORDEXP
 	wordexp_t we;
 	int i;
-	if (wordexp (lst, &we, WRDE_NOCMD) != 0) {
+	if G_UNLIKELY (wordexp (lst, &we, WRDE_NOCMD) != 0) {
 		char *s = g_strdup_printf (_("Can't expand '%s'"), lst);
 		(*errorout) (s);
 		g_free (s);
@@ -2397,7 +2397,7 @@ get_wordlist (const char *lst)
 #else
 	glob_t gl;
 	int i;
-	if (glob (lst, 0, NULL, &gl) != 0) {
+	if G_UNLIKELY (glob (lst, 0, NULL, &gl) != 0) {
 		char *s = g_strdup_printf (_("Can't expand '%s'"), lst);
 		(*errorout) (s);
 		g_free (s);
@@ -2469,7 +2469,7 @@ do_exec_commands (const char *dirprefix)
 				break;
 			}
 		}
-		if (li == NULL) {
+		if G_UNLIKELY (li == NULL) {
 			char *p = g_strdup_printf(_("Cannot open plugin '%s'!"),
 						  arg);
 			(*errorout)(p);
@@ -2676,7 +2676,7 @@ gel_parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean tes
 	if(stacklen!=1) {
 		while(evalstack)
 			gel_freetree(stack_pop(&evalstack));
-		if(!testparse)
+		if G_UNLIKELY (!testparse)
 			(*errorout)(_("ERROR: Probably corrupt stack!"));
 		if(finished) *finished = FALSE;
 		return NULL;
@@ -2698,7 +2698,7 @@ gel_runexp (GelETree *exp)
 	GelETree *ret;
 	GelCtx *ctx;
 	
-	if(busy) {
+	if G_UNLIKELY (busy) {
 		(*errorout)(_("ERROR: Can't execute more things at once!"));
 		return NULL;
 	}

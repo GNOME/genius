@@ -452,6 +452,12 @@ static void mpwl_denominator(MpwRealNum *rop, MpwRealNum *op);
 /**************/
 /*output stuff*/
 
+enum {
+	MPWL_EXCEPTION_NO_EXCEPTION = 0,
+	MPWL_EXCEPTION_CONVERSION_ERROR,
+	MPWL_EXCEPTION_NUMBER_TOO_LARGE,
+};
+
 /*get a long if possible*/
 static long mpwl_get_long(MpwRealNum *op, int *ex);
 static double mpwl_get_double(MpwRealNum *op, int *ex);
@@ -813,7 +819,7 @@ mympf_exp(mpf_t rop,mpf_t op)
 		mpf_div_2exp(x,x,1);
 		f++;
 
-		if(f==ULONG_MAX) {
+		if G_UNLIKELY (f == ULONG_MAX) {
 			mpf_clear(x);
 			mpf_clear(cmp);
 			(*errorout)(_("Number too large to compute exponential!"));
@@ -1188,7 +1194,7 @@ mympz_pow_z(mpz_t rop,mpz_t op,mpz_t e)
 		return;
 	}
 
-	if (mpz_fits_ulong_p (e)) {
+	if G_LIKELY (mpz_fits_ulong_p (e)) {
 		unsigned int exp = mpz_get_ui (e);
 		mpz_pow_ui (rop, op, exp);
 	} else {
@@ -2097,7 +2103,7 @@ mpwl_div(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	int t;
 	MpwRealNum r = {0};
 
-	if(mpwl_sgn(op2)==0) {
+	if G_UNLIKELY (mpwl_sgn(op2)==0) {
 		error_num=NUMERICAL_MPW_ERROR;
 		return;
 	}
@@ -2167,7 +2173,7 @@ static void
 mpwl_div_ui(MpwRealNum *rop,MpwRealNum *op,unsigned long int i)
 {
 	int t;
-	if(i==0) {
+	if G_UNLIKELY (i==0) {
 		error_num=NUMERICAL_MPW_ERROR;
 		return;
 	}
@@ -2217,7 +2223,7 @@ static void
 mpwl_ui_div(MpwRealNum *rop,unsigned long int i,MpwRealNum *op)
 {
 	int t;
-	if(mpwl_sgn(op)==0) {
+	if G_UNLIKELY (mpwl_sgn(op)==0) {
 		error_num=NUMERICAL_MPW_ERROR;
 		return;
 	}
@@ -2272,12 +2278,12 @@ mpwl_ui_div(MpwRealNum *rop,unsigned long int i,MpwRealNum *op)
 static void
 mpwl_mod(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
-	if(mpwl_sgn(op2)==0) {
+	if G_UNLIKELY (mpwl_sgn(op2)==0) {
 		error_num=NUMERICAL_MPW_ERROR;
 		return;
 	}
 
-	if(op1->type<=MPW_INTEGER && op2->type<=MPW_INTEGER) {
+	if G_LIKELY (op1->type<=MPW_INTEGER && op2->type<=MPW_INTEGER) {
 		int t=mpwl_make_same_extra_type(op1,op2);
 		int t1;
 
@@ -2308,7 +2314,7 @@ mpwl_mod(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 static void
 mpwl_gcd(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
-	if(op1->type<=MPW_INTEGER && op2->type<=MPW_INTEGER) {
+	if G_LIKELY (op1->type<=MPW_INTEGER && op2->type<=MPW_INTEGER) {
 		int t=mpwl_make_same_extra_type(op1,op2);
 		int t1;
 		long a,b;
@@ -2347,7 +2353,7 @@ mpwl_gcd(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 static gboolean
 mpwl_invert (MpwRealNum *rop, MpwRealNum *op1, MpwRealNum *op2)
 {
-	if (op1->type <= MPW_INTEGER && op2->type <= MPW_INTEGER) {
+	if G_LIKELY (op1->type <= MPW_INTEGER && op2->type <= MPW_INTEGER) {
 		int t = mpwl_make_same_extra_type (op1, op2);
 		gboolean suc = FALSE;
 		mpz_t ret;
@@ -2388,7 +2394,7 @@ mpwl_invert (MpwRealNum *rop, MpwRealNum *op1, MpwRealNum *op2)
 static void
 mpwl_jacobi(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
-	if(op1->type<=MPW_INTEGER && op2->type<=MPW_INTEGER) {
+	if G_LIKELY (op1->type<=MPW_INTEGER && op2->type<=MPW_INTEGER) {
 		int t=mpwl_make_same_extra_type(op1,op2);
 		int ret = 0;
 		mpz_t i1,i2;
@@ -2419,7 +2425,7 @@ mpwl_jacobi(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 static void
 mpwl_legendre(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
-	if(op1->type<=MPW_INTEGER && op2->type<=MPW_INTEGER) {
+	if G_LIKELY (op1->type<=MPW_INTEGER && op2->type<=MPW_INTEGER) {
 		int t=mpwl_make_same_extra_type(op1,op2);
 		int ret = 0;
 		mpz_t i1,i2;
@@ -2450,7 +2456,7 @@ mpwl_legendre(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 static void
 mpwl_kronecker (MpwRealNum *rop, MpwRealNum *op1, MpwRealNum *op2)
 {
-	if(op1->type<=MPW_INTEGER && op2->type<=MPW_INTEGER) {
+	if G_LIKELY (op1->type<=MPW_INTEGER && op2->type<=MPW_INTEGER) {
 		int t=mpwl_make_same_extra_type(op1,op2);
 		int ret = 0;
 		mpz_t i1,i2;
@@ -2481,18 +2487,18 @@ mpwl_kronecker (MpwRealNum *rop, MpwRealNum *op1, MpwRealNum *op2)
 static void
 mpwl_lucnum (MpwRealNum *rop, MpwRealNum *op)
 {
-	if(op->type!=MPW_INTEGER && op->type!=MPW_NATIVEINT) {
+	if G_UNLIKELY (op->type!=MPW_INTEGER && op->type!=MPW_NATIVEINT) {
 		(*errorout)(_("Lucas must get an integer argument!"));
 		error_num = NUMERICAL_MPW_ERROR;
 		return;
 	}
 	if(op->type==MPW_INTEGER) {
-		if(mpz_cmp_ui(op->data.ival,ULONG_MAX)>0) {
+		if G_UNLIKELY (mpz_cmp_ui(op->data.ival,ULONG_MAX)>0) {
 			(*errorout)(_("Number too large to compute lucas number!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
 		}
-		if(mpz_sgn(op->data.ival)<0) {
+		if G_UNLIKELY (mpz_sgn(op->data.ival)<0) {
 			(*errorout)(_("No such thing as negative lucas numbers!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
@@ -2503,7 +2509,7 @@ mpwl_lucnum (MpwRealNum *rop, MpwRealNum *op)
 		}
 		mpz_lucnum_ui (rop->data.ival, mpz_get_ui (op->data.ival));
 	} else {
-		if(op->data.nval<0) {
+		if G_UNLIKELY (op->data.nval<0) {
 			(*errorout)(_("No such thing as negative lucas numbers!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
@@ -2519,7 +2525,7 @@ mpwl_lucnum (MpwRealNum *rop, MpwRealNum *op)
 static void
 mpwl_nextprime (MpwRealNum *rop, MpwRealNum *op)
 {
-	if(op->type!=MPW_INTEGER && op->type!=MPW_NATIVEINT) {
+	if G_UNLIKELY (op->type!=MPW_INTEGER && op->type!=MPW_NATIVEINT) {
 		(*errorout)(_("Cannot get next prime after non-integer!"));
 		error_num = NUMERICAL_MPW_ERROR;
 		return;
@@ -2654,25 +2660,25 @@ mpwl_fac_ui(MpwRealNum *rop,unsigned int op)
 static void
 mpwl_fac(MpwRealNum *rop,MpwRealNum *op)
 {
-	if(op->type!=MPW_INTEGER && op->type!=MPW_NATIVEINT) {
+	if G_UNLIKELY (op->type!=MPW_INTEGER && op->type!=MPW_NATIVEINT) {
 		(*errorout)(_("Can't do factorials of rationals or floats!"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return;
 	}
 	if(op->type==MPW_INTEGER) {
-		if(mpz_cmp_ui(op->data.ival,ULONG_MAX)>0) {
+		if G_UNLIKELY (mpz_cmp_ui(op->data.ival,ULONG_MAX)>0) {
 			(*errorout)(_("Number too large to compute factorial!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
 		}
-		if(mpz_sgn(op->data.ival)<0) {
+		if G_UNLIKELY (mpz_sgn(op->data.ival)<0) {
 			(*errorout)(_("Can't do factorials of negative numbers!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
 		}
 		mpwl_fac_ui(rop,mpz_get_ui(op->data.ival));
 	} else {
-		if(op->data.nval<0) {
+		if G_UNLIKELY (op->data.nval<0) {
 			(*errorout)(_("Can't do factorials of negative numbers!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
@@ -2702,25 +2708,25 @@ mpwl_dblfac_ui(MpwRealNum *rop,unsigned int op)
 static void
 mpwl_dblfac (MpwRealNum *rop,MpwRealNum *op)
 {
-	if(op->type!=MPW_INTEGER && op->type!=MPW_NATIVEINT) {
+	if G_UNLIKELY (op->type!=MPW_INTEGER && op->type!=MPW_NATIVEINT) {
 		(*errorout)(_("Can't do factorials of rationals or floats!"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return;
 	}
 	if(op->type==MPW_INTEGER) {
-		if(mpz_cmp_ui(op->data.ival,ULONG_MAX)>0) {
+		if G_UNLIKELY (mpz_cmp_ui(op->data.ival,ULONG_MAX)>0) {
 			(*errorout)(_("Number too large to compute factorial!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
 		}
-		if(mpz_sgn(op->data.ival)<0) {
+		if G_UNLIKELY (mpz_sgn(op->data.ival)<0) {
 			(*errorout)(_("Can't do factorials of negative numbers!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
 		}
 		mpwl_dblfac_ui(rop,mpz_get_ui(op->data.ival));
 	} else {
-		if(op->data.nval<0) {
+		if G_UNLIKELY (op->data.nval<0) {
 			(*errorout)(_("Can't do factorials of negative numbers!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
@@ -2741,13 +2747,13 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	int t;
 	int reverse=FALSE;
 
-	if(op2->type!=MPW_RATIONAL) {
+	if G_UNLIKELY (op2->type!=MPW_RATIONAL) {
 		error_num=INTERNAL_MPW_ERROR;
 		return FALSE;
 	}
 
-	if (mpwl_sgn (op1) < 0 &&
-	    mpz_even_p (mpq_denref(op2->data.rval))) {
+	if G_UNLIKELY (mpwl_sgn (op1) < 0 &&
+			mpz_even_p (mpq_denref(op2->data.rval))) {
 		/*it's gonna be complex*/
 		error_num=NUMERICAL_MPW_ERROR;
 		return TRUE;
@@ -2944,7 +2950,7 @@ static void
 mpwl_pow_z(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
 	int reverse = FALSE;;
-	if(op2->type!=MPW_INTEGER) {
+	if G_UNLIKELY (op2->type!=MPW_INTEGER) {
 		error_num=INTERNAL_MPW_ERROR;
 		return;
 	}
@@ -3029,7 +3035,7 @@ mpwl_pow_f(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
 	MpwRealNum r={0};
 
-	if(op2->type!=MPW_FLOAT) {
+	if G_UNLIKELY (op2->type!=MPW_FLOAT) {
 		error_num=INTERNAL_MPW_ERROR;
 		return FALSE;
 	}
@@ -3092,9 +3098,9 @@ mpwl_powm (MpwRealNum *rop,
 	int sgn1, sgn2;
 	MpwRealNum r={0};
 
-	if ((op1->type != MPW_INTEGER && op1->type != MPW_NATIVEINT) ||
-	    (op2->type != MPW_INTEGER && op2->type != MPW_NATIVEINT) ||
-	    (mod->type != MPW_INTEGER && mod->type != MPW_NATIVEINT)) {
+	if G_UNLIKELY ((op1->type != MPW_INTEGER && op1->type != MPW_NATIVEINT) ||
+		       (op2->type != MPW_INTEGER && op2->type != MPW_NATIVEINT) ||
+		       (mod->type != MPW_INTEGER && mod->type != MPW_NATIVEINT)) {
 		(*errorout) (_("powm: Bad types for mod power"));
 		error_num = NUMERICAL_MPW_ERROR;
 		return;
@@ -3127,9 +3133,9 @@ mpwl_powm (MpwRealNum *rop,
 				     op1->data.ival,
 				     -(op2->data.nval),
 				     mod->data.ival);
-			if ( ! mpz_invert (r.data.ival,
-					   r.data.ival,
-					   mod->data.ival)) {
+			if G_UNLIKELY ( ! mpz_invert (r.data.ival,
+						      r.data.ival,
+						      mod->data.ival)) {
 				(*errorout)(_("Can't invert in powm"));
 				error_num = NUMERICAL_MPW_ERROR;
 				mpwl_clear (&r);
@@ -3150,9 +3156,9 @@ mpwl_powm (MpwRealNum *rop,
 				  op2->data.ival,
 				  mod->data.ival);
 			mpz_neg (op2->data.ival, op2->data.ival);
-			if ( ! mpz_invert (r.data.ival,
-					   r.data.ival,
-					   mod->data.ival)) {
+			if G_UNLIKELY ( ! mpz_invert (r.data.ival,
+						      r.data.ival,
+						      mod->data.ival)) {
 				(*errorout)(_("Can't invert in powm"));
 				error_num = NUMERICAL_MPW_ERROR;
 				mpwl_clear (&r);
@@ -3181,8 +3187,8 @@ mpwl_powm_ui (MpwRealNum *rop,
 	int sgn;
 	MpwRealNum r={0};
 
-	if ((op->type != MPW_INTEGER && op->type != MPW_NATIVEINT) ||
-	    (mod->type != MPW_INTEGER && mod->type != MPW_NATIVEINT)) {
+	if G_UNLIKELY ((op->type != MPW_INTEGER && op->type != MPW_NATIVEINT) ||
+		       (mod->type != MPW_INTEGER && mod->type != MPW_NATIVEINT)) {
 		(*errorout) (_("powm: Bad types for mod power"));
 		error_num = NUMERICAL_MPW_ERROR;
 		return;
@@ -3480,13 +3486,13 @@ mpwl_randint (MpwRealNum *rop, MpwRealNum *op)
 {
 	gmp_randstate_t rand_state;
 
-	if (op->type != MPW_NATIVEINT &&
-	    op->type != MPW_INTEGER) {
+	if G_UNLIKELY (op->type != MPW_NATIVEINT &&
+		       op->type != MPW_INTEGER) {
 		(*errorout)(_("Can't make random integer from a non-integer"));
 		error_num = NUMERICAL_MPW_ERROR;
 		return;
 	}
-	if (mpwl_sgn (op) <= 0) {
+	if G_UNLIKELY (mpwl_sgn (op) <= 0) {
 		(*errorout)(_("Range for random integer must be positive"));
 		error_num = NUMERICAL_MPW_ERROR;
 		return;
@@ -3671,7 +3677,7 @@ mpwl_numerator(MpwRealNum *rop, MpwRealNum *op)
 	   op->type == MPW_NATIVEINT) {
 		if(rop != op)
 			mpwl_set(rop, op);
-	} else if(op->type == MPW_FLOAT) {
+	} else if G_UNLIKELY (op->type == MPW_FLOAT) {
 		(*errorout)(_("Can't get numerator of floating types"));
 		error_num=NUMERICAL_MPW_ERROR;
 	} else { /* must be rational */
@@ -3698,7 +3704,7 @@ mpwl_denominator(MpwRealNum *rop, MpwRealNum *op)
 	if(op->type == MPW_INTEGER ||
 	   op->type == MPW_NATIVEINT) {
 		mpwl_set_si(rop, 1);
-	} else if(op->type == MPW_FLOAT) {
+	} else if G_UNLIKELY (op->type == MPW_FLOAT) {
 		(*errorout)(_("Can't get numerator of floating types"));
 		error_num=NUMERICAL_MPW_ERROR;
 	} else { /* must be rational */
@@ -3763,17 +3769,17 @@ mpwl_set_str_int(MpwRealNum *rop,const char *s,int base)
 
 /*get a long if possible*/
 static long
-mpwl_get_long(MpwRealNum *op, int *ex)
+mpwl_get_long (MpwRealNum *op, int *ex)
 {
-	if(op->type > MPW_INTEGER) {
-		*ex = 1;
+	if G_UNLIKELY (op->type > MPW_INTEGER) {
+		*ex = MPWL_EXCEPTION_CONVERSION_ERROR;
 		return 0;
 	} else if(op->type == MPW_NATIVEINT) {
 		return op->data.nval;
 	} else { /*real integer*/
-		if(mpz_cmp_si(op->data.ival,LONG_MAX)>0 ||
-		   mpz_cmp_si(op->data.ival,LONG_MIN)<0) {
-			*ex = 2;
+		if G_UNLIKELY (mpz_cmp_si (op->data.ival, LONG_MAX) > 0 ||
+			       mpz_cmp_si (op->data.ival, LONG_MIN) < 0) {
+			*ex = MPWL_EXCEPTION_NUMBER_TOO_LARGE;
 			return 0;
 		} else
 			return mpz_get_si(op->data.ival);
@@ -3781,17 +3787,17 @@ mpwl_get_long(MpwRealNum *op, int *ex)
 
 }
 
-/*get a long if possible*/
+/*get a double if possible*/
 static double
-mpwl_get_double(MpwRealNum *op, int *ex)
+mpwl_get_double (MpwRealNum *op, int *ex)
 {
 	double d;
 
 	mpwl_make_extra_type (op, MPW_FLOAT);
 
-	if (mpf_cmp_d (op->data.fval, DBL_MAX) > 0 ||
-	    mpf_cmp_d (op->data.fval, -DBL_MAX) < 0) {
-		*ex = 2;
+	if G_UNLIKELY (mpf_cmp_d (op->data.fval, DBL_MAX) > 0 ||
+		       mpf_cmp_d (op->data.fval, -DBL_MAX) < 0) {
+		*ex = MPWL_EXCEPTION_NUMBER_TOO_LARGE;
 		return 0;
 	}
 
@@ -4484,7 +4490,7 @@ mpw_peek_imag_mpf (mpw_ptr op)
 int
 mpw_sgn(mpw_ptr op)
 {
-	if(op->type==MPW_REAL) {
+	if G_LIKELY (op->type==MPW_REAL) {
 		return mpwl_sgn(op->r);
 	} else {
 		(*errorout)(_("Can't compare complex numbers"));
@@ -4695,7 +4701,7 @@ void
 mpw_div(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 {
 	if(op1->type==MPW_REAL && op2->type==MPW_REAL) {
-		if(mpwl_sgn(op2->r)==0) {
+		if G_UNLIKELY (mpwl_sgn(op2->r)==0) {
 			(*errorout)(_("Division by zero!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
@@ -4710,7 +4716,7 @@ mpw_div(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 		MpwRealNum *i1;
 		MpwRealNum *r2;
 		MpwRealNum *i2;
-		if(mpwl_sgn(op2->r)==0 && mpwl_sgn(op2->i)==0) {
+		if G_UNLIKELY (mpwl_sgn(op2->r)==0 && mpwl_sgn(op2->i)==0) {
 			(*errorout)(_("Division by zero!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
@@ -4761,7 +4767,7 @@ mpw_div(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 void
 mpw_div_ui(mpw_ptr rop,mpw_ptr op, unsigned int i)
 {
-	if(i==0) {
+	if G_UNLIKELY (i==0) {
 		(*errorout)(_("Division by zero!"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return;
@@ -4784,7 +4790,7 @@ void
 mpw_ui_div(mpw_ptr rop,unsigned int in,mpw_ptr op)
 {
 	if(op->type==MPW_REAL) {
-		if(mpwl_sgn(op->r)==0) {
+		if G_UNLIKELY (mpwl_sgn(op->r)==0) {
 			(*errorout)(_("Division by zero!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
@@ -4797,7 +4803,7 @@ mpw_ui_div(mpw_ptr rop,unsigned int in,mpw_ptr op)
 		MpwRealNum t2={0};
 		MpwRealNum *r;
 		MpwRealNum *i;
-		if(mpwl_sgn(op->r)==0 && mpwl_sgn(op->i)==0) {
+		if G_UNLIKELY (mpwl_sgn(op->r)==0 && mpwl_sgn(op->i)==0) {
 			(*errorout)(_("Division by zero!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
@@ -4841,8 +4847,8 @@ mpw_ui_div(mpw_ptr rop,unsigned int in,mpw_ptr op)
 void
 mpw_mod (mpw_ptr rop, mpw_ptr op1, mpw_ptr op2)
 {
-	if(op1->type==MPW_REAL && op2->type==MPW_REAL) {
-		if(mpwl_sgn(op2->r)==0) {
+	if G_LIKELY (op1->type==MPW_REAL && op2->type==MPW_REAL) {
+		if G_UNLIKELY (mpwl_sgn(op2->r)==0) {
 			(*errorout)(_("Division by zero!"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
@@ -4859,10 +4865,10 @@ mpw_mod (mpw_ptr rop, mpw_ptr op1, mpw_ptr op2)
 void
 mpw_invert (mpw_ptr rop, mpw_ptr op1, mpw_ptr mod)
 {
-	if (op1->type == MPW_REAL && mod->type == MPW_REAL) {
+	if  G_LIKELY (op1->type == MPW_REAL && mod->type == MPW_REAL) {
 		MAKE_REAL (rop);
 		MAKE_COPY (rop->r);
-		if ( ! mpwl_invert (rop->r, op1->r, mod->r)) {
+		if G_UNLIKELY ( ! mpwl_invert (rop->r, op1->r, mod->r)) {
 			error_num = NUMERICAL_MPW_ERROR;
 			/* FIXME: give the numbers */
 			(*errorout)(_("No modulo inverse found!"));
@@ -4876,7 +4882,7 @@ mpw_invert (mpw_ptr rop, mpw_ptr op1, mpw_ptr mod)
 void
 mpw_gcd(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 {
-	if(op1->type==MPW_REAL && op2->type==MPW_REAL) {
+	if G_LIKELY (op1->type==MPW_REAL && op2->type==MPW_REAL) {
 		MAKE_REAL(rop);
 		MAKE_COPY(rop->r);
 		mpwl_gcd(rop->r,op1->r,op2->r);
@@ -4888,12 +4894,12 @@ mpw_gcd(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 void
 mpw_lcm (mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 {
-	if(op1->type==MPW_REAL && op2->type==MPW_REAL) {
+	if G_LIKELY (op1->type==MPW_REAL && op2->type==MPW_REAL) {
 		MpwRealNum gcd = {0};
 		mpwl_init_type (&gcd, MPW_NATIVEINT);
 
 		mpwl_gcd (&gcd, op1->r, op2->r);
-		if (error_num == NUMERICAL_MPW_ERROR)
+		if G_UNLIKELY (error_num == NUMERICAL_MPW_ERROR)
 			return;
 
 		MAKE_REAL(rop);
@@ -4912,7 +4918,7 @@ mpw_lcm (mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 void
 mpw_jacobi(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 {
-	if(op1->type==MPW_REAL && op2->type==MPW_REAL) {
+	if G_LIKELY (op1->type==MPW_REAL && op2->type==MPW_REAL) {
 		MAKE_REAL(rop);
 		MAKE_COPY(rop->r);
 		mpwl_jacobi(rop->r,op1->r,op2->r);
@@ -4924,7 +4930,7 @@ mpw_jacobi(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 void
 mpw_legendre(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 {
-	if(op1->type==MPW_REAL && op2->type==MPW_REAL) {
+	if G_LIKELY (op1->type==MPW_REAL && op2->type==MPW_REAL) {
 		MAKE_REAL(rop);
 		MAKE_COPY(rop->r);
 		mpwl_legendre(rop->r,op1->r,op2->r);
@@ -4936,7 +4942,7 @@ mpw_legendre(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 void
 mpw_kronecker(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 {
-	if(op1->type==MPW_REAL && op2->type==MPW_REAL) {
+	if G_LIKELY (op1->type==MPW_REAL && op2->type==MPW_REAL) {
 		MAKE_REAL(rop);
 		MAKE_COPY(rop->r);
 		mpwl_kronecker(rop->r,op1->r,op2->r);
@@ -4948,7 +4954,7 @@ mpw_kronecker(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 void
 mpw_lucnum (mpw_ptr rop, mpw_ptr op)
 {
-	if (op->type == MPW_REAL) {
+	if G_LIKELY (op->type == MPW_REAL) {
 		MAKE_REAL (rop);
 		MAKE_COPY (rop->r);
 		mpwl_lucnum (rop->r, op->r);
@@ -4960,7 +4966,7 @@ mpw_lucnum (mpw_ptr rop, mpw_ptr op)
 void
 mpw_nextprime (mpw_ptr rop, mpw_ptr op)
 {
-	if (op->type == MPW_REAL) {
+	if G_LIKELY (op->type == MPW_REAL) {
 		MAKE_REAL (rop);
 		MAKE_COPY (rop->r);
 		mpwl_nextprime (rop->r, op->r);
@@ -4972,7 +4978,7 @@ mpw_nextprime (mpw_ptr rop, mpw_ptr op)
 gboolean
 mpw_perfect_square(mpw_ptr op)
 {
-	if(op->type==MPW_REAL) {
+	if G_LIKELY (op->type==MPW_REAL) {
 		return mpwl_perfect_square(op->r);
 	} else {
 		error_num=NUMERICAL_MPW_ERROR;
@@ -4983,7 +4989,7 @@ mpw_perfect_square(mpw_ptr op)
 gboolean
 mpw_perfect_power(mpw_ptr op)
 {
-	if(op->type==MPW_REAL) {
+	if G_LIKELY (op->type==MPW_REAL) {
 		return mpwl_perfect_power(op->r);
 	} else {
 		error_num=NUMERICAL_MPW_ERROR;
@@ -4994,7 +5000,7 @@ mpw_perfect_power(mpw_ptr op)
 gboolean
 mpw_even_p(mpw_ptr op)
 {
-	if(op->type==MPW_REAL) {
+	if G_LIKELY (op->type==MPW_REAL) {
 		return mpwl_even_p(op->r);
 	} else {
 		error_num=NUMERICAL_MPW_ERROR;
@@ -5005,7 +5011,7 @@ mpw_even_p(mpw_ptr op)
 gboolean
 mpw_odd_p(mpw_ptr op)
 {
-	if(op->type==MPW_REAL) {
+	if G_LIKELY (op->type==MPW_REAL) {
 		return mpwl_odd_p(op->r);
 	} else {
 		error_num=NUMERICAL_MPW_ERROR;
@@ -5043,9 +5049,9 @@ mpw_pow(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 void
 mpw_powm(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2, mpw_ptr mod)
 {
-	if (op1->type != MPW_REAL ||
-	    op2->type != MPW_REAL ||
-	    mod->type != MPW_REAL) {
+	if G_UNLIKELY (op1->type != MPW_REAL ||
+		       op2->type != MPW_REAL ||
+		       mod->type != MPW_REAL) {
 		(*errorout) (_("powm: Bad types for mod power"));
 		error_num = NUMERICAL_MPW_ERROR;
 		return;
@@ -5060,8 +5066,8 @@ mpw_powm(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2, mpw_ptr mod)
 void
 mpw_powm_ui (mpw_ptr rop,mpw_ptr op, unsigned long int e, mpw_ptr mod)
 {
-	if (op->type != MPW_REAL ||
-	    mod->type != MPW_REAL) {
+	if G_UNLIKELY (op->type != MPW_REAL ||
+		       mod->type != MPW_REAL) {
 		(*errorout) (_("powm: Bad types for mod power"));
 		error_num = NUMERICAL_MPW_ERROR;
 		return;
@@ -5134,7 +5140,7 @@ void
 mpw_ln(mpw_ptr rop,mpw_ptr op)
 {
 	if(op->type==MPW_REAL) {
-		if(mpwl_sgn(op->r)==0) {
+		if G_UNLIKELY (mpwl_sgn(op->r)==0) {
 			(*errorout)(_("ln: can't take logarithm of 0"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
@@ -5204,7 +5210,7 @@ void
 mpw_log2(mpw_ptr rop,mpw_ptr op)
 {
 	if(op->type==MPW_REAL) {
-		if(mpwl_sgn(op->r)==0) {
+		if G_UNLIKELY (mpwl_sgn(op->r)==0) {
 			(*errorout)(_("log2: can't take logarithm of 0"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
@@ -5270,7 +5276,7 @@ void
 mpw_log10(mpw_ptr rop,mpw_ptr op)
 {
 	if(op->type==MPW_REAL) {
-		if(mpwl_sgn(op->r)==0) {
+		if G_UNLIKELY (mpwl_sgn(op->r)==0) {
 			(*errorout)(_("log10: can't take logarithm of 0"));
 			error_num=NUMERICAL_MPW_ERROR;
 			return;
@@ -5512,14 +5518,14 @@ mpw_arctan(mpw_ptr rop,mpw_ptr op)
 		mpw_div(tmp1,tmp1,tmp2);
 		mpw_clear(tmp2);
 		
-		if(error_num) {
+		if G_UNLIKELY (error_num) {
 			mpw_clear(tmp1);
 			return;
 		}
 		
 		mpw_ln(tmp1,tmp1);
 
-		if(error_num) {
+		if G_UNLIKELY (error_num) {
 			mpw_clear(tmp1);
 			return;
 		}
@@ -5571,7 +5577,7 @@ mpw_rand (mpw_ptr rop)
 void
 mpw_randint (mpw_ptr rop, mpw_ptr op)
 {
-	if (op->type == MPW_COMPLEX) {
+	if G_UNLIKELY (op->type == MPW_COMPLEX) {
 		(*errorout)(_("Can't make random integer out of a complex number"));
 		error_num = NUMERICAL_MPW_ERROR;
 		return;
@@ -5640,7 +5646,7 @@ mpw_pow_ui(mpw_ptr rop,mpw_ptr op, unsigned long int e)
 int
 mpw_cmp(mpw_ptr op1, mpw_ptr op2)
 {
-	if(op1->type==MPW_REAL && op2->type==MPW_REAL) {
+	if G_LIKELY (op1->type==MPW_REAL && op2->type==MPW_REAL) {
 		return mpwl_cmp(op1->r,op2->r);
 	} else {
 		(*errorout)(_("Can't compare complex numbers"));
@@ -5652,7 +5658,7 @@ mpw_cmp(mpw_ptr op1, mpw_ptr op2)
 int
 mpw_cmp_ui(mpw_ptr op, unsigned long int i)
 {
-	if(op->type==MPW_REAL) {
+	if G_LIKELY (op->type==MPW_REAL) {
 		return mpwl_cmp_ui(op->r,i);
 	} else {
 		(*errorout)(_("Can't compare complex numbers"));
@@ -5688,7 +5694,7 @@ mpw_fac_ui(mpw_ptr rop,unsigned long int i)
 void
 mpw_fac(mpw_ptr rop,mpw_ptr op)
 {
-	if(op->type==MPW_REAL) {
+	if G_LIKELY (op->type==MPW_REAL) {
 		MAKE_REAL(rop);
 		MAKE_COPY(rop->r);
 		mpwl_fac(rop->r,op->r);
@@ -5701,7 +5707,7 @@ mpw_fac(mpw_ptr rop,mpw_ptr op)
 void
 mpw_dblfac (mpw_ptr rop, mpw_ptr op)
 {
-	if (op->type==MPW_REAL) {
+	if G_LIKELY (op->type==MPW_REAL) {
 		MAKE_REAL (rop);
 		MAKE_COPY (rop->r);
 		mpwl_dblfac (rop->r, op->r);
@@ -5985,7 +5991,7 @@ mpw_is_complex(mpw_ptr op)
 gboolean
 mpw_is_integer(mpw_ptr op)
 {
-	if(op->type == MPW_COMPLEX) {
+	if G_UNLIKELY (op->type == MPW_COMPLEX) {
 		(*errorout)(_("Can't determine type of a complex number"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return FALSE;
@@ -6007,7 +6013,7 @@ mpw_is_complex_integer(mpw_ptr op)
 gboolean
 mpw_is_rational(mpw_ptr op)
 {
-	if(op->type == MPW_COMPLEX) {
+	if G_UNLIKELY (op->type == MPW_COMPLEX) {
 		(*errorout)(_("Can't determine type of a complex number"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return FALSE;
@@ -6029,7 +6035,7 @@ mpw_is_complex_rational_or_integer(mpw_ptr op)
 gboolean
 mpw_is_float(mpw_ptr op)
 {
-	if(op->type == MPW_COMPLEX) {
+	if G_UNLIKELY (op->type == MPW_COMPLEX) {
 		(*errorout)(_("Can't determine type of a complex number"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return FALSE;
@@ -6120,18 +6126,18 @@ long
 mpw_get_long(mpw_ptr op)
 {
 	long r;
-	int ex = 0;
-	if(op->type==MPW_COMPLEX) {
+	int ex = MPWL_EXCEPTION_NO_EXCEPTION;
+	if G_UNLIKELY (op->type==MPW_COMPLEX) {
 		(*errorout)(_("Can't convert complex number into integer"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return 0;
 	} 
 	r = mpwl_get_long(op->r,&ex);
-	if(ex==1) {
+	if G_UNLIKELY (ex == MPWL_EXCEPTION_CONVERSION_ERROR) {
 		(*errorout)(_("Can't convert real number to integer"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return 0;
-	} else if(ex==2) {
+	} else if G_UNLIKELY (ex == MPWL_EXCEPTION_NUMBER_TOO_LARGE) {
 		(*errorout)(_("Integer too large for this operation"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return 0;
@@ -6143,18 +6149,23 @@ double
 mpw_get_double (mpw_ptr op)
 {
 	double r;
-	int ex = 0;
-	if(op->type==MPW_COMPLEX) {
+	int ex = MPWL_EXCEPTION_NO_EXCEPTION;
+	if G_UNLIKELY (op->type==MPW_COMPLEX) {
 		(*errorout)(_("Can't convert complex number into integer"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return 0;
 	} 
 	r = mpwl_get_double (op->r, &ex);
-	if(ex==1) {
+	/* currently there is no conversion error exception for
+	   get_double */
+#if 0
+	if G_UNLIKELY (ex == MPWL_EXCEPTION_CONVERSION_ERROR) {
 		(*errorout)(_("Can't convert real number to double"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return 0;
-	} else if(ex==2) {
+	} else
+#endif
+	if G_UNLIKELY (ex == MPWL_EXCEPTION_NUMBER_TOO_LARGE) {
 		(*errorout)(_("Number too large for this operation"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return 0;
@@ -6175,7 +6186,7 @@ mpw_denominator(mpw_ptr rop, mpw_ptr op)
 		mpwl_denominator (&r1, op->r);
 		mpwl_denominator (&r2, op->i);
 
-		if (error_num != NO_ERROR) {
+		if G_UNLIKELY (error_num != NO_ERROR) {
 			mpwl_clear (&r1);
 			mpwl_clear (&r2);
 			return;
@@ -6216,7 +6227,7 @@ mpw_numerator(mpw_ptr rop, mpw_ptr op)
 		mpwl_numerator (&n1, op->r);
 		mpwl_numerator (&n2, op->i);
 
-		if (error_num != NO_ERROR) {
+		if G_UNLIKELY (error_num != NO_ERROR) {
 			mpwl_clear (&r1);
 			mpwl_clear (&r2);
 			mpwl_clear (&n1);
