@@ -107,7 +107,7 @@ void (*infoout)(const char *) = NULL;
 GelCommand gel_command = GEL_NO_COMMAND;
 char *gel_command_arg = NULL;
 
-int interrupted = FALSE;
+gboolean interrupted = FALSE;
 
 static GSList *curfile = NULL;
 static GSList *curline = NULL;

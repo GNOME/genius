@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2004 George Lebl
  *
  * Author: George Lebl
  *
@@ -58,7 +58,7 @@ static GelEvalForIn *free_evfi = NULL;
 
 extern GHashTable *uncompiled;
 
-extern int interrupted;
+extern gboolean interrupted;
 
 extern char *genius_params[];
 

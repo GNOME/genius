@@ -37,6 +37,7 @@ gnome_genius_SOURCES = 	\
 	eval.c		\
 	eval.h		\
 	gnome-genius.c	\
+	gnome-genius.h	\
 	util.c		\
 	util.h		\
 	dict.c		\

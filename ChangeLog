@@ -1,3 +1,16 @@
+Tue Mar 23 14:35:09 2004  George Lebl <jirka@5z.com>
+
+	* src/Makefile.am, src/gnome-genius.[ch], src/calc.c, src/eval.c:
+	  Cleanup, print version in title, make titles more sane + 
+	  some string changes, a bit of renaming, add gnome-genius.h header
+	  to export the current setup and update some copyright notices
+
+	* src/graphing.c: fixup wrt the header, add status icons next to
+	  the entries, make enter do the plot, add "Fit Y axis" function
+	  to the plot window, errors that occur when we invoke the engine
+	  from the graph window now always go to dialogs, And fix graphing
+	  the identity (that is, just "x")
+
 Tue Mar 23 11:14:02 2004  George Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c, src/graphing.[ch]:  Add a plot dialog where it

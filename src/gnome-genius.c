@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2003 George Lebl
+ * Copyright (C) 1997-2004 George Lebl
  *
  * Author: George Lebl
  *
@@ -55,8 +55,7 @@
 #include <gtksourceview/gtksourceprintjob.h>
 #endif
 
-/* FIXME: need header */
-void genius_interrupt_calc (void);
+#include "gnome-genius.h"
 
 /*Globals:*/
 
@@ -75,7 +74,7 @@ calcstate_t curstate={
 	};
 	
 extern int parenth_depth;
-extern int interrupted;
+extern gboolean interrupted;
 
 GtkWidget *genius_window = NULL;
 
@@ -94,14 +93,7 @@ static int errors_printed = 0;
 
 static char *last_dir = NULL;
 
-typedef struct {
-	gboolean error_box;
-	gboolean info_box;
-	int scrollback;
-	char *font;
-} geniussetup_t;
-
-geniussetup_t cursetup = {
+GeniusSetup genius_setup = {
 	FALSE,
 	TRUE,
 	1000,
@@ -361,7 +353,7 @@ geniusbox (gboolean error,
 static void
 printout_error_num_and_reset(void)
 {
-	if(cursetup.error_box) {
+	if(genius_setup.error_box) {
 		if(errors) {
 			if(errors_printed-curstate.max_errors > 0) {
 				g_string_append_printf (errors,
@@ -417,7 +409,7 @@ geniuserror(const char *s)
 	else
 		str = g_strdup(s);
 	
-	if(cursetup.error_box) {
+	if(genius_setup.error_box) {
 		if(errors) {
 			g_string_append_c(errors,'\n');
 			g_string_append(errors,str);
@@ -462,7 +454,7 @@ geniusinfo(const char *s)
 	else
 		str = g_strdup(s);
 	
-	if(cursetup.info_box) {
+	if(genius_setup.info_box) {
 		if(infos) {
 			g_string_append_c(infos,'\n');
 			g_string_append(infos,str);
@@ -484,11 +476,11 @@ aboutcb(GtkWidget * widget, gpointer data)
 {
 	static GtkWidget *about;
 	static const char *authors[] = {
-		"George Lebl (jirka@5z.com)",
+		"Jiri (George) Lebl (jirka@5z.com)",
 		NULL
 	};
 	static const char *documenters[] = {
-		"George Lebl (jirka@5z.com)",
+		"Jiri (George) Lebl (jirka@5z.com)",
 		NULL
 	};
 	const char *translators;
@@ -501,7 +493,7 @@ aboutcb(GtkWidget * widget, gpointer data)
 		translators = _("translator_credits-PLEASE_ADD_YOURSELF_HERE");
 
 		about = gnome_about_new
-			(_("GENIUS Calculator"),
+			(_("About Genius"),
 			 VERSION,
 			 COPYRIGHT_STRING,
 			 _("The Gnome calculator style edition of "
@@ -528,11 +520,12 @@ aboutcb(GtkWidget * widget, gpointer data)
 static void
 set_properties (void)
 {
-	gnome_config_set_string("/genius/properties/pango_font", cursetup.font?
-				cursetup.font:DEFAULT_FONT);
-	gnome_config_set_int("/genius/properties/scrollback", cursetup.scrollback);
-	gnome_config_set_bool("/genius/properties/error_box", cursetup.error_box);
-	gnome_config_set_bool("/genius/properties/info_box", cursetup.info_box);
+	gnome_config_set_string("/genius/properties/pango_font", genius_setup.font?
+				genius_setup.font:DEFAULT_FONT);
+	gnome_config_set_int("/genius/properties/scrollback", genius_setup.scrollback);
+	gnome_config_set_bool("/genius/properties/error_box", genius_setup.error_box);
+	gnome_config_set_bool("/genius/properties/info_box",
+			      genius_setup.info_box);
 	gnome_config_set_int("/genius/properties/max_digits", 
 			      curstate.max_digits);
 	gnome_config_set_bool("/genius/properties/results_as_floats",
@@ -722,10 +715,10 @@ fontsetcb(GnomeFontPicker *gfp, gchar *font_name, char **font)
 
 
 static calcstate_t tmpstate={0};
-static geniussetup_t tmpsetup={0};
+static GeniusSetup tmpsetup={0};
 
 static calcstate_t cancelstate={0};
-static geniussetup_t cancelsetup={0};
+static GeniusSetup cancelsetup={0};
 
 static void
 setup_response (GtkWidget *widget, gint resp, gpointer data)
@@ -734,25 +727,25 @@ setup_response (GtkWidget *widget, gint resp, gpointer data)
 	    resp == GTK_RESPONSE_OK ||
 	    resp == GTK_RESPONSE_APPLY) {
 		if (resp == GTK_RESPONSE_CANCEL) {
-			g_free (cursetup.font);
-			cursetup = cancelsetup;
+			g_free (genius_setup.font);
+			genius_setup = cancelsetup;
 			if (cancelsetup.font)
-				cursetup.font = g_strdup (cancelsetup.font);
+				genius_setup.font = g_strdup (cancelsetup.font);
 			curstate = cancelstate;
 		} else {
-			g_free (cursetup.font);
-			cursetup = tmpsetup;
+			g_free (genius_setup.font);
+			genius_setup = tmpsetup;
 			if (tmpsetup.font)
-				cursetup.font = g_strdup (tmpsetup.font);
+				genius_setup.font = g_strdup (tmpsetup.font);
 			curstate = tmpstate;
 		}
 
 		set_new_calcstate (curstate);
 		vte_terminal_set_scrollback_lines (VTE_TERMINAL (term),
-						   cursetup.scrollback);
+						   genius_setup.scrollback);
 		vte_terminal_set_font_from_string (VTE_TERMINAL (term),
-						   cursetup.font ?
-						   cursetup.font : DEFAULT_FONT);
+						   genius_setup.font ?
+						   genius_setup.font : DEFAULT_FONT);
 		if (resp == GTK_RESPONSE_OK ||
 		    resp == GTK_RESPONSE_CANCEL)
 			gtk_widget_destroy (widget);
@@ -775,18 +768,18 @@ setup_calc(GtkWidget *widget, gpointer data)
 
 	cancelstate = curstate;
 	g_free (tmpsetup.font);
-	cancelsetup = cursetup;
-	if (cursetup.font)
-		cancelsetup.font = g_strdup (cursetup.font);
+	cancelsetup = genius_setup;
+	if (genius_setup.font)
+		cancelsetup.font = g_strdup (genius_setup.font);
 	
 	tmpstate = curstate;
 	g_free (tmpsetup.font);
-	tmpsetup = cursetup;
-	if (cursetup.font)
-		tmpsetup.font = g_strdup (cursetup.font);
+	tmpsetup = genius_setup;
+	if (genius_setup.font)
+		tmpsetup.font = g_strdup (genius_setup.font);
 	
 	setupdialog = gtk_dialog_new_with_buttons
-		(_("GENIUS Calculator Setup"),
+		(_("Genius Setup"),
 		 GTK_WINDOW (genius_window) /* parent */,
 		 0 /* flags */,
 		 GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,
@@ -1039,11 +1032,11 @@ manual_call (GtkWidget *widget, gpointer data)
 		return;
 	} else {
 		/* perhaps a bit ugly */
-		gboolean last = cursetup.info_box;
-		cursetup.info_box = TRUE;
+		gboolean last = genius_setup.info_box;
+		genius_setup.info_box = TRUE;
 		gel_evalexp ("manual", NULL, main_out, NULL, TRUE, NULL);
 		gel_printout_infos ();
-		cursetup.info_box = last;
+		genius_setup.info_box = last;
 	}
 }
 
@@ -1055,11 +1048,11 @@ warranty_call (GtkWidget *widget, gpointer data)
 		return;
 	} else {
 		/* perhaps a bit ugly */
-		gboolean last = cursetup.info_box;
-		cursetup.info_box = TRUE;
+		gboolean last = genius_setup.info_box;
+		genius_setup.info_box = TRUE;
 		gel_evalexp ("warranty", NULL, main_out, NULL, TRUE, NULL);
 		gel_printout_infos ();
-		cursetup.info_box = last;
+		genius_setup.info_box = last;
 	}
 }
 
@@ -1281,15 +1274,15 @@ copy_answer (void)
 	};
 	/* perhaps a bit ugly */
 	GelOutput *out = gel_output_new ();
-	gboolean last_info = cursetup.info_box;
-	gboolean last_error = cursetup.error_box;
-	cursetup.info_box = TRUE;
-	cursetup.error_box = TRUE;
+	gboolean last_info = genius_setup.info_box;
+	gboolean last_error = genius_setup.error_box;
+	genius_setup.info_box = TRUE;
+	genius_setup.error_box = TRUE;
 	gel_output_setup_string (out, 0, NULL);
 	gel_evalexp ("ans", NULL, out, NULL, TRUE, NULL);
 	gel_printout_infos ();
-	cursetup.info_box = last_info;
-	cursetup.error_box = last_error;
+	genius_setup.info_box = last_info;
+	genius_setup.error_box = last_error;
 
 	g_free (clipboard_str);
 	clipboard_str = gel_output_snarf_string (out);
@@ -2118,7 +2111,9 @@ static GtkWidget *
 create_main_window (void)
 {
 	GtkWidget *w;
-        w = gnome_app_new("gnome-genius", _("GENIUS Calculator"));
+	char *s = g_strdup_printf (_("Genius %s"), VERSION);
+        w = gnome_app_new("gnome-genius", s);
+	g_free (s);
 	gtk_window_set_wmclass (GTK_WINDOW (w), "gnome-genius", "gnome-genius");
 
         g_signal_connect (G_OBJECT (w), "delete_event",
@@ -2134,17 +2129,17 @@ get_properties (void)
 	gchar buf[256];
 
 	g_snprintf (buf, 256, "/genius/properties/pango_font=%s",
-		    cursetup.font ? cursetup.font : DEFAULT_FONT);
-	cursetup.font = gnome_config_get_string (buf);
+		    genius_setup.font ? genius_setup.font : DEFAULT_FONT);
+	genius_setup.font = gnome_config_get_string (buf);
 	g_snprintf(buf,256,"/genius/properties/scrollback=%d",
-		   cursetup.scrollback);
-	cursetup.scrollback = gnome_config_get_int(buf);
+		   genius_setup.scrollback);
+	genius_setup.scrollback = gnome_config_get_int(buf);
 	g_snprintf(buf,256,"/genius/properties/error_box=%s",
-		   (cursetup.error_box)?"true":"false");
-	cursetup.error_box = gnome_config_get_bool(buf);
+		   (genius_setup.error_box)?"true":"false");
+	genius_setup.error_box = gnome_config_get_bool(buf);
 	g_snprintf(buf,256,"/genius/properties/info_box=%s",
-		   (cursetup.info_box)?"true":"false");
-	cursetup.info_box = gnome_config_get_bool(buf);
+		   (genius_setup.info_box)?"true":"false");
+	genius_setup.info_box = gnome_config_get_bool(buf);
 	
 	g_snprintf(buf,256,"/genius/properties/max_digits=%d",
 		   curstate.max_digits);
@@ -2602,7 +2597,7 @@ main (int argc, char *argv[])
 
 	term = vte_terminal_new ();
 	vte_terminal_set_scrollback_lines (VTE_TERMINAL (term),
-					   cursetup.scrollback);
+					   genius_setup.scrollback);
 	vte_terminal_set_cursor_blinks (VTE_TERMINAL (term), TRUE);
 	vte_terminal_set_audible_bell (VTE_TERMINAL (term), TRUE);
 	vte_terminal_set_scroll_on_keystroke (VTE_TERMINAL (term), TRUE);
@@ -2700,8 +2695,8 @@ main (int argc, char *argv[])
 	 * or the "monospace 12" (or default terminal font or whatnot)
 	 * will get used */
 	vte_terminal_set_font_from_string (VTE_TERMINAL (term), 
-					   cursetup.font ?
-					   cursetup.font : DEFAULT_FONT);
+					   genius_setup.font ?
+					   genius_setup.font : DEFAULT_FONT);
 
 
 	gtk_widget_show_now (genius_window);
@@ -2804,4 +2799,3 @@ main (int argc, char *argv[])
 
 	return 0;
 }
-

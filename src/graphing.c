@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003 George Lebl
+ * Copyright (C) 2003-2004 George Lebl
  *
  * Author: George Lebl
  *
@@ -35,20 +35,12 @@
 #include "matrixw.h"
 #include "compil.h"
 #include "plugin.h"
-
 #include "geloutput.h"
-
 #include "mpwrap.h"
 
+#include "gnome-genius.h"
+
 #include "graphing.h"
-
-/* FIXME: need header for gnome-genius.c */
-void genius_interrupt_calc (void);
-
-extern GtkWidget *genius_window;
-extern int interrupted;
-extern GHashTable *uncompiled;
-extern calcstate_t calcstate;
 
 static GtkWidget *graph_window = NULL;
 static GnomeCanvas *canvas = NULL;
@@ -59,6 +51,7 @@ static GnomeCanvasGroup *graph = NULL;
 
 static GtkWidget *plot_dialog = NULL;
 static GtkWidget *plot_entries[MAXFUNC] = { NULL };
+static GtkWidget *plot_entries_status[MAXFUNC] = { NULL };
 static double spinx1 = -M_PI;
 static double spinx2 = M_PI;
 static double spiny1 = -1.1;
@@ -76,6 +69,8 @@ static double replotx2 = M_PI;
 static double reploty1 = -1.1;
 static double reploty2 = 1.1;
 
+static double replot_maxy = - DBL_MAX/2;
+static double replot_miny = DBL_MAX/2;
 static void replot_functions (GelCtx *ctx);
 
 static int replot_in_progress = 0;
@@ -89,6 +84,7 @@ static int replot_in_progress = 0;
 enum {
 	RESPONSE_STOP=1,
 	RESPONSE_ZOOMOUT,
+	RESPONSE_ZOOMFIT,
 	RESPONSE_PLOT
 };
 
@@ -128,8 +124,14 @@ dialog_response (GtkWidget *w, int response, gpointer data)
 	} else if (response == RESPONSE_STOP && replot_in_progress > 0) {
 		interrupted = TRUE;
 	} else if (response == RESPONSE_ZOOMOUT && replot_in_progress == 0) {
-		double len = replotx2 - replotx1;
 		GelCtx *ctx;
+		double len;
+		gboolean last_info = genius_setup.info_box;
+		gboolean last_error = genius_setup.error_box;
+		genius_setup.info_box = TRUE;
+		genius_setup.error_box = TRUE;
+
+		len = replotx2 - replotx1;
 		replotx2 += len/2.0;
 		replotx1 -= len/2.0;
 
@@ -140,6 +142,36 @@ dialog_response (GtkWidget *w, int response, gpointer data)
 		ctx = eval_get_context ();
 		replot_functions (ctx);
 		eval_free_context (ctx);
+
+		gel_printout_infos ();
+		genius_setup.info_box = last_info;
+		genius_setup.error_box = last_error;
+	} else if (response == RESPONSE_ZOOMFIT && replot_in_progress == 0) {
+		GelCtx *ctx;
+		double size;
+		gboolean last_info = genius_setup.info_box;
+		gboolean last_error = genius_setup.error_box;
+		genius_setup.info_box = TRUE;
+		genius_setup.error_box = TRUE;
+
+		size = replot_maxy - replot_miny;
+		if (size <= 0)
+			size = 1.0;
+
+		reploty1 = replot_miny - size * 0.05;
+		reploty2 = replot_maxy + size * 0.05;
+
+		/* sanity */
+		if (reploty2 < reploty1)
+			reploty2 = reploty1 + 0.1;
+
+		ctx = eval_get_context ();
+		replot_functions (ctx);
+		eval_free_context (ctx);
+
+		gel_printout_infos ();
+		genius_setup.info_box = last_info;
+		genius_setup.error_box = last_error;
 	}
 }
 
@@ -278,6 +310,8 @@ ensure_window (void)
 		 0 /* flags */,
 		 _("_Zoom out"),
 		 RESPONSE_ZOOMOUT,
+		 _("_Fit Y Axis"),
+		 RESPONSE_ZOOMFIT,
 		 GTK_STOCK_STOP,
 		 RESPONSE_STOP,
 		 GTK_STOCK_CLOSE,
@@ -634,8 +668,15 @@ plot_func (GelCtx *ctx, GelEFunc *func, const char *color, double xscale, double
 		double xd = x1+(i*PERITER)/xscale;
 		double y;
 		mpw_set_d (arg->val.value, xd);
+		y = call_func (ctx, func, arg, &ex);
+
+		if G_UNLIKELY (y > replot_maxy)
+			replot_maxy = y;
+		if G_UNLIKELY (y < replot_miny)
+			replot_miny = y;
+
 		xd = P2C_X (xd);
-		y = P2C_Y (call_func (ctx, func, arg, &ex));
+		y = P2C_Y (y);
 
 		/* FIXME: evil hack for infinity */
 		if (y >= HEIGHT*2) {
@@ -881,6 +922,9 @@ replot_functions (GelCtx *ctx)
 	if (reploty2 == reploty1)
 		reploty2 = reploty1 + 0.00000001;
 
+	replot_maxy = - DBL_MAX/2;
+	replot_miny = DBL_MAX/2;
+
 	xscale = WIDTH/(replotx2-replotx1);
 	yscale = HEIGHT/(reploty2-reploty1);
 
@@ -917,6 +961,14 @@ double_spin_cb(GtkAdjustment *adj, double *data)
 	*data = adj->value;
 }
 
+static void
+entry_activate (void)
+{
+	if (plot_dialog != NULL)
+		gtk_dialog_response (GTK_DIALOG (plot_dialog),
+				     RESPONSE_PLOT);
+}
+
 static GtkWidget *
 create_plot_dialog (void)
 {
@@ -940,13 +992,22 @@ create_plot_dialog (void)
 	box = gtk_vbox_new(FALSE,GNOME_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
 	gtk_container_add (GTK_CONTAINER (frame), box);
-	w = gtk_label_new (_("Type in function names or expressions involving the "
-			     "x variable in the boxes below to graph them"));
+	w = gtk_label_new (_("Type in function names or expressions involving "
+			     "the x variable in the boxes below to graph "
+			     "them"));
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 
 	for (i = 0; i < MAXFUNC; i++) {
+		b = gtk_hbox_new (FALSE, GNOME_PAD);
+		gtk_box_pack_start (GTK_BOX (box), b, FALSE, FALSE, 0);
+
 		plot_entries[i] = gtk_entry_new ();
-		gtk_box_pack_start (GTK_BOX (box), plot_entries[i], FALSE, FALSE, 0);
+		g_signal_connect (G_OBJECT (plot_entries[i]), "activate",
+				  entry_activate, NULL);
+		gtk_box_pack_start (GTK_BOX (b), plot_entries[i], TRUE, TRUE, 0);
+
+		plot_entries_status[i] = gtk_image_new ();
+		gtk_box_pack_start (GTK_BOX (b), plot_entries_status[i], FALSE, FALSE, 0);
 	}
 
 	frame = gtk_frame_new (_("Plot Window"));
@@ -958,7 +1019,7 @@ create_plot_dialog (void)
 	/*
 	 * X range
 	 */
-	b = gtk_hbox_new (FALSE,GNOME_PAD);
+	b = gtk_hbox_new (FALSE, GNOME_PAD);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 	w = gtk_label_new(_("X from:"));
 	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
@@ -969,6 +1030,7 @@ create_plot_dialog (void)
 						   10,
 						   100);
 	w = gtk_spin_button_new (adj, 1.0, 5);
+	g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
 	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
 	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
@@ -986,6 +1048,7 @@ create_plot_dialog (void)
 						   10,
 						   100);
 	w = gtk_spin_button_new (adj, 1.0, 5);
+	g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
 	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
 	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
@@ -997,8 +1060,8 @@ create_plot_dialog (void)
 	/*
 	 * Y range
 	 */
-	b = gtk_hbox_new (FALSE,GNOME_PAD);
-	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
+	b = gtk_hbox_new (FALSE, GNOME_PAD);
+	gtk_box_pack_start (GTK_BOX (box), b, FALSE, FALSE, 0);
 	w = gtk_label_new(_("Y from:"));
 	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
 	adj = (GtkAdjustment *)gtk_adjustment_new (spiny1,
@@ -1008,6 +1071,7 @@ create_plot_dialog (void)
 						   10,
 						   100);
 	w = gtk_spin_button_new (adj, 1.0, 5);
+	g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
 	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
 	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
@@ -1025,6 +1089,7 @@ create_plot_dialog (void)
 						   10,
 						   100);
 	w = gtk_spin_button_new (adj, 1.0, 5);
+	g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
 	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
 	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
@@ -1073,7 +1138,7 @@ is_identifier (const char *e)
 }
 
 static GelEFunc *
-function_from_expression (const char *e)
+function_from_expression (const char *e, gboolean *ex)
 {
 	GelEFunc *f = NULL;
 	GelETree *value;
@@ -1083,16 +1148,17 @@ function_from_expression (const char *e)
 		return NULL;
 
 	ce = g_strstrip (g_strdup (e));
-	if (is_identifier (ce)) {
+	if (is_identifier (ce) && strcmp (ce, "x") != 0) {
 		f = d_lookup_global (d_intern (ce));
 		g_free (ce);
 		if (f != NULL) {
 			f = d_copyfunc (f);
 			f->context = -1;
+		} else {
+			*ex = TRUE;
 		}
 		return f;
 	}
-
 
 	value = gel_parseexp (ce,
 			      NULL /* infile */,
@@ -1110,6 +1176,9 @@ function_from_expression (const char *e)
 				 NULL /* extra_dict */);
 	}
 
+	if (f == NULL)
+		*ex = TRUE;
+
 	return f;
 }
 
@@ -1121,13 +1190,35 @@ plot_from_dialog (void)
 	GelEFunc *func[MAXFUNC] = { NULL };
 	double x1, x2, y1, y2;
 	int i;
+	gboolean last_info;
+	gboolean last_error;
+
+	last_info = genius_setup.info_box;
+	last_error = genius_setup.error_box;
+	genius_setup.info_box = TRUE;
+	genius_setup.error_box = TRUE;
 
 	for (i = 0; i < MAXFUNC; i++) {
 		GelEFunc *f;
+		gboolean ex = FALSE;
 		const char *str = gtk_entry_get_text (GTK_ENTRY (plot_entries[i]));
-		f = function_from_expression (str);
-		if (f != NULL)
+		f = function_from_expression (str, &ex);
+		if (f != NULL) {
+			gtk_image_set_from_stock
+				(GTK_IMAGE (plot_entries_status[i]),
+				 GTK_STOCK_YES,
+				 GTK_ICON_SIZE_MENU);
 			func[funcs++] = f;
+		} else if (ex) {
+			gtk_image_set_from_stock
+				(GTK_IMAGE (plot_entries_status[i]),
+				 GTK_STOCK_DIALOG_WARNING,
+				 GTK_ICON_SIZE_MENU);
+		} else {
+			gtk_image_set_from_pixbuf
+				(GTK_IMAGE (plot_entries_status[i]),
+				 NULL);
+		}
 	}
 
 	if (funcs == 0) {
@@ -1181,6 +1272,10 @@ plot_from_dialog (void)
 	replot_functions (ctx);
 	eval_free_context (ctx);
 
+	gel_printout_infos ();
+	genius_setup.info_box = last_info;
+	genius_setup.error_box = last_error;
+
 	return;
 
 whack_copied_funcs:
@@ -1188,6 +1283,10 @@ whack_copied_funcs:
 		d_freefunc (func[i]);
 		func[i] = NULL;
 	}
+
+	gel_printout_infos ();
+	genius_setup.info_box = last_info;
+	genius_setup.error_box = last_error;
 }
 
 static void
@@ -1220,6 +1319,9 @@ genius_lineplot_dialog (void)
 		 GTK_STOCK_CLOSE,
 		 GTK_RESPONSE_CLOSE,
 		 NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (plot_dialog),
+					 RESPONSE_PLOT);
+
 	gtk_dialog_set_has_separator (GTK_DIALOG (plot_dialog), FALSE);
 	g_signal_connect (G_OBJECT (plot_dialog),
 			  "destroy",
@@ -1236,6 +1338,7 @@ genius_lineplot_dialog (void)
 			    insides, TRUE, TRUE, 0);
 
 	gtk_widget_show_all (plot_dialog);
+	gtk_widget_grab_focus (plot_entries[0]);
 }
 
 static GelETree *
