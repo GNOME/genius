@@ -1,3 +1,14 @@
+Thu Aug 12 18:15:20 2004  George Lebl <jirka@5z.com>
+
+	* genius.spec.in: applied patch from Florin Andrei <florin@andrei.myip.org>
+	  to export custom compiler flags to the build and to require vte-devel for the build
+
+	* configure.in: add -O3 in front of CFLAGS not after to allow custom
+	  CFLAGS to override this
+
+	* gtkextra/gtkplot3d.h: fix prototype, thanks to Erik Sigra
+          <sigra@home.se> for noticing
+
 Thu Aug 12 10:48:59 2004  George Lebl <jirka@5z.com>
 
 	* src/graphing.c: run EPS output through ps2epsi if found which adds

@@ -24,7 +24,7 @@ dnl ============================================================================
 
 AC_PROG_CC
 if test "x$GCC" = xyes ; then
-	CFLAGS="$CFLAGS -O3"
+	CFLAGS="-O3 $CFLAGS"
 fi
 AC_ISC_POSIX
 AC_HEADER_STDC

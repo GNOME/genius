@@ -12,6 +12,7 @@ Source: genius-%{ver}.tar.gz
 Url: http://www.gnome.org/
 BuildRoot: /var/tmp/genius-%{ver}-root
 Prefix: %prefix
+BuildRequires: vte-devel
 
 %description
 Genius is an advanced calculator and a mathematical programming language.
@@ -19,6 +20,9 @@ It handles multiple precision floating point numbers, infinite precision
 integers, complex numbers and matrixes.
 
 %changelog
+* Tue Aug 12 2004 Jiri
+- applied patch from Florin Andrei <florin@andrei.myip.org> to export custom
+  compiler flags to the build and to require vte-devel for the build
 * Tue Aug 10 2004 Jiri
 - fixed up for the update-mime-database
 * Tue Apr 20 1999 Erik Walthinsen <omega@cse.ogi.edu>
@@ -28,6 +32,8 @@ integers, complex numbers and matrixes.
 %setup
 
 %build
+export CFLAGS="$RPM_OPT_FLAGS"
+export CXXFLAGS="$RPM_OPT_FLAGS"
 ./configure --prefix=%prefix
 
 if [ "$SMP" != "" ]; then
