@@ -5,9 +5,8 @@ GELFILES = differentiation.gel integration.gel limits.gel sums_products.gel
 
 EXTRA_DIST = $(GELFILES)
 
-Library_DATA = $(GELFILES)
+Library_DATA = $(GELFILES) loader.gel
 
-bin_SCRIPTS = loader.gel
 MOSTLYCLEANFILES = loader.gel
 
 loader.gel: $(GELFILES)

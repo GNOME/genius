@@ -2,17 +2,26 @@
 # angles of vectors, GramSchmidt, etc.
 
 # Evaluate (v,w) with respect to the bilinear form given by the matrix A.
+#FIXME: check parameters
+SetHelp ("BilinearForm", "linear_algebra", "Evaluate (v,w) with respect to the bilinear form given by the matrix A")
 function BilinearForm(v,A,w) = (v.'*A*w)@(1)
+protect ("BilinearForm")
 
 # The angle of two vectors, given an inner product
 #FIXME: default inner product!
+#FIXME: check parameters
+SetHelp ("VectorAngle", "linear_algebra", "The angle of two vectors, given an inner product")
 function VectorAngle(v,w,B) = acos(B(v,w)/(B(v,v)*B(w,w)))
+protect ("VectorAngle")
 
-#FIXME: Can't return anonymous function from functions correctly
+#FIXME: check parameters
+SetHelp ("BilinearFormFunction", "linear_algebra", "Return a function that evaluates two vectors with respect to the bilinear form given by A")
 function BilinearFormFunction(A)=(`(v,w)=(v.'*A*w)@(1))
+protect ("BilinearFormFunction")
 
 # Projection onto a vector space
 # Projection of vector v onto subspace W given a bilinear form B
+SetHelp ("Projection", "linear_algebra", "Projection of vector v onto subspace W given a bilinear form B")
 function Projection(v,W,B) =
   (
         # if you don't give anything, assume standard inner product
@@ -29,6 +38,7 @@ function Projection(v,W,B) =
       projection_of_v=projection_of_v+B(v,W@(,loop))/B(W@(,loop),W@(,loop))*W@(,loop);
     return projection_of_v
   )
+protect ("Projection")
 
 # Gram-Schmidt Orthogonalization
 # Described, for instance, in Hoffman & Kunze, ``Linear Algebra'' p.~280

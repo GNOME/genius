@@ -5,9 +5,8 @@ GELFILES = factorial.gel misc.gel recursive_sequences.gel
 
 EXTRA_DIST = $(GELFILES)
 
-Library_DATA = $(GELFILES)
+Library_DATA = $(GELFILES) loader.gel
 
-bin_SCRIPTS = loader.gel
 MOSTLYCLEANFILES = loader.gel
 
 loader.gel: $(GELFILES)

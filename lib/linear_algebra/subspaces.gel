@@ -109,11 +109,13 @@ protect ("Kernel")
 ## Vector Subspace operations
 # Given W1, W2 subspaces of V, returns W1 + W2
 # = {w | w=w1+w2, w1 in W1, w2 in W2}
+SetHelp ("VectorSubspaceSum", "linear_algebra", "The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}")
 function VectorSubspaceSum(M,N)=ColumnSpace([M,N])
 protect ("VectorSubspaceSum")
 
 # Given vector spaces V1, V2, return V1 (+) V2 (the direct sum)
 # (given by the column space of the direct sum of matrices)
+SetHelp ("VectorSpaceDirectSum", "linear_algebra", "The direct sum of the vector spaces M and N")
 function VectorSpaceDirectSum(M,N)=ColumnSpace(DirectSum(M,N))
 protect ("VectorSpaceDirectSum")
 
@@ -126,6 +128,7 @@ protect ("VectorSpaceDirectSum")
 # Given W1, W2, return W1 intersect W2
 # Given any inner product, this is given by
 # W1 cap W2 = (W1^perp+W2^perp)^perp
+SetHelp ("VectorSubspaceIntersection", "linear_algebra", "Intersection of the subspaces given by M and N")
 function VectorSubspaceIntersection(M,N)= OrthogonalComplement(VectorSubspaceSum(OrthogonalComplement(M),OrthogonalComplement(N)))
 protect ("VectorSubspaceIntersection")
 
@@ -148,6 +151,7 @@ protect ("OrthogonalComplement")
 #and see if there's a dependence (oh wait, that might not work for
 #modules, since it might mean that a MULTIPLE of it is in the module
 #....)
+SetHelp ("IsInSubspace", "linear_algebra", "Test if a vector is in a subspace")
 function IsInSubspace(v,W) = (v==Projection(v,W,.))
 protect ("IsInSubspace")
 
