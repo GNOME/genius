@@ -1,3 +1,11 @@
+Mon Mar 10 10:44:40 2003  George Lebl <jirka@5z.com>
+
+	* lib/number_theorey/primes.gel: improve on the
+	  Miller-Rabin test to optimize things a bit and add
+	  IsStrongPseudoprimeSub which must already get
+	  a and t where n-1 = 2^a * t, so that this doesn't have
+	  to be computed over and over.
+
 Wed Mar 05 14:14:41 2003  George Lebl <jirka@5z.com>
 
 	* Release 0.5.3
