@@ -1,3 +1,25 @@
+Tue Sep 14 09:57:15 2004  George Lebl <jirka@5z.com>
+
+	* configure.in: some cleanup, and set the extra optimization flags
+	  directly rather then use -O3 since then -O2 would just reset thing,
+	  so we again optimize nicely.
+
+	* src/calc.[ch], src/funclib.c, src/genius.c, src/graphing.c:
+	  Implement translation of help texts coming from the standard
+	  library.  Still error texts are not translated, will need to
+	  figure that out.  User generated help strings are gotten with
+	  "genius --gettext" similarly to the "--compile" option.
+
+	* Makefile.am, lib/Makefile.am, po/POTFILES.in: create and use
+	  lib/library-strings.c
+
+	* lib/equation_solving/find_root.gel: Move FIXME's from help text
+	  to comment
+
+	* src/genius.c: add --version option
+
+	* gtkextra/gdmpsfont.c: fix memleak
+
 Thu Aug 26 09:26:43 2004  Takeshi AIHANA <aihana@gnome.gr.jp>
 
 	* configure.in: Added 'ja' (Japanese) to ALL_LINGUAS.

@@ -480,6 +480,8 @@ gtk_psfont_get_font_description(GtkPSFont *font, gint height)
     }
   }
 
+  g_object_unref(G_OBJECT(context));
+
   return font_desc;
 }
 

@@ -126,6 +126,10 @@ void gel_load_file (const char *dirprefix,
 void gel_load_guess_file (const char *dirprefix,
 			  const char *file,
 			  gboolean warn);
+
+void gel_dump_strings_from_user_funcs (FILE *outfile);
+void gel_dump_strings_from_help (FILE *outfile);
+
 void set_new_calcstate(calcstate_t state);
 void set_new_errorout(void (*func)(const char *));
 void set_new_infoout(void (*func)(const char *));
@@ -171,12 +175,11 @@ GSList *get_helps (const char *category);
 /* gets undocumented functions */
 GSList *get_undocumented (void);
 
-void new_category (const char *category, const char *name);
+void new_category (const char *category, const char *name, gboolean internal);
 
 GelHelp *get_help (const char *func, gboolean insert);
 
 void add_description (const char *func, const char *desc);
-const char *get_description (const char *func);
 void add_category (const char *func, const char *category);
 void add_alias (const char *func, const char *alias);
 void add_help_link (const char *func, const char *link);

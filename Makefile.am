@@ -1,4 +1,4 @@
-SUBDIRS = po vicious-extensions gtkextra src pixmaps lib doc
+SUBDIRS = vicious-extensions gtkextra src pixmaps lib doc po
 
 mimeinfodir = $(datadir)/mime-info
 mimeinfo_DATA = genius.keys genius.mime
@@ -28,3 +28,8 @@ DISTCLEANFILES = \
 	intltool-extract	\
 	intltool-merge		\
 	intltool-update
+
+genius-function-list.txt: src/genius
+	src/genius --version > genius-function-list.txt
+	echo "------------------------------------------" >> genius-function-list.txt
+	echo help | src/genius >> genius-function-list.txt

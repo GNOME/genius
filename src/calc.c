@@ -76,6 +76,7 @@ void (*statechange_hook)(calcstate_t) = NULL;
 typedef struct {
 	char *category;
 	char *name;
+	gboolean internal;
 	GSList *funcs;
 } HelpCategory;
 static GSList *categories = NULL;
@@ -190,7 +191,7 @@ get_category_name (const char *category)
 	if (cat == NULL || cat->name == NULL)
 		return category;
 	else
-		return cat->name;
+		return _(cat->name);
 }
 
 /* gets undocumented functions */
@@ -282,11 +283,12 @@ get_undocumented (void)
 }
 
 void
-new_category (const char *category, const char *name)
+new_category (const char *category, const char *name, gboolean internal)
 {
 	HelpCategory *cat = get_category (category, TRUE /* insert */);
 	g_free (cat->name);
 	cat->name = g_strdup (name);
+	cat->internal = internal;
 }
 
 static void
@@ -402,19 +404,6 @@ add_description (const char *func, const char *desc)
 	g_free (help->description);
 	help->description = g_strdup (d);
 	g_free (d);
-}
-
-const char *
-get_description(const char *func)
-{
-	GelHelp *help;
-
-	help = get_help (func, FALSE /* insert */);
-	if (help == NULL ||
-	    help->description == NULL)
-		return  "";
-	else
-		return help->description;
 }
 
 void
@@ -2171,7 +2160,7 @@ print_function_help (GelHelp *help)
 		do_green ();
 		if (help->description != NULL)
 			print_description (MAX (20, len),
-					   help->description);
+					   _(help->description));
 		else
 			gel_output_full_string (main_out, "\n");
 		/* if we didn't fit aliases on one line */
@@ -2410,13 +2399,79 @@ help_on (const char *text)
 	if (help->description != NULL) {
 		gel_output_printf_full (main_out, FALSE,
 					_("Description: %s\n"),
-					help->description);
+					_(help->description));
 	}
 
 	do_black ();
 	gel_output_pop_nonotify (main_out);
 }
 
+static void
+dump_a_string (FILE *outfile, const char *s)
+{
+	fprintf (outfile, "char *fake = N_(\"%s\");\n", s);
+}
+
+void
+gel_dump_strings_from_user_funcs (FILE *outfile)
+{
+	/* FIXME: implement */
+}
+
+static void
+dump_cat (FILE *outfile, const char *cat)
+{
+	GSList *functions;
+	GSList *fli;
+
+	functions = get_helps (cat);
+
+	if (functions != NULL) {
+		for (fli = functions; fli != NULL; fli = fli->next) {
+			GelHelp *help = fli->data;
+			GelToken *id = d_intern (help->func);
+			GelEFunc *f = d_lookup_global (id);
+
+			if (help->description != NULL &&
+			    (f == NULL ||
+			     f->type != GEL_BUILTIN_FUNC) &&
+			    ! id->built_in_parameter) {
+				dump_a_string (outfile, help->description);
+			}
+
+			fli->data = NULL;
+		}
+
+		g_slist_free (functions);
+	}
+}
+
+void
+gel_dump_strings_from_help (FILE *outfile)
+{
+	GSList *categories = get_categories ();
+	GSList *cli;
+
+	for (cli = categories; cli != NULL; cli = cli->next) {
+		char *cat = cli->data;
+		HelpCategory *cats;
+
+		cats = get_category (cat, FALSE /* insert */);
+		if (cats != NULL &&
+		    cats->name != NULL &&
+		    ! cats->internal) {
+			dump_a_string (outfile, cats->name);
+		}
+
+		dump_cat (outfile, cat);
+
+		cli->data = NULL;
+		g_free (cat);
+	}
+	g_slist_free (categories);
+
+	dump_cat (outfile, NULL);
+}
 
 void
 set_new_calcstate(calcstate_t state)
