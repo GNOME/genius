@@ -1584,7 +1584,9 @@ new_program (const char *filename)
 				(buffer, &iter, contents, len, "foo", NULL);
 			g_free (contents);
 		} else {
-			display_error (NULL, _("Cannot open file"));
+			char *s = g_strdup_printf (_("Cannot open %s"), filename);
+			display_error (NULL, s);
+			g_free (s);
 		}
 		p->vname = g_path_get_basename (p->name);
 		p->real_file = TRUE;
@@ -2344,6 +2346,26 @@ get_version_details (void)
 	return str->str;
 }
 
+static void
+loadup_files_from_cmdline (GnomeProgram *program)
+{
+	GValue value = { 0, };
+	poptContext ctx;
+	char **args;
+	int i;
+
+	g_value_init (&value, G_TYPE_POINTER);
+	g_object_get_property (G_OBJECT (program), GNOME_PARAM_POPT_CONTEXT, &value);
+	ctx = g_value_get_pointer (&value);
+	g_value_unset (&value);
+
+	args = (char**) poptGetArgs(ctx);
+	for (i = 0; args != NULL && args[i] != NULL; i++) {
+		new_program (args[i]);
+	}
+}
+
+
 int
 main (int argc, char *argv[])
 {
@@ -2353,6 +2375,7 @@ main (int argc, char *argv[])
 	char *file;
 	GnomeUIInfo *plugins;
 	int plugin_count = 0;
+	GnomeProgram *program;
 
 	genius_is_gui = TRUE;
 
@@ -2362,11 +2385,11 @@ main (int argc, char *argv[])
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	gnome_program_init ("genius", VERSION, 
-			    LIBGNOMEUI_MODULE /* module_info */,
-			    argc, argv,
-			    /* GNOME_PARAM_POPT_TABLE, options, */
-			    NULL);
+	program = gnome_program_init ("genius", VERSION, 
+				      LIBGNOMEUI_MODULE /* module_info */,
+				      argc, argv,
+				      /* GNOME_PARAM_POPT_TABLE, options, */
+				      NULL);
 
 	if (pipe (forzvt) < 0)
 		g_error ("Can't pipe");
@@ -2587,6 +2610,9 @@ main (int argc, char *argv[])
 	selection_changed ();
 
 	start_cb_p_expression (genius_got_etree, torlfp);
+
+	/* Load all given files */
+	loadup_files_from_cmdline (program);
 
 	gtk_main ();
 
