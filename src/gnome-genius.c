@@ -1022,19 +1022,41 @@ changed_cb (GtkTextBuffer *buffer, GtkWidget *tab_widget)
 	gtk_text_buffer_apply_tag_by_name (buffer, "foo",
 					   &iter, &iter_end);
 
-	g_object_set_data (G_OBJECT (tab_widget),
-			   "changed",
-			   GINT_TO_POINTER (1));
+	if ( ! g_object_get_data (G_OBJECT (tab_widget), "changed")) {
+		const char *vname = g_object_get_data (G_OBJECT (tab_widget),
+						       "vname");
+		GtkWidget *label = g_object_get_data (G_OBJECT (tab_widget),
+						      "label");
+		gpointer real_file = g_object_get_data (G_OBJECT (tab_widget),
+							"real_file");
+		if (real_file) {
+			char *s;
+			if (vname == NULL)
+				vname = "???";
+
+			s = g_strdup_printf ("%s [+]", vname);
+
+			gtk_label_set (GTK_LABEL (label), s);
+
+			g_free (s);
+		}
+
+		g_object_set_data (G_OBJECT (tab_widget),
+				   "changed",
+				   GINT_TO_POINTER (1));
+	}
 }
 
 static void
-new_callback (GtkWidget *menu_item, gpointer data)
+new_program (const char *filename)
 {
 	static int cnt = 1;
 	GtkWidget *tv;
 	GtkWidget *sw;
+	GtkWidget *label;
 	GtkTextBuffer *buffer;
-	char *s;
+	char *name;
+	char *vname;
 
 	sw = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
@@ -1042,8 +1064,6 @@ new_callback (GtkWidget *menu_item, gpointer data)
 					GTK_POLICY_AUTOMATIC);
 	tv = gtk_text_view_new ();
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
-	g_signal_connect (G_OBJECT (buffer), "changed",
-			  G_CALLBACK (changed_cb), sw);
 
 	gtk_text_buffer_create_tag (buffer, "foo",
 				    "family", "monospace",
@@ -1054,13 +1074,92 @@ new_callback (GtkWidget *menu_item, gpointer data)
 	gtk_widget_show_all (sw);
 	g_object_set_data (G_OBJECT (sw), "buffer", buffer);
 
-	s = g_strdup_printf (_("Program %d"), cnt++);
-	g_object_set_data (G_OBJECT (sw), "name", s);
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
-				  sw,
-				  gtk_label_new (s));
+	if (filename == NULL) {
+		name = g_strdup_printf (_("Program %d"), cnt++);
+		vname = g_strdup (name);
+	} else {
+		char *contents;
+		int len;
+		name = g_strdup (filename);
+		if (g_file_get_contents (filename,
+					 &contents,
+					 &len,
+					 NULL /* FIXME: error */)) {
+			GtkTextIter iter;
+			gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
+			gtk_text_buffer_insert_with_tags_by_name
+				(buffer, &iter, contents, len, "foo", NULL);
+			g_free (contents);
+		} else {
+			display_error (_("Cannot open file"));
+		}
+		vname = g_path_get_basename (name);
+		g_object_set_data (G_OBJECT (sw), "real_file", 
+				   GINT_TO_POINTER (1));
+	}
+	g_object_set_data (G_OBJECT (sw), "name", name);
+	g_object_set_data (G_OBJECT (sw), "vname", name);
+	label = gtk_label_new (vname);
+	g_object_set_data (G_OBJECT (sw), "label", label);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), sw, label);
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), -1);
+
+	g_signal_connect (G_OBJECT (buffer), "changed",
+			  G_CALLBACK (changed_cb), sw);
 }
+
+static void
+new_callback (GtkWidget *menu_item, gpointer data)
+{
+	new_program (NULL);
+}
+
+static void
+really_open_cb (GtkWidget *w, GtkFileSelection *fs)
+{
+	const char *s;
+	s = gtk_file_selection_get_filename (fs);
+	if (s == NULL ||
+	    ! g_file_exists (s)) {
+		gnome_app_error (GNOME_APP (genius_window),
+				 _("Can not open file!"));
+		return;
+	}
+	new_program (s);
+}
+
+static void
+open_callback(GtkWidget *w)
+{
+	static GtkWidget *fs = NULL;
+	
+	if(fs) {
+		gtk_widget_show_now(fs);
+		gdk_window_raise(fs->window);
+		return;
+	}
+
+	fs = gtk_file_selection_new(_("Open GEL file"));
+	
+	gtk_window_position (GTK_WINDOW (fs), GTK_WIN_POS_MOUSE);
+
+	g_signal_connect (G_OBJECT (fs), "destroy",
+			  G_CALLBACK (fs_destroy_cb), &fs);
+	
+	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
+			  "clicked", G_CALLBACK (really_open_cb),
+			  fs);
+
+	gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
+				   "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy),
+				   GTK_OBJECT(fs));
+	gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (fs)->cancel_button),
+				   "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy),
+				   GTK_OBJECT(fs));
+
+	gtk_widget_show (fs);
+}
+
 
 static void
 close_callback (GtkWidget *menu_item, gpointer data)
@@ -1071,6 +1170,7 @@ close_callback (GtkWidget *menu_item, gpointer data)
 		return;
 	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), current);
 	g_free (g_object_get_data (G_OBJECT (w), "name"));
+	g_free (g_object_get_data (G_OBJECT (w), "vname"));
 	gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), current);
 }
 
@@ -1079,6 +1179,7 @@ run_program (GtkWidget *menu_item, gpointer data)
 {
 	GtkWidget *w;
 	GtkTextBuffer *buffer;
+	const char *vname;
 	const char *name;
 	int current = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
 	if (current == 0) /* if the console */ {
@@ -1089,12 +1190,13 @@ run_program (GtkWidget *menu_item, gpointer data)
 	}
 	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), current);
 	buffer = g_object_get_data (G_OBJECT (w), "buffer");
+	vname = g_object_get_data (G_OBJECT (w), "vname");
 	name = g_object_get_data (G_OBJECT (w), "name");
 	/* sanity */
 	if (buffer == NULL)
 		return;
-	if (name == NULL)
-		name = "???";
+	if (vname == NULL)
+		vname = "???";
 
 	if (calc_running) {
 		executing_warning ();
@@ -1112,7 +1214,7 @@ run_program (GtkWidget *menu_item, gpointer data)
 
 		vte_terminal_feed (VTE_TERMINAL (term),
 				   "\r\n\e[0mOutput from \e[0;32m", -1);
-		vte_terminal_feed (VTE_TERMINAL (term), name, -1);
+		vte_terminal_feed (VTE_TERMINAL (term), vname, -1);
 		vte_terminal_feed (VTE_TERMINAL (term),
 				   "\e[0m (((\r\n", -1);
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
@@ -1171,9 +1273,11 @@ run_program (GtkWidget *menu_item, gpointer data)
 
 static GnomeUIInfo file_menu[] = {
 	GNOMEUIINFO_MENU_NEW_ITEM(N_("_New Program"), N_("Create new program tab"), new_callback, NULL),
+	GNOMEUIINFO_MENU_OPEN_ITEM (open_callback,NULL),
+#define FILE_CLOSE_ITEM 2
 	GNOMEUIINFO_MENU_CLOSE_ITEM (close_callback, NULL),
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_STOCK(N_("_Load"),N_("Load and execute a file in genius"),load_cb, GNOME_STOCK_MENU_OPEN),
+	GNOMEUIINFO_ITEM_STOCK(N_("_Load and Run"),N_("Load and execute a file in genius"), load_cb, GNOME_STOCK_MENU_OPEN),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_MENU_EXIT_ITEM(quitapp,NULL),
 	GNOMEUIINFO_END,
@@ -1209,6 +1313,7 @@ static GnomeUIInfo settings_menu[] = {
 };
 
 static GnomeUIInfo calc_menu[] = {  
+#define CALC_RUN_ITEM 0
 	GNOMEUIINFO_ITEM_STOCK(N_("_Run"),N_("Run current program"),run_program, GTK_STOCK_EXECUTE),
 	GNOMEUIINFO_ITEM_STOCK(N_("_Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GNOME_STOCK_MENU_STOP),
 	GNOMEUIINFO_END,
@@ -1247,8 +1352,9 @@ static GnomeUIInfo genius_menu[] = {
 /* toolbar */
 static GnomeUIInfo toolbar[] = {
 	GNOMEUIINFO_ITEM_STOCK(N_("Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GNOME_STOCK_PIXMAP_STOP),
+#define TOOLBAR_RUN_ITEM 1
 	GNOMEUIINFO_ITEM_STOCK(N_("Run"),N_("Run current program"),run_program, GTK_STOCK_EXECUTE),
-	GNOMEUIINFO_ITEM_STOCK(N_("Load"),N_("Load and execute a file in genius"),load_cb, GNOME_STOCK_PIXMAP_OPEN),
+	GNOMEUIINFO_ITEM_STOCK(N_("Open"),N_("Open a GEL file for running"), open_callback, GNOME_STOCK_PIXMAP_OPEN),
 	GNOMEUIINFO_ITEM_STOCK(N_("Exit"),N_("Exit genius"), quitapp, GNOME_STOCK_PIXMAP_EXIT),
 	GNOMEUIINFO_END,
 };
@@ -1551,6 +1657,28 @@ selection_changed (GtkWidget *terminal, gpointer data)
 	gtk_widget_set_sensitive (edit_menu[COPY_ITEM].widget, can_copy);
 }
 
+static void
+switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
+{
+	if (page_num == 0) {
+		/* console */
+		gtk_widget_set_sensitive (toolbar[TOOLBAR_RUN_ITEM].widget,
+					  FALSE);
+		gtk_widget_set_sensitive (calc_menu[CALC_RUN_ITEM].widget,
+					  FALSE);
+		gtk_widget_set_sensitive (file_menu[FILE_CLOSE_ITEM].widget,
+					  FALSE);
+	} else {
+		/* something else */
+		gtk_widget_set_sensitive (toolbar[TOOLBAR_RUN_ITEM].widget,
+					  TRUE);
+		gtk_widget_set_sensitive (calc_menu[CALC_RUN_ITEM].widget,
+					  TRUE);
+		gtk_widget_set_sensitive (file_menu[FILE_CLOSE_ITEM].widget,
+					  TRUE);
+	}
+}
+
 static const char *
 get_version_details (void)
 {
@@ -1616,6 +1744,8 @@ main (int argc, char *argv[])
 
 	/* setup the notebook */
 	notebook = gtk_notebook_new ();
+	g_signal_connect (G_OBJECT (notebook), "switch_page",
+			  G_CALLBACK (switch_page), NULL);
 	gtk_widget_show (notebook);
 	gnome_app_set_contents (GNOME_APP (genius_window), notebook);
 
