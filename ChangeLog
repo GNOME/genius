@@ -1,3 +1,15 @@
+Mon Apr 28 17:33:37 2003  George Lebl <jirka@5z.com>
+
+	* src/funclib.c, src/eval.[ch], src/structs.h: implement the
+	  no_mod_all_args flag.  Add flag setting function to the
+	  standard lib.  Use the no_mod_all_args flag on builtin C
+	  functions where it makes sense (I, zeros, ones, rand, randint)
+
+	* lib/functions/elementary.gel: the log function only takes an
+	  optional base argument and without it acts as ln.  Also we look at
+	  the modulo of the calling context and call DiscreteLog in case
+	  there is one so "log(13,6) mod 229" works as it should.
+
 Fri Apr 25 16:41:13 2003  George Lebl <jirka@5z.com>
 
 	* src/compil.c, src/funclib.c, src/structs.h: allow mod propagation

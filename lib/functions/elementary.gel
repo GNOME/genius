@@ -231,13 +231,26 @@ protect("asech")
 arcsech = asech
 SetHelpAlias ("asech", "arcsech");
 
-SetHelp("log","numeric","Logarithm of any base");
-function log(x,b) = (
-	if(IsMatrix(x) or IsMatrix(b)) then
-		return ApplyOverMatrix2(x,b,log)
-	else if(not IsValue(x) or not IsValue(b)) then
+SetHelp("log","numeric","Logarithm of any base (calls DiscreteLog if in modulo mode), if base is not given, e is used");
+function log(x,b...) = (
+	m = GetCurrentModulo ();
+	if not IsNull (m) then (
+		if IsNull (b) or elements(b) > 1 then
+			(error("log (discrete): wrong number of arguments");bailout);
+		return DiscreteLog (x, b@(1), m)
+	);
+
+	if IsNull (b) then
+		return ln(x)
+	else if elements(b) > 1 then
+		(error("log: too many arguments");bailout);
+	base = b@(1);
+
+	if IsMatrix(x) or IsMatrix(base) then
+		return ApplyOverMatrix2(x,base,log)
+	else if(not IsValue(x) or not IsValue(base)) then
 		(error("log: arguments not values");bailout);
-	ln(x)/ln(b)
+	ln(x)/ln(base)
 );
 protect("log")
 

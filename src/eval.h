@@ -176,6 +176,8 @@ GSList * gel_subst_local_vars (GSList *, GelETree *n);
 void gel_mod_node (GelCtx *ctx, GelETree *n);
 gboolean gel_mod_integer_rational (mpw_t num, mpw_t mod);
 
+mpw_ptr gel_find_pre_function_modulo (GelCtx *ctx);
+
 #define GET_ABCDE(n,a,b,c,d,e) { \
 	(a) = (n)->op.args; \
 	(b) = (n)->op.args->any.next; \

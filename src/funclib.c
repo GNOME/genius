@@ -3673,6 +3673,49 @@ unprotect_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
+SetFunctionFlags_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GelEFunc *f;
+	GelToken *tok;
+	int i;
+
+	if (a[0]->type != STRING_NODE) {
+		(*errorout)(_("SetFunctionFlags: argument must be a string"));
+		return NULL;
+	}
+
+	tok = d_intern (a[0]->str.str);
+	f = d_lookup_global (tok);
+	if (f == NULL) {
+		(*errorout)(_("SetFunctionFlags: undefined function"));
+		return NULL;
+	}
+
+	for (i = 1; a[i] != NULL; i++) {
+		if (a[i]->type != STRING_NODE) {
+			(*errorout)(_("SetFunctionFlags: flags argument must be a string"));
+		} else if (a[i]->str.str != NULL) {
+			if (g_ascii_strcasecmp (a[i]->str.str, "PropagateMod") == 0)
+				f->propagate_mod = 1;
+			else if (g_ascii_strcasecmp (a[i]->str.str, "NoModuloArguments") == 0)
+				f->no_mod_all_args = 1;
+		}
+	}
+
+	return gel_makenum_null();
+}
+
+static GelETree *
+GetCurrentModulo_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	mpw_ptr modulo = gel_find_pre_function_modulo (ctx);
+	if (modulo == NULL)
+		return gel_makenum_null ();
+	else
+		return gel_makenum (modulo);
+}
+
+static GelETree *
 set_FloatPrecision (GelETree * a)
 {
 	long bits;
@@ -4042,7 +4085,9 @@ gel_funclib_addall(void)
 	FUNC (SetHelpAlias, 2, "id,alias", "basic", _("Sets up a help alias"));
 
 	VFUNC (rand, 1, "size", "numeric", _("Generate random float"));
+	f->no_mod_all_args = 1;
 	VFUNC (randint, 2, "max,size", "numeric", _("Generate random integer"));
+	f->no_mod_all_args = 1;
 
 	PARAMETER (FloatPrecision, _("Floating point precision"));
 	PARAMETER (MaxDigits, _("Maximum digits to display"));
@@ -4136,9 +4181,12 @@ gel_funclib_addall(void)
 	ALIAS (ImaginaryPart, 1, Im);
 
 	FUNC (I, 1, "n", "matrix", _("Make an identity matrix of a given size"));
+	f->no_mod_all_args = 1;
 	ALIAS (eye, 1, I);
 	VFUNC (zeros, 2, "rows,columns", "matrix", _("Make an matrix of all zeros (or a row vector)"));
+	f->no_mod_all_args = 1;
 	VFUNC (ones, 2, "rows,columns", "matrix", _("Make an matrix of all ones (or a row vector)"));
+	f->no_mod_all_args = 1;
 
 	FUNC (rows, 1, "M", "matrix", _("Get the number of rows of a matrix"));
 	FUNC (columns, 1, "M", "matrix", _("Get the number of columns of a matrix"));
@@ -4206,6 +4254,8 @@ gel_funclib_addall(void)
 
 	FUNC (protect, 1, "id", "basic", _("Protect a variable from being modified"));
 	FUNC (unprotect, 1, "id", "basic", _("Unprotect a variable from being modified"));
+	VFUNC (SetFunctionFlags, 2, "id,flags", "basic", _("Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments\""));
+	FUNC (GetCurrentModulo, 0, "", "basic", _("Get current modulo from the context outside the function"));
 
 	/*temporary until well done internal functions are done*/
 	_internal_ln_function = d_makeufunc(d_intern("<internal>ln"),

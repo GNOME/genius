@@ -218,6 +218,36 @@ branches(int op)
 	return 0;
 }
 
+mpw_ptr
+gel_find_pre_function_modulo (GelCtx *ctx)
+{
+	GelEvalStack *stack = ctx->stack;
+	gpointer *iter = ctx->topstack;
+	gpointer *last = NULL;
+	if ((gpointer)iter == (gpointer)stack) {
+		if (stack->next == NULL)
+			return NULL;
+		stack = stack->next;
+		iter = &(stack->stack[STACK_SIZE]);
+	}
+	while ((int)(*(iter-1)) != GE_FUNCCALL) {
+		last = iter;
+		iter -= 2;
+		if ((gpointer)iter == (gpointer)stack) {
+			if (stack->next == NULL)
+				return NULL;
+			stack = stack->next;
+			iter = &(stack->stack[STACK_SIZE]);
+		}
+	}
+
+	if (last == NULL || (int)(*(last-1)) != GE_SETMODULO) {
+		return NULL;
+	} else {
+		return *(last-2);
+	}
+}
+
 GelETree *
 gel_makenum_null (void)
 {
@@ -3197,7 +3227,29 @@ iter_push_args(GelCtx *ctx, GelETree *args)
 }
 
 /*make first argument the "current",
-  push no modulo on the rest of arguments
+ *and push all other args.  evaluate with no modulo. */
+static inline void
+iter_push_args_no_modulo (GelCtx *ctx, GelETree *args)
+{
+	GelETree *li;
+
+	ctx->post = FALSE;
+	ctx->current = args;
+	if (ctx->modulo != NULL) {
+		GE_PUSH_STACK (ctx, ctx->modulo, GE_SETMODULO);
+
+		/* Make modulo NULL */
+		ctx->modulo = NULL;
+	}
+
+	/* FIXME: this may (will!) be the wrong order I think */
+	for(li=args->any.next;li;li=li->any.next) {
+		GE_PUSH_STACK(ctx,li,GE_PRE);
+	}
+}
+
+/*make first argument the "current",
+  push no modulo on the second argument
   go into "pre" mode and push all other ones*/
 static inline void
 iter_push_args_no_modulo_on_2 (GelCtx *ctx, GelETree *args)
@@ -3205,7 +3257,6 @@ iter_push_args_no_modulo_on_2 (GelCtx *ctx, GelETree *args)
 	ctx->post = FALSE;
 	ctx->current = args;
 	if (ctx->modulo != NULL) {
-		/* FIXME: perhaps we can just clear ctx->modulo here */
 		mpw_ptr ptr = g_new (struct _mpw_t, 1);
 		mpw_init_set (ptr, ctx->modulo);
 
@@ -3280,24 +3331,24 @@ iter_push_matrix(GelCtx *ctx, GelETree *n, GelMatrixW *m)
 	}
 }
 
-static gboolean
-iter_funccallop(GelCtx *ctx, GelETree *n)
+static GelEFunc *
+get_func_from_arg (GelCtx *ctx, GelETree *n, gboolean silent)
 {
 	GelEFunc *f;
 	GelETree *l;
-	
+
 	GET_L(n,l);
-	
-	EDEBUG("    FUNCCALL");
-	
+
 	if(l->type == IDENTIFIER_NODE) {
 		f = d_lookup_global(l->id.id);
 		if(!f) {
-			char buf[256];
-			g_snprintf(buf,256,_("Function '%s' used uninitialized"),
-				   l->id.id->token);
-			(*errorout)(buf);
-			goto funccall_done_ok;
+			if ( ! silent) {
+				char buf[256];
+				g_snprintf(buf,256,_("Function '%s' used uninitialized"),
+					   l->id.id->token);
+				(*errorout)(buf);
+			}
+			return NULL;
 		}
 	} else if(l->type == FUNCTION_NODE) {
 		f = l->func.func;
@@ -3307,23 +3358,41 @@ iter_funccallop(GelCtx *ctx, GelETree *n)
 		GET_L(l,ll);
 		f = d_lookup_global(ll->id.id);
 		if(!f) {
-			char buf[256];
-			g_snprintf(buf,256,_("Variable '%s' used uninitialized"),
-				   ll->id.id->token);
-			(*errorout)(buf);
-			goto funccall_done_ok;
+			if ( ! silent) {
+				char buf[256];
+				g_snprintf(buf,256,_("Variable '%s' used uninitialized"),
+					   ll->id.id->token);
+				(*errorout)(buf);
+			}
+			return NULL;
 		} else if(f->type != GEL_REFERENCE_FUNC) {
-			char buf[256];
-			g_snprintf(buf,256,_("Can't dereference '%s'!"),
-				   ll->id.id->token);
-			(*errorout)(buf);
-			goto funccall_done_ok;
+			if ( ! silent) {
+				char buf[256];
+				g_snprintf(buf,256,_("Can't dereference '%s'!"),
+					   ll->id.id->token);
+				(*errorout)(buf);
+			}
+			return NULL;
 		}
 		f = f->data.ref;
 	} else {
-		(*errorout)(_("Can't call a non-function!"));
-		goto funccall_done_ok;
+		if ( ! silent)
+			(*errorout)(_("Can't call a non-function!"));
+		return NULL;
 	}
+	return f;
+}
+
+static gboolean
+iter_funccallop(GelCtx *ctx, GelETree *n)
+{
+	GelEFunc *f;
+	
+	EDEBUG("    FUNCCALL");
+
+	f = get_func_from_arg (ctx, n, FALSE /* silent */);
+	if (f == NULL)
+		goto funccall_done_ok;
 	
 	g_assert(f);
 	
@@ -4870,7 +4939,6 @@ iter_operator_pre(GelCtx *ctx)
 	case E_CMP_CMP:
 	case E_LOGICAL_XOR:
 	case E_LOGICAL_NOT:
-	case E_CALL:
 	case E_RETURN:
 	case E_GET_VELEMENT:
 	case E_GET_ELEMENT:
@@ -4883,13 +4951,27 @@ iter_operator_pre(GelCtx *ctx)
 		iter_push_args (ctx, n->op.args);
 		break;
 
+	case E_CALL:
+		EDEBUG("  CHANGE CALL TO DIRECTCALL AND EVAL THE FIRST ARGUMENT");
+		n->op.oper = E_DIRECTCALL;
+		GE_PUSH_STACK (ctx, n, GE_PRE);
+		/* eval first argument */
+		ctx->current = n->op.args;
+		ctx->post = FALSE;
+		break;
+
 	/*in case of DIRECTCALL we don't evaluate the first argument*/
 	case E_DIRECTCALL:
 		/*if there are arguments to evaluate*/
 		if(n->op.args->any.next) {
+			GelEFunc *f;
 			EDEBUG("  DIRECT:PUSH US AS POST AND 2nd AND HIGHER ARGS AS PRE");
 			GE_PUSH_STACK(ctx,n,GE_POST);
-			iter_push_args (ctx, n->op.args->any.next);
+			f = get_func_from_arg (ctx, n, TRUE /* silent */);
+			if (f != NULL && f->no_mod_all_args)
+				iter_push_args_no_modulo (ctx, n->op.args->any.next);
+			else
+				iter_push_args (ctx, n->op.args->any.next);
 		} else {
 			EDEBUG("  DIRECT:JUST GO TO POST");
 			/*just go to post immediately*/
