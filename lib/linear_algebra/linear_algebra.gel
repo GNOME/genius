@@ -221,19 +221,19 @@ function SmithNormalFormField(A) =
 )
 protect ("SmithNormalFormField")
 
-SetHelp("SmithNormalForm", "linear_algebra", "Smith Normal Form for square integer matrices (not its characteristic)")
-function SmithNormalForm(M) =
+SetHelp("SmithNormalFormInteger", "linear_algebra", "Smith Normal Form for square integer matrices (not its characteristic)")
+function SmithNormalFormInteger(M) =
 (
 	if not IsMatrix (M) or not IsMatrixInteger(M) or not IsMatrixSquare(M) then
-		(error ("SmithNormalForm: M must be a square integer matrix");bailout);
-	d = DeterminantalDivisors (M);
+		(error ("SmithNormalFormInteger: M must be a square integer matrix");bailout);
+	d = DeterminantalDivisorsInteger (M);
 	S = SetMatrixSize ([0], rows (M), columns (M));
 	S@(1,1) = d@(1);
 	for i=2 to rows(M) do
 		S@(i,i) = d@(i)/d@(i-1);
 	S
 )
-protect ("SmithNormalForm")
+protect ("SmithNormalFormInteger")
 
 # AuxilliaryUnitMatrix
 SetHelp("AuxilliaryUnitMatrix", "linear_algebra", "Get the auxilliary unit matrix of size n")
@@ -245,9 +245,6 @@ function AuxilliaryUnitMatrix(n) =
     [0,I(n-1);0,0]
 )
 protect ("AuxilliaryUnitMatrix")
-SetHelpAlias("AuxilliaryUnitMatrix", "U")
-function U(n) = AxilliaryUnitMatrix(n)
-protect ("U")
 
 # AuxilliaryUnitMatrix
 SetHelp("JordanBlock", "linear_algebra", "Get the jordan block corresponding to lambda and n")
@@ -293,9 +290,6 @@ function L2Norm(v) = (
     sqrt (DotProduct (v,v))
 )
 protect("L2Norm")
-SetHelpAlias ("L2Norm", "Norm")
-Norm = L2Norm
-protect("Norm")
 
 SetHelp("LInfNorm", "linear_algebra", "Get the L-Inf Norm of a vector");
 function LInfNorm(v) = (
@@ -314,6 +308,22 @@ function LpNorm(v,p) = (
     (sum k in v do (|k|^p))^(1/p)
 )
 protect("LpNorm")
+
+SetHelp("Norm", "linear_algebra", "Get the L-p Norm (or L-2 Norm) of a vector");
+function Norm(v,p...) = (
+  if not IsVector (v) then
+    (error ("Norm: v must be a vector");bailout)
+  else if IsNull(p) then
+    L2Norm (v)
+  else if elements(p) > 1 or not IsInteger(p@(1)) then
+    (error ("Norm: p must be an integer or not specified");bailout)
+  else
+    (sum k in v do (|k|^p@(1)))^(1/p@(1))
+)
+protect("Norm")
+SetHelpAlias ("Norm", "norm")
+norm = Norm
+protect("norm")
 
 SetHelp ("CharacteristicPolynomial", "linear_algebra", "Get the characteristic polynomial as a vector")
 function CharacteristicPolynomial(M) = (
@@ -337,10 +347,10 @@ SetHelp ("CharacteristicPolynomialFunction", "linear_algebra", "Get the characte
 function CharacteristicPolynomialFunction(M) = PolyToFunction (CharacteristicPolynomial (M))
 protect("CharacteristicPolynomialFunction")
 
-SetHelp ("DeterminantalDivisors", "linear_algebra", "Get the determinantal divisors of an integer matrix (not its characteristic)")
-function DeterminantalDivisors(M) = (
+SetHelp ("DeterminantalDivisorsInteger", "linear_algebra", "Get the determinantal divisors of an integer matrix (not its characteristic)")
+function DeterminantalDivisorsInteger(M) = (
 	if not IsMatrix (M) or not IsMatrixInteger(M) or not IsMatrixSquare(M) then
-		(error ("DeterminantalDivisors: M must be a square integer matrix");bailout);
+		(error ("DeterminantalDivisorsInteger: M must be a square integer matrix");bailout);
 	v = [gcd(M)];
 	n = rows (M);
 	for k=2 to n-1 do (
@@ -353,17 +363,17 @@ function DeterminantalDivisors(M) = (
 	v@(n) = abs (det (M));
 	v
 )
-protect("DeterminantalDivisors")
+protect("DeterminantalDivisorsInteger")
 
-SetHelp("InvariantFactors", "linear_algebra", "Get the invariant factors of a square integer matrix (not its characteristic)")
-function InvariantFactors(M) =
+SetHelp("InvariantFactorsInteger", "linear_algebra", "Get the invariant factors of a square integer matrix (not its characteristic)")
+function InvariantFactorsInteger(M) =
 (
 	if not IsMatrix (M) or not IsMatrixInteger(M) or not IsMatrixSquare(M) then
-		(error ("InvariantFactors: M must be a square integer matrix");bailout);
-	d = DeterminantalDivisors (M);
+		(error ("InvariantFactorsInteger: M must be a square integer matrix");bailout);
+	d = DeterminantalDivisorsInteger (M);
 	H = [d@(1)];
 	for i=2 to rows(M) do
 		H@(i) = d@(i)/d@(i-1);
 	H
 )
-protect ("InvariantFactors")
+protect ("InvariantFactorsInteger")
