@@ -167,8 +167,10 @@ void mpw_cos(mpw_ptr rop,mpw_ptr op);
 void mpw_sinh(mpw_ptr rop,mpw_ptr op);
 void mpw_cosh(mpw_ptr rop,mpw_ptr op);
 void mpw_arctan(mpw_ptr rop,mpw_ptr op);
-void mpw_pi(mpw_ptr rop);
-void mpw_i(mpw_ptr rop);
+void mpw_pi (mpw_ptr rop);
+void mpw_i (mpw_ptr rop);
+void mpw_rand (mpw_ptr rop);
+void mpw_randint (mpw_ptr rop, mpw_ptr op);
 
 void mpw_conj (mpw_ptr rop, mpw_ptr op);
 

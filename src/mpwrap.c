@@ -25,6 +25,9 @@
 
 #include <string.h>
 #include <glib.h>
+#include <time.h>
+#include <unistd.h>
+#include <stdlib.h>
 #include <math.h>
 #include <limits.h>
 #include "calc.h"
@@ -236,7 +239,9 @@ static void mpwl_cos(MpwRealNum *rop,MpwRealNum *op);
 static void mpwl_sinh(MpwRealNum *rop,MpwRealNum *op);
 static void mpwl_cosh(MpwRealNum *rop,MpwRealNum *op);
 static void mpwl_arctan(MpwRealNum *rop,MpwRealNum *op);
-static void mpwl_pi(MpwRealNum *rop);
+static void mpwl_pi (MpwRealNum *rop);
+static void mpwl_rand (MpwRealNum *rop);
+static void mpwl_randint (MpwRealNum *rop, MpwRealNum *op);
 
 static int mpwl_cmp(MpwRealNum *op1, MpwRealNum *op2);
 
@@ -2698,11 +2703,62 @@ mpwl_arctan(MpwRealNum *rop,MpwRealNum *op)
 }
 
 static void
-mpwl_pi(MpwRealNum *rop)
+mpwl_pi (MpwRealNum *rop)
 {
 	mpwl_clear(rop);
 	mpwl_init_type(rop,MPW_FLOAT);
 	mympf_pi(rop->data.fval);
+}
+
+/* Random state stuff: FIXME: this is evil */
+static unsigned long randstate_seed = 0;
+
+static void
+mpwl_rand (MpwRealNum *rop)
+{
+	gmp_randstate_t rand_state;
+	gmp_randinit_default (rand_state);
+	randstate_seed += (unsigned long)time (NULL) * (unsigned long) rand ();
+	gmp_randseed_ui (rand_state, randstate_seed);
+	mpwl_clear (rop);
+	mpwl_init_type (rop, MPW_FLOAT);
+	mpf_urandomb (rop->data.fval, rand_state, default_mpf_prec);
+	gmp_randclear (rand_state);
+}
+
+static void
+mpwl_randint (MpwRealNum *rop, MpwRealNum *op)
+{
+	gmp_randstate_t rand_state;
+
+	if (op->type != MPW_NATIVEINT &&
+	    op->type != MPW_INTEGER) {
+		(*errorout)(_("Can't make random integer from a non-integer"));
+		error_num = NUMERICAL_MPW_ERROR;
+		return;
+	}
+	if (mpwl_sgn (op) <= 0) {
+		(*errorout)(_("Range for random integer must be positive"));
+		error_num = NUMERICAL_MPW_ERROR;
+		return;
+	}
+
+	gmp_randinit_default (rand_state);
+	randstate_seed += (unsigned long)time (NULL) * (unsigned long) rand ();
+	gmp_randseed_ui (rand_state, randstate_seed);
+
+	mpwl_clear (rop);
+	mpwl_init_type (rop, MPW_INTEGER);
+	if (op->type == MPW_INTEGER) {
+		mpz_urandomm (rop->data.ival, rand_state, op->data.ival);
+	} else {
+		mpz_t z;
+		mpz_init (z);
+		mpz_set_si (z, op->data.nval);
+		mpz_urandomm (rop->data.ival, rand_state, z);
+		mpz_clear (z);
+	}
+	gmp_randclear (rand_state);
 }
 
 static void
@@ -4240,9 +4296,30 @@ mpw_arctan(mpw_ptr rop,mpw_ptr op)
 void
 mpw_pi (mpw_ptr rop)
 {
-	MAKE_REAL(rop);
-	MAKE_COPY(rop->r);
-	mpwl_pi(rop->r);
+	MAKE_REAL (rop);
+	MAKE_COPY (rop->r);
+	mpwl_pi (rop->r);
+}
+
+void
+mpw_rand (mpw_ptr rop)
+{
+	MAKE_REAL (rop);
+	MAKE_COPY (rop->r);
+	mpwl_rand (rop->r);
+}
+
+void
+mpw_randint (mpw_ptr rop, mpw_ptr op)
+{
+	if (op->type == MPW_COMPLEX) {
+		(*errorout)(_("Can't make random integer out of a complex number"));
+		error_num = NUMERICAL_MPW_ERROR;
+		return;
+	}
+	MAKE_REAL (rop);
+	MAKE_COPY (rop->r);
+	mpwl_randint (rop->r, op->r);
 }
 
 void

@@ -63,6 +63,30 @@ gel_break_fp_caches(void)
 	}
 }
 
+static int
+get_nonnegative_integer (mpw_ptr z, const char *funcname)
+{
+	long i;
+	i = mpw_get_long(z);
+	if (error_num != 0) {
+		error_num = 0;
+		return -1;
+	}
+	if (i <= 0) {
+		char *s = g_strdup_printf (_("%s: argument can't be negative or 0"), funcname);
+		(*errorout)(s);
+		g_free (s);
+		return -1;
+	}
+	if (i > INT_MAX) {
+		char *s = g_strdup_printf (_("%s: argument too large"), funcname);
+		(*errorout)(s);
+		g_free (s);
+		return -1;
+	}
+	return i;
+}
+
 static GelETree *
 warranty_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
@@ -176,7 +200,7 @@ display_op(GelCtx *ctx, GelETree * * a, int *exception)
 	return gel_makenum_null();
 }
 
-/*print function*/
+/*set function*/
 static GelETree *
 set_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
@@ -204,6 +228,231 @@ set_op (GelCtx *ctx, GelETree * * a, int *exception)
 	d_addfunc_global (func);
 
 	return copynode (a[1]);
+}
+
+/*rand function*/
+static GelETree *
+rand_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	int args;
+	GelToken *id;
+	GelEFunc *func;
+
+	args = 0;
+	while (a != NULL && a[args] != NULL)
+		args++;
+
+	if (args > 2) {
+		(*errorout)(_("rand: Too many arguments, should be at most two"));
+		return NULL;
+	}
+
+	if (args == 0) {
+		mpw_t fr; 
+		mpw_init (fr);
+		mpw_rand (fr);
+
+		return gel_makenum_use (fr);
+	} else if (args == 1) {
+		GelETree *n;
+		GelMatrix *m;
+		int size, i;
+
+		if (a[0]->type != VALUE_NODE ||
+		     ! mpw_is_integer (a[0]->val.value)) {
+			(*errorout)(_("rand: arguments must be integers"));
+			return NULL;
+		}
+
+		size = get_nonnegative_integer (a[0]->val.value, "rand");
+		if (size < 0)
+			return NULL;
+
+		m = gel_matrix_new ();
+		gel_matrix_set_size (m, size, 1, FALSE /* padding */);
+		for (i = 0; i < size; i++) {
+			mpw_t fr; 
+			mpw_init (fr);
+			mpw_rand (fr);
+
+			gel_matrix_index (m, i, 0) = gel_makenum_use (fr);
+		}
+
+		GET_NEW_NODE (n);
+		n->type = MATRIX_NODE;
+		n->mat.matrix = gel_matrixw_new_with_matrix (m);
+		n->mat.quoted = 0;
+
+		return n;
+	} else /* args == 2 */ {
+		GelETree *n;
+		GelMatrix *m;
+		int sizex, sizey, i, j;
+
+		if (a[0]->type != VALUE_NODE ||
+		    a[1]->type != VALUE_NODE ||
+		    ! mpw_is_integer (a[0]->val.value) ||
+		    ! mpw_is_integer (a[1]->val.value)) {
+			(*errorout)(_("rand: arguments must be integers"));
+			return NULL;
+		}
+
+		sizey = get_nonnegative_integer (a[0]->val.value, "rand");
+		if (sizey < 0)
+			return NULL;
+		sizex = get_nonnegative_integer (a[1]->val.value, "rand");
+		if (sizex < 0)
+			return NULL;
+
+		m = gel_matrix_new ();
+		gel_matrix_set_size (m, sizex, sizey, FALSE /* padding */);
+		for (i = 0; i < sizex; i++) {
+			for (j = 0; j < sizey; j++) {
+				mpw_t fr; 
+				mpw_init (fr);
+				mpw_rand (fr);
+
+				gel_matrix_index (m, i, j) = gel_makenum_use (fr);
+			}
+		}
+
+		GET_NEW_NODE (n);
+		n->type = MATRIX_NODE;
+		n->mat.matrix = gel_matrixw_new_with_matrix (m);
+		n->mat.quoted = 0;
+
+		return n;
+	}
+}
+
+/*rand function*/
+static GelETree *
+randint_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	int args;
+	GelToken *id;
+	GelEFunc *func;
+
+	args = 0;
+	while (a[args] != NULL)
+		args++;
+
+	if (args > 3) {
+		(*errorout)(_("randint: Too many arguments, should be at most two"));
+		return NULL;
+	}
+
+	if (args == 1) {
+		mpw_t fr; 
+
+		if (a[0]->type != VALUE_NODE ||
+		    ! mpw_is_integer (a[0]->val.value)) {
+			(*errorout)(_("randint: arguments must be integers"));
+			return NULL;
+		}
+
+		mpw_init (fr);
+		mpw_randint (fr, a[0]->val.value);
+		if (error_num != 0) {
+			mpw_clear (fr);
+			return NULL;
+		}
+
+		return gel_makenum_use (fr);
+	} else if (args == 2) {
+		GelETree *n;
+		GelMatrix *m;
+		int size, i;
+
+		if (a[0]->type != VALUE_NODE ||
+		    a[1]->type != VALUE_NODE ||
+		    ! mpw_is_integer (a[0]->val.value) ||
+		    ! mpw_is_integer (a[1]->val.value)) {
+			(*errorout)(_("randint: arguments must be integers"));
+			return NULL;
+		}
+
+		size = get_nonnegative_integer (a[1]->val.value, "randint");
+		if (size < 0)
+			return NULL;
+
+		m = gel_matrix_new ();
+		gel_matrix_set_size (m, size, 1, FALSE /* padding */);
+		for (i = 0; i < size; i++) {
+			mpw_t fr;
+			mpw_init (fr);
+			mpw_randint (fr, a[0]->val.value);
+			if (error_num != 0) {
+				mpw_clear (fr);
+				/* This can only happen if a[0]->val.value is
+				 * evil, in which case we have not set any
+				 * elements yet.  So we don't have to free any
+				 * elements yet */
+				g_assert (i == 0);
+				gel_matrix_free (m);
+				return NULL;
+			}
+
+			gel_matrix_index (m, i, 0) = gel_makenum_use (fr);
+		}
+
+		GET_NEW_NODE (n);
+		n->type = MATRIX_NODE;
+		n->mat.matrix = gel_matrixw_new_with_matrix (m);
+		n->mat.quoted = 0;
+
+		return n;
+	} else /* args == 3 */ {
+		GelETree *n;
+		GelMatrix *m;
+		int sizex, sizey, i, j;
+
+		if (a[0]->type != VALUE_NODE ||
+		    a[1]->type != VALUE_NODE ||
+		    a[2]->type != VALUE_NODE ||
+		    ! mpw_is_integer (a[0]->val.value) ||
+		    ! mpw_is_integer (a[1]->val.value) ||
+		    ! mpw_is_integer (a[2]->val.value)) {
+			(*errorout)(_("randint: arguments must be integers"));
+			return NULL;
+		}
+
+		sizey = get_nonnegative_integer (a[1]->val.value, "randint");
+		if (sizey < 0)
+			return NULL;
+		sizex = get_nonnegative_integer (a[2]->val.value, "randint");
+		if (sizex < 0)
+			return NULL;
+
+		m = gel_matrix_new ();
+		gel_matrix_set_size (m, sizex, sizey, FALSE /* padding */);
+		for (i = 0; i < sizex; i++) {
+			for (j = 0; j < sizey; j++) {
+				mpw_t fr;
+				mpw_init (fr);
+				mpw_randint (fr, a[0]->val.value);
+				if (error_num != 0) {
+					mpw_clear (fr);
+					/* This can only happen if a[0]->val.value is
+					 * evil, in which case we have not set any
+					 * elements yet.  So we don't have to free any
+					 * elements yet */
+					g_assert (i == 0 && j == 0);
+					gel_matrix_free (m);
+					return NULL;
+				}
+
+				gel_matrix_index (m, i, j) = gel_makenum_use (fr);
+			}
+		}
+
+		GET_NEW_NODE (n);
+		n->type = MATRIX_NODE;
+		n->mat.matrix = gel_matrixw_new_with_matrix (m);
+		n->mat.quoted = 0;
+
+		return n;
+	}
 }
 
 static GelETree *
@@ -584,8 +833,7 @@ i_op (GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 pi_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
-	mpw_t fr;
-
+	mpw_t fr; 
 	mpw_init(fr);
 	mpw_pi(fr);
 
@@ -1144,19 +1392,9 @@ I_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return NULL;
 	}
 
-	size = mpw_get_long(a[0]->val.value);
-	if(error_num) {
-		error_num = 0;
+	size = get_nonnegative_integer (a[0]->val.value, "I");
+	if (size < 0)
 		return NULL;
-	}
-	if(size<=0) {
-		(*errorout)(_("I: argument can't be negative or 0"));
-		return NULL;
-	}
-	if(size>INT_MAX) {
-		(*errorout)(_("I: argument too large"));
-		return NULL;
-	}
 
 	/*make us a new empty node*/
 	GET_NEW_NODE(n);
@@ -1188,32 +1426,12 @@ zeros_op (GelCtx *ctx, GelETree * * a, int *exception)
 		return NULL;
 	}
 
-	rows = mpw_get_long(a[0]->val.value);
-	if(error_num) {
-		error_num = 0;
+	rows = get_nonnegative_integer (a[0]->val.value, "zeros");
+	if (rows < 0)
 		return NULL;
-	}
-	if(rows<=0) {
-		(*errorout)(_("zeros: argument can't be negative or 0"));
+	cols = get_nonnegative_integer (a[1]->val.value, "zeros");
+	if (cols < 0)
 		return NULL;
-	}
-	if(rows>INT_MAX) {
-		(*errorout)(_("zeros: argument too large"));
-		return NULL;
-	}
-	cols = mpw_get_long(a[1]->val.value);
-	if(error_num) {
-		error_num = 0;
-		return NULL;
-	}
-	if(cols<=0) {
-		(*errorout)(_("zeros: argument can't be negative or 0"));
-		return NULL;
-	}
-	if(cols>INT_MAX) {
-		(*errorout)(_("zeros: argument too large"));
-		return NULL;
-	}
 
 	/*make us a new empty node*/
 	GET_NEW_NODE(n);
@@ -1240,32 +1458,12 @@ ones_op (GelCtx *ctx, GelETree * * a, int *exception)
 		return NULL;
 	}
 
-	rows = mpw_get_long(a[0]->val.value);
-	if(error_num) {
-		error_num = 0;
+	rows = get_nonnegative_integer (a[0]->val.value, "ones");
+	if (rows < 0)
 		return NULL;
-	}
-	if(rows<=0) {
-		(*errorout)(_("ones: argument can't be negative or 0"));
+	cols = get_nonnegative_integer (a[1]->val.value, "ones");
+	if (cols < 0)
 		return NULL;
-	}
-	if(rows>INT_MAX) {
-		(*errorout)(_("ones: argument too large"));
-		return NULL;
-	}
-	cols = mpw_get_long(a[1]->val.value);
-	if(error_num) {
-		error_num = 0;
-		return NULL;
-	}
-	if(cols<=0) {
-		(*errorout)(_("ones: argument can't be negative or 0"));
-		return NULL;
-	}
-	if(cols>INT_MAX) {
-		(*errorout)(_("ones: argument too large"));
-		return NULL;
-	}
 
 	/*make us a new empty node*/
 	GET_NEW_NODE(n);
@@ -1311,24 +1509,14 @@ SetMatrixSize_op(GelCtx *ctx, GelETree * * a, int *exception)
 		(*errorout)(_("SetMatrixSize: wrong argument type"));
 		return NULL;
 	}
-	w = mpw_get_long(a[1]->val.value);
-	if(error_num) {
-		error_num = 0;
+
+	w = get_nonnegative_integer (a[1]->val.value, "SetMatrixSize");
+	if (w < 0)
 		return NULL;
-	}
-	h = mpw_get_long(a[2]->val.value);
-	if(error_num) {
-		error_num = 0;
+	h = get_nonnegative_integer (a[2]->val.value, "SetMatrixSize");
+	if (h < 0)
 		return NULL;
-	}
-	if(w<=0 || h<=0) {
-		(*errorout)(_("SetMatrixSize: rows/columns negative or 0"));
-		return NULL;
-	}
-	if(w>INT_MAX || h>INT_MAX) {
-		(*errorout)(_("SetMatrixSize: rows/columns too large"));
-		return NULL;
-	}
+
 	n = copynode(a[0]);
 	gel_matrixw_set_size(n->mat.matrix,h,w);
 	return n;
@@ -1415,19 +1603,9 @@ prime_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return NULL;
 	}
 
-	num = mpw_get_long(a[0]->val.value);
-	if(error_num) {
-		error_num = 0;
+	num = get_nonnegative_integer (a[0]->val.value, "prime");
+	if (num < 0)
 		return NULL;
-	}
-	if(num<=0) {
-		(*errorout)(_("prime: argument can't be negative or 0"));
-		return NULL;
-	}
-	if(num>MAXPRIMES) {
-		(*errorout)(_("prime: argument is too large"));
-		return NULL;
-	}
 	
 	if(!primes) {
 		unsigned long b;
@@ -2282,6 +2460,7 @@ get_integer_output_base_op(GelCtx *ctx, GelETree * * a, int *exception)
 void
 gel_funclib_addall(void)
 {
+	GelEFunc *f;
 	d_addfunc(d_makebifunc(d_intern("warranty"),warranty_op,0));
 	add_description("warranty",_("Gives the warranty information"));
 	d_addfunc(d_makebifunc(d_intern("exit"),exit_op,0));
@@ -2299,6 +2478,13 @@ gel_funclib_addall(void)
 
 	d_addfunc(d_makebifunc(d_intern("set"),set_op,2));
 	add_description("set",_("Set a global variable"));
+
+	f = d_addfunc(d_makebifunc(d_intern("rand"),rand_op,1 /* one less actually */));
+	f->vararg = TRUE;
+	add_description("rand",_("Generate random float"));
+	f = d_addfunc(d_makebifunc(d_intern("randint"),randint_op,2 /* one less actually */));
+	f->vararg = TRUE;
+	add_description("randint",_("Generate random integer"));
 
 	d_addfunc(d_makebifunc(d_intern("set_float_prec"),set_float_prec_op,1));
 	add_description("set_float_prec",_("Set floating point precision"));

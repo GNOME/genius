@@ -65,7 +65,7 @@
 /*calculator state*/
 calcstate_t curstate={
 	256,
-	0,
+	12,
 	FALSE,
 	FALSE,
 	FALSE,

@@ -54,7 +54,7 @@
 /*calculator state*/
 calcstate_t curstate={
 	256,
-	0,
+	12,
 	FALSE,
 	FALSE,
 	FALSE,
@@ -317,7 +317,7 @@ set_properties (void)
 	gnome_config_set_int("/genius/properties/scrollback", cursetup.scrollback);
 	gnome_config_set_bool("/genius/properties/error_box", cursetup.error_box);
 	gnome_config_set_bool("/genius/properties/info_box", cursetup.info_box);
-	gnome_config_set_bool("/genius/properties/max_digits", 
+	gnome_config_set_int("/genius/properties/max_digits", 
 			      curstate.max_digits);
 	gnome_config_set_bool("/genius/properties/results_as_floats",
 			      curstate.results_as_floats);
