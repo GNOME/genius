@@ -1,3 +1,42 @@
+Changes to 0.5.6
+
+* Several leaks fixed
+
+* Several uninitialized data usage fixed
+
+* Tolerances are floats, add aliases 'Sign' and
+  'AbsoluteValue' and add the 'Identity' function
+
+* Lots of internal cleanup including not using deprecated
+  stuff.
+
+* Start using vicious-extensions lib, and with that
+  the 'genius' binary no longer inits gnome which means
+  faster startup and faster regression testing runs
+
+* Lots of random minor optimization
+  (both performance and memory usage)
+
+* Some build fixes
+
+* Fix systems without wordexp (FreeBSD ports)
+
+* Allow loading programs from the command line
+  to gnome-genius
+
+* Use GtkSourceView if available for syntax highlighting
+
+* Handle change directory for filename completition
+  correctly
+
+* GUI a teeny bit HIGgier (but not completely)
+
+* Translation updates (Guntupalli Karunakar, Danilo Segan,
+  Vincent van Adrighem, Pablo Gonzalo del Campo,
+  Francisco Javier F. Serrador, Duarte Loreto, Christian Rose,
+  Guntupalli Karunakar, Wang Jian, Mai Hao Hui, Metin Amiroff,
+  Jordi Mallach, Xavier Conde Rueda)
+
 Changes to 0.5.5
 
 Note the syntax changes marked with 'SYNTAX:'

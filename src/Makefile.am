@@ -201,7 +201,7 @@ EXTRA_DIST = \
 
 Plugindesc_DATA = test.plugin
 
-Langdesc_DATA = $(srcdir)/genius.lang
+Langdesc_DATA = genius.lang
 
 parse.h: parse.y
 	$(YACC) $(YFLAGS) $<
