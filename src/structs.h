@@ -106,6 +106,8 @@ struct _GelEFunc {
 	 * before we free the function */
 	guint32 on_subst_list:1;
 	guint32 vararg:1;
+	guint32 propagate_mod:1;
+	guint32 no_mod_all_args:1; /* FIXME: implement */
 };
 
 typedef enum {

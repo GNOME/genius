@@ -1,3 +1,29 @@
+Fri Apr 25 16:41:13 2003  George Lebl <jirka@5z.com>
+
+	* src/compil.c, src/funclib.c, src/structs.h: allow mod propagation
+	  into function, at least for built in ones and propagate into ref,
+	  rref, and SolveLinearSystem
+
+	* src/eval.[ch], src/matop.[ch]: attempt at mod awaring the gauss function
+	  but it fails horribly unless we are in a finite field.
+
+	* src/eval.c: fix a very small leak in loops and a very large leak in
+	  evaluating and/or expressions
+
+	* src/parse.y: mod now binds tighter then logical operators to make
+	  things as "if a == b mod n and a == c mod n then ..." work properly
+	  also call binds tighter then the logical operators then
+
+	* src/calc.c: when function is undocumented, print at least a
+	  prototype
+
+	* src/matop.c: gauss correctly returns TRUE/FALSE even if stopsing
+	  is FALSE
+
+	* src/funclib.c: add SolveLinearSystem function that solves general
+	  linear systems easily.  zeros and ones can now take only one
+	  argument and that just gives a row vector.
+
 Mon Apr 21 20:23:01 2003  George Lebl <jirka@5z.com>
 
 	* src/funclib.c: elements, rows, columns accept

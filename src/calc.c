@@ -2168,6 +2168,13 @@ static void
 help_on (const char *text)
 {
 	GelHelp *help;
+	GelHelp not_documented = { NULL /* func */,
+			           NULL /* aliasfor */,
+				   NULL /* category */,
+				   _("Not documented"),
+				   NULL /* aliases */,
+				   NULL /* help_link */,
+				   NULL /* help_html */ };
 	GelEFunc *f;
 	int i;
 
@@ -2186,9 +2193,8 @@ help_on (const char *text)
 		char *s = g_strdup_printf (_("'%s' is not documented"), text);
 		(*errorout) (s);
 		g_free (s);
-		do_black ();
-		gel_output_pop_nonotify (main_out);
-		return;
+		not_documented.func = (char *)text;
+		help = &not_documented;
 	}
 
 	if (help->aliasfor) {

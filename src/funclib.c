@@ -2077,19 +2077,31 @@ zeros_op (GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type!=VALUE_NODE ||
 	   mpw_is_complex (a[0]->val.value) ||
 	   !mpw_is_integer(a[0]->val.value) ||
-	   a[1]->type!=VALUE_NODE ||
-	   mpw_is_complex (a[1]->val.value) ||
-	   !mpw_is_integer(a[1]->val.value)) {
+	   (a[1] != NULL &&
+	    (a[1]->type!=VALUE_NODE ||
+	     mpw_is_complex (a[1]->val.value) ||
+	     !mpw_is_integer(a[1]->val.value)))) {
 		(*errorout)(_("zeros: arguments not an integers"));
+		return NULL;
+	}
+
+	if (a[1] != NULL && a[2] != NULL) {
+		(*errorout)(_("zeros: too many arguments"));
 		return NULL;
 	}
 
 	rows = get_nonnegative_integer (a[0]->val.value, "zeros");
 	if (rows < 0)
 		return NULL;
-	cols = get_nonnegative_integer (a[1]->val.value, "zeros");
-	if (cols < 0)
-		return NULL;
+	if (a[1] != NULL) {
+		cols = get_nonnegative_integer (a[1]->val.value, "zeros");
+		if (cols < 0)
+			return NULL;
+	} else {
+		/* In this case we want a row vector */
+		cols = rows;
+		rows = 1;
+	}
 
 	/*make us a new empty node*/
 	GET_NEW_NODE(n);
@@ -2111,19 +2123,31 @@ ones_op (GelCtx *ctx, GelETree * * a, int *exception)
 	if(a[0]->type!=VALUE_NODE ||
 	   mpw_is_complex (a[0]->val.value) ||
 	   !mpw_is_integer(a[0]->val.value) ||
-	   a[1]->type!=VALUE_NODE ||
-	   mpw_is_complex (a[1]->val.value) ||
-	   !mpw_is_integer(a[1]->val.value)) {
-		(*errorout)(_("ones: argument not an integer"));
+	   (a[1] != NULL &&
+	    (a[1]->type!=VALUE_NODE ||
+	     mpw_is_complex (a[1]->val.value) ||
+	     !mpw_is_integer(a[1]->val.value)))) {
+		(*errorout)(_("ones: arguments not an integers"));
+		return NULL;
+	}
+
+	if (a[1] != NULL && a[2] != NULL) {
+		(*errorout)(_("ones: too many arguments"));
 		return NULL;
 	}
 
 	rows = get_nonnegative_integer (a[0]->val.value, "ones");
 	if (rows < 0)
 		return NULL;
-	cols = get_nonnegative_integer (a[1]->val.value, "ones");
-	if (cols < 0)
-		return NULL;
+	if (a[1] != NULL) {
+		cols = get_nonnegative_integer (a[1]->val.value, "ones");
+		if (cols < 0)
+			return NULL;
+	} else {
+		/* In this case we want a row vector */
+		cols = rows;
+		rows = 1;
+	}
 
 	/*make us a new empty node*/
 	GET_NEW_NODE(n);
@@ -2316,7 +2340,7 @@ det_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return NULL;
 	}
 	mpw_init(ret);
-	if(!gel_value_matrix_det(ret,a[0]->mat.matrix)) {
+	if(!gel_value_matrix_det (ctx, ret, a[0]->mat.matrix)) {
 		mpw_clear(ret);
 		return NULL;
 	}
@@ -2335,7 +2359,7 @@ ref_op(GelCtx *ctx, GelETree * * a, int *exception)
 	GET_NEW_NODE(n);
 	n->type = MATRIX_NODE;
 	n->mat.matrix = gel_matrixw_copy(a[0]->mat.matrix);
-	gel_value_matrix_gauss(n->mat.matrix, FALSE, FALSE, FALSE, NULL, NULL);
+	gel_value_matrix_gauss (ctx, n->mat.matrix, FALSE, FALSE, FALSE, NULL, NULL);
 	n->mat.quoted = 0;
 	return n;
 }
@@ -2352,9 +2376,143 @@ rref_op(GelCtx *ctx, GelETree * * a, int *exception)
 	GET_NEW_NODE(n);
 	n->type = MATRIX_NODE;
 	n->mat.matrix = gel_matrixw_copy(a[0]->mat.matrix);
-	gel_value_matrix_gauss(n->mat.matrix, TRUE, FALSE, FALSE, NULL, NULL);
+	gel_value_matrix_gauss (ctx, n->mat.matrix, TRUE, FALSE, FALSE, NULL, NULL);
 	n->mat.quoted = 0;
 	return n;
+}
+
+static GelEFunc *
+get_reference (GelETree *a, const char *err)
+{
+	if(a->type == OPERATOR_NODE &&
+	   a->op.oper == E_REFERENCE) {
+		GelETree *arg = a->op.args;
+		g_assert(arg);
+		if(arg->type != IDENTIFIER_NODE ||
+		   d_lookup_global (arg->id.id) == NULL) {
+			(*errorout) (err);
+			return NULL;
+		}
+		return d_lookup_global (arg->id.id);
+	} else {
+		(*errorout) (err);
+		return NULL;
+	}
+}
+
+static gboolean
+is_row_zero (GelMatrixW *m, int r)
+{
+	int i;
+	int w = gel_matrixw_width (m);
+	for (i = 0; i < w; i++) {
+		GelETree *node = gel_matrixw_set_index (m, i, r);
+		if (node != NULL &&
+		    (node->type != VALUE_NODE ||
+		     /* FIXME: perhaps use some zero tolerance */
+		     mpw_sgn (node->val.value) != 0)) {
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+
+/* FIXME: work in modulo mode */
+static GelETree *
+SolveLinearSystem_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GelMatrixW *RM, *RV;
+	GelETree *n;
+	GelEFunc *retm = NULL;
+	GelEFunc *retv = NULL;
+	gboolean ret;
+
+	if(a[0]->type!=MATRIX_NODE ||
+	   !gel_is_matrix_value_only(a[0]->mat.matrix) ||
+	   a[1]->type!=MATRIX_NODE ||
+	   !gel_is_matrix_value_only(a[0]->mat.matrix)) {
+		(*errorout)(_("SolveLinearSystem: argument(s) not a value only matrix"));
+		return NULL;
+	}
+	if (gel_matrixw_height(a[0]->mat.matrix) != 
+	    gel_matrixw_height(a[1]->mat.matrix)) {
+		(*errorout)(_("SolveLinearSystem: matrices not of the same height"));
+		return NULL;
+	}
+
+	if (a[2] != NULL) {
+		retm = get_reference (a[2], _("SolveLinearSystem: third argument not a reference"));
+		if (retm == NULL) return NULL;
+		if (a[3] != NULL) {
+			retv = get_reference (a[3], _("SolveLinearSystem: fourth argument not a reference"));
+			if (retv == NULL) return NULL;
+		}
+	}
+
+	RM = gel_matrixw_copy(a[0]->mat.matrix);
+	RV = gel_matrixw_copy(a[1]->mat.matrix);
+
+	ret = gel_value_matrix_gauss (ctx, RM, TRUE, FALSE, FALSE, NULL, RV);
+
+	if (retm != NULL) {
+		GET_NEW_NODE(n);
+		n->type = MATRIX_NODE;
+		n->mat.matrix = RM;
+		n->mat.quoted = 0;
+		d_set_value (retm, n);
+	} else {
+		gel_matrixw_free (RM);
+	}
+
+	if (retv != NULL) {
+		GET_NEW_NODE(n);
+		n->type = MATRIX_NODE;
+		n->mat.matrix = gel_matrixw_copy (RV);
+		n->mat.quoted = 0;
+		d_set_value (retv, n);
+	}
+
+	if (ret) {
+		int r;
+		int h = gel_matrixw_height (RV);
+		r = gel_matrixw_width (a[0]->mat.matrix);
+		/* here we kill the zero rows such that only the
+		 * solution is returned */
+		if (r < h) {
+			GelMatrixW *tmp;
+			int *regx, *regy, i, w;
+			for (i = r; i < h; i++) {
+				if ( ! is_row_zero (RV, i)) {
+					/* Yaikes, this means there is
+					 * no solution! */
+					gel_matrixw_free (RV);
+					return gel_makenum_null ();
+				}
+			}
+			w = gel_matrixw_width (RV);
+			regx = g_new(int, w);
+			for (i = 0; i < w; i++)
+				regx[i] = i;
+			regy = g_new(int, r);
+			for (i = 0; i < r; i++)
+				regy[i] = i;
+
+			tmp = gel_matrixw_get_region (RV, regx, regy, w, r);
+			g_free (regx);
+			g_free (regy);
+
+			gel_matrixw_free (RV);
+			RV = tmp;
+		}
+		GET_NEW_NODE(n);
+		n->type = MATRIX_NODE;
+		n->mat.matrix = RV;
+		n->mat.quoted = 0;
+		return n;
+	} else {
+		gel_matrixw_free (RV);
+		return gel_makenum_null ();
+	}
 }
 
 /* this is utterly stupid, but only used for small primes
@@ -3979,8 +4137,8 @@ gel_funclib_addall(void)
 
 	FUNC (I, 1, "n", "matrix", _("Make an identity matrix of a given size"));
 	ALIAS (eye, 1, I);
-	FUNC (zeros, 2, "rows,columns", "matrix", _("Make an matrix of all zeros"));
-	FUNC (ones, 2, "rows,columns", "matrix", _("Make an matrix of all ones"));
+	VFUNC (zeros, 2, "rows,columns", "matrix", _("Make an matrix of all zeros (or a row vector)"));
+	VFUNC (ones, 2, "rows,columns", "matrix", _("Make an matrix of all ones (or a row vector)"));
 
 	FUNC (rows, 1, "M", "matrix", _("Get the number of rows of a matrix"));
 	FUNC (columns, 1, "M", "matrix", _("Get the number of columns of a matrix"));
@@ -3988,11 +4146,15 @@ gel_funclib_addall(void)
 	FUNC (elements, 1, "M", "matrix", _("Get the number of elements of a matrix"));
 
 	FUNC (ref, 1, "M", "linear_algebra", _("Get the row echelon form of a matrix"));
+	f->propagate_mod = 1;
 	ALIAS (REF, 1, ref);
 	ALIAS (RowEchelonForm, 1, ref);
 	FUNC (rref, 1, "M", "linear_algebra", _("Get the reduced row echelon form of a matrix"));
+	f->propagate_mod = 1;
 	ALIAS (RREF, 1, rref);
 	ALIAS (ReducedRowEchelonForm, 1, rref);
+	VFUNC (SolveLinearSystem, 3, "M,V,args", "linear_algebra", _("Solve linear system Mx=V, return solution V if there is a unique solution, null otherwise.  Extra two reference parameters can optionally be used to get the reduced M and V."));
+	f->propagate_mod = 1;
 
 	FUNC (det, 1, "M", "linear_algebra", _("Get the determinant of a matrix"));
 	ALIAS (Determinant, 1, det);

@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2003 George Lebl
  *
  * Author: George Lebl
  *
@@ -35,9 +35,9 @@ gboolean gel_is_matrix_value_only_rational (GelMatrixW *m);
 gboolean gel_is_matrix_value_only_integer (GelMatrixW *m);
 void gel_matrix_conjugate_transpose (GelMatrixW *m);
 void gel_value_matrix_multiply (GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2, mpw_ptr modulo);
-gboolean gel_value_matrix_det (mpw_t rop, GelMatrixW *m);
+gboolean gel_value_matrix_det (GelCtx *ctx, mpw_t rop, GelMatrixW *m);
 /*NOTE: if simul is passed then we assume that it's the same size as m*/
 /* return FALSE if singular */
-gboolean gel_value_matrix_gauss (GelMatrixW *m, gboolean reduce, gboolean uppertriang, gboolean stopsing, mpw_ptr detop, GelMatrixW *simul);
+gboolean gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean uppertriang, gboolean stopsing, mpw_ptr detop, GelMatrixW *simul);
 
 #endif

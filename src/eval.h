@@ -174,6 +174,7 @@ void try_to_do_precalc(GelETree *n);
 GSList * gel_subst_local_vars (GSList *, GelETree *n);
 
 void gel_mod_node (GelCtx *ctx, GelETree *n);
+gboolean gel_mod_integer_rational (mpw_t num, mpw_t mod);
 
 #define GET_ABCDE(n,a,b,c,d,e) { \
 	(a) = (n)->op.args; \

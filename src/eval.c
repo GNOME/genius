@@ -1247,8 +1247,8 @@ cmpstringop(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	return TRUE;
 }
 
-static gboolean
-mod_integer_rational (mpw_t num, mpw_t mod)
+gboolean
+gel_mod_integer_rational (mpw_t num, mpw_t mod)
 {
 	if (mpw_is_complex (num)) {
 		/* also on rationals but as integers */
@@ -1350,7 +1350,7 @@ op_two_nodes (GelCtx *ctx, GelETree *ll, GelETree *rr, int oper,
 		default: g_assert_not_reached();
 		}
 		if (!skipmod && ctx->modulo != NULL) {
-			if ( ! mod_integer_rational (res, ctx->modulo)) {
+			if ( ! gel_mod_integer_rational (res, ctx->modulo)) {
 				error_num = NUMERICAL_MPW_ERROR;
 			}
 		}
@@ -1600,6 +1600,7 @@ matrix_pow_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	GelMatrixW *res = NULL;
 	GelMatrixW *m;
 	int free_m = FALSE;
+	mpw_ptr old_modulo;
 
 	m = l->mat.matrix;
 	quote = l->mat.quoted;
@@ -1647,12 +1648,17 @@ matrix_pow_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 		}
 
 		m = gel_matrixw_copy(m);
-		if(!gel_value_matrix_gauss(m,TRUE,FALSE,TRUE,NULL,mi)) {
+		/* FIXME: unfortunately the modulo logic of gauss is fucked */
+		old_modulo = ctx->modulo;
+		ctx->modulo = NULL;
+		if(!gel_value_matrix_gauss(ctx,m,TRUE,FALSE,TRUE,NULL,mi)) {
+			ctx->modulo = old_modulo;
 			(*errorout)(_("Matrix appears singular and can't be inverted"));
 			gel_matrixw_free(m);
 			gel_matrixw_free(mi);
 			return TRUE;
 		}
+		ctx->modulo = old_modulo;
 		gel_matrixw_free(m);
 		m = mi;
 		free_m = TRUE;
@@ -1725,6 +1731,7 @@ pure_matrix_div_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	GelMatrixW *m1,*m2;
 	GelMatrixW *mi,*toinvert;
 	GelMatrixW *res;
+	mpw_ptr old_modulo;
 
 	m1 = l->mat.matrix;
 	m2 = r->mat.matrix;
@@ -1757,12 +1764,17 @@ pure_matrix_div_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 		toinvert = m2;
 
 	toinvert = gel_matrixw_copy(toinvert);
-	if(!gel_value_matrix_gauss(toinvert,TRUE,FALSE,TRUE,NULL,mi)) {
+	/* FIXME: unfortunately the modulo logic of gauss is fucked */
+	old_modulo = ctx->modulo;
+	ctx->modulo = NULL;
+	if(!gel_value_matrix_gauss(ctx,toinvert,TRUE,FALSE,TRUE,NULL,mi)) {
+		ctx->modulo = old_modulo;
 		(*errorout)(_("Matrix appears singular and can't be inverted"));
 		gel_matrixw_free(mi);
 		gel_matrixw_free(toinvert);
 		return TRUE;
 	}
+	ctx->modulo = old_modulo;
 	gel_matrixw_free(toinvert);
 
 	/* Mod if in modulo mode */
@@ -1797,6 +1809,7 @@ value_matrix_div_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	int quote;
 	GelMatrixW *m;
 	GelMatrixW *mi;
+	mpw_ptr old_modulo;
 
 	m = r->mat.matrix;
 	quote = r->mat.quoted;
@@ -1818,12 +1831,17 @@ value_matrix_div_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 					gel_makenum_ui(1);
 
 	m = gel_matrixw_copy(m);
-	if(!gel_value_matrix_gauss(m,TRUE,FALSE,TRUE,NULL,mi)) {
+	/* FIXME: unfortunately the modulo logic of gauss is fucked */
+	old_modulo = ctx->modulo;
+	ctx->modulo = NULL;
+	if(!gel_value_matrix_gauss(ctx,m,TRUE,FALSE,TRUE,NULL,mi)) {
+		ctx->modulo = old_modulo;
 		(*errorout)(_("Matrix appears singular and can't be inverted"));
 		gel_matrixw_free(mi);
 		gel_matrixw_free(m);
 		return TRUE;
 	}
+	ctx->modulo = old_modulo;
 	gel_matrixw_free(m);
 	m = mi;
 
@@ -1888,7 +1906,7 @@ static void
 mod_node (GelETree *n, mpw_ptr mod)
 {
 	if(n->type == VALUE_NODE) {
-		if ( ! mod_integer_rational (n->val.value, mod)) {
+		if ( ! gel_mod_integer_rational (n->val.value, mod)) {
 			GelETree *nn;
 			GET_NEW_NODE(nn);
 			nn->type = OPERATOR_NODE;
@@ -2295,6 +2313,7 @@ static inline void
 evl_free(GelEvalLoop *evl)
 {
 #ifdef MEM_DEBUG_FRIENDLY
+	memset (evl, 0, sizeof (GelEvalLoop));
 	g_free (evl);
 #else
 	(GelEvalLoop *)evl->condition = free_evl;
@@ -2802,6 +2821,7 @@ iter_pop_stack(GelCtx *ctx)
 					int n_flag;
 					GE_PEEK_STACK(ctx,data,n_flag);
 					g_assert(n_flag==GE_POST);
+					freetree_full (data, TRUE, FALSE);
 					if(flag==GE_AND)
 						gel_makenum_ui_from(data,0);
 					else
@@ -2814,6 +2834,7 @@ iter_pop_stack(GelCtx *ctx)
 					int n_flag;
 					GE_PEEK_STACK(ctx,data,n_flag);
 					g_assert(n_flag==GE_POST);
+					freetree_full (data, TRUE, FALSE);
 					if(flag==GE_AND)
 						gel_makenum_ui_from(data,1);
 					else
@@ -2915,6 +2936,7 @@ iter_pop_stack(GelCtx *ctx)
 				EDEBUG("    LOOP LOOP BODY FINISHED");
 
 				GET_LR(n,l,r);
+				gel_freetree (evl->condition);
 				if (evl->body_first)
 					evl->condition = copynode (r);
 				else
@@ -3326,7 +3348,7 @@ iter_funccallop(GelCtx *ctx, GelETree *n)
 		GSList *li;
 		GelETree *ali;
 		GelToken *last_arg = NULL;
-		
+
 		EDEBUG("     USER FUNC PUSHING CONTEXT");
 
 		d_addcontext();
@@ -3412,8 +3434,10 @@ iter_funccallop(GelCtx *ctx, GelETree *n)
 
 		GE_PUSH_STACK(ctx,ctx->current,GE_FUNCCALL);
 
-		/* push current modulo */
-		if (ctx->modulo != NULL) {
+		/* push current modulo if we are not propagating it
+		 * to the function */
+		if ( ! f->propagate_mod &&
+		    ctx->modulo != NULL) {
 			GE_PUSH_STACK (ctx, ctx->modulo, GE_SETMODULO);
 			ctx->modulo = NULL;
 		}
@@ -3423,6 +3447,12 @@ iter_funccallop(GelCtx *ctx, GelETree *n)
 	} else if(f->type == GEL_BUILTIN_FUNC) {
 		int exception = FALSE;
 		GelETree *ret;
+		mpw_ptr old_modulo;
+
+		old_modulo = ctx->modulo;
+		if ( ! f->propagate_mod) {
+			ctx->modulo = NULL;
+		}
 
 		if (n->op.nargs > 1) {
 			GelETree **r;
@@ -3436,6 +3466,10 @@ iter_funccallop(GelCtx *ctx, GelETree *n)
 			g_free (r);
 		} else {
 			ret = (*f->data.func)(ctx,NULL,&exception);
+		}
+		if ( ! f->propagate_mod) {
+			g_assert (ctx->modulo == NULL);
+			ctx->modulo = old_modulo;
 		}
 		if(exception) {
 			if(ret)
