@@ -8,6 +8,8 @@ Changes to 0.5.3
   kind of experimental
 * Increase some limits on factorizations
 * Add (<expr>)i operator macro which will multiply <expr> by i
+* Negation parsing changed -1^k still parses as (-1)^k but -a^k parses as
+  -(a^k) (where a is anything but a number
 * Nicer printing of complex numbers
 * Printing fixes
 * Fractions printed nicely in troff and latex mode
@@ -21,6 +23,7 @@ Changes to 0.5.3
 * Better EulerPhi implementation
 * Fix Factors
 * Fix precedence of : to be lower then that of standard arithmetic operators
+* factorial now binds more closely then power
 * Allow more matlab like notation of getting whole rows/columns
   (such as foo@(2,:))
 * Rational powers with denominators of 2, 4, 8 or 16 now return integers
