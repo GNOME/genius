@@ -5569,8 +5569,8 @@ gather_comparisons(GelETree *n)
 				ali->any.next = NULL;
 				nn->comp.nargs++;
 				nn->comp.comp =
-					g_slist_append(nn->comp.comp,
-						      GINT_TO_POINTER(n->op.oper));
+					g_slist_append (nn->comp.comp,
+							GINT_TO_POINTER((int)n->op.oper));
 
 				freenode(n);
 				n = t;

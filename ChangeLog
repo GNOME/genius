@@ -1,3 +1,9 @@
+Fri Sep 26 18:46:32 2003  George Lebl <jirka@5z.com>
+
+	* src/structs.h, src/eval.c: shave 4 bytes off the GelETree (at least
+	  on x86) The savings will be invisible on archs with alignment.  So
+	  we're down at 20 bytes per GelETree node (plus any data of course)
+
 2003-09-01  Metin Amiroff  <metin@karegen.com>
 
 	configure.in: Added "az" in ALL_LINGUAS.

@@ -83,9 +83,9 @@ struct _GelToken {
 	gpointer data1;
 	gpointer data2;
 
-	guint32 protected:1;
-	guint32 parameter:1;
-	guint32 built_in_parameter:1;
+	guint8 protected:1;
+	guint8 parameter:1;
+	guint8 built_in_parameter:1;
 };
 
 struct _GelEFunc {
@@ -179,9 +179,17 @@ struct _GelETreeSet {
 struct _GelETreePolynomial {
 	GelETreeType type;
 	GelETree *next;
-	int arraysize;
-	int largest; /* largest exponent */
-	int vars; /* number of variables */
+	guint16 largest; /* largest exponent */
+	guint8 vars; /* number of variables */
+
+	/* This needs redoing.  No need to store
+	   this in the ETree struct since we want to
+	   conserve memory.  Probably need an array
+	   type for this. */
+	/*
+	guint16 arraysize;
+	*/
+
 	mpw_ptr *indexes; /* indexes when written out in standard form
 			     from smallest to largest.  If more then one
 			     variable then this is '(largest+1)^vars'
@@ -191,8 +199,8 @@ struct _GelETreePolynomial {
 struct _GelETreeOperator {
 	GelETreeType type;
 	GelETree *next;
-	int oper;
-	int nargs;
+	gint8 oper;
+	guint16 nargs;
 	GelETree *args;
 };
 
@@ -217,7 +225,7 @@ struct _GelETreeFunction {
 struct _GelETreeComparison {
 	GelETreeType type;
 	GelETree *next;
-	int nargs;
+	gint16 nargs;
 	GelETree *args;
 	GSList *comp;
 };
@@ -225,14 +233,14 @@ struct _GelETreeComparison {
 struct _GelETreeUsertype {
 	GelETreeType type;
 	GelETree *next;
-	int ttype;
+	gint16 ttype;
 	gpointer data;
 };
 
 struct _GelETreeMatrixRow {
 	GelETreeType type;
 	GelETree *next;
-	int nargs;
+	gint16 nargs;
 	GelETree *args;
 };
 
