@@ -1063,6 +1063,79 @@ appendmatrix (GelOutput *gelo, GelMatrixW *m)
 	gel_output_string(gelo,"]");
 }
 
+static void
+appendpolynomial (GelOutput *gelo, GelETree *n)
+{
+	char vars[] = "xyz";
+	int index[3] = {0,0,0};
+	int stride;
+	gboolean first = TRUE;
+
+	if (n->poly.vars > 3) {
+		/* FIXME: */
+		(*errorout)(_("Cannot currently print polynomials of "
+			      "more then 3 vars"));
+		gel_output_string (gelo, "(?)");
+		return;
+	}
+
+	stride = n->poly.largest+1;
+
+	for (;;) {
+		int i = index[0] + (index[1]*stride) + (index[2]*stride*stride);
+		int j;
+		if (n->poly.indexes[i] != NULL &&
+		    mpw_sgn (n->poly.indexes[i]) != 0) {
+			char *p;
+			gboolean firstvar;
+
+			if ( ! first)
+				gel_output_string (gelo, " + ");
+			first = FALSE;
+
+			p = mpw_getstring (n->poly.indexes[i],
+					   calcstate.max_digits,
+					   calcstate.scientific_notation,
+					   calcstate.results_as_floats,
+					   calcstate.mixed_fractions,
+					   calcstate.integer_output_base);
+			gel_output_string (gelo, p);
+			g_free (p);
+
+			if (i != 0) {
+				gel_output_string (gelo, " * ");
+
+				firstvar = TRUE;
+				for (j = 0; j < n->poly.vars; j++) {
+					if (index[j] == 0)
+						continue;
+
+					if ( ! firstvar)
+						gel_output_string (gelo, "*");
+					firstvar = FALSE;
+
+					if (index[j] == 1)
+						gel_output_printf (gelo,
+								   "%c",
+								   vars[j]);
+					else
+						gel_output_printf (gelo,
+								   "%c^%d",
+								   vars[j],
+								   index[j]);
+				}
+			}
+		}
+		j = 0;
+		while (index[j] >= stride) {
+			index[j] = 0;
+			j++;
+			if (j >= n->poly.vars)
+				break;
+		}
+		index[j]++;
+	}
+}
 
 /*make a string representation of an expression*/
 void
@@ -1101,6 +1174,13 @@ print_etree(GelOutput *gelo, GelETree *n, gboolean toplevel)
 		    n->mat.quoted)
 			gel_output_string (gelo, "`");
 		appendmatrix (gelo, n->mat.matrix);
+		break;
+	case SET_NODE:
+		/* FIXME: not implemented */
+		g_assert_not_reached ();
+		break;
+	case POLYNOMIAL_NODE:
+		appendpolynomial (gelo, n);
 		break;
 	case OPERATOR_NODE:
 		appendoper(gelo,n);

@@ -19,8 +19,8 @@
  * USA.
  */
 
-#ifndef _EVAL_H_
-#define _EVAL_H_
+#ifndef EVAL_H
+#define EVAL_H
 
 #include "mpwrap.h"
 
@@ -104,6 +104,7 @@ enum {
 	GO_MATRIX=1<<1,
 	GO_STRING=1<<2,
 	GO_FUNCTION=1<<3,
+	GO_POLYNOMIAL=1<<4,
 };
 typedef gboolean (*GelEvalFunc)(GelCtx *ctx, GelETree *n, ...);
 /*primitive operations can be like this*/
@@ -126,6 +127,7 @@ GelETree * gel_makenum_si(long num);
 GelETree * gel_makenum_null(void);
 GelETree * gel_makenum_identifier (GelToken *id);
 GelETree * gel_makenum_string (const char *str);
+/* FIXME: implement GelETree * gel_makenum_polynomial (...); */
 GelETree * makeoperator(int oper, GSList **stack);
 
 /*make new node, but don't actually get a new GelETree, just stick it
@@ -202,4 +204,4 @@ extern GelETree *free_trees;
 extern GelEFunc *_internal_ln_function;
 extern GelEFunc *_internal_exp_function;
 
-#endif
+#endif /* EVAL_H */

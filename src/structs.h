@@ -19,8 +19,8 @@
  * USA.
  */
 
-#ifndef _STRUCTS_H_
-#define _STRUCTS_H_
+#ifndef STRUCTS_H
+#define STRUCTS_H
 
 #include <stdio.h>
 #include "mpwrap.h"
@@ -40,6 +40,7 @@ typedef struct _GelETreeAny GelETreeAny;
 typedef struct _GelETreeValue GelETreeValue;
 typedef struct _GelETreeMatrix GelETreeMatrix;
 typedef struct _GelETreeSet GelETreeSet;
+typedef struct _GelETreePolynomial GelETreePolynomial;
 typedef struct _GelETreeOperator GelETreeOperator;
 typedef struct _GelETreeIdentifier GelETreeIdentifier;
 typedef struct _GelETreeString GelETreeString;
@@ -111,7 +112,8 @@ typedef enum {
 	NULL_NODE=0,
 	VALUE_NODE,
 	MATRIX_NODE,
-	SET_NODE,
+	SET_NODE, /* FIXME: Note implemented */
+	POLYNOMIAL_NODE, /* FIXME: Note implemented */
 	OPERATOR_NODE,
 	IDENTIFIER_NODE,
 	STRING_NODE,
@@ -149,11 +151,24 @@ struct _GelETreeMatrix {
 	guint quoted:1;
 };
 
+/* FIXME: Not implemented */
 struct _GelETreeSet {
 	GelETreeType type;
 	GelETree *next;
 	GelETree *items;
 	guint multiset:1;
+};
+
+struct _GelETreePolynomial {
+	GelETreeType type;
+	GelETree *next;
+	int arraysize;
+	int largest; /* largest exponent */
+	int vars; /* number of variables */
+	mpw_ptr *indexes; /* indexes when written out in standard form
+			     from smallest to largest.  If more then one
+			     variable then this is '(largest+1)^vars'
+			     size array */
 };
 
 struct _GelETreeOperator {
@@ -227,6 +242,7 @@ union _GelETree {
 	GelETreeValue val;
 	GelETreeMatrix mat;
 	GelETreeSet set;
+	GelETreePolynomial poly;
 	GelETreeOperator op;
 	GelETreeIdentifier id;
 	GelETreeString str;
@@ -348,4 +364,4 @@ struct _GelOutput {
 	gpointer data;
 };
 
-#endif
+#endif /* STRUCTS_H */
