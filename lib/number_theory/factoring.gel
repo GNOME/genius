@@ -68,7 +68,8 @@ function Factorize(n) =
 protect ("Factorize")
 
 SetHelp("FactorizeLoopMax","parameters","Maximum number which Factorize uses in trial division");
-parameter FactorizeLoopMax = 5000;         # Factorize configuration variable
+# FIXME: after Factorize is smarter reduce this again
+parameter FactorizeLoopMax = 50000;         # Factorize configuration variable
 
 SetHelp("PrimeFactors", "number_theory", "Return all prime factors of a number")
 function PrimeFactors (n) = (
