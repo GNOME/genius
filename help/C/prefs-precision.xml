@@ -7,7 +7,16 @@
 	    <guilabel>Floating point precision</guilabel>
       </term> 
 	  <listitem>
-        <para>The floating point precision in bits (<command>FloatPrecision</command>)</para>
+        <para>
+	  The floating point precision in bits
+	  (<function>FloatPrecision</function>).
+	  Note that changing this only affects newly computed quantities.
+	  Old values stored in variables are obviously still in the old
+	  precision and if you want to have them more precise you will have
+	  to recompute them.  Exceptions to this are the system constants
+	  such as <function>pi</function> or
+	  <function>e</function>.
+	  </para>
 	  </listitem>
 	</varlistentry>
       </variablelist> 

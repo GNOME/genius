@@ -3,7 +3,7 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
   <!ENTITY app "<application>Genius Math Tool</application>">
   <!ENTITY appname "Genius">
-  <!ENTITY appversion "0.7.1">
+  <!ENTITY appversion "0.7.2">
   <!ENTITY manrevision "0.2">
   <!ENTITY date "December 2004">
 
@@ -64,7 +64,7 @@
 <!-- please do not change the id; for translations, change lang to -->
 <!-- appropriate code -->
   <bookinfo> 
-    <title>&appname; Manual V&manrevision;</title>       
+    <title>&appname; Manual</title>       
 
     <copyright>
       <year>1997</year><year>1998</year><year>1999</year><year>2000</year>
@@ -96,7 +96,7 @@
 		<firstname>Jiri</firstname> 
 		<surname>Lebl</surname> 
 		<affiliation> 
-	  		<orgname></orgname> 
+	  		<orgname>University of California, San Diego</orgname> 
 	  		<address> <email>jirka@5z.com</email> </address> 
 		</affiliation> 
       </author> 
@@ -104,7 +104,7 @@
 		<firstname>Kai</firstname> 
 		<surname>Willadsen</surname> 
 		<affiliation> 
-	  		<orgname></orgname> 
+	  		<orgname>University of Queensland, Australia</orgname> 
 	  		<address> <email>kaiw@itee.uq.edu.au</email> </address> 
 		</affiliation> 
       </author> 
@@ -140,6 +140,24 @@
 <!-- to V3.0, and so on. -->  
     <revhistory>
       <revision> 
+		<revnumber>0.2</revnumber> 
+		<date>December 2004</date> 
+		<revdescription> 
+	  		<para role="author">Jiri (George) Lebl
+	    	<email>jirka@5z.com</email>
+	  		</para>
+		</revdescription> 
+      </revision> 
+      <revision> 
+		<revnumber>0.1</revnumber> 
+		<date>September 2004</date> 
+		<revdescription> 
+	  		<para role="author">Kai Willadsen
+	    	<email>kaiw@itee.uq.edu.au</email>
+	  		</para>
+		</revdescription> 
+      </revision> 
+      <revision> 
 		<revnumber>Genius Calculator Manual</revnumber> 
 		<date>August 2004</date> 
 		<revdescription> 
@@ -165,9 +183,26 @@
 <!-- ============= Introduction =============================== -->
   <chapter id="genius-introduction"> 
     <title>Introduction</title> 
-    <para>The &app; application is a general calculator for use as a desktop calculator, an educational tool in mathematics, and is useful even for rudimentary
-research. The language tries to be more &lsquo;mathematical&rsquo; in the sense that it should be &lsquo;what you mean is what you get&rsquo;, though of course that&rsquo;s not an entirely attainable goal. It features using rationals, arbitrary precision integers and multiple precision floats using the GMP library. It also fully supports complex numbers. It can work with matrices and vectors and do rudimetary linear algebra. The language can have user-defined functions, variables and parameters.
+    <para>
+	The &app; application is a general calculator for use as a desktop
+	calculator, an educational tool in mathematics, and is useful even for
+	rudimentary research. The language tries to be more
+	&lsquo;mathematical&rsquo; in the sense that it should be &lsquo;what
+	you mean is what you get&rsquo;, though of course that&rsquo;s not an
+	entirely attainable goal. It features using rationals, arbitrary
+	precision integers and multiple precision floats using the GMP library.
+	It also fully supports complex numbers. It can work with matrices and
+	vectors and do rudimetary linear algebra. The language can have
+	user-defined functions, variables and parameters.
     </para> 
+
+    <para>
+	This manual describes mostly the graphical version of the calculator,
+	but the language is of course the same.  The command line only version
+	lacks the graphing capabilities and all other capabilities that require
+	the graphical user interface.
+    </para>
+
   </chapter>
 
 <!-- =========== Getting Started ============================== -->
@@ -194,20 +229,18 @@ research. The language tries to be more &lsquo;mathematical&rsquo; in the sense 
     <title>GEL Basics</title> 
 
 	<para>
-GEL stands for Genius Extension Language. It is the language you use to write programs in &appname;. A program in GEL is simply an expression that evaluates to a number.
+	  GEL stands for Genius Extension Language.  Alternatively it also
+	  stands for George's Ego Leverage.  It is the language you use
+	  to write programs in &appname;. A program in GEL is simply an
+	  expression that evaluates to a number.
 	</para>
 
     &gel-values;
     &gel-variables;
     &gel-functions;
-
-  </chapter>
-
-  <!-- ============= GEL Maths ================================ -->
-  <chapter id="genius-gel-operators">
-    <title>Operators in GEL</title>
-
+    &gel-absolute-value-modulus;
     &gel-separator;
+    &gel-modular-evaluation;
     &gel-operator-list;
 
   </chapter>
@@ -216,7 +249,6 @@ GEL stands for Genius Extension Language. It is the language you use to write pr
   <chapter id="genius-gel-programming">
     <title>Programming with GEL</title>
 
-    &gel-absolute-value-modulus;
     &gel-conditionals;
     &gel-loops;
     &gel-sums-products;
@@ -224,7 +256,6 @@ GEL stands for Genius Extension Language. It is the language you use to write pr
     &gel-returning;
     &gel-references;
     &gel-lvalues;
-    &gel-modular-evaluation;
 
   </chapter>
 
@@ -274,13 +305,23 @@ GEL stands for Genius Extension Language. It is the language you use to write pr
   <chapter id="genius-prefs"> 
     <title>Settings</title> 
 
-    <para>To configure &app;, choose <menuchoice><guimenu>Settings</guimenu><guimenuitem>Preferences</guimenuitem></menuchoice>. There are several basic parameters provided by the calculator in addition to the ones provided by the standard library.  These control how the calculator behaves.
+    <para>
+      To configure &app;, choose
+      <menuchoice><guimenu>Settings</guimenu>
+      <guimenuitem>Preferences</guimenuitem></menuchoice>.
+      There are several basic parameters provided by the calculator in addition
+      to the ones provided by the standard library.  These control how the
+      calculator behaves.
     </para>
 
     <note>
       <title>Changing settings with GEL</title>
       <para>
-Many of the settings in &appname; are simply global variables, and can be evaluated and assigned to in the same way as normal variables. See <xref linkend="genius-gel-variables" /> about evaluating and assigning to variables, and <xref linkend="genius-gel-function-parameters" /> for a list of settings that can be modified in this way.
+	Many of the settings in &appname; are simply global variables, and can
+	be evaluated and assigned to in the same way as normal variables. See
+	<xref linkend="genius-gel-variables" /> about evaluating and assigning
+	to variables, and <xref linkend="genius-gel-function-parameters" /> for
+	a list of settings that can be modified in this way.
       </para>
       <para>
 As an example, you can set the maximum number of digits in a result to 12 by typing:

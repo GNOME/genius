@@ -35,4 +35,20 @@ A*B mod 5
       <para>
 This should yield the identity matrix as B will be the inverse of A mod 5.
       </para>
+      <para>
+Some functions such as
+<link linkend='gel-function-sqrt'><function>sqrt</function></link> or
+<link linkend='gel-function-log'><function>log</function></link>
+work in a different way when in modulo mode.  These will then work like their
+discrete versions working within the ring of integers you selected.  For
+example:
+<programlisting>genius> sqrt(4) mod 7
+=
+[2      5]
+genius> 2*2 mod 7
+= 4
+</programlisting>
+	<function>sqrt</function> will actually return all the possible square
+	roots.
+      </para>
     </sect1>

@@ -449,7 +449,16 @@ To get help on a specific function from the console type:
          <term>OutputStyle</term>
          <listitem>
           <synopsis>OutputStyle = string</synopsis>
-          <para>Output style: normal, latex or troff</para>
+          <para>
+	    Output style, this can be normal, latex, mathml or troff.
+	  </para>
+	  <para>
+	    This affects mostly how matrices and fractions are printed out and
+	    is useful for pasting into documents.  For example you can set this
+	    to the latex by:
+	    <programlisting>OutputStyle = "latex"
+</programlisting>
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -812,17 +821,16 @@ If size is given then a matrix (if two numbers are specified) or vector (if one 
 <literal>[0,max)</literal>.
 If size is given then a matrix (if two numbers are specified) or vector (if one
 number is specified) of the given size returned.  For example
-          <programlisting>
-genius> randint(4)
+          <screen><prompt>genius></prompt> <userinput>randint(4)</userinput>
 = 3
-genius> randint(4,2)
+<prompt>genius></prompt> <userinput>randint(4,2)</userinput>
 =
 [0      1]
-genius> randint(4,2,3)
+<prompt>genius></prompt> <userinput>randint(4,2,3)</userinput>
 =
 [2      2       1
  0      0       3]
-          </programlisting>
+</screen>
           </para>
          </listitem>
         </varlistentry>
@@ -842,17 +850,16 @@ genius> randint(4,2,3)
           <synopsis>sqrt (x)</synopsis>
           <para>Aliases: <function>SquareRoot</function></para>
           <para>The square root.  When operating modulo some integer will return either a <literal>null</literal> or a vector of the square roots.  Examples:
-          <programlisting>
-genius> sqrt(2)
+          <screen><prompt>genius></prompt> <userinput>sqrt(2)</userinput>
 = 1.41421356237
-genius> sqrt(-1)
+<prompt>genius></prompt> <userinput>sqrt(-1)</userinput>
 = 1i
-genius> sqrt(4) mod 7
+<prompt>genius></prompt> <userinput>sqrt(4) mod 7</userinput>
 =
 [2      5]
-genius> 2*2 mod 7
+<prompt>genius></prompt> <userinput>2*2 mod 7</userinput>
 = 4
-          </programlisting>
+</screen>
 	  </para>
          </listitem>
         </varlistentry>
@@ -2817,7 +2824,7 @@ genius> 2*2 mod 7
          <term>UnitStep</term>
          <listitem>
           <synopsis>UnitStep (x)</synopsis>
-          <para>The unit step function = 0 for x&lt;0, 1 otherwise.  This is the integral of the Dirac Delta function.</para>
+          <para>The unit step function is 0 for x&lt;0, 1 otherwise.  This is the integral of the Dirac Delta function.</para>
          </listitem>
         </varlistentry>
 
@@ -2825,7 +2832,10 @@ genius> 2*2 mod 7
          <term>cis</term>
          <listitem>
           <synopsis>cis (x)</synopsis>
-          <para>The <function>cis</function> function, that is cos(x)+i*sin(x)</para>
+          <para>
+	    The <function>cis</function> function, that is the same as
+	    <userinput>cos(x)+1i*sin(x)</userinput>
+	  </para>
          </listitem>
         </varlistentry>
 

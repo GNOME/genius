@@ -2,12 +2,22 @@
     <sect1 id="genius-gel-operator-list">
       <title>List of GEL operators</title>
 
+      <para>
+	As everything in gel is really just an expression, it is really just
+	all connected together with operators.  Here is a list of the
+	operators in GEL. 
+      </para>
+
       <variablelist>
         <varlistentry>
          <term><synopsis>a;b</synopsis></term>
          <listitem>
            <para>
-             separator, just evaluates both but returns only b
+             The separator, just evaluates both
+	     <varname>a</varname> and
+	     <varname>b</varname>,
+	     but returns only the result of
+	     <varname>b</varname>.
            </para>
          </listitem>
         </varlistentry>
@@ -17,7 +27,11 @@
          <term><synopsis>a=b</synopsis></term>
          <listitem>
            <para>
-             assignment operator asigns b to a (a must be a valid lvalue) (note however that this operator may be translated to == if used in a place where boolean expression is expected)
+	     The assignment operator.  This assigns <varname>b</varname> to
+<varname>a</varname> (<varname>a</varname> must be a valid <link
+linkend='genius-gel-lvalues'>lvalue</link>) (note however that this operator
+may be translated to <literal>==</literal> if used in a place where boolean
+expression is expected)
            </para>
          </listitem>
         </varlistentry>
@@ -27,7 +41,10 @@
          <term><synopsis>a:=b</synopsis></term>
          <listitem>
            <para>
-             assignment operator asigns b to a (a must be a valid lvalue)
+	     The assignment operator.  Assigns <varname>b</varname> to
+<varname>a</varname> (<varname>a</varname> must be a valid <link linkend='genius-gel-lvalues'>lvalue</link>).  This is
+different from <literal>=</literal> because it never gets translated to a
+<literal>==</literal>.
            </para>
          </listitem>
         </varlistentry>
@@ -37,7 +54,8 @@
          <term><synopsis>|a|</synopsis></term>
          <listitem>
            <para>
-             absolute value
+             Absolute value or modulus (if <varname>a</varname>
+	     is a complex number).
            </para>
          </listitem>
         </varlistentry>
@@ -47,7 +65,7 @@
          <term><synopsis>a^b</synopsis></term>
          <listitem>
            <para>
-             exponentiation
+             Exponentiation, raises <varname>a</varname> to the <varname>b</varname>th power.
            </para>
          </listitem>
         </varlistentry>
@@ -57,7 +75,14 @@
          <term><synopsis>a.^b</synopsis></term>
          <listitem>
            <para>
-             element by element exponentiation
+	     Element by element exponentiation.  Raise each element of a matrix
+	     <varname>a</varname> to the <varname>b</varname>th power.  Or if
+	     <varname>b</varname> is a matrix of the same size as
+	     <varname>a</varname>, then do the operation element by element.
+	     If <varname>a</varname> is a number and <varname>b</varname> is a
+	     matrix then it creates matrix of the same size as
+	     <varname>b</varname> with <varname>a</varname> raised to all the
+	     different powers in <varname>b</varname>.
            </para>
          </listitem>
         </varlistentry>
@@ -67,7 +92,8 @@
          <term><synopsis>a+b</synopsis></term>
          <listitem>
            <para>
-             addition
+             Addition.  Adds two numbers, matrices, functions or strings.  If
+	     you add a string to anything the result will just be a string.
            </para>
          </listitem>
         </varlistentry>
@@ -77,7 +103,7 @@
          <term><synopsis>a-b</synopsis></term>
          <listitem>
            <para>
-             subtraction
+             Subtraction.  Subtract two numbers, matrices or functions.
            </para>
          </listitem>
         </varlistentry>
@@ -87,7 +113,7 @@
          <term><synopsis>a*b</synopsis></term>
          <listitem>
            <para>
-             multiplication
+             Multiplication.  This is the normal matrix multiplication.
            </para>
          </listitem>
         </varlistentry>
@@ -97,7 +123,8 @@
          <term><synopsis>a.*b</synopsis></term>
          <listitem>
            <para>
-             element by element multiplication
+	     Element by element multiplication if <varname>a</varname> and
+	     <varname>b</varname> are matrices.
            </para>
          </listitem>
         </varlistentry>
@@ -107,7 +134,7 @@
          <term><synopsis>a/b</synopsis></term>
          <listitem>
            <para>
-             division
+             Division.
            </para>
          </listitem>
         </varlistentry>
@@ -117,7 +144,7 @@
          <term><synopsis>a./b</synopsis></term>
          <listitem>
            <para>
-             element by element division
+             Element by element division.
            </para>
          </listitem>
         </varlistentry>
@@ -127,7 +154,7 @@
          <term><synopsis>a\b</synopsis></term>
          <listitem>
            <para>
-             back division
+             Back division.  That is this is the same as <userinput>b/a</userinput>.
            </para>
          </listitem>
         </varlistentry>
@@ -137,7 +164,7 @@
          <term><synopsis>a.\b</synopsis></term>
          <listitem>
            <para>
-             element by element back division
+             Element by element back division.
            </para>
          </listitem>
         </varlistentry>
@@ -147,7 +174,9 @@
          <term><synopsis>a%b</synopsis></term>
          <listitem>
            <para>
-             the mod operator
+	     The mod operator.  This does not turn on the <link
+	     linkend='genius-gel-modular-evaluation'>modular mode</link>, but
+	     just returns the remainder of <userinput>a/b</userinput>.
            </para>
          </listitem>
         </varlistentry>
@@ -157,7 +186,8 @@
          <term><synopsis>a.%b</synopsis></term>
          <listitem>
            <para>
-             element by element the mod operator
+             Element by element the mod operator.  Returns the remaineder
+	     after element by element <userinput>a./b</userinput>.
            </para>
          </listitem>
         </varlistentry>
@@ -167,7 +197,10 @@
          <term><synopsis>a mod b</synopsis></term>
          <listitem>
            <para>
-             mod evaluation operator (expression a evaluated mod b)
+             Modular evaluation operator.  The expression <varname>a</varname>
+	     is evaluated modulo <varname>b</varname>.  See <xref
+	     linkend='genius-gel-modular-evaluation' />.
+	     Some functions and operators behave differently modulo an integer.
            </para>
          </listitem>
         </varlistentry>
@@ -177,7 +210,8 @@
          <term><synopsis>a!</synopsis></term>
          <listitem>
            <para>
-             factorial operator
+             Factorial operator.  This is like
+	     <userinput>1*...*(n-2)*(n-1)*n</userinput>.
            </para>
          </listitem>
         </varlistentry>
@@ -187,7 +221,8 @@
          <term><synopsis>a!!</synopsis></term>
          <listitem>
            <para>
-             double factorial operator
+             Double factorial operator.  This is like
+	     <userinput>1*...*(n-4)*(n-2)*n</userinput>.
            </para>
          </listitem>
         </varlistentry>
@@ -197,7 +232,8 @@
          <term><synopsis>a==b</synopsis></term>
          <listitem>
            <para>
-             equality operator (returns 1 or 0)
+	     Equality operator
+	     (returns <literal>true</literal> or <literal>false</literal>).
            </para>
          </listitem>
         </varlistentry>
@@ -207,7 +243,9 @@
          <term><synopsis>a!=b</synopsis></term>
          <listitem>
            <para>
-             inequality operator (returns 1 or 0)
+             Inequality operator,
+	     returns <literal>true</literal> if <varname>a</varname> does not
+	     equal <varname>b</varname> else returns <literal>false</literal>.
            </para>
          </listitem>
         </varlistentry>
@@ -217,7 +255,9 @@
          <term><synopsis>a&lt;&gt;b</synopsis></term>
          <listitem>
            <para>
-             alternative inequality operator (returns 1 or 0)
+             Alternative inequality operator,
+	     returns <literal>true</literal> if <varname>a</varname> does not
+	     equal <varname>b</varname> else returns <literal>false</literal>.
            </para>
          </listitem>
         </varlistentry>
@@ -227,7 +267,10 @@
          <term><synopsis>a&lt;=b</synopsis></term>
          <listitem>
            <para>
-             inequality operator (returns 1 or 0)
+             Less then or equal operator,
+	     returns <literal>true</literal> if <varname>a</varname> is
+	     less then or equal to 
+	     <varname>b</varname> else returns <literal>false</literal>.
            </para>
          </listitem>
         </varlistentry>
@@ -237,7 +280,10 @@
          <term><synopsis>a&gt;=b</synopsis></term>
          <listitem>
            <para>
-             inequality operator (returns 1 or 0)
+             Greater then or equal operator,
+	     returns <literal>true</literal> if <varname>a</varname> is
+	     greater then or equal to 
+	     <varname>b</varname> else returns <literal>false</literal>.
            </para>
          </listitem>
         </varlistentry>
@@ -247,7 +293,11 @@
          <term><synopsis>a&lt;=&gt;b</synopsis></term>
          <listitem>
            <para>
-             comparison operator (returns -1, 0 or 1)
+	     Comparison operator.  If <varname>a</varname> is equal to
+	     <varname>b</varname> it returns 0, if <varname>a</varname> is less
+	     then <varname>b</varname> it returns -1 and if
+	     <varname>a</varname> is greater then <varname>b</varname> it
+	     returns 1.
            </para>
          </listitem>
         </varlistentry>
@@ -257,7 +307,7 @@
          <term><synopsis>a and b</synopsis></term>
          <listitem>
            <para>
-             logical and
+             Logical and.
            </para>
          </listitem>
         </varlistentry>
@@ -267,7 +317,7 @@
          <term><synopsis>a or b</synopsis></term>
          <listitem>
            <para>
-             logical or
+             Logical or.
            </para>
          </listitem>
         </varlistentry>
@@ -277,7 +327,7 @@
          <term><synopsis>a xor b</synopsis></term>
          <listitem>
            <para>
-             logical xor
+             Logical xor.
            </para>
          </listitem>
         </varlistentry>
@@ -287,7 +337,7 @@
          <term><synopsis>not a</synopsis></term>
          <listitem>
            <para>
-             logical not
+             Logical not.
            </para>
          </listitem>
         </varlistentry>
@@ -297,7 +347,7 @@
          <term><synopsis>-a</synopsis></term>
          <listitem>
            <para>
-             negation operator
+             Negation operator.
            </para>
          </listitem>
         </varlistentry>
@@ -307,7 +357,8 @@
          <term><synopsis>&amp;a</synopsis></term>
          <listitem>
            <para>
-             variable referencing (to pass a reference to something)
+             Variable referencing (to pass a reference to something).
+	     See <xref linkend='genius-gel-references' />.
            </para>
          </listitem>
         </varlistentry>
@@ -317,7 +368,8 @@
          <term><synopsis>*a</synopsis></term>
          <listitem>
            <para>
-             variable dereferencing (to access a referenced varible)
+             Variable dereferencing (to access a referenced varible).
+	     See <xref linkend='genius-gel-references' />.
            </para>
          </listitem>
         </varlistentry>
@@ -327,7 +379,7 @@
          <term><synopsis>a'</synopsis></term>
          <listitem>
            <para>
-             matrix conjugate transpose
+             Matrix conjugate transpose.
            </para>
          </listitem>
         </varlistentry>
@@ -337,7 +389,7 @@
          <term><synopsis>a.'</synopsis></term>
          <listitem>
            <para>
-             matrix transpose
+             Matrix transpose, does not conjugate the entries.
            </para>
          </listitem>
         </varlistentry>
@@ -347,7 +399,10 @@
          <term><synopsis>a@(b,c)</synopsis></term>
          <listitem>
            <para>
-             get element of a matrix (or elements if b,c are vectors)
+	     Get element of a matrix in row <varname>b</varname> and column
+	     <varname>c</varname>.   If <varname>b</varname>,
+	     <varname>c</varname> are vectors, then this gets the corresponding
+	     rows columns or submatrices.
            </para>
          </listitem>
         </varlistentry>
@@ -357,7 +412,7 @@
          <term><synopsis>a@(b,)</synopsis></term>
          <listitem>
            <para>
-             get row of a matrix (or elements if b is a vector)
+             Get row of a matrix (or rows if <varname>b</varname> is a vector).
            </para>
          </listitem>
         </varlistentry>
@@ -367,7 +422,7 @@
          <term><synopsis>a@(b,:)</synopsis></term>
          <listitem>
            <para>
-             same as above
+             Same as above.
            </para>
          </listitem>
         </varlistentry>
@@ -377,7 +432,8 @@
          <term><synopsis>a@(,c)</synopsis></term>
          <listitem>
            <para>
-             get column of a matrix (or elements if c is a vector)
+	     Get column of a matrix (or columns if <varname>c</varname> is a
+	     vector).
            </para>
          </listitem>
         </varlistentry>
@@ -387,7 +443,7 @@
          <term><synopsis>a@(:,c)</synopsis></term>
          <listitem>
            <para>
-             same as above
+             Same as above.
            </para>
          </listitem>
         </varlistentry>
@@ -397,7 +453,8 @@
          <term><synopsis>a@(b)</synopsis></term>
          <listitem>
            <para>
-             get an element from a matrix treating it as a vector
+             Get an element from a matrix treating it as a vector.  This will
+	     traverse the matrix row-wise.
            </para>
          </listitem>
         </varlistentry>
@@ -407,7 +464,11 @@
          <term><synopsis>a:b</synopsis></term>
          <listitem>
            <para>
-             build a vector from a to b (or specify a row, column region)
+             Build a vector from <varname>a</varname> to <varname>b</varname> (or specify a row, column region for the <literal>@</literal> operator).  For example to get rows 2 to 4 of mamtrix <varname>A</varname> we could do
+	     <programlisting>A@(2:4,)
+	     </programlisting>
+	     as <userinput>2:4</userinput> will return a vector
+	     <userinput>[2,3,4]</userinput>.
            </para>
          </listitem>
         </varlistentry>
@@ -417,7 +478,12 @@
          <term><synopsis>a:b:c</synopsis></term>
          <listitem>
            <para>
-             build a vector from a to c with b as a step
+	     Build a vector from <varname>a</varname> to <varname>c</varname>
+	     with <varname>b</varname> as a step.  That is for example
+	     <programlisting>genius> 1:2:9
+=
+`[1     3       5       7       9]
+</programlisting>
            </para>
          </listitem>
         </varlistentry>
@@ -427,7 +493,11 @@
          <term><synopsis>(a)i</synopsis></term>
          <listitem>
            <para>
-             Make a imaginary (multiply a by i)
+	     Make a imaginary number (multiply <varname>a</varname> by the
+	     imaginary).  Note that normally the number <varname>i</varname> is
+	     written as <userinput>1i</userinput>.  So the above is equal to
+	     <programlisting>(a)*1i
+	     </programlisting>
            </para>
          </listitem>
         </varlistentry>
@@ -437,7 +507,8 @@
          <term><synopsis>`a</synopsis></term>
          <listitem>
            <para>
-             Quote an identifier so that it doesn't get evaluated
+             Quote an identifier so that it doesn't get evaluated.  Or
+	     quote a matrix so that it doesn't get expanded.
            </para>
          </listitem>
         </varlistentry>
