@@ -38,6 +38,7 @@
 #include "calc.h"
 #include "util.h"
 #include "dict.h"
+#include "eval.h"
 #include "geloutput.h"
 
 #include "plugin.h"
@@ -71,6 +72,8 @@ static GtkWidget *window = NULL;
 static GtkWidget *term = NULL;
 static GString *errors=NULL;
 static GString *infos=NULL;
+
+static char *clipboard_str = NULL;
 
 static int calc_running = 0;
 
@@ -722,6 +725,7 @@ manual_call (GtkWidget *widget, gpointer data)
 {
 	/* perhaps a bit ugly */
 	gboolean last = cursetup.info_box;
+	cursetup.info_box = TRUE;
 	gel_evalexp ("manual", NULL, main_out, NULL, TRUE, NULL);
 	gel_printout_infos ();
 	cursetup.info_box = last;
@@ -732,6 +736,7 @@ warranty_call (GtkWidget *widget, gpointer data)
 {
 	/* perhaps a bit ugly */
 	gboolean last = cursetup.info_box;
+	cursetup.info_box = TRUE;
 	gel_evalexp ("warranty", NULL, main_out, NULL, TRUE, NULL);
 	gel_printout_infos ();
 	cursetup.info_box = last;
@@ -803,6 +808,113 @@ paste_callback (GtkWidget *menu_item, gpointer data)
 	vte_terminal_paste_clipboard (VTE_TERMINAL (term));
 }
 
+static void
+clear_cb (GtkClipboard *clipboard, gpointer owner)
+{
+	/* do nothing on losing the clipboard */
+}
+
+/* text was actually requested */
+static void
+copy_cb(GtkClipboard *clipboard, GtkSelectionData *data,
+		     guint info, gpointer owner)
+{
+	gtk_selection_data_set_text (data, clipboard_str, -1);
+}
+
+static void
+copy_answer (void)
+{
+	GtkClipboard *cb;
+	GtkTargetEntry targets[] = {
+		{"UTF8_STRING", 0, 0},
+		{"COMPOUND_TEXT", 0, 0},
+		{"TEXT", 0, 0},
+		{"STRING", 0, 0},
+	};
+	/* perhaps a bit ugly */
+	GelOutput *out = gel_output_new ();
+	gboolean last_info = cursetup.info_box;
+	gboolean last_error = cursetup.error_box;
+	cursetup.info_box = TRUE;
+	cursetup.error_box = TRUE;
+	gel_output_setup_string (out, 0, NULL);
+	gel_evalexp ("ans", NULL, out, NULL, TRUE, NULL);
+	gel_printout_infos ();
+	cursetup.info_box = last_info;
+	cursetup.error_box = last_error;
+
+	g_free (clipboard_str);
+	clipboard_str = gel_output_snarf_string (out);
+	gel_output_unref (out);
+
+	cb = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+
+	gtk_clipboard_set_with_owner (cb,
+				      targets,
+				      G_N_ELEMENTS(targets),
+				      copy_cb,
+				      clear_cb,
+				      G_OBJECT (window));
+}
+
+
+static void
+copy_as_plain (GtkWidget *menu_item, gpointer data)
+{
+	/* FIXME: Ugly push/pop of output style */
+	GelOutputStyle last_style = curstate.output_style;
+	curstate.output_style = GEL_OUTPUT_NORMAL;
+	set_new_calcstate (curstate);
+
+	copy_answer ();
+
+	curstate.output_style = last_style;
+	set_new_calcstate (curstate);
+}
+
+static void
+copy_as_latex (GtkWidget *menu_item, gpointer data)
+{
+	/* FIXME: Ugly push/pop of output style */
+	GelOutputStyle last_style = curstate.output_style;
+	curstate.output_style = GEL_OUTPUT_LATEX;
+	set_new_calcstate (curstate);
+
+	copy_answer ();
+
+	curstate.output_style = last_style;
+	set_new_calcstate (curstate);
+}
+
+static void
+copy_as_troff (GtkWidget *menu_item, gpointer data)
+{
+	/* FIXME: Ugly push/pop of output style */
+	GelOutputStyle last_style = curstate.output_style;
+	curstate.output_style = GEL_OUTPUT_TROFF;
+	set_new_calcstate (curstate);
+
+	copy_answer ();
+
+	curstate.output_style = last_style;
+	set_new_calcstate (curstate);
+}
+
+static void
+copy_as_mathml (GtkWidget *menu_item, gpointer data)
+{
+	/* FIXME: Ugly push/pop of output style */
+	GelOutputStyle last_style = curstate.output_style;
+	curstate.output_style = GEL_OUTPUT_MATHML;
+	set_new_calcstate (curstate);
+
+	copy_answer ();
+
+	curstate.output_style = last_style;
+	set_new_calcstate (curstate);
+}
+
 static GnomeUIInfo file_menu[] = {
 	GNOMEUIINFO_ITEM_STOCK(N_("_Load"),N_("Load and execute a file in genius"),load_cb, GNOME_STOCK_MENU_OPEN),
 	GNOMEUIINFO_MENU_EXIT_ITEM(quitapp,NULL),
@@ -813,6 +925,23 @@ static GnomeUIInfo edit_menu[] = {
 #define COPY_ITEM 0
 	GNOMEUIINFO_MENU_COPY_ITEM(copy_callback,NULL),
 	GNOMEUIINFO_MENU_PASTE_ITEM(paste_callback,NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As Plain _Text"),
+			       N_("Copy last answer into the clipboard in plain text"),
+			       copy_as_plain,
+			       GNOME_STOCK_MENU_COPY),
+	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As _LaTeX"),
+			       N_("Copy last answer into the clipboard as LaTeX"),
+			       copy_as_latex,
+			       GNOME_STOCK_MENU_COPY),
+	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As _MathML"),
+			       N_("Copy last answer into the clipboard as MathML"),
+			       copy_as_mathml,
+			       GNOME_STOCK_MENU_COPY),
+	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As T_roff"),
+			       N_("Copy last answer into the clipboard as Troff eqn"),
+			       copy_as_troff,
+			       GNOME_STOCK_MENU_COPY),
 	GNOMEUIINFO_END,
 };
 
@@ -1369,6 +1498,14 @@ main (int argc, char *argv[])
 	g_free(file);
 
 	gel_load_file (NULL, "geniusinit.gel", FALSE);
+
+	/* Add a default last answer */
+	d_addfunc (d_makevfunc (d_intern ("Ans"),
+				gel_makenum_string
+				(_("The only thing that "
+				   "interferes with my "
+				   "learning is my education.  "
+				   "-- Albert Einstein"))));
 
 	/*
 	 * Restore plugins

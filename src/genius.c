@@ -49,6 +49,7 @@
 #endif
 
 #include "calc.h"
+#include "eval.h"
 #include "util.h"
 #include "dict.h"
 #include "inter.h"
@@ -329,6 +330,14 @@ main(int argc, char *argv[])
 		g_free(file);
 
 		gel_load_file (NULL, "geniusinit.gel", FALSE);
+
+		/* Add a default last answer */
+		d_addfunc (d_makevfunc (d_intern ("Ans"),
+					gel_makenum_string
+					(_("The only thing that "
+					   "interferes with my "
+					   "learning is my education.  "
+					   "-- Albert Einstein"))));
 
 		/*
 		 * Restore plugins
