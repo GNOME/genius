@@ -1,3 +1,12 @@
+Fri May 28 10:02:19 2004  George Lebl <jirka@5z.com>
+
+	* src/gnome-genius.c: The default font size for the console
+	  is now deduced from the window for size.  Also unless the
+	  font is actually set, the change is not written to preferences.
+	  The console is set to UTF-8 always since we always feed it utf-8
+	  strings which fixes non-utf-8 locales.  Plus a small amount of
+	  cleanup.
+
 Thu May 27 16:11:07 2004  George Lebl <jirka@5z.com>
 
 	* genius.xml, Makefile.am: add genius to the shared mime info db

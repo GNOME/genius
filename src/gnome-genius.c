@@ -45,6 +45,8 @@
 #include "plugin.h"
 #include "inter.h"
 
+#include <vicious.h>
+
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -62,8 +64,6 @@
 #include "gnome-genius.h"
 
 /*Globals:*/
-
-#define DEFAULT_FONT "Monospace 10"
 
 /*calculator state*/
 calcstate_t curstate={
@@ -154,14 +154,16 @@ static gint n_drag_types = sizeof (drag_types) / sizeof (drag_types [0]);
 static Program *selected_program = NULL;
 static Program *running_program = NULL;
 
+static char *default_console_font = NULL;
+
 pid_t helper_pid = -1;
 
 static FILE *torlfp = NULL;
 static int fromrl;
 
-static int forzvt[2];
+static int forvte[2];
 
-static GIOChannel *forzvt0_ch;
+static GIOChannel *forvte0_ch;
 
 
 static char *torlfifo = NULL;
@@ -169,7 +171,7 @@ static char *fromrlfifo = NULL;
 
 static char *arg0 = NULL;
 
-static gboolean feed_to_zvt (GIOChannel *source, GIOCondition condition, gpointer data);
+static gboolean feed_to_vte (GIOChannel *source, GIOCondition condition, gpointer data);
 static void new_callback (GtkWidget *menu_item, gpointer data);
 static void open_callback (GtkWidget *w);
 static void save_callback (GtkWidget *w);
@@ -592,8 +594,8 @@ static void
 set_properties (void)
 {
 	gnome_config_set_bool("/genius/properties/black_on_white", genius_setup.black_on_white);
-	gnome_config_set_string("/genius/properties/pango_font", genius_setup.font?
-				genius_setup.font:DEFAULT_FONT);
+	gnome_config_set_string ("/genius/properties/pango_font",
+				 ve_sure_string (genius_setup.font));
 	gnome_config_set_int("/genius/properties/scrollback", genius_setup.scrollback);
 	gnome_config_set_bool("/genius/properties/error_box", genius_setup.error_box);
 	gnome_config_set_bool("/genius/properties/info_box",
@@ -815,9 +817,11 @@ setup_response (GtkWidget *widget, gint resp, gpointer data)
 		set_new_calcstate (curstate);
 		vte_terminal_set_scrollback_lines (VTE_TERMINAL (term),
 						   genius_setup.scrollback);
-		vte_terminal_set_font_from_string (VTE_TERMINAL (term),
-						   genius_setup.font ?
-						   genius_setup.font : DEFAULT_FONT);
+		vte_terminal_set_font_from_string
+			(VTE_TERMINAL (term),
+			 ve_string_empty (genius_setup.font) ?
+			   default_console_font :
+			   genius_setup.font);
 		setup_term_color ();
 
 		if (resp == GTK_RESPONSE_OK ||
@@ -1062,8 +1066,9 @@ setup_calc(GtkWidget *widget, gpointer data)
 	
         w = gnome_font_picker_new();
 	gnome_font_picker_set_font_name (GNOME_FONT_PICKER (w),
-					 tmpsetup.font ? tmpsetup.font :
-					 DEFAULT_FONT);
+					 ve_string_empty (tmpsetup.font) ?
+					   default_console_font :
+					   genius_setup.font);
         gnome_font_picker_set_mode (GNOME_FONT_PICKER (w),
 				    GNOME_FONT_PICKER_MODE_FONT_INFO);
         gtk_box_pack_start(GTK_BOX(b),w,TRUE,TRUE,0);
@@ -2260,7 +2265,7 @@ get_properties (void)
 		   (genius_setup.black_on_white)?"true":"false");
 	genius_setup.black_on_white = gnome_config_get_bool(buf);
 	g_snprintf (buf, 256, "/genius/properties/pango_font=%s",
-		    genius_setup.font ? genius_setup.font : DEFAULT_FONT);
+		    ve_sure_string (genius_setup.font));
 	genius_setup.font = gnome_config_get_string (buf);
 	g_snprintf(buf,256,"/genius/properties/scrollback=%d",
 		   genius_setup.scrollback);
@@ -2290,7 +2295,7 @@ get_properties (void)
 }
 
 static void
-feed_to_zvt_from_string (const char *str, int size)
+feed_to_vte_from_string (const char *str, int size)
 {
 	/*do our own crlf translation*/
 	char *s;
@@ -2309,12 +2314,13 @@ feed_to_zvt_from_string (const char *str, int size)
 			s[sz] = '\r';
 		} else s[sz] = str[i];
 	}
-	vte_terminal_feed (VTE_TERMINAL (term), s, sz);
+	vte_terminal_feed (VTE_TERMINAL (term), 
+			   s, sz);
 	g_free(s);
 }
 
 static gboolean
-feed_to_zvt (GIOChannel *source, GIOCondition condition, gpointer data)
+feed_to_vte (GIOChannel *source, GIOCondition condition, gpointer data)
 {
 	if (condition & G_IO_IN) {
 		int fd = g_io_channel_unix_get_fd (source);
@@ -2323,7 +2329,7 @@ feed_to_zvt (GIOChannel *source, GIOCondition condition, gpointer data)
 		while ((size = read (fd, buf, 256)) > 0 ||
 		       errno == EINTR) {
 			if (size > 0)
-				feed_to_zvt_from_string (buf, size);
+				feed_to_vte_from_string (buf, size);
 		}
 	}
 
@@ -2335,8 +2341,8 @@ output_notify_func (GelOutput *output)
 {
 	const char *s = gel_output_peek_string (output);
 	if (s != NULL) {
-		feed_to_zvt (forzvt0_ch, G_IO_IN, NULL);
-		feed_to_zvt_from_string ((char *)s, strlen (s));
+		feed_to_vte (forvte0_ch, G_IO_IN, NULL);
+		feed_to_vte_from_string ((char *)s, strlen (s));
 		gel_output_clear_string (output);
 	}
 }
@@ -2722,16 +2728,16 @@ main (int argc, char *argv[])
 				      /* GNOME_PARAM_POPT_TABLE, options, */
 				      NULL);
 
-	if (pipe (forzvt) < 0)
+	if (pipe (forvte) < 0)
 		g_error ("Can't pipe");
 
 	setup_rl_fifos ();
 
-	fcntl (forzvt[0], F_SETFL, O_NONBLOCK);
+	fcntl (forvte[0], F_SETFL, O_NONBLOCK);
 
-	forzvt0_ch = g_io_channel_unix_new (forzvt[0]);
-	g_io_add_watch_full (forzvt0_ch, G_PRIORITY_DEFAULT, G_IO_IN | G_IO_HUP | G_IO_ERR, 
-			     feed_to_zvt, NULL, NULL);
+	forvte0_ch = g_io_channel_unix_new (forvte[0]);
+	g_io_add_watch_full (forvte0_ch, G_PRIORITY_DEFAULT, G_IO_IN | G_IO_HUP | G_IO_ERR, 
+			     feed_to_vte, NULL, NULL);
 
 	main_out = gel_output_new();
 	gel_output_setup_string (main_out, 80, get_term_width);
@@ -2849,7 +2855,7 @@ main (int argc, char *argv[])
 				  hbox,
 				  gtk_label_new (_("Console")));
 	/* FIXME:
-	gtk_widget_queue_resize (zvt);
+	gtk_widget_queue_resize (vte);
 	*/
 	gtk_container_set_border_width(
 		GTK_CONTAINER (GNOME_APP (genius_window)->contents), 5);
@@ -2868,13 +2874,26 @@ main (int argc, char *argv[])
 
 	gtk_widget_show_all (genius_window);
 
+	/* Try to deduce the standard font size, kind of evil, but sorta
+	 * works.  The user can always set the font themselves. */
+	{
+		GtkStyle *style = gtk_widget_get_style (genius_window);
+		int sz = (style == NULL ||
+			  style->font_desc == NULL) ? 10 :
+			pango_font_description_get_size (style->font_desc) / PANGO_SCALE;
+		if (sz == 0) sz = 10;
+		default_console_font = g_strdup_printf ("Monospace %d", sz);
+	}
+
 	/* for some reason we must set the font here and not above
 	 * or the "monospace 12" (or default terminal font or whatnot)
 	 * will get used */
-	vte_terminal_set_font_from_string (VTE_TERMINAL (term), 
-					   genius_setup.font ?
-					   genius_setup.font : DEFAULT_FONT);
+	vte_terminal_set_font_from_string (VTE_TERMINAL (term),
+					   ve_string_empty (genius_setup.font) ?
+					     default_console_font :
+					     genius_setup.font);
 	setup_term_color ();
+	vte_terminal_set_encoding (VTE_TERMINAL (term), "UTF-8");
 
 	gtk_widget_show_now (genius_window);
 
