@@ -212,20 +212,35 @@ call_func (GelCtx *ctx, GelEFunc *func, GelETree *arg)
 }
 
 static void
-plot_line (GnomeCanvasItem **line, const char *color,
-	   GnomeCanvasPoints *points, int num)
+plot_line (GnomeCanvasItem **line, GnomeCanvasItem **progress_line,
+	   const char *color,
+	   GnomeCanvasPoints *points,
+	   GnomeCanvasPoints *progress_points,
+	   int num)
 {
 	int old_points = points->num_points;
 	points->num_points = num;
 
-	if (*line != NULL) {
+	if (*line != NULL)
 		gtk_object_destroy (GTK_OBJECT (*line));
-	}
+	if (*progress_line != NULL)
+		gtk_object_destroy (GTK_OBJECT (*progress_line));
 	*line = gnome_canvas_item_new (graph,
 				       gnome_canvas_line_get_type (),
 				       "fill_color", color,
+				       "width_units", 1.5,
 				       "points", points,
 				       NULL);
+	if (progress_points != NULL) {
+		progress_points->coords[2] = points->coords[(num-1)*2];
+		*progress_line = gnome_canvas_item_new
+			(graph,
+			 gnome_canvas_line_get_type (),
+			 "fill_color", color,
+			 "width_units", 10.0,
+			 "points", progress_points,
+			 NULL);
+	}
 
 	points->num_points = old_points;
 }
@@ -235,10 +250,18 @@ plot_func (GelCtx *ctx, GelEFunc *func, const char *color, double xscale, double
 {
 #define PERITER 2
 	GnomeCanvasItem *line = NULL;
+	GnomeCanvasItem *progress_line = NULL;
 	GelETree *arg;
 	mpw_t x;
 	GnomeCanvasPoints *points = gnome_canvas_points_new (WIDTH/PERITER + 1);
+	GnomeCanvasPoints *progress_points = gnome_canvas_points_new (2);
 	int i;
+
+	progress_points->coords[0] = 0.0;
+	progress_points->coords[1] = (double)HEIGHT;
+	progress_points->coords[2] = 0.0;
+	progress_points->coords[3] = (double)HEIGHT;
+	
 	mpw_init (x);
 	arg = gel_makenum_use (x);
 	for (i = 0; i < WIDTH/PERITER + 1; i++) {
@@ -254,8 +277,9 @@ plot_func (GelCtx *ctx, GelEFunc *func, const char *color, double xscale, double
 		/* hack for "infinity" */
 		else if (points->coords[i*2 + 1] <= -HEIGHT)
 			points->coords[i*2 + 1] = -HEIGHT;
-		if (i%50 == 0 && i>0) {
-			plot_line (&line, color, points, i+1);
+		if (i%40 == 0 && i>0) {
+			plot_line (&line, &progress_line, color,
+				   points, progress_points, i+1);
 		}
 		if(evalnode_hook) {
 			(*evalnode_hook)();
@@ -268,7 +292,8 @@ plot_func (GelCtx *ctx, GelEFunc *func, const char *color, double xscale, double
 	}
 	gel_freetree (arg);
 
-	plot_line (&line, color, points, WIDTH/PERITER + 1);
+	plot_line (&line, &progress_line, color,
+		   points, NULL, WIDTH/PERITER + 1);
 
 	gnome_canvas_points_unref (points);
 }
@@ -286,6 +311,7 @@ label_func (GelCtx *ctx, int i, GelEFunc *func, const char *color)
 	gnome_canvas_item_new (graph,
 			       gnome_canvas_line_get_type (),
 			       "fill_color", color,
+			       "width_units", 1.5,
 			       "points", points,
 			       NULL);
 
@@ -440,14 +466,14 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	char *colors[] = {
 		"darkblue",
 		"darkgreen",
-		"red",
-		"brown",
+		"darkred",
 		"magenta",
 		"black",
-		"orange",
-		"lightblue",
-		"lightgreen",
-		"yellow",
+		"darkorange",
+		"blue",
+		"green",
+		"red",
+		"brown",
 		NULL };
 
 	for (i = 0;

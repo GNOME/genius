@@ -361,26 +361,33 @@ static char * mpwl_getstring(MpwRealNum * num, int max_digits,
 static void
 mympz_set_fr (mpz_ptr z, mpfr_srcptr fr)
 {
-	mp_exp_t exp;
+	long exp;
+	int sgn = mpfr_sgn (fr);
 	
 	exp = mpfr_get_z_exp (z, fr);
 	if (exp > 0)
 		mpz_mul_2exp (z, z, exp);
 	else if (exp < 0)
-		mpz_div_2exp (z, z, exp);
+		mpz_div_2exp (z, z, -exp);
+	if (sgn < 0)
+		mpz_neg (z, z);
 }
 
 static void
 mympq_set_fr (mpq_ptr q, mpfr_srcptr fr)
 {
-	mp_exp_t exp;
+	long exp;
+	int sgn = mpfr_sgn (fr);
 	
+	/* FIXME: check if correct */
 	mpz_set_ui (mpq_denref (q), 1);
 	exp = mpfr_get_z_exp (mpq_numref (q), fr);
 	if (exp > 0)
 		mpq_mul_2exp (q, q, exp);
 	else if (exp < 0)
-		mpq_div_2exp (q, q, exp);
+		mpq_div_2exp (q, q, -exp);
+	if (sgn < 0)
+		mpq_neg (q, q);
 }
 
 static int

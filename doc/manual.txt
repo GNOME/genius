@@ -281,6 +281,12 @@ normally), are not strictly binary operators, they can in fact be grouped
 in the normal mathematical way, e.g.: (1<x<=y<5) is a legal boolean
 expression and means just what it should, that is (1<x and x<=y and y<5)
 
+NOTE: The unitary minus operates in a different fashion depending on where
+it appears.  If it appears before a number it binds very closely, if it
+appears in front of an expression it binds less then the power and factorial
+operators.  So for example -1^k is really (-1)^k, but -foo(1)^k is really
+-(foo(1)^k).  So be careful how you use it and if in doubt, add parentheses.
+
 
 Conditionals:
 -------------
