@@ -108,6 +108,36 @@ gp_prepare_push_param (gboolean setfunc)
 	return TRUE;
 }
 
+/* returns true if this is a 'by' sep */
+gboolean
+gp_prepare_push_region_sep (void)
+{
+	GelETree *e1, *e2;
+
+	e2 = stack_pop (&evalstack);
+	e1 = stack_pop (&evalstack);
+
+	if (e2->type == OPERATOR_NODE &&
+	    e2->op.oper == E_REGION_SEP) {
+		GelETree *a1 = e2->op.args;
+		GelETree *a2 = e2->op.args->any.next;
+		a1->any.next = NULL;
+		a2->any.next = NULL;
+		e2->op.args = NULL;
+		gel_freetree (e2);
+		stack_push (&evalstack, e1);
+		stack_push (&evalstack, a1);
+		stack_push (&evalstack, a2);
+
+		return TRUE;
+	} else {
+		stack_push (&evalstack, e1);
+		stack_push (&evalstack, e2);
+
+		return FALSE;
+	}
+}
+
 /*pops the last expression, pushes a marker
   entry and puts the last expression back*/
 int

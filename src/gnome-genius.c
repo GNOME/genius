@@ -99,8 +99,6 @@ static char *arg0 = NULL;
 
 static void feed_to_zvt (gpointer data, gint source,
 			 GdkInputCondition condition);
-static void get_new_buffer (gpointer data, gint source,
-			    GdkInputCondition condition);
 
 static int
 count_char (const char *s, char c)
@@ -820,19 +818,6 @@ feed_to_zvt (gpointer data, gint source, GdkInputCondition condition)
 	char buf[256];
 	while ((size = read (source, buf, 256)) > 0) {
 		feed_to_zvt_from_string (buf, size);
-	}
-}
-
-static void
-get_new_buffer (gpointer data, gint source, GdkInputCondition condition)
-{
-	int size;
-	char buf[256];
-	while((size = read(source,buf,256))>0) {
-		if (readbuf == NULL)
-			readbuf = g_array_new (FALSE, FALSE, sizeof(char));
-		readbuf = g_array_append_vals (readbuf, buf, size);
-		readbufl += size;
 	}
 }
 

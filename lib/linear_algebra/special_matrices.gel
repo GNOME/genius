@@ -13,7 +13,7 @@ function CompanionMatrix(p)= (
 	#make vertical
 	if columns(p) > 1 then
 		p = p.';
-	[ [0;I(elements(p)-2)] , -p@(1 .. elements(p)-1,1) ]
+	[ [0;I(elements(p)-2)] , -p@(1 : elements(p)-1,1) ]
 )
 protect ("CompanionMatrix")
 

@@ -654,7 +654,18 @@ appendoper(GelOutput *gelo, GelETree *n)
 			append_unaryoper(gelo,"not ",n); break;
 
 		case E_REGION_SEP:
-			append_binaryoper(gelo,"..",n); break;
+			append_binaryoper(gelo,":",n); break;
+
+		case E_REGION_SEP_BY:
+			GET_LRR(n,l,r,rr);
+			gel_output_string(gelo,"(");
+			print_etree(gelo, l, FALSE);
+			gel_output_string(gelo,":");
+			print_etree(gelo, r, FALSE);
+			gel_output_string(gelo,":");
+			print_etree(gelo, rr, FALSE);
+			gel_output_string(gelo,")");
+			break;
 
 		case E_GET_VELEMENT:
 			GET_LR(n,l,r);
@@ -666,7 +677,6 @@ appendoper(GelOutput *gelo, GelETree *n)
 			break;
 
 		case E_GET_ELEMENT:
-		case E_GET_REGION:
 			GET_LRR(n,l,r,rr);
 			gel_output_string(gelo,"(");
 			print_etree(gelo, l, FALSE);

@@ -50,9 +50,9 @@ SetHelp("DeleteRow", "matrix", "Delete a row of a matrix")
 function DeleteRow(M,row) = (
         row_dim_M=rows(M);
         if row_dim_M==1 then return null;   # if delete the only row...
-	     if row==1         then M@(2..row_dim_M,)
-        else if row==row_dim_M then M@(1..row_dim_M-1,)
-        else                       [M@(1..row-1,);M@(row+1..row_dim_M,)]
+	     if row==1         then M@(2:row_dim_M,)
+        else if row==row_dim_M then M@(1:row_dim_M-1,)
+        else                       [M@(1:row-1,);M@(row+1:row_dim_M,)]
 )
 protect ("DeleteRow")
 
@@ -62,9 +62,9 @@ SetHelp("DeleteColumn", "matrix", "Delete a column of a matrix")
 function DeleteColumn(M,col) = (
         col_dim_M=columns(M);
         if col_dim_M==1 then return null;   # if delete the only column...
-	     if col==1         then M@(,2..col_dim_M)
-        else if col==col_dim_M then M@(,1..col_dim_M-1)
-        else                       [M@(,1..col-1),M@(,col+1..col_dim_M)]
+	     if col==1         then M@(,2:col_dim_M)
+        else if col==col_dim_M then M@(,1:col_dim_M-1)
+        else                       [M@(,1:col-1),M@(,col+1:col_dim_M)]
 )
 protect ("DeleteColumn")
 
@@ -167,7 +167,7 @@ function DirectSumMatrixVector(v) = (
   else if columns (v) == 2 then
     [v@(1),0;0,v@(2)]
   else
-    [v@(1),0;0,DirectSumMatrixVector(v@(1,2..columns(v)))] 
+    [v@(1),0;0,DirectSumMatrixVector(v@(1,2:columns(v)))] 
 )
 protect ("DirectSumMatrixVector");
 

@@ -120,86 +120,11 @@ function MatrixProduct(a) = (
 protect("MatrixProduct")
 
 SetHelp("Submatrix", "matrix", "Return column(s) and row(s) from a matrix")
-function Submatrix(m,r,c) = (
-	if not IsMatrix(m) or
-	   (not IsInteger(r) and not IsVector (r)) or
-	   (not IsInteger(c) and not IsVector (r)) then
-		(error("Submatrix: arguments are not the right type");bailout);
-	if not IsVector (r) then
-		r = [r];
-	if not IsVector (c) then
-		c = [c];
-	ret = SetMatrixSize ([0], elements (r), elements (c));
-	for i=1 to elements(r) do
-		for j=1 to elements(c) do
-			ret@(i,j) = m@(r@(i),c@(j));
-	ret
-)
+function Submatrix(m,r,c) = m@(r,c)
 protect ("Submatrix")
 
-SetHelp ("IndexComplement", "matrix", "Return the index complement of a vector of indexes (must be sorted)")
-function IndexComplement (v, n) = (
-	if not IsVector(v) then
-		(error("IndexComplement: arguments are not the right type");bailout);
-	r = [0];
-	j=1;
-	k=1;
-	for i=1 to n do (
-		if j <= elements(v) and v@(j) == i then (
-			j = j+1
-		) else (
-			r@(k) = i;
-			k = k+1
-		)
-	);
-	r
-)
-protect ("IndexComplement")
-
-SetHelp("DeleteRowColumn", "matrix", "Remove column and row from a matrix");
-function DeleteRowColumn(m,row,col) = (
-	if(not IsMatrix(m) or not IsInteger(row) or not IsInteger(col)) then
-		(error("DeleteRowColumn: arguments are not the right type");bailout)
-	else if(row>rows(m) or col>columns(m)) then
-		(error("DeleteRowColumn: arguments out of range");bailout);
-	if row==1 then (
-		if col==1 then
-			m@(2..rows(m),2..columns(m))
-		else if col==columns(m) then
-			m@(2..rows(m),1..columns(m)-1)
-		else
-			[m@(2..rows(m),1..col-1),\
-			 m@(2..rows(m),col+1..columns(m))]
-	) else if row==rows(m) then (
-		if col==1 then
-			m@(1..rows(m)-1,2..columns(m))
-		else if col==columns(m) then
-			m@(1..rows(m)-1,1..columns(m)-1)
-		else
-			[m@(1..rows(m)-1,1..col-1),\
-			 m@(1..rows(m)-1,col+1..columns(m))]
-	) else (
-		if col==1 then
-			[m@(1..row-1,2..columns(m))
-			 m@(row+1..rows(m),2..columns(m))]
-		else if col==columns(m) then
-			[m@(1..row-1,1..columns(m)-1)
-			 m@(row+1..rows(m),1..columns(m)-1)]
-		else
-			[m@(1..row-1,1..col-1),m@(1..row-1,col+1..columns(m))
-			 m@(row+1..rows(m),1..col-1),\
-			 m@(row+1..rows(m),col+1..columns(m))]
-	)
-);
-protect("DeleteRowColumn")
-
 SetHelp("ComplementSubmatrix", "matrix", "Remove column(s) and row(s) from a matrix");
-function ComplementSubmatrix(m,r,c) = (
-	if IsInteger(r) and IsInteger(c) then
-		DeleteRowColumn (m, r, c)
-	else
-		Submatrix (m, IndexComplement (r, rows(m)), IndexComplement (c, columns(m)))
-)
+function ComplementSubmatrix(m,r,c) = m@(IndexComplement(r, rows(m)), IndexComplement (c, columns (m)))
 protect ("ComplementSubmatrix")
 
 # Minor of a matrix (determinant of a submatrix given by deleting
@@ -436,7 +361,7 @@ function CompoundMatrix(k,A) = (
 	omega = GAMMA(k,columns(A));
 	for i=1 to elements(gamma) do
 		for j=1 to elements(omega) do
-			C@(i,j) = det (Submatrix (A, gamma@(i),omega@(j)));
+			C@(i,j) = det (A@(gamma@(i),omega@(j)));
 	C
 )
 protect ("CompoundMatrix")

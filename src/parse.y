@@ -54,7 +54,7 @@ extern char *load_plugin;
 
 %token STARTTOK
 
-%token LOADFILE LOADFILE_GLOB LOAD_PLUGIN CHANGEDIR CHANGEDIR_GLOB PWD LS LS_ARG HELP HELP_ARG
+%token LOADFILE LOADFILE_GLOB LOAD_PLUGIN CHANGEDIR PWD LS LS_ARG HELP HELP_ARG
 
 %token <val> NUMBER
 %token <id> STRING
@@ -66,7 +66,7 @@ extern char *load_plugin;
 
 %token WHILE UNTIL FOR SUM PROD DO IF THEN ELSE TO BY IN
 
-%token AT REGION_SEP
+%token AT
 
 %token SEPAR NEXTROW EQUALS
 
@@ -83,10 +83,12 @@ extern char *load_plugin;
 
 %left SEPAR
 
+%nonassoc FUNCTION PARAMETER
+
 %left MOD
 
 %nonassoc LOWER_THEN_ELSE
-%nonassoc WHILE UNTIL DO IF FOR SUM PROD TO BY IN THEN ELSE FUNCTION PARAMETER CALL RETURNTOK
+%nonassoc WHILE UNTIL DO IF FOR SUM PROD TO BY IN THEN ELSE CALL RETURNTOK
 
 %left LOGICAL_XOR LOGICAL_OR
 %left LOGICAL_AND
@@ -101,6 +103,9 @@ extern char *load_plugin;
 %left '*' ELTELTMUL '/' ELTELTDIV '\\' ELTELTBACKDIV '%' ELTELTMOD
 
 %right '\'' TRANSPOSE
+
+%right ':'
+
 %right '!' DOUBLEFACT
 %right '^' ELTELTEXP
 %right UMINUS UPLUS
@@ -167,16 +172,19 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 	|	'+' expr %prec UPLUS
 	| 	expr '^' expr		{ PUSH_ACT(E_EXP); }
 	| 	expr ELTELTEXP expr	{ PUSH_ACT(E_ELTEXP); }
+
+	|	expr ':' expr	{
+				if (gp_prepare_push_region_sep ()) {
+					PUSH_ACT(E_REGION_SEP_BY);
+				} else {
+					PUSH_ACT(E_REGION_SEP);
+				}
+					}
 	
 	|	expr AT expr ')'	{ PUSH_ACT(E_GET_VELEMENT); }
 	|	expr AT expr ',' expr ')' { PUSH_ACT(E_GET_ELEMENT); }
-	|	expr AT reg ',' expr ')' { PUSH_ACT(E_GET_REGION); }
-	|	expr AT expr ',' reg ')' { PUSH_ACT(E_GET_REGION); }
-	|	expr AT reg ',' reg ')' { PUSH_ACT(E_GET_REGION); }
 	|	expr AT expr ',' ')'	{ PUSH_ACT(E_GET_ROW_REGION); }
-	|	expr AT reg ',' ')'	{ PUSH_ACT(E_GET_ROW_REGION); }
 	|	expr AT ',' expr ')'	{ PUSH_ACT(E_GET_COL_REGION); }
-	|	expr AT ',' reg ')'	{ PUSH_ACT(E_GET_COL_REGION); }
 	|	'[' matrixrows ']'	{ if(!gp_push_matrix(FALSE)) {SYNTAX_ERROR;} }
 	|	'`' '[' matrixrows ']'	{ if(!gp_push_matrix(TRUE)) {SYNTAX_ERROR;} }
 	/*This next rule DOESN'T work right, we need some sort of connection
@@ -237,7 +245,7 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 	
 deref:		'*' ident		{ PUSH_ACT(E_DEREFERENCE); }
 	;
-	
+
 ident:		FUNCID			{
 				PUSH_IDENTIFIER($<id>1);
 				g_free($<id>1);
@@ -284,9 +292,6 @@ exprlist:	exprlist ',' expr
 	
 matrixrows:	matrixrows NEXTROW exprlist { if(!gp_push_matrix_row()) {SYNTAX_ERROR;} }
 	|	exprlist { if(!gp_push_matrix_row()) {SYNTAX_ERROR;} if(!gp_push_marker(MATRIX_START_NODE)) {SYNTAX_ERROR;} }
-	;
-	
-reg:		expr REGION_SEP expr	{ PUSH_ACT(E_REGION_SEP); }
 	;
 	
 %%

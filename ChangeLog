@@ -1,3 +1,16 @@
+Wed Oct 30 11:27:40 2002  George Lebl <jirka@5z.com>
+
+	* src/calc.c, src/eval.[ch], src/funclib.c, src/lexer.l, src/parse.y,
+	  src/matrixw.[ch], src/parseutil.[ch]:  Add the : operator like
+	  matlab has and accept vectors rather then just ranges for indexes
+	  of matrices.  Also add IndexComplement to the builtin functions
+
+	* src/gnome-genius.c: minor cleanup
+
+	* src/geniustest.pl, src/geniustests.txt: update test suite
+
+	* lib/*/*.gel: update for the new syntax
+
 Wed Oct 23 21:59:46 2002  George Lebl <jirka@5z.com>
 
 	* lib/linear_algebra/linear_algebra.gel: fix said stupid tests

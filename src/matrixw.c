@@ -34,6 +34,8 @@
 #define	G_CAN_INLINE 1
 #include "matrixw.h"
 
+/* #define MATRIX_DEBUG 1 */
+
 /* we cast matrix to this structure to stuff it onto
    the free matrix list, we could just cast it to a
    pointer but this gives the impression of being
@@ -43,21 +45,85 @@ struct _GelMatrixWFreeList {
 	GelMatrixWFreeList *next;
 };
 
+static void internal_make_private (GelMatrixW *m, int w, int h);
+
 static GelMatrixWFreeList *free_matrices = NULL;
 
+#define NEW_MATRIX(m) \
+	if (free_matrices == NULL) { \
+		m = g_new (GelMatrixW, 1); \
+	} else { \
+		m = (GelMatrixW *)free_matrices; \
+		free_matrices = free_matrices->next; \
+	}
+
 GelETree *the_zero = NULL;
+
+/*free a matrix*/
+static void
+internal_matrix_free (GelMatrix *m)
+{
+	int i, j;
+
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+	
+	if (m->use == 1) {
+#ifdef MATRIX_DEBUG
+		/*debug*/printf ("ACTUALLY FREE\n");
+#endif
+		for (i = 0; i < m->width; i++) {
+			for (j = 0; j < m->height; j++) {
+				GelETree *t = gel_matrix_index (m, i, j);
+				if (t != NULL)
+					gel_freetree (t);
+			}
+		}
+		gel_matrix_free (m);
+	} else {
+		m->use--;
+	}
+}
+
+
+static int
+getmax (const int *reg, int len)
+{
+	int max = 0;
+	int i;
+	for (i = 0; i < len; i++)
+		if (reg[i] > max)
+			max = reg[i];
+	return max;
+}
+
+/* This should be streamlined */
+static inline gboolean
+has_duplicates (const int *reg, int l)
+{
+	int i, ii;
+	if (reg == NULL)
+		return FALSE;
+	for (i = 0; i < l; i++) {
+		for (ii = i+1; ii < l; ii++) {
+			if (reg[ii] == reg[i])
+				return TRUE;
+		}
+	}
+	return FALSE;
+}
 
 /*make new matrix*/
 GelMatrixW *
 gel_matrixw_new(void)
 {
 	GelMatrixW *m;
-	if(!free_matrices)
-		m = g_new(GelMatrixW,1);
-	else {
-		m = (GelMatrixW *)free_matrices;
-		free_matrices = free_matrices->next;
-	}
+	NEW_MATRIX (m);
+
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
 	
 	m->m = gel_matrix_new();
 	m->m->use = 1;
@@ -68,14 +134,14 @@ gel_matrixw_new(void)
 	m->cached_value_only_rational = 0;
 	m->cached_value_only_integer = 0;
 	
-	m->tr = FALSE;
-	m->region.x = 0;
-	m->region.y = 0;
-	m->region.w = m->m->width;
-	m->region.h = m->m->height;
+	m->tr = 0;
+	m->regx = NULL;
+	m->regy = NULL;
+	m->regw = m->m->width;
+	m->regh = m->m->height;
 	
 	if (the_zero == NULL)
-		the_zero = gel_makenum_ui(0);
+		the_zero = gel_makenum_ui (0);
 	
 	return m;
 }
@@ -83,12 +149,10 @@ GelMatrixW *
 gel_matrixw_new_with_matrix(GelMatrix *mat)
 {
 	GelMatrixW *m;
-	if(!free_matrices)
-		m = g_new(GelMatrixW,1);
-	else {
-		m = (GelMatrixW *)free_matrices;
-		free_matrices = free_matrices->next;
-	}
+	NEW_MATRIX (m);
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
 	
 	m->m = mat;
 	m->m->use++;
@@ -99,257 +163,501 @@ gel_matrixw_new_with_matrix(GelMatrix *mat)
 	m->cached_value_only_rational = 0;
 	m->cached_value_only_integer = 0;
 	
-	m->tr = FALSE;
-	m->region.x = 0;
-	m->region.y = 0;
-	m->region.w = m->m->width;
-	m->region.h = m->m->height;
+	m->tr = 0;
+	m->regx = NULL;
+	m->regy = NULL;
+	m->regw = m->m->width;
+	m->regh = m->m->height;
 	
-	if(!the_zero)
-		the_zero = gel_makenum_ui(0);
+	if (the_zero == NULL)
+		the_zero = gel_makenum_ui (0);
 	
 	return m;
 }
 
-/*neww and newh do not actually guarantee that size,
-  they just prevent useless copying*/
+/* neww and newh do not actually guarantee that size,
+ * also note that these sizes are after transpose
+ * they just prevent useless copying*/
 static void
-make_us_a_copy(GelMatrixW *m, int neww, int newh)
+make_us_a_copy (GelMatrixW *m, int neww, int newh)
 {
 	GelMatrix *old;
 	int i,j;
 	int w,h;
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
 
-	if(m->m->use==1)
+	if (m->m->use == 1)
 		return;
 	
 	old = m->m;
 	
 	m->m = gel_matrix_new();
 	m->m->use = 1;
-	gel_matrix_set_size(m->m,neww,newh, TRUE /* padding */);
-	w = MIN(neww,m->region.w);
-	h = MIN(newh,m->region.h);
-	for(i=0;i<w;i++) {
-		for(j=0;j<h;j++) {
-			GelETree *t = gel_matrix_index(old,i+m->region.x,j+m->region.y);
-			gel_matrix_index(m->m,i,j) = copynode(t);
+	gel_matrix_set_size (m->m, neww, newh, TRUE /* padding */);
+	w = MIN (neww, m->regw);
+	h = MIN (newh, m->regh);
+	for (i = 0; i < w; i++) {
+		for(j = 0; j < h; j++) {
+			int mi = m->regx ? m->regx[i] : i;
+			int mj = m->regy ? m->regy[j] : j;
+			GelETree *t = gel_matrix_index (old, mi, mj);
+#ifdef MATRIX_DEBUG
+			printf ("(%d,%d) = (%d,%d)\n", i, j,mi, mj);
+#endif
+			gel_matrix_index (m->m, i, j) = copynode (t);
 		}
 	}
-	m->region.x = m->region.y = 0;
-	m->region.w = w;
-	m->region.h = h;
+
+	g_free (m->regx);
+	m->regx = NULL;
+	g_free (m->regy);
+	m->regy = NULL;
+	
+	m->regw = w;
+	m->regh = h;
 	old->use--;
+}
+
+/* This assumes that use > 1 and transpose has been dealt with */
+static void
+copy_with_region (GelMatrixW *m, int *regx, int *regy, int w, int h)
+{
+	GelMatrix *old;
+	int i, j;
+	int cw, ch;
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+
+	g_assert (m->m->use > 1);
+
+	old = m->m;
+	
+	m->m = gel_matrix_new();
+	m->m->use = 1;
+	gel_matrix_set_size (m->m, w, h, TRUE /* padding */);
+	cw = MIN (w, m->regw);
+	ch = MIN (h, m->regh);
+	for (i = 0; i < cw; i++) {
+		for(j = 0; j < ch; j++) {
+			int mi = m->regx ? m->regx[regx[i]] : regx[i];
+			int mj = m->regy ? m->regy[regy[j]] : regy[j];
+			GelETree *t = gel_matrix_index (old, mi, mj);
+			gel_matrix_index (m->m, i, j) = copynode (t);
+		}
+	}
+
+	g_free (m->regx);
+	m->regx = NULL;
+	g_free (m->regy);
+	m->regy = NULL;
+	
+	m->regw = w;
+	m->regh = h;
+	old->use--;
+}
+
+/* This assumes that use > 1 and transpose has been dealt with */
+static void
+copy_internal_region (GelMatrixW *m, int w, int h)
+{
+	GelMatrix *old;
+	int i, j;
+	int cw, ch;
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+
+	g_assert (m->m->use > 1);
+
+	old = m->m;
+	
+	m->m = gel_matrix_new();
+	m->m->use = 1;
+	gel_matrix_set_size (m->m, w, h, TRUE /* padding */);
+	cw = MIN (w, m->regw);
+	ch = MIN (h, m->regh);
+	for (i = 0; i < cw; i++) {
+		for(j = 0; j < ch; j++) {
+			int mi = m->regx ? m->regx[i] : i;
+			int mj = m->regy ? m->regy[j] : j;
+			GelETree *t = gel_matrix_index (old, mi, mj);
+			gel_matrix_index (m->m, i, j) = copynode (t);
+		}
+	}
+
+	g_free (m->regx);
+	m->regx = NULL;
+	g_free (m->regy);
+	m->regy = NULL;
+	
+	m->regw = w;
+	m->regh = h;
+	old->use--;
+}
+
+/* This ensures the size of the matrix,
+ * sizes are after transpose,
+ * make sure to work with a copy,
+ * note that this whacks regx and regy */
+static void
+ensure_at_least_size (GelMatrixW *m, int w, int h)
+{
+	g_assert (m->m->use == 1);
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+
+	if (m->regx == NULL && m->regy == NULL) {
+		gel_matrix_set_at_least_size (m->m, w, h);
+		if (w > m->regw)
+			m->regw = w;
+		if (h > m->regh)
+			m->regh = h;
+	} else {
+		/* FIXME: somewhat evil, but I think this is a degenerate case,
+		 * we will have regions when reffering to other matrices, not
+		 * really when we own a matrix I think.  At least in casual use */
+		GelMatrix *old;
+		int i,j;
+		int nw,nh;
+
+		old = m->m;
+
+		m->m = gel_matrix_new();
+		m->m->use = 1;
+		gel_matrix_set_size (m->m, w, h, TRUE /* padding */);
+		nw = MIN (w, m->regw);
+		nh = MIN (h, m->regh);
+		for (i = 0; i < nw; i++) {
+			for (j = 0; j < nh; j++) {
+				int mi = m->regx ? m->regx[i] : i;
+				int mj = m->regy ? m->regy[j] : j;
+				GelETree *t = gel_matrix_index (old, mi, mj);
+				if (t != NULL) {
+					gel_matrix_index (m->m,i,j) = t;
+					gel_matrix_index (old, mi, mj) = NULL;
+				}
+			}
+		}
+		for (i = 0; i < old->width; i++) {
+			for (j = 0; j < old->height; j++) {
+				GelETree *t = gel_matrix_index (old,i,j);
+				if (t != NULL)
+					gel_freetree (t);
+			}
+		}
+		gel_matrix_free (old);
+
+		g_free (m->regx);
+		m->regx = NULL;
+		g_free (m->regy);
+		m->regy = NULL;
+		m->regw = w;
+		m->regh = h;
+	}
 }
 
 /*set size of a matrix*/
 void
-gel_matrixw_set_size(GelMatrixW *m, int width, int height)
+gel_matrixw_set_size (GelMatrixW *m, int nwidth, int nheight)
 {
-	g_return_if_fail(m != NULL);
-	g_return_if_fail(width>=0);
-	g_return_if_fail(height>=0);
+	int width, height;
 
-	if(m->tr) {
-		int tmp = width;
-		width = height;
-		height = tmp;
-	}
-	
-	if(m->region.w >= width &&
-	   m->region.h >= height) {
-		/*if we're the sole owner, we'll have to zero out some things*/
-		if(m->m->use==1) {
-			int i,j;
-			for(i=m->region.x+width;i<m->region.w;i++) {
-				for(j=m->region.y;j<m->region.h;j++) {
-					if(gel_matrix_index(m->m,i,j)) {
-						gel_freetree(gel_matrix_index(m->m,i,j));
-						gel_matrix_index(m->m,i,j)=NULL;
-					}
-				}
-			}
-			for(i=m->region.x;i<width;i++) {
-				for(j=m->region.y+height;j<m->region.h;j++) {
-					if(gel_matrix_index(m->m,i,j)) {
-						gel_freetree(gel_matrix_index(m->m,i,j));
-						gel_matrix_index(m->m,i,j)=NULL;
-					}
-				}
-			}
-		}
-		m->region.w = width;
-		m->region.h = height;
-		return;
-	} else if(m->m->use>1) {
-		int i,j;
-		GelMatrix *old = m->m;
-		m->m = gel_matrix_new();
-		m->m->use = 1;
-		gel_matrix_set_size(m->m,width,height, TRUE /* padding */);
-		for(i=0;i<width;i++) {
-			for(j=0;j<height;j++) {
-				int oi,oj;
-				oi = i+m->region.x;
-				oj = j+m->region.y;
-				if(oi<m->region.w &&
-				   oj<m->region.h) {
-					GelETree *t = gel_matrix_index(old,oi,oj);
-					gel_matrix_index(m->m,i,j) = copynode(t);
-				}
-			}
-		}
-		m->region.x = m->region.y = 0;
-		m->region.w = width;
-		m->region.h = height;
-		old->use--;
+	g_return_if_fail (m != NULL);
+	g_return_if_fail (nwidth >= 0);
+	g_return_if_fail (nheight >= 0);
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+
+	if (m->tr) {
+		width = nheight;
+		height = nwidth;
 	} else {
-		int i,j;
-		for(i=0;i<m->m->width;i++) {
-			for(j=0;j<m->m->height;j++) {
-				int ni,nj;
-				ni = i-m->region.x;
-				nj = j-m->region.y;
-				if(ni<0 || ni>=width ||
-				   nj<0 || nj>=height) {
-					GelETree *t = gel_matrix_index(m->m,i,j);
-					if(t) {
-						gel_freetree(t);
-						gel_matrix_index(m->m,i,j) = NULL;
+		width = nwidth;
+		height = nheight;
+	}
+
+	if (m->regw >= width &&
+	    m->regh >= height) {
+		/*if we're the sole owner, we'll have to zero out some things*/
+		if (m->m->use == 1) {
+			int i, j;
+			/* if duplicates are found just do some
+			 * copying */
+			if (has_duplicates (m->regx, m->regw) ||
+			    has_duplicates (m->regy, m->regh)) {
+				GelMatrix *old = m->m;
+#ifdef MATRIX_DEBUG
+				/*debug*/printf ("HAS_DUPLICATES\n");
+#endif
+				/* evil */ old->use ++;
+				copy_internal_region (m, width, height);
+				internal_matrix_free (old);
+				return;
+			}
+			for (i = width; i < m->regw; i++) {
+				for (j = 0; j < m->regh; j++) {
+					int mi = m->regx ? m->regx[i] : i;
+					int mj = m->regy ? m->regy[j] : j;
+					if (gel_matrix_index (m->m, mi, mj) != NULL) {
+						gel_freetree(gel_matrix_index(m->m,mi,mj));
+						gel_matrix_index(m->m,mi,mj)=NULL;
+					}
+				}
+			}
+			for (i = 0; i < width; i++) {
+				for (j = height; j < m->regh; j++) {
+					int mi = m->regx ? m->regx[i] : i;
+					int mj = m->regy ? m->regy[j] : j;
+					if (gel_matrix_index (m->m, mi, mj) != NULL) {
+						gel_freetree(gel_matrix_index(m->m,mi,mj));
+						gel_matrix_index(m->m,mi,mj)=NULL;
 					}
 				}
 			}
 		}
-		gel_matrix_set_size(m->m,m->region.x+width,m->region.y+height, TRUE /* padding */);
-		m->region.w = width - m->region.x;
-		m->region.h = height - m->region.y;
+		m->regw = width;
+		m->regh = height;
+	} else if (m->m->use > 1) {
+		/* since the use is greater then 1, we WILL get a copy of this matrix at
+		 * the right size */
+		internal_make_private (m, width, height);
+		g_assert (m->m->use == 1);
+	} else /* m->m->use == 1 */{
+		ensure_at_least_size (m, width, height);
+		gel_matrixw_set_size (m, nwidth, nheight);
 	}
 }
 
 /*set the size of the matrix to be at least this*/
 void
-gel_matrixw_set_at_least_size(GelMatrixW *m, int width, int height)
+gel_matrixw_set_at_least_size (GelMatrixW *m, int width, int height)
 {
-	g_return_if_fail(m != NULL);
-	g_return_if_fail(width>=0);
-	g_return_if_fail(height>=0);
+	g_return_if_fail (m != NULL);
+	g_return_if_fail (width >= 0);
+	g_return_if_fail (height >= 0);
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
 
-	if(m->tr) {
+	if (m->tr) {
 		int tmp = width;
 		width = height;
 		height = tmp;
 	}
-	
-	if(width>m->region.w || height>m->region.h) {
-		make_us_a_copy(m,MAX(width,m->region.w),MAX(height,m->region.h));
-		gel_matrix_set_at_least_size(m->m,m->region.x+width,m->region.y+height);
+
+	if (width > m->regw || height > m->regh) {
+		/* FIXME: this may be a bit inefficent */
+		gel_matrixw_make_private (m);
+		make_us_a_copy (m, MAX (width, m->regw),MAX (height, m->regh));
+		ensure_at_least_size (m, width, height);
 	}
 }
 
 /*set element*/
 void
-gel_matrixw_set_element(GelMatrixW *m, int x, int y, gpointer data)
+gel_matrixw_set_element (GelMatrixW *m, int x, int y, gpointer data)
 {
 	GelETree *t;
-	g_return_if_fail(m != NULL);
-	g_return_if_fail(x>=0);
-	g_return_if_fail(y>=0);
-	
-	if(m->tr) {
-		int tmp = x;
-		x = y;
-		y = tmp;
-	}
 
-	make_us_a_copy(m,MAX(m->region.w,x+1),MAX(m->region.h,y+1));
-	if(x+1>m->region.w || y+1>m->region.h) {
-		gel_matrix_set_at_least_size(m->m,m->region.x+x+1,m->region.y+y+1);
-		m->region.w = MAX(m->region.w,x+1);
-		m->region.h = MAX(m->region.h,y+1);
+	g_return_if_fail (m != NULL);
+	g_return_if_fail (x >= 0);
+	g_return_if_fail (y >= 0);
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+
+	if (m->tr)
+		internal_make_private (m, MAX(m->regh, y+1), MAX(m->regw, x+1));
+	else
+		internal_make_private (m, MAX(m->regw, x+1), MAX(m->regh, y+1));
+	gel_matrixw_set_at_least_size (m, x+1, y+1);
+	t = gel_matrixw_set_index (m, x, y);
+	if (t != NULL)
+		gel_freetree (t);
+	gel_matrixw_set_index (m, x, y) = data;
+}
+
+/*set vector element*/
+void
+gel_matrixw_set_velement (GelMatrixW *m, int i, gpointer data)
+{
+	GelETree *t;
+	int x, y;
+
+	g_return_if_fail (m != NULL);
+	g_return_if_fail (i >= 0);
+
+	if (m->tr) {
+		if (m->regw == 1) {
+			x = 0;
+			y = i;
+		} else {
+			x = i % m->regh;
+			y = i / m->regh;
+		}
+		internal_make_private (m, MAX(m->regh, y+1), MAX(m->regw, x+1));
+	} else {
+		if (m->regh == 1) {
+			x = i;
+			y = 0;
+		} else {
+			x = i % m->regw;
+			y = i / m->regw;
+		}
+		internal_make_private (m, MAX(m->regw, x+1), MAX(m->regh, y+1));
 	}
-	
-	t = gel_matrix_index(m->m,m->region.x+x,m->region.y+y);
-	if(t) gel_freetree(t);
-	gel_matrix_index(m->m,m->region.x+x,m->region.y+y) = data;
+	gel_matrixw_set_at_least_size (m, x+1, y+1);
+	t = gel_matrixw_set_index (m, x, y);
+	if (t != NULL)
+		gel_freetree (t);
+	gel_matrixw_set_index (m, x, y) = data;
 }
 
 /*make sure it's in range first!*/
 GelMatrixW *
-gel_matrixw_get_region(GelMatrixW *m, int x, int y, int w, int h)
+gel_matrixw_get_region (GelMatrixW *m, int *regx, int *regy, int w, int h)
 {
 	GelMatrixW *new;
 	
-	g_return_val_if_fail(m != NULL,NULL);
-	g_return_val_if_fail(x>=0,NULL);
-	g_return_val_if_fail(y>=0,NULL);
-	g_return_val_if_fail(w>=0,NULL);
-	g_return_val_if_fail(h>=0,NULL);
+	g_return_val_if_fail (m != NULL, NULL);
+	g_return_val_if_fail (regx != NULL, NULL);
+	g_return_val_if_fail (regy != NULL, NULL);
+	g_return_val_if_fail (w >= 1, NULL);
+	g_return_val_if_fail (h >= 1, NULL);
 
-	if(m->tr) {
-		int tmp = x;
-		x = y;
-		y = tmp;
-		tmp = w;
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+
+	if (m->tr) {
+		int t;
+		int *tmp = regx;
+		regx = regy;
+		regy = tmp;
+		t = w;
 		w = h;
-		h = tmp;
+		h = t;
 	}
 	
-	new = gel_matrixw_copy(m);
-	if(x+w>m->region.w || y+h>m->region.h) {
-		make_us_a_copy(m,MAX(x+w,m->region.w),MAX(y+h,m->region.h));
-		gel_matrix_set_at_least_size(m->m,m->region.x+x+w,m->region.y+y+h);
+	new = gel_matrixw_copy (m);
+
+	if (getmax (regx, w) >= new->regw ||
+	    getmax (regy, h) >= new->regh) {
+		/* FIXME: maybe we can whack a bit of region stuff here,
+		 * instead of always copying, we sometimes don't have to
+		 * I think */
+		copy_with_region (new, regx, regy, w, h);
+		return new;
 	}
-	
-	new->region.x += x;
-	new->region.y += y;
-	new->region.w = w;
-	new->region.h = h;
+
+	if (new->regx == NULL) {
+		new->regx = g_new (int, w);
+		memcpy (new->regx, regx, sizeof(int)*w);
+	} else {
+		int i;
+		int *nregx = g_new (int, w);
+		for (i = 0; i < w; i++)
+			nregx[i] = new->regx[regx[i]];
+		g_free (new->regx);
+		new->regx = nregx;
+	}
+
+	new->regw = w;
+
+	if (new->regy == NULL) {
+		new->regy = g_new (int, h);
+		memcpy (new->regy, regy, sizeof(int)*h);
+	} else {
+		int i;
+		int *nregy = g_new (int, h);
+		for (i = 0; i < h; i++)
+			nregy[i] = new->regy[regy[i]];
+		g_free (new->regy);
+		new->regy = nregy;
+	}
+
+	new->regh = h;
 
 	return new;
 }
 
+/*make sure it's in range first!*/
+GelMatrixW *
+gel_matrixw_get_vregion (GelMatrixW *m, int *reg, int len)
+{
+	GelMatrix *vec;
+	int i;
+	
+	g_return_val_if_fail (m != NULL, NULL);
+	g_return_val_if_fail (reg != NULL, NULL);
+	g_return_val_if_fail (len >= 1, NULL);
+
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+
+	vec = gel_matrix_new ();
+	gel_matrix_set_size (vec, len, 1, FALSE /* padding */);
+
+	for (i = 0; i < len; i++) {
+		GelETree *t = gel_matrixw_set_vindex (m, reg[i]);
+		if (t != NULL)
+			t = copynode (t);
+		gel_matrix_index (vec, i, 0) = t;
+	}
+
+	return gel_matrixw_new_with_matrix (vec);
+}
+
 void
 gel_matrixw_set_region(GelMatrixW *m, GelMatrixW *src,
-		   int srcx, int srcy, int destx, int desty,
-		   int w, int h)
+		       int *destx, int *desty,
+		       int w, int h)
 {
-	int i,j;
+	int i, j;
+	int xmax, ymax;
 
-	g_return_if_fail(m != NULL);
-	g_return_if_fail(src != NULL);
-	g_return_if_fail(srcx>=0);
-	g_return_if_fail(srcy>=0);
-	g_return_if_fail(destx>=0);
-	g_return_if_fail(desty>=0);
-	g_return_if_fail(w>=0);
-	g_return_if_fail(h>=0);
+	g_return_if_fail (m != NULL);
+	g_return_if_fail (src != NULL);
+	g_return_if_fail (destx != NULL);
+	g_return_if_fail (desty != NULL);
+	g_return_if_fail (w >= 0);
+	g_return_if_fail (h >= 0);
 
-	if(m->tr) {
-		int tmp = destx;
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+
+	if (m->tr) {
+		int t;
+		int *tmp = destx;
 		destx = desty;
 		desty = tmp;
-		tmp = w;
+		t = w;
 		w = h;
-		h = tmp;
-	}
-	if(src->tr) {
-		int tmp = srcx;
-		srcx = srcy;
-		srcy = tmp;
-	}
-	make_us_a_copy(m,MAX(destx+w,m->region.w),MAX(desty+h,m->region.h));
-	if(destx+w>m->region.w || desty+h>m->region.h) {
-		gel_matrix_set_at_least_size(m->m,m->region.x+destx+w,m->region.y+desty+h);
-		m->region.w = MAX(m->region.w,destx+w);
-		m->region.h = MAX(m->region.h,desty+h);
+		h = t;
 	}
 	
-	for(i=0;i<w;i++) {
-		for(j=0;j<h;j++) {
-			int si,sj;
-			GelETree *t = gel_matrix_index(m->m,destx+m->region.x+i,desty+m->region.y+j);
-			if(t) gel_freetree(t);
-			if(m->tr == src->tr) {
+	xmax = getmax (destx, w);
+	ymax = getmax (desty, h);
+
+	/* FIXME: we will copy some nodes we don't need to copy
+	 * as we will free them just below */
+	internal_make_private (m, MAX (xmax+1, m->regw), MAX (ymax+1, m->regh));
+	ensure_at_least_size (m, xmax+1, ymax+1);
+	/* assume that's what ensure/make_us_a_copy does */
+	g_assert (m->regx == NULL && m->regy == NULL);
+
+	for (i = 0; i < w; i++) {
+		for ( j = 0; j < h; j++) {
+			int si, sj;
+			GelETree *t = gel_matrix_index (m->m, destx[i], desty[j]);
+			if (m->tr == src->tr) {
 				si = i;
 				sj = j;
 			} else {
@@ -357,70 +665,90 @@ gel_matrixw_set_region(GelMatrixW *m, GelMatrixW *src,
 				sj = i;
 			}
 
-			if(si>=src->region.w ||
-			   sj>=src->region.h) {
-				gel_matrix_index(m->m,destx+m->region.x+i,desty+m->region.y+j) = NULL;
+			if (si >= src->regw ||
+			    sj >= src->regh) {
+				gel_matrix_index (m->m, destx[i], desty[j]) = NULL;
 			} else {
-				gel_matrix_index(m->m,destx+m->region.x+i,desty+m->region.y+j) = 
-					copynode(gel_matrix_index(src->m,srcx+src->region.x+si,srcy+src->region.y+sj));
+				gel_matrix_index (m->m, destx[i], desty[j]) = copynode
+					(gel_matrix_index (src->m,
+							   src->regx ? src->regx[si] : si,
+							   src->regy ? src->regy[sj] : sj));
 			}
+			if (t != NULL) gel_freetree (t);
 		}
 	}
 }
 
 void
-gel_matrixw_set_region_etree(GelMatrixW *m, GelETree *src,
-			 int destx, int desty,
-			 int w, int h)
+gel_matrixw_set_region_etree (GelMatrixW *m, GelETree *src,
+			      int *destx, int *desty,
+			      int w, int h)
 {
-	int i,j;
+	int i, j;
+	int xmax, ymax;
 
-	g_return_if_fail(m != NULL);
-	g_return_if_fail(src != NULL);
-	g_return_if_fail(destx>=0);
-	g_return_if_fail(desty>=0);
-	g_return_if_fail(w>=0);
-	g_return_if_fail(h>=0);
+	g_return_if_fail (m != NULL);
+	g_return_if_fail (src != NULL);
+	g_return_if_fail (destx != NULL);
+	g_return_if_fail (desty != NULL);
+	g_return_if_fail (w >= 0);
+	g_return_if_fail (h >= 0);
 
-	if(m->tr) {
-		int tmp = destx;
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+
+	if (m->tr) {
+		int t;
+		int *tmp = destx;
 		destx = desty;
 		desty = tmp;
-		tmp = w;
+		t = w;
 		w = h;
-		h = tmp;
+		h = t;
 	}
-	make_us_a_copy(m,MAX(destx+w,m->region.w),MAX(desty+h,m->region.h));
-	if(destx+w>m->region.w || desty+h>m->region.h) {
-		gel_matrix_set_at_least_size(m->m,m->region.x+destx+w,m->region.y+desty+h);
-		m->region.w = MAX(m->region.w,destx+w);
-		m->region.h = MAX(m->region.h,desty+h);
-	}
-	
-	for(i=0;i<w;i++) {
-		for(j=0;j<h;j++) {
-			GelETree *t = gel_matrix_index(m->m,destx+m->region.x+i,desty+m->region.y+j);
-			if(t) gel_freetree(t);
-			gel_matrix_index(m->m,destx+m->region.x+i,desty+m->region.y+j) = copynode(src);
+
+	xmax = getmax (destx, w);
+	ymax = getmax (desty, h);
+
+	internal_make_private (m, MAX (xmax+1, m->regw), MAX (ymax+1, m->regh));
+	ensure_at_least_size (m, xmax+1, ymax+1);
+	/* assume that's what ensure/make_us_a_copy does */
+	g_assert (m->regx == NULL && m->regy == NULL);
+
+	for (i = 0; i < w; i++) {
+		for ( j = 0; j < h; j++) {
+			GelETree *t = gel_matrix_index (m->m, destx[i], desty[j]);
+			gel_matrix_index (m->m, destx[i], desty[j]) = copynode (src);
+			if (t != NULL)
+				gel_freetree (t);
 		}
 	}
 }
 
 /*copy a matrix*/
 GelMatrixW *
-gel_matrixw_copy(GelMatrixW *source)
+gel_matrixw_copy (GelMatrixW *source)
 {
 	GelMatrixW *m;
 
-	g_return_val_if_fail(source != NULL,NULL);
+	g_return_val_if_fail (source != NULL, NULL);
 
-	if(!free_matrices)
-		m = g_new(GelMatrixW,1);
-	else {
-		m = (GelMatrixW *)free_matrices;
-		free_matrices = free_matrices->next;
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+
+	NEW_MATRIX (m);
+	memcpy (m, source, sizeof (GelMatrixW));
+	if (m->regx != NULL) {
+		m->regx = g_new (int, m->regw);
+		memcpy (m->regx, source->regx, m->regw * sizeof (int));
 	}
-	memcpy(m,source,sizeof(GelMatrixW));
+	if (m->regy != NULL) {
+		m->regy = g_new (int, m->regh);
+		memcpy (m->regy, source->regy, m->regh * sizeof (int));
+	}
+
 	m->m->use++;
 	return m;
 }
@@ -430,8 +758,13 @@ gel_matrixw_rowsof (GelMatrixW *source)
 {
 	GelMatrix *mm;
 	int i, width, height;
+	int *reg;
 
 	g_return_val_if_fail (source != NULL, NULL);
+
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
 
 	width = gel_matrixw_width (source);
 	height = gel_matrixw_height (source);
@@ -439,15 +772,21 @@ gel_matrixw_rowsof (GelMatrixW *source)
 	mm = gel_matrix_new ();
 	gel_matrix_set_size (mm, 1, height, FALSE /* padding */);
 
+	reg = g_new (int, width);
+	for (i = 0; i < width; i++)
+		reg[i] = i;
+
 	for (i = 0; i < height; i++) {
 		GelETree *n;
 
 		GET_NEW_NODE (n);
 		n->type = MATRIX_NODE;
-		n->mat.matrix = gel_matrixw_get_region (source, 0, i, width, 1);
+		n->mat.matrix = gel_matrixw_get_region (source, reg, &i, width, 1);
 
 		gel_matrix_index (mm, 0, i) = n;
 	}
+
+	g_free (reg);
 		
 	return gel_matrixw_new_with_matrix (mm);
 }
@@ -457,8 +796,13 @@ gel_matrixw_columnsof (GelMatrixW *source)
 {
 	GelMatrix *mm;
 	int i, width, height;
+	int *reg;
 
 	g_return_val_if_fail (source != NULL, NULL);
+
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
 
 	width = gel_matrixw_width (source);
 	height = gel_matrixw_height (source);
@@ -466,16 +810,22 @@ gel_matrixw_columnsof (GelMatrixW *source)
 	mm = gel_matrix_new ();
 	gel_matrix_set_size (mm, width, 1, FALSE /* padding */);
 
+	reg = g_new (int, height);
+	for (i = 0; i < height; i++)
+		reg[i] = i;
+
 	for (i = 0; i < width; i++) {
 		GelETree *n;
 
 		GET_NEW_NODE (n);
 		n->type = MATRIX_NODE;
-		n->mat.matrix = gel_matrixw_get_region (source, i, 0, 1, height);
+		n->mat.matrix = gel_matrixw_get_region (source, &i, reg, 1, height);
 		n->mat.quoted = 0;
 
 		gel_matrix_index (mm, i, 0) = n;
 	}
+
+	g_free (reg);
 		
 	return gel_matrixw_new_with_matrix (mm);
 }
@@ -488,6 +838,10 @@ gel_matrixw_diagonalof (GelMatrixW *source)
 	int len;
 
 	g_return_val_if_fail (source != NULL, NULL);
+
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
 
 	width = gel_matrixw_width (source);
 	height = gel_matrixw_height (source);
@@ -514,6 +868,9 @@ gel_matrixw_transpose(GelMatrixW *m)
 	GelMatrixW *new;
 	
 	g_return_val_if_fail(m != NULL,NULL);
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
 	
 	new = gel_matrixw_copy(m);
 	new->tr = !new->tr;
@@ -521,10 +878,12 @@ gel_matrixw_transpose(GelMatrixW *m)
 }
 
 /*make private copy of the GelMatrix*/
-void
-gel_matrixw_make_private(GelMatrixW *m)
+static void
+internal_make_private (GelMatrixW *m, int w, int h)
 {
-	g_return_if_fail(m != NULL);
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
 
 	/* clear caches as we're gonna mess with this matrix */
 	m->cached_value_only = 0;
@@ -532,10 +891,35 @@ gel_matrixw_make_private(GelMatrixW *m)
 	m->cached_value_only_rational = 0;
 	m->cached_value_only_integer = 0;
 
-	if(m->m->use==1)
-		return;
+#ifdef MATRIX_DEBUG
+	printf ("Make private %p %d %d\n", m, w, h);
+#endif
 
-	make_us_a_copy(m,m->region.w,m->region.h);
+	if (m->m->use > 1 ||
+	    has_duplicates (m->regx, m->regw) ||
+	    has_duplicates (m->regy, m->regh)) {
+		GelMatrix *old = m->m;
+#ifdef MATRIX_DEBUG
+		/*debug*/printf ("HAS_DUPLICATES OR NEEDS COPY\n");
+		printf ("Has duplicates/copy internal %p %d %d\n", m, w, h);
+#endif
+		/* evil */ old->use ++;
+		copy_internal_region (m, w, h);
+		internal_matrix_free (old);
+		return;
+	}
+}
+
+/*make private copy of the GelMatrix*/
+void
+gel_matrixw_make_private (GelMatrixW *m)
+{
+	g_return_if_fail(m != NULL);
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+
+	internal_make_private (m, m->regw, m->regh);
 }
 
 /*free a matrix*/
@@ -547,19 +931,159 @@ gel_matrixw_free(GelMatrixW *m)
 	
 	g_return_if_fail(m != NULL);
 
-	if(m->m->use == 1) {
-		for(i=0;i<m->m->width;i++) {
-			for(j=0;j<m->m->height;j++) {
-				GelETree *t = gel_matrix_index(m->m,i,j);
-				if(t) gel_freetree(t);
-			}
-		}
-		gel_matrix_free(m->m);
-	} else
-		m->m->use--;
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+
+	internal_matrix_free (m->m);
 	
 	mf = (GelMatrixWFreeList *)m;
 	
 	mf->next = free_matrices;
 	free_matrices = mf;
+}
+
+void
+gel_matrixw_set_vregion (GelMatrixW *m, GelMatrixW *src, int *desti, int len)
+{
+	int srcelts;
+	int max;
+
+	g_return_if_fail (m != NULL);
+	g_return_if_fail (src != NULL);
+	g_return_if_fail (desti != NULL);
+	g_return_if_fail (len > 0);
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+
+	srcelts = src->regw * src->regh;
+	max = getmax (desti, len);
+
+	if (m->tr) {
+		int i;
+		if (m->regw == 1) {
+			internal_make_private (m, m->regw, MAX (max+1, m->regh));
+			ensure_at_least_size (m, m->regw, max+1);
+		} else {
+			int minw = (max / m->regh) + 1;
+			internal_make_private (m, MAX (minw, m->regw), m->regh);
+			ensure_at_least_size (m, minw, m->regh);
+		}
+		/* assume that's what ensure/make_us_a_copy does */
+		g_assert (m->regx == NULL && m->regy == NULL);
+
+		for (i = 0; i < len; i++) {
+			int x, y;
+			GelETree *t;
+			if (m->regw == 1) {
+				x = 0;
+				y = desti[i];
+			} else {
+				x = desti[i] / m->regh;
+				y = desti[i] % m->regh;
+			}
+			t = gel_matrix_index (m->m, x, y);
+
+			if (i >= srcelts) {
+				gel_matrix_index (m->m, x, y) = NULL;
+			} else {
+				GelETree *s = gel_matrixw_set_vindex (src, i);
+				if (s != NULL)
+					s = copynode (s);
+				gel_matrix_index (m->m, x, y) = s;
+			}
+
+			if (t != NULL)
+				gel_freetree (t);
+		}
+	} else {
+		int i;
+		if (m->regh == 1) {
+			internal_make_private (m, MAX (max+1, m->regw), m->regh);
+			ensure_at_least_size (m, max+1, m->regh);
+		} else {
+			int minh = (max / m->regw) + 1;
+			internal_make_private (m, m->regw, MAX (minh, m->regh));
+			ensure_at_least_size (m, m->regw, minh);
+		}
+		/* assume that's what ensure/make_us_a_copy does */
+		g_assert (m->regx == NULL && m->regy == NULL);
+
+		for (i = 0; i < len; i++) {
+			int x, y;
+			GelETree *t;
+			if (m->regh == 1) {
+				x = desti[i];
+				y = 0;
+			} else {
+				x = desti[i] / m->regw;
+				y = desti[i] % m->regw;
+			}
+			t = gel_matrix_index (m->m, x, y);
+
+			if (i >= srcelts) {
+				gel_matrix_index (m->m, x, y) = NULL;
+			} else {
+				GelETree *s = gel_matrixw_set_vindex (src, i);
+				if (s != NULL)
+					s = copynode (s);
+				gel_matrix_index (m->m, x, y) = s;
+			}
+
+			if (t != NULL)
+				gel_freetree (t);
+		}
+	}
+}
+
+void
+gel_matrixw_set_vregion_etree (GelMatrixW *m, GelETree *src, int *desti, int len)
+{
+	g_return_if_fail (m != NULL);
+	g_return_if_fail (src != NULL);
+	g_return_if_fail (desti != NULL);
+	g_return_if_fail (len > 0);
+
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+
+	if (m->tr) {
+		int max = getmax (desti, len);
+		int minw = (max / m->regh) + 1;
+		int i;
+
+		internal_make_private (m, MAX (minw, m->regw), m->regh);
+		ensure_at_least_size (m, minw, m->regh);
+		/* assume that's what ensure/make_us_a_copy does */
+		g_assert (m->regx == NULL && m->regy == NULL);
+
+		for (i = 0; i < len; i++) {
+			int x = desti[i] / m->regw;
+			int y = desti[i] % m->regw;
+			GelETree *t = gel_matrix_index (m->m, x, y);
+			gel_matrix_index (m->m, x, y) = copynode (src);
+			if (t != NULL)
+				gel_freetree (t);
+		}
+	} else {
+		int max = getmax (desti, len);
+		int minh = (max / m->regw) + 1;
+		int i;
+
+		internal_make_private (m, m->regw, MAX (minh, m->regh));
+		ensure_at_least_size (m, m->regw, minh);
+		/* assume that's what ensure/make_us_a_copy does */
+		g_assert (m->regx == NULL && m->regy == NULL);
+
+		for (i = 0; i < len; i++) {
+			int x = desti[i] % m->regw;
+			int y = desti[i] / m->regw;
+			GelETree *t = gel_matrix_index (m->m, x, y);
+			gel_matrix_index (m->m, x, y) = copynode (src);
+			if (t != NULL)
+				gel_freetree (t);
+		}
+	}
 }

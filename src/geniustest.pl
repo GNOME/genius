@@ -44,7 +44,7 @@ while(<TESTS>) {
 		print " (should be)=$shd\n";
 		print " (reported)=\n";
 		if($shd ne "") {
-			print "ERROR! NO OUTPUT\n";
+			print "\e[01:31mERROR! NO OUTPUT\e[0m\n";
 			$errors++;
 		}
 	}

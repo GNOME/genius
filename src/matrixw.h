@@ -38,12 +38,10 @@ struct _GelMatrixW {
 	guint32 value_only_rational:1;
 	guint32 cached_value_only_integer:1;
 	guint32 value_only_integer:1;
-	struct {
-		int x;
-		int y;
-		int w;
-		int h;
-	} region;
+	int *regx;
+	int *regy;
+	int regw;
+	int regh;
 };
 
 /*new matrix*/
@@ -57,6 +55,7 @@ void gel_matrixw_set_at_least_size(GelMatrixW *m, int width, int height);
 
 /*set element*/
 void gel_matrixw_set_element(GelMatrixW *m, int x, int y, gpointer data);
+void gel_matrixw_set_velement(GelMatrixW *m, int i, gpointer data);
 
 /*copy a matrix*/
 GelMatrixW * gel_matrixw_copy(GelMatrixW *source);
@@ -66,13 +65,19 @@ GelMatrixW * gel_matrixw_rowsof (GelMatrixW *source);
 GelMatrixW * gel_matrixw_columnsof (GelMatrixW *source);
 GelMatrixW * gel_matrixw_diagonalof (GelMatrixW *source);
 
-GelMatrixW * gel_matrixw_get_region(GelMatrixW *m, int x, int y, int w, int h);
+GelMatrixW * gel_matrixw_get_region (GelMatrixW *m, int *regx, int *regy, int w, int h);
+GelMatrixW * gel_matrixw_get_vregion (GelMatrixW *m, int *reg, int len);
 void gel_matrixw_set_region(GelMatrixW *m, GelMatrixW *src,
-			int srcx, int srcy, int destx, int desty,
-			int w, int h);
+			    int *destx, int *desty,
+			    int w, int h);
 void gel_matrixw_set_region_etree(GelMatrixW *m, GelETree *src,
-			      int destx, int desty,
-			      int w, int h);
+				  int *destx, int *desty,
+				  int w, int h);
+
+void gel_matrixw_set_vregion (GelMatrixW *m, GelMatrixW *src,
+			      int *desti, int len);
+void gel_matrixw_set_vregion_etree(GelMatrixW *m, GelETree *src,
+				  int *desti, int len);
 
 /*transpose a matrix*/
 GelMatrixW * gel_matrixw_transpose(GelMatrixW *m);
@@ -85,21 +90,28 @@ void gel_matrixw_make_private(GelMatrixW *m);
 
 extern GelETree *the_zero;
 
+/*sort of unsafe, and only for setting, since we can
+  get a NULL from this*/
+#define gel_matrixw_set_index(a,i,j) \
+	(gel_matrix_index((a)->m, \
+			  (a)->regx ? (a)->regx[(a)->tr?(j):(i)] : (a)->tr?(j):(i), \
+			  (a)->regy ? (a)->regy[(a)->tr?(i):(j)] : (a)->tr?(i):(j)))
+
 /*get the value at, make sure it's in the range*/
 G_INLINE_FUNC GelETree *gel_matrixw_index(GelMatrixW *m, int x, int y);
 #ifdef G_CAN_INLINE
 G_INLINE_FUNC GelETree *
 gel_matrixw_index(GelMatrixW *m, int x, int y) {
-	GelETree *t = gel_matrix_index(m->m,m->region.x+(m->tr?y:x),m->region.y+(m->tr?x:y));
+	GelETree *t = gel_matrixw_set_index (m, x, y);
 	return t?t:the_zero;
 }
 #endif
 
-/*sort of unsafe, and only for setting, since we can
-  get a NULL from this*/
-#define gel_matrixw_set_index(a,i,j) (gel_matrix_index((a)->m,(a)->region.x+((a)->tr?(j):(i)),(a)->region.y+((a)->tr?(i):(j))))
+#define gel_matrixw_vindex(m,i) gel_matrixw_index((m),i%gel_matrixw_width(m),i/gel_matrixw_width(m))
+#define gel_matrixw_set_vindex(m,i) gel_matrixw_set_index((m),i%gel_matrixw_width(m),i/gel_matrixw_width(m))
 
-#define gel_matrixw_width(a) ((a)->tr?(a)->region.h:(a)->region.w)
-#define gel_matrixw_height(a) ((a)->tr?(a)->region.w:(a)->region.h)
+#define gel_matrixw_width(a) ((a)->tr?(a)->regh:(a)->regw)
+#define gel_matrixw_height(a) ((a)->tr?(a)->regw:(a)->regh)
+#define gel_matrixw_elements(a) ((a)->regw*(a)->regh)
 
 #endif

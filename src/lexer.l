@@ -295,11 +295,6 @@ null		{ DO_RET; return '.'; }
 			return THREEDOTS;
 		}
 
-\.\.		{
-			NO_RET;
-			return REGION_SEP;
-		}
-		
 [[][\t ]*	{
 			matrix_entry++;
 			parenth_depth++;

@@ -1894,7 +1894,103 @@ SetMatrixSize_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return NULL;
 
 	n = copynode(a[0]);
-	gel_matrixw_set_size(n->mat.matrix,h,w);
+	gel_matrixw_set_size (n->mat.matrix, h, w);
+	return n;
+}
+
+static GelETree *
+IndexComplement_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GelETree *n;
+	GelMatrix *nm;
+	GelMatrixW *m;
+	int nml;
+	char *index;
+	int i, ii, ml;
+	int len;
+	if ((a[0]->type != MATRIX_NODE &&
+	     a[0]->type != VALUE_NODE) ||
+	    a[1]->type != VALUE_NODE) {
+		(*errorout)(_("IndexComplement: wrong argument type"));
+		return NULL;
+	}
+
+	len = get_nonnegative_integer (a[1]->val.value, "IndexComplement");
+	if (len < 0)
+		return NULL;
+	if (a[0]->type == MATRIX_NODE) {
+		index = g_new0 (char, len);
+
+		m = a[0]->mat.matrix;
+		ml = gel_matrixw_elements (m);
+		nml = len;
+		for (i = 0; i < ml; i++) {
+			GelETree *t = gel_matrixw_vindex (m, i);
+			int elt;
+			if (t->type != VALUE_NODE) {
+				(*errorout)(_("IndexComplement: vector argument not value only"));
+				g_free (index);
+				return NULL;
+			}
+			elt = get_nonnegative_integer (t->val.value, "IndexComplement");
+			if (elt < 0) {
+				g_free (index);
+				return NULL;
+			}
+			elt--;
+			if (elt >= len) {
+				(*errorout)(_("IndexComplement: vector argument has too large entries"));
+				g_free (index);
+				return NULL;
+			}
+
+			if (index[elt] == 0) {
+				nml --;
+				index[elt] = 1;
+			}
+		}
+
+		if (nml <= 0)
+			return gel_makenum_null ();
+
+		nm = gel_matrix_new ();
+		gel_matrix_set_size (nm, nml, 1, FALSE /* padding */);
+		ii = 0;
+		for (i = 0; i < len; i++) {
+			if (index[i] == 0) {
+				gel_matrix_index (nm, ii++, 0) = gel_makenum_ui (i+1);
+			}
+		}
+
+		g_free (index);
+	} else {
+		int elt = get_nonnegative_integer (a[0]->val.value, "IndexComplement");
+		if (elt < 0)
+			return NULL;
+		if (elt > len) {
+			(*errorout)(_("IndexComplement: vector argument has too large entries"));
+			return NULL;
+		}
+		if (len == 1 && elt == 1)
+			return gel_makenum_null ();
+
+		nm = gel_matrix_new ();
+		gel_matrix_set_size (nm, len-1, 1, FALSE /* padding */);
+		ii = 0;
+		for (i = 1; i <= len; i++) {
+			if (i != elt)
+				gel_matrix_index (nm, ii++, 0) = gel_makenum_ui (i);
+		}
+	}
+
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_new_with_matrix (nm);
+	if (a[0]->type == MATRIX_NODE)
+		n->mat.quoted = a[0]->mat.quoted;
+	else
+		n->mat.quoted = 1;
+
 	return n;
 }
 
@@ -3018,6 +3114,7 @@ gel_funclib_addall(void)
 	ALIAS (Determinant, 1, det);
 
 	FUNC (SetMatrixSize, 3, "M,rows,columns", "matrix", _("Make new matrix of given size from old one"));
+	FUNC (IndexComplement, 2, "vec,msize", "matrix", _("Return the index complement of a vector of indexes"));
 
 	FUNC (IsValueOnly, 1, "M", "matrix", _("Check if a matrix is a matrix of numbers"));
 	FUNC (IsMatrixInteger, 1, "M", "matrix", _("Check if a matrix is an integer (non-complex) matrix"));

@@ -189,9 +189,9 @@ branches(int op)
 		case E_LOGICAL_XOR: return 2;
 		case E_LOGICAL_NOT: return 1;
 		case E_REGION_SEP: return 2;
+		case E_REGION_SEP_BY: return 3;
 		case E_GET_VELEMENT: return 2;
 		case E_GET_ELEMENT: return 3;
-		case E_GET_REGION: return 3;
 		case E_GET_ROW_REGION: return 2;
 		case E_GET_COL_REGION: return 2;
 		case E_QUOTE: return 1;
@@ -1020,8 +1020,8 @@ eqmatrix(GelETree *a, GelETree *b, int *error)
 					GelETree *t1,*t2;
 					t1 = gel_matrixw_index(m1,i,j);
 					t2 = gel_matrixw_index(m2,i,j);
-					if(mpw_cmp(t1->val.value,
-						   t2->val.value)!=0) {
+					if ( ! mpw_eql (t1->val.value,
+							t2->val.value)) {
 						r = FALSE;
 						break;
 					}
@@ -1055,7 +1055,7 @@ eqmatrix(GelETree *a, GelETree *b, int *error)
 				*error = TRUE;
 				return 0;
 			}
-			r = mpw_cmp(t->val.value,a->val.value)==0;
+			r = mpw_eql(t->val.value,a->val.value);
 		}
 	} else
 		g_assert_not_reached();
@@ -1913,9 +1913,9 @@ static const GelOper prim_table[E_OPER_LAST] = {
 		 {{GO_VALUE|GO_STRING,0,0},(GelEvalFunc)logicalnotop},
 	 }},
 	/*E_REGION_SEP*/ EMPTY_PRIM,
+	/*E_REGION_SEP_BY*/ EMPTY_PRIM,
 	/*E_GET_VELEMENT*/ EMPTY_PRIM,
 	/*E_GET_ELEMENT*/ EMPTY_PRIM,
-	/*E_GET_REGION*/ EMPTY_PRIM,
 	/*E_GET_ROW_REGION*/ EMPTY_PRIM,
 	/*E_GET_COL_REGION*/ EMPTY_PRIM,
 	/*E_QUOTE*/ EMPTY_PRIM,
@@ -3439,7 +3439,7 @@ iter_bailout_op(GelCtx *ctx)
 }
 
 static int
-iter_get_matrix_index_num(GelETree *num)
+iter_get_ui_index (GelETree *num)
 {
 	long i;
 	if(num->type != VALUE_NODE ||
@@ -3463,58 +3463,78 @@ iter_get_matrix_index_num(GelETree *num)
 	return i;
 }
 
-static int
-iter_get_index_region(GelETree *num, int *from, int *to)
+static int *
+iter_get_matrix_index_vector (GelETree *index, int maxsize, int *vlen)
 {
-	if(num->type == OPERATOR_NODE &&
-	   num->op.oper == E_REGION_SEP) {
-		g_assert(num->op.args);
-		g_assert(num->op.args->any.next);
-		*from = iter_get_matrix_index_num(num->op.args);
-		if(*from == -1) return FALSE;
-		*to = iter_get_matrix_index_num(num->op.args->any.next);
-		if(*to == -1) return FALSE;
-		if(*from>*to) {
-			(*errorout)(_("Matrix 'to' index less then 'from' index"));
-			return FALSE;
+	int i;
+	int reglen = gel_matrixw_elements (index->mat.matrix);
+	int *reg = g_new (int, reglen);
+
+	*vlen = reglen;
+
+	for (i = 0; i < reglen; i++) {
+		GelETree *it = gel_matrixw_vindex (index->mat.matrix, i);
+		reg[i] = iter_get_ui_index (it) - 1;
+		if (reg[i] < 0) {
+			g_free (reg);
+			return NULL;
+		} else if (reg[i] >= maxsize) {
+			g_free (reg);
+			(*errorout)(_("Matrix index out of range"));
+			return NULL;
 		}
-	} else {
-		*from = *to = iter_get_matrix_index_num(num);
-		if(*from == -1) return FALSE;
+	}
+	return reg;
+}
+
+/* assumes index->type == VALUE_NODE */
+static inline int
+iter_get_matrix_index_num (GelETree *index, int maxsize)
+{
+	int i = iter_get_ui_index (index) - 1;
+	if (i < 0) {
+		return -1;
+	} else if (i >= maxsize) {
+		(*errorout)(_("Matrix index out of range"));
+		return -1;
+	}
+	return i;
+}
+
+static gboolean
+iter_get_index_region (GelETree *index, int maxsize, int **reg, int *l)
+{
+	if (index->type == VALUE_NODE) {
+		int i = iter_get_matrix_index_num (index, maxsize);
+		if (i < 0)
+			return FALSE;
+		*reg = g_new (int, 1);
+		(*reg)[0] = i;
+		*l = 1;
+	} else /* MATRIX_NODE */ {
+		*reg = iter_get_matrix_index_vector (index, maxsize, l);
+		if (*reg == NULL)
+			return FALSE;
 	}
 	return TRUE;
 }
 
-static int
-iter_get_matrix_index(GelETree *n,
-		      int do_row, int do_column,
-		      int *rowfrom, int *rowto,
-		      int *colfrom, int *colto)
+/* correct types already (value or matrix) */
+static gboolean
+iter_get_index_regions (GelETree *i1, GelETree *i2,
+			int max1, int max2,
+			int **reg1, int **reg2,
+			int *l1, int *l2)
 {
-	GelETree *l,*r,*m;
-	if(do_row && do_column) {
-		GET_LRR(n,m,l,r);
-	} else if(do_row) {
-		GET_LR(n,m,l);
-		r = NULL;
-	} else /*if(do_column)*/ {
-		GET_LR(n,m,r);
-		l = NULL;
-	}
-
-	if(do_row) {
-		if(!iter_get_index_region(l,rowfrom,rowto))
-			return FALSE;
-	}
-	if(do_column) {
-		if(!iter_get_index_region(r,colfrom,colto))
-			return FALSE;
-	}
+	if ( ! iter_get_index_region (i1, max1, reg1, l1))
+		return FALSE;
+	if ( ! iter_get_index_region (i2, max2, reg2, l2))
+		return FALSE;
 	return TRUE;
 }
 
 static GelMatrixW *
-iter_get_matrix_p(GelETree *m, int *new_matrix)
+iter_get_matrix_p(GelETree *m, gboolean *new_matrix)
 {
 	GelMatrixW *mat = NULL;
 	
@@ -3634,7 +3654,6 @@ iter_equalsop(GelETree *n)
 	if(l->type != IDENTIFIER_NODE &&
 	   !(l->type == OPERATOR_NODE && l->op.oper == E_GET_VELEMENT) &&
 	   !(l->type == OPERATOR_NODE && l->op.oper == E_GET_ELEMENT) &&
-	   !(l->type == OPERATOR_NODE && l->op.oper == E_GET_REGION) &&
 	   !(l->type == OPERATOR_NODE && l->op.oper == E_GET_COL_REGION) &&
 	   !(l->type == OPERATOR_NODE && l->op.oper == E_GET_ROW_REGION) &&
 	   !(l->type == OPERATOR_NODE && l->op.oper == E_DEREFERENCE)) {
@@ -3706,99 +3725,169 @@ iter_equalsop(GelETree *n)
 		}
 	} else if(l->op.oper == E_GET_ELEMENT) {
 		GelMatrixW *mat;
-		int li,ri; 
+		GelETree *m, *index1, *index2;
+		GET_LRR (l, m, index1, index2);
 
-		if(!iter_get_matrix_index(l,TRUE,TRUE,&li,&li,&ri,&ri))
+		if (index1->type == VALUE_NODE &&
+		    index2->type == VALUE_NODE) {
+			int x, y;
+
+			x = iter_get_matrix_index_num (index2, INT_MAX);
+			if (x < 0)
+				return;
+			y = iter_get_matrix_index_num (index1, INT_MAX);
+			if (y < 0)
+				return;
+
+			mat = iter_get_matrix_p (l->op.args, NULL);
+			if (mat == NULL)
+				return;
+
+			gel_matrixw_set_element (mat, x, y, copynode (r));
+		} else if ((index1->type == VALUE_NODE ||
+			    index1->type == MATRIX_NODE) &&
+			   (index2->type == VALUE_NODE ||
+			    index2->type == MATRIX_NODE)) {
+			int *regx, *regy;
+			int lx, ly;
+
+			if ( ! iter_get_index_regions (index1, index2,
+						       INT_MAX, INT_MAX,
+						       &regy, &regx,
+						       &ly, &lx))
+				return;
+
+			if (r->type == MATRIX_NODE &&
+			    (gel_matrixw_width (r->mat.matrix) != lx ||
+			     gel_matrixw_height (r->mat.matrix) != ly)) {
+				g_free (regx);
+				g_free (regy);
+				(*errorout)(_("Wrong matrix dimensions when setting"));
+				return;
+			}
+
+			mat = iter_get_matrix_p (l->op.args, NULL);
+			if (mat == NULL) {
+				g_free (regx);
+				g_free (regy);
+				return;
+			}
+
+			if (r->type == MATRIX_NODE)
+				gel_matrixw_set_region (mat, r->mat.matrix, regx, regy, lx, ly);
+			else
+				gel_matrixw_set_region_etree (mat, r, regx, regy, lx, ly);
+			g_free (regx);
+			g_free (regy);
+		} else {
+			(*errorout)(_("Matrix index not an integer or a vector"));
 			return;
-
-		if(!(mat = iter_get_matrix_p(l->op.args,NULL)))
-			return;
-
-		gel_matrixw_set_element(mat,ri-1,li-1,copynode(r));
+		}
 	} else if(l->op.oper == E_GET_VELEMENT) {
 		GelMatrixW *mat;
-		int li; 
+		GelETree *m, *index;
+		GET_LR (l, m, index);
 
-		if(!iter_get_matrix_index(l,TRUE,FALSE,&li,&li,NULL,NULL))
-			return;
+		if (index->type == VALUE_NODE) {
+			int i;
 
-		if(!(mat = iter_get_matrix_p(l->op.args,NULL)))
-			return;
+			i = iter_get_matrix_index_num (index, INT_MAX);
+			if (i < 0)
+				return;
 
-		if(gel_matrixw_height(mat)==1) {
-			gel_matrixw_set_element(mat,li-1,0,copynode(r));
-		} else if(gel_matrixw_width(mat)==1) {
-			gel_matrixw_set_element(mat,0,li-1,copynode(r));
+			mat = iter_get_matrix_p (l->op.args, NULL);
+			if (mat == NULL)
+				return;
+
+			gel_matrixw_set_velement (mat, i, copynode (r));
+		} else if (index->type == MATRIX_NODE) {
+			int *reg;
+			int len;
+
+			if ( ! iter_get_index_region (index, INT_MAX,
+						      &reg, &len))
+				return;
+
+			mat = iter_get_matrix_p (l->op.args, NULL);
+			if (mat == NULL) {
+				g_free (reg);
+				return;
+			}
+
+			if (r->type == MATRIX_NODE)
+				gel_matrixw_set_vregion (mat, r->mat.matrix, reg, len);
+			else
+				gel_matrixw_set_vregion_etree (mat, r, reg, len);
+			g_free (reg);
 		} else {
-			int x,y;
-			x = (li-1)%gel_matrixw_width(mat);
-			y = (li-1)/gel_matrixw_width(mat);
-			gel_matrixw_set_element(mat,x,y,copynode(r));
+			(*errorout)(_("Matrix index not an integer or a vector"));
+			return;
 		}
-	} else /*l->data.oper == E_GET_REGION E_GET_COL_REGION E_GET_ROW_REGION*/ {
+	} else /*l->data.oper == E_GET_COL_REGION E_GET_ROW_REGION*/ {
 		GelMatrixW *mat;
-		int rowfrom,rowto,colfrom,colto; 
-		int w,h;
-		int new_matrix = FALSE;
-		int do_col,do_row;
-		
-		if(l->op.oper == E_GET_REGION) {
-			do_col = TRUE;
-			do_row = TRUE;
-		} else if(l->op.oper == E_GET_ROW_REGION) {
-			do_col = FALSE;
-			do_row = TRUE;
-		} else /*E_GET_COL_REGION*/ {
-			do_col = TRUE;
-			do_row = FALSE;
-		}
+		GelETree *m, *index;
+		GET_LR (l, m, index);
 
-		if(!iter_get_matrix_index(l,do_row,do_col,&rowfrom,&rowto,&colfrom,&colto))
-			return;
-		
-		if(!(mat = iter_get_matrix_p(l->op.args,&new_matrix)))
-			return;
-		
-		if(!do_row) {
-			rowfrom = 1;
-			if(new_matrix) {
-				if(r->type == MATRIX_NODE)
-					rowto = gel_matrixw_height(r->mat.matrix);
-				else
-					rowto = 1;
-			} else
-				rowto = gel_matrixw_height(mat);
-		}
-		if(!do_col) {
-			colfrom = 1;
-			if(new_matrix) {
-				if(r->type == MATRIX_NODE)
-					colto = gel_matrixw_width(r->mat.matrix);
-				else
-					colto = 1;
-			} else
-				colto = gel_matrixw_width(mat);
-		}
-		
-		w = colto-colfrom+1;
-		h = rowto-rowfrom+1;
+		if (index->type == VALUE_NODE ||
+		    index->type == MATRIX_NODE) {
+			int *regx, *regy;
+			int lx, ly;
+			int i;
 
-		/*weirdly written boolean expression, it's if these
-		  conditions AREN'T met then get out, it was just
-		  easier to write it this way*/
-		if(!(r->type != MATRIX_NODE ||
-		     (gel_matrixw_width(r->mat.matrix) == w &&
-		      gel_matrixw_height(r->mat.matrix) == h))) {
-			(*errorout)(_("Can't set a region to a region of a different size"));
-			return;
-		}
-		
-		if(r->type == MATRIX_NODE) {
-			gel_matrixw_set_region(mat,r->mat.matrix,0,0,
-					       colfrom-1,rowfrom-1,w,h);
+			if (l->op.oper == E_GET_COL_REGION) {
+				if ( ! iter_get_index_region (index, INT_MAX, &regx, &lx))
+					return;
+				if (r->type == MATRIX_NODE &&
+				    gel_matrixw_width (r->mat.matrix) != lx) {
+					g_free (regx);
+					(*errorout)(_("Wrong matrix dimensions when setting"));
+					return;
+				}
+			} else {
+				if ( ! iter_get_index_region (index, INT_MAX, &regy, &ly))
+					return;
+				if (r->type == MATRIX_NODE &&
+				    gel_matrixw_height (r->mat.matrix) != ly) {
+					g_free (regy);
+					(*errorout)(_("Wrong matrix dimensions when setting"));
+					return;
+				}
+			}
+
+			mat = iter_get_matrix_p (l->op.args, NULL);
+			if (mat == NULL) {
+				g_free (regx);
+				g_free (regy);
+				return;
+			}
+
+			if (l->op.oper == E_GET_COL_REGION) {
+				ly = gel_matrixw_height (mat);
+				if (r->type == MATRIX_NODE &&
+				    ly < gel_matrixw_height (r->mat.matrix))
+					ly = gel_matrixw_height (r->mat.matrix);
+				regy = g_new (int, ly);
+				for (i = 0; i < ly; i++)
+					regy[i] = i;
+			} else {
+				lx = gel_matrixw_width (mat);
+				if (r->type == MATRIX_NODE &&
+				    lx < gel_matrixw_width (r->mat.matrix))
+					lx = gel_matrixw_width (r->mat.matrix);
+				regx = g_new (int, lx);
+				for (i = 0; i < lx; i++)
+					regx[i] = i;
+			}
+
+			if (r->type == MATRIX_NODE)
+				gel_matrixw_set_region (mat, r->mat.matrix, regx, regy, lx, ly);
+			else
+				gel_matrixw_set_region_etree (mat, r, regx, regy, lx, ly);
+			g_free (regx);
+			g_free (regy);
 		} else {
-			gel_matrixw_set_region_etree(mat,r,
-						    colfrom-1,rowfrom-1,w,h);
+			(*errorout)(_("Matrix index not an integer or a vector"));
+			return;
 		}
 	}
 	/*remove from arglist so that it doesn't get freed on replacenode*/
@@ -3837,8 +3926,7 @@ iter_push_indexes_and_arg(GelCtx *ctx, GelETree *n)
 
 	GET_L(n,l);
 	
-	if(l->op.oper == E_GET_ELEMENT ||
-	   l->op.oper == E_GET_REGION) {
+	if (l->op.oper == E_GET_ELEMENT) {
 		GelETree *ll,*rr;
 		
 		GET_LRR(l,ident,ll,rr);
@@ -3864,101 +3952,174 @@ iter_push_indexes_and_arg(GelCtx *ctx, GelETree *n)
 }
 
 static void
-iter_get_element(GelETree *n)
+iter_get_velement (GelETree *n)
 {
 	GelETree *m;
-	int li,ri; 
+	GelETree *index;
 
-	m = n->op.args;
+	GET_LR (n, m, index);
 
-	if(m->type != MATRIX_NODE) {
+	if (m->type != MATRIX_NODE) {
 		(*errorout)(_("Index works only on matricies"));
 		return;
 	}
-	
-	if(n->op.oper==E_GET_ELEMENT) {
-		if(!iter_get_matrix_index(n,TRUE,TRUE,&li,&li,&ri,&ri))
-			return;
-	} else /*E_GET_VELEMENT*/ {
-		if(!iter_get_matrix_index(n,TRUE,FALSE,&li,&li,NULL,NULL))
-			return;
-	}
 
-	if(n->op.oper == E_GET_VELEMENT) {
-		ri = ((li-1)%gel_matrixw_width(m->mat.matrix))+1;
-		li = ((li-1)/gel_matrixw_width(m->mat.matrix))+1;
+	if (index->type == VALUE_NODE) {
+		GelETree *t;
+		int i = iter_get_matrix_index_num (index, gel_matrixw_elements (m->mat.matrix));
+		if (i < 0)
+			return;
+		t = copynode (gel_matrixw_vindex (m->mat.matrix, i));
+		replacenode (n, t);
+	} else if (index->type == MATRIX_NODE) {
+		GelMatrixW *vec;
+		int matsize = gel_matrixw_elements (m->mat.matrix);
+		int quoted = m->mat.quoted;
+		int *reg;
+		int reglen;
+
+		reg = iter_get_matrix_index_vector (index, matsize, &reglen);
+		if (reg == NULL)
+			return;
+
+		vec = gel_matrixw_get_vregion (m->mat.matrix, reg, reglen);
+		g_free (reg);
+
+		freetree_full (n, TRUE /* freeargs */, FALSE /* kill */);
+		n->type = MATRIX_NODE;
+		n->mat.matrix = vec;
+		n->mat.quoted = quoted;
+	} else {
+		(*errorout)(_("Vector index not an integer or a vector"));
 	}
-	
-	if(gel_matrixw_width(m->mat.matrix) < ri ||
-	   gel_matrixw_height(m->mat.matrix) < li) {
-		(*errorout)(_("Matrix index out of range"));
-		return;
-	}
-	
-	replacenode(n,copynode(gel_matrixw_index(m->mat.matrix,ri-1,li-1)));
 }
 
 static void
-iter_get_region(GelETree *n)
+iter_get_element (GelETree *n)
 {
-	GelETree *m;
-	int rowfrom,rowto,colfrom,colto; 
-	int w,h;
-	int do_col,do_row;
-	GelMatrixW *mat;
+	GelETree *m, *index1, *index2;
 
-	m = n->op.args;
+	GET_LRR (n, m, index1, index2);
 
 	if(m->type != MATRIX_NODE) {
 		(*errorout)(_("Index works only on matricies"));
 		return;
 	}
 
-	if(n->op.oper == E_GET_REGION) {
-		do_col = TRUE;
-		do_row = TRUE;
-	} else if(n->op.oper == E_GET_ROW_REGION) {
-		do_col = FALSE;
-		do_row = TRUE;
-	} else /*E_GET_COL_REGION*/ {
-		do_col = TRUE;
-		do_row = FALSE;
-	}
+	if (index1->type == VALUE_NODE &&
+	    index2->type == VALUE_NODE) {
+		int x, y;
+		GelETree *t;
 
-	if(!iter_get_matrix_index(n,do_row,do_col,&rowfrom,&rowto,&colfrom,&colto))
+		x = iter_get_matrix_index_num (index2, gel_matrixw_width (m->mat.matrix));
+		if (x < 0)
+			return;
+		y = iter_get_matrix_index_num (index1, gel_matrixw_height (m->mat.matrix));
+		if (y < 0)
+			return;
+
+		/* make sure we don't free the args just yet */
+		n->op.args = NULL;
+
+		/* we will free this matrix in just a little bit */
+		t = gel_matrixw_set_index (m->mat.matrix, x, y);
+		if (m->mat.matrix->m->use == 1 && t != NULL) {
+			replacenode (n, t);
+			gel_matrixw_set_index (m->mat.matrix, x, y) = NULL;
+		} else if (t == NULL) {
+			freetree_full (n, FALSE /* freeargs */, FALSE /* kill */);
+			gel_makenum_ui_from (n, 0);
+		} else {
+			replacenode (n, copynode (t));
+		}
+
+		/* free the args now */
+		gel_freetree (m);
+		gel_freetree (index1);
+		gel_freetree (index2);
+	} else if ((index1->type == VALUE_NODE ||
+		    index1->type == MATRIX_NODE) &&
+		   (index2->type == VALUE_NODE ||
+		    index2->type == MATRIX_NODE)) {
+		GelMatrixW *mat;
+		int *regx, *regy;
+		int lx, ly;
+		int maxx, maxy;
+		int quoted = m->mat.quoted;
+
+		maxx = gel_matrixw_width (m->mat.matrix);
+		maxy = gel_matrixw_height (m->mat.matrix);
+
+		if ( ! iter_get_index_regions (index1, index2,
+					       maxy, maxx,
+					       &regy, &regx,
+					       &ly, &lx))
+			return;
+
+		mat = gel_matrixw_get_region (m->mat.matrix, regx, regy, lx, ly);
+		g_free (regx);
+		g_free (regy);
+
+		freetree_full (n, TRUE /* freeargs */, FALSE /* kill */);
+		n->type = MATRIX_NODE;
+		n->mat.matrix = mat;
+		n->mat.quoted = quoted;
+	} else {
+		(*errorout)(_("Matrix index not an integer or a vector"));
+	}
+}
+
+static void
+iter_get_region (GelETree *n, gboolean col)
+{
+	GelETree *m, *index;
+
+	GET_LR (n, m, index);
+
+	if(m->type != MATRIX_NODE) {
+		(*errorout)(_("Index works only on matricies"));
 		return;
-
-	if(!do_row) {
-		rowfrom = 1;
-		rowto = gel_matrixw_height(m->mat.matrix);
-	}
-	if(!do_col) {
-		colfrom = 1;
-		colto = gel_matrixw_width(m->mat.matrix);
 	}
 
-	w = colto-colfrom+1;
-	h = rowto-rowfrom+1;
+	if (index->type == VALUE_NODE ||
+	    index->type == MATRIX_NODE) {
+		GelMatrixW *mat;
+		int *regx, *regy;
+		int lx, ly;
+		int i;
+		int maxx, maxy;
+		int quoted = m->mat.quoted;
 
-	if(colto > gel_matrixw_width(m->mat.matrix) ||
-	   rowto > gel_matrixw_height(m->mat.matrix)) {
-		(*errorout)(_("Index out of range"));
-		return;
+		maxx = gel_matrixw_width (m->mat.matrix);
+		maxy = gel_matrixw_height (m->mat.matrix);
+
+		if (col) {
+			if ( ! iter_get_index_region (index, maxx, &regx, &lx))
+				return;
+			regy = g_new (int, maxy);
+			for (i = 0; i < maxy; i++)
+				regy[i] = i;
+			ly = maxy;
+		} else {
+			if ( ! iter_get_index_region (index, maxy, &regy, &ly))
+				return;
+			regx = g_new (int, maxx);
+			for (i = 0; i < maxx; i++)
+				regx[i] = i;
+			lx = maxx;
+		}
+
+		mat = gel_matrixw_get_region (m->mat.matrix, regx, regy, lx, ly);
+		g_free (regx);
+		g_free (regy);
+
+		freetree_full (n, TRUE /* freeargs */, FALSE /* kill */);
+		n->type = MATRIX_NODE;
+		n->mat.matrix = mat;
+		n->mat.quoted = quoted;
+	} else {
+		(*errorout)(_("Matrix index not an integer or a vector"));
 	}
-	
-	/*XXX: This should be possible in faster manner by
-	  just adjusting the region structure of GelMatrixW, so this
-	  is a definate future optimization*/
-	
-	/*remove m from the arglist*/
-	n->op.args = n->op.args->any.next;
-	
-	mat = m->mat.matrix;
-
-	m->mat.matrix = gel_matrixw_get_region(mat, colfrom-1,rowfrom-1,w,h);
-	gel_matrixw_free(mat);
-	
-	replacenode(n,m);
 }
 
 static inline guint32
@@ -4096,6 +4257,87 @@ iter_call1(GelCtx *ctx, const GelOper *op, GelETree *n)
 	return TRUE;
 }
 
+static void
+iter_region_sep_op (GelCtx *ctx, GelETree *n)
+{
+	GelETree *from, *to, *by = NULL;
+	GelETree *vect = NULL;
+	GelMatrix *mat;
+	int bysgn = 1, cmp, initcmp, count, i;
+	mpw_t tmp;
+	if (n->op.oper == E_REGION_SEP_BY) {
+		GET_LRR (n, from, by, to);
+		if (from->type != VALUE_NODE ||
+		    to->type != VALUE_NODE ||
+		    by->type != VALUE_NODE) {
+			(*errorout) (_("Vector building only works on numbers"));
+			return;
+		}
+		initcmp = cmp = mpw_cmp (from->val.value, to->val.value);
+		bysgn = mpw_sgn (by->val.value);
+
+		if ((cmp > 0 && bysgn > 0) ||
+		    (cmp != 0 && bysgn == 0) ||
+		    (cmp < 0 && bysgn < 0)) {
+			/* FIXME: perhaps we should just return null like octave? */
+			(*errorout) (_("Impossible arguments to vector building operator"));
+			return;
+		}	
+	} else {
+		GET_LR (n, from, to);
+		if (from->type != VALUE_NODE ||
+		    to->type != VALUE_NODE) {
+			(*errorout) (_("Vector building only works on numbers"));
+			return;
+		}
+		initcmp = cmp = mpw_cmp (from->val.value, to->val.value);
+		if (cmp > 0)
+			bysgn = -1;
+	}
+
+	count = 0;
+	mpw_init (tmp);
+	mpw_set (tmp, from->val.value);
+	for (;;) {
+		GelETree *t = gel_makenum (tmp);
+
+		t->any.next = vect;
+		vect = t;
+		count ++;
+
+		if (cmp == 0 || cmp != initcmp)
+			break;
+
+		if (by != NULL)
+			mpw_add (tmp, tmp, by->val.value);
+		else if (bysgn == 1) 
+			mpw_add_ui (tmp, tmp, 1);
+		else
+			mpw_sub_ui (tmp, tmp, 1);
+
+		cmp = mpw_cmp (tmp, to->val.value);
+
+		if (cmp != 0 && cmp != initcmp)
+			break;
+	}
+	mpw_clear (tmp);
+
+	mat = gel_matrix_new ();
+	gel_matrix_set_size (mat, count, 1, FALSE /* padding */);
+
+	for (i = count-1; i >= 0; i--) {
+		GelETree *t = vect;
+		gel_matrix_index (mat, i, 0) = t;
+		vect = vect->any.next;
+		t->any.next = NULL;
+	}
+
+	freetree_full (n, TRUE /* freeargs */, FALSE /* kill */);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_new_with_matrix (mat);
+	n->mat.quoted = 1;
+}
+
 /*The first pass over an operator (sometimes it's enough and we don't go
   for a second pass*/
 static gboolean
@@ -4146,9 +4388,10 @@ iter_operator_pre(GelCtx *ctx)
 	case E_RETURN:
 	case E_GET_VELEMENT:
 	case E_GET_ELEMENT:
-	case E_GET_REGION:
 	case E_GET_ROW_REGION:
 	case E_GET_COL_REGION:
+	case E_REGION_SEP:
+	case E_REGION_SEP_BY:
 		EDEBUG("  PUSH US AS POST AND ALL ARGUMENTS AS PRE");
 		GE_PUSH_STACK(ctx,n,GE_POST);
 		iter_push_args(ctx,n->op.args);
@@ -4166,10 +4409,6 @@ iter_operator_pre(GelCtx *ctx)
 			/*just go to post immediately*/
 			ctx->post = TRUE;
 		}
-		break;
-
-	case E_REGION_SEP:
-		iter_push_args(ctx,n->op.args);
 		break;
 
 	/*these should have been translated to COMPARE_NODEs*/
@@ -4306,7 +4545,7 @@ iter_operator_post(GelCtx *ctx)
 		break;
 
 	case E_PARAMETER:
-		EDEBUG("  EQUALS POST");
+		EDEBUG("  PARAMETER POST");
 		iter_parameterop (n);
 		iter_pop_stack (ctx);
 		break;
@@ -4363,16 +4602,23 @@ iter_operator_post(GelCtx *ctx)
 		break;
 
 	case E_GET_VELEMENT:
-	case E_GET_ELEMENT:
-		iter_get_element(n);
-		iter_pop_stack(ctx);
+		iter_get_velement (n);
+		iter_pop_stack (ctx);
 		break;
 
-	case E_GET_REGION:
+	case E_GET_ELEMENT:
+		iter_get_element (n);
+		iter_pop_stack (ctx);
+		break;
+
 	case E_GET_ROW_REGION:
+		iter_get_region (n, FALSE /* col */);
+		iter_pop_stack (ctx);
+		break;
+
 	case E_GET_COL_REGION:
-		iter_get_region(n);
-		iter_pop_stack(ctx);
+		iter_get_region (n, TRUE /* col */);
+		iter_pop_stack (ctx);
 		break;
 
 	case E_IF_CONS:
@@ -4392,6 +4638,12 @@ iter_operator_post(GelCtx *ctx)
 		iter_returnop(ctx,n);
 		break;
 
+	case E_REGION_SEP:
+	case E_REGION_SEP_BY:
+		iter_region_sep_op (ctx, n);
+		iter_pop_stack (ctx);
+		break;
+
 	/*these should have been translated to COMPARE_NODEs*/
 	case E_EQ_CMP:
 	case E_NE_CMP:
@@ -4402,7 +4654,6 @@ iter_operator_post(GelCtx *ctx)
 
 	/*This operators should never reach post, they are evaluated in pre,
 	  or dealt with through the pop_stack_special*/
-	case E_REGION_SEP:
 	case E_QUOTE:
 	case E_REFERENCE:
 	case E_LOGICAL_AND:
