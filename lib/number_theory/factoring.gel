@@ -61,6 +61,19 @@ function Factorize(n) =
   if (n==1) then return factor_list;
   if (IsPrime(n)) then return [factor_list,[n;1]];
 
+  # FIXME: Perhaps the 100000 should be configurable, in any case,
+  # we should use better factorization methods
+  fem = FermatFactorization (n, 100000);
+  if not IsNull(fem) then (
+    a = fem@(0)-fem@(1);
+    b = fem@(0)+fem@(1);
+    if not IsPrime(a) or not IsPrime(a) then (
+      # If not, return the partial factorization and flag an error
+      error("Sorry, number has factors that are too big for us to deal with yet; the following is a partial factorization (the last term is composite).");
+    )
+    return [factor_list,[a;1],[b;1]];
+  )
+
   # If not, return the partial factorization and flag an error
   error("Sorry, number has factors that are too big for us to deal with yet; the following is a partial factorization (the last term is composite).");
   return [factor_list,[n;1]];
@@ -145,7 +158,7 @@ SetHelp("Factors", "number_theory", "Return all factors of a number")
 function Factors(n) =
  (
   if not IsValue(n) or not IsInteger(n) then
-  	(error("Factorize: argument not an integer");bailout);
+  	(error("Factors: argument not an integer");bailout);
   if n == 0 then return null;
 
   front_list=[0];
@@ -172,3 +185,18 @@ function Factors(n) =
   r@(2:elements(r)-1)
  )
 protect("Factors")
+
+SetHelp("FermatFactorization", "number_theory", "Attempt fermat factorization of n into (t-s)*(t+s), returns t and s if possible, null otherwise")
+function FermatFactorization(n,tries) = (
+  if not IsValue(n) or not IsInteger(n) or not IsValue(tries) or IsInteger(tries) or n <= 0 or tries <= 0 then
+  	(error("FermatFactorization: arguments not positive integers");bailout);
+  t = floor(sqrt(n));
+  for i=1 to tries do (
+    t = t+1;
+    m = t^2 - n;
+    s = sqrt(m);
+    if IsInteger (s) then return [t,s];
+  );
+  null
+)
+protect("FermatFactorization")
