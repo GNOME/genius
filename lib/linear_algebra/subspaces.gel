@@ -150,3 +150,23 @@ protect ("OrthogonalComplement")
 #....)
 function IsInSubspace(v,W) = (v==Projection(v,W,.))
 protect ("IsInSubspace")
+
+# GramSchmidt process
+SetHelp ("GramSchmidt", "linear_algebra", "Apply the Gram-Schmidt process (to the columns)")
+function GramSchmidt(M) =
+(
+  if not is_matrix (M) then
+    (error("GramSchmidt: argument not a matrix");bailout);
+  
+  res = SetMatrixSize ([0], rows (M), columns (M));
+  # res@(,1) = M@(,1) / sqrt ( DotProduct ( M@(,1) , M@(,1) ) );
+  res@(,1) = M@(,1) / sqrt ( ( M@(,1) .' * M@(,1) )@(1) );
+  for j = 2 to columns (M) do (
+    # y = M@(,j) - DotProduct ( M@(,j) , res@(,j-1) ) * res@(,j-1);
+    y = M@(,j) - ( M@(,j) .' * res@(,j-1) )@(1) * res@(,j-1);
+    # res@(,j) = y / sqrt ( DotProduct (y,y) )
+    res@(,j) = y / sqrt ( ( y .' * y )@(1) )
+  );
+  res
+)
+protect ("GramSchmidt")
