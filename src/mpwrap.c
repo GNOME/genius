@@ -325,7 +325,8 @@ static void mpwl_clear_extra_type(MpwRealNum *op,int type);
 
 /*only set the type, don't free it, and don't set the type variable
   create an extra type of the variable for temporary use*/
-static void mpwl_make_extra_type(MpwRealNum *op,int type);
+static void mpwl_make_extra_type (MpwRealNum *op, int type);
+static void mpwl_make_extra_type_no_convert (MpwRealNum *op, int type);
 
 static void mpwl_make_type(MpwRealNum *op,int type);
 
@@ -1302,6 +1303,34 @@ mpwl_make_extra_type(MpwRealNum *op,int type)
 	}
 }
 
+/*only set the type, don't free it, and don't set the type variable
+  create an extra type of the variable for temporary use*/
+static void
+mpwl_make_extra_type_no_convert (MpwRealNum *op, int type)
+{
+	if(op->type==type)
+		return;
+	switch(type) {
+	case MPW_NATIVEINT:
+		break;
+	case MPW_INTEGER:
+		if(!op->data.ival)
+			op->data.ival = g_new(__mpz_struct,1);
+		mpz_init(op->data.ival);
+		break;
+	case MPW_RATIONAL:
+		if(!op->data.rval)
+			op->data.rval = g_new(__mpq_struct,1);
+		mpq_init(op->data.rval);
+		break;
+	case MPW_FLOAT:
+		if(!op->data.fval)
+			op->data.fval = g_new(__mpf_struct,1);
+		mpf_init(op->data.fval);
+		break;
+	}
+}
+
 static void
 mpwl_make_type(MpwRealNum *op,int type)
 {
@@ -2199,7 +2228,7 @@ mpwl_div_ui(MpwRealNum *rop,MpwRealNum *op,unsigned long int i)
 		break;
 	case MPW_INTEGER:
 		t = rop->type;
-		mpwl_make_extra_type(rop,MPW_RATIONAL);
+		mpwl_make_extra_type_no_convert (rop,MPW_RATIONAL);
 		rop->type = MPW_RATIONAL;
 		mpq_set_z(rop->data.rval,op->data.ival);
 		mpz_set_ui(mpq_denref(rop->data.rval),i);
@@ -2213,7 +2242,7 @@ mpwl_div_ui(MpwRealNum *rop,MpwRealNum *op,unsigned long int i)
 			break;
 		}
 		t = rop->type;
-		mpwl_make_extra_type(rop,MPW_RATIONAL);
+		mpwl_make_extra_type_no_convert (rop,MPW_RATIONAL);
 		rop->type = MPW_RATIONAL;
 		mpq_set_si(rop->data.rval,op->data.nval,i);
 		mpwl_clear_extra_type(rop,t);
@@ -2250,7 +2279,7 @@ mpwl_ui_div(MpwRealNum *rop,unsigned long int i,MpwRealNum *op)
 		break;
 	case MPW_INTEGER:
 		t = rop->type;
-		mpwl_make_extra_type(rop,MPW_RATIONAL);
+		mpwl_make_extra_type_no_convert (rop,MPW_RATIONAL);
 		rop->type = MPW_RATIONAL;
 		mpz_set_ui(mpq_numref(rop->data.rval),i);
 		mpz_set(mpq_denref(rop->data.rval),op->data.ival);
@@ -2264,7 +2293,7 @@ mpwl_ui_div(MpwRealNum *rop,unsigned long int i,MpwRealNum *op)
 			break;
 		}
 		t = rop->type;
-		mpwl_make_extra_type(rop,MPW_RATIONAL);
+		mpwl_make_extra_type_no_convert (rop,MPW_RATIONAL);
 		rop->type = MPW_RATIONAL;
 		if(op->data.nval>0)
 			mpq_set_ui(rop->data.rval,i,
@@ -2292,7 +2321,7 @@ mpwl_mod(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		switch(t) {
 		case MPW_INTEGER:
 			t1 = rop->type;
-			mpwl_make_extra_type(rop,MPW_INTEGER);
+			mpwl_make_extra_type_no_convert (rop,MPW_INTEGER);
 			rop->type = MPW_INTEGER;
 			mpz_mod(rop->data.ival,op1->data.ival,op2->data.ival);
 			mpwl_clear_extra_type(rop,t1);
@@ -2324,7 +2353,7 @@ mpwl_gcd(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		switch(t) {
 		case MPW_INTEGER:
 			t1 = rop->type;
-			mpwl_make_extra_type(rop,MPW_INTEGER);
+			mpwl_make_extra_type_no_convert (rop,MPW_INTEGER);
 			rop->type = MPW_INTEGER;
 			mpz_gcd(rop->data.ival,op1->data.ival,op2->data.ival);
 			mpwl_clear_extra_type(rop,t1);
