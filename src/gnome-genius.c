@@ -101,6 +101,7 @@ geniussetup_t cursetup = {
 typedef struct {
 	char *name;
 	char *vname; /* visual name */
+	int ignore_changes;
 	gboolean changed;
 	gboolean real_file;
 	gboolean selected;
@@ -128,6 +129,7 @@ static void new_callback (GtkWidget *menu_item, gpointer data);
 static void open_callback (GtkWidget *w);
 static void close_callback (GtkWidget *menu_item, gpointer data);
 static void load_cb (GtkWidget *w);
+static void reload_cb (GtkWidget *w);
 static void quitapp (GtkWidget * widget, gpointer data);
 static void copy_callback (GtkWidget *menu_item, gpointer data);
 static void paste_callback (GtkWidget *menu_item, gpointer data);
@@ -148,7 +150,9 @@ static void aboutcb (GtkWidget * widget, gpointer data);
 static GnomeUIInfo file_menu[] = {
 	GNOMEUIINFO_MENU_NEW_ITEM(N_("_New Program"), N_("Create new program tab"), new_callback, NULL),
 	GNOMEUIINFO_MENU_OPEN_ITEM (open_callback,NULL),
-#define FILE_CLOSE_ITEM 2
+#define FILE_RELOAD_ITEM 2
+	GNOMEUIINFO_ITEM_STOCK(N_("_Reload From Disk"),N_("Reload the selected program from disk"), reload_cb, GNOME_STOCK_MENU_REVERT),
+#define FILE_CLOSE_ITEM 3
 	GNOMEUIINFO_MENU_CLOSE_ITEM (close_callback, NULL),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_STOCK(N_("_Load and Run"),N_("Load and execute a file in genius"), load_cb, GNOME_STOCK_MENU_OPEN),
@@ -501,19 +505,22 @@ set_properties (void)
 }
 
 static void
-display_error (const char *err)
+display_error (GtkWidget *parent, const char *err)
 {
 	static GtkWidget *w = NULL;
 
 	if (w != NULL)
 		gtk_widget_destroy (w);
 
-	w = gtk_message_dialog_new (GTK_WINDOW (genius_window) /* parent */,
-				       GTK_DIALOG_MODAL /* flags */,
-				       GTK_MESSAGE_ERROR,
-				       GTK_BUTTONS_CLOSE,
-				       "%s",
-				       err);
+	if (parent == NULL)
+		parent = genius_window;
+
+	w = gtk_message_dialog_new (GTK_WINDOW (parent) /* parent */,
+				    GTK_DIALOG_MODAL /* flags */,
+				    GTK_MESSAGE_ERROR,
+				    GTK_BUTTONS_CLOSE,
+				    "%s",
+				    err);
 	gtk_label_set_use_markup
 		(GTK_LABEL (GTK_MESSAGE_DIALOG (w)->label), TRUE);
 
@@ -526,19 +533,22 @@ display_error (const char *err)
 }
 
 static void
-display_warning (const char *warn)
+display_warning (GtkWidget *parent, const char *warn)
 {
 	static GtkWidget *w = NULL;
 
 	if (w != NULL)
 		gtk_widget_destroy (w);
 
-	w = gtk_message_dialog_new (GTK_WINDOW (genius_window) /* parent */,
-				       GTK_DIALOG_MODAL /* flags */,
-				       GTK_MESSAGE_WARNING,
-				       GTK_BUTTONS_CLOSE,
-				       "%s",
-				       warn);
+	if (parent == NULL)
+		parent = genius_window;
+
+	w = gtk_message_dialog_new (GTK_WINDOW (parent) /* parent */,
+				    GTK_DIALOG_MODAL /* flags */,
+				    GTK_MESSAGE_WARNING,
+				    GTK_BUTTONS_CLOSE,
+				    "%s",
+				    warn);
 	gtk_label_set_use_markup
 		(GTK_LABEL (GTK_MESSAGE_DIALOG (w)->label), TRUE);
 
@@ -727,25 +737,25 @@ setup_calc(GtkWidget *widget, gpointer data)
 	gtk_box_pack_start(GTK_BOX(box),w,FALSE,FALSE,0);
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(w), 
 				    tmpstate.results_as_floats);
-	gtk_signal_connect(GTK_OBJECT(w), "toggled",
-		   GTK_SIGNAL_FUNC(optioncb),
-		   (gpointer)&tmpstate.results_as_floats);
+	g_signal_connect (G_OBJECT (w), "toggled",
+			  G_CALLBACK (optioncb),
+			  (gpointer)&tmpstate.results_as_floats);
 	
 	w=gtk_check_button_new_with_label(_("Floats in scientific notation"));
 	gtk_box_pack_start(GTK_BOX(box),w,FALSE,FALSE,0);
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(w), 
 				    tmpstate.scientific_notation);
-	gtk_signal_connect(GTK_OBJECT(w), "toggled",
-		   GTK_SIGNAL_FUNC(optioncb),
-		   (gpointer)&tmpstate.scientific_notation);
+	g_signal_connect (G_OBJECT (w), "toggled",
+			  G_CALLBACK (optioncb),
+			  (gpointer)&tmpstate.scientific_notation);
 
 	w=gtk_check_button_new_with_label(_("Always print full expressions"));
 	gtk_box_pack_start(GTK_BOX(box),w,FALSE,FALSE,0);
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(w), 
 				    tmpstate.full_expressions);
-	gtk_signal_connect(GTK_OBJECT(w), "toggled",
-		   GTK_SIGNAL_FUNC(optioncb),
-		   (gpointer)&tmpstate.full_expressions);
+	g_signal_connect (G_OBJECT (w), "toggled",
+			  G_CALLBACK (optioncb),
+			  (gpointer)&tmpstate.full_expressions);
 
 
 	frame=gtk_frame_new(_("Error/Info output options"));
@@ -760,17 +770,17 @@ setup_calc(GtkWidget *widget, gpointer data)
 	gtk_box_pack_start(GTK_BOX(box),w,FALSE,FALSE,0);
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(w), 
 				    tmpsetup.error_box);
-	gtk_signal_connect(GTK_OBJECT(w), "toggled",
-		   GTK_SIGNAL_FUNC(optioncb),
-		   (gpointer)&tmpsetup.error_box);
+	g_signal_connect (G_OBJECT(w), "toggled",
+			  G_CALLBACK (optioncb),
+			  (gpointer)&tmpsetup.error_box);
 
 	w=gtk_check_button_new_with_label(_("Display information messages in a dialog"));
 	gtk_box_pack_start(GTK_BOX(box),w,FALSE,FALSE,0);
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(w), 
 				    tmpsetup.info_box);
-	gtk_signal_connect(GTK_OBJECT(w), "toggled",
-		   GTK_SIGNAL_FUNC(optioncb),
-		   (gpointer)&tmpsetup.info_box);
+	g_signal_connect (G_OBJECT (w), "toggled",
+			  G_CALLBACK (optioncb),
+			  (gpointer)&tmpsetup.info_box);
 	
 	b=gtk_hbox_new(FALSE,GNOME_PAD);
 	gtk_box_pack_start(GTK_BOX(box),b,FALSE,FALSE,0);
@@ -791,8 +801,8 @@ setup_calc(GtkWidget *widget, gpointer data)
 					  TRUE);
 	gtk_widget_set_usize(w,80,0);
 	gtk_box_pack_start(GTK_BOX(b),w,FALSE,FALSE,0);
-	gtk_signal_connect(GTK_OBJECT(adj),"value_changed",
-			   GTK_SIGNAL_FUNC(intspincb),&tmpstate.max_errors);
+	g_signal_connect (G_OBJECT (adj), "value_changed",
+			  G_CALLBACK (intspincb),&tmpstate.max_errors);
 
 
 	mainbox = gtk_vbox_new(FALSE, GNOME_PAD);
@@ -834,8 +844,8 @@ setup_calc(GtkWidget *widget, gpointer data)
 					  TRUE);
 	gtk_widget_set_usize(w,80,0);
 	gtk_box_pack_start(GTK_BOX(b),w,FALSE,FALSE,0);
-	gtk_signal_connect(GTK_OBJECT(adj),"value_changed",
-			   GTK_SIGNAL_FUNC(intspincb),&tmpstate.float_prec);
+	g_signal_connect (G_OBJECT (adj), "value_changed",
+			  G_CALLBACK (intspincb), &tmpstate.float_prec);
 
 
 	mainbox = gtk_vbox_new(FALSE, GNOME_PAD);
@@ -870,8 +880,8 @@ setup_calc(GtkWidget *widget, gpointer data)
 					  TRUE);
 	gtk_widget_set_usize(w,80,0);
 	gtk_box_pack_start(GTK_BOX(b),w,FALSE,FALSE,0);
-	gtk_signal_connect(GTK_OBJECT(adj),"value_changed",
-			   GTK_SIGNAL_FUNC(intspincb),&tmpsetup.scrollback);
+	g_signal_connect (G_OBJECT (adj), "value_changed",
+			  G_CALLBACK (intspincb), &tmpsetup.scrollback);
 	
 	
 	b=gtk_hbox_new(FALSE,GNOME_PAD);
@@ -887,9 +897,9 @@ setup_calc(GtkWidget *widget, gpointer data)
         gnome_font_picker_set_mode (GNOME_FONT_PICKER (w),
 				    GNOME_FONT_PICKER_MODE_FONT_INFO);
         gtk_box_pack_start(GTK_BOX(b),w,TRUE,TRUE,0);
-        gtk_signal_connect(GTK_OBJECT(w),"font_set",
-                           GTK_SIGNAL_FUNC(fontsetcb),
-			   &tmpsetup.font);
+        g_signal_connect (G_OBJECT (w), "font_set",
+			  G_CALLBACK (fontsetcb),
+			  &tmpsetup.font);
 
 
 	g_signal_connect (G_OBJECT (setupdialog), "apply",
@@ -911,7 +921,8 @@ genius_interrupt_calc (void)
 static void
 executing_warning (void)
 {
-	display_warning (_("<b>Genius is currently executing something.</b>\n\n"
+	display_warning (NULL,
+			 _("<b>Genius is currently executing something.</b>\n\n"
 			   "Please try again later or interrupt the current "
 			   "operation."));
 }
@@ -961,10 +972,13 @@ really_load_cb (GtkWidget *w, GtkFileSelection *fs)
 	s = gtk_file_selection_get_filename (fs);
 	if (s == NULL ||
 	    ! g_file_exists (s)) {
-		gnome_app_error (GNOME_APP (genius_window),
-				 _("Can not open file!"));
+		display_error (GTK_WIDGET (fs),
+			       _("Can not open file!"));
 		return;
 	}
+
+	gtk_widget_destroy (GTK_WIDGET (fs));
+
 	gel_load_guess_file (NULL, s, TRUE);
 
 	gel_printout_infos ();
@@ -992,9 +1006,6 @@ load_cb (GtkWidget *w)
 			  "clicked", G_CALLBACK (really_load_cb),
 			  fs);
 
-	gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
-				   "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy),
-				   GTK_OBJECT(fs));
 	gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (fs)->cancel_button),
 				   "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy),
 				   GTK_OBJECT(fs));
@@ -1217,18 +1228,62 @@ changed_cb (GtkTextBuffer *buffer, GtkWidget *tab_widget)
 	Program *p;
 	GtkTextIter iter, iter_end;
 
+	p = g_object_get_data (G_OBJECT (tab_widget), "program");
+	g_assert (p != NULL);
+
+	if (p->ignore_changes)
+		return;
+
 	/* apply the foo tag to entered text */
 	gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
 	gtk_text_buffer_get_iter_at_offset (buffer, &iter_end, -1);
 	gtk_text_buffer_apply_tag_by_name (buffer, "foo",
 					   &iter, &iter_end);
 
-	p = g_object_get_data (G_OBJECT (tab_widget), "program");
-	g_assert (p != NULL);
 	if ( ! p->changed) {
 		p->changed = TRUE;
 		setup_label (p);
 	}
+}
+
+static void
+reload_cb (GtkWidget *menu_item)
+{
+	GtkTextIter iter, iter_end;
+	char *contents;
+	int len;
+
+	if (selected_program == NULL ||
+	    ! selected_program->real_file)
+		return;
+
+	selected_program->ignore_changes++;
+
+	gtk_text_buffer_get_iter_at_offset (selected_program->buffer, &iter, 0);
+	gtk_text_buffer_get_iter_at_offset (selected_program->buffer,
+					    &iter_end, -1);
+
+	gtk_text_buffer_delete (selected_program->buffer,
+				&iter, &iter_end);
+
+	if (g_file_get_contents (selected_program->name,
+				 &contents,
+				 &len,
+				 NULL /* FIXME: error */)) {
+		gtk_text_buffer_get_iter_at_offset (selected_program->buffer,
+						    &iter, 0);
+		gtk_text_buffer_insert_with_tags_by_name
+			(selected_program->buffer,
+			 &iter, contents, len, "foo", NULL);
+		g_free (contents);
+		selected_program->changed = FALSE;
+	} else {
+		display_error (NULL, _("Cannot open file"));
+	}
+
+	selected_program->ignore_changes--;
+
+	setup_label (selected_program);
 }
 
 static void
@@ -1280,7 +1335,7 @@ new_program (const char *filename)
 				(buffer, &iter, contents, len, "foo", NULL);
 			g_free (contents);
 		} else {
-			display_error (_("Cannot open file"));
+			display_error (NULL, _("Cannot open file"));
 		}
 		p->vname = g_path_get_basename (p->name);
 		p->real_file = TRUE;
@@ -1309,10 +1364,12 @@ really_open_cb (GtkWidget *w, GtkFileSelection *fs)
 	s = gtk_file_selection_get_filename (fs);
 	if (s == NULL ||
 	    ! g_file_exists (s)) {
-		gnome_app_error (GNOME_APP (genius_window),
-				 _("Can not open file!"));
+		display_error (GTK_WIDGET (fs),
+			       _("Can not open file!"));
 		return;
 	}
+	gtk_widget_destroy (GTK_WIDGET (fs));
+
 	new_program (s);
 }
 
@@ -1338,9 +1395,6 @@ open_callback(GtkWidget *w)
 			  "clicked", G_CALLBACK (really_open_cb),
 			  fs);
 
-	gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
-				   "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy),
-				   GTK_OBJECT(fs));
 	gtk_signal_connect_object (GTK_OBJECT (GTK_FILE_SELECTION (fs)->cancel_button),
 				   "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy),
 				   GTK_OBJECT(fs));
@@ -1356,6 +1410,8 @@ whack_program (Program *p)
 	if (selected_program == p) {
 		p->selected = FALSE;
 		selected_program = NULL;
+		gtk_widget_set_sensitive (file_menu[FILE_RELOAD_ITEM].widget,
+					  FALSE);
 		gtk_widget_set_sensitive (toolbar[TOOLBAR_RUN_ITEM].widget,
 					  FALSE);
 		gtk_widget_set_sensitive (calc_menu[CALC_RUN_ITEM].widget,
@@ -1390,7 +1446,8 @@ run_program (GtkWidget *menu_item, gpointer data)
 	const char *name;
 	GtkTextBuffer *buffer;
 	if (selected_program == NULL) /* if nothing is selected */ {
-		display_error (_("<b>No program selected.</b>\n\n"
+		display_error (NULL,
+			       _("<b>No program selected.</b>\n\n"
 				 "Create a new program, or select an "
 				 "existing tab in the notebook."));
 		return;
@@ -1785,6 +1842,9 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
 			gtk_widget_set_sensitive
 				(toolbar[TOOLBAR_RUN_ITEM].widget,
 				 FALSE);
+			gtk_widget_set_sensitive
+				(file_menu[FILE_RELOAD_ITEM].widget,
+				 FALSE);
 		}
 	} else {
 		GtkWidget *w;
@@ -1807,6 +1867,9 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
 		selected_program->selected = TRUE;
 
 		setup_label (selected_program);
+
+		gtk_widget_set_sensitive (file_menu[FILE_RELOAD_ITEM].widget,
+					  selected_program->real_file);
 	}
 }
 
