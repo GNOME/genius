@@ -1478,9 +1478,10 @@ plot_axis (void)
 		 */
 	}
 
-	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
-	if (plot_canvas != NULL)
+	if (plot_canvas != NULL) {
+		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+	}
 
 	plot_in_progress --;
 	plot_window_setup ();
@@ -1847,10 +1848,10 @@ label_func (int i, GelEFunc *func, char *name)
 	return text;
 }
 
-#define GET_DOUBLE(var,argnum) \
+#define GET_DOUBLE(var,argnum,func) \
 	{ \
 	if (a[argnum]->type != VALUE_NODE) { \
-		gel_errorout (_("%s: argument number %d not a number"), "LinePlot", argnum+1); \
+		gel_errorout (_("%s: argument number %d not a number"), func, argnum+1); \
 		return NULL; \
 	} \
 	var = mpw_get_double (a[argnum]->val.value); \
@@ -2108,10 +2109,11 @@ plot_functions (void)
 		g_free (label);
 	}
 
-	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 	/* could be whacked by closing the window or some such */
-	if (plot_canvas != NULL)
+	if (plot_canvas != NULL) {
+		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+	}
 
 	plot_in_progress --;
 	plot_window_setup ();
@@ -2201,10 +2203,11 @@ plot_surface_functions (void)
 	gtk_plot3d_autoscale (GTK_PLOT3D (surface_plot));
 	*/
 
-	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 	/* could be whacked by closing the window or some such */
-	if (plot_canvas != NULL)
+	if (plot_canvas != NULL) {
+		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+	}
 
 	plot_in_progress --;
 	plot_window_setup ();
@@ -2903,22 +2906,22 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 				goto whack_copied_funcs;
 			i++;
 		} else {
-			GET_DOUBLE(x1,i);
+			GET_DOUBLE(x1, i, "SurfacePlot");
 			i++;
 			if (a[i] != NULL) {
-				GET_DOUBLE(x2,i);
+				GET_DOUBLE(x2, i, "SurfacePlot");
 				i++;
 				if (a[i] != NULL) {
-					GET_DOUBLE(y1,i);
+					GET_DOUBLE(y1, i, "SurfacePlot");
 					i++;
 					if (a[i] != NULL) {
-						GET_DOUBLE(y2,i);
+						GET_DOUBLE(y2, i, "SurfacePlot");
 						i++;
 						if (a[i] != NULL) {
-							GET_DOUBLE(z1,i);
+							GET_DOUBLE(z1, i, "SurfacePlot");
 							i++;
 							if (a[i] != NULL) {
-								GET_DOUBLE(z2,i);
+								GET_DOUBLE(z2, i, "SurfacePlot");
 								i++;
 							}
 						}
@@ -3036,16 +3039,16 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 				goto whack_copied_funcs;
 			i++;
 		} else {
-			GET_DOUBLE(x1,i);
+			GET_DOUBLE(x1, i, "LinePlot");
 			i++;
 			if (a[i] != NULL) {
-				GET_DOUBLE(x2,i);
+				GET_DOUBLE(x2, i, "LinePlot");
 				i++;
 				if (a[i] != NULL) {
-					GET_DOUBLE(y1,i);
+					GET_DOUBLE(y1, i, "LinePlot");
 					i++;
 					if (a[i] != NULL) {
-						GET_DOUBLE(y2,i);
+						GET_DOUBLE(y2, i, "LinePlot");
 						i++;
 					}
 				}
@@ -3111,6 +3114,85 @@ whack_copied_funcs:
 	}
 
 	return NULL;
+}
+
+static GelETree *
+LinePlotClear_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	int i;
+
+	for (i = 0; i < MAXFUNC && plot_func[i] != NULL; i++) {
+		d_freefunc (plot_func[i]);
+		plot_func[i] = NULL;
+		g_free (plot_func_name[i]);
+		plot_func_name[i] = NULL;
+	}
+
+	/* This will just clear the window */
+	plot_functions ();
+
+	if (interrupted)
+		return NULL;
+	else
+		return gel_makenum_null ();
+}
+
+static GelETree *
+LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	double x1, y1, x2, y2;
+	double *x, *y, *dx, *dy;
+	GdkColor color;
+	GtkPlotData *data;
+
+	ensure_window ();
+
+	if (plot_mode != MODE_LINEPLOT) {
+		plot_mode = MODE_LINEPLOT;
+		clear_graph ();
+	}
+	if (line_plot == NULL) {
+		add_line_plot ();
+		plot_setup_axis ();
+	}
+
+	GET_DOUBLE(x1, 0, "LinePlotDrawLine");
+	GET_DOUBLE(y1, 1, "LinePlotDrawLine");
+	GET_DOUBLE(x2, 2, "LinePlotDrawLine");
+	GET_DOUBLE(y2, 3, "LinePlotDrawLine");
+
+	/* FIXME: read styles */
+
+	data = GTK_PLOT_DATA (gtk_plot_data_new ());
+	x = g_new (double, 2);
+	x[0] = x1;
+	x[1] = x2;
+	y = g_new (double, 2);
+	y[0] = y1;
+	y[1] = y2;
+	dx = g_new (double, 2);
+	dx[0] = 0;
+	dx[1] = 0;
+	dy = g_new (double, 2);
+	dy[0] = 0;
+	dy[1] = 0;
+	gtk_plot_data_set_points (data, x, y, dx, dy, 2);
+	gtk_plot_add_data (GTK_PLOT (line_plot), data);
+	gtk_plot_data_hide_legend (data);
+
+	gdk_color_parse ("black", &color);
+	gdk_color_alloc (gdk_colormap_get_system (), &color); 
+
+	gtk_plot_data_set_line_attributes (data,
+					   GTK_PLOT_LINE_SOLID,
+					   0, 0, 2, &color);
+
+	gtk_widget_show (GTK_WIDGET (data));
+
+	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+	gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+
+	return gel_makenum_null ();
 }
 
 static GelETree *
@@ -3195,8 +3277,11 @@ gel_add_graph_functions (void)
 	/* bogus value */ \
 	d_addfunc_global (d_makevfunc (id, gel_makenum_null()));
 
-	VFUNC (LinePlot, 2, "", "plotting", N_("Plot a function with a line.  First come the functions (up to 10) then optionally limits as x1,x2,y1,y2"));
-	VFUNC (SurfacePlot, 2, "", "plotting", N_("Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"));
+	VFUNC (LinePlot, 2, "func,args", "plotting", N_("Plot a function with a line.  First come the functions (up to 10) then optionally limits as x1,x2,y1,y2"));
+	VFUNC (SurfacePlot, 2, "func,args", "plotting", N_("Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"));
+
+	FUNC (LinePlotClear, 0, "", "plotting", N_("Show the line plot window and clear out functions"));
+	VFUNC (LinePlotDrawLine, 5, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2"));
 
 	PARAMETER (LinePlotWindow, N_("Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"));
 	PARAMETER (SurfacePlotWindow, N_("Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,z2]"));
