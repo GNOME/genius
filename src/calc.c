@@ -1100,7 +1100,8 @@ appendpolynomial (GelOutput *gelo, GelETree *n)
 					   calcstate.results_as_floats,
 					   calcstate.mixed_fractions,
 					   calcstate.output_style,
-					   calcstate.integer_output_base);
+					   calcstate.integer_output_base,
+					   TRUE /* add parenths */);
 			gel_output_string (gelo, p);
 			g_free (p);
 
@@ -1163,12 +1164,16 @@ print_etree(GelOutput *gelo, GelETree *n, gboolean toplevel)
 				calcstate.results_as_floats,
 				calcstate.mixed_fractions,
 				calcstate.output_style,
-				calcstate.integer_output_base);
+				calcstate.integer_output_base,
+				! toplevel /* add parenths */);
+#if 0
+		/* should we print the full number at toplevel ...??? no,
+		 * I don't think so .... */
 		/*if at toplevel, then always print the full number*/
 		if(toplevel)
 			gel_output_full_string(gelo,p);
-		else
-			gel_output_string(gelo,p);
+#endif
+		gel_output_string(gelo,p);
 		g_free(p);
 		break;
 	case MATRIX_NODE:
@@ -1289,7 +1294,7 @@ pretty_print_etree(GelOutput *gelo, GelETree *n)
 		}
 		gel_output_string(gelo, "]");
 	} else {
-		print_etree (gelo, n, FALSE);
+		print_etree (gelo, n, TRUE);
 	}
 	gel_output_pop_nonotify (gelo);
 }

@@ -70,7 +70,7 @@ void yyerror(char *);
 
 %token WHILE UNTIL FOR SUM PROD DO IF THEN ELSE TO BY IN
 
-%token AT
+%token AT MAKEIMAGPARENTH
 
 %token SEPAR NEXTROW EQUALS
 
@@ -139,6 +139,13 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 	|	'(' expr SEPAR ')'	{ gp_push_null(); PUSH_ACT(E_SEPAR);
 					  gp_push_spacer(); }
 	|	'(' expr ')'		{ gp_push_spacer(); }
+	|	'(' expr MAKEIMAGPARENTH { mpw_t i;
+					  mpw_init (i);
+					  mpw_i (i);
+					  gp_push_spacer();
+					  stack_push(&evalstack,
+						     gel_makenum_use(i));
+					  PUSH_ACT(E_MUL); }
 	|	expr EQUALS expr	{ PUSH_ACT(E_EQUALS); }
 	|	'|' expr '|'		{ PUSH_ACT(E_ABS); }
 	|	expr '+' expr		{ PUSH_ACT(E_PLUS); }

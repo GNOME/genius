@@ -93,7 +93,7 @@ gel_compile_node(GelETree *t,GString *gs)
 	case NULL_NODE:
 		break;
 	case VALUE_NODE:
-		s = mpw_getstring(t->val.value,0,FALSE,FALSE,FALSE,GEL_OUTPUT_NORMAL,10);
+		s = mpw_getstring(t->val.value,0,FALSE,FALSE,FALSE,GEL_OUTPUT_NORMAL,10, TRUE);
 		g_string_append_c(gs,';');
 		g_string_append(gs,s);
 		g_free(s);

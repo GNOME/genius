@@ -331,6 +331,16 @@ null		{ DO_RET; return '.'; }
 			return yytext[0];
 		}
 
+[)][ \t]*i		{
+			parenth_depth--;
+			if (matrix_entry_stack != NULL)
+				matrix_entry_stack->data =
+					GINT_TO_POINTER
+					  (GPOINTER_TO_INT(matrix_entry_stack->data) - 1);
+			DO_RET;
+			return MAKEIMAGPARENTH;
+		}
+
 [)}]		{
 			parenth_depth--;
 			if (matrix_entry_stack != NULL)

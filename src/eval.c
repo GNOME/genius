@@ -3927,7 +3927,8 @@ iter_equalsop(GelETree *n)
 		}
 		if (l->id.id->parameter) {
 			GelETree *ret = set_parameter (l->id.id, r);
-			replacenode (n, ret);
+			if (ret != NULL)
+				replacenode (n, ret);
 			return;
 		} else if(r->type == FUNCTION_NODE) {
 			d_addfunc(d_makerealfunc(r->func.func,l->id.id,FALSE));

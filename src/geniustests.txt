@@ -58,8 +58,8 @@ function t2(a)=(a=a+1;a);t2(2)/2				1 1/2
 4.0^(4/3)							6.34960420787
 4^2.1								18.37917368
 4.0^2.1								18.37917368
-(78+8467i)*(-88754+8784i)					(-81296940-750794966i)
-3i+3								(3+3i)
+(78+8467i)*(-88754+8784i)					-81296940-750794966i
+3i+3								3+3i
 3i*3								9i
 3i/3								1i
 3/3i								-1i
@@ -503,6 +503,7 @@ MaximalPrimePowerFactors(15)					[3,5]
 MaximalPrimePowerFactors(75)					[3,25]
 MaximalPrimePowerFactors(0)					(MaximalPrimePowerFactors(0))
 PrimeFactors(0)							(PrimeFactors(0))
+PrimeFactors(3+2i)						(PrimeFactors((3+2i)))
 PrimeFactors(-4)						(PrimeFactors(-4))
 EulerPhi(365)							288
 EulerPhi(15)							8

@@ -3532,13 +3532,34 @@ str_getstring_q(mpq_t num,
 			mpz_neg(tmp2,tmp2);
 		p=mpz_get_str(NULL,10,tmp1);
 		digits = strlen (p);
-		p=appendstr(p,postfix);
+
+		if (postfix != NULL &&
+		    *postfix != '\0') {
+			if (style == GEL_OUTPUT_LATEX)
+				p = prependstr (p, "\\left(");
+			else if (style == GEL_OUTPUT_TROFF)
+				p = prependstr (p, " left ( ");
+			else
+				p = prependstr (p, "(");
+		}
+
 		p=appendstr(p," ");
 
 		p2 = get_frac (tmp2, mpq_denref (num),
-			       style, postfix, &d);
+			       style, "", &d);
 		p=appendstr(p,p2);
 		g_free(p2);
+
+		if (postfix != NULL &&
+		    *postfix != '\0') {
+			if (style == GEL_OUTPUT_LATEX)
+				p = appendstr (p, "\\right)");
+			else if (style == GEL_OUTPUT_TROFF)
+				p = appendstr (p, " right )~");
+			else
+				p = appendstr (p, ")");
+			p = appendstr (p, postfix);
+		}
 	}
 	if (max_digits > 0 && max_digits < digits) {
 		mpf_init(fr);
@@ -4885,7 +4906,8 @@ mpw_getstring(mpw_ptr num, int max_digits,
 	      gboolean results_as_floats,
 	      gboolean mixed_fractions,
 	      /* GelOutputStyle */ int style,
-	      int integer_output_base)
+	      int integer_output_base,
+	      gboolean add_parenths)
 {
 	mpw_uncomplex(num);
 	if(num->type==MPW_REAL) {
@@ -4916,9 +4938,15 @@ mpw_getstring(mpw_ptr num, int max_digits,
 			r = p2;
 			p2 = NULL;
 		} else if (mpwl_sgn(num->i)>=0) {
-			r = g_strconcat("(",p1,"+",p2,")",NULL);
+			if (add_parenths)
+				r = g_strconcat("(",p1,"+",p2,")",NULL);
+			else
+				r = g_strconcat(p1,"+",p2,NULL);
 		} else {
-			r = g_strconcat("(",p1,p2,")",NULL);
+			if (add_parenths)
+				r = g_strconcat("(",p1,p2,")",NULL);
+			else
+				r = g_strconcat(p1,p2,NULL);
 		}
 		g_free(p1);
 		g_free(p2);

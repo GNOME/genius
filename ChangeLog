@@ -1,3 +1,19 @@
+Fri Feb 14 17:27:02 2003  George Lebl <jirka@5z.com>
+
+	* src/mpwrap.[ch], src/calc.c, src/parse.y, src/lexer.l: Better
+	  printing of complex numbers still, add mode for (<expr>)i which
+	  makes the expr imaginary (multiply by i really), and use this
+	  for printing imaginary mixed fractions to look better.  Also
+	  don't print parenthesis on toplevel complex numbers to look nicer
+	  and pretty print now does toplevel.  Also don't toplevel on
+	  printing a polynomial and when in toplevel mode don't
+	  print whole numbers since that's the whole point of FullExpressions
+
+	* src/eval.c: fix crash on setting parameters if there is an
+	  exception
+
+	* doc/manual.txt: update
+
 Fri Feb 14 16:10:30 2003  George Lebl <jirka@5z.com>
 
 	* lib/number_theory/*.gel: add MaximalPrimePowerFactors,

@@ -215,7 +215,8 @@ char * mpw_getstring (mpw_ptr num,
 		      gboolean mixed_fractions,
 		      /* FIXME: solve dependency, this is defined in calc.h */
 		      /* GelOutputStyle */int style,
-		      int integer_output_base);
+		      int integer_output_base,
+		      gboolean add_parenths);
 
 void mpw_set_str_float(mpw_ptr rop,const char *s,int base);
 

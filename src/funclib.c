@@ -2643,9 +2643,9 @@ PolyToString_op (GelCtx *ctx, GelETree * * a, int *exception)
 		if(mpw_sgn(t->val.value)>0) {
 			if(any) g_string_append(gs," + ");
 			if(i==0)
-				print_etree(gelo,t,TRUE);
+				print_etree(gelo,t,FALSE);
 			else if(mpw_cmp_ui(t->val.value,1)!=0) {
-				print_etree(gelo,t,TRUE);
+				print_etree(gelo,t,FALSE);
 				g_string_append_c(gs,'*');
 			}
 			/*negative*/
@@ -2654,9 +2654,9 @@ PolyToString_op (GelCtx *ctx, GelETree * * a, int *exception)
 			else g_string_append_c(gs,'-');
 			mpw_neg(t->val.value,t->val.value);
 			if(i==0)
-				print_etree(gelo,t,TRUE);
+				print_etree(gelo,t,FALSE);
 			else if(mpw_cmp_ui(t->val.value,1)!=0) {
-				print_etree(gelo,t,TRUE);
+				print_etree(gelo,t,FALSE);
 				g_string_append_c(gs,'*');
 			}
 			mpw_neg(t->val.value,t->val.value);
