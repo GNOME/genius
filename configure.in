@@ -98,11 +98,11 @@ AC_SUBST(MPFR_LIB)
 #AC_SUBST(INSTALL_GCONF_CONFIG_SOURCE)
 
 AC_ARG_ENABLE(gtksourceview,
-[  --enable-gtksourceview  Use GtkSourceView library],
+[  --disable-gtksourceview	Do not use GtkSourceView library even if detected],
 use_gtksourceview="$enableval",use_gtksourceview=yes)
 
 AC_ARG_ENABLE(gnome,
-[  --enable-gnome  Compile the GNOME frontend (includes plotting)],
+[  --disable-gnome	Compile without the GNOME frontend (no GUI, no plotting)],
 use_gnome="$enableval",use_gnome=yes)
 
 # Used for the 'genius' binary

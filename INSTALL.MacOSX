@@ -1,0 +1,72 @@
+Installing genius under Mac OS X
+--------------------------------
+
+(from Linc Davis)
+
+These instructions assume that you know what Fink is and have installed it in
+the default directory /sw.
+
+The Fink package 'gmp' must be installed, and its build directory is needed.
+In an admin account, run
+
+	sudo cp /sw/etc/fink.conf /sw/etc/fink.conf.bak
+	sudo pico /sw/etc/fink.conf
+
+and look for the following line:
+
+	KeepBuildDir: false
+
+Change this to
+
+	KeepBuildDir: true
+
+If the line is not present, add it. Now run either
+
+	fink install gmp
+
+or
+
+	fink rebuild gmp
+
+Download the latest tarball of the MPFR library from www.mpfr.org and expand
+it. In the mpfr directory, run
+
+	GMPBUILD=/sw/src/gmp-4.1.2-11/gmp-4.1.2
+	./configure --with-gmp-include=$GMPBUILD --with-gmp-lib=/sw/lib
+	make
+	make check
+	sudo make install
+
+Here the version number of gmp may need to be changed to whatever is current.
+The files will be installed under /usr/local, not /sw. Optionally, add
+/usr/local/info to your INFOPATH.
+
+To build genius with the optional Gnome front end, in addition to a full
+Gnome binary installation you need the following Fink developer packages:
+
+	gconf2-dev
+	glib2-dev
+	gnome-vfs2-dev or gnome-vfs2-ssl-dev
+	gtksourceview-dev
+	libart2
+	libbonobo2-dev
+	libbonoboui2-dev
+	libgnome-dev
+	libgnomecanvas2-dev
+	libgnomeprint2.2-dev
+	libgnomeui-dev
+	pango1-xft2-dev
+	vte-dev
+
+In the genius directory, run
+
+	./configure CFLAGS=-L/sw/lib
+	make
+	sudo make install
+
+Add /usr/local/bin to your PATH if you haven't already done so (it's not
+there by default.) 
+
+Finally, restore the fink.conf file:
+
+	sudo mv -f /sw/etc/fink.conf.bak /sw/etc/fink.conf
