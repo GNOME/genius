@@ -166,18 +166,21 @@ BUILT_SOURCES = parse.h parse.c lexer.c
 
 CLEANFILES += $(BUILT_SOURCES)
 
-EXTRA_DIST = geniustest.pl geniustests.txt gnome-genius.desktop test.plugin.in # lib.gel 
+Desktopdir = $(datadir)/applications
+Desktop_in_files = \
+	gnome-genius.desktop.in	
+Desktop_DATA = $(Desktop_in_files:.desktop.in=.desktop)
 
-Utilities_DATA = gnome-genius.desktop
+@INTLTOOL_DESKTOP_RULE@
 
-# Library_DATA = lib.gel lib.cgel
+EXTRA_DIST = \
+	geniustest.pl \
+	geniustests.txt \
+	$(Desktop_in_files) \
+	$(Desktop_DATA) \
+	test.plugin.in
 
 Plugindesc_DATA = test.plugin
-
-# MOSTLYCLEANFILES = lib.cgel
-
-# lib.cgel: lib.gel genius
-#	$(top_builddir)/src/genius --compile lib.gel > temp.cgel && mv -f temp.cgel lib.cgel
 
 parse.h: parse.y
 	$(YACC) $(YFLAGS) $<
