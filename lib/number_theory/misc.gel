@@ -80,19 +80,6 @@ function PadicValuation(n,p) =
 SetHelp("PadicValuation","number_theory","Returns the padic valuation (number of trailing zeros in base p).");
 protect("PadicValuation");
 
-#FIXME: This should also be built-in to modular arithmatic,
-# though it is slightly more complicated
-# Computes a^b mod m
-function PowerMod(a,b,m) =
- (
-  n=1;
-  while (b != 0) do
-   (
-    if IsOdd(b) then n=(n*a) % m;
-    b=floor(b/2);
-    a=(a*a) % m;
-   );
-  return n;
- )
-SetHelp("PowerMod","number_theory","Compute #1^#2 mod #3");
+function PowerMod(a,b,m) = a^b mod m
+SetHelp("PowerMod","number_theory","Compute a^b mod m");
 protect("PowerMod");

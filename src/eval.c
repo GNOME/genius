@@ -1179,6 +1179,7 @@ op_two_nodes (GelCtx *ctx, GelETree *ll, GelETree *rr, int oper,
 	
 	if(rr->type == VALUE_NODE &&
 	   ll->type == VALUE_NODE) {
+		gboolean skipmod = FALSE;
 		mpw_init(res);
 		switch(oper) {
 		case E_PLUS:
@@ -1205,11 +1206,17 @@ op_two_nodes (GelCtx *ctx, GelETree *ll, GelETree *rr, int oper,
 			break;
 		case E_EXP:
 		case E_ELTEXP:
-			mpw_pow (res, ll->val.value, rr->val.value);
+			if (ctx->modulo != NULL) {
+				mpw_powm (res, ll->val.value, rr->val.value,
+					  ctx->modulo);
+				skipmod = TRUE;
+			} else {
+				mpw_pow (res, ll->val.value, rr->val.value);
+			}
 			break;
 		default: g_assert_not_reached();
 		}
-		if (ctx->modulo != NULL) {
+		if (!skipmod && ctx->modulo != NULL) {
 			if ( ! mod_integer_rational (res, ctx->modulo)) {
 				error_num = NUMERICAL_MPW_ERROR;
 			}
@@ -1899,7 +1906,27 @@ PRIM_NUM_FUNC_2(numerical_mul,mpw_mul)
 PRIM_NUM_FUNC_2(numerical_div,mpw_div)
 PRIM_NUM_FUNC_2(numerical_mod,mpw_mod)
 PRIM_NUM_FUNC_2(numerical_back_div,my_mpw_back_div)
-PRIM_NUM_FUNC_2(numerical_pow,mpw_pow)
+
+static int
+numerical_pow (GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
+{
+	mpw_t res;
+
+	mpw_init(res);
+	if (ctx->modulo != NULL)
+		mpw_powm (res, l->val.value, r->val.value, ctx->modulo);
+	else
+		mpw_pow (res, l->val.value, r->val.value);
+	if (error_num == NUMERICAL_MPW_ERROR) {
+		mpw_clear (res);
+		error_num = NO_ERROR;
+		return TRUE;
+	}
+
+	freetree_full (n, TRUE, FALSE);
+	gel_makenum_use_from (n, res);
+	return TRUE;
+}
 	
 #define EMPTY_PRIM {{{{0}}}}
 
@@ -5478,6 +5505,7 @@ try_to_precalc_op(GelETree *n)
 	case E_DIV: op_precalc_2(n,mpw_div); return;
 	case E_ELTDIV: op_precalc_2(n,mpw_div); return;
 	case E_MOD: op_precalc_2(n,mpw_mod); return;
+	/* FIXME: this could be time consuming, somehow catch that */
 	case E_EXP: op_precalc_2(n,mpw_pow); return;
 	case E_ELTEXP: op_precalc_2(n,mpw_pow); return;
 	default: return;

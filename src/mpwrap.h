@@ -170,6 +170,8 @@ gboolean mpw_perfect_power(mpw_ptr op);
 
 void mpw_pow(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 void mpw_pow_ui(mpw_ptr rop,mpw_ptr op, unsigned long int e);
+void mpw_powm(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2, mpw_ptr mod);
+void mpw_powm_ui(mpw_ptr rop,mpw_ptr op, unsigned long int e, mpw_ptr mod);
 void mpw_sqrt(mpw_ptr rop,mpw_ptr op);
 
 void mpw_exp(mpw_ptr rop,mpw_ptr op);

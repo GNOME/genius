@@ -252,6 +252,15 @@ static gboolean mpwl_pow_f(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 
 static gboolean mpwl_pow(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 
+static void mpwl_powm(MpwRealNum *rop,
+		      MpwRealNum *op1,
+		      MpwRealNum *op2,
+		      MpwRealNum *mod);
+static void mpwl_powm_ui(MpwRealNum *rop,
+			 MpwRealNum *op,
+			 unsigned long int e,
+			 MpwRealNum *mod);
+
 static gboolean mpwl_sqrt(MpwRealNum *rop,MpwRealNum *op);
 
 static void mpwl_exp(MpwRealNum *rop,MpwRealNum *op);
@@ -2768,14 +2777,144 @@ mpwl_pow (MpwRealNum *rop, MpwRealNum *op1, MpwRealNum *op2)
 	return FALSE;
 }
 
+static void
+mpwl_powm (MpwRealNum *rop,
+	   MpwRealNum *op1,
+	   MpwRealNum *op2,
+	   MpwRealNum *mod)
+{
+	int sgn1, sgn2;
+	MpwRealNum r={0};
+
+	if ((op1->type != MPW_INTEGER && op1->type != MPW_NATIVEINT) ||
+	    (op2->type != MPW_INTEGER && op2->type != MPW_NATIVEINT) ||
+	    (mod->type != MPW_INTEGER && mod->type != MPW_NATIVEINT)) {
+		(*errorout) (_("powm: Bad types for mod power"));
+		error_num = NUMERICAL_MPW_ERROR;
+		return;
+	}
+
+	sgn1 = mpwl_sgn(op1);
+	sgn2 = mpwl_sgn(op2);
+	if (sgn2 == 0) {
+		mpwl_set_ui(rop,1);
+		return;
+	} else if (sgn1 == 0) {
+		mpwl_set_ui(rop,0);
+		return;
+	}
+
+	mpwl_make_extra_type (mod, MPW_INTEGER);
+	mpwl_make_extra_type (op1, MPW_INTEGER);
+
+	mpwl_init_type (&r, MPW_INTEGER);
+
+	switch(op2->type) {
+	case MPW_NATIVEINT:
+		if (op2->data.nval > 0) {
+			mpz_powm_ui (r.data.ival,
+				     op1->data.ival,
+				     op2->data.nval,
+				     mod->data.ival);
+		} else {
+			mpz_powm_ui (r.data.ival,
+				     op1->data.ival,
+				     -(op2->data.nval),
+				     mod->data.ival);
+			if ( ! mpz_invert (r.data.ival,
+					   r.data.ival,
+					   mod->data.ival)) {
+				(*errorout)(_("Can't invert in powm"));
+				error_num = NUMERICAL_MPW_ERROR;
+				mpwl_clear (&r);
+				return;
+			}
+		}
+		break;
+	case MPW_INTEGER:
+		if (sgn2 > 0) {
+			mpz_powm (r.data.ival,
+				     op1->data.ival,
+				     op2->data.ival,
+				     mod->data.ival);
+		} else {
+			mpz_neg (op2->data.ival, op2->data.ival);
+			mpz_powm (r.data.ival,
+				  op1->data.ival,
+				  op2->data.ival,
+				  mod->data.ival);
+			mpz_neg (op2->data.ival, op2->data.ival);
+			if ( ! mpz_invert (r.data.ival,
+					   r.data.ival,
+					   mod->data.ival)) {
+				(*errorout)(_("Can't invert in powm"));
+				error_num = NUMERICAL_MPW_ERROR;
+				mpwl_clear (&r);
+				return;
+			}
+		}
+		break;
+	case MPW_FLOAT: 
+	case MPW_RATIONAL:
+		g_assert_not_reached ();
+		break;
+	}
+
+	mpwl_clear_extra_type (op1, MPW_INTEGER);
+	mpwl_clear_extra_type (mod, MPW_INTEGER);
+
+	mpwl_move (rop, &r);
+}
+
+static void
+mpwl_powm_ui (MpwRealNum *rop,
+	      MpwRealNum *op,
+	      unsigned long int e,
+	      MpwRealNum *mod)
+{
+	int sgn;
+	MpwRealNum r={0};
+
+	if ((op->type != MPW_INTEGER && op->type != MPW_NATIVEINT) ||
+	    (mod->type != MPW_INTEGER && mod->type != MPW_NATIVEINT)) {
+		(*errorout) (_("powm: Bad types for mod power"));
+		error_num = NUMERICAL_MPW_ERROR;
+		return;
+	}
+
+	sgn = mpwl_sgn (op);
+	if (e == 0) {
+		mpwl_set_ui (rop, 1);
+		return;
+	} else if (sgn == 0) {
+		mpwl_set_ui (rop, 0);
+		return;
+	}
+
+	mpwl_make_extra_type (mod, MPW_INTEGER);
+	mpwl_make_extra_type (op, MPW_INTEGER);
+
+	mpwl_init_type (&r, MPW_INTEGER);
+
+	mpz_powm_ui (r.data.ival,
+		     op->data.ival,
+		     e,
+		     mod->data.ival);
+
+	mpwl_clear_extra_type (op, MPW_INTEGER);
+	mpwl_clear_extra_type (mod, MPW_INTEGER);
+
+	mpwl_move (rop, &r);
+}
+
 static gboolean
 mpwl_sqrt (MpwRealNum *rop, MpwRealNum *op)
 {
 	MpwRealNum r={0};
-	int complex=FALSE;
+	int is_complex=FALSE;
 
 	if (mpwl_sgn (op) < 0) {
-		complex = TRUE;
+		is_complex = TRUE;
 		mpwl_neg (op, op);
 	}
 	if ((op->type == MPW_NATIVEINT ||
@@ -2799,11 +2938,11 @@ mpwl_sqrt (MpwRealNum *rop, MpwRealNum *op)
 		mpf_sqrt (r.data.fval, op->data.fval);
 		mpwl_clear_extra_type (op,MPW_FLOAT);
 	}
-	if (complex)
+	if (is_complex)
 		mpwl_neg (op, op);
 
 	mpwl_move (rop, &r);
-	return complex;
+	return is_complex;
 }
 
 static void
@@ -4354,6 +4493,39 @@ mpw_pow(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 }
 
 void
+mpw_powm(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2, mpw_ptr mod)
+{
+	if (op1->type != MPW_REAL ||
+	    op2->type != MPW_REAL ||
+	    mod->type != MPW_REAL) {
+		(*errorout) (_("powm: Bad types for mod power"));
+		error_num = NUMERICAL_MPW_ERROR;
+		return;
+	}
+
+	MAKE_REAL (rop);
+	MAKE_COPY (rop->r);
+
+	mpwl_powm (rop->r, op1->r, op2->r, mod->r);
+}
+
+void
+mpw_powm_ui (mpw_ptr rop,mpw_ptr op, unsigned long int e, mpw_ptr mod)
+{
+	if (op->type != MPW_REAL ||
+	    mod->type != MPW_REAL) {
+		(*errorout) (_("powm: Bad types for mod power"));
+		error_num = NUMERICAL_MPW_ERROR;
+		return;
+	}
+
+	MAKE_REAL (rop);
+	MAKE_COPY (rop->r);
+
+	mpwl_powm_ui (rop->r, op->r, e, mod->r);
+}
+
+void
 mpw_sqrt(mpw_ptr rop,mpw_ptr op)
 {
 	if(op->type==MPW_REAL) {
@@ -5253,23 +5425,30 @@ void
 mpw_denominator(mpw_ptr rop, mpw_ptr op)
 {
 	if(op->type==MPW_COMPLEX) {
-		if (mpwl_sgn(op->r) == 0) {
-			MAKE_REAL(rop);
-			MAKE_COPY(rop->r);
-			mpwl_denominator(rop->r, op->i);
+		MpwRealNum r1 = {0};
+		MpwRealNum r2 = {0};
+
+		mpwl_init_type (&r1, MPW_NATIVEINT);
+		mpwl_init_type (&r1, MPW_NATIVEINT);
+
+		mpwl_denominator (&r1, op->r);
+		mpwl_denominator (&r2, op->i);
+
+		if (error_num != NO_ERROR) {
+			mpwl_clear (&r1);
+			mpwl_clear (&r2);
 			return;
 		}
-		(*errorout)(_("Getting denominator of a complex number not implemented"));
-		error_num=NUMERICAL_MPW_ERROR;
-		return;
-		/* FIXME: this is not right, must get common denominator
-		MAKE_COPY(rop->r);
-		MAKE_COPY(rop->i);
-		mpwl_denominator(rop->r, op->r);
-		mpwl_denominator(rop->i, op->i);
-		rop->type = MPW_COMPLEX;
-		mpw_uncomplex(rop);
-		*/
+
+		MAKE_REAL (rop);
+		MAKE_COPY (rop->r);
+
+		mpwl_mul (rop->r, &r1, &r2);
+		mpwl_gcd (&r1, &r1, &r2);
+		mpwl_div (rop->r, rop->r, &r1);
+
+		mpwl_clear (&r1);
+		mpwl_clear (&r2);
 	} else {
 		MAKE_REAL(rop);
 		MAKE_COPY(rop->r);
@@ -5281,25 +5460,47 @@ void
 mpw_numerator(mpw_ptr rop, mpw_ptr op)
 {
 	if(op->type==MPW_COMPLEX) {
-		if (mpwl_sgn(op->r) == 0) {
-			MAKE_IMAG(rop);
-			MAKE_COPY(rop->i);
-			mpwl_numerator(rop->i, op->i);
-			rop->type = MPW_COMPLEX;
-			mpw_uncomplex(rop);
+		MpwRealNum r1 = {0};
+		MpwRealNum r2 = {0};
+		MpwRealNum n1 = {0};
+		MpwRealNum n2 = {0};
+
+		mpwl_init_type (&r1, MPW_NATIVEINT);
+		mpwl_init_type (&r1, MPW_NATIVEINT);
+		mpwl_init_type (&n1, MPW_NATIVEINT);
+		mpwl_init_type (&n1, MPW_NATIVEINT);
+
+		mpwl_denominator (&r1, op->r);
+		mpwl_denominator (&r2, op->i);
+		mpwl_numerator (&n1, op->r);
+		mpwl_numerator (&n2, op->i);
+
+		if (error_num != NO_ERROR) {
+			mpwl_clear (&r1);
+			mpwl_clear (&r2);
+			mpwl_clear (&n1);
+			mpwl_clear (&n2);
 			return;
 		}
-		(*errorout)(_("Getting numerator of a complex number not implemented"));
-		error_num=NUMERICAL_MPW_ERROR;
-		return;
-		/* FIXME: this is not right, must get common denominator
-		MAKE_COPY(rop->r);
-		MAKE_COPY(rop->i);
-		mpwl_numerator(rop->r, op->r);
-		mpwl_numerator(rop->i, op->i);
+
 		rop->type = MPW_COMPLEX;
-		mpw_uncomplex(rop);
-		*/
+		MAKE_COPY (rop->r);
+		MAKE_COPY (rop->i);
+
+		mpwl_mul (rop->r, &n1, &r2);
+		mpwl_mul (rop->i, &n2, &r1);
+
+		mpwl_gcd (&r1, &r1, &r2);
+
+		mpwl_div (rop->r, rop->r, &r1);
+		mpwl_div (rop->i, rop->i, &r1);
+
+		mpwl_clear (&r1);
+		mpwl_clear (&r2);
+		mpwl_clear (&n1);
+		mpwl_clear (&n2);
+
+		mpw_uncomplex (rop);
 	} else {
 		MAKE_REAL(rop);
 		MAKE_COPY(rop->r);
