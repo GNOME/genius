@@ -6,7 +6,7 @@
 # objects unchanged.
 SetHelp("Subfactorial","combinatorics","Subfactorial: n! times sum_{k=1}^n (-1)^k/k!");
 function Subfactorial(n) = (
-	if not IsValue(n) or not IsInteger(n) or n < 0 then
+	if not IsNonNegativeInteger(n) then
 		(error("Subfactorial: argument not an integer >= 0");bailout);
 	(n!) * sum k=1 to n do ((-1)^k)/(k!)
 )
@@ -26,7 +26,7 @@ protect("Catalan")
 ## Defined by n! = n(n-1)(n-2)...
 SetHelp("Factorial","combinatorics","Factorial: n(n-1)(n-2)...");
 function Factorial(n) = (
-	if not IsValue(n) or not IsInteger(n) or n < 0 then
+	if not IsNonNegativeInteger(n) then
 		(error("Factorial: argument not an integer >= 0");bailout);
 	n!
 )
@@ -36,7 +36,7 @@ protect("Factorial")
 ## Defined by n!! = n(n-2)(n-4)...
 SetHelp("DoubleFactorial","combinatorics","Double factorial: n(n-2)(n-4)...");
 function DoubleFactorial(n) = (
-	if not IsValue(n) or not IsInteger(n) or n < 0 then
+	if not IsNonNegativeInteger(n) then
 		(error("DoubleFactorial: argument not an integer >= 0");bailout);
 	n!!
 )
@@ -127,10 +127,8 @@ protect("Multinomial");
 
 SetHelp("Pascal","combinatorics","Get the pascal's triangle as a matrix");
 function Pascal(i) = (
-	if not IsInteger(i) then
-		(error("Pascal: argument not an integer");bailout)
-	else if i<0 then
-		(error("Pascal: argument is negative");bailout);
+	if not IsNonNegativeInteger(i) then
+		(error("Pascal: argument not a non-negative integer");bailout);
 	m = SetMatrixSize ([0],i+1,i+1);
 	for y = 0 to i do (
 		for x = 0 to y do (

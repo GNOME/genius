@@ -90,7 +90,13 @@ To get help on a specific function from the console type:
          <term>IntegerFromBoolean</term>
          <listitem>
           <synopsis>IntegerFromBoolean (bval)</synopsis>
-          <para>Make integer (0 or 1) from a boolean value</para>
+	  <para>
+	    Make integer (0 for <literal>false</literal> or 1 for
+	    <literal>true</literal>) from a boolean value.
+	    <varname>bval</varname> can also be a number in which case a
+	    non-zero value will be interpreted as <literal>true</literal> and
+	    zero will be interpretted as <literal>false</literal>.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -513,7 +519,14 @@ To get help on a specific function from the console type:
          <listitem>
           <synopsis>EulerConstant</synopsis>
           <para>Aliases: <function>gamma</function></para>
-          <para>Euler's Constant gamma good up to about precision of 9516 digits</para>
+          <para>
+	    Euler's Constant gamma.  Sometimes called the
+	    Euler-Mascheroni constant.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/Euler-MascheroniConstant.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -522,6 +535,10 @@ To get help on a specific function from the console type:
          <listitem>
           <synopsis>GoldenRatio</synopsis>
           <para>The Golden Ratio</para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/GoldenRatio.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -537,7 +554,16 @@ To get help on a specific function from the console type:
          <term>e</term>
          <listitem>
           <synopsis>e</synopsis>
-          <para>The natural number e</para>
+          <para>
+	    The base of the natural logarithm.  <userinput>e^x</userinput>
+	    is the exponential function
+	    <link linkend='gel-function-exp'>exp</link>.  This is the
+	    number approximately 2.71828182846...
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/e.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -545,7 +571,14 @@ To get help on a specific function from the console type:
          <term>pi</term>
          <listitem>
           <synopsis>pi</synopsis>
-          <para>The number pi</para>
+          <para>
+	    The number pi, that is the ratio of a circle's circumference
+	    to it's diameter.  This is approximately 3.14159265359...
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/Pi.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -560,7 +593,14 @@ To get help on a specific function from the console type:
          <listitem>
           <synopsis>AbsoluteValue (x)</synopsis>
           <para>Aliases: <function>abs</function></para>
-          <para>Absolute value</para>
+          <para>
+	    Absolute value of a number and if <varname>x</varname> is
+	    a complex value then returns the modulus of <varname>x</varname>.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/AbsoluteValue.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -663,12 +703,20 @@ To get help on a specific function from the console type:
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-IsNonNegativeInteger">
+         <term>IsNonNegativeInteger</term>
+         <listitem>
+          <synopsis>IsNonNegativeInteger (num)</synopsis>
+          <para>Check if argument is a non-negative real integer.</para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-IsPositiveInteger">
          <term>IsPositiveInteger</term>
          <listitem>
           <synopsis>IsPositiveInteger (num)</synopsis>
           <para>Aliases: <function>IsNaturalNumber</function></para>
-          <para>Check if argument is a positive real integer</para>
+          <para>Check if argument is a positive real integer.</para>
          </listitem>
         </varlistentry>
 
@@ -732,7 +780,16 @@ value then <function>Sign</function> returns the direction or 0.
          <term>exp</term>
          <listitem>
           <synopsis>exp (x)</synopsis>
-          <para>The exponential function</para>
+          <para>
+	    The exponential function.  This is the function
+	    <userinput>e^x</userinput> where <varname>e</varname>
+	    is the <link linkend='gel-function-e'>base of the natural
+	    logarithm</link>.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/ExponentialFunction.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1087,13 +1144,19 @@ number is specified) of the given size returned.  For example
     </sect1>
 
     <sect1 id="genius-gel-function-list-number-theory">
-      <title>Number theory</title>
+      <title>Number Theory</title>
       <variablelist>
         <varlistentry id="gel-function-AreRelativelyPrime">
          <term>AreRelativelyPrime</term>
          <listitem>
           <synopsis>AreRelativelyPrime (a,b)</synopsis>
-          <para>Are <varname>a</varname> and <varname>b</varname> relatively prime?  Returns true or false.</para>
+          <para>
+	    Are the real integers <varname>a</varname> and <varname>b</varname> relatively prime?  Returns true or false.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/RelativelyPrime.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1113,6 +1176,10 @@ number is specified) of the given size returned.  For example
 	  <para>Find the <varname>x</varname> that solves the system given by
 		the vector <varname>a</varname> and modulo the elements of
 		<varname>m</varname>, using the Chinese Remainder Theorem.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/ChineseRemainderTheorem.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -1149,6 +1216,10 @@ number is specified) of the given size returned.  For example
           <synopsis>DiscreteLog (n,b,q)</synopsis>
           <para>Find discrete log of n base b in F_q where q is a prime using the Silver-Pohlig-Hellman algoritm</para>
          </listitem>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/DiscreteLogarithm.html">Mathworld</ulink> for more information.
+	  </para>
         </varlistentry>
 
         <varlistentry id="gel-function-Divides">
@@ -1163,7 +1234,15 @@ number is specified) of the given size returned.  For example
          <term>EulerPhi</term>
          <listitem>
           <synopsis>EulerPhi (n)</synopsis>
-          <para>Compute phi(n), the Euler phi function, that is the number of integers between 1 and n relatively prime to n</para>
+          <para>
+	    Compute the Euler phi function for <varname>n</varname>, that is
+	    the number of integers between 1 and <varname>n</varname>
+	    relatively prime to <varname>n</varname>.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/TotientFunction.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1171,7 +1250,14 @@ number is specified) of the given size returned.  For example
          <term>ExactDivision</term>
          <listitem>
           <synopsis>ExactDivision (n,d)</synopsis>
-          <para>Return n/d but only if d divides n else returns garbage (this is faster then writing n/d)</para>
+          <para>
+	    Return <userinput>n/d</userinput> but only if <varname>d</varname>
+	    divides <varname>n</varname>.  If <varname>d</varname>
+	    does not divide <varname>n</varname> then this function returns
+	    garbage.  This is a lot faster for very large numbers
+	    then the operation <userinput>n/d</userinput>, but of course only
+	    useful if you know that the division is exact.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1179,7 +1265,15 @@ number is specified) of the given size returned.  For example
          <term>Factorize</term>
          <listitem>
           <synopsis>Factorize (n)</synopsis>
-          <para>Return factorization of a number as a matrix</para>
+          <para>
+	    Return factorization of a number as a matrix.  The first
+	    row is the primes in the factorization (including 1) and the
+	    second row are the powers.  So for example:
+	    <screen><prompt>genius></prompt> <userinput>Factorize(11*11*13)</userinput>
+=
+[1      11      13
+ 1      2       1]</screen>
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1187,7 +1281,18 @@ number is specified) of the given size returned.  For example
          <term>Factors</term>
          <listitem>
           <synopsis>Factors (n)</synopsis>
-          <para>Return all factors of a number</para>
+          <para>
+	    Return all factors of <varname>n</varname> in a vector.  This
+	    includes all the non-prime factors as well.  It includes 1 and the
+	    number itself.  So for example to print all the perfect numbers
+	    (those that are sums of their factors) up to the number 1000 you
+	    could do (this is of course very inefficent)
+	    <programlisting>for n=1 to 1000 do (
+    if MatrixSum (Factors(n)) == 2*n then
+        print(n)
+)
+</programlisting>
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1195,7 +1300,17 @@ number is specified) of the given size returned.  For example
          <term>FermatFactorization</term>
          <listitem>
           <synopsis>FermatFactorization (n,tries)</synopsis>
-          <para>Attempt fermat factorization of n into (t-s)*(t+s), returns t and s as a vector if possible, null otherwise</para>
+          <para>
+	    Attempt fermat factorization of <varname>n</varname> into
+	    <userinput>(t-s)*(t+s)</userinput>, returns <varname>t</varname>
+	    and <varname>s</varname> as a vector if possible, null otherwise.
+	    <varname>tries</varname> specifies the number of tries before
+	    giving up.
+	  </para>
+          <para>
+	    This is a fairly good factorization if your number is the product
+	    of two factors that are very close to each other.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1235,15 +1350,21 @@ number is specified) of the given size returned.  For example
          <term>IsEven</term>
          <listitem>
           <synopsis>IsEven (n)</synopsis>
-          <para>Tests if an integer is even</para>
+          <para>Tests if an integer is even.</para>
          </listitem>
         </varlistentry>
 
         <varlistentry id="gel-function-IsNthPower">
          <term>IsNthPower</term>
          <listitem>
-          <synopsis>IsNthPower (n,k)</synopsis>
-          <para>Tests if a rational number is a perfect power</para>
+          <synopsis>IsNthPower (m,n)</synopsis>
+          <para>
+	    Tests if a rational number <varname>m</varname> is a perfect
+	    <varname>n</varname>th power.  See also
+	    <link linkend='gel-function-IsPerfectPower'>IsPerfectPower</link>
+	    and
+	    <link linkend='gel-function-IsPerfectSquare'>IsPerfectSquare</link>.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1267,7 +1388,11 @@ number is specified) of the given size returned.  For example
          <term>IsPerfectSquare</term>
          <listitem>
           <synopsis>IsPerfectSquare (n)</synopsis>
-          <para>Check a number for being a perfect square</para>
+          <para>
+	    Check a number for being a perfect square.  The number must
+	    be a real integer.  Negative integers are of course never perfect
+	    squares.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1275,7 +1400,29 @@ number is specified) of the given size returned.  For example
          <term>IsPrime</term>
          <listitem>
           <synopsis>IsPrime (n)</synopsis>
-          <para>Tests primality of integers, for numbers greater than 25*10^9 false positive is with low probability depending on IsPrimeMillerRabinReps</para>
+          <para>
+	    Tests primality of integers, for numbers less than 25*10^9 the
+	    answer is deterministic (if Riemann hypothesis is true).  For
+	    numbers larger, the probability of a false positive
+	    depends on
+	    <link linkend='gel-function-IsPrimeMillerRabinReps'>
+	    <function>IsPrimeMillerRabinReps</function></link>.  That
+	    is the probability of false positive is 1/4 to the power
+	    <function>IsPrimeMillerRabinReps</function>.  The default
+	    value of 22 yields a probability of about 5.7e-14.
+	  </para>
+          <para>
+	    If <literal>false</literal> is returned, you can be sure that
+	    the number is a composite.  If you want to be absolutely sure
+	    that you have a prime you can use 
+	    <link linkend='gel-function-MillerRabinTestSure'>
+	    <function>MillerRabinTestSure</function></link> but it may take
+	    a lot longer.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/PrimeNumber.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1342,7 +1489,11 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>Legendre (a,p)</synopsis>
           <para>Aliases: <function>LegendreSymbol</function></para>
-          <para>Calculate the Legendre symbol (a/p)</para>
+          <para>Calculate the Legendre symbol (a/p).</para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/LegendreSymbol.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1351,6 +1502,10 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>LucasLehmer (p)</synopsis>
           <para>Test if Mp is a Mersenne prime using the Lucas-Lehmer test</para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/Lucas-LehmerTest.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1359,6 +1514,10 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>LucasNumber (n)</synopsis>
           <para>Returns the n'th Lucas number</para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/LucasNumber.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1374,7 +1533,19 @@ number is specified) of the given size returned.  For example
          <term>MillerRabinTest</term>
          <listitem>
           <synopsis>MillerRabinTest (n,reps)</synopsis>
-          <para>Use the Miller-Rabin primality test on n, reps number of times.  The probability of false positive is (1/4)^reps</para>
+          <para>
+	    Use the Miller-Rabin primality test on <varname>n</varname>,
+	    <varname>reps</varname> number of times.  The probability of false
+	    positive is <userinput>(1/4)^reps</userinput>.  It is probably
+	    usually better to use
+	    <link linkend='gel-function-IsPrime'>
+	    <function>IsPrime</function></link> since that is faster and
+	    better on smaller integers.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1382,7 +1553,15 @@ number is specified) of the given size returned.  For example
          <term>MillerRabinTestSure</term>
          <listitem>
           <synopsis>MillerRabinTestSure (n)</synopsis>
-          <para>Use the Miller-Rabin primality test on n with enough bases that assuming the Generalized Reimann Hypothesis the result is deterministic</para>
+          <para>
+	    Use the Miller-Rabin primality test on <varname>n</varname> with
+	    enough bases that assuming the Generalized Reimann Hypothesis the
+	    result is deterministic.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1394,11 +1573,38 @@ number is specified) of the given size returned.  For example
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-MoebiusMu">
+         <term>MoebiusMu</term>
+         <listitem>
+          <synopsis>MoebiusMu (n)</synopsis>
+          <para>
+	    Return the Moebius mu function evaluated in <varname>n</varname>.
+	    That is, it returns 0 if <varname>n</varname> is not a product
+	    of distinct primes and <userinput>(-1)^k</userinput> if it is
+	    a product of <varname>k</varname> distinct primes.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/MoebiusFunction.html">Mathworld</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-NextPrime">
          <term>NextPrime</term>
          <listitem>
           <synopsis>NextPrime (n)</synopsis>
-          <para>Returns the least prime greater than n (if n is positive)</para>
+          <para>
+	    Returns the least prime greater than <varname>n</varname>.
+	    Negatives of primes are considered prime and so to get the
+	    previous prime you can use <userinput>-NextPrime(-n)</userinput>.
+	  </para>
+          <para>
+	    This uses the GMP's <function>mpz_nextprime</function> which in
+	    turn uses the probabilistic Miller-Rabin test.  The probability
+	    of false positive is not tunable, but is low enough
+	    for all practical purposes.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1424,6 +1630,10 @@ number is specified) of the given size returned.  For example
           <synopsis>Prime (n)</synopsis>
           <para>Aliases: <function>prime</function></para>
           <para>Return the n'th prime (up to a limit)</para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/PrimeNumber.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1480,7 +1690,16 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>gcd (a,args...)</synopsis>
           <para>Aliases: <function>GCD</function></para>
-          <para>Greatest common divisor</para>
+          <para>
+	    Greatest common divisor of integers.  You can enter as many
+	    integers in the argument list, or you can give a vector or a matrix
+	    of integers.  If you give more then one matrix of the same
+	    size then GCD is then done element by element.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/GreatestCommonDivisor.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1489,7 +1708,16 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>lcm (a,args...)</synopsis>
           <para>Aliases: <function>LCM</function></para>
-          <para>Least common multiplier</para>
+          <para>
+	    Least common multiplier of integers.  You can enter as many
+	    integers in the argument list, or you can give a vector or a matrix
+	    of integers.  If you give more then one matrix of the same size
+	    then LCM is then done element by element.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/LeastCommonMultiple.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -2422,7 +2650,17 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>Fibbonachi (x)</synopsis>
           <para>Aliases: <function>fib</function></para>
-          <para>Calculate n'th fibbonachi number</para>
+          <para>
+	    Calculate <varname>n</varname>th fibbonachi number.  That
+	    is the number defined recursively by
+	    <userinput>Fibbonachi(n) = Fibbonachi(n-1) + Fibbonachi(n-2)</userinput>
+	    and 
+	    <userinput>Fibbonachi(1) = Fibbonachi(2) = 1</userinput>.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/FibonacciNumber.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -2905,6 +3143,10 @@ number is specified) of the given size returned.  For example
           <synopsis>Average (m)</synopsis>
           <para>Aliases: <function>average</function> <function>Mean</function> <function>mean</function></para>
           <para>Calculate average of an entire matrix</para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/ArithmeticMean.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -2914,6 +3156,10 @@ number is specified) of the given size returned.  For example
           <synopsis>GaussDistribution (x,sigma)</synopsis>
           <para>Integral of the GaussFunction from 0 to x (area under the normal curve)</para>
          </listitem>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/NormalDistribution.html">Mathworld</ulink> for more information.
+	  </para>
         </varlistentry>
 
         <varlistentry id="gel-function-GaussFunction">
@@ -2921,6 +3167,11 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>GaussFunction (x,sigma)</synopsis>
           <para>The normalized Gauss distribution function (the normal curve)</para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/NormalDistribution.html">Mathworld</ulink> for more information.
+	  </para>
+
          </listitem>
         </varlistentry>
 
@@ -2930,6 +3181,10 @@ number is specified) of the given size returned.  For example
           <synopsis>Median (m)</synopsis>
           <para>Aliases: <function>median</function></para>
           <para>Calculate median of an entire matrix</para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/StatisticalMedian.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -2948,6 +3203,10 @@ number is specified) of the given size returned.  For example
           <synopsis>RowAverage (m)</synopsis>
           <para>Aliases: <function>RowMean</function></para>
           <para>Calculate average of each row in a matrix</para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/ArithmeticMean.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -2955,7 +3214,12 @@ number is specified) of the given size returned.  For example
          <term>RowMedian</term>
          <listitem>
           <synopsis>RowMedian (m)</synopsis>
-          <para>Calculate median of each row in a matrix</para>
+          <para>Calculate median of each row in a matrix and return a column
+	  vector of the medians.</para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/StatisticalMedian.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 

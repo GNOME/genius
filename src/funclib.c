@@ -1323,6 +1323,18 @@ IsPositiveInteger_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return gel_makenum_bool (0);
 }
 static GelETree *
+IsNonNegativeInteger_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	if(a[0]->type!=VALUE_NODE ||
+	   mpw_is_complex(a[0]->val.value))
+		return gel_makenum_bool (0);
+	else if(mpw_is_integer(a[0]->val.value) &&
+		mpw_sgn (a[0]->val.value) >= 0)
+		return gel_makenum_bool (1);
+	else
+		return gel_makenum_bool (0);
+}
+static GelETree *
 IsGaussInteger_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if(a[0]->type!=VALUE_NODE)
@@ -4769,7 +4781,7 @@ gel_funclib_addall(void)
 	FUNC (GoldenRatio, 0, "", "constants", N_("The Golden Ratio"));
 	FUNC (Gravity, 0, "", "constants", N_("Free fall acceleration"));
 	FUNC (EulerConstant, 0, "", "constants",
-	      N_("Euler's Constant gamma good up to about precision of 9516 digits"));
+	      N_("Euler's Constant gamma"));
 	ALIAS (gamma, 0, EulerConstant);
 
 	/* FIXME: need to handle complex values */
@@ -4906,6 +4918,7 @@ gel_funclib_addall(void)
 	FUNC (IsInteger, 1, "num", "numeric", N_("Check if argument is an integer (non-complex)"));
 	FUNC (IsPositiveInteger, 1, "num", "numeric", N_("Check if argument is a positive real integer"));
 	ALIAS (IsNaturalNumber, 1, IsPositiveInteger);
+	FUNC (IsNonNegativeInteger, 1, "num", "numeric", N_("Check if argument is a non-negative real integer"));
 	FUNC (IsGaussInteger, 1, "num", "numeric", N_("Check if argument is a possibly complex integer"));
 	ALIAS (IsComplexInteger, 1, IsGaussInteger);
 	FUNC (IsRational, 1, "num", "numeric", N_("Check if argument is a rational number (non-complex)"));

@@ -657,4 +657,16 @@ ExactDivision(123*7,7)						123
 ExactDivision(1,0)						ExactDivision(1,0)
 PadicValuation(2^4 * 7^8, 7)					8
 RemoveFactor(2^4 * 7^8, 7)					16
+IsPositiveInteger(2)						true
+IsPositiveInteger(0)						false
+IsPositiveInteger(-1)						false
+IsPositiveInteger(1i)						false
+IsNonNegativeInteger(2)						true
+IsNonNegativeInteger(0)						true
+IsNonNegativeInteger(-1)					false
+IsNonNegativeInteger(1i)					false
+MoebiusMu(2*3*7)						-1
+MoebiusMu(1)							1
+MoebiusMu(4)							0
+MoebiusMu(2*3)							1
 load "longtest.gel"						true

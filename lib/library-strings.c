@@ -61,6 +61,7 @@ char *fake = N_("Test if n is a strong pseudoprime to base b but not a prime");
 char *fake = N_("Return the residue of a mod n with the least absolute value (in the interval -n/2 to n/2)");
 char *fake = N_("Test if Mp is a Mersenne prime using the Lucas-Lehmer test");
 char *fake = N_("Return all maximal prime power factors of a number");
+char *fake = N_("Return the Moebius mu function evaluated in n");
 char *fake = N_("Returns the padic valuation (number of trailing zeros in base p).");
 char *fake = N_("Compute a^b mod m");
 char *fake = N_("Return all prime factors of a number");

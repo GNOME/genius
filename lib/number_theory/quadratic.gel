@@ -62,6 +62,6 @@
 ## Legendre symbol
 #function LegendreSymbol(n,p) =
 #  (
-#    if not(IsPrime(p)) then (error("Legendre(n,p) only defined for p prime");bailout;);
+#    if not(IsPrime(p)) then (error("Legendre(n,p) only defined for p prime");bailout);
 #    JacobiSymbol(n,p)
 #  )

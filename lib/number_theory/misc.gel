@@ -1,24 +1,24 @@
 # Miscellaneous number theory functions
 
-function IsNthPower(n,k) =
+function IsNthPower(m,n) =
  (
-  if IsMatrix (n) or IsMatrix (k) then
-  	return ApplyOverMatrix2 (n, k, IsNthPower)
-  else if not IsRational (n) then
+  if IsMatrix (m) or IsMatrix (n) then
+  	return ApplyOverMatrix2 (m, n, IsNthPower)
+  else if not IsRational (m) then
 	# Only integers/rationals can be perfect powers
 	false
-  else if k == 2 then
-	IsPerfectSquare(n)
-  else if not IsPerfectPower(n) then
+  else if n == 2 then
+	IsPerfectSquare(m)
+  else if not IsPerfectPower(m) then
 	# We know this won't work
 	false
-  else if IsInteger(n) then
-	IsInteger(n^(1/k))
+  else if IsInteger(m) then
+	IsInteger(m^(1/n))
 
   # Since rational numbers are in reduced form, by unique factorization it
   # suffices to check if the numerator and denominator are Nth powers
   else
-	(IsNthPower(Numerator(n),k)) and IsNthPower(Denominator(n),k)
+	(IsNthPower(Numerator(m),n)) and IsNthPower(Denominator(m),n)
  )
 SetHelp("IsNthPower","number_theory","Tests if a rational number is a perfect power");
 protect("IsNthPower");
@@ -33,7 +33,7 @@ function PadicValuation(n,p) =
   if not IsInteger(n) then
    (
     error("PadicValuation: argument must be rational or integer");
-    bailout;
+    bailout
    );
 #  if (n==0) then return Infinity; # FIXME: Infinity not yet implemented
   if (n==0) then return null;
@@ -54,7 +54,7 @@ function RemoveFactor(n,m) =
   if not IsInteger(n) or not IsInteger(m) then
    (
     error("RemoveFactor: arguments must be integers");
-    bailout;
+    bailout
    );
   if (n==0) then return 0;
 
@@ -83,7 +83,7 @@ function LeastAbsoluteResidue(a,n) = (
   	if not IsInteger(a) or not IsPositiveInteger(n) then
 	   (
 	    error("LeastAbsoluteResidue: arguments must be integers");
-	    bailout;
+	    bailout
 	   );
 	b = a mod n;
 	if (-b+n) < b then
@@ -110,10 +110,10 @@ protect("CRT")
 
 SetHelp("ConvertToBase", "number_theory", "Convert a number to a vector of powers for elements in base b");
 function ConvertToBase(n,b) = (
-  if not IsInteger(n) or n < 0 or not IsInteger(b) or b <= 1 then
+  if not IsNonNegativeInteger(n) or not IsInteger(b) or b <= 1 then
    (
     error("ConvertToBase: arguments must be integers with n >= 0 and b > 1");
-    bailout;
+    bailout
    );
   ret = null;
   while n != 0 do (
@@ -131,7 +131,7 @@ function ConvertFromBase(v,b) = (
   if not IsMatrix(v) or not IsInteger(b) or b <= 1 then
    (
     error("ConvertFromBase: bad arguments");
-    bailout;
+    bailout
    );
   for i=1 to elements(v) do
     n = n + v@(i)*b^(i-1);
@@ -145,9 +145,9 @@ function BernoulliNumber(n) = (
 	if IsMatrix (n) then
 		return ApplyOverMatrix (n, BernoulliNumber);
 
-  	if not IsInteger(n) or n < 0 then (
-    		error("BernoulliNumber: bad arguments");
-    		bailout;
+  	if not IsNonNegativeInteger(n) then (
+    		error("BernoulliNumber: bad arguments, must be a non-negative integer");
+    		bailout
 	);
 	if n > 1 and IsOdd(n) then return 0;
 	sum k=0 to n do (
@@ -159,3 +159,27 @@ function BernoulliNumber(n) = (
 	)
 )
 protect("BernoulliNumber");
+
+
+SetHelp("MoebiusMu", "number_theory", "Return the Moebius mu function evaluated in n");
+function MoebiusMu(n) = (
+      if IsMatrix(n) then
+              return ApplyOverMatrix (n, MoebiusMu);
+
+      if not IsPositiveInteger(n) then (
+              error("MoebiusMu: bad arguments, must be a positive integer");
+              bailout
+      );
+      if n = 1 then return 1;
+      m = Factorize(n);
+      r = m@(2,);
+      r = DeleteColumn(r,1);
+      moeb = 1;
+      for x in r do (
+              if x > 1 then return 0;
+              moeb = -1 * moeb
+      );
+      moeb
+)
+protect("MoebiusMu");
+
