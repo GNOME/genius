@@ -3192,8 +3192,8 @@ gel_add_graph_functions (void)
 	/* bogus value */ \
 	d_addfunc_global (d_makevfunc (id, gel_makenum_null()));
 
-	VFUNC (LinePlot, 1, "", "plotting", _("Plot a function with a line.  First come the functions (up to 10) then optionally limits as x1,x2,y1,y2"));
-	VFUNC (SurfacePlot, 1, "", "plotting", _("Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"));
+	VFUNC (LinePlot, 2, "", "plotting", _("Plot a function with a line.  First come the functions (up to 10) then optionally limits as x1,x2,y1,y2"));
+	VFUNC (SurfacePlot, 2, "", "plotting", _("Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"));
 
 	PARAMETER (LinePlotWindow, _("Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"));
 	PARAMETER (SurfacePlotWindow, _("Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,z2]"));
