@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-01 12:30+0200\n"
-"PO-Revision-Date: 2003-07-07 18:26+0200\n"
+"POT-Creation-Date: 2003-07-09 12:16+0200\n"
+"PO-Revision-Date: 2003-07-09 18:08+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -232,7 +232,9 @@ msgstr "No se puede sumar/sustraer dos matrices de tamaños diferentes"
 
 #: src/eval.c:1537
 msgid "Can't do element by element operations on two matricies of different sizes"
-msgstr "No se pueden realizar operaciones elemento a elemento en dos matrices de tamaños diferentes"
+msgstr ""
+"No se pueden realizar operaciones elemento a elemento en dos matrices de "
+"tamaños diferentes"
 
 #: src/eval.c:1595
 msgid "Can't multiply matricies of wrong sizes"
@@ -246,7 +248,9 @@ msgstr ""
 
 #: src/eval.c:1650
 msgid "Powers on matrices in modulo mode are defined on integer matrices only"
-msgstr "Las potencias moduleres sobre matrices están definidas en matrices de enteros únicamente"
+msgstr ""
+"Las potencias moduleres sobre matrices están definidas en matrices de "
+"enteros únicamente"
 
 #: src/eval.c:1658
 msgid "Exponent too large"
@@ -864,7 +868,9 @@ msgstr "AlphabetToString: valor fuera de rango"
 
 #: src/funclib.c:3385
 msgid "SetHelp: arguments must be strings (function name, category, help text)"
-msgstr "SetHelp: los argumentos deben ser cadenas (nombre de función, categoría, texto de ayuda)"
+msgstr ""
+"SetHelp: los argumentos deben ser cadenas (nombre de función, categoría, "
+"texto de ayuda)"
 
 #: src/funclib.c:3400
 msgid "SetHelpAlias: arguments must be strings (function name, alias)"
@@ -1124,8 +1130,8 @@ msgid ""
 "Number of extra Miller-Rabin tests to run on a number before declaring it a "
 "prime in IsPrime"
 msgstr ""
-"Número de test de Miller-Rabin adicionales para ejecutar sobre un número antes de declararlo "
-"como primi en IsPrime"
+"Número de test de Miller-Rabin adicionales para ejecutar sobre un número "
+"antes de declararlo como primi en IsPrime"
 
 #: src/funclib.c:4175
 msgid "Expands a matrix just like we do on unquoted matrix input"
@@ -1284,8 +1290,8 @@ msgid ""
 "Tests primality of integers, for numbers greater then 25*10^9 false positive "
 "is with low probability depending on IsPrimeMillerRabinReps"
 msgstr ""
-"Comprueba la primalidad de enteros, para números mayores que 25*10 "
-"un falso positive es con baja probabilidad dependiendo de isPrimeMillerRabinReps"
+"Comprueba la primalidad de enteros, para números mayores que 25*10 un falso "
+"positive es con baja probabilidad dependiendo de isPrimeMillerRabinReps"
 
 #: src/funclib.c:4236
 msgid "Run the strong pseudoprime test base b on n"
@@ -1296,8 +1302,8 @@ msgid ""
 "Use the Miller-Rabin primality test on n, reps number of times.  The "
 "probability of false positive is (1/4)^reps"
 msgstr ""
-"Usa el test de primalidad de Miller-Rabin en n, repetido el número de "
-"veces. La probabilidad de un falsopositivo es (1/4)^repeticiones"
+"Usa el test de primalidad de Miller-Rabin en n, repetido el número de veces. "
+"La probabilidad de un falsopositivo es (1/4)^repeticiones"
 
 #: src/funclib.c:4238
 msgid ""
@@ -1385,6 +1391,9 @@ msgid ""
 "null otherwise.  Extra two reference parameters can optionally be used to "
 "get the reduced M and V."
 msgstr ""
+"Resolver el sistema lineal Mx=V, devuelve la solución V si hay una única solución, null "
+"en otro caso. Pueden usarse opcionalmente dos parámetros de referencia para "
+"obtener la reducción de M y V."
 
 #: src/funclib.c:4284
 msgid "Get the determinant of a matrix"
@@ -1508,11 +1517,15 @@ msgstr "Extraer una función de un polinomio (como vector)"
 
 #: src/funclib.c:4323
 msgid "Get all combinations of k numbers from 1 to n as a vector of vectors"
-msgstr "Obtener todas las combinaciones de k números desde 1 hasta n como un vector de vectores"
+msgstr ""
+"Obtener todas las combinaciones de k números desde 1 hasta n como un vector "
+"de vectores"
 
 #: src/funclib.c:4324
 msgid "Get all permutations of k numbers from 1 to n as a vector of vectors"
-msgstr "Obtener todas las permutaiones de k números desde 1 hasta n como un vector de vectores"
+msgstr ""
+"Obtener todas las permutaiones de k números desde 1 hasta n como un vector "
+"de vectores"
 
 #: src/funclib.c:4326
 msgid "Convert a string to a vector of ASCII values"
@@ -1527,12 +1540,16 @@ msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters"
 msgstr ""
+"Convierte una cadena en un vector de valores alfab'eticos basados en 0 (posiciones enla "
+"cadena alfabeto), -1 para las letras desconocidas"
 
 #: src/funclib.c:4330
 msgid ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string"
 msgstr ""
+"convierte un vector de valores alfabéticos basados en 0 (posiciones en la cadena "
+"alfabeto) a una cadena"
 
 #: src/funclib.c:4332
 msgid "Protect a variable from being modified"
@@ -1546,7 +1563,7 @@ msgstr "Desproteger una variable de ser modificada"
 msgid ""
 "Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
 "\""
-msgstr ""
+msgstr "Establece flags para una función, actualmente «PropagateMod» y «NoModuloArguments»"
 
 #: src/funclib.c:4335
 msgid "Get current modulo from the context outside the function"
@@ -1567,6 +1584,8 @@ msgid ""
 "\n"
 "Note: Compiled without MPFR (some operations may be slow) see www.mpfr.org"
 msgstr ""
+"\n"
+"Nota: Compilado sin MPFR (algunas operaciones pueden ser lentas) vea www.mpfr.org"
 
 #: src/genius.c:256
 #, c-format
@@ -1628,7 +1647,9 @@ msgstr ""
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
-msgstr "La única cosa que interfiere con mi aprendizaje es mi educación.  --Albert Einstein"
+msgstr ""
+"La única cosa que interfiere con mi aprendizaje es mi educación.  --Albert "
+"Einstein"
 
 #: src/genius.c:371 src/genius.c:431
 msgid "Can't open file"
@@ -1799,12 +1820,16 @@ msgid ""
 "The Gnome calculator style edition of the genius calculator.  For license/"
 "warranty details, type 'warranty' into the console."
 msgstr ""
+"El estilo de edición dela calculadora de gnome del a calguladora genius. Para "
+"detalles de la licencia/garantía, escriba «warranty» en la consola."
 
 #: src/gnome-genius.c:668
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
 msgstr ""
+"Genius está ejecutando algo, y además hay programas no guardados. "
+"¿Seguro que quiere salir?"
 
 #: src/gnome-genius.c:676
 msgid "There are unsaved programs, are you sure you wish to quit?"
@@ -1902,6 +1927,9 @@ msgid ""
 "\n"
 "Please try again later or interrupt the current operation."
 msgstr ""
+"<b>Genius esta ejecutando algo ahora.</b>\n"
+"\n"
+"Inténtelo después o interrumpa la operación actual."
 
 #: src/gnome-genius.c:1103 src/gnome-genius.c:1619
 msgid "Cannot open file!"
@@ -2014,15 +2042,15 @@ msgstr "LinePlot: el argumento no es un número"
 
 #: src/graphing.c:388
 msgid "Graph limits not given as a 4-vector"
-msgstr ""
+msgstr "Los límites de gráficos no se han dado como un vector-4"
 
 #: src/graphing.c:394 src/graphing.c:400 src/graphing.c:406 src/graphing.c:412
 msgid "Graph limits not given as numbers"
-msgstr ""
+msgstr "Los límites del gráfico no se han dado como números"
 
 #: src/graphing.c:486
 msgid "LinePlot: only up to 10 functions supported"
-msgstr ""
+msgstr "LinePlot: sólo se soportan un máximo de 10 funciones"
 
 #: src/graphing.c:491
 msgid "LinePlot: argument not a function"
@@ -2038,10 +2066,12 @@ msgid ""
 "Plot a function with a line (very rudimentary).  First come the functions "
 "(up to 10) then optionally limits as x1,x2,y1,y2"
 msgstr ""
+"Dibuja una función con una línea (muy rudimentario). Primero vienen las funciones "
+"(hasta 10) después, opcionalmente los límites como x1,x2,y1,y2"
 
 #: src/graphing.c:625
 msgid "Plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
-msgstr ""
+msgstr "La ventana de dibujo (sus límites) como un vector-4 de la forma [x1,x2,y1,y2]"
 
 #: src/matop.c:487
 msgid "Determinant of a non-square matrix is undefined"
@@ -2077,7 +2107,9 @@ msgstr "¡No se pueden obtener símbolos de Legendre de racionales o en coma flota
 
 #: src/mpwrap.c:2476
 msgid "Can't get jacobi symbol with Kronecker extension of floats or rationals!"
-msgstr "No se pueden obtener símbolos de Jacobi con extensión Kronecker de racionales o en coma flotante"
+msgstr ""
+"No se pueden obtener símbolos de Jacobi con extensión Kronecker de "
+"racionales o en coma flotante"
 
 #: src/mpwrap.c:2485
 msgid "Lucas must get an integer argument!"
@@ -2183,7 +2215,9 @@ msgstr "No se pueden obtener símbolos de Legendre de números complejos"
 
 #: src/mpwrap.c:4945
 msgid "Can't get jacobi symbol with Kronecker extension for complex numbers"
-msgstr "No se pueden obtener símbolos de Jacobi con extensión Kronecker de números complejos"
+msgstr ""
+"No se pueden obtener símbolos de Jacobi con extensión Kronecker de números "
+"complejos"
 
 #: src/mpwrap.c:4957
 msgid "Can't get lucas number for complex numbers"
