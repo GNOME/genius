@@ -108,7 +108,7 @@ function IsPseudoprime(n,b) =
  (
   return (IsOdd(n) and PseudoprimeTest(n,b) and not(IsPrime(n)));
  )
-# SetHelp("IsPseudoprime","number_theory","FIXME");
+SetHelp("IsPseudoprime","number_theory","If n is a pseudoprime base b but not a prime, that is if b^(n-1) == 1 mod n");
 protect("IsPseudoprime");
 
 function StrongPseudoprimeTest(n,b) =
@@ -131,14 +131,14 @@ function StrongPseudoprimeTest(n,b) =
    );
   return 0;
  )
-# SetHelp("StrongPseudoprimeTest","number_theory","FIXME");
+SetHelp("StrongPseudoprimeTest","number_theory","Run the strong pseudoprime test base b on n");
 protect("StrongPseudoprimeTest");
 
 function IsStrongPseudoprime(n,b) =
  (
   return (IsOdd(n) and AreRelativelyPrime(n,b) and StrongPseudoprimeTest(n,b) and not (IsPrime(n)));
  )
-# SetHelp("IsStrongPseudoprime","number_theory","FIXME");
+SetHelp("IsStrongPseudoprime","number_theory","Test if n is a strong pseudoprime to base b but not a prime");
 protect("IsStrongPseudoprime");
 
 #################################################

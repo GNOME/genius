@@ -1,3 +1,13 @@
+Wed Feb 19 14:13:22 2003  George Lebl <jirka@5z.com>
+
+	* src/funclib.c: better prime caching, cache up to 30000 primes,
+	  rename prime to Prime, add g, the gravity constant and add
+	  EulerConstant (or gamma) good for about 9k digits, doesn't
+	  calculate we have an actual representation in memory.
+
+	* lib/number_theory/*.gel: Add RemoveFactor, add some help
+	  strings remove SymbolicSquareRoot (sqrt does the job well)
+
 Wed Feb 19 09:54:03 2003  George Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c: add Edit menu with Copy and Paste.

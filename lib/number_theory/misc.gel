@@ -1,12 +1,19 @@
 # Miscellaneous number theory functions
 
-function IsOdd(n) = (n % 2);
-SetHelp("IsOdd","number_theory","Tests if an integer is odd");
-protect("IsOdd");
+function IsOdd(n) = (
+ if not IsValue(n) or not IsInteger(n) then
+ (
+  error("IsOdd: argument must be an integer");
+  bailout;
+ );
+ (n % 2)
+)
+SetHelp("IsOdd","number_theory","Tests if an integer is odd")
+protect("IsOdd")
 
-function IsEven(n) = not(IsOdd(n));
-SetHelp("IsEven","number_theory","Tests if an integer is even");
-protect("IsEven");
+function IsEven(n) = not IsOdd(n)
+SetHelp("IsEven","number_theory","Tests if an integer is even")
+protect("IsEven")
 
 # FIXME: This should be done internally perhaps
 function IsNthPower(n,k) =
@@ -33,10 +40,6 @@ function IsNthPower(n,k) =
 SetHelp("IsNthPower","number_theory","Tests if a rational number is a perfect power");
 protect("IsNthPower");
 
-SetHelp("SymbolicSquareRoot","number_theory","If square root is integer, then return as integer, else standard square root. (note sqrt behaves the same way)");
-SymbolicSquareRoot = sqrt;
-protect("SymbolicSquareRoot");
-
 # FIXME: this is just a hack until we get a real symbolic mode
 function SymbolicNthRoot(n,k) =
  (
@@ -50,7 +53,7 @@ function SymbolicNthRoot(n,k) =
 SetHelp("SymbolicNthRoot","number_theory","If nth root is integer, then return as integer, else standard nth root.");
 protect("SymbolicNthRoot");
 
-function Divides(m,n) = not(n % m);
+function Divides(m,n) = not n % m;
 SetHelp("Divides","number_theory","Checks divisibility");
 protect("Divides");
 
@@ -61,7 +64,7 @@ function PadicValuation(n,p) =
  (
   if IsRational(n) and not IsInteger(n) then
     return PadicValuation(Numerator(n))-PadicValuation(Denominator(n));
-  if not(IsInteger(n)) then
+  if not IsInteger(n) then
    (
     error("PadicValuation: argument must be rational or integer");
     bailout;
@@ -79,6 +82,24 @@ function PadicValuation(n,p) =
  )
 SetHelp("PadicValuation","number_theory","Returns the padic valuation (number of trailing zeros in base p).");
 protect("PadicValuation");
+
+function RemoveFactor(n,m) =
+ (
+  if not IsInteger(n) or not IsInteger(m) then
+   (
+    error("RemoveFactor: arguments must be integers");
+    bailout;
+   );
+  if (n==0) then return 0;
+
+  while Divides(m,n) do
+   (
+    n=n/m;
+   );
+  return n;
+ )
+SetHelp("RemoveFactor","number_theory","Removes all instances of the factor m from the number n");
+protect("RemoveFactor");
 
 function PowerMod(a,b,m) = a^b mod m
 SetHelp("PowerMod","number_theory","Compute a^b mod m");
