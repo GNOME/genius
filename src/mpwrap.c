@@ -395,18 +395,18 @@ static void str_trim_trailing_zeros(char *s);
 /*formats a floating point with mantissa in p and exponent in e*/
 static char * str_format_float(char *p,long int e,int scientific_notation);
 
-static char * str_getstring_z(mpz_t num, int max_digits,
+static char * str_getstring_z (mpz_ptr num, int max_digits,
 			      gboolean scientific_notation,
 			      int integer_output_base,
 			      const char *postfix);
-static char * str_getstring_q(mpq_t num, int max_digits,
-			      gboolean scientific_notation,
-			      gboolean mixed_fractions,
-			      GelOutputStyle style,
-			      const char *postfix);
-static char * str_getstring_f(mpf_t num, int max_digits,
-			      gboolean scientific_notation,
-			      const char *postfix);
+static char * str_getstring_q (mpq_ptr num, int max_digits,
+			       gboolean scientific_notation,
+			       gboolean mixed_fractions,
+			       GelOutputStyle style,
+			       const char *postfix);
+static char * str_getstring_f (mpfr_ptr num, int max_digits,
+			       gboolean scientific_notation,
+			       const char *postfix);
 
 static char * mpwl_getstring(MpwRealNum * num, int max_digits,
 			     gboolean scientific_notation,
@@ -2696,18 +2696,19 @@ str_format_float(char *p,long int e,int scientific_notation)
 	long int len;
 	int i;
 	if(((e-1)<-8 || (e-1)>8) || scientific_notation) {
+		int len = strlen (p);
 		if (e != 0)
-			p = g_realloc (p, strlen(p)+1+((int)log10(abs(e))+2)+1);
+			p = g_realloc (p, len+2+((int)log10(abs(e))+2)+1);
 		else
-			p = g_realloc (p, strlen(p) + 3);
+			p = g_realloc (p, len + 4);
 			
 		if(p[0]=='-') {
-			if(strlen(p)>2) {
+			if (len > 2) {
 				shiftstr(p+2,1);
 				p[2]='.';
 			}
 		} else {
-			if(strlen(p)>1) {
+			if (len > 1) {
 				shiftstr(p+1,1);
 				p[1]='.';
 			}
@@ -2721,7 +2722,7 @@ str_format_float(char *p,long int e,int scientific_notation)
 		if(p[0]=='-')
 			len--;
 		if(e>len) {
-			p = g_realloc (p, strlen(p)+1+e-len);
+			p = g_realloc (p, strlen(p)+2+e-len);
 			for(i=0;i<e-len;i++)
 				strcat(p,"0");
 		} else if(e<len) {
@@ -2738,7 +2739,7 @@ str_format_float(char *p,long int e,int scientific_notation)
 		if(strlen(p)==0) {
 			p = g_strdup ("0");
 		} else {
-			p = g_realloc (p, strlen(p)+1+(-e)+2);
+			p = g_realloc (p, strlen(p)+2+(-e)+2);
 			if(p[0]=='-') {
 				shiftstr(p+1,2+(-e));
 				p[1]='0';
@@ -2759,7 +2760,7 @@ str_format_float(char *p,long int e,int scientific_notation)
 }
 
 static char *
-str_getstring_z(mpz_t num, int max_digits,int scientific_notation,
+str_getstring_z (mpz_ptr num, int max_digits,int scientific_notation,
 		int integer_output_base, const char *postfix)
 {
 	char *p,*p2;
@@ -2851,12 +2852,12 @@ get_frac (mpz_t num,
 }	
 
 static char *
-str_getstring_q(mpq_t num,
-		int max_digits,
-		gboolean scientific_notation,
-		gboolean mixed_fractions,
-		GelOutputStyle style,
-		const char *postfix)
+str_getstring_q (mpq_ptr num,
+		 int max_digits,
+		 gboolean scientific_notation,
+		 gboolean mixed_fractions,
+		 GelOutputStyle style,
+		 const char *postfix)
 {
 	char *p,*p2;
 	mpfr_t fr;
@@ -2937,15 +2938,24 @@ str_getstring_q(mpq_t num,
 }
 
 static char *
-str_getstring_f(mpfr_t num,
-		int max_digits,
-		gboolean scientific_notation,
-		const char *postfix)
+str_getstring_f (mpfr_ptr num,
+		 int max_digits,
+		 gboolean scientific_notation,
+		 const char *postfix)
 {
 	char *p;
 	long e;
 
-	p=mpf_get_str(NULL,&e,10,0,num);
+	if (max_digits > 1) {
+		p = g_new(char, MAX (max_digits + 2, 7));
+
+		mpfr_get_str (p, &e, 10, max_digits, num, GMP_RNDN);
+	} else {
+		char *mp;
+		mp = mpfr_get_str (NULL, &e, 10, 0, num, GMP_RNDN);
+		p = g_strdup (mp);
+		mpfr_free_str (mp);
+	}
 	str_make_max_digits (p, max_digits, &e);
 	p=str_format_float(p,e,scientific_notation);
 	p=appendstr(p,postfix);
@@ -4321,7 +4331,7 @@ mpw_log10(mpw_ptr rop,mpw_ptr op)
 			}
 			/* FIXME: implement caching */
 			mpwl_init_type (&t, MPW_FLOAT);
-			mpwl_set_ui (&t, 10);
+			mpwl_set_d (&t, 10.0);
 			mpwl_ln (&t, &t);
 			mpwl_div (rop->i, rop->i, &t);
 			mpwl_free (&t,TRUE);
@@ -4330,7 +4340,7 @@ mpw_log10(mpw_ptr rop,mpw_ptr op)
 		/* this is stupid, but simple to implement for now */
 		mpw_init (ten);
 		/* FIXME: implement caching */
-		mpw_set_ui (ten, 10);
+		mpw_set_d (ten, 10.0);
 		mpw_ln (ten, ten);
 		mpw_ln (rop, op);
 		mpw_div (rop, rop, ten);
