@@ -377,3 +377,35 @@ function InvariantFactorsInteger(M) =
 	H
 )
 protect ("InvariantFactorsInteger")
+
+SetHelp("IsNormal", "linear_algebra", "Is a matrix normal")
+function IsNormal(M) = (
+	if not IsMatrix(M) or not IsMatrixSquare(M) then
+		(error("IsNormal: argument not a square matrix");bailout);
+	A' * A == A * A'
+)
+protect ("IsNormal")
+
+SetHelp("IsUnitary", "linear_algebra", "Is a matrix unitary")
+function IsUnitary(M) = (
+	if not IsMatrix(M) or not IsMatrixSquare(M) then
+		(error("IsUnitary: argument not a square matrix");bailout);
+	A' * A == I(columns(A))
+)
+protect ("IsUnitary")
+
+SetHelp("IsHermitian", "linear_algebra", "Is a matrix hermitian")
+function IsHermitian(M) = (
+	if not IsMatrix(M) or not IsMatrixSquare(M) then
+		(error("IsHermitian: argument not a square matrix");bailout);
+	A' == A
+)
+protect ("IsHermitian")
+
+SetHelp("IsSkewHermitian", "linear_algebra", "Is a matrix skew-hermitian")
+function IsSkewHermitian(M) = (
+	if not IsMatrix(M) or not IsMatrixSquare(M) then
+		(error("IsSkewHermitian: argument not a square matrix");bailout);
+	A' == -A
+)
+protect ("IsSkewHermitian")
