@@ -4307,9 +4307,9 @@ iter_get_arg_name(guint32 arg)
 	case GO_STRING: return gettext(string);
 	case GO_FUNCTION: return gettext(function);
 	default:
+		g_assert_not_reached();
+		return NULL;
 	}
-	g_assert_not_reached();
-	return NULL;
 }
 
 static char *
@@ -4755,7 +4755,10 @@ iter_operator_post(GelCtx *ctx)
 		break;
 
 	case E_MOD_CALC:
-		if (n->op.args->type == VALUE_NODE) {
+		/* FIXME: maybe we should always replace things here,
+		 * not just for values and matrices */
+		if (n->op.args->type == VALUE_NODE ||
+		    n->op.args->type == MATRIX_NODE) {
 			GelETree *t = n->op.args;
 			gel_freetree (n->op.args->any.next);
 			n->op.args = NULL;
@@ -4943,8 +4946,16 @@ iter_eval_etree(GelCtx *ctx)
 
 		switch(n->type) {
 		case NULL_NODE:
+			EDEBUG(" NULL NODE");
+			iter_pop_stack(ctx);
+			break;
+
 		case VALUE_NODE:
-			EDEBUG(" NULL/VALUE NODE");
+			EDEBUG(" VALUE NODE");
+
+			if (ctx->modulo != NULL)
+				mod_node (n, ctx->modulo);
+
 			iter_pop_stack(ctx);
 			break;
 		case MATRIX_NODE:
@@ -4956,6 +4967,8 @@ iter_eval_etree(GelCtx *ctx)
 				/*if in post mode expand the matrix */
 				if(!n->mat.quoted)
 					gel_expandmatrix (n);
+				if (ctx->modulo != NULL)
+					mod_node (n, ctx->modulo);
 				iter_pop_stack(ctx);
 			}
 			break;

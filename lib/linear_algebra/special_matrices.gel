@@ -45,7 +45,6 @@ protect ("InverseHilbertMatrix")
 #	toeplitz matrix 
 #		constant along diagonals
 #		take first column, first row (or just first row, and then make hermitian, i.e., set first column = conjugate of first row)
-#	vandermonde matrix
 #	wilkinson (tridiagonal -- once off diagonals are all 1s, and the diagonal goes:
 # 3 2 1 0 1 2 3 (say, for n=7)
 # or
@@ -59,8 +58,8 @@ function VandermondeMatrix(v) =
     vandermonde=ones(n,1);
     for loop = 2 to n do
      (
-      vandermonde=[v,vandermonde];  # adjoin new column
-      vandermonde@(,1) = vandermonde@(,2) .* vandermonde@(,1)
+      vandermonde=[vandermonde,v];  # adjoin new column
+      vandermonde@(,n) = vandermonde@(,n-1) .* vandermonde@(,n)
     );
    vandermonde
   )

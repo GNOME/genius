@@ -1751,6 +1751,8 @@ I_op(GelCtx *ctx, GelETree * * a, int *exception)
 	GelETree *n;
 	long size;
 	int i,j;
+	static int cached_size = -1;
+	static GelMatrixW *cached_m = NULL;
 
 	if(a[0]->type!=VALUE_NODE ||
 	   mpw_is_complex (a[0]->val.value) ||
@@ -1766,15 +1768,25 @@ I_op(GelCtx *ctx, GelETree * * a, int *exception)
 	/*make us a new empty node*/
 	GET_NEW_NODE(n);
 	n->type = MATRIX_NODE;
-	n->mat.matrix = gel_matrixw_new();
 	n->mat.quoted = 0;
-	gel_matrixw_set_size(n->mat.matrix,size,size);
-	
-	for(i=0;i<size;i++)
-		for(j=0;j<size;j++)
-			if(i==j)
-				gel_matrixw_set_index(n->mat.matrix,i,j) =
-					gel_makenum_ui(1);
+
+	if (cached_size == size) {
+		n->mat.matrix = gel_matrixw_copy (cached_m);
+	} else {
+		if (cached_m != NULL)
+			gel_matrixw_free (cached_m);
+		n->mat.matrix = gel_matrixw_new();
+		gel_matrixw_set_size(n->mat.matrix,size,size);
+
+		for(i=0;i<size;i++)
+			for(j=0;j<size;j++)
+				if(i==j)
+					gel_matrixw_set_index(n->mat.matrix,i,j) =
+						gel_makenum_ui(1);
+
+		cached_m = gel_matrixw_copy (n->mat.matrix);
+		cached_size = -1;
+	}
 
 	return n;
 }

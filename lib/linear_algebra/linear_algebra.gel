@@ -413,3 +413,11 @@ function IsSkewHermitian(M) = (
 	M' == -M
 )
 protect ("IsSkewHermitian")
+
+SetHelp("RaleighQuotient", "linear_algebra", "Return the Raleigh Quotient of a matrix and a vector")
+function RaleighQuotient(A,x) = (
+	# FIXME: argument checking
+	if columns (x) > 1 then x = x.';
+	( x' * A * x ) / ( x' * x )
+)
+protect ("RaleighQuotient")
