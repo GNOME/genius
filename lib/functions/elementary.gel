@@ -253,3 +253,32 @@ function log(x,b...) = (
 	ln(x)/ln(base)
 );
 protect("log")
+
+parameter ErrorFunctionTolerance = 10.0^(-10);
+SetHelp ("ErrorFunctionTolerance", "parameters", "Tolerance of the ErrorFunction")
+
+SetHelp("ErrorFunction","functions","The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt")
+function ErrorFunction (x) = (
+	if IsMatrix (x) then
+		return ApplyOverMatrix (x, ErrorFunction)
+	else if not IsValue (x) then
+		(error("ErrorFunction: argument not a value");bailout);
+	twosqrtpi = 2/sqrt(pi);
+	a = 1;
+	s = 0;
+	n = 0;
+	f = 1;
+	xx = x;
+	do (
+		t = xx * a * twosqrtpi;
+		s = s + t;
+		n = n + 1;
+		f = f * n;
+		a = ((-1)^n) * (1)/(((2*n)+1) * f);
+		xx = xx * x^2;
+	) while (|t| > ErrorFunctionTolerance);
+	s
+);
+protect("ErrorFunction")
+erf = ErrorFunction
+SetHelpAlias ("ErrorFunction", "erf");

@@ -1175,7 +1175,13 @@ mympf_pow_z(mpf_t rop,mpf_t op,mpz_t e)
 		mpf_init (fe);
 		mpf_set_z (fe, e);
 #ifdef HAVE_MPFR
-		mpfr_pow (rop, op, fe, GMP_RNDN);
+		/* FIXME: mpfr_pow is BROKEN!, try 6.0^(-1.0) and you get 6.0 */
+		/*
+		   mpfr_pow (rop, op, fe, GMP_RNDN);
+		   */
+		mpfr_log (rop, op, GMP_RNDN);
+		mpfr_mul (rop, rop, fe, GMP_RNDN);
+		mpfr_exp (rop, rop, GMP_RNDN);
 #else
 		mympf_ln (rop, op);
 		mpf_mul (rop, rop, fe);
@@ -3097,7 +3103,13 @@ mpwl_pow_f(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	mpwl_init_type(&r,MPW_FLOAT);
 
 #ifdef HAVE_MPFR
-	mpfr_pow (r.data.fval, op1->data.fval, op2->data.fval, GMP_RNDN);
+	/* FIXME: mpfr_pow is BROKEN!, try 6.0^(-1.0) and you get 6.0 */
+	/* 
+	   mpfr_pow (r.data.fval, op1->data.fval, op2->data.fval, GMP_RNDN);
+	   */
+	mpfr_log (r.data.fval, op1->data.fval, GMP_RNDN);
+	mpfr_mul (r.data.fval, r.data.fval, op2->data.fval, GMP_RNDN);
+	mpfr_exp (r.data.fval, r.data.fval, GMP_RNDN);
 #else
 	mympf_ln(r.data.fval,op1->data.fval);
 	mpf_mul(r.data.fval,r.data.fval,op2->data.fval);

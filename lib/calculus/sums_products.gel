@@ -36,3 +36,39 @@ function InfiniteSum2(func,arg,start,inc,epsilon) = (
 );
 protect("InfiniteSum2")
 
+#calculate an infinite product until the new terms stop making a difference
+SetHelp("InfiniteProduct","calculus","Try to calculate an infinite product for a single parameter function");
+function InfiniteProduct (func, start, inc, epsilon) = (
+	if not IsValue(start) or not IsValue(inc) then
+		(error("InfiniteProduct: start,inc arguments not values");bailout)
+	else if not IsFunction(func) then
+		(error("InfiniteProduct: func argument not a function");bailout);
+	s = 1.0;
+	while 1 do (
+		newprod = s * func(start);
+		if |newprod-s|<epsilon then break;
+		s = newprod;
+		start = start + inc;
+	);
+	s
+);
+protect("InfiniteProduct")
+
+#calculate an infinite product until the new terms stop making a difference
+SetHelp("InfiniteProduct2","calculus","Try to calculate an infinite product for a double parameter function with func(arg,n)");
+function InfiniteProduct2(func,arg,start,inc,epsilon) = (
+	if not IsValue(start) or not IsValue(inc) then
+		(error("InfiniteProduct2: start,inc arguments not values");bailout)
+	else if not IsFunction(func) then
+		(error("InfiniteProduct2: func argument not a function");bailout);
+	s = 0.0;
+	while 1 do (
+		newprod = s * func(arg,start);
+		if |newprod-s|<epsilon then break;
+		s = newprod;
+		start = start + inc;
+	);
+	s
+);
+protect("InfiniteProduct2")
+

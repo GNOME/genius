@@ -1,3 +1,21 @@
+Wed Dec 31 11:40:12 2003  George Lebl <jirka@5z.com>
+
+	* src/mpwrap.c: mpwfr_pow is kind of broken in gmp 4.1.2 at least
+	  (seems fixed in newer mpfr, will have to do some sort of a check
+	  in the future).
+
+	* lib/functions/elementary.gel: add ErrorFunction/erf
+
+	* lib/functions/sums_products.gel: add InfiniteProduct and
+	  InfiniteProduct2
+
+	* src/geniustests.txt: add some tests
+
+	* Makefile.am: add intltool-modules/XML/Parser/Style/OrigTree.pm
+	  to EXTRA_DIST
+
+	* configure.in: raise version, whack the DEPRECATED things
+
 Fri Dec 12 10:31:55 2003  George Lebl <jirka@5z.com>
 
 	* lib/linear_algebra/subspaces.gel,

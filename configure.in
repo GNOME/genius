@@ -3,7 +3,7 @@ AC_INIT(src/calc.c)
 AC_PROG_INTLTOOL([0.21])
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(genius,0.5.6)
+AM_INIT_AUTOMAKE(genius,0.5.7)
 AM_MAINTAINER_MODE
 
 dnl ================= Requirements ================================================
@@ -162,12 +162,13 @@ else
 fi
 CFLAGS="$realsave_CFLAGS"
 EXTRA_WARNING_CFLAGS=" \
-	-DG_DISABLE_DEPRECATED \
-	-DGDK_PIXBUF_DISABLE_DEPRECATED \
-	-DGDK_DISABLE_DEPRECATED \
-	-DGTK_DISABLE_DEPRECATED \
-	-DGNOME_DISABLE_DEPRECATED \
 	$warning_flags"
+#	-DG_DISABLE_DEPRECATED \
+#	-DGDK_PIXBUF_DISABLE_DEPRECATED \
+#	-DGDK_DISABLE_DEPRECATED \
+#	-DGTK_DISABLE_DEPRECATED \
+#	-DGNOME_DISABLE_DEPRECATED \
+
 AC_SUBST(EXTRA_WARNING_CFLAGS)
 
 dnl wordexp check, we use glob otherwise but that's not perfect
