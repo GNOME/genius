@@ -6503,9 +6503,9 @@ iter_eval_etree(GelCtx *ctx)
 
 	while((n = ctx->current)) {
 		EDEBUG("ITER");
-		if(evalnode_hook) {
+		if (evalnode_hook != NULL) {
 			static int i = 0;
-			if G_UNLIKELY (i++ > run_hook_every) {
+			if G_UNLIKELY ((i++ & RUN_HOOK_EVERY_MASK) == RUN_HOOK_EVERY_MASK) {
 				(*evalnode_hook)();
 				i = 0;
 			}

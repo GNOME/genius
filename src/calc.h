@@ -149,7 +149,7 @@ void gel_get_file_info(char **file, int *line);
 
 extern FILE *outputfp;
 extern void (*evalnode_hook)(void);
-extern int run_hook_every;
+#define RUN_HOOK_EVERY_MASK 0x3FF
 extern void (*statechange_hook)(calcstate_t);
 
 typedef struct {

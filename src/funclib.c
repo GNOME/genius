@@ -202,6 +202,17 @@ check_argument_string_or_identifier (GelETree **a, int argnum, const char *funcn
 	return TRUE;
 }
 
+static inline gboolean
+check_argument_function_or_identifier (GelETree **a, int argnum, const char *funcname)
+{
+	if G_UNLIKELY (a[argnum]->type != FUNCTION_NODE &&
+		       a[argnum]->type != IDENTIFIER_NODE) {
+		gel_errorout (_("%s: argument number %d not a function or identifier"), funcname, argnum+1);
+		return FALSE;
+	}
+	return TRUE;
+}
+
 void
 gel_break_fp_caches (void)
 {
@@ -4138,6 +4149,195 @@ GetCurrentModulo_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return gel_makenum (modulo);
 }
 
+static gboolean
+call_func (GelCtx *ctx,
+	   mpw_ptr retn,
+	   GelEFunc *func,
+	   mpw_ptr argnum)
+{
+	GelETree arg;
+	GelETree *ret;
+	GelETree *args[2];
+
+	arg.type = VALUE_NODE;
+	arg.val.next = NULL;
+	mpw_init_set (arg.val.value, argnum);
+
+	args[0] = &arg;
+	args[1] = NULL;
+
+	ret = funccall (ctx, func, args, 1);
+
+	mpw_clear (arg.val.value);
+
+	if (error_num != 0 ||
+	    ret == NULL ||
+	    ret->type != VALUE_NODE) {
+		gel_freetree (ret);
+		return FALSE;
+	}
+
+	mpw_set (retn, ret->val.value);
+	
+	gel_freetree (ret);
+	return TRUE;
+}
+
+/*
+# The algorithms are described in:
+# Numerical Analysis, 5th edition
+# by Richard L. Burden and J. Douglas Faires
+# PWS Publishing Company, Boston, 1993.
+# Library of congress: QA 297 B84 1993
+
+# In the below, f indicates the function whose integral we wish to determine,
+# a,b indicate the left and right endpoints of the interval over which
+# we wish to integrate, and n is the number of intervals into which we
+# divide [a,b]
+
+# These methods all return one value, the value of the integral
+
+# Currently only works for real functions of a real variable
+
+# Composite Simpson's Rule, Section 4.4, Algorithm 4.1, p. 186
+# Note that this has error term = max(f'''')*h^4*(b-a)/180,
+# where h=(b-a)/n
+# If we can get maximums and derivatives, this would allow us to determine
+# automatically what n should be.
+*/
+
+/* ported from the GEL version for speed */
+static GelETree *
+CompositeSimpsonsRule_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelEFunc *f;
+	mpw_ptr ia, ib, in;
+	long n, i;
+	mpw_t X, XI0, XI1, XI2, h, fret;
+	GelETree *ret = NULL;
+
+	if G_UNLIKELY ( ! check_argument_function_or_identifier (a, 0, "CompositeSimpsonsRule") ||
+			! check_argument_real_number (a, 1, "CompositeSimpsonsRule") ||
+			! check_argument_real_number (a, 2, "CompositeSimpsonsRule") ||
+			! check_argument_positive_integer (a, 3, "CompositeSimpsonsRule"))
+		return NULL;
+
+	ia = a[1]->val.value;
+	ib = a[2]->val.value;
+	in = a[3]->val.value;
+	if (mpw_odd_p (in))
+		mpw_add_ui (in, in, 1);
+
+	n = mpw_get_long (in);
+	if G_UNLIKELY (error_num) {
+		error_num = 0;
+		return NULL;
+	}
+
+	if (mpw_cmp (ia, ib) == 0) {
+		return gel_makenum_ui (0);
+	}
+
+	if (mpw_cmp (ia, ib) > 0) {
+		gel_errorout (_("%s: argument 2 must be less then or equal to argument 3"),
+			      "CompositeSimpsonsRule");
+		return NULL;
+	}
+
+	if (a[0]->type == FUNCTION_NODE) {
+		f = a[0]->func.func;
+	} else /* (a[0]->type == IDENTIFIER_NODE) */ {
+		f = d_lookup_global (a[0]->id.id);
+	}
+
+	if G_UNLIKELY (f == NULL ||
+		       f->nargs != 1) {
+		gel_errorout (_("%s: argument not a function of one variable"),
+			      "CompositeSimpsonsRule");
+		return NULL;
+	}
+
+	mpw_init (fret);
+	mpw_init (X);
+	mpw_init (XI0);
+	mpw_init (XI1);
+	mpw_init (XI2);
+	mpw_init (h);
+
+	/*
+	h=(b-a)/n;       # Subdivision interval
+	*/
+	mpw_sub (h, ib, ia);
+	mpw_div (h, h, in);
+	mpw_make_float (h);
+
+	/*
+	XI0=f(a)+f(b);   # End points
+	*/
+	if ( ! call_func (ctx, XI0, f, ia))
+		goto end_of_simpson;
+	if ( ! call_func (ctx, fret, f, ib))
+		goto end_of_simpson;
+	mpw_add (XI0, XI0, fret);
+
+	/*
+	XI1=0;           # odd points
+	XI2=0;           # even points
+        X=a;             # current position
+	*/
+	mpw_set_d (XI1, 0);
+	mpw_set_d (XI2, 0);
+	mpw_set (X, ia);
+	mpw_make_float (X);
+
+	/* FIXME: */
+	for (i = 1; i < n; i++) {
+		/*
+		   X=X+h;
+		   if i%2 == 0
+		   then XI2=XI2+f(X)
+		   else XI1=XI1+f(X)
+		   */
+		mpw_add (X, X, h);
+		if ( ! call_func (ctx, fret, f, X))
+			goto end_of_simpson;
+		if (i & 0x1 /* odd */) {
+			mpw_add (XI1, XI1, fret);
+		} else /* even */ {
+			mpw_add (XI2, XI2, fret);
+		}
+
+		if (evalnode_hook) {
+			if G_UNLIKELY ((i & 0x3FF) == 0x3FF) {
+				(*evalnode_hook)();
+			}
+		}
+	}
+
+	/*
+        h*(XI0+2*XI2+4*XI1)/3
+	*/
+	mpw_mul_ui (XI1, XI1, 4);
+	mpw_mul_ui (XI2, XI2, 2);
+	mpw_add (fret, XI0, XI1);
+	mpw_add (fret, fret, XI2);
+	mpw_mul (fret, fret, h);
+	mpw_div_ui (fret, fret, 3);
+
+	ret = gel_makenum (fret);
+
+end_of_simpson:
+	mpw_clear (X);
+	mpw_clear (fret);
+	mpw_clear (XI0);
+	mpw_clear (XI1);
+	mpw_clear (XI2);
+	mpw_clear (h);
+
+	return ret;
+}
+
+
 static GelETree *
 set_FloatPrecision (GelETree * a)
 {
@@ -4727,6 +4927,8 @@ gel_funclib_addall(void)
 	FUNC (unprotect, 1, "id", "basic", N_("Unprotect a variable from being modified"));
 	VFUNC (SetFunctionFlags, 2, "id,flags", "basic", N_("Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments\""));
 	FUNC (GetCurrentModulo, 0, "", "basic", N_("Get current modulo from the context outside the function"));
+
+	FUNC (CompositeSimpsonsRule, 4, "f,a,b,n", "calculus", N_("Integration of f by Composite Simpson's Rule on the interval [a,b] with n subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be even"));
 
 	/*temporary until well done internal functions are done*/
 	_internal_ln_function = d_makeufunc(d_intern("<internal>ln"),

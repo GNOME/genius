@@ -180,7 +180,7 @@ gel_compile_tree(GelETree *t)
 }
 
 static GelETree *
-gel_decompile_node(void)
+gel_decompile_node(char **ptrptr)
 {
 	GelETree *n;
 	char *p;
@@ -200,51 +200,51 @@ gel_decompile_node(void)
 	GelEFunc *func;
 	mpw_t tmp;
 
-	p = strtok(NULL,";");
-	if(!p) return NULL;
+	p = strtok_r(NULL,";", ptrptr);
+	if G_UNLIKELY (!p) return NULL;
 	sscanf(p,"%d",&type);
-	if(type==-1) return NULL;
+	if G_UNLIKELY (type==-1) return NULL;
 
 	switch(type) {
 	case NULL_NODE:
 		return gel_makenum_null();
 	case VALUE_NODE:
-		p = strtok(NULL,";");
-		if(!p) return NULL;
+		p = strtok_r(NULL,";", ptrptr);
+		if G_UNLIKELY (!p) return NULL;
 		mpw_init(tmp);
 		mpw_set_str(tmp,p,10);
 		return gel_makenum_use(tmp);
 	case MATRIX_NODE:
-		p = strtok(NULL,";");
-		if(!p) return NULL;
+		p = strtok_r(NULL,";", ptrptr);
+		if G_UNLIKELY (!p) return NULL;
 		h = w = -1;
 		sscanf(p,"%dx%d",&w,&h);
-		if(h==-1 || w ==-1)
+		if G_UNLIKELY (h==-1 || w ==-1)
 			return NULL;
 
-		p = strtok(NULL,";");
-		if(!p) return NULL;
+		p = strtok_r(NULL,";", ptrptr);
+		if G_UNLIKELY (!p) return NULL;
 		quote = -1;
 		sscanf(p,"%d",&quote);
-		if(quote==-1) return NULL;
+		if G_UNLIKELY (quote==-1) return NULL;
 
 		m = gel_matrixw_new();
 		gel_matrixw_set_size(m,w,h);
 		for(i=0;i<w;i++) {
 			for(j=0;j<h;j++) {
-				p = strtok(NULL,";");
-				if(!p) {
+				p = strtok_r (NULL,";", ptrptr);
+				if G_UNLIKELY (!p) {
 					gel_matrixw_free(m);
 					return NULL;
 				}
 				if(*p=='N') {
-					GelETree *tt = gel_decompile_node();
-					if(!tt) {
+					GelETree *tt = gel_decompile_node (ptrptr);
+					if G_UNLIKELY (!tt) {
 						gel_matrixw_free(m);
 						return NULL;
 					}
 					gel_matrixw_set_index(m,i,j)=tt;
-				} else if(*p!='0') {
+				} else if G_UNLIKELY (*p!='0') {
 					gel_matrixw_free(m);
 					return NULL;
 				}
@@ -256,21 +256,21 @@ gel_decompile_node(void)
 		n->mat.quoted = quote;
 		return n;
 	case OPERATOR_NODE:
-		p = strtok(NULL,";");
-		if(!p) return NULL;
+		p = strtok_r (NULL,";", ptrptr);
+		if G_UNLIKELY (!p) return NULL;
 		oper = -1;
 		sscanf(p,"%d",&oper);
-		if(oper==-1) return NULL;
+		if G_UNLIKELY (oper==-1) return NULL;
 
-		p = strtok(NULL,";");
-		if(!p) return NULL;
+		p = strtok_r (NULL,";", ptrptr);
+		if G_UNLIKELY (!p) return NULL;
 		sscanf(p,"%d",&nargs);
-		if(nargs==-1) return NULL;
-		
+		if G_UNLIKELY (nargs==-1) return NULL;
+
 		args = li = NULL;
 		for(i=0;i<nargs;i++) {
-			GelETree *tt = gel_decompile_node();
-			if(!tt) {
+			GelETree *tt = gel_decompile_node (ptrptr);
+			if G_UNLIKELY (tt == NULL) {
 				while(args) {
 					li = args->any.next;
 					gel_freetree(args);
@@ -293,61 +293,61 @@ gel_decompile_node(void)
 		n->op.oper = oper;
 		return n;
 	case IDENTIFIER_NODE:
-		p = strtok(NULL,";");
-		if(!p) return NULL;
+		p = strtok_r (NULL,";", ptrptr);
+		if G_UNLIKELY (!p) return NULL;
 		GET_NEW_NODE(n);
 		n->type = IDENTIFIER_NODE;
 		n->id.id = d_intern(p);
 		return n;
 	case STRING_NODE:
-		p = strtok (NULL, ";");
-		if (p == NULL)
+		p = strtok_r (NULL, ";", ptrptr);
+		if G_UNLIKELY (p == NULL)
 			return NULL;
 		
 		if (*p=='E') {
 			n = gel_makenum_string_constant ("");
 		} else {
 			p = gel_decode_string (p);
-			if (p == NULL)
+			if G_UNLIKELY (p == NULL)
 				return NULL;
 			n = gel_makenum_string_constant (p);
 			g_free (p);
 		}
 		return n;
 	case FUNCTION_NODE:
-		p = strtok(NULL,";");
-		if(!p) return NULL;
+		p = strtok_r (NULL,";", ptrptr);
+		if G_UNLIKELY (!p) return NULL;
 		nargs = -1;
 		sscanf(p,"%d",&nargs);
-		if(nargs==-1) return NULL;
+		if G_UNLIKELY (nargs==-1) return NULL;
 
-		p = strtok(NULL,";");
-		if(!p) return NULL;
+		p = strtok_r (NULL,";", ptrptr);
+		if G_UNLIKELY (!p) return NULL;
 		sscanf(p,"%d",&vararg);
-		if (vararg == -1) return NULL;
+		if G_UNLIKELY (vararg == -1) return NULL;
 
-		p = strtok(NULL,";");
-		if(!p) return NULL;
+		p = strtok_r (NULL,";", ptrptr);
+		if G_UNLIKELY (!p) return NULL;
 		sscanf(p,"%d",&propagate_mod);
-		if (propagate_mod == -1) return NULL;
+		if G_UNLIKELY (propagate_mod == -1) return NULL;
 
-		p = strtok(NULL,";");
-		if(!p) return NULL;
+		p = strtok_r (NULL,";", ptrptr);
+		if G_UNLIKELY (!p) return NULL;
 		sscanf(p,"%d",&no_mod_all_args);
-		if (no_mod_all_args == -1) return NULL;
+		if G_UNLIKELY (no_mod_all_args == -1) return NULL;
 
 		oli = NULL;
 		for(i=0;i<nargs;i++) {
-			p = strtok(NULL,";");
-			if(!p) {
+			p = strtok_r (NULL,";", ptrptr);
+			if G_UNLIKELY (!p) {
 				g_slist_free(oli);
 				return NULL;
 			}
 			oli = g_slist_append(oli,d_intern(p));
 		}
 		
-		n = gel_decompile_node();
-		if(!n) {
+		n = gel_decompile_node (ptrptr);
+		if G_UNLIKELY (!n) {
 			g_slist_free(oli);
 			return NULL;
 		}
@@ -363,21 +363,21 @@ gel_decompile_node(void)
 		n->func.func = func;
 		return n;
 	case COMPARISON_NODE:
-		p = strtok(NULL,";");
-		if(!p) return NULL;
+		p = strtok_r (NULL,";", ptrptr);
+		if G_UNLIKELY (!p) return NULL;
 		sscanf(p,"%d",&nargs);
-		if(nargs==-1) return NULL;
+		if G_UNLIKELY (nargs==-1) return NULL;
 	
 		oli = NULL;
 		for(i=0;i<nargs-1;i++) {
-			p = strtok(NULL,";");
-			if(!p) {
+			p = strtok_r (NULL,";", ptrptr);
+			if G_UNLIKELY (!p) {
 				g_slist_free(oli);
 				return NULL;
 			}
 			j = -1;
 			sscanf(p,"%d",&j);
-			if(j==-1) {
+			if G_UNLIKELY (j==-1) {
 				g_slist_free(oli);
 				return NULL;
 			}
@@ -386,8 +386,8 @@ gel_decompile_node(void)
 
 		args = li = NULL;
 		for(i=0;i<nargs;i++) {
-			GelETree *tt = gel_decompile_node();
-			if(!tt) {
+			GelETree *tt = gel_decompile_node (ptrptr);
+			if G_UNLIKELY (!tt) {
 				while(args) {
 					li = args->any.next;
 					gel_freetree(args);
@@ -411,8 +411,8 @@ gel_decompile_node(void)
 		n->comp.comp = oli;
 		return n;
 	case BOOL_NODE:
-		p = strtok (NULL, ";");
-		if (p == NULL)
+		p = strtok_r (NULL, ";", ptrptr);
+		if G_UNLIKELY (p == NULL)
 			return NULL;
 		if (*p == 't')
 			return gel_makenum_bool (TRUE);
@@ -430,17 +430,18 @@ gel_decompile_tree (char *s)
 {
 	GelETree *t;
 	char *p;
+	char *ptrptr;
 	
 	if G_UNLIKELY (s == NULL) return NULL;
-	
-	p = strtok (s, ";");
-	
+
+	p = strtok_r (s, ";", &ptrptr);
+
 	if G_UNLIKELY (strcmp (p, "T") != 0) {
 		gel_errorout (_("Bad tree record when decompiling"));
 		return NULL;
 	}
 	
-	t = gel_decompile_node();
+	t = gel_decompile_node (&ptrptr);
 	if G_UNLIKELY (t == NULL) {
 		gel_errorout (_("Bad tree record when decompiling"));
 		return NULL;

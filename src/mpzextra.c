@@ -379,11 +379,11 @@ factor_using_pollard_rho (GArray *fact, mpz_t n, int a_int)
     {
 S2:
       if (evalnode_hook != NULL) {
-	    static int i = 0;
-	    if (i++ > run_hook_every) {
-		    i = 0;
-		    (*evalnode_hook) ();
-	    }
+	      static int i = 0;
+	      if G_UNLIKELY ((i++ & RUN_HOOK_EVERY_MASK) == RUN_HOOK_EVERY_MASK) {
+		      (*evalnode_hook)();
+		      i = 0;
+	      }
       }
       if (interrupted) {
 	      mpz_set_ui (n, 1);

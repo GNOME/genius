@@ -21,37 +21,22 @@
 # If we can get maximums and derivatives, this would allow us to determine
 # automatically what n should be.
 
-SetHelp ("CompositeSimpsonsRule", "calculus", "Integration by Composite Simpson's Rule")
-function CompositeSimpsonsRule(f,a,b,n) =
-	(
-# check arguments
-## check types
-	if(not IsFunction(f)) then
-		(error("CompositeSimpsonsRule: argument 1 must be a function");bailout)
-	else if(not IsReal(a) or not IsReal(b)) then
-		(error("CompositeSimpsonsRule: arguments 2, 3 must be real values");bailout)
-	else if(not IsInteger(n)) then
-		(error("CompositeSimpsonsRule: argument 4 must be an integer");bailout);
-## check bounds
-	if(a>b) then (error("CompositeSimpsonsRule: argument 2 must be less than or equal to argument 3");bailout)
-	else if(n<= 0) then (error("CompositeSimpsonsRule: argument 4 must be positive");bailout);
+# Composite simpson's rule is implemented as a built in function
 
-# Start calculating
-	h=(b-a)/n;       # Subdivision interval
-	XI0=f(a)+f(b);   # End points
-	XI1=0;           # odd points
-	XI2=0;           # even points
-        X=a;             # current position
-	for i = 1 to n-1 do
-	(
-         X=X+h;
-         if i%2 == 0
-          then XI2=XI2+f(X)
-          else XI1=XI1+f(X)
-	);
-        h*(XI0+2*XI2+4*XI1)/3
-	)
-protect ("CompositeSimpsonsRule")
+SetHelp ("CompositeSimpsonsRuleTolerance", "calculus", "Integration of f by Composite Simpson's Rule on the interval [a,b] with the number of steps calculated by the fourth derivative bound and the desired tolerance")
+function CompositeSimpsonsRuleTolerance(f,a,b,FourthDerivativeBound,Tolerance) =
+(
+	# Error term = max(f'''')*h^4*(b-a)/180,
+	# where h=(b-a)/n
+	n = ceil(|FourthDerivativeBound*(b-a)^5 / (180*Tolerance)|^(1/4));
+
+	# Note that this is done automatically by CompositeSimpsonsRule
+	# function:
+	#if IsOdd(n) then n = n+1;
+
+	CompositeSimpsonsRule (f, a, b, n)
+)
+protect ("CompositeSimpsonsRuleTolerance")
 
 # FIXME: reference, though this is really stupid
 SetHelp ("MidpointRule", "calculus", "Integration by midpoint rule")
@@ -67,7 +52,6 @@ function MidpointRule(f,a,b,n) =
   if(a>b) then (error("MidpointRule: argument 2 must be less than or equal to argument 3");bailout)
   else if(n<= 0) then (error("MidpointRule: argument 4 must be positive");bailout);
 
-  s = 0.0;
   len = float(b-a);
   s = sum i=1 to n do float(f(a+(len*(i-0.5))/n));
   (s*len)/n
@@ -78,7 +62,7 @@ SetHelp ("NumericalIntegralSteps", "parameters", "Steps to perform in NumericalI
 parameter NumericalIntegralSteps = 1000
 
 SetHelp ("NumericalIntegralFunction", "parameters", "The function used for numerical integration in NumericalIntegral")
-parameter NumericalIntegralFunction = CompositeSimpsonsRule
+parameter NumericalIntegralFunction = `CompositeSimpsonsRule
 
 SetHelp ("NumericalIntegral", "calculus", "Integration by rule set in NumericalIntegralFunction of f from a to b using NumericalIntegralSteps steps")
 function NumericalIntegral(f,a,b) = (NumericalIntegralFunction call (f,a,b,NumericalIntegralSteps))

@@ -4676,18 +4676,19 @@ mpw_set_str_one(mpw_ptr rop,const char *s,int base)
 		char *p = g_strdup(s);
 		char *pp;
 		mpw_t tmp;
+		char *ptrptr;
 
 		mpw_init(tmp);
 
 		/* numerator */
-		pp = strtok(p,"/");
+		pp = strtok_r (p,"/", &ptrptr);
 		if (strchr (pp, 'i') == NULL)
 			mpw_set_str_int(rop,pp,base);
 		else
 			mpw_set_str_complex_int(rop,pp,base);
 
 		/* denominator */
-		pp = strtok(NULL,"/");
+		pp = strtok_r (NULL,"/", &ptrptr);
 		if (strchr (pp, 'i') == NULL)
 			mpw_set_str_int(tmp,pp,base);
 		else
@@ -4744,6 +4745,7 @@ mpw_set_str(mpw_ptr rop,const char *s,int base)
 {
 	char *p;
 	char *d;
+	char *ptrptr;
 	mpw_t tmp;
 	p = strchr(s,' ');
 	if(!p) {
@@ -4753,11 +4755,11 @@ mpw_set_str(mpw_ptr rop,const char *s,int base)
 	mpw_init(tmp);
 	mpw_set_ui(rop,0);
 	d = g_strdup(s);
-	p = strtok(d," ");
+	p = strtok_r (d, " ", &ptrptr);
 	while(p) {
 		mpw_set_str_one(tmp,p,base);
 		mpw_add(rop,rop,tmp);
-		p = strtok(NULL," ");
+		p = strtok_r (NULL, " ", &ptrptr);
 	}
 	mpw_clear(tmp);
 	g_free(d);

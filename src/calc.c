@@ -70,7 +70,6 @@ gboolean genius_is_gui = FALSE;
 GelOutput *main_out = NULL;
 
 void (*evalnode_hook)(void) = NULL;
-int run_hook_every = 1000;
 void (*statechange_hook)(calcstate_t) = NULL;
 
 typedef struct {
@@ -1788,6 +1787,7 @@ load_compiled_fp (const char *file, FILE *fp)
 		int i;
 		GSList *li = NULL;
 		int type;
+		char *ptrptr;
 
 		gel_incr_file_info();
 
@@ -1807,7 +1807,7 @@ load_compiled_fp (const char *file, FILE *fp)
 			}
 		}
 
-		p = strtok(buf,";");
+		p = strtok_r (buf,";", &ptrptr);
 		if G_UNLIKELY (!p) {
 			gel_errorout (_("Badly formed record"));
 			continue;
@@ -1816,12 +1816,12 @@ load_compiled_fp (const char *file, FILE *fp)
 			continue;
 		} else if (*p == 'A') {
 			char *d;
-			p = strtok(NULL,";");
+			p = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!p) {
 				gel_errorout (_("Badly formed record"));
 				continue;
 			}
-			d = strtok(NULL,";");
+			d = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!d) {
 				gel_errorout (_("Badly formed record"));
 				continue;
@@ -1830,12 +1830,12 @@ load_compiled_fp (const char *file, FILE *fp)
 			continue;
 		} else if (*p == 'C') {
 			char *d;
-			p = strtok(NULL,";");
+			p = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!p) {
 				gel_errorout (_("Badly formed record"));
 				continue;
 			}
-			d = strtok(NULL,";");
+			d = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!d) {
 				gel_errorout (_("Badly formed record"));
 				continue;
@@ -1844,12 +1844,12 @@ load_compiled_fp (const char *file, FILE *fp)
 			continue;
 		} else if (*p == 'D') {
 			char *d;
-			p = strtok(NULL,";");
+			p = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!p) {
 				gel_errorout (_("Badly formed record"));
 				continue;
 			}
-			d = strtok(NULL,";");
+			d = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!d) {
 				gel_errorout (_("Badly formed record"));
 				continue;
@@ -1858,12 +1858,12 @@ load_compiled_fp (const char *file, FILE *fp)
 			continue;
 		} else if (*p == 'L') {
 			char *d, *h;
-			p = strtok(NULL,";");
+			p = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!p) {
 				gel_errorout (_("Badly formed record"));
 				continue;
 			}
-			d = strtok(NULL,";");
+			d = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!d) {
 				gel_errorout (_("Badly formed record"));
 				continue;
@@ -1874,12 +1874,12 @@ load_compiled_fp (const char *file, FILE *fp)
 			continue;
 		} else if (*p == 'H') {
 			char *d, *h;
-			p = strtok(NULL,";");
+			p = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!p) {
 				gel_errorout (_("Badly formed record"));
 				continue;
 			}
-			d = strtok(NULL,";");
+			d = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!d) {
 				gel_errorout (_("Badly formed record"));
 				continue;
@@ -1890,7 +1890,7 @@ load_compiled_fp (const char *file, FILE *fp)
 			continue;
 		} else if (*p == 'P') {
 			GelToken *tok;
-			p = strtok(NULL,";");
+			p = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!p) {
 				gel_errorout (_("Badly formed record"));
 				continue;
@@ -1910,7 +1910,7 @@ load_compiled_fp (const char *file, FILE *fp)
 			extra_dict = FALSE;
 
 		/*size*/
-		p = strtok(NULL,";");
+		p = strtok_r (NULL,";", &ptrptr);
 		if G_UNLIKELY (!p) {
 			gel_errorout (_("Badly formed record"));
 			continue;
@@ -1923,7 +1923,7 @@ load_compiled_fp (const char *file, FILE *fp)
 		}
 
 		/*id*/
-		p = strtok(NULL,";");
+		p = strtok_r (NULL,";", &ptrptr);
 		if G_UNLIKELY (!p) {
 			gel_errorout (_("Badly formed record"));
 			continue;
@@ -1932,7 +1932,7 @@ load_compiled_fp (const char *file, FILE *fp)
 
 		if (type == GEL_USER_FUNC) {
 			/*nargs*/
-			p = strtok(NULL,";");
+			p = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!p) {
 				gel_errorout (_("Badly formed record"));
 				continue;
@@ -1945,7 +1945,7 @@ load_compiled_fp (const char *file, FILE *fp)
 			}
 
 			/*vararg*/
-			p = strtok(NULL,";");
+			p = strtok_r (NULL,";", &ptrptr);
 			if (p == NULL) {
 				gel_errorout (_("Badly formed record"));
 				continue;
@@ -1960,7 +1960,7 @@ load_compiled_fp (const char *file, FILE *fp)
 			/*argument names*/
 			li = NULL;
 			for(i=0;i<nargs;i++) {
-				p = strtok(NULL,";");
+				p = strtok_r (NULL,";", &ptrptr);
 				if G_UNLIKELY (p == NULL) {
 					gel_errorout (_("Badly formed record"));
 					g_slist_free(li);
@@ -1970,7 +1970,7 @@ load_compiled_fp (const char *file, FILE *fp)
 			}
 		} else {
 			/*parameter*/
-			p = strtok(NULL,";");
+			p = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!p) {
 				gel_errorout (_("Badly formed record"));
 				continue;
