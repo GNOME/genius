@@ -1,14 +1,14 @@
 # Czech translation of genius.
 # Copyright (C) YEAR Free Software Foundation, Inc.
-# Copyrigyt (C) 2004 Miloslav Trmac <mitr@volny.cz>
-# Miloslav Trmac <mitr@volny.cz>, 2003, 2004.
+# Copyrigyt (C) 2004, 2005 Miloslav Trmac <mitr@volny.cz>
+# Miloslav Trmac <mitr@volny.cz>, 2003, 2004, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: genius VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-24 19:01+0100\n"
-"PO-Revision-Date: 2004-12-25 15:01+0100\n"
+"POT-Creation-Date: 2005-01-06 18:55+0100\n"
+"PO-Revision-Date: 2005-01-06 20:44+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -622,7 +622,7 @@ msgstr "%s: parametr číslo %d není celé číslo nebo matice"
 msgid "%s: argument number %d not a positive integer"
 msgstr "%s: parametr číslo %d není kladné celé číslo"
 
-#: src/funclib.c:135 src/graphing.c:1853
+#: src/funclib.c:135 src/graphing.c:1854
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: parametr číslo %d není číslo"
@@ -1213,7 +1213,9 @@ msgstr "Kontroluje dělitelnost (jestli m dělí n)"
 msgid ""
 "Return n/d but only if d divides n else returns garbage (this is faster than "
 "writing n/d)"
-msgstr "Vrátí n/d, ale jen pokud d dělí n, jinak vrací nesmysly (toto je rychlejší než zápis n/d)"
+msgstr ""
+"Vrátí n/d, ale jen pokud d dělí n, jinak vrací nesmysly (toto je rychlejší "
+"než zápis n/d)"
 
 #: src/funclib.c:4846
 msgid ""
@@ -1716,7 +1718,7 @@ msgstr "_Přerušit"
 msgid "Interrupt current calculation"
 msgstr "Přerušení aktuální výpočet"
 
-#: src/gnome-genius.c:257 src/graphing.c:2843
+#: src/gnome-genius.c:257 src/graphing.c:2846
 msgid "_Plot"
 msgstr "_Vykreslit"
 
@@ -2199,35 +2201,35 @@ msgstr "Pohled _shora"
 msgid "R_otate axis..."
 msgstr "_Rotovat osu..."
 
-#: src/graphing.c:1844
+#: src/graphing.c:1845
 #, c-format
 msgid "Function #%d"
 msgstr "Funkce #%d"
 
-#: src/graphing.c:1866
+#: src/graphing.c:1867
 msgid "Graph limits not given as a 4-vector"
 msgstr "Limity grafu nebyly zadány jako čtyřprvkový vektor"
 
-#: src/graphing.c:1872 src/graphing.c:1878 src/graphing.c:1884
-#: src/graphing.c:1890 src/graphing.c:1949 src/graphing.c:1955
-#: src/graphing.c:1961 src/graphing.c:1967 src/graphing.c:1973
-#: src/graphing.c:1979
+#: src/graphing.c:1873 src/graphing.c:1879 src/graphing.c:1885
+#: src/graphing.c:1891 src/graphing.c:1950 src/graphing.c:1956
+#: src/graphing.c:1962 src/graphing.c:1968 src/graphing.c:1974
+#: src/graphing.c:1980
 msgid "Graph limits not given as numbers"
 msgstr "Limity grafu nebyly zadány jako čísla"
 
-#: src/graphing.c:1943
+#: src/graphing.c:1944
 msgid "Graph limits not given as a 6-vector"
 msgstr "Limity grafu nebyly zadány jako šestiprvkový vektor"
 
-#: src/graphing.c:2252
+#: src/graphing.c:2255
 msgid "to:"
 msgstr "do:"
 
-#: src/graphing.c:2282
+#: src/graphing.c:2285
 msgid "Functions / Expressions"
 msgstr "Funkce / výrazy"
 
-#: src/graphing.c:2287
+#: src/graphing.c:2290
 msgid ""
 "Type in function names or expressions involving the x variable in the boxes "
 "below to graph them"
@@ -2235,29 +2237,29 @@ msgstr ""
 "Grafy vykreslíte zadáním názvů funkcí nebo výrazů obsahujících proměnnou x "
 "do polí níže"
 
-#: src/graphing.c:2310 src/graphing.c:2365
+#: src/graphing.c:2313 src/graphing.c:2368
 msgid "Plot Window"
 msgstr "Okno grafu"
 
 #.
 #. * X range
 #.
-#: src/graphing.c:2319 src/graphing.c:2374
+#: src/graphing.c:2322 src/graphing.c:2377
 msgid "X from:"
 msgstr "X od:"
 
 #.
 #. * Y range
 #.
-#: src/graphing.c:2325 src/graphing.c:2380
+#: src/graphing.c:2328 src/graphing.c:2383
 msgid "Y from:"
 msgstr "Y od:"
 
-#: src/graphing.c:2340
+#: src/graphing.c:2343
 msgid "Function / Expression"
 msgstr "Funkce / výraz"
 
-#: src/graphing.c:2345
+#: src/graphing.c:2348
 msgid ""
 "Type a function name or an expression involving the x and y variables (or "
 "the z variable which will be z=x+iy) in the boxes below to graph them.  "
@@ -2270,74 +2272,74 @@ msgstr ""
 #.
 #. * Z range
 #.
-#: src/graphing.c:2386
+#: src/graphing.c:2389
 msgid "Z from:"
 msgstr "Z od:"
 
-#: src/graphing.c:2399
+#: src/graphing.c:2402
 msgid "Function _line plot"
 msgstr "_Čárový graf funkce"
 
-#: src/graphing.c:2403
+#: src/graphing.c:2406
 msgid "_Surface plot"
 msgstr "_Plošný graf"
 
-#: src/graphing.c:2602 src/graphing.c:2735
+#: src/graphing.c:2605 src/graphing.c:2738
 msgid "No functions to plot or no functions could be parsed"
 msgstr "Není funkce, kterou kreslitn, nebo funcke nemohla být zpracována"
 
-#: src/graphing.c:2633 src/graphing.c:2758
+#: src/graphing.c:2636 src/graphing.c:2761
 msgid "Invalid X range"
 msgstr "Neplatný rozsah X"
 
-#: src/graphing.c:2638 src/graphing.c:2763
+#: src/graphing.c:2641 src/graphing.c:2766
 msgid "Invalid Y range"
 msgstr "Neplatný rozsah Y"
 
-#: src/graphing.c:2643
+#: src/graphing.c:2646
 msgid "Invalid Z range"
 msgstr "Neplatný rozsah Z"
 
-#: src/graphing.c:2838
+#: src/graphing.c:2841
 msgid "Create Plot"
 msgstr "Vytvořit graf"
 
-#: src/graphing.c:2878 src/graphing.c:3023
+#: src/graphing.c:2881 src/graphing.c:3026
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: parametr není funkce"
 
-#: src/graphing.c:2888
+#: src/graphing.c:2891
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: podporována jen jedna funkce"
 
-#: src/graphing.c:2955 src/graphing.c:3074
+#: src/graphing.c:2958 src/graphing.c:3077
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: neplatný rozsah X"
 
-#: src/graphing.c:2960 src/graphing.c:3079
+#: src/graphing.c:2963 src/graphing.c:3082
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: neplatný rozsah Y"
 
-#: src/graphing.c:2965
+#: src/graphing.c:2968
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: neplatný rozsah Z"
 
-#: src/graphing.c:3018
+#: src/graphing.c:3021
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: podporováno nejvýše 10 funkcí"
 
-#: src/graphing.c:3166
+#: src/graphing.c:3248
 msgid "Plotting"
 msgstr "Kreslím"
 
 #. bogus value
-#: src/graphing.c:3198
+#: src/graphing.c:3280
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -2345,7 +2347,7 @@ msgstr ""
 "Vykreslit funkci jako křivku. Nejdříve jsou funkce (nejvýš 10), pak "
 "nepovinně limity jako x1, x2, y1, y2"
 
-#: src/graphing.c:3199
+#: src/graphing.c:3281
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -2353,13 +2355,21 @@ msgstr ""
 "Vykreslit plošnou funkci, která má buď dva argumenty, nebo komplexní číslo. "
 "Nejdříve je funkce, pak nepovinně limity jako x1, x2, y1, y2, z1, z2"
 
-#: src/graphing.c:3201
+#: src/graphing.c:3283
+msgid "Show the line plot window and clear out functions"
+msgstr "Zobrazit okno čárového grafu a vymazat funkce"
+
+#: src/graphing.c:3284
+msgid "Draw a line from x1,y1 to x2,y2"
+msgstr "Nakreslit úsečku od x1,y1 do x2,y2"
+
+#: src/graphing.c:3286
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr ""
 "Okno vykreslování čáry (limity) jako čtyřprvkový vektor ve tvaru [x1,x2,y1,"
 "y2]"
 
-#: src/graphing.c:3202
+#: src/graphing.c:3287
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
@@ -3196,7 +3206,9 @@ msgstr "Získat jádro (nulový prostor) lineární transformace"
 msgid ""
 "Get the LU decomposition of A and store the result in the L and U which "
 "should be references.  If not possible returns false."
-msgstr "Záskat LU rozklad A a uložit výsledek v L a U, což by měly být odkazy. Pokud to není možné, vrátí false."
+msgstr ""
+"Záskat LU rozklad A a uložit výsledek v L a U, což by měly být odkazy. Pokud "
+"to není možné, vrátí false."
 
 #: lib/library-strings.c:131
 msgid "Get the i-j minor of a matrix"
@@ -3584,7 +3596,9 @@ msgstr "Převést radiány na stupně"
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns y at x1"
-msgstr "Použít klasitckou Eulerovu metodu pro numerické řešení y'=f(x,y) pro počáteční x0,y0 do x1 s n přírůstky, vrátí y v x1"
+msgstr ""
+"Použít klasitckou Eulerovu metodu pro numerické řešení y'=f(x,y) pro "
+"počáteční x0,y0 do x1 s n přírůstky, vrátí y v x1"
 
 #: lib/library-strings.c:213
 msgid "Find root of a function using the bisection method"
@@ -3607,7 +3621,9 @@ msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
 "at x1"
-msgstr "Použít klasickou neadaptivní metodu Runge-Kutta čtvrtého řádu pro numerické řešení y'=f(x,y) pro počáteční x0,y0 do x1 s n přírůstky, vrátí y v x1"
+msgstr ""
+"Použít klasickou neadaptivní metodu Runge-Kutta čtvrtého řádu pro numerické "
+"řešení y'=f(x,y) pro počáteční x0,y0 do x1 s n přírůstky, vrátí y v x1"
 
 #: lib/library-strings.c:218
 msgid "Calculate average of an entire matrix"
