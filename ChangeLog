@@ -1,3 +1,11 @@
+Sat Mar 01 09:55:23 2003  George Lebl <jirka@5z.com>
+
+	* src/mpwrap.c: rational powers now use mpz_root to return an integer
+	  if possible.
+
+	* lib/number_theory/misc.gel: remove SymbolicNthRoot and do smarter
+	  IsNthRoot given the new usage of powers
+
 Fri Feb 28 13:32:46 2003  George Lebl <jirka@5z.com>
 
 	* src/graphing.c: play with graph colors, make graph lines 1.5 thick,

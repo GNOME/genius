@@ -2571,25 +2571,73 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		return TRUE;
 	}
 
-	den = mpz_get_ui (mpq_denref (op2->data.rval));
-	/* We can do square root, perhaps symbolically */
-	if (den == 2 || den == 4 || den == 8 || den == 16) {
-		MpwRealNum n={0};
-		mpwl_init_type (&n, MPW_INTEGER);
-		mpz_set (n.data.ival, mpq_numref (op2->data.rval));
-		mpwl_sqrt (rop, op1);
-		if (den > 2) {
-			mpwl_sqrt (rop, rop);
-			if (den > 4) {
+	if (mpz_cmp_ui (mpq_denref (op2->data.rval), ULONG_MAX) <= 0 &&
+	    op1->type <= MPW_RATIONAL) {
+		den = mpz_get_ui (mpq_denref (op2->data.rval));
+		/* We can do square root, perhaps symbolically */
+		if (den == 2 || den == 4 || den == 8 || den == 16) {
+			MpwRealNum n={0};
+			mpwl_init_type (&n, MPW_INTEGER);
+			mpz_set (n.data.ival, mpq_numref (op2->data.rval));
+			mpwl_sqrt (rop, op1);
+			if (den > 2) {
 				mpwl_sqrt (rop, rop);
-				if (den > 8)
+				if (den > 4) {
 					mpwl_sqrt (rop, rop);
+					if (den > 8)
+						mpwl_sqrt (rop, rop);
+				}
 			}
-		}
-		mpwl_pow_z (rop, rop, &n);
-		mpwl_clear (&n);
+			mpwl_pow_z (rop, rop, &n);
+			mpwl_clear (&n);
 
-		return FALSE;
+			return FALSE;
+		} else if (op1->type <= MPW_INTEGER) {
+			mpz_t z;
+			mpwl_make_extra_type (op1, MPW_INTEGER);
+
+			mpz_init (z);
+			if (mpz_root (z, op1->data.ival, den) != 0) {
+				mpwl_clear_extra_type (op1, MPW_INTEGER);
+
+				mympz_pow_z (z, z,
+					     mpq_numref (op2->data.rval));
+				mpwl_clear (rop);
+				mpwl_init_type (rop, MPW_INTEGER);
+				mpz_set (rop->data.ival, z);
+				mpz_clear (z);
+
+				return FALSE;
+			}
+			mpz_clear (z);
+
+			mpwl_clear_extra_type (op1, MPW_INTEGER);
+		} else if (op1->type == MPW_RATIONAL) {
+			mpz_t n;
+			mpz_t d;
+			mpz_init (n);
+			mpz_init (d);
+			if (mpz_root (n, mpq_numref (op1->data.rval),
+				      den) != 0 &&
+			    mpz_root (d, mpq_denref (op1->data.rval),
+				      den) != 0) {
+				mympz_pow_z (n, n,
+					     mpq_numref (op2->data.rval));
+				mympz_pow_z (d, d,
+					     mpq_numref (op2->data.rval));
+				mpwl_clear (rop);
+				mpwl_init_type (rop, MPW_RATIONAL);
+				mpz_set (mpq_numref (rop->data.rval), n);
+				mpz_set (mpq_denref (rop->data.rval), d);
+				mpq_canonicalize (rop->data.rval);
+				mpz_clear (n);
+				mpz_clear (d);
+
+				return FALSE;
+			}
+			mpz_clear (d);
+			mpz_clear (n);
+		}
 	}
 
 	mpz_init_set(des,mpq_denref(op2->data.rval));

@@ -15,7 +15,6 @@ function IsEven(n) = not IsOdd(n)
 SetHelp("IsEven","number_theory","Tests if an integer is even")
 protect("IsEven")
 
-# FIXME: This should be done internally perhaps
 function IsNthPower(n,k) =
  (
   if not IsRational (n) then
@@ -27,10 +26,7 @@ function IsNthPower(n,k) =
 	# We know this won't work
 	0
   else if IsInteger(n) then
-	(floor((n)^(1/k))^k==n)
-# FIXME: should add some ``analytic'' testing, i.e., if the
-# fractional part is non-zero (or more that precision?), it can't
-# be a square
+	IsInteger(n^(1/k))
 
   # Since rational numbers are in reduced form, by unique factorization it
   # suffices to check if the numerator and denominator are Nth powers
@@ -39,19 +35,6 @@ function IsNthPower(n,k) =
  )
 SetHelp("IsNthPower","number_theory","Tests if a rational number is a perfect power");
 protect("IsNthPower");
-
-# FIXME: this is just a hack until we get a real symbolic mode
-function SymbolicNthRoot(n,k) =
- (
-  if IsRational(n) and k == 2 then
-	sqrt (n)
-  else if IsNthPower(n,k) then
-	return IntegerPart(n^(1/k))
-  else
-  	return n^(1/k);
- )
-SetHelp("SymbolicNthRoot","number_theory","If nth root is integer, then return as integer, else standard nth root.");
-protect("SymbolicNthRoot");
 
 function Divides(m,n) = not n % m;
 SetHelp("Divides","number_theory","Checks divisibility (if m divides n)");
