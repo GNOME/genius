@@ -1,3 +1,13 @@
+Sat Jan 25 15:14:18 2003  George Lebl <jirka@5z.com>
+
+	* lib/number_theory/primes.gel, src/eval.c, src/funclib.c,
+	  src/mpwrap.[ch]:  Use gmp functions to implement NextPrime,
+	  IsPrimeProbability, LucasNumber and ModInvert.  Also implement
+	  modular inversion when we encounter a ration in modular mode
+	  and fix bug with pushing the modulus.
+
+	* src/geniustests.txt: more tests
+
 Fri Jan 24 14:16:08 2003  George Lebl <jirka@5z.com>
 
 	* lib/number_theory/modulus.gel: add implementation of EulerPhi

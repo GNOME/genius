@@ -2110,7 +2110,6 @@ is_prime(unsigned long testnum)
 	return 1;
 }
 
-
 static GelETree *
 prime_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
@@ -2161,6 +2160,125 @@ prime_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return NULL;
 	}
 	return gel_makenum_ui(g_array_index(primes,unsigned long,num-1));
+}
+
+static GelETree *
+NextPrime_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	mpw_t ret;
+
+	if(a[0]->type==MATRIX_NODE)
+		return apply_func_to_matrix(ctx,a[0],NextPrime_op,"NextPrime");
+
+	if(a[0]->type!=VALUE_NODE ||
+	   mpw_is_complex (a[0]->val.value) ||
+	   !mpw_is_integer(a[0]->val.value)) {
+		(*errorout)(_("NextPrime: argument not an integer"));
+		return NULL;
+	}
+
+	mpw_init (ret);
+	mpw_nextprime (ret, a[0]->val.value);
+	if (error_num != NO_ERROR) {
+		mpw_clear (ret);
+		/* eek! should not happen */
+		error_num = NO_ERROR;
+		return NULL;
+	}
+	return gel_makenum_use (ret);
+}
+
+static GelETree *
+LucasNumber_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	mpw_t ret;
+
+	if(a[0]->type==MATRIX_NODE)
+		return apply_func_to_matrix(ctx,a[0],LucasNumber_op,"LucasNumber");
+
+	if(a[0]->type!=VALUE_NODE ||
+	   mpw_is_complex (a[0]->val.value) ||
+	   !mpw_is_integer(a[0]->val.value)) {
+		(*errorout)(_("LucasNumber: argument not an integer"));
+		return NULL;
+	}
+
+	mpw_init (ret);
+	mpw_lucnum (ret, a[0]->val.value);
+	if (error_num != NO_ERROR) {
+		mpw_clear (ret);
+		error_num = NO_ERROR;
+		return NULL;
+	}
+	return gel_makenum_use (ret);
+}
+
+static GelETree *
+IsPrimeProbability_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	int ret;
+
+	if (a[0]->type == MATRIX_NODE ||
+	    a[1]->type == MATRIX_NODE)
+		return apply_func_to_matrixen (ctx, a[0], a[1],
+					       IsPrimeProbability_op,
+					       "IsPrimeProbability");
+
+	if(a[0]->type!=VALUE_NODE ||
+	   mpw_is_complex (a[0]->val.value) ||
+	   !mpw_is_integer(a[0]->val.value)) {
+		(*errorout)(_("IsPrimeProbability: argument not an integer"));
+		return NULL;
+	}
+
+	if(a[1]->type!=VALUE_NODE ||
+	   mpw_is_complex (a[1]->val.value) ||
+	   !mpw_is_integer(a[1]->val.value)) {
+		(*errorout)(_("IsPrimeProbability: argument not an integer"));
+		return NULL;
+	}
+
+	ret = mpw_probab_prime_p (a[0]->val.value, a[1]->val.value);
+	if (error_num != NO_ERROR) {
+		error_num = NO_ERROR;
+		return NULL;
+	}
+	return gel_makenum_ui (ret);
+}
+
+static GelETree *
+ModInvert_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	mpw_t ret;
+
+	if (a[0]->type == MATRIX_NODE ||
+	    a[1]->type == MATRIX_NODE)
+		return apply_func_to_matrixen (ctx, a[0], a[1],
+					       ModInvert_op,
+					       "ModInvert");
+
+	if(a[0]->type!=VALUE_NODE ||
+	   mpw_is_complex (a[0]->val.value) ||
+	   !mpw_is_integer(a[0]->val.value)) {
+		(*errorout)(_("ModInvert: argument not an integer"));
+		return NULL;
+	}
+
+	if(a[1]->type!=VALUE_NODE ||
+	   mpw_is_complex (a[1]->val.value) ||
+	   !mpw_is_integer(a[1]->val.value)) {
+		(*errorout)(_("ModInvert: argument not an integer"));
+		return NULL;
+	}
+
+	mpw_init (ret);
+	mpw_invert (ret, a[0]->val.value, a[1]->val.value);
+	if (error_num != NO_ERROR) {
+		mpw_clear (ret);
+		error_num = NO_ERROR;
+		return NULL;
+	}
+	return gel_makenum_use (ret);
 }
 
 static void
@@ -3385,6 +3503,11 @@ gel_funclib_addall(void)
 	FUNC (IsPerfectSquare, 1, "n", "number_theory", _("Check a number for being a perfect square"));
 	FUNC (IsPerfectPower, 1, "n", "number_theory", _("Check a number for being any perfect power (a^b)"));
 	FUNC (prime, 1, "n", "number_theory", _("Return the n'th prime (up to a limit)"));
+
+	FUNC (NextPrime, 1, "n", "number_theory", _("Returns the least prime greater than n (if n is positive)"));
+	FUNC (LucasNumber, 1, "n", "number_theory", _("Returns the n'th Lucas number"));
+	FUNC (IsPrimeProbability, 2, "n,reps", "number_theory", _("Returns 0 if composite, 1 if probably prime, 2 if definately prime"));
+	FUNC (ModInvert, 2, "n,m", "number_theory", _("Returns inverse of n mod m"));
 
 	VFUNC (max, 2, "a,args", "numeric", _("Returns the maximum of arguments or matrix"));
 	VALIAS (Max, 2, max);

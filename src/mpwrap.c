@@ -170,6 +170,9 @@ static void mpwl_make_type(MpwRealNum *op,int type);
 /*this only adds a value of that type but does nto clear the old one!
   retuns the new extra type set*/
 static int mpwl_make_same_extra_type(MpwRealNum *op1,MpwRealNum *op2);
+/*
+static int mpwl_make_same_extra_type_3(MpwRealNum *op1,MpwRealNum *op2);
+*/
 
 static void mympq_set_f(mpq_t rop,mpf_t op);
 /*make new type and clear the old one*/
@@ -209,10 +212,14 @@ static void mpwl_ui_div(MpwRealNum *rop,unsigned long int i,MpwRealNum *op);
 
 static void mpwl_mod(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 
+static gboolean mpwl_invert (MpwRealNum *rop, MpwRealNum *op1, MpwRealNum *op2);
 static void mpwl_gcd(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 static void mpwl_jacobi(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 static void mpwl_legendre(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 static void mpwl_kronecker(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
+static void mpwl_lucnum (MpwRealNum *rop, MpwRealNum *op);
+static void mpwl_nextprime (MpwRealNum *rop, MpwRealNum *op);
+static int mpwl_probab_prime_p (MpwRealNum *op, MpwRealNum *reps);
 static gboolean mpwl_perfect_square(MpwRealNum *op);
 static gboolean mpwl_perfect_power(MpwRealNum *op);
 
@@ -1042,6 +1049,23 @@ mpwl_make_same_extra_type(MpwRealNum *op1,MpwRealNum *op2)
 		return op2->type;
 	}
 }
+
+#if 0
+/*this only adds a value of that type but does nto clear the old one!
+  retuns the new extra type set*/
+static int
+mpwl_make_same_extra_type_3 (MpwRealNum *op1, MpwRealNum *op2, MpwRealNum *op3)
+{
+	int maxtype = MAX (MAX (op1->type, op2->type), op3->type);
+	if (op1->type < maxtype)
+		mpwl_make_extra_type (op1, maxtype);
+	if (op2->type < maxtype)
+		mpwl_make_extra_type (op2, maxtype);
+	if (op3->type < maxtype)
+		mpwl_make_extra_type (op3, maxtype);
+	return maxtype;
+}
+#endif
 
 /*make new type and clear the old one*/
 static void
@@ -2047,6 +2071,47 @@ mpwl_gcd(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	}
 }
 
+static gboolean
+mpwl_invert (MpwRealNum *rop, MpwRealNum *op1, MpwRealNum *op2)
+{
+	if (op1->type <= MPW_INTEGER && op2->type <= MPW_INTEGER) {
+		int t = mpwl_make_same_extra_type (op1, op2);
+		gboolean suc = FALSE;
+		mpz_t ret;
+		mpz_t i1, i2;
+
+		mpz_init (ret);
+
+		switch(t) {
+		case MPW_INTEGER:
+			suc = mpz_invert (ret, op1->data.ival, op2->data.ival);
+			break;
+		case MPW_NATIVEINT:
+			mpz_init_set_si (i1, op1->data.nval);
+			mpz_init_set_si (i2, op2->data.nval);
+			suc = mpz_invert (ret, i1, i2);
+			mpz_clear (i1);
+			mpz_clear (i2);
+			break;
+		}
+		mpwl_clear_extra_type (op1, t);
+		mpwl_clear_extra_type (op2, t);
+		if (suc) {
+			mpwl_clear (rop);
+			mpwl_init_type (rop, MPW_INTEGER);
+			mpz_set (rop->data.ival, ret);
+		}
+		mpz_clear (ret);
+
+		return suc;
+	} else {
+		(*errorout)(_("Can't modulo invert non integers!"));
+		error_num=NUMERICAL_MPW_ERROR;
+
+		return FALSE;
+	}
+}
+
 static void
 mpwl_jacobi(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
@@ -2137,6 +2202,118 @@ mpwl_kronecker (MpwRealNum *rop, MpwRealNum *op1, MpwRealNum *op2)
 	} else {
 		(*errorout)(_("Can't get jacobi symbol with Kronecker extension of floats or rationals!"));
 		error_num=NUMERICAL_MPW_ERROR;
+	}
+}
+
+static void
+mpwl_lucnum (MpwRealNum *rop, MpwRealNum *op)
+{
+	if(op->type!=MPW_INTEGER && op->type!=MPW_NATIVEINT) {
+		(*errorout)(_("Lucas must get an integer argument!"));
+		error_num = NUMERICAL_MPW_ERROR;
+		return;
+	}
+	if(op->type==MPW_INTEGER) {
+		if(mpz_cmp_ui(op->data.ival,ULONG_MAX)>0) {
+			(*errorout)(_("Number too large to compute lucas number!"));
+			error_num=NUMERICAL_MPW_ERROR;
+			return;
+		}
+		if(mpz_sgn(op->data.ival)<0) {
+			(*errorout)(_("No such thing as negative lucas numbers!"));
+			error_num=NUMERICAL_MPW_ERROR;
+			return;
+		}
+		if (rop->type != MPW_INTEGER) {
+			mpwl_clear (rop);
+			mpwl_init_type (rop, MPW_INTEGER);
+		}
+		mpz_lucnum_ui (rop->data.ival, mpz_get_ui (op->data.ival));
+	} else {
+		if(op->data.nval<0) {
+			(*errorout)(_("No such thing as negative lucas numbers!"));
+			error_num=NUMERICAL_MPW_ERROR;
+			return;
+		}
+		if (rop->type != MPW_INTEGER) {
+			mpwl_clear (rop);
+			mpwl_init_type (rop, MPW_INTEGER);
+		}
+		mpz_lucnum_ui (rop->data.ival, mpz_get_ui (op->data.ival));
+	}
+}
+
+static void
+mpwl_nextprime (MpwRealNum *rop, MpwRealNum *op)
+{
+	if(op->type!=MPW_INTEGER && op->type!=MPW_NATIVEINT) {
+		(*errorout)(_("Cannot get next prime after non-integer!"));
+		error_num = NUMERICAL_MPW_ERROR;
+		return;
+	}
+	if(op->type==MPW_INTEGER) {
+		if (rop->type != MPW_INTEGER) {
+			mpwl_clear (rop);
+			mpwl_init_type (rop, MPW_INTEGER);
+		}
+		mpz_nextprime (rop->data.ival, op->data.ival);
+	} else {
+		mpz_t num;
+		mpz_init (num);
+		mpz_set_si (num, op->data.nval);
+		if (rop->type != MPW_INTEGER) {
+			mpwl_clear (rop);
+			mpwl_init_type (rop, MPW_INTEGER);
+		}
+		mpz_nextprime (rop->data.ival, num);
+		mpz_clear (num);
+	}
+}
+
+static int
+mpwl_probab_prime_p (MpwRealNum *op, MpwRealNum *reps)
+{
+	int reps_i;
+	if ((op->type!=MPW_INTEGER &&
+	     op->type!=MPW_NATIVEINT) ||
+	    (reps->type!=MPW_INTEGER &&
+	     reps->type!=MPW_NATIVEINT)) {
+		(*errorout)(_("Cannot test non-integers for primeness!"));
+		error_num = NUMERICAL_MPW_ERROR;
+		return 0;
+	}
+
+	if (reps->type == MPW_INTEGER) {
+		if (mpz_cmp_ui (reps->data.ival, ULONG_MAX) > 0) {
+			(*errorout)(_("Too many repetitions for prime test!"));
+			error_num = NUMERICAL_MPW_ERROR;
+			return 0;
+		}
+		if (mpz_sgn (reps->data.ival) <= 0) {
+			(*errorout)(_("Negative or zero repetitions for prime test!"));
+			error_num = NUMERICAL_MPW_ERROR;
+			return 0;
+		}
+		reps_i = mpz_get_ui (reps->data.ival);;
+	} else /* MPW_NATIVEINT */ {
+		if (reps->data.nval <= 0) {
+			(*errorout)(_("Negative or zero repetitions for prime test!"));
+			error_num = NUMERICAL_MPW_ERROR;
+			return 0;
+		}
+		reps_i = reps->data.nval;
+	}
+
+	if (op->type == MPW_INTEGER) {
+		return mpz_probab_prime_p (op->data.ival, reps_i);
+	} else /* MPW_NATIVEINT */{
+		int ret;
+		mpz_t num;
+		mpz_init (num);
+		mpz_set_si (num, op->data.nval);
+		ret = mpz_probab_prime_p (num, reps_i);
+		mpz_clear (num);
+		return ret;
 	}
 }
 
@@ -3870,7 +4047,7 @@ mpw_ui_div(mpw_ptr rop,unsigned int in,mpw_ptr op)
 }
 
 void
-mpw_mod(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
+mpw_mod (mpw_ptr rop, mpw_ptr op1, mpw_ptr op2)
 {
 	if(op1->type==MPW_REAL && op2->type==MPW_REAL) {
 		if(mpwl_sgn(op2->r)==0) {
@@ -3884,6 +4061,23 @@ mpw_mod(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 	} else {
 		error_num=NUMERICAL_MPW_ERROR;
 		(*errorout)(_("Can't modulo complex numbers"));
+	}
+}
+
+void
+mpw_invert (mpw_ptr rop, mpw_ptr op1, mpw_ptr mod)
+{
+	if (op1->type == MPW_REAL && mod->type == MPW_REAL) {
+		MAKE_REAL (rop);
+		MAKE_COPY (rop->r);
+		if ( ! mpwl_invert (rop->r, op1->r, mod->r)) {
+			error_num = NUMERICAL_MPW_ERROR;
+			/* FIXME: give the numbers */
+			(*errorout)(_("No modulo inverse found!"));
+		}
+	} else {
+		error_num=NUMERICAL_MPW_ERROR;
+		(*errorout)(_("Can't do modulo invert on complex numbers"));
 	}
 }
 
@@ -3957,6 +4151,41 @@ mpw_kronecker(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 	} else {
 		error_num=NUMERICAL_MPW_ERROR;
 		(*errorout)(_("Can't get jacobi symbol with Kronecker extension for complex numbers"));
+	}
+}
+void
+mpw_lucnum (mpw_ptr rop, mpw_ptr op)
+{
+	if (op->type == MPW_REAL) {
+		MAKE_REAL (rop);
+		MAKE_COPY (rop->r);
+		mpwl_lucnum (rop->r, op->r);
+	} else {
+		error_num = NUMERICAL_MPW_ERROR;
+		(*errorout) (_("Can't get lucas number for complex numbers"));
+	}
+}
+void
+mpw_nextprime (mpw_ptr rop, mpw_ptr op)
+{
+	if (op->type == MPW_REAL) {
+		MAKE_REAL (rop);
+		MAKE_COPY (rop->r);
+		mpwl_nextprime (rop->r, op->r);
+	} else {
+		error_num = NUMERICAL_MPW_ERROR;
+		(*errorout) (_("Can't get next prime for complex numbers"));
+	}
+}
+int
+mpw_probab_prime_p (mpw_ptr op, mpw_ptr reps)
+{
+	if (op->type == MPW_REAL && reps->type == MPW_REAL) {
+		return mpwl_probab_prime_p (op->r, reps->r);
+	} else {
+		error_num = NUMERICAL_MPW_ERROR;
+		(*errorout) (_("probab_prime_p: can't work on complex numbers"));
+		return 0;
 	}
 }
 gboolean

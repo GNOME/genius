@@ -1112,6 +1112,58 @@ cmpstringop(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	return TRUE;
 }
 
+static gboolean
+mod_integer_rational (mpw_t num, mpw_t mod)
+{
+	if (mpw_is_complex (num)) {
+		return FALSE;
+	} else if (mpw_is_integer (num)) {
+		mpw_mod (num, num, mod);
+		if (mpw_sgn (num) < 0)
+			mpw_add (num, mod, num);
+		if (error_num != 0)
+			return FALSE;
+		else
+			return TRUE;
+	} else if (mpw_is_rational (num)) {
+		mpw_t n, d;
+		mpw_init (n);
+		mpw_init (d);
+		mpw_numerator (n, num);
+		mpw_denominator (d, num);
+
+		mpw_mod (n, n, mod);
+		if (mpw_sgn (n) < 0)
+			mpw_add (n, mod, n);
+
+		mpw_mod (d, d, mod);
+		if (mpw_sgn (d) < 0)
+			mpw_add (d, mod, d);
+
+		if (error_num != 0) {
+			mpw_clear (n);
+			mpw_clear (d);
+			return FALSE;
+		}
+
+		mpw_invert (num, d, mod);
+		if (error_num != 0) {
+			mpw_clear (n);
+			mpw_clear (d);
+			return FALSE;
+		}
+		mpw_mul (num, num, n);
+		mpw_mod (num, num, mod);
+
+		if (error_num != 0)
+			return FALSE;
+		else
+			return TRUE;
+	} else {
+		return FALSE;
+	}
+}
+
 static GelETree *
 op_two_nodes (GelCtx *ctx, GelETree *ll, GelETree *rr, int oper,
 	      gboolean no_push)
@@ -1152,14 +1204,10 @@ op_two_nodes (GelCtx *ctx, GelETree *ll, GelETree *rr, int oper,
 		default: g_assert_not_reached();
 		}
 		if (ctx->modulo != NULL) {
-			if (mpw_is_complex (res) ||
-			    ! mpw_is_integer (res)) {
+			if ( ! mod_integer_rational (res, ctx->modulo)) {
+				/* also on rationals but as integers */
 				(*errorout)(_("Modulo arithmetic only works on integers"));
 				error_num = NUMERICAL_MPW_ERROR;
-			} else {
-				mpw_mod (res, res, ctx->modulo);
-				if (mpw_sgn (res) < 0)
-					mpw_add (res, ctx->modulo, res);
 			}
 		}
 		if(error_num==NUMERICAL_MPW_ERROR) {
@@ -1682,17 +1730,15 @@ static void
 mod_node(GelETree *n, mpw_ptr mod)
 {
 	if(n->type == VALUE_NODE) {
-		if (mpw_is_complex (n->val.value) ||
-		    ! mpw_is_integer (n->val.value)) {
-			(*errorout)(_("Modulo arithmetic only works on integers"));
+		if ( ! mod_integer_rational (n->val.value, mod)) {
+			if (error_num != NO_ERROR) { /*FIXME: for now ignore errors in moding*/
+				error_num = NO_ERROR;
+			} else {
+				/* also on rationals but as integers */
+				(*errorout)(_("Modulo arithmetic only works on integers"));
+			}
 			return;
 		}
-		mpw_mod(n->val.value,n->val.value,mod);
-		if(error_num) { /*FIXME: for now ignore errors in moding*/
-			error_num = 0;
-		}
-		if(mpw_sgn(n->val.value)<0)
-			mpw_add(n->val.value,mod,n->val.value);
 	} else if(n->type == MATRIX_NODE) {
 		int i,j;
 		int w,h;
@@ -2938,7 +2984,11 @@ iter_push_args_no_modulo_on_2 (GelCtx *ctx, GelETree *args)
 	ctx->post = FALSE;
 	ctx->current = args;
 	if (ctx->modulo != NULL) {
-		GE_PUSH_STACK (ctx, ctx->modulo, GE_SETMODULO);
+		/* FIXME: perhaps we can just clear ctx->modulo here */
+		mpw_ptr ptr = g_new (struct _mpw_t, 1);
+		mpw_init_set (ptr, ctx->modulo);
+
+		GE_PUSH_STACK (ctx, ptr, GE_SETMODULO);
 	}
 	GE_PUSH_STACK(ctx, args->any.next, GE_PRE);
 	g_assert (args->any.next->any.next == NULL);
@@ -5074,8 +5124,10 @@ eval_etree(GelCtx *ctx, GelETree *etree)
 	int flag;
 	gpointer data;
 
-	if (ctx->modulo != NULL)
+	if (ctx->modulo != NULL) {
 		GE_PUSH_STACK (ctx, ctx->modulo, GE_SETMODULO);
+		ctx->modulo = NULL;
+	}
 	
 	GE_PUSH_STACK(ctx,ctx->res,GE_RESULT);
 	if(ctx->post) {

@@ -152,11 +152,15 @@ void mpw_ui_div(mpw_ptr rop,unsigned int i,mpw_ptr op);
 
 void mpw_mod(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 
+void mpw_invert(mpw_ptr rop, mpw_ptr op1, mpw_ptr mod);
 void mpw_gcd(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 void mpw_lcm(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 void mpw_jacobi(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 void mpw_legendre(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 void mpw_kronecker(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
+void mpw_lucnum (mpw_ptr rop, mpw_ptr op);
+void mpw_nextprime (mpw_ptr rop, mpw_ptr op);
+int mpw_probab_prime_p (mpw_ptr op, mpw_ptr reps);
 gboolean mpw_perfect_square(mpw_ptr op);
 gboolean mpw_perfect_power(mpw_ptr op);
 
