@@ -161,15 +161,16 @@ error_op(GelCtx *ctx, GelETree * * a, int *exception)
 }
 /*print function*/
 static GelETree *
-print_op(GelCtx *ctx, GelETree * * a, int *exception)
+print_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
-	if(a[0]->type==STRING_NODE)
-		gel_output_printf(main_out,"%s\n",a[0]->str.str);
-	else {
-		pretty_print_etree(main_out,a[0]);
-		gel_output_string(main_out,"\n");
+	if (a[0]->type==STRING_NODE) {
+		gel_output_printf_full (main_out, FALSE, "%s\n", a[0]->str.str);
+	} else {
+		/* FIXME: whack limit */
+		pretty_print_etree (main_out, a[0]);
+		gel_output_string (main_out,"\n");
 	}
-	gel_output_flush(main_out);
+	gel_output_flush (main_out);
 	return gel_makenum_null();
 }
 /*print function*/
@@ -2094,6 +2095,38 @@ polytofunc_op(GelCtx *ctx, GelETree * * a, int *exception)
 	return n;
 }
 
+static void
+do_blue (void)
+{
+	if (genius_is_gui) {
+		gel_output_full_string (main_out, "\e[01;34m");
+	}
+}
+
+static void
+do_green (void)
+{
+	if (genius_is_gui) {
+		gel_output_full_string (main_out, "\e[32m");
+	}
+}
+
+static void
+do_red (void)
+{
+	if (genius_is_gui) {
+		gel_output_full_string (main_out, "\e[01;31m");
+	}
+}
+
+static void
+do_black (void)
+{
+	if (genius_is_gui) {
+		gel_output_full_string (main_out, "\e[0m");
+	}
+}
+
 static char *
 make_function_with_aliases (const char *func, GSList *aliases)
 {
@@ -2110,21 +2143,26 @@ static void
 print_function_help (GelHelp *help)
 {
 	if (help->aliasfor == NULL) {
-		char *s, *f;
+		char *f;
 		int len;
 		f = make_function_with_aliases (help->func, help->aliases);
 		len = strlen (f);
+		do_blue ();
 		if (len <= 20)
-			s = g_strdup_printf ("%-20s - %s",
-					     f,
-					     help->description);
+			gel_output_printf_full (main_out, FALSE,
+						"%-20s", f);
 		else
-			s = g_strdup_printf ("%-20s - %s",
-					     help->func,
-					     help->description);
+			gel_output_printf_full (main_out, FALSE,
+						"%-20s", help->func);
 		g_free (f);
-		(*infoout) (s);
-		g_free (s);
+		do_black ();
+		gel_output_full_string (main_out, " - ");
+		do_green ();
+		if (help->description != NULL)
+			gel_output_printf_full (main_out, FALSE,
+						"%s\n", help->description);
+		else
+			gel_output_full_string (main_out, "\n");
 		/* if we didn't fit aliases on one line */
 		if (len > 20 && help->aliases != NULL) {
 			GSList *li;
@@ -2135,7 +2173,8 @@ print_function_help (GelHelp *help)
 				g_string_append (gs, " ");
 				g_string_append (gs, li->data);
 			}
-			(*infoout) (gs->str);
+			gel_output_printf_full (main_out, FALSE,
+						"%s\n", gs->str);
 			g_string_free (gs, TRUE);
 		}
 	}
@@ -2148,18 +2187,16 @@ help_op (GelCtx *ctx, GelETree * * a, int *exception)
 	GSList *functions;
 	GSList *cli, *fli;
 
+	gel_output_push_nonotify (main_out);
+
 	for (cli = categories; cli != NULL; cli = cli->next) {
 		char *cat = cli->data;
 		functions = get_helps (cat);
 
 		if (functions != NULL) {
-			/* empty line */
-			(*infoout) ("");
-
-			(*infoout) (get_category_name (cat));
-
-			/* empty line */
-			(*infoout) ("");
+			do_black ();
+			gel_output_printf_full (main_out, FALSE, "\n%s\n",
+						get_category_name (cat));
 
 			for (fli = functions; fli != NULL; fli = fli->next) {
 				GelHelp *help = fli->data;
@@ -2175,13 +2212,9 @@ help_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	functions = get_helps (NULL);
 	if (functions != NULL) {
-		/* empty line */
-		(*infoout) ("");
-
-		(*infoout) (get_category_name (NULL));
-
-		/* empty line */
-		(*infoout) ("");
+		do_black ();
+		gel_output_printf_full (main_out, FALSE, "\n%s\n",
+					get_category_name (NULL));
 
 		for (fli = functions; fli != NULL; fli = fli->next) {
 			GelHelp *help = fli->data;
@@ -2195,20 +2228,20 @@ help_op (GelCtx *ctx, GelETree * * a, int *exception)
 	if (functions != NULL) {
 		GString *gs = g_string_new (NULL);
 		int len = 0;
-		/* empty line */
-		(*infoout) ("");
 
-		/* empty line */
-		(*infoout) (_("Undocumented:"));
+		do_black ();
 
-
+		gel_output_full_string (main_out,
+					_("\nUndocumented:\n"));
+		do_blue ();
 
 		for (fli = functions; fli != NULL; fli = fli->next) {
 			char *f = fli->data;
 			int flen = strlen (f);
 
 			if (len + flen + 1 > 78 && len > 0) {
-				(*infoout) (gs->str);
+				gel_output_printf_full (main_out, FALSE, "%s\n",
+							gs->str);
 				g_string_truncate (gs, 0);
 				len = 0;
 			}
@@ -2222,14 +2255,18 @@ help_op (GelCtx *ctx, GelETree * * a, int *exception)
 			g_free (f);
 		}
 		if (len > 0) {
-			(*infoout) (gs->str);
+			gel_output_printf_full (main_out, FALSE, "%s\n",
+						gs->str);
 		}
 		g_string_free (gs, TRUE);
 
 		g_slist_free (functions);
 	}
+	do_blue ();
 
-	return gel_makenum_null();
+	gel_output_pop_nonotify (main_out);
+
+	return gel_makenum_null ();
 }
 
 static GelETree *
@@ -2690,23 +2727,20 @@ gel_funclib_addall(void)
 	FUNC (floor, 1, "numeric", _("Get the highest integer less then or equal to n"));
 	FUNC (ceil, 1, "numeric", _("Get the lowest integer more then or equal to n"));
 	FUNC (trunc, 1, "numeric", _("Truncate number to an integer"));
+	FUNC (float, 1, "numeric", _("Make number a float"));
 	FUNC (Numerator, 1, "numeric", _("Get the numerator of a rational number"));
 	FUNC (Denominator, 1, "numeric", _("Get the denominator of a rational number"));
 
 	FUNC (gcd, 2, "number_theory", _("Greatest common divisor"));
 	FUNC (lcm, 2, "number_theory", _("Least common multiplier"));
 	FUNC (PerfectSquare, 1, "number_theory", _("Check a number for being a perfect square"));
+	FUNC (prime, 1, "number_theory", _("Return the n'th prime (up to a limit)"));
+
+	FUNC (max, 2, "numeric", _("Returns the maximum of two arguments"));
+	FUNC (min, 2, "numeric", _("Returns the minimum of two arguments"));
 
 	d_addfunc(d_makebifunc(d_intern("jacobi"),jacobi_op,2));
 	d_addfunc(d_makebifunc(d_intern("legendre"),legendre_op,2));
-	d_addfunc(d_makebifunc(d_intern("max"),max_op,2));
-	add_description("max",_("Return the larger of two arguments"));
-	d_addfunc(d_makebifunc(d_intern("min"),min_op,2));
-	add_description("min",_("Return the smaller of two arguments"));
-	d_addfunc(d_makebifunc(d_intern("prime"),prime_op,1));
-	add_description("prime",_("Return the n'th prime (up to a limit)"));
-	d_addfunc(d_makebifunc(d_intern("float"),float_op,1));
-	add_description("float",_("Make number a float"));
 
 	FUNC (Re, 1, "numeric", _("Get the real part of a complex number"));
 	ALIAS (RealPart, 1, Re);
@@ -2728,10 +2762,11 @@ gel_funclib_addall(void)
 	ALIAS (RREF, 1, rref);
 	ALIAS (ReducedRowEchelonForm, 1, rref);
 
-	d_addfunc(d_makebifunc(d_intern("SetMatrixSize"),SetMatrixSize_op,3));
-	add_description("SetMatrixSize",_("Make new matrix of given size from old one"));
-	d_addfunc(d_makebifunc(d_intern("det"),det_op,1));
-	add_description("det",_("Get the determinant of a matrix"));
+	FUNC (det, 1, "linear_algebra", _("Get the determinant of a matrix"));
+	ALIAS (Determinant, 1, det);
+
+	FUNC (SetMatrixSize, 3, "matrix", _("Make new matrix of given size from old one"));
+
 	d_addfunc(d_makebifunc(d_intern("is_value_only"),is_value_only_op,1));
 	add_description("is_value_only",_("Check if a matrix is a value only matrix"));
 	d_addfunc(d_makebifunc(d_intern("is_null"),is_null_op,1));
@@ -2766,10 +2801,8 @@ gel_funclib_addall(void)
 	d_addfunc(d_makebifunc(d_intern("polytostring"),polytostring_op,2));
 	d_addfunc(d_makebifunc(d_intern("polytofunc"),polytofunc_op,1));
 
-	d_addfunc(d_makebifunc(d_intern("protect"),protect_op,1));
-	add_description("protect",_("Protect a variable from being modified"));
-	d_addfunc(d_makebifunc(d_intern("unprotect"),unprotect_op,1));
-	add_description("unprotect",_("Unprotect a variable from being modified"));
+	FUNC (protect, 1, "basic", _("Protect a variable from being modified"));
+	FUNC (unprotect, 1, "basic", _("Unprotect a variable from being modified"));
 
 	/*temporary until well done internal functions are done*/
 	_internal_ln_function = d_makeufunc(d_intern("<internal>ln"),

@@ -145,6 +145,8 @@ void add_help_link (const char *func, const char *link);
 void add_help_html (const char *func, const char *html);
 void whack_help (const char *func);
 
+extern gboolean genius_is_gui;
+
 extern GelOutput *main_out;
 
 #endif /* CALC_H_ */

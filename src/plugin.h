@@ -38,6 +38,4 @@ extern GSList *plugin_list;
 
 void open_plugin(plugin_t *plug);
 
-extern int genius_is_gui;
-
 #endif

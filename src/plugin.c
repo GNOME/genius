@@ -57,8 +57,6 @@ GSList *plugin_list = NULL;
 static GHashTable *opened = NULL;
 static GHashTable *info = NULL;
 
-int genius_is_gui = FALSE;
-
 static void
 free_plugin(plugin_t *plg)
 {

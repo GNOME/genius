@@ -102,15 +102,8 @@ static void feed_to_zvt (gpointer data, gint source,
 static void get_new_buffer (gpointer data, gint source,
 			    GdkInputCondition condition);
 
-static void
-print_to_term (const char *s)
-{
-	feed_to_zvt (NULL, forzvt[0], 0);
-	zvt_term_feed (ZVT_TERM (zvt), (char *)s, strlen (s));
-}
-
 static int
-count_char(char *s, char c)
+count_char (const char *s, char c)
 {
 	int i = 0;
 	while(*s) {
@@ -123,7 +116,7 @@ count_char(char *s, char c)
 
 /*display a message in a messagebox*/
 static void
-geniusbox(int error, char *s)
+geniusbox(int error, const char *s)
 {
 	GtkWidget *mb;
 	if(count_char(s,'\n')<=20) {
@@ -210,10 +203,9 @@ geniuserror(const char *s)
 			errors = g_string_new(str);
 		}
 	} else {
-		char *s;
-		s = g_strdup_printf("\e[01;31m%s\e[0m\r\n",str);
-		print_to_term(s);
-		g_free(s);
+		gel_output_printf_full (main_out, FALSE,
+					"\e[01;31m%s\e[0m\r\n", str);
+		gel_output_flush (main_out);
 	}
 
 	g_free(str);
@@ -252,10 +244,9 @@ geniusinfo(const char *s)
 			infos = g_string_new(str);
 		}
 	} else {
-		char *s;
-		s = g_strdup_printf("\e[0;32m%s\e[0m\r\n",str);
-		print_to_term(s);
-		g_free(s);
+		gel_output_printf_full (main_out, FALSE,
+					"\e[32m%s\e[0m\r\n", str);
+		gel_output_flush (main_out);
 	}
 
 	g_free(str);

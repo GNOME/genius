@@ -40,7 +40,7 @@ function rank (M) = Rank (M)
 protect ("rank")
 
 # Nullity of a matrix
-SetHelp ("Nullity", "linear_algebra", "Get the rank of a matrix")
+SetHelp ("Nullity", "linear_algebra", "Get the nullity of a matrix")
 function Nullity (M) =
 (
   if not is_matrix (M) then
@@ -53,6 +53,7 @@ function nullity (M) = Nullity (M)
 protect ("nullity")
 
 # Image of a linear transform (=column space of the corresponding matrix)
+SetHelp ("Image", "linear_algebra", "Get the image (columnspace) of a linear transform")
 function Image(T) = ColumnSpace(T)
 protect ("Image")
 
@@ -75,8 +76,10 @@ protect ("Image")
 # [4,0,5,0,-1]
 # This is poorly explained (FIXME), but some examples should make it
 # clear (find a good reference for this!)
+SetHelp ("Kernel", "linear_algebra", "Get the kernel (nullspace) of a linear transform")
 function Kernel (T) = NullSpace(T)
 protect ("Kernel")
+SetHelp ("NullSpace", "linear_algebra", "Get the nullspace of a matrix")
 function NullSpace (T)=
   (
     non_pivots=NonPivotColumns(T);
@@ -131,6 +134,7 @@ protect ("VectorSubspaceIntersection")
 # return the orthogonal complement.
 # FIXME: currently assumes that the inner product is the standard
 # inner product on R^n
+SetHelp ("OrthogonalComplement", "linear_algebra", "Get the orthogonal complement of the columnspace")
 function OrthogonalComplement(M)=NullSpace(Transpose(M))
 protect ("OrthogonalComplement")
 

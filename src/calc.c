@@ -61,6 +61,8 @@ extern int lex_init;
 extern char *yytext;
 extern int yydebug;
 
+gboolean genius_is_gui = FALSE;
+
 GelOutput *main_out = NULL;
 
 void (*evalnode_hook)(void) = NULL;
