@@ -52,3 +52,24 @@ function CompositeSimpsonsRule(f,a,b,n) =
         return h*(XI0+2*XI2+4*XI1)/3
 	)
 protect ("CompositeSimpsonsRule")
+
+# FIXME: reference, though this is really stupid
+SetHelp ("MidpointRule", "calculus", "Integration by midpoint rule")
+function MidpointRule(f,a,b,n) =
+(
+  if(not IsFunction(f)) then
+	(error("MidpointRule: argument 1 must be a function");bailout)
+  else if(not IsReal(a) or not IsReal(b)) then
+	(error("MidpointRule: arguments 2, 3 must be real values");bailout)
+  else if(not IsInteger(n)) then
+	(error("MidpointRule: argument 4 must be an integer");bailout);
+  ## check bounds
+  if(a>b) then (error("MidpointRule: argument 2 must be less than or equal to argument 3");bailout)
+  else if(n<= 0) then (error("MidpointRule: argument 4 must be positive");bailout);
+
+  s = 0.0;
+  len = float(b-a);
+  s = sum i=1 to n do float(f(a+(len*(i-0.5))/n));
+  (s*len)/n
+)
+protect ("MidpointRule")
