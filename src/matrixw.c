@@ -61,6 +61,12 @@ gel_matrixw_new(void)
 	
 	m->m = gel_matrix_new();
 	m->m->use = 1;
+
+	/* clear caches as we're gonna mess with this matrix */
+	m->cached_value_only = 0;
+	m->cached_value_only_real = 0;
+	m->cached_value_only_rational = 0;
+	m->cached_value_only_integer = 0;
 	
 	m->tr = FALSE;
 	m->region.x = 0;
@@ -68,7 +74,7 @@ gel_matrixw_new(void)
 	m->region.w = m->m->width;
 	m->region.h = m->m->height;
 	
-	if(!the_zero)
+	if (the_zero == NULL)
 		the_zero = gel_makenum_ui(0);
 	
 	return m;
@@ -86,6 +92,12 @@ gel_matrixw_new_with_matrix(GelMatrix *mat)
 	
 	m->m = mat;
 	m->m->use++;
+
+	/* clear caches as we're gonna mess with this matrix */
+	m->cached_value_only = 0;
+	m->cached_value_only_real = 0;
+	m->cached_value_only_rational = 0;
+	m->cached_value_only_integer = 0;
 	
 	m->tr = FALSE;
 	m->region.x = 0;

@@ -151,6 +151,7 @@ void mpw_ui_div(mpw_ptr rop,unsigned int i,mpw_ptr op);
 void mpw_mod(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 
 void mpw_gcd(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
+void mpw_lcm(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 void mpw_jacobi(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 void mpw_legendre(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 void mpw_kronecker(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);

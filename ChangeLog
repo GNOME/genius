@@ -1,3 +1,21 @@
+Wed Oct 23 20:52:33 2002  George Lebl <jirka@5z.com>
+
+	* src/matop.c, src/matrixw.c: Fix integer/rational caching
+
+	* src/funclib.c: make gcd and lcm take multiple arguments or
+	  a vector (or matrix).  Also rename PerfectSquare and PerfectPower
+	  to IsPerfectSquare and IsPerfectPower
+
+	* lib/number_theorey/*.gel: use the perfect functions above and
+	  whack IsSquare
+
+	* lib/linear_algebra/linear_algebra.gel: add some determinantal
+	  divisor whackiness for integer matrices (less useful, but good
+	  for homework/learning), a bunch of related nonsense too
+
+	* lib/linear_algebra/misc.gel: add IsUpperTriangular,
+	  IsLowerTriangular, and IsDiagonal
+
 Wed Oct 23 16:49:40 2002  George Lebl <jirka@5z.com>
 
 	* lib/linear_algebra/special_matrices.gel: add companion matrix

@@ -92,5 +92,5 @@ function Factors(n) =
       back_list=[n/loop,back_list];
      );
    );
-  if IsSquare(n) then return [front_list,sqrt(n),back_list] else return [front_list,back_list];
+  if IsPerfectSquare(n) then return [front_list,sqrt(n),back_list] else return [front_list,back_list];
  )

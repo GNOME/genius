@@ -4000,6 +4000,30 @@ mpw_gcd(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 	}
 }
 void
+mpw_lcm (mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
+{
+	if(op1->type==MPW_REAL && op2->type==MPW_REAL) {
+		MpwRealNum gcd = {0};
+		mpwl_init_type (&gcd, MPW_NATIVEINT);
+
+		mpwl_gcd (&gcd, op1->r, op2->r);
+		if (error_num == NUMERICAL_MPW_ERROR)
+			return;
+
+		MAKE_REAL(rop);
+		MAKE_COPY(rop->r);
+		mpwl_mul (rop->r, op1->r, op2->r);
+		mpwl_div (rop->r, rop->r, &gcd);
+		mpwl_clear (&gcd);
+		if (mpwl_sgn (rop->r) < 0)
+			mpwl_neg (rop->r, rop->r);
+	} else {
+		error_num=NUMERICAL_MPW_ERROR;
+		(*errorout)(_("Can't LCM complex numbers"));
+	}
+}
+
+void
 mpw_jacobi(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 {
 	if(op1->type==MPW_REAL && op2->type==MPW_REAL) {

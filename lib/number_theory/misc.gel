@@ -15,8 +15,8 @@ function IsNthPower(n,k) =
 	# Only integers/rationals can be perfect powers
 	0
   else if k == 2 then
-	PerfectSquare(n)
-  else if not PerfectPower(n) then
+	IsPerfectSquare(n)
+  else if not IsPerfectPower(n) then
 	# We know this won't work
 	0
   else if IsInteger(n) then
@@ -32,10 +32,6 @@ function IsNthPower(n,k) =
  )
 SetHelp("IsNthPower","number_theory","Tests if a rational number is a perfect power");
 protect("IsNthPower");
-
-function IsSquare(n) = IsNthPower(n,2);
-SetHelp("IsSquare","number_theory","Tests if a rational number is a perfect square");
-protect("IsSquare");
 
 SetHelp("SymbolicSquareRoot","number_theory","If square root is integer, then return as integer, else standard square root. (note sqrt behaves the same way)");
 SymbolicSquareRoot = sqrt;
@@ -63,7 +59,7 @@ protect("Divides");
 # of language.
 function PadicValuation(n,p) =
  (
-  if IsRational(n) and not(IsInteger(n)) then
+  if IsRational(n) and not IsInteger(n) then
     return PadicValuation(Numerator(n))-PadicValuation(Denominator(n));
   if not(IsInteger(n)) then
    (

@@ -1226,13 +1226,13 @@ ln_op(GelCtx *ctx, GelETree * * a, int *exception)
 
 /*gcd function*/
 static GelETree *
-gcd_op(GelCtx *ctx, GelETree * * a, int *exception)
+gcd2_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	mpw_t tmp;
 
 	if(a[0]->type==MATRIX_NODE ||
 	   a[1]->type==MATRIX_NODE)
-		return apply_func_to_matrixen(ctx,a[0],a[1],gcd_op,"gcd");
+		return apply_func_to_matrixen(ctx,a[0],a[1],gcd2_op,"gcd");
 
 	if(a[0]->type!=VALUE_NODE ||
 	   a[1]->type!=VALUE_NODE) {
@@ -1253,16 +1253,85 @@ gcd_op(GelCtx *ctx, GelETree * * a, int *exception)
 	return gel_makenum_use(tmp);
 }
 
+/*gcd function*/
+static GelETree *
+gcd_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GelETree *gcd;
+	int i;
+
+	if (a[1] == NULL) {
+		if (a[0]->type == MATRIX_NODE) {
+			int j, w, h;
+			mpw_t gcd;
+			if ( ! gel_is_matrix_value_only_integer (a[0]->mat.matrix)) {
+				(*errorout)(_("gcd: matrix argument must be integer only"));
+				return NULL;
+			}
+			w = gel_matrixw_width (a[0]->mat.matrix);
+			h = gel_matrixw_height (a[0]->mat.matrix);
+			mpw_init (gcd);
+			for (i = 0; i < w; i++) {
+				for (j = 0; j < h; j++) {
+					GelETree *n = gel_matrixw_index (a[0]->mat.matrix, i, j);
+					if (i == 0 && j == 0) {
+						mpw_abs (gcd, n->val.value);
+					} else {
+						mpw_gcd (gcd, gcd, n->val.value);
+					}
+				}
+			}
+			return gel_makenum_use (gcd);
+		} else if (a[0]->type == VALUE_NODE) {
+			mpw_t tmp;
+			if ( ! mpw_is_integer (a[0]->val.value)) {
+				(*errorout)(_("gcd: argument must be an integer"));
+				return NULL;
+			}
+			mpw_init (tmp);
+			mpw_abs (tmp, a[0]->val.value);
+			return gel_makenum_use (tmp);
+		}
+	}
+
+	/* FIXME: optimize value only case */
+
+	/* kind of a quick hack follows */
+	gcd = a[0];
+	for (i = 1; a[i] != NULL; i++) {
+		/* at least ONE iteration will be run */
+		GelETree *argv[2] = { gcd, a[i] };
+		GelETree *res;
+		res = gcd2_op (ctx, argv, exception);
+		if (res == NULL) {
+			if (gcd != a[0])
+				gel_freetree (gcd);
+			return NULL;
+		}
+		if (gcd != a[0])
+			gel_freetree (gcd);
+		gcd = res;
+	}
+	if (gcd == a[0]) {
+		mpw_t tmp;
+		mpw_init (tmp);
+		mpw_abs (tmp, a[0]->val.value);
+		return gel_makenum_use (tmp);
+	} else {
+		return gcd;
+	}
+
+}
+
 /*lcm function*/
 static GelETree *
-lcm_op(GelCtx *ctx, GelETree * * a, int *exception)
+lcm2_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	mpw_t tmp;
-	mpw_t prod;
 
 	if(a[0]->type==MATRIX_NODE ||
 	   a[1]->type==MATRIX_NODE)
-		return apply_func_to_matrixen(ctx,a[0],a[1],lcm_op,"lcm");
+		return apply_func_to_matrixen(ctx,a[0],a[1],lcm2_op,"lcm");
 
 	if(a[0]->type!=VALUE_NODE ||
 	   a[1]->type!=VALUE_NODE) {
@@ -1271,7 +1340,7 @@ lcm_op(GelCtx *ctx, GelETree * * a, int *exception)
 	}
 
 	mpw_init(tmp);
-	mpw_gcd(tmp,
+	mpw_lcm(tmp,
 		a[0]->val.value,
 		a[1]->val.value);
 	if(error_num) {
@@ -1279,14 +1348,77 @@ lcm_op(GelCtx *ctx, GelETree * * a, int *exception)
 		mpw_clear(tmp);
 		return NULL;
 	}
-	mpw_init(prod);
-	mpw_mul(prod,
-		a[0]->val.value,
-		a[1]->val.value);
-	mpw_div(tmp,prod,tmp);
-	mpw_clear(prod);
 
 	return gel_makenum_use(tmp);
+}
+
+/*lcm function*/
+static GelETree *
+lcm_op(GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GelETree *lcm;
+	int i;
+
+	if (a[1] == NULL) {
+		if (a[0]->type == MATRIX_NODE) {
+			int j, w, h;
+			mpw_t lcm;
+			if ( ! gel_is_matrix_value_only_integer (a[0]->mat.matrix)) {
+				(*errorout)(_("lcm: matrix argument must be integer only"));
+				return NULL;
+			}
+			w = gel_matrixw_width (a[0]->mat.matrix);
+			h = gel_matrixw_height (a[0]->mat.matrix);
+			mpw_init (lcm);
+			for (i = 0; i < w; i++) {
+				for (j = 0; j < h; j++) {
+					GelETree *n = gel_matrixw_index (a[0]->mat.matrix, i, j);
+					if (i == 0 && j == 0) {
+						mpw_set (lcm, n->val.value);
+					} else {
+						mpw_lcm (lcm, lcm, n->val.value);
+					}
+				}
+			}
+			return gel_makenum_use (lcm);
+		} else if (a[0]->type == VALUE_NODE) {
+			mpw_t tmp;
+			if ( ! mpw_is_integer (a[0]->val.value)) {
+				(*errorout)(_("lcm: argument must be an integer"));
+				return NULL;
+			}
+			mpw_init (tmp);
+			mpw_abs (tmp, a[0]->val.value);
+			return gel_makenum_use (tmp);
+		}
+	}
+
+	/* FIXME: optimize value only case */
+
+	/* kind of a quick hack follows */
+	lcm = a[0];
+	for (i = 1; a[i] != NULL; i++) {
+		/* at least ONE iteration will be run */
+		GelETree *argv[2] = { lcm, a[i] };
+		GelETree *res;
+		res = lcm2_op (ctx, argv, exception);
+		if (res == NULL) {
+			if (lcm != a[0])
+				gel_freetree (lcm);
+			return NULL;
+		}
+		if (lcm != a[0])
+			gel_freetree (lcm);
+		lcm = res;
+	}
+	if (lcm == a[0]) {
+		mpw_t tmp;
+		mpw_init (tmp);
+		mpw_abs (tmp, a[0]->val.value);
+		return gel_makenum_use (tmp);
+	} else {
+		return lcm;
+	}
 }
 
 /*jacobi function*/
@@ -1378,13 +1510,13 @@ Legendre_op(GelCtx *ctx, GelETree * * a, int *exception)
 
 /*perfect square testing function*/
 static GelETree *
-PerfectSquare_op(GelCtx *ctx, GelETree * * a, int *exception)
+IsPerfectSquare_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type==MATRIX_NODE)
-		return apply_func_to_matrix(ctx,a[0],PerfectSquare_op,"PerfectSquare");
+		return apply_func_to_matrix(ctx,a[0],IsPerfectSquare_op,"IsPerfectSquare");
 
 	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("PerfectSquare: argument must be a number"));
+		(*errorout)(_("IsPerfectSquare: argument must be a number"));
 		return NULL;
 	}
 
@@ -1402,13 +1534,13 @@ PerfectSquare_op(GelCtx *ctx, GelETree * * a, int *exception)
 
 /*perfect square testing function*/
 static GelETree *
-PerfectPower_op(GelCtx *ctx, GelETree * * a, int *exception)
+IsPerfectPower_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type==MATRIX_NODE)
-		return apply_func_to_matrix(ctx,a[0],PerfectPower_op,"PerfectPower");
+		return apply_func_to_matrix(ctx,a[0],IsPerfectPower_op,"IsPerfectPower");
 
 	if(a[0]->type!=VALUE_NODE) {
-		(*errorout)(_("PerfectPower: argument must be a number"));
+		(*errorout)(_("IsPerfectPower: argument must be a number"));
 		return NULL;
 	}
 
@@ -1495,6 +1627,8 @@ max_op (GelCtx *ctx, GelETree * * a, int *exception)
 				gel_freetree (max);
 			return NULL;
 		}
+		if (max != a[0])
+			gel_freetree (max);
 		max = res;
 	}
 	if (max == a[0])
@@ -1575,6 +1709,8 @@ min_op (GelCtx *ctx, GelETree * * a, int *exception)
 				gel_freetree (min);
 			return NULL;
 		}
+		if (min != a[0])
+			gel_freetree (min);
 		min = res;
 	}
 	if (min == a[0])
@@ -2834,12 +2970,12 @@ gel_funclib_addall(void)
 	FUNC (Numerator, 1, "x", "numeric", _("Get the numerator of a rational number"));
 	FUNC (Denominator, 1, "x", "numeric", _("Get the denominator of a rational number"));
 
-	FUNC (gcd, 2, "a,b", "number_theory", _("Greatest common divisor"));
+	VFUNC (gcd, 2, "a,args", "number_theory", _("Greatest common divisor"));
 	ALIAS (GCD, 2, gcd);
-	FUNC (lcm, 2, "a,b", "number_theory", _("Least common multiplier"));
+	VFUNC (lcm, 2, "a,args", "number_theory", _("Least common multiplier"));
 	ALIAS (LCM, 2, lcm);
-	FUNC (PerfectSquare, 1, "n", "number_theory", _("Check a number for being a perfect square"));
-	FUNC (PerfectPower, 1, "n", "number_theory", _("Check a number for being any perfect power (a^b)"));
+	FUNC (IsPerfectSquare, 1, "n", "number_theory", _("Check a number for being a perfect square"));
+	FUNC (IsPerfectPower, 1, "n", "number_theory", _("Check a number for being any perfect power (a^b)"));
 	FUNC (prime, 1, "n", "number_theory", _("Return the n'th prime (up to a limit)"));
 
 	VFUNC (max, 2, "a,args", "numeric", _("Returns the maximum of arguments or matrix"));

@@ -213,13 +213,27 @@ function IsInvertibleField(n) =
 )
 protect ("IsInvertibleField")
 
-# Hermite Form for fields (will end up with 1's on the diagonal)
-SetHelp("HermiteFormField", "linear_algebra", "Hermite Form for fields (will end up with 1's on the diagonal)")
-function HermiteFormField(A) =
+# SmithNormal Form for fields (will end up with 1's on the diagonal)
+SetHelp("SmithNormalFormField", "linear_algebra", "Smith Normal Form for fields (will end up with 1's on the diagonal)")
+function SmithNormalFormField(A) =
 (
   Transpose (ref (Transpose (ref (A))))
 )
-protect ("HerminteFormField")
+protect ("SmithNormalFormField")
+
+SetHelp("SmithNormalForm", "linear_algebra", "Smith Normal Form for square integer matrices (not its characteristic)")
+function SmithNormalForm(M) =
+(
+	if not IsMatrix (M) or not IsMatrixInteger(M) or not IsMatrixSquare(M) then
+		(error ("SmithNormalForm: M must be a square integer matrix");bailout);
+	d = DeterminantalDivisors (M);
+	S = SetMatrixSize ([0], rows (M), columns (M));
+	S@(1,1) = d@(1);
+	for i=2 to rows(M) do
+		S@(i,i) = d@(i)/d@(i-1);
+	S
+)
+protect ("SmithNormalForm")
 
 # AuxilliaryUnitMatrix
 SetHelp("AuxilliaryUnitMatrix", "linear_algebra", "Get the auxilliary unit matrix of size n")
@@ -322,3 +336,34 @@ protect("CharPoly")
 SetHelp ("CharacteristicPolynomialFunction", "linear_algebra", "Get the characteristic polynomial as a function")
 function CharacteristicPolynomialFunction(M) = PolyToFunction (CharacteristicPolynomial (M))
 protect("CharacteristicPolynomialFunction")
+
+SetHelp ("DeterminantalDivisors", "linear_algebra", "Get the determinantal divisors of an integer matrix (not its characteristic)")
+function DeterminantalDivisors(M) = (
+	if not IsMatrix (M) or not IsMatrixInteger(M) or not IsMatrixSquare(M) then
+		(error ("DeterminantalDivisors: M must be a square integer matrix");bailout);
+	v = [gcd(M)];
+	n = rows (M);
+	for k=2 to n-1 do (
+		g = 0;
+		for gamma in GAMMA(k,n) do
+			for omega in GAMMA(k,n) do
+				g = gcd (g, det (Submatrix (M, gamma, omega)));
+		v@(k) = g
+	);
+	v@(n) = abs (det (M));
+	v
+)
+protect("DeterminantalDivisors")
+
+SetHelp("InvariantFactors", "linear_algebra", "Get the invariant factors of a square integer matrix (not its characteristic)")
+function InvariantFactors(M) =
+(
+	if not IsMatrix (M) or not IsMatrixInteger(M) or not IsMatrixSquare(M) then
+		(error ("InvariantFactors: M must be a square integer matrix");bailout);
+	d = DeterminantalDivisors (M);
+	H = [d@(1)];
+	for i=2 to rows(M) do
+		H@(i) = d@(i)/d@(i-1);
+	H
+)
+protect ("InvariantFactors")

@@ -90,8 +90,8 @@ gboolean
 gel_is_matrix_value_only_rational (GelMatrixW *m)
 {
 	int i,j;
-	if (m->cached_value_only_real)
-		return m->value_only_real;
+	if (m->cached_value_only_rational)
+		return m->value_only_rational;
 	for(i=0;i<gel_matrixw_width(m);i++) {
 		for(j=0;j<gel_matrixw_height(m);j++) {
 			GelETree *n = gel_matrixw_set_index(m,i,j);
@@ -116,8 +116,8 @@ gboolean
 gel_is_matrix_value_only_integer (GelMatrixW *m)
 {
 	int i,j;
-	if (m->cached_value_only_real)
-		return m->value_only_real;
+	if (m->cached_value_only_integer)
+		return m->value_only_integer;
 	for(i=0;i<gel_matrixw_width(m);i++) {
 		for(j=0;j<gel_matrixw_height(m);j++) {
 			GelETree *n = gel_matrixw_set_index(m,i,j);

@@ -363,6 +363,33 @@ function LowerTriangular(M) = (
 )
 protect ("LowerTriangular")
 
+# FIXME: stupid
+SetHelp("IsUpperTriangular", "matrix", "Is a matrix upper triangular")
+function IsUpperTriangular(M) = (
+	if not IsMatrix(M) or not IsMatrixSquare(M) then
+		(error("IsUpperTriangular: argument not a square matrix");bailout);
+	M == UpperTriangular(M)
+)
+protect ("IsUpperTriangular")
+
+# FIXME: stupid
+SetHelp("IsLowerTriangular", "matrix", "Is a matrix lower triangular")
+function IsLowerTriangular(M) = (
+	if not IsMatrix(M) or not IsMatrixSquare(M) then
+		(error("IsLowerTriangular: argument not a square matrix");bailout);
+	M == LowerTriangular(M)
+)
+protect ("IsLowerTriangular")
+
+# FIXME: stupid
+SetHelp("IsDiagonal", "matrix", "Is a matrix diagonal")
+function IsDiagonal(M) = (
+	if not IsMatrix(M) or not IsMatrixSquare(M) then
+		(error("IsDiagonal: argument not a square matrix");bailout);
+	M == UpperTriangular(LowerTriangular(M))
+)
+protect ("IsDiagonal")
+
 SetHelp("NextIndexVectorCombination", "matrix", "Next combination of index vectors")
 function NextIndexVectorCombination(v,n) = (
 	i = elements(v);
