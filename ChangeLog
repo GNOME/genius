@@ -4,6 +4,8 @@ Mon Apr 28 17:33:37 2003  George Lebl <jirka@5z.com>
 	  no_mod_all_args flag.  Add flag setting function to the
 	  standard lib.  Use the no_mod_all_args flag on builtin C
 	  functions where it makes sense (I, zeros, ones, rand, randint)
+	  Also implement the GetCurrentModulo() function to get the
+	  modulo of the calling context.
 
 	* lib/functions/elementary.gel: the log function only takes an
 	  optional base argument and without it acts as ln.  Also we look at
