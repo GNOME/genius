@@ -160,7 +160,7 @@ Kai Willadsen
         Constants
         Numeric
         Trigonometry
-        Number theory
+        Number Theory
         Matrix Manipulation
         Linear Algebra
         Combinatorics
@@ -770,6 +770,8 @@ List of GEL operators
           |a|
 
           Absolute value or modulus (if a is a complex number).
+
+          See Mathworld for more information.
 
           a^b
 
@@ -1436,7 +1438,10 @@ Basic
 
           IntegerFromBoolean (bval)
 
-          Make integer (0 or 1) from a boolean value
+          Make integer (0 for false or 1 for true) from a boolean
+          value.  bval  can  also  be  a  number  in which case a
+          non-zero  value  will  be  interpreted as true and zero
+          will be interpretted as false.
 
    IsBoolean
 
@@ -1768,14 +1773,18 @@ Constants
 
           Aliases: gamma
 
-          Euler's  Constant  gamma  good up to about precision of
-          9516 digits
+          Euler's    Constant   gamma.   Sometimes   called   the
+          Euler-Mascheroni constant.
+
+          See Mathworld for more information.
 
    GoldenRatio
 
           GoldenRatio
 
           The Golden Ratio
+
+          See Mathworld for more information.
 
    Gravity
 
@@ -1787,13 +1796,21 @@ Constants
 
           e
 
-          The natural number e
+          The   base   of  the  natural  logarithm.  e^x  is  the
+          exponential   function   exp.   This   is   the  number
+          approximately 2.71828182846...
+
+          See Mathworld for more information.
 
    pi
 
           pi
 
-          The number pi
+          The  number  pi,  that  is  the  ratio  of  a  circle's
+          circumference  to  it's diameter. This is approximately
+          3.14159265359...
+
+          See Mathworld for more information.
      _________________________________________________________
 
 Numeric
@@ -1804,7 +1821,10 @@ Numeric
 
           Aliases: abs
 
-          Absolute value
+          Absolute  value of a number and if x is a complex value
+          then returns the modulus of x.
+
+          See Mathworld for more information.
 
    Chop
 
@@ -1885,13 +1905,19 @@ Numeric
 
           Check if argument is an integer (non-complex)
 
+   IsNonNegativeInteger
+
+          IsNonNegativeInteger (num)
+
+          Check if argument is a non-negative real integer.
+
    IsPositiveInteger
 
           IsPositiveInteger (num)
 
           Aliases: IsNaturalNumber
 
-          Check if argument is a positive real integer
+          Check if argument is a positive real integer.
 
    IsRational
 
@@ -1942,7 +1968,10 @@ Numeric
 
           exp (x)
 
-          The exponential function
+          The  exponential  function.  This  is  the function e^x
+          where e is the base of the natural logarithm.
+
+          See Mathworld for more information.
 
    float
 
@@ -2238,13 +2267,16 @@ Trigonometry
           The hyperbolic tangent function
      _________________________________________________________
 
-Number theory
+Number Theory
 
    AreRelativelyPrime
 
           AreRelativelyPrime (a,b)
 
-          Are a and b relatively prime? Returns true or false.
+          Are the real integers a and b relatively prime? Returns
+          true or false.
+
+          See Mathworld for more information.
 
    BernoulliNumber
 
@@ -2261,6 +2293,8 @@ Number theory
           Find the x that solves the system given by the vector a
           and  modulo  the  elements  of  m,  using  the  Chinese
           Remainder Theorem.
+
+          See Mathworld for more information.
 
    CombineFactorizations
 
@@ -2292,6 +2326,8 @@ Number theory
           Find discrete log of n base b in F_q where q is a prime
           using the Silver-Pohlig-Hellman algoritm
 
+          See Mathworld for more information.
+
    Divides
 
           Divides (m,n)
@@ -2302,35 +2338,63 @@ Number theory
 
           EulerPhi (n)
 
-          Compute  phi(n),  the  Euler  phi function, that is the
+          Compute  the  Euler  phi  function  for  n, that is the
           number  of integers between 1 and n relatively prime to
-          n
+          n.
+
+          See Mathworld for more information.
 
    ExactDivision
 
           ExactDivision (n,d)
 
-          Return n/d but only if d divides n else returns garbage
-          (this is faster then writing n/d)
+          Return  n/d  but  only  if  d  divides n. If d does not
+          divide  n then this function returns garbage. This is a
+          lot  faster  for  very large numbers then the operation
+          n/d,  but  of  course  only useful if you know that the
+          division is exact.
 
    Factorize
 
           Factorize (n)
 
-          Return factorization of a number as a matrix
+          Return factorization of a number as a matrix. The first
+          row  is  the  primes in the factorization (including 1)
+          and the second row are the powers. So for example:
+
+genius> Factorize(11*11*13)
+=
+[1      11      13
+    1      2       1]
 
    Factors
 
           Factors (n)
 
-          Return all factors of a number
+          Return  all factors of n in a vector. This includes all
+          the  non-prime  factors  as well. It includes 1 and the
+          number  itself. So for example to print all the perfect
+          numbers  (those  that  are sums of their factors) up to
+          the  number  1000  you could do (this is of course very
+          inefficent)
+
+for n=1 to 1000 do (
+    if MatrixSum (Factors(n)) == 2*n then
+        print(n)
+   )
 
    FermatFactorization
 
           FermatFactorization (n,tries)
 
           Attempt  fermat  factorization  of  n into (t-s)*(t+s),
-          returns t and s as a vector if possible, null otherwise
+          returns   t  and  s  as  a  vector  if  possible,  null
+          otherwise.  tries  specifies the number of tries before
+          giving up.
+
+          This  is  a fairly good factorization if your number is
+          the  product of two factors that are very close to each
+          other.
 
    FindPrimitiveElementMod
 
@@ -2369,13 +2433,14 @@ Number theory
 
           IsEven (n)
 
-          Tests if an integer is even
+          Tests if an integer is even.
 
    IsNthPower
 
-          IsNthPower (n,k)
+          IsNthPower (m,n)
 
-          Tests if a rational number is a perfect power
+          Tests  if  a  rational number m is a perfect nth power.
+          See also IsPerfectPower and IsPerfectSquare.
 
    IsOdd
 
@@ -2393,15 +2458,29 @@ Number theory
 
           IsPerfectSquare (n)
 
-          Check a number for being a perfect square
+          Check  a  number for being a perfect square. The number
+          must be a real integer. Negative integers are of course
+          never perfect squares.
 
    IsPrime
 
           IsPrime (n)
 
-          Tests  primality  of integers, for numbers greater than
-          25*10^9   false   positive   is  with  low  probability
-          depending on IsPrimeMillerRabinReps
+          Tests  primality  of  integers,  for  numbers less than
+          25*10^9   the   answer  is  deterministic  (if  Riemann
+          hypothesis   is   true).   For   numbers   larger,  the
+          probability    of   a   false   positive   depends   on
+          IsPrimeMillerRabinReps.  That  is  the  probability  of
+          false positive is 1/4 to the power
+          IsPrimeMillerRabinReps.  The default value of 22 yields
+          a probability of about 5.7e-14.
+
+          If  false  is returned, you can be sure that the number
+          is  a composite. If you want to be absolutely sure that
+          you have a prime you can use MillerRabinTestSure but it
+          may take a lot longer.
+
+          See Mathworld for more information.
 
    IsPrimitiveMod
 
@@ -2463,7 +2542,9 @@ Number theory
 
           Aliases: LegendreSymbol
 
-          Calculate the Legendre symbol (a/p)
+          Calculate the Legendre symbol (a/p).
+
+          See Mathworld for more information.
 
    LucasLehmer
 
@@ -2472,11 +2553,15 @@ Number theory
           Test  if  Mp is a Mersenne prime using the Lucas-Lehmer
           test
 
+          See Mathworld for more information.
+
    LucasNumber
 
           LucasNumber (n)
 
           Returns the n'th Lucas number
+
+          See Mathworld for more information.
 
    MaximalPrimePowerFactors
 
@@ -2490,7 +2575,11 @@ Number theory
 
           Use  the  Miller-Rabin primality test on n, reps number
           of   times.   The  probability  of  false  positive  is
-          (1/4)^reps
+          (1/4)^reps.  It  is  probably  usually  better  to  use
+          IsPrime  since  that  is  faster  and better on smaller
+          integers.
+
+          See Mathworld for more information.
 
    MillerRabinTestSure
 
@@ -2498,7 +2587,9 @@ Number theory
 
           Use  the  Miller-Rabin  primality test on n with enough
           bases  that assuming the Generalized Reimann Hypothesis
-          the result is deterministic
+          the result is deterministic.
+
+          See Mathworld for more information.
 
    ModInvert
 
@@ -2506,12 +2597,28 @@ Number theory
 
           Returns inverse of n mod m
 
+   MoebiusMu
+
+          MoebiusMu (n)
+
+          Return the Moebius mu function evaluated in n. That is,
+          it  returns  0 if n is not a product of distinct primes
+          and (-1)^k if it is a product of k distinct primes.
+
+          See Mathworld for more information.
+
    NextPrime
 
           NextPrime (n)
 
-          Returns  the  least  prime  greater  than  n  (if  n is
-          positive)
+          Returns  the  least  prime greater than n. Negatives of
+          primes  are considered prime and so to get the previous
+          prime you can use -NextPrime(-n).
+
+          This  uses  the  GMP's mpz_nextprime which in turn uses
+          the probabilistic Miller-Rabin test. The probability of
+          false  positive  is  not tunable, but is low enough for
+          all practical purposes.
 
    PadicValuation
 
@@ -2533,6 +2640,8 @@ Number theory
           Aliases: prime
 
           Return the n'th prime (up to a limit)
+
+          See Mathworld for more information.
 
    PrimeFactors
 
@@ -2579,7 +2688,13 @@ Number theory
 
           Aliases: GCD
 
-          Greatest common divisor
+          Greatest  common  divisor of integers. You can enter as
+          many  integers  in the argument list, or you can give a
+          vector  or  a matrix of integers. If you give more then
+          one  matrix  of  the  same  size  then GCD is then done
+          element by element.
+
+          See Mathworld for more information.
 
    lcm
 
@@ -2587,7 +2702,13 @@ Number theory
 
           Aliases: LCM
 
-          Least common multiplier
+          Least  common  multiplier of integers. You can enter as
+          many  integers  in the argument list, or you can give a
+          vector  or  a matrix of integers. If you give more then
+          one  matrix  of  the  same  size  then LCM is then done
+          element by element.
+
+          See Mathworld for more information.
      _________________________________________________________
 
 Matrix Manipulation
@@ -3332,7 +3453,12 @@ Combinatorics
 
           Aliases: fib
 
-          Calculate n'th fibbonachi number
+          Calculate  nth  fibbonachi  number.  That is the number
+          defined  recursively by Fibbonachi(n) = Fibbonachi(n-1)
+          +  Fibbonachi(n-2)  and Fibbonachi(1) = Fibbonachi(2) =
+          1.
+
+          See Mathworld for more information.
 
    GaloisMatrix
 
@@ -3723,12 +3849,16 @@ Statistics
 
           Calculate average of an entire matrix
 
+          See Mathworld for more information.
+
    GaussDistribution
 
           GaussDistribution (x,sigma)
 
           Integral  of  the GaussFunction from 0 to x (area under
           the normal curve)
+
+          See Mathworld for more information.
 
    GaussFunction
 
@@ -3737,6 +3867,8 @@ Statistics
           The  normalized Gauss distribution function (the normal
           curve)
 
+          See Mathworld for more information.
+
    Median
 
           Median (m)
@@ -3744,6 +3876,8 @@ Statistics
           Aliases: median
 
           Calculate median of an entire matrix
+
+          See Mathworld for more information.
 
    PopulationStandardDeviation
 
@@ -3762,11 +3896,16 @@ Statistics
 
           Calculate average of each row in a matrix
 
+          See Mathworld for more information.
+
    RowMedian
 
           RowMedian (m)
 
-          Calculate median of each row in a matrix
+          Calculate  median  of each row in a matrix and return a
+          column vector of the medians.
+
+          See Mathworld for more information.
 
    RowPopulationStandardDeviation
 
