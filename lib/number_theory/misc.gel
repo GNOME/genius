@@ -72,3 +72,22 @@ protect("RemoveFactor");
 function PowerMod(a,b,m) = a^b mod m
 SetHelp("PowerMod","number_theory","Compute a^b mod m");
 protect("PowerMod");
+
+function AreRelativelyPrime(a,b) = (gcd(a,b) == 1)
+SetHelp("AreRelativelyPrime","number_theory","Are a and b relatively prime?");
+protect("AreRelativelyPrime");
+
+function LeastAbsoluteResidue(a,n) = (
+  	if not IsInteger(a) or not IsPositiveInteger(n) then
+	   (
+	    error("LeastAbsoluteResidue: arguments must be integers");
+	    bailout;
+	   );
+	b = a mod n;
+	if (-b+n) < b then
+		b-n
+	else
+		b
+)
+SetHelp("LeastAbsoluteResidue", "number_theory", "Return the residue of a mod n with the least absolute value (in the interval -n/2 to n/2)");
+protect("LeastAbsoluteResidue");

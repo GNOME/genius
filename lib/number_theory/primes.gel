@@ -111,7 +111,7 @@ parameter PrimeProbabilityEpsilon = 10.0^-100;  # IsPrime configuration variable
 SetHelp("PseudoprimeTest","number_theory","Pseudoprime test, true iff b^(n-1) == 1 (mod n)");
 function PseudoprimeTest(n,b) =
  (
-  return (PowerMod(b,abs(n)-1,n) == 1);
+  b^(abs(n)-1) mod abs(n)
  )
 protect("PseudoprimeTest");
 
@@ -121,7 +121,7 @@ protect("PseudoprimeTest");
 # (IsOdd and PseudoprimeTest are MUCH faster than IsPrime)
 function IsPseudoprime(n,b) =
  (
-  return (IsOdd(n) and PseudoprimeTest(n,b) and not(IsPrime(n)));
+  IsOdd(n) and PseudoprimeTest(n,b) and not(IsPrime(n))
  )
 SetHelp("IsPseudoprime","number_theory","If n is a pseudoprime base b but not a prime, that is if b^(n-1) == 1 mod n");
 protect("IsPseudoprime");
@@ -158,7 +158,7 @@ protect("StrongPseudoprimeTest");
 
 function IsStrongPseudoprime(n,b) =
  (
-  return (IsOdd(n) and AreRelativelyPrime(n,b) and StrongPseudoprimeTest(n,b) and not (IsPrime(n)));
+  IsOdd(n) and gcd(n,b)==1 and StrongPseudoprimeTest(n,b) and not (IsPrime(n))
  )
 SetHelp("IsStrongPseudoprime","number_theory","Test if n is a strong pseudoprime to base b but not a prime");
 protect("IsStrongPseudoprime");
