@@ -6,7 +6,29 @@
 #	hankel matrix (symmetric, constant across anti-diagonals)
 # 		Take first column, last row (if no last row, take last row zeros)
 #	HilbertMatrix(n)=HankelMatrix([1,1/2,1/3,...,1/n],[1/n,1/(n+1),...])
+SetHelp ("HankelMatrix", "linear_algebra", "Hankel matrix")
+function HankelMatrix(c,r)= (
+	H = [0];
+	for i=1 to elements(c) do
+		for j=1 to elements(r) do
+			H@(i,j) = if i+j-1 <= elements(c) then c@(i+j-1) else r@(i+j-elements(c));
+	H
+)
+protect ("HankelMatrix")
+
+SetHelp ("HilbertMatrix", "linear_algebra", "Hilbert matrix of order n")
+function HilbertMatrix(n)= (
+	H = [0];
+	for i=1 to n do
+		for j=1 to n do
+			H@(i,j) = 1/(i+j-1);
+	H
+)
+protect ("HilbertMatrix")
+
+SetHelp ("InverseHilbertMatrix", "linear_algebra", "Inverse Hilbert matrix of order n")
 function InverseHilbertMatrix(n) = HilbertMatrix(n)^(-1)
+protect ("InverseHilbertMatrix")
 #	magic square (exists for n != 2 -- I know how to make them for n odd)
 #	pascal matrix
 #	toeplitz matrix 
@@ -18,21 +40,25 @@ function InverseHilbertMatrix(n) = HilbertMatrix(n)^(-1)
 # or
 #1.5 .5 .5 1.5 (for n=4, say)
 
+SetHelp ("VandermondeMatrix", "linear_algebra", "Return the Vandermonde matrix")
 function VandermondeMatrix(v) =
   (
+    if rows(v) == 1 then v=v.';
     n=rows(v);
     vandermonde=ones(n,1);
     for loop = 2 to n do
      (
-      vandermonde=[vandermonde,v];  # adjoin new column
-#FIXME: is there a way of multiplying two vectors componentwise?
-      for loop2 = 1 to n do         # multiply!
-        vandermonde@(loop2,loop)=vandermonde@(loop2,loop-1)*vandermonde@(loop2,loop);
+      vandermonde=[v,vandermonde];  # adjoin new column
+      vandermonde@(,1) = vandermonde@(,2) .* vandermonde@(,1)
     );
    vandermonde
   )
-protect("VandermondeMatrix");
+protect ("VandermondeMatrix")
+SetHelpAlias ("VandermondeMatrix", "vander")
+vander = VandermondeMatrix
+protect ("vander")
 
+SetHelp ("RosserMatrix", "linear_algebra", "Rosser matrix, a classic symmetric eigenvalue test problem")
 RosserMatrix = [611,196,-192,407,-8,-52,-49,29
 196,899,113,-192,-71,-43,-8,-44
 -192,113,899,196,61,49,8,52
