@@ -1,3 +1,14 @@
+Sun Apr 04 17:39:55 2004  George Lebl <jirka@5z.com>
+
+	* lib/functions/complex_numbers.gel: add cis function.  Also fix
+	  the MoebiusMapping* definitions
+
+	* lib/functions/Makefile.am: forgot to include complex_numbers.gel
+	  in the library DOH! this actually adds all those functions promised
+	  in 0.6.0.  Affects: Argument, arg, Arg, MoebiusDiskMapping,
+	  MoebiusMapping, MoebiusMappingInftyToOne, MoebiusMappingInftyToZero,
+	  MoebiusMappingInftyToInfty.
+
 Sun Apr 04 17:27:33 2004  George Lebl <jirka@5z.com>
 
 	* src/graphing.c: when parsing errors occur print them before saying
