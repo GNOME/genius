@@ -300,7 +300,6 @@ geniusbox (gboolean error,
 					     GTK_BUTTONS_OK,
 					     "%s",
 					     s);
-		gtk_dialog_set_has_separator (GTK_DIALOG (mb), FALSE);
 	} else {
 		GtkWidget *sw;
 		GtkWidget *tv;
@@ -562,7 +561,6 @@ display_error (GtkWidget *parent, const char *err)
 				    GTK_BUTTONS_CLOSE,
 				    "%s",
 				    err);
-	gtk_dialog_set_has_separator (GTK_DIALOG (w), FALSE);
 	gtk_label_set_use_markup
 		(GTK_LABEL (GTK_MESSAGE_DIALOG (w)->label), TRUE);
 
@@ -591,7 +589,6 @@ display_warning (GtkWidget *parent, const char *warn)
 				    GTK_BUTTONS_CLOSE,
 				    "%s",
 				    warn);
-	gtk_dialog_set_has_separator (GTK_DIALOG (w), FALSE);
 	gtk_label_set_use_markup
 		(GTK_LABEL (GTK_MESSAGE_DIALOG (w)->label), TRUE);
 
@@ -621,7 +618,6 @@ ask_question (GtkWidget *parent, const char *question)
 				      GTK_BUTTONS_YES_NO,
 				      "%s",
 				      question);
-	gtk_dialog_set_has_separator (GTK_DIALOG (req), FALSE);
 	gtk_label_set_use_markup
 		(GTK_LABEL (GTK_MESSAGE_DIALOG (req)->label), TRUE);
 

@@ -1,3 +1,9 @@
+Fri Mar 19 11:11:01 2004  George Lebl <jirka@5z.com>
+
+	* src/gnome-genius.c: apparently separator setting is just plain
+	  ignored for message dialogs so don't set it (avoids unsightly
+	  GTK+ warnings with new GTK+)
+
 Fri Mar 19 11:05:00 2004  George Lebl <jirka@5z.com>
 
 	* src/eval.[ch], src/calc.c: translate e^x to exp(x) since that is
