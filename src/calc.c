@@ -1034,28 +1034,32 @@ appendmatrix_latex (GelOutput *gelo, GelMatrixW *m, gboolean nice)
 static void
 appendmatrix_mathml (GelOutput *gelo, GelMatrixW *m, gboolean nice)
 {
+	/* FIXME: This produces content MathML with all expressions marked
+	 * as content numbers, that is wrong */
 	int i, j;
 	if (nice)
-		gel_output_string (gelo, "\n");
-	gel_output_string (gelo, "<m:math><m:matrix>");
-	if (nice)
-		gel_output_string (gelo, "\n");
+		gel_output_string (gelo, "\n<matrix>\n");
+	else
+		gel_output_string (gelo, "<matrix>");
 	
 	for (j = 0; j < gel_matrixw_height (m); j++) {
 		if (nice)
 			gel_output_string (gelo, " ");
-		gel_output_string (gelo, "<m:matrixrow><m:ci>");
+		gel_output_string (gelo, "<matrixrow>");
 		print_etree (gelo, gel_matrixw_index (m, 0, j), FALSE);
 		for(i = 1; i < gel_matrixw_width (m); i++) {
-			gel_output_string (gelo, "</m:ci><m:ci>");
+			//gel_output_string (gelo, "</cn><cn>");
 			print_etree (gelo, gel_matrixw_index (m, i, j), FALSE);
 		}
-		gel_output_string (gelo, "</m:ci></m:matrixrow>");
+		gel_output_string (gelo, "</matrixrow>");
 		if (nice)
 			gel_output_string (gelo, "\n");
 	}
 	
-	gel_output_string (gelo, "</m:matrix></m:math>");
+	if (nice)
+		gel_output_string (gelo, "</matrix>");
+	else
+		gel_output_string (gelo, "</matrix>");
 }
 
 static void
@@ -1184,6 +1188,13 @@ print_etree(GelOutput *gelo, GelETree *n, gboolean toplevel)
 
 	gel_output_push_nonotify (gelo);
 
+	/* all non-value nodes printed as <ci></ci> and
+	 * value nodes as <cn></cn> */
+	if (calcstate.output_style == GEL_OUTPUT_MATHML &&
+	    n->type != VALUE_NODE)
+		gel_output_string (gelo, "<ci>");
+
+
 	switch(n->type) {
 	case NULL_NODE:
 		gel_output_string (gelo, "(null)");
@@ -1203,7 +1214,11 @@ print_etree(GelOutput *gelo, GelETree *n, gboolean toplevel)
 		if(toplevel)
 			gel_output_full_string(gelo,p);
 #endif
+		if (calcstate.output_style == GEL_OUTPUT_MATHML)
+			gel_output_string (gelo, "<cn>");
 		gel_output_string(gelo,p);
+		if (calcstate.output_style == GEL_OUTPUT_MATHML)
+			gel_output_string (gelo, "</cn>");
 		g_free(p);
 		break;
 	case MATRIX_NODE:
@@ -1283,6 +1298,12 @@ print_etree(GelOutput *gelo, GelETree *n, gboolean toplevel)
 		gel_output_string(gelo,"(?)");
 	       break;
 	}
+	/* all non-value nodes printed as <ci></ci> and
+	 * value nodes as <cn></cn> */
+	if (calcstate.output_style == GEL_OUTPUT_MATHML &&
+	    n->type != VALUE_NODE)
+		gel_output_string (gelo, "</ci>");
+
 	gel_output_pop_nonotify (gelo);
 }
 
@@ -1304,7 +1325,9 @@ pretty_print_etree(GelOutput *gelo, GelETree *n)
 			gel_output_pop_nonotify (gelo);
 			return;
 		} else if (calcstate.output_style == GEL_OUTPUT_MATHML) {
+			gel_output_string (gelo, "\n<math>");
 			appendmatrix_mathml (gelo, n->mat.matrix, TRUE /* nice */);
+			gel_output_string (gelo, "\n</math>");
 			gel_output_pop_nonotify (gelo);
 			return;
 		}
@@ -1329,7 +1352,12 @@ pretty_print_etree(GelOutput *gelo, GelETree *n)
 		}
 		gel_output_string(gelo, "]");
 	} else {
+		if (calcstate.output_style == GEL_OUTPUT_MATHML)
+			gel_output_string (gelo, "\n<math>\n ");
 		print_etree (gelo, n, TRUE);
+		if (calcstate.output_style == GEL_OUTPUT_MATHML)
+			gel_output_string (gelo, "\n</math>");
+
 	}
 	gel_output_pop_nonotify (gelo);
 }
