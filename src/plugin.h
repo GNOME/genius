@@ -30,6 +30,7 @@ typedef struct _GelPlugin {
 	char *copyright;
 	char *description;
 	gboolean gui;
+	gboolean hide;
 
 	/* flags while running */
 	gboolean running;

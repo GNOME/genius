@@ -1123,6 +1123,7 @@ main (int argc, char *argv[])
 	if (gel_plugin_list != NULL) {
 		GSList *li;
 		int i;
+		int count = 0;
 		plugins = g_new0(GnomeUIInfo,g_slist_length(gel_plugin_list)+1);
 		genius_menu[PLUGIN_MENU].moreinfo = plugins;
 		
@@ -1130,20 +1131,33 @@ main (int argc, char *argv[])
 		     li != NULL;
 		     li = li->next, i++) {
 			GelPlugin *plug = li->data;
+			if (plug->hide)
+				continue;
 			plugins[i].type = GNOME_APP_UI_ITEM;
 			plugins[i].label = g_strdup(plug->name);
 			plugins[i].hint = g_strdup(plug->description);
 			plugins[i].moreinfo = GTK_SIGNAL_FUNC(open_plugin_cb);
 			plugins[i].user_data = plug;
 			plugins[i].pixmap_type = GNOME_APP_PIXMAP_NONE;
+			count ++;
 		}
 		plugins[i].type = GNOME_APP_UI_ENDOFINFO;
+
+		if (count == 0) {
+			g_free (plugins);
+			genius_menu[PLUGIN_MENU].moreinfo = NULL;
+		}
 	}
 
 	/*set up the menu*/
         gnome_app_create_menus(GNOME_APP(window), genius_menu);
 	/*set up the toolbar*/
 	gnome_app_create_toolbar (GNOME_APP(window), toolbar);
+
+	/* if no plugins, hide the menu */
+	if (genius_menu[PLUGIN_MENU].moreinfo == NULL) {
+		gtk_widget_hide (genius_menu[PLUGIN_MENU].widget);
+	}
 
 	/*setup appbar*/
 	w = gnome_appbar_new(FALSE, TRUE, GNOME_PREFERENCES_USER);

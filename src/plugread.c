@@ -40,7 +40,8 @@ gel_readplugin (const char *dir_name, const char *file_name)
 	char *copyright;
 	char *author;
 	char *description;
-	int gui;
+	gboolean gui;
+	gboolean hide;
 	GelPlugin *plg;
 
 	p = g_strconcat("=",dir_name,"/",file_name,
@@ -52,7 +53,8 @@ gel_readplugin (const char *dir_name, const char *file_name)
 	copyright = gnome_config_get_translated_string("Copyright");
 	author = gnome_config_get_string("Author");
 	description = gnome_config_get_translated_string("Description");
-	gui = gnome_config_get_bool("GUI");
+	gui = gnome_config_get_bool("GUI=false");
+	hide = gnome_config_get_bool("Hide=false");
 	gnome_config_pop_prefix();
 	p = g_strconcat("=",dir_name,"/",file_name,
 			"=",NULL);
@@ -76,5 +78,6 @@ gel_readplugin (const char *dir_name, const char *file_name)
 	plg->author = author;
 	plg->description = description;
 	plg->gui = gui;
+	plg->hide = hide;
 	return plg;
 }
