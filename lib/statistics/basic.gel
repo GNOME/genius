@@ -147,3 +147,23 @@ protect("PopulationStandardDeviation")
 SetHelpAlias ("PopulationStandardDeviation", "stdevp")
 stdevp = PopulationStandardDeviation
 protect("stdevp")
+
+SetHelp("GaussFunction", "statistics", "The normalized Gauss distribution function (the normal curve)")
+function GaussFunction(x,sigma) = (
+	(1/(sigma*sqrt(2*pi))) *
+	exp(-x^2 / (2*sigma^2))
+)
+protect("GaussFunction")
+
+SetHelp ("GaussDistributionTolerance", "parameters", "Tolerance of the GaussDistribution function")
+parameter GaussDistributionTolerance = 10.0^(-10)
+
+SetHelp("GaussDistribution", "statistics", "Integral of the GaussFunction from 0 to x (area under the normal curve)")
+function GaussDistribution(x,sigma) = (
+	function tmp(x)=GaussFunction(x,sigma);
+	CompositeSimpsonsRuleTolerance(tmp,0,x,
+				       #maximum of fourth derivative
+				       3/(sqrt(2*pi)*sigma^5),
+				       GaussDistributionTolerance)
+)
+protect("GaussDistribution")
