@@ -71,3 +71,7 @@ protect ("IsIn");
 SetHelp("string","basic","Make a string");
 function string(s) = s + ""
 protect("string")
+
+SetHelp("Compose","basic","Compose two functions")
+function Compose(f,g) = `(x)=f(g(x))
+protect("Compose")
