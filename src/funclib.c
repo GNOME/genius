@@ -1314,13 +1314,13 @@ PerfectSquare_op(GelCtx *ctx, GelETree * * a, int *exception)
 	}
 }
 
-/*max function*/
+/*max function for two elements */
 static GelETree *
-max_op(GelCtx *ctx, GelETree * * a, int *exception)
+max2_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type==MATRIX_NODE ||
 	   a[1]->type==MATRIX_NODE)
-		return apply_func_to_matrixen(ctx,a[0],a[1],max_op,"max");
+		return apply_func_to_matrixen(ctx,a[0],a[1],max2_op,"max");
 
 	if(a[0]->type!=VALUE_NODE ||
 	   a[1]->type!=VALUE_NODE) {
@@ -1328,24 +1328,79 @@ max_op(GelCtx *ctx, GelETree * * a, int *exception)
 		return NULL;
 	}
 
-	if(mpw_cmp(a[0]->val.value,a[1]->val.value)>0)
-		return gel_makenum(a[0]->val.value);
+	if(mpw_cmp(a[0]->val.value,a[1]->val.value)<0)
+		return gel_makenum(a[1]->val.value);
 	else {
 		if(error_num) {
 			error_num = 0;
 			return NULL;
 		}
-		return gel_makenum(a[1]->val.value);
+		return gel_makenum(a[0]->val.value);
 	}
+}
+
+/*max function*/
+static GelETree *
+max_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GelETree *max = NULL;
+	int i;
+	if (a[1] == NULL) {
+		if (a[0]->type == MATRIX_NODE) {
+			int j, w, h;
+			if ( ! gel_is_matrix_value_only (a[0]->mat.matrix)) {
+				(*errorout)(_("max: matrix argument must be value only"));
+				return NULL;
+			}
+			w = gel_matrixw_width (a[0]->mat.matrix);
+			h = gel_matrixw_height (a[0]->mat.matrix);
+			for (i = 0; i < w; i++) {
+				for (j = 0; j < h; j++) {
+					GelETree *n = gel_matrixw_index (a[0]->mat.matrix, i, j);
+					if (max == NULL) {
+						max = n;
+					} else if (max != n) {
+						if (mpw_cmp (n->val.value, max->val.value) > 0)
+							max = n;
+					}
+				}
+			}
+			g_assert (max != NULL);
+			return gel_makenum (max->val.value);
+		} else if (a[0]->type == VALUE_NODE) {
+			return copynode (a[0]);
+		}
+	}
+
+	/* FIXME: optimize value only case */
+
+	/* kind of a quick hack follows */
+	max = a[0];
+	for (i = 1; a[i] != NULL; i++) {
+		/* at least ONE iteration will be run */
+		GelETree *argv[2] = { max, a[i] };
+		GelETree *res;
+		res = max2_op (ctx, argv, exception);
+		if (res == NULL) {
+			if (max != a[0])
+				gel_freetree (max);
+			return NULL;
+		}
+		max = res;
+	}
+	if (max == a[0])
+		return copynode (a[0]);
+	else
+		return max;
 }
 
 /*min function*/
 static GelETree *
-min_op(GelCtx *ctx, GelETree * * a, int *exception)
+min2_op(GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if(a[0]->type==MATRIX_NODE ||
 	   a[1]->type==MATRIX_NODE)
-		return apply_func_to_matrixen(ctx,a[0],a[1],min_op,"min");
+		return apply_func_to_matrixen(ctx,a[0],a[1],min2_op,"min");
 
 	if(a[0]->type!=VALUE_NODE ||
 	   a[1]->type!=VALUE_NODE) {
@@ -1362,6 +1417,61 @@ min_op(GelCtx *ctx, GelETree * * a, int *exception)
 		}
 		return gel_makenum(a[0]->val.value);
 	}
+}
+
+/*min function*/
+static GelETree *
+min_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GelETree *min = NULL;
+	int i;
+	if (a[1] == NULL) {
+		if (a[0]->type == MATRIX_NODE) {
+			int j, w, h;
+			if ( ! gel_is_matrix_value_only (a[0]->mat.matrix)) {
+				(*errorout)(_("min: matrix argument must be value only"));
+				return NULL;
+			}
+			w = gel_matrixw_width (a[0]->mat.matrix);
+			h = gel_matrixw_height (a[0]->mat.matrix);
+			for (i = 0; i < w; i++) {
+				for (j = 0; j < h; j++) {
+					GelETree *n = gel_matrixw_index (a[0]->mat.matrix, i, j);
+					if (min == NULL) {
+						min = n;
+					} else if (min != n) {
+						if (mpw_cmp (n->val.value, min->val.value) < 0)
+							min = n;
+					}
+				}
+			}
+			g_assert (min != NULL);
+			return gel_makenum (min->val.value);
+		} else if (a[0]->type == VALUE_NODE) {
+			return copynode (a[0]);
+		}
+	}
+
+	/* FIXME: optimize value only case */
+
+	/* kind of a quick hack follows */
+	min = a[0];
+	for (i = 1; a[i] != NULL; i++) {
+		/* at least ONE iteration will be run */
+		GelETree *argv[2] = { min, a[i] };
+		GelETree *res;
+		res = min2_op (ctx, argv, exception);
+		if (res == NULL) {
+			if (min != a[0])
+				gel_freetree (min);
+			return NULL;
+		}
+		min = res;
+	}
+	if (min == a[0])
+		return copynode (a[0]);
+	else
+		return min;
 }
 
 static GelETree *
@@ -2736,8 +2846,8 @@ gel_funclib_addall(void)
 	FUNC (PerfectSquare, 1, "number_theory", _("Check a number for being a perfect square"));
 	FUNC (prime, 1, "number_theory", _("Return the n'th prime (up to a limit)"));
 
-	FUNC (max, 2, "numeric", _("Returns the maximum of two arguments"));
-	FUNC (min, 2, "numeric", _("Returns the minimum of two arguments"));
+	VFUNC (max, 2, "numeric", _("Returns the maximum of arguments or matrix"));
+	VFUNC (min, 2, "numeric", _("Returns the minimum of arguments or matrix"));
 
 	d_addfunc(d_makebifunc(d_intern("jacobi"),jacobi_op,2));
 	d_addfunc(d_makebifunc(d_intern("legendre"),legendre_op,2));
