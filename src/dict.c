@@ -29,6 +29,9 @@
 #include "funclib.h"
 #include "compil.h"
 
+/* Note: this won't be completely mem-debug friendly, but only mostly */
+/* #define MEM_DEBUG_FRIENDLY 1 */
+
 /*the context stack structure*/
 typedef struct _context_t {
 	GSList *stack;
@@ -467,8 +470,10 @@ void
 d_freedict (GSList *n)
 {
 	GSList *li;
-	for (li = n; li != NULL; li = li->next)
+	for (li = n; li != NULL; li = li->next) {
 		d_freefunc (li->data);
+		li->data = NULL;
+	}
 	g_slist_free (n);
 }
 
@@ -508,7 +513,6 @@ d_freefunc (GelEFunc *n)
 		return;
 	g_assert(!n->id || g_slist_find(n->id->refs,n)==NULL);
 
-
 	if (n->on_subst_list) {
 		whack_from_lists (n);
 		n->on_subst_list = 0;
@@ -523,12 +527,18 @@ d_freefunc (GelEFunc *n)
 	   n->data.user)
 		gel_freetree(n->data.user);
 	g_slist_free(n->named_args);
-	for (li = n->extra_dict; li != NULL; li = li->next)
+	for (li = n->extra_dict; li != NULL; li = li->next) {
 		d_freefunc (li->data);
+		li->data = NULL;
+	}
 	g_slist_free (n->extra_dict);
+#ifndef MEM_DEBUG_FRIENDLY
 	/*prepend to free list*/
 	n->data.next = free_funcs;
 	free_funcs = n;
+#else
+	g_free (n);
+#endif
 }
 
 /*replace old with stuff from new and free new,
@@ -539,6 +549,10 @@ d_replacefunc(GelEFunc *old,GelEFunc *new)
 {
 	GSList *li;
 
+	/* assert some things we don't deal with.  Should we? */
+	g_assert ( ! new->on_subst_list);
+	g_assert ( ! old->on_subst_list);
+
 	g_return_if_fail(old && new);
 	g_return_if_fail(old->id == new->id);
 
@@ -548,15 +562,21 @@ d_replacefunc(GelEFunc *old,GelEFunc *new)
 
 	g_slist_free(old->named_args);
 
-	for (li = old->extra_dict; li != NULL; li = li->next)
+	for (li = old->extra_dict; li != NULL; li = li->next) {
 		d_freefunc (li->data);
+		li->data = NULL;
+	}
 	g_slist_free (old->extra_dict);
 
 	memcpy(old,new,sizeof(GelEFunc));
 
+#ifndef MEM_DEBUG_FRIENDLY
 	/*prepend to free list*/
 	new->data.next = free_funcs;
 	free_funcs = new;
+#else
+	g_free (new);
+#endif
 }
 
 /*set_ref*/
@@ -644,8 +664,8 @@ d_popcontext(void)
 
 		/* substitute lower variables unless we are on the toplevel */
 		if (substlast != NULL && context.top > 0) {
-			context.subststack->data = subst;
 			substlast->next = context.subststack->data;
+			context.subststack->data = subst;
 			subst = NULL;
 		}
 

@@ -45,9 +45,8 @@
 #define EDEBUG(x) ;
 #endif
 
-/* Note: this won't be completely mem-debug friendly,
- * only free_trees are for now ignored with this */
-/* #define MEM_DEBUG_FRIENDLY 1*/
+/* Note: this won't be completely mem-debug friendly, but only mostly */
+/* #define MEM_DEBUG_FRIENDLY 1 */
 
 extern calcstate_t calcstate;
 
@@ -96,8 +95,12 @@ ge_remove_stack_array(GelCtx *ctx)
 	if(!next) return FALSE;
 
 	/*push it onto the list of free stack entries*/
+#ifdef MEM_DEBUG_FRIENDLY
+	g_free (ctx->stack);
+#else /* MEM_DEBUG_FRIENDLY */
 	ctx->stack->next = free_stack;
 	free_stack = ctx->stack;
+#endif /* MEM_DEBUG_FRIENDLY */
 
 	ctx->stack = next;
 	ctx->topstack = &((ctx)->stack->stack[STACK_SIZE]);
@@ -2291,8 +2294,12 @@ evl_new (GelETree *cond, GelETree *body, gboolean is_while, gboolean body_first)
 static inline void
 evl_free(GelEvalLoop *evl)
 {
+#ifdef MEM_DEBUG_FRIENDLY
+	g_free (evl);
+#else
 	(GelEvalLoop *)evl->condition = free_evl;
 	free_evl = evl;
+#endif
 }
 
 static void
@@ -2329,8 +2336,12 @@ evf_new (GelEvalForType type,
 static inline void
 evf_free(GelEvalFor *evf)
 {
+#ifdef MEM_DEBUG_FRIENDLY
+	g_free (evf);
+#else
 	(GelEvalFor *)evf->body = free_evf;
 	free_evf = evf;
+#endif
 }
 
 static inline GelEvalForIn *
@@ -2356,8 +2367,12 @@ evfi_new (GelEvalForType type, GelMatrixW *mat, GelETree *body, GelETree *orig_b
 static inline void
 evfi_free(GelEvalForIn *evfi)
 {
+#ifdef MEM_DEBUG_FRIENDLY
+	g_free (evfi);
+#else
 	(GelEvalForIn *)evfi->body = free_evfi;
 	free_evfi = evfi;
+#endif
 }
 
 static gboolean
