@@ -14,6 +14,11 @@ Changes to 0.7.2
 * CompositeSimpsonsRule and Divides are built in for speed
 * Treat strings as constants, thus getting pretty good speedups where
   strings are used
+* When new references are encountered where the variable does not exist we
+  create the variable in the current context
+* On the plot window use "y=" as a label to indicate what goes in the text
+  boxes
+* Fix crashes on non-number matrix multiplies
 * Bunch of minor fixes all over
 * Help texts are being translated now
 
