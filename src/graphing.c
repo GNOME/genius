@@ -58,17 +58,172 @@ static double defx2 = M_PI;
 static double defy1 = -1.1;
 static double defy2 = 1.1;
 
+#define MAXFUNC 10
+
+/* Replotting info */
+static GelEFunc *replot_func[MAXFUNC] = { NULL };
+static double replotx1 = -M_PI;
+static double replotx2 = M_PI;
+static double reploty1 = -1.1;
+static double reploty2 = 1.1;
+
+static void replot_functions (GelCtx *ctx);
+
+static int replot_in_progress = 0;
+
+#define P2C_X(x) (((x)-x1)*xscale)
+#define P2C_Y(y) ((y2-(y))*yscale)
+
 #define WIDTH 640
 #define HEIGHT 480
+
+#define RESPONSE_STOP 1
+#define RESPONSE_ZOOMOUT 2
 
 static void
 dialog_response (GtkWidget *w, int response, gpointer data)
 {
-	if (response == GTK_RESPONSE_CLOSE) {
+	if (response == GTK_RESPONSE_CLOSE ||
+	    response == GTK_RESPONSE_DELETE_EVENT) {
+		if (replot_in_progress > 0)
+			interrupted = TRUE;
 		gtk_widget_destroy (graph_window);
-	} else if (response == 1 /* stop/interrupt */) {
-		genius_interrupt_calc ();
+	} else if (response == RESPONSE_STOP && replot_in_progress > 0) {
+		interrupted = TRUE;
+	} else if (response == RESPONSE_ZOOMOUT && replot_in_progress == 0) {
+		double len = replotx2 - replotx1;
+		GelCtx *ctx;
+		replotx2 += len/2.0;
+		replotx1 -= len/2.0;
+
+		len = reploty2 - reploty1;
+		reploty2 += len/2.0;
+		reploty1 -= len/2.0;
+
+		ctx = eval_get_context ();
+		replot_functions (ctx);
+		eval_free_context (ctx);
 	}
+}
+
+static double button_press_x1 = 0.0;
+static double button_press_y1 = 0.0;
+
+static GnomeCanvasItem *zoom_rect = NULL;
+static gboolean dragging = FALSE;
+
+/* 10 pixels */
+#define MINZOOM 10
+
+static gboolean
+mouse_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
+{
+	double xscale, yscale;
+
+	if (event->type == GDK_BUTTON_PRESS && event->button.button == 1) {
+		dragging = TRUE;
+		button_press_x1 = event->button.x;
+		button_press_y1 = event->button.y;
+	} else if (event->type == GDK_MOTION_NOTIFY && dragging) {
+		double x1, x2, y1, y2;
+		if (zoom_rect != NULL)
+			gtk_object_destroy (GTK_OBJECT (zoom_rect));
+		if (event->motion.x < button_press_x1) {
+			x1 = event->motion.x;
+			x2 = button_press_x1;
+		} else {
+			x1 = button_press_x1;
+			x2 = event->motion.x;
+		}
+
+		if (event->motion.y < button_press_y1) {
+			y1 = event->motion.y;
+			y2 = button_press_y1;
+		} else {
+			y1 = button_press_y1;
+			y2 = event->motion.y;
+		}
+
+		if (x2 - x1 < MINZOOM &&
+		    y2 - y1 < MINZOOM)
+			return FALSE;
+
+		if (x2 - x1 < MINZOOM)
+			x2 = x1 + MINZOOM;
+		if (y2 - y1 < MINZOOM)
+			y2 = y1 + MINZOOM;
+
+		zoom_rect =
+			gnome_canvas_item_new (root,
+					       gnome_canvas_rect_get_type (),
+					       "outline_color", "red",
+					       "width_units", 1.0,
+					       "x1", x1,
+					       "x2", x2,
+					       "y1", y1,
+					       "y2", y2,
+					       NULL);
+		g_signal_connect (G_OBJECT (zoom_rect), "destroy",
+				  G_CALLBACK (gtk_widget_destroyed), &zoom_rect);
+	} else if (event->type == GDK_BUTTON_RELEASE && dragging) {
+		double x1, x2, y1, y2;
+		GelCtx *ctx;
+
+		dragging = FALSE;
+
+		if (zoom_rect != NULL)
+			gtk_object_destroy (GTK_OBJECT (zoom_rect));
+
+		if (event->button.x < button_press_x1) {
+			x1 = event->button.x;
+			x2 = button_press_x1;
+		} else {
+			x1 = button_press_x1;
+			x2 = event->button.x;
+		}
+
+		if (event->button.y < button_press_y1) {
+			y1 = event->button.y;
+			y2 = button_press_y1;
+		} else {
+			y1 = button_press_y1;
+			y2 = event->button.y;
+		}
+
+		if (x2 - x1 < MINZOOM &&
+		    y2 - y1 < MINZOOM)
+			return FALSE;
+
+		if (x2 - x1 < MINZOOM)
+			x2 = x1 + MINZOOM;
+		if (y2 - y1 < MINZOOM)
+			y2 = y1 + MINZOOM;
+
+		/* get current scale */
+		xscale = WIDTH/(replotx2-replotx1);
+		yscale = HEIGHT/(reploty2-reploty1);
+
+		/* rescale */
+		replotx2 = x2 / xscale + replotx1;
+		replotx1 = x1 / xscale + replotx1;
+		/* note: y is flipped */
+		reploty1 = reploty2 - y2 / yscale;
+		reploty2 = reploty2 - y1 / yscale;
+
+		ctx = eval_get_context ();
+		replot_functions (ctx);
+		eval_free_context (ctx);
+	}
+
+	return FALSE;
+}
+
+static void
+canvas_realize (GtkWidget *win)
+{
+	GdkCursor *cursor = gdk_cursor_new (GDK_CROSSHAIR);
+	gdk_window_set_cursor (win->window, cursor);
+	gdk_cursor_unref (cursor);
 }
 
 static void
@@ -84,8 +239,10 @@ ensure_window (void)
 		(_("Genius Line Plot") /* title */,
 		 GTK_WINDOW (genius_window) /* parent */,
 		 0 /* flags */,
+		 _("_Zoom out"),
+		 RESPONSE_ZOOMOUT,
 		 GTK_STOCK_STOP,
-		 1,
+		 RESPONSE_STOP,
 		 GTK_STOCK_CLOSE,
 		 GTK_RESPONSE_CLOSE,
 		 NULL);
@@ -99,7 +256,15 @@ ensure_window (void)
 			  NULL);
 
 	canvas = (GnomeCanvas *)gnome_canvas_new_aa ();
+	g_signal_connect (G_OBJECT (canvas),
+			  "realize",
+			  G_CALLBACK (canvas_realize),
+			  NULL);
 	root = gnome_canvas_root (canvas);
+	g_signal_connect (root, "event",
+			  G_CALLBACK (mouse_event),
+			  NULL);
+
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (graph_window)->vbox),
 			    GTK_WIDGET (canvas), TRUE, TRUE, 0);
 
@@ -141,31 +306,46 @@ clear_graph (void)
 			  &graph);
 }
 
-#define P2C_X(x) (((x)-x1)*xscale)
-#define P2C_Y(y) ((y2-(y))*yscale)
+static void
+get_start_inc (double start, double end, double *first, double *inc, double *tol)
+{
+	int incs;
+	double len = end-start;
+
+	*inc = pow (10, floor (log10 (len)));
+	incs = floor (len / *inc);
+
+	while (incs < 3) {
+		*inc /= 2.0;
+		incs = floor (len / *inc);
+	}
+
+	while (incs > 6) {
+		*inc *= 2.0;
+		incs = floor (len / *inc);
+	}
+
+	*first = ceil (start / *inc) * *inc;
+
+	if (start < 0.0 && end > 0.0) {
+		*first = -1.0 * incs * *inc;
+		while (*first < start)
+			*first += *inc;
+	}
+
+	*tol = len / 1000.0;
+}
+
 
 static void
 plot_axis (double xscale, double yscale, double x1, double x2, double y1, double y2)
 {
+	double inc, coord, tol, yleg, xleg;
 	GnomeCanvasPoints *points;
-       
+	GtkAnchorType anchor, fanchor, canchor, lanchor;
+	gboolean printed_zero = FALSE;
+
 	if (x1 <= 0 && x2 >= 0) {
-		points = gnome_canvas_points_new (2);
-		points->coords[0] = P2C_X (x1);
-		points->coords[1] = P2C_Y (0);
-		points->coords[2] = P2C_X (x2);
-		points->coords[3] = P2C_Y (0);
-
-		gnome_canvas_item_new (graph,
-				       gnome_canvas_line_get_type (),
-				       "fill_color", "black",
-				       "points", points,
-				       NULL);
-
-		gnome_canvas_points_unref (points);
-	}
-
-	if (y1 <= 0 && y2 >= 0) {
 		points = gnome_canvas_points_new (2);
 		points->coords[0] = P2C_X (0);
 		points->coords[1] = P2C_Y (y1);
@@ -179,7 +359,151 @@ plot_axis (double xscale, double yscale, double x1, double x2, double y1, double
 				       NULL);
 
 		gnome_canvas_points_unref (points);
+
+		xleg = 0.0;
+	} else {
+		xleg = x1;
 	}
+
+	if (y1 <= 0 && y2 >= 0) {
+		points = gnome_canvas_points_new (2);
+		points->coords[0] = P2C_X (x1);
+		points->coords[1] = P2C_Y (0);
+		points->coords[2] = P2C_X (x2);
+		points->coords[3] = P2C_Y (0);
+
+		gnome_canvas_item_new (graph,
+				       gnome_canvas_line_get_type (),
+				       "fill_color", "black",
+				       "points", points,
+				       NULL);
+
+		gnome_canvas_points_unref (points);
+
+		yleg = 0.0;
+	} else {
+		yleg = y1;
+	}
+
+	/*
+	 * X axis labels
+	 */
+	get_start_inc (x1, x2, &coord, &inc, &tol);
+
+	if (yleg < y1 + (y2-y1) / 8.0) {
+		fanchor = GTK_ANCHOR_SW;
+		lanchor = GTK_ANCHOR_SE;
+		canchor = GTK_ANCHOR_S;
+	} else {
+		fanchor = GTK_ANCHOR_NW;
+		lanchor = GTK_ANCHOR_NE;
+		canchor = GTK_ANCHOR_N;
+	}
+
+	if (coord - (inc/2.0) <= x1)
+		anchor = fanchor;
+	else
+		anchor = canchor;
+	do {
+		char buf[20];
+		if (fabs (coord) < tol) {
+			strcpy (buf, "0");
+			printed_zero = TRUE;
+		} else {
+			g_snprintf (buf, sizeof (buf), "%g", coord);
+		}
+
+		gnome_canvas_item_new (graph,
+				       gnome_canvas_text_get_type (),
+				       "text", buf,
+				       "fill_color", "black",
+				       "anchor", anchor,
+				       "x", P2C_X (coord),
+				       "y", P2C_Y (yleg),
+				       NULL);
+
+		points = gnome_canvas_points_new (2);
+		points->coords[0] = P2C_X (coord);
+		points->coords[1] = P2C_Y (yleg)-7;
+		points->coords[2] = P2C_X (coord);
+		points->coords[3] = P2C_Y (yleg)+7;
+
+		gnome_canvas_item_new (graph,
+				       gnome_canvas_line_get_type (),
+				       "fill_color", "black",
+				       "points", points,
+				       NULL);
+
+		gnome_canvas_points_unref (points);
+		
+		coord += inc;
+		if (coord + (inc/2.0) >= x2)
+			anchor = lanchor;
+		else
+			anchor = canchor;
+	} while (coord <= x2);
+
+	/*
+	 * Y axis labels
+	 */
+	get_start_inc (y1, y2, &coord, &inc, &tol);
+
+	if (xleg < x1 + (x2-x1) / 5.0) {
+		fanchor = GTK_ANCHOR_SW;
+		lanchor = GTK_ANCHOR_NW;
+		canchor = GTK_ANCHOR_W;
+	} else {
+		fanchor = GTK_ANCHOR_SE;
+		lanchor = GTK_ANCHOR_NE;
+		canchor = GTK_ANCHOR_E;
+	}
+
+	if (coord - (inc/2.0) <= y1)
+		anchor = fanchor;
+	else
+		anchor = canchor;
+	do {
+		char buf[20];
+		if (fabs (coord) < tol) {
+			if (printed_zero)
+				buf[0] = '\0';
+			else
+				strcpy (buf, "0");
+		} else {
+			g_snprintf (buf, sizeof (buf), "%g", coord);
+		}
+
+		if (buf[0] != '\0') {
+			gnome_canvas_item_new (graph,
+					       gnome_canvas_text_get_type (),
+					       "text", buf,
+					       "fill_color", "black",
+					       "anchor", anchor,
+					       "x", P2C_X (xleg),
+					       "y", P2C_Y (coord),
+					       NULL);
+
+			points = gnome_canvas_points_new (2);
+			points->coords[0] = P2C_X (xleg)-7;
+			points->coords[1] = P2C_Y (coord);
+			points->coords[2] = P2C_X (xleg)+7;
+			points->coords[3] = P2C_Y (coord);
+
+			gnome_canvas_item_new (graph,
+					       gnome_canvas_line_get_type (),
+					       "fill_color", "black",
+					       "points", points,
+					       NULL);
+
+			gnome_canvas_points_unref (points);
+		}
+		
+		coord += inc;
+		if (coord + (inc/2.0) >= y2)
+			anchor = lanchor;
+		else
+			anchor = canchor;
+	} while (coord <= y2);
 }
 
 static double
@@ -456,14 +780,9 @@ make_matrix_from_limits (void)
 	return n;
 }
 
-static GelETree *
-LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
+static void
+replot_functions (GelCtx *ctx)
 {
-	double x1, x2, y1, y2;
-	double xscale, yscale;
-	GelEFunc *func[10];
-	int funcs = 0;
-	int i;
 	char *colors[] = {
 		"darkblue",
 		"darkgreen",
@@ -476,11 +795,74 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 		"red",
 		"brown",
 		NULL };
+	double xscale, yscale;
+	int i;
+
+	ensure_window ();
+
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (graph_window),
+					   RESPONSE_STOP, TRUE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (graph_window),
+					   RESPONSE_ZOOMOUT, FALSE);
+
+	replot_in_progress ++;
+
+	clear_graph ();
+
+	/* sanity */
+	if (replotx2 == replotx1)
+		replotx2 = replotx1 + 0.00000001;
+	/* sanity */
+	if (reploty2 == reploty1)
+		reploty2 = reploty1 + 0.00000001;
+
+	xscale = WIDTH/(replotx2-replotx1);
+	yscale = HEIGHT/(reploty2-reploty1);
+
+	plot_axis (xscale, yscale, replotx1, replotx2, reploty1, reploty2);
+
+	for (i = 0; i < MAXFUNC && replot_func[i] != NULL; i++) {
+		plot_func (ctx, replot_func[i], colors[i],
+			   xscale, yscale, replotx1, replotx2, reploty1, reploty2);
+
+		if (interrupted) break;
+
+		label_func (ctx, i, replot_func[i], colors[i]);
+
+		if (evalnode_hook)
+			(*evalnode_hook)();
+
+		if (interrupted) break;
+	}
+
+	if (graph_window != NULL) {
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (graph_window),
+						   RESPONSE_STOP, FALSE);
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (graph_window),
+						   RESPONSE_ZOOMOUT, TRUE);
+	}
+
+	replot_in_progress --;
+}
+
+static GelETree *
+LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	double x1, x2, y1, y2;
+	int funcs = 0;
+	int i;
+
+	for (i = 0; i < MAXFUNC && replot_func[i] != NULL; i++) {
+		d_freefunc (replot_func[i]);
+		replot_func[i] = NULL;
+	}
 
 	for (i = 0;
-	     i < 10 && a[i] != NULL && a[i]->type == FUNCTION_NODE;
+	     i < MAXFUNC && a[i] != NULL && a[i]->type == FUNCTION_NODE;
 	     i++) {
-		func[funcs++] = a[i]->func.func;
+		replot_func[funcs] = d_copyfunc (a[i]->func.func);
+		replot_func[funcs]->context = -1;
+		funcs++;
 	}
 
 	if (a[i] != NULL && a[i]->type == FUNCTION_NODE) {
@@ -539,27 +921,27 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 		y2 = s;
 	}
 
-	ensure_window ();
-	clear_graph ();
-
-	xscale = WIDTH/(x2-x1);
-	yscale = HEIGHT/(y2-y1);
-
-	plot_axis (xscale, yscale, x1, x2, y1, y2);
-
-	for (i = 0; i < funcs; i++) {
-		plot_func (ctx, func[i], colors[i],
-			   xscale, yscale, x1, x2, y1, y2);
-		label_func (ctx, i, func[i], colors[i]);
-		if (evalnode_hook) {
-			(*evalnode_hook)();
-		}
-		if (interrupted) {
-			return NULL;
-		}
+	if (x1 == x2) {
+		gel_errorout (_("%s: invalid X range"), "LinePlot");
+		return NULL;
 	}
 
-	return gel_makenum_null ();
+	if (y1 == y2) {
+		gel_errorout (_("%s: invalid Y range"), "LinePlot");
+		return NULL;
+	}
+
+	replotx1 = x1;
+	replotx2 = x2;
+	reploty1 = y1;
+	reploty2 = y2;
+
+	replot_functions (ctx);
+
+	if (interrupted)
+		return NULL;
+	else
+		return gel_makenum_null ();
 }
 
 static GelETree *
