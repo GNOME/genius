@@ -99,6 +99,10 @@ clear_graph (void)
 				       "x", 0.0,
 				       "y", 0.0,
 				       NULL);
+	g_signal_connect (G_OBJECT (graph),
+			  "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &graph);
 }
 
 #define P2C_X(x) (((x)-x1)*xscale)
@@ -167,7 +171,7 @@ call_func (GelCtx *ctx, GelEFunc *func, GelETree *arg)
 }
 
 static void
-plot_func (GelCtx *ctx, GelEFunc *func, double xscale, double yscale, double x1, double x2, double y1, double y2)
+plot_func (GelCtx *ctx, GelEFunc *func, const char *color, double xscale, double yscale, double x1, double x2, double y1, double y2)
 {
 #define PERITER 2
 	GelETree *arg;
@@ -183,12 +187,18 @@ plot_func (GelCtx *ctx, GelEFunc *func, double xscale, double yscale, double x1,
 		y = call_func (ctx, func, arg);
 		points->coords[i*2] = P2C_X (xd);
 		points->coords[i*2 + 1] = P2C_Y (y);
+		/* hack for "infinity" */
+		if (points->coords[i*2 + 1] >= HEIGHT*2)
+			points->coords[i*2 + 1] = HEIGHT*2;
+		/* hack for "infinity" */
+		else if (points->coords[i*2 + 1] <= -HEIGHT)
+			points->coords[i*2 + 1] = -HEIGHT;
 	}
 	gel_freetree (arg);
 
 	gnome_canvas_item_new (graph,
 			       gnome_canvas_line_get_type (),
-			       "fill_color", "darkblue",
+			       "fill_color", color,
 			       "points", points,
 			       NULL);
 
@@ -209,14 +219,37 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	double x1, x2, y1, y2;
 	double xscale, yscale;
-	GelEFunc *func;
+	GelEFunc *func[10];
+	int funcs = 0;
+	int i;
+	char *colors[] = {
+		"darkblue",
+		"darkgreen",
+		"red",
+		"brown",
+		"magenta",
+		"black",
+		"orange",
+		"lightblue",
+		"lightgreen",
+		"yellow",
+		NULL };
 
-	if (a[0]->type != FUNCTION_NODE) {
-		(*errorout)(_("LinePlot: argument not a function"));
+	for (i = 0;
+	     i < 10 && a[i] != NULL && a[i]->type == FUNCTION_NODE;
+	     i++) {
+		func[funcs++] = a[i]->func.func;
+	}
+
+	if (a[i] != NULL && a[i]->type == FUNCTION_NODE) {
+		(*errorout)(_("LinePlot: only up to 10 functions supported"));
 		return NULL;
 	}
 
-	func = a[0]->func.func;
+	if (funcs == 0) {
+		(*errorout)(_("LinePlot: argument not a function"));
+		return NULL;
+	}
 
 	/* Defaults */
 	x1 = -M_PI;
@@ -224,14 +257,14 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	y1 = -1.1;
 	y2 = 1.1;
 
-	if (a[1] != NULL) {
-		GET_DOUBLE(x1,1);
-		if (a[2] != NULL) {
-			GET_DOUBLE(x2,2);
-			if (a[3] != NULL) {
-				GET_DOUBLE(y1,3);
-				if (a[4] != NULL) {
-					GET_DOUBLE(y2,4);
+	if (a[i] != NULL) {
+		GET_DOUBLE(x1,i++);
+		if (a[i] != NULL) {
+			GET_DOUBLE(x2,i++);
+			if (a[i] != NULL) {
+				GET_DOUBLE(y1,i++);
+				if (a[i] != NULL) {
+					GET_DOUBLE(y2,i++);
 				}
 			}
 		}
@@ -257,7 +290,10 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	plot_axis (xscale, yscale, x1, x2, y1, y2);
 
-	plot_func (ctx, func, xscale, yscale, x1, x2, y1, y2);
+	for (i = 0; i < funcs; i++) {
+		plot_func (ctx, func[i], colors[i],
+			   xscale, yscale, x1, x2, y1, y2);
+	}
 
 	return gel_makenum_null ();
 }
