@@ -2972,11 +2972,25 @@ mpwl_denominator(MpwRealNum *rop, MpwRealNum *op)
 static void
 mpwl_set_str_float(MpwRealNum *rop,const char *s,int base)
 {
+	char *old_locale = setlocale (LC_NUMERIC, NULL);
+	if (old_locale != NULL &&
+	    strcmp (old_locale, "C") != 0) {
+		old_locale = g_strdup (old_locale);
+		setlocale (LC_NUMERIC, "C");
+	} else {
+		old_locale = NULL;
+	}
+
 	if(rop->type!=MPW_FLOAT) {
 		mpwl_clear(rop);
 		mpwl_init_type(rop,MPW_FLOAT);
 	}
 	mpf_set_str(rop->data.fval,s,base);
+
+	if (old_locale != NULL) {
+		setlocale (LC_NUMERIC, old_locale);
+		g_free (old_locale);
+	}
 }
 
 static void
