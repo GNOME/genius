@@ -1,3 +1,43 @@
+Changes to 0.5.4
+
+Note the syntax changes marked with 'SYNTAX:'
+
+* The GUI now allows editting program files and running them directly from
+  the gui.
+* SYNTAX: If "log" is used in mod environment it acts as DiscreteLog
+* IsEven and IsOdd are now internal and fast
+* Use MPFR (if available) for log10 and log2, and add lg as an alias to
+  log2
+* SYNTAX: Use GMP for the MillerRabinTest and implement StrongPseudoprimeTest,
+  IsPrime, and MillerRabinTestSure internally, remove IsPrimeLoopMax and
+  PrimeProbabilityEpsilon, MillerRabinTest takes the number of reps to do
+  and not the epsilon and there is IsPrimeMillerRabinReps parameter, also
+  remove IsPrimeProbability
+* SYNTAX: Snarf the Pollard-Rho implementation from GMP examples and use it
+  for Factorize.  Whack FactorizeLoopMax
+* Use MPFR for EulerConstant if available
+* Added MillerRabinTestSure, StringToASCII, ASCIIToString, AlphabetToString,
+  StringToAlphabet, LeastAbsoluteResidue, AreRelativelyPrime, DiscreteLog,
+  CRT (ChineseRemainder), IsPrimitiveMod, ConvertToBase, ConvertFromBase,
+  GetCurrentModulo, MidpointRule, NumericalIntegral, SolveLinearSystem,
+  MakeSet, Union, Intersection, IndexCalculus, IndexCalculusPrecalculation,
+  FindPrimitiveElementMod, FindRandomPrimitiveElementMod and Compose
+* Fixed IsStrongPseudoprime
+* Fixed the integer power functions and use MPFR for the float one if
+  available.
+* Document some functions
+* elements, rows, columns accept null and treat it like 0x0 matrix
+* SYNTAX: Allow return after comma to break a long vector input
+* Mod matrices after all primitives (fixes for example "-[1] mod 2")
+* when function is undocumented, print at least a prototype on help
+* SYNTAX: 'mod' and 'call' now binds tighet then logical olperators to
+  make "if a == b mod n and a == c mod n then ..."
+* SYNTAX: I, zeros, ones, rand, randint don't mod their arguments when in
+  mod mode
+* SYNTAX: null is accepted for the "for in" type loops to mean empty
+* Add "Set Theory" category to help
+* Fix some crashes and plug many leaks
+
 Changes to 0.5.3
 
 Note the syntax changes marked with 'SYNTAX:'
