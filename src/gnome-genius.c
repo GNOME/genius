@@ -292,6 +292,7 @@ geniusbox (gboolean error,
 					     GTK_BUTTONS_OK,
 					     "%s",
 					     s);
+		gtk_dialog_set_has_separator (GTK_DIALOG (mb), FALSE);
 	} else {
 		GtkWidget *sw;
 		GtkWidget *tv;
@@ -304,6 +305,7 @@ geniusbox (gboolean error,
 			 0 /* flags */,
 			 GTK_STOCK_OK, GTK_RESPONSE_OK,
 			 NULL);
+		gtk_dialog_set_has_separator (GTK_DIALOG (mb), FALSE);
 		sw = gtk_scrolled_window_new (NULL, NULL);
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 						GTK_POLICY_AUTOMATIC,
@@ -552,6 +554,7 @@ display_error (GtkWidget *parent, const char *err)
 				    GTK_BUTTONS_CLOSE,
 				    "%s",
 				    err);
+	gtk_dialog_set_has_separator (GTK_DIALOG (w), FALSE);
 	gtk_label_set_use_markup
 		(GTK_LABEL (GTK_MESSAGE_DIALOG (w)->label), TRUE);
 
@@ -580,6 +583,7 @@ display_warning (GtkWidget *parent, const char *warn)
 				    GTK_BUTTONS_CLOSE,
 				    "%s",
 				    warn);
+	gtk_dialog_set_has_separator (GTK_DIALOG (w), FALSE);
 	gtk_label_set_use_markup
 		(GTK_LABEL (GTK_MESSAGE_DIALOG (w)->label), TRUE);
 
@@ -609,6 +613,7 @@ ask_question (GtkWidget *parent, const char *question)
 				      GTK_BUTTONS_YES_NO,
 				      "%s",
 				      question);
+	gtk_dialog_set_has_separator (GTK_DIALOG (req), FALSE);
 	gtk_label_set_use_markup
 		(GTK_LABEL (GTK_MESSAGE_DIALOG (req)->label), TRUE);
 
@@ -689,8 +694,6 @@ static void
 intspincb(GtkAdjustment *adj, int *data)
 {
 	*data=adj->value;
-	if(setupdialog)
-		gnome_property_box_changed(GNOME_PROPERTY_BOX(setupdialog));
 }
 
 /*option callback*/
@@ -701,9 +704,6 @@ optioncb(GtkWidget * widget, int *data)
 		*data=TRUE;
 	else
 		*data=FALSE;
-	
-	if(setupdialog)
-		gnome_property_box_changed(GNOME_PROPERTY_BOX(setupdialog));
 }
 
 static void
@@ -711,30 +711,44 @@ fontsetcb(GnomeFontPicker *gfp, gchar *font_name, char **font)
 {
 	g_free(*font);
 	*font = g_strdup(font_name);
-	if(setupdialog)
-		gnome_property_box_changed(GNOME_PROPERTY_BOX(setupdialog));
 }
 
 
 static calcstate_t tmpstate={0};
 static geniussetup_t tmpsetup={0};
 
-static void
-do_setup(GtkWidget *widget, gint page, gpointer data)
-{
-	if (page == -1) {     /* Just finished global apply */
-		g_free(cursetup.font);
-		cursetup = tmpsetup;
-		if(tmpsetup.font)
-			cursetup.font = g_strdup(tmpsetup.font);
-		curstate = tmpstate;
+static calcstate_t cancelstate={0};
+static geniussetup_t cancelsetup={0};
 
-		set_new_calcstate(curstate);
+static void
+setup_response (GtkWidget *widget, gint resp, gpointer data)
+{
+	if (resp == GTK_RESPONSE_CANCEL ||
+	    resp == GTK_RESPONSE_OK ||
+	    resp == GTK_RESPONSE_APPLY) {
+		if (resp == GTK_RESPONSE_CANCEL) {
+			g_free (cursetup.font);
+			cursetup = cancelsetup;
+			if (cancelsetup.font)
+				cursetup.font = g_strdup (cancelsetup.font);
+			curstate = cancelstate;
+		} else {
+			g_free (cursetup.font);
+			cursetup = tmpsetup;
+			if (tmpsetup.font)
+				cursetup.font = g_strdup (tmpsetup.font);
+			curstate = tmpstate;
+		}
+
+		set_new_calcstate (curstate);
 		vte_terminal_set_scrollback_lines (VTE_TERMINAL (term),
 						   cursetup.scrollback);
 		vte_terminal_set_font_from_string (VTE_TERMINAL (term),
 						   cursetup.font ?
 						   cursetup.font : DEFAULT_FONT);
+		if (resp == GTK_RESPONSE_OK ||
+		    resp == GTK_RESPONSE_CANCEL)
+			gtk_widget_destroy (widget);
 	}
 }
 
@@ -750,32 +764,45 @@ setup_calc(GtkWidget *widget, gpointer data)
 	GtkWidget *mainbox,*frame;
 	GtkWidget *box;
 	GtkWidget *b, *w;
+	GtkWidget *notebook;
 	GtkAdjustment *adj;
 
 	if (setupdialog) {
-		gtk_widget_show_now(GTK_WIDGET(setupdialog));
-		gdk_window_raise(GTK_WIDGET(setupdialog)->window);
+		gtk_window_present (GTK_WINDOW (setupdialog));
 		return;
 	}
+
+	cancelstate = curstate;
+	g_free (tmpsetup.font);
+	cancelsetup = cursetup;
+	if (cursetup.font)
+		cancelsetup.font = g_strdup (cursetup.font);
 	
 	tmpstate = curstate;
-	g_free(tmpsetup.font);
+	g_free (tmpsetup.font);
 	tmpsetup = cursetup;
-	if(cursetup.font)
-		tmpsetup.font = g_strdup(cursetup.font);
+	if (cursetup.font)
+		tmpsetup.font = g_strdup (cursetup.font);
 	
-	setupdialog = gnome_property_box_new();
-	gtk_window_set_transient_for(GTK_WINDOW(setupdialog),
-				     GTK_WINDOW(genius_window));
-	
-	gtk_window_set_title(GTK_WINDOW(setupdialog),
-			     _("GENIUS Calculator setup"));
+	setupdialog = gtk_dialog_new_with_buttons
+		(_("GENIUS Calculator Setup"),
+		 GTK_WINDOW (genius_window) /* parent */,
+		 0 /* flags */,
+		 GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,
+		 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		 GTK_STOCK_OK, GTK_RESPONSE_OK,
+		 NULL);
+	gtk_dialog_set_has_separator (GTK_DIALOG (setupdialog), FALSE);
+
+	notebook = gtk_notebook_new ();
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (setupdialog)->vbox),
+			    notebook, TRUE, TRUE, 0);
 	
 	mainbox = gtk_vbox_new(FALSE, GNOME_PAD);
 	gtk_container_border_width(GTK_CONTAINER(mainbox),GNOME_PAD);
-	gnome_property_box_append_page(GNOME_PROPERTY_BOX(setupdialog),
-				       mainbox,
-				       gtk_label_new(_("Output")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
+				  mainbox,
+				  gtk_label_new(_("Output")));
 
 	
 	frame=gtk_frame_new(_("Number/Expression output options"));
@@ -882,9 +909,9 @@ setup_calc(GtkWidget *widget, gpointer data)
 
 	mainbox = gtk_vbox_new(FALSE, GNOME_PAD);
 	gtk_container_border_width(GTK_CONTAINER(mainbox),GNOME_PAD);
-	gnome_property_box_append_page(GNOME_PROPERTY_BOX(setupdialog),
-				       mainbox,
-				       gtk_label_new(_("Precision")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
+				  mainbox,
+				  gtk_label_new(_("Precision")));
 
 	
 	frame=gtk_frame_new(_("Floating point precision"));
@@ -925,9 +952,9 @@ setup_calc(GtkWidget *widget, gpointer data)
 
 	mainbox = gtk_vbox_new(FALSE, GNOME_PAD);
 	gtk_container_border_width(GTK_CONTAINER(mainbox),GNOME_PAD);
-	gnome_property_box_append_page(GNOME_PROPERTY_BOX(setupdialog),
-				       mainbox,
-				       gtk_label_new(_("Terminal")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
+				  mainbox,
+				  gtk_label_new(_("Terminal")));
 
 	
 	frame=gtk_frame_new(_("Terminal options"));
@@ -977,8 +1004,8 @@ setup_calc(GtkWidget *widget, gpointer data)
 			  &tmpsetup.font);
 
 
-	g_signal_connect (G_OBJECT (setupdialog), "apply",
-			  G_CALLBACK (do_setup), NULL);	
+	g_signal_connect (G_OBJECT (setupdialog), "response",
+			  G_CALLBACK (setup_response), NULL);	
 	g_signal_connect (G_OBJECT (setupdialog), "destroy",
 			  G_CALLBACK (destroy_setup), NULL);
 	gtk_widget_show_all(setupdialog);
