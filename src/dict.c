@@ -74,6 +74,8 @@ d_makebifunc(GelToken *id, dictfunc f, int nargs)
 	n->named_args = NULL;
 	n->extra_dict = NULL;
 	n->context = context.top;
+	n->no_mod_all_args = FALSE;
+	n->propagate_mod = FALSE;
 	n->type = GEL_BUILTIN_FUNC;
 
 	return n;
@@ -99,6 +101,8 @@ d_makeufunc (GelToken *id, GelETree *value, GSList *argnames, int nargs,
 	n->on_subst_list = 0;
 	n->named_args=argnames;
 	n->context=context.top;
+	n->no_mod_all_args = FALSE;
+	n->propagate_mod = FALSE;
 	n->type=GEL_USER_FUNC;
 
 	if (extra_dict != NULL) {
@@ -133,6 +137,8 @@ d_makevfunc(GelToken *id, GelETree *value)
 	n->named_args=NULL;
 	n->extra_dict = NULL;
 	n->context=context.top;
+	n->no_mod_all_args = FALSE;
+	n->propagate_mod = FALSE;
 	n->type=GEL_VARIABLE_FUNC;
 
 	return n;
@@ -158,6 +164,8 @@ d_makereffunc(GelToken *id, GelEFunc *ref)
 	n->named_args = NULL;
 	n->extra_dict = NULL;
 	n->context = context.top;
+	n->no_mod_all_args = FALSE;
+	n->propagate_mod = FALSE;
 	n->type = GEL_REFERENCE_FUNC;
 
 	return n;
