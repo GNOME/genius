@@ -741,17 +741,17 @@ appendoper(GelOutput *gelo, GelETree *n)
 			GET_LR(n,l,r);
 			gel_output_string(gelo,"(");
 			gel_print_etree (gelo, l, FALSE);
-			gel_output_string(gelo,"@[");
+			gel_output_string(gelo,"@(");
 			gel_print_etree (gelo, r, FALSE);
-			gel_output_string(gelo,",])");
+			gel_output_string(gelo,",))");
 			break;
 		case E_GET_COL_REGION:
 			GET_LR(n,l,r);
 			gel_output_string(gelo,"(");
 			gel_print_etree (gelo, l, FALSE);
-			gel_output_string(gelo,"@[,");
+			gel_output_string(gelo,"@(,");
 			gel_print_etree (gelo, r, FALSE);
-			gel_output_string(gelo,"])");
+			gel_output_string(gelo,"))");
 			break;
 
 		case E_QUOTE:

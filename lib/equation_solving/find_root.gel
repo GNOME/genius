@@ -137,11 +137,11 @@ function FindRootMullersMethod(f,x1,x2,x3,TOL,N) =
 # check arguments
 ## check types
 	if(not IsFunction(f)) then
-		(error("find_root_false_position: argument 1 must be a function");bailout)
+		(error("FindRootMullersMethod: argument 1 must be a function");bailout)
 	else if(not IsReal(x1) or not IsReal(x2) or not IsReal(x3) or not IsReal(TOL)) then
-		(error("find_root_false_position: arguments 2, 3, 4, 5 must be real values");bailout)
+		(error("FindRootMullersMethod: arguments 2, 3, 4, 5 must be real values");bailout)
 	else if(not IsInteger(N)) then
-		(error("find_root_false_position: argument 6 must be an integer");bailout);
+		(error("FindRootMullersMethod: argument 6 must be an integer");bailout);
 
 # Start calculating
 	p=x1;
