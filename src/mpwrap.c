@@ -326,7 +326,7 @@ static void mpwl_clear_extra_type(MpwRealNum *op,int type);
 /*only set the type, don't free it, and don't set the type variable
   create an extra type of the variable for temporary use*/
 static void mpwl_make_extra_type (MpwRealNum *op, int type);
-static void mpwl_make_extra_type_no_convert (MpwRealNum *op, int type);
+/*static void mpwl_make_extra_type_no_convert (MpwRealNum *op, int type);*/
 
 static void mpwl_make_type(MpwRealNum *op,int type);
 
@@ -1305,6 +1305,12 @@ mpwl_make_extra_type(MpwRealNum *op,int type)
 
 /*only set the type, don't free it, and don't set the type variable
   create an extra type of the variable for temporary use*/
+
+#define mpwl_make_extra_type_no_convert mpwl_make_extra_type
+	/* FIXME: something is very wrong, see test:
+	   Numerator (3i/7)
+	 */
+/*
 static void
 mpwl_make_extra_type_no_convert (MpwRealNum *op, int type)
 {
@@ -1330,6 +1336,7 @@ mpwl_make_extra_type_no_convert (MpwRealNum *op, int type)
 		break;
 	}
 }
+*/
 
 static void
 mpwl_make_type(MpwRealNum *op,int type)
