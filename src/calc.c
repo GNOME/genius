@@ -2148,6 +2148,60 @@ print_function_help (GelHelp *help)
 		f = make_function_with_aliases (help->func, help->aliases);
 		len = strlen (f);
 		do_cyan ();
+
+#if 0
+/* This can be used to autogenerate some docbook */
+		gel_output_printf_full (main_out, FALSE,
+					"        <varlistentry id=\"gel-function-%s\">\n"
+					"         <term>%s</term>\n"
+					"         <listitem>\n"
+					"          <synopsis>",
+					help->func, help->func);
+		{
+			GelEFunc *ff;
+			ff = d_lookup_global (d_intern (help->func));
+			if (ff == NULL || (ff->type == GEL_BUILTIN_FUNC &&
+					   ff->named_args == NULL &&
+					   ! ff->vararg) ||
+			    		  (ff->named_args == NULL &&
+					   d_intern (help->func)->parameter)) {
+				gel_output_printf_full (main_out, FALSE, "%s</synopsis>\n", help->func);
+			} else {
+				GSList *li;
+				gel_output_printf_full (main_out, FALSE, "%s (", help->func);
+
+				for (li = ff->named_args; li != NULL; li = li->next) {
+					GelToken *id = li->data;
+					if (li != ff->named_args)
+						gel_output_full_string (main_out, ",");
+					gel_output_full_string (main_out, id->token);
+				}
+
+				if (ff->vararg)
+					gel_output_full_string (main_out, "...");
+				gel_output_full_string (main_out, ")</synopsis>\n");
+			}
+			gel_output_printf_full (main_out, FALSE, "          <para>");
+			if (help->aliases != NULL) {
+				GSList *li;
+				GString *gs = g_string_new ("Aliases:");
+				for (li = help->aliases; li != NULL; li = li->next) {
+					g_string_append (gs, " <function>");
+					g_string_append (gs, li->data);
+					g_string_append (gs, "</function>");
+				}
+				gel_output_printf_full (main_out, FALSE,
+							"%s</para>\n          <para>", gs->str);
+				g_string_free (gs, TRUE);
+			}
+			gel_output_printf_full (main_out, FALSE,
+						"%s</para>\n         </listitem>\n        </varlistentry>\n\n",
+						help->description);
+		}
+#endif
+
+
+
 		/*if (len <= 20)*/
 			gel_output_printf_full (main_out, FALSE,
 						"%-20s", f);
@@ -2340,6 +2394,7 @@ help_on (const char *text)
 	for (i = 0; genius_toplevels[i] != NULL; i++)
 		if (strcmp (text, genius_toplevels[i]) == 0) {
 			print_command_help (text);
+			gel_call_help (text);
 			do_black ();
 			gel_output_pop_nonotify (main_out);
 			return;
@@ -2365,7 +2420,14 @@ help_on (const char *text)
 	do_cyan ();
 
 	f = d_lookup_global (d_intern (text));
-	if (f == NULL) {
+
+	if (d_intern (text)->parameter) {
+		gel_output_printf_full (main_out, FALSE, "%s%s\n",
+					_("Parameter: "), text);
+	} else if (f == NULL
+		   || (f->type == GEL_BUILTIN_FUNC &&
+		       f->named_args == NULL &&
+		       ! f->vararg)) {
 		gel_output_printf_full (main_out, FALSE, "%s\n", text);
 	} else {
 		GSList *li;
@@ -2404,6 +2466,8 @@ help_on (const char *text)
 
 	do_black ();
 	gel_output_pop_nonotify (main_out);
+
+	gel_call_help (text);
 }
 
 static void

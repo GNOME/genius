@@ -50,6 +50,10 @@ UMD=`which update-mime-database 2>/dev/null`
 if [ "$UMD" != "" ]; then
   update-mime-database %{prefix}/share/mime
 fi
+if which scrollkeeper-update>/dev/null 2>&1; then scrollkeeper-update; fi
+
+%postun
+if which scrollkeeper-update>/dev/null 2>&1; then scrollkeeper-update; fi
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -58,6 +62,7 @@ make prefix=$RPM_BUILD_ROOT%{prefix} install
 rm -f $RPM_BUILD_ROOT%{prefix}/share/mime/XMLnamespaces
 rm -f $RPM_BUILD_ROOT%{prefix}/share/mime/globs
 rm -f $RPM_BUILD_ROOT%{prefix}/share/mime/magic
+rm -rf $RPM_BUILD_ROOT%{prefix}/var/scrollkeeper
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -78,3 +83,6 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/share/mime-info/*
 %{prefix}/share/mime/*/*
 %{prefix}/share/icons/*/*/*/*
+%{_datadir}/gnome/help/genius/*/*.xml
+%{_datadir}/gnome/help/genius/*/figures/*.png
+%{_datadir}/omf/genius/genius-*.omf

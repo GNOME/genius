@@ -79,6 +79,7 @@ calcstate_t curstate={
 	
 extern int parenth_depth;
 extern gboolean interrupted;
+extern const char *genius_toplevels[];
 
 GtkWidget *genius_window = NULL;
 
@@ -256,12 +257,12 @@ static GnomeUIInfo calc_menu[] = {
 };
 
 static GnomeUIInfo help_menu[] = {  
-	/* FIXME: no help 
-	 * GNOMEUIINFO_HELP("genius"),*/
-	GNOMEUIINFO_ITEM_STOCK (N_("_Manual"),
+	GNOMEUIINFO_HELP("genius"),
+	/* FIXME: remove this when the docbook help is good enough */
+	/*GNOMEUIINFO_ITEM_STOCK (N_("_Manual"),
 				N_("Display the manual"),
 				manual_call,
-				GTK_STOCK_HELP),
+				GTK_STOCK_HELP),*/
 	GNOMEUIINFO_ITEM_STOCK (N_("_Warranty"),
 				N_("Display warranty information"),
 				warranty_call,
@@ -526,6 +527,34 @@ gel_printout_infos (void)
 	}
 
 	printout_error_num_and_reset ();
+}
+
+void
+gel_call_help (const char *function)
+{
+	if (function == NULL) {
+		/* FIXME: errors */
+
+		gnome_help_display ("genius", NULL, NULL /* error */);
+	} else {
+		char *id = NULL;
+		int i;
+		for (i = 0; genius_toplevels[i] != NULL && id == NULL; i++) {
+			if (strcmp (function, genius_toplevels[i]) == 0) {
+				id = g_strdup_printf ("gel-command-%s",
+						      function);
+				break;
+			}
+		}
+		if (id == NULL) {
+			id = g_strdup_printf ("gel-function-%s",
+					      function);
+		}
+
+		/* FIXME: errors */
+
+		gnome_help_display ("genius", id, NULL /* error */);
+	}
 }
 
 
@@ -1143,6 +1172,7 @@ executing_warning (void)
 			   "operation."));
 }
 
+#if 0
 static void
 manual_call (GtkWidget *widget, gpointer data)
 {
@@ -1158,6 +1188,7 @@ manual_call (GtkWidget *widget, gpointer data)
 		genius_setup.info_box = last;
 	}
 }
+#endif
 
 static void
 warranty_call (GtkWidget *widget, gpointer data)
@@ -2764,6 +2795,7 @@ main (int argc, char *argv[])
 	program = gnome_program_init ("genius", VERSION, 
 				      LIBGNOMEUI_MODULE /* module_info */,
 				      argc, argv,
+				      GNOME_PARAM_APP_DATADIR, DATADIR,
 				      /* GNOME_PARAM_POPT_TABLE, options, */
 				      NULL);
 

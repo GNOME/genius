@@ -117,6 +117,13 @@ gel_printout_infos (void)
 	errors_printed = 0;
 }
 
+void
+gel_call_help (const char *function)
+{
+	/* No extra processing of help */
+}
+
+
 static int
 long_get_term_width (void)
 {

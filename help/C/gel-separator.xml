@@ -1,0 +1,16 @@
+
+    <sect1 id="genius-gel-separator">
+      <title>Separator</title>
+      <para>
+Finally there is the ';' operator, which is a way to separate expressions,
+such a combined expression will return whatever is the result of the last
+one, so
+<programlisting>3 ; 5
+</programlisting>
+yields 5.
+      </para>
+
+      <para>
+This will require some parenthesizing to make it unambiguous sometimes, especially if the ; is not the top most primitive. This slightly differs from other programming languages where the ; is a terminator of statements, whereas in GEL it&rsquo;s actually a binary operator. If you are familiar with pascal this should be second nature. However genius can let you pretend it&rsquo;s a terminator somewhat, if a ";" is found at the end of a parenthesis or a block, genius will itself append a null node to it as if you would have written ";". This is usefull in case you don&rsquo;t want to return a value from say a loop, or if you handle the return differently. Note that it will slow down the code if it&rsquo;s executed too often as there is one more operator involved.
+      </para>
+    </sect1>

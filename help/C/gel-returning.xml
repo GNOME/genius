@@ -1,0 +1,19 @@
+
+    <sect1 id="genius-gel-returning">
+      <title>Returning</title>
+      <para>
+Sometimes you don&rsquo;t want to return the last thing calculated. You may, for example, want to return from a middle of a function. In this case, you can use the <command>return</command> keyword. <command>return</command> takes one argument, which is the value to be returned.
+      </para>
+      <para>
+Example:
+<programlisting><![CDATA[function f(x) = (
+  y=1;
+  while true do (
+    if x>50 then return y;
+    y=y+1;
+    x=x+1
+  )
+)
+]]></programlisting>
+      </para>
+    </sect1>

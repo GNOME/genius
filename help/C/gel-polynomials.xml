@@ -1,0 +1,25 @@
+
+    <sect1 id="genius-gel-polynomials-using">
+      <title>Using Polynomials</title>
+      <para>
+&appname; can do some things on polynomials. Polynomials in &appname; are just horizontal vectors with value only nodes. The power of the term is the position in the vector, with the first position being 0. So,
+<programlisting>[1,2,3]
+</programlisting>
+translates to a polynomial of
+<programlisting>1 + 2*x + 3*x^2
+</programlisting>
+      </para>
+      <para>
+You can add, subtract and multiply polynomials using the <command>AddPoly</command>, <command>SubtractPoly</command> and <command>MultiplyPoly</command> functions respectively. You can print a polynomial using the <command>PolyToString</command> function. For example,
+<programlisting>PolyToString([1,2,3],"y")
+</programlisting>
+gives
+<programlisting>3*y^2 + 2*y + 1
+</programlisting>
+You can also get a function representation of the polynomial so that you can evaluate it. This is done by using <command>PolyToFunction</command>, which returns an anonymous function which you can assign to something.
+<programlisting>f = PolyToFunction([0,1,1])
+f(2)
+</programlisting>
+Look at the function table for the rest of polynomial functions.
+      </para>
+    </sect1>

@@ -1,0 +1,34 @@
+
+    <sect1 id="genius-gel-lvalues">
+      <title>Lvalues</title>
+      <para>
+An lvalue is the left hand side of an assignment. In other words, an lvalue is what you assign something to. Valid lvalues are:
+<variablelist>
+  <varlistentry>
+    <term><command>a</command></term>
+    <listitem>
+      <para>identifier</para>
+    </listitem>
+  </varlistentry>
+  <varlistentry>
+    <term><command>*a</command></term>
+    <listitem>
+      <para>dereference of an identifier</para>
+    </listitem>
+  </varlistentry>
+  <varlistentry>
+    <term><command>a@(&lang;region&rang;)</command></term>
+    <listitem>
+      <para>a region of a matrix (where the region is specified normally as with the regular @() operator)</para>
+    </listitem>
+  </varlistentry>
+</variablelist>
+      </para>
+      <para>
+Examples:
+<programlisting>a=4
+*tmp = 89
+a@(4..8,3)=[1,2,3,4,5]'
+</programlisting>
+      </para>
+    </sect1>

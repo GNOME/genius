@@ -1,0 +1,306 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+  <!ENTITY app "<application>Genius Math Tool</application>">
+  <!ENTITY appname "Genius">
+  <!ENTITY appversion "0.7.1">
+  <!ENTITY manrevision "0.2">
+  <!ENTITY date "December 2004">
+
+  <!ENTITY legal SYSTEM "legal.xml">
+
+  <!ENTITY starting-to-start SYSTEM "starting-to-start.xml">
+  <!ENTITY starting-when-start SYSTEM "starting-when-start.xml">
+
+  <!ENTITY usage-workarea SYSTEM "usage-workarea.xml">
+  <!ENTITY usage-create-program SYSTEM "usage-create-program.xml">
+  <!ENTITY usage-open-program SYSTEM "usage-open-program.xml">
+
+  <!ENTITY gel-values SYSTEM "gel-values.xml">
+  <!ENTITY gel-variables SYSTEM "gel-variables.xml">
+  <!ENTITY gel-functions SYSTEM "gel-functions.xml">
+  <!ENTITY gel-absolute-value-modulus SYSTEM "gel-absolute-value-modulus.xml">
+  <!ENTITY gel-separator SYSTEM "gel-separator.xml">
+  <!ENTITY gel-polynomials SYSTEM "gel-polynomials.xml">
+  <!ENTITY gel-operator-list SYSTEM "gel-operator-list.xml">
+
+  <!ENTITY gel-function-list SYSTEM "gel-function-list.xml">
+
+  <!ENTITY gel-matrix-support SYSTEM "gel-matrix-support.xml">
+  <!ENTITY gel-matrix-transpose SYSTEM "gel-matrix-transpose.xml">
+
+  <!ENTITY gel-conditionals SYSTEM "gel-conditionals.xml">
+  <!ENTITY gel-loops SYSTEM "gel-loops.xml">
+  <!ENTITY gel-sums-products SYSTEM "gel-sums-products.xml">
+  <!ENTITY gel-comparison-operators SYSTEM "gel-comparison-operators.xml">
+  <!ENTITY gel-returning SYSTEM "gel-returning.xml">
+  <!ENTITY gel-references SYSTEM "gel-references.xml">
+  <!ENTITY gel-lvalues SYSTEM "gel-lvalues.xml">
+  <!ENTITY gel-modular-evaluation SYSTEM "gel-modular-evaluation.xml">
+  <!ENTITY gel-error-handling SYSTEM "gel-error-handling.xml">
+  <!ENTITY gel-startup-procedure SYSTEM "gel-startup-procedure.xml">
+  <!ENTITY gel-loading-programs SYSTEM "gel-loading-programs.xml">
+
+  <!ENTITY examples SYSTEM "examples.xml">
+
+  <!ENTITY prefs SYSTEM "prefs.xml">
+  <!ENTITY prefs-display SYSTEM "prefs-display.xml">
+  <!ENTITY prefs-precision SYSTEM "prefs-precision.xml">
+  <!ENTITY prefs-terminal SYSTEM "prefs-terminal.xml">
+
+  <!ENTITY about SYSTEM "about.xml">
+]>
+
+<!-- 
+      (Do not remove this comment block.)
+  Maintained by the GNOME Documentation Project
+  http://developer.gnome.org/projects/gdp
+  Template version: 2.0 beta
+  Template last modified Apr 11, 2002
+-->
+
+<!-- =============Document Header ============================= -->
+<book id="index" lang="en">
+<!-- please do not change the id; for translations, change lang to -->
+<!-- appropriate code -->
+  <bookinfo> 
+    <title>&appname; Manual V&manrevision;</title>       
+
+    <copyright>
+      <year>1997</year><year>1998</year><year>1999</year><year>2000</year>
+      <year>2001</year><year>2002</year><year>2003</year><year>2004</year>
+      <holder>Jiri (George) Lebl</holder>
+    </copyright>
+    <copyright>
+      <year>2004</year>
+      <holder>Kai Willadsen</holder>
+    </copyright>
+<!-- translators: uncomment this:
+  <copyright>
+   <year>2002</year>
+   <holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+  </copyright>
+-->
+
+    <publisher> 
+      <publishername></publishername> 
+    </publisher> 
+
+   &legal;
+   <!-- This file  contains link to license for the documentation (GNU FDL), and 
+        other legal stuff such as "NO WARRANTY" statement. Please do not change 
+	any of this. -->
+
+    <authorgroup> 
+      <author> 
+		<firstname>Jiri</firstname> 
+		<surname>Lebl</surname> 
+		<affiliation> 
+	  		<orgname></orgname> 
+	  		<address> <email>jirka@5z.com</email> </address> 
+		</affiliation> 
+      </author> 
+      <author> 
+		<firstname>Kai</firstname> 
+		<surname>Willadsen</surname> 
+		<affiliation> 
+	  		<orgname></orgname> 
+	  		<address> <email>kaiw@itee.uq.edu.au</email> </address> 
+		</affiliation> 
+      </author> 
+      
+<!-- This is appropriate place for other contributors: translators,
+     maintainers,  etc. Commented out by default.
+     
+      <othercredit role="translator">
+		<firstname>Latin</firstname> 
+		<surname>Translator 1</surname> 
+		<affiliation> 
+	  		<orgname>Latin Translation Team</orgname> 
+	  		<address> <email>translator@gnome.org</email> </address> 
+		</affiliation>
+		<contrib>Latin translation</contrib>
+      </othercredit>
+-->
+    </authorgroup>
+
+
+<!-- According to GNU FDL, revision history is mandatory if you are -->
+<!-- modifying/reusing someone else's document.  If not, you can omit it. -->
+<!-- Remember to remove the &manrevision; entity from the revision entries other
+-->
+<!-- than the current revision. -->
+<!-- The revision numbering system for GNOME manuals is as follows: -->
+<!-- * the revision number consists of two components -->
+<!-- * the first component of the revision number reflects the release version of the GNOME desktop. -->
+<!-- * the second component of the revision number is a decimal unit that is incremented with each revision of the manual. -->
+<!-- For example, if the GNOME desktop release is V2.x, the first version of the manual that -->
+<!-- is written in that desktop timeframe is V2.0, the second version of the manual is V2.1, etc. -->
+<!-- When the desktop release version changes to V3.x, the revision number of the manual changes -->
+<!-- to V3.0, and so on. -->  
+    <revhistory>
+      <revision> 
+		<revnumber>Genius Calculator Manual</revnumber> 
+		<date>August 2004</date> 
+		<revdescription> 
+	  		<para role="author">Jiri (George) Lebl
+	    	<email>jirka@5z.com</email>
+	  		</para>
+		</revdescription> 
+      </revision> 
+    </revhistory> 
+
+    <releaseinfo>This manual describes version &appversion; of &appname;.
+    </releaseinfo> 
+    <legalnotice> 
+      <title>Feedback</title> 
+      <para>To report a bug or make a suggestion regarding the &app; application or
+      this manual, follow the directions in the <ulink url="ghelp:gnome-feedback"
+	  type="help">GNOME Feedback Page</ulink>. 
+      </para>
+<!-- Translators may also add here feedback address for translations -->
+    </legalnotice> 
+  </bookinfo> 
+
+<!-- ============= Introduction =============================== -->
+  <chapter id="genius-introduction"> 
+    <title>Introduction</title> 
+    <para>The &app; application is a general calculator for use as a desktop calculator, an educational tool in mathematics, and is useful even for rudimentary
+research. The language tries to be more &lsquo;mathematical&rsquo; in the sense that it should be &lsquo;what you mean is what you get&rsquo;, though of course that&rsquo;s not an entirely attainable goal. It features using rationals, arbitrary precision integers and multiple precision floats using the GMP library. It also fully supports complex numbers. It can work with matrices and vectors and do rudimetary linear algebra. The language can have user-defined functions, variables and parameters.
+    </para> 
+  </chapter>
+
+<!-- =========== Getting Started ============================== -->
+  <chapter id="genius-getting-started"> 
+    <title>Getting Started</title> 
+
+    &starting-to-start;
+    &starting-when-start;
+
+  </chapter>
+
+<!-- ================ Usage =================================== -->
+  <chapter id="genius-usage"> 
+    <title>Basic usage</title> 
+
+    &usage-workarea;
+    &usage-create-program;
+    &usage-open-program;
+
+  </chapter>
+
+  <!-- ============= GEL ====================================== -->
+  <chapter id="genius-gel"> 
+    <title>GEL Basics</title> 
+
+	<para>
+GEL stands for Genius Extension Language. It is the language you use to write programs in &appname;. A program in GEL is simply an expression that evaluates to a number.
+	</para>
+
+    &gel-values;
+    &gel-variables;
+    &gel-functions;
+
+  </chapter>
+
+  <!-- ============= GEL Maths ================================ -->
+  <chapter id="genius-gel-operators">
+    <title>Operators in GEL</title>
+
+    &gel-absolute-value-modulus;
+    &gel-separator;
+    &gel-operator-list;
+
+  </chapter>
+
+  <!-- ============= GEL Programming ========================== -->
+  <chapter id="genius-gel-programming">
+    <title>Programming with GEL</title>
+
+    &gel-conditionals;
+    &gel-loops;
+    &gel-sums-products;
+    &gel-comparison-operators;
+    &gel-returning;
+    &gel-references;
+    &gel-lvalues;
+    &gel-modular-evaluation;
+
+  </chapter>
+
+  <chapter id="genius-gel-programming-advanced">
+    <title>Advanced Programming with GEL</title>
+
+    &gel-error-handling;
+    &gel-startup-procedure;
+    &gel-loading-programs;
+
+  </chapter>
+
+  <!-- ============= Matrices ================================= -->
+  <chapter id="genius-gel-matrices">
+    <title>Matrices in GEL</title>
+
+    &gel-matrix-support;
+    &gel-matrix-transpose;
+
+  </chapter>
+
+  <!-- ============= Polynomials ============================== -->
+  <chapter id="genius-gel-polynomials">
+    <title>Polynomials in GEL</title>
+
+    &gel-polynomials;
+
+  </chapter>
+
+  <!-- ============= GEL function list ======================== -->
+  <chapter id="genius-gel-function-list">
+    <title>List of GEL functions</title>
+
+    &gel-function-list;
+
+  </chapter>
+
+  <!-- ============= GEL examples ============================= -->
+  <chapter id="genius-gel-example-programs">
+    <title>Example programs in GEL</title>
+
+	&examples;
+
+  </chapter>
+
+  <!-- ============= Customization ============================ -->
+  <chapter id="genius-prefs"> 
+    <title>Settings</title> 
+
+    <para>To configure &app;, choose <menuchoice><guimenu>Settings</guimenu><guimenuitem>Preferences</guimenuitem></menuchoice>. There are several basic parameters provided by the calculator in addition to the ones provided by the standard library.  These control how the calculator behaves.
+    </para>
+
+    <note>
+      <title>Changing settings with GEL</title>
+      <para>
+Many of the settings in &appname; are simply global variables, and can be evaluated and assigned to in the same way as normal variables. See <xref linkend="genius-gel-variables" /> about evaluating and assigning to variables, and <xref linkend="genius-gel-function-parameters" /> for a list of settings that can be modified in this way.
+      </para>
+      <para>
+As an example, you can set the maximum number of digits in a result to 12 by typing:
+<programlisting>MaxDigits = 12
+</programlisting>
+      </para>
+    </note>
+
+	&prefs-display;
+	&prefs-precision;
+	&prefs-terminal;
+
+  </chapter>
+
+<!-- ============= About ====================================== -->
+  <chapter id="genius-about"> 
+    <title>About &app;</title> 
+
+    &about;
+
+  </chapter>
+
+</book>

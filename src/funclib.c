@@ -252,11 +252,19 @@ manual_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	GString *str;
 	FILE *fp;
 
+	/* Kind of a hack I suppose */
+	if (genius_is_gui) {
+		gel_call_help (NULL);
+		error_num = IGNORE_ERROR;
+		RAISE_EXCEPTION (exception);
+		return NULL;
+	}
+
 	str = g_string_new (NULL);
 
-	fp = fopen ("../doc/manual.txt", "r");
+	fp = fopen ("../doc/genius.txt", "r");
 	if G_LIKELY (fp == NULL)
-		fp = fopen (LIBRARY_DIR "/manual.txt", "r");
+		fp = fopen (LIBRARY_DIR "/genius.txt", "r");
 
 	if G_UNLIKELY (fp != NULL) {
 		char buf[256];
@@ -4698,7 +4706,7 @@ gel_funclib_addall(void)
 	d_addfunc (d_makebifunc (d_intern ("FALSE"), false_op, 0));
 	add_alias ("false", "FALSE");
 
-	FUNC (IntegerFromBoolean, 1, "", "basic", N_("Make integer (0 or 1) from a boolean value"));
+	FUNC (IntegerFromBoolean, 1, "bval", "basic", N_("Make integer (0 or 1) from a boolean value"));
 
 	FUNC (print, 1, "str", "basic", N_("Prints an expression"));
 	FUNC (chdir, 1, "dir", "basic", N_("Changes current directory"));

@@ -1,0 +1,37 @@
+
+    <sect1 id="genius-usage-workarea"> 
+      <title>Using the workarea</title> 
+      <para>
+Type your expression into the workarea and press enter and the expression will be evaluated. To load a program, type
+<screen><prompt>genius> </prompt><userinput>load path/to/program.gel</userinput>
+</screen>
+To list files in the current directory type <command>ls</command>, to change directory
+do <command>cd directory</command> as in the unix command shell.
+</para>
+<para>
+To get a list of functions and commands type
+<screen><prompt>genius> </prompt><userinput>help</userinput>
+</screen>
+</para>
+<para>
+If you wish to get more help on a specific function type
+<screen><prompt>genius> </prompt><userinput>help FunctionName</userinput>
+</screen>
+</para>
+<para>
+The most simple GEL (The Genius Extension Language, or George&lsquo;s Ego Leverage)
+expression just looks like mathematics.  For example
+<screen><prompt>genius> </prompt><userinput>30*70 + 67^3.0 + ln(7) * (88.8/100)</userinput>
+</screen>
+or
+<screen><prompt>genius> </prompt><userinput>62734 + 812634 + 77^4 mod 5</userinput>
+</screen>
+or
+<screen><prompt>genius> </prompt><userinput>| sin(37) - e^7 |</userinput>
+</screen>
+or
+<screen><prompt>genius> </prompt><userinput>sum n=1 to 70 do 1/n</userinput>
+</screen>
+(Last is the harmonic sum from 1 to 70)
+</para>
+    </sect1>

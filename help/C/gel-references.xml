@@ -1,0 +1,22 @@
+
+    <sect1 id="genius-gel-references">
+      <title>References</title>
+      <para>
+GEL contains references with a C like syntax. &amp; references a variable
+and * dereferences a variable. Both can only be applied to an identifier,
+so **a is not legal in GEL.
+      </para>
+      <para>
+Example:
+<programlisting><![CDATA[a=1;
+b=&a;
+*b=2;
+]]></programlisting>
+now 'a' contains 2.
+<programlisting><![CDATA[function f(x) = x+1;
+t=&f;
+*t(3)
+]]></programlisting>
+gives us 4.
+      </para>
+    </sect1>

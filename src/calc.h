@@ -102,6 +102,9 @@ void gel_evalexp_parsed (GelETree *parsed /* parsed tree to evaluate */,
  * frontend */
 void gel_printout_infos (void);
 
+/* implemented in the frontend (function can be NULL) */
+void gel_call_help (const char *function);
+
 /*these are parts of the above*/
 /*note that parseexp will actually load AND execute files if there are load
   toplevel instructions, as those don't translate into an GelETree*/

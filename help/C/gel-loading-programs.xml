@@ -1,0 +1,14 @@
+
+    <sect1 id="genius-gel-loading-programs">
+      <title>Loading programs</title>
+      <para>
+Sometimes you have a larger program that you wrote into a file and want to read in that file. In these situations, you have two options. You can keep the functions you use most inside the <filename>~/.geniusinit</filename> file. Or if you want to load up a file in a middle of a session (or from within another file), you can type <command>load &lt;list of filenames&gt;</command> at the prompt. This has to be done on the top level and not inside any function or whatnot, and it cannot be part of any expression. It also has a slightly different syntax then the rest of genius, more similiar to a shell. You can enter the file in quotes. If you use the '' quotes, you will get exactly the string that you typed, if you use the "" quotes, special characters will be unescaped as they are for strings. Example:
+<programlisting>load program1.gel program2.gel
+load "Weird File Name With SPACES.gel"
+</programlisting>
+There are also <command>cd</command>, <command>pwd</command> and <command>ls</command> commands built in. <command>cd</command> will take one argument, <command>ls</command> will take an argument which is like the glob in the unix shell (i.e., you can use wildcards). <command>pwd</command> takes no arguments. For example:
+<programlisting>cd directory_with_gel_programs
+ls *.gel
+</programlisting>
+      </para>
+    </sect1>

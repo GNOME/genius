@@ -1,0 +1,71 @@
+
+    <sect1 id="genius-gel-operator-list">
+      <title>List of GEL operators</title>
+<programlisting><![CDATA[
+a;b		separator, just evaluates both but returns only b
+a=b		assignment operator asigns b to a (a must be a valid lvalue)
+		(note however that this operator may be translated to == if
+		 used in a place where boolean expression is expected)
+a:=b		assignment operator asigns b to a (a must be a valid lvalue)
+|a|		absolute value
+a^b		exponentiation
+a.^b		element by element exponentiation
+a+b		addition
+a-b		subtraction
+a*b		multiplication
+a.*b		element by element multiplication
+a/b		division
+a./b		element by element division
+a\b		back division
+a.\b		element by element back division
+a%b		the mod operator
+a.%b		element by element the mod operator
+a mod b		mod evaluation operator (expression a evaluated mod b)
+a!		factorial operator
+a!!		double factorial operator
+a==b		equality operator (returns 1 or 0)
+a!=b		inequality operator (returns 1 or 0)
+a<>b		alternative inequality operator (returns 1 or 0)
+a<=b		inequality operator (returns 1 or 0)
+a>=b		inequality operator (returns 1 or 0)
+a<=>b		comparison operator (returns -1, 0 or 1)
+a and b		logical and
+a or b		logical or
+a xor b		logical xor
+not a		logical not
+-a		negation operator
+&a		variable referencing (to pass a reference to something)
+*a		variable dereferencing (to access a referenced varible)
+a'		matrix conjugate transpose
+a.'		matrix transpose
+a@(b,c)		get element of a matrix (or elements if b,c are vectors)
+a@(b,)		get row of a matrix (or elements if b is a vector)
+a@(b,:)		same as above
+a@(,c)		get column of a matrix (or elements if c is a vector)
+a@(:,c)		same as above
+a@(b)		get an element from a matrix treating it as a vector
+a:b		build a vector from a to b (or specify a row, column region)
+a:b:c		build a vector from a to c with b as a step
+(a)i		Make a imaginary (multiply a by i)
+`a		Quote an identifier so that it doesn't get evaluated
+]]>
+</programlisting>
+
+<note>
+<para>
+The @() operator makes the : operator most useful.  With this you can specify regions of a matrix.  So that a@(2:4,6) is the rows 2,3,4 of the column 6. Or a@(,1:2) will get you the first two columns of a matrix. You can also assign to the @() operator, as long as the right value is a matrix that matches the region in size, or if it is any other type of value.
+</para>
+</note>
+
+<note>
+<para>
+The comparison operators (except for the &lt;=&gt; operator which behaves normally), are not strictly binary operators, they can in fact be grouped in the normal mathematical way, e.g.: (1&lt;x&lt;=y&lt;5) is a legal boolean expression and means just what it should, that is (1&lt;x and x&le;y and y&lt;5)
+</para>
+</note>
+
+<note>
+<para>
+The unitary minus operates in a different fashion depending on where it appears.  If it appears before a number it binds very closely, if it appears in front of an expression it binds less then the power and factorial operators.  So for example -1^k is really (-1)^k, but -foo(1)^k is really -(foo(1)^k).  So be careful how you use it and if in doubt, add parentheses.
+</para>
+</note>
+    </sect1>

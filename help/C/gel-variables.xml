@@ -1,0 +1,91 @@
+
+    <sect1 id="genius-gel-variables">
+      <title>Using Variables</title>
+
+      <para>
+Syntax:
+<programlisting>VariableName
+</programlisting>
+Example:
+<screen><prompt>genius> </prompt><userinput>e</userinput>
+= 2.71828182846
+</screen>
+      </para>
+
+      <para>
+To evaluate a variable by itself, just enter the name of the variable. This will return the value of the variable. You can use a variable anywhere you would normally use a number or string. In addition, variables are necessary when defining functions that take arguments (see <xref linkend="genius-gel-functions-defining"/>).
+      </para>
+
+      <tip>
+        <title>Using Tab completion</title>
+        <para>
+You can use Tab completion to get &appname; to complete variable names for you. Try typing the first few letters of the name and pressing <userinput>Tab</userinput>.
+        </para>
+      </tip>
+
+      <important>
+        <title>Variable names are case sensitive</title>
+        <para>
+The names of variables are case sensitive. That means that variables named <command>hello</command>, <command>HELLO</command> and <command>Hello</command> are all different variables.
+        </para>
+      </important>
+
+
+      <sect2 id="genius-gel-variables-setting">
+        <title>Setting Variables</title>
+        <para>
+Syntax:
+<programlisting><![CDATA[<identifier> = <value>
+<identifier> := <value>]]>
+</programlisting>
+Example:
+<programlisting>x = 3
+x := 3
+</programlisting>
+        </para>
+
+        <para>
+To assign to a variable, use the <command>=</command> or <command>:=</command> operators. These operators set the value of the variable and return the number you set, so you can do things like
+<programlisting>a = b = 5
+</programlisting>
+        </para>
+
+        <para>
+The <command>=</command> and <command>:=</command> operators can both be used to set variables. The difference between them is that the <command>:=</command> operator always acts as an assignment operator, whereas the <command>=</command> operator may be interpreted as testing for equality when used in a context where a Boolean expression is expected.
+       </para>
+      </sect2>
+
+      <sect2 id="genius-gel-variables-global">
+        <title>Global variables</title>
+        <para>
+Sometimes you'd like to set a global variable from inside a function. For this, use the <command>set</command> function. Passing a string or a quoted identifier to this function sets the variable globally. For example, to set <command>a</command> to the value 3 you could call:
+<programlisting>set(`a,3)
+</programlisting>
+or:
+<programlisting>set("a",3)
+</programlisting>
+        </para>
+        <para>
+Like most programming languages, &appname; has two different types of variables: local (a variable set inside a function will not exist outside the function) and global (doesn't matter where you set them).
+        </para>
+      </sect2>
+
+      <sect2 id="genius-gel-variables-built-in">
+        <title>Built-in variables</title>
+        <para>
+GEL has a number of built-in &lsquo;variables&rsquo;, such as <command>e</command>. These are widely used constants with a preset value, and they cannot be assigned new values. There are a number of other built-in variables, such as <command>pi</command> and <command>GoldenRatio</command>. See <xref linkend="genius-gel-function-list-constants" /> for a full list.
+        </para>
+      </sect2>
+
+
+      <sect2 id="genius-gel-previous-result">
+        <title>Previous result variable</title>
+        <para>
+The <command>Ans</command> and <command>ans</command> variables can be used to get the result of the last expression. For example, if you had performed some calculation, to add 389 to the result you could do:
+<programlisting>Ans+389
+</programlisting>
+        </para>
+      </sect2>
+
+
+    </sect1>

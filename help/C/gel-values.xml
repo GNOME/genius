@@ -1,0 +1,131 @@
+
+    <sect1 id="genius-gel-values">
+      <title>Values</title>
+
+      <para>
+Values in GEL can be <link linkend="genius-gel-values-numbers">numbers</link>, <link linkend="genius-gel-values-booleans">Booleans</link> or <link linkend="genius-gel-values-strings">strings</link>. Values can be used in calculations, assigned to variables and returned from functions, among other uses.
+      </para>
+
+      <sect2 id="genius-gel-values-numbers">
+        <title>Numbers</title>
+        <para>
+Integers are the first type of number in GEL. Integers are written in the normal way.
+<programlisting>1234
+</programlisting>
+Hexidecimal and octal numbers can be written using C notation. For example:
+<programlisting>0x123ABC
+01234
+</programlisting>
+Or you can type numbers in an arbitrary base using <command>&lt;base&gt;\&lt;number&gt;</command>. Digits higher than 10 use letters in a similar way to hexidecimal. For example, a number in base 23 could be written:
+<programlisting>23\1234ABCD
+</programlisting>
+        </para>
+
+        <para>
+The second type of GEL number is rationals. Rationals are simply achieved by dividing two integers. So one could write:
+<programlisting>3/4
+</programlisting>
+to get three quarters. Rationals also accept mixed fraction notation. So in order to get one and three tenths you could write:
+<programlisting>1 3/10
+</programlisting>
+        </para>
+
+        <para>
+The next type if number is floating point. These are entered in a similar fashion to C notation. You can use <command>E</command>, <command>e</command> or <command>@</command> as the exponent delimiter. Note that using the exponent delimiter gives a float even if there is no decimal point in the number. Examples:
+<programlisting>1.315
+7.887e77
+7.887e-77
+.3
+0.3
+77e5
+</programlisting>
+        </para>
+
+        <para>
+The final type of number in gel is the complex numbers. You can enter a complex number as a sum of real and imaginary parts. The imaginary part ends with an <command>i</command>.  Here are examples of entering complex numbers:
+<programlisting>1+2i
+8.01i
+77*e^(1.3i)
+</programlisting>
+        </para>
+
+        <important>
+          <para>
+When entering imaginary numbers, a number must be in front of the <command>i</command>. If you use <command>i</command> by itself, &appname; will interpret this as referring to the variable <command>i</command>. If you need to refer to <command>i</command> by itself, use <command>1i</command> instead.
+          </para>
+
+          <para>
+In order to use mixed fraction notation with imaginary numbers you must have the mixed fraction in parentheses. (i.e., <command>(1 2/5)i</command>)
+          </para>
+        </important>
+
+      </sect2>
+
+
+      <sect2 id="genius-gel-values-booleans">
+        <title>Booleans</title>
+        <para>
+&appname; also supports native Boolean values. The two Boolean constants are defined as <command>true</command> and <command>false</command>; these identifiers can be used like any other variable. You can also use the identifiers <command>True</command>, <command>TRUE</command>, <command>False</command> and <command>FALSE</command> as aliases for the above.
+        </para>
+        <para>
+At any place where a Boolean expression is expected, you can use a Boolean value or any expression that produces either a number or a Boolean. If &appname; needs to evaluate a number as a Boolean it will interpret <command>0</command> as <command>false</command> and any other number as <command>true</command>.
+         </para>
+        <para>
+In addition, you can do arithmetic with Boolean values. For example:
+<programlisting>( (1 + true) - false ) * true
+</programlisting>
+is the same as:
+<programlisting>( (true or true) or not false ) and true
+</programlisting>
+Only addition, subtraction and multiplication are supported. If you mix numbers with Booleans in an expression then the numbers are converted to Booleans as described above. This means that, for example:
+<programlisting>1 == true
+</programlisting>
+always evaluates to <command>true</command> since <command>1</command> will be converted to <command>true</command> before being compared to <command>true</command>.
+        </para>
+      </sect2>
+
+
+      <sect2 id="genius-gel-values-strings">
+        <title>Strings</title>
+        <para>
+Like numbers and Booleans, strings in GEL can be stored as values inside variables and passed to functions. You can also concatenate a string with another value using the plus operator. For example:
+<programlisting>a=2+3;"The result is: "+a
+</programlisting>
+will create the string:
+<programlisting>The result is: 5
+</programlisting>
+You can also use C-like escape sequences such as <command>\n</command>,<command>\t</command>,<command>\b</command>,<command>\a</command> and <command>\r</command>. To get a <command>\</command> or <command>"</command> into the string you can quote it with a <command>\</command>. For example:
+<programlisting>"Slash: \\ Quotes: \" Tabs: \t1\t2\t3"
+</programlisting>
+will make a string:
+<programlisting>Slash: \ Quotes: " Tabs: 	1	2	3
+</programlisting>
+        </para>
+        <para>
+In addition, you can use the library function <command>string</command> to convert anything to a string. For example:
+<programlisting>string(22)
+</programlisting>
+will return
+<programlisting>"22"
+</programlisting>
+        </para>
+        <para>
+Strings can also be compared with ==, != and &lt;=&gt; operators
+        </para>
+      </sect2>
+
+
+      <sect2 id="genius-gel-values-null">
+        <title>Null</title>
+        <para>
+<command>Null</command> is a special value. No operations can be performed on it, and nothing is printed when it is returned. Therefore, <command>Null</command> is useful when you do not want output from an expression. <command>Null</command> can be obtained as an expression when you type <command>.</command> or nothing.
+        </para>
+        <para>
+Example:
+<programlisting>x=5;.
+x=5;
+</programlisting>
+        </para>
+      </sect2>
+
+    </sect1>

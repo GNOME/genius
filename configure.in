@@ -215,10 +215,10 @@ fi
 ])
 warning_flags=
 realsave_CFLAGS="$CFLAGS"
-AC_MSG_CHECKING(for more warnings, including -Werror)
+AC_MSG_CHECKING(for more warnings)
 if test "$GCC" = "yes" -a "$set_more_warnings" != "no"; then
 	AC_MSG_RESULT(yes)
-	warning_flags="-Wall -Wchar-subscripts -Wmissing-declarations -Wmissing-prototypes -Wnested-externs -Wpointer-arith -Werror"
+	warning_flags="-Wall -Wchar-subscripts -Wmissing-declarations -Wmissing-prototypes -Wnested-externs -Wpointer-arith"
 	CFLAGS="$warning_flags $CFLAGS"
 
 	for option in -Wno-sign-compare; do
@@ -255,12 +255,17 @@ dnl warn the user, we do this on the end so that the user notices
 AC_CHECK_FUNC(wordexp,AC_DEFINE(HAVE_WORDEXP),
   	      [AC_MSG_WARN([*** You don't have wordexp, glob will be used instead ***])])
 
+dnl scrollkeeper checks 
+
+AC_PATH_PROG(SCROLLKEEPER_CONFIG, scrollkeeper-config,no)
+if test x$SCROLLKEEPER_CONFIG = xno; then
+  AC_MSG_ERROR(Couldn't find scrollkeeper-config. Please install the scrollkeeper package)
+fi
 
 AC_OUTPUT([
 genius.spec
 Makefile
 src/Makefile
-doc/Makefile
 lib/Makefile
 lib/calculus/Makefile
 lib/combinatorics/Makefile
@@ -277,6 +282,8 @@ pixmaps/Makefile
 pixmaps/32x32/Makefile
 pixmaps/48x48/Makefile
 po/Makefile.in
+help/Makefile
+help/C/Makefile
 ])
 
 echo "

@@ -1,0 +1,38 @@
+
+    <sect1 id="genius-gel-modular-evaluation">
+      <title>Modular evaluation</title>
+      <para>
+Sometimes when working with large numbers, it might be faster if results are
+modded after each calculation.  To use it you just add "mod &lt;integer&gt;" after
+the expression.
+      </para>
+      <para>
+Example:
+<programlisting>2^(5!) * 3^(6!) mod 5
+</programlisting>
+      </para>
+      <para>
+You can calculate the inverses of numbers mod some integer by just using
+rational numbers (of course the inverse has to exist).
+      </para>
+      <para>
+Examples:
+<programlisting>10^-1 mod 101
+1/10 mod 101
+</programlisting>
+      </para>
+      <para>
+You can also do modular evaluation with matrices including taking inverses,
+powers and dividing.
+      </para>
+      <para>
+Example:
+<programlisting>A = [1,2;3,4]
+B = A^-1 mod 5
+A*B mod 5
+</programlisting>
+      </para>
+      <para>
+This should yield the identity matrix as B will be the inverse of A mod 5.
+      </para>
+    </sect1>

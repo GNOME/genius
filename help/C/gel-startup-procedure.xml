@@ -1,0 +1,12 @@
+
+    <sect1 id="genius-gel-startup-procedure">
+      <title>GEL startup procedure</title>
+      <para>
+First the program looks for the installed library file (the compiled version <filename>lib.cgel</filename>) in the installed directory, then it looks into the current directory, and then it tries to load an uncompiled file called
+<filename>~/.geniusinit</filename>.
+      </para>
+      <para>
+If you ever change the the library its installed place, you&rsquo;ll have to
+first compile it with <command>genius --compile loader.gel &gt; lib.cgel</command>
+      </para>
+    </sect1>
