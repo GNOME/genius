@@ -11,6 +11,7 @@ $i = 0;
 while(<TESTS>) {
 	if(/^OPTIONS[ 	]+(.*)$/) {
 		$options = $1;
+		next;
 	} elsif(/^([^	]+)	+([^	]+)$/) {
 		$tests++;
 		$command = $1;

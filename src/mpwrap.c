@@ -2314,14 +2314,13 @@ mpwl_round(MpwRealNum *rop)
 {
 	if(rop->type > MPW_INTEGER) {
 		if(rop->type == MPW_FLOAT) {
-			mpfr_ptr tmp;
-			GET_INIT_MPF (tmp);
-			mpf_set_d(tmp,0.5);
-			if(mpf_sgn(rop->data.fval)<0)
-				mpf_sub(rop->data.fval,rop->data.fval,tmp);
-			else
-				mpf_add(rop->data.fval,rop->data.fval,tmp);
-			CLEAR_FREE_MPF (tmp);
+			rop->type=MPW_INTEGER;
+			if (rop->data.ival == NULL) {
+				GET_INIT_MPZ (rop->data.ival);
+			}
+			mpz_set_fr (rop->data.ival, rop->data.fval, GMP_RNDN);
+			CLEAR_FREE_MPF (rop->data.fval);
+			rop->data.fval = NULL;
 		} else /*MPW_RATIONAL*/ {
 			mpq_ptr tmp;
 			GET_INIT_MPQ (tmp);
@@ -2331,8 +2330,20 @@ mpwl_round(MpwRealNum *rop)
 			else
 				mpq_add(rop->data.rval,rop->data.rval,tmp);
 			CLEAR_FREE_MPQ (tmp);
+			if (mpz_cmp_ui (mpq_denref (rop->data.rval), 1) == 0) {
+				if (mpq_sgn (rop->data.rval) > 0) {
+					mpwl_make_type(rop,MPW_INTEGER);
+					mpz_sub_ui (rop->data.ival,
+						    rop->data.ival, 1);
+				} else {
+					mpwl_make_type(rop,MPW_INTEGER);
+					mpz_add_ui (rop->data.ival,
+						    rop->data.ival, 1);
+				}
+			} else {
+				mpwl_make_type(rop,MPW_INTEGER);
+			}
 		}
-		mpwl_make_type(rop,MPW_INTEGER);
 	}
 }
 
@@ -2341,22 +2352,13 @@ mpwl_ceil(MpwRealNum *rop)
 {
 	if(rop->type > MPW_INTEGER) {
 		if(rop->type == MPW_FLOAT) {
-			mpf_t fr;
 			rop->type=MPW_INTEGER;
 			if (rop->data.ival == NULL) {
 				GET_INIT_MPZ (rop->data.ival);
 			}
-			mpz_set_fr (rop->data.ival, rop->data.fval, GMP_RNDN);
-			mpf_init(fr);
-			mpf_set_z(fr,rop->data.ival);
-			if(mpf_cmp(fr,rop->data.fval)!=0) {
-				if(mpf_sgn(rop->data.fval)>0)
-					mpz_add_ui(rop->data.ival,
-						   rop->data.ival,1);
-			}
+			mpz_set_fr (rop->data.ival, rop->data.fval, GMP_RNDU);
 			CLEAR_FREE_MPF (rop->data.fval);
 			rop->data.fval = NULL;
-			mpf_clear(fr);
 		} else /*MPW_RATIONAL*/ {
 			mpq_canonicalize(rop->data.rval);
 			if(mpz_cmp_ui(mpq_denref(rop->data.rval),1)==0) {
@@ -2385,22 +2387,13 @@ mpwl_floor(MpwRealNum *rop)
 {
 	if(rop->type > MPW_INTEGER) {
 		if(rop->type == MPW_FLOAT) {
-			mpf_t fr;
 			rop->type=MPW_INTEGER;
 			if (rop->data.ival == NULL) {
 				GET_INIT_MPZ (rop->data.ival);
 			}
-			mpz_set_fr (rop->data.ival, rop->data.fval, GMP_RNDN);
-			mpfr_init (fr);
-			mpfr_set_z (fr, rop->data.ival, GMP_RNDN);
-			if(mpf_cmp(fr,rop->data.fval)!=0) {
-				if(mpf_sgn(rop->data.fval)<0)
-					mpz_sub_ui(rop->data.ival,
-						   rop->data.ival,1);
-			}
+			mpz_set_fr (rop->data.ival, rop->data.fval, GMP_RNDD);
 			CLEAR_FREE_MPF (rop->data.fval);
 			rop->data.fval = NULL;
-			mpf_clear(fr);
 		} else /*MPW_RATIONAL*/ {
 			mpq_canonicalize(rop->data.rval);
 			if(mpz_cmp_ui(mpq_denref(rop->data.rval),1)==0) {
@@ -2427,8 +2420,17 @@ mpwl_floor(MpwRealNum *rop)
 static void
 mpwl_trunc(MpwRealNum *rop)
 {
-	if(rop->type > MPW_INTEGER)
+	if (rop->type == MPW_RATIONAL) {
 		mpwl_make_type(rop,MPW_INTEGER);
+	} else if (rop->type == MPW_FLOAT) {
+		rop->type = MPW_INTEGER;
+		if (rop->data.ival == NULL) {
+			GET_INIT_MPZ (rop->data.ival);
+		}
+		mpz_set_fr (rop->data.ival, rop->data.fval, GMP_RNDZ);
+		CLEAR_FREE_MPF (rop->data.fval);
+		rop->data.fval = NULL;
+	}
 }
 
 static void
