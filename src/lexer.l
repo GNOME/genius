@@ -484,10 +484,13 @@ int my_yyinput(void);
 int my_yyinput(void) { return input(); }
 
 /* avoid unused warnings, kind of bogus */
+/* Apparently this no worky, so don't do it */
+#if 0
 #ifdef FLEX_SCANNER
 void fake_fake_fake (void);
 void fake_fake_fake (void) {
 	 yy_flex_realloc (NULL, 0);
 	 yyunput (0, NULL);
 }
+#endif
 #endif
