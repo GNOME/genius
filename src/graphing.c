@@ -44,11 +44,17 @@ void genius_interrupt_calc (void);
 
 extern GtkWidget *genius_window;
 extern int interrupted;
+extern GHashTable *uncompiled;
 
 static GtkWidget *graph_window = NULL;
 static GnomeCanvas *canvas = NULL;
 static GnomeCanvasGroup *root = NULL;
 static GnomeCanvasGroup *graph = NULL;
+
+static double defx1 = -M_PI;
+static double defx2 = M_PI;
+static double defy1 = -1.1;
+static double defy2 = 1.1;
 
 #define WIDTH 640
 #define HEIGHT 480
@@ -139,33 +145,39 @@ clear_graph (void)
 static void
 plot_axis (double xscale, double yscale, double x1, double x2, double y1, double y2)
 {
-	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
-	points->coords[0] = P2C_X (x1);
-	points->coords[1] = P2C_Y (0);
-	points->coords[2] = P2C_X (x2);
-	points->coords[3] = P2C_Y (0);
+	GnomeCanvasPoints *points;
+       
+	if (x1 <= 0 && x2 >= 0) {
+		points = gnome_canvas_points_new (2);
+		points->coords[0] = P2C_X (x1);
+		points->coords[1] = P2C_Y (0);
+		points->coords[2] = P2C_X (x2);
+		points->coords[3] = P2C_Y (0);
 
-	gnome_canvas_item_new (graph,
-			       gnome_canvas_line_get_type (),
-			       "fill_color", "black",
-			       "points", points,
-			       NULL);
+		gnome_canvas_item_new (graph,
+				       gnome_canvas_line_get_type (),
+				       "fill_color", "black",
+				       "points", points,
+				       NULL);
 
-	gnome_canvas_points_unref (points);
+		gnome_canvas_points_unref (points);
+	}
 
-	points = gnome_canvas_points_new (2);
-	points->coords[0] = P2C_X (0);
-	points->coords[1] = P2C_Y (y1);
-	points->coords[2] = P2C_X (0);
-	points->coords[3] = P2C_Y (y2);
+	if (y1 <= 0 && y2 >= 0) {
+		points = gnome_canvas_points_new (2);
+		points->coords[0] = P2C_X (0);
+		points->coords[1] = P2C_Y (y1);
+		points->coords[2] = P2C_X (0);
+		points->coords[3] = P2C_Y (y2);
 
-	gnome_canvas_item_new (graph,
-			       gnome_canvas_line_get_type (),
-			       "fill_color", "black",
-			       "points", points,
-			       NULL);
+		gnome_canvas_item_new (graph,
+				       gnome_canvas_line_get_type (),
+				       "fill_color", "black",
+				       "points", points,
+				       NULL);
 
-	gnome_canvas_points_unref (points);
+		gnome_canvas_points_unref (points);
+	}
 }
 
 static double
@@ -260,6 +272,61 @@ plot_func (GelCtx *ctx, GelEFunc *func, const char *color, double xscale, double
 	gnome_canvas_points_unref (points);
 }
 
+static void
+label_func (GelCtx *ctx, int i, GelEFunc *func, const char *color)
+{
+	char *text;
+	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
+	points->coords[0] = WIDTH-40;
+	points->coords[1] = 20+15*i;
+	points->coords[2] = WIDTH-20;
+	points->coords[3] = 20+15*i;
+
+	gnome_canvas_item_new (graph,
+			       gnome_canvas_line_get_type (),
+			       "fill_color", color,
+			       "points", points,
+			       NULL);
+
+	gnome_canvas_points_unref (points);
+
+	text = NULL;
+	if (func->id != NULL) {
+		text = g_strdup_printf ("%s (x)", func->id->token);
+	} else if (func->type == GEL_USER_FUNC) {
+		GelOutput *out = gel_output_new ();
+		D_ENSURE_USER_BODY (func);
+		gel_output_setup_string (out, 0, NULL);
+
+		print_etree (out, func->data.user, TRUE /* toplevel */);
+
+		text = gel_output_snarf_string (out);
+		gel_output_unref (out);
+
+		/* only print bodies of short functions */
+		if (strlen (text) > 64) {
+			g_free (text);
+			text = NULL;
+		}
+	}
+
+	if (text == NULL) {
+		text = g_strdup_printf (_("Function #%d"), i+1);
+	}
+
+	gnome_canvas_item_new (graph,
+			       gnome_canvas_text_get_type (),
+			       "x", (double)(WIDTH-45),
+			       "y", (double)(20+15*i),
+			       "font", "Monospace 12",
+			       "fill_color", "black",
+			       "anchor", GTK_ANCHOR_EAST,
+			       "text", text,
+			       NULL);
+
+	g_free (text);
+}
+
 #define GET_DOUBLE(var,argnum) \
 	{ \
 	if (a[argnum]->type != VALUE_NODE) { \
@@ -268,6 +335,83 @@ plot_func (GelCtx *ctx, GelEFunc *func, const char *color, double xscale, double
 	} \
 	var = mpw_get_double (a[argnum]->val.value); \
 	}
+
+static gboolean
+get_limits_from_matrix (GelETree *m, double *x1, double *x2, double *y1, double *y2)
+{
+	GelETree *t;
+
+	if (m->type != MATRIX_NODE ||
+	    gel_matrixw_elements (m->mat.matrix) != 4) {
+		(*errorout)(_("Graph limits not given as a 4-vector"));
+		return FALSE;
+	}
+
+	t = gel_matrixw_vindex (m->mat.matrix, 0);
+	if (t->type != VALUE_NODE) {
+		(*errorout)(_("Graph limits not given as numbers"));
+		return FALSE;
+	}
+	*x1 = mpw_get_double (t->val.value);
+	t = gel_matrixw_vindex (m->mat.matrix, 1);
+	if (t->type != VALUE_NODE) {
+		(*errorout)(_("Graph limits not given as numbers"));
+		return FALSE;
+	}
+	*x2 = mpw_get_double (t->val.value);
+	t = gel_matrixw_vindex (m->mat.matrix, 2);
+	if (t->type != VALUE_NODE) {
+		(*errorout)(_("Graph limits not given as numbers"));
+		return FALSE;
+	}
+	*y1 = mpw_get_double (t->val.value);
+	t = gel_matrixw_vindex (m->mat.matrix, 3);
+	if (t->type != VALUE_NODE) {
+		(*errorout)(_("Graph limits not given as numbers"));
+		return FALSE;
+	}
+	*y2 = mpw_get_double (t->val.value);
+
+	/* FIXME: what about errors */
+	if (error_num != 0) {
+		error_num = 0;
+		return FALSE;
+	}
+
+	if (*x1 > *x2) {
+		double s = *x1;
+		*x1 = *x2;
+		*x2 = s;
+	}
+
+	if (*y1 > *y2) {
+		double s = *y1;
+		*y1 = *y2;
+		*y2 = s;
+	}
+
+	return TRUE;
+}
+
+static GelETree *
+make_matrix_from_limits (void)
+{
+	GelETree *n;
+	GelMatrixW *m;
+	/*make us a new empty node*/
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	m = n->mat.matrix = gel_matrixw_new ();
+	n->mat.quoted = FALSE;
+	gel_matrixw_set_size (m, 4, 1);
+
+	gel_matrixw_set_index (m, 0, 0) = gel_makenum_d (defx1);
+	gel_matrixw_set_index (m, 1, 0) = gel_makenum_d (defx2);
+	gel_matrixw_set_index (m, 2, 0) = gel_makenum_d (defy1);
+	gel_matrixw_set_index (m, 3, 0) = gel_makenum_d (defy2);
+
+	return n;
+}
 
 static GelETree *
 LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
@@ -307,20 +451,35 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	}
 
 	/* Defaults */
-	x1 = -M_PI;
-	x2 = M_PI;
-	y1 = -1.1;
-	y2 = 1.1;
+	x1 = defx1;
+	x2 = defx2;
+	y1 = defy1;
+	y2 = defy2;
 
 	if (a[i] != NULL) {
-		GET_DOUBLE(x1,i++);
-		if (a[i] != NULL) {
-			GET_DOUBLE(x2,i++);
+		if (a[i]->type == MATRIX_NODE) {
+			if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
+				return NULL;
+			i++;
+		} else {
+			GET_DOUBLE(x1,i);
+			i++;
 			if (a[i] != NULL) {
-				GET_DOUBLE(y1,i++);
+				GET_DOUBLE(x2,i);
+				i++;
 				if (a[i] != NULL) {
-					GET_DOUBLE(y2,i++);
+					GET_DOUBLE(y1,i);
+					i++;
+					if (a[i] != NULL) {
+						GET_DOUBLE(y2,i);
+						i++;
+					}
 				}
+			}
+			/* FIXME: what about errors */
+			if (error_num != 0) {
+				error_num = 0;
+				return NULL;
 			}
 		}
 	}
@@ -348,6 +507,7 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	for (i = 0; i < funcs; i++) {
 		plot_func (ctx, func[i], colors[i],
 			   xscale, yscale, x1, x2, y1, y2);
+		label_func (ctx, i, func[i], colors[i]);
 		if (evalnode_hook) {
 			(*evalnode_hook)();
 		}
@@ -359,11 +519,32 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	return gel_makenum_null ();
 }
 
+static GelETree *
+set_LinePlotWindow (GelETree * a)
+{
+	double x1, x2, y1, y2;
+	if ( ! get_limits_from_matrix (a, &x1, &x2, &y1, &y2))
+		return NULL;
+
+	defx1 = x1;
+	defx2 = x2;
+	defy1 = y1;
+	defy2 = y2;
+
+	return make_matrix_from_limits ();
+}
+
+static GelETree *
+get_LinePlotWindow (void)
+{
+	return make_matrix_from_limits ();
+}
+
 void
 gel_add_graph_functions (void)
 {
 	GelEFunc *f;
-	/* GelToken *id;*/
+	GelToken *id;
 
 	new_category ("plotting", _("Plotting"));
 
@@ -397,5 +578,7 @@ gel_add_graph_functions (void)
 	/* bogus value */ \
 	d_addfunc_global (d_makevfunc (id, gel_makenum_null()));
 
-	VFUNC (LinePlot, 1, "", "plotting", _("Plot a function with a line (very rudimentary).  First argument is the function then optionally limits as x1,x2,y1,y2"));
+	VFUNC (LinePlot, 1, "", "plotting", _("Plot a function with a line (very rudimentary).  First come the functions (up to 10) then optionally limits as x1,x2,y1,y2"));
+
+	PARAMETER (LinePlotWindow, _("Plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"));
 }

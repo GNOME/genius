@@ -124,6 +124,7 @@ GelETree * gel_makenum(mpw_t num);
 GelETree * gel_makenum_use(mpw_t num); /*don't create a new number*/
 GelETree * gel_makenum_ui(unsigned long num);
 GelETree * gel_makenum_si(long num);
+GelETree * gel_makenum_d (double num);
 GelETree * gel_makenum_null(void);
 GelETree * gel_makenum_identifier (GelToken *id);
 GelETree * gel_makenum_string (const char *str);

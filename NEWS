@@ -1,7 +1,7 @@
 Changes to 0.5.3
 
+* Very basic line graphing of R->R functions with LinePlot function
 * "a^b mod m" is now done sanely and fast just like the PowerMod function
-* VERY VERY VERY basic graphing with LinePlot function
 * Rudimentary MathML output support
 * Add Copy Answer As Plain/LaTeX/MathML/Troff menu items
 * Allow rationals and integers as complex numbers though this support is
@@ -20,6 +20,7 @@ Changes to 0.5.3
 * Add some new aliases for a few functions
 * Better EulerPhi implementation
 * Fix Factors
+* Fix precedence of : to be lower then that of standard arithmetic operators
 * Allow more matlab like notation of getting whole rows/columns
   (such as foo@(2,:))
 * Rational powers with denominators of 2, 4, 8 or 16 now return integers
@@ -29,7 +30,11 @@ Changes to 0.5.3
   running
 * Allow reading arbitrarily long compiled file record lines
 * Some very minor leaks fixed
-* Fix precedence of : to be lower then that of standard arithmetic operators
+* Default float precision lowered to 128 bits
+* Fix interrupting input while not calculating anything (this was a nasty
+  bug that prevented any further thing to be evaluated)
+* Don't allow executing anything if something else is executing, thus causing
+  a crash.
 * And finally a new small easter egg
 
 Changes to 0.5.2

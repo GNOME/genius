@@ -1,3 +1,16 @@
+Thu Feb 27 16:56:58 2003  George Lebl <jirka@5z.com>
+
+	* src/graphing.[ch], src/eval.[ch]: Copy the token into functions
+	  when we eval them to be able to identify them.  And label functions
+	  on the graph by their token or their body if it is less then 64
+	  characters long.  Also fix problems with too ofset plot window.
+	  The default plotwindow is now a parameter called LinePlotWindow.
+
+	* src/genius.c, src/gnome-genius.c: make default precision 128
+	  since it will make things faster.  Currently <anything>^float
+	  and exponentials and logs are utterly slow, even in lower
+	  precision.
+
 Thu Feb 27 10:17:08 2003  George Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c, src/graphing.c, src/inter.c: graph progressively

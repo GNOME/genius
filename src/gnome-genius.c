@@ -57,7 +57,7 @@ void genius_interrupt_calc (void);
 
 /*calculator state*/
 calcstate_t curstate={
-	256,
+	128,
 	12,
 	FALSE,
 	FALSE,

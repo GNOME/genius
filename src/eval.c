@@ -271,6 +271,17 @@ gel_makenum_si(long num)
 }
 
 GelETree *
+gel_makenum_d (double num)
+{
+	GelETree *n;
+	GET_NEW_NODE (n);
+	n->type = VALUE_NODE;
+	mpw_init (n->val.value);
+	mpw_set_d (n->val.value, num);
+	return n;
+}
+
+GelETree *
 gel_makenum(mpw_t num)
 {
 	GelETree *n;
@@ -2257,7 +2268,8 @@ iter_do_var(GelCtx *ctx, GelETree *n, GelEFunc *f)
 		freetree_full(n,TRUE,FALSE);
 
 		n->type = FUNCTION_NODE;
-		n->func.func = d_makeufunc (NULL,
+		/* FIXME: are we ok with passing the token as well? */
+		n->func.func = d_makeufunc (f->id /* FIXME: does this need to be NULL */,
 					    copynode (f->data.user),
 					    g_slist_copy (f->named_args),
 					    f->nargs,
@@ -2274,7 +2286,8 @@ iter_do_var(GelCtx *ctx, GelETree *n, GelEFunc *f)
 		if(f->nargs != 0) {
 			freetree_full(n,TRUE,FALSE);
 			n->type = FUNCTION_NODE;
-			n->func.func = d_makerealfunc(f,NULL,FALSE);
+			/* FIXME: are we ok with passing the token (f->id) as well? */
+			n->func.func = d_makerealfunc(f,f->id,FALSE);
 			n->func.func->context = -1;
 			n->func.func->vararg = f->vararg;
 			/* FIXME: no need for extra_dict right? */
