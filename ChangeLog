@@ -1,3 +1,26 @@
+Thu Aug 12 10:48:59 2004  George Lebl <jirka@5z.com>
+
+	* src/graphing.c: run EPS output through ps2epsi if found which adds
+	  a bitmap preview.  The preview kind of sucks but it's better then
+	  nothing.  Fix EPS/PS export for gtk older then 2.4.  Add PNG
+	  export.
+
+	* src/graphing.c, src/calc.c: remove some parenthesis from output
+	  where it doesn't make sense (still some places are overzelaous).
+	  Also when graphing from a dialog take the entered string as the
+	  function string to display in the plot.  Makes things even nicer.
+
+	* src/gnome-genius.c: change the "translator_credits-..." to
+	  "translator-credits" which is apparently more translation
+	  software friendly as it doesn't contain underscores.  Plus a hack
+	  to get the old translation to not lose credits
+
+Tue Aug 10 17:30:32 2004  George Lebl <jirka@5z.com>
+
+	* Release 0.7.0
+
+	* genius.spec.in: fixed up for the update-mime-database stuff
+
 Fri Aug 06 17:41:47 2004  George Lebl <jirka@5z.com>
 
 	* src/graphing.c: change some labels to make more sense.  On top view

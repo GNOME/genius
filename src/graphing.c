@@ -60,6 +60,7 @@ static GtkWidget *plot_zoomfit_item = NULL;
 static GtkWidget *plot_print_item = NULL;
 static GtkWidget *plot_exportps_item = NULL;
 static GtkWidget *plot_exporteps_item = NULL;
+static GtkWidget *plot_exportpng_item = NULL;
 static GtkWidget *surface_menu_item = NULL;
 
 enum {
@@ -88,6 +89,7 @@ static double defy2 = 1.1;
 
 /* Replotting info */
 static GelEFunc *plot_func[MAXFUNC] = { NULL };
+static char *plot_func_name[MAXFUNC] = { NULL };
 static double plotx1 = -M_PI;
 static double plotx2 = M_PI;
 static double ploty1 = -1.1;
@@ -119,6 +121,7 @@ static double surf_defz2 = 1.1;
 
 /* Replotting info */
 static GelEFunc *surface_func = NULL;
+static char *surface_func_name = NULL;
 static double surfacex1 = -M_PI;
 static double surfacex2 = M_PI;
 static double surfacey1 = -M_PI;
@@ -177,6 +180,7 @@ plot_window_setup (void)
 		gtk_widget_set_sensitive (plot_print_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_exportps_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_exporteps_item, ! plot_in_progress);
+		gtk_widget_set_sensitive (plot_exportpng_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (surface_menu_item, ! plot_in_progress);
 	}
 }
@@ -561,29 +565,35 @@ static void
 really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 #else
 static void
-really_export_cb (GtkWidget *w, GtkFileSelection *fs, gpointer data)
+really_export_cb (GtkWidget *w, GtkFileSelection *fs)
 #endif
 {
 	char *s;
 	char *base;
 	gboolean ret;
-	gboolean eps = GPOINTER_TO_INT (data);
+	gboolean eps;
 	GtkWidget *the_plot;
+	char tmpfile[] = "/tmp/genius-ps-XXXXXX";
+	char *file_to_write = NULL;
+	int fd = -1;
 
 #if GTK_CHECK_VERSION(2,3,5)
+	eps = GPOINTER_TO_INT (data);
+
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (GTK_WIDGET (fs));
 		/* FIXME: don't want to deal with modality issues right now */
 		gtk_widget_set_sensitive (graph_window, TRUE);
 		return;
 	}
-#endif
 
-#if GTK_CHECK_VERSION(2,3,5)
 	s = g_strdup (gtk_file_chooser_get_filename (fs));
 #else
+	eps = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (fs), "eps"));
+
 	s = g_strdup (gtk_file_selection_get_filename (fs));
 #endif
+
 	if (s == NULL)
 		return;
 	base = g_path_get_basename (s);
@@ -617,6 +627,16 @@ really_export_cb (GtkWidget *w, GtkFileSelection *fs, gpointer data)
 	/* FIXME: don't want to deal with modality issues right now */
 	gtk_widget_set_sensitive (graph_window, TRUE);
 
+	file_to_write = s;
+	if (eps && ve_is_prog_in_path ("ps2epsi",
+				       g_getenv ("PATH"))) {
+		fd = g_mkstemp (tmpfile);
+		/* FIXME: tell about errors ?*/
+		if (fd >= 0) {
+			file_to_write = tmpfile;
+		}
+	}
+
 	plot_in_progress ++;
 	plot_window_setup ();
 
@@ -630,13 +650,40 @@ really_export_cb (GtkWidget *w, GtkFileSelection *fs, gpointer data)
 	/* FIXME: There should be some options about size and stuff */
 	if (the_plot != NULL)
 		ret = gtk_plot_export_ps_with_size (GTK_PLOT (the_plot),
-						    s,
+						    file_to_write,
 						    GTK_PLOT_PORTRAIT,
 						    eps /* epsflag */,
 						    GTK_PLOT_PSPOINTS,
 						    400, ASPECT * 400);
 	else
 		ret = FALSE;
+
+	/* If we used a temporary file, now use ps2epsi */
+	if (fd >= 0) {
+		int status;
+		char *qs = g_shell_quote (s);
+		char *cmd = g_strdup_printf ("ps2epsi %s %s", tmpfile, qs);
+		if ( ! g_spawn_command_line_sync  (cmd,
+						   NULL /*stdout*/,
+						   NULL /*stderr*/,
+						   &status,
+						   NULL /* error */)) {
+			status = -1;
+		}
+		if (status == 0) {
+			close (fd);
+			unlink (tmpfile);
+		} else {
+			/* EEK, couldn't run ps2epsi for some reason */
+			close (fd);
+			g_free (cmd);
+			/* evil hack */
+			cmd = g_strdup_printf ("mv -f %s %s", tmpfile, qs);
+			system (cmd);
+		}
+		g_free (cmd);
+		g_free (qs);
+	}
 
 	plot_in_progress --;
 	plot_window_setup ();
@@ -652,6 +699,89 @@ really_export_cb (GtkWidget *w, GtkFileSelection *fs, gpointer data)
 	g_free (s);
 }
 
+#if GTK_CHECK_VERSION(2,3,5)
+static void
+really_export_png_cb (GtkFileChooser *fs, int response, gpointer data)
+#else
+static void
+really_export_png_cb (GtkWidget *w, GtkFileSelection *fs)
+#endif
+{
+	char *s;
+	char *base;
+	GdkPixbuf *pix;
+
+#if GTK_CHECK_VERSION(2,3,5)
+	if (response != GTK_RESPONSE_OK) {
+		gtk_widget_destroy (GTK_WIDGET (fs));
+		/* FIXME: don't want to deal with modality issues right now */
+		gtk_widget_set_sensitive (graph_window, TRUE);
+		return;
+	}
+#endif
+
+#if GTK_CHECK_VERSION(2,3,5)
+	s = g_strdup (gtk_file_chooser_get_filename (fs));
+#else
+	s = g_strdup (gtk_file_selection_get_filename (fs));
+#endif
+	if (s == NULL)
+		return;
+	base = g_path_get_basename (s);
+	if (base != NULL && base[0] != '\0' &&
+	    strchr (base, '.') == NULL) {
+		char *n = g_strconcat (s, ".png", NULL);
+		g_free (s);
+		s = n;
+	}
+	g_free (base);
+	
+	if (access (s, F_OK) == 0 &&
+	    ! genius_ask_question (GTK_WIDGET (fs),
+				   _("File already exists.  Overwrite it?"))) {
+		g_free (s);
+		return;
+	}
+
+#if GTK_CHECK_VERSION(2,3,5)
+	g_free (last_export_dir);
+	last_export_dir = gtk_file_chooser_get_current_folder (fs);
+#else
+	setup_last_dir (s);
+#endif
+
+	gtk_widget_destroy (GTK_WIDGET (fs));
+	/* FIXME: don't want to deal with modality issues right now */
+	gtk_widget_set_sensitive (graph_window, TRUE);
+
+
+	/* sanity */
+	if (GTK_PLOT_CANVAS (plot_canvas)->pixmap == NULL) {
+		genius_display_error (graph_window, _("Export failed"));
+		return;
+	}
+	pix = gdk_pixbuf_get_from_drawable
+		(NULL /* dest */,
+		 GTK_PLOT_CANVAS (plot_canvas)->pixmap,
+		 NULL /* cmap */,
+		 0 /* src x */, 0 /* src y */,
+		 0 /* dest x */, 0 /* dest y */,
+		 GTK_PLOT_CANVAS (plot_canvas)->pixmap_width,
+		 GTK_PLOT_CANVAS (plot_canvas)->pixmap_height);
+
+	if (pix == NULL ||
+	    ! gdk_pixbuf_save (pix, s, "png", NULL /* error */, NULL)) {
+		if (pix != NULL)
+			g_object_unref (G_OBJECT (pix));
+		g_free (s);
+		genius_display_error (graph_window, _("Export failed"));
+		return;
+	}
+
+	g_object_unref (G_OBJECT (pix));
+	g_free (s);
+}
+
 #if ! GTK_CHECK_VERSION(2,3,5)
 static void
 really_cancel_export_cb (GtkWidget *w, GtkFileSelection *fs)
@@ -662,8 +792,14 @@ really_cancel_export_cb (GtkWidget *w, GtkFileSelection *fs)
 }
 #endif
 
+enum {
+	EXPORT_PS,
+	EXPORT_EPS,
+	EXPORT_PNG
+};
+
 static void
-do_export_cb (gboolean eps)
+do_export_cb (int export_type)
 {
 	static GtkWidget *fs = NULL;
 #if GTK_CHECK_VERSION(2,3,5)
@@ -680,10 +816,15 @@ do_export_cb (gboolean eps)
 	/* FIXME: don't want to deal with modality issues right now */
 	gtk_widget_set_sensitive (graph_window, FALSE);
 
-	if (eps)
+	if (export_type == EXPORT_EPS)
 		title = _("Export encapsulated postscript");
-	else
+	else if (export_type == EXPORT_PS)
 		title = _("Export postscript");
+	else if (export_type == EXPORT_PNG)
+		title = _("Export PNG");
+	else
+		/* should never happen */
+		title = "Export ???";
 
 #if GTK_CHECK_VERSION(2,3,5)
 	fs = gtk_file_chooser_dialog_new (title,
@@ -696,14 +837,18 @@ do_export_cb (gboolean eps)
 
 
 	filter_ps = gtk_file_filter_new ();
-	if (eps) {
+	if (export_type == EXPORT_EPS) {
 		gtk_file_filter_set_name (filter_ps, _("EPS files"));
 		gtk_file_filter_add_pattern (filter_ps, "*.eps");
 		gtk_file_filter_add_pattern (filter_ps, "*.EPS");
-	} else {
+	} else if (export_type == EXPORT_PS) {
 		gtk_file_filter_set_name (filter_ps, _("PS files"));
 		gtk_file_filter_add_pattern (filter_ps, "*.ps");
 		gtk_file_filter_add_pattern (filter_ps, "*.PS");
+	} else if (export_type == EXPORT_PNG) {
+		gtk_file_filter_set_name (filter_ps, _("PNG files"));
+		gtk_file_filter_add_pattern (filter_ps, "*.png");
+		gtk_file_filter_add_pattern (filter_ps, "*.PNG");
 	}
 
 	filter_all = gtk_file_filter_new ();
@@ -716,9 +861,19 @@ do_export_cb (gboolean eps)
 
 	g_signal_connect (G_OBJECT (fs), "destroy",
 			  G_CALLBACK (gtk_widget_destroyed), &fs);
-	g_signal_connect (G_OBJECT (fs), "response",
-			  G_CALLBACK (really_export_cb),
-			  GINT_TO_POINTER (eps));
+	if (export_type == EXPORT_EPS) {
+		g_signal_connect (G_OBJECT (fs), "response",
+				  G_CALLBACK (really_export_cb),
+				  GINT_TO_POINTER (TRUE /*eps*/));
+	} else if (export_type == EXPORT_PS) {
+		g_signal_connect (G_OBJECT (fs), "response",
+				  G_CALLBACK (really_export_cb),
+				  GINT_TO_POINTER (FALSE /*eps*/));
+	} else if (export_type == EXPORT_PNG) {
+		g_signal_connect (G_OBJECT (fs), "response",
+				  G_CALLBACK (really_export_png_cb),
+				  NULL);
+	}
 
 	if (last_export_dir != NULL) {
 		gtk_file_chooser_set_current_folder
@@ -732,9 +887,23 @@ do_export_cb (gboolean eps)
 	g_signal_connect (G_OBJECT (fs), "destroy",
 			  G_CALLBACK (gtk_widget_destroyed), &fs);
 	
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
-			  "clicked", G_CALLBACK (really_export_cb),
-			  fs);
+	if (export_type == EXPORT_EPS) {
+		g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
+				  "clicked", G_CALLBACK (really_export_cb),
+				  fs);
+		g_object_set_data (G_OBJECT (fs), "eps",
+				   GINT_TO_POINTER (TRUE /* eps */));
+	} else if (export_type == EXPORT_PS) {
+		g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
+				  "clicked", G_CALLBACK (really_export_cb),
+				  fs);
+		g_object_set_data (G_OBJECT (fs), "eps",
+				   GINT_TO_POINTER (FALSE /* eps */));
+	} else if (export_type == EXPORT_PNG) {
+		g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
+				  "clicked", G_CALLBACK (really_export_png_cb),
+				  fs);
+	}
 	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->cancel_button),
 			  "clicked", G_CALLBACK (really_cancel_export_cb),
 			  fs);
@@ -750,13 +919,19 @@ do_export_cb (gboolean eps)
 static void
 plot_exportps_cb (void)
 {
-	do_export_cb (FALSE);
+	do_export_cb (EXPORT_PS);
 }
 
 static void
 plot_exporteps_cb (void)
 {
-	do_export_cb (TRUE);
+	do_export_cb (EXPORT_EPS);
+}
+
+static void
+plot_exportpng_cb (void)
+{
+	do_export_cb (EXPORT_PNG);
 }
 
 static void
@@ -1090,6 +1265,12 @@ ensure_window (void)
 			  G_CALLBACK (plot_exporteps_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	plot_exporteps_item = item;
+
+	item = gtk_menu_item_new_with_mnemonic (_("_Export PNG..."));
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (plot_exportpng_cb), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	plot_exportpng_item = item;
 
 
 	menu = gtk_menu_new ();
@@ -1619,11 +1800,13 @@ surface_func_data (GtkPlot *plot, GtkPlotData *data, double y, double x, gboolea
 }
 
 static char *
-label_func (int i, GelEFunc *func)
+label_func (int i, GelEFunc *func, char *name)
 {
 	char *text = NULL;
 
-	if (func->id != NULL) {
+	if (name != NULL) {
+		return g_strdup (name);
+	} else if (func->id != NULL) {
 		text = g_strdup_printf ("%s(x)", func->id->token);
 	} else if (func->type == GEL_USER_FUNC) {
 		int old_style, len;
@@ -1920,7 +2103,7 @@ plot_functions (void)
 						   GTK_PLOT_LINE_SOLID,
 						   0, 0, 2, &color);
 
-		label = label_func (i, plot_func[i]);
+		label = label_func (i, plot_func[i], plot_func_name[i]);
 		gtk_plot_data_set_legend (line_data[i], label);
 		g_free (label);
 	}
@@ -2009,7 +2192,7 @@ plot_surface_functions (void)
 
 		gtk_widget_show (GTK_WIDGET (surface_data));
 
-		label = label_func (0, surface_func);
+		label = label_func (0, surface_func, surface_func_name);
 		gtk_plot_data_set_legend (surface_data, label);
 		g_free (label);
 	}
@@ -2469,8 +2652,15 @@ surface_from_dialog (void)
 		d_freefunc (surface_func);
 		surface_func = NULL;
 	}
+	g_free (surface_func_name);
+	surface_func_name = NULL;
 
 	surface_func = func;
+	func = NULL;
+
+	/* setup name when the functions don't have their own name */
+	if (surface_func->id == NULL)
+		surface_func_name = g_strdup (str);
 
 	plot_surface_functions ();
 
@@ -2579,11 +2769,16 @@ plot_from_dialog (void)
 	for (i = 0; i < MAXFUNC && plot_func[i] != NULL; i++) {
 		d_freefunc (plot_func[i]);
 		plot_func[i] = NULL;
+		g_free (plot_func_name[i]);
+		plot_func_name[i] = NULL;
 	}
 
 	for (i = 0; i < MAXFUNC && func[i] != NULL; i++) {
 		plot_func[i] = func[i];
 		func[i] = NULL;
+		/* setup name when the functions don't have their own name */
+		if (plot_func[i]->id == NULL)
+			plot_func_name[i] = g_strdup (gtk_entry_get_text (GTK_ENTRY (plot_entries[i])));
 	}
 
 	plot_functions ();
@@ -2771,6 +2966,8 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	if (surface_func != NULL) {
 		d_freefunc (surface_func);
 	}
+	g_free (surface_func_name);
+	surface_func_name = NULL;
 
 	surface_func = func;
 	func = NULL;
@@ -2883,6 +3080,8 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	for (i = 0; i < MAXFUNC && plot_func[i] != NULL; i++) {
 		d_freefunc (plot_func[i]);
 		plot_func[i] = NULL;
+		g_free (plot_func_name[i]);
+		plot_func_name[i] = NULL;
 	}
 
 	for (i = 0; i < MAXFUNC && func[i] != NULL; i++) {

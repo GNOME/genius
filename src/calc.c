@@ -608,9 +608,9 @@ appendoper(GelOutput *gelo, GelETree *n)
 			break;
 		case E_ABS:
 			GET_L(n,l);
-			gel_output_string(gelo,"(|");
+			gel_output_string(gelo,"|");
 			gel_print_etree(gelo, l, FALSE);
-			gel_output_string(gelo,"|)");
+			gel_output_string(gelo,"|");
 			break;
 		case E_PLUS:
 			append_binaryoper(gelo,"+",n); break;
@@ -935,7 +935,6 @@ appendoper(GelOutput *gelo, GelETree *n)
 		case E_DIRECTCALL:
 		case E_CALL:
 			GET_L(n,l);
-			gel_output_string(gelo,"(");
 			if (l->type==IDENTIFIER_NODE) {
 				gel_output_string (gelo, l->id.id->token);
 			} else if (l->type == FUNCTION_NODE &&
@@ -965,7 +964,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 				gel_output_string(gelo,",");
 				gel_print_etree (gelo, li, FALSE);
 			}
-			gel_output_string(gelo,"))");
+			gel_output_string(gelo,")");
 			break;
 		case E_RETURN:
 			append_unaryoper(gelo,"return ",n); break;
@@ -1352,7 +1351,7 @@ gel_print_etree (GelOutput *gelo,
 				/*variable and reference functions should
 				  never be in the etree*/
 				gel_errorout (_("Unexpected function type!"));
-				gel_output_string(gelo,")(?)");
+				gel_output_string(gelo,")(?))");
 			}
 			break;
 		}

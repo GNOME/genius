@@ -580,7 +580,23 @@ aboutcb(GtkWidget * widget, gpointer data)
 		 * which will give them credit in the About box.
 		 * E.g. "Fulano de Tal <fulano@detal.com>"
 		 */
-		translators = _("translator_credits-PLEASE_ADD_YOURSELF_HERE");
+		char *new_credits = N_("translator-credits");
+
+		/* hack for old translations */
+		char *old_hack = "translator_credits-PLEASE_ADD_YOURSELF_HERE";
+
+		translators = _(new_credits);
+		if (strcmp (translators, new_credits) == 0) {
+			translators = NULL;
+		}
+
+		/* hack for old translations */
+		if (translators == NULL) {
+			translators = _(old_hack);
+			if (strcmp (translators, old_hack) == 0) {
+				translators = NULL;
+			}
+		}
 
 		about = gnome_about_new
 			(_("About Genius"),
@@ -591,9 +607,8 @@ aboutcb(GtkWidget * widget, gpointer data)
 			   "details, type 'warranty' into the console."),
 			 authors,
 			 documenters,
-			(strcmp (translators, "translator_credits-PLEASE_ADD_YOURSELF_HERE")
-			 ? translators : NULL),
-			NULL);
+			 translators,
+			 NULL);
 
 		gtk_window_set_transient_for (GTK_WINDOW (about),
 					      GTK_WINDOW (genius_window));
