@@ -302,6 +302,7 @@ static void mpwl_denominator(MpwRealNum *rop, MpwRealNum *op);
 
 /*get a long if possible*/
 static long mpwl_get_long(MpwRealNum *op, int *ex);
+static double mpwl_get_double(MpwRealNum *op, int *ex);
 
 /*round off the number at some digits*/
 static void str_make_max_digits (char *s, int digits, long *exponent);
@@ -3377,13 +3378,35 @@ mpwl_get_long(MpwRealNum *op, int *ex)
 	} else if(op->type == MPW_NATIVEINT) {
 		return op->data.nval;
 	} else { /*real integer*/
-		if(mpz_cmp_si(op->data.ival,LONG_MAX)>0) {
+		if(mpz_cmp_si(op->data.ival,LONG_MAX)>0 ||
+		   mpz_cmp_si(op->data.ival,LONG_MIN)<0) {
 			*ex = 2;
 			return 0;
 		} else
 			return mpz_get_si(op->data.ival);
 	}
 
+}
+
+/*get a long if possible*/
+static double
+mpwl_get_double(MpwRealNum *op, int *ex)
+{
+	double d;
+
+	mpwl_make_extra_type (op, MPW_FLOAT);
+
+	if (mpf_cmp_d (op->data.fval, DBL_MAX) > 0 ||
+	    mpf_cmp_d (op->data.fval, -DBL_MAX) < 0) {
+		*ex = 2;
+		return 0;
+	}
+
+	d = mpf_get_d (op->data.fval);
+
+	mpwl_clear_extra_type (op, MPW_FLOAT);
+
+	return d;
 }
 
 /*round off the number at some digits*/
@@ -5470,6 +5493,29 @@ mpw_get_long(mpw_ptr op)
 		return 0;
 	} else if(ex==2) {
 		(*errorout)(_("Integer too large for this operation"));
+		error_num=NUMERICAL_MPW_ERROR;
+		return 0;
+	}
+	return r;
+}
+
+double
+mpw_get_double (mpw_ptr op)
+{
+	double r;
+	int ex = 0;
+	if(op->type==MPW_COMPLEX) {
+		(*errorout)(_("Can't convert complex number into integer"));
+		error_num=NUMERICAL_MPW_ERROR;
+		return 0;
+	} 
+	r = mpwl_get_double (op->r, &ex);
+	if(ex==1) {
+		(*errorout)(_("Can't convert real number to double"));
+		error_num=NUMERICAL_MPW_ERROR;
+		return 0;
+	} else if(ex==2) {
+		(*errorout)(_("Number too large for this operation"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return 0;
 	}

@@ -40,6 +40,7 @@
 #include "dict.h"
 #include "eval.h"
 #include "geloutput.h"
+#include "graphing.h"
 
 #include "plugin.h"
 #include "inter.h"
@@ -1477,6 +1478,8 @@ main (int argc, char *argv[])
 	  will also register the builtin routines with the global
 	  dictionary*/
 	d_singlecontext ();
+
+	gel_add_graph_functions ();
 
 	/*
 	 * Read main library

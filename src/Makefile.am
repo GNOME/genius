@@ -69,7 +69,9 @@ gnome_genius_SOURCES = 	\
 	utype.h		\
 	extra.h		\
 	geloutput.c	\
-	geloutput.h
+	geloutput.h	\
+	graphing.h	\
+	graphing.c
 
 gnome_genius_LDADD = \
 	-lm					\
