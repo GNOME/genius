@@ -27,6 +27,7 @@
 
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <fcntl.h>
@@ -105,6 +106,7 @@ typedef struct {
 	gboolean changed;
 	gboolean real_file;
 	gboolean selected;
+	GtkWidget *tv;
 	GtkTextBuffer *buffer;
 	GtkWidget *label;
 } Program;
@@ -127,10 +129,13 @@ static void feed_to_zvt (gpointer data, gint source,
 			 GdkInputCondition condition);
 static void new_callback (GtkWidget *menu_item, gpointer data);
 static void open_callback (GtkWidget *w);
+static void save_callback (GtkWidget *w);
+static void save_as_callback (GtkWidget *w);
 static void close_callback (GtkWidget *menu_item, gpointer data);
 static void load_cb (GtkWidget *w);
 static void reload_cb (GtkWidget *w);
 static void quitapp (GtkWidget * widget, gpointer data);
+static void cut_callback (GtkWidget *menu_item, gpointer data);
 static void copy_callback (GtkWidget *menu_item, gpointer data);
 static void paste_callback (GtkWidget *menu_item, gpointer data);
 static void clear_cb (GtkClipboard *clipboard, gpointer owner);
@@ -150,9 +155,13 @@ static void aboutcb (GtkWidget * widget, gpointer data);
 static GnomeUIInfo file_menu[] = {
 	GNOMEUIINFO_MENU_NEW_ITEM(N_("_New Program"), N_("Create new program tab"), new_callback, NULL),
 	GNOMEUIINFO_MENU_OPEN_ITEM (open_callback,NULL),
-#define FILE_RELOAD_ITEM 2
+#define FILE_SAVE_ITEM 2
+	GNOMEUIINFO_MENU_SAVE_ITEM (save_callback,NULL),
+#define FILE_SAVE_AS_ITEM 3
+	GNOMEUIINFO_MENU_SAVE_AS_ITEM (save_as_callback,NULL),
+#define FILE_RELOAD_ITEM 4
 	GNOMEUIINFO_ITEM_STOCK(N_("_Reload From Disk"),N_("Reload the selected program from disk"), reload_cb, GNOME_STOCK_MENU_REVERT),
-#define FILE_CLOSE_ITEM 3
+#define FILE_CLOSE_ITEM 5
 	GNOMEUIINFO_MENU_CLOSE_ITEM (close_callback, NULL),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_STOCK(N_("_Load and Run"),N_("Load and execute a file in genius"), load_cb, GNOME_STOCK_MENU_OPEN),
@@ -162,7 +171,9 @@ static GnomeUIInfo file_menu[] = {
 };
 
 static GnomeUIInfo edit_menu[] = {  
-#define COPY_ITEM 0
+#define EDIT_CUT_ITEM 0
+	GNOMEUIINFO_MENU_CUT_ITEM(cut_callback,NULL),
+#define EDIT_COPY_ITEM 1
 	GNOMEUIINFO_MENU_COPY_ITEM(copy_callback,NULL),
 	GNOMEUIINFO_MENU_PASTE_ITEM(paste_callback,NULL),
 	GNOMEUIINFO_SEPARATOR,
@@ -561,7 +572,7 @@ display_warning (GtkWidget *parent, const char *warn)
 }
 
 static gboolean
-ask_question (const char *question)
+ask_question (GtkWidget *parent, const char *question)
 {
 	int ret;
 	static GtkWidget *req = NULL;
@@ -569,7 +580,10 @@ ask_question (const char *question)
 	if (req != NULL)
 		gtk_widget_destroy (req);
 
-	req = gtk_message_dialog_new (GTK_WINDOW (genius_window) /* parent */,
+	if (parent == NULL)
+		parent = genius_window;
+
+	req = gtk_message_dialog_new (GTK_WINDOW (parent) /* parent */,
 				      GTK_DIALOG_MODAL /* flags */,
 				      GTK_MESSAGE_QUESTION,
 				      GTK_BUTTONS_YES_NO,
@@ -592,18 +606,59 @@ ask_question (const char *question)
 		return FALSE;
 }
 
+static gboolean
+any_changed (void)
+{
+	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
+	int i;
+
+	if (n <= 1)
+		return FALSE;
+
+	for (i = 1; i < n; i++) {
+		GtkWidget *w = gtk_notebook_get_nth_page
+			(GTK_NOTEBOOK (notebook), i);
+		Program *p = g_object_get_data (G_OBJECT (w), "program");
+		g_assert (p != NULL);
+		if (p->changed)
+			return TRUE;
+	}
+	return FALSE;
+}
+
 /* quit */
 static void
 quitapp (GtkWidget * widget, gpointer data)
 {
-	if (calc_running) {
-		if ( ! ask_question (_("Genius is executing something, are "
-				       "you sure you wish to quit?")))
-			return;
-		interrupted = TRUE;
+	if (any_changed ()) {
+		if (calc_running) {
+			if ( ! ask_question (NULL,
+					     _("Genius is executing something, "
+					       "and furthermore there are "
+					       "unsaved programs.\nAre "
+					       "you sure you wish to quit?")))
+				return;
+			interrupted = TRUE;
+		} else {
+			if ( ! ask_question (NULL,
+					     _("There are unsaved programs, "
+					       "are you sure you wish to quit?")))
+				return;
+		}
 	} else {
-		if ( ! ask_question (_("Are you sure you wish to quit?")))
-			return;
+		if (calc_running) {
+			if ( ! ask_question (NULL,
+					     _("Genius is executing something, "
+					       "are you sure you wish to "
+					       "quit?")))
+				return;
+			interrupted = TRUE;
+		} else {
+			if ( ! ask_question (NULL,
+					     _("Are you sure you wish "
+					       "to quit?")))
+				return;
+		}
 	}
 
 	gtk_main_quit ();
@@ -971,9 +1026,9 @@ really_load_cb (GtkWidget *w, GtkFileSelection *fs)
 	const char *s;
 	s = gtk_file_selection_get_filename (fs);
 	if (s == NULL ||
-	    ! g_file_exists (s)) {
+	    access (s, R_OK) != 0) {
 		display_error (GTK_WIDGET (fs),
-			       _("Can not open file!"));
+			       _("Cannot open file!"));
 		return;
 	}
 
@@ -1013,16 +1068,70 @@ load_cb (GtkWidget *w)
 	gtk_widget_show (fs);
 }
 
+void            gtk_text_buffer_cut_clipboard           (GtkTextBuffer *buffer,
+							 GtkClipboard  *clipboard,
+                                                         gboolean       default_editable);
+void            gtk_text_buffer_copy_clipboard          (GtkTextBuffer *buffer,
+							 GtkClipboard  *clipboard);
+void            gtk_text_buffer_paste_clipboard         (GtkTextBuffer *buffer,
+							 GtkClipboard  *clipboard,
+							 GtkTextIter   *override_location,
+                                                         gboolean       default_editable);
+
+static void
+cut_callback (GtkWidget *menu_item, gpointer data)
+{
+	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	if (page == 0) {
+		/* cut from a terminal? what are you talking about */
+		return;
+	} else {
+		GtkWidget *w = gtk_notebook_get_nth_page
+			(GTK_NOTEBOOK (notebook), page);
+		Program *p = g_object_get_data (G_OBJECT (w), "program");
+		gtk_text_buffer_cut_clipboard
+			(p->buffer,
+			 gtk_clipboard_get (GDK_SELECTION_CLIPBOARD),
+			 TRUE /* default_editable */);
+	}
+}
+
+
 static void
 copy_callback (GtkWidget *menu_item, gpointer data)
 {
-	vte_terminal_copy_clipboard (VTE_TERMINAL (term));
+	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	if (page == 0) {
+		vte_terminal_copy_clipboard (VTE_TERMINAL (term));
+	} else {
+		GtkWidget *w = gtk_notebook_get_nth_page
+			(GTK_NOTEBOOK (notebook), page);
+		Program *p = g_object_get_data (G_OBJECT (w), "program");
+		gtk_text_buffer_copy_clipboard
+			(p->buffer,
+			 gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
+	}
 }
 
 static void
 paste_callback (GtkWidget *menu_item, gpointer data)
 {
-	vte_terminal_paste_clipboard (VTE_TERMINAL (term));
+	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	if (page == 0) {
+		vte_terminal_paste_clipboard (VTE_TERMINAL (term));
+	} else {
+		GtkWidget *w = gtk_notebook_get_nth_page
+			(GTK_NOTEBOOK (notebook), page);
+		Program *p = g_object_get_data (G_OBJECT (w), "program");
+		gtk_text_buffer_paste_clipboard
+			(p->buffer,
+			 gtk_clipboard_get (GDK_SELECTION_CLIPBOARD),
+			 NULL /* override location */,
+			 TRUE /* default editable */);
+		gtk_text_view_scroll_mark_onscreen
+			(GTK_TEXT_VIEW (p->tv),
+			 gtk_text_buffer_get_mark (p->buffer, "insert"));
+	}
 }
 
 static void
@@ -1314,9 +1423,9 @@ new_program (const char *filename)
 	p->real_file = FALSE;
 	p->changed = FALSE;
 	p->selected = FALSE;
-	g_object_set_data (G_OBJECT (sw), "program", p);
-
 	p->buffer = buffer;
+	p->tv = tv;
+	g_object_set_data (G_OBJECT (sw), "program", p);
 
 	if (filename == NULL) {
 		p->name = g_strdup_printf (_("Program %d"), cnt++);
@@ -1363,9 +1472,9 @@ really_open_cb (GtkWidget *w, GtkFileSelection *fs)
 	const char *s;
 	s = gtk_file_selection_get_filename (fs);
 	if (s == NULL ||
-	    ! g_file_exists (s)) {
+	    access (s, R_OK) != 0) {
 		display_error (GTK_WIDGET (fs),
-			       _("Can not open file!"));
+			       _("Cannot open file!"));
 		return;
 	}
 	gtk_widget_destroy (GTK_WIDGET (fs));
@@ -1374,7 +1483,7 @@ really_open_cb (GtkWidget *w, GtkFileSelection *fs)
 }
 
 static void
-open_callback(GtkWidget *w)
+open_callback (GtkWidget *w)
 {
 	static GtkWidget *fs = NULL;
 	
@@ -1402,6 +1511,155 @@ open_callback(GtkWidget *w)
 	gtk_widget_show (fs);
 }
 
+static gboolean
+save_program (Program *p, const char *new_fname)
+{
+	FILE *fp;
+	GtkTextIter iter, iter_end;
+	char *prog;
+	const char *fname;
+	int sz;
+	int wrote;
+
+	if (new_fname == NULL)
+		fname = p->name;
+	else
+		fname = new_fname;
+
+	fp = fopen (fname, "w");
+	if (fp == NULL)
+		return FALSE;
+
+	gtk_text_buffer_get_iter_at_offset (p->buffer, &iter, 0);
+	gtk_text_buffer_get_iter_at_offset (p->buffer, &iter_end, -1);
+	prog = gtk_text_buffer_get_text (p->buffer, &iter, &iter_end,
+					 FALSE /* include_hidden_chars */);
+	sz = strlen (prog);
+
+	wrote = fwrite (prog, 1, sz, fp);
+	if (sz != wrote) {
+		g_free (prog);
+		fclose (fp);
+		return FALSE;
+	}
+
+	/* add trailing \n */
+	if (sz > 0 && prog[sz-1] != '\n')
+		fwrite ("\n", 1, 1, fp);
+
+	g_free (prog);
+	fclose (fp);
+
+	g_free (p->name);
+	g_free (p->vname);
+	p->name = g_strdup (new_fname);
+	p->vname = g_path_get_basename (new_fname);
+	p->real_file = TRUE;
+	p->changed = FALSE;
+
+	if (selected_program == p) {
+		gtk_widget_set_sensitive (file_menu[FILE_RELOAD_ITEM].widget,
+					  TRUE);
+		gtk_widget_set_sensitive (file_menu[FILE_SAVE_ITEM].widget,
+					  TRUE);
+	}
+
+	setup_label (p);
+
+	return TRUE;
+}
+
+static void
+save_callback (GtkWidget *w)
+{
+	if (selected_program == NULL ||
+	    ! selected_program->real_file)
+		return;
+
+	if ( ! save_program (selected_program, NULL /* new fname */)) {
+		char *err = g_strdup_printf (_("<b>Cannot save file</b>\n"
+					       "Details: %s"),
+					     g_strerror (errno));
+		display_error (NULL, err);
+		g_free (err);
+	}
+}
+
+static void
+really_save_as_cb (GtkWidget *w, GtkFileSelection *fs)
+{
+	const char *s;
+
+	/* sanity */
+	if (selected_program == NULL)
+		return;
+
+	s = gtk_file_selection_get_filename (fs);
+	if (s == NULL)
+		return;
+	if (access (s, F_OK) == 0 &&
+	    ! ask_question (GTK_WIDGET (fs),
+			    _("File already exists.  Overwrite it?")))
+		return;
+
+	if ( ! save_program (selected_program, s /* new fname */)) {
+		char *err = g_strdup_printf (_("<b>Cannot save file</b>\n"
+					       "Details: %s"),
+					     g_strerror (errno));
+		display_error (GTK_WIDGET (fs), err);
+		g_free (err);
+		return;
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (fs));
+	/* FIXME: don't want to deal with modality issues right now */
+	gtk_widget_set_sensitive (genius_window, TRUE);
+}
+
+static void
+really_cancel_save_as_cb (GtkWidget *w, GtkFileSelection *fs)
+{
+	gtk_widget_destroy (GTK_WIDGET (fs));
+	/* FIXME: don't want to deal with modality issues right now */
+	gtk_widget_set_sensitive (genius_window, TRUE);
+}
+
+static void
+save_as_callback (GtkWidget *w)
+{
+	static GtkWidget *fs = NULL;
+
+	/* sanity */
+	if (selected_program == NULL)
+		return;
+	
+	if (fs) {
+		gtk_widget_show_now(fs);
+		gdk_window_raise(fs->window);
+		return;
+	}
+
+	/* FIXME: don't want to deal with modality issues right now */
+	gtk_widget_set_sensitive (genius_window, FALSE);
+
+	fs = gtk_file_selection_new(_("Open GEL file"));
+	
+	gtk_window_position (GTK_WINDOW (fs), GTK_WIN_POS_MOUSE);
+
+	g_signal_connect (G_OBJECT (fs), "destroy",
+			  G_CALLBACK (fs_destroy_cb), &fs);
+	
+	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
+			  "clicked", G_CALLBACK (really_save_as_cb),
+			  fs);
+	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->cancel_button),
+			  "clicked", G_CALLBACK (really_cancel_save_as_cb),
+			  fs);
+
+	gtk_widget_show (fs);
+}
+
+
 static void
 whack_program (Program *p)
 {
@@ -1411,6 +1669,10 @@ whack_program (Program *p)
 		p->selected = FALSE;
 		selected_program = NULL;
 		gtk_widget_set_sensitive (file_menu[FILE_RELOAD_ITEM].widget,
+					  FALSE);
+		gtk_widget_set_sensitive (file_menu[FILE_SAVE_ITEM].widget,
+					  FALSE);
+		gtk_widget_set_sensitive (file_menu[FILE_SAVE_AS_ITEM].widget,
 					  FALSE);
 		gtk_widget_set_sensitive (toolbar[TOOLBAR_RUN_ITEM].widget,
 					  FALSE);
@@ -1469,7 +1731,7 @@ run_program (GtkWidget *menu_item, gpointer data)
 		char *prog;
 		int p[2];
 		FILE *fp;
-		/* apply the foo tag to entered text */
+
 		gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
 		gtk_text_buffer_get_iter_at_offset (buffer, &iter_end, -1);
 		prog = gtk_text_buffer_get_text (buffer, &iter, &iter_end,
@@ -1821,11 +2083,15 @@ setup_rl_fifos (void)
 }
 
 static void
-selection_changed (GtkWidget *terminal, gpointer data)
+selection_changed (void)
 {
-	gboolean can_copy =
-		vte_terminal_get_has_selection (VTE_TERMINAL (term));
-	gtk_widget_set_sensitive (edit_menu[COPY_ITEM].widget, can_copy);
+	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	if (page == 0) {
+		gboolean can_copy =
+			vte_terminal_get_has_selection (VTE_TERMINAL (term));
+		gtk_widget_set_sensitive (edit_menu[EDIT_COPY_ITEM].widget,
+					  can_copy);
+	}
 }
 
 static void
@@ -1845,15 +2111,31 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
 			gtk_widget_set_sensitive
 				(file_menu[FILE_RELOAD_ITEM].widget,
 				 FALSE);
+			gtk_widget_set_sensitive
+				(file_menu[FILE_SAVE_ITEM].widget,
+				 FALSE);
+			gtk_widget_set_sensitive
+				(file_menu[FILE_SAVE_AS_ITEM].widget,
+				 FALSE);
 		}
+		/* selection changed updates the copy item sensitivity */
+		selection_changed ();
+		gtk_widget_set_sensitive (edit_menu[EDIT_CUT_ITEM].widget,
+					  FALSE);
 	} else {
 		GtkWidget *w;
 		/* something else */
+		gtk_widget_set_sensitive (edit_menu[EDIT_CUT_ITEM].widget,
+					  TRUE);
+		gtk_widget_set_sensitive (edit_menu[EDIT_COPY_ITEM].widget,
+					  TRUE);
 		gtk_widget_set_sensitive (file_menu[FILE_CLOSE_ITEM].widget,
 					  TRUE);
 		gtk_widget_set_sensitive (calc_menu[CALC_RUN_ITEM].widget,
 					  TRUE);
 		gtk_widget_set_sensitive (toolbar[TOOLBAR_RUN_ITEM].widget,
+					  TRUE);
+		gtk_widget_set_sensitive (file_menu[FILE_SAVE_AS_ITEM].widget,
 					  TRUE);
 
 		if (selected_program != NULL) {
@@ -1869,6 +2151,8 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
 		setup_label (selected_program);
 
 		gtk_widget_set_sensitive (file_menu[FILE_RELOAD_ITEM].widget,
+					  selected_program->real_file);
+		gtk_widget_set_sensitive (file_menu[FILE_SAVE_ITEM].widget,
 					  selected_program->real_file);
 	}
 }
@@ -2124,7 +2408,7 @@ main (int argc, char *argv[])
 	gtk_widget_grab_focus (term);
 
 	/* act like the selection changed to disable the copy item */
-	selection_changed (term, NULL);
+	selection_changed ();
 
 	start_cb_p_expression (genius_got_etree, torlfp);
 

@@ -371,6 +371,9 @@ If you substitute 'for' with 'sum' or 'prod', then you will get a sum or
 a product instead of a for loop.  Instead of returning the last value,
 these will return the sum or the product of the values respectively.
 
+If no body is executed (for example "sum i=1 to 0 do ...") then 'sum'
+returns 0 and 'prod' returns 1 as is the standard convention.
+
 
 Comparison operators:
 ---------------------
@@ -735,12 +738,12 @@ first compile it with "genius --compile lib.gel > lib.cgel"
 EXAMPLE PROGRAMS in GEL:
 =======================
 
-    a user factorial function (there already is one built in so
-    this function is useless)
+    Here is a user factorial function (there already is one built in so
+    this function is useless):
 
     function f(x) = if x <= 1 then 1 else (f(x-1)*x)
 
-    or with indentation it becomes
+    With indentation it becomes:
 
     function f(x) = (
       if x <= 1 then
@@ -749,20 +752,21 @@ EXAMPLE PROGRAMS in GEL:
         (f(x-1)*x)
     )
 
-    this is a direct port of the factorial function from the bc manpage :)
-    it seems similiar syntax to bc, but different in that in gel, the
-    last expression is the one that is returned. It can be done with with
-    returns as:
+    This is a direct port of the factorial function from the bc manpage.
+    The syntax seems similar to bc, but different in that in gel, the
+    last expression is the one that is returned.  It can however be done
+    with with 'return's as:
 
     function f(x) = (
       if (x <= 1) then return (1);
       return (f(x-1) * x)
     )
 
-    which is almost verbatim bc code, except for then and the function
-    definition
+    Which is almost verbatim bc code, except for then and the function
+    definition.
 
-    Here's a smaller, nicer, iterative version:
+    Here's a smaller, nicer, iterative version, that usese the product
+    loop.
 
       function f(x) = prod k=1 to x do k
 
