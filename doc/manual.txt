@@ -48,8 +48,52 @@ or
 More detail on GEL:
 ===================
 
-A program in GEL is basically an expression which evaluates to a number,
-since there exist only numbers.
+A program in GEL is basically an expression which evaluates to a number.
+
+
+Numbers:
+--------
+
+First type is integers.  There is no upper bound on the size of integers
+really.  This can be written in a number of ways first the
+standard integer example
+  1234
+You can also write hex and octal numbers using the C notation as for example
+  0x123ABC
+  01234
+Or you can type numbers in any notation using the backslash.  To type in
+digits for more then 10, use letters just like for hex.  For example
+for base 23 we'd write:
+  23\1234ABCD
+
+Second type is rationals.  This is basically achieved by dividing two
+integers.  So one could just write:
+  3/4
+To get three fourths.  There is also the mixed fraction notation.  So
+for 1 and 3 tenths you could write:
+  1 3/10
+
+The next type is floating point.  You can type this similarly to the
+C notation.  You can use E, e or @ as your exponent delimiter.  Note
+that if you use the exponent delimiter you get a float even if there
+is no decimal point.  Examples:
+  1.315
+  7.887e77
+  7.887e-77
+  .3
+  0.3
+  77e5
+
+Next type is complex numbers.  These are currently all treated as floats
+even where integers could be used.  This may be fixed in the future.  To
+type a complex number you can just give it as a sum of real and imaginary
+parts.  An imaginary part ends with an i.  You cannot use 'i' by itself
+as then genius would think you want to use the variable 'i', so you need
+a number in front of it.  Use 1i instead.  Here are examples of entering
+complex numbers
+  1+2i
+  8.01i
+  77*e^(1.3i)
 
 
 Previous result:
