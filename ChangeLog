@@ -1,3 +1,16 @@
+Tue Mar 30 11:36:13 2004  George Lebl <jirka@5z.com>
+
+	* src/mpwrap.[ch]: remove the NATIVEINT type and use mpz which is
+	  slightly slower, however cache inited mpz/mpq/mpf(r) types which 
+	  makes the code actually run a LOT faster then with NATIVEINT, at
+	  least for the testcases I considered.  This also reduces code
+	  complexity by quite a bit (removed 600+ loc) and furthermore
+	  optimizes both mpq/mpf performance too.  Also some minor cleanup
+	  and leak fixes.
+
+	* src/geniustests.txt: add some more random tests that popped up
+	  during testing of the above
+
 Tue Mar 30 09:52:39 2004  George Lebl <jirka@5z.com>
 
 	* lib/functions/Makefile.am, lib/functions/kernels.gel:

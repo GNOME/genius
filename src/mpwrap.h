@@ -40,8 +40,7 @@
 
 
 enum {
-	MPW_NATIVEINT = 1,
-	MPW_INTEGER,
+	MPW_INTEGER = 1,
 	MPW_RATIONAL,
 	MPW_FLOAT
 };
@@ -65,7 +64,6 @@ typedef struct _MpwRealNum {
 		mpz_ptr ival;
 		mpq_ptr rval;
 		mpf_ptr fval;
-		long nval;
 	} data;
 	union {
 		struct _MpwRealNum *next; /*used for free lists*/
@@ -166,18 +164,12 @@ mpf_ptr mpw_peek_imag_mpf (mpw_ptr op);
 
 /* Just quick hacks to get an mpz, tmp should be an unused mpz_t,
    rop should be mpz_ptr and op should be mpw_ptr */
-#define MPW_MPZ_REAL(rop,op,tmp) { if (op->r->type == MPW_NATIVEINT) { \
-			           mpz_init_set_si (tmp, op->r->data.nval); \
-				   rop = tmp; \
-			       } else { \
+#define MPW_MPZ_REAL(rop,op,tmp) { \
 				   rop = mpw_peek_real_mpz (op); \
-			       } }
-#define MPW_MPZ_IMAG(rop,op,tmp) { if (op->i->type == MPW_NATIVEINT) { \
-			           mpz_init_set_si (tmp, op->i->data.nval); \
-				   rop = tmp; \
-			       } else { \
+			       }
+#define MPW_MPZ_IMAG(rop,op,tmp) {  \
 				   rop = mpw_peek_imag_mpz (op); \
-			       } }
+			       }
 #define MPW_MPZ_KILL(rop,tmp) { if (rop == tmp) mpz_clear (tmp); }
 
 
