@@ -266,17 +266,17 @@ paramdef: 	ident EQUALS expr		{
 		}*/
 	;
 	
-funcdef:	'(' identlist ')' EQUALS expr	{
+funcdef:	'(' identlist ')' EQUALS expr %prec FUNCTION {
 			if ( ! gp_push_func (FALSE /* vararg */)) {
 				SYNTAX_ERROR;
 			}
 						}
-	|	'(' identlist THREEDOTS ')' EQUALS expr {
+	|	'(' identlist THREEDOTS ')' EQUALS expr %prec FUNCTION {
 			if ( ! gp_push_func (TRUE /* vararg */)) {
 				SYNTAX_ERROR;
 			}
 							}
-	|	'(' ')' EQUALS expr	{
+	|	'(' ')' EQUALS expr %prec FUNCTION {
 			if ( ! gp_push_marker (EXPRLIST_START_NODE)) {
 				SYNTAX_ERROR;
 			}
