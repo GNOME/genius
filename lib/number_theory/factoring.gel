@@ -70,9 +70,9 @@ function Factorize(n) =
     if not IsPrime(a) or not IsPrime(a) then (
       # If not, return the partial factorization and flag an error
       error("Sorry, number has factors that are too big for us to deal with yet; the following is a partial factorization (the last term is composite).");
-    )
+    );
     return [factor_list,[a;1],[b;1]];
-  )
+  );
 
   # If not, return the partial factorization and flag an error
   error("Sorry, number has factors that are too big for us to deal with yet; the following is a partial factorization (the last term is composite).");
