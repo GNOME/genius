@@ -39,6 +39,9 @@
 
 #include "graphing.h"
 
+extern GtkWidget *genius_window;
+extern int interrupted;
+
 static GtkWidget *graph_window = NULL;
 static GnomeCanvas *canvas = NULL;
 static GnomeCanvasGroup *root = NULL;
@@ -46,6 +49,16 @@ static GnomeCanvasGroup *graph = NULL;
 
 #define WIDTH 640
 #define HEIGHT 480
+
+static void
+dialog_response (GtkWidget *w, int response, gpointer data)
+{
+	if (response == GTK_RESPONSE_CLOSE) {
+		gtk_widget_destroy (graph_window);
+	} else if (response == 1 /* stop/interrupt */) {
+		interrupted = TRUE;
+	}
+}
 
 static void
 ensure_window (void)
@@ -56,16 +69,28 @@ ensure_window (void)
 		return;
 	}
 
-	graph_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	graph_window = gtk_dialog_new_with_buttons
+		(_("Genius Line Plot") /* title */,
+		 GTK_WINDOW (genius_window) /* parent */,
+		 0 /* flags */,
+		 GTK_STOCK_STOP,
+		 1,
+		 GTK_STOCK_CLOSE,
+		 GTK_RESPONSE_CLOSE,
+		 NULL);
 	g_signal_connect (G_OBJECT (graph_window),
 			  "destroy",
 			  G_CALLBACK (gtk_widget_destroyed),
 			  &graph_window);
+	g_signal_connect (G_OBJECT (graph_window),
+			  "response",
+			  G_CALLBACK (dialog_response),
+			  NULL);
 
 	canvas = (GnomeCanvas *)gnome_canvas_new_aa ();
 	root = gnome_canvas_root (canvas);
-	gtk_container_add (GTK_CONTAINER (graph_window), GTK_WIDGET (canvas));
-	gtk_container_set_border_width (GTK_CONTAINER (graph_window), 10);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (graph_window)->vbox),
+			    GTK_WIDGET (canvas), TRUE, TRUE, 0);
 
 	gtk_widget_set_usize (GTK_WIDGET (canvas), WIDTH, HEIGHT);
 
@@ -193,6 +218,14 @@ plot_func (GelCtx *ctx, GelEFunc *func, const char *color, double xscale, double
 		/* hack for "infinity" */
 		else if (points->coords[i*2 + 1] <= -HEIGHT)
 			points->coords[i*2 + 1] = -HEIGHT;
+		if(evalnode_hook) {
+			(*evalnode_hook)();
+			if (interrupted) {
+				gel_freetree (arg);
+				gnome_canvas_points_unref (points);
+				return;
+			}
+		}
 	}
 	gel_freetree (arg);
 
@@ -293,6 +326,12 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	for (i = 0; i < funcs; i++) {
 		plot_func (ctx, func[i], colors[i],
 			   xscale, yscale, x1, x2, y1, y2);
+		if (evalnode_hook) {
+			(*evalnode_hook)();
+		}
+		if (interrupted) {
+			return NULL;
+		}
 	}
 
 	return gel_makenum_null ();
