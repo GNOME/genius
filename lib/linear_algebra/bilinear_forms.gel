@@ -2,14 +2,14 @@
 # angles of vectors, GramSchmidt, etc.
 
 # Evaluate (v,w) with respect to the bilinear form given by the matrix A.
-function bilinear_form(v,A,w) = (v'*A*w)@(1)
+function bilinear_form(v,A,w) = (v.'*A*w)@(1)
 
 # The angle of two vectors, given an inner product
 #FIXME: default inner product!
 function VectorAngle(v,w,B) = acos(B(v,w)/(B(v,v)*B(w,w)))
 
 #FIXME: Can't return anonymous function from functions correctly
-#function BilinearForm(A)=(`(v,w)=(v'*A*w)@(1))
+#function BilinearForm(A)=(`(v,w)=(v.'*A*w)@(1))
 
 # Projection onto a vector space
 # Projection of vector v onto subspace W given a bilinear form B

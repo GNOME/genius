@@ -268,7 +268,15 @@ appendoper(GelOutput *gelo, GelETree *n)
 			print_etree(gelo, l, FALSE);
 			gel_output_string(gelo, "!)");
 			break;
+
 		case E_TRANSPOSE:
+			GET_L(n,l);
+			gel_output_string(gelo, "(");
+			print_etree(gelo, l, FALSE);
+			gel_output_string(gelo, ".')");
+			break;
+			
+		case E_CONJUGATE_TRANSPOSE:
 			GET_L(n,l);
 			gel_output_string(gelo, "(");
 			print_etree(gelo, l, FALSE);

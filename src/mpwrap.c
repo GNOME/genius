@@ -4258,6 +4258,36 @@ mpw_i (mpw_ptr rop)
 }
 
 void
+mpw_conj (mpw_ptr rop, mpw_ptr op)
+{
+	if (op->type == MPW_REAL) {
+		if (rop != op) {
+			MAKE_REAL (rop);
+			rop->r->alloc.usage--;
+			if (rop->r->alloc.usage==0)
+				mpwl_free (rop->r, FALSE);
+			rop->r = op->r;
+			op->r->alloc.usage++;
+		}
+	} else {
+		if (rop != op) {
+			rop->type = MPW_COMPLEX;
+			rop->r->alloc.usage--;
+			if (rop->r->alloc.usage==0)
+				mpwl_free (rop->r, FALSE);
+			rop->r = op->r;
+			op->r->alloc.usage++;
+
+			MAKE_COPY(rop->i);
+			mpwl_neg (rop->i, op->i);
+		} else {
+			MAKE_COPY(rop->i);
+			mpwl_neg(rop->i,op->i);
+		}
+	}
+}
+
+void
 mpw_pow_ui(mpw_ptr rop,mpw_ptr op, unsigned long int e)
 {
 	if(op->type==MPW_REAL) {

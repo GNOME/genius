@@ -374,6 +374,8 @@ null		{ DO_RET; return '.'; }
 
 [ \t\r]+	; /*ignore whitespace*/
 
+\.\'		{ DO_RET; return TRANSPOSE; }
+
 [!']		{
 			DO_RET;
 			return yytext[0];

@@ -432,6 +432,10 @@ gel_matrixw_make_private(GelMatrixW *m)
 {
 	g_return_if_fail(m != NULL);
 
+	/* clear caches as we're gonna mess with this matrix */
+	m->cached_value_only = 0;
+	m->cached_value_only_real = 0;
+
 	if(m->m->use==1)
 		return;
 

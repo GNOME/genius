@@ -2,8 +2,13 @@
 
 # Transpose of a matrix
 sethelp ("Transpose", "Transpose of a matrix")
-function Transpose(M)=M'
+function Transpose(M)=M.'
 protect ("Transpose")
+
+# Conjugate Transpose of a matrix
+sethelp ("ConjugateTranspose", "Conjugate transpose of a matrix")
+function ConjugateTranspose(M)=M'
+protect ("Conjugate Transpose")
 
 # Checks to see if a matrix is square
 # Arguments: takes a matrix

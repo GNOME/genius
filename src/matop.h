@@ -29,11 +29,13 @@
 
 #include "matrixw.h"
 
-int gel_is_matrix_value_only(GelMatrixW *m);
-void gel_value_matrix_multiply(GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2);
-int gel_value_matrix_det(mpw_t rop, GelMatrixW *m);
+gboolean gel_is_matrix_value_only (GelMatrixW *m);
+gboolean gel_is_matrix_value_only_real (GelMatrixW *m);
+void gel_matrix_cojugate_transpose (GelMatrixW *m);
+void gel_value_matrix_multiply (GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2);
+gboolean gel_value_matrix_det (mpw_t rop, GelMatrixW *m);
 /*NOTE: if simul is passed then we assume that it's the same size as m*/
 /* return FALSE if singular */
-gboolean gel_value_matrix_gauss(GelMatrixW *m, gboolean reduce, gboolean uppertriang, gboolean stopsing, mpw_ptr detop, GelMatrixW *simul);
+gboolean gel_value_matrix_gauss (GelMatrixW *m, gboolean reduce, gboolean uppertriang, gboolean stopsing, mpw_ptr detop, GelMatrixW *simul);
 
 #endif

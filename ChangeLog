@@ -1,3 +1,24 @@
+Fri Oct 11 10:09:30 2002  George Lebl <jirka@5z.com>
+
+	* src/eval.c: fix do/while/until loops
+
+	* src/lexer.l, src/parse.y, src/eval.c, src/matrixw.[ch],
+	  src/matop.[ch]: Make the ' operator the conjugate transpose
+	  and add a simple transpose .' operator ala matlab/octave.  Also
+	  only set matrix element to a NULL if it truly does equal 0 (integer
+	  only)
+
+	* src/eval.[ch], src/funclib.c: Add ExpandMatrix and conj functions.
+
+	* lib/*/*.gel: update for transpose, added ConjugateTranspose
+	  function
+
+	* src/eval.c: fix matrix column expansion.
+
+	* src/geniustests.txt: Because matrix expansion now works differently
+	  (more sanely), update the tests.  Also add some simple transpose
+	  versus conjugate transpose tests
+
 Thu Oct 10 10:31:48 2002  George Lebl <jirka@5z.com>
 
 	* src/eval.c, lib/linear_algebra/linear_algebra.gel: fix matrix

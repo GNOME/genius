@@ -19,8 +19,6 @@ INCLUDES = \
 	-I$(includedir)						\
 	-I$(top_srcdir)						\
 	-I$(top_builddir)					\
-	-I$(top_srcdir)/libeog					\
-	-I$(top_builddir)/libeog				\
 	$(GMP_INCLUDEDIR)					\
 	$(GENIUS_CFLAGS)					\
 	$(EXTRA_WARNING_CFLAGS)

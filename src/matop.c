@@ -44,18 +44,82 @@ extern void (*errorout)(char *);
 
 extern GelETree *free_trees;
 
-int
-gel_is_matrix_value_only(GelMatrixW *m)
+gboolean
+gel_is_matrix_value_only (GelMatrixW *m)
 {
 	int i,j;
+	if (m->cached_value_only)
+		return m->value_only;
 	for(i=0;i<gel_matrixw_width(m);i++) {
 		for(j=0;j<gel_matrixw_height(m);j++) {
 			GelETree *n = gel_matrixw_set_index(m,i,j);
-			if(n && n->type != VALUE_NODE)
+			if(n && n->type != VALUE_NODE) {
+				m->cached_value_only = 1;
+				m->value_only = 0;
 				return FALSE;
+			}
 		}
 	}
+	m->cached_value_only = 1;
+	m->value_only = 1;
 	return TRUE;
+}
+
+gboolean
+gel_is_matrix_value_only_real (GelMatrixW *m)
+{
+	int i,j;
+	if (m->cached_value_only_real)
+		return m->value_only_real;
+	for(i=0;i<gel_matrixw_width(m);i++) {
+		for(j=0;j<gel_matrixw_height(m);j++) {
+			GelETree *n = gel_matrixw_set_index(m,i,j);
+			if (n != NULL &&
+			    (n->type != VALUE_NODE ||
+			     mpw_is_complex (n->val.value))) {
+				m->cached_value_only_real = 1;
+				m->value_only_real = 0;
+				return FALSE;
+			}
+		}
+	}
+	m->cached_value_only = 1;
+	m->value_only = 1;
+	m->cached_value_only_real = 1;
+	m->value_only_real = 1;
+	return TRUE;
+}
+
+void
+gel_matrix_conjugate_transpose (GelMatrixW *m)
+{
+	int i,j;
+	gel_matrixw_make_private (m);
+	m->tr = !m->tr;
+	for (i = 0; i < gel_matrixw_width (m); i++) {
+		for (j = 0; j < gel_matrixw_height (m); j++) {
+			GelETree *n = gel_matrixw_set_index (m, i, j);
+			if (n == NULL)
+				continue;
+			if (n->type == VALUE_NODE) {
+				if (mpw_is_complex (n->val.value))
+					mpw_conj (n->val.value, n->val.value);
+			} else {
+				GelETree *nn;
+				GET_NEW_NODE (nn);
+				nn->type = OPERATOR_NODE;
+				nn->op.oper = E_DIRECTCALL;
+
+				GET_NEW_NODE (nn->op.args);
+				nn->op.args->type = IDENTIFIER_NODE;
+				nn->op.args->id.id = d_intern ("conj");
+
+				nn->op.args->any.next = n;
+				n->any.next = NULL;
+				gel_matrixw_set_index (m, i, j) = nn;
+			}
+		}
+	}
 }
 
 void
@@ -287,8 +351,8 @@ det3(mpw_t rop, GelMatrixW *m)
 	mpw_clear(tmp);
 }
 
-int
-gel_value_matrix_det(mpw_t rop, GelMatrixW *m)
+gboolean
+gel_value_matrix_det (mpw_t rop, GelMatrixW *m)
 {
 	int w = gel_matrixw_width(m);
         int h = gel_matrixw_height(m);

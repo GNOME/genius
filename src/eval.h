@@ -42,6 +42,7 @@ enum {
 	E_EXP,
 	E_FACT,
 	E_TRANSPOSE,
+	E_CONJUGATE_TRANSPOSE,
 	E_IF_CONS,
 	E_IFELSE_CONS,
 	E_WHILE_CONS,
@@ -150,6 +151,7 @@ int isnodetrue(GelETree *n, int *bad_node);
 
 /*call a function (arguments should have already been evaluated)*/
 GelETree * funccall(GelCtx *ctx, GelEFunc *func, GelETree **args, int nargs);
+void gel_expandmatrix (GelETree *n);
 
 GelETree * gather_comparisons(GelETree *n);
 GelETree * replace_parameters(GelETree *n);

@@ -156,6 +156,7 @@ branches(int op)
 		case E_EXP: return 2;
 		case E_FACT: return 1;
 		case E_TRANSPOSE: return 1;
+		case E_CONJUGATE_TRANSPOSE: return 1;
 		case E_IF_CONS: return 2;
 		case E_IFELSE_CONS: return 3;
 		case E_WHILE_CONS: return 2;
@@ -721,9 +722,6 @@ static int
 expand_col (GelMatrix *dest, GelMatrix *src, int si, int di, int w)
 {
 	int i;
-	int cols;
-	
-	cols = dest->width;
 
 	for (i = 0; i < src->height; i++) {
 		GelETree *et = gel_matrix_index (src, si, i);
@@ -744,6 +742,7 @@ expand_col (GelMatrix *dest, GelMatrix *src, int si, int di, int w)
 			iter = et->row.args;
 			for (iter = et->row.args, x=0; iter != NULL; x++) {
 				if (iter->type == VALUE_NODE &&
+				    mpw_is_integer (iter->val.value) &&
 				    mpw_sgn (iter->val.value) == 0) {
 					GelETree *next = iter->any.next;
 					gel_matrix_index (dest, di+x, i) = NULL;
@@ -814,8 +813,8 @@ mat_need_expand (GelMatrixW *m)
 /*evaluate a matrix (or try to), it will try to expand the matrix and
   put 0's into the empty, undefined, spots. For example, a matrix such
   as if b = [8,7]; a = [1,2:3,b]  should expand to, [1,2,2:3,8,7] */
-static void
-evalmatrix(GelETree *n)
+void
+gel_expandmatrix (GelETree *n)
 {
 	int i;
 	int k;
@@ -824,9 +823,10 @@ evalmatrix(GelETree *n)
 	gboolean need_colwise = FALSE;
 	GelMatrixW *nm;
 	int h;
-	int *colwidths;
 
 	nm = n->mat.matrix;
+
+	g_return_if_fail (n->type == MATRIX_NODE);
 
 	if ( ! mat_need_expand (nm))
 		return;
@@ -845,25 +845,25 @@ evalmatrix(GelETree *n)
 		k += w;
 	}
 
-	colwidths = g_new (int, m->width);
-	cols = get_cols (m, colwidths);
-	
-	if(need_colwise) {
+	if (need_colwise) {
 		int ii;
-		GelMatrix *tm = gel_matrix_new();
-		gel_matrix_set_size(tm,cols,m->height);
-		for (i = 0, ii = 0; i < m->width; i++, ii += colwidths[i])
+		GelMatrix *tm = gel_matrix_new ();
+		int *colwidths = g_new (int, m->width);
+
+		cols = get_cols (m, colwidths);
+		gel_matrix_set_size (tm,cols,m->height);
+		for (i = 0, ii = 0; i < m->width; ii += colwidths[i], i++)
 			expand_col (tm, m, i, ii, colwidths[i]);
-		gel_matrix_free(m);
+		gel_matrix_free (m);
 		m = tm;
+
+		g_free (colwidths);
 	}
 
-	g_free (colwidths);
-	
 	freetree_full (n, TRUE, FALSE);
 
 	n->type = MATRIX_NODE;
-	n->mat.matrix = gel_matrixw_new_with_matrix(m);
+	n->mat.matrix = gel_matrixw_new_with_matrix (m);
 	n->mat.quoted = 0;
 }
 
@@ -1641,9 +1641,23 @@ isnodetrue(GelETree *n, int *bad_node)
 }
 
 static int
-transpose_matrix(GelCtx *ctx, GelETree *n, GelETree *l)
+transpose_matrix (GelCtx *ctx, GelETree *n, GelETree *l)
 {
 	l->mat.matrix->tr = !(l->mat.matrix->tr);
+	/*remove from arglist*/
+	n->op.args = NULL;
+	replacenode(n,l);
+	return TRUE;
+}
+
+static int
+conjugate_transpose_matrix (GelCtx *ctx, GelETree *n, GelETree *l)
+{
+	if (gel_is_matrix_value_only_real (l->mat.matrix)) {
+		l->mat.matrix->tr = !(l->mat.matrix->tr);
+	} else {
+		gel_matrix_conjugate_transpose (l->mat.matrix);
+	}
 	/*remove from arglist*/
 	n->op.args = NULL;
 	replacenode(n,l);
@@ -1803,6 +1817,10 @@ static const GelOper prim_table[E_OPER_LAST] = {
 	{{
 		 {{GO_MATRIX,0,0},(GelEvalFunc)transpose_matrix},
 	 }},
+	/*E_CONJUGATE_TRANSPOSE*/
+	{{
+		 {{GO_MATRIX,0,0},(GelEvalFunc)conjugate_transpose_matrix},
+	 }},
 	/*E_IF_CONS*/ EMPTY_PRIM,
 	/*E_IFELSE_CONS*/ EMPTY_PRIM,
 	/*E_WHILE_CONS*/ EMPTY_PRIM,
@@ -1898,7 +1916,7 @@ purge_free_lists(void)
 }
 
 static inline GelEvalLoop *
-evl_new(GelETree *cond, GelETree *body, gboolean is_while)
+evl_new (GelETree *cond, GelETree *body, gboolean is_while, gboolean body_first)
 {
 	GelEvalLoop *evl;
 	if(!free_evl) {
@@ -1909,7 +1927,8 @@ evl_new(GelETree *cond, GelETree *body, gboolean is_while)
 	}
 	evl->condition = cond;
 	evl->body = body;
-	evl->is_while = is_while;
+	evl->is_while = is_while ? 1 : 0;
+	evl->body_first = body_first ? 1 : 0;
 	return evl;
 }
 
@@ -2286,10 +2305,10 @@ ev_free_special_data(GelCtx *ctx, gpointer data, int flag)
 	case GE_LOOP_LOOP:
 		{
 			GelEvalLoop *evl = data;
-			gel_freetree(evl->condition);
-			gel_freetree(evl->body);
-			evl_free(evl);
-			GE_BLIND_POP_STACK(ctx);
+			gel_freetree (evl->condition);
+			gel_freetree (evl->body);
+			evl_free (evl);
+			GE_BLIND_POP_STACK (ctx);
 		}
 		break;
 	case GE_FOR:
@@ -2419,9 +2438,9 @@ iter_pop_stack(GelCtx *ctx)
 				if(bad_node || error_num) {
 					EDEBUG("    LOOP CONDITION BAD BAD NODE");
 					error_num = 0;
-					replacenode(n->op.args,evl->condition);
-					gel_freetree(evl->body);
-					evl_free(evl);
+					replacenode (n->op.args, evl->condition);
+					gel_freetree (evl->body);
+					evl_free (evl);
 					GE_BLIND_POP_STACK(ctx);
 					break;
 				}
@@ -2431,10 +2450,13 @@ iter_pop_stack(GelCtx *ctx)
 					GelETree *l,*r;
 					EDEBUG("    LOOP CONDITION MET");
 					GET_LR(n,l,r);
-					gel_freetree(evl->condition);
+					gel_freetree (evl->condition);
 					evl->condition = NULL;
-					gel_freetree(evl->body);
-					evl->body = copynode(r);
+					gel_freetree (evl->body);
+					if (evl->body_first)
+						evl->body = copynode (l);
+					else
+						evl->body = copynode (r);
 					ctx->current = evl->body;
 					ctx->post = FALSE;
 					GE_PUSH_STACK(ctx,evl,GE_LOOP_LOOP);
@@ -2442,15 +2464,15 @@ iter_pop_stack(GelCtx *ctx)
 				} else {
 					EDEBUG("    LOOP CONDITION NOT MET");
 					/*condition not met, so return the body*/
-					if(!evl->body) {
+					if (evl->body == NULL) {
 						EDEBUG("     NULL BODY");
-						freetree_full(n,TRUE,FALSE);
+						freetree_full (n, TRUE, FALSE);
 						n->type = NULL_NODE;
 					} else {
-						replacenode(n,evl->body);
+						replacenode (n, evl->body);
 					}
-					evl_free(evl);
-					GE_BLIND_POP_STACK(ctx);
+					evl_free (evl);
+					GE_BLIND_POP_STACK (ctx);
 					break;
 				}
 			}
@@ -2468,7 +2490,10 @@ iter_pop_stack(GelCtx *ctx)
 				EDEBUG("    LOOP LOOP BODY FINISHED");
 
 				GET_LR(n,l,r);
-				evl->condition = copynode(r);
+				if (evl->body_first)
+					evl->condition = copynode (r);
+				else
+					evl->condition = copynode (l);
 				ctx->current = evl->condition;
 				ctx->post = FALSE;
 				GE_PUSH_STACK(ctx,evl,GE_LOOP_COND);
@@ -3121,7 +3146,7 @@ iter_forinloop(GelCtx *ctx, GelETree *n)
 }
 
 static inline void
-iter_loop(GelCtx *ctx, GelETree *n, gboolean body_first, gboolean is_while)
+iter_loop (GelCtx *ctx, GelETree *n, gboolean body_first, gboolean is_while)
 {
 	GelEvalLoop *evl;
 	GelETree *l, *r;
@@ -3130,17 +3155,17 @@ iter_loop(GelCtx *ctx, GelETree *n, gboolean body_first, gboolean is_while)
 	
 	EDEBUG("   ITER LOOP");
 	
-	GE_PUSH_STACK(ctx,ctx->current,GE_POST);
-	if(body_first) {
-		EDEBUG("    BODY FIRST");
-		evl = evl_new(NULL,copynode(l),is_while);
-		GE_PUSH_STACK(ctx,evl,GE_LOOP_LOOP);
+	GE_PUSH_STACK (ctx, ctx->current, GE_POST);
+	if (body_first) {
+		EDEBUG ("    BODY FIRST");
+		evl = evl_new (NULL, copynode (l), is_while, body_first);
+		GE_PUSH_STACK (ctx, evl, GE_LOOP_LOOP);
 		ctx->current = evl->body;
 		ctx->post = FALSE;
 	} else {
 		EDEBUG("    CHECK FIRST");
-		evl = evl_new(copynode(l),NULL,is_while);
-		GE_PUSH_STACK(ctx,evl,GE_LOOP_COND);
+		evl = evl_new (copynode(l), NULL, is_while, body_first);
+		GE_PUSH_STACK (ctx, evl, GE_LOOP_COND);
 		ctx->current = evl->condition;
 		ctx->post = FALSE;
 	}
@@ -3256,11 +3281,11 @@ iter_continue_break_op(GelCtx *ctx, gboolean cont)
 			iter_pop_stack(ctx);
 			return;
 		case GE_LOOP_LOOP:
-			LOOP_BREAK_CONT(GelEvalLoop,evl_free,GE_LOOP_LOOP);
+			LOOP_BREAK_CONT (GelEvalLoop, evl_free, GE_LOOP_LOOP);
 		case GE_FOR:
-			LOOP_BREAK_CONT(GelEvalFor,evf_free,GE_FOR);
+			LOOP_BREAK_CONT (GelEvalFor, evf_free, GE_FOR);
 		case GE_FORIN:
-			LOOP_BREAK_CONT(GelEvalForIn,evfi_free,GE_FORIN);
+			LOOP_BREAK_CONT (GelEvalForIn, evfi_free, GE_FORIN);
 		default:
 			ev_free_special_data(ctx,data,flag);
 			break;
@@ -3851,6 +3876,7 @@ iter_get_op_name(int oper)
 	case E_EXP: name = g_strdup(_("Power")); break;
 	case E_FACT: name = g_strdup(_("Factorial")); break;
 	case E_TRANSPOSE: name = g_strdup(_("Transpose")); break;
+	case E_CONJUGATE_TRANSPOSE: name = g_strdup(_("ConjugateTranspose")); break;
 	case E_CMP_CMP: name = g_strdup(_("Comparison (<=>)")); break;
 	case E_LOGICAL_XOR: name = g_strdup(_("XOR")); break;
 	case E_LOGICAL_NOT: name = g_strdup(_("NOT")); break;
@@ -3955,6 +3981,7 @@ iter_operator_pre(GelCtx *ctx)
 	case E_EXP:
 	case E_FACT:
 	case E_TRANSPOSE:
+	case E_CONJUGATE_TRANSPOSE:
 	case E_CMP_CMP:
 	case E_LOGICAL_XOR:
 	case E_LOGICAL_NOT:
@@ -4139,6 +4166,7 @@ iter_operator_post(GelCtx *ctx)
 	case E_NEG:
 	case E_FACT:
 	case E_TRANSPOSE:
+	case E_CONJUGATE_TRANSPOSE:
 	case E_LOGICAL_NOT:
 		if(!iter_call1(ctx,&prim_table[n->op.oper],n))
 			return FALSE;
@@ -4259,7 +4287,7 @@ iter_eval_etree(GelCtx *ctx)
 			} else {
 				/*if in post mode expand the matrix */
 				if(!n->mat.quoted)
-					evalmatrix(n);
+					gel_expandmatrix (n);
 				iter_pop_stack(ctx);
 			}
 			break;

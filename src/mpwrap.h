@@ -170,6 +170,8 @@ void mpw_arctan(mpw_ptr rop,mpw_ptr op);
 void mpw_pi(mpw_ptr rop);
 void mpw_i(mpw_ptr rop);
 
+void mpw_conj (mpw_ptr rop, mpw_ptr op);
+
 int mpw_cmp(mpw_ptr op1, mpw_ptr op2);
 int mpw_cmp_ui(mpw_ptr op, unsigned long int i);
 

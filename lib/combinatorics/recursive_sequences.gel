@@ -6,7 +6,7 @@
 # Given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1)),
 # gives the galois stepping matrix
 function galois_matrix(combining_rule) =
- [[0;I(columns(combining_rule)-1)],combining_rule']
+ [[0;I(columns(combining_rule)-1)],combining_rule.']
 
 # Linear recursive sequence
 function linear_recursive_sequence(seed_values,combining_rule,n) =

@@ -259,7 +259,8 @@ typedef enum {
 struct _GelEvalLoop {
 	GelETree * condition;
 	GelETree * body;
-	gboolean is_while; /*if false, this is an until loop*/
+	guint32 is_while:1; /*if false, this is an until loop*/
+	guint32 body_first:1; /*if true body is the first argument*/
 };
 /*data structure for 'for' loops*/
 struct _GelEvalFor {

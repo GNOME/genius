@@ -291,9 +291,9 @@ apply_func_to_matrixen(GelCtx *ctx, GelETree *mat1, GelETree *mat2,
 }
 
 static GelETree *
-apply_func_to_matrix(GelCtx *ctx, GelETree *mat, 
-		     GelETree * (*function)(GelCtx *ctx, GelETree **a,int *exception),
-		     char *ident)
+apply_func_to_matrix (GelCtx *ctx, GelETree *mat, 
+		      GelETree * (*function)(GelCtx *ctx, GelETree **a,int *exception),
+		      char *ident)
 {
 	GelMatrixW *m;
 	GelMatrixW *new;
@@ -335,12 +335,57 @@ apply_func_to_matrix(GelCtx *ctx, GelETree *mat,
 				nn->op.args->any.next->any.next = NULL;
 
 				gel_matrixw_set_index(new,i,j) = nn;
+			} else if (e->type == VALUE_NODE &&
+				   mpw_is_integer (e->val.value) &&
+				   mpw_sgn (e->val.value) == 0) {
+				gel_freetree (e);
+				gel_matrixw_set_index(new,i,j) = NULL;
 			} else {
 				gel_matrixw_set_index(new,i,j) = e;
 			}
 		}
 	}
 	return n;
+}
+
+/* expand matrix function*/
+static GelETree *
+ExpandMatrix_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GelETree *n;
+
+	if (a[0]->type != MATRIX_NODE) {
+		(*errorout)(_("ExpandMatrix: argument not a matrix"));
+		return NULL;
+	}
+
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_copy (a[0]->mat.matrix);
+	gel_expandmatrix (n->mat.matrix);
+	n->mat.quoted = 0;
+	return n;
+}
+
+/*conj function*/
+static GelETree *
+conj_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	mpw_t fr;
+
+	if (a[0]->type == MATRIX_NODE)
+		return apply_func_to_matrix (ctx, a[0], conj_op, "conj");
+
+	if (a[0]->type != VALUE_NODE) {
+		(*errorout)(_("conj: argument not a number"));
+		return NULL;
+	}
+
+	mpw_init (fr);
+
+	mpw_conj (fr, a[0]->val.value);
+
+	return gel_makenum_use (fr);
 }
 
 /*sin function*/
@@ -2254,6 +2299,10 @@ gel_funclib_addall(void)
 
 	d_addfunc(d_makebifunc(d_intern("ni"),ni_op,0));
 	d_addfunc(d_makebifunc(d_intern("shrubbery"),shrubbery_op,0));
+	d_addfunc(d_makebifunc(d_intern("ExpandMatrix"),ExpandMatrix_op,1));
+	add_description("ExpandMatrix",_("Expands a matrix just like we do on unquoted matrix input"));
+	d_addfunc(d_makebifunc(d_intern("conj"),conj_op,1));
+	add_description("conj",_("Calculates the conjugate"));
 	d_addfunc(d_makebifunc(d_intern("sin"),sin_op,1));
 	add_description("sin",_("Calculates the sine function"));
 	d_addfunc(d_makebifunc(d_intern("cos"),cos_op,1));

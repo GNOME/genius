@@ -67,6 +67,8 @@ extern char *load_plugin;
 
 %token SEPAR NEXTROW EQUALS
 
+%token TRANSPOSE
+
 %token EQ_CMP NE_CMP CMP_CMP LT_CMP GT_CMP LE_CMP GE_CMP
 
 %token LOGICAL_XOR LOGICAL_OR LOGICAL_AND LOGICAL_NOT
@@ -93,7 +95,7 @@ extern char *load_plugin;
 %left '+' '-'
 %left '*' '/' '\\' '%'
 
-%right '\''
+%right '\'' TRANSPOSE
 %right '!'
 %right '^'
 %right UMINUS UPLUS
@@ -143,7 +145,8 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 	|	expr LOGICAL_NOT IN expr	{ PUSH_ACT(E_NOT_EXISTS_IN); }*/
 
 	|	expr '!'		{ PUSH_ACT(E_FACT); }
-	|	expr '\''		{ PUSH_ACT(E_TRANSPOSE); }
+	|	expr '\''		{ PUSH_ACT(E_CONJUGATE_TRANSPOSE); }
+	|	expr TRANSPOSE		{ PUSH_ACT(E_TRANSPOSE); }
 	|	'-' expr %prec UMINUS	{ PUSH_ACT(E_NEG); }
 	|	'+' expr %prec UPLUS
 	| 	expr '^' expr		{ PUSH_ACT(E_EXP); }

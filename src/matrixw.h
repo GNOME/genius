@@ -29,7 +29,11 @@
 /*the GelMatrixW typedef is in structs.h*/
 struct _GelMatrixW {
 	GelMatrix *m;
-	int tr; /*transposed*/
+	guint32 tr:1; /*transposed*/
+	guint32 cached_value_only;
+	guint32 value_only;
+	guint32 cached_value_only_real;
+	guint32 value_only_real;
 	struct {
 		int x;
 		int y;
