@@ -89,6 +89,8 @@ plugin_generator (const char *text, int state)
 	return NULL;
 }
 
+/* Note: keep in sync with inter.c */
+/* FIXME: make this common */
 static char **
 tab_completion (char *text, int start, int end)
 {
@@ -100,6 +102,16 @@ tab_completion (char *text, int start, int end)
 	    strncmp(p,"load\t",5)==0)) {
 		return NULL;
 	}
+	if(toplevelokg &&
+	   (strncmp(p,"ls ",3)==0 ||
+	    strncmp(p,"ls\t",3)==0)) {
+		return NULL;
+	}
+	if(toplevelokg &&
+	   (strncmp(p,"cd ",3)==0 ||
+	    strncmp(p,"cd\t",3)==0)) {
+		return NULL;
+	}
 
 	if(toplevelokg &&
 	   (strncmp(p,"plugin ",7)==0 ||
@@ -109,7 +121,12 @@ tab_completion (char *text, int start, int end)
 	
 	
 	if(toplevelokg &&
-	   (!*p || strncmp(p,"load",strlen(p))==0 ||
+	   (!*p ||
+	    strncmp(p,"load",strlen(p))==0 ||
+	    strncmp(p,"cd",strlen(p))==0 ||
+	    strncmp(p,"ls",strlen(p))==0 ||
+	    strncmp(p,"pwd",strlen(p))==0 ||
+	    strncmp(p,"help",strlen(p))==0 ||
 	    strncmp(p,"plugin",strlen(p))==0))
 		addtoplevels = TRUE;
 	else
@@ -187,6 +204,11 @@ main(int argc, char *argv[])
 				functions = g_list_prepend(functions,g_strdup(buf));
 			}
 			functions = g_list_reverse(functions);
+		} else if (strncmp (buf, "CWD ", strlen ("CWD "))==0) {
+			char *r = strrchr (buf, '\n');
+			if (r != NULL)
+				*r = '\0';
+			chdir (&buf[4]);
 		} else if(strcmp(buf,"TOPLEVEL OK\n")==0) {
 			toplevelokg = TRUE;
 		} else if(strcmp(buf,"TOPLEVEL NOT OK\n")==0) {

@@ -122,6 +122,8 @@ write_all_state_to_rl(FILE *fp)
 {
 	GSList *li;
 	int count;
+	char *s;
+
 	li = d_getcontext();
 	count = 0;
 	for(li=d_getcontext();li;li=li->next) {
@@ -152,6 +154,10 @@ write_all_state_to_rl(FILE *fp)
 			continue;
 		fprintf(fp,"%s\n",plg->base);
 	}
+
+	s = g_get_current_dir ();
+	fprintf (fp, "CWD %s\n", s);
+	g_free (s);
 
 	if(toplevelokg)
 		fprintf(fp,"TOPLEVEL OK\n");
@@ -324,6 +330,8 @@ plugin_generator (const char *text, int state)
 	return NULL;
 }
 
+/* Note: keep in sync with genius-readline-helper.c */
+/* FIXME: make this common */
 static char **
 tab_completion (const char *text, int start, int end)
 {
@@ -351,7 +359,6 @@ tab_completion (const char *text, int start, int end)
 	    strncmp(p,"plugin\t",7)==0)) {
 		return rl_completion_matches (text, plugin_generator);
 	}
-	
 	
 	if(toplevelokg &&
 	   (!*p ||
