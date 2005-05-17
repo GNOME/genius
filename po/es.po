@@ -5,10 +5,10 @@
 # Jorge Gonzalez <jorge.gonzalez.gonzalez@hispalinux.es>, 2005.
 msgid ""
 msgstr ""
-"Project-Id-Version: genius.HEAD.es\n"
+"Project-Id-Version: genius\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-05 03:05+0000\n"
-"PO-Revision-Date: 2005-05-05 12:22+0200\n"
+"POT-Creation-Date: 2005-05-11 11:06+0000\n"
+"PO-Revision-Date: 2005-05-12 19:21+0200\n"
 "Last-Translator: Jorge Gonzalez <jorge.gonzalez.gonzalez@hispalinux.es>\n"
 "Language-Team:  <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -99,7 +99,7 @@ msgstr "Cargar un archivo en el intérprete"
 
 #: ../src/calc.c:2253
 msgid "Load a plugin"
-msgstr "Cargar una extensión"
+msgstr "Cargar un complemento"
 
 #: ../src/calc.c:2256
 msgid "List files in the current directory"
@@ -2610,7 +2610,7 @@ msgstr "Imposible abrir el complemento"
 
 #: ../src/plugin.c:143 ../src/plugin.c:151
 msgid "Can't initialize plugin!"
-msgstr "No se puede inicializar la extensión"
+msgstr "No se puede inicializar el complemento"
 
 #: ../src/testplugin.c:13
 msgid "This is the test-plugin function\n"
@@ -2623,7 +2623,7 @@ msgid ""
 "Will evaluate 2+2 as a demonstration\n"
 "2+2 = "
 msgstr ""
-"Ha abierto la extensión de prueba\n"
+"Ha abierto el complemento de prueba\n"
 "\n"
 "Evaluará 2+2 como demostración\n"
 "2+2 = "
@@ -2903,9 +2903,10 @@ msgid ""
 "S.  S should be a column of primes possibly with second column precalculated "
 "by IndexCalculusPrecalculation."
 msgstr ""
-"Calcular el logaritmo discreto de n en base b de F_q (q es un número primo) usando el factor base S. "
-"S debe ser un vector columna de números primos y posiblemente con una segunda columna precalculada "
-"por IndexCalculusPrecalculation."
+"Calcular el logaritmo discreto de n en base b de F_q (q es un número primo) "
+"usando el factor base S. S debe ser un vector columna de números primos y "
+"posiblemente con una segunda columna precalculada por "
+"IndexCalculusPrecalculation."
 
 #: ../lib/library-strings.c:55
 msgid ""
@@ -2913,9 +2914,10 @@ msgid ""
 "a prime) for the factor base S (where S is a column vector of primes).  The "
 "logs will be precalculated and returned in the second column."
 msgstr ""
-"Realizar el precalculo de IndexCalculus para logaritmos de base b en F_q (q es un número primo) "
-"para el factor base S (donde S es un vector columna de números primos). Los logaritmos se "
-"precalcularán y se devolverán en la segunda columna del vector."
+"Realizar el precalculo de IndexCalculus para logaritmos de base b en F_q (q "
+"es un número primo) para el factor base S (donde S es un vector columna de "
+"números primos). Los logaritmos se precalcularán y se devolverán en la "
+"segunda columna del vector."
 
 #: ../lib/library-strings.c:56
 msgid "Tests if a rational number is a perfect power"
@@ -2934,12 +2936,15 @@ msgid ""
 "Check if g is primitive in F_q, where q is a prime and f is a vector of "
 "prime factors of q-1.  If q is not prime results are bogus."
 msgstr ""
-"Comprobar si g es una primitiva en F_q, donde q es un número primo y f es un vector "
-"de factores primos de q-1. Si q no es un número primo los resultados serán erróneos."
+"Comprobar si g es una primitiva en F_q, donde q es un número primo y f es un "
+"vector de factores primos de q-1. Si q no es un número primo los resultados "
+"serán erróneos."
 
 #: ../lib/library-strings.c:59
 msgid "If n is a pseudoprime base b but not a prime, that is if b^(n-1) == 1 mod n"
-msgstr "Si n es un número pseudoprimo de base b pero no un primo, esto es si b^(n-1) == 1 mod n"
+msgstr ""
+"Si n es un número pseudoprimo de base b pero no un primo, esto es si b^(n-1) "
+"== 1 mod n"
 
 #: ../lib/library-strings.c:60
 msgid "Test if n is a strong pseudoprime to base b but not a prime"
@@ -2949,7 +2954,9 @@ msgstr "Comprueba si n es un pseudoprimo fuerte con base b pero no un número pr
 msgid ""
 "Return the residue of a mod n with the least absolute value (in the interval "
 "-n/2 to n/2)"
-msgstr "Devuelve el residuo del módulo n con el menor valor absoluto (en el intervalo -n/2 a n/2)"
+msgstr ""
+"Devuelve el resto del módulo n con el menor valor absoluto (en el "
+"intervalo -n/2 a n/2)"
 
 #: ../lib/library-strings.c:62
 msgid "Test if Mp is a Mersenne prime using the Lucas-Lehmer test"
@@ -2988,8 +2995,9 @@ msgid ""
 "Find discrete log of n base b in F_q where q is a prime using the Silver-"
 "Pohlig-Hellman algoritm, given f being the factorization of q-1"
 msgstr ""
-"Encontrar el logaritmo discreto de n en base b de F_q, donde q es un número primo, "
-"usando el algoritmo de Silver-Pohlig-Hellman, la f dada es la factorización de q-1"
+"Encontrar el logaritmo discreto de n en base b de F_q, donde q es un número "
+"primo, usando el algoritmo de Silver-Pohlig-Hellman, la f dada es la "
+"factorización de q-1"
 
 #: ../lib/library-strings.c:71
 #, fuzzy
@@ -3006,8 +3014,8 @@ msgid ""
 "Apply a function over all entries of a matrix and return a matrix of the "
 "results"
 msgstr ""
-"Aplicar una función sobre todos los elementos de una matriz y delver una matriz "
-"con los resultados"
+"Aplicar una función sobre todos los elementos de una matriz y devolver una "
+"matriz con los resultados"
 
 #: ../lib/library-strings.c:73
 #, fuzzy
@@ -3015,8 +3023,8 @@ msgid ""
 "Apply a function over all entries of 2 matrices (or 1 value and 1 matrix) "
 "and return a matrix of the results"
 msgstr ""
-"Aplicar una función sobre todos los elementos de dos matrices (o un valor y una matriz) "
-"y delver una matriz con los resultados"
+"Aplicar una función sobre todos los elementos de dos matrices (o un valor y "
+"una matriz) y devolver una matriz con los resultados"
 
 #: ../lib/library-strings.c:74
 msgid "Remove column(s) and row(s) from a matrix"
@@ -3052,11 +3060,12 @@ msgstr "Es una matriz triangular superior"
 
 #: ../lib/library-strings.c:82
 msgid "Is argument a horizontal or a vertical vector"
-msgstr "Es un argumento vector horizontal o vertical"
+msgstr "Es un argumento vector fila o columna"
 
 #: ../lib/library-strings.c:83
+#, fuzzy
 msgid "Zero out entries above the diagonal"
-msgstr ""
+msgstr "Hacer cero todos los elementos por encima de la diagonal"
 
 #: ../lib/library-strings.c:84
 msgid "Make diagonal matrix from a vector"
@@ -3071,8 +3080,9 @@ msgid "Calculate the sum of all elements in a matrix"
 msgstr "Calcular la suma de todos los elementos de una matriz"
 
 #: ../lib/library-strings.c:87
+#, fuzzy
 msgid "Calculate the sum of squares of all elements in a matrix"
-msgstr ""
+msgstr "Calcular la suma de los cuadrados de todos los elementos de una matriz"
 
 #: ../lib/library-strings.c:88
 msgid "Get the outer product of two vectors"
@@ -3088,7 +3098,7 @@ msgstr "Calcular la suma de cada fila de una matriz"
 
 #: ../lib/library-strings.c:91
 msgid "Calculate sum of squares of each row in a matrix"
-msgstr ""
+msgstr "Calcular la suma de los cuadrados de cada fila de una matriz"
 
 #: ../lib/library-strings.c:92
 msgid "Sort vector elements"
@@ -3172,17 +3182,22 @@ msgstr "Suma directa de un vector de matrices"
 msgid ""
 "Get the eigenvalues of a matrix (Currently only for 2x2 and triangular "
 "matrices)"
-msgstr ""
+msgstr "Obtener los valores propios de una matriz (sólo disponible para matrices 2x2 y matrices triangulares)"
 
 #: ../lib/library-strings.c:113
+#, fuzzy
 msgid ""
 "Apply the Gram-Schmidt process (to the columns) with respect to innter "
 "product given by #2"
 msgstr ""
+"Aplicar el proceso de Gram-Schmidt (a las columnas) con respecto al producto "
+"interior dado por #2"
 
 #: ../lib/library-strings.c:114
 msgid "Apply the Gram-Schmidt process (to the columns) using the dot product"
 msgstr ""
+"Aplicar el proceso de Gram-Schmidt (a las columnas) usando el producto "
+"elemento a elemento"
 
 #: ../lib/library-strings.c:115
 msgid "Hankel matrix"
@@ -3194,7 +3209,7 @@ msgstr "Matriz de Hilbert de orden n"
 
 #: ../lib/library-strings.c:117
 msgid "Get the image (columnspace) of a linear transform"
-msgstr ""
+msgstr "Obtener la imagen de una transformación lineal"
 
 #: ../lib/library-strings.c:118
 msgid "Get the Inf Norm of a vector"
@@ -3240,8 +3255,9 @@ msgid "Is a matrix unitary"
 msgstr "Es una matriz unitaria"
 
 #: ../lib/library-strings.c:128
+#, fuzzy
 msgid "Get the jordan block corresponding to lambda and n"
-msgstr ""
+msgstr "Obtener el bloque de Jordan correspondiente a lambda y n"
 
 #: ../lib/library-strings.c:129
 msgid "Get the kernel (nullspace) of a linear transform"
@@ -3259,19 +3275,21 @@ msgstr "Obtener el menor i-j de una matriz"
 
 #: ../lib/library-strings.c:132
 msgid "Return the columns that are not the pivot columns of a matrix"
-msgstr ""
+msgstr "Devolver las columnas que no son las columnas pivotes de una matriz"
 
 #: ../lib/library-strings.c:133
 msgid "Get the p Norm (or 2 Norm if no p is supplied) of a vector"
 msgstr ""
 
 #: ../lib/library-strings.c:134
+#, fuzzy
 msgid "Get the nullspace of a matrix"
-msgstr ""
+msgstr "Obtener el espacio nulo de una matriz"
 
 #: ../lib/library-strings.c:135
+#, fuzzy
 msgid "Get the nullity of a matrix"
-msgstr ""
+msgstr "Obtener la nulidad de una matriz"
 
 #: ../lib/library-strings.c:136
 msgid "Get the orthogonal complement of the columnspace"
@@ -3297,7 +3315,7 @@ msgstr "Obtener el rango de una matriz"
 
 #: ../lib/library-strings.c:141
 msgid "Rosser matrix, a classic symmetric eigenvalue test problem"
-msgstr ""
+msgstr "Matriz de Rosser, clásico problema de comprobación de valores propios simétricos"
 
 #: ../lib/library-strings.c:142
 msgid "Rotation around origin in R^2"
@@ -3341,19 +3359,19 @@ msgstr "Devuelve la matriz de Vandermonde"
 
 #: ../lib/library-strings.c:152
 msgid "The angle of two vectors, given an inner product"
-msgstr ""
+msgstr "El ángulo de dos vectores, dado por su producto interior"
 
 #: ../lib/library-strings.c:153
 msgid "The direct sum of the vector spaces M and N"
-msgstr ""
+msgstr "Suma directa de los espacios vectoriales M y N"
 
 #: ../lib/library-strings.c:154
 msgid "Intersection of the subspaces given by M and N"
-msgstr ""
+msgstr "La intersección de los subespacios, dada por M y N"
 
 #: ../lib/library-strings.c:155
 msgid "The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}"
-msgstr ""
+msgstr "La suma de los espacios vectoriales M y N, esto es {w | w=m+n, m in M, n in N}"
 
 #: ../lib/library-strings.c:156
 msgid "Get the classical adjoint (adjugate) of a matrix"
@@ -3388,8 +3406,9 @@ msgid "Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))"
 msgstr ""
 
 #: ../lib/library-strings.c:164
+#, fuzzy
 msgid "Harmonic Number, the nth harmonic number of order r"
-msgstr ""
+msgstr "Número armónico, el enésimo número armónico de orden r"
 
 #: ../lib/library-strings.c:165
 msgid ""
@@ -3402,8 +3421,9 @@ msgid "Compute linear recursive sequence using galois stepping"
 msgstr ""
 
 #: ../lib/library-strings.c:167
+#, fuzzy
 msgid "Calculate multinomial coefficients"
-msgstr ""
+msgstr "Calcular los coeficientes multinómicos"
 
 #: ../lib/library-strings.c:168
 msgid "Get the pascal's triangle as a matrix"
@@ -3460,7 +3480,7 @@ msgstr ""
 msgid ""
 "Try and see if a real-valued function is continuous at x0 by calculating the "
 "limit there"
-msgstr ""
+msgstr "Comprueba si una función real es contínua en x0 calculando el límite en ese punto"
 
 #: ../lib/library-strings.c:180
 msgid ""
@@ -3470,13 +3490,15 @@ msgstr ""
 
 #: ../lib/library-strings.c:181
 msgid "Calculate the left limit of a real-valued function at x0"
-msgstr ""
+msgstr "Calcular el límite por la izquierda de una función real en x0"
 
 #: ../lib/library-strings.c:182
 msgid ""
 "Calculate the limit of a real-valued function at x0.  Tries to calculate "
 "both left and right limits."
 msgstr ""
+"Calcular el límite de una función real en x0. Intenta calcular tanto el límite "
+"por la derecha como por la izquierda."
 
 #: ../lib/library-strings.c:183
 msgid "Integration by midpoint rule"
@@ -3514,7 +3536,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:191
 msgid "Calculate the right limit of a real-valued function at x0"
-msgstr ""
+msgstr "Calcular el límite por la derecha de una función real en x0"
 
 #: ../lib/library-strings.c:192
 msgid "Compute two-sided derivative using five-point formula"
@@ -3542,7 +3564,7 @@ msgstr "La función de error, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
 
 #: ../lib/library-strings.c:198
 msgid "Fejer kernel of order n"
-msgstr ""
+msgstr "Núcleo de Fejer de orden n"
 
 #: ../lib/library-strings.c:199
 msgid "Returns 1 iff all elements are equal"
@@ -3581,14 +3603,15 @@ msgid ""
 msgstr ""
 
 #: ../lib/library-strings.c:206
+#, fuzzy
 msgid ""
 "Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is "
 "2pi)"
-msgstr ""
+msgstr "El núcleo de Poisson en D(0,1) (no normalizado a 1, esto es, la integral es 2pi)"
 
 #: ../lib/library-strings.c:207
 msgid "Poisson kernel on D(0,R) (not normalized to 1)"
-msgstr ""
+msgstr "El núcleo de Poisson en D(0,R) (no normalizado a 1)"
 
 #: ../lib/library-strings.c:208
 msgid ""
@@ -3609,10 +3632,13 @@ msgid "Convert radians to degrees"
 msgstr "Convertir radianes a grados"
 
 #: ../lib/library-strings.c:212
+#, fuzzy
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns y at x1"
 msgstr ""
+"Usar el método clásico de Euler para resolver numéricamente y'=f(x,y) para unas x0,y0 "
+"iniciales que van a x1 con incrementos de n, devuelve y en x1"
 
 #: ../lib/library-strings.c:213
 msgid "Find root of a function using the bisection method"
@@ -3639,37 +3665,37 @@ msgstr ""
 
 #: ../lib/library-strings.c:218
 msgid "Calculate average of an entire matrix"
-msgstr ""
+msgstr "Calcular la media de una matriz entera"
 
 #: ../lib/library-strings.c:219
 msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
-msgstr ""
+msgstr "La integral de la GaussFunction (función de Gauss) de 0 a x (el área comprendida debajo de la curva normal)"
 
 #: ../lib/library-strings.c:220
 msgid "The normalized Gauss distribution function (the normal curve)"
-msgstr ""
+msgstr "La función distribución Gausiana normalizada (la curva normal)"
 
 #: ../lib/library-strings.c:221
 msgid "Calculate median of an entire matrix"
-msgstr ""
+msgstr "Calcula la mediana de una matriz entera"
 
 #: ../lib/library-strings.c:222
 msgid "Calculate the population standard deviation of a whole matrix"
-msgstr ""
+msgstr "Calcula la desviación típica de una matriz entera"
 
 #: ../lib/library-strings.c:223
 msgid "Calculate average of each row in a matrix"
-msgstr ""
+msgstr "Calcular la media de cada columna de una matriz"
 
 #: ../lib/library-strings.c:224
 msgid "Calculate median of each row in a matrix"
-msgstr ""
+msgstr "Calcula la mediana de cada columna de una matriz"
 
 #: ../lib/library-strings.c:225
 msgid ""
 "Calculate the population standard deviations of rows of a matrix and return "
 "a vertical vector"
-msgstr ""
+msgstr "Calcula la desviación típica de las columnas de una matriz y devuelve una matriz columna"
 
 #: ../lib/library-strings.c:226
 msgid ""
@@ -3684,37 +3710,41 @@ msgid "Calculate the standard deviation of a whole matrix"
 msgstr "Calcular la desviación estándar de una matriz entera"
 
 #: ../lib/library-strings.c:228
+#, fuzzy
 msgid ""
 "Run newton's method on a polynomial to attempt to find a root, returns after "
 "two successive values are within epsilon or after maxn tries (then returns "
 "null)"
 msgstr ""
+"Ejecuta el método de Newton sobre un polinomio para intentar encontrar una raíz, los "
+"valores devueltos después de dos valores sucesivos se encuentran dentro de epsilon o "
+"depués de un número de intentos maxn (entonces se devuelve null)"
 
 #: ../lib/library-strings.c:229
 msgid ""
 "Returns a set theoretic intersection of X and Y (X and Y are vectors "
 "pretending to be sets)"
-msgstr ""
+msgstr "Devuelve la intersección de X e Y (X e Y son vectores que se tratan como conjuntos)"
 
 #: ../lib/library-strings.c:230
 msgid ""
 "Returns true if the element x is in the set X (where X is a vector "
 "pretending to be a set)"
-msgstr ""
+msgstr "Devuelve verdadero si el elemento de x está en el conjunto X (donde X es un vector que se trata como un conjunto)"
 
 #: ../lib/library-strings.c:231
 msgid "Returns a set where every element of X appears only once"
-msgstr ""
+msgstr "Devuelve un conjunto donde cada elemento de X aparece una sola vez"
 
 #: ../lib/library-strings.c:232
 msgid ""
 "Returns a set theoretic difference X-Y (X and Y are vectors pretending to be "
 "sets)"
-msgstr ""
+msgstr "Devuelve el conjunto complementario de Y, X-Y (X e Y son vectores que se tratan como conjuntos)"
 
 #: ../lib/library-strings.c:233
 msgid ""
 "Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
 "be sets)"
-msgstr ""
+msgstr "Devuelve la unión de X e Y (X e Y son vectores que se tratan como conjuntos)"
 
