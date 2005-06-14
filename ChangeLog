@@ -1,3 +1,21 @@
+Tue Jun 14 10:23:51 2005  George Lebl <jirka@5z.com>
+
+	* src/symbolic.[ch], src/eval.[ch]: Add a primitive
+	  SymbolicDerivative function.  Doesn't yet even get even all the
+	  simple cases (such as functions with more then one argument) but
+	  should be semi usable for simple things.  Of course there is no
+	  simplification of expressions in genius so things can get wild a
+	  bit.
+
+	* src/graphing.c, src/funclib.c: adjustments because of the above
+
+	* src/calc.c: remove an extra parenthesis in function printing
+	  output.
+
+	* src/geniustests.txt: add tests for SymbolicDerivative
+
+	* help/C/gel-function-list.xml: Add SymbolicDerivative blurb
+
 2005-04-01  Steve Murphy  <murf@e-tools.com>
 
         * configure.in: Added "rw" to ALL_LINGUAS.

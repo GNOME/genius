@@ -153,6 +153,8 @@ void gel_makenum_null_from(GelETree *n);
 /*copy a node*/
 GelETree * copynode(GelETree *o);
 
+void gel_replacenode (GelETree *to, GelETree *from, gboolean copy);
+
 /*functions for reclaiming memory*/
 void gel_freetree(GelETree *n);
 void gel_emptytree(GelETree *n);
@@ -186,7 +188,9 @@ void fixup_num_neg (GelETree *n);
 void try_to_do_precalc(GelETree *n);
 
 /* find an identifier */
-gboolean eval_find_identifier (GelETree *n, GelToken *tok);
+gboolean eval_find_identifier (GelETree *n,
+			       GelToken *tok,
+			       gboolean funcbody);
 
 char * gel_similar_possible_ids (const char *id);
 

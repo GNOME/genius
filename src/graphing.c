@@ -2559,9 +2559,10 @@ function_from_expression2 (const char *e, gboolean *ex)
 			      NULL /* dirprefix */);
 	g_free (ce);
 
-	got_x = eval_find_identifier (value, d_intern ("x"));
-	got_y = eval_find_identifier (value, d_intern ("y"));
-	got_z = eval_find_identifier (value, d_intern ("z"));
+	/* FIXME: funcbody?  I think it must be done. */
+	got_x = eval_find_identifier (value, d_intern ("x"), TRUE /*funcbody*/);
+	got_y = eval_find_identifier (value, d_intern ("y"), TRUE /*funcbody*/);
+	got_z = eval_find_identifier (value, d_intern ("z"), TRUE /*funcbody*/);
 
 	/* FIXME: if "x" or "y" or "z" not used try to evaluate and if it returns a function use that */
 	if (value != NULL) {

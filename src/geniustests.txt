@@ -69,7 +69,7 @@ sqrt(-1)							1i
 OPTIONS		--maxdigits=0
 50!	30414093201713378043612608166064768844377641568960512000000000000
 OPTIONS		--maxdigits=12
-function t()=(1+2);t						(`()=(3))
+function t()=(1+2);t						(`()=3)
 function t()=(1+2);t()						3
 function t()=(g=1;g=g+1;g);t()					2
 t = `()=(g=1;g=g+1;g);t()					2
@@ -671,4 +671,7 @@ MoebiusMu(4)							0
 MoebiusMu(2*3)							1
 RungeKutta (`(x,y) = 2*x+3,0,0,8,10)				88
 EulersMethod (`(x,y) = 2*x+3,0,0,8,100)				88.88
+SymbolicDerivative(sin)						(`(x)=cos(x))
+SymbolicDerivative(cos)						(`(x)=(-sin(x)))
+SymbolicDerivative(`(x)=10*x^3+x^2+88*x+100)			(`(x)=((((10*(3*(x^2)))+(2*x))+88)+0))
 load "longtest.gel"						true

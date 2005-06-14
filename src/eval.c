@@ -814,6 +814,15 @@ copyreplacenode(GelETree *to, GelETree *from)
 	to->any.next = next;
 }
 
+void
+gel_replacenode (GelETree *to, GelETree *from, gboolean copy)
+{
+	if (copy)
+		copyreplacenode (to, from);
+	else
+		replacenode (to, from);
+}
+
 GelETree *
 makeoperator (int oper, GSList **stack)
 {
@@ -2555,6 +2564,7 @@ function_finish_bin_op (GelCtx *ctx, GelETree *n, int nargs, GelETree *la, GelET
 	freetree_full (n, TRUE /* free args */, FALSE /* kill */);
 	n->type = FUNCTION_NODE;
 	n->func.func = f;
+	n->func.func->context = -1;
 
 	return TRUE;
 }
@@ -2669,6 +2679,7 @@ function_uni_op (GelCtx *ctx, GelETree *n, GelETree *l)
 	freetree_full (n, TRUE /* free args */, FALSE /* kill */);
 	n->type = FUNCTION_NODE;
 	n->func.func = f;
+	n->func.func->context = -1;
 
 	return TRUE;
 }
@@ -2725,6 +2736,7 @@ function_from_function (GelEFunc *func, GelETree *l)
 	GET_NEW_NODE (n);
 	n->type = FUNCTION_NODE;
 	n->func.func = f;
+	n->func.func->context = -1;
 
 	return n;
 }
@@ -7078,15 +7090,17 @@ fixup_num_neg (GelETree *n)
 	}
 }
 
+/* IMPORTANT: There's also a tree traversal function in symbolic.c */
+
 /* find an identifier */
 gboolean
-eval_find_identifier (GelETree *n, GelToken *tok)
+eval_find_identifier (GelETree *n, GelToken *tok, gboolean funcbody)
 {
 	if (n == NULL)
 		return FALSE;
 
 	if (n->type == SPACER_NODE) {
-		return eval_find_identifier (n->sp.arg, tok);
+		return eval_find_identifier (n->sp.arg, tok, funcbody);
 	} else if (n->type == IDENTIFIER_NODE ) {
 		if (n->id.id == tok)
 			return TRUE;
@@ -7095,7 +7109,7 @@ eval_find_identifier (GelETree *n, GelToken *tok)
 	} else if(n->type == OPERATOR_NODE) {
 		GelETree *args = n->op.args;
 		while (args != NULL) {
-			if (eval_find_identifier (args, tok))
+			if (eval_find_identifier (args, tok, funcbody))
 				return TRUE;
 			args = args->any.next;
 		}
@@ -7111,7 +7125,7 @@ eval_find_identifier (GelETree *n, GelToken *tok)
 				GelETree *t = gel_matrixw_set_index
 					(n->mat.matrix, i, j);
 				if (t != NULL &&
-				    eval_find_identifier (t, tok))
+				    eval_find_identifier (t, tok, funcbody))
 					return TRUE;
 			}
 		}
@@ -7119,19 +7133,20 @@ eval_find_identifier (GelETree *n, GelToken *tok)
 	} else if (n->type == SET_NODE ) {
 		GelETree *ali;
 		for (ali = n->set.items; ali != NULL; ali = ali->any.next) {
-			if (eval_find_identifier (ali, tok))
+			if (eval_find_identifier (ali, tok, funcbody))
 				return TRUE;
 		}
 		return FALSE;
-	} else if (n->type == FUNCTION_NODE &&
+	} else if (funcbody &&
+		   n->type == FUNCTION_NODE &&
 		   (n->func.func->type == GEL_USER_FUNC ||
-		    n->func.func->type == GEL_VARIABLE_FUNC) &&
-		   n->func.func->data.user != NULL) {
-		return eval_find_identifier (n->func.func->data.user, tok);
+		    n->func.func->type == GEL_VARIABLE_FUNC)) {
+		D_ENSURE_USER_BODY (n->func.func);
+		return eval_find_identifier (n->func.func->data.user, tok,
+					     funcbody);
 	}
 	return FALSE;
 }
-
 
 /*this means that it will precalc even complex and float
   numbers*/
@@ -7223,6 +7238,7 @@ try_to_precalc_op(GelETree *n)
 	}
 }
 
+/* FIXME: try to also precalc things like 3*(10*foo) */
 void
 try_to_do_precalc(GelETree *n)
 {

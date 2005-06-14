@@ -171,6 +171,7 @@ Kai Willadsen
         Polynomials
         Set Theory
         Miscellaneous
+        Symbolic Operations
         Plotting
 
    Example programs in GEL
@@ -4244,6 +4245,23 @@ Miscellaneous
           Convert a string to a vector of 0-based alphabet values
           (positions  in  the  alphabet string), -1's for unknown
           letters
+     _________________________________________________________
+
+Symbolic Operations
+
+   SymbolicDerivative
+
+          SymbolicDerivative (f)
+
+          Attempt  to  symbolically differentiate the function f,
+          where f is a function of one variable.
+
+          Examples:
+
+genius> SymbolicDerivative(sin)
+genius> (`(x)=cos(x))
+genius> SymbolicDerivative(`(x)=7*x^2)
+   genius> (`(x)=(7*(2*x)))
      _________________________________________________________
 
 Plotting

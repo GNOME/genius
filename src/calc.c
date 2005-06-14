@@ -1331,10 +1331,10 @@ gel_print_etree (GelOutput *gelo,
 				gel_output_string (gelo, "...");
 
 			if G_LIKELY (f->type==GEL_USER_FUNC) {
-				gel_output_string(gelo,")=(");
+				gel_output_string(gelo,")=");
 				D_ENSURE_USER_BODY (f);
 				gel_print_etree (gelo, f->data.user, FALSE);
-				gel_output_string(gelo,"))");
+				gel_output_string(gelo,")");
 			} else {
 				/*variable and reference functions should
 				  never be in the etree*/

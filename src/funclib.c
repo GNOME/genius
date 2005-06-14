@@ -32,6 +32,7 @@
 #include "eval.h"
 #include "dict.h"
 #include "funclib.h"
+#include "symbolic.h"
 #include "matrix.h"
 #include "matrixw.h"
 #include "matop.h"
@@ -65,6 +66,11 @@ GelEFunc *Re_function = NULL;
 GelEFunc *Im_function = NULL;
 /* GelEFunc *ErrorFunction_function = NULL; */
 /* GelEFunc *RiemannZeta_function = NULL; */
+GelEFunc *pi_function = NULL;
+GelEFunc *e_function = NULL;
+GelEFunc *GoldenRatio_function = NULL;
+GelEFunc *Gravity_function = NULL;
+GelEFunc *EulerConstant_function = NULL;
 
 /*maximum number of primes to precalculate and store*/
 #define MAXPRIMES 30000
@@ -4678,12 +4684,17 @@ gel_funclib_addall(void)
 	ALIAS (arctan, 1, atan);
 
 	FUNC (pi, 0, "", "constants", N_("The number pi"));
+	pi_function = f;
 	FUNC (e, 0, "", "constants", N_("The natural number e"));
+	e_function = f;
 	FUNC (GoldenRatio, 0, "", "constants", N_("The Golden Ratio"));
+	GoldenRatio_function = f;
 	FUNC (Gravity, 0, "", "constants", N_("Free fall acceleration"));
+	Gravity_function = f;
 	FUNC (EulerConstant, 0, "", "constants",
 	      N_("Euler's Constant gamma"));
 	ALIAS (gamma, 0, EulerConstant);
+	EulerConstant_function = f;
 
 	/* FIXME: need to handle complex values */
 	/*
@@ -4872,6 +4883,9 @@ gel_funclib_addall(void)
 						NULL, NULL),
 					     g_slist_append(NULL,d_intern("x")),1,
 					     NULL);
+
+	gel_add_symbolic_functions ();
+
 	/*protect EVERYthing up to this point*/
-	d_protect_all();
+	d_protect_all ();
 }

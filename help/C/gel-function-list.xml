@@ -3749,6 +3749,27 @@ number is specified) of the given size returned.  For example
       </variablelist>
     </sect1>
 
+    <sect1 id="genius-gel-function-list-symbolic">
+      <title>Symbolic Operations</title>
+      <variablelist>
+        <varlistentry id="gel-function-SymbolicDerivative">
+         <term>SymbolicDerivative</term>
+         <listitem>
+          <synopsis>SymbolicDerivative (f)</synopsis>
+          <para>Attempt to symbolically differentiate the function f, where f is a function of one variable.</para>
+          <para>
+	    Examples:
+          <screen><prompt>genius></prompt> <userinput>SymbolicDerivative(sin)</userinput>
+<prompt>genius></prompt> <userinput>(`(x)=cos(x))</userinput>
+<prompt>genius></prompt> <userinput>SymbolicDerivative(`(x)=7*x^2)</userinput>
+<prompt>genius></prompt> <userinput>(`(x)=(7*(2*x)))</userinput>
+</screen>
+          </para>
+         </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect1>
+
     <sect1 id="genius-gel-function-list-plotting">
       <title>Plotting</title>
       <variablelist>

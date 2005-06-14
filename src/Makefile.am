@@ -62,6 +62,8 @@ gnome_genius_SOURCES = 	\
 	dict.h		\
 	funclib.c	\
 	funclib.h	\
+	symbolic.h	\
+	symbolic.c	\
 	mpwrap.c	\
 	mpwrap.h	\
 	mpzextra.c	\
@@ -139,6 +141,8 @@ genius_SOURCES = 	\
 	dict.h		\
 	funclib.c	\
 	funclib.h	\
+	symbolic.h	\
+	symbolic.c	\
 	mpwrap.c	\
 	mpwrap.h	\
 	mpzextra.c	\
