@@ -5310,7 +5310,9 @@ iter_equalsop(GelETree *n)
 				replacenode (n, ret);
 			return;
 		} else if(r->type == FUNCTION_NODE) {
-			d_addfunc(d_makerealfunc(r->func.func,l->id.id,FALSE));
+			d_addfunc (d_makerealfunc (r->func.func,
+						   l->id.id,
+						   FALSE));
 		} else if(r->type == OPERATOR_NODE &&
 			  r->op.oper == E_REFERENCE) {
 			GelETree *t = r->op.args;

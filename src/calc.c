@@ -2864,12 +2864,10 @@ do_exec_commands (const char *dirprefix)
 	return ret;
 }
 
-GelETree *
-gel_parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean testparse,
-	 gboolean *finished, const char *dirprefix)
+/* run this before gel_parseexp on a standalone run */
+void
+gel_execinit (void)
 {
-	int stacklen;
-
 	interrupted = FALSE;
 
 	/*init the context stack and clear out any stale dictionaries
@@ -2877,6 +2875,13 @@ gel_parseexp(const char *str, FILE *infile, gboolean exec_commands, gboolean tes
 	  will also register the builtin routines with the global
 	  dictionary*/
 	d_singlecontext();
+}
+
+GelETree *
+gel_parseexp (const char *str, FILE *infile, gboolean exec_commands,
+	      gboolean testparse, gboolean *finished, const char *dirprefix)
+{
+	int stacklen;
 
 	error_num = NO_ERROR;
 
@@ -3068,6 +3073,7 @@ gel_evalexp (const char *str,
 	     const char *dirprefix)
 {
 	GelETree *parsed;
+	gel_execinit ();
 	parsed = gel_parseexp (str, infile, TRUE, FALSE, NULL, dirprefix);
 	gel_evalexp_parsed (parsed, gelo, prefix, pretty);
 }

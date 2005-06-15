@@ -160,3 +160,38 @@ function NumericalRightDerivative(f,x0) =
 )
 SetHelp("NumericalRightDerivative","calculus","Attempt to calculate numerical right derivative");
 protect("NumericalRightDerivative");
+
+function Derivative(f,x0) =
+(
+	df = SymbolicDerivativeTry (f);
+	if IsNull(df) then
+		NumericalDerivative (f, x0)
+	else
+		df(x0)
+)
+SetHelp("Derivative","calculus","Attempt to calculate derivative by trying first symbolically and then numerically");
+protect("Derivative");
+
+#function TaylorApproximationFunction(f,x0,n) =
+#(
+#	if not IsFunction(f) then
+#		(error("TaylorApproximationFunction: argument 1 must be a function");bailout)
+#	else if not IsValue(x0) then
+#		(error("TaylorApproximationFunction: argument 2 must be a value");bailout)
+#	else if not IsPositiveInteger(n) then
+#		(error("TaylorApproximationFunction: argument 3 must be a positive integer");bailout);
+#
+#	df = f;
+#
+#	for k=0 to n do (
+#		c[k] = df(x0)/(k!);
+#		df = SymbolicDerivativeTry (f);
+#
+#	c = null;
+#	
+#	if IsNull(df) then (
+#	) else (
+#	)
+#)
+#SetHelp("TaylorApproximationFunction","calculus","Attempt to construct the taylor approximation function around x0 to the nth degree.");
+#protect("TaylorApproximationFunction");

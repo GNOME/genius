@@ -172,6 +172,7 @@ char *fake = N_("Calculate the nth triangular number");
 char *fake = N_("Calculate combinations (binomial coefficient)");
 char *fake = N_("Calculate permutations");
 char *fake = N_("Integration of f by Composite Simpson's Rule on the interval [a,b] with the number of steps calculated by the fourth derivative bound and the desired tolerance");
+char *fake = N_("Attempt to calculate derivative by trying first symbolically and then numerically");
 char *fake = N_("Try to calculate an infinite product for a single parameter function");
 char *fake = N_("Try to calculate an infinite product for a double parameter function with func(arg,n)");
 char *fake = N_("Try to calculate an infinite sum for a single parameter function");

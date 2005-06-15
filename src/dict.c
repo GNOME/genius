@@ -217,6 +217,10 @@ d_makerealfunc(GelEFunc *o,GelToken *id, gboolean use)
 	GET_NEW_FUNC (n);
 	memcpy (n, o, sizeof (GelEFunc));
 	n->id = id;
+	if (o->symbolic_id == NULL)
+		n->symbolic_id = o->id;
+	else
+		n->symbolic_id = o->symbolic_id;
 	n->context = context.top;
 
 	if(n->type == GEL_USER_FUNC ||
@@ -262,6 +266,9 @@ d_setrealfunc(GelEFunc *n,GelEFunc *fake, gboolean use)
 	
 	n->type = fake->type;
 	n->data = fake->data;
+	n->symbolic_id = fake->symbolic_id;
+	if (fake->symbolic_id == NULL)
+		n->symbolic_id = fake->id;
 	if(n->type == GEL_USER_FUNC ||
 	   n->type == GEL_VARIABLE_FUNC) {
 		D_ENSURE_USER_BODY (fake);
@@ -336,7 +343,7 @@ d_addfunc (GelEFunc *func)
 {
 	GelEFunc *n;
 	
-	g_return_val_if_fail(func->context == context.top,func);
+	g_return_val_if_fail (func->context == context.top, func);
 	
 	/*we already found it (in current context)*/
 	n = d_lookup_local(func->id);

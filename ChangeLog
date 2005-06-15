@@ -1,3 +1,19 @@
+Wed Jun 15 09:09:20 2005  George Lebl <jirka@5z.com>
+
+	* src/symbolic.c, src/calc.[ch], src/dict.c, src/eval.c,
+	  src/structs.h:  Fixup symbolic derivation to work inside functions,
+	  preserve a "symbolic id" for the symbolic derivation when setting
+	  variables to functions.  Also add SymbolicDerivativeTry function
+	  to try symbolic derivative quietly.
+
+	* src/geniustests.txt: add tests
+
+	* lib/calculus/differentiation.gel: Add Derivative function which
+	  tries symbolic first and numerical as a backup
+
+	* help/C/gelfunction-list.xml: add SymbolicDerivativeTry and
+	  Derivative
+
 Tue Jun 14 10:23:51 2005  George Lebl <jirka@5z.com>
 
 	* src/symbolic.[ch], src/eval.[ch]: Add a primitive

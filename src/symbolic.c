@@ -47,6 +47,8 @@ extern GHashTable *uncompiled;
 static GelETree * differentiate_expr (GelETree *expr, GelToken *xtok);
 static GelETree * gel_differentiate_func1_expr (GelToken *tok);
 
+static int gel_derivative_silent = 0;
+
 
 #if 0
 static GelEFunc *
@@ -88,14 +90,12 @@ gel_differentiate_func1_expr (GelToken *tok)
 
 #define DERIVATIVE_ENTRY(func,expr) \
 	} else if (tok == d_intern (func)) {			\
-		n = gel_parseexp (expr, NULL, FALSE, FALSE,	\
-				  NULL, NULL);
+		n = PARSE (expr);
 
 #define DERIVATIVE_ENTRY_ALIAS(func1,func2,expr) \
 	} else if (tok == d_intern (func1) ||			\
 		   tok == d_intern (func2)) {			\
-		n = gel_parseexp (expr, NULL, FALSE, FALSE,	\
-				  NULL, NULL);
+		n = PARSE (expr);
 
 	if (tok == NULL) {
 		return NULL;
@@ -261,9 +261,22 @@ is_constant (GelETree *expr, GelToken *xtok)
 		return TRUE;
 }
 
+static GelToken *
+get_symbolic_id (GelToken *tok)
+{
+	/* FIXME: if the token is reset INSIDE the function we
+	   are differentiating, then we are getting the wrong token! */
+	GelEFunc *f = d_lookup_global (tok);
+	if (f == NULL || f->symbolic_id == NULL)
+		return tok;
+	else
+		return f->symbolic_id;
+}
+
 static GelETree *
 differentiate_oper (GelETree *expr, GelToken *xtok)
 {
+	GelToken *ftok;
 	GelETree *n, *nn, *nnn;
 
 	switch (expr->op.oper) {
@@ -309,7 +322,7 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 					if (mpw_eql_ui (val, 0)) {
 						n = gel_makenum_ui (1);
 					} else if (mpw_eql_ui (val, 1)) {
-						n = PARSE ("2*x");
+						n = copynode (PARSE ("2*x"));
 					} else {
 						n = PARSE ("y*x^ymo");
 						ymo = gel_makenum (val);
@@ -511,7 +524,8 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 		if (is_constant (expr->op.args->any.next, xtok)) {
 			return gel_makenum_ui (0);
 		}
-		nn = gel_differentiate_func1_expr (expr->op.args->id.id);
+		ftok = get_symbolic_id (expr->op.args->id.id);
+		nn = gel_differentiate_func1_expr (ftok);
 		if (nn == NULL) {
 			/* FIXME: */
 			return NULL;
@@ -583,7 +597,10 @@ gel_differentiate_func1_by_name (GelEFunc *f)
 	if (f->id == NULL)
 		return NULL;
 
-	tree = gel_differentiate_func1_expr (f->id);
+	if (f->symbolic_id != NULL)
+		tree = gel_differentiate_func1_expr (f->symbolic_id);
+	else
+		tree = gel_differentiate_func1_expr (f->id);
 
 	if (tree != NULL) {
 		rf = d_makeufunc (NULL /* id */,
@@ -613,6 +630,11 @@ gel_differentiate_func (GelEFunc *f)
 
 	rf = gel_differentiate_func1_by_name (f);
 
+	/* FIXME:
+	   What if the function has a different name, this is pretty
+	   bad SymbolicDerivative won't work inside other functions.
+	   Note: Not just builtin functions */
+
 	if (rf == NULL && f->type == GEL_USER_FUNC) {
 		GelETree *n;
 		GelToken *xtok;
@@ -630,7 +652,8 @@ gel_differentiate_func (GelEFunc *f)
 		}
 	}
 
-	if (rf == NULL) {
+	if (rf == NULL &&
+	    gel_derivative_silent <= 0) {
 		gel_errorout (_("%s: Cannot differentiate the '%s' function"),
 			      "SymbolicDerivative",
 			      f->id ? f->id->token : "anonymous");
@@ -672,6 +695,22 @@ SymbolicDerivative_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	}
 }
 
+static GelETree *
+SymbolicDerivativeTry_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelETree *n;
+
+	/* THREAD FIXME: not thread friendly */
+	gel_derivative_silent ++;
+	n = SymbolicDerivative_op (ctx, a, exception);
+	gel_derivative_silent --;
+
+	if (n == NULL)
+		return gel_makenum_null ();
+	else
+		return n;
+}
+
 /*add the routines to the dictionary*/
 void
 gel_add_symbolic_functions (void)
@@ -683,4 +722,8 @@ gel_add_symbolic_functions (void)
 	FUNC (SymbolicDerivative, 1, "f", "symbolic",
 	      N_("Attempt to symbolically differentiate the function f, "
 		 "where f is a function of one variable."));
+	FUNC (SymbolicDerivativeTry, 1, "f", "symbolic",
+	      N_("Attempt to symbolically differentiate the function f, "
+		 "where f is a function of one variable, returns null if "
+		 "unsuccessful but is silent."));
 }

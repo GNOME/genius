@@ -92,6 +92,8 @@ struct _GelToken {
 
 struct _GelEFunc {
 	GelToken *id;
+	GelToken *symbolic_id; /* id for symbolic math, preserved under
+				  assignment, if NULL we use the id */
 	int context; /*the context number this is used for .. if we pop this
 		       context, we will destroy the function*/
 	GSList *named_args; /*names of arguments*/

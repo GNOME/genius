@@ -3046,6 +3046,14 @@ number is specified) of the given size returned.  For example
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-Derivative">
+         <term>Derivative</term>
+         <listitem>
+          <synopsis>Derivative (f,x0)</synopsis>
+          <para>Attempt to calculate derivative by trying first symbolically and then numerically.</para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-InfiniteProduct">
          <term>InfiniteProduct</term>
          <listitem>
@@ -3764,6 +3772,16 @@ number is specified) of the given size returned.  For example
 <prompt>genius></prompt> <userinput>SymbolicDerivative(`(x)=7*x^2)</userinput>
 <prompt>genius></prompt> <userinput>(`(x)=(7*(2*x)))</userinput>
 </screen>
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-SymbolicDerivativeTry">
+         <term>SymbolicDerivativeTry</term>
+         <listitem>
+          <synopsis>SymbolicDerivative (f)</synopsis>
+          <para>Attempt to symbolically differentiate the function f, where f is a function of one variable, returns null if unsuccessful but is silent.
+	  (See <link linkend="gel-function-LinePlotWindow">SymbolicDerivative</link>)
           </para>
          </listitem>
         </varlistentry>

@@ -3707,6 +3707,13 @@ Calculus
 
           See Planetmath for more information.
 
+   Derivative
+
+          Derivative (f,x0)
+
+          Attempt   to   calculate  derivative  by  trying  first
+          symbolically and then numerically.
+
    InfiniteProduct
 
           InfiniteProduct (func,start,inc)
@@ -4262,6 +4269,14 @@ genius> SymbolicDerivative(sin)
 genius> (`(x)=cos(x))
 genius> SymbolicDerivative(`(x)=7*x^2)
    genius> (`(x)=(7*(2*x)))
+
+   SymbolicDerivativeTry
+
+          SymbolicDerivative (f)
+
+          Attempt  to  symbolically differentiate the function f,
+          where  f is a function of one variable, returns null if
+          unsuccessful but is silent. (See SymbolicDerivative)
      _________________________________________________________
 
 Plotting

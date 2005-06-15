@@ -110,6 +110,8 @@ void gel_call_help (const char *function);
 void gel_help_on (const char *text);
 
 /*these are parts of the above*/
+void gel_execinit (void); /* run this before gel_parseexp on
+			     a standalone run */
 /*note that parseexp will actually load AND execute files if there are load
   toplevel instructions, as those don't translate into an GelETree*/
 /* Note that infile must be gel_lexer_open'ed */
