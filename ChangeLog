@@ -1,3 +1,19 @@
+Fri Jun 17 09:56:34 2005  George Lebl <jirka@5z.com>
+
+	* src/parse.y: fix precedence of .+ and .- and also move 'call' in
+	  precedence further to the top to bind more closely then =
+	  make things like "x = f call (x)" work as you would expect.
+
+	* lib/misc/misc.gel: add ComposePower
+
+	* help/C/gel-functions-list.xml: add ComposePower docs
+
+	* src/eval.c: in try_to_do_precalc, whack all double negations
+
+	* src/symbolic.c: fix derivation of divisions, and make ln have
+	  derivative of "x^-1" rather then "1/x" as we can take multiple
+	  derivatives better there since we have no real simplification
+
 Thu Jun 16 18:14:39 2005  George Lebl <jirka@5z.com>
 
 	* lib/symbolic/differentiation.gel:  Add SymbolicNthDerivative,

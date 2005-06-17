@@ -102,9 +102,11 @@ gel_differentiate_func1_expr (GelToken *tok)
 	DERIVATIVE_ENTRY ("conj", "0");
 
 	DERIVATIVE_ENTRY ("exp", "exp(x)");
-	DERIVATIVE_ENTRY ("ln", "1/x");
-	DERIVATIVE_ENTRY ("log2", "log2(e)/x");
-	DERIVATIVE_ENTRY ("log10", "log10(e)/x");
+	/* Better then 1/x, since doing multiple derivatives
+	   on that sucks without simplification */
+	DERIVATIVE_ENTRY ("ln", "x^-1");
+	DERIVATIVE_ENTRY ("log2", "log2(e)*x^-1");
+	DERIVATIVE_ENTRY ("log10", "log10(e)*x^-1");
 
 	/* treat z and zbar separately */
 	DERIVATIVE_ENTRY ("Re", "(1/2)*conj(x)");
@@ -489,13 +491,21 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 			/* FIXME: */
 			return NULL;
 		}
-		n = PARSE ("(y*dx-x*dy)/(y^2)");
+		/* FIXME: is this better idea then is_constant? */
+		if (nn->type == VALUE_NODE &&
+		    mpw_eql_ui (nn->val.value, 0)) {
+			gel_freetree (nn);
+			nn = NULL;
+			n = PARSE ("(-x*dy)/(y^2)");
+		} else {
+			n = PARSE ("(y*dx-x*dy)/(y^2)");
+		}
 		substitute_x_y_z_w (n,
 				    d_intern ("x"), expr->op.args, TRUE,
 				    d_intern ("y"), expr->op.args->any.next, TRUE,
 				    d_intern ("dx"), nn, FALSE,
 				    d_intern ("dy"), nnn, FALSE);
-		break;
+		return n;
 	/* FIXME: case E_BACK_DIV: */
 	/* FIXME: case E_ELT_BACK_DIV: */
 	case E_NEG:

@@ -66,7 +66,23 @@ To get help on a specific function from the console type:
          <term>Compose</term>
          <listitem>
           <synopsis>Compose (f,g)</synopsis>
-          <para>Compose two functions</para>
+          <para>Compose two functions and return a function that is the composition of f and g.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-ComposePower">
+         <term>ComposePower</term>
+         <listitem>
+          <synopsis>ComposePower (f,n,x)</synopsis>
+          <para>Compose a function with itself n times, passing x as argument, and returning x if n == 0.
+		Examples:
+          <screen><prompt>genius></prompt> <userinput>function f(x) = x^2 ;</userinput>
+<prompt>genius></prompt> <userinput>ComposePower (f,3,7)</userinput>
+= 5764801
+<prompt>genius></prompt> <userinput>f(f(f(7)))</userinput>
+= 5764801
+</screen>
+	  </para>
          </listitem>
         </varlistentry>
 

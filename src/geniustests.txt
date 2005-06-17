@@ -450,6 +450,8 @@ l=9 ; if (l=9) then 1						1
 l=9 ; if (l=10) then 1 else 2					2
 l=9 ; if (l=10) then 1 else 2 ; l				9
 A=[1,2;3,4];B=A+4;[A,0;0,B]					[1,2,0,0;3,4,0,0;0,0,5,2;0,0,3,8]
+A=[1,2;3,4];B=A.+4;[A,0;0,B]					[1,2,0,0;3,4,0,0;0,0,5,6;0,0,7,8]
+ones(2,2).-1							[0,0;0,0]
 sum n in ColumnsOf([1,2;3,4]) do n				[3;7]
 sum n in RowsOf([1,2;3,4]) do n					[4,6]
 function f(x) = `(l) = x+l; k=f(2);k(11)			13
@@ -678,8 +680,18 @@ SymbolicDerivative(`(x)=10*x^3+x^2+88*x+100)			(`(x)=((((10*(3*(x^2)))+(2*x))+88
 function foo(f) = SymbolicDerivative(f) ; foo (sin)		(`(x)=cos(x))
 function foo(f) = SymbolicDerivative(f) ; foo (`(x)=x^2)	(`(x)=(2*x))
 SymbolicDerivative(f:=sin)					(`(x)=cos(x))
+[1;2]+2								[3;4]
+[1,2]+2								[3,4]
+[1;2]-1								[0;1]
+[1,2]-1								[0,1]
 [1,2;3,4]+2							[3,2;3,6]
 [1,2;3,4;5,6]+2							([1,2;3,4;5,6]+2)
+function f(x) = x^2;ComposePower (f,3,7)			5764801
+function f(x) = x^2;ComposePower (f,0,7)			7
+function f(x) = x^2;Compose (f,sin) call (2) == f(sin(2))	true
 SymbolicNthDerivative(sin,2)					(`(x)=(-sin(x)))
 SymbolicNthDerivativeTry(print,2)+1				((null)+1)
+ComposePower(SymbolicDerivative,10,sin)				(`(x)=(-sin(x)))
+SymbolicNthDerivative(sin,10)					(`(x)=(-sin(x)))
+SymbolicDerivative(`(x)=1/x)					(`(x)=(-1/(x^2)))
 load "longtest.gel"						true

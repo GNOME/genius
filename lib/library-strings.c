@@ -1,4 +1,5 @@
 char *fake = N_("Compose two functions");
+char *fake = N_("Compose a function with itself n times, passing x as argument, and returning x if n == 0");
 char *fake = N_("Make a string");
 char *fake = N_("Tolerance of the Chop function");
 char *fake = N_("How many iterations to try to find the limit for continuity and limits");

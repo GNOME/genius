@@ -7353,7 +7353,17 @@ try_to_do_precalc(GelETree *n)
 
 	if(n->type==OPERATOR_NODE) {
 		GelETree *ali;
-		if(n->op.oper == E_MOD_CALC) {
+
+		/* double negation is always positive no matter what */
+		if (n->op.oper == E_NEG &&
+		    n->op.args->type == OPERATOR_NODE &&
+		    n->op.args->op.oper == E_NEG) {
+			GelETree *nn;
+			nn = n->op.args->op.args;
+			n->op.args->op.args = NULL;
+			replacenode (n, nn);
+			try_to_do_precalc (n);
+		} else if(n->op.oper == E_MOD_CALC) {
 			/* in case of modular calculation, only do
 			   precalc on the second argument (don't descend
 			   at all into the first one) */

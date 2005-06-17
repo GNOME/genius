@@ -98,16 +98,16 @@ void yyerror(char *);
 
 %left MOD
 
-%nonassoc CALL
-
 %right EQUALS DEFEQUALS
 
 %nonassoc CMP_CMP
 %right EQ_CMP NE_CMP LT_CMP GT_CMP LE_CMP GE_CMP
 
+%nonassoc CALL
+
 %right ':'
 
-%left '+' ELTELTADD '-' ELTELTSUB
+%left '+' ELTELTPLUS '-' ELTELTMINUS
 %left '*' ELTELTMUL '/' ELTELTDIV '\\' ELTELTBACKDIV '%' ELTELTMOD
 
 %right '\'' TRANSPOSE
