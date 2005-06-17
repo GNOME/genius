@@ -38,7 +38,7 @@ int first_tok = STARTTOK;
 int return_ret = FALSE;
 int parenth_depth = 0;
 int lex_init = TRUE;
-extern GSList *evalstack;
+extern GSList *gel_parsestack;
 static int matrix_entry = 0;
 static GSList *matrix_entry_stack = NULL;
 
@@ -133,7 +133,7 @@ gel_lexer_close(FILE *fp)
 ^[ 	]*load[ 	]+<([^>]|\\>)*>[ 	]*$ {
 			char *s;
 			char *end;
-			if(evalstack || parenth_depth) {REJECT;}
+			if(gel_parsestack || parenth_depth) {REJECT;}
 			s=strchr(yytext,'<')+1; /*find the beginning*/
 			end=strrchr(yytext,'>'); /*find the end*/
 			s = unescape_string(s,end,NULL);
@@ -145,7 +145,7 @@ gel_lexer_close(FILE *fp)
 
 ^[ 	]*load[ 	]+[^ 	].*$ {
 			char *s;
-			if(evalstack || parenth_depth) {REJECT;}
+			if(gel_parsestack || parenth_depth) {REJECT;}
 			s=strchr(yytext,'d')+1; /*move after the load*/
 			/*btw from the above RE we know this will work*/
 			while(*s==' ' || *s=='\t')
@@ -157,7 +157,7 @@ gel_lexer_close(FILE *fp)
 
 ^[ 	]*cd[ 	]+[^ 	].*$ {
 			char *s;
-			if(evalstack || parenth_depth) {REJECT;}
+			if(gel_parsestack || parenth_depth) {REJECT;}
 			s=strchr(yytext,'d')+1; /*move after the cd*/
 			/*btw from the above RE we know this will work*/
 			while(*s==' ' || *s=='\t')
@@ -169,7 +169,7 @@ gel_lexer_close(FILE *fp)
 
 ^[ 	]*plugin[ 	]+[^ 	].*$ {
 			char *s;
-			if(evalstack || parenth_depth) {REJECT;}
+			if(gel_parsestack || parenth_depth) {REJECT;}
 			s=strchr(yytext,'n')+1; /*move after the plugin*/
 			/*btw from the above RE we know this will work*/
 			while(*s==' ' || *s=='\t')
@@ -180,14 +180,14 @@ gel_lexer_close(FILE *fp)
 		}
 
 ^[ 	]*pwd[ 	]*$ {
-			if(evalstack || parenth_depth) {REJECT;}
+			if(gel_parsestack || parenth_depth) {REJECT;}
 			DO_RET;
 			return PWD;
 		}
 
 ^[ 	]*ls[ 	]+[^ 	].*$ {
 			char *s;
-			if(evalstack || parenth_depth) {REJECT;}
+			if(gel_parsestack || parenth_depth) {REJECT;}
 			s=strchr(yytext,'s')+1; /*move after the ls*/
 			/*btw from the above RE we know this will work*/
 			while(*s==' ' || *s=='\t')
@@ -198,14 +198,14 @@ gel_lexer_close(FILE *fp)
 		}
 
 ^[ 	]*ls[ 	]*$ {
-			if(evalstack || parenth_depth) {REJECT;}
+			if(gel_parsestack || parenth_depth) {REJECT;}
 			DO_RET;
 			return LS;
 		}
 
 ^[ 	]*help[ 	]+[^ 	].*$ {
 			char *s;
-			if(evalstack || parenth_depth) {REJECT;}
+			if(gel_parsestack || parenth_depth) {REJECT;}
 			s=strchr(yytext,'p')+1; /*move after the help*/
 			/*btw from the above RE we know this will work*/
 			while(*s==' ' || *s=='\t')
@@ -216,7 +216,7 @@ gel_lexer_close(FILE *fp)
 		}
 
 ^[ 	]*help[ 	]*$ {
-			if(evalstack || parenth_depth) {REJECT;}
+			if(gel_parsestack || parenth_depth) {REJECT;}
 			DO_RET;
 			return HELP;
 		}
@@ -451,6 +451,8 @@ null		{ DO_RET; return '.'; }
 
 [ \t\r]+	; /*ignore whitespace*/
 
+\.\+		{ DO_RET; return ELTELTPLUS; }
+\.\-		{ DO_RET; return ELTELTMINUS; }
 \.\*		{ DO_RET; return ELTELTMUL; }
 \.\/		{ DO_RET; return ELTELTDIV; }
 \.\\		{ DO_RET; return ELTELTBACKDIV; }

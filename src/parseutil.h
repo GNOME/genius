@@ -55,9 +55,9 @@ void gp_push_null(void) GEL_WEAK_FUNC;
 #define SYNTAX_ERROR {yyerror("syntax error"); YYERROR;}
 
 #define PUSH_ACT(ACT) { \
-	GelETree *tree = makeoperator((ACT),&evalstack); \
+	GelETree *tree = makeoperator((ACT),&gel_parsestack); \
 	if(!tree) {SYNTAX_ERROR;} \
-	stack_push(&evalstack,tree); \
+	stack_push(&gel_parsestack,tree); \
 }
 
 #define PUSH_IDENTIFIER(ID) { \
@@ -65,14 +65,14 @@ void gp_push_null(void) GEL_WEAK_FUNC;
 	GET_NEW_NODE(tree); \
 	tree->type = IDENTIFIER_NODE; \
 	tree->id.id = d_intern(ID); \
-	stack_push(&evalstack,tree); \
+	stack_push(&gel_parsestack,tree); \
 	g_free (ID); \
 }
 
 #define PUSH_CONST_STRING(ID) { \
 	GelETree * tree; \
 	tree = gel_makenum_string_constant (ID); \
-	stack_push(&evalstack,tree); \
+	stack_push(&gel_parsestack,tree); \
 	g_free (ID); \
 }
 

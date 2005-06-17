@@ -89,7 +89,7 @@ static gboolean got_end_too_soon = FALSE;
 GHashTable *uncompiled = NULL;
 
 /* stack ... has to be global:-( */
-GSList *evalstack=NULL;
+GSList *gel_parsestack=NULL;
 
 /*error .. global as well*/
 GeniusError error_num = NO_ERROR;
@@ -602,8 +602,12 @@ appendoper(GelOutput *gelo, GelETree *n)
 			break;
 		case E_PLUS:
 			append_binaryoper(gelo,"+",n); break;
+		case E_ELTPLUS:
+			append_binaryoper(gelo,".+",n); break;
 		case E_MINUS:
 			append_binaryoper(gelo,"-",n); break;
+		case E_ELTMINUS:
+			append_binaryoper(gelo,".-",n); break;
 		case E_MUL:
 			append_binaryoper(gelo,"*",n); break;
 		case E_ELTMUL:
@@ -1664,10 +1668,11 @@ compile_funcs_in_dict (FILE *outfile, GSList *dict, gboolean is_extra_dict)
 		}
 		if (func->type == GEL_USER_FUNC) {
 			fprintf (outfile,
-				 "%c;%d;%s;%d;%d",
+				 "%c;%d;%s;%s;%d;%d",
 				 fs,
 				 (int)strlen (body),
 				 func->id->token,
+				 func->symbolic_id ? func->symbolic_id->token : "*",
 				 (int)func->nargs,
 				 (int)func->vararg);
 			for (l = func->named_args; l != NULL; l = l->next) {
@@ -1780,7 +1785,7 @@ load_compiled_fp (const char *file, FILE *fp)
 	while ( ! break_on_next && fgets (buf, buf_size, fp) != NULL) {
 		char *p;
 		char *b2;
-		GelToken *tok;
+		GelToken *tok, *symbolic_tok = NULL;
 		int size, nargs, vararg;
 		gboolean extra_dict = FALSE;
 		gboolean parameter = FALSE;
@@ -1931,6 +1936,17 @@ load_compiled_fp (const char *file, FILE *fp)
 		tok = d_intern(p);
 
 		if (type == GEL_USER_FUNC) {
+			/*symbolic_id*/
+			p = strtok_r (NULL,";", &ptrptr);
+			if G_UNLIKELY (!p) {
+				gel_errorout (_("Badly formed record"));
+				continue;
+			}
+			if (strcmp (p, "*") == 0)
+				symbolic_tok = NULL;
+			else
+				symbolic_tok = d_intern (p);
+
 			/*nargs*/
 			p = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!p) {
@@ -1983,7 +1999,6 @@ load_compiled_fp (const char *file, FILE *fp)
 				tok->parameter = 1;
 		}
 
-
 		/*the value*/
 		b2 = g_new(char,size+2);
 		if G_UNLIKELY (!fgets(b2,size+2,fp)) {
@@ -2001,6 +2016,7 @@ load_compiled_fp (const char *file, FILE *fp)
 			if (type == GEL_USER_FUNC) {
 				func = d_makeufunc (tok, NULL, li, nargs, NULL);
 				func->vararg = vararg ? 1 : 0;
+				func->symbolic_id = symbolic_tok;
 			} else /*GEL_VARIABLE_FUNC*/ {
 				func = d_makevfunc (tok, NULL);
 			}
@@ -2018,6 +2034,7 @@ load_compiled_fp (const char *file, FILE *fp)
 			if(type == GEL_USER_FUNC) {
 				func = d_makeufunc (tok, NULL, li, nargs, NULL);
 				func->vararg = vararg ? 1 : 0;
+				func->symbolic_id = symbolic_tok;
 			} else /*GEL_VARIABLE_FUNC*/ {
 				func = d_makevfunc(tok,NULL);
 			}
@@ -2713,15 +2730,15 @@ do_exec_commands (const char *dirprefix)
 		ret = FALSE;
 		break;
 	case GEL_LOADFILE:
-		while (evalstack)
-			gel_freetree (stack_pop (&evalstack));
+		while (gel_parsestack)
+			gel_freetree (stack_pop (&gel_parsestack));
 		gel_load_file (dirprefix, arg, TRUE);
 		ret = TRUE;
 		break;
 	case GEL_LOADFILE_GLOB:
 		list = get_wordlist (arg);
-		while (evalstack)
-			gel_freetree (stack_pop (&evalstack));
+		while (gel_parsestack)
+			gel_freetree (stack_pop (&gel_parsestack));
 		for (li = list; li != NULL; li = li->next) {
 			gel_load_guess_file (dirprefix, li->data, TRUE);
 			if (interrupted)
@@ -2733,8 +2750,8 @@ do_exec_commands (const char *dirprefix)
 		break;
 	case GEL_CHANGEDIR:
 		list = get_wordlist (arg);
-		while (evalstack)
-			gel_freetree (stack_pop (&evalstack));
+		while (gel_parsestack)
+			gel_freetree (stack_pop (&gel_parsestack));
 		for (li = list; li != NULL; li = li->next) {
 			our_chdir (dirprefix, li->data);
 		}
@@ -2937,21 +2954,21 @@ gel_parseexp (const char *str, FILE *infile, gboolean exec_commands,
 
 	/*if we are testing and got an unfinished expression just report that*/
 	if(testparse && got_end_too_soon) {
-		while(evalstack)
-			gel_freetree(stack_pop(&evalstack));
+		while(gel_parsestack)
+			gel_freetree(stack_pop(&gel_parsestack));
 		if(finished) *finished = FALSE;
 		return NULL;
 	}
 
 	/*catch parsing errors*/
 	if(error_num!=NO_ERROR) {
-		while(evalstack)
-			gel_freetree(stack_pop(&evalstack));
+		while(gel_parsestack)
+			gel_freetree(stack_pop(&gel_parsestack));
 		if(finished) *finished = TRUE;
 		return NULL;
 	}
 	
-	stacklen = g_slist_length(evalstack);
+	stacklen = g_slist_length(gel_parsestack);
 	
 	if(stacklen==0) {
 		if(finished) *finished = FALSE;
@@ -2960,22 +2977,22 @@ gel_parseexp (const char *str, FILE *infile, gboolean exec_commands,
 
 	/*stack is supposed to have only ONE entry*/
 	if(stacklen!=1) {
-		while(evalstack)
-			gel_freetree(stack_pop(&evalstack));
+		while(gel_parsestack)
+			gel_freetree(stack_pop(&gel_parsestack));
 		if G_UNLIKELY (!testparse)
 			gel_errorout (_("ERROR: Probably corrupt stack!"));
 		if(finished) *finished = FALSE;
 		return NULL;
 	}
-	replace_equals (evalstack->data, FALSE /* in_expression */);
-	replace_exp (evalstack->data);
-	fixup_num_neg (evalstack->data);
-	evalstack->data = gather_comparisons (evalstack->data);
-	try_to_do_precalc (evalstack->data);
+	replace_equals (gel_parsestack->data, FALSE /* in_expression */);
+	replace_exp (gel_parsestack->data);
+	fixup_num_neg (gel_parsestack->data);
+	gel_parsestack->data = gather_comparisons (gel_parsestack->data);
+	try_to_do_precalc (gel_parsestack->data);
 	
 	if (finished != NULL)
 		*finished = TRUE;
-	return stack_pop (&evalstack);
+	return stack_pop (&gel_parsestack);
 }
 
 GelETree *

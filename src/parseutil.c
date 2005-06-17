@@ -34,7 +34,7 @@
 
 #include "parseutil.h"
 
-extern GSList *evalstack;
+extern GSList *gel_parsestack;
 
 
 gboolean
@@ -45,13 +45,13 @@ gp_push_func (gboolean vararg)
 	GSList * list = NULL;
 	int i = 0;
 	
-	val = stack_pop(&evalstack);
+	val = stack_pop(&gel_parsestack);
 	if(!val)
 		return FALSE;
 
 
 	for(;;) {
-		tree = stack_pop(&evalstack);
+		tree = stack_pop(&gel_parsestack);
 		if(tree && tree->type==EXPRLIST_START_NODE) {
 			gel_freetree(tree);
 			break;
@@ -76,7 +76,7 @@ gp_push_func (gboolean vararg)
 	tree->func.func->context = -1;
 	tree->func.func->vararg = vararg;
 
-	stack_push(&evalstack,tree);
+	stack_push(&gel_parsestack,tree);
 
 	return TRUE;
 }
@@ -91,19 +91,19 @@ gp_prepare_push_param (gboolean setfunc)
 	/* FIXME: setfunc not yet implemented */
 	g_assert ( ! setfunc);
 
-	val = stack_pop (&evalstack);
+	val = stack_pop (&gel_parsestack);
 	if (val == NULL)
 		return FALSE;
 
-	ident = stack_pop (&evalstack);
+	ident = stack_pop (&gel_parsestack);
 	if (ident == NULL)
 		return FALSE;
 
 	func = gel_makenum_null ();
 
-	stack_push (&evalstack, func);
-	stack_push (&evalstack, ident);
-	stack_push (&evalstack, val);
+	stack_push (&gel_parsestack, func);
+	stack_push (&gel_parsestack, ident);
+	stack_push (&gel_parsestack, val);
 
 	return TRUE;
 }
@@ -114,8 +114,8 @@ gp_prepare_push_region_sep (void)
 {
 	GelETree *e1, *e2;
 
-	e2 = stack_pop (&evalstack);
-	e1 = stack_pop (&evalstack);
+	e2 = stack_pop (&gel_parsestack);
+	e1 = stack_pop (&gel_parsestack);
 
 	if (e2->type == OPERATOR_NODE &&
 	    e2->op.oper == E_REGION_SEP) {
@@ -125,14 +125,14 @@ gp_prepare_push_region_sep (void)
 		a2->any.next = NULL;
 		e2->op.args = NULL;
 		gel_freetree (e2);
-		stack_push (&evalstack, e1);
-		stack_push (&evalstack, a1);
-		stack_push (&evalstack, a2);
+		stack_push (&gel_parsestack, e1);
+		stack_push (&gel_parsestack, a1);
+		stack_push (&gel_parsestack, a2);
 
 		return TRUE;
 	} else {
-		stack_push (&evalstack, e1);
-		stack_push (&evalstack, e2);
+		stack_push (&gel_parsestack, e1);
+		stack_push (&gel_parsestack, e2);
 
 		return FALSE;
 	}
@@ -143,7 +143,7 @@ gp_prepare_push_region_sep (void)
 gboolean
 gp_push_marker(GelETreeType markertype)
 {
-	GelETree * last_expr = stack_pop(&evalstack);
+	GelETree * last_expr = stack_pop(&gel_parsestack);
 	GelETree * tree;
 	
 	if(!last_expr)
@@ -151,8 +151,8 @@ gp_push_marker(GelETreeType markertype)
        
 	GET_NEW_NODE(tree);
 	tree->type = markertype;
-	stack_push(&evalstack,tree);
-	stack_push(&evalstack,last_expr);
+	stack_push(&gel_parsestack,tree);
+	stack_push(&gel_parsestack,last_expr);
 	return TRUE;
 }
 
@@ -163,7 +163,7 @@ gp_push_marker_simple(GelETreeType markertype)
 	GelETree *tree;
 	GET_NEW_NODE(tree);
 	tree->type = markertype;
-	stack_push(&evalstack,tree);
+	stack_push(&gel_parsestack,tree);
 }
 
 /*puts a spacer into the tree, spacers are just useless nodes to be removed
@@ -171,18 +171,18 @@ gp_push_marker_simple(GelETreeType markertype)
 gboolean
 gp_push_spacer(void)
 {
-	GelETree * last_expr = stack_pop(&evalstack);
+	GelETree * last_expr = stack_pop(&gel_parsestack);
 	
 	if(!last_expr)
 		return FALSE;
 	else if(last_expr->type == SPACER_NODE)
-		stack_push(&evalstack,last_expr);
+		stack_push(&gel_parsestack,last_expr);
 	else {
 		GelETree * tree;
 		GET_NEW_NODE(tree);
 		tree->type = SPACER_NODE;
 		tree->sp.arg = last_expr;
-		stack_push(&evalstack,tree);
+		stack_push(&gel_parsestack,tree);
 	}
 	return TRUE;
 }
@@ -196,7 +196,7 @@ gp_push_matrix_row(void)
 	GelETree *row = NULL;
 	int i=0;
 	for(;;) {
-		tree = stack_pop(&evalstack);
+		tree = stack_pop(&gel_parsestack);
 		/*we have gone all the way to the top and haven't found a
 		  marker*/
 		if(!tree) {
@@ -220,7 +220,7 @@ gp_push_matrix_row(void)
 	tree->row.args = row;
 	tree->row.nargs = i;
 
-	stack_push(&evalstack,tree);
+	stack_push(&gel_parsestack,tree);
 	
 	return TRUE;
 }
@@ -242,7 +242,7 @@ gp_push_matrix(gboolean quoted)
 	rows=0;
 	cols=0;
 	for(;;) {
-		tree = stack_pop(&evalstack);
+		tree = stack_pop(&gel_parsestack);
 		/*we have gone all the way to the top and haven't found a
 		  marker*/
 		if(!tree) {
@@ -310,7 +310,7 @@ gp_push_matrix(gboolean quoted)
 	tree->mat.matrix = gel_matrixw_new_with_matrix(matrix);
 	tree->mat.quoted = quoted ? 1 : 0;
 	
-	stack_push(&evalstack,tree);
+	stack_push(&gel_parsestack,tree);
 	return TRUE;
 }
 
@@ -323,7 +323,7 @@ gp_push_null(void)
 	GET_NEW_NODE(tree);
 	tree->type = NULL_NODE;
 
-	stack_push(&evalstack,tree);
+	stack_push(&gel_parsestack,tree);
 }
 
 void
@@ -331,7 +331,7 @@ gp_convert_identifier_to_bool (void)
 {
 	GelETree *val;
 
-	val = stack_peek (&evalstack);
+	val = stack_peek (&gel_parsestack);
 	if (val == NULL ||
 	    val->type != IDENTIFIER_NODE) {
 		/**/g_warning ("NO IDENTIFIER TO CONVERT TO TRY TO CONVERT BOOL");

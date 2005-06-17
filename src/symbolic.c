@@ -393,7 +393,9 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 				d_intern ("y"), nn, FALSE);
 		return n;
 	case E_PLUS:
+	/* FIXME: case E_ELTPLUS: */
 	case E_MINUS:
+	/* FIXME: case E_ELTMINUS: */
 		nn = differentiate_expr (expr->op.args, xtok);
 		if (nn == NULL)
 			/* FIXME: */

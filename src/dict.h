@@ -124,8 +124,10 @@ void d_add_named_args (GelEFunc *f, const char *args);
 		f->data.user =						\
 			gel_decompile_tree (g_hash_table_lookup		\
 					    (uncompiled, f->id));	\
+		/* On error give null tree */				\
+		if (f->data.user == NULL)				\
+			f->data.user = gel_makenum_null ();		\
 		g_hash_table_remove (uncompiled, f->id);		\
-		g_assert (f->data.user != NULL);			\
 	}								\
 
 

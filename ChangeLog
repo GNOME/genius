@@ -1,3 +1,28 @@
+Thu Jun 16 17:40:29 2005  George Lebl <jirka@5z.com>
+
+	* configure.in: raise version number
+
+	* src/complil.c: compile symbolic_id and id for function nodes and
+	  symbolic_id for global functions.
+
+	* src/lexer.l, src/calc.c, src/eval.[ch], src/parse.y: SYNTAX CHANGE:
+	  there is now an elt by elt addition and subtraction (.+ and .-)
+	  which act like the old +,- when adding scalar to a matrix.  The +,-
+	  now interpret A+x as A+x*I if A is a square matrix, and elt by elt
+	  if A is a vector (row or column), else they error out.
+
+	* src/funclib.c: the PolyToFunction now does 1 instead of x^0, since
+	  this now works correctly for matrices.
+
+	* src/lexer.l, src/calc.c, src/parse.y: make evalstack into
+	  gel_parsestack since the naming was totally off
+
+	* src/dict.h: on decompilation errors don't assert crash, just give
+	  null as the function body.
+
+	* src/geniustests.txt: add some tests and fix some old ones with
+	  respect to the above syntax change.
+
 Wed Jun 15 09:09:20 2005  George Lebl <jirka@5z.com>
 
 	* src/symbolic.c, src/calc.[ch], src/dict.c, src/eval.c,

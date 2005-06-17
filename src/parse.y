@@ -34,7 +34,7 @@
 	
 #include "parseutil.h"
 
-extern GSList *evalstack;
+extern GSList *gel_parsestack;
 
 extern int return_ret; /*should the lexer return on \n*/
 extern char *loadfile;
@@ -76,7 +76,7 @@ void yyerror(char *);
 
 %token TRANSPOSE
 
-%token ELTELTDIV ELTELTMUL ELTELTEXP ELTELTMOD DOUBLEFACT
+%token ELTELTDIV ELTELTMUL ELTELTPLUS ELTELTMINUS ELTELTEXP ELTELTMOD DOUBLEFACT
 
 %token EQ_CMP NE_CMP CMP_CMP LT_CMP GT_CMP LE_CMP GE_CMP
 
@@ -107,7 +107,7 @@ void yyerror(char *);
 
 %right ':'
 
-%left '+' '-'
+%left '+' ELTELTADD '-' ELTELTSUB
 %left '*' ELTELTMUL '/' ELTELTDIV '\\' ELTELTBACKDIV '%' ELTELTMOD
 
 %right '\'' TRANSPOSE
@@ -145,14 +145,16 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 					  mpw_init (i);
 					  mpw_i (i);
 					  gp_push_spacer();
-					  stack_push(&evalstack,
+					  stack_push(&gel_parsestack,
 						     gel_makenum_use(i));
 					  PUSH_ACT(E_MUL); }
 	|	expr EQUALS expr	{ PUSH_ACT(E_EQUALS); }
 	|	expr DEFEQUALS expr	{ PUSH_ACT(E_DEFEQUALS); }
 	|	'|' expr '|'		{ PUSH_ACT(E_ABS); }
 	|	expr '+' expr		{ PUSH_ACT(E_PLUS); }
+	|	expr ELTELTPLUS expr	{ PUSH_ACT(E_ELTPLUS); }
 	|	expr '-' expr		{ PUSH_ACT(E_MINUS); }
+	|	expr ELTELTMINUS expr	{ PUSH_ACT(E_ELTMINUS); }
 	|	expr '*' expr		{ PUSH_ACT(E_MUL); }
 	|	expr ELTELTMUL expr	{ PUSH_ACT(E_ELTMUL); }
 	|	expr '/' expr		{ PUSH_ACT(E_DIV); }
@@ -256,7 +258,7 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 	|	EXCEPTION		{ PUSH_ACT(E_EXCEPTION); }
 	|	CONTINUE		{ PUSH_ACT(E_CONTINUE); }
 	|	BREAK			{ PUSH_ACT(E_BREAK); }
-	|	NUMBER			{ stack_push(&evalstack,
+	|	NUMBER			{ stack_push(&gel_parsestack,
 						     gel_makenum_use($<val>1)); }
 	|	STRING			{ PUSH_CONST_STRING($<id>1); }
 	|	'.'			{ gp_push_null(); }

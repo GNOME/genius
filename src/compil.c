@@ -134,7 +134,9 @@ gel_compile_node(GelETree *t,GString *gs)
 	case FUNCTION_NODE:
 		g_assert(t->func.func->type==GEL_USER_FUNC);
 		/*g_assert(t->func.func->id==NULL);*/
-		g_string_append_printf (gs, ";%d;%d;%d;%d",
+		g_string_append_printf (gs, ";%s;%s;%d;%d;%d;%d",
+					t->func.func->id ? t->func.func->id->token : "*",
+					t->func.func->symbolic_id ? t->func.func->symbolic_id->token : "*",
 					t->func.func->nargs,
 					t->func.func->vararg,
 					t->func.func->propagate_mod,
@@ -183,6 +185,7 @@ static GelETree *
 gel_decompile_node(char **ptrptr)
 {
 	GelETree *n;
+	const char *id, *symbolic_id;
 	char *p;
 	int type = -1;
 	int nargs = -1;
@@ -317,6 +320,20 @@ gel_decompile_node(char **ptrptr)
 	case FUNCTION_NODE:
 		p = strtok_r (NULL,";", ptrptr);
 		if G_UNLIKELY (!p) return NULL;
+		if (strcmp (p, "*") == 0)
+			id = NULL;
+		else
+			id = p;
+
+		p = strtok_r (NULL,";", ptrptr);
+		if G_UNLIKELY (!p) return NULL;
+		if (strcmp (p, "*") == 0)
+			symbolic_id = NULL;
+		else
+			symbolic_id = p;
+
+		p = strtok_r (NULL,";", ptrptr);
+		if G_UNLIKELY (!p) return NULL;
 		nargs = -1;
 		sscanf(p,"%d",&nargs);
 		if G_UNLIKELY (nargs==-1) return NULL;
@@ -352,7 +369,9 @@ gel_decompile_node(char **ptrptr)
 			return NULL;
 		}
 
-		func = d_makeufunc(NULL,n,oli,nargs, NULL);
+		/* Note that d_intern handles NULL properly */
+		func = d_makeufunc (d_intern (id), n, oli, nargs, NULL);
+		func->symbolic_id = d_intern (symbolic_id);
 		func->context = -1;
 		func->vararg = vararg ? 1 : 0;
 		func->propagate_mod = propagate_mod ? 1 : 0;
@@ -443,6 +462,7 @@ gel_decompile_tree (char *s)
 	
 	t = gel_decompile_node (&ptrptr);
 	if G_UNLIKELY (t == NULL) {
+		printf ("FOO!\n");
 		gel_errorout (_("Bad tree record when decompiling"));
 		return NULL;
 	}

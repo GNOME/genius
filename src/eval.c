@@ -193,7 +193,9 @@ branches (int op)
 		case E_PARAMETER: return 3;
 		case E_ABS: return 1;
 		case E_PLUS: return 2;
+		case E_ELTPLUS: return 2;
 		case E_MINUS: return 2;
+		case E_ELTMINUS: return 2;
 		case E_MUL: return 2;
 		case E_ELTMUL: return 2;
 		case E_DIV: return 2;
@@ -1619,9 +1621,11 @@ op_two_nodes (GelCtx *ctx, GelETree *ll, GelETree *rr, int oper,
 		mpw_init(res);
 		switch(oper) {
 		case E_PLUS:
+		case E_ELTPLUS:
 			mpw_add(res,ll->val.value,rr->val.value);
 			break;
 		case E_MINUS:
+		case E_ELTMINUS:
 			mpw_sub(res,ll->val.value,rr->val.value);
 			break;
 		case E_MUL:
@@ -1679,10 +1683,12 @@ op_two_nodes (GelCtx *ctx, GelETree *ll, GelETree *rr, int oper,
 
 		switch (oper) {
 		case E_PLUS:
+		case E_ELTPLUS:
 			res = lt || rt;
 			got_res = TRUE;
 			break;
 		case E_MINUS:
+		case E_ELTMINUS:
 			res = lt || ! rt;
 			got_res = TRUE;
 			break;
@@ -1730,7 +1736,7 @@ op_two_nodes (GelCtx *ctx, GelETree *ll, GelETree *rr, int oper,
 }
 
 
-/*add, sub, mul, div*/
+/*eltadd, eltsub, mul, div*/
 static gboolean
 matrix_scalar_matrix_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 {
@@ -1780,6 +1786,59 @@ matrix_scalar_matrix_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	} else {
 		replacenode(n,r);
 		gel_freetree(l);
+	}
+	return TRUE;
+}
+
+/* add and sub using identity for square matrices and eltbyelt for vectors */
+static gboolean
+matrix_addsub_scalar_matrix_op (GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
+{
+	int i;
+	GelMatrixW *m;
+	GelETree *node;
+	int quote = 0;
+
+	if (l->type == MATRIX_NODE) {
+		m = l->mat.matrix;
+		quote = l->mat.quoted;
+		node = r;
+	} else {
+		m = r->mat.matrix;
+		quote = r->mat.quoted;
+		node = l;
+	}
+
+	/* If vector do the normal (element by element) scalar matrix operation */
+	if (gel_matrixw_width (m) == 1 || gel_matrixw_height (m) == 1)
+		return matrix_scalar_matrix_op (ctx, n, l, r);
+
+	if G_UNLIKELY (gel_matrixw_width (m) != gel_matrixw_height (m)) {
+		gel_errorout (_("Can't add/subtract a scalar to non-square matrix (A + x is defined as A + x*I)"));
+		return TRUE;
+	}
+
+	gel_matrixw_make_private(m);
+
+	for (i = 0; i < gel_matrixw_width (m); i++) {
+		GelETree *t = gel_matrixw_set_index(m,i,i);
+		/* Only for ADD/SUB so order is unimportant */
+		gel_matrixw_set_index (m, i, i) =
+			op_two_nodes (ctx,
+				      t ? t : the_zero,
+				      node, n->op.oper,
+				      FALSE /* no_push */);
+		if (t != NULL)
+			gel_freetree (t);
+	}
+	n->op.args = NULL;
+
+	if (l->type == MATRIX_NODE) {
+		replacenode (n, l);
+		gel_freetree (r);
+	} else {
+		replacenode (n, r);
+		gel_freetree (l);
 	}
 	return TRUE;
 }
@@ -1848,7 +1907,9 @@ pure_matrix_eltbyelt_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	if G_UNLIKELY ((gel_matrixw_width(m1) != gel_matrixw_width(m2)) ||
 		       (gel_matrixw_height(m1) != gel_matrixw_height(m2))) {
 		if (n->op.oper == E_PLUS ||
-		    n->op.oper == E_MINUS)
+		    n->op.oper == E_ELTPLUS ||
+		    n->op.oper == E_MINUS ||
+		    n->op.oper == E_ELTMINUS)
 			gel_errorout (_("Can't add/subtract two matricies of different sizes"));
 		else
 			gel_errorout (_("Can't do element by element operations on two matricies of different sizes"));
@@ -2761,6 +2822,26 @@ static const GelOper prim_table[E_OPER_LAST] = {
 		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_add},
 		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
 		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)matrix_addsub_scalar_matrix_op},
+		 {{GO_VALUE|GO_MATRIX|GO_FUNCTION|GO_STRING,GO_STRING,0},
+			 (GelEvalFunc)string_concat},
+		 {{GO_STRING,GO_VALUE|GO_MATRIX|GO_FUNCTION|GO_STRING,0},
+			 (GelEvalFunc)string_concat},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)function_bin_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)function_something_bin_op},
+		 {{GO_VALUE|GO_MATRIX,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)something_function_bin_op},
+		 {{GO_VALUE|GO_POLYNOMIAL,GO_VALUE|GO_POLYNOMIAL,0},
+			 (GelEvalFunc)polynomial_add_sub_op},
+		 {{GO_VALUE|GO_STRING|GO_BOOL,GO_VALUE|GO_STRING|GO_BOOL,0},(GelEvalFunc)boolean_add},
+	 }},
+	/*E_ELTPLUS*/
+	{{
+		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_add},
+		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
+		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
 			 (GelEvalFunc)matrix_scalar_matrix_op},
 		 {{GO_VALUE|GO_MATRIX|GO_FUNCTION|GO_STRING,GO_STRING,0},
 			 (GelEvalFunc)string_concat},
@@ -2777,6 +2858,22 @@ static const GelOper prim_table[E_OPER_LAST] = {
 		 {{GO_VALUE|GO_STRING|GO_BOOL,GO_VALUE|GO_STRING|GO_BOOL,0},(GelEvalFunc)boolean_add},
 	 }},
 	/*E_MINUS*/
+	{{
+		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_sub},
+		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
+		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)matrix_addsub_scalar_matrix_op},
+		 {{GO_VALUE|GO_POLYNOMIAL,GO_VALUE|GO_POLYNOMIAL,0},
+			 (GelEvalFunc)polynomial_add_sub_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)function_bin_op},
+		 {{GO_FUNCTION|GO_IDENTIFIER,GO_VALUE|GO_MATRIX,0},
+			 (GelEvalFunc)function_something_bin_op},
+		 {{GO_VALUE|GO_MATRIX,GO_FUNCTION|GO_IDENTIFIER,0},
+			 (GelEvalFunc)something_function_bin_op},
+		 {{GO_VALUE|GO_STRING|GO_BOOL,GO_VALUE|GO_STRING|GO_BOOL,0},(GelEvalFunc)boolean_sub},
+	 }},
+	/*E_ELTMINUS*/
 	{{
 		 {{GO_VALUE,GO_VALUE,0},(GelEvalFunc)numerical_sub},
 		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
@@ -5814,7 +5911,9 @@ iter_get_op_name(int oper)
 	case E_PARAMETER: break;
 	case E_ABS: name = g_strdup(_("Absolute value")); break;
 	case E_PLUS: name = g_strdup(_("Addition")); break;
+	case E_ELTPLUS: name = g_strdup(_("Element by element addition")); break;
 	case E_MINUS: name = g_strdup(_("Subtraction")); break;
+	case E_ELTMINUS: name = g_strdup(_("Element by element subtraction")); break;
 	case E_MUL: name = g_strdup(_("Multiplication")); break;
 	case E_ELTMUL: name = g_strdup(_("Element by element multiplication")); break;
 	case E_DIV: name = g_strdup(_("Division")); break;
@@ -6028,7 +6127,9 @@ iter_operator_pre(GelCtx *ctx)
 
 	case E_ABS:
 	case E_PLUS:
+	case E_ELTPLUS:
 	case E_MINUS:
+	case E_ELTMINUS:
 	case E_MUL:
 	case E_ELTMUL:
 	case E_DIV:
@@ -6301,7 +6402,9 @@ iter_operator_post (GelCtx *ctx, gboolean *repushed)
 		break;
 
 	case E_PLUS:
+	case E_ELTPLUS:
 	case E_MINUS:
+	case E_ELTMINUS:
 	case E_MUL:
 	case E_ELTMUL:
 	case E_DIV:
@@ -7227,7 +7330,9 @@ try_to_precalc_op(GelETree *n)
 	case E_FACT: op_precalc_1(n,mpw_fac); return;
 	case E_DBLFACT: op_precalc_1(n,mpw_dblfac); return;
 	case E_PLUS: op_precalc_2(n,mpw_add); return;
+	case E_ELTPLUS: op_precalc_2(n,mpw_add); return;
 	case E_MINUS: op_precalc_2(n,mpw_sub); return;
+	case E_ELTMINUS: op_precalc_2(n,mpw_sub); return;
 	case E_MUL: op_precalc_2(n,mpw_mul); return;
 	case E_ELTMUL: op_precalc_2(n,mpw_mul); return;
 	case E_DIV: op_precalc_2(n,mpw_div); return;
@@ -7240,7 +7345,7 @@ try_to_precalc_op(GelETree *n)
 	}
 }
 
-/* FIXME: try to also precalc things like 3*(10*foo) */
+/* FIXME: try to also precalc things like 3*(10*foo), but be careful as to not change what the result is! */
 void
 try_to_do_precalc(GelETree *n)
 {

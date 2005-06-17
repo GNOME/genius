@@ -3462,18 +3462,15 @@ ptf_makenew_term(mpw_t mul, GelToken *id, int power)
 {
 	GelETree *n;
 	
-	/* we do the zero power the same as >1 so
-	 * that we get an x^0 term.  This may seem
-	 * pointless but it allows evaluating matrices
-	 * as it will make the constant term act like
-	 * c*I(n) */
-	if (mpw_cmp_ui(mul,1)==0) {
+	if (power == 0) {
+		return gel_makenum (mul);
+	} else if (mpw_eql_ui (mul, 1)) {
 		n = ptf_makenew_power(id,power);
 	} else {
 		GET_NEW_NODE(n);
 		n->type = OPERATOR_NODE;
 		n->op.oper = E_MUL;
-		n->op.args = gel_makenum(mul);
+		n->op.args = gel_makenum (mul);
 		n->op.args->any.next = ptf_makenew_power(id,power);
 		n->op.args->any.next->any.next = NULL;
 		n->op.nargs = 2;

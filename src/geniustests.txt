@@ -79,7 +79,8 @@ function t(x)=(function t(x,y)=(x+y);t(x,2));t(5)		7
 1#4								1
 print(5);5+1;.							5
 print(5);5+1;							5
-.+1								((null)+1)
+. + 1								((null)+1)
+null + 1							((null)+1)
 if(5/0)then(1)							(if (5/0) then 1)
 k=5;while((20/k)>1)do(k=k-1)					(while ((20/0)>1) do (k=(k-1)))
 t=50;while(t>0)do(t=t-1);t					0
@@ -448,7 +449,7 @@ q=5; function f(x) = ( q = 6; set(`q,x); q) ; f(10) ; q		10
 l=9 ; if (l=9) then 1						1
 l=9 ; if (l=10) then 1 else 2					2
 l=9 ; if (l=10) then 1 else 2 ; l				9
-A=[1,2;3,4];B=A+4;[A,0;0,B]					[1,2,0,0;3,4,0,0;0,0,5,6;0,0,7,8]
+A=[1,2;3,4];B=A+4;[A,0;0,B]					[1,2,0,0;3,4,0,0;0,0,5,2;0,0,3,8]
 sum n in ColumnsOf([1,2;3,4]) do n				[3;7]
 sum n in RowsOf([1,2;3,4]) do n					[4,6]
 function f(x) = `(l) = x+l; k=f(2);k(11)			13
@@ -677,4 +678,6 @@ SymbolicDerivative(`(x)=10*x^3+x^2+88*x+100)			(`(x)=((((10*(3*(x^2)))+(2*x))+88
 function foo(f) = SymbolicDerivative(f) ; foo (sin)		(`(x)=cos(x))
 function foo(f) = SymbolicDerivative(f) ; foo (`(x)=x^2)	(`(x)=(2*x))
 SymbolicDerivative(f:=sin)					(`(x)=cos(x))
+[1,2;3,4]+2							[3,2;3,6]
+[1,2;3,4;5,6]+2							([1,2;3,4;5,6]+2)
 load "longtest.gel"						true
