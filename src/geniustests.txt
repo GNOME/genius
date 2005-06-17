@@ -680,4 +680,6 @@ function foo(f) = SymbolicDerivative(f) ; foo (`(x)=x^2)	(`(x)=(2*x))
 SymbolicDerivative(f:=sin)					(`(x)=cos(x))
 [1,2;3,4]+2							[3,2;3,6]
 [1,2;3,4;5,6]+2							([1,2;3,4;5,6]+2)
+SymbolicNthDerivative(sin,2)					(`(x)=(-sin(x)))
+SymbolicNthDerivativeTry(print,2)+1				((null)+1)
 load "longtest.gel"						true

@@ -232,3 +232,6 @@ char *fake = N_("Returns true if the element x is in the set X (where X is a vec
 char *fake = N_("Returns a set where every element of X appears only once");
 char *fake = N_("Returns a set theoretic difference X-Y (X and Y are vectors pretending to be sets)");
 char *fake = N_("Returns a set theoretic union of X and Y (X and Y are vectors pretending to be sets)");
+char *fake = N_("Attempt to symbolically differentiate a function n times");
+char *fake = N_("Attempt to symbolically differentiate a function n times quietly and return null on failure");
+char *fake = N_("Attempt to construct the taylor approximation function around x0 to the nth degree.");

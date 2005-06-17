@@ -3779,9 +3779,39 @@ number is specified) of the given size returned.  For example
         <varlistentry id="gel-function-SymbolicDerivativeTry">
          <term>SymbolicDerivativeTry</term>
          <listitem>
-          <synopsis>SymbolicDerivative (f)</synopsis>
+          <synopsis>SymbolicDerivativeTry (f)</synopsis>
           <para>Attempt to symbolically differentiate the function f, where f is a function of one variable, returns null if unsuccessful but is silent.
-	  (See <link linkend="gel-function-LinePlotWindow">SymbolicDerivative</link>)
+	  (See <link linkend="gel-function-SymbolicDerivative">SymbolicDerivative</link>)
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-SymbolicNthDerivative">
+         <term>SymbolicNthDerivative</term>
+         <listitem>
+          <synopsis>SymbolicNthDerivative (f,n)</synopsis>
+          <para>Attempt to symbolically differentiate a function n times.
+	  (See <link linkend="gel-function-SymbolicDerivative">SymbolicDerivative</link>)
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-SymbolicDerivativeTry">
+         <term>SymbolicNthDerivativeTry</term>
+         <listitem>
+          <synopsis>SymbolicNthDerivativeTry (f,n)</synopsis>
+	  <para>Attempt to symbolically differentiate a function n times quietly and return null on failure
+	  (See <link linkend="gel-function-SymbolicNthDerivative">SymbolicNthDerivative</link>)
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-SymbolicTaylorApproximationFunction">
+         <term>SymbolicTaylorApproximationFunction</term>
+         <listitem>
+          <synopsis>SymbolicTaylorApproximationFunction (f,x0,n)</synopsis>
+	  <para>Attempt to construct the taylor approximation function around x0 to the nth degree.
+	  (See <link linkend="gel-function-SymbolicDerivative">SymbolicDerivative</link>)
           </para>
          </listitem>
         </varlistentry>
