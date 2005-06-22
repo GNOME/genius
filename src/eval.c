@@ -7345,7 +7345,6 @@ try_to_precalc_op(GelETree *n)
 	}
 }
 
-/* FIXME: try to also precalc things like 3*(10*foo), but be careful as to not change what the result is! */
 void
 try_to_do_precalc(GelETree *n)
 {
@@ -7402,6 +7401,173 @@ try_to_do_precalc(GelETree *n)
 		     n->func.func->type == GEL_VARIABLE_FUNC) &&
 		    n->func.func->data.user)
 			try_to_do_precalc(n->func.func->data.user);
+	}
+}
+
+/* FIXME: try to also precalc things like 3*(10*foo), but be careful as to not change what the result is! */
+void
+gel_simplify (GelETree *n)
+{
+	if(!n) return;
+
+	if(n->type==OPERATOR_NODE) {
+		GelETree *ali;
+
+		/* double negation is always positive no matter what */
+		if (n->op.oper == E_NEG &&
+		    n->op.args->type == OPERATOR_NODE &&
+		    n->op.args->op.oper == E_NEG) {
+			GelETree *nn;
+			nn = n->op.args->op.args;
+			n->op.args->op.args = NULL;
+			replacenode (n, nn);
+			gel_simplify (n);
+			return;
+		} else if(n->op.oper == E_MOD_CALC) {
+			/* in case of modular calculation, only do
+			   precalc on the second argument (don't descend
+			   at all into the first one) */
+			/* FIXME: precalc might be broken in case of mod */
+			/* try_to_do_precalc(n->op.args->any.next); */;
+			/* double negation is always positive no matter what */
+			return;
+		}
+
+		if(n->op.args) {
+			for(ali=n->op.args;ali;ali=ali->any.next)
+				gel_simplify (ali);
+		}
+
+		try_to_precalc_op (n);
+		if (n->type != OPERATOR_NODE)
+			return;
+
+		if (n->op.oper == E_MUL &&
+		    (n->op.args->type == VALUE_NODE ||
+		     n->op.args->any.next->type == VALUE_NODE)) {
+			GelETree *l, *r;
+			GET_LR (n, l, r);
+
+			/* multiply by 0, so nothing */
+			if ((l->type == VALUE_NODE &&
+			     mpw_eql_ui (l->val.value, 0)) ||
+			    (r->type == VALUE_NODE &&
+			     mpw_eql_ui (r->val.value, 0))) {
+				replacenode (n, gel_makenum_ui (0));
+			} else if (l->type == VALUE_NODE &&
+				   mpw_eql_ui (l->val.value, 1)) {
+				/* multiply by 1, so identity */
+				n->op.args = NULL;
+				gel_freetree (l);
+				replacenode (n, r);
+			} else if (r->type == VALUE_NODE &&
+				   mpw_eql_ui (r->val.value, 1)) {
+				/* multiply by 1, so identity */
+				n->op.args = NULL;
+				gel_freetree (r);
+				replacenode (n, l);
+			}
+		} else if (n->op.oper == E_DIV &&
+			   (n->op.args->type == VALUE_NODE ||
+			    n->op.args->any.next->type == VALUE_NODE)) {
+			GelETree *l, *r;
+			GET_LR (n, l, r);
+
+			/* divide 0 by something so nothing
+			   (unless the bottom is 0) */
+			if ((l->type == VALUE_NODE &&
+			     mpw_eql_ui (l->val.value, 0)) &&
+			    (r->type != VALUE_NODE ||
+			     ! mpw_eql_ui (r->val.value, 0))) {
+				replacenode (n, gel_makenum_ui (0));
+			} else if (r->type == VALUE_NODE &&
+				   mpw_eql_ui (r->val.value, 1)) {
+				/* divide by 1, so identity */
+				n->op.args = NULL;
+				gel_freetree (r);
+				replacenode (n, l);
+			}
+		} else if (n->op.oper == E_PLUS &&
+			   (n->op.args->type == VALUE_NODE ||
+			    n->op.args->any.next->type == VALUE_NODE)) {
+			GelETree *l, *r;
+			GET_LR (n, l, r);
+
+			if (l->type == VALUE_NODE &&
+			    mpw_eql_ui (l->val.value, 0)) {
+				/* add 0, so identity */
+				n->op.args = NULL;
+				gel_freetree (l);
+				replacenode (n, r);
+			} else if (r->type == VALUE_NODE &&
+				   mpw_eql_ui (r->val.value, 0)) {
+				/* add 0, so identity */
+				n->op.args = NULL;
+				gel_freetree (r);
+				replacenode (n, l);
+			}
+		} else if (n->op.oper == E_EXP) {
+			GelETree *l, *r;
+			GET_LR (n, l, r);
+
+			if (r->type == VALUE_NODE &&
+			    mpw_eql_ui (r->val.value, 0)) {
+				/* something^0 so we get 1 */
+				replacenode (n, gel_makenum_ui (1));
+			} else if (l->type == OPERATOR_NODE &&
+				   l->op.oper == E_EXP) {
+				/* (x^v)^w => x^(v*w);
+				   and then simplify again */
+				GelETree *nn;
+				GelETree *x, *v, *w;
+
+				x = l->op.args;
+				v = l->op.args->any.next;
+				w = r;
+				l->op.args = NULL;
+				gel_freetree (l);
+
+				GET_NEW_NODE (nn);
+				nn->type = OPERATOR_NODE;
+				nn->op.oper = E_MUL;
+
+				nn->op.args = v;
+				v->any.next = w;
+				w->any.next = NULL;
+				nn->op.nargs = 2;
+
+				n->op.args = x;
+				x->any.next = nn;
+				nn->any.next = NULL;
+
+				gel_simplify (n);
+			}
+		}
+	} else if(n->type==MATRIX_NODE) {
+		int i,j;
+		int w,h;
+		if(!n->mat.matrix) return;
+		w = gel_matrixw_width(n->mat.matrix);
+		h = gel_matrixw_height(n->mat.matrix);
+		gel_matrixw_make_private(n->mat.matrix);
+		for(i=0;i<w;i++) {
+			for(j=0;j<h;j++) {
+				GelETree *t = gel_matrixw_set_index(n->mat.matrix,i,j);
+				if(t)
+					gel_simplify (t);
+			}
+		}
+	} else if(n->type==SET_NODE) {
+		GelETree *ali;
+		if(n->set.items) {
+			for(ali=n->set.items;ali;ali=ali->any.next)
+				gel_simplify (ali);
+		}
+	} else if(n->type==FUNCTION_NODE) {
+		if ((n->func.func->type == GEL_USER_FUNC ||
+		     n->func.func->type == GEL_VARIABLE_FUNC) &&
+		    n->func.func->data.user)
+			gel_simplify (n->func.func->data.user);
 	}
 }
 

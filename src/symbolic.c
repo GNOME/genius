@@ -654,7 +654,7 @@ gel_differentiate_func (GelEFunc *f)
 		xtok = f->named_args->data;
 		n = differentiate_expr (f->data.user, xtok);
 		if (n != NULL) {
-			try_to_do_precalc (n);
+			gel_simplify (n);
 			rf = d_makeufunc (NULL /* id */,
 					  n,
 					  g_slist_append (NULL, xtok),
@@ -723,6 +723,28 @@ SymbolicDerivativeTry_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return n;
 }
 
+#if 0
+static GelETree *
+SimplifyFunction_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelEFunc *f, *rf;
+	GelETree *n;
+
+	if G_UNLIKELY ( ! check_argument_function_or_identifier (a, 0, "SimplifyFunction"))
+		return NULL;
+
+	if (a[0]->type == FUNCTION_NODE) {
+		f = a[0]->func.func;
+	} else /* (a[0]->type == IDENTIFIER_NODE) */ {
+		f = d_lookup_global (a[0]->id.id);
+	}
+
+	/* FIXME: call gel_simplify on body of f */
+
+}
+#endif
+
+
 /*add the routines to the dictionary*/
 void
 gel_add_symbolic_functions (void)
@@ -738,4 +760,8 @@ gel_add_symbolic_functions (void)
 	      N_("Attempt to symbolically differentiate the function f, "
 		 "where f is a function of one variable, returns null if "
 		 "unsuccessful but is silent."));
+	/*
+	FUNC (SimplifyFunction, 1, "f", "symbolic",
+	      N_("Attempt to simplify the body of the function.  Very rudimentary at the moment"));
+	      */
 }

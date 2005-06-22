@@ -187,7 +187,10 @@ GelETree * gather_comparisons(GelETree *n);
 void replace_equals (GelETree *n, gboolean in_expression);
 void replace_exp (GelETree *n);
 void fixup_num_neg (GelETree *n);
-void try_to_do_precalc(GelETree *n);
+/* careful precalculation */
+void try_to_do_precalc (GelETree *n);
+/* aggressive precalculation/simplification */
+void gel_simplify (GelETree *n);
 
 /* find an identifier */
 gboolean eval_find_identifier (GelETree *n,

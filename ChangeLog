@@ -1,3 +1,9 @@
+Wed Jun 22 13:19:39 2005  George Lebl <jirka@5z.com>
+
+	* src/eval.[ch], src/symbolic.c: Add more aggressive "simplification"
+	  and use it on the result of derivation (for example multiplication
+	  by 1 or addition of 0 and such are now whacked)
+
 Fri Jun 17 09:56:34 2005  George Lebl <jirka@5z.com>
 
 	* src/parse.y: fix precedence of .+ and .- and also move 'call' in
