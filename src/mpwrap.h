@@ -214,6 +214,10 @@ int mpw_cmp(mpw_ptr op1, mpw_ptr op2);
 int mpw_cmp_ui(mpw_ptr op, unsigned long int i);
 
 gboolean mpw_eql(mpw_ptr op1, mpw_ptr op2);
+
+/* must also be of same type! */
+gboolean mpw_symbolic_eql(mpw_ptr op1, mpw_ptr op2);
+
 gboolean mpw_eql_ui(mpw_ptr op, unsigned long int i);
 
 void mpw_fac_ui(mpw_ptr rop,unsigned long int i);

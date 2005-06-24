@@ -676,7 +676,8 @@ RungeKutta (`(x,y) = 2*x+3,0,0,8,10)				88
 EulersMethod (`(x,y) = 2*x+3,0,0,8,100)				88.88
 SymbolicDerivative(sin)						(`(x)=cos(x))
 SymbolicDerivative(cos)						(`(x)=(-sin(x)))
-SymbolicDerivative(`(x)=10*x^3+x^2+88*x+100)			(`(x)=((((10*(3*(x^2)))+(2*x))+88)+0))
+SymbolicDerivative(`(x)=10*x^3+x^2+88*x+100)			(`(x)=((88+(30*(x^2)))+(2*x)))
+SymbolicDerivative(`(x)=10*x^2 + 20*x^2*9)			(`(x)=(380*x))
 function foo(f) = SymbolicDerivative(f) ; foo (sin)		(`(x)=cos(x))
 function foo(f) = SymbolicDerivative(f) ; foo (`(x)=x^2)	(`(x)=(2*x))
 SymbolicDerivative(f:=sin)					(`(x)=cos(x))

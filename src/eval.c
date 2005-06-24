@@ -7256,7 +7256,7 @@ eval_find_identifier (GelETree *n, GelToken *tok, gboolean funcbody)
 /*this means that it will precalc even complex and float
   numbers*/
 static void
-op_precalc_all_1(GelETree *n, void (*func)(mpw_ptr,mpw_ptr))
+op_precalc_all_1 (GelETree *n, void (*func)(mpw_ptr,mpw_ptr))
 {
 	GelETree *l;
 	mpw_t res;
@@ -7275,14 +7275,17 @@ op_precalc_all_1(GelETree *n, void (*func)(mpw_ptr,mpw_ptr))
 }
 
 static void
-op_precalc_1(GelETree *n, void (*func)(mpw_ptr,mpw_ptr))
+op_precalc_1 (GelETree *n,
+	      void (*func)(mpw_ptr,mpw_ptr),
+	      gboolean respect_type)
 {
 	GelETree *l;
 	mpw_t res;
 	GET_L(n,l);
-	if(l->type != VALUE_NODE ||
-	   mpw_is_complex(l->val.value) ||
-	   mpw_is_float(l->val.value))
+	if (l->type != VALUE_NODE ||
+	    (respect_type &&
+	     (mpw_is_complex (l->val.value) ||
+	      mpw_is_float (l->val.value))))
 		return;
 	mpw_init(res);
 	(*func)(res,l->val.value);
@@ -7296,17 +7299,20 @@ op_precalc_1(GelETree *n, void (*func)(mpw_ptr,mpw_ptr))
 }
 
 static void
-op_precalc_2(GelETree *n, void (*func)(mpw_ptr,mpw_ptr,mpw_ptr))
+op_precalc_2 (GelETree *n,
+	      void (*func)(mpw_ptr,mpw_ptr,mpw_ptr),
+	      gboolean respect_type)
 {
 	GelETree *l,*r,*next;
 	mpw_t res;
 	GET_LR(n,l,r);
-	if(l->type != VALUE_NODE ||
-	   r->type != VALUE_NODE ||
-	   mpw_is_complex(l->val.value) ||
-	   mpw_is_complex(r->val.value) ||
-	   mpw_is_float(l->val.value) ||
-	   mpw_is_float(r->val.value))
+	if (l->type != VALUE_NODE ||
+	    r->type != VALUE_NODE ||
+	    (respect_type &&
+	     (mpw_is_complex (l->val.value) ||
+	      mpw_is_complex (r->val.value) ||
+	      mpw_is_float (l->val.value) ||
+	      mpw_is_float (r->val.value))))
 		return;
 	mpw_init(res);
 	(*func)(res,l->val.value,r->val.value);
@@ -7322,26 +7328,57 @@ op_precalc_2(GelETree *n, void (*func)(mpw_ptr,mpw_ptr,mpw_ptr))
 }
 
 static void
-try_to_precalc_op(GelETree *n)
+try_to_precalc_op (GelETree *n, gboolean respect_type)
 {
 	switch(n->op.oper) {
-	case E_NEG: op_precalc_all_1(n,mpw_neg); return;
-	case E_ABS: op_precalc_1(n,mpw_abs); return;
-	case E_FACT: op_precalc_1(n,mpw_fac); return;
-	case E_DBLFACT: op_precalc_1(n,mpw_dblfac); return;
-	case E_PLUS: op_precalc_2(n,mpw_add); return;
-	case E_ELTPLUS: op_precalc_2(n,mpw_add); return;
-	case E_MINUS: op_precalc_2(n,mpw_sub); return;
-	case E_ELTMINUS: op_precalc_2(n,mpw_sub); return;
-	case E_MUL: op_precalc_2(n,mpw_mul); return;
-	case E_ELTMUL: op_precalc_2(n,mpw_mul); return;
-	case E_DIV: op_precalc_2(n,mpw_div); return;
-	case E_ELTDIV: op_precalc_2(n,mpw_div); return;
-	case E_MOD: op_precalc_2(n,mpw_mod); return;
+	case E_NEG:
+		op_precalc_all_1 (n, mpw_neg);
+		return;
+	case E_ABS:
+		op_precalc_1 (n, mpw_abs, respect_type);
+		return;
+	case E_FACT:
+		op_precalc_1 (n, mpw_fac, respect_type);
+		return;
+	case E_DBLFACT:
+		op_precalc_1 (n, mpw_dblfac, respect_type);
+		return;
+	case E_PLUS:
+		op_precalc_2 (n, mpw_add, respect_type);
+		return;
+	case E_ELTPLUS:
+		op_precalc_2 (n, mpw_add, respect_type);
+		return;
+	case E_MINUS:
+		op_precalc_2 (n, mpw_sub, respect_type);
+		return;
+	case E_ELTMINUS:
+		op_precalc_2 (n, mpw_sub, respect_type);
+		return;
+	case E_MUL:
+		op_precalc_2 (n, mpw_mul, respect_type);
+		return;
+	case E_ELTMUL:
+		op_precalc_2 (n, mpw_mul, respect_type);
+		return;
+	case E_DIV:
+		op_precalc_2 (n, mpw_div, respect_type);
+		return;
+	case E_ELTDIV:
+		op_precalc_2 (n, mpw_div, respect_type);
+		return;
+	case E_MOD:
+		op_precalc_2 (n, mpw_mod, respect_type);
+		return;
 	/* FIXME: this could be time consuming, somehow catch that */
-	case E_EXP: op_precalc_2(n,mpw_pow); return;
-	case E_ELTEXP: op_precalc_2(n,mpw_pow); return;
-	default: return;
+	case E_EXP:
+		op_precalc_2 (n, mpw_pow, respect_type);
+		return;
+	case E_ELTEXP:
+		op_precalc_2 (n, mpw_pow, respect_type);
+		return;
+	default:
+		return;
 	}
 }
 
@@ -7374,7 +7411,8 @@ try_to_do_precalc(GelETree *n)
 					try_to_do_precalc(ali);
 			}
 			if(n->type==OPERATOR_NODE)
-				try_to_precalc_op(n);
+				try_to_precalc_op (n,
+						   TRUE /* respect_type */);
 		}
 	} else if(n->type==MATRIX_NODE) {
 		int i,j;
@@ -7404,13 +7442,136 @@ try_to_do_precalc(GelETree *n)
 	}
 }
 
-/* FIXME: try to also precalc things like 3*(10*foo), but be careful as to not change what the result is! */
+gboolean
+gel_is_tree_same (GelETree *l, GelETree *r)
+{
+	if (l == NULL && r == NULL)
+		return TRUE;
+	if (l == NULL || r == NULL)
+		return FALSE;
+
+	if (l->type != r->type)
+		return FALSE;
+
+	if (l->type == NULL_NODE) {
+		return TRUE;
+	} else if (l->type == VALUE_NODE) {
+		return mpw_symbolic_eql (l->val.value, r->val.value);
+	} else if (l->type == OPERATOR_NODE) {
+		GelETree *ali, *bli;
+		if (l->op.oper != r->op.oper || l->op.nargs != r->op.nargs)
+			return FALSE;
+		for (ali = l->op.args, bli = r->op.args;
+		     ali != NULL && bli != NULL;
+		     ali = ali->any.next, bli = bli->any.next) {
+			if ( ! gel_is_tree_same (ali, bli))
+				return FALSE;
+		}
+		return TRUE;
+	} else if (l->type == IDENTIFIER_NODE) {
+		if (l->id.id == r->id.id)
+			return TRUE;
+		else
+			return FALSE;
+	} else if (l->type == STRING_NODE) {
+		if (l->str.str != NULL && /* sanity only! */
+		    r->str.str != NULL &&
+		    strcmp (l->str.str, r->str.str) == 0)
+			return TRUE;
+		else
+			return FALSE;
+	} else if (l->type == BOOL_NODE) {
+		if (l->bool_.bool_ == r->bool_.bool_)
+			return TRUE;
+		else
+			return FALSE;
+	} else if (l->type == MATRIX_NODE) {
+		int i, j;
+		int w, h;
+		if (l->mat.matrix == NULL ||
+		    r->mat.matrix == NULL)
+			return FALSE /* possible? */;
+		w = gel_matrixw_width (l->mat.matrix);
+		if (w != gel_matrixw_width (r->mat.matrix))
+			return FALSE;
+		h = gel_matrixw_height (l->mat.matrix);
+		if (h != gel_matrixw_height (r->mat.matrix))
+			return FALSE;
+		for (i = 0; i < w; i++) {
+			for (j = 0; j < h; j++) {
+				GelETree *lt = gel_matrixw_index (l->mat.matrix, i, j);
+				GelETree *rt = gel_matrixw_index (r->mat.matrix, i, j);
+				if ( ! gel_is_tree_same (lt, rt))
+					return FALSE;
+			}
+		}
+	/* FIXME: SET_NODE */
+	/* FIXME: POLYNOMIAL_NODE */
+	/* FIXME: FUNCTION_NODE */
+	/* FIXME: COMPARISON_NODE */
+	/* FIXME: USERTYPE_NODE */
+	}
+	return FALSE;
+}
+
+static gboolean
+oper_reshufle (GelETree *n, int oper)
+{
+	gboolean shuffled = FALSE;
+
+	/* First sort out multiplications or addi */
+	if (n->op.oper == oper) {
+		GelETree *l, *r;
+
+		GET_LR (n, l, r);
+
+		/* always swap values to go first */
+		if (r->type == VALUE_NODE &&
+		    l->type != VALUE_NODE) {
+			n->op.args = r;
+			r->any.next = l;
+			l->any.next = NULL;
+
+			shuffled = TRUE;
+
+			GET_LR (n, l, r);
+		}
+
+		/* make into (a*b)*c, "*" is * or + (oper) */
+		if (r->type == OPERATOR_NODE &&
+		    r->op.oper == oper) {
+			GelETree *a, *b, *c;
+			a = l;
+			b = r->op.args;
+			c = r->op.args->any.next;
+			r->op.args = NULL;
+			gel_freetree (r);
+
+			GET_NEW_NODE (l);
+			l->type = OPERATOR_NODE;
+			l->op.oper = oper;
+			l->op.args = a;
+			a->any.next = b;
+			b->any.next = NULL;
+
+			n->op.args = l;
+			l->any.next = c;
+			c->any.next = NULL;
+
+			shuffled = TRUE;
+		}
+	}
+	return shuffled;
+}
+
 void
 gel_simplify (GelETree *n)
 {
-	if(!n) return;
+resimplify:
+	if (n == NULL)
+		return;
 
-	if(n->type==OPERATOR_NODE) {
+	if (n->type == OPERATOR_NODE) {
 		GelETree *ali;
 
 		/* double negation is always positive no matter what */
@@ -7421,8 +7582,7 @@ gel_simplify (GelETree *n)
 			nn = n->op.args->op.args;
 			n->op.args->op.args = NULL;
 			replacenode (n, nn);
-			gel_simplify (n);
-			return;
+			goto resimplify;
 		} else if(n->op.oper == E_MOD_CALC) {
 			/* in case of modular calculation, only do
 			   precalc on the second argument (don't descend
@@ -7438,9 +7598,151 @@ gel_simplify (GelETree *n)
 				gel_simplify (ali);
 		}
 
-		try_to_precalc_op (n);
+		/* be aggressive! */
+		try_to_precalc_op (n, FALSE /* respect_type */);
 		if (n->type != OPERATOR_NODE)
 			return;
+
+		/* FIXME: we want to assume addition ALWAYS comutes and
+		   multiplication sometimes commutes (must get some type
+		   info!).  We can always at least move all numbers through
+		   and sort them by type and then precompute them */
+		/* We can always assume associativity anyway! */
+
+		/* sort out multiplications and additions,
+		   putting all values first */
+		if (oper_reshufle (n, E_MUL)) {
+			goto resimplify;
+		}
+		if (oper_reshufle (n, E_PLUS)) {
+			goto resimplify;
+		}
+
+		/* Now try to put together multiplications and exponents */
+		/* FIXME: this is too specific be more general!, though maybe if we sort out all
+		   multiplication and addition as above, things will work nicely */
+		/* FIXME: have problems with things like (3*(x^2))*(x^a) */
+		if (n->op.oper == E_MUL) {
+			GelETree *l, *r;
+			GelETree *ll, *rr;
+			GelETree *le = NULL, *re = NULL;
+			GET_LR (n, l, r);
+			ll = l;
+			rr = r;
+			if (l->type == OPERATOR_NODE &&
+			    l->op.oper == E_EXP) {
+				ll = l->op.args;
+				le = l->op.args->any.next;
+			}
+			if (r->type == OPERATOR_NODE &&
+			    r->op.oper == E_EXP) {
+				rr = r->op.args;
+				re = r->op.args->any.next;
+			}
+			/* we can put this together! */
+			if (gel_is_tree_same (ll, rr)) {
+				GelETree *nn, *e;
+
+				GET_NEW_NODE (e);
+				e->type = OPERATOR_NODE;
+				e->op.oper = E_PLUS;
+				if (le == NULL) {
+					e->op.args = gel_makenum_ui (1);
+				} else {
+					e->op.args = le;
+					l->op.args = NULL;
+				}
+				if (re == NULL) {
+					e->op.args->any.next = gel_makenum_ui (1);
+				} else {
+					e->op.args->any.next = re;
+					r->op.args = NULL;
+					/* must whack rr as we NULLed the r
+					  args here */
+					gel_freetree (rr);
+				}
+				e->op.args->any.next->any.next = NULL;
+
+				GET_NEW_NODE (nn);
+				nn->type = OPERATOR_NODE;
+				nn->op.oper = E_EXP;
+
+				nn->op.args = ll;
+				ll->any.next = e;
+				e->any.next = NULL;
+
+				/* whack ll from the list if it was on there
+				   as n will get whacked in the next step */
+				if (n->op.args == ll)
+					n->op.args = n->op.args->any.next;
+
+				replacenode (n, nn);
+
+				goto resimplify;
+			}
+		}
+
+		/* FIXME: this is just like for E_MUL except re and le
+		   are on the other side si there are some changes */
+		if (n->op.oper == E_PLUS) {
+			GelETree *l, *r;
+			GelETree *ll, *rr;
+			GelETree *le = NULL, *re = NULL;
+			GET_LR (n, l, r);
+			ll = l;
+			rr = r;
+			if (l->type == OPERATOR_NODE &&
+			    l->op.oper == E_MUL) {
+				le = l->op.args;
+				ll = l->op.args->any.next;
+			}
+			if (r->type == OPERATOR_NODE &&
+			    r->op.oper == E_MUL) {
+				re = r->op.args;
+				rr = r->op.args->any.next;
+			}
+			/* we can put this together! */
+			if (gel_is_tree_same (ll, rr)) {
+				GelETree *nn, *e;
+
+				GET_NEW_NODE (e);
+				e->type = OPERATOR_NODE;
+				e->op.oper = E_PLUS;
+				if (le == NULL) {
+					e->op.args = gel_makenum_ui (1);
+				} else {
+					e->op.args = le;
+					l->op.args = NULL;
+				}
+				if (re == NULL) {
+					e->op.args->any.next = gel_makenum_ui (1);
+				} else {
+					e->op.args->any.next = re;
+					r->op.args = NULL;
+					/* must whack rr as we NULLed the r
+					  args here */
+					gel_freetree (rr);
+				}
+				e->op.args->any.next->any.next = NULL;
+
+				GET_NEW_NODE (nn);
+				nn->type = OPERATOR_NODE;
+				nn->op.oper = E_MUL;
+
+				nn->op.args = e;
+				e->any.next = ll;
+				ll->any.next = NULL;
+
+				/* whack ll from the list if it was on there
+				   as n will get whacked in the next step */
+				if (n->op.args->any.next == ll)
+					n->op.args->any.next = NULL;
+
+				replacenode (n, nn);
+
+				goto resimplify;
+			}
+		}
 
 		if (n->op.oper == E_MUL &&
 		    (n->op.args->type == VALUE_NODE ||
@@ -7540,7 +7842,7 @@ gel_simplify (GelETree *n)
 				x->any.next = nn;
 				nn->any.next = NULL;
 
-				gel_simplify (n);
+				goto resimplify;
 			}
 		}
 	} else if(n->type==MATRIX_NODE) {

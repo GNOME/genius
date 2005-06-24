@@ -4731,6 +4731,17 @@ mpw_eql(mpw_ptr op1, mpw_ptr op2)
 	return (mpwl_cmp(op1->r,op2->r)==0 && mpwl_cmp(op1->i,op2->i)==0);
 }
 
+gboolean
+mpw_symbolic_eql(mpw_ptr op1, mpw_ptr op2)
+{
+	/* Here we're assuming that rationals of the form n/1 are now integers */
+	if (op1->r->type == op2->r->type &&
+	    op1->i->type == op2->i->type)
+		return mpw_eql (op1, op2);
+	else
+		return FALSE;
+}
+
 gboolean 
 mpw_eql_ui(mpw_ptr op, unsigned long int i)
 {

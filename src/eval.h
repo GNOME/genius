@@ -191,6 +191,8 @@ void fixup_num_neg (GelETree *n);
 void try_to_do_precalc (GelETree *n);
 /* aggressive precalculation/simplification */
 void gel_simplify (GelETree *n);
+/* is the tree semantically the same? */
+gboolean gel_is_tree_same (GelETree *l, GelETree *r);
 
 /* find an identifier */
 gboolean eval_find_identifier (GelETree *n,
