@@ -130,16 +130,16 @@ gel_differentiate_func1_expr (GelToken *tok)
 	DERIVATIVE_ENTRY_ALIAS ("asinh", "arcsinh", "1/sqrt(1+x^2)");
 	DERIVATIVE_ENTRY_ALIAS ("acos", "arccos", "-1/sqrt(1-x^2)");
 	DERIVATIVE_ENTRY_ALIAS ("acosh", "arccosh", "1/sqrt(x^2-1)");
-	DERIVATIVE_ENTRY_ALIAS ("acsc", "arccsc", "-1/(u*sqrt(x^2-1))");
-	DERIVATIVE_ENTRY_ALIAS ("acsch", "arccsch", "-1/(u*sqrt(x^2+1))");
-	DERIVATIVE_ENTRY_ALIAS ("asec", "arcsec", "1/(u*sqrt(x^2-1))");
-	DERIVATIVE_ENTRY_ALIAS ("asech", "arcsech", "-1/(u*sqrt(1-x^2))");
+	DERIVATIVE_ENTRY_ALIAS ("acsc", "arccsc", "-1/(x*sqrt(x^2-1))");
+	DERIVATIVE_ENTRY_ALIAS ("acsch", "arccsch", "-1/(x*sqrt(x^2+1))");
+	DERIVATIVE_ENTRY_ALIAS ("asec", "arcsec", "1/(x*sqrt(x^2-1))");
+	DERIVATIVE_ENTRY_ALIAS ("asech", "arcsech", "-1/(x*sqrt(1-x^2))");
 	DERIVATIVE_ENTRY_ALIAS ("atan", "arctan", "1/(1+x^2)");
 	DERIVATIVE_ENTRY_ALIAS ("atanh", "arctanh", "1/(1-x^2)");
 	DERIVATIVE_ENTRY_ALIAS ("acot", "arccot", "-1/(x^2+1)");
 	DERIVATIVE_ENTRY_ALIAS ("acoth", "arccoth", "-1/(x^2-1)");
 
-	DERIVATIVE_ENTRY ("cis", "-cos(x)+1i*cos(x)");
+	DERIVATIVE_ENTRY ("cis", "-sin(x)+1i*cos(x)");
 
 	DERIVATIVE_ENTRY_ALIAS ("sqrt", "SquareRoot", "1/(2*sqrt(x))");
 

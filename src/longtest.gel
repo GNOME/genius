@@ -41,6 +41,30 @@ function randtest2() = (
     true
 );
 
+function derivtest() = (
+	epsilon = 0.0001;
+	for n in [`asin,`asinh,`acos,`acosh,`acsc,`acsch,`asec,`asech,`atan,`atanh,`acot,`acoth,`sin,`sinh,`cos,`cosh,`csc,`csch,`sec,`sech,`tan,`tanh,`cot,`coth,`sqrt,`ln,`log2,`log10,`exp,`cis] do (
+		d = SymbolicDerivative(n);
+		for x in [0.1,0.2,0.15,0.3,0.4] do (
+			y = (d call (x)) - NDerivative (n,x);
+			if (not IsValue (y)) or abs(y) > epsilon then (
+				error ("Bad derivative on " + n + " at " + x + "!");
+				return false
+			)
+		)
+	);
+	f = SymbolicNthDerivative(atan,4);
+	d = SymbolicDerivative(f);
+	for x in [0.1,0.2,0.15,0.3,0.4] do (
+		y = (d call (x)) - NDerivative (f,x);
+		if (not IsValue (y)) or abs(y) > epsilon then (
+			error ("Bad derivative on 5th atan deriv at " + x + "!");
+			return false
+		)
+	);
+	true
+);
+
 function LongTest() = (
 	errors = 0;
 
@@ -64,6 +88,9 @@ function LongTest() = (
 
 	#random test 2
 	if not randtest2() then (error("error on random test 2");errors = errors + 1);
+
+	#derivative test
+	if not derivtest() then (error("error on deriv test");errors = errors + 1);
 
 	# We print instead of return since we normally use load to run this
 	# and load doesn't output the return value

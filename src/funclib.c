@@ -1181,6 +1181,14 @@ IsFunction_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return gel_makenum_bool (0);
 }
 static GelETree *
+IsFunctionOrIdentifier_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	if (a[0]->type == FUNCTION_NODE || a[0]->type == IDENTIFIER_NODE)
+		return gel_makenum_bool (1);
+	else
+		return gel_makenum_bool (0);
+}
+static GelETree *
 IsFunctionRef_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if(a[0]->type==OPERATOR_NODE &&
@@ -4820,6 +4828,7 @@ gel_funclib_addall(void)
 	FUNC (IsString, 1, "arg", "basic", N_("Check if argument is a text string"));
 	FUNC (IsMatrix, 1, "arg", "basic", N_("Check if argument is a matrix"));
 	FUNC (IsFunction, 1, "arg", "basic", N_("Check if argument is a function"));
+	FUNC (IsFunctionOrIdentifier, 1, "arg", "basic", N_("Check if argument is a function or an identifier"));
 	FUNC (IsFunctionRef, 1, "arg", "basic", N_("Check if argument is a function reference"));
 
 	FUNC (IsComplex, 1, "num", "numeric", N_("Check if argument is a complex (non-real) number"));

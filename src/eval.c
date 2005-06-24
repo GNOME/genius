@@ -2405,11 +2405,17 @@ string_concat (GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	if (l->type == STRING_NODE &&
 	    r->type == STRING_NODE) {
 		s = g_strconcat (l->str.str, r->str.str, NULL);
-	} else if(l->type == STRING_NODE) {
+	} else if (l->type == STRING_NODE &&
+		   r->type == IDENTIFIER_NODE) {
+		s = g_strconcat (l->str.str, r->id.id->token, NULL);
+	} else if (r->type == STRING_NODE &&
+		   l->type == IDENTIFIER_NODE) {
+		s = g_strconcat (l->id.id->token, r->str.str, NULL);
+	} else if (l->type == STRING_NODE) {
 		char *t = gel_string_print_etree (r);
 		s = g_strconcat (l->str.str, t, NULL);
 		g_free (t);
-	} else if(r->type == STRING_NODE) {
+	} else if (r->type == STRING_NODE) {
 		char *t = gel_string_print_etree (l);
 		s = g_strconcat (t, r->str.str, NULL);
 		g_free (t);
@@ -2823,9 +2829,9 @@ static const GelOper prim_table[E_OPER_LAST] = {
 		 {{GO_MATRIX,GO_MATRIX,0},(GelEvalFunc)pure_matrix_eltbyelt_op},
 		 {{GO_VALUE|GO_MATRIX,GO_VALUE|GO_MATRIX,0},
 			 (GelEvalFunc)matrix_addsub_scalar_matrix_op},
-		 {{GO_VALUE|GO_MATRIX|GO_FUNCTION|GO_STRING,GO_STRING,0},
+		 {{GO_VALUE|GO_MATRIX|GO_FUNCTION|GO_IDENTIFIER|GO_STRING,GO_STRING,0},
 			 (GelEvalFunc)string_concat},
-		 {{GO_STRING,GO_VALUE|GO_MATRIX|GO_FUNCTION|GO_STRING,0},
+		 {{GO_STRING,GO_VALUE|GO_MATRIX|GO_FUNCTION|GO_IDENTIFIER|GO_STRING,0},
 			 (GelEvalFunc)string_concat},
 		 {{GO_FUNCTION|GO_IDENTIFIER,GO_FUNCTION|GO_IDENTIFIER,0},
 			 (GelEvalFunc)function_bin_op},
@@ -7550,6 +7556,7 @@ oper_reshufle (GelETree *n, int oper)
 			GET_NEW_NODE (l);
 			l->type = OPERATOR_NODE;
 			l->op.oper = oper;
+			l->op.nargs = 2;
 			l->op.args = a;
 			a->any.next = b;
 			b->any.next = NULL;
@@ -7646,6 +7653,7 @@ resimplify:
 				GET_NEW_NODE (e);
 				e->type = OPERATOR_NODE;
 				e->op.oper = E_PLUS;
+				e->op.nargs = 2;
 				if (le == NULL) {
 					e->op.args = gel_makenum_ui (1);
 				} else {
@@ -7666,6 +7674,7 @@ resimplify:
 				GET_NEW_NODE (nn);
 				nn->type = OPERATOR_NODE;
 				nn->op.oper = E_EXP;
+				nn->op.nargs = 2;
 
 				nn->op.args = ll;
 				ll->any.next = e;
@@ -7708,6 +7717,7 @@ resimplify:
 				GET_NEW_NODE (e);
 				e->type = OPERATOR_NODE;
 				e->op.oper = E_PLUS;
+				e->op.nargs = 2;
 				if (le == NULL) {
 					e->op.args = gel_makenum_ui (1);
 				} else {
@@ -7728,6 +7738,7 @@ resimplify:
 				GET_NEW_NODE (nn);
 				nn->type = OPERATOR_NODE;
 				nn->op.oper = E_MUL;
+				nn->op.nargs = 2;
 
 				nn->op.args = e;
 				e->any.next = ll;
@@ -7832,11 +7843,11 @@ resimplify:
 				GET_NEW_NODE (nn);
 				nn->type = OPERATOR_NODE;
 				nn->op.oper = E_MUL;
+				nn->op.nargs = 2;
 
 				nn->op.args = v;
 				v->any.next = w;
 				w->any.next = NULL;
-				nn->op.nargs = 2;
 
 				n->op.args = x;
 				x->any.next = nn;

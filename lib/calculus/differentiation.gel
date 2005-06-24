@@ -32,7 +32,7 @@ function OneSidedThreePointFormula(f,x0,h) =
 	(
 # check arguments
 ## check types
-	if not IsFunction(f) then
+	if not IsFunctionOrIdentifier(f) then
 		(error("OneSidedThreePointFormula: argument 1 must be a function");bailout)
 	else if not IsReal(h) then
 		(error("OneSidedThreePointFormula: argument 2 must be real values");bailout);
@@ -41,7 +41,7 @@ function OneSidedThreePointFormula(f,x0,h) =
 		(error("OneSidedThreePointFormula: argument 2 must be non-zero (negative for left-handed derivative, positive for right-handed)");bailout);
 
 # Start calculating
-        (-3*f(x0)+4*f(x0+h)-f(x0+2*h))/(2*h)
+        (-3*f(x0)+4*(f call (x0+h))-(f call (x0+2*h)))/(2*h)
 	)
 SetHelp("OneSidedThreePointFormula","calculus","Compute one-sided derivative using three-point formula");
 protect("OneSidedThreePointFormula");
@@ -52,7 +52,7 @@ function TwoSidedThreePointFormula(f,x0,h) =
 	(
 # check arguments
 ## check types
-	if not IsFunction(f) then
+	if not IsFunctionOrIdentifier(f) then
 		(error("TwoSidedThreePointFormula: argument 1 must be a function");bailout)
 	else if not IsReal(h) then
 		(error("TwoSidedThreePointFormula: argument 2 must be real values");bailout);
@@ -60,7 +60,7 @@ function TwoSidedThreePointFormula(f,x0,h) =
 	if h==0 then (error("TwoSidedThreePointFormula: argument 2 must be non-zero");bailout);
 
 # Start calculating
-        (f(x0+h)-f(x0-h))/(2*h)
+        ((f call (x0+h))-(f call (x0-h)))/(2*h)
 	)
 SetHelp("TwoSidedThreePointFormula","calculus","Compute two-sided derivative using three-point formula");
 protect("TwoSidedThreePointFormula");
@@ -71,7 +71,7 @@ function OneSidedFivePointFormula(f,x0,h) =
 	(
 # check arguments
 ## check types
-	if not IsFunction(f) then
+	if not IsFunctionOrIdentifier(f) then
 		(error("OneSidedFivePointFormula: argument 1 must be a function");bailout)
 	else if not IsReal(h) then
 		(error("OneSidedFivePointFormula: argument 2 must be real values");bailout);
@@ -79,7 +79,7 @@ function OneSidedFivePointFormula(f,x0,h) =
 	if h==0 then (error("OneSidedFivePointFormula: argument 2 must be non-zero (negative for left-handed derivative, positive for right-handed)");bailout);
 
 # Start calculating
-        (-25*f(x0)+48*f(x0+h)-36*f(x0+2*h)+16*f(x0+3*h)-3*f(x0+4*h))/(12*h)
+        (-25*(f call (x0))+48*(f call (x0+h))-36*(f call (x0+2*h))+16*(f call (x0+3*h))-3*(f call (x0+4*h)))/(12*h)
 	)
 SetHelp("OneSidedFivePointFormula","calculus","Compute one-sided derivative using five point formula");
 protect("OneSidedFivePointFormula");
@@ -90,7 +90,7 @@ function TwoSidedFivePointFormula(f,x0,h) =
 	(
 # check arguments
 ## check types
-	if(not IsFunction(f)) then
+	if(not IsFunctionOrIdentifier(f)) then
 		(error("TwoSidedFivePointFormula: argument 1 must be a function");bailout)
 	else if(not IsReal(h)) then
 		(error("TwoSidedFivePointFormula: argument 2 must be a real value");bailout);
@@ -98,7 +98,7 @@ function TwoSidedFivePointFormula(f,x0,h) =
 	if(h==0) then (error("TwoSidedFivePointFormula: argument 2 must be non-zero");bailout);
 
 # Start calculating
-        (f(x0-2*h)-8*f(x0-h)+8*f(x0+h)-f(x0+2*h))/(12*h)
+        ((f call (x0-2*h))-8*(f call (x0-h))+8*(f call (x0+h))-(f call (x0+2*h)))/(12*h)
 	)
 SetHelp("TwoSidedFivePointFormula","calculus","Compute two-sided derivative using five-point formula");
 protect("TwoSidedFivePointFormula");
@@ -171,27 +171,3 @@ function Derivative(f,x0) =
 )
 SetHelp("Derivative","calculus","Attempt to calculate derivative by trying first symbolically and then numerically");
 protect("Derivative");
-
-#function TaylorApproximationFunction(f,x0,n) =
-#(
-#	if not IsFunction(f) then
-#		(error("TaylorApproximationFunction: argument 1 must be a function");bailout)
-#	else if not IsValue(x0) then
-#		(error("TaylorApproximationFunction: argument 2 must be a value");bailout)
-#	else if not IsPositiveInteger(n) then
-#		(error("TaylorApproximationFunction: argument 3 must be a positive integer");bailout);
-#
-#	df = f;
-#
-#	for k=0 to n do (
-#		c[k] = df(x0)/(k!);
-#		df = SymbolicDerivativeTry (f);
-#
-#	c = null;
-#	
-#	if IsNull(df) then (
-#	) else (
-#	)
-#)
-#SetHelp("TaylorApproximationFunction","calculus","Attempt to construct the taylor approximation function around x0 to the nth degree.");
-#protect("TaylorApproximationFunction");
