@@ -365,9 +365,10 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 			return n;
 		}
 		nn = differentiate_expr (expr->op.args, xtok);
-		if (nn == NULL)
+		if (nn == NULL) {
 			/* FIXME: */
 			return NULL;
+		}
 		nnn = differentiate_expr (expr->op.args->any.next, xtok);
 		if (nnn == NULL) {
 			gel_freetree (nn);
@@ -386,9 +387,10 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 		if (is_constant (expr->op.args, xtok))
 			return gel_makenum_ui (0);
 		nn = differentiate_expr (expr->op.args, xtok);
-		if (nn == NULL)
+		if (nn == NULL) {
 			/* FIXME: */
 			return NULL;
+		}
 		n = PARSE ("sign(x)*y");
 		substitute_x_y (n,
 				d_intern ("x"), expr->op.args, TRUE,
@@ -399,9 +401,10 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 	case E_MINUS:
 	/* FIXME: case E_ELTMINUS: */
 		nn = differentiate_expr (expr->op.args, xtok);
-		if (nn == NULL)
+		if (nn == NULL) {
 			/* FIXME: */
 			return NULL;
+		}
 		nnn = differentiate_expr (expr->op.args->any.next, xtok);
 		if (nnn == NULL) {
 			gel_freetree (nn);
@@ -448,9 +451,10 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 			return n;
 		}
 		nn = differentiate_expr (expr->op.args, xtok);
-		if (nn == NULL)
+		if (nn == NULL) {
 			/* FIXME: */
 			return NULL;
+		}
 		nnn = differentiate_expr (expr->op.args->any.next, xtok);
 		if (nnn == NULL) {
 			gel_freetree (nn);
@@ -482,9 +486,10 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 			return n;
 		}
 		nn = differentiate_expr (expr->op.args, xtok);
-		if (nn == NULL)
+		if (nn == NULL) {
 			/* FIXME: */
 			return NULL;
+		}
 		nnn = differentiate_expr (expr->op.args->any.next, xtok);
 		if (nnn == NULL) {
 			gel_freetree (nn);
@@ -524,7 +529,8 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 
 	case E_CALL:
 	case E_DIRECTCALL:
-		if (expr->op.args->type != IDENTIFIER_NODE) {
+		if (expr->op.args->type != IDENTIFIER_NODE &&
+		    expr->op.args->type != FUNCTION_NODE) {
 			/* FIXME: */
 			return NULL;
 		}
@@ -536,7 +542,19 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 		if (is_constant (expr->op.args->any.next, xtok)) {
 			return gel_makenum_ui (0);
 		}
-		ftok = get_symbolic_id (expr->op.args->id.id);
+		if (expr->op.args->type == IDENTIFIER_NODE) {
+			ftok = get_symbolic_id (expr->op.args->id.id);
+		} else /* if (expr->op.args->type == FUNCTION_NODE) */ {
+			GelEFunc *f = expr->op.args->func.func;
+			if (f->symbolic_id != NULL)
+				ftok = f->symbolic_id;
+			else
+				ftok = f->id;
+			if (ftok == NULL) {
+				/* FIXME: */
+				return NULL;
+			}
+		}
 		nn = gel_differentiate_func1_expr (ftok);
 		if (nn == NULL) {
 			/* FIXME: */
