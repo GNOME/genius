@@ -583,6 +583,16 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 static GelETree *
 differentiate_expr (GelETree *expr, GelToken *xtok)
 {
+	if (evalnode_hook != NULL) {
+		static int i = 0;
+		if G_UNLIKELY ((i++ & RUN_HOOK_EVERY_MASK) == RUN_HOOK_EVERY_MASK) {
+			(*evalnode_hook)();
+			i = 0;
+			if G_UNLIKELY (interrupted)
+				return NULL;
+		}
+	}
+
 	if (expr == NULL) {
 		return NULL;
 	} else if (expr->type == VALUE_NODE) {
@@ -665,7 +675,8 @@ gel_differentiate_func (GelEFunc *f)
 	}
 
 	if (rf == NULL &&
-	    gel_derivative_silent <= 0) {
+	    gel_derivative_silent <= 0 &&
+	    ! interrupted) {
 		gel_errorout (_("%s: Cannot differentiate the '%s' function"),
 			      "SymbolicDerivative",
 			      f->id ? f->id->token : "anonymous");

@@ -7520,6 +7520,7 @@ gel_is_tree_same (GelETree *l, GelETree *r)
 	return FALSE;
 }
 
+/* FIXME: this is incomplete and stupid! */
 static gboolean
 oper_reshufle (GelETree *n, int oper)
 {
@@ -7544,28 +7545,69 @@ oper_reshufle (GelETree *n, int oper)
 		}
 
 		/* make into (a*b)*c, "*" is * or + (oper) */
+		/* unless a is a value and b and c are not */
 		if (r->type == OPERATOR_NODE &&
 		    r->op.oper == oper) {
 			GelETree *a, *b, *c;
 			a = l;
 			b = r->op.args;
 			c = r->op.args->any.next;
-			r->op.args = NULL;
-			gel_freetree (r);
 
-			GET_NEW_NODE (l);
-			l->type = OPERATOR_NODE;
-			l->op.oper = oper;
-			l->op.nargs = 2;
-			l->op.args = a;
-			a->any.next = b;
-			b->any.next = NULL;
+			if ( ! (a->type == VALUE_NODE &&
+				b->type != VALUE_NODE &&
+				c->type != VALUE_NODE)) {
+				r->op.args = NULL;
+				gel_freetree (r);
 
-			n->op.args = l;
-			l->any.next = c;
-			c->any.next = NULL;
+				GET_NEW_NODE (l);
+				l->type = OPERATOR_NODE;
+				l->op.oper = oper;
+				l->op.nargs = 2;
+				l->op.args = a;
+				a->any.next = b;
+				b->any.next = NULL;
 
-			shuffled = TRUE;
+				n->op.args = l;
+				l->any.next = c;
+				c->any.next = NULL;
+
+				shuffled = TRUE;
+
+				GET_LR (n, l, r);
+			}
+		}
+
+		/* if (a*b)*c and a is a value and b and c are not
+		   make into a*(b*c) */
+		if (l->type == OPERATOR_NODE &&
+		    l->op.oper == oper) {
+			GelETree *a, *b, *c;
+			a = l->op.args;
+			b = l->op.args->any.next;
+			c = r;
+
+			if (a->type == VALUE_NODE &&
+			    b->type != VALUE_NODE &&
+			    c->type != VALUE_NODE) {
+				l->op.args = NULL;
+				gel_freetree (l);
+
+				GET_NEW_NODE (r);
+				r->type = OPERATOR_NODE;
+				r->op.oper = oper;
+				r->op.nargs = 2;
+				r->op.args = b;
+				b->any.next = c;
+				c->any.next = NULL;
+
+				n->op.args = a;
+				a->any.next = r;
+				r->any.next = NULL;
+
+				shuffled = TRUE;
+
+				/* GET_LR (n, l, r); */
+			}
 		}
 	}
 	return shuffled;
@@ -7628,7 +7670,6 @@ resimplify:
 		/* Now try to put together multiplications and exponents */
 		/* FIXME: this is too specific be more general!, though maybe if we sort out all
 		   multiplication and addition as above, things will work nicely */
-		/* FIXME: have problems with things like (3*(x^2))*(x^a) */
 		if (n->op.oper == E_MUL) {
 			GelETree *l, *r;
 			GelETree *ll, *rr;
@@ -7650,6 +7691,17 @@ resimplify:
 			if (gel_is_tree_same (ll, rr)) {
 				GelETree *nn, *e;
 
+				n->op.args = NULL;
+				gel_freetree (rr);
+				if (re != NULL) {
+					r->op.args = NULL;
+					gel_freetree (r);
+				}
+				if (l != ll) {
+					l->op.args = NULL;
+					gel_freetree (l);
+				}
+
 				GET_NEW_NODE (e);
 				e->type = OPERATOR_NODE;
 				e->op.oper = E_PLUS;
@@ -7658,16 +7710,11 @@ resimplify:
 					e->op.args = gel_makenum_ui (1);
 				} else {
 					e->op.args = le;
-					l->op.args = NULL;
 				}
 				if (re == NULL) {
 					e->op.args->any.next = gel_makenum_ui (1);
 				} else {
 					e->op.args->any.next = re;
-					r->op.args = NULL;
-					/* must whack rr as we NULLed the r
-					  args here */
-					gel_freetree (rr);
 				}
 				e->op.args->any.next->any.next = NULL;
 
@@ -7679,11 +7726,6 @@ resimplify:
 				nn->op.args = ll;
 				ll->any.next = e;
 				e->any.next = NULL;
-
-				/* whack ll from the list if it was on there
-				   as n will get whacked in the next step */
-				if (n->op.args == ll)
-					n->op.args = n->op.args->any.next;
 
 				replacenode (n, nn);
 
@@ -7714,6 +7756,17 @@ resimplify:
 			if (gel_is_tree_same (ll, rr)) {
 				GelETree *nn, *e;
 
+				n->op.args = NULL;
+				gel_freetree (rr);
+				if (re != NULL) {
+					r->op.args = NULL;
+					gel_freetree (r);
+				}
+				if (l != ll) {
+					l->op.args = NULL;
+					gel_freetree (l);
+				}
+
 				GET_NEW_NODE (e);
 				e->type = OPERATOR_NODE;
 				e->op.oper = E_PLUS;
@@ -7722,16 +7775,11 @@ resimplify:
 					e->op.args = gel_makenum_ui (1);
 				} else {
 					e->op.args = le;
-					l->op.args = NULL;
 				}
 				if (re == NULL) {
 					e->op.args->any.next = gel_makenum_ui (1);
 				} else {
 					e->op.args->any.next = re;
-					r->op.args = NULL;
-					/* must whack rr as we NULLed the r
-					  args here */
-					gel_freetree (rr);
 				}
 				e->op.args->any.next->any.next = NULL;
 
@@ -7743,11 +7791,6 @@ resimplify:
 				nn->op.args = e;
 				e->any.next = ll;
 				ll->any.next = NULL;
-
-				/* whack ll from the list if it was on there
-				   as n will get whacked in the next step */
-				if (n->op.args->any.next == ll)
-					n->op.args->any.next = NULL;
 
 				replacenode (n, nn);
 

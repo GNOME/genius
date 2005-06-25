@@ -1,3 +1,11 @@
+Fri Jun 24 17:21:22 2005  George Lebl <jirka@5z.com>
+
+	* src/symbolic.c, src/eval.c, src/geniustests.txt: Some more
+	  simplification special casing, doing several tan derivatives is
+	  now much faster and results in shorter answers, yay.  Also run
+	  the evalnode hook so that we can interrupt a symbolic derivation
+	  which is taking too long.
+
 Fri Jun 24 16:23:01 2005  George Lebl <jirka@5z.com>
 
 	* src/longtest.gel: add many derivative tests
