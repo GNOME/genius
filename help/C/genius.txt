@@ -77,7 +77,7 @@ Kai Willadsen
    To report a bug or make a suggestion regarding the Genius Math
    Tool  application or this manual, follow the directions in the
    GNOME Feedback Page.
-   This manual describes version 0.7.3 of Genius.
+   This manual describes version 0.7.4 of Genius.
      _________________________________________________________
 
    Table of Contents
@@ -1429,7 +1429,21 @@ Basic
 
           Compose (f,g)
 
-          Compose two functions
+          Compose two functions and return a function that is the
+          composition of f and g.
+
+   ComposePower
+
+          ComposePower (f,n,x)
+
+          Compose  a  function  with itself n times, passing x as
+          argument, and returning x if n == 0. Examples:
+
+genius> function f(x) = x^2 ;
+genius> ComposePower (f,3,7)
+= 5764801
+genius> f(f(f(7)))
+   = 5764801
 
    GetCurrentModulo
 
@@ -1464,6 +1478,12 @@ Basic
           IsFunction (arg)
 
           Check if argument is a function
+
+   IsFunctionOrIdentifier
+
+          IsFunctionOrIdentifier (arg)
+
+          Check if argument is a function or identifier
 
    IsFunctionRef
 
@@ -4272,11 +4292,33 @@ genius> SymbolicDerivative(`(x)=7*x^2)
 
    SymbolicDerivativeTry
 
-          SymbolicDerivative (f)
+          SymbolicDerivativeTry (f)
 
           Attempt  to  symbolically differentiate the function f,
           where  f is a function of one variable, returns null if
           unsuccessful but is silent. (See SymbolicDerivative)
+
+   SymbolicNthDerivative
+
+          SymbolicNthDerivative (f,n)
+
+          Attempt  to  symbolically  differentiate  a  function n
+          times. (See SymbolicDerivative)
+
+   SymbolicNthDerivativeTry
+
+          SymbolicNthDerivativeTry (f,n)
+
+          Attempt  to  symbolically  differentiate  a  function n
+          times   quietly   and   return  null  on  failure  (See
+          SymbolicNthDerivative)
+
+   SymbolicTaylorApproximationFunction
+
+          SymbolicTaylorApproximationFunction (f,x0,n)
+
+          Attempt  to construct the taylor approximation function
+          around x0 to the nth degree. (See SymbolicDerivative)
      _________________________________________________________
 
 Plotting
@@ -4323,6 +4365,31 @@ genius> LinePlot(sin,cos)
 
 genius> LinePlotDrawLine(0,0,1,1,"color","blue","thickness",3)
    genius> LinePlotDrawLine([0,0;1,-1;-1,-1])
+
+   LinePlotParametric
+
+          LinePlotParametric (xfunc,yfunc,...)
+
+          LinePlotParametric (xfunc,yfunc,t1,t2,tinc)
+
+          LinePlotParametric (xfunc,yfunc,t1,t2,tinc,x1,x2,y1,y2)
+
+          Plot  a parametric function with a line. First come the
+          functions  for  x and y then optionally the t limits as
+          t1,t2,tinc, then optionally the limits as x1,x2,y1,y2.
+
+   LinePlotCParametric
+
+          LinePlotCParametric (func,...)
+
+          LinePlotCParametric (func,t1,t2,tinc)
+
+          LinePlotCParametric (func,t1,t2,tinc,x1,x2,y1,y2)
+
+          Plot  a parametric complex valued function with a line.
+          First   comes  the  function  that  returns  x+iy  then
+          optionally  the t limits as t1,t2,tinc, then optionally
+          the limits as x1,x2,y1,y2.
 
    SurfacePlot
 
