@@ -276,6 +276,7 @@ void mpw_trunc(mpw_ptr rop, mpw_ptr op);
 long mpw_get_long(mpw_ptr op);
 /*try to get a double representation of the number*/
 double mpw_get_double(mpw_ptr op);
+void mpw_get_complex_double(mpw_ptr op, double *r, double *i);
 
 void mpw_denominator(mpw_ptr rop, mpw_ptr op);
 void mpw_numerator(mpw_ptr rop, mpw_ptr op);

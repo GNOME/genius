@@ -3906,6 +3906,34 @@ number is specified) of the given size returned.  For example
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-LinePlotParametric">
+         <term>LinePlotParametric</term>
+         <listitem>
+          <synopsis>LinePlotParametric (xfunc,yfunc,...)</synopsis>
+          <synopsis>LinePlotParametric (xfunc,yfunc,t1,t2,tinc)</synopsis>
+          <synopsis>LinePlotParametric (xfunc,yfunc,t1,t2,tinc,x1,x2,y1,y2)</synopsis>
+          <para>
+	    Plot a parametric function with a line.  First come the functions
+for x and y then optionally the t limits as t1,t2,tinc, then optionally the
+limits as x1,x2,y1,y2.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-LinePlotCParametric">
+         <term>LinePlotCParametric</term>
+         <listitem>
+          <synopsis>LinePlotCParametric (func,...)</synopsis>
+          <synopsis>LinePlotCParametric (func,t1,t2,tinc)</synopsis>
+          <synopsis>LinePlotCParametric (func,t1,t2,tinc,x1,x2,y1,y2)</synopsis>
+          <para>
+	    Plot a parametric complex valued function with a line.  First comes
+the function that returns x+iy then optionally the t limits as t1,t2,tinc, then
+optionally the limits as x1,x2,y1,y2.
+          </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-SurfacePlot">
          <term>SurfacePlot</term>
          <listitem>

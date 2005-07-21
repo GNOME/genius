@@ -5227,7 +5227,7 @@ mpw_get_double (mpw_ptr op)
 	double r;
 	int ex = MPWL_EXCEPTION_NO_EXCEPTION;
 	if G_UNLIKELY (MPW_IS_COMPLEX (op)) {
-		gel_errorout (_("Can't convert complex number into integer"));
+		gel_errorout (_("Can't convert complex number into a double"));
 		error_num=NUMERICAL_MPW_ERROR;
 		return 0;
 	} 
@@ -5247,6 +5247,22 @@ mpw_get_double (mpw_ptr op)
 		return 0;
 	}
 	return r;
+}
+
+void
+mpw_get_complex_double (mpw_ptr op, double *r, double *i)
+{
+	int ex = MPWL_EXCEPTION_NO_EXCEPTION;
+	*r = mpwl_get_double (op->r, &ex);
+	*i = mpwl_get_double (op->i, &ex);
+
+	if G_UNLIKELY (ex == MPWL_EXCEPTION_NUMBER_TOO_LARGE) {
+		gel_errorout (_("Number too large for this operation"));
+		*r = 0.0;
+		*i = 0.0;
+		error_num = NUMERICAL_MPW_ERROR;
+		return;
+	}
 }
 
 void
