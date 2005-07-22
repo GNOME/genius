@@ -1,3 +1,20 @@
+Changes to 0.7.4
+
+* Primitive symbolic derivatives of some expressions
+* Parametric plots
+* Accepts identifiers as well as functions in a number of places
+* SYNTAX: When adding a scalar to a square matrix "A+x" now acts as "A+x*I"
+  rather then A+x*ones.  If you want to add a scalar to every element of a
+  matrix, use .+ and .- operators.  Behaviour is element by element for vectors
+  (1 by n or n by 1 matrices)
+* SYNTAX: 'call' now binds tighter to allow "x = f call (x)" to act like
+  x=(f(x)) rather then (x=f)(x)
+* SYNTAX: allow "identifier + string" which creates a string
+* Added functions: IsFunctionOrIdentifier, ComposePower, Derivative,
+  SymbolicDerivative SymbolicDerivativeTry, SymbolicNthDerivative,
+  SymbolicNthDerivativeTry, SymbolicTaylorApproximationFunction
+* Many minor fixes
+
 Changes to 0.7.3
 
 * Update to mpfr 2.1.1
