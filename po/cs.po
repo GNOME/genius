@@ -7,13 +7,1160 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-05 11:07+0000\n"
-"PO-Revision-Date: 2005-07-05 20:46+0200\n"
+"POT-Creation-Date: 2005-08-05 03:12+0000\n"
+"PO-Revision-Date: 2005-08-05 12:14+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: ../lib/library-strings.c:1
+msgid "Compose two functions"
+msgstr "Složit dvě funkce"
+
+#: ../lib/library-strings.c:2
+msgid ""
+"Compose a function with itself n times, passing x as argument, and returning "
+"x if n == 0"
+msgstr ""
+"Složit funkci se sebou n-krát, předat x jako argument, a vrátit x, jestliže "
+"n == 0"
+
+#: ../lib/library-strings.c:3
+msgid "Make a string"
+msgstr "Vytvořit řetězec"
+
+#: ../lib/library-strings.c:4
+msgid "Tolerance of the Chop function"
+msgstr "Tolerance funkce Chop"
+
+#: ../lib/library-strings.c:5
+msgid "How many iterations to try to find the limit for continuity and limits"
+msgstr "Kolik iterací zkusit při hledání limitu spojitosti a limit"
+
+#: ../lib/library-strings.c:6
+msgid ""
+"How many successive steps to be within tolerance for calculation of "
+"continuity"
+msgstr "Kolik kroků, abychom byli v toleranci pro výpočet spojitosti"
+
+#: ../lib/library-strings.c:7
+msgid "Tolerance for continuity of functions and for calculating the limit"
+msgstr "Tolerance pro spojitost funkcí a výpočet limity"
+
+#: ../lib/library-strings.c:8
+msgid "How many iterations to try to find the limit for derivative"
+msgstr "Kolik iterací zkusit při hledání limity derivace"
+
+#: ../lib/library-strings.c:9
+msgid ""
+"How many successive steps to be within tolerance for calculation of "
+"derivative"
+msgstr "Kolik kroků, abychom byli v toleranci pro výpočet derivace"
+
+#: ../lib/library-strings.c:10
+msgid "Tolerance for calculating the derivatives of functions"
+msgstr "Tolerance pro výpočet derivací funkcí"
+
+#: ../lib/library-strings.c:11
+msgid "Tolerance of the ErrorFunction"
+msgstr "Tolerance ErrorFunction"
+
+#: ../lib/library-strings.c:12
+msgid "Tolerance of the GaussDistribution function"
+msgstr "Tolerance funkce GaussDistribution"
+
+#: ../lib/library-strings.c:13
+msgid "The function used for numerical integration in NumericalIntegral"
+msgstr "Funkce používaná pro numerickou integraci v NumericalIntegral"
+
+#: ../lib/library-strings.c:14
+msgid "Steps to perform in NumericalIntegral"
+msgstr "Kolik kroků provést v NumericalIntegral"
+
+#: ../lib/library-strings.c:15
+msgid "How many iterations to try for InfiniteSum and InfiniteProduct"
+msgstr "Kolik iterací zkusit pro InfiniteSum a InfiniteProduct"
+
+#: ../lib/library-strings.c:16
+msgid ""
+"How many successive steps to be within tolerance for InfiniteSum and "
+"InfiniteProduct"
+msgstr ""
+"Kolik kroků, abychom byli v toleranci pro InfiniteSum a InfiniteProduct"
+
+#: ../lib/library-strings.c:17
+msgid "Tolerance for InfiniteSum and InfiniteProduct"
+msgstr "Tolerance pro InfiniteSum a InfiniteProduct"
+
+#: ../lib/library-strings.c:18 ../src/eval.c:5918
+msgid "Absolute value"
+msgstr "Absolutní hodnota"
+
+#: ../lib/library-strings.c:19
+msgid "Replace very small number with zero"
+msgstr "Nahradit velice malé číslo nulou"
+
+#: ../lib/library-strings.c:20
+msgid "Return the fractional part of a number"
+msgstr "Vrátit desetinnou část čísla"
+
+#: ../lib/library-strings.c:21
+msgid "Division w/o remainder"
+msgstr "Dělení beze zbytku"
+
+#: ../lib/library-strings.c:22
+msgid "Check if argument is a gaussian integer"
+msgstr "Zjistit, jestli je parametr gaussovo celé číslo"
+
+#: ../lib/library-strings.c:23
+msgid "Return the sign (-1,0,1)"
+msgstr "Vrátit znaménko (-1,0,1)"
+
+#: ../lib/library-strings.c:24
+msgid ""
+"Logarithm of any base (calls DiscreteLog if in modulo mode), if base is not "
+"given, e is used"
+msgstr ""
+"Logaritmus o libovolném základu (volá DiscreteLog, pokud je v režimu "
+"modulo), pokud nená zadán základ, je použito e"
+
+#: ../lib/library-strings.c:25
+msgid "The arccos (reverse cos) function"
+msgstr "Funkce arccos (inverzní cos)"
+
+#: ../lib/library-strings.c:26
+msgid "The arccosh (reverse cosh) function"
+msgstr "Funkce arccosh (inverzní cosh)"
+
+#: ../lib/library-strings.c:27
+msgid "The arccot (reverse cot) function"
+msgstr "Funkce arccot (inverzní cot)"
+
+#: ../lib/library-strings.c:28
+msgid "The arccoth (reverse coth) function"
+msgstr "Funkce arccoth (inverzní coth)"
+
+#: ../lib/library-strings.c:29
+msgid "The reverse cosecant function"
+msgstr "Funkce inverzní kosekáns"
+
+#: ../lib/library-strings.c:30
+msgid "The reverse hyperbolic cosecant function"
+msgstr "Funkce inverzní hyperbolický kosekáns"
+
+#: ../lib/library-strings.c:31
+msgid "The reverse secant function"
+msgstr "Inverzní funkce sekáns"
+
+#: ../lib/library-strings.c:32
+msgid "The reverse hyperbolic secant function"
+msgstr "Funkce inverzní hyperbolický sekáns"
+
+#: ../lib/library-strings.c:33
+msgid "The arcsin (reverse sin) function"
+msgstr "Funkce arcsin (inverzní sin)"
+
+#: ../lib/library-strings.c:34
+msgid "The arcsinh (reverse sinh) function"
+msgstr "Funkce arcsinh (inverzní sinh)"
+
+#: ../lib/library-strings.c:35
+msgid "The arctanh (reverse tanh) function"
+msgstr "Funkce arctanh (inverzní tanh)"
+
+#: ../lib/library-strings.c:36
+msgid "The cotangent function"
+msgstr "Funkce kotangens"
+
+#: ../lib/library-strings.c:37
+msgid "The hyperbolic cotangent function"
+msgstr "Funkce hyperbolický kotangens"
+
+#: ../lib/library-strings.c:38
+msgid "The cosecant function"
+msgstr "Funkce kosekáns"
+
+#: ../lib/library-strings.c:39
+msgid "The hyperbolic cosecant function"
+msgstr "Funkce hyperbolický kosekáns"
+
+#: ../lib/library-strings.c:40
+msgid "The secant function"
+msgstr "Funkce sekáns"
+
+#: ../lib/library-strings.c:41
+msgid "The hyperbolic secant function"
+msgstr "Funkce hyperbolický sekáns"
+
+#: ../lib/library-strings.c:42
+msgid "The hyperbolic tangent function"
+msgstr "Funkce hyperbolický tangens"
+
+#: ../lib/library-strings.c:43
+msgid "Are a and b relatively prime?"
+msgstr "Jsou a a b relativně prvočísla?"
+
+#: ../lib/library-strings.c:44
+msgid "Return the nth Bernoulli number"
+msgstr "Vrátí n-té Bernoulliho číslo"
+
+#: ../lib/library-strings.c:45
+msgid ""
+"Find the x that solves the system given by the vector a and modulo the "
+"elements of m, using the Chinese Remainder Theorem"
+msgstr ""
+"Najít x, které řeší systém zadaný vektorem a a modulo elementy m pomocí "
+"čínské věty o zbytcích"
+
+#: ../lib/library-strings.c:46
+msgid ""
+"Given two factorizations, give the factorization of the product, see "
+"Factorize"
+msgstr "Jsou-li dány dva rozklady, vrátit rozklad součinu, viz Factorize"
+
+#: ../lib/library-strings.c:47
+msgid "Convert a vector of values indicating powers of b to a number"
+msgstr "Převést vektor hodnot indikující mocniny b na číslo"
+
+#: ../lib/library-strings.c:48
+msgid "Convert a number to a vector of powers for elements in base b"
+msgstr "Převést číslo na vektor mocnin prvků o základu b"
+
+#: ../lib/library-strings.c:49
+msgid ""
+"Find discrete log of n base b in F_q where q is a prime using the Silver-"
+"Pohlig-Hellman algoritm"
+msgstr ""
+"Najít diskrétní logaritmus n o základu b v F_q, kde q je prvočíslo, pomocí "
+"Silver-Pohlig-Hellmanova algoritmu"
+
+#: ../lib/library-strings.c:50
+msgid ""
+"Compute phi(n), the Euler phi function, that is the number of integers "
+"between 1 and n relatively prime to n"
+msgstr ""
+"Spočítat phi(n), Eulerovu funkci fí, to je počet celých čísel mezi 1 a n, "
+"relativně prvočíselných vůči n"
+
+#: ../lib/library-strings.c:51
+msgid "Return all factors of a number"
+msgstr "Vrátit všechny činitele čísla"
+
+#: ../lib/library-strings.c:52
+msgid ""
+"Attempt fermat factorization of n into (t-s)*(t+s), returns t and s as a "
+"vector if possible, null otherwise"
+msgstr ""
+"Pokusit se o fermatovu faktorizaci n na (t-s)*(t+s), vrací t a s jako "
+"vektor, pokud je to možné, jinak null"
+
+#: ../lib/library-strings.c:53
+msgid "Find the first primitive element in F_q (q must be a prime)"
+msgstr "Najít první primitivní prvek v F_q (q musí být prvočíslo)"
+
+#: ../lib/library-strings.c:54
+msgid "Find a random primitive element in F_q (q must be a prime)"
+msgstr "Najít náhodný primitivní prvek v F_q (q musí být prvočíslo)"
+
+#: ../lib/library-strings.c:55
+msgid ""
+"Compute discrete log base b of n in F_q (q a prime) using the factor base "
+"S.  S should be a column of primes possibly with second column precalculated "
+"by IndexCalculusPrecalculation."
+msgstr ""
+"Spočítat diskrétní logaritmus n o základu b v F_q (q prvočíslo) pomocí "
+"faktorizační báze S. S by měl být sloupec prvočísel, možná s druhým sloupcem "
+"předpočítaným pomocí IndexCalculusPrecalculation."
+
+#: ../lib/library-strings.c:56
+msgid ""
+"Run the precalculation step of IndexCalculus for logarithms base b in F_q (q "
+"a prime) for the factor base S (where S is a column vector of primes).  The "
+"logs will be precalculated and returned in the second column."
+msgstr ""
+"Spustit krok převýpočtu pro IndexCalculus pro základ b v F_q (q prvočíslo) "
+"pro faktorizační bázi S (kde S je sloupcový vektor prvočísel). Logaritmy "
+"budou předpočítány a vráceny v druhém sloupci."
+
+#: ../lib/library-strings.c:57
+msgid "Tests if a rational number is a perfect power"
+msgstr "Zjistí, jestli zlomek je perfektní číslo"
+
+#: ../lib/library-strings.c:58
+msgid ""
+"Check if g is primitive in F_q, where q is a prime.  If q is not prime "
+"results are bogus."
+msgstr ""
+"Zjistit, jestli g je primitivní v F_q, kde q je prvočíslo. Pokud q není "
+"prvočíslo, výsledky jsou nesmyslné."
+
+#: ../lib/library-strings.c:59
+msgid ""
+"Check if g is primitive in F_q, where q is a prime and f is a vector of "
+"prime factors of q-1.  If q is not prime results are bogus."
+msgstr ""
+"Zjistit, jestli g je primitivní v F_q, kde q je prvočíslo a f je vektor "
+"prvočíselných činitelů q-1. Pokud q není prvočíslo, výsledky jsou nesmyslné."
+
+#: ../lib/library-strings.c:60
+msgid ""
+"If n is a pseudoprime base b but not a prime, that is if b^(n-1) == 1 mod n"
+msgstr ""
+"Jestli n je pseudoprvočíslo o základu b, ale ne prvočíslo, to je jestli b^(n-"
+"1) == 1 mod n"
+
+#: ../lib/library-strings.c:61
+msgid "Test if n is a strong pseudoprime to base b but not a prime"
+msgstr ""
+"Zjistit, jestli n je silné pseudoprvočíslo v základu b, ale ne prvočíslo"
+
+#: ../lib/library-strings.c:62
+msgid ""
+"Return the residue of a mod n with the least absolute value (in the interval "
+"-n/2 to n/2)"
+msgstr ""
+"Vrátit zbytek a mod n s nejmenší absolutní hodnotou (v intervalu -n/2 do n/2)"
+
+#: ../lib/library-strings.c:63
+msgid "Test if Mp is a Mersenne prime using the Lucas-Lehmer test"
+msgstr ""
+"Zjistit, jestli Mp je Mersennovo prvočíslo, pomocí Lucas-Lehmerova testu"
+
+#: ../lib/library-strings.c:64
+msgid "Return all maximal prime power factors of a number"
+msgstr "Vrátit všechny maximální mocniny prvočísel v rozkladu čísla"
+
+#: ../lib/library-strings.c:65
+msgid "Return the Moebius mu function evaluated in n"
+msgstr "Vrátit Moebiovu funkci mu vyhodnocenou v n"
+
+#: ../lib/library-strings.c:66
+msgid "Returns the padic valuation (number of trailing zeros in base p)."
+msgstr "Vrátí padické ohodnocení (počet koncových nul v základu p)."
+
+#: ../lib/library-strings.c:67
+msgid "Compute a^b mod m"
+msgstr "Spočítat a^b mod m"
+
+#: ../lib/library-strings.c:68
+msgid "Return all prime factors of a number"
+msgstr "Vrátit všechny prvočinitele čísla"
+
+#: ../lib/library-strings.c:69
+msgid "Pseudoprime test, true iff b^(n-1) == 1 (mod n)"
+msgstr "Test pseudoprvočíselnosti, true právě když b^(n-1) == 1 (mod n)"
+
+#: ../lib/library-strings.c:70
+msgid "Removes all instances of the factor m from the number n"
+msgstr "Odstraní všechny instance činitele m z čísla n"
+
+#: ../lib/library-strings.c:71
+msgid ""
+"Find discrete log of n base b in F_q where q is a prime using the Silver-"
+"Pohlig-Hellman algoritm, given f being the factorization of q-1"
+msgstr ""
+"Najít diskrétní logaritmus n o základu b v F_q, kde q je prvočíslo, pomocí "
+"Silver-Pohlig-Hellmanova algoritmu, je-li f faktorizace q-1"
+
+#: ../lib/library-strings.c:72
+msgid ""
+"Find square root of n mod p (a prime). Null is returned if not a quadratic "
+"residue."
+msgstr ""
+"Najít odmocninu n mod p (prvočíslo). Je vráceno null, pokud to není "
+"kvadratický zbytek."
+
+#: ../lib/library-strings.c:73
+msgid ""
+"Apply a function over all entries of a matrix and return a matrix of the "
+"results"
+msgstr "Použít funkci na všechny prvky matice a vrátit matici výsledků"
+
+#: ../lib/library-strings.c:74
+msgid ""
+"Apply a function over all entries of 2 matrices (or 1 value and 1 matrix) "
+"and return a matrix of the results"
+msgstr ""
+"Použít funkci na všechny prvky 2 matic (nebo 1 hodnoty a 1 matice) a vrátit "
+"matici výsledků"
+
+#: ../lib/library-strings.c:75
+msgid "Remove column(s) and row(s) from a matrix"
+msgstr "Odstranit řádky a sloupce z matice"
+
+#: ../lib/library-strings.c:76
+msgid "Calculate the kth compund matrix of A"
+msgstr "Spočítat k-ou složenou matici A"
+
+#: ../lib/library-strings.c:77
+msgid "Delete a column of a matrix"
+msgstr "Odstranit sloupec matice"
+
+#: ../lib/library-strings.c:78
+msgid "Delete a row of a matrix"
+msgstr "Odstranit řádek matice"
+
+#: ../lib/library-strings.c:79
+msgid "Get the dot product of two vectors"
+msgstr "Získat skalární součit dvou vektorů"
+
+#: ../lib/library-strings.c:80
+msgid "Is a matrix diagonal"
+msgstr "Je matice diagonální"
+
+#: ../lib/library-strings.c:81
+msgid "Is a matrix lower triangular"
+msgstr "Je matice dolní trojúhelníková"
+
+#: ../lib/library-strings.c:82
+msgid "Is a matrix upper triangular"
+msgstr "Je matice horní trojúhelníková"
+
+#: ../lib/library-strings.c:83
+msgid "Is argument a horizontal or a vertical vector"
+msgstr "Je parametr vodorovný nebo svislý vektor"
+
+#: ../lib/library-strings.c:84
+msgid "Zero out entries above the diagonal"
+msgstr "Vynulovat prvky nad diagonálou"
+
+#: ../lib/library-strings.c:85
+msgid "Make diagonal matrix from a vector"
+msgstr "Vytvořit z vektoru diagonální matici"
+
+#: ../lib/library-strings.c:86
+msgid "Calculate the product of all elements in a matrix"
+msgstr "Spočítat součin všech prvků matice"
+
+#: ../lib/library-strings.c:87
+msgid "Calculate the sum of all elements in a matrix"
+msgstr "Spočítat součet všech prvků matice"
+
+#: ../lib/library-strings.c:88
+msgid "Calculate the sum of squares of all elements in a matrix"
+msgstr "Spočítat součet druhých mocnin všech prvků matice"
+
+#: ../lib/library-strings.c:89
+msgid "Get the outer product of two vectors"
+msgstr "Získat vnější součin dvou vektorů"
+
+#: ../lib/library-strings.c:90
+msgid "Reverse elements in a vector"
+msgstr "Obrátit pořadí prvků ve vektoru"
+
+#: ../lib/library-strings.c:91
+msgid "Calculate sum of each row in a matrix"
+msgstr "Spočítat součet každého řádku matice"
+
+#: ../lib/library-strings.c:92
+msgid "Calculate sum of squares of each row in a matrix"
+msgstr "Spočítat součet druhých mocnin každého řádku v matici"
+
+#: ../lib/library-strings.c:93
+msgid "Sort vector elements"
+msgstr "Seřadit prvky vektoru"
+
+#: ../lib/library-strings.c:94
+msgid "Removes any all-zero columns of M"
+msgstr "Odstraní všechny nulové sloupce M"
+
+#: ../lib/library-strings.c:95
+msgid "Removes any all-zero rows of M"
+msgstr "Odstraní všechny nulové řádky M"
+
+#: ../lib/library-strings.c:96
+msgid "Return column(s) and row(s) from a matrix"
+msgstr "Vrátit slopce a řádky z matice"
+
+#: ../lib/library-strings.c:97
+msgid "Swap two rows in a matrix"
+msgstr "Prohodit dva řádky matice"
+
+#: ../lib/library-strings.c:98
+msgid "Zero out entries below the diagonal"
+msgstr "Vynulovat prvky pod diagonálou"
+
+#: ../lib/library-strings.c:99
+msgid "Get the auxilliary unit matrix of size n"
+msgstr "Získat pomocnou jednotkovou matici velikosti n"
+
+#: ../lib/library-strings.c:100
+msgid "Evaluate (v,w) with respect to the bilinear form given by the matrix A"
+msgstr "Spočítat (v,w) vzhledem k bilineární formě dané maticí A"
+
+#: ../lib/library-strings.c:101
+msgid ""
+"Return a function that evaluates two vectors with respect to the bilinear "
+"form given by A"
+msgstr ""
+"Vrátit funkci, která vyhodnocuje dva vektory vzhledem k bilineární formě "
+"dané A"
+
+#: ../lib/library-strings.c:102
+msgid "Get the characteristic polynomial as a vector"
+msgstr "Získat charakteristický polynom jako vektor"
+
+#: ../lib/library-strings.c:103
+msgid "Get the characteristic polynomial as a function"
+msgstr "Získat charakteristický polynom jako funkci"
+
+#: ../lib/library-strings.c:104
+msgid "Get a basis matrix for the columnspace of a matrix"
+msgstr "Získat matici báze sloupcového prostoru matice"
+
+#: ../lib/library-strings.c:105
+msgid "Companion matrix of a polynomial (as vector)"
+msgstr "Doplňková matice polynomu (jako vektor)"
+
+#: ../lib/library-strings.c:106
+msgid "Conjugate transpose of a matrix (adjoint)"
+msgstr "Konjugovaná transpozice matice (adjugovaná)"
+
+#: ../lib/library-strings.c:107 ../lib/library-strings.c:108
+msgid "Calculate convolution of two horizontal vectors"
+msgstr "Spočítat konvoluci dvou vodorovných vektorů"
+
+#: ../lib/library-strings.c:109
+msgid "CrossProduct of two vectors in R^3"
+msgstr "Vektorový součin dvou vektorů v R^3"
+
+#: ../lib/library-strings.c:110
+msgid ""
+"Get the determinantal divisors of an integer matrix (not its characteristic)"
+msgstr ""
+"Získat determinantové dělitele celočéselné matice (ne její charakteristiku)"
+
+#: ../lib/library-strings.c:111
+msgid "Direct sum of matrices"
+msgstr "Přímý součet matic"
+
+#: ../lib/library-strings.c:112
+msgid "Direct sum of a vector of matrices"
+msgstr "Přímý součet vektoru matic"
+
+#: ../lib/library-strings.c:113
+msgid ""
+"Get the eigenvalues of a matrix (Currently only for 2x2 and triangular "
+"matrices)"
+msgstr ""
+"Získat vlastní čísla matice (momentálně jen pro matice 2×2 a "
+"trojúhelníkovité matice)"
+
+#: ../lib/library-strings.c:114
+msgid ""
+"Apply the Gram-Schmidt process (to the columns) with respect to innter "
+"product given by #2"
+msgstr ""
+"Provést Gram-Schmidtův proces (na sloupce) vzhledem ke skalárnímu součinu "
+"danému #2"
+
+#: ../lib/library-strings.c:115
+msgid "Apply the Gram-Schmidt process (to the columns) using the dot product"
+msgstr "Provést Gram-Schmidtův proces (na sloupce) pomocí skalárního součinu"
+
+#: ../lib/library-strings.c:116
+msgid "Hankel matrix"
+msgstr "Hankelova matice"
+
+#: ../lib/library-strings.c:117
+msgid "Hilbert matrix of order n"
+msgstr "Hilbertova matice řádku n"
+
+#: ../lib/library-strings.c:118
+msgid "Get the image (columnspace) of a linear transform"
+msgstr "Získat obraz (sloupcový prostor) lineární transformace"
+
+#: ../lib/library-strings.c:119
+msgid "Get the Inf Norm of a vector"
+msgstr "Získat normu vektoru typu nekonečno"
+
+#: ../lib/library-strings.c:120
+msgid ""
+"Get the invariant factors of a square integer matrix (not its characteristic)"
+msgstr ""
+"Získat invariantní činitele čtvercové celočíselné matice (ne její "
+"charakteristiku)"
+
+#: ../lib/library-strings.c:121
+msgid "Inverse Hilbert matrix of order n"
+msgstr "Inverzní Hilbertova matice řádu n"
+
+#: ../lib/library-strings.c:122
+msgid "Is a matrix hermitian"
+msgstr "Je matice hermitovská"
+
+#: ../lib/library-strings.c:123
+msgid "Test if a vector is in a subspace"
+msgstr "Zjistit, jestli je vektor v podprostoru"
+
+#: ../lib/library-strings.c:124
+msgid ""
+"Is a matrix (or number) invertible (Integer matrix is invertible iff it's "
+"invertible over the integers)"
+msgstr ""
+"Je matice (nebo číslo) invertovatelné (celočíselná matice je invertovatelná, "
+"právě když je invertovatelná v celých číslech)"
+
+#: ../lib/library-strings.c:125
+msgid "Is a matrix (or number) invertible over a field"
+msgstr "Je matice (nebo číslo) invertovatelná v tělesu"
+
+#: ../lib/library-strings.c:126
+msgid "Is a matrix normal"
+msgstr "Je matice normální"
+
+#: ../lib/library-strings.c:127
+#, fuzzy
+msgid "Is a matrix skew-hermitian"
+msgstr "Je matice čtvercová"
+
+#: ../lib/library-strings.c:128
+msgid "Is a matrix unitary"
+msgstr "Je matice unitární"
+
+#: ../lib/library-strings.c:129
+msgid "Get the jordan block corresponding to lambda and n"
+msgstr "Získat jordanovu buňku odpovídající lambda a n"
+
+#: ../lib/library-strings.c:130
+msgid "Get the kernel (nullspace) of a linear transform"
+msgstr "Získat jádro (nulový prostor) lineární transformace"
+
+#: ../lib/library-strings.c:131
+msgid ""
+"Get the LU decomposition of A and store the result in the L and U which "
+"should be references.  If not possible returns false."
+msgstr ""
+"Záskat LU rozklad A a uložit výsledek v L a U, což by měly být odkazy. Pokud "
+"to není možné, vrátí false."
+
+#: ../lib/library-strings.c:132
+msgid "Get the i-j minor of a matrix"
+msgstr "Získat minor i-j matice"
+
+#: ../lib/library-strings.c:133
+msgid "Return the columns that are not the pivot columns of a matrix"
+msgstr "Vrátit sloupce, které nejsou pivotové sloupce matice"
+
+#: ../lib/library-strings.c:134
+msgid "Get the p Norm (or 2 Norm if no p is supplied) of a vector"
+msgstr "Získat normu typu p (nebo typu 2, pokud není zadáno p) vektoru"
+
+#: ../lib/library-strings.c:135
+msgid "Get the nullspace of a matrix"
+msgstr "Získat nulový prostor matice"
+
+#: ../lib/library-strings.c:136
+msgid "Get the nullity of a matrix"
+msgstr "Získat nulovost matice"
+
+#: ../lib/library-strings.c:137
+msgid "Get the orthogonal complement of the columnspace"
+msgstr "Získat ortogonální doplněk sloupcového prostoru"
+
+#: ../lib/library-strings.c:138
+msgid ""
+"Return pivot columns of a matrix, that is columns which have a leading 1 in "
+"rref form, also returns the row where they occur"
+msgstr ""
+"Vrátit pivotové sloupce matice, to je sloupce, které začínají 1 v tvaru "
+"RREF, také vrací sloupec, kde vznikají"
+
+#: ../lib/library-strings.c:139
+msgid "Projection of vector v onto subspace W given a bilinear form B"
+msgstr "Průmět vektoru v do podprostoru W, je-li dána bilineární forma B"
+
+#: ../lib/library-strings.c:140
+msgid "Return the Raleigh Quotient of a matrix and a vector"
+msgstr "Vrátit Raleigův podíl matice a vektoru"
+
+#: ../lib/library-strings.c:141
+msgid "Get the rank of a matrix"
+msgstr "Získat hodnost matice"
+
+#: ../lib/library-strings.c:142
+msgid "Rosser matrix, a classic symmetric eigenvalue test problem"
+msgstr "Rosserova matice, klasický symetrický problém testu vlastního čísla"
+
+#: ../lib/library-strings.c:143
+msgid "Rotation around origin in R^2"
+msgstr "Rotace okolo počátku v R^2"
+
+#: ../lib/library-strings.c:144
+msgid "Rotation around origin in R^3 about the x-axis"
+msgstr "Rotace okolo počátku v R^3 okolo osy x"
+
+#: ../lib/library-strings.c:145
+msgid "Rotation around origin in R^3 about the y-axis"
+msgstr "Rotace okolo počátku v R^3 okolo osy y"
+
+#: ../lib/library-strings.c:146
+msgid "Rotation around origin in R^3 about the z-axis"
+msgstr "Rotace okolo počátku v R^3 okolo osy z"
+
+#: ../lib/library-strings.c:147
+msgid "Get a basis matrix for the rowspace of a matrix"
+msgstr "Získat matici báze řádkového prostoru matice"
+
+#: ../lib/library-strings.c:148
+msgid "Smith Normal Form for fields (will end up with 1's on the diagonal)"
+msgstr "Smithova normální forma tělesa (skončí s jedničkami na diagonále)"
+
+#: ../lib/library-strings.c:149
+msgid "Smith Normal Form for square integer matrices (not its characteristic)"
+msgstr ""
+"Smithova normální forma čtvercových celočíselných matic (ne jejich "
+"charakteristika)"
+
+#: ../lib/library-strings.c:150
+msgid "Calculate the trace of a matrix"
+msgstr "Spočítat stopu matice"
+
+#: ../lib/library-strings.c:151
+msgid "Transpose of a matrix"
+msgstr "Transpozice matice"
+
+#: ../lib/library-strings.c:152
+msgid "Return the Vandermonde matrix"
+msgstr "Vrátit Vandermondovu matici"
+
+#: ../lib/library-strings.c:153
+msgid "The angle of two vectors, given an inner product"
+msgstr "Úhel dvou vektorů, je-li dán skalární součin"
+
+#: ../lib/library-strings.c:154
+msgid "The direct sum of the vector spaces M and N"
+msgstr "Přímý součet vektorových prostorů M a N"
+
+#: ../lib/library-strings.c:155
+msgid "Intersection of the subspaces given by M and N"
+msgstr "Průnik podprostorů daných pomocí M a N"
+
+#: ../lib/library-strings.c:156
+msgid ""
+"The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}"
+msgstr "Součet vektorových prostorů M a N, to je {w | w=m+n, m in M, n in N}"
+
+#: ../lib/library-strings.c:157
+msgid "Get the classical adjoint (adjugate) of a matrix"
+msgstr "Získat klasickou sdruženou (adjugovanou) matici"
+
+#: ../lib/library-strings.c:158
+msgid "Compute the Column Reduced Echelon Form"
+msgstr "Spočítat sloupcově redukovaný trojúhelníkový tvar"
+
+#: ../lib/library-strings.c:159
+msgid "Get n'th catalan number"
+msgstr "Získat n-té catalanovo číslo"
+
+#: ../lib/library-strings.c:160
+msgid "Double factorial: n(n-2)(n-4)..."
+msgstr "Dvojitý faktoriál: n(n-2)(n-4)..."
+
+#: ../lib/library-strings.c:161
+msgid "Factorial: n(n-1)(n-2)..."
+msgstr "Faktoriál: n(n-1)(n-2)..."
+
+#: ../lib/library-strings.c:162
+msgid "Falling factorial: (n)_k = n(n-1)...(n-(k-1))"
+msgstr "Klesající faktoriál: (n)_k = n(n-1)...(n-(k-1))"
+
+#: ../lib/library-strings.c:163
+msgid "Calculate n'th fibbonachi number"
+msgstr "Spočítat n-té fibonacciho číslo"
+
+#: ../lib/library-strings.c:164
+msgid ""
+"Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))"
+msgstr ""
+"Galoisova matice, je-li dáno lineární kombinační pravidlo (a_1*x_+..."
+"+a_n*x_n=x_(n+1))"
+
+#: ../lib/library-strings.c:165
+msgid "Harmonic Number, the nth harmonic number of order r"
+msgstr "Harminické číslo, n-té harminické číslo řádu r"
+
+#: ../lib/library-strings.c:166
+msgid ""
+"Hofstadter's function q(n) defined by q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q"
+"(n-2))"
+msgstr ""
+"Hofstadterova funkce q(n) definovaná jako q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q"
+"(n-q(n-2))"
+
+#: ../lib/library-strings.c:167
+msgid "Compute linear recursive sequence using galois stepping"
+msgstr "Spočítat lineární rekurzivní posloupnost pomocí galoisova krokování"
+
+#: ../lib/library-strings.c:168
+msgid "Calculate multinomial coefficients"
+msgstr "Spočítat multinomiální koeficienty"
+
+#: ../lib/library-strings.c:169
+msgid "Get the pascal's triangle as a matrix"
+msgstr "Získat paskalův trojúhelník jako matici"
+
+#: ../lib/library-strings.c:170
+msgid "(Puchhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))"
+msgstr "(Puchhammerův) stoupacící faktoriál: (n)_k = n(n+1)...(n+(k-1))"
+
+#: ../lib/library-strings.c:171
+msgid "Subfactorial: n! times sum_{k=1}^n (-1)^k/k!"
+msgstr "Subfaktoriál: n! krát sum_{k=1}^n (-1)^k/k!"
+
+#: ../lib/library-strings.c:172
+msgid "Calculate the nth triangular number"
+msgstr "Spočítat n-té trojúhelníkové číslo"
+
+#: ../lib/library-strings.c:173
+msgid "Calculate combinations (binomial coefficient)"
+msgstr "Spočítat kombinace (binomiální koeficient)"
+
+#: ../lib/library-strings.c:174
+msgid "Calculate permutations"
+msgstr "Spočítat permutace"
+
+#: ../lib/library-strings.c:175
+msgid ""
+"Integration of f by Composite Simpson's Rule on the interval [a,b] with the "
+"number of steps calculated by the fourth derivative bound and the desired "
+"tolerance"
+msgstr ""
+"Integrace f složeným Simpsonovým pravidlem na intervalu [a,b] s počtem kroků "
+"počítaným omezením čtvrté derivace a požadovanou tolerancí"
+
+#: ../lib/library-strings.c:176
+msgid ""
+"Attempt to calculate derivative by trying first symbolically and then "
+"numerically"
+msgstr "Pokusit se spočítat derivaci nejdříve symbolicky a pak numericky"
+
+#: ../lib/library-strings.c:177
+msgid "Try to calculate an infinite product for a single parameter function"
+msgstr "Zkusit spočítat nekonečný součin funkce s jedním parametrem"
+
+#: ../lib/library-strings.c:178
+msgid ""
+"Try to calculate an infinite product for a double parameter function with "
+"func(arg,n)"
+msgstr ""
+"Zkusit spočítat nekonečný součin funkce s dvěma parametry jako func(arg,n)"
+
+#: ../lib/library-strings.c:179
+msgid "Try to calculate an infinite sum for a single parameter function"
+msgstr "Zkusit spočítat nekonečný součet funkce s jedním parametrem"
+
+#: ../lib/library-strings.c:180
+msgid ""
+"Try to calculate an infinite sum for a double parameter function with func"
+"(arg,n)"
+msgstr ""
+"Zkusit spočítat nekonečný součet funkce s dvěma parametry jako func(arg,n)"
+
+#: ../lib/library-strings.c:181
+msgid ""
+"Try and see if a real-valued function is continuous at x0 by calculating the "
+"limit there"
+msgstr ""
+"Zkusit zjistit, jestli funkce do reálných čísel je spojitá v x0 výpočtem "
+"limity"
+
+#: ../lib/library-strings.c:182
+msgid ""
+"Test for differentiability by approximating the left and right limits and "
+"comparing"
+msgstr ""
+"Test na diferencovatelnost aproximací limity zleva a zprava a porovnáním"
+
+#: ../lib/library-strings.c:183
+msgid "Calculate the left limit of a real-valued function at x0"
+msgstr "Spočítat limitu zleva funkce do reálných čísel v x0"
+
+#: ../lib/library-strings.c:184
+msgid ""
+"Calculate the limit of a real-valued function at x0.  Tries to calculate "
+"both left and right limits."
+msgstr ""
+"Spočítat limitu funkce do reálných čísel v x0. Zkusí spočítat limitu zleva i "
+"zprava."
+
+# ?
+#: ../lib/library-strings.c:185
+msgid "Integration by midpoint rule"
+msgstr "Integrace pravidlem prostředního bodu"
+
+#: ../lib/library-strings.c:186
+msgid "Attempt to calculate numerical derivative"
+msgstr "Pokusit se spočítat numerickou derivaci"
+
+#: ../lib/library-strings.c:187
+msgid ""
+"Integration by rule set in NumericalIntegralFunction of f from a to b using "
+"NumericalIntegralSteps steps"
+msgstr ""
+"Integrace pravidlem nastaveným v NumericalIntegralFunction funkce f od a do "
+"b pomocí NumericalIntegralSteps kroků"
+
+#: ../lib/library-strings.c:188
+msgid "Attempt to calculate numerical left derivative"
+msgstr "Pokusit se spočítat numerickou levou derivaci"
+
+#: ../lib/library-strings.c:189
+msgid "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N"
+msgstr "Pokusit se spočítat limitu f(step_fun(i)) pro i od 1 do N"
+
+#: ../lib/library-strings.c:190
+msgid "Attempt to calculate numerical right derivative"
+msgstr "Pokusit se spočítat numerickou derivaci zprava"
+
+#: ../lib/library-strings.c:191
+msgid "Compute one-sided derivative using five point formula"
+msgstr "Spočítat jednostrannou derivaci pomocí vzorce s pěti body"
+
+#: ../lib/library-strings.c:192
+msgid "Compute one-sided derivative using three-point formula"
+msgstr "Spočítat jednostrannou derivaci pomocí vzorce s třemi body"
+
+#: ../lib/library-strings.c:193
+msgid "Calculate the right limit of a real-valued function at x0"
+msgstr "Spočítat limitu zprava funkce do reálných čísel v x0"
+
+#: ../lib/library-strings.c:194
+msgid "Compute two-sided derivative using five-point formula"
+msgstr "Spoučítat oboustrannou derivaci pomocí vzorce s pěti body"
+
+#: ../lib/library-strings.c:195
+msgid "Compute two-sided derivative using three-point formula"
+msgstr "Spoučítat oboustrannou derivaci pomocí vzorce s třemi body"
+
+#: ../lib/library-strings.c:196
+msgid "argument (angle) of complex number"
+msgstr "argument (úhel) komplexního čísla"
+
+#: ../lib/library-strings.c:197
+msgid "Dirichlet kernel of order n"
+msgstr "Dirichletovo jádro řádu n"
+
+#: ../lib/library-strings.c:198
+msgid "Returns 1 iff all elements are zero"
+msgstr "Vrátí 1, právě když všechny prvky jsou 0"
+
+#: ../lib/library-strings.c:199
+msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
+msgstr "Funkce chyby, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
+
+#: ../lib/library-strings.c:200
+msgid "Fejer kernel of order n"
+msgstr "Fejerovo jádro řádu n"
+
+#: ../lib/library-strings.c:201
+msgid "Returns 1 iff all elements are equal"
+msgstr "Vrátí 1, právě když jsou si všechny prvky rovny"
+
+#: ../lib/library-strings.c:202
+msgid "Find the first value where f(x)=0"
+msgstr "Najít první hodnotu, kde f(x)=0"
+
+#: ../lib/library-strings.c:203
+msgid "Moebius mapping of the disk to itself mapping a to 0"
+msgstr "Moebiovo mapování disku sama na sebe mapující a na 0"
+
+#: ../lib/library-strings.c:204
+msgid ""
+"Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity "
+"respectively"
+msgstr "Moebiovo mapování pomocí podílu z2,z3,z4 na 1,0,nekonečna"
+
+#: ../lib/library-strings.c:205
+msgid ""
+"Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 "
+"to 1 and 0 respectively"
+msgstr ""
+"Moebiovo mapování pomocí podílu nekonečna na nekonečno a z2,z3 na 1 a 0"
+
+#: ../lib/library-strings.c:206
+msgid ""
+"Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 "
+"and infinity respectively"
+msgstr ""
+"Moebiovo mapování pomocí podílu nekonečna na 1 a z3,z4 na 0 a nekonečno"
+
+#: ../lib/library-strings.c:207
+msgid ""
+"Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 "
+"and infinity respectively"
+msgstr ""
+"Moebiovo mapování pomocí podílu nekonečna na 0 a z2,z4 na 1 a nekonečno"
+
+#: ../lib/library-strings.c:208
+msgid ""
+"Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is "
+"2pi)"
+msgstr "Poissonovo jádro na D(0,1) (nenormalizované na 1, tj. integrál je 2pi)"
+
+#: ../lib/library-strings.c:209
+msgid "Poisson kernel on D(0,R) (not normalized to 1)"
+msgstr "Poissonovo jádro na D(0,R) (nenormalizované na 1)"
+
+#: ../lib/library-strings.c:210
+msgid ""
+"The unit step function = 0 for x<0, 1 otherwise.  This is the integral of "
+"the Dirac Delta function."
+msgstr ""
+"Funkce jednotkového kroku = 0 pro x<0, jinak 1. Toto je integrál Diracovy "
+"funkce delta."
+
+#: ../lib/library-strings.c:211
+msgid "The cis function, that is cos(x)+i*sin(x)"
+msgstr "Funkce cis, to je cos(x)+i*sin(x)"
+
+#: ../lib/library-strings.c:212
+msgid "Convert degrees to radians"
+msgstr "Převést stupně na radiány"
+
+#: ../lib/library-strings.c:213
+msgid "Convert radians to degrees"
+msgstr "Převést radiány na stupně"
+
+#: ../lib/library-strings.c:214
+msgid ""
+"Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
+"y0 going to x1 with n increments, returns y at x1"
+msgstr ""
+"Použít klasitckou Eulerovu metodu pro numerické řešení y'=f(x,y) pro "
+"počáteční x0,y0 do x1 s n přírůstky, vrátí y v x1"
+
+#: ../lib/library-strings.c:215
+msgid "Find root of a function using the bisection method"
+msgstr "Najít kořen funkce pomocí metody bisekce"
+
+#: ../lib/library-strings.c:216
+msgid "Find root of a function using the method of false position"
+msgstr "Najít kořen funkce pomocí metody špatné pozice"
+
+#: ../lib/library-strings.c:217
+msgid "Find root of a function using the Muller's method"
+msgstr "Najít kořen funkce pomocí Mullerovy metody"
+
+#: ../lib/library-strings.c:218
+msgid "Find root of a function using the secant method"
+msgstr "Najít kořen funkce pomocí metody sečny"
+
+#: ../lib/library-strings.c:219
+msgid ""
+"Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
+"solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
+"at x1"
+msgstr ""
+"Použít klasickou neadaptivní metodu Runge-Kutta čtvrtého řádu pro numerické "
+"řešení y'=f(x,y) pro počáteční x0,y0 do x1 s n přírůstky, vrátí y v x1"
+
+#: ../lib/library-strings.c:220
+msgid "Calculate average of an entire matrix"
+msgstr "Spočítat průměr celé matice"
+
+#: ../lib/library-strings.c:221
+msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
+msgstr "Integrál Gaussovy funkce od 0 do x (oblast pod normální křivkou)"
+
+#: ../lib/library-strings.c:222
+msgid "The normalized Gauss distribution function (the normal curve)"
+msgstr "Normalizovaná Gaussova distribuční funkce (normální křivka)"
+
+#: ../lib/library-strings.c:223
+msgid "Calculate median of an entire matrix"
+msgstr "Spočítat medián celé matice"
+
+#: ../lib/library-strings.c:224
+msgid "Calculate the population standard deviation of a whole matrix"
+msgstr "Spočítat standardní odchylku populace celé matice"
+
+#: ../lib/library-strings.c:225
+msgid "Calculate average of each row in a matrix"
+msgstr "Spočítat průměr každého řádku matice"
+
+#: ../lib/library-strings.c:226
+msgid "Calculate median of each row in a matrix"
+msgstr "Spočítat medián každého řádku matice"
+
+#: ../lib/library-strings.c:227
+msgid ""
+"Calculate the population standard deviations of rows of a matrix and return "
+"a vertical vector"
+msgstr ""
+"Spočítat standardní odchylky populací řádků matice a vrátit svislý vektor"
+
+#: ../lib/library-strings.c:228
+msgid ""
+"Calculate the standard deviations of rows of a matrix and return a vertical "
+"vector"
+msgstr "Spočítat standardní odchylky řádků matice a vrátit svislý vektor"
+
+#: ../lib/library-strings.c:229
+msgid "Calculate the standard deviation of a whole matrix"
+msgstr "Spočítat standardní odchylku celé matice"
+
+#: ../lib/library-strings.c:230
+msgid ""
+"Run newton's method on a polynomial to attempt to find a root, returns after "
+"two successive values are within epsilon or after maxn tries (then returns "
+"null)"
+msgstr ""
+"Spustit newtonovou metodu na polynomu a zkusit najít kořen, vrátí se, když "
+"dvě po sobě jdoucí hodnoty jsou do epsilon, nebo po maxn pokusech (pak vrátí "
+"null)"
+
+#: ../lib/library-strings.c:231
+msgid ""
+"Returns a set theoretic intersection of X and Y (X and Y are vectors "
+"pretending to be sets)"
+msgstr "Vrátí množinový průnik X a Y (X a Y jsou vektory brané jako množiny)"
+
+#: ../lib/library-strings.c:232
+msgid ""
+"Returns true if the element x is in the set X (where X is a vector "
+"pretending to be a set)"
+msgstr ""
+"Vrátí true, když prvek x je v množině X (kde X je vektor braný jako množina)"
+
+#: ../lib/library-strings.c:233
+msgid "Returns a set where every element of X appears only once"
+msgstr "Vrátí množinu, kde je každý prvek X jen jednou"
+
+#: ../lib/library-strings.c:234
+msgid ""
+"Returns a set theoretic difference X-Y (X and Y are vectors pretending to be "
+"sets)"
+msgstr "Vrátí množinový rozdíl X-Y (X a Y jsou vektory brané jako množiny)"
+
+#: ../lib/library-strings.c:235
+msgid ""
+"Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
+"be sets)"
+msgstr ""
+"Vrátí množinové sjednocení X a Y (X a Y jsou vektory brané jako množiny)"
+
+#: ../lib/library-strings.c:236
+msgid "Attempt to symbolically differentiate a function n times"
+msgstr "Pokusit se symbolicky derivovat funkci n-krát"
+
+#: ../lib/library-strings.c:237
+msgid ""
+"Attempt to symbolically differentiate a function n times quietly and return "
+"null on failure"
+msgstr ""
+"Pokusit se symbolicky derivovat funkci n-krát tiše a vrátit null při "
+"neúspěchu"
+
+#: ../lib/library-strings.c:238
+msgid ""
+"Attempt to construct the taylor approximation function around x0 to the nth "
+"degree."
+msgstr ""
+"Pokusit se zkonstruovat taylorovu aproximační funkci kolem x0 do n-tého řádu."
 
 #: ../src/calc.c:187
 msgid "Uncategorized"
@@ -235,7 +1382,9 @@ msgstr "Aritmetika modulo funguje jen na celých číslech"
 msgid ""
 "Can't add/subtract a scalar to non-square matrix (A + x is defined as A + "
 "x*I)"
-msgstr "Nemohu přičíst/odečíst skalár k nečtvercové matici (A + x je definováno jako A + x*I)"
+msgstr ""
+"Nemohu přičíst/odečíst skalár k nečtvercové matici (A + x je definováno jako "
+"A + x*I)"
 
 #: ../src/eval.c:1913
 msgid "Can't add/subtract two matricies of different sizes"
@@ -499,10 +1648,6 @@ msgstr "polynom"
 #: ../src/eval.c:5899
 msgid "boolean"
 msgstr "booleovská hodnota"
-
-#: ../src/eval.c:5918 ../lib/library-strings.c:18
-msgid "Absolute value"
-msgstr "Absolutní hodnota"
 
 #: ../src/eval.c:5919
 msgid "Addition"
@@ -1702,7 +2847,7 @@ msgstr "_Přerušit"
 msgid "Interrupt current calculation"
 msgstr "Přerušení aktuální výpočet"
 
-#: ../src/gnome-genius.c:258 ../src/graphing.c:2880
+#: ../src/gnome-genius.c:258 ../src/graphing.c:3269
 msgid "_Plot"
 msgstr "_Vykreslit"
 
@@ -1758,7 +2903,7 @@ msgstr "Otevřít"
 msgid "Open a GEL file for running"
 msgstr "Otevřít soubor GEL pro spuštění"
 
-#: ../src/gnome-genius.c:304 ../src/graphing.c:1254
+#: ../src/gnome-genius.c:304 ../src/graphing.c:1277
 msgid "Plot"
 msgstr "Vykreslit"
 
@@ -1958,7 +3103,7 @@ msgstr ""
 msgid "GEL files"
 msgstr "Soubory GEL"
 
-#: ../src/gnome-genius.c:1329 ../src/graphing.c:881
+#: ../src/gnome-genius.c:1329 ../src/graphing.c:904
 msgid "All files"
 msgstr "Všechny soubory"
 
@@ -2013,7 +3158,7 @@ msgstr ""
 "<B>nemohu uložit soubor</b>\n"
 "Detaily: %s"
 
-#: ../src/gnome-genius.c:2157 ../src/graphing.c:640 ../src/graphing.c:767
+#: ../src/gnome-genius.c:2157 ../src/graphing.c:663 ../src/graphing.c:790
 msgid "File already exists.  Overwrite it?"
 msgstr "Soubor již existuje. Přepsat jej?"
 
@@ -2077,152 +3222,156 @@ msgstr "Matematický nástroj Genius"
 msgid "Genius Mathematical Tool and Calculator"
 msgstr "Matematický nástroj a kalkulátor Genius"
 
-#: ../src/graphing.c:296
+#: ../src/graphing.c:319
 msgid "Rotate"
 msgstr "Rotovat"
 
-#: ../src/graphing.c:315
+#: ../src/graphing.c:338
 msgid "Rotate X: "
 msgstr "Rotovat X: "
 
-#: ../src/graphing.c:340
+#: ../src/graphing.c:363
 msgid "Rotate Y: "
 msgstr "Rotovat Y: "
 
-#: ../src/graphing.c:365
+#: ../src/graphing.c:388
 msgid "Rotate Z: "
 msgstr "Rotovat Z: "
 
-#: ../src/graphing.c:474
+#: ../src/graphing.c:497
 msgid "Print"
 msgstr "Vytisknout"
 
-#: ../src/graphing.c:491
+#: ../src/graphing.c:514
 msgid "Print command: "
 msgstr "Příkaz tisku: "
 
-#: ../src/graphing.c:518
+#: ../src/graphing.c:541
 msgid "Cannot open temporary file, cannot print."
 msgstr "Nemohu otevřít dočasný soubor, nemohu tisknout."
 
-#: ../src/graphing.c:547
+#: ../src/graphing.c:570
 msgid "Printing failed"
 msgstr "Tisk selhal"
 
-#: ../src/graphing.c:719 ../src/graphing.c:786 ../src/graphing.c:803
+#: ../src/graphing.c:742 ../src/graphing.c:809 ../src/graphing.c:826
 msgid "Export failed"
 msgstr "Export selhal"
 
-#: ../src/graphing.c:846
+#: ../src/graphing.c:869
 msgid "Export encapsulated postscript"
 msgstr "Exportovat zapouzdřený postscript"
 
-#: ../src/graphing.c:848
+#: ../src/graphing.c:871
 msgid "Export postscript"
 msgstr "Exportovat postscript"
 
-#: ../src/graphing.c:850
+#: ../src/graphing.c:873
 msgid "Export PNG"
 msgstr "Exportovat PNG"
 
-#: ../src/graphing.c:867
+#: ../src/graphing.c:890
 msgid "EPS files"
 msgstr "Soubory EPS"
 
-#: ../src/graphing.c:871
+#: ../src/graphing.c:894
 msgid "PS files"
 msgstr "Soubory PS"
 
-#: ../src/graphing.c:875
+#: ../src/graphing.c:898
 msgid "PNG files"
 msgstr "Soubory PNG"
 
-#: ../src/graphing.c:1280
+#: ../src/graphing.c:1303
 msgid "_Graph"
 msgstr "_Graf"
 
-#: ../src/graphing.c:1284
+#: ../src/graphing.c:1307
 msgid "_Print..."
 msgstr "Vy_tisknout..."
 
-#: ../src/graphing.c:1290
+#: ../src/graphing.c:1313
 msgid "_Export postscript..."
 msgstr "_Exportovat postscript..."
 
-#: ../src/graphing.c:1296
+#: ../src/graphing.c:1319
 msgid "E_xport encapsulated postscript..."
 msgstr "E_xportovat zapouzdřený postscript..."
 
-#: ../src/graphing.c:1302
+#: ../src/graphing.c:1325
 msgid "_Export PNG..."
 msgstr "_Exportovat PNG..."
 
-#: ../src/graphing.c:1310
+#: ../src/graphing.c:1333
 msgid "_Zoom"
 msgstr "_Zvětšení"
 
-#: ../src/graphing.c:1314
+#: ../src/graphing.c:1337
 msgid "Zoom _out"
 msgstr "Z_menšit"
 
-#: ../src/graphing.c:1320
+#: ../src/graphing.c:1343
 msgid "Zoom _in"
 msgstr "Z_většit"
 
-#: ../src/graphing.c:1326
+#: ../src/graphing.c:1349
 msgid "_Fit dependent axis"
 msgstr "_Přizpůsobit závislou osu"
 
-#: ../src/graphing.c:1334
+#: ../src/graphing.c:1357
 msgid "_View"
 msgstr "_Zobrazit"
 
-#: ../src/graphing.c:1339
+#: ../src/graphing.c:1362
 msgid "_Reset angles"
 msgstr "_Vynulovat úhly"
 
-#: ../src/graphing.c:1344
+#: ../src/graphing.c:1367
 msgid "_Top view"
 msgstr "Pohled _shora"
 
-#: ../src/graphing.c:1349
+#: ../src/graphing.c:1372
 msgid "R_otate axis..."
 msgstr "_Rotovat osu..."
 
-#: ../src/graphing.c:1878
+#: ../src/graphing.c:1961
+msgid "Function"
+msgstr "Funkce"
+
+#: ../src/graphing.c:1963
 #, c-format
 msgid "Function #%d"
 msgstr "Funkce #%d"
 
-#: ../src/graphing.c:1887
+#: ../src/graphing.c:1972
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: parametr číslo %d není číslo"
 
-#: ../src/graphing.c:1900
+#: ../src/graphing.c:1985
 msgid "Graph limits not given as a 4-vector"
 msgstr "Limity grafu nebyly zadány jako čtyřprvkový vektor"
 
-#: ../src/graphing.c:1906 ../src/graphing.c:1912 ../src/graphing.c:1918
-#: ../src/graphing.c:1924 ../src/graphing.c:1983 ../src/graphing.c:1989
-#: ../src/graphing.c:1995 ../src/graphing.c:2001 ../src/graphing.c:2007
-#: ../src/graphing.c:2013
+#: ../src/graphing.c:1991 ../src/graphing.c:1997 ../src/graphing.c:2003
+#: ../src/graphing.c:2009 ../src/graphing.c:2068 ../src/graphing.c:2074
+#: ../src/graphing.c:2080 ../src/graphing.c:2086 ../src/graphing.c:2092
+#: ../src/graphing.c:2098
 msgid "Graph limits not given as numbers"
 msgstr "Limity grafu nebyly zadány jako čísla"
 
-#: ../src/graphing.c:1977
+#: ../src/graphing.c:2062
 msgid "Graph limits not given as a 6-vector"
 msgstr "Limity grafu nebyly zadány jako šestiprvkový vektor"
 
-#: ../src/graphing.c:2288
+#: ../src/graphing.c:2479
 msgid "to:"
 msgstr "do:"
 
-#: ../src/graphing.c:2318
-msgid "Functions / Expressions"
-msgstr "Funkce / výrazy"
+#: ../src/graphing.c:2497
+msgid "by:"
+msgstr "po:"
 
-#: ../src/graphing.c:2323
+#: ../src/graphing.c:2559
 msgid ""
 "Type in function names or expressions involving the x variable in the boxes "
 "below to graph them"
@@ -2230,29 +3379,54 @@ msgstr ""
 "Grafy vykreslíte zadáním názvů funkcí nebo výrazů obsahujících proměnnou x "
 "do polí níže"
 
-#: ../src/graphing.c:2346 ../src/graphing.c:2401
+#: ../src/graphing.c:2575
+msgid "_Functions / Expressions"
+msgstr "_Funkce / výrazy"
+
+#: ../src/graphing.c:2583
+msgid ""
+"Type in function names or expressions involving the t variable in the boxes "
+"below to graph them.  Either fill in both boxes with x= and y= in front of "
+"them giving the x and y coordinates separately, or alternatively fill in the "
+"z= box giving x and y as the real and imaginary part of a complex number."
+msgstr "Pro vykreslení grafu zadejte názvy funkcí nebo výrazy používající proměnnou t do polí níže. Buď vyplňte obě pole s x= a y= před nimi a zadejte souřadnice x a y odděleně, nebo vyplňte pole z= a zadejte x a y jako reálné a imaginární části komplexního čísla."
+
+#: ../src/graphing.c:2606
+msgid "or"
+msgstr "nebo"
+
+#. t range
+#: ../src/graphing.c:2621
+msgid "Parameter t from:"
+msgstr "Parametr t od:"
+
+#: ../src/graphing.c:2629
+msgid "_Parametric"
+msgstr "_Parametrické"
+
+#: ../src/graphing.c:2631 ../src/graphing.c:2686
 msgid "Plot Window"
 msgstr "Okno grafu"
 
 #.
 #. * X range
 #.
-#: ../src/graphing.c:2355 ../src/graphing.c:2410
+#: ../src/graphing.c:2640 ../src/graphing.c:2695
 msgid "X from:"
 msgstr "X od:"
 
 #.
 #. * Y range
 #.
-#: ../src/graphing.c:2361 ../src/graphing.c:2416
+#: ../src/graphing.c:2646 ../src/graphing.c:2702
 msgid "Y from:"
 msgstr "Y od:"
 
-#: ../src/graphing.c:2376
+#: ../src/graphing.c:2661
 msgid "Function / Expression"
 msgstr "Funkce / výraz"
 
-#: ../src/graphing.c:2381
+#: ../src/graphing.c:2666
 msgid ""
 "Type a function name or an expression involving the x and y variables (or "
 "the z variable which will be z=x+iy) in the boxes below to graph them.  "
@@ -2265,69 +3439,95 @@ msgstr ""
 #.
 #. * Z range
 #.
-#: ../src/graphing.c:2422
+#: ../src/graphing.c:2709
 msgid "Z from:"
 msgstr "Z od:"
 
-#: ../src/graphing.c:2435
+#: ../src/graphing.c:2723
 msgid "Function _line plot"
 msgstr "_Čárový graf funkce"
 
-#: ../src/graphing.c:2439
+#: ../src/graphing.c:2727
 msgid "_Surface plot"
 msgstr "_Plošný graf"
 
-#: ../src/graphing.c:2639 ../src/graphing.c:2772
+#: ../src/graphing.c:2927 ../src/graphing.c:3130
 msgid "No functions to plot or no functions could be parsed"
 msgstr "Není funkce, kterou kreslitn, nebo funcke nemohla být zpracována"
 
-#: ../src/graphing.c:2670 ../src/graphing.c:2795
+#: ../src/graphing.c:2958 ../src/graphing.c:3161
 msgid "Invalid X range"
 msgstr "Neplatný rozsah X"
 
-#: ../src/graphing.c:2675 ../src/graphing.c:2800
+#: ../src/graphing.c:2963 ../src/graphing.c:3166
 msgid "Invalid Y range"
 msgstr "Neplatný rozsah Y"
 
-#: ../src/graphing.c:2680
+#: ../src/graphing.c:2968
 msgid "Invalid Z range"
 msgstr "Neplatný rozsah Z"
 
-#: ../src/graphing.c:2875
+#: ../src/graphing.c:3119
+msgid "Only specify x and y, or z, not all at once."
+msgstr "Zadejte jen x a y, nebo z, ne vše najednou."
+
+#: ../src/graphing.c:3138
+msgid "Invalid t range"
+msgstr "Neplatný rozsah t"
+
+#: ../src/graphing.c:3264
 msgid "Create Plot"
 msgstr "Vytvořit graf"
 
-#: ../src/graphing.c:2915 ../src/graphing.c:3060
+#: ../src/graphing.c:3304 ../src/graphing.c:3449
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: parametr není funkce"
 
-#: ../src/graphing.c:2925
+#: ../src/graphing.c:3314
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: podporována jen jedna funkce"
 
-#: ../src/graphing.c:2992 ../src/graphing.c:3111
+#: ../src/graphing.c:3381 ../src/graphing.c:3500 ../src/graphing.c:3629
+#: ../src/graphing.c:3760
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: neplatný rozsah X"
 
-#: ../src/graphing.c:2997 ../src/graphing.c:3116
+#: ../src/graphing.c:3386 ../src/graphing.c:3505 ../src/graphing.c:3634
+#: ../src/graphing.c:3765
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: neplatný rozsah Y"
 
-#: ../src/graphing.c:3002
+#: ../src/graphing.c:3391
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: neplatný rozsah Z"
 
-#: ../src/graphing.c:3055
+#: ../src/graphing.c:3444
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: podporováno nejvýše 10 funkcí"
 
-#: ../src/graphing.c:3185 ../src/graphing.c:3233
+#: ../src/graphing.c:3548
+#, c-format
+msgid "%s: First two arguments must be functions"
+msgstr "%s: První dva parametry musí být funkce"
+
+#: ../src/graphing.c:3639 ../src/graphing.c:3770
+#, c-format
+msgid "%s: invalid T range"
+msgstr "%s: neplatný rozsah T"
+
+# FIXME: s/functions/function/
+#: ../src/graphing.c:3681
+#, c-format
+msgid "%s: First argument must be functions"
+msgstr "%s: První parametr musí být funkce"
+
+#: ../src/graphing.c:3825 ../src/graphing.c:3873
 #, c-format
 msgid ""
 "%s: Line should be given as a real, n by 2 matrix with columns for x and y, "
@@ -2335,43 +3535,43 @@ msgid ""
 msgstr ""
 "%s: line by měla dostat reálnou matici n krát 2 se sloupci pro x a y, n>=2"
 
-#: ../src/graphing.c:3272
+#: ../src/graphing.c:3912
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: Špatný počet mnoho parametrů"
 
-#: ../src/graphing.c:3311
+#: ../src/graphing.c:3951
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: Nezadána barva"
 
-#: ../src/graphing.c:3323
+#: ../src/graphing.c:3963
 #, c-format
 msgid "%s: Color must be a string"
 msgstr "%s: Barva musí být řetězec"
 
 # FIXME: s/thicnkess/thickness/
-#: ../src/graphing.c:3332
+#: ../src/graphing.c:3972
 #, c-format
 msgid "%s: No thicnkess specified"
 msgstr "%s: Nezadána tloušťka"
 
-#: ../src/graphing.c:3348
+#: ../src/graphing.c:3988
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: Neznámý styl"
 
-#: ../src/graphing.c:3355
+#: ../src/graphing.c:3995
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: Špatný parametr"
 
-#: ../src/graphing.c:3433
+#: ../src/graphing.c:4073
 msgid "Plotting"
 msgstr "Kreslím"
 
 #. internal
-#: ../src/graphing.c:3435
+#: ../src/graphing.c:4075
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -2379,7 +3579,21 @@ msgstr ""
 "Vykreslit funkci jako křivku. Nejdříve jsou funkce (nejvýš 10), pak "
 "nepovinně limity jako x1, x2, y1, y2"
 
-#: ../src/graphing.c:3436
+#: ../src/graphing.c:4076
+msgid ""
+"Plot a parametric function with a line.  First come the functions for x and "
+"y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
+"x1,x2,y1,y2"
+msgstr "Vykreslit parametrickou funkci jako křivku. Nejdříve jsou funkce pro x a y, pak nepovinně limity t jako t1, t2, tpřír, pak nepovinně limity jako x1, x2, y1, y2"
+
+#: ../src/graphing.c:4077
+msgid ""
+"Plot a parametric complex valued function with a line.  First comes the "
+"function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
+"optionally the limits as x1,x2,y1,y2"
+msgstr "Vykreslit parametrickou funkci do komplexních čísel jako křivku. Nejdříve je funkce, která vrací x+iy, pak nepovinně limity t jako t1, t2, tpřír, pak nepovinně limity jako x1, x2, y1, y2"
+
+#: ../src/graphing.c:4078
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -2387,11 +3601,11 @@ msgstr ""
 "Vykreslit plošnou funkci, která má buď dva argumenty, nebo komplexní číslo. "
 "Nejdříve je funkce, pak nepovinně limity jako x1, x2, y1, y2, z1, z2"
 
-#: ../src/graphing.c:3438
+#: ../src/graphing.c:4080
 msgid "Show the line plot window and clear out functions"
 msgstr "Zobrazit okno čárového grafu a vymazat funkce"
 
-#: ../src/graphing.c:3439
+#: ../src/graphing.c:4081
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line"
@@ -2399,13 +3613,13 @@ msgstr ""
 "Kreslit úsečku od x1,y1 do x2,y2.  x1,y1,x2,y2 mohou být nahrazeny maticí n "
 "krát 2 pro delší čáru"
 
-#: ../src/graphing.c:3441
+#: ../src/graphing.c:4083
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr ""
 "Okno vykreslování čáry (limity) jako čtyřprvkový vektor ve tvaru [x1,x2,y1,"
 "y2]"
 
-#: ../src/graphing.c:3442
+#: ../src/graphing.c:4084
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
@@ -2576,7 +3790,7 @@ msgstr "Nemohu počítat faktoriály komplexních čísel"
 msgid "Can't determine type of a complex number"
 msgstr "Nemohu určit typ komplexního čísla"
 
-#: ../src/mpwrap.c:5207 ../src/mpwrap.c:5230
+#: ../src/mpwrap.c:5207
 msgid "Can't convert complex number into integer"
 msgstr "Nemohu převést komplexní číslo na celé číslo"
 
@@ -2588,11 +3802,15 @@ msgstr "Nemohu převést reálné číslo na celé číslo"
 msgid "Integer too large for this operation"
 msgstr "Celé číslo je pro tuto operaci příliš velké"
 
+#: ../src/mpwrap.c:5230
+msgid "Can't convert complex number into a double"
+msgstr "Nemohu převést komplexní číslo na dvojitou přesnost"
+
 #: ../src/mpwrap.c:5239
 msgid "Can't convert real number to double"
 msgstr "Nemohu převést reálné číslo na dvojitou přesnost"
 
-#: ../src/mpwrap.c:5245
+#: ../src/mpwrap.c:5245 ../src/mpwrap.c:5260
 msgid "Number too large for this operation"
 msgstr "Číslo je pro tuto operaci příliš velké"
 
@@ -2603,6 +3821,35 @@ msgstr "Nemohu otevřít zásuvný modul!"
 #: ../src/plugin.c:143 ../src/plugin.c:151
 msgid "Can't initialize plugin!"
 msgstr "Nemohu inicializovat zásuvný modul!"
+
+#: ../src/symbolic.c:665
+#, c-format
+msgid "%s: '%s' not a function of one variable"
+msgstr "%s: '%s' není funkce jedné proměnné"
+
+#: ../src/symbolic.c:698
+#, c-format
+msgid "%s: Cannot differentiate the '%s' function"
+msgstr "%s: Nemohu derivovat funkci '%s'"
+
+#: ../src/symbolic.c:783
+msgid "Symbolic Operations"
+msgstr "Symbolické operace"
+
+#: ../src/symbolic.c:786
+msgid ""
+"Attempt to symbolically differentiate the function f, where f is a function "
+"of one variable."
+msgstr ""
+"Pokusit se symbolicky derivovat funkci f, kde f je funkce jedné proměnné."
+
+#: ../src/symbolic.c:789
+msgid ""
+"Attempt to symbolically differentiate the function f, where f is a function "
+"of one variable, returns null if unsuccessful but is silent."
+msgstr ""
+"Pokusit se symbolicky derivovat funkci f, kde f je funkce jedné proměnné, "
+"vrací null při neúspěchu, ale je potichu."
 
 #: ../src/testplugin.c:13
 msgid "This is the test-plugin function\n"
@@ -2640,1168 +3887,79 @@ msgstr ""
 msgid "Stack underflow!"
 msgstr "Podtečení zásobníku!"
 
-#: ../src/symbolic.c:665
+#: ../vicious-extensions/glade-helper.c:84
+#: ../vicious-extensions/glade-helper.c:116
+#: ../vicious-extensions/glade-helper.c:138
+#: ../vicious-extensions/glade-helper.c:158
+msgid "(memory buffer)"
+msgstr "(buffer v paměti)"
+
+#. markup
+#: ../vicious-extensions/glade-helper.c:194
+#: ../vicious-extensions/glade-helper.c:247
+#: ../vicious-extensions/glade-helper.c:301
+msgid "Cannot load user interface"
+msgstr "Nemohu načíst uživatelské rozhraní"
+
+#: ../vicious-extensions/glade-helper.c:195
 #, c-format
-msgid "%s: '%s' not a function of one variable"
-msgstr "%s: '%s' není funkce jedné proměnné"
+msgid ""
+"An error occurred while loading user interface element %s%s from file %s.  "
+"Possibly the glade interface description was corrupted.  %s cannot continue "
+"and will exit now.  You should check your installation of %s or reinstall %s."
+msgstr "Při načítání prvku uživatelského rozhraní %s%s ze souboru %s došlo k chybě. Možná byl porušen popis rozhraní v glade. %s nemůže pokračovat a nyní skončí. Měli byste zkontrolovat vaši instalaci %s nebo znovu nainstalovat %s."
 
-#: ../src/symbolic.c:698
+# So much for professionalism
+#: ../vicious-extensions/glade-helper.c:211
 #, c-format
-msgid "%s: Cannot differentiate the '%s' function"
-msgstr "%s: Nemohu derivovat funkci '%s'"
-
-#: ../src/symbolic.c:783
-msgid "Symbolic Operations"
-msgstr "Symbolické operace"
-
-#: ../src/symbolic.c:786
 msgid ""
-"Attempt to symbolically differentiate the function f, where f is a function "
-"of one variable."
-msgstr "Pokusit se symbolicky derivovat funkci f, kde f je funkce jedné proměnné."
-
-#: ../src/symbolic.c:789
-msgid ""
-"Attempt to symbolically differentiate the function f, where f is a function "
-"of one variable, returns null if unsuccessful but is silent."
-msgstr "Pokusit se symbolicky derivovat funkci f, kde f je funkce jedné proměnné, vrací null při neúspěchu, ale je potichu."
-
-#: ../lib/library-strings.c:1
-msgid "Compose two functions"
-msgstr "Složit dvě funkce"
-
-#: ../lib/library-strings.c:2
-msgid ""
-"Compose a function with itself n times, passing x as argument, and returning "
-"x if n == 0"
-msgstr "Složit funkci se sebou n-krát, předat x jako argument, a vrátit x, jestliže n == 0"
-
-#: ../lib/library-strings.c:3
-msgid "Make a string"
-msgstr "Vytvořit řetězec"
-
-#: ../lib/library-strings.c:4
-msgid "Tolerance of the Chop function"
-msgstr "Tolerance funkce Chop"
-
-#: ../lib/library-strings.c:5
-msgid "How many iterations to try to find the limit for continuity and limits"
-msgstr "Kolik iterací zkusit při hledání limitu spojitosti a limit"
-
-#: ../lib/library-strings.c:6
-msgid ""
-"How many successive steps to be within tolerance for calculation of "
-"continuity"
-msgstr "Kolik kroků, abychom byli v toleranci pro výpočet spojitosti"
-
-#: ../lib/library-strings.c:7
-msgid "Tolerance for continuity of functions and for calculating the limit"
-msgstr "Tolerance pro spojitost funkcí a výpočet limity"
-
-#: ../lib/library-strings.c:8
-msgid "How many iterations to try to find the limit for derivative"
-msgstr "Kolik iterací zkusit při hledání limity derivace"
-
-#: ../lib/library-strings.c:9
-msgid ""
-"How many successive steps to be within tolerance for calculation of "
-"derivative"
-msgstr "Kolik kroků, abychom byli v toleranci pro výpočet derivace"
-
-#: ../lib/library-strings.c:10
-msgid "Tolerance for calculating the derivatives of functions"
-msgstr "Tolerance pro výpočet derivací funkcí"
-
-#: ../lib/library-strings.c:11
-msgid "Tolerance of the ErrorFunction"
-msgstr "Tolerance ErrorFunction"
-
-#: ../lib/library-strings.c:12
-msgid "Tolerance of the GaussDistribution function"
-msgstr "Tolerance funkce GaussDistribution"
-
-#: ../lib/library-strings.c:13
-msgid "The function used for numerical integration in NumericalIntegral"
-msgstr "Funkce používaná pro numerickou integraci v NumericalIntegral"
-
-#: ../lib/library-strings.c:14
-msgid "Steps to perform in NumericalIntegral"
-msgstr "Kolik kroků provést v NumericalIntegral"
-
-#: ../lib/library-strings.c:15
-msgid "How many iterations to try for InfiniteSum and InfiniteProduct"
-msgstr "Kolik iterací zkusit pro InfiniteSum a InfiniteProduct"
-
-#: ../lib/library-strings.c:16
-msgid ""
-"How many successive steps to be within tolerance for InfiniteSum and "
-"InfiniteProduct"
+"Glade file is on crack! Make sure the correct file is installed!\n"
+"file: %s widget: %s"
 msgstr ""
-"Kolik kroků, abychom byli v toleranci pro InfiniteSum a InfiniteProduct"
+"Soubor glade kouří crack! Zkontrolujte, že je nainstalován správný soubor!\n"
+"soubor: %s widget: %s"
 
-#: ../lib/library-strings.c:17
-msgid "Tolerance for InfiniteSum and InfiniteProduct"
-msgstr "Tolerance pro InfiniteSum a InfiniteProduct"
-
-#: ../lib/library-strings.c:19
-msgid "Replace very small number with zero"
-msgstr "Nahradit velice malé číslo nulou"
-
-#: ../lib/library-strings.c:20
-msgid "Return the fractional part of a number"
-msgstr "Vrátit desetinnou část čísla"
-
-#: ../lib/library-strings.c:21
-msgid "Division w/o remainder"
-msgstr "Dělení beze zbytku"
-
-#: ../lib/library-strings.c:22
-msgid "Check if argument is a gaussian integer"
-msgstr "Zjistit, jestli je parametr gaussovo celé číslo"
-
-#: ../lib/library-strings.c:23
-msgid "Return the sign (-1,0,1)"
-msgstr "Vrátit znaménko (-1,0,1)"
-
-#: ../lib/library-strings.c:24
+#: ../vicious-extensions/glade-helper.c:248
+#, c-format
 msgid ""
-"Logarithm of any base (calls DiscreteLog if in modulo mode), if base is not "
-"given, e is used"
+"An error occurred while loading the user interface element %s%s from file %"
+"s. CList type widget should have %d column. Possibly the glade interface "
+"description was corrupted. %s cannot continue and will exit now. You should "
+"check your installation of %s or reinstall %s."
+msgid_plural ""
+"An error occurred while loading the user interface element %s%s from file %"
+"s. CList type widget should have %d columns. Possibly the glade interface "
+"description was corrupted. %s cannot continue and will exit now. You should "
+"check your installation of %s or reinstall %s."
+msgstr[0] "Při načítání prvku uživatelského rozhraní %s%s ze souboru %s došlo k chybě. Widget typu CList by měl mít %d sloupec. Možná byl porušen popis rozhraní v glade. %s nemůže pokračovat a nyní skončí. Měli byste zkontrolovat vaši instalaci %s nebo znovu nainstalovat %s."
+msgstr[1] "Při načítání prvku uživatelského rozhraní %s%s ze souboru %s došlo k chybě. Widget typu CList by měl mít %d sloupce. Možná byl porušen popis rozhraní v glade. %s nemůže pokračovat a nyní skončí. Měli byste zkontrolovat vaši instalaci %s nebo znovu nainstalovat %s."
+msgstr[2] "Při načítání prvku uživatelského rozhraní %s%s ze souboru %s došlo k chybě. Widget typu CList by měl mít %d sloupců. Možná byl porušen popis rozhraní v glade. %s nemůže pokračovat a nyní skončí. Měli byste zkontrolovat vaši instalaci %s nebo znovu nainstalovat %s."
+
+#: ../vicious-extensions/glade-helper.c:277
+#, c-format
+msgid ""
+"Glade file is on crack! Make sure the correct file is installed!\n"
+"file: %s widget: %s expected clist columns: %d"
 msgstr ""
-"Logaritmus o libovolném základu (volá DiscreteLog, pokud je v režimu "
-"modulo), pokud nená zadán základ, je použito e"
+"Soubor glade kouří crack! Zkontrolujte, že je nainstalován správný soubor!\n"
+"soubor: %s widget: %s očekávaných sloupců clist: %d"
 
-#: ../lib/library-strings.c:25
-msgid "The arccos (reverse cos) function"
-msgstr "Funkce arccos (inverzní cos)"
-
-#: ../lib/library-strings.c:26
-msgid "The arccosh (reverse cosh) function"
-msgstr "Funkce arccosh (inverzní cosh)"
-
-#: ../lib/library-strings.c:27
-msgid "The arccot (reverse cot) function"
-msgstr "Funkce arccot (inverzní cot)"
-
-#: ../lib/library-strings.c:28
-msgid "The arccoth (reverse coth) function"
-msgstr "Funkce arccoth (inverzní coth)"
-
-#: ../lib/library-strings.c:29
-msgid "The reverse cosecant function"
-msgstr "Funkce inverzní kosekáns"
-
-#: ../lib/library-strings.c:30
-msgid "The reverse hyperbolic cosecant function"
-msgstr "Funkce inverzní hyperbolický kosekáns"
-
-#: ../lib/library-strings.c:31
-msgid "The reverse secant function"
-msgstr "Inverzní funkce sekáns"
-
-#: ../lib/library-strings.c:32
-msgid "The reverse hyperbolic secant function"
-msgstr "Funkce inverzní hyperbolický sekáns"
-
-#: ../lib/library-strings.c:33
-msgid "The arcsin (reverse sin) function"
-msgstr "Funkce arcsin (inverzní sin)"
-
-#: ../lib/library-strings.c:34
-msgid "The arcsinh (reverse sinh) function"
-msgstr "Funkce arcsinh (inverzní sinh)"
-
-#: ../lib/library-strings.c:35
-msgid "The arctanh (reverse tanh) function"
-msgstr "Funkce arctanh (inverzní tanh)"
-
-#: ../lib/library-strings.c:36
-msgid "The cotangent function"
-msgstr "Funkce kotangens"
-
-#: ../lib/library-strings.c:37
-msgid "The hyperbolic cotangent function"
-msgstr "Funkce hyperbolický kotangens"
-
-#: ../lib/library-strings.c:38
-msgid "The cosecant function"
-msgstr "Funkce kosekáns"
-
-#: ../lib/library-strings.c:39
-msgid "The hyperbolic cosecant function"
-msgstr "Funkce hyperbolický kosekáns"
-
-#: ../lib/library-strings.c:40
-msgid "The secant function"
-msgstr "Funkce sekáns"
-
-#: ../lib/library-strings.c:41
-msgid "The hyperbolic secant function"
-msgstr "Funkce hyperbolický sekáns"
-
-#: ../lib/library-strings.c:42
-msgid "The hyperbolic tangent function"
-msgstr "Funkce hyperbolický tangens"
-
-#: ../lib/library-strings.c:43
-msgid "Are a and b relatively prime?"
-msgstr "Jsou a a b relativně prvočísla?"
-
-#: ../lib/library-strings.c:44
-msgid "Return the nth Bernoulli number"
-msgstr "Vrátí n-té Bernoulliho číslo"
-
-#: ../lib/library-strings.c:45
+#: ../vicious-extensions/glade-helper.c:302
+#, c-format
 msgid ""
-"Find the x that solves the system given by the vector a and modulo the "
-"elements of m, using the Chinese Remainder Theorem"
-msgstr ""
-"Najít x, které řeší systém zadaný vektorem a a modulo elementy m pomocí "
-"čínské věty o zbytcích"
-
-#: ../lib/library-strings.c:46
-msgid ""
-"Given two factorizations, give the factorization of the product, see "
-"Factorize"
-msgstr "Jsou-li dány dva rozklady, vrátit rozklad součinu, viz Factorize"
-
-#: ../lib/library-strings.c:47
-msgid "Convert a vector of values indicating powers of b to a number"
-msgstr "Převést vektor hodnot indikující mocniny b na číslo"
-
-#: ../lib/library-strings.c:48
-msgid "Convert a number to a vector of powers for elements in base b"
-msgstr "Převést číslo na vektor mocnin prvků o základu b"
-
-#: ../lib/library-strings.c:49
-msgid ""
-"Find discrete log of n base b in F_q where q is a prime using the Silver-"
-"Pohlig-Hellman algoritm"
-msgstr ""
-"Najít diskrétní logaritmus n o základu b v F_q, kde q je prvočíslo, pomocí "
-"Silver-Pohlig-Hellmanova algoritmu"
-
-#: ../lib/library-strings.c:50
-msgid ""
-"Compute phi(n), the Euler phi function, that is the number of integers "
-"between 1 and n relatively prime to n"
-msgstr ""
-"Spočítat phi(n), Eulerovu funkci fí, to je počet celých čísel mezi 1 a n, "
-"relativně prvočíselných vůči n"
-
-#: ../lib/library-strings.c:51
-msgid "Return all factors of a number"
-msgstr "Vrátit všechny činitele čísla"
-
-#: ../lib/library-strings.c:52
-msgid ""
-"Attempt fermat factorization of n into (t-s)*(t+s), returns t and s as a "
-"vector if possible, null otherwise"
-msgstr ""
-"Pokusit se o fermatovu faktorizaci n na (t-s)*(t+s), vrací t a s jako "
-"vektor, pokud je to možné, jinak null"
-
-#: ../lib/library-strings.c:53
-msgid "Find the first primitive element in F_q (q must be a prime)"
-msgstr "Najít první primitivní prvek v F_q (q musí být prvočíslo)"
-
-#: ../lib/library-strings.c:54
-msgid "Find a random primitive element in F_q (q must be a prime)"
-msgstr "Najít náhodný primitivní prvek v F_q (q musí být prvočíslo)"
-
-#: ../lib/library-strings.c:55
-msgid ""
-"Compute discrete log base b of n in F_q (q a prime) using the factor base "
-"S.  S should be a column of primes possibly with second column precalculated "
-"by IndexCalculusPrecalculation."
-msgstr ""
-"Spočítat diskrétní logaritmus n o základu b v F_q (q prvočíslo) pomocí "
-"faktorizační báze S. S by měl být sloupec prvočísel, možná s druhým sloupcem "
-"předpočítaným pomocí IndexCalculusPrecalculation."
-
-#: ../lib/library-strings.c:56
-msgid ""
-"Run the precalculation step of IndexCalculus for logarithms base b in F_q (q "
-"a prime) for the factor base S (where S is a column vector of primes).  The "
-"logs will be precalculated and returned in the second column."
-msgstr ""
-"Spustit krok převýpočtu pro IndexCalculus pro základ b v F_q (q prvočíslo) "
-"pro faktorizační bázi S (kde S je sloupcový vektor prvočísel). Logaritmy "
-"budou předpočítány a vráceny v druhém sloupci."
-
-#: ../lib/library-strings.c:57
-msgid "Tests if a rational number is a perfect power"
-msgstr "Zjistí, jestli zlomek je perfektní číslo"
-
-#: ../lib/library-strings.c:58
-msgid ""
-"Check if g is primitive in F_q, where q is a prime.  If q is not prime "
-"results are bogus."
-msgstr ""
-"Zjistit, jestli g je primitivní v F_q, kde q je prvočíslo. Pokud q není "
-"prvočíslo, výsledky jsou nesmyslné."
-
-#: ../lib/library-strings.c:59
-msgid ""
-"Check if g is primitive in F_q, where q is a prime and f is a vector of "
-"prime factors of q-1.  If q is not prime results are bogus."
-msgstr ""
-"Zjistit, jestli g je primitivní v F_q, kde q je prvočíslo a f je vektor "
-"prvočíselných činitelů q-1. Pokud q není prvočíslo, výsledky jsou nesmyslné."
-
-#: ../lib/library-strings.c:60
-msgid ""
-"If n is a pseudoprime base b but not a prime, that is if b^(n-1) == 1 mod n"
-msgstr ""
-"Jestli n je pseudoprvočíslo o základu b, ale ne prvočíslo, to je jestli b^(n-"
-"1) == 1 mod n"
-
-#: ../lib/library-strings.c:61
-msgid "Test if n is a strong pseudoprime to base b but not a prime"
-msgstr ""
-"Zjistit, jestli n je silné pseudoprvočíslo v základu b, ale ne prvočíslo"
-
-#: ../lib/library-strings.c:62
-msgid ""
-"Return the residue of a mod n with the least absolute value (in the interval "
-"-n/2 to n/2)"
-msgstr ""
-"Vrátit zbytek a mod n s nejmenší absolutní hodnotou (v intervalu -n/2 do n/2)"
-
-#: ../lib/library-strings.c:63
-msgid "Test if Mp is a Mersenne prime using the Lucas-Lehmer test"
-msgstr ""
-"Zjistit, jestli Mp je Mersennovo prvočíslo, pomocí Lucas-Lehmerova testu"
-
-#: ../lib/library-strings.c:64
-msgid "Return all maximal prime power factors of a number"
-msgstr "Vrátit všechny maximální mocniny prvočísel v rozkladu čísla"
-
-#: ../lib/library-strings.c:65
-msgid "Return the Moebius mu function evaluated in n"
-msgstr "Vrátit Moebiovu funkci mu vyhodnocenou v n"
-
-#: ../lib/library-strings.c:66
-msgid "Returns the padic valuation (number of trailing zeros in base p)."
-msgstr "Vrátí padické ohodnocení (počet koncových nul v základu p)."
-
-#: ../lib/library-strings.c:67
-msgid "Compute a^b mod m"
-msgstr "Spočítat a^b mod m"
-
-#: ../lib/library-strings.c:68
-msgid "Return all prime factors of a number"
-msgstr "Vrátit všechny prvočinitele čísla"
-
-#: ../lib/library-strings.c:69
-msgid "Pseudoprime test, true iff b^(n-1) == 1 (mod n)"
-msgstr "Test pseudoprvočíselnosti, true právě když b^(n-1) == 1 (mod n)"
-
-#: ../lib/library-strings.c:70
-msgid "Removes all instances of the factor m from the number n"
-msgstr "Odstraní všechny instance činitele m z čísla n"
-
-#: ../lib/library-strings.c:71
-msgid ""
-"Find discrete log of n base b in F_q where q is a prime using the Silver-"
-"Pohlig-Hellman algoritm, given f being the factorization of q-1"
-msgstr ""
-"Najít diskrétní logaritmus n o základu b v F_q, kde q je prvočíslo, pomocí "
-"Silver-Pohlig-Hellmanova algoritmu, je-li f faktorizace q-1"
-
-#: ../lib/library-strings.c:72
-msgid ""
-"Find square root of n mod p (a prime). Null is returned if not a quadratic "
-"residue."
-msgstr ""
-"Najít odmocninu n mod p (prvočíslo). Je vráceno null, pokud to není "
-"kvadratický zbytek."
-
-#: ../lib/library-strings.c:73
-msgid ""
-"Apply a function over all entries of a matrix and return a matrix of the "
-"results"
-msgstr "Použít funkci na všechny prvky matice a vrátit matici výsledků"
-
-#: ../lib/library-strings.c:74
-msgid ""
-"Apply a function over all entries of 2 matrices (or 1 value and 1 matrix) "
-"and return a matrix of the results"
-msgstr ""
-"Použít funkci na všechny prvky 2 matic (nebo 1 hodnoty a 1 matice) a vrátit "
-"matici výsledků"
-
-#: ../lib/library-strings.c:75
-msgid "Remove column(s) and row(s) from a matrix"
-msgstr "Odstranit řádky a sloupce z matice"
-
-#: ../lib/library-strings.c:76
-msgid "Calculate the kth compund matrix of A"
-msgstr "Spočítat k-ou složenou matici A"
-
-#: ../lib/library-strings.c:77
-msgid "Delete a column of a matrix"
-msgstr "Odstranit sloupec matice"
-
-#: ../lib/library-strings.c:78
-msgid "Delete a row of a matrix"
-msgstr "Odstranit řádek matice"
-
-#: ../lib/library-strings.c:79
-msgid "Get the dot product of two vectors"
-msgstr "Získat skalární součit dvou vektorů"
-
-#: ../lib/library-strings.c:80
-msgid "Is a matrix diagonal"
-msgstr "Je matice diagonální"
-
-#: ../lib/library-strings.c:81
-msgid "Is a matrix lower triangular"
-msgstr "Je matice dolní trojúhelníková"
-
-#: ../lib/library-strings.c:82
-msgid "Is a matrix upper triangular"
-msgstr "Je matice horní trojúhelníková"
-
-#: ../lib/library-strings.c:83
-msgid "Is argument a horizontal or a vertical vector"
-msgstr "Je parametr vodorovný nebo svislý vektor"
-
-#: ../lib/library-strings.c:84
-msgid "Zero out entries above the diagonal"
-msgstr "Vynulovat prvky nad diagonálou"
-
-#: ../lib/library-strings.c:85
-msgid "Make diagonal matrix from a vector"
-msgstr "Vytvořit z vektoru diagonální matici"
-
-#: ../lib/library-strings.c:86
-msgid "Calculate the product of all elements in a matrix"
-msgstr "Spočítat součin všech prvků matice"
-
-#: ../lib/library-strings.c:87
-msgid "Calculate the sum of all elements in a matrix"
-msgstr "Spočítat součet všech prvků matice"
-
-#: ../lib/library-strings.c:88
-msgid "Calculate the sum of squares of all elements in a matrix"
-msgstr "Spočítat součet druhých mocnin všech prvků matice"
-
-#: ../lib/library-strings.c:89
-msgid "Get the outer product of two vectors"
-msgstr "Získat vnější součin dvou vektorů"
-
-#: ../lib/library-strings.c:90
-msgid "Reverse elements in a vector"
-msgstr "Obrátit pořadí prvků ve vektoru"
-
-#: ../lib/library-strings.c:91
-msgid "Calculate sum of each row in a matrix"
-msgstr "Spočítat součet každého řádku matice"
-
-#: ../lib/library-strings.c:92
-msgid "Calculate sum of squares of each row in a matrix"
-msgstr "Spočítat součet druhých mocnin každého řádku v matici"
-
-#: ../lib/library-strings.c:93
-msgid "Sort vector elements"
-msgstr "Seřadit prvky vektoru"
-
-#: ../lib/library-strings.c:94
-msgid "Removes any all-zero columns of M"
-msgstr "Odstraní všechny nulové sloupce M"
-
-#: ../lib/library-strings.c:95
-msgid "Removes any all-zero rows of M"
-msgstr "Odstraní všechny nulové řádky M"
-
-#: ../lib/library-strings.c:96
-msgid "Return column(s) and row(s) from a matrix"
-msgstr "Vrátit slopce a řádky z matice"
-
-#: ../lib/library-strings.c:97
-msgid "Swap two rows in a matrix"
-msgstr "Prohodit dva řádky matice"
-
-#: ../lib/library-strings.c:98
-msgid "Zero out entries below the diagonal"
-msgstr "Vynulovat prvky pod diagonálou"
-
-#: ../lib/library-strings.c:99
-msgid "Get the auxilliary unit matrix of size n"
-msgstr "Získat pomocnou jednotkovou matici velikosti n"
-
-#: ../lib/library-strings.c:100
-msgid "Evaluate (v,w) with respect to the bilinear form given by the matrix A"
-msgstr "Spočítat (v,w) vzhledem k bilineární formě dané maticí A"
-
-#: ../lib/library-strings.c:101
-msgid ""
-"Return a function that evaluates two vectors with respect to the bilinear "
-"form given by A"
-msgstr ""
-"Vrátit funkci, která vyhodnocuje dva vektory vzhledem k bilineární formě "
-"dané A"
-
-#: ../lib/library-strings.c:102
-msgid "Get the characteristic polynomial as a vector"
-msgstr "Získat charakteristický polynom jako vektor"
-
-#: ../lib/library-strings.c:103
-msgid "Get the characteristic polynomial as a function"
-msgstr "Získat charakteristický polynom jako funkci"
-
-#: ../lib/library-strings.c:104
-msgid "Get a basis matrix for the columnspace of a matrix"
-msgstr "Získat matici báze sloupcového prostoru matice"
-
-#: ../lib/library-strings.c:105
-msgid "Companion matrix of a polynomial (as vector)"
-msgstr "Doplňková matice polynomu (jako vektor)"
-
-#: ../lib/library-strings.c:106
-msgid "Conjugate transpose of a matrix (adjoint)"
-msgstr "Konjugovaná transpozice matice (adjugovaná)"
-
-#: ../lib/library-strings.c:107 ../lib/library-strings.c:108
-msgid "Calculate convolution of two horizontal vectors"
-msgstr "Spočítat konvoluci dvou vodorovných vektorů"
-
-#: ../lib/library-strings.c:109
-msgid "CrossProduct of two vectors in R^3"
-msgstr "Vektorový součin dvou vektorů v R^3"
-
-#: ../lib/library-strings.c:110
-msgid ""
-"Get the determinantal divisors of an integer matrix (not its characteristic)"
-msgstr ""
-"Získat determinantové dělitele celočéselné matice (ne její charakteristiku)"
-
-#: ../lib/library-strings.c:111
-msgid "Direct sum of matrices"
-msgstr "Přímý součet matic"
-
-#: ../lib/library-strings.c:112
-msgid "Direct sum of a vector of matrices"
-msgstr "Přímý součet vektoru matic"
-
-#: ../lib/library-strings.c:113
-msgid ""
-"Get the eigenvalues of a matrix (Currently only for 2x2 and triangular "
-"matrices)"
-msgstr ""
-"Získat vlastní čísla matice (momentálně jen pro matice 2×2 a "
-"trojúhelníkovité matice)"
-
-#: ../lib/library-strings.c:114
-msgid ""
-"Apply the Gram-Schmidt process (to the columns) with respect to innter "
-"product given by #2"
-msgstr ""
-"Provést Gram-Schmidtův proces (na sloupce) vzhledem ke skalárnímu součinu "
-"danému #2"
-
-#: ../lib/library-strings.c:115
-msgid "Apply the Gram-Schmidt process (to the columns) using the dot product"
-msgstr "Provést Gram-Schmidtův proces (na sloupce) pomocí skalárního součinu"
-
-#: ../lib/library-strings.c:116
-msgid "Hankel matrix"
-msgstr "Hankelova matice"
-
-#: ../lib/library-strings.c:117
-msgid "Hilbert matrix of order n"
-msgstr "Hilbertova matice řádku n"
-
-#: ../lib/library-strings.c:118
-msgid "Get the image (columnspace) of a linear transform"
-msgstr "Získat obraz (sloupcový prostor) lineární transformace"
-
-#: ../lib/library-strings.c:119
-msgid "Get the Inf Norm of a vector"
-msgstr "Získat normu vektoru typu nekonečno"
-
-#: ../lib/library-strings.c:120
-msgid ""
-"Get the invariant factors of a square integer matrix (not its characteristic)"
-msgstr ""
-"Získat invariantní činitele čtvercové celočíselné matice (ne její "
-"charakteristiku)"
-
-#: ../lib/library-strings.c:121
-msgid "Inverse Hilbert matrix of order n"
-msgstr "Inverzní Hilbertova matice řádu n"
-
-#: ../lib/library-strings.c:122
-msgid "Is a matrix hermitian"
-msgstr "Je matice hermitovská"
-
-#: ../lib/library-strings.c:123
-msgid "Test if a vector is in a subspace"
-msgstr "Zjistit, jestli je vektor v podprostoru"
-
-#: ../lib/library-strings.c:124
-msgid ""
-"Is a matrix (or number) invertible (Integer matrix is invertible iff it's "
-"invertible over the integers)"
-msgstr ""
-"Je matice (nebo číslo) invertovatelné (celočíselná matice je invertovatelná, "
-"právě když je invertovatelná v celých číslech)"
-
-#: ../lib/library-strings.c:125
-msgid "Is a matrix (or number) invertible over a field"
-msgstr "Je matice (nebo číslo) invertovatelná v tělesu"
-
-#: ../lib/library-strings.c:126
-msgid "Is a matrix normal"
-msgstr "Je matice normální"
-
-#: ../lib/library-strings.c:127
-#, fuzzy
-msgid "Is a matrix skew-hermitian"
-msgstr "Je matice čtvercová"
-
-#: ../lib/library-strings.c:128
-msgid "Is a matrix unitary"
-msgstr "Je matice unitární"
-
-#: ../lib/library-strings.c:129
-msgid "Get the jordan block corresponding to lambda and n"
-msgstr "Získat jordanovu buňku odpovídající lambda a n"
-
-#: ../lib/library-strings.c:130
-msgid "Get the kernel (nullspace) of a linear transform"
-msgstr "Získat jádro (nulový prostor) lineární transformace"
-
-#: ../lib/library-strings.c:131
-msgid ""
-"Get the LU decomposition of A and store the result in the L and U which "
-"should be references.  If not possible returns false."
-msgstr ""
-"Záskat LU rozklad A a uložit výsledek v L a U, což by měly být odkazy. Pokud "
-"to není možné, vrátí false."
-
-#: ../lib/library-strings.c:132
-msgid "Get the i-j minor of a matrix"
-msgstr "Získat minor i-j matice"
-
-#: ../lib/library-strings.c:133
-msgid "Return the columns that are not the pivot columns of a matrix"
-msgstr "Vrátit sloupce, které nejsou pivotové sloupce matice"
-
-#: ../lib/library-strings.c:134
-msgid "Get the p Norm (or 2 Norm if no p is supplied) of a vector"
-msgstr "Získat normu typu p (nebo typu 2, pokud není zadáno p) vektoru"
-
-#: ../lib/library-strings.c:135
-msgid "Get the nullspace of a matrix"
-msgstr "Získat nulový prostor matice"
-
-#: ../lib/library-strings.c:136
-msgid "Get the nullity of a matrix"
-msgstr "Získat nulovost matice"
-
-#: ../lib/library-strings.c:137
-msgid "Get the orthogonal complement of the columnspace"
-msgstr "Získat ortogonální doplněk sloupcového prostoru"
-
-#: ../lib/library-strings.c:138
-msgid ""
-"Return pivot columns of a matrix, that is columns which have a leading 1 in "
-"rref form, also returns the row where they occur"
-msgstr ""
-"Vrátit pivotové sloupce matice, to je sloupce, které začínají 1 v tvaru "
-"RREF, také vrací sloupec, kde vznikají"
-
-#: ../lib/library-strings.c:139
-msgid "Projection of vector v onto subspace W given a bilinear form B"
-msgstr "Průmět vektoru v do podprostoru W, je-li dána bilineární forma B"
-
-#: ../lib/library-strings.c:140
-msgid "Return the Raleigh Quotient of a matrix and a vector"
-msgstr "Vrátit Raleigův podíl matice a vektoru"
-
-#: ../lib/library-strings.c:141
-msgid "Get the rank of a matrix"
-msgstr "Získat hodnost matice"
-
-#: ../lib/library-strings.c:142
-msgid "Rosser matrix, a classic symmetric eigenvalue test problem"
-msgstr "Rosserova matice, klasický symetrický problém testu vlastního čísla"
-
-#: ../lib/library-strings.c:143
-msgid "Rotation around origin in R^2"
-msgstr "Rotace okolo počátku v R^2"
-
-#: ../lib/library-strings.c:144
-msgid "Rotation around origin in R^3 about the x-axis"
-msgstr "Rotace okolo počátku v R^3 okolo osy x"
-
-#: ../lib/library-strings.c:145
-msgid "Rotation around origin in R^3 about the y-axis"
-msgstr "Rotace okolo počátku v R^3 okolo osy y"
-
-#: ../lib/library-strings.c:146
-msgid "Rotation around origin in R^3 about the z-axis"
-msgstr "Rotace okolo počátku v R^3 okolo osy z"
-
-#: ../lib/library-strings.c:147
-msgid "Get a basis matrix for the rowspace of a matrix"
-msgstr "Získat matici báze řádkového prostoru matice"
-
-#: ../lib/library-strings.c:148
-msgid "Smith Normal Form for fields (will end up with 1's on the diagonal)"
-msgstr "Smithova normální forma tělesa (skončí s jedničkami na diagonále)"
-
-#: ../lib/library-strings.c:149
-msgid "Smith Normal Form for square integer matrices (not its characteristic)"
-msgstr ""
-"Smithova normální forma čtvercových celočíselných matic (ne jejich "
-"charakteristika)"
-
-#: ../lib/library-strings.c:150
-msgid "Calculate the trace of a matrix"
-msgstr "Spočítat stopu matice"
-
-#: ../lib/library-strings.c:151
-msgid "Transpose of a matrix"
-msgstr "Transpozice matice"
-
-#: ../lib/library-strings.c:152
-msgid "Return the Vandermonde matrix"
-msgstr "Vrátit Vandermondovu matici"
-
-#: ../lib/library-strings.c:153
-msgid "The angle of two vectors, given an inner product"
-msgstr "Úhel dvou vektorů, je-li dán skalární součin"
-
-#: ../lib/library-strings.c:154
-msgid "The direct sum of the vector spaces M and N"
-msgstr "Přímý součet vektorových prostorů M a N"
-
-#: ../lib/library-strings.c:155
-msgid "Intersection of the subspaces given by M and N"
-msgstr "Průnik podprostorů daných pomocí M a N"
-
-#: ../lib/library-strings.c:156
-msgid ""
-"The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}"
-msgstr "Součet vektorových prostorů M a N, to je {w | w=m+n, m in M, n in N}"
-
-#: ../lib/library-strings.c:157
-msgid "Get the classical adjoint (adjugate) of a matrix"
-msgstr "Získat klasickou sdruženou (adjugovanou) matici"
-
-#: ../lib/library-strings.c:158
-msgid "Compute the Column Reduced Echelon Form"
-msgstr "Spočítat sloupcově redukovaný trojúhelníkový tvar"
-
-#: ../lib/library-strings.c:159
-msgid "Get n'th catalan number"
-msgstr "Získat n-té catalanovo číslo"
-
-#: ../lib/library-strings.c:160
-msgid "Double factorial: n(n-2)(n-4)..."
-msgstr "Dvojitý faktoriál: n(n-2)(n-4)..."
-
-#: ../lib/library-strings.c:161
-msgid "Factorial: n(n-1)(n-2)..."
-msgstr "Faktoriál: n(n-1)(n-2)..."
-
-#: ../lib/library-strings.c:162
-msgid "Falling factorial: (n)_k = n(n-1)...(n-(k-1))"
-msgstr "Klesající faktoriál: (n)_k = n(n-1)...(n-(k-1))"
-
-#: ../lib/library-strings.c:163
-msgid "Calculate n'th fibbonachi number"
-msgstr "Spočítat n-té fibonacciho číslo"
-
-#: ../lib/library-strings.c:164
-msgid ""
-"Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))"
-msgstr ""
-"Galoisova matice, je-li dáno lineární kombinační pravidlo (a_1*x_+..."
-"+a_n*x_n=x_(n+1))"
-
-#: ../lib/library-strings.c:165
-msgid "Harmonic Number, the nth harmonic number of order r"
-msgstr "Harminické číslo, n-té harminické číslo řádu r"
-
-#: ../lib/library-strings.c:166
-msgid ""
-"Hofstadter's function q(n) defined by q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q"
-"(n-2))"
-msgstr ""
-"Hofstadterova funkce q(n) definovaná jako q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q"
-"(n-q(n-2))"
-
-#: ../lib/library-strings.c:167
-msgid "Compute linear recursive sequence using galois stepping"
-msgstr "Spočítat lineární rekurzivní posloupnost pomocí galoisova krokování"
-
-#: ../lib/library-strings.c:168
-msgid "Calculate multinomial coefficients"
-msgstr "Spočítat multinomiální koeficienty"
-
-#: ../lib/library-strings.c:169
-msgid "Get the pascal's triangle as a matrix"
-msgstr "Získat paskalův trojúhelník jako matici"
-
-#: ../lib/library-strings.c:170
-msgid "(Puchhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))"
-msgstr "(Puchhammerův) stoupacící faktoriál: (n)_k = n(n+1)...(n+(k-1))"
-
-#: ../lib/library-strings.c:171
-msgid "Subfactorial: n! times sum_{k=1}^n (-1)^k/k!"
-msgstr "Subfaktoriál: n! krát sum_{k=1}^n (-1)^k/k!"
-
-#: ../lib/library-strings.c:172
-msgid "Calculate the nth triangular number"
-msgstr "Spočítat n-té trojúhelníkové číslo"
-
-#: ../lib/library-strings.c:173
-msgid "Calculate combinations (binomial coefficient)"
-msgstr "Spočítat kombinace (binomiální koeficient)"
-
-#: ../lib/library-strings.c:174
-msgid "Calculate permutations"
-msgstr "Spočítat permutace"
-
-#: ../lib/library-strings.c:175
-msgid ""
-"Integration of f by Composite Simpson's Rule on the interval [a,b] with the "
-"number of steps calculated by the fourth derivative bound and the desired "
-"tolerance"
-msgstr ""
-"Integrace f složeným Simpsonovým pravidlem na intervalu [a,b] s počtem kroků "
-"počítaným omezením čtvrté derivace a požadovanou tolerancí"
-
-#: ../lib/library-strings.c:176
-msgid ""
-"Attempt to calculate derivative by trying first symbolically and then "
-"numerically"
-msgstr "Pokusit se spočítat derivaci nejdříve symbolicky a pak numericky"
-
-#: ../lib/library-strings.c:177
-msgid "Try to calculate an infinite product for a single parameter function"
-msgstr "Zkusit spočítat nekonečný součin funkce s jedním parametrem"
-
-#: ../lib/library-strings.c:178
-msgid ""
-"Try to calculate an infinite product for a double parameter function with "
-"func(arg,n)"
-msgstr ""
-"Zkusit spočítat nekonečný součin funkce s dvěma parametry jako func(arg,n)"
-
-#: ../lib/library-strings.c:179
-msgid "Try to calculate an infinite sum for a single parameter function"
-msgstr "Zkusit spočítat nekonečný součet funkce s jedním parametrem"
-
-#: ../lib/library-strings.c:180
-msgid ""
-"Try to calculate an infinite sum for a double parameter function with func"
-"(arg,n)"
-msgstr ""
-"Zkusit spočítat nekonečný součet funkce s dvěma parametry jako func(arg,n)"
-
-#: ../lib/library-strings.c:181
-msgid ""
-"Try and see if a real-valued function is continuous at x0 by calculating the "
-"limit there"
-msgstr ""
-"Zkusit zjistit, jestli funkce do reálných čísel je spojitá v x0 výpočtem "
-"limity"
-
-#: ../lib/library-strings.c:182
-msgid ""
-"Test for differentiability by approximating the left and right limits and "
-"comparing"
-msgstr ""
-"Test na diferencovatelnost aproximací limity zleva a zprava a porovnáním"
-
-#: ../lib/library-strings.c:183
-msgid "Calculate the left limit of a real-valued function at x0"
-msgstr "Spočítat limitu zleva funkce do reálných čísel v x0"
-
-#: ../lib/library-strings.c:184
-msgid ""
-"Calculate the limit of a real-valued function at x0.  Tries to calculate "
-"both left and right limits."
-msgstr ""
-"Spočítat limitu funkce do reálných čísel v x0. Zkusí spočítat limitu zleva i "
-"zprava."
-
-# ?
-#: ../lib/library-strings.c:185
-msgid "Integration by midpoint rule"
-msgstr "Integrace pravidlem prostředního bodu"
-
-#: ../lib/library-strings.c:186
-msgid "Attempt to calculate numerical derivative"
-msgstr "Pokusit se spočítat numerickou derivaci"
-
-#: ../lib/library-strings.c:187
-msgid ""
-"Integration by rule set in NumericalIntegralFunction of f from a to b using "
-"NumericalIntegralSteps steps"
-msgstr ""
-"Integrace pravidlem nastaveným v NumericalIntegralFunction funkce f od a do "
-"b pomocí NumericalIntegralSteps kroků"
-
-#: ../lib/library-strings.c:188
-msgid "Attempt to calculate numerical left derivative"
-msgstr "Pokusit se spočítat numerickou levou derivaci"
-
-#: ../lib/library-strings.c:189
-msgid "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N"
-msgstr "Pokusit se spočítat limitu f(step_fun(i)) pro i od 1 do N"
-
-#: ../lib/library-strings.c:190
-msgid "Attempt to calculate numerical right derivative"
-msgstr "Pokusit se spočítat numerickou derivaci zprava"
-
-#: ../lib/library-strings.c:191
-msgid "Compute one-sided derivative using five point formula"
-msgstr "Spočítat jednostrannou derivaci pomocí vzorce s pěti body"
-
-#: ../lib/library-strings.c:192
-msgid "Compute one-sided derivative using three-point formula"
-msgstr "Spočítat jednostrannou derivaci pomocí vzorce s třemi body"
-
-#: ../lib/library-strings.c:193
-msgid "Calculate the right limit of a real-valued function at x0"
-msgstr "Spočítat limitu zprava funkce do reálných čísel v x0"
-
-#: ../lib/library-strings.c:194
-msgid "Compute two-sided derivative using five-point formula"
-msgstr "Spoučítat oboustrannou derivaci pomocí vzorce s pěti body"
-
-#: ../lib/library-strings.c:195
-msgid "Compute two-sided derivative using three-point formula"
-msgstr "Spoučítat oboustrannou derivaci pomocí vzorce s třemi body"
-
-#: ../lib/library-strings.c:196
-msgid "argument (angle) of complex number"
-msgstr "argument (úhel) komplexního čísla"
-
-#: ../lib/library-strings.c:197
-msgid "Dirichlet kernel of order n"
-msgstr "Dirichletovo jádro řádu n"
-
-#: ../lib/library-strings.c:198
-msgid "Returns 1 iff all elements are zero"
-msgstr "Vrátí 1, právě když všechny prvky jsou 0"
-
-#: ../lib/library-strings.c:199
-msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
-msgstr "Funkce chyby, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
-
-#: ../lib/library-strings.c:200
-msgid "Fejer kernel of order n"
-msgstr "Fejerovo jádro řádu n"
-
-#: ../lib/library-strings.c:201
-msgid "Returns 1 iff all elements are equal"
-msgstr "Vrátí 1, právě když jsou si všechny prvky rovny"
-
-#: ../lib/library-strings.c:202
-msgid "Find the first value where f(x)=0"
-msgstr "Najít první hodnotu, kde f(x)=0"
-
-#: ../lib/library-strings.c:203
-msgid "Moebius mapping of the disk to itself mapping a to 0"
-msgstr "Moebiovo mapování disku sama na sebe mapující a na 0"
-
-#: ../lib/library-strings.c:204
-msgid ""
-"Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity "
-"respectively"
-msgstr "Moebiovo mapování pomocí podílu z2,z3,z4 na 1,0,nekonečna"
-
-#: ../lib/library-strings.c:205
-msgid ""
-"Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 "
-"to 1 and 0 respectively"
-msgstr ""
-"Moebiovo mapování pomocí podílu nekonečna na nekonečno a z2,z3 na 1 a 0"
-
-#: ../lib/library-strings.c:206
-msgid ""
-"Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 "
-"and infinity respectively"
-msgstr ""
-"Moebiovo mapování pomocí podílu nekonečna na 1 a z3,z4 na 0 a nekonečno"
-
-#: ../lib/library-strings.c:207
-msgid ""
-"Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 "
-"and infinity respectively"
-msgstr ""
-"Moebiovo mapování pomocí podílu nekonečna na 0 a z2,z4 na 1 a nekonečno"
-
-#: ../lib/library-strings.c:208
-msgid ""
-"Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is "
-"2pi)"
-msgstr "Poissonovo jádro na D(0,1) (nenormalizované na 1, tj. integrál je 2pi)"
-
-#: ../lib/library-strings.c:209
-msgid "Poisson kernel on D(0,R) (not normalized to 1)"
-msgstr "Poissonovo jádro na D(0,R) (nenormalizované na 1)"
-
-#: ../lib/library-strings.c:210
-msgid ""
-"The unit step function = 0 for x<0, 1 otherwise.  This is the integral of "
-"the Dirac Delta function."
-msgstr ""
-"Funkce jednotkového kroku = 0 pro x<0, jinak 1. Toto je integrál Diracovy "
-"funkce delta."
-
-#: ../lib/library-strings.c:211
-msgid "The cis function, that is cos(x)+i*sin(x)"
-msgstr "Funkce cis, to je cos(x)+i*sin(x)"
-
-#: ../lib/library-strings.c:212
-msgid "Convert degrees to radians"
-msgstr "Převést stupně na radiány"
-
-#: ../lib/library-strings.c:213
-msgid "Convert radians to degrees"
-msgstr "Převést radiány na stupně"
-
-#: ../lib/library-strings.c:214
-msgid ""
-"Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
-"y0 going to x1 with n increments, returns y at x1"
-msgstr ""
-"Použít klasitckou Eulerovu metodu pro numerické řešení y'=f(x,y) pro "
-"počáteční x0,y0 do x1 s n přírůstky, vrátí y v x1"
-
-#: ../lib/library-strings.c:215
-msgid "Find root of a function using the bisection method"
-msgstr "Najít kořen funkce pomocí metody bisekce"
-
-#: ../lib/library-strings.c:216
-msgid "Find root of a function using the method of false position"
-msgstr "Najít kořen funkce pomocí metody špatné pozice"
-
-#: ../lib/library-strings.c:217
-msgid "Find root of a function using the Muller's method"
-msgstr "Najít kořen funkce pomocí Mullerovy metody"
-
-#: ../lib/library-strings.c:218
-msgid "Find root of a function using the secant method"
-msgstr "Najít kořen funkce pomocí metody sečny"
-
-#: ../lib/library-strings.c:219
-msgid ""
-"Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
-"solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
-"at x1"
-msgstr ""
-"Použít klasickou neadaptivní metodu Runge-Kutta čtvrtého řádu pro numerické "
-"řešení y'=f(x,y) pro počáteční x0,y0 do x1 s n přírůstky, vrátí y v x1"
-
-#: ../lib/library-strings.c:220
-msgid "Calculate average of an entire matrix"
-msgstr "Spočítat průměr celé matice"
-
-#: ../lib/library-strings.c:221
-msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
-msgstr "Integrál Gaussovy funkce od 0 do x (oblast pod normální křivkou)"
-
-#: ../lib/library-strings.c:222
-msgid "The normalized Gauss distribution function (the normal curve)"
-msgstr "Normalizovaná Gaussova distribuční funkce (normální křivka)"
-
-#: ../lib/library-strings.c:223
-msgid "Calculate median of an entire matrix"
-msgstr "Spočítat medián celé matice"
-
-#: ../lib/library-strings.c:224
-msgid "Calculate the population standard deviation of a whole matrix"
-msgstr "Spočítat standardní odchylku populace celé matice"
-
-#: ../lib/library-strings.c:225
-msgid "Calculate average of each row in a matrix"
-msgstr "Spočítat průměr každého řádku matice"
-
-#: ../lib/library-strings.c:226
-msgid "Calculate median of each row in a matrix"
-msgstr "Spočítat medián každého řádku matice"
-
-#: ../lib/library-strings.c:227
-msgid ""
-"Calculate the population standard deviations of rows of a matrix and return "
-"a vertical vector"
-msgstr ""
-"Spočítat standardní odchylky populací řádků matice a vrátit svislý vektor"
-
-#: ../lib/library-strings.c:228
-msgid ""
-"Calculate the standard deviations of rows of a matrix and return a vertical "
-"vector"
-msgstr "Spočítat standardní odchylky řádků matice a vrátit svislý vektor"
-
-#: ../lib/library-strings.c:229
-msgid "Calculate the standard deviation of a whole matrix"
-msgstr "Spočítat standardní odchylku celé matice"
-
-#: ../lib/library-strings.c:230
-msgid ""
-"Run newton's method on a polynomial to attempt to find a root, returns after "
-"two successive values are within epsilon or after maxn tries (then returns "
-"null)"
-msgstr ""
-"Spustit newtonovou metodu na polynomu a zkusit najít kořen, vrátí se, když "
-"dvě po sobě jdoucí hodnoty jsou do epsilon, nebo po maxn pokusech (pak vrátí "
-"null)"
-
-#: ../lib/library-strings.c:231
-msgid ""
-"Returns a set theoretic intersection of X and Y (X and Y are vectors "
-"pretending to be sets)"
-msgstr "Vrátí množinový průnik X a Y (X a Y jsou vektory brané jako množiny)"
-
-#: ../lib/library-strings.c:232
-msgid ""
-"Returns true if the element x is in the set X (where X is a vector "
-"pretending to be a set)"
-msgstr ""
-"Vrátí true, když prvek x je v množině X (kde X je vektor braný jako množina)"
-
-#: ../lib/library-strings.c:233
-msgid "Returns a set where every element of X appears only once"
-msgstr "Vrátí množinu, kde je každý prvek X jen jednou"
-
-#: ../lib/library-strings.c:234
-msgid ""
-"Returns a set theoretic difference X-Y (X and Y are vectors pretending to be "
-"sets)"
-msgstr "Vrátí množinový rozdíl X-Y (X a Y jsou vektory brané jako množiny)"
-
-#: ../lib/library-strings.c:235
-msgid ""
-"Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
-"be sets)"
-msgstr ""
-"Vrátí množinové sjednocení X a Y (X a Y jsou vektory brané jako množiny)"
-
-#: ../lib/library-strings.c:236
-msgid "Attempt to symbolically differentiate a function n times"
-msgstr "Pokusit se symbolicky derivovat funkci n-krát"
-
-#: ../lib/library-strings.c:237
-msgid ""
-"Attempt to symbolically differentiate a function n times quietly and return "
-"null on failure"
-msgstr "Pokusit se symbolicky derivovat funkci n-krát tiše a vrátit null při neúspěchu"
-
-#: ../lib/library-strings.c:238
-msgid ""
-"Attempt to construct the taylor approximation function around x0 to the nth "
-"degree."
-msgstr "Pokusit se zkonstruovat taylorovu aproximační funkci kolem x0 do n-tého řádu."
+"An error occurred while loading the user interface from file %s.  Possibly "
+"the glade interface description was not found.  %s cannot continue and will "
+"exit now.  You should check your installation of %s or reinstall %s."
+msgstr "Při načítání uživatelského rozhraní souboru %s došlo k chybě. Možná nebyl nalezen popis rozhraní v glade. %s nemůže pokračovat a nyní skončí. Měli byste zkontrolovat vaši instalaci %s nebo znovu nainstalovat %s."
+
+#: ../vicious-extensions/glade-helper.c:314
+#, c-format
+msgid "No interface could be loaded. This is BAD! (file: %s)"
+msgstr "Nelze načíst žádné rozhraní. To je ŠPATNÉ! (soubor: %s)"
+
+#: ../vicious-extensions/ve-nongnome.c:134
+msgid "Too many alias levels for a locale; may indicate a loop"
+msgstr "Příliš mnoho úrovní přezdívek locale; možná to znamená smyčku"
 
 #~ msgid "Draw a line from x1,y1 to x2,y2"
 #~ msgstr "Nakreslit úsečku od x1,y1 do x2,y2"
