@@ -2399,6 +2399,14 @@ run_program (GtkWidget *menu_item, gpointer data)
 
 }
 
+static gboolean
+delete_event (GtkWidget *w, GdkEventAny *e, gpointer data)
+{
+	quitapp (w, data);
+	return TRUE;
+}
+
+
 /*main window creation, slightly copied from same-gnome:)*/
 static GtkWidget *
 create_main_window (void)
@@ -2410,7 +2418,7 @@ create_main_window (void)
 	gtk_window_set_wmclass (GTK_WINDOW (w), "gnome-genius", "gnome-genius");
 
         g_signal_connect (G_OBJECT (w), "delete_event",
-			  G_CALLBACK (quitapp), NULL);
+			  G_CALLBACK (delete_event), NULL);
         return w;
 }
 
