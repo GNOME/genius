@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-03 10:25+0200\n"
-"PO-Revision-Date: 2005-10-03 16:16+0100\n"
+"POT-Creation-Date: 2005-10-23 18:36+0200\n"
+"PO-Revision-Date: 2005-10-23 19:46+0100\n"
 "Last-Translator: Jorge Gonzalez <jorge.gonzalez.gonzalez@hispalinux.es>\n"
 "Language-Team:  <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -300,8 +300,9 @@ msgid "Pseudoprime test, true iff b^(n-1) == 1 (mod n)"
 msgstr "Test de pseudoprimos, verdadero si b^(n-1) == 1 (mod n)"
 
 #: ../lib/library-strings.c:70
+#, fuzzy
 msgid "Removes all instances of the factor m from the number n"
-msgstr ""
+msgstr "Elimina todos los casos del factor m del número n"
 
 #: ../lib/library-strings.c:71
 msgid "Find discrete log of n base b in F_q where q is a prime using the Silver-Pohlig-Hellman algoritm, given f being the factorization of q-1"
@@ -417,7 +418,7 @@ msgstr "Hacer ceros todas los elementos debajo de la diagonal"
 
 #: ../lib/library-strings.c:99
 msgid "Get the auxilliary unit matrix of size n"
-msgstr ""
+msgstr "Obtener la matriz unidad auxiliar de tamaño n"
 
 #: ../lib/library-strings.c:100
 msgid "Evaluate (v,w) with respect to the bilinear form given by the matrix A"
@@ -513,8 +514,9 @@ msgid "Test if a vector is in a subspace"
 msgstr "Comprobar si un vector está en un subespacio"
 
 #: ../lib/library-strings.c:124
+#, fuzzy
 msgid "Is a matrix (or number) invertible (Integer matrix is invertible iff it's invertible over the integers)"
-msgstr ""
+msgstr "Es una matriz (o un número) inversible (una matriz de enteros es inversible si es inversible sobre sus enteros)"
 
 #: ../lib/library-strings.c:125
 msgid "Is a matrix (or number) invertible over a field"
@@ -574,7 +576,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:139
 msgid "Projection of vector v onto subspace W given a bilinear form B"
-msgstr ""
+msgstr "Proyección del vector «v» en el subespacio «W» dada una función bilineal «B»"
 
 #: ../lib/library-strings.c:140
 msgid "Return the Raleigh Quotient of a matrix and a vector"
@@ -674,7 +676,7 @@ msgstr "Calcular el enésimo número de Fibbonachi"
 
 #: ../lib/library-strings.c:164
 msgid "Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))"
-msgstr ""
+msgstr "Matriz de Galois dada una regla de combinación lineal (a_1*x_+...+a_n*x_n=x_(n+1))"
 
 #: ../lib/library-strings.c:165
 msgid "Harmonic Number, the nth harmonic number of order r"
@@ -682,7 +684,7 @@ msgstr "Número armónico, el enésimo número armónico de orden r"
 
 #: ../lib/library-strings.c:166
 msgid "Hofstadter's function q(n) defined by q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q(n-2))"
-msgstr ""
+msgstr "Función q(n) de Hofstadter definida por q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q(n-2))"
 
 #: ../lib/library-strings.c:167
 msgid "Compute linear recursive sequence using galois stepping"
@@ -702,7 +704,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:171
 msgid "Subfactorial: n! times sum_{k=1}^n (-1)^k/k!"
-msgstr ""
+msgstr "Subfactorial: sum_{k=1}^n (-1)^k/k! n! veces"
 
 #: ../lib/library-strings.c:172
 msgid "Calculate the nth triangular number"
@@ -3744,13 +3746,13 @@ msgstr[0] "Ocurrió un error al cargar la interfaz de usuario del elemento %s%s 
 msgstr[1] "Ocurrió un error al cargar la interfaz de usuario del elemento %s%s del archivo %s. El tipo de widget de CList debería tener %d columnas. Posiblemente la descripción del interfaz de glade está corrupta. %s no puede continuar y terminará ahora. Debería comprobar su instalación de %s o reinstalar %s."
 
 #: ../vicious-extensions/glade-helper.c:282
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Glade file is on crack! Make sure the correct file is installed!\n"
 "file: %s widget: %s expected clist columns: %d"
 msgstr ""
 "El archivo glade está corrupto. Compruebe que tiene el archivo correcto instalado\n"
-"archivo: %s widget: %s número de columnas clist esperadas: %s"
+"archivo: %s widget: %s número de columnas clist esperadas: %d"
 
 #: ../vicious-extensions/glade-helper.c:302
 #, c-format
@@ -3763,7 +3765,6 @@ msgid "No interface could be loaded. This is BAD! (file: %s)"
 msgstr "No se puede cargar el interfaz. Esto es un gran problema (archivo: %s)"
 
 #: ../vicious-extensions/ve-nongnome.c:134
-#, fuzzy
 msgid "Too many alias levels for a locale; may indicate a loop"
 msgstr "Demasiados niveles de «alias» para una local; suele indicar un bucle"
 
