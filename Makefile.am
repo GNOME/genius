@@ -1,7 +1,7 @@
 if INTERNAL_MPFR
 MAYBE_MPFR = mpfr
 endif
-SUBDIRS = $(MAYBE_MPFR) vicious-extensions gtkextra src pixmaps lib po help
+SUBDIRS = $(MAYBE_MPFR) ve gtkextra src pixmaps lib po help
 
 mimeinfodir = $(datadir)/mime-info
 mimeinfo_DATA = genius.keys genius.mime

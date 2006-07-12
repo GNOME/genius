@@ -1,7 +1,7 @@
 AC_INIT(src/calc.c)
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(genius,0.7.4)
+AM_INIT_AUTOMAKE(genius,0.7.5)
 
 dnl make sure we keep ACLOCAL_FLAGS around for maintainer builds to work
 AC_SUBST(ACLOCAL_AMFLAGS, "$ACLOCAL_FLAGS")
@@ -38,8 +38,6 @@ AC_PROG_YACC
 AC_ARG_PROGRAM
 
 GNOME_COMPILE_WARNINGS
-
-AC_CHECK_FUNCS([setenv unsetenv clearenv])
 
 dnl ================= Translation Stuf ==============================================
 
@@ -167,7 +165,7 @@ Note:
   fi
 
   VICIOUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED"
-  VICIOUS_GNOME_LIBS="libviciousui.a libviciousui-gnome.a libviciousui-minimal.a libvicious-gnome.a"
+  VICIOUS_UI_LIBS="libviciousui.a"
   GTKEXTRA_LIBS="libgtkextra-genius.a"
   
   GNOME_GENIUS=gnome-genius
@@ -177,7 +175,7 @@ Note:
 else
   use_gtksourceview=no
   VICIOUS_MODULES="glib-2.0 >= $GLIB_REQUIRED gmodule-2.0 >= $GLIB_REQUIRED"
-  VICIOUS_GNOME_LIBS=
+  VICIOUS_UI_LIBS=
   GTKEXTRA_LIBS=
   GENIUS_CFLAGS="$GENIUS_NOGUI_CFLAGS"
   GENIUS_LIBS="$GENIUS_NOGUI_LIBS"
@@ -186,7 +184,7 @@ else
   GNOME_GENIUS_DESKTOP_IN=
 fi
 
-AC_SUBST(VICIOUS_GNOME_LIBS)
+AC_SUBST(VICIOUS_UI_LIBS)
 AC_SUBST(GTKEXTRA_LIBS)
 AC_SUBST(GENIUS_CFLAGS)
 AC_SUBST(GENIUS_LIBS)
@@ -282,7 +280,7 @@ lib/sets/Makefile
 lib/number_theory/Makefile
 lib/statistics/Makefile
 lib/symbolic/Makefile
-vicious-extensions/Makefile
+ve/Makefile
 gtkextra/Makefile
 pixmaps/Makefile
 pixmaps/32x32/Makefile

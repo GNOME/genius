@@ -1699,6 +1699,7 @@ op_two_nodes (GelCtx *ctx, GelETree *ll, GelETree *rr, int oper,
 			break;
 		default: 
 			got_res = FALSE;
+			res = FALSE;
 			break;
 		}
 		if G_UNLIKELY ( ! got_res ||

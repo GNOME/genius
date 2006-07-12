@@ -1,0 +1,278 @@
+** changes now logged in the ../ChangeLog file in genius **
+
+Fri May 28 12:22:51 2004  George Lebl <jirka@5z.com>
+
+	* ve-misc.c: be anal about environ == NULL
+
+Wed May 26 16:25:00 2004  George Lebl <jirka@5z.com>
+ 
+        * ve-misc.c: slight adjustment for the filename quoting
+
+Wed May 26 16:20:03 2004  George Lebl <jirka@5z.com>
+
+	* ve-misc.[ch]: Add ve_shell_quote_filename, for even more anal
+	  filename quoting
+
+Tue Mar 30 15:11:23 2004  George Lebl <jirka@5z.com>
+
+	* Makefile.am: include ve-i18n.h in the makefile
+
+Thu Mar 25 16:49:31 2004  George Lebl <jirka@5z.com>
+
+	* ve-i18n.h, *.c, Makefile.am: make it possible to compile completely
+	  without requiring GNOME
+
+Thu Jan 15 13:02:07 2004  George Lebl <jirka@5z.com>
+
+	* ve-misc.[ch]: when glib is new use the glib setenv/unsetenv
+	  thingies.  Perhaps I should just whack it (except for clearenv
+	  which still isn't in glib)
+
+Tue Jan 06 17:44:00 2004  George Lebl <jirka@5z.com>
+
+	* ve-misc.c: export correct function name for ve_filename_from_utf8
+
+Fri Dec 19 11:49:08 2003  George Lebl <jirka@5z.com>
+
+	* ve-config.c, ve-misc.h, ve-nongnome.c:  Better testing and handling
+	  of EINTR on broken, stupid, idiotic systems.
+
+Thu Oct 16 09:48:45 2003  George Lebl <jirka@5z.com>
+
+	* Makefile.am: the disable_deprecated defines are now not defined,
+	  they can be manually turned on when one wants to check for
+	  compliance.
+
+Wed Sep 24 18:00:36 2003  George Lebl <jirka@5z.com>
+
+	* ve-config.c: read at most 5000 lines.  Even though we don't
+	  try reading large files, so this is just being very very anal.
+
+Fri Sep 19 15:34:20 2003  George Lebl <jirka@5z.com>
+
+	* ve-miscui.[ch]: add a 'markup' flag to the ve_hig_dialog_new
+	  interface to specify if markup is to be used in the dialog.
+	  if not, strings are escaped properly.
+
+	* ve-misc.[ch]: add ve_filename_{to,from}_utf8 which act
+	  like the locale equivalents
+
+	* glade-helper.c: use the new markup flag, convert filenames to
+	  utf8 before displaying.
+
+Thu Sep 18 13:53:21 2003  George Lebl <jirka@5z.com>
+
+	* ve-misc.[ch]: path finding routines
+
+	* ve-config.c: don't add empty lines to root if root
+	  is empty to avoid empty first lines on new
+	  files.  Add an empty line to root if adding
+	  the first ever line to root.
+
+Sat Jul 26 01:38:19 2003  George Lebl <jirka@5z.com>
+
+	* ve-signal.[ch]: allow unnotification of a signal.
+
+Thu Jul 24 14:58:08 2003  George Lebl <jirka@5z.com>
+
+	* ve-signal.[ch]: make it possible to check if there was a signal
+	  notification while we were hanging without the mainloop running.
+
+Thu Jul 10 16:54:36 2003  George Lebl <jirka@5z.com>
+
+	* ve-misc.[ch], ve-gnome.c, ve-nongnome.c:  Add ve_setenv,
+	  ve_unsetenv, ve_clearenv back in, the find_file is split
+	  into a gnome and non-gnome version, added
+	  ve_i18n_get_language_list stolen from gnome-i18n since
+	  that was the only thing from libgnome we really needed
+	  now in gdm daemon and greeters
+
+	* ve-config.[ch]: get calls to get all sections and to
+	  get all keys in a section to make the API complete and
+	  thus make it possible to replace gnome_config_ in
+	  the gdm daemon
+
+	* test-ve-config.c: add a test for the _get_sections and
+	  _get_keys
+
+	* Makefile.am: add libviciousui-gnome.a, libvicious-gnome.a
+	  and libviciousui-minimal.a libs to be able to use ve
+	  without gnome or even without glade
+
+	* README: update
+
+Tue Jul 08 01:03:35 2003  George Lebl <jirka@5z.com>
+
+	* ve-miscui.c: support all the gtk message box types in the hig
+	  dialog thing to avoid hitting asserts
+
+Mon Jul 07 18:10:08 2003  George Lebl <jirka@5z.com>
+
+	* glade-helper.c: the bad interface dialogs are now all HIGgy and
+	  such
+
+Mon Jul 07 18:00:46 2003  George Lebl <jirka@5z.com>
+
+	* ve-miscui.[ch]: add ve_hig_dialog_new for creating HIG
+	  compliant alerts.  Stolen partly from gsearchtool
+
+Mon Jul 07 12:41:14 2003  George Lebl <jirka@5z.com>
+
+	* glade-helper.[ch]: add call to automatically tagify
+	  a label or a label of a button (such as make the label
+	  bold by the "b" tag)
+
+Fri Jun 06 16:37:37 2003  George Lebl <jirka@5z.com>
+
+	* glade-helper.c: the dialogs have no separator
+
+Thu Jun 05 13:20:20 2003  George Lebl <jirka@5z.com>
+
+	* ve-config.c: when new keys are added try to find a commented out
+	  version of the key and append it after that line.
+
+Tue May 13 11:36:53 2003  George Lebl <jirka@5z.com>
+
+	* ve-misc.c: Apply fix from Owen Taylor for #105145, we were
+	  getting LC_ALL instead of LC_MESSAGES.  darn it.
+
+Wed Jan 08 10:47:27 2003  George Lebl <jirka@5z.com>
+
+	* ve-misc.c: include locale.h
+
+Thu Aug 22 15:26:00 2002  George Lebl <jirka@5z.com>
+
+	* ve-misc.[ch]: ve_locale_exists function for testing for existance
+	  of a certain locale.
+
+Tue Aug 13 15:21:40 2002  George Lebl <jirka@5z.com>
+
+	* ve-misc.c: whoops a bit of debug was left in
+
+Tue Aug 13 14:55:09 2002  George Lebl <jirka@5z.com>
+
+	* ve-misc.[ch]: add some functions for dealing with commands and
+	  command lists
+
+Tue Jul 30 16:35:14 2002  George Lebl <jirka@5z.com>
+
+	* ve-config.c: fix reading if there are duplicate keys, fix removal
+	  of translations to not remove the original key
+
+Mon Jul 29 16:47:23 2002  George Lebl <jirka@5z.com>
+
+	* Makefile.am, ve-signal.[ch], vicious.h: move the gdm_signal routines
+	  here and call them ve_signal.  This is so that we can use them
+	  in the greeters
+
+	* glade-helper.[ch], ve-misc.[ch]: make a simple version of the
+	  ve_find_file function that doesn't use gnome_program and
+	  have glade-helper have a mode where it uses that.  Useful
+	  if gnome_program is not initialized and using it would be
+	  mucho bad.
+
+Fri Jul 26 16:24:27 2002  George Lebl <jirka@5z.com>
+
+	* ve-config.[ch]: add a few functions needed for gdmsetup such
+	  as translation deleting
+
+Fri Jul 26 15:33:22 2002  George Lebl <jirka@5z.com>
+
+	* ve-config.[ch]: add a recheck function
+
+Fri Jul 26 14:44:02 2002  George Lebl <jirka@5z.com>
+
+	* Makefile.am, glade-helper.[ch], ve-miscui.c:  Fix warnings and
+	  actually compile with warnings and remove usage of some deprecated
+	  things.
+
+	* Makefile.am, ve-misc.h, ve-config.[ch], test-ve-config.c:  Add
+	  a gnome-config like engine.  It is simpler, probably less buggy
+	  code that handles ini files in a smarter and simpler way, and
+	  we can actually use this to stop linking libgnome (and thus a bunch
+	  of other libs we never use) into the daemon.  Now only to use this
+	  in the and setup and test it and all that.
+
+Sun Jul 21 12:45:58 2002  George Lebl <jirka@5z.com>
+
+	* ve-misc.[ch]: add a function to behave like waitpid but never
+	  stop on signals
+
+Thu May 30 13:23:36 2002  George Lebl <jirka@5z.com>
+
+	* ve-misc.[ch]: add locale_to/from_utf8 replacements that never
+	  return NULL.  Also add a sane ve_strftime replacement that
+	  simplifies our code a bit.
+
+Mon May 27 13:39:44 2002  George Lebl <jirka@5z.com>
+
+	* glade-helper.c: fix small memleak, a few updates so that we don't
+	  use deprecated stuff
+
+Tue May 14 01:20:35 2002  George Lebl <jirka@5z.com>
+
+	* glade-herlper.c: use GETTEXT_PACKAGE instead of PACKAGE for domain
+
+Sun Apr 21 22:55:33 2002  George Lebl <jirka@5z.com>
+
+	* ve-misc.c: look in the _APP domain for files first
+
+	* Makefile.am: link the non-ui files into the ui lib, so from now on
+	  you link with either the non ui one OR the ui one, not both
+
+Fri Apr 12 15:32:32 2002  George Lebl <jirka@5z.com>
+
+	* glade-helper.c: destroy dialog after running it
+
+Tue Apr 09 17:04:06 2002  George Lebl <jirka@5z.com>
+
+	* ve-misc.[ch]: implement ve_bool_equal
+
+Fri Nov 30 15:34:41 2001  George Lebl <jirka@5z.com>
+
+	* glade-helper.c: fix compilation s/w/dlg/
+
+Tue Nov 27 15:58:41 2001  George Lebl <jirka@5z.com>
+
+	* glade-helper.c, ve-misc.c: port some deprecated stuff, like
+	  gnome-dialogs and some gnome-util.h stuff
+
+Fri Nov 16 01:49:14 2001  George Lebl <jirka@5z.com>
+
+	* ve-misc.[ch], ve-miscui.[ch]: remove functions already implemented
+	  elsewhere in the gnome platform and also stop using the popt
+	  argv function and use the glib one
+
+Mon Nov 05 21:28:29 2001  George Lebl <jirka@5z.com>
+
+	* Makefile.am, icon-entry-hack.[ch], glade-helper.c, ve-miscui.c,
+	  ve-misc.c: Initial port to 2.0
+
+Sat Oct 20 16:38:35 2001  George Lebl <jirka@5z.com>
+
+	* Makefile.am: include LIBGLADE_CFLAGS in the CFLAGS
+
+Sat Oct 20 11:55:21 2001  George Lebl <jirka@5z.com>
+
+	* ve-misc.c: handle NULL value in setenv and treat it like ""
+
+Sun Aug 19 14:10:51 2001  George Lebl <jirka@5z.com>
+
+	* ve-misc.[ch]: add a ve_first function.  This is turning into
+	  string lisp :)
+
+Fri Aug 17 23:28:00 2001  George Lebl <jirka@5z.com>
+
+	* ve-misc.[ch]: add vector merge and len functions
+
+Sun Aug 12 11:43:41 2001  George Lebl <jirka@5z.com>
+
+	* ve-miscui.[ch]: add a ve_gnome_dialog_grab_focus function, so that
+	  we can use it without requiring new gnome-libs
+
+Mon Jul 09 00:10:53 2001  George Lebl <jirka@5z.com>
+
+	* viciousui.h: include vicious.h
+
+	* glade-helper.[ch], ve-misc.c: build fixes
+

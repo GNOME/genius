@@ -1921,8 +1921,12 @@ new_program (const char *filename)
 				p);
 
 	if (filename == NULL) {
+		char *d = g_get_current_dir ();
+		char *n = g_strdup_printf (_("Program_%d.gel"), cnt);
 		/* the file name will have an underscore */
-		p->name = g_strdup_printf (_("Program_%d.gel"), cnt);
+		p->name = g_strconcat (d, "/", n, NULL);
+		g_free (d);
+		g_free (n);
 		p->vname = g_strdup_printf (_("Program %d"), cnt);
 		cnt++;
 	} else {
@@ -2881,7 +2885,7 @@ drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	if (info != TARGET_URI_LIST)
 		return;
 			
-	list = gnome_vfs_uri_list_parse (selection_data->data);
+	list = gnome_vfs_uri_list_parse ((gpointer)selection_data->data);
 
 	for (li = list; li != NULL; li = li->next) {
 		const GnomeVFSURI *uri = li->data;
