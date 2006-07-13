@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2004 Jiri (George) Lebl
+ * Copyright (C) 1997-2006 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
