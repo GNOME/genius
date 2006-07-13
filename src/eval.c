@@ -1326,8 +1326,8 @@ funccall(GelCtx *ctx, GelEFunc *func, GelETree **args, int nargs)
 
 /*compare nodes, return TRUE if equal
   makes them the same type as a side effect*/
-static gboolean
-eqlnodes (GelETree *l, GelETree *r)
+gboolean
+gel_eqlnodes (GelETree *l, GelETree *r)
 {
 	if (l->type == BOOL_NODE ||
 	    r->type == BOOL_NODE) {
@@ -1497,7 +1497,7 @@ eqmatrix(GelETree *a, GelETree *b, int *error)
 				*error = TRUE;
 				return 0;
 			}
-			r = eqlnodes (t, b);
+			r = gel_eqlnodes (t, b);
 		}
 	} else if(b->type == MATRIX_NODE) {
 		GelMatrixW *m = b->mat.matrix;
@@ -1512,7 +1512,7 @@ eqmatrix(GelETree *a, GelETree *b, int *error)
 				*error = TRUE;
 				return 0;
 			}
-			r = eqlnodes (t, a);
+			r = gel_eqlnodes (t, a);
 		}
 	} else
 		g_assert_not_reached();
@@ -3522,7 +3522,7 @@ evalcomp(GelETree *n)
 		case 0:
 			switch(oper) {
 			case E_EQ_CMP:
-				if(!eqlnodes(l,r)) {
+				if ( ! gel_eqlnodes (l, r)) {
 					if G_UNLIKELY (error_num != NO_ERROR) {
 						error_num = NO_ERROR;
 						return;
@@ -3531,7 +3531,7 @@ evalcomp(GelETree *n)
 				}
 				break;
 			case E_NE_CMP:
-				if(eqlnodes(l,r)) {
+				if (gel_eqlnodes (l, r)) {
 					RET_RES(0)
 				} else if G_UNLIKELY (error_num != NO_ERROR) {
 					error_num = NO_ERROR;

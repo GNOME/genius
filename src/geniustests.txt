@@ -585,8 +585,14 @@ i=0;for n in null do i=i+1 ; i					0
 i=0;for n in [1,2,3] do i=i+1 ; i				3
 MakeSet([1,3,1,2,2])						[1,3,2]
 Intersection([1,3,2],[3,1,8])					[1,3]
+Intersection(null,[3,1,8])+1					((null)+1)
+Intersection([3,1,8],null)+1					((null)+1)
+SetMinus(null,[3,1,8])+1					((null)+1)
+SetMinus([3,1,8],null)						[3,1,8]
+SetMinus([1,2,3,4],[2,4])					[1,3]
 IsIn(4,[1,2,3,4])						true
 IsIn(5,[1,2,3,4])						false
+IsIn(5,null)							false
 SqrtModPrime(8,127)						[32,95]
 SqrtModPrime(7,127)+1						((null)+1)
 SortVector(SqrtModPrime(8,137))					[62,75]
@@ -698,4 +704,6 @@ ComposePower(SymbolicDerivative,10,sin)				(`(x)=(-sin(x)))
 SymbolicNthDerivative(sin,10)					(`(x)=(-sin(x)))
 SymbolicDerivative(`(x)=1/x)					(`(x)=(-1/(x^2)))
 function f() = (for n=1 to 2 do (a=`[[1]]);a);f()		`[[1]]
+NullSpace ([1,0,0,2,4;0,0,1,-3,5])				[1,0,0;0,1,0;0,0,1;-5/22,0,2/11;-3/22,0,-1/11]
+A=[1,1,1,1;2,3,4,1;9,1,1,1];A*NullSpace(A)@(,1)			[0;0;0]
 load "longtest.gel"						true

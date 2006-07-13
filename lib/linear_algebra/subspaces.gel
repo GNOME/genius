@@ -36,7 +36,7 @@ function Rank(M) =
 )
 protect ("Rank")
 SetHelpAlias ("Rank", "rank");
-function rank (M) = Rank (M)
+rank = Rank
 protect ("rank")
 
 # Nullity of a matrix
@@ -49,12 +49,12 @@ function Nullity (M) =
 )
 protect ("Nullity")
 SetHelpAlias ("Nullity", "nullity");
-function nullity (M) = Nullity (M)
+nullity = Nullity
 protect ("nullity")
 
 # Image of a linear transform (=column space of the corresponding matrix)
 SetHelp ("Image", "linear_algebra", "Get the image (columnspace) of a linear transform")
-function Image(T) = ColumnSpace(T)
+Image = ColumnSpace
 protect ("Image")
 
 # Null space/kernel of a linear transform
@@ -79,14 +79,16 @@ protect ("Image")
 SetHelp ("NullSpace", "linear_algebra", "Get the nullspace of a matrix")
 function NullSpace (T)=
   (
-    non_pivots=NonPivotColumns(T);
-    if IsNull(non_pivots) then return null; # injective transforms, so
-                                             # no kernel
-    T=rref(T);
-    dim_image=columns(T);
-    pivots=PivotColumns(T);
-    number_of_pivots=columns(pivots);
-    null_space=null;
+    T = rref (T);
+    pivots = PivotColumns (T);
+    dim_image = columns (T);
+    number_of_pivots = columns (pivots);
+
+    # injective transforms, so no kernel
+    if dim_image == number_of_pivots or dim_image == 0 then return null;
+
+    non_pivots = SetMinus ([1:columns(T)], pivots@(1,));
+    null_space = null;
     for loop in non_pivots do
      (
        new_vector=SetMatrixSize([0],dim_image,1);

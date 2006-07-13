@@ -2,19 +2,6 @@
 
 # FIXME: Genius should really implement native set type
 
-# Set-theoretic subtraction
-#FIXME: this should be built-in (for speed)
-# Returns X - Y
-SetHelp ("SetMinus", "sets", "Returns a set theoretic difference X-Y (X and Y are vectors pretending to be sets)");
-function SetMinus(X,Y) =
-  (
-   difference=null;
-   for x in X do
-    if not IsIn(x,Y) then difference=[difference,x];
-   difference
-  )
-protect("SetMinus");
-
 SetHelp ("Union", "sets", "Returns a set theoretic union of X and Y (X and Y are vectors pretending to be sets)");
 function Union(X,Y) =
   (
@@ -23,16 +10,6 @@ function Union(X,Y) =
    Y
   )
 protect("Union");
-
-SetHelp ("Intersection", "sets", "Returns a set theoretic intersection of X and Y (X and Y are vectors pretending to be sets)");
-function Intersection(X,Y) =
-  (
-   intersect = null;
-   for x in X do
-    if IsIn(x,Y) then intersect=[intersect,x];
-   intersect
-  )
-protect("Intersection");
 
 SetHelp ("MakeSet", "sets", "Returns a set where every element of X appears only once");
 function MakeSet(X) =
@@ -43,14 +20,3 @@ function MakeSet(X) =
    S
   )
 protect("MakeSet");
-
-# Test for set membership
-#FIXME: this should be built-in (for speed)
-SetHelp ("IsIn", "sets", "Returns true if the element x is in the set X (where X is a vector pretending to be a set)");
-function IsIn(x,X) =
-  (
-   for loop in X do
-    if x==loop then (return true);
-   false
-  )
-protect ("IsIn");

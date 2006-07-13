@@ -2509,6 +2509,155 @@ IndexComplement_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	return n;
 }
 
+static gboolean
+isinmatrix (GelETree *n, GelMatrixW *m)
+{
+	int ml, i;
+
+	ml = gel_matrixw_elements (m);
+
+	for (i = 0; i < ml; i++) {
+		GelETree *t = gel_matrixw_vindex (m, i);
+		if (gel_eqlnodes (t, n)) {
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+static GelETree *
+IsIn_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	if G_UNLIKELY ( ! check_argument_matrix_or_null (a, 1, "IsIn"))
+		return NULL;
+
+	if (a[1]->type == NULL_NODE)
+		return gel_makenum_bool (FALSE);
+
+	return gel_makenum_bool (isinmatrix (a[0], a[1]->mat.matrix));
+}
+
+static GelETree *
+SetMinus_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelMatrixW *m1, *m2;
+	int ml, i;
+	int len;
+	GSList *list, *li;
+	GelETree *n;
+	GelMatrix *nm;
+
+	if G_UNLIKELY ( ! check_argument_matrix_or_null (a, 0, "SetMinus") ||
+			! check_argument_matrix_or_null (a, 1, "SetMinus"))
+		return NULL;
+
+	if (a[0]->type == NULL_NODE) {
+		return gel_makenum_null ();
+	} else if (a[1]->type == NULL_NODE) {
+		return copynode (a[0]);
+	}
+
+	m1 = a[0]->mat.matrix;
+	ml = gel_matrixw_elements (m1);
+
+	m2 = a[1]->mat.matrix;
+
+	list = NULL;
+	len = 0;
+
+	for (i = 0; i < ml; i++) {
+		GelETree *t = gel_matrixw_vindex (m1, i);
+		if ( ! isinmatrix (t, m2)) {
+			if (t == the_zero)
+				list = g_slist_prepend (list, NULL);
+			else
+				list = g_slist_prepend (list, copynode (t));
+			len ++;
+		}
+	}
+	if (list == NULL) {
+		return gel_makenum_null ();
+	}
+
+	nm = gel_matrix_new ();
+	gel_matrix_set_size (nm, len, 1, FALSE /* padding */);
+	/* go backwards to "preserver order" */
+	li = list;
+	for (i = len-1; i >= 0; i--) {
+		gel_matrix_index (nm, i, 0) = li->data;
+		li = li->next;
+	}
+	g_slist_free (list);
+
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_new_with_matrix (nm);
+	n->mat.quoted = a[0]->mat.quoted;
+
+	return n;
+}
+
+static GelETree *
+Intersection_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelMatrixW *m1, *m2;
+	int ml, i;
+	int len;
+	GSList *list, *li;
+	GelETree *n;
+	GelMatrix *nm;
+
+	if G_UNLIKELY ( ! check_argument_matrix_or_null (a, 0, "Intersection") ||
+			! check_argument_matrix_or_null (a, 1, "Intersection"))
+		return NULL;
+
+	if (a[0]->type == NULL_NODE) {
+		return gel_makenum_null ();
+	} else if (a[1]->type == NULL_NODE) {
+		return gel_makenum_null ();
+	}
+
+	m1 = a[0]->mat.matrix;
+	ml = gel_matrixw_elements (m1);
+
+	m2 = a[1]->mat.matrix;
+
+	list = NULL;
+	len = 0;
+
+	for (i = 0; i < ml; i++) {
+		GelETree *t = gel_matrixw_vindex (m1, i);
+		if (isinmatrix (t, m2)) {
+			if (t == the_zero)
+				list = g_slist_prepend (list, NULL);
+			else
+				list = g_slist_prepend (list, copynode (t));
+			len ++;
+		}
+	}
+	if (list == NULL) {
+		return gel_makenum_null ();
+	}
+
+	nm = gel_matrix_new ();
+	gel_matrix_set_size (nm, len, 1, FALSE /* padding */);
+	/* go backwards to "preserver order" */
+	li = list;
+	for (i = len-1; i >= 0; i--) {
+		gel_matrix_index (nm, i, 0) = li->data;
+		li = li->next;
+	}
+	g_slist_free (list);
+
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_new_with_matrix (nm);
+	n->mat.quoted = a[0]->mat.quoted;
+
+	return n;
+}
+
 static GelETree *
 det_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
@@ -4821,6 +4970,10 @@ gel_funclib_addall(void)
 	FUNC (IsMatrixInteger, 1, "M", "matrix", N_("Check if a matrix is an integer (non-complex) matrix"));
 	FUNC (IsMatrixRational, 1, "M", "matrix", N_("Check if a matrix is a rational (non-complex) matrix"));
 	FUNC (IsMatrixReal, 1, "M", "matrix", N_("Check if a matrix is a real (non-complex) matrix"));
+
+	FUNC (IsIn, 2, "x,X", "sets", N_("Returns true if the element x is in the set X (where X is a vector pretending to be a set)"));
+	FUNC (SetMinus, 2, "X,Y", "sets", N_("Returns a set theoretic difference X-Y (X and Y are vectors pretending to be sets)"));
+	FUNC (Intersection, 2, "X,Y", "sets", N_("Returns a set theoretic intersection of X and Y (X and Y are vectors pretending to be sets)"));
 
 	FUNC (IsNull, 1, "arg", "basic", N_("Check if argument is a null"));
 	FUNC (IsValue, 1, "arg", "basic", N_("Check if argument is a number"));
