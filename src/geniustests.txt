@@ -697,4 +697,5 @@ SymbolicNthDerivativeTry(print,2)+1				((null)+1)
 ComposePower(SymbolicDerivative,10,sin)				(`(x)=(-sin(x)))
 SymbolicNthDerivative(sin,10)					(`(x)=(-sin(x)))
 SymbolicDerivative(`(x)=1/x)					(`(x)=(-1/(x^2)))
+function f() = (for n=1 to 2 do (a=`[[1]]);a);f()		`[[1]]
 load "longtest.gel"						true

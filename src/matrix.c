@@ -23,6 +23,7 @@
 
 #include <glib.h>
 #include "matrix.h"
+#include "eval.h"
 #include <string.h>
 
 /* we cast matrix to this structure to stuff it onto
@@ -34,20 +35,26 @@ struct _GelMatrixFreeList {
 	GelMatrixFreeList *next;
 };
 
+#ifndef MEM_DEBUG_FRIENDLY
 static GelMatrixFreeList *free_matrices = NULL;
+#endif
 
 /*make new matrix*/
 GelMatrix *
 gel_matrix_new(void)
 {
 	GelMatrix *m;
+#ifdef MEM_DEBUG_FRIENDLY
+	m = g_new0(GelMatrix,1);
+#else
 	if(!free_matrices)
 		m = g_new(GelMatrix,1);
 	else {
 		m = (GelMatrix *)free_matrices;
 		free_matrices = free_matrices->next;
 	}
-
+#endif
+	
 	m->width = 0;
 	m->height = 0;
 	
@@ -262,11 +269,15 @@ gel_matrix_free(GelMatrix *matrix)
 	g_return_if_fail(matrix != NULL);
 	
 	mf = (GelMatrixFreeList *)matrix;
-	
+
 	if(matrix->data)
 		g_ptr_array_free(matrix->data,TRUE);
 	matrix->data = NULL;
-	
+#ifdef MEM_DEBUG_FRIENDLY
+	memset (matrix, 0xaa, sizeof (GelMatrix));
+	g_free (matrix);
+#else
 	mf->next = free_matrices;
 	free_matrices = mf;
+#endif
 }

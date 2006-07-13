@@ -1,3 +1,16 @@
+Thu Jul 13 01:32:55 2006  George (Jiri) Lebl <jirka@5z.com>
+
+	* src/eval.[ch], src/matrixw.c, src/matrix.c: Fix a whole bunch of
+	  leaks and memory corruption problems especially with respect to
+	  loops and matrixes.
+
+	* src/eval.c: fix evaluation of matrix entries to be a little faster
+	  perhaps (don't ever push value nodes) and evaluate matrix entries
+	  in the most obvious order rather then our previous
+	  very weird order.
+
+	* src/geniustest.txt: add a test
+
 Wed Jul 12 14:26:35 2006  George (Jiri) Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c: fix error in using the file chooser

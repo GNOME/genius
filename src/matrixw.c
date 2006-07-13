@@ -68,7 +68,7 @@ internal_matrix_free (GelMatrix *m)
 #ifdef MATRIX_DEBUG
 	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
 #endif
-	
+
 	if (m->use == 1) {
 #ifdef MATRIX_DEBUG
 		/*debug*/printf ("ACTUALLY FREE\n");
@@ -946,8 +946,14 @@ gel_matrixw_free(GelMatrixW *m)
 	
 	mf = (GelMatrixWFreeList *)m;
 	
+#ifdef MEM_DEBUG_FRIENDLY
+
+	memset (mf, 0xaa, sizeof (GelMatrixW));
+	g_free (mf);
+#else
 	mf->next = free_matrices;
 	free_matrices = mf;
+#endif
 }
 
 void
