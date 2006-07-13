@@ -80,27 +80,6 @@ SetHelpAlias ("cref", "ColumnReducedEchelonForm")
 ColumnReducedEchelonForm = cref
 protect ("ColumnReducedEchelonForm")
 
-#This removes any all-zero columns of M
-SetHelp ("StripZeroColumns", "matrix", "Removes any all-zero columns of M")
-function StripZeroColumns (M) =
- (
-  if not IsMatrix (M) then
-    (error("StripZeroColumns: argument not a matrix");bailout);
-  row_dim_M=rows(M);
-  N=[0];
-  for loop=1 to columns(M) do
-  (
-#FIXME: this could be made more efficient
-   zero_flag=1;
-   for inner_loop=1 to row_dim_M do
-#    if M@(inner_loop,loop)!=0 then (zero_flag=0;break;);
-    zero_flag=(zero_flag and (M@(inner_loop,loop)==0));
-   if not(zero_flag) then N=[N,M@(,loop)];
-  );
-  DeleteColumn(N,1)
- )
-protect ("StripZeroColumns")
-
 SetHelp ("StripZeroRows", "matrix", "Removes any all-zero rows of M")
 function StripZeroRows (M) =
 (

@@ -1934,6 +1934,19 @@ number is specified) of the given size returned.  For example
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-CountZeroColumns">
+         <term>CountZeroColumns</term>
+         <listitem>
+          <synopsis>CountZeroColumns (M)</synopsis>
+          <para>
+	   Count the number of zero columns in a matrix.  For example
+	   Once you column reduce a matrix you can use this to find
+	   the nullity.  See <link linkend="gel-function-cref">cref</link>
+	   and <link linkend="gel-function-Nullity">Nullity</link>.
+          </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-DeleteColumn">
          <term>DeleteColumn</term>
          <listitem>
@@ -1963,7 +1976,11 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>DotProduct (u,v)</synopsis>
           <para>Aliases: <function>InnerProduct</function></para>
-          <para>Get the dot product of two vectors</para>
+          <para>Get the dot product of two vectors.  The vectors must be of the same size.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/DotProduct.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -1971,7 +1988,12 @@ number is specified) of the given size returned.  For example
          <term>ExpandMatrix</term>
          <listitem>
           <synopsis>ExpandMatrix (M)</synopsis>
-          <para>Expands a matrix just like we do on unquoted matrix input</para>
+          <para>
+	    Expands a matrix just like we do on unquoted matrix input.
+	    That is we expand any internal matrices as blocks.  This is
+	    a way to construct matrices out of smaller ones and this is
+	    normally done automatically on input unless the matrix is quoted.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -2044,7 +2066,10 @@ number is specified) of the given size returned.  For example
          <term>IsMatrixSquare</term>
          <listitem>
           <synopsis>IsMatrixSquare (M)</synopsis>
-          <para>Is a matrix square</para>
+          <para>
+	    Check if a matrix is square, that is its width is equal to
+	    its height.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -2068,7 +2093,11 @@ number is specified) of the given size returned.  For example
          <term>IsVector</term>
          <listitem>
           <synopsis>IsVector (v)</synopsis>
-          <para>Is argument a horizontal or a vertical vector</para>
+          <para>
+	    Is argument a horizontal or a vertical vector.  Genius does
+	    not distinguish between a matrix and a vector and a vector
+	    is just a 1 by n or n by 1 matrix.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -2097,7 +2126,11 @@ number is specified) of the given size returned.  For example
          <term>MatrixProduct</term>
          <listitem>
           <synopsis>MatrixProduct (a)</synopsis>
-          <para>Calculate the product of all elements in a matrix</para>
+          <para>
+	    Calculate the product of all elements in a matrix.  That is
+	    we multiply all the elements and return a number that is the
+	    product of all the elements.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2105,7 +2138,11 @@ number is specified) of the given size returned.  For example
          <term>MatrixSum</term>
          <listitem>
           <synopsis>MatrixSum (a)</synopsis>
-          <para>Calculate the sum of all elements in a matrix</para>
+          <para>
+	    Calculate the sum of all elements in a matrix.  That is
+	    we add all the elements and return a number that is the
+	    sum of all the elements.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -2113,7 +2150,7 @@ number is specified) of the given size returned.  For example
          <term>MatrixSumSquares</term>
          <listitem>
           <synopsis>MatrixSumSquares (a)</synopsis>
-          <para>Calculate the sum of squares of all elements in a matrix</para>
+          <para>Calculate the sum of squares of all elements in a matrix.</para>
          </listitem>
         </varlistentry>
 
@@ -2161,7 +2198,10 @@ number is specified) of the given size returned.  For example
          <term>SetMatrixSize</term>
          <listitem>
           <synopsis>SetMatrixSize (M,rows,columns)</synopsis>
-          <para>Make new matrix of given size from old one</para>
+          <para>Make new matrix of given size from old one.  That is, a new
+	  matrix will be returned to which the old one is copied.  Entries that
+	  don't fit are clipped and extra space is filled with zeros.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -2169,7 +2209,7 @@ number is specified) of the given size returned.  For example
          <term>SortVector</term>
          <listitem>
           <synopsis>SortVector (v)</synopsis>
-          <para>Sort vector elements</para>
+          <para>Sort vector elements in an increasing order.</para>
          </listitem>
         </varlistentry>
 
@@ -2177,7 +2217,7 @@ number is specified) of the given size returned.  For example
          <term>StripZeroColumns</term>
          <listitem>
           <synopsis>StripZeroColumns (M)</synopsis>
-          <para>Removes any all-zero columns of M</para>
+          <para>Removes any all-zero columns of <varname>M</varname>.</para>
          </listitem>
         </varlistentry>
 
@@ -2185,7 +2225,7 @@ number is specified) of the given size returned.  For example
          <term>StripZeroRows</term>
          <listitem>
           <synopsis>StripZeroRows (M)</synopsis>
-          <para>Removes any all-zero rows of M</para>
+          <para>Removes any all-zero rows of <varname>M</varname>.</para>
          </listitem>
         </varlistentry>
 
@@ -2320,7 +2360,12 @@ number is specified) of the given size returned.  For example
          <term>ConjugateTranspose</term>
          <listitem>
           <synopsis>ConjugateTranspose (M)</synopsis>
-          <para>Conjugate transpose of a matrix (adjoint)</para>
+          <para>Conjugate transpose of a matrix (adjoint).  This is the
+	  same as the <userinput>'</userinput> operator.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/ConjugateTranspose.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2510,7 +2555,11 @@ number is specified) of the given size returned.  For example
          <term>IsSkewHermitian</term>
          <listitem>
           <synopsis>IsSkewHermitian (M)</synopsis>
-          <para>Is a matrix skew-hermitian</para>
+          <para>Is a matrix skew-hermitian.  That is, is the conjugate transpose equal to negative of the matrix.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/SkewHermitianMatrix.html">Planetmath</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -2535,7 +2584,10 @@ number is specified) of the given size returned.  For example
          <term>Kernel</term>
          <listitem>
           <synopsis>Kernel (T)</synopsis>
-          <para>Get the kernel (nullspace) of a linear transform</para>
+          <para>Get the kernel (nullspace) of a linear transform.</para>
+	  <para>
+	  (See <link linkend="gel-function-NullSpace">NullSpace</link>)
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -2609,7 +2661,14 @@ number is specified) of the given size returned.  For example
          <term>NullSpace</term>
          <listitem>
           <synopsis>NullSpace (T)</synopsis>
-          <para>Get the nullspace of a matrix</para>
+          <para>Get the nullspace of a matrix.  That is the kernel of the
+	  linear mapping that the matrix represents.  This is returned
+	  as a matrix whose column space is the nullspace of
+	  <varname>T</varname>.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/Nullspace.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2618,7 +2677,11 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>Nullity (M)</synopsis>
           <para>Aliases: <function>nullity</function></para>
-          <para>Get the nullity of a matrix</para>
+          <para>Get the nullity of a matrix.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/Nullity.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2659,7 +2722,11 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>Rank (M)</synopsis>
           <para>Aliases: <function>rank</function></para>
-          <para>Get the rank of a matrix</para>
+          <para>Get the rank of a matrix.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/SylvestersLaw.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2749,7 +2816,12 @@ number is specified) of the given size returned.  For example
          <term>Transpose</term>
          <listitem>
           <synopsis>Transpose (M)</synopsis>
-          <para>Transpose of a matrix</para>
+          <para>Transpose of a matrix.  This is the same as the
+          <userinput>.'</userinput> operator.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/Transpose.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2978,7 +3050,14 @@ number is specified) of the given size returned.  For example
          <term>Pascal</term>
          <listitem>
           <synopsis>Pascal (i)</synopsis>
-          <para>Get the pascal's triangle as a matrix</para>
+          <para>Get the Pascal's triangle as a matrix.  This will return
+	  an <varname>i</varname>+1 by <varname>i</varname>+1 lower diagonal
+	  matrix which is the Pascal's triangle after <varname>i</varname>
+	  iterations.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/PascalsTriangle.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 

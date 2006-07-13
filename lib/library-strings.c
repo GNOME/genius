@@ -91,7 +91,6 @@ char *fake = N_("Reverse elements in a vector");
 char *fake = N_("Calculate sum of each row in a matrix");
 char *fake = N_("Calculate sum of squares of each row in a matrix");
 char *fake = N_("Sort vector elements");
-char *fake = N_("Removes any all-zero columns of M");
 char *fake = N_("Removes any all-zero rows of M");
 char *fake = N_("Return column(s) and row(s) from a matrix");
 char *fake = N_("Swap two rows in a matrix");

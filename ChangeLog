@@ -1,3 +1,18 @@
+Thu Jul 13 13:33:12 2006  George (Jiri) Lebl <jirka@5z.com>
+
+	* src/funclib.c, lib/linear_algebra/linear_algebra.gel,
+	  lib/linear_algebra/subspaces.gel:
+	  Add CountZeroColumns function which is quicker then
+	  stripping zero columns and then counting the remainder.  
+	  Further port StripZeroColumns to C to make it a lot more
+	  efficient.  This also optimizes things such as nullity, rank,
+	  ColumnSpace, NullSpace and related.
+
+	* src/geniustests.txt: Add some tests
+
+	* help/C/gel-function-list.xml, help/C/genius.xml: Update the manual,
+	  and expand a bunch of entries for a bunch of functions.
+
 Thu Jul 13 10:53:54 2006  George (Jiri) Lebl <jirka@5z.com>
 
 	* lib/sets/basic.gel, src/funclib.c, src/eval.[ch]: Implement IsIn,

@@ -819,13 +819,110 @@ DiagonalOf_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	GelETree *n;
 
-	if G_UNLIKELY ( ! check_argument_matrix (a, 0, "DiagonalOf"))
+	if G_UNLIKELY ( ! check_argument_matrix_or_null (a, 0, "DiagonalOf"))
 		return NULL;
+
+	if (a[0]->type == NULL_NODE)
+		return gel_makenum_null ();
 
 	GET_NEW_NODE (n);
 	n->type = MATRIX_NODE;
 	n->mat.matrix = gel_matrixw_diagonalof (a[0]->mat.matrix);
 	n->mat.quoted = FALSE;
+	return n;
+}
+
+static GelETree *
+CountZeroColumns_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelMatrixW *m;
+	int i, j, w, h;
+	int cnt;
+
+	if G_UNLIKELY ( ! check_argument_matrix_or_null (a, 0, "CountZeroColumns"))
+		return NULL;
+
+	if (a[0]->type == NULL_NODE)
+		return gel_makenum_ui (0);
+
+	m = a[0]->mat.matrix;
+	w = gel_matrixw_width (m);
+	h = gel_matrixw_height (m);
+	cnt = 0;
+	for (i = 0; i < w; i++) {
+		for (j = 0; j < h; j++) {
+			GelETree *t = gel_matrixw_set_index (m, i, j);
+			if ( ! ( t == NULL ||
+				 t->type == NULL_NODE ||
+				 (t->type == VALUE_NODE &&
+				  mpw_cmp_ui (t->val.value, 0) == 0))) {
+				cnt++;
+				break;
+			}
+		}
+	}
+
+	return gel_makenum_ui (w-cnt);
+}
+
+static GelETree *
+StripZeroColumns_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelETree *n;
+	GelMatrixW *m;
+	GelMatrix *nm;
+	int i, j, w, h, tj;
+	int cnt;
+	GSList *cols, *li;
+
+	if G_UNLIKELY ( ! check_argument_matrix_or_null (a, 0, "StripZeroColumns"))
+		return NULL;
+
+	if (a[0]->type == NULL_NODE)
+		return gel_makenum_null ();
+
+	m = a[0]->mat.matrix;
+	w = gel_matrixw_width (m);
+	h = gel_matrixw_height (m);
+	cnt = 0;
+	cols = NULL;
+	for (i = 0; i < w; i++) {
+		for (j = 0; j < h; j++) {
+			GelETree *t = gel_matrixw_set_index (m, i, j);
+			if ( ! ( t == NULL ||
+				 t->type == NULL_NODE ||
+				 (t->type == VALUE_NODE &&
+				  mpw_cmp_ui (t->val.value, 0) == 0))) {
+				cols = g_slist_prepend (cols,
+							GINT_TO_POINTER (i));
+				cnt++;
+				break;
+			}
+		}
+	}
+
+	nm = gel_matrix_new ();
+	gel_matrix_set_size (nm, cnt, h, FALSE /* padding */);
+
+	tj = cnt-1;
+	for (li = cols; li != NULL; li = li->next) {
+		i = GPOINTER_TO_INT (li->data);
+		for (j = 0; j < h; j++) {
+			GelETree *t = gel_matrixw_set_index (m, i, j);
+			if (t != NULL)
+				gel_matrix_index (nm, tj, j) =
+					copynode (t);
+		}
+		tj--;
+	}
+
+	g_slist_free (cols);
+
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_new_with_matrix (nm);
+	n->mat.quoted = a[0]->mat.quoted;
+
 	return n;
 }
 
@@ -4817,6 +4914,8 @@ gel_funclib_addall(void)
 	FUNC (RowsOf, 1, "M", "matrix", N_("Gets the rows of a matrix as a vertical vector"));
 	FUNC (ColumnsOf, 1, "M", "matrix", N_("Gets the columns of a matrix as a horizontal vector"));
 	FUNC (DiagonalOf, 1, "M", "matrix", N_("Gets the diagonal entries of a matrix as a horizontal vector"));
+	FUNC (CountZeroColumns, 1, "M", "matrix", N_("Count the number of zero columns in a matrix"));
+	FUNC (StripZeroColumns, 1, "M", "matrix", N_("Removes any all-zero columns of M"));
 
 	FUNC (ComplexConjugate, 1, "M", "numeric", N_("Calculates the conjugate"));
 	conj_function = f;

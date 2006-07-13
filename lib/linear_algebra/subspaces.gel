@@ -32,7 +32,7 @@ function Rank(M) =
 (
   if not IsMatrix (M) then
     (error("Rank: argument not a matrix");bailout);
-  columns (ColumnSpace (M))
+  columns (M) - CountZeroColumns(cref(M))
 )
 protect ("Rank")
 SetHelpAlias ("Rank", "rank");
@@ -45,7 +45,7 @@ function Nullity (M) =
 (
   if not IsMatrix (M) then
     (error("Nullity: argument not a matrix");bailout);
-  columns (M) - columns (ColumnSpace (M))
+  CountZeroColumns(cref(M))
 )
 protect ("Nullity")
 SetHelpAlias ("Nullity", "nullity");

@@ -706,4 +706,16 @@ SymbolicDerivative(`(x)=1/x)					(`(x)=(-1/(x^2)))
 function f() = (for n=1 to 2 do (a=`[[1]]);a);f()		`[[1]]
 NullSpace ([1,0,0,2,4;0,0,1,-3,5])				[1,0,0;0,1,0;0,0,1;-5/22,0,2/11;-3/22,0,-1/11]
 A=[1,1,1,1;2,3,4,1;9,1,1,1];A*NullSpace(A)@(,1)			[0;0;0]
+CountZeroColumns ([1])						0
+CountZeroColumns (null)						0
+CountZeroColumns ([1,0,1])					1
+CountZeroColumns ([1,0,1;1,0,1])				1
+CountZeroColumns ([1,0,1;0,0,0])				1
+CountZeroColumns ([1,0,0;0,0,0])				2
+StripZeroColumns ([1])						[1]
+StripZeroColumns (null)+1					((null)+1)
+StripZeroColumns ([1,0,2])					[1,2]
+StripZeroColumns ([1,0,2;3,0,4])				[1,2;3,4]
+StripZeroColumns ([1,0,2;0,0,0])				[1,2;0,0]
+StripZeroColumns ([1,0,0;0,0,0])				[1;0]
 load "longtest.gel"						true
