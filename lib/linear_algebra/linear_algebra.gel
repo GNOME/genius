@@ -36,11 +36,7 @@ protect ("PivotColumns")
 SetHelp ("NonPivotColumns", "linear_algebra", "Return the columns that are not the pivot columns of a matrix")
 function NonPivotColumns(M) =
   (
-#FIXME: this should be a separate function
-#(actually, we should have a sequence construct!)
-    non_pivot=null;
-    for loop=1 to columns(M) do
-      non_pivot=[non_pivot,loop];
+    non_pivot = [1:columns(M)];
     pivots = PivotColumns(M);
     if not IsNull (pivots) then
       SetMinus (non_pivot, pivots@(1,))

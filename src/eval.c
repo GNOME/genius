@@ -3648,6 +3648,19 @@ evalcomp(GelETree *n)
 
 #undef RET_RES
 
+static inline void
+pop_stack_with_whack (GelCtx *ctx)
+{
+	gpointer data;
+	int flag;
+
+	GE_POP_STACK (ctx, data, flag);
+	if (flag == (GE_POST | GE_WHACKARG) ||
+	    flag == (GE_PRE | GE_WHACKARG)) {
+		gel_freetree (data);
+	}
+}
+
 
 /* free a special stack entry */
 static inline void
@@ -3662,8 +3675,8 @@ ev_free_special_data(GelCtx *ctx, gpointer data, int flag)
 	case GE_FUNCCALL:
 		/*we are crossing a boundary, we need to free a context*/
 		d_popcontext ();
-		gel_freetree(data);
-		GE_BLIND_POP_STACK(ctx);
+		gel_freetree (data);
+		pop_stack_with_whack (ctx);
 		break;
 	case GE_LOOP_COND:
 	case GE_LOOP_LOOP:
@@ -3672,7 +3685,7 @@ ev_free_special_data(GelCtx *ctx, gpointer data, int flag)
 			gel_freetree (evl->condition);
 			gel_freetree (evl->body);
 			evl_free (evl);
-			GE_BLIND_POP_STACK (ctx);
+			pop_stack_with_whack (ctx);
 		}
 		break;
 	case GE_FOR:
@@ -3681,7 +3694,7 @@ ev_free_special_data(GelCtx *ctx, gpointer data, int flag)
 			gel_freetree(evf->body);
 			gel_freetree(evf->result);
 			evf_free(evf);
-			GE_BLIND_POP_STACK(ctx);
+			pop_stack_with_whack (ctx);
 		}
 		break;
 	case GE_FORIN:
@@ -3690,7 +3703,7 @@ ev_free_special_data(GelCtx *ctx, gpointer data, int flag)
 			gel_freetree(evfi->body);
 			gel_freetree(evfi->result);
 			evfi_free(evfi);
-			GE_BLIND_POP_STACK(ctx);
+			pop_stack_with_whack (ctx);
 		}
 		break;
 	case GE_SETMODULO:

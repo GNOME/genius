@@ -100,8 +100,8 @@ gel_matrix_set_size (GelMatrix *matrix, int width, int height, gboolean padding)
 		matrix->data = g_ptr_array_new();
 		g_ptr_array_set_size(matrix->data,matrix->fullsize);
 
-		/*memset(matrix->data->pdata, 0,
-		       (matrix->fullsize*sizeof(void *)));*/
+		memset(matrix->data->pdata, 0,
+		       (matrix->fullsize*sizeof(void *)));
 		return;
 	}
 	
@@ -127,7 +127,7 @@ gel_matrix_set_size (GelMatrix *matrix, int width, int height, gboolean padding)
 	matrix->fullsize = (width+wpadding)*(height+hpadding);
 	na = g_ptr_array_new();
 	g_ptr_array_set_size(na,matrix->fullsize);
-	/*memset(na->pdata,0,matrix->fullsize*sizeof(void *));*/
+	memset(na->pdata,0,matrix->fullsize*sizeof(void *));
 	
 	for(i=0;i<matrix->height;i++) {
 		memcpy(na->pdata+((width+wpadding)*i),
