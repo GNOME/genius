@@ -2685,7 +2685,7 @@ static GSList *
 get_wordlist (const char *lst)
 {
 	GSList *list = NULL;
-#if HAVE_WORDEXP
+#ifdef HAVE_WORDEXP
 	wordexp_t we;
 	int i;
 	if G_UNLIKELY (wordexp (lst, &we, WRDE_NOCMD) != 0) {

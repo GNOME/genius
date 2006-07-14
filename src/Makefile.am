@@ -6,8 +6,7 @@ plugindir = $(libdir)/genius
 
 plugin_includedir = $(includedir)/genius
 
-#YACCFLAGS += -d -t
-YFLAGS += -d -t
+AM_YFLAGS = -d -t
 
 if INTERNAL_MPFR
 MPFR_INCLUDEDIR = \
@@ -213,7 +212,7 @@ libtestplugin_la_SOURCES =	\
 
 BUILT_SOURCES = parse.h parse.c lexer.c
 
-CLEANFILES += $(BUILT_SOURCES)
+CLEANFILES = $(BUILT_SOURCES)
 
 Desktopdir = $(datadir)/applications
 Desktop_in_files = \
@@ -237,7 +236,7 @@ Plugindesc_DATA = test.plugin
 Langdesc_DATA = genius.lang
 
 parse.h: parse.y
-	$(YACC) $(YFLAGS) $<
+	$(YACC) $(YFLAGS) $(AM_YFLAGS) $<
 	test -f y.tab.c && mv -f y.tab.c parse.c
 	test -f y.tab.h && mv -f y.tab.h parse.h
 

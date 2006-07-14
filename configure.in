@@ -35,14 +35,13 @@ AC_HEADER_STDC
 AM_PROG_LEX
 AM_PROG_LIBTOOL
 AC_PROG_YACC
-AC_ARG_PROGRAM
 
 GNOME_COMPILE_WARNINGS
 
 dnl ================= Translation Stuf ==============================================
 
 GETTEXT_PACKAGE=genius
-AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE")
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",[gettext package name])
 AC_SUBST(GETTEXT_PACKAGE)
 
 ALL_LINGUAS="az ca cs de el en_CA en_GB es fr ga hi hr it ja ko nb ne nl pa pl pt pt_BR rw sq sr sr@Latn sv zh_CN zh_TW"
@@ -61,9 +60,9 @@ dnl Check for termcap
 AC_CHECK_LIB(termcap, tgetent,[TERMCAP_LIB="-ltermcap"],
 	     [AC_CHECK_LIB(ncurses, tgetent,
                            [TERMCAP_LIB="-lncurses"
-                            AC_DEFINE(USE_NCURSES)
+                            AC_DEFINE(USE_NCURSES,[1], [Use ncurses library])
                             AC_CHECK_HEADER(ncurses/curses.h, [
-					    AC_DEFINE(INC_NCURSES)])], [
+					    AC_DEFINE(INC_NCURSES,[1],[ncurses include])])], [
 			   AC_MSG_ERROR(Termcap library not found)])])
 AC_SUBST(TERMCAP_LIB)
 
@@ -76,7 +75,7 @@ AC_SUBST(READLINE_LIB)
 GMP_LIB=""
 AC_CHECK_LIB(gmp, __gmpz_init_set,[GMP_LIB=-lgmp], [
 	AC_CHECK_LIB(gmp2, __gmpz_init_set_d,[GMP_LIB=-lgmp2
-		AC_DEFINE(HAVE_GMP2_INCLUDE_DIR)],
+		AC_DEFINE(HAVE_GMP2_INCLUDE_DIR,[1],[Have gmp2 include directory])],
 		AC_MSG_ERROR(GMP Library not found))])
 AC_SUBST(GMP_LIB)
 
@@ -156,7 +155,7 @@ Note:
 "
   if test "x$use_gtksourceview" = "xyes" ; then
     PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES,
-		      AC_DEFINE(HAVE_GTKSOURCEVIEW),
+		      AC_DEFINE(HAVE_GTKSOURCEVIEW,[1],[have gtksourceview]),
 		      [use_gtksourceview=no
 		       PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES_NOSRCVIEW)])
    # FIXME: warn if not compiled
@@ -255,7 +254,7 @@ AC_SUBST(EXTRA_WARNING_CFLAGS)
 
 dnl wordexp check, we use glob otherwise but that's not perfect
 dnl warn the user, we do this on the end so that the user notices
-AC_CHECK_FUNC(wordexp,AC_DEFINE(HAVE_WORDEXP),
+AC_CHECK_FUNC(wordexp,AC_DEFINE(HAVE_WORDEXP,[1],[Have the wordexp function]),
   	      [AC_MSG_WARN([*** You don't have wordexp, glob will be used instead ***])])
 
 dnl scrollkeeper checks 
