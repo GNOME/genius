@@ -718,4 +718,7 @@ StripZeroColumns ([1,0,2])					[1,2]
 StripZeroColumns ([1,0,2;3,0,4])				[1,2;3,4]
 StripZeroColumns ([1,0,2;0,0,0])				[1,2;0,0]
 StripZeroColumns ([1,0,0;0,0,0])				[1;0]
+NextCombination([1,2,3,4],6)					[1,2,3,5]
+NextCombination([1,2,3,6],6)					[1,2,4,5]
+NextCombination([3,4,5,6],6)+1					((null)+1)
 load "longtest.gel"						true

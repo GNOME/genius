@@ -2945,7 +2945,9 @@ number is specified) of the given size returned.  For example
          <term>Combinations</term>
          <listitem>
           <synopsis>Combinations (k,n)</synopsis>
-          <para>Get all combinations of k numbers from 1 to n as a vector of vectors</para>
+          <para>Get all combinations of k numbers from 1 to n as a vector of vectors.
+	  (See also <link linkend="gel-function-NextCombination">NextCombination</link>)
+</para>
          </listitem>
         </varlistentry>
 
@@ -3043,6 +3045,32 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>Multinomial (v,arg...)</synopsis>
           <para>Calculate multinomial coefficients</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-NextCombination">
+         <term>NextCombination</term>
+         <listitem>
+          <synopsis>NextCombination (v,n)</synopsis>
+	  <para>Get combination that would come after v in call to
+combinations, first combination should be <userinput>[1:k]</userinput>.  This
+function is useful if you have many combinations to go through and you don't
+want to waste memory to store them all.
+	  </para>
+	  <para>
+	    For example with Combination you would normally write a loop like:
+          <screen><userinput>for n in Combinations (4,6) do (
+  SomeFunction (n)
+);</userinput>
+</screen>
+	    But with NextCombination you would write something like:
+          <screen><userinput>n:=[1:4];
+do (
+  SomeFunction (n)
+) while not IsNull(n:=NextCombination(n,6));</userinput>
+</screen>
+	  See also <link linkend="gel-function-Combinations">Combinations</link>.
+	  </para>
          </listitem>
         </varlistentry>
 

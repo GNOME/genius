@@ -4261,6 +4261,58 @@ Permutations_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 }
 
 static GelETree *
+NextCombination_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	long k, n;
+	int *comb;
+	int i;
+	GelETree *r;
+	GelMatrixW *m;
+
+	if G_UNLIKELY ( ! check_argument_value_only_matrix (a, 0, "NextCombination") ||
+			! check_argument_integer (a, 1, "NextCombination"))
+		return NULL;
+
+	m = a[0]->mat.matrix;
+	k = gel_matrixw_elements (m);
+
+	error_num = 0;
+	n = mpw_get_long(a[1]->val.value);
+	if G_UNLIKELY (error_num != 0) {
+		error_num = 0;
+		return NULL;
+	}
+	if G_UNLIKELY (n < 1 || n > G_MAXINT || k < 1 || k > n) {
+		gel_errorout (_("%s: value out of range"),
+			      "NextCombination");
+		return NULL;
+	}
+
+	comb = g_new (int, k);
+	for (i = 0; i < k; i++) {
+		int j = mpw_get_long (gel_matrixw_vindex (m, i)->val.value);
+		if G_UNLIKELY (error_num != 0) {
+			error_num = 0;
+			g_free (comb);
+			return NULL;
+		} else if G_UNLIKELY (j < 1 || j > n) {
+			g_free (comb);
+			gel_errorout (_("%s: value out of range"),
+				      "NextCombination");
+			return NULL;
+		}
+		comb[i] = j;
+	}
+	if (comb_get_next_combination (comb, k, n))
+		r = etree_out_of_int_vector (comb, k);
+	else
+		r = gel_makenum_null ();
+	g_free (comb);
+
+	return r;
+}
+
+static GelETree *
 protect_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	GelToken *tok;
@@ -5106,6 +5158,7 @@ gel_funclib_addall(void)
 	FUNC (PolyToFunction, 1, "p", "polynomial", N_("Make function out of a polynomial (as vector)"));
 
 	FUNC (Combinations, 2, "k,n", "combinatorics", N_("Get all combinations of k numbers from 1 to n as a vector of vectors"));
+	FUNC (NextCombination, 2, "v,n", "combinatorics", N_("Get combination that would come after v in call to combinations, first combination should be [1:k]."));
 	FUNC (Permutations, 2, "k,n", "combinatorics", N_("Get all permutations of k numbers from 1 to n as a vector of vectors"));
 
 	FUNC (StringToASCII, 1, "str", "misc", N_("Convert a string to a vector of ASCII values"));

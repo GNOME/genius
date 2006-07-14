@@ -3639,7 +3639,7 @@ Catalan (n)
 Combinations (k,n)
 
           Get all combinations of k numbers from 1 to n as a
-          vector of vectors
+          vector of vectors. (See NextCombination)
 
    DoubleFactorial
 
@@ -3711,6 +3711,33 @@ LinearRecursiveSequence (seed_values,combining_rule,n)
 Multinomial (v,arg...)
 
           Calculate multinomial coefficients
+
+   NextCombination
+
+NextCombination (v,n)
+
+          Get combination that would come after v in call to
+          combinations, first combination should be [1:k]. This
+          function is useful if you have many combinations to go
+          through and you don't want to waste memory to store
+          them all.
+
+          For example with Combination you would normally write a
+          loop like:
+
+for n in Combinations (4,6) do (
+  SomeFunction (n)
+);
+
+          But with NextCombinations you would write something
+          like:
+
+n:=[1:4];
+do (
+  SomeFunction (n)
+) while not IsNull(n:=NextCombination(n,6));
+
+          See also Combinations.
 
    Pascal
 
