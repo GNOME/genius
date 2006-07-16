@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -48,7 +48,7 @@ static void check0(void)
     }
   mpfr_clear(x);
   mpz_clear(y);
-}  
+}
 
 /* FIXME: It'd be better to examine the actual data in an mpfr_t to see that
    it's as expected.  Comparing mpfr_set_z with mpfr_cmp or against
@@ -118,6 +118,7 @@ check_large (void)
   set_emin (emin);
 
   mpz_clear (z);
+
   mpfr_clear (x);
   mpfr_clear (y);
 }
@@ -130,7 +131,7 @@ main (int argc, char *argv[])
   tests_start_mpfr ();
 
   check_large ();
-  check (0, (mp_rnd_t) 0);
+  check (0, GMP_RNDN);
   for (j = 0; j < 200000; j++)
     check (randlimb () & LONG_MAX, (mp_rnd_t) RND_RAND ());
   check0 ();

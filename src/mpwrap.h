@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2005 Jiri (George) Lebl
+ * Copyright (C) 1997-2006 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -201,9 +201,11 @@ void mpw_cos(mpw_ptr rop,mpw_ptr op);
 void mpw_sinh(mpw_ptr rop,mpw_ptr op);
 void mpw_cosh(mpw_ptr rop,mpw_ptr op);
 void mpw_arctan(mpw_ptr rop,mpw_ptr op);
+void mpw_arctan2(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 void mpw_pi (mpw_ptr rop);
 void mpw_ln2 (mpw_ptr rop);
 void mpw_euler_constant (mpw_ptr rop);
+void mpw_catalan_constant (mpw_ptr rop);
 void mpw_i (mpw_ptr rop);
 void mpw_rand (mpw_ptr rop);
 void mpw_randint (mpw_ptr rop, mpw_ptr op);

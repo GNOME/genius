@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,25 +44,28 @@ main (int argc, char *argv[])
   i = mpfr_inp_str (x, f, 10, GMP_RNDN);
   if (i == 0 || mpfr_cmp_ui (x, 31415))
     {
-      printf ("Error in reading 1st line from file inp_str.data\n");
+      printf ("Error in reading 1st line from file inp_str.data (%d)\n", i);
+      mpfr_dump (x);
       exit (1);
     }
   getc (f);
   i = mpfr_inp_str (x, f, 10, GMP_RNDN);
   if ((i == 0) || mpfr_cmp_ui (x, 31416))
     {
-      printf ("Error in reading 2nd line from file inp_str.data\n");
+      printf ("Error in reading 2nd line from file inp_str.data (%d)\n", i);
+      mpfr_dump (x);
       exit (1);
     }
   getc (f);
   i = mpfr_inp_str (x, f, 10, GMP_RNDN);
   if (i != 0)
     {
-      printf ("Error in reading 3rd line from file inp_str.data\n");
+      printf ("Error in reading 3rd line from file inp_str.data (%d)\n", i);
+      mpfr_dump (x);
       exit (1);
     }
   fclose (f);
-  
+
   mpfr_clear (x);
 
   tests_end_mpfr ();

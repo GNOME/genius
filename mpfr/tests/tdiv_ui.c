@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -116,17 +116,17 @@ special (void)
       mpfr_set_prec (x, xprec);
       mpfr_set_str_binary (x, "0.1100100100001111110011111000000011011100001100110111E2");
       for (yprec = 53; yprec <= 128; yprec++)
-	{
-	  mpfr_set_prec (y, yprec);
-	  mpfr_div_ui (y, x, 1, GMP_RNDN);
-	  if (mpfr_cmp(x,y))
-	    {
-	      printf ("division by 1.0 fails for xprec=%u, yprec=%u\n", xprec, yprec);
-	      printf ("expected "); mpfr_print_binary (x); puts ("");
-	      printf ("got      "); mpfr_print_binary (y); puts ("");
-	      exit (1);
-	    }
-	}
+        {
+          mpfr_set_prec (y, yprec);
+          mpfr_div_ui (y, x, 1, GMP_RNDN);
+          if (mpfr_cmp(x,y))
+            {
+              printf ("division by 1.0 fails for xprec=%u, yprec=%u\n", xprec, yprec);
+              printf ("expected "); mpfr_print_binary (x); puts ("");
+              printf ("got      "); mpfr_print_binary (y); puts ("");
+              exit (1);
+            }
+        }
     }
 
   mpfr_clear (x);
@@ -189,11 +189,17 @@ check_inexact (void)
   mpfr_clear (z);
 }
 
+#define TEST_FUNCTION mpfr_div_ui
+#define INTEGER_TYPE  unsigned long
+#define RAND_FUNCTION(x) mpfr_random2(x, MPFR_LIMB_SIZE (x), 1)
+#include "tgeneric_ui.c"
+
 int
 main (int argc, char **argv)
 {
   mpfr_t x;
 
+  MPFR_TEST_USE_RANDS ();
   tests_start_mpfr ();
 
   special ();
@@ -207,17 +213,18 @@ main (int argc, char **argv)
   check("1.0", 2116118, GMP_RNDN, "4.7256343927890600483e-7");
   check("1.098612288668109782", 5, GMP_RNDN, "0.21972245773362195087");
 
-  mpfr_init2(x, 100);
-  mpfr_set_prec(x, 53);
-  mpfr_set_ui(x, 3, GMP_RNDD);
-  mpfr_log(x, x, GMP_RNDD);
-  mpfr_div_ui(x, x, 5, GMP_RNDD);
+  mpfr_init2 (x, 53);
+  mpfr_set_ui (x, 3, GMP_RNDD);
+  mpfr_log (x, x, GMP_RNDD);
+  mpfr_div_ui (x, x, 5, GMP_RNDD);
   if (mpfr_cmp_str1 (x, "0.21972245773362189536"))
     {
       printf ("Error in mpfr_div_ui for x=ln(3), u=5\n");
       exit (1);
     }
-  mpfr_clear(x);
+  mpfr_clear (x);
+
+  test_generic_ui (2, 200, 100);
 
   tests_end_mpfr ();
   return 0;

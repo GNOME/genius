@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -132,6 +132,9 @@ special (void)
   mpfr_clear (y);
 }
 
+#define TEST_FUNCTION mpfr_cbrt
+#include "tgeneric.c"
+
 int
 main (void)
 {
@@ -139,6 +142,7 @@ main (void)
   int r;
   mp_prec_t p;
 
+  MPFR_TEST_USE_RANDS ();
   tests_start_mpfr ();
 
   special ();
@@ -192,8 +196,9 @@ main (void)
             }
         }
     }
-
   mpfr_clear (x);
+
+  test_generic (2, 200, 10);
 
   tests_end_mpfr ();
   return 0;

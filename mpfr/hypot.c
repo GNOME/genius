@@ -1,6 +1,6 @@
 /* mpfr_hypot -- Euclidean distance
 
-Copyright 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -16,47 +16,46 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
-
+#define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
 
- /* The computation of hypot of x and y is done by
-
-    hypot(x,y)= sqrt(x^2+y^2) = z
- */
+/* The computation of hypot of x and y is done by  *
+ *    hypot(x,y)= sqrt(x^2+y^2) = z                */
 
 int
-mpfr_hypot (mpfr_ptr z, mpfr_srcptr x , mpfr_srcptr y , mp_rnd_t rnd_mode)
+mpfr_hypot (mpfr_ptr z, mpfr_srcptr x, mpfr_srcptr y, mp_rnd_t rnd_mode)
 {
-  int inexact;
-  /* Flag exact computation */
-  int not_exact;
+  int inexact, exact;
   mpfr_t t, te, ti; /* auxiliary variables */
   mp_prec_t Nx, Ny, Nz; /* size variables */
   mp_prec_t Nt;   /* precision of the intermediary variable */
   mp_exp_t Ex, Ey, sh;
   mp_exp_unsigned_t diff_exp;
+  MPFR_SAVE_EXPO_DECL (expo);
+  MPFR_ZIV_DECL (loop);
 
   /* particular cases */
-  if (MPFR_ARE_SINGULAR(x,y))
+  if (MPFR_ARE_SINGULAR (x, y))
     {
-      if (MPFR_IS_NAN(x) || MPFR_IS_NAN(y))
-	{
-	  MPFR_SET_NAN(z);
-	  MPFR_RET_NAN;
-	}
-      else if (MPFR_IS_INF(x) || MPFR_IS_INF(y))
-	{
-	  MPFR_SET_INF(z);
-	  MPFR_SET_POS(z);
-	  MPFR_RET(0);
-	}
-      else if (MPFR_IS_ZERO(x))
-	return mpfr_abs (z, y, rnd_mode);
+      if (MPFR_IS_INF (x) || MPFR_IS_INF (y))
+        {
+          /* Return +inf, even when the other number is NaN. */
+          MPFR_SET_INF (z);
+          MPFR_SET_POS (z);
+          MPFR_RET (0);
+        }
+      else if (MPFR_IS_NAN (x) || MPFR_IS_NAN (y))
+        {
+          MPFR_SET_NAN (z);
+          MPFR_RET_NAN;
+        }
+      else if (MPFR_IS_ZERO (x))
+        return mpfr_abs (z, y, rnd_mode);
       else /* y is necessarily 0 */
-	return mpfr_abs (z, x, rnd_mode);
+        return mpfr_abs (z, x, rnd_mode);
     }
   MPFR_CLEAR_FLAGS(z);
 
@@ -74,7 +73,8 @@ mpfr_hypot (mpfr_ptr z, mpfr_srcptr x , mpfr_srcptr y , mp_rnd_t rnd_mode)
   Ey = MPFR_GET_EXP (y);
   diff_exp = (mp_exp_unsigned_t) Ex - Ey;
 
-  Nz = MPFR_PREC(z);   /* Precision of output variable */
+  Nx = MPFR_PREC (x);   /* Precision of input variable */
+  Nz = MPFR_PREC (z);   /* Precision of output variable */
 
   /* we have x < 2^Ex thus x^2 < 2^(2*Ex),
      and ulp(x) = 2^(Ex-Nx) thus ulp(x^2) >= 2^(2*Ex-2*Nx).
@@ -84,88 +84,101 @@ mpfr_hypot (mpfr_ptr z, mpfr_srcptr x , mpfr_srcptr y , mp_rnd_t rnd_mode)
      or 2^(2*Ey) <= 2^(2*Ex-1-Nz), i.e. 2*diff_exp > Nz.
      Warning: this is true only for Nx <= Nz, otherwise the trailing bits
      of x may be already very close to 1/2*ulp(x,Nz)!
+     If Nx > Nz, then we can notice that it is possible to round on Nx bits
+     if 2*diff_exp > Nx (see above as if Nz = Nx), therefore on Nz bits.
+     Hence the condition: 2*diff_exp > MAX(Nz,Nx).
   */
-  if (MPFR_PREC(x) <= Nz && diff_exp > Nz / 2) /* result is |x| or |x|+ulp(|x|,Nz) */
+  if (diff_exp > MAX (Nz, Nx) / 2)
+    /* result is |x| or |x|+ulp(|x|,Nz) */
     {
-      if (rnd_mode == GMP_RNDU)
+      if (MPFR_UNLIKELY (rnd_mode == GMP_RNDU))
         {
-          /* if z > abs(x), then it was already rounded up */
-          if (mpfr_abs (z, x, rnd_mode) <= 0)
-            mpfr_add_one_ulp (z, rnd_mode);
+          /* If z > abs(x), then it was already rounded up; otherwise
+             z = abs(x), and we need to add one ulp due to y. */
+          if (mpfr_abs (z, x, rnd_mode) == 0)
+            mpfr_nexttoinf (z);
           return 1;
         }
       else /* GMP_RNDZ, GMP_RNDD, GMP_RNDN */
         {
-          inexact = mpfr_abs (z, x, rnd_mode);
-          return (inexact) ? inexact : -1;
+          if (MPFR_LIKELY (Nz >= Nx))
+            {
+              mpfr_abs (z, x, rnd_mode);  /* exact */
+              return -1;
+            }
+          else
+            {
+              MPFR_SET_EXP (z, Ex);
+              MPFR_SET_SIGN (z, 1);
+              MPFR_RNDRAW_GEN (inexact, z, MPFR_MANT (x), Nx, rnd_mode, 1,
+                               goto addoneulp,
+                  if (MPFR_UNLIKELY (++MPFR_EXP (z) > __gmpfr_emax))
+                    return mpfr_overflow (z, rnd_mode, 1);
+                              );
+              return inexact ? inexact : -1;
+            }
         }
     }
 
   /* General case */
 
-  Nx = MPFR_PREC(x);   /* Precision of input variable */
   Ny = MPFR_PREC(y);   /* Precision of input variable */
 
   /* compute the working precision -- see algorithms.ps */
-  Nt = MAX(MAX(MAX(Nx, Ny), Nz), 8);
-  Nt = Nt - 8 + __gmpfr_ceil_log2 (Nt);
+  Nt = MAX (MAX (MAX (Nx, Ny), Nz), 8);
+  /* FIXME: if Nx or Ny are very large with respect to the target precision
+     Nz, this may be overkill! */
+  Nt = Nt + MPFR_INT_CEIL_LOG2 (Nt) + 2;
 
   /* initialise the intermediary variables */
-  mpfr_init (t);
-  mpfr_init (te);
-  mpfr_init (ti);
+  mpfr_init2 (t, Nt);
+  mpfr_init2 (te, Nt);
+  mpfr_init2 (ti, Nt);
 
-  mpfr_save_emin_emax ();
+  MPFR_SAVE_EXPO_MARK (expo);
 
-  sh = MAX(0,MIN(Ex,Ey));
+  sh = MAX (0, MIN (Ex, Ey));
 
-  do
+  MPFR_ZIV_INIT (loop, Nt);
+  for (;;)
     {
-      Nt += 10;
+      /* computations of hypot */
+      mpfr_div_2ui (te, x, sh, GMP_RNDZ); /* exact since Nt >= Nx */
+      mpfr_div_2ui (ti, y, sh, GMP_RNDZ); /* exact since Nt >= Ny */
+      exact = mpfr_mul (te, te, te, GMP_RNDZ);    /* x^2 */
+      exact |= mpfr_mul (ti, ti, ti, GMP_RNDZ);   /* y^2 */
+      exact |= mpfr_add (t, te, ti, GMP_RNDZ);    /* x^2+y^2 */
+      exact |= mpfr_sqrt (t, t, GMP_RNDZ);        /* sqrt(x^2+y^2)*/
 
-      not_exact = 0;
+      if (MPFR_LIKELY (exact == 0
+                       || MPFR_CAN_ROUND (t, Nt-2, Nz, rnd_mode)))
+        break;
+
       /* reactualization of the precision */
+      MPFR_ZIV_NEXT (loop, Nt);
       mpfr_set_prec (t, Nt);
       mpfr_set_prec (te, Nt);
       mpfr_set_prec (ti, Nt);
 
-      /* computations of hypot */
-      mpfr_div_2ui (te, x, sh, GMP_RNDZ); /* exact since Nt >= Nx */
-      if (mpfr_mul (te, te, te, GMP_RNDZ))   /* x^2 */
-        not_exact = 1;
-
-      mpfr_div_2ui (ti, y, sh, GMP_RNDZ); /* exact since Nt >= Ny */
-      if (mpfr_mul (ti, ti, ti, GMP_RNDZ))   /* y^2 */
-        not_exact = 1;
-
-      if (mpfr_add (t, te, ti, GMP_RNDZ))  /* x^2+y^2 */
-        not_exact = 1;
-
-      if (mpfr_sqrt (t, t, GMP_RNDZ))     /* sqrt(x^2+y^2)*/
-        not_exact = 1;
-
     }
-  while (not_exact && !mpfr_can_round (t, Nt - 2, GMP_RNDN, GMP_RNDZ,
-                                       Nz + (rnd_mode == GMP_RNDN)));
-
+  MPFR_ZIV_FREE (loop);
   inexact = mpfr_mul_2ui (z, t, sh, rnd_mode);
-  /* if not_exact=1, necessarily the last (Nt-Nz) bits of t are not all zero,
-     otherwise it would not have been possible to round correctly */
-  MPFR_ASSERTD(not_exact == 0 || inexact != 0);
+
+  MPFR_ASSERTD (exact == 0 || inexact != 0);
 
   mpfr_clear (t);
   mpfr_clear (ti);
   mpfr_clear (te);
-  
+
   /*
-    not_exact  inexact
+       exact  inexact
         0         0         result is exact, ternary flag is 0
         0       non zero    t is exact, ternary flag given by inexact
         1         0         impossible (see above)
         1       non zero    ternary flag given by inexact
    */
 
-  mpfr_restore_emin_emax ();
+  MPFR_SAVE_EXPO_FREE (expo);
 
   return mpfr_check_range (z, inexact, rnd_mode);
 }

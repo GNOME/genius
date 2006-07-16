@@ -1,4 +1,4 @@
-/* Test file for mpfr_add_si, mpfr_sub_si, mpfr_si_sub, mpfr_mul_si, 
+/* Test file for mpfr_add_si, mpfr_sub_si, mpfr_si_sub, mpfr_mul_si,
    mpfr_div_si, mpfr_si_div
 
 Copyright 2004 Free Software Foundation.
@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,7 +41,7 @@ const struct {
   const char * res_sub;
   const char * res_mul;
   const char * res_div;
-} tab[] = { 
+} tab[] = {
   {"10", 0x1, "11", "0F", "10", "10"},
   {"1", -1,  "0",   "2",   "-1",  "-1"},
   {"17.42", -0x17, "0.42", "2E.42", "-216.ee", "-1.02de9bd37a6f4"},
@@ -53,7 +53,7 @@ check_invert ()
 {
   mpfr_t x;
   mpfr_init2 (x, MPFR_PREC_MIN);
-  
+
   mpfr_set_ui (x, 0xC, GMP_RNDN);
   mpfr_si_sub (x, -1, x, GMP_RNDD); /* -0001 - 1100 = - 1101 --> -1 0000 */
   if (mpfr_cmp_si (x, -0x10) )
@@ -64,6 +64,35 @@ check_invert ()
   mpfr_clear (x);
 }
 
+#define TEST_FUNCTION mpfr_add_si
+#define TEST_FUNCTION_NAME "mpfr_add_si"
+#define INTEGER_TYPE  long
+#define RAND_FUNCTION(x) mpfr_random2(x, MPFR_LIMB_SIZE (x), 1)
+#define test_generic_ui test_generic_add_si
+#include "tgeneric_ui.c"
+
+#define TEST_FUNCTION mpfr_sub_si
+#define TEST_FUNCTION_NAME "mpfr_sub_si"
+#define INTEGER_TYPE  long
+#define RAND_FUNCTION(x) mpfr_random2(x, MPFR_LIMB_SIZE (x), 1)
+#define test_generic_ui test_generic_sub_si
+#include "tgeneric_ui.c"
+
+#define TEST_FUNCTION mpfr_mul_si
+#define TEST_FUNCTION_NAME "mpfr_mul_si"
+#define INTEGER_TYPE  long
+#define RAND_FUNCTION(x) mpfr_random2(x, MPFR_LIMB_SIZE (x), 1)
+#define test_generic_ui test_generic_mul_si
+#include "tgeneric_ui.c"
+
+#define TEST_FUNCTION mpfr_div_si
+#define TEST_FUNCTION_NAME "mpfr_div_si"
+#define INTEGER_TYPE  long
+#define RAND_FUNCTION(x) mpfr_random2(x, MPFR_LIMB_SIZE (x), 1)
+#define test_generic_ui test_generic_div_si
+#include "tgeneric_ui.c"
+
+
 int
 main (int argc, char *argv[])
 {
@@ -71,6 +100,7 @@ main (int argc, char *argv[])
   int y;
   int i;
 
+  MPFR_TEST_USE_RANDS ();
   tests_start_mpfr ();
   mpfr_inits2 (53, x, z, NULL);
   for(i = 0 ; i < numberof (tab) ; i++)
@@ -79,7 +109,7 @@ main (int argc, char *argv[])
       y = tab[i].op2;
       mpfr_add_si (z, x, y, GMP_RNDZ);
       if (mpfr_cmp_str (z, tab[i].res_add, 16, GMP_RNDN))
-	ERROR1("add_si", i, z, tab[i].res_add);
+        ERROR1("add_si", i, z, tab[i].res_add);
       mpfr_sub_si (z, x, y, GMP_RNDZ);
       if (mpfr_cmp_str (z, tab[i].res_sub, 16, GMP_RNDN))
         ERROR1("sub_si", i, z, tab[i].res_sub);
@@ -105,6 +135,11 @@ main (int argc, char *argv[])
   mpfr_clears (x, z, NULL);
 
   check_invert ();
+
+  test_generic_add_si (2, 200, 17);
+  test_generic_sub_si (2, 200, 17);
+  test_generic_mul_si (2, 200, 17);
+  test_generic_div_si (2, 200, 17);
 
   tests_end_mpfr ();
   return 0;

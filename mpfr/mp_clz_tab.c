@@ -3,7 +3,7 @@
    THE CONTENTS OF THIS FILE ARE FOR INTERNAL USE AND MAY CHANGE
    INCOMPATIBLY OR DISAPPEAR IN A FUTURE GNU MP RELEASE.
 
-Copyright 1991, 1993, 1994, 1996, 1997, 2000, 2001, 2004 Free Software 
+Copyright 1991, 1993, 1994, 1996, 1997, 2000, 2001, 2004 Free Software
 Foundation,Inc.
 
 This file is part of the GNU MP Library.
@@ -21,8 +21,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the GNU MP Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"

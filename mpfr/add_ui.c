@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
@@ -31,18 +31,19 @@ mpfr_add_ui (mpfr_ptr y, mpfr_srcptr x, unsigned long int u, mp_rnd_t rnd_mode)
       mp_limb_t up[1];
       unsigned long cnt;
       int inex;
+      MPFR_SAVE_EXPO_DECL (expo);
 
-      MPFR_TMP_INIT1(up, uu, BITS_PER_MP_LIMB);
-      MPFR_ASSERTN(u == (mp_limb_t) u);
+      MPFR_TMP_INIT1 (up, uu, BITS_PER_MP_LIMB);
+      MPFR_ASSERTD (u == (mp_limb_t) u);
       count_leading_zeros(cnt, (mp_limb_t) u);
-      *up = (mp_limb_t) u << cnt;
+      up[0] = (mp_limb_t) u << cnt;
 
       /* Optimization note: Exponent save/restore operations may be
-	 removed if mpfr_add works even when uu is out-of-range. */
-      mpfr_save_emin_emax();
+         removed if mpfr_add works even when uu is out-of-range. */
+      MPFR_SAVE_EXPO_MARK (expo);
       MPFR_SET_EXP (uu, BITS_PER_MP_LIMB - cnt);
       inex = mpfr_add(y, x, uu, rnd_mode);
-      mpfr_restore_emin_emax();
+      MPFR_SAVE_EXPO_FREE (expo);
       return mpfr_check_range(y, inex, rnd_mode);
     }
   else

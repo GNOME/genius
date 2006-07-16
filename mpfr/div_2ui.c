@@ -1,6 +1,6 @@
 /* mpfr_div_2ui -- divide a floating-point number by a power of two
 
-Copyright 1999, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 1999, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include "mpfr-impl.h"
 
@@ -49,14 +49,14 @@ mpfr_div_2ui (mpfr_ptr y, mpfr_srcptr x, unsigned long n, mp_rnd_t rnd_mode)
       {
         mp_exp_t exp = MPFR_GET_EXP (y);
         if (MPFR_UNLIKELY( __gmpfr_emin > MPFR_EMAX_MAX - (long) n ||
-			   exp < __gmpfr_emin + (long) n) )
+                           exp < __gmpfr_emin + (long) n) )
           {
             if (rnd_mode == GMP_RNDN &&
                 (__gmpfr_emin > MPFR_EMAX_MAX - (long) (n - 1) ||
                  exp < __gmpfr_emin + (long) (n - 1) ||
                  mpfr_powerof2_raw (y)))
               rnd_mode = GMP_RNDZ;
-            return mpfr_set_underflow (y, rnd_mode, MPFR_SIGN(y));
+            return mpfr_underflow (y, rnd_mode, MPFR_SIGN(y));
           }
 
         MPFR_SET_EXP(y, exp - (long) n);

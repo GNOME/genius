@@ -16,13 +16,33 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "mpfr-test.h"
+
+static void
+check_diff (void)
+{
+  mpfr_t x;
+  mpz_t  z;
+
+  mpz_init   (z);
+  mpfr_init2 (x, 2);
+
+  mpfr_set_ui (x, 2047, GMP_RNDU);
+  mpz_set_fr (z, x, GMP_RNDN);
+  if (mpz_cmp_ui (z, 2048) != 0)
+    {
+      printf ("get_z RU 2048 failed\n");
+      exit (1);
+    }
+  mpfr_clear (x);
+  mpz_clear  (z);
+}
 
 static void
 check_one (mpz_ptr z)
@@ -37,32 +57,32 @@ check_one (mpz_ptr z)
   for (sh = -2*BITS_PER_MP_LIMB ; sh < 2*BITS_PER_MP_LIMB ; sh++)
     {
       for (neg = 0; neg <= 1; neg++)
-	{
-	  mpz_neg (z, z);
-	  mpfr_set_z (f, z, GMP_RNDN);  
-	  
-	  if (sh < 0)
-	    {
-	      mpz_tdiv_q_2exp (z, z, -sh);
-	      mpfr_div_2exp (f, f, -sh, GMP_RNDN);
-	    }
-	  else
-	    {
-	      mpz_mul_2exp (z, z, sh);
-	      mpfr_mul_2exp (f, f, sh, GMP_RNDN);
-	    }
+        {
+          mpz_neg (z, z);
+          mpfr_set_z (f, z, GMP_RNDN);
 
-	  mpfr_get_z (got, f, GMP_RNDZ); 
+          if (sh < 0)
+            {
+              mpz_tdiv_q_2exp (z, z, -sh);
+              mpfr_div_2exp (f, f, -sh, GMP_RNDN);
+            }
+          else
+            {
+              mpz_mul_2exp (z, z, sh);
+              mpfr_mul_2exp (f, f, sh, GMP_RNDN);
+            }
 
-	  if (mpz_cmp (got, z) != 0)
-	    {
-	      printf ("Wrong result for shift=%d\n", sh);
-	      printf ("     f "); mpfr_dump (f);
-	      printf ("   got "); mpz_dump (got);
-	      printf ("  want "); mpz_dump (z);
-	      exit (1);
-	    }
-	}
+          mpfr_get_z (got, f, GMP_RNDZ);
+
+          if (mpz_cmp (got, z) != 0)
+            {
+              printf ("Wrong result for shift=%d\n", sh);
+              printf ("     f "); mpfr_dump (f);
+              printf ("   got "); mpz_dump (got);
+              printf ("  want "); mpz_dump (z);
+              exit (1);
+            }
+        }
     }
 
   mpfr_clear (f);
@@ -97,6 +117,7 @@ main (void)
   tests_start_mpfr ();
 
   check ();
+  check_diff ();
 
   tests_end_mpfr ();
   return 0;

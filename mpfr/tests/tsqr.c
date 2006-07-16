@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,9 +41,15 @@ int main(void)
   return 0;
 }
 
-static void 
-error1 (mp_rnd_t rnd, mpfr_prec_t prec, 
-	mpfr_t in, mpfr_t outmul, mpfr_t outsqr)
+static int
+inexact_sign (int x)
+{
+  return (x < 0) ? -1 : (x > 0);
+}
+
+static void
+error1 (mp_rnd_t rnd, mpfr_prec_t prec,
+        mpfr_t in, mpfr_t outmul, mpfr_t outsqr)
 {
   printf("ERROR: for %s and prec=%lu\nINPUT=", mpfr_print_rnd_mode(rnd), prec);
   mpfr_dump(in);
@@ -53,8 +59,8 @@ error1 (mp_rnd_t rnd, mpfr_prec_t prec,
 }
 
 static void
-error2 (mp_rnd_t rnd, mpfr_prec_t prec, mpfr_t in, mpfr_t out, 
-	int inexactmul, int inexactsqr)
+error2 (mp_rnd_t rnd, mpfr_prec_t prec, mpfr_t in, mpfr_t out,
+        int inexactmul, int inexactsqr)
 {
   printf("ERROR: for %s and prec=%lu\nINPUT=", mpfr_print_rnd_mode(rnd), prec);
   mpfr_dump(in);
@@ -80,7 +86,7 @@ void check_random(mpfr_prec_t p)
             inexact2 = mpfr_sqr (z, x, (mp_rnd_t) r);
             if (mpfr_cmp (y, z))
               error1 ((mp_rnd_t) r,p,x,y,z);
-            if (inexact1 != inexact2)
+            if (inexact_sign (inexact1) != inexact_sign (inexact2))
               error2 ((mp_rnd_t) r,p,x,y,inexact1,inexact2);
           }
     }
@@ -89,5 +95,37 @@ void check_random(mpfr_prec_t p)
 
 void check_special(void)
 {
+  mpfr_t x, y;
+  mp_exp_t emin;
 
+  mpfr_init (x);
+  mpfr_init (y);
+
+  mpfr_set_nan (x);
+  mpfr_sqr (y, x, GMP_RNDN);
+  MPFR_ASSERTN (mpfr_nan_p (y));
+
+  mpfr_set_inf (x, 1);
+  mpfr_sqr (y, x, GMP_RNDN);
+  MPFR_ASSERTN (mpfr_inf_p (y) && mpfr_sgn (y) > 0);
+
+  mpfr_set_inf (x, -1);
+  mpfr_sqr (y, x, GMP_RNDN);
+  MPFR_ASSERTN (mpfr_inf_p (y) && mpfr_sgn (y) > 0);
+
+  mpfr_set_ui (x, 0, GMP_RNDN);
+  mpfr_sqr (y, x, GMP_RNDN);
+  MPFR_ASSERTN (mpfr_zero_p (y));
+
+  emin = mpfr_get_emin ();
+  mpfr_set_emin (0);
+  mpfr_set_ui (x, 1, GMP_RNDN);
+  mpfr_div_2ui (x, x, 1, GMP_RNDN);
+  MPFR_ASSERTN (!mpfr_zero_p (x));
+  mpfr_sqr (y, x, GMP_RNDN);
+  MPFR_ASSERTN (mpfr_zero_p (y));
+  mpfr_set_emin (emin);
+
+  mpfr_clear (y);
+  mpfr_clear (x);
 }

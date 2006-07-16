@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
@@ -29,20 +29,20 @@ MA 02111-1307, USA. */
    b must not be NaN
 */
 
-int 
+int
 mpfr_cmp_ui_2exp (mpfr_srcptr b, unsigned long int i, mp_exp_t f)
 {
   if (MPFR_UNLIKELY( MPFR_IS_SINGULAR(b) ))
     {
       if (MPFR_IS_NAN (b))
-	{
-	  MPFR_SET_ERANGE ();
-	  return 0;
-	}
+        {
+          MPFR_SET_ERANGE ();
+          return 0;
+        }
       else if (MPFR_IS_INF(b))
-	return MPFR_INT_SIGN (b);
+        return MPFR_INT_SIGN (b);
       else /* since b cannot be NaN, b=0 here */
-	return i != 0 ? -1 : 0;
+        return i != 0 ? -1 : 0;
     }
 
   if (MPFR_IS_NEG (b))

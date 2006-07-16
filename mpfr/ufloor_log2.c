@@ -16,12 +16,12 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include "mpfr-impl.h"
 
-/* returns floor(log(abs(d))/log(2)) */
+/* returns floor(log2(d)) */
 long
 __gmpfr_floor_log2 (double d)
 {
@@ -30,27 +30,22 @@ __gmpfr_floor_log2 (double d)
 
   x.d = d;
   return (long) x.s.exp - 1023;
-#else  
+#else
   long exp;
   double m;
 
-  /* Get Abs */
-  if (d < 0.0)
-    d = -d;
-
-  if (d == 0.0)
-    return -1023;
-  else if (d >= 1.0)
+  MPFR_ASSERTD (d >= 0);
+  if (d >= 1.0)
     {
       exp = -1;
       for( m= 1.0 ; m <= d ; m *=2.0 )
-	exp++;
+        exp++;
     }
   else
     {
       exp = 0;
       for( m= 1.0 ; m > d ; m *= (1.0/2.0) )
-        exp--;      
+        exp--;
     }
   return exp;
 #endif

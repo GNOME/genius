@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #if HAVE_CONFIG_H
 # include "config.h"            /* for a build within gmp */
@@ -93,10 +93,10 @@ mpfr_fits_intmax_p (mpfr_srcptr f, mp_rnd_t rnd)
 
   mpfr_set (x, f, rnd);
   mpfr_set_sj (y, neg ? INTMAX_MIN : INTMAX_MAX, GMP_RNDN);
-  
-  res = (neg 
-	 ? (mpfr_cmp (x, y) >= 0)
-	 : (mpfr_cmp (x, y) <= 0));
+
+  res = (neg
+         ? (mpfr_cmp (x, y) >= 0)
+         : (mpfr_cmp (x, y) <= 0));
 
   mpfr_clear (y);
   mpfr_clear (x);

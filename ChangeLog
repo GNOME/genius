@@ -1,3 +1,15 @@
+Fri Jul 14 18:00:39 2006  George (Jiri) Lebl <jirka@5z.com>
+
+	* configure.in, mpfr/*: update mpfr to 2.2.0 and require 2.2.0 in
+	  the configure script
+
+	* src/mpwrap.[ch], src/funclib.c: use mpfr_pow_z and whack our own
+	  stupid version.  Add CatalanConstant and atan2 functions
+
+	* help/C/gel-functions-list.xml, lib/functions/elementary.gel:
+	  document CatalanConstant, atan2, and change all "reverse function"
+	  to "inverse function".
+
 Fri Jul 14 01:00:03 2006  George (Jiri) Lebl <jirka@5z.com>
 
 	* src/funclib.c:  Add NextCombination function

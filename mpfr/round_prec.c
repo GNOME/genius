@@ -1,7 +1,8 @@
 /* mpfr_round_raw_generic, mpfr_round_raw2, mpfr_round_raw, mpfr_prec_round,
    mpfr_can_round, mpfr_can_round_raw -- various rounding functions
 
-Copyright 1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005
+  Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -17,8 +18,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include "mpfr-impl.h"
 
@@ -32,10 +33,12 @@ MA 02111-1307, USA. */
 #define use_inexp 0
 #include "round_raw_generic.c"
 
+/* Seems to be unused. Remove comment to implement it.
 #define mpfr_round_raw_generic mpfr_round_raw_3
 #define flag 1
 #define use_inexp 1
 #include "round_raw_generic.c"
+*/
 
 #define mpfr_round_raw_generic mpfr_round_raw_4
 #define flag 0
@@ -48,7 +51,7 @@ mpfr_prec_round (mpfr_ptr x, mp_prec_t prec, mp_rnd_t rnd_mode)
   mp_limb_t *tmp, *xp;
   int carry, inexact;
   mp_prec_t nw, ow;
-  TMP_DECL(marker);
+  MPFR_TMP_DECL(marker);
 
   MPFR_ASSERTN(prec >= MPFR_PREC_MIN && prec <= MPFR_PREC_MAX);
 
@@ -69,15 +72,15 @@ mpfr_prec_round (mpfr_ptr x, mp_prec_t prec, mp_rnd_t rnd_mode)
     {
       MPFR_PREC(x) = prec; /* Special value: need to set prec */
       if (MPFR_IS_NAN(x))
-	MPFR_RET_NAN;
+        MPFR_RET_NAN;
       MPFR_ASSERTD(MPFR_IS_INF(x) || MPFR_IS_ZERO(x));
       return 0; /* infinity and zero are exact */
     }
 
   /* x is a non-zero real number */
 
-  TMP_MARK(marker); 
-  tmp = (mp_limb_t*) TMP_ALLOC (nw * BYTES_PER_MP_LIMB);
+  MPFR_TMP_MARK(marker);
+  tmp = (mp_limb_t*) MPFR_TMP_ALLOC (nw * BYTES_PER_MP_LIMB);
   xp = MPFR_MANT(x);
   carry = mpfr_round_raw (tmp, xp, MPFR_PREC(x), MPFR_IS_NEG(x),
                           prec, rnd_mode, &inexact);
@@ -88,13 +91,12 @@ mpfr_prec_round (mpfr_ptr x, mp_prec_t prec, mp_rnd_t rnd_mode)
       mp_exp_t exp = MPFR_EXP (x);
 
       if (MPFR_UNLIKELY(exp == __gmpfr_emax))
-        (void) mpfr_set_overflow(x, rnd_mode, MPFR_SIGN(x));
+        (void) mpfr_overflow(x, rnd_mode, MPFR_SIGN(x));
       else
         {
           MPFR_ASSERTD (exp < __gmpfr_emax);
           MPFR_SET_EXP (x, exp + 1);
           xp[nw - 1] = MPFR_LIMB_HIGHBIT;
-          /* FIXME: maybe that mpfr_round_raw already sets the low bits to 0 */
           if (nw - 1 > 0)
             MPN_ZERO(xp, nw - 1);
         }
@@ -102,7 +104,7 @@ mpfr_prec_round (mpfr_ptr x, mp_prec_t prec, mp_rnd_t rnd_mode)
   else
     MPN_COPY(xp, tmp, nw);
 
-  TMP_FREE(marker);
+  MPFR_TMP_FREE(marker);
   return inexact;
 }
 
@@ -116,18 +118,18 @@ mpfr_prec_round (mpfr_ptr x, mp_prec_t prec, mp_rnd_t rnd_mode)
 */
 
 int
-mpfr_can_round (mpfr_ptr b, mp_exp_t err, mp_rnd_t rnd1,
-		mp_rnd_t rnd2, mp_prec_t prec)
+mpfr_can_round (mpfr_srcptr b, mp_exp_t err, mp_rnd_t rnd1,
+                mp_rnd_t rnd2, mp_prec_t prec)
 {
   if (MPFR_UNLIKELY(MPFR_IS_SINGULAR(b)))
-    return 0; /* We cannot round if Zero, Nan or Inf */ 
+    return 0; /* We cannot round if Zero, Nan or Inf */
   else
     return mpfr_can_round_raw(MPFR_MANT(b), MPFR_LIMB_SIZE(b),
-			      MPFR_SIGN(b), err, rnd1, rnd2, prec);
+                              MPFR_SIGN(b), err, rnd1, rnd2, prec);
 }
 
 int
-mpfr_can_round_raw (mp_limb_t *bp, mp_size_t bn, int neg, mp_exp_t err0,
+mpfr_can_round_raw (const mp_limb_t *bp, mp_size_t bn, int neg, mp_exp_t err0,
                     mp_rnd_t rnd1, mp_rnd_t rnd2, mp_prec_t prec)
 {
   mp_prec_t err;
@@ -135,12 +137,11 @@ mpfr_can_round_raw (mp_limb_t *bp, mp_size_t bn, int neg, mp_exp_t err0,
   int s, s1;
   mp_limb_t cc, cc2;
   mp_limb_t *tmp;
-  TMP_DECL(marker);
+  MPFR_TMP_DECL(marker);
 
   if (MPFR_UNLIKELY(err0 < 0 || (mp_exp_unsigned_t) err0 <= prec))
     return 0;  /* can't round */
-
-  if (prec > (mp_prec_t) bn * BITS_PER_MP_LIMB)
+  else if (MPFR_UNLIKELY (prec > (mp_prec_t) bn * BITS_PER_MP_LIMB))
     { /* then ulp(b) < precision < error */
       return rnd2 == GMP_RNDN && (mp_exp_unsigned_t) err0 - 2 >= prec;
       /* can round only in rounding to the nearest and err0 >= prec + 2 */
@@ -172,10 +173,10 @@ mpfr_can_round_raw (mp_limb_t *bp, mp_size_t bn, int neg, mp_exp_t err0,
   /* if when adding or subtracting (1 << s) in bp[bn-1-k], it does not
      change bp[bn-1] >> s1, then we can round */
 
-  TMP_MARK(marker);
+  MPFR_TMP_MARK(marker);
   tn = bn;
   k++; /* since we work with k+1 everywhere */
-  tmp = (mp_limb_t*) TMP_ALLOC(tn * BYTES_PER_MP_LIMB);
+  tmp = (mp_limb_t*) MPFR_TMP_ALLOC(tn * BYTES_PER_MP_LIMB);
   if (bn > k)
     MPN_COPY (tmp, bp, bn - k);
 
@@ -215,13 +216,13 @@ mpfr_can_round_raw (mp_limb_t *bp, mp_size_t bn, int neg, mp_exp_t err0,
 
   if (cc2 && cc)
     {
-      TMP_FREE(marker);
+      MPFR_TMP_FREE(marker);
       return 0;
     }
 
   cc2 = (tmp[bn - 1] >> s1) & 1;
   cc2 ^= mpfr_round_raw2 (tmp, bn, neg, rnd2, prec);
 
-  TMP_FREE(marker); 
+  MPFR_TMP_FREE(marker);
   return cc == cc2;
 }

@@ -1,6 +1,6 @@
 /* Test file for mpfr_tanh.
 
-Copyright 2001, 2002, 2003, 2004 Free Software Foundation.
+Copyright 2001, 2002, 2003, 2004, 2005 Free Software Foundation.
 Adapted from tarctan.c.
 
 This file is part of the MPFR Library.
@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -59,23 +59,58 @@ static void
 special_overflow (void)
 {
   mpfr_t x, y;
+  int i;
 
+  mpfr_clear_overflow ();
   set_emin (-125);
   set_emax (128);
   mpfr_init2 (x, 24);
   mpfr_init2 (y, 24);
+
   mpfr_set_str_binary (x, "0.101100100000000000110100E7");
-  mpfr_tanh (y, x, GMP_RNDN);
-  if (mpfr_cmp_ui (y, 1))
+  i = mpfr_tanh (y, x, GMP_RNDN);
+  if (mpfr_cmp_ui (y, 1) || i != 1)
     {
-      printf("Overflow error.\n");
+      printf("Overflow error (1). i=%d\ny=", i);
       mpfr_dump (y);
       exit (1);
     }
-  mpfr_clear (y);
-  mpfr_clear (x);
+  MPFR_ASSERTN (!mpfr_overflow_p ());
+
+  i = mpfr_tanh (y, x, GMP_RNDZ);
+  if (mpfr_cmp_str (y, "0.111111111111111111111111E0", 2, GMP_RNDN)
+      || i != -1)
+    {
+      printf("Overflow error (2).i=%d\ny=", i);
+      mpfr_dump (y);
+      exit (1);
+    }
+  MPFR_ASSERTN (!mpfr_overflow_p ());
+
   set_emin (MPFR_EMIN_MIN);
   set_emax (MPFR_EMAX_MAX);
+
+  mpfr_set_str_binary (x, "0.1E1000000000");
+  i = mpfr_tanh (y, x, GMP_RNDN);
+  if (mpfr_cmp_ui (y, 1) || i != 1)
+    {
+      printf("Overflow error (3). i=%d\ny=", i);
+      mpfr_dump (y);
+      exit (1);
+    }
+  MPFR_ASSERTN (!mpfr_overflow_p ());
+  mpfr_set_str_binary (x, "-0.1E1000000000");
+  i = mpfr_tanh (y, x, GMP_RNDU);
+  if (mpfr_cmp_str (y, "-0.111111111111111111111111E0", 2, GMP_RNDN)
+      || i != 1)
+    {
+      printf("Overflow error (4). i=%d\ny=", i);
+      mpfr_dump (y);
+      exit (1);
+    }
+
+  mpfr_clear (y);
+  mpfr_clear (x);
 }
 
 int

@@ -1,4 +1,4 @@
-/* Test file for 
+/* Test file for
    mpfr_set_sj, mpfr_set_uj, mpfr_set_sj_2exp and mpfr_set_uj_2exp.
 
 Copyright 2004 Free Software Foundation, Inc.
@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #if HAVE_CONFIG_H
 # include "config.h"       /* for a build within gmp */
@@ -50,6 +50,12 @@ int main() { return 0; }
 
 #define ERROR(str) {printf("Error for "str"\n"); exit(1);}
 
+static int
+inexact_sign (int x)
+{
+  return (x < 0) ? -1 : (x > 0);
+}
+
 static void
 check_set_uj (mp_prec_t pmin, mp_prec_t pmax, int N)
 {
@@ -65,27 +71,27 @@ check_set_uj (mp_prec_t pmin, mp_prec_t pmax, int N)
       mpfr_set_prec (x, p);
       mpfr_set_prec (y, p);
       for (n = 0 ; n < N ; n++)
-	{
-	  /* mp_limb_t may be unsigned long long */
-	  limb = (unsigned long) randlimb ();
-	  inex1 = mpfr_set_uj (x, limb, GMP_RNDN);
-	  inex2 = mpfr_set_ui (y, limb, GMP_RNDN);
-	  if (mpfr_cmp (x, y))
-	    {
-	      printf ("ERROR for mpfr_set_uj and j=%lu and p=%lu\n", 
-		      (unsigned long) limb, p);
-	      printf ("X="); mpfr_dump (x);
-	      printf ("Y="); mpfr_dump (y);
-	      exit (1);
-	    }
-	  if (inex1 != inex2)
-	    {
-	      printf ("ERROR for inexact(set_uj): j=%lu p=%lu\n"
-		      "Inexact1= %d Inexact2= %d\n",
-		      (unsigned long) limb, p, inex1, inex2);	      
+        {
+          /* mp_limb_t may be unsigned long long */
+          limb = (unsigned long) randlimb ();
+          inex1 = mpfr_set_uj (x, limb, GMP_RNDN);
+          inex2 = mpfr_set_ui (y, limb, GMP_RNDN);
+          if (mpfr_cmp (x, y))
+            {
+              printf ("ERROR for mpfr_set_uj and j=%lu and p=%lu\n",
+                      (unsigned long) limb, p);
+              printf ("X="); mpfr_dump (x);
+              printf ("Y="); mpfr_dump (y);
               exit (1);
-	    }
-	}
+            }
+          if (inexact_sign (inex1) != inexact_sign (inex2))
+            {
+              printf ("ERROR for inexact(set_uj): j=%lu p=%lu\n"
+                      "Inexact1= %d Inexact2= %d\n",
+                      (unsigned long) limb, p, inex1, inex2);
+              exit (1);
+            }
+        }
     }
   /* Special case */
   mpfr_set_prec (x, sizeof(uintmax_t)*CHAR_BIT);
@@ -96,6 +102,9 @@ check_set_uj (mp_prec_t pmin, mp_prec_t pmax, int N)
   if (inex1 != 0 || !mpfr_powerof2_raw (x)
       || MPFR_EXP (x) != (sizeof(uintmax_t)*CHAR_BIT+1) )
     ERROR ("power of 2");
+  mpfr_set_uj (x, 0, GMP_RNDN);
+  if (!MPFR_IS_ZERO (x))
+    ERROR ("Setting 0");
 
   mpfr_clears (x, y, NULL);
 }
@@ -107,7 +116,7 @@ check_set_uj_2exp (void)
   int inex;
 
   mpfr_init2 (x, sizeof(uintmax_t)*CHAR_BIT);
-  
+
   inex = mpfr_set_uj_2exp (x, 1, 0, GMP_RNDN);
   if (inex || mpfr_cmp_ui(x, 1))
     ERROR("(1U,0)");
@@ -126,7 +135,7 @@ check_set_uj_2exp (void)
   if (inex || !mpfr_powerof2_raw (x)
       || MPFR_EXP (x) != (sizeof(uintmax_t)*CHAR_BIT+1) )
     ERROR("(UINTMAX_MAX)");
-  
+
   inex = mpfr_set_uj_2exp (x, UINTMAX_MAX, MPFR_EMAX_MAX-10, GMP_RNDN);
   if (inex == 0 || !mpfr_inf_p (x))
     ERROR ("Overflow");
@@ -145,13 +154,13 @@ check_set_sj ()
   int inex;
 
   mpfr_init2 (x, sizeof(intmax_t)*CHAR_BIT-1);
-  
+
   inex = mpfr_set_sj (x, -INTMAX_MAX, GMP_RNDN);
   inex |= mpfr_add_si (x, x, -1, GMP_RNDN);
   if (inex || mpfr_sgn (x) >=0 || !mpfr_powerof2_raw (x)
       || MPFR_EXP (x) != (sizeof(intmax_t)*CHAR_BIT) )
     ERROR("set_sj (-INTMAX_MAX)");
-  
+
   inex = mpfr_set_sj (x, 1742, GMP_RNDN);
   if (inex || mpfr_cmp_ui (x, 1742))
     ERROR ("set_sj (1742)");

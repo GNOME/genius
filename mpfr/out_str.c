@@ -16,18 +16,19 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <string.h>
 #include <limits.h>
+#include <locale.h>
 
 #include "mpfr-impl.h"
 
-size_t 
+size_t
 mpfr_out_str (FILE *stream, int base, size_t n_digits, mpfr_srcptr op,
-	      mp_rnd_t rnd_mode)
+              mp_rnd_t rnd_mode)
 {
   char *s, *s0;
   size_t l;
@@ -43,18 +44,18 @@ mpfr_out_str (FILE *stream, int base, size_t n_digits, mpfr_srcptr op,
       return 3;
     }
 
-  if (MPFR_IS_INF(op)) 
-    { 
+  if (MPFR_IS_INF(op))
+    {
       if (MPFR_SIGN(op) > 0)
-	{
-	  fprintf (stream, "@Inf@");
-	  return 3;
-	}
+        {
+          fprintf (stream, "@Inf@");
+          return 3;
+        }
       else
-	{
-	  fprintf (stream, "-@Inf@");
-	  return 4;
-	}
+        {
+          fprintf (stream, "-@Inf@");
+          return 4;
+        }
     }
 
   if (MPFR_IS_ZERO(op))
@@ -83,7 +84,7 @@ mpfr_out_str (FILE *stream, int base, size_t n_digits, mpfr_srcptr op,
 
   /* outputs mantissa */
   fputc (*s++, stream); e--; /* leading digit */
-  fputc ('.', stream);       /* decimal point */
+  fputc (MPFR_DECIMAL_POINT, stream);
   fputs (s, stream);         /* rest of mantissa */
   (*__gmp_free_func) (s0, l);
 

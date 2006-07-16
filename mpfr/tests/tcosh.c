@@ -1,6 +1,6 @@
 /* Test file for mpfr_cosh.
 
-Copyright 2001, 2002, 2004 Free Software Foundation.
+Copyright 2001, 2002, 2004, 2005 Free Software Foundation.
 Adapted from tatan.c.
 
 This file is part of the MPFR Library.
@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,6 +32,7 @@ static void
 special (void)
 {
   mpfr_t  x, y;
+  int i;
 
   mpfr_init (x);
   mpfr_init (y);
@@ -95,7 +96,36 @@ special (void)
     {
       printf ("Error: mpfr_cosh for prec=32 (2)\n");
       exit (1);
-    }  
+    }
+
+  mpfr_set_prec (x, 2);
+  mpfr_clear_flags ();
+  mpfr_set_str_binary (x, "1E1000000000");
+  i = mpfr_cosh (x, x, GMP_RNDN);
+  MPFR_ASSERTN (MPFR_IS_INF (x) && MPFR_SIGN (x) > 0);
+  MPFR_ASSERTN (mpfr_overflow_p ());
+  MPFR_ASSERTN (i == 1);
+
+  mpfr_clear_flags ();
+  mpfr_set_str_binary (x, "-1E1000000000");
+  i = mpfr_cosh (x, x, GMP_RNDN);
+  MPFR_ASSERTN (MPFR_IS_INF (x) && MPFR_SIGN (x) > 0);
+  MPFR_ASSERTN (mpfr_overflow_p () && !mpfr_underflow_p ());
+  MPFR_ASSERTN (i == 1);
+
+  mpfr_clear_flags ();
+  mpfr_set_str_binary (x, "-1E1000000000");
+  i = mpfr_cosh (x, x, GMP_RNDD);
+  MPFR_ASSERTN (!MPFR_IS_INF (x) && MPFR_SIGN (x) > 0);
+  MPFR_ASSERTN (mpfr_overflow_p () && !mpfr_underflow_p ());
+  MPFR_ASSERTN (i == -1);
+
+  mpfr_clear_flags ();
+  mpfr_set_str_binary (x, "-1E1000000000");
+  i = mpfr_cosh (x, x, GMP_RNDU);
+  MPFR_ASSERTN (MPFR_IS_INF (x) && MPFR_SIGN (x) > 0);
+  MPFR_ASSERTN (mpfr_overflow_p () && !mpfr_underflow_p ());
+  MPFR_ASSERTN (i == 1);
 
   mpfr_clear (x);
   mpfr_clear (y);
@@ -112,7 +142,7 @@ special_overflow (void)
 
   set_emin (-125);
   set_emax (128);
-  
+
   mpfr_init2 (x, 24);
   mpfr_init2 (y, 24);
 
@@ -122,7 +152,7 @@ special_overflow (void)
     {
       printf("Special overflow error 1.\n");
       mpfr_dump (y);
-      exit (1); 
+      exit (1);
     }
 
   mpfr_set_str_binary (x, "0.101100100000000000110100E8");
@@ -133,7 +163,7 @@ special_overflow (void)
       mpfr_dump (y);
       exit (1);
     }
-  
+
   set_emin (MPFR_EMIN_MIN);
   set_emax (MPFR_EMAX_MAX);
 

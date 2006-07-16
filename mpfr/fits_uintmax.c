@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #if HAVE_CONFIG_H
 # include "config.h"            /* for a build within gmp */
@@ -50,7 +50,7 @@ mpfr_fits_uintmax_p (mpfr_srcptr f, mp_rnd_t rnd)
   mp_prec_t prec;
   uintmax_t s;
   mpfr_t x, y;
-  int res; 
+  int res;
 
   if (MPFR_IS_NAN(f) || MPFR_IS_INF(f) || MPFR_SIGN(f) < 0)
     return 0; /* does not fit */
@@ -58,7 +58,7 @@ mpfr_fits_uintmax_p (mpfr_srcptr f, mp_rnd_t rnd)
   if (MPFR_IS_ZERO(f))
     return 1; /* zero always fits */
 
-  /* now it fits if 
+  /* now it fits if
      (a) f <= MAXIMUM
      (b) round(f, prec(slong), rnd) <= MAXIMUM */
 

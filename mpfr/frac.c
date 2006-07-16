@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 
 #define MPFR_NEED_LONGLONG_H
@@ -95,7 +95,7 @@ mpfr_frac (mpfr_ptr r, mpfr_srcptr u, mp_rnd_t rnd_mode)
   fq = uq - ue;  /* number of bits of the fractional part of u */
 
   /* Temporary fix */
-  t = /* fq > MPFR_PREC(r) */ 
+  t = /* fq > MPFR_PREC(r) */
     (mp_size_t) (MPFR_PREC(r) - 1) / BITS_PER_MP_LIMB < un ?
     (mpfr_init2 (tmp, (un + 1) * BITS_PER_MP_LIMB), tmp) : r;
   /* t has enough precision to contain the fractional part of u */

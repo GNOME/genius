@@ -1,6 +1,6 @@
 /* Test file for mpfr_agm.
 
-Copyright 1999, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 1999, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -187,26 +187,31 @@ check_nans (void)
   mpfr_clear (m);
 }
 
+#define TEST_FUNCTION mpfr_agm
+#define TWO_ARGS
+#include "tgeneric.c"
+
 int
 main (int argc, char* argv[])
 {
-   tests_start_mpfr ();
+  MPFR_TEST_USE_RANDS ();
+  tests_start_mpfr ();
 
-   check_nans ();
+  check_nans ();
 
-   check_large ();
-   check4 ("2.0", "1.0", GMP_RNDN, "1.45679103104690677029");
-   check4 ("6.0", "4.0", GMP_RNDN, "4.94936087247260925182");
-   check4 ("62.0", "61.0", GMP_RNDN, "6.14989837188450749750e+01");
-   check4 ("0.5", "1.0", GMP_RNDN, "7.28395515523453385143e-01");
-   check4 ("1.0", "2.0", GMP_RNDN, "1.45679103104690677029");
-   check4 ("234375765.0", "234375000.0", GMP_RNDN, "2.3437538249984395504e8");
-   check4 ("8.0", "1.0", GMP_RNDU, "3.615756177597362786");
-   check4 ("1.0", "44.0", GMP_RNDU, "1.33658354512981247808e1");
-   check4 ("1.0", "3.7252902984619140625e-9", GMP_RNDU,
-	   "7.55393356971199025907e-02");
-   
-   tests_end_mpfr ();
-   
-   return 0;
+  check_large ();
+  check4 ("2.0", "1.0", GMP_RNDN, "1.45679103104690677029");
+  check4 ("6.0", "4.0", GMP_RNDN, "4.94936087247260925182");
+  check4 ("62.0", "61.0", GMP_RNDN, "6.14989837188450749750e+01");
+  check4 ("0.5", "1.0", GMP_RNDN, "7.28395515523453385143e-01");
+  check4 ("1.0", "2.0", GMP_RNDN, "1.45679103104690677029");
+  check4 ("234375765.0", "234375000.0", GMP_RNDN, "2.3437538249984395504e8");
+  check4 ("8.0", "1.0", GMP_RNDU, "3.615756177597362786");
+  check4 ("1.0", "44.0", GMP_RNDU, "1.33658354512981247808e1");
+  check4 ("1.0", "3.7252902984619140625e-9", GMP_RNDU,
+          "7.55393356971199025907e-02");
+  test_generic (2, 300, 17);
+
+  tests_end_mpfr ();
+  return 0;
 }

@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,32 +29,41 @@ MA 02111-1307, USA. */
 static void
 check_large (void)
 {
-  mpfr_t x, y;
+  mpfr_t x, y, z;
 
   mpfr_init2 (x, 20000);
   mpfr_init2 (y, 21000);
+  mpfr_init2 (z, 11791);
 
+  /* The algo failed to round for p=11791. */
+  (mpfr_const_pi) (z, GMP_RNDU);
   mpfr_const_pi (x, GMP_RNDN); /* First one ! */
   mpfr_const_pi (y, GMP_RNDN); /* Then the other - cache - */
   mpfr_prec_round (y, 20000, GMP_RNDN);
-  if (mpfr_cmp (x,y))
-    {
-      printf ("const_pi: error for large prec\n");
-      exit (1);
-    }
+  if (mpfr_cmp (x, y)) {
+    printf ("const_pi: error for large prec (%d)\n", 1);
+    exit (1);
+  }
+  mpfr_prec_round (y, 11791, GMP_RNDU);
+  if (mpfr_cmp (z, y)) {
+    printf ("const_pi: error for large prec (%d)\n", 2);
+    exit (1);
+  }
 
   /* a worst-case to exercise recomputation */
-  mpfr_set_prec (x, 33440);
-  mpfr_const_pi (x, GMP_RNDZ);
+  if (MPFR_PREC_MAX > 33440) {
+    mpfr_set_prec (x, 33440);
+    mpfr_const_pi (x, GMP_RNDZ);
+  }
 
-  mpfr_clears (x, y, NULL);
+  mpfr_clears (x, y, z, NULL);
 }
 
 int
 main (int argc, char *argv[])
 {
   mpfr_t x;
-  int p;
+  mp_prec_t p;
   mp_rnd_t rnd;
 
   tests_start_mpfr ();
@@ -62,8 +71,8 @@ main (int argc, char *argv[])
   p = 53;
   if (argc > 1)
     {
-      int  a = atoi (argv[1]);
-      if (a != 0)
+      long a = atol (argv[1]);
+      if (a >= MPFR_PREC_MIN && a <= MPFR_PREC_MAX)
         p = a;
     }
 

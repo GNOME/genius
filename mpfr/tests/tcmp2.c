@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -96,7 +96,7 @@ worst_cases (void)
           b = randlimb () % 2;
           set_bit (x, i + j + 2, b);
           set_bit (y, i + j + 2, b);
-	  for (k=0; k<64; k++)
+          for (k=0; k<64; k++)
             {
               if (k)
                 set_bit (x, i + j + k + 1, 0);

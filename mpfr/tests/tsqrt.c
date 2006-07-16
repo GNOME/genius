@@ -16,13 +16,36 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "mpfr-test.h"
+
+#ifdef CHECK_EXTERNAL
+static int
+test_sqrt (mpfr_ptr a, mpfr_srcptr b, mp_rnd_t rnd_mode)
+{
+  int res;
+  int ok = rnd_mode == GMP_RNDN && mpfr_number_p (b);
+  if (ok)
+    {
+      mpfr_print_raw (b);
+    }
+  res = mpfr_sqrt (a, b, rnd_mode);
+  if (ok)
+    {
+      printf (" ");
+      mpfr_print_raw (a);
+      printf ("\n");
+    }
+  return res;
+}
+#else
+#define test_sqrt mpfr_sqrt
+#endif
 
 static void
 check3 (const char *as, mp_rnd_t rnd_mode, const char *qs)
@@ -31,14 +54,14 @@ check3 (const char *as, mp_rnd_t rnd_mode, const char *qs)
 
   mpfr_init2 (q, 53);
   mpfr_set_str1 (q, as);
-  mpfr_sqrt (q, q, rnd_mode);
+  test_sqrt (q, q, rnd_mode);
   if (mpfr_cmp_str1 (q, qs) )
     {
       printf ("mpfr_sqrt failed for a=%s, rnd_mode=%s\n",
               as, mpfr_print_rnd_mode (rnd_mode));
       printf ("expected sqrt is %s, got ",qs);
-      mpfr_out_str(stdout, 10, 0, q, GMP_RNDN);
-      putchar('\n');
+      mpfr_out_str (stdout, 10, 0, q, GMP_RNDN);
+      putchar ('\n');
       exit (1);
     }
   mpfr_clear (q);
@@ -49,20 +72,20 @@ check4 (const char *as, mp_rnd_t rnd_mode, const char *Qs)
 {
   mpfr_t q;
 
-  mpfr_init2(q, 53);
+  mpfr_init2 (q, 53);
   mpfr_set_str1 (q, as);
-  mpfr_sqrt(q, q, rnd_mode);
+  test_sqrt (q, q, rnd_mode);
   if (mpfr_cmp_str (q, Qs, 16, GMP_RNDN))
     {
-      printf("mpfr_sqrt failed for a=%s, rnd_mode=%s\n",
-	     as, mpfr_print_rnd_mode(rnd_mode));
-      printf("expected ");
-      mpfr_out_str(stdout, 16, 0, q, GMP_RNDN);
-      printf("\ngot      %s\n", Qs);
-      mpfr_clear(q);
-      exit(1);
-  }
-  mpfr_clear(q);
+      printf ("mpfr_sqrt failed for a=%s, rnd_mode=%s\n",
+              as, mpfr_print_rnd_mode(rnd_mode));
+      printf ("expected ");
+      mpfr_out_str (stdout, 16, 0, q, GMP_RNDN);
+      printf ("\ngot      %s\n", Qs);
+      mpfr_clear (q);
+      exit (1);
+    }
+  mpfr_clear (q);
 }
 
 static void
@@ -70,18 +93,39 @@ check24 (const char *as, mp_rnd_t rnd_mode, const char *qs)
 {
   mpfr_t q;
 
-  mpfr_init2(q, 24);
-  mpfr_set_str1(q, as);
-  mpfr_sqrt(q, q, rnd_mode);
+  mpfr_init2 (q, 24);
+  mpfr_set_str1 (q, as);
+  test_sqrt (q, q, rnd_mode);
   if (mpfr_cmp_str1 (q, qs))
     {
-      printf("mpfr_sqrt failed for a=%s, prec=24, rnd_mode=%s\n",
-	     as, mpfr_print_rnd_mode(rnd_mode));
-      printf("expected sqrt is %s, got ",qs);
-      mpfr_out_str(stdout, 10, 0, q, GMP_RNDN);
-      exit(1);
+      printf ("mpfr_sqrt failed for a=%s, prec=24, rnd_mode=%s\n",
+              as, mpfr_print_rnd_mode(rnd_mode));
+      printf ("expected sqrt is %s, got ",qs);
+      mpfr_out_str (stdout, 10, 0, q, GMP_RNDN);
+      printf ("\n");
+      exit (1);
     }
-  mpfr_clear(q);
+  mpfr_clear (q);
+}
+
+static void
+check_diverse (const char *as, mp_prec_t p, const char *qs)
+{
+  mpfr_t q;
+
+  mpfr_init2 (q, p);
+  mpfr_set_str1 (q, as);
+  test_sqrt (q, q, GMP_RNDN);
+  if (mpfr_cmp_str1 (q, qs))
+    {
+      printf ("mpfr_sqrt failed for a=%s, prec=%lu, rnd_mode=%s\n",
+              as, p, mpfr_print_rnd_mode (GMP_RNDN));
+      printf ("expected sqrt is %s, got ", qs);
+      mpfr_out_str (stdout, 10, 0, q, GMP_RNDN);
+      printf ("\n");
+      exit (1);
+    }
+  mpfr_clear (q);
 }
 
 /* the following examples come from the paper "Number-theoretic Test
@@ -145,9 +189,52 @@ special (void)
   mpfr_init (y);
   mpfr_init (z);
 
+  mpfr_set_prec (x, 64);
+  mpfr_set_str_binary (x, "1010000010100011011001010101010010001100001101011101110001011001E-1");
+  mpfr_set_prec (y, 32);
+  test_sqrt (y, x, GMP_RNDN);
+  if (mpfr_cmp_ui (y, 2405743844UL))
+    {
+      printf ("Error for n^2+n+1/2 with n=2405743843\n");
+      exit (1);
+    }
+
+  mpfr_set_prec (x, 65);
+  mpfr_set_str_binary (x, "10100000101000110110010101010100100011000011010111011100010110001E-2");
+  mpfr_set_prec (y, 32);
+  test_sqrt (y, x, GMP_RNDN);
+  if (mpfr_cmp_ui (y, 2405743844UL))
+    {
+      printf ("Error for n^2+n+1/4 with n=2405743843\n");
+      mpfr_dump (y);
+      exit (1);
+    }
+
+  mpfr_set_prec (x, 66);
+  mpfr_set_str_binary (x, "101000001010001101100101010101001000110000110101110111000101100011E-3");
+  mpfr_set_prec (y, 32);
+  test_sqrt (y, x, GMP_RNDN);
+  if (mpfr_cmp_ui (y, 2405743844UL))
+    {
+      printf ("Error for n^2+n+1/4+1/8 with n=2405743843\n");
+      mpfr_dump (y);
+      exit (1);
+    }
+
+  mpfr_set_prec (x, 66);
+  mpfr_set_str_binary (x, "101000001010001101100101010101001000110000110101110111000101100001E-3");
+  mpfr_set_prec (y, 32);
+  test_sqrt (y, x, GMP_RNDN);
+  if (mpfr_cmp_ui (y, 2405743843UL))
+    {
+      printf ("Error for n^2+n+1/8 with n=2405743843\n");
+      mpfr_dump (y);
+      exit (1);
+    }
+
   mpfr_set_prec (x, 27);
   mpfr_set_str_binary (x, "0.110100111010101000010001011");
-  if ((inexact = mpfr_sqrt (x, x, GMP_RNDZ)) >= 0)
+  if ((inexact = test_sqrt (x, x, GMP_RNDZ)) >= 0)
     {
       printf ("Wrong inexact flag: expected -1, got %d\n", inexact);
       exit (1);
@@ -158,21 +245,21 @@ special (void)
     {
       mpfr_set_prec (z, p);
       mpfr_set_ui (z, 1, GMP_RNDN);
-      mpfr_add_one_ulp (z, GMP_RNDN);
-      mpfr_sqrt (x, z, GMP_RNDU);
+      mpfr_nexttoinf (z);
+      test_sqrt (x, z, GMP_RNDU);
       if (mpfr_cmp_ui_2exp(x, 3, -1))
-	{
-	  printf ("Error: sqrt(1+ulp(1), up) should give 1.5 (prec=%u)\n",
+        {
+          printf ("Error: sqrt(1+ulp(1), up) should give 1.5 (prec=%u)\n",
                   (unsigned int) p);
-	  printf ("got "); mpfr_print_binary (x); puts ("");
-	  exit (1);
-	}
+          printf ("got "); mpfr_print_binary (x); puts ("");
+          exit (1);
+        }
     }
 
   /* check inexact flag */
   mpfr_set_prec (x, 5);
   mpfr_set_str_binary (x, "1.1001E-2");
-  if ((inexact = mpfr_sqrt (x, x, GMP_RNDN)))
+  if ((inexact = test_sqrt (x, x, GMP_RNDN)))
     {
       printf ("Wrong inexact flag: expected 0, got %d\n", inexact);
       exit (1);
@@ -184,7 +271,7 @@ special (void)
   /* checks the sign is correctly set */
   mpfr_set_si (x, 1,  GMP_RNDN);
   mpfr_set_si (z, -1, GMP_RNDN);
-  mpfr_sqrt (z, x, GMP_RNDN);
+  test_sqrt (z, x, GMP_RNDN);
   if (mpfr_cmp_ui (z, 0) < 0)
     {
       printf ("Error: square root of 1 gives ");
@@ -197,24 +284,26 @@ special (void)
   mpfr_set_prec (z, 160);
   mpfr_set_str_binary (z, "0.1011010100000100100100100110011001011100100100000011000111011001011101101101110000110100001000100001100001011000E1");
   mpfr_set_prec (x, 160);
-  mpfr_sqrt(x, z, GMP_RNDN);
-  mpfr_sqrt(z, x, GMP_RNDN);
+  test_sqrt(x, z, GMP_RNDN);
+  test_sqrt(z, x, GMP_RNDN);
 
   mpfr_set_prec (x, 53);
   mpfr_set_str (x, "8093416094703476.0", 10, GMP_RNDN);
   mpfr_div_2exp (x, x, 1075, GMP_RNDN);
-  mpfr_sqrt (x, x, GMP_RNDN);
+  test_sqrt (x, x, GMP_RNDN);
   mpfr_set_str (z, "1e55596835b5ef@-141", 16, GMP_RNDN);
   if (mpfr_cmp (x, z))
     {
       printf ("Error: square root of 8093416094703476*2^(-1075)\n");
+      printf ("expected "); mpfr_dump (z);
+      printf ("got      "); mpfr_dump (x);
       exit (1);
     }
 
   mpfr_set_prec (x, 33);
   mpfr_set_str_binary (x, "0.111011011011110001100111111001000e-10");
   mpfr_set_prec (z, 157);
-  inexact = mpfr_sqrt (z, x, GMP_RNDN);
+  inexact = test_sqrt (z, x, GMP_RNDN);
   mpfr_set_prec (x, 157);
   mpfr_set_str_binary (x, "0.11110110101100101111001011100011100011100001101010111011010000100111011000111110100001001011110011111100101110010110010110011001011011010110010000011001101E-5");
   if (mpfr_cmp (x, z))
@@ -236,43 +325,43 @@ special (void)
       mpfr_set_ui (x, 1, GMP_RNDN);
       mpfr_nextabove (x);
       /* 1.0 < x <= 1.5 thus 1 < sqrt(x) <= 1.23 */
-      inexact = mpfr_sqrt (z, x, GMP_RNDN);
+      inexact = test_sqrt (z, x, GMP_RNDN);
       MPFR_ASSERTN(inexact < 0 && mpfr_cmp_ui (z, 1) == 0);
-      inexact = mpfr_sqrt (z, x, GMP_RNDZ);
+      inexact = test_sqrt (z, x, GMP_RNDZ);
       MPFR_ASSERTN(inexact < 0 && mpfr_cmp_ui (z, 1) == 0);
-      inexact = mpfr_sqrt (z, x, GMP_RNDU);
+      inexact = test_sqrt (z, x, GMP_RNDU);
       MPFR_ASSERTN(inexact > 0 && mpfr_cmp_ui_2exp (z, 3, -1) == 0);
-      inexact = mpfr_sqrt (z, x, GMP_RNDD);
+      inexact = test_sqrt (z, x, GMP_RNDD);
       MPFR_ASSERTN(inexact < 0 && mpfr_cmp_ui (z, 1) == 0);
     }
 
   /* corner case rw = 0 in rounding to nearest */
-  mpfr_set_prec (z, mp_bits_per_limb - 1);
-  mpfr_set_prec (y, mp_bits_per_limb - 1);
+  mpfr_set_prec (z, BITS_PER_MP_LIMB - 1);
+  mpfr_set_prec (y, BITS_PER_MP_LIMB - 1);
   mpfr_set_ui (y, 1, GMP_RNDN);
-  mpfr_mul_2exp (y, y, mp_bits_per_limb - 1, GMP_RNDN);
+  mpfr_mul_2exp (y, y, BITS_PER_MP_LIMB - 1, GMP_RNDN);
   mpfr_nextabove (y);
-  for (p = 2 * mp_bits_per_limb - 1; p <= 1000; p++)
+  for (p = 2 * BITS_PER_MP_LIMB - 1; p <= 1000; p++)
     {
       mpfr_set_prec (x, p);
       mpfr_set_ui (x, 1, GMP_RNDN);
-      mpfr_set_exp (x, mp_bits_per_limb);
+      mpfr_set_exp (x, BITS_PER_MP_LIMB);
       mpfr_add_ui (x, x, 1, GMP_RNDN);
-      /* now x = 2^(mp_bits_per_limb - 1) + 1 (mp_bits_per_limb bits) */
-      MPFR_ASSERTN(mpfr_mul (x, x, x, GMP_RNDN) == 0); /* exact */
-      inexact = mpfr_sqrt (z, x, GMP_RNDN);
-      /* even rule: z should be 2^(mp_bits_per_limb - 1) */
-      MPFR_ASSERTN(inexact < 0 &&
-                   mpfr_cmp_ui_2exp (z, 1, mp_bits_per_limb - 1) == 0);
+      /* now x = 2^(BITS_PER_MP_LIMB - 1) + 1 (BITS_PER_MP_LIMB bits) */
+      MPFR_ASSERTN (mpfr_mul (x, x, x, GMP_RNDN) == 0); /* exact */
+      inexact = test_sqrt (z, x, GMP_RNDN);
+      /* even rule: z should be 2^(BITS_PER_MP_LIMB - 1) */
+      MPFR_ASSERTN (inexact < 0);
+      MPFR_ASSERTN (mpfr_cmp_ui_2exp (z, 1, BITS_PER_MP_LIMB - 1) == 0);
       mpfr_nextbelow (x);
-      /* now x is just below [2^(mp_bits_per_limb - 1) + 1]^2 */
-      inexact = mpfr_sqrt (z, x, GMP_RNDN);
+      /* now x is just below [2^(BITS_PER_MP_LIMB - 1) + 1]^2 */
+      inexact = test_sqrt (z, x, GMP_RNDN);
       MPFR_ASSERTN(inexact < 0 &&
-                   mpfr_cmp_ui_2exp (z, 1, mp_bits_per_limb - 1) == 0);
+                   mpfr_cmp_ui_2exp (z, 1, BITS_PER_MP_LIMB - 1) == 0);
       mpfr_nextabove (x);
       mpfr_nextabove (x);
-      /* now x is just above [2^(mp_bits_per_limb - 1) + 1]^2 */
-      inexact = mpfr_sqrt (z, x, GMP_RNDN);
+      /* now x is just above [2^(BITS_PER_MP_LIMB - 1) + 1]^2 */
+      inexact = test_sqrt (z, x, GMP_RNDN);
       if (mpfr_cmp (z, y))
         {
           printf ("Error for sqrt(x) in rounding to nearest\n");
@@ -286,6 +375,36 @@ special (void)
           printf ("Wrong inexact flag in corner case for p = %lu\n", (unsigned long) p);
           exit (1);
         }
+    }
+
+  mpfr_set_prec (x, 1000);
+  mpfr_set_ui (x, 9, GMP_RNDN);
+  mpfr_set_prec (y, 10);
+  inexact = test_sqrt (y, x, GMP_RNDN);
+  if (mpfr_cmp_ui (y, 3) || inexact != 0)
+    {
+      printf ("Error in sqrt(9:1000) for prec=10\n");
+      exit (1);
+    }
+  mpfr_set_prec (y, BITS_PER_MP_LIMB);
+  mpfr_nextabove (x);
+  inexact = test_sqrt (y, x, GMP_RNDN);
+  if (mpfr_cmp_ui (y, 3) || inexact >= 0)
+    {
+      printf ("Error in sqrt(9:1000) for prec=%u\n", BITS_PER_MP_LIMB);
+      exit (1);
+    }
+  mpfr_set_prec (x, 2 * BITS_PER_MP_LIMB);
+  mpfr_set_prec (y, BITS_PER_MP_LIMB);
+  mpfr_set_ui (y, 1, GMP_RNDN);
+  mpfr_nextabove (y);
+  mpfr_set (x, y, GMP_RNDN);
+  inexact = test_sqrt (y, x, GMP_RNDN);
+  if (mpfr_cmp_ui (y, 1) || inexact >= 0)
+    {
+      printf ("Error in sqrt(1) for prec=%u\n", BITS_PER_MP_LIMB);
+      mpfr_dump (y);
+      exit (1);
     }
 
   mpfr_clear (x);
@@ -305,7 +424,7 @@ check_inexact (mp_prec_t p)
   mpfr_init2 (z, 2*p);
   mpfr_random (x);
   rnd = (mp_rnd_t) RND_RAND();
-  inexact = mpfr_sqrt (y, x, rnd);
+  inexact = test_sqrt (y, x, rnd);
   if (mpfr_mul (z, y, y, rnd)) /* exact since prec(z) = 2*prec(y) */
     {
       printf ("Error: multiplication should be exact\n");
@@ -341,37 +460,96 @@ check_nan (void)
   /* sqrt(NaN) == NaN */
   MPFR_CLEAR_FLAGS (x);
   MPFR_SET_NAN (x);
-  MPFR_ASSERTN (mpfr_sqrt (got, x, GMP_RNDZ) == 0); /* exact */
+  MPFR_ASSERTN (test_sqrt (got, x, GMP_RNDZ) == 0); /* exact */
   MPFR_ASSERTN (mpfr_nan_p (got));
 
   /* sqrt(-1) == NaN */
   mpfr_set_si (x, -1L, GMP_RNDZ);
-  MPFR_ASSERTN (mpfr_sqrt (got, x, GMP_RNDZ) == 0); /* exact */
+  MPFR_ASSERTN (test_sqrt (got, x, GMP_RNDZ) == 0); /* exact */
   MPFR_ASSERTN (mpfr_nan_p (got));
 
   /* sqrt(+inf) == +inf */
   MPFR_CLEAR_FLAGS (x);
   MPFR_SET_INF (x);
   MPFR_SET_POS (x);
-  MPFR_ASSERTN (mpfr_sqrt (got, x, GMP_RNDZ) == 0); /* exact */
+  MPFR_ASSERTN (test_sqrt (got, x, GMP_RNDZ) == 0); /* exact */
   MPFR_ASSERTN (mpfr_inf_p (got));
 
   /* sqrt(-inf) == NaN */
   MPFR_CLEAR_FLAGS (x);
   MPFR_SET_INF (x);
   MPFR_SET_NEG (x);
-  MPFR_ASSERTN (mpfr_sqrt (got, x, GMP_RNDZ) == 0); /* exact */
+  MPFR_ASSERTN (test_sqrt (got, x, GMP_RNDZ) == 0); /* exact */
   MPFR_ASSERTN (mpfr_nan_p (got));
 
   /* sqrt(-0) == 0 */
   mpfr_set_si (x, 0L, GMP_RNDZ);
   MPFR_SET_NEG (x);
-  MPFR_ASSERTN (mpfr_sqrt (got, x, GMP_RNDZ) == 0); /* exact */
+  MPFR_ASSERTN (test_sqrt (got, x, GMP_RNDZ) == 0); /* exact */
   MPFR_ASSERTN (mpfr_number_p (got));
   MPFR_ASSERTN (mpfr_cmp_ui (got, 0L) == 0);
 
   mpfr_clear (x);
   mpfr_clear (got);
+}
+
+/* check that -1 <= x/sqrt(x^2+y^2) <= 1 for rounding to nearest or up */
+static void
+test_property1 (mp_prec_t p, mp_rnd_t r)
+{
+  mpfr_t x, y, z, t;
+
+  mpfr_init2 (x, p);
+  mpfr_init2 (y, p);
+  mpfr_init2 (z, p);
+  mpfr_init2 (t, p);
+
+  mpfr_random (x);
+  mpfr_random (y);
+  mpfr_mul (z, x, x, r);
+  mpfr_mul (t, x, x, r);
+  mpfr_add (z, z, t, r);
+  mpfr_sqrt (z, z, r);
+  mpfr_div (z, x, z, r);
+  if (mpfr_cmp_si (z, -1) < 0 || mpfr_cmp_ui (z, 1) > 0)
+    {
+      printf ("Error, -1 <= x/sqrt(x^2+y^2) <= 1 does not hold for r=%s\n",
+              mpfr_print_rnd_mode (r));
+      printf ("x="); mpfr_dump (x);
+      printf ("y="); mpfr_dump (y);
+      printf ("got "); mpfr_dump (z);
+      exit (1);
+    }
+
+  mpfr_clear (x);
+  mpfr_clear (y);
+  mpfr_clear (z);
+  mpfr_clear (t);
+}
+
+/* check sqrt(x^2) = x */
+static void
+test_property2 (mp_prec_t p, mp_rnd_t r)
+{
+  mpfr_t x, y;
+
+  mpfr_init2 (x, p);
+  mpfr_init2 (y, p);
+
+  mpfr_random (x);
+  mpfr_mul (y, x, x, r);
+  mpfr_sqrt (y, y, r);
+  if (mpfr_cmp (y, x))
+    {
+      printf ("Error, sqrt(x^2) = x does not hold for r=%s\n",
+              mpfr_print_rnd_mode (r));
+      printf ("x="); mpfr_dump (x);
+      printf ("got "); mpfr_dump (y);
+      exit (1);
+    }
+
+  mpfr_clear (x);
+  mpfr_clear (y);
 }
 
 int
@@ -382,12 +560,20 @@ main (void)
 
   tests_start_mpfr ();
 
+  for (p = MPFR_PREC_MIN; p <= 128; p++)
+    {
+      test_property1 (p, GMP_RNDN);
+      test_property1 (p, GMP_RNDU);
+      test_property2 (p, GMP_RNDN);
+    }
+
+  check_diverse ("635030154261163106768013773815762607450069292760790610550915652722277604820131530404842415587328", 160, "796887792767063979679855997149887366668464780637");
+  special ();
   check_nan ();
 
   for (p=2; p<200; p++)
     for (k=0; k<200; k++)
       check_inexact (p);
-  special ();
   check_float();
 
   check3 ("-0.0", GMP_RNDN, "0.0");
@@ -408,82 +594,82 @@ main (void)
    Generation for Directed Rounding" from Michael Parks, Table 4 */
 
   check4 ("78652858805036375191418371571712.0", GMP_RNDN,
-	  "1.f81fc40f32063@13");
+          "1.f81fc40f32063@13");
   check4 ("38510074998589467860312736661504.0", GMP_RNDN,
-	  "1.60c012a92fc65@13");
+          "1.60c012a92fc65@13");
   check4 ("35318779685413012908190921129984.0", GMP_RNDN,
-	  "1.51d17526c7161@13");
+          "1.51d17526c7161@13");
   check4 ("26729022595358440976973142425600.0", GMP_RNDN,
-	  "1.25e19302f7e51@13");
+          "1.25e19302f7e51@13");
   check4 ("22696567866564242819241453027328.0", GMP_RNDN,
-	  "1.0ecea7dd2ec3d@13");
+          "1.0ecea7dd2ec3d@13");
   check4 ("22696888073761729132924856434688.0", GMP_RNDN,
-	  "1.0ecf250e8e921@13");
+          "1.0ecf250e8e921@13");
   check4 ("36055652513981905145251657416704.0", GMP_RNDN,
-	  "1.5552f3eedcf33@13");
+          "1.5552f3eedcf33@13");
   check4 ("30189856268896404997497182748672.0", GMP_RNDN,
-	  "1.3853ee10c9c99@13");
+          "1.3853ee10c9c99@13");
   check4 ("36075288240584711210898775080960.0", GMP_RNDN,
-	  "1.556abe212b56f@13");
+          "1.556abe212b56f@13");
   check4 ("72154663483843080704304789585920.0", GMP_RNDN,
-	  "1.e2d9a51977e6e@13");
+          "1.e2d9a51977e6e@13");
 
   check4 ("78652858805036375191418371571712.0", GMP_RNDZ,
-	  "1.f81fc40f32062@13");
+          "1.f81fc40f32062@13");
   check4 ("38510074998589467860312736661504.0", GMP_RNDZ,
-	  "1.60c012a92fc64@13");
+          "1.60c012a92fc64@13");
   check4 ("35318779685413012908190921129984.0", GMP_RNDZ, "1.51d17526c716@13");
   check4 ("26729022595358440976973142425600.0", GMP_RNDZ, "1.25e19302f7e5@13");
   check4 ("22696567866564242819241453027328.0", GMP_RNDZ,
-	  "1.0ecea7dd2ec3c@13");
+          "1.0ecea7dd2ec3c@13");
   check4 ("22696888073761729132924856434688.0", GMP_RNDZ, "1.0ecf250e8e92@13");
   check4 ("36055652513981905145251657416704.0", GMP_RNDZ,
-	  "1.5552f3eedcf32@13");
+          "1.5552f3eedcf32@13");
   check4 ("30189856268896404997497182748672.0", GMP_RNDZ,
-	  "1.3853ee10c9c98@13");
+          "1.3853ee10c9c98@13");
   check4 ("36075288240584711210898775080960.0", GMP_RNDZ,
-	  "1.556abe212b56e@13");
+          "1.556abe212b56e@13");
   check4 ("72154663483843080704304789585920.0", GMP_RNDZ,
-	  "1.e2d9a51977e6d@13");
+          "1.e2d9a51977e6d@13");
 
   check4 ("78652858805036375191418371571712.0", GMP_RNDU,
-	  "1.f81fc40f32063@13");
+          "1.f81fc40f32063@13");
   check4 ("38510074998589467860312736661504.0", GMP_RNDU,
-	  "1.60c012a92fc65@13");
+          "1.60c012a92fc65@13");
   check4 ("35318779685413012908190921129984.0", GMP_RNDU,
-	  "1.51d17526c7161@13");
+          "1.51d17526c7161@13");
   check4 ("26729022595358440976973142425600.0", GMP_RNDU,
-	  "1.25e19302f7e51@13");
+          "1.25e19302f7e51@13");
   check4 ("22696567866564242819241453027328.0", GMP_RNDU,
-	  "1.0ecea7dd2ec3d@13");
+          "1.0ecea7dd2ec3d@13");
   check4 ("22696888073761729132924856434688.0", GMP_RNDU,
-	  "1.0ecf250e8e921@13");
+          "1.0ecf250e8e921@13");
   check4 ("36055652513981905145251657416704.0", GMP_RNDU,
-	  "1.5552f3eedcf33@13");
+          "1.5552f3eedcf33@13");
   check4 ("30189856268896404997497182748672.0", GMP_RNDU,
-	  "1.3853ee10c9c99@13");
+          "1.3853ee10c9c99@13");
   check4 ("36075288240584711210898775080960.0", GMP_RNDU,
-	  "1.556abe212b56f@13");
+          "1.556abe212b56f@13");
   check4 ("72154663483843080704304789585920.0", GMP_RNDU,
-	  "1.e2d9a51977e6e@13");
+          "1.e2d9a51977e6e@13");
 
   check4 ("78652858805036375191418371571712.0", GMP_RNDD,
-	  "1.f81fc40f32062@13");
+          "1.f81fc40f32062@13");
   check4 ("38510074998589467860312736661504.0", GMP_RNDD,
-	  "1.60c012a92fc64@13");
+          "1.60c012a92fc64@13");
   check4 ("35318779685413012908190921129984.0", GMP_RNDD, "1.51d17526c716@13");
   check4 ("26729022595358440976973142425600.0", GMP_RNDD, "1.25e19302f7e5@13");
   check4 ("22696567866564242819241453027328.0", GMP_RNDD,
-	  "1.0ecea7dd2ec3c@13");
+          "1.0ecea7dd2ec3c@13");
   check4 ("22696888073761729132924856434688.0", GMP_RNDD, "1.0ecf250e8e92@13");
   check4 ("36055652513981905145251657416704.0", GMP_RNDD,
-	  "1.5552f3eedcf32@13");
+          "1.5552f3eedcf32@13");
   check4 ("30189856268896404997497182748672.0", GMP_RNDD,
-	  "1.3853ee10c9c98@13");
+          "1.3853ee10c9c98@13");
   check4 ("36075288240584711210898775080960.0", GMP_RNDD,
-	  "1.556abe212b56e@13");
+          "1.556abe212b56e@13");
   check4 ("72154663483843080704304789585920.0", GMP_RNDD,
-	  "1.e2d9a51977e6d@13");
+          "1.e2d9a51977e6d@13");
 
   tests_end_mpfr ();
   return 0;

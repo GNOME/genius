@@ -16,22 +16,22 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include "mpfr-impl.h"
 
-int 
+int
 mpfr_cmp_d (mpfr_srcptr b, double d)
 {
-  mpfr_t tmp; 
-  int res; 
+  mpfr_t tmp;
+  int res;
 
   mpfr_init2 (tmp, IEEE_DBL_MANT_DIG);
   res = mpfr_set_d (tmp, d, GMP_RNDN);
   MPFR_ASSERTD (res == 0);
-  res = mpfr_cmp (b, tmp); 
-  mpfr_clear (tmp); 
+  res = mpfr_cmp (b, tmp);
+  mpfr_clear (tmp);
 
-  return res; 
+  return res;
 }

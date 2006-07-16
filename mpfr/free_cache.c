@@ -1,6 +1,6 @@
 /* mpfr_free_cache - Free the cache used by MPFR for internal consts.
 
-Copyright 2004 Free Software Foundation, Inc.
+Copyright 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include "mpfr-impl.h"
 
@@ -27,4 +27,5 @@ mpfr_free_cache (void)
   mpfr_clear_cache (__gmpfr_cache_const_pi);
   mpfr_clear_cache (__gmpfr_cache_const_log2);
   mpfr_clear_cache (__gmpfr_cache_const_euler);
+  mpfr_clear_cache (__gmpfr_cache_const_catalan);
 }

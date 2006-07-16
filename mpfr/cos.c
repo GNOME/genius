@@ -1,6 +1,6 @@
 /* mpfr_cos -- cosine of a floating-point number
 
-Copyright 2001, 2002, 2003, 2004 Free Software Foundation.
+Copyright 2001, 2002, 2003, 2004, 2005 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -16,98 +16,11 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
-#include <stdio.h>
+#define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
-
-static int mpfr_cos2_aux       _MPFR_PROTO ((mpfr_ptr, mpfr_srcptr));
- 
-int
-mpfr_cos (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode)
-{
-  int K0, K, precy, m, k, l;
-  int inexact;
-  mpfr_t r, s;
-  mp_limb_t *rp, *sp;
-  mp_size_t sm;
-  mp_exp_t exps, cancel = 0;
-  TMP_DECL (marker);
-
-  if (MPFR_UNLIKELY(MPFR_IS_SINGULAR(x)))
-    {
-      if (MPFR_IS_NAN(x) || MPFR_IS_INF(x))
-	{
-	  MPFR_SET_NAN(y);
-	  MPFR_RET_NAN;
-	}
-      else
-        {
-          MPFR_ASSERTD(MPFR_IS_ZERO(x));
-	  return mpfr_set_ui (y, 1, GMP_RNDN);
-        }
-    }
-
-  mpfr_save_emin_emax ();
-
-  precy = MPFR_PREC(y);
-  K0 = __gmpfr_isqrt(precy / 2); /* Need K + log2(precy/K) extra bits */
-  m = precy + 3 * (K0 + 2 * MAX(MPFR_GET_EXP (x), 0)) + 3;
-
-  TMP_MARK(marker);
-  sm = (m + BITS_PER_MP_LIMB - 1) / BITS_PER_MP_LIMB;
-  MPFR_TMP_INIT(rp, r, m, sm);
-  MPFR_TMP_INIT(sp, s, m, sm);
-
-  for (;;)
-    {
-      mpfr_mul (r, x, x, GMP_RNDU); /* err <= 1 ulp */
-
-      /* we need that |r| < 1 for mpfr_cos2_aux, i.e. up(x^2)/2^(2K) < 1 */
-      K = K0 + MAX (MPFR_GET_EXP (r), 0);
-
-      mpfr_div_2ui (r, r, 2 * K, GMP_RNDN); /* r = (x/2^K)^2, err <= 1 ulp */
-
-      /* s <- 1 - r/2! + ... + (-1)^l r^l/(2l)! */
-      l = mpfr_cos2_aux (s, r);
-
-      MPFR_SET_ONE (r);
-      for (k = 0; k < K; k++)
-	{
-	  mpfr_mul (s, s, s, GMP_RNDU);       /* err <= 2*olderr */
-	  mpfr_mul_2ui (s, s, 1, GMP_RNDU);   /* err <= 4*olderr */
-	  mpfr_sub (s, s, r, GMP_RNDN);
-	}
-
-      /* absolute error on s is bounded by (2l+1/3)*2^(2K-m) */
-      for (k = 2 * K, l = 2 * l + 1; l > 1; l = (l + 1) >> 1)
-	k++;
-      /* now the error is bounded by 2^(k-m) = 2^(EXP(s)-err) */
-
-      exps = MPFR_GET_EXP(s);
-      if (MPFR_LIKELY(mpfr_can_round (s, exps + m - k, GMP_RNDN, GMP_RNDZ,
-				      precy + (rnd_mode == GMP_RNDN))))
-	break;
-
-      m += BITS_PER_MP_LIMB;
-      if (exps < cancel)
-        {
-          m += cancel - exps;
-          cancel = exps;
-        }
-      sm = (m + BITS_PER_MP_LIMB - 1) / BITS_PER_MP_LIMB;
-      MPFR_TMP_INIT(rp, r, m, sm);
-      MPFR_TMP_INIT(sp, s, m, sm);
-    }
-
-  mpfr_restore_emin_emax ();
-  inexact = mpfr_set (y, s, rnd_mode); /* FIXME: Dont' need check range? */
-
-  TMP_FREE(marker);
-  
-  return inexact;
-}
 
 /* s <- 1 - r/2! + r^2/4! + ... + (-1)^l r^l/(2l)! + ...
    Assumes |r| < 1.
@@ -118,34 +31,153 @@ static int
 mpfr_cos2_aux (mpfr_ptr s, mpfr_srcptr r)
 {
   unsigned int l, b = 2;
-  long int prec, m = MPFR_PREC(s);
+  mp_exp_t prec, m = MPFR_PREC (s);
   mpfr_t t;
 
   MPFR_ASSERTD (MPFR_GET_EXP (r) <= 0);
 
   mpfr_init2 (t, m);
-  MPFR_SET_ONE (t);
-  mpfr_set (s, t, GMP_RNDN);
 
-  for (l = 1; MPFR_GET_EXP (t) + m >= 0; l++)
+  /* First step for l==1 can be simplified,
+     futhermore multiply by 1 is not efficient since it is an exact
+     multiplication (mulhigh failed and we must do a complete mul) */
+  mpfr_div_2ui (t, r, 1, GMP_RNDN); /* exact */
+  mpfr_sub (s, __gmpfr_one, t, GMP_RNDD);
+  MPFR_ASSERTD (MPFR_GET_EXP (s) == 0);        /* check 1/2 <= s < 1 */
+
+  for (l = 2; MPFR_GET_EXP (t) + m >= 0; l++)
     {
       mpfr_mul (t, t, r, GMP_RNDU);                /* err <= (3l-1) ulp */
-      mpfr_div_ui (t, t, (2*l-1)*(2*l), GMP_RNDU); /* err <= 3l ulp */
+      mpfr_div_ui (t, t, (unsigned long) (2*l-1)*(2*l), GMP_RNDU);
+                                                   /* err <= 3l ulp */
+      MPFR_ASSERTD (MPFR_IS_POS (t));
+      MPFR_ASSERTD (MPFR_IS_POS (s));
       if (l % 2 == 0)
-	mpfr_add (s, s, t, GMP_RNDD);
+        mpfr_add (s, s, t, GMP_RNDD);
       else
-	mpfr_sub (s, s, t, GMP_RNDD);
+        mpfr_sub (s, s, t, GMP_RNDD);
       MPFR_ASSERTD (MPFR_GET_EXP (s) == 0);        /* check 1/2 <= s < 1 */
       /* err(s) <= l * 2^(-m) */
-      if (MPFR_UNLIKELY(3 * l > (1U << b)))
-	b++;
+      if (MPFR_UNLIKELY (3 * l > (1U << b)))
+        b++;
       /* now 3l <= 2^b, we want 3l*ulp(t) <= 2^(-m)
-	 i.e. b+EXP(t)-PREC(t) <= -m */
+         i.e. b+EXP(t)-PREC(t) <= -m */
       prec = m + MPFR_GET_EXP (t) + b;
-      if (MPFR_LIKELY(prec >= MPFR_PREC_MIN))
-	mpfr_prec_round (t, prec, GMP_RNDN);
+      if (MPFR_LIKELY (prec >= MPFR_PREC_MIN))
+        mpfr_prec_round (t, prec, GMP_RNDN);
     }
   mpfr_clear (t);
 
   return l;
 }
+
+int
+mpfr_cos (mpfr_ptr y, mpfr_srcptr x, mp_rnd_t rnd_mode)
+{
+  mp_prec_t K0, K, precy, m, k, l;
+  int inexact;
+  mpfr_t r, s;
+  mp_exp_t exps, cancel = 0;
+  MPFR_ZIV_DECL (loop);
+  MPFR_SAVE_EXPO_DECL (expo);
+  MPFR_GROUP_DECL (group);
+
+  MPFR_LOG_FUNC (("x[%#R]=%R rnd=%d", x, x, rnd_mode),
+                 ("y[%#R]=%R inexact=%d", y, y, inexact));
+
+  if (MPFR_UNLIKELY (MPFR_IS_SINGULAR (x)))
+    {
+      if (MPFR_IS_NAN (x) || MPFR_IS_INF (x))
+        {
+          MPFR_SET_NAN (y);
+          MPFR_RET_NAN;
+        }
+      else
+        {
+          MPFR_ASSERTD (MPFR_IS_ZERO (x));
+          return mpfr_set_ui (y, 1, GMP_RNDN);
+        }
+    }
+
+  MPFR_SAVE_EXPO_MARK (expo);
+
+  /* cos(x) = 1-x^2/2 + ..., so error < 2^(2*EXP(x)-1) */
+  MPFR_FAST_COMPUTE_IF_SMALL_INPUT (y, __gmpfr_one, 0-2*MPFR_GET_EXP (x)+1,0,
+                                    rnd_mode, inexact = _inexact; goto end);
+
+  /* Compute initial precision */
+  precy = MPFR_PREC (y);
+  /* We can choose everything we want for K0.
+     This formula has been created by trying many things...
+     and is far from perfect */
+  K0 = (MPFR_GET_EXP (x) > 0) ? (MPFR_GET_EXP (x)) : 0 ;
+  K0 = __gmpfr_isqrt (precy / (2+2*K0+MPFR_INT_CEIL_LOG2 (precy)/4) );
+  m = precy + 3*K0 + 4;
+  if (MPFR_GET_EXP (x) >= 0)
+    m += 5*MPFR_GET_EXP (x);
+  else
+    m += -MPFR_GET_EXP (x);
+
+  MPFR_GROUP_INIT_2 (group, m, r, s);
+  MPFR_ZIV_INIT (loop, m);
+  for (;;)
+    {
+      mpfr_mul (r, x, x, GMP_RNDU); /* err <= 1 ulp */
+
+      /* we need that |r| < 1 for mpfr_cos2_aux, i.e. up(x^2)/2^(2K) < 1 */
+      K = K0 + MAX (MPFR_GET_EXP (r), 0);
+
+      /*mpfr_div_2ui (r, r, 2 * K, GMP_RNDN); r = (x/2^K)^2, err <= 1 ulp */
+      MPFR_SET_EXP (r, MPFR_GET_EXP (r)-2*K); /* Can't overflow! */
+
+      /* s <- 1 - r/2! + ... + (-1)^l r^l/(2l)! */
+      l = mpfr_cos2_aux (s, r);
+      MPFR_SET_ONE (r);
+      for (k = 0; k < K; k++)
+        {
+          mpfr_mul (s, s, s, GMP_RNDU);       /* err <= 2*olderr */
+          MPFR_SET_EXP (s, MPFR_GET_EXP (s)+1); /* Can't overflow */
+          mpfr_sub (s, s, r, GMP_RNDN);       /* err <= 4*olderr */
+          MPFR_ASSERTD (MPFR_GET_EXP (s) <= 1);
+        }
+
+      /* absolute error on s is bounded by (2l+1/3)*2^(2K-m)
+         2l+1/3 <= 2l+1 */
+      k = MPFR_INT_CEIL_LOG2 (2*l+1) + 2*K;
+      /* now the error is bounded by 2^(k-m) = 2^(EXP(s)-err) */
+
+      exps = MPFR_GET_EXP (s);
+      if (MPFR_LIKELY (MPFR_CAN_ROUND (s, exps + m - k, precy, rnd_mode)))
+        break;
+
+      if (MPFR_UNLIKELY (exps == 1))
+        /* s = 1 or -1, and except x=0 which was
+           already checked above, cos(x) cannot
+           be 1 or -1, so we can round */
+        {
+          if (exps + m - k > precy
+              /* if round to nearest or away, result is s,
+                 otherwise it is round(nexttoward (s, 0)) */
+              && MPFR_IS_LIKE_RNDZ (rnd_mode, MPFR_IS_NEG (s)))
+            mpfr_nexttozero (s);
+          break;
+        }
+
+      if (exps < cancel)
+        {
+          m += cancel - exps;
+          cancel = exps;
+        }
+
+      MPFR_ZIV_NEXT (loop, m);
+      MPFR_GROUP_REPREC_2 (group, m, r, s);
+    }
+  MPFR_ZIV_FREE (loop);
+  inexact = mpfr_set (y, s, rnd_mode);
+  MPFR_GROUP_CLEAR (group);
+
+ end:
+  MPFR_SAVE_EXPO_FREE (expo);
+  MPFR_RET (mpfr_check_range (y, inexact, rnd_mode));
+}
+

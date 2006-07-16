@@ -91,9 +91,9 @@ if test "x$enable_internal_mpfr" = "xyes" ; then
 	AM_CONDITIONAL(INTERNAL_MPFR, true)
 else
 	GOT_MPFR="no"
-	AC_CHECK_LIB(mpfr, mpfr_cmp_d, [GOT_MPFR="yes"], [GOT_MPFR="no"], "$GMP_LIB")
+	AC_CHECK_LIB(mpfr, mpfr_pow_z, [GOT_MPFR="yes"], [GOT_MPFR="no"], "$GMP_LIB")
 	if test "x$enable_internal_mpfr" = "xno" -a "x$GOT_MPFR" = "xno" ; then
-		AC_MSG_ERROR(Internal MPFR not requested but I can't find a new enough external MPFR)
+		AC_MSG_ERROR(Internal MPFR not requested but I can't find a new enough (2.2.0+) external MPFR)
 	fi
 	
 	if test "x$GOT_MPFR" = "xno" ; then

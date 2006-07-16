@@ -1,6 +1,6 @@
 /* mpfr_const_euler -- Euler's constant
 
-Copyright 2001, 2002, 2004 Free Software Foundation.
+Copyright 2001, 2002, 2003, 2004, 2005 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -16,49 +16,74 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
-
-#include <stdlib.h>
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
 
-static void mpfr_const_euler_S _MPFR_PROTO ((mpfr_ptr, unsigned long));
-static void mpfr_const_euler_R _MPFR_PROTO ((mpfr_ptr, unsigned long));
+/* Declare the cache */
+MPFR_DECL_INIT_CACHE(__gmpfr_cache_const_euler, mpfr_const_euler_internal);
+
+/* Set User Interface */
+#undef mpfr_const_euler
+int
+mpfr_const_euler (mpfr_ptr x, mp_rnd_t rnd_mode) {
+  return mpfr_cache (x, __gmpfr_cache_const_euler, rnd_mode);
+}
+
+
+static void mpfr_const_euler_S2 (mpfr_ptr, unsigned long);
+static void mpfr_const_euler_R (mpfr_ptr, unsigned long);
 
 int
-(mpfr_const_euler) (mpfr_t x, mp_rnd_t rnd)
+mpfr_const_euler_internal (mpfr_t x, mp_rnd_t rnd)
 {
   mp_prec_t prec = MPFR_PREC(x), m, log2m;
   mpfr_t y, z;
   unsigned long n;
   int inexact;
+  MPFR_ZIV_DECL (loop);
 
-  log2m = __gmpfr_ceil_log2 ((double) prec);
-  m = prec + log2m;
+  log2m = MPFR_INT_CEIL_LOG2 (prec);
+  m = prec + 2 * log2m + 23;
 
-  mpfr_init (y);
-  mpfr_init (z);
+  mpfr_init2 (y, m);
+  mpfr_init2 (z, m);
 
-  do
+  MPFR_ZIV_INIT (loop, m);
+  for (;;)
     {
-      m += 23;
+      mp_exp_t exp_S, err;
       /* since prec >= 1, we have m >= 24 here, which ensures n >= 9 below */
       n = 1 + (unsigned long) ((double) m * LOG2 / 2.0);
       MPFR_ASSERTD (n >= 9);
-      mpfr_set_prec (y, m + log2m);
-      mpfr_set_prec (z, m + log2m);
-      mpfr_const_euler_S (y, n);
+      mpfr_const_euler_S2 (y, n); /* error <= 3 ulps */
+      exp_S = MPFR_EXP(y);
       mpfr_set_ui (z, n, GMP_RNDN);
-      mpfr_log (z, z, GMP_RNDD);
+      mpfr_log (z, z, GMP_RNDD); /* error <= 1 ulp */
       mpfr_sub (y, y, z, GMP_RNDN); /* S'(n) - log(n) */
-      mpfr_set_prec (z, m);
-      mpfr_const_euler_R (z, n);
+      /* the error is less than 1/2 + 3*2^(exp_S-EXP(y)) + 2^(EXP(z)-EXP(y))
+         <= 1/2 + 2^(exp_S+2-EXP(y)) + 2^(EXP(z)-EXP(y))
+         <= 1/2 + 2^(1+MAX(exp_S+2,EXP(z))-EXP(y)) */
+      err = 1 + MAX(exp_S + 2, MPFR_EXP(z)) - MPFR_EXP(y);
+      err = (err >= -1) ? err + 1 : 0; /* error <= 2^err ulp(y) */
+      exp_S = MPFR_EXP(y);
+      mpfr_const_euler_R (z, n); /* err <= ulp(1/2) = 2^(-m) */
       mpfr_sub (y, y, z, GMP_RNDN);
+      /* err <= 1/2 ulp(y) + 2^(-m) + 2^(err + exp_S - EXP(y)) ulp(y).
+         Since the result is between 0.5 and 1, ulp(y) = 2^(-m).
+         So we get 3/2*ulp(y) + 2^(err + exp_S - EXP(y)) ulp(y).
+         3/2 + 2^e <= 2^(e+1) for e>=1, and <= 2^2 otherwise */
+      err = err + exp_S - MPFR_EXP(y);
+      err = (err >= 1) ? err + 1 : 2;
+      if (MPFR_LIKELY (MPFR_CAN_ROUND (y, m - err, prec, rnd)))
+        break;
+      MPFR_ZIV_NEXT (loop, m);
+      mpfr_set_prec (y, m);
+      mpfr_set_prec (z, m);
     }
-  while (!mpfr_can_round (y, m - 3, GMP_RNDN, GMP_RNDZ,
-                          prec + (rnd == GMP_RNDN)));
+  MPFR_ZIV_FREE (loop);
 
   inexact = mpfr_set (x, y, rnd);
 
@@ -68,47 +93,77 @@ int
   return inexact; /* always inexact */
 }
 
-/* computes S(n) = sum(n^k*(-1)^(k-1)/k!/k, k=1..ceil(4.319136566 * n))
-   with an error of at most ulp(x).
-   [S(n) >= 2 for n >= 5]
- */
 static void
-mpfr_const_euler_S (mpfr_t x, unsigned long n)
+mpfr_const_euler_S2_aux (mpz_t P, mpz_t Q, mpz_t T, unsigned long n,
+                         unsigned long a, unsigned long b, int need_P)
 {
-  unsigned long N, k, m;
-  mpz_t a, s, t;
-
-  N = (long) (ALPHA * (double) n + 1.0); /* ceil(alpha * n) */
-
-  m = MPFR_PREC(x) + (unsigned long) ((double) n / LOG2)
-    + __gmpfr_ceil_log2 ((double) N) + 1;
-
-  mpz_init_set_ui (a, 1);
-  mpz_mul_2exp (a, a, m); /* a=-2^m where m is the precision of x */
-  mpz_init_set_ui (s, 0);
-  mpz_init (t);
-
-  /* here, a and s are exact */
-  for (k = 1; k <= N; k++)
+  if (a + 1 == b)
     {
-      mpz_mul_ui (a, a, n);
-      mpz_div_ui (a, a, k);
-      mpz_div_ui (t, a, k);
-      if (k % 2)
-	mpz_add (s, s, t);
-      else
-	mpz_sub (s, s, t);
+      mpz_set_ui (P, n);
+      if (a > 1)
+        mpz_mul_si (P, P, 1 - (long) a);
+      mpz_set (T, P);
+      mpz_set_ui (Q, a);
+      mpz_mul_ui (Q, Q, a);
     }
+  else
+    {
+      unsigned long c = (a + b) / 2;
+      mpz_t P2, Q2, T2;
+      mpfr_const_euler_S2_aux (P, Q, T, n, a, c, 1);
+      mpz_init (P2);
+      mpz_init (Q2);
+      mpz_init (T2);
+      mpfr_const_euler_S2_aux (P2, Q2, T2, n, c, b, 1);
+      mpz_mul (T, T, Q2);
+      mpz_mul (T2, T2, P);
+      mpz_add (T, T, T2);
+      if (need_P)
+        mpz_mul (P, P, P2);
+      mpz_mul (Q, Q, Q2);
+      mpz_clear (P2);
+      mpz_clear (Q2);
+      mpz_clear (T2);
+      /* divide by 2 if possible */
+      {
+        unsigned long v2;
+        v2 = mpz_scan1 (P, 0);
+        c = mpz_scan1 (Q, 0);
+        if (c < v2)
+          v2 = c;
+        c = mpz_scan1 (T, 0);
+        if (c < v2)
+          v2 = c;
+        if (v2)
+          {
+            mpz_tdiv_q_2exp (P, P, v2);
+            mpz_tdiv_q_2exp (Q, Q, v2);
+            mpz_tdiv_q_2exp (T, T, v2);
+          }
+      }
+    }
+}
 
-  /* the error on s is at most N (e^n + 1),
-     thus that the error on x is at most one ulp */
-
-  mpfr_set_z (x, s, GMP_RNDD);
-  mpfr_div_2ui (x, x, m, GMP_RNDD);
-
-  mpz_clear (a);
-  mpz_clear (s);
-  mpz_clear (t);
+/* computes S(n) = sum(n^k*(-1)^(k-1)/k!/k, k=1..ceil(4.319136566 * n))
+   using binary splitting.
+   We have S(n) = sum(f(k), k=1..N) with N=ceil(4.319136566 * n)
+   and f(k) = n^k*(-1)*(k-1)/k!/k,
+   thus f(k)/f(k-1) = -n*(k-1)/k^2
+*/
+static void
+mpfr_const_euler_S2 (mpfr_t x, unsigned long n)
+{
+  mpz_t P, Q, T;
+  unsigned long N = (unsigned long) (ALPHA * (double) n + 1.0);
+  mpz_init (P);
+  mpz_init (Q);
+  mpz_init (T);
+  mpfr_const_euler_S2_aux (P, Q, T, n, 1, N + 1, 0);
+  mpfr_set_z (x, T, GMP_RNDN);
+  mpfr_div_z (x, x, Q, GMP_RNDN);
+  mpz_clear (P);
+  mpz_clear (Q);
+  mpz_clear (T);
 }
 
 /* computes R(n) = exp(-n)/n * sum(k!/(-n)^k, k=0..n-2)
@@ -136,11 +191,11 @@ mpfr_const_euler_R (mpfr_t x, unsigned long n)
       mpz_mul_ui (a, a, k);
       mpz_div_ui (a, a, n);
       /* the error e(k) on a is e(k) <= 1 + k/n*e(k-1) with e(0)=0,
-	 i.e. e(k) <= k */
+         i.e. e(k) <= k */
       if (k % 2)
-	mpz_sub (s, s, a);
+        mpz_sub (s, s, a);
       else
-	mpz_add (s, s, a);
+        mpz_add (s, s, a);
     }
   /* the error on s is at most 1+2+...+n = n*(n+1)/2 */
   mpz_div_ui (s, s, n); /* err <= 1 + (n+1)/2 */
@@ -151,7 +206,7 @@ mpfr_const_euler_R (mpfr_t x, unsigned long n)
   /* err(x) <= (n+1)/2^m <= (n+1)*exp(n)/2^PREC(x) */
 
   mpfr_init2 (y, m);
-  mpfr_set_si (y, -n, GMP_RNDD); /* assumed exact */
+  mpfr_set_si (y, -(long)n, GMP_RNDD); /* assumed exact */
   mpfr_exp (y, y, GMP_RNDD); /* err <= ulp(y) <= exp(-n)*2^(1-m) */
   mpfr_mul (x, x, y, GMP_RNDD);
   /* err <= ulp(x) + (n + 1 + 2/n) / 2^prec(x)

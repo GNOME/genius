@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -78,7 +78,7 @@ main (void)
       exit (1);
     }
   /* Case x=0+ and x=0- */
-  mpfr_set_ui (x, 0, GMP_RNDN); 
+  mpfr_set_ui (x, 0, GMP_RNDN);
   mpfr_set_ui (y, 0, GMP_RNDN); MPFR_SET_NEG(y);
   mpfr_max (z, x, y, GMP_RNDN);
   if (!MPFR_IS_ZERO(z) || MPFR_IS_NEG(z))

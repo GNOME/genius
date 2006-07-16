@@ -1,6 +1,6 @@
 /* Test file for mpfr_erf.
 
-Copyright 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 Contributed by Ludovic Meunier and Paul Zimmermann.
 
 This file is part of the MPFR Library.
@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <math.h>
 #include <stdio.h>
@@ -27,10 +27,15 @@ MA 02111-1307, USA. */
 #include "mpfr-test.h"
 
 #define TEST_FUNCTION mpfr_erf
+#define test_generic test_generic_erf
+#include "tgeneric.c"
+
+#define TEST_FUNCTION mpfr_erfc
+#define test_generic test_generic_erfc
 #include "tgeneric.c"
 
 static void
-special (void)
+special_erf (void)
 {
   mpfr_t x, y;
   int inex;
@@ -320,10 +325,59 @@ special (void)
       printf ("Error: erf for prec=43,64 (13)\n");
       exit (1);
     }
-  
+
 
   mpfr_clear (x);
   mpfr_clear (y);
+}
+
+static void
+special_erfc (void)
+{
+  mpfr_t x, y;
+
+  mpfr_inits (x, y, NULL);
+
+  /* erfc (NaN) = NaN */
+  mpfr_set_nan (x);
+  mpfr_erfc (y, x, GMP_RNDN);
+  if (!mpfr_nan_p (y))
+    {
+      printf ("mpfr_erfc failed for x=NaN\n");
+      exit (1);
+    }
+  /* erfc(+Inf) = 0+ */
+  mpfr_set_inf (x, 1);
+  mpfr_erfc (y, x, GMP_RNDN);
+  if (!MPFR_IS_ZERO (y) || !MPFR_IS_POS (y))
+    {
+      printf ("mpfr_erf failed for x=+Inf\n");
+      printf ("expected 0+, got ");
+      mpfr_dump (y);
+      exit (1);
+    }
+  /* erfc(-Inf) = 2 */
+  mpfr_set_inf (x, -1);
+  mpfr_erfc (y, x, GMP_RNDN);
+  if (mpfr_cmp_ui (y, 2))
+    {
+      printf ("mpfr_erf failed for x=-Inf\n");
+      printf ("expected 2, got ");
+      mpfr_dump (y);
+      exit (1);
+    }
+  /* erf(+0) = 1 */
+  mpfr_set_ui (x, 0, GMP_RNDN);
+  mpfr_erfc (y, x, GMP_RNDN);
+  if (mpfr_cmp_ui (y, 1))
+    {
+      printf ("mpfr_erf failed for x=+0\n");
+      printf ("expected 1, got ");
+      mpfr_dump (y);
+      exit (1);
+    }
+
+  mpfr_clears (x, y, NULL);
 }
 
 int
@@ -331,9 +385,11 @@ main (int argc, char *argv[])
 {
   tests_start_mpfr ();
 
-  special ();
+  special_erf ();
+  special_erfc ();
 
-  test_generic (2, 100, 10);
+  test_generic_erf (2, 100, 15);
+  test_generic_erfc (2, 100, 15);
 
   tests_end_mpfr ();
   return 0;

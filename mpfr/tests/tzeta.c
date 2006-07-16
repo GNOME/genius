@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -115,7 +115,7 @@ static const char *const val[] = {
   "-2.0", "0.0",
   "-1.0", "-0.000101010101010101010101010101010101010101010101010101010101010",
   "-0.9", "-0.000110011110011111010001010001100010111101001010100110001110110",
-  /*  "-0.8", "-0.000111110011101010001011100011010010000001010011110100010001110", 
+  /*  "-0.8", "-0.000111110011101010001011100011010010000001010011110100010001110",
   "-0.7", "-0.00100101011011111100110011110011111010111111000110110100010110",
   "-0.6", "-0.00101100101100100100110111111000110010111010110010111000001100",
   "-0.5", "-0.00110101001110000000100000011001100100010000111100010001111100",
@@ -169,20 +169,20 @@ test2(void)
       mpfr_set_str1 (x, val[i]);
       mpfr_zeta(y, x, GMP_RNDZ);
       if (mpfr_cmp_str (y, val[i+1] , 2, GMP_RNDZ))
-	{
-	  printf("Wrong result for zeta(%s=", val[i]);
+        {
+          printf("Wrong result for zeta(%s=", val[i]);
           mpfr_print_binary (x);
           printf (").\nGot     : ");
-	  mpfr_print_binary(y); putchar('\n');
-	  printf("Expected: ");
-	  mpfr_set_str (y, val[i+1], 2, GMP_RNDZ);
-	  mpfr_print_binary(y); putchar('\n');
+          mpfr_print_binary(y); putchar('\n');
+          printf("Expected: ");
+          mpfr_set_str (y, val[i+1], 2, GMP_RNDZ);
+          mpfr_print_binary(y); putchar('\n');
           mpfr_set_prec(y, 65);
-	  mpfr_zeta(y, x, GMP_RNDZ);
-	  printf("+ Prec  : ");
-	  mpfr_print_binary(y); putchar('\n');
+          mpfr_zeta(y, x, GMP_RNDZ);
+          printf("+ Prec  : ");
+          mpfr_print_binary(y); putchar('\n');
           exit(1);
-	}
+        }
     }
   mpfr_clears(x, y, NULL);
 }
@@ -274,7 +274,7 @@ main (int argc, char *argv[])
       exit (1);
     }
   mpfr_zeta (z, s, GMP_RNDD);
-  mpfr_add_one_ulp (y, GMP_RNDD);
+  mpfr_nexttoinf (y);
   if (mpfr_cmp (z, y) != 0)
     {
       printf ("Error in mpfr_zeta (1,RNDD)\n");
@@ -302,7 +302,7 @@ main (int argc, char *argv[])
       exit (1);
     }
   mpfr_zeta (z, s, GMP_RNDD);
-  mpfr_add_one_ulp (y, GMP_RNDD);
+  mpfr_nexttoinf (y);
   if (mpfr_cmp (z, y) != 0)
     {
       printf ("Error in mpfr_zeta (2,RNDD)\n");
@@ -323,7 +323,7 @@ main (int argc, char *argv[])
       printf ("Error in mpfr_zeta (3,RNDD)\n");
       exit (1);
     }
-  mpfr_sub_one_ulp (y, GMP_RNDZ);
+  mpfr_nexttozero (y);
   mpfr_zeta (z, s, GMP_RNDZ);
   if (mpfr_cmp (z, y) != 0)
     {

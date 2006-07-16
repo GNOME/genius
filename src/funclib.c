@@ -1100,7 +1100,33 @@ atan_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	return gel_makenum_use(fr);
 }
-	
+
+/*atan2 (arctan2) function*/
+static GelETree *
+atan2_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	mpw_t fr;
+
+	if(a[0]->type==MATRIX_NODE ||
+	   a[1]->type==MATRIX_NODE)
+		return gel_apply_func_to_matrixen(ctx,a[0],a[1],atan2_op,"atan2", exception);
+
+	if G_UNLIKELY ( ! check_argument_number (a, 0, "atan2") ||
+			! check_argument_number (a, 1, "atan2"))
+		return NULL;
+
+	mpw_init (fr);
+	mpw_arctan2 (fr,
+		     a[0]->val.value,
+		     a[1]->val.value);
+	if G_UNLIKELY (error_num) {
+		error_num = 0;
+		mpw_clear (fr);
+		return NULL;
+	}
+
+	return gel_makenum_use (fr);
+}
 
 /*e function (or e variable actually)*/
 static GelETree *
@@ -1133,6 +1159,16 @@ EulerConstant_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	mpw_t e;
 	mpw_init (e);
 	mpw_euler_constant (e);
+	return gel_makenum_use (e);
+}
+
+/* CatalanConstant */
+static GelETree *
+CatalanConstant_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	mpw_t e;
+	mpw_init (e);
+	mpw_catalan_constant (e);
 	return gel_makenum_use (e);
 }
 
@@ -4988,6 +5024,9 @@ gel_funclib_addall(void)
 	atan_function = f;
 	ALIAS (arctan, 1, atan);
 
+	FUNC (atan2, 2, "y,x", "trigonometry", N_("Calculates the arctan2 function (arctan(y/x) if x>0)"));
+	ALIAS (arctan2, 1, atan2);
+
 	FUNC (pi, 0, "", "constants", N_("The number pi"));
 	pi_function = f;
 	FUNC (e, 0, "", "constants", N_("The natural number e"));
@@ -5000,6 +5039,8 @@ gel_funclib_addall(void)
 	      N_("Euler's Constant gamma"));
 	ALIAS (gamma, 0, EulerConstant);
 	EulerConstant_function = f;
+	FUNC (CatalanConstant, 0, "", "constants",
+	      N_("Catalan's Constant (0.915...)"));
 
 	/* FIXME: need to handle complex values */
 	/*

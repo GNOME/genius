@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -69,7 +69,7 @@ check_nans (void)
   MPFR_ASSERTN(mpfr_cmp (x, y) == 0);
 
   /* Compute ~Pi/2 to check overflow */
-  /* TOO SLOW! Disable this test. 
+  /* TOO SLOW! Disable this test.
   mpfr_set_prec (x, 20000);
   mpfr_const_pi (x, GMP_RNDD); mpfr_div_2ui (x, x, 1, GMP_RNDN);
   mpfr_set_prec (y, 24);

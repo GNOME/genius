@@ -1,6 +1,6 @@
 /* Exception flags and utilities.
 
-Copyright 2001, 2002, 2003, 2004 Free Software Foundation.
+Copyright 2001, 2002, 2003, 2004, 2005 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -16,15 +16,15 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include "mpfr-impl.h"
 
-unsigned int __gmpfr_flags = 0;
+unsigned int MPFR_THREAD_ATTR __gmpfr_flags = 0;
 
-mp_exp_t __gmpfr_emin = MPFR_EMIN_DEFAULT;
-mp_exp_t __gmpfr_emax = MPFR_EMAX_DEFAULT;
+mp_exp_t MPFR_THREAD_ATTR __gmpfr_emin = MPFR_EMIN_DEFAULT;
+mp_exp_t MPFR_THREAD_ATTR __gmpfr_emax = MPFR_EMAX_DEFAULT;
 
 #undef mpfr_get_emin
 
@@ -50,13 +50,13 @@ mpfr_set_emin (mp_exp_t exponent)
     }
 }
 
-mp_exp_t 
+mp_exp_t
 mpfr_get_emin_min (void)
 {
   return MPFR_EMIN_MIN;
 }
 
-mp_exp_t 
+mp_exp_t
 mpfr_get_emin_max (void)
 {
   return MPFR_EMIN_MAX;
@@ -146,6 +146,47 @@ mpfr_clear_erangeflag (void)
   __gmpfr_flags &= MPFR_FLAGS_ALL ^ MPFR_FLAGS_ERANGE;
 }
 
+#undef mpfr_clear_underflow
+
+void
+mpfr_set_underflow (void)
+{
+  __gmpfr_flags |= MPFR_FLAGS_UNDERFLOW;
+}
+
+#undef mpfr_clear_overflow
+
+void
+mpfr_set_overflow (void)
+{
+  __gmpfr_flags |= MPFR_FLAGS_OVERFLOW;
+}
+
+#undef mpfr_clear_nanflag
+
+void
+mpfr_set_nanflag (void)
+{
+  __gmpfr_flags |= MPFR_FLAGS_NAN;
+}
+
+#undef mpfr_clear_inexflag
+
+void
+mpfr_set_inexflag (void)
+{
+  __gmpfr_flags |= MPFR_FLAGS_INEXACT;
+}
+
+#undef mpfr_clear_erangeflag
+
+void
+mpfr_set_erangeflag (void)
+{
+  __gmpfr_flags |= MPFR_FLAGS_ERANGE;
+}
+
+
 #undef mpfr_check_range
 
 int
@@ -157,7 +198,7 @@ mpfr_check_range (mpfr_ptr x, int t, mp_rnd_t rnd_mode)
       if (MPFR_UNLIKELY( exp < __gmpfr_emin) )
         {
           /* The following test is necessary because in the rounding to the
-           * nearest mode, mpfr_set_underflow always rounds away from 0. In
+           * nearest mode, mpfr_underflow always rounds away from 0. In
            * this rounding mode, we need to round to 0 if:
            *   _ |x| < 2^(emin-2), or
            *   _ |x| = 2^(emin-2) and the absolute value of the exact
@@ -168,10 +209,10 @@ mpfr_check_range (mpfr_ptr x, int t, mp_rnd_t rnd_mode)
                (mpfr_powerof2_raw(x) &&
                 (MPFR_IS_NEG(x) ? t <= 0 : t >= 0))))
             rnd_mode = GMP_RNDZ;
-          return mpfr_set_underflow(x, rnd_mode, MPFR_SIGN(x));
+          return mpfr_underflow(x, rnd_mode, MPFR_SIGN(x));
         }
       if (MPFR_UNLIKELY( exp > __gmpfr_emax) )
-        return mpfr_set_overflow(x, rnd_mode, MPFR_SIGN(x));
+        return mpfr_overflow(x, rnd_mode, MPFR_SIGN(x));
     }
   return t;  /* propagate inexact ternary value, unlike most functions */
 }
@@ -216,22 +257,22 @@ mpfr_erangeflag_p (void)
   return __gmpfr_flags & MPFR_FLAGS_ERANGE;
 }
 
-/* #undef mpfr_set_underflow */
+/* #undef mpfr_underflow */
 
-/* Note: In the rounding to the nearest mode, mpfr_set_underflow
+/* Note: In the rounding to the nearest mode, mpfr_underflow
    always rounds away from 0. In this rounding mode, you must call
-   mpfr_set_underflow with rnd_mode = GMP_RNDZ if the exact result
+   mpfr_underflow with rnd_mode = GMP_RNDZ if the exact result
    is <= 2^(emin-2) in absolute value. */
 
 int
-mpfr_set_underflow (mpfr_ptr x, mp_rnd_t rnd_mode, int sign)
+mpfr_underflow (mpfr_ptr x, mp_rnd_t rnd_mode, int sign)
 {
   int inex;
 
-  MPFR_ASSERT_SIGN(sign);
-  MPFR_CLEAR_FLAGS(x);
+  MPFR_ASSERT_SIGN (sign);
+
   if (rnd_mode == GMP_RNDN
-      || MPFR_IS_RNDUTEST_OR_RNDDNOTTEST(rnd_mode, sign > 0))
+      || MPFR_IS_RNDUTEST_OR_RNDDNOTTEST(rnd_mode, MPFR_IS_POS_SIGN (sign)))
     {
       mpfr_setmin (x, __gmpfr_emin);
       inex = 1;
@@ -246,10 +287,10 @@ mpfr_set_underflow (mpfr_ptr x, mp_rnd_t rnd_mode, int sign)
   return sign > 0 ? inex : -inex;
 }
 
-/* #undef mpfr_set_overflow */
+/* #undef mpfr_overflow */
 
 int
-mpfr_set_overflow (mpfr_ptr x, mp_rnd_t rnd_mode, int sign)
+mpfr_overflow (mpfr_ptr x, mp_rnd_t rnd_mode, int sign)
 {
   int inex;
 

@@ -15,10 +15,31 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA.
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA.
 
 ##############################################################################
+
+Changes from versions 2.1.* to version 2.2.0:
+- Bug fixes.
+- new functions mpfr_set_overflow, mpfr_set_underflow, mpfr_set_inexflag,
+  mpfr_set_erangeflag, mpfr_set_nanflag, mpfr_erfc, mpfr_atan2, mpfr_pow_z,
+  mpfr_subnormalize, mpfr_const_catalan, mpfr_sec, mpfr_csc, mpfr_cot,
+  mpfr_root, mpfr_eint, mpfr_get_f, mpfr_sech, mpfr_csch, mpfr_coth,
+  mpfr_lngamma.
+- new macro: MPFR_VERSION_STRING
+- Remove the exported MPFR variables from mpfr.h to mpfr-impl.h.
+  (They were undocumented, so programs which respect the API still work).
+- Grep CC and CFLAGS from GMP Makefile if possible.
+- Math functions are faster (both average and worst cases).
+- Better support for long double.
+- Shared library of MPFR.
+- Binary compatible with previous versions if you do not use undocumented
+  features.
+- Thread safe (if built with --enable-thread-safe).
+- Logging facility.
+- Change in the semantics of mpfr_out_str/mpfr_get_str when n_digits=0.
+- Better locale support.
 
 Changes from version 2.1.0 to version 2.1.1:
 - Better way to detect the GMP library.
@@ -43,7 +64,7 @@ Changes from version 2.0.3 to version 2.1.0:
 - improved portability (library and test suite).
 - It handles correctly non IEEE-754 double.
 - GMP internal files are not needed to install MPFR.
-- It is faster with low-precision floatting point.
+- It is faster with low-precision floating point.
 - New global flag: ERANGE_FLAG.
 - Binary incompatible with previous versions, but API compatible.
 - mpfr_set_str doesn't allow anymore "@NAN@garbagechar" and "@INF@garbagechar",
@@ -67,6 +88,7 @@ Changes from version 2.0.1 to version 2.0.2:
 - return type of some functions changed from void to int, for consistency.
 - return type of mpfr_set_prec changed from int to void.
 - new values for exponent range.
+- rename internal variables.
 
 Changes from version 2001 to version 2.0.1:
 - new mathematical functions: acos, acosh, asin, asinh, atan, atanh, cosh,
@@ -74,12 +96,12 @@ Changes from version 2001 to version 2.0.1:
   pow, pow_si, pow_ui, sinh, tan, tanh, ui_pow, ui_pow_ui
 - other new functions: mpfr_const_euler, mpfr_dim, mpfr_fma, mpfr_hypot,
   mpfr_min, mpfr_max, mpfr_rint, mpfr_set_inf, mpfr_set_nan
-- new operations with mpz or mpz: mpfr_{add,sub,mul,div}_[zq]
+- new operations with MPZ or MPQ: mpfr_{add,sub,mul,div}_[zq]
 - new predicates: mpfr_inf_p, mpfr_nan_p, mpfr_number_p, mpfr_isinteger,
 - add mechanism to set/check exponent range (overflow, underflow), partially
   implemented in the mpfr functions.
 - efficiency: mpfr_div is now faster when the divisor has a few limbs
-- rounding: now mpfr_pow implements exact rouding, and most functions return a
+- rounding: now mpfr_pow implements exact rounding, and most functions return a
   ternary value indicating the position of the returned value wrt the exact one
   (thus the return value is now 'int' instead of 'void')
 - complete rewrite of the configuration files

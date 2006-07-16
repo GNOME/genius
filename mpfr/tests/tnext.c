@@ -1,6 +1,6 @@
 /* Test file for mpfr_nextabove, mpfr_nextbelow, mpfr_nexttoward.
 
-Copyright 2003, 2004 Free Software Foundation.
+Copyright 2003, 2004, 2005 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -72,7 +72,7 @@ generic_abovebelow (void)
       else
         mpfr_nextabove (y);
       mpfr_set_si (t, below ? -5 : 5, GMP_RNDN);
-      mpfr_mul_2si (t, t, mpfr_get_exp (x) - prec - 3, GMP_RNDN);
+      mpfr_mul_2si (t, t, (mpfr_get_exp) (x) - prec - 3, GMP_RNDN);
       /* t = (1/2 + 1/8) ulp(x) */
       mpfr_add (z, x, t, GMP_RNDN);
       if (!mpfr_number_p (y) || mpfr_cmp (y, z) != 0)

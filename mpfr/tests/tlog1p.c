@@ -1,6 +1,6 @@
 /* Test file for mpfr_log1p.
 
-Copyright 2001, 2002, 2003, 2004 Free Software Foundation.
+Copyright 2001, 2002, 2003, 2004, 2005 Free Software Foundation.
 Adapted from tsinh.c.
 
 This file is part of the MPFR Library.
@@ -17,15 +17,38 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "mpfr-test.h"
 
-#define TEST_FUNCTION mpfr_log1p
+#ifdef CHECK_EXTERNAL
+static int
+test_log1p (mpfr_ptr a, mpfr_srcptr b, mp_rnd_t rnd_mode)
+{
+  int res;
+  int ok = rnd_mode == GMP_RNDN && mpfr_number_p (b) && mpfr_get_prec (a)>=53;
+  if (ok)
+    {
+      mpfr_print_raw (b);
+    }
+  res = mpfr_log1p (a, b, rnd_mode);
+  if (ok)
+    {
+      printf (" ");
+      mpfr_print_raw (a);
+      printf ("\n");
+    }
+  return res;
+}
+#else
+#define test_log1p mpfr_log1p
+#endif
+
+#define TEST_FUNCTION test_log1p
 #include "tgeneric.c"
 
 static void
@@ -34,32 +57,32 @@ special (void)
   mpfr_t x;
 
   mpfr_init (x);
-  
+
   mpfr_set_nan (x);
-  mpfr_log1p (x, x, GMP_RNDN);
+  test_log1p (x, x, GMP_RNDN);
   MPFR_ASSERTN(mpfr_nan_p (x));
 
   mpfr_set_inf (x, -1);
-  mpfr_log1p (x, x, GMP_RNDN);
+  test_log1p (x, x, GMP_RNDN);
   MPFR_ASSERTN(mpfr_nan_p (x));
 
   mpfr_set_inf (x, 1);
-  mpfr_log1p (x, x, GMP_RNDN);
+  test_log1p (x, x, GMP_RNDN);
   MPFR_ASSERTN(mpfr_inf_p (x) && mpfr_sgn (x) > 0);
 
   mpfr_set_ui (x, 0, GMP_RNDN);
-  mpfr_log1p (x, x, GMP_RNDN);
+  test_log1p (x, x, GMP_RNDN);
   MPFR_ASSERTN(mpfr_cmp_ui (x, 0) == 0 && MPFR_IS_POS (x));
   mpfr_neg (x, x, GMP_RNDN);
-  mpfr_log1p (x, x, GMP_RNDN);
+  test_log1p (x, x, GMP_RNDN);
   MPFR_ASSERTN(mpfr_cmp_ui (x, 0) == 0 && MPFR_IS_NEG (x));
 
   mpfr_set_si (x, -1, GMP_RNDN);
-  mpfr_log1p (x, x, GMP_RNDN);
+  test_log1p (x, x, GMP_RNDN);
   MPFR_ASSERTN(mpfr_inf_p (x) && mpfr_sgn (x) < 0);
 
   mpfr_set_si (x, -2, GMP_RNDN);
-  mpfr_log1p (x, x, GMP_RNDN);
+  test_log1p (x, x, GMP_RNDN);
   MPFR_ASSERTN(mpfr_nan_p (x));
 
   mpfr_clear (x);

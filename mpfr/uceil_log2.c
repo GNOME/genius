@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include "mpfr-impl.h"
 
@@ -48,13 +48,13 @@ __gmpfr_ceil_log2 (double d)
     {
       exp = 0;
       for( m= 1.0 ; m < d ; m *=2.0 )
-	exp++;
+        exp++;
     }
   else
     {
       exp = 1;
       for( m= 1.0 ; m >= d ; m *= (1.0/2.0) )
-        exp--;      
+        exp--;
     }
 #endif
   return exp;

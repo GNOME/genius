@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -148,6 +148,20 @@ special (void)
       exit (1);
     }
 
+  mpfr_set_prec (x, 9);
+  mpfr_set_prec (y, 19);
+  mpfr_set_str_binary (x, "0.110000000E-6");
+  mpfr_asin (y, x, GMP_RNDD);
+  mpfr_set_prec (x, 19);
+  mpfr_set_str_binary (x, "0.1100000000000001001E-6");
+  if (mpfr_cmp (x, y))
+    {
+      printf ("Error: mpfr_asin (3)\n");
+      mpfr_dump (x);
+      mpfr_dump (y);
+      exit (1);
+    }
+
   mpfr_clear (x);
   mpfr_clear (y);
 }
@@ -164,7 +178,7 @@ special_overflow (void)
   mpfr_set_str_binary (x, "0.101100100000000000110100E0");
   mpfr_asin (y, x, GMP_RNDN);
   if (mpfr_cmp_str (y, "0.110001001101001111110000010110001000111011001000E0",
-		    2, GMP_RNDN))
+                    2, GMP_RNDN))
     {
       printf("Special Overflow error.\n");
       mpfr_dump (y);

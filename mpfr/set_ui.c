@@ -1,6 +1,6 @@
 /* mpfr_set_ui -- set a MPFR number from a machine unsigned integer
 
-Copyright 1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation.
+Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -16,12 +16,13 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
 
+#undef mpfr_set_ui
 int
 mpfr_set_ui (mpfr_ptr x, unsigned long i, mp_rnd_t rnd_mode)
 {
@@ -66,7 +67,7 @@ mpfr_set_ui (mpfr_ptr x, unsigned long i, mp_rnd_t rnd_mode)
             {
               /* nbits is the current exponent */
               if (MPFR_UNLIKELY((mp_exp_t) nbits == __gmpfr_emax))
-                return mpfr_set_overflow(x, rnd_mode, 1);
+                return mpfr_overflow(x, rnd_mode, 1);
 
               MPFR_SET_EXP (x, nbits + 1);
               xp[xn] = MPFR_LIMB_HIGHBIT;

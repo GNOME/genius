@@ -1831,6 +1831,16 @@ SurfacePlotWindow = [x1,x2,y1,y2,z1,z2]
 
 9.4. Constants
 
+   CatalanConstant
+
+CatalanConstant
+
+          Catalan's Constant, approximately 0.915... It is
+          defined to be the series where terms are
+          (-1^k)/((2*k+1)^2), where k ranges from 0 to infinity.
+
+          See Mathworld for more information.
+
    EulerConstant
 
 EulerConstant
@@ -2172,7 +2182,7 @@ acos (x)
 
           Aliases: arccos
 
-          The arccos (reverse cos) function
+          The arccos (inverse cos) function
 
    acosh
 
@@ -2180,7 +2190,7 @@ acosh (x)
 
           Aliases: arccosh
 
-          The arccosh (reverse cosh) function
+          The arccosh (inverse cosh) function
 
    acot
 
@@ -2188,7 +2198,7 @@ acot (x)
 
           Aliases: arccot
 
-          The arccot (reverse cot) function
+          The arccot (inverse cot) function
 
    acoth
 
@@ -2196,7 +2206,7 @@ acoth (x)
 
           Aliases: arccoth
 
-          The arccoth (reverse coth) function
+          The arccoth (inverse coth) function
 
    acsc
 
@@ -2204,7 +2214,7 @@ acsc (x)
 
           Aliases: arccsc
 
-          The reverse cosecant function
+          The inverse cosecant function
 
    acsch
 
@@ -2212,7 +2222,7 @@ acsch (x)
 
           Aliases: arccsch
 
-          The reverse hyperbolic cosecant function
+          The inverse hyperbolic cosecant function
 
    asec
 
@@ -2220,7 +2230,7 @@ asec (x)
 
           Aliases: arcsec
 
-          The reverse secant function
+          The inverse secant function
 
    asech
 
@@ -2228,7 +2238,7 @@ asech (x)
 
           Aliases: arcsech
 
-          The reverse hyperbolic secant function
+          The inverse hyperbolic secant function
 
    asin
 
@@ -2236,7 +2246,7 @@ asin (x)
 
           Aliases: arcsin
 
-          The arcsin (reverse sin) function
+          The arcsin (inverse sin) function
 
    asinh
 
@@ -2244,7 +2254,7 @@ asinh (x)
 
           Aliases: arcsinh
 
-          The arcsinh (reverse sinh) function
+          The arcsinh (inverse sinh) function
 
    atan
 
@@ -2252,7 +2262,9 @@ atan (x)
 
           Aliases: arctan
 
-          Calculates the arctan function
+          Calculates the arctan (inverse tan) function.
+
+          See Mathworld for more information.
 
    atanh
 
@@ -2260,7 +2272,20 @@ atanh (x)
 
           Aliases: arctanh
 
-          The arctanh (reverse tanh) function
+          The arctanh (inverse tanh) function
+
+   atan2
+
+atan2 (y, x)
+
+          Aliases: arctan2
+
+          Calculates the arctan2 function. If x>0 then it returns
+          atan(y/x). If x<0 then it returns sign(y) * (pi -
+          atan(|y/x|). When x=0 it returns sign(y) * pi/2.
+          atan2(0,0) returns 0 rather then failing.
+
+          See Mathworld for more information.
 
    cos
 

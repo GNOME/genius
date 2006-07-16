@@ -1,6 +1,6 @@
 /* mpfr_mpn_exp -- auxiliary function for mpfr_get_str and mpfr_set_str
 
-Copyright 1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 This function was contributed by Alain Delplanque and Paul Zimmermann.
 
 This file is part of the MPFR Library.
@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 
 #define MPFR_NEED_LONGLONG_H
@@ -31,7 +31,7 @@ MA 02111-1307, USA. */
    a*2^exp_r <= b^e <= 2^exp_r (a + 2^f),
    where a represents {a, n}, i.e. the integer
    a[0] + a[1]*B + ... + a[n-1]*B^(n-1) where B=2^BITS_PER_MP_LIMB
-   
+
    Return -2 if an overflow occurred in the computation of exp_r.
 */
 
@@ -48,12 +48,12 @@ mpfr_mpn_exp (mp_limb_t *a, mp_exp_t *exp_r, int b, mp_exp_t e, size_t n)
                                  /* error == t means no error */
   int err_s_a2 = 0;
   int err_s_ab = 0;              /* number of error when shift A^2, AB */
-  TMP_DECL(marker);
+  MPFR_TMP_DECL(marker);
 
   MPFR_ASSERTN(e > 0);
   MPFR_ASSERTN((2 <= b) && (b <= 36));
 
-  TMP_MARK(marker);
+  MPFR_TMP_MARK(marker);
 
   /* initialization of a, b, f, h */
 
@@ -67,7 +67,7 @@ mpfr_mpn_exp (mp_limb_t *a, mp_exp_t *exp_r, int b, mp_exp_t e, size_t n)
   h = - h;
 
   /* allocate space for A and set it to B */
-  c = (mp_limb_t*) TMP_ALLOC(2 * n * BYTES_PER_MP_LIMB);
+  c = (mp_limb_t*) MPFR_TMP_ALLOC(2 * n * BYTES_PER_MP_LIMB);
   a [n - 1] = B;
   MPN_ZERO (a, n - 1);
   /* initial exponent for A: invariant is A = {a, n} * 2^f */
@@ -96,11 +96,11 @@ mpfr_mpn_exp (mp_limb_t *a, mp_exp_t *exp_r, int b, mp_exp_t e, size_t n)
 
       /* check overflow on f */
       if (MPFR_UNLIKELY(f < MPFR_EXP_MIN/2 || f > MPFR_EXP_MAX/2))
-	{
-	overflow:
-	  TMP_FREE(marker);
-	  return -2;
-	}
+        {
+        overflow:
+          MPFR_TMP_FREE(marker);
+          return -2;
+        }
       /* FIXME: Could f = 2*f + n * BITS_PER_MP_LIMB be used? */
       f = 2*f;
       MPFR_SADD_OVERFLOW (f, f, n * BITS_PER_MP_LIMB,
@@ -145,7 +145,7 @@ mpfr_mpn_exp (mp_limb_t *a, mp_exp_t *exp_r, int b, mp_exp_t e, size_t n)
         }
     }
 
-  TMP_FREE(marker);
+  MPFR_TMP_FREE(marker);
 
   *exp_r = f;
 

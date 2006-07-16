@@ -27,7 +27,7 @@ protect("deg2rad")
 
 #FIXME: these may not deal well with zero values.
 
-SetHelp("asin","trigonometry","The arcsin (reverse sin) function");
+SetHelp("asin","trigonometry","The arcsin (inverse sin) function");
 function asin(x) = (
 	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,asin)
@@ -40,7 +40,7 @@ protect("asin")
 arcsin = asin
 SetHelpAlias ("asin", "arcsin");
 
-SetHelp("asinh","trigonometry","The arcsinh (reverse sinh) function");
+SetHelp("asinh","trigonometry","The arcsinh (inverse sinh) function");
 function asinh(x) = (
 	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,asinh)
@@ -52,7 +52,7 @@ protect("asinh")
 arcsinh = asinh
 SetHelpAlias ("asinh", "arcsinh");
 
-SetHelp("acos","trigonometry","The arccos (reverse cos) function");
+SetHelp("acos","trigonometry","The arccos (inverse cos) function");
 function acos(x) = (
 	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,acos)
@@ -65,7 +65,7 @@ protect("acos")
 arccos = acos
 SetHelpAlias ("acos", "arccos");
 
-SetHelp("acosh","trigonometry","The arccosh (reverse cosh) function");
+SetHelp("acosh","trigonometry","The arccosh (inverse cosh) function");
 function acosh(x) = (
 	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,acosh)
@@ -97,7 +97,7 @@ function coth(x) = (
 );
 protect("coth")
 
-SetHelp("acot","trigonometry","The arccot (reverse cot) function");
+SetHelp("acot","trigonometry","The arccot (inverse cot) function");
 function acot(x) = (
 	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,acot)
@@ -109,7 +109,7 @@ protect("acot")
 arccot = acot
 SetHelpAlias ("acot", "arccot");
 
-SetHelp("acoth","trigonometry","The arccoth (reverse coth) function");
+SetHelp("acoth","trigonometry","The arccoth (inverse coth) function");
 function acoth(x) = (
 	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,acoth)
@@ -131,7 +131,7 @@ function tanh(x) = (
 );
 protect("tanh")
 
-SetHelp("atanh","trigonometry","The arctanh (reverse tanh) function");
+SetHelp("atanh","trigonometry","The arctanh (inverse tanh) function");
 function atanh(x) = (
 	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,atanh)
@@ -163,7 +163,7 @@ function csch(x) = (
 );
 protect("csch")
 
-SetHelp("acsc","trigonometry","The reverse cosecant function");
+SetHelp("acsc","trigonometry","The inverse cosecant function");
 function acsc(x) = (
 	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,acsc)
@@ -175,7 +175,7 @@ protect("acsc")
 arccsc = acsc
 SetHelpAlias ("acsc", "arccsc");
 
-SetHelp("acsch","trigonometry","The reverse hyperbolic cosecant function");
+SetHelp("acsch","trigonometry","The inverse hyperbolic cosecant function");
 function acsch(x) = (
 	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,acsch)
@@ -207,7 +207,7 @@ function sech(x) = (
 );
 protect("sech")
 
-SetHelp("asec","trigonometry","The reverse secant function");
+SetHelp("asec","trigonometry","The inverse secant function");
 function asec(x) = (
 	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,asec)
@@ -219,7 +219,7 @@ protect("asec")
 arcsec = asec
 SetHelpAlias ("asec", "arcsec");
 
-SetHelp("asech","trigonometry","The reverse hyperbolic secant function");
+SetHelp("asech","trigonometry","The inverse hyperbolic secant function");
 function asech(x) = (
 	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,asech)

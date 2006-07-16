@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,7 +33,7 @@ special (void)
 {
   mpfr_t x, y;
   int inex1, inex2;
-  
+
   mpfr_init2 (x, 32);
   mpfr_init2 (y, 32);
 
@@ -55,14 +55,14 @@ special (void)
       mpfr_print_binary (y); printf ("\n");
       exit (1);
     }
-  
+
   mpfr_set_prec (x, 2);
   mpfr_set_ui (x, 0, GMP_RNDN);
   inex1 = mpfr_acos (x, x, GMP_RNDN); /* Pi/2 */
   inex2 = mpfr_const_pi (x, GMP_RNDN);
   if (inex1 != inex2)
     {
-      printf ("Error in mpfr_acos (3) for prec=2\n");  
+      printf ("Error in mpfr_acos (3) for prec=2\n");
       exit (1);
     }
 

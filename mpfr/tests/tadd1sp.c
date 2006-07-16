@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -156,6 +156,19 @@ void check_special(void)
         STD_ERROR;
       if (inexact1 != inexact2)
         STD_ERROR2;
+    }
+
+  mpfr_set_prec (c, 2);
+  mpfr_set_prec (a1, 2);
+  mpfr_set_prec (a2, 2);
+  mpfr_set_str_binary (c, "1.0e1");
+  mpfr_set_str_binary (a2, "1.1e-1");
+  mpfr_set_str_binary (a1, "0.11E2");
+  mpfr_add1sp (a2, c, a2, GMP_RNDN);
+  if (mpfr_cmp (a1, a2))
+    {
+      printf ("Regression reuse test failed!\n");
+      exit (1);
     }
 
   mpfr_clears(a1,a2,b,c,NULL);

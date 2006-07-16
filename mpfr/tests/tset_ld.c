@@ -16,13 +16,17 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <float.h>
 #include <time.h>
+#include <limits.h>
+#if WITH_FPU_CONTROL
+#include <fpu_control.h>
+#endif
 
 #include "mpfr-test.h"
 
@@ -87,6 +91,48 @@ check_set_get (long double d, mpfr_t x)
     }
 }
 
+static void
+test_small (void)
+{
+  mpfr_t x, y, z;
+  long double d;
+
+  mpfr_init2 (x, 64);
+  mpfr_init2 (y, 64);
+  mpfr_init2 (z, 64);
+
+  /* x = 11906603631607553907/2^(16381+64) */
+  mpfr_set_str (x, "0.1010010100111100110000001110101101000111010110000001111101110011E-16381", 2, GMP_RNDN);
+  d = mpfr_get_ld (x, GMP_RNDN);  /* infinite loop? */
+  mpfr_set_ld (y, d, GMP_RNDN);
+  mpfr_sub (z, x, y, GMP_RNDN);
+  mpfr_abs (z, z, GMP_RNDN);
+  mpfr_clear_erangeflag ();
+  /* If long double = double, d should be equal to 0;
+     in this case, everything is OK. */
+  if (d != 0 && (mpfr_cmp_str (z, "1E-16434", 2, GMP_RNDN) > 0 ||
+                 mpfr_erangeflag_p ()))
+    {
+      printf ("Error with x = ");
+      mpfr_out_str (NULL, 10, 21, x, GMP_RNDN);
+      printf (" = ");
+      mpfr_out_str (NULL, 16, 0, x, GMP_RNDN);
+      printf ("\n        -> d = %.21Lg", d);
+      printf ("\n        -> y = ");
+      mpfr_out_str (NULL, 10, 21, y, GMP_RNDN);
+      printf (" = ");
+      mpfr_out_str (NULL, 16, 0, y, GMP_RNDN);
+      printf ("\n        -> |x-y| = ");
+      mpfr_out_str (NULL, 16, 0, z, GMP_RNDN);
+      printf ("\n");
+      exit (1);
+    }
+
+  mpfr_clear (x);
+  mpfr_clear (y);
+  mpfr_clear (z);
+}
+
 int
 main (int argc, char *argv[])
 {
@@ -94,14 +140,23 @@ main (int argc, char *argv[])
   mpfr_t x;
   int i;
   mp_exp_t emax;
+#if WITH_FPU_CONTROL
+  fpu_control_t cw;
+
+  if (argc > 1)
+    {
+      cw = strtol(argv[1], NULL, 0);
+      printf ("FPU control word: 0x%x\n", (unsigned int) cw);
+      _FPU_SETCW (cw);
+    }
+#endif
 
   check_gcc33_bug ();
 
   tests_start_mpfr ();
   mpfr_test_init ();
-  tests_machine_prec_long_double ();
 
-  mpfr_init2 (x, 113);
+  mpfr_init2 (x, MPFR_LDBL_MANT_DIG);
 
   /* check +0.0 and -0.0 */
   d = 0.0;
@@ -144,7 +199,9 @@ main (int argc, char *argv[])
   check_set_get (-d, x);
 
   /* checks the smallest power of two */
-  d = 1.0; while ((e = d / 2.0) != (long double) 0.0) d = e;
+  d = 1.0;
+  while ((e = d / 2.0) != (long double) 0.0 && e != d)
+    d = e;
   check_set_get (d, x);
   check_set_get (-d, x);
 
@@ -154,7 +211,7 @@ main (int argc, char *argv[])
 
   /* checks that 2^i, 2^i+1 and 2^i-1 are correctly converted */
   d = 1.0;
-  for (i = 1; i <= 113; i++)
+  for (i = 1; i < MPFR_LDBL_MANT_DIG; i++)
     {
       d = 2.0 * d; /* d = 2^i */
       check_set_get (d, x);
@@ -182,6 +239,8 @@ main (int argc, char *argv[])
   set_emax (emax);
 
   mpfr_clear (x);
+
+  test_small ();
 
   tests_end_mpfr ();
 

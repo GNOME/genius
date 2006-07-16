@@ -1,6 +1,6 @@
 /* mpfr_set_uj -- set a MPFR number from a huge machine unsigned integer
 
-Copyright 2004 Free Software Foundation.
+Copyright 2004, 2005 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #if HAVE_CONFIG_H
 # include "config.h"       /* for a build within gmp */
@@ -66,19 +66,28 @@ mpfr_set_uj_2exp (mpfr_t x, uintmax_t j, intmax_t e, mp_rnd_t rnd)
       MPFR_RET(0);
     }
 
-  /* Create an auxillary var */
-  MPFR_TMP_INIT1 (yp, y, sizeof(uintmax_t)*CHAR_BIT);
-  for (i = 0 ; i < numberof (yp) ; i++, j>>=BITS_PER_MP_LIMB)
-    yp[i] = j; /* Only the low bits are copied */
+  MPFR_ASSERTN (sizeof(uintmax_t) % sizeof(mp_limb_t) == 0);
 
-  /* Find the first limb not equal to zero. */
+  /* Create an auxillary var */
+  MPFR_TMP_INIT1 (yp, y, sizeof(uintmax_t) * CHAR_BIT);
   k = numberof (yp);
-  do {
-    MPFR_ASSERTD( k > 0 );
-    limb = yp[--k];
-  } while (limb == 0);
+  if (k == 1)
+    limb = yp[0] = j;
+  else
+    {
+      for (i = 0; i < k; i++, j >>= BITS_PER_MP_LIMB)
+        yp[i] = j; /* Only the low bits are copied */
+
+      /* Find the first limb not equal to zero. */
+      do
+        {
+          MPFR_ASSERTD (k > 0);
+          limb = yp[--k];
+        }
+      while (limb == 0);
+      k++;
+    }
   count_leading_zeros(cnt, limb);
-  k++;
   len = numberof (yp) - k;
 
   /* Normalize it: len = number of last 0 limb, k number of non-zero limbs */
@@ -87,24 +96,24 @@ mpfr_set_uj_2exp (mpfr_t x, uintmax_t j, intmax_t e, mp_rnd_t rnd)
   else if (len != 0)
     MPN_COPY_DECR (yp+len, yp, k);    /* Must use DECR */
   MPN_ZERO (yp, len);                 /* Zeroing the last limbs */
-  e = e + k*BITS_PER_MP_LIMB - cnt;   /* Update Expo */
-  MPFR_ASSERTD (MPFR_LIMB_MSB(yp[numberof(yp)-1]) != 0);
+  e += k * BITS_PER_MP_LIMB - cnt;    /* Update Expo */
+  MPFR_ASSERTD (MPFR_LIMB_MSB(yp[numberof (yp) - 1]) != 0);
 
   /* Check expo underflow / overflow (can't use mpfr_check_range) */
   if (MPFR_UNLIKELY(e < __gmpfr_emin))
     {
       /* The following test is necessary because in the rounding to the
-       * nearest mode, mpfr_set_underflow always rounds away from 0. In
+       * nearest mode, mpfr_underflow always rounds away from 0. In
        * this rounding mode, we need to round to 0 if:
        *   _ |x| < 2^(emin-2), or
        *   _ |x| = 2^(emin-2) and the absolute value of the exact
        *     result is <= 2^(emin-2). */
       if (rnd == GMP_RNDN && (e+1 < __gmpfr_emin || mpfr_powerof2_raw(y)))
-	rnd = GMP_RNDZ;
-      return mpfr_set_underflow (x, rnd, MPFR_SIGN_POS);
+        rnd = GMP_RNDZ;
+      return mpfr_underflow (x, rnd, MPFR_SIGN_POS);
     }
   if (MPFR_UNLIKELY(e > __gmpfr_emax))
-    return mpfr_set_overflow (x, rnd, MPFR_SIGN_POS);
+    return mpfr_overflow (x, rnd, MPFR_SIGN_POS);
   MPFR_SET_EXP (y, e);
 
   /* Final: set x to y (rounding if necessary) */

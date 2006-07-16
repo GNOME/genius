@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include "mpfr-impl.h"
 
@@ -33,26 +33,26 @@ mpfr_rint (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
   if (MPFR_UNLIKELY( MPFR_IS_SINGULAR(u) ))
     {
       if (MPFR_IS_NAN(u))
-	{
-	  MPFR_SET_NAN(r);
-	  MPFR_RET_NAN;
-	}
+        {
+          MPFR_SET_NAN(r);
+          MPFR_RET_NAN;
+        }
       MPFR_SET_SAME_SIGN(r, u);
       if (MPFR_IS_INF(u))
-	{
-	  MPFR_SET_INF(r);
-	  MPFR_RET(0);  /* infinity is exact */
-	}
+        {
+          MPFR_SET_INF(r);
+          MPFR_RET(0);  /* infinity is exact */
+        }
       else /* now u is zero */
-	{
+        {
           MPFR_ASSERTD(MPFR_IS_ZERO(u));
-	  MPFR_SET_ZERO(r);
-	  MPFR_RET(0);  /* zero is exact */
-	}
+          MPFR_SET_ZERO(r);
+          MPFR_RET(0);  /* zero is exact */
+        }
     }
-  MPFR_SET_SAME_SIGN(r, u);
+  MPFR_SET_SAME_SIGN (r, u); /* Does nothing if r==u */
 
-  sign = MPFR_INT_SIGN(u);
+  sign = MPFR_INT_SIGN (u);
   exp = MPFR_GET_EXP (u);
 
   rnd_away =
@@ -66,7 +66,7 @@ mpfr_rint (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
      -1 if not decided yet.
    */
 
-  if (exp <= 0)  /* 0 < |u| < 1 ==> round |u| to 0 or 1 */
+  if (MPFR_UNLIKELY (exp <= 0))  /* 0 < |u| < 1 ==> round |u| to 0 or 1 */
     {
       /* Note: in the GMP_RNDN mode, 0.5 must be rounded to 0. */
       if (rnd_away != 0 &&
@@ -109,9 +109,9 @@ mpfr_rint (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
 
       un = MPFR_LIMB_SIZE(u);
       rn = MPFR_LIMB_SIZE(r);
-      sh = (mp_prec_t) rn * BITS_PER_MP_LIMB - MPFR_PREC(r);
+      MPFR_UNSIGNED_MINUS_MODULO (sh, MPFR_PREC (r));
 
-      MPFR_SET_EXP (r, exp);
+      MPFR_SET_EXP (r, exp); /* Does nothing if r==u */
 
       if ((exp - 1) / BITS_PER_MP_LIMB >= un)
         {
@@ -124,7 +124,7 @@ mpfr_rint (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
           mp_size_t uj;
 
           ui = (exp - 1) / BITS_PER_MP_LIMB + 1;  /* #limbs of the int part */
-          MPFR_ASSERTN (un >= ui);
+          MPFR_ASSERTD (un >= ui);
           uj = un - ui;  /* lowest limb of the integer part */
           idiff = exp % BITS_PER_MP_LIMB;  /* #int-part bits in up[uj] or 0 */
 
@@ -142,11 +142,11 @@ mpfr_rint (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
         {
           /* More limbs in the integer part of u than in r.
              Just round u with the precision of r. */
-          MPFR_ASSERTN(rp != up && un > rn);
-          MPN_COPY(rp, up + (un - rn), rn);
+          MPFR_ASSERTD (rp != up && un > rn);
+          MPN_COPY (rp, up + (un - rn), rn); /* r != u */
           if (rnd_away < 0)
             {
-              /* This is a rounding to nearest mode.
+              /* This is a rounding to nearest mode (GMP_RNDN or GMP_RNDNA).
                  Decide the rounding direction here. */
               if (rnd_mode == GMP_RNDN &&
                   (rp[0] & (MPFR_LIMB_ONE << sh)) == 0)
@@ -205,7 +205,7 @@ mpfr_rint (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
           uj = un - ui;  /* lowest limb of the integer part in u */
           rj = rn - ui;  /* lowest limb of the integer part in r */
 
-          if (rp != up)
+          if (MPFR_LIKELY (rp != up))
             MPN_COPY(rp + rj, up + uj, ui);
 
           /* Ignore the lowest rj limbs, all equal to zero. */
@@ -246,7 +246,7 @@ mpfr_rint (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
                     }
                   else
                     {
-                      MPFR_ASSERTN (uj >= 1);  /* see above */
+                      MPFR_ASSERTD (uj >= 1);  /* see above */
                       a = up[uj - 1];
                       b = MPFR_LIMB_HIGHBIT;
                     }
@@ -265,10 +265,10 @@ mpfr_rint (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
               else  /* halfway cases rounded away from zero */
                 rnd_away =  /* rounding bit */
                   ((sh != 0 && (rp[0] & (MPFR_LIMB_ONE << (sh - 1))) != 0) ||
-                   (sh == 0 && (MPFR_ASSERTN (uj >= 1),
+                   (sh == 0 && (MPFR_ASSERTD (uj >= 1),
                                 up[uj - 1] & MPFR_LIMB_HIGHBIT) != 0));
             }
-
+          /* Now we can make the low rj limbs to 0 */
           MPN_ZERO (rp-rj, rj);
         }
 
@@ -279,11 +279,11 @@ mpfr_rint (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
       if (uflags == 0)
         MPFR_RET(0);
 
-      MPFR_ASSERTN (rnd_away >= 0);  /* rounding direction is defined */
+      MPFR_ASSERTD (rnd_away >= 0);  /* rounding direction is defined */
       if (rnd_away && mpn_add_1(rp, rp, rn, MPFR_LIMB_ONE << sh))
         {
           if (exp == __gmpfr_emax)
-            return mpfr_set_overflow(r, rnd_mode, MPFR_SIGN(r)) >= 0 ?
+            return mpfr_overflow(r, rnd_mode, MPFR_SIGN(r)) >= 0 ?
               uflags : -uflags;
           else
             {
@@ -339,17 +339,18 @@ mpfr_rint_round (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
     {
       mpfr_t tmp;
       int inex;
+      MPFR_SAVE_EXPO_DECL (expo);
 
-      mpfr_save_emin_emax ();
+      MPFR_SAVE_EXPO_MARK (expo);
       mpfr_init2 (tmp, MPFR_PREC (u));
       /* round(u) is representable in tmp unless an overflow occurs */
       mpfr_clear_overflow ();
       mpfr_round (tmp, u);
       inex = (mpfr_overflow_p ()
-              ? mpfr_set_overflow (r, rnd_mode, MPFR_SIGN (u))
+              ? mpfr_overflow (r, rnd_mode, MPFR_SIGN (u))
               : mpfr_set (r, tmp, rnd_mode));
       mpfr_clear (tmp);
-      mpfr_restore_emin_emax ();
+      MPFR_SAVE_EXPO_FREE (expo);
       return mpfr_check_range (r, inex, rnd_mode);
     }
 }
@@ -365,14 +366,15 @@ mpfr_rint_trunc (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
     {
       mpfr_t tmp;
       int inex;
+      MPFR_SAVE_EXPO_DECL (expo);
 
-      mpfr_save_emin_emax ();
+      MPFR_SAVE_EXPO_MARK (expo);
       mpfr_init2 (tmp, MPFR_PREC (u));
       /* trunc(u) is always representable in tmp */
       mpfr_trunc (tmp, u);
       inex = mpfr_set (r, tmp, rnd_mode);
       mpfr_clear (tmp);
-      mpfr_restore_emin_emax ();
+      MPFR_SAVE_EXPO_FREE (expo);
       return mpfr_check_range (r, inex, rnd_mode);
     }
 }
@@ -388,17 +390,18 @@ mpfr_rint_ceil (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
     {
       mpfr_t tmp;
       int inex;
+      MPFR_SAVE_EXPO_DECL (expo);
 
-      mpfr_save_emin_emax ();
+      MPFR_SAVE_EXPO_MARK (expo);
       mpfr_init2 (tmp, MPFR_PREC (u));
       /* ceil(u) is representable in tmp unless an overflow occurs */
       mpfr_clear_overflow ();
       mpfr_ceil (tmp, u);
       inex = (mpfr_overflow_p ()
-              ? mpfr_set_overflow (r, rnd_mode, MPFR_SIGN_POS)
+              ? mpfr_overflow (r, rnd_mode, MPFR_SIGN_POS)
               : mpfr_set (r, tmp, rnd_mode));
       mpfr_clear (tmp);
-      mpfr_restore_emin_emax ();
+      MPFR_SAVE_EXPO_FREE (expo);
       return mpfr_check_range (r, inex, rnd_mode);
     }
 }
@@ -414,17 +417,18 @@ mpfr_rint_floor (mpfr_ptr r, mpfr_srcptr u, mpfr_rnd_t rnd_mode)
     {
       mpfr_t tmp;
       int inex;
+      MPFR_SAVE_EXPO_DECL (expo);
 
-      mpfr_save_emin_emax ();
+      MPFR_SAVE_EXPO_MARK (expo);
       mpfr_init2 (tmp, MPFR_PREC (u));
       /* floor(u) is representable in tmp unless an overflow occurs */
       mpfr_clear_overflow ();
       mpfr_floor (tmp, u);
       inex = (mpfr_overflow_p ()
-              ? mpfr_set_overflow (r, rnd_mode, MPFR_SIGN_NEG)
+              ? mpfr_overflow (r, rnd_mode, MPFR_SIGN_NEG)
               : mpfr_set (r, tmp, rnd_mode));
       mpfr_clear (tmp);
-      mpfr_restore_emin_emax ();
+      MPFR_SAVE_EXPO_FREE (expo);
       return mpfr_check_range (r, inex, rnd_mode);
     }
 }

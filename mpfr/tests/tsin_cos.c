@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,7 +35,7 @@ large_test (int prec, int N)
   mpfr_init2 (c, prec);
   mpfr_set_ui (x, 3, GMP_RNDN);
   mpfr_sqrt (x, x, GMP_RNDN);
-  for (i=0; i<N; i++) 
+  for (i=0; i<N; i++)
     mpfr_sin_cos (s, c, x, GMP_RNDN);
   mpfr_out_str (stdout, 10, 0, s, GMP_RNDN); puts ("");
   mpfr_clear (x);
@@ -44,8 +44,8 @@ large_test (int prec, int N)
 }
 
 static void
-check53 (const char *xs, const char *sin_xs, const char *cos_xs, 
-	 mp_rnd_t rnd_mode)
+check53 (const char *xs, const char *sin_xs, const char *cos_xs,
+         mp_rnd_t rnd_mode)
 {
   mpfr_t xx, s, c;
 
@@ -178,22 +178,22 @@ main(int argc, char *argv[])
     }
 
   /* worst case from PhD thesis of Vincent Lefe`vre: x=8980155785351021/2^54 */
-  check53 ("4.984987858808754279e-1", "4.781075595393330379e-1", 
-	   "8.783012931285841817e-1", GMP_RNDN);
-  check53 ("4.984987858808754279e-1", "4.781075595393329824e-1",
-	   "8.783012931285840707e-1", GMP_RNDD);
-  check53 ("4.984987858808754279e-1", "4.781075595393329824e-1",
-	   "8.783012931285840707e-1", GMP_RNDZ);
   check53 ("4.984987858808754279e-1", "4.781075595393330379e-1",
-	   "8.783012931285841817e-1", GMP_RNDU);
+           "8.783012931285841817e-1", GMP_RNDN);
+  check53 ("4.984987858808754279e-1", "4.781075595393329824e-1",
+           "8.783012931285840707e-1", GMP_RNDD);
+  check53 ("4.984987858808754279e-1", "4.781075595393329824e-1",
+           "8.783012931285840707e-1", GMP_RNDZ);
+  check53 ("4.984987858808754279e-1", "4.781075595393330379e-1",
+           "8.783012931285841817e-1", GMP_RNDU);
   check53 ("1.00031274099908640274",  "8.416399183372403892e-1",
-	   "0.540039116973283217504", GMP_RNDN);
+           "0.540039116973283217504", GMP_RNDN);
   check53 ("1.00229256850978698523",  "8.427074524447979442e-1",
-	   "0.538371757797526551137", GMP_RNDZ);
+           "0.538371757797526551137", GMP_RNDZ);
   check53 ("1.00288304857059840103",  "8.430252033025980029e-1",
-	   "0.537874062022526966409", GMP_RNDZ);
+           "0.537874062022526966409", GMP_RNDZ);
   check53 ("1.00591265847407274059",  "8.446508805292128885e-1",
-	   "0.53531755997839769456",  GMP_RNDN);
+           "0.53531755997839769456",  GMP_RNDN);
 
   /* check one argument only */
   check53sin ("1.00591265847407274059", "8.446508805292128885e-1", GMP_RNDN);

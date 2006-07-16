@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <string.h>
 
@@ -32,7 +32,7 @@ mpfr_swap (mpfr_ptr u, mpfr_ptr v)
   mpfr_sign_t s1, s2;
   mp_exp_t e1, e2;
   mp_limb_t *m1, *m2;
-   
+
   p1 = MPFR_PREC(u);
   p2 = MPFR_PREC(v);
   MPFR_PREC(v) = p1;

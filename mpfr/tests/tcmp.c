@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,7 +41,7 @@ main (void)
   mpfr_set_prec (yy, 2);
   mpfr_set_str_binary(xx, "-0.10E0");
   mpfr_set_str_binary(yy, "-0.10E0");
-  if (mpfr_cmp (xx, yy))
+  if ((mpfr_cmp) (xx, yy))
     {
       printf ("mpfr_cmp (xx, yy) returns non-zero for prec=2\n");
       exit (1);
@@ -187,31 +187,31 @@ main (void)
             }
         }
     }
-  
+
   /* Check for NAN */
   mpfr_set_nan (xx);
   mpfr_clear_erangeflag ();
-  c = mpfr_cmp (xx, yy);
-  if (c != 0 || !mpfr_erangeflag_p () ) 
+  c = (mpfr_cmp) (xx, yy);
+  if (c != 0 || !mpfr_erangeflag_p () )
     {
       printf ("NAN error (1)\n");
       exit (1);
     }
   mpfr_clear_erangeflag ();
-  c = mpfr_cmp (yy, xx);
-  if (c != 0 || !mpfr_erangeflag_p () ) 
+  c = (mpfr_cmp) (yy, xx);
+  if (c != 0 || !mpfr_erangeflag_p () )
     {
       printf ("NAN error (2)\n");
       exit (1);
     }
   mpfr_clear_erangeflag ();
-  c = mpfr_cmp (xx, xx);
-  if (c != 0 || !mpfr_erangeflag_p () ) 
+  c = (mpfr_cmp) (xx, xx);
+  if (c != 0 || !mpfr_erangeflag_p () )
     {
       printf ("NAN error (3)\n");
       exit (1);
     }
-  
+
   mpfr_clear (xx);
   mpfr_clear (yy);
 

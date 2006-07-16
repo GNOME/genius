@@ -1,6 +1,6 @@
 /* mpfr_get_si -- convert a floating-point number to a signed long.
 
-Copyright 2003, 2004 Free Software Foundation, Inc.
+Copyright 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <limits.h>
 #include "mpfr-impl.h"
@@ -29,13 +29,13 @@ mpfr_get_si (mpfr_srcptr f, mp_rnd_t rnd)
   long s;
   mpfr_t x;
 
-  if (!mpfr_fits_slong_p (f, rnd))
+  if (MPFR_UNLIKELY (!mpfr_fits_slong_p (f, rnd)))
     {
       MPFR_SET_ERANGE ();
       return MPFR_IS_NEG (f) ? LONG_MIN : LONG_MAX;
     }
-  
-  if (MPFR_IS_ZERO (f))
+
+  else if (MPFR_UNLIKELY (MPFR_IS_ZERO (f)))
      return (long) 0;
 
   /* determine prec of long */
@@ -46,7 +46,7 @@ mpfr_get_si (mpfr_srcptr f, mp_rnd_t rnd)
   mpfr_rint (x, f, rnd);
 
   /* warning: if x=0, taking its exponent is illegal */
-  if (MPFR_IS_ZERO(x))
+  if (MPFR_UNLIKELY (MPFR_IS_ZERO(x)))
     s = 0;
   else
     {

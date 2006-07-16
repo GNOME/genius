@@ -1,6 +1,6 @@
 /* mpfr_agm -- arithmetic-geometric mean of two floating-point numbers
 
-Copyright 1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation.
+Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -16,11 +16,12 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include "mpfr-impl.h"
 
+/* agm(x,y) is between x and y, so we don't need to save exponent range */
 int
 mpfr_agm (mpfr_ptr r, mpfr_srcptr op2, mpfr_srcptr op1, mp_rnd_t rnd_mode)
 {
@@ -29,43 +30,47 @@ mpfr_agm (mpfr_ptr r, mpfr_srcptr op2, mpfr_srcptr op1, mp_rnd_t rnd_mode)
   mp_prec_t p, q;
   mp_limb_t *up, *vp, *tmpp;
   mpfr_t u, v, tmp;
-  TMP_DECL(marker);
+  MPFR_ZIV_DECL (loop);
+  MPFR_TMP_DECL(marker);
+
+  MPFR_LOG_FUNC (("op2[%#R]=%R op1[%#R]=%R rnd=%d", op2,op2,op1,op1,rnd_mode),
+                 ("r[%#R]=%R inexact=%d", r, r, inexact));
 
   /* Deal with special values */
-  if (MPFR_ARE_SINGULAR(op1, op2))
+  if (MPFR_ARE_SINGULAR (op1, op2))
     {
       /* If a or b is NaN, the result is NaN */
       if (MPFR_IS_NAN(op1) || MPFR_IS_NAN(op2))
-	{
-	  MPFR_SET_NAN(r);
-	  MPFR_RET_NAN;
-	}
+        {
+          MPFR_SET_NAN(r);
+          MPFR_RET_NAN;
+        }
       /* now one of a or b is Inf or 0 */
       /* If a and b is +Inf, the result is +Inf.
-	 Otherwise if a or b is -Inf or 0, the result is NaN */
+         Otherwise if a or b is -Inf or 0, the result is NaN */
       else if (MPFR_IS_INF(op1) || MPFR_IS_INF(op2))
-	{
+        {
           if (MPFR_IS_STRICTPOS(op1) && MPFR_IS_STRICTPOS(op2))
             {
               MPFR_SET_INF(r);
               MPFR_SET_SAME_SIGN(r, op1);
               MPFR_RET(0); /* exact */
             }
-	  else
+          else
             {
               MPFR_SET_NAN(r);
               MPFR_RET_NAN;
             }
-	}
+        }
       else /* a and b are neither NaN nor Inf, and one is zero */
-	{  /* If a or b is 0, the result is +0 since a sqrt is positive */
-          MPFR_ASSERTD(MPFR_IS_ZERO(op1) || MPFR_IS_ZERO(op2));
-	  MPFR_SET_POS(r);
-	  MPFR_SET_ZERO(r);
-	  MPFR_RET(0); /* exact */
-	}
+        {  /* If a or b is 0, the result is +0 since a sqrt is positive */
+          MPFR_ASSERTD (MPFR_IS_ZERO (op1) || MPFR_IS_ZERO (op2));
+          MPFR_SET_POS (r);
+          MPFR_SET_ZERO (r);
+          MPFR_RET (0); /* exact */
+        }
     }
-  MPFR_CLEAR_FLAGS(r);
+  MPFR_CLEAR_FLAGS (r);
 
   /* If a or b is negative (excluding -Infinity), the result is NaN */
   if (MPFR_UNLIKELY(MPFR_IS_NEG(op1) || MPFR_IS_NEG(op2)))
@@ -94,9 +99,10 @@ mpfr_agm (mpfr_ptr r, mpfr_srcptr op2, mpfr_srcptr op1, mp_rnd_t rnd_mode)
     }
   /* Now b(=op2) >= a (=op1) */
 
-  TMP_MARK(marker);
+  MPFR_TMP_MARK(marker);
 
   /* Main loop */
+  MPFR_ZIV_INIT (loop, p);
   for (;;)
     {
       mp_prec_t eq;
@@ -112,42 +118,54 @@ mpfr_agm (mpfr_ptr r, mpfr_srcptr op2, mpfr_srcptr op1, mp_rnd_t rnd_mode)
       mpfr_add (v, op1, op2, GMP_RNDN); /* add with !=prec is still good*/
       mpfr_div_2ui (v, v, 1, GMP_RNDN);
       while (mpfr_cmp2 (u, v, &eq) != 0 && eq <= p - 2)
-	{
-	  mpfr_add (tmp, u, v, GMP_RNDN);
-	  /* It seems to work well. Any proof are welcome. */
-	  /*if (2*eq > p)
-	    {
-	      mpfr_div_2ui (tmp, tmp, 1, GMP_RNDN);
-	      mpfr_swap (v, tmp);
-	      break;                      
-	      }*/
-	  mpfr_mul (u, u, v, GMP_RNDN);
-	  mpfr_sqrt (u, u, GMP_RNDN);
+        {
+          mpfr_add (tmp, u, v, GMP_RNDN);
+          /* It seems to work well. Any proofs are welcome. */
+#if 0
+          if (2*eq > p)
+            {
+              mpfr_div_2ui (tmp, tmp, 1, GMP_RNDN);
+              mpfr_swap (v, tmp);
+              break;
+              }
+#elif 1
+          if (4*eq > p)
+            {
+              mpfr_div_2ui (tmp, tmp, 1, GMP_RNDN); /* U(k) */
+              mpfr_sub (u, v, u, GMP_RNDN);         /* e = V(k-1)-U(k-1) */
+              mpfr_sqr (u, u, GMP_RNDN);            /* e = e^2 */
+              mpfr_div_2ui (u, u, 4, GMP_RNDN);     /* e*= (1/2)^2*1/4  */
+              mpfr_div (u, u, tmp, GMP_RNDN);       /* 1/4*e^2/U(k) */
+              mpfr_sub (v, tmp, u, GMP_RNDN);
+              break;
+            }
+#endif
+          mpfr_mul (u, u, v, GMP_RNDN);
+          mpfr_sqrt (u, u, GMP_RNDN);
           mpfr_div_2ui (tmp, tmp, 1, GMP_RNDN);
-	  mpfr_swap (v, tmp);
-	}
+          mpfr_swap (v, tmp);
+        }
       /* Roundability of the result */
-      if (mpfr_can_round (v, p - 4 - 3, GMP_RNDN, GMP_RNDZ,
-			  q + (rnd_mode == GMP_RNDN)))
-	break; /* Stop the loop */
-  
+      if (MPFR_LIKELY (MPFR_CAN_ROUND (v, p - 4 - 3, q, rnd_mode)))
+        break; /* Stop the loop */
+
       /* Next iteration */
-      p += 5;
+      MPFR_ZIV_NEXT (loop, p);
       s = (p - 1) / BITS_PER_MP_LIMB + 1;
     }
-  /* End of loop */
+  MPFR_ZIV_FREE (loop);
 
   /* Setting of the result */
   inexact = mpfr_set (r, v, rnd_mode);
-  
+
   /* Let's clean */
-  TMP_FREE(marker);
+  MPFR_TMP_FREE(marker);
 
   return inexact; /* agm(u,v) can be exact for u, v rational only for u=v.
-		     Proof (due to Nicolas Brisebarre): it suffices to consider
-		     u=1 and v<1. Then 1/AGM(1,v) = 2F1(1/2,1/2,1;1-v^2),
-		     and a theorem due to G.V. Chudnovsky states that for x a
-		     non-zero algebraic number with |x|<1, then
-		     2F1(1/2,1/2,1;x) and 2F1(-1/2,1/2,1;x) are algebraically
-		     independent over Q. */
+                     Proof (due to Nicolas Brisebarre): it suffices to consider
+                     u=1 and v<1. Then 1/AGM(1,v) = 2F1(1/2,1/2,1;1-v^2),
+                     and a theorem due to G.V. Chudnovsky states that for x a
+                     non-zero algebraic number with |x|<1, then
+                     2F1(1/2,1/2,1;x) and 2F1(-1/2,1/2,1;x) are algebraically
+                     independent over Q. */
 }

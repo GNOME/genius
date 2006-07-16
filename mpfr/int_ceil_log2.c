@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #define MPFR_NEED_LONGLONG_H /* for count_leading_zeros */
 #include "mpfr-impl.h"
@@ -28,7 +28,7 @@ __gmpfr_int_ceil_log2 (unsigned long n)
   int b;
   mp_limb_t limb = n;
 
-  MPFR_ASSERTD (limb == n);
+  MPFR_ASSERTN (limb == n);
 
   count_leading_zeros (b, limb);
   return BITS_PER_MP_LIMB-b;

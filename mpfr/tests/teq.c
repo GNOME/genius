@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -176,7 +176,7 @@ special (void)
   MPFR_ASSERTN(mpfr_eq (x, y, 2) == 0);
   MPFR_ASSERTN(mpfr_eq (x, y, mp_bits_per_limb) == 0);
   MPFR_ASSERTN(mpfr_eq (x, y, mp_bits_per_limb + 1) == 0);
-  
+
   mpfr_clear (x);
   mpfr_clear (y);
   mpfr_clear (z);

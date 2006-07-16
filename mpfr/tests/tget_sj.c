@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #if HAVE_CONFIG_H
 # include "config.h"       /* for a build within gmp */
@@ -142,8 +142,8 @@ check_erange (void)
   intmax_t d;
 
   /* Test for ERANGE flag + correct behaviour if overflow */
-  
-  mpfr_init2 (x, 256); 
+
+  mpfr_init2 (x, 256);
   mpfr_set_uj (x, UINTMAX_MAX, GMP_RNDN);
   mpfr_clear_erangeflag ();
   dl = mpfr_get_uj (x, GMP_RNDN);
@@ -197,7 +197,7 @@ check_erange (void)
       printf ("ERROR for get_sj + ERANGE + INTMAX_MIN (2)\n");
       exit (1);
     }
-  
+
   mpfr_clear (x);
 }
 

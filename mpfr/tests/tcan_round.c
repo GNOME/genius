@@ -16,13 +16,43 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "mpfr-test.h"
+
+#define MAX_LIMB_SIZE 100
+
+static void
+check_round_p (void)
+{
+  mp_limb_t buf[MAX_LIMB_SIZE];
+  mp_size_t n;
+  mp_prec_t p;
+  mp_exp_t err;
+  int r1, r2;
+
+  for (n = 2 ; n <= MAX_LIMB_SIZE ; n++)
+    {
+      mpn_random (buf, n);
+      p = (mp_prec_t) randlimb() % ((n-1) * BITS_PER_MP_LIMB) + MPFR_PREC_MIN;
+      err = p + randlimb () % BITS_PER_MP_LIMB;
+      r1 = mpfr_round_p (buf, n, err, p);
+      r2 = mpfr_can_round_raw (buf, n, MPFR_SIGN_POS, err,
+                               GMP_RNDN, GMP_RNDZ, p);
+      if (r1 != r2)
+        {
+          printf ("mpfr_round_p(%d) != mpfr_can_round(%d)!\n"
+                  "bn = %ld, err0 = %ld, prec = %ld\nbp = ",
+                  r1, r2, n, err, p);
+          gmp_printf ("%NX\n", buf, n);
+          exit (1);
+        }
+    }
+}
 
 int
 main (void)
@@ -30,19 +60,20 @@ main (void)
   mpfr_t x;
   mp_prec_t i, j;
 
+  MPFR_TEST_USE_RANDS ();
   tests_start_mpfr ();
 
   /* checks that rounds to nearest sets the last
      bit to zero in case of equal distance */
   mpfr_init2 (x, 59);
-  mpfr_set_str_binary (x, "-0.10010001010111000011110010111010111110000000111101100111111E663"); 
+  mpfr_set_str_binary (x, "-0.10010001010111000011110010111010111110000000111101100111111E663");
   if (mpfr_can_round (x, 54, GMP_RNDZ, GMP_RNDZ, 53) != 0)
     {
       printf ("Error (1) in mpfr_can_round\n");
       exit (1);
     }
 
-  mpfr_set_str_binary (x, "-Inf"); 
+  mpfr_set_str_binary (x, "-Inf");
   if (mpfr_can_round (x, 2000, GMP_RNDZ, GMP_RNDZ, 2000) != 0)
     {
       printf ("Error (2) in mpfr_can_round\n");
@@ -69,6 +100,8 @@ main (void)
       }
 
   mpfr_clear (x);
+
+  check_round_p ();
 
   tests_end_mpfr ();
   return 0;

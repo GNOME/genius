@@ -1,7 +1,7 @@
 /* mpfr_gmp -- Limited gmp-impl emulator
    Modified version of the GMP files.
 
-Copyright 2004 Free Software Foundation.
+Copyright 2004, 2005 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdlib.h> /* For malloc, free, realloc and abort*/
 #include <stdio.h>  /* For fprintf and stderr */
@@ -293,7 +293,7 @@ const struct bases mpfr_bases[257] =
 
 void
 mpfr_assert_fail (const char *filename, int linenum,
-		     const char *expr)
+                     const char *expr)
 {
   if (filename != NULL && filename[0] != '\0')
     {
@@ -321,7 +321,7 @@ mpfr_init_gmp_rand ()
 {
   /* Since we don't use __gmp_rands, but mpfr_rands, we need to init
      __gmp_rands before setting the memory functions so that the tests
-     don't report an error. 
+     don't report an error.
      Only the tests which call mpn_random2 can do that:
      trandom, tset_f and reuse.
      So we just have to call mpn_random before. */
@@ -344,8 +344,8 @@ mpfr_default_allocate (size_t size)
   ret = malloc (size);
   if (ret == NULL)
     {
-      fprintf (stderr, "MPFR: Can't allocate memory (size=%lu)\n", 
-	       (unsigned long) size);
+      fprintf (stderr, "MPFR: Can't allocate memory (size=%lu)\n",
+               (unsigned long) size);
       abort ();
     }
   return ret;
@@ -358,9 +358,9 @@ mpfr_default_reallocate (void *oldptr, size_t old_size, size_t new_size)
   ret = realloc (oldptr, new_size);
   if (ret == NULL)
     {
-      fprintf (stderr, 
-	       "MPFR: Can't reallocate memory (old_size=%lu new_size=%lu)\n",
-	       (unsigned long) old_size, (unsigned long) new_size);
+      fprintf (stderr,
+               "MPFR: Can't reallocate memory (old_size=%lu new_size=%lu)\n",
+               (unsigned long) old_size, (unsigned long) new_size);
       abort ();
     }
   return ret;
@@ -373,4 +373,3 @@ mpfr_default_free (void *blk_ptr, size_t blk_size)
 }
 
 #endif /* Have gmp-impl.h */
-

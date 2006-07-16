@@ -1,6 +1,6 @@
 /* Test file for mpfr_set_f.
 
-Copyright 1999, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+Copyright 1999, 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -16,12 +16,13 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <limits.h> /* for ULONG_MAX */
 
 #include "mpfr-test.h"
 
@@ -30,6 +31,7 @@ main (void)
 {
   mpfr_t x, u;
   mpf_t y, z;
+  mp_exp_t emax;
   unsigned long k, pr;
   int r, inexact;
 
@@ -56,19 +58,21 @@ main (void)
   mpfr_set_str (u,
      "7.f10872b020c49ba5e353f7ced916872b020c49ba5e353f7ced916872b020c498@2",
      16, GMP_RNDN);
-  mpf_set_str (y, "2033.033", 10);
+  mpf_set_str (y, "2033033E-3", 10); /* avoid 2033.033 which is
+                                        locale-sensitive */
   mpfr_set_f (x, y, GMP_RNDN);
   if (mpfr_cmp (x, u))
     {
-      printf ("mpfr_set_f failed for y=2033.033\n");
+      printf ("mpfr_set_f failed for y=2033033E-3\n");
       exit (1);
     }
-  mpf_set_str (y, "-2033.033", 10);
+  mpf_set_str (y, "-2033033E-3", 10); /* avoid -2033.033 which is
+                                         locale-sensitive */
   mpfr_set_f (x, y, GMP_RNDN);
   mpfr_neg (u, u, GMP_RNDN);
   if (mpfr_cmp (x, u))
     {
-      printf ("mpfr_set_f failed for y=-2033.033\n");
+      printf ("mpfr_set_f failed for y=-2033033E-3\n");
       exit (1);
     }
 
@@ -84,8 +88,6 @@ main (void)
       exit (1);
     }
   MPFR_ASSERTN(mpfr_cmp_ui_2exp (x, 1, 901) == 0);
-
-  mpfr_clear (u);
 
   for (k = 1; k <= 100000; k++)
     {
@@ -129,7 +131,49 @@ main (void)
       mpf_mul_2exp (y, y, 1);
     }
 
+  mpf_set_ui (y, 1);
+  mpf_mul_2exp (y, y, ULONG_MAX);
+  mpfr_set_f (x, y, GMP_RNDN);
+  mpfr_set_ui (u, 1, GMP_RNDN);
+  mpfr_mul_2ui (u, u, ULONG_MAX, GMP_RNDN);
+  if (!mpfr_equal_p (x, u))
+    {
+      printf ("Error: mpfr_set_f (x, y, GMP_RNDN) for y = 2^ULONG_MAX\n");
+      exit (1);
+    }
+
+  emax = mpfr_get_emax ();
+
+  /* For mpf_mul_2exp, emax must fit in an unsigned long! */
+  if (emax >= 0 && emax <= ULONG_MAX)
+    {
+      mpf_set_ui (y, 1);
+      mpf_mul_2exp (y, y, emax);
+      mpfr_set_f (x, y, GMP_RNDN);
+      mpfr_set_ui_2exp (u, 1, emax, GMP_RNDN);
+      if (!mpfr_equal_p (x, u))
+        {
+          printf ("Error: mpfr_set_f (x, y, GMP_RNDN) for y = 2^emax\n");
+          exit (1);
+        }
+    }
+
+  /* For mpf_mul_2exp, emax - 1 must fit in an unsigned long! */
+  if (emax >= 1 && emax - 1 <= ULONG_MAX)
+    {
+      mpf_set_ui (y, 1);
+      mpf_mul_2exp (y, y, emax - 1);
+      mpfr_set_f (x, y, GMP_RNDN);
+      mpfr_set_ui_2exp (u, 1, emax - 1, GMP_RNDN);
+      if (!mpfr_equal_p (x, u))
+        {
+          printf ("Error: mpfr_set_f (x, y, GMP_RNDN) for y = 2^(emax-1)\n");
+          exit (1);
+        }
+    }
+
   mpfr_clear (x);
+  mpfr_clear (u);
   mpf_clear (y);
   mpf_clear (z);
 

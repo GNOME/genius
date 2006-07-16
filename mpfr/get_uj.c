@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #if HAVE_CONFIG_H
 # include "config.h"       /* for a build within gmp */
@@ -62,7 +62,7 @@ mpfr_get_uj (mpfr_srcptr f, mpfr_rnd_t rnd)
     { }
 
   /* Now, r = 0. */
-  
+
   mpfr_init2 (x, prec);
   mpfr_rint (x, f, rnd);
   MPFR_ASSERTN (MPFR_IS_FP (x));
@@ -79,7 +79,7 @@ mpfr_get_uj (mpfr_srcptr f, mpfr_rnd_t rnd)
       for (n = MPFR_LIMB_SIZE(x) - 1; n >= 0; n--)
         {
           sh -= BITS_PER_MP_LIMB;
-          r += (sh >= 0 
+          r += (sh >= 0
                 ? (uintmax_t) xp[n] << sh
                 : (uintmax_t) xp[n] >> (- sh));
         }

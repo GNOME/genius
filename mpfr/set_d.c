@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <string.h> /* For memcmp if _GMP_IEEE_FLOAT == 0 */
 #include <float.h>  /* For DOUBLE_ISINF and DOUBLE_ISNAN */
@@ -26,19 +26,9 @@ MA 02111-1307, USA. */
 #define MPFR_NEED_LONGLONG_H
 #include "mpfr-impl.h"
 
-/*
-#if (BITS_PER_MP_LIMB==32)
-# define MPFR_LIMBS_PER_DOUBLE 2
-#elif (BITS_PER_MP_LIMB >= 64)
-# define MPFR_LIMBS_PER_DOUBLE 1
-#else
-# error "Unsupported value of BITS_PER_MP_LIMB"
-#endif
-*/
-
 /* extracts the bits of d in rp[0..n-1] where n=ceil(53/BITS_PER_MP_LIMB).
    Assumes d is neither 0 nor NaN nor Inf. */
-static int
+static long
 __gmpfr_extract_double (mp_ptr rp, double d)
      /* e=0 iff BITS_PER_MP_LIMB=32 and rp has only one limb */
 {
@@ -69,21 +59,21 @@ __gmpfr_extract_double (mp_ptr rp, double d)
     if (exp)
       {
 #if BITS_PER_MP_LIMB >= 64
-	manl = ((MPFR_LIMB_ONE << 63)
-		| ((mp_limb_t) x.s.manh << 43) | ((mp_limb_t) x.s.manl << 11));
+        manl = ((MPFR_LIMB_ONE << 63)
+                | ((mp_limb_t) x.s.manh << 43) | ((mp_limb_t) x.s.manl << 11));
 #else
-	manh = (MPFR_LIMB_ONE << 31) | (x.s.manh << 11) | (x.s.manl >> 21);
-	manl = x.s.manl << 11;
+        manh = (MPFR_LIMB_ONE << 31) | (x.s.manh << 11) | (x.s.manl >> 21);
+        manl = x.s.manl << 11;
 #endif
       }
     else /* denormalized number */
       {
 #if BITS_PER_MP_LIMB >= 64
-	manl = ((mp_limb_t) x.s.manh << 43) | ((mp_limb_t) x.s.manl << 11);
+        manl = ((mp_limb_t) x.s.manh << 43) | ((mp_limb_t) x.s.manl << 11);
 #else
         manh = (x.s.manh << 11) /* high 21 bits */
           | (x.s.manl >> 21); /* middle 11 bits */
-	manl = x.s.manl << 11; /* low 21 bits */
+        manl = x.s.manl << 11; /* low 21 bits */
 #endif
       }
 
@@ -157,9 +147,9 @@ mpfr_set_d (mpfr_ptr r, double d, mp_rnd_t rnd_mode)
   mp_size_t i, k;
   mpfr_t tmp;
   mp_limb_t tmpmant[MPFR_LIMBS_PER_DOUBLE];
- 
-  MPFR_CLEAR_FLAGS(r);
+  MPFR_SAVE_EXPO_DECL (expo);
 
+  MPFR_CLEAR_FLAGS(r);
 
   if (MPFR_UNLIKELY(DOUBLE_ISNAN(d)))
     {
@@ -175,41 +165,41 @@ mpfr_set_d (mpfr_ptr r, double d, mp_rnd_t rnd_mode)
       /* set correct sign */
       x.d = d;
       if (x.s.sig == 1)
-	MPFR_SET_NEG(r);
+        MPFR_SET_NEG(r);
       else
-	MPFR_SET_POS(r);
+        MPFR_SET_POS(r);
 #else /* _GMP_IEEE_FLOATS */
-      MPFR_SET_ZERO(r); 
+      MPFR_SET_ZERO(r);
       {
-	/* This is to get the sign of zero on non-IEEE hardware
-	   Some systems support +0.0, -0.0 and unsigned zero.
-	   We can't use d==+0.0 since it should be always true,
-	   so we check that the memory representation of d is the 
-	   same than +0.0. etc */
-	double poszero = +0.0, negzero = -0.0;
-	if (memcmp(&d, &poszero, sizeof(double)) == 0)
-	  MPFR_SET_POS(r);
-	else if (memcmp(&d, &negzero, sizeof(double)) == 0)
-	  MPFR_SET_NEG(r);
-	else
-	  MPFR_SET_POS(r);
+        /* This is to get the sign of zero on non-IEEE hardware
+           Some systems support +0.0, -0.0 and unsigned zero.
+           We can't use d==+0.0 since it should be always true,
+           so we check that the memory representation of d is the
+           same than +0.0. etc */
+        double poszero = +0.0, negzero = -0.0;
+        if (memcmp(&d, &poszero, sizeof(double)) == 0)
+          MPFR_SET_POS(r);
+        else if (memcmp(&d, &negzero, sizeof(double)) == 0)
+          MPFR_SET_NEG(r);
+        else
+          MPFR_SET_POS(r);
       }
 #endif
       return 0; /* 0 is exact */
     }
   else if (MPFR_UNLIKELY(DOUBLE_ISINF(d)))
-    { 
+    {
       MPFR_SET_INF(r);
       if (d > 0)
-	MPFR_SET_POS(r);
+        MPFR_SET_POS(r);
       else
-	MPFR_SET_NEG(r);
+        MPFR_SET_NEG(r);
       return 0; /* infinity is exact */
     }
 
   /* now d is neither 0, nor NaN nor Inf */
 
-  mpfr_save_emin_emax ();
+  MPFR_SAVE_EXPO_MARK (expo);
 
   /* warning: don't use tmp=r here, even if SIZE(r) >= MPFR_LIMBS_PER_DOUBLE,
      since PREC(r) may be different from PREC(tmp), and then both variables
@@ -257,8 +247,7 @@ mpfr_set_d (mpfr_ptr r, double d, mp_rnd_t rnd_mode)
   /* tmp is exact since PREC(tmp)=53 */
   inexact = mpfr_set4 (r, tmp, rnd_mode, signd);
 
-  mpfr_restore_emin_emax ();
-
+  MPFR_SAVE_EXPO_FREE (expo);
   return mpfr_check_range (r, inexact, rnd_mode);
 }
 

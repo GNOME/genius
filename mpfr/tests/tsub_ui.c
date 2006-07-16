@@ -1,6 +1,6 @@
 /* Test file for mpfr_sub_ui
 
-Copyright 2000, 2001, 2002, 2003, 2004 Free Software Foundation.
+Copyright 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -114,12 +114,18 @@ check_nans (void)
   mpfr_clear (y);
 }
 
+#define TEST_FUNCTION mpfr_sub_ui
+#define INTEGER_TYPE  unsigned long
+#define RAND_FUNCTION(x) mpfr_random2(x, MPFR_LIMB_SIZE (x), 1)
+#include "tgeneric_ui.c"
+
 int
 main (int argc, char *argv[])
 {
   mp_prec_t p;
   int k;
 
+  MPFR_TEST_USE_RANDS ();
   tests_start_mpfr ();
 
   check_nans ();
@@ -128,8 +134,10 @@ main (int argc, char *argv[])
     for (k=0; k<200; k++)
       check_two_sum (p);
 
-  check3 ("0.9999999999", 1, GMP_RNDN, 
-	  "-10000000827403709990903735160827636718750e-50");
+  check3 ("0.9999999999", 1, GMP_RNDN,
+          "-10000000827403709990903735160827636718750e-50");
+
+  test_generic_ui (2, 1000, 100);
 
   tests_end_mpfr ();
   return 0;

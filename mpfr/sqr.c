@@ -1,6 +1,6 @@
 /* mpfr_sqr -- Floating square
 
-Copyright 2004 Free Software Foundation, Inc.
+Copyright 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of the MPFR Library.
 
@@ -19,8 +19,8 @@ License for more details.
 You should have received a copy of the GNU Lesser
 General Public License along with the MPFR Library; see
 the file COPYING.LIB.  If not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include "mpfr-impl.h"
 
@@ -33,7 +33,7 @@ mpfr_sqr (mpfr_ptr a, mpfr_srcptr b, mp_rnd_t rnd_mode)
   mp_limb_t b1;
   mp_prec_t bq;
   mp_size_t bn, tn;
-  TMP_DECL(marker);
+  MPFR_TMP_DECL(marker);
 
   /* deal with special cases */
   if (MPFR_UNLIKELY(MPFR_IS_SINGULAR(b)))
@@ -45,9 +45,9 @@ mpfr_sqr (mpfr_ptr a, mpfr_srcptr b, mp_rnd_t rnd_mode)
         }
       MPFR_SET_POS (a);
       if (MPFR_IS_INF(b))
-	MPFR_SET_INF(a);
+        MPFR_SET_INF(a);
       else
-	( MPFR_ASSERTD(MPFR_IS_ZERO(b)), MPFR_SET_ZERO(a) );
+        ( MPFR_ASSERTD(MPFR_IS_ZERO(b)), MPFR_SET_ZERO(a) );
       MPFR_RET(0);
     }
   MPFR_CLEAR_FLAGS(a);
@@ -59,8 +59,8 @@ mpfr_sqr (mpfr_ptr a, mpfr_srcptr b, mp_rnd_t rnd_mode)
   bn = (bq+BITS_PER_MP_LIMB-1)/BITS_PER_MP_LIMB; /* number of limbs of b */
   tn = (2*bq + BITS_PER_MP_LIMB - 1) / BITS_PER_MP_LIMB;
 
-  TMP_MARK(marker);
-  tmp = (mp_limb_t *) TMP_ALLOC((size_t) 2*bn * BYTES_PER_MP_LIMB);
+  MPFR_TMP_MARK(marker);
+  tmp = (mp_limb_t *) MPFR_TMP_ALLOC((size_t) 2*bn * BYTES_PER_MP_LIMB);
 
   /* Multiplies the mantissa in temporary allocated space */
   mpn_sqr_n (tmp, MPFR_MANT(b), bn);
@@ -83,11 +83,11 @@ mpfr_sqr (mpfr_ptr a, mpfr_srcptr b, mp_rnd_t rnd_mode)
   if (MPFR_UNLIKELY(cc))
     MPFR_MANT(a)[MPFR_LIMB_SIZE(a)-1] = MPFR_LIMB_HIGHBIT;
 
-  TMP_FREE(marker);
+  MPFR_TMP_FREE(marker);
   {
     mp_exp_t ax2 = ax + (mp_exp_t) (b1 - 1 + cc);
     if (MPFR_UNLIKELY( ax2 > __gmpfr_emax))
-      return mpfr_set_overflow (a, rnd_mode, MPFR_SIGN_POS);
+      return mpfr_overflow (a, rnd_mode, MPFR_SIGN_POS);
     if (MPFR_UNLIKELY( ax2 < __gmpfr_emin))
       {
         /* In the rounding to the nearest mode, if the exponent of the exact
@@ -97,7 +97,7 @@ mpfr_sqr (mpfr_ptr a, mpfr_srcptr b, mp_rnd_t rnd_mode)
         if (rnd_mode == GMP_RNDN &&
             (ax + (mp_exp_t) b1 < __gmpfr_emin || mpfr_powerof2_raw (b)))
           rnd_mode = GMP_RNDZ;
-        return mpfr_set_underflow (a, rnd_mode, MPFR_SIGN_POS);
+        return mpfr_underflow (a, rnd_mode, MPFR_SIGN_POS);
       }
     MPFR_SET_EXP (a, ax2);
     MPFR_SET_POS (a);

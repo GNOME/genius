@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2005 Jiri (George) Lebl
+ * Copyright (C) 1997-2006 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -250,9 +250,6 @@ static __mpfr_struct *free_mpf_top = free_mpf;
 /*low level stuff prototypes                                             */
 /*************************************************************************/
 
-/*my own power function for floats, very simple :) */
-static void mympfr_pow_z(mpf_t rop,mpf_t op,mpz_t e);
-
 /*my own power function for ints, very simple :) */
 static void mympz_pow_z(mpz_t rop,mpz_t op,mpz_t e);
 
@@ -347,9 +344,11 @@ static void mpwl_cos(MpwRealNum *rop,MpwRealNum *op);
 static void mpwl_sinh(MpwRealNum *rop,MpwRealNum *op);
 static void mpwl_cosh(MpwRealNum *rop,MpwRealNum *op);
 static void mpwl_arctan(MpwRealNum *rop,MpwRealNum *op);
+static void mpwl_arctan2(MpwRealNum *rop,MpwRealNum *op1, MpwRealNum *op2);
 static void mpwl_pi (MpwRealNum *rop);
 static void mpwl_ln2 (MpwRealNum *rop);
 static void mpwl_euler_constant (MpwRealNum *rop);
+static void mpwl_catalan_constant (MpwRealNum *rop);
 static void mpwl_rand (MpwRealNum *rop);
 static void mpwl_randint (MpwRealNum *rop, MpwRealNum *op);
 
@@ -457,45 +456,6 @@ mympq_set_fr (mpq_ptr q, mpfr_srcptr fr)
 	if (sgn < 0)
 		mpq_neg (q, q);
 }
-
-/*my own power function for floats, very simple :) */
-static void
-mympfr_pow_z(mpfr_t rop,mpfr_t op,mpz_t e)
-{
-	int esgn = mpz_sgn (e);
-	gboolean neg = FALSE;
-	if (esgn == 0) {
-		mpfr_set_ui (rop, 1, GMP_RNDN);
-		return;
-	} else if (esgn < 0) {
-		neg = TRUE;
-		mpz_neg (e, e);
-	}
-
-	if (mpz_fits_ulong_p (e)) {
-		unsigned int exp = mpz_get_ui (e);
-		mpfr_pow_ui (rop, op, exp, GMP_RNDN);
-		if (neg) {
-			mpfr_ui_div (rop, 1, rop, GMP_RNDN);
-			mpz_neg (e, e);
-		}
-	} else {
-		mpfr_t fe;
-
-		/* we don't need a negative here */
-		if (neg) {
-			mpz_neg (e, e);
-		}
-
-		mpfr_init (fe);
-		mpfr_set_z (fe, e, GMP_RNDN);
-
-		mpfr_pow (rop, op, fe, GMP_RNDN);
-
-		mpfr_clear (fe);
-	}
-}
-
 
 /*my own power function for ints, very simple :), assumes that
  * e is positive */
@@ -1777,10 +1737,10 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	mpf_div_ui (fr, op1_f, 2); /*use half the value
 					     as an initial guess*/
 	for(;;) {
-		mympfr_pow_z(fr2,fr,mpq_denref(op2->data.rval));
+		mpfr_pow_z(fr2,fr,mpq_denref(op2->data.rval),GMP_RNDN);
 		mpf_sub (fr2, fr2, op1_f);
 
-		mympfr_pow_z(frt,fr,des);
+		mpfr_pow_z(frt,fr,des,GMP_RNDN);
 		mpf_mul(frt,frt,de);
 		mpf_div(fr2,fr2,frt);
 		mpf_neg(fr2,fr2);
@@ -1799,12 +1759,12 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	if(reverse) {
 		/*numerator will be negative*/
 		mpz_neg(mpq_numref(op2->data.rval),mpq_numref(op2->data.rval));
-		mympfr_pow_z(fr,fr,mpq_numref(op2->data.rval));
+		mpfr_pow_z(fr,fr,mpq_numref(op2->data.rval),GMP_RNDN);
 		mpz_neg(mpq_numref(op2->data.rval),mpq_numref(op2->data.rval));
 
 		mpf_ui_div(fr,1,fr);
 	} else
-		mympfr_pow_z(fr,fr,mpq_numref(op2->data.rval));
+		mpfr_pow_z(fr,fr,mpq_numref(op2->data.rval),GMP_RNDN);
 
 	/*op1 might have equaled rop so clear extra type here*/
 	MPWL_MPF_KILL (op1_f, op1_tmp);
@@ -1908,8 +1868,8 @@ mpwl_pow_z(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 			break;
 		case MPW_FLOAT:
 			mpwl_init_type(&r,MPW_FLOAT);
-			mympfr_pow_z(r.data.fval,op1->data.fval,
-				    op2->data.ival);
+			mpfr_pow_z(r.data.fval,op1->data.fval,
+				    op2->data.ival,GMP_RNDN);
 
 			if(reverse)
 				mpf_ui_div(r.data.fval,1,r.data.fval);
@@ -2232,6 +2192,31 @@ DEFINE_SIMPLE_MPWL_MPFR (mpwl_sinh, mpfr_sinh)
 DEFINE_SIMPLE_MPWL_MPFR (mpwl_arctan, mpfr_atan)
 
 static void
+mpwl_arctan2 (MpwRealNum *rop, MpwRealNum *op1, MpwRealNum *op2)
+{
+	mpfr_ptr op1_f, op2_f;
+	mpfr_t op1_tmp, op2_tmp;
+	MPWL_MPF (op1_f, op1, op1_tmp);
+	MPWL_MPF (op2_f, op2, op2_tmp);
+
+	if (rop != op1 && rop != op2) {
+		if (rop->type != MPW_FLOAT) {
+			mpwl_clear (rop);
+			mpwl_init_type (rop, MPW_FLOAT);
+		}
+		mpfr_atan2 (rop->data.fval, op1_f, op2_f, GMP_RNDN);
+	} else {
+		MpwRealNum r = {{NULL}};
+
+		mpwl_init_type (&r, MPW_FLOAT);
+		mpfr_atan2 (r.data.fval, op1_f, op2_f, GMP_RNDN);
+		mpwl_move (rop, &r);
+	}
+	MPWL_MPF_KILL (op1_f, op1_tmp);
+	MPWL_MPF_KILL (op2_f, op2_tmp);
+}
+
+static void
 mpwl_pi (MpwRealNum *rop)
 {
 	if (rop->type != MPW_FLOAT) {
@@ -2259,6 +2244,16 @@ mpwl_euler_constant (MpwRealNum *rop)
 		mpwl_init_type (rop, MPW_FLOAT);
 	}
 	mpfr_const_euler (rop->data.fval, GMP_RNDN);
+}
+
+static void
+mpwl_catalan_constant (MpwRealNum *rop)
+{
+	if (rop->type != MPW_FLOAT) {
+		mpwl_clear(rop);
+		mpwl_init_type(rop,MPW_FLOAT);
+	}
+	mpfr_const_catalan (rop->data.fval, GMP_RNDN);
 }
 
 /* Random state stuff: FIXME: this is evil */
@@ -4599,6 +4594,23 @@ mpw_arctan(mpw_ptr rop,mpw_ptr op)
 }
 
 void
+mpw_arctan2(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
+{
+	if G_LIKELY (MPW_IS_REAL (op1) && MPW_IS_REAL (op2)) {
+		MAKE_REAL(rop);
+		if (rop != op1 && rop != op1) {
+			MAKE_EMPTY (rop->r, MPW_INTEGER);
+		} else {
+			MAKE_COPY (rop->r);
+		}
+		mpwl_arctan2(rop->r,op1->r,op2->r);
+	} else {
+		error_num=NUMERICAL_MPW_ERROR;
+		gel_errorout (_("arctan2 not defined for complex numbers"));
+	}
+}
+
+void
 mpw_pi (mpw_ptr rop)
 {
 	MAKE_REAL (rop);
@@ -4620,6 +4632,14 @@ mpw_euler_constant (mpw_ptr rop)
 	MAKE_REAL (rop);
 	MAKE_EMPTY (rop->r, MPW_FLOAT);
 	mpwl_euler_constant (rop->r);
+}
+
+void
+mpw_catalan_constant (mpw_ptr rop)
+{
+	MAKE_REAL (rop);
+	MAKE_EMPTY (rop->r, MPW_FLOAT);
+	mpwl_catalan_constant (rop->r);
 }
 
 void

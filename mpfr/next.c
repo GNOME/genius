@@ -1,7 +1,7 @@
 /* mpfr_nextabove, mpfr_nextbelow, mpfr_nexttoward -- next representable
 floating-point number
 
-Copyright 1999, 2001, 2002, 2003, 2004 Free Software Foundation.
+Copyright 1999, 2001, 2002, 2003, 2004, 2005 Free Software Foundation.
 Contributed by the Spaces project, INRIA Lorraine.
 
 This file is part of the MPFR Library.
@@ -18,12 +18,12 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include "mpfr-impl.h"
 
-static void
+void
 mpfr_nexttozero (mpfr_ptr x)
 {
   if (MPFR_UNLIKELY(MPFR_IS_INF(x)))
@@ -64,7 +64,7 @@ mpfr_nexttozero (mpfr_ptr x)
     }
 }
 
-static void
+void
 mpfr_nexttoinf (mpfr_ptr x)
 {
   if (MPFR_UNLIKELY(MPFR_IS_INF(x)))
@@ -81,7 +81,7 @@ mpfr_nexttoinf (mpfr_ptr x)
       MPFR_UNSIGNED_MINUS_MODULO (sh, MPFR_PREC(x));
       xp = MPFR_MANT(x);
       if (MPFR_UNLIKELY( mpn_add_1 (xp, xp, xn, MPFR_LIMB_ONE << sh)) )
-	/* got 1.0000... */
+        /* got 1.0000... */
         {
           mp_exp_t exp = MPFR_EXP (x);
           if (MPFR_UNLIKELY(exp == __gmpfr_emax))

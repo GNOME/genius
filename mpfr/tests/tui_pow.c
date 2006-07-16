@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,10 +29,13 @@ MA 02111-1307, USA. */
 static void
 test1 (void)
 {
-  mpfr_t x, y;
+  mpfr_t x, y, z, a;
+  int res1, res2;
 
   mpfr_init2 (x, 32);
   mpfr_init2 (y, 65);
+  mpfr_init2 (z, 17);
+  mpfr_init2 (a, 17);
 
   mpfr_set_str_binary (x, "-0.101110001001011011011e-9");
   mpfr_ui_pow (y, 7, x, GMP_RNDN);
@@ -49,11 +52,35 @@ test1 (void)
       exit (1);
     }
 
+  /* Check for ui_pow_ui */
   mpfr_ui_pow_ui (x, 0, 1, GMP_RNDN);
   MPFR_ASSERTN(mpfr_cmp_ui (x, 0) == 0 && MPFR_IS_POS (x));
-
+  mpfr_ui_pow_ui (x, 0, 4, GMP_RNDN);
+  MPFR_ASSERTN(mpfr_cmp_ui (x, 0) == 0 && MPFR_IS_POS (x));
+  res1 = mpfr_ui_pow_ui (z, 17, 42, GMP_RNDD);
+  mpfr_set_ui (x, 17, GMP_RNDN);
+  mpfr_set_ui (y, 42, GMP_RNDN);
+  res2 = mpfr_pow (a, x, y, GMP_RNDD);
+  if (mpfr_cmp (z, a) || res1 != res2)
+    {
+      printf ("Error for ui_pow_ui for 17^42\n"
+              "Inexact1 = %d Inexact2 = %d\n", res1, res2);
+      mpfr_dump (z);
+      mpfr_dump (a);
+      exit (1);
+    }
+  mpfr_set_prec (x, 2);
+  mpfr_ui_pow_ui (x, 65537, 65535, GMP_RNDN);
+  if (mpfr_cmp_str (x, "0.11E1048562", 2, GMP_RNDN) != 0)
+    {
+      printf ("Error for ui_pow_ui for 65537 ^65535 with 2 bits of precision\n");
+      mpfr_dump (x);
+      exit (1);
+    }
   mpfr_clear (x);
   mpfr_clear (y);
+  mpfr_clear (z);
+  mpfr_clear (a);
 }
 
 static void
@@ -217,13 +244,13 @@ main (int argc, char *argv[])
     {
       mpfr_set_prec (x, prec);
       for (n=0; n<N; n++)
-	{
+        {
           int nt;
           nt = randlimb () & INT_MAX;
-	  mpfr_random (x);
-	  rnd = (mp_rnd_t) RND_RAND ();
+          mpfr_random (x);
+          rnd = (mp_rnd_t) RND_RAND ();
           check1 (x, prec, nt, rnd);
-	}
+        }
     }
   }
 

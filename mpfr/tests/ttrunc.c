@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,7 +41,7 @@ main (void)
   if (mpfr_cmp_ui (y, 1))
     {
       printf ("Error in mpfr_ceil for x=0.5: expected 1.0, got ");
-      mpfr_print_binary(y); 
+      mpfr_print_binary(y);
       putchar('\n');
       exit (1);
     }

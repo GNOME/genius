@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,21 +33,21 @@ check_special(void)
 
   mpfr_init(x);
   MPFR_SET_ZERO(x);
-  if (mpfr_sgn(x) != 0)
+  if ((mpfr_sgn) (x) != 0)
     {
       printf("Sgn error for 0.\n");
       ret = 1;
     }
   MPFR_SET_INF(x);
   MPFR_SET_POS(x);
-  if (mpfr_sgn(x) != 1)
+  if ((mpfr_sgn) (x) != 1)
     {
       printf("Sgn error for +Inf.\n");
       ret = 1;
     }
   MPFR_SET_INF(x);
   MPFR_SET_NEG(x);
-  if (mpfr_sgn(x) != -1)
+  if ((mpfr_sgn) (x) != -1)
     {
       printf("Sgn error for -Inf.\n");
       ret = 1;
@@ -68,34 +68,34 @@ check_sgn(void)
     {
       mpfr_random(x);
       if (i&1)
-	{
-	  MPFR_SET_POS(x);
-	  s2 = 1;
-	}
+        {
+          MPFR_SET_POS(x);
+          s2 = 1;
+        }
       else
-	{
-	  MPFR_SET_NEG(x);
-	  s2 = -1;
-	}
+        {
+          MPFR_SET_NEG(x);
+          s2 = -1;
+        }
       s1 = mpfr_sgn(x);
       if (s1 < -1 || s1 > 1)
-	{
-	  printf("Error for sgn: out of range.\n");
-	  goto lexit;
-	}
+        {
+          printf("Error for sgn: out of range.\n");
+          goto lexit;
+        }
       else if (MPFR_IS_NAN(x) || MPFR_IS_ZERO(x))
-	{
-	  if (s1 != 0)
-	    {
-	      printf("Error for sgn: Nan or Zero should return 0.\n");
-	      goto lexit;
-	    }
-	}
+        {
+          if (s1 != 0)
+            {
+              printf("Error for sgn: Nan or Zero should return 0.\n");
+              goto lexit;
+            }
+        }
       else if (s1 != s2)
-	{
-	  printf("Error for sgn. Return %d instead of %d.\n", s1, s2);
-	  goto lexit;
-	}
+        {
+          printf("Error for sgn. Return %d instead of %d.\n", s1, s2);
+          goto lexit;
+        }
     }
   mpfr_clear(x);
   return;

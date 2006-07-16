@@ -17,8 +17,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include "mpfr-impl.h"
 
@@ -26,15 +26,12 @@ int
 mpfr_set_si_2exp (mpfr_ptr x, long i, mp_exp_t e, mp_rnd_t rnd_mode)
 {
   int res;
+  MPFR_SAVE_EXPO_DECL (expo);
 
-  mpfr_save_emin_emax ();
+  MPFR_SAVE_EXPO_MARK (expo);
   res = mpfr_set_si (x, i, rnd_mode);
-  MPFR_ASSERTD ( res == 0);
-  MPFR_ASSERTD (e == (mp_exp_t)(long) e);
-  res = mpfr_mul_2si (x, x, e, rnd_mode);
-  mpfr_restore_emin_emax ();
-  if (res)
-    return res;
-  res = mpfr_check_range(x, 0, rnd_mode);
+  mpfr_mul_2si (x, x, e, rnd_mode); /* Should be exact */
+  MPFR_SAVE_EXPO_FREE (expo);
+  res = mpfr_check_range(x, res, rnd_mode);
   return res;
 }

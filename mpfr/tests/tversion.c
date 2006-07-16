@@ -1,6 +1,6 @@
 /* Test file for mpfr_version.
 
-Copyright 2004 Free Software Foundation.
+Copyright 2004, 2005 Free Software Foundation.
 
 This file is part of the MPFR Library.
 
@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,7 +36,12 @@ main (void)
   version = mpfr_get_version ();
   if (strcmp (buffer, version) != 0)
     {
-      printf ("Incorrect version (%s vs %s)\n", buffer, version);
+      printf ("Incorrect version [1] (%s vs %s)\n", buffer, version);
+      exit (1);
+    }
+  if (strcmp (MPFR_VERSION_STRING, version) != 0)
+    {
+      printf ("Incorrect version [2] (%s vs %s)\n", buffer, version);
       exit (1);
     }
   return 0;

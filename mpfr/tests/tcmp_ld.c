@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -32,7 +32,7 @@ main (void)
   tests_start_mpfr ();
 
   mpfr_init2(x, MPFR_LDBL_MANT_DIG);
-  
+
   mpfr_set_ld (x, 2.34763465, GMP_RNDN);
   if (mpfr_cmp_ld(x, 2.34763465)!=0) {
     printf("Error in mpfr_cmp_ld 2.34763465 and ");

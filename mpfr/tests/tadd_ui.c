@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -87,22 +87,29 @@ check_nans (void)
   mpfr_clear (y);
 }
 
+#define TEST_FUNCTION mpfr_add_ui
+#define INTEGER_TYPE  unsigned long
+#define RAND_FUNCTION(x) mpfr_random2(x, MPFR_LIMB_SIZE (x), 1)
+#include "tgeneric_ui.c"
+
 int
 main (int argc, char *argv[])
 {
+  MPFR_TEST_USE_RANDS ();
   tests_start_mpfr ();
 
   check_nans ();
 
   special ();
   check3 ("-1.716113812768534e-140", 1271212614, GMP_RNDZ,
-	  "1.27121261399999976e9");
-  check3 ("1.22191250737771397120e+20", 948002822, GMP_RNDN, 
-	  "122191250738719408128.0");
+          "1.27121261399999976e9");
+  check3 ("1.22191250737771397120e+20", 948002822, GMP_RNDN,
+          "122191250738719408128.0");
   check3 ("-6.72658901114033715233e-165", 2000878121, GMP_RNDZ,
-	  "2.0008781209999997615e9");
-  check3 ("-2.0769715792901673e-5", 880524, GMP_RNDN, 
-	  "8.8052399997923023e5");
+          "2.0008781209999997615e9");
+  check3 ("-2.0769715792901673e-5", 880524, GMP_RNDN,
+          "8.8052399997923023e5");
+  test_generic_ui (2, 1000, 100);
 
   tests_end_mpfr ();
   return 0;

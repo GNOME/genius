@@ -1,20 +1,20 @@
 dnl  MPFR specific autoconf macros
 
-dnl  Copyright 2000, 2002, 2003, 2004 Free Software Foundation.
+dnl  Copyright 2000, 2002, 2003, 2004, 2005 Free Software Foundation.
 dnl  Contributed by the Spaces project, INRIA Lorraine.
-dnl  
+dnl
 dnl  This file is part of the MPFR Library.
-dnl  
+dnl
 dnl  The MPFR Library is free software; you can redistribute it and/or modify
 dnl  it under the terms of the GNU Lesser General Public License as published
 dnl  by the Free Software Foundation; either version 2.1 of the License, or (at
 dnl  your option) any later version.
-dnl  
+dnl
 dnl  The MPFR Library is distributed in the hope that it will be useful, but
 dnl  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 dnl  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 dnl  License for more details.
-dnl  
+dnl
 dnl  You should have received a copy of the GNU Lesser General Public License
 dnl  along with the MPFR Library; see the file COPYING.LIB.  If not, write to
 dnl  the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
@@ -27,104 +27,35 @@ dnl  The following line allows the autoconf wrapper (when installed)
 dnl  to work as expected.
 AC_PREREQ(2.50)
 
-AC_DEFUN([AC_MY_LIBS],
-[
-if ` test "$1" `
-then  
-  AC_MSG_CHECKING($2 library)
-	if  test -r "$1/lib$2.a"
-	then
-	  LIBS="$LIBS $1/lib$2.a"
-	else
-	if  test -r "$1/lib$2.so"
-	then
-	  LIBS="$LIBS $1/lib$2.so"
-	else
-	if  test -r "$1/lib$2.lib"
-	then
-	  LIBS="$LIBS $1/lib$2.lib"
-	else
-	   AC_MSG_ERROR($1/lib$2.a/so/lib not found)
-	fi
-	fi
-	fi
-  AC_MSG_RESULT(yes)
-else
-  AC_CHECK_LIB($2, main, , AC_MSG_ERROR($2 not found))
-fi
-]
-)
-
-dnl FIXME: Buggy?
-AC_DEFUN([AC_MY_HEADERS], 
-[
-if  test "$1" 
-then  
-  AC_CHECK_HEADER($1/$2, INCLUDES="$INCLUDES -I$1",AC_MSG_ERROR($2 not found in $1)) 
-else
-  AC_CHECK_HEADER($2,, 	  AC_MSG_ERROR($2 not found))
-fi
-])
-
-AC_DEFUN([AC_CHECK_OS], 
-[
-AC_CACHE_CHECK([OS type], mpfr_cv_os_type, [
-  mpfr_cv_os_type=`uname -s`
-])
-OS_TYPE=$mpfr_cv_os_type
-])
-
-AC_DEFUN([AC_CHECK_MACHTYPE],
-[
-AC_CACHE_CHECK([Mach type], mpfr_cv_mach_type, [
-  mpfr_cv_mach_type=`uname -m`
-])
-MACHTYPE=$mpfr_cv_mach_type
-])
-
 dnl ------------------------------------------------------------
-
+dnl You must put in MPFR_CONFIGS everything which configure MPFR
+dnl except:
+dnl   -everything dealing with CC and CFLAGS in particular the ABI
+dnl   but the IEEE-754 specific flags must be set here.
+dnl   -GMP's linkage.
+dnl   -Libtool stuff.
+dnl   -Handling of special arguments of MPFR's configure.
 AC_DEFUN([MPFR_CONFIGS],
 [
 AC_REQUIRE([AC_OBJEXT])
 AC_REQUIRE([MPFR_CHECK_LIBM])
 AC_REQUIRE([AC_HEADER_TIME])
+AC_REQUIRE([AC_CANONICAL_HOST])
 
-# CPU-dependent objects for the test programs
-case $host in
-  X86_PATTERN)
-    AC_SUBST(TESTS_ASM_OBJECTS, x86.$OBJEXT)
-    AC_DEFINE(MPFR_HAVE_TESTS_x86, 1,
-              [Define to 1 if mpfr x86/amd64 test routines are available.])
-    ;;
-  amd64-*-*)
-    AC_SUBST(TESTS_ASM_OBJECTS, amd64.$OBJEXT)
-    AC_DEFINE(MPFR_HAVE_TESTS_x86, 1)
-    ;;
-esac
-
-dnl Check for sizeof size_t
-dnl AC_CHECK_SIZEOF
-dnl AC_TYPE_SIZE_T
-
-dnl
-AC_CHECK_FUNCS([memset])
-AC_CHECK_FUNCS([strtol])
 AC_CHECK_HEADER([limits.h],, AC_MSG_ERROR([limits.h not found]))
 AC_CHECK_HEADER([float.h],,  AC_MSG_ERROR([float.h not found]))
 
 dnl Check for stdargs
-AC_CHECK_HEADER([stdarg.h],[AC_DEFINE([HAVE_STDARG])],
-	[AC_CHECK_HEADER([varargs.h],, 
-	AC_MSG_ERROR([stdarg.h or varargs.h not found]))])
+AC_CHECK_HEADER([stdarg.h],[AC_DEFINE([HAVE_STDARG],1,[Define if stdarg])],
+  [AC_CHECK_HEADER([varargs.h],,
+    AC_MSG_ERROR([stdarg.h or varargs.h not found]))])
 
-AC_CHECK_HEADERS(sys/time.h)
+dnl sys/fpu.h - MIPS specific
+AC_CHECK_HEADERS([sys/time.h sys/fpu.h])
 
-# Reasons for testing:
-#   gettimeofday - not in mingw
-#
-AC_CHECK_FUNCS(gettimeofday)
-AC_REPLACE_FUNCS(strcasecmp strncasecmp)
+dnl FIXME: strtol is really needed. Maybe create another function?
+dnl gettimeofday is not defined for MinGW
+AC_CHECK_FUNCS([memset setlocale strtol gettimeofday])
 
 dnl Check for IEEE-754 switches on Alpha
 case $host in
@@ -146,12 +77,8 @@ alpha*-*-*)
   fi
 esac
 
-# Reasons for testing:
-#   sys/fpu.h - MIPS specific
-#
-AC_CHECK_HEADERS(sys/fpu.h)
-
-AC_CHECK_TYPE( [union fpc_csr], AC_DEFINE(HAVE_FPC_CSR), , 
+AC_CHECK_TYPE( [union fpc_csr],
+   AC_DEFINE(HAVE_FPC_CSR,1,[Define if union fpc_csr is available]), ,
 [
 #if HAVE_SYS_FPU_H
 #  include <sys/fpu.h>
@@ -170,27 +97,11 @@ if test "$mpfr_cv_have_fesetround" = "yes"; then
   AC_DEFINE(MPFR_HAVE_FESETROUND,1,[Define if you have the `fesetround' function via the <fenv.h> header file.])
 fi
 
-dnl Check whether 0/0, 1/0, -1/0, sqrt(-1) are valid expressions
-AC_CACHE_CHECK([for valid NaN], mpfr_cv_valid_nan, [
-AC_TRY_RUN([
-#include <math.h>
-int main()
-{
-  double x = (0.0/0.0) + sqrt(-1.0);
-  return x == 1.0/0.0;
-}
-], mpfr_cv_valid_nan=yes, mpfr_cv_valid_nan=no, mpfr_cv_valid_nan=no)
-])
-if test "$mpfr_cv_valid_nan" = "yes"; then
-   AC_DEFINE(HAVE_INFS,1,[Define if 0/0, 1/0, -1/0 and sqrt(-1) work to generate NaN/infinities.])
-fi
-
 dnl Check for gcc float-conversion bug; if need be, -ffloat-store is used to
 dnl force the conversion to the destination type when a value is stored to
 dnl a variable (see ISO C99 standard 5.1.2.3#13, 6.3.1.5#2, 6.3.1.8#2). This
 dnl is important concerning the exponent range. Note that this doesn't solve
-dnl the double-rounding problem (x86 processors still have to be set to the
-dnl IEEE-754 compatible rounding mode).
+dnl the double-rounding problem.
 if test -n "$GCC"; then
   AC_CACHE_CHECK([for gcc float-conversion bug], mpfr_cv_gcc_floatconv_bug, [
   saved_LIBS="$LIBS"
@@ -200,8 +111,8 @@ if test -n "$GCC"; then
 #ifdef MPFR_HAVE_FESETROUND
 #include <fenv.h>
 #endif
-int main()
-{
+static double get_max (void);
+int main() {
   double x = 0.5;
   int i;
   for (i = 1; i <= 11; i++)
@@ -211,13 +122,14 @@ int main()
 #ifdef MPFR_HAVE_FESETROUND
   /* Useful test for the G4 PowerPC */
   fesetround(FE_TOWARDZERO);
-  x = DBL_MAX;
+  x = get_max ();
   x *= 2.0;
-  if (x != DBL_MAX)
+  if (x != get_max ())
     return 1;
 #endif
   return 0;
 }
+static double get_max (void) { return DBL_MAX; }
   ], [mpfr_cv_gcc_floatconv_bug="no"],
      [mpfr_cv_gcc_floatconv_bug="yes, use -ffloat-store"],
      [mpfr_cv_gcc_floatconv_bug="cannot test, use -ffloat-store"])
@@ -233,8 +145,7 @@ AC_CACHE_CHECK([for denormalized numbers], mpfr_cv_have_denorms, [
 AC_TRY_RUN([
 #include <math.h>
 #include <stdio.h>
-int main()
-{
+int main() {
   double x = 2.22507385850720138309e-308;
   fprintf (stderr, "%e\n", x / 2.0);
   return 2.0 * (x / 2.0) != x;
@@ -245,15 +156,124 @@ if test "$mpfr_cv_have_denorms" = "yes"; then
   AC_DEFINE(HAVE_DENORMS,1,[Define if denormalized floats work.])
 fi
 
-dnl Check if HUGE_VAL is supported without the need of a specific library
-AC_CACHE_CHECK([for HUGE_VAL], mpfr_cv_have_huge_val, [
-AC_TRY_LINK([#include <math.h>], [HUGE_VAL;],
-  mpfr_cv_have_huge_val=yes, mpfr_cv_have_huge_val=no)
+dnl Check whether NAN != NAN (as required by the IEEE-754 standard,
+dnl but not by the ISO C standard). For instance, this is false with
+dnl MIPSpro 7.3.1.3m under IRIX64. By default, assume this is true.
+AC_CACHE_CHECK([if NAN == NAN], mpfr_cv_nanisnan, [
+AC_TRY_RUN([
+#include <stdio.h>
+#include <math.h>
+#ifndef NAN
+# define NAN (0.0/0.0)
+#endif
+int main() {
+  double d;
+  d = NAN;
+  return d != d;
+}
+], [mpfr_cv_nanisnan="yes"],
+   [mpfr_cv_nanisnan="no"],
+   [mpfr_cv_nanisnan="cannot test, assume no"])
 ])
-if test "$mpfr_cv_have_huge_val" = "yes"; then
-  AC_DEFINE(HAVE_HUGE_VAL,1,[Define if HUGE_VAL can be used without the need of a specific library.])
+if test "$mpfr_cv_nanisnan" = "yes"; then
+  AC_DEFINE(MPFR_NANISNAN,1,[Define if NAN == NAN.])
 fi
 
+dnl Check if the chars '0' to '9' are consecutive values
+AC_MSG_CHECKING([if charset has consecutive values])
+AC_RUN_IFELSE(AC_LANG_PROGRAM([[
+char *number = "0123456789";
+char *lower  = "abcdefghijklmnopqrstuvwxyz";
+char *upper  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+]],[[
+ int i;
+ unsigned char *p;
+ for (p = (unsigned char*) number, i = 0; i < 9; i++)
+   if ( (*p)+1 != *(p+1) ) return 1;
+ for (p = (unsigned char*) lower, i = 0; i < 25; i++)
+   if ( (*p)+1 != *(p+1) ) return 1;
+ for (p = (unsigned char*) upper, i = 0; i < 25; i++)
+   if ( (*p)+1 != *(p+1) ) return 1;
+]]), [AC_MSG_RESULT(yes)],[
+ AC_MSG_RESULT(no)
+ AC_DEFINE(MPFR_NO_CONSECUTIVE_CHARSET,1,[Charset is not consecutive])
+], [AC_MSG_RESULT(can not test)])
+
+dnl Must be checked with the LIBM
+dnl but we don't want to add the LIBM to MPFR dependency.
+dnl Can't use AC_CHECK_FUNCS since the function may be in LIBM but
+dnl not exported in math.h
+saved_LIBS="$LIBS"
+LIBS="$LIBS $MPFR_LIBM"
+dnl AC_CHECK_FUNCS([round trunc floor ceil nearbyint])
+AC_MSG_CHECKING(for math/round)
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[
+#include <math.h>
+int f (double (*func)(double)) { return 0;}
+]], [[
+ double a = 17.42;
+ a = f (round);
+ return 0;
+]])], [
+   AC_MSG_RESULT(yes)
+   AC_DEFINE(HAVE_ROUND, 1,[Have ISO-C99 round function])
+],[AC_MSG_RESULT(no)])
+
+AC_MSG_CHECKING(for math/trunc)
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[
+#include <math.h>
+int f (double (*func)(double)) { return 0;}
+]], [[
+ double a = 17.42;
+ a = f(trunc);
+ return 0;
+]])], [
+   AC_MSG_RESULT(yes)
+   AC_DEFINE(HAVE_TRUNC, 1,[Have ISO-C99 trunc function])
+],[AC_MSG_RESULT(no)])
+
+AC_MSG_CHECKING(for math/floor)
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[
+#include <math.h>
+int f (double (*func)(double)) { return 0;}
+]], [[
+ double a = 17.42;
+ a = f(floor);
+ return 0;
+]])], [
+   AC_MSG_RESULT(yes)
+   AC_DEFINE(HAVE_FLOOR, 1,[Have ISO-C99 floor function])
+],[AC_MSG_RESULT(no)])
+
+AC_MSG_CHECKING(for math/ceil)
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[
+#include <math.h>
+int f (double (*func)(double)) { return 0;}
+]], [[
+ double a = 17.42;
+ a = f(ceil);
+ return 0;
+]])], [
+   AC_MSG_RESULT(yes)
+   AC_DEFINE(HAVE_CEIL, 1,[Have ISO-C99 ceil function])
+],[AC_MSG_RESULT(no)])
+
+AC_MSG_CHECKING(for math/rint)
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[
+#include <math.h>
+int f (double (*func)(double)) { return 0;}
+]], [[
+ double a = 17.42;
+ a = f(nearbyint);
+ return 0;
+]])], [
+   AC_MSG_RESULT(yes)
+   AC_DEFINE(HAVE_NEARBYINT, 1,[Have ISO-C99 rint function])
+],[AC_MSG_RESULT(no)])
+
+LIBS="$saved_LIBS"
+
+dnl Now try to check the long double format
 MPFR_C_LONG_DOUBLE_FORMAT
 ])
 
@@ -429,21 +449,21 @@ BEGIN {
             }
 
           if (got[23] == "300" && \
-	      got[22] == "031" && \
-	      got[21] == "326" && \
-	      got[20] == "363" && \
-	      got[19] == "105" && \
-	      got[18] == "100" && \
-	      got[17] == "000" && \
-	      got[16] == "000" && \
-	      got[15] == "000" && \
-	      got[14] == "000" && \
-	      got[13] == "000" && \
-	      got[12] == "000" && \
-	      got[11] == "000" && \
-	      got[10] == "000" && \
-	      got[9]  == "000" && \
-	      got[8]  == "000")
+              got[22] == "031" && \
+              got[21] == "326" && \
+              got[20] == "363" && \
+              got[19] == "105" && \
+              got[18] == "100" && \
+              got[17] == "000" && \
+              got[16] == "000" && \
+              got[15] == "000" && \
+              got[14] == "000" && \
+              got[13] == "000" && \
+              got[12] == "000" && \
+              got[11] == "000" && \
+              got[10] == "000" && \
+              got[9]  == "000" && \
+              got[8]  == "000")
             {
               print "IEEE quad, big endian"
               found = 1
@@ -492,7 +512,7 @@ case $mpfr_cv_c_long_double_format in
     ;;
   unknown* | "not available")
     ;;
-  *) 
+  *)
     AC_MSG_WARN([oops, unrecognised float format: $mpfr_cv_c_long_double_format])
     ;;
 esac

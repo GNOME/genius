@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #ifdef HAVE_CONFIG_H
 # if HAVE_CONFIG_H
@@ -29,6 +29,10 @@ MA 02111-1307, USA. */
 #include <stdlib.h>
 #include <string.h>
 #include <float.h>
+
+#if HAVE_SETLOCALE
+#include <locale.h>
+#endif
 
 #if TIME_WITH_SYS_TIME
 # include <sys/time.h>  /* for struct timeval */
@@ -48,11 +52,26 @@ MA 02111-1307, USA. */
 static void tests_rand_start (void);
 static void tests_rand_end   (void);
 
+/* We want to always import the function mpfr_dump inside the test
+   suite, so that we can use it in GDB. But it doesn't work if we build
+   a Windows DLL (initializer element is not a constant) */
+#if !__GMP_LIBGMP_DLL
+extern void (*dummy_func) (mpfr_srcptr);
+void (*dummy_func)(mpfr_srcptr) = mpfr_dump;
+#endif
+
 void
 tests_start_mpfr (void)
 {
   /* don't buffer, so output is not lost if a test causes a segv etc */
   setbuf (stdout, NULL);
+
+#if HAVE_SETLOCALE
+  /* Added on 2005-07-09. This allows to test MPFR under various
+     locales. New bugs will probably be found, in particular with
+     LC_ALL="tr_TR.ISO8859-9" because of the i/I character... */
+  setlocale (LC_ALL, "");
+#endif
 
   tests_memory_start ();
   tests_rand_start ();
@@ -116,11 +135,12 @@ tests_rand_end (void)
   RANDS_CLEAR ();
 }
 
-/* initialization function for tests using the hardware floats */
+/* initialization function for tests using the hardware floats
+   Not very usefull now. */
 void
 mpfr_test_init ()
 {
-  double c, d, eps;
+  double d;
 #if HAVE_FPC_CSR
   /* to get denormalized numbers on IRIX64 */
   union fpc_csr exp;
@@ -138,11 +158,10 @@ mpfr_test_init ()
     }
 #endif
 
-  tests_machine_prec_double ();
-
   /* generate DBL_EPSILON with a loop to avoid that the compiler
      optimizes the code below in non-IEEE 754 mode, deciding that
      c = d is always false. */
+#if 0
   for (eps = 1.0; eps != DBL_EPSILON; eps /= 2.0);
   c = 1.0 + eps;
   d = eps * (1.0 - eps) / 2.0;
@@ -153,30 +172,6 @@ mpfr_test_init ()
               "         (maybe extended precision not disabled)\n"
               "         Some tests may fail\n");
     }
-}
-
-
-/* Set the machine floating point precision, to double or long double.
-
-   On i386 this controls the mantissa precision on the x87 stack, but the
-   exponent range is only enforced when storing to memory.
-
-   For reference, on most i386 systems the default is 64-bit "long double"
-   precision, but on FreeBSD 3.x and amd64 5.x it's 53-bit "double".  */
-
-void
-tests_machine_prec_double (void)
-{
-#if MPFR_HAVE_TESTS_x86
-  x86_fldcw ((x86_fstcw () & ~0x300) | 0x200);
-#endif
-}
-
-void
-tests_machine_prec_long_double (void)
-{
-#if MPFR_HAVE_TESTS_x86
-  x86_fldcw (x86_fstcw () | 0x300);
 #endif
 }
 
@@ -302,7 +297,7 @@ FILE *src_fopen (const char *filename, const char *mode)
 
   if (srcdir == NULL)
     return fopen (filename, mode);
-  buffer = (char*) malloc (strlen (filename) + strlen (srcdir) + 1);
+  buffer = (char*) malloc (strlen (filename) + strlen (srcdir) + 2);
   if (buffer == NULL)
     {
       printf ("src_fopen: failed to alloc memory)\n");

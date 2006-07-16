@@ -16,13 +16,36 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "mpfr-test.h"
+
+#ifdef CHECK_EXTERNAL
+static int
+test_log (mpfr_ptr a, mpfr_srcptr b, mp_rnd_t rnd_mode)
+{
+  int res;
+  int ok = rnd_mode == GMP_RNDN && mpfr_number_p (b) && mpfr_get_prec (a)>=53;
+  if (ok)
+    {
+      mpfr_print_raw (b);
+    }
+  res = mpfr_log (a, b, rnd_mode);
+  if (ok)
+    {
+      printf (" ");
+      mpfr_print_raw (a);
+      printf ("\n");
+    }
+  return res;
+}
+#else
+#define test_log mpfr_log
+#endif
 
 static void
 check2 (const char *as, mp_rnd_t rnd_mode, const char *res1s)
@@ -31,12 +54,12 @@ check2 (const char *as, mp_rnd_t rnd_mode, const char *res1s)
 
   mpfr_inits2 (53, ta, tres, NULL);
   mpfr_set_str1 (ta, as);
-  mpfr_log (tres, ta, rnd_mode);
+  test_log (tres, ta, rnd_mode);
 
   if (mpfr_cmp_str1 (tres, res1s))
     {
-      printf ("mpfr_log failed for    a=%s, rnd_mode=%s\n", 
-	      as, mpfr_print_rnd_mode (rnd_mode));
+      printf ("mpfr_log failed for    a=%s, rnd_mode=%s\n",
+              as, mpfr_print_rnd_mode (rnd_mode));
       printf ("correct result is        %s\n mpfr_log gives          ",
               res1s);
       mpfr_out_str(stdout, 10, 0, tres, GMP_RNDN);
@@ -53,7 +76,7 @@ check3 (double d, unsigned long prec, mp_rnd_t rnd)
   mpfr_init2 (x, prec);
   mpfr_init2 (y, prec);
   mpfr_set_d (x, d, rnd);
-  mpfr_log (y, x, rnd);
+  test_log (y, x, rnd);
   mpfr_out_str (stdout, 10, 0, y, rnd);
   puts ("");
   mpfr_print_binary (y);
@@ -154,6 +177,7 @@ static void
 special (void)
 {
   mpfr_t x, y;
+  mp_exp_t emax = mpfr_get_emax ();
 
   mpfr_init2 (x, 53);
   mpfr_init2 (y, 53);
@@ -164,14 +188,14 @@ special (void)
   mpfr_set_prec (y, 24*2);
   mpfr_set_prec (x, 24);
   mpfr_set_str_binary (x, "0.111110101010101011110101E0");
-  mpfr_log (y, x, GMP_RNDN);
+  test_log (y, x, GMP_RNDN);
   set_emin (MPFR_EMIN_MIN);
   set_emax (MPFR_EMAX_MAX);
 
   mpfr_set_prec (y, 53);
   mpfr_set_prec (x, 53);
   mpfr_set_ui (x, 3, GMP_RNDD);
-  mpfr_log (y, x, GMP_RNDD);
+  test_log (y, x, GMP_RNDD);
   if (mpfr_cmp_str1 (y, "1.09861228866810956"))
     {
       printf ("Error in mpfr_log(3) for GMP_RNDD\n");
@@ -183,18 +207,28 @@ special (void)
   mpfr_set_prec (y, 3322);
   mpfr_set_ui (x, 3, GMP_RNDN);
   mpfr_sqrt (x, x, GMP_RNDN);
-  mpfr_log (y, x, GMP_RNDN);
+  test_log (y, x, GMP_RNDN);
 
   /* negative argument */
   mpfr_set_si (x, -1, GMP_RNDN);
-  mpfr_log (y, x, GMP_RNDN);
+  test_log (y, x, GMP_RNDN);
   MPFR_ASSERTN(mpfr_nan_p (y));
+
+  /* infinite loop when  */
+  set_emax (128);
+  mpfr_set_prec (x, 251);
+  mpfr_set_prec (y, 251);
+  mpfr_set_str_binary (x, "0.10010111000000000001101E8");
+  /* x = 4947981/32768, log(x) ~ 5.017282... */
+  test_log (y, x, GMP_RNDN);
+
+  set_emax (emax);
 
   mpfr_clear (x);
   mpfr_clear (y);
 }
 
-#define TEST_FUNCTION mpfr_log
+#define TEST_FUNCTION test_log
 #include "tgeneric.c"
 
 int
@@ -222,7 +256,7 @@ main (int argc, char *argv[])
   check2("8.0",GMP_RNDZ,"2.07944154167983574765e+00");
   check2("44.0",GMP_RNDU,"3.78418963391826146392e+00");
   check2("1.01979300812244555452", GMP_RNDN, "1.95996734891603664741e-02");
-  
+
   /* bugs found by Vincent Lefe`vre */
   check2("0.99999599881598921769", GMP_RNDN, "-0.0000040011920155404072924737977900999652547398000024259090423583984375");
   check2("9.99995576063808955247e-01",GMP_RNDZ,"-4.42394597667932383816e-06");
@@ -233,17 +267,17 @@ main (int argc, char *argv[])
   check2("9.99985901426543311032e-01",GMP_RNDN,"-1.40986728425098585229e-05");
   check2("9.99986053947420794330e-01",GMP_RNDN, "-0.000013946149826301084938555592540598837558718514628708362579345703125");
   check2("9.99971938247442126979e-01",GMP_RNDN,"-2.80621462962173414790e-05");
-  
+
   /* other bugs found by Vincent Lefe`vre */
   check2("1.18615436389927785905e+77",GMP_RNDN,"1.77469768607706015473e+02");
   check2("9.48868723578399476187e+77",GMP_RNDZ,"1.79549152432275803903e+02");
   check2("2.31822210096938820854e+89",GMP_RNDN,"2.05770873832573869322e+02");
-  
+
   /* further bugs found by Vincent Lefe`vre */
   check2("9.99999989485669482647e-01",GMP_RNDZ,"-1.05143305726283042331e-08");
   check2("9.99999989237970177136e-01",GMP_RNDZ,"-1.07620298807745377934e-08");
   check2("9.99999989239339082125e-01",GMP_RNDN,"-1.07606609757704445430e-08");
-  
+
   check2("7.3890560989306504",GMP_RNDU,"2.0000000000000004"); /* exp(2.0) */
   check2("7.3890560989306495",GMP_RNDU,"2.0"); /* exp(2.0) */
   check2("7.53428236571286402512e+34",GMP_RNDZ,"8.03073567492226345621e+01");
@@ -274,7 +308,7 @@ main (int argc, char *argv[])
   check2("6.09969788341579732815e+00",GMP_RNDD,"1.80823924264386204363e+00");
 
   test_generic (2, 100, 40);
-  
+
  done:
   tests_end_mpfr ();
   return 0;

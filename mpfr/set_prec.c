@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include "mpfr-impl.h"
 
@@ -28,13 +28,13 @@ mpfr_set_prec (mpfr_ptr x, mpfr_prec_t p)
   mp_ptr tmp;
 
   /* first, check if p is correct */
-  MPFR_ASSERTN(p >= MPFR_PREC_MIN && p <= MPFR_PREC_MAX);
+  MPFR_ASSERTN (p >= MPFR_PREC_MIN && p <= MPFR_PREC_MAX);
 
   /* Calculate the new number of limbs */
   xsize = (p - 1) / BITS_PER_MP_LIMB + 1;
 
   /* Realloc only if the new size is greater than the old */
-  xoldsize = MPFR_GET_ALLOC_SIZE(x);
+  xoldsize = MPFR_GET_ALLOC_SIZE (x);
   if (xsize > xoldsize)
     {
       tmp = (mp_ptr) (*__gmp_reallocate_func)
@@ -42,10 +42,11 @@ mpfr_set_prec (mpfr_ptr x, mpfr_prec_t p)
       MPFR_SET_MANT_PTR(x, tmp);
       MPFR_SET_ALLOC_SIZE(x, xsize);
     }
-  MPFR_PREC(x) = p;
-  MPFR_SET_NAN(x); /* initializes to NaN */
+  MPFR_PREC (x) = p;
+  MPFR_SET_NAN (x); /* initializes to NaN */
 }
 
+#undef mpfr_get_prec
 mp_prec_t
 mpfr_get_prec (mpfr_srcptr x)
 {

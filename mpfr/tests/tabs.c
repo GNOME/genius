@@ -16,8 +16,8 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,12 +43,12 @@ check_inexact (void)
       mpfr_set_prec (absx, p);
       mpfr_random (x);
       if (randlimb () % 2)
-	{
-	  mpfr_set (absx, x, GMP_RNDN);
-	  mpfr_neg (x, x, GMP_RNDN);
-	}
+        {
+          mpfr_set (absx, x, GMP_RNDN);
+          mpfr_neg (x, x, GMP_RNDN);
+        }
       else
-	mpfr_set (absx, x, GMP_RNDN);
+        mpfr_set (absx, x, GMP_RNDN);
       for (q=2; q<2*p; q++)
         {
           mpfr_set_prec (y, q);
@@ -85,7 +85,7 @@ check_cmp(int argc, char *argv[])
   mpfr_inits2(53, x, y, NULL);
 
   mpfr_set_ui(x, 1, GMP_RNDN);
-  mpfr_abs(x, x, GMP_RNDN);
+  (mpfr_abs) (x, x, GMP_RNDN);
   if (mpfr_cmp_ui (x, 1))
     {
       printf ("Error in mpfr_abs(1.0)\n");
@@ -142,11 +142,11 @@ check_cmp(int argc, char *argv[])
       MPFR_SET_POS(x);
       if (mpfr_cmp(x,y))
         {
-          printf ("Mismatch for sign=%d and x=", sign); 
-	  mpfr_print_binary(x);
+          printf ("Mismatch for sign=%d and x=", sign);
+          mpfr_print_binary(x);
           printf ("\nResults=");
-          mpfr_print_binary(y); 
-	  putchar ('\n');
+          mpfr_print_binary(y);
+          putchar ('\n');
           exit (1);
         }
     }

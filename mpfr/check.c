@@ -16,14 +16,14 @@ License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with the MPFR Library; see the file COPYING.LIB.  If not, write to
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-MA 02111-1307, USA. */
+the Free Software Foundation, Inc., 51 Franklin Place, Fifth Floor, Boston,
+MA 02110-1301, USA. */
 
 #include "mpfr-impl.h"
 
 /*
  * Check if x is a valid mpfr_t initializes by mpfr_init
- * Returns 0 if isn't valid 
+ * Returns 0 if isn't valid
  */
 int
 mpfr_check (mpfr_srcptr x)
@@ -45,7 +45,7 @@ mpfr_check (mpfr_srcptr x)
     return 0;
   /* Check size of mantissa */
   s = MPFR_GET_ALLOC_SIZE(x);
-  if (s<=0 || s > MP_SIZE_T_MAX || 
+  if (s<=0 || s > MP_SIZE_T_MAX ||
       MPFR_PREC(x) > ((mp_prec_t)s*BITS_PER_MP_LIMB))
     return 0;
   /* Acces all the mp_limb of the mantissa: may do a seg fault */
@@ -56,20 +56,20 @@ mpfr_check (mpfr_srcptr x)
     {
       /* Check first mp_limb of mantissa (Must start with a 1 bit) */
       if ( ((xm[MPFR_LIMB_SIZE(x)-1])>>(BITS_PER_MP_LIMB-1)) == 0)
-	return 0;
+        return 0;
       /* Check last mp_limb of mantissa */
       rw = (MPFR_PREC(x) % BITS_PER_MP_LIMB);
       if (rw != 0)
-	{
-	  tmp = MPFR_LIMB_MASK (BITS_PER_MP_LIMB - rw);
-	  if ((xm[0] & tmp) != 0)
-	    return 0;
-	}
+        {
+          tmp = MPFR_LIMB_MASK (BITS_PER_MP_LIMB - rw);
+          if ((xm[0] & tmp) != 0)
+            return 0;
+        }
       /* Check exponent range */
       if ((MPFR_EXP (x) < __gmpfr_emin) || (MPFR_EXP (x) > __gmpfr_emax))
-	return 0;
+        return 0;
     }
-  else 
+  else
     {
       /* Singular value is zero, inf or nan */
       MPFR_ASSERTD(MPFR_IS_ZERO(x) || MPFR_IS_NAN(x) || MPFR_IS_INF(x));
