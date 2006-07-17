@@ -4,7 +4,7 @@ SetHelp("RowMedian","statistics","Calculate median of each row in a matrix");
 function RowMedian(m) = (
 	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("RowMedian: argument not value-only matrix");bailout);
-	r = SetMatrixSize([0],rows(m),1);
+	r = zeros(rows(m),1);
 	if columns(m)%2 == 1 then (
 		for k = 1 to rows(m) do (
 			s = SortVector(m@(k,));
@@ -25,7 +25,7 @@ SetHelp("Median","statistics","Calculate median of an entire matrix");
 function Median(m) = (
 	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("Median: argument not value-only matrix");bailout);
-	s = SetMatrixSize([0],1,rows(m)*columns(m));
+	s = zeros(1,rows(m)*columns(m));
 	k = 0;
 	for n in m do
 		s@(1,k=k+1)=n;
@@ -46,7 +46,7 @@ SetHelp("RowAverage","statistics","Calculate average of each row in a matrix");
 function RowAverage(m) = (
 	if not IsMatrix(m) or not IsValueOnly(m) then
 		(error("RowAverage: argument not value-only matrix");bailout);
-	r = SetMatrixSize([0],rows(m),1);
+	r = zeros(rows(m),1);
 	for k = 1 to rows(m) do (
 		for j = 1 to columns(m) do
 			r@(k,1) = r@(k,1) + m@(k,j);

@@ -7,11 +7,28 @@ SetHelp ("BilinearForm", "linear_algebra", "Evaluate (v,w) with respect to the b
 function BilinearForm(v,A,w) = (v.'*A*w)@(1)
 protect ("BilinearForm")
 
+# Evaluate (v,w) with respect to the sesquilinear form given by the matrix A.
+#FIXME: check parameters
+SetHelp ("SesquilinearForm", "linear_algebra", "Evaluate (v,w) with respect to the sesquilinear form given by the matrix A")
+function SesquilinearForm(v,A,w) = (v'*A*w)@(1)
+protect ("SesquilinearForm")
+
 # The angle of two vectors, given an inner product
 #FIXME: default inner product!
 #FIXME: check parameters
 SetHelp ("VectorAngle", "linear_algebra", "The angle of two vectors, given an inner product")
-function VectorAngle(v,w,B) = acos(B(v,w)/(B(v,v)*B(w,w)))
+function VectorAngle(v,w,B...) =
+  (
+        # if you don't give anything, assume standard inner product
+	if IsNull(B) or IsNull(B@(1)) then P=HermitianProduct
+	# If it's a matrix, then use the sesquilinear form defined by that matrix
+	else if IsMatrix(B@(1)) then (P = SesquilinearFormFunction(u,B@(1),w))
+	# If B is just some function, assume that it's an inner product
+        else if elements(B) > 1 or not IsFunction(B@(1)) then (error("VectorAngle: argument B not a function or Matrix");bailout)
+	else P = B@(1);
+ 	
+	acos(P(v,w)/(P(v,v)*P(w,w)))
+)
 protect ("VectorAngle")
 
 #FIXME: check parameters
@@ -19,59 +36,53 @@ SetHelp ("BilinearFormFunction", "linear_algebra", "Return a function that evalu
 function BilinearFormFunction(A)=(`(v,w)=(v.'*A*w)@(1))
 protect ("BilinearFormFunction")
 
+SetHelp ("SesquilinearFormFunction", "linear_algebra", "Return a function that evaluates two vectors with respect to the sesquilinear form given by A")
+function SesquilinearFormFunction(A)=(`(v,w)=(v'*A*w)@(1))
+protect ("SesquilinearFormFunction")
+
 # Projection onto a vector space
-# Projection of vector v onto subspace W given a bilinear form B
-SetHelp ("Projection", "linear_algebra", "Projection of vector v onto subspace W given a bilinear form B")
-function Projection(v,W,B) =
+# Projection of vector v onto subspace W given a sesquilinear form B
+SetHelp ("Projection", "linear_algebra", "Projection of vector v onto subspace W given a sesquilinear form B (if not given use hermitian product)")
+function Projection(v,W,B...) =
   (
         # if you don't give anything, assume standard inner product
-	if IsNull(B) then B=I(rows(W));
-#FIXME: rows(W) should be W`dimension or such
-	# If it's a matrix, then use the bilinear form defined by that matrix
-	if IsMatrix(B) then (A=B;function B(u,w)=BilinearForm(u,A,w);)
-#Projection(v,W,`(u,w)=BilinearForm(u,B,w))
+	if IsNull(B) or IsNull(B@(1)) then P=HermitianProduct
+	# If it's a matrix, then use the sesquilinear form defined by that matrix
+	else if IsMatrix(B@(1)) then (P = SesquilinearFormFunction(u,B@(1),w))
 	# If B is just some function, assume that it's an inner product
-        else if not IsFunction(B) then (error("Projection: argument B not a function or Matrix");bailout);
-    projection_of_v=0;
-# FIXME: should read: for loop in W`basis or such...
-    for loop = 1 to columns(W) do
-      projection_of_v=projection_of_v+B(v,W@(,loop))/B(W@(,loop),W@(,loop))*W@(,loop);
-    return projection_of_v
+        else if elements(B) > 1 or not IsFunction(B@(1)) then (error("Projection: argument B not a function or Matrix");bailout)
+	else P = B@(1);
+
+	sum c in ColumnsOf(W) do (
+		(P(v,c)/P(c,c))*c
+	)
   )
 protect ("Projection")
 
 # Gram-Schmidt Orthogonalization
 # Described, for instance, in Hoffman & Kunze, ``Linear Algebra'' p.~280
-SetHelp ("GramSchmidt", "linear_algebra", "Apply the Gram-Schmidt process (to the columns) with respect to innter product given by #2")
-function GramSchmidt(v,B) =
+SetHelp ("GramSchmidt", "linear_algebra", "Apply the Gram-Schmidt process (to the columns) with respect to inner product given by B (if not given use hermitian product)")
+function GramSchmidt(v,B...) =
 # Takes k column vectors v_1,...,v_k
-# and returns a collection, orthogonal with respect to the inner product given by B(-,-): V x V -> R
+# and returns a collection, orthonormal with respect to the inner product given by B(-,-): V x V -> R
 # Note: if you plug in a bad function or a matrix that isn't symmetric and
 # positive definite, then you'll get garbage as a result.
 	(
+        # if you don't give anything, assume standard inner product
+	if IsNull(B) or IsNull(B@(1)) then P=HermitianProduct
+	# If it's a matrix, then use the sesquilinear form defined by that matrix
+	else if IsMatrix(B@(1)) then (function P(u,w)=SesquilinearForm(u,B@(1),w))
+	# If B is just some function, assume that it's an inner product
+        else if elements(B) > 1 or not IsFunction(B@(1)) then (error("GramSchmidt: argument B not a function or Matrix");bailout)
+	else P = B@(1);
+
+#FIXME: this is not the most stable algorithm
 	w=v@(,1);			# First vector
-	for i = 2 to columns(v) do	# now iterate
-		w=[w,v@(,i)-Projection(v@(,i),w,B)];
+	w=w/sqrt(P(w,w));
+	for i = 2 to columns(v) do (	# now iterate
+		ww = v@(,i)-Projection(v@(,i),w,P);
+		w = [w, ww / sqrt (P(ww,ww))]
+	);
 	w
 	)
 protect ("GramSchmidt")
-
-# Simple GramSchmidt process
-SetHelp ("GramSchmidtDot", "linear_algebra", "Apply the Gram-Schmidt process (to the columns) using the dot product")
-function GramSchmidtDot(M) =
-(
-  if not IsMatrix (M) then
-    (error("GramSchmidt: argument not a matrix");bailout);
-  
-  res = SetMatrixSize ([0], rows (M), columns (M));
-  # res@(,1) = M@(,1) / sqrt ( DotProduct ( M@(,1) , M@(,1) ) );
-  res@(,1) = M@(,1) / sqrt ( ( M@(,1) .' * M@(,1) )@(1) );
-  for j = 2 to columns (M) do (
-    # y = M@(,j) - DotProduct ( M@(,j) , res@(,j-1) ) * res@(,j-1);
-    y = M@(,j) - ( M@(,j) .' * res@(,j-1) )@(1) * res@(,j-1);
-    # res@(,j) = y / sqrt ( DotProduct (y,y) )
-    res@(,j) = y / sqrt ( ( y .' * y )@(1) )
-  );
-  res
-)
-protect ("GramSchmidtDot")

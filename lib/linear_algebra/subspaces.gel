@@ -22,7 +22,7 @@ SetHelp ("RowSpace", "linear_algebra", "Get a basis matrix for the rowspace of a
 function RowSpace(M) = (
   if not IsMatrix (M) then
     (error("RowSpace: argument not a matrix");bailout);
-  ColumnSpace (Transpose (M))
+  ColumnSpace (M.')
 )
 protect ("RowSpace")
 
@@ -88,19 +88,25 @@ function NullSpace (T)=
     if dim_image == number_of_pivots or dim_image == 0 then return null;
 
     non_pivots = SetMinus ([1:columns(T)], pivots@(1,));
-    null_space = null;
+    null_space = zeros(dim_image,dim_image - number_of_pivots);
+    j = 1;
     for loop in non_pivots do
      (
-       new_vector=SetMatrixSize([0],dim_image,1);
+       new_vector=zeros(dim_image,1);
        new_vector@(loop)=-1;
        for inner_loop=1 to number_of_pivots do
          if pivots@(1,inner_loop) < loop
            then new_vector@(pivots@(1,inner_loop))
                 =T@(pivots@(2,inner_loop),loop)
            else break;
-       null_space=[null_space,new_vector];
+       null_space@(,j)=new_vector;
+       j = j+1
      );
-    ColumnSpace(null_space)
+#ColumnSpace(null_space)
+# Hmmm, no need to use ColumnSpace that does another bunch of operations,
+# if the recipient wants to reduce this, they should do it themselves, what
+# we give them are lin ind already
+     null_space
   )
 protect ("NullSpace")
 

@@ -83,7 +83,7 @@ function ConvolutionVector(a,b) = (
 	else if(columns(a)!=columns(b)) then
 		(error("ConvolutionVector: arguments must be identical vectors");bailout);
 	ca = columns(a);
-	r = SetMatrixSize ([0],1,ca);
+	r = zeros (1,ca);
 	for i = 1 to ca do (
 		r@(1,i) = a@(1,i)*b@(1,ca-i+1)
 	);
@@ -141,7 +141,7 @@ function adj(m) = (
 	else if(rows(m)<2) then
 		(error("adj: argument cannot be 1x1 matrix");bailout);
 
-	a = SetMatrixSize ([0],rows(m),rows(m));
+	a = zeros (rows(m),rows(m));
 	for i = 1 to rows(m) do (
 		for j = 1 to rows(m) do (
 			a@(j,i) = ((-1)^(i+j))*Minor(m,i,j);
@@ -175,7 +175,7 @@ function MakeDiagonal(v,arg...) = (
 		m = [v,arg]
 	else
 		(error("MakeDiagonal: arguments not a vector or a list of values");bailout);
-	r = SetMatrixSize ([0],elements(m),elements(m));
+	r = zeros (elements(m),elements(m));
 	for i = 1 to elements(m) do (
 		r@(i,i) = m@(i)
 	);
@@ -206,7 +206,7 @@ SetHelp("RowSum","matrix","Calculate sum of each row in a matrix");
 function RowSum(m) = (
 	if not IsMatrix(m) then
 		(error("RowSum: argument not matrix");bailout);
-	r = SetMatrixSize ([0],rows(m),1);
+	r = zeros (rows(m),1);
 	for i = 1 to rows(m) do (
 		for j = 1 to columns(m) do
 			r@(i,1) = r@(i,1) + m@(i,j)
@@ -219,7 +219,7 @@ SetHelp("RowSumSquares","matrix","Calculate sum of squares of each row in a matr
 function RowSumSquares(m) = (
 	if not IsMatrix(m) then
 		(error("RowSumSquares: argument not matrix");bailout);
-	r = SetMatrixSize ([0],rows(m),1);
+	r = zeros (rows(m),1);
 	for i = 1 to rows(m) do (
 		for j = 1 to columns(m) do
 			r@(i,1) = r@(i,1) + m@(i,j)^2
@@ -254,7 +254,7 @@ SetHelp("ReverseVector","matrix","Reverse elements in a vector");
 function ReverseVector(v) = (
 	if not IsVector(v) then
 		(error("ReverseVector: argument not a vector");bailout);
-	r = SetMatrixSize ([0],rows(v),columns(v));
+	r = zeros (rows(v),columns(v));
 	ev = elements(v);
 	for i = 1 to ev do
 		r@(i) = v@(ev-i+1);

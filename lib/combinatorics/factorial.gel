@@ -129,7 +129,7 @@ SetHelp("Pascal","combinatorics","Get the pascal's triangle as a matrix");
 function Pascal(i) = (
 	if not IsNonNegativeInteger(i) then
 		(error("Pascal: argument not a non-negative integer");bailout);
-	m = SetMatrixSize ([0],i+1,i+1);
+	m = zeros (i+1,i+1);
 	for y = 0 to i do (
 		for x = 0 to y do (
 			m@(y+1,x+1) = nCr(y,x)

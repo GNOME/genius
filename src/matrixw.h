@@ -34,6 +34,8 @@ struct _GelMatrixW {
 	int regw;
 	int regh;
 	guint16 tr:1; /*transposed*/
+
+	/* information about internals */
 	guint16 cached_value_only:1;
 	guint16 value_only:1;
 	guint16 cached_value_only_real:1;
@@ -44,6 +46,9 @@ struct _GelMatrixW {
 	guint16 value_only_integer:1;
 	guint16 cached_value_or_bool_only:1;
 	guint16 value_or_bool_only:1;
+
+	/* If definately in rref form */
+	guint16 rref:1;
 };
 
 /*new matrix*/

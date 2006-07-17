@@ -2013,8 +2013,8 @@ number is specified) of the given size returned.  For example
          <term>DotProduct</term>
          <listitem>
           <synopsis>DotProduct (u,v)</synopsis>
-          <para>Aliases: <function>InnerProduct</function></para>
-          <para>Get the dot product of two vectors.  The vectors must be of the same size.</para>
+	  <para>Get the dot product of two vectors.  The vectors must be of the
+same size.  No conjugates are taken so this is a bilinear form even if working over the complex numbers.</para>
           <para>
 	    See
 	    <ulink url="http://planetmath.org/encyclopedia/DotProduct.html">Planetmath</ulink> for more information.
@@ -2032,6 +2032,19 @@ number is specified) of the given size returned.  For example
 	    a way to construct matrices out of smaller ones and this is
 	    normally done automatically on input unless the matrix is quoted.
 	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-HermitianProduct">
+         <term>HermitianProduct</term>
+         <listitem>
+          <synopsis>HermitianProduct (u,v)</synopsis>
+          <para>Aliases: <function>InnerProduct</function></para>
+          <para>Get the hermitian product of two vectors.  The vectors must be of the same size.  This is a sesquilinear form using the identity matrix.</para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/HermitianInnerProduct.html">Mathworld</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2468,20 +2481,13 @@ number is specified) of the given size returned.  For example
         <varlistentry id="gel-function-GramSchmidt">
          <term>GramSchmidt</term>
          <listitem>
-          <synopsis>GramSchmidt (v,B)</synopsis>
-          <para>Apply the Gram-Schmidt process (to the columns) with respect to innter product given by <varname>B</varname></para>
-          <para>
-	    See
-	    <ulink url="http://planetmath.org/encyclopedia/GramSchmidtOrthogonalization.html">Planetmath</ulink> for more information.
-          </para>
-         </listitem>
-        </varlistentry>
-
-        <varlistentry id="gel-function-GramSchmidtDot">
-         <term>GramSchmidtDot</term>
-         <listitem>
-          <synopsis>GramSchmidtDot (M)</synopsis>
-          <para>Apply the Gram-Schmidt process (to the columns) using the dot product</para>
+          <synopsis>GramSchmidt (v,B...)</synopsis>
+	  <para>Apply the Gram-Schmidt process (to the columns) with respect to
+inner product given by <varname>B</varname>.  If <varname>B</varname> is not
+given then the standard hermitian product is used.  <varname>B</varname> can
+either be a sesquilinear function of two arguments or it can be a matrix giving
+a sesquilinear form.  The vectors will be made orthonormal with respect to
+<varname>B</varname>.</para>
           <para>
 	    See
 	    <ulink url="http://planetmath.org/encyclopedia/GramSchmidtOrthogonalization.html">Planetmath</ulink> for more information.
@@ -2636,7 +2642,8 @@ number is specified) of the given size returned.  For example
           <para>
 	    Get the LU decomposition of <varname>A</varname>
 	    and store the result in the <varname>L</varname> and
-	    <varname>U</varname> which should be references.  It returns null.
+	    <varname>U</varname> which should be references.  It returns true
+	    if successful.
 	    For example suppose that A is a square matrix, then after running:
 	    <screen><prompt>genius></prompt> <userinput>LUDecomposition(A,&amp;L,&amp;U)</userinput>
 </screen>
@@ -2742,8 +2749,39 @@ number is specified) of the given size returned.  For example
         <varlistentry id="gel-function-Projection">
          <term>Projection</term>
          <listitem>
-          <synopsis>Projection (v,W,B)</synopsis>
-          <para>Projection of vector v onto subspace W given a bilinear form B</para>
+          <synopsis>Projection (v,W,B...)</synopsis>
+	  <para>Projection of vector <varname>v</varname> onto subspace
+<varname>W</varname> with respect to inner product given by
+<varname>B</varname>.  If <varname>B</varname> is not given then the standard
+hermitian product is used.  <varname>B</varname> can either be a sesquilinear
+function of two arguments or it can be a matrix giving a sesquilinear form.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-QRDecomposition">
+         <term>QRDecomposition</term>
+         <listitem>
+          <synopsis>QRDecomposition (A, Q)</synopsis>
+          <para>
+	    Get the QR decomposition of a square matrix <varname>A</varname>,
+	    returns the upper triangular matrix <varname>R</varname>
+	    and sets <varname>Q</varname> to the orthogonal (unitary) matrix.
+	    <varname>Q</varname> should be a reference or null if you don't
+	    want any return.
+	    For example:
+	    <screen><prompt>genius></prompt> <userinput>R = QRDecomposition(A,&amp;Q)</userinput>
+</screen>
+	    You will have the upper triangular matrix stored in
+	    a variable called
+	    <varname>R</varname> and the orthogonal (unitary) matrix stored in
+	    <varname>Q</varname>.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/QRDecomposition.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/QRDecomposition.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -2817,6 +2855,22 @@ number is specified) of the given size returned.  For example
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-SesquilinearForm">
+         <term>SesquilinearForm</term>
+         <listitem>
+          <synopsis>SesquilinearForm (v,A,w)</synopsis>
+          <para>Evaluate (v,w) with respect to the sesquilinear form given by the matrix A</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-SesquilinearFormFunction">
+         <term>SesquilinearFormFunction</term>
+         <listitem>
+          <synopsis>SesquilinearFormFunction (A)</synopsis>
+          <para>Return a function that evaluates two vectors with respect to the sesquilinear form given by A</para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-SmithNormalFormField">
          <term>SmithNormalFormField</term>
          <listitem>
@@ -2875,8 +2929,12 @@ number is specified) of the given size returned.  For example
         <varlistentry id="gel-function-VectorAngle">
          <term>VectorAngle</term>
          <listitem>
-          <synopsis>VectorAngle (v,w,B)</synopsis>
-          <para>The angle of two vectors, given an inner product</para>
+          <synopsis>VectorAngle (v,w,B...)</synopsis>
+          <para>The angle of two vectors with respect to inner product given by
+<varname>B</varname>.  If <varname>B</varname> is not given then the standard
+hermitian product is used.  <varname>B</varname> can either be a sesquilinear
+function of two arguments or it can be a matrix giving a sesquilinear form.
+</para>
          </listitem>
         </varlistentry>
 

@@ -1,3 +1,26 @@
+Changes to 0.7.5
+
+* Added functions: CatalanConstant, atan2, NextCombination, CountZeroColumns,
+  QRDecomposition, SesquilinearForm, SesquilinearFormFunction
+* REMOVED: function GramSchmidtDot, it is now redundant
+* SEMANTICS: DotProduct is now the normal (real) DotProduct not the
+  hermitian product, places that used DotProduct now use HermitianProduct,
+  InnerProduct is now an alias for HermitianProduct
+* GramSchmidt now normalizes it's vectors
+* GramSchmidt, Projection, VectorAngle have the inner product as optional
+  argument now and all take it in the same way
+* OuterProduct now actually does outer product
+* Port some gel functions to C for speed: StripZeroColumns, IsIn, Intersection,
+  SetMinus, HermitianProduct
+* Some further small optimizations
+* Minor update of the manual
+* SYNTAX: entries in a matrix are now evaluated in a logical order rather
+  then in the rather odd order they were before.
+* MANY fixes to memory management, fixed many leaks and crashes
+* Update internal MPFR to version 2.2.0 and require at least version 2.2.0
+* Other minor fixes
+* Translation updates (FIXME)
+
 Changes to 0.7.4
 
 * Primitive symbolic derivatives of some expressions

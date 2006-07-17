@@ -901,6 +901,11 @@ StripZeroColumns_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		}
 	}
 
+	if (cnt == w) {
+		g_slist_free (cols);
+		return copynode (a[0]);
+	}
+
 	nm = gel_matrix_new ();
 	gel_matrix_set_size (nm, cnt, h, FALSE /* padding */);
 
@@ -2642,6 +2647,43 @@ IndexComplement_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	return n;
 }
 
+static GelETree *
+HermitianProduct_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelMatrixW *m1, *m2;
+	int i, len;
+	mpw_t res;
+	mpw_t trm;
+
+	if G_UNLIKELY ( ! check_argument_value_only_vector (a, 0, "HermitianProduct") ||
+			! check_argument_value_only_vector (a, 1, "HermitianProduct"))
+		return NULL;
+
+	m1 = a[0]->mat.matrix;
+	m2 = a[1]->mat.matrix;
+	len = gel_matrixw_elements (m1);
+	if G_UNLIKELY (gel_matrixw_elements (m2) != len) {
+		gel_errorout (_("%s: arguments must be vectors of equal size"), "HermitianProduct");
+		return NULL;
+	}
+
+	mpw_init (res);
+	mpw_init (trm);
+	mpw_set_ui (res, 0);
+	for (i = 0; i < len; i++) {
+		GelETree *t1 = gel_matrixw_vindex (m1, i);
+		GelETree *t2 = gel_matrixw_vindex (m2, i);
+		/* (t1 and t2 must be value only nodes! checked above!) */
+		mpw_conj (trm, t2->val.value);
+		mpw_mul (trm, trm, t1->val.value);
+		mpw_add (res, res, trm);
+	}
+
+	mpw_clear (trm);
+
+	return gel_makenum_use (res);
+}
+
 static gboolean
 isinmatrix (GelETree *n, GelMatrixW *m)
 {
@@ -2828,7 +2870,10 @@ rref_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	GET_NEW_NODE(n);
 	n->type = MATRIX_NODE;
 	n->mat.matrix = gel_matrixw_copy(a[0]->mat.matrix);
-	gel_value_matrix_gauss (ctx, n->mat.matrix, TRUE, FALSE, FALSE, NULL, NULL);
+	if ( ! n->mat.matrix->rref) {
+		gel_value_matrix_gauss (ctx, n->mat.matrix, TRUE, FALSE, FALSE, NULL, NULL);
+		n->mat.matrix->rref = 1;
+	}
 	n->mat.quoted = FALSE;
 	return n;
 }
@@ -5157,6 +5202,8 @@ gel_funclib_addall(void)
 
 	FUNC (SetMatrixSize, 3, "M,rows,columns", "matrix", N_("Make new matrix of given size from old one"));
 	FUNC (IndexComplement, 2, "vec,msize", "matrix", N_("Return the index complement of a vector of indexes"));
+	FUNC (HermitianProduct, 2, "u,v", "matrix", N_("Get the hermitian product of two vectors"));
+	ALIAS (InnerProduct, 2, HermitianProduct);
 
 	FUNC (IsValueOnly, 1, "M", "matrix", N_("Check if a matrix is a matrix of numbers"));
 	FUNC (IsMatrixInteger, 1, "M", "matrix", N_("Check if a matrix is an integer (non-complex) matrix"));

@@ -2913,10 +2913,9 @@ DiagonalOf (M)
 
 DotProduct (u,v)
 
-          Aliases: InnerProduct
-
           Get the dot product of two vectors. The vectors must be
-          of the same size.
+          of the same size. No conjugates are taken so this is a
+          bilinear form even if working over the complex numbers.
 
           See Planetmath for more information.
 
@@ -2929,6 +2928,18 @@ ExpandMatrix (M)
           blocks. This is a way to construct matrices out of
           smaller ones and this is normally done automatically on
           input unless the matrix is quoted.
+
+   HermitianProduct
+
+HermitianProduct (u,v)
+
+          Aliases: InnerProduct
+
+          Get the hermitian product of two vectors. The vectors
+          must be of the same size. This is a sesquilinear form
+          using the identity matrix.
+
+          See Mathworld for more information.
 
    I
 
@@ -3258,19 +3269,14 @@ Eigenvalues (M)
 
    GramSchmidt
 
-GramSchmidt (v,B)
+GramSchmidt (v,B...)
 
           Apply the Gram-Schmidt process (to the columns) with
-          respect to innter product given by B
-
-          See Planetmath for more information.
-
-   GramSchmidtDot
-
-GramSchmidtDot (M)
-
-          Apply the Gram-Schmidt process (to the columns) using
-          the dot product
+          respect to inner product given by B. If B is not given
+          then the standard hermitian product is used. B can
+          either be a sesquilinear function of two arguments or
+          it can be a matrix giving a sesquilinear form. The
+          vectors will be made orthonormal with respect to B.
 
           See Planetmath for more information.
 
@@ -3386,9 +3392,9 @@ Kernel (T)
 LUDecomposition (A, L, U)
 
           Get the LU decomposition of A and store the result in
-          the L and U which should be references. It returns
-          null. For example suppose that A is a square matrix,
-          then after running:
+          the L and U which should be references. It returns true
+          if successful. For example suppose that A is a square
+          matrix, then after running:
 
 genius> LUDecomposition(A,&L,&U)
 
@@ -3469,10 +3475,30 @@ PivotColumns (M)
 
    Projection
 
-Projection (v,W,B)
+Projection (v,W,B...)
 
-          Projection of vector v onto subspace W given a bilinear
-          form B
+          Projection of vector v onto subspace W with respect to
+          inner product given by B. If B is not given then the
+          standard hermitian product is used. B can either be a
+          sesquilinear function of two arguments or it can be a
+          matrix giving a sesquilinear form.
+
+   QRDecomposition
+
+QRDecomposition (A, Q)
+
+          Get the QR decomposition of a square matrix A, returns
+          the upper triangular matrix R and sets Q to the
+          orthogonal (unitary) matrix. Q should be a reference or
+          null if you don't want any return. For example:
+
+genius> R = QRDecomposition(A,&Q)
+
+          You will have the upper triangular matrix stored in a
+          variable called R and the orthogonal (unitary) matrix
+          stored in Q.
+
+          See Planetmath or Mathworld for more information.
 
    RaleighQuotient
 
@@ -3529,6 +3555,20 @@ RowSpace (M)
 
           Get a basis matrix for the rowspace of a matrix
 
+   SesquilinearForm
+
+SesquilinearForm (v,A,w)
+
+          Evaluate (v,w) with respect to the sesquilinear form
+          given by the matrix A
+
+   SesquilinearFormFunction
+
+SesquilinearFormFunction (A)
+
+          Return a function that evaluates two vectors with
+          respect to the sesquilinear form given by A
+
    SmithNormalFormField
 
 SmithNormalFormField (A)
@@ -3579,9 +3619,13 @@ VandermondeMatrix (v)
 
    VectorAngle
 
-VectorAngle (v,w,B)
+VectorAngle (v,w,B...)
 
-          The angle of two vectors, given an inner product
+          The angle of two vectors with respect to inner product
+          given by B. If B is not given then the standard
+          hermitian product is used. B can either be a
+          sesquilinear function of two arguments or it can be a
+          matrix giving a sesquilinear form.
 
    VectorSpaceDirectSum
 

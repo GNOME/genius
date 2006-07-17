@@ -134,6 +134,7 @@ gel_matrixw_new(void)
 	m->cached_value_only_rational = 0;
 	m->cached_value_only_integer = 0;
 	m->cached_value_or_bool_only = 0;
+	m->rref = 0;
 	
 	m->tr = 0;
 	m->regx = NULL;
@@ -164,6 +165,7 @@ gel_matrixw_new_with_matrix(GelMatrix *mat)
 	m->cached_value_only_rational = 0;
 	m->cached_value_only_integer = 0;
 	m->cached_value_or_bool_only = 0;
+	m->rref = 0;
 	
 	m->tr = 0;
 	m->regx = NULL;
@@ -383,6 +385,10 @@ gel_matrixw_set_size (GelMatrixW *m, int nwidth, int nheight)
 		height = nheight;
 	}
 
+	/* we're changing things so make sure we don't consider it rref
+	 * anymore */
+	m->rref = 0;
+
 	if (m->regw >= width &&
 	    m->regh >= height) {
 		/*if we're the sole owner, we'll have to zero out some things*/
@@ -547,6 +553,10 @@ gel_matrixw_get_region (GelMatrixW *m, int *regx, int *regy, int w, int h)
 	}
 	
 	new = gel_matrixw_copy (m);
+
+	/* we're changing things so make sure we don't consider it rref
+	 * anymore */
+	new->rref = 0;
 
 	if (getmax (regx, w) >= new->regw ||
 	    getmax (regy, h) >= new->regh) {
@@ -875,6 +885,11 @@ gel_matrixw_transpose(GelMatrixW *m)
 #endif
 	
 	new = gel_matrixw_copy(m);
+
+	/* we're changing things so make sure we don't consider it rref
+	 * anymore */
+	new->rref = 0;
+
 	new->tr = !new->tr;
 	return new;
 }
@@ -893,6 +908,7 @@ internal_make_private (GelMatrixW *m, int w, int h)
 	m->cached_value_only_rational = 0;
 	m->cached_value_only_integer = 0;
 	m->cached_value_or_bool_only = 0;
+	m->rref = 0;
 
 #ifdef MATRIX_DEBUG
 	printf ("Make private %p %d %d\n", m, w, h);

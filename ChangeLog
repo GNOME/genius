@@ -1,3 +1,27 @@
+Mon Jul 17 01:55:30 2006  George (Jiri) Lebl <jirka@5z.com>
+
+	* lib/linear_algebra/*.gel: Added QRDecomposition, SesquilinearForm,
+	  SesquilinearFormFunction, killed GramSchmidtDot, DotProduct is now
+	  the actual dot product, not the hermitian product.  InnerProduct
+	  now calls HermitianProduct not DotProduct.  GramSchmidt,
+	  Projection, VectorAngle have the inner product as an optional
+	  argument.  GramSchmidt normalizes the vectors.  NullSpace optimized
+	  a bit, now no longer calls ColumnSpace which was not needed.  Fixed
+	  OuterProduct to actually return the outer product not just the 1,1
+	  element.  Killed HermitianProduct which moved to being C based
+
+	* src/funclib.c, src/funclibhelper.cP: implemented HermitianProduct
+	  in C, optimized StripZeroColumns in the case when there are no
+	  columns to strip
+
+	* src/matrixw.[ch], src/funclib.c: remember that we did rref so that
+	  we don't do it several times (speeds up NullSpace a bit)
+
+	* combinatorics/factorial.gel, lib/linear_algebra/*.gel,
+	  statistics/basic.gel: use zeros instead of SetMatrixSize
+
+	* help/C/gel-function-list.xml: update
+
 Fri Jul 14 18:00:39 2006  George (Jiri) Lebl <jirka@5z.com>
 
 	* configure.in, mpfr/*: update mpfr to 2.2.0 and require 2.2.0 in
