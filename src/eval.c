@@ -1067,6 +1067,7 @@ expand_col (GelMatrix *dest, GelMatrix *src, int si, int di, int w)
 			iter = et->row.args;
 			for (iter = et->row.args, x=0; iter != NULL; x++) {
 				if (iter->type == VALUE_NODE &&
+				    MPW_IS_REAL (iter->val.value) &&
 				    mpw_is_integer (iter->val.value) &&
 				    mpw_sgn (iter->val.value) == 0) {
 					GelETree *next = iter->any.next;
