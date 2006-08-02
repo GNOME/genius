@@ -1,5 +1,5 @@
 # This script is for George only, so recognize my machine :)
-if [ ! -d /home/jirka/ -o ! -d /home/devgnome/ ]; then
+if [ ! -d /home/jirka/ ]; then
 	echo "Only George wants to run this script (it's for updating the genius webpage)"
 	exit
 fi
