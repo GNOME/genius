@@ -26,7 +26,6 @@ entities = about.xml \
            gel-sums-products.xml \
            gel-values.xml \
            gel-variables.xml \
-           genius.xml \
            legal.xml \
            prefs-display.xml \
            prefs-precision.xml \
@@ -47,7 +46,7 @@ DISTCLEANFILES = genius-C.omf.out
 #
 
 # Run this by hand for now
-#genius.txt: $(entities)
+#genius.txt: genius.xml $(entities)
 #	docbook2txt genius.xml
 
 manualdir = $(datadir)/genius

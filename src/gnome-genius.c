@@ -2897,6 +2897,41 @@ drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	gnome_vfs_uri_list_free (list);
 }
 
+static void
+update_term_geometry (void)
+{
+	GdkGeometry hints;
+	int char_width;
+	int char_height;
+	int xpad, ypad;
+
+	char_width = VTE_TERMINAL (term)->char_width;
+	char_height = VTE_TERMINAL (term)->char_height;
+  
+	vte_terminal_get_padding (VTE_TERMINAL (term), &xpad, &ypad);
+
+	hints.base_width = xpad;
+	hints.base_height = ypad;
+
+#define MIN_WIDTH_CHARS 10
+#define MIN_HEIGHT_CHARS 4
+
+	hints.width_inc = char_width;
+	hints.height_inc = char_height;
+
+	/* min size is min size of just the geometry widget, remember. */
+	hints.min_width = hints.base_width + hints.width_inc * MIN_WIDTH_CHARS;
+	hints.min_height = hints.base_height + hints.height_inc * MIN_HEIGHT_CHARS;
+
+	gtk_window_set_geometry_hints (GTK_WINDOW (genius_window),
+				       term,
+				       &hints,
+				       GDK_HINT_RESIZE_INC |
+				       GDK_HINT_MIN_SIZE |
+				       GDK_HINT_BASE_SIZE);
+}
+
+
 int
 main (int argc, char *argv[])
 {
@@ -3093,6 +3128,10 @@ main (int argc, char *argv[])
 		(VTE_TERMINAL (term),
 		 genius_setup.blinking_cursor);
 	vte_terminal_set_encoding (VTE_TERMINAL (term), "UTF-8");
+
+	update_term_geometry ();
+	g_signal_connect (G_OBJECT (term), "char-size-changed",
+			  G_CALLBACK (update_term_geometry), NULL);
 
 	gtk_widget_show_now (genius_window);
 

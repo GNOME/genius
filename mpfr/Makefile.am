@@ -35,11 +35,11 @@ libmpfr_a_LIBADD = @LIBOBJS@
 EXTRA_PROGRAMS = tuneup
 
 tuneup_SOURCES = tuneup.c
-tuneup_LDADD = -lspeed $(top_builddir)/libmpfr.la
+tuneup_LDADD = -lspeed $(top_builddir)/libmpfr.a
 tuneup_LDFLAGS = -static
 
 tune:
 	$(MAKE) $(AM_MAKEFLAGS) tuneup$(EXEEXT)
 	./tuneup -v
 	$(MAKE) $(AM_MAKEFLAGS) clean
-	$(MAKE) $(AM_MAKEFLAGS) libmpfr.la
+	$(MAKE) $(AM_MAKEFLAGS) libmpfr.a

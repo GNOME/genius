@@ -4,14 +4,14 @@ check_PROGRAMS = tversion tinits tsgn tcheck tisnan texceptions tset_exp tset ta
 
 EXTRA_DIST = tgeneric.c tgeneric_ui.c mpf_compat.h inp_str.data
 
-LDADD = libfrtests.la $(MPFR_LIBM) $(top_builddir)/libmpfr.la
+LDADD = libfrtests.la $(MPFR_LIBM) $(top_builddir)/libmpfr.a
 INCLUDES = -I$(top_srcdir) -I$(top_builddir)
 LOADLIBES=$(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $(top_builddir)/tests/.libs/libfrtests.a $(top_builddir)/.libs/libmpfr.a $(LIBS) $(MPFR_LIBM)
 
 check_LTLIBRARIES = libfrtests.la
 libfrtests_la_SOURCES = memory.c rnd_mode.c tests.c cmp_str.c
 
-$(top_builddir)/libmpfr.la:
-	cd $(top_builddir); make libmpfr.la
+$(top_builddir)/libmpfr.a:
+	cd $(top_builddir); make libmpfr.a
 
 TESTS = $(check_PROGRAMS)

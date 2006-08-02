@@ -221,6 +221,8 @@ Desktop_DATA = $(Desktop_in_files:.desktop.in=.desktop)
 
 @INTLTOOL_DESKTOP_RULE@
 
+DISTCLEANFILES = $(Desktop_DATA) test.plugin
+
 EXTRA_DIST = \
 	geniustest.pl \
 	geniustests.txt \
