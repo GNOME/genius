@@ -239,7 +239,7 @@ IntegerFromBoolean_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 
 	if (a[0]->type == VALUE_NODE)
-		i = (mpw_sgn(a[0]->val.value)!=0) ? 1 : 0;
+		i = mpw_eql_ui (a[0]->val.value, 0) ? 0 : 1;
 	else /* a->type == BOOL_NODE */
 		i = a[0]->bool_.bool_ ? 1 : 0;
 
@@ -855,7 +855,7 @@ CountZeroColumns_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			if ( ! ( t == NULL ||
 				 t->type == NULL_NODE ||
 				 (t->type == VALUE_NODE &&
-				  mpw_cmp_ui (t->val.value, 0) == 0))) {
+				  mpw_eql_ui (t->val.value, 0)))) {
 				cnt++;
 				break;
 			}
@@ -892,7 +892,7 @@ StripZeroColumns_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			if ( ! ( t == NULL ||
 				 t->type == NULL_NODE ||
 				 (t->type == VALUE_NODE &&
-				  mpw_cmp_ui (t->val.value, 0) == 0))) {
+				  mpw_eql_ui (t->val.value, 0)))) {
 				cols = g_slist_prepend (cols,
 							GINT_TO_POINTER (i));
 				cnt++;
@@ -2909,7 +2909,7 @@ is_row_zero (GelMatrixW *m, int r)
 		if (node != NULL &&
 		    (node->type != VALUE_NODE ||
 		     /* FIXME: perhaps use some zero tolerance */
-		     mpw_sgn (node->val.value) != 0)) {
+		     ! mpw_eql_ui (node->val.value, 0))) {
 			return FALSE;
 		}
 	}
@@ -3367,7 +3367,7 @@ poly_cut_zeros(GelMatrixW *m)
 	int cutoff;
 	for(i=gel_matrixw_width(m)-1;i>=1;i--) {
 		GelETree *t = gel_matrixw_index(m,i,0);
-	       	if(mpw_sgn(t->val.value)!=0)
+	       	if ( ! mpw_eql_ui(t->val.value, 0))
 			break;
 	}
 	cutoff = i+1;
@@ -3524,8 +3524,8 @@ MultiplyPoly_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 			GelETree *l,*r,*nn;
 			l = gel_matrixw_index(m1,i,0);
 			r = gel_matrixw_index(m2,j,0);
-			if(mpw_sgn(l->val.value)==0 ||
-			   mpw_sgn(r->val.value)==0)
+			if (mpw_eql_ui (l->val.value, 0) ||
+			    mpw_eql_ui (r->val.value, 0))
 				continue;
 			mpw_mul(accu,l->val.value,r->val.value);
 			nn = gel_matrixw_set_index(mn,i+j,0);
@@ -3692,7 +3692,7 @@ PolyToString_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	GelETree *n;
 	int i;
 	GString *gs;
-	int any = FALSE;
+	gboolean any = FALSE;
 	GelMatrixW *m;
 	char *var;
 	GelOutput *gelo;
@@ -3725,25 +3725,38 @@ PolyToString_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	for(i=gel_matrixw_width(m)-1;i>=0;i--) {
 		GelETree *t;
 		t = gel_matrixw_index(m,i,0);
-		if(mpw_sgn(t->val.value)==0)
+		if (mpw_eql_ui (t->val.value, 0))
 			continue;
-		/*positive*/
-		if(mpw_sgn(t->val.value)>0) {
+		/*positive (or complex) */
+		if (mpw_is_complex (t->val.value) ||
+		    mpw_sgn (t->val.value) > 0) {
 			if(any) g_string_append(gs," + ");
-			if(i==0)
-				gel_print_etree (gelo, t, FALSE);
-			else if(mpw_cmp_ui(t->val.value,1)!=0) {
-				gel_print_etree (gelo, t, FALSE);
-				g_string_append_c(gs,'*');
+			if (MPW_IS_COMPLEX (t->val.value)) {
+				g_string_append_c (gs, '(');
+				if (i==0) {
+					gel_print_etree (gelo, t, FALSE);
+					g_string_append_c (gs, ')');
+				} else if ( ! mpw_eql_ui(t->val.value,1)) {
+					gel_print_etree (gelo, t, FALSE);
+					g_string_append_c (gs, ')');
+					g_string_append_c(gs,'*');
+				}
+			} else {
+				if (i == 0) {
+					gel_print_etree (gelo, t, FALSE);
+				} else if ( ! mpw_eql_ui (t->val.value, 1)) {
+					gel_print_etree (gelo, t, FALSE);
+					g_string_append_c(gs,'*');
+				}
 			}
 			/*negative*/
 		} else {
 			if(any) g_string_append(gs," - ");
 			else g_string_append_c(gs,'-');
 			mpw_neg(t->val.value,t->val.value);
-			if(i==0)
+			if (i == 0) {
 				gel_print_etree (gelo, t, FALSE);
-			else if(mpw_cmp_ui(t->val.value,1)!=0) {
+			} else if ( ! mpw_eql_ui (t->val.value, 1)) {
 				gel_print_etree (gelo, t, FALSE);
 				g_string_append_c(gs,'*');
 			}
@@ -3834,7 +3847,7 @@ PolyToFunction_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	for(i=gel_matrixw_width(m)-1;i>=0;i--) {
 		GelETree *t;
 		t = gel_matrixw_index(m,i,0);
-		if(mpw_sgn(t->val.value)==0)
+		if (mpw_eql_ui (t->val.value, 0))
 			continue;
 		
 		if(!nn)
@@ -4743,7 +4756,7 @@ set_ResultsAsFloats (GelETree * a)
 	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_ResultsAsFloats"))
 		return NULL;
 	if (a->type == VALUE_NODE)
-		calcstate.results_as_floats = mpw_sgn(a->val.value)!=0;
+		calcstate.results_as_floats = ! mpw_eql_ui (a->val.value, 0);
 	else /* a->type == BOOL_NODE */
 		calcstate.results_as_floats = a->bool_.bool_;
 	if(statechange_hook)
@@ -4762,7 +4775,7 @@ set_ScientificNotation (GelETree * a)
 	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_ScientificNotation"))
 		return NULL;
 	if (a->type == VALUE_NODE)
-		calcstate.scientific_notation = mpw_sgn(a->val.value)!=0;
+		calcstate.scientific_notation = ! mpw_eql_ui (a->val.value, 0);
 	else /* a->type == BOOL_NODE */
 		calcstate.scientific_notation = a->bool_.bool_;
 	if(statechange_hook)
@@ -4781,7 +4794,7 @@ set_FullExpressions (GelETree * a)
 	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_FullExpressions"))
 		return NULL;
 	if (a->type == VALUE_NODE)
-		calcstate.full_expressions = mpw_sgn(a->val.value)!=0;
+		calcstate.full_expressions = ! mpw_eql_ui (a->val.value, 0);
 	else /* a->type == BOOL_NODE */
 		calcstate.full_expressions = a->bool_.bool_;
 	if(statechange_hook)
@@ -4885,7 +4898,7 @@ set_MixedFractions (GelETree * a)
 	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_MixedFractions"))
 		return NULL;
 	if (a->type == VALUE_NODE)
-		calcstate.mixed_fractions = mpw_sgn(a->val.value)!=0;
+		calcstate.mixed_fractions = ! mpw_eql_ui (a->val.value, 0);
 	else /* a->type == BOOL_NODE */
 		calcstate.mixed_fractions = a->bool_.bool_;
 	if(statechange_hook)

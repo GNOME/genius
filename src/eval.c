@@ -2364,10 +2364,7 @@ gel_isnodetrue (GelETree *n, gboolean *bad_node)
 	case NULL_NODE:
 		return FALSE;
 	case VALUE_NODE:
-		if (mpw_sgn(n->val.value)!=0)
-			return TRUE;
-		else
-			return FALSE;
+		return ! mpw_eql_ui (n->val.value, 0);
 	case STRING_NODE:
 		if(n->str.str && *n->str.str)
 			return TRUE;
@@ -4825,7 +4822,7 @@ iter_forloop (GelCtx *ctx, GelETree *n, gboolean *repushed)
 		iter_pop_stack(ctx);
 		return;
 	}
-	if G_UNLIKELY (by && mpw_sgn(by->val.value)==0) {
+	if G_UNLIKELY (by && mpw_eql_ui (by->val.value, 0)) {
 		gel_errorout (_("'for/sum/prod' loop increment can't be 0"));
 		iter_pop_stack(ctx);
 		return;

@@ -28,7 +28,7 @@ while(<TESTS>) {
 	#something weird happens and the following modifies $1 and $2
 	#as well, I guess those can only be used from the last regexp
 	$command =~ s/'/'\\''/g;
-	open(GENIUS,"echo '$command' | ./genius $options |") ||
+	open(GENIUS,"./genius --exec='$command' $options |") ||
 		die "can't open pipe!";
 
 	if($rep=<GENIUS>) {

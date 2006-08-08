@@ -198,6 +198,7 @@ main(int argc, char *argv[])
 	gboolean do_compile = FALSE;
 	gboolean do_gettext = FALSE;
 	gboolean be_quiet = FALSE;
+	char *exec = NULL;
 
 	genius_is_gui = FALSE;
 
@@ -225,7 +226,25 @@ main(int argc, char *argv[])
 				val = 128;
 			}
 			curstate.float_prec = val;
+		} else if (strcmp (argv[i], "--precision")==0 && i+1 < argc) {
+			val = 0;
+			sscanf (argv[++i],"%d",&val);
+			if (val < 60 || val > 16384) {
+				g_printerr (_("%s should be between %d and %d, using %d"),
+					    "--precision", 60, 16384, 128);
+				val = 128;
+			}
+			curstate.float_prec = val;
 		} else if(sscanf(argv[i],"--maxdigits=%d",&val)==1) {
+			if (val < 0 || val > 256) {
+				g_printerr (_("%s should be between %d and %d, using %d"),
+					    "--maxdigits", 0, 256, 12);
+				val = 12;
+			}
+			curstate.max_digits = val;
+		} else if (strcmp (argv[i], "--maxdigits")==0 && i+1 < argc) {
+			val = -1;
+			sscanf (argv[++i],"%d",&val);
 			if (val < 0 || val > 256) {
 				g_printerr (_("%s should be between %d and %d, using %d"),
 					    "--maxdigits", 0, 256, 12);
@@ -251,13 +270,26 @@ main(int argc, char *argv[])
 				val = 5;
 			}
 			curstate.max_errors = val;
+		} else if (strcmp (argv[i], "--maxerrors")==0 && i+1 < argc) {
+			val = -1;
+			sscanf (argv[++i],"%d",&val);
+			if (val < 0) {
+				g_printerr (_("%s should be greater then or equal to %d, using %d"),
+					    "--maxerrors", 0, 5);
+				val = 5;
+			}
+			curstate.max_errors = val;
 		} else if(strcmp(argv[i],"--mixed")==0)
 			curstate.mixed_fractions = TRUE;
 		else if(strcmp(argv[i],"--nomixed")==0)
 			curstate.mixed_fractions = FALSE;
-		else if(sscanf(argv[i],"--intoutbase=%d",&val)==1)
+		else if(sscanf(argv[i],"--intoutbase=%d",&val)==1) {
 			curstate.integer_output_base = val;
-		else if(strcmp(argv[i],"--readline")==0)
+		} else if (strcmp (argv[i], "--intoutbase")==0 && i+1 < argc) {
+			val = 10;
+			sscanf (argv[++i],"%d",&val);
+			curstate.integer_output_base = val;
+		} else if(strcmp(argv[i],"--readline")==0)
 			use_readline = TRUE;
 		else if(strcmp(argv[i],"--noreadline")==0)
 			use_readline = FALSE;
@@ -273,7 +305,11 @@ main(int argc, char *argv[])
 			be_quiet = TRUE;
 		else if(strcmp(argv[i],"--noquiet")==0)
 			be_quiet = FALSE;
-		else if (strcmp (argv[i], "--version") == 0) {
+		else if (strncmp (argv[i], "--exec=", strlen ("--exec=")) == 0) {
+			exec = g_strdup ((argv[i])+strlen("--exec="));
+		} else if (strcmp (argv[i], "--exec") && i+1 < argc) {
+			exec = g_strdup (argv[++i]);
+		} else if (strcmp (argv[i], "--version") == 0) {
 			g_print (_("Genius %s\n"
 				   "%s%s\n"),
 				 VERSION,
@@ -302,13 +338,19 @@ main(int argc, char *argv[])
 				   "\t--[no]gettext     \tDump help/error strings in fake .c file to\n"
 				   "\t                  \tstdout (for use with gettext) [OFF]\n"
 				   "\t--[no]quiet       \tBe quiet during non-interactive mode,\n"
-				   "\t                  \t(always on when compiling) [OFF]\n\n"),
+				   "\t                  \t(always on when compiling) [OFF]\n"
+				   "\t--exec=expr       \tExecute an expression\n\n"),
 				 VERSION);
 			if (strcmp (argv[i], "--help") != 0)
 				exit (1);
 			else
 				exit (0);
 		}
+	}
+
+	if (files != NULL && exec != NULL) {
+		g_printerr (_("Can't specify both an expression and files to execute on the command line"));
+		exit (1);
 	}
 
 #if 0
@@ -330,7 +372,7 @@ main(int argc, char *argv[])
 
 	if (do_compile || do_gettext)
 		be_quiet = TRUE;
-	inter = isatty(0) && !files && !(do_compile || do_gettext);
+	inter = isatty(0) && !files && !exec && !(do_compile || do_gettext);
 	/*interactive mode, print welcome message*/
 	if (inter) {
 		g_print (_("Genius %s\n"
@@ -417,11 +459,15 @@ main(int argc, char *argv[])
 				gel_save_plugins ();
 			return 0;
 		}
+	} else if (exec != NULL) {
+		fp = NULL;
+		gel_push_file_info("expr",1);
 	} else {
 		fp = stdin;
 		gel_push_file_info(NULL,1);
 	}
-	gel_lexer_open(fp);
+	if (fp != NULL)
+		gel_lexer_open(fp);
 	if(inter && use_readline) {
 		init_inter();
 	}
@@ -429,6 +475,13 @@ main(int argc, char *argv[])
 	gel_printout_infos ();
 	
 	rl_event_hook = nop;
+
+	if (exec != NULL) {
+		line_len_cache = -1;
+		gel_evalexp (exec, NULL, main_out, NULL, FALSE, NULL);
+		line_len_cache = -1;
+		goto after_exec;
+	}
 
 	for(;;) {
 		for(;;) {
@@ -473,36 +526,19 @@ main(int argc, char *argv[])
 				}
 			} while(!fp && files);
 			if(!fp && !files) {
-				if (do_compile) {
-					gel_push_file_info(NULL,0);
-					gel_compile_all_user_funcs(stdout);
-					gel_pop_file_info();
-					/* if we have gotten errors then
-					   signal by returning a 1 */
-					if(total_errors_printed)
-						return 1;
-				} else if (do_gettext) {
-					gel_push_file_info (NULL, 0);
-					gel_dump_strings_from_help (stdout);
-					gel_dump_strings_from_user_funcs (stdout);
-					gel_pop_file_info ();
-					/* if we have gotten errors then
-					   signal by returning a 1 */
-					if (total_errors_printed)
-						return 1;
-				} else {
-					gel_save_plugins ();
-				}
-				return 0;
+				goto after_exec;
 			}
 			gel_lexer_open(fp);
 		} else
 			break;
 	}
 
+after_exec:
+
 	gel_printout_infos ();
 	
-	gel_lexer_close(fp);
+	if (fp != NULL)
+		gel_lexer_close(fp);
 	/*if(fp != stdin)
 		fclose(fp);*/
 	

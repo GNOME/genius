@@ -1175,7 +1175,7 @@ appendpolynomial (GelOutput *gelo, GelETree *n)
 		int i = index[0] + (index[1]*stride) + (index[2]*stride*stride);
 		int j;
 		if (n->poly.indexes[i] != NULL &&
-		    mpw_sgn (n->poly.indexes[i]) != 0) {
+		    ! mpw_eql_ui (n->poly.indexes[i], 0)) {
 			char *p;
 			gboolean firstvar;
 

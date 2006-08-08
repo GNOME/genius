@@ -234,7 +234,7 @@ if("AHA"=="AHA") then 1 else 0					1
 if("AHA "=="AHA") then 1 else 0					0
 not &d								(not (&d))
 3i>3i								(3i>3i)
-not 3i								(not 3i)
+not 3i								false
 if(3=="3")then 1 else 0						1
 if(3=="3 ")then 1 else 0					0
 IsNull(1)							false
@@ -251,7 +251,7 @@ IsNull(.)							true
 1'								(1')
 [1,2]*[3,4]'							[11]
 AddPoly([1,1,2],[0,1])						[1,2,2]
-SubtractPoly([1,1,2],[0,1])						[1,0,2]
+SubtractPoly([1,1,2],[0,1])					[1,0,2]
 TrimPoly([1,1,0])						[1,1]
 TrimPoly([0,0,0])						[0]
 PolyToString([2,-1,2,3],"x")					"3*x^3 + 2*x^2 - x + 2"
@@ -263,6 +263,7 @@ IsPoly([0,1,2,&d])						false
 PolyToString(MultiplyPoly([1,1],[1,1]),"x")				"x^2 + 2*x + 1"
 PolyToString(MultiplyPoly([-1,1],[1,1]),"x")				"x^2 - 1"
 f=PolyToFunction([3,1,1]);f(2)					9
+f=PolyToFunction([3i,1i,1i]);f(2)				9i
 IsFunction(`(x)=x+1)						true
 IsFunction(function(x)=x+1)					true
 IsFunction(1)							false
@@ -433,6 +434,7 @@ MixedFractions=0 ; 123 7/8					991/8
 010								8
 0100								64
 8\100								64
+8 \ 100								12 1/2
 IntegerOutputBase=16 ; 256					0x100
 IntegerOutputBase=9 ; 81					9\100
 IntegerOutputBase=12 ; 11					12\b
@@ -706,19 +708,27 @@ SymbolicDerivative(`(x)=1/x)					(`(x)=(-1/(x^2)))
 function f() = (for n=1 to 2 do (a=`[[1]]);a);f()		`[[1]]
 NullSpace ([1,0,0,2,4;0,0,1,-3,5])				[0,2,4;-1,0,0;0,-3,5;0,-1,0;0,0,-1]
 A=[1,1,1,1;2,3,4,1;9,1,1,1];A*NullSpace(A)@(,1)			[0;0;0]
+A=[1,1i,1,1;2,3,4i,1;9,1,1,1i];A*NullSpace(A)@(,1)		[0;0;0]
 CountZeroColumns ([1])						0
 CountZeroColumns (null)						0
 CountZeroColumns ([1,0,1])					1
 CountZeroColumns ([1,0,1;1,0,1])				1
+CountZeroColumns ([1i,0,1;1,0,1])				1
 CountZeroColumns ([1,0,1;0,0,0])				1
 CountZeroColumns ([1,0,0;0,0,0])				2
 StripZeroColumns ([1])						[1]
 StripZeroColumns (null)+1					((null)+1)
 StripZeroColumns ([1,0,2])					[1,2]
 StripZeroColumns ([1,0,2;3,0,4])				[1,2;3,4]
+StripZeroColumns ([1,0,2i;3i,0,4])				[1,2i;3i,4]
 StripZeroColumns ([1,0,2;0,0,0])				[1,2;0,0]
 StripZeroColumns ([1,0,0;0,0,0])				[1;0]
 NextCombination([1,2,3,4],6)					[1,2,3,5]
 NextCombination([1,2,3,6],6)					[1,2,4,5]
 NextCombination([3,4,5,6],6)+1					((null)+1)
+det ([1i,1i+3,5,6;4,0,8,6;8,1i,1i,1;1,2,3,4])			56+176i
+PolyToString([1i,2i,3i])					"(3i)*x^2 + (2i)*x + (1i)"
+if 1i then 1 else 0						1
+A=[1,2,3,4;1i,2,3i,4;1,1,1,1;1i,1i,1i,9];A^-1 * A == I(4)	true
+IntegerFromBoolean(1i)						1
 load "longtest.gel"						true

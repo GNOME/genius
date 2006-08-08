@@ -1,3 +1,19 @@
+Tue Aug 08 11:00:19 2006  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/calc.c, src/eval.c, src/funclib.c, src/matop.c:  Fix many
+	  complex number comparisons to fix computation of complex matrix
+	  determinants and other instances where gaussian elimination was
+	  used.  Also for the polynomial functions and handling of booleans
+	  and a few more.
+
+	* src/genius.c: Add --exec option, follow gnu semantics for
+	  the long options with arguments
+
+	* src/geniustest.pl: Use --exec option instead of echo
+
+	* src/geniustests.txt: Add tests for the complex number handling
+	  fixes
+
 Tue Aug 01 19:48:10 2006  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c: use same geometry setup as gnome-terminal
