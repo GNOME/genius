@@ -3625,6 +3625,29 @@ do (
       <title>Equation Solving</title>
       <variablelist>
 
+        <varlistentry id="gel-function-CubicFormula">
+         <term>CubicFormula</term>
+         <listitem>
+          <synopsis>CubicFormula (p)</synopsis>
+          <para>
+	    Compute roots of a cubic (degree 3) polynomial using the
+	    cubic formula.  The polynomial should be given as a
+	    vector of coefficients.  That is
+	    <userinput>4*x^3 + 2*x + 1</userinput> corresponds to the vector
+            <userinput>[1,2,0,4]</userinput>.
+	  </para>
+          <para>
+	    Note that due to limitations of the current implementation, only 
+	    polynomials with real coefficients are supported.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/CubicFormula.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/CubicFormula.html">Mathworld</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-EulerMethod">
          <term>EulerMethod</term>
          <listitem>
@@ -3671,6 +3694,46 @@ do (
          <listitem>
           <synopsis>FindRootSecant (f,a,b,TOL,N)</synopsis>
           <para>Find root of a function using the secant method</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-PolynomialRoots">
+         <term>PolynomialRoots</term>
+         <listitem>
+          <synopsis>PolynomialRoots (p)</synopsis>
+          <para>
+	    Compute roots of a polynomial (degrees 1 through 3 currently)
+	    using one of the formulas for such polynomials.
+	    The polynomial should be given as a
+	    vector of coefficients.  That is
+	    <userinput>4*x^3 + 2*x + 1</userinput> corresponds to the vector
+            <userinput>[1,2,0,4]</userinput>.
+	  </para>
+	  <para>
+	    The function calls
+	    <link linkend="gel-function-QuadraticFormula">QuadraticFormula</link>
+	    and
+	    <link linkend="gel-function-CubicFormula">CubicFormula</link>.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-QuadraticFormula">
+         <term>QuadraticFormula</term>
+         <listitem>
+          <synopsis>QuadraticFormula (p)</synopsis>
+          <para>
+	    Compute roots of a quadratic (degree 2) polynomial using the
+	    quadratic formula.  The polynomial should be given as a
+	    vector of coefficients.  That is
+	    <userinput>3*x^2 + 2*x + 1</userinput> corresponds to the vector
+            <userinput>[1,2,3]</userinput>.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/QuadraticFormula.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/QuadraticFormula.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 

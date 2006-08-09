@@ -1,0 +1,99 @@
+SetHelp ("QuadraticFormula", "equation_solving",
+         "Find roots of a quadratic polynomial (given as vector of coefficients)")
+function QuadraticFormula(p) = (
+	if not IsPoly(p) or elements(p) != 3 or p@(3) == 0 then
+		(error("QuadraticFormula: argument 1 must be a quadratic polynomial");bailout);
+	[ (- p@(2) + sqrt(p@(2)^2 - 4*p@(1)*p@(3))) / (2 * p@(3)) ,
+	 (- p@(2) - sqrt(p@(2)^2 - 4*p@(1)*p@(3))) / (2 * p@(3))]
+)
+protect ("QuadraticFormula")
+
+# see planetmath
+# FIXME: for complex arguments things screw up (there are likely issues with
+# branches of the third root)
+# FIXME: mpfr sometimes hangs on taking the third root
+SetHelp ("CubicFormula", "equation_solving",
+         "Find roots of a cubic polynomial (given as vector of coefficients)")
+function CubicFormula(p) = (
+	if not IsPoly(p) or elements(p) != 4 or p@(4) == 0 then
+		(error("CubicFormula: argument 1 must be a cubic polynomial");bailout);
+	c = p@(1) / p@(4);
+	b = p@(2) / p@(4);
+	a = p@(3) / p@(4);
+
+	if not IsReal(a) or not IsReal(b) or not IsReal(c) then
+		(error("CubicFormula: Complex coefficients currently unimplemented");bailout);
+
+	A = -2*a^3 + 9*a*b - 27*c;
+	B = sqrt( (-A)^2 + 4*(-a^2+3*b)^3 );
+	C = ((A + B)/54)^(1/3);
+	D = ((A - B)/54)^(1/3);
+
+	omega2 = (-1 + 1i*sqrt(3))/2;
+	omega3 = - (1 + 1i*sqrt(3))/2;
+
+	[ C + D,
+	  omega3 * C + omega2 * D,
+	  omega2 * C + omega3 * D] - (a/3)
+)
+protect ("CubicFormula")
+
+## see planetmath
+# FIXME: this screws up, I think it has to do with different brancches of the
+# roots
+#SetHelp ("QuarticFormula", "equation_solving",
+#         "Find roots of a quartic polynomial (given as vector of coefficients)")
+#function QuarticFormula(p) = (
+#	if not IsPoly(p) or elements(p) != 5 or p@(5) == 0 then
+#		(error("QuadraticFormula: argument 1 must be a quartic polynomial");bailout);
+#	d = p@(1) / p@(5);
+#	c = p@(2) / p@(5);
+#	b = p@(3) / p@(5);
+#	a = p@(4) / p@(5);
+#
+#	if not IsReal(a) or not IsReal(b) or not IsReal(c) or not IsReal(d) then
+#		(error("QuarticFormula: Complex coefficients currently unimplemented");bailout);
+#
+#	t = CubicFormula ([c^2+a^2*d-a*b*c,
+#			   b^2+a*c-4*d,
+#			   -2*b,
+#			   1]);
+#
+#	# A = r1 + r2
+#	# B = r3 + r4
+#	# C = r1 * r2
+#	# D = r3 * r4
+#
+#	tmp = (t@(2) + t@(3) - t@(1));
+#	C = (tmp + sqrt( tmp^2 - 16*d )) / 4;
+#	D = (tmp - sqrt( tmp^2 - 16*d )) / 4;
+#
+#	A = (-a+sqrt(a^2 - 4*t@(1))) / 2;
+#	B = (-a-sqrt(a^2 - 4*t@(1))) / 2;
+#
+#	[(A + sqrt(A^2 - 4*C)) / 2,
+#	 (A - sqrt(A^2 - 4*C)) / 2,
+#	 (B + sqrt(B^2 - 4*D)) / 2,
+#	 (B - sqrt(B^2 - 4*D)) / 2]
+#)
+#protect ("QuarticFormula")
+
+SetHelp ("PolynomialRoots", "equation_solving",
+         "Find roots of a polynomial (given as vector of coefficients)")
+function PolynomialRoots(p) = (
+	if not IsPoly(p) then
+		(error("PolynomialRoots: argument 1 must be a polynomial");bailout);
+	p = TrimPoly (p);
+	if elements(p) < 2 or elements(p) > 4 then
+		(error("PolynomialRoots: Solving for polynomials only of degrees 1 through 3 are implemented");bailout);
+	
+	if elements(p) == 2 then
+		[-p@(1)/p@(2)]
+	else if elements(p) == 3 then
+		QuadraticFormula (p)
+	else #if elements(p) == 4 then
+		CubicFormula (p)
+	#else # if elements(p) == 5 then
+		#QuarticFormula (p)
+)
+protect ("PolynomialRoots")
