@@ -18,6 +18,7 @@ entities = about.xml \
            gel-modular-evaluation.xml \
            gel-operator-list.xml \
            gel-polynomials.xml \
+           gel-plotting.xml \
            gel-previous-result.xml \
            gel-references.xml \
            gel-returning.xml \

@@ -3,9 +3,9 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
   <!ENTITY app "<application>Genius Math Tool</application>">
   <!ENTITY appname "Genius">
-  <!ENTITY appversion "0.7.5">
+  <!ENTITY appversion "0.7.6">
   <!ENTITY manrevision "0.2.1">
-  <!ENTITY date "July 2006">
+  <!ENTITY date "August 2006">
 
   <!ENTITY legal SYSTEM "legal.xml">
 
@@ -21,6 +21,7 @@
   <!ENTITY gel-functions SYSTEM "gel-functions.xml">
   <!ENTITY gel-absolute-value-modulus SYSTEM "gel-absolute-value-modulus.xml">
   <!ENTITY gel-separator SYSTEM "gel-separator.xml">
+  <!ENTITY gel-plotting SYSTEM "gel-plotting.xml">
   <!ENTITY gel-polynomials SYSTEM "gel-polynomials.xml">
   <!ENTITY gel-operator-list SYSTEM "gel-operator-list.xml">
 
@@ -67,7 +68,7 @@
     <title>&appname; Manual</title>       
 
     <copyright>
-      <year>1997--2006</year>
+      <year>1997-2006</year>
       <holder>Jiri (George) Lebl</holder>
     </copyright>
     <copyright>
@@ -137,6 +138,8 @@
 <!-- is written in that desktop timeframe is V2.0, the second version of the manual is V2.1, etc. -->
 <!-- When the desktop release version changes to V3.x, the revision number of the manual changes -->
 <!-- to V3.0, and so on. -->  
+<!--  This is unmaintained quite a bit so screw this it just makes things
+      ugly and we don't update the manrevision stuff anyway
     <revhistory>
       <revision> 
 		<revnumber>&manrevision;</revnumber> 
@@ -166,6 +169,7 @@
 		</revdescription> 
       </revision> 
     </revhistory> 
+-->
 
     <releaseinfo>This manual describes version &appversion; of &appname;.
     </releaseinfo> 
@@ -220,6 +224,14 @@
     &usage-workarea;
     &usage-create-program;
     &usage-open-program;
+
+  </chapter>
+
+  <!-- ============= Plotting ============================== -->
+  <chapter id="genius-gel-plotting">
+    <title>Plotting</title>
+
+    &gel-plotting;
 
   </chapter>
 
