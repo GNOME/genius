@@ -327,3 +327,16 @@ function CompoundMatrix(k,A) = (
 	C
 )
 protect ("CompoundMatrix")
+
+SetHelp("MakeVector", "matrix", "Make column vector out of matrix by putting columns above each other")
+function MakeVector(A) = (
+	if IsNull(A) then return null
+	else if not IsMatrix(A) then
+		(error("MakeVector: arguments not a matrix");bailout);
+	r = null;
+	for k=1 to columns(A) do (
+		r = [r;A@(,k)]
+	);
+	r
+)
+protect ("MakeVector")

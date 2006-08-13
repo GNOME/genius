@@ -115,3 +115,67 @@ function Rotation3DZ(angle) = (
   0,0,1]
 )
 protect("Rotation3DZ")
+
+# Ported from octave
+SetHelp ("CommutationMatrix", "linear_algebra", "Return the commutation matrix K(m,n) which is the unique m*n by m*n matrix such that K(m,n) * MakeVector(A) = MakeVector(A.') for all m by n matrices A.")
+function CommutationMatrix(m,n) = (
+  if not IsPositiveInteger (m) or not IsPositiveInteger (n) then
+  	(error("CommutationMatrix: arguments not positive integers");bailout);
+
+  ## It is clearly possible to make this a LOT faster!
+  k = zeros (m * n, m * n);
+  for i = 1 to m do (
+    for j = 1 to n do (
+      k@((i - 1) * n + j, (j - 1) * m + i) = 1
+    )
+  );
+  k
+)
+protect("CommutationMatrix")
+
+#ported from octave
+SetHelp ("ToeplitzMatrix", "linear_algebra", "Return the Toeplitz matrix constructed given the first column c and (optionally) the first row r.")
+function ToeplitzMatrix (c, r...) = (
+  if IsNull(r) then
+	rr = c
+  else if elements(r) > 1 then
+  	(error("ToeplitzMatrix: must have at most 2 arguments");bailout)
+  else
+	rr = r@(1);
+
+  if not IsVector(rr) or not IsVector(c) then
+  	(error("ToeplitzMatrix: Arguments not vectors");bailout);
+
+  if rr@(1) != c@(1) then
+    error ("ToeplitzMatrix: column wins diagonal conflict");
+
+  ## If we have a single complex argument, we want to return a
+  ## Hermitian-symmetric matrix (actually, this will really only be
+  ## Hermitian-symmetric if the first element of the vector is real).
+
+  if IsNull(r) then (
+    c = conj (c);
+    c@(1) = conj (c@(1))
+  );
+
+  if columns(c) > 1 then
+	c = c .';
+  if rows(rr) > 1 then
+	rr = rr .';
+
+  nc = elements (c);
+  nr = elements (rr);
+
+  retval = SetMatrixSize (c, nc, nr);
+
+  for i = 2 to min (nc, nr) do (
+    retval@(i:nc, i) = c@(1:nc-i+1).'
+  );
+
+  for i = 1 to min (nc, nr-1) do (
+    retval@(i, i+1:nr) = rr@(2:nr-i+1)
+  );
+
+  retval
+)
+protect("ToeplitzMatrix")

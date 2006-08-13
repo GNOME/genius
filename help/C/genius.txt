@@ -3139,6 +3139,13 @@ MakeDiagonal (v,arg...)
 
           See Planetmath for more information.
 
+   MakeVector
+
+MakeDiagonal (A)
+
+          Make column vector out of matrix by putting columns
+          above each other. Returns null when given null.
+
    MatrixProduct
 
 MatrixProduct (a)
@@ -3309,6 +3316,15 @@ CharacteristicPolynomialFunction (M)
 ColumnSpace (M)
 
           Get a basis matrix for the columnspace of a matrix
+
+   CommutationMatrix
+
+CommutationMatrix (m, n)
+
+          Return the commutation matrix K(m,n) which is the
+          unique m*n by m*n matrix such that K(m,n) *
+          MakeVector(A) = MakeVector(A.') for all m by n matrices
+          A.
 
    CompanionMatrix
 
@@ -3697,6 +3713,19 @@ SolveLinearSystem (M,V,args...)
           a unique solution, null otherwise. Extra two reference
           parameters can optionally be used to get the reduced M
           and V.
+
+   ToeplitzMatrix
+
+ToeplitzMatrix (c, r...)
+
+          Return the Toeplitz matrix constructed given the first
+          column c and (optionally) the first row r. If only the
+          column c is given then it is conjugated and the
+          nonconjugated version is used for the first row to give
+          a Hermitian matrix (if the first element is real of
+          course).
+
+          See Planetmath for more information.
 
    Trace
 
@@ -4169,6 +4198,17 @@ FejerKernel (n,t)
 
           See Planetmath for more information.
 
+   GammaFunction
+
+GammaFunction (x)
+
+          Aliases: Gamma
+
+          The Gamma function. Currently only implemented for real
+          values.
+
+          See Planetmath for more information.
+
    KroneckerDelta
 
 KroneckerDelta (v)
@@ -4237,6 +4277,17 @@ PoissonKernel (r,sigma)
 PoissonKernelRadius (r,sigma)
 
           Poisson kernel on D(0,R) (not normalized to 1)
+
+   RiemannZeta
+
+RiemannZeta (x)
+
+          Aliases: zeta
+
+          The Riemann zeta function. Currently only implemented
+          for real values.
+
+          See Planetmath for more information.
 
    UnitStep
 

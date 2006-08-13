@@ -2173,6 +2173,15 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-MakeVector">
+         <term>MakeVector</term>
+         <listitem>
+          <synopsis>MakeDiagonal (A)</synopsis>
+          <para>Make column vector out of matrix by putting columns above
+	    each other.  Returns null when given null.</para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-MatrixProduct">
          <term>MatrixProduct</term>
          <listitem>
@@ -2396,6 +2405,14 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <listitem>
           <synopsis>ColumnSpace (M)</synopsis>
           <para>Get a basis matrix for the columnspace of a matrix</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-CommutationMatrix">
+         <term>CommutationMatrix</term>
+         <listitem>
+          <synopsis>CommutationMatrix (m, n)</synopsis>
+          <para>Return the commutation matrix K(m,n) which is the unique m*n by m*n matrix such that K(m,n) * MakeVector(A) = MakeVector(A.') for all m by n matrices A.</para>
          </listitem>
         </varlistentry>
 
@@ -2892,6 +2909,21 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
          <listitem>
           <synopsis>SolveLinearSystem (M,V,args...)</synopsis>
           <para>Solve linear system Mx=V, return solution V if there is a unique solution, null otherwise.  Extra two reference parameters can optionally be used to get the reduced M and V.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-ToeplitzMatrix">
+         <term>ToeplitzMatrix</term>
+         <listitem>
+          <synopsis>ToeplitzMatrix (c, r...)</synopsis>
+	  <para>Return the Toeplitz matrix constructed given the first column c
+and (optionally) the first row r.  If only the column c is given then it is
+conjugated and the nonconjugated version is used for the first row to give a
+Hermitian matrix (if the first element is real of course).</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/ToeplitzMatrix.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -3491,6 +3523,19 @@ do (
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-GammaFunction">
+         <term>GammaFunction</term>
+         <listitem>
+          <synopsis>GammaFunction (x)</synopsis>
+          <para>Aliases: <function>Gamma</function></para>
+          <para>The Gamma function.  Currently only implemented for real values.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/GammaFunction.html">Planetmath</ulink> for more information.
+          </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-KroneckerDelta">
          <term>KroneckerDelta</term>
          <listitem>
@@ -3580,6 +3625,19 @@ do (
          <listitem>
           <synopsis>PoissonKernelRadius (r,sigma)</synopsis>
           <para>Poisson kernel on D(0,R) (not normalized to 1)</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-RiemannZeta">
+         <term>RiemannZeta</term>
+         <listitem>
+          <synopsis>RiemannZeta (x)</synopsis>
+          <para>Aliases: <function>zeta</function></para>
+          <para>The Riemann zeta function.  Currently only implemented for real values.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/RiemannZetaFunction.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 

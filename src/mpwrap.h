@@ -126,11 +126,11 @@ mpfr_ptr mpw_peek_imag_mpf (mpw_ptr op);
 					   rop = op->r->data.fval; \
 				   } else if (op->r->type == MPW_INTEGER) { \
 					   mpfr_init (tmp); \
-					   mpfr_set_z (tmp, op->r->data.ival); \
+					   mpfr_set_z (tmp, op->r->data.ival, GMP_RNDN); \
 					   rop = tmp; \
 				   } else /* if (op->r->type == MPW_RATIONAL) */ { \
 					   mpfr_init (tmp); \
-					   mpfr_set_q (tmp, op->r->data.rval); \
+					   mpfr_set_q (tmp, op->r->data.rval, GMP_RNDN); \
 					   rop = tmp; \
 				   } \
 			       }
@@ -139,11 +139,11 @@ mpfr_ptr mpw_peek_imag_mpf (mpw_ptr op);
 					   rop = op->i->data.fval; \
 				   } else if (op->i->type == MPW_INTEGER) { \
 					   mpfr_init (tmp); \
-					   mpfr_set_z (tmp, op->i->data.ival); \
+					   mpfr_set_z (tmp, op->i->data.ival, GMP_RNDN); \
 					   rop = tmp; \
 				   } else /* if (op->r->type == MPW_RATIONAL) */ { \
 					   mpfr_init (tmp); \
-					   mpfr_set_q (tmp, op->i->data.rval); \
+					   mpfr_set_q (tmp, op->i->data.rval, GMP_RNDN); \
 					   rop = tmp; \
 				   } \
 			       }
