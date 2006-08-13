@@ -16,5 +16,8 @@ docbook2pdf genius.xml
 echo scp *.html zinc.5z.com:/home/www/html/jirka/genius-documentation/
 scp *.html zinc.5z.com:/home/www/html/jirka/genius-documentation/
 
+echo scp -r figures zinc.5z.com:/home/www/html/jirka/genius-documentation/
+scp -r figures zinc.5z.com:/home/www/html/jirka/genius-documentation/
+
 echo scp genius.pdf zinc.5z.com:/home/www/html/jirka/genius-reference.pdf
 scp genius.pdf zinc.5z.com:/home/www/html/jirka/genius-reference.pdf
