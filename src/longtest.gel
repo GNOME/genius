@@ -66,21 +66,20 @@ function derivtest() = (
 );
 
 function roottestcube() = (
-  for n=1 to 5 do (
+  for n=1 to 100 do (
     #p = randint(10,4) + 1i* randint(10,4)+[0,0,0,1];
-    print (n);
     p = randint(10,4) + [0,0,0,1];
     r = CubicFormula (p);
     f = PolyToFunction (p);
     if (|f(r@(1))| >= 0.01 or
 	|f(r@(2))| >= 0.01 or
 	|f(r@(3))| >= 0.01) then (
-	print (n);
-	print (p);
-	print (r);
-	print (f(r@(1)));
-	print (f(r@(2)));
-	print (f(r@(3)));
+	#print (n);
+	#print (p);
+	#print (r);
+	#print (f(r@(1)));
+	#print (f(r@(2)));
+	#print (f(r@(3)));
       return false;
     )
   );
@@ -111,6 +110,16 @@ print ("quad");
   true
 );
 
+function nthroottest() = (
+	for n=1 to 500 do (
+		a=(rand()*10 - 5) ;
+		ee = randint(10)+1;
+		if Chop(( a^(1/ee) )^ee - a) != 0 then
+			return false;
+	);
+	true
+);
+
 function LongTest() = (
 	errors = 0;
 
@@ -139,8 +148,9 @@ function LongTest() = (
 	if not derivtest() then (error("error on deriv test");errors = errors + 1);
 
 	#roots
-	#if not roottestcube() then (error("error on root test cubic");errors = errors + 1);
+	if not roottestcube() then (error("error on root test cubic");errors = errors + 1);
 	#if not roottestquad() then (error("error on root test quadric");errors = errors + 1);
+	if not nthroottest() then (error("error on nth root test");errors = errors + 1);
 
 	# We print instead of return since we normally use load to run this
 	# and load doesn't output the return value

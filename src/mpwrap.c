@@ -1625,29 +1625,30 @@ mpwl_dblfac (MpwRealNum *rop,MpwRealNum *op)
 	mpwl_dblfac_ui(rop,mpz_get_ui(op->data.ival));
 }
 
+/* returns TRUE if must make complex power */
 static gboolean
 mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 {
 	mpfr_ptr op1_f;
 	mpfr_t op1_tmp;
+	mpfr_ptr op2_f;
+	mpfr_t op2_tmp;
 
-	mpfr_t fr;
-	mpfr_t fr2;
-	mpfr_t frt;
-	mpfr_t de;
-	mpz_t des;
+	MpwRealNum r = {{NULL}};
 	unsigned long int den;
-	gboolean reverse = FALSE;
+	int op1_sgn;
+
 
 	if G_UNLIKELY (op2->type!=MPW_RATIONAL) {
 		error_num=INTERNAL_MPW_ERROR;
 		return FALSE;
 	}
 
-	if G_UNLIKELY (mpwl_sgn (op1) < 0 &&
+	op1_sgn = mpwl_sgn (op1);
+
+	if G_UNLIKELY (op1_sgn < 0 &&
 			mpz_even_p (mpq_denref(op2->data.rval))) {
 		/*it's gonna be complex*/
-		error_num=NUMERICAL_MPW_ERROR;
 		return TRUE;
 	}
 
@@ -1714,66 +1715,34 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		}
 	}
 
-	mpz_init_set(des,mpq_denref(op2->data.rval));
-	mpz_sub_ui(des,des,1);
-
-	mpf_init(de);
-	mpf_set_z(de,mpq_denref(op2->data.rval));
-
-
-	if(mpq_sgn(op2->data.rval)<0)
-		reverse=TRUE;
-
 	MPWL_MPF (op1_f, op1, op1_tmp);
-
-
-	/*
-	 * Newton's method: Xn+1 = Xn - f(Xn)/f'(Xn)
-	 */
+	MPWL_MPF (op2_f, op2, op2_tmp);
 	
-	mpf_init(fr);
-	mpf_init(fr2);
-	mpf_init(frt);
-	mpf_div_ui (fr, op1_f, 2); /*use half the value
-					     as an initial guess*/
-	for(;;) {
-		mpfr_pow_z(fr2,fr,mpq_denref(op2->data.rval),GMP_RNDN);
-		mpf_sub (fr2, fr2, op1_f);
+	mpwl_init_type (&r, MPW_FLOAT);
 
-		mpfr_pow_z(frt,fr,des,GMP_RNDN);
-		mpf_mul(frt,frt,de);
-		mpf_div(fr2,fr2,frt);
-		mpf_neg(fr2,fr2);
-		mpf_add(fr2,fr2,fr);
-
-		
-		if(mpf_cmp(fr2,fr)==0)
-			break;
-		mpf_set(fr,fr2);
+	if (op1_sgn < 0) {
+		g_assert (op2_f == op2_tmp);
+		/* we know op2 denominator was odd else we wouldn't be here
+		 * also we know for sure that op2_f != op1_f since 
+		 * op2 was rational to begin with */
+		mpfr_neg (op1_f, op1_f, GMP_RNDN);
+		mpfr_pow (r.data.fval, op1_f, op2_f, GMP_RNDN);
+		mpfr_neg (op1_f, op1_f, GMP_RNDN);
+		mpfr_neg (r.data.fval, r.data.fval, GMP_RNDN);
+	} else {
+		mpfr_pow (r.data.fval, op1_f, op2_f, GMP_RNDN);
 	}
-	mpf_clear(fr2);
-	mpf_clear(frt);
-	mpz_clear(des);
-	mpf_clear(de);
 
-	if(reverse) {
-		/*numerator will be negative*/
-		mpz_neg(mpq_numref(op2->data.rval),mpq_numref(op2->data.rval));
-		mpfr_pow_z(fr,fr,mpq_numref(op2->data.rval),GMP_RNDN);
-		mpz_neg(mpq_numref(op2->data.rval),mpq_numref(op2->data.rval));
-
-		mpf_ui_div(fr,1,fr);
-	} else
-		mpfr_pow_z(fr,fr,mpq_numref(op2->data.rval),GMP_RNDN);
-
-	/*op1 might have equaled rop so clear extra type here*/
 	MPWL_MPF_KILL (op1_f, op1_tmp);
+	MPWL_MPF_KILL (op2_f, op2_tmp);
 
-	if (rop->type != MPW_FLOAT) {
-		mpwl_clear(rop);
-		mpwl_init_type(rop,MPW_FLOAT);
+	if (mpfr_nan_p (r.data.fval)) {
+		mpwl_clear (&r);
+		return TRUE;
 	}
-	mpf_set(rop->data.fval,fr);
+
+	mpwl_move(rop,&r);
+
 	return FALSE;
 }
 
@@ -1908,6 +1877,11 @@ mpwl_pow_f(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	mpfr_pow (r.data.fval, op1_f, op2->data.fval, GMP_RNDN);
 
 	MPWL_MPF_KILL (op1_f, op1_tmp);
+
+	if (mpfr_nan_p (r.data.fval)) {
+		mpwl_clear (&r);
+		return TRUE;
+	}
 
 	mpwl_move(rop,&r);
 	return FALSE;
@@ -4007,7 +3981,10 @@ mpw_pow (mpw_ptr rop, mpw_ptr op1, mpw_ptr op2)
 	}
 	return;
 backup_mpw_pow:
-	{
+	if (mpwl_sgn (op1->r) == 0 &&
+	    mpwl_sgn (op1->i) == 0) {
+		mpw_set_ui (rop, 0);
+	} else {
 		mpw_t tmp;
 		mpw_init (tmp);
 		mpw_ln (tmp, op1);
