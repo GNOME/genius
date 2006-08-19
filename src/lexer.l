@@ -43,6 +43,8 @@ static int matrix_entry = 0;
 static GSList *matrix_entry_stack = NULL;
 
 /* Ugly warning avoiding */
+#define yywrap() 1
+#define YY_SKIP_YYWRAP
 #ifdef FLEX_SCANNER
 int yylex(void);
 #endif
