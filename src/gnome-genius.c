@@ -681,11 +681,12 @@ aboutcb(GtkWidget * widget, gpointer data)
 {
 	static GtkWidget *about;
 	static const char *authors[] = {
-		"Jiri (George) Lebl (jirka@5z.com)",
+		"Jiří (George) Lebl (jirka@5z.com)",
 		NULL
 	};
 	static const char *documenters[] = {
-		"Jiri (George) Lebl (jirka@5z.com)",
+		"Jiří (George) Lebl (jirka@5z.com)",
+		"Kai Willadsen",
 		NULL
 	};
 	const char *translators;
