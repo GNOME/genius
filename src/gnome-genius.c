@@ -685,7 +685,7 @@ aboutcb(GtkWidget * widget, gpointer data)
 		NULL
 	};
 	static const char *documenters[] = {
-		"Jiří (George) Lebl (jirka@5z.com)",
+		"Jiří (George) Lebl",
 		"Kai Willadsen",
 		NULL
 	};
