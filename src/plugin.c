@@ -1,7 +1,7 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2002,2006 Jiri (George) Lebl
  *
- * Author: George Lebl
+ * Author: Jiri (George) Lebl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,22 +70,14 @@ free_plugin(GelPlugin *plg)
 	g_free(plg);
 }
 
-void
-gel_read_plugin_list (void)
+static void
+read_plugins_from_dir (const char *dir_name)
 {
 	DIR *dir;
-	char *dir_name;
 	struct dirent *dent;
 
-	/*free the previous list*/
-	g_slist_foreach(gel_plugin_list,(GFunc)free_plugin,NULL);
-	g_slist_free(gel_plugin_list);
-	gel_plugin_list = NULL;
-	
-	dir_name = g_strconcat(LIBRARY_DIR,"/plugins",NULL);
-	dir = opendir(dir_name);
-	if(!dir) {
-		g_free(dir_name);
+	dir = opendir (dir_name);
+	if (dir == NULL) {
 		return;
 	}
 	while((dent = readdir (dir)) != NULL) {
@@ -108,8 +100,28 @@ gel_read_plugin_list (void)
 		}
 	}
 	closedir (dir);
-	g_free(dir_name);
-	gel_plugin_list = g_slist_reverse(gel_plugin_list);
+}
+
+void
+gel_read_plugin_list (void)
+{
+	char *dir_name;
+
+	/*free the previous list*/
+	g_slist_foreach (gel_plugin_list, (GFunc)free_plugin, NULL);
+	g_slist_free (gel_plugin_list);
+	gel_plugin_list = NULL;
+	
+	dir_name = g_build_filename (LIBRARY_DIR, "plugins", NULL);
+	read_plugins_from_dir (dir_name);
+	g_free (dir_name);
+
+	dir_name = g_build_filename (g_get_home_dir (),
+				     ".genius", "plugins", NULL);
+	read_plugins_from_dir (dir_name);
+	g_free (dir_name);
+
+	gel_plugin_list = g_slist_reverse (gel_plugin_list);
 }
 
 static GelPluginInfo *
@@ -123,8 +135,15 @@ open_get_info (GelPlugin *plug)
 		info = g_hash_table_new(NULL,NULL);
 	
 	if(!(mod=g_hash_table_lookup(opened,plug->file))) {
-		mod = g_module_open(plug->file,G_MODULE_BIND_LAZY);
-		if(!mod) {
+		char *fname = g_strconcat (plug->file,
+					   ".",
+					   G_MODULE_SUFFIX,
+					   NULL);
+		mod = g_module_open (fname, G_MODULE_BIND_LAZY);
+		g_free (fname);
+		if (mod == NULL)
+			mod = g_module_open (plug->file, G_MODULE_BIND_LAZY);
+		if (mod == NULL) {
 			gel_errorout (_("Can't open plugin!"));
 		 	return NULL;
 		}
@@ -205,18 +224,19 @@ get_info (GelPlugin *plug)
 void
 gel_save_plugins (void)
 {
-	static long int unique_id = 0;
 	GSList *li;
 	GelPluginInfo *inf;
 	VeConfig *cfg;
 	char *path;
 
-	path = g_strconcat (ve_sure_string (g_getenv ("HOME")), "/.gnome2/genius", NULL);
+	if (genius_is_gui)
+		path = g_build_filename (g_get_home_dir (),
+					 ".gnome2", "genius", NULL);
+	else
+		path = g_build_filename (g_get_home_dir (),
+					 ".genius", "config-cmdline", NULL);
 	cfg = ve_config_get (path);
 	g_free (path);
-
-	if (unique_id == 0)
-		unique_id = time (NULL);
 
 	for (li = gel_plugin_list; li != NULL; li = li->next) {
 		GelPlugin *plug = li->data;
@@ -225,13 +245,15 @@ gel_save_plugins (void)
 		if (inf != NULL) {
 			if (plug->unique_id == NULL) {
 				plug->unique_id = g_strdup_printf
-					("ID-%ld", unique_id++);
+					("ID-%08lX%08lX",
+					 (unsigned long)g_random_int (),
+					 (unsigned long)g_random_int ());
 			}
 			plug->restore = inf->save_state (plug->unique_id);
 
 			if (plug->restore) {
 				char *key = g_strdup_printf
-					("/plugins/plugin_restore_%s",
+					("plugins/plugin_restore_%s",
 					 plug->base);
 				ve_config_set_string (cfg, key, plug->unique_id);
 				g_free (key);
@@ -240,7 +262,7 @@ gel_save_plugins (void)
 		}
 		if ( ! saved) {
 			char *key = g_strdup_printf
-				("/plugins/plugin_restore_%s",
+				("plugins/plugin_restore_%s",
 				 plug->base);
 			ve_config_set_string (cfg, key, "NO");
 			g_free (key);
@@ -256,14 +278,19 @@ gel_restore_plugins (void)
 	VeConfig *cfg;
 	char *path;
 
-	path = g_strconcat (ve_sure_string (g_getenv ("HOME")), "/.gnome2/genius", NULL);
+	if (genius_is_gui)
+		path = g_build_filename (g_get_home_dir (),
+					 ".gnome2", "genius", NULL);
+	else
+		path = g_build_filename (g_get_home_dir (),
+					 ".genius", "config-cmdline", NULL);
 	cfg = ve_config_get (path);
 	g_free (path);
 
 	for (li = gel_plugin_list; li != NULL; li = li->next) {
 		GelPlugin *plug = li->data;
 		char *key = g_strdup_printf
-			("/plugins/plugin_restore_%s",
+			("plugins/plugin_restore_%s",
 			 plug->base);
 		char *unique_id = ve_config_get_string (cfg, key);
 		g_free (key);

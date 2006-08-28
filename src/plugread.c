@@ -1,7 +1,7 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2002,2006 Jiri (George) Lebl
  *
- * Author: George Lebl
+ * Author: Jiri (George) Lebl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,17 +43,18 @@ gel_readplugin (const char *dir_name, const char *file_name)
 	GelPlugin *plg;
 	VeConfig *cfg;
 
-	p = g_strconcat (ve_sure_string (dir_name), "/", ve_sure_string (file_name), NULL);
+	p = g_build_filename (ve_sure_string (dir_name),
+			      ve_sure_string (file_name), NULL);
 	cfg = ve_config_new (p);
 	g_free (p);
 
-	name = ve_config_get_translated_string (cfg, "/Genius Plugin/Name");
-	file = ve_config_get_string (cfg, "/Genius Plugin/File");
-	copyright = ve_config_get_translated_string (cfg, "/Genius Plugin/Copyright");
-	author = ve_config_get_string (cfg, "/Genius Plugin/Author");
-	description = ve_config_get_translated_string (cfg, "/Genius Plugin/Description");
-	gui = ve_config_get_bool (cfg, "/Genius Plugin/GUI=false");
-	hide = ve_config_get_bool (cfg, "/Genius Plugin/Hide=false");
+	name = ve_config_get_translated_string (cfg, "Genius Plugin/Name");
+	file = ve_config_get_string (cfg, "Genius Plugin/File");
+	copyright = ve_config_get_translated_string (cfg, "Genius Plugin/Copyright");
+	author = ve_config_get_string (cfg, "Genius Plugin/Author");
+	description = ve_config_get_translated_string (cfg, "Genius Plugin/Description");
+	gui = ve_config_get_bool (cfg, "Genius Plugin/GUI=false");
+	hide = ve_config_get_bool (cfg, "Genius Plugin/Hide=false");
 	ve_config_destroy (cfg);
 
 	if (ve_string_empty (name) ||

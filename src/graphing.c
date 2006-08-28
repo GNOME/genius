@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2005 Jiri (George) Lebl
+ * Copyright (C) 2003-2006 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -604,7 +604,7 @@ setup_last_dir (const char *filename)
 		last_export_dir = s;
 		return;
 	}
-	last_export_dir = g_strconcat (s, "/", NULL);
+	last_export_dir = g_strconcat (s, G_DIR_SEPARATOR_S, NULL);
 	g_free (s);
 }
 #endif

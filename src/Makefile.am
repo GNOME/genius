@@ -206,6 +206,8 @@ plugin_include_HEADERS = \
 
 plugin_LTLIBRARIES = libtestplugin.la
 
+libtestplugin_la_LDFLAGS = -module -avoid-version
+
 libtestplugin_la_SOURCES =	\
 	plug_api.h		\
 	testplugin.c

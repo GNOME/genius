@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2005 Jiri (George) Lebl
+ * Copyright (C) 1997-2006 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -413,14 +413,15 @@ main(int argc, char *argv[])
 			gel_load_compiled_file (NULL, "../lib/lib.cgel", FALSE);
 		} else {
 			gel_load_compiled_file (NULL,
-						LIBRARY_DIR "/gel/lib.cgel",
+						LIBRARY_DIR G_DIR_SEPARATOR_S
+						"gel" G_DIR_SEPARATOR_S "lib.cgel",
 						FALSE);
 		}
 
 		/*
 		 * Read init files
 		 */
-		file = g_strconcat(g_getenv("HOME"),"/.geniusinit",NULL);
+		file = g_build_filename (g_get_home_dir (), ".geniusinit",NULL);
 		if(file)
 			gel_load_file(NULL, file, FALSE);
 		g_free(file);

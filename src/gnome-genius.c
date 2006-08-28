@@ -1305,11 +1305,11 @@ setup_last_dir (const char *filename)
 		last_dir = NULL;
 		return;
 	}
-	if (strcmp(s, "/") == 0) {
+	if (strcmp(s, G_DIR_SEPARATOR_S) == 0) {
 		last_dir = s;
 		return;
 	}
-	last_dir = g_strconcat (s, "/", NULL);
+	last_dir = g_strconcat (s, G_DIR_SEPARATOR_S, NULL);
 	g_free (s);
 }
 #endif
@@ -1925,7 +1925,7 @@ new_program (const char *filename)
 		char *d = g_get_current_dir ();
 		char *n = g_strdup_printf (_("Program_%d.gel"), cnt);
 		/* the file name will have an underscore */
-		p->name = g_strconcat (d, "/", n, NULL);
+		p->name = g_build_filename (d, n, NULL);
 		g_free (d);
 		g_free (n);
 		p->vname = g_strdup_printf (_("Program %d"), cnt);
@@ -2613,8 +2613,8 @@ fork_a_helper (void)
 			foo = NULL;
 		}
 		if (foo == NULL) {
-			foo = g_strconcat
-				(dir, "/genius-readline-helper-fifo", NULL);
+			foo = g_build_filename
+				(dir, "genius-readline-helper-fifo", NULL);
 			if (access (foo, X_OK) != 0) {
 				g_free (foo);
 				foo = NULL;
@@ -3187,14 +3187,16 @@ main (int argc, char *argv[])
 		/*try the library file in the current/../lib directory*/
 		gel_load_compiled_file (NULL, "../lib/lib.cgel", FALSE);
 	} else {
-		gel_load_compiled_file (NULL, LIBRARY_DIR "/gel/lib.cgel",
+		gel_load_compiled_file (NULL,
+					LIBRARY_DIR G_DIR_SEPARATOR_S
+					"gel" G_DIR_SEPARATOR_S "lib.cgel",
 					FALSE);
 	}
 
 	/*
 	 * Read init files
 	 */
-	file = g_strconcat(g_getenv("HOME"),"/.geniusinit",NULL);
+	file = g_build_filename (g_get_home_dir (), ".geniusinit",NULL);
 	if(file)
 		gel_load_file(NULL, file, FALSE);
 	g_free(file);

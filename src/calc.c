@@ -2052,8 +2052,9 @@ gel_load_compiled_file (const char *dirprefix, const char *file, gboolean warn)
 {
 	FILE *fp;
 	char *newfile;
-	if(dirprefix && file[0]!='/')
-		newfile = g_strconcat(dirprefix, "/", file, NULL);
+	if (dirprefix != NULL &&
+	    file[0] != G_DIR_SEPARATOR)
+		newfile = g_build_filename (dirprefix, file, NULL);
 	else
 		newfile = g_strdup (file);
 
@@ -2603,8 +2604,9 @@ gel_load_file (const char *dirprefix, const char *file, gboolean warn)
 	char *newfile;
 	gboolean oldgeof = gel_got_eof;
 	gel_got_eof = FALSE;
-	if(dirprefix && file[0]!='/')
-		newfile = g_strconcat(dirprefix, "/", file, NULL);
+	if (dirprefix != NULL &&
+	    file[0] != G_DIR_SEPARATOR)
+		newfile = g_build_filename (dirprefix, file, NULL);
 	else
 		newfile = g_strdup (file);
 
@@ -2629,8 +2631,9 @@ gel_load_guess_file (const char *dirprefix, const char *file, gboolean warn)
 	char *newfile;
 	gboolean oldgeof = gel_got_eof;
 	gel_got_eof = FALSE;
-	if(dirprefix && file[0]!='/')
-		newfile = g_strconcat(dirprefix, "/", file, NULL);
+	if (dirprefix != NULL &&
+	    file[0] != G_DIR_SEPARATOR)
+		newfile = g_build_filename (dirprefix, file, NULL);
 	else
 		newfile = g_strdup (file);
 
@@ -2672,10 +2675,10 @@ static void
 our_chdir (const char *dirprefix, const char *dir)
 {
 	if (dirprefix == NULL ||
-	    dir[0] == '/') {
+	    dir[0] == G_DIR_SEPARATOR) {
 		chdir (dir);
 	} else {
-		char *d = g_strconcat (dirprefix, "/", dir, NULL);
+		char *d = g_build_filename (dirprefix, dir, NULL);
 		chdir (d);
 		g_free (d);
 	}

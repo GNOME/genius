@@ -1,3 +1,15 @@
+Mon Aug 28 12:47:44 2006  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/plugin.c, src/plugread.c, src/Makefile.am:  Fix plugin reading.
+	  Fix the interface to be portable and append the proper extension on
+	  reading the plugin.  Pass proper options to the linker on compiling
+	  the test plugin.
+
+	* src/test.plugin.in: whack the extension
+
+	* src/calc.c, src/gnome-genius.c, src/genius.c, src/graphing.c:  Some
+	  portability fixes with respect to the path names
+
 Wed Aug 23 11:45:49 2006  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/gnome-geniuc.c: cosmetic update to about box
