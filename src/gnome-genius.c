@@ -182,6 +182,11 @@ static void close_callback (GtkWidget *menu_item, gpointer data);
 static void load_cb (GtkWidget *w);
 static void reload_cb (GtkWidget *w);
 static void quitapp (GtkWidget * widget, gpointer data);
+#ifdef HAVE_GTKSOURCEVIEW
+static void setup_undo_redo (void);
+static void undo_callback (GtkWidget *menu_item, gpointer data);
+static void redo_callback (GtkWidget *menu_item, gpointer data);
+#endif
 static void cut_callback (GtkWidget *menu_item, gpointer data);
 static void copy_callback (GtkWidget *menu_item, gpointer data);
 static void paste_callback (GtkWidget *menu_item, gpointer data);
@@ -220,10 +225,22 @@ static GnomeUIInfo file_menu[] = {
 };
 
 static GnomeUIInfo edit_menu[] = {  
+#ifdef HAVE_GTKSOURCEVIEW
+#define EDIT_UNDO_ITEM 0
+	GNOMEUIINFO_MENU_UNDO_ITEM(undo_callback,NULL),
+#define EDIT_REDO_ITEM 1
+	GNOMEUIINFO_MENU_REDO_ITEM(redo_callback,NULL),
+	GNOMEUIINFO_SEPARATOR,
+#define EDIT_CUT_ITEM 3
+	GNOMEUIINFO_MENU_CUT_ITEM(cut_callback,NULL),
+#define EDIT_COPY_ITEM 4
+	GNOMEUIINFO_MENU_COPY_ITEM(copy_callback,NULL),
+#else
 #define EDIT_CUT_ITEM 0
 	GNOMEUIINFO_MENU_CUT_ITEM(cut_callback,NULL),
 #define EDIT_COPY_ITEM 1
 	GNOMEUIINFO_MENU_COPY_ITEM(copy_callback,NULL),
+#endif
 	GNOMEUIINFO_MENU_PASTE_ITEM(paste_callback,NULL),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As Plain _Text"),
@@ -1430,10 +1447,97 @@ load_cb (GtkWidget *w)
 	gtk_widget_show (fs);
 }
 
+#ifdef HAVE_GTKSOURCEVIEW
+
+static guint ur_idle_id = 0;
+
+static gboolean
+setup_undo_redo_idle (gpointer data)
+{
+	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+
+	ur_idle_id = 0;
+
+	if (page < 0)
+		return FALSE;
+	if (page == 0) {
+		gtk_widget_set_sensitive (edit_menu[EDIT_UNDO_ITEM].widget,
+					  FALSE);
+		gtk_widget_set_sensitive (edit_menu[EDIT_REDO_ITEM].widget,
+					  FALSE);
+	} else {
+		GtkWidget *w = gtk_notebook_get_nth_page
+			(GTK_NOTEBOOK (notebook), page);
+		Program *p = g_object_get_data (G_OBJECT (w), "program");
+		gtk_widget_set_sensitive
+			(edit_menu[EDIT_UNDO_ITEM].widget,
+			 gtk_source_buffer_can_undo
+			   (GTK_SOURCE_BUFFER (p->buffer)));
+		gtk_widget_set_sensitive
+			(edit_menu[EDIT_REDO_ITEM].widget,
+			 gtk_source_buffer_can_redo
+			   (GTK_SOURCE_BUFFER (p->buffer)));
+	}
+
+	return FALSE;
+}
+
+static void
+setup_undo_redo (void)
+{
+	if (ur_idle_id == 0) {
+		ur_idle_id = gtk_idle_add (setup_undo_redo_idle, NULL);
+	}
+}
+
+
+static void
+undo_callback (GtkWidget *menu_item, gpointer data)
+{
+	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	if (page < 0)
+		return;
+	if (page == 0) {
+		/* undo from a terminal? what are you talking about */
+		return;
+	} else {
+		GtkWidget *w = gtk_notebook_get_nth_page
+			(GTK_NOTEBOOK (notebook), page);
+		Program *p = g_object_get_data (G_OBJECT (w), "program");
+		if (gtk_source_buffer_can_undo
+			(GTK_SOURCE_BUFFER (p->buffer)))
+			gtk_source_buffer_undo
+				(GTK_SOURCE_BUFFER (p->buffer));
+	}
+}
+
+static void
+redo_callback (GtkWidget *menu_item, gpointer data)
+{
+	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	if (page < 0)
+		return;
+	if (page == 0) {
+		/* redo from a terminal? what are you talking about */
+		return;
+	} else {
+		GtkWidget *w = gtk_notebook_get_nth_page
+			(GTK_NOTEBOOK (notebook), page);
+		Program *p = g_object_get_data (G_OBJECT (w), "program");
+		if (gtk_source_buffer_can_redo
+			(GTK_SOURCE_BUFFER (p->buffer)))
+			gtk_source_buffer_redo
+				(GTK_SOURCE_BUFFER (p->buffer));
+	}
+}
+#endif
+
 static void
 cut_callback (GtkWidget *menu_item, gpointer data)
 {
 	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	if (page < 0)
+		return;
 	if (page == 0) {
 		/* cut from a terminal? what are you talking about */
 		return;
@@ -1453,6 +1557,8 @@ static void
 copy_callback (GtkWidget *menu_item, gpointer data)
 {
 	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	if (page < 0)
+		return;
 	if (page == 0) {
 		vte_terminal_copy_clipboard (VTE_TERMINAL (term));
 	} else {
@@ -1469,6 +1575,8 @@ static void
 paste_callback (GtkWidget *menu_item, gpointer data)
 {
 	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	if (page < 0)
+		return;
 	if (page == 0) {
 		vte_terminal_paste_clipboard (VTE_TERMINAL (term));
 	} else {
@@ -1895,6 +2003,10 @@ new_program (const char *filename)
 		gtk_source_buffer_set_language
 			(GTK_SOURCE_BUFFER (buffer), lang);
 	}
+	g_signal_connect (G_OBJECT (buffer), "can-undo",
+			  G_CALLBACK (setup_undo_redo), NULL);
+	g_signal_connect (G_OBJECT (buffer), "can-redo",
+			  G_CALLBACK (setup_undo_redo), NULL);
 #else
 	tv = gtk_text_view_new ();
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
@@ -1917,6 +2029,13 @@ new_program (const char *filename)
 	p->curline = 0;
 	g_object_set_data (G_OBJECT (sw), "program", p);
 
+#ifdef HAVE_GTKSOURCEVIEW
+	g_signal_connect (G_OBJECT (buffer), "can-undo",
+			  G_CALLBACK (setup_undo_redo), NULL);
+	g_signal_connect (G_OBJECT (buffer), "can-redo",
+			  G_CALLBACK (setup_undo_redo), NULL);
+#endif
+
 	g_signal_connect_after (G_OBJECT (p->buffer), "mark_set",
 				G_CALLBACK (move_cursor),
 				p);
@@ -1936,9 +2055,17 @@ new_program (const char *filename)
 		contents = get_contents_vfs (filename);
 		if (contents != NULL) {
 			GtkTextIter iter;
+#ifdef HAVE_GTKSOURCEVIEW
+			gtk_source_buffer_begin_not_undoable_action
+				(GTK_SOURCE_BUFFER (buffer));
+#endif
 			gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
 			gtk_text_buffer_insert_with_tags_by_name
 				(buffer, &iter, contents, -1, "foo", NULL);
+#ifdef HAVE_GTKSOURCEVIEW
+			gtk_source_buffer_end_not_undoable_action
+				(GTK_SOURCE_BUFFER (buffer));
+#endif
 			g_free (contents);
 		} else {
 			char *s = g_strdup_printf (_("Cannot open %s"), filename);
@@ -1957,6 +2084,10 @@ new_program (const char *filename)
 			  G_CALLBACK (changed_cb), sw);
 
 	build_program_menu ();
+
+#ifdef HAVE_GTKSOURCEVIEW
+	setup_undo_redo ();
+#endif
 }
 
 static void
@@ -2294,7 +2425,7 @@ close_callback (GtkWidget *menu_item, gpointer data)
 	GtkWidget *w;
 	Program *p;
 	int current = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
-	if (current == 0) /* if the console */
+	if (current <= 0) /* if the console */
 		return;
 	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), current);
 	p = g_object_get_data (G_OBJECT (w), "program");
@@ -2799,6 +2930,7 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
 		selection_changed ();
 		gtk_widget_set_sensitive (edit_menu[EDIT_CUT_ITEM].widget,
 					  FALSE);
+		setup_undo_redo ();
 		gnome_appbar_pop (GNOME_APPBAR (appbar));
 	} else {
 		char *s;
@@ -2839,6 +2971,8 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
 				     selected_program->curline + 1);
 		gnome_appbar_push (GNOME_APPBAR (appbar), s);
 		g_free (s);
+
+		setup_undo_redo ();
 	}
 }
 
