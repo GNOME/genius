@@ -740,4 +740,16 @@ ToeplitzMatrix ([1,2,3,6],[1,4,5])				[1,4,5;2,1,4;3,2,1;6,3,2]
 ToeplitzMatrix ([1,2,3],[8,4,5,6])				[1,4,5,6;2,1,4,5;3,2,1,4]
 CommutationMatrix (2,2)						[1,0,0,0;0,0,1,0;0,1,0,0;0,0,0,1]
 CommutationMatrix (2,3)						[1,0,0,0,0,0;0,0,1,0,0,0;0,0,0,0,1,0;0,1,0,0,0,0;0,0,0,1,0,0;0,0,0,0,0,1]
+IsPositiveDefinite([0])						false
+IsPositiveDefinite([-1])					false
+IsPositiveDefinite(I(5))					true
+IsPositiveDefinite([1,1;1,1])					false
+IsPositiveDefinite([1,2;3,4])					false
+M=I(5)+randint(5,5,5)/100;IsPositiveDefinite(M+M')		true
+IsPositiveSemidefinite([0])					true
+IsPositiveSemidefinite([-1])					false
+IsPositiveSemidefinite(I(5))					true
+IsPositiveSemidefinite([1,1;1,1])				true
+IsPositiveSemidefinite([1,2;3,4])				false
+M=I(5)+randint(5,5,5)/100;IsPositiveSemidefinite(M+M')		true
 load "longtest.gel"						true

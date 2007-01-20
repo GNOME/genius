@@ -2612,6 +2612,38 @@ a sesquilinear form.  The vectors will be made orthonormal with respect to
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-IsPositiveDefinite">
+         <term>IsPositiveDefinite</term>
+         <listitem>
+          <synopsis>IsPositiveDefinite (M)</synopsis>
+          <para>Is a positive definite matrix.  That is if
+<userinput>HermitianProduct(M*v,v)</userinput> is always strictly positive for
+any vector <varname>v</varname>.
+<varname>M</varname> must be square and hermitian to be positive definite.
+(See <link linkend="gel-function-HermitianProduct">HermitianProduct</link>)</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/PositiveDefiniteMatrix.html">Planetmath</ulink> for more information.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-IsPositiveSemidefinite">
+         <term>IsPositiveSemidefinite</term>
+         <listitem>
+          <synopsis>IsPositiveSemidefinite (M)</synopsis>
+          <para>Is a positive definite matrix.  That is if
+<userinput>HermitianProduct(M*v,v)</userinput> is always nonnegative for
+any vector <varname>v</varname>.
+<varname>M</varname> must be square and hermitian to be positive semidefinite.
+(See <link linkend="gel-function-HermitianProduct">HermitianProduct</link>)</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/PositiveDefiniteMatrix.html">Planetmath</ulink> for more information.
+          </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-IsSkewHermitian">
          <term>IsSkewHermitian</term>
          <listitem>

@@ -390,6 +390,42 @@ function IsSkewHermitian(M) = (
 )
 protect ("IsSkewHermitian")
 
+SetHelp("IsPositiveDefinite", "linear_algebra", "Is a matrix positive definite")
+function IsPositiveDefinite(M) = (
+	if not IsMatrix(M) or not IsMatrixSquare(M) then
+		(error("IsPositiveDefinite: argument not a square matrix");bailout);
+	if M' == M then (
+		n = rows(M);
+		for k=1 to n do (
+			for c in Combinations(k,n) do (
+				if det(Submatrix (M,c,c)) <= 0 then
+					return false
+			)
+		);
+		true
+	) else
+		false
+)
+protect ("IsPositiveDefinite")
+
+SetHelp("IsPositiveSemidefinite", "linear_algebra", "Is a matrix positive semidefinite")
+function IsPositiveSemidefinite(M) = (
+	if not IsMatrix(M) or not IsMatrixSquare(M) then
+		(error("IsPositiveSemidefinite: argument not a square matrix");bailout);
+	if M' == M then (
+		n = rows(M);
+		for k=1 to n do (
+			for c in Combinations(k,n) do (
+				if det(Submatrix (M,c,c)) < 0 then
+					return false
+			)
+		);
+		true
+	) else
+		false
+)
+protect ("IsPositiveSemidefinite")
+
 SetHelp("RaleighQuotient", "linear_algebra", "Return the Raleigh Quotient of a matrix and a vector")
 function RaleighQuotient(A,x) = (
 	# FIXME: argument checking
