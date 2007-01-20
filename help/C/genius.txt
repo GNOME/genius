@@ -3386,8 +3386,12 @@ Eigenvalues (M)
 
           Aliases: eig
 
-          Get the eigenvalues of a matrix (Currently only for 2x2
-          and triangular matrices)
+          Get the eigenvalues of a square matrix. Currently only
+          works for matrices of size up to 3 by 3, or for
+          triangular matrices (for which the eigenvalues are on
+          the diagonal).
+
+          See Planetmath or Mathworld for more information.
 
    GramSchmidt
 
@@ -3476,7 +3480,49 @@ IsInvertibleField (n)
 
 IsNormal (M)
 
-          Is a matrix normal
+          Is M a matrix normal. That is, does M*M' == M'*M.
+
+          See Planetmath or Mathworld for more information.
+
+   IsPositiveDefinite
+
+IsPositiveDefinite (M)
+
+          Is M a hermitian positive definite matrix. That is if
+          HermitianProduct(M*v,v) is always strictly positive for
+          any vector v. M must be square and hermitian to be
+          positive definite. The check that is performed is that
+          every principal submatrix has a nonnegative
+          determinant. (See HermitianProduct)
+
+          Note that some authors (for example Mathworld) do not
+          require that M be hermitian, and then the condition is
+          on the real part of the inner product, but we do not
+          take this view. If you wish to perform this check, just
+          check the hermitian part of the matrix M as follows:
+          IsPositiveDefinite(M+M').
+
+          See Planetmath or Mathworld for more information.
+
+   IsPositiveSemidefinite
+
+IsPositiveSemidefinite (M)
+
+          Is M a hermitian positive semidefinite matrix. That is
+          if HermitianProduct(M*v,v) is always nonnegative for
+          any vector v. M must be square and hermitian to be
+          positive semidefinite. The check that is performed is
+          that every principal submatrix has a nonnegative
+          determinant. (See HermitianProduct)
+
+          Note that some authors do not require that M be
+          hermitian, and then the condition is on the real part
+          of the inner product, but we do not take this view. If
+          you wish to perform this check, just check the
+          hermitian part of the matrix M as follows:
+          IsPositiveSemidefinite(M+M').
+
+          See Planetmath or Mathworld for more information.
 
    IsSkewHermitian
 
@@ -3491,7 +3537,10 @@ IsSkewHermitian (M)
 
 IsUnitary (M)
 
-          Is a matrix unitary
+          Is a matrix unitary? That is, does M'*M and M*M' equal
+          the identity.
+
+          See Planetmath or Mathworld for more information.
 
    JordanBlock
 
@@ -3499,7 +3548,10 @@ JordanBlock (n,lambda)
 
           Aliases: J
 
-          Get the jordan block corresponding to lambda and n
+          Get the Jordan block corresponding to the eigenvalue
+          lambda with multiplicity n.
+
+          See Planetmath or Mathworld for more information.
 
    Kernel
 
@@ -3592,8 +3644,8 @@ OrthogonalComplement (M)
 PivotColumns (M)
 
           Return pivot columns of a matrix, that is columns which
-          have a leading 1 in rref form, also returns the row
-          where they occur
+          have a leading 1 in row reduced form. Also returns the
+          row where they occur.
 
    Projection
 
@@ -3622,11 +3674,15 @@ genius> R = QRDecomposition(A,&Q)
 
           See Planetmath or Mathworld for more information.
 
-   RaleighQuotient
+   RayleighQuotient
 
-RaleighQuotient (A,x)
+RayleighQuotient (A,x)
 
-          Return the Raleigh Quotient of a matrix and a vector
+          Return the Rayleigh quotient (also called the
+          Rayleigh-Ritz quotient or ratio) of a matrix and a
+          vector.
+
+          See Planetmath for more information.
 
    Rank
 
@@ -4326,11 +4382,8 @@ CubicFormula (p)
           vector of coefficients. That is 4*x^3 + 2*x + 1
           corresponds to the vector [1,2,0,4].
 
-          Note that due to limitations of the current
-          implementation, only polynomials with real coefficients
-          are supported.
-
-          See Planetmath or Mathworld for more information.
+          See Planetmath, Mathworld, or Wikipedia for more
+          information.
 
    EulerMethod
 
@@ -4618,7 +4671,7 @@ AlphabetToString (vec,alphabet)
 
 StringToASCII (str)
 
-          Convert a string to a vector of ASCII values
+          Convert a string to a vector of ASCII values.
 
    StringToAlphabet
 

@@ -1,0 +1,163 @@
+    <para>
+      Plotting support is only available in the graphical GNOME version.
+      All plotting accessible from the graphical interface is available from
+      the Create Plot window.  You can access this window by either clicking
+      on the Plot button on the toolbar or selecting Plot from the Calculator
+      menu.  You can also access the plotting functionality by using the
+      <link linkend="genius-gel-function-list-plotting">plotting
+      functions</link> of the GEL language.  See the chapter on
+      <link linkend="genius-gel">GEL Basics</link> to find out how to
+      enter expressions that &appname; understands.
+    </para>
+
+    <sect1 id="genius-line-plots">
+      <title>Line Plots</title>
+      <para>
+	To graph real valued functions of one variable open the Create Plot
+	window.  You can also use the
+        <link linkend="gel-function-LinePlot">LinePlot</link> function
+	on the command line (see its documentation).
+      </para>
+      <para>
+	Once you click the Plot button, a window opens up with some notebooks in it.
+	You want to be in the "Function line plot" notebook tab, and inside you want to
+	be on the "Functions / Expressions" notebook tab.
+      </para>
+
+      <figure id="lineplot-fig"> 
+        <title>Create Plot Window</title> 
+        <screenshot> 
+          <mediaobject> 
+            <imageobject>
+              <imagedata fileref="figures/line_plot.png" format="PNG"/> 
+            </imageobject>
+            <textobject> 
+              <phrase>Shows the line plotting window.</phrase> 
+            </textobject> 
+          </mediaobject> 
+        </screenshot> 
+      </figure>
+
+      <para>
+	Into the text boxes just type in expressions where <userinput>x</userinput> is
+	the independent variable.  You can also just give names of functions such as
+	<userinput>cos</userinput> rather then having to type <userinput>cos(x)</userinput>.
+	You can graph up to ten functions.  If you make a mistake and &appname; cannot
+	parse the input it will signify this with a warning icon on the right of the text
+	input box where the error occured, as well as giving you an error dialog.
+	You can change the ranges of the dependent and independent variables in the bottom
+	part of the dialog.
+      </para>
+
+      <para>
+	Pressing the Plot button produces the following graph.
+      </para>
+
+      <figure id="lineplot2-fig"> 
+        <title>Plot Window</title> 
+        <screenshot> 
+          <mediaobject> 
+            <imageobject>
+              <imagedata fileref="figures/line_plot_graph.png" format="PNG"/> 
+            </imageobject>
+            <textobject> 
+              <phrase>The graph produced.</phrase> 
+            </textobject> 
+          </mediaobject> 
+        </screenshot> 
+      </figure>
+
+      <para>
+	From here you can print out the plot, create encapsulated postscript
+	or a PNG version of the plot or change the zoom.  If the dependent axis was
+	not set correctly you can have &appname; fit it by finding out the extrema of
+	the graphed functions.
+      </para>
+
+      <para>
+	For plotting using the command line see the documentation of the
+        <link linkend="gel-function-LinePlot">LinePlot</link> function.
+      </para>
+    </sect1>
+
+    <sect1 id="genius-parametric-plots">
+      <title>Parametric Plots</title>
+      <para>
+	In the create plot window, you can also choose the Parametric notebook
+        tab to create two dimensional parametric plots.  This way you can
+	plot a single parametric function.  You can either specify the
+	points as x and y, or giving a single complex number.
+      </para>
+
+      <figure id="paramplot-fig"> 
+        <title>Parametric Plots</title> 
+        <screenshot> 
+          <mediaobject> 
+            <imageobject>
+              <imagedata fileref="figures/parametric.png" format="PNG"/> 
+            </imageobject>
+            <textobject> 
+              <phrase>Parametric plotting tab in the Create Plot window.</phrase> 
+            </textobject> 
+          </mediaobject> 
+        </screenshot> 
+      </figure>
+
+      <para>
+	Here is an example of a parametric plot.  Similar operations can be
+	done on such graphs as can be done on the other line plots.
+      </para>
+
+      <figure id="paramplot2-fig"> 
+        <title></title> 
+        <screenshot> 
+          <mediaobject> 
+            <imageobject>
+              <imagedata fileref="figures/parametric_graph.png" format="PNG"/> 
+            </imageobject>
+            <textobject> 
+              <phrase>Parametric plot produced</phrase> 
+            </textobject> 
+          </mediaobject> 
+        </screenshot> 
+      </figure>
+
+      <para>
+	For plotting using the command line see the documentation of the
+        <link linkend="gel-function-LinePlotParametric">LinePlotParametric</link> or
+        <link linkend="gel-function-LinePlotCParametric">LinePlotCParametric</link> function.
+      </para>
+    </sect1>
+
+    <sect1 id="genius-surface-plots">
+      <title>Surface Plots</title>
+      <para>
+	&appname; can also plot surfaces.  Select the "Surface plot" tab in the
+	main notebook of the Create Plot window.  Here you can specify a single
+	expression which should use either x and y as real independent variables
+	or z as a complex variable (where x is the real part of z and y is the
+	imaginary part).  For example to plot the modulus of the cosine
+	function for complex parameters,
+	you could enter <userinput>|cos(z)|</userinput>.  This would be
+	equivalent to <userinput>|cos(x+1i*y)|</userinput>.
+      </para>
+
+      <figure id="surfaceplot-fig"> 
+        <title>Surface plot</title> 
+        <screenshot> 
+          <mediaobject> 
+            <imageobject>
+              <imagedata fileref="figures/surface_graph.png" format="PNG"/> 
+            </imageobject>
+            <textobject> 
+              <phrase>Modulus of the complex cosine function.</phrase> 
+            </textobject> 
+          </mediaobject> 
+        </screenshot> 
+      </figure>
+
+      <para>
+	For plotting using the command line see the documentation of the
+        <link linkend="gel-function-SurfacePlot">SurfacePlot</link> function.
+      </para>
+    </sect1>
