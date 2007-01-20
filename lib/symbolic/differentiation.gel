@@ -1,0 +1,63 @@
+function SymbolicNthDerivative(f,n) =
+(
+	if not IsFunction(f) then
+		(error("SymbolicNthDerivative: argument 1 must be a function");bailout)
+	else if not IsNonNegativeInteger(n) then
+		(error("SymbolicNthDerivative: argument 2 must be a non-negative integer");bailout);
+
+	df = f;
+
+	for k=1 to n do (
+		df = SymbolicDerivativeTry (df);
+		if IsNull(df) then
+			(error("SymbolicNthDerivative: Cannot differentiate function n times");bailout)
+	);
+	df
+)
+SetHelp("SymbolicNthDerivative","symbolic","Attempt to symbolically differentiate a function n times");
+protect("SymbolicNthDerivative");
+
+function SymbolicNthDerivativeTry(f,n) =
+(
+	if not IsFunction(f) then
+		(error("SymbolicNthDerivativeTry: argument 1 must be a function");bailout)
+	else if not IsNonNegativeInteger(n) then
+		(error("SymbolicNthDerivativeTry: argument 2 must be a non-negative integer");bailout);
+
+	df = f;
+
+	for k=1 to n do (
+		df = SymbolicDerivativeTry (df);
+		if IsNull(df) then
+			return null
+	);
+	df
+)
+SetHelp("SymbolicNthDerivativeTry","symbolic","Attempt to symbolically differentiate a function n times quietly and return null on failure");
+protect("SymbolicNthDerivativeTry");
+
+function SymbolicTaylorApproximationFunction(f,x0,n) =
+(
+	if not IsFunction(f) then
+		(error("SymbolicTaylorApproximationFunction: argument 1 must be a function");bailout)
+	else if not IsValue(x0) then
+		(error("SymbolicTaylorApproximationFunction: argument 2 must be a value");bailout)
+	else if not IsPositiveInteger(n) then
+		(error("SymbolicTaylorApproximationFunction: argument 3 must be a positive integer");bailout);
+
+	df = f;
+	c = null;
+
+	for k=0 to n do (
+		c@(k+1) = (df call (x0))/(k!);
+		if k < n then (
+			df = SymbolicDerivative (df);
+			if IsNull(df) then
+				return null
+	        )
+	);
+	tp = PolyToFunction (c);
+	`(x) = (tp call (x - x0))
+)
+SetHelp("SymbolicTaylorApproximationFunction","symbolic","Attempt to construct the taylor approximation function around x0 to the nth degree.");
+protect("SymbolicTaylorApproximationFunction");

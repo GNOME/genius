@@ -2491,7 +2491,16 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <listitem>
           <synopsis>Eigenvalues (M)</synopsis>
           <para>Aliases: <function>eig</function></para>
-          <para>Get the eigenvalues of a matrix (Currently only for 2x2 and triangular matrices)</para>
+          <para>Get the eigenvalues of a square matrix.
+	    Currently only works for matrices of size up to 3 by 3, or for
+	    triangular matrices (for which the eigenvalues are on the
+            diagonal).
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/Eigenvalue.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/Eigenvalue.html">Mathworld</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2608,7 +2617,13 @@ a sesquilinear form.  The vectors will be made orthonormal with respect to
          <term>IsNormal</term>
          <listitem>
           <synopsis>IsNormal (M)</synopsis>
-          <para>Is a matrix normal</para>
+          <para>Is <varname>M</varname> a matrix normal.  That is,
+	  does <userinput>M*M' == M'*M</userinput>.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/NormalMatrix.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/NormalMatrix.html">Mathworld</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2616,14 +2631,25 @@ a sesquilinear form.  The vectors will be made orthonormal with respect to
          <term>IsPositiveDefinite</term>
          <listitem>
           <synopsis>IsPositiveDefinite (M)</synopsis>
-          <para>Is a positive definite matrix.  That is if
+          <para>Is <varname>M</varname> a hermitian positive definite matrix.  That is if
 <userinput>HermitianProduct(M*v,v)</userinput> is always strictly positive for
 any vector <varname>v</varname>.
 <varname>M</varname> must be square and hermitian to be positive definite.
+The check that is performed is that every principal submatrix has a nonnegative
+determinant.
 (See <link linkend="gel-function-HermitianProduct">HermitianProduct</link>)</para>
+	  <para>
+	    Note that some authors (for example Mathworld) do not require that
+	    <varname>M</varname> be hermitian, and then the condition is
+	    on the real part of the inner product, but we do not take this
+	    view.  If you wish to perform this check, just check the
+	    hermitian part of the matrix <varname>M</varname> as follows:
+	    <userinput>IsPositiveDefinite(M+M')</userinput>.
+	  </para>
           <para>
 	    See
-	    <ulink url="http://planetmath.org/encyclopedia/PositiveDefiniteMatrix.html">Planetmath</ulink> for more information.
+	    <ulink url="http://planetmath.org/encyclopedia/PositiveDefinite.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/PositiveDefiniteMatrix.html">Mathworld</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -2632,14 +2658,25 @@ any vector <varname>v</varname>.
          <term>IsPositiveSemidefinite</term>
          <listitem>
           <synopsis>IsPositiveSemidefinite (M)</synopsis>
-          <para>Is a positive definite matrix.  That is if
+          <para>Is <varname>M</varname> a hermitian positive semidefinite matrix.  That is if
 <userinput>HermitianProduct(M*v,v)</userinput> is always nonnegative for
 any vector <varname>v</varname>.
 <varname>M</varname> must be square and hermitian to be positive semidefinite.
+The check that is performed is that every principal submatrix has a nonnegative
+determinant.
 (See <link linkend="gel-function-HermitianProduct">HermitianProduct</link>)</para>
+	  <para>
+	    Note that some authors do not require that
+	    <varname>M</varname> be hermitian, and then the condition is
+	    on the real part of the inner product, but we do not take this
+	    view.  If you wish to perform this check, just check the
+	    hermitian part of the matrix <varname>M</varname> as follows:
+	    <userinput>IsPositiveSemidefinite(M+M')</userinput>.
+	  </para>
           <para>
 	    See
-	    <ulink url="http://planetmath.org/encyclopedia/PositiveDefiniteMatrix.html">Planetmath</ulink> for more information.
+	    <ulink url="http://planetmath.org/encyclopedia/PositiveSemidefinite.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/PositiveSemidefiniteMatrix.html">Mathworld</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -2660,7 +2697,14 @@ any vector <varname>v</varname>.
          <term>IsUnitary</term>
          <listitem>
           <synopsis>IsUnitary (M)</synopsis>
-          <para>Is a matrix unitary</para>
+          <para>Is a matrix unitary?  That is, does
+	  <userinput>M'*M</userinput> and <userinput>M*M'</userinput>
+	  equal the identity.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/UnitaryTransformation.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/UnitaryMatrix.html">Mathworld</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2669,7 +2713,14 @@ any vector <varname>v</varname>.
          <listitem>
           <synopsis>JordanBlock (n,lambda)</synopsis>
           <para>Aliases: <function>J</function></para>
-          <para>Get the jordan block corresponding to lambda and n</para>
+          <para>Get the Jordan block corresponding to the eigenvalue
+	  <varname>lambda</varname> with multiplicity <varname>n</varname>.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/JordanCanonicalFormTheorem.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/JordanBlock.html">Mathworld</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2791,7 +2842,7 @@ any vector <varname>v</varname>.
          <term>PivotColumns</term>
          <listitem>
           <synopsis>PivotColumns (M)</synopsis>
-          <para>Return pivot columns of a matrix, that is columns which have a leading 1 in rref form, also returns the row where they occur</para>
+          <para>Return pivot columns of a matrix, that is columns which have a leading 1 in row reduced form.  Also returns the row where they occur.</para>
          </listitem>
         </varlistentry>
 
@@ -2834,11 +2885,14 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
          </listitem>
         </varlistentry>
 
-        <varlistentry id="gel-function-RaleighQuotient">
-         <term>RaleighQuotient</term>
+        <varlistentry id="gel-function-RayleighQuotient">
+         <term>RayleighQuotient</term>
          <listitem>
-          <synopsis>RaleighQuotient (A,x)</synopsis>
-          <para>Return the Raleigh Quotient of a matrix and a vector</para>
+          <synopsis>RayleighQuotient (A,x)</synopsis>
+          <para>Return the Rayleigh quotient (also called the Rayleigh-Ritz quotient or ratio) of a matrix and a vector.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/RayleighQuotient.html">Planetmath</ulink> for more information.
          </listitem>
         </varlistentry>
 
@@ -3727,13 +3781,10 @@ do (
             <userinput>[1,2,0,4]</userinput>.
 	  </para>
           <para>
-	    Note that due to limitations of the current implementation, only 
-	    polynomials with real coefficients are supported.
-	  </para>
-          <para>
 	    See
-	    <ulink url="http://planetmath.org/encyclopedia/CubicFormula.html">Planetmath</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/CubicFormula.html">Mathworld</ulink> for more information.
+	    <ulink url="http://planetmath.org/encyclopedia/CubicFormula.html">Planetmath</ulink>,
+	    <ulink url="http://mathworld.wolfram.com/CubicFormula.html">Mathworld</ulink>, or
+	    <ulink url="http://en.wikipedia.org/wiki/Cubic_equation">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -4122,7 +4173,7 @@ do (
          <term>StringToASCII</term>
          <listitem>
           <synopsis>StringToASCII (str)</synopsis>
-          <para>Convert a string to a vector of ASCII values</para>
+          <para>Convert a string to a vector of ASCII values.</para>
          </listitem>
         </varlistentry>
 

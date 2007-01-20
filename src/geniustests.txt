@@ -751,5 +751,7 @@ IsPositiveSemidefinite([-1])					false
 IsPositiveSemidefinite(I(5))					true
 IsPositiveSemidefinite([1,1;1,1])				true
 IsPositiveSemidefinite([1,2;3,4])				false
+Eigenvalues([0,1,0;3,0,4;0,3,3])				[-3,5.44948974278,0.550510257217]
+Eigenvalues(I(3))						[1,1,1]
 M=I(5)+randint(5,5,5)/100;IsPositiveSemidefinite(M+M')		true
 load "longtest.gel"						true

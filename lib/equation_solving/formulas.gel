@@ -8,33 +8,44 @@ function QuadraticFormula(p) = (
 )
 protect ("QuadraticFormula")
 
-# see planetmath
-# FIXME: for complex arguments things screw up (there are likely issues with
-# branches of the third root)
-# FIXME: mpfr sometimes hangs on taking the third root
+# see http://en.wikipedia.org/wiki/Cubic_equation
 SetHelp ("CubicFormula", "equation_solving",
          "Find roots of a cubic polynomial (given as vector of coefficients)")
-function CubicFormula(p) = (
-	if not IsPoly(p) or elements(p) != 4 or p@(4) == 0 then
+function CubicFormula(pol) = (
+	if not IsPoly(pol) or elements(pol) != 4 or pol@(4) == 0 then
 		(error("CubicFormula: argument 1 must be a cubic polynomial");bailout);
-	c = p@(1) / p@(4);
-	b = p@(2) / p@(4);
-	a = p@(3) / p@(4);
+	c := pol@(1) / pol@(4);
+	b := pol@(2) / pol@(4);
+	a := pol@(3) / pol@(4);
 
-	if not IsReal(a) or not IsReal(b) or not IsReal(c) then
-		(error("CubicFormula: Complex coefficients currently unimplemented");bailout);
+    p := b - (a^2)/3;
+    q := c + (2*a^3 - 9*a*b)/27;
+    
+    if p == 0 then
+    	if q == 0 then
+    		return [-a/3,-a/3,-a/3]
+    	else
+    		u := q^(1/3)
+    else if q == 0 then
+    	u := sqrt(p/3)
+    else
+    	u := ( q/2 + sqrt(((q^2) / 4) + (p^3)/27) )^(1/3);
 
-	A = -2*a^3 + 9*a*b - 27*c;
-	B = sqrt( (-A)^2 + 4*(-a^2+3*b)^3 );
-	C = ((A + B)/54)^(1/3);
-	D = ((A - B)/54)^(1/3);
-
-	omega2 = (-1 + 1i*sqrt(3))/2;
-	omega3 = - (1 + 1i*sqrt(3))/2;
-
-	[ C + D,
-	  omega3 * C + omega2 * D,
-	  omega2 * C + omega3 * D] - (a/3)
+    omega1 := -(1/2)+1i*sqrt(3)/2;
+    omega2 := -(1/2)-1i*sqrt(3)/2;
+    
+    # If real coefficients and the discriminant is negative
+    # or if q == 0, then we have all real roots 
+    if IsReal(a) and IsReal(b) and IsReal(c) and
+       (((- a^2*b^2 + 4*b^3 + 4*a^3*c + 27*c^2 - 18*a*b*c) < 0) or
+        q == 0) then (
+    	[p/(3*u) - u - a/3,
+     	 RealPart (p/(3*u*omega1) - u*omega1 - a/3),
+     	 RealPart (p/(3*u*omega2) - u*omega2 - a/3)]
+    ) else
+    	[p/(3*u) - u - a/3,
+     	 p/(3*u*omega1) - u*omega1 - a/3,
+     	 p/(3*u*omega2) - u*omega2 - a/3]
 )
 protect ("CubicFormula")
 

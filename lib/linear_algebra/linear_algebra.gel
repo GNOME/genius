@@ -426,25 +426,27 @@ function IsPositiveSemidefinite(M) = (
 )
 protect ("IsPositiveSemidefinite")
 
-SetHelp("RaleighQuotient", "linear_algebra", "Return the Raleigh Quotient of a matrix and a vector")
-function RaleighQuotient(A,x) = (
+SetHelp("RayleighQuotient", "linear_algebra", "Return the Rayleigh quotient of a matrix and a vector")
+function RayleighQuotient(A,x) = (
 	# FIXME: argument checking
 	if columns (x) > 1 then x = x.';
 	( x' * A * x ) / ( x' * x )
 )
-protect ("RaleighQuotient")
+protect ("RayleighQuotient")
 
-SetHelp("Eigenvalues", "linear_algebra", "Get the eigenvalues of a matrix (Currently only for 2x2 and triangular matrices)")
+SetHelp("Eigenvalues", "linear_algebra", "Get the eigenvalues of a matrix (Currently only for up to 3x3 or triangular matrices)")
 function Eigenvalues(M) = (
 	if not IsMatrix (M) or not IsMatrixSquare (M) then
 		(error("Eigenvalues: argument not a square matrix");bailout);
-	if columns (M) == 2 then (
+	if IsUpperTriangular (M) or IsLowerTriangular (M) then (
+		DiagonalOf (M)
+	) else if columns (M) == 2 then (
 		b = - trace (M) ; c = det (M);
-		return [ ( -b - sqrt (b^2 - 4*c) ) / 2 ; ( -b + sqrt (b^2 - 4*c) ) / 2 ]
-	) else if IsUpperTriangular (M) or IsLowerTriangular (M) then (
-		return DiagonalOf (M)
+		[ ( -b - sqrt (b^2 - 4*c) ) / 2 ; ( -b + sqrt (b^2 - 4*c) ) / 2 ]
+	) else if columns (M) == 3 then (
+		CubicFormula (CharacteristicPolynomial(M))
 	) else
-		(error("Eigenvalues: FIXME: can currently only work with 2x2 and triangular matrices");bailout);
+		(error("Eigenvalues: FIXME: can currently only work with up to 3x3 or triangular matrices");bailout)
 )
 protect ("Eigenvalues")
 eig = Eigenvalues;

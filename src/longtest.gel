@@ -67,8 +67,10 @@ function derivtest() = (
 
 function roottestcube() = (
   for n=1 to 100 do (
-    #p = randint(10,4) + 1i* randint(10,4)+[0,0,0,1];
-    p = randint(10,4) + [0,0,0,1];
+    if n <= 50 then
+    	p = randint(10,4) + 1i* randint(10,4)+[0,0,0,1]
+    else
+        p = randint(10,4) + [0,0,0,1];
     r = CubicFormula (p);
     f = PolyToFunction (p);
     if (|f(r@(1))| >= 0.01 or
