@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-13 21:46+0100\n"
-"PO-Revision-Date: 2006-09-13 21:48-0000\n"
+"POT-Creation-Date: 2007-01-24 07:16+0000\n"
+"PO-Revision-Date: 2007-01-24 07:16-0000\n"
 "Last-Translator: David Lodge <dave@cirt.net>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -468,8 +468,8 @@ msgid "Direct sum of a vector of matrices"
 msgstr "Direct sum of a vector of matrices"
 
 #: ../lib/library-strings.c:114
-msgid "Get the eigenvalues of a matrix (Currently only for 2x2 and triangular matrices)"
-msgstr "Get the eigenvalues of a matrix (Currently only for 2x2 and triangular matrices)"
+msgid "Get the eigenvalues of a matrix (Currently only for up to 3x3 or triangular matrices)"
+msgstr "Get the eigenvalues of a matrix (Currently only for up to 3x3 or triangular matrices)"
 
 #: ../lib/library-strings.c:115
 msgid "Apply the Gram-Schmidt process (to the columns) with respect to inner product given by B (if not given use hermitian product)"
@@ -520,466 +520,474 @@ msgid "Is a matrix normal"
 msgstr "Is a matrix normal"
 
 #: ../lib/library-strings.c:127
+msgid "Is a matrix positive definite"
+msgstr "Is a matrix positive definite"
+
+#: ../lib/library-strings.c:128
+msgid "Is a matrix positive semidefinite"
+msgstr "Is a matrix positive semidefinite"
+
+#: ../lib/library-strings.c:129
 msgid "Is a matrix skew-hermitian"
 msgstr "Is a matrix skew-hermitian"
 
-#: ../lib/library-strings.c:128
+#: ../lib/library-strings.c:130
 msgid "Is a matrix unitary"
 msgstr "Is a matrix unitary"
 
-#: ../lib/library-strings.c:129
+#: ../lib/library-strings.c:131
 msgid "Get the jordan block corresponding to lambda and n"
 msgstr "Get the jordan block corresponding to lambda and n"
 
-#: ../lib/library-strings.c:130
+#: ../lib/library-strings.c:132
 msgid "Get the kernel (nullspace) of a linear transform"
 msgstr "Get the kernel (nullspace) of a linear transform"
 
-#: ../lib/library-strings.c:131
+#: ../lib/library-strings.c:133
 msgid "Get the LU decomposition of A and store the result in the L and U which should be references.  If not possible returns false."
 msgstr "Get the LU decomposition of A and store the result in the L and U which should be references.  If not possible returns false."
 
-#: ../lib/library-strings.c:132
+#: ../lib/library-strings.c:134
 msgid "Get the i-j minor of a matrix"
 msgstr "Get the i-j minor of a matrix"
 
-#: ../lib/library-strings.c:133
+#: ../lib/library-strings.c:135
 msgid "Return the columns that are not the pivot columns of a matrix"
 msgstr "Return the columns that are not the pivot columns of a matrix"
 
-#: ../lib/library-strings.c:134
+#: ../lib/library-strings.c:136
 msgid "Get the p Norm (or 2 Norm if no p is supplied) of a vector"
 msgstr "Get the p Norm (or 2 Norm if no p is supplied) of a vector"
 
-#: ../lib/library-strings.c:135
+#: ../lib/library-strings.c:137
 msgid "Get the nullspace of a matrix"
 msgstr "Get the nullspace of a matrix"
 
-#: ../lib/library-strings.c:136
+#: ../lib/library-strings.c:138
 msgid "Get the nullity of a matrix"
 msgstr "Get the nullity of a matrix"
 
-#: ../lib/library-strings.c:137
+#: ../lib/library-strings.c:139
 msgid "Get the orthogonal complement of the columnspace"
 msgstr "Get the orthogonal complement of the columnspace"
 
-#: ../lib/library-strings.c:138
+#: ../lib/library-strings.c:140
 msgid "Return pivot columns of a matrix, that is columns which have a leading 1 in rref form, also returns the row where they occur"
 msgstr "Return pivot columns of a matrix, that is columns which have a leading 1 in rref form, also returns the row where they occur"
 
-#: ../lib/library-strings.c:139
+#: ../lib/library-strings.c:141
 msgid "Projection of vector v onto subspace W given a sesquilinear form B (if not given use hermitian product)"
 msgstr "Projection of vector v onto subspace W given a sesquilinear form B (if not given use hermitian product)"
 
-#: ../lib/library-strings.c:140
+#: ../lib/library-strings.c:142
 msgid "Get the QR decomposition of A, returns R and Q can be a reference"
 msgstr "Get the QR decomposition of A, returns R and Q can be a reference"
 
-#: ../lib/library-strings.c:141
-msgid "Return the Raleigh Quotient of a matrix and a vector"
-msgstr "Return the Raleigh Quotient of a matrix and a vector"
-
-#: ../lib/library-strings.c:142
+#: ../lib/library-strings.c:143
 msgid "Get the rank of a matrix"
 msgstr "Get the rank of a matrix"
 
-#: ../lib/library-strings.c:143
+#: ../lib/library-strings.c:144
+msgid "Return the Rayleigh quotient of a matrix and a vector"
+msgstr "Return the Rayleigh quotient of a matrix and a vector"
+
+#: ../lib/library-strings.c:145
 msgid "Rosser matrix, a classic symmetric eigenvalue test problem"
 msgstr "Rosser matrix, a classic symmetric eigenvalue test problem"
 
-#: ../lib/library-strings.c:144
+#: ../lib/library-strings.c:146
 msgid "Rotation around origin in R^2"
 msgstr "Rotation around origin in R^2"
 
-#: ../lib/library-strings.c:145
+#: ../lib/library-strings.c:147
 msgid "Rotation around origin in R^3 about the x-axis"
 msgstr "Rotation around origin in R^3 about the x-axis"
 
-#: ../lib/library-strings.c:146
+#: ../lib/library-strings.c:148
 msgid "Rotation around origin in R^3 about the y-axis"
 msgstr "Rotation around origin in R^3 about the y-axis"
 
-#: ../lib/library-strings.c:147
+#: ../lib/library-strings.c:149
 msgid "Rotation around origin in R^3 about the z-axis"
 msgstr "Rotation around origin in R^3 about the z-axis"
 
-#: ../lib/library-strings.c:148
+#: ../lib/library-strings.c:150
 msgid "Get a basis matrix for the rowspace of a matrix"
 msgstr "Get a basis matrix for the rowspace of a matrix"
 
-#: ../lib/library-strings.c:149
+#: ../lib/library-strings.c:151
 msgid "Evaluate (v,w) with respect to the sesquilinear form given by the matrix A"
 msgstr "Evaluate (v,w) with respect to the sesquilinear form given by the matrix A"
 
-#: ../lib/library-strings.c:150
+#: ../lib/library-strings.c:152
 msgid "Return a function that evaluates two vectors with respect to the sesquilinear form given by A"
 msgstr "Return a function that evaluates two vectors with respect to the sesquilinear form given by A"
 
-#: ../lib/library-strings.c:151
+#: ../lib/library-strings.c:153
 msgid "Smith Normal Form for fields (will end up with 1's on the diagonal)"
 msgstr "Smith Normal Form for fields (will end up with 1's on the diagonal)"
 
-#: ../lib/library-strings.c:152
+#: ../lib/library-strings.c:154
 msgid "Smith Normal Form for square integer matrices (not its characteristic)"
 msgstr "Smith Normal Form for square integer matrices (not its characteristic)"
 
-#: ../lib/library-strings.c:153
+#: ../lib/library-strings.c:155
 msgid "Return the Toeplitz matrix constructed given the first column c and (optionally) the first row r."
 msgstr "Return the Toeplitz matrix constructed given the first column c and (optionally) the first row r."
 
-#: ../lib/library-strings.c:154
+#: ../lib/library-strings.c:156
 msgid "Calculate the trace of a matrix"
 msgstr "Calculate the trace of a matrix"
 
-#: ../lib/library-strings.c:155
+#: ../lib/library-strings.c:157
 msgid "Transpose of a matrix"
 msgstr "Transpose of a matrix"
 
-#: ../lib/library-strings.c:156
+#: ../lib/library-strings.c:158
 msgid "Return the Vandermonde matrix"
 msgstr "Return the Vandermonde matrix"
 
-#: ../lib/library-strings.c:157
+#: ../lib/library-strings.c:159
 msgid "The angle of two vectors, given an inner product"
 msgstr "The angle of two vectors, given an inner product"
 
-#: ../lib/library-strings.c:158
+#: ../lib/library-strings.c:160
 msgid "The direct sum of the vector spaces M and N"
 msgstr "The direct sum of the vector spaces M and N"
 
-#: ../lib/library-strings.c:159
+#: ../lib/library-strings.c:161
 msgid "Intersection of the subspaces given by M and N"
 msgstr "Intersection of the subspaces given by M and N"
 
-#: ../lib/library-strings.c:160
+#: ../lib/library-strings.c:162
 msgid "The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}"
 msgstr "The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}"
 
-#: ../lib/library-strings.c:161
+#: ../lib/library-strings.c:163
 msgid "Get the classical adjoint (adjugate) of a matrix"
 msgstr "Get the classical adjoint (adjugate) of a matrix"
 
-#: ../lib/library-strings.c:162
+#: ../lib/library-strings.c:164
 msgid "Compute the Column Reduced Echelon Form"
 msgstr "Compute the Column Reduced Echelon Form"
 
-#: ../lib/library-strings.c:163
+#: ../lib/library-strings.c:165
 msgid "Get n'th catalan number"
 msgstr "Get n'th catalan number"
 
-#: ../lib/library-strings.c:164
+#: ../lib/library-strings.c:166
 msgid "Double factorial: n(n-2)(n-4)..."
 msgstr "Double factorial: n(n-2)(n-4)..."
 
-#: ../lib/library-strings.c:165
+#: ../lib/library-strings.c:167
 msgid "Factorial: n(n-1)(n-2)..."
 msgstr "Factorial: n(n-1)(n-2)..."
 
-#: ../lib/library-strings.c:166
+#: ../lib/library-strings.c:168
 msgid "Falling factorial: (n)_k = n(n-1)...(n-(k-1))"
 msgstr "Falling factorial: (n)_k = n(n-1)...(n-(k-1))"
 
-#: ../lib/library-strings.c:167
+#: ../lib/library-strings.c:169
 msgid "Calculate n'th fibbonachi number"
 msgstr "Calculate n'th fibbonachi number"
 
-#: ../lib/library-strings.c:168
+#: ../lib/library-strings.c:170
 msgid "Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))"
 msgstr "Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))"
 
-#: ../lib/library-strings.c:169
+#: ../lib/library-strings.c:171
 msgid "Harmonic Number, the nth harmonic number of order r"
 msgstr "Harmonic Number, the nth harmonic number of order r"
 
-#: ../lib/library-strings.c:170
+#: ../lib/library-strings.c:172
 msgid "Hofstadter's function q(n) defined by q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q(n-2))"
 msgstr "Hofstadter's function q(n) defined by q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q(n-2))"
 
-#: ../lib/library-strings.c:171
+#: ../lib/library-strings.c:173
 msgid "Compute linear recursive sequence using galois stepping"
 msgstr "Compute linear recursive sequence using galois stepping"
 
-#: ../lib/library-strings.c:172
+#: ../lib/library-strings.c:174
 msgid "Calculate multinomial coefficients"
 msgstr "Calculate multinomial coefficients"
 
-#: ../lib/library-strings.c:173
+#: ../lib/library-strings.c:175
 msgid "Get the pascal's triangle as a matrix"
 msgstr "Get the pascal's triangle as a matrix"
 
-#: ../lib/library-strings.c:174
+#: ../lib/library-strings.c:176
 msgid "(Puchhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))"
 msgstr "(Puchhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))"
 
-#: ../lib/library-strings.c:175
+#: ../lib/library-strings.c:177
 msgid "Subfactorial: n! times sum_{k=1}^n (-1)^k/k!"
 msgstr "Subfactorial: n! times sum_{k=1}^n (-1)^k/k!"
 
-#: ../lib/library-strings.c:176
+#: ../lib/library-strings.c:178
 msgid "Calculate the nth triangular number"
 msgstr "Calculate the nth triangular number"
 
-#: ../lib/library-strings.c:177
+#: ../lib/library-strings.c:179
 msgid "Calculate combinations (binomial coefficient)"
 msgstr "Calculate combinations (binomial coefficient)"
 
-#: ../lib/library-strings.c:178
+#: ../lib/library-strings.c:180
 msgid "Calculate permutations"
 msgstr "Calculate permutations"
 
-#: ../lib/library-strings.c:179
+#: ../lib/library-strings.c:181
 msgid "Integration of f by Composite Simpson's Rule on the interval [a,b] with the number of steps calculated by the fourth derivative bound and the desired tolerance"
 msgstr "Integration of f by Composite Simpson's Rule on the interval [a,b] with the number of steps calculated by the fourth derivative bound and the desired tolerance"
 
-#: ../lib/library-strings.c:180
+#: ../lib/library-strings.c:182
 msgid "Attempt to calculate derivative by trying first symbolically and then numerically"
 msgstr "Attempt to calculate derivative by trying first symbolically and then numerically"
 
-#: ../lib/library-strings.c:181
+#: ../lib/library-strings.c:183
 msgid "Try to calculate an infinite product for a single parameter function"
 msgstr "Try to calculate an infinite product for a single parameter function"
 
-#: ../lib/library-strings.c:182
+#: ../lib/library-strings.c:184
 msgid "Try to calculate an infinite product for a double parameter function with func(arg,n)"
 msgstr "Try to calculate an infinite product for a double parameter function with func(arg,n)"
 
-#: ../lib/library-strings.c:183
+#: ../lib/library-strings.c:185
 msgid "Try to calculate an infinite sum for a single parameter function"
 msgstr "Try to calculate an infinite sum for a single parameter function"
 
-#: ../lib/library-strings.c:184
+#: ../lib/library-strings.c:186
 msgid "Try to calculate an infinite sum for a double parameter function with func(arg,n)"
 msgstr "Try to calculate an infinite sum for a double parameter function with func(arg,n)"
 
-#: ../lib/library-strings.c:185
+#: ../lib/library-strings.c:187
 msgid "Try and see if a real-valued function is continuous at x0 by calculating the limit there"
 msgstr "Try and see if a real-valued function is continuous at x0 by calculating the limit there"
 
-#: ../lib/library-strings.c:186
+#: ../lib/library-strings.c:188
 msgid "Test for differentiability by approximating the left and right limits and comparing"
 msgstr "Test for differentiability by approximating the left and right limits and comparing"
 
-#: ../lib/library-strings.c:187
+#: ../lib/library-strings.c:189
 msgid "Calculate the left limit of a real-valued function at x0"
 msgstr "Calculate the left limit of a real-valued function at x0"
 
-#: ../lib/library-strings.c:188
+#: ../lib/library-strings.c:190
 msgid "Calculate the limit of a real-valued function at x0.  Tries to calculate both left and right limits."
 msgstr "Calculate the limit of a real-valued function at x0.  Tries to calculate both left and right limits."
 
-#: ../lib/library-strings.c:189
+#: ../lib/library-strings.c:191
 msgid "Integration by midpoint rule"
 msgstr "Integration by midpoint rule"
 
-#: ../lib/library-strings.c:190
+#: ../lib/library-strings.c:192
 msgid "Attempt to calculate numerical derivative"
 msgstr "Attempt to calculate numerical derivative"
 
-#: ../lib/library-strings.c:191
+#: ../lib/library-strings.c:193
 msgid "Integration by rule set in NumericalIntegralFunction of f from a to b using NumericalIntegralSteps steps"
 msgstr "Integration by rule set in NumericalIntegralFunction of f from a to b using NumericalIntegralSteps steps"
 
-#: ../lib/library-strings.c:192
+#: ../lib/library-strings.c:194
 msgid "Attempt to calculate numerical left derivative"
 msgstr "Attempt to calculate numerical left derivative"
 
-#: ../lib/library-strings.c:193
+#: ../lib/library-strings.c:195
 msgid "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N"
 msgstr "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N"
 
-#: ../lib/library-strings.c:194
+#: ../lib/library-strings.c:196
 msgid "Attempt to calculate numerical right derivative"
 msgstr "Attempt to calculate numerical right derivative"
 
-#: ../lib/library-strings.c:195
+#: ../lib/library-strings.c:197
 msgid "Compute one-sided derivative using five point formula"
 msgstr "Compute one-sided derivative using five point formula"
 
-#: ../lib/library-strings.c:196
+#: ../lib/library-strings.c:198
 msgid "Compute one-sided derivative using three-point formula"
 msgstr "Compute one-sided derivative using three-point formula"
 
-#: ../lib/library-strings.c:197
+#: ../lib/library-strings.c:199
 msgid "Calculate the right limit of a real-valued function at x0"
 msgstr "Calculate the right limit of a real-valued function at x0"
 
-#: ../lib/library-strings.c:198
+#: ../lib/library-strings.c:200
 msgid "Compute two-sided derivative using five-point formula"
 msgstr "Compute two-sided derivative using five-point formula"
 
-#: ../lib/library-strings.c:199
+#: ../lib/library-strings.c:201
 msgid "Compute two-sided derivative using three-point formula"
 msgstr "Compute two-sided derivative using three-point formula"
 
-#: ../lib/library-strings.c:200
+#: ../lib/library-strings.c:202
 msgid "argument (angle) of complex number"
 msgstr "argument (angle) of complex number"
 
-#: ../lib/library-strings.c:201
+#: ../lib/library-strings.c:203
 msgid "Dirichlet kernel of order n"
 msgstr "Dirichlet kernel of order n"
 
-#: ../lib/library-strings.c:202
+#: ../lib/library-strings.c:204
 msgid "Returns 1 iff all elements are zero"
 msgstr "Returns 1 iff all elements are zero"
 
-#: ../lib/library-strings.c:203
+#: ../lib/library-strings.c:205
 msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
 msgstr "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
 
-#: ../lib/library-strings.c:204
+#: ../lib/library-strings.c:206
 msgid "Fejer kernel of order n"
 msgstr "Fejer kernel of order n"
 
-#: ../lib/library-strings.c:205
+#: ../lib/library-strings.c:207
 msgid "Returns 1 iff all elements are equal"
 msgstr "Returns 1 iff all elements are equal"
 
-#: ../lib/library-strings.c:206
+#: ../lib/library-strings.c:208
 msgid "Find the first value where f(x)=0"
 msgstr "Find the first value where f(x)=0"
 
-#: ../lib/library-strings.c:207
+#: ../lib/library-strings.c:209
 msgid "Moebius mapping of the disk to itself mapping a to 0"
 msgstr "Moebius mapping of the disk to itself mapping a to 0"
 
-#: ../lib/library-strings.c:208
+#: ../lib/library-strings.c:210
 msgid "Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity respectively"
 msgstr "Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity respectively"
 
-#: ../lib/library-strings.c:209
+#: ../lib/library-strings.c:211
 msgid "Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 to 1 and 0 respectively"
 msgstr "Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 to 1 and 0 respectively"
 
-#: ../lib/library-strings.c:210
+#: ../lib/library-strings.c:212
 msgid "Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 and infinity respectively"
 msgstr "Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 and infinity respectively"
 
-#: ../lib/library-strings.c:211
+#: ../lib/library-strings.c:213
 msgid "Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 and infinity respectively"
 msgstr "Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 and infinity respectively"
 
-#: ../lib/library-strings.c:212
+#: ../lib/library-strings.c:214
 msgid "Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is 2pi)"
 msgstr "Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is 2pi)"
 
-#: ../lib/library-strings.c:213
+#: ../lib/library-strings.c:215
 msgid "Poisson kernel on D(0,R) (not normalized to 1)"
 msgstr "Poisson kernel on D(0,R) (not normalized to 1)"
 
-#: ../lib/library-strings.c:214
+#: ../lib/library-strings.c:216
 msgid "The unit step function = 0 for x<0, 1 otherwise.  This is the integral of the Dirac Delta function."
 msgstr "The unit step function = 0 for x<0, 1 otherwise.  This is the integral of the Dirac Delta function."
 
-#: ../lib/library-strings.c:215
+#: ../lib/library-strings.c:217
 msgid "The cis function, that is cos(x)+i*sin(x)"
 msgstr "The cis function, that is cos(x)+i*sin(x)"
 
-#: ../lib/library-strings.c:216
+#: ../lib/library-strings.c:218
 msgid "Convert degrees to radians"
 msgstr "Convert degrees to radians"
 
-#: ../lib/library-strings.c:217
+#: ../lib/library-strings.c:219
 msgid "Convert radians to degrees"
 msgstr "Convert radians to degrees"
 
-#: ../lib/library-strings.c:218
+#: ../lib/library-strings.c:220
 msgid "Find roots of a cubic polynomial (given as vector of coefficients)"
 msgstr "Find roots of a cubic polynomial (given as vector of coefficients)"
 
-#: ../lib/library-strings.c:219
+#: ../lib/library-strings.c:221
 msgid "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y at x1"
 msgstr "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y at x1"
 
-#: ../lib/library-strings.c:220
+#: ../lib/library-strings.c:222
 msgid "Find root of a function using the bisection method"
 msgstr "Find root of a function using the bisection method"
 
-#: ../lib/library-strings.c:221
+#: ../lib/library-strings.c:223
 msgid "Find root of a function using the method of false position"
 msgstr "Find root of a function using the method of false position"
 
-#: ../lib/library-strings.c:222
+#: ../lib/library-strings.c:224
 msgid "Find root of a function using the Muller's method"
 msgstr "Find root of a function using the Muller's method"
 
-#: ../lib/library-strings.c:223
+#: ../lib/library-strings.c:225
 msgid "Find root of a function using the secant method"
 msgstr "Find root of a function using the secant method"
 
-#: ../lib/library-strings.c:224
+#: ../lib/library-strings.c:226
 msgid "Find roots of a polynomial (given as vector of coefficients)"
 msgstr "Find roots of a polynomial (given as vector of coefficients)"
 
-#: ../lib/library-strings.c:225
+#: ../lib/library-strings.c:227
 msgid "Find roots of a quadratic polynomial (given as vector of coefficients)"
 msgstr "Find roots of a quadratic polynomial (given as vector of coefficients)"
 
-#: ../lib/library-strings.c:226
+#: ../lib/library-strings.c:228
 msgid "Use classical non-adaptive Runge-Kutta of fourth order method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y at x1"
 msgstr "Use classical non-adaptive Runge-Kutta of fourth order method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y at x1"
 
-#: ../lib/library-strings.c:227
+#: ../lib/library-strings.c:229
 msgid "Calculate average of an entire matrix"
 msgstr "Calculate average of an entire matrix"
 
-#: ../lib/library-strings.c:228
+#: ../lib/library-strings.c:230
 msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 msgstr "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 
-#: ../lib/library-strings.c:229
+#: ../lib/library-strings.c:231
 msgid "The normalized Gauss distribution function (the normal curve)"
 msgstr "The normalized Gauss distribution function (the normal curve)"
 
-#: ../lib/library-strings.c:230
+#: ../lib/library-strings.c:232
 msgid "Calculate median of an entire matrix"
 msgstr "Calculate median of an entire matrix"
 
-#: ../lib/library-strings.c:231
+#: ../lib/library-strings.c:233
 msgid "Calculate the population standard deviation of a whole matrix"
 msgstr "Calculate the population standard deviation of a whole matrix"
 
-#: ../lib/library-strings.c:232
+#: ../lib/library-strings.c:234
 msgid "Calculate average of each row in a matrix"
 msgstr "Calculate average of each row in a matrix"
 
-#: ../lib/library-strings.c:233
+#: ../lib/library-strings.c:235
 msgid "Calculate median of each row in a matrix"
 msgstr "Calculate median of each row in a matrix"
 
-#: ../lib/library-strings.c:234
+#: ../lib/library-strings.c:236
 msgid "Calculate the population standard deviations of rows of a matrix and return a vertical vector"
 msgstr "Calculate the population standard deviations of rows of a matrix and return a vertical vector"
 
-#: ../lib/library-strings.c:235
+#: ../lib/library-strings.c:237
 msgid "Calculate the standard deviations of rows of a matrix and return a vertical vector"
 msgstr "Calculate the standard deviations of rows of a matrix and return a vertical vector"
 
-#: ../lib/library-strings.c:236
+#: ../lib/library-strings.c:238
 msgid "Calculate the standard deviation of a whole matrix"
 msgstr "Calculate the standard deviation of a whole matrix"
 
-#: ../lib/library-strings.c:237
+#: ../lib/library-strings.c:239
 msgid "Run newton's method on a polynomial to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns null)"
 msgstr "Run newton's method on a polynomial to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns null)"
 
-#: ../lib/library-strings.c:238
+#: ../lib/library-strings.c:240
 msgid "Returns a set where every element of X appears only once"
 msgstr "Returns a set where every element of X appears only once"
 
-#: ../lib/library-strings.c:239
+#: ../lib/library-strings.c:241
 msgid "Returns a set theoretic union of X and Y (X and Y are vectors pretending to be sets)"
 msgstr "Returns a set theoretic union of X and Y (X and Y are vectors pretending to be sets)"
 
-#: ../lib/library-strings.c:240
+#: ../lib/library-strings.c:242
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "Attempt to symbolically differentiate a function n times"
 
-#: ../lib/library-strings.c:241
+#: ../lib/library-strings.c:243
 msgid "Attempt to symbolically differentiate a function n times quietly and return null on failure"
 msgstr "Attempt to symbolically differentiate a function n times quietly and return null on failure"
 
-#: ../lib/library-strings.c:242
+#: ../lib/library-strings.c:244
 msgid "Attempt to construct the taylor approximation function around x0 to the nth degree."
 msgstr "Attempt to construct the taylor approximation function around x0 to the nth degree."
 
