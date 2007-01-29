@@ -13,7 +13,7 @@ Kai Willadsen
 
     <kaiw@itee.uq.edu.au>
 
-   Copyright © 1997-2006 Jiri (George) Lebl
+   Copyright © 1997-2007 Jiri (George) Lebl
 
    Copyright © 2004 Kai Willadsen
 
@@ -151,6 +151,7 @@ Kai Willadsen
 
         8.1. Matrix support
         8.2. Conjugate transpose and transpose operator
+        8.3. Linear Algebra
 
    9. Polynomials in GEL
 
@@ -1458,6 +1459,13 @@ b = [ a,  10
    If you just want to transpose a matrix without conjugating it,
    you would use the .' operator. For example:
 [1,2,3]*[4,5,6i].'
+     _________________________________________________________
+
+8.3. Linear Algebra
+
+   Genius implements many useful linear algebra and matrix
+   manipulation routines. See the Linear Algebra and Matrix
+   Manipulation sections of the GEL function listing.
      _________________________________________________________
 
 Chapter 9. Polynomials in GEL
@@ -3487,7 +3495,7 @@ IsInvertibleField (n)
 
 IsNormal (M)
 
-          Is M a matrix normal. That is, does M*M' == M'*M.
+          Is M a normal matrix. That is, does M*M' == M'*M.
 
           See Planetmath or Mathworld for more information.
 
