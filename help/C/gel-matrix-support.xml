@@ -2,22 +2,25 @@
     <sect1 id="genius-gel-matrix-support">
       <title>Matrix support</title>
       <para>
-To enter matrixes use one of the following two syntaxes. You can either enter
-the matrix separating values by commas and rows by semicolons, or separating
-values by tabs (not usually easily possible on the console, only in files)
-and rows by returns, or any combination of the two. So to enter a 3x3 matrix
+To enter matrixes, you can use one of the following two syntaxes. You can either enter
+the matrix on one line, separating values by commas and rows by semicolons.  Or you
+can enter each row on one line, separating
+values by commas or tabs.
+(Note that tabs are not usually easily possible on the console, only in files).
+You can also just combine the two methods.
+So to enter a 3x3 matrix
 of numbers 1-9 you could do
 <programlisting>[1,2,3;4,5,6;7,8,9]
-</programlisting>
-or
-<programlisting>[1 2 3
- 4 5 6
- 7 8 9]
 </programlisting>
 or
 <programlisting>[1, 2, 3
  4, 5, 6
  7, 8, 9]
+</programlisting>
+or (where the empty spaces are tabs)
+<programlisting>[1 2 3
+ 4 5 6
+ 7 8 9]
 </programlisting>
 Do not use both ';' and return at once on the same line though.  Also
 do not mix tabs and commas.  It is just safest to use commas as separators.

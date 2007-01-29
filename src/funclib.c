@@ -5107,7 +5107,7 @@ gel_funclib_addall(void)
 	FUNC (ExpandMatrix, 1, "M", "matrix", N_("Expands a matrix just like we do on unquoted matrix input"));
 	FUNC (RowsOf, 1, "M", "matrix", N_("Gets the rows of a matrix as a vertical vector"));
 	FUNC (ColumnsOf, 1, "M", "matrix", N_("Gets the columns of a matrix as a horizontal vector"));
-	FUNC (DiagonalOf, 1, "M", "matrix", N_("Gets the diagonal entries of a matrix as a horizontal vector"));
+	FUNC (DiagonalOf, 1, "M", "matrix", N_("Gets the diagonal entries of a matrix as a column vector"));
 	FUNC (CountZeroColumns, 1, "M", "matrix", N_("Count the number of zero columns in a matrix"));
 	FUNC (StripZeroColumns, 1, "M", "matrix", N_("Removes any all-zero columns of M"));
 

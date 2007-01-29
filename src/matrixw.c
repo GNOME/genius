@@ -860,14 +860,14 @@ gel_matrixw_diagonalof (GelMatrixW *source)
 	len = MIN(width,height);
 
 	mm = gel_matrix_new ();
-	gel_matrix_set_size (mm, len, 1, FALSE /* padding */);
+	gel_matrix_set_size (mm, 1, len, FALSE /* padding */);
 
 	for (i = 0; i < len; i++) {
 		GelETree *n = gel_matrixw_set_index (source, i, i);
 		if (n != NULL)
 			n = copynode (n);
 
-		gel_matrix_index (mm, i, 0) = n;
+		gel_matrix_index (mm, 0, i) = n;
 	}
 		
 	return gel_matrixw_new_with_matrix (mm);

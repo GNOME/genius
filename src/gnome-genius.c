@@ -98,6 +98,8 @@ static int errors_printed = 0;
 
 static char *last_dir = NULL;
 
+static GList *prog_menu_items = NULL;
+
 GeniusSetup genius_setup = {
 	FALSE /* error_box */,
 	TRUE /* info_box */,
@@ -198,6 +200,8 @@ static void copy_as_plain (GtkWidget *menu_item, gpointer data);
 static void copy_as_latex (GtkWidget *menu_item, gpointer data);
 static void copy_as_troff (GtkWidget *menu_item, gpointer data);
 static void copy_as_mathml (GtkWidget *menu_item, gpointer data);
+static void next_tab (GtkWidget *menu_item, gpointer data);
+static void prev_tab (GtkWidget *menu_item, gpointer data);
 static void setup_calc (GtkWidget *widget, gpointer data);
 static void run_program (GtkWidget *menu_item, gpointer data);
 static void warranty_call (GtkWidget *widget, gpointer data);
@@ -295,6 +299,16 @@ static GnomeUIInfo plugin_menu[] = {
 };
 
 static GnomeUIInfo programs_menu[] = {
+	{ GNOME_APP_UI_ITEM, N_("_Next Tab"), N_("Go to next tab"),
+		(gpointer)next_tab, NULL, NULL, \
+		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_GO_FORWARD, 
+		GDK_Page_Down, (GdkModifierType) GDK_CONTROL_MASK, NULL },
+	{ GNOME_APP_UI_ITEM, N_("_Previous Tab"), N_("Go to previous tab"),
+		(gpointer)prev_tab, NULL, NULL, \
+		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_GO_BACK, 
+		GDK_Page_Up, (GdkModifierType) GDK_CONTROL_MASK, NULL },
+
+	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_END,
 };
   
@@ -1759,6 +1773,18 @@ setup_label (Program *p)
 }
 
 static void
+next_tab (GtkWidget *menu_item, gpointer data)
+{
+	gtk_notebook_next_page (GTK_NOTEBOOK (notebook));
+}
+
+static void
+prev_tab (GtkWidget *menu_item, gpointer data)
+{
+	gtk_notebook_prev_page (GTK_NOTEBOOK (notebook));
+}
+
+static void
 prog_menu_activated (GtkWidget *item, gpointer data)
 {
 	GtkWidget *w = data;
@@ -1772,6 +1798,8 @@ build_program_menu (void)
 	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
 	int i;
 	GtkWidget *menu;
+	GtkWidget *item;
+	GtkWidget *w;
 
 	if (n <= 1) {
 		/* No programs in the menu */
@@ -1779,8 +1807,26 @@ build_program_menu (void)
 		return;
 	}
 
-	menu = gtk_menu_new ();
+	while (prog_menu_items != NULL) {
+		gtk_widget_destroy (prog_menu_items->data);
+		prog_menu_items = g_list_remove_link (prog_menu_items, prog_menu_items);
+	}
+
+	menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (genius_menu[PROGRAMS_MENU].widget));
+
+	/*menu = gtk_menu_new ();
 	gtk_widget_show (menu);
+
+	item = gtk_image_menu_item_new_with_mnemonic (_("_Next Tab"));
+	w = gtk_image_new_from_stock (GTK_STOCK_MEDIA_NEXT,
+				      GTK_ICON_SIZE_MENU);
+	gtk_widget_show (w);
+	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), w);
+	gtk_menu_item_set_accel_path (GTK_MENU_ITEM (item), "<Control>Tab");
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (next_tab), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);*/
+
 	for (i = 1; i < n; i++) {
 		GtkWidget *item;
 		GtkWidget *w = gtk_notebook_get_nth_page
@@ -1793,10 +1839,12 @@ build_program_menu (void)
 		g_signal_connect (G_OBJECT (item), "activate",
 				  G_CALLBACK (prog_menu_activated), w);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+		prog_menu_items = g_list_prepend (prog_menu_items, item);
 	}
 
-	gtk_menu_item_set_submenu
-		(GTK_MENU_ITEM (genius_menu[PROGRAMS_MENU].widget), menu);
+	/*gtk_menu_item_set_submenu
+		(GTK_MENU_ITEM (genius_menu[PROGRAMS_MENU].widget), menu);*/
 	gtk_widget_show (genius_menu[PROGRAMS_MENU].widget);
 }
 

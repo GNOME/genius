@@ -1,13 +1,16 @@
     <para>
       Currently &appname; can handle polynomials of one variable written out
-      as vectors and do some basic operations with them.  It is planned to
+      as vectors, and do some basic operations with these.  It is planned to
       expand this support further.
     </para>
 
     <sect1 id="genius-gel-polynomials-using">
       <title>Using Polynomials</title>
       <para>
-&appname; can do some things on polynomials. Polynomials in &appname; are just horizontal vectors with value only nodes. The power of the term is the position in the vector, with the first position being 0. So,
+Currently
+polynomials in one variable are just horizontal vectors with value only nodes.
+The power of the term is the position in the vector, with the first position
+being 0. So,
 <programlisting>[1,2,3]
 </programlisting>
 translates to a polynomial of
@@ -15,16 +18,41 @@ translates to a polynomial of
 </programlisting>
       </para>
       <para>
-You can add, subtract and multiply polynomials using the <command>AddPoly</command>, <command>SubtractPoly</command> and <command>MultiplyPoly</command> functions respectively. You can print a polynomial using the <command>PolyToString</command> function. For example,
+You can add, subtract and multiply polynomials using the
+<link linkend="gel-function-AddPoly"><command>AddPoly</command></link>,
+<link linkend="gel-function-SubtractPoly"><command>SubtractPoly</command></link>, and
+<link linkend="gel-function-MultiplyPoly"><command>MultiplyPoly</command></link> functions respectively.
+You can print a polynomial using the
+<link linkend="gel-function-PolyToString"><command>PolyToString</command></link>
+function.
+For example,
 <programlisting>PolyToString([1,2,3],"y")
 </programlisting>
 gives
 <programlisting>3*y^2 + 2*y + 1
 </programlisting>
-You can also get a function representation of the polynomial so that you can evaluate it. This is done by using <command>PolyToFunction</command>, which returns an anonymous function which you can assign to something.
+You can also get a function representation of the polynomial so that you can
+evaluate it. This is done by using
+<link linkend="gel-function-PolyToFunction"><command>PolyToFunction</command></link>,
+which
+returns an anonymous function which you can assign to something.
 <programlisting>f = PolyToFunction([0,1,1])
 f(2)
 </programlisting>
-Look at the function table for the rest of polynomial functions.
+      </para>
+      <para>
+	It is also possible to find roots of polynomials of degrees 1 through 4 by using the
+function
+<link linkend="gel-function-PolynomialRoots"><command>PolynomialRoots</command></link>,
+which calls the appropriate formula function.  Higher degree polynomials must be converted to
+functions and solved
+numerically using a function such as
+<link linkend="gel-function-FindRootBisection"><command>FindRootBisection</command></link>,
+<link linkend="gel-function-FindRootFalsePosition"><command>FindRootFalsePosition</command></link>,
+<link linkend="gel-function-FindRootMullersMethod"><command>FindRootMullersMethod</command></link>, or
+<link linkend="gel-function-FindRootSecant"><command>FindRootSecant</command></link>.
+      </para>
+      <para>
+Look at the function table for the rest of functions acting on polynomials.
       </para>
     </sect1>

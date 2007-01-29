@@ -3,7 +3,7 @@ SetHelp ("QuadraticFormula", "equation_solving",
 function QuadraticFormula(p) = (
 	if not IsPoly(p) or elements(p) != 3 or p@(3) == 0 then
 		(error("QuadraticFormula: argument 1 must be a quadratic polynomial");bailout);
-	[ (- p@(2) + sqrt(p@(2)^2 - 4*p@(1)*p@(3))) / (2 * p@(3)) ,
+	[ (- p@(2) + sqrt(p@(2)^2 - 4*p@(1)*p@(3))) / (2 * p@(3)) 
 	 (- p@(2) - sqrt(p@(2)^2 - 4*p@(1)*p@(3))) / (2 * p@(3))]
 )
 protect ("QuadraticFormula")
@@ -39,55 +39,57 @@ function CubicFormula(pol) = (
     if IsReal(a) and IsReal(b) and IsReal(c) and
        (((- a^2*b^2 + 4*b^3 + 4*a^3*c + 27*c^2 - 18*a*b*c) < 0) or
         q == 0) then (
-    	[p/(3*u) - u - a/3,
-     	 RealPart (p/(3*u*omega1) - u*omega1 - a/3),
+    	[p/(3*u) - u - a/3
+     	 RealPart (p/(3*u*omega1) - u*omega1 - a/3)
      	 RealPart (p/(3*u*omega2) - u*omega2 - a/3)]
     ) else
-    	[p/(3*u) - u - a/3,
-     	 p/(3*u*omega1) - u*omega1 - a/3,
+    	[p/(3*u) - u - a/3
+     	 p/(3*u*omega1) - u*omega1 - a/3
      	 p/(3*u*omega2) - u*omega2 - a/3]
 )
 protect ("CubicFormula")
 
 ## see planetmath
-# FIXME: this screws up, I think it has to do with different brancches of the
-# roots
-#SetHelp ("QuarticFormula", "equation_solving",
-#         "Find roots of a quartic polynomial (given as vector of coefficients)")
-#function QuarticFormula(p) = (
-#	if not IsPoly(p) or elements(p) != 5 or p@(5) == 0 then
-#		(error("QuadraticFormula: argument 1 must be a quartic polynomial");bailout);
-#	d = p@(1) / p@(5);
-#	c = p@(2) / p@(5);
-#	b = p@(3) / p@(5);
-#	a = p@(4) / p@(5);
-#
-#	if not IsReal(a) or not IsReal(b) or not IsReal(c) or not IsReal(d) then
-#		(error("QuarticFormula: Complex coefficients currently unimplemented");bailout);
-#
-#	t = CubicFormula ([c^2+a^2*d-a*b*c,
-#			   b^2+a*c-4*d,
-#			   -2*b,
-#			   1]);
-#
-#	# A = r1 + r2
-#	# B = r3 + r4
-#	# C = r1 * r2
-#	# D = r3 * r4
-#
-#	tmp = (t@(2) + t@(3) - t@(1));
-#	C = (tmp + sqrt( tmp^2 - 16*d )) / 4;
-#	D = (tmp - sqrt( tmp^2 - 16*d )) / 4;
-#
-#	A = (-a+sqrt(a^2 - 4*t@(1))) / 2;
-#	B = (-a-sqrt(a^2 - 4*t@(1))) / 2;
-#
-#	[(A + sqrt(A^2 - 4*C)) / 2,
-#	 (A - sqrt(A^2 - 4*C)) / 2,
-#	 (B + sqrt(B^2 - 4*D)) / 2,
-#	 (B - sqrt(B^2 - 4*D)) / 2]
-#)
-#protect ("QuarticFormula")
+SetHelp ("QuarticFormula", "equation_solving",
+         "Find roots of a quartic polynomial (given as vector of coefficients)")
+function QuarticFormula(pol) = (
+	if not IsPoly(pol) or elements(pol) != 5 or pol@(5) == 0 then
+		(error("QuarticFormula: argument 1 must be a quartic polynomial");bailout);
+	d := pol@(1) / pol@(5);
+	c := pol@(2) / pol@(5);
+	b := pol@(3) / pol@(5);
+	a := pol@(4) / pol@(5);
+	
+	# resolvent cubic
+	t := CubicFormula([c^2+a^2*d-a*b*c,b^2+a*c-4*d,-2*b,1]);
+
+	# compute r1 * r2 and r3 * r4
+	tt := t@(2)+t@(3)-t@(1);
+	A := sqrt(tt^2 - 16*d);
+	r1r2 := ((tt) + A)/4;
+	r3r4 := ((tt) - A)/4;
+
+	# note that it is hard to tell apart r1 + r2 and r3 + r4,
+	# hence we'll try both below
+	A := sqrt(a^2 - 4*t@(1));
+	r1pr2 := (-a + A)/2;
+	r3pr4 := (-a - A)/2;
+
+	# compare the minus of the correct symetric function of the roots
+	# to coeff c and see which is better and use that
+	if (|r1r2*r3pr4 + r1pr2*r3r4 + c| > |r1r2*r1pr2 + r3pr4*r3r4 + c|) then (
+		r1pr2 := (-a - A)/2;
+		r3pr4 := (-a + A)/2
+	);
+    	
+	A1 := sqrt(r1pr2^2 -4*r1r2);
+	A2 := sqrt(r3pr4^2 -4*r3r4);
+	[(r1pr2 + A1)/2
+	 (r1pr2 - A1)/2
+	 (r3pr4 + A2)/2
+	 (r3pr4 - A2)/2]
+)
+protect ("QuarticFormula")
 
 SetHelp ("PolynomialRoots", "equation_solving",
          "Find roots of a polynomial (given as vector of coefficients)")
@@ -95,16 +97,16 @@ function PolynomialRoots(p) = (
 	if not IsPoly(p) then
 		(error("PolynomialRoots: argument 1 must be a polynomial");bailout);
 	p = TrimPoly (p);
-	if elements(p) < 2 or elements(p) > 4 then
-		(error("PolynomialRoots: Solving for polynomials only of degrees 1 through 3 are implemented");bailout);
+	if elements(p) < 2 or elements(p) > 5 then
+		(error("PolynomialRoots: Solving for polynomials only of degrees 1 through 4 are implemented");bailout);
 	
 	if elements(p) == 2 then
 		[-p@(1)/p@(2)]
 	else if elements(p) == 3 then
 		QuadraticFormula (p)
-	else #if elements(p) == 4 then
+	else if elements(p) == 4 then
 		CubicFormula (p)
-	#else # if elements(p) == 5 then
-		#QuarticFormula (p)
+	else # if elements(p) == 5 then
+		QuarticFormula (p)
 )
 protect ("PolynomialRoots")

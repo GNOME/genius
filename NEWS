@@ -1,10 +1,14 @@
 Changes to 0.7.7
 
-* Add IsPositiveDefinite, IsPositiveSemidefinite
-* Fix CubicFormula for complex coefficients
-* Eigenvalues now computes eigenvalues for 3 by 3 matrices
+* Add IsPositiveDefinite, IsPositiveSemidefinite, QuarticFormula
+* SEMANTICS: QuadraticFormula, CubicFormula, Eigenvalues, and DiagonalOf
+  now consistently return a column vector
+* Fix CubicFormula for complex coefficients, and use QuarticFormula
+  in PolynomialRoots
+* Eigenvalues now computes eigenvalues for 3x3 and 4x4 matrices
 * Add undo/redo capability
 * CHANGE: It's RayleighQuotient not RaleighQuotient
+* Next/Previous Tab menu items and accelerators
 * Cosmetic changes to UI
 * Documentation updates
 * Fix plugin reading

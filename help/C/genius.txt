@@ -1388,23 +1388,24 @@ Chapter 8. Matrices in GEL
 
 8.1. Matrix support
 
-   To enter matrixes use one of the following two syntaxes. You
-   can either enter the matrix separating values by commas and
-   rows by semicolons, or separating values by tabs (not usually
-   easily possible on the console, only in files) and rows by
-   returns, or any combination of the two. So to enter a 3x3
-   matrix of numbers 1-9 you could do
+   To enter matrixes, you can use one of the following two
+   syntaxes. You can either enter the matrix on one line,
+   separating values by commas and rows by semicolons. Or you can
+   enter each row on one line, separating values by commas or
+   tabs. (Note that tabs are not usually easily possible on the
+   console, only in files). You can also just combine the two
+   methods. So to enter a 3x3 matrix of numbers 1-9 you could do
 [1,2,3;4,5,6;7,8,9]
-
-   or
-[1 2 3
- 4 5 6
- 7 8 9]
 
    or
 [1, 2, 3
  4, 5, 6
  7, 8, 9]
+
+   or (where the empty spaces are tabs)
+[1 2 3
+ 4 5 6
+ 7 8 9]
 
    Do not use both ';' and return at once on the same line
    though. Also do not mix tabs and commas. It is just safest to
@@ -1462,25 +1463,24 @@ b = [ a,  10
 Chapter 9. Polynomials in GEL
 
    Currently Genius can handle polynomials of one variable
-   written out as vectors and do some basic operations with them.
-   It is planned to expand this support further.
+   written out as vectors, and do some basic operations with
+   these. It is planned to expand this support further.
      _________________________________________________________
 
 9.1. Using Polynomials
 
-   Genius can do some things on polynomials. Polynomials in
-   Genius are just horizontal vectors with value only nodes. The
-   power of the term is the position in the vector, with the
-   first position being 0. So,
+   Currently polynomials in one variable are just horizontal
+   vectors with value only nodes. The power of the term is the
+   position in the vector, with the first position being 0. So,
 [1,2,3]
 
    translates to a polynomial of
 1 + 2*x + 3*x^2
 
    You can add, subtract and multiply polynomials using the
-   AddPoly, SubtractPoly and MultiplyPoly functions respectively.
-   You can print a polynomial using the PolyToString function.
-   For example,
+   AddPoly, SubtractPoly, and MultiplyPoly functions
+   respectively. You can print a polynomial using the
+   PolyToString function. For example,
 PolyToString([1,2,3],"y")
 
    gives
@@ -1493,8 +1493,15 @@ PolyToString([1,2,3],"y")
 f = PolyToFunction([0,1,1])
 f(2)
 
-   Look at the function table for the rest of polynomial
-   functions.
+   It is also possible to find roots of polynomials of degrees 1
+   through 4 by using the function PolynomialRoots, which calls
+   the appropriate formula function. Higher degree polynomials
+   must be converted to functions and solved numerically using a
+   function such as FindRootBisection, FindRootFalsePosition,
+   FindRootMullersMethod, or FindRootSecant.
+
+   Look at the function table for the rest of functions acting on
+   polynomials.
      _________________________________________________________
 
 Chapter 10. List of GEL functions
@@ -3012,8 +3019,8 @@ DeleteRow (M,row)
 
 DiagonalOf (M)
 
-          Gets the diagonal entries of a matrix as a horizontal
-          vector
+          Gets the diagonal entries of a matrix as a column
+          vector.
 
    DotProduct
 
@@ -3387,7 +3394,7 @@ Eigenvalues (M)
           Aliases: eig
 
           Get the eigenvalues of a square matrix. Currently only
-          works for matrices of size up to 3 by 3, or for
+          works for matrices of size up to 4 by 4, or for
           triangular matrices (for which the eigenvalues are on
           the diagonal).
 
@@ -4424,13 +4431,14 @@ FindRootSecant (f,a,b,TOL,N)
 
 PolynomialRoots (p)
 
-          Compute roots of a polynomial (degrees 1 through 3
-          currently) using one of the formulas for such
-          polynomials. The polynomial should be given as a vector
-          of coefficients. That is 4*x^3 + 2*x + 1 corresponds to
-          the vector [1,2,0,4].
+          Compute roots of a polynomial (degrees 1 through 4)
+          using one of the formulas for such polynomials. The
+          polynomial should be given as a vector of coefficients.
+          That is 4*x^3 + 2*x + 1 corresponds to the vector
+          [1,2,0,4].
 
-          The function calls QuadraticFormula and CubicFormula.
+          The function calls QuadraticFormula, CubicFormula, and
+          QuarticFormula.
 
    QuadraticFormula
 
@@ -4442,6 +4450,18 @@ QuadraticFormula (p)
           + 1 corresponds to the vector [1,2,3].
 
           See Planetmath or Mathworld for more information.
+
+   QuarticFormula
+
+QuarticFormula (p)
+
+          Compute roots of a quartic (degree 4) polynomial using
+          the quartic formula. The polynomial should be given as
+          a vector of coefficients. That is 5*x^4 + 2*x + 1
+          corresponds to the vector [1,2,0,0,5].
+
+          See Planetmath, Mathworld, or Wikipedia for more
+          information.
 
    RungeKutta
 

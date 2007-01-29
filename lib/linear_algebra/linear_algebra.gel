@@ -434,7 +434,7 @@ function RayleighQuotient(A,x) = (
 )
 protect ("RayleighQuotient")
 
-SetHelp("Eigenvalues", "linear_algebra", "Get the eigenvalues of a matrix (Currently only for up to 3x3 or triangular matrices)")
+SetHelp("Eigenvalues", "linear_algebra", "Get the eigenvalues of a matrix (Currently only for up to 4x4 or triangular matrices)")
 function Eigenvalues(M) = (
 	if not IsMatrix (M) or not IsMatrixSquare (M) then
 		(error("Eigenvalues: argument not a square matrix");bailout);
@@ -445,8 +445,10 @@ function Eigenvalues(M) = (
 		[ ( -b - sqrt (b^2 - 4*c) ) / 2 ; ( -b + sqrt (b^2 - 4*c) ) / 2 ]
 	) else if columns (M) == 3 then (
 		CubicFormula (CharacteristicPolynomial(M))
+	) else if columns (M) == 4 then (
+		QuarticFormula (CharacteristicPolynomial(M))
 	) else
-		(error("Eigenvalues: FIXME: can currently only work with up to 3x3 or triangular matrices");bailout)
+		(error("Eigenvalues: Currently only implemented for up to 4x4 or triangular matrices");bailout)
 )
 protect ("Eigenvalues")
 eig = Eigenvalues;

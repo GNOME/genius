@@ -1,3 +1,22 @@
+Mon Jan 29 01:35:56 2007  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/funclib.c, src/matrixw.c: DiagonalOf now returns a column
+	  vector
+
+	* lib/equation_solving/formulas.gel: Add QuarticFormula and use it in
+	  PolynomialRoots.  Also return column vectors from QuadraticFormula,
+	  CubicFormula
+
+	* lib/linear_algebra/linear_algebra.gel: add support for 4x4 matrices
+	  in Eigenvalues and always return column vector from that function
+
+	* src/gnome-genius.c: add Next/Previous Tab menu item and accelerator
+
+	* src/longtest.gel: test the quartic
+
+	* help/C/gel-matrix-support.xml, help/C/gel-polynomials.xml,
+	  help/C/gel-function-list.xml: Update the documentation
+
 2007-01-24  Pema Geyleg  <pema.geyleg@gmail.com>
 
 	* configure.in: Added 'dz' to ALL_LINGUAS.
@@ -59,7 +78,7 @@ Wed Aug 23 11:45:49 2006  Jiri (George) Lebl <jirka@5z.com>
 
 Wed Aug 23 11:33:49 2006  Jiri (George) Lebl <jirka@5z.com>
 
-	* src/gnome-genius.c: add Kai as documentor int he about box and add
+	* src/gnome-genius.c: add Kai as documentor in the about box and add
 	  the diactrical marks in Jiri in the about box
 
 Sat Aug 19 11:59:04 2006  Jiri (George) Lebl <jirka@5z.com>
