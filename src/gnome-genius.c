@@ -585,11 +585,6 @@ full_answer (GtkWidget *menu_item, gpointer data)
 	GelOutput *out;
 	char *s;
 
-	/* FIXME: Ugly push/pop of output style */
-	GelOutputStyle last_style = curstate.output_style;
-	curstate.output_style = GEL_OUTPUT_NORMAL;
-	set_new_calcstate (curstate);
-
 	/* perhaps a bit ugly */
 	out = gel_output_new ();
 	gboolean last_info = genius_setup.info_box;
@@ -604,9 +599,6 @@ full_answer (GtkWidget *menu_item, gpointer data)
 
 	s = gel_output_snarf_string (out);
 	gel_output_unref (out);
-
-	curstate.output_style = last_style;
-	set_new_calcstate (curstate);
 
 	geniusbox (FALSE /*error*/,
 		   TRUE /*always textbox*/,
