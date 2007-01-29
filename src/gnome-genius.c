@@ -202,8 +202,10 @@ static void copy_as_troff (GtkWidget *menu_item, gpointer data);
 static void copy_as_mathml (GtkWidget *menu_item, gpointer data);
 static void next_tab (GtkWidget *menu_item, gpointer data);
 static void prev_tab (GtkWidget *menu_item, gpointer data);
+static void prog_menu_activated (GtkWidget *item, gpointer data);
 static void setup_calc (GtkWidget *widget, gpointer data);
 static void run_program (GtkWidget *menu_item, gpointer data);
+static void full_answer (GtkWidget *menu_item, gpointer data);
 static void warranty_call (GtkWidget *widget, gpointer data);
 static void aboutcb (GtkWidget * widget, gpointer data);
 static void help_on_function (GtkWidget *menuitem, gpointer data);
@@ -276,6 +278,8 @@ static GnomeUIInfo calc_menu[] = {
 	GNOMEUIINFO_ITEM_STOCK(N_("_Run"),N_("Run current program"),run_program, GTK_STOCK_EXECUTE),
 	GNOMEUIINFO_ITEM_STOCK(N_("_Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GTK_STOCK_STOP),
 	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_STOCK (N_("Show _Full Answer"), N_("Show the full text of last answer"), full_answer, GTK_STOCK_INFO),
+	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_STOCK (N_("_Plot"), N_("Plot a function"), genius_plot_dialog, GNOME_STOCK_BOOK_OPEN),
 	GNOMEUIINFO_END,
 };
@@ -309,6 +313,12 @@ static GnomeUIInfo programs_menu[] = {
 		GDK_Page_Up, (GdkModifierType) GDK_CONTROL_MASK, NULL },
 
 	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM (N_("_Console"),
+			  N_("Go to the console tab"),
+			  prog_menu_activated,
+			  NULL),
+
 	GNOMEUIINFO_END,
 };
   
@@ -488,12 +498,15 @@ run_help_dlg_again:
 /*display a message in a messagebox*/
 static GtkWidget *
 geniusbox (gboolean error,
+	   gboolean always_textbox,
+	   const char *textbox_title,
 	   gboolean bind_response,
 	   const char *s)
 {
 	GtkWidget *mb;
 	/* if less than 10 lines */
-	if (count_char (s, '\n') <= 10) {
+	if (count_char (s, '\n') <= 10 &&
+	    ! always_textbox) {
 		GtkMessageType type = GTK_MESSAGE_INFO;
 		if (error)
 			type = GTK_MESSAGE_ERROR;
@@ -508,9 +521,17 @@ geniusbox (gboolean error,
 		GtkWidget *tv;
 		GtkTextBuffer *buffer;
 		GtkTextIter iter;
+		const char *title;
+
+		if (textbox_title != NULL)
+			title = textbox_title;
+		else if (error)
+			title = _("Error");
+		else
+			title = _("Information");
 
 		mb = gtk_dialog_new_with_buttons
-			(error?_("Error"):_("Information"),
+			(title,
 			 GTK_WINDOW (genius_window) /* parent */,
 			 0 /* flags */,
 			 GTK_STOCK_OK, GTK_RESPONSE_OK,
@@ -559,6 +580,43 @@ geniusbox (gboolean error,
 
 
 static void
+full_answer (GtkWidget *menu_item, gpointer data)
+{
+	GelOutput *out;
+	char *s;
+
+	/* FIXME: Ugly push/pop of output style */
+	GelOutputStyle last_style = curstate.output_style;
+	curstate.output_style = GEL_OUTPUT_NORMAL;
+	set_new_calcstate (curstate);
+
+	/* perhaps a bit ugly */
+	out = gel_output_new ();
+	gboolean last_info = genius_setup.info_box;
+	gboolean last_error = genius_setup.error_box;
+	genius_setup.info_box = TRUE;
+	genius_setup.error_box = TRUE;
+	gel_output_setup_string (out, 0, NULL);
+	gel_evalexp ("ans", NULL, out, NULL, TRUE, NULL);
+	gel_printout_infos ();
+	genius_setup.info_box = last_info;
+	genius_setup.error_box = last_error;
+
+	s = gel_output_snarf_string (out);
+	gel_output_unref (out);
+
+	curstate.output_style = last_style;
+	set_new_calcstate (curstate);
+
+	geniusbox (FALSE /*error*/,
+		   TRUE /*always textbox*/,
+		   _("Full Answer") /*textbox_title*/,
+		   TRUE /*bind_response*/,
+		   s);
+}
+
+
+static void
 printout_error_num_and_reset(void)
 {
 	if(genius_setup.error_box) {
@@ -568,7 +626,11 @@ printout_error_num_and_reset(void)
 							_("\nToo many errors! (%d followed)"),
 							errors_printed - curstate.max_errors);
 			}
-			geniusbox (TRUE, TRUE, errors->str);
+			geniusbox (TRUE /*error*/,
+				   FALSE /*always textbox*/,
+				   NULL /*textbox_title*/,
+				   TRUE /*bind_response*/,
+				   errors->str);
 			g_string_free(errors,TRUE);
 			errors=NULL;
 		}
@@ -638,7 +700,11 @@ gel_printout_infos (void)
 {
 	/* Print out the infos */
 	if (infos != NULL) {
-		geniusbox (FALSE, TRUE, infos->str);
+		geniusbox (FALSE /*error*/,
+			   FALSE /*always textbox*/,
+			   NULL /*textbox_title*/,
+			   TRUE /*bind_response*/,
+			   infos->str);
 		g_string_free (infos, TRUE);
 		infos = NULL;
 	}
@@ -1788,7 +1854,12 @@ static void
 prog_menu_activated (GtkWidget *item, gpointer data)
 {
 	GtkWidget *w = data;
-	int num = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), w);
+	int num;
+       
+	if (w == NULL)
+		num = 0;
+	else
+		num = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), w);
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), num);
 }
 
@@ -1801,31 +1872,12 @@ build_program_menu (void)
 	GtkWidget *item;
 	GtkWidget *w;
 
-	if (n <= 1) {
-		/* No programs in the menu */
-		gtk_widget_hide (genius_menu[PROGRAMS_MENU].widget);
-		return;
-	}
-
 	while (prog_menu_items != NULL) {
 		gtk_widget_destroy (prog_menu_items->data);
 		prog_menu_items = g_list_remove_link (prog_menu_items, prog_menu_items);
 	}
 
 	menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (genius_menu[PROGRAMS_MENU].widget));
-
-	/*menu = gtk_menu_new ();
-	gtk_widget_show (menu);
-
-	item = gtk_image_menu_item_new_with_mnemonic (_("_Next Tab"));
-	w = gtk_image_new_from_stock (GTK_STOCK_MEDIA_NEXT,
-				      GTK_ICON_SIZE_MENU);
-	gtk_widget_show (w);
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), w);
-	gtk_menu_item_set_accel_path (GTK_MENU_ITEM (item), "<Control>Tab");
-	g_signal_connect (G_OBJECT (item), "activate",
-			  G_CALLBACK (next_tab), NULL);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);*/
 
 	for (i = 1; i < n; i++) {
 		GtkWidget *item;
@@ -1842,10 +1894,6 @@ build_program_menu (void)
 
 		prog_menu_items = g_list_prepend (prog_menu_items, item);
 	}
-
-	/*gtk_menu_item_set_submenu
-		(GTK_MENU_ITEM (genius_menu[PROGRAMS_MENU].widget), menu);*/
-	gtk_widget_show (genius_menu[PROGRAMS_MENU].widget);
 }
 
 static void
@@ -2806,8 +2854,10 @@ fork_a_helper (void)
 		foo = g_find_program_in_path ("genius-readline-helper-fifo");
 
 	if (foo == NULL) {
-		GtkWidget *d = geniusbox (TRUE /* error */,
-					  FALSE,
+		GtkWidget *d = geniusbox (TRUE /*error*/,
+					  FALSE /*always textbox*/,
+					  NULL /*textbox_title*/,
+					  FALSE /*bind_response*/,
 					  _("Can't execute genius-readline-helper-fifo!\n"));
 
 		gtk_dialog_run (GTK_DIALOG (d));
@@ -3252,9 +3302,6 @@ main (int argc, char *argv[])
 	if (plugin_count == 0) {
 		gtk_widget_hide (genius_menu[PLUGINS_MENU].widget);
 	}
-
-	/* No programs in the menu */
-	gtk_widget_hide (genius_menu[PROGRAMS_MENU].widget);
 
 	/*setup appbar*/
 	appbar = gnome_appbar_new(FALSE, TRUE, GNOME_PREFERENCES_USER);
