@@ -1,3 +1,13 @@
+Mon Jan 29 10:24:52 2007  Jiri (George) Lebl <jirka@5z.com>
+
+	* lib/equation_solving/formulas.gel: Fix handling of real solutions
+	  for the cubic to avoid ugly expressions with small imaginary values
+	  where everything should be real.
+	
+	* src/geniustests.txt, src/longtest.gel: Fixup tests
+
+	* help/C/gel-function-list.xml: small update to the formula entries
+
 Mon Jan 29 01:35:56 2007  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/funclib.c, src/matrixw.c: DiagonalOf now returns a column

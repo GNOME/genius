@@ -73,7 +73,9 @@ function roottestcube() = (
         p = randint(10,4)-5;
     if p@(4) == 0 then
 	p@(4) = 1;
+    #print (p);
     r = CubicFormula (p);
+    #print (r);
     f = PolyToFunction (p);
     if (|f(r@(1))| >= 0.01 or
 	|f(r@(2))| >= 0.01 or
@@ -98,7 +100,9 @@ function roottestquart() = (
         p = randint(10,5)-5;
     if p@(5) == 0 then
 	p@(5) = 1;
+    #print(p);
     r = QuarticFormula (p);
+    #print (r);
     f = PolyToFunction (p);
     if (|f(r@(1))| >= 0.01 or
 	|f(r@(2))| >= 0.01 or

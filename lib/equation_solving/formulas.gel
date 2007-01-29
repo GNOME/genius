@@ -36,12 +36,19 @@ function CubicFormula(pol) = (
     
     # If real coefficients and the discriminant is negative
     # or if q == 0, then we have all real roots 
-    if IsReal(a) and IsReal(b) and IsReal(c) and
-       (((- a^2*b^2 + 4*b^3 + 4*a^3*c + 27*c^2 - 18*a*b*c) < 0) or
-        q == 0) then (
-    	[p/(3*u) - u - a/3
-     	 RealPart (p/(3*u*omega1) - u*omega1 - a/3)
-     	 RealPart (p/(3*u*omega2) - u*omega2 - a/3)]
+    if (IsReal(a) and IsReal(b) and IsReal(c)) then (
+	DELTA := - a^2*b^2 + 4*b^3 + 4*a^3*c + 27*c^2 - 18*a*b*c;
+    	# If the discriminant is negative
+    	# or if q == 0, then we have all real roots 
+	if DELTA <= 0 or q == 0 then
+		[RealPart (p/(3*u) - u - a/3)
+		 RealPart (p/(3*u*omega1) - u*omega1 - a/3)
+		 RealPart (p/(3*u*omega2) - u*omega2 - a/3)]
+	# if the discriminant is positive then we have one real root
+	else #if DELTA > 0 then
+		[RealPart (p/(3*u) - u - a/3)
+		 p/(3*u*omega1) - u*omega1 - a/3
+		 p/(3*u*omega2) - u*omega2 - a/3]
     ) else
     	[p/(3*u) - u - a/3
      	 p/(3*u*omega1) - u*omega1 - a/3

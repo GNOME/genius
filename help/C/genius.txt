@@ -4387,7 +4387,10 @@ CubicFormula (p)
           Compute roots of a cubic (degree 3) polynomial using
           the cubic formula. The polynomial should be given as a
           vector of coefficients. That is 4*x^3 + 2*x + 1
-          corresponds to the vector [1,2,0,4].
+          corresponds to the vector [1,2,0,4]. Returns a column
+          vector of the three solutions. The first solution is
+          always the real one as a cubic always has one real
+          solution.
 
           See Planetmath, Mathworld, or Wikipedia for more
           information.
@@ -4435,7 +4438,7 @@ PolynomialRoots (p)
           using one of the formulas for such polynomials. The
           polynomial should be given as a vector of coefficients.
           That is 4*x^3 + 2*x + 1 corresponds to the vector
-          [1,2,0,4].
+          [1,2,0,4]. Returns a column vector of the solutions.
 
           The function calls QuadraticFormula, CubicFormula, and
           QuarticFormula.
@@ -4447,7 +4450,8 @@ QuadraticFormula (p)
           Compute roots of a quadratic (degree 2) polynomial
           using the quadratic formula. The polynomial should be
           given as a vector of coefficients. That is 3*x^2 + 2*x
-          + 1 corresponds to the vector [1,2,3].
+          + 1 corresponds to the vector [1,2,3]. Returns a column
+          vector of the two solutions.
 
           See Planetmath or Mathworld for more information.
 
@@ -4458,7 +4462,8 @@ QuarticFormula (p)
           Compute roots of a quartic (degree 4) polynomial using
           the quartic formula. The polynomial should be given as
           a vector of coefficients. That is 5*x^4 + 2*x + 1
-          corresponds to the vector [1,2,0,0,5].
+          corresponds to the vector [1,2,0,0,5]. Returns a column
+          vector of the four solutions.
 
           See Planetmath, Mathworld, or Wikipedia for more
           information.
