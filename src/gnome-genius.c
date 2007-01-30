@@ -87,6 +87,7 @@ static GtkWidget *setupdialog = NULL;
 static GtkWidget *term = NULL;
 static GtkWidget *appbar = NULL;
 static GtkWidget *notebook = NULL;
+static GtkTooltips *tips;
 static GString *errors=NULL;
 static GString *infos=NULL;
 
@@ -106,7 +107,9 @@ GeniusSetup genius_setup = {
 	TRUE /* blinking_cursor */,
 	1000 /* scrollback */,
 	NULL /* font */,
-	FALSE /* black on white */
+	FALSE /* black on white */,
+	FALSE /* output_remember */,
+	FALSE /* precision_remember */
 };
 
 typedef struct {
@@ -505,7 +508,7 @@ geniusbox (gboolean error,
 {
 	GtkWidget *mb;
 	/* if less than 10 lines */
-	if (count_char (s, '\n') <= 10 &&
+	if (count_char (ve_sure_string (s), '\n') <= 10 &&
 	    ! always_textbox) {
 		GtkMessageType type = GTK_MESSAGE_INFO;
 		if (error)
@@ -515,7 +518,7 @@ geniusbox (gboolean error,
 					     type,
 					     GTK_BUTTONS_OK,
 					     "%s",
-					     s);
+					     ve_sure_string (s));
 	} else {
 		GtkWidget *sw;
 		GtkWidget *tv;
@@ -556,7 +559,7 @@ geniusbox (gboolean error,
 		gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
 
 		gtk_text_buffer_insert_with_tags_by_name
-			(buffer, &iter, s, -1, "foo", NULL);
+			(buffer, &iter, ve_sure_string (s), -1, "foo", NULL);
 
 		gtk_container_add (GTK_CONTAINER (sw), tv);
 
@@ -842,18 +845,28 @@ set_properties (void)
 			      genius_setup.info_box);
 	gnome_config_set_bool("/genius/properties/blinking_cursor",
 			      genius_setup.blinking_cursor);
-	gnome_config_set_int("/genius/properties/max_digits", 
-			      curstate.max_digits);
-	gnome_config_set_bool("/genius/properties/results_as_floats",
-			      curstate.results_as_floats);
-	gnome_config_set_bool("/genius/properties/scientific_notation",
-			      curstate.scientific_notation);
-	gnome_config_set_bool("/genius/properties/full_expressions",
-			      curstate.full_expressions);
+	gnome_config_set_bool("/genius/properties/output_remember",
+			      genius_setup.output_remember);
+	if (genius_setup.output_remember) {
+		gnome_config_set_int("/genius/properties/max_digits", 
+				      curstate.max_digits);
+		gnome_config_set_bool("/genius/properties/results_as_floats",
+				      curstate.results_as_floats);
+		gnome_config_set_bool("/genius/properties/scientific_notation",
+				      curstate.scientific_notation);
+		gnome_config_set_bool("/genius/properties/full_expressions",
+				      curstate.full_expressions);
+		gnome_config_set_bool("/genius/properties/mixed_fractions",
+				      curstate.mixed_fractions);
+	}
 	gnome_config_set_int("/genius/properties/max_errors",
 			     curstate.max_errors);
-	gnome_config_set_int("/genius/properties/float_prec",
-			     curstate.float_prec);
+	gnome_config_set_bool("/genius/properties/precision_remember",
+			      genius_setup.precision_remember);
+	if (genius_setup.precision_remember) {
+		gnome_config_set_int("/genius/properties/float_prec",
+				     curstate.float_prec);
+	}
 	
 	gnome_config_sync();
 }
@@ -1041,6 +1054,11 @@ static GeniusSetup cancelsetup={0};
 static void
 setup_response (GtkWidget *widget, gint resp, gpointer data)
 {
+	if (resp == GTK_RESPONSE_HELP) {
+		gnome_help_display ("genius", "genius-prefs", NULL /* error */);
+		return;
+	}
+
 	if (resp == GTK_RESPONSE_CANCEL ||
 	    resp == GTK_RESPONSE_OK ||
 	    resp == GTK_RESPONSE_APPLY) {
@@ -1108,6 +1126,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 		(_("Genius Setup"),
 		 GTK_WINDOW (genius_window) /* parent */,
 		 0 /* flags */,
+		 GTK_STOCK_HELP, GTK_RESPONSE_HELP,
 		 GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,
 		 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 		 GTK_STOCK_OK, GTK_RESPONSE_OK,
@@ -1179,6 +1198,28 @@ setup_calc(GtkWidget *widget, gpointer data)
 			  G_CALLBACK (optioncb),
 			  (gpointer)&tmpstate.full_expressions);
 
+	w=gtk_check_button_new_with_label(_("Use mixed fractions"));
+	gtk_box_pack_start(GTK_BOX(box),w,FALSE,FALSE,0);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), 
+				      tmpstate.mixed_fractions);
+	g_signal_connect (G_OBJECT (w), "toggled",
+			  G_CALLBACK (optioncb),
+			  (gpointer)&tmpstate.mixed_fractions);
+
+	w=gtk_check_button_new_with_label(_("Remember output settings across sessions"));
+	gtk_box_pack_start(GTK_BOX(box),w,FALSE,FALSE,0);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), 
+				      tmpsetup.output_remember);
+	g_signal_connect (G_OBJECT(w), "toggled",
+			  G_CALLBACK (optioncb),
+			  (gpointer)&tmpsetup.output_remember);
+
+	gtk_tooltips_set_tip (tips, w,
+			      _("Should the output settings in the "
+			       "\"Number/Expression output options\" frame "
+			       "be remembered for next session.  Does not apply "
+			       "to the \"Error/Info output options\" frame."),
+			      NULL);
 
 	frame=gtk_frame_new(_("Error/Info output options"));
 	gtk_box_pack_start(GTK_BOX(mainbox),frame,FALSE,FALSE,0);
@@ -1269,13 +1310,25 @@ setup_calc(GtkWidget *widget, gpointer data)
 	g_signal_connect (G_OBJECT (adj), "value_changed",
 			  G_CALLBACK (intspincb), &tmpstate.float_prec);
 
+	w=gtk_check_button_new_with_label(_("Remember precision setting across sessions"));
+	gtk_box_pack_start(GTK_BOX(box),w,FALSE,FALSE,0);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), 
+				      tmpsetup.precision_remember);
+	g_signal_connect (G_OBJECT(w), "toggled",
+			  G_CALLBACK (optioncb),
+			  (gpointer)&tmpsetup.precision_remember);
+
+	gtk_tooltips_set_tip (tips, w,
+			      _("Should the precision setting "
+			       "be remembered for next session."),
+			      NULL);
+
 
 	mainbox = gtk_vbox_new(FALSE, GNOME_PAD);
 	gtk_container_set_border_width(GTK_CONTAINER(mainbox),GNOME_PAD);
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
 				  mainbox,
 				  gtk_label_new(_("Terminal")));
-
 	
 	frame=gtk_frame_new(_("Terminal options"));
 	gtk_box_pack_start(GTK_BOX(mainbox),frame,FALSE,FALSE,0);
@@ -2697,6 +2750,14 @@ get_properties (void)
 		   curstate.full_expressions?"true":"false");
 	curstate.full_expressions = gnome_config_get_bool(buf);
 
+	g_snprintf(buf,256,"/genius/properties/mixed_fractions=%s",
+		   curstate.mixed_fractions?"true":"false");
+	curstate.mixed_fractions = gnome_config_get_bool(buf);
+
+	g_snprintf(buf,256,"/genius/properties/output_remember=%s",
+		   genius_setup.output_remember?"true":"false");
+	genius_setup.output_remember = gnome_config_get_bool(buf);
+
 	g_snprintf(buf,256,"/genius/properties/max_errors=%d",
 		   curstate.max_errors);
 	curstate.max_errors = gnome_config_get_int(buf);
@@ -2710,6 +2771,10 @@ get_properties (void)
 		curstate.float_prec = 60;
 	else if (curstate.float_prec > 16384)
 		curstate.float_prec = 16384;
+
+	g_snprintf(buf,256,"/genius/properties/precision_remember=%s",
+		   genius_setup.precision_remember?"true":"false");
+	genius_setup.precision_remember = gnome_config_get_bool(buf);
 }
 
 static void
@@ -3162,7 +3227,6 @@ main (int argc, char *argv[])
 {
 	GtkWidget *hbox;
 	GtkWidget *w;
-	GtkTooltips *tips;
 	char *file;
 	GnomeUIInfo *plugins;
 	int plugin_count = 0;

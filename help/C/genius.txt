@@ -4962,6 +4962,21 @@ MaxDigits = 12
           Should we print out full expressions for non-numeric
           return values (longer than a line) (FullExpressions)
 
+   Use mixed fractions
+          If fractions should be printed as mixed fractions such
+          as "1 1/3" rather than "4/3". (MixedFractions)
+
+   Remember output settings across sessions
+          Should the output settings in the Number/Expression
+          output options frame be remembered for next session.
+          Does not apply to the Error/Info output options frame.
+
+          If unchecked, either the default or any previously
+          saved settings are used each time Genius starts up.
+          Note that settings are saved at the end of the session,
+          so if you wish to change the defaults check this box,
+          restart genius and then uncheck it again.
+
    Display errors in a dialog
           If set the errors will be displayed in a seprate
           dialog, if unset the errors will be printed on the
@@ -4985,10 +5000,6 @@ MaxDigits = 12
    console. For others that may affect the output see Section
    10.3.
 
-   MixedFractions
-          If fractions should be printed as mixed fractions such
-          as "1 1/3" rather than "4/3"
-
    IntegerOutputBase
           The base that will be used to output integers
 
@@ -5008,6 +5019,14 @@ MaxDigits = 12
           have them more precise you will have to recompute them.
           Exceptions to this are the system constants such as pi
           or e.
+
+   Remember precision setting across sessions
+          Should the precision setting be remembered for the next
+          session. If unchecked, either the default or any
+          previously saved setting is used each time Genius
+          starts up. Note that settings are saved at the end of
+          the session, so if you wish to change the default check
+          this box, restart genius and then uncheck it again.
      _________________________________________________________
 
 12.3. Terminal

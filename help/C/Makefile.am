@@ -15,6 +15,7 @@ entities = about.xml \
            gel-lvalues.xml \
            gel-matrix-support.xml \
            gel-matrix-transpose.xml \
+           gel-matrix-linalg.xml \
            gel-modular-evaluation.xml \
            gel-operator-list.xml \
            gel-polynomials.xml \

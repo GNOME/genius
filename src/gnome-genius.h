@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2004-2005 George Lebl
+ * Copyright (C) 2004-2007 George Lebl
  *
  * Author: George Lebl
  *
@@ -29,6 +29,8 @@ typedef struct {
 	int scrollback;
 	char *font;
 	gboolean black_on_white;
+	gboolean output_remember; /* remember output settings */
+	gboolean precision_remember; /* remember precision setting */
 } GeniusSetup;
 
 extern GeniusSetup genius_setup;
