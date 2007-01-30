@@ -1516,9 +1516,25 @@ really_load_cb (GtkWidget *w, GtkFileSelection *fs)
 
 	gtk_widget_destroy (GTK_WIDGET (fs));
 
+	vte_terminal_feed (VTE_TERMINAL (term),
+			   "\r\n\e[0mOutput from \e[0;32m", -1);
+	vte_terminal_feed (VTE_TERMINAL (term), s, -1);
+	vte_terminal_feed (VTE_TERMINAL (term),
+			   "\e[0m (((\r\n", -1);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
+
+	calc_running ++;
 	gel_load_guess_file (NULL, s, TRUE);
+	calc_running --;
 
 	gel_printout_infos ();
+
+	vte_terminal_feed (VTE_TERMINAL (term),
+			   "\e[0m)))End", -1);
+
+	/* interrupt the current command line */
+	interrupted = TRUE;
+	vte_terminal_feed_child (VTE_TERMINAL (term), "\n", 1);
 }
 
 static void
