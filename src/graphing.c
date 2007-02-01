@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2006 Jiri (George) Lebl
+ * Copyright (C) 2003-2007 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -1581,7 +1581,11 @@ call_func3 (GelCtx *ctx,
 				error_num = 0;
 		} else if (func_ret != NULL) {
 			*func_ret = ret;
-			return 0.0;
+#ifdef HUGE_VAL
+			return HUGE_VAL;
+#else
+			return 0;
+#endif
 		}
 
 	}
@@ -1589,13 +1593,20 @@ call_func3 (GelCtx *ctx,
 	if (ret == NULL || ret->type != VALUE_NODE) {
 		*ex = TRUE;
 		gel_freetree (ret);
+#ifdef HUGE_VAL
+		return HUGE_VAL;
+#else
 		return 0;
+#endif
 	}
 
 	retd = mpw_get_double (ret->val.value);
 	if (error_num != 0) {
 		*ex = TRUE;
 		error_num = 0;
+#ifdef HUGE_VAL
+		retd = HUGE_VAL;
+#endif
 	}
 	
 	gel_freetree (ret);
@@ -1636,20 +1647,31 @@ call_func2 (GelCtx *ctx,
 				error_num = 0;
 		} else if (func_ret != NULL) {
 			*func_ret = ret;
-			return 0.0;
+#ifdef HUGE_VAL
+			return HUGE_VAL;
+#else
+			return 0;
+#endif
 		}
 	}
 
 	if (ret == NULL || ret->type != VALUE_NODE) {
 		*ex = TRUE;
 		gel_freetree (ret);
+#ifdef HUGE_VAL
+		return HUGE_VAL;
+#else
 		return 0;
+#endif
 	}
 
 	retd = mpw_get_double (ret->val.value);
 	if (error_num != 0) {
 		*ex = TRUE;
 		error_num = 0;
+#ifdef HUGE_VAL
+		retd = HUGE_VAL;
+#endif
 	}
 	
 	gel_freetree (ret);
@@ -1688,7 +1710,11 @@ call_func (GelCtx *ctx,
 				error_num = 0;
 		} else if (func_ret != NULL) {
 			*func_ret = ret;
-			return 0.0;
+#ifdef HUGE_VAL
+			return HUGE_VAL;
+#else
+			return 0;
+#endif
 		}
 
 	}
@@ -1696,13 +1722,20 @@ call_func (GelCtx *ctx,
 	if (ret == NULL || ret->type != VALUE_NODE) {
 		*ex = TRUE;
 		gel_freetree (ret);
+#ifdef HUGE_VAL
+		return HUGE_VAL;
+#else
 		return 0;
+#endif
 	}
 
 	retd = mpw_get_double (ret->val.value);
 	if (error_num != 0) {
 		*ex = TRUE;
 		error_num = 0;
+#ifdef HUGE_VAL
+		retd = HUGE_VAL;
+#endif
 	}
 	
 	gel_freetree (ret);
@@ -1742,8 +1775,13 @@ call_func_z (GelCtx *ctx,
 				error_num = 0;
 		} else if (func_ret != NULL) {
 			*func_ret = ret;
+#ifdef HUGE_VAL
+			*retx = HUGE_VAL;
+			*rety = HUGE_VAL;
+#else
 			*retx = 0.0;
 			*rety = 0.0;
+#endif
 			return;
 		}
 
@@ -1752,8 +1790,13 @@ call_func_z (GelCtx *ctx,
 	if (ret == NULL || ret->type != VALUE_NODE) {
 		*ex = TRUE;
 		gel_freetree (ret);
+#ifdef HUGE_VAL
+		*retx = HUGE_VAL;
+		*rety = HUGE_VAL;
+#else
 		*retx = 0.0;
 		*rety = 0.0;
+#endif
 		return;
 	}
 
@@ -1761,6 +1804,13 @@ call_func_z (GelCtx *ctx,
 	if (error_num != 0) {
 		*ex = TRUE;
 		error_num = 0;
+#ifdef HUGE_VAL
+		*retx = HUGE_VAL;
+		*rety = HUGE_VAL;
+#else
+		*retx = 0.0;
+		*rety = 0.0;
+#endif
 	}
 	
 	gel_freetree (ret);

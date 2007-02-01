@@ -1,3 +1,9 @@
+Wed Jan 31 23:01:00 2007  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c: use HUGE_VAL instead of 0.0 when we get an error,
+	  this is better in that it doesn't display anything rather then 0
+	  when for example the return value is not real.
+
 Mon Jan 29 18:49:07 2007  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c: do what we do on inside program runs, when
