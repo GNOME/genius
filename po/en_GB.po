@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-24 07:16+0000\n"
-"PO-Revision-Date: 2007-01-24 07:16-0000\n"
+"POT-Creation-Date: 2007-02-08 20:20+0000\n"
+"PO-Revision-Date: 2007-02-08 20:21-0000\n"
 "Last-Translator: David Lodge <dave@cirt.net>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -468,8 +468,8 @@ msgid "Direct sum of a vector of matrices"
 msgstr "Direct sum of a vector of matrices"
 
 #: ../lib/library-strings.c:114
-msgid "Get the eigenvalues of a matrix (Currently only for up to 3x3 or triangular matrices)"
-msgstr "Get the eigenvalues of a matrix (Currently only for up to 3x3 or triangular matrices)"
+msgid "Get the eigenvalues of a matrix (Currently only for up to 4x4 or triangular matrices)"
+msgstr "Get the eigenvalues of a matrix (Currently only for up to 4x4 or triangular matrices)"
 
 #: ../lib/library-strings.c:115
 msgid "Apply the Gram-Schmidt process (to the columns) with respect to inner product given by B (if not given use hermitian product)"
@@ -924,70 +924,74 @@ msgid "Find roots of a quadratic polynomial (given as vector of coefficients)"
 msgstr "Find roots of a quadratic polynomial (given as vector of coefficients)"
 
 #: ../lib/library-strings.c:228
+msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
+msgstr "Find roots of a quartic polynomial (given as vector of coefficients)"
+
+#: ../lib/library-strings.c:229
 msgid "Use classical non-adaptive Runge-Kutta of fourth order method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y at x1"
 msgstr "Use classical non-adaptive Runge-Kutta of fourth order method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y at x1"
 
-#: ../lib/library-strings.c:229
+#: ../lib/library-strings.c:230
 msgid "Calculate average of an entire matrix"
 msgstr "Calculate average of an entire matrix"
 
-#: ../lib/library-strings.c:230
+#: ../lib/library-strings.c:231
 msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 msgstr "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 
-#: ../lib/library-strings.c:231
+#: ../lib/library-strings.c:232
 msgid "The normalized Gauss distribution function (the normal curve)"
 msgstr "The normalized Gauss distribution function (the normal curve)"
 
-#: ../lib/library-strings.c:232
+#: ../lib/library-strings.c:233
 msgid "Calculate median of an entire matrix"
 msgstr "Calculate median of an entire matrix"
 
-#: ../lib/library-strings.c:233
+#: ../lib/library-strings.c:234
 msgid "Calculate the population standard deviation of a whole matrix"
 msgstr "Calculate the population standard deviation of a whole matrix"
 
-#: ../lib/library-strings.c:234
+#: ../lib/library-strings.c:235
 msgid "Calculate average of each row in a matrix"
 msgstr "Calculate average of each row in a matrix"
 
-#: ../lib/library-strings.c:235
+#: ../lib/library-strings.c:236
 msgid "Calculate median of each row in a matrix"
 msgstr "Calculate median of each row in a matrix"
 
-#: ../lib/library-strings.c:236
+#: ../lib/library-strings.c:237
 msgid "Calculate the population standard deviations of rows of a matrix and return a vertical vector"
 msgstr "Calculate the population standard deviations of rows of a matrix and return a vertical vector"
 
-#: ../lib/library-strings.c:237
+#: ../lib/library-strings.c:238
 msgid "Calculate the standard deviations of rows of a matrix and return a vertical vector"
 msgstr "Calculate the standard deviations of rows of a matrix and return a vertical vector"
 
-#: ../lib/library-strings.c:238
+#: ../lib/library-strings.c:239
 msgid "Calculate the standard deviation of a whole matrix"
 msgstr "Calculate the standard deviation of a whole matrix"
 
-#: ../lib/library-strings.c:239
+#: ../lib/library-strings.c:240
 msgid "Run newton's method on a polynomial to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns null)"
 msgstr "Run newton's method on a polynomial to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns null)"
 
-#: ../lib/library-strings.c:240
+#: ../lib/library-strings.c:241
 msgid "Returns a set where every element of X appears only once"
 msgstr "Returns a set where every element of X appears only once"
 
-#: ../lib/library-strings.c:241
+#: ../lib/library-strings.c:242
 msgid "Returns a set theoretic union of X and Y (X and Y are vectors pretending to be sets)"
 msgstr "Returns a set theoretic union of X and Y (X and Y are vectors pretending to be sets)"
 
-#: ../lib/library-strings.c:242
+#: ../lib/library-strings.c:243
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "Attempt to symbolically differentiate a function n times"
 
-#: ../lib/library-strings.c:243
+#: ../lib/library-strings.c:244
 msgid "Attempt to symbolically differentiate a function n times quietly and return null on failure"
 msgstr "Attempt to symbolically differentiate a function n times quietly and return null on failure"
 
-#: ../lib/library-strings.c:244
+#: ../lib/library-strings.c:245
 msgid "Attempt to construct the taylor approximation function around x0 to the nth degree."
 msgstr "Attempt to construct the taylor approximation function around x0 to the nth degree."
 
@@ -2019,7 +2023,7 @@ msgid "Generate random integer"
 msgstr "Generate random integer"
 
 #: ../src/funclib.c:5091
-#: ../src/gnome-genius.c:1165
+#: ../src/gnome-genius.c:1278
 msgid "Floating point precision"
 msgstr "Floating point precision"
 
@@ -2072,8 +2076,8 @@ msgid "Gets the columns of a matrix as a horizontal vector"
 msgstr "Gets the columns of a matrix as a horizontal vector"
 
 #: ../src/funclib.c:5110
-msgid "Gets the diagonal entries of a matrix as a horizontal vector"
-msgstr "Gets the diagonal entries of a matrix as a horizontal vector"
+msgid "Gets the diagonal entries of a matrix as a column vector"
+msgstr "Gets the diagonal entries of a matrix as a column vector"
 
 #: ../src/funclib.c:5111
 msgid "Count the number of zero columns in a matrix"
@@ -2634,7 +2638,7 @@ msgstr ""
 "\n"
 
 #: ../src/genius.c:434
-#: ../src/gnome-genius.c:3343
+#: ../src/gnome-genius.c:3510
 msgid "The only thing that interferes with my learning is my education.  -- Albert Einstein"
 msgstr "The only thing that interferes with my learning is my education.  -- Albert Einstein"
 
@@ -2679,166 +2683,198 @@ msgstr "Scripts"
 msgid "String"
 msgstr "String"
 
-#: ../src/gnome-genius.c:210
+#: ../src/gnome-genius.c:219
 msgid "_New Program"
 msgstr "_New Program"
 
-#: ../src/gnome-genius.c:210
-#: ../src/gnome-genius.c:319
+#: ../src/gnome-genius.c:219
+#: ../src/gnome-genius.c:346
 msgid "Create new program tab"
 msgstr "Create new program tab"
 
-#: ../src/gnome-genius.c:217
+#: ../src/gnome-genius.c:226
 msgid "_Reload from Disk"
 msgstr "_Reload from Disk"
 
-#: ../src/gnome-genius.c:217
+#: ../src/gnome-genius.c:226
 msgid "Reload the selected program from disk"
 msgstr "Reload the selected program from disk"
 
-#: ../src/gnome-genius.c:221
+#: ../src/gnome-genius.c:230
 msgid "_Load and Run..."
 msgstr "_Load and Run..."
 
-#: ../src/gnome-genius.c:221
+#: ../src/gnome-genius.c:230
 msgid "Load and execute a file in genius"
 msgstr "Load and execute a file in genius"
 
-#: ../src/gnome-genius.c:246
+#: ../src/gnome-genius.c:255
 msgid "Copy Answer As Plain _Text"
 msgstr "Copy Answer As Plain _Text"
 
-#: ../src/gnome-genius.c:247
+#: ../src/gnome-genius.c:256
 msgid "Copy last answer into the clipboard in plain text"
 msgstr "Copy last answer into the clipboard in plain text"
 
-#: ../src/gnome-genius.c:250
+#: ../src/gnome-genius.c:259
 msgid "Copy Answer As _LaTeX"
 msgstr "Copy Answer As _LaTeX"
 
-#: ../src/gnome-genius.c:251
+#: ../src/gnome-genius.c:260
 msgid "Copy last answer into the clipboard as LaTeX"
 msgstr "Copy last answer into the clipboard as LaTeX"
 
-#: ../src/gnome-genius.c:254
+#: ../src/gnome-genius.c:263
 msgid "Copy Answer As _MathML"
 msgstr "Copy Answer As _MathML"
 
-#: ../src/gnome-genius.c:255
+#: ../src/gnome-genius.c:264
 msgid "Copy last answer into the clipboard as MathML"
 msgstr "Copy last answer into the clipboard as MathML"
 
-#: ../src/gnome-genius.c:258
+#: ../src/gnome-genius.c:267
 msgid "Copy Answer As T_roff"
 msgstr "Copy Answer As T_roff"
 
-#: ../src/gnome-genius.c:259
+#: ../src/gnome-genius.c:268
 msgid "Copy last answer into the clipboard as Troff eqn"
 msgstr "Copy last answer into the clipboard as Troff eqn"
 
-#: ../src/gnome-genius.c:272
+#: ../src/gnome-genius.c:281
 msgid "_Run"
 msgstr "_Run"
 
-#: ../src/gnome-genius.c:272
-#: ../src/gnome-genius.c:318
+#: ../src/gnome-genius.c:281
+#: ../src/gnome-genius.c:345
 msgid "Run current program"
 msgstr "Run current program"
 
-#: ../src/gnome-genius.c:273
+#: ../src/gnome-genius.c:282
 msgid "_Interrupt"
 msgstr "_Interrupt"
 
-#: ../src/gnome-genius.c:273
-#: ../src/gnome-genius.c:316
+#: ../src/gnome-genius.c:282
+#: ../src/gnome-genius.c:343
 msgid "Interrupt current calculation"
 msgstr "Interrupt current calculation"
 
-#: ../src/gnome-genius.c:275
-#: ../src/graphing.c:3269
+#: ../src/gnome-genius.c:284
+msgid "Show _Full Answer"
+msgstr "Show _Full Answer"
+
+#: ../src/gnome-genius.c:284
+msgid "Show the full text of last answer"
+msgstr "Show the full text of last answer"
+
+#: ../src/gnome-genius.c:286
+#: ../src/graphing.c:3319
 msgid "_Plot"
 msgstr "_Plot"
 
-#: ../src/gnome-genius.c:275
-#: ../src/gnome-genius.c:321
+#: ../src/gnome-genius.c:286
+#: ../src/gnome-genius.c:348
 msgid "Plot a function"
 msgstr "Plot a function"
 
-#: ../src/gnome-genius.c:281
+#: ../src/gnome-genius.c:292
 msgid "_Help on Function"
 msgstr "_Help on Function"
 
-#: ../src/gnome-genius.c:282
+#: ../src/gnome-genius.c:293
 msgid "Help on a function or a command"
 msgstr "Help on a function or a command"
 
-#: ../src/gnome-genius.c:285
+#: ../src/gnome-genius.c:296
 msgid "_Warranty"
 msgstr "_Warranty"
 
-#: ../src/gnome-genius.c:286
+#: ../src/gnome-genius.c:297
 msgid "Display warranty information"
 msgstr "Display warranty information"
 
-#: ../src/gnome-genius.c:304
+#: ../src/gnome-genius.c:309
+msgid "_Next Tab"
+msgstr "_Next Tab"
+
+#: ../src/gnome-genius.c:309
+msgid "Go to next tab"
+msgstr "Go to next tab"
+
+#: ../src/gnome-genius.c:313
+msgid "_Previous Tab"
+msgstr "_Previous Tab"
+
+#: ../src/gnome-genius.c:313
+msgid "Go to previous tab"
+msgstr "Go to previous tab"
+
+#: ../src/gnome-genius.c:320
+msgid "_Console"
+msgstr "_Console"
+
+#: ../src/gnome-genius.c:321
+msgid "Go to the console tab"
+msgstr "Go to the console tab"
+
+#: ../src/gnome-genius.c:331
 msgid "_Calculator"
 msgstr "_Calculator"
 
-#: ../src/gnome-genius.c:306
+#: ../src/gnome-genius.c:333
 msgid "P_lugins"
 msgstr "P_lugins"
 
-#: ../src/gnome-genius.c:308
+#: ../src/gnome-genius.c:335
 msgid "_Programs"
 msgstr "_Programs"
 
-#: ../src/gnome-genius.c:316
+#: ../src/gnome-genius.c:343
 msgid "Interrupt"
 msgstr "Interrupt"
 
-#: ../src/gnome-genius.c:318
+#: ../src/gnome-genius.c:345
 msgid "Run"
 msgstr "Run"
 
-#: ../src/gnome-genius.c:319
+#: ../src/gnome-genius.c:346
 msgid "New"
 msgstr "New"
 
-#: ../src/gnome-genius.c:320
+#: ../src/gnome-genius.c:347
 msgid "Open"
 msgstr "Open"
 
-#: ../src/gnome-genius.c:320
+#: ../src/gnome-genius.c:347
 msgid "Open a GEL file for running"
 msgstr "Open a GEL file for running"
 
-#: ../src/gnome-genius.c:321
+#: ../src/gnome-genius.c:348
 #: ../src/graphing.c:1277
 msgid "Plot"
 msgstr "Plot"
 
-#: ../src/gnome-genius.c:322
+#: ../src/gnome-genius.c:349
 msgid "Exit"
 msgstr "Exit"
 
-#: ../src/gnome-genius.c:322
+#: ../src/gnome-genius.c:349
 msgid "Exit genius"
 msgstr "Exit genius"
 
-#: ../src/gnome-genius.c:406
+#: ../src/gnome-genius.c:433
 msgid "Help on Function"
 msgstr "Help on Function"
 
-#: ../src/gnome-genius.c:417
+#: ../src/gnome-genius.c:444
 msgid "Function or command name:"
 msgstr "Function or command name:"
 
-#: ../src/gnome-genius.c:450
+#: ../src/gnome-genius.c:477
 #, c-format
 msgid "<b>Help on %s not found</b>"
 msgstr "<b>Help on %s not found</b>"
 
-#: ../src/gnome-genius.c:454
+#: ../src/gnome-genius.c:481
 #, c-format
 msgid ""
 "<b>Help on %s not found</b>\n"
@@ -2849,15 +2885,21 @@ msgstr ""
 "\n"
 "Perhaps you meant %s."
 
-#: ../src/gnome-genius.c:499
+#: ../src/gnome-genius.c:532
 msgid "Error"
 msgstr "Error"
 
-#: ../src/gnome-genius.c:499
+#: ../src/gnome-genius.c:534
 msgid "Information"
 msgstr "Information"
 
-#: ../src/gnome-genius.c:554
+#. error
+#. always textbox
+#: ../src/gnome-genius.c:608
+msgid "Full Answer"
+msgstr "Full Answer"
+
+#: ../src/gnome-genius.c:621
 #, c-format
 msgid ""
 "\n"
@@ -2866,7 +2908,7 @@ msgstr ""
 "\n"
 "Too many errors! (%d followed)"
 
-#: ../src/gnome-genius.c:564
+#: ../src/gnome-genius.c:635
 #, c-format
 msgid "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
 msgstr "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
@@ -2875,21 +2917,21 @@ msgstr "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: ../src/gnome-genius.c:716
+#: ../src/gnome-genius.c:791
 msgid "translator-credits"
 msgstr ""
 "Gareth Owen <gowen72@yahoo.com>\n"
 "David Lodge <dave@cirt.net>"
 
-#: ../src/gnome-genius.c:735
+#: ../src/gnome-genius.c:810
 msgid "About Genius"
 msgstr "About Genius"
 
-#: ../src/gnome-genius.c:738
+#: ../src/gnome-genius.c:813
 msgid "The Gnome calculator style edition of the genius calculator.  For license/warranty details, type 'warranty' into the console."
 msgstr "The Gnome calculator style edition of the genius calculator.  For licence/warranty details, type 'warranty' into the console."
 
-#: ../src/gnome-genius.c:907
+#: ../src/gnome-genius.c:992
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -2897,67 +2939,79 @@ msgstr ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
 
-#: ../src/gnome-genius.c:915
+#: ../src/gnome-genius.c:1000
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr "There are unsaved programs, are you sure you wish to quit?"
 
-#: ../src/gnome-genius.c:922
+#: ../src/gnome-genius.c:1007
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr "Genius is executing something, are you sure you wish to quit?"
 
-#: ../src/gnome-genius.c:929
+#: ../src/gnome-genius.c:1014
 msgid "Are you sure you wish to quit?"
 msgstr "Are you sure you wish to quit?"
 
-#: ../src/gnome-genius.c:1036
+#: ../src/gnome-genius.c:1126
 msgid "Genius Setup"
 msgstr "Genius Setup"
 
-#: ../src/gnome-genius.c:1053
+#: ../src/gnome-genius.c:1144
 msgid "Output"
 msgstr "Output"
 
-#: ../src/gnome-genius.c:1056
+#: ../src/gnome-genius.c:1147
 msgid "Number/Expression output options"
 msgstr "Number/Expression output options"
 
-#: ../src/gnome-genius.c:1066
+#: ../src/gnome-genius.c:1157
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Maximum digits to output (0=unlimited)"
 
-#: ../src/gnome-genius.c:1086
+#: ../src/gnome-genius.c:1177
 msgid "Results as floats"
 msgstr "Results as floats"
 
-#: ../src/gnome-genius.c:1094
+#: ../src/gnome-genius.c:1185
 msgid "Floats in scientific notation"
 msgstr "Floats in scientific notation"
 
-#: ../src/gnome-genius.c:1102
+#: ../src/gnome-genius.c:1193
 msgid "Always print full expressions"
 msgstr "Always print full expressions"
 
-#: ../src/gnome-genius.c:1111
+#: ../src/gnome-genius.c:1201
+msgid "Use mixed fractions"
+msgstr "Use mixed fractions"
+
+#: ../src/gnome-genius.c:1209
+msgid "Remember output settings across sessions"
+msgstr "Remember output settings across sessions"
+
+#: ../src/gnome-genius.c:1218
+msgid "Should the output settings in the \"Number/Expression output options\" frame be remembered for next session.  Does not apply to the \"Error/Info output options\" frame."
+msgstr "Should the output settings in the \"Number/Expression output options\" frame be remembered for next session.  Does not apply to the \"Error/Info output options\" frame."
+
+#: ../src/gnome-genius.c:1224
 msgid "Error/Info output options"
 msgstr "Error/Info output options"
 
-#: ../src/gnome-genius.c:1119
+#: ../src/gnome-genius.c:1232
 msgid "Display errors in a dialog"
 msgstr "Display errors in a dialogue"
 
-#: ../src/gnome-genius.c:1127
+#: ../src/gnome-genius.c:1240
 msgid "Display information messages in a dialog"
 msgstr "Display information messages in a dialogue"
 
-#: ../src/gnome-genius.c:1138
+#: ../src/gnome-genius.c:1251
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Maximum errors to display (0=unlimited)"
 
-#: ../src/gnome-genius.c:1162
+#: ../src/gnome-genius.c:1275
 msgid "Precision"
 msgstr "Precision"
 
-#: ../src/gnome-genius.c:1172
+#: ../src/gnome-genius.c:1285
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -2967,35 +3021,43 @@ msgstr ""
 "for all numbers immediately, only new numbers calculated\n"
 "and new variables will be affected."
 
-#: ../src/gnome-genius.c:1181
+#: ../src/gnome-genius.c:1294
 msgid "Floating point precision (bits)"
 msgstr "Floating point precision (bits)"
 
-#: ../src/gnome-genius.c:1205
+#: ../src/gnome-genius.c:1313
+msgid "Remember precision setting across sessions"
+msgstr "Remember precision setting across sessions"
+
+#: ../src/gnome-genius.c:1322
+msgid "Should the precision setting be remembered for next session."
+msgstr "Should the precision setting be remembered for next session."
+
+#: ../src/gnome-genius.c:1331
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ../src/gnome-genius.c:1208
+#: ../src/gnome-genius.c:1333
 msgid "Terminal options"
 msgstr "Terminal options"
 
-#: ../src/gnome-genius.c:1217
+#: ../src/gnome-genius.c:1342
 msgid "Scrollback lines"
 msgstr "Scrollback lines"
 
-#: ../src/gnome-genius.c:1240
+#: ../src/gnome-genius.c:1365
 msgid "Font:"
 msgstr "Font:"
 
-#: ../src/gnome-genius.c:1255
+#: ../src/gnome-genius.c:1380
 msgid "Black on white"
 msgstr "Black on white"
 
-#: ../src/gnome-genius.c:1263
+#: ../src/gnome-genius.c:1388
 msgid "Blinking cursor"
 msgstr "Blinking cursor"
 
-#: ../src/gnome-genius.c:1293
+#: ../src/gnome-genius.c:1418
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -3005,62 +3067,62 @@ msgstr ""
 "\n"
 "Please try again later or interrupt the current operation."
 
-#: ../src/gnome-genius.c:1342
+#: ../src/gnome-genius.c:1467
 msgid "GEL files"
 msgstr "GEL files"
 
-#: ../src/gnome-genius.c:1347
+#: ../src/gnome-genius.c:1472
 #: ../src/graphing.c:904
 msgid "All files"
 msgstr "All files"
 
-#: ../src/gnome-genius.c:1381
-#: ../src/gnome-genius.c:2123
+#: ../src/gnome-genius.c:1506
+#: ../src/gnome-genius.c:2280
 msgid "Cannot open file!"
 msgstr "Cannot open file!"
 
-#: ../src/gnome-genius.c:1410
-#: ../src/gnome-genius.c:1428
+#: ../src/gnome-genius.c:1551
+#: ../src/gnome-genius.c:1569
 msgid "Load and Run"
 msgstr "Load and Run"
 
-#: ../src/gnome-genius.c:1414
+#: ../src/gnome-genius.c:1555
 msgid "_Load"
 msgstr "_Load"
 
-#: ../src/gnome-genius.c:1931
+#: ../src/gnome-genius.c:2088
 msgid "Cannot open file"
 msgstr "Cannot open file"
 
-#: ../src/gnome-genius.c:1963
-#: ../src/gnome-genius.c:2970
+#: ../src/gnome-genius.c:2120
+#: ../src/gnome-genius.c:3141
 #, c-format
 msgid "Line: %d"
 msgstr "Line: %d"
 
-#: ../src/gnome-genius.c:2045
+#: ../src/gnome-genius.c:2202
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Program_%d.gel"
 
-#: ../src/gnome-genius.c:2050
+#: ../src/gnome-genius.c:2207
 #, c-format
 msgid "Program %d"
 msgstr "Program %d"
 
-#: ../src/gnome-genius.c:2071
+#: ../src/gnome-genius.c:2228
 #, c-format
 msgid "Cannot open %s"
 msgstr "Cannot open %s"
 
-#: ../src/gnome-genius.c:2150
-#: ../src/gnome-genius.c:2169
+#: ../src/gnome-genius.c:2307
+#: ../src/gnome-genius.c:2326
 msgid "Open..."
 msgstr "Open..."
 
 #. new fname
-#: ../src/gnome-genius.c:2244
-#: ../src/gnome-genius.c:2299
+#: ../src/gnome-genius.c:2401
+#: ../src/gnome-genius.c:2456
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -3069,18 +3131,18 @@ msgstr ""
 "<b>Cannot save file</b>\n"
 "Details: %s"
 
-#: ../src/gnome-genius.c:2293
+#: ../src/gnome-genius.c:2450
 #: ../src/graphing.c:663
 #: ../src/graphing.c:790
 msgid "File already exists.  Overwrite it?"
 msgstr "File already exists.  Overwrite it?"
 
-#: ../src/gnome-genius.c:2350
-#: ../src/gnome-genius.c:2372
+#: ../src/gnome-genius.c:2507
+#: ../src/gnome-genius.c:2529
 msgid "Save As..."
 msgstr "Save As..."
 
-#: ../src/gnome-genius.c:2446
+#: ../src/gnome-genius.c:2603
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -3090,16 +3152,20 @@ msgstr ""
 "\n"
 "Create a new program, or select an existing tab in the notebook."
 
-#: ../src/gnome-genius.c:2551
+#: ../src/gnome-genius.c:2708
 #, c-format
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: ../src/gnome-genius.c:2763
+#. error
+#. always textbox
+#. textbox_title
+#. bind_response
+#: ../src/gnome-genius.c:2934
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Can't execute genius-readline-helper-fifo!\n"
 
-#: ../src/gnome-genius.c:2988
+#: ../src/gnome-genius.c:3159
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -3107,11 +3173,11 @@ msgstr ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
 
-#: ../src/gnome-genius.c:3222
+#: ../src/gnome-genius.c:3389
 msgid "Console"
 msgstr "Console"
 
-#: ../src/gnome-genius.c:3274
+#: ../src/gnome-genius.c:3441
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -3250,272 +3316,272 @@ msgstr "_Top view"
 msgid "R_otate axis..."
 msgstr "R_otate axis..."
 
-#: ../src/graphing.c:1961
+#: ../src/graphing.c:2011
 msgid "Function"
 msgstr "Function"
 
-#: ../src/graphing.c:1963
+#: ../src/graphing.c:2013
 #, c-format
 msgid "Function #%d"
 msgstr "Function #%d"
 
-#: ../src/graphing.c:1972
+#: ../src/graphing.c:2022
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: argument number %d not a number"
 
-#: ../src/graphing.c:1985
+#: ../src/graphing.c:2035
 msgid "Graph limits not given as a 4-vector"
 msgstr "Graph limits not given as a 4-vector"
 
-#: ../src/graphing.c:1991
-#: ../src/graphing.c:1997
-#: ../src/graphing.c:2003
-#: ../src/graphing.c:2009
-#: ../src/graphing.c:2068
-#: ../src/graphing.c:2074
-#: ../src/graphing.c:2080
-#: ../src/graphing.c:2086
-#: ../src/graphing.c:2092
-#: ../src/graphing.c:2098
+#: ../src/graphing.c:2041
+#: ../src/graphing.c:2047
+#: ../src/graphing.c:2053
+#: ../src/graphing.c:2059
+#: ../src/graphing.c:2118
+#: ../src/graphing.c:2124
+#: ../src/graphing.c:2130
+#: ../src/graphing.c:2136
+#: ../src/graphing.c:2142
+#: ../src/graphing.c:2148
 msgid "Graph limits not given as numbers"
 msgstr "Graph limits not given as numbers"
 
-#: ../src/graphing.c:2062
+#: ../src/graphing.c:2112
 msgid "Graph limits not given as a 6-vector"
 msgstr "Graph limits not given as a 6-vector"
 
-#: ../src/graphing.c:2479
+#: ../src/graphing.c:2529
 msgid "to:"
 msgstr "to:"
 
-#: ../src/graphing.c:2497
+#: ../src/graphing.c:2547
 msgid "by:"
 msgstr "by:"
 
-#: ../src/graphing.c:2559
+#: ../src/graphing.c:2609
 msgid "Type in function names or expressions involving the x variable in the boxes below to graph them"
 msgstr "Type in function names or expressions involving the x variable in the boxes below to graph them"
 
-#: ../src/graphing.c:2575
+#: ../src/graphing.c:2625
 msgid "_Functions / Expressions"
 msgstr "_Functions / Expressions"
 
-#: ../src/graphing.c:2583
+#: ../src/graphing.c:2633
 msgid "Type in function names or expressions involving the t variable in the boxes below to graph them.  Either fill in both boxes with x= and y= in front of them giving the x and y coordinates separately, or alternatively fill in the z= box giving x and y as the real and imaginary part of a complex number."
 msgstr "Type in function names or expressions involving the t variable in the boxes below to graph them.  Either fill in both boxes with x= and y= in front of them giving the x and y coordinates separately, or alternatively fill in the z= box giving x and y as the real and imaginary part of a complex number."
 
-#: ../src/graphing.c:2606
+#: ../src/graphing.c:2656
 msgid "or"
 msgstr "or"
 
 #. t range
-#: ../src/graphing.c:2621
+#: ../src/graphing.c:2671
 msgid "Parameter t from:"
 msgstr "Parameter t from:"
 
-#: ../src/graphing.c:2629
+#: ../src/graphing.c:2679
 msgid "_Parametric"
 msgstr "_Parametric"
 
-#: ../src/graphing.c:2631
-#: ../src/graphing.c:2686
+#: ../src/graphing.c:2681
+#: ../src/graphing.c:2736
 msgid "Plot Window"
 msgstr "Plot Window"
 
 #.
 #. * X range
 #.
-#: ../src/graphing.c:2640
-#: ../src/graphing.c:2695
+#: ../src/graphing.c:2690
+#: ../src/graphing.c:2745
 msgid "X from:"
 msgstr "X from:"
 
 #.
 #. * Y range
 #.
-#: ../src/graphing.c:2646
-#: ../src/graphing.c:2702
+#: ../src/graphing.c:2696
+#: ../src/graphing.c:2752
 msgid "Y from:"
 msgstr "Y from:"
 
-#: ../src/graphing.c:2661
+#: ../src/graphing.c:2711
 msgid "Function / Expression"
 msgstr "Function / Expression"
 
-#: ../src/graphing.c:2666
+#: ../src/graphing.c:2716
 msgid "Type a function name or an expression involving the x and y variables (or the z variable which will be z=x+iy) in the boxes below to graph them.  Functions with one argument only will be passed a complex number."
 msgstr "Type a function name or an expression involving the x and y variables (or the z variable which will be z=x+iy) in the boxes below to graph them.  Functions with one argument only will be passed a complex number."
 
 #.
 #. * Z range
 #.
-#: ../src/graphing.c:2709
+#: ../src/graphing.c:2759
 msgid "Z from:"
 msgstr "Z from:"
 
-#: ../src/graphing.c:2723
+#: ../src/graphing.c:2773
 msgid "Function _line plot"
 msgstr "Function _line plot"
 
-#: ../src/graphing.c:2727
+#: ../src/graphing.c:2777
 msgid "_Surface plot"
 msgstr "_Surface plot"
 
-#: ../src/graphing.c:2927
-#: ../src/graphing.c:3130
+#: ../src/graphing.c:2977
+#: ../src/graphing.c:3180
 msgid "No functions to plot or no functions could be parsed"
 msgstr "No functions to plot or no functions could be parsed"
 
-#: ../src/graphing.c:2958
-#: ../src/graphing.c:3161
+#: ../src/graphing.c:3008
+#: ../src/graphing.c:3211
 msgid "Invalid X range"
 msgstr "Invalid X range"
 
-#: ../src/graphing.c:2963
-#: ../src/graphing.c:3166
+#: ../src/graphing.c:3013
+#: ../src/graphing.c:3216
 msgid "Invalid Y range"
 msgstr "Invalid Y range"
 
-#: ../src/graphing.c:2968
+#: ../src/graphing.c:3018
 msgid "Invalid Z range"
 msgstr "Invalid Z range"
 
-#: ../src/graphing.c:3119
+#: ../src/graphing.c:3169
 msgid "Only specify x and y, or z, not all at once."
 msgstr "Only specify x and y, or z, not all at once."
 
-#: ../src/graphing.c:3138
+#: ../src/graphing.c:3188
 msgid "Invalid t range"
 msgstr "Invalid t range"
 
-#: ../src/graphing.c:3264
+#: ../src/graphing.c:3314
 msgid "Create Plot"
 msgstr "Create Plot"
 
-#: ../src/graphing.c:3304
-#: ../src/graphing.c:3449
+#: ../src/graphing.c:3354
+#: ../src/graphing.c:3499
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: argument not a function"
 
-#: ../src/graphing.c:3314
+#: ../src/graphing.c:3364
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: only one function supported"
 
-#: ../src/graphing.c:3381
-#: ../src/graphing.c:3500
-#: ../src/graphing.c:3629
-#: ../src/graphing.c:3760
+#: ../src/graphing.c:3431
+#: ../src/graphing.c:3550
+#: ../src/graphing.c:3679
+#: ../src/graphing.c:3810
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: invalid X range"
 
-#: ../src/graphing.c:3386
-#: ../src/graphing.c:3505
-#: ../src/graphing.c:3634
-#: ../src/graphing.c:3765
+#: ../src/graphing.c:3436
+#: ../src/graphing.c:3555
+#: ../src/graphing.c:3684
+#: ../src/graphing.c:3815
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: invalid Y range"
 
-#: ../src/graphing.c:3391
+#: ../src/graphing.c:3441
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: invalid Z range"
 
-#: ../src/graphing.c:3444
+#: ../src/graphing.c:3494
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: only up to 10 functions supported"
 
-#: ../src/graphing.c:3548
+#: ../src/graphing.c:3598
 #, c-format
 msgid "%s: First two arguments must be functions"
 msgstr "%s: First two arguments must be functions"
 
-#: ../src/graphing.c:3639
-#: ../src/graphing.c:3770
+#: ../src/graphing.c:3689
+#: ../src/graphing.c:3820
 #, c-format
 msgid "%s: invalid T range"
 msgstr "%s: invalid T range"
 
-#: ../src/graphing.c:3681
+#: ../src/graphing.c:3731
 #, c-format
 msgid "%s: First argument must be functions"
 msgstr "%s: First argument must be functions"
 
-#: ../src/graphing.c:3825
-#: ../src/graphing.c:3873
+#: ../src/graphing.c:3875
+#: ../src/graphing.c:3923
 #, c-format
 msgid "%s: Line should be given as a real, n by 2 matrix with columns for x and y, n>=2"
 msgstr "%s: Line should be given as a real, n by 2 matrix with columns for x and y, n>=2"
 
-#: ../src/graphing.c:3912
+#: ../src/graphing.c:3962
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: Wrong number of arguments"
 
-#: ../src/graphing.c:3951
+#: ../src/graphing.c:4001
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: No colour specified"
 
-#: ../src/graphing.c:3963
+#: ../src/graphing.c:4013
 #, c-format
 msgid "%s: Color must be a string"
 msgstr "%s: Colour must be a string"
 
-#: ../src/graphing.c:3972
+#: ../src/graphing.c:4022
 #, c-format
 msgid "%s: No thicnkess specified"
 msgstr "%s: No thicnkess specified"
 
-#: ../src/graphing.c:3988
+#: ../src/graphing.c:4038
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: Unknown style"
 
-#: ../src/graphing.c:3995
+#: ../src/graphing.c:4045
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: Bad parameter"
 
-#: ../src/graphing.c:4073
+#: ../src/graphing.c:4123
 msgid "Plotting"
 msgstr "Plotting"
 
 #. internal
-#: ../src/graphing.c:4075
+#: ../src/graphing.c:4125
 msgid "Plot a function with a line.  First come the functions (up to 10) then optionally limits as x1,x2,y1,y2"
 msgstr "Plot a function with a line.  First come the functions (up to 10) then optionally limits as x1,x2,y1,y2"
 
-#: ../src/graphing.c:4076
+#: ../src/graphing.c:4126
 msgid "Plot a parametric function with a line.  First come the functions for x and y then optionally the t limits as t1,t2,tinc, then optionally the limits as x1,x2,y1,y2"
 msgstr "Plot a parametric function with a line.  First come the functions for x and y then optionally the t limits as t1,t2,tinc, then optionally the limits as x1,x2,y1,y2"
 
-#: ../src/graphing.c:4077
+#: ../src/graphing.c:4127
 msgid "Plot a parametric complex valued function with a line.  First comes the function that returns x+iy then optionally the t limits as t1,t2,tinc, then optionally the limits as x1,x2,y1,y2"
 msgstr "Plot a parametric complex valued function with a line.  First comes the function that returns x+iy then optionally the t limits as t1,t2,tinc, then optionally the limits as x1,x2,y1,y2"
 
-#: ../src/graphing.c:4078
+#: ../src/graphing.c:4128
 msgid "Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
 msgstr "Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
 
-#: ../src/graphing.c:4080
+#: ../src/graphing.c:4130
 msgid "Show the line plot window and clear out functions"
 msgstr "Show the line plot window and clear out functions"
 
-#: ../src/graphing.c:4081
+#: ../src/graphing.c:4131
 msgid "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"
 msgstr "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"
 
-#: ../src/graphing.c:4083
+#: ../src/graphing.c:4133
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 
-#: ../src/graphing.c:4084
+#: ../src/graphing.c:4134
 msgid "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,z2]"
 msgstr "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,z2]"
 
