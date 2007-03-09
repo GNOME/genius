@@ -2702,7 +2702,7 @@ get_wordlist (const char *lst)
 #else
 	glob_t gl;
 	int i;
-	if G_UNLIKELY (glob (lst, 0, NULL, &gl) != 0) {
+	if G_UNLIKELY (glob (lst, GLOB_NOCHECK, NULL, &gl) != 0) {
 		gel_errorout (_("Can't expand '%s'"), lst);
 		return NULL;
 	}
