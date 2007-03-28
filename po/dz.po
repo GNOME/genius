@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius.HEAD.pot (modified)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-25 04:23+0100\n"
-"PO-Revision-Date: 2007-01-17 00:01+0530\n"
+"POT-Creation-Date: 2007-01-30 03:20+0000\n"
+"PO-Revision-Date: 2007-03-27 22:16+0530\n"
 "Last-Translator: yangka <yanang_ka@hotmail.com>\n"
 "Language-Team: dzongkha <pgeyleg@dit.gov.bt>\n"
 "MIME-Version: 1.0\n"
@@ -470,8 +470,8 @@ msgid "Direct sum of a vector of matrices"
 msgstr "མེ་ཊེགསི་སི་གི་མཉམ་ཐིག་ཅིག་གི་ཐད་ཀར་བསྡོམས།"
 
 #: ../lib/library-strings.c:114
-msgid "Get the eigenvalues of a matrix (Currently only for 2x2 and triangular matrices)"
-msgstr "མེ་ཊེགསི་ཅིག་གི་་ཨི་ཇིན་གནས་གོང་ཚུ་ལེན(ད་ལྟོ་ ༢x༢ རྐྱངམ་ཅིག་གི་དོན་ལུ་དང་མེ་ཊེགསི་སི་ཟུར་གསུམ་མ་གི་དོན་ལུ།)"
+msgid "Get the eigenvalues of a matrix (Currently only for up to 4x4 or triangular matrices)"
+msgstr "མེ་ཊེགསི་ཅིག་གི་་ཨི་ཇིན་གནས་གོང་ཚུ་ལེན(ད་ལྟོ་ ༤x༤ རྐྱངམ་ཅིག་གི་དོན་ལུ་དང་མེ་ཊེགསི་སི་ཟུར་གསུམ་མ་གི་དོན་ལུ།)"
 
 #: ../lib/library-strings.c:115
 msgid "Apply the Gram-Schmidt process (to the columns) with respect to inner product given by B (if not given use hermitian product)"
@@ -522,466 +522,478 @@ msgid "Is a matrix normal"
 msgstr "མེ་ཊེགསི་ཅིག་སྤྱིར་བཏང་་།"
 
 #: ../lib/library-strings.c:127
+msgid "Is a matrix positive definite"
+msgstr "མེ་ཊེགསི་ཡོདཔ་ངེས་གཏན་ཅིག་ཨིན།"
+
+#: ../lib/library-strings.c:128
+msgid "Is a matrix positive semidefinite"
+msgstr "མེ་ཊེགསི་ཡོད་པའི་སི་མི་ངེས་གཏན་ཅིག་ཨིན།"
+
+#: ../lib/library-strings.c:129
 msgid "Is a matrix skew-hermitian"
 msgstr "མེ་ཊེགསི་གསེག་ལོག་ཧར་མིཊི་ཡཱན་ཅིག་ཨིན།"
 
-#: ../lib/library-strings.c:128
+#: ../lib/library-strings.c:130
 msgid "Is a matrix unitary"
 msgstr "མེ་ཊེགསི་ཆ་ཕྲན་ཅན་ཅིག་ཨིན།"
 
-#: ../lib/library-strings.c:129
+#: ../lib/library-strings.c:131
 msgid "Get the jordan block corresponding to lambda and n"
 msgstr "ལམ་ཌ་དང་ཨེན་ལུ་ཆ་མཉམ་པའི་ཇོར་ཌན་ལེབ་དུམ་འདི་ལེན།"
 
-#: ../lib/library-strings.c:130
+#: ../lib/library-strings.c:132
 msgid "Get the kernel (nullspace) of a linear transform"
 msgstr "ཐིག་གི་བཟོ་བསྒྱུར་ཅིག་གི་(སྟོང་ཆ་བར་སྟོང་)ཀར་ནེལ་འདི་ལེན།"
 
-#: ../lib/library-strings.c:131
+#: ../lib/library-strings.c:133
 msgid "Get the LU decomposition of A and store the result in the L and U which should be references.  If not possible returns false."
 msgstr "ཨེ་གི་ཨེལ་ཡུ་ཆ་ཤས་སུ་བགོ་ནི་འདི་ལེན་ནི་དང་འགྲུབ་འབྲས་འདི་ཨེལ་ནང་གསགོ་འཇོག་འབད་ནི་དང་ཡུ་འདི་གཞི་བསྟུན་འབད་དགོཔ་ཨིན། མི་ཚུགས་པ་ཅིན་རྫུན་མ་སླར་ལོགཔ་ཨིན།"
 
-#: ../lib/library-strings.c:132
+#: ../lib/library-strings.c:134
 msgid "Get the i-j minor of a matrix"
 msgstr "མེ་ཊེགསི་ཅིག་གི་ཨའི་-ཇེ་ཆུང་ཀུ་འདི་ལེན།"
 
-#: ../lib/library-strings.c:133
+#: ../lib/library-strings.c:135
 msgid "Return the columns that are not the pivot columns of a matrix"
 msgstr "མེ་ཊེགསི་ཅིག་གི་ཀེར་ཕྲང་ལྟེ་ཤིང་མེན་མི་ཀེར་ཕྲང་འདི་ལུ་སླར་ལོག"
 
-#: ../lib/library-strings.c:134
+#: ../lib/library-strings.c:136
 msgid "Get the p Norm (or 2 Norm if no p is supplied) of a vector"
 msgstr "མཉམ་ཐིག་་ཅིག་གི་(ཡང་ན་པི་འདི་བཀྲམ་སྤེལ་མ་འབད་བ་ཅིན་སྤྱིར་བཏང་ ༢ )སྤྱིར་བཏང་པི་འདི་ལེན།"
 
-#: ../lib/library-strings.c:135
+#: ../lib/library-strings.c:137
 msgid "Get the nullspace of a matrix"
 msgstr "མེ་ཊེགསི་ཅིག་གི་སྟོང་ཆ་བར་སྟོང་འདི་ལེན།"
 
-#: ../lib/library-strings.c:136
+#: ../lib/library-strings.c:138
 msgid "Get the nullity of a matrix"
 msgstr "མེ་ཊེགསི་ཅིག་གི་སྟོང་ཆ་འདི་ལེན།"
 
-#: ../lib/library-strings.c:137
+#: ../lib/library-strings.c:139
 msgid "Get the orthogonal complement of the columnspace"
 msgstr "ཀེར་ཕྲང་བར་སྟོང་འདི་གི་གཡས་ཕྱོགས་གཡོ་བ་ལྷན་ཐབས་འདི་ལེན།"
 
-#: ../lib/library-strings.c:138
+#: ../lib/library-strings.c:140
 msgid "Return pivot columns of a matrix, that is columns which have a leading 1 in rref form, also returns the row where they occur"
 msgstr "ཨར་རིཕ་འབྲི་ཤོག་ནང་ ༡ སྔོན་བསྐྱོད་ཅིག་ཡོད་མི་ཀེར་ཐིག་ཚུ་ གཞན་ཡང་ག་འབྱུང་ས་གྱལ་འདི་སླར་ལོག་མི་མེ་ཊེགསི་ཅིག་གི་ལྟེ་ཤིང་ཀེར་ཐིག་ཚུ་སླར་ལོག"
 
-#: ../lib/library-strings.c:139
+#: ../lib/library-strings.c:141
 msgid "Projection of vector v onto subspace W given a sesquilinear form B (if not given use hermitian product)"
 msgstr "བྱིན་ཡོད་མི་སིསི་ཀིའི་ལའི་ནར་འབྲི་ཤོག་ཌབ་ལུ་བར་སྟོང་ཡན་ལག་གུ་ཝི་མཉམ་ཐིག་གི་ལས་འགུལ་བཟོ་ནི (if not given use hermitian product)།"
 
-#: ../lib/library-strings.c:140
+#: ../lib/library-strings.c:142
 msgid "Get the QR decomposition of A, returns R and Q can be a reference"
 msgstr "ཨེ་གི་ཀིའུ་ཨར་ཆ་ཤས་སུ་བགོ་ནི་འདི་ལེན་ཨར་སླར་ལོགཔ་དང་ཀིའུ་འདི་གཞི་བསྟུན་འབད་བཏུབ་ཨིན།"
 
-#: ../lib/library-strings.c:141
-msgid "Return the Raleigh Quotient of a matrix and a vector"
-msgstr "མེ་ཊེགསི་དང་མཉམ་ཐིག་ཅིག་གི་ར་ལིག་ཐོབ་གྲངས་འདི་སླར་ལོག"
-
-#: ../lib/library-strings.c:142
+#: ../lib/library-strings.c:143
 msgid "Get the rank of a matrix"
 msgstr "མེ་ཊེགསི་ཅིག་གི་རཱནཀ་འདི་ལེན།"
 
-#: ../lib/library-strings.c:143
+#: ../lib/library-strings.c:144
+msgid "Return the Rayleigh quotient of a matrix and a vector"
+msgstr "མེ་ཊེགསི་དང་མཉམ་ཐིག་ཅིག་གི་ ར་ལིག་ཐོབ་གྲངས་འདི་སླར་ལོག"
+
+#: ../lib/library-strings.c:145
 msgid "Rosser matrix, a classic symmetric eigenvalue test problem"
 msgstr "རོསི་སིཨར་མེ་ཊེགསི་ སྔོན་སྲོལ་མཛོས་སྙོམས་ཨི་ཇེན་གནས་གོང་བརྟག་ཞིབ་དཀའ་ངལ།"
 
-#: ../lib/library-strings.c:144
+#: ../lib/library-strings.c:146
 msgid "Rotation around origin in R^2"
 msgstr " R^2 ནང་འགོ་ཐོག་བྱུང་ས་མཐའ་འཁོར་བསྒྱིར།"
 
-#: ../lib/library-strings.c:145
+#: ../lib/library-strings.c:147
 msgid "Rotation around origin in R^3 about the x-axis"
 msgstr "ཨེགསི་-ཚད་ཐིག་སྐོར་ལས་ R^3 ནང་འགོ་ཐོག་བྱུང་ས་མཐའ་འཁོར་བསྒྱིར།"
 
-#: ../lib/library-strings.c:146
+#: ../lib/library-strings.c:148
 msgid "Rotation around origin in R^3 about the y-axis"
 msgstr "ཝའི་ཚད་ཐིག་འདི་གི་སྐོར་ལས་ R^3 ནང་འགོ་ཐོག་བྱུང་ས་མཐའ་འཁོར་བསྒྱིར།"
 
-#: ../lib/library-strings.c:147
+#: ../lib/library-strings.c:149
 msgid "Rotation around origin in R^3 about the z-axis"
 msgstr "ཛེཌི་-ཚད་ཐིག་འདི་གི་སྐོར་ལས་R^3ནང་འགོ་ཐོག་བྱུང་ས་མཐའ་འཁོར་བསྒྱིར།"
 
-#: ../lib/library-strings.c:148
+#: ../lib/library-strings.c:150
 msgid "Get a basis matrix for the rowspace of a matrix"
 msgstr "མེ་ཊེགསི་ཅིག་གི་གྱལ་བར་སྟོང་འདི་གི་དོན་ལུ་མེ་ཊེགསི་གཞི་རྩ་ཅིག་ལེན།"
 
-#: ../lib/library-strings.c:149
+#: ../lib/library-strings.c:151
 msgid "Evaluate (v,w) with respect to the sesquilinear form given by the matrix A"
 msgstr "ཨེ་མེ་ཊེགསི་འདི་གིས་བྱིན་ཡོད་མི་ལཱ་ཡུན་ཀིའུཡིལ་འབྲི་ཤོག་འདི་ལུ་བརྩི་བསྐུར་དང་གཅིག་ཁར་་(ཝི་ཌབ་ལུ་)བརྟག་ཞིབ་འབད།"
 
-#: ../lib/library-strings.c:150
+#: ../lib/library-strings.c:152
 msgid "Return a function that evaluates two vectors with respect to the sesquilinear form given by A"
 msgstr "ཨེ་གིས་བྱིན་ཡོད་མི་ལས་ལཱ་ཡུན་ཀུཡིལ་ཐིག་གི་འདི་ལུ་བརྩི་བསྐུར་དང་གཅིག་ཁར་་མཉམ་ཐིག་གཉིས་བརྟག་ཞིབ་མི་་ལས་འགན་དེ་སླར་ལོག"
 
-#: ../lib/library-strings.c:151
+#: ../lib/library-strings.c:153
 msgid "Smith Normal Form for fields (will end up with 1's on the diagonal)"
 msgstr "སི་མིཊི་སྤྱིར་བཏང་འབྲི་ཤོག་ས་སྒོ་ཚུ་གི་དོན་ལུ་ (will end up with 1's on the diagonal)།"
 
-#: ../lib/library-strings.c:152
+#: ../lib/library-strings.c:154
 msgid "Smith Normal Form for square integer matrices (not its characteristic)"
 msgstr "གྲུ་བཞི་ཧྲིལ་གྲངས་མེ་ཊེགསི་སི་གི་དོན་ལུ་སིམིཊི་སྤྱིར་བཏང་འབྲི་ཤོག (not its characteristic)།"
 
-#: ../lib/library-strings.c:153
+#: ../lib/library-strings.c:155
 msgid "Return the Toeplitz matrix constructed given the first column c and (optionally) the first row r."
 msgstr "ཀེར་ཐིག་དང་པམ་སི་དང་ (optionally) གྱལ་དང་པམ་ཨར་་བྱིན་ཡོད་མི་ཊོ་པིལིཛི་མེ་ཊེགསི་བཟོ་བསྐྲུན་འབད་ཡོད་མི་འདི་སླར་ལོག"
 
-#: ../lib/library-strings.c:154
+#: ../lib/library-strings.c:156
 msgid "Calculate the trace of a matrix"
 msgstr "མེ་ཊེགསི་ཅིག་གི་བརྗེ་འཚོལ་འདི་རྩིས་སྟོན་འབད།"
 
-#: ../lib/library-strings.c:155
+#: ../lib/library-strings.c:157
 msgid "Transpose of a matrix"
 msgstr "མེ་ཊེགསི་ཅིག་གི་ཊརནསི་པོསི་"
 
-#: ../lib/library-strings.c:156
+#: ../lib/library-strings.c:158
 msgid "Return the Vandermonde matrix"
 msgstr "མེ་ཊེགསི་ཝེན་ཌར་མོནཌི་འདི་སླར་ལོག"
 
-#: ../lib/library-strings.c:157
+#: ../lib/library-strings.c:159
 msgid "The angle of two vectors, given an inner product"
 msgstr "ནང་གི་ཐོན་རྐྱེན་ཅིག་བྱིན་ཡོད་མི་མཉམ་ཐིག་གཉིས་ཀྱི་གྲུ་ཟུར་འདི་"
 
-#: ../lib/library-strings.c:158
+#: ../lib/library-strings.c:160
 msgid "The direct sum of the vector spaces M and N"
 msgstr "མཉམ་ཐིག་བར་སྟོང་ཨེམ་དང་ཨེན་འདི་གི་ཐད་ཀར་བསྡོམས་འདི།"
 
-#: ../lib/library-strings.c:159
+#: ../lib/library-strings.c:161
 msgid "Intersection of the subspaces given by M and N"
 msgstr "ཨེམ་དང་ཨེན་གྱིས་བྱིན་ཡོད་མི་བར་སྟོང་ཡན་ལག་ཚུ་གི་ཕན་ཚུན་དབྱེ་ཚན།"
 
-#: ../lib/library-strings.c:160
+#: ../lib/library-strings.c:162
 msgid "The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}"
 msgstr "ཨེམ་དང་ཨེན་མཉམ་ཐིག་བར་སྟོང་འདི་གི་བསྡོམས་འདི་ཡང་ {w | w=m+n, m in M, n in N}"
 
-#: ../lib/library-strings.c:161
+#: ../lib/library-strings.c:163
 msgid "Get the classical adjoint (adjugate) of a matrix"
 msgstr "མེ་ཊེགསི་ཅིག་གི་(ཨེཌི་ཇུ་གེཊི)སྔོནས་སྲོལ་གྱི་ཨེཌི་ཇོའིནཊི་འདི་ལེན།"
 
-#: ../lib/library-strings.c:162
+#: ../lib/library-strings.c:164
 msgid "Compute the Column Reduced Echelon Form"
 msgstr "མར་ཕབ་ཡོད་མི་ཨིཆི་ལོན་འབྲི་ཤོག་ཀེར་ཐིག་འདི་རྩིས་བརྐྱབ།"
 
-#: ../lib/library-strings.c:163
+#: ../lib/library-strings.c:165
 msgid "Get n'th catalan number"
 msgstr "ཨེན་ཊི་ཨེཆ་ཀེ་ཊ་ལཱན་ཨང་ལེན།"
 
-#: ../lib/library-strings.c:164
+#: ../lib/library-strings.c:166
 msgid "Double factorial: n(n-2)(n-4)..."
 msgstr "ཆ་རྐྱེན་གཉིས་ལྡན།: ཨེན(ཨེན་-༢)(ཨེན་-༤)..."
 
-#: ../lib/library-strings.c:165
+#: ../lib/library-strings.c:167
 msgid "Factorial: n(n-1)(n-2)..."
 msgstr "ཆརྐྱེན།: ཨེན(ཨེན-༡(ཨེན-༢)..."
 
-#: ../lib/library-strings.c:166
+#: ../lib/library-strings.c:168
 msgid "Falling factorial: (n)_k = n(n-1)...(n-(k-1))"
 msgstr "ཆ་རྐྱེན་འབུད་ནི།: (ཨེན)ཀེ= ཨེན(ཨེན-༡)...(ཨེན-(ཀེ-༡))"
 
-#: ../lib/library-strings.c:167
+#: ../lib/library-strings.c:169
 msgid "Calculate n'th fibbonachi number"
 msgstr "ཨེན་ཊི་ཨེཆ་ཕིབ་བོན་ཆི་ཨང་རྩིས་སྟོན།"
 
-#: ../lib/library-strings.c:168
+#: ../lib/library-strings.c:170
 msgid "Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))"
 msgstr "ཐིག་གི་མཉམ་མཐུད་འབད་མི་ལམ་ལུགས་ཅིག་བྱིན་ཡོད་མི་་མེ་ཊེགསི་གེ་ལོ་སིསི་ (a_1*x_+...+a_n*x_n=x_(n+1))"
 
-#: ../lib/library-strings.c:169
+#: ../lib/library-strings.c:171
 msgid "Harmonic Number, the nth harmonic number of order r"
 msgstr "ཨར་གོ་རིམ་གྱི་ཧར་མོ་ནིཀ་ཨེན་ཊི་ཨེཆ་འདི་ ཧར་་མོནིཀ་ཨང་།"
 
-#: ../lib/library-strings.c:170
+#: ../lib/library-strings.c:172
 msgid "Hofstadter's function q(n) defined by q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q(n-2))"
 msgstr "ཀའུ་གིས་ངེས་འཛིན་འབད་ཡོད་མི་ཧོཕསི་ཊཌི་ཊར་གྱི་(ཨེན)ཀིའུ་ལས་འགན་(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q(n-2))"
 
-#: ../lib/library-strings.c:171
+#: ../lib/library-strings.c:173
 msgid "Compute linear recursive sequence using galois stepping"
 msgstr "རྩིས་བརྐྱབ་ཐིག་གི་ལོག་རིམ་འབྱུང་རིམ་གྱིས་གེ་ལོའིསི་གོ་རིམ་ལག་ལེན་འཐབ་དོ།"
 
-#: ../lib/library-strings.c:172
+#: ../lib/library-strings.c:174
 msgid "Calculate multinomial coefficients"
 msgstr "སྣ་མང་ནོ་མེལ་གྲངས་རྟགས་རྩིས་སྟོན།"
 
-#: ../lib/library-strings.c:173
+#: ../lib/library-strings.c:175
 msgid "Get the pascal's triangle as a matrix"
 msgstr "པཱསི་ཀལ་གྱི་ཟུར་གསུམ་མ་མེ་ཊེགསི་བཟུམ་སྦེ་ལེན།"
 
-#: ../lib/library-strings.c:174
+#: ../lib/library-strings.c:176
 msgid "(Puchhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))"
 msgstr "(པུཨེཆ་ཧེ་མར) ཆ་རྐྱེན་ཡར་འཕར་འགྱོ་དོ་: (n)_k = n(n+1)...(n+(k-1))"
 
-#: ../lib/library-strings.c:175
+#: ../lib/library-strings.c:177
 msgid "Subfactorial: n! times sum_{k=1}^n (-1)^k/k!"
 msgstr "ཆ་རྐྱེན་ཡན་ལག་l: ཨེན་! དུས་ཚོད་བསྡོམས_{k=1}^n (-1)^k/k!"
 
-#: ../lib/library-strings.c:176
+#: ../lib/library-strings.c:178
 msgid "Calculate the nth triangular number"
 msgstr "ཨེན་ཊི་ཨེཆ་ཟུར་གསུམ་མ་ཨང་འདི་རྩིས་སྟོན།"
 
-#: ../lib/library-strings.c:177
+#: ../lib/library-strings.c:179
 msgid "Calculate combinations (binomial coefficient)"
 msgstr "མཉམ་མཐུད་འབད་ནི་ཚུ་རྩིས་སྟོན(བའི་ནོ་མེལ་གྲངས་རྟགས)"
 
-#: ../lib/library-strings.c:178
+#: ../lib/library-strings.c:180
 msgid "Calculate permutations"
 msgstr "གོ་རིམ་བརྗེ་སྒྱུར་ཚུ་རྩིས་སྟོན།"
 
-#: ../lib/library-strings.c:179
+#: ../lib/library-strings.c:181
 msgid "Integration of f by Composite Simpson's Rule on the interval [a,b] with the number of steps calculated by the fourth derivative bound and the desired tolerance"
 msgstr "འགྱུར་་མཐའ་མཚམས་བཞི་པ་དང་རེ་འདུན་ཡོད་མི་བཟོ་བསྲན་གྱིས་རྩིས་བཏོན་ཡོད་མི་གོ་རིམ་ཚུ་གི་ཨང་དང་གཅིག་ཁར་[a,b] བར་མཚམས་འདི་གུ་སྣ་སྡུད་ཅན་སིམ་སོན་གྱི་ལམ་ལུགས་ཀྱིས་ཨེཕ་གི་མཉམ་སྒྲིལ།"
 
-#: ../lib/library-strings.c:180
+#: ../lib/library-strings.c:182
 msgid "Attempt to calculate derivative by trying first symbolically and then numerically"
 msgstr "འགྱུར་བ་རྩིས་སྟོན་ནི་ལུ་དང་པ་བརྡ་མཚོན་དང་དེ་ལས་ཨང་གྲངས་ཀྱི་འབད་རྩོལ་གྱིས་དཔའ་བཅམ་ཨིན།"
 
-#: ../lib/library-strings.c:181
+#: ../lib/library-strings.c:183
 msgid "Try to calculate an infinite product for a single parameter function"
 msgstr "ཚད་བཟུང་ལས་འགན་རྐྱང་པ་ཅིག་གི་དོན་ལུ་ཚད་མེད་ཐོན་རྐྱེན་ཅིག་རྩིས་སྟོན་ནི་ལུ་འབད་རྩོལ།"
 
-#: ../lib/library-strings.c:182
+#: ../lib/library-strings.c:184
 msgid "Try to calculate an infinite product for a double parameter function with func(arg,n)"
 msgstr "ཚཐ་བཟུང་ལས་འགན་གཉིས་ལྡན་དང་གཅིག་ཁར་ལས་འགན་(ཨེ་ཨར་ཇི་ ཨེན)ཅིག་གི་དོན་ལུ་ཚད་མེད་ཐོན་རྐྱེན་ཅིག་རྩིས་སྟོན་ནི་ལུ་འབད་རྩོལ།"
 
-#: ../lib/library-strings.c:183
+#: ../lib/library-strings.c:185
 msgid "Try to calculate an infinite sum for a single parameter function"
 msgstr "ཚད་བཟུང་ལས་འགན་རྐྱང་པ་ཅིག་གི་དོན་ལུ་ཚད་མེད་བསྡོམས་ཅིག་རྩིས་སྟོན་ནི་ལུ་འབད་རྩོལ།"
 
-#: ../lib/library-strings.c:184
+#: ../lib/library-strings.c:186
 msgid "Try to calculate an infinite sum for a double parameter function with func(arg,n)"
 msgstr "ཚད་བཟུང་ལས་འགན་གཉིས་ལྡན་དང་གཅིག་ཁར་ལས་འགན་(ཨེ་ཨར་ཇི་ ཨེན་)ཅིག་གི་དོན་ལུ་ཚད་མེད་བསྡོམས་ཅིག་རྩིས་སྟོན་ནི་ལུ་འབད་རྩོལ།"
 
-#: ../lib/library-strings.c:185
+#: ../lib/library-strings.c:187
 msgid "Try and see if a real-valued function is continuous at x0 by calculating the limit there"
 msgstr "འདི་ཁར་ཚད་འདི་རྩིས་བཏོན་ནི་གིས་ཨེགས་ལུ་༠ ལུ་འཕྲོ་མཐུད་འདི་གནས་གོང་ཡོད་མི་ལས་འགན་ངོ་མ་ཅིག་ཨིན་པ་ཅིན་བལྟ་འབད་རྩོལ་འབད།"
 
-#: ../lib/library-strings.c:186
+#: ../lib/library-strings.c:188
 msgid "Test for differentiability by approximating the left and right limits and comparing"
 msgstr "གཡོན་དང་གཡས་ཚད་ཚུ་ག་བསྡུར་ཧ་ལམ་གྱིས་སོ་སོ་ཁ་འཕྲལ་བཏུབ་དོན་ལུ་བརྟག་ཞིབ་འབད།"
 
-#: ../lib/library-strings.c:187
+#: ../lib/library-strings.c:189
 msgid "Calculate the left limit of a real-valued function at x0"
 msgstr "ཨེགསི་༠ ལུ་གནས་གོང་ངོ་མ་ཡོད་མི་ལས་འགན་ཅིག་གི་ཚད་ལུས་མི་འདི་རྩིས་སྟོན།"
 
-#: ../lib/library-strings.c:188
+#: ../lib/library-strings.c:190
 msgid "Calculate the limit of a real-valued function at x0.  Tries to calculate both left and right limits."
 msgstr "ཨེགསི་༠ ལུ་ངོ་མ་གནས་གོང་ཡོད་མི་ལས་འགན་ཅིག་གི་ཚད་འདི་རྩིས་སྟོན། གཡོན་དང་གཡས་ཀྱི་ཚད་ཚུ་རྩིས་སྟོན་ནི་འབད་རྩོལ་འབདཝ་ཨིན།"
 
-#: ../lib/library-strings.c:189
+#: ../lib/library-strings.c:191
 msgid "Integration by midpoint rule"
 msgstr "དབུས་རྩིས་ལམ་ལུགས་ཀྱིས་མཉམ་སྒྲིལ་"
 
-#: ../lib/library-strings.c:190
+#: ../lib/library-strings.c:192
 msgid "Attempt to calculate numerical derivative"
 msgstr "ཨང་གྲངས་ཀྱི་འགྱུར་བ་རྩིས་སྟོན་ནི་ལུ་དཔའ་བཅམ།"
 
-#: ../lib/library-strings.c:191
+#: ../lib/library-strings.c:193
 msgid "Integration by rule set in NumericalIntegralFunction of f from a to b using NumericalIntegralSteps steps"
 msgstr "ཨང་གྲངས་ཀྱི་མཉམ་སྒྲིལ་གོ་རིམ་ཚུ་་གོ་རིམ་སྦེ་ལག་ལེན་འཐབ་དེ་ཨེ་ལས་བི་ལུ་ཨང་གྲངས་ཀྱི་མཉམ་སྒྲིལ་ལས་འགན་ནང་ལམ་ལུགས་གཞི་སྒྲིག་གིས་མཉམ་སྒྲིལ་འབད།"
 
-#: ../lib/library-strings.c:192
+#: ../lib/library-strings.c:194
 msgid "Attempt to calculate numerical left derivative"
 msgstr "ཨང་གྲངས་ཀྱི་གཡོན་འགྱུར་བ་རྩིས་སྟོན་ནི་ལུ་དཔའ་བཅམ།"
 
-#: ../lib/library-strings.c:193
+#: ../lib/library-strings.c:195
 msgid "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N"
 msgstr "ཨེཕ་(step_fun(i)) བཟུམ་སྦེ་ཨའི་ ༡ ལས་ ཨེན་ལུ་འགྱོ་མི་བཟུམ་གྱི་ཚད་འདི་རྩིས་སྟོན་ནི་ལུ་དཔའ་བཅམ།"
 
-#: ../lib/library-strings.c:194
+#: ../lib/library-strings.c:196
 msgid "Attempt to calculate numerical right derivative"
 msgstr "ཨང་གྲངས་ཀྱི་གཡས་འགྱུར་བ་རྩིས་སྟོན་ནི་ལུ་དཔའ་བཅམ།"
 
-#: ../lib/library-strings.c:195
+#: ../lib/library-strings.c:197
 msgid "Compute one-sided derivative using five point formula"
 msgstr "མན་ངག་ཚད་ལྔ་ལག་ལེན་འཐབ་དེ་འགྱུར་བ་ཟུར་གཅིག་ཡོད་མི་རྩིས་བརྐྱབ།"
 
-#: ../lib/library-strings.c:196
+#: ../lib/library-strings.c:198
 msgid "Compute one-sided derivative using three-point formula"
 msgstr "མན་ངག་ཚད་གསུམ་ལག་ལེན་འཐབ་ཡོད་མི་འགྱུར་བ་ཟུར་གཅིག་ཡོད་མི་རྩིས་བརྐྱབ།"
 
-#: ../lib/library-strings.c:197
+#: ../lib/library-strings.c:199
 msgid "Calculate the right limit of a real-valued function at x0"
 msgstr "ཨེགསི་༠ ལུ་ངོ་མ་གནས་གོང་ཡོད་མི་ལས་འགན་ཅིག་གི་གཡས་ཚད་འདི་རྩིས་སྟོན།"
 
-#: ../lib/library-strings.c:198
+#: ../lib/library-strings.c:200
 msgid "Compute two-sided derivative using five-point formula"
 msgstr "མང་ནག་ཚད་ལྔ་ལག་ལེན་འཐབ་དེ་འགྱུར་བ་ཟུར་གཅིག་ཡོད་མི་རྩིས་བརྐྱབ།"
 
-#: ../lib/library-strings.c:199
+#: ../lib/library-strings.c:201
 msgid "Compute two-sided derivative using three-point formula"
 msgstr "མན་ངག་ཚད་གསུམ་ལག་ལེན་འཐབ་དེ་འགྱུར་བ་ཟུར་གཉིས་ཡོད་མི་རྩིས་བརྐྱབ།"
 
-#: ../lib/library-strings.c:200
+#: ../lib/library-strings.c:202
 msgid "argument (angle) of complex number"
 msgstr "གོ་དཀའ་བའི་ཨང་གི་(གྲུ་ཟུར་)སྒྲུབ་རྟགས།"
 
-#: ../lib/library-strings.c:201
+#: ../lib/library-strings.c:203
 msgid "Dirichlet kernel of order n"
 msgstr "ཨེན་གོ་རིམ་གྱི་ཀར་ནེལ་ཌི་རིཆི་ལིཊི།"
 
-#: ../lib/library-strings.c:202
+#: ../lib/library-strings.c:204
 msgid "Returns 1 iff all elements are zero"
 msgstr "ཆ་ཤས་ཚུ་ཆ་མཉམ་ཀླད་ཀོར་ཨིན་པ་ཅིན་ ༡ སླར་ལོགཔ་ཨིན།"
 
-#: ../lib/library-strings.c:203
+#: ../lib/library-strings.c:205
 msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
 msgstr "ལས་འགན་འཛོལ་བ་འདི་ ༢/ཨེསི་ཀིའུ་ཨར་ཊི་(pi) * int_0^x e^(-t^2) dt"
 
-#: ../lib/library-strings.c:204
+#: ../lib/library-strings.c:206
 msgid "Fejer kernel of order n"
 msgstr "ཨེན་གོ་རིམ་གྱི་ཀར་ནེལ་ཕི་ཇེ་ཨར།"
 
-#: ../lib/library-strings.c:205
+#: ../lib/library-strings.c:207
 msgid "Returns 1 iff all elements are equal"
 msgstr "ཆ་ཤས་ཚུ་ཆ་མཉམ་མཉམ་པ་ཅིན་ ༡ སླར་ལོགཔ་ཨིན།"
 
-#: ../lib/library-strings.c:206
+#: ../lib/library-strings.c:208
 msgid "Find the first value where f(x)=0"
 msgstr "ཨེཕ་(ཨེགསི)=༠ ག་སྟེ་གནས་གོང་དང་པ་འདི་འཚོལ།"
 
-#: ../lib/library-strings.c:207
+#: ../lib/library-strings.c:209
 msgid "Moebius mapping of the disk to itself mapping a to 0"
 msgstr "༠་ ལུ་ཨེ་འདིའི་ས་ཁྲ་བཟོ་ནི་ལུ་ཌེཀསི་འདི་གི་མོ་བིཡསི་ས་ཁྲ་བཟོ་ནི།"
 
-#: ../lib/library-strings.c:208
+#: ../lib/library-strings.c:210
 msgid "Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity respectively"
 msgstr "ལམ་མདོ་དཔྱ་ཚད་ z2,z3,z4 to 1,0, འབག་ནི་དང་ཚད་མེད་རིམ་བཞིན་འདི་ལག་ལེན་འཐབ་དེ་མོ་བིཡསི་ས་ཁྲ་བཟོ།"
 
-#: ../lib/library-strings.c:209
+#: ../lib/library-strings.c:211
 msgid "Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 to 1 and 0 respectively"
 msgstr "ལམ་མདོ་དཔྱ་ཚད་ཚད་མེད་ཚད་མེད་ལུ་འབག་ནི་དང་ z2,z3 ༡ དང་༠ ལུ་རིམ་བཞིན་ལག་ལེན་འཐབ་དེ་མོ་བིཡསི་ས་ཁྲ་བཟོ།"
 
-#: ../lib/library-strings.c:210
+#: ../lib/library-strings.c:212
 msgid "Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 and infinity respectively"
 msgstr "ལམ་མདོ་དཔྱ་ཚད་ཚད་མེད་ ༡ ལུ་འབག་ནི་དང་ z3,z4 ༠་ལུ་དང་ཚད་མེད་རིམ་བཞིན་འདི་ལག་ལེན་འཐབ་དེ་མོ་བིཡསི་ས་ཁྲ་བཟོ།"
 
-#: ../lib/library-strings.c:211
+#: ../lib/library-strings.c:213
 msgid "Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 and infinity respectively"
 msgstr "ལམ་མདོ་དཔྱད་ཚད་ཚད་མེད་ ༠་ལུ་འབག་ནི་དང་ z2,z4 ༡ ལུ་ཚད་མེད་རིམ་བཞིན་ལག་ལེན་འཐབ་དེ་མོ་བིཡསི་ས་ཁྲ་བཟོ།"
 
-#: ../lib/library-strings.c:212
+#: ../lib/library-strings.c:214
 msgid "Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is 2pi)"
 msgstr "ཌི་གུ་པོའི་སོན་ཀར་ནེལ་(༠ ༡) (༡་ལུ་སྤྱིར་བཏང་བཟོ་མེདཔ་ པི་ཨའི་༢ འདི་གི་མཉམ་སྒྲིལ་འདི་ཨིན།)"
 
-#: ../lib/library-strings.c:213
+#: ../lib/library-strings.c:215
 msgid "Poisson kernel on D(0,R) (not normalized to 1)"
 msgstr "ཌི་གུ་ཀར་ནེལ་པོའི་སོན་(ཨོ་ ཨར་) (༡་ ལུ་སྤྱིར་བཏང་བཟོ་མེདཔ།)"
 
-#: ../lib/library-strings.c:214
+#: ../lib/library-strings.c:216
 msgid "The unit step function = 0 for x<0, 1 otherwise.  This is the integral of the Dirac Delta function."
 msgstr "ཆ་ཕྲན་གོ་རིམ་ལས་འགན་འདི་ = 0 for x<0, 1 དེ་མེན་པ་ཅིན། ཌི་ཨརི་སི་ཌིལ་ཊ་ལས་འགན་འདི་གི་མཉམ་སྒྲིལ་འདི་ཨིན།"
 
-#: ../lib/library-strings.c:215
+#: ../lib/library-strings.c:217
 msgid "The cis function, that is cos(x)+i*sin(x)"
 msgstr "སིསི་ལས་འགན་འདི་ཡང་ཀོསི་འདི་ (x)+i*sin(x)ཨིན།"
 
-#: ../lib/library-strings.c:216
+#: ../lib/library-strings.c:218
 msgid "Convert degrees to radians"
 msgstr "དབྱེ་རིམ་ཚུ་རེ་ཌི་ཡཱནསི་་ལུ་གཞི་བསྒྱུར་འབད།"
 
-#: ../lib/library-strings.c:217
+#: ../lib/library-strings.c:219
 msgid "Convert radians to degrees"
 msgstr "རེ་ཌི་ཡཱནསི་དབྱེ་རིམ་ཚུ་ལུ་གཞི་བསྒྱུར་འབད།"
 
-#: ../lib/library-strings.c:218
+#: ../lib/library-strings.c:220
 msgid "Find roots of a cubic polynomial (given as vector of coefficients)"
 msgstr "ཀུས་བིཀ་པོ་ལི་ནོ་མཱལ་ཅིག་གི་རྩ་བོ་འཚོལ(གྲངས་རྟགས་ཚུ་གི་མཉམ་ཐིག་བཟུམ་སྦེ་བྱིན་ཡོདཔ།)"
 
-#: ../lib/library-strings.c:219
+#: ../lib/library-strings.c:221
 msgid "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y at x1"
 msgstr "སྔོན་སྲོལ་གྱི་ཨིའི་ལར་གྱི་ཐབས་ལམ་ཨང་གྲངས་ཀྱི་དཀའ་ངལ་སེལ་ནི་ལུ་ལག་ལེན་འཐབ་ y'=f(x,y) འགོ་ཐོག་གི་དོན་ལུ་ x0,y0 ལུ་འགྱོ་ནི་ལུ་ x1དང་ཨེན་ཡར་འཕར་ཚུ་གཅིག་ཁར་  x1ལུ་y སླར་ལོགཔ་ཨིན།"
 
-#: ../lib/library-strings.c:220
+#: ../lib/library-strings.c:222
 msgid "Find root of a function using the bisection method"
 msgstr "བཱའི་དབྱེ་ཚན་ཐབས་ལམ་འདི་ལག་ལེན་འཐབ་ལས་འགན་ཅིག་གི་རྩ་བོ་འཚོལ།"
 
-#: ../lib/library-strings.c:221
+#: ../lib/library-strings.c:223
 msgid "Find root of a function using the method of false position"
 msgstr "གནས་ས་རྫུན་མ་གི་ཐབས་ལམ་འདི་ལག་ལེན་འཐབ་དེ་ལས་འགན་ཅིག་གི་རྩ་བོ་འཚོལ།"
 
-#: ../lib/library-strings.c:222
+#: ../lib/library-strings.c:224
 msgid "Find root of a function using the Muller's method"
 msgstr "མུ་ལར་གྱི་ཐབས་ལམ་འདི་ལག་ལེན་འཐབ་དེ་ལས་འགན་ཅིག་གི་རྩ་བ་འཚོལ།"
 
-#: ../lib/library-strings.c:223
+#: ../lib/library-strings.c:225
 msgid "Find root of a function using the secant method"
 msgstr "སི་ཀེནཊི་ཐབས་ལམ་དེ་ལས་འགན་ཅིག་གི་རྩ་བ་འཚོལ།"
 
-#: ../lib/library-strings.c:224
+#: ../lib/library-strings.c:226
 msgid "Find roots of a polynomial (given as vector of coefficients)"
 msgstr "པོ་ལི་ནོ་མཱལ་ཅིག་གི་རྩ་བ་ཚུ་འཚོལ(གྲངས་རྟགས་ཚུ་གི་མཉམ་ཐིག་བཟུམ་སྦེ་བྱིན་ཡོདཔ།)"
 
-#: ../lib/library-strings.c:225
+#: ../lib/library-strings.c:227
 msgid "Find roots of a quadratic polynomial (given as vector of coefficients)"
 msgstr "གྲུ་བཞི་པོ་ལི་ནོ་མཱལ་ཅིག་གི་རྩ་བ་ཚུ་འཚོལ(གྲངས་རྟགས་ཚུ་གི་མཉམ་ཐིག་བཟུམ་སྦེ་བྱིན་ཡོདཔ།)"
 
-#: ../lib/library-strings.c:226
+#: ../lib/library-strings.c:228
+msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
+msgstr "གྲུ་བཞི་པོ་ལི་ནོ་མཱལ་ཅིག་གི་རྩ་བ་ཚུ་འཚོལ(གྲངས་རྟགས་ཚུ་གི་མཉམ་ཐིག་སྦེ་བྱིན་ཡོདཔ།)"
+
+#: ../lib/library-strings.c:229
 msgid "Use classical non-adaptive Runge-Kutta of fourth order method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y at x1"
 msgstr "ཨང་གྲངས་ཀྱི་དཀའ་ངལ་སེལ་ནི་ལུ་ y'=f(x,y) འགོ་ཐོག་ x0,y0 ལུ་ x1 འགྱོ་མི་དང་གཅིག་ཁར་ཨེན་ཡར་འཕར་ཚུ་   x1ལུ་yསླར་ལོག་མི་གི་དོན་ལུ་ཐབས་ལམ་གོ་རིམ་བཞི་པ་གི་རཱནཇི་-ཀུཊ་ཊ་མཐུན་ཅན་མེན་མི་སྔོན་སྲོལ་ལག་ལེན་འཐབ།"
 
-#: ../lib/library-strings.c:227
+#: ../lib/library-strings.c:230
 msgid "Calculate average of an entire matrix"
 msgstr "མེ་ཊེགསི་ཧྲིལ་བུམ་ཅིག་གི་ཆ་སྙོམས་རྩིས་སྟོན།"
 
-#: ../lib/library-strings.c:228
+#: ../lib/library-strings.c:231
 msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 msgstr "༠་ལས་ཨེགསི་ལུ་གའུ་ལས་འགན་འདི་གི་མཉམ་སྒྲིལ།"
 
-#: ../lib/library-strings.c:229
+#: ../lib/library-strings.c:232
 msgid "The normalized Gauss distribution function (the normal curve)"
 msgstr "སྤྱིར་བཏང་བཟོ་ཡོད་མི་གའུ་བགོ་བཀྲམ་ལས་འགན་འདི་(སྤྱིར་བཏང་གུག་གུགཔ་འདི་)"
 
-#: ../lib/library-strings.c:230
+#: ../lib/library-strings.c:233
 msgid "Calculate median of an entire matrix"
 msgstr "མེ་ཊེགསི་ཧྲིལ་བུམ་ཅིག་གི་གུང་ཐིག་རྩིས་སྟོན།"
 
-#: ../lib/library-strings.c:231
+#: ../lib/library-strings.c:234
 msgid "Calculate the population standard deviation of a whole matrix"
 msgstr "མེ་ཊེགསི་ཧྲིལ་བུམ་ཅིག་གི་མི་འབོར་ཚད་ལྡན་ཁ་བསྒྱུར་བ་འདི་རྩིས་སྟོན།"
 
-#: ../lib/library-strings.c:232
+#: ../lib/library-strings.c:235
 msgid "Calculate average of each row in a matrix"
 msgstr "མེ་ཊེགསི་ཅིག་གི་གྱལ་རེ་རེ་གི་ཆ་སྙོམས་རྩིས་སྟོན།"
 
-#: ../lib/library-strings.c:233
+#: ../lib/library-strings.c:236
 msgid "Calculate median of each row in a matrix"
 msgstr "མེ་ཊེགསི་ཅིག་གི་གྱལ་རེ་རེ་གི་གུང་ཐིག་རྩིས་སྟོན།"
 
-#: ../lib/library-strings.c:234
+#: ../lib/library-strings.c:237
 msgid "Calculate the population standard deviations of rows of a matrix and return a vertical vector"
 msgstr "མེ་ཊེགསི་ཅིག་གི་གྱལ་ཚུ་མི་འབོར་ཚད་ལྡན་ཁ་བསྒྱུར་བ་ཚུ་རྩིས་སྟོན་ནི་དང་ཀེར་ཕྲང་མཉམ་ཐིག་ཅིག་སླར་ལོག"
 
-#: ../lib/library-strings.c:235
+#: ../lib/library-strings.c:238
 msgid "Calculate the standard deviations of rows of a matrix and return a vertical vector"
 msgstr "མེ་ཊེགསི་ཅིག་གི་གྱལ་ཚུ་གི་ཚད་ལྡན་ཁ་བསྒྱུར་བ་ཚུ་རྩིས་སྟོན་ནི་དང་ཀེར་ཕྲང་མཉམ་ཐིག་ཅིག་སླར་ལོག"
 
-#: ../lib/library-strings.c:236
+#: ../lib/library-strings.c:239
 msgid "Calculate the standard deviation of a whole matrix"
 msgstr "མེ་ཊེགསི་ཧྲིལ་བུམ་ཅིག་གི་ཚད་ལྡན་ཁ་བསྒྱུར་བ་ཚུ་རྩིས་སྟོན།"
 
-#: ../lib/library-strings.c:237
+#: ../lib/library-strings.c:240
 msgid "Run newton's method on a polynomial to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns null)"
 msgstr "པོ་ལི་ནོ་མཱལ་ཅིག་གུ་གཡོག་བཀོལ་ནིའུ་ཊོན་གྱི་ཐབས་ལམ་རྩ་བ་ཅིག་འཚོལ་ནི་ལུ་དཔའ་བཅམ་མས་ བརྒྱུད་རིམ་ཅན་གྱི་གནས་གོང་གཉིས་ཨིཔ་སོ་ལཱོན་ནང་འཁོད་ཡང་ན་མེགསི་ཨེན་འབད་རྩོལ་བསྐྱེད་པའི་ཤུལ་མ(then returns null)ཤུལ་ལས་སླར་ལོགཔ་ཨིན།"
 
-#: ../lib/library-strings.c:238
+#: ../lib/library-strings.c:241
 msgid "Returns a set where every element of X appears only once"
 msgstr "ཨེགསི་ཚར་གཅིག་འབྱུང་མི་རྐྱངམ་ཅིག་གི་ཆ་ཤས་ག་ར་ཡོད་ས་གཞི་སྒྲིག་ཅིག་སླར་ལོག"
 
-#: ../lib/library-strings.c:239
+#: ../lib/library-strings.c:242
 msgid "Returns a set theoretic union of X and Y (X and Y are vectors pretending to be sets)"
 msgstr "ཨེགསི་དང་ཝའི་ཐིའོ་རེཊིཀ་འདུས་ཚོགས་གཞི་སྒྲིག་སླར་ལོག(ཨེགསི་དང་ཝའི་དེ་ཚུ་གཞི་སྒྲིག་ཚུ་ཨིན་མ་སྦེ་བརྫུ་བཏབ་མི་མཉམ་ཐིག་ཚུ་ཨིན།)"
 
-#: ../lib/library-strings.c:240
+#: ../lib/library-strings.c:243
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "དུས་ཚོད་ཨེན་ལས་འགན་ཅིག་བརྡ་མཚོན་པ་སོ་སོ་ཁ་འཕྲལ་ནི་ལུ་དཔའ་བཅམ།"
 
-#: ../lib/library-strings.c:241
+#: ../lib/library-strings.c:244
 msgid "Attempt to symbolically differentiate a function n times quietly and return null on failure"
 msgstr "ལས་འགན་ཨེན་དུས་ཚོད་ཚུ་སྒྲ་མེད་ཅིག་བརྡ་མཚོན་པའི་སོ་སོ་འཕྲལ་ནི་ལུ་དཔའ་བཅམ་དང་སྟོང་ཆ་འཐུས་ཤོར་གུ་སླར་ལོག"
 
-#: ../lib/library-strings.c:242
+#: ../lib/library-strings.c:245
 msgid "Attempt to construct the taylor approximation function around x0 to the nth degree."
 msgstr "ཊའི་ལོར་ལས་འགན་ཧ་ལམ་ཨེགསི་༠ ལས་ཨེན་ཊི་ཨེཆ་དབྱེ་རིམ་འདི་ལུ་བཟོ་བསྐྲུན་འབད་ནི་ལུ་དཔའ་བཅམ་མས།"
 
@@ -2013,7 +2025,7 @@ msgid "Generate random integer"
 msgstr "གང་འབྱུང་ཧྲིལ་ཨང་བཟོ་བཏོན་འབད་"
 
 #: ../src/funclib.c:5091
-#: ../src/gnome-genius.c:1165
+#: ../src/gnome-genius.c:1278
 msgid "Floating point precision"
 msgstr "འཕུར་ལྡིང་ཚད་ཀྲིག་ཀྲི་"
 
@@ -2066,8 +2078,8 @@ msgid "Gets the columns of a matrix as a horizontal vector"
 msgstr "མེ་ཊེགསི་ཅིག་གི་ཀེར་ཐིག་ཚུ་མཉམ་ཐིག་ཐད་སྙོམས་ཅིག་བཟུམ་སྦེ་ལེནམ་ཨིན།"
 
 #: ../src/funclib.c:5110
-msgid "Gets the diagonal entries of a matrix as a horizontal vector"
-msgstr "མེ་ཊེགསི་ཅིག་གི་གསེག་ཐིག་ཅན་ཐོ་བཀོད་ཚུ་མཉམ་ཐིག་ཐད་སྙོམས་ཅིག་བཟུམ་སྦེ་ལེནམ་ཨིན།"
+msgid "Gets the diagonal entries of a matrix as a column vector"
+msgstr "མེ་ཊེགསི་ཅིག་གི་གསེག་ཐིག་ཅན་ཐོ་བཀོད་ཚུ་མཉམ་ཐིག་ཐད་སྙོམས་ཅིག་་སྦེ་ལེནམ་ཨིན།"
 
 #: ../src/funclib.c:5111
 msgid "Count the number of zero columns in a matrix"
@@ -2628,7 +2640,7 @@ msgstr ""
 "\n"
 
 #: ../src/genius.c:434
-#: ../src/gnome-genius.c:3343
+#: ../src/gnome-genius.c:3510
 msgid "The only thing that interferes with my learning is my education.  -- Albert Einstein"
 msgstr "ང་གི་ཤེས་རིག་ལྷག་ནི་དང་གཅིག་ཁར་བར་དཀྲོགས་མི་ཅ་ལ་རྐྱངམ་ཅིག་ཨིན།  -- Albert Einstein"
 
@@ -2673,166 +2685,198 @@ msgstr "ཡིག་ཚུགས་ཚུ་"
 msgid "String"
 msgstr "ཡིག་རྒྱུན་"
 
-#: ../src/gnome-genius.c:210
+#: ../src/gnome-genius.c:219
 msgid "_New Program"
 msgstr "ལས་རིམ་གསརཔ།(_N)"
 
-#: ../src/gnome-genius.c:210
-#: ../src/gnome-genius.c:319
+#: ../src/gnome-genius.c:219
+#: ../src/gnome-genius.c:346
 msgid "Create new program tab"
 msgstr "ལས་རིམ་མཆོངས་ལྡེ་གསརཔ་བསྐྲུན་འབད།"
 
-#: ../src/gnome-genius.c:217
+#: ../src/gnome-genius.c:226
 msgid "_Reload from Disk"
 msgstr "ཌེཀསི་ལས་ཡང་བསྐྱར་མངོན་གསལ་འབད།(_R)"
 
-#: ../src/gnome-genius.c:217
+#: ../src/gnome-genius.c:226
 msgid "Reload the selected program from disk"
 msgstr "ཌེཀསི་ལས་སེལ་འཐུ་འབད་ཡོད་མི་ལས་རིམ་འདི་ཡང་བསྐྱར་མངོན་གསལ་འབད།"
 
-#: ../src/gnome-genius.c:221
+#: ../src/gnome-genius.c:230
 msgid "_Load and Run..."
 msgstr "མངོན་གསལ་འབད་ནི་དང་གཡོག་བཀོལ་ནི།(_L)..."
 
-#: ../src/gnome-genius.c:221
+#: ../src/gnome-genius.c:230
 msgid "Load and execute a file in genius"
 msgstr "མངོན་གསལ་འབད་ནི་དང་བློ་རིག་ནང་ཡིག་སྣོད་ཅིག་ལག་ལེན་འཐབ།"
 
-#: ../src/gnome-genius.c:246
+#: ../src/gnome-genius.c:255
 msgid "Copy Answer As Plain _Text"
 msgstr "ལན་གསལ་ཚིག་ཡིག་ཉག་རྐྱང་བཟུམ་སྦེ་འདྲ་བཤུས་འབད།(_T)"
 
-#: ../src/gnome-genius.c:247
+#: ../src/gnome-genius.c:256
 msgid "Copy last answer into the clipboard in plain text"
 msgstr "མཇུག་གི་ལན་གསལ་འཛིན་པང་ཚིག་ཡིག་ཉག་རྐྱང་་ནང་འདྲ་བཤུས་འབད།"
 
-#: ../src/gnome-genius.c:250
+#: ../src/gnome-genius.c:259
 msgid "Copy Answer As _LaTeX"
 msgstr "ལན་གསལ་ལ་ཊེགསི་བཟུམ་སྦེ་འདྲ་བཤུས་འབད།(_L)"
 
-#: ../src/gnome-genius.c:251
+#: ../src/gnome-genius.c:260
 msgid "Copy last answer into the clipboard as LaTeX"
 msgstr "མཇུག་གི་ལན་གསལ་འཛིན་པང་ནང་ན་ལ་ཊེགསི་བཟུམ་སྦེ་འདྲ་བཤུས་འབད།"
 
-#: ../src/gnome-genius.c:254
+#: ../src/gnome-genius.c:263
 msgid "Copy Answer As _MathML"
 msgstr "ལན་གསལ་ཨང་རྩིས་ཨེམ་ཨེལ་བཟུམ་སྦེ་འདྲ་བཤུས་འབད།(_M)"
 
-#: ../src/gnome-genius.c:255
+#: ../src/gnome-genius.c:264
 msgid "Copy last answer into the clipboard as MathML"
 msgstr "མཇུག་གི་ལན་གསལ་འཛིན་པང་ནང་ན་ཨང་རྩིས་ཨེམ་བཟུམ་སྦེ་འདྲ་བཤུས་འབད།"
 
-#: ../src/gnome-genius.c:258
+#: ../src/gnome-genius.c:267
 msgid "Copy Answer As T_roff"
 msgstr "ལན་གསལ་ཊི་རོཕ་བཟུམ་སྦེ་འདྲ་བཤུས་འབད།(_r)"
 
-#: ../src/gnome-genius.c:259
+#: ../src/gnome-genius.c:268
 msgid "Copy last answer into the clipboard as Troff eqn"
 msgstr "མཇུག་གི་ལན་འཛིན་པང་འདི་ནང་ཊིོརཨེཕ་ཨི་ཀིའུ་ཨེན་བཟུམ་སྦེ་འདྲ་བཤུས་འབད།"
 
-#: ../src/gnome-genius.c:272
+#: ../src/gnome-genius.c:281
 msgid "_Run"
 msgstr "གཡོག་བཀོལ།(_R)"
 
-#: ../src/gnome-genius.c:272
-#: ../src/gnome-genius.c:318
+#: ../src/gnome-genius.c:281
+#: ../src/gnome-genius.c:345
 msgid "Run current program"
 msgstr "ད་ལྟོའི་ལས་རིམ་གཡོག་བཀོལ།"
 
-#: ../src/gnome-genius.c:273
+#: ../src/gnome-genius.c:282
 msgid "_Interrupt"
 msgstr "བར་དཀྲོགས(_I)"
 
-#: ../src/gnome-genius.c:273
-#: ../src/gnome-genius.c:316
+#: ../src/gnome-genius.c:282
+#: ../src/gnome-genius.c:343
 msgid "Interrupt current calculation"
 msgstr "ད་ལྟོའི་རྩིས་ལས་བར་དཀྲོགས།"
 
-#: ../src/gnome-genius.c:275
+#: ../src/gnome-genius.c:284
+msgid "Show _Full Answer"
+msgstr "ལན་གསལ་ཆ་ཚང་སྟོན།(_F)"
+
+#: ../src/gnome-genius.c:284
+msgid "Show the full text of last answer"
+msgstr "མཇུག་གི་ལན་གསལ་གྱི་ཚིག་ཡིག་ཆ་ཚང་འདི་སྟོན།"
+
+#: ../src/gnome-genius.c:286
 #: ../src/graphing.c:3269
 msgid "_Plot"
 msgstr "ས་དུང་།(_P)"
 
-#: ../src/gnome-genius.c:275
-#: ../src/gnome-genius.c:321
+#: ../src/gnome-genius.c:286
+#: ../src/gnome-genius.c:348
 msgid "Plot a function"
 msgstr "ལས་འགན་ཅིག་འབད་སའི་ས་དུང་།"
 
-#: ../src/gnome-genius.c:281
+#: ../src/gnome-genius.c:292
 msgid "_Help on Function"
 msgstr "ལས་འགན་གུ་གྲོགས་རམ།(_H)"
 
-#: ../src/gnome-genius.c:282
+#: ../src/gnome-genius.c:293
 msgid "Help on a function or a command"
 msgstr "ལས་འགན་ཡང་ན་བརྡ་བཀོད་ཅིག་གུ་གྲོགས་རམ་འབད།"
 
-#: ../src/gnome-genius.c:285
+#: ../src/gnome-genius.c:296
 msgid "_Warranty"
 msgstr "ཉེན་ལེན།(_W)"
 
-#: ../src/gnome-genius.c:286
+#: ../src/gnome-genius.c:297
 msgid "Display warranty information"
 msgstr "ཉེན་ལེན་བརྡ་དོན་བཀྲམ་སྟོན་འབད།"
 
-#: ../src/gnome-genius.c:304
+#: ../src/gnome-genius.c:309
+msgid "_Next Tab"
+msgstr "ཤུལ་མམ་གྱི་མཆོང་ལྡེ།(_N)"
+
+#: ../src/gnome-genius.c:309
+msgid "Go to next tab"
+msgstr "ཤུལ་མམ་གྱི་མཆོང་ལྡེ་ལུ་འགྱོ།"
+
+#: ../src/gnome-genius.c:313
+msgid "_Previous Tab"
+msgstr "ཧེ་མམ་གྱི་མཆོང་ལྡེ།(_P)"
+
+#: ../src/gnome-genius.c:313
+msgid "Go to previous tab"
+msgstr "ཧེ་མམ་གྱི་མཆོང་ལྡེ་ལུ་འགྱོ།"
+
+#: ../src/gnome-genius.c:320
+msgid "_Console"
+msgstr "མ་སྒྲོམ་(_C)"
+
+#: ../src/gnome-genius.c:321
+msgid "Go to the console tab"
+msgstr "མ་སྒྲོམ་མཆོང་ལྡེ་འདི་ལུ་འགྱོ།"
+
+#: ../src/gnome-genius.c:331
 msgid "_Calculator"
 msgstr "རྩིས་སྟོན་མི།(_C)"
 
-#: ../src/gnome-genius.c:306
+#: ../src/gnome-genius.c:333
 msgid "P_lugins"
 msgstr "པ་ལག་ཨིནསི།(_l)"
 
-#: ../src/gnome-genius.c:308
+#: ../src/gnome-genius.c:335
 msgid "_Programs"
 msgstr "ལས་རིམ་ཚུ།(_P)"
 
-#: ../src/gnome-genius.c:316
+#: ../src/gnome-genius.c:343
 msgid "Interrupt"
 msgstr "བར་དཀྲོགས་"
 
-#: ../src/gnome-genius.c:318
+#: ../src/gnome-genius.c:345
 msgid "Run"
 msgstr "གཡོག་བཀོལ།"
 
-#: ../src/gnome-genius.c:319
+#: ../src/gnome-genius.c:346
 msgid "New"
 msgstr "གསརཔ་"
 
-#: ../src/gnome-genius.c:320
+#: ../src/gnome-genius.c:347
 msgid "Open"
 msgstr "ཁ་ཕྱེ་"
 
-#: ../src/gnome-genius.c:320
+#: ../src/gnome-genius.c:347
 msgid "Open a GEL file for running"
 msgstr "གཡོག་བཀོལ་ནི་དོན་ལུ་ཇི་ཨི་ཨེལ་ཡིག་སྣོད་ཅིག་ཁ་ཕྱེ།"
 
-#: ../src/gnome-genius.c:321
+#: ../src/gnome-genius.c:348
 #: ../src/graphing.c:1277
 msgid "Plot"
 msgstr "ས་དུང་།"
 
-#: ../src/gnome-genius.c:322
+#: ../src/gnome-genius.c:349
 msgid "Exit"
 msgstr "ཕྱིར་ཐོན་"
 
-#: ../src/gnome-genius.c:322
+#: ../src/gnome-genius.c:349
 msgid "Exit genius"
 msgstr "བློ་རིག་ཕྱིར་ཐོན།"
 
-#: ../src/gnome-genius.c:406
+#: ../src/gnome-genius.c:433
 msgid "Help on Function"
 msgstr "ལས་འགན་གུ་གྲོགས་རམ་འབད།"
 
-#: ../src/gnome-genius.c:417
+#: ../src/gnome-genius.c:444
 msgid "Function or command name:"
 msgstr "ལས་འགན་ཡང་ན་བརྡ་བཀོད་མིང་།:"
 
-#: ../src/gnome-genius.c:450
+#: ../src/gnome-genius.c:477
 #, c-format
 msgid "<b>Help on %s not found</b>"
 msgstr "<b>གུ་གྲོགས་རམ་ %s འཚོལ་མ་ཐོབ་པར་ཡོདཔ</b>"
 
-#: ../src/gnome-genius.c:454
+#: ../src/gnome-genius.c:481
 #, c-format
 msgid ""
 "<b>Help on %s not found</b>\n"
@@ -2843,15 +2887,21 @@ msgstr ""
 "\n"
 "ཁྱོད་ཀྱིས་གོ་གོཝ་ཨིནམ་འོང་། %s."
 
-#: ../src/gnome-genius.c:499
+#: ../src/gnome-genius.c:532
 msgid "Error"
 msgstr "འཛོལ་བ་"
 
-#: ../src/gnome-genius.c:499
+#: ../src/gnome-genius.c:534
 msgid "Information"
 msgstr "བརྡ་དོན་"
 
-#: ../src/gnome-genius.c:554
+#. error
+#. always textbox
+#: ../src/gnome-genius.c:608
+msgid "Full Answer"
+msgstr "ལན་གསལ་ཆ་ཚང་།"
+
+#: ../src/gnome-genius.c:621
 #, c-format
 msgid ""
 "\n"
@@ -2860,7 +2910,7 @@ msgstr ""
 "\n"
 "འཛོལ་བ་ལེ་ཤ་ཚུ་! (%d རྗེས་སུ་འབྲང་ཡོདཔ)"
 
-#: ../src/gnome-genius.c:564
+#: ../src/gnome-genius.c:635
 #, c-format
 msgid "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
 msgstr "\\e[01;31ཨེམ་འཛོལ་བ་གནམ་མེད་ས་མེད! (%d followed)\\e[0m\n"
@@ -2869,19 +2919,19 @@ msgstr "\\e[01;31ཨེམ་འཛོལ་བ་གནམ་མེད་ས་
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: ../src/gnome-genius.c:716
+#: ../src/gnome-genius.c:791
 msgid "translator-credits"
 msgstr "སྐད་བསྒྱུར་པའི་ངོ་བསྟོད་ཚུ་"
 
-#: ../src/gnome-genius.c:735
+#: ../src/gnome-genius.c:810
 msgid "About Genius"
 msgstr "བློ་རིག་གི་སྐོར་ལས་"
 
-#: ../src/gnome-genius.c:738
+#: ../src/gnome-genius.c:813
 msgid "The Gnome calculator style edition of the genius calculator.  For license/warranty details, type 'warranty' into the console."
 msgstr "བློ་རིག་རྩིས་བྱེད་འདི་གི་ཇི་ནོམ་རྩིས་བྱེད་བཟོ་རྣམ་དཔར་ཐེངས་འདི་ཨིན། ཆོག་ཐམ/ཉེན་ལེན་རྒྱས་བཤད་ དབྱེ་བ་ཚུ་གི་དོན་ལུ་'warranty'མ་སྒྲོམ་ནང་ན་ཨིན།"
 
-#: ../src/gnome-genius.c:907
+#: ../src/gnome-genius.c:992
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -2889,67 +2939,79 @@ msgstr ""
 "བློ་རིག་གིས་ག་ཅི་ཅིག་ལག་ལེན་འཐབ་ནི་དང་ ཐེབས་ཧེང་བཀལ་སྲུངས་བཞག་མ་འབད་བའི་ལས་རིམ་ཚུ་ཡོད།\n"
 "ཁྱོད་ཀྱིས་སྤང་ནི་ཨིན་ན?"
 
-#: ../src/gnome-genius.c:915
+#: ../src/gnome-genius.c:1000
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr "ལས་རིམ་ཚུ་སྲུང་བཞག་མ་འབད་མི་ཡོདཔ་ལས་ཁྱོད་ཀྱིས་སྤང་ནི་ཨིན་ན?"
 
-#: ../src/gnome-genius.c:922
+#: ../src/gnome-genius.c:1007
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr "བློ་རིག་གིས་ག་ཅི་ཅིག་ལག་ལེན་འཐབ་ནི་ཨིནམ་ལས་ ཁྱོད་ཀྱིས་སྤང་ནི་ངེས་ཏིག་ཨིན་ན?"
 
-#: ../src/gnome-genius.c:929
+#: ../src/gnome-genius.c:1014
 msgid "Are you sure you wish to quit?"
 msgstr "ཁྱོད་ཀྱིས་སྤང་ནིའི་རེ་སྨོན་ངེས་ཏིག་ཨིན་ན?"
 
-#: ../src/gnome-genius.c:1036
+#: ../src/gnome-genius.c:1126
 msgid "Genius Setup"
 msgstr "བློ་རིག་གཞི་སྒྲིག"
 
-#: ../src/gnome-genius.c:1053
+#: ../src/gnome-genius.c:1144
 msgid "Output"
 msgstr "ཨའུཊི་པུཊི་"
 
-#: ../src/gnome-genius.c:1056
+#: ../src/gnome-genius.c:1147
 msgid "Number/Expression output options"
 msgstr "ཨང་/གསལ་བརྗོད་ཨའུཊི་པུཊི་གདམ་ཁ་ཚུ་"
 
-#: ../src/gnome-genius.c:1066
+#: ../src/gnome-genius.c:1157
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "ཨའུཊི་པུཊི་ལུ་ཨང་ཡིག་ཚུ་ (ཚད་མེདཔ=༠)"
 
-#: ../src/gnome-genius.c:1086
+#: ../src/gnome-genius.c:1177
 msgid "Results as floats"
 msgstr "ལྡིང་ནི་ཚུ་བཟུམ་སྦེ་འགྲུབ་འབྲས་ཚུ་"
 
-#: ../src/gnome-genius.c:1094
+#: ../src/gnome-genius.c:1185
 msgid "Floats in scientific notation"
 msgstr "ཚན་རིག་གི་དབྱངས་རྟགས་ནང་ལྡིང་ནི་ཚུ་"
 
-#: ../src/gnome-genius.c:1102
+#: ../src/gnome-genius.c:1193
 msgid "Always print full expressions"
 msgstr "ཨ་རྟག་རང་གསལ་བརྗོད་ཚུ་གངམ་དཔར་བསྐྲུན་འབད།"
 
-#: ../src/gnome-genius.c:1111
+#: ../src/gnome-genius.c:1201
+msgid "Use mixed fractions"
+msgstr "སླ་བསྲེ་ཡོད་པའི་དཔྱ་ཕྲན་ཚུ་ལག་ལེན་འཐབ།"
+
+#: ../src/gnome-genius.c:1209
+msgid "Remember output settings across sessions"
+msgstr "ལཱ་ཡུན་ཡན་ཆད་སྒྲིག་སྟངས་ཚུའི་ཨའུཊི་པུཊི་སེམས་ཁར་བཞག"
+
+#: ../src/gnome-genius.c:1218
+msgid "Should the output settings in the \"Number/Expression output options\" frame be remembered for next session.  Does not apply to the \"Error/Info output options\" frame."
+msgstr "ཤུལ་མམ་གྱི་ལཱ་ཡུན་གཡི་དོན་ལུ་ \"Number/Expression output options\" གཞི་ཁྲམ་ནང་ཨའུཊི་པུཊི་སྒྲིག་སྟངས་ཚུ་སེམས་ཁར་བཞག་དགོཔ་ཨིན་ན།  གཞི་ཁྲཙ་འདི་ལུ་ \"Error/Info output options\" འཇུག་སྤྱོད་མི་འབད།"
+
+#: ../src/gnome-genius.c:1224
 msgid "Error/Info output options"
 msgstr "འཛོལ་བ/བརྡ་དོན་ཨའུཊི་པུཊི་གདམ་ཁ་ཚུ་"
 
-#: ../src/gnome-genius.c:1119
+#: ../src/gnome-genius.c:1232
 msgid "Display errors in a dialog"
 msgstr "ཌའི་ལོག་ཅིག་ནང་འཛོལ་བ་ཚུ་བཀྲམ་སྟོན་འབད།"
 
-#: ../src/gnome-genius.c:1127
+#: ../src/gnome-genius.c:1240
 msgid "Display information messages in a dialog"
 msgstr "ཌའི་ལོག་ཅིག་ནང་བརྡ་དོན་འཕྲིན་དོན་ཚུ་བཀྲམ་སྟོན་འབད།"
 
-#: ../src/gnome-genius.c:1138
+#: ../src/gnome-genius.c:1251
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "བཀྲམ་སྟོན་འབད་ནི་ལུ་འཛོལ་བ་ཚུ་མང་མཐའ (ཚད་མེདཔ=༠)"
 
-#: ../src/gnome-genius.c:1162
+#: ../src/gnome-genius.c:1275
 msgid "Precision"
 msgstr "ཀྲིག་ཀྲི་"
 
-#: ../src/gnome-genius.c:1172
+#: ../src/gnome-genius.c:1285
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -2959,35 +3021,43 @@ msgstr ""
 "ནུས་པ་མི་འབྱུང་ ཨང་གསརཔ་རྩིས་བཏོན་ཡོད་མི་ཚུ་དང་\n"
 "འགྱུར་ཅན་གསརཔ་ཚུ་རྐྱངམ་ཅིག་ཕན་གནོད་ཡོདཔ་ཨིན།"
 
-#: ../src/gnome-genius.c:1181
+#: ../src/gnome-genius.c:1294
 msgid "Floating point precision (bits)"
 msgstr "ལྡིང་ཚད་ཀྲིག་ཀྲི(བིཊིསི)"
 
-#: ../src/gnome-genius.c:1205
+#: ../src/gnome-genius.c:1313
+msgid "Remember precision setting across sessions"
+msgstr "ལཱ་ཡུན་ཡན་ཆད་སྒྲིག་སྟངས་ཀྲིག་ཀྲི་སེམས་ཁར་བཞག"
+
+#: ../src/gnome-genius.c:1322
+msgid "Should the precision setting be remembered for next session."
+msgstr "ཤུལ་མམ་གྱི་ལཱ་ཡུན་གྱི་དོན་ལུ་སྒྲིག་སྟངས་ཀྲིག་ཀྲི་འདི་སེམས་ཁར་བཞག་དགོཔ་ཨིན་ན།"
+
+#: ../src/gnome-genius.c:1331
 msgid "Terminal"
 msgstr "ཊར་མི་ནཱལ་"
 
-#: ../src/gnome-genius.c:1208
+#: ../src/gnome-genius.c:1333
 msgid "Terminal options"
 msgstr "ཊར་མི་ནཱལ་གདམ་ཁ་ཚུ་"
 
-#: ../src/gnome-genius.c:1217
+#: ../src/gnome-genius.c:1342
 msgid "Scrollback lines"
 msgstr "རྒྱབ་སྒྲིལ་གྱལ་ཚུ་"
 
-#: ../src/gnome-genius.c:1240
+#: ../src/gnome-genius.c:1365
 msgid "Font:"
 msgstr "ཡིག་གཟུགས་:"
 
-#: ../src/gnome-genius.c:1255
+#: ../src/gnome-genius.c:1380
 msgid "Black on white"
 msgstr "དཀརཔོ་གུ་གནགཔོ་"
 
-#: ../src/gnome-genius.c:1263
+#: ../src/gnome-genius.c:1388
 msgid "Blinking cursor"
 msgstr "འགུལ་ཅན་འོད་རྟགས་"
 
-#: ../src/gnome-genius.c:1293
+#: ../src/gnome-genius.c:1418
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -2997,62 +3067,62 @@ msgstr ""
 "\n"
 "ལོག་ཤུལ་ལས་འབད་རྩོལ་འབད་ཡང་ན་ད་ལྟོའི་བཀོལ་སྤྱོད་འདི་བར་དཀྲོགས་གནང་།"
 
-#: ../src/gnome-genius.c:1342
+#: ../src/gnome-genius.c:1467
 msgid "GEL files"
 msgstr "ཇི་ཨི་ཨེལ་ཡིག་སྣོད་ཚུ་"
 
-#: ../src/gnome-genius.c:1347
+#: ../src/gnome-genius.c:1472
 #: ../src/graphing.c:904
 msgid "All files"
 msgstr "ཡིག་སྣོད་ཚུ་ཆ་མཉམ་"
 
-#: ../src/gnome-genius.c:1381
-#: ../src/gnome-genius.c:2123
+#: ../src/gnome-genius.c:1506
+#: ../src/gnome-genius.c:2280
 msgid "Cannot open file!"
 msgstr "ཡིག་སྣོད་ཁ་ཕྱེ་མི་ཚུགསཔ་!"
 
-#: ../src/gnome-genius.c:1410
-#: ../src/gnome-genius.c:1428
+#: ../src/gnome-genius.c:1551
+#: ../src/gnome-genius.c:1569
 msgid "Load and Run"
 msgstr "མངོན་གསལ་འབད་ནི་དང་གཡོག་བཀོལ་ནི་"
 
-#: ../src/gnome-genius.c:1414
+#: ../src/gnome-genius.c:1555
 msgid "_Load"
 msgstr "མངོན་གསལ་འབད་ནི།(_L)"
 
-#: ../src/gnome-genius.c:1931
+#: ../src/gnome-genius.c:2088
 msgid "Cannot open file"
 msgstr "ཡིག་སྣོད་ཁ་ཕྱེ་མི་བཏུབ་"
 
-#: ../src/gnome-genius.c:1963
-#: ../src/gnome-genius.c:2970
+#: ../src/gnome-genius.c:2120
+#: ../src/gnome-genius.c:3141
 #, c-format
 msgid "Line: %d"
 msgstr "གྱལ་: %d"
 
-#: ../src/gnome-genius.c:2045
+#: ../src/gnome-genius.c:2202
 #, c-format
 msgid "Program_%d.gel"
 msgstr "ལས་རིམ་ %d.ཇི་ཨི་ཨེལ་"
 
-#: ../src/gnome-genius.c:2050
+#: ../src/gnome-genius.c:2207
 #, c-format
 msgid "Program %d"
 msgstr "ལས་རིམ་ %d"
 
-#: ../src/gnome-genius.c:2071
+#: ../src/gnome-genius.c:2228
 #, c-format
 msgid "Cannot open %s"
 msgstr "ཁ་ཕྱེ་མི་བཏུབ་ %s"
 
-#: ../src/gnome-genius.c:2150
-#: ../src/gnome-genius.c:2169
+#: ../src/gnome-genius.c:2307
+#: ../src/gnome-genius.c:2326
 msgid "Open..."
 msgstr "ཁ་ཕྱེ་..."
 
 #. new fname
-#: ../src/gnome-genius.c:2244
-#: ../src/gnome-genius.c:2299
+#: ../src/gnome-genius.c:2401
+#: ../src/gnome-genius.c:2456
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -3061,18 +3131,18 @@ msgstr ""
 "<b>ཡིག་སྣོད་སྲུངས་བཞག་འབད་མི་བཏུབ་</b>\n"
 "རྒྱས་བཤད་ཚུ་: %s"
 
-#: ../src/gnome-genius.c:2293
+#: ../src/gnome-genius.c:2450
 #: ../src/graphing.c:663
 #: ../src/graphing.c:790
 msgid "File already exists.  Overwrite it?"
 msgstr "ཡིག་སྣོད་ཧེ་མ་ལས་ཡོདཔ་ལས་ཚབ་སྲུང་འབད་ནི་ཨིན་ན?"
 
-#: ../src/gnome-genius.c:2350
-#: ../src/gnome-genius.c:2372
+#: ../src/gnome-genius.c:2507
+#: ../src/gnome-genius.c:2529
 msgid "Save As..."
 msgstr "བཟུམ་སྦེ་སྲུངས་བཞག་..."
 
-#: ../src/gnome-genius.c:2446
+#: ../src/gnome-genius.c:2603
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -3082,16 +3152,20 @@ msgstr ""
 "\n"
 "ལས་རིམ་གསརཔ་གསར་བསྐྲུན་འབད་ནི་ཡང་ན་ འབྲི་དེབ་འདི་ནང་ཡོད་པའི་མཆོངས་ལྡེ་ཅིག་སེལ་འཐུ་འབད།"
 
-#: ../src/gnome-genius.c:2551
+#: ../src/gnome-genius.c:2708
 #, c-format
 msgid "Genius %s"
 msgstr "བློ་རིག %s"
 
-#: ../src/gnome-genius.c:2763
+#. error
+#. always textbox
+#. textbox_title
+#. bind_response
+#: ../src/gnome-genius.c:2934
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "བློ་རིག་-ལྷག་ནི་གྱལ་-གྲོགས་རམ་ཕི་ཕོ་ལག་ལེན་འཐབ་མི་བཏུབ!\n"
 
-#: ../src/gnome-genius.c:2988
+#: ../src/gnome-genius.c:3159
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -3099,11 +3173,11 @@ msgstr ""
 "\n"
 "དྲན་དགོཔ་: ཇི་ཊི་ཀེ་འབྱུང་ཁུངས་མཐོང་སྣང་མེདཔ་སྦེ་ཕྱོགས་སྒྲིག་འབད་ཡོདཔ། (better source editor)"
 
-#: ../src/gnome-genius.c:3222
+#: ../src/gnome-genius.c:3389
 msgid "Console"
 msgstr "མ་སྒྲོམ་"
 
-#: ../src/gnome-genius.c:3274
+#: ../src/gnome-genius.c:3441
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
