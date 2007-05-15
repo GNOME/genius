@@ -1,20 +1,18 @@
-# translation of es.po to
-#
-# translation of genius.HEAD.es.po to
 # spanish translation for genius
 # traducción al español de genius
+#
 # Francisco Javier F. Serrador <serrador@arrakis.es>, 2003.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2004.
-# Jorge Gonzalez <jorge.gonzalez.gonzalez@hispalinux.es>, 2005.
 # Jorge González <jorge.gonzalez.gonzalez@hispalinux.es>, 2005.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: es\n"
+"Project-Id-Version: genius.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-11 19:11+0100\n"
-"PO-Revision-Date: 2006-12-11 19:19+0100\n"
-"Last-Translator: \n"
-"Language-Team:  <en@li.org>\n"
+"POT-Creation-Date: 2007-01-30 03:20+0000\n"
+"PO-Revision-Date: 2007-05-15 19:02+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -457,7 +455,7 @@ msgstr "Hacer una matriz diagonal de un vector"
 
 #: ../lib/library-strings.c:86
 msgid "Make column vector out of matrix by putting columns above each other"
-msgstr ""
+msgstr "Hacer un vector columna de una matriz poniendo las columnas unas encima de otras"
 
 #: ../lib/library-strings.c:87
 msgid "Calculate the product of all elements in a matrix"
@@ -573,20 +571,15 @@ msgstr "Suma directa de un vector de matrices"
 
 #: ../lib/library-strings.c:114
 msgid ""
-"Get the eigenvalues of a matrix (Currently only for 2x2 and triangular "
+"Get the eigenvalues of a matrix (Currently only for up to 4x4 or triangular "
 "matrices)"
-msgstr ""
-"Obtener los valores propios de una matriz (sólo disponible para matrices 2x2 "
-"y matrices triangulares)"
+msgstr "Obtener los valores propios de una matriz (sólo disponible para matrices 4x4 y matrices triangulares)"
 
 #: ../lib/library-strings.c:115
-#, fuzzy
 msgid ""
 "Apply the Gram-Schmidt process (to the columns) with respect to inner "
 "product given by B (if not given use hermitian product)"
-msgstr ""
-"Aplicar el proceso de Gram-Schmidt (a las columnas) con respecto al producto "
-"interior dado por #2"
+msgstr "Aplicar el proceso de Gram-Schmidt (a las columnas) con respecto al producto interior dado por B (si no se proporciona se usará el producto Hermitico)"
 
 #: ../lib/library-strings.c:116
 msgid "Hankel matrix"
@@ -639,22 +632,30 @@ msgid "Is a matrix normal"
 msgstr "Es una matriz normal"
 
 #: ../lib/library-strings.c:127
+msgid "Is a matrix positive definite"
+msgstr "Es una matriz definida positiva"
+
+#: ../lib/library-strings.c:128
+msgid "Is a matrix positive semidefinite"
+msgstr "Es una matriz semidefinida positiva"
+
+#: ../lib/library-strings.c:129
 msgid "Is a matrix skew-hermitian"
 msgstr "Es una matriz de Skew-Hermite"
 
-#: ../lib/library-strings.c:128
+#: ../lib/library-strings.c:130
 msgid "Is a matrix unitary"
 msgstr "Es una matriz unitaria"
 
-#: ../lib/library-strings.c:129
+#: ../lib/library-strings.c:131
 msgid "Get the jordan block corresponding to lambda and n"
 msgstr "Obtener el bloque de Jordan correspondiente a lambda y n"
 
-#: ../lib/library-strings.c:130
+#: ../lib/library-strings.c:132
 msgid "Get the kernel (nullspace) of a linear transform"
 msgstr "Obtener el núcleo (espacio nulo o kernel) de una trasformación lineal"
 
-#: ../lib/library-strings.c:131
+#: ../lib/library-strings.c:133
 msgid ""
 "Get the LU decomposition of A and store the result in the L and U which "
 "should be references.  If not possible returns false."
@@ -662,31 +663,31 @@ msgstr ""
 "Obtener la factorización LU de A y almacenar el resultado en la L y U que "
 "deberían ser referencias. Si no es posible, devolver falso."
 
-#: ../lib/library-strings.c:132
+#: ../lib/library-strings.c:134
 msgid "Get the i-j minor of a matrix"
 msgstr "Obtener el menor i-j de una matriz"
 
-#: ../lib/library-strings.c:133
+#: ../lib/library-strings.c:135
 msgid "Return the columns that are not the pivot columns of a matrix"
 msgstr "Devolver las columnas que no son las columnas pivotes de una matriz"
 
-#: ../lib/library-strings.c:134
+#: ../lib/library-strings.c:136
 msgid "Get the p Norm (or 2 Norm if no p is supplied) of a vector"
 msgstr "Obtiene la norma p (o 2 normas si no se suministra p) de un vector"
 
-#: ../lib/library-strings.c:135
+#: ../lib/library-strings.c:137
 msgid "Get the nullspace of a matrix"
 msgstr "Obtener el núcleo (espacio nulo o kernel) de una matriz"
 
-#: ../lib/library-strings.c:136
+#: ../lib/library-strings.c:138
 msgid "Get the nullity of a matrix"
 msgstr "Obtener la nulidad (espacio nulo o kernel) de una matriz"
 
-#: ../lib/library-strings.c:137
+#: ../lib/library-strings.c:139
 msgid "Get the orthogonal complement of the columnspace"
 msgstr "Obtiene el complemento ortogonal del espacio de columnas"
 
-#: ../lib/library-strings.c:138
+#: ../lib/library-strings.c:140
 msgid ""
 "Return pivot columns of a matrix, that is columns which have a leading 1 in "
 "rref form, also returns the row where they occur"
@@ -694,55 +695,57 @@ msgstr ""
 "Devuelve las columnas pivote de una matriz, que son las columnas que tienen "
 "un 1 al comienzo en forma reducida, también devuelve la fila cuando ocurre."
 
-#: ../lib/library-strings.c:139
+#: ../lib/library-strings.c:141
 msgid ""
 "Projection of vector v onto subspace W given a sesquilinear form B (if not "
 "given use hermitian product)"
-msgstr "Proyección del vector «v» en el subespacio «W» dada una forma sesquilineal de B (si no se da se usa el producto de hermite)"
+msgstr ""
+"Proyección del vector «v» en el subespacio «W» dada una forma sesquilineal "
+"de B (si no se da se usa el producto de hermite)"
 
-#: ../lib/library-strings.c:140
+#: ../lib/library-strings.c:142
 msgid "Get the QR decomposition of A, returns R and Q can be a reference"
 msgstr ""
 
-#: ../lib/library-strings.c:141
-msgid "Return the Raleigh Quotient of a matrix and a vector"
-msgstr "Devuelve el Coeficiente de Raleigh de matrices y vectores"
-
-#: ../lib/library-strings.c:142
+#: ../lib/library-strings.c:143
 msgid "Get the rank of a matrix"
 msgstr "Obtener el rango de una matriz"
 
-#: ../lib/library-strings.c:143
+#: ../lib/library-strings.c:144
+msgid "Return the Rayleigh quotient of a matrix and a vector"
+msgstr "Devuelve el coeficiente de Raleigh de una matriz y un vector"
+
+#: ../lib/library-strings.c:145
 msgid "Rosser matrix, a classic symmetric eigenvalue test problem"
 msgstr ""
 "Matriz de Rosser, clásico problema de comprobación de valores propios "
 "simétricos"
 
-#: ../lib/library-strings.c:144
+#: ../lib/library-strings.c:146
 msgid "Rotation around origin in R^2"
 msgstr "Rotación respecto del origen en R^2"
 
-#: ../lib/library-strings.c:145
+#: ../lib/library-strings.c:147
 msgid "Rotation around origin in R^3 about the x-axis"
 msgstr "Rotación respecto del origen en R^3 sobre el eje x"
 
-#: ../lib/library-strings.c:146
+#: ../lib/library-strings.c:148
 msgid "Rotation around origin in R^3 about the y-axis"
 msgstr "Rotación respecto del origen en R^3 sobre el eje y"
 
-#: ../lib/library-strings.c:147
+#: ../lib/library-strings.c:149
 msgid "Rotation around origin in R^3 about the z-axis"
 msgstr "Rotación respecto del origen en R^3 sobre el eje z"
 
-#: ../lib/library-strings.c:148
+#: ../lib/library-strings.c:150
 msgid "Get a basis matrix for the rowspace of a matrix"
 msgstr "Obtiene una matriz base para el espacio de filas de una matriz"
 
-#: ../lib/library-strings.c:149
+#: ../lib/library-strings.c:151
 msgid "Evaluate (v,w) with respect to the sesquilinear form given by the matrix A"
 msgstr "Evaluar (v,w) con respecto a la forma sesquilineal dada por la matriz A"
 
-#: ../lib/library-strings.c:150
+#: ../lib/library-strings.c:152
 msgid ""
 "Return a function that evaluates two vectors with respect to the "
 "sesquilinear form given by A"
@@ -750,89 +753,89 @@ msgstr ""
 "Devuelve una función que evalúa dos vectores con respecto a la forma "
 "sesquilineal dada por A"
 
-#: ../lib/library-strings.c:151
+#: ../lib/library-strings.c:153
 msgid "Smith Normal Form for fields (will end up with 1's on the diagonal)"
 msgstr "Forma normal de Smith para campos (terminará con unos en la diagonal)"
 
-#: ../lib/library-strings.c:152
+#: ../lib/library-strings.c:154
 msgid "Smith Normal Form for square integer matrices (not its characteristic)"
 msgstr "Forma normal de Smith para matrices cuadradas enteras (no su característica)"
 
-#: ../lib/library-strings.c:153
+#: ../lib/library-strings.c:155
 msgid ""
 "Return the Toeplitz matrix constructed given the first column c and "
 "(optionally) the first row r."
 msgstr ""
 
-#: ../lib/library-strings.c:154
+#: ../lib/library-strings.c:156
 msgid "Calculate the trace of a matrix"
 msgstr "Calcula la traza de una matriz"
 
-#: ../lib/library-strings.c:155
+#: ../lib/library-strings.c:157
 msgid "Transpose of a matrix"
 msgstr "Traspuesta de una matriz"
 
-#: ../lib/library-strings.c:156
+#: ../lib/library-strings.c:158
 msgid "Return the Vandermonde matrix"
 msgstr "Devuelve la matriz de Vandermonde"
 
-#: ../lib/library-strings.c:157
+#: ../lib/library-strings.c:159
 msgid "The angle of two vectors, given an inner product"
 msgstr "El ángulo de dos vectores, dado por su producto interior"
 
-#: ../lib/library-strings.c:158
+#: ../lib/library-strings.c:160
 msgid "The direct sum of the vector spaces M and N"
 msgstr "Suma directa de los espacios vectoriales M y N"
 
-#: ../lib/library-strings.c:159
+#: ../lib/library-strings.c:161
 msgid "Intersection of the subspaces given by M and N"
 msgstr "La intersección de los subespacios, dada por M y N"
 
-#: ../lib/library-strings.c:160
+#: ../lib/library-strings.c:162
 msgid "The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}"
 msgstr ""
 "La suma de los espacios vectoriales M y N, esto es {w | w=m+n, m en M, n en "
 "N}"
 
-#: ../lib/library-strings.c:161
+#: ../lib/library-strings.c:163
 msgid "Get the classical adjoint (adjugate) of a matrix"
 msgstr "Obtener el adjunto clásico de una matriz"
 
-#: ../lib/library-strings.c:162
+#: ../lib/library-strings.c:164
 msgid "Compute the Column Reduced Echelon Form"
 msgstr "Calcular la forma en escalón reducida por columnas"
 
-#: ../lib/library-strings.c:163
+#: ../lib/library-strings.c:165
 msgid "Get n'th catalan number"
 msgstr "Obtener el enésimo número Catalán"
 
-#: ../lib/library-strings.c:164
+#: ../lib/library-strings.c:166
 msgid "Double factorial: n(n-2)(n-4)..."
 msgstr "Doble factorial: n(n-2)(n-4)..."
 
-#: ../lib/library-strings.c:165
+#: ../lib/library-strings.c:167
 msgid "Factorial: n(n-1)(n-2)..."
 msgstr "Factorial: n(n-1)(n-2)..."
 
-#: ../lib/library-strings.c:166
+#: ../lib/library-strings.c:168
 msgid "Falling factorial: (n)_k = n(n-1)...(n-(k-1))"
 msgstr "Factorial decreciente: (n)_k = n(n-1)...(n-(k-1))"
 
-#: ../lib/library-strings.c:167
+#: ../lib/library-strings.c:169
 msgid "Calculate n'th fibbonachi number"
 msgstr "Calcular el enésimo número de Fibbonachi"
 
-#: ../lib/library-strings.c:168
+#: ../lib/library-strings.c:170
 msgid "Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))"
 msgstr ""
 "Matriz de Galois dada una regla de combinación lineal (a_1*x_+...+a_n*x_n=x_"
 "(n+1))"
 
-#: ../lib/library-strings.c:169
+#: ../lib/library-strings.c:171
 msgid "Harmonic Number, the nth harmonic number of order r"
 msgstr "Número armónico, el enésimo número armónico de orden r"
 
-#: ../lib/library-strings.c:170
+#: ../lib/library-strings.c:172
 msgid ""
 "Hofstadter's function q(n) defined by q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q"
 "(n-2))"
@@ -840,39 +843,39 @@ msgstr ""
 "Función q(n) de Hofstadter definida por q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-"
 "q(n-2))"
 
-#: ../lib/library-strings.c:171
+#: ../lib/library-strings.c:173
 msgid "Compute linear recursive sequence using galois stepping"
 msgstr "Calcular la secuencia lineal recursiva usando el escalamiento de Galois"
 
-#: ../lib/library-strings.c:172
+#: ../lib/library-strings.c:174
 msgid "Calculate multinomial coefficients"
 msgstr "Calcular los coeficientes multinómicos"
 
-#: ../lib/library-strings.c:173
+#: ../lib/library-strings.c:175
 msgid "Get the pascal's triangle as a matrix"
 msgstr "Obtener el triángulo de Pascal como una matriz"
 
-#: ../lib/library-strings.c:174
+#: ../lib/library-strings.c:176
 msgid "(Puchhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))"
 msgstr "Factorial creciente (de Puchhammer): (n)_k = n(n+1)...(n+(k-1))"
 
-#: ../lib/library-strings.c:175
+#: ../lib/library-strings.c:177
 msgid "Subfactorial: n! times sum_{k=1}^n (-1)^k/k!"
 msgstr "Subfactorial: sum_{k=1}^n (-1)^k/k! n! veces"
 
-#: ../lib/library-strings.c:176
+#: ../lib/library-strings.c:178
 msgid "Calculate the nth triangular number"
 msgstr "Calcular el enésimo número triangular"
 
-#: ../lib/library-strings.c:177
+#: ../lib/library-strings.c:179
 msgid "Calculate combinations (binomial coefficient)"
 msgstr "Calcular combinaciones (coeficiente binomial)"
 
-#: ../lib/library-strings.c:178
+#: ../lib/library-strings.c:180
 msgid "Calculate permutations"
 msgstr "Calcular permutaciones"
 
-#: ../lib/library-strings.c:179
+#: ../lib/library-strings.c:181
 msgid ""
 "Integration of f by Composite Simpson's Rule on the interval [a,b] with the "
 "number of steps calculated by the fourth derivative bound and the desired "
@@ -881,17 +884,17 @@ msgstr ""
 "Integración de F por la Regla compuesta de Simpson en el intervalo [a,b] con "
 "el número de pasos calculado por la cuarta derivada y la tolerancia deseada"
 
-#: ../lib/library-strings.c:180
+#: ../lib/library-strings.c:182
 msgid ""
 "Attempt to calculate derivative by trying first symbolically and then "
 "numerically"
 msgstr "Intentar calcular la derivada primero simbólicamente y después numéricamente"
 
-#: ../lib/library-strings.c:181
+#: ../lib/library-strings.c:183
 msgid "Try to calculate an infinite product for a single parameter function"
 msgstr "Intenta calcular un producto infinito para una función de un sólo parámetro"
 
-#: ../lib/library-strings.c:182
+#: ../lib/library-strings.c:184
 msgid ""
 "Try to calculate an infinite product for a double parameter function with "
 "func(arg,n)"
@@ -899,11 +902,11 @@ msgstr ""
 "Intenta calcular un producto infinito para una función de parámetro doble "
 "con func(arg,n)"
 
-#: ../lib/library-strings.c:183
+#: ../lib/library-strings.c:185
 msgid "Try to calculate an infinite sum for a single parameter function"
 msgstr "Intenta calcular una suma infinita para una función de un solo parámetro"
 
-#: ../lib/library-strings.c:184
+#: ../lib/library-strings.c:186
 msgid ""
 "Try to calculate an infinite sum for a double parameter function with func"
 "(arg,n)"
@@ -911,7 +914,7 @@ msgstr ""
 "Intenta calcular una suma infinita para una función de parámetro doble con "
 "func(arg,n)<"
 
-#: ../lib/library-strings.c:185
+#: ../lib/library-strings.c:187
 msgid ""
 "Try and see if a real-valued function is continuous at x0 by calculating the "
 "limit there"
@@ -919,7 +922,7 @@ msgstr ""
 "Comprueba si una función real es continua en x0 calculando el límite en ese "
 "punto"
 
-#: ../lib/library-strings.c:186
+#: ../lib/library-strings.c:188
 msgid ""
 "Test for differentiability by approximating the left and right limits and "
 "comparing"
@@ -927,11 +930,11 @@ msgstr ""
 "Comprobar la diferenciabilidad utilizando aproximación por los límites por "
 "la izquierda y derecha y comparando"
 
-#: ../lib/library-strings.c:187
+#: ../lib/library-strings.c:189
 msgid "Calculate the left limit of a real-valued function at x0"
 msgstr "Calcular el límite por la izquierda de una función real en x0"
 
-#: ../lib/library-strings.c:188
+#: ../lib/library-strings.c:190
 msgid ""
 "Calculate the limit of a real-valued function at x0.  Tries to calculate "
 "both left and right limits."
@@ -939,15 +942,15 @@ msgstr ""
 "Calcular el límite de una función real en x0. Intenta calcular tanto el "
 "límite por la derecha como por la izquierda."
 
-#: ../lib/library-strings.c:189
+#: ../lib/library-strings.c:191
 msgid "Integration by midpoint rule"
 msgstr "Integración por la regla del punto medio"
 
-#: ../lib/library-strings.c:190
+#: ../lib/library-strings.c:192
 msgid "Attempt to calculate numerical derivative"
 msgstr "Intentar calcular la derivada numérica"
 
-#: ../lib/library-strings.c:191
+#: ../lib/library-strings.c:193
 msgid ""
 "Integration by rule set in NumericalIntegralFunction of f from a to b using "
 "NumericalIntegralSteps steps"
@@ -955,71 +958,71 @@ msgstr ""
 "Integración por el conjunto de reglas en NumericalIntegralFunction de f "
 "desde a a b usando NumericalIntegralSteps pasos"
 
-#: ../lib/library-strings.c:192
+#: ../lib/library-strings.c:194
 msgid "Attempt to calculate numerical left derivative"
 msgstr "Intentar calcular la derivada numérica por la izquierda"
 
-#: ../lib/library-strings.c:193
+#: ../lib/library-strings.c:195
 msgid "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N"
 msgstr "Intentar calcular el límite de f(step_fun(i)), para i desde 1 hasta N"
 
-#: ../lib/library-strings.c:194
+#: ../lib/library-strings.c:196
 msgid "Attempt to calculate numerical right derivative"
 msgstr "Intentar calcular la derivada numérica por la derecha"
 
-#: ../lib/library-strings.c:195
+#: ../lib/library-strings.c:197
 msgid "Compute one-sided derivative using five point formula"
 msgstr "Calcular la derivada de un lado usando una fórmula de 5 puntos"
 
-#: ../lib/library-strings.c:196
+#: ../lib/library-strings.c:198
 msgid "Compute one-sided derivative using three-point formula"
 msgstr "Calcular la derivada de un lado usando una fórmula de tres puntos"
 
-#: ../lib/library-strings.c:197
+#: ../lib/library-strings.c:199
 msgid "Calculate the right limit of a real-valued function at x0"
 msgstr "Calcular el límite por la derecha de una función real en x0"
 
-#: ../lib/library-strings.c:198
+#: ../lib/library-strings.c:200
 msgid "Compute two-sided derivative using five-point formula"
 msgstr "Calcular la derivada de dos lados usando una fórmula de cinco puntos"
 
-#: ../lib/library-strings.c:199
+#: ../lib/library-strings.c:201
 msgid "Compute two-sided derivative using three-point formula"
 msgstr "Calcular la derivada de dos lados usando la fórmula de tres puntos"
 
-#: ../lib/library-strings.c:200
+#: ../lib/library-strings.c:202
 msgid "argument (angle) of complex number"
 msgstr "argumento (ángulo) de un número complejo"
 
-#: ../lib/library-strings.c:201
+#: ../lib/library-strings.c:203
 msgid "Dirichlet kernel of order n"
 msgstr "Núcleo de Dirichlet de orden n"
 
-#: ../lib/library-strings.c:202
+#: ../lib/library-strings.c:204
 msgid "Returns 1 iff all elements are zero"
 msgstr "Devuelve 0 si todos los elementos son cero"
 
-#: ../lib/library-strings.c:203
+#: ../lib/library-strings.c:205
 msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
 msgstr "La función de error, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
 
-#: ../lib/library-strings.c:204
+#: ../lib/library-strings.c:206
 msgid "Fejer kernel of order n"
 msgstr "Núcleo de Fejer de orden n"
 
-#: ../lib/library-strings.c:205
+#: ../lib/library-strings.c:207
 msgid "Returns 1 iff all elements are equal"
 msgstr "Devuelve 1 si todos los elementos son iguales"
 
-#: ../lib/library-strings.c:206
+#: ../lib/library-strings.c:208
 msgid "Find the first value where f(x)=0"
 msgstr "Buscar el primer valor donde f(x)=0"
 
-#: ../lib/library-strings.c:207
+#: ../lib/library-strings.c:209
 msgid "Moebius mapping of the disk to itself mapping a to 0"
 msgstr "Mapa de Moebius del disco a sí mismo mapeando a a 0"
 
-#: ../lib/library-strings.c:208
+#: ../lib/library-strings.c:210
 msgid ""
 "Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity "
 "respectively"
@@ -1027,7 +1030,7 @@ msgstr ""
 "Mapa de Moebius usando el radio cruzado z2,z3,z4 a 1,0 e infinito "
 "respectivamente"
 
-#: ../lib/library-strings.c:209
+#: ../lib/library-strings.c:211
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 "
 "to 1 and 0 respectively"
@@ -1035,19 +1038,19 @@ msgstr ""
 "Mapa de Moebius usando el radio cruzado tomando infinito a infinito y z2,z3 "
 "a 1 y 0 respectivamente"
 
-#: ../lib/library-strings.c:210
+#: ../lib/library-strings.c:212
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 "
 "and infinity respectively"
 msgstr ""
 
-#: ../lib/library-strings.c:211
+#: ../lib/library-strings.c:213
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 "
 "and infinity respectively"
 msgstr ""
 
-#: ../lib/library-strings.c:212
+#: ../lib/library-strings.c:214
 msgid ""
 "Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is "
 "2pi)"
@@ -1055,11 +1058,11 @@ msgstr ""
 "El núcleo de Poisson en D(0,1) (no normalizado a 1, esto es, su integral es "
 "2pi)"
 
-#: ../lib/library-strings.c:213
+#: ../lib/library-strings.c:215
 msgid "Poisson kernel on D(0,R) (not normalized to 1)"
 msgstr "El núcleo de Poisson en D(0,R) (no normalizado a 1)"
 
-#: ../lib/library-strings.c:214
+#: ../lib/library-strings.c:216
 msgid ""
 "The unit step function = 0 for x<0, 1 otherwise.  This is the integral of "
 "the Dirac Delta function."
@@ -1067,23 +1070,23 @@ msgstr ""
 "La función escalón unidad = 0 para x<0, 1 para el resto. Esta es la integral "
 "de la función Delta de Dirac."
 
-#: ../lib/library-strings.c:215
+#: ../lib/library-strings.c:217
 msgid "The cis function, that is cos(x)+i*sin(x)"
 msgstr "La función cis, que es cos(x)+i*sen(x)"
 
-#: ../lib/library-strings.c:216
+#: ../lib/library-strings.c:218
 msgid "Convert degrees to radians"
 msgstr "Convertir grados a radianes"
 
-#: ../lib/library-strings.c:217
+#: ../lib/library-strings.c:219
 msgid "Convert radians to degrees"
 msgstr "Convertir radianes a grados"
 
-#: ../lib/library-strings.c:218
+#: ../lib/library-strings.c:220
 msgid "Find roots of a cubic polynomial (given as vector of coefficients)"
 msgstr "Extraer raíces de una polinomial cúbica (dado como un vector de coeficientes)"
 
-#: ../lib/library-strings.c:219
+#: ../lib/library-strings.c:221
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns y at x1"
@@ -1091,31 +1094,37 @@ msgstr ""
 "Usar el método clásico de Euler para resolver numéricamente y'=f(x,y) para "
 "unas x0,y0 iniciales que con incrementos de n van a x1, devuelve y en x1"
 
-#: ../lib/library-strings.c:220
+#: ../lib/library-strings.c:222
 msgid "Find root of a function using the bisection method"
 msgstr "Buscar la raíz de una función usando el método de la bisección"
 
-#: ../lib/library-strings.c:221
+#: ../lib/library-strings.c:223
 msgid "Find root of a function using the method of false position"
 msgstr "Buscar la raíz de una función usando el método de la posición falsa"
 
-#: ../lib/library-strings.c:222
+#: ../lib/library-strings.c:224
 msgid "Find root of a function using the Muller's method"
 msgstr "Buscar la raíz de una función usando el método de Muller"
 
-#: ../lib/library-strings.c:223
+#: ../lib/library-strings.c:225
 msgid "Find root of a function using the secant method"
 msgstr "Buscar la raíz de una función usando el método de la secante"
 
-#: ../lib/library-strings.c:224
+#: ../lib/library-strings.c:226
 msgid "Find roots of a polynomial (given as vector of coefficients)"
 msgstr "Extraer las raíces de una polinomial (dado como un vector de coeficientes)"
 
-#: ../lib/library-strings.c:225
+#: ../lib/library-strings.c:227
 msgid "Find roots of a quadratic polynomial (given as vector of coefficients)"
-msgstr "Encontrar las raíces de una polinomial cuadrática (dada como un vector de coeficientes)"
+msgstr ""
+"Encontrar las raíces de una polinomial cuadrática (dada como un vector de "
+"coeficientes)"
 
-#: ../lib/library-strings.c:226
+#: ../lib/library-strings.c:228
+msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
+msgstr "Encontrar las raíces de un polinomio cuadrático (dado como un vector de coeficientes)"
+
+#: ../lib/library-strings.c:229
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
@@ -1125,37 +1134,37 @@ msgstr ""
 "resolver numéricamente y'=f(x,y) para una x0,y0 inicial que vaya hasta x1 en "
 "incrementos de n, devuelve y en x1"
 
-#: ../lib/library-strings.c:227
+#: ../lib/library-strings.c:230
 msgid "Calculate average of an entire matrix"
 msgstr "Calcular la media de una matriz entera"
 
-#: ../lib/library-strings.c:228
+#: ../lib/library-strings.c:231
 msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 msgstr ""
 "La integral de la GaussFunction (función de Gauss) de 0 a x (el área "
 "comprendida debajo de la curva normal)"
 
-#: ../lib/library-strings.c:229
+#: ../lib/library-strings.c:232
 msgid "The normalized Gauss distribution function (the normal curve)"
 msgstr "La función distribución Gausiana normalizada (la curva normal)"
 
-#: ../lib/library-strings.c:230
+#: ../lib/library-strings.c:233
 msgid "Calculate median of an entire matrix"
 msgstr "Calcula la mediana de una matriz entera"
 
-#: ../lib/library-strings.c:231
+#: ../lib/library-strings.c:234
 msgid "Calculate the population standard deviation of a whole matrix"
 msgstr "Calcula la desviación típica de una matriz entera"
 
-#: ../lib/library-strings.c:232
+#: ../lib/library-strings.c:235
 msgid "Calculate average of each row in a matrix"
 msgstr "Calcular la media de cada columna de una matriz"
 
-#: ../lib/library-strings.c:233
+#: ../lib/library-strings.c:236
 msgid "Calculate median of each row in a matrix"
 msgstr "Calcula la mediana de cada columna de una matriz"
 
-#: ../lib/library-strings.c:234
+#: ../lib/library-strings.c:237
 msgid ""
 "Calculate the population standard deviations of rows of a matrix and return "
 "a vertical vector"
@@ -1163,7 +1172,7 @@ msgstr ""
 "Calcula la desviación típica de las columnas de una matriz y devuelve una "
 "matriz columna"
 
-#: ../lib/library-strings.c:235
+#: ../lib/library-strings.c:238
 msgid ""
 "Calculate the standard deviations of rows of a matrix and return a vertical "
 "vector"
@@ -1171,11 +1180,11 @@ msgstr ""
 "Calcular la desviación estándar de las filas de una matriz y devuelve una "
 "matriz columna"
 
-#: ../lib/library-strings.c:236
+#: ../lib/library-strings.c:239
 msgid "Calculate the standard deviation of a whole matrix"
 msgstr "Calcular la desviación estándar de una matriz entera"
 
-#: ../lib/library-strings.c:237
+#: ../lib/library-strings.c:240
 msgid ""
 "Run newton's method on a polynomial to attempt to find a root, returns after "
 "two successive values are within epsilon or after maxn tries (then returns "
@@ -1186,21 +1195,21 @@ msgstr ""
 "límites que marca épsilon o después de maxn iteraciones (en cuyo caso "
 "devuelve null)"
 
-#: ../lib/library-strings.c:238
+#: ../lib/library-strings.c:241
 msgid "Returns a set where every element of X appears only once"
 msgstr "Devuelve un conjunto donde cada elemento de X aparece una sola vez"
 
-#: ../lib/library-strings.c:239
+#: ../lib/library-strings.c:242
 msgid ""
 "Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
 "be sets)"
 msgstr "Devuelve la unión de X e Y (X e Y son vectores que se tratan como conjuntos)"
 
-#: ../lib/library-strings.c:240
+#: ../lib/library-strings.c:243
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "Intentar diferenciar simbólicamente n veces una función."
 
-#: ../lib/library-strings.c:241
+#: ../lib/library-strings.c:244
 msgid ""
 "Attempt to symbolically differentiate a function n times quietly and return "
 "null on failure"
@@ -1208,7 +1217,7 @@ msgstr ""
 "Intentar diferenciar simbólicamente n veces una función silenciosamente y "
 "devolver null si ocurre un error."
 
-#: ../lib/library-strings.c:242
+#: ../lib/library-strings.c:245
 msgid ""
 "Attempt to construct the taylor approximation function around x0 to the nth "
 "degree."
@@ -2188,7 +2197,7 @@ msgstr "Generar un número en coma flotante aleatorio"
 msgid "Generate random integer"
 msgstr "Generar un entero aleatorio"
 
-#: ../src/funclib.c:5091 ../src/gnome-genius.c:1165
+#: ../src/funclib.c:5091 ../src/gnome-genius.c:1278
 msgid "Floating point precision"
 msgstr "Precisión en coma flotante"
 
@@ -2245,8 +2254,8 @@ msgid "Gets the columns of a matrix as a horizontal vector"
 msgstr "Obtiene las columnas de una matriz como un vector horizontal"
 
 #: ../src/funclib.c:5110
-msgid "Gets the diagonal entries of a matrix as a horizontal vector"
-msgstr "Obtiene las entradas diagonales de una matriz como un vector horizontal"
+msgid "Gets the diagonal entries of a matrix as a column vector"
+msgstr "Obtiene las entradas diagonales de una matriz como un vector columna"
 
 #: ../src/funclib.c:5111
 msgid "Count the number of zero columns in a matrix"
@@ -2285,9 +2294,8 @@ msgid "Calculates the arctan function"
 msgstr "Calcula la función arco tangente"
 
 #: ../src/funclib.c:5133
-#, fuzzy
 msgid "Calculates the arctan2 function (arctan(y/x) if x>0)"
-msgstr "Calcula la función arco tangente"
+msgstr "Calcula la función arco tangente2 (arctan(y/x) si x>0)"
 
 #: ../src/funclib.c:5136
 msgid "The number pi"
@@ -2798,7 +2806,7 @@ msgstr ""
 "%s%s\n"
 
 #: ../src/genius.c:324
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Genius %s usage:\n"
 "\n"
@@ -2834,21 +2842,21 @@ msgstr ""
 "\t--[no]floatresult \tTodos los resultados en coma flotante [OFF]\n"
 "\t--[no]scinot      \tResultados en notación científica [OFF]\n"
 "\t--[no]fullexp     \t Imprimir siempre expresiones completas [OFF]\n"
-"\t--maxerrors=num   \tMáximo número de errores a mostrar (0= sin límite)\n"
+"\t--maxerrors=num   \tMáximo número de errores a mostrar (0=sin límite)\n"
 "\t--[no]mixed        \t Imprime las fracciones en formato mixto\n"
 "\t--intoutbase=num  \t Base a usar para imprimir enteros [10]\n"
 "\t--[no]readline    \tUsar readline si disponible [ON]\n"
 "\t--[no]compile     \tCompilar todo y volcarlo a stdout [OFF]\n"
-"\t--[no]gettext     \tVolcar la salida de errores/ayuda en un archivo .c "
-"falso con\n"
+"\t--[no]gettext     \tVolcar la salida de errores/ayuda en un archivo .c falso con\n"
 "\t                  \tstdout (para usar con gettext) [OFF]\n"
 "\t--[no]quiet       \tModo silencioso para el modo no-interactivo,\n"
-"\t                  \t(opción siempre activa al compilar) [OFF]\n"
+"\t                  \t(opción siempre activa al compilar) [OFF]\n\n"
+"\t--exec=expr       \tEjecutar una expresión\n"
 "\n"
 
 #: ../src/genius.c:352
 msgid "Can't specify both an expression and files to execute on the command line"
-msgstr ""
+msgstr "No se pueden especificar a la vez archivos y expresiones para ejecutar en la línea de comandos"
 
 #: ../src/genius.c:378
 #, c-format
@@ -2867,7 +2875,7 @@ msgstr ""
 "Para ayuda, escriba 'manual' o 'help'.%s\n"
 "\n"
 
-#: ../src/genius.c:434 ../src/gnome-genius.c:3343
+#: ../src/genius.c:434 ../src/gnome-genius.c:3510
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -2915,160 +2923,192 @@ msgstr "Scripts"
 msgid "String"
 msgstr "Cadena"
 
-#: ../src/gnome-genius.c:210
+#: ../src/gnome-genius.c:219
 msgid "_New Program"
 msgstr "Programa _nuevo"
 
-#: ../src/gnome-genius.c:210 ../src/gnome-genius.c:319
+#: ../src/gnome-genius.c:219 ../src/gnome-genius.c:346
 msgid "Create new program tab"
 msgstr "Crear una solapa de programa nuevo"
 
-#: ../src/gnome-genius.c:217
+#: ../src/gnome-genius.c:226
 msgid "_Reload from Disk"
 msgstr "_Recargar del disco"
 
-#: ../src/gnome-genius.c:217
+#: ../src/gnome-genius.c:226
 msgid "Reload the selected program from disk"
 msgstr "Recargar el programa seleccionado del disco"
 
-#: ../src/gnome-genius.c:221
+#: ../src/gnome-genius.c:230
 msgid "_Load and Run..."
 msgstr "_Cargar y ejecutar..."
 
-#: ../src/gnome-genius.c:221
+#: ../src/gnome-genius.c:230
 msgid "Load and execute a file in genius"
 msgstr "Cargar y ejecutar un archivo con genius"
 
-#: ../src/gnome-genius.c:246
+#: ../src/gnome-genius.c:255
 msgid "Copy Answer As Plain _Text"
 msgstr "Copiar respuesta como _texto plano"
 
-#: ../src/gnome-genius.c:247
+#: ../src/gnome-genius.c:256
 msgid "Copy last answer into the clipboard in plain text"
 msgstr "Copiar la última respuesta al portapapeles en texto plano"
 
-#: ../src/gnome-genius.c:250
+#: ../src/gnome-genius.c:259
 msgid "Copy Answer As _LaTeX"
 msgstr "Copiar respuesta como _LaTeX"
 
-#: ../src/gnome-genius.c:251
+#: ../src/gnome-genius.c:260
 msgid "Copy last answer into the clipboard as LaTeX"
 msgstr "Copiar la última respuesta en el portapapeles como LaTeX"
 
-#: ../src/gnome-genius.c:254
+#: ../src/gnome-genius.c:263
 msgid "Copy Answer As _MathML"
 msgstr "Copiar respuesta como _MathML"
 
-#: ../src/gnome-genius.c:255
+#: ../src/gnome-genius.c:264
 msgid "Copy last answer into the clipboard as MathML"
 msgstr "Copia la respuesta al portapapeles como MathML"
 
-#: ../src/gnome-genius.c:258
+#: ../src/gnome-genius.c:267
 msgid "Copy Answer As T_roff"
 msgstr "Copiar respuesta como T_roff"
 
-#: ../src/gnome-genius.c:259
+#: ../src/gnome-genius.c:268
 msgid "Copy last answer into the clipboard as Troff eqn"
 msgstr "Copia la respuesta al portapapeles como Troff"
 
-#: ../src/gnome-genius.c:272
+#: ../src/gnome-genius.c:281
 msgid "_Run"
 msgstr "_Ejecutar"
 
-#: ../src/gnome-genius.c:272 ../src/gnome-genius.c:318
+#: ../src/gnome-genius.c:281 ../src/gnome-genius.c:345
 msgid "Run current program"
 msgstr "Ejecutar programa actual"
 
-#: ../src/gnome-genius.c:273
+#: ../src/gnome-genius.c:282
 msgid "_Interrupt"
 msgstr "_Interrumpir"
 
-#: ../src/gnome-genius.c:273 ../src/gnome-genius.c:316
+#: ../src/gnome-genius.c:282 ../src/gnome-genius.c:343
 msgid "Interrupt current calculation"
 msgstr "Interrumpir el cálculo actual"
 
-#: ../src/gnome-genius.c:275 ../src/graphing.c:3269
+#: ../src/gnome-genius.c:284
+msgid "Show _Full Answer"
+msgstr "Mostrar respuesta comple_ta"
+
+#: ../src/gnome-genius.c:284
+msgid "Show the full text of last answer"
+msgstr "Mostrar el texto completo de la última respuesta"
+
+#: ../src/gnome-genius.c:286 ../src/graphing.c:3269
 msgid "_Plot"
 msgstr "_Dibujar"
 
-#: ../src/gnome-genius.c:275 ../src/gnome-genius.c:321
+#: ../src/gnome-genius.c:286 ../src/gnome-genius.c:348
 msgid "Plot a function"
 msgstr "Dibujar una función"
 
-#: ../src/gnome-genius.c:281
+#: ../src/gnome-genius.c:292
 msgid "_Help on Function"
 msgstr "_Ayuda sobre la función"
 
-#: ../src/gnome-genius.c:282
+#: ../src/gnome-genius.c:293
 msgid "Help on a function or a command"
 msgstr "Ayuda sobre una función o un comando"
 
-#: ../src/gnome-genius.c:285
+#: ../src/gnome-genius.c:296
 msgid "_Warranty"
 msgstr "_Garantía"
 
-#: ../src/gnome-genius.c:286
+#: ../src/gnome-genius.c:297
 msgid "Display warranty information"
 msgstr "Mostrar la información de garantía"
 
-#: ../src/gnome-genius.c:304
+#: ../src/gnome-genius.c:309
+msgid "_Next Tab"
+msgstr "_Siguiente solapa"
+
+#: ../src/gnome-genius.c:309
+msgid "Go to next tab"
+msgstr "Ir a la siguiente solapa"
+
+#: ../src/gnome-genius.c:313
+msgid "_Previous Tab"
+msgstr "Solapa _anterior"
+
+#: ../src/gnome-genius.c:313
+msgid "Go to previous tab"
+msgstr "Ir a la solapa anterior"
+
+#: ../src/gnome-genius.c:320
+msgid "_Console"
+msgstr "_Terminal"
+
+#: ../src/gnome-genius.c:321
+msgid "Go to the console tab"
+msgstr "Ir a la solapa del terminal"
+
+#: ../src/gnome-genius.c:331
 msgid "_Calculator"
 msgstr "_Calculadora"
 
-#: ../src/gnome-genius.c:306
+#: ../src/gnome-genius.c:333
 msgid "P_lugins"
 msgstr "_Extensiones"
 
-#: ../src/gnome-genius.c:308
+#: ../src/gnome-genius.c:335
 msgid "_Programs"
 msgstr "_Programas"
 
-#: ../src/gnome-genius.c:316
+#: ../src/gnome-genius.c:343
 msgid "Interrupt"
 msgstr "Interrumpir"
 
-#: ../src/gnome-genius.c:318
+#: ../src/gnome-genius.c:345
 msgid "Run"
 msgstr "Ejecutar"
 
-#: ../src/gnome-genius.c:319
+#: ../src/gnome-genius.c:346
 msgid "New"
 msgstr "Nuevo"
 
-#: ../src/gnome-genius.c:320
+#: ../src/gnome-genius.c:347
 msgid "Open"
 msgstr "Abrir"
 
-#: ../src/gnome-genius.c:320
+#: ../src/gnome-genius.c:347
 msgid "Open a GEL file for running"
 msgstr "Abrir un archivo GEL para ejecutar"
 
-#: ../src/gnome-genius.c:321 ../src/graphing.c:1277
+#: ../src/gnome-genius.c:348 ../src/graphing.c:1277
 msgid "Plot"
 msgstr "Dibujar"
 
-#: ../src/gnome-genius.c:322
+#: ../src/gnome-genius.c:349
 msgid "Exit"
 msgstr "Salir"
 
-#: ../src/gnome-genius.c:322
+#: ../src/gnome-genius.c:349
 msgid "Exit genius"
 msgstr "Salir de Genius"
 
-#: ../src/gnome-genius.c:406
+#: ../src/gnome-genius.c:433
 msgid "Help on Function"
 msgstr "Ayuda sobre una función"
 
-#: ../src/gnome-genius.c:417
+#: ../src/gnome-genius.c:444
 msgid "Function or command name:"
 msgstr "Nombre de la función o del comando:"
 
-#: ../src/gnome-genius.c:450
+#: ../src/gnome-genius.c:477
 #, c-format
 msgid "<b>Help on %s not found</b>"
 msgstr "<b>No se encontró ayuda sobre %s</b>"
 
-#: ../src/gnome-genius.c:454
+#: ../src/gnome-genius.c:481
 #, c-format
 msgid ""
 "<b>Help on %s not found</b>\n"
@@ -3079,15 +3119,21 @@ msgstr ""
 "\n"
 "Quizá quiso decir %s."
 
-#: ../src/gnome-genius.c:499
+#: ../src/gnome-genius.c:532
 msgid "Error"
 msgstr "Error"
 
-#: ../src/gnome-genius.c:499
+#: ../src/gnome-genius.c:534
 msgid "Information"
 msgstr "Información"
 
-#: ../src/gnome-genius.c:554
+#. error
+#. always textbox
+#: ../src/gnome-genius.c:608
+msgid "Full Answer"
+msgstr "Respuesta completa"
+
+#: ../src/gnome-genius.c:621
 #, c-format
 msgid ""
 "\n"
@@ -3096,7 +3142,7 @@ msgstr ""
 "\n"
 "Demasiados errores (%d seguidos)"
 
-#: ../src/gnome-genius.c:564
+#: ../src/gnome-genius.c:635
 #, c-format
 msgid "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
 msgstr "\\e[01;31mDemasiados errores (%d seguidos)\\e[0m\n"
@@ -3105,17 +3151,17 @@ msgstr "\\e[01;31mDemasiados errores (%d seguidos)\\e[0m\n"
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: ../src/gnome-genius.c:716
+#: ../src/gnome-genius.c:791
 msgid "translator-credits"
 msgstr ""
 "Francisco Javier F. Serrador <serrador@gnome.org>\n"
 "Jorge González González <jorge.gonzalez.gonzalez@hispalinux.es>, 2004, 2005"
 
-#: ../src/gnome-genius.c:735
+#: ../src/gnome-genius.c:810
 msgid "About Genius"
 msgstr "Acerca de Genius"
 
-#: ../src/gnome-genius.c:738
+#: ../src/gnome-genius.c:813
 msgid ""
 "The Gnome calculator style edition of the genius calculator.  For license/"
 "warranty details, type 'warranty' into the console."
@@ -3123,7 +3169,7 @@ msgstr ""
 "El estilo de edición de la calculadora de Gnome de la calculadora Genius. "
 "Para detalles sobre la licencia/garantía, escriba «warranty» en un terminal."
 
-#: ../src/gnome-genius.c:907
+#: ../src/gnome-genius.c:992
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -3131,67 +3177,82 @@ msgstr ""
 "Genius está ejecutando algo, y además hay programas no guardados.\n"
 "¿Seguro que quiere salir?"
 
-#: ../src/gnome-genius.c:915
+#: ../src/gnome-genius.c:1000
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr "Hay programas no guardados, ¿seguro que quiere salir?"
 
-#: ../src/gnome-genius.c:922
+#: ../src/gnome-genius.c:1007
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr "Genius está ejecutando algo, ¿seguro que quiere salir?"
 
-#: ../src/gnome-genius.c:929
+#: ../src/gnome-genius.c:1014
 msgid "Are you sure you wish to quit?"
 msgstr "¿Seguro que quiere salir?"
 
-#: ../src/gnome-genius.c:1036
+#: ../src/gnome-genius.c:1126
 msgid "Genius Setup"
 msgstr "Configuración de Genius"
 
-#: ../src/gnome-genius.c:1053
+#: ../src/gnome-genius.c:1144
 msgid "Output"
 msgstr "Salida"
 
-#: ../src/gnome-genius.c:1056
+#: ../src/gnome-genius.c:1147
 msgid "Number/Expression output options"
 msgstr "Opciones de salida de número/expresión"
 
-#: ../src/gnome-genius.c:1066
+#: ../src/gnome-genius.c:1157
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Máximo de cifras en salida (0=ilimitado)"
 
-#: ../src/gnome-genius.c:1086
+#: ../src/gnome-genius.c:1177
 msgid "Results as floats"
 msgstr "Los resultados son números de coma flotante"
 
-#: ../src/gnome-genius.c:1094
+#: ../src/gnome-genius.c:1185
 msgid "Floats in scientific notation"
 msgstr "Números de coma flotante en notación científica"
 
-#: ../src/gnome-genius.c:1102
+#: ../src/gnome-genius.c:1193
 msgid "Always print full expressions"
 msgstr "Imprimir siempre expresiones completas"
 
-#: ../src/gnome-genius.c:1111
+#: ../src/gnome-genius.c:1201
+msgid "Use mixed fractions"
+msgstr "Usar fracciones mixtas"
+
+#: ../src/gnome-genius.c:1209
+msgid "Remember output settings across sessions"
+msgstr "Recordar los ajustes de salida entre sesiones"
+
+#: ../src/gnome-genius.c:1218
+msgid ""
+"Should the output settings in the \"Number/Expression output options\" frame "
+"be remembered for next session.  Does not apply to the \"Error/Info output "
+"options\" frame."
+msgstr ""
+
+#: ../src/gnome-genius.c:1224
 msgid "Error/Info output options"
 msgstr "Error/Opciones de salida info"
 
-#: ../src/gnome-genius.c:1119
+#: ../src/gnome-genius.c:1232
 msgid "Display errors in a dialog"
 msgstr "Mostrar los errores en una ventana de diálogo"
 
-#: ../src/gnome-genius.c:1127
+#: ../src/gnome-genius.c:1240
 msgid "Display information messages in a dialog"
 msgstr "Mostrar los mensajes de información en una ventana de diálogo"
 
-#: ../src/gnome-genius.c:1138
+#: ../src/gnome-genius.c:1251
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Máximo de errores a mostrar (0=ilimitado)"
 
-#: ../src/gnome-genius.c:1162
+#: ../src/gnome-genius.c:1275
 msgid "Precision"
 msgstr "Precisión"
 
-#: ../src/gnome-genius.c:1172
+#: ../src/gnome-genius.c:1285
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -3201,35 +3262,43 @@ msgstr ""
 "inmediatamente para todos los números, sólo serán afectados\n"
 "los números y variables calculados a partir de ahora."
 
-#: ../src/gnome-genius.c:1181
+#: ../src/gnome-genius.c:1294
 msgid "Floating point precision (bits)"
 msgstr "Precisión en coma flotante (bits)"
 
-#: ../src/gnome-genius.c:1205
+#: ../src/gnome-genius.c:1313
+msgid "Remember precision setting across sessions"
+msgstr "Recordar los ajustes de precisión entre sesiones"
+
+#: ../src/gnome-genius.c:1322
+msgid "Should the precision setting be remembered for next session."
+msgstr "Si debería recordarse el ajuste de la precisión para la siguiente sesión."
+
+#: ../src/gnome-genius.c:1331
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ../src/gnome-genius.c:1208
+#: ../src/gnome-genius.c:1333
 msgid "Terminal options"
 msgstr "Opciones del terminal"
 
-#: ../src/gnome-genius.c:1217
+#: ../src/gnome-genius.c:1342
 msgid "Scrollback lines"
 msgstr "Líneas de desfile hacia atrás"
 
-#: ../src/gnome-genius.c:1240
+#: ../src/gnome-genius.c:1365
 msgid "Font:"
 msgstr "Fuente:"
 
-#: ../src/gnome-genius.c:1255
+#: ../src/gnome-genius.c:1380
 msgid "Black on white"
 msgstr "Negro sobre blanco"
 
-#: ../src/gnome-genius.c:1263
+#: ../src/gnome-genius.c:1388
 msgid "Blinking cursor"
 msgstr "Cursor parpadeante"
 
-#: ../src/gnome-genius.c:1293
+#: ../src/gnome-genius.c:1418
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -3239,56 +3308,56 @@ msgstr ""
 "\n"
 "Inténtelo después o interrumpa la operación actual."
 
-#: ../src/gnome-genius.c:1342
+#: ../src/gnome-genius.c:1467
 msgid "GEL files"
 msgstr "Archivos GEL"
 
-#: ../src/gnome-genius.c:1347 ../src/graphing.c:904
+#: ../src/gnome-genius.c:1472 ../src/graphing.c:904
 msgid "All files"
 msgstr "Todos los archivos"
 
-#: ../src/gnome-genius.c:1381 ../src/gnome-genius.c:2123
+#: ../src/gnome-genius.c:1506 ../src/gnome-genius.c:2280
 msgid "Cannot open file!"
 msgstr "Imposible abrir el archivo"
 
-#: ../src/gnome-genius.c:1410 ../src/gnome-genius.c:1428
+#: ../src/gnome-genius.c:1551 ../src/gnome-genius.c:1569
 msgid "Load and Run"
 msgstr "Cargar y ejecutar"
 
-#: ../src/gnome-genius.c:1414
+#: ../src/gnome-genius.c:1555
 msgid "_Load"
 msgstr "Car_gar"
 
-#: ../src/gnome-genius.c:1931
+#: ../src/gnome-genius.c:2088
 msgid "Cannot open file"
 msgstr "Imposible abrir el archivo"
 
-#: ../src/gnome-genius.c:1963 ../src/gnome-genius.c:2970
+#: ../src/gnome-genius.c:2120 ../src/gnome-genius.c:3141
 #, c-format
 msgid "Line: %d"
 msgstr "Línea: %d"
 
-#: ../src/gnome-genius.c:2045
+#: ../src/gnome-genius.c:2202
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Programa_%d.gel"
 
-#: ../src/gnome-genius.c:2050
+#: ../src/gnome-genius.c:2207
 #, c-format
 msgid "Program %d"
 msgstr "Programa %d"
 
-#: ../src/gnome-genius.c:2071
+#: ../src/gnome-genius.c:2228
 #, c-format
 msgid "Cannot open %s"
 msgstr "Imposible abrir %s"
 
-#: ../src/gnome-genius.c:2150 ../src/gnome-genius.c:2169
+#: ../src/gnome-genius.c:2307 ../src/gnome-genius.c:2326
 msgid "Open..."
 msgstr "Abrir..."
 
 #. new fname
-#: ../src/gnome-genius.c:2244 ../src/gnome-genius.c:2299
+#: ../src/gnome-genius.c:2401 ../src/gnome-genius.c:2456
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -3297,15 +3366,15 @@ msgstr ""
 "<b>No se puede guardar el archivo</b>\n"
 "Detalles: %s"
 
-#: ../src/gnome-genius.c:2293 ../src/graphing.c:663 ../src/graphing.c:790
+#: ../src/gnome-genius.c:2450 ../src/graphing.c:663 ../src/graphing.c:790
 msgid "File already exists.  Overwrite it?"
 msgstr "El archivo ya existe. ¿Quiere sobreescribirlo?"
 
-#: ../src/gnome-genius.c:2350 ../src/gnome-genius.c:2372
+#: ../src/gnome-genius.c:2507 ../src/gnome-genius.c:2529
 msgid "Save As..."
 msgstr "Guardar como..."
 
-#: ../src/gnome-genius.c:2446
+#: ../src/gnome-genius.c:2603
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -3315,16 +3384,20 @@ msgstr ""
 "\n"
 "Cree un programa nuevo, o seleccione una solapa existente del cuaderno."
 
-#: ../src/gnome-genius.c:2551
+#: ../src/gnome-genius.c:2708
 #, c-format
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: ../src/gnome-genius.c:2763
+#. error
+#. always textbox
+#. textbox_title
+#. bind_response
+#: ../src/gnome-genius.c:2934
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "No se puede ejecutar genius-readline-helper-fifo\n"
 
-#: ../src/gnome-genius.c:2988
+#: ../src/gnome-genius.c:3159
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -3332,11 +3405,11 @@ msgstr ""
 "\n"
 "Nota: Compilado sin GtkSourceView (mejor editor de fuentes)"
 
-#: ../src/gnome-genius.c:3222
+#: ../src/gnome-genius.c:3389
 msgid "Console"
 msgstr "Terminal"
 
-#: ../src/gnome-genius.c:3274
+#: ../src/gnome-genius.c:3441
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
