@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-30 03:20+0000\n"
-"PO-Revision-Date: 2007-05-15 19:02+0200\n"
+"POT-Creation-Date: 2007-05-15 19:34+0100\n"
+"PO-Revision-Date: 2007-06-15 16:26+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -455,7 +455,9 @@ msgstr "Hacer una matriz diagonal de un vector"
 
 #: ../lib/library-strings.c:86
 msgid "Make column vector out of matrix by putting columns above each other"
-msgstr "Hacer un vector columna de una matriz poniendo las columnas unas encima de otras"
+msgstr ""
+"Hacer un vector columna de una matriz poniendo las columnas unas encima de "
+"otras"
 
 #: ../lib/library-strings.c:87
 msgid "Calculate the product of all elements in a matrix"
@@ -537,7 +539,7 @@ msgstr "Obtiene una matriz base para el espacio de columna de una matriz"
 msgid ""
 "Return the commutation matrix K(m,n) which is the unique m*n by m*n matrix "
 "such that K(m,n) * MakeVector(A) = MakeVector(A.') for all m by n matrices A."
-msgstr ""
+msgstr "Devolver la matriz de conmutación K(m,n) que es la única matriz m*n por m*n tal que K(m,n) * MakeVector(A) = MakeVector(A.') para todas las matrices A m por n."
 
 #: ../lib/library-strings.c:106
 msgid "Companion matrix of a polynomial (as vector)"
@@ -573,13 +575,17 @@ msgstr "Suma directa de un vector de matrices"
 msgid ""
 "Get the eigenvalues of a matrix (Currently only for up to 4x4 or triangular "
 "matrices)"
-msgstr "Obtener los valores propios de una matriz (sólo disponible para matrices 4x4 y matrices triangulares)"
+msgstr ""
+"Obtener los valores propios de una matriz (sólo disponible para matrices 4x4 "
+"y matrices triangulares)"
 
 #: ../lib/library-strings.c:115
 msgid ""
 "Apply the Gram-Schmidt process (to the columns) with respect to inner "
 "product given by B (if not given use hermitian product)"
-msgstr "Aplicar el proceso de Gram-Schmidt (a las columnas) con respecto al producto interior dado por B (si no se proporciona se usará el producto Hermitico)"
+msgstr ""
+"Aplicar el proceso de Gram-Schmidt (a las columnas) con respecto al producto "
+"interior dado por B (si no se proporciona se usará el producto Hermitico)"
 
 #: ../lib/library-strings.c:116
 msgid "Hankel matrix"
@@ -705,7 +711,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:142
 msgid "Get the QR decomposition of A, returns R and Q can be a reference"
-msgstr ""
+msgstr "Obtener la descomposición QR de A, los valores devueltos R y Q pueden ser una referencia"
 
 #: ../lib/library-strings.c:143
 msgid "Get the rank of a matrix"
@@ -765,7 +771,7 @@ msgstr "Forma normal de Smith para matrices cuadradas enteras (no su caracterís
 msgid ""
 "Return the Toeplitz matrix constructed given the first column c and "
 "(optionally) the first row r."
-msgstr ""
+msgstr "Devuelve la matriz de Toeplitz construida, dado la primera columna c y (opcionalmente) la primera fila f."
 
 #: ../lib/library-strings.c:156
 msgid "Calculate the trace of a matrix"
@@ -1122,7 +1128,9 @@ msgstr ""
 
 #: ../lib/library-strings.c:228
 msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
-msgstr "Encontrar las raíces de un polinomio cuadrático (dado como un vector de coeficientes)"
+msgstr ""
+"Encontrar las raíces de un polinomio cuadrático (dado como un vector de "
+"coeficientes)"
 
 #: ../lib/library-strings.c:229
 msgid ""
@@ -2714,7 +2722,7 @@ msgstr ""
 msgid ""
 "Get combination that would come after v in call to combinations, first "
 "combination should be [1:k]."
-msgstr ""
+msgstr "Obtener la combinación que vendría después de v en una llamada a las combinaciones, la primera combinación debería ser [1:k]."
 
 #: ../src/funclib.c:5311
 msgid "Get all permutations of k numbers from 1 to n as a vector of vectors"
@@ -2847,16 +2855,20 @@ msgstr ""
 "\t--intoutbase=num  \t Base a usar para imprimir enteros [10]\n"
 "\t--[no]readline    \tUsar readline si disponible [ON]\n"
 "\t--[no]compile     \tCompilar todo y volcarlo a stdout [OFF]\n"
-"\t--[no]gettext     \tVolcar la salida de errores/ayuda en un archivo .c falso con\n"
+"\t--[no]gettext     \tVolcar la salida de errores/ayuda en un archivo .c "
+"falso con\n"
 "\t                  \tstdout (para usar con gettext) [OFF]\n"
 "\t--[no]quiet       \tModo silencioso para el modo no-interactivo,\n"
-"\t                  \t(opción siempre activa al compilar) [OFF]\n\n"
+"\t                  \t(opción siempre activa al compilar) [OFF]\n"
+"\n"
 "\t--exec=expr       \tEjecutar una expresión\n"
 "\n"
 
 #: ../src/genius.c:352
 msgid "Can't specify both an expression and files to execute on the command line"
-msgstr "No se pueden especificar a la vez archivos y expresiones para ejecutar en la línea de comandos"
+msgstr ""
+"No se pueden especificar a la vez archivos y expresiones para ejecutar en la "
+"línea de comandos"
 
 #: ../src/genius.c:378
 #, c-format
@@ -3003,7 +3015,7 @@ msgstr "Mostrar respuesta comple_ta"
 msgid "Show the full text of last answer"
 msgstr "Mostrar el texto completo de la última respuesta"
 
-#: ../src/gnome-genius.c:286 ../src/graphing.c:3269
+#: ../src/gnome-genius.c:286 ../src/graphing.c:3319
 msgid "_Plot"
 msgstr "_Dibujar"
 
@@ -3546,44 +3558,44 @@ msgstr "Vista _superior"
 msgid "R_otate axis..."
 msgstr "R_otar eje..."
 
-#: ../src/graphing.c:1961
+#: ../src/graphing.c:2011
 msgid "Function"
 msgstr "Función"
 
-#: ../src/graphing.c:1963
+#: ../src/graphing.c:2013
 #, c-format
 msgid "Function #%d"
 msgstr "Función #%d"
 
-#: ../src/graphing.c:1972
+#: ../src/graphing.c:2022
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: el número del argumento %d no es un número"
 
-#: ../src/graphing.c:1985
+#: ../src/graphing.c:2035
 msgid "Graph limits not given as a 4-vector"
 msgstr "Los límites del gráfico no se han dado como un vector-4"
 
-#: ../src/graphing.c:1991 ../src/graphing.c:1997 ../src/graphing.c:2003
-#: ../src/graphing.c:2009 ../src/graphing.c:2068 ../src/graphing.c:2074
-#: ../src/graphing.c:2080 ../src/graphing.c:2086 ../src/graphing.c:2092
-#: ../src/graphing.c:2098
+#: ../src/graphing.c:2041 ../src/graphing.c:2047 ../src/graphing.c:2053
+#: ../src/graphing.c:2059 ../src/graphing.c:2118 ../src/graphing.c:2124
+#: ../src/graphing.c:2130 ../src/graphing.c:2136 ../src/graphing.c:2142
+#: ../src/graphing.c:2148
 msgid "Graph limits not given as numbers"
 msgstr "Los límites del gráfico no se han dado como números"
 
-#: ../src/graphing.c:2062
+#: ../src/graphing.c:2112
 msgid "Graph limits not given as a 6-vector"
 msgstr "Los límites del gráfico no se han dado como un vector-6"
 
-#: ../src/graphing.c:2479
+#: ../src/graphing.c:2529
 msgid "to:"
 msgstr "a:"
 
-#: ../src/graphing.c:2497
+#: ../src/graphing.c:2547
 msgid "by:"
 msgstr "por:"
 
-#: ../src/graphing.c:2559
+#: ../src/graphing.c:2609
 msgid ""
 "Type in function names or expressions involving the x variable in the boxes "
 "below to graph them"
@@ -3591,11 +3603,11 @@ msgstr ""
 "Teclee nombres de función o expresiones que envuelvan la variable x en las "
 "cajas de abajo para dibujarlas"
 
-#: ../src/graphing.c:2575
+#: ../src/graphing.c:2625
 msgid "_Functions / Expressions"
 msgstr "_Funciones / Expresiones"
 
-#: ../src/graphing.c:2583
+#: ../src/graphing.c:2633
 msgid ""
 "Type in function names or expressions involving the t variable in the boxes "
 "below to graph them.  Either fill in both boxes with x= and y= in front of "
@@ -3608,42 +3620,42 @@ msgstr ""
 "o introduzca x e y como la parte real e imaginaria de un número complejo en "
 "la caja que contiene z=."
 
-#: ../src/graphing.c:2606
+#: ../src/graphing.c:2656
 msgid "or"
 msgstr "o"
 
 #. t range
-#: ../src/graphing.c:2621
+#: ../src/graphing.c:2671
 msgid "Parameter t from:"
 msgstr "Parámetro t de:"
 
-#: ../src/graphing.c:2629
+#: ../src/graphing.c:2679
 msgid "_Parametric"
 msgstr "_Paramétricas"
 
-#: ../src/graphing.c:2631 ../src/graphing.c:2686
+#: ../src/graphing.c:2681 ../src/graphing.c:2736
 msgid "Plot Window"
 msgstr "Ventana de dibujo"
 
 #.
 #. * X range
 #.
-#: ../src/graphing.c:2640 ../src/graphing.c:2695
+#: ../src/graphing.c:2690 ../src/graphing.c:2745
 msgid "X from:"
 msgstr "X desde:"
 
 #.
 #. * Y range
 #.
-#: ../src/graphing.c:2646 ../src/graphing.c:2702
+#: ../src/graphing.c:2696 ../src/graphing.c:2752
 msgid "Y from:"
 msgstr "Y desde:"
 
-#: ../src/graphing.c:2661
+#: ../src/graphing.c:2711
 msgid "Function / Expression"
 msgstr "Función / Expresión"
 
-#: ../src/graphing.c:2666
+#: ../src/graphing.c:2716
 msgid ""
 "Type a function name or an expression involving the x and y variables (or "
 "the z variable which will be z=x+iy) in the boxes below to graph them.  "
@@ -3656,94 +3668,94 @@ msgstr ""
 #.
 #. * Z range
 #.
-#: ../src/graphing.c:2709
+#: ../src/graphing.c:2759
 msgid "Z from:"
 msgstr "Z desde:"
 
-#: ../src/graphing.c:2723
+#: ../src/graphing.c:2773
 msgid "Function _line plot"
 msgstr "Dibujo de la _línea de función"
 
-#: ../src/graphing.c:2727
+#: ../src/graphing.c:2777
 msgid "_Surface plot"
 msgstr "Dibujar _superficie"
 
-#: ../src/graphing.c:2927 ../src/graphing.c:3130
+#: ../src/graphing.c:2977 ../src/graphing.c:3180
 msgid "No functions to plot or no functions could be parsed"
 msgstr "No hay funciones a dibujar o no se pudieron analizar las funciones"
 
-#: ../src/graphing.c:2958 ../src/graphing.c:3161
+#: ../src/graphing.c:3008 ../src/graphing.c:3211
 msgid "Invalid X range"
 msgstr "Rango X inválido"
 
-#: ../src/graphing.c:2963 ../src/graphing.c:3166
+#: ../src/graphing.c:3013 ../src/graphing.c:3216
 msgid "Invalid Y range"
 msgstr "Rango Y inválido"
 
-#: ../src/graphing.c:2968
+#: ../src/graphing.c:3018
 msgid "Invalid Z range"
 msgstr "Rango Z inválido"
 
-#: ../src/graphing.c:3119
+#: ../src/graphing.c:3169
 msgid "Only specify x and y, or z, not all at once."
 msgstr "Especifique sólo x e y, o z, no todas a la vez."
 
-#: ../src/graphing.c:3138
+#: ../src/graphing.c:3188
 msgid "Invalid t range"
 msgstr "Rango t inválido"
 
-#: ../src/graphing.c:3264
+#: ../src/graphing.c:3314
 msgid "Create Plot"
 msgstr "Crear dibujo"
 
-#: ../src/graphing.c:3304 ../src/graphing.c:3449
+#: ../src/graphing.c:3354 ../src/graphing.c:3499
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: el argumento no es una función"
 
-#: ../src/graphing.c:3314
+#: ../src/graphing.c:3364
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: sólo se soporta una función"
 
-#: ../src/graphing.c:3381 ../src/graphing.c:3500 ../src/graphing.c:3629
-#: ../src/graphing.c:3760
+#: ../src/graphing.c:3431 ../src/graphing.c:3550 ../src/graphing.c:3679
+#: ../src/graphing.c:3810
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: valor fuera de rango X"
 
-#: ../src/graphing.c:3386 ../src/graphing.c:3505 ../src/graphing.c:3634
-#: ../src/graphing.c:3765
+#: ../src/graphing.c:3436 ../src/graphing.c:3555 ../src/graphing.c:3684
+#: ../src/graphing.c:3815
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: valor fuera de rango Y"
 
-#: ../src/graphing.c:3391
+#: ../src/graphing.c:3441
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: rango Z inválido"
 
-#: ../src/graphing.c:3444
+#: ../src/graphing.c:3494
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: sólo se soportan un máximo de 10 funciones"
 
-#: ../src/graphing.c:3548
+#: ../src/graphing.c:3598
 #, c-format
 msgid "%s: First two arguments must be functions"
 msgstr "%s: los primeros dos argumentos deben ser funciones"
 
-#: ../src/graphing.c:3639 ../src/graphing.c:3770
+#: ../src/graphing.c:3689 ../src/graphing.c:3820
 #, c-format
 msgid "%s: invalid T range"
 msgstr "%s: rango T inválido"
 
-#: ../src/graphing.c:3681
+#: ../src/graphing.c:3731
 #, c-format
 msgid "%s: First argument must be functions"
 msgstr "%s:el primer argumento debe ser una función"
 
-#: ../src/graphing.c:3825 ../src/graphing.c:3873
+#: ../src/graphing.c:3875 ../src/graphing.c:3923
 #, c-format
 msgid ""
 "%s: Line should be given as a real, n by 2 matrix with columns for x and y, "
@@ -3752,42 +3764,42 @@ msgstr ""
 "%s: La línea se debe proporcionar como un número real, n por 2 matrices con "
 "columnas para x e y, n>=2"
 
-#: ../src/graphing.c:3912
+#: ../src/graphing.c:3962
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: Número de argumentos inválido"
 
-#: ../src/graphing.c:3951
+#: ../src/graphing.c:4001
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: No se especificó ningún color"
 
-#: ../src/graphing.c:3963
+#: ../src/graphing.c:4013
 #, c-format
 msgid "%s: Color must be a string"
 msgstr "%s: El color debe ser una cadena"
 
-#: ../src/graphing.c:3972
+#: ../src/graphing.c:4022
 #, c-format
 msgid "%s: No thicnkess specified"
 msgstr "%s: No se especificó el grosor"
 
-#: ../src/graphing.c:3988
+#: ../src/graphing.c:4038
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: Estilo desconocido"
 
-#: ../src/graphing.c:3995
+#: ../src/graphing.c:4045
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: Parámetro incorrecto"
 
-#: ../src/graphing.c:4073
+#: ../src/graphing.c:4123
 msgid "Plotting"
 msgstr "Dibujando"
 
 #. internal
-#: ../src/graphing.c:4075
+#: ../src/graphing.c:4125
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -3795,7 +3807,7 @@ msgstr ""
 "Dibuja una función con una línea. Primero vienen las funciones (hasta 10) "
 "después, opcionalmente los límites como x1,x2,y1,y2"
 
-#: ../src/graphing.c:4076
+#: ../src/graphing.c:4126
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
@@ -3805,7 +3817,7 @@ msgstr ""
 "x e y, después, los límites opcionales t como t1, t2, tinc, y después los "
 "límites opcionales x1, x2, y1, y2"
 
-#: ../src/graphing.c:4077
+#: ../src/graphing.c:4127
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
@@ -3815,7 +3827,7 @@ msgstr ""
 "viene la función que devuelve x + iy, después, los límites opcionales t como "
 "t1, t2, tinc, y después los límites opcionales x1, x2, y1, y2"
 
-#: ../src/graphing.c:4078
+#: ../src/graphing.c:4128
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -3824,11 +3836,11 @@ msgstr ""
 "complejo. Primero viene la función, después, opcionalmente los límites como "
 "x1,x2,y1,y2,z1,z2"
 
-#: ../src/graphing.c:4080
+#: ../src/graphing.c:4130
 msgid "Show the line plot window and clear out functions"
 msgstr "Mostrar la ventana de dibujo de línea y limpiar las funciones"
 
-#: ../src/graphing.c:4081
+#: ../src/graphing.c:4131
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line"
@@ -3836,11 +3848,11 @@ msgstr ""
 "Dibujar una línea desde x1,y1 hasta x2,y2. x1,y1,x2,y2 pueden ser "
 "reemplazados por una matriz de n por 2 para líneas más largas"
 
-#: ../src/graphing.c:4083
+#: ../src/graphing.c:4133
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr "La ventana de dibujo (sus límites) como un vector-4 de la forma [x1,x2,y1,y2]"
 
-#: ../src/graphing.c:4084
+#: ../src/graphing.c:4134
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
