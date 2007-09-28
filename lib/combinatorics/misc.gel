@@ -49,6 +49,78 @@ SetHelpAlias ("HarmonicNumber", "HarmonicH");
 HarmonicH = HarmonicNumber;
 protect("HarmonicH");
 
+
+# return the Frobenius number
+SetHelp("FrobeniusNumber", "combinatorics", "Calculate the Frobenius number for a coin problem");
+function FrobeniusNumber(v,arg...) = (
+	if not IsMatrix(v) and not IsValue(v) then
+		(error("FrobeniusNumber: argument not a value or vector");bailout);
+	# Not perfect argument checking
+
+	if IsNull (arg) then
+		m = [v]
+	else
+		m = [v, arg];
+
+	if (gcd (m) != 1) then
+		(error("FrobeniusNumber: gcd of arguments not 1");bailout);
+
+	# Trivial
+	if (elements (m) == 1) then
+		return -1;
+
+	# Sylvesters Formula
+	if (elements (m) == 2) then
+		return (m@(1)*m@(2) - (m@(1)+m@(2)));
+
+	m = SortVector (m);
+
+	if m@(1) == 1 then
+		return -1;
+
+	k = 1;
+	# Vitek's inequality for upper bound
+	#  See: Y. Vitek, Bounds for a Linear Diophantine Problem of Frobenius,
+	#  J. London Math.  Soc., (2) 10 (1975), 79–85.
+	for j = 2 to floor((m@(2)-1)*(m@(elements(m))-1)/2)-1 do (
+		if IsNull(GreedyAlgorithm(j,m)) then
+			k = j
+	);
+	k
+);
+protect("FrobeniusNumber");
+
+SetHelp("GreedyAlgorithm", "combinatorics", "Use greedy algorithm to find c, for c . v = n.  (v must be sorted)");
+function GreedyAlgorithm(n,v) = (
+	if not IsMatrix(v) then
+		(error("GreedyAlgorithm: argument not a nonempty vector");bailout);
+
+	elts = elements(v);
+
+	if (n == 0) then (
+		return zeros(elts);
+	);
+
+
+	if elts == 1 then (
+		if Divides (v@(1), n) then
+			return [floor(n / v@(1))]
+		else
+			return null
+	);
+
+	k = floor (n / v@(elts));
+	for m = k to 0 by -1 do (
+		c = GreedyAlgorithm (n - m * v@(elts),
+				     v@(1:(elts-1)));
+		if not IsNull(c) then (
+			return [c,m]
+		)
+	);
+	null
+);
+protect("GreedyAlgorithm");
+
 ## More: BernoulliNumber, BernoulliPolynomial,
 ## EulerNumber, EulerPolynomial, StirlingNumberFirst (of the first kind)
 ## StirlingNumber2 (of the second kind)

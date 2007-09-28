@@ -5192,9 +5192,9 @@ gel_funclib_addall(void)
 	Denominator_function = f;
 
 	VFUNC (gcd, 2, "a,args", "number_theory", N_("Greatest common divisor"));
-	ALIAS (GCD, 2, gcd);
+	VALIAS (GCD, 2, gcd);
 	VFUNC (lcm, 2, "a,args", "number_theory", N_("Least common multiplier"));
-	ALIAS (LCM, 2, lcm);
+	VALIAS (LCM, 2, lcm);
 	FUNC (IsPerfectSquare, 1, "n", "number_theory", N_("Check a number for being a perfect square"));
 	FUNC (IsPerfectPower, 1, "n", "number_theory", N_("Check a number for being any perfect power (a^b)"));
 	FUNC (Prime, 1, "n", "number_theory", N_("Return the n'th prime (up to a limit)"));

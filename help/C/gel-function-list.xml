@@ -786,7 +786,8 @@ for more information.
          <listitem>
           <synopsis>IsPositiveInteger (num)</synopsis>
           <para>Aliases: <function>IsNaturalNumber</function></para>
-          <para>Check if argument is a positive real integer.</para>
+          <para>Check if argument is a positive real integer.  Note that
+we accept the convention that 0 is not a natural number.</para>
          </listitem>
         </varlistentry>
 
@@ -3222,11 +3223,47 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-FrobeniusNumber">
+         <term>FrobeniusNumber</term>
+         <listitem>
+          <synopsis>FrobeniusNumber (v,arg...)</synopsis>
+          <para>
+	    Calculate the Frobenius number.  That is calculate smallest
+	    number that cannot be given as a nonnegative integer linear
+	    combination of a given vector of nonnegative integers.
+	    The vector can be given as separate numbers or a single vector.
+	    All the numbers given should have GCD of 1.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/FrobeniusNumber.html">Mathworld</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-GaloisMatrix">
          <term>GaloisMatrix</term>
          <listitem>
           <synopsis>GaloisMatrix (combining_rule)</synopsis>
           <para>Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-GreedyAlgorithm">
+         <term>GreedyAlgorithm</term>
+         <listitem>
+          <synopsis>FrobeniusNumber (n,v)</synopsis>
+          <para>
+	    Find the vector <varname>c</varname> of nonnegative integers
+	    such that taking the dot product with <varname>v</varname> is
+	    equal to n.  If not possible returns null.  <varname>v</varname>
+	    should be given sorted in increasing order and should consist
+	    of nonnegative integers.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/GreedyAlgorithm.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 

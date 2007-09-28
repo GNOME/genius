@@ -10,8 +10,10 @@ rm -f *.html *.pdf
 echo docbook2html genius.xml
 docbook2html genius.xml
 
-echo docbook2pdf genius.xml
-docbook2pdf genius.xml
+echo docbook2ps genius.xml
+docbook2ps genius.xml
+echo ps2pdf genius.ps genius.pdf
+ps2pdf genius.ps genius.pdf
 
 echo scp *.html zinc.5z.com:/home/www/html/jirka/genius-documentation/
 scp *.html zinc.5z.com:/home/www/html/jirka/genius-documentation/

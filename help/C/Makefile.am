@@ -50,6 +50,7 @@ DISTCLEANFILES = genius-C.omf.out
 # Run this by hand for now
 #genius.txt: genius.xml $(entities)
 #	docbook2txt genius.xml
+#	dos2unix -a genius.txt # for svn
 
 manualdir = $(datadir)/genius
 

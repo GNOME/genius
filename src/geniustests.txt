@@ -103,14 +103,19 @@ gcd(0,0,0,0)							0
 gcd(0,2,0,0)							2
 gcd(0,-2,0,0)							2
 gcd([0,2,0,0])							2
+GCD([0,2,0,0])							2
 gcd(-4,3)							1
 gcd(77438,723654)						2
+GCD (6,9,20)							1
 lcm(12,2)							12
+LCM(12,2)							12
 lcm(12)								12
 lcm(12,9)							36
 lcm(12,9,9)							36
 lcm(12,9,9,3)							36
+LCM(12,9,9,3)							36
 lcm([12,9,9,3])							36
+LCM([12,9,9,3])							36
 lcm(2,3)							6
 lcm(-2,-3)							6
 lcm(2,-3)							6
@@ -754,4 +759,9 @@ IsPositiveSemidefinite([1,2;3,4])				false
 Eigenvalues([0,1,0;3,0,4;0,3,3])				[-3;5.44948974278;0.550510257217]
 Eigenvalues(I(3))						[1;1;1]
 M=I(5)+randint(5,5,5)/100;IsPositiveSemidefinite(M+M')		true
+FrobeniusNumber ([2,6,7])					5
+FrobeniusNumber ([6,9,20])					43
+FrobeniusNumber (6,9,20)					43
+FrobeniusNumber (7,10)						53
+GreedyAlgorithm (62,[6,9,20])					[1,4,1]
 load "longtest.gel"						true
