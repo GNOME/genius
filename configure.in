@@ -79,37 +79,9 @@ AC_CHECK_LIB(gmp, __gmpz_init_set,[GMP_LIB=-lgmp], [
 		AC_MSG_ERROR(GMP Library not found))])
 AC_SUBST(GMP_LIB)
 
-AC_ARG_ENABLE(internal-mpfr,
-  [  --enable-internal-mpfr=[auto/no/yes]  Use the internal version of MPFR [default=auto]],,
-  enable_internal_mpfr=auto)
-
-USE_INTERNAL_MPFR="yes"
-
-if test "x$enable_internal_mpfr" = "xyes" -o "x$FORCE_INTERNAL_MPFR" = "xyes" ; then
-	USE_INTERNAL_MPFR="yes"
-	echo "Using internal MPFR"
-	AM_CONDITIONAL(INTERNAL_MPFR, true)
-else
-	GOT_MPFR="no"
-	AC_CHECK_LIB(mpfr, mpfr_pow_z, [GOT_MPFR="yes"], [GOT_MPFR="no"], "$GMP_LIB")
-	if test "x$enable_internal_mpfr" = "xno" -a "x$GOT_MPFR" = "xno" ; then
-		AC_MSG_ERROR(Internal MPFR not requested but I can't find a new enough (2.2.0+) external MPFR)
-	fi
-	
-	if test "x$GOT_MPFR" = "xno" ; then
-		echo "Using internal MPFR"
-		USE_INTERNAL_MPFR="yes"
-		AM_CONDITIONAL(INTERNAL_MPFR, true)
-	else
-		echo "Using external MPFR"
-		USE_INTERNAL_MPFR="no"
-		AM_CONDITIONAL(INTERNAL_MPFR, false)
-	fi
-fi 
-
-if test "x$USE_INTERNAL_MPFR" = "xyes" ; then
-	AC_CONFIG_SUBDIRS(mpfr)
-fi
+AC_CHECK_LIB(mpfr, mpfr_pow_z, [],
+	[AC_MSG_ERROR(New enough MPFR (2.2.0+) not found, see http://www.mpfr.org)]
+	"$GMP_LIB")
 
 # No schemas yet so ignore this section for now
 #AC_PATH_PROG(GCONFTOOL, gconftool-2)
@@ -294,7 +266,6 @@ Configuration:
 
 	Source code location:	     ${srcdir}
 	Compiler:		     ${CC} 
-	Using internal MPFR library: ${USE_INTERNAL_MPFR}
 	GNOME frontend:		     ${use_gnome}
 	Using GtkSourceView:	     ${use_gtksourceview}
 

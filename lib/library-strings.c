@@ -175,7 +175,7 @@ char *fake = N_("Hofstadter's function q(n) defined by q(1)=1, q(2)=1, q(n)=q(n-
 char *fake = N_("Compute linear recursive sequence using galois stepping");
 char *fake = N_("Calculate multinomial coefficients");
 char *fake = N_("Get the pascal's triangle as a matrix");
-char *fake = N_("(Puchhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))");
+char *fake = N_("(Pochhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))");
 char *fake = N_("Subfactorial: n! times sum_{k=1}^n (-1)^k/k!");
 char *fake = N_("Calculate the nth triangular number");
 char *fake = N_("Calculate combinations (binomial coefficient)");
