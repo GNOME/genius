@@ -726,12 +726,13 @@
 
    Syntax:
 
- FunctionName([argument1, argument2, ...])
+ FunctionName(argument1, argument2, ...)
 
    Example:
 
  Factorial(5)
  cos(2*pi)
+ gcd(921,317)
 
    To evaluate a function, enter the name of the function, followed by the
    arguments (if any) to the function in parentheses. This will return the
@@ -768,7 +769,6 @@
    result of the function body. Defining your own functions is primarily a
    matter of convenience; one possible use is to have sets of functions
    defined in GEL files which Genius can load in order to make available.
-
    Example:
 
  function addup(a,b,c) = a+b+c
@@ -799,9 +799,7 @@
 
    If you do not enter the parentheses after a function name, instead of
    being evaluated, the function will instead be returned as a `function
-   node'. The function node can then be passed to another function.
-
-   Example:
+   node'. The function node can then be passed to another function. Example:
 
  function f(a,b) = a(b)+1;
  function b(x) = x*x;
@@ -891,31 +889,24 @@
 
    Sometimes when working with large numbers, it might be faster if results
    are modded after each calculation. To use it you just add "mod <integer>"
-   after the expression.
-
-   Example:
+   after the expression. Example:
 
  2^(5!) * 3^(6!) mod 5
 
    You can calculate the inverses of numbers mod some integer by just using
-   rational numbers (of course the inverse has to exist).
-
-   Examples:
+   rational numbers (of course the inverse has to exist). Examples:
 
  10^-1 mod 101
  1/10 mod 101
 
    You can also do modular evaluation with matrices including taking
-   inverses, powers and dividing.
-
-   Example:
+   inverses, powers and dividing. Example:
 
  A = [1,2;3,4]
  B = A^-1 mod 5
  A*B mod 5
 
-   This should yield the identity matrix as B will be the inverse of A mod
-   5.
+   This should yield the identity matrix as B will be the inverse of A mod 5.
 
    Some functions such as sqrt or log work in a different way when in modulo
    mode. These will then work like their discrete versions working within the
@@ -1246,7 +1237,7 @@
 
    Syntax:
 
-   for <identifier> in <matrix> do <body>
+ for <identifier> in <matrix> do <body>
 
    For each element, going row by row from left to right do the body. To
    print numbers 1,2,3 and 4 in this order you could do:
@@ -1299,9 +1290,11 @@
 
 6.4. Comparison operators
 
-    ==, >=, <=, !=, <>, <, > return true or false.
-
-    != and <> are the same thing and mean "is not equal to".
+    The following standard comparison operators are supported in GEL and
+   have the obvious meaning: ==, >=, <=, !=, <>, <, >. They return true or
+   false. The operators != and <> are the same thing and mean "is not equal
+   to". GEL also supports the operator <=>, which returns -1 if left side is
+   smaller, 0 if both sides are equal, 1 if left side is larger.
 
     Normally = is translated to == if it happens to be somewhere where GEL
    is expecing a condition such as in the if condition. For example
@@ -1318,14 +1311,11 @@
    in the normal mathematical way, e.g.: (1<x<=y<5) is a legal boolean
    expression and means just what it should, that is (1<x and x=<y and y<5)
 
-    The <=> operator returns -1 if left side is smaller, 0 if both sides are
-   equal, 1 if left side is larger.
-
-    To build up logical expressions use the words not, and, or, xor.
-
-   "or" and "and" are special beasts as they evaluate their arguemnts one by
-   one, so the usual trick for conditional evaluation works here as well.
-   (e.g., "1 or a=1" will not set a=1 since the first argument was true)
+    To build up logical expressions use the words not, and, or, xor. The
+   operators or and and are special beasts as they evaluate their arguemnts
+   one by one, so the usual trick for conditional evaluation works here as
+   well. For example, 1 or a=1 will not set a=1 since the first argument was
+   true.
 
      ----------------------------------------------------------------------
 
@@ -1369,6 +1359,14 @@
 
    gives us 4.
 
+    When using functions which return values through references in the
+   argument list, just pass the variable name with an ampersand. For example
+   the following code will compute an eigenvalue of a matrix A with initial
+   eigenvector guess x, and store the computed eigenvector into the variable
+   named v:
+
+ RayleighQuotientIteration (A,x,0.001,100,&v)
+
      ----------------------------------------------------------------------
 
 6.7. Lvalues
@@ -1398,9 +1396,9 @@
  a@(1,1) := 5
  a@(4:8,3) := [1,2,3,4,5]'
 
-   Note that both := and = can be used interchangably. That is except if the
+   Note that both := and = can be used interchangably. Except if the
    assignment appears in a condition. It is thus always safer to just use :=
-   when you mean assignment.
+   when you mean assignment, and == when you mean comparison.
 
      ----------------------------------------------------------------------
 
@@ -1528,10 +1526,9 @@
 
  [1,2,3]*[4,5,6]'
 
-   We transpose the second vector to make matrix multiplication possible.
-
-   If you just want to transpose a matrix without conjugating it, you would
-   use the .' operator. For example:
+   We transpose the second vector to make matrix multiplication possible. If
+   you just want to transpose a matrix without conjugating it, you would use
+   the .' operator. For example:
 
  [1,2,3]*[4,5,6i].'
 
@@ -3729,6 +3726,20 @@
 
             See Planetmath for more information.
 
+   RayleighQuotientIteration
+
+ RayleighQuotientIteration (A,x,epsilon,maxiter,vecref)
+
+           Find eigenvalues of A using the Rayleigh quotient iteration
+           method. x is a guess at a eigenvector and could be random. It
+           should have nonzero imaginary part if it will have any chance at
+           finding complex eigenvalues. The code will run at most maxiter
+           iterations and return null if we cannot get within an error of
+           epsilon. vecref should either be null or a reference to a variable
+           where the eigenvector should be stored.
+
+            See Planetmath for more information on Rayleigh quotient.
+
    Rank
 
  Rank (M)
@@ -4081,11 +4092,31 @@
 
  RisingFactorial (n,k)
 
-           Aliases: Puchhammer
+           Aliases: Pochhammer
 
-           (Puchhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))
+           (Pochhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))
 
             See Planetmath for more information.
+
+   StirlingNumberFirst
+
+ StirlingNumberFirst (n,m)
+
+           Aliases: StirlingS1
+
+           Stirling number of the first kind.
+
+            See Planetmath or Mathworld for more information.
+
+   StirlingNumberSecond
+
+ StirlingNumberSecond (n,m)
+
+           Aliases: StirlingS2
+
+           Stirling number of the second kind.
+
+            See Planetmath or Mathworld for more information.
 
    Subfactorial
 
@@ -4107,7 +4138,10 @@
 
            Aliases: Binomial
 
-           Calculate combinations (binomial coefficient)
+           Calculate combinations, that is, the binomial coefficient. n can
+           be any real number.
+
+            See Planetmath for more information.
 
    nPr
 

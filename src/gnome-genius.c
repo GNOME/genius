@@ -773,7 +773,7 @@ aboutcb(GtkWidget * widget, gpointer data)
 {
 	static GtkWidget *about;
 	static const char *authors[] = {
-		"Jiří (George) Lebl (jirka@5z.com)",
+		"Jiří (George) Lebl, Ph.D. (jirka@5z.com)",
 		NULL
 	};
 	static const char *documenters[] = {
@@ -2794,6 +2794,24 @@ get_properties (void)
 }
 
 static void
+feed_by_chunks (const char *s, int size)
+{
+	int i = 0;
+
+	while (i < size) {
+		if (size - i > 1024) {
+			vte_terminal_feed (VTE_TERMINAL (term), 
+					   &(s[i]), 1024);
+			i+= 1024;
+		} else {
+			vte_terminal_feed (VTE_TERMINAL (term), 
+					   &(s[i]), size-i);
+			break;
+		}
+	}
+}
+
+static void
 feed_to_vte_from_string (const char *str, int size)
 {
 	/*do our own crlf translation*/
@@ -2802,8 +2820,11 @@ feed_to_vte_from_string (const char *str, int size)
 	for(i=0,sz=0;i<size;i++,sz++)
 		if(str[i]=='\n') sz++;
 	if (sz == size) {
+		feed_by_chunks (str, size);
+		/* FIXME: bugs in vte cause segfaults
 		vte_terminal_feed (VTE_TERMINAL (term), 
 				   str, size);
+				   */
 		return;
 	}
 	s = g_new(char,sz);
@@ -2813,8 +2834,11 @@ feed_to_vte_from_string (const char *str, int size)
 			s[sz] = '\r';
 		} else s[sz] = str[i];
 	}
+	feed_by_chunks (s, sz);
+	/* FIXME: bugs in vte cause segfaults
 	vte_terminal_feed (VTE_TERMINAL (term), 
 			   s, sz);
+			   */
 	g_free(s);
 }
 

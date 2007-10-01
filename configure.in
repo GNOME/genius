@@ -80,7 +80,7 @@ AC_CHECK_LIB(gmp, __gmpz_init_set,[GMP_LIB=-lgmp], [
 AC_SUBST(GMP_LIB)
 
 AC_CHECK_LIB(mpfr, mpfr_pow_z, [],
-	[AC_MSG_ERROR(New enough MPFR (2.2.0+) not found, see http://www.mpfr.org)]
+	[AC_MSG_ERROR([New enough MPFR (2.2.0+) not found, see http://www.mpfr.org])],
 	"$GMP_LIB")
 
 # No schemas yet so ignore this section for now

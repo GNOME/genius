@@ -89,24 +89,7 @@ function nPr(n,r) = (
 );
 protect("nPr")
 
-SetHelp("nCr","combinatorics","Calculate combinations (binomial coefficient)");
-function nCr(n,r) = (
-	if(IsMatrix(n) or IsMatrix(r)) then
-		return ApplyOverMatrix2(n,r,nCr)
-	else if(not IsReal(n) or not IsInteger(r)) then
-		(error("nCr: arguments not real and an integer");bailout)
-	else if(r<0 or n<0 or r>n) then
-		0
-	else if(IsInteger(n)) then
-		(n!)/(r!*(n-r)!)
-	else (
-		(prod i=0 to (r-1) do (n-i))/(r!)
-	)
-);
-protect("nCr")
-SetHelpAlias ("nCr", "Binomial")
-Binomial=nCr;
-protect("Binomial");
+# nCr is built in now!
 
 ## Multinomial Coefficients
 ## Multinomial([a,b,c])=(a+b+c)!/a!b!c!

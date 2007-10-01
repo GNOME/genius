@@ -16,13 +16,13 @@ INCLUDES = \
 	-DICONDIR=\""$(datadir)/pixmaps/genius"\"		\
 	-DLIBRARY_DIR=\""$(datadir)/genius/"\"			\
 	-I$(srcdir)						\
-	-I$(includedir)						\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/ve					\
 	-I$(top_srcdir)/gtkextra				\
 	-I$(top_builddir)					\
 	-I$(top_builddir)/ve					\
 	-I$(top_builddir)/gtkextra				\
+	-I$(includedir)						\
 	$(GMP_INCLUDEDIR)					\
 	$(GENIUS_CFLAGS)					\
 	$(EXTRA_WARNING_CFLAGS)
@@ -87,10 +87,8 @@ gnome_genius_SOURCES = 	\
 	funclibhelper.cP
 
 gnome_genius_LDADD = \
-	-L$(top_builddir)/ve			\
-	-lviciousui				\
-	-L$(top_builddir)/gtkextra		\
-	-lgtkextra-genius			\
+	$(top_builddir)/ve/libviciousui.a	\
+	$(top_builddir)/gtkextra/libgtkextra-genius.a	\
 	-lm					\
 	@GMP_LIB@				\
 	-lmpfr					\
@@ -105,8 +103,7 @@ genius_readline_helper_fifo_SOURCES = \
 
 # FIXME: no need for so many libs
 genius_readline_helper_fifo_LDADD = \
-	-L$(top_builddir)/ve			\
-	-lvicious				\
+	$(top_builddir)/ve/libvicious.a		\
 	-lm					\
 	$(GENIUS_NOGUI_LIBS)			\
 	@READLINE_LIB@				\
@@ -163,8 +160,7 @@ genius_SOURCES = 	\
 	funclibhelper.cP
 
 genius_LDADD = \
-	-L$(top_builddir)/ve			\
-	-lvicious				\
+	$(top_builddir)/ve/libvicious.a		\
 	-lm					\
 	@GMP_LIB@				\
 	-lmpfr					\

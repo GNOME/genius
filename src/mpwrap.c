@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2006 Jiri (George) Lebl
+ * Copyright (C) 1997-2007 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -310,6 +310,8 @@ static void mpwl_neg(MpwRealNum *rop,MpwRealNum *op);
 static void mpwl_fac_ui (MpwRealNum *rop, unsigned int op);
 static void mpwl_fac (MpwRealNum *rop, MpwRealNum *op);
 
+static void mpwl_bin_ui (MpwRealNum *rop, MpwRealNum *op, unsigned long r);
+
 static void mpwl_dblfac_ui (MpwRealNum *rop, unsigned int op);
 static void mpwl_dblfac (MpwRealNum *rop, MpwRealNum *op);
 
@@ -384,15 +386,18 @@ enum {
 
 /*get a long if possible*/
 static long mpwl_get_long(MpwRealNum *op, int *ex);
+static unsigned long mpwl_get_ulong(MpwRealNum *op, int *ex);
+/*get a double if possible*/
 static double mpwl_get_double(MpwRealNum *op, int *ex);
 
-/*round off the number at some digits*/
-static void str_make_max_digits (char *s, int digits, long *exponent);
 /*trim trailing zeros*/
 static void str_trim_trailing_zeros(char *s);
 
 /*formats a floating point with mantissa in p and exponent in e*/
-static char * str_format_float(char *p,long int e,int scientific_notation);
+static char * str_format_float (char *p,
+				long int e,
+				int max_digits,
+				gboolean scientific_notation);
 
 static char * str_getstring_z (mpz_ptr num, int max_digits,
 			      gboolean scientific_notation,
@@ -1625,6 +1630,21 @@ mpwl_dblfac (MpwRealNum *rop,MpwRealNum *op)
 	mpwl_dblfac_ui(rop,mpz_get_ui(op->data.ival));
 }
 
+static void
+mpwl_bin_ui(MpwRealNum *rop,MpwRealNum *op, unsigned long r)
+{
+	if G_UNLIKELY (op->type!=MPW_INTEGER) {
+		gel_errorout (_("Can't do binomials of rationals or floats!"));
+		error_num=NUMERICAL_MPW_ERROR;
+		return;
+	}
+	if(rop->type!=MPW_INTEGER) {
+		mpwl_clear(rop);
+		mpwl_init_type(rop,MPW_INTEGER);
+	}
+	mpz_bin_ui(rop->data.ival, op->data.ival, r);
+}
+
 /* returns TRUE if must make complex power */
 static gboolean
 mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
@@ -2569,6 +2589,23 @@ mpwl_get_long (MpwRealNum *op, int *ex)
 			return mpz_get_si(op->data.ival);
 		}
 	}
+}
+
+/*get an unsigned long if possible*/
+static unsigned long
+mpwl_get_ulong (MpwRealNum *op, int *ex)
+{
+	if G_UNLIKELY (op->type > MPW_INTEGER) {
+		*ex = MPWL_EXCEPTION_CONVERSION_ERROR;
+		return 0;
+	} else { /*real integer*/
+		if G_UNLIKELY ( ! mpz_fits_ulong_p (op->data.ival)) {
+			*ex = MPWL_EXCEPTION_NUMBER_TOO_LARGE;
+			return 0;
+		} else {
+			return mpz_get_ui(op->data.ival);
+		}
+	}
 
 }
 
@@ -2606,42 +2643,6 @@ mpwl_get_double (MpwRealNum *op, int *ex)
 	return d;
 }
 
-/*round off the number at some digits*/
-static void
-str_make_max_digits (char *s, int digits, long *exponent)
-{
-	int i;
-	int sd=0; /*digit where the number starts*/
-
-	if(s[0]=='-')
-		sd=1;
-
-	if(!s || digits<=0)
-		return;
-
-	digits+=sd;
-
-	if(strlen(s)<=digits)
-		return;
-
-	if(s[digits]<'5') {
-		s[digits]='\0';
-		return;
-	}
-	s[digits]='\0';
-
-	for(i=digits-1;i>=sd;i--) {
-		if(s[i]<'9') {
-			s[i]++;
-			return;
-		}
-		s[i]='\0';
-	}
-	shiftstr (s, 1);
-	s[sd]='1';
-	/* if we add a digit in front increase exponent */
-	(*exponent) ++;
-}
 
 /*trim trailing zeros*/
 static void
@@ -2660,11 +2661,24 @@ str_trim_trailing_zeros(char *s)
 
 /*formats a floating point with mantissa in p and exponent in e*/
 static char *
-str_format_float(char *p,long int e,int scientific_notation)
+str_format_float (char *p,
+		  long int e,
+		  int max_digits,
+		  gboolean scientific_notation)
 {
 	long int len;
 	int i;
-	if(((e-1)<-8 || (e-1)>8) || scientific_notation) {
+	int min_exp;
+
+	if (max_digits > 1)
+		/* Negative 2 is there to ensure that a number is never
+		 * printed as an integer when it is a float that was rounded
+		 * off */
+		min_exp = max_digits-2;
+	else
+		min_exp = 10;
+
+	if(((e-1)<-min_exp || (e-1)>min_exp) || scientific_notation) {
 		int len = strlen (p);
 		if (e != 0)
 			p = g_realloc (p, len+2+((int)log10(abs(e))+2)+1);
@@ -2683,9 +2697,10 @@ str_format_float(char *p,long int e,int scientific_notation)
 			}
 		}
 		str_trim_trailing_zeros(p);
+		len = strlen(p);
 		/* look above to see why this is one sprintf which is in
 		   fact safe */
-		sprintf(p,"%se%ld",p,e-1);
+		sprintf(p+len,"e%ld",e-1);
 	} else if(e>0) {
 		len=strlen(p);
 		if(p[0]=='-')
@@ -2925,9 +2940,8 @@ str_getstring_f (mpfr_ptr num,
 		p = g_strdup (mp);
 		mpfr_free_str (mp);
 	}
-	str_make_max_digits (p, max_digits, &e);
-	p=str_format_float(p,e,scientific_notation);
-	p=appendstr(p,postfix);
+	p = str_format_float (p, e, max_digits, scientific_notation);
+	p = appendstr (p, postfix);
 
 	return p;
 }
@@ -4791,6 +4805,23 @@ mpw_dblfac (mpw_ptr rop, mpw_ptr op)
 	}
 }
 
+void
+mpw_bin_ui(mpw_ptr rop,mpw_ptr op, unsigned long r)
+{
+	if G_LIKELY (MPW_IS_REAL (op)) {
+		MAKE_REAL(rop);
+		if (rop != op) {
+			MAKE_EMPTY (rop->r, MPW_INTEGER);
+		} else {
+			MAKE_COPY (rop->r);
+		}
+		mpwl_bin_ui(rop->r,op->r,r);
+	} else {
+		gel_errorout (_("Can't make binomials of complex numbers"));
+		error_num=NUMERICAL_MPW_ERROR;
+	}
+}
+
 /*make a number int if possible*/
 void
 mpw_make_int(mpw_ptr rop)
@@ -5206,6 +5237,29 @@ mpw_get_long(mpw_ptr op)
 		return 0;
 	} 
 	r = mpwl_get_long(op->r,&ex);
+	if G_UNLIKELY (ex == MPWL_EXCEPTION_CONVERSION_ERROR) {
+		gel_errorout (_("Can't convert real number to integer"));
+		error_num=NUMERICAL_MPW_ERROR;
+		return 0;
+	} else if G_UNLIKELY (ex == MPWL_EXCEPTION_NUMBER_TOO_LARGE) {
+		gel_errorout (_("Integer too large for this operation"));
+		error_num=NUMERICAL_MPW_ERROR;
+		return 0;
+	}
+	return r;
+}
+
+unsigned long
+mpw_get_ulong(mpw_ptr op)
+{
+	unsigned long r;
+	int ex = MPWL_EXCEPTION_NO_EXCEPTION;
+	if G_UNLIKELY (MPW_IS_COMPLEX (op)) {
+		gel_errorout (_("Can't convert complex number into integer"));
+		error_num=NUMERICAL_MPW_ERROR;
+		return 0;
+	} 
+	r = mpwl_get_ulong(op->r,&ex);
 	if G_UNLIKELY (ex == MPWL_EXCEPTION_CONVERSION_ERROR) {
 		gel_errorout (_("Can't convert real number to integer"));
 		error_num=NUMERICAL_MPW_ERROR;

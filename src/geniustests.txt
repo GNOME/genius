@@ -488,6 +488,14 @@ Norm([3,4])							5
 InfNorm([3,4])							4
 UpperTriangular([1,2;3,4])					[1,2;0,4]
 LowerTriangular([1,2;3,4])					[1,0;3,4]
+IsUpperTriangular([1,2;3,4])					false
+IsLowerTriangular([1,2;3,4])					false
+IsLowerTriangular([1,0;3,4])					true
+IsUpperTriangular([1,2;0,4])					true
+IsLowerTriangular([1,0,0;1,1,0;3,4,5])				true
+IsUpperTriangular([1,2,3;0,1,1;0,0,4])				true
+IsDiagonal([1,0,0;1,1,0;3,4,5])					false
+IsDiagonal(I(5))						true
 parameter foo=1;function h(x)=(foo=x);h(7);foo			7
 IsMatrixInteger (randint (5,5,5))				true
 IsMatrixInteger (randint (5,5,5));IsMatrixInteger (rand (5,5))	false
@@ -764,4 +772,15 @@ FrobeniusNumber ([6,9,20])					43
 FrobeniusNumber (6,9,20)					43
 FrobeniusNumber (7,10)						53
 GreedyAlgorithm (62,[6,9,20])					[1,4,1]
+StirlingNumberSecond (5,[1:5])					[1,15,25,10,1]
+StirlingNumberSecond ([3,3,5,5,5],[1:5])			[1,3,25,10,1]
+StirlingNumberSecond ([3,3,5,5,5],2)				[3,3,15,15,15]
+StirlingNumberFirst (4,[1:5])					[-24,26,-9,1,0]
+nCr(4.1,5)							0.02446675
+nCr(100,5)							75287520
+nCr(-100,5)							-91962520
+123124564233.1212192123						1.23124564233e11
+12312456233.1212192123						12312456233.1
+-123124564233.1212192123					-1.23124564233e11
+-12312456233.1212192123						-12312456233.1
 load "longtest.gel"						true

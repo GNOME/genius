@@ -225,6 +225,7 @@ gboolean mpw_eql_ui(mpw_ptr op, unsigned long int i);
 void mpw_fac_ui(mpw_ptr rop,unsigned long int i);
 void mpw_fac(mpw_ptr rop,mpw_ptr op);
 void mpw_dblfac(mpw_ptr rop,mpw_ptr op);
+void mpw_bin_ui(mpw_ptr rop, mpw_ptr op, unsigned long int r);
 
 /*make a number int if possible*/
 void mpw_make_int(mpw_ptr rop);
@@ -276,6 +277,7 @@ void mpw_trunc(mpw_ptr rop, mpw_ptr op);
 
 /*try to get a long number representation of the number*/
 long mpw_get_long(mpw_ptr op);
+unsigned long mpw_get_ulong(mpw_ptr op);
 /*try to get a double representation of the number*/
 double mpw_get_double(mpw_ptr op);
 void mpw_get_complex_double(mpw_ptr op, double *r, double *i);

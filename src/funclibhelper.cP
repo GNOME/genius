@@ -56,6 +56,19 @@ check_argument_integer_or_matrix (GelETree **a, int argnum, const char *funcname
 	return TRUE;
 }
 
+static inline gboolean
+check_argument_nonnegative_integer (GelETree **a, int argnum, const char *funcname)
+{
+	if G_UNLIKELY (a[argnum]->type != VALUE_NODE ||
+		       mpw_is_complex(a[argnum]->val.value) ||
+		       ! mpw_is_integer (a[argnum]->val.value) ||
+		       mpw_sgn (a[argnum]->val.value) < 0) {
+		gel_errorout (_("%s: argument number %d not a nonnegative integer"), funcname, argnum+1);
+		return FALSE;
+	}
+	return TRUE;
+}
+
 
 static inline gboolean
 check_argument_positive_integer (GelETree **a, int argnum, const char *funcname)
@@ -63,7 +76,7 @@ check_argument_positive_integer (GelETree **a, int argnum, const char *funcname)
 	if G_UNLIKELY (a[argnum]->type != VALUE_NODE ||
 		       mpw_is_complex(a[argnum]->val.value) ||
 		       ! mpw_is_integer (a[argnum]->val.value) ||
-		       mpw_sgn (a[argnum]->val.value) < 0) {
+		       mpw_sgn (a[argnum]->val.value) <= 0) {
 		gel_errorout (_("%s: argument number %d not a positive integer"), funcname, argnum+1);
 		return FALSE;
 	}
@@ -107,6 +120,17 @@ check_argument_matrix (GelETree **a, int argnum, const char *funcname)
 {
 	if G_UNLIKELY (a[argnum]->type != MATRIX_NODE) {
 		gel_errorout (_("%s: argument number %d not a matrix"), funcname, argnum+1);
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static inline gboolean
+check_argument_square_matrix (GelETree **a, int argnum, const char *funcname)
+{
+	if G_UNLIKELY (a[argnum]->type != MATRIX_NODE ||
+		       gel_matrixw_width (a[argnum]->mat.matrix) != gel_matrixw_height (a[argnum]->mat.matrix)) {
+		gel_errorout (_("%s: argument number %d not a square matrix"), funcname, argnum+1);
 		return FALSE;
 	}
 	return TRUE;

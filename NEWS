@@ -1,7 +1,19 @@
 Changes to 0.7.8
 
-* Add FrobeniusNumber and GreedyAlgorithm
+* Killed the internal MPFR.  This lib is quite ubiquitous nowdays
+  and it's not worth it maintaining our own out of date copy
+* Add FrobeniusNumber, GreedyAlgorithm, StirlingNumberFirst,
+  StirlingNumberSecond, RayleighQuotientIteration
+* IsVector, IsDiagonal, IsUpperTriangular, IsLowerTriangular, nCr (Binomial)
+  are now builtin for greater speed
+* Hofstadter, HarmonicNumber work over matrixes
+* Fix ApplyOverMatrix2, RayleighQuotient
 * Fix GCD and LCM aliases with respect to varargs
+* Fix bug with printing scientific notation wrt newer gcc optimizations
+* The exponent when the automatic scientific notation kicks in now
+  depends on the MaxDigits parameter
+* It's Pochhammer, not Puchhammer
+* Documentation updates
 * fix for platforms without wordexp (Joerg Sonnenberger)
 
 Changes to 0.7.7

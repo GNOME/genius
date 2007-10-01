@@ -19,4 +19,14 @@ t=&f;
 ]]></programlisting>
 gives us 4.
       </para>
+      <para>
+	When using functions which return values through references
+	in the argument list, just pass the variable name with an ampersand.
+	For example the following code will compute an eigenvalue of a matrix
+	<varname>A</varname> with initial eigenvector guess
+	<varname>x</varname>, and store the computed eigenvector
+	into the variable named <varname>v</varname>:
+<programlisting><![CDATA[RayleighQuotientIteration (A,x,0.001,100,&v)
+]]></programlisting>
+      </para>
     </sect1>

@@ -29,7 +29,7 @@
 
 #include "structs.h"
 
-#define COPYRIGHT_STRING "Copyright (C) 1997-2007 Jiří (George) Lebl"
+#define COPYRIGHT_STRING "Copyright (C) 1997-2007 Jiří (George) Lebl, Ph.D."
 
 typedef enum {
 	NO_ERROR = 0,

@@ -2898,6 +2898,27 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-RayleighQuotientIteration">
+         <term>RayleighQuotientIteration</term>
+         <listitem>
+          <synopsis>RayleighQuotientIteration (A,x,epsilon,maxiter,vecref)</synopsis>
+          <para>Find eigenvalues of <varname>A</varname> using the Rayleigh
+	        quotient iteration method.  <varname>x</varname> is a guess
+		at a eigenvector and could be random.  It should have 
+	        nonzero imaginary part if it will have any chance at finding
+	        complex eigenvalues.  The code will run at most
+	        <varname>maxiter</varname> iterations and return null
+		if we cannot get within an error of <varname>epsilon</varname>.
+		<varname>vecref</varname> should either be null or a reference
+		to a variable where the eigenvector should be stored.
+		</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/RayleighQuotient.html">Planetmath</ulink> for more information on Rayleigh quotient.
+          </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-Rank">
          <term>Rank</term>
          <listitem>
@@ -3362,6 +3383,34 @@ do (
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-StirlingNumberFirst">
+         <term>StirlingNumberFirst</term>
+         <listitem>
+          <synopsis>StirlingNumberFirst (n,m)</synopsis>
+          <para>Aliases: <function>StirlingS1</function></para>
+          <para>Stirling number of the first kind.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/StirlingNumbersOfTheFirstKind.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/StirlingNumberoftheFirstKind.html">Mathworld</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-StirlingNumberSecond">
+         <term>StirlingNumberSecond</term>
+         <listitem>
+          <synopsis>StirlingNumberSecond (n,m)</synopsis>
+          <para>Aliases: <function>StirlingS2</function></para>
+          <para>Stirling number of the second kind.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/StirlingNumbersSecondKind.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/StirlingNumberoftheSecondKind.html">Mathworld</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-Subfactorial">
          <term>Subfactorial</term>
          <listitem>
@@ -3387,7 +3436,12 @@ do (
          <listitem>
           <synopsis>nCr (n,r)</synopsis>
           <para>Aliases: <function>Binomial</function></para>
-          <para>Calculate combinations (binomial coefficient)</para>
+          <para>Calculate combinations, that is, the binomial coefficient.
+	        <varname>n</varname> can be any real number.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/Choose.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 

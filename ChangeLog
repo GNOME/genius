@@ -1,3 +1,48 @@
+Sun Sep 30 11:42:59 2007  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/gnome-genius.c: workaround a segfault in vte when
+	  a very long string is given.
+	
+	* src/mpwrap.c: fix bug with scientific notation.  Also change
+	  behaviour of automatic scientific notation to follow the max digits
+	  parameter
+
+	* src/Makefile.am: fix order of -I and change the way we link our own
+	  libs to be more robust.
+
+	* configure.in: fix
+
+	* src/funclibhelper.cP: fix nonegative integer vs positive integer
+	  checking and add square matrix checking
+
+	* src/mpwrap.[ch]: add binomial and get_ulong
+
+	* src/funclib.c: Add builtin versions of IsVector, IsDiagonal,
+	  IsUpperTriangular, IsLowerTriangular, nCr (Binomial) for speed.
+
+	* help/C/gel-function-list.xml: add docs for
+	  RayleighQuotientIteration, StirlingNumberFirst and Second,
+	  and update nCr doc string
+
+	* help/C/*.xml: update the document to look better printed.  Remove
+	  uneeded paragraph separators, and rewrite small bits.
+
+	* lib/linear_algebra/misc.gel: fix ApplyOverMatrix2, remove some
+	  unneeded semicolons, remove functions now builtin
+
+	* lib/linear_algebra/linear_algebra.gel: fix RayleighQuotient
+	  and add RayleighQuotientIteration
+
+	* lib/combinatorics/misc.gel: Hofstadter, HarmonicNumber
+	  works over matrixes.  Add StirlingNumberFirst and
+	  StirlingNumberSecond
+
+	* lib/combinatorics/factorial.gel: remove nCr as it's builtin
+
+	* src/calc.h, src/gnome-genius.c: brag about my Ph.D.
+
+	* src/geniustests.txt: add bunch of tests
+
 Fri Sep 28 19:41:00 2007  Jiri (George) Lebl <jirka@5z.com>
 
 	* mpfr/*, configure.in, Makefile.am, src/Makefile.am:

@@ -8,7 +8,9 @@
 # looking like n/2 or such...
 SetHelp("Hofstadter", "combinatorics", "Hofstadter's function q(n) defined by q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q(n-2))")
 function Hofstadter(n) = (
-    if not IsInteger(n) or n < 1 then
+    if(IsMatrix(n)) then
+	return ApplyOverMatrix(n,Hofstadter)
+    else if not IsPositiveInteger(n) then
     	(error("Hofstadter: argument not a positive integer");bailout);
     # reason for doing this is that it's just plain faster then calling self
     # again
@@ -43,7 +45,11 @@ protect("fib")
 ## H_n^(r) (the nth harmonic number of order r)
 ## = sum_{i=1}^n 1/i^r
 SetHelp("HarmonicNumber", "combinatorics", "Harmonic Number, the nth harmonic number of order r");
-function HarmonicNumber(n,r) = sum x=1 to n do x^(-r)
+function HarmonicNumber(n,r) = (
+  	if IsMatrix (n) or IsMatrix (r) then
+  		return ApplyOverMatrix2 (m, n, HarmonicNumber);
+	sum x=1 to n do x^(-r)
+)
 protect("HarmonicNumber");
 SetHelpAlias ("HarmonicNumber", "HarmonicH");
 HarmonicH = HarmonicNumber;
@@ -121,15 +127,48 @@ function GreedyAlgorithm(n,v) = (
 );
 protect("GreedyAlgorithm");
 
-## More: BernoulliNumber, BernoulliPolynomial,
-## EulerNumber, EulerPolynomial, StirlingNumberFirst (of the first kind)
-## StirlingNumber2 (of the second kind)
+SetHelp("StirlingNumberFirst", "combinatorics", "Stirling number of the first kind");
+function StirlingNumberFirst(n,m) = (
+  	if IsMatrix (m) or IsMatrix (n) then
+  		return ApplyOverMatrix2 (n, m, StirlingNumberFirst)
+	else if not IsNonNegativeInteger(n) or not IsNonNegativeInteger(m) then
+		(error("StirlingNumberFirst: arguments not positive integers");bailout);
+	if m == 0 then (
+		if n == 0 then 1 else 0
+	) else if m > n then (
+		0
+	) else if m == n then (
+		1
+	) else (
+		StirlingNumberFirst(n-1,m-1) - n * StirlingNumberFirst(n-1,m)
+	)
+)
+protect("StirlingNumberFirst");
+SetHelpAlias ("StirlingNumberFirst", "StirlingS1");
+StirlingS1 = StirlingNumberFirst;
+protect("StirlingS1");
+
+SetHelp("StirlingNumberSecond", "combinatorics", "Stirling number of the second kind");
+function StirlingNumberSecond(n,m) = (
+  	if IsMatrix (m) or IsMatrix (n) then
+  		return ApplyOverMatrix2 (n, m, StirlingNumberSecond)
+    	else if not IsNonNegativeInteger(n) or not IsNonNegativeInteger(m) then
+    		(error("StirlingNumberSecond: arguments not positive integers");bailout);
+
+	1/(m!) * (sum j=0 to m do ((-1)^j * Binomial(m,j)*(m-j)^n))
+)
+protect("StirlingNumberSecond");
+SetHelpAlias ("StirlingNumberSecond", "StirlingS2");
+StirlingS2 = StirlingNumberSecond;
+protect("StirlingS2");
+
+## More: BernoulliPolynomial,
+## EulerNumber, EulerPolynomial
+#??
 #function BernoulliB(n) = BernoulliNumber(n)
 #function BernoulliB(n,x) = BernoulliPolynomial(n,x)
 #function EulerE(n) = EulerNumber(n)
 #function EulerE(n,x) = EulerPolynomial(n,x)
-#function StirlingS1(n,m) = SterlingNumberFirst(n,m) #S_n^(m)
-#function StirlingS2(n,m) = SterlingNumberSecond(n,m) #S_n^(m)
 #function PartitionsP(n) = PartitionsUnrestricted(n) # Unrestricted partitions of n
 #function PartitionsQ(n) = PartitionsDistinct(n) # Partitions of n into distinct parts
 

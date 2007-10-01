@@ -4,6 +4,7 @@ function ApplyOverMatrix(a,func) = (
 		(error("ApplyOverMatrix: argument 1 must be a matrix");bailout)
 	else if(not IsFunction(func)) then
 		(error("ApplyOverMatrix: argument 2 must be a function");bailout);
+	r = zeros(rows(a),columns(a));
 	for i = 1 to rows(a) do (
 		for j = 1 to columns(a) do (
 			r@(i,j) = func(a@(i,j))
@@ -23,18 +24,27 @@ function ApplyOverMatrix2(a,b,func) = (
 	else if(IsMatrix(a) and IsMatrix(b) and
 		(rows(a)!=rows(b) or columns(a)!=columns(b))) then
 		(error("ApplyOverMatrix2: cannot apply a function over two matrixes of different sizes");bailout);
-	
-	for i = 1 to rows(a) do (
-		for j = 1 to columns(a) do (
-			if(IsMatrix(a)) then
-				aa = a@(i,j)
-			else
-				aa = a;
-			if(IsMatrix(b)) then
-				bb = b@(i,j)
-			else
-				bb = b;
-			r@(i,j) = func(aa,bb)
+
+	if IsMatrix(a) and IsMatrix(b) then (
+	        r = zeros(rows(a),columns(a));
+		for i = 1 to rows(a) do (
+			for j = 1 to columns(a) do (
+				r@(i,j) = func(a@(i,j),b@(i,j))
+			)
+		)
+	) else if IsMatrix(a) then (
+	        r = zeros(rows(a),columns(a));
+		for i = 1 to rows(a) do (
+			for j = 1 to columns(a) do (
+				r@(i,j) = func(a@(i,j),b)
+			)
+		)
+	) else (
+	        r = zeros(rows(b),columns(b));
+		for i = 1 to rows(b) do (
+			for j = 1 to columns(b) do (
+				r@(i,j) = func(a,b@(i,j))
+			)
 		)
 	);
 	r
@@ -144,8 +154,8 @@ function adj(m) = (
 	a = zeros (rows(m),rows(m));
 	for i = 1 to rows(m) do (
 		for j = 1 to rows(m) do (
-			a@(j,i) = ((-1)^(i+j))*Minor(m,i,j);
-		);
+			a@(j,i) = ((-1)^(i+j))*Minor(m,i,j)
+		)
 	);
 	a
 );
@@ -262,10 +272,6 @@ function ReverseVector(v) = (
 );
 protect("ReverseVector")
 
-SetHelp("IsVector", "matrix", "Is argument a horizontal or a vertical vector")
-function IsVector(v) = (IsMatrix(v) and (columns(v) == 1 or rows(v) == 1))
-protect("IsVector")
-
 SetHelp("UpperTriangular", "matrix", "Zero out entries below the diagonal")
 function UpperTriangular(M) = (
 	if not IsMatrix(M) or not IsMatrixSquare(M) then
@@ -286,33 +292,6 @@ function LowerTriangular(M) = (
 	UpperTriangular (M.').'
 )
 protect ("LowerTriangular")
-
-# FIXME: stupid
-SetHelp("IsUpperTriangular", "matrix", "Is a matrix upper triangular")
-function IsUpperTriangular(M) = (
-	if not IsMatrix(M) or not IsMatrixSquare(M) then
-		(error("IsUpperTriangular: argument not a square matrix");bailout);
-	M == UpperTriangular(M)
-)
-protect ("IsUpperTriangular")
-
-# FIXME: stupid
-SetHelp("IsLowerTriangular", "matrix", "Is a matrix lower triangular")
-function IsLowerTriangular(M) = (
-	if not IsMatrix(M) or not IsMatrixSquare(M) then
-		(error("IsLowerTriangular: argument not a square matrix");bailout);
-	M == LowerTriangular(M)
-)
-protect ("IsLowerTriangular")
-
-# FIXME: stupid
-SetHelp("IsDiagonal", "matrix", "Is a matrix diagonal")
-function IsDiagonal(M) = (
-	if not IsMatrix(M) or not IsMatrixSquare(M) then
-		(error("IsDiagonal: argument not a square matrix");bailout);
-	M == UpperTriangular(LowerTriangular(M))
-)
-protect ("IsDiagonal")
 
 SetHelp("CompoundMatrix", "matrix", "Calculate the kth compund matrix of A")
 function CompoundMatrix(k,A) = (

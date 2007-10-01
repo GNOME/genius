@@ -4,15 +4,14 @@
 
       <para>
 Syntax:
-<programlisting>FunctionName([argument1, argument2, ...])
+<programlisting>FunctionName(argument1, argument2, ...)
 </programlisting>
 Example:
 <programlisting>Factorial(5)
 cos(2*pi)
+gcd(921,317)
 </programlisting>
-      </para>
 
-      <para>
 To evaluate a function, enter the name of the function, followed by the arguments (if any) to the function in parentheses. This will return the result of applying the function to its arguments. The number of arguments to the function is, of course, different for each function.
       </para>
 
@@ -47,9 +46,6 @@ The <command>`</command> is the backquote character, and signifies an anonymous 
 
         <para>
 A function takes zero or more comma separated arguments, and returns the result of the function body. Defining your own functions is primarily a matter of convenience; one possible use is to have sets of functions defined in GEL files which &appname; can load in order to make available.
-        </para>
-
-        <para>
 Example:
 <programlisting>function addup(a,b,c) = a+b+c
 </programlisting>
@@ -77,16 +73,12 @@ In &appname;, it is possible to pass a function as an argument to another functi
 
         <para>
 If you do not enter the parentheses after a function name, instead of being evaluated, the function will instead be returned as a &lsquo;function node&rsquo;. The function node can then be passed to another function.
-        </para>
-        <para>
 Example:
 <programlisting>function f(a,b) = a(b)+1;
 function b(x) = x*x;
 f(b,2)
 </programlisting>
-        </para>
 
-        <para>
 If you want to pass a function that doesn&rsquo;t exist yet, you can use an anonymous function (see <xref linkend="genius-gel-functions-defining" />).
         </para>
         <para>
@@ -94,8 +86,6 @@ Syntax:
 <programlisting><![CDATA[function(<comma separated arguments>) = <function body>
 `(<comma separated arguments>) = <function body>
 ]]></programlisting>
-        </para>
-        <para>
 Example:
 <programlisting>function f(a,b) = a(b)+1;
 f(`(x) = x*x,2)
@@ -116,8 +106,6 @@ will return a function that does
 This can be useful when quickly defining functions. For example to create a function to perform the above operation, you can just type:
 <programlisting>f = exp(sin*cos+4)
 </programlisting>
-      </para>
-      <para>
 This can also be used in plotting. For example, to plot sin squared you can enter:
 <programlisting>LinePlot(sin^2)
 </programlisting>

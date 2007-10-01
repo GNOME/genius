@@ -2,15 +2,18 @@
     <sect1 id="genius-gel-comparison-operators">
       <title>Comparison operators</title>
       <para>
+	The following standard comparison operators are supported in GEL and have the obvious meaning:
 	<literal>==</literal>, <literal>&gt;=</literal>,
 	<literal>&lt;=</literal>, <literal>!=</literal>,
 	<literal>&lt;&gt;</literal>, <literal>&lt;</literal>,
-	<literal>&gt;</literal> return <literal>true</literal> or
+	<literal>&gt;</literal>.  They return <literal>true</literal> or
 	<literal>false</literal>.
-      </para>
-      <para>
+	The operators
 	<literal>!=</literal> and <literal>&lt;&gt;</literal> are the same
 	thing and mean "is not equal to".
+	GEL also supports the operator
+	<literal>&lt;=&gt;</literal>, which returns -1 if left side is
+	smaller, 0 if both sides are equal, 1 if left side is larger.
       </para>
 
       <para>
@@ -36,14 +39,11 @@ if a==b then c
 	(1&lt;x and x&le;y and y&lt;5)
       </para>
       <para>
-	The <literal>&lt;=&gt;</literal> operator returns -1 if left side is
-	smaller, 0 if both sides are equal, 1 if left side is larger.
-      </para>
-      <para>
 	To build up logical expressions use the words <literal>not</literal>,
 	<literal>and</literal>, <literal>or</literal>, <literal>xor</literal>.
-      </para>
-      <para>
-"or" and "and" are special beasts as they evaluate their arguemnts one by one, so the usual trick for conditional evaluation works here as well. (e.g., "1 or a=1" will not set a=1 since the first argument was true)
+	The operators <literal>or</literal> and <literal>and</literal> are
+special beasts as they evaluate their arguemnts one by one, so the usual trick
+for conditional evaluation works here as well. For example, <literal>1 or a=1</literal> will not set
+<literal>a=1</literal> since the first argument was true.
       </para>
     </sect1>

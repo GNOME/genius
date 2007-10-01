@@ -430,7 +430,7 @@ SetHelp("RayleighQuotient", "linear_algebra", "Return the Rayleigh quotient of a
 function RayleighQuotient(A,x) = (
 	# FIXME: argument checking
 	if columns (x) > 1 then x = x.';
-	( x' * A * x ) / ( x' * x )
+	( ( x' * A * x ) / ( x' * x ) ) @(1)
 )
 protect ("RayleighQuotient")
 
@@ -518,3 +518,43 @@ function QRDecomposition(A,Q) = (
 	UpperTriangular (QQ' * A)
 )
 protect("QRDecomposition")
+
+# See for example: http://www.cs.utk.edu/~dongarra/etemplates/node97.html
+SetHelp("RayleighQuotientIteration", "linear_algebra", "Compute an eigenvalue using the Rayleigh Quotient Iteration method until we are epsilon from eigenvalue or for maxiter iterations")
+function RayleighQuotientIteration(A,x,epsilon,maxiter,vecref) = (
+	if not IsMatrix(A) or not IsMatrixSquare(A) then
+        	(error("RayleighQuotientIteration: A must be a square matrix");bailout);
+	if not IsVector(x) or elements(x) != columns(A) then
+        	(error("RayleighQuotientIteration: x must be a vector of same size as A");bailout);
+	if not IsValue(epsilon) or not IsPositiveInteger(maxiter) then
+        	(error("RayleighQuotientIteration: epsilon and maxiter must be numbers");bailout);
+	if not IsFunctionRef(vecref) and not IsNull(vecref) then
+        	(error("RayleighQuotientIteration: vecref must be a reference or null");bailout);
+
+	if columns (x) > 1 then x = x.';
+
+	x = x / sqrt (HermitianProduct (x,x));
+
+	p = ( ( x' * A * x ) / ( x' * x ) ) @(1);
+
+	for k = 1 to maxiter do (
+		y = SolveLinearSystem ((A-p),x);
+		if IsNull(y) then (
+		        if IsFunctionRef(vecref) then *vecref = x;
+			return p
+		);
+
+		nsq = HermitianProduct (y,y);
+
+		p = p + (y'*x)@(1) / nsq;
+
+		x = y/sqrt(nsq);
+
+		if nsq >= 1/epsilon then (
+		        if IsFunctionRef(vecref) then *vecref = x;
+			return p
+		)
+	);
+	null
+)
+protect ("RayleighQuotientIteration")
