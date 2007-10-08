@@ -1,6 +1,6 @@
 
     <sect1 id="genius-usage-workarea"> 
-      <title>Using the workarea</title> 
+      <title>Using the work area</title> 
 
       <para>
         Normally you interact with the calculator in the Console tab of the
@@ -9,23 +9,9 @@
       </para>
 
       <para>
-	Type your expression into the Console workarea and press enter and
-	the expression will be evaluated.  To load a program, type
-<screen><prompt>genius> </prompt><userinput>load path/to/program.gel</userinput>
-</screen>
-To list files in the current directory type <command>ls</command>, to change directory
-do <command>cd directory</command> as in the unix command shell.
-</para>
-<para>
-To get a list of functions and commands, type:
-<screen><prompt>genius> </prompt><userinput>help</userinput>
-</screen>
-If you wish to get more help on a specific function, type:
-<screen><prompt>genius> </prompt><userinput>help FunctionName</userinput>
-</screen>
-To view this manual, type:
-<screen><prompt>genius> </prompt><userinput>manual</userinput>
-</screen>
+	Type your expression into the Console work area and press enter and
+	the expression will be evaluated.
+
 The most simple GEL (The Genius Extension Language, or George&lsquo;s Ego Leverage)
 expression just looks like mathematics.  For example
 <screen><prompt>genius> </prompt><userinput>30*70 + 67^3.0 + ln(7) * (88.8/100)</userinput>
@@ -40,5 +26,27 @@ or
 <screen><prompt>genius> </prompt><userinput>sum n=1 to 70 do 1/n</userinput>
 </screen>
 (Last is the harmonic sum from 1 to 70)
+</para>
+<para>
+To get a list of functions and commands, type:
+<screen><prompt>genius> </prompt><userinput>help</userinput>
+</screen>
+If you wish to get more help on a specific function, type:
+<screen><prompt>genius> </prompt><userinput>help FunctionName</userinput>
+</screen>
+To view this manual, type:
+<screen><prompt>genius> </prompt><userinput>manual</userinput>
+</screen>
+</para>
+<para>
+Suppose you have previously saved some GEL commands as a program to a file and
+you now want to execute them.
+To load this program from the file <filename>path/to/program.gel</filename>,
+type
+<screen><prompt>genius> </prompt><userinput>load path/to/program.gel</userinput>
+</screen>
+&app; keeps track of the current directory.
+To list files in the current directory type <command>ls</command>, to change directory
+do <command>cd directory</command> as in the unix command shell.
 </para>
     </sect1>

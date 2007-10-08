@@ -83,7 +83,7 @@
 
    3. Basic usage
 
-                3.1. Using the workarea
+                3.1. Using the work area
 
                 3.2. To Create a New Program
 
@@ -253,13 +253,20 @@
 
     The Genius Mathematics Tool application is a general calculator for use
    as a desktop calculator, an educational tool in mathematics, and is useful
-   even for rudimentary research. The language tries to be more
-   `mathematical' in the sense that it should be `what you mean is what you
-   get', though of course that's not an entirely attainable goal. It features
-   using rationals, arbitrary precision integers and multiple precision
-   floats using the GMP library. It also fully supports complex numbers. It
-   can work with matrices and vectors and do rudimetary linear algebra. The
-   language can have user-defined functions, variables and parameters.
+   even for research. The language used in Genius Mathematics Tool is
+   designed to be `mathematical' in the sense that it should be `what you
+   mean is what you get'. Of course that is not an entirely attainable goal.
+   Genius Mathematics Tool features rationals, arbitrary precision integers
+   and multiple precision floats using the GMP library. It handles complex
+   numbers using cartesian notation. It has good vector and matrix
+   manipulation and can handle basic linear algebra. The programming language
+   allows user defined functions, variables and modification of parameters.
+
+    Genius Mathematics Tool comes in two versions. One version is the
+   graphical GNOME version, which features an IDE style interface and the
+   ability to plot functions of one or two variables. The command line
+   version does not require GNOME, but of course does not implement any
+   feature that requires the graphical interface.
 
     This manual describes mostly the graphical version of the calculator,
    but the language is of course the same. The command line only version
@@ -294,7 +301,8 @@
 
 2.2. When You Start Genius
 
-   When you start Genius Mathematics Tool, the following window is displayed.
+   When you start the GNOME edition of Genius Mathematics Tool, the window
+   pictured in Figure 2-1 is displayed.
 
    Figure 2-1. Genius Mathematics Tool Window
 
@@ -327,34 +335,16 @@
 
                              Chapter 3. Basic usage
 
-3.1. Using the workarea
+3.1. Using the work area
 
     Normally you interact with the calculator in the Console tab of the work
    area. If you are running the text only version then the console will be
    the only thing that is available to you.
 
-    Type your expression into the Console workarea and press enter and the
-   expression will be evaluated. To load a program, type
-
- genius> load path/to/program.gel
-
-   To list files in the current directory type ls, to change directory do cd
-   directory as in the unix command shell.
-
-   To get a list of functions and commands, type:
-
- genius> help
-
-   If you wish to get more help on a specific function, type:
-
- genius> help FunctionName
-
-   To view this manual, type:
-
- genius> manual
-
-   The most simple GEL (The Genius Extension Language, or George`s Ego
-   Leverage) expression just looks like mathematics. For example
+    Type your expression into the Console work area and press enter and the
+   expression will be evaluated. The most simple GEL (The Genius Extension
+   Language, or George`s Ego Leverage) expression just looks like
+   mathematics. For example
 
  genius> 30*70 + 67^3.0 + ln(7) * (88.8/100)
 
@@ -372,12 +362,34 @@
 
    (Last is the harmonic sum from 1 to 70)
 
+   To get a list of functions and commands, type:
+
+ genius> help
+
+   If you wish to get more help on a specific function, type:
+
+ genius> help FunctionName
+
+   To view this manual, type:
+
+ genius> manual
+
+   Suppose you have previously saved some GEL commands as a program to a
+   file and you now want to execute them. To load this program from the file
+   path/to/program.gel, type
+
+ genius> load path/to/program.gel
+
+   Genius Mathematics Tool keeps track of the current directory. To list
+   files in the current directory type ls, to change directory do cd
+   directory as in the unix command shell.
+
      ----------------------------------------------------------------------
 
 3.2. To Create a New Program
 
    To start writing a new program, choose File->New Program. A new tab will
-   appear in the workarea. You can write a GEL program in this workarea.
+   appear in the work area. You can write a GEL program in this work area.
 
    To save the program you've just written, choose File->Save As...
 
@@ -386,7 +398,7 @@
 3.3. To Open and Run a Program
 
    To open a file in order, choose File->Open. A new tab containing the file
-   will appear in the workarea. You can use this to edit the file.
+   will appear in the work area. You can use this to edit the file.
 
    To run a program from a file, choose File->Load and Run....
 
@@ -412,7 +424,8 @@
 
     Once you click the Plot button, a window opens up with some notebooks in
    it. You want to be in the "Function line plot" notebook tab, and inside
-   you want to be on the "Functions / Expressions" notebook tab.
+   you want to be on the "Functions / Expressions" notebook tab. See Figure
+   4-1.
 
    Figure 4-1. Create Plot Window
 
@@ -420,11 +433,10 @@
    variable. You can also just give names of functions such as cos rather
    then having to type cos(x). You can graph up to ten functions. If you make
    a mistake and Genius cannot parse the input it will signify this with a
-   warning icon on the right of the text input box where the error occured,
+   warning icon on the right of the text input box where the error occurred,
    as well as giving you an error dialog. You can change the ranges of the
    dependent and independent variables in the bottom part of the dialog.
-
-    Pressing the Plot button produces the following graph.
+   Pressing the Plot button produces the graph shown in Figure 4-2.
 
    Figure 4-2. Plot Window
 
@@ -443,17 +455,16 @@
     In the create plot window, you can also choose the Parametric notebook
    tab to create two dimensional parametric plots. This way you can plot a
    single parametric function. You can either specify the points as x and y,
-   or giving a single complex number.
+   or giving a single complex number. See Figure 4-3.
 
    Figure 4-3. Parametric Plots
 
-    Here is an example of a parametric plot. Similar operations can be done
-   on such graphs as can be done on the other line plots.
+    An example of a parametric plot is given in Figure 4-3. Similar
+   operations can be done on such graphs as can be done on the other line
+   plots. For plotting using the command line see the documentation of the
+   LinePlotParametric or LinePlotCParametric function.
 
    Figure 4-4.
-
-    For plotting using the command line see the documentation of the
-   LinePlotParametric or LinePlotCParametric function.
 
      ----------------------------------------------------------------------
 
@@ -465,12 +476,10 @@
    or z as a complex variable (where x is the real part of z and y is the
    imaginary part). For example to plot the modulus of the cosine function
    for complex parameters, you could enter |cos(z)|. This would be equivalent
-   to |cos(x+1i*y)|.
+   to |cos(x+1i*y)|. See Figure 4-5. For plotting using the command line see
+   the documentation of the SurfacePlot function.
 
    Figure 4-5. Surface plot
-
-    For plotting using the command line see the documentation of the
-   SurfacePlot function.
 
      ----------------------------------------------------------------------
 
@@ -479,7 +488,10 @@
     GEL stands for Genius Extension Language. Alternatively it also stands
    for George's Ego Leverage. It is the language you use to write programs in
    Genius. A program in GEL is simply an expression that evaluates to a
-   number.
+   number. Genius Mathematics Tool can therefore be used as a simple
+   calculator, or as a powerful theoretical research tool. The syntax is
+   meant to have as shallow of a learning curve as possible, especially for
+   use as a calculator.
 
      ----------------------------------------------------------------------
 
@@ -505,7 +517,7 @@
  01234
 
    Or you can type numbers in an arbitrary base using <base>\<number>. Digits
-   higher than 10 use letters in a similar way to hexidecimal. For example, a
+   higher than 10 use letters in a similar way to hexadecimal. For example, a
    number in base 23 could be written:
 
  23\1234ABCD
@@ -612,21 +624,28 @@
 
  "22"
 
-   Strings can also be compared with ==, != and <=> operators
+   Strings can also be compared with == (equal), != (not equal) and <=>
+   (comparison) operators
 
      ----------------------------------------------------------------------
 
   5.1.4. Null
 
-   Null is a special value. No operations can be performed on it, and
-   nothing is printed when it is returned. Therefore, Null is useful when you
-   do not want output from an expression. Null can be obtained as an
-   expression when you type . or nothing.
+   There is a special value called null. No operations can be performed on
+   it, and nothing is printed when it is returned. Therefore, null is useful
+   when you do not want output from an expression. The value null can be
+   obtained as an expression when you type ., the command null or nothing. By
+   nothing we mean that if you end an expression with a separator ;, it is
+   equivalent to ending it with a separator followed by a null.
 
    Example:
 
  x=5;.
  x=5;
+
+   Some functions return null when no value can be returned or an error
+   happened. Also null is used as an empty vector or matrix, or an empty
+   reference.
 
      ----------------------------------------------------------------------
 
@@ -849,15 +868,12 @@
 5.4. Absolute value / Modulus
 
    You can make an absolute value of something by putting the |'s around it.
+   For example:
 
  |a-b|
 
    In case the expression is a complex number the result will be the modulus
-   (distance from the origin). So for example:
-
- |3 * e^(1i*pi)|
-
-   returns 3.
+   (distance from the origin). For example: |3 * e^(1i*pi)| returns 3.
 
      ----------------------------------------------------------------------
 
@@ -865,11 +881,12 @@
 
    In GEL if you want to type more than one command you have to use the ;
    operator, which is a way to separate expressions, such a combined
-   expression will return whatever is the result of the last one, so
+   expression will return whatever is the result of the last one, so suppose
+   you type the following:
 
  3 ; 5
 
-   yields 5.
+   This expression will yield 5.
 
    This will require some parenthesizing to make it unambiguous sometimes,
    especially if the ; is not the top most primitive. This slightly differs
@@ -5110,7 +5127,7 @@
 
 12.3. Terminal
 
-    Terminal refers to the console in the workarea.
+    Terminal refers to the console in the work area.
 
    Scrollback lines
 

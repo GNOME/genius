@@ -16,7 +16,7 @@ Hexidecimal and octal numbers can be written using C notation. For example:
 <programlisting>0x123ABC
 01234
 </programlisting>
-Or you can type numbers in an arbitrary base using <command>&lt;base&gt;\&lt;number&gt;</command>. Digits higher than 10 use letters in a similar way to hexidecimal. For example, a number in base 23 could be written:
+Or you can type numbers in an arbitrary base using <command>&lt;base&gt;\&lt;number&gt;</command>. Digits higher than 10 use letters in a similar way to hexadecimal. For example, a number in base 23 could be written:
 <programlisting>23\1234ABCD
 </programlisting>
         </para>
@@ -108,7 +108,7 @@ In addition, you can use the library function <command>string</command> to conve
 will return
 <programlisting>"22"
 </programlisting>
-Strings can also be compared with ==, != and &lt;=&gt; operators
+Strings can also be compared with <command>==</command> (equal), <command>!=</command> (not equal) and <command>&lt;=&gt;</command> (comparison) operators
         </para>
       </sect2>
 
@@ -116,7 +116,14 @@ Strings can also be compared with ==, != and &lt;=&gt; operators
       <sect2 id="genius-gel-values-null">
         <title>Null</title>
         <para>
-<command>Null</command> is a special value. No operations can be performed on it, and nothing is printed when it is returned. Therefore, <command>Null</command> is useful when you do not want output from an expression. <command>Null</command> can be obtained as an expression when you type <command>.</command> or nothing.
+There is a special value called
+<command>null</command>. No operations can be performed on
+it, and nothing is printed when it is returned. Therefore,
+<command>null</command> is useful when you do not want output from an
+expression.  The value <command>null</command> can be obtained as an expression when you
+type <command>.</command>, the command <command>null</command> or nothing.
+By nothing we mean that if you end an expression with
+a separator <command>;</command>, it is equivalent to ending it with a separator followed by a <command>null</command>.
         </para>
         <para>
 Example:
@@ -124,6 +131,11 @@ Example:
 x=5;
 </programlisting>
         </para>
+<para>
+Some functions return <command>null</command> when no value can be returned
+or an error happened.  Also <command>null</command> is used as an empty vector
+or matrix, or an empty reference.
+</para>
       </sect2>
 
     </sect1>

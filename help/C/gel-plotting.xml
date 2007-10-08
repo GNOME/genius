@@ -21,7 +21,7 @@
       <para>
 	Once you click the Plot button, a window opens up with some notebooks in it.
 	You want to be in the "Function line plot" notebook tab, and inside you want to
-	be on the "Functions / Expressions" notebook tab.
+	be on the "Functions / Expressions" notebook tab.  See <xref linkend="lineplot-fig"/>.
       </para>
 
       <figure id="lineplot-fig"> 
@@ -29,10 +29,10 @@
         <screenshot> 
           <mediaobject> 
             <imageobject>
-              <imagedata fileref="figures/line_plot.png" format="PNG"/> 
+              <imagedata fileref="figures/line_plot.png" format="PNG" scale="50" scalefit="1"/> 
             </imageobject>
             <imageobject>
-              <imagedata fileref="figures/line_plot.eps" format="EPS" scale="50"/> 
+              <imagedata fileref="figures/line_plot.eps" format="EPS" scale="50" scalefit="1"/> 
             </imageobject>
             <textobject> 
               <phrase>Shows the line plotting window.</phrase> 
@@ -47,13 +47,10 @@
 	<userinput>cos</userinput> rather then having to type <userinput>cos(x)</userinput>.
 	You can graph up to ten functions.  If you make a mistake and &appname; cannot
 	parse the input it will signify this with a warning icon on the right of the text
-	input box where the error occured, as well as giving you an error dialog.
+	input box where the error occurred, as well as giving you an error dialog.
 	You can change the ranges of the dependent and independent variables in the bottom
 	part of the dialog.
-      </para>
-
-      <para>
-	Pressing the Plot button produces the following graph.
+	Pressing the Plot button produces the graph shown in <xref linkend="lineplot2-fig"/>.
       </para>
 
       <figure id="lineplot2-fig"> 
@@ -61,10 +58,10 @@
         <screenshot> 
           <mediaobject> 
             <imageobject>
-              <imagedata fileref="figures/line_plot_graph.png" format="PNG"/> 
+              <imagedata fileref="figures/line_plot_graph.png" format="PNG" scale="50" scalefit="1"/> 
             </imageobject>
             <imageobject>
-              <imagedata fileref="figures/line_plot_graph.eps" format="EPS" scale="50"/> 
+              <imagedata fileref="figures/line_plot_graph.eps" format="EPS" scale="50" scalefit="1"/> 
             </imageobject>
             <textobject> 
               <phrase>The graph produced.</phrase> 
@@ -93,6 +90,7 @@
         tab to create two dimensional parametric plots.  This way you can
 	plot a single parametric function.  You can either specify the
 	points as x and y, or giving a single complex number.
+	See <xref linkend="paramplot-fig"/>.
       </para>
 
       <figure id="paramplot-fig"> 
@@ -100,10 +98,10 @@
         <screenshot> 
           <mediaobject> 
             <imageobject>
-              <imagedata fileref="figures/parametric.png" format="PNG"/> 
+              <imagedata fileref="figures/parametric.png" format="PNG" scale="50" scalefit="1"/> 
             </imageobject>
             <imageobject>
-              <imagedata fileref="figures/parametric.eps" format="EPS" scale="50"/> 
+              <imagedata fileref="figures/parametric.eps" format="EPS" scale="50" scalefit="1"/> 
             </imageobject>
             <textobject> 
               <phrase>Parametric plotting tab in the Create Plot window.</phrase> 
@@ -113,8 +111,13 @@
       </figure>
 
       <para>
-	Here is an example of a parametric plot.  Similar operations can be
+	An example of a parametric plot is given in
+	<xref linkend="paramplot-fig"/>.
+	Similar operations can be
 	done on such graphs as can be done on the other line plots.
+	For plotting using the command line see the documentation of the
+        <link linkend="gel-function-LinePlotParametric">LinePlotParametric</link> or
+        <link linkend="gel-function-LinePlotCParametric">LinePlotCParametric</link> function.
       </para>
 
       <figure id="paramplot2-fig"> 
@@ -122,10 +125,10 @@
         <screenshot> 
           <mediaobject> 
             <imageobject>
-              <imagedata fileref="figures/parametric_graph.png" format="PNG"/> 
+              <imagedata fileref="figures/parametric_graph.png" format="PNG" scale="50" scalefit="1"/> 
             </imageobject>
             <imageobject>
-              <imagedata fileref="figures/parametric_graph.eps" format="EPS" scale="50"/> 
+              <imagedata fileref="figures/parametric_graph.eps" format="EPS" scale="50" scalefit="1"/> 
             </imageobject>
             <textobject> 
               <phrase>Parametric plot produced</phrase> 
@@ -134,11 +137,6 @@
         </screenshot> 
       </figure>
 
-      <para>
-	For plotting using the command line see the documentation of the
-        <link linkend="gel-function-LinePlotParametric">LinePlotParametric</link> or
-        <link linkend="gel-function-LinePlotCParametric">LinePlotCParametric</link> function.
-      </para>
     </sect1>
 
     <sect1 id="genius-surface-plots">
@@ -152,6 +150,9 @@
 	function for complex parameters,
 	you could enter <userinput>|cos(z)|</userinput>.  This would be
 	equivalent to <userinput>|cos(x+1i*y)|</userinput>.
+	See <xref linkend="surfaceplot-fig"/>.
+	For plotting using the command line see the documentation of the
+        <link linkend="gel-function-SurfacePlot">SurfacePlot</link> function.
       </para>
 
       <figure id="surfaceplot-fig"> 
@@ -159,10 +160,10 @@
         <screenshot> 
           <mediaobject> 
             <imageobject>
-              <imagedata fileref="figures/surface_graph.png" format="PNG"/> 
+              <imagedata fileref="figures/surface_graph.png" format="PNG" scale="50" scalefit="1"/> 
             </imageobject>
             <imageobject>
-              <imagedata fileref="figures/surface_graph.eps" format="EPS" scale="50"/> 
+              <imagedata fileref="figures/surface_graph.eps" format="EPS" scale="50" scalefit="1"/> 
             </imageobject>
             <textobject> 
               <phrase>Modulus of the complex cosine function.</phrase> 
@@ -171,8 +172,4 @@
         </screenshot> 
       </figure>
 
-      <para>
-	For plotting using the command line see the documentation of the
-        <link linkend="gel-function-SurfacePlot">SurfacePlot</link> function.
-      </para>
     </sect1>
