@@ -26,7 +26,7 @@ You can use Tab completion to get &appname; to complete variable names for you. 
       <important>
         <title>Variable names are case sensitive</title>
         <para>
-The names of variables are case sensitive. That means that variables named <command>hello</command>, <command>HELLO</command> and <command>Hello</command> are all different variables.
+The names of variables are case sensitive. That means that variables named <varname>hello</varname>, <varname>HELLO</varname> and <varname>Hello</varname> are all different variables.
         </para>
       </important>
 
@@ -56,23 +56,67 @@ The <command>=</command> and <command>:=</command> operators can both be used to
       </sect2>
 
       <sect2 id="genius-gel-variables-global">
-        <title>Global variables</title>
+        <title>Global variables and scope of variables</title>
+	<para>
+	  Like most programming languages, GEL has two different types
+	  of variables: local and global.  A local variable only exists
+	  in the context of the function where it is set and all functions
+	  called from inside this function.  A global variable
+	  exists in all contexts.  When you set a variable on the toplevel
+	  command line, outside of any function, then it will be a global.
+	  All functions will see it.
+        </para>
         <para>
-Sometimes you'd like to set a global variable from inside a function. For this, use the <command>set</command> function. Passing a string or a quoted identifier to this function sets the variable globally. For example, to set <command>a</command> to the value 3 you could call:
+          When you set a variable inside a function, it will only be seen
+	  inside the function, including all function calls that are made
+	  inside this function.  This is where GEL differs from a language
+	  such as C.  One could describe local variables as being semi global
+	  in this sense.  For example the following code will print out 5.
+	  but the function <command>g()</command> cannot be called on the
+	  top level as <varname>a</varname> will not be defined.
+<programlisting>function f() = (a:=5; g());
+function g() = print(a);
+f();
+</programlisting>
+	</para>
+        <para>
+	  Suppose you assign a value to an identifier inside a function,
+	  and this identifier is also used for a global variable, or a
+	  variable set in a calling function.  Then this has the effect of
+	  creating a new local variable inside the function.  For example
+	  the following code will print out 6 and not 5.
+<programlisting>a=6;
+function f() = (a:=5);
+print(a);
+</programlisting>
+	</para>
+        <para>
+	  Sometimes however it is neccessary to set
+a global variable from inside a function. For this, use the
+<command>set</command> function. Passing a string or a quoted identifier to
+this function sets the variable globally. For example, to set
+<varname>a</varname> to the value 3 you could call:
 <programlisting>set(`a,3)
 </programlisting>
 or:
 <programlisting>set("a",3)
 </programlisting>
-
-Like most programming languages, &appname; has two different types of variables: local (a variable set inside a function will not exist outside the function) and global (doesn't matter where you set them).
+        </para>
+        <para>
+	  The <command>set</command> function always sets the toplevel
+	  global.  There is no way to set a local variable in some function
+	  from a subroutine.  For this you must use passing by reference.
         </para>
       </sect2>
 
       <sect2 id="genius-gel-variables-built-in">
         <title>Built-in variables</title>
         <para>
-GEL has a number of built-in &lsquo;variables&rsquo;, such as <command>e</command>. These are widely used constants with a preset value, and they cannot be assigned new values. There are a number of other built-in variables, such as <command>pi</command> and <command>GoldenRatio</command>. See <xref linkend="genius-gel-function-list-constants" /> for a full list.
+GEL has a number of built-in &lsquo;variables&rsquo;, such as
+<varname>e</varname>, <varname>pi</varname> or <varname>GoldenRatio</varname>.  These are widely used constants with a preset value, and
+they cannot be assigned new values.
+There are a number of other built-in variables.
+See <xref linkend="genius-gel-function-list-constants" /> for a full list.
         </para>
       </sect2>
 
@@ -80,7 +124,7 @@ GEL has a number of built-in &lsquo;variables&rsquo;, such as <command>e</comman
       <sect2 id="genius-gel-previous-result">
         <title>Previous result variable</title>
         <para>
-The <command>Ans</command> and <command>ans</command> variables can be used to get the result of the last expression. For example, if you had performed some calculation, to add 389 to the result you could do:
+The <varname>Ans</varname> and <varname>ans</varname> variables can be used to get the result of the last expression. For example, if you had performed some calculation, to add 389 to the result you could do:
 <programlisting>Ans+389
 </programlisting>
         </para>
