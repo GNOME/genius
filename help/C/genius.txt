@@ -921,12 +921,12 @@
    from other programming languages where the ; is a terminator of
    statements, whereas in GEL it's actually a binary operator. If you are
    familiar with pascal this should be second nature. However genius can let
-   you pretend it's a terminator somewhat, if a ";" is found at the end of a
+   you pretend it is a terminator somewhat, if a ; is found at the end of a
    parenthesis or a block, genius will itself append a null node to it as if
-   you would have written ";". This is usefull in case you don't want to
+   you would have written ;null. This is usefull in case you do not want to
    return a value from say a loop, or if you handle the return differently.
-   Note that it will slow down the code if it's executed too often as there
-   is one more operator involved.
+   Note that it will slightly slow down the code if it is executed too often
+   as there is one more operator involved.
 
      ----------------------------------------------------------------------
 
@@ -1386,9 +1386,9 @@
 
 6.6. References
 
-   GEL contains references with a C like syntax. & references a variable and
-   * dereferences a variable. Both can only be applied to an identifier, so
-   **a is not legal in GEL.
+   GEL contains references with a syntax similar to C. & references a
+   variable and * dereferences a variable. Both can only be applied to an
+   identifier, so **a is not legal in GEL.
 
    Example:
 
