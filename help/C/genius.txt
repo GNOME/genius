@@ -113,11 +113,9 @@
 
                              5.2.1. Setting Variables
 
-                             5.2.2. Global variables and scope of variables
+                             5.2.2. Built-in variables
 
-                             5.2.3. Built-in variables
-
-                             5.2.4. Previous result variable
+                             5.2.3. Previous result variable
 
                 5.3. Using Functions
 
@@ -155,11 +153,13 @@
 
                 6.4. Comparison operators
 
-                6.5. Returning
+                6.5. Global variables and scope of variables
 
-                6.6. References
+                6.6. Returning
 
-                6.7. Lvalues
+                6.7. References
+
+                6.8. Lvalues
 
    7. Advanced Programming with GEL
 
@@ -241,9 +241,9 @@
 
    4-2. Plot Window
 
-   4-3. Parametric Plots
+   4-3. Parametric Plot Tab
 
-   4-4.
+   4-4. Parametric Plot
 
    4-5. Surface plot
 
@@ -339,12 +339,14 @@
 
     Normally you interact with the calculator in the Console tab of the work
    area. If you are running the text only version then the console will be
-   the only thing that is available to you.
+   the only thing that is available to you. If you want to use Genius
+   Mathematics Tool as a calculator only, just type in your expression here
+   and it willg et evaluated.
 
     Type your expression into the Console work area and press enter and the
-   expression will be evaluated. The most simple GEL (The Genius Extension
-   Language, or George`s Ego Leverage) expression just looks like
-   mathematics. For example
+   expression will be evaluated. Expressions are written in a language called
+   GEL. The most simple GEL expression just looks like mathematics. For
+   example
 
  genius> 30*70 + 67^3.0 + ln(7) * (88.8/100)
 
@@ -390,6 +392,14 @@
 
    To start writing a new program, choose File->New Program. A new tab will
    appear in the work area. You can write a GEL program in this work area.
+   Once you have written your program you can run it by Calculator->Run. This
+   will execute your program and will display any output on the Console tab.
+   Executing a program is equivalent of taking the text of the program and
+   typing it into the console. The only difference is that this input is done
+   independent of the console and just the output goes onto the console.
+   Calculator->Run will always run the currently selected program even if you
+   are on the Console tab. The currently selected program has its tab in bold
+   type. To select a program, just click on its tab.
 
    To save the program you've just written, choose File->Save As...
 
@@ -397,10 +407,12 @@
 
 3.3. To Open and Run a Program
 
-   To open a file in order, choose File->Open. A new tab containing the file
-   will appear in the work area. You can use this to edit the file.
+   To open a file, choose File->Open. A new tab containing the file will
+   appear in the work area. You can use this to edit the file.
 
-   To run a program from a file, choose File->Load and Run....
+   To run a program from a file, choose File->Load and Run.... This will run
+   the program without opening it in a separate tab. This is equivalent to
+   the load command.
 
      ----------------------------------------------------------------------
 
@@ -411,8 +423,8 @@
    Create Plot window. You can access this window by either clicking on the
    Plot button on the toolbar or selecting Plot from the Calculator menu. You
    can also access the plotting functionality by using the plotting functions
-   of the GEL language. See the chapter on GEL Basics to find out how to
-   enter expressions that Genius understands.
+   of the GEL language. See Chapter 5 to find out how to enter expressions
+   that Genius understands.
 
      ----------------------------------------------------------------------
 
@@ -423,9 +435,8 @@
    its documentation).
 
     Once you click the Plot button, a window opens up with some notebooks in
-   it. You want to be in the "Function line plot" notebook tab, and inside
-   you want to be on the "Functions / Expressions" notebook tab. See Figure
-   4-1.
+   it. You want to be in the Function line plot notebook tab, and inside you
+   want to be on the Functions / Expressions notebook tab. See Figure 4-1.
 
    Figure 4-1. Create Plot Window
 
@@ -457,20 +468,20 @@
    single parametric function. You can either specify the points as x and y,
    or giving a single complex number. See Figure 4-3.
 
-   Figure 4-3. Parametric Plots
+   Figure 4-3. Parametric Plot Tab
 
     An example of a parametric plot is given in Figure 4-3. Similar
    operations can be done on such graphs as can be done on the other line
    plots. For plotting using the command line see the documentation of the
    LinePlotParametric or LinePlotCParametric function.
 
-   Figure 4-4.
+   Figure 4-4. Parametric Plot
 
      ----------------------------------------------------------------------
 
 4.3. Surface Plots
 
-    Genius can also plot surfaces. Select the "Surface plot" tab in the main
+    Genius can also plot surfaces. Select the Surface plot tab in the main
    notebook of the Create Plot window. Here you can specify a single
    expression which should use either x and y as real independent variables
    or z as a complex variable (where x is the real part of z and y is the
@@ -485,13 +496,12 @@
 
                              Chapter 5. GEL Basics
 
-    GEL stands for Genius Extension Language. Alternatively it also stands
-   for George's Ego Leverage. It is the language you use to write programs in
-   Genius. A program in GEL is simply an expression that evaluates to a
-   number. Genius Mathematics Tool can therefore be used as a simple
-   calculator, or as a powerful theoretical research tool. The syntax is
-   meant to have as shallow of a learning curve as possible, especially for
-   use as a calculator.
+    GEL stands for Genius Extension Language. It is the language you use to
+   write programs in Genius. A program in GEL is simply an expression that
+   evaluates to a number. Genius Mathematics Tool can therefore be used as a
+   simple calculator, or as a powerful theoretical research tool. The syntax
+   is meant to have as shallow of a learning curve as possible, especially
+   for use as a calculator.
 
      ----------------------------------------------------------------------
 
@@ -634,7 +644,7 @@
    There is a special value called null. No operations can be performed on
    it, and nothing is printed when it is returned. Therefore, null is useful
    when you do not want output from an expression. The value null can be
-   obtained as an expression when you type ., the command null or nothing. By
+   obtained as an expression when you type ., the contant null or nothing. By
    nothing we mean that if you end an expression with a separator ;, it is
    equivalent to ending it with a separator followed by a null.
 
@@ -701,56 +711,11 @@
    operator, whereas the = operator may be interpreted as testing for
    equality when used in a context where a Boolean expression is expected.
 
-     ----------------------------------------------------------------------
-
-  5.2.2. Global variables and scope of variables
-
-    Like most programming languages, GEL has two different types of
-   variables: local and global. A local variable only exists in the context
-   of the function where it is set and all functions called from inside this
-   function. A global variable exists in all contexts. When you set a
-   variable on the toplevel command line, outside of any function, then it
-   will be a global. All functions will see it.
-
-    When you set a variable inside a function, it will only be seen inside
-   the function, including all function calls that are made inside this
-   function. This is where GEL differs from a language such as C. One could
-   describe local variables as being semi global in this sense. For example
-   the following code will print out 5. but the function g() cannot be called
-   on the top level as a will not be defined.
-
- function f() = (a:=5; g());
- function g() = print(a);
- f();
-
-    Suppose you assign a value to an identifier inside a function, and this
-   identifier is also used for a global variable, or a variable set in a
-   calling function. Then this has the effect of creating a new local
-   variable inside the function. For example the following code will print
-   out 6 and not 5.
-
- a=6;
- function f() = (a:=5);
- print(a);
-
-    Sometimes however it is neccessary to set a global variable from inside
-   a function. For this, use the set function. Passing a string or a quoted
-   identifier to this function sets the variable globally. For example, to
-   set a to the value 3 you could call:
-
- set(`a,3)
-
-   or:
-
- set("a",3)
-
-    The set function always sets the toplevel global. There is no way to set
-   a local variable in some function from a subroutine. For this you must use
-   passing by reference.
+    For issues regarding the scope of variables, see Section 6.5.
 
      ----------------------------------------------------------------------
 
-  5.2.3. Built-in variables
+  5.2.2. Built-in variables
 
    GEL has a number of built-in `variables', such as e, pi or GoldenRatio.
    These are widely used constants with a preset value, and they cannot be
@@ -759,7 +724,7 @@
 
      ----------------------------------------------------------------------
 
-  5.2.4. Previous result variable
+  5.2.3. Previous result variable
 
    The Ans and ans variables can be used to get the result of the last
    expression. For example, if you had performed some calculation, to add 389
@@ -834,7 +799,7 @@
 
  function f(a,b...) = b
 
-   Then f(1,2,3) yields [2,3], while f(1) yields null.
+   Then f(1,2,3) yields [2,3], while f(1) yields a null.
 
      ----------------------------------------------------------------------
 
@@ -1116,12 +1081,12 @@
  &a
 
             Variable referencing (to pass a reference to something). See
-           Section 6.6.
+           Section 6.7.
 
  *a
 
             Variable dereferencing (to access a referenced varible). See
-           Section 6.6.
+           Section 6.7.
 
  a'
 
@@ -1220,7 +1185,8 @@
 
  if <expression1> then <expression2> [else <expression3>]
 
-   If else is omitted, then if the expression1 yields 0, NULL is returned.
+   If else is omitted, then if the expression1 yields false or 0, NULL is
+   returned.
 
    Examples:
 
@@ -1364,12 +1330,61 @@
 
      ----------------------------------------------------------------------
 
-6.5. Returning
+6.5. Global variables and scope of variables
 
-   Sometimes you don't want to return the last thing calculated. You may,
-   for example, want to return from a middle of a function. In this case, you
-   can use the return keyword. return takes one argument, which is the value
-   to be returned.
+    Like most programming languages, GEL has two different types of
+   variables: local and global. A local variable only exists in the context
+   of the function where it is set and all functions called from inside this
+   function. A global variable exists in all contexts. When you set a
+   variable on the toplevel command line, outside of any function, then it
+   will be a global. All functions will see it.
+
+    When you set a variable inside a function, it will only be seen inside
+   the function, including all function calls that are made inside this
+   function. This is where GEL differs from a language such as C. One could
+   describe local variables as being semi global in this sense. For example
+   the following code will print out 5. but the function g cannot be called
+   on the top level as a will not be defined.
+
+ function f() = (a:=5; g());
+ function g() = print(a);
+ f();
+
+    Suppose you assign a value to an identifier inside a function, and this
+   identifier is also used for a global variable, or a variable set in a
+   calling function. Then this has the effect of creating a new local
+   variable inside the function. For example the following code will print
+   out 6 and not 5.
+
+ a=6;
+ function f() = (a:=5);
+ print(a);
+
+    Sometimes however it is neccessary to set a global variable from inside
+   a function. For this, use the set function. Passing a string or a quoted
+   identifier to this function sets the variable globally. For example, to
+   set a to the value 3 you could call:
+
+ set(`a,3)
+
+   or:
+
+ set("a",3)
+
+    The set function always sets the toplevel global. There is no way to set
+   a local variable in some function from a subroutine. For this you must use
+   passing by reference.
+
+     ----------------------------------------------------------------------
+
+6.6. Returning
+
+    Normally a function is one or several expressions separated by a
+   semicolon, and the value of the last expression is returned. This is fine
+   for simple functions, but sometimes you do not want a function to return
+   the last thing calculated. You may, for example, want to return from a
+   middle of a function. In this case, you can use the return keyword. return
+   takes one argument, which is the value to be returned.
 
    Example:
 
@@ -1384,25 +1399,14 @@
 
      ----------------------------------------------------------------------
 
-6.6. References
+6.7. References
 
-   GEL contains references with a syntax similar to C. & references a
-   variable and * dereferences a variable. Both can only be applied to an
-   identifier, so **a is not legal in GEL.
-
-   Example:
-
- a=1;
- b=&a;
- *b=2;
-
-   now 'a' contains 2.
-
- function f(x) = x+1;
- t=&f;
- *t(3)
-
-   gives us 4.
+    It may be neccessary for some functions to return more than one value.
+   This may be accomplished by returning a vector of values, but many times
+   it is convenient to use passing a reference to a variable. You pass a
+   reference to a variable to a function, and the function will set the
+   variable for you using a dereference. You do not have to use references
+   only for this purpose, but this is their main use.
 
     When using functions which return values through references in the
    argument list, just pass the variable name with an ampersand. For example
@@ -1412,9 +1416,28 @@
 
  RayleighQuotientIteration (A,x,0.001,100,&v)
 
+   The details of how references work and the syntax is similar to the C
+   language. The operator & references a variable and * dereferences a
+   variable. Both can only be applied to an identifier, so **a is not a legal
+   expression in GEL.
+
+   References are best explained by an example:
+
+ a=1;
+ b=&a;
+ *b=2;
+
+   now a contains 2. You can also reference functions:
+
+ function f(x) = x+1;
+ t=&f;
+ *t(3)
+
+   gives us 4.
+
      ----------------------------------------------------------------------
 
-6.7. Lvalues
+6.8. Lvalues
 
     An lvalue is the left hand side of an assignment. In other words, an
    lvalue is what you assign something to. Valid lvalues are:
@@ -1657,19 +1680,20 @@
 
  load "file.gel"
 
-           Load a file into the interpretor.
+           Load a file into the interpretor. The file will execute as if it
+           were typed onto the command line.
 
    cd
 
  cd /directory/name
 
-           Change working directory.
+           Change working directory to /directory/name.
 
    pwd
 
  pwd
 
-           Change working directory.
+           Print the current working directory.
 
    ls
 
@@ -1681,7 +1705,8 @@
 
  plugin plugin_name
 
-           Load a plugin.
+           Load a plugin. Plugin of that name must be installed on the system
+           in the proper directory.
 
      ----------------------------------------------------------------------
 
@@ -1698,8 +1723,8 @@
 
  ComposePower (f,n,x)
 
-           Compose a function with itself n times, passing x as argument, and
-           returning x if n == 0. Examples:
+           Compose and execute a function with itself n times, passing x as
+           argument. Returning x if n equals 0. Example:
 
  genius> function f(x) = x^2 ;
  genius> ComposePower (f,3,7)
@@ -1711,13 +1736,18 @@
 
  GetCurrentModulo
 
-           Get current modulo from the context outside the function
+           Get current modulo from the context outside the function. That is,
+           if outside of the function was executed in modulo (using mod) then
+           this returns what this modulo was. Normally the body of the
+           function called is not executed in modular arithmetic, and this
+           builtin function makes it possible to make GEL functions aware of
+           modular arithmetic.
 
    Identity
 
  Identity (x)
 
-           Identity function, returns its argument
+           Identity function, returns its argument.
 
    IntegerFromBoolean
 
@@ -1731,86 +1761,93 @@
 
  IsBoolean (arg)
 
-           Check if argument is a boolean (and not a number)
+           Check if argument is a boolean (and not a number).
 
    IsFunction
 
  IsFunction (arg)
 
-           Check if argument is a function
+           Check if argument is a function.
 
    IsFunctionOrIdentifier
 
  IsFunctionOrIdentifier (arg)
 
-           Check if argument is a function or identifier
+           Check if argument is a function or an identifier.
 
    IsFunctionRef
 
  IsFunctionRef (arg)
 
-           Check if argument is a function reference
+           Check if argument is a function reference. This includes variable
+           references.
 
    IsMatrix
 
  IsMatrix (arg)
 
-           Check if argument is a matrix
+           Check if argument is a matrix. Even though null is sometimes
+           considered an empty matrix, the function IsMatrix does not
+           consider null a matrix.
 
    IsNull
 
  IsNull (arg)
 
-           Check if argument is a null
+           Check if argument is a null.
 
    IsString
 
  IsString (arg)
 
-           Check if argument is a text string
+           Check if argument is a text string.
 
    IsValue
 
  IsValue (arg)
 
-           Check if argument is a number
+           Check if argument is a number.
 
    SetFunctionFlags
 
  SetFunctionFlags (id,flags...)
 
            Set flags for a function, currently "PropagateMod" and
-           "NoModuloArguments"
+           "NoModuloArguments". If "PropagateMod" is set, then the body of
+           the function is evaluated in modular arithmetic when the function
+           is called inside a block that was evaluated using modular
+           arithmetic (using mod). If "NoModuloArguments", then the arguments
+           of the function are never evaluated using modular arithmetic.
 
    SetHelp
 
  SetHelp (id,category,desc)
 
-           Set the category and help description line for a function
+           Set the category and help description line for a function.
 
    SetHelpAlias
 
  SetHelpAlias (id,alias)
 
-           Sets up a help alias
+           Sets up a help alias.
 
    chdir
 
  chdir (dir)
 
-           Changes current directory
+           Changes current directory, same as the cd.
 
    display
 
  display (str,expr)
 
-           Display a string and an expression
+           Display a string and an expression with a colon to separate them.
 
    error
 
  error (str)
 
-           Prints a string to the error stream
+           Prints a string to the error stream (onto the console).
 
    exit
 
@@ -1818,7 +1855,7 @@
 
            Aliases: quit
 
-           Exits the program
+           Exits the program.
 
    false
 
@@ -1826,31 +1863,37 @@
 
            Aliases: False FALSE
 
-           The false boolean value
+           The false boolean value.
 
    manual
 
  manual
 
-           Displays the user manual
+           Displays the user manual.
 
    print
 
  print (str)
 
-           Prints an expression
+           Prints an expression and then print a newline. The argument str
+           can be any expression. It is made into a string before being
+           printed.
 
    printn
 
  printn (str)
 
-           Prints an expression without a trailing newline
+           Prints an expression without a trailing newline. The argument str
+           can be any expression. It is made into a string before being
+           printed.
 
    protect
 
  protect (id)
 
-           Protect a variable from being modified
+           Protect a variable from being modified. This is used on the
+           internal GEL functions to avoid them being accidentally
+           overridden.
 
    set
 
@@ -1876,13 +1919,13 @@
 
            Aliases: True TRUE
 
-           The true boolean value
+           The true boolean value.
 
    unprotect
 
  unprotect (id)
 
-           Unprotect a variable from being modified
+           Unprotect a variable from being modified.
 
    wait
 
@@ -1894,7 +1937,7 @@
 
  warranty
 
-           Gives the warranty information
+           Gives the warranty information.
 
      ----------------------------------------------------------------------
 
@@ -1904,84 +1947,84 @@
 
  ChopTolerance = number
 
-           Tolerance of the Chop function
+           Tolerance of the Chop function.
 
    ContinuousNumberOfTries
 
  ContinuousNumberOfTries = number
 
            How many iterations to try to find the limit for continuity and
-           limits
+           limits.
 
    ContinuousSFS
 
  ContinuousSFS = number
 
            How many successive steps to be within tolerance for calculation
-           of continuity
+           of continuity.
 
    ContinuousTolerance
 
  ContinuousTolerance = number
 
            Tolerance for continuity of functions and for calculating the
-           limit
+           limit.
 
    DerivativeNumberOfTries
 
  DerivativeNumberOfTries = number
 
-           How many iterations to try to find the limit for derivative
+           How many iterations to try to find the limit for derivative.
 
    DerivativeSFS
 
  DerivativeSFS = number
 
            How many successive steps to be within tolerance for calculation
-           of derivative
+           of derivative.
 
    DerivativeTolerance
 
  DerivativeTolerance = number
 
-           Tolerance for calculating the derivatives of functions
+           Tolerance for calculating the derivatives of functions.
 
    ErrorFunctionTolerance
 
  ErrorFunctionTolerance = number
 
-           Tolerance of the ErrorFunction
+           Tolerance of the ErrorFunction.
 
    FloatPrecision
 
  FloatPrecision = number
 
-           Floating point precision
+           Floating point precision.
 
    FullExpressions
 
  FullExpressions = boolean
 
-           Print full expressions, even if more than a line
+           Print full expressions, even if more than a line.
 
    GaussDistributionTolerance
 
  GaussDistributionTolerance = number
 
-           Tolerance of the GaussDistribution function
+           Tolerance of the GaussDistribution function.
 
    IntegerOutputBase
 
  IntegerOutputBase = number
 
-           Integer output base
+           Integer output base.
 
    IsPrimeMillerRabinReps
 
  IsPrimeMillerRabinReps = number
 
            Number of extra Miller-Rabin tests to run on a number before
-           declaring it a prime in IsPrime
+           declaring it a prime in IsPrime.
 
    LinePlotWindow
 
@@ -1993,31 +2036,31 @@
 
  MaxDigits = number
 
-           Maximum digits to display
+           Maximum digits to display.
 
    MaxErrors
 
  MaxErrors = number
 
-           Maximum errors to display
+           Maximum errors to display.
 
    MixedFractions
 
  MixedFractions = boolean
 
-           If true, mixed fractions are printed
+           If true, mixed fractions are printed.
 
    NumericalIntegralFunction
 
  NumericalIntegralFunction = function
 
-           The function used for numerical integration in NumericalIntegral
+           The function used for numerical integration in NumericalIntegral.
 
    NumericalIntegralSteps
 
  NumericalIntegralSteps = number
 
-           Steps to perform in NumericalIntegral
+           Steps to perform in NumericalIntegral.
 
    OutputStyle
 
@@ -2035,32 +2078,32 @@
 
  ResultsAsFloats = boolean
 
-           Convert all results to floats before printing
+           Convert all results to floats before printing.
 
    ScientificNotation
 
  ScientificNotation = boolean
 
-           Use scientific notation
+           Use scientific notation.
 
    SumProductNumberOfTries
 
  SumProductNumberOfTries = number
 
-           How many iterations to try for InfiniteSum and InfiniteProduct
+           How many iterations to try for InfiniteSum and InfiniteProduct.
 
    SumProductSFS
 
  SumProductSFS = number
 
            How many successive steps to be within tolerance for InfiniteSum
-           and InfiniteProduct
+           and InfiniteProduct.
 
    SumProductTolerance
 
  SumProductTolerance = number
 
-           Tolerance for InfiniteSum and InfiniteProduct
+           Tolerance for InfiniteSum and InfiniteProduct.
 
    SurfacePlotWindow
 
@@ -2097,7 +2140,7 @@
 
  GoldenRatio
 
-           The Golden Ratio
+           The Golden Ratio.
 
             See Planetmath or Mathworld for more information.
 
@@ -2105,7 +2148,7 @@
 
  Gravity
 
-           Free fall acceleration
+           Free fall acceleration.
 
    e
 
@@ -2121,7 +2164,7 @@
  pi
 
             The number pi, that is the ratio of a circle's circumference to
-           it's diameter. This is approximately 3.14159265359...
+           its diameter. This is approximately 3.14159265359...
 
             See Planetmath or Mathworld for more information.
 
@@ -2136,7 +2179,7 @@
            Aliases: abs
 
             Absolute value of a number and if x is a complex value the
-           modulus of x.
+           modulus of x. I.e. this the distance of x to the origin.
 
             See Planetmath (absolute value), Planetmath (modulus), Mathworld
            (absolute value) or Mathworld (complex modulus) for more
@@ -2146,7 +2189,7 @@
 
  Chop (x)
 
-           Replace very small number with zero
+           Replace very small number with zero.
 
    ComplexConjugate
 
@@ -2154,19 +2197,19 @@
 
            Aliases: conj Conj
 
-           Calculates the conjugate
+           Calculates the conjugate.
 
    Denominator
 
  Denominator (x)
 
-           Get the denominator of a rational number
+           Get the denominator of a rational number.
 
    FractionalPart
 
  FractionalPart (x)
 
-           Return the fractional part of a number
+           Return the fractional part of a number.
 
    Im
 
@@ -2174,31 +2217,31 @@
 
            Aliases: ImaginaryPart
 
-           Get the imaginary part of a complex number
+           Get the imaginary part of a complex number.
 
    IntegerQuotient
 
  IntegerQuotient (m,n)
 
-           Division w/o remainder
+           Division without remainder.
 
    IsComplex
 
  IsComplex (num)
 
-           Check if argument is a complex (non-real) number
+           Check if argument is a complex (non-real) number.
 
    IsComplexRational
 
  IsComplexRational (num)
 
-           Check if argument is a possibly complex rational number
+           Check if argument is a possibly complex rational number.
 
    IsFloat
 
  IsFloat (num)
 
-           Check if argument is a floating point number (non-complex)
+           Check if argument is a floating point number (non-complex).
 
    IsGaussInteger
 
@@ -2206,19 +2249,19 @@
 
            Aliases: IsComplexInteger
 
-           Check if argument is a possibly complex integer
+           Check if argument is a possibly complex integer.
 
    IsGaussianInteger
 
  IsGaussianInteger (z)
 
-           Check if argument is a gaussian integer
+           Check if argument is a gaussian integer.
 
    IsInteger
 
  IsInteger (num)
 
-           Check if argument is an integer (non-complex)
+           Check if argument is an integer (non-complex).
 
    IsNonNegativeInteger
 
@@ -2239,19 +2282,19 @@
 
  IsRational (num)
 
-           Check if argument is a rational number (non-complex)
+           Check if argument is a rational number (non-complex).
 
    IsReal
 
  IsReal (num)
 
-           Check if argument is a real number
+           Check if argument is a real number.
 
    Numerator
 
  Numerator (x)
 
-           Get the numerator of a rational number
+           Get the numerator of a rational number.
 
    Re
 
@@ -2259,7 +2302,7 @@
 
            Aliases: RealPart
 
-           Get the real part of a complex number
+           Get the real part of a complex number.
 
    Sign
 
@@ -2277,7 +2320,7 @@
 
            Aliases: Ceiling
 
-           Get the lowest integer more than or equal to n
+           Get the lowest integer more than or equal to n.
 
    exp
 
@@ -2301,7 +2344,7 @@
 
            Aliases: Floor
 
-           Get the highest integer less than or equal to n
+           Get the highest integer less than or equal to n.
 
    ln
 
@@ -2320,7 +2363,7 @@
 
  log10 (x)
 
-           Logarithm of x base 10
+           Logarithm of x base 10.
 
    log2
 
@@ -2328,7 +2371,7 @@
 
            Aliases: lg
 
-           Logarithm of x base 2
+           Logarithm of x base 2.
 
    max
 
@@ -2336,7 +2379,7 @@
 
            Aliases: Max Maximum
 
-           Returns the maximum of arguments or matrix
+           Returns the maximum of arguments or matrix.
 
    min
 
@@ -2344,7 +2387,7 @@
 
            Aliases: Min Minimum
 
-           Returns the minimum of arguments or matrix
+           Returns the minimum of arguments or matrix.
 
    rand
 
@@ -2378,7 +2421,7 @@
 
            Aliases: Round
 
-           Round a number
+           Round a number.
 
    sqrt
 
@@ -2407,7 +2450,7 @@
 
            Aliases: Truncate IntegerPart
 
-           Truncate number to an integer (return the integer part)
+           Truncate number to an integer (return the integer part).
 
      ----------------------------------------------------------------------
 
@@ -2419,7 +2462,7 @@
 
            Aliases: arccos
 
-           The arccos (inverse cos) function
+           The arccos (inverse cos) function.
 
    acosh
 
@@ -2427,7 +2470,7 @@
 
            Aliases: arccosh
 
-           The arccosh (inverse cosh) function
+           The arccosh (inverse cosh) function.
 
    acot
 
@@ -2435,7 +2478,7 @@
 
            Aliases: arccot
 
-           The arccot (inverse cot) function
+           The arccot (inverse cot) function.
 
    acoth
 
@@ -2443,7 +2486,7 @@
 
            Aliases: arccoth
 
-           The arccoth (inverse coth) function
+           The arccoth (inverse coth) function.
 
    acsc
 
@@ -2451,7 +2494,7 @@
 
            Aliases: arccsc
 
-           The inverse cosecant function
+           The inverse cosecant function.
 
    acsch
 
@@ -2459,7 +2502,7 @@
 
            Aliases: arccsch
 
-           The inverse hyperbolic cosecant function
+           The inverse hyperbolic cosecant function.
 
    asec
 
@@ -2467,7 +2510,7 @@
 
            Aliases: arcsec
 
-           The inverse secant function
+           The inverse secant function.
 
    asech
 
@@ -2475,7 +2518,7 @@
 
            Aliases: arcsech
 
-           The inverse hyperbolic secant function
+           The inverse hyperbolic secant function.
 
    asin
 
@@ -2483,7 +2526,7 @@
 
            Aliases: arcsin
 
-           The arcsin (inverse sin) function
+           The arcsin (inverse sin) function.
 
    asinh
 
@@ -2491,7 +2534,7 @@
 
            Aliases: arcsinh
 
-           The arcsinh (inverse sinh) function
+           The arcsinh (inverse sinh) function.
 
    atan
 
@@ -2509,7 +2552,7 @@
 
            Aliases: arctanh
 
-           The arctanh (inverse tanh) function
+           The arctanh (inverse tanh) function.
 
    atan2
 
@@ -2535,7 +2578,7 @@
 
  cosh (x)
 
-           Calculates the hyperbolic cosine function
+           Calculates the hyperbolic cosine function.
 
             See Planetmath for more information.
 
@@ -2543,7 +2586,7 @@
 
  cot (x)
 
-           The cotangent function
+           The cotangent function.
 
             See Planetmath for more information.
 
@@ -2551,7 +2594,7 @@
 
  coth (x)
 
-           The hyperbolic cotangent function
+           The hyperbolic cotangent function.
 
             See Planetmath for more information.
 
@@ -2559,7 +2602,7 @@
 
  csc (x)
 
-           The cosecant function
+           The cosecant function.
 
             See Planetmath for more information.
 
@@ -2567,7 +2610,7 @@
 
  csch (x)
 
-           The hyperbolic cosecant function
+           The hyperbolic cosecant function.
 
             See Planetmath for more information.
 
@@ -2575,7 +2618,7 @@
 
  sec (x)
 
-           The secant function
+           The secant function.
 
             See Planetmath for more information.
 
@@ -2583,7 +2626,7 @@
 
  sech (x)
 
-           The hyperbolic secant function
+           The hyperbolic secant function.
 
             See Planetmath for more information.
 
@@ -2599,7 +2642,7 @@
 
  sinh (x)
 
-           Calculates the hyperbolic sine function
+           Calculates the hyperbolic sine function.
 
             See Planetmath for more information.
 
@@ -2607,7 +2650,7 @@
 
  tan (x)
 
-           Calculates the tan function
+           Calculates the tan function.
 
             See Planetmath for more information.
 
@@ -2615,7 +2658,7 @@
 
  tanh (x)
 
-           The hyperbolic tangent function
+           The hyperbolic tangent function.
 
             See Planetmath for more information.
 
@@ -2636,7 +2679,7 @@
 
  BernoulliNumber (n)
 
-           Return the nth Bernoulli number
+           Return the nth Bernoulli number.
 
    ChineseRemainder
 
@@ -2661,20 +2704,20 @@
 
  ConvertFromBase (v,b)
 
-           Convert a vector of values indicating powers of b to a number
+           Convert a vector of values indicating powers of b to a number.
 
    ConvertToBase
 
  ConvertToBase (n,b)
 
-           Convert a number to a vector of powers for elements in base b
+           Convert a number to a vector of powers for elements in base b.
 
    DiscreteLog
 
  DiscreteLog (n,b,q)
 
-           Find discrete log of n base b in F_q where q is a prime using the
-           Silver-Pohlig-Hellman algoritm
+           Find discrete log of n base b in Fq, the finite field of order q,
+           where q is a prime, using the Silver-Pohlig-Hellman algoritm.
 
             See Planetmath or Mathworld for more information.
 
@@ -2682,7 +2725,7 @@
 
  Divides (m,n)
 
-           Checks divisibility (if m divides n)
+           Checks divisibility (if m divides n).
 
    EulerPhi
 
@@ -2745,30 +2788,33 @@
 
  FindPrimitiveElementMod (q)
 
-           Find the first primitive element in F_q (q must be a prime)
+           Find the first primitive element in Fq, the finite group of order
+           q. Of course q must be a prime.
 
    FindRandomPrimitiveElementMod
 
  FindRandomPrimitiveElementMod (q)
 
-           Find a random primitive element in F_q (q must be a prime)
+           Find a random primitive element in Fq, the finite group of order q
+           (q must be a prime).
 
    IndexCalculus
 
  IndexCalculus (n,b,q,S)
 
-           Compute discrete log base b of n in F_q (q a prime) using the
-           factor base S. S should be a column of primes possibly with second
-           column precalculated by IndexCalculusPrecalculation.
+           Compute discrete log base b of n in Fq, the finite group of order
+           q (q a prime), using the factor base S. S should be a column of
+           primes possibly with second column precalculated by
+           IndexCalculusPrecalculation.
 
    IndexCalculusPrecalculation
 
  IndexCalculusPrecalculation (b,q,S)
 
            Run the precalculation step of IndexCalculus for logarithms base b
-           in F_q (q a prime) for the factor base S (where S is a column
-           vector of primes). The logs will be precalculated and returned in
-           the second column.
+           in Fq, the finite group of order q (q a prime), for the factor
+           base S (where S is a column vector of primes). The logs will be
+           precalculated and returned in the second column.
 
    IsEven
 
@@ -2787,27 +2833,27 @@
 
  IsOdd (n)
 
-           Tests if an integer is odd
+           Tests if an integer is odd.
 
    IsPerfectPower
 
  IsPerfectPower (n)
 
-           Check a number for being any perfect power (a^b)
+           Check an integer is any perfect power, ab.
 
    IsPerfectSquare
 
  IsPerfectSquare (n)
 
-            Check a number for being a perfect square. The number must be a
-           real integer. Negative integers are of course never perfect
-           squares.
+            Check an integer for being a perfect square of an integer. The
+           number must be a real integer. Negative integers are of course
+           never perfect squares of real integers.
 
    IsPrime
 
  IsPrime (n)
 
-            Tests primality of integers, for numbers less than 25*10^9 the
+            Tests primality of integers, for numbers less than 25e9 the
            answer is deterministic (if Riemann hypothesis is true). For
            numbers larger, the probability of a false positive depends on 
            IsPrimeMillerRabinReps. That is the probability of false positive
@@ -2824,29 +2870,29 @@
 
  IsPrimitiveMod (g,q)
 
-           Check if g is primitive in F_q, where q is a prime. If q is not
-           prime results are bogus.
+           Check if g is primitive in Fq, the finite group of order q, where
+           q is a prime. If q is not prime results are bogus.
 
    IsPrimitiveModWithPrimeFactors
 
  IsPrimitiveModWithPrimeFactors (g,q,f)
 
-           Check if g is primitive in F_q, where q is a prime and f is a
-           vector of prime factors of q-1. If q is not prime results are
-           bogus.
+           Check if g is primitive in Fq, the finite group of order q, where
+           q is a prime and f is a vector of prime factors of q-1. If q is
+           not prime results are bogus.
 
    IsPseudoprime
 
  IsPseudoprime (n,b)
 
            If n is a pseudoprime base b but not a prime, that is if b^(n-1)
-           == 1 mod n
+           == 1 mod n. This calles the PseudoprimeTest
 
    IsStrongPseudoprime
 
  IsStrongPseudoprime (n,b)
 
-           Test if n is a strong pseudoprime to base b but not a prime
+           Test if n is a strong pseudoprime to base b but not a prime.
 
    Jacobi
 
@@ -2854,7 +2900,7 @@
 
            Aliases: JacobiSymbol
 
-           Calculate the Jacobi symbol (a/b) (b should be odd)
+           Calculate the Jacobi symbol (a/b) (b should be odd).
 
    JacobiKronecker
 
@@ -2863,14 +2909,14 @@
            Aliases: JacobiKroneckerSymbol
 
            Calculate the Jacobi symbol (a/b) with the Kronecker extension
-           (a/2)=(2/a) when a odd, or (a/2)=0 when a even
+           (a/2)=(2/a) when a odd, or (a/2)=0 when a even.
 
    LeastAbsoluteResidue
 
  LeastAbsoluteResidue (a,n)
 
            Return the residue of a mod n with the least absolute value (in
-           the interval -n/2 to n/2)
+           the interval -n/2 to n/2).
 
    Legendre
 
@@ -2886,7 +2932,7 @@
 
  LucasLehmer (p)
 
-           Test if Mp is a Mersenne prime using the Lucas-Lehmer test
+           Test if 2p-1 is a Mersenne prime using the Lucas-Lehmer test.
 
             See Planetmath or Mathworld for more information.
 
@@ -2894,7 +2940,7 @@
 
  LucasNumber (n)
 
-           Returns the n'th Lucas number
+           Returns the nth Lucas number.
 
             See Planetmath or Mathworld for more information.
 
@@ -2902,7 +2948,7 @@
 
  MaximalPrimePowerFactors (n)
 
-           Return all maximal prime power factors of a number
+           Return all maximal prime power factors of a number.
 
    MillerRabinTest
 
@@ -2929,7 +2975,7 @@
 
  ModInvert (n,m)
 
-           Returns inverse of n mod m
+           Returns inverse of n mod m.
 
             See Mathworld for more information.
 
@@ -2951,10 +2997,10 @@
            considered prime and so to get the previous prime you can use
            -NextPrime(-n).
 
-            This uses the GMP's mpz_nextprime which in turn uses the
-           probabilistic Miller-Rabin test (See also MillerRabinTest). The
-           probability of false positive is not tunable, but is low enough
-           for all practical purposes.
+            This function uses the GMP's mpz_nextprime which in turn uses
+           the probabilistic Miller-Rabin test (See also MillerRabinTest).
+           The probability of false positive is not tunable, but is low
+           enough for all practical purposes.
 
             See Planetmath or Mathworld for more information.
 
@@ -2978,7 +3024,7 @@
 
            Aliases: prime
 
-           Return the n'th prime (up to a limit)
+           Return the nth prime (up to a limit).
 
             See Planetmath or Mathworld for more information.
 
@@ -3011,9 +3057,9 @@
 
  SilverPohligHellmanWithFactorization (n,b,q,f)
 
-           Find discrete log of n base b in F_q where q is a prime using the
-           Silver-Pohlig-Hellman algoritm, given f being the factorization of
-           q-1
+           Find discrete log of n base b in Fq, the finite group of order q,
+           where q is a prime using the Silver-Pohlig-Hellman algoritm, given
+           f being the factorization of q-1.
 
    SqrtModPrime
 
@@ -3067,32 +3113,32 @@
  ApplyOverMatrix (a,func)
 
            Apply a function over all entries of a matrix and return a matrix
-           of the results
+           of the results.
 
    ApplyOverMatrix2
 
  ApplyOverMatrix2 (a,b,func)
 
            Apply a function over all entries of 2 matrices (or 1 value and 1
-           matrix) and return a matrix of the results
+           matrix) and return a matrix of the results.
 
    ColumnsOf
 
  ColumnsOf (M)
 
-           Gets the columns of a matrix as a horizontal vector
+           Gets the columns of a matrix as a horizontal vector.
 
    ComplementSubmatrix
 
  ComplementSubmatrix (m,r,c)
 
-           Remove column(s) and row(s) from a matrix
+           Remove column(s) and row(s) from a matrix.
 
    CompoundMatrix
 
  CompoundMatrix (k,A)
 
-           Calculate the kth compund matrix of A
+           Calculate the kth compund matrix of A.
 
    CountZeroColumns
 
@@ -3106,13 +3152,13 @@
 
  DeleteColumn (M,col)
 
-           Delete a column of a matrix
+           Delete a column of a matrix.
 
    DeleteRow
 
  DeleteRow (M,row)
 
-           Delete a row of a matrix
+           Delete a row of a matrix.
 
    DiagonalOf
 
@@ -3165,13 +3211,13 @@
 
  IndexComplement (vec,msize)
 
-           Return the index complement of a vector of indexes
+           Return the index complement of a vector of indexes.
 
    IsDiagonal
 
  IsDiagonal (M)
 
-           Is a matrix diagonal
+           Is a matrix diagonal.
 
             See Planetmath for more information.
 
@@ -3179,25 +3225,26 @@
 
  IsLowerTriangular (M)
 
-           Is a matrix lower triangular
+           Is a matrix lower triangular. That is, are all the entries below
+           the diagonal zero.
 
    IsMatrixInteger
 
  IsMatrixInteger (M)
 
-           Check if a matrix is an integer (non-complex) matrix
+           Check if a matrix is a matrix of an integers (non-complex).
 
    IsMatrixRational
 
  IsMatrixRational (M)
 
-           Check if a matrix is a rational (non-complex) matrix
+           Check if a matrix is a matrix of rational (non-complex) numbers.
 
    IsMatrixReal
 
  IsMatrixReal (M)
 
-           Check if a matrix is a real (non-complex) matrix
+           Check if a matrix is a matrix of real (non-complex) numbers.
 
    IsMatrixSquare
 
@@ -3210,13 +3257,14 @@
 
  IsUpperTriangular (M)
 
-           Is a matrix upper triangular
+           Is a matrix upper triangular. That is, are all the entries above
+           the diagonal zero.
 
    IsValueOnly
 
  IsValueOnly (M)
 
-           Check if a matrix is a matrix of numbers
+           Check if a matrix is a matrix of numbers only.
 
    IsVector
 
@@ -3230,7 +3278,8 @@
 
  LowerTriangular (M)
 
-           Zero out entries above the diagonal
+           Returns a copy of the matrix M with all the entries above the
+           diagonal set to zero.
 
    MakeDiagonal
 
@@ -3238,7 +3287,7 @@
 
            Aliases: diag
 
-           Make diagonal matrix from a vector
+           Make diagonal matrix from a vector.
 
             See Planetmath for more information.
 
@@ -3275,31 +3324,31 @@
 
  OuterProduct (u,v)
 
-           Get the outer product of two vectors
+           Get the outer product of two vectors.
 
    ReverseVector
 
  ReverseVector (v)
 
-           Reverse elements in a vector
+           Reverse elements in a vector.
 
    RowSum
 
  RowSum (m)
 
-           Calculate sum of each row in a matrix
+           Calculate sum of each row in a matrix.
 
    RowSumSquares
 
  RowSumSquares (m)
 
-           Calculate sum of squares of each row in a matrix
+           Calculate sum of squares of each row in a matrix.
 
    RowsOf
 
  RowsOf (M)
 
-           Gets the rows of a matrix as a vertical vector
+           Gets the rows of a matrix as a vertical vector.
 
    SetMatrixSize
 
@@ -3331,49 +3380,52 @@
 
  Submatrix (m,r,c)
 
-           Return column(s) and row(s) from a matrix
+           Return column(s) and row(s) from a matrix.
 
    SwapRows
 
  SwapRows (m,row1,row2)
 
-           Swap two rows in a matrix
+           Swap two rows in a matrix.
 
    UpperTriangular
 
  UpperTriangular (M)
 
-           Zero out entries below the diagonal
+           Returns a copy of the matrix M with all the entries below the
+           diagonal set to zero.
 
    columns
 
  columns (M)
 
-           Get the number of columns of a matrix
+           Get the number of columns of a matrix.
 
    elements
 
  elements (M)
 
-           Get the number of elements of a matrix
+           Get the number of elements of a matrix.
 
    ones
 
  ones (rows,columns...)
 
-           Make an matrix of all ones (or a row vector)
+           Make an matrix of all ones (or a row vector if only one argument
+           is given).
 
    rows
 
  rows (M)
 
-           Get the number of rows of a matrix
+           Get the number of rows of a matrix.
 
    zeros
 
  zeros (rows,columns...)
 
-           Make an matrix of all zeros (or a row vector)
+           Make an matrix of all zeros (or a row vector if only one argument
+           is given).
 
      ----------------------------------------------------------------------
 
@@ -3383,21 +3435,23 @@
 
  AuxilliaryUnitMatrix (n)
 
-           Get the auxilliary unit matrix of size n
+           Get the auxilliary unit matrix of size n. This is a square matrix
+           matrix with that is all zero except the superdiagonal being all
+           ones. It is the Jordan block matrix of one zero eigenvalue.
 
    BilinearForm
 
  BilinearForm (v,A,w)
 
            Evaluate (v,w) with respect to the bilinear form given by the
-           matrix A
+           matrix A.
 
    BilinearFormFunction
 
  BilinearFormFunction (A)
 
            Return a function that evaluates two vectors with respect to the
-           bilinear form given by A
+           bilinear form given by A.
 
    CharacteristicPolynomial
 
@@ -3405,19 +3459,19 @@
 
            Aliases: CharPoly
 
-           Get the characteristic polynomial as a vector
+           Get the characteristic polynomial as a vector.
 
    CharacteristicPolynomialFunction
 
  CharacteristicPolynomialFunction (M)
 
-           Get the characteristic polynomial as a function
+           Get the characteristic polynomial as a function.
 
    ColumnSpace
 
  ColumnSpace (M)
 
-           Get a basis matrix for the columnspace of a matrix
+           Get a basis matrix for the columnspace of a matrix.
 
    CommutationMatrix
 
@@ -3431,7 +3485,7 @@
 
  CompanionMatrix (p)
 
-           Companion matrix of a polynomial (as vector)
+           Companion matrix of a polynomial (as vector).
 
    ConjugateTranspose
 
@@ -3448,38 +3502,38 @@
 
            Aliases: convol
 
-           Calculate convolution of two horizontal vectors
+           Calculate convolution of two horizontal vectors.
 
    ConvolutionVector
 
  ConvolutionVector (a,b)
 
-           Calculate convolution of two horizontal vectors
+           Calculate convolution of two horizontal vectors.
 
    CrossProduct
 
  CrossProduct (v,w)
 
-           CrossProduct of two vectors in R^3
+           CrossProduct of two vectors in R3.
 
    DeterminantalDivisorsInteger
 
  DeterminantalDivisorsInteger (M)
 
            Get the determinantal divisors of an integer matrix (not its
-           characteristic)
+           characteristic).
 
    DirectSum
 
  DirectSum (M,N...)
 
-           Direct sum of matrices
+           Direct sum of matrices.
 
    DirectSumMatrixVector
 
  DirectSumMatrixVector (v)
 
-           Direct sum of a vector of matrices
+           Direct sum of a vector of matrices.
 
    Eigenvalues
 
@@ -3509,7 +3563,7 @@
 
  HankelMatrix (c,r)
 
-           Hankel matrix
+           Hankel matrix.
 
    HilbertMatrix
 
@@ -3523,7 +3577,7 @@
 
  Image (T)
 
-           Get the image (columnspace) of a linear transform
+           Get the image (columnspace) of a linear transform.
 
    InfNorm
 
@@ -3537,7 +3591,7 @@
  InvariantFactorsInteger (M)
 
            Get the invariant factors of a square integer matrix (not its
-           characteristic)
+           characteristic).
 
    InverseHilbertMatrix
 
@@ -3560,20 +3614,20 @@
 
  IsInSubspace (v,W)
 
-           Test if a vector is in a subspace
+           Test if a vector is in a subspace.
 
    IsInvertible
 
  IsInvertible (n)
 
            Is a matrix (or number) invertible (Integer matrix is invertible
-           iff it's invertible over the integers)
+           iff it's invertible over the integers).
 
    IsInvertibleField
 
  IsInvertibleField (n)
 
-           Is a matrix (or number) invertible over a field
+           Is a matrix (or number) invertible over a field.
 
    IsNormal
 
@@ -3693,7 +3747,7 @@
 
  NonPivotColumns (M)
 
-           Return the columns that are not the pivot columns of a matrix
+           Return the columns that are not the pivot columns of a matrix.
 
    Norm
 
@@ -3701,7 +3755,7 @@
 
            Aliases: norm
 
-           Get the p Norm (or 2 Norm if no p is supplied) of a vector
+           Get the p Norm (or 2 Norm if no p is supplied) of a vector.
 
    NullSpace
 
@@ -3727,7 +3781,7 @@
 
  OrthogonalComplement (M)
 
-           Get the orthogonal complement of the columnspace
+           Get the orthogonal complement of the columnspace.
 
    PivotColumns
 
@@ -3799,7 +3853,7 @@
 
  RosserMatrix ()
 
-           Rosser matrix, a classic symmetric eigenvalue test problem
+           Rosser matrix, a classic symmetric eigenvalue test problem.
 
    Rotation2D
 
@@ -3807,59 +3861,59 @@
 
            Aliases: RotationMatrix
 
-           Rotation around origin in R^2
+           Rotation around origin in R2.
 
    Rotation3DX
 
  Rotation3DX (angle)
 
-           Rotation around origin in R^3 about the x-axis
+           Rotation around origin in R3 about the x-axis.
 
    Rotation3DY
 
  Rotation3DY (angle)
 
-           Rotation around origin in R^3 about the y-axis
+           Rotation around origin in R3 about the y-axis.
 
    Rotation3DZ
 
  Rotation3DZ (angle)
 
-           Rotation around origin in R^3 about the z-axis
+           Rotation around origin in R3 about the z-axis.
 
    RowSpace
 
  RowSpace (M)
 
-           Get a basis matrix for the rowspace of a matrix
+           Get a basis matrix for the rowspace of a matrix.
 
    SesquilinearForm
 
  SesquilinearForm (v,A,w)
 
            Evaluate (v,w) with respect to the sesquilinear form given by the
-           matrix A
+           matrix A.
 
    SesquilinearFormFunction
 
  SesquilinearFormFunction (A)
 
            Return a function that evaluates two vectors with respect to the
-           sesquilinear form given by A
+           sesquilinear form given by A.
 
    SmithNormalFormField
 
  SmithNormalFormField (A)
 
            Smith Normal Form for fields (will end up with 1's on the
-           diagonal)
+           diagonal).
 
    SmithNormalFormInteger
 
  SmithNormalFormInteger (M)
 
            Smith Normal Form for square integer matrices (not its
-           characteristic)
+           characteristic).
 
    SolveLinearSystem
 
@@ -3887,7 +3941,7 @@
 
            Aliases: trace
 
-           Calculate the trace of a matrix
+           Calculate the trace of a matrix.
 
    Transpose
 
@@ -3903,7 +3957,7 @@
 
            Aliases: vander
 
-           Return the Vandermonde matrix
+           Return the Vandermonde matrix.
 
    VectorAngle
 
@@ -3918,20 +3972,20 @@
 
  VectorSpaceDirectSum (M,N)
 
-           The direct sum of the vector spaces M and N
+           The direct sum of the vector spaces M and N.
 
    VectorSubspaceIntersection
 
  VectorSubspaceIntersection (M,N)
 
-           Intersection of the subspaces given by M and N
+           Intersection of the subspaces given by M and N.
 
    VectorSubspaceSum
 
  VectorSubspaceSum (M,N)
 
            The sum of the vector spaces M and N, that is {w | w=m+n, m in M,
-           n in N}
+           n in N}.
 
    adj
 
@@ -3939,7 +3993,7 @@
 
            Aliases: Adjugate
 
-           Get the classical adjoint (adjugate) of a matrix
+           Get the classical adjoint (adjugate) of a matrix.
 
    cref
 
@@ -3947,7 +4001,7 @@
 
            Aliases: CREF ColumnReducedEchelonForm
 
-           Compute the Column Reduced Echelon Form
+           Compute the Column Reduced Echelon Form.
 
    det
 
@@ -4051,7 +4105,7 @@
  GaloisMatrix (combining_rule)
 
            Galois matrix given a linear combining rule
-           (a_1*x_+...+a_n*x_n=x_(n+1))
+           (a_1*x_+...+a_n*x_n=x_(n+1)).
 
    GreedyAlgorithm
 
@@ -4077,19 +4131,19 @@
  Hofstadter (n)
 
            Hofstadter's function q(n) defined by q(1)=1, q(2)=1,
-           q(n)=q(n-q(n-1))+q(n-q(n-2))
+           q(n)=q(n-q(n-1))+q(n-q(n-2)).
 
    LinearRecursiveSequence
 
  LinearRecursiveSequence (seed_values,combining_rule,n)
 
-           Compute linear recursive sequence using galois stepping
+           Compute linear recursive sequence using galois stepping.
 
    Multinomial
 
  Multinomial (v,arg...)
 
-           Calculate multinomial coefficients
+           Calculate multinomial coefficients.
 
    NextCombination
 
@@ -4131,7 +4185,7 @@
  Permutations (k,n)
 
            Get all permutations of k numbers from 1 to n as a vector of
-           vectors
+           vectors.
 
    RisingFactorial
 
@@ -4139,7 +4193,7 @@
 
            Aliases: Pochhammer
 
-           (Pochhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))
+           (Pochhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1)).
 
             See Planetmath for more information.
 
@@ -4167,7 +4221,7 @@
 
  Subfactorial (n)
 
-           Subfactorial: n! times sum_{k=1}^n (-1)^k/k!
+           Subfactorial: n! times sum_{k=1}^n (-1)^k/k!.
 
    Triangular
 
@@ -4192,7 +4246,7 @@
 
  nPr (n,r)
 
-           Calculate permutations
+           Calculate permutations.
 
      ----------------------------------------------------------------------
 
@@ -4230,47 +4284,47 @@
  InfiniteProduct (func,start,inc)
 
            Try to calculate an infinite product for a single parameter
-           function
+           function.
 
    InfiniteProduct2
 
  InfiniteProduct2 (func,arg,start,inc)
 
            Try to calculate an infinite product for a double parameter
-           function with func(arg,n)
+           function with func(arg,n).
 
    InfiniteSum
 
  InfiniteSum (func,start,inc)
 
-           Try to calculate an infinite sum for a single parameter function
+           Try to calculate an infinite sum for a single parameter function.
 
    InfiniteSum2
 
  InfiniteSum2 (func,arg,start,inc)
 
            Try to calculate an infinite sum for a double parameter function
-           with func(arg,n)
+           with func(arg,n).
 
    IsContinuous
 
  IsContinuous (f,x0)
 
            Try and see if a real-valued function is continuous at x0 by
-           calculating the limit there
+           calculating the limit there.
 
    IsDifferentiable
 
  IsDifferentiable (f,x0)
 
            Test for differentiability by approximating the left and right
-           limits and comparing
+           limits and comparing.
 
    LeftLimit
 
  LeftLimit (f,x0)
 
-           Calculate the left limit of a real-valued function at x0
+           Calculate the left limit of a real-valued function at x0.
 
    Limit
 
@@ -4283,7 +4337,7 @@
 
  MidpointRule (f,a,b,n)
 
-           Integration by midpoint rule
+           Integration by midpoint rule.
 
    NumericalDerivative
 
@@ -4291,63 +4345,63 @@
 
            Aliases: NDerivative
 
-           Attempt to calculate numerical derivative
+           Attempt to calculate numerical derivative.
 
    NumericalIntegral
 
  NumericalIntegral (f,a,b)
 
            Integration by rule set in NumericalIntegralFunction of f from a
-           to b using NumericalIntegralSteps steps
+           to b using NumericalIntegralSteps steps.
 
    NumericalLeftDerivative
 
  NumericalLeftDerivative (f,x0)
 
-           Attempt to calculate numerical left derivative
+           Attempt to calculate numerical left derivative.
 
    NumericalLimitAtInfinity
 
  NumericalLimitAtInfinity (_f,step_fun,tolerance,successive_for_success,N)
 
            Attempt to calculate the limit of f(step_fun(i)) as i goes from 1
-           to N
+           to N.
 
    NumericalRightDerivative
 
  NumericalRightDerivative (f,x0)
 
-           Attempt to calculate numerical right derivative
+           Attempt to calculate numerical right derivative.
 
    OneSidedFivePointFormula
 
  OneSidedFivePointFormula (f,x0,h)
 
-           Compute one-sided derivative using five point formula
+           Compute one-sided derivative using five point formula.
 
    OneSidedThreePointFormula
 
  OneSidedThreePointFormula (f,x0,h)
 
-           Compute one-sided derivative using three-point formula
+           Compute one-sided derivative using three-point formula.
 
    RightLimit
 
  RightLimit (f,x0)
 
-           Calculate the right limit of a real-valued function at x0
+           Calculate the right limit of a real-valued function at x0.
 
    TwoSidedFivePointFormula
 
  TwoSidedFivePointFormula (f,x0,h)
 
-           Compute two-sided derivative using five-point formula
+           Compute two-sided derivative using five-point formula.
 
    TwoSidedThreePointFormula
 
  TwoSidedThreePointFormula (f,x0,h)
 
-           Compute two-sided derivative using three-point formula
+           Compute two-sided derivative using three-point formula.
 
      ----------------------------------------------------------------------
 
@@ -4359,19 +4413,19 @@
 
            Aliases: Arg arg
 
-           argument (angle) of complex number
+           argument (angle) of complex number.
 
    DirichletKernel
 
  DirichletKernel (n,t)
 
-           Dirichlet kernel of order n
+           Dirichlet kernel of order n.
 
    DiscreteDelta
 
  DiscreteDelta (v)
 
-           Returns 1 iff all elements are zero
+           Returns 1 iff all elements are zero.
 
    ErrorFunction
 
@@ -4379,7 +4433,7 @@
 
            Aliases: erf
 
-           The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt
+           The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt.
 
             See Planetmath for more information.
 
@@ -4405,19 +4459,19 @@
 
  KroneckerDelta (v)
 
-           Returns 1 iff all elements are equal
+           Returns 1 iff all elements are equal.
 
    MinimizeFunction
 
  MinimizeFunction (func,x,incr)
 
-           Find the first value where f(x)=0
+           Find the first value where f(x)=0.
 
    MoebiusDiskMapping
 
  MoebiusDiskMapping (a,z)
 
-           Moebius mapping of the disk to itself mapping a to 0
+           Moebius mapping of the disk to itself mapping a to 0.
 
             See Planetmath for more information.
 
@@ -4426,7 +4480,7 @@
  MoebiusMapping (z,z2,z3,z4)
 
            Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and
-           infinity respectively
+           infinity respectively.
 
             See Planetmath for more information.
 
@@ -4435,7 +4489,7 @@
  MoebiusMappingInftyToInfty (z,z2,z3)
 
            Moebius mapping using the cross ratio taking infinity to infinity
-           and z2,z3 to 1 and 0 respectively
+           and z2,z3 to 1 and 0 respectively.
 
             See Planetmath for more information.
 
@@ -4444,7 +4498,7 @@
  MoebiusMappingInftyToOne (z,z3,z4)
 
            Moebius mapping using the cross ratio taking infinity to 1 and
-           z3,z4 to 0 and infinity respectively
+           z3,z4 to 0 and infinity respectively.
 
             See Planetmath for more information.
 
@@ -4453,7 +4507,7 @@
  MoebiusMappingInftyToZero (z,z2,z4)
 
            Moebius mapping using the cross ratio taking infinity to 0 and
-           z2,z4 to 1 and infinity respectively
+           z2,z4 to 1 and infinity respectively.
 
             See Planetmath for more information.
 
@@ -4462,13 +4516,13 @@
  PoissonKernel (r,sigma)
 
            Poisson kernel on D(0,1) (not normalized to 1, that is integral of
-           this is 2pi)
+           this is 2pi).
 
    PoissonKernelRadius
 
  PoissonKernelRadius (r,sigma)
 
-           Poisson kernel on D(0,R) (not normalized to 1)
+           Poisson kernel on D(0,R) (not normalized to 1).
 
    RiemannZeta
 
@@ -4498,13 +4552,13 @@
 
  deg2rad (x)
 
-           Convert degrees to radians
+           Convert degrees to radians.
 
    rad2deg
 
  rad2deg (x)
 
-           Convert radians to degrees
+           Convert radians to degrees.
 
      ----------------------------------------------------------------------
 
@@ -4536,25 +4590,25 @@
 
  FindRootBisection (f,a,b,TOL,N)
 
-           Find root of a function using the bisection method
+           Find root of a function using the bisection method.
 
    FindRootFalsePosition
 
  FindRootFalsePosition (f,a,b,TOL,N)
 
-           Find root of a function using the method of false position
+           Find root of a function using the method of false position.
 
    FindRootMullersMethod
 
  FindRootMullersMethod (f,x1,x2,x3,TOL,N)
 
-           Find root of a function using the Muller's method
+           Find root of a function using the Muller's method.
 
    FindRootSecant
 
  FindRootSecant (f,a,b,TOL,N)
 
-           Find root of a function using the secant method
+           Find root of a function using the secant method.
 
    PolynomialRoots
 
@@ -4610,7 +4664,7 @@
 
            Aliases: average Mean mean
 
-           Calculate average of an entire matrix
+           Calculate average of an entire matrix.
 
             See Mathworld for more information.
 
@@ -4619,7 +4673,7 @@
  GaussDistribution (x,sigma)
 
            Integral of the GaussFunction from 0 to x (area under the normal
-           curve)
+           curve).
 
             See Mathworld for more information.
 
@@ -4627,7 +4681,7 @@
 
  GaussFunction (x,sigma)
 
-           The normalized Gauss distribution function (the normal curve)
+           The normalized Gauss distribution function (the normal curve).
 
             See Mathworld for more information.
 
@@ -4637,7 +4691,7 @@
 
            Aliases: median
 
-           Calculate median of an entire matrix
+           Calculate median of an entire matrix.
 
             See Mathworld for more information.
 
@@ -4647,7 +4701,7 @@
 
            Aliases: stdevp
 
-           Calculate the population standard deviation of a whole matrix
+           Calculate the population standard deviation of a whole matrix.
 
    RowAverage
 
@@ -4655,7 +4709,7 @@
 
            Aliases: RowMean
 
-           Calculate average of each row in a matrix
+           Calculate average of each row in a matrix.
 
             See Mathworld for more information.
 
@@ -4675,7 +4729,7 @@
            Aliases: rowstdevp
 
            Calculate the population standard deviations of rows of a matrix
-           and return a vertical vector
+           and return a vertical vector.
 
    RowStandardDeviation
 
@@ -4684,7 +4738,7 @@
            Aliases: rowstdev
 
            Calculate the standard deviations of rows of a matrix and return a
-           vertical vector
+           vertical vector.
 
    StandardDeviation
 
@@ -4692,7 +4746,7 @@
 
            Aliases: stdev
 
-           Calculate the standard deviation of a whole matrix
+           Calculate the standard deviation of a whole matrix.
 
      ----------------------------------------------------------------------
 
@@ -4702,19 +4756,19 @@
 
  AddPoly (p1,p2)
 
-           Add two polynomials (vectors)
+           Add two polynomials (vectors).
 
    IsPoly
 
  IsPoly (p)
 
-           Check if a vector is usable as a polynomial
+           Check if a vector is usable as a polynomial.
 
    MultiplyPoly
 
  MultiplyPoly (p1,p2)
 
-           Multiply two polynomials (as vectors)
+           Multiply two polynomials (as vectors).
 
    NewtonsMethodPoly
 
@@ -4728,37 +4782,37 @@
 
  Poly2ndDerivative (p)
 
-           Take second polynomial (as vector) derivative
+           Take second polynomial (as vector) derivative.
 
    PolyDerivative
 
  PolyDerivative (p)
 
-           Take polynomial (as vector) derivative
+           Take polynomial (as vector) derivative.
 
    PolyToFunction
 
  PolyToFunction (p)
 
-           Make function out of a polynomial (as vector)
+           Make function out of a polynomial (as vector).
 
    PolyToString
 
  PolyToString (p,var...)
 
-           Make string out of a polynomial (as vector)
+           Make string out of a polynomial (as vector).
 
    SubtractPoly
 
  SubtractPoly (p1,p2)
 
-           Subtract two polynomials (as vectors)
+           Subtract two polynomials (as vectors).
 
    TrimPoly
 
  TrimPoly (p)
 
-           Trim zeros from a polynomial (as vector)
+           Trim zeros from a polynomial (as vector).
 
      ----------------------------------------------------------------------
 
@@ -4769,34 +4823,34 @@
  Intersection (X,Y)
 
            Returns a set theoretic intersection of X and Y (X and Y are
-           vectors pretending to be sets)
+           vectors pretending to be sets).
 
    IsIn
 
  IsIn (x,X)
 
            Returns true if the element x is in the set X (where X is a vector
-           pretending to be a set)
+           pretending to be a set).
 
    MakeSet
 
  MakeSet (X)
 
-           Returns a set where every element of X appears only once
+           Returns a set where every element of X appears only once.
 
    SetMinus
 
  SetMinus (X,Y)
 
            Returns a set theoretic difference X-Y (X and Y are vectors
-           pretending to be sets)
+           pretending to be sets).
 
    Union
 
  Union (X,Y)
 
            Returns a set theoretic union of X and Y (X and Y are vectors
-           pretending to be sets)
+           pretending to be sets).
 
      ----------------------------------------------------------------------
 
@@ -4806,14 +4860,14 @@
 
  ASCIIToString (vec)
 
-           Convert a vector of ASCII values to a string
+           Convert a vector of ASCII values to a string.
 
    AlphabetToString
 
  AlphabetToString (vec,alphabet)
 
            Convert a vector of 0-based alphabet values (positions in the
-           alphabet string) to a string
+           alphabet string) to a string.
 
    StringToASCII
 
@@ -4826,7 +4880,7 @@
  StringToAlphabet (str,alphabet)
 
            Convert a string to a vector of 0-based alphabet values (positions
-           in the alphabet string), -1's for unknown letters
+           in the alphabet string), -1's for unknown letters.
 
      ----------------------------------------------------------------------
 
@@ -4990,12 +5044,16 @@
    return (f(x-1) * x)
  )
 
-   This is a smaller, nicer, iterative version, that uses the product loop:
+   By far the easiest way to define a factorial function would be using the
+   product loop as follows. This is not only the shortest and fastest, but
+   also probably the most readable version.
 
  function f(x) = prod k=1 to x do k
 
    Here is a larger example, this basically redefines the internal ref
-   function to calculate the same thing, but is written in GEL:
+   function to calculate the row echelon form of a matrix. The function ref
+   is now built in and faster, but this example demonstrates some of the more
+   complex features of GEL.
 
  # Calculate the row-echelon form of a matrix
  function MyOwnREF(m) = (
@@ -5095,7 +5153,8 @@
             If unchecked, either the default or any previously saved
            settings are used each time Genius starts up. Note that settings
            are saved at the end of the session, so if you wish to change the
-           defaults check this box, restart genius and then uncheck it again.
+           defaults check this box, restart Genius Mathematics Tool and then
+           uncheck it again.
 
    Display errors in a dialog
 
@@ -5129,7 +5188,10 @@
 
            A string, can be "normal", "latex", "mathml" or "troff" and it
            will effect how matrices (and perhaps other stuff) is printed,
-           useful for pasting into documents
+           useful for pasting into documents. Normal style is the default
+           human readable printing style of Genius Mathematics Tool. The
+           other styles are for typsetting in LaTeX, MathML (XML), or in
+           Troff.
 
      ----------------------------------------------------------------------
 
@@ -5180,8 +5242,10 @@
                    Chapter 13. About Genius Mathematics Tool
 
    Genius Mathematics Tool was written by Jiri (George) Lebl
-   (<jirka@5z.com>). To find more information about Genius Mathematics Tool,
-   please visit the Genius Web page.
+   (<jirka@5z.com>). The history of Genius Mathematics Tool goes back to late
+   1997. It was the first calculator program for GNOME, but it then grew
+   beyond being just a desktop calculator. To find more information about
+   Genius Mathematics Tool, please visit the Genius Web page.
 
     To report a bug or make a suggestion regarding this application or this
    manual, follow the directions in this document.
