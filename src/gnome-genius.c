@@ -774,6 +774,7 @@ aboutcb(GtkWidget * widget, gpointer data)
 	static GtkWidget *about;
 	static const char *authors[] = {
 		"Jiří (George) Lebl, Ph.D. (jirka@5z.com)",
+		N_("Nils Barth (initial implementation of parts of the GEL library)"),
 		NULL
 	};
 	static const char *documenters[] = {
