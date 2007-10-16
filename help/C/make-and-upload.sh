@@ -18,8 +18,8 @@ ps2pdf genius.ps genius.pdf
 echo scp *.html zinc.5z.com:/home/www/html/jirka/genius-documentation/
 scp *.html zinc.5z.com:/home/www/html/jirka/genius-documentation/
 
-echo scp -r figures zinc.5z.com:/home/www/html/jirka/genius-documentation/
-scp -r figures zinc.5z.com:/home/www/html/jirka/genius-documentation/
+echo scp figures/*.png zinc.5z.com:/home/www/html/jirka/genius-documentation/figures/
+scp figures/*.png zinc.5z.com:/home/www/html/jirka/genius-documentation/figures/
 
 echo scp genius.pdf zinc.5z.com:/home/www/html/jirka/genius-reference.pdf
 scp genius.pdf zinc.5z.com:/home/www/html/jirka/genius-reference.pdf
