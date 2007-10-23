@@ -3056,12 +3056,22 @@ is_uri (const char *s)
 	const char *p;
 	if ( ! s)
 		return FALSE;
+
 	for (p = s; (*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z'); p++)
 		;
 	if (p == s)
 		return FALSE;
-	if (*p == ':')
-		return TRUE;
+	if (*p == ':') {
+		GnomeVFSURI *uri =
+			gnome_vfs_uri_new (s);
+
+		if (uri != NULL) {
+			gnome_vfs_uri_unref (uri);
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
 	return FALSE;
 }
 
