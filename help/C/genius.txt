@@ -2256,12 +2256,6 @@
 
            Check if argument is a possibly complex integer.
 
-   IsGaussianInteger
-
- IsGaussianInteger (z)
-
-           Check if argument is a gaussian integer.
-
    IsInteger
 
  IsInteger (num)
@@ -4148,7 +4142,20 @@
 
  Multinomial (v,arg...)
 
-           Calculate multinomial coefficients.
+           Calculate multinomial coefficients. Takes a vector of k
+           nonnegative integers and computes the multinomial coefficient.
+           This corresponds to the coefficient in the homogeneous polynomial
+           in k variables with the corresponding powers.
+
+            The formula for Multinomial(a,b,c) can be written as:
+
+ (a+b+c)! / (a!b!c!)
+
+           In other words, if we would have only two elements, then
+           Multinomial(a,b) is the same thing as Binomial(a+b,a) or
+           Binomial(a+b,b).
+
+            See Planetmath, Mathworld, or Wikipedia for more information.
 
    NextCombination
 
@@ -4191,6 +4198,8 @@
 
            Get all permutations of k numbers from 1 to n as a vector of
            vectors.
+
+            See Mathworld or Wikipedia for more information.
 
    RisingFactorial
 
@@ -4251,7 +4260,10 @@
 
  nPr (n,r)
 
-           Calculate permutations.
+           Calculate the number of permutations of size rof numbers from 1 to
+           n.
+
+            See Mathworld or Wikipedia for more information.
 
      ----------------------------------------------------------------------
 
@@ -5001,7 +5013,7 @@
  LinePlotCParametric (func,t1,t2,tinc,x1,x2,y1,y2)
 
             Plot a parametric complex valued function with a line. First
-           comes the function that returns x+iy then optionally the t limits
+           comes the function that returns x+iy, then optionally the t limits
            as t1,t2,tinc, then optionally the limits as x1,x2,y1,y2.
 
    SurfacePlot

@@ -685,7 +685,7 @@ avoid them being accidentally overridden.</para>
 	    <ulink url="http://planetmath.org/encyclopedia/AbsoluteValue.html">Planetmath (absolute value)</ulink>,
 	    <ulink url="http://planetmath.org/encyclopedia/ModulusOfComplexNumber.html">Planetmath (modulus)</ulink>,
 	    <ulink url="http://mathworld.wolfram.com/AbsoluteValue.html">Mathworld (absolute value)</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/AbsoluteValue.html">Mathworld (complex modulus)</ulink>
+	    <ulink url="http://mathworld.wolfram.com/ComplexModulus.html">Mathworld (complex modulus)</ulink>
 for more information.
 	  </para>
          </listitem>
@@ -771,14 +771,6 @@ for more information.
           <synopsis>IsGaussInteger (num)</synopsis>
           <para>Aliases: <function>IsComplexInteger</function></para>
           <para>Check if argument is a possibly complex integer.</para>
-         </listitem>
-        </varlistentry>
-
-        <varlistentry id="gel-function-IsGaussianInteger">
-         <term>IsGaussianInteger</term>
-         <listitem>
-          <synopsis>IsGaussianInteger (z)</synopsis>
-          <para>Check if argument is a gaussian integer.</para>
          </listitem>
         </varlistentry>
 
@@ -3354,7 +3346,28 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
          <term>Multinomial</term>
          <listitem>
           <synopsis>Multinomial (v,arg...)</synopsis>
-          <para>Calculate multinomial coefficients.</para>
+          <para>Calculate multinomial coefficients.  Takes a vector of
+	    <varname>k</varname>
+	    nonnegative integers and computes the multinomial coefficient.
+	    This corresponds to the coefficient in the homogeneous polynomial
+	    in <varname>k</varname> variables with the corresponding powers.
+	  </para>
+	  <para>
+	    The formula for <userinput>Multinomial(a,b,c)</userinput>
+	    can be written as:
+<programlisting>(a+b+c)! / (a!b!c!)
+</programlisting>
+	    In other words, if we would have only two elements, then
+<userinput>Multinomial(a,b)</userinput> is the same thing as
+<userinput>Binomial(a+b,a)</userinput> or
+<userinput>Binomial(a+b,b)</userinput>.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/MultinomialTheorem.html">Planetmath</ulink>,
+	    <ulink url="http://mathworld.wolfram.com/MultinomialCoefficient.html">Mathworld</ulink>, or
+	    <ulink url="http://en.wikipedia.org/wiki/Multinomial_theorem">Wikipedia</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -3403,7 +3416,12 @@ do (
          <term>Permutations</term>
          <listitem>
           <synopsis>Permutations (k,n)</synopsis>
-          <para>Get all permutations of k numbers from 1 to n as a vector of vectors.</para>
+          <para>Get all permutations of <varname>k</varname> numbers from 1 to <varname>n</varname> as a vector of vectors.</para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/Permutation.html">Mathworld</ulink> or
+	    <ulink url="http://en.wikipedia.org/wiki/Permutation">Wikipedia</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -3486,7 +3504,13 @@ do (
          <term>nPr</term>
          <listitem>
           <synopsis>nPr (n,r)</synopsis>
-          <para>Calculate permutations.</para>
+          <para>Calculate the number of permutations of size
+	   <varname>r</varname>of numbers from 1 to <varname>n</varname>.</para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/Permutation.html">Mathworld</ulink> or
+	    <ulink url="http://en.wikipedia.org/wiki/Permutation">Wikipedia</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -4366,7 +4390,7 @@ do (
          <listitem>
           <synopsis>SymbolicDerivativeTry (f)</synopsis>
           <para>Attempt to symbolically differentiate the function f, where f is a function of one variable, returns null if unsuccessful but is silent.
-	  (See <link linkend="gel-function-SymbolicDerivative">SymbolicDerivative</link>)
+	  (See <link linkend="gel-function-SymbolicDerivative"><function>SymbolicDerivative</function></link>)
           </para>
          </listitem>
         </varlistentry>
@@ -4376,7 +4400,7 @@ do (
          <listitem>
           <synopsis>SymbolicNthDerivative (f,n)</synopsis>
           <para>Attempt to symbolically differentiate a function n times.
-	  (See <link linkend="gel-function-SymbolicDerivative">SymbolicDerivative</link>)
+	  (See <link linkend="gel-function-SymbolicDerivative"><function>SymbolicDerivative</function></link>)
           </para>
          </listitem>
         </varlistentry>
@@ -4386,7 +4410,7 @@ do (
          <listitem>
           <synopsis>SymbolicNthDerivativeTry (f,n)</synopsis>
 	  <para>Attempt to symbolically differentiate a function n times quietly and return null on failure
-	  (See <link linkend="gel-function-SymbolicNthDerivative">SymbolicNthDerivative</link>)
+	  (See <link linkend="gel-function-SymbolicNthDerivative"><function>SymbolicNthDerivative</function></link>)
           </para>
          </listitem>
         </varlistentry>
@@ -4396,7 +4420,7 @@ do (
          <listitem>
           <synopsis>SymbolicTaylorApproximationFunction (f,x0,n)</synopsis>
 	  <para>Attempt to construct the taylor approximation function around x0 to the nth degree.
-	  (See <link linkend="gel-function-SymbolicDerivative">SymbolicDerivative</link>)
+	  (See <link linkend="gel-function-SymbolicDerivative"><function>SymbolicDerivative</function></link>)
           </para>
          </listitem>
         </varlistentry>
@@ -4418,7 +4442,7 @@ do (
 	    <varname>x1</varname>, <varname>x2</varname>,
 	    <varname>y1</varname>, <varname>y2</varname>.  If limits are not
 	    specified, then the currently set limits apply
-	    (See <link linkend="gel-function-LinePlotWindow">LinePlotWindow</link>)
+	    (See <link linkend="gel-function-LinePlotWindow"><function>LinePlotWindow</function></link>)
           </para>
           <para>
 	    Examples:
@@ -4475,8 +4499,8 @@ do (
           <synopsis>LinePlotParametric (xfunc,yfunc,t1,t2,tinc,x1,x2,y1,y2)</synopsis>
           <para>
 	    Plot a parametric function with a line.  First come the functions
-for x and y then optionally the t limits as t1,t2,tinc, then optionally the
-limits as x1,x2,y1,y2.
+for <varname>x</varname> and <varname>y</varname> then optionally the <varname>t</varname> limits as <userinput>t1,t2,tinc</userinput>, then optionally the
+limits as <userinput>x1,x2,y1,y2</userinput>.
           </para>
          </listitem>
         </varlistentry>
@@ -4489,8 +4513,9 @@ limits as x1,x2,y1,y2.
           <synopsis>LinePlotCParametric (func,t1,t2,tinc,x1,x2,y1,y2)</synopsis>
           <para>
 	    Plot a parametric complex valued function with a line.  First comes
-the function that returns x+iy then optionally the t limits as t1,t2,tinc, then
-optionally the limits as x1,x2,y1,y2.
+the function that returns <computeroutput>x+iy</computeroutput>,
+then optionally the <varname>t</varname> limits as <userinput>t1,t2,tinc</userinput>, then
+optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
           </para>
          </listitem>
         </varlistentry>
@@ -4505,7 +4530,7 @@ optionally the limits as x1,x2,y1,y2.
 	    <varname>y1</varname>, <varname>y2</varname>,
 	    <varname>z1</varname>, <varname>z2</varname>.  If limits are not
 	    specified, then the currently set limits apply
-	    (See <link linkend="gel-function-SurfacePlotWindow">SurfacePlotWindow</link>).
+	    (See <link linkend="gel-function-SurfacePlotWindow"><function>SurfacePlotWindow</function></link>).
 	    Genius can only plot a single surface function at this time.
           </para>
           <para>

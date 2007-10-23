@@ -58,14 +58,6 @@ function Chop(x) =
 protect ("Chop")
 
 #-----
-
-# A complex number is a gaussian integer iff 
-# its real and complex parts are integers
-SetHelp ("IsGaussianInteger", "numeric", "Check if argument is a gaussian integer")
-function IsGaussianInteger(z) = ( IsInteger(Re(z)) and IsInteger(Im(z)) )
-protect ("IsGaussianInteger")
-
-#-----
 # Mod (built-in)
 # FIXME: Mod with offset (m mod n offset d = something in [d,d+n-1])
 
