@@ -182,6 +182,7 @@ static gboolean feed_to_vte (GIOChannel *source, GIOCondition condition, gpointe
 static void new_callback (GtkWidget *menu_item, gpointer data);
 static void open_callback (GtkWidget *w);
 static void save_callback (GtkWidget *w);
+static void save_all_cb (GtkWidget *w);
 static void save_as_callback (GtkWidget *w);
 static void close_callback (GtkWidget *menu_item, gpointer data);
 static void load_cb (GtkWidget *w);
@@ -220,11 +221,13 @@ static GnomeUIInfo file_menu[] = {
 	GNOMEUIINFO_MENU_OPEN_ITEM (open_callback,NULL),
 #define FILE_SAVE_ITEM 2
 	GNOMEUIINFO_MENU_SAVE_ITEM (save_callback,NULL),
-#define FILE_SAVE_AS_ITEM 3
+#define FILE_SAVE_ALL_ITEM 3
+	GNOMEUIINFO_ITEM_STOCK(N_("Save all unsaved"),N_("Save all unsaved programs"), save_all_cb, GTK_STOCK_SAVE),
+#define FILE_SAVE_AS_ITEM 4
 	GNOMEUIINFO_MENU_SAVE_AS_ITEM (save_as_callback,NULL),
-#define FILE_RELOAD_ITEM 4
+#define FILE_RELOAD_ITEM 5
 	GNOMEUIINFO_ITEM_STOCK(N_("_Reload from Disk"),N_("Reload the selected program from disk"), reload_cb, GTK_STOCK_REVERT_TO_SAVED),
-#define FILE_CLOSE_ITEM 5
+#define FILE_CLOSE_ITEM 6
 	GNOMEUIINFO_MENU_CLOSE_ITEM (close_callback, NULL),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_STOCK(N_("_Load and Run..."),N_("Load and execute a file in genius"), load_cb, GTK_STOCK_OPEN),
@@ -2129,6 +2132,7 @@ new_program (const char *filename)
 	p->buffer = buffer;
 	p->tv = tv;
 	p->curline = 0;
+	p->ignore_changes = 0;
 	g_object_set_data (G_OBJECT (sw), "program", p);
 
 #ifdef HAVE_GTKSOURCEVIEW
@@ -2149,7 +2153,7 @@ new_program (const char *filename)
 		char *fn = g_build_filename (d, n, NULL);
 		g_free (d);
 		g_free (n);
-		p->name = gnome_vfs_get_uri_from_local_path (filename);
+		p->name = gnome_vfs_get_uri_from_local_path (fn);
 		g_free (fn);
 		p->vname = g_strdup_printf (_("Program %d"), cnt);
 		cnt++;
@@ -2319,6 +2323,42 @@ save_callback (GtkWidget *w)
 }
 
 static void
+save_all_cb (GtkWidget *w)
+{
+	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
+	int i;
+	gboolean there_are_unsaved = FALSE;
+
+	if (n <= 1)
+		return;
+
+	for (i = 1; i < n; i++) {
+		GtkWidget *w = gtk_notebook_get_nth_page
+			(GTK_NOTEBOOK (notebook), i);
+		Program *p = g_object_get_data (G_OBJECT (w), "program");
+		g_assert (p != NULL);
+
+		if (p->changed && ! p->real_file)
+			there_are_unsaved = TRUE;
+
+		if (p->changed && p->real_file) {
+			if ( ! save_program (p, NULL /* new fname */)) {
+				char *err = g_strdup_printf (_("<b>Cannot save file</b>\n"
+							       "Details: %s"),
+							     g_strerror (errno));
+				genius_display_error (NULL, err);
+				g_free (err);
+			}
+		}
+	}
+
+	if (there_are_unsaved) {
+		genius_display_error (NULL, _("Save new programs by "
+					      "\"Save As..\" first!"));
+	}
+}
+
+static void
 really_save_as_cb (GtkFileChooser *fs, int response, gpointer data)
 {
 	char *s;
@@ -2409,8 +2449,15 @@ save_as_callback (GtkWidget *w)
 		gtk_file_chooser_set_current_folder
 			(GTK_FILE_CHOOSER (fs), last_dir);
 	}
-	gtk_file_chooser_set_filename
-		(GTK_FILE_CHOOSER (fs), selected_program->name);
+	if (selected_program->real_file) {
+		gtk_file_chooser_set_uri
+			(GTK_FILE_CHOOSER (fs), selected_program->name);
+	} else {
+		char *bn = g_path_get_basename (selected_program->name);
+		gtk_file_chooser_set_current_name
+			(GTK_FILE_CHOOSER (fs), bn);
+		g_free (bn);
+	}
 
 	gtk_widget_show (fs);
 }
@@ -2451,6 +2498,14 @@ close_callback (GtkWidget *menu_item, gpointer data)
 		return;
 	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), current);
 	p = g_object_get_data (G_OBJECT (w), "program");
+
+	if (p->changed &&
+	    ! genius_ask_question (NULL,
+				   _("The program you are closing is unsaved, "
+				     "are you sure you wish to close it "
+				     "without saving?")))
+		return;
+
 	gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), current);
 	whack_program (p);
 
