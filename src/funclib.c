@@ -2454,6 +2454,8 @@ I_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 				if(i==j)
 					gel_matrixw_set_index(n->mat.matrix,i,j) =
 						gel_makenum_ui(1);
+		/* This is in row reduced form, duh! */
+		n->mat.matrix->rref = 1;
 
 		cached_m = gel_matrixw_copy (n->mat.matrix);
 		cached_size = -1;

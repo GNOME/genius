@@ -538,6 +538,24 @@ gel_value_matrix_det (GelCtx *ctx, mpw_t rop, GelMatrixW *m)
 		gel_errorout (_("Determinant of a non-square matrix is undefined"));
 		return FALSE;
 	}
+
+	/* If we already are in rref form just compute determinant */
+	if (m->rref) {
+		mpw_set_ui (rop, 1);
+		for (i = 0; i < w; i++) {
+			GelETree *t = gel_matrixw_set_index (m, i, i);
+			if (t == NULL ||
+			    mpw_cmp_ui (t->val.value, 0) == 0) {
+				mpw_set_ui (rop, 0);
+				return TRUE;
+			}
+			/* row reduced form has 1's on the diagonal! */
+			/*mpw_mul(rop,rop,t->val.value);*/
+		}
+		return TRUE;
+	}
+
+
 	switch(w) {
 	case 1:
 		mpw_set(rop,gel_matrixw_index(m,0,0)->val.value);
@@ -556,7 +574,7 @@ gel_value_matrix_det (GelCtx *ctx, mpw_t rop, GelMatrixW *m)
 		mpw_clear(tmp);
 		for(i=1;i<gel_matrixw_width(mm);i++) {
 			GelETree *t = gel_matrixw_set_index(mm,i,i);
-			if(!t) {
+			if (t == NULL) {
 				gel_matrixw_free(mm);
 				mpw_set_ui(rop,0);
 				return TRUE;

@@ -1,3 +1,13 @@
+Tue Oct 23 13:33:42 2007  Jiri (George) Lebl <jirka@5z.com>
+
+	* lib/linear_algebra/linear_algebra.gel: slightly optimize
+	  PivotColumns by removing unnecessary separators
+
+	* src/matop.c, src/funclib.c: when computing det be smart about
+	  matrices in rref form.  This way once we make a matrix rref,
+	  we can use det to check if it is singular very quickly.  Also
+	  set the rref flag on identity matrices.
+
 Tue Oct 23 12:28:56 2007  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c: add "save all unsaved" menu item, fix the save

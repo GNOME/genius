@@ -24,9 +24,12 @@ function PivotColumns(M) =
     pivot_columns=.;
     for loop=1 to min(rows(N),col_dim_N) do
      (
-       for inner_loop=loop to col_dim_N do
-         if N@(loop,inner_loop) != 0 then
-          (pivot_columns=[pivot_columns,[inner_loop;loop]];break;);
+       for inner_loop=loop to col_dim_N do (
+         if N@(loop,inner_loop) != 0 then (
+           pivot_columns=[pivot_columns,[inner_loop;loop]];
+	   break
+	 )
+       )
      );
    pivot_columns
   )
