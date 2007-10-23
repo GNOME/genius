@@ -161,6 +161,44 @@ manual_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 }
 
 static GelETree *
+version_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	int v,b,c;
+
+	if (sscanf (VERSION, "%d.%d.%d", &v, &b, &c) != 3) {
+		if (sscanf (VERSION, "%d.%d", &v, &b) == 2) {
+			c = 0;
+		} else if (sscanf (VERSION, "%d", &v) == 1) {
+			b = 0;
+			c = 0;
+		} else {
+			gel_errorout (_("Cannot parse version string: %s"),
+				      VERSION);
+			error_num = IGNORE_ERROR;
+			RAISE_EXCEPTION (exception);
+			return NULL;
+		}
+	}
+
+	GelETree *n;
+	GelMatrix *m;
+
+	m = gel_matrix_new ();
+	gel_matrix_set_size (m, 3, 1, FALSE /* padding */);
+	gel_matrix_index (m, 0, 0) = gel_makenum_ui (v);
+	gel_matrix_index (m, 1, 0) = gel_makenum_ui (b);
+	gel_matrix_index (m, 2, 0) = gel_makenum_ui (c);
+
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_new_with_matrix (m);
+	n->mat.quoted = FALSE;
+
+	return n;
+}
+
+
+static GelETree *
 warranty_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	gel_infoout (_("Genius %s\n"
@@ -5257,6 +5295,7 @@ gel_funclib_addall(void)
 
 	FUNC (manual, 0, "", "basic", N_("Displays the user manual"));
 	FUNC (warranty, 0, "", "basic", N_("Gives the warranty information"));
+	FUNC (version, 0, "", "basic", N_("Return version as a 3-vector"));
 	FUNC (exit, 0, "", "basic", N_("Exits the program"));
 	ALIAS (quit, 0, exit);
 	FUNC (error, 1, "str", "basic", N_("Prints a string to the error stream"));
