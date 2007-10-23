@@ -134,9 +134,9 @@ manual_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	str = g_string_new (NULL);
 
-	fp = fopen ("../doc/genius.txt", "r");
-	if G_LIKELY (fp == NULL)
-		fp = fopen (LIBRARY_DIR "/genius.txt", "r");
+	/*fp = fopen ("../doc/genius.txt", "r");
+	if G_LIKELY (fp == NULL)*/
+	fp = fopen (LIBRARY_DIR "/genius.txt", "r");
 
 	if G_UNLIKELY (fp != NULL) {
 		char buf[256];
@@ -2418,6 +2418,72 @@ IsValueOnly_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return gel_makenum_bool (1);
 	else
 		return gel_makenum_bool (0);
+}
+
+static GelETree *
+IsZero_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	if G_UNLIKELY ( ! check_argument_null_or_number_or_matrix (a, 0, "IsZero"))
+		return NULL;
+
+	if (a[0]->type == NULL_NODE)
+		return gel_makenum_bool (1);
+	else if (a[0]->type == VALUE_NODE)
+		return gel_makenum_bool (mpw_cmp_ui (a[0]->val.value, 0) == 0);
+	else {
+		GelMatrixW *m = a[0]->mat.matrix;
+		int i,j,w,h;
+		w = gel_matrixw_width (m);
+		h = gel_matrixw_height (m);
+		for (i = 0; i < w; i++) {
+			for (j = 0; j < h; j++) {
+				GelETree *t = gel_matrixw_set_index (m, i, j);
+				if ( ! ( t == NULL ||
+					 (t->type == VALUE_NODE &&
+					  mpw_eql_ui (t->val.value, 0)))) {
+					return gel_makenum_bool (0);
+				}
+			}
+		}
+		return gel_makenum_bool (1);
+	}
+}
+
+static GelETree *
+IsIdentity_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	if G_UNLIKELY ( ! check_argument_null_or_number_or_matrix (a, 0, "IsIdentity"))
+		return NULL;
+
+	if (a[0]->type == NULL_NODE)
+		return gel_makenum_bool (0);
+	else if (a[0]->type == VALUE_NODE)
+		return gel_makenum_bool (mpw_cmp_ui (a[0]->val.value, 1) == 0);
+	else {
+		GelMatrixW *m = a[0]->mat.matrix;
+		int i,j,w,h;
+		w = gel_matrixw_width (m);
+		h = gel_matrixw_height (m);
+		if (w != h)
+			return gel_makenum_bool (0);
+		for (i = 0; i < w; i++) {
+			for (j = 0; j < h; j++) {
+				GelETree *t = gel_matrixw_set_index (m, i, j);
+				if (i == j) {
+					if (t == NULL ||
+					    t->type != VALUE_NODE ||
+					    ! mpw_eql_ui (t->val.value, 1)) {
+						return gel_makenum_bool (0);
+					}
+				} else if ( ! ( t == NULL ||
+					 (t->type == VALUE_NODE &&
+					  mpw_eql_ui (t->val.value, 0)))) {
+					return gel_makenum_bool (0);
+				}
+			}
+		}
+		return gel_makenum_bool (1);
+	}
 }
 
 static GelETree *
@@ -5410,6 +5476,9 @@ gel_funclib_addall(void)
 	FUNC (IsMatrixInteger, 1, "M", "matrix", N_("Check if a matrix is an integer (non-complex) matrix"));
 	FUNC (IsMatrixRational, 1, "M", "matrix", N_("Check if a matrix is a rational (non-complex) matrix"));
 	FUNC (IsMatrixReal, 1, "M", "matrix", N_("Check if a matrix is a real (non-complex) matrix"));
+
+	FUNC (IsZero, 1, "x", "matrix", N_("Check if a number or a matrix is all zeros"));
+	FUNC (IsIdentity, 1, "x", "matrix", N_("Check if a number or a matrix is 1 or identity respectively"));
 
 	FUNC (IsIn, 2, "x,X", "sets", N_("Returns true if the element x is in the set X (where X is a vector pretending to be a set)"));
 	FUNC (SetMinus, 2, "X,Y", "sets", N_("Returns a set theoretic difference X-Y (X and Y are vectors pretending to be sets)"));

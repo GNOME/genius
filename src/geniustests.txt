@@ -783,4 +783,20 @@ nCr(-100,5)							-91962520
 12312456233.1212192123						12312456233.1
 -123124564233.1212192123					-1.23124564233e11
 -12312456233.1212192123						-12312456233.1
+IsZero(zeros(10,12))						true
+IsZero(0)							true
+IsZero(null)							true
+IsZero(9)							false
+IsZero(I(9))							false
+IsZero([1,2,3])							false
+IsIdentity(1)							true
+IsIdentity(0)							false
+IsIdentity(9)							false
+IsIdentity(null)						false
+IsIdentity(I(9))						true
+IsIdentity(0.1*I(10))						false
+IsIdentity([I(9),zeros(9,1)])					false
+IsIdentity([1])							true
+IsIdentity([1,2,3])						false
+IsIdentity(zeros(10,12))					false
 load "longtest.gel"						true

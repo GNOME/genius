@@ -2110,6 +2110,18 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-IsIdentity">
+         <term>IsIdentity</term>
+         <listitem>
+          <synopsis>IsIdentity (x)</synopsis>
+          <para>Check if a matrix is the identity matrix.  Automatically returns <varname>false</varname>
+	    if the matrix is not square.  Also works on numbers, in which
+	    case it is equivalent to <userinput>x==1</userinput>.  When <varname>x</varname> is
+	    <literal>null</literal> (we could think of that as a 0 by 0 matrix),
+	    no error is generated and <varname>false</varname> is returned.</para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-IsLowerTriangular">
          <term>IsLowerTriangular</term>
          <listitem>
@@ -2176,8 +2188,21 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
           <para>
 	    Is argument a horizontal or a vertical vector.  Genius does
 	    not distinguish between a matrix and a vector and a vector
-	    is just a 1 by n or n by 1 matrix.
+	    is just a 1 by <varname>n</varname> or <varname>n</varname> by 1 matrix.
 	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-IsZero">
+         <term>IsZero</term>
+         <listitem>
+          <synopsis>IsZero (x)</synopsis>
+          <para>Check if a matrix is composed of all zeros.  Also works on numbers, in which
+	    case it is equivalent to <userinput>x==0</userinput>.  When <varname>x</varname> is
+	    <literal>null</literal> (we could think of that as a 0 by 0 matrix),
+	    no error is generated and <varname>true</varname> is returned as the condition is
+	    vacuous.
+	    </para>
          </listitem>
         </varlistentry>
 

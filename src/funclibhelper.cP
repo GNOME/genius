@@ -57,6 +57,29 @@ check_argument_integer_or_matrix (GelETree **a, int argnum, const char *funcname
 }
 
 static inline gboolean
+check_argument_null_or_number_or_matrix (GelETree **a, int argnum, const char *funcname)
+{
+	if G_UNLIKELY (a[argnum]->type != VALUE_NODE &&
+		       a[argnum]->type != NULL_NODE &&
+		       a[argnum]->type != MATRIX_NODE) {
+		gel_errorout (_("%s: argument number %d not a number or a matrix"), funcname, argnum+1);
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static inline gboolean
+check_argument_number_or_matrix (GelETree **a, int argnum, const char *funcname)
+{
+	if G_UNLIKELY (a[argnum]->type != VALUE_NODE &&
+		       a[argnum]->type != MATRIX_NODE) {
+		gel_errorout (_("%s: argument number %d not a number or a matrix"), funcname, argnum+1);
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static inline gboolean
 check_argument_nonnegative_integer (GelETree **a, int argnum, const char *funcname)
 {
 	if G_UNLIKELY (a[argnum]->type != VALUE_NODE ||

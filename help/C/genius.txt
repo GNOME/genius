@@ -3220,6 +3220,16 @@
 
             See Planetmath for more information.
 
+   IsIdentity
+
+ IsIdentity (x)
+
+           Check if a matrix is the identity matrix. Automatically returns
+           false if the matrix is not square. Also works on numbers, in which
+           case it is equivalent to x==1. When x is null (we could think of
+           that as a 0 by 0 matrix), no error is generated and false is
+           returned.
+
    IsLowerTriangular
 
  IsLowerTriangular (M)
@@ -3272,6 +3282,15 @@
             Is argument a horizontal or a vertical vector. Genius does not
            distinguish between a matrix and a vector and a vector is just a 1
            by n or n by 1 matrix.
+
+   IsZero
+
+ IsZero (x)
+
+           Check if a matrix is composed of all zeros. Also works on numbers,
+           in which case it is equivalent to x==0. When x is null (we could
+           think of that as a 0 by 0 matrix), no error is generated and true
+           is returned as the condition is vacuous.
 
    LowerTriangular
 
