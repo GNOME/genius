@@ -222,7 +222,7 @@ static GnomeUIInfo file_menu[] = {
 #define FILE_SAVE_ITEM 2
 	GNOMEUIINFO_MENU_SAVE_ITEM (save_callback,NULL),
 #define FILE_SAVE_ALL_ITEM 3
-	GNOMEUIINFO_ITEM_STOCK(N_("Save all unsaved"),N_("Save all unsaved programs"), save_all_cb, GTK_STOCK_SAVE),
+	GNOMEUIINFO_ITEM_STOCK(N_("Save all _unsaved"),N_("Save all unsaved programs"), save_all_cb, GTK_STOCK_SAVE),
 #define FILE_SAVE_AS_ITEM 4
 	GNOMEUIINFO_MENU_SAVE_AS_ITEM (save_as_callback,NULL),
 #define FILE_RELOAD_ITEM 5
