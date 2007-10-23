@@ -1438,27 +1438,6 @@ warranty_call (GtkWidget *widget, gpointer data)
 	}
 }
 
-#if ! GTK_CHECK_VERSION(2,3,5)
-static void
-setup_last_dir (const char *filename)
-{
-	char *s = g_path_get_dirname (filename);
-
-	g_free (last_dir);
-	if (s == NULL) {
-		last_dir = NULL;
-		return;
-	}
-	if (strcmp(s, G_DIR_SEPARATOR_S) == 0) {
-		last_dir = s;
-		return;
-	}
-	last_dir = g_strconcat (s, G_DIR_SEPARATOR_S, NULL);
-	g_free (s);
-}
-#endif
-
-#if GTK_CHECK_VERSION(2,3,5)
 static void
 add_filters (GtkFileChooser *fs)
 {
@@ -1479,29 +1458,17 @@ add_filters (GtkFileChooser *fs)
 	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (fs), filter_gel);
 
 }
-#endif
 
-#if GTK_CHECK_VERSION(2,3,5)
 static void
 really_load_cb (GtkFileChooser *fs, int response, gpointer data)
-#else
-static void
-really_load_cb (GtkWidget *w, GtkFileSelection *fs)
-#endif
 {
 	const char *s;
-#if GTK_CHECK_VERSION(2,3,5)
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (GTK_WIDGET (fs));
 		return;
 	}
-#endif
 
-#if GTK_CHECK_VERSION(2,3,5)
 	s = gtk_file_chooser_get_filename (fs);
-#else
-	s = gtk_file_selection_get_filename (fs);
-#endif
 	if (s == NULL ||
 	    access (s, F_OK) != 0) {
 		genius_display_error (GTK_WIDGET (fs),
@@ -1509,12 +1476,8 @@ really_load_cb (GtkWidget *w, GtkFileSelection *fs)
 		return;
 	}
 
-#if GTK_CHECK_VERSION(2,3,5)
 	g_free (last_dir);
 	last_dir = gtk_file_chooser_get_current_folder (fs);
-#else
-	setup_last_dir (s);
-#endif
 
 	gtk_widget_destroy (GTK_WIDGET (fs));
 
@@ -1549,7 +1512,6 @@ load_cb (GtkWidget *w)
 		return;
 	}
 
-#if GTK_CHECK_VERSION(2,3,5)
 	fs = gtk_file_chooser_dialog_new (_("Load and Run"),
 					  GTK_WINDOW (genius_window),
 					  GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -1567,25 +1529,6 @@ load_cb (GtkWidget *w)
 	if (last_dir != NULL)
 		gtk_file_chooser_set_current_folder
 			(GTK_FILE_CHOOSER (fs), last_dir);
-#else
-	fs = gtk_file_selection_new (_("Load and Run"));
-	
-	gtk_window_set_position (GTK_WINDOW (fs), GTK_WIN_POS_MOUSE);
-
-	g_signal_connect (G_OBJECT (fs), "destroy",
-			  G_CALLBACK (gtk_widget_destroyed), &fs);
-	
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
-			  "clicked", G_CALLBACK (really_load_cb),
-			  fs);
-
-	g_signal_connect_swapped (G_OBJECT (GTK_FILE_SELECTION (fs)->cancel_button),
-				  "clicked", G_CALLBACK (gtk_widget_destroy),
-				  fs);
-	if (last_dir != NULL)
-		gtk_file_selection_set_filename
-			(GTK_FILE_SELECTION (fs), last_dir);
-#endif
 
 	gtk_widget_show (fs);
 }
@@ -2203,15 +2146,17 @@ new_program (const char *filename)
 		char *d = g_get_current_dir ();
 		char *n = g_strdup_printf (_("Program_%d.gel"), cnt);
 		/* the file name will have an underscore */
-		p->name = g_build_filename (d, n, NULL);
+		char *fn = g_build_filename (d, n, NULL);
 		g_free (d);
 		g_free (n);
+		p->name = gnome_vfs_get_uri_from_local_path (filename);
+		g_free (fn);
 		p->vname = g_strdup_printf (_("Program %d"), cnt);
 		cnt++;
 	} else {
 		char *contents;
 		p->name = g_strdup (filename);
-		contents = get_contents_vfs (filename);
+		contents = get_contents_vfs (p->name);
 		if (contents != NULL) {
 			GtkTextIter iter;
 #ifdef HAVE_GTKSOURCEVIEW
@@ -2255,27 +2200,16 @@ new_callback (GtkWidget *menu_item, gpointer data)
 	new_program (NULL);
 }
 
-#if GTK_CHECK_VERSION(2,3,5)
 static void
 really_open_cb (GtkFileChooser *fs, int response, gpointer data)
-#else
-static void
-really_open_cb (GtkWidget *w, GtkFileSelection *fs)
-#endif
 {
 	const char *s;
-#if GTK_CHECK_VERSION(2,3,5)
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (GTK_WIDGET (fs));
 		return;
 	}
-#endif
 
-#if GTK_CHECK_VERSION(2,3,5)
 	s = gtk_file_chooser_get_uri (fs);
-#else
-	s = gtk_file_selection_get_filename (fs);
-#endif
 	if (s == NULL ||
 	    ! uri_exists (s)) {
 		genius_display_error (GTK_WIDGET (fs),
@@ -2283,12 +2217,8 @@ really_open_cb (GtkWidget *w, GtkFileSelection *fs)
 		return;
 	}
 
-#if GTK_CHECK_VERSION(2,3,5)
 	g_free (last_dir);
 	last_dir = gtk_file_chooser_get_current_folder (fs);
-#else
-	setup_last_dir (s);
-#endif
 
 	new_program (s);
 
@@ -2305,7 +2235,6 @@ open_callback (GtkWidget *w)
 		return;
 	}
 
-#if GTK_CHECK_VERSION(2,3,5)
 	fs = gtk_file_chooser_dialog_new (_("Open..."),
 					  GTK_WINDOW (genius_window),
 					  GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -2324,25 +2253,6 @@ open_callback (GtkWidget *w)
 	if (last_dir != NULL)
 		gtk_file_chooser_set_current_folder
 			(GTK_FILE_CHOOSER (fs), last_dir);
-#else
-	fs = gtk_file_selection_new (_("Open..."));
-	
-	gtk_window_set_position (GTK_WINDOW (fs), GTK_WIN_POS_MOUSE);
-
-	g_signal_connect (G_OBJECT (fs), "destroy",
-			  G_CALLBACK (gtk_widget_destroyed), &fs);
-	
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
-			  "clicked", G_CALLBACK (really_open_cb),
-			  fs);
-
-	g_signal_connect_swapped (G_OBJECT (GTK_FILE_SELECTION (fs)->cancel_button),
-				  "clicked", G_CALLBACK (gtk_widget_destroy),
-				  fs);
-	if (last_dir != NULL)
-		gtk_file_selection_set_filename
-			(GTK_FILE_SELECTION (fs), last_dir);
-#endif
 
 	gtk_widget_show (fs);
 }
@@ -2408,34 +2318,23 @@ save_callback (GtkWidget *w)
 	}
 }
 
-#if GTK_CHECK_VERSION(2,3,5)
 static void
 really_save_as_cb (GtkFileChooser *fs, int response, gpointer data)
-#else
-static void
-really_save_as_cb (GtkWidget *w, GtkFileSelection *fs)
-#endif
 {
 	char *s;
 	char *base;
-#if GTK_CHECK_VERSION(2,3,5)
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (GTK_WIDGET (fs));
 		/* FIXME: don't want to deal with modality issues right now */
 		gtk_widget_set_sensitive (genius_window, TRUE);
 		return;
 	}
-#endif
 
 	/* sanity */
 	if (selected_program == NULL)
 		return;
 
-#if GTK_CHECK_VERSION(2,3,5)
 	s = g_strdup (gtk_file_chooser_get_uri (fs));
-#else
-	s = g_strdup (gtk_file_selection_get_filename (fs));
-#endif
 	if (s == NULL)
 		return;
 	base = g_path_get_basename (s);
@@ -2464,12 +2363,8 @@ really_save_as_cb (GtkWidget *w, GtkFileSelection *fs)
 		return;
 	}
 
-#if GTK_CHECK_VERSION(2,3,5)
 	g_free (last_dir);
 	last_dir = gtk_file_chooser_get_current_folder (fs);
-#else
-	setup_last_dir (s);
-#endif
 
 	gtk_widget_destroy (GTK_WIDGET (fs));
 	/* FIXME: don't want to deal with modality issues right now */
@@ -2477,16 +2372,6 @@ really_save_as_cb (GtkWidget *w, GtkFileSelection *fs)
 
 	g_free (s);
 }
-
-#if ! GTK_CHECK_VERSION(2,3,5)
-static void
-really_cancel_save_as_cb (GtkWidget *w, GtkFileSelection *fs)
-{
-	gtk_widget_destroy (GTK_WIDGET (fs));
-	/* FIXME: don't want to deal with modality issues right now */
-	gtk_widget_set_sensitive (genius_window, TRUE);
-}
-#endif
 
 static void
 save_as_callback (GtkWidget *w)
@@ -2505,7 +2390,6 @@ save_as_callback (GtkWidget *w)
 	/* FIXME: don't want to deal with modality issues right now */
 	gtk_widget_set_sensitive (genius_window, FALSE);
 
-#if GTK_CHECK_VERSION(2,3,5)
 	fs = gtk_file_chooser_dialog_new (_("Save As..."),
 					  GTK_WINDOW (genius_window),
 					  GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -2527,27 +2411,6 @@ save_as_callback (GtkWidget *w)
 	}
 	gtk_file_chooser_set_filename
 		(GTK_FILE_CHOOSER (fs), selected_program->name);
-#else
-	fs = gtk_file_selection_new(_("Save As..."));
-	
-	gtk_window_set_position (GTK_WINDOW (fs), GTK_WIN_POS_MOUSE);
-
-	g_signal_connect (G_OBJECT (fs), "destroy",
-			  G_CALLBACK (gtk_widget_destroyed), &fs);
-	
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
-			  "clicked", G_CALLBACK (really_save_as_cb),
-			  fs);
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->cancel_button),
-			  "clicked", G_CALLBACK (really_cancel_save_as_cb),
-			  fs);
-
-	if (last_dir != NULL)
-		gtk_file_selection_set_filename
-			(GTK_FILE_SELECTION (fs), last_dir);
-	gtk_file_selection_set_filename
-		(GTK_FILE_SELECTION (fs), selected_program->name);
-#endif
 
 	gtk_widget_show (fs);
 }
@@ -3202,7 +3065,18 @@ loadup_files_from_cmdline (GnomeProgram *program)
 
 	args = (char**) poptGetArgs(ctx);
 	for (i = 0; args != NULL && args[i] != NULL; i++) {
-		new_program (args[i]);
+		char *fn;
+		if (g_path_is_absolute (args[i])) {
+			fn = gnome_vfs_get_uri_from_local_path (args[i]);
+		} else {
+			char *d = g_get_current_dir ();
+			char *n = g_build_filename (d, args[i], NULL);
+			fn = gnome_vfs_get_uri_from_local_path (n);
+			g_free (d);
+			g_free (n);
+		}
+		new_program (fn);
+		g_free (fn);
 	}
 }
 

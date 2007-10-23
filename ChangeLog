@@ -1,3 +1,12 @@
+Mon Oct 22 19:38:03 2007  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/gnome-genius.c: whack the old gtk file selection stuff,
+	  I'm tired of fixing bugs in two versions of code.  Consistently
+	  have uri's around as program->name internally.  Fix opening
+	  files without specifying full path on command line.
+
+	* configure.in: require at least gtk+ 2.3.5
+
 Tue Oct 16 11:05:32 2007  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/gnome-genius.desktop.in: hmmm, Calculator;Utility; also fits
