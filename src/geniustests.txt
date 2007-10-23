@@ -800,15 +800,20 @@ IsIdentity([1])							true
 IsIdentity([1,2,3])						false
 IsIdentity(zeros(10,12))					false
 IsMatrixPositive(ones(5,5))					true
+IsMatrixPositive(ones(5,5)*1i)					false
 IsMatrixPositive(zeros(5,5))					false
 IsMatrixPositive(-ones(5,5))					false
 IsMatrixPositive([1,2,3])					true
+IsMatrixPositive([1+1i,2,3])					false
 IsMatrixPositive([0,1;2,3])					false
 IsMatrixPositive([-1,1;2,3])					false
 IsMatrixNonnegative([1,2,3])					true
+IsMatrixNonnegative([1i,2,3])					false
+IsMatrixNonnegative([1+1i,2,3])					false
 IsMatrixNonnegative([0,1;2,3])					true
 IsMatrixNonnegative([-1,1;2,3])					false
 IsMatrixNonnegative(ones(5,5))					true
+IsMatrixNonnegative(ones(5,5)*1i)				false
 IsMatrixNonnegative(zeros(5,5))					true
 IsMatrixNonnegative(-ones(5,5))					false
 load "longtest.gel"						true

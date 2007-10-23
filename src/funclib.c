@@ -2476,6 +2476,7 @@ IsMatrixPositive_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 			GelETree *t = gel_matrixw_set_index (m, i, j);
 			if (t == NULL ||
 			    t->type != VALUE_NODE ||
+			    mpw_is_complex (t->val.value) ||
 			    mpw_cmp_ui (t->val.value, 0) <= 0)
 				return gel_makenum_bool (0);
 		}
@@ -2501,6 +2502,7 @@ IsMatrixNonnegative_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 			GelETree *t = gel_matrixw_set_index (m, i, j);
 			if (t != NULL) {
 				if (t->type != VALUE_NODE ||
+				    mpw_is_complex (t->val.value) ||
 				    mpw_cmp_ui (t->val.value, 0) < 0)
 					return gel_makenum_bool (0);
 			}
