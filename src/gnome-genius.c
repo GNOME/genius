@@ -281,7 +281,11 @@ static GnomeUIInfo settings_menu[] = {
 
 static GnomeUIInfo calc_menu[] = {  
 #define CALC_RUN_ITEM 0
-	GNOMEUIINFO_ITEM_STOCK(N_("_Run"),N_("Run current program"),run_program, GTK_STOCK_EXECUTE),
+	{ GNOME_APP_UI_ITEM, N_("_Run"), N_("Run current program"),
+		(gpointer)run_program, NULL, NULL, \
+		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_EXECUTE, 
+		GDK_r, (GdkModifierType) GDK_CONTROL_MASK, NULL },
+
 	GNOMEUIINFO_ITEM_STOCK(N_("_Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GTK_STOCK_STOP),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_STOCK (N_("Show _Full Answer"), N_("Show the full text of last answer"), full_answer, GTK_STOCK_INFO),
@@ -643,6 +647,28 @@ printout_error_num_and_reset(void)
 	errors_printed = 0;
 }
 
+static char *
+resolve_file (const char *file)
+{
+	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
+	int i;
+
+	if (n <= 1)
+		return g_strdup (file);
+
+	for (i = 1; i < n; i++) {
+		GtkWidget *w = gtk_notebook_get_nth_page
+			(GTK_NOTEBOOK (notebook), i);
+		Program *p = g_object_get_data (G_OBJECT (w), "program");
+		g_assert (p != NULL);
+		if (p->name != NULL &&
+		    p->vname != NULL &&
+		    strcmp (p->name, file) == 0)
+			return g_strdup (p->vname);
+	}
+	return g_strdup (file);
+}
+
 /*get error message*/
 static void
 geniuserror(const char *s)
@@ -670,9 +696,11 @@ geniuserror(const char *s)
 			 gtk_text_buffer_get_mark (running_program->buffer,
 						   "insert"));
 	}
-	if(file)
-		str = g_strdup_printf("%s:%d: %s",file,line,s);
-	else if(line>0)
+	if (file != NULL) {
+		char *fn = resolve_file (file);
+		str = g_strdup_printf("%s:%d: %s",fn,line,s);
+		g_free (fn);
+	} else if (line > 0)
 		str = g_strdup_printf("line %d: %s",line,s);
 	else
 		str = g_strdup(s);
