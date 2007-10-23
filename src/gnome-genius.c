@@ -3050,6 +3050,21 @@ get_version_details (void)
 	return str->str;
 }
 
+gboolean
+is_uri (const char *s)
+{
+	const char *p;
+	if ( ! s)
+		return FALSE;
+	for (p = s; (*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z'); p++)
+		;
+	if (p == s)
+		return FALSE;
+	if (*p == ':')
+		return TRUE;
+	return FALSE;
+}
+
 static void
 loadup_files_from_cmdline (GnomeProgram *program)
 {
@@ -3066,7 +3081,9 @@ loadup_files_from_cmdline (GnomeProgram *program)
 	args = (char**) poptGetArgs(ctx);
 	for (i = 0; args != NULL && args[i] != NULL; i++) {
 		char *fn;
-		if (g_path_is_absolute (args[i])) {
+		if (is_uri (args[i])) {
+			fn = g_strdup (args[i]);
+		} else if (g_path_is_absolute (args[i])) {
 			fn = gnome_vfs_get_uri_from_local_path (args[i]);
 		} else {
 			char *d = g_get_current_dir ();
