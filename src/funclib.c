@@ -2459,6 +2459,57 @@ IsValueOnly_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 }
 
 static GelETree *
+IsMatrixPositive_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelMatrixW *m;
+	int i,j,w,h;
+
+	if G_UNLIKELY ( ! check_argument_value_only_matrix (a, 0, "IsMatrixPositive"))
+		return NULL;
+
+	m = a[0]->mat.matrix;
+
+	w = gel_matrixw_width (m);
+	h = gel_matrixw_height (m);
+	for (i = 0; i < w; i++) {
+		for (j = 0; j < h; j++) {
+			GelETree *t = gel_matrixw_set_index (m, i, j);
+			if (t == NULL ||
+			    t->type != VALUE_NODE ||
+			    mpw_cmp_ui (t->val.value, 0) <= 0)
+				return gel_makenum_bool (0);
+		}
+	}
+	return gel_makenum_bool (1);
+}
+
+static GelETree *
+IsMatrixNonnegative_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelMatrixW *m;
+	int i,j,w,h;
+
+	if G_UNLIKELY ( ! check_argument_value_only_matrix (a, 0, "IsMatrixNonnegative"))
+		return NULL;
+
+	m = a[0]->mat.matrix;
+	w = gel_matrixw_width (m);
+	h = gel_matrixw_height (m);
+
+	for (i = 0; i < w; i++) {
+		for (j = 0; j < h; j++) {
+			GelETree *t = gel_matrixw_set_index (m, i, j);
+			if (t != NULL) {
+				if (t->type != VALUE_NODE ||
+				    mpw_cmp_ui (t->val.value, 0) < 0)
+					return gel_makenum_bool (0);
+			}
+		}
+	}
+	return gel_makenum_bool (1);
+}
+
+static GelETree *
 IsZero_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if G_UNLIKELY ( ! check_argument_null_or_number_or_matrix (a, 0, "IsZero"))
@@ -5515,6 +5566,8 @@ gel_funclib_addall(void)
 	FUNC (IsMatrixInteger, 1, "M", "matrix", N_("Check if a matrix is an integer (non-complex) matrix"));
 	FUNC (IsMatrixRational, 1, "M", "matrix", N_("Check if a matrix is a rational (non-complex) matrix"));
 	FUNC (IsMatrixReal, 1, "M", "matrix", N_("Check if a matrix is a real (non-complex) matrix"));
+	FUNC (IsMatrixPositive, 1, "M", "matrix", N_("Check if a matrix is positive, that is if each element is positive"));
+	FUNC (IsMatrixNonnegative, 1, "M", "matrix", N_("Check if a matrix is nonnegative, that is if each element is nonnegative"));
 
 	FUNC (IsZero, 1, "x", "matrix", N_("Check if a number or a matrix is all zeros"));
 	FUNC (IsIdentity, 1, "x", "matrix", N_("Check if a number or a matrix is 1 or identity respectively"));
