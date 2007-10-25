@@ -175,7 +175,7 @@ get_cb_p_expression(char *s, FILE *torlfp)
 	toplevelokg = old_toplevelokg;
 
 	if(interrupted) {
-		prompt = "\e[1mgenius>\e[0m ";
+		prompt = "\001\e[1m\002genius>\001\e[0m\002 ";
 		interrupted = FALSE;
 		if(p_expr) g_string_free(p_expr,TRUE);
 		p_expr = NULL;
@@ -190,7 +190,7 @@ get_cb_p_expression(char *s, FILE *torlfp)
 		p_expr = NULL;
 		(*got_expr_func)(ret);
 		interrupted = FALSE;
-		prompt = "\e[1mgenius>\e[0m ";
+		prompt = "\001\e[1m\002genius>\001\e[0m\002 ";
 		goto done_with_get;
 	}
 	if(!*s)	{
@@ -208,7 +208,7 @@ get_cb_p_expression(char *s, FILE *torlfp)
 		p_expr = NULL;
 		(*got_expr_func)(ret);
 		interrupted = FALSE;
-		prompt = "\e[1mgenius>\e[0m ";
+		prompt = "\001\e[1m\002genius>\001\e[0m\002 ";
 	}
 done_with_get:
 	if(!p_expr) p_expr = g_string_new("");
@@ -236,7 +236,7 @@ start_cb_p_expression(void (*get_func)(GelETree *), FILE *torlfp)
 	toplevelokg = ok_for_top(p_expr->str);
 
 	write_all_state_to_rl(torlfp);
-	fprintf(torlfp,"READLINE \e[1mgenius>\e[0m \n");
+	fprintf(torlfp,"READLINE \001\e[1m\002genius>\001\e[0m\002 \n");
 	fflush(torlfp);
 }
 

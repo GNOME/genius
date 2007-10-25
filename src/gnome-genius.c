@@ -625,7 +625,8 @@ populate_var_box (GtkTextBuffer *buffer)
 		    /* only for toplevel */ f->id->parameter ||
 		    /* only for toplevel */ f->id->protected_ ||
 		    f->id->token == NULL ||
-		    f->data.user == NULL)
+		    f->data.user == NULL ||
+		    f->context > 0)
 			continue;
 
 		gel_print_etree (out, f->data.user, FALSE /*no toplevel, keep this short*/);
