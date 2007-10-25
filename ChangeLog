@@ -1,3 +1,17 @@
+Thu Oct 25 13:47:40 2007  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/gnome-genius.c, src/dict.[ch]: Implement showing of all user
+	  variables even during runtime.  Shows even local variables if some
+	  function is currently being executed.  Allows better debugging
+
+	* src/gnome-genius.c: fix show full answer leak and fix running it
+	  during runtime.
+
+	* configure.in: bump version
+
+	* help/C/genius.xml: update docs a bit, add some more info on the gui
+	  part of genius.
+
 Tue Oct 23 17:14:25 2007  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/funclib.c: positive and nonnegative matrixes obviously can't

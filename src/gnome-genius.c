@@ -209,6 +209,7 @@ static void prev_tab (GtkWidget *menu_item, gpointer data);
 static void prog_menu_activated (GtkWidget *item, gpointer data);
 static void setup_calc (GtkWidget *widget, gpointer data);
 static void run_program (GtkWidget *menu_item, gpointer data);
+static void show_user_vars (GtkWidget *menu_item, gpointer data);
 static void full_answer (GtkWidget *menu_item, gpointer data);
 static void warranty_call (GtkWidget *widget, gpointer data);
 static void aboutcb (GtkWidget * widget, gpointer data);
@@ -289,6 +290,7 @@ static GnomeUIInfo calc_menu[] = {
 	GNOMEUIINFO_ITEM_STOCK(N_("_Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GTK_STOCK_STOP),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_STOCK (N_("Show _Full Answer"), N_("Show the full text of last answer"), full_answer, GTK_STOCK_INFO),
+	GNOMEUIINFO_ITEM_STOCK (N_("Show User _Variables"), N_("Show the current value of all user variables"), show_user_vars, GTK_STOCK_INFO),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_STOCK (N_("_Plot"), N_("Plot a function"), genius_plot_dialog, GNOME_STOCK_BOOK_OPEN),
 	GNOMEUIINFO_END,
@@ -588,33 +590,222 @@ geniusbox (gboolean error,
 	return mb;
 }
 
+static void
+populate_var_box (GtkTextBuffer *buffer)
+{
+	GSList *all_contexts;
+	GSList *funcs;
+	GSList *li, *lic;
+	GelOutput *out;
+	GtkTextIter iter;
+	GtkTextIter iter_end;
+	gboolean printed_local_title = FALSE;
+
+	/* delete everything */
+	gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
+	gtk_text_buffer_get_iter_at_offset (buffer, &iter_end, -1);
+	gtk_text_buffer_delete (buffer, &iter, &iter_end);
+
+	/* get iterator */
+	gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
+
+	all_contexts = d_get_all_contexts ();
+	funcs = d_getcontext_global ();
+
+	out = gel_output_new ();
+	gel_output_setup_string (out, 0, NULL);
+
+	gtk_text_buffer_insert_with_tags_by_name
+		(buffer, &iter, _("Global variables:\n\n"), -1, "title", NULL);
+
+	for (li = funcs; li != NULL; li = li->next) {
+		GelEFunc *f = li->data;
+		if (f->type != GEL_VARIABLE_FUNC ||
+		    f->id == NULL ||
+		    /* only for toplevel */ f->id->parameter ||
+		    /* only for toplevel */ f->id->protected_ ||
+		    f->id->token == NULL ||
+		    f->data.user == NULL)
+			continue;
+
+		gel_print_etree (out, f->data.user, FALSE /*no toplevel, keep this short*/);
+
+		gtk_text_buffer_insert_with_tags_by_name
+			(buffer, &iter, f->id->token, -1, "variable", NULL);
+		gtk_text_buffer_insert_with_tags_by_name
+			(buffer, &iter, ": ", -1, "value", NULL);
+		gtk_text_buffer_insert_with_tags_by_name
+			(buffer, &iter, gel_output_peek_string (out), -1, "value", NULL);
+		gtk_text_buffer_insert_with_tags_by_name
+			(buffer, &iter, "\n", -1, "value", NULL);
+
+		gel_output_clear_string (out);
+	}
+
+	/* go over all local contexts (not the last one, that is global) */
+	for (lic = all_contexts; lic != NULL && lic->next != NULL; lic = lic->next) {
+		for (li = lic->data; li != NULL; li = li->next) {
+			GelEFunc *f = li->data;
+			char *s;
+			if (f->type != GEL_VARIABLE_FUNC ||
+			    f->id == NULL ||
+			    f->id->token == NULL ||
+			    f->data.user == NULL ||
+			    f->context <= 0)
+				continue;
+
+			if ( ! printed_local_title) {
+				gtk_text_buffer_insert_with_tags_by_name
+					(buffer, &iter, _("\nLocal variables (depth of context in parentheses):\n\n"), -1, "title", NULL);
+				printed_local_title = TRUE;
+			}
+
+			gel_print_etree (out, f->data.user, FALSE /*no toplevel, keep this short*/);
+
+			s = g_strdup_printf (" (%d)", f->context);
+
+			gtk_text_buffer_insert_with_tags_by_name
+				(buffer, &iter, f->id->token, -1, "variable", NULL);
+			gtk_text_buffer_insert_with_tags_by_name
+				(buffer, &iter, s, -1, "context", NULL);
+			gtk_text_buffer_insert_with_tags_by_name
+				(buffer, &iter, ": ", -1, "value", NULL);
+			gtk_text_buffer_insert_with_tags_by_name
+				(buffer, &iter, gel_output_peek_string (out), -1, "value", NULL);
+			gtk_text_buffer_insert_with_tags_by_name
+				(buffer, &iter, "\n", -1, "value", NULL);
+
+			g_free (s);
+			gel_output_clear_string (out);
+		}
+	}
+
+	gel_output_unref (out);
+}
+
+static void
+var_box_response (GtkWidget *widget, gint resp, gpointer data)
+{
+	if (resp == 1) {
+		populate_var_box (/* buffer */data);
+	} else {
+		gtk_widget_destroy (widget);
+	}
+}
+
+
+static void
+show_user_vars (GtkWidget *menu_item, gpointer data)
+{
+	static GtkWidget *var_box = NULL;
+	GtkWidget *sw;
+	GtkWidget *tv;
+	static GtkTextBuffer *buffer = NULL;
+
+	if (var_box != NULL) {
+		populate_var_box (buffer);
+		return;
+	}
+
+	var_box = gtk_dialog_new_with_buttons
+		(_("User Variable Listing"),
+		 GTK_WINDOW (genius_window) /* parent */,
+		 0 /* flags */,
+		 GTK_STOCK_REFRESH, 1,
+		 GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+		 NULL);
+	gtk_dialog_set_has_separator (GTK_DIALOG (var_box), FALSE);
+	sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (var_box)->vbox),
+			    sw,
+			    TRUE, TRUE, 0);
+
+	tv = gtk_text_view_new ();
+	gtk_text_view_set_editable (GTK_TEXT_VIEW (tv), FALSE);
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
+
+	gtk_container_add (GTK_CONTAINER (sw), tv);
+
+	/* FIXME: 
+	 * Perhaps should be smaller with smaller font ...
+	 * ... */
+	gtk_window_set_default_size
+		(GTK_WINDOW (var_box),
+		 MIN (gdk_screen_width ()-50, 800), 
+		 MIN (gdk_screen_height ()-50, 450));
+	g_signal_connect (G_OBJECT (var_box), "response",
+			  G_CALLBACK (var_box_response),
+			  buffer);
+	g_signal_connect (var_box, "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &var_box);
+	g_signal_connect (var_box, "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &buffer);
+	gtk_widget_show_all (var_box);
+
+	gtk_text_buffer_create_tag (buffer, "variable",
+				    "editable", FALSE,
+				    "family", "monospace",
+				    "weight", PANGO_WEIGHT_BOLD,
+				    NULL);
+
+	gtk_text_buffer_create_tag (buffer, "context",
+				    "editable", FALSE,
+				    "family", "monospace",
+				    "style", PANGO_STYLE_ITALIC,
+				    NULL);
+
+	gtk_text_buffer_create_tag (buffer, "value",
+				    "editable", FALSE,
+				    "family", "monospace",
+				    NULL);
+
+	gtk_text_buffer_create_tag (buffer, "title",
+				    "editable", FALSE,
+				    "scale", PANGO_SCALE_LARGE,
+				    "weight", PANGO_WEIGHT_BOLD,
+				    NULL);
+
+	populate_var_box (buffer);
+}
 
 static void
 full_answer (GtkWidget *menu_item, gpointer data)
 {
 	GelOutput *out;
-	char *s;
+	const char *s;
+	GelEFunc *ans;
 
-	/* perhaps a bit ugly */
 	out = gel_output_new ();
-	gboolean last_info = genius_setup.info_box;
-	gboolean last_error = genius_setup.error_box;
-	genius_setup.info_box = TRUE;
-	genius_setup.error_box = TRUE;
 	gel_output_setup_string (out, 0, NULL);
-	gel_evalexp ("ans", NULL, out, NULL, TRUE, NULL);
-	gel_printout_infos ();
-	genius_setup.info_box = last_info;
-	genius_setup.error_box = last_error;
 
-	s = gel_output_snarf_string (out);
-	gel_output_unref (out);
+	ans = d_lookup_only_global (d_intern ("Ans"));
+	if (ans != NULL) {
+		if (ans->type == GEL_VARIABLE_FUNC) {
+			gel_pretty_print_etree (out, ans->data.user);
+		} else {
+			/* ugly? maybe! */
+			GelETree n;
+			n.type = FUNCTION_NODE;
+			n.any.next = NULL;
+			n.func.func = ans;
+			gel_pretty_print_etree (out, &n);
+		}
+	}
+
+	s = gel_output_peek_string (out);
 
 	geniusbox (FALSE /*error*/,
 		   TRUE /*always textbox*/,
 		   _("Full Answer") /*textbox_title*/,
 		   TRUE /*bind_response*/,
-		   s);
+		   ve_sure_string (s));
+
+	gel_output_unref (out);
 }
 
 
