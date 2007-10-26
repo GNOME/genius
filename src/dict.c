@@ -555,7 +555,9 @@ d_freefunc (GelEFunc *n)
 	GSList *li;
 	if(!n)
 		return;
+	/*
 	g_assert(!n->id || g_slist_find(n->id->refs,n)==NULL);
+	*/
 
 	if (n->on_subst_list) {
 		whack_from_lists (n);

@@ -3,9 +3,11 @@
  *
  * Author: Jiri (George) Lebl
  *
- * This program is free software; you can redistribute it and/or modify
+ * This file is part of Genius.
+ *
+ * Genius is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -14,9 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the  Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
- * USA.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "config.h"
@@ -7943,11 +7943,33 @@ resimplify:
 /* In tests it seems that this achieves better then 4096 */
 #define GEL_CHUNK_SIZE 4048
 #define ALIGNED_SIZE(t) (sizeof(t) + sizeof (t) % G_MEM_ALIGN)
+
+static long _gel_tree_num = 0;
+static gboolean _gel_max_nodes_check = TRUE;
+void (*_gel_tree_limit_hook)(void) = NULL;
+
+/* Will get to the warning another page later, but that's OK
+ * we don't expect this to be happening often */
+void
+gel_test_max_nodes_again (void)
+{
+	_gel_max_nodes_check = TRUE;
+}
+
 void
 _gel_make_free_trees (void)
 {
 	int i;
 	char *p;
+
+	if G_UNLIKELY (_gel_max_nodes_check &&
+		       calcstate.max_nodes > 0 &&
+		       _gel_tree_num > calcstate.max_nodes) {
+		if (_gel_tree_limit_hook != NULL) {
+			(*_gel_tree_limit_hook) ();
+		}
+		_gel_max_nodes_check = FALSE;
+	}
 
 	p = g_malloc ((GEL_CHUNK_SIZE / ALIGNED_SIZE (GelETree)) *
 		      ALIGNED_SIZE (GelETree));
@@ -7957,6 +7979,7 @@ _gel_make_free_trees (void)
 		t->any.next = free_trees;
 		free_trees = t;
 		p += ALIGNED_SIZE (GelETree);
+		_gel_tree_num ++;
 	}
 }
 

@@ -73,7 +73,9 @@ calcstate_t curstate={
 	FALSE,
 	5,
 	TRUE,
-	10
+	10,
+	0, /* output_style */
+	0 /* max_nodes */ /* FIXME: implement here just like in gnome-genius */
 	};
 	
 extern int parenth_depth;
@@ -480,6 +482,7 @@ main(int argc, char *argv[])
 	if (exec != NULL) {
 		line_len_cache = -1;
 		gel_evalexp (exec, NULL, main_out, NULL, FALSE, NULL);
+		gel_test_max_nodes_again ();
 		line_len_cache = -1;
 		goto after_exec;
 	}
@@ -493,6 +496,7 @@ main(int argc, char *argv[])
 				e = get_p_expression();
 				line_len_cache = -1;
 				if(e) gel_evalexp_parsed(e,main_out,"= ",TRUE);
+				gel_test_max_nodes_again ();
 				line_len_cache = -1;
 			} else {
 				line_len_cache = -1;
@@ -535,6 +539,7 @@ main(int argc, char *argv[])
 	}
 
 after_exec:
+	gel_test_max_nodes_again ();
 
 	gel_printout_infos ();
 	

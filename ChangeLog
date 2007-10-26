@@ -1,3 +1,15 @@
+Fri Oct 26 02:16:23 2007  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/calc.[ch], src/eval.[ch], src/genius.c, src/gnome-genius.c:
+	  Implement maximum node checking.  If the limit is hit you are
+	  given a chance to interrupt the current program.  Only in the
+	  GNOME version.  Add this to the Properties dialog.
+
+	* src/dict.c: Fix large performance problem on returning from a deep
+	  recursion by not doing a stupid assert
+
+	* help/C/genius.xml: document max_nodes
+
 Thu Oct 25 15:22:16 2007  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/inter.c: fix command line editting.  readline docs are

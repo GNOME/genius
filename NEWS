@@ -2,9 +2,12 @@ Changes to 1.0.1
 
 * GNOME version can now show listing of all user defined global and local
   variables (can display this even while the engine is running)
+* GNOME version can now check if too much memory is being used and allows
+  the user to interrupt the program rather than eat all available memory
+  causing the computer to grind to a halt.
 * The .desktop file now has different Categories setup so will likely appear
-  in Education or Accessories Menu
-* NEW: IsMatrixPositive, IsMatrixNonnegative, version, IsZero, IsIdentity
+  in "Education" or "Accessories" menu rather than "Office"
+* Add IsMatrixPositive, IsMatrixNonnegative, version, IsZero, IsIdentity
 * CHANGE: Remove IsGaussianInteger, we already have IsGaussInteger alias IsComplexInteger
 * Add "Save all unsaved" menu item
 * Add Ctrl->R for "Run"
@@ -18,7 +21,7 @@ Changes to 1.0.1
 * Fix showing full answer in the gui.
 * Update the about box
 
-Changes to 1.0
+Changes to 1.0.0
 
 * Killed the internal MPFR.  This lib is quite ubiquitous nowdays
   and it's not worth it maintaining our own out of date copy

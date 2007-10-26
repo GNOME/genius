@@ -2457,6 +2457,40 @@ typsetting in LaTeX, MathML (XML), or in Troff.</para>
       </variablelist> 
     </sect1> 
 
+    <sect1 id="genius-prefs-memory"> 
+      <title>Memory</title> 
+      <variablelist> 
+	<varlistentry>
+	  <term> 
+	    <guilabel>Maximum number of nodes to allocate</guilabel>
+      </term> 
+	  <listitem>
+        <para>
+	   Internally all data is put onto small nodes in memory.  This gives
+	   a limit on the maximum number of nodes to allocate for
+	   computations.  This avoids the problem of running out of memory
+	   if you do something by mistake which uses too much memory, such
+	   as a recursion without end.  This could slow your computer and make
+	   it hard to even interrupt the program.
+	  </para>
+        <para>
+	   Once the limit is reached, &app; asks if you wish to interrupt
+	   the computation or if you wish to continue.  If you continue, no
+	   limit is applied and it will be possible to run your computer
+	   out of memory.  The limit will be applied again next time you
+	   execute a program or an expression on the Console regardless of how
+	   you answered the question.
+        </para>
+        <para>
+	   Setting the limit to zero means there is no limit to the amount of
+	   memory that genius uses.
+        </para>
+	  </listitem>
+	</varlistentry>
+
+      </variablelist> 
+    </sect1> 
+
   </chapter>
 
 <!-- ============= About ====================================== -->

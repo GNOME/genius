@@ -74,7 +74,9 @@ calcstate_t curstate={
 	FALSE,
 	5,
 	TRUE,
-	10
+	10,
+	0, /* output_style */
+	2000000 /* max_nodes */
 	};
 	
 extern int parenth_depth;
@@ -1086,6 +1088,8 @@ set_properties (void)
 	}
 	gnome_config_set_int("/genius/properties/max_errors",
 			     curstate.max_errors);
+	gnome_config_set_int("/genius/properties/max_nodes",
+			     curstate.max_nodes);
 	gnome_config_set_bool("/genius/properties/precision_remember",
 			      genius_setup.precision_remember);
 	if (genius_setup.precision_remember) {
@@ -1619,6 +1623,48 @@ setup_calc(GtkWidget *widget, gpointer data)
 			  (gpointer)&tmpsetup.blinking_cursor);
 
 
+	mainbox = gtk_vbox_new(FALSE, GNOME_PAD);
+	gtk_container_set_border_width(GTK_CONTAINER(mainbox),GNOME_PAD);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
+				  mainbox,
+				  gtk_label_new(_("Memory")));
+
+	
+	frame=gtk_frame_new(_("Limits"));
+	gtk_box_pack_start(GTK_BOX(mainbox),frame,FALSE,FALSE,0);
+	box=gtk_vbox_new(FALSE,GNOME_PAD);
+	gtk_container_set_border_width(GTK_CONTAINER(box),GNOME_PAD);
+	gtk_container_add(GTK_CONTAINER(frame),box);
+	
+	gtk_box_pack_start(GTK_BOX(box), gtk_label_new(
+		_("When the limit is reached you will be asked if\n"
+		  "you wish to interrupt the calculation or continue.\n"
+		  "Setting to 0 disables the limit.")),
+			   FALSE,FALSE,0);
+
+
+	b=gtk_hbox_new(FALSE,GNOME_PAD);
+	gtk_box_pack_start(GTK_BOX(box),b,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(b),
+		   gtk_label_new(_("Maximum number of nodes to allocate")),
+		   FALSE,FALSE,0);
+	adj = (GtkAdjustment *)gtk_adjustment_new(tmpstate.max_nodes,
+						  0,
+						  1000000000,
+						  1000,
+						  1000000,
+						  0);
+	w = gtk_spin_button_new(adj,1.0,0);
+	gtk_spin_button_set_numeric(GTK_SPIN_BUTTON(w),TRUE);
+	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON(w),
+					   GTK_UPDATE_ALWAYS);
+	gtk_spin_button_set_snap_to_ticks(GTK_SPIN_BUTTON(w),
+					  TRUE);
+	gtk_widget_set_size_request (w, 150, -1);
+	gtk_box_pack_start(GTK_BOX(b),w,FALSE,FALSE,0);
+	g_signal_connect (G_OBJECT (adj), "value_changed",
+			  G_CALLBACK (intspincb), &tmpstate.max_nodes);
+
 	g_signal_connect (G_OBJECT (setupdialog), "response",
 			  G_CALLBACK (setup_response), NULL);	
 	g_signal_connect (G_OBJECT (setupdialog), "destroy",
@@ -1713,6 +1759,7 @@ really_load_cb (GtkFileChooser *fs, int response, gpointer data)
 
 	calc_running ++;
 	gel_load_guess_file (NULL, s, TRUE);
+	gel_test_max_nodes_again ();
 	calc_running --;
 
 	gel_printout_infos ();
@@ -2815,6 +2862,7 @@ run_program (GtkWidget *menu_item, gpointer data)
 		gel_lexer_close (fp);
 		fclose (fp);
 
+		gel_test_max_nodes_again ();
 		calc_running --;
 
 		gel_printout_infos ();
@@ -2918,7 +2966,13 @@ get_properties (void)
 		   curstate.max_errors);
 	curstate.max_errors = gnome_config_get_int(buf);
 	if (curstate.max_errors < 0)
-		curstate.float_prec = 0;
+		curstate.max_errors = 0;
+
+	g_snprintf(buf,256,"/genius/properties/max_nodes=%d",
+		   curstate.max_nodes);
+	curstate.max_nodes = gnome_config_get_int(buf);
+	if (curstate.max_nodes < 0)
+		curstate.max_nodes = 0;
 
 	g_snprintf(buf,256,"/genius/properties/float_prec=%d",
 		   curstate.float_prec);
@@ -3035,6 +3089,16 @@ check_events (void)
 {
 	if (gtk_events_pending ())
 		gtk_main_iteration ();
+}
+
+static void
+tree_limit_hit (void)
+{
+	if (genius_ask_question (NULL,
+				 _("Memory (node number) limit has been reached, interrupt the computation?"))) {
+		interrupted = TRUE;
+		/*genius_interrupt_calc ();*/
+	}
 }
 
 static int
@@ -3173,6 +3237,7 @@ genius_got_etree (GelETree *e)
 	if (e != NULL) {
 		calc_running ++;
 		gel_evalexp_parsed (e, main_out, "= \e[1;36m", TRUE);
+		gel_test_max_nodes_again ();
 		calc_running --;
 		gel_output_full_string (main_out, "\e[0m");
 		gel_output_flush (main_out);
@@ -3483,6 +3548,7 @@ main (int argc, char *argv[])
 	
 	evalnode_hook = check_events;
 	statechange_hook = set_state;
+	_gel_tree_limit_hook = tree_limit_hit;
 
 	gel_read_plugin_list ();
 
