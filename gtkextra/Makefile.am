@@ -47,7 +47,6 @@ public_h_sources =	\
 	gtkplotcsurface.h	\
 	gtkplotdata.h		\
 	gtkplotdt.h		\
-	gtkplotdtriangle.h	\
 	gtkplotflux.h		\
 	gtkplotgdk.h		\
 	gtkplotpc.h		\
@@ -74,7 +73,6 @@ libgtkextra_genius_a_SOURCES =	\
 	gtkplotcsurface.c	\
 	gtkplotdata.c		\
 	gtkplotdt.c		\
-	gtkplotdtriangle.c	\
 	gtkplotflux.c		\
 	gtkplotgdk.c		\
 	gtkplotpc.c		\
