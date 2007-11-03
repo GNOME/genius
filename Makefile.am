@@ -10,7 +10,14 @@ packagesdir = $(datadir)/mime/packages
 packages_DATA = genius.xml
 
 install-data-hook: 
+if ENABLE_UPDATE_MIMEDB
 	-update-mime-database "$(DESTDIR)${datadir}/mime"
+endif
+
+uninstall-hook:
+if ENABLE_UPDATE_MIMEDB
+	-update-mime-database "$(DESTDIR)${datadir}/mime"
+endif
 
 EXTRA_DIST = \
 	genius.spec \

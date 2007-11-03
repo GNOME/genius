@@ -230,11 +230,23 @@ AC_CHECK_FUNC(wordexp,AC_DEFINE(HAVE_WORDEXP,[1],[Have the wordexp function]),
   	      [AC_MSG_WARN([*** You don't have wordexp, glob will be used instead ***])])
 
 dnl scrollkeeper checks 
+AC_ARG_ENABLE([scrollkeeper],
+	[AC_HELP_STRING([--disable-scrollkeeper],
+		[do not make updates to the scrollkeeper database])],,
+		enable_scrollkeeper=yes)
+AM_CONDITIONAL([ENABLE_SK],[test "$enable_scrollkeeper" = "yes"])
 
 AC_PATH_PROG(SCROLLKEEPER_CONFIG, scrollkeeper-config,no)
 if test x$SCROLLKEEPER_CONFIG = xno; then
   AC_MSG_ERROR(Couldn't find scrollkeeper-config. Please install the scrollkeeper package)
 fi
+
+dnl mime checks
+AC_ARG_ENABLE(update-mimedb,
+	AC_HELP_STRING([--disable-update-mimedb],
+		[do not update mime database after installation]),,
+		enable_update_mimedb=yes)
+AM_CONDITIONAL(ENABLE_UPDATE_MIMEDB, test x$enable_update_mimedb = xyes)
 
 AC_OUTPUT([
 genius.spec
