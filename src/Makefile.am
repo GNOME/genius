@@ -25,6 +25,7 @@ INCLUDES = \
 	-I$(includedir)						\
 	$(GMP_INCLUDEDIR)					\
 	$(GENIUS_CFLAGS)					\
+	$(GSV_CFLAGS)						\
 	$(EXTRA_WARNING_CFLAGS)
 
 bin_PROGRAMS = @GNOME_GENIUS@ genius
@@ -94,6 +95,7 @@ gnome_genius_LDADD = \
 	-lmpfr					\
 	@LEXLIB@				\
 	$(GENIUS_LIBS)				\
+	$(GSV_LIBS)				\
 	@READLINE_LIB@				\
 	@TERMCAP_LIB@
 

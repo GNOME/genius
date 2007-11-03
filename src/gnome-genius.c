@@ -53,8 +53,12 @@
 #ifdef HAVE_GTKSOURCEVIEW
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcelanguage.h>
+#ifdef HAVE_GTKSOURCEVIEW2
+#include <gtksourceview/gtksourcelanguagemanager.h>
+#else
 #include <gtksourceview/gtksourcelanguagesmanager.h>
 #include <gtksourceview/gtksourceprintjob.h>
+#endif
 #endif
 
 #include <libgnomevfs/gnome-vfs-uri.h>
@@ -2337,6 +2341,38 @@ move_cursor (GtkTextBuffer *buffer,
 	g_free (s);
 }
 
+#ifdef HAVE_GTKSOURCEVIEW
+#ifdef HAVE_GTKSOURCEVIEW2
+static GtkSourceLanguageManager*
+get_source_language_manager ()
+{
+	static GtkSourceLanguageManager *lm = NULL;
+	gchar **lang_dirs;
+	const gchar * const *default_lang_dirs;
+	gint nlang_dirs, i;
+	
+	if (lm == NULL) {
+		lm = gtk_source_language_manager_new ();
+
+		nlang_dirs = 0;
+		default_lang_dirs = gtk_source_language_manager_get_search_path (gtk_source_language_manager_get_default ());
+		for (nlang_dirs = 0; default_lang_dirs[nlang_dirs] != NULL; nlang_dirs++);
+
+		lang_dirs = g_new0 (gchar *, nlang_dirs + 2);
+		for (i = 0; i < nlang_dirs; i++) {
+		  lang_dirs[i] = (gchar *) default_lang_dirs[i];
+		}
+		lang_dirs[nlang_dirs] = DATADIR "/genius/gtksourceview/";
+
+		gtk_source_language_manager_set_search_path (lm, lang_dirs);
+	}
+
+	return lm;
+}
+#endif
+#endif
+
+
 static void
 new_program (const char *filename)
 {
@@ -2346,9 +2382,14 @@ new_program (const char *filename)
 	GtkTextBuffer *buffer;
 	Program *p;
 #ifdef HAVE_GTKSOURCEVIEW
+#ifdef HAVE_GTKSOURCEVIEW2
+	GtkSourceLanguage *lang;
+	GtkSourceLanguageManager *lm;
+#else
 	GtkSourceLanguage *lang;
 	GtkSourceLanguagesManager *lm;
 	GList lang_dirs;
+#endif
 #endif
 
 	sw = gtk_scrolled_window_new (NULL, NULL);
@@ -2356,6 +2397,26 @@ new_program (const char *filename)
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 #ifdef HAVE_GTKSOURCEVIEW
+#ifdef HAVE_GTKSOURCEVIEW2
+	tv = gtk_source_view_new ();
+	gtk_source_view_set_show_line_numbers (GTK_SOURCE_VIEW (tv), TRUE);
+	gtk_source_view_set_auto_indent (GTK_SOURCE_VIEW (tv), TRUE);
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
+	lm = get_source_language_manager ();
+
+	lang = gtk_source_language_manager_get_language (lm, "genius");
+	g_assert (lang != NULL);
+	if (lang != NULL) {
+		gtk_source_buffer_set_highlight_syntax (GTK_SOURCE_BUFFER (buffer), TRUE);
+		gtk_source_buffer_set_language
+			(GTK_SOURCE_BUFFER (buffer), lang);
+	}
+
+	g_signal_connect (G_OBJECT (buffer), "notify::can-undo",
+			  G_CALLBACK (setup_undo_redo), NULL);
+	g_signal_connect (G_OBJECT (buffer), "notify::can-redo",
+			  G_CALLBACK (setup_undo_redo), NULL);
+#else
 	tv = gtk_source_view_new ();
 	gtk_source_view_set_show_line_numbers (GTK_SOURCE_VIEW (tv), TRUE);
 	gtk_source_view_set_auto_indent (GTK_SOURCE_VIEW (tv), TRUE);
@@ -2375,10 +2436,12 @@ new_program (const char *filename)
 		gtk_source_buffer_set_language
 			(GTK_SOURCE_BUFFER (buffer), lang);
 	}
+
 	g_signal_connect (G_OBJECT (buffer), "can-undo",
 			  G_CALLBACK (setup_undo_redo), NULL);
 	g_signal_connect (G_OBJECT (buffer), "can-redo",
 			  G_CALLBACK (setup_undo_redo), NULL);
+#endif
 #else
 	tv = gtk_text_view_new ();
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
@@ -2401,13 +2464,6 @@ new_program (const char *filename)
 	p->curline = 0;
 	p->ignore_changes = 0;
 	g_object_set_data (G_OBJECT (sw), "program", p);
-
-#ifdef HAVE_GTKSOURCEVIEW
-	g_signal_connect (G_OBJECT (buffer), "can-undo",
-			  G_CALLBACK (setup_undo_redo), NULL);
-	g_signal_connect (G_OBJECT (buffer), "can-redo",
-			  G_CALLBACK (setup_undo_redo), NULL);
-#endif
 
 	g_signal_connect_after (G_OBJECT (p->buffer), "mark_set",
 				G_CALLBACK (move_cursor),

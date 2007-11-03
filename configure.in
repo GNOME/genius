@@ -19,6 +19,7 @@ LIBGNOME_REQUIRED=2.0.0
 GTK_REQUIRED=2.3.5
 GLIB_REQUIRED=2.0.0
 GTKSOURCEVIEW_REQUIRED=0.3.0
+GTKSOURCEVIEW2_REQUIRED=2.0.2
 
 dnl ===============================================================================
 
@@ -116,8 +117,7 @@ PKG_CHECK_MODULES(GLIB, glib-2.0 >= $GLIB_REQUIRED)
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
-GENIUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED libgnome-2.0 >= $LIBGNOME_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED vte >= $VTE_REQUIRED gtksourceview-1.0 >= $GTKSOURCEVIEW_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED"
-GENIUS_MODULES_NOSRCVIEW="gtk+-2.0 >= $GTK_REQUIRED libgnome-2.0 >= $LIBGNOME_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED vte >= $VTE_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED"
+GENIUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED libgnome-2.0 >= $LIBGNOME_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED vte >= $VTE_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED"
 
 if test "x$use_gnome" = "xyes" ; then
   echo " 
@@ -125,14 +125,25 @@ Testing for presence of GNOME and GtkSourceView:
 Note:
       You can compile without GNOME by using the --disable-gnome option
 "
+  PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES)
+
   if test "x$use_gtksourceview" = "xyes" ; then
-    PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES,
-		      AC_DEFINE(HAVE_GTKSOURCEVIEW,[1],[have gtksourceview]),
-		      [use_gtksourceview=no
-		       PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES_NOSRCVIEW)])
-   # FIXME: warn if not compiled
+    PKG_CHECK_MODULES(GSV, gtksourceview-2.0 >= $GTKSOURCEVIEW2_REQUIRED, have_gtksourceview2=yes, have_gtksourceview2=no)
+
+    if test "x$have_gtksourceview2" != "xyes"; then
+      PKG_CHECK_MODULES(GSV, gtksourceview-1.0 >= $GTKSOURCEVIEW_REQUIRED, have_gtksourceview=yes, have_gtksourceview=no)
+    fi
+
+    if test "x$have_gtksourceview2" = "xyes"; then
+      AC_DEFINE(HAVE_GTKSOURCEVIEW,[1],[have gtksourceview])
+      AC_DEFINE(HAVE_GTKSOURCEVIEW2,[1],[have gtksourceview2])
+    elif test "x$have_gtksourceview" = "xyes"; then
+      AC_DEFINE(HAVE_GTKSOURCEVIEW,[1],[have gtksourceview])
+    else
+      use_gtksourceview=no
+    fi
   else
-    PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES_NOSRCVIEW)
+    PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES)
   fi
 
   VICIOUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED"
@@ -159,6 +170,8 @@ AC_SUBST(VICIOUS_UI_LIBS)
 AC_SUBST(GTKEXTRA_LIBS)
 AC_SUBST(GENIUS_CFLAGS)
 AC_SUBST(GENIUS_LIBS)
+AC_SUBST(GSV_CFLAGS)
+AC_SUBST(GSV_LIBS)
 AC_SUBST(GNOME_GENIUS)
 AC_SUBST(GENIUS_READLINE_HELPER_FIFO)
 AC_SUBST(GNOME_GENIUS_DESKTOP_IN)
