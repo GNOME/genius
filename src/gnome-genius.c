@@ -1020,6 +1020,8 @@ aboutcb(GtkWidget * widget, gpointer data)
 		 * E.g. "Fulano de Tal <fulano@detal.com>"
 		 */
 		char *new_credits = N_("translator-credits");
+		GdkPixbuf *logo;
+
 
 		/* hack for old translations */
 		char *old_hack = "translator_credits-PLEASE_ADD_YOURSELF_HERE";
@@ -1037,6 +1039,9 @@ aboutcb(GtkWidget * widget, gpointer data)
 			}
 		}
 
+		logo = gdk_pixbuf_new_from_file
+			(DATADIR "/genius/genius-graph.png", NULL);
+
 		about = gnome_about_new
 			(_("About Genius"),
 			 VERSION,
@@ -1047,7 +1052,10 @@ aboutcb(GtkWidget * widget, gpointer data)
 			 authors,
 			 documenters,
 			 translators,
-			 NULL);
+			 logo);
+
+		if (logo != NULL)
+			g_object_unref (logo);
 
 		gtk_window_set_transient_for (GTK_WINDOW (about),
 					      GTK_WINDOW (genius_window));

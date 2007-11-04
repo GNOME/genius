@@ -18,9 +18,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
- * WARNING: X and Y are flipped on the surface plotting !!!!
- */
 #include "config.h"
 
 #include <gnome.h>
@@ -269,8 +266,7 @@ rotate_x_cb (GtkWidget *button, gpointer data)
 {
 	int rot = GPOINTER_TO_INT (data);
 
-	/* x/y are flipped */
-	gtk_plot3d_rotate_y (GTK_PLOT3D (surface_plot), rot);
+	gtk_plot3d_rotate_x (GTK_PLOT3D (surface_plot), rot);
 
 	show_z_axis (TRUE);
 
@@ -283,8 +279,7 @@ rotate_y_cb (GtkWidget *button, gpointer data)
 {
 	int rot = GPOINTER_TO_INT (data);
 
-	/* x/y are flipped */
-	gtk_plot3d_rotate_x (GTK_PLOT3D (surface_plot), rot);
+	gtk_plot3d_rotate_y (GTK_PLOT3D (surface_plot), rot);
 
 	show_z_axis (TRUE);
 
@@ -1153,9 +1148,8 @@ add_surface_plot (void)
 	bottom = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_BOTTOM);
 	left = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_LEFT);
 
-	/* X/Y are flipped! */
-	gtk_plot_axis_set_title (bottom, "Y");
-	gtk_plot_axis_set_title (left, "X");
+	gtk_plot_axis_set_title (bottom, "X");
+	gtk_plot_axis_set_title (left, "Y");
 	gtk_plot_axis_set_title (top, "Z");
 
 	gtk_plot_set_legends_border (GTK_PLOT (surface_plot),
@@ -1403,11 +1397,10 @@ surface_setup_axis (void)
 	y = gtk_plot3d_get_axis (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_Y);
 	z = gtk_plot3d_get_axis (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_Z);
 
-	/* X/Y are flipped! */
-	gtk_plot3d_set_yrange (GTK_PLOT3D (surface_plot), surfacex1, surfacex2);
-	gtk_plot_axis_set_ticks (y, xtick, 1);
-	gtk_plot3d_set_xrange (GTK_PLOT3D (surface_plot), surfacey1, surfacey2);
-	gtk_plot_axis_set_ticks (x, ytick, 1);
+	gtk_plot3d_set_xrange (GTK_PLOT3D (surface_plot), surfacex1, surfacex2);
+	gtk_plot_axis_set_ticks (x, xtick, 1);
+	gtk_plot3d_set_yrange (GTK_PLOT3D (surface_plot), surfacey1, surfacey2);
+	gtk_plot_axis_set_ticks (y, ytick, 1);
 	gtk_plot3d_set_zrange (GTK_PLOT3D (surface_plot), surfacez1, surfacez2);
 	gtk_plot_axis_set_ticks (z, ztick, 1);
 
@@ -1426,9 +1419,8 @@ surface_setup_axis (void)
 static void
 surface_setup_steps (void)
 {
-	/* X/Y are flipped! */
-	gtk_plot_surface_set_ystep (GTK_PLOT_SURFACE (surface_data), (surfacex2-surfacex1)/30);
-	gtk_plot_surface_set_xstep (GTK_PLOT_SURFACE (surface_data), (surfacey2-surfacey1)/30);
+	gtk_plot_surface_set_xstep (GTK_PLOT_SURFACE (surface_data), (surfacex2-surfacex1)/30);
+	gtk_plot_surface_set_ystep (GTK_PLOT_SURFACE (surface_data), (surfacey2-surfacey1)/30);
 
 	gtk_plot_data_set_gradient (surface_data,
 				    surfacez1,
@@ -1798,9 +1790,8 @@ plot_func_data (GtkPlot *plot, GtkPlotData *data, double x, gboolean *error)
 	return y;
 }
 
-/* NOTE: X and Y are flipped! */
 static double
-surface_func_data (GtkPlot *plot, GtkPlotData *data, double y, double x, gboolean *error)
+surface_func_data (GtkPlot *plot, GtkPlotData *data, double x, double y, gboolean *error)
 {
 	static int hookrun = 0;
 	gboolean ex = FALSE;

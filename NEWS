@@ -7,10 +7,12 @@ Changes to 1.0.1
   causing the computer to grind to a halt.
 * The .desktop file now has different Categories setup so will likely appear
   in "Education" or "Accessories" menu rather than "Office"
+* Update the plotting widgetry from GtkExtra for prettier graphs
 * Add IsMatrixPositive, IsMatrixNonnegative, version, IsZero, IsIdentity
 * CHANGE: Remove IsGaussianInteger, we already have IsGaussInteger alias IsComplexInteger
 * Add "Save all unsaved" menu item
 * Add Ctrl->R for "Run"
+* Default graphing limits are -10 to 10 for all axis (no more pi as default)
 * Require at least GKT+ 2.3.5 for the GUI.
 * Fix loading of files and URIs from the command line
 * Errors don't print the full file URI for opened program names
@@ -19,6 +21,8 @@ Changes to 1.0.1
 * Slight optimizations
 * Fix command line editting
 * Fix showing full answer in the gui.
+* Fix hangs in the graphing code by enforcing a minimum plot window size
+* Remove unused file with nonfree license
 * Update the about box
 
 Changes to 1.0.0
