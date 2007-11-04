@@ -735,14 +735,14 @@ gtk_plot_dt_triangulate_insert_node(GtkPlotDT *data, GtkPlotDTnode *node)
           if(t->nn[0]->nn[i] == t) t->nn[0]->nn[i] = NULL;
       }
       if(t->nn[1]){
-        for(i = 1; i < 3; i++)
+        for(i = 0; i < 3; i++)
           if(t->nn[1]->nn[i] == t) t->nn[1]->nn[i] = NULL;
       }
       if(t->nn[2]){
-        for(i = 2; i < 3; i++)
+        for(i = 0; i < 3; i++)
           if(t->nn[2]->nn[i] == t) t->nn[2]->nn[i] = NULL;
       }
-      if (list->data) g_free(list->data);    
+      g_free(list->data);    
     }
     g_list_free(doomed);
   } 

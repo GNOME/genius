@@ -3,9 +3,11 @@
  *
  * Author: Jiri (George) Lebl
  *
- * This program is free software; you can redistribute it and/or modify
+ * This file is part of Genius.
+ *
+ * Genius is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -14,9 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the  Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
- * USA.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
  * WARNING: X and Y are flipped on the surface plotting !!!!
@@ -70,6 +70,11 @@ enum {
 	MODE_SURFACE
 } plot_mode = MODE_LINEPLOT;
 
+static GtkPlotCanvasChild *plot_child = NULL;
+
+/* Smallest plot window */
+#define MINPLOT (1e-10)
+
 /*
    plot (lineplot)
  */
@@ -88,18 +93,18 @@ static GtkWidget *parametric_status_x = NULL;
 static GtkWidget *parametric_status_y = NULL;
 static GtkWidget *parametric_status_z = NULL;
 
-static double spinx1 = -M_PI;
-static double spinx2 = M_PI;
-static double spiny1 = -1.1;
-static double spiny2 = 1.1;
+static double spinx1 = -10;
+static double spinx2 = 10;
+static double spiny1 = -10;
+static double spiny2 = 10;
 static double spint1 = 0.0;
 static double spint2 = 1.0;
 static double spintinc = 0.01;
 
-static double defx1 = -M_PI;
-static double defx2 = M_PI;
-static double defy1 = -1.1;
-static double defy2 = 1.1;
+static double defx1 = -10;
+static double defx2 = 10;
+static double defy1 = -10;
+static double defy2 = 10;
 static double deft1 = 0.0;
 static double deft2 = 1.0;
 static double deftinc = 0.01;
@@ -111,10 +116,10 @@ static GelEFunc *parametric_func_x = NULL;
 static GelEFunc *parametric_func_y = NULL;
 static GelEFunc *parametric_func_z = NULL;
 static char *parametric_name = NULL;
-static double plotx1 = -M_PI;
-static double plotx2 = M_PI;
-static double ploty1 = -1.1;
-static double ploty2 = 1.1;
+static double plotx1 = -10;
+static double plotx2 = 10;
+static double ploty1 = -10;
+static double ploty2 = 10;
 static double plott1 = 0.0;
 static double plott2 = 1.0;
 static double plottinc = 0.01;
@@ -129,29 +134,29 @@ static GtkPlotData *surface_data = NULL;
 
 static GtkWidget *surface_entry = NULL;
 static GtkWidget *surface_entry_status = NULL;
-static double surf_spinx1 = -M_PI;
-static double surf_spinx2 = M_PI;
-static double surf_spiny1 = -M_PI;
-static double surf_spiny2 = M_PI;
-static double surf_spinz1 = -1.1;
-static double surf_spinz2 = 1.1;
+static double surf_spinx1 = -10;
+static double surf_spinx2 = 10;
+static double surf_spiny1 = -10;
+static double surf_spiny2 = 10;
+static double surf_spinz1 = -10;
+static double surf_spinz2 = 10;
 
-static double surf_defx1 = -M_PI;
-static double surf_defx2 = M_PI;
-static double surf_defy1 = -M_PI;
-static double surf_defy2 = M_PI;
-static double surf_defz1 = -1.1;
-static double surf_defz2 = 1.1;
+static double surf_defx1 = -10;
+static double surf_defx2 = 10;
+static double surf_defy1 = -10;
+static double surf_defy2 = 10;
+static double surf_defz1 = -10;
+static double surf_defz2 = 10;
 
 /* Replotting info */
 static GelEFunc *surface_func = NULL;
 static char *surface_func_name = NULL;
-static double surfacex1 = -M_PI;
-static double surfacex2 = M_PI;
-static double surfacey1 = -M_PI;
-static double surfacey2 = M_PI;
-static double surfacez1 = -1.1;
-static double surfacez2 = 1.1;
+static double surfacex1 = -10;
+static double surfacex2 = 10;
+static double surfacey1 = -10;
+static double surfacey2 = 10;
+static double surfacez1 = -10;
+static double surfacez2 = 10;
 
 
 /* used for both */
@@ -222,44 +227,40 @@ plot_window_setup (void)
 static void
 show_z_axis (gboolean do_show)
 {
+	GtkPlotAxis *zx, *zy;
+
+	zx = gtk_plot3d_get_side (GTK_PLOT3D (surface_plot),
+				  GTK_PLOT_SIDE_ZX);
+
+	zy = gtk_plot3d_get_side (GTK_PLOT3D (surface_plot),
+				  GTK_PLOT_SIDE_ZY);
+
 	if (do_show) {
-		gtk_plot3d_axis_show_labels (GTK_PLOT3D (surface_plot),
-					     GTK_PLOT_SIDE_ZY,
-					     GTK_PLOT_LABEL_OUT);
-		gtk_plot3d_axis_show_labels (GTK_PLOT3D (surface_plot),
-					     GTK_PLOT_SIDE_ZX,
-					     GTK_PLOT_LABEL_OUT);
-		gtk_plot3d_axis_show_ticks (GTK_PLOT3D (surface_plot),
-					    GTK_PLOT_SIDE_ZY,
-					    GTK_PLOT_TICKS_OUT,
-					    GTK_PLOT_TICKS_OUT);
-		gtk_plot3d_axis_show_ticks (GTK_PLOT3D (surface_plot),
-					    GTK_PLOT_SIDE_ZX,
-					    GTK_PLOT_TICKS_OUT,
-					    GTK_PLOT_TICKS_OUT);
-		gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
-					    GTK_PLOT_SIDE_ZX);
-		gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
-					    GTK_PLOT_SIDE_ZY);
+		gtk_plot_axis_show_labels (zy,
+					   GTK_PLOT_LABEL_OUT);
+		gtk_plot_axis_show_labels (zx,
+					   GTK_PLOT_LABEL_OUT);
+		gtk_plot_axis_show_ticks (zy,
+					  GTK_PLOT_TICKS_OUT,
+					  GTK_PLOT_TICKS_OUT);
+		gtk_plot_axis_show_ticks (zx,
+					  GTK_PLOT_TICKS_OUT,
+					  GTK_PLOT_TICKS_OUT);
+		gtk_plot_axis_show_title (zy);
+		gtk_plot_axis_show_title (zx);
 	} else {
-		gtk_plot3d_axis_show_labels (GTK_PLOT3D (surface_plot),
-					     GTK_PLOT_SIDE_ZY,
-					     GTK_PLOT_LABEL_NONE);
-		gtk_plot3d_axis_show_labels (GTK_PLOT3D (surface_plot),
-					     GTK_PLOT_SIDE_ZX,
-					     GTK_PLOT_LABEL_NONE);
-		gtk_plot3d_axis_show_ticks (GTK_PLOT3D (surface_plot),
-					    GTK_PLOT_SIDE_ZY,
-					    GTK_PLOT_TICKS_NONE,
-					    GTK_PLOT_TICKS_NONE);
-		gtk_plot3d_axis_show_ticks (GTK_PLOT3D (surface_plot),
-					    GTK_PLOT_SIDE_ZX,
-					    GTK_PLOT_TICKS_NONE,
-					    GTK_PLOT_TICKS_NONE);
-		gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
-					    GTK_PLOT_SIDE_ZX);
-		gtk_plot3d_axis_hide_title (GTK_PLOT3D (surface_plot),
-					    GTK_PLOT_SIDE_ZY);
+		gtk_plot_axis_show_labels (zy,
+					   GTK_PLOT_LABEL_NONE);
+		gtk_plot_axis_show_labels (zx,
+					   GTK_PLOT_LABEL_NONE);
+		gtk_plot_axis_show_ticks (zy,
+					  GTK_PLOT_TICKS_NONE,
+					  GTK_PLOT_TICKS_NONE);
+		gtk_plot_axis_show_ticks (zx,
+					  GTK_PLOT_TICKS_NONE,
+					  GTK_PLOT_TICKS_NONE);
+		gtk_plot_axis_hide_title (zx);
+		gtk_plot_axis_hide_title (zy);
 	}
 }
 
@@ -419,8 +420,8 @@ reset_angles_cb (GtkWidget *button, gpointer data)
 {
 	if (surface_plot != NULL) {
 		gtk_plot3d_reset_angles (GTK_PLOT3D (surface_plot));
-		gtk_plot3d_rotate_y (GTK_PLOT3D (surface_plot), 30.0);
-		gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 330.0);
+		gtk_plot3d_rotate_x (GTK_PLOT3D (surface_plot), 60.0);
+		gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 30.0);
 
 		show_z_axis (TRUE);
 
@@ -434,7 +435,7 @@ top_view_cb (GtkWidget *button, gpointer data)
 {
 	if (surface_plot != NULL) {
 		gtk_plot3d_reset_angles (GTK_PLOT3D (surface_plot));
-		gtk_plot3d_rotate_y (GTK_PLOT3D (surface_plot), 90.0);
+		/*gtk_plot3d_rotate_y (GTK_PLOT3D (surface_plot), 90.0);*/
 
 		show_z_axis (FALSE);
 
@@ -488,7 +489,6 @@ plot_print_cb (void)
 	int fd;
 	char tmpfile[] = "/tmp/genius-ps-XXXXXX";
 	static char *last_cmd = NULL;
-	GtkWidget *the_plot;
 
 	if (last_cmd == NULL)
 		last_cmd = g_strdup ("lpr");
@@ -545,20 +545,13 @@ plot_print_cb (void)
 	plot_in_progress ++;
 	plot_window_setup ();
 
-	if (plot_mode == MODE_LINEPLOT)
-		the_plot = line_plot;
-	else if (plot_mode == MODE_SURFACE)
-		the_plot = surface_plot;
-	else
-		the_plot = NULL;
-
 	/* Letter will fit on A4, so just currently do that */
-	if (the_plot != NULL)
-		ret = gtk_plot_export_ps (GTK_PLOT (the_plot),
-					  tmpfile,
-					  GTK_PLOT_LANDSCAPE,
-					  FALSE /* epsflag */,
-					  GTK_PLOT_LETTER);
+	if (plot_canvas != NULL)
+		ret = gtk_plot_canvas_export_ps (GTK_PLOT_CANVAS (plot_canvas),
+						 tmpfile,
+						 GTK_PLOT_LANDSCAPE,
+						 FALSE /* epsflag */,
+						 GTK_PLOT_LETTER);
 	else
 		ret = FALSE;
 
@@ -589,44 +582,17 @@ plot_print_cb (void)
 
 static char *last_export_dir = NULL;
 
-#if ! GTK_CHECK_VERSION(2,3,5)
-static void
-setup_last_dir (const char *filename)
-{
-	char *s = g_path_get_dirname (filename);
-
-	g_free (last_export_dir);
-	if (s == NULL) {
-		last_export_dir = NULL;
-		return;
-	}
-	if (strcmp(s, "/") == 0) {
-		last_export_dir = s;
-		return;
-	}
-	last_export_dir = g_strconcat (s, G_DIR_SEPARATOR_S, NULL);
-	g_free (s);
-}
-#endif
-
-#if GTK_CHECK_VERSION(2,3,5)
 static void
 really_export_cb (GtkFileChooser *fs, int response, gpointer data)
-#else
-static void
-really_export_cb (GtkWidget *w, GtkFileSelection *fs)
-#endif
 {
 	char *s;
 	char *base;
 	gboolean ret;
 	gboolean eps;
-	GtkWidget *the_plot;
 	char tmpfile[] = "/tmp/genius-ps-XXXXXX";
 	char *file_to_write = NULL;
 	int fd = -1;
 
-#if GTK_CHECK_VERSION(2,3,5)
 	eps = GPOINTER_TO_INT (data);
 
 	if (response != GTK_RESPONSE_OK) {
@@ -637,11 +603,6 @@ really_export_cb (GtkWidget *w, GtkFileSelection *fs)
 	}
 
 	s = g_strdup (gtk_file_chooser_get_filename (fs));
-#else
-	eps = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (fs), "eps"));
-
-	s = g_strdup (gtk_file_selection_get_filename (fs));
-#endif
 
 	if (s == NULL)
 		return;
@@ -665,12 +626,8 @@ really_export_cb (GtkWidget *w, GtkFileSelection *fs)
 		return;
 	}
 
-#if GTK_CHECK_VERSION(2,3,5)
 	g_free (last_export_dir);
 	last_export_dir = gtk_file_chooser_get_current_folder (fs);
-#else
-	setup_last_dir (s);
-#endif
 
 	gtk_widget_destroy (GTK_WIDGET (fs));
 	/* FIXME: don't want to deal with modality issues right now */
@@ -689,21 +646,15 @@ really_export_cb (GtkWidget *w, GtkFileSelection *fs)
 	plot_in_progress ++;
 	plot_window_setup ();
 
-	if (plot_mode == MODE_LINEPLOT)
-		the_plot = line_plot;
-	else if (plot_mode == MODE_SURFACE)
-		the_plot = surface_plot;
-	else
-		the_plot = NULL;
-
 	/* FIXME: There should be some options about size and stuff */
-	if (the_plot != NULL)
-		ret = gtk_plot_export_ps_with_size (GTK_PLOT (the_plot),
-						    file_to_write,
-						    GTK_PLOT_PORTRAIT,
-						    eps /* epsflag */,
-						    GTK_PLOT_PSPOINTS,
-						    400, ASPECT * 400);
+	if (plot_canvas != NULL)
+		ret = gtk_plot_canvas_export_ps_with_size
+			(GTK_PLOT_CANVAS (plot_canvas),
+			 file_to_write,
+			 GTK_PLOT_PORTRAIT,
+			 eps /* epsflag */,
+			 GTK_PLOT_PSPOINTS,
+			 400, ASPECT * 400);
 	else
 		ret = FALSE;
 
@@ -719,16 +670,12 @@ really_export_cb (GtkWidget *w, GtkFileSelection *fs)
 						   NULL /* error */)) {
 			status = -1;
 		}
+		close (fd);
 		if (status == 0) {
-			close (fd);
 			unlink (tmpfile);
 		} else {
 			/* EEK, couldn't run ps2epsi for some reason */
-			close (fd);
-			g_free (cmd);
-			/* evil hack */
-			cmd = g_strdup_printf ("mv -f %s %s", tmpfile, qs);
-			system (cmd);
+			rename (tmpfile, s);
 		}
 		g_free (cmd);
 		g_free (qs);
@@ -748,32 +695,21 @@ really_export_cb (GtkWidget *w, GtkFileSelection *fs)
 	g_free (s);
 }
 
-#if GTK_CHECK_VERSION(2,3,5)
 static void
 really_export_png_cb (GtkFileChooser *fs, int response, gpointer data)
-#else
-static void
-really_export_png_cb (GtkWidget *w, GtkFileSelection *fs)
-#endif
 {
 	char *s;
 	char *base;
 	GdkPixbuf *pix;
 
-#if GTK_CHECK_VERSION(2,3,5)
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (GTK_WIDGET (fs));
 		/* FIXME: don't want to deal with modality issues right now */
 		gtk_widget_set_sensitive (graph_window, TRUE);
 		return;
 	}
-#endif
 
-#if GTK_CHECK_VERSION(2,3,5)
 	s = g_strdup (gtk_file_chooser_get_filename (fs));
-#else
-	s = g_strdup (gtk_file_selection_get_filename (fs));
-#endif
 	if (s == NULL)
 		return;
 	base = g_path_get_basename (s);
@@ -792,12 +728,8 @@ really_export_png_cb (GtkWidget *w, GtkFileSelection *fs)
 		return;
 	}
 
-#if GTK_CHECK_VERSION(2,3,5)
 	g_free (last_export_dir);
 	last_export_dir = gtk_file_chooser_get_current_folder (fs);
-#else
-	setup_last_dir (s);
-#endif
 
 	gtk_widget_destroy (GTK_WIDGET (fs));
 	/* FIXME: don't want to deal with modality issues right now */
@@ -831,16 +763,6 @@ really_export_png_cb (GtkWidget *w, GtkFileSelection *fs)
 	g_free (s);
 }
 
-#if ! GTK_CHECK_VERSION(2,3,5)
-static void
-really_cancel_export_cb (GtkWidget *w, GtkFileSelection *fs)
-{
-	gtk_widget_destroy (GTK_WIDGET (fs));
-	/* FIXME: don't want to deal with modality issues right now */
-	gtk_widget_set_sensitive (graph_window, TRUE);
-}
-#endif
-
 enum {
 	EXPORT_PS,
 	EXPORT_EPS,
@@ -851,10 +773,8 @@ static void
 do_export_cb (int export_type)
 {
 	static GtkWidget *fs = NULL;
-#if GTK_CHECK_VERSION(2,3,5)
 	GtkFileFilter *filter_ps;
 	GtkFileFilter *filter_all;
-#endif
 	const char *title;
 
 	if (fs != NULL) {
@@ -875,7 +795,6 @@ do_export_cb (int export_type)
 		/* should never happen */
 		title = "Export ???";
 
-#if GTK_CHECK_VERSION(2,3,5)
 	fs = gtk_file_chooser_dialog_new (title,
 					  GTK_WINDOW (graph_window),
 					  GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -928,39 +847,6 @@ do_export_cb (int export_type)
 		gtk_file_chooser_set_current_folder
 			(GTK_FILE_CHOOSER (fs), last_export_dir);
 	}
-#else
-	fs = gtk_file_selection_new (title);
-	
-	gtk_window_set_position (GTK_WINDOW (fs), GTK_WIN_POS_MOUSE);
-
-	g_signal_connect (G_OBJECT (fs), "destroy",
-			  G_CALLBACK (gtk_widget_destroyed), &fs);
-	
-	if (export_type == EXPORT_EPS) {
-		g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
-				  "clicked", G_CALLBACK (really_export_cb),
-				  fs);
-		g_object_set_data (G_OBJECT (fs), "eps",
-				   GINT_TO_POINTER (TRUE /* eps */));
-	} else if (export_type == EXPORT_PS) {
-		g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
-				  "clicked", G_CALLBACK (really_export_cb),
-				  fs);
-		g_object_set_data (G_OBJECT (fs), "eps",
-				   GINT_TO_POINTER (FALSE /* eps */));
-	} else if (export_type == EXPORT_PNG) {
-		g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->ok_button),
-				  "clicked", G_CALLBACK (really_export_png_cb),
-				  fs);
-	}
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (fs)->cancel_button),
-			  "clicked", G_CALLBACK (really_cancel_export_cb),
-			  fs);
-
-	if (last_export_dir != NULL)
-		gtk_file_selection_set_filename
-			(GTK_FILE_SELECTION (fs), last_export_dir);
-#endif
 
 	gtk_widget_show (fs);
 }
@@ -1169,11 +1055,11 @@ plot_select_region (GtkPlotCanvas *canvas,
 		ploty2 = ploty1 + (len * (ymax-ymin));
 
 		/* sanity */
-		if (plotx2 <= plotx1)
-			plotx2 = plotx1 + 0.00000001;
+		if (plotx2 - plotx1 < MINPLOT)
+			plotx2 = plotx1 + MINPLOT;
 		/* sanity */
-		if (ploty2 <= ploty1)
-			ploty2 = ploty1 + 0.00000001;
+		if (ploty2 - ploty1 < MINPLOT)
+			ploty2 = ploty1 + MINPLOT;
 
 		plot_axis ();
 
@@ -1189,33 +1075,40 @@ plot_select_region (GtkPlotCanvas *canvas,
 static void
 add_line_plot (void)
 {
+	GtkPlotAxis *top, *right, *bottom, *left;
+
 	line_plot = gtk_plot_new_with_size (NULL, PROPORTION, PROPORTION);
 	gtk_widget_show (line_plot);
 	g_signal_connect (G_OBJECT (line_plot),
 			  "destroy",
 			  G_CALLBACK (gtk_widget_destroyed),
 			  &line_plot);
-	gtk_plot_canvas_add_plot (GTK_PLOT_CANVAS (plot_canvas),
-				  GTK_PLOT (line_plot), PROPORTION_OFFSET, PROPORTION_OFFSET);
 
-	gtk_plot_axis_set_visible (GTK_PLOT (line_plot),
-				   GTK_PLOT_AXIS_TOP, TRUE);
-	gtk_plot_axis_set_visible (GTK_PLOT (line_plot),
-				   GTK_PLOT_AXIS_RIGHT, TRUE);
+	plot_child = gtk_plot_canvas_plot_new (GTK_PLOT (line_plot));
+	gtk_plot_canvas_put_child (GTK_PLOT_CANVAS (plot_canvas),
+				   plot_child,
+				   PROPORTION_OFFSET,
+				   PROPORTION_OFFSET,
+				   1.0-PROPORTION_OFFSET,
+				   1.0-PROPORTION_OFFSET);
+
+	gtk_plot_move (GTK_PLOT (line_plot), PROPORTION_OFFSET, PROPORTION_OFFSET);
+
+	top = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_TOP);
+	right = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_RIGHT);
+	bottom = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_BOTTOM);
+	left = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_LEFT);
+
+	gtk_plot_axis_set_visible (top, TRUE);
+	gtk_plot_axis_set_visible (right, TRUE);
 	gtk_plot_grids_set_visible (GTK_PLOT (line_plot),
 				    FALSE, FALSE, FALSE, FALSE);
-	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
-				  GTK_PLOT_AXIS_TOP);
-	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
-				  GTK_PLOT_AXIS_RIGHT);
-	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
-				  GTK_PLOT_AXIS_LEFT);
-	gtk_plot_axis_hide_title (GTK_PLOT (line_plot),
-				  GTK_PLOT_AXIS_BOTTOM);
-	/*gtk_plot_axis_set_title (GTK_PLOT (line_plot),
-				 GTK_PLOT_AXIS_LEFT, "Y");
-	gtk_plot_axis_set_title (GTK_PLOT (line_plot),
-				 GTK_PLOT_AXIS_BOTTOM, "X");*/
+	gtk_plot_axis_hide_title (top);
+	gtk_plot_axis_hide_title (right);
+	gtk_plot_axis_hide_title (left);
+	gtk_plot_axis_hide_title (bottom);
+	/*gtk_plot_axis_set_title (left, "Y");
+	gtk_plot_axis_set_title (bottom, "X");*/
 	gtk_plot_set_legends_border (GTK_PLOT (line_plot),
 				     GTK_PLOT_BORDER_LINE, 3);
 	gtk_plot_legends_move (GTK_PLOT (line_plot), .80, .05);
@@ -1224,39 +1117,50 @@ add_line_plot (void)
 static void
 add_surface_plot (void)
 {
+	GtkPlotAxis *xy, *xz, *yx, *yz, *zx, *zy;
+	GtkPlotAxis *top, *left, *bottom;
+
 	surface_plot = gtk_plot3d_new_with_size (NULL, PROPORTION3D, PROPORTION3D);
 	gtk_widget_show (surface_plot);
 	g_signal_connect (G_OBJECT (surface_plot),
 			  "destroy",
 			  G_CALLBACK (gtk_widget_destroyed),
 			  &surface_plot);
-	gtk_plot_canvas_add_plot (GTK_PLOT_CANVAS (plot_canvas),
-				  GTK_PLOT (surface_plot), PROPORTION3D_OFFSET, PROPORTION3D_OFFSET);
 
-	gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
-				    GTK_PLOT_SIDE_XY);
-	gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
-				    GTK_PLOT_SIDE_XZ);
-	gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
-				    GTK_PLOT_SIDE_YX);
-	gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
-				    GTK_PLOT_SIDE_YZ);
-	gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
-				    GTK_PLOT_SIDE_ZX);
-	gtk_plot3d_axis_show_title (GTK_PLOT3D (surface_plot),
-				    GTK_PLOT_SIDE_ZY);
+	plot_child = gtk_plot_canvas_plot_new (GTK_PLOT (surface_plot));
+	gtk_plot_canvas_put_child (GTK_PLOT_CANVAS (plot_canvas),
+				   plot_child,
+				   0.0,
+				   PROPORTION3D_OFFSET,
+				   0.8,
+				   1.0-PROPORTION3D_OFFSET);
+
+	xy = gtk_plot3d_get_side (GTK_PLOT3D (surface_plot), GTK_PLOT_SIDE_XY);
+	xz = gtk_plot3d_get_side (GTK_PLOT3D (surface_plot), GTK_PLOT_SIDE_XZ);
+	yx = gtk_plot3d_get_side (GTK_PLOT3D (surface_plot), GTK_PLOT_SIDE_YX);
+	yz = gtk_plot3d_get_side (GTK_PLOT3D (surface_plot), GTK_PLOT_SIDE_YZ);
+	zx = gtk_plot3d_get_side (GTK_PLOT3D (surface_plot), GTK_PLOT_SIDE_ZX);
+	zy = gtk_plot3d_get_side (GTK_PLOT3D (surface_plot), GTK_PLOT_SIDE_ZY);
+
+	gtk_plot_axis_show_title (xy);
+	gtk_plot_axis_show_title (xz);
+	gtk_plot_axis_show_title (yx);
+	gtk_plot_axis_show_title (yz);
+	gtk_plot_axis_show_title (zx);
+	gtk_plot_axis_show_title (zy);
+
+	top = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_TOP);
+	bottom = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_BOTTOM);
+	left = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_LEFT);
 
 	/* X/Y are flipped! */
-	gtk_plot_axis_set_title (GTK_PLOT (surface_plot),
-				 GTK_PLOT_AXIS_BOTTOM, "Y");
-	gtk_plot_axis_set_title (GTK_PLOT (surface_plot),
-				 GTK_PLOT_AXIS_LEFT, "X");
-	gtk_plot_axis_set_title (GTK_PLOT (surface_plot),
-				 GTK_PLOT_AXIS_TOP, "Z");
+	gtk_plot_axis_set_title (bottom, "Y");
+	gtk_plot_axis_set_title (left, "X");
+	gtk_plot_axis_set_title (top, "Z");
 
 	gtk_plot_set_legends_border (GTK_PLOT (surface_plot),
 				     GTK_PLOT_BORDER_LINE, 3);
-	gtk_plot_legends_move (GTK_PLOT (surface_plot), .85, .05);
+	gtk_plot_legends_move (GTK_PLOT (surface_plot), 0.93, 0.05);
 }
 
 static void
@@ -1395,14 +1299,13 @@ clear_graph (void)
 {
 	int i;
 
-	if (surface_plot != NULL) {
-		gtk_widget_destroy (surface_plot);
+	if (plot_child != NULL) {
+		if (plot_canvas != NULL)
+			gtk_plot_canvas_remove_child (GTK_PLOT_CANVAS (plot_canvas),
+						      plot_child);
 		surface_plot = NULL;
-	}
-
-	if (line_plot != NULL) {
-		gtk_widget_destroy (line_plot);
 		line_plot = NULL;
+		plot_child = NULL;
 	}
 
 	for (i = 0; i < MAXFUNC; i++) {
@@ -1419,18 +1322,32 @@ get_ticks (double start, double end, double *tick, int *prec)
 {
 	int incs;
 	double len = end-start;
+	int tries = 0;
 
-	*tick = pow (10, floor (log10 (len)));
+	*tick = pow (10, floor (log10(len)));
 	incs = floor (len / *tick);
 
 	while (incs < 3) {
 		*tick /= 2.0;
 		incs = floor (len / *tick);
+		/* sanity */
+		if (tries ++ > 100) {
+			*tick = len / 5;
+			*prec = - (int) log10 (*tick) + 1;
+			return;
+		}
+
 	}
 
 	while (incs > 6) {
 		*tick *= 2.0;
 		incs = floor (len / *tick);
+		/* sanity */
+		if (tries ++ > 200) {
+			*tick = len / 5;
+			*prec = - (int) log10 (*tick) + 1;
+			return;
+		}
 	}
 
 	if (*tick >= 0.99) {
@@ -1445,24 +1362,27 @@ plot_setup_axis (void)
 {
 	int xprec, yprec;
 	double xtick, ytick;
+	GtkPlotAxis *x, *y;
 
 	get_ticks (plotx1, plotx2, &xtick, &xprec);
 	get_ticks (ploty1, ploty2, &ytick, &yprec);
 
-	gtk_plot_axis_set_ticks (GTK_PLOT (line_plot), GTK_PLOT_AXIS_X, xtick, 9);
-	gtk_plot_axis_set_ticks (GTK_PLOT (line_plot), GTK_PLOT_AXIS_Y, ytick, 9);
 	gtk_plot_set_range (GTK_PLOT (line_plot),
 			    plotx1, plotx2, ploty1, ploty2);
-	gtk_plot_axis_set_labels_style (GTK_PLOT (line_plot),
-					GTK_PLOT_AXIS_X,
+	gtk_plot_set_ticks (GTK_PLOT (line_plot), GTK_PLOT_AXIS_X, xtick, 9);
+	gtk_plot_set_ticks (GTK_PLOT (line_plot), GTK_PLOT_AXIS_Y, ytick, 9);
+
+	x = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_TOP);
+	y = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_BOTTOM);
+
+	gtk_plot_axis_set_labels_style (x,
 					GTK_PLOT_LABEL_FLOAT,
 					xprec /* precision */);
-	gtk_plot_axis_set_labels_style (GTK_PLOT (line_plot),
-					GTK_PLOT_AXIS_Y,
+	gtk_plot_axis_set_labels_style (y,
 					GTK_PLOT_LABEL_FLOAT,
 					yprec /* precision */);
 
-	/* FIXME: log scale don't work
+	/* FIXME: implement logarithmic scale
 	gtk_plot_set_xscale (GTK_PLOT (line_plot), GTK_PLOT_SCALE_LOG10);
 	gtk_plot_set_yscale (GTK_PLOT (line_plot), GTK_PLOT_SCALE_LOG10);
 	*/
@@ -1473,30 +1393,31 @@ surface_setup_axis (void)
 {
 	int xprec, yprec, zprec;
 	double xtick, ytick, ztick;
+	GtkPlotAxis *x, *y, *z;
 
 	get_ticks (surfacex1, surfacex2, &xtick, &xprec);
 	get_ticks (surfacey1, surfacey2, &ytick, &yprec);
 	get_ticks (surfacez1, surfacez2, &ztick, &zprec);
 
-	/* X/Y are flipped! */
-	gtk_plot3d_axis_set_ticks (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_Y, xtick, 1);
-	gtk_plot3d_axis_set_ticks (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_X, ytick, 1);
-	gtk_plot3d_axis_set_ticks (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_Z, ztick, 1);
+	x = gtk_plot3d_get_axis (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_X);
+	y = gtk_plot3d_get_axis (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_Y);
+	z = gtk_plot3d_get_axis (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_Z);
+
 	/* X/Y are flipped! */
 	gtk_plot3d_set_yrange (GTK_PLOT3D (surface_plot), surfacex1, surfacex2);
+	gtk_plot_axis_set_ticks (y, xtick, 1);
 	gtk_plot3d_set_xrange (GTK_PLOT3D (surface_plot), surfacey1, surfacey2);
+	gtk_plot_axis_set_ticks (x, ytick, 1);
 	gtk_plot3d_set_zrange (GTK_PLOT3D (surface_plot), surfacez1, surfacez2);
+	gtk_plot_axis_set_ticks (z, ztick, 1);
 
-	gtk_plot_axis_set_labels_style (GTK_PLOT (surface_plot),
-					GTK_PLOT_AXIS_X,
+	gtk_plot_axis_set_labels_style (x,
 					GTK_PLOT_LABEL_FLOAT,
 					xprec /* precision */);
-	gtk_plot_axis_set_labels_style (GTK_PLOT (surface_plot),
-					GTK_PLOT_AXIS_Y,
+	gtk_plot_axis_set_labels_style (y,
 					GTK_PLOT_LABEL_FLOAT,
 					yprec /* precision */);
-	gtk_plot_axis_set_labels_style (GTK_PLOT (surface_plot),
-					GTK_PLOT_AXIS_Z,
+	gtk_plot_axis_set_labels_style (z,
 					GTK_PLOT_LABEL_FLOAT,
 					zprec /* precision */);
 }
@@ -2079,6 +2000,12 @@ get_limits_from_matrix (GelETree *m, double *x1, double *x2, double *y1, double 
 		*y2 = s;
 	}
 
+	/* sanity */
+	if (*x2 - *x1 < MINPLOT)
+		*x2 = *x1 + MINPLOT;
+	if (*y2 - *y1 < MINPLOT)
+		*y2 = *y1 + MINPLOT;
+
 	return TRUE;
 }
 
@@ -2173,6 +2100,15 @@ get_limits_from_matrix_surf (GelETree *m, double *x1, double *x2, double *y1, do
 		*z1 = *z2;
 		*z2 = s;
 	}
+
+
+	/* sanity */
+	if (*x2 - *x1 < MINPLOT)
+		*x2 = *x1 + MINPLOT;
+	if (*y2 - *y1 < MINPLOT)
+		*y2 = *y1 + MINPLOT;
+	if (*z2 - *z1 < MINPLOT)
+		*z2 = *z1 + MINPLOT;
 
 	return TRUE;
 }
@@ -2275,11 +2211,23 @@ plot_functions (void)
 		(*evalnode_hook)();
 
 	/* sanity */
-	if (plotx2 == plotx1)
-		plotx2 = plotx1 + 0.00000001;
+	if (plotx2 < plotx1) {
+		double t = plotx2;
+		plotx2 = plotx1;
+		plotx1 = t;
+	}
+	if (ploty2 < ploty1) {
+		double t = ploty2;
+		ploty2 = ploty1;
+		ploty1 = t;
+	}
+
 	/* sanity */
-	if (ploty2 == ploty1)
-		ploty2 = ploty1 + 0.00000001;
+	if (plotx2 - plotx1 < MINPLOT)
+		plotx2 = plotx1 + MINPLOT;
+	/* sanity */
+	if (ploty2 - ploty1  < MINPLOT)
+		ploty2 = ploty1 + MINPLOT;
 
 	plot_maxy = - G_MAXDOUBLE/2;
 	plot_miny = G_MAXDOUBLE/2;
@@ -2416,11 +2364,11 @@ plot_surface_functions (void)
 
 	/* sanity */
 	if (surfacex2 == surfacex1)
-		surfacex2 = surfacex1 + 0.00000001;
+		surfacex2 = surfacex1 + MINPLOT;
 	if (surfacey2 == surfacey1)
-		surfacey2 = surfacey1 + 0.00000001;
+		surfacey2 = surfacey1 + MINPLOT;
 	if (surfacez2 == surfacez1)
-		surfacez2 = surfacez1 + 0.00000001;
+		surfacez2 = surfacez1 + MINPLOT;
 
 	plot_maxy = - G_MAXDOUBLE/2;
 	plot_miny = G_MAXDOUBLE/2;
@@ -2428,8 +2376,8 @@ plot_surface_functions (void)
 	surface_setup_axis ();
 
 	gtk_plot3d_reset_angles (GTK_PLOT3D (surface_plot));
-	gtk_plot3d_rotate_y (GTK_PLOT3D (surface_plot), 30.0);
-	gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 330.0);
+	gtk_plot3d_rotate_x (GTK_PLOT3D (surface_plot), 60.0);
+	gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 30.0);
 
 	if G_UNLIKELY (plot_arg == NULL) {
 		plot_ctx = eval_get_context ();
@@ -2459,6 +2407,9 @@ plot_surface_functions (void)
 		gtk_plot_surface_use_height_gradient (GTK_PLOT_SURFACE (surface_data), TRUE);
 		gtk_plot_surface_set_mesh_visible (GTK_PLOT_SURFACE (surface_data), TRUE);
 		gtk_plot_data_gradient_set_visible (GTK_PLOT_DATA (surface_data), TRUE);
+		gtk_plot_data_move_gradient (GTK_PLOT_DATA (surface_data),
+					     0.93, 0.15);
+		gtk_plot_axis_hide_title (GTK_PLOT_DATA (surface_data)->gradient);
 
 		gtk_plot_add_data (GTK_PLOT (surface_plot),
 				   surface_data);

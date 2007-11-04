@@ -36,24 +36,75 @@
 #define PI 3.141592653589793238462643383279502884197
 #endif
 #ifndef SQRT2
-#define SQRT2 1.41421356237309504880168872420969807856967
+#define SQRT2 1.41421356237309504880168872420969807856967 
 #endif
 
-extern void gtk_plot_ticks_recalc               (GtkPlotTicks *ticks);
-extern void gtk_plot_ticks_autoscale            (GtkPlotTicks *ticks,
-						 gdouble min, gdouble max,
-                                                 gint *precision);
-extern gdouble gtk_plot_ticks_transform         (GtkPlotTicks *ticks,
-                                                 gdouble y);
-extern void gtk_plot_parse_label                (gdouble val, 
-                                                 gint precision,
-                                                 gint style,
-                                                 gchar *label);
+#define P_(string) string
 
+enum
+{
+  PROP_0,
+  PROP_CENTER,
+  PROP_ORIGIN,
+  PROP_A1,
+  PROP_A2,
+  PROP_A3,
+  PROP_XY_VISIBLE,
+  PROP_YZ_VISIBLE,
+  PROP_ZX_VISIBLE,
+  PROP_COLOR_XY,
+  PROP_COLOR_YZ,
+  PROP_COLOR_ZX,
+  PROP_FRAME,
+  PROP_CORNER,
+  PROP_CORNER_VISIBLE,
+  PROP_ZMIN,
+  PROP_ZMAX,
+  PROP_ZSCALE,
+  PROP_TITLES_OFFSET,
+  PROP_XFACTOR,
+  PROP_YFACTOR,
+  PROP_ZFACTOR,
+  PROP_E1,
+  PROP_E2,
+  PROP_E3,
+  PROP_XY_LABEL_MASK,
+  PROP_XY_MAJOR_MASK,
+  PROP_XY_MINOR_MASK,
+  PROP_XY_TITLE_VISIBLE,
+  PROP_XZ_LABEL_MASK,
+  PROP_XZ_MAJOR_MASK,
+  PROP_XZ_MINOR_MASK,
+  PROP_XZ_TITLE_VISIBLE,
+  PROP_YX_LABEL_MASK,
+  PROP_YX_MAJOR_MASK,
+  PROP_YX_MINOR_MASK,
+  PROP_YX_TITLE_VISIBLE,
+  PROP_YZ_LABEL_MASK,
+  PROP_YZ_MAJOR_MASK,
+  PROP_YZ_MINOR_MASK,
+  PROP_YZ_TITLE_VISIBLE,
+  PROP_ZX_LABEL_MASK,
+  PROP_ZX_MAJOR_MASK,
+  PROP_ZX_MINOR_MASK,
+  PROP_ZX_TITLE_VISIBLE,
+  PROP_ZY_LABEL_MASK,
+  PROP_ZY_MAJOR_MASK,
+  PROP_ZY_MINOR_MASK,
+  PROP_ZY_TITLE_VISIBLE,
+};
 
 static void gtk_plot3d_class_init 		(GtkPlot3DClass *klass);
 static void gtk_plot3d_init 			(GtkPlot3D *plot);
 static void gtk_plot3d_destroy 			(GtkObject *object);
+static void gtk_plot3d_set_property             (GObject *object,
+			                         guint prop_id,
+			                         const GValue *value,
+			                         GParamSpec *pspec);
+static void gtk_plot3d_get_property             (GObject *object,
+			                         guint prop_id,
+			                         GValue *value,
+			                         GParamSpec *pspec);
 static void gtk_plot3d_real_paint 		(GtkWidget *widget);
 static void gtk_plot3d_draw_plane		(GtkPlot3D *plot, 
 						 GtkPlotVector v1, 
@@ -78,7 +129,7 @@ static void gtk_plot3d_real_get_pixel		(GtkWidget *widget,
                           			 gdouble *px, 
 						 gdouble *py, 
 						 gdouble *pz);
-static gint roundint				(gdouble x);
+extern inline gint roundint			(gdouble x);
 
 static GtkPlotClass *parent_class = NULL;
 
@@ -113,6 +164,7 @@ gtk_plot3d_class_init (GtkPlot3DClass *klass)
   GtkWidgetClass *widget_class;
   GtkPlotClass *plot_class;
   GtkPlot3DClass *plot3d_class;
+  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
   parent_class = gtk_type_class (gtk_plot_get_type ());
 
@@ -122,9 +174,339 @@ gtk_plot3d_class_init (GtkPlot3DClass *klass)
   plot3d_class = (GtkPlot3DClass *) klass;
 
   object_class->destroy = gtk_plot3d_destroy;
+  gobject_class->set_property = gtk_plot3d_set_property;
+  gobject_class->get_property = gtk_plot3d_get_property;
 
   plot_class->plot_paint = gtk_plot3d_real_paint;
   plot3d_class->get_pixel = gtk_plot3d_real_get_pixel;
+
+  g_object_class_install_property(gobject_class,
+                           PROP_CENTER,
+  g_param_spec_pointer ("center_vector",
+                       P_("Center"),
+                       P_("Position of the center point"),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_ORIGIN,
+  g_param_spec_pointer ("origin_vector",
+                       P_("Origin"),
+                       P_("Position of the origin"),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_A1,
+  g_param_spec_double ("a1",
+                       P_("Angle 1"),
+                       P_("Angle 1"),
+                           -G_MAXDOUBLE, G_MAXDOUBLE,0.0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_A2,
+  g_param_spec_double ("a2",
+                       P_("Angle 2"),
+                       P_("Angle 2"),
+                           -G_MAXDOUBLE, G_MAXDOUBLE,0.0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_A3,
+  g_param_spec_double ("a3",
+                       P_("Angle 3"),
+                       P_("Angle 3"),
+                           -G_MAXDOUBLE, G_MAXDOUBLE,0.0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_XY_VISIBLE,
+  g_param_spec_boolean ("xy_visible",
+                       P_("XY Visible"),
+                       P_("XY Plane visible"),
+                           FALSE,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_YZ_VISIBLE,
+  g_param_spec_boolean ("yz_visible",
+                       P_("YZ Visible"),
+                       P_("YZ Plane visible"),
+                           FALSE,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_ZX_VISIBLE,
+  g_param_spec_boolean ("zx_visible",
+                       P_("ZX Visible"),
+                       P_("ZX Plane visible"),
+                           FALSE,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_COLOR_XY,
+  g_param_spec_pointer ("color_xy",
+                       P_("XY Color"),
+                       P_("Color of XY Plane"),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_COLOR_YZ,
+  g_param_spec_pointer ("color_yz",
+                       P_("YZ Color"),
+                       P_("Color of YZ Plane"),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_COLOR_ZX,
+  g_param_spec_pointer ("color_zx",
+                       P_("ZX Color"),
+                       P_("Color of ZX Plane"),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_FRAME,
+  g_param_spec_pointer ("frame_line",
+                       P_("Frame Line"),
+                       P_("Frame Line"),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_CORNER,
+  g_param_spec_pointer ("corner_line",
+                       P_("Corner Line"),
+                       P_("Corner Line"),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_CORNER_VISIBLE,
+  g_param_spec_boolean ("corner_visible",
+                       P_("Corner Visible"),
+                       P_("Draw the entire cube"),
+                           FALSE,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_ZMIN,
+  g_param_spec_double ("zmin",
+                       P_("Z Min"),
+                       P_("Min value of the Z axis"),
+                           -G_MAXDOUBLE, G_MAXDOUBLE,0.0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_ZMAX,
+  g_param_spec_double ("zmax",
+                       P_("Z Max"),
+                       P_("Max value of the Z axis"),
+                           -G_MAXDOUBLE, G_MAXDOUBLE,0.0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_ZSCALE,
+  g_param_spec_int ("zscale",
+                       P_("Z Scale"),
+                       P_("Scale used for the Z axis"),
+                           0,G_MAXINT,0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_TITLES_OFFSET,
+  g_param_spec_int ("titles_offset",
+                       P_("Titles Offset"),
+                       P_("Titles distance from the axes"),
+                           -G_MAXINT,G_MAXINT,0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_XFACTOR,
+  g_param_spec_double ("xfactor",
+                       P_("X Factor"),
+                       P_("Relative size of the x axis"),
+                           0.0, G_MAXDOUBLE,0.0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_YFACTOR,
+  g_param_spec_double ("yfactor",
+                       P_("Y Factor"),
+                       P_("Relative size of the y axis"),
+                           0.0, G_MAXDOUBLE,0.0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_ZFACTOR,
+  g_param_spec_double ("zfactor",
+                       P_("Z Factor"),
+                       P_("Relative size of the z axis"),
+                           0.0, G_MAXDOUBLE,0.0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_E1,
+  g_param_spec_pointer ("e1_vector",
+                       P_("E1"),
+                       P_("Vector e1"),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_E2,
+  g_param_spec_pointer ("e2_vector",
+                       P_("E2"),
+                       P_("Vector e2"),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_E3,
+  g_param_spec_pointer ("e3_vector",
+                       P_("E3"),
+                       P_("Vector e3"),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  g_object_class_install_property(gobject_class,
+                           PROP_XY_LABEL_MASK,
+  g_param_spec_int ("xy_label_mask",
+                    P_("XY label mask"),
+                    P_("XY label mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_XY_MAJOR_MASK,
+  g_param_spec_int ("xy_major_mask",
+                    P_("XY major mask"),
+                    P_("XY major mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_XY_MINOR_MASK,
+  g_param_spec_int ("xy_minor_mask",
+                    P_("XY minor mask"),
+                    P_("XY minor mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_XY_TITLE_VISIBLE,
+  g_param_spec_boolean ("xy_title_visible",
+                       P_("XY Title Visible"),
+                       P_("XY title Visible"),
+                       FALSE,
+                       G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_XZ_LABEL_MASK,
+  g_param_spec_int ("xz_label_mask",
+                    P_("XZ label mask"),
+                    P_("XZ label mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_XZ_MAJOR_MASK,
+  g_param_spec_int ("xz_major_mask",
+                    P_("XZ major mask"),
+                    P_("XZ major mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_XZ_MINOR_MASK,
+  g_param_spec_int ("xz_minor_mask",
+                    P_("XZ minor mask"),
+                    P_("XZ minor mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_XZ_TITLE_VISIBLE,
+  g_param_spec_boolean ("xz_title_visible",
+                       P_("XZ Title Visible"),
+                       P_("XZ title Visible"),
+                       FALSE,
+                       G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_YZ_LABEL_MASK,
+  g_param_spec_int ("yz_label_mask",
+                    P_("YZ label mask"),
+                    P_("YZ label mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_YZ_MAJOR_MASK,
+  g_param_spec_int ("yz_major_mask",
+                    P_("YZ major mask"),
+                    P_("YZ major mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_YZ_MINOR_MASK,
+  g_param_spec_int ("yz_minor_mask",
+                    P_("YZ minor mask"),
+                    P_("YZ minor mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_YZ_TITLE_VISIBLE,
+  g_param_spec_boolean ("yz_title_visible",
+                       P_("YZ Title Visible"),
+                       P_("YZ title Visible"),
+                       FALSE,
+                       G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_YX_LABEL_MASK,
+  g_param_spec_int ("yx_label_mask",
+                    P_("YX label mask"),
+                    P_("YX label mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_YX_MAJOR_MASK,
+  g_param_spec_int ("yx_major_mask",
+                    P_("YX major mask"),
+                    P_("YX major mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_YX_MINOR_MASK,
+  g_param_spec_int ("yx_minor_mask",
+                    P_("YX minor mask"),
+                    P_("YX minor mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_YX_TITLE_VISIBLE,
+  g_param_spec_boolean ("yx_title_visible",
+                       P_("YX Title Visible"),
+                       P_("YX title Visible"),
+                       FALSE,
+                       G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_ZX_LABEL_MASK,
+  g_param_spec_int ("zx_label_mask",
+                    P_("ZX label mask"),
+                    P_("ZX label mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_ZX_MAJOR_MASK,
+  g_param_spec_int ("zx_major_mask",
+                    P_("ZX major mask"),
+                    P_("ZX major mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_ZX_MINOR_MASK,
+  g_param_spec_int ("zx_minor_mask",
+                    P_("ZX minor mask"),
+                    P_("ZX minor mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_ZX_TITLE_VISIBLE,
+  g_param_spec_boolean ("zx_title_visible",
+                       P_("ZX Title Visible"),
+                       P_("ZX title Visible"),
+                       FALSE,
+                       G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_ZY_LABEL_MASK,
+  g_param_spec_int ("zy_label_mask",
+                    P_("ZY label mask"),
+                    P_("ZY label mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_ZY_MAJOR_MASK,
+  g_param_spec_int ("zy_major_mask",
+                    P_("ZY major mask"),
+                    P_("ZY major mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_ZY_MINOR_MASK,
+  g_param_spec_int ("zy_minor_mask",
+                    P_("ZY minor mask"),
+                    P_("ZY minor mask"),
+                    0,3,0,
+                    G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           PROP_ZY_TITLE_VISIBLE,
+  g_param_spec_boolean ("zy_title_visible",
+                       P_("ZY Title Visible"),
+                       P_("ZY title Visible"),
+                       FALSE,
+                       G_PARAM_READABLE|G_PARAM_WRITABLE));
 }
 
 
@@ -161,8 +543,8 @@ gtk_plot3d_init (GtkPlot3D *plot)
   plot->zfactor = 1.0;
 
   gtk_plot3d_reset_angles(plot);
-  gtk_plot3d_rotate_y(plot, 30.);
-  gtk_plot3d_rotate_z(plot, 60.);
+  gtk_plot3d_rotate_x(plot, 60.);
+  gtk_plot3d_rotate_z(plot, 30.);
 
   GTK_PLOT(plot)->xmin = 0.;
   GTK_PLOT(plot)->xmax = 1.000000;
@@ -313,39 +695,58 @@ gtk_plot3d_init (GtkPlot3D *plot)
   plot->ay->title.transparent = TRUE;
   plot->ay->title_visible = TRUE;
 
-  gtk_plot_axis_set_title(GTK_PLOT(plot), GTK_PLOT_AXIS_BOTTOM, "X Title");
-  gtk_plot_axis_set_title(GTK_PLOT(plot), GTK_PLOT_AXIS_LEFT, "Y Title");
-  gtk_plot_axis_set_title(GTK_PLOT(plot), GTK_PLOT_AXIS_TOP, "Z Title");
+  gtk_plot_axis_set_title(GTK_PLOT(plot)->bottom, "X Title");
+  gtk_plot_axis_set_title(GTK_PLOT(plot)->left, "Y Title");
+  gtk_plot_axis_set_title(GTK_PLOT(plot)->top, "Z Title");
 
   GTK_PLOT(plot)->xscale = GTK_PLOT_SCALE_LINEAR;
   GTK_PLOT(plot)->yscale = GTK_PLOT_SCALE_LINEAR;
   plot->zscale = GTK_PLOT_SCALE_LINEAR;
 
-  plot->xy.major_mask = plot->ax->major_mask;
-  plot->xy.minor_mask = plot->ax->minor_mask;
-  plot->xy.label_mask = plot->ax->label_mask;
-  plot->xz.major_mask = plot->ax->major_mask;
-  plot->xz.minor_mask = plot->ax->minor_mask;
-  plot->xz.label_mask = plot->ax->label_mask;
-  plot->yx.major_mask = plot->ay->major_mask;
-  plot->yx.minor_mask = plot->ay->minor_mask;
-  plot->yx.label_mask = plot->ay->label_mask;
-  plot->yz.major_mask = plot->ay->major_mask;
-  plot->yz.minor_mask = plot->ay->minor_mask;
-  plot->yz.label_mask = plot->ay->label_mask;
-  plot->zx.major_mask = plot->az->major_mask;
-  plot->zx.minor_mask = plot->az->minor_mask;
-  plot->zx.label_mask = plot->az->label_mask;
-  plot->zy.major_mask = plot->az->major_mask;
-  plot->zy.minor_mask = plot->az->minor_mask;
-  plot->zy.label_mask = plot->az->label_mask;
+  plot->xy = GTK_PLOT_AXIS(gtk_plot_axis_new(GTK_PLOT_AXIS_X));  
+  gtk_object_ref (GTK_OBJECT (plot->xy));
+  gtk_object_sink (GTK_OBJECT (plot->xy));
+  plot->xz = GTK_PLOT_AXIS(gtk_plot_axis_new(GTK_PLOT_AXIS_X));  
+  gtk_object_ref (GTK_OBJECT (plot->xz));
+  gtk_object_sink (GTK_OBJECT (plot->xz));
+  plot->yx = GTK_PLOT_AXIS(gtk_plot_axis_new(GTK_PLOT_AXIS_Y));  
+  gtk_object_ref (GTK_OBJECT (plot->yx));
+  gtk_object_sink (GTK_OBJECT (plot->yx));
+  plot->yz = GTK_PLOT_AXIS(gtk_plot_axis_new(GTK_PLOT_AXIS_Y));  
+  gtk_object_ref (GTK_OBJECT (plot->yz));
+  gtk_object_sink (GTK_OBJECT (plot->yz));
+  plot->zx = GTK_PLOT_AXIS(gtk_plot_axis_new(GTK_PLOT_AXIS_Z));  
+  gtk_object_ref (GTK_OBJECT (plot->zx));
+  gtk_object_sink (GTK_OBJECT (plot->zx));
+  plot->zy = GTK_PLOT_AXIS(gtk_plot_axis_new(GTK_PLOT_AXIS_Z));  
+  gtk_object_ref (GTK_OBJECT (plot->zy));
+  gtk_object_sink (GTK_OBJECT (plot->zy));
 
-  plot->xy.title_visible = plot->ax->title_visible;
-  plot->xz.title_visible = plot->ax->title_visible;
-  plot->yx.title_visible = plot->ay->title_visible;
-  plot->yz.title_visible = plot->ay->title_visible;
-  plot->zx.title_visible = plot->az->title_visible;
-  plot->zy.title_visible = plot->az->title_visible;
+  plot->xy->major_mask = plot->ax->major_mask;
+  plot->xy->minor_mask = plot->ax->minor_mask;
+  plot->xy->label_mask = plot->ax->label_mask;
+  plot->xz->major_mask = plot->ax->major_mask;
+  plot->xz->minor_mask = plot->ax->minor_mask;
+  plot->xz->label_mask = plot->ax->label_mask;
+  plot->yx->major_mask = plot->ay->major_mask;
+  plot->yx->minor_mask = plot->ay->minor_mask;
+  plot->yx->label_mask = plot->ay->label_mask;
+  plot->yz->major_mask = plot->ay->major_mask;
+  plot->yz->minor_mask = plot->ay->minor_mask;
+  plot->yz->label_mask = plot->ay->label_mask;
+  plot->zx->major_mask = plot->az->major_mask;
+  plot->zx->minor_mask = plot->az->minor_mask;
+  plot->zx->label_mask = plot->az->label_mask;
+  plot->zy->major_mask = plot->az->major_mask;
+  plot->zy->minor_mask = plot->az->minor_mask;
+  plot->zy->label_mask = plot->az->label_mask;
+
+  plot->xy->title_visible = plot->ax->title_visible;
+  plot->xz->title_visible = plot->ax->title_visible;
+  plot->yx->title_visible = plot->ay->title_visible;
+  plot->yz->title_visible = plot->ay->title_visible;
+  plot->zx->title_visible = plot->az->title_visible;
+  plot->zy->title_visible = plot->az->title_visible;
 
   plot->frame.color = widget->style->black;
   plot->frame.line_width = 1;
@@ -375,9 +776,9 @@ gtk_plot3d_init (GtkPlot3D *plot)
   plot->titles_offset = 60;
   GTK_PLOT(plot)->legends_attr.transparent = FALSE;
 
-  gtk_plot_ticks_recalc(&plot->ax->ticks);
-  gtk_plot_ticks_recalc(&plot->ay->ticks);
-  gtk_plot_ticks_recalc(&plot->az->ticks);
+  gtk_plot_axis_ticks_recalc(plot->ax);
+  gtk_plot_axis_ticks_recalc(plot->ay);
+  gtk_plot_axis_ticks_recalc(plot->az);
 
   GTK_PLOT(plot)->clip_data = TRUE;
 
@@ -387,8 +788,347 @@ gtk_plot3d_init (GtkPlot3D *plot)
 static void
 gtk_plot3d_destroy (GtkObject *object)
 {
+  GtkPlot3D *plot = GTK_PLOT3D(object);
+  gtk_psfont_unref();
+
+  if (plot->xy)
+    gtk_object_unref(GTK_OBJECT(plot->xy));
+  if (plot->xz)
+    gtk_object_unref(GTK_OBJECT(plot->xz));
+  if (plot->yx)
+    gtk_object_unref(GTK_OBJECT(plot->yx));
+  if (plot->yz)
+    gtk_object_unref(GTK_OBJECT(plot->yz));
+  if (plot->zx)
+    gtk_object_unref(GTK_OBJECT(plot->zx));
+  if (plot->zy)
+    gtk_object_unref(GTK_OBJECT(plot->zy));
+
   if ( GTK_OBJECT_CLASS (parent_class)->destroy )
     (* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
+static void
+gtk_plot3d_set_property (GObject      *object,
+			 guint prop_id,
+			 const GValue *value,
+			 GParamSpec *pspec)
+{
+  GtkPlot3D *plot;
+
+  plot = GTK_PLOT3D (object);
+
+  switch(prop_id){
+    case PROP_CENTER:
+      plot->center = *((GtkPlotVector *)g_value_get_pointer(value));
+      break;
+    case PROP_ORIGIN:
+      plot->origin = *((GtkPlotVector *)g_value_get_pointer(value));
+      break;
+/*
+    case PROP_A1:
+      gtk_plot3d_rotate_x(plot, -plot->a1+g_value_get_double(value));
+      break;
+    case PROP_A2:
+      gtk_plot3d_rotate_y(plot, -plot->a2+g_value_get_double(value));
+      break;
+    case PROP_A3:
+      gtk_plot3d_rotate_z(plot, -plot->a3+g_value_get_double(value));
+      break;
+*/
+    case PROP_XY_VISIBLE:
+      plot->xy_visible = g_value_get_boolean(value);
+      break;
+    case PROP_YZ_VISIBLE:
+      plot->yz_visible = g_value_get_boolean(value);
+      break;
+    case PROP_ZX_VISIBLE:
+      plot->zx_visible = g_value_get_boolean(value);
+      break;
+    case PROP_COLOR_XY:
+      plot->color_xy = *((GdkColor *)g_value_get_pointer(value));
+      break;
+    case PROP_COLOR_YZ:
+      plot->color_yz = *((GdkColor *)g_value_get_pointer(value));
+      break;
+    case PROP_COLOR_ZX:
+      plot->color_zx = *((GdkColor *)g_value_get_pointer(value));
+      break;
+    case PROP_FRAME:
+      plot->frame = *((GtkPlotLine *)g_value_get_pointer(value));
+      break;
+    case PROP_CORNER:
+      plot->corner = *((GtkPlotLine *)g_value_get_pointer(value));
+      break;
+    case PROP_CORNER_VISIBLE:
+      plot->corner_visible = g_value_get_boolean(value);
+      break;
+    case PROP_ZMIN:
+      plot->zmin = g_value_get_double(value);
+      break;
+    case PROP_ZMAX:
+      plot->zmax = g_value_get_double(value);
+      break;
+    case PROP_ZSCALE:
+      plot->zscale = g_value_get_int(value);
+      break;
+    case PROP_TITLES_OFFSET:
+      plot->titles_offset = g_value_get_int(value);
+      break;
+    case PROP_XFACTOR:
+      gtk_plot3d_set_xfactor(plot, g_value_get_double(value));
+      break;
+    case PROP_YFACTOR:
+      gtk_plot3d_set_yfactor(plot, g_value_get_double(value));
+      break;
+    case PROP_ZFACTOR:
+      gtk_plot3d_set_zfactor(plot, g_value_get_double(value));
+      break;
+    case PROP_E1:
+      plot->e1 = *((GtkPlotVector *)g_value_get_pointer(value));
+      break;
+    case PROP_E2:
+      plot->e2 = *((GtkPlotVector *)g_value_get_pointer(value));
+      break;
+    case PROP_E3:
+      plot->e3 = *((GtkPlotVector *)g_value_get_pointer(value));
+      break;
+    case PROP_XY_MAJOR_MASK:
+      plot->xy->major_mask = g_value_get_int(value);
+      break;
+    case PROP_XY_MINOR_MASK:
+      plot->xy->minor_mask = g_value_get_int(value);
+      break;
+    case PROP_XY_LABEL_MASK:
+      plot->xy->label_mask = g_value_get_int(value);
+      break;
+    case PROP_XY_TITLE_VISIBLE:
+      plot->xy->title_visible = g_value_get_boolean(value);
+      break;
+    case PROP_XZ_MAJOR_MASK:
+      plot->xz->major_mask = g_value_get_int(value);
+      break;
+    case PROP_XZ_MINOR_MASK:
+      plot->xz->minor_mask = g_value_get_int(value);
+      break;
+    case PROP_XZ_LABEL_MASK:
+      plot->xz->label_mask = g_value_get_int(value);
+      break;
+    case PROP_XZ_TITLE_VISIBLE:
+      plot->xz->title_visible = g_value_get_boolean(value);
+      break;
+    case PROP_YX_MAJOR_MASK:
+      plot->yx->major_mask = g_value_get_int(value);
+      break;
+    case PROP_YX_MINOR_MASK:
+      plot->yx->minor_mask = g_value_get_int(value);
+      break;
+    case PROP_YX_LABEL_MASK:
+      plot->yx->label_mask = g_value_get_int(value);
+      break;
+    case PROP_YX_TITLE_VISIBLE:
+      plot->yx->title_visible = g_value_get_boolean(value);
+      break;
+    case PROP_YZ_MAJOR_MASK:
+      plot->yz->major_mask = g_value_get_int(value);
+      break;
+    case PROP_YZ_MINOR_MASK:
+      plot->yz->minor_mask = g_value_get_int(value);
+      break;
+    case PROP_YZ_LABEL_MASK:
+      plot->yz->label_mask = g_value_get_int(value);
+      break;
+    case PROP_YZ_TITLE_VISIBLE:
+      plot->yz->title_visible = g_value_get_boolean(value);
+      break;
+    case PROP_ZX_MAJOR_MASK:
+      plot->zx->major_mask = g_value_get_int(value);
+      break;
+    case PROP_ZX_MINOR_MASK:
+      plot->zx->minor_mask = g_value_get_int(value);
+      break;
+    case PROP_ZX_LABEL_MASK:
+      plot->zx->label_mask = g_value_get_int(value);
+      break;
+    case PROP_ZX_TITLE_VISIBLE:
+      plot->zx->title_visible = g_value_get_boolean(value);
+      break;
+    case PROP_ZY_MAJOR_MASK:
+      plot->zy->major_mask = g_value_get_int(value);
+      break;
+    case PROP_ZY_MINOR_MASK:
+      plot->zy->minor_mask = g_value_get_int(value);
+      break;
+    case PROP_ZY_LABEL_MASK:
+      plot->zy->label_mask = g_value_get_int(value);
+      break;
+    case PROP_ZY_TITLE_VISIBLE:
+      plot->zy->title_visible = g_value_get_boolean(value);
+      break;
+    default:
+      break;
+  }
+}
+
+static void
+gtk_plot3d_get_property (GObject      *object,
+                         guint            prop_id,
+                         GValue          *value,
+                         GParamSpec      *pspec)
+
+{
+  GtkPlot3D *plot;
+
+  plot = GTK_PLOT3D (object);
+
+  switch(prop_id){
+    case PROP_CENTER:
+      g_value_set_pointer(value, &plot->center);
+      break;
+    case PROP_ORIGIN:
+      g_value_set_pointer(value, &plot->origin);
+      break;
+    case PROP_A1:
+      g_value_set_double(value, plot->a1);
+      break;
+    case PROP_A2:
+      g_value_set_double(value, plot->a2);
+      break;
+    case PROP_A3:
+      g_value_set_double(value, plot->a3);
+      break;
+    case PROP_XY_VISIBLE:
+      g_value_set_boolean(value, plot->xy_visible);
+      break;
+    case PROP_YZ_VISIBLE:
+      g_value_set_boolean(value, plot->yz_visible);
+      break;
+    case PROP_ZX_VISIBLE:
+      g_value_set_boolean(value, plot->zx_visible);
+      break;
+    case PROP_COLOR_XY:
+      g_value_set_pointer(value, &plot->color_xy);
+      break;
+    case PROP_COLOR_YZ:
+      g_value_set_pointer(value, &plot->color_yz);
+      break;
+    case PROP_COLOR_ZX:
+      g_value_set_pointer(value, &plot->color_zx);
+      break;
+    case PROP_FRAME:
+      g_value_set_pointer(value, &plot->frame);
+      break;
+    case PROP_CORNER:
+      g_value_set_pointer(value, &plot->corner);
+      break;
+    case PROP_CORNER_VISIBLE:
+      g_value_set_boolean(value, plot->corner_visible);
+      break;
+    case PROP_ZMIN:
+      g_value_set_double(value, plot->zmin);
+      break;
+    case PROP_ZMAX:
+      g_value_set_double(value, plot->zmax);
+      break;
+    case PROP_ZSCALE:
+      g_value_set_int(value, plot->zscale);
+      break;
+    case PROP_TITLES_OFFSET:
+      g_value_set_int(value, plot->titles_offset);
+      break;
+    case PROP_XFACTOR:
+      g_value_set_double(value, plot->xfactor);
+      break;
+    case PROP_YFACTOR:
+      g_value_set_double(value, plot->yfactor);
+      break;
+    case PROP_ZFACTOR:
+      g_value_set_double(value, plot->zfactor);
+      break;
+    case PROP_E1:
+      g_value_set_pointer(value, &plot->e1);
+      break;
+    case PROP_E2:
+      g_value_set_pointer(value, &plot->e2);
+      break;
+    case PROP_E3:
+      g_value_set_pointer(value, &plot->e3);
+      break;
+    case PROP_XY_LABEL_MASK:
+      g_value_set_int(value, plot->xy->label_mask);
+      break;
+    case PROP_XY_MAJOR_MASK:
+      g_value_set_int(value, plot->xy->major_mask);
+      break;
+    case PROP_XY_MINOR_MASK:
+      g_value_set_int(value, plot->xy->minor_mask);
+      break;
+    case PROP_XY_TITLE_VISIBLE:
+      g_value_set_boolean(value, plot->xy->title_visible);
+      break;
+    case PROP_XZ_LABEL_MASK:
+      g_value_set_int(value, plot->xz->label_mask);
+      break;
+    case PROP_XZ_MAJOR_MASK:
+      g_value_set_int(value, plot->xz->major_mask);
+      break;
+    case PROP_XZ_MINOR_MASK:
+      g_value_set_int(value, plot->xz->minor_mask);
+      break;
+    case PROP_XZ_TITLE_VISIBLE:
+      g_value_set_boolean(value, plot->xz->title_visible);
+      break;
+    case PROP_YZ_LABEL_MASK:
+      g_value_set_int(value, plot->yz->label_mask);
+      break;
+    case PROP_YZ_MAJOR_MASK:
+      g_value_set_int(value, plot->yz->major_mask);
+      break;
+    case PROP_YZ_MINOR_MASK:
+      g_value_set_int(value, plot->yz->minor_mask);
+      break;
+    case PROP_YZ_TITLE_VISIBLE:
+      g_value_set_boolean(value, plot->yz->title_visible);
+      break;
+    case PROP_YX_LABEL_MASK:
+      g_value_set_int(value, plot->yx->label_mask);
+      break;
+    case PROP_YX_MAJOR_MASK:
+      g_value_set_int(value, plot->yx->major_mask);
+      break;
+    case PROP_YX_MINOR_MASK:
+      g_value_set_int(value, plot->yx->minor_mask);
+      break;
+    case PROP_YX_TITLE_VISIBLE:
+      g_value_set_boolean(value, plot->yx->title_visible);
+      break;
+    case PROP_ZX_LABEL_MASK:
+      g_value_set_int(value, plot->zx->label_mask);
+      break;
+    case PROP_ZX_MAJOR_MASK:
+      g_value_set_int(value, plot->zx->major_mask);
+      break;
+    case PROP_ZX_MINOR_MASK:
+      g_value_set_int(value, plot->zx->minor_mask);
+      break;
+    case PROP_ZX_TITLE_VISIBLE:
+      g_value_set_boolean(value, plot->zx->title_visible);
+      break;
+    case PROP_ZY_LABEL_MASK:
+      g_value_set_int(value, plot->zy->label_mask);
+      break;
+    case PROP_ZY_MAJOR_MASK:
+      g_value_set_int(value, plot->zy->major_mask);
+      break;
+    case PROP_ZY_MINOR_MASK:
+      g_value_set_int(value, plot->zy->minor_mask);
+      break;
+    case PROP_ZY_TITLE_VISIBLE:
+      g_value_set_boolean(value, plot->zy->title_visible);
+      break;
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+  }
 }
 
 static void
@@ -408,7 +1148,7 @@ gtk_plot3d_real_paint (GtkWidget *widget)
   GtkPlotVector vx, vy, vz;
   gint i;
 
-  if(!GTK_WIDGET_REALIZED(widget)) return;
+  if(!GTK_WIDGET_VISIBLE(widget)) return;
 
   plot = GTK_PLOT3D(widget);
 
@@ -529,9 +1269,9 @@ gtk_plot3d_real_paint (GtkWidget *widget)
 
   /* draw planes, ticks & grid lines */
 
-  gtk_plot_ticks_recalc(&plot->ax->ticks);
-  gtk_plot_ticks_recalc(&plot->ay->ticks);
-  gtk_plot_ticks_recalc(&plot->az->ticks);
+  gtk_plot_axis_ticks_recalc(plot->ax);
+  gtk_plot_axis_ticks_recalc(plot->ay);
+  gtk_plot_axis_ticks_recalc(plot->az);
 
   if(plot->xy_visible)
     {
@@ -544,10 +1284,10 @@ gtk_plot3d_real_paint (GtkWidget *widget)
 
       /* X AXIS */
 
-      plot->ax->major_mask = plot->xy.major_mask;
-      plot->ax->minor_mask = plot->xy.minor_mask;
-      plot->ax->label_mask = plot->xy.label_mask;
-      plot->ax->title_visible = plot->xy.title_visible;
+      plot->ax->major_mask = plot->xy->major_mask;
+      plot->ax->minor_mask = plot->xy->minor_mask;
+      plot->ax->label_mask = plot->xy->label_mask;
+      plot->ax->title_visible = plot->xy->title_visible;
 
       o.x = 0.0;
       o.y = (1.0 - e[origin].y) * plot->ay->ticks.max + e[origin].y * plot->ay->ticks.min - plot->ax->origin.y;
@@ -559,10 +1299,10 @@ gtk_plot3d_real_paint (GtkWidget *widget)
 
       /* Y AXIS */
 
-      plot->ay->major_mask = plot->yx.major_mask;
-      plot->ay->minor_mask = plot->yx.minor_mask;
-      plot->ay->label_mask = plot->yx.label_mask;
-      plot->ay->title_visible = plot->yx.title_visible;
+      plot->ay->major_mask = plot->yx->major_mask;
+      plot->ay->minor_mask = plot->yx->minor_mask;
+      plot->ay->label_mask = plot->yx->label_mask;
+      plot->ay->title_visible = plot->yx->title_visible;
 
       o.x = (1.0 - e[origin].x) * plot->ax->ticks.max + e[origin].x * plot->ax->ticks.min - plot->ay->origin.x;
       o.y = 0.0;
@@ -584,10 +1324,10 @@ gtk_plot3d_real_paint (GtkWidget *widget)
 
       /* Y AXIS */
 
-      plot->ay->major_mask = plot->yz.major_mask;
-      plot->ay->minor_mask = plot->yz.minor_mask;
-      plot->ay->label_mask = plot->yz.label_mask;
-      plot->ay->title_visible = plot->yz.title_visible;
+      plot->ay->major_mask = plot->yz->major_mask;
+      plot->ay->minor_mask = plot->yz->minor_mask;
+      plot->ay->label_mask = plot->yz->label_mask;
+      plot->ay->title_visible = plot->yz->title_visible;
 
       o.x = 0.0;
       o.y = 0.0;
@@ -599,10 +1339,10 @@ gtk_plot3d_real_paint (GtkWidget *widget)
 
       /* Z AXIS */
 
-      plot->az->major_mask = plot->zy.major_mask;
-      plot->az->minor_mask = plot->zy.minor_mask;
-      plot->az->label_mask = plot->zy.label_mask;
-      plot->az->title_visible = plot->zy.title_visible;
+      plot->az->major_mask = plot->zy->major_mask;
+      plot->az->minor_mask = plot->zy->minor_mask;
+      plot->az->label_mask = plot->zy->label_mask;
+      plot->az->title_visible = plot->zy->title_visible;
 
       o.x = 0.0;
       o.y = (1.0 - e[origin].y) * plot->ay->ticks.max + e[origin].y * plot->ay->ticks.min - plot->az->origin.y;
@@ -624,10 +1364,10 @@ gtk_plot3d_real_paint (GtkWidget *widget)
 
       /* Z AXIS */
 
-      plot->az->major_mask = plot->zx.major_mask;
-      plot->az->minor_mask = plot->zx.minor_mask;
-      plot->az->label_mask = plot->zx.label_mask;
-      plot->az->title_visible = plot->zx.title_visible;
+      plot->az->major_mask = plot->zx->major_mask;
+      plot->az->minor_mask = plot->zx->minor_mask;
+      plot->az->label_mask = plot->zx->label_mask;
+      plot->az->title_visible = plot->zx->title_visible;
 
       o.x = (1.0 - e[origin].x) * plot->ax->ticks.max + e[origin].x * plot->ax->ticks.min - plot->az->origin.x;
       o.y = 0.0;
@@ -639,10 +1379,10 @@ gtk_plot3d_real_paint (GtkWidget *widget)
 
       /* X AXIS */
 
-      plot->ax->major_mask = plot->xz.major_mask;
-      plot->ax->minor_mask = plot->xz.minor_mask;
-      plot->ax->label_mask = plot->xz.label_mask;
-      plot->ax->title_visible = plot->xz.title_visible;
+      plot->ax->major_mask = plot->xz->major_mask;
+      plot->ax->minor_mask = plot->xz->minor_mask;
+      plot->ax->label_mask = plot->xz->label_mask;
+      plot->ax->title_visible = plot->xz->title_visible;
 
       o.x = 0.0;
       o.y = 0.0;
@@ -767,7 +1507,7 @@ gtk_plot3d_draw_plane(GtkPlot3D *plot,
   gint i;
 
   widget = GTK_WIDGET(plot);
-  if(!GTK_WIDGET_DRAWABLE(plot)) return;
+  if(!GTK_WIDGET_VISIBLE(plot)) return;
 
   pixmap = GTK_PLOT(plot)->drawable;
   pc = GTK_PLOT(plot)->pc;
@@ -802,11 +1542,11 @@ gtk_plot3d_draw_grids(GtkPlot3D *plot, GtkPlotAxis *axis, GtkPlotVector delta)
 {
   GtkWidget *widget;
   GtkPlotLine major_grid, minor_grid;
-  gdouble xx; 
+  gdouble xx;
   gdouble x1, x2, y1, y2;
   gint size, width, height;
   gdouble xp, yp, oz;
-  gint ntick; 
+  gint ntick;
 
   widget = GTK_WIDGET(plot);
 
@@ -848,7 +1588,7 @@ gtk_plot3d_draw_grids(GtkPlot3D *plot, GtkPlotAxis *axis, GtkPlotVector delta)
                              axis->origin.y + axis->direction.y * xx + delta.y,
                              axis->origin.z + axis->direction.z * xx + delta.z,
                              &x2, &y2, &oz);
-               gtk_plot_draw_line(GTK_PLOT(plot),
+               gtk_plot_draw_line(GTK_PLOT(plot),  
                                   minor_grid,
                                   x1, y1, x2, y2);
           }
@@ -872,7 +1612,7 @@ gtk_plot3d_draw_grids(GtkPlot3D *plot, GtkPlotAxis *axis, GtkPlotVector delta)
                              axis->origin.y + axis->direction.y * xx + delta.y,
                              axis->origin.z + axis->direction.z * xx + delta.z,
                              &x2, &y2, &oz);
-               gtk_plot_draw_line(GTK_PLOT(plot),
+               gtk_plot_draw_line(GTK_PLOT(plot),  
                                   major_grid,
                                   x1, y1, x2, y2);
           }
@@ -899,7 +1639,7 @@ gtk_plot3d_draw_axis(GtkPlot3D *plot,
   gint size;
   gint ticks_length;
 
-  widget = GTK_WIDGET(plot);
+  widget = GTK_WIDGET(plot); 
   pc = GTK_PLOT(plot)->pc;
 
   xp = GTK_PLOT(plot)->internal_allocation.x;
@@ -924,7 +1664,7 @@ gtk_plot3d_draw_axis(GtkPlot3D *plot,
     xx = axis->ticks.values[ntick].value;
     if(!axis->ticks.values[ntick].minor){
          ticks_length = axis->ticks_length;
-         gtk_plot3d_get_pixel(plot,
+         gtk_plot3d_get_pixel(plot, 
                         axis->origin.x + axis->direction.x * xx + delta.x,
                         axis->origin.y + axis->direction.y * xx + delta.y,
                         axis->origin.z + axis->direction.z * xx + delta.z,
@@ -941,7 +1681,7 @@ gtk_plot3d_draw_axis(GtkPlot3D *plot,
          }
     } else {
          ticks_length = axis->ticks_length / 2.;
-         gtk_plot3d_get_pixel(plot,
+         gtk_plot3d_get_pixel(plot, 
                         axis->origin.x + axis->direction.x * xx + delta.x,
                         axis->origin.y + axis->direction.y * xx + delta.y,
                         axis->origin.z + axis->direction.z * xx + delta.z,
@@ -951,14 +1691,14 @@ gtk_plot3d_draw_axis(GtkPlot3D *plot,
            y2 = y1 + m * ticks_length * tick.y;
            if(axis->minor_mask == GTK_PLOT_TICKS_OUT)
               gtk_plot_pc_draw_line(pc, x1, y1, x2, y2);
-
+             
            x2 = x1 - m * axis->ticks_length * tick.x;
            y2 = y1 - m * axis->ticks_length * tick.y;
-           if(axis->minor_mask == GTK_PLOT_TICKS_IN)
+           if(axis->minor_mask == GTK_PLOT_TICKS_IN) 
               gtk_plot_pc_draw_line(pc, x1, y1, x2, y2);
          }
     }
-  }    
+  }     
 
 }
 
@@ -970,23 +1710,21 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
 {
   GtkWidget *widget;
   GtkPlotPC *pc;
-  GdkFont *font;
-  GtkPSFont *psfont;
   GtkPlotText title, tick;
   gchar label[100];
   gdouble tick_value;
   gdouble xx;
-  gint text_height;
+  gint text_height, text_width, ascent, descent;
   gint xp, yp, width, height;
   gint ntick;
   gdouble m;
   gdouble size, ox, oy, oz;
-  gdouble y;
+  gdouble y = 0;
   GtkPlotVector ticks_direction, center, aux;
   gdouble proj;
   gboolean veto = FALSE;
 
-  widget = GTK_WIDGET(plot);
+  widget = GTK_WIDGET(plot); 
   pc = GTK_PLOT(plot)->pc;
 
   xp = GTK_PLOT(plot)->internal_allocation.x;
@@ -999,10 +1737,7 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
 
   gtk_plot_pc_set_color (pc, &axis->labels_attr.fg);
 
-  psfont =  gtk_psfont_get_by_name(axis->labels_attr.font);
-  font = gtk_psfont_get_gdkfont(psfont,
-                                roundint(axis->labels_attr.height * m));
-  text_height = font->ascent + font->descent;
+  gtk_plot_text_get_size("0", 0, axis->labels_attr.font, roundint(axis->labels_attr.height * m), &text_width, &text_height, &ascent, &descent); 
 
   switch(axis->labels_attr.angle){
     case 0:
@@ -1045,34 +1780,34 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
 
   aux = ticks_direction;
 
-  ticks_direction.x = aux.x*plot->e1.x + aux.y*plot->e2.x + aux.z*plot->e3.x;
-  ticks_direction.y = aux.x*plot->e1.y + aux.y*plot->e2.y + aux.z*plot->e3.y;
-  ticks_direction.z = aux.x*plot->e1.z + aux.y*plot->e2.z + aux.z*plot->e3.z;
+  ticks_direction.x = aux.x*plot->e1.x + aux.y*plot->e2.x + aux.z*plot->e3.x; 
+  ticks_direction.y = aux.x*plot->e1.y + aux.y*plot->e2.y + aux.z*plot->e3.y; 
+  ticks_direction.z = aux.x*plot->e1.z + aux.y*plot->e2.z + aux.z*plot->e3.z; 
 
   for(ntick = 0; ntick < axis->ticks.nticks; ntick++){
     if(axis->ticks.values[ntick].minor) continue;
     xx = axis->ticks.values[ntick].value;
-    gtk_plot3d_get_pixel(plot,
+    gtk_plot3d_get_pixel(plot, 
                          axis->origin.x + axis->direction.x * xx + delta.x,
                          axis->origin.y + axis->direction.y * xx + delta.y,
                          axis->origin.z + axis->direction.z * xx + delta.z,
                          &ox, &oy, &oz);
-
-    tick.x = ox +  axis->labels_offset * ticks_direction.x;
-    tick.y = oy +  axis->labels_offset * ticks_direction.y;
+   
+    tick.x = ox +  axis->labels_offset * ticks_direction.x; 
+    tick.y = oy +  axis->labels_offset * ticks_direction.y; 
 
     tick_value = axis->ticks.values[ntick].value;
 
     if(tick_value >= axis->ticks.min-1.e-9){
       if(!axis->custom_labels){
-        gtk_plot_parse_label(tick_value, axis->label_precision, axis->label_style, label);
+        gtk_plot_axis_parse_label(axis, tick_value, axis->label_precision, axis->label_style, label);
       }
       else
       {
-        gtk_signal_emit_by_name(GTK_OBJECT(axis), "tick_label",
+        gtk_signal_emit_by_name(GTK_OBJECT(axis), "tick_label", 
                                 &tick_value, label, &veto);
         if(!veto)
-          gtk_plot_parse_label(tick_value, axis->label_precision, axis->label_style, label);
+          gtk_plot_axis_parse_label(axis, tick_value, axis->label_precision, axis->label_style, label);
       }
       tick.text = label;
 
@@ -1089,35 +1824,24 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
          title = axis->title;
 
          gtk_plot3d_get_pixel(plot,
-                       axis->origin.x + center.x * axis->direction.x + delta.x,
-                       axis->origin.y + center.y * axis->direction.y + delta.y,
-                       axis->origin.z + center.z * axis->direction.z + delta.z,
+                       axis->origin.x + center.x * axis->direction.x + delta.x, 
+                       axis->origin.y + center.y * axis->direction.y + delta.y, 
+                       axis->origin.z + center.z * axis->direction.z + delta.z, 
                        &ox, &oy, &oz);
-
-         title.x = ox + plot->titles_offset * ticks_direction.x;
-         title.y = oy + plot->titles_offset * ticks_direction.y;
+    
+         title.x = ox + plot->titles_offset * ticks_direction.x; 
+         title.y = oy + plot->titles_offset * ticks_direction.y; 
 
          title.x = title.x / (gdouble)widget->allocation.width;
          title.y = title.y / (gdouble)widget->allocation.height;
 
-         gtk_plot_draw_text(GTK_PLOT(plot), title);
+         gtk_plot_draw_text(GTK_PLOT(plot), title); 
        }
-
-  gdk_font_unref(font);
 }
 
-
-static gint
-roundint (gdouble x)
+gdouble 
+get_clean_tick_size(gdouble delta) 
 {
- gint sign = 1;
-
-/* if(x <= 0.) sign = -1; 
-*/
- return (x+sign*.50999999471);
-}
-
-gdouble get_clean_tick_size(gdouble delta) {
   gint magnitude;
   delta/= 5.0; 
   if (delta<0.0) delta*= -1.0;
@@ -1167,27 +1891,27 @@ gtk_plot3d_autoscale(GtkPlot3D *plot)
         gchar *label;
         gboolean error;
 
-        gtk_plot_data_get_point(data, i,
+        gtk_plot_data_get_point(data, i, 
                        &x, &y, &z, &a, &dx, &dy, &dz, &da, &label, &error);
-        if (first) {
-          first = 0; xmin = xmax = x; ymin =ymax = y; zmin = zmax = z;
-        } else {
-          xmin = MIN(xmin, x);
-          xmax = MAX(xmax, x);
-          ymin = MIN(ymin, y);
-          ymax = MAX(ymax, y);
-          zmin = MIN(zmin, z);
-          zmax = MAX(zmax, z);
-        }
+	if (first) { 
+	  first = 0; xmin = xmax = x; ymin = ymax = y; zmin = zmax = z; 
+	} else {
+          xmin = MIN(xmin, x); 
+	  xmax = MAX(xmax, x); 
+	  ymin = MIN(ymin, y); 
+	  ymax = MAX(ymax, y); 
+	  zmin = MIN(zmin, z); 
+	  zmax = MAX(zmax, z); 
+	}
       }
     }
 
     datasets = datasets->next;
   }
 
-  gtk_plot_ticks_autoscale(&plot->ax->ticks, xmin, xmax, &px);
-  gtk_plot_ticks_autoscale(&plot->ay->ticks, ymin, ymax, &py);
-  gtk_plot_ticks_autoscale(&plot->az->ticks, zmin, zmax, &pz);
+  gtk_plot_axis_ticks_autoscale(plot->ax, xmin, xmax, &px);
+  gtk_plot_axis_ticks_autoscale(plot->ay, ymin, ymax, &py);
+  gtk_plot_axis_ticks_autoscale(plot->az, zmin, zmax, &pz);
 
   plot->ax->label_precision = px;
   plot->ay->label_precision = py;
@@ -1230,12 +1954,12 @@ gtk_plot3d_rotate_vector(GtkPlot3D *plot,
   if(a2 < 0) a2 = 360 + a2;
   if(a3 < 0) a3 = 360 + a3;
 
-  cos1 = plot->ncos[(int)a1];
-  sin1 = plot->nsin[(int)a1];
-  cos2 = plot->ncos[(int)a2];
-  sin2 = plot->nsin[(int)a2];
-  cos3 = plot->ncos[(int)a3];
-  sin3 = plot->nsin[(int)a3];
+  cos1 = plot->ncos[(int)a1%360];
+  sin1 = plot->nsin[(int)a1%360];
+  cos2 = plot->ncos[(int)a2%360];
+  sin2 = plot->nsin[(int)a2%360];
+  cos3 = plot->ncos[(int)a3%360];
+  sin3 = plot->nsin[(int)a3%360];
 
   v.y = vector->y*cos1 - vector->z*sin1;
   v.z = vector->z*cos1 + vector->y*sin1;
@@ -1263,9 +1987,9 @@ gtk_plot3d_get_pixel(GtkPlot3D *plot,
 {
   GTK_PLOT3D_CLASS(GTK_OBJECT_GET_CLASS(GTK_OBJECT(plot)))->get_pixel(GTK_WIDGET(plot), x, y, z, px, py, pz);
 }
-  
+ 
 static void
-gtk_plot3d_real_get_pixel(GtkWidget *widget, 
+gtk_plot3d_real_get_pixel(GtkWidget *widget,
                           gdouble x, gdouble y, gdouble z,
                           gdouble *px, gdouble *py, gdouble *pz)
 {
@@ -1275,7 +1999,7 @@ gtk_plot3d_real_get_pixel(GtkWidget *widget,
   gdouble rx, ry, rz;
   gdouble cx, cy, cz;
 
-  plot = GTK_PLOT3D(widget); 
+  plot = GTK_PLOT3D(widget);
   xp = GTK_PLOT(plot)->internal_allocation.x;
   yp = GTK_PLOT(plot)->internal_allocation.y;
   width = GTK_PLOT(plot)->internal_allocation.width;
@@ -1286,9 +2010,9 @@ gtk_plot3d_real_get_pixel(GtkWidget *widget,
   e2 = plot->e2;
   e3 = plot->e3;
 
-  ry = gtk_plot_ticks_transform(&plot->ay->ticks, y);
-  rx = gtk_plot_ticks_transform(&plot->ax->ticks, x);
-  rz = gtk_plot_ticks_transform(&plot->az->ticks, z);
+  ry = gtk_plot_axis_ticks_transform(plot->ay, y);
+  rx = gtk_plot_axis_ticks_transform(plot->ax, x);
+  rz = gtk_plot_axis_ticks_transform(plot->az, z);
 
   center = plot->center;
 
@@ -1304,6 +2028,8 @@ gtk_plot3d_real_get_pixel(GtkWidget *widget,
   *py += (cy + rx * e1.y + ry * e2.y + rz * e3.y) * size;
   *pz += (cz + rx * e1.z + ry * e2.z + rz * e3.z) * size;
 }
+
+/***********************************************************/
 
 
 /***********************************************************
@@ -1326,7 +2052,7 @@ gtk_plot3d_set_xrange(GtkPlot3D *plot, gdouble min, gdouble max)
   GTK_PLOT(plot)->xmax = max;
   plot->ax->ticks.min = min;
   plot->ax->ticks.max = max;
-  gtk_plot_ticks_recalc(&plot->ax->ticks);
+  gtk_plot_axis_ticks_recalc(plot->ax);
 
   gtk_signal_emit_by_name(GTK_OBJECT(plot), "update", TRUE);
   gtk_signal_emit_by_name(GTK_OBJECT(plot), "changed");
@@ -1341,7 +2067,7 @@ gtk_plot3d_set_yrange(GtkPlot3D *plot, gdouble min, gdouble max)
   GTK_PLOT(plot)->ymax = max;
   plot->ay->ticks.min = min;
   plot->ay->ticks.max = max;
-  gtk_plot_ticks_recalc(&plot->ay->ticks);
+  gtk_plot_axis_ticks_recalc(plot->ay);
 
   gtk_signal_emit_by_name(GTK_OBJECT(plot), "update", TRUE);
   gtk_signal_emit_by_name(GTK_OBJECT(plot), "changed");
@@ -1356,7 +2082,7 @@ gtk_plot3d_set_zrange(GtkPlot3D *plot, gdouble min, gdouble max)
   plot->zmax = max;
   plot->az->ticks.min = min;
   plot->az->ticks.max = max;
-  gtk_plot_ticks_recalc(&plot->az->ticks);
+  gtk_plot_axis_ticks_recalc(plot->az);
 
   gtk_signal_emit_by_name(GTK_OBJECT(plot), "update", TRUE);
   gtk_signal_emit_by_name(GTK_OBJECT(plot), "changed");
@@ -1525,17 +2251,17 @@ gtk_plot3d_plane_visible    (GtkPlot3D *plot,
  * gtk_plot3d_corner_get_attributes     
  * gtk_plot3d_frame_set_attributes     
  * gtk_plot3d_frame_get_attributes     
- * gtk_plot3d_axis_show_labels     
- * gtk_plot3d_axis_show_title     
- * gtk_plot3d_axis_hide_title     
- * gtk_plot3d_axis_show_major_ticks 
- * gtk_plot3d_axis_show_minor_ticks 
- * gtk_plot3d_axis_set_ticks 
- * gtk_plot3d_axis_set_major_ticks 
- * gtk_plot3d_axis_set_minor_ticks 
- * gtk_plot3d_axis_set_ticks_length
- * gtk_plot3d_axis_set_ticks_width
- * gtk_plot3d_axis_show_ticks
+ * gtk_plot3d_show_labels     
+ * gtk_plot3d_show_title     
+ * gtk_plot3d_hide_title     
+ * gtk_plot3d_show_major_ticks 
+ * gtk_plot3d_show_minor_ticks 
+ * gtk_plot3d_set_ticks 
+ * gtk_plot3d_set_major_ticks 
+ * gtk_plot3d_set_minor_ticks 
+ * gtk_plot3d_set_ticks_length
+ * gtk_plot3d_set_ticks_width
+ * gtk_plot3d_show_ticks
  * gtk_plot3d_set_titles_offset
  * gtk_plot3d_get_titles_offset
  ***********************************************************/
@@ -1626,22 +2352,22 @@ gtk_plot3d_get_side(GtkPlot3D *plot, GtkPlotSide side)
 
   switch(side){
     case GTK_PLOT_SIDE_XY:
-      axis = &plot->xy;
+      axis = plot->xy;
       break;
     case GTK_PLOT_SIDE_XZ:
-      axis = &plot->xz;
+      axis = plot->xz;
       break;
     case GTK_PLOT_SIDE_YX:
-      axis = &plot->yx;
+      axis = plot->yx;
       break;
     case GTK_PLOT_SIDE_YZ:
-      axis = &plot->yz;
+      axis = plot->yz;
       break;
     case GTK_PLOT_SIDE_ZX:
-      axis = &plot->zx;
+      axis = plot->zx;
       break;
     case GTK_PLOT_SIDE_ZY:
-      axis = &plot->zy;
+      axis = plot->zy;
       break;
     default:
       axis = NULL;
@@ -1651,9 +2377,9 @@ gtk_plot3d_get_side(GtkPlot3D *plot, GtkPlotSide side)
 }
 
 void            
-gtk_plot3d_axis_show_labels     (GtkPlot3D *plot,
-			         GtkPlotSide side,
-                                 gint label_mask)
+gtk_plot3d_show_labels     (GtkPlot3D *plot,
+			    GtkPlotSide side,
+                            gint label_mask)
 {
   GtkPlotAxis *axis;
 
@@ -1663,8 +2389,8 @@ gtk_plot3d_axis_show_labels     (GtkPlot3D *plot,
 }
 
 void            
-gtk_plot3d_axis_show_title     (GtkPlot3D *plot,
-			        GtkPlotSide side)
+gtk_plot3d_show_title     (GtkPlot3D *plot,
+			   GtkPlotSide side)
 {
   GtkPlotAxis *axis;
 
@@ -1674,8 +2400,8 @@ gtk_plot3d_axis_show_title     (GtkPlot3D *plot,
 }
 
 void            
-gtk_plot3d_axis_hide_title     (GtkPlot3D *plot,
-			        GtkPlotSide side)
+gtk_plot3d_hide_title     (GtkPlot3D *plot,
+			   GtkPlotSide side)
 {
   GtkPlotAxis *axis;
 
@@ -1686,9 +2412,9 @@ gtk_plot3d_axis_hide_title     (GtkPlot3D *plot,
 
 
 void            
-gtk_plot3d_axis_show_major_ticks(GtkPlot3D *plot,
-			         GtkPlotSide side,
-                                 gint ticks_mask)
+gtk_plot3d_show_major_ticks (GtkPlot3D *plot,
+			     GtkPlotSide side,
+                             gint ticks_mask)
 {
   GtkPlotAxis *axis;
 
@@ -1698,9 +2424,9 @@ gtk_plot3d_axis_show_major_ticks(GtkPlot3D *plot,
 }
 
 void            
-gtk_plot3d_axis_show_minor_ticks(GtkPlot3D *plot,
-			         GtkPlotSide side,
-                                 gint ticks_mask)
+gtk_plot3d_show_minor_ticks(GtkPlot3D *plot,
+			    GtkPlotSide side,
+                            gint ticks_mask)
 {
   GtkPlotAxis *axis;
 
@@ -1710,10 +2436,10 @@ gtk_plot3d_axis_show_minor_ticks(GtkPlot3D *plot,
 }
 
 void
-gtk_plot3d_axis_set_ticks        (GtkPlot3D *plot,
-				  GtkPlotOrientation direction,
-                                  gdouble major_step,
-                                  gint nminor)
+gtk_plot3d_set_ticks        (GtkPlot3D *plot,
+			     GtkPlotOrientation direction,
+                             gdouble major_step,
+                             gint nminor)
 {
   GtkPlotAxis *axis;
 
@@ -1725,9 +2451,9 @@ gtk_plot3d_axis_set_ticks        (GtkPlot3D *plot,
 }
 
 void
-gtk_plot3d_axis_set_major_ticks  (GtkPlot3D *plot,
-                                  GtkPlotOrientation direction,
-                                  gdouble major_step)
+gtk_plot3d_set_major_ticks  (GtkPlot3D *plot,
+                             GtkPlotOrientation direction,
+                             gdouble major_step)
 {
   GtkPlotAxis *axis;
 
@@ -1737,9 +2463,9 @@ gtk_plot3d_axis_set_major_ticks  (GtkPlot3D *plot,
 }
 
 void
-gtk_plot3d_axis_set_minor_ticks  (GtkPlot3D *plot,
-                                  GtkPlotOrientation direction,
-                                  gint nminor)
+gtk_plot3d_set_minor_ticks  (GtkPlot3D *plot,
+                             GtkPlotOrientation direction,
+                             gint nminor)
 {
   GtkPlotAxis *axis;
 
@@ -1749,9 +2475,9 @@ gtk_plot3d_axis_set_minor_ticks  (GtkPlot3D *plot,
 }
 
 void            
-gtk_plot3d_axis_set_ticks_length  (GtkPlot3D *plot,
-                                   GtkPlotOrientation direction,
-                                   gint length)
+gtk_plot3d_set_ticks_length  (GtkPlot3D *plot,
+                              GtkPlotOrientation direction,
+                              gint length)
 {
   GtkPlotAxis *axis;
 
@@ -1761,9 +2487,9 @@ gtk_plot3d_axis_set_ticks_length  (GtkPlot3D *plot,
 }
 
 void            
-gtk_plot3d_axis_set_ticks_width   (GtkPlot3D *plot,
-                                   GtkPlotOrientation direction,
-                                   gfloat width)
+gtk_plot3d_set_ticks_width   (GtkPlot3D *plot,
+                              GtkPlotOrientation direction,
+                              gfloat width)
 {
   GtkPlotAxis *axis;
 
@@ -1773,10 +2499,10 @@ gtk_plot3d_axis_set_ticks_width   (GtkPlot3D *plot,
 }
 
 void            
-gtk_plot3d_axis_show_ticks        (GtkPlot3D *plot,
-                                   GtkPlotSide side,
-                                   gint major_mask,
-                                   gint minor_mask)
+gtk_plot3d_show_ticks        (GtkPlot3D *plot,
+                              GtkPlotSide side,
+                              gint major_mask,
+                              gint minor_mask)
 {
   GtkPlotAxis *axis;
 
@@ -1908,15 +2634,18 @@ gtk_plot3d_minor_zgrid_get_attributes    (GtkPlot3D *plot,
 void
 gtk_plot3d_reset_angles(GtkPlot3D *plot)
 {
-  plot->e1.x = 0.;
+  plot->a1 = 0;
+  plot->a2 = 0;
+  plot->a3 = 0;
+  plot->e1.x = plot->xfactor;
   plot->e1.y = 0.;
-  plot->e1.z = plot->xfactor;
-  plot->e2.x = plot->yfactor;
-  plot->e2.y = 0.;
+  plot->e1.z = 0.;
+  plot->e2.x = 0.;
+  plot->e2.y = -plot->yfactor;
   plot->e2.z = 0.;
   plot->e3.x = 0.;
-  plot->e3.y = -plot->zfactor;
-  plot->e3.z = 0.;
+  plot->e3.y = 0.;
+  plot->e3.z = -plot->zfactor;
 
   gtk_signal_emit_by_name(GTK_OBJECT(plot), "update", FALSE);
   gtk_signal_emit_by_name(GTK_OBJECT(plot), "changed");
@@ -1927,33 +2656,39 @@ gtk_plot3d_rotate_x(GtkPlot3D *plot, gdouble angle)
 {
   GtkPlotVector vector, aux, e1, e2, e3;
   gdouble c, s;
- 
-  angle = 360 - angle;
-  c = plot->ncos[(int)angle];
-  s = plot->nsin[(int)angle];
- 
+
+  int iangle = (int)angle;
+  iangle = iangle%360;
+
+  plot->a1 += iangle;
+
+  iangle = 360 - iangle;
+  iangle = iangle%360;
+  c = plot->ncos[iangle];
+  s = plot->nsin[iangle];
+
   e1 = plot->e1;
   e2 = plot->e2;
   e3 = plot->e3;
- 
+
   vector.x = 0.0;
   vector.y = 1.0;
   vector.z = 0.0;
   aux = vector;
   aux.y = vector.y*c - vector.z*s;
   aux.z = vector.z*c + vector.y*s;
- 
+
   plot->e2.x = aux.x * e1.x / plot->xfactor + aux.y * e2.x / plot->yfactor + aux.z * e3.x / plot->zfactor ;
   plot->e2.y = aux.x * e1.y / plot->xfactor + aux.y * e2.y / plot->yfactor + aux.z * e3.y / plot->zfactor ;
   plot->e2.z = aux.x * e1.z / plot->xfactor + aux.y * e2.z / plot->yfactor + aux.z * e3.z / plot->zfactor ;
- 
+
   vector.x = 0.0;
   vector.y = 0.0;
   vector.z = 1.0;
   aux = vector;
   aux.y = vector.y*c - vector.z*s;
   aux.z = vector.z*c + vector.y*s;
- 
+
   plot->e3.x = aux.x * e1.x / plot->xfactor + aux.y * e2.x / plot->yfactor + aux.z * e3.x / plot->zfactor ;
   plot->e3.y = aux.x * e1.y / plot->xfactor + aux.y * e2.y / plot->yfactor + aux.z * e3.y / plot->zfactor ;
   plot->e3.z = aux.x * e1.z / plot->xfactor + aux.y * e2.z / plot->yfactor + aux.z * e3.z / plot->zfactor ;
@@ -1977,10 +2712,16 @@ gtk_plot3d_rotate_y(GtkPlot3D *plot, gdouble angle)
 {
   GtkPlotVector vector, aux, e1, e2, e3;
   gdouble  c, s;
- 
-  angle = 360 - angle;
-  c = plot->ncos[(int)angle];
-  s = plot->nsin[(int)angle];
+
+  int iangle = (int)angle;
+  iangle = iangle%360;
+
+  plot->a2 += iangle;
+
+  iangle = 360 - iangle;
+  iangle = iangle%360;
+  c = plot->ncos[iangle];
+  s = plot->nsin[iangle];
 
   e1 = plot->e1;
   e2 = plot->e2;
@@ -1992,18 +2733,18 @@ gtk_plot3d_rotate_y(GtkPlot3D *plot, gdouble angle)
   aux = vector;
   aux.z = vector.z*c - vector.x*s;
   aux.x = vector.x*c + vector.z*s;
- 
+
   plot->e1.x = aux.x * e1.x / plot->xfactor + aux.y * e2.x / plot->yfactor + aux.z * e3.x / plot->zfactor ;
   plot->e1.y = aux.x * e1.y / plot->xfactor + aux.y * e2.y / plot->yfactor + aux.z * e3.y / plot->zfactor ;
   plot->e1.z = aux.x * e1.z / plot->xfactor + aux.y * e2.z / plot->yfactor + aux.z * e3.z / plot->zfactor ;
- 
+
   vector.x = 0.0;
   vector.y = 0.0;
   vector.z = 1.0;
   aux = vector;
   aux.z = vector.z*c - vector.x*s;
   aux.x = vector.x*c + vector.z*s;
- 
+
   plot->e3.x = aux.x * e1.x / plot->xfactor + aux.y * e2.x / plot->yfactor + aux.z * e3.x / plot->zfactor ;
   plot->e3.y = aux.x * e1.y / plot->xfactor + aux.y * e2.y / plot->yfactor + aux.z * e3.y / plot->zfactor ;
   plot->e3.z = aux.x * e1.z / plot->xfactor + aux.y * e2.z / plot->yfactor + aux.z * e3.z / plot->zfactor ;
@@ -2027,33 +2768,38 @@ gtk_plot3d_rotate_z(GtkPlot3D *plot, gdouble angle)
 {
   GtkPlotVector vector, aux, e1, e2, e3;
   gdouble c, s;
- 
-  angle = 360 - angle;
-  c = plot->ncos[(int)angle];
-  s = plot->nsin[(int)angle];
- 
+  int iangle = (int)angle;
+  iangle = iangle%360;
+
+  plot->a3 += iangle;
+
+  iangle = 360 - iangle;
+  iangle = iangle%360;
+  c = plot->ncos[iangle];
+  s = plot->nsin[iangle];
+
   e1 = plot->e1;
   e2 = plot->e2;
   e3 = plot->e3;
- 
+
   vector.x = 1.0;
   vector.y = 0.0;
   vector.z = 0.0;
   aux = vector;
   aux.x = vector.x*c - vector.y*s;
   aux.y = vector.y*c + vector.x*s;
- 
+
   plot->e1.x = aux.x * e1.x / plot->xfactor + aux.y * e2.x / plot->yfactor + aux.z * e3.x / plot->zfactor ;
   plot->e1.y = aux.x * e1.y / plot->xfactor + aux.y * e2.y / plot->yfactor + aux.z * e3.y / plot->zfactor ;
   plot->e1.z = aux.x * e1.z / plot->xfactor + aux.y * e2.z / plot->yfactor + aux.z * e3.z / plot->zfactor ;
- 
+
   vector.x = 0.0;
   vector.y = 1.0;
   vector.z = 0.0;
   aux = vector;
   aux.x = vector.x*c - vector.y*s;
   aux.y = vector.y*c + vector.x*s;
- 
+
   plot->e2.x = aux.x * e1.x / plot->xfactor + aux.y * e2.x / plot->yfactor + aux.z * e3.x / plot->zfactor ;
   plot->e2.y = aux.x * e1.y / plot->xfactor + aux.y * e2.y / plot->yfactor + aux.z * e3.y / plot->zfactor ;
   plot->e2.z = aux.x * e1.z / plot->xfactor + aux.y * e2.z / plot->yfactor + aux.z * e3.z / plot->zfactor ;
@@ -2073,9 +2819,9 @@ gtk_plot3d_rotate_z(GtkPlot3D *plot, gdouble angle)
 }
 
 void
-gtk_plot3d_axis_set_scale       (GtkPlot3D *plot,
-                                 GtkPlotOrientation axis,
-                                 GtkPlotScale scale)
+gtk_plot3d_set_scale       (GtkPlot3D *plot,
+                            GtkPlotOrientation axis,
+                            GtkPlotScale scale)
 {
   GtkPlotAxis *ax;
   ax = gtk_plot3d_get_axis(plot, axis);
@@ -2083,11 +2829,10 @@ gtk_plot3d_axis_set_scale       (GtkPlot3D *plot,
 }
 
 GtkPlotScale
-gtk_plot3d_axis_get_scale       (GtkPlot3D *plot,
-                                 GtkPlotOrientation axis)
+gtk_plot3d_get_scale       (GtkPlot3D *plot,
+                            GtkPlotOrientation axis)
 {
   GtkPlotAxis *ax;
   ax = gtk_plot3d_get_axis(plot, axis);
   return(ax->ticks.scale);
 }
-

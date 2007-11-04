@@ -29,6 +29,8 @@
 #include "gtkplotcsurface.h"
 #include "gtkpsfont.h"
 
+#define P_(string) string
+
 typedef struct
 {
   GList *polygons;  	     /* list with polygons enclosed by a contour */
@@ -52,23 +54,20 @@ typedef struct
   gint type;             /* one or two intersection points */ 
 } GtkPlotContourX;
 
-extern void gtk_plot_parse_label               (gdouble val,
-                                                gint precision,
-                                                gint style,
-                                                gchar *label,
-                                                GtkPlotScale scale);
-
 static void gtk_plot_csurface_class_init 	(GtkPlotCSurfaceClass *klass);
 static void gtk_plot_csurface_init 		(GtkPlotCSurface *data);
 static void gtk_plot_csurface_destroy 		(GtkObject *object);
-static void gtk_plot_csurface_set_arg           (GtkObject *object,
-                                                 GtkArg    *arg,
-                                                 guint      arg_id);
-static void gtk_plot_csurface_get_arg           (GtkObject *object,
-                                                 GtkArg    *arg,
-                                                 guint      arg_id);
-static void gtk_plot_csurface_clone             (GtkPlotData *data,
-                                                 GtkPlotData *copy);
+static void gtk_plot_csurface_get_property         (GObject      *object,
+                                                 guint            prop_id,
+                                                 GValue          *value,
+                                                 GParamSpec      *pspec);
+static void gtk_plot_csurface_set_property         (GObject      *object,
+                                                 guint            prop_id,
+                                                 const GValue          *value,
+                                                 GParamSpec      *pspec);
+
+static void gtk_plot_csurface_clone 		(GtkPlotData *data,
+						 GtkPlotData *copy);
 static void update_data                         (GtkPlotData *data);
 static void gtk_plot_csurface_build_polygons 	(GtkPlotSurface *surface);
 static void gtk_plot_csurface_build_contours 	(GtkPlotSurface *surface);
@@ -86,7 +85,7 @@ static void gtk_plot_csurface_lighting 		(GdkColor *a,
 						 gdouble normal,
 						 gdouble ambient);
 static void clear_polygons			(GtkPlotCSurface *surface);
-static gint roundint				(gdouble x);
+extern inline gint roundint			(gdouble x);
 static void hsv_to_rgb 				(gdouble  h, 
 						 gdouble  s, 
 						 gdouble  v,
@@ -100,7 +99,7 @@ static void rgb_to_hsv 				(gdouble  r,
 						 gdouble *s, 
 						 gdouble *v);
 
-enum { 
+enum {
   ARG_0,
   ARG_LINES_VISIBLE,
   ARG_PROJECTION,
@@ -145,6 +144,7 @@ gtk_plot_csurface_class_init (GtkPlotCSurfaceClass *klass)
   GtkWidgetClass *widget_class;
   GtkPlotDataClass *data_class;
   GtkPlotSurfaceClass *surface_class;
+  GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
   parent_class = gtk_type_class (gtk_plot_surface_get_type ());
 
@@ -155,41 +155,63 @@ gtk_plot_csurface_class_init (GtkPlotCSurfaceClass *klass)
 
   object_class->destroy = gtk_plot_csurface_destroy;
 
-  object_class->set_arg = gtk_plot_csurface_set_arg;
-  object_class->get_arg = gtk_plot_csurface_get_arg;
+  gobject_class->set_property = gtk_plot_csurface_set_property;
+  gobject_class->get_property = gtk_plot_csurface_get_property;
 
-  gtk_object_add_arg_type ("GtkPlotCSurface::lines_visible",
-                           GTK_TYPE_UINT,
-                           GTK_ARG_READWRITE,
-                           ARG_LINES_VISIBLE);
-  gtk_object_add_arg_type ("GtkPlotCSurface::projection",
-                           GTK_TYPE_UINT,
-                           GTK_ARG_READWRITE,
-                           ARG_PROJECTION);
-  gtk_object_add_arg_type ("GtkPlotCSurface::levels_style",
-                           GTK_TYPE_UINT,
-                           GTK_ARG_READWRITE,
-                           ARG_LEVELS_STYLE);
-  gtk_object_add_arg_type ("GtkPlotCSurface::levels_width",
-                           GTK_TYPE_DOUBLE,
-                           GTK_ARG_READWRITE,
-                           ARG_LEVELS_WIDTH);
-  gtk_object_add_arg_type ("GtkPlotCSurface::levels_color",
-                           GTK_TYPE_POINTER,
-                           GTK_ARG_READWRITE,
-                           ARG_LEVELS_COLOR);
-  gtk_object_add_arg_type ("GtkPlotCSurface::sublevels_style",
-                           GTK_TYPE_UINT,
-                           GTK_ARG_READWRITE,
-                           ARG_SUBLEVELS_STYLE);
-  gtk_object_add_arg_type ("GtkPlotCSurface::sublevels_width",
-                           GTK_TYPE_DOUBLE,
-                           GTK_ARG_READWRITE,
-                           ARG_SUBLEVELS_WIDTH);
-  gtk_object_add_arg_type ("GtkPlotCSurface::sublevels_color",
-                           GTK_TYPE_POINTER,
-                           GTK_ARG_READWRITE,
-                           ARG_SUBLEVELS_COLOR);
+  g_object_class_install_property (gobject_class,
+                           ARG_LINES_VISIBLE,
+  g_param_spec_int ("lines_visible",
+                           P_(""),
+                           P_(""),
+                           0,G_MAXINT,0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_PROJECTION,
+  g_param_spec_int ("projection",
+                           P_(""),
+                           P_(""),
+                           0,G_MAXINT,0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_LEVELS_STYLE,
+  g_param_spec_int ("levels_style",
+                           P_(""),
+                           P_(""),
+                           0,G_MAXINT,0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_LEVELS_WIDTH,
+  g_param_spec_double ("levels_width",
+                           P_(""),
+                           P_(""),
+                           0,G_MAXDOUBLE,0.0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_LEVELS_COLOR,
+  g_param_spec_pointer ("levels_color",
+                           P_(""),
+                           P_(""),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_SUBLEVELS_STYLE,
+  g_param_spec_int ("sublevels_style",
+                           P_(""),
+                           P_(""),
+                           0,G_MAXINT,0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_SUBLEVELS_WIDTH,
+  g_param_spec_double ("sublevels_width",
+                           P_(""),
+                           P_(""),
+                           0,G_MAXDOUBLE,0.0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_SUBLEVELS_COLOR,
+  g_param_spec_pointer ("sublevels_color",
+                           P_(""),
+                           P_(""),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
 
   data_class->clone = gtk_plot_csurface_clone;
   data_class->gradient_changed = update_data;
@@ -205,80 +227,82 @@ gtk_plot_csurface_class_init (GtkPlotCSurfaceClass *klass)
 }
 
 static void
-gtk_plot_csurface_set_arg (GtkObject      *object,
-                           GtkArg         *arg,
-                           guint           arg_id)
+gtk_plot_csurface_set_property (GObject      *object,
+                             guint            prop_id,
+                             const GValue          *value,
+                             GParamSpec      *pspec)
 {
   GtkPlotCSurface *data;
 
   data = GTK_PLOT_CSURFACE (object);
 
-  switch (arg_id)
+  switch (prop_id)
     {
       case ARG_LINES_VISIBLE:
-        data->lines_visible = GTK_VALUE_BOOL(*arg);
+        data->lines_visible = g_value_get_boolean(value);
         break;
       case ARG_PROJECTION:
-        data->projection = GTK_VALUE_UINT(*arg);
+        data->projection = g_value_get_int(value);
         break;
       case ARG_LEVELS_STYLE:
-        data->levels_line.line_style = GTK_VALUE_UINT(*arg);
+        data->levels_line.line_style = g_value_get_int(value);
         break;
       case ARG_LEVELS_WIDTH:
-        data->levels_line.line_width = GTK_VALUE_DOUBLE(*arg);
+        data->levels_line.line_width = g_value_get_double(value);
         break;
       case ARG_LEVELS_COLOR:
-        data->levels_line.color = *((GdkColor *)GTK_VALUE_POINTER(*arg));
+        data->levels_line.color = *((GdkColor *)g_value_get_pointer(value));
         break;
       case ARG_SUBLEVELS_STYLE:
-        data->sublevels_line.line_style = GTK_VALUE_UINT(*arg);
+        data->sublevels_line.line_style = g_value_get_int(value);
         break;
       case ARG_SUBLEVELS_WIDTH:
-        data->sublevels_line.line_width = GTK_VALUE_DOUBLE(*arg);
+        data->sublevels_line.line_width = g_value_get_double(value);
         break;
       case ARG_SUBLEVELS_COLOR:
-        data->sublevels_line.color = *((GdkColor *)GTK_VALUE_POINTER(*arg));
+        data->sublevels_line.color = *((GdkColor *)g_value_get_pointer(value));
         break;
     }
 }
 
 static void
-gtk_plot_csurface_get_arg (GtkObject      *object,
-                           GtkArg         *arg,
-                           guint           arg_id)
+gtk_plot_csurface_get_property (GObject      *object,
+                             guint            prop_id,
+                             GValue          *value,
+                             GParamSpec      *pspec)
 {
   GtkPlotCSurface *data;
 
   data = GTK_PLOT_CSURFACE (object);
 
-  switch (arg_id)
+  switch (prop_id)
     {
       case ARG_LINES_VISIBLE:
-        GTK_VALUE_BOOL(*arg) = data->lines_visible;
+        g_value_set_boolean(value, data->lines_visible);
         break;
       case ARG_PROJECTION:
-        GTK_VALUE_UINT(*arg) = data->projection;
+        g_value_set_int(value, data->projection);
         break;
       case ARG_LEVELS_STYLE:
-        GTK_VALUE_UINT(*arg) = data->levels_line.line_style;
+        g_value_set_int(value, data->levels_line.line_style);
         break;
       case ARG_LEVELS_WIDTH:
-        GTK_VALUE_DOUBLE(*arg) = data->levels_line.line_width;
+        g_value_set_double(value, data->levels_line.line_width);
         break;
       case ARG_LEVELS_COLOR:
-        GTK_VALUE_POINTER(*arg) = &data->levels_line.color;
+        g_value_set_pointer(value, &data->levels_line.color);
         break;
       case ARG_SUBLEVELS_STYLE:
-        GTK_VALUE_UINT(*arg) = data->sublevels_line.line_style;
+        g_value_set_int(value, data->sublevels_line.line_style);
         break;
       case ARG_SUBLEVELS_WIDTH:
-        GTK_VALUE_DOUBLE(*arg) = data->sublevels_line.line_width;
+        g_value_set_double(value, data->sublevels_line.line_width);
         break;
       case ARG_SUBLEVELS_COLOR:
-        GTK_VALUE_POINTER(*arg) = &data->sublevels_line.color;
+        g_value_set_pointer(value, &data->sublevels_line.color);
         break;
       default:
-        arg->type = GTK_TYPE_INVALID;
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
         break;
     }
 }
@@ -295,6 +319,7 @@ gtk_plot_csurface_init (GtkPlotCSurface *dataset)
 {
   GtkWidget *widget;
   GdkColormap *colormap;
+  GtkPlotArray *dim;
 
   GTK_WIDGET_SET_FLAGS(dataset, GTK_NO_WINDOW);
 
@@ -308,7 +333,7 @@ gtk_plot_csurface_init (GtkPlotCSurface *dataset)
   GTK_PLOT_SURFACE(dataset)->show_mesh = TRUE;
 
   dataset->lines_visible = TRUE;
-  dataset->projection = GTK_PLOT_PROJECT_NONE;
+  dataset->projection = GTK_PLOT_PROJECT_EMPTY;
   dataset->levels = NULL; 
   dataset->bg_triangles = NULL; 
 
@@ -317,6 +342,11 @@ gtk_plot_csurface_init (GtkPlotCSurface *dataset)
   dataset->levels_line = GTK_PLOT_SURFACE(dataset)->mesh_line;
   dataset->sublevels_line = GTK_PLOT_SURFACE(dataset)->mesh_line;
   dataset->sublevels_line.line_style = GTK_PLOT_LINE_DASHED;
+
+  dim = gtk_plot_data_find_dimension(GTK_PLOT_DATA(dataset), "y");
+  gtk_plot_array_set_independent(dim, TRUE);
+  dim = gtk_plot_data_find_dimension(GTK_PLOT_DATA(dataset), "z");
+  gtk_plot_array_set_required(dim, TRUE);
 }
 
 static void 
@@ -570,25 +600,32 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
   gtk_plot_pc_clip(plot->pc, &clip_area);
 
   if(csurface->projection == GTK_PLOT_PROJECT_FULL){
+    gtk_plot_data_get_gradient_level(data, data->gradient->ticks.min - 1., &color); 
+    gtk_plot_pc_set_color(data->plot->pc, &color);
+    gtk_plot_pc_draw_rectangle (plot->pc, TRUE,
+                                clip_area.x, clip_area.y,
+                                clip_area.width, clip_area.height);
+
     list = csurface->bg_triangles;
     while(list){
       GtkPlotPoint p[3];
       GtkPlotPolygon *poly = (GtkPlotPolygon *)list->data;
- 
+  
       gtk_plot_get_pixel(plot, poly->xyz[0].x, poly->xyz[0].y, &p[0].x, &p[0].y);
       gtk_plot_get_pixel(plot, poly->xyz[1].x, poly->xyz[1].y, &p[1].x, &p[1].y);
       gtk_plot_get_pixel(plot, poly->xyz[2].x, poly->xyz[2].y, &p[2].x, &p[2].y);
- 
-      gtk_plot_data_get_gradient_level(data, poly->level, &color);
+  
+      gtk_plot_data_get_gradient_level(data, poly->level, &color); 
       gtk_plot_pc_set_color(data->plot->pc, &color);
     
-      gtk_plot_pc_draw_polygon(plot->pc, TRUE, p, 3);
-
+      gtk_plot_pc_draw_polygon(plot->pc, TRUE, p, 3); 
+  
       list = list->next;
     }
-  }
+  } 
 
-  list = csurface->levels;
+ 
+  list = csurface->levels; 
   while(list){
     GtkPlotContourLevel *level = (GtkPlotContourLevel *)list->data;
     GList *polygons = level->polygons;
@@ -609,23 +646,24 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
 
       if(nlines == 0){ polygons = last; continue; }
 
-      contour = g_new0(GtkPlotPoint, ntotal);
-      inner_contour = g_new0(GtkPlotPoint, ntotal);
+      contour = g_new0(GtkPlotPoint, ntotal); 
+      inner_contour = g_new0(GtkPlotPoint, ntotal); 
 
       /* Actual contour line */
-      for(aux = polygons, n = 0, i = 0; n < nlines; aux = aux->next, n++, i+=2){        GtkPlotPolygon *p = (GtkPlotPolygon *)aux->data;
+      for(aux = polygons, n = 0, i = 0; n < nlines; aux = aux->next, n++, i+=2){
+        GtkPlotPolygon *p = (GtkPlotPolygon *)aux->data;
         gdouble x1, y1, x2, y2;
         gtk_plot_get_pixel(plot, p->xyz[0].x, p->xyz[0].y, &x1, &y1);
         gtk_plot_get_pixel(plot, p->xyz[1].x, p->xyz[1].y, &x2, &y2);
-        contour[i].x = x1; contour[i].y = y1;
-        contour[i+1].x = x2; contour[i+1].y = y2;
+        contour[i].x = x1; contour[i].y = y1; 
+        contour[i+1].x = x2; contour[i+1].y = y2; 
       }
-  
+   
       sort_lines(contour, nlines, &n1);
-  
+   
       closed = FALSE;
       if(contour[n1-1].x == contour[0].x && contour[n1-1].y == contour[0].y)
-        closed = TRUE;
+        closed = TRUE; 
 
       branch = g_new0(GtkPlotContourLine, 1);
       branch->contour = contour;
@@ -633,20 +671,20 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
       branch->level = level->level;
       branch->sublevel = level->sublevel;
       lines = g_list_append(lines, branch);
-
+ 
       if(csurface->projection == GTK_PLOT_PROJECT_FULL) {
-        GtkPlotPoint pp[4];
-        gtk_plot_data_get_gradient_level(data, level->level == data->gradient.min ? level->level - 0.1 : level->level, &color);
+	GtkPlotPoint pp[4];
+        gtk_plot_data_get_gradient_level(data, level->level == data->gradient->ticks.min ? level->level - 0.1 : level->level, &color); 
         gtk_plot_pc_set_color(data->plot->pc, &color);
-        aux = polygons;
+	aux = polygons;
         while(aux){
-          GtkPlotPolygon *p = (GtkPlotPolygon *)aux->data;
-          if(p->n == 0) break;
-          for(i = 0; i < p->n; i++)
-            gtk_plot_get_pixel(data->plot, p->xyz[i].x, p->xyz[i].y, &pp[i].x, &pp[i].y);
-          gtk_plot_pc_draw_polygon(plot->pc, TRUE, pp, p->n);
-          aux = aux->next;
-        }
+	  GtkPlotPolygon *p = (GtkPlotPolygon *)aux->data;
+	  if(p->n == 0) break;
+  	  for(i = 0; i < p->n; i++)
+	    gtk_plot_get_pixel(data->plot, p->xyz[i].x, p->xyz[i].y, &pp[i].x, &pp[i].y);
+ 	  gtk_plot_pc_draw_polygon(plot->pc, TRUE, pp, p->n);
+	  aux = aux->next;
+	}
       }
 
       polygons = last;
@@ -671,9 +709,9 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
       label = data->labels_attr;
       label.justification = GTK_JUSTIFY_CENTER;
       label.angle = 0;
-      gtk_plot_parse_label(s->level, data->legends_precision, data->legends_style, text, data->gradient.scale);
+      gtk_plot_axis_parse_label(data->gradient, s->level, data->legends_precision, data->legends_style, text);
 
-      label.text = text;
+      label.text = text; 
       gtk_plot_text_get_size(text, 0, data->labels_attr.font, data->labels_attr.height, &width, &height, &a, &d);
 
       for(i = 0; i < s->n1-1; i++){
@@ -681,7 +719,7 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
         dy = s->contour[i+1].y - s->contour[i].y;
         length += sqrt(dx*dx + dy*dy);
       }
-
+      
 
       for(i = 0; i < (length < 150 ? 1 : s->n1-1); i++){
         dx = s->contour[i+1].x - s->contour[i].x;
@@ -699,14 +737,15 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
 
 /*
           if(abs(dy) > 2*abs(dx)){
-            bb.x = x - height;
-            bb.y = y - width / 2;
+            bb.x = x - height; 
+            bb.y = y - width / 2; 
             bb.width = height;
             bb.height = width;
             label.angle = 90;
           }
 */
 
+          gtk_plot_pc_clip(plot->pc, NULL);
           if(bb.x >= plot->internal_allocation.x && bb.x + bb.width <= plot->internal_allocation.x + plot->internal_allocation.width  && bb.y + bb.height < plot->internal_allocation.y + plot->internal_allocation.height && bb.y > plot->internal_allocation.y){
             GList *aux = labels;
             gboolean overlap = FALSE;
@@ -730,14 +769,16 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
               if(i != 0) break;
             }
           }
+          gtk_plot_pc_clip(plot->pc, &clip_area);
         }
       }
       list = list->next;
-    }
+    } 
   }
 
 
-  if(csurface->lines_visible || csurface->projection == GTK_PLOT_PROJECT_EMPTY){    list = lines;
+  if(csurface->projection == GTK_PLOT_PROJECT_FULL || csurface->projection == GTK_PLOT_PROJECT_EMPTY){
+    list = lines;
     while(list){
       GtkPlotContourLine *s = (GtkPlotContourLine *)list->data;
       GtkPlotPoint x1, x2;
@@ -747,14 +788,20 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
       GtkPlotPoint line[s->n1];
       gboolean prev_x = 0;
 
-      if(s->sublevel)
+      if(s->sublevel){
+	if(csurface->sublevels_line.line_style == GTK_PLOT_LINE_NONE)
+	  { list = list->next; continue; }
         gtk_plot_set_line_attributes(plot, csurface->sublevels_line);
-      else
+      }else{
+	if(csurface->levels_line.line_style == GTK_PLOT_LINE_NONE)
+	  { list = list->next; continue; }
         gtk_plot_set_line_attributes(plot, csurface->levels_line);
+      }
+
 
       if(csurface->projection == GTK_PLOT_PROJECT_EMPTY){
-        if(s->level > data->gradient.min){
-          gtk_plot_data_get_gradient_level(data, s->level, &color);
+        if(s->level > data->gradient->ticks.min){
+          gtk_plot_data_get_gradient_level(data, s->level, &color); 
           gtk_plot_pc_set_color(data->plot->pc, &color);
         }
       }
@@ -789,27 +836,27 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
         if(x == 3) continue;
 
         if(nxp > 1) sort_points(xp,nxp);
-
+    
         if(nxp > 0){
           gint j;
           for(j = 0; j < nxp; j++){
             GtkPlotContourX aux = xp[j];
             x = aux.type;
 
-            if(x == 1){
+            if(x == 1){ 
               if(p1->x >= aux.bb->x && p1->x <= aux.bb->x+aux.bb->width && p1->y >= aux.bb->y && p1->y <= aux.bb->y+aux.bb->height){
                 line[0] = aux.x1;
                 n = 1;
               } else {
                 if(n == 0) line[n++] = *p1;
                 line[n++] = aux.x1;
-                gtk_plot_pc_draw_lines(plot->pc, line, n);
+                gtk_plot_pc_draw_lines(plot->pc, line, n); 
                 n = 0;
               }
             } else { /* x == 2 */
               if(n == 0) line[n++] = *p1;
               line[n++] = aux.x1;
-              gtk_plot_pc_draw_lines(plot->pc, line, n);
+              gtk_plot_pc_draw_lines(plot->pc, line, n); 
               line[0] = aux.x2;
               n = 1;
             }
@@ -819,7 +866,7 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
           if(n == 0) line[n++] = *p1;
           line[n++] = *p2;
         }
-        if(n > 1) gtk_plot_pc_draw_lines(plot->pc, line, n);
+        if(n > 1) gtk_plot_pc_draw_lines(plot->pc, line, n); 
       }
 
       list = list->next;
@@ -900,7 +947,7 @@ gtk_plot_csurface_real_draw_polygons (GtkPlotSurface *surface, GtkPlotProjection
            { discard = TRUE; break; }
       }
       if(discard)  { list = list->next; continue; }
-    }    
+    }     
 
 
     triangle = polygon->t;
@@ -947,7 +994,7 @@ gtk_plot_csurface_real_draw_polygons (GtkPlotSurface *surface, GtkPlotProjection
       gtk_plot_data_get_gradient_level(data, polygon->level, &color); 
       gtk_plot_csurface_lighting(&color, &real_color, factor, 1.); 
     } else {
-      if(polygon->level <= data->gradient.min)
+      if(polygon->level <= data->gradient->ticks.min)
         color = csurface->levels_line.color;
       else
         gtk_plot_data_get_gradient_level(data, polygon->level, &color); 
@@ -1082,7 +1129,7 @@ sides_cut_level(GtkPlotDTtriangle *triangle, GtkPlotVector *points, GtkPlotVecto
       }
 
       if(n == 3){ /* intersection in a vertex => repeated point */
-        if((c[2].x == c[0].x && c[2].y == c[0].y) || (c[2].x == c[1].x && c[2].y == c[1].y)){
+        if((c[2].x == c[0].x && c[2].y == c[0].y) || (c[2].x == c[1].x && c[2].y == c[1].y)){ 
           n--;
           mask = 3;
         } else if(c[1].x == c[0].x && c[1].y == c[0].y){
@@ -1090,7 +1137,7 @@ sides_cut_level(GtkPlotDTtriangle *triangle, GtkPlotVector *points, GtkPlotVecto
           c[1].y = c[2].y;
           n--;
           mask = 5;
-        }
+        } 
       }
     }
 
@@ -1192,13 +1239,13 @@ gtk_plot_csurface_build_polygons(GtkPlotSurface *surface)
     return;
   }
 
-  min = data->gradient.min;
-  max = data->gradient.max;
+  min = data->gradient->ticks.min;
+  max = data->gradient->ticks.max;
 
-  ticks = data->gradient.values;
-  nlevels = data->gradient.nticks;
+  ticks = data->gradient->ticks.values;
+  nlevels = data->gradient->ticks.nticks;
 
-  step = (data->gradient.max - data->gradient.min);
+  step = (data->gradient->ticks.max - data->gradient->ticks.min);
 
   list = surface->dt->triangles;
   while(list){
@@ -1230,11 +1277,11 @@ gtk_plot_csurface_build_polygons(GtkPlotSurface *surface)
     for(level = nlevels-1; level >= 0; level--){
         gint n_cuts = 0;
 
-        h = ticks[level].value;
+        h = ticks[level].value; 
 
-        if(triangle->na->z <= h) n_cuts++;
-        if(triangle->nb->z <= h) n_cuts++;
-        if(triangle->nc->z <= h) n_cuts++;
+        if(triangle->na->z <= h) n_cuts++; 
+        if(triangle->nb->z <= h) n_cuts++; 
+        if(triangle->nc->z <= h) n_cuts++; 
         if(n_cuts != 3){
             polygon = g_new0(GtkPlotPolygon, 1);
 
@@ -1261,9 +1308,9 @@ gtk_plot_csurface_build_polygons(GtkPlotSurface *surface)
 
     for(level = nlevels-1; level >= 0; level--){
 
-        h = ticks[level].value;
+        h = ticks[level].value; 
 
-        if((polygon = sides_cut_level(triangle, points, side, h))){
+        if((polygon = sides_cut_level(triangle, points, side, h))){  
           polygon->sublevel = ticks[level].minor;
           if(level == 0) polygon->level -= step;
           surface->polygons = g_list_append(surface->polygons, polygon);
@@ -1289,15 +1336,15 @@ gtk_plot_csurface_build_contours(GtkPlotSurface *surface)
   gint nlines;
   GtkPlotTick *values;
 
-  min = data->gradient.min;
-  max = data->gradient.max;
+  min = data->gradient->ticks.min;
+  max = data->gradient->ticks.max;
 
-  nlevels = data->gradient.nticks;
-  nsublevels = data->gradient.nminor;
-  step = (data->gradient.max - data->gradient.min);
+  nlevels = data->gradient->ticks.nticks;
+  nsublevels = data->gradient->ticks.nminor;
+  step = (data->gradient->ticks.max - data->gradient->ticks.min) ;
 
-  values = data->gradient.values;
-  nlevels = data->gradient.nticks;
+  values = data->gradient->ticks.values;
+  nlevels = data->gradient->ticks.nticks;
 
   for(level = nlevels-1; level >= 0; level--){
       GtkPlotContourLevel *_level;
@@ -1319,15 +1366,23 @@ gtk_plot_csurface_build_contours(GtkPlotSurface *surface)
       while(list){
         GtkPlotDTtriangle *triangle = (GtkPlotDTtriangle *)list->data;
         GtkPlotDTtriangle *next = triangle;
+        GList *first = NULL;
+        GList *last = NULL;
+        GList *new_list = NULL;
+        GList *branch = NULL;
         gboolean end = FALSE;
         nlines = 0;
-        if(!triangle->visited){
-          if((polygon = triangle_cuts_level(triangle, values[level].value))){
+
+        if(!triangle->visited){  
+          if((polygon = triangle_cuts_level(triangle, values[level].value))){  
+
+            /* New branch */
 
             triangle->visited = TRUE;
             polygon->level = values[level].value;
             prev = polygon;
-            _level->polygons = g_list_append(_level->polygons, polygon);
+            branch = g_list_append(branch, polygon);
+            last = first = branch;
 
             nlines = 2;
             end = FALSE;
@@ -1337,8 +1392,9 @@ gtk_plot_csurface_build_contours(GtkPlotSurface *surface)
               for(i = 0; i < 3; i++){
                 GtkPlotDTtriangle *nn = next->nn[i];
                 if(nn && !nn->visited){
-                  nn->visited = TRUE;
-                  if((polygon = triangle_cuts_level(nn, values[level].value))){
+                  if((polygon = triangle_cuts_level(nn, values[level].value))){ 
+                    nn->visited = TRUE;
+
                     if(!((prev->xyz[0].x == polygon->xyz[0].x &&
                         prev->xyz[0].y == polygon->xyz[0].y) ||
                        (prev->xyz[1].x == polygon->xyz[0].x &&
@@ -1349,11 +1405,17 @@ gtk_plot_csurface_build_contours(GtkPlotSurface *surface)
                         prev->xyz[0].y == polygon->xyz[1].y)))
                        { nn->visited = FALSE; continue; }
 
+                    new_list = g_list_alloc();
+                    new_list->data = polygon;
+                    new_list->prev = last;
+                    last->next = new_list;
+                    last = new_list;
+
                     next = nn;
                     end = FALSE;
                     polygon->level = values[level].value;
                     prev = polygon;
-                    _level->polygons = g_list_append(_level->polygons, polygon);                    nlines++;
+                    nlines++;
                     break;
                   }
                 }
@@ -1363,7 +1425,9 @@ gtk_plot_csurface_build_contours(GtkPlotSurface *surface)
             /* We add an extra polygon to mark the end of branch */
             polygon = g_new0(GtkPlotPolygon, 1);
             polygon->n = 0;
-            _level->polygons = g_list_append(_level->polygons, polygon);
+            polygon->level = 0.0;
+            branch = g_list_append(branch, polygon);
+            _level->polygons = g_list_concat(_level->polygons, branch);
 
           }
         }
@@ -1414,6 +1478,8 @@ gtk_plot_csurface_build_contours(GtkPlotSurface *surface)
         list = list->next;
       }
   }
+
+
   list = surface->dt->triangles;
   while(list){
     GtkPlotDTtriangle *triangle = (GtkPlotDTtriangle *)list->data;
@@ -1500,7 +1566,7 @@ gtk_plot_csurface_get_legend_size(GtkPlotData *data, gint *width, gint *height)
   if(data->legend)
     legend.text = data->legend;
   else
-    legend.text = "";
+    legend.text = "X";
 
   *height = 0;
   *width = roundint(12 * m);
@@ -1510,34 +1576,8 @@ gtk_plot_csurface_get_legend_size(GtkPlotData *data, gint *width, gint *height)
                            roundint(legend.height * m), 
                            &lwidth, &lheight,
                            &lascent, &ldescent);
-    *width = lwidth + roundint(12 * m);
     *height = MAX(lheight, roundint(data->symbol.size * m));
-  }
-
-  if(data->show_gradient){
-    gchar text[100];
-    gint label_height = 0;
-  
-    gtk_plot_parse_label(data->gradient.min, data->legends_precision, data->legends_style, text, data->gradient.scale);
-    gtk_plot_text_get_size(text, legend.angle, legend.font,
-                           roundint(legend.height * m), 
-                           &lwidth, &lheight,
-                           &lascent, &ldescent);
-  
-    *width = MAX(*width, lwidth + roundint((plot->legends_line_width + 12) * m));
-
-    label_height = MAX(label_height, lheight);
-
-    gtk_plot_parse_label(data->gradient.max, data->legends_precision, data->legends_style, text, data->gradient.scale);
-  
-    gtk_plot_text_get_size(text, legend.angle, legend.font,
-                           roundint(legend.height * m), 
-                           &lwidth, &lheight,
-                           &lascent, &ldescent);
-  
-    *width = MAX(*width, lwidth + roundint((plot->legends_line_width + 12) * m));
-    label_height = MAX(label_height, lheight);
-    *height += (data->gradient.nmajorticks + 2) * label_height;
+    *width = lwidth + roundint(12 * m);
   }
 
 }
@@ -1571,39 +1611,25 @@ gtk_plot_csurface_draw_legend(GtkPlotData *data, gint x, gint y)
   if(data->legend)
     legend.text = data->legend;
   else
-    legend.text = "";
+    legend.text = "X";
 
   gtk_plot_text_get_size(legend.text, legend.angle, legend.font,
                          roundint(legend.height * m), 
                          &lwidth, &lheight,
                          &lascent, &ldescent);
 
-  if(GTK_PLOT_DATA(data)->show_legend){
+  if(GTK_PLOT_DATA(data)->show_legend && data->legend && strlen(data->legend) > 0){
     legend.x = (gdouble)(area.x + x + roundint(4 * m))
                / (gdouble)area.width;
     legend.y = (gdouble)(area.y + y + lascent) / (gdouble)area.height;
-  
+
     gtk_plot_draw_text(plot, legend);
     y += 2 * lheight;
-  } else  
+  } else
     y += lheight;
-
+  
   GTK_PLOT_DATA(data)->gradient_custom = TRUE;
-  if(GTK_PLOT_DATA(data)->show_gradient)
-    gtk_plot_data_draw_gradient(GTK_PLOT_DATA(data), x, y);
 }
-
-
-static gint
-roundint (gdouble x)
-{
- gint sign = 1;
-
-/* if(x <= 0.) sign = -1; 
-*/
- return (x+sign*.50999999471);
-}
-
 
 static void
 gtk_plot_csurface_lighting (GdkColor *a, GdkColor *b, 

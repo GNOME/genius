@@ -90,6 +90,7 @@ struct _GtkPlotPC
    GdkColor color;
 
    gint init_count;
+   gboolean use_pixmap;
 };
 
 

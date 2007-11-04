@@ -44,6 +44,17 @@ struct _GtkPlotFlux
   gint arrow_length;
   gint arrow_width;
   GtkPlotSymbolStyle arrow_style;
+
+  gdouble scale_max;
+  guint size_max;
+
+  gboolean show_scale;
+
+  gint labels_precision;
+  gint labels_style;
+
+  gchar *labels_prefix;
+  gchar *labels_suffix;
 };
 
 struct _GtkPlotFluxClass
@@ -65,6 +76,21 @@ void		gtk_plot_flux_get_arrow 	(GtkPlotFlux *flux,
 void		gtk_plot_flux_center	 	(GtkPlotFlux *flux,
 						 gboolean center);
 gboolean	gtk_plot_flux_is_centered 	(GtkPlotFlux *flux);
+void		gtk_plot_flux_show_scale	(GtkPlotFlux *flux,
+						 gboolean show);
+void		gtk_plot_flux_set_scale_max	(GtkPlotFlux *flux,
+						 gdouble scale_max);
+void		gtk_plot_flux_set_size_max	(GtkPlotFlux *flux,
+						 guint size_max);
+void		gtk_plot_flux_set_labels_precision
+                                                (GtkPlotFlux *flux,
+						 gint precision);
+void		gtk_plot_flux_set_labels_style  (GtkPlotFlux *flux,
+						 GtkPlotLabelStyle style);
+void		gtk_plot_flux_set_labels_prefix (GtkPlotFlux *flux,
+						 const gchar *prefix);
+void		gtk_plot_flux_set_labels_suffix (GtkPlotFlux *flux,
+						 const gchar *suffix);
 
 
 #ifdef __cplusplus

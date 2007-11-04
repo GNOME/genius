@@ -30,14 +30,18 @@
 #include "gtkplotps.h"
 #include "gtkpsfont.h"
 
+#define P_(string) string
+
 static void gtk_plot_bar_class_init 	(GtkPlotBarClass *klass);
 static void gtk_plot_bar_init 		(GtkPlotBar *data);
-static void gtk_plot_bar_set_arg        (GtkObject *object,
-                                         GtkArg    *arg,
-                                         guint      arg_id);
-static void gtk_plot_bar_get_arg        (GtkObject *object,
-                                         GtkArg    *arg,
-                                         guint      arg_id);
+static void gtk_plot_bar_set_property   (GObject *object,
+                                         guint prop_id,
+                                         const GValue *value,
+                                         GParamSpec *pspec);
+static void gtk_plot_bar_get_property   (GObject *object,
+                                         guint prop_id,
+                                         GValue *value,
+                                         GParamSpec *pspec);
 static void gtk_plot_bar_draw_symbol	(GtkPlotData *data, 
 					 gdouble x, 
                                          gdouble y, 
@@ -49,9 +53,9 @@ static void gtk_plot_bar_draw_symbol	(GtkPlotData *data,
                                          gdouble da);
 static void gtk_plot_bar_draw_legend	(GtkPlotData *data, 
 					 gint x, gint y);
-static void gtk_plot_bar_clone          (GtkPlotData *data, GtkPlotData *copy);
+static void gtk_plot_bar_clone		(GtkPlotData *data, GtkPlotData *copy);
 
-static gint roundint (gdouble x);
+extern inline gint roundint (gdouble x);
 
 enum {
   ARG_0,
@@ -91,72 +95,82 @@ gtk_plot_bar_class_init (GtkPlotBarClass *klass)
   GtkObjectClass *object_class;
   GtkWidgetClass *widget_class;
   GtkPlotDataClass *data_class;
+  GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
   parent_class = gtk_type_class (gtk_plot_data_get_type ());
+
+  object_class = (GtkObjectClass *) klass;
   widget_class = (GtkWidgetClass *) klass;
   data_class = (GtkPlotDataClass *) klass;
 
-  object_class = (GtkObjectClass *) klass;
-  object_class->set_arg = gtk_plot_bar_set_arg;
-  object_class->get_arg = gtk_plot_bar_get_arg;
+  gobject_class->set_property = gtk_plot_bar_set_property;
+  gobject_class->get_property = gtk_plot_bar_get_property;
 
-  gtk_object_add_arg_type ("GtkPlotBar::width",
-                           GTK_TYPE_DOUBLE,
-                           GTK_ARG_READWRITE,
-                           ARG_WIDTH);
-  gtk_object_add_arg_type ("GtkPlotBar::orientation",
-                           GTK_TYPE_UINT,
-                           GTK_ARG_READWRITE,
-                           ARG_ORIENTATION);
-  
+  g_object_class_install_property(gobject_class,
+                           ARG_WIDTH,
+  g_param_spec_double ("width",
+                           P_("Width"),
+                           P_("Width"),
+                           0.0, G_MAXDOUBLE, 0.0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  g_object_class_install_property(gobject_class,
+                           ARG_ORIENTATION,
+  g_param_spec_enum ("orientation",
+                           P_("Orientation"),
+                           P_("Orientation"),
+                           GTK_TYPE_ORIENTATION, 0, 
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+
   data_class->clone = gtk_plot_bar_clone;
   data_class->draw_legend = gtk_plot_bar_draw_legend;
   data_class->draw_symbol = gtk_plot_bar_draw_symbol;
 }
 
 static void
-gtk_plot_bar_set_arg (GtkObject      *object,
-                      GtkArg         *arg,
-                      guint           arg_id)
-{ 
-  GtkPlotBar *data;
-
-  data = GTK_PLOT_BAR (object);
-
-  switch (arg_id)
-    {
-      case ARG_WIDTH:
-        data->width  = GTK_VALUE_DOUBLE(*arg);
-        break;
-      case ARG_ORIENTATION:
-        data->orientation  = GTK_VALUE_UINT(*arg);
-        break;
-    }
-}
-
-static void
-gtk_plot_bar_get_arg (GtkObject      *object,
-                      GtkArg         *arg,
-                      guint           arg_id)
+gtk_plot_bar_set_property (GObject      *object,
+                         guint prop_id,
+                         const GValue *value,
+                         GParamSpec *pspec)
 {
   GtkPlotBar *data;
 
   data = GTK_PLOT_BAR (object);
 
-  switch (arg_id)
+  switch (prop_id)
     {
       case ARG_WIDTH:
-        GTK_VALUE_DOUBLE(*arg) = data->width;
+        data->width  = g_value_get_double(value);
         break;
       case ARG_ORIENTATION:
-        GTK_VALUE_UINT(*arg) = data->orientation;
-        break;
-      default:
-        arg->type = GTK_TYPE_INVALID;
+        data->orientation  = g_value_get_enum(value);
         break;
     }
 }
 
+static void
+gtk_plot_bar_get_property (GObject      *object,
+                         guint prop_id,
+                         GValue *value,
+                         GParamSpec *pspec)
+{
+  GtkPlotBar *data;
+
+  data = GTK_PLOT_BAR (object);
+
+  switch (prop_id)
+    {
+      case ARG_WIDTH:
+        g_value_set_double(value, data->width);
+        break;
+      case ARG_ORIENTATION:
+        g_value_set_enum(value, data->orientation);
+        break;
+      default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+        break;
+    }
+}
 
 static void
 gtk_plot_bar_init (GtkPlotBar *dataset)
@@ -164,6 +178,7 @@ gtk_plot_bar_init (GtkPlotBar *dataset)
   GtkWidget *widget;
   GdkColor black, white;
   GdkColormap *colormap;
+  GtkPlotArray *dim;
 
   widget = GTK_WIDGET(dataset);
 
@@ -177,7 +192,10 @@ gtk_plot_bar_init (GtkPlotBar *dataset)
   GTK_PLOT_DATA(dataset)->line.line_style = GTK_PLOT_LINE_SOLID;
   GTK_PLOT_DATA(dataset)->line.line_width = 1;
   GTK_PLOT_DATA(dataset)->line.color = black;
-
+  
+  dim = gtk_plot_data_find_dimension(GTK_PLOT_DATA(dataset), "y");
+  gtk_plot_array_set_label(dim, "Size");
+  gtk_plot_array_set_description(dim, "Bar size");
   dataset->width = .05;
 }
 
@@ -204,8 +222,8 @@ gtk_plot_bar_clone(GtkPlotData *data, GtkPlotData *copy)
 {
   GTK_PLOT_DATA_CLASS(parent_class)->clone(data, copy);
 
-  GTK_PLOT_BAR(copy)->orientation = GTK_PLOT_BAR(data)->orientation;
-  GTK_PLOT_BAR(copy)->width = GTK_PLOT_BAR(data)->width;
+  GTK_PLOT_BAR(copy)->orientation = GTK_PLOT_BAR(data)->orientation; 
+  GTK_PLOT_BAR(copy)->width = GTK_PLOT_BAR(data)->width; 
 }
 
 static void
@@ -246,7 +264,8 @@ gtk_plot_bar_draw_symbol(GtkPlotData *dataset,
         break;
       case GTK_ORIENTATION_HORIZONTAL:    
         gtk_plot_get_pixel(plot, y, x+bar->width, &px, &py);
-        gtk_plot_get_pixel(plot, MAX(0., plot->xmin), x-bar->width, &px0, &py0);        if(dataset->show_xerrbars)
+        gtk_plot_get_pixel(plot, MAX(0., plot->xmin), x-bar->width, &px0, &py0);
+        if(dataset->show_xerrbars)
           gtk_plot_get_pixel(plot, y + dy, x, &ex, &ey);
         break;
     }
@@ -313,7 +332,8 @@ gtk_plot_bar_draw_legend(GtkPlotData *data, gint x, gint y)
 
   g_return_if_fail(data->plot != NULL);
   g_return_if_fail(GTK_IS_PLOT(data->plot));
-  g_return_if_fail(GTK_WIDGET_REALIZED(data->plot));
+  g_return_if_fail(GTK_WIDGET_VISIBLE(data));
+  g_return_if_fail(GTK_WIDGET_VISIBLE(data->plot));
 
   plot = data->plot;
   area.x = GTK_WIDGET(plot)->allocation.x;
@@ -383,13 +403,3 @@ gtk_plot_bar_get_width (GtkPlotBar *bar)
   return(bar->width);
 }
 
-
-static gint
-roundint (gdouble x)
-{
- gint sign = 1;
-
-/* if(x <= 0.) sign = -1; 
-*/
- return (x+sign*.50999999471);
-}

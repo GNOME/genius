@@ -42,7 +42,7 @@ static void gtk_plot_candle_draw_symbol	(GtkPlotData *data,
 					 gdouble dz, 
 					 gdouble da);
 
-static gint roundint (gdouble x);
+extern inline gint roundint (gdouble x);
 
 
 static GtkPlotDataClass *parent_class = NULL;
@@ -98,6 +98,7 @@ gtk_plot_candle_init (GtkPlotCandle *dataset)
   GtkWidget *widget;
   GdkColor black, white;
   GdkColormap *colormap;
+  GtkPlotArray *dim;
 
   widget = GTK_WIDGET(dataset);
 
@@ -111,6 +112,22 @@ gtk_plot_candle_init (GtkPlotCandle *dataset)
   GTK_PLOT_DATA(dataset)->line.line_style = GTK_PLOT_LINE_SOLID;
   GTK_PLOT_DATA(dataset)->line.line_width = 1;
   GTK_PLOT_DATA(dataset)->line.color = black;
+  
+  dim = gtk_plot_data_find_dimension(GTK_PLOT_DATA(dataset), "y");
+  gtk_plot_array_set_label(dim, "Open");
+  gtk_plot_array_set_description(dim, "Open");
+  dim = gtk_plot_data_find_dimension(GTK_PLOT_DATA(dataset), "z");
+  gtk_plot_array_set_required(dim, TRUE);
+  gtk_plot_array_set_label(dim, "Close");
+  gtk_plot_array_set_description(dim, "Close");
+  dim = gtk_plot_data_find_dimension(GTK_PLOT_DATA(dataset), "dy");
+  gtk_plot_array_set_required(dim, TRUE);
+  gtk_plot_array_set_label(dim, "Min");
+  gtk_plot_array_set_description(dim, "Minimum");
+  dim = gtk_plot_data_find_dimension(GTK_PLOT_DATA(dataset), "dz");
+  gtk_plot_array_set_required(dim, TRUE);
+  gtk_plot_array_set_label(dim, "Max");
+  gtk_plot_array_set_description(dim, "Maximum");
 }
 
 GtkWidget*
@@ -134,6 +151,7 @@ gtk_plot_candle_draw_symbol(GtkPlotData *dataset,
   gdouble x1 = 0.0, y1 = 0.0, width = 0.0, height = 0.0;
   gdouble m;
   gboolean filled;
+  gdouble a_scale;
 
 
   g_return_if_fail(GTK_IS_PLOT_CANDLE(dataset));
@@ -144,7 +162,8 @@ gtk_plot_candle_draw_symbol(GtkPlotData *dataset,
 
   plot = dataset->plot;
 
-  m = plot->magnification * dataset->a_scale;
+  a_scale = gtk_plot_data_get_a_scale(dataset);
+  m = plot->magnification * a_scale;
 
   gtk_plot_pc_set_lineattr (plot->pc, dataset->symbol.border.line_width, 
                             0, 0, 0);
@@ -221,7 +240,7 @@ gtk_plot_candle_draw_legend(GtkPlotData *data, gint x, gint y)
 
   g_return_if_fail(data->plot != NULL);
   g_return_if_fail(GTK_IS_PLOT(data->plot));
-  g_return_if_fail(GTK_WIDGET_REALIZED(data->plot));
+  if(!GTK_WIDGET_REALIZED(data->plot)) return;
 
   plot = data->plot;
   area.x = GTK_WIDGET(plot)->allocation.x;
@@ -275,13 +294,3 @@ gtk_plot_candle_draw_legend(GtkPlotData *data, gint x, gint y)
 
 }
 
-
-static gint
-roundint (gdouble x)
-{
- gint sign = 1;
-
-/* if(x <= 0.) sign = -1; 
-*/
- return (x+sign*.50999999471);
-}

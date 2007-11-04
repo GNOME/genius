@@ -91,9 +91,9 @@ struct _GtkPlot3D
 
   gint titles_offset;
 
-  GtkPlotAxis xy, xz;
-  GtkPlotAxis yx, yz;
-  GtkPlotAxis zx, zy;
+  GtkPlotAxis *xy, *xz;
+  GtkPlotAxis *yx, *yz;
+  GtkPlotAxis *zx, *zy;
 
   gdouble xfactor, yfactor, zfactor;
 };
@@ -198,47 +198,47 @@ GtkPlotAxis *	gtk_plot3d_get_axis		(GtkPlot3D *plot,
 						 GtkPlotOrientation orientation);
 GtkPlotAxis *	gtk_plot3d_get_side		(GtkPlot3D *plot,
 						 GtkPlotSide side);
-void		gtk_plot3d_axis_show_major_ticks(GtkPlot3D *plot,
+void		gtk_plot3d_show_major_ticks	(GtkPlot3D *plot,
                                                  GtkPlotSide side,
 						 gint ticks_mask);
-void		gtk_plot3d_axis_show_minor_ticks(GtkPlot3D *plot,
+void		gtk_plot3d_show_minor_ticks	(GtkPlot3D *plot,
                                                  GtkPlotSide side,
 						 gint ticks_mask);
-void		gtk_plot3d_axis_show_labels	(GtkPlot3D *plot,
+void		gtk_plot3d_show_labels		(GtkPlot3D *plot,
                                                  GtkPlotSide side,
 						 gint label_mask);
-void		gtk_plot3d_axis_show_title	(GtkPlot3D *plot,
+void		gtk_plot3d_show_title		(GtkPlot3D *plot,
                                                  GtkPlotSide side);
-void		gtk_plot3d_axis_hide_title	(GtkPlot3D *plot,
+void		gtk_plot3d_hide_title		(GtkPlot3D *plot,
                                                  GtkPlotSide side);
-void 		gtk_plot3d_axis_set_ticks       (GtkPlot3D *plot,
+void 		gtk_plot3d_set_ticks       	(GtkPlot3D *plot,
 						 GtkPlotOrientation axis,
                                  		 gdouble major_step,
                                  		 gint nminor);
-void 		gtk_plot3d_axis_set_major_ticks (GtkPlot3D *plot,
+void 		gtk_plot3d_set_major_ticks 	(GtkPlot3D *plot,
 						 GtkPlotOrientation axis,
                                  		 gdouble major_step);
-void 		gtk_plot3d_axis_set_minor_ticks (GtkPlot3D *plot,
+void 		gtk_plot3d_set_minor_ticks 	(GtkPlot3D *plot,
 						 GtkPlotOrientation axis,
                                  		 gint nminor);
-void            gtk_plot3d_axis_set_ticks_length(GtkPlot3D *plot,
+void            gtk_plot3d_set_ticks_length	(GtkPlot3D *plot,
                                                  GtkPlotOrientation axis,
                                                  gint length);
-void            gtk_plot3d_axis_set_ticks_width (GtkPlot3D *plot,
+void            gtk_plot3d_set_ticks_width 	(GtkPlot3D *plot,
                                                  GtkPlotOrientation axis,
                                                  gfloat width);
-void            gtk_plot3d_axis_show_ticks      (GtkPlot3D *plot,
+void            gtk_plot3d_show_ticks      	(GtkPlot3D *plot,
                                                  GtkPlotSide side,
                                                  gint major_mask,
                                                  gint minor_mask);
 void 		gtk_plot3d_set_titles_offset 	(GtkPlot3D *plot,
                                                  gint offset);
 gint 		gtk_plot3d_get_titles_offset 	(GtkPlot3D *plot);
-void            gtk_plot3d_axis_set_scale       (GtkPlot3D *plot,
-                                                 GtkPlotOrientation axis,
-                                                 GtkPlotScale scale);
-GtkPlotScale    gtk_plot3d_axis_get_scale       (GtkPlot3D *plot,
-                                                 GtkPlotOrientation axis);
+void		gtk_plot3d_set_scale		(GtkPlot3D *plot,
+						 GtkPlotOrientation axis,
+						 GtkPlotScale scale);
+GtkPlotScale	gtk_plot3d_get_scale		(GtkPlot3D *plot,
+						 GtkPlotOrientation axis);
 /* Grids */
 void            gtk_plot3d_major_grids_set_visible    (GtkPlot3D *plot,
 						       gboolean x,

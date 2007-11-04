@@ -138,17 +138,17 @@ void 		gtk_plot_surface_get_points	(GtkPlotSurface *data,
                                                  gdouble **dy,
                                                  gdouble **dz,
                                                  gint *nx, gint *ny);
-void 		gtk_plot_surface_set_x		(GtkPlotSurface *data,
+GtkPlotArray * 	gtk_plot_surface_set_x		(GtkPlotSurface *data,
 						 gdouble *x); 
-void 		gtk_plot_surface_set_y		(GtkPlotSurface *data,
+GtkPlotArray * 	gtk_plot_surface_set_y		(GtkPlotSurface *data,
 						 gdouble *y); 
-void 		gtk_plot_surface_set_z		(GtkPlotSurface *data,
+GtkPlotArray * 	gtk_plot_surface_set_z		(GtkPlotSurface *data,
 						 gdouble *z); 
-void 		gtk_plot_surface_set_dx		(GtkPlotSurface *data,
+GtkPlotArray * 	gtk_plot_surface_set_dx		(GtkPlotSurface *data,
 						 gdouble *dx); 
-void 		gtk_plot_surface_set_dy		(GtkPlotSurface *data,
+GtkPlotArray *	gtk_plot_surface_set_dy		(GtkPlotSurface *data,
 						 gdouble *dy); 
-void 		gtk_plot_surface_set_dz		(GtkPlotSurface *data,
+GtkPlotArray *	gtk_plot_surface_set_dz		(GtkPlotSurface *data,
 						 gdouble *dz); 
 gdouble * 	gtk_plot_surface_get_x		(GtkPlotSurface *data, 
                                                  gint *nx);

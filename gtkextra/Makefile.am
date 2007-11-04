@@ -40,10 +40,17 @@ public_h_sources =	\
 	gtkpsfont.h		\
 	gtkplot.h		\
 	gtkplot3d.h		\
+	gtkplotarray.h		\
 	gtkplotbar.h		\
 	gtkplotbox.h		\
 	gtkplotcandle.h		\
 	gtkplotcanvas.h		\
+	gtkplotcanvasellipse.h	\
+	gtkplotcanvasline.h	\
+	gtkplotcanvaspixmap.h	\
+	gtkplotcanvasplot.h	\
+	gtkplotcanvasrectangle.h	\
+	gtkplotcanvastext.h	\
 	gtkplotcsurface.h	\
 	gtkplotdata.h		\
 	gtkplotdt.h		\
@@ -66,10 +73,17 @@ libgtkextra_genius_a_SOURCES =	\
 	gtkpsfont.c		\
 	gtkplot.c		\
 	gtkplot3d.c		\
+	gtkplotarray.c		\
 	gtkplotbar.c		\
 	gtkplotbox.c		\
 	gtkplotcandle.c		\
 	gtkplotcanvas.c		\
+	gtkplotcanvasellipse.c	\
+	gtkplotcanvasline.c	\
+	gtkplotcanvaspixmap.c	\
+	gtkplotcanvasplot.c	\
+	gtkplotcanvasrectangle.c	\
+	gtkplotcanvastext.c	\
 	gtkplotcsurface.c	\
 	gtkplotdata.c		\
 	gtkplotdt.c		\

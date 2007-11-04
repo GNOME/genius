@@ -30,8 +30,17 @@
 #include "gtkplotps.h"
 #include "gtkpsfont.h"
 
+#define P_(string) string
+
+enum {
+  ARG_0,
+  ARG_PIXMAP,
+  ARG_MASK,
+};
+                                                                                
 static void gtk_plot_pixmap_class_init 		(GtkPlotPixmapClass *klass);
 static void gtk_plot_pixmap_init 		(GtkPlotPixmap *data);
+static void gtk_plot_pixmap_destroy             (GtkObject *object);
 static void gtk_plot_pixmap_draw_symbol		(GtkPlotData *data,
                                                  gdouble x, 
                                                  gdouble y, 
@@ -47,8 +56,18 @@ static void gtk_plot_pixmap_get_legend_size	(GtkPlotData *data,
 						 gint *width, gint *height);
 static void gtk_plot_pixmap_clone               (GtkPlotData *data,
                                                  GtkPlotData *copy);
+static void gtk_plot_pixmap_get_property	(GObject      *object,
+                                                 guint            prop_id,
+                                                 GValue          *value,
+                                                 GParamSpec      *pspec);
+static void gtk_plot_pixmap_set_property	(GObject      *object,
+                                                 guint            prop_id,
+                                                 const GValue          *value,
+                                                 GParamSpec      *pspec);
 
-static gint roundint 				(gdouble x);
+
+
+extern inline gint roundint 			(gdouble x);
 
 static GtkPlotDataClass *parent_class = NULL;
 
@@ -82,6 +101,7 @@ gtk_plot_pixmap_class_init (GtkPlotPixmapClass *klass)
   GtkObjectClass *object_class;
   GtkWidgetClass *widget_class;
   GtkPlotDataClass *data_class;
+  GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
   parent_class = gtk_type_class (gtk_plot_data_get_type ());
 
@@ -93,8 +113,66 @@ gtk_plot_pixmap_class_init (GtkPlotPixmapClass *klass)
   data_class->draw_legend = gtk_plot_pixmap_draw_legend;
   data_class->get_legend_size = gtk_plot_pixmap_get_legend_size;
   data_class->draw_symbol = gtk_plot_pixmap_draw_symbol;
+
+  object_class->destroy = gtk_plot_pixmap_destroy;
+
+  gobject_class->get_property = gtk_plot_pixmap_get_property;
+  gobject_class->set_property = gtk_plot_pixmap_set_property;
+                                                                                
+  g_object_class_install_property (gobject_class,
+                           ARG_PIXMAP,
+  g_param_spec_pointer ("pixmap",
+                           P_("Pixmap"),
+                           P_("Pixmap"),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_MASK,
+  g_param_spec_pointer ("mask_bitmap",
+                           P_("Mask"),
+                           P_("Mask"),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+
 }
 
+static void
+gtk_plot_pixmap_get_property (GObject      *object,
+                                    guint            prop_id,
+                                    GValue          *value,
+                                    GParamSpec      *pspec)
+{
+  GtkPlotPixmap *pixmap = GTK_PLOT_PIXMAP (object);
+                                                                                
+  switch(prop_id){
+    case ARG_PIXMAP:
+      g_value_set_pointer(value, pixmap->pixmap);
+      break;
+    case ARG_MASK:
+      g_value_set_pointer(value, pixmap->mask);
+      break;
+  }
+}
+                                                                                
+static void
+gtk_plot_pixmap_set_property (GObject      *object,
+                                    guint            prop_id,
+                                    const GValue          *value,
+                                    GParamSpec      *pspec)
+{
+  GtkPlotPixmap *pixmap = GTK_PLOT_PIXMAP (object);
+                                                                                
+  switch(prop_id){
+    case ARG_PIXMAP:
+      if(pixmap->pixmap) gdk_pixmap_unref(pixmap->pixmap);
+      pixmap->pixmap = (GdkPixmap *)g_value_get_pointer(value);
+      if(pixmap->pixmap) gdk_pixmap_ref(pixmap->pixmap);
+      break;
+    case ARG_MASK:
+      if(pixmap->mask) gdk_bitmap_unref(pixmap->mask);
+      pixmap->mask = (GdkBitmap *)g_value_get_pointer(value);
+      if(pixmap->mask) gdk_bitmap_ref(pixmap->mask);
+      break;
+  }
+}
 
 static void
 gtk_plot_pixmap_init (GtkPlotPixmap *dataset)
@@ -124,6 +202,17 @@ gtk_plot_pixmap_construct(GtkPlotPixmap *data, GdkPixmap *pixmap, GdkBitmap *mas
     gdk_pixmap_ref(pixmap);
   if(mask)
     gdk_bitmap_ref(mask);
+}
+
+static void
+gtk_plot_pixmap_destroy(GtkObject *object)
+{
+  GtkPlotPixmap *pixmap = GTK_PLOT_PIXMAP(object);
+                                                                                
+  if(pixmap->pixmap) gdk_pixmap_unref(pixmap->pixmap);
+  if(pixmap->mask) gdk_bitmap_unref(pixmap->mask);
+  pixmap->pixmap = NULL;
+  pixmap->mask = NULL;
 }
 
 static void
@@ -200,7 +289,6 @@ gtk_plot_pixmap_draw_legend(GtkPlotData *data, gint x, gint y)
 
   g_return_if_fail(data->plot != NULL);
   g_return_if_fail(GTK_IS_PLOT(data->plot));
-  g_return_if_fail(GTK_WIDGET_REALIZED(data->plot));
 
   pixmap = GTK_PLOT_PIXMAP(data);
 
@@ -309,13 +397,4 @@ gtk_plot_pixmap_get_mask (GtkPlotPixmap *pixmap)
   return(pixmap->mask);
 }
 
-static gint
-roundint (gdouble x)
-{
- gint sign = 1;
-
-/* if(x <= 0.) sign = -1;
-*/
- return (x+sign*.50999999471);
-}
 

@@ -29,17 +29,21 @@
 #include "gtkpsfont.h"
 #include "gtkplotpc.h"
 
+#define P_(string) string
+
 static void gtk_plot_surface_class_init 	(GtkPlotSurfaceClass *klass);
 static void gtk_plot_surface_init 		(GtkPlotSurface *data);
 static void gtk_plot_surface_destroy 		(GtkObject *object);
-static void gtk_plot_surface_set_arg            (GtkObject *object,
-                                                 GtkArg    *arg,
-                                                 guint      arg_id);
-static void gtk_plot_surface_get_arg            (GtkObject *object,
-                                                 GtkArg    *arg,
-                                                 guint      arg_id);
-static void gtk_plot_surface_clone              (GtkPlotData *data,
-                                                 GtkPlotData *copy);
+static void gtk_plot_surface_get_property         (GObject      *object,
+                                                 guint            prop_id,
+                                                 GValue          *value,
+                                                 GParamSpec      *pspec);
+static void gtk_plot_surface_set_property         (GObject      *object,
+                                                 guint            prop_id,
+                                                 const GValue          *value,
+                                                 GParamSpec      *pspec);
+static void gtk_plot_surface_clone 		(GtkPlotData *data,
+						 GtkPlotData *copy);
 static void gtk_plot_surface_update_range 	(GtkPlotData *data);
 static void gtk_plot_surface_real_build_mesh	(GtkPlotSurface *surface);
 static void gtk_plot_surface_build_polygons 	(GtkPlotSurface *surface);
@@ -51,13 +55,15 @@ static gboolean gtk_plot_surface_add_to_plot 	(GtkPlotData *data,
 static void gtk_plot_surface_draw_private 	(GtkPlotData *data);
 static void gtk_plot_surface_draw_legend	(GtkPlotData *data, 
 						 gint x, gint y);
+static void gtk_plot_surface_get_legend_size   (GtkPlotData *data,
+                                                 gint *width, gint *height);
 static void gtk_plot_surface_draw_polygons 	(GtkPlotSurface *surface);
 static void gtk_plot_surface_lighting 		(GdkColor *a, 
 						 GdkColor *b, 
 						 gdouble normal,
 						 gdouble ambient);
 static void clear_polygons                      (GtkPlotSurface *surface);
-static gint roundint				(gdouble x);
+extern inline gint roundint				(gdouble x);
 static void hsv_to_rgb 				(gdouble  h, 
 						 gdouble  s, 
 						 gdouble  v,
@@ -72,7 +78,7 @@ static void rgb_to_hsv 				(gdouble  r,
 						 gdouble *v);
 static gint compare_func                           (gpointer a, gpointer b);
 
-enum { 
+enum {
   ARG_0,
   ARG_USE_HEIGHT,
   ARG_USE_AMPLITUD,
@@ -137,6 +143,7 @@ gtk_plot_surface_class_init (GtkPlotSurfaceClass *klass)
   GtkWidgetClass *widget_class;
   GtkPlotDataClass *data_class;
   GtkPlotSurfaceClass *surface_class;
+  GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
   parent_class = gtk_type_class (gtk_plot_data_get_type ());
 
@@ -146,71 +153,113 @@ gtk_plot_surface_class_init (GtkPlotSurfaceClass *klass)
   surface_class = (GtkPlotSurfaceClass *) klass;
 
   object_class->destroy = gtk_plot_surface_destroy;
-  object_class->set_arg = gtk_plot_surface_set_arg;
-  object_class->get_arg = gtk_plot_surface_get_arg;
 
-  gtk_object_add_arg_type ("GtkPlotSurface::use_height",
-                           GTK_TYPE_UINT,
-                           GTK_ARG_READWRITE,
-                           ARG_USE_HEIGHT);
-  gtk_object_add_arg_type ("GtkPlotSurface::use_amplitud",
-                           GTK_TYPE_UINT,
-                           GTK_ARG_READWRITE,
-                           ARG_USE_AMPLITUD);
-  gtk_object_add_arg_type ("GtkPlotSurface::vector_light",
-                           GTK_TYPE_POINTER,
-                           GTK_ARG_READWRITE,
-                           ARG_LIGHT);
-  gtk_object_add_arg_type ("GtkPlotSurface::ambient",
-                           GTK_TYPE_DOUBLE,
-                           GTK_ARG_READWRITE,
-                           ARG_AMBIENT);
-  gtk_object_add_arg_type ("GtkPlotSurface::nx",
-                           GTK_TYPE_UINT,
-                           GTK_ARG_READWRITE,
-                           ARG_NX);
-  gtk_object_add_arg_type ("GtkPlotSurface::ny",
-                           GTK_TYPE_UINT,
-                           GTK_ARG_READWRITE,
-                           ARG_NY);
-  gtk_object_add_arg_type ("GtkPlotSurface::show_grid",
-                           GTK_TYPE_BOOL,
-                           GTK_ARG_READWRITE,
-                           ARG_SHOW_GRID);
-  gtk_object_add_arg_type ("GtkPlotSurface::show_mesh",
-                           GTK_TYPE_BOOL,
-                           GTK_ARG_READWRITE,
-                           ARG_SHOW_MESH);
-  gtk_object_add_arg_type ("GtkPlotSurface::transparent",
-                           GTK_TYPE_BOOL,
-                           GTK_ARG_READWRITE,
-                           ARG_TRANSPARENT);
-  gtk_object_add_arg_type ("GtkPlotSurface::xstep",
-                           GTK_TYPE_DOUBLE,
-                           GTK_ARG_READWRITE,
-                           ARG_XSTEP);
-  gtk_object_add_arg_type ("GtkPlotSurface::ystep",
-                           GTK_TYPE_DOUBLE,
-                           GTK_ARG_READWRITE,
-                           ARG_YSTEP);
-  gtk_object_add_arg_type ("GtkPlotSurface::mesh_style",
-                           GTK_TYPE_UINT,
-                           GTK_ARG_READWRITE,
-                           ARG_MESH_STYLE);
-  gtk_object_add_arg_type ("GtkPlotSurface::mesh_width",
-                           GTK_TYPE_DOUBLE,
-                           GTK_ARG_READWRITE,
-                           ARG_MESH_WIDTH);
-  gtk_object_add_arg_type ("GtkPlotSurface::mesh_color",
-                           GTK_TYPE_POINTER,
-                           GTK_ARG_READWRITE,
-                           ARG_MESH_COLOR);
+  gobject_class->set_property = gtk_plot_surface_set_property;
+  gobject_class->get_property = gtk_plot_surface_get_property;
+
+  g_object_class_install_property (gobject_class,
+                           ARG_USE_HEIGHT,
+  g_param_spec_boolean ("use_height",
+                           P_(""),
+                           P_(""),
+                           TRUE,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_USE_AMPLITUD,
+  g_param_spec_boolean ("use_amplitud",
+                           P_(""),
+                           P_(""),
+                           FALSE,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_LIGHT,
+  g_param_spec_pointer ("vector_light",
+                           P_(""),
+                           P_(""),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_AMBIENT,
+  g_param_spec_double ("ambient",
+                           P_(""),
+                           P_(""),
+                           0,G_MAXDOUBLE,0.0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_NX,
+  g_param_spec_int ("nx",
+                           P_(""),
+                           P_(""),
+                           0,G_MAXINT,0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_NY,
+  g_param_spec_int ("ny",
+                           P_(""),
+                           P_(""),
+                           0,G_MAXINT,0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_SHOW_GRID,
+  g_param_spec_boolean ("show_grid",
+                           P_(""),
+                           P_(""),
+                           FALSE,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_SHOW_MESH,
+  g_param_spec_boolean ("show_mesh",
+                           P_(""),
+                           P_(""),
+                           FALSE,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_TRANSPARENT,
+  g_param_spec_boolean ("transparent",
+                           P_(""),
+                           P_(""),
+                           FALSE,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_XSTEP,
+  g_param_spec_double ("xstep",
+                           P_(""),
+                           P_(""),
+                           0,G_MAXDOUBLE,0.0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_YSTEP,
+  g_param_spec_double ("ystep",
+                           P_(""),
+                           P_(""),
+                           0,G_MAXDOUBLE,0.0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_MESH_STYLE,
+  g_param_spec_int ("mesh_style",
+                           P_(""),
+                           P_(""),
+                           0,G_MAXINT,0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_MESH_WIDTH,
+  g_param_spec_double ("mesh_width",
+                           P_(""),
+                           P_(""),
+                           0,G_MAXDOUBLE,0.0,
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                           ARG_MESH_COLOR,
+  g_param_spec_pointer ("mesh_color",
+                           P_(""),
+                           P_(""),
+                           G_PARAM_READABLE|G_PARAM_WRITABLE));
 
   data_class->clone = gtk_plot_surface_clone;
   data_class->update = update_data;
   data_class->add_to_plot = gtk_plot_surface_add_to_plot;
   data_class->draw_data = gtk_plot_surface_draw_private;
   data_class->draw_legend = gtk_plot_surface_draw_legend;
+  data_class->get_legend_size = gtk_plot_surface_get_legend_size;
   surface_class->draw_polygons = gtk_plot_surface_draw_polygons;
   surface_class->build_polygons = gtk_plot_surface_build_polygons;
   surface_class->sort_polygons = gtk_plot_surface_sort_polygons;
@@ -218,116 +267,118 @@ gtk_plot_surface_class_init (GtkPlotSurfaceClass *klass)
 }
 
 static void
-gtk_plot_surface_set_arg (GtkObject      *object,
-                          GtkArg         *arg,
-                          guint           arg_id)
+gtk_plot_surface_set_property (GObject      *object,
+                             guint            prop_id,
+                             const GValue          *value,
+                             GParamSpec      *pspec)
 {
   GtkPlotSurface *data;
 
   data = GTK_PLOT_SURFACE (object);
 
-  switch (arg_id)
+  switch (prop_id)
     {
       case ARG_USE_HEIGHT:
-        data->use_height_gradient = GTK_VALUE_BOOL(*arg);
+        data->use_height_gradient = g_value_get_boolean(value);
         break;
       case ARG_USE_AMPLITUD:
-        data->use_amplitud = GTK_VALUE_BOOL(*arg);
+        data->use_amplitud = g_value_get_boolean(value);
         break;
       case ARG_LIGHT:
-        data->light = *((GtkPlotVector *)GTK_VALUE_POINTER(*arg));
+        data->light = *((GtkPlotVector *)g_value_get_pointer(value));
         break;
       case ARG_AMBIENT:
-        data->ambient = GTK_VALUE_DOUBLE(*arg);
+        data->ambient = g_value_get_double(value);
         break;
       case ARG_NX:
-        data->nx = GTK_VALUE_UINT(*arg);
+        data->nx = g_value_get_int(value);
         break;
       case ARG_NY:
-        data->ny = GTK_VALUE_UINT(*arg);
+        data->ny = g_value_get_int(value);
         break;
       case ARG_SHOW_GRID:
-        data->show_grid = GTK_VALUE_BOOL(*arg);
+        data->show_grid = g_value_get_boolean(value);
         break;
       case ARG_SHOW_MESH:
-        data->show_mesh = GTK_VALUE_BOOL(*arg);
+        data->show_mesh = g_value_get_boolean(value);
         break;
       case ARG_TRANSPARENT:
-        data->transparent = GTK_VALUE_BOOL(*arg);
+        data->transparent = g_value_get_boolean(value);
         break;
       case ARG_XSTEP:
-        data->xstep = GTK_VALUE_DOUBLE(*arg);
+        data->xstep = g_value_get_double(value);
         break;
       case ARG_YSTEP:
-        data->ystep = GTK_VALUE_DOUBLE(*arg);
+        data->ystep = g_value_get_double(value);
         break;
       case ARG_MESH_STYLE:
-        data->mesh_line.line_style = GTK_VALUE_UINT(*arg);
+        data->mesh_line.line_style = g_value_get_int(value);
         break;
       case ARG_MESH_WIDTH:
-        data->mesh_line.line_width = GTK_VALUE_DOUBLE(*arg);
+        data->mesh_line.line_width = g_value_get_double(value);
         break;
       case ARG_MESH_COLOR:
-        data->mesh_line.color = *((GdkColor *)GTK_VALUE_POINTER(*arg));
+        data->mesh_line.color = *((GdkColor *)g_value_get_pointer(value));
         break;
     }
 }
 
 static void
-gtk_plot_surface_get_arg (GtkObject      *object,
-                          GtkArg         *arg,
-                          guint           arg_id)
+gtk_plot_surface_get_property (GObject      *object,
+                             guint            prop_id,
+                             GValue          *value,
+                             GParamSpec      *pspec)
 {
   GtkPlotSurface *data;
 
   data = GTK_PLOT_SURFACE (object);
 
-  switch (arg_id)
+  switch (prop_id)
     {
       case ARG_USE_HEIGHT:
-        GTK_VALUE_BOOL(*arg) = data->use_height_gradient;
+        g_value_set_boolean(value, data->use_height_gradient);
         break;
       case ARG_USE_AMPLITUD:
-        GTK_VALUE_BOOL(*arg) = data->use_amplitud;
+        g_value_set_boolean(value, data->use_amplitud);
         break;
       case ARG_LIGHT:
-        GTK_VALUE_POINTER(*arg) = &data->light;
+        g_value_set_pointer(value, &data->light);
         break;
       case ARG_AMBIENT:
-        GTK_VALUE_DOUBLE(*arg) = data->ambient;
+        g_value_set_double(value, data->ambient);
         break;
       case ARG_NX:
-        GTK_VALUE_UINT(*arg) = data->nx;
+        g_value_set_int(value, data->nx);
         break;
       case ARG_NY:
-        GTK_VALUE_UINT(*arg) = data->ny;
+        g_value_set_int(value, data->ny);
         break;
       case ARG_SHOW_GRID:
-        GTK_VALUE_BOOL(*arg) = data->show_grid;
+        g_value_set_boolean(value, data->show_grid);
         break;
       case ARG_SHOW_MESH:
-        GTK_VALUE_BOOL(*arg) = data->show_mesh;
+        g_value_set_boolean(value, data->show_mesh);
         break;
       case ARG_TRANSPARENT:
-        GTK_VALUE_BOOL(*arg) = data->transparent;
+        g_value_set_boolean(value, data->transparent);
         break;
       case ARG_XSTEP:
-        GTK_VALUE_DOUBLE(*arg) = data->xstep;
+        g_value_set_double(value, data->xstep);
         break;
       case ARG_YSTEP:
-        GTK_VALUE_DOUBLE(*arg) = data->ystep;
+        g_value_set_double(value, data->ystep);
         break;
       case ARG_MESH_STYLE:
-        GTK_VALUE_UINT(*arg) = data->mesh_line.line_style;
+        g_value_set_int(value, data->mesh_line.line_style);
         break;
       case ARG_MESH_WIDTH:
-        GTK_VALUE_DOUBLE(*arg) = data->mesh_line.line_width;
+        g_value_set_double(value, data->mesh_line.line_width);
         break;
       case ARG_MESH_COLOR:
-        GTK_VALUE_POINTER(*arg) = &data->mesh_line.color;
+        g_value_set_pointer(value, &data->mesh_line.color);
         break;
       default:
-        arg->type = GTK_TYPE_INVALID;
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
         break;
     }
 }
@@ -376,7 +427,6 @@ gtk_plot_surface_update_range (GtkPlotData *data)
      gdouble xmin, xmax, ymin, ymax;
      gdouble x, y;
      gdouble *fx = NULL, *fy = NULL, *fz = NULL;
-     gdouble *old_x, *old_y, *old_z;
      gint nx, ny;
      gint npoints;
 
@@ -414,20 +464,16 @@ gtk_plot_surface_update_range (GtkPlotData *data)
          y += ystep;
      }
 
-     old_x = data->x; old_y = data->y; old_z = data->z;
+     gtk_plot_data_set_x(GTK_PLOT_DATA(surface), fx);
+     gtk_plot_data_set_y(GTK_PLOT_DATA(surface), fy);
+     gtk_plot_data_set_z(GTK_PLOT_DATA(surface), fz);
+     gtk_plot_data_set_numpoints(GTK_PLOT_DATA(surface), npoints);
 
-     data->x = fx;
-     data->y = fy;
-     data->z = fz;
-
-     data->num_points = npoints;
      gtk_plot_surface_build_mesh(surface);
 
      g_free(fx);
      g_free(fy);
      g_free(fz);
-
-     data->x = old_x; data->y = old_y; data->z = old_z;
   }
 
   data->redraw_pending = FALSE;
@@ -452,6 +498,7 @@ gtk_plot_surface_init (GtkPlotSurface *dataset)
   GtkWidget *widget;
   GdkColormap *colormap;
   GdkColor color;
+  GtkPlotArray *dim;
 
   GTK_WIDGET_SET_FLAGS(dataset, GTK_NO_WINDOW);
 
@@ -501,6 +548,11 @@ gtk_plot_surface_init (GtkPlotSurface *dataset)
   dataset->recalc_dt = TRUE;
 
   dataset->polygons = NULL;
+
+  dim = gtk_plot_data_find_dimension(GTK_PLOT_DATA(dataset), "y");
+  gtk_plot_array_set_independent(dim, TRUE);
+  dim = gtk_plot_data_find_dimension(GTK_PLOT_DATA(dataset), "z");
+  gtk_plot_array_set_required(dim, TRUE);
 }
 
 GtkWidget*
@@ -540,8 +592,10 @@ gtk_plot_surface_destroy(GtkObject *object)
  
   surface = GTK_PLOT_SURFACE(object);
 
-  if(surface->dt)
+  if(surface->dt){
     gtk_object_destroy(GTK_OBJECT(surface->dt));
+    surface->dt = NULL;
+  }
 
   clear_polygons(surface);
 
@@ -591,6 +645,7 @@ gtk_plot_surface_clone(GtkPlotData *real_data, GtkPlotData *copy_data)
   GTK_PLOT_SURFACE(copy_data)->mesh_line = GTK_PLOT_SURFACE(real_data)->mesh_line;
 }
 
+
 static void
 gtk_plot_surface_draw_private   (GtkPlotData *data)  
 {
@@ -632,17 +687,20 @@ gtk_plot_surface_draw_polygons (GtkPlotSurface *surface)
   gdouble factor, norm;
   GList *list;
   gboolean color_set = FALSE;
+  gdouble *array_a;
+  gint n;
 
   data = GTK_PLOT_DATA(surface);
   plot = GTK_PLOT(data->plot);
   drawable = plot->drawable;
 
   gtk_plot_set_line_attributes(plot, surface->mesh_line);
+  array_a = gtk_plot_data_get_a(GTK_PLOT_DATA(surface), &n);
 
   list = surface->polygons;
   while(list){
     GtkPlotPolygon *poly = (GtkPlotPolygon *)list->data;
-
+ 
     triangle = poly->t;
     visible = TRUE;
 
@@ -683,62 +741,62 @@ gtk_plot_surface_draw_polygons (GtkPlotSurface *surface)
       }
       if(discard) { list = list->next; continue; }
     }
-
-
+           
+  
     side1.x = -(points[1].x - points[0].x);
     side1.y = -(points[1].y - points[0].y);
     side1.z = -(points[1].z - points[0].z);
     side2.x = -(points[2].x - points[0].x);
     side2.y = -(points[2].y - points[0].y);
     side2.z = -(points[2].z - points[0].z);
-
-    if(surface->use_amplitud && GTK_PLOT_DATA(surface)->a){
+           
+    if(surface->use_amplitud && array_a){
       gtk_plot_data_get_gradient_level(GTK_PLOT_DATA(surface),
-                                     (data->a[triangle->na->id] +
-                                      data->a[triangle->nb->id] +
-                                      data->a[triangle->nc->id]) / 3.0,
-                                     &real_color);
+  				     (array_a[triangle->na->id] +
+                                      array_a[triangle->nb->id] +
+  				      array_a[triangle->nc->id]) / 3.0,
+  				     &real_color); 
     } else if(surface->use_height_gradient){
       gtk_plot_data_get_gradient_level(GTK_PLOT_DATA(surface),
-                                     (triangle->na->z +
+  				     (triangle->na->z +
                                       triangle->nb->z +
-                                      triangle->nc->z) / 3.0,
-                                     &real_color);
+  				      triangle->nc->z) / 3.0,
+  				     &real_color); 
     }else{
-      color = surface->color;
+      color = surface->color; 
       light = surface->light;
       norm = _sqrt(10000*(light.x*light.x + light.y*light.y + light.z*light.z))/100;
       light.x /= norm;
       light.y /= norm;
       light.z /= norm;
-
+  
       factor = 1.0;
       if(GTK_IS_PLOT3D(plot)){
         normal.x = side1.y * side2.z - side1.z * side2.y;
         normal.y = side1.z * side2.x - side1.x * side2.z;
         normal.z = side1.x * side2.y - side1.y * side2.x;
-
+  
         norm = _sqrt(100000000*(normal.x*normal.x + normal.y*normal.y + normal.z*normal.z))/10000.;
         factor = (normal.x*light.x + normal.y*light.y + normal.z*light.z) / norm;
       }
- 
-      gtk_plot_surface_lighting(&color, &real_color,
-                                factor, surface->ambient);
+  
+      gtk_plot_surface_lighting(&color, &real_color, 
+                                factor, surface->ambient); 
 
     }
-
+  
     if(GTK_IS_PLOT3D(plot))
-      if(((t[1].x-t[0].x)*(t[2].y-t[0].y) - (t[1].y-t[0].y)*(t[2].x-t[0].x)) < 0)
+      if(((t[1].x-t[0].x)*(t[2].y-t[0].y) - (t[1].y-t[0].y)*(t[2].x-t[0].x)) > 0)
            visible = FALSE;
-
+  
     if(visible)
            gtk_plot_pc_set_color(plot->pc, &real_color);
     else
            gtk_plot_pc_set_color(plot->pc, &surface->shadow);
-
-    gtk_plot_pc_draw_polygon(plot->pc, !surface->transparent, t, 3);
-
-
+  
+    gtk_plot_pc_draw_polygon(plot->pc, !surface->transparent, t, 3); 
+  
+  
     color_set = FALSE;
     if(surface->show_mesh){
         if(visible)
@@ -746,22 +804,65 @@ gtk_plot_surface_draw_polygons (GtkPlotSurface *surface)
         else
            gtk_plot_pc_set_color(plot->pc, &surface->grid_background);
         color_set = TRUE;
-        gtk_plot_pc_draw_polygon(plot->pc, FALSE, t, 3);
+        gtk_plot_pc_draw_polygon(plot->pc, FALSE, t, 3); 
     }
-
-    if(!surface->show_mesh && surface->show_grid && surface->dt->quadrilateral){        if(!color_set){
+  
+    if(!surface->show_mesh && surface->show_grid && surface->dt->quadrilateral){
+        if(!color_set){
           if(visible)
              gtk_plot_pc_set_color(plot->pc, &surface->grid_foreground);
           else
              gtk_plot_pc_set_color(plot->pc, &surface->grid_background);
         }
 
-        gtk_plot_pc_draw_line(plot->pc,
-                              t[1].x, t[1].y, t[2].x, t[2].y);
+        gtk_plot_pc_draw_line(plot->pc,  
+                              t[1].x, t[1].y, t[2].x, t[2].y); 
 
     }
 
     list = list->next;
+  }
+}
+
+static void
+gtk_plot_surface_get_legend_size(GtkPlotData *data, gint *width, gint *height)
+{
+  GtkPlotSurface *surface;
+  GtkPlot *plot = NULL;
+  GtkPlotText legend;
+  gint lascent = 0, ldescent = 0, lheight = 0, lwidth = 0;
+  gdouble m;
+
+  surface = GTK_PLOT_SURFACE(data);
+
+  g_return_if_fail(data->plot != NULL);
+  g_return_if_fail(GTK_IS_PLOT(data->plot));
+
+  plot = data->plot;
+
+  m = plot->magnification;
+  legend = plot->legends_attr;
+
+  if(data->legend && strlen(data->legend) > 0)
+    legend.text = data->legend;
+  else
+    legend.text = "X";
+
+  *height = 0;
+  *width = roundint(16*m);
+
+  if(data->show_legend){
+    int lstep = roundint(plot->legends_line_width * m / 10.);
+    double step = (data->gradient->ticks.max - data->gradient->ticks.min) / 10;
+    double level;
+    for(level = data->gradient->ticks.min; level < data->gradient->ticks.max; level += step) *width += lstep;
+
+    gtk_plot_text_get_size(legend.text, legend.angle, legend.font,
+                           roundint(legend.height * m),
+                           &lwidth, &lheight,
+                           &lascent, &ldescent);
+    *height = *height + lascent + ldescent;
+    *width = *width + lwidth;
   }
 }
 
@@ -789,15 +890,16 @@ gtk_plot_surface_draw_legend(GtkPlotData *data, gint x, gint y)
   m = plot->magnification;
   legend = plot->legends_attr;
 
-  if(data->legend)
+  if(data->legend && strlen(data->legend) > 0)
     legend.text = data->legend;
   else
-    legend.text = "";
+    legend.text = "X";
 
   gtk_plot_text_get_size(legend.text, legend.angle, legend.font,
                          roundint(legend.height * m), 
                          &lwidth, &lheight,
                          &lascent, &ldescent);
+
 
   if(data->show_legend){
     if(!surface->use_height_gradient && !surface->use_amplitud){
@@ -810,9 +912,9 @@ gtk_plot_surface_draw_legend(GtkPlotData *data, gint x, gint y)
     }else{
       gdouble level, step;
       gint lx = x, lstep;
-      step = (data->gradient.max - data->gradient.min) / 10;
+      step = (data->gradient->ticks.max - data->gradient->ticks.min) / 10;
       lstep = roundint(plot->legends_line_width * m / 10.);
-      for(level = data->gradient.min; level < data->gradient.max; level += step){
+      for(level = data->gradient->ticks.min; level < data->gradient->ticks.max; level += step){
         GdkColor color;
         gtk_plot_data_get_gradient_level(data, level, &color);
         gtk_plot_pc_set_color(plot->pc, &color);
@@ -823,33 +925,17 @@ gtk_plot_surface_draw_legend(GtkPlotData *data, gint x, gint y)
         lx += lstep;
       }
     }
-  
-  
+
     legend.x = (gdouble)(area.x + x + roundint((plot->legends_line_width + 4) * m))
                / (gdouble)area.width;
     legend.y = (gdouble)(area.y + y + lascent) / (gdouble)area.height;
   
-    gtk_plot_draw_text(plot, legend);
+    if(data->legend && strlen(data->legend) > 0) gtk_plot_draw_text(plot, legend);
   
     y += 2*lheight;
   } else 
     y += lheight;
-
-  if(data->show_gradient)
-    gtk_plot_data_draw_gradient(data, x, y);
 }
-
-
-static gint
-roundint (gdouble x)
-{
- gint sign = 1;
-
-/* if(x <= 0.) sign = -1; 
-*/
- return (x+sign*.50999999471);
-}
-
 
 static void
 gtk_plot_surface_lighting (GdkColor *a, GdkColor *b, 
@@ -1133,15 +1219,15 @@ gtk_plot_surface_set_points(GtkPlotSurface *data,
                             gdouble *dx, gdouble *dy, gdouble *dz,
                             gint nx, gint ny)
 {
-  GTK_PLOT_DATA(data)->x = x;
-  GTK_PLOT_DATA(data)->y = y;
-  GTK_PLOT_DATA(data)->z = z;
-  GTK_PLOT_DATA(data)->dx = dx;
-  GTK_PLOT_DATA(data)->dy = dy;
-  GTK_PLOT_DATA(data)->dz = dz;
+  gtk_plot_data_set_x(GTK_PLOT_DATA(data), x);
+  gtk_plot_data_set_y(GTK_PLOT_DATA(data), y);
+  gtk_plot_data_set_z(GTK_PLOT_DATA(data), z);
+  gtk_plot_data_set_dx(GTK_PLOT_DATA(data), dx);
+  gtk_plot_data_set_dy(GTK_PLOT_DATA(data), dy);
+  gtk_plot_data_set_dz(GTK_PLOT_DATA(data), dz);
   data->nx = nx;
   data->ny = ny;
-  GTK_PLOT_DATA(data)->num_points = nx * ny;
+  gtk_plot_data_set_numpoints(GTK_PLOT_DATA(data), nx * ny);
 
   gtk_plot_surface_build_mesh(data);
 }
@@ -1152,97 +1238,103 @@ gtk_plot_surface_get_points(GtkPlotSurface *data,
                             gdouble **dx, gdouble **dy, gdouble **dz,
                             gint *nx, gint *ny)
 {
-  *x = GTK_PLOT_DATA(data)->x;
-  *y = GTK_PLOT_DATA(data)->y;
-  *z = GTK_PLOT_DATA(data)->z;
-  *dx = GTK_PLOT_DATA(data)->dx;
-  *dy = GTK_PLOT_DATA(data)->dy;
-  *dz = GTK_PLOT_DATA(data)->dz;
+  gint n;
+  *x = gtk_plot_data_get_x(GTK_PLOT_DATA(data), &n);
+  *y = gtk_plot_data_get_y(GTK_PLOT_DATA(data), &n);
+  *z = gtk_plot_data_get_z(GTK_PLOT_DATA(data), &n);
+  *dx = gtk_plot_data_get_dx(GTK_PLOT_DATA(data), &n);
+  *dy = gtk_plot_data_get_dy(GTK_PLOT_DATA(data), &n);
+  *dz = gtk_plot_data_get_dz(GTK_PLOT_DATA(data), &n);
   *nx = data->nx;
   *ny = data->ny;
 }
 
-void
+GtkPlotArray *
 gtk_plot_surface_set_x(GtkPlotSurface *data, 
                        gdouble *x) 
 {
-  GTK_PLOT_DATA(data)->x = x;
+  return gtk_plot_data_set_x(GTK_PLOT_DATA(data), x);
 }
 
-
-void
+GtkPlotArray *
 gtk_plot_surface_set_y(GtkPlotSurface *data, 
                        gdouble *y) 
 {
-  GTK_PLOT_DATA(data)->y = y;
+  return gtk_plot_data_set_y(GTK_PLOT_DATA(data), y);
 }
 
-void
+GtkPlotArray *
 gtk_plot_surface_set_z(GtkPlotSurface *data, 
                        gdouble *z) 
 {
-  GTK_PLOT_DATA(data)->z = z;
+  return gtk_plot_data_set_z(GTK_PLOT_DATA(data), z);
 }
 
-void
+GtkPlotArray *
 gtk_plot_surface_set_dx(GtkPlotSurface *data, 
                         gdouble *dx) 
 {
-  GTK_PLOT_DATA(data)->dx = dx;
+  return gtk_plot_data_set_dx(GTK_PLOT_DATA(data), dx);
 }
 
-void
+GtkPlotArray *
 gtk_plot_surface_set_dy(GtkPlotSurface *data, 
                         gdouble *dy) 
 {
-  GTK_PLOT_DATA(data)->dy = dy;
+  return gtk_plot_data_set_dy(GTK_PLOT_DATA(data), dy);
 }
 
-void
+GtkPlotArray *
 gtk_plot_surface_set_dz(GtkPlotSurface *data, 
                        gdouble *dz) 
 {
-  GTK_PLOT_DATA(data)->dz = dz;
+  return gtk_plot_data_set_dz(GTK_PLOT_DATA(data), dz);
 }
 
 gdouble *
 gtk_plot_surface_get_x(GtkPlotSurface *dataset, gint *nx)
 {
+  gint n;
   *nx = dataset->nx;
-  return(GTK_PLOT_DATA(dataset)->x);
+  return(gtk_plot_data_get_x(GTK_PLOT_DATA(dataset), &n));
 }
 
 gdouble *
 gtk_plot_surface_get_y(GtkPlotSurface *dataset, gint *ny)
 {
+  gint n;
   *ny = dataset->ny;
-  return(GTK_PLOT_DATA(dataset)->y);
+  return(gtk_plot_data_get_y(GTK_PLOT_DATA(dataset), &n));
 }
 
 gdouble *
 gtk_plot_surface_get_z(GtkPlotSurface *dataset, gint *nx, gint *ny)
 {
+  gint n;
   *nx = dataset->nx;
   *ny = dataset->ny;
-  return(GTK_PLOT_DATA(dataset)->z);
+  return(gtk_plot_data_get_z(GTK_PLOT_DATA(dataset), &n));
 }
 
 gdouble *
 gtk_plot_surface_get_dz(GtkPlotSurface *dataset)
 {
-  return(GTK_PLOT_DATA(dataset)->dz);
+  gint n;
+  return(gtk_plot_data_get_dz(GTK_PLOT_DATA(dataset), &n));
 }
 
 gdouble *
 gtk_plot_surface_get_dx(GtkPlotSurface *dataset)
 {
-  return(GTK_PLOT_DATA(dataset)->dx);
+  gint n;
+  return(gtk_plot_data_get_dx(GTK_PLOT_DATA(dataset), &n));
 }
 
 gdouble *
 gtk_plot_surface_get_dy(GtkPlotSurface *dataset)
 {
-  return(GTK_PLOT_DATA(dataset)->dy);
+  gint n;
+  return(gtk_plot_data_get_dy(GTK_PLOT_DATA(dataset), &n));
 }
 
 void
@@ -1308,7 +1400,6 @@ gtk_plot_surface_build_mesh(GtkPlotSurface *surface)
      gdouble xmin, xmax, ymin, ymax;
      gdouble x, y;
      gdouble *fx = NULL, *fy = NULL, *fz = NULL;
-     gdouble *old_x, *old_y, *old_z;
      gint nx, ny;
      gint npoints;
 
@@ -1346,13 +1437,10 @@ gtk_plot_surface_build_mesh(GtkPlotSurface *surface)
          y += ystep;
      }
 
-     old_x = data->x; old_y = data->y; old_z = data->z;
-
-     data->x = fx;
-     data->y = fy;
-     data->z = fz;
-
-     data->num_points = npoints;
+     gtk_plot_data_set_x(data, fx);
+     gtk_plot_data_set_y(data, fy);
+     gtk_plot_data_set_z(data, fz);
+     gtk_plot_data_set_numpoints(data, npoints);
      gtk_plot_surface_real_build_mesh(surface);
 
      g_free(fx);
@@ -1390,9 +1478,9 @@ gtk_plot_surface_build_mesh(GtkPlotSurface *surface)
             }
        } 
 
-     data->x = fx;
-     data->y = fy;
-     data->z = fz;
+     gtk_plot_data_set_x(GTK_PLOT_DATA(surface), fx);
+     gtk_plot_data_set_y(GTK_PLOT_DATA(surface), fy);
+     gtk_plot_data_set_z(GTK_PLOT_DATA(surface), fz);
 
      gtk_plot_surface_real_build_mesh(surface);
 
@@ -1408,6 +1496,7 @@ static void
 gtk_plot_surface_real_build_mesh(GtkPlotSurface *surface)
 {
   GtkPlotData *data;
+  gdouble *array_x, *array_y, *array_z;
   GtkPlot *plot;
   gint i;
 
@@ -1419,12 +1508,16 @@ gtk_plot_surface_real_build_mesh(GtkPlotSurface *surface)
 
   gtk_plot_dt_clear(surface->dt);
 
+  array_x = gtk_plot_data_get_x(GTK_PLOT_DATA(surface), &i);
+  array_y = gtk_plot_data_get_y(GTK_PLOT_DATA(surface), &i);
+  array_z = gtk_plot_data_get_z(GTK_PLOT_DATA(surface), &i);
+
   for(i = 0; i < data->num_points; i++){
     GtkPlotDTnode node;
-    node.x = data->x[i];
-    node.y = data->y[i];
+    node.x = array_x[i];
+    node.y = array_y[i];
     node.z = 0.0;
-    if(data->z) node.z = data->z[i];
+    if(array_z) node.z = array_z[i];
     gtk_plot_dt_add_node(surface->dt, node);
   }
   gtk_plot_dt_triangulate(surface->dt);

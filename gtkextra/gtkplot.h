@@ -24,6 +24,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include "gtkplotpc.h"
+#include "gtkplotarray.h"
 
 #define GTK_PLOT(obj)        GTK_CHECK_CAST (obj, gtk_plot_get_type (), GtkPlot)
 
@@ -264,10 +265,10 @@ struct _GtkPlotTicks
 
   gint nmajorticks;             /* Number of major ticks drawn */
   gint nminorticks;             /* Number of minor ticks drawn */
-  gint nticks;                  /* total number of ticks */
+  gint nticks;			/* total number of ticks */
 
-  gdouble step;                 /* major ticks step */
-  gint nminor;                  /* number of minor ticks between major ticks */
+  gdouble step;		   	/* major ticks step */
+  gint nminor;		  	/* number of minor ticks between major ticks */
 
   gboolean apply_break;
   GtkPlotScale break_scale;
@@ -280,7 +281,7 @@ struct _GtkPlotTicks
   GtkPlotTick *values;
 
   gboolean set_limits;
-  gdouble begin, end;
+  gdouble begin, end; 
 };
 
 struct _GtkPlotAxis
@@ -299,8 +300,6 @@ struct _GtkPlotAxis
 
   GtkPlotOrientation orientation;
   
-  GtkPlotScale scale;
-
   GtkPlotLine line;
   GtkPlotLine major_grid;
   GtkPlotLine minor_grid;
@@ -325,6 +324,20 @@ struct _GtkPlotAxis
   gint label_precision;
   gint label_style;
   gint label_mask;
+
+  GtkPlotArray *tick_labels;
+
+  void (*ticks_recalc)   		(GtkPlotAxis *axis);
+  void (*ticks_autoscale)   		(GtkPlotAxis *axis, 
+					 gdouble xmin, gdouble xmax,
+			     		 gint *precision);
+  gdouble (*ticks_transform)   		(GtkPlotAxis *axis, gdouble y);
+  gdouble (*ticks_inverse)   		(GtkPlotAxis *axis, gdouble y);
+  void (*parse_label)   		(GtkPlotAxis *axis, 
+					 gdouble val,
+					 gint precision,
+					 gint style,
+					 gchar *label);
 };
 
 struct _GtkPlotData
@@ -367,18 +380,7 @@ struct _GtkPlotData
 
   gint num_points;
 
-  gdouble *x;
-  gdouble *y;
-  gdouble *z;
-  gdouble *a;
-  gdouble *dx;
-  gdouble *dy;
-  gdouble *dz;
-  gdouble *da;
-
-  gdouble a_scale;
-
-  gchar **labels;
+  GtkPlotArrayList *data;
 
   gint labels_offset;
   GtkPlotText labels_attr;
@@ -394,7 +396,7 @@ struct _GtkPlotData
   GdkColor color_min, color_max;
   GdkColor color_lt_min, color_gt_max;
   gint gradient_mask;
-  GtkPlotTicks gradient;
+  GtkPlotAxis * gradient;
   gboolean gradient_custom;
   GdkColor *gradient_colors;
 
@@ -408,6 +410,16 @@ struct _GtkPlotData
   gboolean show_markers;
 
   gboolean redraw_pending;
+
+  GtkPlotAxisPos gradient_title_pos;
+  gint gradient_line_width;
+  gint gradient_line_height;
+  gdouble gradient_x, gradient_y;
+
+  GtkPlotBorderStyle gradient_border;
+  gint gradient_border_offset;
+  gint gradient_border_width;
+  gint gradient_shadow_width;
 };
 
 struct _GtkPlot
@@ -484,10 +496,10 @@ struct _GtkPlotClass
   void 		(* changed) 		(GtkPlot *plot);
 
   gboolean 	(* moved)   		(GtkPlot *plot, 
-					 gdouble x, gdouble y);
+					 gdouble *x, gdouble *y);
 
   gboolean 	(* resized) 		(GtkPlot *plot,
-                                         gdouble width, gdouble height);
+                                         gdouble *width, gdouble *height);
 
   void 		(* plot_paint)   	(GtkWidget *plot); 
 
@@ -512,8 +524,8 @@ struct _GtkPlotDataClass
 
   gboolean	(* add_to_plot) 	(GtkPlotData *data, GtkPlot *plot);
   void		(* update) 		(GtkPlotData *data, gboolean new_range);
-  void          (* gradient_changed)    (GtkPlotData *data);
-  void          (* gradient_colors_changed)    (GtkPlotData *data);
+  void		(* gradient_changed) 	(GtkPlotData *data);
+  void		(* gradient_colors_changed) 	(GtkPlotData *data);
   void 		(* draw_data)   	(GtkPlotData *data);
   void 		(* draw_symbol)   	(GtkPlotData *data, 
                                          gdouble x, 
@@ -527,8 +539,11 @@ struct _GtkPlotDataClass
   void 		(* draw_legend)   	(GtkPlotData *data, gint x, gint y);
   void 		(* get_legend_size)   	(GtkPlotData *data, 
                                          gint *width, gint *height);
+  void 		(* draw_gradient)   	(GtkPlotData *data);
+  void 		(* get_gradient_size)  	(GtkPlotData *data, 
+                                         gint *width, gint *height);
 
-  void          (* clone)               (GtkPlotData *data, GtkPlotData *copy);
+  void		(* clone)		(GtkPlotData *data, GtkPlotData *copy);
 /*
   void 		(* error) 		(GtkPlotData *data, gint errno);
 */
@@ -541,6 +556,7 @@ struct _GtkPlotAxisClass
   gboolean 	(* tick_label)   	(GtkPlotAxis *axis, 
                                          gdouble *tick,
 					 gchar *label);
+  gboolean 	(* changed)   		(GtkPlotAxis *axis);
 };
 
 
@@ -662,6 +678,26 @@ void            gtk_plot_draw_line		(GtkPlot *plot,
 						 gdouble x2, gdouble y2);
 void 		gtk_plot_draw_text		(GtkPlot *plot,
                    				 GtkPlotText text);
+void            gtk_plot_set_ticks         	(GtkPlot *plot,
+                                                 GtkPlotOrientation orientation,                                                 gdouble major_step,
+                                                 gint nminor);
+void            gtk_plot_set_major_ticks   	(GtkPlot *plot,
+                                                 GtkPlotOrientation orientation,                                                 gdouble major_step);
+void            gtk_plot_set_minor_ticks   	(GtkPlot *plot,
+                                                 GtkPlotOrientation orientation,                                                 gint nminor);
+void            gtk_plot_set_ticks_limits  	(GtkPlot *plot,
+                                                 GtkPlotOrientation orientation,                                                 gdouble begin, gdouble end);
+void            gtk_plot_unset_ticks_limits(GtkPlot *plot,
+                                                 GtkPlotOrientation orientation);
+void            gtk_plot_set_break         	(GtkPlot *plot,
+                                                 GtkPlotOrientation orient,
+                                                 gdouble min, gdouble max,
+                                                 gdouble step_after,
+                                                 gint nminor_after,
+                                                 GtkPlotScale scale_after,
+                                                 gdouble pos);
+void            gtk_plot_remove_break      	(GtkPlot *plot,
+                                                 GtkPlotOrientation orient);
 
 /* Axis */
 
@@ -671,112 +707,100 @@ void		gtk_plot_axis_construct		(GtkPlotAxis *axis,
 					         GtkPlotOrientation orientation);
 GtkPlotAxis *   gtk_plot_get_axis               (GtkPlot *plot, 
                                                  GtkPlotAxisPos axis);
-void		gtk_plot_axis_set_visible	(GtkPlot *plot, 
-						 GtkPlotAxisPos axis,
+void		gtk_plot_axis_set_visible	(GtkPlotAxis *axis, 
                                                  gboolean visible);
-gboolean	gtk_plot_axis_visible		(GtkPlot *plot, 
-						 GtkPlotAxisPos axis);
-void		gtk_plot_axis_set_title		(GtkPlot *plot, 
-						 GtkPlotAxisPos axis,
+gboolean	gtk_plot_axis_visible		(GtkPlotAxis *axis);
+void		gtk_plot_axis_set_title		(GtkPlotAxis *axis,
 						 const gchar *title);
-void		gtk_plot_axis_show_title	(GtkPlot *plot, 
-						 GtkPlotAxisPos axis);
-void		gtk_plot_axis_hide_title	(GtkPlot *plot, 
-						 GtkPlotAxisPos axis);
-void		gtk_plot_axis_move_title	(GtkPlot *plot, 
-						 GtkPlotAxisPos axis,
+void		gtk_plot_axis_show_title	(GtkPlotAxis *axis); 
+void		gtk_plot_axis_hide_title	(GtkPlotAxis *axis);
+void		gtk_plot_axis_move_title	(GtkPlotAxis *axis, 
 						 gint angle,
 						 gdouble x, gdouble y);
-void		gtk_plot_axis_justify_title	(GtkPlot *plot, 
-						 GtkPlotAxisPos axis,
+void		gtk_plot_axis_justify_title	(GtkPlotAxis *axis,
 						 GtkJustification justification);
-void		gtk_plot_axis_set_attributes 	(GtkPlot *plot,
-						 GtkPlotAxisPos axis,
+void		gtk_plot_axis_set_attributes 	(GtkPlotAxis *axis,
 						 gfloat width,
 						 const GdkColor *color);
-void		gtk_plot_axis_get_attributes 	(GtkPlot *plot,
-						 GtkPlotAxisPos axis,
+void		gtk_plot_axis_get_attributes 	(GtkPlotAxis *axis,
 						 gfloat *width,
 						 GdkColor *color);
-void		gtk_plot_axis_set_ticks		(GtkPlot *plot,
-						 GtkPlotOrientation orientation,
+void		gtk_plot_axis_set_ticks		(GtkPlotAxis *axis,
 						 gdouble major_step,
 						 gint nminor);
-void		gtk_plot_axis_set_major_ticks	(GtkPlot *plot,
-						 GtkPlotOrientation orientation,
+void		gtk_plot_axis_set_major_ticks	(GtkPlotAxis *axis,
 						 gdouble major_step);
-void		gtk_plot_axis_set_minor_ticks	(GtkPlot *plot,
-						 GtkPlotOrientation orientation,
+void		gtk_plot_axis_set_minor_ticks	(GtkPlotAxis *axis,
 						 gint nminor);
-void		gtk_plot_axis_set_ticks_length	(GtkPlot *plot,
-						 GtkPlotAxisPos axis,
+void		gtk_plot_axis_set_ticks_length	(GtkPlotAxis *axis,
 						 gint length);
-void		gtk_plot_axis_set_ticks_width	(GtkPlot *plot,
-						 GtkPlotAxisPos axis,
+void		gtk_plot_axis_set_ticks_width	(GtkPlotAxis *axis,
 						 gfloat width);
-void		gtk_plot_axis_show_ticks	(GtkPlot *plot,
-						 GtkPlotAxisPos axis,
+void		gtk_plot_axis_show_ticks	(GtkPlotAxis *axis,
                                                  gint major_mask,
 						 gint minor_mask);
-void		gtk_plot_axis_set_ticks_limits	(GtkPlot *plot,
-						 GtkPlotOrientation orientation,
+void		gtk_plot_axis_set_ticks_limits	(GtkPlotAxis *axis,
 						 gdouble begin, gdouble end);
-void		gtk_plot_axis_unset_ticks_limits(GtkPlot *plot,
-						 GtkPlotOrientation orientation);
-void            gtk_plot_axis_set_break         (GtkPlot *plot,
-                                                 GtkPlotOrientation orient,
-                                                 gdouble min, gdouble max,
-                                                 gdouble step_after,
-                                                 gint nminor_after,
+void		gtk_plot_axis_unset_ticks_limits(GtkPlotAxis *axis);
+void		gtk_plot_axis_set_tick_labels	(GtkPlotAxis *axis,
+						 GtkPlotArray *array);
+void		gtk_plot_axis_set_break		(GtkPlotAxis *axis,
+						 gdouble min, gdouble max,
+						 gdouble step_after, 
+						 gint nminor_after,
                                                  GtkPlotScale scale_after,
-                                                 gdouble pos);
-void            gtk_plot_axis_remove_break      (GtkPlot *plot,
-                                                 GtkPlotOrientation orient);
-void		gtk_plot_axis_show_labels	(GtkPlot *plot, 
-						 GtkPlotAxisPos axis,
+						 gdouble pos);
+void		gtk_plot_axis_remove_break	(GtkPlotAxis *axis);
+void		gtk_plot_axis_show_labels	(GtkPlotAxis *axis,
 						 gint labels_mask);
-void		gtk_plot_axis_title_set_attributes	(GtkPlot *plot,
-					 GtkPlotAxisPos axis,
-					 const gchar *font,
-					 gint height,
-					 gint angle,
-					 const GdkColor *foreground,
-					 const GdkColor *background,
-                                         gboolean transparent,
-                                         GtkJustification justification);
-void		gtk_plot_axis_set_labels_attributes	(GtkPlot *plot,
-					 GtkPlotAxisPos axis,
-					 const gchar *font,
-					 gint height,
-					 gint angle,
-					 const GdkColor *foreground,
-					 const GdkColor *background,
-                                         gboolean transparent,
-                                         GtkJustification justification);
+void		gtk_plot_axis_title_set_attributes	
+						(GtkPlotAxis *axis,
+					 	 const gchar *font,
+					 	 gint height,
+					 	 gint angle,
+					 	 const GdkColor *foreground,
+						 const GdkColor *background,
+                                        	 gboolean transparent,
+                                        	 GtkJustification justification);
+void		gtk_plot_axis_set_labels_attributes	
+						(GtkPlotAxis *axis,
+					 	 const gchar *font,
+						 gint height,
+						 gint angle,
+						 const GdkColor *foreground,
+						 const GdkColor *background,
+                                        	 gboolean transparent,
+                                        	 GtkJustification justification);
 #define gtk_plot_axis_set_labels_numbers gtk_plot_axis_set_labels_style
-void		gtk_plot_axis_set_labels_style	        (GtkPlot *plot,
-					 		 GtkPlotAxisPos axis,
-							 gint style,
-							 gint precision); 
-void		gtk_plot_axis_set_labels_offset		(GtkPlot *plot,
-					 		 GtkPlotAxisPos axis,
-							 gint offset); 
-gint		gtk_plot_axis_get_labels_offset		(GtkPlot *plot,
-					 		 GtkPlotAxisPos axis);
-void 		gtk_plot_axis_use_custom_tick_labels 	(GtkPlot *plot,
-                                      			 GtkPlotAxisPos axispos,
-                                      			 gboolean use);
-void		gtk_plot_axis_set_labels_suffix (GtkPlot *plot,
-						 GtkPlotAxisPos axis,
+void		gtk_plot_axis_set_labels_style	(GtkPlotAxis *axis,
+						 GtkPlotLabelStyle style,
+						 gint precision); 
+void		gtk_plot_axis_set_labels_offset	(GtkPlotAxis *axis,
+						 gint offset); 
+gint		gtk_plot_axis_get_labels_offset	(GtkPlotAxis *axis);
+void 		gtk_plot_axis_use_custom_tick_labels 	
+						(GtkPlotAxis *axis,
+                                      		 gboolean use);
+void		gtk_plot_axis_set_labels_suffix (GtkPlotAxis *axis,
 						 const gchar *text);
-void		gtk_plot_axis_set_labels_prefix (GtkPlot *plot,
-						 GtkPlotAxisPos axis,
+void		gtk_plot_axis_set_labels_prefix (GtkPlotAxis *axis,
 						 const gchar *text);
-gchar *		gtk_plot_axis_get_labels_suffix (GtkPlot *plot,
-						 GtkPlotAxisPos axis);
-gchar *		gtk_plot_axis_get_labels_prefix (GtkPlot *plot,
-						 GtkPlotAxisPos axis);
+gchar *		gtk_plot_axis_get_labels_suffix (GtkPlotAxis *axis);
+gchar *		gtk_plot_axis_get_labels_prefix (GtkPlotAxis *axis);
 
+void 		gtk_plot_axis_ticks_recalc      (GtkPlotAxis *axis);
+void 		gtk_plot_axis_ticks_autoscale   (GtkPlotAxis *axis,
+                  	                         gdouble xmin, gdouble xmax,
+                        	                 gint *precision);
+gdouble 	gtk_plot_axis_ticks_transform   (GtkPlotAxis *axis, 
+						 gdouble y);
+gdouble 	gtk_plot_axis_ticks_inverse     (GtkPlotAxis *axis, 
+						 gdouble x);
+void 		gtk_plot_axis_parse_label       (GtkPlotAxis *axis, 
+						 gdouble val,
+                                         	 gint precision,
+                                         	 gint style,
+                                         	 gchar *label);
 /* Grids */
 void		gtk_plot_x0_set_visible			(GtkPlot *plot, 
 							 gboolean visible);

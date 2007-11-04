@@ -1,3 +1,19 @@
+Sat Nov 03 20:51:37 2007  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c: Use -10 to 10 for all default ranges.  Much better
+	  than PI, that was stupid.  Set minimum plot window to 1e-10 and
+	  enforce it to avoid errors with computing ticks leading to
+	  hanging behaviour.
+
+	* gtkextra/*: copy new files from cvs version of gtk extra except
+	  for gtkpslot which is broken, so keep our old version which works
+
+	* gtkextra/gtkplot3d.[ch]: fix up the axis mess
+
+	* src/graphing.c: use the new gtk extra stuff.  Produces nicer
+	  plots on screen.  Initial patch was by Sebastian Dröge
+	  <slomo@circular-chaos.org>
+
 2007-11-03  Sebastian Dröge  <slomo@circular-chaos.org>
 
 	* configure.in:
