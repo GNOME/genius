@@ -10,12 +10,15 @@ Changes to 1.0.1
 * Chop small numbers when they appear near other larger numbers.  New
   parameters OutputChopExponent and OutputChopWhenExponent
 * Update the plotting widgetry from GtkExtra for prettier graphs
+  (Sebastian Dröge, me)
 * Add IsMatrixPositive, IsMatrixNonnegative, version, IsZero, IsIdentity
 * CHANGE: Remove IsGaussianInteger, we already have IsGaussInteger alias IsComplexInteger
 * Add "Save all unsaved" menu item
 * Add Ctrl->R for "Run"
 * Default graphing limits are -10 to 10 for all axis (no more pi as default)
 * Require at least GKT+ 2.3.5 for the GUI.
+* Optionally compile with GtkSourceview2 and drop back to
+  GtkSourceview1 if unavailable (Sebastian Dröge)
 * Fix loading of files and URIs from the command line
 * Errors don't print the full file URI for opened program names
 * Confirm closing unsaved programs
@@ -25,6 +28,8 @@ Changes to 1.0.1
 * Fix showing full answer in the gui.
 * Fix hangs in the graphing code by enforcing a minimum plot window size
 * Remove unused file with nonfree license
+* Add --disable-scrollkeeper and --disable-update-mimedb to configure
+  (Sebastian Dröge)
 * Update the about box
 
 Changes to 1.0.0
