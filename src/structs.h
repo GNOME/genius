@@ -423,6 +423,8 @@ struct _GelOutput {
 	int no_notify;
 	
 	gpointer data;
+
+	int force_chop;
 };
 
 #endif /* STRUCTS_H */

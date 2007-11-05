@@ -75,7 +75,9 @@ calcstate_t curstate={
 	TRUE,
 	10,
 	0, /* output_style */
-	0 /* max_nodes */ /* FIXME: implement here just like in gnome-genius */
+	0, /* max_nodes */ /* FIXME: implement here just like in gnome-genius */
+	20, /* chop */
+	5 /* chop_when */
 	};
 	
 extern int parenth_depth;
@@ -291,6 +293,18 @@ main(int argc, char *argv[])
 			val = 10;
 			sscanf (argv[++i],"%d",&val);
 			curstate.integer_output_base = val;
+		} else if(sscanf(argv[i],"--chop=%d",&val)==1) {
+			curstate.integer_output_base = val;
+		} else if (strcmp (argv[i], "--chop")==0 && i+1 < argc) {
+			val = 20;
+			sscanf (argv[++i],"%d",&val);
+			curstate.chop = val;
+		} else if(sscanf(argv[i],"--chopwhen=%d",&val)==1) {
+			curstate.integer_output_base = val;
+		} else if (strcmp (argv[i], "--chopwhen")==0 && i+1 < argc) {
+			val = 10;
+			sscanf (argv[++i],"%d",&val);
+			curstate.chop_when = val;
 		} else if(strcmp(argv[i],"--readline")==0)
 			use_readline = TRUE;
 		else if(strcmp(argv[i],"--noreadline")==0)
@@ -335,6 +349,8 @@ main(int argc, char *argv[])
 				   "\t--maxerrors=num   \tMaximum errors to display (0=no limit) [5]\n"
 				   "\t--[no]mixed       \tPrint fractions in mixed format\n"
 				   "\t--intoutbase=num  \tBase to use to print out integers [10]\n"
+				   "\t--chop=num        \tChop small numbers less than 10^-num [20]\n"
+				   "\t--chopwhen=num    \tBut only when other numbers 10^-num or more [5]\n"
 				   "\t--[no]readline    \tUse readline if it is available [ON]\n"
 				   "\t--[no]compile     \tCompile everything and dump it to stdout [OFF]\n"
 				   "\t--[no]gettext     \tDump help/error strings in fake .c file to\n"

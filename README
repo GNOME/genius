@@ -16,11 +16,9 @@ Requirements:
 	- mpfr (relatively new one)
 	- glib 2.x
 And for the GNOME frontend you need:
-	- gtk+ 2.x (2.4 or greater is recommended, but any 2.x should work)
+	- gtk+ 2.4
 	- gnome libs
 	- gtksourceview (optional but recommended)
-All except gmp seem to be pretty much standard or Linux systems, and even
-on most other platforms.
 
 If you want to compile without the GNOME frontend, try the
   --disable-gnome

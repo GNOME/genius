@@ -66,6 +66,10 @@ typedef struct _calcstate_t {
 	int integer_output_base; /*output base for integers*/
 	GelOutputStyle output_style;
 	int max_nodes;	/*maximum number of nodes +- whatever*/
+	int chop;	/* chop floating point numbers 
+			   smaller than approximately 10^-chop */
+	int chop_when;  /* but only if the object contains a number greater
+			   than 10^-chop_when */
 } calcstate_t;
 
 /*so we can use and set the yyparse function for parse errors*/

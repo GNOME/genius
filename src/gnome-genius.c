@@ -80,8 +80,12 @@ calcstate_t curstate={
 	TRUE,
 	10,
 	0, /* output_style */
-	2000000 /* max_nodes */
+	2000000, /* max_nodes */
+	20, /* chop */
+	5 /* chop_when */
 	};
+
+#define MAX_CHOP 1000
 	
 extern int parenth_depth;
 extern gboolean interrupted;
@@ -1040,7 +1044,8 @@ aboutcb(GtkWidget * widget, gpointer data)
 		}
 
 		logo = gdk_pixbuf_new_from_file
-			(DATADIR "/genius/genius-graph.png", NULL);
+			(DATADIR G_DIR_SEPARATOR_S
+			 "genius" G_DIR_SEPARATOR_S "genius-graph.png", NULL);
 
 		about = gnome_about_new
 			(_("About Genius"),
@@ -1097,6 +1102,10 @@ set_properties (void)
 				      curstate.full_expressions);
 		gnome_config_set_bool("/genius/properties/mixed_fractions",
 				      curstate.mixed_fractions);
+		gnome_config_set_int("/genius/properties/chop",
+				     curstate.chop);
+		gnome_config_set_int("/genius/properties/chop_when",
+				     curstate.chop_when);
 	}
 	gnome_config_set_int("/genius/properties/max_errors",
 			     curstate.max_errors);
@@ -1446,6 +1455,51 @@ setup_calc(GtkWidget *widget, gpointer data)
 	g_signal_connect (G_OBJECT (w), "toggled",
 			  G_CALLBACK (optioncb),
 			  (gpointer)&tmpstate.mixed_fractions);
+
+	b=gtk_hbox_new(FALSE,GNOME_PAD);
+	gtk_box_pack_start(GTK_BOX(box),b,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(b),
+		   gtk_label_new(_("Display 0.0 when floating point number is less than 10^-x "
+				   "(0=never chop)")),
+		   FALSE,FALSE,0);
+	adj = (GtkAdjustment *)gtk_adjustment_new(tmpstate.chop,
+						  0,
+						  MAX_CHOP,
+						  1,
+						  5,
+						  0);
+	w = gtk_spin_button_new(adj,1.0,0);
+	gtk_spin_button_set_numeric(GTK_SPIN_BUTTON(w),TRUE);
+	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON(w),
+					   GTK_UPDATE_ALWAYS);
+	gtk_spin_button_set_snap_to_ticks(GTK_SPIN_BUTTON(w),
+					  TRUE);
+	gtk_widget_set_size_request (w, 80, -1);
+	gtk_box_pack_start(GTK_BOX(b),w,FALSE,FALSE,0);
+	g_signal_connect (G_OBJECT (adj), "value_changed",
+			  G_CALLBACK (intspincb), &tmpstate.chop);
+
+	b=gtk_hbox_new(FALSE,GNOME_PAD);
+	gtk_box_pack_start(GTK_BOX(box),b,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(b),
+		   gtk_label_new(_("Only chop numbers when another number is greater than 10^-x")),
+		   FALSE,FALSE,0);
+	adj = (GtkAdjustment *)gtk_adjustment_new(tmpstate.chop_when,
+						  0,
+						  MAX_CHOP,
+						  1,
+						  5,
+						  0);
+	w = gtk_spin_button_new(adj,1.0,0);
+	gtk_spin_button_set_numeric(GTK_SPIN_BUTTON(w),TRUE);
+	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON(w),
+					   GTK_UPDATE_ALWAYS);
+	gtk_spin_button_set_snap_to_ticks(GTK_SPIN_BUTTON(w),
+					  TRUE);
+	gtk_widget_set_size_request (w, 80, -1);
+	gtk_box_pack_start(GTK_BOX(b),w,FALSE,FALSE,0);
+	g_signal_connect (G_OBJECT (adj), "value_changed",
+			  G_CALLBACK (intspincb), &tmpstate.chop_when);
 
 	w=gtk_check_button_new_with_label(_("Remember output settings across sessions"));
 	gtk_box_pack_start(GTK_BOX(box),w,FALSE,FALSE,0);
@@ -2370,7 +2424,9 @@ get_source_language_manager ()
 		for (i = 0; i < nlang_dirs; i++) {
 		  lang_dirs[i] = (gchar *) default_lang_dirs[i];
 		}
-		lang_dirs[nlang_dirs] = DATADIR "/genius/gtksourceview/";
+		lang_dirs[nlang_dirs] = DATADIR G_DIR_SEPARATOR_S "genius"
+			G_DIR_SEPARATOR_S "gtksourceview"
+			G_DIR_SEPARATOR_S;
 
 		gtk_source_language_manager_set_search_path (lm, lang_dirs);
 	}
@@ -2429,7 +2485,8 @@ new_program (const char *filename)
 	gtk_source_view_set_show_line_numbers (GTK_SOURCE_VIEW (tv), TRUE);
 	gtk_source_view_set_auto_indent (GTK_SOURCE_VIEW (tv), TRUE);
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
-	lang_dirs.data = DATADIR "/genius/gtksourceview/";
+	lang_dirs.data = DATADIR G_DIR_SEPARATOR_S "genius"
+		G_DIR_SEPARATOR_S "gtksourceview" G_DIR_SEPARATOR_S;
 	lang_dirs.prev = NULL;
 	lang_dirs.next = NULL;
 	lm = GTK_SOURCE_LANGUAGES_MANAGER
@@ -3037,6 +3094,22 @@ get_properties (void)
 	curstate.max_nodes = gnome_config_get_int(buf);
 	if (curstate.max_nodes < 0)
 		curstate.max_nodes = 0;
+
+	g_snprintf(buf,256,"/genius/properties/chop=%d",
+		   curstate.chop);
+	curstate.chop = gnome_config_get_int(buf);
+	if (curstate.chop < 0)
+		curstate.chop = 0;
+	else if (curstate.chop > MAX_CHOP)
+		curstate.chop = MAX_CHOP;
+
+	g_snprintf(buf,256,"/genius/properties/chop_when=%d",
+		   curstate.chop_when);
+	curstate.chop_when = gnome_config_get_int(buf);
+	if (curstate.chop_when < 0)
+		curstate.chop_when = 0;
+	else if (curstate.chop_when > MAX_CHOP)
+		curstate.chop_when = MAX_CHOP;
 
 	g_snprintf(buf,256,"/genius/properties/float_prec=%d",
 		   curstate.float_prec);

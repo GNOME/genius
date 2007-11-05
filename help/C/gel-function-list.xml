@@ -516,6 +516,41 @@ avoid them being accidentally overridden.</para>
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-OutputChopExponent">
+         <term>OutputChopExponent</term>
+         <listitem>
+          <synopsis>OutputChopExponent = number</synopsis>
+	  <para>When another number in the object being printed (a matrix or a
+value) is greater than
+10<superscript>-OutputChopWhenExponent</superscript>, and
+the number being printed is less than 
+10<superscript>-OutputChopExponent</superscript>, then
+display <computeroutput>0.0</computeroutput> instead of the number.
+</para>
+<para>
+Output is never chopped if <function>OutputChopExponent</function> is zero.
+It must be a nonnegative integer.
+</para>
+<para>
+If you want output always chopped according to
+<function>OutputChopExponent</function>, then set
+<function>OutputChopWhenExponent</function>, to something
+greater than or equal to
+<function>OutputChopExponent</function>.
+</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-OutputChopWhenExponent">
+         <term>OutputChopWhenExponent</term>
+         <listitem>
+          <synopsis>OutputChopWhenExponent = number</synopsis>
+	  <para>When to chop output.  See
+          <link linkend="gel-function-OutputChopExponent"><function>OutputChopExponent</function></link>.
+</para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-OutputStyle">
          <term>OutputStyle</term>
          <listitem>

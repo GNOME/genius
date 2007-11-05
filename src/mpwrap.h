@@ -1,11 +1,13 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2006 Jiri (George) Lebl
+ * Copyright (C) 1997-2007 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
- * This program is free software; you can redistribute it and/or modify
+ * This file is part of Genius.
+ *
+ * Genius is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -14,9 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the  Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
- * USA.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef MPWRAP_H_
@@ -248,6 +248,19 @@ char * mpw_getstring (mpw_ptr num,
 		      int integer_output_base,
 		      gboolean add_parenths);
 
+char * mpw_getstring_chop (mpw_ptr num,
+			   int max_digits,
+			   gboolean scientific_notation,
+			   gboolean results_as_floats,
+			   gboolean mixed_fractions,
+			   /* FIXME: solve dependency, this is defined in calc.h */
+			   /* GelOutputStyle */int style,
+			   int integer_output_base,
+			   gboolean add_parenths,
+			   int chop,
+			   int chop_when,
+			   gboolean force_chop);
+
 void mpw_set_str_float(mpw_ptr rop,const char *s,int base);
 
 /*reads only the imaginary part (use add for real part)*/
@@ -284,5 +297,8 @@ void mpw_get_complex_double(mpw_ptr op, double *r, double *i);
 
 void mpw_denominator(mpw_ptr rop, mpw_ptr op);
 void mpw_numerator(mpw_ptr rop, mpw_ptr op);
+
+/* is the exponent less then -chop_when */
+gboolean mpw_chop_p (mpw_ptr num, int chop_when);
 
 #endif

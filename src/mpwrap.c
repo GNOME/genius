@@ -3,9 +3,11 @@
  *
  * Author: Jiri (George) Lebl
  *
- * This program is free software; you can redistribute it and/or modify
+ * This file is part of Genius.
+ *
+ * Genius is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -14,9 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the  Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
- * USA.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "config.h"
@@ -270,6 +270,8 @@ static void mpwl_free(MpwRealNum *op, int local);
 
 static int mpwl_sgn(MpwRealNum *op);
 
+static long mpwl_get_exp(MpwRealNum *op);
+
 static void mpwl_set_si(MpwRealNum *rop,signed long int i);
 static void mpwl_set_ui(MpwRealNum *rop,unsigned long int i);
 static void mpwl_set_d(MpwRealNum *rop,double d);
@@ -407,10 +409,12 @@ static char * str_getstring_q (mpq_ptr num, int max_digits,
 			       gboolean scientific_notation,
 			       gboolean mixed_fractions,
 			       GelOutputStyle style,
-			       const char *postfix);
+			       const char *postfix,
+			       int float_chop);
 static char * str_getstring_f (mpfr_ptr num, int max_digits,
 			       gboolean scientific_notation,
-			       const char *postfix);
+			       const char *postfix,
+			       int chop);
 
 static char * mpwl_getstring(MpwRealNum * num, int max_digits,
 			     gboolean scientific_notation,
@@ -418,7 +422,8 @@ static char * mpwl_getstring(MpwRealNum * num, int max_digits,
 			     gboolean mixed_fractions,
 			     GelOutputStyle style,
 			     int integer_output_base,
-			     const char *postfix);
+			     const char *postfix,
+			     int chop /* -1 if not chopping */);
 
 #define mpwl_getstring_for_error(n) \
 		mpwl_getstring ((n),					\
@@ -428,7 +433,8 @@ static char * mpwl_getstring(MpwRealNum * num, int max_digits,
 				FALSE /* mixed_fractions */,		\
 				GEL_OUTPUT_NORMAL,			\
 				10 /* integer_output_base */,		\
-				"" /* postfix */);
+				"" /* postfix */,			\
+				-1 /* chop */);
 
 #define mpw_getstring_for_error(n) \
 		mpw_getstring ((n),					\
@@ -652,6 +658,22 @@ mpwl_sgn(MpwRealNum *op)
 	case MPW_INTEGER: return mpz_sgn(op->data.ival);
 	}
 	return 0;
+}
+
+static long
+mpwl_get_exp (MpwRealNum *op)
+{
+	if (op->type == MPW_FLOAT) {
+		return mpfr_get_exp (op->data.fval);
+	} else {
+		long e;
+		mpfr_ptr op_f;
+		mpfr_t op_tmp;
+		MPWL_MPF (op_f, op, op_tmp);
+		e = mpfr_get_exp (op_f);
+		MPWL_MPF_KILL (op_f, op_tmp);
+		return e;
+	}
 }
 
 static int
@@ -2767,7 +2789,8 @@ str_getstring_z (mpz_ptr num, int max_digits,int scientific_notation,
 	if(max_digits>0 && max_digits<strlen(p)) {
 		mpfr_init(fr);
 		mpfr_set_z(fr,num, GMP_RNDN);
-		p2=str_getstring_f(fr,max_digits,scientific_notation,postfix);
+		p2=str_getstring_f(fr,max_digits,scientific_notation,postfix,
+				   -1 /* chop */);
 		mpf_clear(fr);
 		if(strlen(p2)>=strlen(p)) {
 			g_free(p2);
@@ -2841,7 +2864,8 @@ str_getstring_q (mpq_ptr num,
 		 gboolean scientific_notation,
 		 gboolean mixed_fractions,
 		 GelOutputStyle style,
-		 const char *postfix)
+		 const char *postfix,
+		 int float_chop)
 {
 	char *p,*p2;
 	mpfr_t fr;
@@ -2908,7 +2932,8 @@ str_getstring_q (mpq_ptr num,
 		mpf_init(fr);
 		mpf_set_q(fr,num);
 		p2=str_getstring_f(fr,max_digits,scientific_notation,
-				   postfix);
+				   postfix,
+				   float_chop);
 		mpf_clear(fr);
 		if(strlen(p2)>=strlen(p)) {
 			g_free(p2);
@@ -2925,10 +2950,22 @@ static char *
 str_getstring_f (mpfr_ptr num,
 		 int max_digits,
 		 gboolean scientific_notation,
-		 const char *postfix)
+		 const char *postfix,
+		 int chop)
 {
 	char *p;
 	long e;
+
+	if (chop > 0) {
+		/* approximately the exponent base 10 */
+		e = mpfr_get_exp (num) / 3.32192809489;
+		if (e < -chop) {
+			if (scientific_notation)
+				return g_strconcat ("0e0", postfix, NULL);
+			else
+				return g_strdup ("0.0");
+		}
+	}
 
 	if (max_digits > 1) {
 		p = g_new(char, MAX (max_digits + 2, 7));
@@ -2953,7 +2990,8 @@ mpwl_getstring(MpwRealNum * num, int max_digits,
 	       gboolean mixed_fractions,
 	       GelOutputStyle style,
 	       int integer_output_base,
-	       const char *postfix)
+	       const char *postfix,
+	       int chop)
 {
 	mpfr_t fr;
 	char *p;
@@ -2963,7 +3001,8 @@ mpwl_getstring(MpwRealNum * num, int max_digits,
 			mpf_init(fr);
 			mpf_set_q(fr,num->data.rval);
 			p=str_getstring_f(fr,max_digits,
-					  scientific_notation, postfix);
+					  scientific_notation, postfix,
+					  chop);
 			mpf_clear(fr);
 			return p;
 		}
@@ -2972,14 +3011,16 @@ mpwl_getstring(MpwRealNum * num, int max_digits,
 				       scientific_notation,
 				       mixed_fractions,
 				       style,
-				       postfix);
+				       postfix,
+				       chop);
 	case MPW_INTEGER:
 		if(results_as_floats) {
 			mpf_init(fr);
 			mpf_set_z(fr,num->data.ival);
 			p=str_getstring_f(fr,max_digits,
 					  scientific_notation,
-					  postfix);
+					  postfix,
+					  -1 /* never chop an integer */);
 			mpf_clear(fr);
 			return p;
 		}
@@ -2990,7 +3031,8 @@ mpwl_getstring(MpwRealNum * num, int max_digits,
 	case MPW_FLOAT:
 		return str_getstring_f(num->data.fval,max_digits,
 				       scientific_notation,
-				       postfix);
+				       postfix,
+				       chop);
 	}
 	/*something bad happened*/
 	return NULL;
@@ -4882,11 +4924,12 @@ mpw_getstring(mpw_ptr num, int max_digits,
 	if (MPW_IS_REAL (num)) {
 		return mpwl_getstring(num->r,max_digits,scientific_notation,
 			results_as_floats,mixed_fractions,style,
-			integer_output_base,"");
+			integer_output_base,"",
+			-1 /* chop */);
 	} else {
 		char *p1 = NULL, *p2, *r;
-		int justreal = mpwl_sgn(num->r) == 0;
-		if (! justreal)
+		gboolean justimaginary = mpwl_sgn(num->r) == 0;
+		if (! justimaginary)
 			p1 = mpwl_getstring(num->r,
 					    max_digits,
 					    scientific_notation,
@@ -4894,7 +4937,8 @@ mpw_getstring(mpw_ptr num, int max_digits,
 					    mixed_fractions, 
 					    style,
 					    integer_output_base,
-					    "" /* postfix */);
+					    "" /* postfix */,
+					    -1 /* chop */);
 		p2 = mpwl_getstring(num->i,
 				    max_digits,
 				    scientific_notation,
@@ -4902,8 +4946,106 @@ mpw_getstring(mpw_ptr num, int max_digits,
 				    mixed_fractions, 
 				    style,
 				    integer_output_base,
-				    "i" /* postfix */);
-		if (justreal) {
+				    "i" /* postfix */,
+				    -1 /* chop */);
+		if (justimaginary) {
+			r = p2;
+			p2 = NULL;
+		} else if (mpwl_sgn(num->i)>=0) {
+			if (add_parenths)
+				r = g_strconcat("(",p1,"+",p2,")",NULL);
+			else
+				r = g_strconcat(p1,"+",p2,NULL);
+		} else {
+			if (add_parenths)
+				r = g_strconcat("(",p1,p2,")",NULL);
+			else
+				r = g_strconcat(p1,p2,NULL);
+		}
+		g_free(p1);
+		g_free(p2);
+		return r;
+	}
+}
+
+gboolean
+mpw_chop_p (mpw_ptr num,
+	    int chop_when)
+{
+	if (MPW_IS_REAL (num)) {
+		if (mpwl_sgn (num->r) == 0)
+			return FALSE;
+		return (num->r->type == MPW_INTEGER ||
+			/* approximately the exponent base 10 */
+			mpwl_get_exp (num->r) / 3.32192809489 > -chop_when);
+	} else {
+		if (mpwl_sgn (num->r) != 0)
+			return (num->r->type == MPW_INTEGER ||
+				num->i->type == MPW_INTEGER ||
+				/* approximately the exponent base 10 */
+				mpwl_get_exp (num->r) / 3.32192809489 > -chop_when ||
+				mpwl_get_exp (num->i) / 3.32192809489 > -chop_when);
+		else
+			return (num->i->type == MPW_INTEGER ||
+				/* approximately the exponent base 10 */
+				mpwl_get_exp (num->i) / 3.32192809489 > -chop_when);
+	}
+}
+
+char *
+mpw_getstring_chop (mpw_ptr num, int max_digits,
+		    gboolean scientific_notation,
+		    gboolean results_as_floats,
+		    gboolean mixed_fractions,
+		    /* GelOutputStyle */ int style,
+		    int integer_output_base,
+		    gboolean add_parenths,
+		    int chop,
+		    int chop_when,
+		    gboolean force_chop)
+{
+	mpw_uncomplex(num);
+	if (chop > 0 &&
+	    chop_when >= chop)
+		force_chop = TRUE;
+	if (MPW_IS_REAL (num)) {
+		return mpwl_getstring(num->r,max_digits,scientific_notation,
+			results_as_floats,mixed_fractions,style,
+			integer_output_base,"",
+			force_chop ? chop : -1);
+	} else {
+		char *p1 = NULL, *p2, *r;
+		gboolean justimaginary = mpwl_sgn(num->r) == 0;
+		int chop_tmp = force_chop ? chop : -1;
+
+		if (! justimaginary) {
+			if (force_chop ||
+			    num->r->type == MPW_INTEGER ||
+			    num->i->type == MPW_INTEGER ||
+			    /* approximately the exponent base 10 */
+			    mpwl_get_exp (num->r) / 3.32192809489 > -chop_when ||
+			    mpwl_get_exp (num->i) / 3.32192809489 > -chop_when)
+				chop_tmp = chop;
+			p1 = mpwl_getstring(num->r,
+					    max_digits,
+					    scientific_notation,
+					    results_as_floats,
+					    mixed_fractions, 
+					    style,
+					    integer_output_base,
+					    "" /* postfix */,
+					    chop_tmp);
+		}
+		p2 = mpwl_getstring(num->i,
+				    max_digits,
+				    scientific_notation,
+				    results_as_floats,
+				    mixed_fractions, 
+				    style,
+				    integer_output_base,
+				    "i" /* postfix */,
+				    chop_tmp);
+		if (justimaginary) {
 			r = p2;
 			p2 = NULL;
 		} else if (mpwl_sgn(num->i)>=0) {

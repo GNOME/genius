@@ -5092,6 +5092,64 @@ get_MaxDigits (void)
 }
 
 static GelETree *
+set_OutputChopExponent (GelETree * a)
+{
+	long e;
+
+	if G_UNLIKELY ( ! check_argument_nonnegative_integer (&a, 0, "set_OutputChopExponent"))
+		return NULL;
+
+	e = mpw_get_long(a->val.value);
+	if G_UNLIKELY (error_num) {
+		error_num = 0;
+		return NULL;
+	}
+	
+	if(calcstate.chop != e) {
+		calcstate.chop = e;
+		if(statechange_hook)
+			(*statechange_hook)(calcstate);
+	}
+
+	return gel_makenum_ui(calcstate.chop);
+}
+
+static GelETree *
+get_OutputChopExponent (void)
+{
+	return gel_makenum_ui(calcstate.chop);
+}
+
+static GelETree *
+set_OutputChopWhenExponent (GelETree * a)
+{
+	long e;
+
+	if G_UNLIKELY ( ! check_argument_nonnegative_integer (&a, 0, "set_OutputChopWhenExponent"))
+		return NULL;
+
+	e = mpw_get_long(a->val.value);
+	if G_UNLIKELY (error_num) {
+		error_num = 0;
+		return NULL;
+	}
+	
+	if(calcstate.chop_when != e) {
+		calcstate.chop_when = e;
+		if(statechange_hook)
+			(*statechange_hook)(calcstate);
+	}
+
+	return gel_makenum_ui(calcstate.chop_when);
+}
+
+static GelETree *
+get_OutputChopWhenExponent (void)
+{
+	return gel_makenum_ui(calcstate.chop_when);
+}
+
+static GelETree *
 set_ResultsAsFloats (GelETree * a)
 {
 	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_ResultsAsFloats"))
@@ -5383,6 +5441,11 @@ gel_funclib_addall(void)
 	f->no_mod_all_args = 1;
 
 	PARAMETER (FloatPrecision, N_("Floating point precision"));
+	PARAMETER (OutputChopExponent,
+		   N_("Display 0.0 when floating point number is less than 10^-x "
+		      "(0=never chop)"));
+	PARAMETER (OutputChopWhenExponent,
+		   N_("Only chop numbers when another number is greater than 10^-x"));
 	PARAMETER (MaxDigits, N_("Maximum digits to display"));
 	PARAMETER (MaxErrors, N_("Maximum errors to display"));
 	PARAMETER (OutputStyle, N_("Output style: normal, latex, mathml or troff"));

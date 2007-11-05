@@ -1161,6 +1161,8 @@ appendpolynomial (GelOutput *gelo, GelETree *n)
 	int stride;
 	gboolean first = TRUE;
 
+	/* FIXME: what about chop/chop_when */
+
 	if G_UNLIKELY (n->poly.vars > 3) {
 		/* FIXME: */
 		gel_errorout (_("Cannot currently print polynomials of "
@@ -1183,14 +1185,17 @@ appendpolynomial (GelOutput *gelo, GelETree *n)
 				gel_output_string (gelo, " + ");
 			first = FALSE;
 
-			p = mpw_getstring (n->poly.indexes[i],
-					   calcstate.max_digits,
-					   calcstate.scientific_notation,
-					   calcstate.results_as_floats,
-					   calcstate.mixed_fractions,
-					   calcstate.output_style,
-					   calcstate.integer_output_base,
-					   TRUE /* add parenths */);
+			p = mpw_getstring_chop (n->poly.indexes[i],
+						calcstate.max_digits,
+						calcstate.scientific_notation,
+						calcstate.results_as_floats,
+						calcstate.mixed_fractions,
+						calcstate.output_style,
+						calcstate.integer_output_base,
+						TRUE /* add parenths */,
+						calcstate.chop,
+						calcstate.chop_when,
+						gelo->force_chop);
 			gel_output_string (gelo, p);
 			g_free (p);
 
@@ -1229,6 +1234,23 @@ appendpolynomial (GelOutput *gelo, GelETree *n)
 	}
 }
 
+static gboolean
+matrix_chop_p (GelMatrixW *m, int chop_when)
+{
+	int i, j;
+
+	for (j = 0; j < gel_matrixw_height (m); j++) {
+		for (i = 0; i < gel_matrixw_width(m); i++) {
+			GelETree *t = gel_matrixw_set_index (m, i, j);
+			if (t != NULL &&
+			    t->type == VALUE_NODE &&
+			    mpw_chop_p (t->val.value, chop_when))
+				return TRUE;
+		}
+	}
+	return FALSE;
+}
+
 /*make a string representation of an expression*/
 void
 gel_print_etree (GelOutput *gelo,
@@ -1236,6 +1258,7 @@ gel_print_etree (GelOutput *gelo,
 		 gboolean toplevel)
 {
 	char *p;
+	int old_force_chop;
 
 	if G_UNLIKELY (n == NULL) {
 		gel_errorout (_("NULL tree!"));
@@ -1257,13 +1280,16 @@ gel_print_etree (GelOutput *gelo,
 		gel_output_string (gelo, "(null)");
 		break;
 	case VALUE_NODE:
-		p=mpw_getstring(n->val.value,calcstate.max_digits,
-				calcstate.scientific_notation,
-				calcstate.results_as_floats,
-				calcstate.mixed_fractions,
-				calcstate.output_style,
-				calcstate.integer_output_base,
-				! toplevel /* add parenths */);
+		p=mpw_getstring_chop (n->val.value,calcstate.max_digits,
+				      calcstate.scientific_notation,
+				      calcstate.results_as_floats,
+				      calcstate.mixed_fractions,
+				      calcstate.output_style,
+				      calcstate.integer_output_base,
+				      ! toplevel /* add parenths */,
+				      calcstate.chop,
+				      calcstate.chop_when,
+				      gelo->force_chop);
 #if 0
 		/* should we print the full number at toplevel ...??? no,
 		 * I don't think so .... */
@@ -1279,12 +1305,18 @@ gel_print_etree (GelOutput *gelo,
 		g_free(p);
 		break;
 	case MATRIX_NODE:
+		old_force_chop = gelo->force_chop;
+		if ( ! gelo->force_chop &&
+		     matrix_chop_p (n->mat.matrix,
+				    calcstate.chop_when))
+			gelo->force_chop ++;
 		if (calcstate.output_style != GEL_OUTPUT_TROFF &&
 		    calcstate.output_style != GEL_OUTPUT_LATEX &&
 		    calcstate.output_style != GEL_OUTPUT_MATHML &&
 		    n->mat.quoted)
 			gel_output_string (gelo, "`");
 		appendmatrix (gelo, n->mat.matrix);
+		gelo->force_chop = old_force_chop;
 		break;
 	case SET_NODE:
 		/* FIXME: not implemented */
@@ -1562,20 +1594,31 @@ gel_pretty_print_etree (GelOutput *gelo, GelETree *n)
 		pretty_print_value_normal (gelo, n);
 	} else if (n->type == MATRIX_NODE) {
 		int i,j;
+		int old_force_chop = gelo->force_chop;
+		if ( ! gelo->force_chop &&
+		     matrix_chop_p (n->mat.matrix,
+				    calcstate.chop_when))
+			gelo->force_chop ++;
 
 		if (calcstate.output_style == GEL_OUTPUT_TROFF) {
 			appendmatrix_troff (gelo, n->mat.matrix, TRUE /* nice */);
 			gel_output_pop_nonotify (gelo);
+
+			gelo->force_chop = old_force_chop;
 			return;
 		} else if (calcstate.output_style == GEL_OUTPUT_LATEX) {
 			appendmatrix_latex (gelo, n->mat.matrix, TRUE /* nice */);
 			gel_output_pop_nonotify (gelo);
+
+			gelo->force_chop = old_force_chop;
 			return;
 		} else if (calcstate.output_style == GEL_OUTPUT_MATHML) {
 			gel_output_string (gelo, "\n<math>");
 			appendmatrix_mathml (gelo, n->mat.matrix, TRUE /* nice */);
 			gel_output_string (gelo, "\n</math>");
 			gel_output_pop_nonotify (gelo);
+
+			gelo->force_chop = old_force_chop;
 			return;
 		}
 
@@ -1600,6 +1643,7 @@ gel_pretty_print_etree (GelOutput *gelo, GelETree *n)
 			}
 		}
 		gel_output_string(gelo, "]");
+		gelo->force_chop = old_force_chop;
 	} else {
 		if (calcstate.output_style == GEL_OUTPUT_MATHML)
 			gel_output_string (gelo, "\n<math>\n ");

@@ -3,9 +3,9 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
   <!ENTITY app "<application>Genius Mathematics Tool</application>">
   <!ENTITY appname "Genius">
-  <!ENTITY appversion "1.0.0">
+  <!ENTITY appversion "1.0.1">
   <!ENTITY manrevision "0.2.2">
-  <!ENTITY date "October 2007">
+  <!ENTITY date "November 2007">
 
   <!ENTITY legal SYSTEM "legal.xml">
 
@@ -2285,6 +2285,28 @@ As an example, you can set the maximum number of digits in a result to 12 by typ
       </term> 
 	  <listitem>
         <para>If fractions should be printed as mixed fractions such as "1 1/3" rather than "4/3". (<function>MixedFractions</function>)</para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term> 
+	    <guilabel>Display 0.0 when floating point number is less than 10^-x (0=never chop)</guilabel>
+      </term> 
+	  <listitem>
+	  <para>How to chop output.  But only when other numbers nearby are large.
+	   See the documentation of the paramter
+          <link linkend="gel-function-OutputChopExponent"><function>OutputChopExponent</function></link>. </para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term> 
+            <guilabel>Only chop numbers when another number is greater than 10^-x</guilabel>
+      </term> 
+	  <listitem>
+	  <para>When to chop output.  This is set by the paramter <function>OutputChopWhenExponent</function>.
+	   See the documentation of the paramter
+          <link linkend="gel-function-OutputChopExponent"><function>OutputChopExponent</function></link>. </para>
 	  </listitem>
 	</varlistentry>
 

@@ -816,4 +816,12 @@ IsMatrixNonnegative(ones(5,5))					true
 IsMatrixNonnegative(ones(5,5)*1i)				false
 IsMatrixNonnegative(zeros(5,5))					true
 IsMatrixNonnegative(-ones(5,5))					false
+1e-50								1e-50
+1e-50+1i							0.0+1i
+1e-50+1.0i							0.0+1i
+1e-50+1e-40i							1e-50+1e-40i
+[1e-50]								[1e-50]
+[1e-50,1i]							[0.0,1i]
+[1e-50,1.0i]							[0.0,1i]
+[1e-50,1e-40i]							[1e-50,1e-40i]
 load "longtest.gel"						true
