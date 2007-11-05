@@ -28,7 +28,8 @@ EXTRA_DIST = \
 	genius.applications \
 	intltool-extract.in	\
 	intltool-merge.in	\
-	intltool-update.in
+	intltool-update.in	\
+	INSTALL.MacOSX
 
 DISTCLEANFILES = \
 	intltool-extract	\
