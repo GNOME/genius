@@ -47,6 +47,8 @@
 
 #include "genius-i18n.h"
 
+#include "binreloc.h"
+
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -205,6 +207,8 @@ main(int argc, char *argv[])
 	char *exec = NULL;
 
 	genius_is_gui = FALSE;
+
+	gbr_init (NULL);
 
 	/* Hmmm, everything in UTF-8? */
 	bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
@@ -430,10 +434,17 @@ main(int argc, char *argv[])
 			/*try the library file in the current/../lib directory*/
 			gel_load_compiled_file (NULL, "../lib/lib.cgel", FALSE);
 		} else {
+			char *datadir = gbr_find_data_dir (DATADIR);
+			char *file = g_build_filename (datadir,
+						       "genius",
+						       "gel",
+						       "lib.cgel",
+						       NULL);
 			gel_load_compiled_file (NULL,
-						LIBRARY_DIR G_DIR_SEPARATOR_S
-						"gel" G_DIR_SEPARATOR_S "lib.cgel",
+						file,
 						FALSE);
+			g_free (file);
+			g_free (datadir);
 		}
 
 		/*

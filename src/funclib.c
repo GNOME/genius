@@ -38,6 +38,8 @@
 #include "matop.h"
 #include "geloutput.h"
 
+#include "binreloc.h"
+
 extern calcstate_t calcstate;
 
 GelEFunc *_internal_ln_function = NULL;
@@ -123,6 +125,8 @@ manual_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	GString *str;
 	FILE *fp;
+	char *file;
+	char *dir;
 
 	/* Kind of a hack I suppose */
 	if (genius_is_gui) {
@@ -136,7 +140,12 @@ manual_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	/*fp = fopen ("../doc/genius.txt", "r");
 	if G_LIKELY (fp == NULL)*/
-	fp = fopen (LIBRARY_DIR "/genius.txt", "r");
+
+	dir = gbr_find_data_dir (DATADIR);
+	file = g_build_filename (dir, "genius", "genius.txt", NULL);
+	fp = fopen (file, "r");
+	g_free (file);
+	g_free (dir);
 
 	if G_UNLIKELY (fp != NULL) {
 		char buf[256];

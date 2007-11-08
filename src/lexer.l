@@ -32,6 +32,7 @@
 #include "calc.h"
 #include "parse.h"
 #include "util.h"
+#include "binreloc.h"
 
 int lex_fd[2];
 int first_tok = STARTTOK;
@@ -135,11 +136,17 @@ gel_lexer_close(FILE *fp)
 ^[ 	]*load[ 	]+<([^>]|\\>)*>[ 	]*$ {
 			char *s;
 			char *end;
+			char *dir;
 			if(gel_parsestack || parenth_depth) {REJECT;}
 			s=strchr(yytext,'<')+1; /*find the beginning*/
 			end=strrchr(yytext,'>'); /*find the end*/
 			s = unescape_string(s,end,NULL);
-			yylval.id = g_strconcat(LIBRARY_DIR,"/",s,NULL);
+			dir = gbr_find_data_dir (DATADIR);
+			yylval.id = g_build_filename (dir,
+						      "genius",
+						      s,
+						      NULL);
+			g_free (dir);
 			g_free(s);
 			DO_RET;
 			return LOADFILE;

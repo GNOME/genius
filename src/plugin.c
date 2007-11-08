@@ -53,6 +53,8 @@
 #include "plugin.h"
 #include "plugread.h"
 
+#include "binreloc.h"
+
 GSList *gel_plugin_list = NULL;
 
 static GHashTable *opened = NULL;
@@ -106,13 +108,16 @@ void
 gel_read_plugin_list (void)
 {
 	char *dir_name;
+	char *datadir;
 
 	/*free the previous list*/
 	g_slist_foreach (gel_plugin_list, (GFunc)free_plugin, NULL);
 	g_slist_free (gel_plugin_list);
 	gel_plugin_list = NULL;
 	
-	dir_name = g_build_filename (LIBRARY_DIR, "plugins", NULL);
+	datadir = gbr_find_data_dir (DATADIR);
+	dir_name = g_build_filename (datadir, "genius", "plugins", NULL);
+	g_free (datadir);
 	read_plugins_from_dir (dir_name);
 	g_free (dir_name);
 

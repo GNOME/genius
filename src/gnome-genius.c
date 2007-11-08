@@ -45,6 +45,8 @@
 #include "plugin.h"
 #include "inter.h"
 
+#include "binreloc.h"
+
 #include <vicious.h>
 
 #include <readline/readline.h>
@@ -110,6 +112,9 @@ static int errors_printed = 0;
 static char *last_dir = NULL;
 
 static GList *prog_menu_items = NULL;
+
+static char *genius_datadir = NULL;
+static char *genius_datadir_sourceview = NULL;
 
 GeniusSetup genius_setup = {
 	FALSE /* error_box */,
@@ -1025,7 +1030,7 @@ aboutcb(GtkWidget * widget, gpointer data)
 		 */
 		char *new_credits = N_("translator-credits");
 		GdkPixbuf *logo;
-
+		char *file;
 
 		/* hack for old translations */
 		char *old_hack = "translator_credits-PLEASE_ADD_YOURSELF_HERE";
@@ -1043,9 +1048,12 @@ aboutcb(GtkWidget * widget, gpointer data)
 			}
 		}
 
-		logo = gdk_pixbuf_new_from_file
-			(DATADIR G_DIR_SEPARATOR_S
-			 "genius" G_DIR_SEPARATOR_S "genius-graph.png", NULL);
+		file = g_build_filename (genius_datadir,
+					 "genius",
+					 "genius-graph.png",
+					 NULL);
+		logo = gdk_pixbuf_new_from_file (file, NULL);
+		g_free (file);
 
 		about = gnome_about_new
 			(_("About Genius"),
@@ -2424,11 +2432,12 @@ get_source_language_manager ()
 		for (i = 0; i < nlang_dirs; i++) {
 		  lang_dirs[i] = (gchar *) default_lang_dirs[i];
 		}
-		lang_dirs[nlang_dirs] = DATADIR G_DIR_SEPARATOR_S "genius"
-			G_DIR_SEPARATOR_S "gtksourceview"
-			G_DIR_SEPARATOR_S;
+		lang_dirs[nlang_dirs] =
+			genius_datadir_sourceview;
 
 		gtk_source_language_manager_set_search_path (lm, lang_dirs);
+
+		/* FIXME: is lang_dirs leaked? */
 	}
 
 	return lm;
@@ -2485,8 +2494,7 @@ new_program (const char *filename)
 	gtk_source_view_set_show_line_numbers (GTK_SOURCE_VIEW (tv), TRUE);
 	gtk_source_view_set_auto_indent (GTK_SOURCE_VIEW (tv), TRUE);
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
-	lang_dirs.data = DATADIR G_DIR_SEPARATOR_S "genius"
-		G_DIR_SEPARATOR_S "gtksourceview" G_DIR_SEPARATOR_S;
+	lang_dirs.data = genius_datadir_sourceview;
 	lang_dirs.prev = NULL;
 	lang_dirs.next = NULL;
 	lm = GTK_SOURCE_LANGUAGES_MANAGER
@@ -3262,17 +3270,28 @@ fork_a_helper (void)
 	char *argv[6];
 	char *foo;
 	char *dir;
+	char *libexecdir;
+	char *file;
+
+	libexecdir = gbr_find_libexec_dir (LIBEXECDIR);
 
 	foo = NULL;
+
 	if (access ("./genius-readline-helper-fifo", X_OK) == 0)
 		foo = g_strdup ("./genius-readline-helper-fifo");
-	if (foo == NULL &&
-	    access (LIBEXECDIR "/genius-readline-helper-fifo", X_OK) == 0)
-		foo = g_strdup (LIBEXECDIR "/genius-readline-helper-fifo");
+
+	file = g_build_filename (libexecdir, "genius-readline-helper-fifo",
+				 NULL);
+	if (foo == NULL && access (file, X_OK) == 0)
+		foo = file;
+	else
+		g_free (file);
+
 	if (foo == NULL) {
 		dir = g_path_get_dirname (arg0);
-		foo = g_strconcat
-			(dir, "/../libexec/genius-readline-helper-fifo", NULL);
+		foo = g_build_filename
+			(dir, ".." , "libexec",
+			 "genius-readline-helper-fifo", NULL);
 		if (access (foo, X_OK) != 0) {
 			g_free (foo);
 			foo = NULL;
@@ -3322,6 +3341,7 @@ fork_a_helper (void)
 						FALSE /* utmp */,
 						FALSE /* wtmp */);
 
+	g_free (libexecdir);
 	g_free (foo);
 }
 
@@ -3655,16 +3675,24 @@ main (int argc, char *argv[])
 
 	genius_is_gui = TRUE;
 
+	gbr_init (NULL);
+
 	arg0 = g_strdup (argv[0]); 
 	
 	bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
+	genius_datadir = gbr_find_data_dir (DATADIR);
+	genius_datadir_sourceview = g_build_filename (genius_datadir, "genius",
+						      "gtksourceview"
+						      G_DIR_SEPARATOR_S,
+						      NULL);
+
 	program = gnome_program_init ("genius", VERSION, 
 				      LIBGNOMEUI_MODULE /* module_info */,
 				      argc, argv,
-				      GNOME_PARAM_APP_DATADIR, DATADIR,
+				      GNOME_PARAM_APP_DATADIR, genius_datadir,
 				      /* GNOME_PARAM_POPT_TABLE, options, */
 				      NULL);
 
@@ -3893,10 +3921,13 @@ main (int argc, char *argv[])
 		/*try the library file in the current/../lib directory*/
 		gel_load_compiled_file (NULL, "../lib/lib.cgel", FALSE);
 	} else {
-		gel_load_compiled_file (NULL,
-					LIBRARY_DIR G_DIR_SEPARATOR_S
-					"gel" G_DIR_SEPARATOR_S "lib.cgel",
-					FALSE);
+		char *file = g_build_filename (genius_datadir,
+					       "genius",
+					       "gel",
+					       "lib.cgel",
+					       NULL);
+		gel_load_compiled_file (NULL, file, FALSE);
+		g_free (file);
 	}
 
 	/*
