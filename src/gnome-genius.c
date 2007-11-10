@@ -1156,6 +1156,7 @@ aboutcb(GtkWidget * widget, gpointer data)
 				      "translator-credits", translators,
 				      "logo", logo,
 				      "license", license,
+				      "website", "http://www.jirka.org/genius.html",
 				      NULL);
 		g_free (license);
 #else
@@ -1405,10 +1406,10 @@ optioncb(GtkWidget * widget, int *data)
 }
 
 static void
-fontsetcb(GnomeFontPicker *gfp, gchar *font_name, char **font)
+fontsetcb (GtkWidget *fb, char **font)
 {
 	g_free(*font);
-	*font = g_strdup(font_name);
+	*font = g_strdup (gtk_font_button_get_font_name (GTK_FONT_BUTTON (fb)));
 }
 
 
@@ -1777,14 +1778,10 @@ setup_calc(GtkWidget *widget, gpointer data)
 		   gtk_label_new(_("Font:")),
 		   FALSE,FALSE,0);
 	
-        w = gnome_font_picker_new();
-	gnome_font_picker_set_font_name (GNOME_FONT_PICKER (w),
-					 ve_string_empty (tmpsetup.font) ?
+        w = gtk_font_button_new_with_font (ve_string_empty (tmpsetup.font) ?
 					   default_console_font :
 					   genius_setup.font);
-        gnome_font_picker_set_mode (GNOME_FONT_PICKER (w),
-				    GNOME_FONT_PICKER_MODE_FONT_INFO);
-        gtk_box_pack_start(GTK_BOX(b),w,TRUE,TRUE,0);
+        gtk_box_pack_start (GTK_BOX (b), w, TRUE, TRUE, 0);
         g_signal_connect (G_OBJECT (w), "font_set",
 			  G_CALLBACK (fontsetcb),
 			  &tmpsetup.font);
