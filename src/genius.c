@@ -88,6 +88,8 @@ extern int interrupted;
 
 static int use_readline = TRUE;
 
+static gboolean genius_in_dev_dir = FALSE;
+
 static int errors_printed = 0;
 static long total_errors_printed = 0;
 
@@ -208,7 +210,19 @@ main(int argc, char *argv[])
 
 	genius_is_gui = FALSE;
 
-	gbr_init (NULL);
+	/* kind of a hack to find out if we are being run from the
+	 * directory we were built in */
+	file = g_get_current_dir ();
+	if (file != NULL &&
+	    strcmp (file, BUILDDIR "/src") == 0 &&
+	    access ("genius.c", F_OK) == 0 &&
+	    access ("../lib/lib.cgel", F_OK) == 0) {
+		genius_in_dev_dir = TRUE;
+	} else {
+		genius_in_dev_dir = FALSE;
+		gbr_init (NULL);
+	}
+	g_free (file);
 
 	/* Hmmm, everything in UTF-8? */
 	bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
@@ -430,7 +444,7 @@ main(int argc, char *argv[])
 		/*
 		 * Read main library
 		 */
-		if (access ("../lib/lib.cgel", F_OK) == 0) {
+		if (genius_in_dev_dir) {
 			/*try the library file in the current/../lib directory*/
 			gel_load_compiled_file (NULL, "../lib/lib.cgel", FALSE);
 		} else {

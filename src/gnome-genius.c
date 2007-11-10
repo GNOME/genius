@@ -116,6 +116,8 @@ static GList *prog_menu_items = NULL;
 static char *genius_datadir = NULL;
 static char *genius_datadir_sourceview = NULL;
 
+static gboolean genius_in_dev_dir = FALSE;
+
 GeniusSetup genius_setup = {
 	FALSE /* error_box */,
 	TRUE /* info_box */,
@@ -1070,7 +1072,9 @@ geniusinfo(const char *s)
 static void
 aboutcb(GtkWidget * widget, gpointer data)
 {
+#if ! GTK_CHECK_VERSION(2,6,0)
 	static GtkWidget *about;
+#endif
 	static const char *authors[] = {
 		"Jiří (George) Lebl, Ph.D. <jirka@5z.com>",
 		N_("Nils Barth (initial implementation of parts of the GEL library)"),
@@ -1078,13 +1082,20 @@ aboutcb(GtkWidget * widget, gpointer data)
 		NULL
 	};
 	static const char *documenters[] = {
-		"Jiří (George) Lebl",
+		"Jiří (George) Lebl, Ph.D. <jirka@5z.com>",
 		"Kai Willadsen",
 		NULL
 	};
 	const char *translators;
+#if GTK_CHECK_VERSION(2,6,0)
+	char *license;
+#endif
 
+#if GTK_CHECK_VERSION(2,6,0)
+	{
+#else
 	if (about == NULL) {
+#endif
 		/* Translators should localize the following string
 		 * which will give them credit in the About box.
 		 * E.g. "Fulano de Tal <fulano@detal.com>"
@@ -1116,6 +1127,38 @@ aboutcb(GtkWidget * widget, gpointer data)
 		logo = gdk_pixbuf_new_from_file (file, NULL);
 		g_free (file);
 
+#if GTK_CHECK_VERSION(2,6,0)
+		license = g_strdup_printf (_("Genius %s\n"
+		       "%s\n\n"
+		       "    This program is free software: you can redistribute it and/or modify\n"
+		       "    it under the terms of the GNU General Public License as published by\n"
+		       "    the Free Software Foundation, either version 3 of the License, or\n"
+		       "    (at your option) any later version.\n"
+		       "\n"
+		       "    This program is distributed in the hope that it will be useful,\n"
+		       "    but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+		       "    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+		       "    GNU General Public License for more details.\n"
+		       "\n"
+		       "    You should have received a copy of the GNU General Public License\n"
+		       "    along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"),
+			    VERSION,
+			    COPYRIGHT_STRING);
+		gtk_show_about_dialog (GTK_WINDOW (genius_window),
+				      "name", _("About Genius"), 
+				      "version", VERSION,
+				      "copyright", COPYRIGHT_STRING,
+				      "comments",
+				      _("The Gnome calculator style edition of "
+					"the Genius Mathematical Tool."),
+				      "authors", authors,
+				      "documenters", documenters,
+				      "translator-credits", translators,
+				      "logo", logo,
+				      "license", license,
+				      NULL);
+		g_free (license);
+#else
 		about = gnome_about_new
 			(_("About Genius"),
 			 VERSION,
@@ -1127,20 +1170,25 @@ aboutcb(GtkWidget * widget, gpointer data)
 			 documenters,
 			 translators,
 			 logo);
+#endif
 
 		if (logo != NULL)
 			g_object_unref (logo);
 
+#if ! GTK_CHECK_VERSION(2,6,0)
 		gtk_window_set_transient_for (GTK_WINDOW (about),
 					      GTK_WINDOW (genius_window));
 
 		g_signal_connect (about, "destroy",
 				  G_CALLBACK (gtk_widget_destroyed),
 				  &about);
+#endif
 	}
 
+#if ! GTK_CHECK_VERSION(2,6,0)
 	gtk_widget_show_now (about);
 	gtk_window_present (GTK_WINDOW (about));
+#endif
 }
 
 static void
@@ -3736,9 +3784,21 @@ main (int argc, char *argv[])
 
 	genius_is_gui = TRUE;
 
-	gbr_init (NULL);
-
 	arg0 = g_strdup (argv[0]); 
+
+	/* kind of a hack to find out if we are being run from the
+	 * directory we were built in */
+	file = g_get_current_dir ();
+	if (file != NULL &&
+	    strcmp (file, BUILDDIR "/src") == 0 &&
+	    access ("genius.c", F_OK) == 0 &&
+	    access ("../lib/lib.cgel", F_OK) == 0) {
+		genius_in_dev_dir = TRUE;
+	} else {
+		genius_in_dev_dir = FALSE;
+		gbr_init (NULL);
+	}
+	g_free (file);
 	
 	bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
@@ -3978,11 +4038,11 @@ main (int argc, char *argv[])
 	/*
 	 * Read main library
 	 */
-	if (access ("../lib/lib.cgel", F_OK) == 0) {
+	if (genius_in_dev_dir) {
 		/*try the library file in the current/../lib directory*/
 		gel_load_compiled_file (NULL, "../lib/lib.cgel", FALSE);
 	} else {
-		char *file = g_build_filename (genius_datadir,
+		file = g_build_filename (genius_datadir,
 					       "genius",
 					       "gel",
 					       "lib.cgel",
