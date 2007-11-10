@@ -64,6 +64,7 @@ static GtkWidget *surface_menu_item = NULL;
 
 enum {
 	MODE_LINEPLOT,
+	MODE_LINEPLOT_PARAMETRIC,
 	MODE_SURFACE
 } plot_mode = MODE_LINEPLOT;
 
@@ -159,6 +160,8 @@ static double surfacez2 = 10;
 /* used for both */
 static double plot_maxy = - G_MAXDOUBLE/2;
 static double plot_miny = G_MAXDOUBLE/2;
+static double plot_maxx = - G_MAXDOUBLE/2;
+static double plot_minx = G_MAXDOUBLE/2;
 
 static GelCtx *plot_ctx = NULL;
 static GelETree *plot_arg = NULL;
@@ -874,7 +877,8 @@ plot_zoomin_cb (void)
 		genius_setup.info_box = TRUE;
 		genius_setup.error_box = TRUE;
 
-		if (plot_mode == MODE_LINEPLOT) {
+		if (plot_mode == MODE_LINEPLOT ||
+		    plot_mode == MODE_LINEPLOT_PARAMETRIC) {
 			len = plotx2 - plotx1;
 			plotx2 -= len/4.0;
 			plotx1 += len/4.0;
@@ -917,7 +921,8 @@ plot_zoomout_cb (void)
 		genius_setup.info_box = TRUE;
 		genius_setup.error_box = TRUE;
 
-		if (plot_mode == MODE_LINEPLOT) {
+		if (plot_mode == MODE_LINEPLOT ||
+		    plot_mode == MODE_LINEPLOT_PARAMETRIC) {
 			len = plotx2 - plotx1;
 			plotx2 += len/2.0;
 			plotx1 -= len/2.0;
@@ -977,6 +982,39 @@ plot_zoomfit_cb (void)
 				ploty1 = -(G_MAXDOUBLE/2);
 			if (ploty2 > (G_MAXDOUBLE/2))
 				ploty2 = (G_MAXDOUBLE/2);
+
+		} else if (plot_mode == MODE_LINEPLOT_PARAMETRIC) {
+			double sizex;
+			sizex = plot_maxx - plot_minx;
+			if (sizex <= 0)
+				sizex = 1.0;
+
+			plotx1 = plot_minx - sizex * 0.05;
+			plotx2 = plot_maxx + sizex * 0.05;
+
+			/* sanity */
+			if (plotx2 < plotx1)
+				plotx2 = plotx1 + 0.1;
+
+			/* sanity */
+			if (plotx1 < -(G_MAXDOUBLE/2))
+				plotx1 = -(G_MAXDOUBLE/2);
+			if (plotx2 > (G_MAXDOUBLE/2))
+				plotx2 = (G_MAXDOUBLE/2);
+
+			ploty1 = plot_miny - size * 0.05;
+			ploty2 = plot_maxy + size * 0.05;
+
+			/* sanity */
+			if (ploty2 < ploty1)
+				ploty2 = ploty1 + 0.1;
+
+			/* sanity */
+			if (ploty1 < -(G_MAXDOUBLE/2))
+				ploty1 = -(G_MAXDOUBLE/2);
+			if (ploty2 > (G_MAXDOUBLE/2))
+				ploty2 = (G_MAXDOUBLE/2);
+
 		} else if (plot_mode == MODE_SURFACE) {
 			surfacez1 = plot_miny - size * 0.05;
 			surfacez2 = plot_maxy + size * 0.05;
@@ -1437,8 +1475,11 @@ plot_axis (void)
 
 	plot_maxy = - G_MAXDOUBLE/2;
 	plot_miny = G_MAXDOUBLE/2;
+	plot_maxx = - G_MAXDOUBLE/2;
+	plot_minx = G_MAXDOUBLE/2;
 
-	if (plot_mode == MODE_LINEPLOT) {
+	if (plot_mode == MODE_LINEPLOT ||
+	    plot_mode == MODE_LINEPLOT_PARAMETRIC) {
 		plot_setup_axis ();
 	} else if (plot_mode == MODE_SURFACE) {
 		surface_setup_axis ();
@@ -2150,6 +2191,10 @@ parametric_get_value (double *x, double *y, double t)
 			plot_maxy = *y;
 		if G_UNLIKELY (*y < plot_miny)
 			plot_miny = *y;
+		if G_UNLIKELY (*x > plot_maxx)
+			plot_maxx = *x;
+		if G_UNLIKELY (*x < plot_minx)
+			plot_minx = *x;
 	}
 	/* FIXME: sanity on x/y ??? */
 
@@ -2183,7 +2228,6 @@ plot_functions (void)
 	int i;
 	int color_i;
 
-	plot_mode = MODE_LINEPLOT;
 	ensure_window ();
 
 	clear_graph ();
@@ -2334,8 +2378,6 @@ plot_functions (void)
 static void
 plot_surface_functions (void)
 {
-	plot_mode = MODE_SURFACE;
-
 	ensure_window ();
 
 	clear_graph ();
@@ -2982,6 +3024,7 @@ surface_from_dialog (void)
 	if (surface_func->id == NULL)
 		surface_func_name = g_strdup (str);
 
+	plot_mode = MODE_SURFACE;
 	plot_surface_functions ();
 
 	if (interrupted)
@@ -3180,6 +3223,8 @@ plot_from_dialog (void)
 			if (plot_func[i]->id == NULL)
 				plot_func_name[i] = g_strdup (gtk_entry_get_text (GTK_ENTRY (plot_entries[i])));
 		}
+
+		plot_mode = MODE_LINEPLOT;
 	} else {
 		parametric_func_x = funcpx;
 		parametric_func_y = funcpy;
@@ -3193,6 +3238,7 @@ plot_from_dialog (void)
 						       NULL);
 		}
 	
+		plot_mode = MODE_LINEPLOT_PARAMETRIC;
 	}
 
 	plot_functions ();
@@ -3400,6 +3446,7 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	surfacez1 = z1;
 	surfacez2 = z2;
 
+	plot_mode = MODE_SURFACE;
 	plot_surface_functions ();
 
 	if (interrupted)
@@ -3510,6 +3557,7 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	ploty1 = y1;
 	ploty2 = y2;
 
+	plot_mode = MODE_LINEPLOT;
 	plot_functions ();
 
 	if (interrupted)
@@ -3645,6 +3693,7 @@ LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plott2 = t2;
 	plottinc = tinc;
 
+	plot_mode = MODE_LINEPLOT_PARAMETRIC;
 	plot_functions ();
 
 	if (interrupted)
@@ -3775,6 +3824,7 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plott2 = t2;
 	plottinc = tinc;
 
+	plot_mode = MODE_LINEPLOT_PARAMETRIC;
 	plot_functions ();
 
 	if (interrupted)
@@ -3795,6 +3845,7 @@ LinePlotClear_op (GelCtx *ctx, GelETree * * a, int *exception)
 	line_plot_clear_funcs ();
 
 	/* This will just clear the window */
+	plot_mode = MODE_LINEPLOT;
 	plot_functions ();
 
 	if (interrupted)
@@ -3885,7 +3936,8 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	ensure_window ();
 
-	if (plot_mode != MODE_LINEPLOT) {
+	if (plot_mode != MODE_LINEPLOT &&
+	    plot_mode != MODE_LINEPLOT_PARAMETRIC) {
 		plot_mode = MODE_LINEPLOT;
 		clear_graph ();
 	}

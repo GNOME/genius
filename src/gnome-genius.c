@@ -610,6 +610,7 @@ populate_var_box (GtkTextBuffer *buffer)
 {
 	GSList *all_contexts;
 	GSList *funcs;
+	GSList *context_names;
 	GSList *li, *lic;
 	GelOutput *out;
 	GtkTextIter iter;
@@ -625,6 +626,7 @@ populate_var_box (GtkTextBuffer *buffer)
 	gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
 
 	all_contexts = d_get_all_contexts ();
+	context_names = d_get_context_names ();
 	funcs = d_getcontext_global ();
 
 	out = gel_output_new ();
@@ -658,6 +660,57 @@ populate_var_box (GtkTextBuffer *buffer)
 		gel_output_clear_string (out);
 	}
 
+
+	if (d_curcontext () > 0) {
+		int i = d_curcontext ();
+		int cols = 0;
+
+		gtk_text_buffer_insert_with_tags_by_name
+			(buffer, &iter, _("\nFunction call stack:\n"), -1, "title", NULL);
+		gtk_text_buffer_insert_with_tags_by_name
+			(buffer, &iter, _("(depth of context in parentheses)\n\n"), -1, "note", NULL);
+
+		/* go over all local contexts (not the last one, that is global) */
+		for (lic = context_names; lic != NULL && lic->next != NULL; lic = lic->next) {
+			GelToken *tok = lic->data;
+			char *s;
+
+			if (tok == NULL) {
+				gtk_text_buffer_insert_with_tags_by_name
+					(buffer, &iter, "??", -1, "variable", NULL);
+				cols += 2;
+			} else {
+				gtk_text_buffer_insert_with_tags_by_name
+					(buffer, &iter, tok->token, -1, "variable", NULL);
+				cols += strlen (tok->token);
+			}
+
+			s = g_strdup_printf (" (%d)", i);
+			cols += strlen (s);
+			gtk_text_buffer_insert_with_tags_by_name
+				(buffer, &iter, s, -1, "context", NULL);
+			g_free (s);
+
+			if (i <= 1) {
+				gtk_text_buffer_insert_with_tags_by_name
+					(buffer, &iter, "\n", -1, "context", NULL);
+				if (i < 1)
+					printf ("EKI!!");
+			} else if (cols >= 58) {
+				gtk_text_buffer_insert_with_tags_by_name
+					(buffer, &iter, ",\n", -1, "context", NULL);
+				cols = 0;
+			} else {
+				gtk_text_buffer_insert_with_tags_by_name
+					(buffer, &iter, ", ", -1, "context", NULL);
+				cols += 2;
+			}
+
+			i--;
+		}
+	}
+
+
 	/* go over all local contexts (not the last one, that is global) */
 	for (lic = all_contexts; lic != NULL && lic->next != NULL; lic = lic->next) {
 		for (li = lic->data; li != NULL; li = li->next) {
@@ -672,7 +725,9 @@ populate_var_box (GtkTextBuffer *buffer)
 
 			if ( ! printed_local_title) {
 				gtk_text_buffer_insert_with_tags_by_name
-					(buffer, &iter, _("\nLocal variables (depth of context in parentheses):\n\n"), -1, "title", NULL);
+					(buffer, &iter, _("\nLocal variables:\n"), -1, "title", NULL);
+				gtk_text_buffer_insert_with_tags_by_name
+					(buffer, &iter, _("(depth of context in parentheses)\n\n"), -1, "note", NULL);
 				printed_local_title = TRUE;
 			}
 
@@ -784,6 +839,12 @@ show_user_vars (GtkWidget *menu_item, gpointer data)
 				    "editable", FALSE,
 				    "scale", PANGO_SCALE_LARGE,
 				    "weight", PANGO_WEIGHT_BOLD,
+				    NULL);
+
+	gtk_text_buffer_create_tag (buffer, "note",
+				    "editable", FALSE,
+				    "scale", PANGO_SCALE_SMALL,
+				    "style", PANGO_STYLE_ITALIC,
 				    NULL);
 
 	populate_var_box (buffer);

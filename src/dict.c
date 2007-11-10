@@ -33,13 +33,14 @@
 /* #define MEM_DEBUG_FRIENDLY 1 */
 
 /*the context stack structure*/
-typedef struct _context_t {
+typedef struct _GelDictContext {
 	GSList *stack;
 	GSList *subststack;
+	GSList *stackname;
 	int top;
-} context_t;
+} GelDictContext;
 
-static context_t context={NULL,NULL,-1};
+static GelDictContext context = {NULL, NULL, NULL, -1};
 
 static GHashTable *dictionary;
 
@@ -313,6 +314,7 @@ d_initcontext(void)
 	/*add an empty dictionary*/
 	context.stack = g_slist_prepend (NULL,NULL);
 	context.subststack = g_slist_prepend (NULL,NULL);
+	context.stackname = g_slist_prepend (NULL,NULL);
 
 	dictionary = g_hash_table_new (g_str_hash, g_str_equal);
 
@@ -665,6 +667,17 @@ d_addcontext(void)
 {
 	context.stack = g_slist_prepend (context.stack, NULL);
 	context.subststack = g_slist_prepend (context.subststack, NULL);
+	context.stackname = g_slist_prepend (context.stackname, NULL);
+	context.top++;
+	return TRUE;
+}
+
+gboolean
+d_addcontext_named (GelToken *name)
+{
+	context.stack = g_slist_prepend (context.stack, NULL);
+	context.subststack = g_slist_prepend (context.subststack, NULL);
+	context.stackname = g_slist_prepend (context.stackname, name);
 	context.top++;
 	return TRUE;
 }
@@ -707,6 +720,7 @@ d_popcontext(void)
 
 		context.stack = g_slist_delete_link (context.stack, context.stack);
 		context.subststack = g_slist_delete_link (context.subststack, context.subststack);
+		context.stackname = g_slist_delete_link (context.stackname, context.stackname);
 
 		/* substitute lower variables unless we are on the toplevel */
 		if (substlast != NULL && context.top > 0) {
@@ -737,6 +751,15 @@ d_get_all_contexts (void)
 		return NULL;
 	else
 		return context.stack;
+}
+
+GSList *
+d_get_context_names (void)
+{
+	if (context.top == -1)
+		return NULL;
+	else
+		return context.stackname;
 }
 
 /*gimme the current global dictinary*/

@@ -4529,7 +4529,7 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 
 		EDEBUG("     USER FUNC PUSHING CONTEXT");
 
-		d_addcontext();
+		d_addcontext_named (f->id);
 
 		EDEBUG("     USER FUNC CONTEXT PUSHED TO ADD EXTRA DICT");
 

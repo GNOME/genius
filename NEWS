@@ -1,7 +1,8 @@
 Changes to 1.0.1
 
 * GNOME version can now show listing of all user defined global and local
-  variables (can display this even while the engine is running)
+  variables (can display this even while the engine is running, including
+  a "backtrace" to aid debugging)
 * GNOME version can now check if too much memory is being used and allows
   the user to interrupt the program rather than eat all available memory
   causing the computer to grind to a halt.
@@ -19,6 +20,7 @@ Changes to 1.0.1
 * Require at least GKT+ 2.3.5 for the GUI.
 * Optionally compile with GtkSourceview2 and drop back to
   GtkSourceview1 if unavailable (Sebastian Dröge)
+* Fit dependent axis works for parametric plots
 * Fix loading of files and URIs from the command line
 * Errors don't print the full file URI for opened program names
 * Confirm closing unsaved programs

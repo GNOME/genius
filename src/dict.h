@@ -97,15 +97,17 @@ void d_replacefunc (GelEFunc *old, GelEFunc *_new);
 
 /*push a new dictionary onto the context stack*/
 gboolean d_addcontext(void);
+gboolean d_addcontext_named (GelToken *name);
 
 /*gimme the last dictinary and pop the context stack*/
 void d_popcontext(void);
 
 /*gimme the current dictinary*/
-GSList * d_getcontext(void);
+GSList * d_getcontext (void);
 
 /* this is a list of lists of the context stack */
 GSList * d_get_all_contexts (void);
+GSList * d_get_context_names (void);
 
 /*gimme the current global dictinary*/
 GSList * d_getcontext_global (void);
