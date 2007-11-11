@@ -1075,7 +1075,7 @@ aboutcb(GtkWidget * widget, gpointer data)
 #if ! GTK_CHECK_VERSION(2,6,0)
 	static GtkWidget *about;
 #endif
-	static const char *authors[] = {
+	static char *authors[] = {
 		"Jiří (George) Lebl, Ph.D. <jirka@5z.com>",
 		N_("Nils Barth (initial implementation of parts of the GEL library)"),
 		N_("Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"),
@@ -1089,9 +1089,11 @@ aboutcb(GtkWidget * widget, gpointer data)
 	const char *translators;
 #if GTK_CHECK_VERSION(2,6,0)
 	char *license;
-#endif
 
-#if GTK_CHECK_VERSION(2,6,0)
+	/* Force translation */
+	authors[1] = _(authors[1]);
+	authors[2] = _(authors[2]);
+
 	{
 #else
 	if (about == NULL) {
@@ -1145,7 +1147,7 @@ aboutcb(GtkWidget * widget, gpointer data)
 			    VERSION,
 			    COPYRIGHT_STRING);
 		gtk_show_about_dialog (GTK_WINDOW (genius_window),
-				      "name", _("About Genius"), 
+				      "program-name", _("Genius Mathematical Tool"), 
 				      "version", VERSION,
 				      "copyright", COPYRIGHT_STRING,
 				      "comments",
