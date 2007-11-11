@@ -3665,14 +3665,31 @@ ExactDivision_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	return gel_makenum (retw);
 }
 
+/* this can return 0! unlike what poly_cut_zeros does */
+static int
+poly_find_cutoff_size (GelMatrixW *m)
+{
+	int i;
+	int cutoff;
+	for(i = gel_matrixw_width(m)-1; i >= 0; i--) {
+		GelETree *t = gel_matrixw_set_index(m,i,0);
+	       	if (t != NULL &&
+		    ! mpw_eql_ui(t->val.value, 0))
+			break;
+	}
+	cutoff = i+1;
+	return cutoff;
+}
+
 static void
 poly_cut_zeros(GelMatrixW *m)
 {
 	int i;
 	int cutoff;
 	for(i=gel_matrixw_width(m)-1;i>=1;i--) {
-		GelETree *t = gel_matrixw_index(m,i,0);
-	       	if ( ! mpw_eql_ui(t->val.value, 0))
+		GelETree *t = gel_matrixw_set_index(m,i,0);
+	       	if (t != NULL &&
+		    ! mpw_eql_ui(t->val.value, 0))
 			break;
 	}
 	cutoff = i+1;
@@ -3849,48 +3866,119 @@ MultiplyPoly_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	return n;
 }
 
-/*
 static GelETree *
 DividePoly_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
-	GelETree *n;
-	long size;
-	int i,j;
+	GelETree *n, *rn, *ql;
+	long size, sizeq;
+	int i, j;
 	mpw_t accu;
-	GelMatrixW *m1,*m2,*mn;
-	GelEFunc *retmod = NULL;
+	GelMatrixW *pm, *qm, *mn, *rem;
+	GelEFunc *retrem = NULL;
+	mpw_t tmp;
 	
 	if G_UNLIKELY ( ! check_poly (a, 2, "DividePoly", TRUE))
 		return NULL;
 	if (a[2] != NULL) {
-		retmod = get_reference (a[2], _("third argument"),
-					"DividePoly");
-		if G_UNLIKELY (retmod == NULL)
+		if (a[2]->type != NULL_NODE) {
+			retrem = get_reference (a[2], _("third argument"),
+						"DividePoly");
+			if G_UNLIKELY (retrem == NULL)
+				return NULL;
+		}
+		if G_UNLIKELY (a[3] != NULL) {
+			gel_errorout (_("%s: too many arguments"),
+				      "DividePoly");
 			return NULL;
-	}
-	if G_UNLIKELY (a[3] != NULL) {
-		gel_errorout (_("%s: too many arguments"),
-			      "DividePoly");
-		return NULL;
+		}
 	}
 
-	m1 = a[0]->mat.matrix;
-	m2 = a[1]->mat.matrix;
+	pm = a[0]->mat.matrix;
+	qm = a[1]->mat.matrix;
+
+	size = poly_find_cutoff_size (pm);
+	sizeq = poly_find_cutoff_size (qm);
+
+	if (sizeq <= 0) {
+		gel_errorout (_("%s: %s"),
+			      "DividePoly",
+			      _("Division by zero!"));
+		return NULL;
+	}
 
 	GET_NEW_NODE (n);
 	n->type = MATRIX_NODE;
 	n->mat.matrix = mn = gel_matrixw_new ();
 	n->mat.quoted = FALSE;
-	size = gel_matrixw_width (m1);
+
+	/* nothing to do */
+	if (size < sizeq) {
+		gel_matrixw_set_size (mn, 1, 1);
+
+		if (retrem != NULL) {
+			GET_NEW_NODE(rn);
+			rn->type = MATRIX_NODE;
+			rn->mat.matrix = gel_matrixw_copy (pm);
+			poly_cut_zeros (rn->mat.matrix);
+			rn->mat.quoted = FALSE;
+			d_set_value (retrem, rn);
+		}
+
+		return n;
+	}
+
 	gel_matrixw_set_size (mn, size, 1);
 
-FIXME: implement long div
-	
-	poly_cut_zeros(mn);
+	rem = gel_matrixw_copy (pm);
+	gel_matrixw_make_private (rem);
+
+	/* we know ql can't be zero */
+	ql = gel_matrixw_index (qm, sizeq-1, 0);
+
+	mpw_init (tmp);
+
+	for (i = size-sizeq; i >= 0; i--) {
+		GelETree *pt;
+		pt = gel_matrixw_set_index (rem, i+sizeq-1, 0);
+		if (pt == NULL || mpw_eql_ui (pt->val.value, 0)) {
+			/* Leave mn[i,0] at NULL (zero) */
+			continue;
+		}
+		gel_matrixw_set_index (mn, i, 0) = pt;
+		gel_matrixw_set_index (rem, i+sizeq-1, 0) = NULL;
+		mpw_div (pt->val.value,
+			 pt->val.value, ql->val.value);
+
+		for (j = 0; j < sizeq-1; j++) {
+			GelETree *rv, *qt;
+			rv = gel_matrixw_set_index (rem, i+j, 0);
+			if (rv == NULL)
+				rv = gel_matrixw_set_index (rem, i+j, 0)
+					= gel_makenum_ui (0);
+			qt = gel_matrixw_index (qm, j, 0);
+			mpw_mul (tmp, pt->val.value, qt->val.value);
+			mpw_sub (rv->val.value, rv->val.value, tmp);
+		}
+	}
+
+	mpw_clear (tmp);
+
+	poly_cut_zeros (mn);
+
+	if (retrem != NULL) {
+		poly_cut_zeros (rem);
+
+		GET_NEW_NODE (rn);
+		rn->type = MATRIX_NODE;
+		rn->mat.matrix = rem;
+		rn->mat.quoted = FALSE;
+		d_set_value (retrem, rn);
+	} else {
+		gel_matrixw_free (rem);
+	}
 
 	return n;
 }
-*/
 
 static GelETree *
 PolyDerivative_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
@@ -5674,6 +5762,7 @@ gel_funclib_addall(void)
 	FUNC (AddPoly, 2, "p1,p2", "polynomial", N_("Add two polynomials (vectors)"));
 	FUNC (SubtractPoly, 2, "p1,p2", "polynomial", N_("Subtract two polynomials (as vectors)"));
 	FUNC (MultiplyPoly, 2, "p1,p2", "polynomial", N_("Multiply two polynomials (as vectors)"));
+	VFUNC (DividePoly, 3, "p,q,r", "polynomial", N_("Divide polynomial p by q, return the remainder in r"));
 	FUNC (PolyDerivative, 1, "p", "polynomial", N_("Take polynomial (as vector) derivative"));
 	FUNC (Poly2ndDerivative, 1, "p", "polynomial", N_("Take second polynomial (as vector) derivative"));
 	FUNC (TrimPoly, 1, "p", "polynomial", N_("Trim zeros from a polynomial (as vector)"));

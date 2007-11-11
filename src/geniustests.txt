@@ -824,4 +824,12 @@ IsMatrixNonnegative(-ones(5,5))					false
 [1e-50,1i]							[0.0,1i]
 [1e-50,1.0i]							[0.0,1i]
 [1e-50,1e-40i]							[1e-50,1e-40i]
+DividePoly([1,2],[0])						DividePoly([1,2],[0])
+DividePoly([1,2],[1])						[1,2]
+DividePoly([3,2],[1,1])						[2]
+DividePoly([3,2],[1,1],&r);r					[1]
+DividePoly([1,2],[1,2,3])					[0]
+DividePoly([1,2],[1,2,3],&r);r					[1,2]
+DividePoly([1,2,3],[1,2,3])					[1]
+DividePoly([1,2,3],[1,2,3],&r);r				[0]
 load "longtest.gel"						true

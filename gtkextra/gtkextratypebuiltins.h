@@ -7,9 +7,6 @@
 #include <glib-object.h>
 
 G_BEGIN_DECLS
-/* enumerations from "gtkiconlist.h" */
-GType gtk_icon_list_mode_get_type (void);
-#define GTK_TYPE_ICON_LIST_MODE (gtk_icon_list_mode_get_type())
 /* enumerations from "gtkplot.h" */
 GType gtk_plot_scale_get_type (void);
 #define GTK_TYPE_PLOT_SCALE (gtk_plot_scale_get_type())
@@ -43,9 +40,6 @@ GType gtk_plot_side_get_type (void);
 /* enumerations from "gtkplotbar.h" */
 GType gtk_plot_bar_units_get_type (void);
 #define GTK_TYPE_PLOT_BAR_UNITS (gtk_plot_bar_units_get_type())
-/* enumerations from "gtkplotcsurface.h" */
-GType gtk_plot_projection_get_type (void);
-#define GTK_TYPE_PLOT_PROJECTION (gtk_plot_projection_get_type())
 /* enumerations from "gtkplotcanvas.h" */
 GType gtk_plot_canvas_action_get_type (void);
 #define GTK_TYPE_PLOT_CANVAS_ACTION (gtk_plot_canvas_action_get_type())
@@ -57,6 +51,15 @@ GType gtk_plot_canvas_selection_mode_get_type (void);
 #define GTK_TYPE_PLOT_CANVAS_SELECTION_MODE (gtk_plot_canvas_selection_mode_get_type())
 GType gtk_plot_canvas_pos_get_type (void);
 #define GTK_TYPE_PLOT_CANVAS_POS (gtk_plot_canvas_pos_get_type())
+/* enumerations from "gtkplotcanvasline.h" */
+GType gtk_plot_canvas_arrow_get_type (void);
+#define GTK_TYPE_PLOT_CANVAS_ARROW (gtk_plot_canvas_arrow_get_type())
+/* enumerations from "gtkplotcanvasplot.h" */
+GType gtk_plot_canvas_plot_pos_get_type (void);
+#define GTK_TYPE_PLOT_CANVAS_PLOT_POS (gtk_plot_canvas_plot_pos_get_type())
+/* enumerations from "gtkplotcsurface.h" */
+GType gtk_plot_projection_get_type (void);
+#define GTK_TYPE_PLOT_PROJECTION (gtk_plot_projection_get_type())
 /* enumerations from "gtkplotpc.h" */
 GType gtk_plot_page_size_get_type (void);
 #define GTK_TYPE_PLOT_PAGE_SIZE (gtk_plot_page_size_get_type())
@@ -64,18 +67,6 @@ GType gtk_plot_page_orientation_get_type (void);
 #define GTK_TYPE_PLOT_PAGE_ORIENTATION (gtk_plot_page_orientation_get_type())
 GType gtk_plot_units_get_type (void);
 #define GTK_TYPE_PLOT_UNITS (gtk_plot_units_get_type())
-/* enumerations from "gtkplotsegment.h" */
-GType gtk_plot_arrow_get_type (void);
-#define GTK_TYPE_PLOT_ARROW (gtk_plot_arrow_get_type())
-/* enumerations from "gtksheet.h" */
-GType gtk_sheet_attr_type_get_type (void);
-#define GTK_TYPE_SHEET_ATTR_TYPE (gtk_sheet_attr_type_get_type())
-/* enumerations from "gtkplotcanvasline.h" */
-GType gtk_plot_canvas_arrow_get_type (void);
-#define GTK_TYPE_PLOT_CANVAS_ARROW (gtk_plot_canvas_arrow_get_type())
-/* enumerations from "gtkplotcanvasplot.h" */
-GType gtk_plot_canvas_plot_pos_get_type (void);
-#define GTK_TYPE_PLOT_CANVAS_PLOT_POS (gtk_plot_canvas_plot_pos_get_type())
 G_END_DECLS
 
 #endif /* __GTKEXTRA_TYPE_BUILTINS_H__ */

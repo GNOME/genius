@@ -5,3 +5,5 @@ imagedir = \
 	$(datadir)/genius/
 image_DATA = \
 	genius-graph.png
+EXTRA_DIST = \
+	$(image_DATA)

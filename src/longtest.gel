@@ -131,6 +131,23 @@ function nthroottest() = (
 	true
 );
 
+function polydivtest() = (
+	for n=1 to 500 do (
+		sz = randint (20)+5;
+	   	p=randint(20,sz)-10;
+		sz = randint (15)+5;
+		do (
+			q=randint(20,sz)-10
+		) while IsZero(q);
+		d = DividePoly(p,q,&r);
+		if not AddPoly(MultiplyPoly(d,q),r) == TrimPoly (p) then (
+			error ("Error on Dividepoly p: " + p + " q: " + q);
+			return false
+		)
+	);
+	true
+);
+
 function LongTest() = (
 	errors = 0;
 
@@ -162,6 +179,9 @@ function LongTest() = (
 	if not roottestcube() then (error("error on root test cubic");errors = errors + 1);
 	if not roottestquart() then (error("error on root test quartic");errors = errors + 1);
 	if not nthroottest() then (error("error on nth root test");errors = errors + 1);
+
+	# polynomial division
+	if not polydivtest() then (error("error on poly div test");errors = errors + 1);
 
 	# We print instead of return since we normally use load to run this
 	# and load doesn't output the return value

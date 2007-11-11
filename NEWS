@@ -8,16 +8,18 @@ Changes to 1.0.1
   causing the computer to grind to a halt.
 * The .desktop file now has different Categories setup so will likely appear
   in "Education" or "Accessories" menu rather than "Office"
+* Add IsMatrixPositive, IsMatrixNonnegative, version, IsZero, IsIdentity,
+  DividePoly
+* CHANGE: Remove IsGaussianInteger, we already have IsGaussInteger alias
+  IsComplexInteger
 * Chop small numbers when they appear near other larger numbers.  New
   parameters OutputChopExponent and OutputChopWhenExponent
 * Update the plotting widgetry from GtkExtra for prettier graphs
   (Sebastian Dröge, me)
-* Add IsMatrixPositive, IsMatrixNonnegative, version, IsZero, IsIdentity
-* CHANGE: Remove IsGaussianInteger, we already have IsGaussInteger alias IsComplexInteger
 * Add "Save all unsaved" menu item
 * Add Ctrl->R for "Run"
 * Default graphing limits are -10 to 10 for all axis (no more pi as default)
-* Require at least GKT+ 2.3.5 for the GUI.
+* Require at least GKT+ 2.4 for the GUI.
 * Optionally compile with GtkSourceview2 and drop back to
   GtkSourceview1 if unavailable (Sebastian Dröge)
 * Fit dependent axis works for parametric plots
