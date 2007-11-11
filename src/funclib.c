@@ -3900,7 +3900,7 @@ DividePoly_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	sizeq = poly_find_cutoff_size (qm);
 
 	if (sizeq <= 0) {
-		gel_errorout (_("%s: %s"),
+		gel_errorout ("%s: %s",
 			      "DividePoly",
 			      _("Division by zero!"));
 		return NULL;
