@@ -101,9 +101,11 @@ gel_compile_node(GelETree *t,GString *gs)
 					gel_matrixw_width (t->mat.matrix),
 					gel_matrixw_height (t->mat.matrix),
 					t->mat.quoted);
+		/* Note that compilation goes in opposite to usual order for genius,
+		 * columnwise and not rowwise */
 		for(i=0;i<gel_matrixw_width(t->mat.matrix);i++) {
 			for(j=0;j<gel_matrixw_height(t->mat.matrix);j++) {
-				GelETree *tt = gel_matrixw_set_index(t->mat.matrix,i,j);
+				GelETree *tt = gel_matrixw_get_index(t->mat.matrix,i,j);
 				if(!tt) g_string_append(gs,";0");
 				else {
 					g_string_append(gs,";N");
@@ -233,6 +235,8 @@ gel_decompile_node(char **ptrptr)
 
 		m = gel_matrixw_new();
 		gel_matrixw_set_size(m,w,h);
+		/* Note that compilation goes in opposite to usual order for genius,
+		 * columnwise and not rowwise */
 		for(i=0;i<w;i++) {
 			for(j=0;j<h;j++) {
 				p = strtok_r (NULL,";", ptrptr);

@@ -6,14 +6,18 @@ Changes to 1.0.1
 * GNOME version can now check if too much memory is being used and allows
   the user to interrupt the program rather than eat all available memory
   causing the computer to grind to a halt.
-* The .desktop file now has different Categories setup so will likely appear
-  in "Education" or "Accessories" menu rather than "Office"
+* When printing floating point numbers always make sure it is obvious that
+  these are floating point by appending .0 when they would look like integers.
 * Add IsMatrixPositive, IsMatrixNonnegative, version, IsZero, IsIdentity,
-  DividePoly
+  DividePoly, IsSubset
 * CHANGE: Remove IsGaussianInteger, we already have IsGaussInteger alias
   IsComplexInteger
+* The .desktop file now has different Categories setup so will likely appear
+  in "Education" or "Accessories" menu rather than "Office"
 * Chop small numbers when they appear near other larger numbers.  New
   parameters OutputChopExponent and OutputChopWhenExponent
+* Fix set theory functions by essentially fixing IsIn.  Also fully document
+  the behaviour of the set theory functions.
 * Update the plotting widgetry from GtkExtra for prettier graphs
   (Sebastian Dröge, me)
 * Add "Save all unsaved" menu item
@@ -32,6 +36,7 @@ Changes to 1.0.1
 * Fix command line editting
 * Fix showing full answer in the gui.
 * Fix hangs in the graphing code by enforcing a minimum plot window size
+* Consistently traverse matrices row-wise everywhere
 * Remove unused file with nonfree license
 * Add --disable-scrollkeeper and --disable-update-mimedb to configure
   (Sebastian Dröge)

@@ -1,11 +1,13 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2007 Jiri (George) Lebl
  *
  * Author: George Lebl
  *
- * This program is free software; you can redistribute it and/or modify
+ * This file is part of Genius.
+ *
+ * Genius is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -14,9 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the  Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
- * USA.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef _MATRIXW_H_
@@ -101,24 +101,71 @@ extern GelETree *the_zero;
   get a NULL from this*/
 #define gel_matrixw_set_index(a,i,j) \
 	(gel_matrix_index((a)->m, \
-			  (a)->regx ? (a)->regx[(a)->tr?(j):(i)] : (a)->tr?(j):(i), \
-			  (a)->regy ? (a)->regy[(a)->tr?(i):(j)] : (a)->tr?(i):(j)))
-
-/*get the value at, make sure it's in the range*/
-G_INLINE_FUNC GelETree *gel_matrixw_index(GelMatrixW *m, int x, int y);
-#ifdef G_CAN_INLINE
-G_INLINE_FUNC GelETree *
-gel_matrixw_index(GelMatrixW *m, int x, int y) {
-	GelETree *t = gel_matrixw_set_index (m, x, y);
-	return t?t:the_zero;
-}
-#endif
-
-#define gel_matrixw_vindex(m,i) gel_matrixw_index((m),i%gel_matrixw_width(m),i/gel_matrixw_width(m))
-#define gel_matrixw_set_vindex(m,i) gel_matrixw_set_index((m),i%gel_matrixw_width(m),i/gel_matrixw_width(m))
+			  (a)->regx ? (a)->regx[(a)->tr?(j):(i)] : ((a)->tr?(j):(i)), \
+			  (a)->regy ? (a)->regy[(a)->tr?(i):(j)] : ((a)->tr?(i):(j))))
+/* Just like set (can return NULL) but can't be used as lvalue */
+#define gel_matrixw_get_index(a,i,j) \
+	((a)->tr ? \
+	 (gel_matrix_index((a)->m, \
+			  (a)->regx ? (a)->regx[j] : (j), \
+			  (a)->regy ? (a)->regy[i] : (i))) : \
+	 (gel_matrix_index((a)->m, \
+			  (a)->regx ? (a)->regx[i] : (i), \
+			  (a)->regy ? (a)->regy[j] : (j))))
 
 #define gel_matrixw_width(a) ((a)->tr?(a)->regh:(a)->regw)
 #define gel_matrixw_height(a) ((a)->tr?(a)->regw:(a)->regh)
 #define gel_matrixw_elements(a) ((a)->regw*(a)->regh)
+
+/*get the value at, make sure it's in the range*/
+G_INLINE_FUNC GelETree *gel_matrixw_index(GelMatrixW *m, int x, int y);
+/* Keep up to date with the one in the .c file */
+#ifdef G_CAN_INLINE
+G_INLINE_FUNC GelETree *
+gel_matrixw_index(GelMatrixW *m, int x, int y) {
+	GelETree *t = gel_matrixw_get_index (m, x, y);
+	return t?t:the_zero;
+}
+#endif
+
+/*get the value at, make sure it's in the range*/
+G_INLINE_FUNC GelETree *gel_matrixw_vindex(GelMatrixW *m, int i);
+/* Keep up to date with the one in the .c file */
+#ifdef G_CAN_INLINE
+G_INLINE_FUNC GelETree *
+gel_matrixw_vindex(GelMatrixW *m, int i) {
+	GelETree *t;
+	int w = gel_matrixw_width(m);
+	/* Avoid dividing things */
+	if (w == 1)
+		t = gel_matrixw_get_index (m, 0, i);
+	else if (gel_matrixw_height(m) == 1)
+		t = gel_matrixw_get_index (m, i, 0);
+	else
+		t = gel_matrixw_get_index (m, i % w, i / w);
+	return t ? t : the_zero;
+}
+#endif
+
+/*get the value at, make sure it's in the range*/
+G_INLINE_FUNC GelETree *gel_matrixw_get_vindex(GelMatrixW *m, int i);
+/* Keep up to date with the one in the .c file */
+#ifdef G_CAN_INLINE
+G_INLINE_FUNC GelETree *
+gel_matrixw_get_vindex(GelMatrixW *m, int i) {
+	int w = gel_matrixw_width(m);
+	/* Avoid dividing things */
+	if (w == 1)
+		return gel_matrixw_get_index (m, 0, i);
+	else if (gel_matrixw_height(m) == 1)
+		return gel_matrixw_get_index (m, i, 0);
+	else
+		return gel_matrixw_get_index (m, i % w, i / w);
+}
+#endif
+
+/* This should be usable as an lvalue */
+#define gel_matrixw_set_vindex(m,i) gel_matrixw_set_index((m),(i)%gel_matrixw_width(m),(i)/gel_matrixw_width(m))
+
 
 #endif

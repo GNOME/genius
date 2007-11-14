@@ -1,3 +1,27 @@
+Tue Nov 13 23:48:25 2007  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/matrixw.[ch], src/calc.c, src/funclib.c, src/matop.c,
+	  src/symbolic.c, src/compil.c, src/eval.c: Optimized / cleaned up
+	  certain matrix operations a tiny bit.  Consistently traverse
+	  matrices row wise.
+
+	* src/funclib.c, src/eval.c: Fixed and slightly optimized IsIn,
+	  it used to bomb if the first argument was a matrix, and it
+	  used to think that the object "true" is equal to any number,
+	  and further it didn't see a difference between numbers of
+	  different types (float vs. integer).  This fixes also Intersection,
+	  Union, MakeSet and SetMinus.  Also added IsSubset.  Also fixed
+	  symbolic tree comparison for matrices.
+
+	* src/mpwrap.c: When printing out a floating point number, make sure
+	  to append ".0" to the end to distinguish it from an integer
+
+	* src/geniustests.txt:  updated tests, added many new tests.
+
+	* help/C/gel-function-list.xml: updated
+
+	* NEWS: update
+
 Sun Nov 11 03:17:49 2007  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c: translate the author fields in the about box

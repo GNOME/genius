@@ -1,11 +1,13 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2003 George Lebl
+ * Copyright (C) 1997-2007 Jiri (George) Lebl
  *
- * Author: George Lebl
+ * Author: Jiri (George) Lebl
  *
- * This program is free software; you can redistribute it and/or modify
+ * This file is part of Genius.
+ *
+ * Genius is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -14,9 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the  Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
- * USA.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "config.h"
@@ -40,12 +40,14 @@ extern calcstate_t calcstate;
 gboolean
 gel_is_matrix_value_only (GelMatrixW *m)
 {
-	int i,j;
+	int i, j, w, h;
 	if (m->cached_value_only)
 		return m->value_only;
-	for(i=0;i<gel_matrixw_width(m);i++) {
-		for(j=0;j<gel_matrixw_height(m);j++) {
-			GelETree *n = gel_matrixw_set_index(m,i,j);
+	w = gel_matrixw_width (m);
+	h = gel_matrixw_height (m);
+	for (j = 0; j < h; j++) {
+		for (i = 0; i < w; i++) {
+			GelETree *n = gel_matrixw_get_index(m,i,j);
 			if(n && n->type != VALUE_NODE) {
 				m->cached_value_only = 1;
 				m->value_only = 0;
@@ -67,13 +69,15 @@ gel_is_matrix_value_only (GelMatrixW *m)
 gboolean
 gel_is_matrix_value_or_bool_only (GelMatrixW *m)
 {
-	int i,j;
+	int i, j, w, h;
 	gboolean got_bools = FALSE;
 	if (m->cached_value_or_bool_only)
 		return m->value_or_bool_only;
-	for(i=0;i<gel_matrixw_width(m);i++) {
-		for(j=0;j<gel_matrixw_height(m);j++) {
-			GelETree *n = gel_matrixw_set_index(m,i,j);
+	w = gel_matrixw_width (m);
+	h = gel_matrixw_height (m);
+	for (j = 0; j < h; j++) {
+		for (i = 0; i < w; i++) {
+			GelETree *n = gel_matrixw_get_index(m,i,j);
 			if ( ! n)
 				continue;
 			if (n->type == BOOL_NODE) {
@@ -111,12 +115,14 @@ gel_is_matrix_value_or_bool_only (GelMatrixW *m)
 gboolean
 gel_is_matrix_value_only_real (GelMatrixW *m)
 {
-	int i,j;
+	int i, j, w, h;
 	if (m->cached_value_only_real)
 		return m->value_only_real;
-	for(i=0;i<gel_matrixw_width(m);i++) {
-		for(j=0;j<gel_matrixw_height(m);j++) {
-			GelETree *n = gel_matrixw_set_index(m,i,j);
+	w = gel_matrixw_width (m);
+	h = gel_matrixw_height (m);
+	for (j = 0; j < h; j++) {
+		for (i = 0; i < w; i++) {
+			GelETree *n = gel_matrixw_get_index(m,i,j);
 			if (n != NULL &&
 			    (n->type != VALUE_NODE ||
 			     mpw_is_complex (n->val.value))) {
@@ -136,12 +142,14 @@ gel_is_matrix_value_only_real (GelMatrixW *m)
 gboolean
 gel_is_matrix_value_only_rational (GelMatrixW *m)
 {
-	int i,j;
+	int i, j, w, h;
 	if (m->cached_value_only_rational)
 		return m->value_only_rational;
-	for(i=0;i<gel_matrixw_width(m);i++) {
-		for(j=0;j<gel_matrixw_height(m);j++) {
-			GelETree *n = gel_matrixw_set_index(m,i,j);
+	w = gel_matrixw_width (m);
+	h = gel_matrixw_height (m);
+	for (j = 0; j < h; j++) {
+		for (i = 0; i < w; i++) {
+			GelETree *n = gel_matrixw_get_index(m,i,j);
 			if (n != NULL &&
 			    (n->type != VALUE_NODE ||
 			     mpw_is_complex (n->val.value) ||
@@ -162,12 +170,14 @@ gel_is_matrix_value_only_rational (GelMatrixW *m)
 gboolean
 gel_is_matrix_value_only_integer (GelMatrixW *m)
 {
-	int i,j;
+	int i, j, w, h;
 	if (m->cached_value_only_integer)
 		return m->value_only_integer;
-	for(i=0;i<gel_matrixw_width(m);i++) {
-		for(j=0;j<gel_matrixw_height(m);j++) {
-			GelETree *n = gel_matrixw_set_index(m,i,j);
+	w = gel_matrixw_width (m);
+	h = gel_matrixw_height (m);
+	for (j = 0; j < h; j++) {
+		for (i = 0; i < w; i++) {
+			GelETree *n = gel_matrixw_get_index(m,i,j);
 			if (n != NULL &&
 			    (n->type != VALUE_NODE ||
 			     mpw_is_complex (n->val.value) ||
@@ -190,12 +200,14 @@ gel_is_matrix_value_only_integer (GelMatrixW *m)
 void
 gel_matrix_conjugate_transpose (GelMatrixW *m)
 {
-	int i,j;
+	int i, j, w, h;
 	gel_matrixw_make_private (m);
 	m->tr = !m->tr;
-	for (i = 0; i < gel_matrixw_width (m); i++) {
-		for (j = 0; j < gel_matrixw_height (m); j++) {
-			GelETree *n = gel_matrixw_set_index (m, i, j);
+	w = gel_matrixw_width (m);
+	h = gel_matrixw_height (m);
+	for (j = 0; j < h; j++) {
+		for (i = 0; i < w; i++) {
+			GelETree *n = gel_matrixw_get_index (m, i, j);
 			if (n == NULL)
 				continue;
 			if (n->type == VALUE_NODE) {
@@ -223,15 +235,19 @@ void
 gel_value_matrix_multiply (GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2,
 			   mpw_ptr modulo)
 {
-	int i,j,k;
+	int i, j, k, w, h, m1w;
 	mpw_t tmp;
 	mpw_init(tmp);
 	gel_matrixw_make_private(res);
-	for(i=0;i<gel_matrixw_width(res);i++) {
-		for(j=0;j<gel_matrixw_height(res);j++) {
+
+	w = gel_matrixw_width (res);
+	h = gel_matrixw_height (res);
+	m1w = gel_matrixw_width (m1);
+	for (j = 0; j < h; j++) {
+		for (i = 0; i < w; i++) {
 			mpw_t accu;
 			mpw_init(accu);
-			for(k=0;k<gel_matrixw_width(m1);k++) {
+			for (k = 0; k < m1w; k++) {
 				GelETree *l = gel_matrixw_index(m1,k,j);
 				GelETree *r = gel_matrixw_index(m2,i,k);
 				mpw_mul(tmp,l->val.value,r->val.value);
@@ -257,14 +273,15 @@ gel_value_matrix_multiply (GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2,
 static void
 swap_rows(GelMatrixW *m, int row, int row2)
 {
-	int i;
+	int i, w;
 	if(row==row2) return;
 	
 	gel_matrixw_make_private(m);
 	
-	for(i=0;i<gel_matrixw_width(m);i++) {
-		GelETree *t = gel_matrixw_set_index(m,i,row);
-		gel_matrixw_set_index(m,i,row) = gel_matrixw_set_index(m,i,row2);
+	w = gel_matrixw_width (m);
+	for (i = 0; i < w; i++) {
+		GelETree *t = gel_matrixw_get_index(m,i,row);
+		gel_matrixw_set_index(m,i,row) = gel_matrixw_get_index(m,i,row2);
 		gel_matrixw_set_index(m,i,row2) = t;
 	}
 }
@@ -272,7 +289,7 @@ swap_rows(GelMatrixW *m, int row, int row2)
 static gboolean
 div_row (GelCtx *ctx, GelMatrixW *m, int row, mpw_t div)
 {
-	int i;
+	int i, w;
 	gboolean ret = TRUE;
 	
 	if (mpw_eql_ui (div, 1))
@@ -280,8 +297,9 @@ div_row (GelCtx *ctx, GelMatrixW *m, int row, mpw_t div)
 
 	gel_matrixw_make_private(m);
 	
-	for(i=0;i<gel_matrixw_width(m);i++) {
-		GelETree *t = gel_matrixw_set_index(m,i,row);
+	w = gel_matrixw_width (m);
+	for (i = 0; i < w; i++) {
+		GelETree *t = gel_matrixw_get_index(m,i,row);
 		if(t) {
 			mpw_div(t->val.value,t->val.value,div);
 			if (ctx->modulo != NULL) {
@@ -298,17 +316,18 @@ div_row (GelCtx *ctx, GelMatrixW *m, int row, mpw_t div)
 static gboolean
 mul_sub_row (GelCtx *ctx, GelMatrixW *m, int row, mpw_t mul, int row2)
 {
-	int i;
+	int i, w;
 	mpw_t tmp;
 	gboolean ret = TRUE;
 	
 	gel_matrixw_make_private(m);
 	
 	mpw_init(tmp);
-	for(i=0;i<gel_matrixw_width(m);i++) {
-		GelETree *t = gel_matrixw_set_index(m,i,row);
+	w = gel_matrixw_width(m);
+	for (i = 0; i < w; i++) {
+		GelETree *t = gel_matrixw_get_index(m,i,row);
 		if(t) {
-			GelETree *t2 = gel_matrixw_set_index(m,i,row2);
+			GelETree *t2 = gel_matrixw_get_index(m,i,row2);
 			mpw_mul(tmp,t->val.value,mul);
 			if(!t2) {
 				mpw_neg(tmp,tmp);
@@ -337,7 +356,7 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 			uppertriang, gboolean stopsing, mpw_ptr detop,
 			GelMatrixW *simul)
 {
-	int i,j,d,ii;
+	int i, j, d, ii, w, h;
 	GelETree *piv;
 	mpw_t tmp;
 	gboolean ret = TRUE;
@@ -347,21 +366,23 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 
 	mpw_init(tmp);
 	d = 0;
-	for(i=0;i<gel_matrixw_width(m) && d<gel_matrixw_height(m);i++) {
-		for(j=d;j<gel_matrixw_height(m);j++) {
-			GelETree *t = gel_matrixw_set_index(m,i,j);
+	w = gel_matrixw_width (m);
+        h = gel_matrixw_height (m);
+	for (i = 0; i < w && d < h; i++) {
+		for (j = d; j < h; j++) {
+			GelETree *t = gel_matrixw_get_index(m,i,j);
 			if (t != NULL &&
 			    ! mpw_eql_ui (t->val.value, 0))
 				break;
 		}
-		if(j==gel_matrixw_height(m)) {
+		if (j == h) {
 			ret = FALSE;
 			if(stopsing) {
 				mpw_clear(tmp);
 				return FALSE;
 			}
 			continue;
-		} else if(j>d) {
+		} else if (j > d) {
 			swap_rows(m,j,d);
 			if(simul)
 				swap_rows(simul,j,d);
@@ -372,8 +393,8 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 		gel_matrixw_make_private(m);
 		piv = gel_matrixw_index(m,i,d);
 			
-		for(j=d+1;j<gel_matrixw_height(m);j++) {
-			GelETree *t = gel_matrixw_set_index(m,i,j);
+		for (j = d+1; j < h; j++) {
+			GelETree *t = gel_matrixw_get_index(m,i,j);
 			/* Assume t is already reduced mod ctx->modulo
 			 * if appropriate */
 			if (t != NULL &&
@@ -403,7 +424,7 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 
 		if(reduce) {
 			for(j=0;j<d;j++) {
-				GelETree *t = gel_matrixw_set_index(m,i,j);
+				GelETree *t = gel_matrixw_get_index(m,i,j);
 				if (t != NULL &&
 				    ! mpw_eql_ui (t->val.value, 0)) {
 					mpw_div(tmp,t->val.value,piv->val.value);
@@ -423,8 +444,8 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 			}
 		}
 
-		for(ii=i+1;ii<gel_matrixw_width(m);ii++) {
-			GelETree *t = gel_matrixw_set_index(m,ii,d);
+		for (ii = i+1; ii < w; ii++) {
+			GelETree *t = gel_matrixw_get_index(m,ii,d);
 			if(t) {
 				mpw_div(t->val.value,
 					t->val.value,
@@ -543,7 +564,7 @@ gel_value_matrix_det (GelCtx *ctx, mpw_t rop, GelMatrixW *m)
 	if (m->rref) {
 		mpw_set_ui (rop, 1);
 		for (i = 0; i < w; i++) {
-			GelETree *t = gel_matrixw_set_index (m, i, i);
+			GelETree *t = gel_matrixw_get_index (m, i, i);
 			if (t == NULL ||
 			    mpw_cmp_ui (t->val.value, 0) == 0) {
 				mpw_set_ui (rop, 0);
@@ -572,8 +593,8 @@ gel_value_matrix_det (GelCtx *ctx, mpw_t rop, GelMatrixW *m)
 		gel_value_matrix_gauss(ctx,mm,FALSE,TRUE,FALSE,tmp,NULL);
 		mpw_mul(rop,tmp,gel_matrixw_index(mm,0,0)->val.value);
 		mpw_clear(tmp);
-		for(i=1;i<gel_matrixw_width(mm);i++) {
-			GelETree *t = gel_matrixw_set_index(mm,i,i);
+		for (i = 1; i < w; i++) {
+			GelETree *t = gel_matrixw_get_index(mm,i,i);
 			if (t == NULL) {
 				gel_matrixw_free(mm);
 				mpw_set_ui(rop,0);

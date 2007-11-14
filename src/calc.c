@@ -1241,7 +1241,7 @@ matrix_chop_p (GelMatrixW *m, int chop_when)
 
 	for (j = 0; j < gel_matrixw_height (m); j++) {
 		for (i = 0; i < gel_matrixw_width(m); i++) {
-			GelETree *t = gel_matrixw_set_index (m, i, j);
+			GelETree *t = gel_matrixw_get_index (m, i, j);
 			if (t != NULL &&
 			    t->type == VALUE_NODE &&
 			    mpw_chop_p (t->val.value, chop_when))

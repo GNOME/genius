@@ -181,59 +181,63 @@
 
                 9.1. Using Polynomials
 
-   10. List of GEL functions
+   10. Set Theory in GEL
 
-                10.1. Commands
+                10.1. Using Sets
 
-                10.2. Basic
+   11. List of GEL functions
 
-                10.3. Parameters
+                11.1. Commands
 
-                10.4. Constants
+                11.2. Basic
 
-                10.5. Numeric
+                11.3. Parameters
 
-                10.6. Trigonometry
+                11.4. Constants
 
-                10.7. Number Theory
+                11.5. Numeric
 
-                10.8. Matrix Manipulation
+                11.6. Trigonometry
 
-                10.9. Linear Algebra
+                11.7. Number Theory
 
-                10.10. Combinatorics
+                11.8. Matrix Manipulation
 
-                10.11. Calculus
+                11.9. Linear Algebra
 
-                10.12. Functions
+                11.10. Combinatorics
 
-                10.13. Equation Solving
+                11.11. Calculus
 
-                10.14. Statistics
+                11.12. Functions
 
-                10.15. Polynomials
+                11.13. Equation Solving
 
-                10.16. Set Theory
+                11.14. Statistics
 
-                10.17. Miscellaneous
+                11.15. Polynomials
 
-                10.18. Symbolic Operations
+                11.16. Set Theory
 
-                10.19. Plotting
+                11.17. Miscellaneous
 
-   11. Example programs in GEL
+                11.18. Symbolic Operations
 
-   12. Settings
+                11.19. Plotting
 
-                12.1. Output
+   12. Example programs in GEL
 
-                12.2. Precision
+   13. Settings
 
-                12.3. Terminal
+                13.1. Output
 
-                12.4. Memory
+                13.2. Precision
 
-   13. About Genius Mathematics Tool
+                13.3. Terminal
+
+                13.4. Memory
+
+   14. About Genius Mathematics Tool
 
    List of Figures
 
@@ -576,6 +580,12 @@
  0.3
  77e5
 
+   When Genius prints a floating point number it will always append a .0 even
+   if the number is whole. This is to indicate that floating point numbers
+   are taken as imprecise quantities. When a number is written in the
+   scientific notation, it is always a floating point number and thus Genius
+   does not print the .0.
+
    The final type of number in gel is the complex numbers. You can enter a
    complex number as a sum of real and imaginary parts. The imaginary part
    ends with an i. Here are examples of entering complex numbers:
@@ -742,7 +752,7 @@
    GEL has a number of built-in `variables', such as e, pi or GoldenRatio.
    These are widely used constants with a preset value, and they cannot be
    assigned new values. There are a number of other built-in variables. See
-   Section 10.4 for a full list.
+   Section 11.4 for a full list.
 
      ----------------------------------------------------------------------
 
@@ -775,7 +785,7 @@
 
    There are many built-in functions, such as sin, cos and tan. You can use
    the help built-in function to get a list of available functions, or see
-   Chapter 10 for a full listing.
+   Chapter 11 for a full listing.
 
    Tip Using Tab completion                                                   
        You can use Tab completion to get Genius to complete function names   
@@ -1603,6 +1613,9 @@
   4 5 0
   6 0 0]
 
+    When matrices are evaluated, they are evaluated and traversed row-wise.
+   This is just like the M@(j) operator which traverses the matrix row-wise.
+
    Note Be careful about using whitespace and returns for expressions inside 
         the [ ] brackets, as they have a slightly different meaning and could 
         mess you up.                                                          
@@ -1611,7 +1624,9 @@
 
 8.2. Conjugate transpose and transpose operator
 
-   You can conjugate transpose a matrix by using the ' operator. For
+   You can conjugate transpose a matrix by using the ' operator. That is the
+   entry in the ith column and the jth row will be the complex conjugate of
+   the entry in the jth column and the ith row of the original matrix. For
    example:
 
  [1,2,3]*[4,5,6]'
@@ -1622,6 +1637,11 @@
 
  [1,2,3]*[4,5,6i].'
 
+    Note that normal transpose, that is the .' operator, is much faster and
+   will not create a new copy of the matrix in memory. The conjugate
+   transpose does create a new copy unfortunately. It is recommended to
+   always use the .' operator when working with real matrices and vectors.
+
      ----------------------------------------------------------------------
 
 8.3. Linear Algebra
@@ -1629,6 +1649,33 @@
     Genius implements many useful linear algebra and matrix manipulation
    routines. See the Linear Algebra and Matrix Manipulation sections of the
    GEL function listing.
+
+    The linear algebra routines implemented in GEL do not currently come
+   from a well tested numerical package, and thus should not be used for
+   critical numerical computation. On the other hand, Genius implements very
+   well many linear algebra operations with rational and integer
+   coefficients. These are inherently exact and in fact will give you much
+   better results than common double precision routines for linear algebra.
+
+    For example, it is pointless to compute the rank and nullspace of a
+   floating point matrix since for all practical purposes, we need to
+   consider the matrix as having some slight errors. You are likely to get a
+   different result than you expect. The problem is that under a small
+   perturbation every matrix is of full rank and invertible. If the matrix
+   however is of rational numbers, then the rank and nullspace are always
+   exact.
+
+    In general when Genius computes the basis of a certain vectorspace (for
+   example with the NullSpace) it will give the basis as a matrix, in which
+   the columns are the vectors of the basis. That is, when Genius talks of a
+   linear subspace it means a matrix whose column space is the given linear
+   subspace.
+
+    It should be noted that Genius can remember certain properties of a
+   matrix. For example, it will remember that a matrix is in row reduced
+   form. If many calls are made to functions which internally use row reduced
+   form of the matrix, we can just row reduce the matrix beforehand once.
+   Successive calls to rref will be very fast.
 
      ----------------------------------------------------------------------
 
@@ -1675,12 +1722,56 @@
    solved numerically using a function such as FindRootBisection,
    FindRootFalsePosition, FindRootMullersMethod, or FindRootSecant.
 
-   Look at the function table for the rest of functions acting on
-   polynomials.
+   See Section 11.15 in the function list for the rest of functions acting
+   on polynomials.
 
      ----------------------------------------------------------------------
 
-                       Chapter 10. List of GEL functions
+                         Chapter 10. Set Theory in GEL
+
+    Genius has some basic set theoretic functionality built in. Currently a
+   set is just a vector (or a matrix). Every distinct object is treated as a
+   different element.
+
+     ----------------------------------------------------------------------
+
+10.1. Using Sets
+
+    Just like vectors, objects in sets can include numbers, strings, null,
+   matrices and vectors. It is planned in the future to have a dedicated type
+   for sets, rather than using vectors. Note that floating point numbers are
+   distinct from integers, even if they appear the same. That is, Genius will
+   treat 0 and 0.0 as two distinct elements. The null is treated as an empty
+   set.
+
+    To build a set out of a vector, use the MakeSet function. Currently, it
+   will just return a new vector where every element is unique.
+
+ genius> MakeSet([1,2,2,3])
+ = [1    2       3]
+
+    Similarly there are functions Union, Intersection, SetMinus, which are
+   rather self explanatory. For example:
+
+ genius> Union([1,2,3], [1,2,4])
+ = [1    2       4       3]
+
+   Note that no order is guaranteed for the return values. If you wish to
+   sort the vector you should use the SortVector function.
+
+    For testing membership, there are functions IsIn and IsSubset, which
+   return a boolean value. For example:
+
+ genius> IsIn (1, [0,1,2])
+ = true
+
+   The input IsIn(x,X) is of course equivalent to IsSubset([x],X). Note that
+   since the empty set is a subset of every set, IsSubset(null,X) is always
+   true.
+
+     ----------------------------------------------------------------------
+
+                       Chapter 11. List of GEL functions
 
    To get help on a specific function from the console type:
 
@@ -1688,7 +1779,7 @@
 
      ----------------------------------------------------------------------
 
-10.1. Commands
+11.1. Commands
 
    help
 
@@ -1732,7 +1823,7 @@
 
      ----------------------------------------------------------------------
 
-10.2. Basic
+11.2. Basic
 
    Compose
 
@@ -1970,7 +2061,7 @@
 
      ----------------------------------------------------------------------
 
-10.3. Parameters
+11.3. Parameters
 
    ChopTolerance
 
@@ -2164,7 +2255,7 @@
 
      ----------------------------------------------------------------------
 
-10.4. Constants
+11.4. Constants
 
    CatalanConstant
 
@@ -2221,7 +2312,7 @@
 
      ----------------------------------------------------------------------
 
-10.5. Numeric
+11.5. Numeric
 
    AbsoluteValue
 
@@ -2499,7 +2590,7 @@
 
      ----------------------------------------------------------------------
 
-10.6. Trigonometry
+11.6. Trigonometry
 
    acos
 
@@ -2709,7 +2800,7 @@
 
      ----------------------------------------------------------------------
 
-10.7. Number Theory
+11.7. Number Theory
 
    AreRelativelyPrime
 
@@ -3151,7 +3242,7 @@
 
      ----------------------------------------------------------------------
 
-10.8. Matrix Manipulation
+11.8. Matrix Manipulation
 
    ApplyOverMatrix
 
@@ -3513,7 +3604,7 @@
 
      ----------------------------------------------------------------------
 
-10.9. Linear Algebra
+11.9. Linear Algebra
 
    AuxilliaryUnitMatrix
 
@@ -4119,7 +4210,7 @@
 
      ----------------------------------------------------------------------
 
-10.10. Combinatorics
+11.10. Combinatorics
 
    Catalan
 
@@ -4352,7 +4443,7 @@
 
      ----------------------------------------------------------------------
 
-10.11. Calculus
+11.11. Calculus
 
    CompositeSimpsonsRule
 
@@ -4507,7 +4598,7 @@
 
      ----------------------------------------------------------------------
 
-10.12. Functions
+11.12. Functions
 
    Argument
 
@@ -4664,7 +4755,7 @@
 
      ----------------------------------------------------------------------
 
-10.13. Equation Solving
+11.13. Equation Solving
 
    CubicFormula
 
@@ -4758,7 +4849,7 @@
 
      ----------------------------------------------------------------------
 
-10.14. Statistics
+11.14. Statistics
 
    Average
 
@@ -4852,7 +4943,7 @@
 
      ----------------------------------------------------------------------
 
-10.15. Polynomials
+11.15. Polynomials
 
    AddPoly
 
@@ -4929,7 +5020,7 @@
 
      ----------------------------------------------------------------------
 
-10.16. Set Theory
+11.16. Set Theory
 
    Intersection
 
@@ -4945,11 +5036,18 @@
            Returns true if the element x is in the set X (where X is a vector
            pretending to be a set).
 
+   IsSubset
+
+ IsSubset (X, Y)
+
+           Returns true if X is a subset of Y (X and Y are vectors pretending
+           to be sets).
+
    MakeSet
 
  MakeSet (X)
 
-           Returns a set where every element of X appears only once.
+           Returns a vector where every element of X appears only once.
 
    SetMinus
 
@@ -4967,7 +5065,7 @@
 
      ----------------------------------------------------------------------
 
-10.17. Miscellaneous
+11.17. Miscellaneous
 
    ASCIIToString
 
@@ -4997,7 +5095,7 @@
 
      ----------------------------------------------------------------------
 
-10.18. Symbolic Operations
+11.18. Symbolic Operations
 
    SymbolicDerivative
 
@@ -5044,7 +5142,7 @@
 
      ----------------------------------------------------------------------
 
-10.19. Plotting
+11.19. Plotting
 
    LinePlot
 
@@ -5132,7 +5230,7 @@
 
      ----------------------------------------------------------------------
 
-                      Chapter 11. Example programs in GEL
+                      Chapter 12. Example programs in GEL
 
    Here is a function that calculates factorials:
 
@@ -5165,8 +5263,8 @@
 
    Here is a larger example, this basically redefines the internal ref
    function to calculate the row echelon form of a matrix. The function ref
-   is now built in and faster, but this example demonstrates some of the more
-   complex features of GEL.
+   is built in and much faster, but this example demonstrates some of the
+   more complex features of GEL.
 
  # Calculate the row-echelon form of a matrix
  function MyOwnREF(m) = (
@@ -5212,7 +5310,7 @@
 
      ----------------------------------------------------------------------
 
-                              Chapter 12. Settings
+                              Chapter 13. Settings
 
     To configure Genius Mathematics Tool, choose Settings->Preferences.
    There are several basic parameters provided by the calculator in addition
@@ -5223,7 +5321,7 @@
          Many of the settings in Genius are simply global variables, and can 
         be evaluated and assigned to in the same way as normal variables. See 
         Section 5.2 about evaluating and assigning to variables, and Section  
-        10.3 for a list of settings that can be modified in this way.         
+        11.3 for a list of settings that can be modified in this way.         
                                                                               
         As an example, you can set the maximum number of digits in a result  
         to 12 by typing:                                                      
@@ -5232,7 +5330,7 @@
 
      ----------------------------------------------------------------------
 
-12.1. Output
+13.1. Output
 
    Maximum digits to output
 
@@ -5302,7 +5400,7 @@
 
     In addition to these preferences, there are some preferences that can
    only be changed by setting them in the workspace console. For others that
-   may affect the output see Section 10.3.
+   may affect the output see Section 11.3.
 
    IntegerOutputBase
 
@@ -5319,7 +5417,7 @@
 
      ----------------------------------------------------------------------
 
-12.2. Precision
+13.2. Precision
 
    Floating point precision
 
@@ -5339,7 +5437,7 @@
 
      ----------------------------------------------------------------------
 
-12.3. Terminal
+13.3. Terminal
 
     Terminal refers to the console in the work area.
 
@@ -5363,7 +5461,7 @@
 
      ----------------------------------------------------------------------
 
-12.4. Memory
+13.4. Memory
 
    Maximum number of nodes to allocate
 
@@ -5386,7 +5484,7 @@
 
      ----------------------------------------------------------------------
 
-                   Chapter 13. About Genius Mathematics Tool
+                   Chapter 14. About Genius Mathematics Tool
 
    Genius Mathematics Tool was written by Jiri (George) Lebl
    (<jirka@5z.com>). The history of Genius Mathematics Tool goes back to late

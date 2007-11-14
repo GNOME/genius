@@ -644,6 +644,11 @@ The next type if number is floating point. These are entered in a similar fashio
 0.3
 77e5
 </programlisting>
+	When &appname; prints a floating point number it will always append a
+	<computeroutput>.0</computeroutput> even if the number is whole.  This is to indicate that
+	floating point numbers are taken as imprecise quantities.  When a number is written in the
+	scientific notation, it is always a floating point number and thus &appname; does not
+	print the <computeroutput>.0</computeroutput>.
         </para>
 
         <para>
@@ -2018,6 +2023,11 @@ will end up being
 </programlisting>
       </para>
 
+      <para>
+	When matrices are evaluated, they are evaluated and traversed row-wise.  This is just
+	like the <literal>M@(j)</literal> operator which traverses the matrix row-wise.
+      </para>
+
       <note>
         <para>
 Be careful about using whitespace and returns for expressions inside the <literal>[ ]</literal> brackets, as they have a slightly different meaning and could mess you up.
@@ -2029,7 +2039,12 @@ Be careful about using whitespace and returns for expressions inside the <litera
     <sect1 id="genius-gel-matrix-transpose">
       <title>Conjugate transpose and transpose operator</title>
       <para>
-You can conjugate transpose a matrix by using the <literal>'</literal> operator. For example:
+You can conjugate transpose a matrix by using the <literal>'</literal> operator.  That is
+the entry in the
+<varname>i</varname>th column and the <varname>j</varname>th row will be
+the complex conjugate of the entry in the
+<varname>j</varname>th column and the <varname>i</varname>th row of the original matrix.
+ For example:
 <programlisting>[1,2,3]*[4,5,6]'
 </programlisting>
 We transpose the second vector to make matrix multiplication possible.
@@ -2038,17 +2053,53 @@ use the <literal>.'</literal> operator.  For example:
 <programlisting>[1,2,3]*[4,5,6i].'
 </programlisting>
       </para>
+	<para>
+	  Note that normal transpose, that is the <literal>.'</literal> operator, is much faster
+	  and will not create a new copy of the matrix in memory.  The conjugate transpose does
+	  create a new copy unfortunately.
+	  It is recommended to always use the <literal>.'</literal> operator when working with real
+	  matrices and vectors.
+	</para>
     </sect1>
 
     <sect1 id="genius-gel-matrix-linalg">
       <title>Linear Algebra</title>
       <para>
-	&appname; implements many useful linear algebra and matrix manipulation routines.
-	See the 
-<link linkend="genius-gel-function-list-linear-algebra">Linear Algebra</link>
-and 
-<link linkend="genius-gel-function-list-matrix">Matrix Manipulation</link> sections of the GEL
-function listing.
+	&appname; implements many useful linear algebra and matrix manipulation
+routines.  See the <link
+linkend="genius-gel-function-list-linear-algebra">Linear Algebra</link> and
+<link linkend="genius-gel-function-list-matrix">Matrix Manipulation</link>
+sections of the GEL function listing.
+      </para>
+      <para>
+	The linear algebra routines implemented in GEL do not currently come
+from a well tested numerical package, and thus should not be used for critical
+numerical computation.  On the other hand, Genius implements very well many
+linear algebra operations with rational and integer coefficients.  These are
+inherently exact and in fact will give you much better results than common
+double precision routines for linear algebra.
+      </para>
+      <para>
+	For example, it is pointless to compute the rank and nullspace of a
+floating point matrix since for all practical purposes, we need to consider the
+matrix as having some slight errors.  You are likely to get a different result
+than you expect.  The problem is that under a small perturbation every matrix
+is of full rank and invertible.  If the matrix however is of rational numbers,
+then the rank and nullspace are always exact.
+      </para>
+      <para>
+	In general when &appname; computes the basis of a certain vectorspace
+(for example with the <function>NullSpace</function>) it will give the basis as
+a matrix, in which the columns are the vectors of the basis.  That is, when
+&appname; talks of a linear subspace it means a matrix whose column space is
+the given linear subspace.
+      </para>
+      <para>
+	It should be noted that &appname; can remember certain properties of a
+matrix.  For example, it will remember that a matrix is in row reduced form.
+If many calls are made to functions which internally use row reduced form of
+the matrix, we can just row reduce the matrix beforehand once.  Successive
+calls to <function>rref</function> will be very fast.
       </para>
     </sect1>
 
@@ -2113,8 +2164,68 @@ numerically using a function such as
 <link linkend="gel-function-FindRootSecant"><function>FindRootSecant</function></link>.
       </para>
       <para>
-Look at the function table for the rest of functions acting on polynomials.
+See <xref linkend="genius-gel-function-list-polynomials" /> in the function list
+for the rest of functions acting on polynomials.
       </para>
+    </sect1>
+
+  </chapter>
+
+  <!-- ============= Set Theory ============================== -->
+  <chapter id="genius-gel-settheory">
+    <title>Set Theory in GEL</title>
+
+    <para>
+      &appname; has some basic set theoretic functionality built in.  Currently a set is
+      just a vector (or a matrix).  Every distinct object is treated as a different element.
+    </para>
+
+    <sect1 id="genius-gel-sets-using">
+      <title>Using Sets</title>
+      <para>
+	Just like vectors, objects
+      in sets can include numbers, strings, <constant>null</constant>, matrices and vectors.  It is
+      planned in the future to have a dedicated type for sets, rather than using vectors.
+      Note that floating point numbers are distinct from integers, even if they appear the same.
+      That is, &appname; will treat <constant>0</constant> and <constant>0.0</constant>
+      as two distinct elements.  The <constant>null</constant> is treated as an empty set.
+    </para>
+      <para>
+	To build a set out of a vector, use the 
+	<link linkend="gel-function-MakeSet"><function>MakeSet</function></link> function.
+	Currently, it will just return a new vector where every element is unique.
+<screen><prompt>genius> </prompt><userinput>MakeSet([1,2,2,3])</userinput>
+= [1	2	3]
+</screen>
+</para>
+
+	<para>
+	Similarly there are functions 
+	<link linkend="gel-function-Union"><function>Union</function></link>,
+	<link linkend="gel-function-Intersection"><function>Intersection</function></link>,
+	<link linkend="gel-function-SetMinus"><function>SetMinus</function></link>, which
+	are rather self explanatory.  For example:
+<screen><prompt>genius> </prompt><userinput>Union([1,2,3], [1,2,4])</userinput>
+= [1	2	4	3]
+</screen>
+	Note that no order is guaranteed for the return values.  If you wish to sort the vector you
+should use the
+	<link linkend="gel-function-SortVector"><function>SortVector</function></link> function.
+	</para>
+
+	<para>
+	  For testing membership, there are functions
+	<link linkend="gel-function-IsIn"><function>IsIn</function></link> and
+	<link linkend="gel-function-IsSubset"><function>IsSubset</function></link>,
+	which return a boolean value.  For example:
+<screen><prompt>genius> </prompt><userinput>IsIn (1, [0,1,2])</userinput>
+= true
+</screen>
+	The input <userinput>IsIn(x,X)</userinput> is of course equivalent to
+	<userinput>IsSubset([x],X)</userinput>.  Note that since the empty set is a subset
+	of every set, <userinput>IsSubset(null,X)</userinput> is always true.
+	</para>
+
     </sect1>
 
   </chapter>
@@ -2166,7 +2277,7 @@ but also probably the most readable version.
     <para>
 Here is a larger example, this basically redefines the internal
 <function>ref</function> function to calculate the row echelon form of a
-matrix.  The function <function>ref</function> is now built in and faster,
+matrix.  The function <function>ref</function> is built in and much faster,
 but this example demonstrates some of the more complex features of GEL.
 <programlisting><![CDATA[# Calculate the row-echelon form of a matrix
 function MyOwnREF(m) = (

@@ -393,7 +393,7 @@ static unsigned long mpwl_get_ulong(MpwRealNum *op, int *ex);
 static double mpwl_get_double(MpwRealNum *op, int *ex);
 
 /*trim trailing zeros*/
-static void str_trim_trailing_zeros(char *s);
+static void str_trim_trailing_zeros (char *s, gboolean leave_first_zero);
 
 /*formats a floating point with mantissa in p and exponent in e*/
 static char * str_format_float (char *p,
@@ -2668,14 +2668,22 @@ mpwl_get_double (MpwRealNum *op, int *ex)
 
 /*trim trailing zeros*/
 static void
-str_trim_trailing_zeros(char *s)
+str_trim_trailing_zeros (char *s, gboolean leave_first_zero)
 {
-	char *p,*pp;
+	char *p, *pp;
 
 	p = strrchr(s,'.');
 	if(!p) return;
-	for(pp=p+1;*pp;pp++) {
-		if(*pp!='0')
+
+	if (leave_first_zero &&
+	    *(p+1) == '0') {
+		p = p+2;
+		pp = p;
+	} else {
+		pp=p+1;
+	}
+	for (; *pp != '\0'; pp++) {
+		if (*pp != '0')
 			p = pp+1;
 	}
 	*p = '\0';
@@ -2718,11 +2726,16 @@ str_format_float (char *p,
 				p[1]='.';
 			}
 		}
-		str_trim_trailing_zeros(p);
+		str_trim_trailing_zeros (p, FALSE /* not_first_zero */);
 		len = strlen(p);
-		/* look above to see why this is one sprintf which is in
-		   fact safe */
-		sprintf(p+len,"e%ld",e-1);
+		/* if we actually just have zero */
+		if (strcmp (p, "0") == 0) {
+			strcpy (p, "0e0");
+		} else {
+			/* look above to see why this is one sprintf which is in
+			   fact safe */
+			sprintf(p+len,"e%ld",e-1);
+		}
 	} else if(e>0) {
 		len=strlen(p);
 		if(p[0]=='-')
@@ -2740,10 +2753,10 @@ str_format_float (char *p,
 				p[e]='.';
 			}
 		}
-		str_trim_trailing_zeros(p);
+		str_trim_trailing_zeros (p, TRUE /* leave_first_zero */);
 	} else { /*e<=0*/
 		if(strlen(p)==0) {
-			p = g_strdup ("0");
+			p = g_strdup ("0.0");
 		} else {
 			p = g_realloc (p, strlen(p)+2+(-e)+2);
 			if(p[0]=='-') {
@@ -2760,7 +2773,7 @@ str_format_float (char *p,
 					p[i+2]='0';
 			}
 		}
-		str_trim_trailing_zeros(p);
+		str_trim_trailing_zeros (p, TRUE /* leave_first_zero */);
 	}
 	return p;
 }

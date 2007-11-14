@@ -1,11 +1,13 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2007 George Lebl
+ * Copyright (C) 1997-2007 Jiri (George) Lebl
  *
  * Author: George Lebl
  *
- * This program is free software; you can redistribute it and/or modify
+ * This file is part of Genius.
+ *
+ * Genius is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -14,9 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the  Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
- * USA.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "config.h"
@@ -484,7 +484,7 @@ gel_matrixw_set_element (GelMatrixW *m, int x, int y, gpointer data)
 	else
 		internal_make_private (m, MAX(m->regw, x+1), MAX(m->regh, y+1));
 	gel_matrixw_set_at_least_size (m, x+1, y+1);
-	t = gel_matrixw_set_index (m, x, y);
+	t = gel_matrixw_get_index (m, x, y);
 	if (t != NULL)
 		gel_freetree (t);
 	gel_matrixw_set_index (m, x, y) = data;
@@ -520,7 +520,7 @@ gel_matrixw_set_velement (GelMatrixW *m, int i, gpointer data)
 		internal_make_private (m, MAX(m->regw, x+1), MAX(m->regh, y+1));
 	}
 	gel_matrixw_set_at_least_size (m, x+1, y+1);
-	t = gel_matrixw_set_index (m, x, y);
+	t = gel_matrixw_get_index (m, x, y);
 	if (t != NULL)
 		gel_freetree (t);
 	gel_matrixw_set_index (m, x, y) = data;
@@ -617,7 +617,7 @@ gel_matrixw_get_vregion (GelMatrixW *m, int *reg, int len)
 	gel_matrix_set_size (vec, len, 1, FALSE /* padding */);
 
 	for (i = 0; i < len; i++) {
-		GelETree *t = gel_matrixw_set_vindex (m, reg[i]);
+		GelETree *t = gel_matrixw_get_vindex (m, reg[i]);
 		if (t != NULL)
 			t = copynode (t);
 		gel_matrix_index (vec, i, 0) = t;
@@ -863,7 +863,7 @@ gel_matrixw_diagonalof (GelMatrixW *source)
 	gel_matrix_set_size (mm, 1, len, FALSE /* padding */);
 
 	for (i = 0; i < len; i++) {
-		GelETree *n = gel_matrixw_set_index (source, i, i);
+		GelETree *n = gel_matrixw_get_index (source, i, i);
 		if (n != NULL)
 			n = copynode (n);
 
@@ -1017,7 +1017,7 @@ gel_matrixw_set_vregion (GelMatrixW *m, GelMatrixW *src, int *desti, int len)
 			if (i >= srcelts) {
 				gel_matrix_index (m->m, x, y) = NULL;
 			} else {
-				GelETree *s = gel_matrixw_set_vindex (src, i);
+				GelETree *s = gel_matrixw_get_vindex (src, i);
 				if (s != NULL)
 					s = copynode (s);
 				gel_matrix_index (m->m, x, y) = s;
@@ -1054,7 +1054,7 @@ gel_matrixw_set_vregion (GelMatrixW *m, GelMatrixW *src, int *desti, int len)
 			if (i >= srcelts) {
 				gel_matrix_index (m->m, x, y) = NULL;
 			} else {
-				GelETree *s = gel_matrixw_set_vindex (src, i);
+				GelETree *s = gel_matrixw_get_vindex (src, i);
 				if (s != NULL)
 					s = copynode (s);
 				gel_matrix_index (m->m, x, y) = s;
@@ -1116,3 +1116,41 @@ gel_matrixw_set_vregion_etree (GelMatrixW *m, GelETree *src, int *desti, int len
 		}
 	}
 }
+
+#ifndef G_CAN_INLINE
+GelETree *
+gel_matrixw_index(GelMatrixW *m, int x, int y) {
+	GelETree *t = gel_matrixw_get_index (m, x, y);
+	return t?t:the_zero;
+}
+#endif
+
+#ifndef G_CAN_INLINE
+GelETree *
+gel_matrixw_vindex(GelMatrixW *m, int i) {
+	GelETree *t;
+	int w = gel_matrixw_width(m);
+	/* Avoid dividing things */
+	if (w == 1)
+		t = gel_matrixw_get_index (m, 0, i);
+	else if (gel_matrixw_height(m) == 1)
+		t = gel_matrixw_get_index (m, i, 0);
+	else
+		t = gel_matrixw_get_index (m, i % w, i / w);
+	return t ? t : the_zero;
+}
+#endif
+
+#ifndef G_CAN_INLINE
+G_INLINE_FUNC GelETree *
+gel_matrixw_get_vindex(GelMatrixW *m, int i) {
+	int w = gel_matrixw_width(m);
+	/* Avoid dividing things */
+	if (w == 1)
+		return gel_matrixw_get_index (m, 0, i);
+	else if (gel_matrixw_height(m) == 1)
+		return gel_matrixw_get_index (m, i, 0);
+	else
+		return gel_matrixw_get_index (m, i % w, i / w);
+}
+#endif

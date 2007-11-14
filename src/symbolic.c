@@ -193,9 +193,9 @@ substitute_x_y_z_w (GelETree *expr,
 		int mw, mh;
 		mw = gel_matrixw_width (expr->mat.matrix);
 		mh = gel_matrixw_height (expr->mat.matrix);
-		for (i = 0; i < mw; i++) {
-			for(j = 0; j < mh; j++) {
-				GelETree *t = gel_matrixw_set_index
+		for(j = 0; j < mh; j++) {
+			for (i = 0; i < mw; i++) {
+				GelETree *t = gel_matrixw_get_index
 					(expr->mat.matrix, i, j);
 				if (t != NULL)
 					substitute_x_y_z_w (t,
