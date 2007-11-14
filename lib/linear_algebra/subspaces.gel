@@ -11,7 +11,8 @@
 SetHelp ("ColumnSpace", "linear_algebra", "Get a basis matrix for the columnspace of a matrix")
 function ColumnSpace(M) =
 (
-  if not IsMatrix (M) then
+  if IsNull (M) then return null
+  else if not IsMatrix (M) then
     (error("ColumnSpace: argument not a matrix");bailout);
   StripZeroColumns (cref (M))
 )
@@ -20,7 +21,8 @@ protect ("ColumnSpace")
 # Row Space of a matrix
 SetHelp ("RowSpace", "linear_algebra", "Get a basis matrix for the rowspace of a matrix")
 function RowSpace(M) = (
-  if not IsMatrix (M) then
+  if IsNull (M) then return null
+  else if not IsMatrix (M) then
     (error("RowSpace: argument not a matrix");bailout);
   ColumnSpace (M.')
 )
@@ -30,7 +32,8 @@ protect ("RowSpace")
 SetHelp ("Rank", "linear_algebra", "Get the rank of a matrix")
 function Rank(M) =
 (
-  if not IsMatrix (M) then
+  if IsNull (M) then return 0
+  else if not IsMatrix (M) then
     (error("Rank: argument not a matrix");bailout);
   columns (M) - CountZeroColumns(cref(M))
 )
@@ -43,7 +46,8 @@ protect ("rank")
 SetHelp ("Nullity", "linear_algebra", "Get the nullity of a matrix")
 function Nullity (M) =
 (
-  if not IsMatrix (M) then
+  if IsNull (M) then return 0
+  else if not IsMatrix (M) then
     (error("Nullity: argument not a matrix");bailout);
   CountZeroColumns(cref(M))
 )
@@ -143,10 +147,10 @@ protect ("VectorSubspaceIntersection")
 # Given a vector subspace of an Inner Product Space (or maybe just
 # a space with a (symmetric?) bilinear form (check lang),
 # return the orthogonal complement.
-# FIXME: currently assumes that the inner product is the standard
-# inner product on R^n
+# FIXME: currently assumes that the inner product is the hermetian
+# inner product on
 SetHelp ("OrthogonalComplement", "linear_algebra", "Get the orthogonal complement of the columnspace")
-function OrthogonalComplement(M)=NullSpace(Transpose(M))
+function OrthogonalComplement(M)=NullSpace(M')
 protect ("OrthogonalComplement")
 
 ## (Vector space + a vector) operations
