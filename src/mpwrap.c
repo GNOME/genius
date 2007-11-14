@@ -3984,6 +3984,33 @@ mpw_odd_p(mpw_ptr op)
 	}
 }
 
+/* exact zero, not a float! */
+gboolean
+mpw_exact_zero_p (mpw_ptr op)
+{
+	if (MPW_IS_REAL (op) &&
+	    (op->r == gel_zero ||
+	     ((op->r->type == MPW_INTEGER ||
+	       op->r->type == MPW_RATIONAL) &&
+	      mpwl_sgn (op->r) == 0))) {
+		return TRUE;
+	} else {
+		return FALSE;
+	}
+}
+
+gboolean
+mpw_zero_p (mpw_ptr op)
+{
+	if ((op->r == gel_zero || mpwl_sgn (op->r) == 0) &&
+	    (op->i == gel_zero || mpwl_sgn (op->i) == 0)) {
+		return TRUE;
+	} else {
+		return FALSE;
+	}
+}
+
+
 void
 mpw_pow (mpw_ptr rop, mpw_ptr op1, mpw_ptr op2)
 {

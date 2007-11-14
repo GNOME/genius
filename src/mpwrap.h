@@ -163,6 +163,12 @@ void mpw_sub(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 void mpw_sub_ui(mpw_ptr rop,mpw_ptr op, unsigned long i);
 void mpw_ui_sub(mpw_ptr rop,unsigned long i, mpw_ptr op);
 
+/* exact zero, not a float! */
+gboolean mpw_exact_zero_p (mpw_ptr op);
+
+/* any zero will do */
+gboolean mpw_zero_p (mpw_ptr op);
+
 void mpw_mul(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);
 void mpw_mul_ui(mpw_ptr rop,mpw_ptr op, unsigned int i);
 

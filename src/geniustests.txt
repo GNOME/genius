@@ -686,10 +686,10 @@ true == 0							false
 false == 0							true
 |cos(pi+0.1i) +1| < 0.1						true
 |sin(pi+0.1i)| < 0.11						true
-NDerivative(`(x)=x^2,1)						2
-NDerivative(`(x)=x^2,10)					20
-function f(x) = x^2 ; NDerivative(f,10)				20
-function _f(x) = x^2 ; NDerivative(_f,10)			20
+NDerivative(`(x)=x^2,1)						2.0
+NDerivative(`(x)=x^2,10)					20.0
+function f(x) = x^2 ; NDerivative(f,10)				20.0
+function _f(x) = x^2 ; NDerivative(_f,10)			20.0
 function f(x) = x^2 ; IsDifferentiable(f,10)			true
 function f(x) = |x| ; IsDifferentiable(f,0)			false
 function f(x) = |x| ; IsDifferentiable(f,10)			true

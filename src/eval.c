@@ -2364,7 +2364,7 @@ gel_isnodetrue (GelETree *n, gboolean *bad_node)
 	case NULL_NODE:
 		return FALSE;
 	case VALUE_NODE:
-		return ! mpw_eql_ui (n->val.value, 0);
+		return ! mpw_zero_p (n->val.value);
 	case STRING_NODE:
 		if(n->str.str && *n->str.str)
 			return TRUE;
@@ -4822,7 +4822,7 @@ iter_forloop (GelCtx *ctx, GelETree *n, gboolean *repushed)
 		iter_pop_stack(ctx);
 		return;
 	}
-	if G_UNLIKELY (by && mpw_eql_ui (by->val.value, 0)) {
+	if G_UNLIKELY (by && mpw_zero_p (by->val.value)) {
 		gel_errorout (_("'for/sum/prod' loop increment can't be 0"));
 		iter_pop_stack(ctx);
 		return;
@@ -7820,9 +7820,9 @@ resimplify:
 
 			/* multiply by 0, so nothing */
 			if ((l->type == VALUE_NODE &&
-			     mpw_eql_ui (l->val.value, 0)) ||
+			     mpw_zero_p (l->val.value)) ||
 			    (r->type == VALUE_NODE &&
-			     mpw_eql_ui (r->val.value, 0))) {
+			     mpw_zero_p (r->val.value))) {
 				replacenode (n, gel_makenum_ui (0));
 			} else if (l->type == VALUE_NODE &&
 				   mpw_eql_ui (l->val.value, 1)) {
@@ -7846,9 +7846,9 @@ resimplify:
 			/* divide 0 by something so nothing
 			   (unless the bottom is 0) */
 			if ((l->type == VALUE_NODE &&
-			     mpw_eql_ui (l->val.value, 0)) &&
+			     mpw_zero_p (l->val.value)) &&
 			    (r->type != VALUE_NODE ||
-			     ! mpw_eql_ui (r->val.value, 0))) {
+			     ! mpw_zero_p (r->val.value))) {
 				replacenode (n, gel_makenum_ui (0));
 			} else if (r->type == VALUE_NODE &&
 				   mpw_eql_ui (r->val.value, 1)) {
@@ -7864,13 +7864,13 @@ resimplify:
 			GET_LR (n, l, r);
 
 			if (l->type == VALUE_NODE &&
-			    mpw_eql_ui (l->val.value, 0)) {
+			    mpw_zero_p (l->val.value)) {
 				/* add 0, so identity */
 				n->op.args = NULL;
 				gel_freetree (l);
 				replacenode (n, r);
 			} else if (r->type == VALUE_NODE &&
-				   mpw_eql_ui (r->val.value, 0)) {
+				   mpw_zero_p (r->val.value)) {
 				/* add 0, so identity */
 				n->op.args = NULL;
 				gel_freetree (r);
@@ -7881,7 +7881,7 @@ resimplify:
 			GET_LR (n, l, r);
 
 			if (r->type == VALUE_NODE &&
-			    mpw_eql_ui (r->val.value, 0)) {
+			    mpw_zero_p (r->val.value)) {
 				/* something^0 so we get 1 */
 				replacenode (n, gel_makenum_ui (1));
 			} else if (l->type == OPERATOR_NODE &&

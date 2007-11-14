@@ -285,7 +285,7 @@ IntegerFromBoolean_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 
 	if (a[0]->type == VALUE_NODE)
-		i = mpw_eql_ui (a[0]->val.value, 0) ? 0 : 1;
+		i = mpw_zero_p (a[0]->val.value) ? 0 : 1;
 	else /* a->type == BOOL_NODE */
 		i = a[0]->bool_.bool_ ? 1 : 0;
 
@@ -908,7 +908,7 @@ CountZeroColumns_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			if ( ! ( t == NULL ||
 				 t->type == NULL_NODE ||
 				 (t->type == VALUE_NODE &&
-				  mpw_eql_ui (t->val.value, 0)))) {
+				  mpw_zero_p (t->val.value)))) {
 				cnt++;
 				break;
 			}
@@ -946,7 +946,7 @@ StripZeroColumns_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			if ( ! ( t == NULL ||
 				 t->type == NULL_NODE ||
 				 (t->type == VALUE_NODE &&
-				  mpw_eql_ui (t->val.value, 0)))) {
+				  mpw_zero_p (t->val.value)))) {
 				cols = g_slist_prepend (cols,
 							GINT_TO_POINTER (i));
 				cnt++;
@@ -2494,7 +2494,7 @@ IsMatrixPositive_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 			if (t == NULL ||
 			    t->type != VALUE_NODE ||
 			    mpw_is_complex (t->val.value) ||
-			    mpw_cmp_ui (t->val.value, 0) <= 0)
+			    mpw_sgn (t->val.value) <= 0)
 				return gel_makenum_bool (0);
 		}
 	}
@@ -2520,7 +2520,7 @@ IsMatrixNonnegative_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 			if (t != NULL) {
 				if (t->type != VALUE_NODE ||
 				    mpw_is_complex (t->val.value) ||
-				    mpw_cmp_ui (t->val.value, 0) < 0)
+				    mpw_sgn (t->val.value) < 0)
 					return gel_makenum_bool (0);
 			}
 		}
@@ -2537,7 +2537,7 @@ IsZero_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if (a[0]->type == NULL_NODE)
 		return gel_makenum_bool (1);
 	else if (a[0]->type == VALUE_NODE)
-		return gel_makenum_bool (mpw_cmp_ui (a[0]->val.value, 0) == 0);
+		return gel_makenum_bool (mpw_zero_p (a[0]->val.value));
 	else {
 		GelMatrixW *m = a[0]->mat.matrix;
 		int i,j,w,h;
@@ -2548,7 +2548,7 @@ IsZero_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 				GelETree *t = gel_matrixw_get_index (m, i, j);
 				if ( ! ( t == NULL ||
 					 (t->type == VALUE_NODE &&
-					  mpw_eql_ui (t->val.value, 0)))) {
+					  mpw_zero_p (t->val.value)))) {
 					return gel_makenum_bool (0);
 				}
 			}
@@ -2566,7 +2566,7 @@ IsIdentity_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if (a[0]->type == NULL_NODE)
 		return gel_makenum_bool (0);
 	else if (a[0]->type == VALUE_NODE)
-		return gel_makenum_bool (mpw_cmp_ui (a[0]->val.value, 1) == 0);
+		return gel_makenum_bool (mpw_eql_ui (a[0]->val.value, 1));
 	else {
 		GelMatrixW *m = a[0]->mat.matrix;
 		int i,j,w,h;
@@ -2585,7 +2585,7 @@ IsIdentity_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 					}
 				} else if ( ! ( t == NULL ||
 					 (t->type == VALUE_NODE &&
-					  mpw_eql_ui (t->val.value, 0)))) {
+					  mpw_zero_p (t->val.value)))) {
 					return gel_makenum_bool (0);
 				}
 			}
@@ -2777,7 +2777,7 @@ IsLowerTriangular_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			if (node != NULL &&
 			    (node->type != VALUE_NODE ||
 			     /* FIXME: perhaps use some zero tolerance */
-			     ! mpw_eql_ui (node->val.value, 0))) {
+			     ! mpw_zero_p (node->val.value))) {
 				return gel_makenum_bool (0);
 			}
 		}
@@ -2803,7 +2803,7 @@ IsUpperTriangular_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			if (node != NULL &&
 			    (node->type != VALUE_NODE ||
 			     /* FIXME: perhaps use some zero tolerance */
-			     ! mpw_eql_ui (node->val.value, 0))) {
+			     ! mpw_zero_p (node->val.value))) {
 				return gel_makenum_bool (0);
 			}
 		}
@@ -2830,7 +2830,7 @@ IsDiagonal_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			    node != NULL &&
 			    (node->type != VALUE_NODE ||
 			     /* FIXME: perhaps use some zero tolerance */
-			     ! mpw_eql_ui (node->val.value, 0))) {
+			     ! mpw_zero_p (node->val.value))) {
 				return gel_makenum_bool (0);
 			}
 		}
@@ -3275,7 +3275,7 @@ is_row_zero (GelMatrixW *m, int r)
 		if (node != NULL &&
 		    (node->type != VALUE_NODE ||
 		     /* FIXME: perhaps use some zero tolerance */
-		     ! mpw_eql_ui (node->val.value, 0))) {
+		     ! mpw_zero_p (node->val.value))) {
 			return FALSE;
 		}
 	}
@@ -3736,7 +3736,7 @@ poly_find_cutoff_size (GelMatrixW *m)
 	for(i = gel_matrixw_width(m)-1; i >= 0; i--) {
 		GelETree *t = gel_matrixw_get_index(m,i,0);
 	       	if (t != NULL &&
-		    ! mpw_eql_ui(t->val.value, 0))
+		    ! mpw_zero_p (t->val.value))
 			break;
 	}
 	cutoff = i+1;
@@ -3751,7 +3751,7 @@ poly_cut_zeros(GelMatrixW *m)
 	for(i=gel_matrixw_width(m)-1;i>=1;i--) {
 		GelETree *t = gel_matrixw_get_index(m,i,0);
 	       	if (t != NULL &&
-		    ! mpw_eql_ui(t->val.value, 0))
+		    ! mpw_zero_p (t->val.value))
 			break;
 	}
 	cutoff = i+1;
@@ -3906,10 +3906,12 @@ MultiplyPoly_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	for(i=0;i<gel_matrixw_width(m1);i++) {
 		for(j=0;j<gel_matrixw_width(m2);j++) {
 			GelETree *l,*r,*nn;
-			l = gel_matrixw_index(m1,i,0);
-			r = gel_matrixw_index(m2,j,0);
-			if (mpw_eql_ui (l->val.value, 0) ||
-			    mpw_eql_ui (r->val.value, 0))
+			l = gel_matrixw_get_index(m1,i,0);
+			r = gel_matrixw_get_index(m2,j,0);
+			if (l == NULL ||
+			    r == NULL ||
+			    mpw_zero_p (l->val.value) ||
+			    mpw_zero_p (r->val.value))
 				continue;
 			mpw_mul(accu,l->val.value,r->val.value);
 			nn = gel_matrixw_get_index(mn,i+j,0);
@@ -4002,7 +4004,7 @@ DividePoly_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	for (i = size-sizeq; i >= 0; i--) {
 		GelETree *pt;
 		pt = gel_matrixw_get_index (rem, i+sizeq-1, 0);
-		if (pt == NULL || mpw_eql_ui (pt->val.value, 0)) {
+		if (pt == NULL || mpw_zero_p (pt->val.value)) {
 			/* Leave mn[i,0] at NULL (zero) */
 			continue;
 		}
@@ -4180,7 +4182,7 @@ PolyToString_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	for(i=gel_matrixw_width(m)-1;i>=0;i--) {
 		GelETree *t;
 		t = gel_matrixw_index(m,i,0);
-		if (mpw_eql_ui (t->val.value, 0))
+		if (mpw_zero_p (t->val.value))
 			continue;
 		/*positive (or complex) */
 		if (mpw_is_complex (t->val.value) ||
@@ -4302,7 +4304,7 @@ PolyToFunction_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	for(i=gel_matrixw_width(m)-1;i>=0;i--) {
 		GelETree *t;
 		t = gel_matrixw_index(m,i,0);
-		if (mpw_eql_ui (t->val.value, 0))
+		if (mpw_zero_p (t->val.value))
 			continue;
 		
 		if(!nn)
@@ -5314,7 +5316,7 @@ set_ResultsAsFloats (GelETree * a)
 	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_ResultsAsFloats"))
 		return NULL;
 	if (a->type == VALUE_NODE)
-		calcstate.results_as_floats = ! mpw_eql_ui (a->val.value, 0);
+		calcstate.results_as_floats = ! mpw_zero_p (a->val.value);
 	else /* a->type == BOOL_NODE */
 		calcstate.results_as_floats = a->bool_.bool_;
 	if(statechange_hook)
@@ -5333,7 +5335,7 @@ set_ScientificNotation (GelETree * a)
 	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_ScientificNotation"))
 		return NULL;
 	if (a->type == VALUE_NODE)
-		calcstate.scientific_notation = ! mpw_eql_ui (a->val.value, 0);
+		calcstate.scientific_notation = ! mpw_zero_p (a->val.value);
 	else /* a->type == BOOL_NODE */
 		calcstate.scientific_notation = a->bool_.bool_;
 	if(statechange_hook)
@@ -5352,7 +5354,7 @@ set_FullExpressions (GelETree * a)
 	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_FullExpressions"))
 		return NULL;
 	if (a->type == VALUE_NODE)
-		calcstate.full_expressions = ! mpw_eql_ui (a->val.value, 0);
+		calcstate.full_expressions = ! mpw_zero_p (a->val.value);
 	else /* a->type == BOOL_NODE */
 		calcstate.full_expressions = a->bool_.bool_;
 	if(statechange_hook)
@@ -5456,7 +5458,7 @@ set_MixedFractions (GelETree * a)
 	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_MixedFractions"))
 		return NULL;
 	if (a->type == VALUE_NODE)
-		calcstate.mixed_fractions = ! mpw_eql_ui (a->val.value, 0);
+		calcstate.mixed_fractions = ! mpw_zero_p (a->val.value);
 	else /* a->type == BOOL_NODE */
 		calcstate.mixed_fractions = a->bool_.bool_;
 	if(statechange_hook)

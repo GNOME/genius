@@ -245,11 +245,19 @@ gel_value_matrix_multiply (GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2,
 	m1w = gel_matrixw_width (m1);
 	for (j = 0; j < h; j++) {
 		for (i = 0; i < w; i++) {
+			gboolean got_something = FALSE;
 			mpw_t accu;
 			mpw_init(accu);
 			for (k = 0; k < m1w; k++) {
-				GelETree *l = gel_matrixw_index(m1,k,j);
-				GelETree *r = gel_matrixw_index(m2,i,k);
+				GelETree *l = gel_matrixw_get_index(m1,k,j);
+				GelETree *r = gel_matrixw_get_index(m2,i,k);
+
+				/* if both zero add nothing */
+				if (l == NULL || r == NULL)
+					continue;
+				
+				got_something = TRUE;
+
 				mpw_mul(tmp,l->val.value,r->val.value);
 				mpw_add(accu,accu,tmp);
 				if (modulo != NULL) {
@@ -264,7 +272,12 @@ gel_value_matrix_multiply (GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2,
 				  here? ... I don't seem to see any, if there
 				  are catch them here*/
 			}
-			gel_matrixw_set_index(res,i,j) = gel_makenum_use(accu);
+			if (got_something) {
+				gel_matrixw_set_index(res,i,j) = gel_makenum_use(accu);
+			} else {
+				gel_matrixw_set_index(res,i,j) = NULL;
+				mpw_clear (accu);
+			}
 		}
 	}
 	mpw_clear(tmp);
@@ -326,7 +339,7 @@ mul_sub_row (GelCtx *ctx, GelMatrixW *m, int row, mpw_t mul, int row2)
 	w = gel_matrixw_width(m);
 	for (i = 0; i < w; i++) {
 		GelETree *t = gel_matrixw_get_index(m,i,row);
-		if(t) {
+		if (t && ! mpw_zero_p (t->val.value)) {
 			GelETree *t2 = gel_matrixw_get_index(m,i,row2);
 			mpw_mul(tmp,t->val.value,mul);
 			if(!t2) {
@@ -335,6 +348,10 @@ mul_sub_row (GelCtx *ctx, GelMatrixW *m, int row, mpw_t mul, int row2)
 				mpw_init(tmp);
 			} else {
 				mpw_sub(t2->val.value,t2->val.value,tmp);
+				if (mpw_exact_zero_p (t2->val.value)) {
+					gel_freetree (t2);
+					gel_matrixw_set_index(m,i,row2) = NULL;
+				}
 			}
 			if (ctx->modulo != NULL) {
 				gel_mod_node (ctx, t2);
@@ -372,7 +389,7 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 		for (j = d; j < h; j++) {
 			GelETree *t = gel_matrixw_get_index(m,i,j);
 			if (t != NULL &&
-			    ! mpw_eql_ui (t->val.value, 0))
+			    ! mpw_zero_p (t->val.value))
 				break;
 		}
 		if (j == h) {
@@ -398,7 +415,7 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 			/* Assume t is already reduced mod ctx->modulo
 			 * if appropriate */
 			if (t != NULL &&
-			    ! mpw_eql_ui (t->val.value, 0)) {
+			    ! mpw_zero_p (t->val.value)) {
 				mpw_div(tmp,t->val.value,piv->val.value);
 				if ( ! mul_sub_row (ctx, m, d, tmp, j) &&
 				    stopsing) {
@@ -426,7 +443,7 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 			for(j=0;j<d;j++) {
 				GelETree *t = gel_matrixw_get_index(m,i,j);
 				if (t != NULL &&
-				    ! mpw_eql_ui (t->val.value, 0)) {
+				    ! mpw_zero_p (t->val.value)) {
 					mpw_div(tmp,t->val.value,piv->val.value);
 					if ( ! mul_sub_row (ctx, m, d, tmp, j) &&
 					     stopsing) {
@@ -566,7 +583,7 @@ gel_value_matrix_det (GelCtx *ctx, mpw_t rop, GelMatrixW *m)
 		for (i = 0; i < w; i++) {
 			GelETree *t = gel_matrixw_get_index (m, i, i);
 			if (t == NULL ||
-			    mpw_cmp_ui (t->val.value, 0) == 0) {
+			    mpw_zero_p (t->val.value)) {
 				mpw_set_ui (rop, 0);
 				return TRUE;
 			}
