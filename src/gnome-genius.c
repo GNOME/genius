@@ -2582,6 +2582,9 @@ new_program (const char *filename)
 	tv = gtk_source_view_new ();
 	gtk_source_view_set_show_line_numbers (GTK_SOURCE_VIEW (tv), TRUE);
 	gtk_source_view_set_auto_indent (GTK_SOURCE_VIEW (tv), TRUE);
+	/*gtk_source_view_set_tab_width (GTK_SOURCE_VIEW (tv), 8);
+	gtk_source_view_set_insert_spaces_instead_of_tabs
+		(GTK_SOURCE_VIEW (tv), TRUE);*/
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
 	lm = get_source_language_manager ();
 
@@ -2601,6 +2604,9 @@ new_program (const char *filename)
 	tv = gtk_source_view_new ();
 	gtk_source_view_set_show_line_numbers (GTK_SOURCE_VIEW (tv), TRUE);
 	gtk_source_view_set_auto_indent (GTK_SOURCE_VIEW (tv), TRUE);
+	/*gtk_source_view_set_tabs_width (GTK_SOURCE_VIEW (tv), 8);
+	gtk_source_view_set_insert_spaces_instead_of_tabs
+		(GTK_SOURCE_VIEW (tv), TRUE);*/
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
 	lang_dirs.data = genius_datadir_sourceview;
 	lang_dirs.prev = NULL;
