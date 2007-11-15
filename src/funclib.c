@@ -3244,6 +3244,210 @@ rref_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	return n;
 }
 
+/* cols and rows should have enough space (min(cols,rows) of m)
+ * and m should be in at least ref (if not rref) form) and value only,
+ * returns the count.  The values returned are zero based! */
+static int
+get_pivot_cols (GelMatrixW *m, int *cols, int *rows)
+{
+	int i, j, w, h, mwh;
+	int cnt = 0;
+
+	w = gel_matrixw_width (m);
+	h = gel_matrixw_height (m);
+	mwh = MIN (w, h);
+	
+	for (j = 0; j < mwh; j++) {
+		for (i = j; i < w; i++) {
+			GelETree *t = gel_matrixw_get_index (m, i, j);
+			if (t != NULL &&
+			    ! mpw_zero_p (t->val.value)) {
+				cols[cnt] = i;
+				rows[cnt] = j;
+				cnt++;
+				break;
+			}
+		}
+	}
+	return cnt;
+}
+
+/* PivotColumns
+ * Given a matrix in rref form, the columns which have a leading 1
+ * in some row are the pivot columns.
+ * (also returns in which row they occur) */
+static GelETree *
+PivotColumns_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelETree *n;
+	GelMatrixW *m;
+	GelMatrix *nm;
+	gboolean copied_m = FALSE;
+	int *cols, *rows;
+	int cnt, mwh;
+	int i;
+
+	if G_UNLIKELY (a[0]->type == NULL_NODE)
+		return gel_makenum_null ();
+
+	if G_UNLIKELY ( ! check_argument_value_only_matrix (a, 0, "PivotColumns"))
+		return NULL;
+
+	m = a[0]->mat.matrix;
+	if ( ! m->rref) {
+		m = gel_matrixw_copy (m);
+		/* only do ref, not rref for speed */
+		gel_value_matrix_gauss (ctx, m, FALSE, FALSE, FALSE, NULL, NULL);
+		copied_m = TRUE;
+	}
+
+	mwh = MIN (gel_matrixw_width (m), gel_matrixw_height (m));
+
+	cols = g_new (int, mwh);
+	rows = g_new (int, mwh);
+
+	cnt = get_pivot_cols (m, cols, rows);
+
+	if (copied_m)
+		gel_matrixw_free (m);
+
+	if (cnt == 0) {
+		g_free (cols);
+		g_free (rows);
+		return gel_makenum_null ();
+	}
+
+	nm = gel_matrix_new ();
+	gel_matrix_set_size (nm, cnt, 2, FALSE /* padding */);
+	for (i = 0; i < cnt; i++) {
+		gel_matrix_index (nm, i, 0) = gel_makenum_ui (cols[i]+1);
+		gel_matrix_index (nm, i, 1) = gel_makenum_ui (rows[i]+1);
+	}
+
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_new_with_matrix (nm);
+	n->mat.quoted = FALSE;
+
+	g_free (cols);
+	g_free (rows);
+
+	return n;
+}
+
+/*
+# Null space/kernel of a linear transform
+# Okay, here's the idea:
+# Row reduce a matrix. Then the non-pivot columns are basically
+# the independent variables, and the pivot columns are the dependent ones.
+# So if your row reduced matrix looks like this:
+# [1 0 0  2 4]
+# [0 0 1 -3 5]
+# then to find a basis for the kernel, look at your non-pivot columns
+# (4, 5)
+# and for each non-pivot column, you get one vector.
+# So take the fourth column, and start off with the vector [0,0,0,-1,0].'
+# (so a -1 in the fourth place)
+# Now in each pivot entry, you need to put a value to cancel what this
+# -1 gives you -- so the pivot column entries are 2 and -3 (the entries
+# of the fourth column that have a pivot to the left of them).
+# So the first vector is [2,0,-3,-1,0], and the second is
+# [4,0,5,0,-1]
+# This is poorly explained (FIXME), but some examples should make it
+# clear (find a good reference for this!)
+*/
+
+static GelETree *
+NullSpace_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelETree *n;
+	GelMatrixW *m;
+	GelMatrix *nm;
+	gboolean copied_m = FALSE;
+	int *pivot_cols, *pivot_rows;
+	int dim_image;
+	int number_of_pivots, mwh;
+	int i, ii, j, pi;
+
+	if G_UNLIKELY (a[0]->type == NULL_NODE)
+		return gel_makenum_null ();
+
+	if G_UNLIKELY ( ! check_argument_value_only_matrix (a, 0, "NullSpace"))
+		return NULL;
+
+	m = a[0]->mat.matrix;
+	if ( ! m->rref) {
+		m = gel_matrixw_copy (m);
+		gel_value_matrix_gauss (ctx, m, TRUE, FALSE, FALSE, NULL, NULL);
+		copied_m = TRUE;
+	}
+
+	dim_image = gel_matrixw_width (m);
+
+	mwh = MIN (dim_image, gel_matrixw_height (m));
+
+	pivot_cols = g_new (int, mwh);
+	pivot_rows = g_new (int, mwh);
+
+	number_of_pivots = get_pivot_cols (m, pivot_cols, pivot_rows);
+
+	if (dim_image == number_of_pivots) {
+		if (copied_m)
+			gel_matrixw_free (m);
+
+		g_free (pivot_cols);
+		g_free (pivot_rows);
+
+		return gel_makenum_null ();
+	}
+
+	nm = gel_matrix_new ();
+	gel_matrix_set_size (nm, dim_image - number_of_pivots, dim_image,
+			     FALSE /* padding */);
+
+	j = 0;
+
+	/* Loop over nonpivots */
+	ii = 0;
+	for (i = 0; i < dim_image; i++) { 
+		/* skip pivots */
+		if (ii < number_of_pivots &&
+		    i == pivot_cols[ii]) {
+			ii++;
+			continue;
+		}
+
+		gel_matrix_index (nm, j, i) = gel_makenum_si (-1);
+
+		for (pi = 0; pi < number_of_pivots; pi++) {
+			if (pivot_cols[pi] < i) {
+				GelETree *t = gel_matrixw_get_index
+					(m, i, pivot_rows[pi]);
+				if (t != NULL)
+					gel_matrix_index (nm, j, pivot_cols[pi])
+						= copynode (t);
+			} else {
+				break;
+			}
+		}
+		j++;
+	}
+
+	if (copied_m)
+		gel_matrixw_free (m);
+
+	g_free (pivot_cols);
+	g_free (pivot_rows);
+
+	GET_NEW_NODE (n);
+	n->type = MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_new_with_matrix (nm);
+	n->mat.quoted = FALSE;
+
+	return n;
+}
+
+
 static GelEFunc *
 get_reference (GelETree *a, const char *argname, const char *func)
 {
@@ -3936,7 +4140,6 @@ DividePoly_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	GelETree *n, *rn, *ql;
 	long size, sizeq;
 	int i, j;
-	mpw_t accu;
 	GelMatrixW *pm, *qm, *mn, *rem;
 	GelEFunc *retrem = NULL;
 	mpw_t tmp;
@@ -5782,6 +5985,10 @@ gel_funclib_addall(void)
 
 	FUNC (det, 1, "M", "linear_algebra", N_("Get the determinant of a matrix"));
 	ALIAS (Determinant, 1, det);
+
+	FUNC (PivotColumns, 1, "M", "linear_algebra", N_("Return pivot columns of a matrix, that is columns which have a leading 1 in rref form, also returns the row where they occur"));
+
+	FUNC (NullSpace, 1, "M", "linear_algebra", N_("Get the nullspace of a matrix"))
 
 	FUNC (SetMatrixSize, 3, "M,rows,columns", "matrix", N_("Make new matrix of given size from old one"));
 	FUNC (IndexComplement, 2, "vec,msize", "matrix", N_("Return the index complement of a vector of indexes"));

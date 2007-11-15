@@ -288,7 +288,10 @@ copy_internal_region (GelMatrixW *m, int w, int h)
 			int mi = m->regx ? m->regx[i] : i;
 			int mj = m->regy ? m->regy[j] : j;
 			GelETree *t = gel_matrix_index (old, mi, mj);
-			gel_matrix_index (m->m, i, j) = copynode (t);
+			if (t != NULL &&
+			    (t->type != VALUE_NODE ||
+			     ! mpw_exact_zero_p (t->val.value)))
+				gel_matrix_index (m->m, i, j) = copynode (t);
 		}
 	}
 

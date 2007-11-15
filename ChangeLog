@@ -1,3 +1,18 @@
+Wed Nov 14 20:13:29 2007  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/matop.c: fix possible memory corruption in the gauss
+	  routine
+
+	* src/matrixw.c: slight optimization to not copy zeros
+
+	* src/funclib.c, lib/linear_algebra/*.gel: Implement NullSpace
+	  and PivotColumns internally for speed.
+
+	* src/gnome-genius.c: remove some unused vars
+
+	* src/geniustests.txt, src/nullspacetests.txt: add tests for
+	  PivotColumns and NullSpace
+
 Wed Nov 14 04:15:49 2007  Jiri (George) Lebl <jirka@5z.com>
 
 	* lib/linear_algebra/*.gel: OrthogonalComplement is with respect

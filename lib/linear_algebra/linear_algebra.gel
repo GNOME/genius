@@ -12,28 +12,7 @@ protect ("Conjugate Transpose")
 
 #FIXME: We'll need more sophisticated tools for Tensors
 
-# Pivot Columns
-# Given a matrix in rref form, the columns which have a leading 1
-# in some row are the pivot columns.
-# (also returns in which row they occur)
-SetHelp ("PivotColumns", "linear_algebra", "Return pivot columns of a matrix, that is columns which have a leading 1 in rref form, also returns the row where they occur")
-function PivotColumns(M) =
-  (
-    N=rref(M);
-    col_dim_N=columns(N);
-    pivot_columns=.;
-    for loop=1 to min(rows(N),col_dim_N) do
-     (
-       for inner_loop=loop to col_dim_N do (
-         if N@(loop,inner_loop) != 0 then (
-           pivot_columns=[pivot_columns,[inner_loop;loop]];
-	   break
-	 )
-       )
-     );
-   pivot_columns
-  )
-protect ("PivotColumns")
+# PivotColumns is now built-in for speed
 
 # Non-pivot columns
 SetHelp ("NonPivotColumns", "linear_algebra", "Return the columns that are not the pivot columns of a matrix")

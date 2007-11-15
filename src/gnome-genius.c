@@ -2327,8 +2327,6 @@ build_program_menu (void)
 	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
 	int i;
 	GtkWidget *menu;
-	GtkWidget *item;
-	GtkWidget *w;
 
 	while (prog_menu_items != NULL) {
 		gtk_widget_destroy (prog_menu_items->data);

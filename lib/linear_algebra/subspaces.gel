@@ -62,60 +62,10 @@ Image = ColumnSpace
 protect ("Image")
 
 # Null space/kernel of a linear transform
-# Okay, here's the idea:
-# Row reduce a matrix. Then the non-pivot columns are basically
-# the independent variables, and the pivot columns are the dependent ones.
-# So if your row reduced matrix looks like this:
-# [1 0 0  2 4]
-# [0 0 1 -3 5]
-# then to find a basis for the kernel, look at your non-pivot columns
-# (4, 5)
-# and for each non-pivot column, you get one vector.
-# So take the fourth column, and start off with the vector [0,0,0,-1,0].'
-# (so a -1 in the fourth place)
-# Now in each pivot entry, you need to put a value to cancel what this
-# -1 gives you -- so the pivot column entries are 2 and -3 (the entries
-# of the fourth column that have a pivot to the left of them).
-# So the first vector is [2,0,-3,-1,0], and the second is
-# [4,0,5,0,-1]
-# This is poorly explained (FIXME), but some examples should make it
-# clear (find a good reference for this!)
-SetHelp ("NullSpace", "linear_algebra", "Get the nullspace of a matrix")
-function NullSpace (T)=
-  (
-    T = rref (T);
-    pivots = PivotColumns (T);
-    dim_image = columns (T);
-    number_of_pivots = columns (pivots);
-
-    # injective transforms, so no kernel
-    if dim_image == number_of_pivots or dim_image == 0 then return null;
-
-    non_pivots = SetMinus ([1:columns(T)], pivots@(1,));
-    null_space = zeros(dim_image,dim_image - number_of_pivots);
-    j = 1;
-    for loop in non_pivots do
-     (
-       new_vector=zeros(dim_image,1);
-       new_vector@(loop)=-1;
-       for inner_loop=1 to number_of_pivots do
-         if pivots@(1,inner_loop) < loop
-           then new_vector@(pivots@(1,inner_loop))
-                =T@(pivots@(2,inner_loop),loop)
-           else break;
-       null_space@(,j)=new_vector;
-       j = j+1
-     );
-#ColumnSpace(null_space)
-# Hmmm, no need to use ColumnSpace that does another bunch of operations,
-# if the recipient wants to reduce this, they should do it themselves, what
-# we give them are lin ind already
-     null_space
-  )
-protect ("NullSpace")
+# NullSpace is now built-in for speed
 
 SetHelp ("Kernel", "linear_algebra", "Get the kernel (nullspace) of a linear transform")
-Kernel = NullSpace
+function Kernel(M) = NullSpace(M)
 protect ("Kernel")
 
 ## Vector Subspace operations

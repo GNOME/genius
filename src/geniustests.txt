@@ -871,4 +871,13 @@ DividePoly([1,2,3],[1,2,3],&r);r				[0]
 12345678911.4							12345678911.4
 123456789112.4							1.23456789112e11
 123456789112.6							1.23456789113e11
+PivotColumns([1,1;0,1])						[1,2;1,2]
+PivotColumns ([0,0,1,0;0,0,0,1])				[3,4;1,2]
+PivotColumns ([0,0,1,0,0;0,0,0,1,0])				[3,4;1,2]
+PivotColumns ([1,2,3;4,5,6;7,8,9])				[1,2;1,2]
+PivotColumns ([1,2,3;1,2,3;1,2,3])				[1;1]
+PivotColumns ([0,2,3;0,2,3;0,2,3])				[2;1]
+NullSpace(null)+1						((null)+1)
+NullSpace(I(10))+1						((null)+1)
+load "nullspacetest.gel"					true
 load "longtest.gel"						true

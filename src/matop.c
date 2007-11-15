@@ -377,6 +377,7 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 	GelETree *piv;
 	mpw_t tmp;
 	gboolean ret = TRUE;
+	gboolean made_private = FALSE;
 	
 	if(detop)
 		mpw_set_ui(detop,1);
@@ -392,6 +393,7 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 			    ! mpw_zero_p (t->val.value))
 				break;
 		}
+
 		if (j == h) {
 			ret = FALSE;
 			if(stopsing) {
@@ -399,7 +401,14 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 				return FALSE;
 			}
 			continue;
-		} else if (j > d) {
+		}
+
+		if ( ! made_private) {
+			gel_matrixw_make_private(m);
+			made_private = TRUE;
+		}
+		
+		if (j > d) {
 			swap_rows(m,j,d);
 			if(simul)
 				swap_rows(simul,j,d);
@@ -407,7 +416,6 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 				mpw_neg(detop,detop);
 		}
 
-		gel_matrixw_make_private(m);
 		piv = gel_matrixw_index(m,i,d);
 			
 		for (j = d+1; j < h; j++) {
