@@ -216,6 +216,7 @@ EXTRA_DIST = \
 	geniustest.pl \
 	geniustests.txt \
 	longtest.gel \
+	nullspacetest.gel \
 	gnome-genius.desktop.in \
 	$(Desktop_in_files) \
 	$(Desktop_DATA) \
