@@ -6,7 +6,7 @@ parameter SumProductTolerance=10.0^(-5);
 SetHelp ("SumProductSFS", "parameters", "How many successive steps to be within tolerance for InfiniteSum and InfiniteProduct")
 parameter SumProductSFS=20;
 SetHelp ("SumProductNumberOfTries", "parameters", "How many iterations to try for InfiniteSum and InfiniteProduct")
-parameter SumProductNumberOfTries=200;
+parameter SumProductNumberOfTries=10000;
 
 #calculate an infinite sum until the new terms stop making a difference
 SetHelp("InfiniteSum","calculus","Try to calculate an infinite sum for a single parameter function");
