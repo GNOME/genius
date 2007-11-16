@@ -202,10 +202,15 @@
 	      <guimenuitem>Genius Math Tool</guimenuitem>.  Once you locate
 	      this menu item click on it to start &app;.
             </para>
+	      </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><guilabel>Run</guilabel> dialog</term>
+          <listitem>
 	    <para>
-	      Note that depending on your system installation this menu item
+	      Depending on your system installation the menu item 
 	      may not be available.  If it is not, you can open the Run dialog
-              and executing <command>gnome-genius</command>.
+              and execute <command>gnome-genius</command>.
             </para>
 	      </listitem>
         </varlistentry>
@@ -213,12 +218,14 @@
     	  <term>Command line</term>
     	  <listitem>
     	    <para>
-              Execute the following command: <command>genius</command>.
-	      Note that this will start the command line only version of
-	      genius, the graphical environment will not start and some
-	      functions such as plotting will not be available.  To start the
-	      full GNOME version of Genius execute
-	      <command>gnome-genius</command>.
+	      To start the GNOME version of &app; execute
+	      <command>gnome-genius</command> from the command line.
+	    </para>
+	    <para>
+	      To start the command line only version,
+              execute the following command: <command>genius</command>.
+	      This version does not include the graphical environment
+	      and some functionality such as plotting will not be available.
             </para> 
           </listitem>
         </varlistentry>
@@ -310,10 +317,10 @@ variables.  Finally it allows plotting functions using a user friendly dialog bo
 
 <!-- ================ Usage =================================== -->
   <chapter id="genius-usage"> 
-    <title>Basic usage</title> 
+    <title>Basic Usage</title> 
 
     <sect1 id="genius-usage-workarea"> 
-      <title>Using the work area</title> 
+      <title>Using the Work Area</title> 
 
       <para>
         Normally you interact with the calculator in the <guilabel>Console</guilabel> tab of the
@@ -569,7 +576,7 @@ See <xref linkend="lineplot-fig"/>.
       </para>
 
       <figure id="surfaceplot-fig"> 
-        <title>Surface plot</title> 
+        <title>Surface Plot</title> 
         <screenshot> 
           <mediaobject> 
             <imageobject>
@@ -822,7 +829,7 @@ linkend="genius-gel-variables-global"/>.
       </sect2>
 
       <sect2 id="genius-gel-variables-built-in">
-        <title>Built-in variables</title>
+        <title>Built-in Variables</title>
         <para>
 GEL has a number of built-in &lsquo;variables&rsquo;, such as
 <varname>e</varname>, <varname>pi</varname> or <varname>GoldenRatio</varname>.  These are widely used constants with a preset value, and
@@ -834,7 +841,7 @@ See <xref linkend="genius-gel-function-list-constants" /> for a full list.
 
 
       <sect2 id="genius-gel-previous-result">
-        <title>Previous result variable</title>
+        <title>Previous Result Variable</title>
         <para>
 The <varname>Ans</varname> and <varname>ans</varname> variables can be used to get the result of the last expression. For example, if you had performed some calculation, to add 389 to the result you could do:
 <programlisting>Ans+389
@@ -879,7 +886,7 @@ The names of functions are case sensitive. That means that functions named <func
 
 
       <sect2 id="genius-gel-functions-defining">
-        <title>Defining functions</title>
+        <title>Defining Functions</title>
         <para>
 Syntax:
 <programlisting><![CDATA[function <identifier>(<comma separated arguments>) = <function body>
@@ -898,7 +905,7 @@ then <userinput>addup(1,4,9)</userinput> yields 14
       </sect2>
 
       <sect2 id="genius-gel-functions-variable-argument-lists">
-        <title>Variable argument lists</title>
+        <title>Variable Argument Lists</title>
         <para>
 If you include <literal>...</literal> after the last argument name in the function declaration, then &appname; will allow any number of arguments to be passed in place of that argument. If no arguments were passed then that argument will be set to <constant>null</constant>. Otherwise, it will be a horizontal vector containing all the arguments. For example:
 <programlisting>function f(a,b...) = b
@@ -909,7 +916,7 @@ Then <userinput>f(1,2,3)</userinput> yields <computeroutput>[2,3]</computeroutpu
 
 
       <sect2 id="genius-gel-functions-passing-functions">
-        <title>Passing functions to functions</title>
+        <title>Passing Functions to Functions</title>
 
         <para>
 In &appname;, it is possible to pass a function as an argument to another function. This can be done using either &lsquo;function nodes&rsquo; or anonymous functions.
@@ -939,7 +946,7 @@ f(`(x) = x*x,2)
 
 
     <sect2 id="genius-gel-functions-operations">
-      <title>Operations on functions</title>
+      <title>Operations on Functions</title>
       <para>
 Some functions allow arithmetic operations, and some single argument functions such as <function>exp</function> or <function>ln</function>, to operate on the function. For example,
 <programlisting>exp(sin*cos+4)
@@ -966,7 +973,7 @@ Not all functions can be used in this way. In addition, when you use a binary op
     </sect1>
 
     <sect1 id="genius-gel-absolute-value-modulus">
-      <title>Absolute value / Modulus</title>
+      <title>Absolute Value / Modulus</title>
       <para>
 You can make an absolute value of something by putting the
 <literal>|</literal>'s around it.  For example:
@@ -1007,7 +1014,7 @@ the code if it is executed too often as there is one more operator involved.
     </sect1>
 
     <sect1 id="genius-gel-modular-evaluation">
-      <title>Modular evaluation</title>
+      <title>Modular Evaluation</title>
       <para>
 Sometimes when working with large numbers, it might be faster if results are
 modded after each calculation.  To use it you just add "mod &lt;integer&gt;" after
@@ -1035,7 +1042,7 @@ discrete versions working within the ring of integers you selected.  For
 example:
 <programlisting>genius> sqrt(4) mod 7
 =
-[2      5]
+[2, 5]
 genius> 2*2 mod 7
 = 4</programlisting>
 	<function>sqrt</function> will actually return all the possible square
@@ -1044,7 +1051,7 @@ genius> 2*2 mod 7
     </sect1>
 
     <sect1 id="genius-gel-operator-list">
-      <title>List of GEL operators</title>
+      <title>List of GEL Operators</title>
 
       <para>
 	As everything in gel is really just an expression, it is really just
@@ -1530,7 +1537,7 @@ different from <literal>=</literal> because it never gets translated to a
 	     with <varname>b</varname> as a step.  That is for example
 	     <programlisting>genius> 1:2:9
 =
-`[1     3       5       7       9]
+`[1, 3, 5, 7, 9]
 </programlisting>
            </para>
          </listitem>
@@ -1622,7 +1629,7 @@ will be interpreted as:
       <title>Loops</title>
 
       <sect2 id="genius-gel-loops-while">
-        <title>While loops</title>
+        <title>While Loops</title>
         <para>
 Syntax:
 <programlisting><![CDATA[while <expression1> do <expression2>
@@ -1635,7 +1642,7 @@ These are similiar to other languages, however they return the result of the las
       </sect2>
 
       <sect2 id="genius-gel-loops-for">
-        <title>For loops</title>
+        <title>For Loops</title>
         <para>
 Syntax:
 <programlisting><![CDATA[for <identifier> = <from> to <to> do <body>
@@ -1648,7 +1655,7 @@ Loop with identifier being set to all values from <literal>&lt;from&gt;</literal
       </sect2>
 
       <sect2 id="genius-gel-loops-foreach">
-        <title>Foreach loops</title>
+        <title>Foreach Loops</title>
         <para>
 Syntax:
 <programlisting><![CDATA[for <identifier> in <matrix> do <body>]]></programlisting>
@@ -1667,7 +1674,7 @@ will print out [1,2] and then [3,4].
       </sect2>
 
       <sect2 id="genius-gel-loops-break-continue">
-        <title>Break and continue</title>
+        <title>Break and Continue</title>
         <para>
 You can also use the <literal>break</literal> and <literal>continue</literal> commands in loops. The continue <literal>continue</literal> command will restart the current loop at its next iteration, while the <literal>break</literal> command exits the current loop.
 <programlisting><![CDATA[while(<expression1>) do (
@@ -1681,7 +1688,7 @@ You can also use the <literal>break</literal> and <literal>continue</literal> co
     </sect1>
 
     <sect1 id="genius-gel-sums-products">
-      <title>Sums and products</title>
+      <title>Sums and Products</title>
       <para>
 Syntax:
 <programlisting><![CDATA[sum <identifier> = <from> to <to> do <body>
@@ -1699,7 +1706,7 @@ If no body is executed (for example <userinput>sum i=1 to 0 do ...</userinput>) 
     </sect1>
 
     <sect1 id="genius-gel-comparison-operators">
-      <title>Comparison operators</title>
+      <title>Comparison Operators</title>
       <para>
 	The following standard comparison operators are supported in GEL and have the obvious meaning:
 	<literal>==</literal>, <literal>&gt;=</literal>,
@@ -1748,7 +1755,7 @@ for conditional evaluation works here as well. For example, <literal>1 or a=1</l
     </sect1>
 
       <sect1 id="genius-gel-variables-global">
-        <title>Global variables and scope of variables</title>
+        <title>Global Variables and Scope of Variables</title>
 	<para>
 	  Like most programming languages, GEL has two different types
 	  of variables: local and global.  A local variable only exists
@@ -1923,17 +1930,68 @@ when you mean comparison.
     <title>Advanced Programming with GEL</title>
 
     <sect1 id="genius-gel-error-handling">
-      <title>Error handling</title>
+      <title>Error Handling</title>
       <para>
-If you detect an error in your function, you can bail out of it. For normal errors, such as wrong types of arguments, you can fail to compute the function by adding the empty statement <literal>bailout</literal>. If something went really wrong and you want to completely kill the current computation, you can use <literal>exception</literal>.
+If you detect an error in your function, you can bail out of it. For normal
+errors, such as wrong types of arguments, you can fail to compute the function
+by adding the statement <literal>bailout</literal>. If something went
+really wrong and you want to completely kill the current computation, you can
+use <literal>exception</literal>.
       </para>
       <para>
-Look at lib.gel for some examples.
+	For example if you want to check for arguments in your function.  You
+could use the following code.
+<programlisting>function f(M) = (
+  if not IsMatrix (M) then (
+    error ("M not a matrix!");
+    bailout
+  );
+  ...
+)
+</programlisting>
+      </para>
+    </sect1>
+
+    <sect1 id="genius-gel-toplevel-syntax">
+      <title>Toplevel Syntax</title>
+      <para>
+	The synatax is slightly different if you enter statements on
+	the top level versus when they are inside parentheses or
+	inside functions.  On the top level, enter acts the same as if
+	you press return on the command line.  Therefore think of programs
+	as just sequence of lines as if were entered on the command line.
+	In particular, you do not need to enter the separator at the end of the
+	line (unless it is of course part of several statements inside
+	parenteses).
+      </para>
+      <para>
+	The following code will produce an error when entered on the top
+	level of a program, while it will work just fine in a function.
+<programlisting>if Something() then
+  DoSomething()
+else
+  DoSomethingElse()
+</programlisting>
+      </para>
+      <para>
+	The problem is that after &app; sees the end of line after the
+	second line, it will decide that we have whole statement and
+	it will execute it.  After the execution is done, &app; will
+	go on to the next
+	line, it will see <literal>else</literal>, and it will produce
+	a parsing error.  To fix this, use parentheses.  &app; will not
+	be satisfied until it has found that all parenteses are closed.
+<programlisting>if Something() then (
+  DoSomething()
+) else (
+  DoSomethingElse()
+)
+</programlisting>
       </para>
     </sect1>
 
     <sect1 id="genius-gel-startup-procedure">
-      <title>GEL startup procedure</title>
+      <title>GEL Startup Procedure</title>
       <para>
 First the program looks for the installed library file (the compiled version <filename>lib.cgel</filename>) in the installed directory, then it looks into the current directory, and then it tries to load an uncompiled file called
 <filename>~/.geniusinit</filename>.
@@ -1945,7 +2003,7 @@ first compile it with <command>genius --compile loader.gel &gt; lib.cgel</comman
     </sect1>
 
     <sect1 id="genius-gel-loading-programs">
-      <title>Loading programs</title>
+      <title>Loading Programs</title>
       <para>
 Sometimes you have a larger program that you wrote into a file and want to read in that file. In these situations, you have two options. You can keep the functions you use most inside the <filename>~/.geniusinit</filename> file. Or if you want to load up a file in a middle of a session (or from within another file), you can type <command>load &lt;list of filenames&gt;</command> at the prompt. This has to be done on the top level and not inside any function or whatnot, and it cannot be part of any expression. It also has a slightly different syntax than the rest of genius, more similiar to a shell. You can enter the file in quotes. If you use the '' quotes, you will get exactly the string that you typed, if you use the "" quotes, special characters will be unescaped as they are for strings. Example:
 <programlisting>load program1.gel program2.gel
@@ -1964,14 +2022,18 @@ ls *.gel
   <chapter id="genius-gel-matrices">
     <title>Matrices in GEL</title>
 
+    <para>
+      Genius has support for vectors and matrices and a sizable library of
+      matrix manipulation and linear algebra functions.
+    </para>
+
     <sect1 id="genius-gel-matrix-support">
-      <title>Matrix support</title>
+      <title>Entering Matrices</title>
       <para>
 To enter matrixes, you can use one of the following two syntaxes. You can either enter
 the matrix on one line, separating values by commas and rows by semicolons.  Or you
 can enter each row on one line, separating
-values by commas or tabs.
-(Note that tabs are not usually easily possible on the console, only in files).
+values by commas.
 You can also just combine the two methods.
 So to enter a 3x3 matrix
 of numbers 1-9 you could do
@@ -1982,13 +2044,7 @@ or
  4, 5, 6
  7, 8, 9]
 </programlisting>
-or (where the empty spaces are tabs)
-<programlisting>[1 2 3
- 4 5 6
- 7 8 9]
-</programlisting>
-Do not use both ';' and return at once on the same line though.  Also
-do not mix tabs and commas.  It is just safest to use commas as separators.
+Do not use both ';' and return at once on the same line though.
       </para>
 
       <para>
@@ -2001,10 +2057,10 @@ b = [ a,  10
       11, 12]
 </programlisting>
 and you should get
-<programlisting>[1  2  3  10
- 4  5  6  10
- 7  8  9  10
- 11 11 11 12]
+<programlisting>[1,   2,  3, 10
+ 4,   5,  6, 10
+ 7,   8,  9, 10
+ 11, 11, 11, 12]
 </programlisting>
 similiarly you can build matricies out of vectors and other stuff like that.
       </para>
@@ -2017,9 +2073,9 @@ Another thing is that non-specified spots are initialized to 0, so
 </programlisting>
 will end up being
 <programlisting>
-[1 2 3
- 4 5 0
- 6 0 0]
+[1, 2, 3
+ 4, 5, 0
+ 6, 0, 0]
 </programlisting>
       </para>
 
@@ -2030,14 +2086,16 @@ will end up being
 
       <note>
         <para>
-Be careful about using whitespace and returns for expressions inside the <literal>[ ]</literal> brackets, as they have a slightly different meaning and could mess you up.
+Be careful about using returns for expressions inside the
+<literal>[ ]</literal> brackets, as they have a slightly different meaning
+there.  You will start a new row.
         </para>
       </note>
 
     </sect1>
 
     <sect1 id="genius-gel-matrix-transpose">
-      <title>Conjugate transpose and transpose operator</title>
+      <title>Conjugate Transpose and Transpose Operator</title>
       <para>
 You can conjugate transpose a matrix by using the <literal>'</literal> operator.  That is
 the entry in the
@@ -2195,7 +2253,7 @@ for the rest of functions acting on polynomials.
 	<link linkend="gel-function-MakeSet"><function>MakeSet</function></link> function.
 	Currently, it will just return a new vector where every element is unique.
 <screen><prompt>genius> </prompt><userinput>MakeSet([1,2,2,3])</userinput>
-= [1	2	3]
+= [1, 2, 3]
 </screen>
 </para>
 
@@ -2206,7 +2264,7 @@ for the rest of functions acting on polynomials.
 	<link linkend="gel-function-SetMinus"><function>SetMinus</function></link>, which
 	are rather self explanatory.  For example:
 <screen><prompt>genius> </prompt><userinput>Union([1,2,3], [1,2,4])</userinput>
-= [1	2	4	3]
+= [1, 2, 4, 3]
 </screen>
 	Note that no order is guaranteed for the return values.  If you wish to sort the vector you
 should use the
@@ -2240,7 +2298,7 @@ should use the
 
   <!-- ============= GEL examples ============================= -->
   <chapter id="genius-gel-example-programs">
-    <title>Example programs in GEL</title>
+    <title>Example Programs in GEL</title>
 
     <para>
 Here is a function that calculates factorials:
@@ -2339,7 +2397,7 @@ function MyOwnREF(m) = (
     </para>
 
     <note>
-      <title>Changing settings with GEL</title>
+      <title>Changing Settings with GEL</title>
       <para>
 	Many of the settings in &appname; are simply global variables, and can
 	be evaluated and assigned to in the same way as normal variables. See

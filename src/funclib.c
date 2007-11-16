@@ -368,13 +368,15 @@ wait_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 static GelETree *
 print_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
+	gboolean old_limit = main_out->length_limit;
+	gel_output_set_length_limit (main_out, FALSE);
 	if (a[0]->type==STRING_NODE) {
 		gel_output_printf_full (main_out, FALSE, "%s\n", a[0]->str.str);
 	} else {
-		/* FIXME: whack limit */
 		gel_pretty_print_etree (main_out, a[0]);
 		gel_output_string (main_out,"\n");
 	}
+	gel_output_set_length_limit (main_out, old_limit);
 	gel_output_flush (main_out);
 	return gel_makenum_null();
 }
@@ -390,10 +392,13 @@ chdir_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 static GelETree *
 printn_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
+	gboolean old_limit = main_out->length_limit;
+	gel_output_set_length_limit (main_out, FALSE);
 	if(a[0]->type==STRING_NODE)
 		gel_output_printf (main_out, "%s", a[0]->str.str);
 	else
 		gel_print_etree (main_out, a[0], TRUE);
+	gel_output_set_length_limit (main_out, old_limit);
 	gel_output_flush(main_out);
 	return gel_makenum_null();
 }
@@ -401,11 +406,18 @@ printn_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 static GelETree *
 display_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
+	gboolean old_limit = main_out->length_limit;
 	if G_UNLIKELY ( ! check_argument_string (a, 0, "display"))
 		return NULL;
+
+	gel_output_set_length_limit (main_out, FALSE);
+
 	gel_output_printf(main_out, "%s: ", a[0]->str.str);
 	gel_pretty_print_etree (main_out, a[1]);
 	gel_output_string(main_out, "\n");
+
+	gel_output_set_length_limit (main_out, old_limit);
+
 	gel_output_flush(main_out);
 	return gel_makenum_null();
 }

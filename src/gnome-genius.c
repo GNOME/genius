@@ -3659,7 +3659,7 @@ get_version_details (void)
 	return str->str;
 }
 
-gboolean
+static gboolean
 is_uri (const char *s)
 {
 	const char *p;

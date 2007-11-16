@@ -1018,7 +1018,7 @@ static void
 appendmatrix_troff (GelOutput *gelo, GelMatrixW *m, gboolean nice)
 {
 	int i, j;
-	if (nice)
+	if (nice && gelo->cur_line_pos != 0)
 		gel_output_string (gelo, "\n");
 	gel_output_string (gelo, "left [ matrix { ");
 	if (nice)
@@ -1047,7 +1047,7 @@ static void
 appendmatrix_latex (GelOutput *gelo, GelMatrixW *m, gboolean nice)
 {
 	int i, j;
-	if (nice)
+	if (nice && gelo->cur_line_pos != 0)
 		gel_output_string (gelo, "\n");
 	gel_output_string (gelo, "\\left[ \\begin{array}{");
 	for (i = 0; i < gel_matrixw_width (m); i++)
@@ -1084,9 +1084,11 @@ appendmatrix_mathml (GelOutput *gelo, GelMatrixW *m, gboolean nice)
 	/* FIXME: This produces content MathML with all expressions marked
 	 * as content numbers, that is wrong */
 	int i, j;
-	if (nice)
-		gel_output_string (gelo, "\n<matrix>\n");
-	else
+	if (nice) {
+		if (gelo->cur_line_pos != 0)
+			gel_output_string (gelo, "\n");
+		gel_output_string (gelo, "<matrix>\n");
+	} else
 		gel_output_string (gelo, "<matrix>");
 	
 	for (j = 0; j < gel_matrixw_height (m); j++) {
@@ -1097,7 +1099,6 @@ appendmatrix_mathml (GelOutput *gelo, GelMatrixW *m, gboolean nice)
 				 gel_matrixw_index (m, 0, j),
 				 FALSE);
 		for(i = 1; i < gel_matrixw_width (m); i++) {
-			//gel_output_string (gelo, "</cn><cn>");
 			gel_print_etree (gelo,
 					 gel_matrixw_index (m, i, j),
 					 FALSE);
@@ -1593,8 +1594,11 @@ gel_pretty_print_etree (GelOutput *gelo, GelETree *n)
 	    calcstate.output_style == GEL_OUTPUT_NORMAL) {
 		pretty_print_value_normal (gelo, n);
 	} else if (n->type == MATRIX_NODE) {
-		int i,j;
+		int i, j, w, h;
 		int old_force_chop = gelo->force_chop;
+		char **entries;
+		int *widths;
+		GelOutput *sgelo;
 		if ( ! gelo->force_chop &&
 		     matrix_chop_p (n->mat.matrix,
 				    calcstate.chop_when))
@@ -1613,7 +1617,9 @@ gel_pretty_print_etree (GelOutput *gelo, GelETree *n)
 			gelo->force_chop = old_force_chop;
 			return;
 		} else if (calcstate.output_style == GEL_OUTPUT_MATHML) {
-			gel_output_string (gelo, "\n<math>");
+			if (gelo->cur_line_pos != 0)
+				gel_output_string (gelo, "\n");
+			gel_output_string (gelo, "<math>");
 			appendmatrix_mathml (gelo, n->mat.matrix, TRUE /* nice */);
 			gel_output_string (gelo, "\n</math>");
 			gel_output_pop_nonotify (gelo);
@@ -1622,26 +1628,71 @@ gel_pretty_print_etree (GelOutput *gelo, GelETree *n)
 			return;
 		}
 
+		if (gelo->cur_line_pos != 0)
+			gel_output_string (gelo, "\n");
+
 		if(n->mat.quoted)
-			gel_output_string(gelo,"\n`[");
+			gel_output_string(gelo,"`[");
 		else
-			gel_output_string(gelo,"\n[");
-		for(j=0;j<gel_matrixw_height(n->mat.matrix);j++) {
+			gel_output_string(gelo,"[");
+
+		w = gel_matrixw_width (n->mat.matrix);
+		h = gel_matrixw_height (n->mat.matrix);
+
+		sgelo = gel_output_new ();
+		gel_output_setup_string(sgelo, 0, NULL);
+		
+		entries = g_new (char *, w*h);
+		widths = g_new0 (int, w);
+
+		for (j = 0; j < h; j++) {
+			for (i = 0; i < w; i++) {
+				int l;
+				gel_print_etree (sgelo, 
+						 gel_matrixw_index
+						 (n->mat.matrix, i, j),
+						 FALSE);
+				entries[j*w + i] = gel_output_snarf_string (sgelo);
+				/* sanity */
+				if (entries[j*w + i] == NULL)
+					entries[j*w + i] = g_strdup ("(null?)");
+				l = strlen (entries[j*w + i]);
+				if (l > widths[i])
+					widths[i] = l;
+			}
+		}
+
+		gel_output_unref (sgelo);
+
+		for (j = 0; j < h; j++) {
 			if(j>0) {
 				if(n->mat.quoted)
 					gel_output_string(gelo, "\n  ");
 				else
 					gel_output_string(gelo, "\n ");
 			}
-			for(i=0;i<gel_matrixw_width(n->mat.matrix);i++) {
+			for (i = 0; i < w; i++) {
+				int l;
 				if (i > 0)
-					gel_output_string(gelo, "\t");
-				gel_print_etree (gelo,
-						 gel_matrixw_index
-						    (n->mat.matrix, i, j),
-						 FALSE);
+					gel_output_string(gelo, ", ");
+				l = strlen (entries[j*w + i]);
+				while (l < widths[i]) {
+					gel_output_string (gelo, " ");
+					l++;
+				}
+				gel_output_string (gelo, entries[j*w + i]);
 			}
 		}
+
+		for (j = 0; j < h; j++) {
+			for (i = 0; i < w; i++) {
+				g_free (entries[j*w + i]);
+			}
+		}
+
+		g_free (widths);
+		g_free (entries);
+
 		gel_output_string(gelo, "]");
 		gelo->force_chop = old_force_chop;
 	} else {

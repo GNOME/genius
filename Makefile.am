@@ -36,6 +36,8 @@ DISTCLEANFILES = \
 	intltool-merge		\
 	intltool-update
 
+DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper --disable-update-mimedb
+
 # This doesn't add the graphing functions
 #genius-function-list.txt: src/genius
 #	LANG=C src/genius --version > genius-function-list.txt

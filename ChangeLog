@@ -1,3 +1,27 @@
+Thu Nov 15 23:30:51 2007  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/calc.c: Much nicer pretty printing of matrices.  Rather
+	  than using tabs, use commas and align elements successive rows.
+	  Both nicer, more readable (when MixedFractions is on) and more
+	  compact way of seeing matrices.  Yay!
+
+	* src/lexer.l: drop the tab support for entering matrices.  Not only
+	  was it stupid, it didn't work on the command line
+
+	* src/funclib.c: fix print, printn and display functions to not follow
+	  the line length limits like normal output
+
+	* src/calc.c: when pretty printing a matrix, only print the leading
+	  newline if we are not in fact on the start of a line
+
+	* configure.in: check for svn rather than cvs to add extra warnings
+
+	* src/gnome-genius.c: make is_uri static to avoid a warning
+
+	* help/C/genius.xml: update the manual
+
+	* NEWS: update
+
 Thu Nov 15 18:39:06 2007  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/Makefile.am: add nullspacetest.gel

@@ -1,5 +1,7 @@
 Changes to 1.0.1
 
+Syntax and semantical changes are marked with CHANGE:
+
 * GNOME version can now show listing of all user defined global and local
   variables (can display this even while the engine is running, including
   a "backtrace" to aid debugging)
@@ -8,12 +10,16 @@ Changes to 1.0.1
   causing the computer to grind to a halt.
 * When printing floating point numbers always make sure it is obvious that
   these are floating point by appending .0 when they would look like integers.
+* Matrix printing is much nicer now, and possible to copy and paste back in
 * Add IsMatrixPositive, IsMatrixNonnegative, version, IsZero, IsIdentity,
   DividePoly, IsSubset
 * PivotColumns and NullSpace are built in for greater speed.
+* CHANGE: Drop the support for tab as a matrix separator, it didn't
+  work properly, especialy not on the command line
 * CHANGE: Remove IsGaussianInteger, we already have IsGaussInteger alias
   IsComplexInteger
 * CHANGE: OrthogonalComplement is with respect to the Hermitian product
+* CHANGE: display, printn and print don't follow FullExpressions=false
 * The .desktop file now has different Categories setup so will likely appear
   in "Education" or "Accessories" menu rather than "Office"
 * Chop small numbers when they appear near other larger numbers.  New
