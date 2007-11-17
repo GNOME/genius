@@ -338,6 +338,8 @@ struct _GtkPlotAxis
 					 gint precision,
 					 gint style,
 					 gchar *label);
+  gboolean frozen;			/* don't recalc ticks to avoid
+ 					   huge memory leaks when changing range */
 };
 
 struct _GtkPlotData
@@ -698,6 +700,9 @@ void            gtk_plot_set_break         	(GtkPlot *plot,
                                                  gdouble pos);
 void            gtk_plot_remove_break      	(GtkPlot *plot,
                                                  GtkPlotOrientation orient);
+/* Freeze/thaw all axis */
+void		gtk_plot_freeze			(GtkPlot *plot);
+void		gtk_plot_thaw			(GtkPlot *plot);
 
 /* Axis */
 
@@ -787,6 +792,11 @@ void		gtk_plot_axis_set_labels_prefix (GtkPlotAxis *axis,
 						 const gchar *text);
 gchar *		gtk_plot_axis_get_labels_suffix (GtkPlotAxis *axis);
 gchar *		gtk_plot_axis_get_labels_prefix (GtkPlotAxis *axis);
+
+/* Avoid recalcing ticks all the time since doing it between setting the
+ * range and ticks cal lead to memory leaks and jsut bad stuff all around */
+void            gtk_plot_axis_freeze		(GtkPlotAxis *axis);
+void            gtk_plot_axis_thaw		(GtkPlotAxis *axis);
 
 void 		gtk_plot_axis_ticks_recalc      (GtkPlotAxis *axis);
 void 		gtk_plot_axis_ticks_autoscale   (GtkPlotAxis *axis,

@@ -1106,6 +1106,34 @@ plot_select_region (GtkPlotCanvas *canvas,
 }
 
 static void
+line_plot_move_about (void)
+{
+	if (line_plot == NULL)
+		return;
+
+	if (plot_mode == MODE_LINEPLOT) {
+		gtk_plot_move (GTK_PLOT (line_plot),
+			       PROPORTION_OFFSET,
+			       PROPORTION_OFFSET);
+		gtk_plot_resize (GTK_PLOT (line_plot),
+				 1.0-2*PROPORTION_OFFSET,
+				 1.0-2*PROPORTION_OFFSET);
+		gtk_plot_legends_move (GTK_PLOT (line_plot), 0.80, 0.05);
+	} else if (plot_mode == MODE_LINEPLOT_PARAMETRIC) {
+		gtk_plot_move (GTK_PLOT (line_plot),
+			       PROPORTION_OFFSET,
+			       PROPORTION_OFFSET);
+		gtk_plot_resize (GTK_PLOT (line_plot),
+				 1.0-2*PROPORTION_OFFSET,
+				 1.0-2*PROPORTION_OFFSET-0.05);
+
+		gtk_plot_legends_move (GTK_PLOT (line_plot),
+				       0.0,
+				       1.07);
+	}
+}
+
+static void
 add_line_plot (void)
 {
 	GtkPlotAxis *top, *right, *bottom, *left;
@@ -1125,8 +1153,6 @@ add_line_plot (void)
 				   1.0-PROPORTION_OFFSET,
 				   1.0-PROPORTION_OFFSET);
 
-	gtk_plot_move (GTK_PLOT (line_plot), PROPORTION_OFFSET, PROPORTION_OFFSET);
-
 	top = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_TOP);
 	right = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_RIGHT);
 	bottom = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_BOTTOM);
@@ -1144,7 +1170,8 @@ add_line_plot (void)
 	gtk_plot_axis_set_title (bottom, "X");*/
 	gtk_plot_set_legends_border (GTK_PLOT (line_plot),
 				     GTK_PLOT_BORDER_LINE, 3);
-	gtk_plot_legends_move (GTK_PLOT (line_plot), .80, .05);
+
+	line_plot_move_about ();
 }
 
 static void
@@ -1399,6 +1426,8 @@ plot_setup_axis (void)
 	get_ticks (plotx1, plotx2, &xtick, &xprec);
 	get_ticks (ploty1, ploty2, &ytick, &yprec);
 
+	gtk_plot_freeze (GTK_PLOT (line_plot));
+
 	gtk_plot_set_range (GTK_PLOT (line_plot),
 			    plotx1, plotx2, ploty1, ploty2);
 	gtk_plot_set_ticks (GTK_PLOT (line_plot), GTK_PLOT_AXIS_X, xtick, 9);
@@ -1418,6 +1447,8 @@ plot_setup_axis (void)
 	gtk_plot_set_xscale (GTK_PLOT (line_plot), GTK_PLOT_SCALE_LOG10);
 	gtk_plot_set_yscale (GTK_PLOT (line_plot), GTK_PLOT_SCALE_LOG10);
 	*/
+
+	gtk_plot_thaw (GTK_PLOT (line_plot));
 }
 
 static void
@@ -1435,6 +1466,10 @@ surface_setup_axis (void)
 	y = gtk_plot3d_get_axis (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_Y);
 	z = gtk_plot3d_get_axis (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_Z);
 
+	gtk_plot_axis_freeze (x);
+	gtk_plot_axis_freeze (y);
+	gtk_plot_axis_freeze (z);
+
 	gtk_plot3d_set_xrange (GTK_PLOT3D (surface_plot), surfacex1, surfacex2);
 	gtk_plot_axis_set_ticks (x, xtick, 1);
 	gtk_plot3d_set_yrange (GTK_PLOT3D (surface_plot), surfacey1, surfacey2);
@@ -1451,6 +1486,10 @@ surface_setup_axis (void)
 	gtk_plot_axis_set_labels_style (z,
 					GTK_PLOT_LABEL_FLOAT,
 					zprec /* precision */);
+
+	gtk_plot_axis_thaw (x);
+	gtk_plot_axis_thaw (y);
+	gtk_plot_axis_thaw (z);
 }
 
 /* FIXME: perhaps should be smarter ? */
@@ -2357,13 +2396,15 @@ plot_functions (void)
 			char *l1, *l2;
 			l1 = label_func (-1, parametric_func_x, "t", NULL);
 			l2 = label_func (-1, parametric_func_y, "t", NULL);
-			label = g_strconcat (l1, ",", l2, NULL);
+			label = g_strconcat (l1, ", ", l2, NULL);
 			g_free (l1);
 			g_free (l2);
 		}
 		gtk_plot_data_set_legend (parametric_data, label);
 		g_free (label);
 	}
+
+	line_plot_move_about ();
 
 	/* could be whacked by closing the window or some such */
 	if (plot_canvas != NULL) {

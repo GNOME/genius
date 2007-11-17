@@ -2818,7 +2818,21 @@ gtk_plot_draw_legends (GtkWidget *widget)
 void            
 gtk_plot_axis_ticks_recalc      (GtkPlotAxis *axis)
 {
-  axis->ticks_recalc(axis);
+	if ( ! axis->frozen)
+		axis->ticks_recalc(axis);
+}
+
+void            
+gtk_plot_axis_freeze (GtkPlotAxis *axis)
+{
+	axis->frozen = TRUE;
+}
+
+void            
+gtk_plot_axis_thaw (GtkPlotAxis *axis)
+{
+	axis->frozen = FALSE;
+	gtk_plot_axis_ticks_recalc (axis);
 }
 
 void            
@@ -3871,6 +3885,24 @@ gboolean
 gtk_plot_is_y_reflected (GtkPlot *plot)
 {
   return plot->reflect_y;
+}
+
+void
+gtk_plot_freeze	(GtkPlot *plot)
+{
+  gtk_plot_axis_freeze (plot->bottom);
+  gtk_plot_axis_freeze (plot->top);
+  gtk_plot_axis_freeze (plot->left);
+  gtk_plot_axis_freeze (plot->right);
+}
+
+void
+gtk_plot_thaw (GtkPlot *plot)
+{
+  gtk_plot_axis_thaw (plot->bottom);
+  gtk_plot_axis_thaw (plot->top);
+  gtk_plot_axis_thaw (plot->left);
+  gtk_plot_axis_thaw (plot->right);
 }
 
 GtkPlotText *
