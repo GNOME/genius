@@ -1,3 +1,12 @@
+Sat Nov 17 21:27:26 2007  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/gnome-genius.c: use GTK_STOCK_DIALOG_INFO instead of
+	  GTK_STOCK_INFO, as the latter is only available in 2.8 and higher
+	  gtk, thus making genius implicitly depend on 2.8
+
+	* ve/Makefile.am: don't use -l to link to the viciouslib but link it
+	  directly
+
 Fri Nov 16 23:36:57 2007  Jiri (George) Lebl <jirka@5z.com>
 
 	* Release 1.0.1
