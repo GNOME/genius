@@ -3599,7 +3599,9 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
 		selection_changed ();
 		gtk_widget_set_sensitive (edit_menu[EDIT_CUT_ITEM].widget,
 					  FALSE);
+#ifdef HAVE_GTKSOURCEVIEW
 		setup_undo_redo ();
+#endif
 		gnome_appbar_pop (GNOME_APPBAR (appbar));
 	} else {
 		char *s;
@@ -3641,7 +3643,9 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
 		gnome_appbar_push (GNOME_APPBAR (appbar), s);
 		g_free (s);
 
+#ifdef HAVE_GTKSOURCEVIEW
 		setup_undo_redo ();
+#endif
 	}
 }
 
