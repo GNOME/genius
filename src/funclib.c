@@ -813,9 +813,7 @@ gel_apply_func_to_matrix (GelCtx *ctx,
 
 				gel_matrixw_set_index(new,i,j) = nn;
 			} else if (e->type == VALUE_NODE &&
-				   ! mpw_is_complex (e->val.value) &&
-				   mpw_is_integer (e->val.value) &&
-				   mpw_sgn (e->val.value) == 0) {
+				   mpw_exact_zero_p (e->val.value)) {
 				gel_freetree (e);
 				gel_matrixw_set_index(new,i,j) = NULL;
 			} else {
