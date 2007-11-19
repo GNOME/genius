@@ -139,6 +139,9 @@ gel_differentiate_func1_expr (GelToken *tok)
 	DERIVATIVE_ENTRY_ALIAS ("acot", "arccot", "-1/(x^2+1)");
 	DERIVATIVE_ENTRY_ALIAS ("acoth", "arccoth", "-1/(x^2-1)");
 
+	DERIVATIVE_ENTRY_ALIAS ("erf", "ErrorFunction",
+				"2*exp(-(x^2))/sqrt(pi)");
+
 	DERIVATIVE_ENTRY ("cis", "-sin(x)+1i*cos(x)");
 
 	DERIVATIVE_ENTRY_ALIAS ("sqrt", "SquareRoot", "1/(2*sqrt(x))");
