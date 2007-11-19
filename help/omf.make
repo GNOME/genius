@@ -38,32 +38,30 @@ omf_timestamp: $(omffile)
 if ENABLE_SK
 	-for file in $(omffile); do \
 	  scrollkeeper-preinstall $(docdir)/$(docname).xml $(srcdir)/$$file $$file.out; \
-	done; \
-	touch omf_timestamp
+	done
 endif
+	touch omf_timestamp
 
 install-data-hook-omf:
-if ENABLE_SK
 	$(mkinstalldirs) $(DESTDIR)$(omf_dest_dir)
 	for file in $(omffile); do \
 		$(INSTALL_DATA) $$file.out $(DESTDIR)$(omf_dest_dir)/$$file; \
 	done
+if ENABLE_SK
 	-scrollkeeper-update -p $(DESTDIR)$(scrollkeeper_localstate_dir) -o $(DESTDIR)$(omf_dest_dir)
 endif
 
 uninstall-local-omf:
-if ENABLE_SK
 	-for file in $(srcdir)/*.omf; do \
 		basefile=`basename $$file`; \
 		rm -f $(DESTDIR)$(omf_dest_dir)/$$basefile; \
 	done
 	-rmdir $(DESTDIR)$(omf_dest_dir)
+if ENABLE_SK
 	-scrollkeeper-update -p $(DESTDIR)$(scrollkeeper_localstate_dir)
 endif
 
 clean-local-omf:
-if ENABLE_SK
 	-for file in $(omffile); do \
 		rm -f $$file.out; \
 	done
-endif
