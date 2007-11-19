@@ -35,11 +35,9 @@ scrollkeeper_localstate_dir = $(localstatedir)/scrollkeeper
 omf: omf_timestamp
 
 omf_timestamp: $(omffile)
-if ENABLE_SK
 	-for file in $(omffile); do \
 	  scrollkeeper-preinstall $(docdir)/$(docname).xml $(srcdir)/$$file $$file.out; \
-	done
-endif
+	done; \
 	touch omf_timestamp
 
 install-data-hook-omf:
