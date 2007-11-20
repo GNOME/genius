@@ -2710,18 +2710,27 @@ str_format_float (char *p,
 {
 	long int len;
 	int i;
+	int max_exp;
 	int min_exp;
+	int trailzeros;
 
-	if (max_digits > 1)
+	len = strlen (p);
+	for (trailzeros = 0; trailzeros < len; trailzeros++)
+		if (p[len-trailzeros-1] != '0')
+			break;
+
+	if (max_digits > 1) {
 		/* Negative 2 is there to ensure that a number is never
 		 * printed as an integer when it is a float that was rounded
 		 * off */
-		min_exp = max_digits-2;
-	else
-		min_exp = 10;
+		max_exp = max_digits-2;
+		min_exp = MIN ((len-trailzeros) - max_digits + 2, -2);
+	} else {
+		max_exp = MAX ((len-trailzeros)-2, 10);
+		min_exp = -10;
+	}
 
-	if(((e-1)<-min_exp || (e-1)>min_exp) || scientific_notation) {
-		int len = strlen (p);
+	if(((e-1)<min_exp || (e-1)>max_exp) || scientific_notation) {
 		if (e != 0)
 			p = g_realloc (p, len+2+((int)log10(abs(e))+2)+1);
 		else
@@ -2749,7 +2758,6 @@ str_format_float (char *p,
 			sprintf(p+len,"e%ld",e-1);
 		}
 	} else if(e>0) {
-		len=strlen(p);
 		if(p[0]=='-')
 			len--;
 		if(e>len) {
@@ -2767,7 +2775,7 @@ str_format_float (char *p,
 		}
 		str_trim_trailing_zeros (p, TRUE /* leave_first_zero */);
 	} else { /*e<=0*/
-		if(strlen(p)==0) {
+		if(len == 0) {
 			p = g_strdup ("0.0");
 		} else {
 			p = g_realloc (p, strlen(p)+2+(-e)+2);
