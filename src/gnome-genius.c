@@ -3878,9 +3878,21 @@ main (int argc, char *argv[])
 
 	/*read gnome_config parameters */
 	get_properties ();
+
+	file = g_build_filename (genius_datadir,
+				 "icons",
+				 "hicolor",
+				 "48x48",
+				 "apps",
+				 "gnome-genius.png",
+				 NULL);
+	gtk_window_set_default_icon_from_file (file, NULL);
+	g_free (file);
+
 	
         /*set up the top level window*/
 	genius_window = create_main_window();
+
 
 	/* Drag and drop support */
 	gtk_drag_dest_set (GTK_WIDGET (genius_window),
