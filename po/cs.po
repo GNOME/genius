@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-20 03:55-0600\n"
+"POT-Creation-Date: 2007-11-20 12:27-0600\n"
 "PO-Revision-Date: 2005-08-05 12:14+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -2905,7 +2905,7 @@ msgstr ""
 "Pro nápovědu napište 'manual' nebo 'help'.%s\n"
 "\n"
 
-#: ../src/genius.c:477 ../src/gnome-genius.c:4117
+#: ../src/genius.c:477 ../src/gnome-genius.c:4119
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -3439,53 +3439,57 @@ msgstr "Soubory GEL"
 msgid "All files"
 msgstr "Všechny soubory"
 
-#: ../src/gnome-genius.c:1930 ../src/gnome-genius.c:2735
+#: ../src/gnome-genius.c:1930 ../src/gnome-genius.c:2736
 msgid "Cannot open file!"
 msgstr "Nemohu otevřít soubor!"
 
-#: ../src/gnome-genius.c:1940 ../src/gnome-genius.c:3070
+#: ../src/gnome-genius.c:1940 ../src/gnome-genius.c:3071
 msgid "Output from "
 msgstr "Výstup programu "
 
-#: ../src/gnome-genius.c:1974
+#: ../src/gnome-genius.c:1956 ../src/gnome-genius.c:3138
+msgid "End"
+msgstr "Konec"
+
+#: ../src/gnome-genius.c:1975
 msgid "Load and Run"
 msgstr "Načíst a spustit"
 
-#: ../src/gnome-genius.c:1978
+#: ../src/gnome-genius.c:1979
 msgid "_Load"
 msgstr "_Načíst"
 
-#: ../src/gnome-genius.c:2490
+#: ../src/gnome-genius.c:2491
 msgid "Cannot open file"
 msgstr "Nemohu otevřít soubor"
 
-#: ../src/gnome-genius.c:2522 ../src/gnome-genius.c:3672
+#: ../src/gnome-genius.c:2523 ../src/gnome-genius.c:3674
 #, c-format
 msgid "Line: %d"
 msgstr "Řádek: %d"
 
-#: ../src/gnome-genius.c:2666
+#: ../src/gnome-genius.c:2667
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Program_%d.gel"
 
-#: ../src/gnome-genius.c:2673
+#: ../src/gnome-genius.c:2674
 #, c-format
 msgid "Program %d"
 msgstr "Program %d"
 
-#: ../src/gnome-genius.c:2694
+#: ../src/gnome-genius.c:2695
 #, c-format
 msgid "Cannot open %s"
 msgstr "Nemohu otevřít %s"
 
-#: ../src/gnome-genius.c:2757
+#: ../src/gnome-genius.c:2758
 msgid "Open..."
 msgstr "Otevřít..."
 
 #. new fname
-#: ../src/gnome-genius.c:2832 ../src/gnome-genius.c:2861
-#: ../src/gnome-genius.c:2912
+#: ../src/gnome-genius.c:2833 ../src/gnome-genius.c:2862
+#: ../src/gnome-genius.c:2913
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -3494,19 +3498,19 @@ msgstr ""
 "<B>nemohu uložit soubor</b>\n"
 "Detaily: %s"
 
-#: ../src/gnome-genius.c:2871
+#: ../src/gnome-genius.c:2872
 msgid "Save new programs by \"Save As..\" first!"
 msgstr "Uložte nové programy použitím \"Uložit jako...\"!"
 
-#: ../src/gnome-genius.c:2906 ../src/graphing.c:622 ../src/graphing.c:724
+#: ../src/gnome-genius.c:2907 ../src/graphing.c:622 ../src/graphing.c:724
 msgid "File already exists.  Overwrite it?"
 msgstr "Soubor již existuje. Přepsat jej?"
 
-#: ../src/gnome-genius.c:2948
+#: ../src/gnome-genius.c:2949
 msgid "Save As..."
 msgstr "Uložit jako..."
 
-#: ../src/gnome-genius.c:3019
+#: ../src/gnome-genius.c:3020
 msgid ""
 "The program you are closing is unsaved, are you sure you wish to close it "
 "without saving?"
@@ -3514,7 +3518,7 @@ msgstr ""
 "Program který zavíráte je neuložen, jste si jisti, že jej chcete zavřít bez "
 "uložení?"
 
-#: ../src/gnome-genius.c:3038
+#: ../src/gnome-genius.c:3039
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -3524,7 +3528,7 @@ msgstr ""
 "\n"
 "Vytvořte nový program nebo vyberte existující kartu."
 
-#: ../src/gnome-genius.c:3088
+#: ../src/gnome-genius.c:3089
 msgid ""
 "<b>Cannot execute program</b>\n"
 "\n"
@@ -3534,12 +3538,12 @@ msgstr ""
 "\n"
 "Nelze forkovat."
 
-#: ../src/gnome-genius.c:3168
+#: ../src/gnome-genius.c:3170
 #, c-format
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: ../src/gnome-genius.c:3386
+#: ../src/gnome-genius.c:3388
 msgid "Memory (node number) limit has been reached, interrupt the computation?"
 msgstr "Limit pameti (počtu uzlů) byl dosažen, přerušit výpočet?"
 
@@ -3547,11 +3551,11 @@ msgstr "Limit pameti (počtu uzlů) byl dosažen, přerušit výpočet?"
 #. always textbox
 #. textbox_title
 #. bind_response
-#: ../src/gnome-genius.c:3461
+#: ../src/gnome-genius.c:3463
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Nemohu spustit genius-readline-helper-fifo!\n"
 
-#: ../src/gnome-genius.c:3692
+#: ../src/gnome-genius.c:3694
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -3559,11 +3563,11 @@ msgstr ""
 "\n"
 "Poznámka: Přeloženo bez GtkSourceView (lepší editor zdrojových kódů)"
 
-#: ../src/gnome-genius.c:3993
+#: ../src/gnome-genius.c:3995
 msgid "Console"
 msgstr "Konzola"
 
-#: ../src/gnome-genius.c:4045
+#: ../src/gnome-genius.c:4047
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
