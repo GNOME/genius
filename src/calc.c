@@ -1544,7 +1544,8 @@ pretty_print_value_normal (GelOutput *gelo, GelETree *n)
 			goto just_print_a_number;
 		}
 
-		gel_output_string (gelo, "\n");
+		if (gelo->cur_line_pos != 0)
+			gel_output_string (gelo, "\n");
 
 		sep = make_sep (MAX (lend, lenn));
 
@@ -1561,7 +1562,6 @@ pretty_print_value_normal (GelOutput *gelo, GelETree *n)
 			gel_output_string (gelo, dens);
 			g_free (spacer);
 		} else {
-			gel_output_string (gelo, "\n");
 			gel_output_string (gelo, nums);
 			gel_output_string (gelo, "\n");
 			gel_output_string (gelo, sep);

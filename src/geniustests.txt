@@ -879,5 +879,12 @@ PivotColumns ([1,2,3;1,2,3;1,2,3])				[1;1]
 PivotColumns ([0,2,3;0,2,3;0,2,3])				[2;1]
 NullSpace(null)+1						((null)+1)
 NullSpace(I(10))+1						((null)+1)
+[1,2]@(null)+1							((null)+1)
+[1,2;3,4]@(,null)+1						((null)+1)
+[1,2;3,4]@(null,)+1						((null)+1)
+[1,2;3,4]@(2,null)+1						((null)+1)
+[1,2;3,4]@([1,2],null)+1					((null)+1)
+[1,2;3,4]@(null,2)+1						((null)+1)
+[1,2;3,4]@(null,[1,2])+1					((null)+1)
 load "nullspacetest.gel"					true
 load "longtest.gel"						true

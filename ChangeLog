@@ -1,3 +1,22 @@
+Tue Nov 20 02:33:03 2007  Jiri (George) Lebl <jirka@5z.com>
+
+	* configure.in: raise version
+
+	* src/gnome-genius.c: don't leave behind zombie processes from
+	  running programs.  Translate a previously untranslated string,
+	  and handle fork failing.
+
+	* src/eval.c: the @() operator accepts null as range when not used
+	  as an lvalue and just returns null then.  That's the more
+	  correct behaviour, treating it as an empty range, thus returning
+	  an empty matrix.  Plus negligible speed improvement.
+
+	* src/calc.c: kill extraneous newline when prettyprinting fractions
+
+	* src/geniustests.txt: add tests
+
+	* NEWS: update
+
 2007-11-20  Sebastian Dröge  <slomo@circular-chaos.org>
 
 	* src/gnome-genius.desktop.in: Fix category and mimetype fields

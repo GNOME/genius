@@ -30,6 +30,8 @@
 #include <errno.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#include <sys/wait.h>
+#include <signal.h>
 #include <fcntl.h>
 #include <signal.h>
 #include <stdlib.h>
@@ -1914,6 +1916,8 @@ static void
 really_load_cb (GtkFileChooser *fs, int response, gpointer data)
 {
 	const char *s;
+	char *str;
+
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (GTK_WIDGET (fs));
 		return;
@@ -1932,8 +1936,11 @@ really_load_cb (GtkFileChooser *fs, int response, gpointer data)
 
 	gtk_widget_destroy (GTK_WIDGET (fs));
 
-	vte_terminal_feed (VTE_TERMINAL (term),
-			   "\r\n\e[0mOutput from \e[0;32m", -1);
+	str = g_strdup_printf ("\r\n\e[0m%s\e[0;32m", 
+			       _("Output from "));
+	vte_terminal_feed (VTE_TERMINAL (term), str, -1);
+	g_free (str);
+
 	vte_terminal_feed (VTE_TERMINAL (term), s, -1);
 	vte_terminal_feed (VTE_TERMINAL (term),
 			   "\e[0m (((\r\n", -1);
@@ -3050,14 +3057,19 @@ run_program (GtkWidget *menu_item, gpointer data)
 		char *prog;
 		int p[2];
 		FILE *fp;
+		int pid;
+		int status;
+		char *str;
 
 		gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
 		gtk_text_buffer_get_iter_at_offset (buffer, &iter_end, -1);
 		prog = gtk_text_buffer_get_text (buffer, &iter, &iter_end,
 						 FALSE /* include_hidden_chars */);
 
-		vte_terminal_feed (VTE_TERMINAL (term),
-				   "\r\n\e[0mOutput from \e[0;32m", -1);
+		str = g_strdup_printf ("\r\n\e[0m%s\e[0;32m", 
+				       _("Output from "));
+		vte_terminal_feed (VTE_TERMINAL (term), str, -1);
+		g_free (str);
 		vte_terminal_feed (VTE_TERMINAL (term), vname, -1);
 		vte_terminal_feed (VTE_TERMINAL (term),
 				   "\e[0m (((\r\n", -1);
@@ -3067,7 +3079,18 @@ run_program (GtkWidget *menu_item, gpointer data)
 
 		/* run this in a fork so that we don't block on very
 		   long input */
-		if (fork () == 0) {
+		pid = fork ();
+		if (pid < 0) {
+			close (p[1]);
+			close (p[0]);
+			g_free (prog);
+			genius_display_error (NULL,
+					      _("<b>Cannot execute program</b>\n\n"
+						"Cannot fork."));
+			return;
+		}
+
+		if (pid == 0) {
 			close (p[0]);
 			write (p[1], prog, strlen (prog));
 			close (p[1]);
@@ -3094,8 +3117,9 @@ run_program (GtkWidget *menu_item, gpointer data)
 				gel_got_eof = FALSE;
 				break;
 			}
-			if(interrupted)
+			if (interrupted) {
 				break;
+			}
 		}
 
 		gel_pop_file_info ();
@@ -3117,6 +3141,13 @@ run_program (GtkWidget *menu_item, gpointer data)
 		interrupted = TRUE;
 		vte_terminal_feed_child (VTE_TERMINAL (term), "\n", 1);
 
+		/* sanity */
+		if (pid > 0) {
+			/* It must have finished by now, so reap the child */
+			/* must kill it, just in case we were interrupted */
+			kill (pid, SIGTERM);
+			waitpid (pid, &status, 0);
+		}
 	}
 
 }

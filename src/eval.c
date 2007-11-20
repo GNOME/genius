@@ -5750,6 +5750,9 @@ iter_get_velement (GelETree *n)
 		n->type = MATRIX_NODE;
 		n->mat.matrix = vec;
 		n->mat.quoted = quoted;
+	} else if (index->type == NULL_NODE) {
+		freetree_full (n, TRUE, FALSE);
+		gel_makenum_null_from (n);
 	} else {
 		gel_errorout (_("Vector index not an integer or a vector"));
 	}
@@ -5765,10 +5768,26 @@ iter_get_element (GelETree *n)
 	if G_UNLIKELY (m->type != MATRIX_NODE) {
 		gel_errorout (_("Index works only on matricies"));
 		return;
-	}
+	} else if G_UNLIKELY (index1->type != NULL_NODE &&
+		       index1->type != MATRIX_NODE &&
+		       index1->type != VALUE_NODE &&
+		       index2->type != NULL_NODE &&
+		       index2->type != MATRIX_NODE &&
+		       index2->type != VALUE_NODE) {
+		gel_errorout (_("Matrix index not an integer or a vector"));
+		return;
+	} else if G_UNLIKELY (index1->type == NULL_NODE ||
+			      index2->type == NULL_NODE) {
+		/* This is rather unlikely, most of the time we don't
+		 * want NULLs */
+		freetree_full (n, TRUE, FALSE);
+		gel_makenum_null_from (n);
+		return;
 
-	if (index1->type == VALUE_NODE &&
-	    index2->type == VALUE_NODE) {
+
+	/* this is where we get to the real code */
+	} else if (index1->type == VALUE_NODE &&
+		   index2->type == VALUE_NODE) {
 		int x, y;
 		GelETree *t;
 
@@ -5798,10 +5817,12 @@ iter_get_element (GelETree *n)
 		gel_freetree (m);
 		gel_freetree (index1);
 		gel_freetree (index2);
-	} else if ((index1->type == VALUE_NODE ||
+	/* Now at least one is a matrix and the other is a value */
+	/*} else if ((index1->type == VALUE_NODE ||
 		    index1->type == MATRIX_NODE) &&
 		   (index2->type == VALUE_NODE ||
-		    index2->type == MATRIX_NODE)) {
+		    index2->type == MATRIX_NODE)) {*/
+	} else {
 		GelMatrixW *mat;
 		int *regx, *regy;
 		int lx, ly;
@@ -5825,8 +5846,6 @@ iter_get_element (GelETree *n)
 		n->type = MATRIX_NODE;
 		n->mat.matrix = mat;
 		n->mat.quoted = quoted;
-	} else {
-		gel_errorout (_("Matrix index not an integer or a vector"));
 	}
 }
 
@@ -5840,10 +5859,8 @@ iter_get_region (GelETree *n, gboolean col)
 	if G_UNLIKELY (m->type != MATRIX_NODE) {
 		gel_errorout (_("Index works only on matricies"));
 		return;
-	}
-
-	if G_LIKELY (index->type == VALUE_NODE ||
-		     index->type == MATRIX_NODE) {
+	} else if G_LIKELY (index->type == VALUE_NODE ||
+			    index->type == MATRIX_NODE) {
 		GelMatrixW *mat;
 		int *regx, *regy;
 		int lx, ly;
@@ -5878,6 +5895,9 @@ iter_get_region (GelETree *n, gboolean col)
 		n->type = MATRIX_NODE;
 		n->mat.matrix = mat;
 		n->mat.quoted = quoted;
+	} else if (index->type == NULL_NODE) {
+		freetree_full (n, TRUE, FALSE);
+		gel_makenum_null_from (n);
 	} else {
 		gel_errorout (_("Matrix index not an integer or a vector"));
 	}
@@ -7823,7 +7843,8 @@ resimplify:
 			     mpw_zero_p (l->val.value)) ||
 			    (r->type == VALUE_NODE &&
 			     mpw_zero_p (r->val.value))) {
-				replacenode (n, gel_makenum_ui (0));
+				freetree_full (n, TRUE, FALSE);
+				gel_makenum_ui_from (n, 0);
 			} else if (l->type == VALUE_NODE &&
 				   mpw_eql_ui (l->val.value, 1)) {
 				/* multiply by 1, so identity */
@@ -7849,7 +7870,8 @@ resimplify:
 			     mpw_zero_p (l->val.value)) &&
 			    (r->type != VALUE_NODE ||
 			     ! mpw_zero_p (r->val.value))) {
-				replacenode (n, gel_makenum_ui (0));
+				freetree_full (n, TRUE, FALSE);
+				gel_makenum_ui_from (n, 0);
 			} else if (r->type == VALUE_NODE &&
 				   mpw_eql_ui (r->val.value, 1)) {
 				/* divide by 1, so identity */
@@ -7883,7 +7905,8 @@ resimplify:
 			if (r->type == VALUE_NODE &&
 			    mpw_zero_p (r->val.value)) {
 				/* something^0 so we get 1 */
-				replacenode (n, gel_makenum_ui (1));
+				freetree_full (n, TRUE, FALSE);
+				gel_makenum_ui_from (n, 1);
 			} else if (l->type == OPERATOR_NODE &&
 				   l->op.oper == E_EXP) {
 				/* (x^v)^w => x^(v*w);
