@@ -1953,8 +1953,9 @@ really_load_cb (GtkFileChooser *fs, int response, gpointer data)
 
 	gel_printout_infos ();
 
-	vte_terminal_feed (VTE_TERMINAL (term),
-			   "\e[0m)))End", -1);
+	str = g_strdup_printf ("\e[0m))) %s", _("End"));
+	vte_terminal_feed (VTE_TERMINAL (term), str, -1);
+	g_free (str);
 
 	/* interrupt the current command line */
 	interrupted = TRUE;
@@ -3134,8 +3135,9 @@ run_program (GtkWidget *menu_item, gpointer data)
 
 		running_program = NULL;
 
-		vte_terminal_feed (VTE_TERMINAL (term),
-				   "\e[0m)))End", -1);
+		str = g_strdup_printf ("\e[0m))) %s", _("End"));
+		vte_terminal_feed (VTE_TERMINAL (term), str, -1);
+		g_free (str);
 
 		/* interrupt the current command line */
 		interrupted = TRUE;
