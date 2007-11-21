@@ -2223,7 +2223,7 @@ IsPerfectSquare_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return gel_apply_func_to_matrix(ctx,a[0],IsPerfectSquare_op,"IsPerfectSquare", exception);
 
-	if G_UNLIKELY ( ! check_argument_integer (a, 0, "IsPerfectSquare"))
+	if G_UNLIKELY ( ! check_argument_number (a, 0, "IsPerfectSquare"))
 		return NULL;
 
 	if(mpw_perfect_square(a[0]->val.value)) {
@@ -5848,20 +5848,27 @@ gel_funclib_addall(void)
 	ALIAS (Conj, 1, ComplexConjugate);
 
 	FUNC (sin, 1, "x", "trigonometry", N_("Calculates the sine function"));
+	f->no_mod_all_args = 1;
 	sin_function = f;
 	FUNC (cos, 1, "x", "trigonometry", N_("Calculates the cosine function"));
+	f->no_mod_all_args = 1;
 	cos_function = f;
 	FUNC (sinh, 1, "x", "trigonometry", N_("Calculates the hyperbolic sine function"));
+	f->no_mod_all_args = 1;
 	sinh_function = f;
 	FUNC (cosh, 1, "x", "trigonometry", N_("Calculates the hyperbolic cosine function"));
+	f->no_mod_all_args = 1;
 	cosh_function = f;
 	FUNC (tan, 1, "x", "trigonometry", N_("Calculates the tan function"));
+	f->no_mod_all_args = 1;
 	tan_function = f;
 	FUNC (atan, 1, "x", "trigonometry", N_("Calculates the arctan function"));
+	f->no_mod_all_args = 1;
 	atan_function = f;
 	ALIAS (arctan, 1, atan);
 
 	FUNC (atan2, 2, "y,x", "trigonometry", N_("Calculates the arctan2 function (arctan(y/x) if x>0)"));
+	f->no_mod_all_args = 1;
 	ALIAS (arctan2, 1, atan2);
 
 	FUNC (pi, 0, "", "constants", N_("The number pi"));
@@ -5883,9 +5890,11 @@ gel_funclib_addall(void)
 	ErrorFunction_function = f;
 	ALIAS (erf, 1, ErrorFunction);*/
 	FUNC (RiemannZeta, 1, "x", "functions", N_("The Riemann zeta function (only real values implemented)"));
+	f->no_mod_all_args = 1;
 	RiemannZeta_function = f;
 	ALIAS (zeta, 1, RiemannZeta);
 	FUNC (GammaFunction, 1, "x", "functions", N_("The Gamma function (only real values implemented)"));
+	f->no_mod_all_args = 1;
 	GammaFunction_function = f;
 	ALIAS (Gamma, 1, GammaFunction);
 
@@ -5894,28 +5903,38 @@ gel_funclib_addall(void)
 	sqrt_function = f;
 	ALIAS (SquareRoot, 1, sqrt);
 	FUNC (exp, 1, "x", "numeric", N_("The exponential function"));
+	f->no_mod_all_args = 1;
 	exp_function = f;
 	FUNC (ln, 1, "x", "numeric", N_("The natural logarithm"));
+	f->no_mod_all_args = 1;
 	ln_function = f;
 	FUNC (log2, 1, "x", "numeric", N_("Logarithm of x base 2"));
+	f->no_mod_all_args = 1;
 	log2_function = f;
 	ALIAS (lg, 1, log2);
+	f->no_mod_all_args = 1;
 	FUNC (log10, 1, "x", "numeric", N_("Logarithm of x base 10"));
+	f->no_mod_all_args = 1;
 	log10_function = f;
 	FUNC (round, 1, "x", "numeric", N_("Round a number"));
+	f->no_mod_all_args = 1;
 	round_function = f;
 	ALIAS (Round, 1, round);
 	FUNC (floor, 1, "x", "numeric", N_("Get the highest integer less than or equal to n"));
+	f->no_mod_all_args = 1;
 	floor_function = f;
 	ALIAS (Floor, 1, floor);
 	FUNC (ceil, 1, "x", "numeric", N_("Get the lowest integer more than or equal to n"));
+	f->no_mod_all_args = 1;
 	ceil_function = f;
 	ALIAS (Ceiling, 1, ceil);
 	FUNC (trunc, 1, "x", "numeric", N_("Truncate number to an integer (return the integer part)"));
+	f->no_mod_all_args = 1;
 	trunc_function = f;
 	ALIAS (Truncate, 1, trunc);
 	ALIAS (IntegerPart, 1, trunc);
 	FUNC (float, 1, "x", "numeric", N_("Make number a float"));
+	f->no_mod_all_args = 1;
 	float_function = f;
 	FUNC (Numerator, 1, "x", "numeric", N_("Get the numerator of a rational number"));
 	Numerator_function = f;
@@ -6071,6 +6090,7 @@ gel_funclib_addall(void)
 	FUNC (GetCurrentModulo, 0, "", "basic", N_("Get current modulo from the context outside the function"));
 
 	FUNC (CompositeSimpsonsRule, 4, "f,a,b,n", "calculus", N_("Integration of f by Composite Simpson's Rule on the interval [a,b] with n subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be even"));
+	f->no_mod_all_args = 1;
 
 	/*temporary until well done internal functions are done*/
 	_internal_ln_function = d_makeufunc(d_intern("<internal>ln"),
