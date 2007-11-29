@@ -25,20 +25,20 @@ function Hofstadter(n) = (
 
 protect("Hofstadter");
 
-# return the fibbonachi number, calculated using an iterative method
-SetHelp("Fibbonachi", "combinatorics", "Calculate n'th fibbonachi number");
-function Fibbonachi(x) = (
+# return the Fibonacci number, calculated using an iterative method
+SetHelp("Fibonacci", "combinatorics", "Calculate n'th Fibonacci number");
+function Fibonacci(x) = (
 	if(IsMatrix(x)) then
 		return ApplyOverMatrix(x,fib)
 	else if(not IsInteger(x)) then
-		(error("Fibbonachi: argument not an integer");bailout)
+		(error("Fibonacci: argument not an integer");bailout)
 	else if(x<0) then
-		(error("Fibbonachi: argument less than zero");bailout)
+		(error("Fibonacci: argument less than zero");bailout)
 	else (([1,1;1,0]^x)@(1,2))
 );
-protect("Fibbonachi")
-SetHelpAlias ("Fibbonachi", "fib");
-fib=Fibbonachi
+protect("Fibonacci")
+SetHelpAlias ("Fibonacci", "fib");
+fib=Fibonacci
 protect("fib")
 
 ## Harmonic Numbers

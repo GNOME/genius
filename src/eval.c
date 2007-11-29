@@ -90,7 +90,7 @@ ge_add_stack_array(GelCtx *ctx)
 
 /*we assume that a stack always exists*/
 #define GE_PUSH_STACK(thectx,pointer,flag) { \
-	if((thectx)->topstack == &((thectx)->stack->stack[STACK_SIZE]))	\
+	if G_UNLIKELY ((thectx)->topstack == &((thectx)->stack->stack[STACK_SIZE]))	\
 	 	ge_add_stack_array(thectx);				\
 	*((thectx)->topstack ++) = (pointer);				\
 	*((thectx)->topstack ++) = GINT_TO_POINTER(flag);		\
@@ -100,7 +100,7 @@ static inline gboolean
 ge_remove_stack_array(GelCtx *ctx)
 {
 	GelEvalStack *next = ctx->stack->next;
-	if(!next) return FALSE;
+	if G_UNLIKELY (!next) return FALSE;
 
 	/*push it onto the list of free stack entries*/
 #ifdef MEM_DEBUG_FRIENDLY
@@ -134,8 +134,8 @@ ge_remove_stack_array(GelCtx *ctx)
 }
 #else /* MEM_DEBUG_FRIENDLY */
 #define GE_POP_STACK(thectx,pointer,flag) { \
-	if((thectx)->topstack != (gpointer *)(thectx)->stack ||		\
-	   ge_remove_stack_array(ctx)) {				\
+	if G_LIKELY ((thectx)->topstack != (gpointer *)(thectx)->stack ||	\
+	   ge_remove_stack_array(ctx)) {					\
 		(flag) = GPOINTER_TO_INT(*(-- (thectx)->topstack));	\
 		(pointer) = *(-- (thectx)->topstack);			\
 	} else {							\
@@ -146,7 +146,7 @@ ge_remove_stack_array(GelCtx *ctx)
 #endif /* MEM_DEBUG_FRIENDLY */
 
 #define GE_PEEK_STACK(thectx,pointer,flag) { \
-	if((thectx)->topstack != (gpointer *)(thectx)->stack) {		\
+	if G_LIKELY ((thectx)->topstack != (gpointer *)(thectx)->stack) {	\
 		(flag) = GPOINTER_TO_INT(*((thectx)->topstack - 1));	\
 		(pointer) = *((thectx)->topstack - 2);			\
 	} else if((thectx)->stack->next) {				\
@@ -169,8 +169,8 @@ ge_remove_stack_array(GelCtx *ctx)
 }
 #else /* MEM_DEBUG_FRIENDLY */
 #define GE_BLIND_POP_STACK(thectx) { \
-	if((thectx)->topstack != (gpointer *)(thectx)->stack ||	\
-	   ge_remove_stack_array(thectx)) {			\
+	if GE_LIKELY ((thectx)->topstack != (gpointer *)(thectx)->stack ||	\
+		      ge_remove_stack_array(thectx)) {		\
 		(thectx)->topstack -= 2;			\
 	}							\
 }
@@ -374,7 +374,7 @@ gel_makenum_string_constant (const char *str)
 	char *hstr;
 	static GHashTable *constant_strings = NULL;
 
-	if (constant_strings == NULL)
+	if G_UNLIKELY (constant_strings == NULL)
 		constant_strings = g_hash_table_new (g_str_hash, g_str_equal);
 
 	hstr = g_hash_table_lookup (constant_strings, str);
@@ -1996,7 +1996,9 @@ pure_matrix_mul_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	quote = l->mat.quoted || r->mat.quoted;
 	gel_matrixw_set_size(m,gel_matrixw_width(m2),gel_matrixw_height(m1));
 
-	if (ctx->modulo != NULL) {
+	/* for the puproses of cache optimization, it is more likely that
+	 * we are not in modulo mode and have a value only matrix */
+	if G_UNLIKELY (ctx->modulo != NULL) {
 		    if (gel_is_matrix_value_only_integer (m1) &&
 			gel_is_matrix_value_only_integer (m2)) {
 			    gel_value_matrix_multiply (m, m1, m2, ctx->modulo);
@@ -2004,8 +2006,8 @@ pure_matrix_mul_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 			    expensive_matrix_multiply (ctx, m, m1, m2);
 		    }
 	} else {
-		if(gel_is_matrix_value_only(m1) &&
-		   gel_is_matrix_value_only(m2)) {
+		if G_LIKELY (gel_is_matrix_value_only(m1) &&
+			     gel_is_matrix_value_only(m2)) {
 			gel_value_matrix_multiply (m, m1, m2, NULL);
 		} else {
 			expensive_matrix_multiply(ctx,m,m1,m2);
@@ -2654,12 +2656,12 @@ function_bin_op (GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 		return TRUE;
 	}
 
-	if (a->vararg || b->vararg) {
+	if G_UNLIKELY (a->vararg || b->vararg) {
 		gel_errorout (_("Operations on functions with variable argument list not supported"));
 		return TRUE;
 	}
 
-	if (a->nargs != b->nargs) {
+	if G_UNLIKELY (a->nargs != b->nargs) {
 		gel_errorout (_("Operations on functions with different number of arguments not supported"));
 		return TRUE;
 	}
@@ -2681,7 +2683,7 @@ function_something_bin_op (GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 		return TRUE;
 	}
 
-	if (a->vararg) {
+	if G_UNLIKELY (a->vararg) {
 		gel_errorout (_("Operations on functions with variable argument list not supported"));
 		return TRUE;
 	}
@@ -2702,7 +2704,7 @@ something_function_bin_op (GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 		return TRUE;
 	}
 
-	if (b->vararg) {
+	if G_UNLIKELY (b->vararg) {
 		gel_errorout (_("Operations on functions with variable argument list not supported"));
 		return TRUE;
 	}
@@ -2726,7 +2728,7 @@ function_uni_op (GelCtx *ctx, GelETree *n, GelETree *l)
 		return TRUE;
 	}
 
-	if (a->vararg) {
+	if G_UNLIKELY (a->vararg) {
 		gel_errorout (_("Operations on functions with variable argument list not supported"));
 		return TRUE;
 	}
@@ -2772,12 +2774,12 @@ function_from_function (GelEFunc *func, GelETree *l)
 		return NULL;
 	}
 
-	if (a->vararg) {
+	if G_UNLIKELY (a->vararg) {
 		gel_errorout (_("Operations on functions with variable argument list not supported"));
 		return NULL;
 	}
 
-	if (func->nargs != 1) {
+	if G_UNLIKELY (func->nargs != 1) {
 		gel_errorout (_("Function creation with wrong number of arguments"));
 		return NULL;
 	}
@@ -3323,10 +3325,10 @@ iter_do_var(GelCtx *ctx, GelETree *n, GelEFunc *f)
 		ret = (*f->data.func)(ctx,NULL,&exception);
 		/* interruption happened during the function, which
 		   means an exception */
-		if (interrupted) {
+		if G_UNLIKELY (interrupted) {
 			exception = TRUE;
 		}
-		if(exception) {
+		if G_UNLIKELY (exception) {
 			if(ret)
 				gel_freetree(ret);
 			return FALSE;
@@ -4678,10 +4680,10 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 		}
 		/* interruption happened during the function, which
 		   means an exception */
-		if (interrupted) {
+		if G_UNLIKELY (interrupted) {
 			exception = TRUE;
 		}
-		if(exception) {
+		if G_UNLIKELY (exception) {
 			if(ret)
 				gel_freetree(ret);
 			return FALSE;
@@ -6905,7 +6907,7 @@ eval_etree (GelCtx *ctx, GelETree *etree)
 	
 	level++;
 
-	if(!iter_eval_etree(ctx)) {
+	if G_UNLIKELY (!iter_eval_etree(ctx)) {
 		gpointer data;
 		/*an exception happened*/
 		ctx->current = NULL;
@@ -6916,7 +6918,7 @@ eval_etree (GelCtx *ctx, GelETree *etree)
 			ev_free_special_data(ctx,data,flag);
 		} while(flag != GE_EMPTY_STACK);
 	}
-	if(--level == 0)
+	if G_UNLIKELY (--level == 0)
 		purge_free_lists();
 	
 	GE_POP_STACK(ctx,ctx->current,flag);

@@ -160,7 +160,7 @@ char *fake = N_("Get n'th catalan number");
 char *fake = N_("Double factorial: n(n-2)(n-4)...");
 char *fake = N_("Factorial: n(n-1)(n-2)...");
 char *fake = N_("Falling factorial: (n)_k = n(n-1)...(n-(k-1))");
-char *fake = N_("Calculate n'th fibbonachi number");
+char *fake = N_("Calculate n'th Fibonacci number");
 char *fake = N_("Calculate the Frobenius number for a coin problem");
 char *fake = N_("Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))");
 char *fake = N_("Use greedy algorithm to find c, for c . v = n.  (v must be sorted)");
