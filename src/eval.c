@@ -169,8 +169,8 @@ ge_remove_stack_array(GelCtx *ctx)
 }
 #else /* MEM_DEBUG_FRIENDLY */
 #define GE_BLIND_POP_STACK(thectx) { \
-	if GE_LIKELY ((thectx)->topstack != (gpointer *)(thectx)->stack ||	\
-		      ge_remove_stack_array(thectx)) {		\
+	if G_LIKELY ((thectx)->topstack != (gpointer *)(thectx)->stack ||	\
+		     ge_remove_stack_array(thectx)) {		\
 		(thectx)->topstack -= 2;			\
 	}							\
 }
@@ -4509,8 +4509,6 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 	if (f == NULL)
 		goto funccall_done_ok;
 	
-	g_assert(f);
-	
 	if G_UNLIKELY ((f->vararg && f->nargs > n->op.nargs) ||
 		       (! f->vararg && f->nargs != n->op.nargs - 1)) {
 		if ( ! f->vararg)
@@ -4523,8 +4521,13 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 				      "(should be greater than %d)"),
 				    f->id != NULL ? f->id->token : "anonymous",
 				    f->nargs-2);
-	} else if(f->type == GEL_USER_FUNC ||
-		  f->type == GEL_VARIABLE_FUNC) {
+		goto funccall_done_ok;
+	}
+
+	switch (f->type) {
+	case GEL_USER_FUNC:
+	case GEL_VARIABLE_FUNC:
+	{
 		GSList *li;
 		GelETree *ali;
 		GelToken *last_arg = NULL;
@@ -4635,7 +4638,9 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 
 		/*exit without popping the stack as we don't want to do that*/
 		return TRUE;
-	} else if(f->type == GEL_BUILTIN_FUNC) {
+	}
+	case GEL_BUILTIN_FUNC:
+	{
 		gboolean exception = FALSE;
 		GelETree *ret;
 		mpw_ptr old_modulo;
@@ -4649,11 +4654,7 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 			GelETree **r;
 			GelETree *li;
 			int i;
-#ifdef MEM_DEBUG_FRIENDLY
-			r = g_new0 (GelETree *, n->op.nargs);
-#else
-			r = g_new (GelETree *, n->op.nargs);
-#endif
+			r = g_alloca (sizeof (GelETree *) * n->op.nargs);
 			for(i=0,li=n->op.args->any.next;li;i++,li=li->any.next)
 				r[i] = li;
 			r[i] = NULL;
@@ -4667,10 +4668,6 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 			 */
 
 			ret = (*f->data.func)(ctx,r,&exception);
-#ifdef MEM_DEBUG_FRIENDLY
-			memset (r, 0xaa, sizeof(GelETree *) * n->op.nargs);
-#endif
-			g_free (r);
 		} else {
 			ret = (*f->data.func)(ctx,NULL,&exception);
 		}
@@ -4692,7 +4689,10 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 				mod_node (ret, ctx->modulo);
 			replacenode (n, ret);
 		}
-	} else if(f->type == GEL_REFERENCE_FUNC) {
+		break;
+	}
+	case GEL_REFERENCE_FUNC:
+	{
 		GelETree *id;
 		if G_UNLIKELY (f->nargs > 0) {
 			gel_errorout (_("Reference function with arguments encountered!"));
@@ -4715,8 +4715,11 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 
 		n->op.args = id;
 		n->op.nargs = 1;
-	} else {
+		break;
+	}
+	default:
 		gel_errorout (_("Unevaluatable function type encountered!"));
+		break;
 	}
 funccall_done_ok:
 	iter_pop_stack(ctx);

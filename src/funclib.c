@@ -2923,8 +2923,10 @@ IndexComplement_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 			}
 		}
 
-		if (nml <= 0)
+		if (nml <= 0) {
+			g_free (index);
 			return gel_makenum_null ();
+		}
 
 		nm = gel_matrix_new ();
 		gel_matrix_set_size (nm, nml, 1, FALSE /* padding */);
