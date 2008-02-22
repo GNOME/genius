@@ -1573,6 +1573,31 @@ precalculated and returned in the second column.</para>
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-IsMersennePrimeExponent">
+         <term>IsMersennePrimeExponent</term>
+         <listitem>
+          <synopsis>IsMersennePrimeExponent (p)</synopsis>
+          <para>
+	    Tests if a positive integer <varname>p</varname> is a
+	    Mersenne prime exponent.  That is if 
+            2<superscript>p</superscript>-1 is a prime.  It does this
+	    by looking it up in a table of known values which is relatively
+	    short.
+	    See also
+	    <link linkend='gel-function-MersennePrimeExponents'>MersennePrimeExponents</link>
+	    and
+	    <link linkend='gel-function-LucasLehmer'>LucasLehmer</link>.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/MersenneNumbers.html">Planetmath</ulink>,
+	    <ulink url="http://mathworld.wolfram.com/MersennePrime.html">Mathworld</ulink> or 
+	    <ulink url="http://www.mersenne.org/">GIMPS</ulink>
+ for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-IsNthPower">
          <term>IsNthPower</term>
          <listitem>
@@ -1727,7 +1752,12 @@ that is if <userinput>b^(n-1) == 1 mod n</userinput>.  This calles the <function
          <term>LucasLehmer</term>
          <listitem>
           <synopsis>LucasLehmer (p)</synopsis>
-          <para>Test if 2<superscript>p</superscript>-1 is a Mersenne prime using the Lucas-Lehmer test.</para>
+          <para>Test if 2<superscript>p</superscript>-1 is a Mersenne prime using the Lucas-Lehmer test.
+	    See also
+	    <link linkend='gel-function-MersennePrimeExponents'>MersennePrimeExponents</link>
+	    and
+	    <link linkend='gel-function-IsMersennePrimeExponent'>IsMersennePrimeExponent</link>.
+          </para>
           <para>
 	    See
 	    <ulink url="http://planetmath.org/encyclopedia/LucasLhemer.html">Planetmath</ulink> or
@@ -1754,6 +1784,30 @@ that is if <userinput>b^(n-1) == 1 mod n</userinput>.  This calles the <function
          <listitem>
           <synopsis>MaximalPrimePowerFactors (n)</synopsis>
           <para>Return all maximal prime power factors of a number.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-MersennePrimeExponents">
+         <term>MersennePrimeExponents</term>
+         <listitem>
+          <synopsis>MersennePrimeExponents</synopsis>
+          <para>
+	    A vector of known Mersenne prime exponents, that is
+	    a list of positive integers
+	    <varname>p</varname> such that
+            2<superscript>p</superscript>-1 is a prime.
+	    See also
+	    <link linkend='gel-function-IsMersennePrimeExponent'>IsMersennePrimeExponent</link>
+	    and
+	    <link linkend='gel-function-LucasLehmer'>LucasLehmer</link>.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/MersenneNumbers.html">Planetmath</ulink>,
+	    <ulink url="http://mathworld.wolfram.com/MersennePrime.html">Mathworld</ulink> or 
+	    <ulink url="http://www.mersenne.org/">GIMPS</ulink>
+ for more information.
+	  </para>
          </listitem>
         </varlistentry>
 

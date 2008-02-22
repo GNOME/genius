@@ -59,3 +59,74 @@ function LucasLehmer(p) = (
 	S == 0
 );
 protect("LucasLehmer")
+
+# See http://primes.utm.edu/mersenne/index.html
+# Or http://www.mersenne.org
+SetHelp("MersennePrimeExponents", "number_theory", "Vector with the known Mersenne prime exponents");
+MersennePrimeExponents = [2
+3
+5
+7
+13
+17
+19
+31
+61
+89
+107
+127
+521
+607
+1279
+2203
+2281
+3217
+4253
+4423
+9689
+9941
+11213
+19937
+21701
+23209
+44497
+86243
+110503
+132049
+216091
+756839
+859433
+1257787
+1398269
+2976221
+3021377
+6972593
+13466917
+20996011
+24036583
+25964951
+30402457
+32582657];
+protect("MersennePrimeExponents");
+
+# See http://www.mersenne.org
+SetHelp("IsMersennePrimeExponent","number_theory","Test if Mp is a Mersenne prime using a table");
+function IsMersennePrimeExponent(p) = (
+        if IsMatrix(p) then
+                return ApplyOverMatrix(p, IsMersennePrimeExponent)
+	else if not IsPositiveInteger(p) then
+		(error("IsMersennePrimeExponent: argument not an integer larger than 0");bailout);
+
+	# A prime
+	if IsIn (p, MersennePrimeExponents) then
+		return true;
+
+	# http://www.mersenne.org / GIMPS doublechecked everything up
+	# to 16,266,800
+	if p <= 16266800 then
+		return false;
+
+	error("IsMersennePrimeExponent: Number too large (known values up to: " + 16266800 + ")");
+	bailout
+);
+protect("IsMersennePrimeExponent")
