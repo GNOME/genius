@@ -1,13 +1,3 @@
-SetHelp ("QuadraticFormula", "equation_solving",
-         "Find roots of a quadratic polynomial (given as vector of coefficients)")
-function QuadraticFormula(p) = (
-	if not IsPoly(p) or elements(p) != 3 or p@(3) == 0 then
-		(error("QuadraticFormula: argument 1 must be a quadratic polynomial");bailout);
-	[ (- p@(2) + sqrt(p@(2)^2 - 4*p@(1)*p@(3))) / (2 * p@(3)) 
-	 (- p@(2) - sqrt(p@(2)^2 - 4*p@(1)*p@(3))) / (2 * p@(3))]
-)
-protect ("QuadraticFormula")
-
 # see http://en.wikipedia.org/wiki/Cubic_equation
 SetHelp ("CubicFormula", "equation_solving",
          "Find roots of a cubic polynomial (given as vector of coefficients)")

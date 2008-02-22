@@ -92,6 +92,31 @@ function roottestcube() = (
   true
 );
 
+function roottestquad() = (
+  for n=1 to 100 do (
+    if n <= 50 then
+    	p = randint(10,3)-5 + 1i* (randint(10,3)-5)
+    else
+        p = randint(10,3)-5;
+    if p@(3) == 0 then
+	p@(3) = 1;
+    #print (p);
+    r = QuadraticFormula (p);
+    #print (r);
+    f = PolyToFunction (p);
+    if (|f(r@(1))| >= 0.01 or
+	|f(r@(2))| >= 0.01) then (
+	#print (n);
+	#print (p);
+	#print (r);
+	#print (f(r@(1)));
+	#print (f(r@(2)));
+      return false;
+    )
+  );
+  true
+);
+
 function roottestquart() = (
   for n=1 to 100 do (
     if n <= 50 then
@@ -176,6 +201,7 @@ function LongTest() = (
 	if not derivtest() then (error("error on deriv test");errors = errors + 1);
 
 	#roots
+	if not roottestquad() then (error("error on root test quadratic");errors = errors + 1);
 	if not roottestcube() then (error("error on root test cubic");errors = errors + 1);
 	if not roottestquart() then (error("error on root test quartic");errors = errors + 1);
 	if not nthroottest() then (error("error on nth root test");errors = errors + 1);

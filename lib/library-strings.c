@@ -221,7 +221,6 @@ char *fake = N_("Find root of a function using the method of false position");
 char *fake = N_("Find root of a function using the Muller's method");
 char *fake = N_("Find root of a function using the secant method");
 char *fake = N_("Find roots of a polynomial (given as vector of coefficients)");
-char *fake = N_("Find roots of a quadratic polynomial (given as vector of coefficients)");
 char *fake = N_("Find roots of a quartic polynomial (given as vector of coefficients)");
 char *fake = N_("Use classical non-adaptive Runge-Kutta of fourth order method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y at x1");
 char *fake = N_("Calculate average of an entire matrix");

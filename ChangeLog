@@ -1,3 +1,18 @@
+Fri Feb 22 01:38:54 2008  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/mpwrap.[ch]: add mpw_re_sgn and mpw_im_sgn functions and fix
+	  memory leak in mpw_re and mpw_im
+
+	* src/funclib.c: Implement QuadraticFormula internally, marginally
+	  improving performance, but mainly handle special cases better
+	  and avoid instability in solutions (avoid bad cancellation in most
+	  cases)
+
+	* lib/equation_solving/formulas.gel: remove QuadraticFormula from
+	  here
+
+	* src/longtest.gel: add tests for quadratic formula
+
 Sat Jan 12 15:03:19 2008  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/eval.c: make internal function calling a bit faster.  Can be

@@ -154,6 +154,11 @@ void mpw_abs(mpw_ptr rop,mpw_ptr op);
 
 int mpw_sgn(mpw_ptr op);
 
+/* sign of the real part */
+int mpw_re_sgn(mpw_ptr op);
+/* sign of the im part */
+int mpw_im_sgn(mpw_ptr op);
+
 void mpw_neg(mpw_ptr rop,mpw_ptr op);
 
 void mpw_add(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2);

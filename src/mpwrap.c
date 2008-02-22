@@ -3357,6 +3357,18 @@ mpw_sgn(mpw_ptr op)
 	return 0;
 }
 
+int
+mpw_re_sgn(mpw_ptr op)
+{
+	return mpwl_sgn(op->r);
+}
+
+int
+mpw_im_sgn(mpw_ptr op)
+{
+	return mpwl_sgn(op->i);
+}
+
 void
 mpw_abs(mpw_ptr rop,mpw_ptr op)
 {
@@ -5363,17 +5375,28 @@ mpw_is_complex_float(mpw_ptr op)
 void
 mpw_im(mpw_ptr rop, mpw_ptr op)
 {
+	if (rop == op) {
+		MAKE_IMAG(rop);
+		rop->r = rop->i;
+		rop->i = gel_zero;
+		return;
+	}
 	MAKE_REAL(rop);
-	rop->r=op->i;
-	op->i->alloc.usage++;
+	DEALLOC_MPWL (rop->r);
+	rop->r = op->i;
+	ALLOC_MPWL (rop->r);
 }
 
 void
 mpw_re(mpw_ptr rop, mpw_ptr op)
 {
 	MAKE_REAL(rop);
-	rop->r=op->r;
-	op->r->alloc.usage++;
+	if (rop == op) {
+		return;
+	}
+	DEALLOC_MPWL (rop->r);
+	rop->r = op->r;
+	ALLOC_MPWL (rop->r);
 }
 
 void
