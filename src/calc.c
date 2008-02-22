@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2007 Jiri (George) Lebl
+ * Copyright (C) 1997-2008 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -1887,7 +1887,7 @@ load_compiled_fp (const char *file, FILE *fp)
 		int i;
 		GSList *li = NULL;
 		int type;
-		char *ptrptr;
+		char *ptrptr = NULL;
 
 		gel_incr_file_info();
 

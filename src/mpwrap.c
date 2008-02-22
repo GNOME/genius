@@ -5210,7 +5210,7 @@ mpw_set_str_one(mpw_ptr rop,const char *s,int base)
 		char *p = g_strdup(s);
 		char *pp;
 		mpw_t tmp;
-		char *ptrptr;
+		char *ptrptr = NULL;
 
 		mpw_init(tmp);
 
@@ -5279,7 +5279,7 @@ mpw_set_str(mpw_ptr rop,const char *s,int base)
 {
 	char *p;
 	char *d;
-	char *ptrptr;
+	char *ptrptr = NULL;
 	mpw_t tmp;
 	p = strchr(s,' ');
 	if(!p) {
