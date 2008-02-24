@@ -130,6 +130,17 @@ and this builtin function makes it possible to make GEL functions aware of modul
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-IsDefined">
+         <term>IsDefined</term>
+         <listitem>
+          <synopsis>IsDefined (id)</synopsis>
+          <para>Check if an id is defined.  You should pass a string or
+	   and identifier.  If you pass a matrix, each entry will be
+	   evaluated separately and the matrix should contain strings
+	   or identifiers.</para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-IsFunction">
          <term>IsFunction</term>
          <listitem>
@@ -322,6 +333,16 @@ avoid them being accidentally overridden.</para>
           <synopsis>true</synopsis>
           <para>Aliases: <function>True</function> <function>TRUE</function></para>
           <para>The true boolean value.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-undefine">
+         <term>undefine</term>
+         <listitem>
+          <synopsis>undefine (id)</synopsis>
+          <para>Undefine a variable.  This includes locals and globals,
+	    every value on all context levels is wiped.  This function
+	    should really not be used on local variables.</para>
          </listitem>
         </varlistentry>
 

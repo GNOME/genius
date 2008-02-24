@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2007 Jiri (George) Lebl
+ * Copyright (C) 1997-2008 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -491,11 +491,43 @@ d_intern (const char *id)
 	return tok;
 }
 
+/* this may be inefficient as it also goes through global,
+ * but we don't assume we do this kind of thing often.  Only 
+ * done in d_delete which is only done on Undefine. */
+static void
+whack_from_all_contexts (GelEFunc *func)
+{
+	GSList *li;
+	for (li = context.stack; li != NULL; li = li->next) {
+		GSList *fl = g_slist_find (li->data, func);
+		if (fl != NULL) {
+			li->data = g_slist_delete_link (li->data, fl);
+			return;
+		}
+	}
+}
+
 gboolean
 d_delete(GelToken *id)
 {
-	/*FIXME: Delete function!*/
-	return FALSE;
+	GSList *li, *list;
+
+	id->protected_ = 0;
+	id->parameter = 0;
+	id->built_in_parameter = 0;
+
+	id->curref = NULL;
+	list = id->refs;
+	id->refs = NULL;
+	for (li = list; li != NULL; li = li->next) {
+		GelEFunc *f = li->data;
+		f->id = NULL;
+		whack_from_all_contexts (f);
+		d_freefunc (f);
+	}
+	g_slist_free (list);
+
+	return TRUE;
 }
 
 /*clear all context dictionaries and pop out all the contexts except

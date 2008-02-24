@@ -260,6 +260,61 @@ shrubbery_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 }
 
 static GelETree *
+IsDefined_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelToken *tok;
+
+	if (a[0]->type == MATRIX_NODE)
+		return gel_apply_func_to_matrix
+			(ctx, a[0], IsDefined_op, "IsDefined",
+			 exception);
+
+	if G_UNLIKELY ( ! check_argument_string_or_identifier (a, 0, "IsDefined"))
+		return NULL;
+
+	if (a[0]->type == IDENTIFIER_NODE) {
+		tok = a[0]->id.id;
+	} else /* STRING_NODE */ {
+		tok = d_intern (a[0]->str.str);
+	}
+
+	if (d_lookup_global (tok) != NULL)
+		return gel_makenum_bool (1);
+	else
+		return gel_makenum_bool (0);
+}
+
+static GelETree *
+undefine_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelToken *tok;
+
+	if (a[0]->type == MATRIX_NODE)
+		return gel_apply_func_to_matrix
+			(ctx, a[0], undefine_op, "undefine",
+			 exception);
+
+	if G_UNLIKELY ( ! check_argument_string_or_identifier (a, 0, "undefine"))
+		return NULL;
+
+	if (a[0]->type == IDENTIFIER_NODE) {
+		tok = a[0]->id.id;
+	} else /* STRING_NODE */ {
+		tok = d_intern (a[0]->str.str);
+	}
+
+	if G_UNLIKELY (tok->protected_) {
+		gel_errorout (_("%s: trying to undefine a protected id!"),
+			      "undefine");
+		return NULL;
+	}
+
+	d_delete (tok);
+
+	return gel_makenum_null ();
+}
+
+static GelETree *
 true_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	return gel_makenum_bool (1);
@@ -5209,6 +5264,11 @@ protect_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	GelToken *tok;
 
+	if (a[0]->type == MATRIX_NODE)
+		return gel_apply_func_to_matrix
+			(ctx, a[0], protect_op, "protect",
+			 exception);
+
 	if G_UNLIKELY ( ! check_argument_string_or_identifier (a, 0, "protect"))
 		return NULL;
 
@@ -5227,6 +5287,11 @@ static GelETree *
 unprotect_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	GelToken *tok;
+
+	if (a[0]->type == MATRIX_NODE)
+		return gel_apply_func_to_matrix
+			(ctx, a[0], unprotect_op, "unprotect",
+			 exception);
 
 	if G_UNLIKELY ( ! check_argument_string_or_identifier (a, 0, "unprotect"))
 		return NULL;
@@ -6173,6 +6238,8 @@ gel_funclib_addall(void)
 	FUNC (unprotect, 1, "id", "basic", N_("Unprotect a variable from being modified"));
 	VFUNC (SetFunctionFlags, 2, "id,flags", "basic", N_("Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments\""));
 	FUNC (GetCurrentModulo, 0, "", "basic", N_("Get current modulo from the context outside the function"));
+	FUNC (IsDefined, 1, "id", "basic", N_("Check if a variable or function is defined"));
+	FUNC (undefine, 1, "id", "basic", N_("Undefine a variable (including locals and globals)"));
 
 	FUNC (CompositeSimpsonsRule, 4, "f,a,b,n", "calculus", N_("Integration of f by Composite Simpson's Rule on the interval [a,b] with n subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be even"));
 	f->no_mod_all_args = 1;

@@ -886,5 +886,10 @@ NullSpace(I(10))+1						((null)+1)
 [1,2;3,4]@([1,2],null)+1					((null)+1)
 [1,2;3,4]@(null,2)+1						((null)+1)
 [1,2;3,4]@(null,[1,2])+1					((null)+1)
+IsDefined("IsDefined")						true
+IsDefined(`IsDefined)						true
+IsDefined(`UguUguUgu)						false
+a=9;undefine(`a);a						a
+a=9;undefine("a");a						a
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
