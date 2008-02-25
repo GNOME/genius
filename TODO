@@ -5,15 +5,6 @@
   with context > 0 on the toplevel context.   It's strange.  And I can't
   repro it now
 
-* crash:
-  function f(x) = (k=1; ff=`()=(k+1) ; k=(`()=0) ; ff); ll=f(5)
-
-* behaviour?:
-  function f(x) = (k=1; ff=`()=(k+1) ; k=null ; ff)
-  the returned function should return 2 not "((null)+1)" shouldn't it?
-  That is, replacement (putting into extra_dict)
-  should happen on function definition, not on context pop.
-
 * Implement max_nodes in the command line version
   * Implement MaxNodes parameter
 

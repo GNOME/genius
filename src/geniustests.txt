@@ -889,7 +889,15 @@ NullSpace(I(10))+1						((null)+1)
 IsDefined("IsDefined")						true
 IsDefined(`IsDefined)						true
 IsDefined(`UguUguUgu)						false
+undefine(`UguUguUgu)+1						((null)+1)
 a=9;undefine(`a);a						a
 a=9;undefine("a");a						a
+function f(x)=(k=1;ff=`()=(k+1);k=(`()=0);ff);ll=f(5)		(`()=(k=(`()=0);(k+1)))
+function f(x)=(k=1;ff=`()=(k+1);k=2;ff);ll=f(5)			(`()=(k=2;(k+1)))
+function f(x)=(k=1;ff=`()=(k+1);k=2;ff);ll=f(5);ll()		3
+function f(x)=(k=1;(function ff()=(k+1));k=2;ff);ll=f(5);ll()	3
+function f(x)=(ff=`()=(k+1);ff);ll=f(5)				(`()=(k+1))
+k=9;function f(x)=(ff=`()=(k+1);ff);ll=f(5)			(`()=(k+1))
+k=9;function f(x)=(ff=`()=(k+1);ff);ll=f(5);ll()		10
 load "nullspacetest.gel"					true
 load "longtest.gel"						true

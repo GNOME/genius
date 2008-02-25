@@ -12,7 +12,7 @@
 
     <kaiw@itee.uq.edu.au> 
 
-   Copyright (c) 1997-2007 Jiri (George) Lebl
+   Copyright (c) 1997-2008 Jiri (George) Lebl
 
    Copyright (c) 2004 Kai Willadsen
 
@@ -167,9 +167,11 @@
 
                 7.2. Toplevel Syntax
 
-                7.3. GEL Startup Procedure
+                7.3. Global Variables and Scope of Variables
 
-                7.4. Loading Programs
+                7.4. GEL Startup Procedure
+
+                7.5. Loading Programs
 
    8. Matrices in GEL
 
@@ -1564,7 +1566,52 @@
 
      ----------------------------------------------------------------------
 
-7.3. GEL Startup Procedure
+7.3. Global Variables and Scope of Variables
+
+   It is possible to return functions as value. This way you can build
+   functions which construct special purpose functions according to some
+   parameters. The tricky bit is what variables does the function see. The
+   way this works in GEL is that when a function returns another function,
+   all identifiers referenced in the function body are prepended a private
+   dictionary of the returned function. So the function will see all
+   variables that were in scope when it was defined. For example we define a
+   function which returns a function which adds 5 to its argument.
+
+ function f() = (
+   k = 5;
+   `(x) = (x+k)
+ )
+
+   Notice that the function adds k to x. You could use this as follows.
+
+ g = f();
+ g(5)
+
+   And g(5) should return 10.
+
+   One thing to note is that the value of k that is used is the one that's in
+   effect when the f returns. So for example
+
+ function f() = (
+   k = 5;
+   r = `(x) = (x+k);
+   k = 10;
+   r
+ )
+
+   will return a function that adds 10 to its argument rather than 5. This is
+   because the extra dictionary is created only when the context in which the
+   function was defined ends, which is when the function f returns. This is
+   consistent with how you would expect the function r to work inside the
+   function f according to the rules of scope of variables in GEL. Only those
+   variables are added to the extra dictionary that are in the context that
+   just ended and no longer exists. Variables used in the function that are
+   in still valid contexts will work as usual, using the current value of the
+   variable.
+
+     ----------------------------------------------------------------------
+
+7.4. GEL Startup Procedure
 
    First the program looks for the installed library file (the compiled
    version lib.cgel) in the installed directory, then it looks into the
@@ -1576,7 +1623,7 @@
 
      ----------------------------------------------------------------------
 
-7.4. Loading Programs
+7.5. Loading Programs
 
    Sometimes you have a larger program that you wrote into a file and want to
    read in that file. In these situations, you have two options. You can keep
@@ -1921,6 +1968,14 @@
 
            Check if argument is a boolean (and not a number).
 
+   IsDefined
+
+ IsDefined (id)
+
+           Check if an id is defined. You should pass a string or and
+           identifier. If you pass a matrix, each entry will be evaluated
+           separately and the matrix should contain strings or identifiers.
+
    IsFunction
 
  IsFunction (arg)
@@ -2078,6 +2133,14 @@
            Aliases: True TRUE
 
            The true boolean value.
+
+   undefine
+
+ undefine (id)
+
+           Undefine a variable. This includes locals and globals, every value
+           on all context levels is wiped. This function should really not be
+           used on local variables.
 
    unprotect
 

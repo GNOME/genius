@@ -499,11 +499,7 @@ whack_from_all_contexts (GelEFunc *func)
 {
 	GSList *li;
 	for (li = context.stack; li != NULL; li = li->next) {
-		GSList *fl = g_slist_find (li->data, func);
-		if (fl != NULL) {
-			li->data = g_slist_delete_link (li->data, fl);
-			return;
-		}
+		li->data = g_slist_remove (li->data, func);
 	}
 }
 
@@ -556,7 +552,7 @@ d_freedict (GSList *n)
 }
 
 static void
-whack_from_lists (GelEFunc *func)
+whack_from_subst_lists (GelEFunc *func)
 {
 	GSList *li;
 	for (li = context.subststack; li != NULL; li = li->next) {
@@ -576,7 +572,7 @@ d_put_on_subst_list (GelEFunc *func)
 		/* On a lower stackframe? */
 		/* weird but true.  So whack it and put it here,
 		 * it will get to the lower one eventually */
-		whack_from_lists (func);
+		whack_from_subst_lists (func);
 	}
 	context.subststack->data = 
 		g_slist_prepend (context.subststack->data, func);
@@ -594,7 +590,7 @@ d_freefunc (GelEFunc *n)
 	*/
 
 	if (n->on_subst_list) {
-		whack_from_lists (n);
+		whack_from_subst_lists (n);
 		n->on_subst_list = 0;
 	}
 
@@ -628,13 +624,21 @@ void
 d_replacefunc(GelEFunc *old,GelEFunc *_new)
 {
 	GSList *li;
-
-	/* assert some things we don't deal with.  Should we? */
-	g_assert ( ! _new->on_subst_list);
-	g_assert ( ! old->on_subst_list);
+	gboolean put_on_subst = FALSE;
 
 	g_return_if_fail(old && _new);
 	g_return_if_fail(old->id == _new->id);
+
+	if (old->on_subst_list) {
+		whack_from_subst_lists (old);
+		old->on_subst_list = 0;
+	}
+
+	if (_new->on_subst_list) {
+		whack_from_subst_lists (_new);
+		_new->on_subst_list = 0;
+		put_on_subst = TRUE;
+	}
 
 	if(old->type == GEL_USER_FUNC ||
 	   old->type == GEL_VARIABLE_FUNC)
@@ -649,6 +653,11 @@ d_replacefunc(GelEFunc *old,GelEFunc *_new)
 	g_slist_free (old->extra_dict);
 
 	memcpy(old,_new,sizeof(GelEFunc));
+
+	/* FIXME: this is inefficient */
+	if (put_on_subst) {
+		d_put_on_subst_list (old);
+	}
 
 #ifndef MEM_DEBUG_FRIENDLY
 	/*prepend to free list*/

@@ -1,3 +1,18 @@
+Sun Feb 24 18:35:45 2008  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/calc.c: print extra dict of a function by printing a list
+	  of variable assignments before the function body.
+
+	* src/dict.c: a little cleanup and fix the problem with subst list
+	  updating and d_replacefunc which happened when a local variable
+	  which was previously set to something else was set to a function.
+
+	* src/geniustests.txt: add more tests on returning functions
+	  and the subst list handling
+
+	* help/C/genius.xml: add section on returning functions from
+	  functions
+
 Sun Feb 24 15:25:45 2008  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/dict.c, src/funclib.c: Add IsDefined and undefine.  Implement

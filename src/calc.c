@@ -1252,6 +1252,64 @@ matrix_chop_p (GelMatrixW *m, int chop_when)
 	return FALSE;
 }
 
+static void
+append_func (GelOutput *gelo, GelEFunc *f)
+{
+	GSList *li;
+
+	if G_UNLIKELY (f == NULL) {
+		gel_errorout (_("NULL function!"));
+		gel_output_string(gelo,"(?)");
+		return;
+	}
+	if(f->type==GEL_BUILTIN_FUNC) {
+		gel_output_string(gelo,"(<builtin function>)");
+		return;
+	}
+
+	gel_output_string(gelo,"(`(");
+
+	for(li=f->named_args; li!=NULL; li=g_slist_next(li)) {
+		GelToken *id = li->data;
+		if (li != f->named_args)
+			gel_output_string (gelo, ",");
+		gel_output_string(gelo,id->token);
+	}
+
+	if (f->vararg)
+		gel_output_string (gelo, "...");
+
+	if G_LIKELY (f->type==GEL_USER_FUNC) {
+		gel_output_string(gelo,")=");
+		D_ENSURE_USER_BODY (f);
+		if (f->extra_dict != NULL) {
+			GSList *li;
+			gel_output_string(gelo,"(");
+			for (li = f->extra_dict; li != NULL; li = li->next) {
+				GelEFunc *ff = li->data;
+				gel_output_string (gelo, ff->id->token);
+				gel_output_string (gelo, "=");
+				if (ff->type == GEL_VARIABLE_FUNC) {
+					gel_print_etree (gelo, ff->data.user, FALSE);
+				} else {
+					append_func (gelo, ff);
+				}
+				gel_output_string (gelo, ";");
+			}
+		}
+		gel_print_etree (gelo, f->data.user, FALSE);
+		if (f->extra_dict != NULL) {
+			gel_output_string(gelo,")");
+		}
+		gel_output_string(gelo,")");
+	} else {
+		/*variable and reference functions should
+		  never be in the etree*/
+		gel_errorout (_("Unexpected function type!"));
+		gel_output_string(gelo,")(?))");
+	}
+}
+
 /*make a string representation of an expression*/
 void
 gel_print_etree (GelOutput *gelo,
@@ -1340,46 +1398,8 @@ gel_print_etree (GelOutput *gelo,
 		gel_output_string(gelo,"\"");
 		break;
 	case FUNCTION_NODE:
-		{
-			GSList *li;
-			GelEFunc *f;
-			
-			f = n->func.func;
-			if G_UNLIKELY (f == NULL) {
-				gel_errorout (_("NULL function!"));
-				gel_output_string(gelo,"(?)");
-				break;
-			}
-			if(f->type==GEL_BUILTIN_FUNC) {
-				gel_output_string(gelo,"(<builtin function>)");
-				break;
-			}
-
-			gel_output_string(gelo,"(`(");
-
-			for(li=f->named_args; li!=NULL; li=g_slist_next(li)) {
-				GelToken *id = li->data;
-				if(li!=f->named_args)
-					gel_output_string(gelo,",");
-				gel_output_string(gelo,id->token);
-			}
-
-			if (f->vararg)
-				gel_output_string (gelo, "...");
-
-			if G_LIKELY (f->type==GEL_USER_FUNC) {
-				gel_output_string(gelo,")=");
-				D_ENSURE_USER_BODY (f);
-				gel_print_etree (gelo, f->data.user, FALSE);
-				gel_output_string(gelo,")");
-			} else {
-				/*variable and reference functions should
-				  never be in the etree*/
-				gel_errorout (_("Unexpected function type!"));
-				gel_output_string(gelo,")(?))");
-			}
-			break;
-		}
+		append_func (gelo, n->func.func);
+		break;
 	case COMPARISON_NODE:
 		appendcomp(gelo,n);
 		break;

@@ -1990,6 +1990,55 @@ else
       </para>
     </sect1>
 
+     <sect1 id="genius-gel-returning-functions">
+       <title>Global Variables and Scope of Variables</title>
+	<para>
+	  It is possible to return functions as value.  This way you can
+	  build functions which construct special purpose functions according
+	  to some parameters.  The tricky bit is what variables does the
+	  function see.  The way this works in GEL is that when a function
+	  returns another function, all identifiers referenced in the
+	  function body are prepended a private dictionary of the returned
+	  function.  So the function will see all variables that were in scope
+	  when it was defined.  For example we define a function which
+	  returns a function which adds 5 to its argument.
+<programlisting>function f() = (
+  k = 5;
+  `(x) = (x+k)
+)
+</programlisting>
+	  Notice that the function adds <varname>k</varname> to
+	  <varname>x</varname>.  You could use this as follows.
+<programlisting>g = f();
+g(5)
+</programlisting>
+	  And <userinput>g(5)</userinput> should return 10.
+        </para>
+	<para>
+	  One thing to note is that the value of <varname>k</varname>
+	  that is used is the one that's in effect when the
+	  <function>f</function> returns.  So for example
+<programlisting>function f() = (
+  k = 5;
+  r = `(x) = (x+k);
+  k = 10;
+  r
+)
+</programlisting>
+	  will return a function that adds 10 to its argument rather than 5.
+	  This is because the extra dictionary is created only when the context
+	  in which the function was defined ends, which is when the function
+	  <function>f</function> returns.  This is consistent with how you
+	  would expect the function <function>r</function> to work inside
+	  the function <function>f</function> according to the rules of
+	  scope of variables in GEL.  Only those variables are added to the
+	  extra dictionary that are in the context that just ended and
+	  no longer exists.  Variables
+	  used in the function that are in still valid contexts will work
+	  as usual, using the current value of the variable.
+	</para>
+    </sect1>
+
     <sect1 id="genius-gel-startup-procedure">
       <title>GEL Startup Procedure</title>
       <para>
