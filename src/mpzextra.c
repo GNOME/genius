@@ -222,11 +222,13 @@ mympz_is_prime (mpz_srcptr n, int miller_rabin_reps)
 	if ( ! mympz_strong_pseudoprime_test_2_3_5_7 (n))
 		return 0;
 
-	if ( ! inited_test) {
+	if G_UNLIKELY ( ! inited_test) {
 		/* set test to 25*10^9 */
 		mpz_init_set_ui (test, 10);
 		mpz_pow_ui (test, test, 9);
 		mpz_mul_ui (test, test, 25);
+
+		inited_test = TRUE;
 	}
 
 	/* if n < 25*10^9, we are now sure this
