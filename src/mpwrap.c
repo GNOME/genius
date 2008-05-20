@@ -3380,7 +3380,6 @@ mpw_abs(mpw_ptr rop,mpw_ptr op)
 	} else {
 		MpwRealNum t = {{NULL}};
 
-		MAKE_REAL(rop);
 		if (rop != op) {
 			MAKE_EMPTY(rop->r, op->r->type);
 		} else {
@@ -3396,6 +3395,40 @@ mpw_abs(mpw_ptr rop,mpw_ptr op)
 		mpwl_free(&t,TRUE);
 
 		mpwl_sqrt(rop->r,rop->r);
+
+		MAKE_REAL (rop);
+	}
+}
+
+void
+mpw_abs_sq (mpw_ptr rop,mpw_ptr op)
+{
+	if (MPW_IS_REAL (op)) {
+		if(mpwl_sgn(op->r)<0)
+			mpw_neg(rop,op);
+		else
+			mpw_set(rop,op);
+
+		/* have to actually square now */
+		mpw_mul (rop, rop, rop);
+	} else {
+		MpwRealNum t = {{NULL}};
+
+		if (rop != op) {
+			MAKE_EMPTY(rop->r, op->r->type);
+		} else {
+			MAKE_COPY (rop->r);
+		}
+		
+		mpwl_init_type (&t, op->i->type);
+		
+		mpwl_mul(rop->r,op->r,op->r);
+		mpwl_mul(&t,op->i,op->i);
+		mpwl_add(rop->r,rop->r,&t);
+
+		mpwl_free(&t,TRUE);
+
+		MAKE_REAL (rop);
 	}
 }
 

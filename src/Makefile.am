@@ -13,7 +13,7 @@ INCLUDES = \
 	-DG_LOG_DOMAIN=\"Genius\"				\
 	-DDATADIR=\""$(datadir)"\"				\
 	-DLIBEXECDIR=\""$(libexecdir)"\"			\
-	-DBUILDDIR=\""$(abs_top_builddir)"\"			\
+	-DBUILDDIR=\""@abs_top_builddir@"\"			\
 	-I$(srcdir)						\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/ve					\

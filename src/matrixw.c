@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2007 Jiri (George) Lebl
+ * Copyright (C) 1997-2008 Jiri (George) Lebl
  *
  * Author: George Lebl
  *
@@ -45,7 +45,8 @@ struct _GelMatrixWFreeList {
 	GelMatrixWFreeList *next;
 };
 
-static void internal_make_private (GelMatrixW *m, int w, int h);
+static void internal_make_private (GelMatrixW *m, int w, int h,
+				   gboolean kill_type_caches);
 
 static GelMatrixWFreeList *free_matrices = NULL;
 
@@ -142,9 +143,6 @@ gel_matrixw_new(void)
 	m->regw = m->m->width;
 	m->regh = m->m->height;
 	
-	if (the_zero == NULL)
-		the_zero = gel_makenum_ui (0);
-	
 	return m;
 }
 GelMatrixW *
@@ -159,7 +157,6 @@ gel_matrixw_new_with_matrix(GelMatrix *mat)
 	m->m = mat;
 	m->m->use++;
 
-	/* clear caches as we're gonna mess with this matrix */
 	m->cached_value_only = 0;
 	m->cached_value_only_real = 0;
 	m->cached_value_only_rational = 0;
@@ -173,8 +170,100 @@ gel_matrixw_new_with_matrix(GelMatrix *mat)
 	m->regw = m->m->width;
 	m->regh = m->m->height;
 	
-	if (the_zero == NULL)
-		the_zero = gel_makenum_ui (0);
+	return m;
+}
+
+GelMatrixW *
+gel_matrixw_new_with_matrix_value_only (GelMatrix *mat)
+{
+	GelMatrixW *m;
+	NEW_MATRIX (m);
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+	
+	m->m = mat;
+	m->m->use++;
+
+	m->cached_value_only = 1;
+	m->value_only = 1;
+	m->cached_value_only_real = 0;
+	m->cached_value_only_rational = 0;
+	m->cached_value_only_integer = 0;
+	m->cached_value_or_bool_only = 0;
+	m->rref = 0;
+	
+	m->tr = 0;
+	m->regx = NULL;
+	m->regy = NULL;
+	m->regw = m->m->width;
+	m->regh = m->m->height;
+	
+	return m;
+}
+
+GelMatrixW *
+gel_matrixw_new_with_matrix_value_only_integer (GelMatrix *mat)
+{
+	GelMatrixW *m;
+	NEW_MATRIX (m);
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+	
+	m->m = mat;
+	m->m->use++;
+
+	m->cached_value_only = 1;
+	m->value_only = 1;
+	m->cached_value_only_real = 1;
+	m->value_only_real = 1;
+	m->cached_value_only_rational = 1;
+	m->value_only_rational = 1;
+	m->cached_value_only_integer = 1;
+	m->value_only_integer = 1;
+	m->cached_value_or_bool_only = 1;
+	m->value_or_bool_only = 1;
+	m->rref = 0;
+	
+	m->tr = 0;
+	m->regx = NULL;
+	m->regy = NULL;
+	m->regw = m->m->width;
+	m->regh = m->m->height;
+	
+	return m;
+}
+
+GelMatrixW *
+gel_matrixw_new_with_matrix_value_only_real_nonrational (GelMatrix *mat)
+{
+	GelMatrixW *m;
+	NEW_MATRIX (m);
+#ifdef MATRIX_DEBUG
+	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
+#endif
+	
+	m->m = mat;
+	m->m->use++;
+
+	m->cached_value_only = 1;
+	m->value_only = 1;
+	m->cached_value_only_real = 1;
+	m->value_only_real = 1;
+	m->cached_value_only_rational = 1;
+	m->value_only_rational = 0;
+	m->cached_value_only_integer = 1;
+	m->value_only_integer = 0;
+	m->cached_value_or_bool_only = 1;
+	m->value_or_bool_only = 1;
+	m->rref = 0;
+	
+	m->tr = 0;
+	m->regx = NULL;
+	m->regy = NULL;
+	m->regw = m->m->width;
+	m->regh = m->m->height;
 	
 	return m;
 }
@@ -436,7 +525,9 @@ gel_matrixw_set_size (GelMatrixW *m, int nwidth, int nheight)
 	} else if (m->m->use > 1) {
 		/* since the use is greater than 1, we WILL get a copy of
 		 * this matrix at the right size */
-		internal_make_private (m, width, height);
+		/* it may seem we could leave caches alone, but changing size
+		 * could make those values different */
+		internal_make_private (m, width, height, TRUE /* kill_type_caches */);
 		g_assert (m->m->use == 1);
 	} else /* m->m->use == 1 */{
 		ensure_at_least_size (m, width, height);
@@ -463,7 +554,7 @@ gel_matrixw_set_at_least_size (GelMatrixW *m, int width, int height)
 
 	if (width > m->regw || height > m->regh) {
 		/* FIXME: this may be a bit inefficent */
-		gel_matrixw_make_private (m);
+		gel_matrixw_make_private (m, TRUE /* kill_type_caches */);
 		make_us_a_copy (m, MAX (width, m->regw),MAX (height, m->regh));
 		ensure_at_least_size (m, width, height);
 	}
@@ -483,9 +574,11 @@ gel_matrixw_set_element (GelMatrixW *m, int x, int y, gpointer data)
 #endif
 
 	if (m->tr)
-		internal_make_private (m, MAX(m->regh, y+1), MAX(m->regw, x+1));
+		internal_make_private (m, MAX(m->regh, y+1), MAX(m->regw, x+1),
+				       TRUE /* kill_type_caches */);
 	else
-		internal_make_private (m, MAX(m->regw, x+1), MAX(m->regh, y+1));
+		internal_make_private (m, MAX(m->regw, x+1), MAX(m->regh, y+1),
+				       TRUE /* kill_type_caches */);
 	gel_matrixw_set_at_least_size (m, x+1, y+1);
 	t = gel_matrixw_get_index (m, x, y);
 	if (t != NULL)
@@ -511,7 +604,8 @@ gel_matrixw_set_velement (GelMatrixW *m, int i, gpointer data)
 			x = i % m->regh;
 			y = i / m->regh;
 		}
-		internal_make_private (m, MAX(m->regh, y+1), MAX(m->regw, x+1));
+		internal_make_private (m, MAX(m->regh, y+1), MAX(m->regw, x+1),
+				       TRUE /* kill_type_caches */);
 	} else {
 		if (m->regh == 1) {
 			x = i;
@@ -520,7 +614,8 @@ gel_matrixw_set_velement (GelMatrixW *m, int i, gpointer data)
 			x = i % m->regw;
 			y = i / m->regw;
 		}
-		internal_make_private (m, MAX(m->regw, x+1), MAX(m->regh, y+1));
+		internal_make_private (m, MAX(m->regw, x+1), MAX(m->regh, y+1),
+				       TRUE /* kill_type_caches */);
 	}
 	gel_matrixw_set_at_least_size (m, x+1, y+1);
 	t = gel_matrixw_get_index (m, x, y);
@@ -663,7 +758,8 @@ gel_matrixw_set_region(GelMatrixW *m, GelMatrixW *src,
 
 	/* FIXME: we will copy some nodes we don't need to copy
 	 * as we will free them just below */
-	internal_make_private (m, MAX (xmax+1, m->regw), MAX (ymax+1, m->regh));
+	internal_make_private (m, MAX (xmax+1, m->regw), MAX (ymax+1, m->regh),
+			       TRUE /* kill_type_caches */);
 	ensure_at_least_size (m, xmax+1, ymax+1);
 	/* assume that's what ensure/make_us_a_copy does */
 	g_assert (m->regx == NULL && m->regy == NULL);
@@ -726,7 +822,8 @@ gel_matrixw_set_region_etree (GelMatrixW *m, GelETree *src,
 	xmax = getmax (destx, w);
 	ymax = getmax (desty, h);
 
-	internal_make_private (m, MAX (xmax+1, m->regw), MAX (ymax+1, m->regh));
+	internal_make_private (m, MAX (xmax+1, m->regw), MAX (ymax+1, m->regh),
+			       TRUE /* kill_type_caches */);
 	ensure_at_least_size (m, xmax+1, ymax+1);
 	/* assume that's what ensure/make_us_a_copy does */
 	g_assert (m->regx == NULL && m->regy == NULL);
@@ -899,18 +996,21 @@ gel_matrixw_transpose(GelMatrixW *m)
 
 /*make private copy of the GelMatrix*/
 static void
-internal_make_private (GelMatrixW *m, int w, int h)
+internal_make_private (GelMatrixW *m, int w, int h, gboolean kill_type_caches)
 {
 #ifdef MATRIX_DEBUG
 	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
 #endif
 
-	/* clear caches as we're gonna mess with this matrix */
-	m->cached_value_only = 0;
-	m->cached_value_only_real = 0;
-	m->cached_value_only_rational = 0;
-	m->cached_value_only_integer = 0;
-	m->cached_value_or_bool_only = 0;
+	if (kill_type_caches) {
+		/* clear caches as we're gonna mess with this matrix */
+		m->cached_value_only = 0;
+		m->cached_value_only_real = 0;
+		m->cached_value_only_rational = 0;
+		m->cached_value_only_integer = 0;
+		m->cached_value_or_bool_only = 0;
+	}
+
 	m->rref = 0;
 
 #ifdef MATRIX_DEBUG
@@ -934,14 +1034,14 @@ internal_make_private (GelMatrixW *m, int w, int h)
 
 /*make private copy of the GelMatrix*/
 void
-gel_matrixw_make_private (GelMatrixW *m)
+gel_matrixw_make_private (GelMatrixW *m, gboolean kill_type_caches)
 {
 	g_return_if_fail(m != NULL);
 #ifdef MATRIX_DEBUG
 	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
 #endif
 
-	internal_make_private (m, m->regw, m->regh);
+	internal_make_private (m, m->regw, m->regh, kill_type_caches);
 }
 
 /*free a matrix*/
@@ -995,11 +1095,13 @@ gel_matrixw_set_vregion (GelMatrixW *m, GelMatrixW *src, int *desti, int len)
 	if (m->tr) {
 		int i;
 		if (m->regw == 1) {
-			internal_make_private (m, m->regw, MAX (max+1, m->regh));
+			internal_make_private (m, m->regw, MAX (max+1, m->regh),
+					       TRUE /* kill_type_caches */);
 			ensure_at_least_size (m, m->regw, max+1);
 		} else {
 			int minw = (max / m->regh) + 1;
-			internal_make_private (m, MAX (minw, m->regw), m->regh);
+			internal_make_private (m, MAX (minw, m->regw), m->regh,
+					       TRUE /* kill_type_caches */);
 			ensure_at_least_size (m, minw, m->regh);
 		}
 		/* assume that's what ensure/make_us_a_copy does */
@@ -1032,11 +1134,13 @@ gel_matrixw_set_vregion (GelMatrixW *m, GelMatrixW *src, int *desti, int len)
 	} else {
 		int i;
 		if (m->regh == 1) {
-			internal_make_private (m, MAX (max+1, m->regw), m->regh);
+			internal_make_private (m, MAX (max+1, m->regw), m->regh,
+					       TRUE /* kill_type_caches */);
 			ensure_at_least_size (m, max+1, m->regh);
 		} else {
 			int minh = (max / m->regw) + 1;
-			internal_make_private (m, m->regw, MAX (minh, m->regh));
+			internal_make_private (m, m->regw, MAX (minh, m->regh),
+					       TRUE /* kill_type_caches */);
 			ensure_at_least_size (m, m->regw, minh);
 		}
 		/* assume that's what ensure/make_us_a_copy does */
@@ -1086,7 +1190,8 @@ gel_matrixw_set_vregion_etree (GelMatrixW *m, GelETree *src, int *desti, int len
 		int minw = (max / m->regh) + 1;
 		int i;
 
-		internal_make_private (m, MAX (minw, m->regw), m->regh);
+		internal_make_private (m, MAX (minw, m->regw), m->regh,
+				       TRUE /* kill_type_caches */);
 		ensure_at_least_size (m, minw, m->regh);
 		/* assume that's what ensure/make_us_a_copy does */
 		g_assert (m->regx == NULL && m->regy == NULL);
@@ -1104,7 +1209,8 @@ gel_matrixw_set_vregion_etree (GelMatrixW *m, GelETree *src, int *desti, int len
 		int minh = (max / m->regw) + 1;
 		int i;
 
-		internal_make_private (m, m->regw, MAX (minh, m->regh));
+		internal_make_private (m, m->regw, MAX (minh, m->regh),
+				       TRUE /* kill_type_caches */);
 		ensure_at_least_size (m, m->regw, minh);
 		/* assume that's what ensure/make_us_a_copy does */
 		g_assert (m->regx == NULL && m->regy == NULL);

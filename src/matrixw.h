@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2007 Jiri (George) Lebl
+ * Copyright (C) 1997-2008 Jiri (George) Lebl
  *
  * Author: George Lebl
  *
@@ -54,6 +54,9 @@ struct _GelMatrixW {
 /*new matrix*/
 GelMatrixW *gel_matrixw_new(void);
 GelMatrixW *gel_matrixw_new_with_matrix(GelMatrix *mat);
+GelMatrixW *gel_matrixw_new_with_matrix_value_only (GelMatrix *mat);
+GelMatrixW *gel_matrixw_new_with_matrix_value_only_integer (GelMatrix *mat);
+GelMatrixW *gel_matrixw_new_with_matrix_value_only_real_nonrational (GelMatrix *mat);
 
 /*set size of a matrix*/
 void gel_matrixw_set_size(GelMatrixW *m, int width, int height);
@@ -93,7 +96,7 @@ GelMatrixW * gel_matrixw_transpose(GelMatrixW *m);
 void gel_matrixw_free(GelMatrixW *m);
 
 /*make private copy of the GelMatrix*/
-void gel_matrixw_make_private(GelMatrixW *m);
+void gel_matrixw_make_private(GelMatrixW *m, gboolean kill_type_caches);
 
 extern GelETree *the_zero;
 

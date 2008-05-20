@@ -1,11 +1,13 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2003 George Lebl
+ * Copyright (C) 1997-2008 Jiri (George) Lebl
  *
- * Author: George Lebl
+ * Author: Jiri (George) Lebl
  *
- * This program is free software; you can redistribute it and/or modify
+ * This file is part of Genius.
+ *
+ * Genius is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -14,9 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the  Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
- * USA.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "config.h"
@@ -165,7 +165,7 @@ mympz_miller_rabin_test_sure (mpz_srcptr n)
 	  if (evalnode_hook != NULL) {
 		  (*evalnode_hook)();
 	  }
-	  if (interrupted) {
+	  if G_UNLIKELY (interrupted) {
 		  is_prime = 0;
 		  break;
 	  }
@@ -243,7 +243,7 @@ mympz_is_prime (mpz_srcptr n, int miller_rabin_reps)
 
 	if (evalnode_hook != NULL)
 		(*evalnode_hook)();
-	if (interrupted)
+	if G_UNLIKELY (interrupted)
 		return 0;
 
 	return mpz_millerrabin (n, miller_rabin_reps-1);
@@ -387,7 +387,7 @@ S2:
 		      i = 0;
 	      }
       }
-      if (interrupted) {
+      if G_UNLIKELY (interrupted) {
 	      mpz_set_ui (n, 1);
 	      continue;
       }
@@ -523,7 +523,7 @@ mympz_pollard_rho_factorize (mpz_srcptr t)
 
 	mpz_clear (n);
 
-	if (interrupted) {
+	if G_UNLIKELY (interrupted) {
 		mympz_factorization_free (fact);
 		return NULL;
 	}

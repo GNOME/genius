@@ -151,6 +151,7 @@ mpfr_ptr mpw_peek_imag_mpf (mpw_ptr op);
 
 
 void mpw_abs(mpw_ptr rop,mpw_ptr op);
+void mpw_abs_sq(mpw_ptr rop,mpw_ptr op);
 
 int mpw_sgn(mpw_ptr op);
 

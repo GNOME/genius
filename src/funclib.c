@@ -200,7 +200,7 @@ version_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	GET_NEW_NODE (n);
 	n->type = MATRIX_NODE;
-	n->mat.matrix = gel_matrixw_new_with_matrix (m);
+	n->mat.matrix = gel_matrixw_new_with_matrix_value_only_integer (m);
 	n->mat.quoted = FALSE;
 
 	return n;
@@ -560,7 +560,7 @@ rand_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 		GET_NEW_NODE (n);
 		n->type = MATRIX_NODE;
-		n->mat.matrix = gel_matrixw_new_with_matrix (m);
+		n->mat.matrix = gel_matrixw_new_with_matrix_value_only_real_nonrational (m);
 		n->mat.quoted = FALSE;
 
 		return n;
@@ -594,7 +594,7 @@ rand_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 		GET_NEW_NODE (n);
 		n->type = MATRIX_NODE;
-		n->mat.matrix = gel_matrixw_new_with_matrix (m);
+		n->mat.matrix = gel_matrixw_new_with_matrix_value_only_real_nonrational (m);
 		n->mat.quoted = FALSE;
 
 		return n;
@@ -666,7 +666,7 @@ randint_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 		GET_NEW_NODE (n);
 		n->type = MATRIX_NODE;
-		n->mat.matrix = gel_matrixw_new_with_matrix (m);
+		n->mat.matrix = gel_matrixw_new_with_matrix_value_only_integer (m);
 		n->mat.quoted = FALSE;
 
 		return n;
@@ -711,7 +711,7 @@ randint_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 		GET_NEW_NODE (n);
 		n->type = MATRIX_NODE;
-		n->mat.matrix = gel_matrixw_new_with_matrix (m);
+		n->mat.matrix = gel_matrixw_new_with_matrix_value_only_integer (m);
 		n->mat.quoted = FALSE;
 
 		return n;
@@ -3015,7 +3015,7 @@ IndexComplement_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	GET_NEW_NODE (n);
 	n->type = MATRIX_NODE;
-	n->mat.matrix = gel_matrixw_new_with_matrix (nm);
+	n->mat.matrix = gel_matrixw_new_with_matrix_value_only_integer (nm);
 	if (a[0]->type == MATRIX_NODE)
 		n->mat.quoted = a[0]->mat.quoted;
 	else
@@ -3393,7 +3393,7 @@ PivotColumns_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	GET_NEW_NODE (n);
 	n->type = MATRIX_NODE;
-	n->mat.matrix = gel_matrixw_new_with_matrix (nm);
+	n->mat.matrix = gel_matrixw_new_with_matrix_value_only_integer (nm);
 	n->mat.quoted = FALSE;
 
 	g_free (cols);
@@ -3508,7 +3508,7 @@ NullSpace_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	GET_NEW_NODE (n);
 	n->type = MATRIX_NODE;
-	n->mat.matrix = gel_matrixw_new_with_matrix (nm);
+	n->mat.matrix = gel_matrixw_new_with_matrix_value_only (nm);
 	n->mat.quoted = FALSE;
 
 	return n;
@@ -4264,7 +4264,7 @@ DividePoly_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	gel_matrixw_set_size (mn, size, 1);
 
 	rem = gel_matrixw_copy (pm);
-	gel_matrixw_make_private (rem);
+	gel_matrixw_make_private (rem, TRUE /* kill_type_caches */);
 
 	/* we know ql can't be zero */
 	ql = gel_matrixw_index (qm, sizeq-1, 0);
@@ -4487,7 +4487,7 @@ QuadraticFormula_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	GET_NEW_NODE (n);
 	n->type = MATRIX_NODE;
-	n->mat.matrix = gel_matrixw_new_with_matrix (nm);
+	n->mat.matrix = gel_matrixw_new_with_matrix_value_only (nm);
 	n->mat.quoted = FALSE;
 
 	return n;
@@ -4916,7 +4916,7 @@ etree_out_of_int_vector (int *vec, int len)
 
 	GET_NEW_NODE (n);
 	n->type = MATRIX_NODE;
-	n->mat.matrix = gel_matrixw_new_with_matrix (mm);
+	n->mat.matrix = gel_matrixw_new_with_matrix_value_only_integer (mm);
 	n->mat.quoted = FALSE;
 
 	return n;

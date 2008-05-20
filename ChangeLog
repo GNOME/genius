@@ -1,3 +1,22 @@
+Tue May 20 00:25:10 2008  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/matrixw.[ch], matop.c, src/eval.c, src/funclib.c:  Optimize
+	  matrix manipulation a bit.  Don't be overly conservative with
+	  making things private.  And OMG we used Gauss-Jordan instead of
+	  backaddition.  Also when the matrix is not rational, do pivotting
+	  (use largest entry, not first nonzero one)
+
+	* src/mpwrap.c: fix mpw_abs if called with same arguments for in and
+	  out and add mpw_abs_sq for getting the absolute value squared,
+	  which doesn't involve a sqrt
+
+	* src/genius.c, src/gnome-genius.c, src/eval.[ch], src/matrixw.c: 
+	  init the_zero during the startup
+
+	* src/mpzextra.c: very minor optimizations
+
+	* src/Makefile.am: fix BUILDDIR setup
+
 Mon May 19 19:56:37 2008  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/mpzextra.c: fix leak on mympz_is_prime.

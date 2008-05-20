@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2007 Jiri (George) Lebl
+ * Copyright (C) 1997-2008 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -4084,6 +4084,8 @@ main (int argc, char *argv[])
 	  will also register the builtin routines with the global
 	  dictionary*/
 	d_singlecontext ();
+
+	gel_init ();
 
 	gel_add_graph_functions ();
 
