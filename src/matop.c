@@ -393,19 +393,33 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 	gboolean matrix_rational = FALSE;
 	int *pivots = NULL;
 	int pivots_max = -1;
-	
+
+	w = gel_matrixw_width (m);
+        h = gel_matrixw_height (m);
+
 	if(detop)
 		mpw_set_ui(detop,1);
 
+	if (m->rref) {
+		/* test for singularity */
+		if (h > w) {
+			ret = FALSE;
+		} else {
+			GelETree *t = gel_matrixw_get_index(m,h-1,h-1);
+			if (t == NULL ||
+			    mpw_zero_p (t->val.value))
+				ret = FALSE;
+		}
+		return ret;
+	}
+	
 	matrix_rational = gel_is_matrix_value_only_rational (m);
 
 	mpw_init(tmp);
 	d = 0;
-	w = gel_matrixw_width (m);
-        h = gel_matrixw_height (m);
 
 	if (reduce) {
-		pivots = g_new0 (int, h);
+		pivots = g_alloca (sizeof(int) * h);
 	}
 
 	for (i = 0; i < w && d < h; i++) {
@@ -447,7 +461,6 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 			ret = FALSE;
 			if(stopsing) {
 				mpw_clear(tmp);
-				g_free (pivots);
 				return FALSE;
 			}
 			continue;
@@ -496,7 +509,6 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 					if ( ! mul_sub_row (ctx, simul, d, tmp, j) &&
 					     stopsing) {
 						mpw_clear(tmp);
-						g_free (pivots);
 						return FALSE;
 					}
 				}
@@ -528,7 +540,6 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 					    t != NULL &&
 					    t->type != VALUE_NODE) {
 						mpw_clear(tmp);
-						g_free (pivots);
 						return FALSE;
 					}
 				}
@@ -540,7 +551,6 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 			if ( ! div_row (ctx, simul, d, piv->val.value) &&
 			    stopsing) {
 				mpw_clear(tmp);
-				g_free (pivots);
 				return FALSE;
 			}
 		}
@@ -561,14 +571,12 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 					if ( ! mul_sub_row (ctx, m, d, tmp, j) &&
 					     stopsing) {
 						mpw_clear(tmp);
-						g_free (pivots);
 						return FALSE;
 					}
 					if(simul) {
 						if ( ! mul_sub_row (ctx, simul, d, tmp, j) &&
 						     stopsing) {
 							mpw_clear(tmp);
-							g_free (pivots);
 							return FALSE;
 						}
 					}
@@ -581,9 +589,11 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 		/* FIXME: this may fail!!! */
 		gel_mod_integer_rational (detop, ctx->modulo);
 	}
+
+	if (reduce && ! uppertriang)
+		m->rref = 1;
 	
 	mpw_clear(tmp);
-	g_free (pivots);
 	return ret;
 }
 

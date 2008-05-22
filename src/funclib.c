@@ -2683,19 +2683,32 @@ I_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if (cached_size == size) {
 		n->mat.matrix = gel_matrixw_copy (cached_m);
 	} else {
+		GelMatrixW *m;
+
 		if (cached_m != NULL)
 			gel_matrixw_free (cached_m);
-		n->mat.matrix = gel_matrixw_new();
-		gel_matrixw_set_size(n->mat.matrix,size,size);
+		n->mat.matrix = m = gel_matrixw_new();
+		gel_matrixw_set_size (m, size, size);
 
 		for (i = 0; i < size; i++)
-			gel_matrixw_set_index (n->mat.matrix, i, i) =
+			gel_matrixw_set_index (m, i, i) =
 				gel_makenum_ui(1);
 		/* This is in row reduced form, duh! */
-		n->mat.matrix->rref = 1;
+		m->rref = 1;
 
-		cached_m = gel_matrixw_copy (n->mat.matrix);
-		cached_size = -1;
+		m->cached_value_only = 1;
+		m->value_only = 1;
+		m->cached_value_only_real = 1;
+		m->value_only_real = 1;
+		m->cached_value_only_rational = 1;
+		m->value_only_rational = 1;
+		m->cached_value_only_integer = 1;
+		m->value_only_integer = 1;
+		m->cached_value_or_bool_only = 1;
+		m->value_or_bool_only = 1;
+
+		cached_m = gel_matrixw_copy (m);
+		cached_size = size;
 	}
 
 	return n;
@@ -2705,6 +2718,7 @@ static GelETree *
 zeros_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	GelETree *n;
+	GelMatrixW *m;
 	long rows, cols;
 
 	if G_UNLIKELY ( ! check_argument_integer (a, 0, "zeros") ||
@@ -2733,9 +2747,23 @@ zeros_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	/*make us a new empty node*/
 	GET_NEW_NODE(n);
 	n->type = MATRIX_NODE;
-	n->mat.matrix = gel_matrixw_new();
+	n->mat.matrix = m = gel_matrixw_new();
 	n->mat.quoted = FALSE;
-	gel_matrixw_set_size(n->mat.matrix,cols,rows);
+	gel_matrixw_set_size (m, cols, rows);
+
+	/* trivially rref */
+	m->rref = 1;
+
+	m->cached_value_only = 1;
+	m->value_only = 1;
+	m->cached_value_only_real = 1;
+	m->value_only_real = 1;
+	m->cached_value_only_rational = 1;
+	m->value_only_rational = 1;
+	m->cached_value_only_integer = 1;
+	m->value_only_integer = 1;
+	m->cached_value_or_bool_only = 1;
+	m->value_or_bool_only = 1;
 	
 	return n;
 }
@@ -2744,6 +2772,7 @@ static GelETree *
 ones_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	GelETree *n;
+	GelMatrixW *m;
 	long rows, cols;
 	int i, j;
 
@@ -2773,14 +2802,25 @@ ones_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	/*make us a new empty node*/
 	GET_NEW_NODE(n);
 	n->type = MATRIX_NODE;
-	n->mat.matrix = gel_matrixw_new();
+	n->mat.matrix = m = gel_matrixw_new();
 	n->mat.quoted = FALSE;
-	gel_matrixw_set_size(n->mat.matrix,cols,rows);
+	gel_matrixw_set_size (m, cols, rows);
+
+	m->cached_value_only = 1;
+	m->value_only = 1;
+	m->cached_value_only_real = 1;
+	m->value_only_real = 1;
+	m->cached_value_only_rational = 1;
+	m->value_only_rational = 1;
+	m->cached_value_only_integer = 1;
+	m->value_only_integer = 1;
+	m->cached_value_or_bool_only = 1;
+	m->value_or_bool_only = 1;
 	
 	for(j=0;j<rows;j++)
 		for(i=0;i<cols;i++)
-			gel_matrixw_set_index(n->mat.matrix,i,j) =
-				gel_makenum_ui(1);
+			gel_matrixw_set_index (m, i, j) =
+				gel_makenum_ui (1);
 
 	return n;
 }
@@ -3305,7 +3345,6 @@ rref_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	n->mat.matrix = gel_matrixw_copy(a[0]->mat.matrix);
 	if ( ! n->mat.matrix->rref) {
 		gel_value_matrix_gauss (ctx, n->mat.matrix, TRUE, FALSE, FALSE, NULL, NULL);
-		n->mat.matrix->rref = 1;
 	}
 	n->mat.quoted = FALSE;
 	return n;

@@ -1,3 +1,11 @@
+Thu May 22 01:10:40 2008  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/funclib.c: fix identity matrix caching, setup type caches for
+	  identity, zeros and ones
+
+	* src/matop.c: move rref caching to gauss to speed up inverting
+	  matrices in rref form etc...
+
 Tue May 20 02:36:47 2008  Jiri (George) Lebl <jirka@5z.com>
 
 	* lib/number_theory/primes.gel: update slightly the upper bound on
