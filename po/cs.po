@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-22 01:37-0600\n"
+"POT-Creation-Date: 2008-06-04 04:11-0500\n"
 "PO-Revision-Date: 2005-08-05 12:14+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -96,7 +96,7 @@ msgstr ""
 msgid "Tolerance for InfiniteSum and InfiniteProduct"
 msgstr "Tolerance pro InfiniteSum a InfiniteProduct"
 
-#: ../lib/library-strings.c:18 ../src/eval.c:5955
+#: ../lib/library-strings.c:18 ../src/eval.c:5961
 msgid "Absolute value"
 msgstr "Absolutní hodnota"
 
@@ -283,10 +283,14 @@ msgstr ""
 "budou předpočítány a vráceny v druhém sloupci."
 
 #: ../lib/library-strings.c:56
+msgid "Test if Mp is a Mersenne prime using a table"
+msgstr "Zjistit, jestli Mp je Mersennovo prvočíslo pomocí tabulky"
+
+#: ../lib/library-strings.c:57
 msgid "Tests if a rational number is a perfect power"
 msgstr "Zjistí, jestli zlomek je perfektní číslo"
 
-#: ../lib/library-strings.c:57
+#: ../lib/library-strings.c:58
 msgid ""
 "Check if g is primitive in F_q, where q is a prime.  If q is not prime "
 "results are bogus."
@@ -294,7 +298,7 @@ msgstr ""
 "Zjistit, jestli g je primitivní v F_q, kde q je prvočíslo. Pokud q není "
 "prvočíslo, výsledky jsou nesmyslné."
 
-#: ../lib/library-strings.c:58
+#: ../lib/library-strings.c:59
 msgid ""
 "Check if g is primitive in F_q, where q is a prime and f is a vector of "
 "prime factors of q-1.  If q is not prime results are bogus."
@@ -302,59 +306,63 @@ msgstr ""
 "Zjistit, jestli g je primitivní v F_q, kde q je prvočíslo a f je vektor "
 "prvočíselných činitelů q-1. Pokud q není prvočíslo, výsledky jsou nesmyslné."
 
-#: ../lib/library-strings.c:59
+#: ../lib/library-strings.c:60
 msgid ""
 "If n is a pseudoprime base b but not a prime, that is if b^(n-1) == 1 mod n"
 msgstr ""
 "Jestli n je pseudoprvočíslo o základu b, ale ne prvočíslo, to je jestli b^(n-"
 "1) == 1 mod n"
 
-#: ../lib/library-strings.c:60
+#: ../lib/library-strings.c:61
 msgid "Test if n is a strong pseudoprime to base b but not a prime"
 msgstr ""
 "Zjistit, jestli n je silné pseudoprvočíslo v základu b, ale ne prvočíslo"
 
-#: ../lib/library-strings.c:61
+#: ../lib/library-strings.c:62
 msgid ""
 "Return the residue of a mod n with the least absolute value (in the interval "
 "-n/2 to n/2)"
 msgstr ""
 "Vrátit zbytek a mod n s nejmenší absolutní hodnotou (v intervalu -n/2 do n/2)"
 
-#: ../lib/library-strings.c:62
+#: ../lib/library-strings.c:63
 msgid "Test if Mp is a Mersenne prime using the Lucas-Lehmer test"
 msgstr ""
 "Zjistit, jestli Mp je Mersennovo prvočíslo, pomocí Lucas-Lehmerova testu"
 
-#: ../lib/library-strings.c:63
+#: ../lib/library-strings.c:64
 msgid "Return all maximal prime power factors of a number"
 msgstr "Vrátit všechny maximální mocniny prvočísel v rozkladu čísla"
 
-#: ../lib/library-strings.c:64
+#: ../lib/library-strings.c:65
+msgid "Vector with the known Mersenne prime exponents"
+msgstr "Vektor se známýmy exponenty mersennových prvočísel"
+
+#: ../lib/library-strings.c:66
 msgid "Return the Moebius mu function evaluated in n"
 msgstr "Vrátit Moebiovu funkci mu vyhodnocenou v n"
 
-#: ../lib/library-strings.c:65
+#: ../lib/library-strings.c:67
 msgid "Returns the padic valuation (number of trailing zeros in base p)."
 msgstr "Vrátí padické ohodnocení (počet koncových nul v základu p)."
 
-#: ../lib/library-strings.c:66
+#: ../lib/library-strings.c:68
 msgid "Compute a^b mod m"
 msgstr "Spočítat a^b mod m"
 
-#: ../lib/library-strings.c:67
+#: ../lib/library-strings.c:69
 msgid "Return all prime factors of a number"
 msgstr "Vrátit všechny prvočinitele čísla"
 
-#: ../lib/library-strings.c:68
+#: ../lib/library-strings.c:70
 msgid "Pseudoprime test, true iff b^(n-1) == 1 (mod n)"
 msgstr "Test pseudoprvočíselnosti, true právě když b^(n-1) == 1 (mod n)"
 
-#: ../lib/library-strings.c:69
+#: ../lib/library-strings.c:71
 msgid "Removes all instances of the factor m from the number n"
 msgstr "Odstraní všechny instance činitele m z čísla n"
 
-#: ../lib/library-strings.c:70
+#: ../lib/library-strings.c:72
 msgid ""
 "Find discrete log of n base b in F_q where q is a prime using the Silver-"
 "Pohlig-Hellman algoritm, given f being the factorization of q-1"
@@ -362,7 +370,7 @@ msgstr ""
 "Najít diskrétní logaritmus n o základu b v F_q, kde q je prvočíslo, pomocí "
 "Silver-Pohlig-Hellmanova algoritmu, je-li f faktorizace q-1"
 
-#: ../lib/library-strings.c:71
+#: ../lib/library-strings.c:73
 msgid ""
 "Find square root of n mod p (a prime). Null is returned if not a quadratic "
 "residue."
@@ -370,13 +378,13 @@ msgstr ""
 "Najít odmocninu n mod p (prvočíslo). Je vráceno null, pokud to není "
 "kvadratický zbytek."
 
-#: ../lib/library-strings.c:72
+#: ../lib/library-strings.c:74
 msgid ""
 "Apply a function over all entries of a matrix and return a matrix of the "
 "results"
 msgstr "Použít funkci na všechny prvky matice a vrátit matici výsledků"
 
-#: ../lib/library-strings.c:73
+#: ../lib/library-strings.c:75
 msgid ""
 "Apply a function over all entries of 2 matrices (or 1 value and 1 matrix) "
 "and return a matrix of the results"
@@ -384,95 +392,95 @@ msgstr ""
 "Použít funkci na všechny prvky 2 matic (nebo 1 hodnoty a 1 matice) a vrátit "
 "matici výsledků"
 
-#: ../lib/library-strings.c:74
+#: ../lib/library-strings.c:76
 msgid "Remove column(s) and row(s) from a matrix"
 msgstr "Odstranit řádky a sloupce z matice"
 
-#: ../lib/library-strings.c:75
+#: ../lib/library-strings.c:77
 msgid "Calculate the kth compund matrix of A"
 msgstr "Spočítat k-ou složenou matici A"
 
-#: ../lib/library-strings.c:76
+#: ../lib/library-strings.c:78
 msgid "Delete a column of a matrix"
 msgstr "Odstranit sloupec matice"
 
-#: ../lib/library-strings.c:77
+#: ../lib/library-strings.c:79
 msgid "Delete a row of a matrix"
 msgstr "Odstranit řádek matice"
 
-#: ../lib/library-strings.c:78
+#: ../lib/library-strings.c:80
 msgid "Get the dot product of two vectors (no conjugates)"
 msgstr "Získat skalární součit dvou vektorů (bez kojugací)"
 
-#: ../lib/library-strings.c:79
+#: ../lib/library-strings.c:81
 msgid "Zero out entries above the diagonal"
 msgstr "Vynulovat prvky nad diagonálou"
 
-#: ../lib/library-strings.c:80
+#: ../lib/library-strings.c:82
 msgid "Make diagonal matrix from a vector"
 msgstr "Vytvořit z vektoru diagonální matici"
 
-#: ../lib/library-strings.c:81
+#: ../lib/library-strings.c:83
 msgid "Make column vector out of matrix by putting columns above each other"
 msgstr "Vytvořit sloupcový vektor z matice poskládáním sloupců matice nad sebe"
 
-#: ../lib/library-strings.c:82
+#: ../lib/library-strings.c:84
 msgid "Calculate the product of all elements in a matrix"
 msgstr "Spočítat součin všech prvků matice"
 
-#: ../lib/library-strings.c:83
+#: ../lib/library-strings.c:85
 msgid "Calculate the sum of all elements in a matrix"
 msgstr "Spočítat součet všech prvků matice"
 
-#: ../lib/library-strings.c:84
+#: ../lib/library-strings.c:86
 msgid "Calculate the sum of squares of all elements in a matrix"
 msgstr "Spočítat součet druhých mocnin všech prvků matice"
 
-#: ../lib/library-strings.c:85
+#: ../lib/library-strings.c:87
 msgid "Get the outer product of two vectors"
 msgstr "Získat vnější součin dvou vektorů"
 
-#: ../lib/library-strings.c:86
+#: ../lib/library-strings.c:88
 msgid "Reverse elements in a vector"
 msgstr "Obrátit pořadí prvků ve vektoru"
 
-#: ../lib/library-strings.c:87
+#: ../lib/library-strings.c:89
 msgid "Calculate sum of each row in a matrix"
 msgstr "Spočítat součet každého řádku matice"
 
-#: ../lib/library-strings.c:88
+#: ../lib/library-strings.c:90
 msgid "Calculate sum of squares of each row in a matrix"
 msgstr "Spočítat součet druhých mocnin každého řádku v matici"
 
-#: ../lib/library-strings.c:89
+#: ../lib/library-strings.c:91
 msgid "Sort vector elements"
 msgstr "Seřadit prvky vektoru"
 
-#: ../lib/library-strings.c:90
+#: ../lib/library-strings.c:92
 msgid "Removes any all-zero rows of M"
 msgstr "Odstraní všechny nulové řádky M"
 
-#: ../lib/library-strings.c:91
+#: ../lib/library-strings.c:93
 msgid "Return column(s) and row(s) from a matrix"
 msgstr "Vrátit slopce a řádky z matice"
 
-#: ../lib/library-strings.c:92
+#: ../lib/library-strings.c:94
 msgid "Swap two rows in a matrix"
 msgstr "Prohodit dva řádky matice"
 
-#: ../lib/library-strings.c:93
+#: ../lib/library-strings.c:95
 msgid "Zero out entries below the diagonal"
 msgstr "Vynulovat prvky pod diagonálou"
 
-#: ../lib/library-strings.c:94
+#: ../lib/library-strings.c:96
 msgid "Get the auxilliary unit matrix of size n"
 msgstr "Získat pomocnou jednotkovou matici velikosti n"
 
-#: ../lib/library-strings.c:95
+#: ../lib/library-strings.c:97
 msgid "Evaluate (v,w) with respect to the bilinear form given by the matrix A"
 msgstr "Spočítat (v,w) vzhledem k bilineární formě dané maticí A"
 
-#: ../lib/library-strings.c:96
+#: ../lib/library-strings.c:98
 msgid ""
 "Return a function that evaluates two vectors with respect to the bilinear "
 "form given by A"
@@ -480,19 +488,19 @@ msgstr ""
 "Vrátit funkci, která vyhodnocuje dva vektory vzhledem k bilineární formě "
 "dané A"
 
-#: ../lib/library-strings.c:97
+#: ../lib/library-strings.c:99
 msgid "Get the characteristic polynomial as a vector"
 msgstr "Získat charakteristický polynom jako vektor"
 
-#: ../lib/library-strings.c:98
+#: ../lib/library-strings.c:100
 msgid "Get the characteristic polynomial as a function"
 msgstr "Získat charakteristický polynom jako funkci"
 
-#: ../lib/library-strings.c:99
+#: ../lib/library-strings.c:101
 msgid "Get a basis matrix for the columnspace of a matrix"
 msgstr "Získat matici báze sloupcového prostoru matice"
 
-#: ../lib/library-strings.c:100
+#: ../lib/library-strings.c:102
 msgid ""
 "Return the commutation matrix K(m,n) which is the unique m*n by m*n matrix "
 "such that K(m,n) * MakeVector(A) = MakeVector(A.') for all m by n matrices A."
@@ -501,37 +509,37 @@ msgstr ""
 "která splňuje K(m,n) * MakeVector(A) = MakeVector(A.') pro všechny matice A "
 "velikosti m na n."
 
-#: ../lib/library-strings.c:101
+#: ../lib/library-strings.c:103
 msgid "Companion matrix of a polynomial (as vector)"
 msgstr "Doplňková matice polynomu (jako vektor)"
 
-#: ../lib/library-strings.c:102
+#: ../lib/library-strings.c:104
 msgid "Conjugate transpose of a matrix (adjoint)"
 msgstr "Konjugovaná transpozice matice (adjugovaná)"
 
-#: ../lib/library-strings.c:103 ../lib/library-strings.c:104
+#: ../lib/library-strings.c:105 ../lib/library-strings.c:106
 msgid "Calculate convolution of two horizontal vectors"
 msgstr "Spočítat konvoluci dvou vodorovných vektorů"
 
-#: ../lib/library-strings.c:105
+#: ../lib/library-strings.c:107
 msgid "CrossProduct of two vectors in R^3"
 msgstr "Vektorový součin dvou vektorů v R^3"
 
-#: ../lib/library-strings.c:106
+#: ../lib/library-strings.c:108
 msgid ""
 "Get the determinantal divisors of an integer matrix (not its characteristic)"
 msgstr ""
 "Získat determinantové dělitele celočéselné matice (ne její charakteristiku)"
 
-#: ../lib/library-strings.c:107
+#: ../lib/library-strings.c:109
 msgid "Direct sum of matrices"
 msgstr "Přímý součet matic"
 
-#: ../lib/library-strings.c:108
+#: ../lib/library-strings.c:110
 msgid "Direct sum of a vector of matrices"
 msgstr "Přímý součet vektoru matic"
 
-#: ../lib/library-strings.c:109
+#: ../lib/library-strings.c:111
 msgid ""
 "Get the eigenvalues of a matrix (Currently only for up to 4x4 or triangular "
 "matrices)"
@@ -539,7 +547,7 @@ msgstr ""
 "Získat vlastní čísla matice (momentálně jen pro matice do 4×4 a "
 "trojúhelníkovité matice)"
 
-#: ../lib/library-strings.c:110
+#: ../lib/library-strings.c:112
 msgid ""
 "Apply the Gram-Schmidt process (to the columns) with respect to inner "
 "product given by B (if not given use hermitian product)"
@@ -547,42 +555,42 @@ msgstr ""
 "Provést Gram-Schmidtův proces (na sloupce) vzhledem ke skalárnímu součinu "
 "danému B (pokud není součin dán, je použit hermitovský součin)"
 
-#: ../lib/library-strings.c:111
+#: ../lib/library-strings.c:113
 msgid "Hankel matrix"
 msgstr "Hankelova matice"
 
-#: ../lib/library-strings.c:112
+#: ../lib/library-strings.c:114
 msgid "Hilbert matrix of order n"
 msgstr "Hilbertova matice řádku n"
 
-#: ../lib/library-strings.c:113
+#: ../lib/library-strings.c:115
 msgid "Get the image (columnspace) of a linear transform"
 msgstr "Získat obraz (sloupcový prostor) lineární transformace"
 
-#: ../lib/library-strings.c:114
+#: ../lib/library-strings.c:116
 msgid "Get the Inf Norm of a vector"
 msgstr "Získat normu vektoru typu nekonečno"
 
-#: ../lib/library-strings.c:115
+#: ../lib/library-strings.c:117
 msgid ""
 "Get the invariant factors of a square integer matrix (not its characteristic)"
 msgstr ""
 "Získat invariantní činitele čtvercové celočíselné matice (ne její "
 "charakteristiku)"
 
-#: ../lib/library-strings.c:116
+#: ../lib/library-strings.c:118
 msgid "Inverse Hilbert matrix of order n"
 msgstr "Inverzní Hilbertova matice řádu n"
 
-#: ../lib/library-strings.c:117
+#: ../lib/library-strings.c:119
 msgid "Is a matrix hermitian"
 msgstr "Je matice hermitovská"
 
-#: ../lib/library-strings.c:118
+#: ../lib/library-strings.c:120
 msgid "Test if a vector is in a subspace"
 msgstr "Zjistit, jestli je vektor v podprostoru"
 
-#: ../lib/library-strings.c:119
+#: ../lib/library-strings.c:121
 msgid ""
 "Is a matrix (or number) invertible (Integer matrix is invertible iff it's "
 "invertible over the integers)"
@@ -590,39 +598,39 @@ msgstr ""
 "Je matice (nebo číslo) invertovatelné (celočíselná matice je invertovatelná, "
 "právě když je invertovatelná v celých číslech)"
 
-#: ../lib/library-strings.c:120
+#: ../lib/library-strings.c:122
 msgid "Is a matrix (or number) invertible over a field"
 msgstr "Je matice (nebo číslo) invertovatelná v tělesu"
 
-#: ../lib/library-strings.c:121
+#: ../lib/library-strings.c:123
 msgid "Is a matrix normal"
 msgstr "Je matice normální"
 
-#: ../lib/library-strings.c:122
+#: ../lib/library-strings.c:124
 msgid "Is a matrix positive definite"
 msgstr "Je matice positivně definitní"
 
-#: ../lib/library-strings.c:123
+#: ../lib/library-strings.c:125
 msgid "Is a matrix positive semidefinite"
 msgstr "Je matice positivně semidefinitní"
 
-#: ../lib/library-strings.c:124
+#: ../lib/library-strings.c:126
 msgid "Is a matrix skew-hermitian"
 msgstr "Je matice antihermitovská"
 
-#: ../lib/library-strings.c:125
+#: ../lib/library-strings.c:127
 msgid "Is a matrix unitary"
 msgstr "Je matice unitární"
 
-#: ../lib/library-strings.c:126
+#: ../lib/library-strings.c:128
 msgid "Get the jordan block corresponding to lambda and n"
 msgstr "Získat jordanovu buňku odpovídající lambda a n"
 
-#: ../lib/library-strings.c:127
+#: ../lib/library-strings.c:129
 msgid "Get the kernel (nullspace) of a linear transform"
 msgstr "Získat jádro (nulový prostor) lineární transformace"
 
-#: ../lib/library-strings.c:128
+#: ../lib/library-strings.c:130
 msgid ""
 "Get the LU decomposition of A and store the result in the L and U which "
 "should be references.  If not possible returns false."
@@ -630,27 +638,27 @@ msgstr ""
 "Záskat LU rozklad A a uložit výsledek v L a U, což by měly být odkazy. Pokud "
 "to není možné, vrátí false."
 
-#: ../lib/library-strings.c:129
+#: ../lib/library-strings.c:131
 msgid "Get the i-j minor of a matrix"
 msgstr "Získat minor i-j matice"
 
-#: ../lib/library-strings.c:130
+#: ../lib/library-strings.c:132
 msgid "Return the columns that are not the pivot columns of a matrix"
 msgstr "Vrátit sloupce, které nejsou pivotové sloupce matice"
 
-#: ../lib/library-strings.c:131
+#: ../lib/library-strings.c:133
 msgid "Get the p Norm (or 2 Norm if no p is supplied) of a vector"
 msgstr "Získat normu typu p (nebo typu 2, pokud není zadáno p) vektoru"
 
-#: ../lib/library-strings.c:132
+#: ../lib/library-strings.c:134
 msgid "Get the nullity of a matrix"
 msgstr "Získat nulovost matice"
 
-#: ../lib/library-strings.c:133
+#: ../lib/library-strings.c:135
 msgid "Get the orthogonal complement of the columnspace"
 msgstr "Získat ortogonální doplněk sloupcového prostoru"
 
-#: ../lib/library-strings.c:134
+#: ../lib/library-strings.c:136
 msgid ""
 "Projection of vector v onto subspace W given a sesquilinear form B (if not "
 "given use hermitian product)"
@@ -658,19 +666,19 @@ msgstr ""
 "Průmět vektoru v do podprostoru W, je-li dána sesquilineární forma B (pokud "
 "není součin dán, je použit hermitovský součin)"
 
-#: ../lib/library-strings.c:135
+#: ../lib/library-strings.c:137
 msgid "Get the QR decomposition of A, returns R and Q can be a reference"
 msgstr "Vypočítat QR rozklad matice A, vrátí R a Q je vrácen přes odkaz"
 
-#: ../lib/library-strings.c:136
+#: ../lib/library-strings.c:138
 msgid "Get the rank of a matrix"
 msgstr "Získat hodnost matice"
 
-#: ../lib/library-strings.c:137
+#: ../lib/library-strings.c:139
 msgid "Return the Rayleigh quotient of a matrix and a vector"
 msgstr "Vrátit Rayleigův podíl matice a vektoru"
 
-#: ../lib/library-strings.c:138
+#: ../lib/library-strings.c:140
 msgid ""
 "Compute an eigenvalue using the Rayleigh Quotient Iteration method until we "
 "are epsilon from eigenvalue or for maxiter iterations"
@@ -678,36 +686,36 @@ msgstr ""
 "Spočítat vlastní číslo matice použitím algoritmu Rayleigh Quotient Iteration "
 "doikud nejsme epsilon od vlastního čísla nebo do maxiter iterací."
 
-#: ../lib/library-strings.c:139
+#: ../lib/library-strings.c:141
 msgid "Rosser matrix, a classic symmetric eigenvalue test problem"
 msgstr "Rosserova matice, klasický symetrický problém testu vlastního čísla"
 
-#: ../lib/library-strings.c:140
+#: ../lib/library-strings.c:142
 msgid "Rotation around origin in R^2"
 msgstr "Rotace okolo počátku v R^2"
 
-#: ../lib/library-strings.c:141
+#: ../lib/library-strings.c:143
 msgid "Rotation around origin in R^3 about the x-axis"
 msgstr "Rotace okolo počátku v R^3 okolo osy x"
 
-#: ../lib/library-strings.c:142
+#: ../lib/library-strings.c:144
 msgid "Rotation around origin in R^3 about the y-axis"
 msgstr "Rotace okolo počátku v R^3 okolo osy y"
 
-#: ../lib/library-strings.c:143
+#: ../lib/library-strings.c:145
 msgid "Rotation around origin in R^3 about the z-axis"
 msgstr "Rotace okolo počátku v R^3 okolo osy z"
 
-#: ../lib/library-strings.c:144
+#: ../lib/library-strings.c:146
 msgid "Get a basis matrix for the rowspace of a matrix"
 msgstr "Získat matici báze řádkového prostoru matice"
 
-#: ../lib/library-strings.c:145
+#: ../lib/library-strings.c:147
 msgid ""
 "Evaluate (v,w) with respect to the sesquilinear form given by the matrix A"
 msgstr "Spočítat (v,w) vzhledem k sesquilineární formě dané maticí A"
 
-#: ../lib/library-strings.c:146
+#: ../lib/library-strings.c:148
 msgid ""
 "Return a function that evaluates two vectors with respect to the "
 "sesquilinear form given by A"
@@ -715,17 +723,17 @@ msgstr ""
 "Vrátit funkci, která vyhodnocuje dva vektory vzhledem k sesquilineární formě "
 "dané A"
 
-#: ../lib/library-strings.c:147
+#: ../lib/library-strings.c:149
 msgid "Smith Normal Form for fields (will end up with 1's on the diagonal)"
 msgstr "Smithova normální forma tělesa (skončí s jedničkami na diagonále)"
 
-#: ../lib/library-strings.c:148
+#: ../lib/library-strings.c:150
 msgid "Smith Normal Form for square integer matrices (not its characteristic)"
 msgstr ""
 "Smithova normální forma čtvercových celočíselných matic (ne jejich "
 "charakteristika)"
 
-#: ../lib/library-strings.c:149
+#: ../lib/library-strings.c:151
 msgid ""
 "Return the Toeplitz matrix constructed given the first column c and "
 "(optionally) the first row r."
@@ -733,85 +741,85 @@ msgstr ""
 "Vrátí Toeplitzovu matici sestavenou pomocí prvního sloupce c a (volitelně) "
 "první řádky r."
 
-#: ../lib/library-strings.c:150
+#: ../lib/library-strings.c:152
 msgid "Calculate the trace of a matrix"
 msgstr "Spočítat stopu matice"
 
-#: ../lib/library-strings.c:151
+#: ../lib/library-strings.c:153
 msgid "Transpose of a matrix"
 msgstr "Transpozice matice"
 
-#: ../lib/library-strings.c:152
+#: ../lib/library-strings.c:154
 msgid "Return the Vandermonde matrix"
 msgstr "Vrátit Vandermondovu matici"
 
-#: ../lib/library-strings.c:153
+#: ../lib/library-strings.c:155
 msgid "The angle of two vectors, given an inner product"
 msgstr "Úhel dvou vektorů, je-li dán skalární součin"
 
-#: ../lib/library-strings.c:154
+#: ../lib/library-strings.c:156
 msgid "The direct sum of the vector spaces M and N"
 msgstr "Přímý součet vektorových prostorů M a N"
 
-#: ../lib/library-strings.c:155
+#: ../lib/library-strings.c:157
 msgid "Intersection of the subspaces given by M and N"
 msgstr "Průnik podprostorů daných pomocí M a N"
 
-#: ../lib/library-strings.c:156
+#: ../lib/library-strings.c:158
 msgid ""
 "The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}"
 msgstr "Součet vektorových prostorů M a N, to je {w | w=m+n, m in M, n in N}"
 
-#: ../lib/library-strings.c:157
+#: ../lib/library-strings.c:159
 msgid "Get the classical adjoint (adjugate) of a matrix"
 msgstr "Získat klasickou sdruženou (adjugovanou) matici"
 
-#: ../lib/library-strings.c:158
+#: ../lib/library-strings.c:160
 msgid "Compute the Column Reduced Echelon Form"
 msgstr "Spočítat sloupcově redukovaný trojúhelníkový tvar"
 
-#: ../lib/library-strings.c:159
+#: ../lib/library-strings.c:161
 msgid "Get n'th catalan number"
 msgstr "Získat n-té catalanovo číslo"
 
-#: ../lib/library-strings.c:160
+#: ../lib/library-strings.c:162
 msgid "Double factorial: n(n-2)(n-4)..."
 msgstr "Dvojitý faktoriál: n(n-2)(n-4)..."
 
-#: ../lib/library-strings.c:161
+#: ../lib/library-strings.c:163
 msgid "Factorial: n(n-1)(n-2)..."
 msgstr "Faktoriál: n(n-1)(n-2)..."
 
-#: ../lib/library-strings.c:162
+#: ../lib/library-strings.c:164
 msgid "Falling factorial: (n)_k = n(n-1)...(n-(k-1))"
 msgstr "Klesající faktoriál: (n)_k = n(n-1)...(n-(k-1))"
 
-#: ../lib/library-strings.c:163
+#: ../lib/library-strings.c:165
 msgid "Calculate n'th Fibonacci number"
 msgstr "Spočítat n-té Fibonacciho číslo"
 
-#: ../lib/library-strings.c:164
+#: ../lib/library-strings.c:166
 msgid "Calculate the Frobenius number for a coin problem"
 msgstr "Spočítat Frobeniusovo číslo k mincovému problému"
 
-#: ../lib/library-strings.c:165
+#: ../lib/library-strings.c:167
 msgid ""
 "Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))"
 msgstr ""
 "Galoisova matice, je-li dáno lineární kombinační pravidlo (a_1*x_+..."
 "+a_n*x_n=x_(n+1))"
 
-#: ../lib/library-strings.c:166
+#: ../lib/library-strings.c:168
 msgid "Use greedy algorithm to find c, for c . v = n.  (v must be sorted)"
 msgstr ""
 "Použít lakomý (greedy) algoritmus k najití c, aby c . v = n.  (v musí být "
 "srovnané)"
 
-#: ../lib/library-strings.c:167
+#: ../lib/library-strings.c:169
 msgid "Harmonic Number, the nth harmonic number of order r"
 msgstr "Harminické číslo, n-té harminické číslo řádu r"
 
-#: ../lib/library-strings.c:168
+#: ../lib/library-strings.c:170
 msgid ""
 "Hofstadter's function q(n) defined by q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q"
 "(n-2))"
@@ -819,43 +827,43 @@ msgstr ""
 "Hofstadterova funkce q(n) definovaná jako q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q"
 "(n-q(n-2))"
 
-#: ../lib/library-strings.c:169
+#: ../lib/library-strings.c:171
 msgid "Compute linear recursive sequence using galois stepping"
 msgstr "Spočítat lineární rekurzivní posloupnost pomocí galoisova krokování"
 
-#: ../lib/library-strings.c:170
+#: ../lib/library-strings.c:172
 msgid "Calculate multinomial coefficients"
 msgstr "Spočítat multinomiální koeficienty"
 
-#: ../lib/library-strings.c:171
+#: ../lib/library-strings.c:173
 msgid "Get the pascal's triangle as a matrix"
 msgstr "Získat paskalův trojúhelník jako matici"
 
-#: ../lib/library-strings.c:172
+#: ../lib/library-strings.c:174
 msgid "(Pochhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))"
 msgstr "(Pochhammerův) stoupacící faktoriál: (n)_k = n(n+1)...(n+(k-1))"
 
-#: ../lib/library-strings.c:173
+#: ../lib/library-strings.c:175
 msgid "Stirling number of the first kind"
 msgstr "Stirlingovo číslo prvího druhu"
 
-#: ../lib/library-strings.c:174
+#: ../lib/library-strings.c:176
 msgid "Stirling number of the second kind"
 msgstr "Stirlingovo číslo druhého druhu"
 
-#: ../lib/library-strings.c:175
+#: ../lib/library-strings.c:177
 msgid "Subfactorial: n! times sum_{k=1}^n (-1)^k/k!"
 msgstr "Subfaktoriál: n! krát sum_{k=1}^n (-1)^k/k!"
 
-#: ../lib/library-strings.c:176
+#: ../lib/library-strings.c:178
 msgid "Calculate the nth triangular number"
 msgstr "Spočítat n-té trojúhelníkové číslo"
 
-#: ../lib/library-strings.c:177
+#: ../lib/library-strings.c:179
 msgid "Calculate permutations"
 msgstr "Spočítat permutace"
 
-#: ../lib/library-strings.c:178
+#: ../lib/library-strings.c:180
 msgid ""
 "Integration of f by Composite Simpson's Rule on the interval [a,b] with the "
 "number of steps calculated by the fourth derivative bound and the desired "
@@ -864,35 +872,35 @@ msgstr ""
 "Integrace f složeným Simpsonovým pravidlem na intervalu [a,b] s počtem kroků "
 "počítaným omezením čtvrté derivace a požadovanou tolerancí"
 
-#: ../lib/library-strings.c:179
+#: ../lib/library-strings.c:181
 msgid ""
 "Attempt to calculate derivative by trying first symbolically and then "
 "numerically"
 msgstr "Pokusit se spočítat derivaci nejdříve symbolicky a pak numericky"
 
-#: ../lib/library-strings.c:180
+#: ../lib/library-strings.c:182
 msgid "Try to calculate an infinite product for a single parameter function"
 msgstr "Zkusit spočítat nekonečný součin funkce s jedním parametrem"
 
-#: ../lib/library-strings.c:181
+#: ../lib/library-strings.c:183
 msgid ""
 "Try to calculate an infinite product for a double parameter function with "
 "func(arg,n)"
 msgstr ""
 "Zkusit spočítat nekonečný součin funkce s dvěma parametry jako func(arg,n)"
 
-#: ../lib/library-strings.c:182
+#: ../lib/library-strings.c:184
 msgid "Try to calculate an infinite sum for a single parameter function"
 msgstr "Zkusit spočítat nekonečný součet funkce s jedním parametrem"
 
-#: ../lib/library-strings.c:183
+#: ../lib/library-strings.c:185
 msgid ""
 "Try to calculate an infinite sum for a double parameter function with func"
 "(arg,n)"
 msgstr ""
 "Zkusit spočítat nekonečný součet funkce s dvěma parametry jako func(arg,n)"
 
-#: ../lib/library-strings.c:184
+#: ../lib/library-strings.c:186
 msgid ""
 "Try and see if a real-valued function is continuous at x0 by calculating the "
 "limit there"
@@ -900,18 +908,18 @@ msgstr ""
 "Zkusit zjistit, jestli funkce do reálných čísel je spojitá v x0 výpočtem "
 "limity"
 
-#: ../lib/library-strings.c:185
+#: ../lib/library-strings.c:187
 msgid ""
 "Test for differentiability by approximating the left and right limits and "
 "comparing"
 msgstr ""
 "Test na diferencovatelnost aproximací limity zleva a zprava a porovnáním"
 
-#: ../lib/library-strings.c:186
+#: ../lib/library-strings.c:188
 msgid "Calculate the left limit of a real-valued function at x0"
 msgstr "Spočítat limitu zleva funkce do reálných čísel v x0"
 
-#: ../lib/library-strings.c:187
+#: ../lib/library-strings.c:189
 msgid ""
 "Calculate the limit of a real-valued function at x0.  Tries to calculate "
 "both left and right limits."
@@ -920,15 +928,15 @@ msgstr ""
 "zprava."
 
 # ?
-#: ../lib/library-strings.c:188
+#: ../lib/library-strings.c:190
 msgid "Integration by midpoint rule"
 msgstr "Integrace pravidlem prostředního bodu"
 
-#: ../lib/library-strings.c:189
+#: ../lib/library-strings.c:191
 msgid "Attempt to calculate numerical derivative"
 msgstr "Pokusit se spočítat numerickou derivaci"
 
-#: ../lib/library-strings.c:190
+#: ../lib/library-strings.c:192
 msgid ""
 "Integration by rule set in NumericalIntegralFunction of f from a to b using "
 "NumericalIntegralSteps steps"
@@ -936,108 +944,108 @@ msgstr ""
 "Integrace pravidlem nastaveným v NumericalIntegralFunction funkce f od a do "
 "b pomocí NumericalIntegralSteps kroků"
 
-#: ../lib/library-strings.c:191
+#: ../lib/library-strings.c:193
 msgid "Attempt to calculate numerical left derivative"
 msgstr "Pokusit se spočítat numerickou levou derivaci"
 
-#: ../lib/library-strings.c:192
+#: ../lib/library-strings.c:194
 msgid "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N"
 msgstr "Pokusit se spočítat limitu f(step_fun(i)) pro i od 1 do N"
 
-#: ../lib/library-strings.c:193
+#: ../lib/library-strings.c:195
 msgid "Attempt to calculate numerical right derivative"
 msgstr "Pokusit se spočítat numerickou derivaci zprava"
 
-#: ../lib/library-strings.c:194
+#: ../lib/library-strings.c:196
 msgid "Compute one-sided derivative using five point formula"
 msgstr "Spočítat jednostrannou derivaci pomocí vzorce s pěti body"
 
-#: ../lib/library-strings.c:195
+#: ../lib/library-strings.c:197
 msgid "Compute one-sided derivative using three-point formula"
 msgstr "Spočítat jednostrannou derivaci pomocí vzorce s třemi body"
 
-#: ../lib/library-strings.c:196
+#: ../lib/library-strings.c:198
 msgid "Calculate the right limit of a real-valued function at x0"
 msgstr "Spočítat limitu zprava funkce do reálných čísel v x0"
 
-#: ../lib/library-strings.c:197
+#: ../lib/library-strings.c:199
 msgid "Compute two-sided derivative using five-point formula"
 msgstr "Spoučítat oboustrannou derivaci pomocí vzorce s pěti body"
 
-#: ../lib/library-strings.c:198
+#: ../lib/library-strings.c:200
 msgid "Compute two-sided derivative using three-point formula"
 msgstr "Spoučítat oboustrannou derivaci pomocí vzorce s třemi body"
 
-#: ../lib/library-strings.c:199
+#: ../lib/library-strings.c:201
 msgid "argument (angle) of complex number"
 msgstr "argument (úhel) komplexního čísla"
 
-#: ../lib/library-strings.c:200
+#: ../lib/library-strings.c:202
 msgid "Dirichlet kernel of order n"
 msgstr "Dirichletovo jádro řádu n"
 
-#: ../lib/library-strings.c:201
+#: ../lib/library-strings.c:203
 msgid "Returns 1 iff all elements are zero"
 msgstr "Vrátí 1, právě když všechny prvky jsou 0"
 
-#: ../lib/library-strings.c:202
+#: ../lib/library-strings.c:204
 msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
 msgstr "Funkce chyby, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
 
-#: ../lib/library-strings.c:203
+#: ../lib/library-strings.c:205
 msgid "Fejer kernel of order n"
 msgstr "Fejerovo jádro řádu n"
 
-#: ../lib/library-strings.c:204
+#: ../lib/library-strings.c:206
 msgid "Returns 1 iff all elements are equal"
 msgstr "Vrátí 1, právě když jsou si všechny prvky rovny"
 
-#: ../lib/library-strings.c:205
+#: ../lib/library-strings.c:207
 msgid "Find the first value where f(x)=0"
 msgstr "Najít první hodnotu, kde f(x)=0"
 
-#: ../lib/library-strings.c:206
+#: ../lib/library-strings.c:208
 msgid "Moebius mapping of the disk to itself mapping a to 0"
 msgstr "Moebiovo mapování disku sama na sebe mapující a na 0"
 
-#: ../lib/library-strings.c:207
+#: ../lib/library-strings.c:209
 msgid ""
 "Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity "
 "respectively"
 msgstr "Moebiovo mapování pomocí podílu z2,z3,z4 na 1,0,nekonečna"
 
-#: ../lib/library-strings.c:208
+#: ../lib/library-strings.c:210
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 "
 "to 1 and 0 respectively"
 msgstr ""
 "Moebiovo mapování pomocí podílu nekonečna na nekonečno a z2,z3 na 1 a 0"
 
-#: ../lib/library-strings.c:209
+#: ../lib/library-strings.c:211
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 "
 "and infinity respectively"
 msgstr ""
 "Moebiovo mapování pomocí podílu nekonečna na 1 a z3,z4 na 0 a nekonečno"
 
-#: ../lib/library-strings.c:210
+#: ../lib/library-strings.c:212
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 "
 "and infinity respectively"
 msgstr ""
 "Moebiovo mapování pomocí podílu nekonečna na 0 a z2,z4 na 1 a nekonečno"
 
-#: ../lib/library-strings.c:211
+#: ../lib/library-strings.c:213
 msgid ""
 "Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is "
 "2pi)"
 msgstr "Poissonovo jádro na D(0,1) (nenormalizované na 1, tj. integrál je 2pi)"
 
-#: ../lib/library-strings.c:212
+#: ../lib/library-strings.c:214
 msgid "Poisson kernel on D(0,R) (not normalized to 1)"
 msgstr "Poissonovo jádro na D(0,R) (nenormalizované na 1)"
 
-#: ../lib/library-strings.c:213
+#: ../lib/library-strings.c:215
 msgid ""
 "The unit step function = 0 for x<0, 1 otherwise.  This is the integral of "
 "the Dirac Delta function."
@@ -1045,23 +1053,23 @@ msgstr ""
 "Funkce jednotkového kroku = 0 pro x<0, jinak 1. Toto je integrál Diracovy "
 "funkce delta."
 
-#: ../lib/library-strings.c:214
+#: ../lib/library-strings.c:216
 msgid "The cis function, that is cos(x)+i*sin(x)"
 msgstr "Funkce cis, to je cos(x)+i*sin(x)"
 
-#: ../lib/library-strings.c:215
+#: ../lib/library-strings.c:217
 msgid "Convert degrees to radians"
 msgstr "Převést stupně na radiány"
 
-#: ../lib/library-strings.c:216
+#: ../lib/library-strings.c:218
 msgid "Convert radians to degrees"
 msgstr "Převést radiány na stupně"
 
-#: ../lib/library-strings.c:217
+#: ../lib/library-strings.c:219
 msgid "Find roots of a cubic polynomial (given as vector of coefficients)"
 msgstr "Najít kořeny kubického polynomu (polynom dán jako vektor)"
 
-#: ../lib/library-strings.c:218
+#: ../lib/library-strings.c:220
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns y at x1"
@@ -1069,31 +1077,31 @@ msgstr ""
 "Použít klasitckou Eulerovu metodu pro numerické řešení y'=f(x,y) pro "
 "počáteční x0,y0 do x1 s n přírůstky, vrátí y v x1"
 
-#: ../lib/library-strings.c:219
+#: ../lib/library-strings.c:221
 msgid "Find root of a function using the bisection method"
 msgstr "Najít kořen funkce pomocí metody bisekce"
 
-#: ../lib/library-strings.c:220
+#: ../lib/library-strings.c:222
 msgid "Find root of a function using the method of false position"
 msgstr "Najít kořen funkce pomocí metody špatné pozice"
 
-#: ../lib/library-strings.c:221
+#: ../lib/library-strings.c:223
 msgid "Find root of a function using the Muller's method"
 msgstr "Najít kořen funkce pomocí Mullerovy metody"
 
-#: ../lib/library-strings.c:222
+#: ../lib/library-strings.c:224
 msgid "Find root of a function using the secant method"
 msgstr "Najít kořen funkce pomocí metody sečny"
 
-#: ../lib/library-strings.c:223
+#: ../lib/library-strings.c:225
 msgid "Find roots of a polynomial (given as vector of coefficients)"
 msgstr "Najít kořeny polynomu (polynom dán jako vektor)"
 
-#: ../lib/library-strings.c:224
+#: ../lib/library-strings.c:226
 msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
 msgstr "Najít kořeny kvartického polynomu (polynom dán jako vektor)"
 
-#: ../lib/library-strings.c:225
+#: ../lib/library-strings.c:227
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
@@ -1102,52 +1110,52 @@ msgstr ""
 "Použít klasickou neadaptivní metodu Runge-Kutta čtvrtého řádu pro numerické "
 "řešení y'=f(x,y) pro počáteční x0,y0 do x1 s n přírůstky, vrátí y v x1"
 
-#: ../lib/library-strings.c:226
+#: ../lib/library-strings.c:228
 msgid "Calculate average of an entire matrix"
 msgstr "Spočítat průměr celé matice"
 
-#: ../lib/library-strings.c:227
+#: ../lib/library-strings.c:229
 msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 msgstr "Integrál Gaussovy funkce od 0 do x (oblast pod normální křivkou)"
 
-#: ../lib/library-strings.c:228
+#: ../lib/library-strings.c:230
 msgid "The normalized Gauss distribution function (the normal curve)"
 msgstr "Normalizovaná Gaussova distribuční funkce (normální křivka)"
 
-#: ../lib/library-strings.c:229
+#: ../lib/library-strings.c:231
 msgid "Calculate median of an entire matrix"
 msgstr "Spočítat medián celé matice"
 
-#: ../lib/library-strings.c:230
+#: ../lib/library-strings.c:232
 msgid "Calculate the population standard deviation of a whole matrix"
 msgstr "Spočítat standardní odchylku populace celé matice"
 
-#: ../lib/library-strings.c:231
+#: ../lib/library-strings.c:233
 msgid "Calculate average of each row in a matrix"
 msgstr "Spočítat průměr každého řádku matice"
 
-#: ../lib/library-strings.c:232
+#: ../lib/library-strings.c:234
 msgid "Calculate median of each row in a matrix"
 msgstr "Spočítat medián každého řádku matice"
 
-#: ../lib/library-strings.c:233
+#: ../lib/library-strings.c:235
 msgid ""
 "Calculate the population standard deviations of rows of a matrix and return "
 "a vertical vector"
 msgstr ""
 "Spočítat standardní odchylky populací řádků matice a vrátit svislý vektor"
 
-#: ../lib/library-strings.c:234
+#: ../lib/library-strings.c:236
 msgid ""
 "Calculate the standard deviations of rows of a matrix and return a vertical "
 "vector"
 msgstr "Spočítat standardní odchylky řádků matice a vrátit svislý vektor"
 
-#: ../lib/library-strings.c:235
+#: ../lib/library-strings.c:237
 msgid "Calculate the standard deviation of a whole matrix"
 msgstr "Spočítat standardní odchylku celé matice"
 
-#: ../lib/library-strings.c:236
+#: ../lib/library-strings.c:238
 msgid ""
 "Run newton's method on a polynomial to attempt to find a root, returns after "
 "two successive values are within epsilon or after maxn tries (then returns "
@@ -1157,22 +1165,22 @@ msgstr ""
 "dvě po sobě jdoucí hodnoty jsou do epsilon, nebo po maxn pokusech (pak vrátí "
 "null)"
 
-#: ../lib/library-strings.c:237
+#: ../lib/library-strings.c:239
 msgid "Returns a set where every element of X appears only once"
 msgstr "Vrátí množinu, kde je každý prvek X jen jednou"
 
-#: ../lib/library-strings.c:238
+#: ../lib/library-strings.c:240
 msgid ""
 "Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
 "be sets)"
 msgstr ""
 "Vrátí množinové sjednocení X a Y (X a Y jsou vektory brané jako množiny)"
 
-#: ../lib/library-strings.c:239
+#: ../lib/library-strings.c:241
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "Pokusit se symbolicky derivovat funkci n-krát"
 
-#: ../lib/library-strings.c:240
+#: ../lib/library-strings.c:242
 msgid ""
 "Attempt to symbolically differentiate a function n times quietly and return "
 "null on failure"
@@ -1180,7 +1188,7 @@ msgstr ""
 "Pokusit se symbolicky derivovat funkci n-krát tiše a vrátit null při "
 "neúspěchu"
 
-#: ../lib/library-strings.c:241
+#: ../lib/library-strings.c:243
 msgid ""
 "Attempt to construct the taylor approximation function around x0 to the nth "
 "degree."
@@ -1199,7 +1207,7 @@ msgstr "Pokouším se nastavit přezdívku přezdívky"
 msgid "Bad identifier for function node!"
 msgstr "Špatný identifikátor uzlu funkce!"
 
-#: ../src/calc.c:977 ../src/eval.c:6407 ../src/eval.c:6601
+#: ../src/calc.c:977 ../src/eval.c:6413 ../src/eval.c:6607
 msgid "Unexpected operator!"
 msgstr "Neočekávaný operátor!"
 
@@ -1208,80 +1216,80 @@ msgstr "Neočekávaný operátor!"
 msgid "Cannot currently print polynomials of more than 3 vars"
 msgstr "Momentálně neumím tisknout polynomy více než 3 proměnných"
 
-#: ../src/calc.c:1265
-msgid "NULL tree!"
-msgstr "strom NULL!"
-
-#: ../src/calc.c:1349
+#: ../src/calc.c:1261
 msgid "NULL function!"
 msgstr "funkce NULL!"
 
 #. variable and reference functions should
 #. never be in the etree
-#: ../src/calc.c:1378
+#: ../src/calc.c:1308
 msgid "Unexpected function type!"
 msgstr "Neočekávaný typ funkce!"
 
-#: ../src/calc.c:1393 ../src/eval.c:6837
+#: ../src/calc.c:1323
+msgid "NULL tree!"
+msgstr "strom NULL!"
+
+#: ../src/calc.c:1413 ../src/eval.c:6844
 msgid "Unexpected node!"
 msgstr "Neočekávaný uzel!"
 
-#: ../src/calc.c:1864
+#: ../src/calc.c:1884
 #, c-format
 msgid "File '%s' is a wrong version of GEL"
 msgstr "Soubor '%s' je ve špatné verzi GEL"
 
-#: ../src/calc.c:1912 ../src/calc.c:1921 ../src/calc.c:1926 ../src/calc.c:1935
-#: ../src/calc.c:1940 ../src/calc.c:1949 ../src/calc.c:1954 ../src/calc.c:1963
-#: ../src/calc.c:1968 ../src/calc.c:1979 ../src/calc.c:1984 ../src/calc.c:1995
-#: ../src/calc.c:2002 ../src/calc.c:2015 ../src/calc.c:2021 ../src/calc.c:2028
-#: ../src/calc.c:2037 ../src/calc.c:2048 ../src/calc.c:2054 ../src/calc.c:2061
-#: ../src/calc.c:2067 ../src/calc.c:2076 ../src/calc.c:2086
+#: ../src/calc.c:1932 ../src/calc.c:1941 ../src/calc.c:1946 ../src/calc.c:1955
+#: ../src/calc.c:1960 ../src/calc.c:1969 ../src/calc.c:1974 ../src/calc.c:1983
+#: ../src/calc.c:1988 ../src/calc.c:1999 ../src/calc.c:2004 ../src/calc.c:2015
+#: ../src/calc.c:2022 ../src/calc.c:2035 ../src/calc.c:2041 ../src/calc.c:2048
+#: ../src/calc.c:2057 ../src/calc.c:2068 ../src/calc.c:2074 ../src/calc.c:2081
+#: ../src/calc.c:2087 ../src/calc.c:2096 ../src/calc.c:2106
 msgid "Badly formed record"
 msgstr "Špatně vytvořený záznam"
 
-#: ../src/calc.c:1915
+#: ../src/calc.c:1935
 msgid "Record out of place"
 msgstr "Záznam na nesprávném místě"
 
-#: ../src/calc.c:2100
+#: ../src/calc.c:2120
 msgid "Missing value for function"
 msgstr "Chybí hodnota funkce"
 
-#: ../src/calc.c:2120
+#: ../src/calc.c:2140
 msgid "Extra dictionary for NULL function"
 msgstr "Slovník navíc pro funkci NULL"
 
-#: ../src/calc.c:2162 ../src/calc.c:2717 ../src/calc.c:2752
+#: ../src/calc.c:2182 ../src/calc.c:2737 ../src/calc.c:2772
 #, c-format
 msgid "Can't open file: '%s'"
 msgstr "Nemohu otevřít soubor: '%s'"
 
-#: ../src/calc.c:2363
+#: ../src/calc.c:2383
 msgid "Load a file into the interpretor"
 msgstr "Načíst soubor do interpretu"
 
-#: ../src/calc.c:2366
+#: ../src/calc.c:2386
 msgid "Load a plugin"
 msgstr "Načíst zásuvný modul"
 
-#: ../src/calc.c:2369
+#: ../src/calc.c:2389
 msgid "List files in the current directory"
 msgstr "Vypsat soubory v aktuálním adresáři"
 
-#: ../src/calc.c:2372
+#: ../src/calc.c:2392
 msgid "Change directory"
 msgstr "Změnit adresář"
 
-#: ../src/calc.c:2375
+#: ../src/calc.c:2395
 msgid "Print current directory"
 msgstr "Vypsat aktuální adresář"
 
-#: ../src/calc.c:2378
+#: ../src/calc.c:2398
 msgid "Print help (or help on a function/command)"
 msgstr "Vypsat nápovědu (nebo nápovědu o funkci/příkazu)"
 
-#: ../src/calc.c:2395
+#: ../src/calc.c:2415
 msgid ""
 "\n"
 "For a manual on using Genius and the GEL language type:\n"
@@ -1289,11 +1297,11 @@ msgstr ""
 "\n"
 "Manuál o použití Genia a jazyka GEL zobrazíte napsáním:\n"
 
-#: ../src/calc.c:2397
+#: ../src/calc.c:2417
 msgid "  manual\n"
 msgstr "  manual\n"
 
-#: ../src/calc.c:2401
+#: ../src/calc.c:2421
 msgid ""
 "\n"
 "For help on a specific function type:\n"
@@ -1301,11 +1309,11 @@ msgstr ""
 "\n"
 "Nápovědu o konkrétní funkci zobrazíte napsáním:\n"
 
-#: ../src/calc.c:2403
+#: ../src/calc.c:2423
 msgid "  help FunctionName\n"
 msgstr "  help NázevFunkce\n"
 
-#: ../src/calc.c:2407
+#: ../src/calc.c:2427
 msgid ""
 "\n"
 "Commands:\n"
@@ -1313,7 +1321,7 @@ msgstr ""
 "\n"
 "Příkazy:\n"
 
-#: ../src/calc.c:2455
+#: ../src/calc.c:2475
 msgid ""
 "\n"
 "Undocumented:\n"
@@ -1324,67 +1332,67 @@ msgstr ""
 #. func
 #. aliasfor
 #. category
-#: ../src/calc.c:2498
+#: ../src/calc.c:2518
 msgid "Not documented"
 msgstr "Není dokumentováno"
 
-#: ../src/calc.c:2520
+#: ../src/calc.c:2540
 #, c-format
 msgid "'%s' is not documented"
 msgstr "'%s' není dokumentováno"
 
-#: ../src/calc.c:2522
+#: ../src/calc.c:2542
 #, c-format
 msgid "'%s' is not documented.  Perhaps you meant %s."
 msgstr "'%s' není dokumentováno. Možná jste chtěli %s."
 
-#: ../src/calc.c:2532
+#: ../src/calc.c:2552
 #, c-format
 msgid "%s is an alias for %s\n"
 msgstr "%s je přezdívka pro %s\n"
 
-#: ../src/calc.c:2546
+#: ../src/calc.c:2566
 msgid "Parameter: "
 msgstr "Parametr: "
 
-#: ../src/calc.c:2571
+#: ../src/calc.c:2591
 msgid "Aliases:"
 msgstr "Přezdívky:"
 
-#: ../src/calc.c:2583
+#: ../src/calc.c:2603
 #, c-format
 msgid "Description: %s\n"
 msgstr "Popis: %s\n"
 
-#: ../src/calc.c:2791 ../src/calc.c:2802
+#: ../src/calc.c:2811 ../src/calc.c:2822
 #, c-format
 msgid "Can't expand '%s'"
 msgstr "Nemohu rozbalit '%s'"
 
-#: ../src/calc.c:2872
+#: ../src/calc.c:2892
 #, c-format
 msgid "Cannot open plugin '%s'!"
 msgstr "Nemohu otevřít zásuvný modul '%s'!"
 
-#: ../src/calc.c:3082
+#: ../src/calc.c:3102
 msgid "ERROR: Probably corrupt stack!"
 msgstr "CHYBA: Zásobník pravděpodobně poškozen!"
 
-#: ../src/calc.c:3105
+#: ../src/calc.c:3125
 msgid "ERROR: Can't execute more things at once!"
 msgstr "CHYBA: Nemohu spouštět více věcí zároveň!"
 
-#: ../src/calc.c:3211
+#: ../src/calc.c:3231
 #, c-format
 msgid "ERROR: %s before newline"
 msgstr "CHYBA: %s před koncem řádku"
 
-#: ../src/calc.c:3213
+#: ../src/calc.c:3233
 #, c-format
 msgid "ERROR: %s at end of input"
 msgstr "CHYBA: %s na konci vstupu"
 
-#: ../src/calc.c:3220
+#: ../src/calc.c:3240
 #, c-format
 msgid "ERROR: %s before '%s'"
 msgstr "CHYBA: %s před '%s'"
@@ -1393,17 +1401,17 @@ msgstr "CHYBA: %s před '%s'"
 msgid "Bad tree record when decompiling"
 msgstr "Špatný záznam stromu při dekompilaci"
 
-#: ../src/eval.c:1445 ../src/eval.c:1499 ../src/eval.c:1514
+#: ../src/eval.c:1453 ../src/eval.c:1507 ../src/eval.c:1522
 msgid "Cannot compare non value or bool only matrixes"
 msgstr ""
 "Nemohu porovnávat matice, které nemají jen hodnoty nebo booleovské hodnoty"
 
 #. also on rationals but as integers
-#: ../src/eval.c:1570 ../src/eval.c:1616
+#: ../src/eval.c:1578 ../src/eval.c:1624
 msgid "Modulo arithmetic only works on integers"
 msgstr "Aritmetika modulo funguje jen na celých číslech"
 
-#: ../src/eval.c:1828
+#: ../src/eval.c:1836
 msgid ""
 "Can't add/subtract a scalar to non-square matrix (A + x is defined as A + "
 "x*I)"
@@ -1411,67 +1419,67 @@ msgstr ""
 "Nemohu přičíst/odečíst skalár k nečtvercové matici (A + x je definováno jako "
 "A + x*I)"
 
-#: ../src/eval.c:1924
+#: ../src/eval.c:1932
 msgid "Can't add/subtract two matricies of different sizes"
 msgstr "Nemohu sčítat/odčítat dvě matice s různými rozměry"
 
-#: ../src/eval.c:1926
+#: ../src/eval.c:1934
 msgid ""
 "Can't do element by element operations on two matricies of different sizes"
 msgstr "Nemohu provádět operace po prvcích na dvou maticích s různými rozměry"
 
-#: ../src/eval.c:1992
+#: ../src/eval.c:2000
 msgid "Can't multiply matricies of wrong sizes"
 msgstr "Nemohu násobit matice špatných rozměrů"
 
-#: ../src/eval.c:2043
+#: ../src/eval.c:2051
 msgid "Powers are defined on (square matrix)^(integer) only"
 msgstr "Mocnění je de definováno jen na (čtvercová matice)^(celé číslo)"
 
-#: ../src/eval.c:2049
+#: ../src/eval.c:2057
 msgid "Powers on matrices in modulo mode are defined on integer matrices only"
 msgstr ""
 "Mocnění matic v režimu modulo je definováno jen na celočíselných maticích"
 
-#: ../src/eval.c:2057
+#: ../src/eval.c:2065
 msgid "Exponent too large"
 msgstr "Exponent moc velký"
 
-#: ../src/eval.c:2084 ../src/eval.c:2199 ../src/eval.c:2265
+#: ../src/eval.c:2092 ../src/eval.c:2207 ../src/eval.c:2273
 msgid "Matrix appears singular and can't be inverted"
 msgstr "Matice je zřejmě singulární a nemůže být invertována"
 
-#: ../src/eval.c:2176
+#: ../src/eval.c:2184
 msgid "Can't divide matrices of different sizes or non-square matrices"
 msgstr "Nemohu dělit matice různých rozměrů nebo nečtvercové matice"
 
-#: ../src/eval.c:2247
+#: ../src/eval.c:2255
 msgid "Can't divide by a non-square matrix"
 msgstr "Nemohu dělit nečtvercovou maticí"
 
-#: ../src/eval.c:2660 ../src/eval.c:2687 ../src/eval.c:2708 ../src/eval.c:2732
-#: ../src/eval.c:2778
+#: ../src/eval.c:2666 ../src/eval.c:2693 ../src/eval.c:2714 ../src/eval.c:2738
+#: ../src/eval.c:2784
 msgid "Operations on functions with variable argument list not supported"
 msgstr "Operace na funkcích s proměnným seznamem parametrů nejsou podporovány"
 
-#: ../src/eval.c:2665
+#: ../src/eval.c:2671
 msgid ""
 "Operations on functions with different number of arguments not supported"
 msgstr "Operace na funkcích s různým počtem parametrů nejsou podporovány"
 
-#: ../src/eval.c:2783
+#: ../src/eval.c:2789
 msgid "Function creation with wrong number of arguments"
 msgstr "Tvorba funkce se špatným počtem parametrů"
 
-#: ../src/eval.c:3362 ../src/eval.c:4721
+#: ../src/eval.c:3368 ../src/eval.c:4727
 msgid "Unevaluatable function type encountered!"
 msgstr "Nalezen nevyhodnotitelný typ funkce!"
 
-#: ../src/eval.c:3384
+#: ../src/eval.c:3390
 msgid "' or '"
 msgstr "' nebo '"
 
-#: ../src/eval.c:3419
+#: ../src/eval.c:3425
 msgid ""
 "Variable 'i' used uninitialized.  Perhaps you meant to write '1i' for the "
 "imaginary number (square root of -1)."
@@ -1479,17 +1487,17 @@ msgstr ""
 "Byla použita neinicializovaná proměnná'i'. Možná jste chtěli napsat '1i', "
 "imaginární číslo (odmocnina -1)."
 
-#: ../src/eval.c:3425 ../src/eval.c:3453
+#: ../src/eval.c:3431 ../src/eval.c:3459
 #, c-format
 msgid "Variable '%s' used uninitialized, perhaps you meant %s."
 msgstr "Proměnná '%s' použita bez inicializace, možná jste chtěli %s."
 
-#: ../src/eval.c:3432 ../src/eval.c:3460 ../src/eval.c:4472
+#: ../src/eval.c:3438 ../src/eval.c:3466 ../src/eval.c:4478
 #, c-format
 msgid "Variable '%s' used uninitialized"
 msgstr "Proměnná '%s' použita bez inicializace"
 
-#: ../src/eval.c:3464 ../src/eval.c:4515
+#: ../src/eval.c:3470 ../src/eval.c:4521
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -1498,47 +1506,47 @@ msgstr ""
 "Volání '%s' se špatným počtem parametrů!\n"
 "(mělo by jich být %d)"
 
-#: ../src/eval.c:3467
+#: ../src/eval.c:3473
 #, c-format
 msgid "Trying to dereference '%s' which is not a reference!\n"
 msgstr "Pokouším se dereferencovat '%s', což není odkaz!\n"
 
-#: ../src/eval.c:3472
+#: ../src/eval.c:3478
 msgid "NULL reference encountered!"
 msgstr "Nalezen odkaz NULL!"
 
-#: ../src/eval.c:3599
+#: ../src/eval.c:3605
 msgid "Cannot compare matrixes"
 msgstr "Nemohu porovnávat matice"
 
-#: ../src/eval.c:3641
+#: ../src/eval.c:3647
 msgid "Primitives must get numeric/matrix/string arguments"
 msgstr "Primitiva musí mít číselné/maticové/řetězcové parametry"
 
-#: ../src/eval.c:3732
+#: ../src/eval.c:3738
 msgid "Bad argument to modular operation"
 msgstr "Špatný parametr modulární operace"
 
-#: ../src/eval.c:4450
+#: ../src/eval.c:4456
 #, c-format
 msgid "Function '%s' used uninitialized, perhaps you meant %s."
 msgstr "Funkce '%s' použita bez inicializace, možná jste chtěli %s."
 
-#: ../src/eval.c:4457
+#: ../src/eval.c:4463
 #, c-format
 msgid "Function '%s' used uninitialized"
 msgstr "Funkce '%s' použita bez inicializace"
 
-#: ../src/eval.c:4478
+#: ../src/eval.c:4484
 #, c-format
 msgid "Can't dereference '%s'!"
 msgstr "Nemohu dereferencovat '%s'!"
 
-#: ../src/eval.c:4486
+#: ../src/eval.c:4492
 msgid "Can't call a non-function!"
 msgstr "Nemohu volat nefunkci!"
 
-#: ../src/eval.c:4520
+#: ../src/eval.c:4526
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -1547,247 +1555,247 @@ msgstr ""
 "Volání '%s' se špatným počtem parametrů!\n"
 "(mělo by jich být více než %d)"
 
-#: ../src/eval.c:4568
+#: ../src/eval.c:4574
 #, c-format
 msgid "Referencing an undefined variable %s!"
 msgstr "Odkaz na nedefinovanou proměnnou %s!"
 
-#: ../src/eval.c:4698
+#: ../src/eval.c:4704
 msgid "Reference function with arguments encountered!"
 msgstr "Nalezen odkaz na funkci s parametry!"
 
-#: ../src/eval.c:4703
+#: ../src/eval.c:4709
 msgid "Unnamed reference function encountered!"
 msgstr "Nalezen odkaz na nepojmenovanou funkci!"
 
-#: ../src/eval.c:4826
+#: ../src/eval.c:4832
 msgid "Bad type for 'for/sum/prod' loop!"
 msgstr "Špatný typ pro smyčku 'for/sum/prod'!"
 
-#: ../src/eval.c:4831
+#: ../src/eval.c:4837
 msgid "'for/sum/prod' loop increment can't be 0"
 msgstr "Inkrement smyčky 'for/sum/prod' nesmí být 0"
 
-#: ../src/eval.c:4942
+#: ../src/eval.c:4948
 msgid "Bad type for 'for in' loop!"
 msgstr "Špatný typ pro smyčku 'for in'!"
 
-#: ../src/eval.c:5106 ../src/eval.c:5139
+#: ../src/eval.c:5112 ../src/eval.c:5145
 msgid "Continue or break outside a loop, assuming \"return null\""
 msgstr "Continue nebo break mimo smyčku, předpokládám \"return null\""
 
-#: ../src/eval.c:5200
+#: ../src/eval.c:5206
 msgid "Wrong argument type as matrix index"
 msgstr "Špatný typ parametru jako indexu matice"
 
-#: ../src/eval.c:5210
+#: ../src/eval.c:5216
 msgid "Matrix index too large"
 msgstr "Index matice příliš velký"
 
-#: ../src/eval.c:5213
+#: ../src/eval.c:5219
 msgid "Matrix index less than 1"
 msgstr "Index matice menší než 1"
 
-#: ../src/eval.c:5236 ../src/eval.c:5251
+#: ../src/eval.c:5242 ../src/eval.c:5257
 msgid "Matrix index out of range"
 msgstr "Index matice mimo rozsah"
 
-#: ../src/eval.c:5298 ../src/eval.c:5360 ../src/eval.c:5423 ../src/eval.c:5470
+#: ../src/eval.c:5304 ../src/eval.c:5366 ../src/eval.c:5429 ../src/eval.c:5476
 #, c-format
 msgid "Trying to set a protected id '%s'"
 msgstr "Pokouším se nastavit chráněné id '%s'"
 
-#: ../src/eval.c:5316 ../src/eval.c:5355
+#: ../src/eval.c:5322 ../src/eval.c:5361
 msgid "Indexed Lvalue not user function"
 msgstr "Indexovaná Lvalue není uživatelská funkce"
 
-#: ../src/eval.c:5339 ../src/eval.c:5454
+#: ../src/eval.c:5345 ../src/eval.c:5460
 msgid "Dereference of non-identifier!"
 msgstr "Dereference neidentifikátoru!"
 
-#: ../src/eval.c:5345 ../src/eval.c:5460
+#: ../src/eval.c:5351 ../src/eval.c:5466
 msgid "Dereference of undefined variable!"
 msgstr "Dereference nedefinované proměnné!"
 
-#: ../src/eval.c:5349 ../src/eval.c:5464
+#: ../src/eval.c:5355 ../src/eval.c:5470
 msgid "Dereference of non-reference!"
 msgstr "Dereference nereference!"
 
-#: ../src/eval.c:5378
+#: ../src/eval.c:5384
 msgid "Indexed Lvalue not an identifier or a dereference"
 msgstr "Indexovaná Lvalue není identifikátor nebo dereference"
 
-#: ../src/eval.c:5416
+#: ../src/eval.c:5422
 msgid "Lvalue not an identifier/dereference/matrix location!"
 msgstr "Lvalue není identifikátor/dereference/místo v matici!"
 
-#: ../src/eval.c:5441 ../src/eval.c:5482
+#: ../src/eval.c:5447 ../src/eval.c:5488
 msgid "Referencing an undefined variable!"
 msgstr "Odkaz na nedefinovanou proměnnou!"
 
-#: ../src/eval.c:5528 ../src/eval.c:5606 ../src/eval.c:5615
+#: ../src/eval.c:5534 ../src/eval.c:5612 ../src/eval.c:5621
 msgid "Wrong matrix dimensions when setting"
 msgstr "Špatné rozměry matice při nastavování"
 
-#: ../src/eval.c:5546 ../src/eval.c:5586 ../src/eval.c:5652 ../src/eval.c:5782
-#: ../src/eval.c:5907
+#: ../src/eval.c:5552 ../src/eval.c:5592 ../src/eval.c:5658 ../src/eval.c:5788
+#: ../src/eval.c:5913
 msgid "Matrix index not an integer or a vector"
 msgstr "Index matice není celé číslo nebo vektor"
 
-#: ../src/eval.c:5673
+#: ../src/eval.c:5679
 msgid "Parameters can only be created in the global context"
 msgstr "Parametry mohou být vytvořeny jen v globálním kontextu"
 
-#: ../src/eval.c:5729 ../src/eval.c:5774 ../src/eval.c:5865
+#: ../src/eval.c:5735 ../src/eval.c:5780 ../src/eval.c:5871
 msgid "Index works only on matricies"
 msgstr "Index funguje jen na maticích"
 
-#: ../src/eval.c:5762
+#: ../src/eval.c:5768
 msgid "Vector index not an integer or a vector"
 msgstr "Index vektoru není celé číslo nebo vektor"
 
-#: ../src/eval.c:5930
+#: ../src/eval.c:5936
 msgid "number"
 msgstr "číslo"
 
-#: ../src/eval.c:5931
+#: ../src/eval.c:5937
 msgid "matrix"
 msgstr "matice"
 
-#: ../src/eval.c:5932
+#: ../src/eval.c:5938
 msgid "string"
 msgstr "řetězec"
 
-#: ../src/eval.c:5933
+#: ../src/eval.c:5939
 msgid "function"
 msgstr "funkce"
 
-#: ../src/eval.c:5934
+#: ../src/eval.c:5940
 msgid "identifier"
 msgstr "identifikátor"
 
-#: ../src/eval.c:5935
+#: ../src/eval.c:5941
 msgid "polynomial"
 msgstr "polynom"
 
-#: ../src/eval.c:5936
+#: ../src/eval.c:5942
 msgid "boolean"
 msgstr "booleovská hodnota"
 
-#: ../src/eval.c:5956
+#: ../src/eval.c:5962
 msgid "Addition"
 msgstr "Sčítání"
 
-#: ../src/eval.c:5957
+#: ../src/eval.c:5963
 msgid "Element by element addition"
 msgstr "Sčítání po prvcích"
 
-#: ../src/eval.c:5958
+#: ../src/eval.c:5964
 msgid "Subtraction"
 msgstr "Odčítání"
 
-#: ../src/eval.c:5959
+#: ../src/eval.c:5965
 msgid "Element by element subtraction"
 msgstr "Odčítání po prvcích"
 
-#: ../src/eval.c:5960
+#: ../src/eval.c:5966
 msgid "Multiplication"
 msgstr "Násobení"
 
-#: ../src/eval.c:5961
+#: ../src/eval.c:5967
 msgid "Element by element multiplication"
 msgstr "Násobení po prvcích"
 
-#: ../src/eval.c:5962
+#: ../src/eval.c:5968
 msgid "Division"
 msgstr "Dělení"
 
-#: ../src/eval.c:5963
+#: ../src/eval.c:5969
 msgid "Element by element division"
 msgstr "Dělení po prvcích"
 
-#: ../src/eval.c:5964
+#: ../src/eval.c:5970
 msgid "Back division"
 msgstr "Obrácené dělení"
 
-#: ../src/eval.c:5965
+#: ../src/eval.c:5971
 msgid "Element by element back division"
 msgstr "Obrácené dělení po prvcích"
 
-#: ../src/eval.c:5966
+#: ../src/eval.c:5972
 msgid "Modulo"
 msgstr "Modulo"
 
-#: ../src/eval.c:5967
+#: ../src/eval.c:5973
 msgid "Element by element modulo"
 msgstr "Modulo po prvcích"
 
-#: ../src/eval.c:5968
+#: ../src/eval.c:5974
 msgid "Negation"
 msgstr "Negace"
 
-#: ../src/eval.c:5969
+#: ../src/eval.c:5975
 msgid "Power"
 msgstr "Mocnění"
 
-#: ../src/eval.c:5970
+#: ../src/eval.c:5976
 msgid "Element by element power"
 msgstr "Mocnění po prvcích"
 
-#: ../src/eval.c:5971
+#: ../src/eval.c:5977
 msgid "Factorial"
 msgstr "Faktoriál"
 
-#: ../src/eval.c:5972
+#: ../src/eval.c:5978
 msgid "Double factorial"
 msgstr "Dvojitý faktoriál"
 
-#: ../src/eval.c:5973
+#: ../src/eval.c:5979
 msgid "Transpose"
 msgstr "Transpozice"
 
-#: ../src/eval.c:5974
+#: ../src/eval.c:5980
 msgid "ConjugateTranspose"
 msgstr "Konjugace"
 
-#: ../src/eval.c:5975
+#: ../src/eval.c:5981
 msgid "Comparison (<=>)"
 msgstr "Porovnání (<=>)"
 
-#: ../src/eval.c:5976
+#: ../src/eval.c:5982
 msgid "XOR"
 msgstr "XOR"
 
-#: ../src/eval.c:5977
+#: ../src/eval.c:5983
 msgid "NOT"
 msgstr "NOT"
 
-#: ../src/eval.c:5997
+#: ../src/eval.c:6003
 #, c-format
 msgid "Bad types for '%s'"
 msgstr "Špatné typy pro '%s'"
 
-#: ../src/eval.c:6008
+#: ../src/eval.c:6014
 #, c-format
 msgid "%s not defined on <%s> and <%s>"
 msgstr "%s není definováno na <%s> a <%s>"
 
-#: ../src/eval.c:6027
+#: ../src/eval.c:6033
 #, c-format
 msgid "Bad type for '%s'"
 msgstr "Špatný typ pro '%s'"
 
-#: ../src/eval.c:6037
+#: ../src/eval.c:6043
 #, c-format
 msgid "%s not defined on <%s>"
 msgstr "%s není definováno na <%s>"
 
-#: ../src/eval.c:6056 ../src/eval.c:6073
+#: ../src/eval.c:6062 ../src/eval.c:6079
 msgid "Vector building only works on numbers"
 msgstr "Tvorba vektorů funguje jen na číslech"
 
 #. FIXME: perhaps we should just return null like octave?
-#: ../src/eval.c:6066
+#: ../src/eval.c:6072
 msgid "Impossible arguments to vector building operator"
 msgstr "Nemožné parametry operátoru tvorby vektorů"
 
@@ -1810,7 +1818,7 @@ msgstr "Nemohu najít manuál"
 msgid "Cannot parse version string: %s"
 msgstr "Nerozumím řetězci verze: %s"
 
-#: ../src/funclib.c:213 ../src/gnome-genius.c:1135
+#: ../src/funclib.c:213 ../src/gnome-genius.c:1396
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -1845,371 +1853,376 @@ msgstr ""
 "    programem. Pokud se tak nestalo, podívejte se na stránku\n"
 "    <http://www.gnu.org/licenses/>.\n"
 
-#: ../src/funclib.c:440
+#: ../src/funclib.c:307
+#, c-format
+msgid "%s: trying to undefine a protected id!"
+msgstr "%s: pokus o zapomenutí chráněné id!"
+
+#: ../src/funclib.c:495
 #, c-format
 msgid "%s: trying to set a protected id!"
-msgstr "%s: pokouším se nastavit chráněné id!"
+msgstr "%s: pokus o nastavení chráněné id!"
 
 #. FIXME: fix this, this should just work too
-#: ../src/funclib.c:446
+#: ../src/funclib.c:501
 #, c-format
 msgid "%s: trying to set a parameter, use the equals sign"
 msgstr "%s: pokouším se nastavit parametr, použijte rovnítko"
 
-#: ../src/funclib.c:473 ../src/funclib.c:560
+#: ../src/funclib.c:528 ../src/funclib.c:615
 #, c-format
 msgid "%s: Too many arguments, should be at most %d"
 msgstr "%s: Příliš mnoho parametrů, mělo by jich být nejvýše %d"
 
-#: ../src/funclib.c:702
+#: ../src/funclib.c:757
 msgid "Cannot apply function to two differently sized matrixes"
 msgstr "Nemohu použít funkci na dvě matice s různými rozměry"
 
-#: ../src/funclib.c:1328 ../src/funclib.c:1365
+#: ../src/funclib.c:1383 ../src/funclib.c:1420
 #, c-format
 msgid "%s: Not implemented (yet) for complex values"
 msgstr "%s: Není implementováno (prozatím) pro komplexní hodnoty"
 
-#: ../src/funclib.c:1809
+#: ../src/funclib.c:1864
 #, c-format
 msgid "%s: square root for composite moduli is not yet implemented"
 msgstr "%s: odmocnina pro složené moduly ještě není implementována"
 
-#: ../src/funclib.c:1817
+#: ../src/funclib.c:1872
 #, c-format
 msgid "%s: Cannot find square root function for prime moduli"
 msgstr "%s: Nemohu najít funkci odmocniny pro prvočíselný modul"
 
-#: ../src/funclib.c:1850
+#: ../src/funclib.c:1905
 #, c-format
 msgid "%s: matrix argument is not square"
 msgstr "%s: maticový parametr není čtvercový"
 
-#: ../src/funclib.c:1978 ../src/funclib.c:2078
+#: ../src/funclib.c:2033 ../src/funclib.c:2133
 #, c-format
 msgid "%s: matrix argument must be integer only"
 msgstr "%s: maticový parametr musí být jen z celých čísel"
 
-#: ../src/funclib.c:2000 ../src/funclib.c:2100
+#: ../src/funclib.c:2055 ../src/funclib.c:2155
 #, c-format
 msgid "%s: argument must be an integer"
 msgstr "%s: parametr musí být celé číslo"
 
-#: ../src/funclib.c:2335 ../src/funclib.c:2422
+#: ../src/funclib.c:2390 ../src/funclib.c:2477
 #, c-format
 msgid "%s: matrix argument must be value only"
 msgstr "%s: maticový parametr musí být jen hodnoty"
 
-#: ../src/funclib.c:2661 ../src/funclib.c:2701 ../src/funclib.c:4169
-#: ../src/funclib.c:4463
+#: ../src/funclib.c:2730 ../src/funclib.c:2785 ../src/funclib.c:4263
+#: ../src/funclib.c:4557
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: příliš mnoho parametrů"
 
-#: ../src/funclib.c:2904
+#: ../src/funclib.c:2999
 #, c-format
 msgid "%s: vector argument not value only"
 msgstr "%s: vektorový parametr nejsou jen hodnoty"
 
-#: ../src/funclib.c:2915 ../src/funclib.c:2946
+#: ../src/funclib.c:3010 ../src/funclib.c:3041
 #, c-format
 msgid "%s: vector argument has too large entries"
 msgstr "%s: vektorový parametr má příliš velké položky"
 
-#: ../src/funclib.c:2988
+#: ../src/funclib.c:3083
 #, c-format
 msgid "%s: arguments must be vectors of equal size"
 msgstr "%s: parametr musí být vektory stejné velikosti"
 
-#: ../src/funclib.c:3472 ../src/funclib.c:3478
+#: ../src/funclib.c:3566 ../src/funclib.c:3572
 #, c-format
 msgid "%s: %s not a reference"
 msgstr "%s: %s není odkaz"
 
-#: ../src/funclib.c:3517
+#: ../src/funclib.c:3611
 #, c-format
 msgid "%s: matrices not of the same height"
 msgstr "%s: matice nemají stejnou výšku"
 
-#: ../src/funclib.c:3522 ../src/funclib.c:4163
+#: ../src/funclib.c:3616 ../src/funclib.c:4257
 msgid "third argument"
 msgstr "třetí parametr"
 
-#: ../src/funclib.c:3527
+#: ../src/funclib.c:3621
 msgid "fourth argument"
 msgstr "čtvrtý parametr"
 
-#: ../src/funclib.c:3800
+#: ../src/funclib.c:3894
 #, c-format
 msgid "%s: argument must be greater than 2"
 msgstr "%s: parametr musí být větší než 2"
 
-#: ../src/funclib.c:3903 ../src/funclib.c:3932 ../src/funclib.c:4184
-#: ../src/mpwrap.c:3624 ../src/mpwrap.c:3643 ../src/mpwrap.c:3700
-#: ../src/mpwrap.c:3729 ../src/mpwrap.c:3746 ../src/mpwrap.c:3795
+#: ../src/funclib.c:3997 ../src/funclib.c:4026 ../src/funclib.c:4278
+#: ../src/mpwrap.c:3657 ../src/mpwrap.c:3676 ../src/mpwrap.c:3733
+#: ../src/mpwrap.c:3762 ../src/mpwrap.c:3779 ../src/mpwrap.c:3828
 msgid "Division by zero!"
 msgstr "Dělení nulou!"
 
-#: ../src/funclib.c:3988
+#: ../src/funclib.c:4082
 #, c-format
 msgid "%s: arguments not horizontal vectors"
 msgstr "%s: parametry nejsou vodorovné vektory"
 
-#: ../src/funclib.c:3997
+#: ../src/funclib.c:4091
 #, c-format
 msgid "%s: arguments not numeric only vectors"
 msgstr "%s: parametry nejsou vektory jen s čísly"
 
-#: ../src/funclib.c:4381
+#: ../src/funclib.c:4475
 #, c-format
 msgid "%s: argument 1 must be a quadratic polynomial"
 msgstr "%s: parametr 1 musí být kvadratický polynom"
 
-#: ../src/funclib.c:4691 ../src/funclib.c:4780 ../src/funclib.c:5008
-#: ../src/funclib.c:5063 ../src/funclib.c:5133 ../src/funclib.c:5147
+#: ../src/funclib.c:4785 ../src/funclib.c:4874 ../src/funclib.c:5102
+#: ../src/funclib.c:5157 ../src/funclib.c:5227 ../src/funclib.c:5241
 #, c-format
 msgid "%s: value out of range"
 msgstr "%s: hodnota mimo rozsah"
 
-#: ../src/funclib.c:5263
+#: ../src/funclib.c:5367
 #, c-format
 msgid "%s: undefined function"
 msgstr "%s: nedefinovaná funkce"
 
-#: ../src/funclib.c:5269
+#: ../src/funclib.c:5373
 #, c-format
 msgid "%s: flags argument must be a string"
 msgstr "%s: parametr příznaků musí být řetězec"
 
-#: ../src/funclib.c:5382
+#: ../src/funclib.c:5486
 #, c-format
 msgid "%s: argument 2 must be less than or equal to argument 3"
 msgstr "%s: parametr 2 musí být menší nebo roven parametru 3"
 
-#: ../src/funclib.c:5395 ../src/symbolic.c:726
+#: ../src/funclib.c:5499 ../src/symbolic.c:726
 #, c-format
 msgid "%s: argument not a function of one variable"
 msgstr "%s: parametr není funkce jedné proměnné"
 
-#: ../src/funclib.c:5495 ../src/funclib.c:5531 ../src/funclib.c:5785
+#: ../src/funclib.c:5599 ../src/funclib.c:5635 ../src/funclib.c:5889
 #, c-format
 msgid "%s: argument should be between %d and %d"
 msgstr "%s: parametr by měl být mezi %d a %d"
 
-#: ../src/funclib.c:5690
+#: ../src/funclib.c:5794
 msgid "OutputStyle must be one of normal, troff, latex or mathml"
 msgstr "OutputStyle musí být jedno z normal, troff, latex nebo mathml"
 
-#: ../src/funclib.c:5731
+#: ../src/funclib.c:5835
 #, c-format
 msgid "%s: argument should be larger or equal to 0"
 msgstr "%s: parametr by měl být větší nebo roven 0"
 
-#: ../src/funclib.c:5847
+#: ../src/funclib.c:5951
 msgid "Basic"
 msgstr "Základní"
 
 #. internal
-#: ../src/funclib.c:5848
+#: ../src/funclib.c:5952
 msgid "Parameters"
 msgstr "Parametry"
 
 #. internal
-#: ../src/funclib.c:5849
+#: ../src/funclib.c:5953
 msgid "Constants"
 msgstr "Konstanty"
 
 #. internal
-#: ../src/funclib.c:5850
+#: ../src/funclib.c:5954
 msgid "Numeric"
 msgstr "Číselné"
 
 #. internal
-#: ../src/funclib.c:5851
+#: ../src/funclib.c:5955
 msgid "Trigonometry"
 msgstr "Trigonometrie"
 
 #. internal
-#: ../src/funclib.c:5852
+#: ../src/funclib.c:5956
 msgid "Number Theory"
 msgstr "Teorie čísel"
 
 #. internal
-#: ../src/funclib.c:5853
+#: ../src/funclib.c:5957
 msgid "Matrix Manipulation"
 msgstr "Práce s maticemi"
 
 #. internal
-#: ../src/funclib.c:5854
+#: ../src/funclib.c:5958
 msgid "Linear Algebra"
 msgstr "Lineární algebra"
 
 #. internal
-#: ../src/funclib.c:5855
+#: ../src/funclib.c:5959
 msgid "Combinatorics"
 msgstr "Kombinatorika"
 
 #. internal
-#: ../src/funclib.c:5856
+#: ../src/funclib.c:5960
 msgid "Calculus"
 msgstr "Kalkulus"
 
 #. internal
-#: ../src/funclib.c:5857
+#: ../src/funclib.c:5961
 msgid "Functions"
 msgstr "Funkce"
 
 #. internal
-#: ../src/funclib.c:5858
+#: ../src/funclib.c:5962
 msgid "Equation Solving"
 msgstr "Řešení rovni"
 
 #. internal
-#: ../src/funclib.c:5859
+#: ../src/funclib.c:5963
 msgid "Statistics"
 msgstr "Statistika"
 
 #. internal
-#: ../src/funclib.c:5860
+#: ../src/funclib.c:5964
 msgid "Polynomials"
 msgstr "Polynomy"
 
 #. internal
-#: ../src/funclib.c:5861
+#: ../src/funclib.c:5965
 msgid "Set Theory"
 msgstr "Teorie množin"
 
 #. internal
-#: ../src/funclib.c:5862
+#: ../src/funclib.c:5966
 msgid "Miscellaneous"
 msgstr "Různé"
 
 #. internal
-#: ../src/funclib.c:5864
+#: ../src/funclib.c:5968
 msgid "Displays the user manual"
 msgstr "Zobrazí uživatelský manuál"
 
-#: ../src/funclib.c:5865
+#: ../src/funclib.c:5969
 msgid "Gives the warranty information"
 msgstr "Zobrazí informace o záruce"
 
-#: ../src/funclib.c:5866
+#: ../src/funclib.c:5970
 msgid "Return version as a 3-vector"
 msgstr "Vrátit verzi jako troj-vektor"
 
-#: ../src/funclib.c:5867
+#: ../src/funclib.c:5971
 msgid "Exits the program"
 msgstr "Ukončí program"
 
-#: ../src/funclib.c:5869
+#: ../src/funclib.c:5973
 msgid "Prints a string to the error stream"
 msgstr "Vypíše řetězec do proudu chyb"
 
-#: ../src/funclib.c:5870
+#: ../src/funclib.c:5974
 msgid "Waits a specified number of seconds"
 msgstr "Čeká určený počet sekund"
 
-#: ../src/funclib.c:5871
+#: ../src/funclib.c:5975
 msgid "The true boolean value"
 msgstr "Booleovská hodnota true"
 
-#: ../src/funclib.c:5873
+#: ../src/funclib.c:5977
 msgid "The false boolean value"
 msgstr "Booleovská hodnota false"
 
-#: ../src/funclib.c:5882
+#: ../src/funclib.c:5986
 msgid "Make integer (0 or 1) from a boolean value"
 msgstr "Vytvořit celé číslo (0 nebo 1) z booleovské hodnoty"
 
-#: ../src/funclib.c:5884
+#: ../src/funclib.c:5988
 msgid "Prints an expression"
 msgstr "Vypíše výraz"
 
-#: ../src/funclib.c:5885
+#: ../src/funclib.c:5989
 msgid "Changes current directory"
 msgstr "Změní aktuální adresář"
 
-#: ../src/funclib.c:5886
+#: ../src/funclib.c:5990
 msgid "Prints an expression without a trailing newline"
 msgstr "Vypíše výraz bez znaku konce řádku"
 
-#: ../src/funclib.c:5887
+#: ../src/funclib.c:5991
 msgid "Display a string and an expression"
 msgstr "Zobrazit řetězec a výraz"
 
-#: ../src/funclib.c:5888
+#: ../src/funclib.c:5992
 msgid "Set a global variable"
 msgstr "Nastavit globální proměnnou"
 
-#: ../src/funclib.c:5890
+#: ../src/funclib.c:5994
 msgid "Set the category and help description line for a function"
 msgstr "Nastavit kategorii funkce a řádek jejího popisu v nápovědě"
 
-#: ../src/funclib.c:5891
+#: ../src/funclib.c:5995
 msgid "Sets up a help alias"
 msgstr "Nastaví přezdívku nápovědy"
 
-#: ../src/funclib.c:5893
+#: ../src/funclib.c:5997
 msgid "Identity function, returns its argument"
 msgstr "Funkce identita, vrací svůj parametr"
 
-#: ../src/funclib.c:5895
+#: ../src/funclib.c:5999
 msgid "Generate random float"
 msgstr "Vygenerovat náhodné číslo s plovoucí řádovou čárkou"
 
-#: ../src/funclib.c:5897
+#: ../src/funclib.c:6001
 msgid "Generate random integer"
 msgstr "Vygenerovat náhodné celé číslo"
 
-#: ../src/funclib.c:5900 ../src/gnome-genius.c:1695
+#: ../src/funclib.c:6004 ../src/gnome-genius.c:1956
 msgid "Floating point precision"
 msgstr "Přesnost čísel s plovoucí řádovou čárkou"
 
-#: ../src/funclib.c:5902 ../src/gnome-genius.c:1584
+#: ../src/funclib.c:6006 ../src/gnome-genius.c:1845
 msgid ""
 "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr ""
 "Tisknout 0.0 když číslo s plovoucí řádkou je menší než 10^-x (0=nikdy "
 "nesekat)"
 
-#: ../src/funclib.c:5905 ../src/gnome-genius.c:1607
+#: ../src/funclib.c:6009 ../src/gnome-genius.c:1868
 msgid "Only chop numbers when another number is greater than 10^-x"
 msgstr "Sekat čísla jen když jiné číslo je vetší než 10^-x"
 
-#: ../src/funclib.c:5906
+#: ../src/funclib.c:6010
 msgid "Maximum digits to display"
 msgstr "Maximum zobrazovaných číslic"
 
-#: ../src/funclib.c:5907
+#: ../src/funclib.c:6011
 msgid "Maximum errors to display"
 msgstr "Maximum zobrazovaných chyb"
 
-#: ../src/funclib.c:5908
+#: ../src/funclib.c:6012
 msgid "Output style: normal, latex, mathml or troff"
 msgstr "Styl výstupu: normal, latex, mathml nebo troff"
 
-#: ../src/funclib.c:5909
+#: ../src/funclib.c:6013
 msgid "Integer output base"
 msgstr "Základ výstupu celých čísel"
 
-#: ../src/funclib.c:5910
+#: ../src/funclib.c:6014
 msgid "If true, mixed fractions are printed"
 msgstr "Je-li true, jsou vypisovány smíšené zlomky"
 
-#: ../src/funclib.c:5911
+#: ../src/funclib.c:6015
 msgid "Print full expressions, even if more than a line"
 msgstr "Vypisovat úplné výrazy, i když jsou delší než řádek"
 
-#: ../src/funclib.c:5912
+#: ../src/funclib.c:6016
 msgid "Convert all results to floats before printing"
 msgstr ""
 "Před výpisem převést všechny výsledky na čísla s plovoucí řádovou čárkou"
 
-#: ../src/funclib.c:5913
+#: ../src/funclib.c:6017
 msgid "Use scientific notation"
 msgstr "Používat vědeckou notaci"
 
-#: ../src/funclib.c:5915
+#: ../src/funclib.c:6019
 msgid ""
 "Number of extra Miller-Rabin tests to run on a number before declaring it a "
 "prime in IsPrime"
@@ -2217,190 +2230,190 @@ msgstr ""
 "Počet Miller-Rabinových testů, které s číslem spustit navíc před "
 "prohlášením, že je to prvočíslo v IsPrime"
 
-#: ../src/funclib.c:5921
+#: ../src/funclib.c:6025
 msgid "Expands a matrix just like we do on unquoted matrix input"
 msgstr "Rozbalí matici tak, jak to děláme při vstupu matice bez uvozovek"
 
-#: ../src/funclib.c:5922
+#: ../src/funclib.c:6026
 msgid "Gets the rows of a matrix as a vertical vector"
 msgstr "Získá řádky matice jako svislý vektor"
 
-#: ../src/funclib.c:5923
+#: ../src/funclib.c:6027
 msgid "Gets the columns of a matrix as a horizontal vector"
 msgstr "Získá sloupce matice jako vodorovný vektor"
 
-#: ../src/funclib.c:5924
+#: ../src/funclib.c:6028
 msgid "Gets the diagonal entries of a matrix as a column vector"
 msgstr "Získá diagonální prvky matice jako sloupcový vektor"
 
-#: ../src/funclib.c:5925
+#: ../src/funclib.c:6029
 msgid "Count the number of zero columns in a matrix"
 msgstr "Získat počet nulových sloupců matice"
 
-#: ../src/funclib.c:5926
+#: ../src/funclib.c:6030
 msgid "Removes any all-zero columns of M"
 msgstr "Odstraní všechny nulové sloupce M"
 
-#: ../src/funclib.c:5928
+#: ../src/funclib.c:6032
 msgid "Calculates the conjugate"
 msgstr "Vypočítá konjugaci"
 
-#: ../src/funclib.c:5933
+#: ../src/funclib.c:6037
 msgid "Calculates the sine function"
 msgstr "Vypočítá funkci sinus"
 
-#: ../src/funclib.c:5936
+#: ../src/funclib.c:6040
 msgid "Calculates the cosine function"
 msgstr "Vypočítá funkci kosinus"
 
-#: ../src/funclib.c:5939
+#: ../src/funclib.c:6043
 msgid "Calculates the hyperbolic sine function"
 msgstr "Vypočítá funkci hyperbolický sinus"
 
-#: ../src/funclib.c:5942
+#: ../src/funclib.c:6046
 msgid "Calculates the hyperbolic cosine function"
 msgstr "Vypočítá funkci hyperbolický kosinus"
 
-#: ../src/funclib.c:5945
+#: ../src/funclib.c:6049
 msgid "Calculates the tan function"
 msgstr "Vypočítá funkci tangens"
 
-#: ../src/funclib.c:5948
+#: ../src/funclib.c:6052
 msgid "Calculates the arctan function"
 msgstr "Vypočítá funkci arcus tangens"
 
-#: ../src/funclib.c:5953
+#: ../src/funclib.c:6057
 msgid "Calculates the arctan2 function (arctan(y/x) if x>0)"
 msgstr "Vypočítá funkci arcus tangens (arctan(y/x) pokud x>0)"
 
-#: ../src/funclib.c:5957
+#: ../src/funclib.c:6061
 msgid "The number pi"
 msgstr "Číslo pi"
 
-#: ../src/funclib.c:5959
+#: ../src/funclib.c:6063
 msgid "The natural number e"
 msgstr "Přirozené číslo e"
 
-#: ../src/funclib.c:5961
+#: ../src/funclib.c:6065
 msgid "The Golden Ratio"
 msgstr "Zlatý řez"
 
-#: ../src/funclib.c:5963
+#: ../src/funclib.c:6067
 msgid "Free fall acceleration"
 msgstr "Zrychlení při volném pádu"
 
-#: ../src/funclib.c:5966
+#: ../src/funclib.c:6070
 msgid "Euler's Constant gamma"
 msgstr "Eulerova konstanta gamma"
 
-#: ../src/funclib.c:5970
+#: ../src/funclib.c:6074
 msgid "Catalan's Constant (0.915...)"
 msgstr "Catalanova konstanta (0.915...)"
 
 #. FUNC (ErrorFunction, 1, "x", "functions", N_("The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt (only real values implemented)"));
 #. ErrorFunction_function = f;
 #. ALIAS (erf, 1, ErrorFunction);
-#: ../src/funclib.c:5975
+#: ../src/funclib.c:6079
 msgid "The Riemann zeta function (only real values implemented)"
 msgstr "Riemannova funkce zeta (zatím jen pro reálné hodnoty)"
 
-#: ../src/funclib.c:5979
+#: ../src/funclib.c:6083
 msgid "The Gamma function (only real values implemented)"
 msgstr "Funkce Gamma (zatím jen pro reálné hodnoty)"
 
-#: ../src/funclib.c:5984
+#: ../src/funclib.c:6088
 msgid "The square root"
 msgstr "Druhá odmocina"
 
-#: ../src/funclib.c:5988
+#: ../src/funclib.c:6092
 msgid "The exponential function"
 msgstr "Exponenciální funkce"
 
-#: ../src/funclib.c:5991
+#: ../src/funclib.c:6095
 msgid "The natural logarithm"
 msgstr "Přirozený logaritmus"
 
-#: ../src/funclib.c:5994
+#: ../src/funclib.c:6098
 msgid "Logarithm of x base 2"
 msgstr "Logaritmus x o základu 2"
 
-#: ../src/funclib.c:5999
+#: ../src/funclib.c:6103
 msgid "Logarithm of x base 10"
 msgstr "Logaritmus x o základu 10"
 
-#: ../src/funclib.c:6002
+#: ../src/funclib.c:6106
 msgid "Round a number"
 msgstr "Zaokrouhli číslo"
 
-#: ../src/funclib.c:6006
+#: ../src/funclib.c:6110
 msgid "Get the highest integer less than or equal to n"
 msgstr "Získat největší celé číslo menší nebo rovné n"
 
-#: ../src/funclib.c:6010
+#: ../src/funclib.c:6114
 msgid "Get the lowest integer more than or equal to n"
 msgstr "Získat nejmenší celé číslo větší nebo rovné n"
 
-#: ../src/funclib.c:6014
+#: ../src/funclib.c:6118
 msgid "Truncate number to an integer (return the integer part)"
 msgstr "Oříznout na celé číslo (vrátit celou část)"
 
-#: ../src/funclib.c:6019
+#: ../src/funclib.c:6123
 msgid "Make number a float"
 msgstr "Převést číslo na číslo s plovoucí řádovou čárkou"
 
-#: ../src/funclib.c:6022
+#: ../src/funclib.c:6126
 msgid "Get the numerator of a rational number"
 msgstr "Získat čitatel zlomku"
 
-#: ../src/funclib.c:6024
+#: ../src/funclib.c:6128
 msgid "Get the denominator of a rational number"
 msgstr "Získat jmenovatel zlomku"
 
-#: ../src/funclib.c:6027
+#: ../src/funclib.c:6131
 msgid "Greatest common divisor"
 msgstr "Největší společný dělitel"
 
-#: ../src/funclib.c:6029
+#: ../src/funclib.c:6133
 msgid "Least common multiplier"
 msgstr "Nejmenší společný násobek"
 
-#: ../src/funclib.c:6031
+#: ../src/funclib.c:6135
 msgid "Check a number for being a perfect square"
 msgstr "Zjistit, jestli je číslo perfektní čtverec"
 
-#: ../src/funclib.c:6032
+#: ../src/funclib.c:6136
 msgid "Check a number for being any perfect power (a^b)"
 msgstr "Zjistit, jestli je číslo perfektní mocnina (a^b)"
 
-#: ../src/funclib.c:6033
+#: ../src/funclib.c:6137
 msgid "Return the n'th prime (up to a limit)"
 msgstr "Vrátit n-té prvočíslo (do určitého limitu)"
 
-#: ../src/funclib.c:6035
+#: ../src/funclib.c:6139
 msgid "Tests if an integer is even"
 msgstr "Testuje, jestli je celé číslo sudé"
 
-#: ../src/funclib.c:6036
+#: ../src/funclib.c:6140
 msgid "Tests if an integer is odd"
 msgstr "Testuje, jestli je celé číslo liché"
 
-#: ../src/funclib.c:6038
+#: ../src/funclib.c:6142
 msgid "Returns the least prime greater than n (if n is positive)"
 msgstr "Vrátí nejmenší prvočíslo větší než n (pokud je n kladné)"
 
-#: ../src/funclib.c:6039
+#: ../src/funclib.c:6143
 msgid "Returns the n'th Lucas number"
 msgstr "Vrátí n-té Lucasovo číslo"
 
-#: ../src/funclib.c:6040
+#: ../src/funclib.c:6144
 msgid "Returns inverse of n mod m"
 msgstr "Vrátí inverz n mod m"
 
-#: ../src/funclib.c:6041
+#: ../src/funclib.c:6145
 msgid "Checks divisibility (if m divides n)"
 msgstr "Kontroluje dělitelnost (jestli m dělí n)"
 
-#: ../src/funclib.c:6042
+#: ../src/funclib.c:6146
 msgid ""
 "Return n/d but only if d divides n else returns garbage (this is faster than "
 "writing n/d)"
@@ -2408,7 +2421,7 @@ msgstr ""
 "Vrátí n/d, ale jen pokud d dělí n, jinak vrací nesmysly (toto je rychlejší "
 "než zápis n/d)"
 
-#: ../src/funclib.c:6043
+#: ../src/funclib.c:6147
 msgid ""
 "Tests primality of integers, for numbers greater than 25*10^9 false positive "
 "is with low probability depending on IsPrimeMillerRabinReps"
@@ -2416,11 +2429,11 @@ msgstr ""
 "Testuje prvočíselnost celých čísel, pro čísla větší než 25*10^9 je malá "
 "pravděpodobnost falešných pozitiv závisející na IsPrimeMillerRabinReps"
 
-#: ../src/funclib.c:6044
+#: ../src/funclib.c:6148
 msgid "Run the strong pseudoprime test base b on n"
 msgstr "Spustit silný test pseudoprvočíselnosti o základu b na n"
 
-#: ../src/funclib.c:6045
+#: ../src/funclib.c:6149
 msgid ""
 "Use the Miller-Rabin primality test on n, reps number of times.  The "
 "probability of false positive is (1/4)^reps"
@@ -2428,7 +2441,7 @@ msgstr ""
 "Použít reps-krát Miller-Rabinův test prvočíselnosti na n. Pravděpodobnost "
 "falešných pozitiv je (1/4)^reps"
 
-#: ../src/funclib.c:6046
+#: ../src/funclib.c:6150
 msgid ""
 "Use the Miller-Rabin primality test on n with enough bases that assuming the "
 "Generalized Reimann Hypothesis the result is deterministic"
@@ -2436,23 +2449,23 @@ msgstr ""
 "Použít Miller-Rabinův test prvočíselnosti na n s tolika bázemi, že za "
 "předpokladu zobecněné Riemannovy hypotézy je výsledek deterministický"
 
-#: ../src/funclib.c:6047
+#: ../src/funclib.c:6151
 msgid "Return factorization of a number as a matrix"
 msgstr "Vrátí faktorizaci čísla jako matici"
 
-#: ../src/funclib.c:6049
+#: ../src/funclib.c:6153
 msgid "Returns the maximum of arguments or matrix"
 msgstr "Vrátí maximum parametrů nebo matice"
 
-#: ../src/funclib.c:6052
+#: ../src/funclib.c:6156
 msgid "Returns the minimum of arguments or matrix"
 msgstr "Vrátí minimum parametrů nebo matice"
 
-#: ../src/funclib.c:6056
+#: ../src/funclib.c:6160
 msgid "Calculate the Jacobi symbol (a/b) (b should be odd)"
 msgstr "Vypočítat Jacobiho symbol (a/b) (b by mělo být liché)"
 
-#: ../src/funclib.c:6058
+#: ../src/funclib.c:6162
 msgid ""
 "Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) "
 "when a odd, or (a/2)=0 when a even"
@@ -2460,71 +2473,71 @@ msgstr ""
 "Vypočítat Jacobiho symbol (a/b) s Kroneckerovým rozšířením (a/2)=(2/a) když "
 "je a liché, nebo (a/2)=0 když je a sudé"
 
-#: ../src/funclib.c:6060
+#: ../src/funclib.c:6164
 msgid "Calculate the Legendre symbol (a/p)"
 msgstr "Vypočítat Legendrův symbol (a/p)"
 
-#: ../src/funclib.c:6063
+#: ../src/funclib.c:6167
 msgid "Get the real part of a complex number"
 msgstr "Získat reálnou část komplexního čísla"
 
-#: ../src/funclib.c:6066
+#: ../src/funclib.c:6170
 msgid "Get the imaginary part of a complex number"
 msgstr "Získat imaginární číst komplexního čísla"
 
-#: ../src/funclib.c:6070
+#: ../src/funclib.c:6174
 msgid "Make an identity matrix of a given size"
 msgstr "Vytvořit matici identity o daných rozměrech"
 
-#: ../src/funclib.c:6073
+#: ../src/funclib.c:6177
 msgid "Make an matrix of all zeros (or a row vector)"
 msgstr "Vytvořit matici (nebo řádkový vektor) samých nul"
 
-#: ../src/funclib.c:6075
+#: ../src/funclib.c:6179
 msgid "Make an matrix of all ones (or a row vector)"
 msgstr "Vytvořit matici (nebo řádkový vektor) samých jedniček"
 
-#: ../src/funclib.c:6078
+#: ../src/funclib.c:6182
 msgid "Get the number of rows of a matrix"
 msgstr "Získat počet řádků matice"
 
-#: ../src/funclib.c:6079
+#: ../src/funclib.c:6183
 msgid "Get the number of columns of a matrix"
 msgstr "Získat počet sloupců matice"
 
-#: ../src/funclib.c:6080
+#: ../src/funclib.c:6184
 msgid "Is a matrix square"
 msgstr "Je matice čtvercová"
 
-#: ../src/funclib.c:6081
+#: ../src/funclib.c:6185
 msgid "Is argument a horizontal or a vertical vector"
 msgstr "Je parametr vodorovný nebo svislý vektor"
 
-#: ../src/funclib.c:6082
+#: ../src/funclib.c:6186
 msgid "Is a matrix upper triangular"
 msgstr "Je matice horní trojúhelníková"
 
-#: ../src/funclib.c:6083
+#: ../src/funclib.c:6187
 msgid "Is a matrix lower triangular"
 msgstr "Je matice dolní trojúhelníková"
 
-#: ../src/funclib.c:6084
+#: ../src/funclib.c:6188
 msgid "Is a matrix diagonal"
 msgstr "Je matice diagonální"
 
-#: ../src/funclib.c:6085
+#: ../src/funclib.c:6189
 msgid "Get the number of elements of a matrix"
 msgstr "Získat počet prvků matice"
 
-#: ../src/funclib.c:6087
+#: ../src/funclib.c:6191
 msgid "Get the row echelon form of a matrix"
 msgstr "Získat horní trojúhelníkový tvar matice"
 
-#: ../src/funclib.c:6091
+#: ../src/funclib.c:6195
 msgid "Get the reduced row echelon form of a matrix"
 msgstr "Získat redukovaný trojúhelníkový tvar matice"
 
-#: ../src/funclib.c:6095
+#: ../src/funclib.c:6199
 msgid ""
 "Solve linear system Mx=V, return solution V if there is a unique solution, "
 "null otherwise.  Extra two reference parameters can optionally be used to "
@@ -2534,11 +2547,11 @@ msgstr ""
 "jinak null. Další dva referenční parametry mohou být použity pro získání "
 "redukovaného M a V."
 
-#: ../src/funclib.c:6098
+#: ../src/funclib.c:6202
 msgid "Get the determinant of a matrix"
 msgstr "Získat determinant matice"
 
-#: ../src/funclib.c:6101
+#: ../src/funclib.c:6205
 msgid ""
 "Return pivot columns of a matrix, that is columns which have a leading 1 in "
 "rref form, also returns the row where they occur"
@@ -2546,196 +2559,196 @@ msgstr ""
 "Vrátit pivotové sloupce matice, to je sloupce, které začínají 1 v tvaru "
 "RREF, také vrací sloupec, kde vznikají"
 
-#: ../src/funclib.c:6103
+#: ../src/funclib.c:6207
 msgid "Get the nullspace of a matrix"
 msgstr "Získat nulový prostor matice"
 
-#: ../src/funclib.c:6105
+#: ../src/funclib.c:6209
 msgid "Make new matrix of given size from old one"
 msgstr "Vytvořit z původní matice novou matici daných rozměrů"
 
-#: ../src/funclib.c:6106
+#: ../src/funclib.c:6210
 msgid "Return the index complement of a vector of indexes"
 msgstr "Vrátit doplňkový index vektoru indexů"
 
-#: ../src/funclib.c:6107
+#: ../src/funclib.c:6211
 msgid "Get the hermitian product of two vectors"
 msgstr "Získat vnější (hermitský) součin dvou vektorů"
 
-#: ../src/funclib.c:6110
+#: ../src/funclib.c:6214
 msgid "Check if a matrix is a matrix of numbers"
 msgstr "Zjistit, jestli je matice matice čísel"
 
-#: ../src/funclib.c:6111
+#: ../src/funclib.c:6215
 msgid "Check if a matrix is an integer (non-complex) matrix"
 msgstr "Zjistit, jestli je matice matice celých (ne komplexních) čísel"
 
-#: ../src/funclib.c:6112
+#: ../src/funclib.c:6216
 msgid "Check if a matrix is a rational (non-complex) matrix"
 msgstr "Zjistit, jestli je matice matice racionálních (ne komplexních) čísel"
 
-#: ../src/funclib.c:6113
+#: ../src/funclib.c:6217
 msgid "Check if a matrix is a real (non-complex) matrix"
 msgstr "Zjistit, jestli je matice matice reálných (ne komplexních) čísel"
 
-#: ../src/funclib.c:6114
+#: ../src/funclib.c:6218
 msgid "Check if a matrix is positive, that is if each element is positive"
 msgstr "Zjistí zda je matice positivní, je li každý prvek positivní"
 
-#: ../src/funclib.c:6115
+#: ../src/funclib.c:6219
 msgid ""
 "Check if a matrix is nonnegative, that is if each element is nonnegative"
 msgstr "Zjistí zda je matice nezáporná, je li každý prvek nezáporný"
 
-#: ../src/funclib.c:6117
+#: ../src/funclib.c:6221
 msgid "Check if a number or a matrix is all zeros"
 msgstr "Zjistit, jestli je matice či číslo nula"
 
-#: ../src/funclib.c:6118
+#: ../src/funclib.c:6222
 msgid "Check if a number or a matrix is 1 or identity respectively"
 msgstr "Zjistit zda je číslo či matice 1 nebo identita"
 
-#: ../src/funclib.c:6120
+#: ../src/funclib.c:6224
 msgid ""
 "Returns true if the element x is in the set X (where X is a vector "
 "pretending to be a set)"
 msgstr ""
 "Vrátí true, když prvek x je v množině X (kde X je vektor braný jako množina)"
 
-#: ../src/funclib.c:6121
+#: ../src/funclib.c:6225
 msgid "Returns true if X is a subset of Y"
 msgstr "Vrátí true když X je podmnožina Y"
 
-#: ../src/funclib.c:6122
+#: ../src/funclib.c:6226
 msgid ""
 "Returns a set theoretic difference X-Y (X and Y are vectors pretending to be "
 "sets)"
 msgstr "Vrátí množinový rozdíl X-Y (X a Y jsou vektory brané jako množiny)"
 
-#: ../src/funclib.c:6123
+#: ../src/funclib.c:6227
 msgid ""
 "Returns a set theoretic intersection of X and Y (X and Y are vectors "
 "pretending to be sets)"
 msgstr "Vrátí množinový průnik X a Y (X a Y jsou vektory brané jako množiny)"
 
-#: ../src/funclib.c:6125
+#: ../src/funclib.c:6229
 msgid "Check if argument is a null"
 msgstr "Zjistit, jestli je parametr null"
 
-#: ../src/funclib.c:6126
+#: ../src/funclib.c:6230
 msgid "Check if argument is a number"
 msgstr "Zjistit, jestli je parametr číslo"
 
-#: ../src/funclib.c:6127
+#: ../src/funclib.c:6231
 msgid "Check if argument is a boolean (and not a number)"
 msgstr "Zjistit, jestli je parametr booleovská hodnota (ne číslo)"
 
-#: ../src/funclib.c:6128
+#: ../src/funclib.c:6232
 msgid "Check if argument is a text string"
 msgstr "Zjistit, jestli je parametr textový řetězec"
 
-#: ../src/funclib.c:6129
+#: ../src/funclib.c:6233
 msgid "Check if argument is a matrix"
 msgstr "Zjistit, jestli je parametr matice"
 
-#: ../src/funclib.c:6130
+#: ../src/funclib.c:6234
 msgid "Check if argument is a function"
 msgstr "Zjistit, jestli je parametr funkce"
 
-#: ../src/funclib.c:6131
+#: ../src/funclib.c:6235
 msgid "Check if argument is a function or an identifier"
 msgstr "Zjistit, jestli je parametr funkce nebo identifikátor"
 
-#: ../src/funclib.c:6132
+#: ../src/funclib.c:6236
 msgid "Check if argument is a function reference"
 msgstr "Zjistit, jestli je parametr odkaz na funkci"
 
-#: ../src/funclib.c:6134
+#: ../src/funclib.c:6238
 msgid "Check if argument is a complex (non-real) number"
 msgstr "Zjistit, jestli je parametr komplexní (ne reálné) číslo"
 
-#: ../src/funclib.c:6135
+#: ../src/funclib.c:6239
 msgid "Check if argument is a real number"
 msgstr "Zjistit, jestli je parametr reálné číslo"
 
-#: ../src/funclib.c:6136
+#: ../src/funclib.c:6240
 msgid "Check if argument is an integer (non-complex)"
 msgstr "Zjistit, jestli je parametr celé (ne komplexní) číslo"
 
-#: ../src/funclib.c:6137
+#: ../src/funclib.c:6241
 msgid "Check if argument is a positive real integer"
 msgstr "Zjistit, jestli je parametr kladné reálné celé číslo"
 
-#: ../src/funclib.c:6139
+#: ../src/funclib.c:6243
 msgid "Check if argument is a non-negative real integer"
 msgstr "Zjistit, jestli je parametr nezáporné reálné celé číslo"
 
-#: ../src/funclib.c:6140
+#: ../src/funclib.c:6244
 msgid "Check if argument is a possibly complex integer"
 msgstr "Zjistit, jestli je parametr možná komplexní celé číslo"
 
-#: ../src/funclib.c:6142
+#: ../src/funclib.c:6246
 msgid "Check if argument is a rational number (non-complex)"
 msgstr "Zjistit, jestli je parametr racionální (ne komplexní) číslo"
 
-#: ../src/funclib.c:6143
+#: ../src/funclib.c:6247
 msgid "Check if argument is a possibly complex rational number"
 msgstr "Zjistit, jestli je parametr možná komplexní racionální číslo"
 
-#: ../src/funclib.c:6144
+#: ../src/funclib.c:6248
 msgid "Check if argument is a floating point number (non-complex)"
 msgstr ""
 "Zjistit, jestli je parametr (ne komplexní) číslo s plovoucí řádovou čárkou"
 
-#: ../src/funclib.c:6146
+#: ../src/funclib.c:6250
 msgid "Add two polynomials (vectors)"
 msgstr "Sečíst dva polynomy (vektory)"
 
-#: ../src/funclib.c:6147
+#: ../src/funclib.c:6251
 msgid "Subtract two polynomials (as vectors)"
 msgstr "Odečíst dva polynomy (jako vektory)"
 
-#: ../src/funclib.c:6148
+#: ../src/funclib.c:6252
 msgid "Multiply two polynomials (as vectors)"
 msgstr "Vynásobit dva polynomy (jako vektory)"
 
-#: ../src/funclib.c:6149
+#: ../src/funclib.c:6253
 msgid "Divide polynomial p by q, return the remainder in r"
 msgstr "Dělit polymon p polynomem q, vratit zůstatek v r"
 
-#: ../src/funclib.c:6150
+#: ../src/funclib.c:6254
 msgid "Take polynomial (as vector) derivative"
 msgstr "Derivovat polynom (jako vektor)"
 
-#: ../src/funclib.c:6151
+#: ../src/funclib.c:6255
 msgid "Take second polynomial (as vector) derivative"
 msgstr "Vypočítat druhou derivaci polynomu (jako vektoru)"
 
-#: ../src/funclib.c:6152
+#: ../src/funclib.c:6256
 msgid "Trim zeros from a polynomial (as vector)"
 msgstr "Odstranit nuly z polynomu (jako vektoru)"
 
-#: ../src/funclib.c:6153
+#: ../src/funclib.c:6257
 msgid "Check if a vector is usable as a polynomial"
 msgstr "Zjistit, jestli je vektor použitelný jako polynom"
 
-#: ../src/funclib.c:6154
+#: ../src/funclib.c:6258
 msgid "Make string out of a polynomial (as vector)"
 msgstr "Vytvořit řetězec z polynomu (jako vektoru)"
 
-#: ../src/funclib.c:6155
+#: ../src/funclib.c:6259
 msgid "Make function out of a polynomial (as vector)"
 msgstr "Vytvořit funkci z polynomu (jako vektoru)"
 
-#: ../src/funclib.c:6157
+#: ../src/funclib.c:6261
 msgid "Find roots of a quadratic polynomial (given as vector of coefficients)"
 msgstr "Najít kořeny kvadratického polynomu (polynom dán jako vektor)"
 
-#: ../src/funclib.c:6159
+#: ../src/funclib.c:6263
 msgid "Get all combinations of k numbers from 1 to n as a vector of vectors"
 msgstr "Získat všechny kombinace k čísel od 1 do n jako vektor vektorů"
 
-#: ../src/funclib.c:6160
+#: ../src/funclib.c:6264
 msgid ""
 "Get combination that would come after v in call to combinations, first "
 "combination should be [1:k]."
@@ -2743,23 +2756,23 @@ msgstr ""
 "Získat kombinaci která přichází po kombinaci v.  První kombinance by měla "
 "být [1:k]."
 
-#: ../src/funclib.c:6161
+#: ../src/funclib.c:6265
 msgid "Get all permutations of k numbers from 1 to n as a vector of vectors"
 msgstr "Získat všechny permutace k čísel od 1 do n jako vektor vektorů"
 
-#: ../src/funclib.c:6163
+#: ../src/funclib.c:6267
 msgid "Calculate combinations (binomial coefficient)"
 msgstr "Spočítat kombinace (binomiální koeficient)"
 
-#: ../src/funclib.c:6166
+#: ../src/funclib.c:6270
 msgid "Convert a string to a vector of ASCII values"
 msgstr "Převést řetězec na vektor hodnot ASCII"
 
-#: ../src/funclib.c:6167
+#: ../src/funclib.c:6271
 msgid "Convert a vector of ASCII values to a string"
 msgstr "Převést vektor hodnot ASCII na řetězec"
 
-#: ../src/funclib.c:6169
+#: ../src/funclib.c:6273
 msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters"
@@ -2767,7 +2780,7 @@ msgstr ""
 "Převést řetězec na vektor hodnot abecedy počítaných od 0 (pozic v řetězci "
 "abecedy), -1 pro neznámé znaky"
 
-#: ../src/funclib.c:6170
+#: ../src/funclib.c:6274
 msgid ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string"
@@ -2775,26 +2788,34 @@ msgstr ""
 "Převést vektor hodnot abecedy počítaných od 0 (pozic v řetězci abecedy) na "
 "řetězec"
 
-#: ../src/funclib.c:6172
+#: ../src/funclib.c:6276
 msgid "Protect a variable from being modified"
 msgstr "Chránit proměnnou před změnami"
 
-#: ../src/funclib.c:6173
+#: ../src/funclib.c:6277
 msgid "Unprotect a variable from being modified"
 msgstr "Přestat chránit proměnnou před změnami"
 
-#: ../src/funclib.c:6174
+#: ../src/funclib.c:6278
 msgid ""
 "Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
 "\""
 msgstr ""
 "Nastavit příznaky funkce, momentálně \"PropagateMod\" a \"NoModuloArguments\""
 
-#: ../src/funclib.c:6175
+#: ../src/funclib.c:6279
 msgid "Get current modulo from the context outside the function"
 msgstr "Získat aktuální modul z kontextu mimo funkci"
 
-#: ../src/funclib.c:6177
+#: ../src/funclib.c:6280
+msgid "Check if a variable or function is defined"
+msgstr "Zjistit, jestli je proměnná či funkce definována"
+
+#: ../src/funclib.c:6281
+msgid "Undefine a variable (including locals and globals)"
+msgstr "Zapomenout proměnnou (místní i globální)"
+
+#: ../src/funclib.c:6283
 msgid ""
 "Integration of f by Composite Simpson's Rule on the interval [a,b] with n "
 "subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be "
@@ -2910,14 +2931,14 @@ msgstr ""
 "Pro nápovědu napište 'manual' nebo 'help'.%s\n"
 "\n"
 
-#: ../src/genius.c:477 ../src/gnome-genius.c:4119
+#: ../src/genius.c:479 ../src/gnome-genius.c:4480
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
 msgstr ""
 "Jediná věc, která mi vadí v poznávání, je mé vzdělání. -- Albert Einstein"
 
-#: ../src/genius.c:498 ../src/genius.c:571
+#: ../src/genius.c:500 ../src/genius.c:573
 msgid "Can't open file"
 msgstr "Nemohu otevřít soubor"
 
@@ -2957,208 +2978,225 @@ msgstr "Skripty"
 msgid "String"
 msgstr "Řetězec"
 
-#: ../src/gnome-genius.c:240
+#: ../src/gnome-genius.c:236
 msgid "_New Program"
 msgstr "_Nový program"
 
-#: ../src/gnome-genius.c:240 ../src/gnome-genius.c:374
+#: ../src/gnome-genius.c:236 ../src/gnome-genius.c:373
 msgid "Create new program tab"
 msgstr "Vytvořit novou kartu programu"
 
-#: ../src/gnome-genius.c:245
-msgid "Save all _unsaved"
+#: ../src/gnome-genius.c:241
+msgid "Save All _Unsaved"
 msgstr "Uložit neu_ložené"
 
-#: ../src/gnome-genius.c:245
+#: ../src/gnome-genius.c:241
 msgid "Save all unsaved programs"
 msgstr "Uložit všechny neuložené programy"
 
-#: ../src/gnome-genius.c:249
+#: ../src/gnome-genius.c:245
 msgid "_Reload from Disk"
 msgstr "Znovu načíst z _disku"
 
-#: ../src/gnome-genius.c:249
+#: ../src/gnome-genius.c:245
 msgid "Reload the selected program from disk"
 msgstr "Znovu načíst vybraný program z disku"
 
-#: ../src/gnome-genius.c:253
+#: ../src/gnome-genius.c:249
 msgid "_Load and Run..."
 msgstr "Načíst a _spustit..."
 
-#: ../src/gnome-genius.c:253
+#: ../src/gnome-genius.c:249
 msgid "Load and execute a file in genius"
 msgstr "Načíst a spustit soubor v geniovi"
 
-#: ../src/gnome-genius.c:278
+#: ../src/gnome-genius.c:251
+msgid "Save Console Ou_tput..."
+msgstr "Uložit výstup na _konzolu..."
+
+#: ../src/gnome-genius.c:251
+msgid ""
+"Save what is visible on the console (including scrollback) to a text file"
+msgstr "Uložit co je na konzole (včetně paměti řádků) do textového souboru"
+
+#: ../src/gnome-genius.c:276
 msgid "Copy Answer As Plain _Text"
 msgstr "Zkopírovat odpověď jako prostý _text"
 
-#: ../src/gnome-genius.c:279
+#: ../src/gnome-genius.c:277
 msgid "Copy last answer into the clipboard in plain text"
 msgstr "Zkopírovat poslední odpověď do schránky jako prostý text"
 
-#: ../src/gnome-genius.c:282
+#: ../src/gnome-genius.c:280
 msgid "Copy Answer As _LaTeX"
 msgstr "Zkopírovat odpověď jako _LaTeX"
 
-#: ../src/gnome-genius.c:283
+#: ../src/gnome-genius.c:281
 msgid "Copy last answer into the clipboard as LaTeX"
 msgstr "Zkopírovat poslední odpověď do schránky jako LaTeX"
 
-#: ../src/gnome-genius.c:286
+#: ../src/gnome-genius.c:284
 msgid "Copy Answer As _MathML"
 msgstr "Zkopírovat odpověď jako _MathML"
 
-#: ../src/gnome-genius.c:287
+#: ../src/gnome-genius.c:285
 msgid "Copy last answer into the clipboard as MathML"
 msgstr "Zkopírovat poslední odpověď do schránky jako MathML"
 
-#: ../src/gnome-genius.c:290
+#: ../src/gnome-genius.c:288
 msgid "Copy Answer As T_roff"
 msgstr "Zkopírovat odpověď jako T_roff"
 
-#: ../src/gnome-genius.c:291
+#: ../src/gnome-genius.c:289
 msgid "Copy last answer into the clipboard as Troff eqn"
 msgstr "Zkopírovat poslední odpověď do schránky jako Troff eqn"
 
-#: ../src/gnome-genius.c:304
+#: ../src/gnome-genius.c:302
 msgid "_Run"
 msgstr "_Spustit"
 
-#: ../src/gnome-genius.c:304 ../src/gnome-genius.c:373
+#: ../src/gnome-genius.c:302 ../src/gnome-genius.c:372
 msgid "Run current program"
 msgstr "Spustit aktuální program"
 
-#: ../src/gnome-genius.c:309
+#: ../src/gnome-genius.c:307
 msgid "_Interrupt"
 msgstr "_Přerušit"
 
-#: ../src/gnome-genius.c:309 ../src/gnome-genius.c:371
+#: ../src/gnome-genius.c:307 ../src/gnome-genius.c:370
 msgid "Interrupt current calculation"
 msgstr "Přerušení aktuální výpočet"
 
-#: ../src/gnome-genius.c:311
+#: ../src/gnome-genius.c:309
 msgid "Show _Full Answer"
 msgstr "Ukázat _celou odpověď"
 
-#: ../src/gnome-genius.c:311
+#: ../src/gnome-genius.c:309
 msgid "Show the full text of last answer"
 msgstr "Ukázat celý text poslední odpovědi"
 
-#: ../src/gnome-genius.c:312
+#: ../src/gnome-genius.c:310
 msgid "Show User _Variables"
 msgstr "_Ukázat uživatelské proměnné"
 
-#: ../src/gnome-genius.c:312
+#: ../src/gnome-genius.c:310
 msgid "Show the current value of all user variables"
 msgstr "Ukázat hodnoty všech uživatelských proměnných"
 
-#: ../src/gnome-genius.c:314 ../src/graphing.c:3348
+#: ../src/gnome-genius.c:311
+msgid "_Monitor a Variable"
+msgstr "_Monitorovat proměnnou"
+
+#: ../src/gnome-genius.c:311
+msgid "Monitor a variable continuously"
+msgstr "Kontinuálně monitorovat proměnnou"
+
+#: ../src/gnome-genius.c:313 ../src/graphing.c:3348
 msgid "_Plot"
 msgstr "_Vykreslit"
 
-#: ../src/gnome-genius.c:314 ../src/gnome-genius.c:376
+#: ../src/gnome-genius.c:313 ../src/gnome-genius.c:375
 msgid "Plot a function"
 msgstr "Vykreslit funkci"
 
-#: ../src/gnome-genius.c:320
+#: ../src/gnome-genius.c:319
 msgid "_Help on Function"
 msgstr "_Nápověda o funkci"
 
-#: ../src/gnome-genius.c:321
+#: ../src/gnome-genius.c:320
 msgid "Help on a function or a command"
 msgstr "Nápověda o funkci nebo příkazu"
 
-#: ../src/gnome-genius.c:324
+#: ../src/gnome-genius.c:323
 msgid "_Warranty"
 msgstr "_Záruka"
 
-#: ../src/gnome-genius.c:325
+#: ../src/gnome-genius.c:324
 msgid "Display warranty information"
 msgstr "Zobrazit informace o záruce"
 
-#: ../src/gnome-genius.c:337
+#: ../src/gnome-genius.c:336
 msgid "_Next Tab"
 msgstr "_Další strana"
 
-#: ../src/gnome-genius.c:337
+#: ../src/gnome-genius.c:336
 msgid "Go to next tab"
 msgstr "Jdi na další stranu"
 
-#: ../src/gnome-genius.c:341
+#: ../src/gnome-genius.c:340
 msgid "_Previous Tab"
 msgstr "_Předchozí strana"
 
-#: ../src/gnome-genius.c:341
+#: ../src/gnome-genius.c:340
 msgid "Go to previous tab"
 msgstr "Jdi na předchozí stranu"
 
-#: ../src/gnome-genius.c:348
+#: ../src/gnome-genius.c:347
 msgid "_Console"
 msgstr "_Konzola"
 
-#: ../src/gnome-genius.c:349
+#: ../src/gnome-genius.c:348
 msgid "Go to the console tab"
 msgstr "Jdi na stránku konzoly"
 
-#: ../src/gnome-genius.c:359
+#: ../src/gnome-genius.c:358
 msgid "_Calculator"
 msgstr "_Kalkulátor"
 
-#: ../src/gnome-genius.c:361
+#: ../src/gnome-genius.c:360
 msgid "P_lugins"
 msgstr "Zásuvné _moduly"
 
-#: ../src/gnome-genius.c:363
+#: ../src/gnome-genius.c:362
 msgid "_Programs"
 msgstr "_Programy"
 
-#: ../src/gnome-genius.c:371
+#: ../src/gnome-genius.c:370
 msgid "Interrupt"
 msgstr "Přerušit"
 
-#: ../src/gnome-genius.c:373
+#: ../src/gnome-genius.c:372
 msgid "Run"
 msgstr "Spustit"
 
-#: ../src/gnome-genius.c:374
+#: ../src/gnome-genius.c:373
 msgid "New"
 msgstr "Nový"
 
-#: ../src/gnome-genius.c:375
+#: ../src/gnome-genius.c:374
 msgid "Open"
 msgstr "Otevřít"
 
-#: ../src/gnome-genius.c:375
+#: ../src/gnome-genius.c:374
 msgid "Open a GEL file for running"
 msgstr "Otevřít soubor GEL pro spuštění"
 
-#: ../src/gnome-genius.c:376 ../src/graphing.c:1240
+#: ../src/gnome-genius.c:375 ../src/graphing.c:1240
 msgid "Plot"
 msgstr "Vykreslit"
 
-#: ../src/gnome-genius.c:377
+#: ../src/gnome-genius.c:376
 msgid "Exit"
 msgstr "Ukončit"
 
-#: ../src/gnome-genius.c:377
+#: ../src/gnome-genius.c:376
 msgid "Exit genius"
 msgstr "Ukončit genius"
 
-#: ../src/gnome-genius.c:461
+#: ../src/gnome-genius.c:460
 msgid "Help on Function"
 msgstr "Nápověda o funkci"
 
-#: ../src/gnome-genius.c:472
+#: ../src/gnome-genius.c:471
 msgid "Function or command name:"
 msgstr "Název funkce nebo příkazu:"
 
-#: ../src/gnome-genius.c:505
+#: ../src/gnome-genius.c:504
 #, c-format
 msgid "<b>Help on %s not found</b>"
 msgstr "<b>Nápověda pro %s nenalezena</b>"
 
-#: ../src/gnome-genius.c:509
+#: ../src/gnome-genius.c:508
 #, c-format
 msgid ""
 "<b>Help on %s not found</b>\n"
@@ -3169,15 +3207,15 @@ msgstr ""
 "\n"
 "Možná jste mysleli %s."
 
-#: ../src/gnome-genius.c:560
+#: ../src/gnome-genius.c:561
 msgid "Error"
 msgstr "Chyba"
 
-#: ../src/gnome-genius.c:562
+#: ../src/gnome-genius.c:563
 msgid "Information"
 msgstr "Informace"
 
-#: ../src/gnome-genius.c:640
+#: ../src/gnome-genius.c:649
 msgid ""
 "Global variables:\n"
 "\n"
@@ -3185,7 +3223,7 @@ msgstr ""
 "Globální proměnné:\n"
 "\n"
 
-#: ../src/gnome-genius.c:673
+#: ../src/gnome-genius.c:682
 msgid ""
 "\n"
 "Function call stack:\n"
@@ -3193,7 +3231,7 @@ msgstr ""
 "\n"
 "Zásobník volání funkcí:\n"
 
-#: ../src/gnome-genius.c:675 ../src/gnome-genius.c:734
+#: ../src/gnome-genius.c:684 ../src/gnome-genius.c:743
 msgid ""
 "(depth of context in parentheses)\n"
 "\n"
@@ -3201,7 +3239,7 @@ msgstr ""
 "(hloubka kontextu v závorce)\n"
 "\n"
 
-#: ../src/gnome-genius.c:732
+#: ../src/gnome-genius.c:741
 msgid ""
 "\n"
 "Local variables:\n"
@@ -3209,17 +3247,56 @@ msgstr ""
 "\n"
 "Místní proměnné:\n"
 
-#: ../src/gnome-genius.c:786
+#: ../src/gnome-genius.c:795
 msgid "User Variable Listing"
 msgstr "Seznam uživatelských proměnných"
 
+#: ../src/gnome-genius.c:903
+#, c-format
+msgid "%s undefined"
+msgstr "%s nedefinovaná"
+
+#. printed before a global variable
+#: ../src/gnome-genius.c:938
+msgid "(global) "
+msgstr "(globální) "
+
+#. printed before local variable in certain
+#. * context
+#: ../src/gnome-genius.c:942
+#, c-format
+msgid "(context %d) "
+msgstr "(kontext %d) "
+
+#: ../src/gnome-genius.c:964
+#, c-format
+msgid "%s not a user variable"
+msgstr "%s není uživatelská proměnná"
+
+#: ../src/gnome-genius.c:998
+#, c-format
+msgid "Monitoring: %s"
+msgstr "Monitoruji: %s"
+
+#: ../src/gnome-genius.c:1046
+msgid "Update continuously"
+msgstr "Číst kontinuálně"
+
+#: ../src/gnome-genius.c:1076
+msgid "Monitor a Variable"
+msgstr "Monitorovat proměnnou"
+
+#: ../src/gnome-genius.c:1087
+msgid "Variable name:"
+msgstr "Jméno proměnné"
+
 #. error
 #. always textbox
-#: ../src/gnome-genius.c:885
+#: ../src/gnome-genius.c:1143
 msgid "Full Answer"
 msgstr "Celá odpověď"
 
-#: ../src/gnome-genius.c:900
+#: ../src/gnome-genius.c:1159
 #, c-format
 msgid ""
 "\n"
@@ -3228,16 +3305,16 @@ msgstr ""
 "\n"
 "Příliš mnoho chyb! (dalších %d)"
 
-#: ../src/gnome-genius.c:914
+#: ../src/gnome-genius.c:1174
 #, c-format
 msgid "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
 msgstr "\\e[01;31mPříliš mnoho chyb! (dalších %d)\\e[0m\n"
 
-#: ../src/gnome-genius.c:1082
+#: ../src/gnome-genius.c:1343
 msgid "Nils Barth (initial implementation of parts of the GEL library)"
 msgstr "Nils Barth (původní implementace částí knihovny GEL)"
 
-#: ../src/gnome-genius.c:1083
+#: ../src/gnome-genius.c:1344
 msgid "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"
 msgstr ""
 "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - widgety vykreslování)"
@@ -3246,25 +3323,25 @@ msgstr ""
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: ../src/gnome-genius.c:1107
+#: ../src/gnome-genius.c:1368
 msgid "translator-credits"
 msgstr ""
 "Jiří Lebl <jirka@5z.com>\n"
 "Miloslav Trmač <mitr@volny.cz>"
 
-#: ../src/gnome-genius.c:1152
+#: ../src/gnome-genius.c:1413
 msgid "Genius Mathematical Tool"
 msgstr "Matematický nástroj Genius"
 
-#: ../src/gnome-genius.c:1156
+#: ../src/gnome-genius.c:1417
 msgid "The Gnome calculator style edition of the Genius Mathematical Tool."
 msgstr "Vydání matematického nástroje Genius ve stylu kalkulátoru Gnome."
 
-#: ../src/gnome-genius.c:1168
+#: ../src/gnome-genius.c:1429
 msgid "About Genius"
 msgstr "O Genius"
 
-#: ../src/gnome-genius.c:1171
+#: ../src/gnome-genius.c:1432
 msgid ""
 "The Gnome calculator style edition of the genius calculator.  For license/"
 "warranty details, type 'warranty' into the console."
@@ -3272,7 +3349,7 @@ msgstr ""
 "Vydání kalkulátoru genius ve stylu kalkulátoru Gnome. Pro informace o "
 "licenci/záruce, napište v konzole 'warranty'."
 
-#: ../src/gnome-genius.c:1364
+#: ../src/gnome-genius.c:1625
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -3280,55 +3357,55 @@ msgstr ""
 "Genius něco dělá a navíc máte neuložené programy.\n"
 "Jste si jisti, že chcete skončit?"
 
-#: ../src/gnome-genius.c:1372
+#: ../src/gnome-genius.c:1633
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr "Máte neuložené programy, jste si jisti, že chcete skončit?"
 
-#: ../src/gnome-genius.c:1379
+#: ../src/gnome-genius.c:1640
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr "Genius něco dělá, jste si jisti, že chcete skončit?"
 
-#: ../src/gnome-genius.c:1386
+#: ../src/gnome-genius.c:1647
 msgid "Are you sure you wish to quit?"
 msgstr "Jste si jisti, že chcete skončit?"
 
-#: ../src/gnome-genius.c:1498
+#: ../src/gnome-genius.c:1759
 msgid "Genius Setup"
 msgstr "Nastavení Genius"
 
-#: ../src/gnome-genius.c:1516
+#: ../src/gnome-genius.c:1777
 msgid "Output"
 msgstr "Výstup"
 
-#: ../src/gnome-genius.c:1519
+#: ../src/gnome-genius.c:1780
 msgid "Number/Expression output options"
 msgstr "Možnosti výstupu čísel/výrazů"
 
-#: ../src/gnome-genius.c:1529
+#: ../src/gnome-genius.c:1790
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Maximum číslic na výstupu (0=neomezeně)"
 
-#: ../src/gnome-genius.c:1549
+#: ../src/gnome-genius.c:1810
 msgid "Results as floats"
 msgstr "Výsledky jako čísla s plovoucí řádovou čárkou"
 
-#: ../src/gnome-genius.c:1557
+#: ../src/gnome-genius.c:1818
 msgid "Floats in scientific notation"
 msgstr "Čísla s plovoucí řádovou čárkou ve vědecké notaci"
 
-#: ../src/gnome-genius.c:1565
+#: ../src/gnome-genius.c:1826
 msgid "Always print full expressions"
 msgstr "Vždy vypisovat celé výrazy"
 
-#: ../src/gnome-genius.c:1573
+#: ../src/gnome-genius.c:1834
 msgid "Use mixed fractions"
 msgstr "Vypisovat smíšené zlomky"
 
-#: ../src/gnome-genius.c:1626
+#: ../src/gnome-genius.c:1887
 msgid "Remember output settings across sessions"
 msgstr "Pamatovat nastavení výstupu pro další sezení"
 
-#: ../src/gnome-genius.c:1635
+#: ../src/gnome-genius.c:1896
 msgid ""
 "Should the output settings in the \"Number/Expression output options\" frame "
 "be remembered for next session.  Does not apply to the \"Error/Info output "
@@ -3338,27 +3415,27 @@ msgstr ""
 "zapamantovány pro příští sezení? Neplatí pro rámeček \"Možnosti výstupu chyb/"
 "informací.\""
 
-#: ../src/gnome-genius.c:1641
+#: ../src/gnome-genius.c:1902
 msgid "Error/Info output options"
 msgstr "Možnosti výstupu chyb/informací"
 
-#: ../src/gnome-genius.c:1649
+#: ../src/gnome-genius.c:1910
 msgid "Display errors in a dialog"
 msgstr "Zobrazovat chyby v dialogu"
 
-#: ../src/gnome-genius.c:1657
+#: ../src/gnome-genius.c:1918
 msgid "Display information messages in a dialog"
 msgstr "Zobrazovat informativní zprávy v dialogu"
 
-#: ../src/gnome-genius.c:1668
+#: ../src/gnome-genius.c:1929
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Maximum zobrazovaných chyb (0=neomezeně)"
 
-#: ../src/gnome-genius.c:1692
+#: ../src/gnome-genius.c:1953
 msgid "Precision"
 msgstr "Přesnost"
 
-#: ../src/gnome-genius.c:1702
+#: ../src/gnome-genius.c:1963
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -3368,51 +3445,51 @@ msgstr ""
 "nemusí projevit pro všechna čísla okamžitě, má vliv jen\n"
 "na nově vypočtená čísla a nové proměnné."
 
-#: ../src/gnome-genius.c:1711
+#: ../src/gnome-genius.c:1972
 msgid "Floating point precision (bits)"
 msgstr "Přesnost operací s plovoucí řádovou čárkou (bitů)"
 
-#: ../src/gnome-genius.c:1730
+#: ../src/gnome-genius.c:1991
 msgid "Remember precision setting across sessions"
 msgstr "Pamatovat nastavení přesnosti pro další sezení"
 
-#: ../src/gnome-genius.c:1739
+#: ../src/gnome-genius.c:2000
 msgid "Should the precision setting be remembered for next session."
 msgstr "Mělo by být nastavení přesnosti zapamatováno pro příští sezení."
 
-#: ../src/gnome-genius.c:1748
+#: ../src/gnome-genius.c:2009
 msgid "Terminal"
 msgstr "Terminál"
 
-#: ../src/gnome-genius.c:1750
+#: ../src/gnome-genius.c:2011
 msgid "Terminal options"
 msgstr "Možnosti terminálu"
 
-#: ../src/gnome-genius.c:1759
+#: ../src/gnome-genius.c:2020
 msgid "Scrollback lines"
 msgstr "Paměť řádků"
 
-#: ../src/gnome-genius.c:1782
+#: ../src/gnome-genius.c:2043
 msgid "Font:"
 msgstr "Písmo:"
 
-#: ../src/gnome-genius.c:1793
+#: ../src/gnome-genius.c:2054
 msgid "Black on white"
 msgstr "Černé na bílém"
 
-#: ../src/gnome-genius.c:1801
+#: ../src/gnome-genius.c:2062
 msgid "Blinking cursor"
 msgstr "Blikající kurzor"
 
-#: ../src/gnome-genius.c:1814
+#: ../src/gnome-genius.c:2075
 msgid "Memory"
 msgstr "Paměť"
 
-#: ../src/gnome-genius.c:1817
+#: ../src/gnome-genius.c:2078
 msgid "Limits"
 msgstr "Omezení"
 
-#: ../src/gnome-genius.c:1824
+#: ../src/gnome-genius.c:2085
 msgid ""
 "When the limit is reached you will be asked if\n"
 "you wish to interrupt the calculation or continue.\n"
@@ -3422,11 +3499,11 @@ msgstr ""
 "chcete pokračovat ve výpočtu, nebo jej přerušit.\n"
 "Nastavení 0 ruší limit."
 
-#: ../src/gnome-genius.c:1833
+#: ../src/gnome-genius.c:2094
 msgid "Maximum number of nodes to allocate"
 msgstr "Maximum alokovaných uzlů"
 
-#: ../src/gnome-genius.c:1873
+#: ../src/gnome-genius.c:2134
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -3436,65 +3513,65 @@ msgstr ""
 "\n"
 "Zkuste to prosím později nebo přerušte aktuální operaci."
 
-#: ../src/gnome-genius.c:1901
+#: ../src/gnome-genius.c:2162
 msgid "GEL files"
 msgstr "Soubory GEL"
 
-#: ../src/gnome-genius.c:1906 ../src/graphing.c:821
+#: ../src/gnome-genius.c:2167 ../src/graphing.c:821
 msgid "All files"
 msgstr "Všechny soubory"
 
-#: ../src/gnome-genius.c:1930 ../src/gnome-genius.c:2736
+#: ../src/gnome-genius.c:2191 ../src/gnome-genius.c:2997
 msgid "Cannot open file!"
 msgstr "Nemohu otevřít soubor!"
 
-#: ../src/gnome-genius.c:1940 ../src/gnome-genius.c:3071
+#: ../src/gnome-genius.c:2201 ../src/gnome-genius.c:3451
 msgid "Output from "
 msgstr "Výstup programu "
 
-#: ../src/gnome-genius.c:1956 ../src/gnome-genius.c:3138
+#: ../src/gnome-genius.c:2217 ../src/gnome-genius.c:3518
 msgid "End"
 msgstr "Konec"
 
-#: ../src/gnome-genius.c:1975
+#: ../src/gnome-genius.c:2236
 msgid "Load and Run"
 msgstr "Načíst a spustit"
 
-#: ../src/gnome-genius.c:1979
+#: ../src/gnome-genius.c:2240
 msgid "_Load"
 msgstr "_Načíst"
 
-#: ../src/gnome-genius.c:2491
+#: ../src/gnome-genius.c:2752
 msgid "Cannot open file"
 msgstr "Nemohu otevřít soubor"
 
-#: ../src/gnome-genius.c:2523 ../src/gnome-genius.c:3674
+#: ../src/gnome-genius.c:2784 ../src/gnome-genius.c:4041
 #, c-format
 msgid "Line: %d"
 msgstr "Řádek: %d"
 
-#: ../src/gnome-genius.c:2667
+#: ../src/gnome-genius.c:2928
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Program_%d.gel"
 
-#: ../src/gnome-genius.c:2674
+#: ../src/gnome-genius.c:2935
 #, c-format
 msgid "Program %d"
 msgstr "Program %d"
 
-#: ../src/gnome-genius.c:2695
+#: ../src/gnome-genius.c:2956
 #, c-format
 msgid "Cannot open %s"
 msgstr "Nemohu otevřít %s"
 
-#: ../src/gnome-genius.c:2758
+#: ../src/gnome-genius.c:3019
 msgid "Open..."
 msgstr "Otevřít..."
 
 #. new fname
-#: ../src/gnome-genius.c:2833 ../src/gnome-genius.c:2862
-#: ../src/gnome-genius.c:2913
+#: ../src/gnome-genius.c:3094 ../src/gnome-genius.c:3123
+#: ../src/gnome-genius.c:3174 ../src/gnome-genius.c:3303
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -3503,19 +3580,24 @@ msgstr ""
 "<B>nemohu uložit soubor</b>\n"
 "Detaily: %s"
 
-#: ../src/gnome-genius.c:2872
+#: ../src/gnome-genius.c:3133
 msgid "Save new programs by \"Save As..\" first!"
 msgstr "Uložte nové programy použitím \"Uložit jako...\"!"
 
-#: ../src/gnome-genius.c:2907 ../src/graphing.c:622 ../src/graphing.c:724
+#: ../src/gnome-genius.c:3168 ../src/gnome-genius.c:3283 ../src/graphing.c:622
+#: ../src/graphing.c:724
 msgid "File already exists.  Overwrite it?"
 msgstr "Soubor již existuje. Přepsat jej?"
 
-#: ../src/gnome-genius.c:2949
+#: ../src/gnome-genius.c:3210
 msgid "Save As..."
 msgstr "Uložit jako..."
 
-#: ../src/gnome-genius.c:3020
+#: ../src/gnome-genius.c:3337
+msgid "Save Console Output..."
+msgstr "Uložit výstup na konzolu..."
+
+#: ../src/gnome-genius.c:3400
 msgid ""
 "The program you are closing is unsaved, are you sure you wish to close it "
 "without saving?"
@@ -3523,7 +3605,7 @@ msgstr ""
 "Program který zavíráte je neuložen, jste si jisti, že jej chcete zavřít bez "
 "uložení?"
 
-#: ../src/gnome-genius.c:3039
+#: ../src/gnome-genius.c:3419
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -3533,7 +3615,7 @@ msgstr ""
 "\n"
 "Vytvořte nový program nebo vyberte existující kartu."
 
-#: ../src/gnome-genius.c:3089
+#: ../src/gnome-genius.c:3469
 msgid ""
 "<b>Cannot execute program</b>\n"
 "\n"
@@ -3543,12 +3625,12 @@ msgstr ""
 "\n"
 "Nelze forkovat."
 
-#: ../src/gnome-genius.c:3170
+#: ../src/gnome-genius.c:3550
 #, c-format
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: ../src/gnome-genius.c:3388
+#: ../src/gnome-genius.c:3753
 msgid "Memory (node number) limit has been reached, interrupt the computation?"
 msgstr "Limit pameti (počtu uzlů) byl dosažen, přerušit výpočet?"
 
@@ -3556,11 +3638,12 @@ msgstr "Limit pameti (počtu uzlů) byl dosažen, přerušit výpočet?"
 #. always textbox
 #. textbox_title
 #. bind_response
-#: ../src/gnome-genius.c:3463
+#. wrap
+#: ../src/gnome-genius.c:3830
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Nemohu spustit genius-readline-helper-fifo!\n"
 
-#: ../src/gnome-genius.c:3694
+#: ../src/gnome-genius.c:4061
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -3568,11 +3651,11 @@ msgstr ""
 "\n"
 "Poznámka: Přeloženo bez GtkSourceView (lepší editor zdrojových kódů)"
 
-#: ../src/gnome-genius.c:3995
+#: ../src/gnome-genius.c:4354
 msgid "Console"
 msgstr "Konzola"
 
-#: ../src/gnome-genius.c:4047
+#: ../src/gnome-genius.c:4406
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -4013,7 +4096,7 @@ msgstr ""
 "Okno vykreslování plochy (limity) jako šestiprvkový vektor ve tvaru [x1,x2,"
 "y1,y2,z1,z2]"
 
-#: ../src/matop.c:584
+#: ../src/matop.c:672
 msgid "Determinant of a non-square matrix is undefined"
 msgstr "Determinant nečtvercové matice není definován"
 
@@ -4088,8 +4171,8 @@ msgstr "Nemohu počítat faktoriály záporných čísel!"
 msgid "Can't do binomials of rationals or floats!"
 msgstr "Nemohu počítat binomiály zlomků nebo čísel s plovoucí řádovou čárkou!"
 
-#: ../src/mpwrap.c:1977 ../src/mpwrap.c:2045 ../src/mpwrap.c:4132
-#: ../src/mpwrap.c:4153
+#: ../src/mpwrap.c:1977 ../src/mpwrap.c:2045 ../src/mpwrap.c:4165
+#: ../src/mpwrap.c:4186
 #, c-format
 msgid "%s: Bad types for mod power"
 msgstr "%s: Špatné typy pro umocnění mod"
@@ -4111,104 +4194,104 @@ msgstr "Rozsah pro náhodné celé číslo musí být kladný"
 msgid "Can't get numerator of floating types"
 msgstr "Nemohu získat jmenovatel typů s plovoucí řádovou čárkou"
 
-#: ../src/mpwrap.c:3354 ../src/mpwrap.c:4835 ../src/mpwrap.c:4847
+#: ../src/mpwrap.c:3354 ../src/mpwrap.c:4868 ../src/mpwrap.c:4880
 msgid "Can't compare complex numbers"
 msgstr "Nemohu porovnávat komplexní čísla!"
 
-#: ../src/mpwrap.c:3808
+#: ../src/mpwrap.c:3841
 msgid "Can't modulo complex numbers"
 msgstr "Nemohu počítat modulo komplexních čísel"
 
-#: ../src/mpwrap.c:3831
+#: ../src/mpwrap.c:3864
 #, c-format
 msgid "Inverse of %s modulo %s not found!"
 msgstr "Inverz %s modulo %s nenalezen!"
 
-#: ../src/mpwrap.c:3840
+#: ../src/mpwrap.c:3873
 msgid "Can't do modulo invert on complex numbers"
 msgstr "Nemohu počítat inverz modulo komplexních čísel"
 
-#: ../src/mpwrap.c:3857
+#: ../src/mpwrap.c:3890
 msgid "Can't GCD complex numbers"
 msgstr "Nemohu počítat NSD komplexních čísel"
 
-#: ../src/mpwrap.c:3886
+#: ../src/mpwrap.c:3919
 msgid "Can't LCM complex numbers"
 msgstr "Nemohu počítat NSN komplexních čísel"
 
-#: ../src/mpwrap.c:3903
+#: ../src/mpwrap.c:3936
 msgid "Can't get jacobi symbols of complex numbers"
 msgstr "Nemohu získat jacobiho symboly komplexních čísel"
 
-#: ../src/mpwrap.c:3919
+#: ../src/mpwrap.c:3952
 msgid "Can't get legendre symbols complex numbers"
 msgstr "Nemohu získat legendrovy symboly komplexních čísel"
 
-#: ../src/mpwrap.c:3935
+#: ../src/mpwrap.c:3968
 msgid "Can't get jacobi symbol with Kronecker extension for complex numbers"
 msgstr ""
 "Nemohu získat jacobiho symboly s Kroneckerovým rozšířením komplexních čísel"
 
-#: ../src/mpwrap.c:3951
+#: ../src/mpwrap.c:3984
 msgid "Can't get lucas number for complex numbers"
 msgstr "Nemohu získat lucasova čísla komplexních čísel"
 
-#: ../src/mpwrap.c:3967
+#: ../src/mpwrap.c:4000
 msgid "Can't get next prime for complex numbers"
 msgstr "Nemohu získat následující prvočíslo po komplexním číslu"
 
-#: ../src/mpwrap.c:3977 ../src/mpwrap.c:3989 ../src/mpwrap.c:4001
-#: ../src/mpwrap.c:4013
+#: ../src/mpwrap.c:4010 ../src/mpwrap.c:4022 ../src/mpwrap.c:4034
+#: ../src/mpwrap.c:4046
 #, c-format
 msgid "%s: can't work on complex numbers"
 msgstr "%s: nemohu pracovat na komplexních číslech"
 
-#: ../src/mpwrap.c:4242 ../src/mpwrap.c:4320 ../src/mpwrap.c:4385
+#: ../src/mpwrap.c:4275 ../src/mpwrap.c:4353 ../src/mpwrap.c:4418
 #, c-format
 msgid "%s: can't take logarithm of 0"
 msgstr "%s: nemohu získat logaritmus 0"
 
-#: ../src/mpwrap.c:4714
+#: ../src/mpwrap.c:4747
 msgid "arctan2 not defined for complex numbers"
 msgstr "arctan2 nedefinován pro komplexním čísla"
 
-#: ../src/mpwrap.c:4762
+#: ../src/mpwrap.c:4795
 msgid "Can't make random integer out of a complex number"
 msgstr "Nemohu vytvořit náhodné celé číslo z komplexního čísla"
 
-#: ../src/mpwrap.c:4900 ../src/mpwrap.c:4917
+#: ../src/mpwrap.c:4933 ../src/mpwrap.c:4950
 msgid "Can't make factorials of complex numbers"
 msgstr "Nemohu počítat faktoriály komplexních čísel"
 
-#: ../src/mpwrap.c:4934
+#: ../src/mpwrap.c:4967
 msgid "Can't make binomials of complex numbers"
 msgstr "Nemohu počítat binomiály komplexních čísel"
 
-#: ../src/mpwrap.c:5313 ../src/mpwrap.c:5335 ../src/mpwrap.c:5357
+#: ../src/mpwrap.c:5346 ../src/mpwrap.c:5368 ../src/mpwrap.c:5390
 msgid "Can't determine type of a complex number"
 msgstr "Nemohu určit typ komplexního čísla"
 
-#: ../src/mpwrap.c:5460 ../src/mpwrap.c:5483
+#: ../src/mpwrap.c:5493 ../src/mpwrap.c:5516
 msgid "Can't convert complex number into integer"
 msgstr "Nemohu převést komplexní číslo na celé číslo"
 
-#: ../src/mpwrap.c:5466 ../src/mpwrap.c:5489
+#: ../src/mpwrap.c:5499 ../src/mpwrap.c:5522
 msgid "Can't convert real number to integer"
 msgstr "Nemohu převést reálné číslo na celé číslo"
 
-#: ../src/mpwrap.c:5470 ../src/mpwrap.c:5493
+#: ../src/mpwrap.c:5503 ../src/mpwrap.c:5526
 msgid "Integer too large for this operation"
 msgstr "Celé číslo je pro tuto operaci příliš velké"
 
-#: ../src/mpwrap.c:5506
+#: ../src/mpwrap.c:5539
 msgid "Can't convert complex number into a double"
 msgstr "Nemohu převést komplexní číslo na dvojitou přesnost"
 
-#: ../src/mpwrap.c:5515
+#: ../src/mpwrap.c:5548
 msgid "Can't convert real number to double"
 msgstr "Nemohu převést reálné číslo na dvojitou přesnost"
 
-#: ../src/mpwrap.c:5521 ../src/mpwrap.c:5536
+#: ../src/mpwrap.c:5554 ../src/mpwrap.c:5569
 msgid "Number too large for this operation"
 msgstr "Číslo je pro tuto operaci příliš velké"
 
