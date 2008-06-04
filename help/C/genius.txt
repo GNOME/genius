@@ -3282,7 +3282,9 @@
 
  PowerMod (a,b,m)
 
-           Compute a^b mod m. The b's power of a modulo m.
+           Compute a^b mod m. The b's power of a modulo m. It is not
+           neccessary to use this function as it is automatically used in
+           modulo mode. Hence a^b mod m is just as fast.
 
    Prime
 
@@ -3524,9 +3526,9 @@
 
  IsMatrixPositive (M)
 
-           Check if a matrix is positive, that is if each element is
-           positive. In particular, no element is 0. Do not confuse positive
-           matrices with positive definite matrices.
+           Check if a matrix is positive, that is if each element is positive
+           (and hence real). In particular, no element is 0. Do not confuse
+           positive matrices with positive definite matrices.
 
            See Wikipedia for more information.
 
@@ -3553,14 +3555,16 @@
 
  IsUpperTriangular (M)
 
-           Is a matrix upper triangular. That is, are all the entries above
-           the diagonal zero.
+           Is a matrix upper triangular? That is, a matrix is upper
+           triangular if all all the entries below the diagonal are zero.
 
    IsValueOnly
 
  IsValueOnly (M)
 
-           Check if a matrix is a matrix of numbers only.
+           Check if a matrix is a matrix of numbers only. Many internal
+           functions make this check. Values can be any number including
+           complex numbers.
 
    IsVector
 
@@ -3598,38 +3602,40 @@
 
    MakeVector
 
- MakeDiagonal (A)
+ MakeVector (A)
 
            Make column vector out of matrix by putting columns above each
            other. Returns null when given null.
 
    MatrixProduct
 
- MatrixProduct (a)
+ MatrixProduct (A)
 
-           Calculate the product of all elements in a matrix. That is we
-           multiply all the elements and return a number that is the product
-           of all the elements.
+           Calculate the product of all elements in a matrix or vector. That
+           is we multiply all the elements and return a number that is the
+           product of all the elements.
 
    MatrixSum
 
- MatrixSum (a)
+ MatrixSum (A)
 
-           Calculate the sum of all elements in a matrix. That is we add all
-           the elements and return a number that is the sum of all the
-           elements.
+           Calculate the sum of all elements in a matrix or vecgtor. That is
+           we add all the elements and return a number that is the sum of all
+           the elements.
 
    MatrixSumSquares
 
- MatrixSumSquares (a)
+ MatrixSumSquares (A)
 
-           Calculate the sum of squares of all elements in a matrix.
+           Calculate the sum of squares of all elements in a matrix or
+           vector.
 
    OuterProduct
 
  OuterProduct (u,v)
 
-           Get the outer product of two vectors.
+           Get the outer product of two vectors. That is, suppose that u and
+           v are vertical vectors, then the outer product is v * u.'.
 
    ReverseVector
 
@@ -3641,7 +3647,8 @@
 
  RowSum (m)
 
-           Calculate sum of each row in a matrix.
+           Calculate sum of each row in a matrix and return a vertical vector
+           with the result.
 
    RowSumSquares
 
@@ -3653,7 +3660,10 @@
 
  RowsOf (M)
 
-           Gets the rows of a matrix as a vertical vector.
+           Gets the rows of a matrix as a vertical vector. Each element of
+           the vector is a horizontal vector which is the corresponding row
+           of M. This function is useful if you wish to loop over the rows of
+           a matrix. For example, as for r in RowsOf(M) do something(r).
 
    SetMatrixSize
 
@@ -3685,7 +3695,9 @@
 
  Submatrix (m,r,c)
 
-           Return column(s) and row(s) from a matrix.
+           Return column(s) and row(s) from a matrix. This is just equivalent
+           to m@(r,c). r and c should be vectors of rows and columns (or
+           single numbers if only one row or column is needed).
 
    SwapRows
 
@@ -3710,7 +3722,8 @@
 
  elements (M)
 
-           Get the number of elements of a matrix.
+           Get the total number of elements of a matrix. This is the number
+           of columns times the number of rows.
 
    ones
 
@@ -3729,7 +3742,7 @@
 
  zeros (rows,columns...)
 
-           Make an matrix of all zeros (or a row vector if only one argument
+           Make a matrix of all zeros (or a row vector if only one argument
            is given).
 
      ----------------------------------------------------------------------
@@ -3743,6 +3756,9 @@
            Get the auxilliary unit matrix of size n. This is a square matrix
            matrix with that is all zero except the superdiagonal being all
            ones. It is the Jordan block matrix of one zero eigenvalue.
+
+           See Planetmath or Mathworld for more information on Jordan
+           Cannonical Form.
 
    BilinearForm
 
@@ -3764,19 +3780,31 @@
 
            Aliases: CharPoly
 
-           Get the characteristic polynomial as a vector.
+           Get the characteristic polynomial as a vector. That is, return the
+           coefficients of the polynomial starting with the constant term.
+           This is the polynomial defined by det(M-xI). The roots of this
+           polynomial are the eigenvalues of M. See also
+           CharacteristicPolynomialFunction.
+
+           See Planetmath for more information.
 
    CharacteristicPolynomialFunction
 
  CharacteristicPolynomialFunction (M)
 
-           Get the characteristic polynomial as a function.
+           Get the characteristic polynomial as a function. This is the
+           polynomial defined by det(M-xI). The roots of this polynomial are
+           the eigenvalues of M. See also CharacteristicPolynomial.
+
+           See Planetmath for more information.
 
    ColumnSpace
 
  ColumnSpace (M)
 
-           Get a basis matrix for the columnspace of a matrix.
+           Get a basis matrix for the columnspace of a matrix. That is,
+           return a matrix whose columns are the basis for the column space
+           of M. That is the space spanned by the columns of M.
 
    CommutationMatrix
 
@@ -3813,7 +3841,8 @@
 
  ConvolutionVector (a,b)
 
-           Calculate convolution of two horizontal vectors.
+           Calculate convolution of two horizontal vectors. Return result as
+           a vector and not added together.
 
    CrossProduct
 
@@ -4078,7 +4107,8 @@
 
            Aliases: nullity
 
-           Get the nullity of a matrix.
+           Get the nullity of a matrix. That is, return the dimension of the
+           nullspace; the dimension of the kernel of M.
 
            See Planetmath for more information.
 
@@ -4166,25 +4196,28 @@
 
            Aliases: RotationMatrix
 
-           Rotation around origin in R2.
+           Return the matrix corresponding to rotation around origin in R2.
 
    Rotation3DX
 
  Rotation3DX (angle)
 
-           Rotation around origin in R3 about the x-axis.
+           Return the matrix corresponding to rotation around origin in R3
+           about the x-axis.
 
    Rotation3DY
 
  Rotation3DY (angle)
 
-           Rotation around origin in R3 about the y-axis.
+           Return the matrix corresponding to rotation around origin in R3
+           about the y-axis.
 
    Rotation3DZ
 
  Rotation3DZ (angle)
 
-           Rotation around origin in R3 about the z-axis.
+           Return the matrix corresponding to rotation around origin in R3
+           about the z-axis.
 
    RowSpace
 
@@ -4242,11 +4275,14 @@
 
    Trace
 
- Trace (m)
+ Trace (M)
 
            Aliases: trace
 
-           Calculate the trace of a matrix.
+           Calculate the trace of a matrix. That is the sum of the diagonal
+           elements.
+
+           See Planetmath for more information.
 
    Transpose
 
@@ -4324,7 +4360,9 @@
 
            Aliases: REF RowEchelonForm
 
-           Get the row echelon form of a matrix.
+           Get the row echelon form of a matrix. That is, apply gaussian
+           elimination but not backaddition to M. The pivot rows are divided
+           to make all pivots 1.
 
            See Planetmath for more information.
 
@@ -4334,7 +4372,8 @@
 
            Aliases: RREF ReducedRowEchelonForm
 
-           Get the reduced row echelon form of a matrix.
+           Get the reduced row echelon form of a matrix. That is, apply
+           gaussian elimination together with backaddition to M.
 
            See Planetmath for more information.
 

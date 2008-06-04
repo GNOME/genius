@@ -1910,8 +1910,8 @@ that is if <userinput>b^(n-1) == 1 mod n</userinput>.  This calles the <function
 	    previous prime you can use <userinput>-NextPrime(-n)</userinput>.
 	  </para>
           <para>
-	    This function uses the GMP's <function>mpz_nextprime</function> which in
-	    turn uses the probabilistic Miller-Rabin test
+	    This function uses the GMP's <function>mpz_nextprime</function>
+	    which in turn uses the probabilistic Miller-Rabin test
 	    (See also <link linkend="gel-function-MillerRabinTest">MillerRabinTest</link>).
 	    The probability
 	    of false positive is not tunable, but is low enough
@@ -1944,7 +1944,9 @@ that is if <userinput>b^(n-1) == 1 mod n</userinput>.  This calles the <function
           <para>
 	    Compute <userinput>a^b mod m</userinput>.  The
 	    <varname>b</varname>'s power of <varname>a</varname> modulo
-	    <varname>m</varname>.
+	    <varname>m</varname>.  It is not neccessary to use this function
+	    as it is automatically used in modulo mode.  Hence
+	    <userinput>a^b mod m</userinput> is just as fast.
           </para>
          </listitem>
         </varlistentry>
@@ -2274,8 +2276,9 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <term>IsMatrixPositive</term>
          <listitem>
           <synopsis>IsMatrixPositive (M)</synopsis>
-          <para>Check if a matrix is positive, that is if each element is positive.  In particular,
-	    no element is 0.  Do not confuse positive matrices with positive definite matrices.</para>
+	  <para>Check if a matrix is positive, that is if each element is
+positive (and hence real).  In particular, no element is 0.  Do not confuse
+positive matrices with positive definite matrices.</para>
           <para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Positive_matrix">Wikipedia</ulink> for more information.
@@ -2287,7 +2290,8 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <term>IsMatrixRational</term>
          <listitem>
           <synopsis>IsMatrixRational (M)</synopsis>
-          <para>Check if a matrix is a matrix of rational (non-complex) numbers.</para>
+          <para>Check if a matrix is a matrix of rational (non-complex)
+numbers.</para>
          </listitem>
         </varlistentry>
 
@@ -2314,7 +2318,7 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <term>IsUpperTriangular</term>
          <listitem>
           <synopsis>IsUpperTriangular (M)</synopsis>
-          <para>Is a matrix upper triangular.  That is, are all the entries above the diagonal zero.</para>
+          <para>Is a matrix upper triangular?  That is, a matrix is upper triangular if all all the entries below the diagonal are zero.</para>
          </listitem>
         </varlistentry>
 
@@ -2322,7 +2326,8 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <term>IsValueOnly</term>
          <listitem>
           <synopsis>IsValueOnly (M)</synopsis>
-          <para>Check if a matrix is a matrix of numbers only.</para>
+          <para>Check if a matrix is a matrix of numbers only.  Many internal
+functions make this check.  Values can be any number including complex numbers.</para>
          </listitem>
         </varlistentry>
 
@@ -2375,7 +2380,7 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
         <varlistentry id="gel-function-MakeVector">
          <term>MakeVector</term>
          <listitem>
-          <synopsis>MakeDiagonal (A)</synopsis>
+          <synopsis>MakeVector (A)</synopsis>
           <para>Make column vector out of matrix by putting columns above
 	    each other.  Returns null when given null.</para>
          </listitem>
@@ -2384,11 +2389,11 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
         <varlistentry id="gel-function-MatrixProduct">
          <term>MatrixProduct</term>
          <listitem>
-          <synopsis>MatrixProduct (a)</synopsis>
+          <synopsis>MatrixProduct (A)</synopsis>
           <para>
-	    Calculate the product of all elements in a matrix.  That is
-	    we multiply all the elements and return a number that is the
-	    product of all the elements.
+	    Calculate the product of all elements in a matrix or vector.
+	    That is we multiply all the elements and return a number that
+	    is the product of all the elements.
           </para>
          </listitem>
         </varlistentry>
@@ -2396,9 +2401,9 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
         <varlistentry id="gel-function-MatrixSum">
          <term>MatrixSum</term>
          <listitem>
-          <synopsis>MatrixSum (a)</synopsis>
+          <synopsis>MatrixSum (A)</synopsis>
           <para>
-	    Calculate the sum of all elements in a matrix.  That is
+	    Calculate the sum of all elements in a matrix or vecgtor.  That is
 	    we add all the elements and return a number that is the
 	    sum of all the elements.
 	  </para>
@@ -2408,8 +2413,9 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
         <varlistentry id="gel-function-MatrixSumSquares">
          <term>MatrixSumSquares</term>
          <listitem>
-          <synopsis>MatrixSumSquares (a)</synopsis>
-          <para>Calculate the sum of squares of all elements in a matrix.</para>
+          <synopsis>MatrixSumSquares (A)</synopsis>
+          <para>Calculate the sum of squares of all elements in a matrix
+	    or vector.</para>
          </listitem>
         </varlistentry>
 
@@ -2417,7 +2423,9 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <term>OuterProduct</term>
          <listitem>
           <synopsis>OuterProduct (u,v)</synopsis>
-          <para>Get the outer product of two vectors.</para>
+          <para>Get the outer product of two vectors.  That is, suppose that
+<varname>u</varname> and <varname>v</varname> are vertical vectors, then
+the outer product is <userinput>v * u.'</userinput>.</para>
          </listitem>
         </varlistentry>
 
@@ -2433,7 +2441,8 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <term>RowSum</term>
          <listitem>
           <synopsis>RowSum (m)</synopsis>
-          <para>Calculate sum of each row in a matrix.</para>
+          <para>Calculate sum of each row in a matrix and return a vertical
+vector with the result.</para>
          </listitem>
         </varlistentry>
 
@@ -2449,7 +2458,11 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <term>RowsOf</term>
          <listitem>
           <synopsis>RowsOf (M)</synopsis>
-          <para>Gets the rows of a matrix as a vertical vector.</para>
+	  <para>Gets the rows of a matrix as a vertical vector.  Each element
+of the vector is a horizontal vector which is the corresponding row of
+<varname>M</varname>.  This function is useful if you wish to loop over the
+rows of a matrix.  For example, as <userinput>for r in RowsOf(M) do
+something(r)</userinput>.</para>
          </listitem>
         </varlistentry>
 
@@ -2492,7 +2505,9 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <term>Submatrix</term>
          <listitem>
           <synopsis>Submatrix (m,r,c)</synopsis>
-          <para>Return column(s) and row(s) from a matrix.</para>
+          <para>Return column(s) and row(s) from a matrix.  This is
+just equivalent to <userinput>m@(r,c)</userinput>.  <varname>r</varname>
+and <varname>c</varname> should be vectors of rows and columns (or single numbers if only one row or column is needed).</para>
          </listitem>
         </varlistentry>
 
@@ -2524,7 +2539,8 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <term>elements</term>
          <listitem>
           <synopsis>elements (M)</synopsis>
-          <para>Get the number of elements of a matrix.</para>
+          <para>Get the total number of elements of a matrix.  This is the
+number of columns times the number of rows.</para>
          </listitem>
         </varlistentry>
 
@@ -2548,7 +2564,7 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <term>zeros</term>
          <listitem>
           <synopsis>zeros (rows,columns...)</synopsis>
-          <para>Make an matrix of all zeros (or a row vector if only one argument is given).</para>
+          <para>Make a matrix of all zeros (or a row vector if only one argument is given).</para>
          </listitem>
         </varlistentry>
 
@@ -2564,6 +2580,11 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
           <synopsis>AuxilliaryUnitMatrix (n)</synopsis>
           <para>Get the auxilliary unit matrix of size <varname>n</varname>.  This is a square matrix matrix with that is all zero except the
 superdiagonal being all ones.  It is the Jordan block matrix of one zero eigenvalue.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/JordanCanonicalFormTheorem.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/JordanBlock.html">Mathworld</ulink> for more information on Jordan Cannonical Form.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2588,7 +2609,16 @@ superdiagonal being all ones.  It is the Jordan block matrix of one zero eigenva
          <listitem>
           <synopsis>CharacteristicPolynomial (M)</synopsis>
           <para>Aliases: <function>CharPoly</function></para>
-          <para>Get the characteristic polynomial as a vector.</para>
+	  <para>Get the characteristic polynomial as a vector.  That is, return
+the coefficients of the polynomial starting with the constant term.  This is
+the polynomial defined by <userinput>det(M-xI)</userinput>.  The roots of this
+polynomial are the eigenvalues of <varname>M</varname>.
+See also <link linkend="gel-function-CharacteristicPolynomialFunction">CharacteristicPolynomialFunction</link>.
+</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/CharacteristicEquation.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2596,7 +2626,15 @@ superdiagonal being all ones.  It is the Jordan block matrix of one zero eigenva
          <term>CharacteristicPolynomialFunction</term>
          <listitem>
           <synopsis>CharacteristicPolynomialFunction (M)</synopsis>
-          <para>Get the characteristic polynomial as a function.</para>
+	  <para>Get the characteristic polynomial as a function.   This is
+the polynomial defined by <userinput>det(M-xI)</userinput>.  The roots of this
+polynomial are the eigenvalues of <varname>M</varname>.
+See also <link linkend="gel-function-CharacteristicPolynomial">CharacteristicPolynomial</link>.
+</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/CharacteristicEquation.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2604,7 +2642,10 @@ superdiagonal being all ones.  It is the Jordan block matrix of one zero eigenva
          <term>ColumnSpace</term>
          <listitem>
           <synopsis>ColumnSpace (M)</synopsis>
-          <para>Get a basis matrix for the columnspace of a matrix.</para>
+	  <para>Get a basis matrix for the columnspace of a matrix.  That is,
+return a matrix whose columns are the basis for the column space of
+<varname>M</varname>.  That is the space spanned by the columns of
+<varname>M</varname>.</para>
          </listitem>
         </varlistentry>
 
@@ -2612,7 +2653,9 @@ superdiagonal being all ones.  It is the Jordan block matrix of one zero eigenva
          <term>CommutationMatrix</term>
          <listitem>
           <synopsis>CommutationMatrix (m, n)</synopsis>
-          <para>Return the commutation matrix K(m,n) which is the unique m*n by m*n matrix such that K(m,n) * MakeVector(A) = MakeVector(A.') for all m by n matrices A.</para>
+	  <para>Return the commutation matrix K(m,n) which is the unique m*n by
+m*n matrix such that K(m,n) * MakeVector(A) = MakeVector(A.') for all m by n
+matrices A.</para>
          </listitem>
         </varlistentry>
 
@@ -2650,7 +2693,8 @@ superdiagonal being all ones.  It is the Jordan block matrix of one zero eigenva
          <term>ConvolutionVector</term>
          <listitem>
           <synopsis>ConvolutionVector (a,b)</synopsis>
-          <para>Calculate convolution of two horizontal vectors.</para>
+          <para>Calculate convolution of two horizontal vectors.  Return
+result as a vector and not added together.</para>
          </listitem>
         </varlistentry>
 
@@ -3022,7 +3066,8 @@ determinant.
          <listitem>
           <synopsis>Nullity (M)</synopsis>
           <para>Aliases: <function>nullity</function></para>
-          <para>Get the nullity of a matrix.</para>
+          <para>Get the nullity of a matrix.  That is, return the dimension of
+the nullspace; the dimension of the kernel of <varname>M</varname>.</para>
           <para>
 	    See
 	    <ulink url="http://planetmath.org/encyclopedia/Nullity.html">Planetmath</ulink> for more information.
@@ -3144,7 +3189,7 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
          <listitem>
           <synopsis>Rotation2D (angle)</synopsis>
           <para>Aliases: <function>RotationMatrix</function></para>
-          <para>Rotation around origin in R<superscript>2</superscript>.</para>
+          <para>Return the matrix corresponding to rotation around origin in R<superscript>2</superscript>.</para>
          </listitem>
         </varlistentry>
 
@@ -3152,7 +3197,7 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
          <term>Rotation3DX</term>
          <listitem>
           <synopsis>Rotation3DX (angle)</synopsis>
-          <para>Rotation around origin in R<superscript>3</superscript> about the x-axis.</para>
+          <para>Return the matrix corresponding to rotation around origin in R<superscript>3</superscript> about the x-axis.</para>
          </listitem>
         </varlistentry>
 
@@ -3160,7 +3205,7 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
          <term>Rotation3DY</term>
          <listitem>
           <synopsis>Rotation3DY (angle)</synopsis>
-          <para>Rotation around origin in R<superscript>3</superscript> about the y-axis.</para>
+          <para>Return the matrix corresponding to rotation around origin in R<superscript>3</superscript> about the y-axis.</para>
          </listitem>
         </varlistentry>
 
@@ -3168,7 +3213,7 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
          <term>Rotation3DZ</term>
          <listitem>
           <synopsis>Rotation3DZ (angle)</synopsis>
-          <para>Rotation around origin in R<superscript>3</superscript> about the z-axis.</para>
+          <para>Return the matrix corresponding to rotation around origin in R<superscript>3</superscript> about the z-axis.</para>
          </listitem>
         </varlistentry>
 
@@ -3238,9 +3283,13 @@ Hermitian matrix (if the first element is real of course).</para>
         <varlistentry id="gel-function-Trace">
          <term>Trace</term>
          <listitem>
-          <synopsis>Trace (m)</synopsis>
+          <synopsis>Trace (M)</synopsis>
           <para>Aliases: <function>trace</function></para>
-          <para>Calculate the trace of a matrix.</para>
+          <para>Calculate the trace of a matrix.  That is the sum of the diagonal elements.</para>
+          <para>
+	    See
+	    <ulink url="http://planetmath.org/encyclopedia/Trace.html">Planetmath</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -3338,7 +3387,9 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
          <listitem>
           <synopsis>ref (M)</synopsis>
           <para>Aliases: <function>REF</function> <function>RowEchelonForm</function></para>
-          <para>Get the row echelon form of a matrix.</para>
+	  <para>Get the row echelon form of a matrix.  That is, apply gaussian
+elimination but not backaddition to <varname>M</varname>.  The pivot rows are
+divided to make all pivots 1.</para>
           <para>
 	    See
 	    <ulink url="http://planetmath.org/encyclopedia/RowEchelonForm.html">Planetmath</ulink> for more information.
@@ -3351,7 +3402,7 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
          <listitem>
           <synopsis>rref (M)</synopsis>
           <para>Aliases: <function>RREF</function> <function>ReducedRowEchelonForm</function></para>
-          <para>Get the reduced row echelon form of a matrix.</para>
+          <para>Get the reduced row echelon form of a matrix.  That is, apply gaussian elimination together with backaddition to <varname>M</varname>.</para>
           <para>
 	    See
 	    <ulink url="http://planetmath.org/encyclopedia/ReducedRowEchelonForm.html">Planetmath</ulink> for more information.
