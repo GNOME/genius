@@ -1,3 +1,13 @@
+Wed Jun 04 03:51:25 2008  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/gnome-genius.c: figure out a way to work around VTE nonsense,
+	  one way to get at current absolute row is by checking the cursor
+	  location and assuming it is on the last line.  Improve
+	  monitoring by using a text buffer and allow to turn off the 
+	  automatic updates.  Full answer is now wrapped if not a matrix.
+	  Don't set icon if it doesn't exist to avoid warning.  Don't try
+	  to use readline helper from current dir if not in dev dir.
+
 Tue Jun 03 20:14:34 2008  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c: fix some capitalization issues, implement
