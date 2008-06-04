@@ -1,3 +1,12 @@
+Tue Jun 03 20:14:34 2008  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/gnome-genius.c: fix some capitalization issues, implement
+	  a variable monitor dialog.  Also add code to save current console
+	  but that is disabled due to VTE having useless (read: unusable)
+	  API for getting at the buffer.  You require some private knowledge
+	  to use the get_text_range function.  Otherwise the API is
+	  pointless.
+
 Thu May 22 01:10:40 2008  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/funclib.c: fix identity matrix caching, setup type caches for
