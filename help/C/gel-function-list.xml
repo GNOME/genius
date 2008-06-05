@@ -358,7 +358,9 @@ avoid them being accidentally overridden.</para>
          <term>wait</term>
          <listitem>
           <synopsis>wait (secs)</synopsis>
-          <para>Waits a specified number of seconds.</para>
+          <para>Waits a specified number of seconds.  <varname>secs</varname>
+must be nonnegative.  Zero is accepted and nothing happens in this case,
+except possibly user interface events are processed.</para>
          </listitem>
         </varlistentry>
 
@@ -1012,7 +1014,8 @@ value then <function>Sign</function> returns the direction or 0.
          <listitem>
           <synopsis>rand (size...)</synopsis>
           <para>Generate random float in the range <literal>[0,1)</literal>.
-If size is given then a matrix (if two numbers are specified) or vector (if one number is specified) of the given size returned.</para>
+If size is given then a matrix (if two numbers are specified) or vector (if one
+number is specified) of the given size returned.</para>
          </listitem>
         </varlistentry>
 
@@ -2203,7 +2206,7 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <listitem>
           <synopsis>I (n)</synopsis>
           <para>Aliases: <function>eye</function></para>
-          <para>Return an identity matrix of a given size, that is <varname>n</varname> by <varname>n</varname>.</para>
+          <para>Return an identity matrix of a given size, that is <varname>n</varname> by <varname>n</varname>.  If <varname>n</varname> is zero, returns null.</para>
           <para>
 	    See
 	    <ulink url="http://planetmath.org/encyclopedia/IdentityMatrix.html">Planetmath</ulink> for more information.
@@ -2215,7 +2218,9 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <term>IndexComplement</term>
          <listitem>
           <synopsis>IndexComplement (vec,msize)</synopsis>
-          <para>Return the index complement of a vector of indexes.</para>
+          <para>Return the index complement of a vector of indexes.  Everything is one based.  For example for vector <userinput>[2,3]</userinput> and size
+<userinput>5</userinput>, we return <userinput>[1,4,5]</userinput>.  If
+<varname>msize</varname> is 0, we always return null.</para>
          </listitem>
         </varlistentry>
 
@@ -2473,6 +2478,8 @@ something(r)</userinput>.</para>
           <para>Make new matrix of given size from old one.  That is, a new
 	  matrix will be returned to which the old one is copied.  Entries that
 	  don't fit are clipped and extra space is filled with zeros.
+	  if <varname>rows</varname> or <varname>columns</varname> are zero
+	  then null is returned.
 	  </para>
          </listitem>
         </varlistentry>
@@ -2548,7 +2555,7 @@ number of columns times the number of rows.</para>
          <term>ones</term>
          <listitem>
           <synopsis>ones (rows,columns...)</synopsis>
-          <para>Make an matrix of all ones (or a row vector if only one argument is given).</para>
+          <para>Make an matrix of all ones (or a row vector if only one argument is given).  Returns null if either rows or columns are zero.</para>
          </listitem>
         </varlistentry>
 
@@ -2564,7 +2571,7 @@ number of columns times the number of rows.</para>
          <term>zeros</term>
          <listitem>
           <synopsis>zeros (rows,columns...)</synopsis>
-          <para>Make a matrix of all zeros (or a row vector if only one argument is given).</para>
+          <para>Make a matrix of all zeros (or a row vector if only one argument is given).  Returns null if either rows or columns are zero.</para>
          </listitem>
         </varlistentry>
 

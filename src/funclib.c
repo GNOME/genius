@@ -109,8 +109,9 @@ gel_get_nonnegative_integer (mpw_ptr z, const char *funcname)
 		error_num = 0;
 		return -1;
 	}
-	if G_UNLIKELY (i <= 0) {
-		gel_errorout (_("%s: argument can't be negative or 0"), funcname);
+	if G_UNLIKELY (i < 0) {
+		/* This should already have been checked */
+		/*gel_errorout (_("%s: argument can't be negative"), funcname);*/
 		return -1;
 	}
 	if G_UNLIKELY (i > G_MAXINT) {
@@ -371,7 +372,7 @@ wait_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	int secs;
 
-	if ( ! check_argument_integer (a, 0, "wait"))
+	if ( ! check_argument_nonnegative_integer (a, 0, "wait"))
 		return NULL;
 
 	secs = gel_get_nonnegative_integer (a[0]->val.value, "wait");
@@ -541,12 +542,15 @@ rand_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		GelMatrix *m;
 		int size, i;
 
-		if ( ! check_argument_integer (a, 0, "rand"))
+		if ( ! check_argument_nonnegative_integer (a, 0, "rand"))
 			return NULL;
 
 		size = gel_get_nonnegative_integer (a[0]->val.value, "rand");
 		if (size < 0)
 			return NULL;
+
+		if (size == 0)
+			return gel_makenum_null ();
 
 		m = gel_matrix_new ();
 		gel_matrix_set_size (m, size, 1, FALSE /* padding */);
@@ -569,8 +573,8 @@ rand_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		GelMatrix *m;
 		int sizex, sizey, i, j;
 
-		if ( ! check_argument_integer (a, 0, "rand") ||
-		     ! check_argument_integer (a, 1, "rand"))
+		if ( ! check_argument_nonnegative_integer (a, 0, "rand") ||
+		     ! check_argument_nonnegative_integer (a, 1, "rand"))
 			return NULL;
 
 		sizey = gel_get_nonnegative_integer (a[0]->val.value, "rand");
@@ -579,6 +583,9 @@ rand_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		sizex = gel_get_nonnegative_integer (a[1]->val.value, "rand");
 		if (sizex < 0)
 			return NULL;
+
+		if (sizex == 0 || sizey == 0)
+			return gel_makenum_null ();
 
 		m = gel_matrix_new ();
 		gel_matrix_set_size (m, sizex, sizey, FALSE /* padding */);
@@ -637,12 +644,15 @@ randint_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		int size, i;
 
 		if ( ! check_argument_integer (a, 0, "randint") ||
-		     ! check_argument_integer (a, 1, "randint"))
+		     ! check_argument_nonnegative_integer (a, 1, "randint"))
 			return NULL;
 
 		size = gel_get_nonnegative_integer (a[1]->val.value, "randint");
 		if (size < 0)
 			return NULL;
+
+		if (size == 0)
+			return gel_makenum_null ();
 
 		m = gel_matrix_new ();
 		gel_matrix_set_size (m, size, 1, FALSE /* padding */);
@@ -676,8 +686,8 @@ randint_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		int sizex, sizey, i, j;
 
 		if ( ! check_argument_integer (a, 0, "randint") ||
-		     ! check_argument_integer (a, 1, "randint") ||
-		     ! check_argument_integer (a, 2, "randint"))
+		     ! check_argument_nonnegative_integer (a, 1, "randint") ||
+		     ! check_argument_nonnegative_integer (a, 2, "randint"))
 			return NULL;
 
 		sizey = gel_get_nonnegative_integer (a[1]->val.value, "randint");
@@ -686,6 +696,9 @@ randint_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		sizex = gel_get_nonnegative_integer (a[2]->val.value, "randint");
 		if (sizex < 0)
 			return NULL;
+
+		if (sizex == 0 || sizey == 0)
+			return gel_makenum_null ();
 
 		m = gel_matrix_new ();
 		gel_matrix_set_size (m, sizex, sizey, FALSE /* padding */);
@@ -2668,12 +2681,15 @@ I_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	static int cached_size = -1;
 	static GelMatrixW *cached_m = NULL;
 
-	if G_UNLIKELY ( ! check_argument_integer (a, 0, "I"))
+	if G_UNLIKELY ( ! check_argument_nonnegative_integer (a, 0, "I"))
 		return NULL;
 
 	size = gel_get_nonnegative_integer (a[0]->val.value, "I");
 	if G_UNLIKELY (size < 0)
 		return NULL;
+
+	if (size == 0)
+		return gel_makenum_null ();
 
 	/*make us a new empty node*/
 	GET_NEW_NODE(n);
@@ -2721,9 +2737,9 @@ zeros_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	GelMatrixW *m;
 	long rows, cols;
 
-	if G_UNLIKELY ( ! check_argument_integer (a, 0, "zeros") ||
+	if G_UNLIKELY ( ! check_argument_nonnegative_integer (a, 0, "zeros") ||
 			(a[1] != NULL &&
-			 ! check_argument_integer (a, 1, "zeros")))
+			 ! check_argument_nonnegative_integer (a, 1, "zeros")))
 		return NULL;
 
 	if G_UNLIKELY (a[1] != NULL && a[2] != NULL) {
@@ -2743,6 +2759,9 @@ zeros_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		cols = rows;
 		rows = 1;
 	}
+
+	if (cols == 0 || rows == 0)
+		return gel_makenum_null ();
 
 	/*make us a new empty node*/
 	GET_NEW_NODE(n);
@@ -2776,9 +2795,9 @@ ones_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	long rows, cols;
 	int i, j;
 
-	if G_UNLIKELY ( ! check_argument_integer (a, 0, "ones") ||
+	if G_UNLIKELY ( ! check_argument_nonnegative_integer (a, 0, "ones") ||
 			(a[1] != NULL &&
-			 ! check_argument_integer (a, 1, "ones")))
+			 ! check_argument_nonnegative_integer (a, 1, "ones")))
 		return NULL;
 
 	if G_UNLIKELY (a[1] != NULL && a[2] != NULL) {
@@ -2798,6 +2817,9 @@ ones_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		cols = rows;
 		rows = 1;
 	}
+
+	if (cols == 0 || rows == 0)
+		return gel_makenum_null ();
 
 	/*make us a new empty node*/
 	GET_NEW_NODE(n);
@@ -2951,9 +2973,9 @@ SetMatrixSize_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	if G_UNLIKELY ( ! check_argument_matrix (a, 0, "SetMatrixSize"))
 		return NULL;
-	if G_UNLIKELY ( ! check_argument_number (a, 1, "SetMatrixSize"))
+	if G_UNLIKELY ( ! check_argument_nonnegative_integer (a, 1, "SetMatrixSize"))
 		return NULL;
-	if G_UNLIKELY ( ! check_argument_number (a, 2, "SetMatrixSize"))
+	if G_UNLIKELY ( ! check_argument_nonnegative_integer (a, 2, "SetMatrixSize"))
 		return NULL;
 
 	w = gel_get_nonnegative_integer (a[1]->val.value, "SetMatrixSize");
@@ -2962,6 +2984,9 @@ SetMatrixSize_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	h = gel_get_nonnegative_integer (a[2]->val.value, "SetMatrixSize");
 	if G_UNLIKELY (h < 0)
 		return NULL;
+
+	if (w == 0 || h == 0)
+		return gel_makenum_null ();
 
 	n = gel_stealnode (a[0]);
 	gel_matrixw_set_size (n->mat.matrix, h, w);
@@ -2980,12 +3005,16 @@ IndexComplement_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	int len;
 
 	if G_UNLIKELY ( ! check_argument_integer_or_matrix (a, 0, "IndexComplement") ||
-			! check_argument_integer (a, 1, "IndexComplement"))
+			! check_argument_nonnegative_integer (a, 1, "IndexComplement"))
 		return NULL;
 
 	len = gel_get_nonnegative_integer (a[1]->val.value, "IndexComplement");
 	if G_UNLIKELY (len < 0)
 		return NULL;
+
+	if G_UNLIKELY (len == 0)
+		return gel_makenum_null ();
+
 	if (a[0]->type == MATRIX_NODE) {
 		index = g_new0 (char, len);
 
@@ -3005,6 +3034,14 @@ IndexComplement_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 				g_free (index);
 				return NULL;
 			}
+
+			if G_UNLIKELY (elt == 0) {
+				gel_errorout (_("%s: argument can't be negative or 0"),
+					      "IndexComplement");
+				g_free (index);
+				return NULL;
+			}
+
 			elt--;
 			if G_UNLIKELY (elt >= len) {
 				gel_errorout (_("%s: vector argument has too large entries"), "IndexComplement");
@@ -3037,6 +3074,11 @@ IndexComplement_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		int elt = gel_get_nonnegative_integer (a[0]->val.value, "IndexComplement");
 		if G_UNLIKELY (elt < 0)
 			return NULL;
+		if G_UNLIKELY (elt == 0) {
+			gel_errorout (_("%s: argument can't be negative or 0"),
+				      "IndexComplement");
+			return NULL;
+		}
 		if G_UNLIKELY (elt > len) {
 			gel_errorout (_("%s: vector argument has too large entries"), "IndexComplement");
 			return NULL;
@@ -3717,7 +3759,7 @@ Prime_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if(a[0]->type==MATRIX_NODE)
 		return gel_apply_func_to_matrix(ctx,a[0],Prime_op,"prime", exception);
 
-	if G_UNLIKELY ( ! check_argument_integer (a, 0, "Prime"))
+	if G_UNLIKELY ( ! check_argument_positive_integer (a, 0, "Prime"))
 		return NULL;
 
 	num = gel_get_nonnegative_integer (a[0]->val.value, "Prime");
@@ -3869,6 +3911,8 @@ MillerRabinTest_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 
 	reps = gel_get_nonnegative_integer (a[1]->val.value, "MillerRabinTest");
+	if (reps < 0)
+		return NULL;
 
 	num = mpw_peek_real_mpz (a[0]->val.value);
 

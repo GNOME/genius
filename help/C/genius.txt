@@ -2152,7 +2152,9 @@
 
  wait (secs)
 
-           Waits a specified number of seconds.
+           Waits a specified number of seconds. secs must be nonnegative.
+           Zero is accepted and nothing happens in this case, except possibly
+           user interface events are processed.
 
    version
 
@@ -3471,7 +3473,8 @@
 
            Aliases: eye
 
-           Return an identity matrix of a given size, that is n by n.
+           Return an identity matrix of a given size, that is n by n. If n is
+           zero, returns null.
 
            See Planetmath for more information.
 
@@ -3479,7 +3482,9 @@
 
  IndexComplement (vec,msize)
 
-           Return the index complement of a vector of indexes.
+           Return the index complement of a vector of indexes. Everything is
+           one based. For example for vector [2,3] and size 5, we return
+           [1,4,5]. If msize is 0, we always return null.
 
    IsDiagonal
 
@@ -3671,7 +3676,8 @@
 
            Make new matrix of given size from old one. That is, a new matrix
            will be returned to which the old one is copied. Entries that
-           don't fit are clipped and extra space is filled with zeros.
+           don't fit are clipped and extra space is filled with zeros. if
+           rows or columns are zero then null is returned.
 
    SortVector
 
@@ -3730,7 +3736,7 @@
  ones (rows,columns...)
 
            Make an matrix of all ones (or a row vector if only one argument
-           is given).
+           is given). Returns null if either rows or columns are zero.
 
    rows
 
@@ -3743,7 +3749,7 @@
  zeros (rows,columns...)
 
            Make a matrix of all zeros (or a row vector if only one argument
-           is given).
+           is given). Returns null if either rows or columns are zero.
 
      ----------------------------------------------------------------------
 

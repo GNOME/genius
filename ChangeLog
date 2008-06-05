@@ -1,3 +1,12 @@
+Thu Jun 05 11:40:58 2008  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/funclib.c: fix argument checking in MillerRabin.  Also
+	  zeros, ones, rand, randint, I, SetMatrixSize now accept 0 for size
+	  and return null as an empty matrix.  Also wait, IndexComplement
+	  accept 0 and work accordingly.
+	
+	* help/C/gel-function-list.gel: update accordingly
+
 Wed Jun 04 11:56:25 2008  Jiri (George) Lebl <jirka@5z.com>
 
 	* help/C/genius.xml, help/C/gel-function-list.gel: update the docs
