@@ -908,9 +908,11 @@ IsNull(zeros(5,0))						true
 IsNull(zeros(0,3))						true
 IsNull(ones(0,1))						true
 IsNull(ones(2,0))						true
-NullSpace([1,-1])						[-1;1]
-NullSpace([1,-1;0,0])						[-1;1]
-NullSpace([1,-1;2,-2])						[-1;1]
-NullSpace([1,-1;2,-2;-3,3])					[-1;1]
+NullSpace([1,1])						[1;-1]
+NullSpace([1,1;0,0])						[1;-1]
+NullSpace([1,1;2,2])						[1;-1]
+NullSpace([1,1;2,2;3,3])					[1;-1]
+NullSpace([0,0;1,1;2,2;3,3])					[1;-1]
+NullSpace([0,0;1,0;2,0;3,0])					[0;-1]
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
