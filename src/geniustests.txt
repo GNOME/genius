@@ -206,7 +206,7 @@ IsComplex(3)							false
 IsFloat(3.1)							true
 IsFloat(3)							false
 I(4)								[1,0,0,0;0,1,0,0;0,0,1,0;0,0,0,1]
-I(0)								I(0)
+[I(0),99]							[99]
 lcm(4,6)							12
 function f(x)=(if(not IsInteger(x)) then bailout else 1);f(1.2)	f(1.2)
 function f(x)=(if(not IsInteger(x)) then bailout else 1);f(100)	1
@@ -899,5 +899,18 @@ function f(x)=(k=1;(function ff()=(k+1));k=2;ff);ll=f(5);ll()	3
 function f(x)=(ff=`()=(k+1);ff);ll=f(5)				(`()=(k+1))
 k=9;function f(x)=(ff=`()=(k+1);ff);ll=f(5)			(`()=(k+1))
 k=9;function f(x)=(ff=`()=(k+1);ff);ll=f(5);ll()		10
+IsNull(SolveLinearSystem ([1,4],[5]))				true
+SolveLinearSystem ([1],[5])					[5]
+SolveLinearSystem ([1;1],[5;5])					[5]
+SolveLinearSystem ([1,2;2,4;0,1],[1;2;3])			[-5;3]
+IsNull(SolveLinearSystem ([1,2;2,4;0,1],[1;3;3]))		true
+IsNull(zeros(5,0))						true
+IsNull(zeros(0,3))						true
+IsNull(ones(0,1))						true
+IsNull(ones(2,0))						true
+NullSpace([1,-1])						[-1;1]
+NullSpace([1,-1;0,0])						[-1;1]
+NullSpace([1,-1;2,-2])						[-1;1]
+NullSpace([1,-1;2,-2;-3,3])					[-1;1]
 load "nullspacetest.gel"					true
 load "longtest.gel"						true

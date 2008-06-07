@@ -2087,7 +2087,7 @@ matrix_pow_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 		/* FIXME: unfortunately the modulo logic of gauss is fucked */
 		old_modulo = ctx->modulo;
 		ctx->modulo = NULL;
-		if G_UNLIKELY (!gel_value_matrix_gauss(ctx,m,TRUE,FALSE,TRUE,NULL,mi)) {
+		if G_UNLIKELY (!gel_value_matrix_gauss(ctx,m,TRUE,FALSE,TRUE,FALSE,NULL,mi)) {
 			ctx->modulo = old_modulo;
 			gel_errorout (_("Matrix appears singular and can't be inverted"));
 			gel_matrixw_free(m);
@@ -2202,7 +2202,7 @@ pure_matrix_div_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	/* FIXME: unfortunately the modulo logic of gauss is fucked */
 	old_modulo = ctx->modulo;
 	ctx->modulo = NULL;
-	if G_UNLIKELY (!gel_value_matrix_gauss(ctx,toinvert,TRUE,FALSE,TRUE,NULL,mi)) {
+	if G_UNLIKELY (!gel_value_matrix_gauss(ctx,toinvert,TRUE,FALSE,TRUE,FALSE,NULL,mi)) {
 		ctx->modulo = old_modulo;
 		gel_errorout (_("Matrix appears singular and can't be inverted"));
 		gel_matrixw_free(mi);
@@ -2268,7 +2268,7 @@ value_matrix_div_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	/* FIXME: unfortunately the modulo logic of gauss is fucked */
 	old_modulo = ctx->modulo;
 	ctx->modulo = NULL;
-	if G_UNLIKELY (!gel_value_matrix_gauss(ctx,m,TRUE,FALSE,TRUE,NULL,mi)) {
+	if G_UNLIKELY (!gel_value_matrix_gauss(ctx,m,TRUE,FALSE,TRUE,FALSE,NULL,mi)) {
 		ctx->modulo = old_modulo;
 		gel_errorout (_("Matrix appears singular and can't be inverted"));
 		gel_matrixw_free(mi);

@@ -381,8 +381,13 @@ mul_sub_row (GelCtx *ctx, GelMatrixW *m, int row, mpw_t mul, int row2)
 /* return FALSE if singular */
 /* FIXME: if modular arithmetic is on, work over the modulo properly!!!! */
 gboolean
-gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
-			uppertriang, gboolean stopsing, mpw_ptr detop,
+gel_value_matrix_gauss (GelCtx *ctx,
+			GelMatrixW *m,
+			gboolean reduce,
+			gboolean uppertriang,
+			gboolean stopsing,
+			gboolean stopnonsing,
+			mpw_ptr detop,
 			GelMatrixW *simul)
 {
 	int i, j, d, ii, w, h;
@@ -402,10 +407,10 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 
 	if (m->rref) {
 		/* test for singularity */
-		if (h > w) {
+		if (w > h) {
 			ret = FALSE;
 		} else {
-			GelETree *t = gel_matrixw_get_index(m,h-1,h-1);
+			GelETree *t = gel_matrixw_get_index(m,w-1,w-1);
 			if (t == NULL ||
 			    mpw_zero_p (t->val.value))
 				ret = FALSE;
@@ -458,7 +463,6 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 		}
 
 		if (j == h) {
-			ret = FALSE;
 			if(stopsing) {
 				mpw_clear(tmp);
 				return FALSE;
@@ -556,6 +560,14 @@ gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean
 		}
 		mpw_set_ui(piv->val.value,1);
 		d++;
+	}
+
+	if (d < w)
+		ret = FALSE;
+
+	if (stopnonsing && d == w) {
+		mpw_clear(tmp);
+		return TRUE;
 	}
 
 	if(reduce) {
@@ -703,7 +715,13 @@ gel_value_matrix_det (GelCtx *ctx, mpw_t rop, GelMatrixW *m)
 	default:
 		mpw_init(tmp);
 		mm = gel_matrixw_copy(m);
-		gel_value_matrix_gauss(ctx,mm,FALSE,TRUE,FALSE,tmp,NULL);
+		gel_value_matrix_gauss(ctx,mm,
+				       FALSE /* reduce */,
+				       TRUE /* uppertriang */,
+				       FALSE /* stopsing */,
+				       FALSE /* stopnonsing */,
+				       tmp,
+				       NULL);
 		mpw_mul(rop,tmp,gel_matrixw_index(mm,0,0)->val.value);
 		mpw_clear(tmp);
 		for (i = 1; i < w; i++) {

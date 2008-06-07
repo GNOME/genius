@@ -1,3 +1,16 @@
+Sat Jun 07 13:02:21 2008  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/matop.c, src/funclib.c, src/eval.c: Add a new flag to not do
+	  backsubstitution in gauss if we are interested in nullspace and
+	  the matrix is nonsingular
+	
+	* src/matop.c: fix the return value of gauss.  Singular means
+	  nonempty nullspace, i.e. maximal row rank.  This also fixes
+	  SolveLinearSystem which didn't work according to specs, i.e. it is
+	  supposed to return null when solution is nonunique.
+
+	* src/geniustests.txt: add more tests
+
 Thu Jun 05 11:40:58 2008  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/funclib.c: fix argument checking in MillerRabin.  Also

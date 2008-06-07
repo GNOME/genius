@@ -3371,7 +3371,7 @@ ref_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	GET_NEW_NODE(n);
 	n->type = MATRIX_NODE;
 	n->mat.matrix = gel_matrixw_copy(a[0]->mat.matrix);
-	gel_value_matrix_gauss (ctx, n->mat.matrix, FALSE, FALSE, FALSE, NULL, NULL);
+	gel_value_matrix_gauss (ctx, n->mat.matrix, FALSE, FALSE, FALSE, FALSE, NULL, NULL);
 	n->mat.quoted = FALSE;
 	return n;
 }
@@ -3386,7 +3386,7 @@ rref_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	n->type = MATRIX_NODE;
 	n->mat.matrix = gel_matrixw_copy(a[0]->mat.matrix);
 	if ( ! n->mat.matrix->rref) {
-		gel_value_matrix_gauss (ctx, n->mat.matrix, TRUE, FALSE, FALSE, NULL, NULL);
+		gel_value_matrix_gauss (ctx, n->mat.matrix, TRUE, FALSE, FALSE, FALSE, NULL, NULL);
 	}
 	n->mat.quoted = FALSE;
 	return n;
@@ -3445,7 +3445,7 @@ PivotColumns_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if ( ! m->rref) {
 		m = gel_matrixw_copy (m);
 		/* only do ref, not rref for speed */
-		gel_value_matrix_gauss (ctx, m, FALSE, FALSE, FALSE, NULL, NULL);
+		gel_value_matrix_gauss (ctx, m, FALSE, FALSE, FALSE, FALSE, NULL, NULL);
 		copied_m = TRUE;
 	}
 
@@ -3526,7 +3526,16 @@ NullSpace_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	m = a[0]->mat.matrix;
 	if ( ! m->rref) {
 		m = gel_matrixw_copy (m);
-		gel_value_matrix_gauss (ctx, m, TRUE, FALSE, FALSE, NULL, NULL);
+		if (gel_value_matrix_gauss (ctx, m,
+					    TRUE /* reduce */,
+					    FALSE /* uppertriang */,
+					    FALSE /* stopsing */,
+					    TRUE /* stopnonsing */,
+					    NULL /* detop */,
+					    NULL /* simul */)) {
+			gel_matrixw_free (m);
+			return gel_makenum_null ();
+		}
 		copied_m = TRUE;
 	}
 
@@ -3670,7 +3679,7 @@ SolveLinearSystem_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	RM = gel_matrixw_copy(a[0]->mat.matrix);
 	RV = gel_matrixw_copy(a[1]->mat.matrix);
 
-	ret = gel_value_matrix_gauss (ctx, RM, TRUE, FALSE, FALSE, NULL, RV);
+	ret = gel_value_matrix_gauss (ctx, RM, TRUE, FALSE, FALSE, FALSE, NULL, RV);
 
 	if (retm != NULL) {
 		GET_NEW_NODE(n);

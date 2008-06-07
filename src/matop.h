@@ -1,11 +1,13 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2003 George Lebl
+ * Copyright (C) 1997-2008 Jiri (George) Lebl
  *
- * Author: George Lebl
+ * Author: Jiri (George) Lebl
  *
- * This program is free software; you can redistribute it and/or modify
+ * This file is part of Genius.
+ *
+ * Genius is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -14,9 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the  Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
- * USA.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef _MATOP_H_
@@ -39,6 +39,13 @@ void gel_value_matrix_multiply (GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2,
 gboolean gel_value_matrix_det (GelCtx *ctx, mpw_t rop, GelMatrixW *m);
 /*NOTE: if simul is passed then we assume that it's the same size as m*/
 /* return FALSE if singular */
-gboolean gel_value_matrix_gauss (GelCtx *ctx, GelMatrixW *m, gboolean reduce, gboolean uppertriang, gboolean stopsing, mpw_ptr detop, GelMatrixW *simul);
+gboolean gel_value_matrix_gauss (GelCtx *ctx,
+				 GelMatrixW *m,
+				 gboolean reduce,
+				 gboolean uppertriang,
+				 gboolean stopsing,
+				 gboolean stopnonsing,
+				 mpw_ptr detop,
+				 GelMatrixW *simul);
 
 #endif

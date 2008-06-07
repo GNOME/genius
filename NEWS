@@ -5,18 +5,24 @@ Syntax and semantical changes are marked with CHANGE:
 * Add "Save Console Output" menu item to save console contents
 * Add "Monitor a Variable" menu item to continuously monitor a single
   variable
+* Wrap nonmatrix output in "Show Full Answer"
 * Add IsMersennePrimeExponent, MersennePrimeExponents, IsDefined, undefine
-* QuadraticFormula built in and more numerically stable
+* CHANGE: zeros, ones, rand, randint, I, SetMatrixSize now accept 0 for size
+  and return null as an empty matrix.  wait, IndexComplement
+  accept 0 and act accordingly as well.
 * CHANGE: It's Fibonacci in correct spelling, short name is still fib
 * Calling internal functions is now slightly faster
+* QuadraticFormula built in and more numerically stable
 * Gaussian elimination is now faster, and more stable when nonrational
   matrices are involved
+* NullSpace slightly faster when the nullspace is empty
 * Other minor optimizations
+* Fix SolveLinearSystem (must return null on nonunique solutions)
 * Fix crash related to returning custom functions from functions
 * Fix some memory leaks
 * Documentation updates
-* Translations (Yannig Marchegay, Pawan Chitrakar, Jorge Gonzalez,
-  Jonh Wendell, moi)
+* Translations (L. Lommer, P. Kovar, Andre Klapper, Yannig Marchegay,
+  Pawan Chitrakar, Jorge Gonzalez, Jonh Wendell, et moi)
 
 Changes to 1.0.2
 
