@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-genius\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-09 14:23+0200\n"
-"PO-Revision-Date: 2008-06-09 15:08+0200\n"
+"POT-Creation-Date: 2008-06-09 17:10+0200\n"
+"PO-Revision-Date: 2008-06-09 23:34+0200\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KAider 0.1\n"
+"X-Generator: vim7\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../lib/library-strings.c:1
@@ -114,7 +114,7 @@ msgstr "Division ohne Rest"
 
 #: ../lib/library-strings.c:22
 msgid "Return the sign (-1,0,1)"
-msgstr "Die Signum-Funktion. Gibt das Vorzeichen zurück (-1, 0, 1)"
+msgstr "Das Vorzeichen zurückgeben (die Signum-Funktion: -1, 0, 1)"
 
 #: ../lib/library-strings.c:23
 msgid ""
@@ -138,7 +138,8 @@ msgstr "Die Arkuskotangens-Funktion (invertierter Kotangens)"
 #: ../lib/library-strings.c:27
 msgid "The arccoth (inverse coth) function"
 msgstr ""
-"Die Arkuskotangens-Hpyerbolicus-Funktion (invertierter Kotangens Hyperbolicus)"
+"Die Arkuskotangens-Hpyerbolicus-Funktion (invertierter Kotangens "
+"Hyperbolicus)"
 
 #: ../lib/library-strings.c:28
 msgid "The inverse cosecant function"
@@ -166,7 +167,8 @@ msgstr "Die Areasinus-Hyperbolicus-Funktion (invertierter Sinus Hyperbolicus)"
 
 #: ../lib/library-strings.c:34
 msgid "The arctanh (inverse tanh) function"
-msgstr "Die Areatangens-Hyperbolicus-Funktion (invertierter Tangens Hyperbolicus)"
+msgstr ""
+"Die Areatangens-Hyperbolicus-Funktion (invertierter Tangens Hyperbolicus)"
 
 #: ../lib/library-strings.c:35
 msgid "The cotangent function"
@@ -202,7 +204,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:43
 msgid "Return the nth Bernoulli number"
-msgstr "Gibt die n-te Bernoulli-Zahl zurück"
+msgstr "Die n-te Bernoulli-Zahl zurückgeben"
 
 #: ../lib/library-strings.c:44
 msgid ""
@@ -237,9 +239,8 @@ msgid ""
 msgstr ""
 
 #: ../lib/library-strings.c:50
-#, fuzzy
 msgid "Return all factors of a number"
-msgstr "Kann keine Fakultät von negativen Zahlen berechnen!"
+msgstr "Alle Faktoren einer Zahl zurückgeben"
 
 #: ../lib/library-strings.c:51
 msgid ""
@@ -250,10 +251,14 @@ msgstr ""
 #: ../lib/library-strings.c:52
 msgid "Find the first primitive element in F_q (q must be a prime)"
 msgstr ""
+"Das erste primitive Element in F_q zurückgeben (wobei q eine Primzahl sein "
+"muss)"
 
 #: ../lib/library-strings.c:53
 msgid "Find a random primitive element in F_q (q must be a prime)"
 msgstr ""
+"Ein zufälliges primitives Element in F_q zurückgeben (wobei q eine Primzahl "
+"sein muss)"
 
 #: ../lib/library-strings.c:54
 msgid ""
@@ -271,7 +276,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:56
 msgid "Test if Mp is a Mersenne prime using a table"
-msgstr ""
+msgstr "Anhand einer Tabelle überprüfen, ob Mp eine Mersenne-Primzahl ist"
 
 #: ../lib/library-strings.c:57
 msgid "Tests if a rational number is a perfect power"
@@ -306,7 +311,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:63
 msgid "Test if Mp is a Mersenne prime using the Lucas-Lehmer test"
-msgstr ""
+msgstr "Mit dem Lucas-Lehmer-Test überprüfen, ob Mp eine Mersenne-Primzahl ist"
 
 #: ../lib/library-strings.c:64
 msgid "Return all maximal prime power factors of a number"
@@ -426,15 +431,15 @@ msgstr ""
 
 #: ../lib/library-strings.c:91
 msgid "Sort vector elements"
-msgstr ""
+msgstr "Vektorelemente sortieren"
 
 #: ../lib/library-strings.c:92
 msgid "Removes any all-zero rows of M"
-msgstr ""
+msgstr "Alle Null-Zeilen aus M entfernen"
 
 #: ../lib/library-strings.c:93
 msgid "Return column(s) and row(s) from a matrix"
-msgstr ""
+msgstr "Spalte(n) und Zeile(n) einer Matrix zurückgeben"
 
 #: ../lib/library-strings.c:94
 msgid "Swap two rows in a matrix"
@@ -442,7 +447,7 @@ msgstr "Zwei Zeilen in einer Matrix vertauschen"
 
 #: ../lib/library-strings.c:95
 msgid "Zero out entries below the diagonal"
-msgstr ""
+msgstr "Einträge unterhalb der Diagonale ausnullen"
 
 #: ../lib/library-strings.c:96
 msgid "Get the auxilliary unit matrix of size n"
@@ -460,11 +465,11 @@ msgstr ""
 
 #: ../lib/library-strings.c:99
 msgid "Get the characteristic polynomial as a vector"
-msgstr ""
+msgstr "Das charakteristische Polynom als Vektor zurückgeben"
 
 #: ../lib/library-strings.c:100
 msgid "Get the characteristic polynomial as a function"
-msgstr ""
+msgstr "Das charakteristische Polynom als Funktion zurückgeben"
 
 #: ../lib/library-strings.c:101
 msgid "Get a basis matrix for the columnspace of a matrix"
@@ -481,9 +486,8 @@ msgid "Companion matrix of a polynomial (as vector)"
 msgstr ""
 
 #: ../lib/library-strings.c:104
-#, fuzzy
 msgid "Conjugate transpose of a matrix (adjoint)"
-msgstr "Kann Nichtmatrix nicht transponieren"
+msgstr ""
 
 #: ../lib/library-strings.c:105 ../lib/library-strings.c:106
 msgid "Calculate convolution of two horizontal vectors"
@@ -491,7 +495,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:107
 msgid "CrossProduct of two vectors in R^3"
-msgstr ""
+msgstr "Das Kreuzprodukt zweier Vektoren im R^3"
 
 #: ../lib/library-strings.c:108
 msgid ""
@@ -520,11 +524,11 @@ msgstr ""
 
 #: ../lib/library-strings.c:113
 msgid "Hankel matrix"
-msgstr ""
+msgstr "Hankel-Matrix"
 
 #: ../lib/library-strings.c:114
 msgid "Hilbert matrix of order n"
-msgstr ""
+msgstr "Hilbert-Matrix der Ordnung n"
 
 #: ../lib/library-strings.c:115
 msgid "Get the image (columnspace) of a linear transform"
@@ -541,7 +545,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:118
 msgid "Inverse Hilbert matrix of order n"
-msgstr ""
+msgstr "Inverse Hilbert-Matrix der Ordnung n"
 
 #: ../lib/library-strings.c:119
 msgid "Is a matrix hermitian"
@@ -549,7 +553,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:120
 msgid "Test if a vector is in a subspace"
-msgstr ""
+msgstr "Überprüfen, ob ein Vektor Teil eines Unterraums ist"
 
 #: ../lib/library-strings.c:121
 msgid ""
@@ -567,11 +571,11 @@ msgstr ""
 
 #: ../lib/library-strings.c:124
 msgid "Is a matrix positive definite"
-msgstr ""
+msgstr "Ist eine positiv definite Matrix"
 
 #: ../lib/library-strings.c:125
 msgid "Is a matrix positive semidefinite"
-msgstr ""
+msgstr "Ist eine positiv semi-definite Matrix"
 
 #: ../lib/library-strings.c:126
 msgid "Is a matrix skew-hermitian"
@@ -583,7 +587,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:128
 msgid "Get the jordan block corresponding to lambda and n"
-msgstr ""
+msgstr "Den zu lambda und n gehörenden Jordan-Block ermitteln"
 
 #: ../lib/library-strings.c:129
 msgid "Get the kernel (nullspace) of a linear transform"
@@ -627,7 +631,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:138
 msgid "Get the rank of a matrix"
-msgstr ""
+msgstr "Den Rang einer Matrix ermitteln"
 
 #: ../lib/library-strings.c:139
 msgid "Return the Rayleigh quotient of a matrix and a vector"
@@ -645,19 +649,19 @@ msgstr ""
 
 #: ../lib/library-strings.c:142
 msgid "Rotation around origin in R^2"
-msgstr ""
+msgstr "Rotation um Ursprung im R^2"
 
 #: ../lib/library-strings.c:143
 msgid "Rotation around origin in R^3 about the x-axis"
-msgstr ""
+msgstr "Rotation um Ursprung im R^3 über die x-Achse"
 
 #: ../lib/library-strings.c:144
 msgid "Rotation around origin in R^3 about the y-axis"
-msgstr ""
+msgstr "Rotation um Ursprung im R^3 über die y-Achse"
 
 #: ../lib/library-strings.c:145
 msgid "Rotation around origin in R^3 about the z-axis"
-msgstr ""
+msgstr "Rotation um Ursprung im R^3 über die z-Achse"
 
 #: ../lib/library-strings.c:146
 msgid "Get a basis matrix for the rowspace of a matrix"
@@ -690,12 +694,11 @@ msgstr ""
 
 #: ../lib/library-strings.c:152
 msgid "Calculate the trace of a matrix"
-msgstr ""
+msgstr "Die Spur einer Matrix berechnen"
 
 #: ../lib/library-strings.c:153
-#, fuzzy
 msgid "Transpose of a matrix"
-msgstr "Kann Nichtmatrix nicht transponieren"
+msgstr "Eine Matrix transponieren"
 
 #: ../lib/library-strings.c:154
 msgid "Return the Vandermonde matrix"
@@ -732,11 +735,11 @@ msgstr ""
 
 #: ../lib/library-strings.c:162
 msgid "Double factorial: n(n-2)(n-4)..."
-msgstr ""
+msgstr "Doppel-Fakultät: n(n-2)(n-4)…"
 
 #: ../lib/library-strings.c:163
 msgid "Factorial: n(n-1)(n-2)..."
-msgstr ""
+msgstr "Fakultät: n(n-1)(n-2)…"
 
 #: ../lib/library-strings.c:164
 msgid "Falling factorial: (n)_k = n(n-1)...(n-(k-1))"
@@ -744,7 +747,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:165
 msgid "Calculate n'th Fibonacci number"
-msgstr ""
+msgstr "Die n-te Fibonacci-Zahl berechnen"
 
 #: ../lib/library-strings.c:166
 msgid "Calculate the Frobenius number for a coin problem"
@@ -761,7 +764,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:169
 msgid "Harmonic Number, the nth harmonic number of order r"
-msgstr ""
+msgstr "Harmonische Zahl, die n-the harmonische Zahl der Ordnung r"
 
 #: ../lib/library-strings.c:170
 msgid ""
@@ -779,7 +782,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:173
 msgid "Get the pascal's triangle as a matrix"
-msgstr ""
+msgstr "Das Pascal'sche-Dreieck als Matrix zurückgeben"
 
 #: ../lib/library-strings.c:174
 msgid "(Pochhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))"
@@ -803,7 +806,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:179
 msgid "Calculate permutations"
-msgstr ""
+msgstr "Permutationen berechnen"
 
 #: ../lib/library-strings.c:180
 msgid ""
@@ -916,7 +919,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:203
 msgid "Returns 1 iff all elements are zero"
-msgstr "Gibt 1 zurück, falls alle Elemente 0 sind"
+msgstr "1 zurückgeben, falls alle Elemente 0 sind"
 
 #: ../lib/library-strings.c:204
 msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
@@ -928,7 +931,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:206
 msgid "Returns 1 iff all elements are equal"
-msgstr "Gibt 1 zurück, falls alle Elemente gleich sind"
+msgstr "1 zurückgeben, falls alle Elemente gleich sind"
 
 #: ../lib/library-strings.c:207
 msgid "Find the first value where f(x)=0"
@@ -936,7 +939,7 @@ msgstr "Den ersten Wert finden, bei dem f(x)=0"
 
 #: ../lib/library-strings.c:208
 msgid "Moebius mapping of the disk to itself mapping a to 0"
-msgstr ""
+msgstr "Moebius-Transformation auf sich selbst; a wird auf 0 abgebildet"
 
 #: ../lib/library-strings.c:209
 msgid ""
@@ -980,15 +983,15 @@ msgstr ""
 
 #: ../lib/library-strings.c:216
 msgid "The cis function, that is cos(x)+i*sin(x)"
-msgstr ""
+msgstr "Die cis-Funktion, cos(x)+i*sin(x)"
 
 #: ../lib/library-strings.c:217
 msgid "Convert degrees to radians"
-msgstr ""
+msgstr "Grad in Radiant umrechnen"
 
 #: ../lib/library-strings.c:218
 msgid "Convert radians to degrees"
-msgstr ""
+msgstr "Radiant in Grad umrechnen"
 
 #: ../lib/library-strings.c:219
 msgid "Find roots of a cubic polynomial (given as vector of coefficients)"
@@ -1150,7 +1153,7 @@ msgstr "Unerwarteter Knoten!"
 #: ../src/calc.c:1884
 #, c-format
 msgid "File '%s' is a wrong version of GEL"
-msgstr "Datei `%s' benutzt eine falsche Version von GEL"
+msgstr "Datei »%s« verwendet eine falsche Version von GEL"
 
 #: ../src/calc.c:1932 ../src/calc.c:1941 ../src/calc.c:1946 ../src/calc.c:1955
 #: ../src/calc.c:1960 ../src/calc.c:1969 ../src/calc.c:1974 ../src/calc.c:1983
@@ -1451,7 +1454,7 @@ msgstr "Funktion '%s' uninitialisiert benutzt"
 #: ../src/eval.c:4484
 #, c-format
 msgid "Can't dereference '%s'!"
-msgstr "'%s' kann nicht dereferenziert werden!"
+msgstr "»%s« kann nicht dereferenziert werden!"
 
 #: ../src/eval.c:4492
 msgid "Can't call a non-function!"
@@ -1480,19 +1483,16 @@ msgid "Unnamed reference function encountered!"
 msgstr "Namenlose Referenzfunktion aufgetreten!"
 
 #: ../src/eval.c:4832
-#, fuzzy
 msgid "Bad type for 'for/sum/prod' loop!"
-msgstr "Falscher Typ für `for'-Schleife!"
+msgstr "Falscher Typ für »for/sum/prod«-Schleife!"
 
 #: ../src/eval.c:4837
-#, fuzzy
 msgid "'for/sum/prod' loop increment can't be 0"
-msgstr "`for'-Schleifeninkrement kann nicht 0 sein"
+msgstr "»for/sum/prod«-Schleifeninkrement kann nicht 0 sein"
 
 #: ../src/eval.c:4948
-#, fuzzy
 msgid "Bad type for 'for in' loop!"
-msgstr "Falscher Typ für `for'-Schleife!"
+msgstr "Falscher Typ für »for in«-Schleife!"
 
 #: ../src/eval.c:5112 ../src/eval.c:5145
 msgid "Continue or break outside a loop, assuming \"return null\""
@@ -1681,31 +1681,31 @@ msgstr "Vergleich (<=>)"
 
 #: ../src/eval.c:5982
 msgid "XOR"
-msgstr ""
+msgstr "XODER"
 
 #: ../src/eval.c:5983
 msgid "NOT"
-msgstr ""
+msgstr "NICHT"
 
 #: ../src/eval.c:6003
-#, fuzzy, c-format
+#, c-format
 msgid "Bad types for '%s'"
-msgstr "Falscher Typ für `for'-Schleife!"
+msgstr "Falsche Typen für »%s«"
 
 #: ../src/eval.c:6014
 #, c-format
 msgid "%s not defined on <%s> and <%s>"
-msgstr ""
+msgstr "%s ist auf <%s> und <%s> nicht definiert"
 
 #: ../src/eval.c:6033
-#, fuzzy, c-format
+#, c-format
 msgid "Bad type for '%s'"
-msgstr "Falscher Typ für `for'-Schleife!"
+msgstr "Falscher Typ für »%s«"
 
 #: ../src/eval.c:6043
 #, c-format
 msgid "%s not defined on <%s>"
-msgstr ""
+msgstr "%s ist auf <%s> nicht definiert"
 
 #: ../src/eval.c:6062 ../src/eval.c:6079
 msgid "Vector building only works on numbers"
@@ -3959,11 +3959,13 @@ msgstr "Ganzzahl zu groß für diese Operation"
 
 #: ../src/mpwrap.c:1373
 msgid "Can't do modulo of floats or rationals!"
-msgstr "Kann kein Modulo von Gleitkomma- oder rationalen Zahlen berechnen!"
+msgstr ""
+"Modulo von Gleitkomma- oder rationalen Zahlen kann nicht berechnet werden!"
 
 #: ../src/mpwrap.c:1387
 msgid "Can't do GCD of floats or rationals!"
-msgstr "Kann keinen ggT von Gleitkomma- oder rationalen Zahlen berechnen!"
+msgstr ""
+"ggT von Gleitkomma- oder rationalen Zahlen kann nicht berechnet werden!"
 
 #: ../src/mpwrap.c:1414
 #, fuzzy
