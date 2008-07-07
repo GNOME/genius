@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-genius\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-10 19:32+0200\n"
-"PO-Revision-Date: 2008-06-10 19:34+0200\n"
+"POT-Creation-Date: 2008-07-07 14:27+0200\n"
+"PO-Revision-Date: 2008-07-07 14:52+0200\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -32,11 +32,11 @@ msgstr ""
 
 #: ../lib/library-strings.c:3
 msgid "Make a string"
-msgstr ""
+msgstr "Eine Zeichenkette erstellen"
 
 #: ../lib/library-strings.c:4
 msgid "Tolerance of the Chop function"
-msgstr ""
+msgstr "Toleranz der Funktion »Chop«"
 
 #: ../lib/library-strings.c:5
 msgid "How many iterations to try to find the limit for continuity and limits"
@@ -68,11 +68,11 @@ msgstr ""
 
 #: ../lib/library-strings.c:11
 msgid "Tolerance of the ErrorFunction"
-msgstr ""
+msgstr "Toleranz der Fehlerfunktion »ErrorFunction«"
 
 #: ../lib/library-strings.c:12
 msgid "Tolerance of the GaussDistribution function"
-msgstr ""
+msgstr "Toleranz der Funktion »GaussDistribution«"
 
 #: ../lib/library-strings.c:13
 msgid "The function used for numerical integration in NumericalIntegral"
@@ -94,7 +94,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:17
 msgid "Tolerance for InfiniteSum and InfiniteProduct"
-msgstr ""
+msgstr "Toleranz für »InfiniteSum« und »InfiniteProduct«"
 
 #: ../lib/library-strings.c:18 ../src/eval.c:5961
 msgid "Absolute value"
@@ -121,6 +121,8 @@ msgid ""
 "Logarithm of any base (calls DiscreteLog if in modulo mode), if base is not "
 "given, e is used"
 msgstr ""
+"Logarithmus zu beliebiger Basis (»DiscreteLog« wird verwendet, falls im "
+"Modulo-Modus). Wenn keine Basis angegeben, wird e verwendet"
 
 #: ../lib/library-strings.c:24
 msgid "The arccos (inverse cos) function"
@@ -323,7 +325,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:66
 msgid "Return the Moebius mu function evaluated in n"
-msgstr ""
+msgstr "Die Moebius-mu-Funktion, ausgewertet in n, zurückgeben"
 
 #: ../lib/library-strings.c:67
 msgid "Returns the padic valuation (number of trailing zeros in base p)."
@@ -356,18 +358,24 @@ msgid ""
 "Find square root of n mod p (a prime). Null is returned if not a quadratic "
 "residue."
 msgstr ""
+"Die Quadratwurzel von n mod p (Primzahl) bestimmen. Falls kein "
+"quadratisches Residuum, wird Null zurückgegeben"
 
 #: ../lib/library-strings.c:74
 msgid ""
 "Apply a function over all entries of a matrix and return a matrix of the "
 "results"
 msgstr ""
+"Eine Funktion auf alle Einträge einer Matrix anwenden. Eine Matrix mit "
+"den Ergebnissen wird zurückgegeben" 
 
 #: ../lib/library-strings.c:75
 msgid ""
 "Apply a function over all entries of 2 matrices (or 1 value and 1 matrix) "
 "and return a matrix of the results"
 msgstr ""
+"Eine Funktion auf alle Einträge von 2 Matrizen anwenden (oder 1 Wert und "
+"1 Matrix). Eine Matrix mit den Ergebnissen wird zurückgegeben"
 
 #: ../lib/library-strings.c:76
 msgid "Remove column(s) and row(s) from a matrix"
@@ -392,10 +400,12 @@ msgstr ""
 #: ../lib/library-strings.c:81
 msgid "Zero out entries above the diagonal"
 msgstr ""
+"Einträge oberhalb der Diagonalen ausnullen; eine untere Dreiecksmatrix "
+"wird erstellt"
 
 #: ../lib/library-strings.c:82
 msgid "Make diagonal matrix from a vector"
-msgstr ""
+msgstr "Aus einem Vektor eine Diagonal-Matrix erstellen"
 
 #: ../lib/library-strings.c:83
 msgid "Make column vector out of matrix by putting columns above each other"
@@ -403,11 +413,11 @@ msgstr ""
 
 #: ../lib/library-strings.c:84
 msgid "Calculate the product of all elements in a matrix"
-msgstr ""
+msgstr "Das Produkt aller Elemente einer Matrix berechnen"
 
 #: ../lib/library-strings.c:85
 msgid "Calculate the sum of all elements in a matrix"
-msgstr ""
+msgstr "Die Summe aller Elemente einer Matrix berechnen"
 
 #: ../lib/library-strings.c:86
 msgid "Calculate the sum of squares of all elements in a matrix"
@@ -419,11 +429,11 @@ msgstr ""
 
 #: ../lib/library-strings.c:88
 msgid "Reverse elements in a vector"
-msgstr ""
+msgstr "Die Elemente eines Vektors umdrehen"
 
 #: ../lib/library-strings.c:89
 msgid "Calculate sum of each row in a matrix"
-msgstr ""
+msgstr "Die Zeilensummen einer Matrix berechnen"
 
 #: ../lib/library-strings.c:90
 msgid "Calculate sum of squares of each row in a matrix"
@@ -447,7 +457,9 @@ msgstr "Zwei Zeilen in einer Matrix vertauschen"
 
 #: ../lib/library-strings.c:95
 msgid "Zero out entries below the diagonal"
-msgstr "Einträge unterhalb der Diagonale ausnullen"
+msgstr ""
+"Einträge unterhalb der Diagonalen ausnullen; eine obere Dreiecksmatrix "
+"wird erstellt"
 
 #: ../lib/library-strings.c:96
 msgid "Get the auxilliary unit matrix of size n"
@@ -515,6 +527,8 @@ msgid ""
 "Get the eigenvalues of a matrix (Currently only for up to 4x4 or triangular "
 "matrices)"
 msgstr ""
+"Die Eigenwerte einer Matrix bestimmen. Bisher nur bis 4x4 oder Dreiecks-"
+"Matrizen möglich)"
 
 #: ../lib/library-strings.c:112
 msgid ""
@@ -536,7 +550,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:116
 msgid "Get the Inf Norm of a vector"
-msgstr ""
+msgstr "Die Unendlich-Norm eines Vektors bestimmen"
 
 #: ../lib/library-strings.c:117
 msgid ""
@@ -610,6 +624,8 @@ msgstr ""
 #: ../lib/library-strings.c:133
 msgid "Get the p Norm (or 2 Norm if no p is supplied) of a vector"
 msgstr ""
+"Die p-Norm (oder Zweiernorm, falls kein p gegeben) eines Vektors "
+"bestimmen"
 
 #: ../lib/library-strings.c:134
 msgid "Get the nullity of a matrix"
@@ -635,7 +651,7 @@ msgstr "Den Rang einer Matrix ermitteln"
 
 #: ../lib/library-strings.c:139
 msgid "Return the Rayleigh quotient of a matrix and a vector"
-msgstr ""
+msgstr "Den Rayleigh-Quotienten einer Matrix oder eines Vektors bestimmen"
 
 #: ../lib/library-strings.c:140
 msgid ""
@@ -702,7 +718,7 @@ msgstr "Eine Matrix transponieren"
 
 #: ../lib/library-strings.c:154
 msgid "Return the Vandermonde matrix"
-msgstr ""
+msgstr "Die Vandermonde-Matrix zurückgeben"
 
 #: ../lib/library-strings.c:155
 msgid "The angle of two vectors, given an inner product"
@@ -1153,7 +1169,7 @@ msgstr "Unerwarteter Knoten!"
 #: ../src/calc.c:1884
 #, c-format
 msgid "File '%s' is a wrong version of GEL"
-msgstr "Datei »%s« verwendet eine falsche Version von GEL"
+msgstr "Datei »%s« ist eine falsche Version von GEL"
 
 #: ../src/calc.c:1932 ../src/calc.c:1941 ../src/calc.c:1946 ../src/calc.c:1955
 #: ../src/calc.c:1960 ../src/calc.c:1969 ../src/calc.c:1974 ../src/calc.c:1983
@@ -1162,7 +1178,7 @@ msgstr "Datei »%s« verwendet eine falsche Version von GEL"
 #: ../src/calc.c:2057 ../src/calc.c:2068 ../src/calc.c:2074 ../src/calc.c:2081
 #: ../src/calc.c:2087 ../src/calc.c:2096 ../src/calc.c:2106
 msgid "Badly formed record"
-msgstr "Mißgebildeter Datensatz"
+msgstr "Missgebildeter Datensatz"
 
 #: ../src/calc.c:1935
 msgid "Record out of place"
@@ -1179,27 +1195,27 @@ msgstr ""
 #: ../src/calc.c:2182 ../src/calc.c:2737 ../src/calc.c:2772
 #, c-format
 msgid "Can't open file: '%s'"
-msgstr "Kann Datei `%s' nicht öffnen"
+msgstr "Datei »%s« kann nicht geöffnet werden"
 
 #: ../src/calc.c:2383
 msgid "Load a file into the interpretor"
-msgstr ""
+msgstr "Eine Datei in den Interpreter einlesen"
 
 #: ../src/calc.c:2386
 msgid "Load a plugin"
-msgstr ""
+msgstr "Ein Plugin laden"
 
 #: ../src/calc.c:2389
 msgid "List files in the current directory"
-msgstr ""
+msgstr "Dateien im aktuellen Ordner auflisten"
 
 #: ../src/calc.c:2392
 msgid "Change directory"
-msgstr ""
+msgstr "Ordner wechseln"
 
 #: ../src/calc.c:2395
 msgid "Print current directory"
-msgstr ""
+msgstr "Aktuellen Ordner ausgeben"
 
 #: ../src/calc.c:2398
 msgid "Print help (or help on a function/command)"
@@ -1223,7 +1239,7 @@ msgstr ""
 
 #: ../src/calc.c:2423
 msgid "  help FunctionName\n"
-msgstr ""
+msgstr "  help FunktionsName\n"
 
 #: ../src/calc.c:2427
 msgid ""
@@ -1251,25 +1267,25 @@ msgstr "Nicht dokumentiert"
 #: ../src/calc.c:2540
 #, c-format
 msgid "'%s' is not documented"
-msgstr "'%s' ist nicht dokumentiert"
+msgstr "»%s« ist nicht dokumentiert"
 
 #: ../src/calc.c:2542
 #, c-format
 msgid "'%s' is not documented.  Perhaps you meant %s."
-msgstr "'%s' ist nicht dokumentiert. Vielleicht meinten Sie %s."
+msgstr "»%s« ist nicht dokumentiert. Vielleicht meinten Sie %s."
 
 #: ../src/calc.c:2552
 #, c-format
 msgid "%s is an alias for %s\n"
-msgstr ""
+msgstr "%s ist ein Alias für %s\n"
 
 #: ../src/calc.c:2566
 msgid "Parameter: "
-msgstr "Parameter:"
+msgstr "Parameter: "
 
 #: ../src/calc.c:2591
 msgid "Aliases:"
-msgstr ""
+msgstr "Aliase:"
 
 #: ../src/calc.c:2603
 #, c-format
@@ -1277,14 +1293,14 @@ msgid "Description: %s\n"
 msgstr "Beschreibung: %s\n"
 
 #: ../src/calc.c:2811 ../src/calc.c:2822
-#, fuzzy, c-format
+#, c-format
 msgid "Can't expand '%s'"
-msgstr "Kann Datei `%s' nicht öffnen"
+msgstr ""
 
 #: ../src/calc.c:2892
 #, c-format
 msgid "Cannot open plugin '%s'!"
-msgstr "Plugin '%s' konnte nicht geöffnet werden!"
+msgstr "Plugin »%s« konnte nicht geöffnet werden!"
 
 #: ../src/calc.c:3102
 msgid "ERROR: Probably corrupt stack!"
@@ -1307,7 +1323,7 @@ msgstr "FEHLER: %s am Ende der Eingabe"
 #: ../src/calc.c:3240
 #, c-format
 msgid "ERROR: %s before '%s'"
-msgstr "FEHLER: %s vor '%s'"
+msgstr "FEHLER: %s vor »%s«"
 
 #: ../src/compil.c:463 ../src/compil.c:470
 msgid "Bad tree record when decompiling"
