@@ -20,6 +20,7 @@
  */
 #include "config.h"
 
+#include <errno.h>
 #include <stdlib.h>
 #include <dirent.h>
 #include <unistd.h>
@@ -2792,10 +2793,17 @@ our_chdir (const char *dirprefix, const char *dir)
 {
 	if (dirprefix == NULL ||
 	    dir[0] == G_DIR_SEPARATOR) {
-		chdir (dir);
+		errno = 0;
+		if (chdir (dir) != 0)
+			gel_errorout (_("Error changing to directory '%s': %s"), 
+				      dir, g_strerror (errno));
+
 	} else {
 		char *d = g_build_filename (dirprefix, dir, NULL);
-		chdir (d);
+		errno = 0;
+		if (chdir (d) != 0)
+			gel_errorout (_("Error changing to directory '%s': %s"), 
+				      d, g_strerror (errno));
 		g_free (d);
 	}
 }
@@ -2977,10 +2985,14 @@ do_exec_commands (const char *dirprefix)
 		ret = TRUE;
 		break;
 	case GEL_PWD:
-		getcwd (buf, sizeof (buf));
-
-		gel_output_string (main_out, buf);
-		gel_output_string (main_out, "\n");
+		errno = 0;
+		if (getcwd (buf, sizeof (buf)) == NULL) {
+			gel_errorout (_("getcwd error: %s"), 
+				      g_strerror (errno));
+		} else {
+			gel_output_string (main_out, buf);
+			gel_output_string (main_out, "\n");
+		}
 		ret = TRUE;
 		break;
 	case GEL_HELP:
@@ -3032,17 +3044,33 @@ gel_parseexp (const char *str, FILE *infile, gboolean exec_commands,
 
 	if(str) {
 		int l = strlen(str);
-		pipe(lex_fd);
+		errno = 0;
+		if G_UNLIKELY (pipe(lex_fd) != 0) {
+			gel_errorout (_("ERROR: 'pipe' failed: %s"),
+				      g_strerror (errno));
+			return NULL;
+		}
 		infile = fdopen(lex_fd[0], "r");
-		write(lex_fd[1], str, l);
-		if(str[l-1] != '\n')
-			write(lex_fd[1], "\n", 1);
+		errno = 0;
+		if (write(lex_fd[1], str, l) < l) {
+			gel_errorout (_("ERROR: 'write' possibly failed: %s"),
+				      g_strerror (errno));
+		}
+
+		if(str[l-1] != '\n') {
+			errno = 0;
+			if (write(lex_fd[1], "\n", 1) < 1) {
+				gel_errorout (_("ERROR: 'write' possibly failed: %s"),
+					      g_strerror (errno));
+			}
+		}
 		close(lex_fd[1]);
 		gel_lexer_open(infile);
 	}
 
 	gel_command = GEL_NO_COMMAND;
-	g_free (gel_command_arg); gel_command_arg = NULL;
+	g_free (gel_command_arg);
+	gel_command_arg = NULL;
 
 	lex_init = TRUE;
 	/*yydebug=TRUE;*/  /*turn debugging of parsing on here!*/

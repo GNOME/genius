@@ -208,7 +208,8 @@ main(int argc, char *argv[])
 			char *r = strrchr (buf, '\n');
 			if (r != NULL)
 				*r = '\0';
-			chdir (&buf[4]);
+			if (chdir (&buf[4]) != 0)
+				printf ("chdir failed in readline-helper");
 		} else if(strcmp(buf,"TOPLEVEL OK\n")==0) {
 			toplevelokg = TRUE;
 		} else if(strcmp(buf,"TOPLEVEL NOT OK\n")==0) {
@@ -225,13 +226,19 @@ main(int argc, char *argv[])
 				add_history(p);
 
 			if(!p) {
-				write(outfd,"EOF!",4);
+				if (write(outfd,"EOF!",4) < 4)
+					printf ("write failed in readline-helper");
 			} else {
 				int len = strlen(p);
-				write(outfd,"LINE",4);
-				write(outfd,(gpointer)&len,sizeof(int));
-				if(len>0)
-					write(outfd,p,len);
+				if (write(outfd,"LINE",4) < 4)
+					printf ("write failed in readline-helper");
+				if (write(outfd,(gpointer)&len,sizeof(int)) < sizeof (int))
+					printf ("write failed in readline-helper");
+				if(len>0) {
+					if (write(outfd,p,len) < len) {
+						printf ("write failed in readline-helper");
+					}
+				}
 				free(p);
 			}
 		}

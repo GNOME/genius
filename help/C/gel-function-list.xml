@@ -244,6 +244,14 @@ is called inside a block that was evaluated using modular arithmetic (using <lit
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-eval">
+         <term>eval</term>
+         <listitem>
+          <synopsis>eval (str)</synopsis>
+          <para>Parses and evaluates a string.</para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-error">
          <term>error</term>
          <listitem>
@@ -284,6 +292,15 @@ is called inside a block that was evaluated using modular arithmetic (using <lit
           <synopsis>print (str)</synopsis>
           <para>Prints an expression and then print a newline.  The argument <varname>str</varname> can be any expression.  It is
 made into a string before being printed.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-parse">
+         <term>parse</term>
+         <listitem>
+          <synopsis>parse (str)</synopsis>
+          <para>Parses but does not evaluate a string.  Note that certain
+	    precomputation is done during the parsing stage.</para>
          </listitem>
         </varlistentry>
 

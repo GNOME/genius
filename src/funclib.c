@@ -124,49 +124,9 @@ gel_get_nonnegative_integer (mpw_ptr z, const char *funcname)
 static GelETree *
 manual_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
-	GString *str;
-	FILE *fp;
-	char *file;
-	char *dir;
-
-	/* Kind of a hack I suppose */
-	if (genius_is_gui) {
-		gel_call_help (NULL);
-		error_num = IGNORE_ERROR;
-		RAISE_EXCEPTION (exception);
-		return NULL;
-	}
-
-	str = g_string_new (NULL);
-
-	/*fp = fopen ("../doc/genius.txt", "r");
-	if G_LIKELY (fp == NULL)*/
-
-	dir = gbr_find_data_dir (DATADIR);
-	file = g_build_filename (dir, "genius", "genius.txt", NULL);
-	fp = fopen (file, "r");
-	g_free (file);
-	g_free (dir);
-
-	if G_UNLIKELY (fp != NULL) {
-		char buf[256];
-		while (fgets (buf, sizeof(buf), fp) != NULL) {
-			g_string_append (str, buf);
-		}
-
-		fclose (fp);
-	} else {
-		g_string_append (str,
-				 _("Cannot locate the manual"));
-	}
-
-	(*infoout) (str->str);
+	gel_call_help (NULL);
 	error_num = IGNORE_ERROR;
-
 	RAISE_EXCEPTION (exception);
-
-	g_string_free (str, TRUE);
-
 	return NULL;
 }
 
@@ -353,7 +313,7 @@ static GelETree *
 error_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	if (a[0]->type == STRING_NODE) {
-		gel_errorout (a[0]->str.str);
+		gel_errorout ("%s", a[0]->str.str);
 	} else {
 		GelOutput *gelo = gel_output_new();
 		char *s;
@@ -361,7 +321,7 @@ error_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		gel_pretty_print_etree (gelo, a[0]);
 		s = gel_output_snarf_string (gelo);
 		gel_output_unref (gelo);
-		gel_errorout (s != NULL ? s : "");
+		gel_errorout ("%s", s != NULL ? s : "");
 		g_free (s);
 	}
 	return gel_makenum_null();
@@ -5634,6 +5594,38 @@ end_of_simpson:
 	return ret;
 }
 
+static GelETree *
+parse_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	if G_UNLIKELY ( ! check_argument_string (a, 0, "parse"))
+		return NULL;
+
+	return gel_parseexp (a[0]->str.str,
+			     NULL /* infile */,
+			     FALSE /* exec_commands */,
+			     FALSE /* testparse */,
+			     NULL /* finished */,
+			     NULL /* dirprefix */);
+}
+
+static GelETree *
+eval_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelETree *et;
+
+	if G_UNLIKELY ( ! check_argument_string (a, 0, "parse"))
+		return NULL;
+
+	et = gel_parseexp (a[0]->str.str,
+			   NULL /* infile */,
+			   FALSE /* exec_commands */,
+			   FALSE /* testparse */,
+			   NULL /* finished */,
+			   NULL /* dirprefix */);
+
+	return eval_etree (ctx, et);
+}
+
 
 static GelETree *
 set_FloatPrecision (GelETree * a)
@@ -6332,6 +6324,9 @@ gel_funclib_addall(void)
 	FUNC (GetCurrentModulo, 0, "", "basic", N_("Get current modulo from the context outside the function"));
 	FUNC (IsDefined, 1, "id", "basic", N_("Check if a variable or function is defined"));
 	FUNC (undefine, 1, "id", "basic", N_("Undefine a variable (including locals and globals)"));
+
+	FUNC (parse, 1, "str", "basic", N_("Parse a string (but do not execute)"));
+	FUNC (eval, 1, "str", "basic", N_("Parse and evaluate a string"));
 
 	FUNC (CompositeSimpsonsRule, 4, "f,a,b,n", "calculus", N_("Integration of f by Composite Simpson's Rule on the interval [a,b] with n subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be even"));
 	f->no_mod_all_args = 1;

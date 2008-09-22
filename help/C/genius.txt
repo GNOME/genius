@@ -2056,6 +2056,12 @@
 
            Display a string and an expression with a colon to separate them.
 
+   eval
+
+ eval (str)
+
+           Parses and evaluates a string.
+
    error
 
  error (str)
@@ -2091,6 +2097,13 @@
            Prints an expression and then print a newline. The argument str
            can be any expression. It is made into a string before being
            printed.
+
+   parse
+
+ parse (str)
+
+           Parses but does not evaluate a string. Note that certain
+           precomputation is done during the parsing stage.
 
    printn
 

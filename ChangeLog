@@ -1,3 +1,21 @@
+Mon Sep 22 00:05:25 2008  Jiri (George) Lebl <jirka@5z.com>
+
+	* configure.in: raise version
+
+	* src/funclib.c: Add 'parse' and 'eval' functions
+
+	* help/C/gel-function-list.xml: add 'parse' and 'eval' blurbs
+
+	* src/calc.c, src/genius-readline-helper.c, src/gnome-genius.c:
+	  handle return values of chdir, getcwd, write, pipe properly
+
+	* src/funclib.c, src/genius.c: move manual display out of funclib.c
+	  and make it less hackish, and use less or more if available to
+	  display manual for the text mode version.
+
+	* src/funclib.c: correctly call the gel_errorout function to avoid
+	  crashes from calling "error"
+
 Sun Sep 21 17:50:50 2008  Jiri (George) Lebl <jirka@5z.com>
 
 	* lib/number_theory/primes.gel: Update the Mersenne prime info

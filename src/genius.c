@@ -128,7 +128,63 @@ gel_printout_infos (void)
 void
 gel_call_help (const char *function)
 {
-	/* No extra processing of help */
+	char *file;
+	char *str;
+
+	if (function != NULL) {
+		/* No extra processing of help,
+		 * printout was done in funclib */
+		return;
+	}
+
+	/*fp = fopen ("../doc/genius.txt", "r");
+	if G_LIKELY (fp == NULL)*/
+
+	str = gbr_find_data_dir (DATADIR);
+	file = g_build_filename (str, "genius", "genius.txt", NULL);
+	g_free (str);
+
+	if G_UNLIKELY (access (file, R_OK) != 0) {
+		puterror (_("Cannot locate the manual"));
+		g_free (file);
+		return;
+	}
+
+	str = g_find_program_in_path ("less");
+	if (str == NULL)
+		str = g_find_program_in_path ("more");
+
+	if G_LIKELY (str != NULL) {
+		char *argv[3];
+
+		argv[0] = str;
+		argv[1] = file;
+		g_spawn_sync  (NULL /* wd */,
+			       argv,
+			       NULL /* envp */,
+			       0 /* flags */,
+			       NULL /* child_setup */,
+			       NULL /* user_data */,
+			       NULL /*stdout*/,
+			       NULL /*stderr*/,
+			       NULL /* status */,
+			       NULL /* error */);
+	} else {
+		/* No less or more, hence just type out the
+		 * manual */
+		FILE *fp;
+
+		fp = fopen (file, "r");
+		if G_LIKELY (fp != NULL) {
+			char buf[256];
+			while (fgets (buf, sizeof(buf), fp) != NULL) {
+				g_print ("%s\n", buf);
+			}
+
+			fclose (fp);
+		}
+	}
+	g_free (file);
 }
 
 
