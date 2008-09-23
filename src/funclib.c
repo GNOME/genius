@@ -5595,9 +5595,12 @@ end_of_simpson:
 }
 
 static GelETree *
-parse_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+Parse_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
-	if G_UNLIKELY ( ! check_argument_string (a, 0, "parse"))
+	if (a[0]->type == NULL_NODE)
+		return gel_makenum_null ();
+
+	if G_UNLIKELY ( ! check_argument_string (a, 0, "Parse"))
 		return NULL;
 
 	return gel_parseexp (a[0]->str.str,
@@ -5609,11 +5612,14 @@ parse_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 }
 
 static GelETree *
-eval_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+Evaluate_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	GelETree *et;
 
-	if G_UNLIKELY ( ! check_argument_string (a, 0, "parse"))
+	if (a[0]->type == NULL_NODE)
+		return gel_makenum_null ();
+
+	if G_UNLIKELY ( ! check_argument_string (a, 0, "Evaluate"))
 		return NULL;
 
 	et = gel_parseexp (a[0]->str.str,
@@ -5624,6 +5630,22 @@ eval_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			   NULL /* dirprefix */);
 
 	return eval_etree (ctx, et);
+}
+
+static GelETree *
+AskString_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	char *txt;
+
+	if G_UNLIKELY ( ! check_argument_string (a, 0, "AskString"))
+		return NULL;
+
+	txt = gel_ask_string (a[0]->str.str);
+
+	if (txt == NULL)
+		return gel_makenum_null ();
+	else
+		return gel_makenum_string_use (txt);
 }
 
 
@@ -6325,8 +6347,10 @@ gel_funclib_addall(void)
 	FUNC (IsDefined, 1, "id", "basic", N_("Check if a variable or function is defined"));
 	FUNC (undefine, 1, "id", "basic", N_("Undefine a variable (including locals and globals)"));
 
-	FUNC (parse, 1, "str", "basic", N_("Parse a string (but do not execute)"));
-	FUNC (eval, 1, "str", "basic", N_("Parse and evaluate a string"));
+	FUNC (Parse, 1, "str", "basic", N_("Parse a string (but do not execute)"));
+	FUNC (Evaluate, 1, "str", "basic", N_("Parse and evaluate a string"));
+
+	FUNC (AskString, 1, "query", "basic", N_("Ask a question and return a string"));
 
 	FUNC (CompositeSimpsonsRule, 4, "f,a,b,n", "calculus", N_("Integration of f by Composite Simpson's Rule on the interval [a,b] with n subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be even"));
 	f->no_mod_all_args = 1;

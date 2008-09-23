@@ -112,6 +112,9 @@ void gel_printout_infos (void);
 /* implemented in the frontend (function can be NULL) */
 void gel_call_help (const char *function);
 
+/* implemented in the frontend (query can be NULL) */
+char *gel_ask_string (const char *query);
+
 void gel_help_on (const char *text);
 
 /*these are parts of the above*/

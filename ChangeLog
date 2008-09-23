@@ -1,3 +1,17 @@
+Mon Sep 22 23:23:51 2008  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/funclib.c: rename parse/eval to Parse and Evaluate to be
+	  more in line with my in-vogue naming in Genius (no need to
+	  break the consistency even further)
+
+	* src/calc.h, src/genius.c, src/gnome-genius.c, src/funclib.c:
+	  Implement function AskString to interactively ask for a string.
+	  Use a dialog in GUI mode and readline in command line mode
+
+	* src/geniustests.txt: add some tests
+
+	* help/C/gel-function-list.xml: update
+
 Mon Sep 22 00:05:25 2008  Jiri (George) Lebl <jirka@5z.com>
 
 	* configure.in: raise version

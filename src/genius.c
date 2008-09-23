@@ -64,6 +64,8 @@
 #include <termcap.h>
 #endif
 
+#include <vicious.h>
+
 /*Globals:*/
 
 /*calculator state*/
@@ -187,6 +189,29 @@ gel_call_help (const char *function)
 	g_free (file);
 }
 
+char *
+gel_ask_string (const char *query)
+{
+	char *txt = NULL;
+
+	g_print ("\n%s\n", ve_sure_string (query));
+	if (use_readline) {
+		char *s = readline (">");
+		if (s != NULL) {
+			txt = g_strdup (s);
+			free (s);
+		}
+	} else {
+		char buf[256];
+		if (fgets (buf, sizeof (buf), stdin) != NULL) {
+			int len = strlen (buf);
+			if (buf[len-1] == '\n')
+				buf[len-1] = '\0';
+			txt = g_strdup (buf);
+		}
+	}
+	return txt;
+}
 
 static int
 long_get_term_width (void)

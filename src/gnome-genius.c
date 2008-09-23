@@ -449,6 +449,49 @@ dialog_entry_activate (GtkWidget *e, gpointer data)
 	gtk_dialog_response (GTK_DIALOG (d), GTK_RESPONSE_OK);
 }
 
+char *
+gel_ask_string (const char *query)
+{
+	GtkWidget *d;
+	GtkWidget *e;
+	int ret;
+	char *txt = NULL;
+
+	d = gtk_dialog_new_with_buttons
+		(_("Genius"),
+		 GTK_WINDOW (genius_window) /* parent */,
+		 0 /* flags */,
+		 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		 GTK_STOCK_OK, GTK_RESPONSE_OK,
+		 NULL);
+
+	gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_OK);
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+			    gtk_label_new (ve_sure_string(query)),
+			    FALSE, FALSE, 0);
+
+	e = gtk_entry_new ();
+	g_signal_connect (G_OBJECT (e), "activate",
+			  G_CALLBACK (dialog_entry_activate), d);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+			    e,
+			    FALSE, FALSE, 0);
+
+	gtk_widget_show_all (d);
+	ret = gtk_dialog_run (GTK_DIALOG (d));
+
+	if (ret == GTK_RESPONSE_OK) {
+		txt = gtk_entry_get_text (GTK_ENTRY (e));
+		txt = g_strdup (ve_sure_string (txt));
+	}
+
+	gtk_widget_destroy (d);
+
+	return txt;
+}
+
 static void
 help_on_function (GtkWidget *menuitem, gpointer data)
 {
