@@ -567,8 +567,18 @@ plot_print_cb (void)
 
 	{
 		char *cmdstring = g_strdup_printf ("cat %s | %s", tmpfile, last_cmd);
-		system (cmdstring);
+		errno = 0;
+		if (system (cmdstring) < 0) {
+			char *err = g_strdup_printf (
+			_("Printing failed: %s"), 
+				      g_strerror (errno));
+			genius_display_error (graph_window, err);
+			g_free (err);
+		}
+
+
 		g_free (cmdstring);
+
 	}
 
 	plot_in_progress --;
@@ -3172,7 +3182,8 @@ plot_from_dialog (void)
 						 "x",
 						 &ex);
 			if (f != NULL) {
-				func[funcs++] = f;
+				func[i] = f;
+				funcs++;
 			}
 		}
 	} else {
@@ -3257,12 +3268,16 @@ plot_from_dialog (void)
 	line_plot_clear_funcs ();
 
 	if (function_page == 0) {
-		for (i = 0; i < MAXFUNC && func[i] != NULL; i++) {
-			plot_func[i] = func[i];
-			func[i] = NULL;
-			/* setup name when the functions don't have their own name */
-			if (plot_func[i]->id == NULL)
-				plot_func_name[i] = g_strdup (gtk_entry_get_text (GTK_ENTRY (plot_entries[i])));
+		int j = 0;
+		for (i = 0; i < MAXFUNC; i++) {
+			if (func[i] != NULL) {
+				plot_func[j] = func[i];
+				func[i] = NULL;
+				/* setup name when the functions don't have their own name */
+				if (plot_func[j]->id == NULL)
+					plot_func_name[j] = g_strdup (gtk_entry_get_text (GTK_ENTRY (plot_entries[i])));
+				j++;
+			}
 		}
 
 		plot_mode = MODE_LINEPLOT;

@@ -483,8 +483,8 @@ gel_ask_string (const char *query)
 	ret = gtk_dialog_run (GTK_DIALOG (d));
 
 	if (ret == GTK_RESPONSE_OK) {
-		txt = gtk_entry_get_text (GTK_ENTRY (e));
-		txt = g_strdup (ve_sure_string (txt));
+		const char *t = gtk_entry_get_text (GTK_ENTRY (e));
+		txt = g_strdup (ve_sure_string (t));
 	}
 
 	gtk_widget_destroy (d);
