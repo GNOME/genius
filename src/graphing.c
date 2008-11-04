@@ -107,6 +107,8 @@ static double deft1 = 0.0;
 static double deft2 = 1.0;
 static double deftinc = 0.01;
 
+static gboolean lineplot_draw_legends = TRUE;
+
 /* Replotting info */
 static GelEFunc *plot_func[MAXFUNC] = { NULL };
 static char *plot_func_name[MAXFUNC] = { NULL };
@@ -1121,7 +1123,8 @@ line_plot_move_about (void)
 	if (line_plot == NULL)
 		return;
 
-	if (plot_mode == MODE_LINEPLOT) {
+	if (plot_mode == MODE_LINEPLOT ||
+	    ! lineplot_draw_legends) {
 		gtk_plot_move (GTK_PLOT (line_plot),
 			       PROPORTION_OFFSET,
 			       PROPORTION_OFFSET);
@@ -1130,6 +1133,8 @@ line_plot_move_about (void)
 				 1.0-2*PROPORTION_OFFSET);
 		gtk_plot_legends_move (GTK_PLOT (line_plot), 0.80, 0.05);
 	} else if (plot_mode == MODE_LINEPLOT_PARAMETRIC) {
+		/* move plot out of the way if we are in parametric mode and
+		 * there is a legend */
 		gtk_plot_move (GTK_PLOT (line_plot),
 			       PROPORTION_OFFSET,
 			       PROPORTION_OFFSET);
@@ -2414,6 +2419,11 @@ plot_functions (void)
 		g_free (label);
 	}
 
+	if (lineplot_draw_legends)
+		gtk_plot_show_legends (GTK_PLOT (line_plot));
+	else
+		gtk_plot_hide_legends (GTK_PLOT (line_plot));
+
 	line_plot_move_about ();
 
 	/* could be whacked by closing the window or some such */
@@ -2551,7 +2561,7 @@ create_range_spinboxes (const char *title, double *val1, double *val2,
 						   G_MAXFLOAT,
 						   1,
 						   10,
-						   100);
+						   0);
 	w = gtk_spin_button_new (adj, 1.0, 5);
 	g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
@@ -2568,7 +2578,7 @@ create_range_spinboxes (const char *title, double *val1, double *val2,
 						   G_MAXFLOAT,
 						   1,
 						   10,
-						   100);
+						   0);
 	w = gtk_spin_button_new (adj, 1.0, 5);
 	g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
@@ -2586,7 +2596,7 @@ create_range_spinboxes (const char *title, double *val1, double *val2,
 							   G_MAXFLOAT,
 							   1,
 							   10,
-							   100);
+							   0);
 		w = gtk_spin_button_new (adj, 1.0, 5);
 		g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
 		gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
@@ -2620,6 +2630,16 @@ create_expression_box (const char *label,
 	*status = gtk_image_new ();
 	gtk_box_pack_start (GTK_BOX (b), *status, FALSE, FALSE, 0);
 	return b;
+}
+
+/*option callback*/
+static void
+optioncb (GtkWidget * widget, int *data)
+{
+	if (GTK_TOGGLE_BUTTON (widget)->active)
+		*data = TRUE;
+	else
+		*data = FALSE;
 }
 
 static GtkWidget *
@@ -2712,6 +2732,15 @@ create_lineplot_box (void)
 	gtk_notebook_append_page (GTK_NOTEBOOK (function_notebook),
 				  box,
 				  gtk_label_new_with_mnemonic (_("_Parametric")));
+
+	w = gtk_check_button_new_with_mnemonic (_("_Draw legend"));
+	gtk_box_pack_start (GTK_BOX (mainbox), w, FALSE, FALSE, 0);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), 
+				      lineplot_draw_legends);
+	g_signal_connect (G_OBJECT (w), "toggled",
+			  G_CALLBACK (optioncb),
+			  (gpointer)&lineplot_draw_legends);
+
 
 	frame = gtk_frame_new (_("Plot Window"));
 	gtk_box_pack_start (GTK_BOX (mainbox), frame, FALSE, FALSE, 0);
