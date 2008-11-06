@@ -65,6 +65,8 @@ static GtkWidget *surface_menu_item = NULL;
 enum {
 	MODE_LINEPLOT,
 	MODE_LINEPLOT_PARAMETRIC,
+	MODE_LINEPLOT_SLOPEFIELD,
+	MODE_LINEPLOT_VECTORFIELD,
 	MODE_SURFACE
 } plot_mode = MODE_LINEPLOT;
 
@@ -890,7 +892,9 @@ plot_zoomin_cb (void)
 		genius_setup.error_box = TRUE;
 
 		if (plot_mode == MODE_LINEPLOT ||
-		    plot_mode == MODE_LINEPLOT_PARAMETRIC) {
+		    plot_mode == MODE_LINEPLOT_PARAMETRIC ||
+		    plot_mode == MODE_LINEPLOT_SLOPEFIELD ||
+		    plot_mode == MODE_LINEPLOT_VECTORFIELD) {
 			len = plotx2 - plotx1;
 			plotx2 -= len/4.0;
 			plotx1 += len/4.0;
@@ -934,7 +938,9 @@ plot_zoomout_cb (void)
 		genius_setup.error_box = TRUE;
 
 		if (plot_mode == MODE_LINEPLOT ||
-		    plot_mode == MODE_LINEPLOT_PARAMETRIC) {
+		    plot_mode == MODE_LINEPLOT_PARAMETRIC ||
+		    plot_mode == MODE_LINEPLOT_SLOPEFIELD ||
+		    plot_mode == MODE_LINEPLOT_VECTORFIELD) {
 			len = plotx2 - plotx1;
 			plotx2 += len/2.0;
 			plotx1 -= len/2.0;
@@ -970,6 +976,12 @@ plot_zoomout_cb (void)
 static void
 plot_zoomfit_cb (void)
 {
+	if (plot_mode == MODE_LINEPLOT_SLOPEFIELD ||
+	    plot_mode == MODE_LINEPLOT_VECTORFIELD) {
+		/* No zoom to fit during slopefield/vectorfield plots */
+		return;
+	}
+
 	if (plot_in_progress == 0) {
 		double size;
 		gboolean last_info = genius_setup.info_box;
@@ -1123,16 +1135,8 @@ line_plot_move_about (void)
 	if (line_plot == NULL)
 		return;
 
-	if (plot_mode == MODE_LINEPLOT ||
-	    ! lineplot_draw_legends) {
-		gtk_plot_move (GTK_PLOT (line_plot),
-			       PROPORTION_OFFSET,
-			       PROPORTION_OFFSET);
-		gtk_plot_resize (GTK_PLOT (line_plot),
-				 1.0-2*PROPORTION_OFFSET,
-				 1.0-2*PROPORTION_OFFSET);
-		gtk_plot_legends_move (GTK_PLOT (line_plot), 0.80, 0.05);
-	} else if (plot_mode == MODE_LINEPLOT_PARAMETRIC) {
+	if (plot_mode == MODE_LINEPLOT_PARAMETRIC &&
+	    lineplot_draw_legends) {
 		/* move plot out of the way if we are in parametric mode and
 		 * there is a legend */
 		gtk_plot_move (GTK_PLOT (line_plot),
@@ -1145,6 +1149,14 @@ line_plot_move_about (void)
 		gtk_plot_legends_move (GTK_PLOT (line_plot),
 				       0.0,
 				       1.07);
+	} else {
+		gtk_plot_move (GTK_PLOT (line_plot),
+			       PROPORTION_OFFSET,
+			       PROPORTION_OFFSET);
+		gtk_plot_resize (GTK_PLOT (line_plot),
+				 1.0-2*PROPORTION_OFFSET,
+				 1.0-2*PROPORTION_OFFSET);
+		gtk_plot_legends_move (GTK_PLOT (line_plot), 0.80, 0.05);
 	}
 }
 
@@ -1533,7 +1545,9 @@ plot_axis (void)
 	plot_minx = G_MAXDOUBLE/2;
 
 	if (plot_mode == MODE_LINEPLOT ||
-	    plot_mode == MODE_LINEPLOT_PARAMETRIC) {
+	    plot_mode == MODE_LINEPLOT_PARAMETRIC ||
+	    plot_mode == MODE_LINEPLOT_SLOPEFIELD ||
+	    plot_mode == MODE_LINEPLOT_VECTORFIELD) {
 		plot_setup_axis ();
 	} else if (plot_mode == MODE_SURFACE) {
 		surface_setup_axis ();
@@ -2731,7 +2745,37 @@ create_lineplot_box (void)
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (function_notebook),
 				  box,
-				  gtk_label_new_with_mnemonic (_("_Parametric")));
+				  gtk_label_new_with_mnemonic (_("Pa_rametric")));
+
+	/*
+	 * Slopefield
+	 */
+
+	box = gtk_vbox_new (FALSE, GNOME_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
+	w = gtk_label_new ("FIXME: Implement");
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+
+	gtk_notebook_append_page (GTK_NOTEBOOK (function_notebook),
+				  box,
+				  gtk_label_new_with_mnemonic (_("Sl_ope field")));
+
+	/*
+	 * Vectorfield
+	 */
+
+	box = gtk_vbox_new (FALSE, GNOME_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
+	w = gtk_label_new ("FIXME: Implement");
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+
+	gtk_notebook_append_page (GTK_NOTEBOOK (function_notebook),
+				  box,
+				  gtk_label_new_with_mnemonic (_("_Vector field")));
+
+	/*
+	 * Below notebook
+	 */
 
 	w = gtk_check_button_new_with_mnemonic (_("_Draw legend"));
 	gtk_box_pack_start (GTK_BOX (mainbox), w, FALSE, FALSE, 0);
@@ -3180,20 +3224,15 @@ get_func_from_entry (GtkWidget *entry, GtkWidget *status,
 }
 
 static void
-plot_from_dialog (void)
+plot_from_dialog_lineplot (void)
 {
 	int funcs = 0;
-	gboolean got_param = FALSE;
 	GelEFunc *func[MAXFUNC] = { NULL };
-	GelEFunc *funcpx = NULL;
-	GelEFunc *funcpy = NULL;
-	GelEFunc *funcpz = NULL;
 	double x1, x2, y1, y2;
-	int i;
+	int i, j;
 	gboolean last_info;
 	gboolean last_error;
 	const char *error_to_print = NULL;
-	int function_page = gtk_notebook_get_current_page (GTK_NOTEBOOK (function_notebook));
 
 	plot_mode = MODE_LINEPLOT;
 
@@ -3202,58 +3241,23 @@ plot_from_dialog (void)
 	genius_setup.info_box = TRUE;
 	genius_setup.error_box = TRUE;
 
-	if (function_page == 0) {
-		for (i = 0; i < MAXFUNC; i++) {
-			GelEFunc *f;
-			gboolean ex = FALSE;
-			f = get_func_from_entry (plot_entries[i],
-						 plot_entries_status[i],
-						 "x",
-						 &ex);
-			if (f != NULL) {
-				func[i] = f;
-				funcs++;
-			}
-		}
-	} else {
-		gboolean exx = FALSE;
-		gboolean exy = FALSE;
-		gboolean exz = FALSE;
-		funcpx = get_func_from_entry (parametric_entry_x,
-					      parametric_status_x,
-					      "t",
-					      &exx);
-		funcpy = get_func_from_entry (parametric_entry_y,
-					      parametric_status_y,
-					      "t",
-					      &exy);
-		funcpz = get_func_from_entry (parametric_entry_z,
-					      parametric_status_z,
-					      "t",
-					      &exz);
-		if (((funcpx || exx) || (funcpy || exy)) && (funcpz || exz)) {
-			error_to_print = _("Only specify x and y, or z, not all at once.");
-			goto whack_copied_funcs;
-		}
-
-		if ((funcpz == NULL && funcpx != NULL && funcpy != NULL) ||
-		    (funcpz != NULL && funcpx == NULL && funcpy == NULL)) {
-			got_param = TRUE;
+	for (i = 0; i < MAXFUNC; i++) {
+		GelEFunc *f;
+		gboolean ex = FALSE;
+		f = get_func_from_entry (plot_entries[i],
+					 plot_entries_status[i],
+					 "x",
+					 &ex);
+		if (f != NULL) {
+			func[i] = f;
+			funcs++;
 		}
 	}
 
-	if (funcs == 0 && ! got_param) {
+	if (funcs == 0) {
 		error_to_print = _("No functions to plot or no functions "
 				   "could be parsed");
 		goto whack_copied_funcs;
-	}
-
-	if (function_page == 1) {
-		if (spint1 >= spint2 ||
-		    spintinc <= 0.0) {
-			error_to_print = _("Invalid t range");
-			goto whack_copied_funcs;
-		}
 	}
 
 	x1 = spinx1;
@@ -3288,42 +3292,17 @@ plot_from_dialog (void)
 	ploty1 = y1;
 	ploty2 = y2;
 
-	if (function_page == 1) {
-		plott1 = spint1;
-		plott2 = spint2;
-		plottinc = spintinc;
-	}
-
 	line_plot_clear_funcs ();
 
-	if (function_page == 0) {
-		int j = 0;
-		for (i = 0; i < MAXFUNC; i++) {
-			if (func[i] != NULL) {
-				plot_func[j] = func[i];
-				func[i] = NULL;
-				/* setup name when the functions don't have their own name */
-				if (plot_func[j]->id == NULL)
-					plot_func_name[j] = g_strdup (gtk_entry_get_text (GTK_ENTRY (plot_entries[i])));
-				j++;
-			}
+	for (i = 0; i < MAXFUNC; i++) {
+		if (func[i] != NULL) {
+			plot_func[j] = func[i];
+			func[i] = NULL;
+			/* setup name when the functions don't have their own name */
+			if (plot_func[j]->id == NULL)
+				plot_func_name[j] = g_strdup (gtk_entry_get_text (GTK_ENTRY (plot_entries[i])));
+			j++;
 		}
-
-		plot_mode = MODE_LINEPLOT;
-	} else {
-		parametric_func_x = funcpx;
-		parametric_func_y = funcpy;
-		parametric_func_z = funcpz;
-		if (funcpz != NULL) {
-			parametric_name = g_strdup (gtk_entry_get_text (GTK_ENTRY (parametric_entry_z)));
-		} else {
-			parametric_name = g_strconcat (gtk_entry_get_text (GTK_ENTRY (parametric_entry_x)),
-						       ",",
-						       gtk_entry_get_text (GTK_ENTRY (parametric_entry_y)),
-						       NULL);
-		}
-	
-		plot_mode = MODE_LINEPLOT_PARAMETRIC;
 	}
 
 	plot_functions ();
@@ -3343,6 +3322,127 @@ whack_copied_funcs:
 		func[i] = NULL;
 	}
 
+	gel_printout_infos ();
+	genius_setup.info_box = last_info;
+	genius_setup.error_box = last_error;
+
+	if (error_to_print != NULL)
+		genius_display_error (genius_window, error_to_print);
+}
+
+static void
+plot_from_dialog_parametric (void)
+{
+	GelEFunc *funcpx = NULL;
+	GelEFunc *funcpy = NULL;
+	GelEFunc *funcpz = NULL;
+	double x1, x2, y1, y2;
+	gboolean last_info;
+	gboolean last_error;
+	const char *error_to_print = NULL;
+	gboolean exx = FALSE;
+	gboolean exy = FALSE;
+	gboolean exz = FALSE;
+
+	plot_mode = MODE_LINEPLOT_PARAMETRIC;
+
+	last_info = genius_setup.info_box;
+	last_error = genius_setup.error_box;
+	genius_setup.info_box = TRUE;
+	genius_setup.error_box = TRUE;
+
+	funcpx = get_func_from_entry (parametric_entry_x,
+				      parametric_status_x,
+				      "t",
+				      &exx);
+	funcpy = get_func_from_entry (parametric_entry_y,
+				      parametric_status_y,
+				      "t",
+				      &exy);
+	funcpz = get_func_from_entry (parametric_entry_z,
+				      parametric_status_z,
+				      "t",
+				      &exz);
+	if (((funcpx || exx) || (funcpy || exy)) && (funcpz || exz)) {
+		error_to_print = _("Only specify x and y, or z, not all at once.");
+		goto whack_copied_funcs;
+	}
+
+	if ( ! ( (funcpz == NULL && funcpx != NULL && funcpy != NULL) ||
+		 (funcpz != NULL && funcpx == NULL && funcpy == NULL))) {
+		error_to_print = _("No functions to plot or no functions "
+				   "could be parsed");
+		goto whack_copied_funcs;
+	}
+
+	if (spint1 >= spint2 ||
+	    spintinc <= 0.0) {
+		error_to_print = _("Invalid t range");
+		goto whack_copied_funcs;
+	}
+
+	x1 = spinx1;
+	x2 = spinx2;
+	y1 = spiny1;
+	y2 = spiny2;
+
+	if (x1 > x2) {
+		double s = x1;
+		x1 = x2;
+		x2 = s;
+	}
+
+	if (y1 > y2) {
+		double s = y1;
+		y1 = y2;
+		y2 = s;
+	}
+
+	if (x1 == x2) {
+		error_to_print = _("Invalid X range");
+		goto whack_copied_funcs;
+	}
+
+	if (y1 == y2) {
+		error_to_print = _("Invalid Y range");
+		goto whack_copied_funcs;
+	}
+
+	plotx1 = x1;
+	plotx2 = x2;
+	ploty1 = y1;
+	ploty2 = y2;
+
+	plott1 = spint1;
+	plott2 = spint2;
+	plottinc = spintinc;
+
+	line_plot_clear_funcs ();
+
+	parametric_func_x = funcpx;
+	parametric_func_y = funcpy;
+	parametric_func_z = funcpz;
+	if (funcpz != NULL) {
+		parametric_name = g_strdup (gtk_entry_get_text (GTK_ENTRY (parametric_entry_z)));
+	} else {
+		parametric_name = g_strconcat (gtk_entry_get_text (GTK_ENTRY (parametric_entry_x)),
+					       ",",
+					       gtk_entry_get_text (GTK_ENTRY (parametric_entry_y)),
+					       NULL);
+	}
+
+	plot_functions ();
+
+	if (interrupted)
+		interrupted = FALSE;
+
+	gel_printout_infos ();
+	genius_setup.info_box = last_info;
+	genius_setup.error_box = last_error;
+
+	return;
+
+whack_copied_funcs:
 	d_freefunc (funcpx);
 	funcpx = NULL;
 	d_freefunc (funcpy);
@@ -3356,6 +3456,36 @@ whack_copied_funcs:
 
 	if (error_to_print != NULL)
 		genius_display_error (genius_window, error_to_print);
+}
+
+static void
+plot_from_dialog_slopefield (void)
+{
+	plot_mode = MODE_LINEPLOT_SLOPEFIELD;
+
+	/* FIXME: */
+}
+
+static void
+plot_from_dialog_vectorfield (void)
+{
+	plot_mode = MODE_LINEPLOT_VECTORFIELD;
+
+	/* FIXME: */
+}
+
+static void
+plot_from_dialog (void)
+{
+	int function_page = gtk_notebook_get_current_page (GTK_NOTEBOOK (function_notebook));
+	if (function_page == 0)
+		plot_from_dialog_lineplot ();
+	else if (function_page == 1)
+		plot_from_dialog_parametric ();
+	else if (function_page == 2)
+		plot_from_dialog_slopefield ();
+	else if (function_page == 3)
+		plot_from_dialog_vectorfield ();
 }
 
 static void
@@ -4022,7 +4152,9 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 	ensure_window ();
 
 	if (plot_mode != MODE_LINEPLOT &&
-	    plot_mode != MODE_LINEPLOT_PARAMETRIC) {
+	    plot_mode != MODE_LINEPLOT_PARAMETRIC &&
+	    plot_mode != MODE_LINEPLOT_SLOPEFIELD &&
+	    plot_mode != MODE_LINEPLOT_VECTORFIELD) {
 		plot_mode = MODE_LINEPLOT;
 		clear_graph ();
 	}
