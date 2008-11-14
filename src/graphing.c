@@ -82,6 +82,8 @@ static GtkWidget *line_plot = NULL;
 
 static GtkPlotData *line_data[MAXFUNC] = { NULL };
 static GtkPlotData *parametric_data = NULL;
+static GtkPlotData *slopefield_data = NULL;
+static GtkPlotData *vectorfield_data = NULL;
 
 static GtkWidget *plot_entries[MAXFUNC] = { NULL };
 static GtkWidget *plot_entries_status[MAXFUNC] = { NULL };
@@ -147,6 +149,14 @@ static double plottinc = 0.01;
 
 static int plotVtick = 10;
 static int plotHtick = 10;
+
+static double *plot_points_x = NULL;
+static double *plot_points_y = NULL;
+static double *plot_points_dx = NULL;
+static double *plot_points_dy = NULL;
+
+static int plot_points_num = 0;
+
 
 /*
    Surface
@@ -1423,6 +1433,10 @@ clear_graph (void)
 
 	parametric_data =  NULL;
 
+	slopefield_data =  NULL;
+
+	vectorfield_data =  NULL;
+
 	surface_data = NULL;
 }
 
@@ -1923,12 +1937,58 @@ plot_func_data (GtkPlot *plot, GtkPlotData *data, double x, gboolean *error)
 }
 
 static double
+call_xy_or_z_function (GelEFunc *f, double x, double y, gboolean *ex)
+{
+	GelETree *func_ret = NULL;
+	double z;
+
+	/* complex function */
+	if (f->nargs == 1) {
+		mpw_set_d_complex (plot_arg->val.value, x, y);
+		z = call_func (plot_ctx, f, plot_arg, ex,
+			       &func_ret);
+	} else if (f->nargs == 2) {
+		mpw_set_d (plot_arg->val.value, x);
+		mpw_set_d (plot_arg2->val.value, y);
+		z = call_func2 (plot_ctx, f, plot_arg, plot_arg2,
+				ex, &func_ret);
+	} else {
+		mpw_set_d (plot_arg->val.value, x);
+		mpw_set_d (plot_arg2->val.value, y);
+		mpw_set_d_complex (plot_arg3->val.value, x, y);
+		z = call_func3 (plot_ctx, f, plot_arg, plot_arg2,
+				plot_arg3, ex, &func_ret);
+	}
+	if (func_ret != NULL) {
+		/* complex function */
+		if (func_ret->func.func->nargs == 1) {
+			mpw_set_d_complex (plot_arg->val.value, x, y);
+			z = call_func (plot_ctx, func_ret->func.func, plot_arg, ex,
+				       NULL);
+		} else if (func_ret->func.func->nargs == 2) {
+			mpw_set_d (plot_arg->val.value, x);
+			mpw_set_d (plot_arg2->val.value, y);
+			z = call_func2 (plot_ctx, func_ret->func.func, plot_arg, plot_arg2,
+					ex, NULL);
+		} else {
+			mpw_set_d (plot_arg->val.value, x);
+			mpw_set_d (plot_arg2->val.value, y);
+			mpw_set_d_complex (plot_arg3->val.value, x, y);
+			z = call_func3 (plot_ctx, func_ret->func.func, plot_arg, plot_arg2,
+					plot_arg3, ex, NULL);
+		}
+	}
+
+	return z;
+}
+
+
+static double
 surface_func_data (GtkPlot *plot, GtkPlotData *data, double x, double y, gboolean *error)
 {
 	static int hookrun = 0;
 	gboolean ex = FALSE;
 	double z, size;
-	GelETree *func_ret = NULL;
 
 	if (error != NULL)
 		*error = FALSE;
@@ -1939,42 +1999,7 @@ surface_func_data (GtkPlot *plot, GtkPlotData *data, double x, double y, gboolea
 		return 0.0;
 	}
 
-	/* complex function */
-	if (surface_func->nargs == 1) {
-		mpw_set_d_complex (plot_arg->val.value, x, y);
-		z = call_func (plot_ctx, surface_func, plot_arg, &ex,
-			       &func_ret);
-	} else if (surface_func->nargs == 2) {
-		mpw_set_d (plot_arg->val.value, x);
-		mpw_set_d (plot_arg2->val.value, y);
-		z = call_func2 (plot_ctx, surface_func, plot_arg, plot_arg2,
-				&ex, &func_ret);
-	} else {
-		mpw_set_d (plot_arg->val.value, x);
-		mpw_set_d (plot_arg2->val.value, y);
-		mpw_set_d_complex (plot_arg3->val.value, x, y);
-		z = call_func3 (plot_ctx, surface_func, plot_arg, plot_arg2,
-				plot_arg3, &ex, &func_ret);
-	}
-	if (func_ret != NULL) {
-		/* complex function */
-		if (func_ret->func.func->nargs == 1) {
-			mpw_set_d_complex (plot_arg->val.value, x, y);
-			z = call_func (plot_ctx, func_ret->func.func, plot_arg, &ex,
-				       NULL);
-		} else if (func_ret->func.func->nargs == 2) {
-			mpw_set_d (plot_arg->val.value, x);
-			mpw_set_d (plot_arg2->val.value, y);
-			z = call_func2 (plot_ctx, func_ret->func.func, plot_arg, plot_arg2,
-					&ex, NULL);
-		} else {
-			mpw_set_d (plot_arg->val.value, x);
-			mpw_set_d (plot_arg2->val.value, y);
-			mpw_set_d_complex (plot_arg3->val.value, x, y);
-			z = call_func3 (plot_ctx, func_ret->func.func, plot_arg, plot_arg2,
-					plot_arg3, &ex, NULL);
-		}
-	}
+	z = call_xy_or_z_function (surface_func, x, y, &ex);
 
 	if G_UNLIKELY (ex) {
 		if (error != NULL)
@@ -2007,6 +2032,54 @@ surface_func_data (GtkPlot *plot, GtkPlotData *data, double x, double y, gboolea
 	}
 
 	return z;
+}
+
+static void
+get_slopefield_points (void)
+{
+	double x, y, vt, ht, z, mt, dx, dy;
+	int i, j, k;
+	gboolean ex;
+
+	ht = (plotx2 - plotx1) / plotHtick;
+	vt = (ploty2 - ploty1) / plotVtick;
+
+	mt = MIN (ht, vt) / 2;
+
+	g_free (plot_points_x);
+	g_free (plot_points_y);
+	g_free (plot_points_dx);
+	g_free (plot_points_dy);
+
+	plot_points_x = g_new (double, (plotHtick+1)*(plotVtick+1));
+	plot_points_y = g_new (double, (plotHtick+1)*(plotVtick+1));
+	plot_points_dx = g_new (double, (plotHtick+1)*(plotVtick+1));
+	plot_points_dy = g_new (double, (plotHtick+1)*(plotVtick+1));
+
+	k = 0;
+	for (i = 0; i <= plotHtick; i++) {
+		for (j = 0; j <= plotVtick; j++) {
+			x = plotx1 + ht*i;
+			y = ploty1 + vt*j;
+			ex = FALSE;
+			z = call_xy_or_z_function (slopefield_func,
+						   x, y, &ex);
+
+			if G_LIKELY ( ! ex) {
+				dx = 1 / sqrt(z*z +1);
+				dy = z*dx;
+				plot_points_x[k] = x;//-dx/2;
+				plot_points_dx[k] = dx;
+
+				plot_points_y[k] = y;//-dy/2;
+				plot_points_dy[k] = dy;
+
+				k++;
+			}
+		}
+	}
+
+	plot_points_num = k;
 }
 
 static char *
@@ -2300,6 +2373,25 @@ parametric_get_value (double *x, double *y, double t)
 }
 
 static void
+init_plot_ctx (void)
+{
+	if G_UNLIKELY (plot_ctx == NULL) {
+		mpw_t xx;
+
+		plot_ctx = eval_get_context ();
+
+		mpw_init (xx);
+		plot_arg = gel_makenum_use (xx);
+
+		mpw_init (xx);
+		plot_arg2 = gel_makenum_use (xx);
+
+		mpw_init (xx);
+		plot_arg3 = gel_makenum_use (xx);
+	}
+}
+
+static void
 plot_functions (void)
 {
 	char *colors[] = {
@@ -2360,14 +2452,7 @@ plot_functions (void)
 
 	plot_setup_axis ();
 
-	if G_UNLIKELY (plot_arg == NULL) {
-		plot_ctx = eval_get_context ();
-	}
-	if G_UNLIKELY (plot_arg == NULL) {
-		mpw_t xx;
-		mpw_init (xx);
-		plot_arg = gel_makenum_use (xx);
-	}
+	init_plot_ctx ();
 
 	color_i = 0;
 
@@ -2429,6 +2514,7 @@ plot_functions (void)
 		/* how many actually went */
 		len = MAX(1,i);
 
+		/* FIXME: LEAK! */
 		gtk_plot_data_set_points (parametric_data, x, y, dx, dy, len);
 		gtk_plot_add_data (GTK_PLOT (line_plot), parametric_data);
 
@@ -2454,6 +2540,39 @@ plot_functions (void)
 		}
 		gtk_plot_data_set_legend (parametric_data, label);
 		g_free (label);
+	} 
+
+	if (slopefield_func != NULL) {
+		get_slopefield_points ();
+		if (plot_points_num > 0) {
+			GdkColor color;
+			double vt, ht, mt;
+
+			ht = (plotx2 - plotx1) / plotHtick;
+			vt = (ploty2 - ploty1) / plotVtick;
+
+			mt = MIN (ht, vt) / 2;
+
+			slopefield_data = GTK_PLOT_DATA(gtk_plot_flux_new());
+			gtk_plot_add_data (GTK_PLOT (line_plot),
+					   slopefield_data);
+			gdk_color_parse ("blue", &color);
+			gtk_plot_data_set_line_attributes (slopefield_data,
+							   GTK_PLOT_LINE_NONE,
+							   0, 0, 1, &color);
+			/* FIXME: */
+			gtk_plot_flux_set_size_max (GTK_PLOT_FLUX (slopefield_data), 10);
+			gtk_plot_flux_set_scale_max (GTK_PLOT_FLUX (slopefield_data), 0.5);
+			gtk_plot_flux_set_arrow (GTK_PLOT_FLUX (slopefield_data),
+						 0, 0, GTK_PLOT_SYMBOL_NONE);
+			gtk_widget_show (GTK_WIDGET (slopefield_data));
+			gtk_plot_data_set_points (slopefield_data,
+						  plot_points_x,
+						  plot_points_y,
+						  plot_points_dx,
+						  plot_points_dy,
+						  plot_points_num);
+		}
 	}
 
 	/* FIXME : slopefield / vectorfield */
@@ -2512,24 +2631,7 @@ plot_surface_functions (void)
 	gtk_plot3d_rotate_x (GTK_PLOT3D (surface_plot), 60.0);
 	gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 30.0);
 
-	if G_UNLIKELY (plot_arg == NULL) {
-		plot_ctx = eval_get_context ();
-	}
-	if G_UNLIKELY (plot_arg == NULL) {
-		mpw_t xx;
-		mpw_init (xx);
-		plot_arg = gel_makenum_use (xx);
-	}
-	if G_UNLIKELY (plot_arg2 == NULL) {
-		mpw_t xx;
-		mpw_init (xx);
-		plot_arg2 = gel_makenum_use (xx);
-	}
-	if G_UNLIKELY (plot_arg3 == NULL) {
-		mpw_t xx;
-		mpw_init (xx);
-		plot_arg3 = gel_makenum_use (xx);
-	}
+	init_plot_ctx ();
 
 	if (surface_func != NULL) {
 		char *label;
