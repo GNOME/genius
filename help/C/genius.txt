@@ -1917,6 +1917,15 @@
 
 11.2. Basic
 
+   AskString
+
+ AskString (query)
+
+           Asks a question and lets the user enter a string which it then
+           returns. If the user cancels or closes the window, then null is
+           returned. The execution of the program is blocked until the user
+           responds.
+
    Compose
 
  Compose (f,g)
@@ -1936,6 +1945,12 @@
  = 5764801
  genius> f(f(f(7)))
  = 5764801
+
+   Evaluate
+
+ Evaluate (str)
+
+           Parses and evaluates a string.
 
    GetCurrentModulo
 
@@ -2021,6 +2036,13 @@
 
            Check if argument is a number.
 
+   Parse
+
+ Parse (str)
+
+           Parses but does not evaluate a string. Note that certain
+           precomputation is done during the parsing stage.
+
    SetFunctionFlags
 
  SetFunctionFlags (id,flags...)
@@ -2055,12 +2077,6 @@
  display (str,expr)
 
            Display a string and an expression with a colon to separate them.
-
-   eval
-
- eval (str)
-
-           Parses and evaluates a string.
 
    error
 
@@ -2097,13 +2113,6 @@
            Prints an expression and then print a newline. The argument str
            can be any expression. It is made into a string before being
            printed.
-
-   parse
-
- parse (str)
-
-           Parses but does not evaluate a string. Note that certain
-           precomputation is done during the parsing stage.
 
    printn
 
@@ -3898,7 +3907,21 @@
            matrices of size up to 4 by 4, or for triangular matrices (for
            which the eigenvalues are on the diagonal).
 
-           See Planetmath or Mathworld for more information.
+           See Wikipedia or Planetmath or Mathworld for more information.
+
+   Eigenvectors
+
+ Eigenvectors (M)
+
+ Eigenvectors (M, &eigenvalues)
+
+ Eigenvectors (M, &eigenvalues, &multiplicities)
+
+           Get the eigenvectors of a square matrix. Optionally get also the
+           eigenvalues and their algebraic multiplicities. Currently only
+           works for matrices of size up to 2 by 2.
+
+           See Wikipedia or Planetmath or Mathworld for more information.
 
    GramSchmidt
 

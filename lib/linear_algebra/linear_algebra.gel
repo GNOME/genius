@@ -440,6 +440,69 @@ eig = Eigenvalues;
 SetHelpAlias ("Eigenvalues", "eig")
 protect ("eig")
 
+SetHelp("Eigenvectors", "linear_algebra", "Get the eigenvalues and eigenvectors of a matrix (Currently only for up to 2x2 matrices)")
+function Eigenvectors(M, evsmults...) = (
+	evs := null;
+	mults := null;
+
+	if not IsNull(evsmults) then
+		evs := evsmults@(1);
+	if elements(evsmults) > 1 then
+		mults := evsmults@(2);
+	if not IsMatrix (M) or not IsMatrixSquare (M) then
+		(error("Eigenvectors: argument not a square matrix");bailout);
+	if columns (M) == 1 then (
+		if IsFunctionRef(evs) then
+			*evs = [ev];
+		if IsFunctionRef(mults) then
+			*mults = [2];
+		`[[1]]
+	) else if columns (M) == 2 then (
+		b := - trace (M) ; c := det (M);
+		if b^2-4*c == 0 then (
+			ev := -b/2;
+			if IsFunctionRef(evs) then
+				*evs = [ev];
+			if IsFunctionRef(mults) then
+				*mults = [2];
+			if IsZero (M-ev*I(2)) then (
+				`[[1;0], [0;1]]
+			) else (
+				row := [M@(1,1)-ev, M@(1,2)];
+				if IsZero(row) then
+					row := [M@(2,1), M@(2,2)-ev];
+				if row@(2) == 0 then (
+					`[[0;1]]
+				) else (
+					`[[1;-row@(1)/row@(2)]]
+				)
+			)
+		) else (
+			k := 1;
+			levs = [ ( -b - sqrt (b^2 - 4*c) ) / 2 ; ( -b + sqrt (b^2 - 4*c) ) / 2 ];
+			if IsFunctionRef(evs) then
+				*evs = levs;
+			if IsFunctionRef(mults) then
+				*mults = [1;1];
+			out := `[0];
+			for ev in levs do (
+				row := [M@(1,1)-ev, M@(1,2)];
+				if IsZero(row) then
+					row := [M@(2,1), M@(2,2)-ev];
+				if row@(2) == 0 then (
+					out@(k) := [0;1]
+				) else (
+					out@(k) := [1;-row@(1)/row@(2)]
+				);
+				k = k+1;
+			);
+			out
+		)
+	) else
+		(error("Eigenvectors: Currently only implemented for up to 2x2");bailout)
+)
+protect ("Eigenvectors")
+
 # Written by David W. Hutchison, dahutchi@indiana.edu for Genius 0.7.1
 # Copyright (C) 2004 David W. Hutchison (GPL)
 # LU decomposition of a matrix, aka Crout and/or Cholesky reduction.

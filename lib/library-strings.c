@@ -109,6 +109,7 @@ char *fake = N_("Get the determinantal divisors of an integer matrix (not its ch
 char *fake = N_("Direct sum of matrices");
 char *fake = N_("Direct sum of a vector of matrices");
 char *fake = N_("Get the eigenvalues of a matrix (Currently only for up to 4x4 or triangular matrices)");
+char *fake = N_("Get the eigenvalues and eigenvectors of a matrix (Currently only for up to 2x2 matrices)");
 char *fake = N_("Apply the Gram-Schmidt process (to the columns) with respect to inner product given by B (if not given use hermitian product)");
 char *fake = N_("Hankel matrix");
 char *fake = N_("Hilbert matrix of order n");
