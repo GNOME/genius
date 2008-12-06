@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2007 Jiri (George) Lebl
+ * Copyright (C) 2003-2008 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -56,6 +56,7 @@ static GtkWidget *function_notebook = NULL;
 static GtkWidget *plot_zoomout_item = NULL;
 static GtkWidget *plot_zoomin_item = NULL;
 static GtkWidget *plot_zoomfit_item = NULL;
+static GtkWidget *plot_resetzoom_item = NULL;
 static GtkWidget *plot_print_item = NULL;
 static GtkWidget *plot_exportps_item = NULL;
 static GtkWidget *plot_exporteps_item = NULL;
@@ -147,6 +148,12 @@ static double plott1 = 0.0;
 static double plott2 = 1.0;
 static double plottinc = 0.01;
 
+/* for the zoom reset */
+static double reset_plotx1 = -10;
+static double reset_plotx2 = 10;
+static double reset_ploty1 = -10;
+static double reset_ploty2 = 10;
+
 static int plotVtick = 10;
 static int plotHtick = 10;
 
@@ -191,6 +198,14 @@ static double surfacey2 = 10;
 static double surfacez1 = -10;
 static double surfacez2 = 10;
 
+/* for the zoom reset */
+static double reset_surfacex1 = -10;
+static double reset_surfacex2 = 10;
+static double reset_surfacey1 = -10;
+static double reset_surfacey2 = 10;
+static double reset_surfacez1 = -10;
+static double reset_surfacez2 = 10;
+
 
 /* used for both */
 static double plot_maxy = - G_MAXDOUBLE/2;
@@ -209,10 +224,10 @@ static gboolean whack_window_after_plot = FALSE;
 static void plot_axis (void);
 
 /* lineplots */
-static void plot_functions (void);
+static void plot_functions (gboolean do_window_present);
 
 /* surfaces */
-static void plot_surface_functions (void);
+static void plot_surface_functions (gboolean do_window_present);
 
 #define WIDTH 640
 #define HEIGHT 480
@@ -251,6 +266,7 @@ plot_window_setup (void)
 		gtk_widget_set_sensitive (plot_zoomout_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_zoomin_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_zoomfit_item, ! plot_in_progress);
+		gtk_widget_set_sensitive (plot_resetzoom_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_print_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_exportps_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_exporteps_item, ! plot_in_progress);
@@ -1097,6 +1113,43 @@ plot_zoomfit_cb (void)
 }
 
 static void
+plot_resetzoom_cb (void)
+{
+	if (plot_in_progress == 0) {
+		gboolean last_info = genius_setup.info_box;
+		gboolean last_error = genius_setup.error_box;
+		genius_setup.info_box = TRUE;
+		genius_setup.error_box = TRUE;
+
+		if (plot_mode == MODE_LINEPLOT ||
+		    plot_mode == MODE_LINEPLOT_PARAMETRIC ||
+		    plot_mode == MODE_LINEPLOT_SLOPEFIELD ||
+		    plot_mode == MODE_LINEPLOT_VECTORFIELD) {
+			plotx1 = reset_plotx1;
+			plotx2 = reset_plotx2;
+			ploty1 = reset_ploty1;
+			ploty2 = reset_ploty2;
+		} else if (plot_mode == MODE_SURFACE) {
+			surfacex1 = reset_surfacex1;
+			surfacex2 = reset_surfacex2;
+			surfacey1 = reset_surfacey1;
+			surfacey2 = reset_surfacey2;
+			surfacez1 = reset_surfacez1;
+			surfacez2 = reset_surfacez2;
+		}
+
+		plot_axis ();
+
+		if (interrupted)
+			interrupted = FALSE;
+
+		gel_printout_infos ();
+		genius_setup.info_box = last_info;
+		genius_setup.error_box = last_error;
+	}
+}
+
+static void
 plot_select_region (GtkPlotCanvas *canvas,
 		    gdouble xmin,
 		    gdouble ymin,
@@ -1283,7 +1336,7 @@ add_surface_plot (void)
 }
 
 static void
-ensure_window (void)
+ensure_window (gboolean do_window_present)
 {
 	GtkWidget *menu, *menubar, *item;
 
@@ -1291,8 +1344,12 @@ ensure_window (void)
 	whack_window_after_plot = FALSE;
 
 	if (graph_window != NULL) {
-		/* FIXME: present is evil in that it takes focus away */
-		gtk_widget_show (graph_window);
+		/* present is evil in that it takes focus away,
+		 * only want to do it on the GUI triggered actions. */
+		if (do_window_present)
+			gtk_window_present (GTK_WINDOW (graph_window));
+		else
+			gtk_widget_show (graph_window);
 		return;
 	}
 
@@ -1374,6 +1431,12 @@ ensure_window (void)
 			  G_CALLBACK (plot_zoomfit_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	plot_zoomfit_item = item;
+
+	item = gtk_menu_item_new_with_mnemonic (_("_Reset to original zoom"));
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (plot_resetzoom_cb), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	plot_resetzoom_item = item;
 
 
 	menu = gtk_menu_new ();
@@ -2392,7 +2455,7 @@ init_plot_ctx (void)
 }
 
 static void
-plot_functions (void)
+plot_functions (gboolean do_window_present)
 {
 	char *colors[] = {
 		"darkblue",
@@ -2411,7 +2474,7 @@ plot_functions (void)
 	int i;
 	int color_i;
 
-	ensure_window ();
+	ensure_window (do_window_present);
 
 	clear_graph ();
 
@@ -2595,9 +2658,9 @@ plot_functions (void)
 }
 
 static void
-plot_surface_functions (void)
+plot_surface_functions (gboolean do_window_present)
 {
-	ensure_window ();
+	ensure_window (do_window_present);
 
 	clear_graph ();
 
@@ -3382,12 +3445,12 @@ surface_from_dialog (void)
 		goto whack_copied_funcs;
 	}
 
-	surfacex1 = x1;
-	surfacex2 = x2;
-	surfacey1 = y1;
-	surfacey2 = y2;
-	surfacez1 = z1;
-	surfacez2 = z2;
+	reset_surfacex1 = surfacex1 = x1;
+	reset_surfacex2 = surfacex2 = x2;
+	reset_surfacey1 = surfacey1 = y1;
+	reset_surfacey2 = surfacey2 = y2;
+	reset_surfacez1 = surfacez1 = z1;
+	reset_surfacez2 = surfacez2 = z2;
 
 	if (surface_func != NULL) {
 		d_freefunc (surface_func);
@@ -3404,7 +3467,7 @@ surface_from_dialog (void)
 		surface_func_name = g_strdup (gtk_entry_get_text (GTK_ENTRY (surface_entry)));
 
 	plot_mode = MODE_SURFACE;
-	plot_surface_functions ();
+	plot_surface_functions (TRUE /* do_window_present */);
 
 	if (interrupted)
 		interrupted = FALSE;
@@ -3527,10 +3590,10 @@ plot_from_dialog_lineplot (void)
 		goto whack_copied_funcs;
 	}
 
-	plotx1 = x1;
-	plotx2 = x2;
-	ploty1 = y1;
-	ploty2 = y2;
+	reset_plotx1 = plotx1 = x1;
+	reset_plotx2 = plotx2 = x2;
+	reset_ploty1 = ploty1 = y1;
+	reset_ploty2 = ploty2 = y2;
 
 	line_plot_clear_funcs ();
 
@@ -3545,7 +3608,7 @@ plot_from_dialog_lineplot (void)
 		}
 	}
 
-	plot_functions ();
+	plot_functions (TRUE /* do_window_present */);
 
 	if (interrupted)
 		interrupted = FALSE;
@@ -3648,10 +3711,10 @@ plot_from_dialog_parametric (void)
 		goto whack_copied_funcs;
 	}
 
-	plotx1 = x1;
-	plotx2 = x2;
-	ploty1 = y1;
-	ploty2 = y2;
+	reset_plotx1 = plotx1 = x1;
+	reset_plotx2 = plotx2 = x2;
+	reset_ploty1 = ploty1 = y1;
+	reset_ploty2 = ploty2 = y2;
 
 	plott1 = spint1;
 	plott2 = spint2;
@@ -3671,7 +3734,7 @@ plot_from_dialog_parametric (void)
 					       NULL);
 	}
 
-	plot_functions ();
+	plot_functions (TRUE /* do_window_present */);
 
 	if (interrupted)
 		interrupted = FALSE;
@@ -3751,10 +3814,10 @@ plot_from_dialog_slopefield (void)
 		goto whack_copied_funcs;
 	}
 
-	plotx1 = x1;
-	plotx2 = x2;
-	ploty1 = y1;
-	ploty2 = y2;
+	reset_plotx1 = plotx1 = x1;
+	reset_plotx2 = plotx2 = x2;
+	reset_ploty1 = ploty1 = y1;
+	reset_ploty2 = ploty2 = y2;
 
 	plotVtick = spinSVtick;
 	plotHtick = spinSHtick;
@@ -3764,7 +3827,7 @@ plot_from_dialog_slopefield (void)
 	slopefield_func = funcp;
 	slopefield_name = g_strdup (gtk_entry_get_text (GTK_ENTRY (slopefield_entry)));
 
-	plot_functions ();
+	plot_functions (TRUE /* do_window_present */);
 
 	if (interrupted)
 		interrupted = FALSE;
@@ -3843,10 +3906,10 @@ plot_from_dialog_vectorfield (void)
 		goto whack_copied_funcs;
 	}
 
-	plotx1 = x1;
-	plotx2 = x2;
-	ploty1 = y1;
-	ploty2 = y2;
+	reset_plotx1 = plotx1 = x1;
+	reset_plotx2 = plotx2 = x2;
+	reset_ploty1 = ploty1 = y1;
+	reset_ploty2 = ploty2 = y2;
 
 	plotVtick = spinVVtick;
 	plotHtick = spinVHtick;
@@ -3860,7 +3923,7 @@ plot_from_dialog_vectorfield (void)
 					gtk_entry_get_text (GTK_ENTRY (vectorfield_entry_y)),
 					NULL);
 
-	plot_functions ();
+	plot_functions (TRUE /* do_window_present */);
 
 	if (interrupted)
 		interrupted = FALSE;
@@ -4065,15 +4128,15 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	surface_func = func;
 	func = NULL;
 
-	surfacex1 = x1;
-	surfacex2 = x2;
-	surfacey1 = y1;
-	surfacey2 = y2;
-	surfacez1 = z1;
-	surfacez2 = z2;
+	reset_surfacex1 = surfacex1 = x1;
+	reset_surfacex2 = surfacex2 = x2;
+	reset_surfacey1 = surfacey1 = y1;
+	reset_surfacey2 = surfacey2 = y2;
+	reset_surfacez1 = surfacez1 = z1;
+	reset_surfacez2 = surfacez2 = z2;
 
 	plot_mode = MODE_SURFACE;
-	plot_surface_functions ();
+	plot_surface_functions (FALSE /* do_window_present */);
 
 	if (interrupted)
 		return NULL;
@@ -4178,13 +4241,13 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 		func[i] = NULL;
 	}
 
-	plotx1 = x1;
-	plotx2 = x2;
-	ploty1 = y1;
-	ploty2 = y2;
+	reset_plotx1 = plotx1 = x1;
+	reset_plotx2 = plotx2 = x2;
+	reset_ploty1 = ploty1 = y1;
+	reset_ploty2 = ploty2 = y2;
 
 	plot_mode = MODE_LINEPLOT;
-	plot_functions ();
+	plot_functions (FALSE /* do_window_present */);
 
 	if (interrupted)
 		return NULL;
@@ -4311,16 +4374,17 @@ LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 	parametric_func_x = funcx;
 	parametric_func_y = funcy;
 
-	plotx1 = x1;
-	plotx2 = x2;
-	ploty1 = y1;
-	ploty2 = y2;
+	reset_plotx1 = plotx1 = x1;
+	reset_plotx2 = plotx2 = x2;
+	reset_ploty1 = ploty1 = y1;
+	reset_ploty2 = ploty2 = y2;
+
 	plott1 = t1;
 	plott2 = t2;
 	plottinc = tinc;
 
 	plot_mode = MODE_LINEPLOT_PARAMETRIC;
-	plot_functions ();
+	plot_functions (FALSE /* do_window_present */);
 
 	if (interrupted)
 		return NULL;
@@ -4442,16 +4506,17 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	parametric_func_z = func;
 
-	plotx1 = x1;
-	plotx2 = x2;
-	ploty1 = y1;
-	ploty2 = y2;
+	reset_plotx1 = plotx1 = x1;
+	reset_plotx2 = plotx2 = x2;
+	reset_ploty1 = ploty1 = y1;
+	reset_ploty2 = ploty2 = y2;
+
 	plott1 = t1;
 	plott2 = t2;
 	plottinc = tinc;
 
 	plot_mode = MODE_LINEPLOT_PARAMETRIC;
-	plot_functions ();
+	plot_functions (FALSE /* do_window_present */);
 
 	if (interrupted)
 		return NULL;
@@ -4472,7 +4537,7 @@ LinePlotClear_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	/* This will just clear the window */
 	plot_mode = MODE_LINEPLOT;
-	plot_functions ();
+	plot_functions (FALSE /* do_window_present */);
 
 	if (interrupted)
 		return NULL;
@@ -4560,7 +4625,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 	GtkPlotData *data;
 	int i;
 
-	ensure_window ();
+	ensure_window (FALSE /* do_window_present */);
 
 	if (plot_mode != MODE_LINEPLOT &&
 	    plot_mode != MODE_LINEPLOT_PARAMETRIC &&
@@ -4699,10 +4764,10 @@ set_LinePlotWindow (GelETree * a)
 	if ( ! get_limits_from_matrix (a, &x1, &x2, &y1, &y2))
 		return NULL;
 
-	plotx1 = defx1 = x1;
-	plotx2 = defx2 = x2;
-	ploty1 = defy1 = y1;
-	ploty2 = defy2 = y2;
+	reset_plotx1 = plotx1 = defx1 = x1;
+	reset_plotx2 = plotx2 = defx2 = x2;
+	reset_ploty1 = ploty1 = defy1 = y1;
+	reset_ploty2 = ploty2 = defy2 = y2;
 
 	return make_matrix_from_limits ();
 }
