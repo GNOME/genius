@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2008 Jiri (George) Lebl
+ * Copyright (C) 2003-2009 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -112,11 +112,11 @@ static double spint1 = 0.0;
 static double spint2 = 1.0;
 static double spintinc = 0.01;
 
-static int spinSVtick = 10;
-static int spinSHtick = 10;
+static int spinSVtick = 20;
+static int spinSHtick = 20;
 
-static int spinVVtick = 10;
-static int spinVHtick = 10;
+static int spinVVtick = 20;
+static int spinVHtick = 20;
 
 static double defx1 = -10;
 static double defx2 = 10;
@@ -127,6 +127,8 @@ static double deft2 = 1.0;
 static double deftinc = 0.01;
 
 static gboolean lineplot_draw_legends = TRUE;
+static gboolean vectorfield_normalize_arrow_length = TRUE;
+static gboolean vectorfield_normalize_arrow_length_cb = TRUE;
 
 /* Replotting info */
 static GelEFunc *plot_func[MAXFUNC] = { NULL };
@@ -139,7 +141,8 @@ static GelEFunc *slopefield_func = NULL;
 static char *slopefield_name = NULL;
 static GelEFunc *vectorfield_func_x = NULL;
 static GelEFunc *vectorfield_func_y = NULL;
-static char *vectorfield_name = NULL;
+static char *vectorfield_name_x = NULL;
+static char *vectorfield_name_y = NULL;
 static double plotx1 = -10;
 static double plotx2 = 10;
 static double ploty1 = -10;
@@ -154,8 +157,8 @@ static double reset_plotx2 = 10;
 static double reset_ploty1 = -10;
 static double reset_ploty2 = 10;
 
-static int plotVtick = 10;
-static int plotHtick = 10;
+static int plotVtick = 20;
+static int plotHtick = 20;
 
 static double *plot_points_x = NULL;
 static double *plot_points_y = NULL;
@@ -229,6 +232,9 @@ static void plot_functions (gboolean do_window_present);
 /* surfaces */
 static void plot_surface_functions (gboolean do_window_present);
 
+/* replot the slope/vector fields after zoom or other axis changing event */
+static void replot_fields (void);
+
 #define WIDTH 640
 #define HEIGHT 480
 #define ASPECT ((double)HEIGHT/(double)WIDTH)
@@ -265,7 +271,14 @@ plot_window_setup (void)
 						   RESPONSE_STOP, plot_in_progress);
 		gtk_widget_set_sensitive (plot_zoomout_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_zoomin_item, ! plot_in_progress);
-		gtk_widget_set_sensitive (plot_zoomfit_item, ! plot_in_progress);
+
+		if (plot_mode == MODE_LINEPLOT_SLOPEFIELD ||
+		    plot_mode == MODE_LINEPLOT_VECTORFIELD) {
+			gtk_widget_set_sensitive (plot_zoomfit_item, FALSE);
+		} else {
+			gtk_widget_set_sensitive (plot_zoomfit_item, ! plot_in_progress);
+		}
+
 		gtk_widget_set_sensitive (plot_resetzoom_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_print_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_exportps_item, ! plot_in_progress);
@@ -1339,6 +1352,26 @@ static void
 ensure_window (gboolean do_window_present)
 {
 	GtkWidget *menu, *menubar, *item;
+	static gboolean first_time = TRUE;
+	static GtkAccelGroup *accel_group = NULL;
+
+	if (first_time) {
+		accel_group = gtk_accel_group_new ();
+
+		gtk_accel_map_add_entry ("<Genius-Plot>/Zoom/Zoom out",
+					 GDK_minus,
+					 GDK_CONTROL_MASK);
+		gtk_accel_map_add_entry ("<Genius-Plot>/Zoom/Zoom in",
+					 GDK_plus,
+					 GDK_CONTROL_MASK);
+		gtk_accel_map_add_entry ("<Genius-Plot>/Zoom/Fit dependent axis",
+					 GDK_f,
+					 GDK_CONTROL_MASK);
+		gtk_accel_map_add_entry ("<Genius-Plot>/Zoom/Reset to original zoom",
+					 GDK_r,
+					 GDK_CONTROL_MASK);
+		first_time = FALSE;
+	}
 
 	/* ensure we don't whack things, just paranoia */
 	whack_window_after_plot = FALSE;
@@ -1355,13 +1388,16 @@ ensure_window (gboolean do_window_present)
 
 	graph_window = gtk_dialog_new_with_buttons
 		(_("Plot") /* title */,
-		 GTK_WINDOW (genius_window) /* parent */,
+		 NULL /*GTK_WINDOW (genius_window)*/ /* parent */,
 		 0 /* flags */,
 		 GTK_STOCK_STOP,
 		 RESPONSE_STOP,
 		 GTK_STOCK_CLOSE,
 		 GTK_RESPONSE_CLOSE,
 		 NULL);
+	gtk_window_add_accel_group (GTK_WINDOW (graph_window),
+				    accel_group);
+
 	g_signal_connect (G_OBJECT (graph_window),
 			  "destroy",
 			  G_CALLBACK (gtk_widget_destroyed),
@@ -1380,6 +1416,7 @@ ensure_window (gboolean do_window_present)
 			    GTK_WIDGET (menubar), FALSE, TRUE, 0);
 
 	menu = gtk_menu_new ();
+	gtk_menu_set_accel_group (GTK_MENU (menu), accel_group);
 	item = gtk_menu_item_new_with_mnemonic (_("_Graph"));
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), menu);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), item);
@@ -1410,6 +1447,7 @@ ensure_window (gboolean do_window_present)
 
 
 	menu = gtk_menu_new ();
+	gtk_menu_set_accel_group (GTK_MENU (menu), accel_group);
 	item = gtk_menu_item_new_with_mnemonic (_("_Zoom"));
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), menu);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), item);
@@ -1418,28 +1456,33 @@ ensure_window (gboolean do_window_present)
 	g_signal_connect (G_OBJECT (item), "activate",
 			  G_CALLBACK (plot_zoomout_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_menu_item_set_accel_path (GTK_MENU_ITEM (item), "<Genius-Plot>/Zoom/Zoom out");
 	plot_zoomout_item = item;
 
 	item = gtk_menu_item_new_with_mnemonic (_("Zoom _in"));
 	g_signal_connect (G_OBJECT (item), "activate",
 			  G_CALLBACK (plot_zoomin_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_menu_item_set_accel_path (GTK_MENU_ITEM (item), "<Genius-Plot>/Zoom/Zoom in");
 	plot_zoomin_item = item;
 
 	item = gtk_menu_item_new_with_mnemonic (_("_Fit dependent axis"));
 	g_signal_connect (G_OBJECT (item), "activate",
 			  G_CALLBACK (plot_zoomfit_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_menu_item_set_accel_path (GTK_MENU_ITEM (item), "<Genius-Plot>/Zoom/Fit dependent axis");
 	plot_zoomfit_item = item;
 
 	item = gtk_menu_item_new_with_mnemonic (_("_Reset to original zoom"));
 	g_signal_connect (G_OBJECT (item), "activate",
 			  G_CALLBACK (plot_resetzoom_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_menu_item_set_accel_path (GTK_MENU_ITEM (item), "<Genius-Plot>/Zoom/Reset to original zoom");
 	plot_resetzoom_item = item;
 
 
 	menu = gtk_menu_new ();
+	gtk_menu_set_accel_group (GTK_MENU (menu), accel_group);
 	item = gtk_menu_item_new_with_mnemonic (_("_View"));
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), menu);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), item);
@@ -1657,6 +1700,8 @@ plot_axis (void)
 		   gtk_plot3d_autoscale (GTK_PLOT3D (surface_plot));
 		 */
 	}
+
+	replot_fields ();
 
 	if (plot_canvas != NULL) {
 		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
@@ -2100,14 +2145,12 @@ surface_func_data (GtkPlot *plot, GtkPlotData *data, double x, double y, gboolea
 static void
 get_slopefield_points (void)
 {
-	double x, y, vt, ht, z, mt, dx, dy;
+	double x, y, vt, ht, z, dx, dy;
 	int i, j, k;
 	gboolean ex;
 
-	ht = (plotx2 - plotx1) / plotHtick;
-	vt = (ploty2 - ploty1) / plotVtick;
-
-	mt = MIN (ht, vt) / 2;
+	ht = (plotx2 - plotx1) / (plotHtick+1);
+	vt = (ploty2 - ploty1) / (plotVtick+1);
 
 	g_free (plot_points_x);
 	g_free (plot_points_y);
@@ -2122,8 +2165,8 @@ get_slopefield_points (void)
 	k = 0;
 	for (i = 0; i <= plotHtick; i++) {
 		for (j = 0; j <= plotVtick; j++) {
-			x = plotx1 + ht*i;
-			y = ploty1 + vt*j;
+			x = plotx1 + ht*(i+0.5);
+			y = ploty1 + vt*(j+0.5);
 			ex = FALSE;
 			z = call_xy_or_z_function (slopefield_func,
 						   x, y, &ex);
@@ -2131,10 +2174,10 @@ get_slopefield_points (void)
 			if G_LIKELY ( ! ex) {
 				dx = 1 / sqrt(z*z +1);
 				dy = z*dx;
-				plot_points_x[k] = x;//-dx/2;
+				plot_points_x[k] = x;
 				plot_points_dx[k] = dx;
 
-				plot_points_y[k] = y;//-dy/2;
+				plot_points_y[k] = y;
 				plot_points_dy[k] = dy;
 
 				k++;
@@ -2143,6 +2186,76 @@ get_slopefield_points (void)
 	}
 
 	plot_points_num = k;
+}
+
+static void
+get_vectorfield_points (void)
+{
+	double x, y, vt, ht, dx, dy;
+	int i, j, k;
+	gboolean ex;
+	double maxsz = 0.0;
+
+	ht = (plotx2 - plotx1) / (plotHtick+1);
+	vt = (ploty2 - ploty1) / (plotVtick+1);
+
+	g_free (plot_points_x);
+	g_free (plot_points_y);
+	g_free (plot_points_dx);
+	g_free (plot_points_dy);
+
+	plot_points_x = g_new (double, (plotHtick+1)*(plotVtick+1));
+	plot_points_y = g_new (double, (plotHtick+1)*(plotVtick+1));
+	plot_points_dx = g_new (double, (plotHtick+1)*(plotVtick+1));
+	plot_points_dy = g_new (double, (plotHtick+1)*(plotVtick+1));
+
+	k = 0;
+	for (i = 0; i <= plotHtick; i++) {
+		for (j = 0; j <= plotVtick; j++) {
+			x = plotx1 + ht*(i+0.5);
+			y = ploty1 + vt*(j+0.5);
+			ex = FALSE;
+			dx = call_xy_or_z_function (vectorfield_func_x,
+						    x, y, &ex);
+			dy = call_xy_or_z_function (vectorfield_func_y,
+						    x, y, &ex);
+
+			if G_LIKELY ( ! ex) {
+				double sz;
+
+				sz = sqrt(dx*dx + dy*dy);
+				if (vectorfield_normalize_arrow_length) {
+					if (sz > 0) {
+						dx /= sz;
+						dy /= sz;
+					}
+				} else {
+					if (sz > maxsz)
+						maxsz = sz;
+				}
+
+				plot_points_x[k] = x;
+				plot_points_dx[k] = dx;
+
+				plot_points_y[k] = y;
+				plot_points_dy[k] = dy;
+
+
+				k++;
+			}
+		}
+	}
+
+	plot_points_num = k;
+
+	if ( ! vectorfield_normalize_arrow_length) {
+		if (maxsz > 0.0) {
+			for (k = 0; k < plot_points_num; k++) {
+				plot_points_dx[k] /= maxsz;
+				plot_points_dy[k] /= maxsz;
+			}
+		}
+	}
 }
 
 static char *
@@ -2436,6 +2549,126 @@ parametric_get_value (double *x, double *y, double t)
 }
 
 static void
+replot_fields (void)
+{
+	if (slopefield_func != NULL) {
+		get_slopefield_points ();
+		if (plot_points_num > 0) {
+			GdkColor color;
+
+			if (slopefield_data == NULL) {
+				char *label, *tmp;
+				gdouble ht, vt, mt;
+
+				ht = (plotx2 - plotx1) / (plotHtick+1);
+				vt = (ploty2 - ploty1) / (plotVtick+1);
+				mt = MIN (vt, ht) / 2;
+
+				slopefield_data = GTK_PLOT_DATA(gtk_plot_flux_new());
+				gtk_plot_add_data (GTK_PLOT (line_plot),
+						   slopefield_data);
+				gdk_color_parse ("blue", &color);
+				gtk_plot_data_set_line_attributes (slopefield_data,
+								   GTK_PLOT_LINE_NONE,
+								   0, 0, 1, &color);
+				gtk_plot_data_set_symbol (slopefield_data,
+							  GTK_PLOT_SYMBOL_NONE /* symbol type? */,
+							  GTK_PLOT_SYMBOL_EMPTY /* symbol style */,
+							  1 /* size? */,
+							  (plotHtick > 15 || plotVtick > 15) ? 1 : 2
+							    /* line_width */,
+							  &color /* color */,
+							  &color /* border_color? */);
+
+
+				gtk_plot_flux_set_size_max (GTK_PLOT_FLUX (slopefield_data), mt*26.0);
+				gtk_plot_flux_set_arrow (GTK_PLOT_FLUX (slopefield_data),
+							 0, 0, GTK_PLOT_SYMBOL_NONE);
+
+				gtk_plot_flux_show_scale (GTK_PLOT_FLUX (slopefield_data), FALSE);
+
+				label = label_func (-1, slopefield_func, "x,y", slopefield_name);
+				/* FIXME: gtkextra is broken (adding the "  ")
+				 * and I don't feel like fixing it */
+				tmp = g_strconcat ("dx/dy = ", label, "  ", NULL);
+				g_free (label);
+				gtk_plot_data_set_legend (slopefield_data, tmp);
+				g_free (tmp);
+
+				gtk_widget_show (GTK_WIDGET (slopefield_data));
+			}
+			gtk_plot_data_set_points (slopefield_data,
+						  plot_points_x,
+						  plot_points_y,
+						  plot_points_dx,
+						  plot_points_dy,
+						  plot_points_num);
+		}
+
+		/* sanity */
+		g_return_if_fail (vectorfield_func_x == NULL && vectorfield_func_x == NULL);
+	}
+
+	if (vectorfield_func_x != NULL && vectorfield_func_y != NULL) {
+		get_vectorfield_points ();
+		if (plot_points_num > 0) {
+			GdkColor color;
+
+			if (vectorfield_data == NULL) {
+				char *l1, *l2, *tmp;
+				gdouble ht, vt, mt;
+
+				ht = (plotx2 - plotx1) / (plotHtick+1);
+				vt = (ploty2 - ploty1) / (plotVtick+1);
+				mt = MIN (vt, ht) / 2;
+
+				vectorfield_data = GTK_PLOT_DATA(gtk_plot_flux_new());
+				gtk_plot_add_data (GTK_PLOT (line_plot),
+						   vectorfield_data);
+				gdk_color_parse ("blue", &color);
+				gtk_plot_data_set_line_attributes (vectorfield_data,
+								   GTK_PLOT_LINE_NONE,
+								   0, 0, 1, &color);
+				gtk_plot_data_set_symbol (vectorfield_data,
+							  GTK_PLOT_SYMBOL_NONE /* symbol type? */,
+							  GTK_PLOT_SYMBOL_EMPTY /* symbol style */,
+							  1 /* size? */,
+							  (plotHtick > 15 || plotVtick > 15) ? 1 : 2
+							    /* line_width */,
+							  &color /* color */,
+							  &color /* border_color? */);
+
+
+				gtk_plot_flux_set_size_max (GTK_PLOT_FLUX (vectorfield_data), mt*40.0);
+				gtk_plot_flux_set_arrow (GTK_PLOT_FLUX (vectorfield_data),
+							 6, 6, GTK_PLOT_SYMBOL_OPAQUE);
+
+				gtk_plot_flux_show_scale (GTK_PLOT_FLUX (vectorfield_data), FALSE);
+
+				l1 = label_func (-1, vectorfield_func_x, "x,y", vectorfield_name_x);
+				l2 = label_func (-1, vectorfield_func_y, "x,y", vectorfield_name_y);
+				/* FIXME: gtkextra is broken (adding the "  ")
+				 * and I don't feel like fixing it */
+				tmp = g_strconcat ("dx/dt = ", l1, ",  dy/dt = ", l2, "  ", NULL);
+				g_free (l1);
+				g_free (l2);
+				gtk_plot_data_set_legend (vectorfield_data, tmp);
+				g_free (tmp);
+
+				gtk_widget_show (GTK_WIDGET (vectorfield_data));
+			}
+			gtk_plot_data_set_points (vectorfield_data,
+						  plot_points_x,
+						  plot_points_y,
+						  plot_points_dx,
+						  plot_points_dy,
+						  plot_points_num);
+		}
+	}
+
+}
+
+static void
 init_plot_ctx (void)
 {
 	if G_UNLIKELY (plot_ctx == NULL) {
@@ -2577,8 +2810,15 @@ plot_functions (gboolean do_window_present)
 		/* how many actually went */
 		len = MAX(1,i);
 
-		/* FIXME: LEAK! */
 		gtk_plot_data_set_points (parametric_data, x, y, dx, dy, len);
+		g_object_set_data_full (G_OBJECT (parametric_data),
+					"x", x, (GDestroyNotify)g_free);
+		g_object_set_data_full (G_OBJECT (parametric_data),
+					"y", y, (GDestroyNotify)g_free);
+		g_object_set_data_full (G_OBJECT (parametric_data),
+					"dx", dx, (GDestroyNotify)g_free);
+		g_object_set_data_full (G_OBJECT (parametric_data),
+					"dy", dy, (GDestroyNotify)g_free);
 		gtk_plot_add_data (GTK_PLOT (line_plot), parametric_data);
 
 		gtk_widget_show (GTK_WIDGET (parametric_data));
@@ -2605,40 +2845,9 @@ plot_functions (gboolean do_window_present)
 		g_free (label);
 	} 
 
-	if (slopefield_func != NULL) {
-		get_slopefield_points ();
-		if (plot_points_num > 0) {
-			GdkColor color;
-			double vt, ht, mt;
+	replot_fields ();
 
-			ht = (plotx2 - plotx1) / plotHtick;
-			vt = (ploty2 - ploty1) / plotVtick;
-
-			mt = MIN (ht, vt) / 2;
-
-			slopefield_data = GTK_PLOT_DATA(gtk_plot_flux_new());
-			gtk_plot_add_data (GTK_PLOT (line_plot),
-					   slopefield_data);
-			gdk_color_parse ("blue", &color);
-			gtk_plot_data_set_line_attributes (slopefield_data,
-							   GTK_PLOT_LINE_NONE,
-							   0, 0, 1, &color);
-			/* FIXME: */
-			gtk_plot_flux_set_size_max (GTK_PLOT_FLUX (slopefield_data), 10);
-			gtk_plot_flux_set_scale_max (GTK_PLOT_FLUX (slopefield_data), 0.5);
-			gtk_plot_flux_set_arrow (GTK_PLOT_FLUX (slopefield_data),
-						 0, 0, GTK_PLOT_SYMBOL_NONE);
-			gtk_widget_show (GTK_WIDGET (slopefield_data));
-			gtk_plot_data_set_points (slopefield_data,
-						  plot_points_x,
-						  plot_points_y,
-						  plot_points_dx,
-						  plot_points_dy,
-						  plot_points_num);
-		}
-	}
-
-	/* FIXME : slopefield / vectorfield */
+	/* FIXME : vectorfield */
 
 	if (lineplot_draw_legends)
 		gtk_plot_show_legends (GTK_PLOT (line_plot));
@@ -2904,6 +3113,7 @@ create_lineplot_box (void)
 			     "them"));
 	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.5);
 	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
+	gtk_widget_set_size_request (w, 610, -1);
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 
 	for (i = 0; i < MAXFUNC; i++) {
@@ -2932,6 +3142,7 @@ create_lineplot_box (void)
 			     "a complex number."));
 	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.5);
 	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
+	gtk_widget_set_size_request (w, 610, -1);
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 
 	/* x */
@@ -2948,7 +3159,6 @@ create_lineplot_box (void)
 
 	w = gtk_label_new (_("or"));
 	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.5);
-	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 
 	/* z */
@@ -2983,9 +3193,7 @@ create_lineplot_box (void)
 			     "at the point (x,y)."));
 	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.5);
 	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
-	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
-
-	w = gtk_label_new ("FIXME: Implement");
+	gtk_widget_set_size_request (w, 610, -1);
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 
 	/* dy/dx */
@@ -2993,9 +3201,6 @@ create_lineplot_box (void)
 				   &slopefield_entry,
 				   &slopefield_status);
 	gtk_box_pack_start (GTK_BOX (box), b, FALSE, FALSE, 0);
-
-	/* just spacing */
-	gtk_box_pack_start (GTK_BOX (box), gtk_label_new (""), FALSE, FALSE, 0);
 
 	/* # of ticks */
 	b = create_int_spinbox (_("Vertical ticks:"), &spinSVtick, 2, 50);
@@ -3021,9 +3226,7 @@ create_lineplot_box (void)
 			     "at the point (x,y)."));
 	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.5);
 	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
-	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
-
-	w = gtk_label_new ("FIXME: Implement");
+	gtk_widget_set_size_request (w, 610, -1);
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 
 	/* dx/dt */
@@ -3038,8 +3241,14 @@ create_lineplot_box (void)
 				   &vectorfield_status_y);
 	gtk_box_pack_start (GTK_BOX (box), b, FALSE, FALSE, 0);
 
-	/* just spacing */
-	gtk_box_pack_start (GTK_BOX (box), gtk_label_new (""), FALSE, FALSE, 0);
+	/* Normalize the arrow length? */
+	w = gtk_check_button_new_with_mnemonic (_("_Normalize arrow length (do not show size)"));
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), 
+				      vectorfield_normalize_arrow_length_cb);
+	g_signal_connect (G_OBJECT (w), "toggled",
+			  G_CALLBACK (optioncb),
+			  (gpointer)&vectorfield_normalize_arrow_length_cb);
 
 	/* # of ticks */
 	b = create_int_spinbox (_("Vertical ticks:"), &spinVVtick, 2, 50);
@@ -3106,6 +3315,7 @@ create_surface_box (void)
 			     "in the boxes below to graph them.  Functions with one argument only "
 			     "will be passed a complex number."));
 	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.5);
+	gtk_widget_set_size_request (w, 610, -1);
 	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
 
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
@@ -3489,7 +3699,7 @@ whack_copied_funcs:
 	genius_setup.error_box = last_error;
 
 	if (error_to_print != NULL)
-		genius_display_error (genius_window, error_to_print);
+		genius_display_error (plot_dialog, error_to_print);
 }
 
 static void
@@ -3517,8 +3727,10 @@ line_plot_clear_funcs (void)
 	vectorfield_func_x = NULL;
 	d_freefunc (vectorfield_func_y);
 	vectorfield_func_y = NULL;
-	g_free (vectorfield_name);
-	vectorfield_name = NULL;
+	g_free (vectorfield_name_x);
+	vectorfield_name_x = NULL;
+	g_free (vectorfield_name_y);
+	vectorfield_name_y = NULL;
 
 	d_freefunc (slopefield_func);
 	slopefield_func = NULL;
@@ -3630,7 +3842,7 @@ whack_copied_funcs:
 	genius_setup.error_box = last_error;
 
 	if (error_to_print != NULL)
-		genius_display_error (genius_window, error_to_print);
+		genius_display_error (plot_dialog, error_to_print);
 }
 
 static void
@@ -3758,7 +3970,7 @@ whack_copied_funcs:
 	genius_setup.error_box = last_error;
 
 	if (error_to_print != NULL)
-		genius_display_error (genius_window, error_to_print);
+		genius_display_error (plot_dialog, error_to_print);
 }
 
 static void
@@ -3847,7 +4059,7 @@ whack_copied_funcs:
 	genius_setup.error_box = last_error;
 
 	if (error_to_print != NULL)
-		genius_display_error (genius_window, error_to_print);
+		genius_display_error (plot_dialog, error_to_print);
 }
 
 static void
@@ -3867,6 +4079,9 @@ plot_from_dialog_vectorfield (void)
 	last_error = genius_setup.error_box;
 	genius_setup.info_box = TRUE;
 	genius_setup.error_box = TRUE;
+
+	vectorfield_normalize_arrow_length = 
+		vectorfield_normalize_arrow_length_cb;
 
 	ex = FALSE;
 	funcpx = get_func_from_entry2 (vectorfield_entry_x, vectorfield_status_x, &ex);
@@ -3918,10 +4133,8 @@ plot_from_dialog_vectorfield (void)
 
 	vectorfield_func_x = funcpx;
 	vectorfield_func_y = funcpy;
-	vectorfield_name = g_strconcat (gtk_entry_get_text (GTK_ENTRY (vectorfield_entry_x)),
-					",",
-					gtk_entry_get_text (GTK_ENTRY (vectorfield_entry_y)),
-					NULL);
+	vectorfield_name_x = g_strdup (gtk_entry_get_text (GTK_ENTRY (vectorfield_entry_x)));
+	vectorfield_name_y = g_strdup (gtk_entry_get_text (GTK_ENTRY (vectorfield_entry_y)));
 
 	plot_functions (TRUE /* do_window_present */);
 
@@ -3945,7 +4158,7 @@ whack_copied_funcs:
 	genius_setup.error_box = last_error;
 
 	if (error_to_print != NULL)
-		genius_display_error (genius_window, error_to_print);
+		genius_display_error (plot_dialog, error_to_print);
 }
 
 static void
@@ -3989,7 +4202,7 @@ genius_plot_dialog (void)
 
 	plot_dialog = gtk_dialog_new_with_buttons
 		(_("Create Plot") /* title */,
-		 GTK_WINDOW (genius_window) /* parent */,
+		 NULL /*GTK_WINDOW (genius_window)*/ /* parent */,
 		 0 /* flags */,
 		 GTK_STOCK_CLOSE,
 		 GTK_RESPONSE_CLOSE,
