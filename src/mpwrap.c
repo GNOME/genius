@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2008 Jiri (George) Lebl
+ * Copyright (C) 1997-2009 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -4863,7 +4863,17 @@ int
 mpw_cmp(mpw_ptr op1, mpw_ptr op2)
 {
 	if G_LIKELY (MPW_IS_REAL (op1) && MPW_IS_REAL (op2)) {
-		return mpwl_cmp(op1->r,op2->r);
+		int ret = mpwl_cmp(op1->r,op2->r);
+		/* normalize, gmp is liable to return things other than -1,0,1
+		 * and we want ONLY -1,0,1 values in genius, see implementation
+		 * of for loops. */
+		if (ret < 0) {
+			return -1;
+		} else if (ret > 0) {
+			return 1;
+		} else {
+			return 0;
+		}
 	} else {
 		gel_errorout (_("Can't compare complex numbers"));
 		error_num=NUMERICAL_MPW_ERROR;
@@ -4875,7 +4885,17 @@ int
 mpw_cmp_ui(mpw_ptr op, unsigned long int i)
 {
 	if G_LIKELY (MPW_IS_REAL (op)) {
-		return mpwl_cmp_ui(op->r,i);
+		int ret = mpwl_cmp_ui(op->r,i);
+		/* normalize, gmp is liable to return things other than -1,0,1
+		 * and we want ONLY -1,0,1 values in genius, see implementation
+		 * of for loops. */
+		if (ret < 0) {
+			return -1;
+		} else if (ret > 0) {
+			return 1;
+		} else {
+			return 0;
+		}
 	} else {
 		gel_errorout (_("Can't compare complex numbers"));
 		error_num=NUMERICAL_MPW_ERROR;

@@ -2172,8 +2172,10 @@ get_slopefield_points (void)
 						   x, y, &ex);
 
 			if G_LIKELY ( ! ex) {
-				dx = 1 / sqrt(z*z +1);
-				dy = z*dx;
+				/* dx = 1 / sqrt(z*z +1);
+				dy = z*dx;*/
+				dx = 1;
+				dy = z;
 				plot_points_x[k] = x;
 				plot_points_dx[k] = dx;
 
@@ -2584,7 +2586,7 @@ draw_line (double *x, double *y, int len, int thickness, GdkColor *color)
 }
 
 static void
-slopefield_draw_solution (double x, double y)
+slopefield_draw_solution (double x, double y, double dx)
 {
 	double *xx, *yy;
 	double cx, cy;
@@ -2606,15 +2608,15 @@ slopefield_draw_solution (double x, double y)
 	while (cx <= plotx2 && cy >= ploty1 && cy <= ploty2) {
 		double *pt;
 		gboolean ex = FALSE;
-		/* FIXME: too simple, just for show right now */
+		/* FIXME: Euler! too simple, just for show right now */
 		double sl = call_xy_or_z_function (slopefield_func,
 						   cx, cy, &ex);
 		if G_UNLIKELY (ex) {
 			break;
 		}
 
-		cy += sl* (/*FIXME:*/0.1);
-		cx += (/*FIXME:*/0.1);
+		cy += sl * dx;
+		cx += dx;
 		
 		len1 ++;
 
@@ -2633,15 +2635,15 @@ slopefield_draw_solution (double x, double y)
 	while (cx >= plotx1 && cy >= ploty1 && cy <= ploty2) {
 		double *pt;
 		gboolean ex = FALSE;
-		/* FIXME: too simple, just for show right now */
+		/* FIXME: Euler! too simple, just for show right now */
 		double sl = call_xy_or_z_function (slopefield_func,
 						   cx, cy, &ex);
 		if G_UNLIKELY (ex) {
 			break;
 		}
 
-		cy -= sl* (/*FIXME:*/0.1);
-		cx -= (/*FIXME:*/0.1);
+		cy -= sl* dx;
+		cx -= dx;
 		
 		len2 ++;
 
@@ -2702,11 +2704,10 @@ replot_fields (void)
 
 			if (slopefield_data == NULL) {
 				char *label, *tmp;
-				gdouble ht, vt, mt;
+				int mt;
 
-				ht = (plotx2 - plotx1) / (plotHtick+1);
-				vt = (ploty2 - ploty1) / (plotVtick+1);
-				mt = MIN (vt, ht) / 2;
+				mt = MIN ((HEIGHT / (plotHtick+1)),
+					  (WIDTH / (plotVtick+1))) * 0.6;
 
 				slopefield_data = GTK_PLOT_DATA(gtk_plot_flux_new());
 				gtk_plot_add_data (GTK_PLOT (line_plot),
@@ -2725,7 +2726,7 @@ replot_fields (void)
 							  &color /* border_color? */);
 
 
-				gtk_plot_flux_set_size_max (GTK_PLOT_FLUX (slopefield_data), mt*26.0);
+				gtk_plot_flux_set_size_max (GTK_PLOT_FLUX (slopefield_data), mt);
 				gtk_plot_flux_set_arrow (GTK_PLOT_FLUX (slopefield_data),
 							 0, 0, GTK_PLOT_SYMBOL_NONE);
 
@@ -2760,11 +2761,10 @@ replot_fields (void)
 
 			if (vectorfield_data == NULL) {
 				char *l1, *l2, *tmp;
-				gdouble ht, vt, mt;
+				int mt;
 
-				ht = (plotx2 - plotx1) / (plotHtick+1);
-				vt = (ploty2 - ploty1) / (plotVtick+1);
-				mt = MIN (vt, ht) / 2;
+				mt = MIN ((HEIGHT / (plotHtick+1)),
+					  (WIDTH / (plotVtick+1))) * 0.9;
 
 				vectorfield_data = GTK_PLOT_DATA(gtk_plot_flux_new());
 				gtk_plot_add_data (GTK_PLOT (line_plot),
@@ -2783,7 +2783,7 @@ replot_fields (void)
 							  &color /* border_color? */);
 
 
-				gtk_plot_flux_set_size_max (GTK_PLOT_FLUX (vectorfield_data), mt*40.0);
+				gtk_plot_flux_set_size_max (GTK_PLOT_FLUX (vectorfield_data), mt);
 				gtk_plot_flux_set_arrow (GTK_PLOT_FLUX (vectorfield_data),
 							 6, 6, GTK_PLOT_SYMBOL_OPAQUE);
 
@@ -4510,18 +4510,63 @@ whack_copied_funcs:
 }
 
 static GelETree *
-FIXMEDrawSolution_op (GelCtx *ctx, GelETree * * a, int *exception)
+SlopefieldDrawSolution_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
-	double x, y;
+	double x, y, dx;
 
-	GET_DOUBLE (x, 0, "FIXMEDrawSolution");
-	GET_DOUBLE (y, 1, "FIXMEDrawSolution");
+	GET_DOUBLE (x, 0, "SlopefieldDrawSolution");
+	GET_DOUBLE (y, 1, "SlopefieldDrawSolution");
+	GET_DOUBLE (dx, 2, "SlopefieldDrawSolution");
 
-	slopefield_draw_solution (x, y);
+	if (dx <= 0.0) {
+		gel_errorout (_("%s: dx must be positive"),
+			      "SlopefieldDrawSolution");
+		return NULL;
+	}
+
+	if (plot_mode != MODE_LINEPLOT_SLOPEFIELD ||
+	    slopefield_func == NULL) {
+		gel_errorout (_("%s: Slope field not active"),
+			      "SlopefieldDrawSolution");
+		return NULL;
+	}
+
+	slopefield_draw_solution (x, y, dx);
 
 	return gel_makenum_null ();
 }
 
+static GelETree *
+SlopefieldClearSolutions_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	/* FIXME: */
+	gel_errorout ("FIXME: implement");
+	return NULL;
+}
+
+static GelETree *
+SlopefieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	/* FIXME: */
+	gel_errorout ("FIXME: implement");
+	return NULL;
+}
+
+static GelETree *
+VectorfieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	/* FIXME: */
+	gel_errorout ("FIXME: implement");
+	return NULL;
+}
+
+static GelETree *
+VectorfieldCPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	/* FIXME: */
+	gel_errorout ("FIXME: implement");
+	return NULL;
+}
 
 static GelETree *
 LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
@@ -5163,11 +5208,18 @@ gel_add_graph_functions (void)
 
 	new_category ("plotting", N_("Plotting"), TRUE /* internal */);
 
-	FUNC (FIXMEDrawSolution, 2, "x,y", "plotting", "...");
-
 	VFUNC (LinePlot, 2, "func,args", "plotting", N_("Plot a function with a line.  First come the functions (up to 10) then optionally limits as x1,x2,y1,y2"));
 	VFUNC (LinePlotParametric, 3, "xfunc,yfunc,args", "plotting", N_("Plot a parametric function with a line.  First come the functions for x and y then optionally the t limits as t1,t2,tinc, then optionally the limits as x1,x2,y1,y2"));
 	VFUNC (LinePlotCParametric, 2, "zfunc,args", "plotting", N_("Plot a parametric complex valued function with a line.  First comes the function that returns x+iy then optionally the t limits as t1,t2,tinc, then optionally the limits as x1,x2,y1,y2"));
+
+	VFUNC (SlopefieldPlot, 2, "func,args", "plotting", N_("Draw a slope field.  First comes the function dx/dy in terms of x and y (or a complex z) then optionally the limits as x1,x2,y1,y2"));
+	VFUNC (VectorfieldPlot, 3, "xfunc,yfunc,args", "plotting", N_("Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x and y then optionally the limits as x1,x2,y1,y2"));
+	VFUNC (VectorfieldCPlot, 2, "zfunc,args", "plotting", N_("Draw a vector field.  First comes the complex function dz/dt in terms of a complex z (or x and y) then optionally the limits as x1,x2,y1,y2"));
+
+	FUNC (SlopefieldDrawSolution, 3, "x,y,dx", "plotting", N_("Draw a solution for a slope field starting at x,y and using dx as increment"));
+	FUNC (SlopefieldClearSolutions, 0, "", "plotting", N_("Clear all the slopefield solutions"));
+
+
 	VFUNC (SurfacePlot, 2, "func,args", "plotting", N_("Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"));
 
 	FUNC (LinePlotClear, 0, "", "plotting", N_("Show the line plot window and clear out functions"));

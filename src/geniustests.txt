@@ -920,5 +920,8 @@ Parse("x=1;x=x+1;x")						((x=1);(x=(x+1));x)
 Evaluate("a+b")							(a+b)
 Evaluate(null)+1						((null)+1)
 Evaluate("x=1;x=x+1;x")						2
+for n=-10 to 10 do .;n						10
+for n=-10 to 10 by 3 do .;n					8
+for n=-11 to 10 by 3 do .;n					10
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
