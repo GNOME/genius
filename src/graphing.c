@@ -2548,6 +2548,150 @@ parametric_get_value (double *x, double *y, double t)
 	return TRUE;
 }
 
+static GtkPlotData *
+draw_line (double *x, double *y, int len, int thickness, GdkColor *color)
+{
+	double *dx, *dy;
+	GtkPlotData *data;
+
+	data = GTK_PLOT_DATA (gtk_plot_data_new ());
+	dx = g_new0 (double, len);
+	dy = g_new0 (double, len);
+	gtk_plot_data_set_points (data, x, y, dx, dy, len);
+	g_object_set_data_full (G_OBJECT (data),
+				"x", x, (GDestroyNotify)g_free);
+	g_object_set_data_full (G_OBJECT (data),
+				"y", y, (GDestroyNotify)g_free);
+	g_object_set_data_full (G_OBJECT (data),
+				"dx", dx, (GDestroyNotify)g_free);
+	g_object_set_data_full (G_OBJECT (data),
+				"dy", dy, (GDestroyNotify)g_free);
+	gtk_plot_add_data (GTK_PLOT (line_plot), data);
+	gtk_plot_data_hide_legend (data);
+
+	gdk_color_alloc (gdk_colormap_get_system (), color); 
+
+	gtk_plot_data_set_line_attributes (data,
+					   GTK_PLOT_LINE_SOLID,
+					   0, 0, thickness, color);
+
+	gtk_widget_show (GTK_WIDGET (data));
+
+	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+	gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+
+	return data;
+}
+
+static void
+slopefield_draw_solution (double x, double y)
+{
+	double *xx, *yy;
+	double cx, cy;
+	int len1, len2, len;
+	int i;
+	GdkColor color;
+	GSList *points1 = NULL;
+	GSList *points2 = NULL;
+	GSList *li;
+
+	if (slopefield_func == NULL)
+		return;
+
+	gdk_color_parse ("red", &color);
+
+	len1 = 0;
+	cx = x;
+	cy = y;
+	while (cx <= plotx2 && cy >= ploty1 && cy <= ploty2) {
+		double *pt;
+		gboolean ex = FALSE;
+		/* FIXME: too simple, just for show right now */
+		double sl = call_xy_or_z_function (slopefield_func,
+						   cx, cy, &ex);
+		if G_UNLIKELY (ex) {
+			break;
+		}
+
+		cy += sl* (/*FIXME:*/0.1);
+		cx += (/*FIXME:*/0.1);
+		
+		len1 ++;
+
+		pt = g_new (double, 2);
+		pt[0] = cx;
+		pt[1] = cy;
+
+		points1 = g_slist_prepend (points1, pt);
+	}
+
+	points1 = g_slist_reverse (points1);
+
+	len2 = 0;
+	cx = x;
+	cy = y;
+	while (cx >= plotx1 && cy >= ploty1 && cy <= ploty2) {
+		double *pt;
+		gboolean ex = FALSE;
+		/* FIXME: too simple, just for show right now */
+		double sl = call_xy_or_z_function (slopefield_func,
+						   cx, cy, &ex);
+		if G_UNLIKELY (ex) {
+			break;
+		}
+
+		cy -= sl* (/*FIXME:*/0.1);
+		cx -= (/*FIXME:*/0.1);
+		
+		len2 ++;
+
+		pt = g_new (double, 2);
+		pt[0] = cx;
+		pt[1] = cy;
+
+		points2 = g_slist_prepend (points2, pt);
+	}
+
+	len = len1 + 1 + len2;
+	xx = g_new0 (double, len);
+	yy = g_new0 (double, len);
+
+	i = 0;
+	for (li = points2; li != NULL; li = li->next) {
+		double *pt = li->data;
+		li->data = NULL;
+
+		xx[i] = pt[0];
+		yy[i] = pt[1];
+
+		g_free (pt);
+
+		i++;
+	}
+
+	xx[i] = x;
+	yy[i] = y;
+
+	i++;
+
+	for (li = points1; li != NULL; li = li->next) {
+		double *pt = li->data;
+		li->data = NULL;
+
+		xx[i] = pt[0];
+		yy[i] = pt[1];
+
+		g_free (pt);
+
+		i++;
+	}
+
+	g_slist_free (points1);
+	g_slist_free (points2);
+
+	draw_line (xx, yy, len, 2 /* thickness */, &color);
+}
+
 static void
 replot_fields (void)
 {
@@ -4366,6 +4510,20 @@ whack_copied_funcs:
 }
 
 static GelETree *
+FIXMEDrawSolution_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	double x, y;
+
+	GET_DOUBLE (x, 0, "FIXMEDrawSolution");
+	GET_DOUBLE (y, 1, "FIXMEDrawSolution");
+
+	slopefield_draw_solution (x, y);
+
+	return gel_makenum_null ();
+}
+
+
+static GelETree *
 LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	double x1, x2, y1, y2;
@@ -4832,10 +4990,9 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	int len;
 	int nextarg;
-	double *x, *y, *dx, *dy;
+	double *x, *y;
 	GdkColor color;
 	int thickness;
-	GtkPlotData *data;
 	int i;
 
 	ensure_window (FALSE /* do_window_present */);
@@ -4949,23 +5106,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 		}
 	}
 
-	data = GTK_PLOT_DATA (gtk_plot_data_new ());
-	dx = g_new0 (double, len);
-	dy = g_new0 (double, len);
-	gtk_plot_data_set_points (data, x, y, dx, dy, len);
-	gtk_plot_add_data (GTK_PLOT (line_plot), data);
-	gtk_plot_data_hide_legend (data);
-
-	gdk_color_alloc (gdk_colormap_get_system (), &color); 
-
-	gtk_plot_data_set_line_attributes (data,
-					   GTK_PLOT_LINE_SOLID,
-					   0, 0, thickness, &color);
-
-	gtk_widget_show (GTK_WIDGET (data));
-
-	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
-	gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+	draw_line (x, y, len, thickness, &color);
 
 	return gel_makenum_null ();
 }
@@ -5021,6 +5162,8 @@ gel_add_graph_functions (void)
 	GelToken *id;
 
 	new_category ("plotting", N_("Plotting"), TRUE /* internal */);
+
+	FUNC (FIXMEDrawSolution, 2, "x,y", "plotting", "...");
 
 	VFUNC (LinePlot, 2, "func,args", "plotting", N_("Plot a function with a line.  First come the functions (up to 10) then optionally limits as x1,x2,y1,y2"));
 	VFUNC (LinePlotParametric, 3, "xfunc,yfunc,args", "plotting", N_("Plot a parametric function with a line.  First come the functions for x and y then optionally the t limits as t1,t2,tinc, then optionally the limits as x1,x2,y1,y2"));
