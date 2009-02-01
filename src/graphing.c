@@ -5663,7 +5663,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				i++;
 			} else if (id == thicknessid) {
 				if G_UNLIKELY (a[i+1] == NULL)  {
-					gel_errorout (_("%s: No thicnkess specified"),
+					gel_errorout (_("%s: No thickness specified"),
 						      "LinePlotDrawLine");
 					g_free (x);
 					g_free (y);
