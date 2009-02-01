@@ -12,7 +12,7 @@
 
     <kaiw@itee.uq.edu.au> 
 
-   Copyright (c) 1997-2008 Jiri (George) Lebl
+   Copyright (c) 1997-2009 Jiri (George) Lebl
 
    Copyright (c) 2004 Kai Willadsen
 
@@ -95,7 +95,11 @@
 
                 4.2. Parametric Plots
 
-                4.3. Surface Plots
+                4.3. Slopefield Plots
+
+                4.4. Vectorfield Plots
+
+                4.5. Surface Plots
 
    5. GEL Basics
 
@@ -513,7 +517,45 @@
 
      ----------------------------------------------------------------------
 
-4.3. Surface Plots
+4.3. Slopefield Plots
+
+   In the create plot window, you can also choose the Slope field notebook
+   tab to create a two dimensional slope field plot. Similar operations can
+   be done on such graphs as can be done on the other line plots. For
+   plotting using the command line see the documentation of the
+   SlopefieldPlot function.
+
+   When a slope field is active, there is an extra Solver menu available,
+   through which you can bring up the solver dialog. Here you can have Genius
+   plot specific solutions for the given initial conditions. You can either
+   specify initial conditions in the dialog, or you can click on the plot
+   directly to specify the initial point. While the solver dialog is active,
+   the zooming by clicking and dragging does not work. You have to close the
+   dialog first if you want to zoom using the mouse.
+
+   The solver uses the standard Runge-Kutta method. The plots will stay on
+   the screen until cleared. The solver will stop whenever it reaches the
+   boundary of the plot window. Zooming does not change the limits or
+   parameters of the solutions, you will have to clear and redraw them with
+   appropriate parameters. You can also use the SlopefieldDrawSolution
+   function to draw solutions from the command line or programs.
+
+     ----------------------------------------------------------------------
+
+4.4. Vectorfield Plots
+
+   In the create plot window, you can also choose the Vector field notebook
+   tab to create a two dimensional vector field plot. Similar operations can
+   be done on such graphs as can be done on the other line plots. For
+   plotting using the command line see the documentation of the
+   VectorfieldPlot function.
+
+   By default only the direction of the vector field is shown. To show the
+   magnitude, uncheck the appropriate checkbox.
+
+     ----------------------------------------------------------------------
+
+4.5. Surface Plots
 
    Genius can also plot surfaces. Select the Surface plot tab in the main
    notebook of the Create Plot window. Here you can specify a single
@@ -2282,7 +2324,14 @@
 
  LinePlotWindow = [x1,x2,y1,y2]
 
-           Sets the limits for line plotting (See LinePlot).
+           Sets the limits for line plotting functions such as LinePlot.
+
+   LinePlotDrawLegends
+
+ LinePlotDrawLegends = true
+
+           Tells genius to draw the legends for line plotting functions such
+           as LinePlot.
 
    MaxDigits
 
@@ -2384,6 +2433,14 @@
  SurfacePlotWindow = [x1,x2,y1,y2,z1,z2]
 
            Sets the limits for surface plotting (See SurfacePlot).
+
+   VectorfieldNormalized
+
+ VectorfieldNormalized = true
+
+           Should the vectorfield plotting have normalized arrow length. If
+           true, vector fields will only show direction and not magnitude.
+           (See VectorfieldPlot).
 
      ----------------------------------------------------------------------
 
@@ -5366,6 +5423,9 @@
            specified, then the currently set limits apply (See
            LinePlotWindow)
 
+           The parameter LinePlotDrawLegends controls the drawing of the
+           legend.
+
            Examples:
 
  genius> LinePlot(sin,cos)
@@ -5408,6 +5468,12 @@
            for x and y then optionally the t limits as t1,t2,tinc, then
            optionally the limits as x1,x2,y1,y2.
 
+           If limits are not specified, then the currently set limits apply
+           (See LinePlotWindow).
+
+           The parameter LinePlotDrawLegends controls the drawing of the
+           legend.
+
    LinePlotCParametric
 
  LinePlotCParametric (func,...)
@@ -5419,6 +5485,48 @@
            Plot a parametric complex valued function with a line. First comes
            the function that returns x+iy, then optionally the t limits as
            t1,t2,tinc, then optionally the limits as x1,x2,y1,y2.
+
+           If limits are not specified, then the currently set limits apply
+           (See LinePlotWindow).
+
+           The parameter LinePlotDrawLegends controls the drawing of the
+           legend.
+
+   SlopefieldClearSolutions
+
+ SlopefieldClearSolutions ()
+
+           Clears the solutions drawn by the SlopefieldDrawSolution function.
+
+   SlopefieldDrawSolution
+
+ SlopefieldDrawSolution (x, y, dx)
+
+           When a slope field plot is active, draw a solution with the
+           specified initial condition. The standard Runge-Kutta method is
+           used with increment dx. Solutions stay on the graph until a
+           different plot is shown or until you call
+           SlopefieldClearSolutions. You can also use the graphical interface
+           to draw solutions and specify initial conditions with the mouse.
+
+   SlopefieldPlot
+
+ SlopefieldPlot (func)
+
+ SlopefieldPlot (func,x1,x2,y1,y2)
+
+           Plot a slope field. The function func should take two real numbers
+           x and y, or a single complex number. Optionally you can specify
+           the limits of the plotting window as x1, x2, y1, y2. If limits are
+           not specified, then the currently set limits apply (See
+           LinePlotWindow).
+
+           The parameter LinePlotDrawLegends controls the drawing of the
+           legend.
+
+           Examples:
+
+ genius> Slopefield(`(x,y)=sin(x-y),-5,5,-5,5)
 
    SurfacePlot
 
@@ -5437,6 +5545,31 @@
  genius> SurfacePlot(|sin|,-1,1,-1,1,0,1.5)
  genius> SurfacePlot(`(x,y)=x^2+y,-1,1,-1,1,-2,2)
  genius> SurfacePlot(`(z)=|z|^2,-1,1,-1,1,0,2)
+
+   VectorfieldPlot
+
+ VectorfieldPlot (funcx, funcy)
+
+ VectorfieldPlot (funcx, funcy, x1, x2, y1, y2)
+
+           Plot a two dimensional vector field. The function funcx should be
+           the dx/dt of the vectorfield and the function funcy should be the
+           dy/dt of the vectorfield. The functions should take two real
+           numbers x and y, or a single complex number. When the parameter
+           VectorfieldNormalized is true, then the magnitude of the vectors
+           is normalized. That is, only the direction and not the magnitude
+           is shown.
+
+           Optionally you can specify the limits of the plotting window as
+           x1, x2, y1, y2. If limits are not specified, then the currently
+           set limits apply (See LinePlotWindow).
+
+           The parameter LinePlotDrawLegends controls the drawing of the
+           legend.
+
+           Examples:
+
+ genius> VectorfieldPlot(`(x,y)=x^2-y, `(x,y)=y^2-x, -1, 1, -1, 1)
 
      ----------------------------------------------------------------------
 

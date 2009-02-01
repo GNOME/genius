@@ -133,8 +133,11 @@ static double deft2 = 1.0;
 static double deftinc = 0.01;
 
 static gboolean lineplot_draw_legends = TRUE;
+static gboolean lineplot_draw_legends_cb = TRUE;
+static gboolean lineplot_draw_legends_parameter = TRUE;
 static gboolean vectorfield_normalize_arrow_length = TRUE;
 static gboolean vectorfield_normalize_arrow_length_cb = TRUE;
+static gboolean vectorfield_normalize_arrow_length_parameter = TRUE;
 
 /* Replotting info */
 static GelEFunc *plot_func[MAXFUNC] = { NULL };
@@ -2886,12 +2889,23 @@ slopefield_draw_solution (double x, double y, double dx)
 	while (cx <= plotx2 && cy >= ploty1 && cy <= ploty2) {
 		double *pt;
 		gboolean ex = FALSE;
-		/* FIXME: Euler! too simple, just for show right now */
-		double sl = call_xy_or_z_function (slopefield_func,
-						   cx, cy, &ex);
-		if G_UNLIKELY (ex) {
-			break;
-		}
+		double k1, k2, k3, k4, sl;
+
+		/* standard Runge-Kutta */
+		k1 = call_xy_or_z_function (slopefield_func,
+					    cx, cy, &ex);
+		if G_UNLIKELY (ex) break;
+		k2 = call_xy_or_z_function (slopefield_func,
+					    cx+(dx/2), cy+(dx/2)*k1, &ex);
+		if G_UNLIKELY (ex) break;
+		k3 = call_xy_or_z_function (slopefield_func,
+					    cx+(dx/2), cy+(dx/2)*k2, &ex);
+		if G_UNLIKELY (ex) break;
+		k4 = call_xy_or_z_function (slopefield_func,
+					    cx+dx, cy+dx*k3, &ex);
+		if G_UNLIKELY (ex) break;
+
+		sl = (k1+2*k2+2*k3+k4)/6.0;
 
 		cy += sl * dx;
 		cx += dx;
@@ -2913,12 +2927,23 @@ slopefield_draw_solution (double x, double y, double dx)
 	while (cx >= plotx1 && cy >= ploty1 && cy <= ploty2) {
 		double *pt;
 		gboolean ex = FALSE;
-		/* FIXME: Euler! too simple, just for show right now */
-		double sl = call_xy_or_z_function (slopefield_func,
-						   cx, cy, &ex);
-		if G_UNLIKELY (ex) {
-			break;
-		}
+		double k1, k2, k3, k4, sl;
+
+		/* standard Runge-Kutta */
+		k1 = call_xy_or_z_function (slopefield_func,
+					    cx, cy, &ex);
+		if G_UNLIKELY (ex) break;
+		k2 = call_xy_or_z_function (slopefield_func,
+					    cx-(dx/2), cy-(dx/2)*k1, &ex);
+		if G_UNLIKELY (ex) break;
+		k3 = call_xy_or_z_function (slopefield_func,
+					    cx-(dx/2), cy-(dx/2)*k2, &ex);
+		if G_UNLIKELY (ex) break;
+		k4 = call_xy_or_z_function (slopefield_func,
+					    cx-dx, cy-dx*k3, &ex);
+		if G_UNLIKELY (ex) break;
+
+		sl = (k1+2*k2+2*k3+k4)/6.0;
 
 		cy -= sl* dx;
 		cx -= dx;
@@ -3260,8 +3285,6 @@ plot_functions (gboolean do_window_present)
 	} 
 
 	replot_fields ();
-
-	/* FIXME : vectorfield */
 
 	if (lineplot_draw_legends)
 		gtk_plot_show_legends (GTK_PLOT (line_plot));
@@ -3703,10 +3726,10 @@ create_lineplot_box (void)
 	w = gtk_check_button_new_with_mnemonic (_("_Draw legend"));
 	gtk_box_pack_start (GTK_BOX (mainbox), w, FALSE, FALSE, 0);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), 
-				      lineplot_draw_legends);
+				      lineplot_draw_legends_cb);
 	g_signal_connect (G_OBJECT (w), "toggled",
 			  G_CALLBACK (optioncb),
-			  (gpointer)&lineplot_draw_legends);
+			  (gpointer)&lineplot_draw_legends_cb);
 
 
 	frame = gtk_frame_new (_("Plot Window"));
@@ -4191,7 +4214,7 @@ line_plot_clear_funcs (void)
 	d_freefunc (slopefield_func);
 	slopefield_func = NULL;
 	g_free (slopefield_name);
-	parametric_name = NULL;
+	slopefield_name = NULL;
 }
 
 static void
@@ -4621,6 +4644,9 @@ static void
 plot_from_dialog (void)
 {
 	int function_page = gtk_notebook_get_current_page (GTK_NOTEBOOK (function_notebook));
+
+	lineplot_draw_legends = lineplot_draw_legends_cb;
+
 	if (function_page == 0)
 		plot_from_dialog_lineplot ();
 	else if (function_page == 1)
@@ -4866,24 +4892,215 @@ SlopefieldClearSolutions_op (GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 SlopefieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
-	/* FIXME: */
-	gel_errorout ("FIXME: implement");
+	double x1, x2, y1, y2;
+	GelEFunc *func = NULL;
+	int i;
+
+	if (a[0] == NULL ||
+	    a[0]->type != FUNCTION_NODE) {
+		gel_errorout (_("%s: First argument must be a function"),
+			      "SlopefieldPlot");
+		return NULL;
+	}
+
+	func = d_copyfunc (a[0]->func.func);
+	func->context = -1;
+
+	/* Defaults */
+	x1 = defx1;
+	x2 = defx2;
+	y1 = defy1;
+	y2 = defy2;
+
+	i = 1;
+
+	/* Get window limits */
+	if (a[i] != NULL) {
+		if (a[i]->type == MATRIX_NODE) {
+			if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
+				goto whack_copied_funcs;
+			i++;
+		} else {
+			GET_DOUBLE(x1, i, "SlopefieldPlot");
+			i++;
+			if (a[i] != NULL) {
+				GET_DOUBLE(x2, i, "SlopefieldPlot");
+				i++;
+				if (a[i] != NULL) {
+					GET_DOUBLE(y1, i, "SlopefieldPlot");
+					i++;
+					if (a[i] != NULL) {
+						GET_DOUBLE(y2, i, "SlopefieldPlot");
+						i++;
+					}
+				}
+			}
+			/* FIXME: what about errors */
+			if (error_num != 0) {
+				error_num = 0;
+				goto whack_copied_funcs;
+			}
+		}
+	}
+
+	if (x1 > x2) {
+		double s = x1;
+		x1 = x2;
+		x2 = s;
+	}
+
+	if (y1 > y2) {
+		double s = y1;
+		y1 = y2;
+		y2 = s;
+	}
+
+	if (x1 == x2) {
+		gel_errorout (_("%s: invalid X range"), "SlopefieldPlot");
+		goto whack_copied_funcs;
+	}
+
+	if (y1 == y2) {
+		gel_errorout (_("%s: invalid Y range"), "SlopefieldPlot");
+		goto whack_copied_funcs;
+	}
+
+	line_plot_clear_funcs ();
+
+	slopefield_func = func;
+
+	reset_plotx1 = plotx1 = x1;
+	reset_plotx2 = plotx2 = x2;
+	reset_ploty1 = ploty1 = y1;
+	reset_ploty2 = ploty2 = y2;
+
+	lineplot_draw_legends = lineplot_draw_legends_parameter;
+
+	plot_mode = MODE_LINEPLOT_SLOPEFIELD;
+	plot_functions (FALSE /* do_window_present */);
+
+	if (interrupted)
+		return NULL;
+	else
+		return gel_makenum_null ();
+
+whack_copied_funcs:
+	d_freefunc (func);
+	func = NULL;
+
 	return NULL;
 }
 
 static GelETree *
 VectorfieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
-	/* FIXME: */
-	gel_errorout ("FIXME: implement");
-	return NULL;
-}
+	double x1, x2, y1, y2;
+	GelEFunc *funcx = NULL;
+	GelEFunc *funcy = NULL;
+	int i;
 
-static GelETree *
-VectorfieldCPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
-{
-	/* FIXME: */
-	gel_errorout ("FIXME: implement");
+	/* FIXME: also accept just one function and then treat it as complex
+	 * valued */
+
+	if (a[0] == NULL || a[1] == NULL ||
+	    a[0]->type != FUNCTION_NODE ||
+	    a[1]->type != FUNCTION_NODE) {
+		gel_errorout (_("%s: First two arguments must be functions"), "VectorfieldPlot");
+		return NULL;
+	}
+
+	funcx = d_copyfunc (a[0]->func.func);
+	funcx->context = -1;
+	funcy = d_copyfunc (a[1]->func.func);
+	funcy->context = -1;
+
+	/* Defaults */
+	x1 = defx1;
+	x2 = defx2;
+	y1 = defy1;
+	y2 = defy2;
+
+	i = 2;
+
+	/* Get window limits */
+	if (a[i] != NULL) {
+		if (a[i]->type == MATRIX_NODE) {
+			if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
+				goto whack_copied_funcs;
+			i++;
+		} else {
+			GET_DOUBLE(x1, i, "VectorfieldPlot");
+			i++;
+			if (a[i] != NULL) {
+				GET_DOUBLE(x2, i, "VectorfieldPlot");
+				i++;
+				if (a[i] != NULL) {
+					GET_DOUBLE(y1, i, "VectorfieldPlot");
+					i++;
+					if (a[i] != NULL) {
+						GET_DOUBLE(y2, i, "VectorfieldPlot");
+						i++;
+					}
+				}
+			}
+			/* FIXME: what about errors */
+			if (error_num != 0) {
+				error_num = 0;
+				goto whack_copied_funcs;
+			}
+		}
+	}
+
+	if (x1 > x2) {
+		double s = x1;
+		x1 = x2;
+		x2 = s;
+	}
+
+	if (y1 > y2) {
+		double s = y1;
+		y1 = y2;
+		y2 = s;
+	}
+
+	if (x1 == x2) {
+		gel_errorout (_("%s: invalid X range"), "VectorfieldPlot");
+		goto whack_copied_funcs;
+	}
+
+	if (y1 == y2) {
+		gel_errorout (_("%s: invalid Y range"), "VectorfieldPlot");
+		goto whack_copied_funcs;
+	}
+
+	line_plot_clear_funcs ();
+
+	vectorfield_func_x = funcx;
+	vectorfield_func_y = funcy;
+
+	reset_plotx1 = plotx1 = x1;
+	reset_plotx2 = plotx2 = x2;
+	reset_ploty1 = ploty1 = y1;
+	reset_ploty2 = ploty2 = y2;
+
+	lineplot_draw_legends = lineplot_draw_legends_parameter;
+	vectorfield_normalize_arrow_length =
+		vectorfield_normalize_arrow_length_parameter;
+
+	plot_mode = MODE_LINEPLOT_VECTORFIELD;
+	plot_functions (FALSE /* do_window_present */);
+
+	if (interrupted)
+		return NULL;
+	else
+		return gel_makenum_null ();
+
+whack_copied_funcs:
+	d_freefunc (funcx);
+	funcx = NULL;
+	d_freefunc (funcy);
+	funcy = NULL;
+
 	return NULL;
 }
 
@@ -4980,6 +5197,8 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	reset_plotx2 = plotx2 = x2;
 	reset_ploty1 = ploty1 = y1;
 	reset_ploty2 = ploty2 = y2;
+
+	lineplot_draw_legends = lineplot_draw_legends_parameter;
 
 	plot_mode = MODE_LINEPLOT;
 	plot_functions (FALSE /* do_window_present */);
@@ -5118,6 +5337,8 @@ LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plott2 = t2;
 	plottinc = tinc;
 
+	lineplot_draw_legends = lineplot_draw_legends_parameter;
+
 	plot_mode = MODE_LINEPLOT_PARAMETRIC;
 	plot_functions (FALSE /* do_window_present */);
 
@@ -5249,6 +5470,8 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plott1 = t1;
 	plott2 = t2;
 	plottinc = tinc;
+
+	lineplot_draw_legends = lineplot_draw_legends_parameter;
 
 	plot_mode = MODE_LINEPLOT_PARAMETRIC;
 	plot_functions (FALSE /* do_window_present */);
@@ -5519,6 +5742,44 @@ get_SurfacePlotWindow (void)
 	return make_matrix_from_limits_surf ();
 }
 
+static GelETree *
+set_VectorfieldNormalized (GelETree * a)
+{
+	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_VectorfieldNormalized"))
+		return NULL;
+	if (a->type == VALUE_NODE)
+		vectorfield_normalize_arrow_length_parameter
+			= ! mpw_zero_p (a->val.value);
+	else /* a->type == BOOL_NODE */
+		vectorfield_normalize_arrow_length_parameter = a->bool_.bool_;
+
+	return gel_makenum_bool (vectorfield_normalize_arrow_length_parameter);
+}
+static GelETree *
+get_VectorfieldNormalized (void)
+{
+	return gel_makenum_bool (vectorfield_normalize_arrow_length_parameter);
+}
+
+static GelETree *
+set_LinePlotDrawLegends (GelETree * a)
+{
+	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_LinePlotDrawLegend"))
+		return NULL;
+	if (a->type == VALUE_NODE)
+		lineplot_draw_legends_parameter
+			= ! mpw_zero_p (a->val.value);
+	else /* a->type == BOOL_NODE */
+		lineplot_draw_legends_parameter = a->bool_.bool_;
+
+	return gel_makenum_bool (lineplot_draw_legends_parameter);
+}
+static GelETree *
+get_LinePlotDrawLegends (void)
+{
+	return gel_makenum_bool (lineplot_draw_legends_parameter);
+}
+
 void
 gel_add_graph_functions (void)
 {
@@ -5533,7 +5794,6 @@ gel_add_graph_functions (void)
 
 	VFUNC (SlopefieldPlot, 2, "func,args", "plotting", N_("Draw a slope field.  First comes the function dx/dy in terms of x and y (or a complex z) then optionally the limits as x1,x2,y1,y2"));
 	VFUNC (VectorfieldPlot, 3, "xfunc,yfunc,args", "plotting", N_("Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x and y then optionally the limits as x1,x2,y1,y2"));
-	VFUNC (VectorfieldCPlot, 2, "zfunc,args", "plotting", N_("Draw a vector field.  First comes the complex function dz/dt in terms of a complex z (or x and y) then optionally the limits as x1,x2,y1,y2"));
 
 	FUNC (SlopefieldDrawSolution, 3, "x,y,dx", "plotting", N_("Draw a solution for a slope field starting at x,y and using dx as increment"));
 	FUNC (SlopefieldClearSolutions, 0, "", "plotting", N_("Clear all the slopefield solutions"));
@@ -5543,6 +5803,9 @@ gel_add_graph_functions (void)
 
 	FUNC (LinePlotClear, 0, "", "plotting", N_("Show the line plot window and clear out functions"));
 	VFUNC (LinePlotDrawLine, 2, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"));
+
+	PARAMETER (VectorfieldNormalized, N_("Normalize vectorfields if true.  That is, only show direction and not magnitude."));
+	PARAMETER (LinePlotDrawLegends, N_("If to draw legends or not on line plots."));
 
 	PARAMETER (LinePlotWindow, N_("Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"));
 	PARAMETER (SurfacePlotWindow, N_("Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,z2]"));

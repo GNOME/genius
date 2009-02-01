@@ -1,3 +1,13 @@
+Sun Feb 01 00:11:32 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c: do Runge-Kutta instead of Euler for the graphical
+	  slopefield solver.  Whack VectorfieldCPlot (never implemented,
+	  should not be a separate function anyway).  Implement
+	  VectorfieldPlot and SlopefieldPlot.
+
+	* help/C/genius.xml, help/C/gel-function-list.xml: update for all
+	  the new changes
+
 Sat Jan 31 18:44:38 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/graphing.c: resolve some GtkExtra nonsense (dx and dy for flux

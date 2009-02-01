@@ -524,7 +524,19 @@ except possibly user interface events are processed.</para>
          <term>LinePlotWindow</term>
          <listitem>
           <synopsis>LinePlotWindow = [x1,x2,y1,y2]</synopsis>
-          <para>Sets the limits for line plotting (See <link linkend="gel-function-LinePlot"><function>LinePlot</function></link>).</para>
+          <para>Sets the limits for <link linkend="genius-gel-function-list-plotting">line plotting
+	  functions</link> such as <link linkend="gel-function-LinePlot"><function>LinePlot</function></link>.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-LinePlotDrawLegends">
+         <term>LinePlotDrawLegends</term>
+         <listitem>
+          <synopsis>LinePlotDrawLegends = true</synopsis>
+          <para>Tells genius to draw the legends for <link linkend="genius-gel-function-list-plotting">line plotting
+	  functions</link> such as <link linkend="gel-function-LinePlot"><function>LinePlot</function></link>.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -665,6 +677,16 @@ greater than or equal to
          <listitem>
           <synopsis>SurfacePlotWindow = [x1,x2,y1,y2,z1,z2]</synopsis>
           <para>Sets the limits for surface plotting (See <link linkend="gel-function-SurfacePlot"><function>SurfacePlot</function></link>).</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-VectorfieldNormalized">
+         <term>VectorfieldNormalized</term>
+         <listitem>
+          <synopsis>VectorfieldNormalized = true</synopsis>
+          <para>Should the vectorfield plotting have normalized arrow length.  If true, vector fields will only show direction
+	   and not magnitude.  (See <link linkend="gel-function-VectorfieldPlot"><function>VectorfieldPlot</function></link>).
+          </para>
          </listitem>
         </varlistentry>
 
@@ -4746,6 +4768,11 @@ do (
 	    (See <link linkend="gel-function-LinePlotWindow"><function>LinePlotWindow</function></link>)
           </para>
           <para>
+	    The parameter
+	    <link linkend="gel-function-LinePlotDrawLegends"><function>LinePlotDrawLegends</function></link>
+	    controls the drawing of the legend.
+	  </para>
+          <para>
 	    Examples:
           <screen><prompt>genius></prompt> <userinput>LinePlot(sin,cos)</userinput>
 <prompt>genius></prompt> <userinput>LinePlot(`(x)=x^2,-1,1,0,1)</userinput>
@@ -4803,6 +4830,16 @@ do (
 for <varname>x</varname> and <varname>y</varname> then optionally the <varname>t</varname> limits as <userinput>t1,t2,tinc</userinput>, then optionally the
 limits as <userinput>x1,x2,y1,y2</userinput>.
           </para>
+	  <para>
+	    If limits are not
+	    specified, then the currently set limits apply
+	    (See <link linkend="gel-function-LinePlotWindow"><function>LinePlotWindow</function></link>).
+          </para>
+          <para>
+	    The parameter
+	    <link linkend="gel-function-LinePlotDrawLegends"><function>LinePlotDrawLegends</function></link>
+	    controls the drawing of the legend.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -4817,6 +4854,74 @@ limits as <userinput>x1,x2,y1,y2</userinput>.
 the function that returns <computeroutput>x+iy</computeroutput>,
 then optionally the <varname>t</varname> limits as <userinput>t1,t2,tinc</userinput>, then
 optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
+          </para>
+	  <para>
+	    If limits are not
+	    specified, then the currently set limits apply
+	    (See <link linkend="gel-function-LinePlotWindow"><function>LinePlotWindow</function></link>).
+          </para>
+          <para>
+	    The parameter
+	    <link linkend="gel-function-LinePlotDrawLegends"><function>LinePlotDrawLegends</function></link>
+	    controls the drawing of the legend.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-SlopefieldClearSolutions">
+         <term>SlopefieldClearSolutions</term>
+         <listitem>
+          <synopsis>SlopefieldClearSolutions ()</synopsis>
+          <para>
+	    Clears the solutions drawn by the
+	    <link linkend="gel-function-SlopefieldDrawSolution"><function>SlopefieldDrawSolution</function></link>
+	    function.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-SlopefieldDrawSolution">
+         <term>SlopefieldDrawSolution</term>
+         <listitem>
+          <synopsis>SlopefieldDrawSolution (x, y, dx)</synopsis>
+          <para>
+	    When a slope field plot is active, draw a solution with
+	    the specified initial condition.  The standard
+	    Runge-Kutta method is used with increment <varname>dx</varname>.
+	    Solutions stay on the graph until a different plot is shown or until
+	    you call 
+	    <link linkend="gel-function-SlopefieldClearSolutions"><function>SlopefieldClearSolutions</function></link>.
+	    You can also use the graphical interface to draw solutions and specify
+	    initial conditions with the mouse.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-SlopefieldPlot">
+         <term>SlopefieldPlot</term>
+         <listitem>
+          <synopsis>SlopefieldPlot (func)</synopsis>
+          <synopsis>SlopefieldPlot (func,x1,x2,y1,y2)</synopsis>
+          <para>
+	    Plot a slope field.  The function <varname>func</varname>
+	    should take two real numbers <varname>x</varname>
+	    and <varname>y</varname>, or a single complex
+	    number.
+            Optionally you can specify the limits of the plotting window as
+	    <varname>x1</varname>, <varname>x2</varname>,
+	    <varname>y1</varname>, <varname>y2</varname>.  If limits are not
+	    specified, then the currently set limits apply
+	    (See <link linkend="gel-function-LinePlotWindow"><function>LinePlotWindow</function></link>).
+          </para>
+          <para>
+	    The parameter
+	    <link linkend="gel-function-LinePlotDrawLegends"><function>LinePlotDrawLegends</function></link>
+	    controls the drawing of the legend.
+	  </para>
+          <para>
+	    Examples:
+          <screen><prompt>genius></prompt> <userinput>Slopefield(`(x,y)=sin(x-y),-5,5,-5,5)</userinput>
+</screen>
           </para>
          </listitem>
         </varlistentry>
@@ -4839,6 +4944,44 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
           <screen><prompt>genius></prompt> <userinput>SurfacePlot(|sin|,-1,1,-1,1,0,1.5)</userinput>
 <prompt>genius></prompt> <userinput>SurfacePlot(`(x,y)=x^2+y,-1,1,-1,1,-2,2)</userinput>
 <prompt>genius></prompt> <userinput>SurfacePlot(`(z)=|z|^2,-1,1,-1,1,0,2)</userinput>
+</screen>
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-VectorfieldPlot">
+         <term>VectorfieldPlot</term>
+         <listitem>
+          <synopsis>VectorfieldPlot (funcx, funcy)</synopsis>
+          <synopsis>VectorfieldPlot (funcx, funcy, x1, x2, y1, y2)</synopsis>
+          <para>
+	    Plot a two dimensional vector field.  The function
+	    <varname>funcx</varname>
+	    should be the dx/dt of the vectorfield and the function
+	    <varname>funcy</varname> should be the dy/dt of the vectorfield.
+	    The functions
+	    should take two real numbers <varname>x</varname>
+	    and <varname>y</varname>, or a single complex
+	    number.  When the parameter
+	    <link linkend="gel-function-VectorfieldNormalized"><function>VectorfieldNormalized</function></link>
+	    is <constant>true</constant>, then the magnitude of the vectors is normalized.  That is, only
+	    the direction and not the magnitude is shown.
+	  </para>
+	  <para>
+            Optionally you can specify the limits of the plotting window as
+	    <varname>x1</varname>, <varname>x2</varname>,
+	    <varname>y1</varname>, <varname>y2</varname>.  If limits are not
+	    specified, then the currently set limits apply
+	    (See <link linkend="gel-function-LinePlotWindow"><function>LinePlotWindow</function></link>).
+          </para>
+          <para>
+	    The parameter
+	    <link linkend="gel-function-LinePlotDrawLegends"><function>LinePlotDrawLegends</function></link>
+	    controls the drawing of the legend.
+	  </para>
+          <para>
+	    Examples:
+          <screen><prompt>genius></prompt> <userinput>VectorfieldPlot(`(x,y)=x^2-y, `(x,y)=y^2-x, -1, 1, -1, 1)</userinput>
 </screen>
           </para>
          </listitem>

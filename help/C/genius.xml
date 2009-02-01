@@ -4,8 +4,8 @@
   <!ENTITY app "<application>Genius Mathematics Tool</application>">
   <!ENTITY appname "Genius">
   <!ENTITY appversion "1.0.4">
-  <!ENTITY manrevision "0.2.2">
-  <!ENTITY date "September 2008">
+  <!ENTITY manrevision "0.2.3">
+  <!ENTITY date "January 2009">
 
   <!ENTITY legal SYSTEM "legal.xml">
 
@@ -28,7 +28,7 @@
     <title>&appname; Manual</title>       
 
     <copyright>
-      <year>1997-2008</year>
+      <year>1997-2009</year>
       <holder>Ji&#345;&iacute; (George) Lebl</holder>
     </copyright>
     <copyright>
@@ -556,6 +556,56 @@ See <xref linkend="lineplot-fig"/>.
           </mediaobject> 
         </screenshot> 
       </figure>
+
+    </sect1>
+
+    <sect1 id="genius-slopefield-plots">
+      <title>Slopefield Plots</title>
+      <para>
+	In the create plot window, you can also choose the <guilabel>Slope field</guilabel> notebook
+        tab to create a two dimensional slope field plot.
+	Similar operations can be
+	done on such graphs as can be done on the other line plots.
+	For plotting using the command line see the documentation of the
+        <link linkend="gel-function-SlopefieldPlot"><function>SlopefieldPlot</function></link> function.
+      </para>
+
+      <para>
+	When a slope field is active, there is an extra <guilabel>Solver</guilabel> menu available,
+	through which you can bring up the solver dialog.  Here you can have &appname; plot specific
+	solutions for the given initial conditions.  You can either specify initial conditions in the dialog,
+	or you can click on the plot directly to specify the initial point.  While the solver dialog
+	is active, the zooming by clicking and dragging does not work.  You have to close the dialog first
+	if you want to zoom using the mouse.
+      </para>
+
+      <para>
+	The solver uses the standard Runge-Kutta method.
+	The plots will stay on the screen until cleared.  The solver will stop whenever it reaches the boundary
+	of the plot window.  Zooming does not change the limits or parameters of the solutions,
+	you will have to clear and redraw them with appropriate parameters.
+	You can also use the
+        <link linkend="gel-function-SlopefieldDrawSolution"><function>SlopefieldDrawSolution</function></link>
+	function to draw solutions from the command line or programs.  
+      </para>
+
+    </sect1>
+
+    <sect1 id="genius-vectorfield-plots">
+      <title>Vectorfield Plots</title>
+      <para>
+	In the create plot window, you can also choose the <guilabel>Vector field</guilabel> notebook
+        tab to create a two dimensional vector field plot.
+	Similar operations can be
+	done on such graphs as can be done on the other line plots.
+	For plotting using the command line see the documentation of the
+        <link linkend="gel-function-VectorfieldPlot"><function>VectorfieldPlot</function></link> function.
+      </para>
+
+      <para>
+	By default only the direction of the vector field is shown.  To show the magnitude, uncheck the
+	appropriate checkbox.
+      </para>
 
     </sect1>
 
