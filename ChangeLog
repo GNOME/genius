@@ -1,3 +1,12 @@
+Sat Jan 31 18:44:38 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c: resolve some GtkExtra nonsense (dx and dy for flux
+	  are specified in pixels, that is some serious crack!) so that
+	  slope/vector fields draw correctly in non-aspect zoom.  Implement
+	  the "clear solutions" functions and included a GUI.  Implement
+	  a solver dialog and implement "clicky-solutions" when the dialog
+	  is ON.
+
 Sat Jan 31 09:42:58 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/mpwrap.c: it turns out the gmp cmp functions can return other

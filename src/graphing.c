@@ -53,6 +53,8 @@ static GtkWidget *plot_dialog = NULL;
 static GtkWidget *plot_notebook = NULL;
 static GtkWidget *function_notebook = NULL;
 
+static GtkWidget *solver_dialog = NULL;
+
 static GtkWidget *plot_zoomout_item = NULL;
 static GtkWidget *plot_zoomin_item = NULL;
 static GtkWidget *plot_zoomfit_item = NULL;
@@ -61,7 +63,9 @@ static GtkWidget *plot_print_item = NULL;
 static GtkWidget *plot_exportps_item = NULL;
 static GtkWidget *plot_exporteps_item = NULL;
 static GtkWidget *plot_exportpng_item = NULL;
-static GtkWidget *surface_menu_item = NULL;
+
+static GtkWidget *view_menu_item = NULL;
+static GtkWidget *solver_menu_item = NULL;
 
 enum {
 	MODE_LINEPLOT,
@@ -103,6 +107,8 @@ static GtkWidget *vectorfield_entry_x = NULL;
 static GtkWidget *vectorfield_status_x = NULL;
 static GtkWidget *vectorfield_entry_y = NULL;
 static GtkWidget *vectorfield_status_y = NULL;
+
+static GSList *solutions_list = NULL;
 
 static double spinx1 = -10;
 static double spinx2 = 10;
@@ -167,6 +173,9 @@ static double *plot_points_dy = NULL;
 
 static int plot_points_num = 0;
 
+static double solver_xinc = 0.1;
+static double solver_x = 0.0;
+static double solver_y = 0.0;
 
 /*
    Surface
@@ -235,6 +244,17 @@ static void plot_surface_functions (gboolean do_window_present);
 /* replot the slope/vector fields after zoom or other axis changing event */
 static void replot_fields (void);
 
+static void slopefield_draw_solution (double x, double y, double dx);
+
+static GtkWidget *
+create_range_spinboxes (const char *title, double *val1,
+			double min1, double max1, double step1,
+			const char *totitle, double *val2,
+			double min2, double max2, double step2,
+			const char *bytitle, double *by,
+			double minby, double maxby, double stepby,
+			GCallback activate_callback);
+
 #define WIDTH 640
 #define HEIGHT 480
 #define ASPECT ((double)HEIGHT/(double)WIDTH)
@@ -248,7 +268,8 @@ static void replot_fields (void);
 
 enum {
 	RESPONSE_STOP = 1,
-	RESPONSE_PLOT
+	RESPONSE_PLOT,
+	RESPONSE_CLEAR
 };
 
 static void
@@ -284,7 +305,23 @@ plot_window_setup (void)
 		gtk_widget_set_sensitive (plot_exportps_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_exporteps_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_exportpng_item, ! plot_in_progress);
-		gtk_widget_set_sensitive (surface_menu_item, ! plot_in_progress);
+		gtk_widget_set_sensitive (view_menu_item, ! plot_in_progress);
+		gtk_widget_set_sensitive (solver_menu_item, ! plot_in_progress);
+
+		if (plot_mode == MODE_SURFACE) {
+			gtk_widget_show (view_menu_item);
+		} else {
+			gtk_widget_hide (view_menu_item);
+		}
+
+		if (plot_mode == MODE_LINEPLOT_SLOPEFIELD) {
+			gtk_widget_show (solver_menu_item);
+		} else {
+			if (solver_dialog != NULL) {
+				gtk_widget_destroy (solver_dialog);
+			}
+			gtk_widget_hide (solver_menu_item);
+		}
 	}
 }
 
@@ -507,7 +544,7 @@ top_view_cb (GtkWidget *button, gpointer data)
 }
 
 static gboolean
-dialog_delete_event (GtkWidget *w, gpointer data)
+graph_window_delete_event (GtkWidget *w, gpointer data)
 {
 	if (plot_in_progress > 0) {
 		interrupted = TRUE;
@@ -520,7 +557,7 @@ dialog_delete_event (GtkWidget *w, gpointer data)
 
 
 static void
-dialog_response (GtkWidget *w, int response, gpointer data)
+graph_window_response (GtkWidget *w, int response, gpointer data)
 {
 	if (response == GTK_RESPONSE_CLOSE ||
 	    response == GTK_RESPONSE_DELETE_EVENT) {
@@ -1169,36 +1206,53 @@ plot_select_region (GtkPlotCanvas *canvas,
 		    gdouble xmax,
 		    gdouble ymax)
 {
+	double len;
+	double px, py, pw, ph;
+
+	/* FIXME: evil because this is the selection thingie,
+	   hmmm, I dunno another way to do this though */
+
+	gtk_plot_get_position (GTK_PLOT (line_plot), &px, &py);
+	gtk_plot_get_size (GTK_PLOT (line_plot), &pw, &ph);
+
+	xmin -= px;
+	ymin -= py;
+	xmax -= px;
+	ymax -= py;
+
+	xmin /= pw;
+	ymin /= ph;
+	xmax /= pw;
+	ymax /= ph;
+
+	{ /* flip the y coordinate */
+		double oldymin = ymin;
+		ymin = 1.0 - ymax;
+		ymax = 1.0 - oldymin;
+	}
+
+	if (plot_in_progress == 0 &&
+	    line_plot != NULL &&
+	    plot_mode == MODE_LINEPLOT_SLOPEFIELD &&
+	    solver_dialog != NULL) {
+		double x, y;
+		len = plotx2 - plotx1;
+		x = plotx1 + len * xmin;
+		len = ploty2 - ploty1;
+		y = ploty1 + len * ymin;
+
+		slopefield_draw_solution (x, y, solver_xinc);
+
+		return;
+	}
+
+
 	/* only for line plots! */
 	if (plot_in_progress == 0 && line_plot != NULL) {
-		double len;
-		double px, py, pw, ph;
 		gboolean last_info = genius_setup.info_box;
 		gboolean last_error = genius_setup.error_box;
 		genius_setup.info_box = TRUE;
 		genius_setup.error_box = TRUE;
-
-		/* FIXME: evil because this is the selection thingie,
-		   hmmm, I dunno another way to do this though */
-
-		gtk_plot_get_position (GTK_PLOT (line_plot), &px, &py);
-		gtk_plot_get_size (GTK_PLOT (line_plot), &pw, &ph);
-
-		xmin -= px;
-		ymin -= py;
-		xmax -= px;
-		ymax -= py;
-
-		xmin /= pw;
-		ymin /= ph;
-		xmax /= pw;
-		ymax /= ph;
-
-		{ /* flip the y coordinate */
-			double oldymin = ymin;
-			ymin = 1.0 - ymax;
-			ymax = 1.0 - oldymin;
-		}
 
 		len = plotx2 - plotx1;
 		plotx1 += len * xmin;
@@ -1349,6 +1403,148 @@ add_surface_plot (void)
 }
 
 static void
+clear_solutions (void)
+{
+	GSList *sl, *li;
+	sl = solutions_list;
+	solutions_list = NULL;
+
+	for (li = sl; li != NULL; li = li->next) {
+		GtkWidget *d = li->data;
+		li->data = NULL;
+		if (d != NULL)
+			gtk_widget_destroy (d);
+	}
+
+	g_slist_free (sl);
+
+	if (plot_canvas != NULL) {
+		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+	}
+}
+
+static void
+solver_dialog_response (GtkWidget *w, int response, gpointer data)
+{
+	if (response == RESPONSE_PLOT) {
+		slopefield_draw_solution (solver_x, solver_y, solver_xinc);
+	} else if (response == RESPONSE_CLEAR) {
+		clear_solutions ();
+	} else  {
+		gtk_widget_destroy (solver_dialog);
+	}
+}
+
+static void
+solver_entry_activate (void)
+{
+	if (solver_dialog != NULL)
+		gtk_dialog_response (GTK_DIALOG (solver_dialog),
+				     RESPONSE_PLOT);
+}
+
+static void
+solver_cb (GtkWidget *item, gpointer data)
+{
+	GtkWidget *box, *w;
+	double inc;
+
+	if (line_plot == NULL ||
+	    plot_mode != MODE_LINEPLOT_SLOPEFIELD)
+		return;
+
+	if (solver_dialog != NULL) {
+		gtk_window_present (GTK_WINDOW (solver_dialog));
+		return;
+	}
+
+	solver_dialog = gtk_dialog_new_with_buttons
+		(_("Solver") /* title */,
+		 GTK_WINDOW (graph_window) /* parent */,
+		 0 /* flags */,
+		 GTK_STOCK_CLOSE,
+		 GTK_RESPONSE_CLOSE,
+		 _("Clea_r solutions"),
+		 RESPONSE_CLEAR,
+		 _("_Plot solution"),
+		 RESPONSE_PLOT,
+		 NULL);
+	g_signal_connect (G_OBJECT (solver_dialog),
+			  "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &solver_dialog);
+	g_signal_connect (G_OBJECT (solver_dialog),
+			  "response",
+			  G_CALLBACK (solver_dialog_response),
+			  NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (solver_dialog),
+					 RESPONSE_PLOT);
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (solver_dialog), FALSE);
+
+	box = gtk_vbox_new (FALSE, GNOME_PAD);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (solver_dialog)->vbox),
+			    box, TRUE, TRUE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
+
+	w = gtk_label_new (_("Clicking on the graph window now will draw a "
+			     "solution according to the parameters set "
+			     "below, starting at the point clicked.  "
+			     "To be able to zoom by mouse again, close this "
+			     "window."));
+	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+
+	solver_xinc = (plotx2-plotx1) / 100;
+
+	if (solver_xinc <= 0.005)
+		inc = 0.001;
+	else if (solver_xinc <= 0.05)
+		inc = 0.01;
+	else if (solver_xinc <= 0.5)
+		inc = 0.1;
+	else
+		inc = 1;
+
+	w = create_range_spinboxes (_("X increment:"), &solver_xinc,
+				    0, G_MAXDOUBLE, inc,
+				    NULL, NULL, 0, 0, 0,
+				    NULL, NULL, 0, 0, 0,
+				    solver_entry_activate);
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+
+	if (solver_x < plotx1 || solver_x > plotx2)
+		solver_x = plotx1 + (plotx2-plotx1)/2;
+	if (solver_y < ploty1 || solver_y > ploty2)
+		solver_y = ploty1 + (ploty2-ploty1)/2;
+
+	w = create_range_spinboxes (_("Point x:"), &solver_x,
+				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
+				    _("y:"), &solver_y,
+				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
+				    NULL, NULL, 0, 0, 0,
+				    solver_entry_activate);
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+
+	gtk_widget_show_all (solver_dialog);
+}
+
+static void
+clear_solutions_cb (GtkWidget *item, gpointer data)
+{
+	clear_solutions ();
+}
+
+static void
+graph_window_destroyed (GtkWidget *w, gpointer data)
+{
+	graph_window = NULL;
+	if (solver_dialog != NULL)
+		gtk_widget_destroy (solver_dialog);
+}
+
+static void
 ensure_window (gboolean do_window_present)
 {
 	GtkWidget *menu, *menubar, *item;
@@ -1400,21 +1596,23 @@ ensure_window (gboolean do_window_present)
 
 	g_signal_connect (G_OBJECT (graph_window),
 			  "destroy",
-			  G_CALLBACK (gtk_widget_destroyed),
-			  &graph_window);
+			  G_CALLBACK (graph_window_destroyed), NULL);
 	g_signal_connect (G_OBJECT (graph_window),
 			  "delete_event",
-			  G_CALLBACK (dialog_delete_event),
+			  G_CALLBACK (graph_window_delete_event),
 			  NULL);
 	g_signal_connect (G_OBJECT (graph_window),
 			  "response",
-			  G_CALLBACK (dialog_response),
+			  G_CALLBACK (graph_window_response),
 			  NULL);
 
 	menubar = gtk_menu_bar_new ();
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (graph_window)->vbox),
 			    GTK_WIDGET (menubar), FALSE, TRUE, 0);
 
+	/*
+	 * Graph menu
+	 */
 	menu = gtk_menu_new ();
 	gtk_menu_set_accel_group (GTK_MENU (menu), accel_group);
 	item = gtk_menu_item_new_with_mnemonic (_("_Graph"));
@@ -1446,6 +1644,9 @@ ensure_window (gboolean do_window_present)
 	plot_exportpng_item = item;
 
 
+	/*
+	 * Zoom menu
+	 */
 	menu = gtk_menu_new ();
 	gtk_menu_set_accel_group (GTK_MENU (menu), accel_group);
 	item = gtk_menu_item_new_with_mnemonic (_("_Zoom"));
@@ -1481,12 +1682,15 @@ ensure_window (gboolean do_window_present)
 	plot_resetzoom_item = item;
 
 
+	/*
+	 * View menu
+	 */
 	menu = gtk_menu_new ();
 	gtk_menu_set_accel_group (GTK_MENU (menu), accel_group);
 	item = gtk_menu_item_new_with_mnemonic (_("_View"));
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), menu);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), item);
-	surface_menu_item = item;
+	view_menu_item = item;
 
 	item = gtk_menu_item_new_with_mnemonic (_("_Reset angles"));
 	g_signal_connect (G_OBJECT (item), "activate",
@@ -1501,6 +1705,26 @@ ensure_window (gboolean do_window_present)
 	item = gtk_menu_item_new_with_mnemonic (_("R_otate axis..."));
 	g_signal_connect (G_OBJECT (item), "activate",
 			  G_CALLBACK (rotate_cb), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	/*
+	 * Solver menu
+	 */
+	menu = gtk_menu_new ();
+	gtk_menu_set_accel_group (GTK_MENU (menu), accel_group);
+	item = gtk_menu_item_new_with_mnemonic (_("_Solver"));
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), menu);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), item);
+	solver_menu_item = item;
+
+	item = gtk_menu_item_new_with_mnemonic (_("_Solver..."));
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (solver_cb), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	item = gtk_menu_item_new_with_mnemonic (_("_Clear solutions"));
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (clear_solutions_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 
@@ -1523,6 +1747,10 @@ static void
 clear_graph (void)
 {
 	int i;
+
+	/* to avoid the costly removes */
+	g_slist_free (solutions_list);
+	solutions_list = NULL;
 
 	if (plot_child != NULL) {
 		if (plot_canvas != NULL)
@@ -2148,9 +2376,23 @@ get_slopefield_points (void)
 	double x, y, vt, ht, z, dx, dy;
 	int i, j, k;
 	gboolean ex;
+	double pw, ph;
+	double xmul, ymul;
+	double mt;
+
+	/* FIXME: evil, see the AAAARGH below! */
+
+	gtk_plot_get_size (GTK_PLOT (line_plot), &pw, &ph);
+	xmul = (pw * WIDTH) / (plotx2 - plotx1);
+	ymul = (ph * HEIGHT) / (ploty2 - ploty1);
 
 	ht = (plotx2 - plotx1) / (plotHtick+1);
 	vt = (ploty2 - ploty1) / (plotVtick+1);
+
+	mt = MIN (ht, vt) * 0.8;
+
+	xmul *= mt;
+	ymul *= mt;
 
 	g_free (plot_points_x);
 	g_free (plot_points_y);
@@ -2172,10 +2414,16 @@ get_slopefield_points (void)
 						   x, y, &ex);
 
 			if G_LIKELY ( ! ex) {
-				/* dx = 1 / sqrt(z*z +1);
-				dy = z*dx;*/
-				dx = 1;
-				dy = z;
+				dx = 1 / sqrt(z*z +1);
+				dy = z*dx;
+
+				/* gtkextra fluxplot is nuts, it does the
+				 * dx and dy are in pixel coordinates, 
+				 * AAAAAARGH! */
+
+				dx *= xmul;
+				dy *= ymul;
+
 				plot_points_x[k] = x;
 				plot_points_dx[k] = dx;
 
@@ -2197,9 +2445,23 @@ get_vectorfield_points (void)
 	int i, j, k;
 	gboolean ex;
 	double maxsz = 0.0;
+	double pw, ph;
+	double xmul, ymul;
+	double mt;
+
+	/* FIXME: evil, see the AAAARGH below! */
+
+	gtk_plot_get_size (GTK_PLOT (line_plot), &pw, &ph);
+	xmul = (pw * WIDTH) / (plotx2 - plotx1);
+	ymul = (ph * HEIGHT) / (ploty2 - ploty1);
 
 	ht = (plotx2 - plotx1) / (plotHtick+1);
 	vt = (ploty2 - ploty1) / (plotVtick+1);
+
+	mt = MIN (ht, vt) * 0.95;
+
+	xmul *= mt;
+	ymul *= mt;
 
 	g_free (plot_points_x);
 	g_free (plot_points_y);
@@ -2257,6 +2519,15 @@ get_vectorfield_points (void)
 				plot_points_dy[k] /= maxsz;
 			}
 		}
+	}
+
+	/* gtkextra fluxplot is nuts, it does the
+	 * dx and dy are in pixel coordinates, 
+	 * AAAAAARGH! */
+
+	for (k = 0; k < plot_points_num; k++) {
+		plot_points_dx[k] *= xmul;
+		plot_points_dy[k] *= ymul;
 	}
 }
 
@@ -2586,6 +2857,12 @@ draw_line (double *x, double *y, int len, int thickness, GdkColor *color)
 }
 
 static void
+solution_destroyed (GtkWidget *plotdata, gpointer data)
+{
+	solutions_list = g_slist_remove (solutions_list, plotdata);
+}
+
+static void
 slopefield_draw_solution (double x, double y, double dx)
 {
 	double *xx, *yy;
@@ -2596,6 +2873,7 @@ slopefield_draw_solution (double x, double y, double dx)
 	GSList *points1 = NULL;
 	GSList *points2 = NULL;
 	GSList *li;
+	GtkPlotData *data;
 
 	if (slopefield_func == NULL)
 		return;
@@ -2691,7 +2969,11 @@ slopefield_draw_solution (double x, double y, double dx)
 	g_slist_free (points1);
 	g_slist_free (points2);
 
-	draw_line (xx, yy, len, 2 /* thickness */, &color);
+	data = draw_line (xx, yy, len, 2 /* thickness */, &color);
+	solutions_list = g_slist_prepend (solutions_list,
+					  data);
+	g_signal_connect (G_OBJECT (data), "destroy",
+			  G_CALLBACK (solution_destroyed), NULL);
 }
 
 static void
@@ -2704,10 +2986,6 @@ replot_fields (void)
 
 			if (slopefield_data == NULL) {
 				char *label, *tmp;
-				int mt;
-
-				mt = MIN ((HEIGHT / (plotHtick+1)),
-					  (WIDTH / (plotVtick+1))) * 0.6;
 
 				slopefield_data = GTK_PLOT_DATA(gtk_plot_flux_new());
 				gtk_plot_add_data (GTK_PLOT (line_plot),
@@ -2726,7 +3004,6 @@ replot_fields (void)
 							  &color /* border_color? */);
 
 
-				gtk_plot_flux_set_size_max (GTK_PLOT_FLUX (slopefield_data), mt);
 				gtk_plot_flux_set_arrow (GTK_PLOT_FLUX (slopefield_data),
 							 0, 0, GTK_PLOT_SYMBOL_NONE);
 
@@ -2761,10 +3038,6 @@ replot_fields (void)
 
 			if (vectorfield_data == NULL) {
 				char *l1, *l2, *tmp;
-				int mt;
-
-				mt = MIN ((HEIGHT / (plotHtick+1)),
-					  (WIDTH / (plotVtick+1))) * 0.9;
 
 				vectorfield_data = GTK_PLOT_DATA(gtk_plot_flux_new());
 				gtk_plot_add_data (GTK_PLOT (line_plot),
@@ -2783,7 +3056,6 @@ replot_fields (void)
 							  &color /* border_color? */);
 
 
-				gtk_plot_flux_set_size_max (GTK_PLOT_FLUX (vectorfield_data), mt);
 				gtk_plot_flux_set_arrow (GTK_PLOT_FLUX (vectorfield_data),
 							 6, 6, GTK_PLOT_SYMBOL_OPAQUE);
 
@@ -2856,8 +3128,6 @@ plot_functions (gboolean do_window_present)
 	clear_graph ();
 
 	add_line_plot ();
-
-	gtk_widget_hide (surface_menu_item);
 
 	GTK_PLOT_CANVAS_SET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
 				   GTK_PLOT_CANVAS_CAN_SELECT);
@@ -3019,8 +3289,6 @@ plot_surface_functions (gboolean do_window_present)
 
 	add_surface_plot ();
 
-	gtk_widget_show (surface_menu_item);
-
 	GTK_PLOT_CANVAS_UNSET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
 				     GTK_PLOT_CANVAS_CAN_SELECT);
 
@@ -3111,8 +3379,13 @@ entry_activate (void)
 }
 
 static GtkWidget *
-create_range_spinboxes (const char *title, double *val1, double *val2,
-			double *by)
+create_range_spinboxes (const char *title, double *val1,
+			double min1, double max1, double step1,
+			const char *totitle, double *val2,
+			double min2, double max2, double step2,
+			const char *bytitle, double *by,
+			double minby, double maxby, double stepby,
+			GCallback activate_callback)
 {
 	GtkWidget *b, *w;
 	GtkAdjustment *adj;
@@ -3121,13 +3394,16 @@ create_range_spinboxes (const char *title, double *val1, double *val2,
 	w = gtk_label_new(title);
 	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
 	adj = (GtkAdjustment *)gtk_adjustment_new (*val1,
-						   -G_MAXFLOAT,
-						   G_MAXFLOAT,
-						   1,
-						   10,
+						   min1,
+						   max1,
+						   step1,
+						   step1*10,
 						   0);
-	w = gtk_spin_button_new (adj, 1.0, 5);
-	g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
+	w = gtk_spin_button_new (adj, step1, 5);
+	g_signal_connect (G_OBJECT (w), "activate",
+			  G_CALLBACK (gtk_spin_button_update), NULL);
+	g_signal_connect (G_OBJECT (w), "activate",
+			  G_CALLBACK (activate_callback), NULL);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
 	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
 	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
@@ -3135,34 +3411,42 @@ create_range_spinboxes (const char *title, double *val1, double *val2,
 	g_signal_connect (G_OBJECT (adj), "value_changed",
 			  G_CALLBACK (double_spin_cb), val1);
 
-	w = gtk_label_new(_("to:"));
-	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
-	adj = (GtkAdjustment *)gtk_adjustment_new (*val2,
-						   -G_MAXFLOAT,
-						   G_MAXFLOAT,
-						   1,
-						   10,
-						   0);
-	w = gtk_spin_button_new (adj, 1.0, 5);
-	g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
-	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
-	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
-	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
-	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
-	g_signal_connect (G_OBJECT (adj), "value_changed",
-			  G_CALLBACK (double_spin_cb), val2);
+	if (val2 != NULL) {
+		w = gtk_label_new (totitle);
+		gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+		adj = (GtkAdjustment *)gtk_adjustment_new (*val2,
+							   min2,
+							   max2,
+							   step2,
+							   step2*10,
+							   0);
+		w = gtk_spin_button_new (adj, step2, 5);
+		g_signal_connect (G_OBJECT (w), "activate",
+				  G_CALLBACK (gtk_spin_button_update), NULL);
+		g_signal_connect (G_OBJECT (w), "activate",
+				  G_CALLBACK (activate_callback), NULL);
+		gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
+		gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
+		gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
+		gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+		g_signal_connect (G_OBJECT (adj), "value_changed",
+				  G_CALLBACK (double_spin_cb), val2);
+	}
 
 	if (by != NULL) {
-		w = gtk_label_new(_("by:"));
+		w = gtk_label_new (bytitle);
 		gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
 		adj = (GtkAdjustment *)gtk_adjustment_new (*by,
-							   -G_MAXFLOAT,
-							   G_MAXFLOAT,
-							   1,
-							   10,
+							   minby,
+							   maxby,
+							   stepby,
+							   stepby*10,
 							   0);
-		w = gtk_spin_button_new (adj, 1.0, 5);
-		g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
+		w = gtk_spin_button_new (adj, stepby, 5);
+		g_signal_connect (G_OBJECT (w), "activate",
+				  G_CALLBACK (gtk_spin_button_update), NULL);
+		g_signal_connect (G_OBJECT (w), "activate",
+				  G_CALLBACK (activate_callback), NULL);
 		gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
 		gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
 		gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), FALSE);
@@ -3190,7 +3474,10 @@ create_int_spinbox (const char *title, int *val, int min, int max)
 						   10,
 						   0);
 	w = gtk_spin_button_new (adj, 1.0, 0);
-	g_signal_connect (G_OBJECT (w), "activate", entry_activate, NULL);
+	g_signal_connect (G_OBJECT (w), "activate",
+			  G_CALLBACK (gtk_spin_button_update), NULL);
+	g_signal_connect (G_OBJECT (w), "activate",
+			  G_CALLBACK (entry_activate), NULL);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
 	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
 	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (w), TRUE);
@@ -3215,7 +3502,7 @@ create_expression_box (const char *label,
 
 	*entry = gtk_entry_new ();
 	g_signal_connect (G_OBJECT (*entry), "activate",
-			  entry_activate, NULL);
+			  G_CALLBACK (entry_activate), NULL);
 	gtk_box_pack_start (GTK_BOX (b), *entry, TRUE, TRUE, 0);
 
 	*status = gtk_image_new ();
@@ -3315,10 +3602,13 @@ create_lineplot_box (void)
 	gtk_box_pack_start (GTK_BOX (box), gtk_label_new (""), FALSE, FALSE, 0);
 
 	/* t range */
-	b = create_range_spinboxes (_("Parameter t from:"),
-				    &spint1,
-				    &spint2,
-				    &spintinc);
+	b = create_range_spinboxes (_("Parameter t from:"), &spint1,
+				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
+				    _("to:"), &spint2,
+				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
+				    _("by:"), &spintinc,
+				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
+				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (function_notebook),
@@ -3428,13 +3718,23 @@ create_lineplot_box (void)
 	/*
 	 * X range
 	 */
-	b = create_range_spinboxes (_("X from:"), &spinx1, &spinx2, NULL);
+	b = create_range_spinboxes (_("X from:"), &spinx1,
+				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
+				    _("to:"), &spinx2,
+				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
+				    NULL, NULL, 0, 0, 0,
+				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 
 	/*
 	 * Y range
 	 */
-	b = create_range_spinboxes (_("Y from:"), &spiny1, &spiny2, NULL);
+	b = create_range_spinboxes (_("Y from:"), &spiny1,
+				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
+				    _("to:"), &spiny2,
+				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
+				    NULL, NULL, 0, 0, 0,
+				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 
 	return mainbox;
@@ -3469,7 +3769,7 @@ create_surface_box (void)
 
 	surface_entry = gtk_entry_new ();
 	g_signal_connect (G_OBJECT (surface_entry), "activate",
-			  entry_activate, NULL);
+			  G_CALLBACK (entry_activate), NULL);
 	gtk_box_pack_start (GTK_BOX (b), surface_entry, TRUE, TRUE, 0);
 
 	surface_entry_status = gtk_image_new ();
@@ -3484,22 +3784,34 @@ create_surface_box (void)
 	/*
 	 * X range
 	 */
-	b = create_range_spinboxes (_("X from:"), &surf_spinx1, &surf_spinx2,
-				    NULL);
+	b = create_range_spinboxes (_("X from:"), &surf_spinx1,
+				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
+				    _("to:"), &surf_spinx2,
+				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
+				    NULL, NULL, 0, 0, 0,
+				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 
 	/*
 	 * Y range
 	 */
-	b = create_range_spinboxes (_("Y from:"), &surf_spiny1, &surf_spiny2,
-				    NULL);
+	b = create_range_spinboxes (_("Y from:"), &surf_spiny1,
+				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
+				    _("to:"), &surf_spiny2,
+				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
+				    NULL, NULL, 0, 0, 0,
+				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 
 	/*
 	 * Z range
 	 */
-	b = create_range_spinboxes (_("Z from:"), &surf_spinz1, &surf_spinz2,
-				    NULL);
+	b = create_range_spinboxes (_("Z from:"), &surf_spinz1,
+				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
+				    _("to:"), &surf_spinz2,
+				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
+				    NULL, NULL, 0, 0, 0,
+				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 
 	return mainbox;
@@ -4539,9 +4851,16 @@ SlopefieldDrawSolution_op (GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 SlopefieldClearSolutions_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
-	/* FIXME: */
-	gel_errorout ("FIXME: implement");
-	return NULL;
+	if (plot_mode != MODE_LINEPLOT_SLOPEFIELD ||
+	    slopefield_func == NULL) {
+		gel_errorout (_("%s: Slope field not active"),
+			      "SlopefieldClearSolutions");
+		return NULL;
+	}
+
+	clear_solutions ();
+
+	return gel_makenum_null ();
 }
 
 static GelETree *
