@@ -1211,6 +1211,12 @@ plot_select_region (GtkPlotCanvas *canvas,
 {
 	double len;
 	double px, py, pw, ph;
+	gboolean just_click = FALSE;
+
+	if (fabs(xmin-xmax) < 0.001 ||
+	    fabs(ymin-ymax) < 0.001) {
+		just_click = TRUE;
+	}
 
 	/* FIXME: evil because this is the selection thingie,
 	   hmmm, I dunno another way to do this though */
@@ -1257,13 +1263,24 @@ plot_select_region (GtkPlotCanvas *canvas,
 		genius_setup.info_box = TRUE;
 		genius_setup.error_box = TRUE;
 
-		len = plotx2 - plotx1;
-		plotx1 += len * xmin;
-		plotx2 = plotx1 + (len * (xmax-xmin));
+		/* just click, so zoom in */
+		if (just_click) {
+			len = plotx2 - plotx1;
+			plotx1 += len * xmin - len / 4.0;
+			plotx2 = plotx1 + len / 2.0;
 
-		len = ploty2 - ploty1;
-		ploty1 += len * ymin;
-		ploty2 = ploty1 + (len * (ymax-ymin));
+			len = ploty2 - ploty1;
+			ploty1 += len * ymin - len / 4.0;
+			ploty2 = ploty1 + len / 2.0;
+		} else {
+			len = plotx2 - plotx1;
+			plotx1 += len * xmin;
+			plotx2 = plotx1 + (len * (xmax-xmin));
+
+			len = ploty2 - ploty1;
+			ploty1 += len * ymin;
+			ploty2 = ploty1 + (len * (ymax-ymin));
+		}
 
 		/* sanity */
 		if (plotx2 - plotx1 < MINPLOT)
@@ -1834,12 +1851,22 @@ plot_setup_axis (void)
 	gtk_plot_set_ticks (GTK_PLOT (line_plot), GTK_PLOT_AXIS_X, xtick, 9);
 	gtk_plot_set_ticks (GTK_PLOT (line_plot), GTK_PLOT_AXIS_Y, ytick, 9);
 
-	x = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_TOP);
-	y = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_BOTTOM);
-
+	x = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_LEFT);
 	gtk_plot_axis_set_labels_style (x,
 					GTK_PLOT_LABEL_FLOAT,
 					xprec /* precision */);
+
+	x = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_RIGHT);
+	gtk_plot_axis_set_labels_style (x,
+					GTK_PLOT_LABEL_FLOAT,
+					xprec /* precision */);
+
+	y = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_TOP);
+	gtk_plot_axis_set_labels_style (y,
+					GTK_PLOT_LABEL_FLOAT,
+					yprec /* precision */);
+
+	y = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_BOTTOM);
 	gtk_plot_axis_set_labels_style (y,
 					GTK_PLOT_LABEL_FLOAT,
 					yprec /* precision */);
@@ -3547,7 +3574,7 @@ static GtkWidget *
 create_lineplot_box (void)
 {
 	GtkWidget *mainbox, *frame;
-	GtkWidget *box, *b, *w;
+	GtkWidget *box, *b, *fb, *w;
 	int i;
 
 
@@ -3570,11 +3597,31 @@ create_lineplot_box (void)
 	gtk_widget_set_size_request (w, 610, -1);
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 
+	fb = box;
+
+	if (gdk_screen_height () < 800) {
+		w = gtk_scrolled_window_new (NULL, NULL);
+		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (w),
+						GTK_POLICY_NEVER,
+						GTK_POLICY_ALWAYS);
+		gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
+
+		b = gtk_viewport_new (NULL, NULL);
+		gtk_container_add (GTK_CONTAINER (w), b);
+
+		fb = gtk_vbox_new(FALSE,GNOME_PAD);
+		gtk_container_set_border_width (GTK_CONTAINER (fb), GNOME_PAD);
+
+		gtk_container_add (GTK_CONTAINER (b), fb);
+	}
+
+
+
 	for (i = 0; i < MAXFUNC; i++) {
 		b = create_expression_box ("y=",
 					   &(plot_entries[i]),
 					   &(plot_entries_status[i]));
-		gtk_box_pack_start (GTK_BOX (box), b, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (fb), b, FALSE, FALSE, 0);
 	}
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (function_notebook),
