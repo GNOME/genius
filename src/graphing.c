@@ -5408,7 +5408,8 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	if (a[0] == NULL ||
 	    a[0]->type != FUNCTION_NODE) {
-		gel_errorout (_("%s: First argument must be functions"), "LinePlotCParametric");
+		gel_errorout (_("%s: First argument must be a function"),
+			      "LinePlotCParametric");
 		return NULL;
 	}
 
