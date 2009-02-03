@@ -1,3 +1,10 @@
+Mon Feb 02 23:40:32 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c: fix typo, it is dy/dx not dx/dy.  Also fix the
+	  slopefield vectorfield sizing stuff to actually get it right in
+	  every aspect.  I.e., scale to uniform size AFTER converting to
+	  pixels, DUH!
+
 Mon Feb 02 01:11:11 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/graphing.c: fix the plot scale precision (especially for y).  

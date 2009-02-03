@@ -2408,6 +2408,7 @@ get_slopefield_points (void)
 	gboolean ex;
 	double pw, ph;
 	double xmul, ymul;
+	double sz;
 	double mt;
 
 	/* FIXME: evil, see the AAAARGH below! */
@@ -2416,27 +2417,25 @@ get_slopefield_points (void)
 	xmul = (pw * WIDTH) / (plotx2 - plotx1);
 	ymul = (ph * HEIGHT) / (ploty2 - ploty1);
 
-	ht = (plotx2 - plotx1) / (plotHtick+1);
-	vt = (ploty2 - ploty1) / (plotVtick+1);
+	ht = (plotx2 - plotx1) / (plotHtick);
+	vt = (ploty2 - ploty1) / (plotVtick);
 
-	mt = MIN (ht, vt) * 0.8;
-
-	xmul *= mt;
-	ymul *= mt;
+	mt = MIN (((pw * WIDTH) / (plotHtick)),
+		  ((ph * HEIGHT) / (plotVtick))) * 0.8;
 
 	g_free (plot_points_x);
 	g_free (plot_points_y);
 	g_free (plot_points_dx);
 	g_free (plot_points_dy);
 
-	plot_points_x = g_new (double, (plotHtick+1)*(plotVtick+1));
-	plot_points_y = g_new (double, (plotHtick+1)*(plotVtick+1));
-	plot_points_dx = g_new (double, (plotHtick+1)*(plotVtick+1));
-	plot_points_dy = g_new (double, (plotHtick+1)*(plotVtick+1));
+	plot_points_x = g_new (double, (plotHtick)*(plotVtick));
+	plot_points_y = g_new (double, (plotHtick)*(plotVtick));
+	plot_points_dx = g_new (double, (plotHtick)*(plotVtick));
+	plot_points_dy = g_new (double, (plotHtick)*(plotVtick));
 
 	k = 0;
-	for (i = 0; i <= plotHtick; i++) {
-		for (j = 0; j <= plotVtick; j++) {
+	for (i = 0; i < plotHtick; i++) {
+		for (j = 0; j < plotVtick; j++) {
 			x = plotx1 + ht*(i+0.5);
 			y = ploty1 + vt*(j+0.5);
 			ex = FALSE;
@@ -2444,15 +2443,17 @@ get_slopefield_points (void)
 						   x, y, &ex);
 
 			if G_LIKELY ( ! ex) {
-				dx = 1 / sqrt(z*z +1);
-				dy = z*dx;
-
 				/* gtkextra fluxplot is nuts, it does the
 				 * dx and dy are in pixel coordinates, 
 				 * AAAAAARGH! */
 
-				dx *= xmul;
-				dy *= ymul;
+				z = z*ymul;
+				sz = sqrt(z*z + xmul*xmul);
+				dx = xmul / sz;
+				dy = z / sz;
+
+				dx *= mt;
+				dy *= mt;
 
 				plot_points_x[k] = x;
 				plot_points_dx[k] = dx;
@@ -2477,7 +2478,7 @@ get_vectorfield_points (void)
 	double maxsz = 0.0;
 	double pw, ph;
 	double xmul, ymul;
-	double mt;
+	double mt, sz;
 
 	/* FIXME: evil, see the AAAARGH below! */
 
@@ -2485,27 +2486,25 @@ get_vectorfield_points (void)
 	xmul = (pw * WIDTH) / (plotx2 - plotx1);
 	ymul = (ph * HEIGHT) / (ploty2 - ploty1);
 
-	ht = (plotx2 - plotx1) / (plotHtick+1);
-	vt = (ploty2 - ploty1) / (plotVtick+1);
+	ht = (plotx2 - plotx1) / (plotHtick);
+	vt = (ploty2 - ploty1) / (plotVtick);
 
-	mt = MIN (ht, vt) * 0.95;
-
-	xmul *= mt;
-	ymul *= mt;
+	mt = MIN (((pw * WIDTH) / (plotHtick)),
+		  ((ph * HEIGHT) / (plotVtick))) * 0.95;
 
 	g_free (plot_points_x);
 	g_free (plot_points_y);
 	g_free (plot_points_dx);
 	g_free (plot_points_dy);
 
-	plot_points_x = g_new (double, (plotHtick+1)*(plotVtick+1));
-	plot_points_y = g_new (double, (plotHtick+1)*(plotVtick+1));
-	plot_points_dx = g_new (double, (plotHtick+1)*(plotVtick+1));
-	plot_points_dy = g_new (double, (plotHtick+1)*(plotVtick+1));
+	plot_points_x = g_new (double, (plotHtick)*(plotVtick));
+	plot_points_y = g_new (double, (plotHtick)*(plotVtick));
+	plot_points_dx = g_new (double, (plotHtick)*(plotVtick));
+	plot_points_dy = g_new (double, (plotHtick)*(plotVtick));
 
 	k = 0;
-	for (i = 0; i <= plotHtick; i++) {
-		for (j = 0; j <= plotVtick; j++) {
+	for (i = 0; i < plotHtick; i++) {
+		for (j = 0; j < plotVtick; j++) {
 			x = plotx1 + ht*(i+0.5);
 			y = ploty1 + vt*(j+0.5);
 			ex = FALSE;
@@ -2515,9 +2514,15 @@ get_vectorfield_points (void)
 						    x, y, &ex);
 
 			if G_LIKELY ( ! ex) {
-				double sz;
+				/* gtkextra fluxplot is nuts, it does the
+				 * dx and dy are in pixel coordinates, 
+				 * AAAAAARGH! */
+
+				dx = dx*xmul;
+				dy = dy*ymul;
 
 				sz = sqrt(dx*dx + dy*dy);
+
 				if (vectorfield_normalize_arrow_length) {
 					if (sz > 0) {
 						dx /= sz;
@@ -2529,10 +2534,10 @@ get_vectorfield_points (void)
 				}
 
 				plot_points_x[k] = x;
-				plot_points_dx[k] = dx;
+				plot_points_dx[k] = dx * mt;
 
 				plot_points_y[k] = y;
-				plot_points_dy[k] = dy;
+				plot_points_dy[k] = dy * mt;
 
 
 				k++;
@@ -2543,21 +2548,12 @@ get_vectorfield_points (void)
 	plot_points_num = k;
 
 	if ( ! vectorfield_normalize_arrow_length) {
-		if (maxsz > 0.0) {
+		if (maxsz > 0) {
 			for (k = 0; k < plot_points_num; k++) {
 				plot_points_dx[k] /= maxsz;
 				plot_points_dy[k] /= maxsz;
 			}
 		}
-	}
-
-	/* gtkextra fluxplot is nuts, it does the
-	 * dx and dy are in pixel coordinates, 
-	 * AAAAAARGH! */
-
-	for (k = 0; k < plot_points_num; k++) {
-		plot_points_dx[k] *= xmul;
-		plot_points_dy[k] *= ymul;
 	}
 }
 
@@ -3064,7 +3060,7 @@ replot_fields (void)
 				label = label_func (-1, slopefield_func, "x,y", slopefield_name);
 				/* FIXME: gtkextra is broken (adding the "  ")
 				 * and I don't feel like fixing it */
-				tmp = g_strconcat ("dx/dy = ", label, "  ", NULL);
+				tmp = g_strconcat ("dy/dx = ", label, "  ", NULL);
 				g_free (label);
 				gtk_plot_data_set_legend (slopefield_data, tmp);
 				g_free (tmp);
@@ -5839,7 +5835,7 @@ gel_add_graph_functions (void)
 	VFUNC (LinePlotParametric, 3, "xfunc,yfunc,args", "plotting", N_("Plot a parametric function with a line.  First come the functions for x and y then optionally the t limits as t1,t2,tinc, then optionally the limits as x1,x2,y1,y2"));
 	VFUNC (LinePlotCParametric, 2, "zfunc,args", "plotting", N_("Plot a parametric complex valued function with a line.  First comes the function that returns x+iy then optionally the t limits as t1,t2,tinc, then optionally the limits as x1,x2,y1,y2"));
 
-	VFUNC (SlopefieldPlot, 2, "func,args", "plotting", N_("Draw a slope field.  First comes the function dx/dy in terms of x and y (or a complex z) then optionally the limits as x1,x2,y1,y2"));
+	VFUNC (SlopefieldPlot, 2, "func,args", "plotting", N_("Draw a slope field.  First comes the function dy/dx in terms of x and y (or a complex z) then optionally the limits as x1,x2,y1,y2"));
 	VFUNC (VectorfieldPlot, 3, "xfunc,yfunc,args", "plotting", N_("Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x and y then optionally the limits as x1,x2,y1,y2"));
 
 	FUNC (SlopefieldDrawSolution, 3, "x,y,dx", "plotting", N_("Draw a solution for a slope field starting at x,y and using dx as increment"));
