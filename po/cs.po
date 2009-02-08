@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-02 23:59-0600\n"
+"POT-Creation-Date: 2009-02-07 18:36-0600\n"
 "PO-Revision-Date: 2005-08-05 12:14+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -3820,6 +3820,8 @@ msgid ""
 "parameters set below, starting at the point clicked.  To be able to zoom by "
 "mouse again, close this window."
 msgstr ""
+"Kliknutím na graf vykreslíte řešení v daném bodě.  Aby jste mohl(a) zoomovat "
+"použitím myši, zavřete toto okno."
 
 #: ../src/graphing.c:1530
 msgid "X increment:"
@@ -3871,7 +3873,7 @@ msgstr "_Přizpůsobit závislou osu"
 
 #: ../src/graphing.c:1697
 msgid "_Reset to original zoom"
-msgstr ""
+msgstr "_Resetovat na původní zvětšení"
 
 #: ../src/graphing.c:1710
 msgid "_View"
@@ -3978,14 +3980,13 @@ msgid "Pa_rametric"
 msgstr "_Parametrické"
 
 #: ../src/graphing.c:3690
-#, fuzzy
 msgid ""
 "Type in function name or expression involving the x and y variables (or the "
 "z variable which will be z=x+iy) that gives the slope at the point (x,y)."
 msgstr ""
-"Graf vytvořte zadáním názvu funkce nebo výrazu obsahujícího proměnné x a y "
-"(nebo proměnnou z, která bude z=x+iy) do polí níže. Funkcím s jen jedním "
-"argumentem bude předáno komplexní číslo."
+"Směrové pole vytvořte zadáním názvu funkce nebo výrazu obsahujícího proměnné "
+"x a y (nebo proměnnou z, která bude z=x+iy) vyjadřující směrnici v bodě (x,"
+"y). "
 
 #. # of ticks
 #: ../src/graphing.c:3706 ../src/graphing.c:3754
@@ -3999,18 +4000,17 @@ msgstr "Horizontálních úseklů:"
 
 #: ../src/graphing.c:3715
 msgid "Sl_ope field"
-msgstr ""
+msgstr "Směrové p_ole"
 
 #: ../src/graphing.c:3723
-#, fuzzy
 msgid ""
 "Type in function names or expressions involving the x and y variables (or "
 "the z variable which will be z=x+iy) that give the dx/dt and dy/dt of the "
 "autonomous system to be plotted at the point (x,y)."
 msgstr ""
-"Graf vytvořte zadáním názvu funkce nebo výrazu obsahujícího proměnné x a y "
-"(nebo proměnnou z, která bude z=x+iy) do polí níže. Funkcím s jen jedním "
-"argumentem bude předáno komplexní číslo."
+"Vektorové pole vytvořte zadáním názvu funkcí nebo výrazů obsahujících "
+"proměnné x a y (nebo proměnnou z, která bude z=x+iy) pro dx/dt and dy/dt "
+"autonomního systému v bodě (x,y). "
 
 #. Normalize the arrow length?
 #: ../src/graphing.c:3745
@@ -4141,7 +4141,7 @@ msgstr "%s: dx musí být positivní"
 #: ../src/graphing.c:4910 ../src/graphing.c:4925
 #, c-format
 msgid "%s: Slope field not active"
-msgstr ""
+msgstr "%s: Směrové pole není aktivní"
 
 #: ../src/graphing.c:4944 ../src/graphing.c:5411
 #, c-format
@@ -4235,31 +4235,29 @@ msgstr ""
 "nepovinně limity jako x1, x2, y1, y2"
 
 #: ../src/graphing.c:5839
-#, fuzzy
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
 msgstr ""
-"Vykreslit funkci jako křivku. Nejdříve jsou funkce (nejvýš 10), pak "
-"nepovinně limity jako x1, x2, y1, y2"
+"Vykreslit směrové pole. Nejdříve je funkce dy/dx s argumenty x a y (nebo "
+"komplexní z), pak nepovinně limity jako x1, x2, y1, y2"
 
 #: ../src/graphing.c:5840
-#, fuzzy
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
 msgstr ""
-"Vykreslit funkci jako křivku. Nejdříve jsou funkce (nejvýš 10), pak "
-"nepovinně limity jako x1, x2, y1, y2"
+"Vykreslit vektorové pole.  Nejdříve jsou funkce dx/dt and dy/dt s argumenty "
+"x a y, pak nepovinně limity jako x1, x2, y1, y2"
 
 #: ../src/graphing.c:5842
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
-msgstr ""
+msgstr "Nakreslit řešení směrového pole začínajícím v bodě x,y s přírůstkem dx"
 
 #: ../src/graphing.c:5843
 msgid "Clear all the slopefield solutions"
-msgstr ""
+msgstr "Smazat všechny řešení směrového pole"
 
 #: ../src/graphing.c:5846
 msgid ""
@@ -4286,6 +4284,7 @@ msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
 msgstr ""
+"Normalizovat vektorové pole.  Tedy, ukazovat jen směr a ne délku vektoru."
 
 #: ../src/graphing.c:5852
 msgid "If to draw legends or not on line plots."
