@@ -103,6 +103,9 @@ static GtkWidget *parametric_status_z = NULL;
 static GtkWidget *slopefield_entry = NULL;
 static GtkWidget *slopefield_status = NULL;
 
+static GtkWidget *slopefield_sol_x_sb = NULL;
+static GtkWidget *slopefield_sol_y_sb = NULL;
+
 static GtkWidget *vectorfield_entry_x = NULL;
 static GtkWidget *vectorfield_status_x = NULL;
 static GtkWidget *vectorfield_entry_y = NULL;
@@ -250,11 +253,11 @@ static void replot_fields (void);
 static void slopefield_draw_solution (double x, double y, double dx);
 
 static GtkWidget *
-create_range_spinboxes (const char *title, double *val1,
+create_range_spinboxes (const char *title, double *val1, GtkWidget **w1,
 			double min1, double max1, double step1,
-			const char *totitle, double *val2,
+			const char *totitle, double *val2, GtkWidget **w2,
 			double min2, double max2, double step2,
-			const char *bytitle, double *by,
+			const char *bytitle, double *by, GtkWidget **wb,
 			double minby, double maxby, double stepby,
 			GCallback activate_callback);
 
@@ -1250,6 +1253,13 @@ plot_select_region (GtkPlotCanvas *canvas,
 		len = ploty2 - ploty1;
 		y = ploty1 + len * ymin;
 
+		if (slopefield_sol_x_sb != NULL)
+			gtk_spin_button_set_value
+				(GTK_SPIN_BUTTON (slopefield_sol_x_sb), x);
+		if (slopefield_sol_y_sb != NULL)
+			gtk_spin_button_set_value
+				(GTK_SPIN_BUTTON (slopefield_sol_y_sb), y);
+
 		slopefield_draw_solution (x, y, solver_xinc);
 
 		return;
@@ -1527,10 +1537,10 @@ solver_cb (GtkWidget *item, gpointer data)
 	else
 		inc = 1;
 
-	w = create_range_spinboxes (_("X increment:"), &solver_xinc,
+	w = create_range_spinboxes (_("X increment:"), &solver_xinc, NULL,
 				    0, G_MAXDOUBLE, inc,
-				    NULL, NULL, 0, 0, 0,
-				    NULL, NULL, 0, 0, 0,
+				    NULL, NULL, NULL, 0, 0, 0,
+				    NULL, NULL, NULL, 0, 0, 0,
 				    solver_entry_activate);
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 
@@ -1540,10 +1550,12 @@ solver_cb (GtkWidget *item, gpointer data)
 		solver_y = ploty1 + (ploty2-ploty1)/2;
 
 	w = create_range_spinboxes (_("Point x:"), &solver_x,
+				    &slopefield_sol_x_sb,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
 				    _("y:"), &solver_y,
+				    &slopefield_sol_y_sb,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    NULL, NULL, 0, 0, 0,
+				    NULL, NULL, NULL, 0, 0, 0,
 				    solver_entry_activate);
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 
@@ -3425,11 +3437,11 @@ entry_activate (void)
 }
 
 static GtkWidget *
-create_range_spinboxes (const char *title, double *val1,
+create_range_spinboxes (const char *title, double *val1, GtkWidget **w1,
 			double min1, double max1, double step1,
-			const char *totitle, double *val2,
+			const char *totitle, double *val2, GtkWidget **w2,
 			double min2, double max2, double step2,
-			const char *bytitle, double *by,
+			const char *bytitle, double *by, GtkWidget **wb,
 			double minby, double maxby, double stepby,
 			GCallback activate_callback)
 {
@@ -3446,6 +3458,13 @@ create_range_spinboxes (const char *title, double *val1,
 						   step1*10,
 						   0);
 	w = gtk_spin_button_new (adj, step1, 5);
+	if (w1 != NULL) {
+		*w1 = w;
+		g_signal_connect (G_OBJECT (w),
+				  "destroy",
+				  G_CALLBACK (gtk_widget_destroyed),
+				  w1);
+	}
 	g_signal_connect (G_OBJECT (w), "activate",
 			  G_CALLBACK (gtk_spin_button_update), NULL);
 	g_signal_connect (G_OBJECT (w), "activate",
@@ -3467,6 +3486,13 @@ create_range_spinboxes (const char *title, double *val1,
 							   step2*10,
 							   0);
 		w = gtk_spin_button_new (adj, step2, 5);
+		if (w2 != NULL) {
+			*w2 = w;
+			g_signal_connect (G_OBJECT (w),
+					  "destroy",
+					  G_CALLBACK (gtk_widget_destroyed),
+					  w2);
+		}
 		g_signal_connect (G_OBJECT (w), "activate",
 				  G_CALLBACK (gtk_spin_button_update), NULL);
 		g_signal_connect (G_OBJECT (w), "activate",
@@ -3489,6 +3515,13 @@ create_range_spinboxes (const char *title, double *val1,
 							   stepby*10,
 							   0);
 		w = gtk_spin_button_new (adj, stepby, 5);
+		if (wb != NULL) {
+			*wb = w;
+			g_signal_connect (G_OBJECT (w),
+					  "destroy",
+					  G_CALLBACK (gtk_widget_destroyed),
+					  wb);
+		}
 		g_signal_connect (G_OBJECT (w), "activate",
 				  G_CALLBACK (gtk_spin_button_update), NULL);
 		g_signal_connect (G_OBJECT (w), "activate",
@@ -3668,11 +3701,11 @@ create_lineplot_box (void)
 	gtk_box_pack_start (GTK_BOX (box), gtk_label_new (""), FALSE, FALSE, 0);
 
 	/* t range */
-	b = create_range_spinboxes (_("Parameter t from:"), &spint1,
+	b = create_range_spinboxes (_("Parameter t from:"), &spint1, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    _("to:"), &spint2,
+				    _("to:"), &spint2, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    _("by:"), &spintinc,
+				    _("by:"), &spintinc, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
 				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
@@ -3784,22 +3817,22 @@ create_lineplot_box (void)
 	/*
 	 * X range
 	 */
-	b = create_range_spinboxes (_("X from:"), &spinx1,
+	b = create_range_spinboxes (_("X from:"), &spinx1, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    _("to:"), &spinx2,
+				    _("to:"), &spinx2, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    NULL, NULL, 0, 0, 0,
+				    NULL, NULL, NULL, 0, 0, 0,
 				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 
 	/*
 	 * Y range
 	 */
-	b = create_range_spinboxes (_("Y from:"), &spiny1,
+	b = create_range_spinboxes (_("Y from:"), &spiny1, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    _("to:"), &spiny2,
+				    _("to:"), &spiny2, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    NULL, NULL, 0, 0, 0,
+				    NULL, NULL, NULL, 0, 0, 0,
 				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 
@@ -3850,33 +3883,33 @@ create_surface_box (void)
 	/*
 	 * X range
 	 */
-	b = create_range_spinboxes (_("X from:"), &surf_spinx1,
+	b = create_range_spinboxes (_("X from:"), &surf_spinx1, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    _("to:"), &surf_spinx2,
+				    _("to:"), &surf_spinx2, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    NULL, NULL, 0, 0, 0,
+				    NULL, NULL, NULL, 0, 0, 0,
 				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 
 	/*
 	 * Y range
 	 */
-	b = create_range_spinboxes (_("Y from:"), &surf_spiny1,
+	b = create_range_spinboxes (_("Y from:"), &surf_spiny1, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    _("to:"), &surf_spiny2,
+				    _("to:"), &surf_spiny2, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    NULL, NULL, 0, 0, 0,
+				    NULL, NULL, NULL, 0, 0, 0,
 				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 
 	/*
 	 * Z range
 	 */
-	b = create_range_spinboxes (_("Z from:"), &surf_spinz1,
+	b = create_range_spinboxes (_("Z from:"), &surf_spinz1, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    _("to:"), &surf_spinz2,
+				    _("to:"), &surf_spinz2, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    NULL, NULL, 0, 0, 0,
+				    NULL, NULL, NULL, 0, 0, 0,
 				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 
