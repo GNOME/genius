@@ -724,7 +724,7 @@ MoebiusMu(1)							1
 MoebiusMu(4)							0
 MoebiusMu(2*3)							1
 RungeKutta (`(x,y) = 2*x+3,0,0,8,10)				88.0
-EulersMethod (`(x,y) = 2*x+3,0,0,8,100)				88.88
+EulersMethod (`(x,y) = 2*x+3,0,0,8,100)				87.36
 SymbolicDerivative(sin)						(`(x)=cos(x))
 SymbolicDerivative(cos)						(`(x)=(-sin(x)))
 SymbolicDerivative(`(x)=10*x^3+x^2+88*x+100)			(`(x)=(88+((30*(x^2))+(2*x))))
@@ -923,5 +923,9 @@ Evaluate("x=1;x=x+1;x")						2
 for n=-10 to 10 do .;n						10
 for n=-10 to 10 by 3 do .;n					8
 for n=-11 to 10 by 3 do .;n					10
+EulersMethod (`(x,y)=(x-y),0,0,3,3)				2.0
+EulersMethod (`(x,y)=[(x-y@(1));0],0,[0;0],3,3)			[2.0;0.0]
+EulersMethod (`(x,y)=[0;(x-y@(2))],0,[0;0],3,3)			[0.0;2.0]
+EulersMethod (`(x,y)=[(x-y@(1));(x-y@(2))],0,[0;0],3,3)		[2.0;2.0]
 load "nullspacetest.gel"					true
 load "longtest.gel"						true

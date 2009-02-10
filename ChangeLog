@@ -1,3 +1,21 @@
+Tue Feb 10 16:43:08 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* configure.in, NEWS: raise version update NEWS
+
+	* src/mpwrap.c: fix leak in multiply
+
+	* src/mpwrap.c: fix a leak and fix a buffer overrun (Thanks to
+	  Simon Munton simon-genius at munton.demon.co.uk)
+
+	* lib/equation_solving/diffeqs.gel: Fix EulersMethod (it was
+	  overshooting by one increment)  Also EulersMethod and RungeKutta
+	  now solve system by just accepting vectors for y
+
+	* src/geniustests.txt: add new tests for EulersMethod
+
+	* help/C/genius.xml, help/C/gel-function-list.xml: Update
+	  documentation, fix EulersMethod doc by using the right id string.
+
 Sun Feb 08 00:21:32 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* Release 1.0.4

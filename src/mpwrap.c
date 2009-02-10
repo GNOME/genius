@@ -118,8 +118,8 @@ static __mpfr_struct *free_mpf_top = free_mpf;
 
 #define MAKE_CPLX_OPS(THE_op,THE_r,THE_i) {		\
 	if(rop==THE_op) {				\
-		THE_r = g_new0(MpwRealNum,1);		\
-		THE_i = g_new0(MpwRealNum,1);		\
+		THE_r = g_alloca (sizeof (MpwRealNum));	\
+		THE_i = g_alloca (sizeof (MpwRealNum));	\
 		mpwl_init_type(THE_r,THE_op->r->type);	\
 		mpwl_init_type(THE_i,THE_op->i->type);	\
 		mpwl_set(THE_r,THE_op->r);		\
@@ -2765,6 +2765,8 @@ str_format_float (char *p,
 			for(i=0;i<e-len;i++)
 				strcat(p,"0");
 		} else if(e<len) {
+			/* FIXME: is this correct? */
+			p = g_realloc (p, strlen(p) + 2);
 			if(p[0]=='-') {
 				shiftstr(p+1+e,1);
 				p[e+1]='.';
@@ -2776,6 +2778,7 @@ str_format_float (char *p,
 		str_trim_trailing_zeros (p, TRUE /* leave_first_zero */);
 	} else { /*e<=0*/
 		if(len == 0) {
+			g_free (p);
 			p = g_strdup ("0.0");
 		} else {
 			p = g_realloc (p, strlen(p)+2+(-e)+2);

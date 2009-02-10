@@ -4243,19 +4243,27 @@ do (
          </listitem>
         </varlistentry>
 
-        <varlistentry id="gel-function-EulerMethod">
-         <term>EulerMethod</term>
+        <varlistentry id="gel-function-EulersMethod">
+         <term>EulersMethod</term>
          <listitem>
-          <synopsis>EulerMethod (f,x0,y0,x1,n)</synopsis>
+          <synopsis>EulersMethod (f,x0,y0,x1,n)</synopsis>
           <para>
 	    Use classical Euler's method to numerically solve y'=f(x,y) for
 	    initial <varname>x0</varname>, <varname>y0</varname> going to
 	    <varname>x1</varname> with <varname>n</varname> increments,
 	    returns <varname>y</varname> at <varname>x1</varname>.
 	  </para>
+	  <para>
+	    Systems can be solved by just having <varname>y</varname> be a
+	    (column) vector everywhere.  That is, <varname>y0</varname> can
+	    be a vector in which case <varname>f</varname> should take a number
+	    <varname>x</varname> and a vector of the same size for the second
+	    argument and should return a vector of the same size.
+	  </para>
           <para>
 	    See
-	    <ulink url="http://mathworld.wolfram.com/EulerForwardMethod.html">Mathworld</ulink> for more information.
+	    <ulink url="http://mathworld.wolfram.com/EulerForwardMethod.html">Mathworld</ulink>, or
+	    <ulink url="http://en.wikipedia.org/wiki/Eulers_method">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -4360,14 +4368,23 @@ do (
          <listitem>
           <synopsis>RungeKutta (f,x0,y0,x1,n)</synopsis>
           <para>
-	    Use classical non-adaptive Runge-Kutta method to numerically solve
+	    Use classical non-adaptive fourth order Runge-Kutta method to
+	    numerically solve
 	    y'=f(x,y) for initial <varname>x0</varname>, <varname>y0</varname>
 	    going to <varname>x1</varname> with <varname>n</varname>
 	    increments, returns <varname>y</varname> at <varname>x1</varname>.
 	  </para>
+	  <para>
+	    Systems can be solved by just having <varname>y</varname> be a
+	    (column) vector everywhere.  That is, <varname>y0</varname> can
+	    be a vector in which case <varname>f</varname> should take a number
+	    <varname>x</varname> and a vector of the same size for the second
+	    argument and should return a vector of the same size.
+	  </para>
           <para>
 	    See
-	    <ulink url="http://mathworld.wolfram.com/Runge-KuttaMethod.html">Mathworld</ulink> for more information.
+	    <ulink url="http://mathworld.wolfram.com/Runge-KuttaMethod.html">Mathworld</ulink>, or
+	    <ulink url="http://en.wikipedia.org/wiki/Runge-Kutta_methods">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>

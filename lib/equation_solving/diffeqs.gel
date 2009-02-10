@@ -8,14 +8,14 @@ function EulersMethod(f,x0,y0,x1,n) = (
 	# Note we can't check the 2 arguments, FIXME
 	if not IsFunction(f) then
 		(error("EulersMethod: f must be a function of two arguments");bailout)
-	else if not IsValue(x0) or not IsValue(y0) or not IsValue(x1) then
-		(error("EulersMethod: x0, y0 and x1 must be numbers");bailout)
+	else if not IsValue(x0) or (not IsValue(y0) and not IsVector(y0)) or not IsValue(x1) then
+		(error("EulersMethod: x0, y0 and x1 must be numbers (y0 can be a vector)");bailout)
 	else if not IsPositiveInteger(n) then
 		(error("EulersMethod: n must be a positive integer");bailout);
 	h := float(x1-x0) / n;
 	x := x0;
 	y := y0;
-	for k = 0 to n do (
+	for k = 1 to n do (
 		y := y + h*f(x,y);
 		x := x + h
 	);
@@ -31,8 +31,8 @@ function RungeKutta(f,x0,y0,x1,n) = (
 	# Note we can't check the 2 arguments, FIXME
 	if not IsFunction(f) then
 		(error("RungeKutta: f must be a function of two arguments");bailout)
-	else if not IsValue(x0) or not IsValue(y0) or not IsValue(x1) then
-		(error("RungeKutta: x0, y0 and x1 must be numbers");bailout)
+	else if not IsValue(x0) or (not IsValue(y0) and not IsVector(y0)) or not IsValue(x1) then
+		(error("RungeKutta: x0, y0 and x1 must be numbers (y0 can be a vector)");bailout)
 	else if not IsPositiveInteger(n) then
 		(error("RungeKutta: n must be a positive integer");bailout);
 	h := float(x1-x0) / n;

@@ -5037,14 +5037,19 @@
 
            See Planetmath, Mathworld, or Wikipedia for more information.
 
-   EulerMethod
+   EulersMethod
 
- EulerMethod (f,x0,y0,x1,n)
+ EulersMethod (f,x0,y0,x1,n)
 
            Use classical Euler's method to numerically solve y'=f(x,y) for
            initial x0, y0 going to x1 with n increments, returns y at x1.
 
-           See Mathworld for more information.
+           Systems can be solved by just having y be a (column) vector
+           everywhere. That is, y0 can be a vector in which case f should
+           take a number x and a vector of the same size for the second
+           argument and should return a vector of the same size.
+
+           See Mathworld, or Wikipedia for more information.
 
    FindRootBisection
 
@@ -5108,11 +5113,16 @@
 
  RungeKutta (f,x0,y0,x1,n)
 
-           Use classical non-adaptive Runge-Kutta method to numerically solve
-           y'=f(x,y) for initial x0, y0 going to x1 with n increments,
-           returns y at x1.
+           Use classical non-adaptive fourth order Runge-Kutta method to
+           numerically solve y'=f(x,y) for initial x0, y0 going to x1 with n
+           increments, returns y at x1.
 
-           See Mathworld for more information.
+           Systems can be solved by just having y be a (column) vector
+           everywhere. That is, y0 can be a vector in which case f should
+           take a number x and a vector of the same size for the second
+           argument and should return a vector of the same size.
+
+           See Mathworld, or Wikipedia for more information.
 
      ----------------------------------------------------------------------
 
