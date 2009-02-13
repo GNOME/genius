@@ -342,32 +342,10 @@ ve_locale_exists (const char *loc)
 	return ret;
 }
 
-char *
-ve_find_prog_in_path (const char *prog, const char *path)
-{
-	char **vec;
-	int i;
-
-	if (ve_string_empty (prog) || ve_string_empty (path))
-		return NULL;
-
-	vec = g_strsplit (path, ":", -1);
-	for (i = 0; vec != NULL && vec[i] != NULL; i++) {
-		char *full = g_build_filename (vec[i], prog, NULL);
-		/* Do not use X_OK, we may be looking for things
-		   that are not executables */
-		if (access (full, F_OK) == 0) {
-			return full;
-		}
-		g_free (full);
-	}
-	return NULL;
-}
-
 gboolean
-ve_is_prog_in_path (const char *prog, const char *path)
+ve_is_prog_in_path (const char *prog)
 {
-	char *full = ve_find_prog_in_path (prog, path);
+	char *full = g_find_program_in_path (prog);
 	if (full != NULL) {
 		g_free (full);
 		return TRUE;

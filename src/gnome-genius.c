@@ -1328,16 +1328,17 @@ actually_open_help (const char *id)
 	char *xdgopen;
 	char *uri;
 	char *file = NULL;
-	const GList *li;
+	const char * const* langs;
+	int i;
 
-	for (li = ve_i18n_get_language_list ("LC_MESSAGES");
-	     li != NULL;
-	     li = li->next) {
+	langs = g_get_language_names ();
+
+	for (i = 0; langs[i] != NULL; i++) {
 		file = g_build_filename (genius_datadir,
 					 "gnome",
 					 "help",
 					 "genius",
-					 li->data,
+					 langs[i],
 					 "genius.xml",
 					 NULL);
 		if (access (file, R_OK) == 0) {

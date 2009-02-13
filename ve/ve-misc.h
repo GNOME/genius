@@ -80,12 +80,7 @@ pid_t ve_waitpid_no_signal (pid_t pid, int *status, int options);
 /* Testing for existance of a certain locale */
 gboolean ve_locale_exists (const char *loc);
 
-/* just like gnome_i18n_get_language_list (in fact if you link to
-   gnome it uses that */
-const GList * ve_i18n_get_language_list (const gchar *category_name);
-
-char * ve_find_prog_in_path (const char *prog, const char *path);
-gboolean ve_is_prog_in_path (const char *prog, const char *path);
+gboolean ve_is_prog_in_path (const char *prog);
 
 char *ve_shell_quote_filename (const char *name);
 

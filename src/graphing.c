@@ -749,8 +749,7 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 	gtk_widget_set_sensitive (graph_window, TRUE);
 
 	file_to_write = s;
-	if (eps && ve_is_prog_in_path ("ps2epsi",
-				       g_getenv ("PATH"))) {
+	if (eps && ve_is_prog_in_path ("ps2epsi")) {
 		fd = g_mkstemp (tmpfile);
 		/* FIXME: tell about errors ?*/
 		if (fd >= 0) {
