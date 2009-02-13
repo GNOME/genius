@@ -475,21 +475,6 @@ main(int argc, char *argv[])
 		exit (1);
 	}
 
-#if 0
-	{
-		/* FIXME: use this for option parsing,
-		 * we really only need gnome-program for
-		 * gnome_config, perhaps we should switch to
-		 * ve-config anyway */
-		char *fakeargv[] = { argv[0], NULL };
-		gnome_program_init ("genius", VERSION, 
-				    LIBGNOME_MODULE /* module_info */,
-				    1, fakeargv,
-				    /* GNOME_PARAM_POPT_TABLE, options, */
-				    NULL);
-	}
-#endif
-
 	gel_read_plugin_list();
 
 	if (do_compile || do_gettext)

@@ -1368,7 +1368,6 @@ actually_open_help (const char *id)
 		argv[0] = xdgopen;
 		argv[1] = uri;
 		argv[2] = NULL;
-		g_print ("%s '%s'\n", xdgopen, uri);
 		g_spawn_async (NULL /* wd */,
 			       argv,
 			       NULL /* envp */,
@@ -1861,8 +1860,8 @@ setup_calc(GtkWidget *widget, gpointer data)
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (setupdialog)->vbox),
 			    notebook, TRUE, TRUE, 0);
 	
-	mainbox = gtk_vbox_new(FALSE, GNOME_PAD);
-	gtk_container_set_border_width(GTK_CONTAINER(mainbox),GNOME_PAD);
+	mainbox = gtk_vbox_new(FALSE, GENIUS_PAD);
+	gtk_container_set_border_width(GTK_CONTAINER(mainbox), GENIUS_PAD);
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
 				  mainbox,
 				  gtk_label_new(_("Output")));
@@ -1870,12 +1869,12 @@ setup_calc(GtkWidget *widget, gpointer data)
 	
 	frame=gtk_frame_new(_("Number/Expression output options"));
 	gtk_box_pack_start(GTK_BOX(mainbox),frame,FALSE,FALSE,0);
-	box=gtk_vbox_new(FALSE,GNOME_PAD);
-	gtk_container_set_border_width(GTK_CONTAINER(box),GNOME_PAD);
+	box=gtk_vbox_new(FALSE, GENIUS_PAD);
+	gtk_container_set_border_width(GTK_CONTAINER(box), GENIUS_PAD);
 	gtk_container_add(GTK_CONTAINER(frame),box);
 
 
-	b=gtk_hbox_new(FALSE,GNOME_PAD);
+	b=gtk_hbox_new(FALSE, GENIUS_PAD);
 	gtk_box_pack_start(GTK_BOX(box),b,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(b),
 		   gtk_label_new(_("Maximum digits to output (0=unlimited)")),
@@ -1930,7 +1929,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 			  G_CALLBACK (optioncb),
 			  (gpointer)&tmpstate.mixed_fractions);
 
-	b=gtk_hbox_new(FALSE,GNOME_PAD);
+	b=gtk_hbox_new(FALSE, GENIUS_PAD);
 	gtk_box_pack_start(GTK_BOX(box),b,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(b),
 		   gtk_label_new(_("Display 0.0 when floating point number is less than 10^-x "
@@ -1953,7 +1952,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 	g_signal_connect (G_OBJECT (adj), "value_changed",
 			  G_CALLBACK (intspincb), &tmpstate.chop);
 
-	b=gtk_hbox_new(FALSE,GNOME_PAD);
+	b=gtk_hbox_new(FALSE, GENIUS_PAD);
 	gtk_box_pack_start(GTK_BOX(box),b,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(b),
 		   gtk_label_new(_("Only chop numbers when another number is greater than 10^-x")),
@@ -1992,10 +1991,10 @@ setup_calc(GtkWidget *widget, gpointer data)
 
 	frame=gtk_frame_new(_("Error/Info output options"));
 	gtk_box_pack_start(GTK_BOX(mainbox),frame,FALSE,FALSE,0);
-	box=gtk_vbox_new(FALSE,GNOME_PAD);
+	box=gtk_vbox_new(FALSE, GENIUS_PAD);
 	gtk_container_add(GTK_CONTAINER(frame),box);
 
-	gtk_container_set_border_width(GTK_CONTAINER(box),GNOME_PAD);
+	gtk_container_set_border_width(GTK_CONTAINER(box), GENIUS_PAD);
 	
 
 	w=gtk_check_button_new_with_label(_("Display errors in a dialog"));
@@ -2014,7 +2013,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 			  G_CALLBACK (optioncb),
 			  (gpointer)&tmpsetup.info_box);
 	
-	b=gtk_hbox_new(FALSE,GNOME_PAD);
+	b=gtk_hbox_new(FALSE, GENIUS_PAD);
 	gtk_box_pack_start(GTK_BOX(box),b,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(b),
 		   gtk_label_new(_("Maximum errors to display (0=unlimited)")),
@@ -2037,8 +2036,8 @@ setup_calc(GtkWidget *widget, gpointer data)
 			  G_CALLBACK (intspincb),&tmpstate.max_errors);
 
 
-	mainbox = gtk_vbox_new(FALSE, GNOME_PAD);
-	gtk_container_set_border_width(GTK_CONTAINER(mainbox),GNOME_PAD);
+	mainbox = gtk_vbox_new(FALSE, GENIUS_PAD);
+	gtk_container_set_border_width(GTK_CONTAINER(mainbox), GENIUS_PAD);
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
 				  mainbox,
 				  gtk_label_new(_("Precision")));
@@ -2046,8 +2045,8 @@ setup_calc(GtkWidget *widget, gpointer data)
 	
 	frame=gtk_frame_new(_("Floating point precision"));
 	gtk_box_pack_start(GTK_BOX(mainbox),frame,FALSE,FALSE,0);
-	box=gtk_vbox_new(FALSE,GNOME_PAD);
-	gtk_container_set_border_width(GTK_CONTAINER(box),GNOME_PAD);
+	box=gtk_vbox_new(FALSE, GENIUS_PAD);
+	gtk_container_set_border_width(GTK_CONTAINER(box), GENIUS_PAD);
 	gtk_container_add(GTK_CONTAINER(frame),box);
 	
 	gtk_box_pack_start(GTK_BOX(box), gtk_label_new(
@@ -2057,7 +2056,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 			   FALSE,FALSE,0);
 
 
-	b=gtk_hbox_new(FALSE,GNOME_PAD);
+	b=gtk_hbox_new(FALSE, GENIUS_PAD);
 	gtk_box_pack_start(GTK_BOX(box),b,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(b),
 		   gtk_label_new(_("Floating point precision (bits)")),
@@ -2093,19 +2092,19 @@ setup_calc(GtkWidget *widget, gpointer data)
 			      NULL);
 
 
-	mainbox = gtk_vbox_new(FALSE, GNOME_PAD);
-	gtk_container_set_border_width(GTK_CONTAINER(mainbox),GNOME_PAD);
+	mainbox = gtk_vbox_new(FALSE, GENIUS_PAD);
+	gtk_container_set_border_width(GTK_CONTAINER(mainbox), GENIUS_PAD);
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
 				  mainbox,
 				  gtk_label_new(_("Terminal")));
 	
 	frame=gtk_frame_new(_("Terminal options"));
 	gtk_box_pack_start(GTK_BOX(mainbox),frame,FALSE,FALSE,0);
-	box=gtk_vbox_new(FALSE,GNOME_PAD);
-	gtk_container_set_border_width(GTK_CONTAINER(box),GNOME_PAD);
+	box=gtk_vbox_new(FALSE, GENIUS_PAD);
+	gtk_container_set_border_width(GTK_CONTAINER(box), GENIUS_PAD);
 	gtk_container_add(GTK_CONTAINER(frame),box);
 	
-	b=gtk_hbox_new(FALSE,GNOME_PAD);
+	b=gtk_hbox_new(FALSE, GENIUS_PAD);
 	gtk_box_pack_start(GTK_BOX(box),b,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(b),
 		   gtk_label_new(_("Scrollback lines")),
@@ -2128,7 +2127,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 			  G_CALLBACK (intspincb), &tmpsetup.scrollback);
 	
 	
-	b=gtk_hbox_new(FALSE,GNOME_PAD);
+	b=gtk_hbox_new(FALSE, GENIUS_PAD);
 	gtk_box_pack_start(GTK_BOX(box),b,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(b),
 		   gtk_label_new(_("Font:")),
@@ -2159,8 +2158,8 @@ setup_calc(GtkWidget *widget, gpointer data)
 			  (gpointer)&tmpsetup.blinking_cursor);
 
 
-	mainbox = gtk_vbox_new(FALSE, GNOME_PAD);
-	gtk_container_set_border_width(GTK_CONTAINER(mainbox),GNOME_PAD);
+	mainbox = gtk_vbox_new (FALSE, GENIUS_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (mainbox), GENIUS_PAD);
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
 				  mainbox,
 				  gtk_label_new(_("Memory")));
@@ -2168,8 +2167,8 @@ setup_calc(GtkWidget *widget, gpointer data)
 	
 	frame=gtk_frame_new(_("Limits"));
 	gtk_box_pack_start(GTK_BOX(mainbox),frame,FALSE,FALSE,0);
-	box=gtk_vbox_new(FALSE,GNOME_PAD);
-	gtk_container_set_border_width(GTK_CONTAINER(box),GNOME_PAD);
+	box=gtk_vbox_new (FALSE, GENIUS_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	gtk_container_add(GTK_CONTAINER(frame),box);
 	
 	gtk_box_pack_start(GTK_BOX(box), gtk_label_new(
@@ -2179,7 +2178,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 			   FALSE,FALSE,0);
 
 
-	b=gtk_hbox_new(FALSE,GNOME_PAD);
+	b=gtk_hbox_new(FALSE, GENIUS_PAD);
 	gtk_box_pack_start(GTK_BOX(box),b,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(b),
 		   gtk_label_new(_("Maximum number of nodes to allocate")),

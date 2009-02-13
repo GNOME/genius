@@ -20,10 +20,13 @@
  */
 #include "config.h"
 
-#include <gnome.h>
 #include <string.h>
-#include <libgnomecanvas/libgnomecanvas.h>
+#include <gdk/gdk.h>
+#include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 #include <math.h>
+#include <stdio.h>
+#include <unistd.h>
 
 #include <vicious.h>
 
@@ -437,7 +440,7 @@ rotate_cb (GtkWidget *item, gpointer data)
 
 	/* X dir */
 
-	hbox = gtk_hbox_new (FALSE, GNOME_PAD);
+	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
 			    hbox, TRUE, TRUE, 0);
 
@@ -462,7 +465,7 @@ rotate_cb (GtkWidget *item, gpointer data)
 
 	/* Y dir */
 
-	hbox = gtk_hbox_new (FALSE, GNOME_PAD);
+	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
 			    hbox, TRUE, TRUE, 0);
 
@@ -487,7 +490,7 @@ rotate_cb (GtkWidget *item, gpointer data)
 
 	/* Z dir */
 
-	hbox = gtk_hbox_new (FALSE, GNOME_PAD);
+	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
 			    hbox, TRUE, TRUE, 0);
 
@@ -612,7 +615,7 @@ plot_print_cb (void)
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (req), FALSE);
 
-	hbox = gtk_hbox_new (FALSE, GNOME_PAD);
+	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
 			    hbox, TRUE, TRUE, 0);
 
@@ -1512,10 +1515,10 @@ solver_cb (GtkWidget *item, gpointer data)
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (solver_dialog), FALSE);
 
-	box = gtk_vbox_new (FALSE, GNOME_PAD);
+	box = gtk_vbox_new (FALSE, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (solver_dialog)->vbox),
 			    box, TRUE, TRUE, 0);
-	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 
 	w = gtk_label_new (_("Clicking on the graph window now will draw a "
 			     "solution according to the parameters set "
@@ -3447,7 +3450,7 @@ create_range_spinboxes (const char *title, double *val1, GtkWidget **w1,
 	GtkWidget *b, *w;
 	GtkAdjustment *adj;
 
-	b = gtk_hbox_new (FALSE, GNOME_PAD);
+	b = gtk_hbox_new (FALSE, GENIUS_PAD);
 	w = gtk_label_new(title);
 	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
 	adj = (GtkAdjustment *)gtk_adjustment_new (*val1,
@@ -3542,7 +3545,7 @@ create_int_spinbox (const char *title, int *val, int min, int max)
 	GtkWidget *b, *w;
 	GtkAdjustment *adj;
 
-	b = gtk_hbox_new (FALSE, GNOME_PAD);
+	b = gtk_hbox_new (FALSE, GENIUS_PAD);
 	w = gtk_label_new(title);
 	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
 	adj = (GtkAdjustment *)gtk_adjustment_new (*val,
@@ -3573,7 +3576,7 @@ create_expression_box (const char *label,
 {
 	GtkWidget *b;
 
-	b = gtk_hbox_new (FALSE, GNOME_PAD);
+	b = gtk_hbox_new (FALSE, GENIUS_PAD);
 
 	gtk_box_pack_start (GTK_BOX (b),
 			    gtk_label_new (label), FALSE, FALSE, 0);
@@ -3606,8 +3609,8 @@ create_lineplot_box (void)
 	int i;
 
 
-	mainbox = gtk_vbox_new (FALSE, GNOME_PAD);
-	gtk_container_set_border_width (GTK_CONTAINER (mainbox), GNOME_PAD);
+	mainbox = gtk_vbox_new (FALSE, GENIUS_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (mainbox), GENIUS_PAD);
 
 	function_notebook = gtk_notebook_new ();
 	gtk_box_pack_start (GTK_BOX (mainbox), function_notebook, FALSE, FALSE, 0);
@@ -3615,8 +3618,8 @@ create_lineplot_box (void)
 	/*
 	 * Line plot entries
 	 */
-	box = gtk_vbox_new(FALSE,GNOME_PAD);
-	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
+	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	w = gtk_label_new (_("Type in function names or expressions involving "
 			     "the x variable in the boxes below to graph "
 			     "them"));
@@ -3637,8 +3640,8 @@ create_lineplot_box (void)
 		b = gtk_viewport_new (NULL, NULL);
 		gtk_container_add (GTK_CONTAINER (w), b);
 
-		fb = gtk_vbox_new(FALSE,GNOME_PAD);
-		gtk_container_set_border_width (GTK_CONTAINER (fb), GNOME_PAD);
+		fb = gtk_vbox_new (FALSE, GENIUS_PAD);
+		gtk_container_set_border_width (GTK_CONTAINER (fb), GENIUS_PAD);
 
 		gtk_container_add (GTK_CONTAINER (b), fb);
 	}
@@ -3660,8 +3663,8 @@ create_lineplot_box (void)
 	 * Parametric plot entries
 	 */
 
-	box = gtk_vbox_new(FALSE,GNOME_PAD);
-	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
+	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	w = gtk_label_new (_("Type in function names or expressions involving "
 			     "the t variable in the boxes below to graph "
 			     "them.  Either fill in both boxes with x= and y= "
@@ -3717,8 +3720,8 @@ create_lineplot_box (void)
 	 * Slopefield
 	 */
 
-	box = gtk_vbox_new (FALSE, GNOME_PAD);
-	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
+	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	w = gtk_label_new (_("Type in function name or expression involving "
 			     "the x and y variables (or the z variable which will be z=x+iy) "
 			     "that gives the slope "
@@ -3750,8 +3753,8 @@ create_lineplot_box (void)
 	 * Vectorfield
 	 */
 
-	box = gtk_vbox_new (FALSE, GNOME_PAD);
-	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
+	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	w = gtk_label_new (_("Type in function names or expressions involving "
 			     "the x and y variables (or the z variable which will be z=x+iy) "
 			     "that give the dx/dt and dy/dt of the autonomous system to be plotted "
@@ -3809,8 +3812,8 @@ create_lineplot_box (void)
 
 	frame = gtk_frame_new (_("Plot Window"));
 	gtk_box_pack_start (GTK_BOX (mainbox), frame, FALSE, FALSE, 0);
-	box = gtk_vbox_new(FALSE,GNOME_PAD);
-	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
+	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	gtk_container_add (GTK_CONTAINER (frame), box);
 
 	/*
@@ -3844,13 +3847,13 @@ create_surface_box (void)
 	GtkWidget *mainbox, *frame;
 	GtkWidget *box, *b, *w;
 
-	mainbox = gtk_vbox_new (FALSE, GNOME_PAD);
-	gtk_container_set_border_width (GTK_CONTAINER (mainbox), GNOME_PAD);
+	mainbox = gtk_vbox_new (FALSE, GENIUS_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (mainbox), GENIUS_PAD);
 	
 	frame = gtk_frame_new (_("Function / Expression"));
 	gtk_box_pack_start (GTK_BOX (mainbox), frame, FALSE, FALSE, 0);
-	box = gtk_vbox_new(FALSE,GNOME_PAD);
-	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
+	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	gtk_container_add (GTK_CONTAINER (frame), box);
 	w = gtk_label_new (_("Type a function name or an expression involving "
 			     "the x and y variables (or the z variable which will be z=x+iy) "
@@ -3862,7 +3865,7 @@ create_surface_box (void)
 
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 
-	b = gtk_hbox_new (FALSE, GNOME_PAD);
+	b = gtk_hbox_new (FALSE, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (box), b, FALSE, FALSE, 0);
 
 	surface_entry = gtk_entry_new ();
@@ -3875,8 +3878,8 @@ create_surface_box (void)
 
 	frame = gtk_frame_new (_("Plot Window"));
 	gtk_box_pack_start (GTK_BOX (mainbox), frame, FALSE, FALSE, 0);
-	box = gtk_vbox_new(FALSE,GNOME_PAD);
-	gtk_container_set_border_width (GTK_CONTAINER (box), GNOME_PAD);
+	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	gtk_container_add (GTK_CONTAINER (frame), box);
 
 	/*
