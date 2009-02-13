@@ -1,3 +1,17 @@
+Fri Feb 13 13:08:55 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* configure.in, ve/Makefile.am: do not compile glade-helper,
+	  we don't need glade thus kill the libglade dep
+
+	* configure.in: require GTK 2.6.0 (yeah way behind times)
+
+	* src/gnome-genius.c: exorcise some libgnome/ui demons.  get rid of
+	  gnome_help_* and gnome_config_* and gnome_about*  One more step
+	  towards getting rid of this dep
+
+	* src/genius.c, src/gnome-genius.c: when binreloc gets us the wrong
+	  dir do not use it.  Use the default compiled in dir as backup.
+
 Tue Feb 10 16:43:08 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* configure.in, NEWS: raise version update NEWS

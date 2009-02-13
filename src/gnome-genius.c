@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2008 Jiri (George) Lebl
+ * Copyright (C) 1997-2009 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -120,6 +120,8 @@ static char *genius_datadir_sourceview = NULL;
 
 static gboolean genius_in_dev_dir = FALSE;
 
+static gboolean genius_do_not_use_binreloc = FALSE;
+
 GeniusSetup genius_setup = {
 	FALSE /* error_box */,
 	TRUE /* info_box */,
@@ -231,6 +233,8 @@ static void aboutcb (GtkWidget * widget, gpointer data);
 static void help_on_function (GtkWidget *menuitem, gpointer data);
 static void executing_warning (void);
 static void display_warning (GtkWidget *parent, const char *warn);
+
+static void actually_open_help (const char *id);
 
 static GnomeUIInfo file_menu[] = {
 	GNOMEUIINFO_MENU_NEW_ITEM(N_("_New Program"), N_("Create new program tab"), new_callback, NULL),
@@ -585,7 +589,9 @@ geniusbox (gboolean error,
 		GtkMessageType type = GTK_MESSAGE_INFO;
 		if (error)
 			type = GTK_MESSAGE_ERROR;
-		mb = gtk_message_dialog_new (GTK_WINDOW (genius_window) /* parent */,
+		mb = gtk_message_dialog_new (genius_window ?
+					       GTK_WINDOW (genius_window) :
+					       NULL /* parent */,
 					     0 /* flags */,
 					     type,
 					     GTK_BUTTONS_OK,
@@ -607,7 +613,9 @@ geniusbox (gboolean error,
 
 		mb = gtk_dialog_new_with_buttons
 			(title,
-			 GTK_WINDOW (genius_window) /* parent */,
+			 genius_window ?
+			   GTK_WINDOW (genius_window) :
+			   NULL /* parent */,
 			 0 /* flags */,
 			 GTK_STOCK_OK, GTK_RESPONSE_OK,
 			 NULL);
@@ -1314,13 +1322,74 @@ gel_printout_infos (void)
 	printout_error_num_and_reset ();
 }
 
+static void
+actually_open_help (const char *id)
+{
+	char *xdgopen;
+	char *uri;
+	char *file = NULL;
+	const GList *li;
+
+	for (li = ve_i18n_get_language_list ("LC_MESSAGES");
+	     li != NULL;
+	     li = li->next) {
+		file = g_build_filename (genius_datadir,
+					 "gnome",
+					 "help",
+					 "genius",
+					 li->data,
+					 "genius.xml",
+					 NULL);
+		if (access (file, R_OK) == 0) {
+			break;
+		}
+		g_free (file);
+		file = NULL;
+	}
+
+	if (file == NULL) {
+		genius_display_error (NULL /* parent */,
+				      _("Genius manual not found.  Perhaps the installation is not correct."));
+		return;
+	}
+
+	uri = g_strdup_printf ("ghelp://%s%s%s",
+			       file,
+			       /* FIXME: 1: not non-unix safe I guess */
+			       id ? "?" : "",
+			       id ? id : "");
+	g_free (file);
+
+	xdgopen = g_find_program_in_path ("xdg-open");
+	if G_LIKELY (xdgopen != NULL) {
+		char *argv[3];
+
+		argv[0] = xdgopen;
+		argv[1] = uri;
+		argv[2] = NULL;
+		g_print ("%s '%s'\n", xdgopen, uri);
+		g_spawn_async (NULL /* wd */,
+			       argv,
+			       NULL /* envp */,
+			       0 /* flags */,
+			       NULL /* child_setup */,
+			       NULL /* user_data */,
+			       NULL /* child_pid */,
+			       NULL /* error */);
+	} else {
+		genius_display_error (NULL /* parent */,
+				      _("Command 'xdg-open' is not found.  Cannot open help."));
+	}
+
+	g_free (xdgopen);
+	g_free (uri);
+}
+
 void
 gel_call_help (const char *function)
 {
 	if (function == NULL) {
-		/* FIXME: errors */
-
-		gnome_help_display ("genius", NULL, NULL /* error */);
+		actually_open_help (NULL);
 	} else {
 		char *id = NULL;
 		int i;
@@ -1336,9 +1405,9 @@ gel_call_help (const char *function)
 					      function);
 		}
 
-		/* FIXME: errors */
+		actually_open_help (id);
 
-		gnome_help_display ("genius", id, NULL /* error */);
+		g_free (id);
 	}
 }
 
@@ -1378,9 +1447,6 @@ geniusinfo(const char *s)
 static void
 aboutcb(GtkWidget * widget, gpointer data)
 {
-#if ! GTK_CHECK_VERSION(2,6,0)
-	static GtkWidget *about;
-#endif
 	static char *authors[] = {
 		"Jiří (George) Lebl, Ph.D. <jirka@5z.com>",
 		N_("Nils Barth (initial implementation of parts of the GEL library)"),
@@ -1393,158 +1459,137 @@ aboutcb(GtkWidget * widget, gpointer data)
 		NULL
 	};
 	const char *translators;
-#if GTK_CHECK_VERSION(2,6,0)
 	char *license;
+	/* Translators should localize the following string
+	 * which will give them credit in the About box.
+	 * E.g. "Fulano de Tal <fulano@detal.com>"
+	 */
+	char *new_credits = N_("translator-credits");
+	GdkPixbuf *logo;
+	char *file;
+
+	/* hack for old translations */
+	char *old_hack = "translator_credits-PLEASE_ADD_YOURSELF_HERE";
 
 	/* Force translation */
 	authors[1] = _(authors[1]);
 	authors[2] = _(authors[2]);
 
-	{
-#else
-	if (about == NULL) {
-#endif
-		/* Translators should localize the following string
-		 * which will give them credit in the About box.
-		 * E.g. "Fulano de Tal <fulano@detal.com>"
-		 */
-		char *new_credits = N_("translator-credits");
-		GdkPixbuf *logo;
-		char *file;
-
-		/* hack for old translations */
-		char *old_hack = "translator_credits-PLEASE_ADD_YOURSELF_HERE";
-
-		translators = _(new_credits);
-		if (strcmp (translators, new_credits) == 0) {
-			translators = NULL;
-		}
-
-		/* hack for old translations */
-		if (translators == NULL) {
-			translators = _(old_hack);
-			if (strcmp (translators, old_hack) == 0) {
-				translators = NULL;
-			}
-		}
-
-		file = g_build_filename (genius_datadir,
-					 "genius",
-					 "genius-graph.png",
-					 NULL);
-		logo = gdk_pixbuf_new_from_file (file, NULL);
-		g_free (file);
-
-#if GTK_CHECK_VERSION(2,6,0)
-		license = g_strdup_printf (_("Genius %s\n"
-		       "%s\n\n"
-		       "    This program is free software: you can redistribute it and/or modify\n"
-		       "    it under the terms of the GNU General Public License as published by\n"
-		       "    the Free Software Foundation, either version 3 of the License, or\n"
-		       "    (at your option) any later version.\n"
-		       "\n"
-		       "    This program is distributed in the hope that it will be useful,\n"
-		       "    but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-		       "    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
-		       "    GNU General Public License for more details.\n"
-		       "\n"
-		       "    You should have received a copy of the GNU General Public License\n"
-		       "    along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"),
-			    VERSION,
-			    COPYRIGHT_STRING);
-		gtk_show_about_dialog (GTK_WINDOW (genius_window),
-				      "program-name", _("Genius Mathematical Tool"), 
-				      "version", VERSION,
-				      "copyright", COPYRIGHT_STRING,
-				      "comments",
-				      _("The Gnome calculator style edition of "
-					"the Genius Mathematical Tool."),
-				      "authors", authors,
-				      "documenters", documenters,
-				      "translator-credits", translators,
-				      "logo", logo,
-				      "license", license,
-				      "website", "http://www.jirka.org/genius.html",
-				      NULL);
-		g_free (license);
-#else
-		about = gnome_about_new
-			(_("About Genius"),
-			 VERSION,
-			 COPYRIGHT_STRING,
-			 _("The Gnome calculator style edition of "
-			   "the genius calculator.  For license/warranty "
-			   "details, type 'warranty' into the console."),
-			 authors,
-			 documenters,
-			 translators,
-			 logo);
-#endif
-
-		if (logo != NULL)
-			g_object_unref (logo);
-
-#if ! GTK_CHECK_VERSION(2,6,0)
-		gtk_window_set_transient_for (GTK_WINDOW (about),
-					      GTK_WINDOW (genius_window));
-
-		g_signal_connect (about, "destroy",
-				  G_CALLBACK (gtk_widget_destroyed),
-				  &about);
-#endif
+	translators = _(new_credits);
+	if (strcmp (translators, new_credits) == 0) {
+		translators = NULL;
 	}
 
-#if ! GTK_CHECK_VERSION(2,6,0)
-	gtk_widget_show_now (about);
-	gtk_window_present (GTK_WINDOW (about));
-#endif
+	/* hack for old translations */
+	if (translators == NULL) {
+		translators = _(old_hack);
+		if (strcmp (translators, old_hack) == 0) {
+			translators = NULL;
+		}
+	}
+
+	file = g_build_filename (genius_datadir,
+				 "genius",
+				 "genius-graph.png",
+				 NULL);
+	logo = gdk_pixbuf_new_from_file (file, NULL);
+	g_free (file);
+
+	license = g_strdup_printf (_("Genius %s\n"
+	       "%s\n\n"
+	       "    This program is free software: you can redistribute it and/or modify\n"
+	       "    it under the terms of the GNU General Public License as published by\n"
+	       "    the Free Software Foundation, either version 3 of the License, or\n"
+	       "    (at your option) any later version.\n"
+	       "\n"
+	       "    This program is distributed in the hope that it will be useful,\n"
+	       "    but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+	       "    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+	       "    GNU General Public License for more details.\n"
+	       "\n"
+	       "    You should have received a copy of the GNU General Public License\n"
+	       "    along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"),
+		    VERSION,
+		    COPYRIGHT_STRING);
+	gtk_show_about_dialog (GTK_WINDOW (genius_window),
+			      "program-name", _("Genius Mathematical Tool"), 
+			      "version", VERSION,
+			      "copyright", COPYRIGHT_STRING,
+			      "comments",
+			      _("The Gnome calculator style edition of "
+				"the Genius Mathematical Tool."),
+			      "authors", authors,
+			      "documenters", documenters,
+			      "translator-credits", translators,
+			      "logo", logo,
+			      "license", license,
+			      "website", "http://www.jirka.org/genius.html",
+			      NULL);
+	g_free (license);
+
+	if (logo != NULL)
+		g_object_unref (logo);
 }
 
 static void
 set_properties (void)
 {
-	gnome_config_set_bool("/genius/properties/black_on_white",
-			      genius_setup.black_on_white);
-	gnome_config_set_string ("/genius/properties/pango_font",
-				 ve_sure_string (genius_setup.font));
-	gnome_config_set_int("/genius/properties/scrollback",
-			     genius_setup.scrollback);
-	gnome_config_set_bool("/genius/properties/error_box",
-			      genius_setup.error_box);
-	gnome_config_set_bool("/genius/properties/info_box",
-			      genius_setup.info_box);
-	gnome_config_set_bool("/genius/properties/blinking_cursor",
-			      genius_setup.blinking_cursor);
-	gnome_config_set_bool("/genius/properties/output_remember",
-			      genius_setup.output_remember);
+	const char *home = g_get_home_dir ();
+	char *name;
+	VeConfig *cfg;
+
+	if (home == NULL)
+		/* FIXME: errors */
+		return;
+
+	name = g_build_filename (home, ".gnome2", "genius", NULL);
+	cfg = ve_config_new (name);
+	g_free (name);
+
+	ve_config_set_bool (cfg, "properties/black_on_white",
+			    genius_setup.black_on_white);
+	ve_config_set_string (cfg, "properties/pango_font",
+			      ve_sure_string (genius_setup.font));
+	ve_config_set_int (cfg, "properties/scrollback",
+			   genius_setup.scrollback);
+	ve_config_set_bool (cfg, "properties/error_box",
+			    genius_setup.error_box);
+	ve_config_set_bool (cfg, "properties/info_box",
+			    genius_setup.info_box);
+	ve_config_set_bool (cfg, "properties/blinking_cursor",
+			    genius_setup.blinking_cursor);
+	ve_config_set_bool (cfg, "properties/output_remember",
+			    genius_setup.output_remember);
 	if (genius_setup.output_remember) {
-		gnome_config_set_int("/genius/properties/max_digits", 
-				      curstate.max_digits);
-		gnome_config_set_bool("/genius/properties/results_as_floats",
-				      curstate.results_as_floats);
-		gnome_config_set_bool("/genius/properties/scientific_notation",
-				      curstate.scientific_notation);
-		gnome_config_set_bool("/genius/properties/full_expressions",
-				      curstate.full_expressions);
-		gnome_config_set_bool("/genius/properties/mixed_fractions",
-				      curstate.mixed_fractions);
-		gnome_config_set_int("/genius/properties/chop",
-				     curstate.chop);
-		gnome_config_set_int("/genius/properties/chop_when",
-				     curstate.chop_when);
+		ve_config_set_int (cfg, "properties/max_digits", 
+				   curstate.max_digits);
+		ve_config_set_bool (cfg, "properties/results_as_floats",
+				    curstate.results_as_floats);
+		ve_config_set_bool (cfg, "properties/scientific_notation",
+				    curstate.scientific_notation);
+		ve_config_set_bool (cfg, "properties/full_expressions",
+				    curstate.full_expressions);
+		ve_config_set_bool (cfg, "properties/mixed_fractions",
+				    curstate.mixed_fractions);
+		ve_config_set_int (cfg, "properties/chop",
+				   curstate.chop);
+		ve_config_set_int (cfg, "properties/chop_when",
+				   curstate.chop_when);
 	}
-	gnome_config_set_int("/genius/properties/max_errors",
-			     curstate.max_errors);
-	gnome_config_set_int("/genius/properties/max_nodes",
-			     curstate.max_nodes);
-	gnome_config_set_bool("/genius/properties/precision_remember",
-			      genius_setup.precision_remember);
+	ve_config_set_int (cfg, "properties/max_errors",
+			   curstate.max_errors);
+	ve_config_set_int (cfg, "properties/max_nodes",
+			   curstate.max_nodes);
+	ve_config_set_bool (cfg, "properties/precision_remember",
+			    genius_setup.precision_remember);
 	if (genius_setup.precision_remember) {
-		gnome_config_set_int("/genius/properties/float_prec",
-				     curstate.float_prec);
+		ve_config_set_int (cfg, "properties/float_prec",
+				   curstate.float_prec);
 	}
 	
-	gnome_config_sync();
+	ve_config_save (cfg, FALSE /* force */);
+
+	ve_config_destroy (cfg);
 }
 
 void
@@ -1558,7 +1603,9 @@ genius_display_error (GtkWidget *parent, const char *err)
 	if (parent == NULL)
 		parent = genius_window;
 
-	w = gtk_message_dialog_new (GTK_WINDOW (parent) /* parent */,
+	w = gtk_message_dialog_new (parent ?
+				      GTK_WINDOW (parent) :
+				      NULL /* parent */,
 				    GTK_DIALOG_MODAL /* flags */,
 				    GTK_MESSAGE_ERROR,
 				    GTK_BUTTONS_CLOSE,
@@ -1731,7 +1778,7 @@ static void
 setup_response (GtkWidget *widget, gint resp, gpointer data)
 {
 	if (resp == GTK_RESPONSE_HELP) {
-		gnome_help_display ("genius", "genius-prefs", NULL /* error */);
+		actually_open_help ("genius-prefs");
 		return;
 	}
 
@@ -3620,104 +3667,115 @@ create_main_window (void)
         return w;
 }
 
-/* gnome_config employment */
-
 static void
 get_properties (void)
 {
-	gchar buf[256];
+	char buf[256];
+	const char *home = g_get_home_dir ();
+	char *name;
+	VeConfig *cfg;
 
-	g_snprintf(buf,256,"/genius/properties/black_on_white=%s",
+	if (home == NULL)
+		/* FIXME: error? */
+		return;
+
+	name = g_build_filename (home, ".gnome2", "genius", NULL);
+	cfg = ve_config_new (name);
+	g_free (name);
+
+	g_snprintf(buf,256,"properties/black_on_white=%s",
 		   (genius_setup.black_on_white)?"true":"false");
-	genius_setup.black_on_white = gnome_config_get_bool(buf);
+	genius_setup.black_on_white = ve_config_get_bool (cfg, buf);
 
-	g_snprintf (buf, 256, "/genius/properties/pango_font=%s",
+	g_snprintf (buf, 256, "properties/pango_font=%s",
 		    ve_sure_string (genius_setup.font));
-	genius_setup.font = gnome_config_get_string (buf);
+	genius_setup.font = ve_config_get_string (cfg, buf);
 
-	g_snprintf(buf,256,"/genius/properties/scrollback=%d",
+	g_snprintf(buf,256,"properties/scrollback=%d",
 		   genius_setup.scrollback);
-	genius_setup.scrollback = gnome_config_get_int(buf);
+	genius_setup.scrollback = ve_config_get_int (cfg, buf);
 
-	g_snprintf(buf,256,"/genius/properties/error_box=%s",
+	g_snprintf(buf,256,"properties/error_box=%s",
 		   (genius_setup.error_box)?"true":"false");
-	genius_setup.error_box = gnome_config_get_bool(buf);
+	genius_setup.error_box = ve_config_get_bool (cfg, buf);
 
-	g_snprintf(buf,256,"/genius/properties/info_box=%s",
+	g_snprintf(buf,256,"properties/info_box=%s",
 		   (genius_setup.info_box)?"true":"false");
-	genius_setup.info_box = gnome_config_get_bool(buf);
+	genius_setup.info_box = ve_config_get_bool (cfg, buf);
 
-	g_snprintf(buf,256,"/genius/properties/blinking_cursor=%s",
+	g_snprintf(buf,256,"properties/blinking_cursor=%s",
 		   (genius_setup.blinking_cursor)?"true":"false");
-	genius_setup.blinking_cursor = gnome_config_get_bool(buf);
+	genius_setup.blinking_cursor = ve_config_get_bool (cfg, buf);
 	
-	g_snprintf(buf,256,"/genius/properties/max_digits=%d",
+	g_snprintf(buf,256,"properties/max_digits=%d",
 		   curstate.max_digits);
-	curstate.max_digits = gnome_config_get_int(buf);
+	curstate.max_digits = ve_config_get_int (cfg, buf);
 	if (curstate.max_digits < 0)
 		curstate.max_digits = 0;
 	else if (curstate.max_digits > 256)
 		curstate.max_digits = 256;
 
-	g_snprintf(buf,256,"/genius/properties/results_as_floats=%s",
+	g_snprintf(buf,256,"properties/results_as_floats=%s",
 		   curstate.results_as_floats?"true":"false");
-	curstate.results_as_floats = gnome_config_get_bool(buf);
+	curstate.results_as_floats = ve_config_get_bool (cfg, buf);
 
-	g_snprintf(buf,256,"/genius/properties/scientific_notation=%s",
+	g_snprintf(buf,256,"properties/scientific_notation=%s",
 		   curstate.scientific_notation?"true":"false");
-	curstate.scientific_notation = gnome_config_get_bool(buf);
+	curstate.scientific_notation = ve_config_get_bool (cfg, buf);
 
-	g_snprintf(buf,256,"/genius/properties/full_expressions=%s",
+	g_snprintf(buf,256,"properties/full_expressions=%s",
 		   curstate.full_expressions?"true":"false");
-	curstate.full_expressions = gnome_config_get_bool(buf);
+	curstate.full_expressions = ve_config_get_bool (cfg, buf);
 
-	g_snprintf(buf,256,"/genius/properties/mixed_fractions=%s",
+	g_snprintf(buf,256,"properties/mixed_fractions=%s",
 		   curstate.mixed_fractions?"true":"false");
-	curstate.mixed_fractions = gnome_config_get_bool(buf);
+	curstate.mixed_fractions = ve_config_get_bool (cfg, buf);
 
-	g_snprintf(buf,256,"/genius/properties/output_remember=%s",
+	g_snprintf(buf,256,"properties/output_remember=%s",
 		   genius_setup.output_remember?"true":"false");
-	genius_setup.output_remember = gnome_config_get_bool(buf);
+	genius_setup.output_remember = ve_config_get_bool (cfg, buf);
 
-	g_snprintf(buf,256,"/genius/properties/max_errors=%d",
+	g_snprintf(buf,256,"properties/max_errors=%d",
 		   curstate.max_errors);
-	curstate.max_errors = gnome_config_get_int(buf);
+	curstate.max_errors = ve_config_get_int (cfg, buf);
 	if (curstate.max_errors < 0)
 		curstate.max_errors = 0;
 
-	g_snprintf(buf,256,"/genius/properties/max_nodes=%d",
+	g_snprintf(buf,256,"properties/max_nodes=%d",
 		   curstate.max_nodes);
-	curstate.max_nodes = gnome_config_get_int(buf);
+	curstate.max_nodes = ve_config_get_int (cfg, buf);
 	if (curstate.max_nodes < 0)
 		curstate.max_nodes = 0;
 
-	g_snprintf(buf,256,"/genius/properties/chop=%d",
+	g_snprintf(buf,256,"properties/chop=%d",
 		   curstate.chop);
-	curstate.chop = gnome_config_get_int(buf);
+	curstate.chop = ve_config_get_int (cfg, buf);
 	if (curstate.chop < 0)
 		curstate.chop = 0;
 	else if (curstate.chop > MAX_CHOP)
 		curstate.chop = MAX_CHOP;
 
-	g_snprintf(buf,256,"/genius/properties/chop_when=%d",
+	g_snprintf(buf,256,"properties/chop_when=%d",
 		   curstate.chop_when);
-	curstate.chop_when = gnome_config_get_int(buf);
+	curstate.chop_when = ve_config_get_int (cfg, buf);
 	if (curstate.chop_when < 0)
 		curstate.chop_when = 0;
 	else if (curstate.chop_when > MAX_CHOP)
 		curstate.chop_when = MAX_CHOP;
 
-	g_snprintf(buf,256,"/genius/properties/float_prec=%d",
+	g_snprintf(buf,256,"properties/float_prec=%d",
 		   curstate.float_prec);
-	curstate.float_prec = gnome_config_get_int(buf);
+	curstate.float_prec = ve_config_get_int (cfg, buf);
 	if (curstate.float_prec < 60)
 		curstate.float_prec = 60;
 	else if (curstate.float_prec > 16384)
 		curstate.float_prec = 16384;
 
-	g_snprintf(buf,256,"/genius/properties/precision_remember=%s",
+	g_snprintf(buf,256,"properties/precision_remember=%s",
 		   genius_setup.precision_remember?"true":"false");
-	genius_setup.precision_remember = gnome_config_get_bool(buf);
+	genius_setup.precision_remember = ve_config_get_bool (cfg, buf);
+
+	ve_config_destroy (cfg);
 }
 
 static void
@@ -3846,7 +3904,10 @@ fork_a_helper (void)
 	char *libexecdir;
 	char *file;
 
-	libexecdir = gbr_find_libexec_dir (LIBEXECDIR);
+	if (genius_do_not_use_binreloc)
+		libexecdir = g_strdup (LIBEXECDIR);
+	else
+		libexecdir = gbr_find_libexec_dir (LIBEXECDIR);
 
 	foo = NULL;
 
@@ -4251,6 +4312,7 @@ main (int argc, char *argv[])
 	int plugin_count = 0;
 	GIOChannel *channel;
 	GnomeProgram *program;
+	gboolean give_no_lib_error_after_init = FALSE;
 
 	genius_is_gui = TRUE;
 
@@ -4275,6 +4337,25 @@ main (int argc, char *argv[])
 	textdomain (GETTEXT_PACKAGE);
 
 	genius_datadir = gbr_find_data_dir (DATADIR);
+	/* Test the datadir */
+	file = g_build_filename (genius_datadir,
+				 "genius", "gel", "lib.cgel", NULL);
+	if (access (file, F_OK) != 0) {
+		g_free (file);
+		g_free (genius_datadir);
+		genius_datadir = g_strdup (DATADIR);
+		
+		/* Do not use binreloc anymore */
+		genius_do_not_use_binreloc = TRUE;
+
+		file = g_build_filename (genius_datadir,
+					 "genius", "gel", "lib.cgel", NULL);
+		if (access (file, F_OK) != 0) {
+			give_no_lib_error_after_init = TRUE;
+		}
+	}
+	g_free (file);
+
 	genius_datadir_sourceview = g_build_filename (genius_datadir, "genius",
 						      "gtksourceview"
 						      G_DIR_SEPARATOR_S,
@@ -4286,6 +4367,11 @@ main (int argc, char *argv[])
 				      GNOME_PARAM_APP_DATADIR, genius_datadir,
 				      /* GNOME_PARAM_POPT_TABLE, options, */
 				      NULL);
+
+	if (give_no_lib_error_after_init) {
+		genius_display_error (NULL /* parent */,
+				      _("Cannot find the library file, genius installation may be incorrect"));
+	}
 
 	setup_rl_fifos ();
 
@@ -4299,7 +4385,7 @@ main (int argc, char *argv[])
 
 	gel_read_plugin_list ();
 
-	/*read gnome_config parameters */
+	/*read parameters */
 	get_properties ();
 
 	file = g_build_filename (genius_datadir,

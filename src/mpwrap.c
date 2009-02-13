@@ -2765,7 +2765,6 @@ str_format_float (char *p,
 			for(i=0;i<e-len;i++)
 				strcat(p,"0");
 		} else if(e<len) {
-			/* FIXME: is this correct? */
 			p = g_realloc (p, strlen(p) + 2);
 			if(p[0]=='-') {
 				shiftstr(p+1+e,1);

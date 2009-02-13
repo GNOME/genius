@@ -35,11 +35,14 @@ libvicious_a_SOURCES =	\
 
 libviciousui_a_SOURCES = \
 	$(libvicious_a_SOURCES) \
-	glade-helper.c	\
-	glade-helper.h	\
 	ve-miscui.c	\
 	ve-miscui.h	\
 	viciousui.h
+
+#	Genius does not use glade, if you want to use ve in your project
+#	and want to use glade-helper make sure to compile it in
+#	glade-helper.c	\
+#	glade-helper.h
 
 test_ve_config_SOURCES = \
 	test-ve-config.c

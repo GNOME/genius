@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2008 Jiri (George) Lebl
+ * Copyright (C) 1997-2009 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -147,9 +147,13 @@ gel_call_help (const char *function)
 	g_free (str);
 
 	if G_UNLIKELY (access (file, R_OK) != 0) {
-		puterror (_("Cannot locate the manual"));
 		g_free (file);
-		return;
+		file = g_build_filename (DATADIR, "genius", "genius.txt", NULL);
+		if G_UNLIKELY (access (file, R_OK) != 0) {
+			puterror (_("Cannot locate the manual"));
+			g_free (file);
+			return;
+		}
 	}
 
 	str = g_find_program_in_path ("less");
@@ -161,6 +165,7 @@ gel_call_help (const char *function)
 
 		argv[0] = str;
 		argv[1] = file;
+		argv[2] = NULL;
 		g_spawn_sync  (NULL /* wd */,
 			       argv,
 			       NULL /* envp */,
@@ -537,6 +542,14 @@ main(int argc, char *argv[])
 						       "gel",
 						       "lib.cgel",
 						       NULL);
+			if (access (file, F_OK) != 0) {
+				g_free (file);
+				file = g_build_filename (DATADIR,
+							 "genius",
+							 "gel",
+							 "lib.cgel",
+							 NULL);
+			}
 			gel_load_compiled_file (NULL,
 						file,
 						FALSE);
