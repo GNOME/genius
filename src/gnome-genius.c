@@ -1325,6 +1325,28 @@ gel_printout_infos (void)
 static void
 actually_open_help (const char *id)
 {
+#if GTK_CHECK_VERSION(2,14,0)
+	GError *error = NULL;
+	char *str;
+
+	if (id != NULL) {
+		str = g_strdup_printf ("ghelp:genius?%s", id);
+	} else {
+		str = g_strdup ("ghelp:genius");
+	}
+
+	gtk_show_uri (NULL, str, GDK_CURRENT_TIME, &error);
+
+	g_free (str);
+
+	if (error != NULL) {
+		str = g_strdup_printf (_("<b>Cannot display help</b>\n\n%s"),
+				       error->message);
+		genius_display_error (NULL /* parent */, str);
+		g_free (str);
+		g_error_free (error);
+	}
+#else
 	char *xdgopen;
 	char *uri;
 	char *file = NULL;
@@ -1383,6 +1405,7 @@ actually_open_help (const char *id)
 
 	g_free (xdgopen);
 	g_free (uri);
+#endif
 }
 
 void
