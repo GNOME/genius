@@ -145,6 +145,7 @@ open_get_info (GelPlugin *plug)
 					   G_MODULE_SUFFIX,
 					   NULL);
 		mod = g_module_open (fname, G_MODULE_BIND_LAZY);
+		/* printf ("error: '%s'\n", g_module_error ()); */
 		g_free (fname);
 		if (mod == NULL)
 			mod = g_module_open (plug->file, G_MODULE_BIND_LAZY);

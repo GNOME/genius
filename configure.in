@@ -1,7 +1,7 @@
 AC_INIT(src/calc.c)
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(genius,1.0.5)
+AM_INIT_AUTOMAKE(genius,1.0.6)
 
 dnl make sure we keep ACLOCAL_FLAGS around for maintainer builds to work
 AC_SUBST(ACLOCAL_AMFLAGS, "$ACLOCAL_FLAGS")
@@ -13,8 +13,7 @@ AC_PROG_INTLTOOL([0.21])
 dnl ================= Requirements ================================================
 
 VTE_REQUIRED=0.8.19
-LIBGNOMEUI_REQUIRED=2.0.0
-LIBGNOME_REQUIRED=2.0.0
+LIBGNOMEVFS_REQUIRED=2.0.0
 GTK_REQUIRED=2.6.0
 GLIB_REQUIRED=2.6.0
 GTKSOURCEVIEW_REQUIRED=0.3.0
@@ -118,11 +117,11 @@ PKG_CHECK_MODULES(GLIB, glib-2.0 >= $GLIB_REQUIRED)
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
-GENIUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED libgnome-2.0 >= $LIBGNOME_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED vte >= $VTE_REQUIRED"
+GENIUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED gnome-vfs-2.0 >= $LIBGNOMEVFS_REQUIRED vte >= $VTE_REQUIRED"
 
 if test "x$use_gnome" = "xyes" ; then
   echo " 
-Testing for presence of GNOME and GtkSourceView:
+Testing for presence of GNOME (GTK and gnome-vfs is enough) and GtkSourceView:
 Note:
       You can compile without GNOME by using the --disable-gnome option
 "
@@ -147,7 +146,7 @@ Note:
     PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES)
   fi
 
-  VICIOUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED"
+  VICIOUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED"
   VICIOUS_UI_LIBS="libviciousui.a"
   GTKEXTRA_LIBS="libgtkextra-genius.a"
   

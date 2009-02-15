@@ -21,7 +21,8 @@
 
 #include "config.h"
 
-#include <gnome.h>
+#include <gdk/gdk.h>
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <vte/vte.h>
 
@@ -50,6 +51,7 @@
 #include "binreloc.h"
 
 #include <vicious.h>
+#include <viciousui.h>
 
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -96,10 +98,11 @@ extern gboolean interrupted;
 extern const char *genius_toplevels[];
 
 GtkWidget *genius_window = NULL;
+GtkWidget *genius_window_statusbar = NULL;
+GtkUIManager *genius_ui = NULL;
 
 static GtkWidget *setupdialog = NULL;
 static GtkWidget *term = NULL;
-static GtkWidget *appbar = NULL;
 static GtkWidget *notebook = NULL;
 static GtkTooltips *tips;
 static GString *errors=NULL;
@@ -230,183 +233,18 @@ static void monitor_user_var (GtkWidget *menu_item, gpointer data);
 static void full_answer (GtkWidget *menu_item, gpointer data);
 static void warranty_call (GtkWidget *widget, gpointer data);
 static void aboutcb (GtkWidget * widget, gpointer data);
+static void help_cb (GtkWidget *menuitem, gpointer data);
 static void help_on_function (GtkWidget *menuitem, gpointer data);
 static void executing_warning (void);
 static void display_warning (GtkWidget *parent, const char *warn);
 
 static void actually_open_help (const char *id);
 
-static GnomeUIInfo file_menu[] = {
-	GNOMEUIINFO_MENU_NEW_ITEM(N_("_New Program"), N_("Create new program tab"), new_callback, NULL),
-	GNOMEUIINFO_MENU_OPEN_ITEM (open_callback,NULL),
-#define FILE_SAVE_ITEM 2
-	GNOMEUIINFO_MENU_SAVE_ITEM (save_callback,NULL),
-#define FILE_SAVE_ALL_ITEM 3
-	GNOMEUIINFO_ITEM_STOCK(N_("Save All _Unsaved"),N_("Save all unsaved programs"), save_all_cb, GTK_STOCK_SAVE),
-#define FILE_SAVE_AS_ITEM 4
-	GNOMEUIINFO_MENU_SAVE_AS_ITEM (save_as_callback,NULL),
-#define FILE_RELOAD_ITEM 5
-	GNOMEUIINFO_ITEM_STOCK(N_("_Reload from Disk"),N_("Reload the selected program from disk"), reload_cb, GTK_STOCK_REVERT_TO_SAVED),
-#define FILE_CLOSE_ITEM 6
-	GNOMEUIINFO_MENU_CLOSE_ITEM (close_callback, NULL),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_STOCK(N_("_Load and Run..."),N_("Load and execute a file in genius"), load_cb, GTK_STOCK_OPEN),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_STOCK(N_("Save Console Ou_tput..."),N_("Save what is visible on the console (including scrollback) to a text file"), save_console_cb, GTK_STOCK_SAVE),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_MENU_EXIT_ITEM (quitapp,NULL),
-	GNOMEUIINFO_END,
-};
-
-static GnomeUIInfo edit_menu[] = {  
-#ifdef HAVE_GTKSOURCEVIEW
-#define EDIT_UNDO_ITEM 0
-	GNOMEUIINFO_MENU_UNDO_ITEM(undo_callback,NULL),
-#define EDIT_REDO_ITEM 1
-	GNOMEUIINFO_MENU_REDO_ITEM(redo_callback,NULL),
-	GNOMEUIINFO_SEPARATOR,
-#define EDIT_CUT_ITEM 3
-	GNOMEUIINFO_MENU_CUT_ITEM(cut_callback,NULL),
-#define EDIT_COPY_ITEM 4
-	GNOMEUIINFO_MENU_COPY_ITEM(copy_callback,NULL),
-#else
-#define EDIT_CUT_ITEM 0
-	GNOMEUIINFO_MENU_CUT_ITEM(cut_callback,NULL),
-#define EDIT_COPY_ITEM 1
-	GNOMEUIINFO_MENU_COPY_ITEM(copy_callback,NULL),
-#endif
-	GNOMEUIINFO_MENU_PASTE_ITEM(paste_callback,NULL),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As Plain _Text"),
-			       N_("Copy last answer into the clipboard in plain text"),
-			       copy_as_plain,
-			       GTK_STOCK_COPY),
-	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As _LaTeX"),
-			       N_("Copy last answer into the clipboard as LaTeX"),
-			       copy_as_latex,
-			       GTK_STOCK_COPY),
-	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As _MathML"),
-			       N_("Copy last answer into the clipboard as MathML"),
-			       copy_as_mathml,
-			       GTK_STOCK_COPY),
-	GNOMEUIINFO_ITEM_STOCK(N_("Copy Answer As T_roff"),
-			       N_("Copy last answer into the clipboard as Troff eqn"),
-			       copy_as_troff,
-			       GTK_STOCK_COPY),
-	GNOMEUIINFO_END,
-};
-
-static GnomeUIInfo settings_menu[] = {  
-	GNOMEUIINFO_MENU_PREFERENCES_ITEM(setup_calc,NULL),
-	GNOMEUIINFO_END,
-};
-
-static GnomeUIInfo calc_menu[] = {  
-#define CALC_RUN_ITEM 0
-	{ GNOME_APP_UI_ITEM, N_("_Run"), N_("Run current program"),
-		(gpointer)run_program, NULL, NULL, \
-		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_EXECUTE, 
-		GDK_r, (GdkModifierType) GDK_CONTROL_MASK, NULL },
-
-	GNOMEUIINFO_ITEM_STOCK(N_("_Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GTK_STOCK_STOP),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_STOCK (N_("Show _Full Answer"), N_("Show the full text of last answer"), full_answer, GTK_STOCK_DIALOG_INFO),
-	GNOMEUIINFO_ITEM_STOCK (N_("Show User _Variables"), N_("Show the current value of all user variables"), show_user_vars, GTK_STOCK_DIALOG_INFO),
-	GNOMEUIINFO_ITEM_STOCK (N_("_Monitor a Variable"), N_("Monitor a variable continuously"), monitor_user_var, GTK_STOCK_DIALOG_INFO),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_STOCK (N_("_Plot"), N_("Plot a function"), genius_plot_dialog, GNOME_STOCK_BOOK_OPEN),
-	GNOMEUIINFO_END,
-};
-
-static GnomeUIInfo help_menu[] = {  
-	GNOMEUIINFO_HELP("genius"),
-	GNOMEUIINFO_ITEM_STOCK (N_("_Help on Function"),
-				N_("Help on a function or a command"),
-				help_on_function,
-				GTK_STOCK_HELP),
-	GNOMEUIINFO_ITEM_STOCK (N_("_Warranty"),
-				N_("Display warranty information"),
-				warranty_call,
-				GTK_STOCK_HELP),
-	GNOMEUIINFO_MENU_ABOUT_ITEM(aboutcb,NULL),
-	GNOMEUIINFO_END,
-};
-
-static GnomeUIInfo plugin_menu[] = {
-	GNOMEUIINFO_END,
-};
-
-static GnomeUIInfo programs_menu[] = {
-	{ GNOME_APP_UI_ITEM, N_("_Next Tab"), N_("Go to next tab"),
-		(gpointer)next_tab, NULL, NULL, \
-		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_GO_FORWARD, 
-		GDK_Page_Down, (GdkModifierType) GDK_CONTROL_MASK, NULL },
-	{ GNOME_APP_UI_ITEM, N_("_Previous Tab"), N_("Go to previous tab"),
-		(gpointer)prev_tab, NULL, NULL, \
-		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_GO_BACK, 
-		GDK_Page_Up, (GdkModifierType) GDK_CONTROL_MASK, NULL },
-
-	GNOMEUIINFO_SEPARATOR,
-
-	GNOMEUIINFO_ITEM (N_("_Console"),
-			  N_("Go to the console tab"),
-			  prog_menu_activated,
-			  NULL),
-
-	GNOMEUIINFO_END,
-};
-  
-static GnomeUIInfo genius_menu[] = {
-	GNOMEUIINFO_MENU_FILE_TREE(file_menu),
-	GNOMEUIINFO_MENU_EDIT_TREE(edit_menu),
-	GNOMEUIINFO_SUBTREE(N_("_Calculator"),calc_menu),
-#define PLUGINS_MENU 3
-	GNOMEUIINFO_SUBTREE(N_("P_lugins"),plugin_menu),
-#define PROGRAMS_MENU 4
-	GNOMEUIINFO_SUBTREE(N_("_Programs"),programs_menu),
-	GNOMEUIINFO_MENU_SETTINGS_TREE(settings_menu),
-	GNOMEUIINFO_MENU_HELP_TREE(help_menu),
-	GNOMEUIINFO_END,
-};
-
-/* toolbar */
-static GnomeUIInfo toolbar[] = {
-	GNOMEUIINFO_ITEM_STOCK(N_("Interrupt"),N_("Interrupt current calculation"),genius_interrupt_calc,GTK_STOCK_STOP),
-#define TOOLBAR_RUN_ITEM 1
-	GNOMEUIINFO_ITEM_STOCK(N_("Run"),N_("Run current program"),run_program, GTK_STOCK_EXECUTE),
-	GNOMEUIINFO_ITEM_STOCK(N_("New"),N_("Create new program tab"), new_callback, GTK_STOCK_NEW),
-	GNOMEUIINFO_ITEM_STOCK(N_("Open"),N_("Open a GEL file for running"), open_callback, GTK_STOCK_OPEN),
-	GNOMEUIINFO_ITEM_STOCK(N_("Plot"), N_("Plot a function"), genius_plot_dialog, GNOME_STOCK_BOOK_OPEN),
-	GNOMEUIINFO_ITEM_STOCK(N_("Exit"),N_("Exit genius"), quitapp, GTK_STOCK_QUIT),
-	GNOMEUIINFO_END,
-};
-
-
-/* UI Manager
- *
- * The GtkUIManager object allows the easy creation of menus
- * from an array of actions and a description of the menu hierarchy.
- */
-
-#include <gtk/gtk.h>
-
-static void
-activate_action (GtkAction *action)
-{
-  g_message ("Action \"%s\" activated", gtk_action_get_name (action));
-}
-
-static void
-activate_radio_action (GtkAction *action, GtkRadioAction *current)
-{
-  g_message ("Radio action \"%s\" selected", 
-	     gtk_action_get_name (GTK_ACTION (current)));
-}
-
 static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File") },		/* name, stock id, label */
   { "EditMenu", NULL, N_("_Edit") },		/* name, stock id, label */
   { "CalculatorMenu", NULL, N_("_Calculator") },	/* name, stock id, label */
+  { "PluginsMenu", NULL, N_("P_lugins") },	/* name, stock id, label */
   { "ProgramsMenu", NULL, N_("_Programs") },	/* name, stock id, label */
   { "SettingsMenu", NULL, N_("_Settings") },	/* name, stock id, label */
   { "HelpMenu", NULL, N_("_Help") },		/* name, stock id, label */
@@ -414,16 +252,24 @@ static GtkActionEntry entries[] = {
     N_("_New Program"), "<control>N",                      /* label, accelerator */
     N_("Create new program tab"),                       /* tooltip */ 
     G_CALLBACK (new_callback) },      
+  { "ToolbarNew", GTK_STOCK_NEW,
+    N_("New"), "",
+    N_("Create new program tab"),
+    G_CALLBACK (new_callback) },      
   { "Open", GTK_STOCK_OPEN,                    /* name, stock id */
     N_("_Open..."), "<control>O",                      /* label, accelerator */     
     N_("Open a file"),                             /* tooltip */
+    G_CALLBACK (open_callback) }, 
+  { "ToolbarOpen", GTK_STOCK_OPEN,
+    N_("Open"), "",
+    N_("Open a file"),
     G_CALLBACK (open_callback) }, 
   { "Save", GTK_STOCK_SAVE,                    /* name, stock id */
     N_("_Save"), "<control>S",                      /* label, accelerator */     
     N_("Save current file"),                       /* tooltip */
     G_CALLBACK (save_callback) },
   { "SaveAll", GTK_STOCK_SAVE,
-    N_("Save All _Unsaved"), NULL,
+    N_("Save All _Unsaved"), "",
     N_("Save all unsaved programs"),
     G_CALLBACK (save_all_cb) },
   { "SaveAs", GTK_STOCK_SAVE,
@@ -431,7 +277,7 @@ static GtkActionEntry entries[] = {
     N_("Save to a file"),
     G_CALLBACK (save_as_callback) },
   { "Reload", GTK_STOCK_REVERT_TO_SAVED,
-    N_("_Reload from Disk"), NULL,
+    N_("_Reload from Disk"), "",
     N_("Reload the selected program from disk"),
     G_CALLBACK (reload_cb) },
   { "Close", GTK_STOCK_CLOSE,
@@ -439,21 +285,119 @@ static GtkActionEntry entries[] = {
     N_("Close the current file"),
     G_CALLBACK (close_callback) },
   { "LoadRun", GTK_STOCK_OPEN,
-    N_("_Load and Run..."), NULL,
+    N_("_Load and Run..."), "",
     N_("Load and execute a file in genius"),
     G_CALLBACK (load_cb) },
   { "SaveConsoleOutput", GTK_STOCK_SAVE,
-    N_("Save Console Ou_tput..."), NULL,
+    N_("Save Console Ou_tput..."), "",
     N_("Save what is visible on the console (including scrollback) to a text file"),
     G_CALLBACK (save_console_cb) },
   { "Quit", GTK_STOCK_QUIT,
     N_("_Quit"), "<control>Q",
     N_("Quit"),
     G_CALLBACK (quitapp) },
+  { "Undo", GTK_STOCK_UNDO,
+    N_("_Undo"), "<control>Z",
+    N_("Undo the last action"),
+    G_CALLBACK (undo_callback) },
+  { "Redo", GTK_STOCK_REDO,
+    N_("_Redo"), "<shift><control>Z",
+    N_("Redo the undone action"),
+    G_CALLBACK (redo_callback) },
+  { "Cut", GTK_STOCK_CUT,
+    N_("Cu_t"), "<control>X",
+    N_("Cut the selection"),
+    G_CALLBACK (cut_callback) },
+  { "Copy", GTK_STOCK_COPY,
+    N_("_Copy"), "<control>C",
+    N_("Copy the selection"),
+    G_CALLBACK (copy_callback) },
+  { "Paste", GTK_STOCK_PASTE,
+    N_("_Paste"), "<control>V",
+    N_("Paste the clipboard"),
+    G_CALLBACK (paste_callback) },
+  { "CopyPlain", GTK_STOCK_COPY,
+    N_("Copy Answer As Plain _Text"), "",
+    N_("Copy last answer into the clipboard in plain text"),
+    G_CALLBACK (copy_as_plain) },
+  { "CopyLaTeX", GTK_STOCK_COPY,
+    N_("Copy Answer As Plain _LaTeX"), "",
+    N_("Copy last answer into the clipboard as LaTeX"),
+    G_CALLBACK (copy_as_latex) },
+  { "CopyMathML", GTK_STOCK_COPY,
+    N_("Copy Answer As Plain _MathML"), "",
+    N_("Copy last answer into the clipboard as MathML"),
+    G_CALLBACK (copy_as_mathml) },
+  { "CopyTroff", GTK_STOCK_COPY,
+    N_("Copy Answer As Plain T_roff"), "",
+    N_("Copy last answer into the clipboard as Troff eqn"),
+    G_CALLBACK (copy_as_troff) },
+  { "Run", GTK_STOCK_EXECUTE,
+    N_("_Run"), "<control>R",
+    N_("Run current program"),
+    G_CALLBACK (run_program) },
+  { "Interrupt", GTK_STOCK_STOP,
+    N_("_Interrupt"), "<control>I",
+    N_("Interrupt current calculation"),
+    G_CALLBACK (genius_interrupt_calc) },
+  { "ShowFullAnswer", GTK_STOCK_DIALOG_INFO,
+    N_("Show _Full Answer"), "",
+    N_("Show the full text of last answer"),
+    G_CALLBACK (full_answer) },
+  { "ShowUserVariables", GTK_STOCK_DIALOG_INFO,
+    N_("Show User _Variables"), "",
+    N_("Show the current value of all user variables"),
+    G_CALLBACK (show_user_vars) },
+  { "MonitorVariable", GTK_STOCK_DIALOG_INFO,
+    N_("_Monitor a Variable"), "",
+    N_("Monitor a variable continuously"),
+    G_CALLBACK (monitor_user_var) },
+  { "Plot", GTK_STOCK_EXECUTE,
+    N_("_Plot..."), "",
+    N_("Plot functions, vector fields, surfaces, etc..."),
+    G_CALLBACK (genius_plot_dialog) },
+  { "ToolbarPlot", GTK_STOCK_EXECUTE,
+    N_("_Plot"), "",
+    N_("Plot functions, vector fields, surfaces, etc..."),
+    G_CALLBACK (genius_plot_dialog) },
+  { "NextTab", GTK_STOCK_GO_FORWARD,
+    N_("_Next Tab"), "<control>Page_Down",
+    N_("Go to next tab"),
+    G_CALLBACK (next_tab) },
+  { "PreviousTab", GTK_STOCK_GO_BACK,
+    N_("_Previous Tab"), "<control>Page_Up",
+    N_("Go to previous tab"),
+    G_CALLBACK (prev_tab) },
+  { "Console", NULL,
+    N_("_Console"), "",
+    N_("Go to the console tab"),
+    G_CALLBACK (prog_menu_activated) },
   { "Preferences", GTK_STOCK_PREFERENCES,
-    N_("Prefere_nces"), NULL,
+    N_("Prefere_nces"), "",
     N_("Configure Genius"),
     G_CALLBACK (setup_calc) },
+  { "Contents", GTK_STOCK_HELP,
+    N_("_Contents"), "F1",
+    N_("View the Genius manual"),
+    G_CALLBACK (help_cb) },
+  { "HelpOnFunction", GTK_STOCK_HELP,
+    N_("_Help on Function"), "",
+    N_("Help on a function or a command"),
+    G_CALLBACK (help_on_function) },
+  { "Warranty", GTK_STOCK_HELP,
+    N_("_Warranty"), "",
+    N_("Display warranty information"),
+    G_CALLBACK (warranty_call) },
+  { "About", GTK_STOCK_ABOUT,
+    N_("_About"), "",
+    N_("About Genius"),
+    G_CALLBACK (aboutcb) },
+  /* Kind of a placeholder for empty menu,
+   * FIXME: probably a bad hack */
+  { "NoPlugin", NULL,
+    "No Plugins", "",
+    "No Plugins",
+    NULL },
 };
 static guint n_entries = G_N_ELEMENTS (entries);
 
@@ -476,20 +420,55 @@ static const gchar *ui_info =
 "      <menuitem action='Quit'/>"
 "    </menu>"
 "    <menu action='EditMenu'>"
+#ifdef HAVE_GTKSOURCEVIEW
+"      <menuitem action='Undo'/>"
+"      <menuitem action='Redo'/>"
+"      <separator/>"
+#endif
+"      <menuitem action='Cut'/>"
+"      <menuitem action='Copy'/>"
+"      <menuitem action='Paste'/>"
+"      <separator/>"
+"      <menuitem action='CopyPlain'/>"
+"      <menuitem action='CopyLaTeX'/>"
+"      <menuitem action='CopyMathML'/>"
+"      <menuitem action='CopyTroff'/>"
 "    </menu>"
 "    <menu action='CalculatorMenu'>"
+"      <menuitem action='Run'/>"
+"      <menuitem action='Interrupt'/>"
+"      <separator/>"
+"      <menuitem action='ShowFullAnswer'/>"
+"      <menuitem action='ShowUserVariables'/>"
+"      <menuitem action='MonitorVariable'/>"
+"      <separator/>"
+"      <menuitem action='Plot'/>"
+"    </menu>"
+"    <menu action='PluginsMenu'>"
+"      <menuitem action='NoPlugin'/>"
 "    </menu>"
 "    <menu action='ProgramsMenu'>"
+"      <menuitem action='NextTab'/>"
+"      <menuitem action='PreviousTab'/>"
+"      <separator/>"
+"      <menuitem action='Console'/>"
 "    </menu>"
 "    <menu action='SettingsMenu'>"
 "      <menuitem action='Preferences'/>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
+"      <menuitem action='Contents'/>"
+"      <menuitem action='HelpOnFunction'/>"
+"      <menuitem action='Warranty'/>"
+"      <menuitem action='About'/>"
 "    </menu>"
 "  </menubar>"
 "  <toolbar  name='ToolBar'>"
-"    <toolitem action='New'/>"
-"    <toolitem action='Open'/>"
+"    <toolitem action='Interrupt'/>"
+"    <toolitem action='Run'/>"
+"    <toolitem action='ToolbarNew'/>"
+"    <toolitem action='ToolbarOpen'/>"
+"    <toolitem action='ToolbarPlot'/>"
 "    <toolitem action='Quit'/>"
 "  </toolbar>"
 "</ui>";
@@ -547,79 +526,67 @@ connect_proxy_cb (GtkUIManager *manager,
 } 
 
 static void
-add_menus_toolbar_statusbar (GtkWidget *window)
+simple_menu_item_select_cb (GtkMenuItem *item, gpointer data)
 {
-      GtkWidget *box1;
-      GtkWidget *box2;
-      GtkWidget *separator;
-      GtkWidget *label;
-      GtkWidget *button;
-      GtkWidget *sb;
-      GtkUIManager *ui;
-      GtkActionGroup *actions;
-      GError *error = NULL;
+	char *message = data;
 
-      actions = gtk_action_group_new ("Actions");
-      gtk_action_group_add_actions (actions, entries, n_entries, NULL);
+	if (message) {
+		gtk_statusbar_push (GTK_STATUSBAR (genius_window_statusbar), 0 /* context */,
+				    message);
+		g_free (message);
+	}
+}
 
-      ui = gtk_ui_manager_new ();
-      sb = gtk_statusbar_new ();
-      g_signal_connect (ui, "connect_proxy",
-			G_CALLBACK (connect_proxy_cb), sb);
-      g_signal_connect (ui, "disconnect_proxy",
-			G_CALLBACK (disconnect_proxy_cb), sb);
+static void
+simple_menu_item_deselect_cb (GtkMenuItem *item, gpointer data)
+{
+	gtk_statusbar_pop (GTK_STATUSBAR (genius_window_statusbar), 0 /* context */);
+} 
 
-      gtk_ui_manager_insert_action_group (ui, actions, 0);
-      g_object_unref (actions);
-      gtk_window_add_accel_group (GTK_WINDOW (window), 
-				  gtk_ui_manager_get_accel_group (ui));
-      gtk_window_set_title (GTK_WINDOW (window), "UI Manager");
-      gtk_container_set_border_width (GTK_CONTAINER (window), 0);
+static void
+add_main_window_contents (GtkWidget *window, GtkWidget *notebook)
+{
+	GtkWidget *box1;
+	GtkActionGroup *actions;
+	GError *error = NULL;
 
-      
-      if (!gtk_ui_manager_add_ui_from_string (ui, ui_info, -1, &error))
-	{
-	  g_message ("building menus failed: %s", error->message);
-	  g_error_free (error);
+	actions = gtk_action_group_new ("Actions");
+	gtk_action_group_add_actions (actions, entries, n_entries, NULL);
+
+	genius_ui = gtk_ui_manager_new ();
+	genius_window_statusbar = gtk_statusbar_new ();
+	g_signal_connect (genius_ui, "connect_proxy",
+			  G_CALLBACK (connect_proxy_cb), genius_window_statusbar);
+	g_signal_connect (genius_ui, "disconnect_proxy",
+			  G_CALLBACK (disconnect_proxy_cb), genius_window_statusbar);
+
+	gtk_ui_manager_insert_action_group (genius_ui, actions, 0);
+	g_object_unref (actions);
+	gtk_window_add_accel_group (GTK_WINDOW (window), 
+				    gtk_ui_manager_get_accel_group (genius_ui));
+	gtk_container_set_border_width (GTK_CONTAINER (window), 0);
+
+	if ( ! gtk_ui_manager_add_ui_from_string (genius_ui, ui_info, -1, &error)) {
+		/* FIXME: */
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
 	}
 
-      box1 = gtk_vbox_new (FALSE, 0);
-      gtk_container_add (GTK_CONTAINER (window), box1);
-      
-      gtk_box_pack_start (GTK_BOX (box1),
-			  gtk_ui_manager_get_widget (ui, "/MenuBar"),
-			  FALSE, FALSE, 0);
+	box1 = gtk_vbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (window), box1);
 
-      gtk_box_pack_start (GTK_BOX (box1),
-			  gtk_ui_manager_get_widget (ui, "/ToolBar"),
-			  FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (box1),
+			    gtk_ui_manager_get_widget (genius_ui, "/MenuBar"),
+			    FALSE, FALSE, 0);
 
-      label = gtk_label_new ("Type\n<alt>\nto start");
-      gtk_widget_set_size_request (label, 200, 200);
-      gtk_misc_set_alignment (GTK_MISC (label), 0.5, 0.5);
-      gtk_box_pack_start (GTK_BOX (box1), label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (box1),
+			    gtk_ui_manager_get_widget (genius_ui, "/ToolBar"),
+			    FALSE, FALSE, 0);
 
+	gtk_box_pack_start (GTK_BOX (box1), notebook, TRUE, TRUE, 0);
 
-      separator = gtk_hseparator_new ();
-      gtk_box_pack_start (GTK_BOX (box1), separator, FALSE, TRUE, 0);
-
-
-      box2 = gtk_vbox_new (FALSE, 10);
-      gtk_container_set_border_width (GTK_CONTAINER (box2), 10);
-      gtk_box_pack_start (GTK_BOX (box1), box2, FALSE, TRUE, 0);
-
-      button = gtk_button_new_with_label ("close");
-      g_signal_connect_swapped (button, "clicked",
-				G_CALLBACK (gtk_widget_destroy), window);
-      gtk_box_pack_start (GTK_BOX (box2), button, TRUE, TRUE, 0);
-      GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
-      gtk_widget_grab_default (button);
-
-	gtk_statusbar_set_has_resize_grip (GTK_STATUSBAR (sb), TRUE);
-	gtk_box_pack_start (GTK_BOX (box1), sb, FALSE, TRUE, 0);
-
-      gtk_widget_show_all (window);
-      g_object_unref (ui);
+	gtk_statusbar_set_has_resize_grip (GTK_STATUSBAR (genius_window_statusbar), TRUE);
+	gtk_box_pack_start (GTK_BOX (box1), genius_window_statusbar, FALSE, TRUE, 0);
 }
 
 
@@ -733,6 +700,12 @@ gel_ask_string (const char *query)
 	gtk_widget_destroy (d);
 
 	return txt;
+}
+
+static void
+help_cb (GtkWidget *menuitem, gpointer data)
+{
+	actually_open_help (NULL /* id */);
 }
 
 static void
@@ -2620,22 +2593,20 @@ setup_undo_redo_idle (gpointer data)
 	if (page < 0)
 		return FALSE;
 	if (page == 0) {
-		gtk_widget_set_sensitive (edit_menu[EDIT_UNDO_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/EditMenu/Undo"),
 					  FALSE);
-		gtk_widget_set_sensitive (edit_menu[EDIT_REDO_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/EditMenu/Redo"),
 					  FALSE);
 	} else {
 		GtkWidget *w = gtk_notebook_get_nth_page
 			(GTK_NOTEBOOK (notebook), page);
 		Program *p = g_object_get_data (G_OBJECT (w), "program");
-		gtk_widget_set_sensitive
-			(edit_menu[EDIT_UNDO_ITEM].widget,
-			 gtk_source_buffer_can_undo
-			   (GTK_SOURCE_BUFFER (p->buffer)));
-		gtk_widget_set_sensitive
-			(edit_menu[EDIT_REDO_ITEM].widget,
-			 gtk_source_buffer_can_redo
-			   (GTK_SOURCE_BUFFER (p->buffer)));
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/EditMenu/Undo"),
+					  gtk_source_buffer_can_undo
+					  (GTK_SOURCE_BUFFER (p->buffer)));
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/EditMenu/Redo"),
+					  gtk_source_buffer_can_redo
+					  (GTK_SOURCE_BUFFER (p->buffer)));
 	}
 
 	return FALSE;
@@ -2954,7 +2925,7 @@ build_program_menu (void)
 		prog_menu_items = g_list_remove_link (prog_menu_items, prog_menu_items);
 	}
 
-	menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (genius_menu[PROGRAMS_MENU].widget));
+	menu = GTK_MENU_ITEM (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ProgramsMenu"))->submenu;
 
 	for (i = 1; i < n; i++) {
 		GtkWidget *item;
@@ -3132,9 +3103,11 @@ move_cursor (GtkTextBuffer *buffer,
 
 	p->curline = line;
 
-	gnome_appbar_pop (GNOME_APPBAR (appbar));
+	gtk_statusbar_pop (GTK_STATUSBAR (genius_window_statusbar),
+			   0 /* context */);
 	s = g_strdup_printf (_("Line: %d"), line+1);
-	gnome_appbar_push (GNOME_APPBAR (appbar), s);
+	gtk_statusbar_push (GTK_STATUSBAR (genius_window_statusbar),
+			    0 /* context */, s);
 	g_free (s);
 }
 
@@ -3424,9 +3397,9 @@ save_program (Program *p, const char *new_fname)
 	p->changed = FALSE;
 
 	if (selected_program == p) {
-		gtk_widget_set_sensitive (file_menu[FILE_RELOAD_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/Reload"),
 					  TRUE);
-		gtk_widget_set_sensitive (file_menu[FILE_SAVE_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/Save"),
 					  TRUE);
 	}
 
@@ -3719,15 +3692,15 @@ whack_program (Program *p)
 	if (selected_program == p) {
 		p->selected = FALSE;
 		selected_program = NULL;
-		gtk_widget_set_sensitive (file_menu[FILE_RELOAD_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/Reload"),
 					  FALSE);
-		gtk_widget_set_sensitive (file_menu[FILE_SAVE_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/Save"),
 					  FALSE);
-		gtk_widget_set_sensitive (file_menu[FILE_SAVE_AS_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/SaveAs"),
 					  FALSE);
-		gtk_widget_set_sensitive (toolbar[TOOLBAR_RUN_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/ToolBar/Run"),
 					  FALSE);
-		gtk_widget_set_sensitive (calc_menu[CALC_RUN_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/CalculatorMenu/Run"),
 					  FALSE);
 	}
 	g_free (p->name);
@@ -3913,26 +3886,35 @@ delete_event (GtkWidget *w, GdkEventAny *e, gpointer data)
 	return TRUE;
 }
 
-
-/*main window creation, slightly copied from same-gnome:)*/
-static GtkWidget *
-create_main_window (void)
+static void
+create_main_window (GtkWidget *notebook)
 {
-	GtkWidget *w;
-	char *s = g_strdup_printf (_("Genius %s"), VERSION);
-        w = gnome_app_new("gnome-genius", s);
+	char *s;
+	int width;
+	int height;
+
+	genius_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+
+	s = g_strdup_printf (_("Genius %s"), VERSION);
+	gtk_window_set_title (GTK_WINDOW (genius_window), s);
 	g_free (s);
-	gtk_window_set_wmclass (GTK_WINDOW (w), "gnome-genius", "gnome-genius");
 
-	{
-		GtkWidget *ww = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-		add_menus_toolbar_statusbar (ww);
-		gtk_widget_show_all (ww);
-	}
+	gtk_window_set_wmclass (GTK_WINDOW (genius_window), "gnome-genius", "gnome-genius");
+	add_main_window_contents (genius_window, notebook);
 
-        g_signal_connect (G_OBJECT (w), "delete_event",
+	/* Set default_size */
+	width = 800;
+	height = 600;
+
+	if (width > gdk_screen_width () * 0.75)
+		width = gdk_screen_width () * 0.75;
+	if (height > gdk_screen_height () * 0.75)
+		height = gdk_screen_height () * 0.75;
+
+	gtk_window_set_default_size (GTK_WINDOW (genius_window), width, height);
+
+        g_signal_connect (G_OBJECT (genius_window), "delete_event",
 			  G_CALLBACK (delete_event), NULL);
-        return w;
 }
 
 static void
@@ -4358,7 +4340,7 @@ selection_changed (void)
 	if (page == 0) {
 		gboolean can_copy =
 			vte_terminal_get_has_selection (VTE_TERMINAL (term));
-		gtk_widget_set_sensitive (edit_menu[EDIT_COPY_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/EditMenu/Copy"),
 					  can_copy);
 	}
 }
@@ -4368,48 +4350,49 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
 {
 	if (page_num == 0) {
 		/* console */
-		gtk_widget_set_sensitive (file_menu[FILE_CLOSE_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/Close"),
 					  FALSE);
 		if (selected_program == NULL) {
 			gtk_widget_set_sensitive
-				(calc_menu[CALC_RUN_ITEM].widget,
+				(gtk_ui_manager_get_widget (genius_ui, "/MenuBar/CalculatorMenu/Run"),
 				 FALSE);
 			gtk_widget_set_sensitive
-				(toolbar[TOOLBAR_RUN_ITEM].widget,
+				(gtk_ui_manager_get_widget (genius_ui, "/ToolBar/Run"),
 				 FALSE);
 			gtk_widget_set_sensitive
-				(file_menu[FILE_RELOAD_ITEM].widget,
+				(gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/Reload"),
 				 FALSE);
 			gtk_widget_set_sensitive
-				(file_menu[FILE_SAVE_ITEM].widget,
+				(gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/Save"),
 				 FALSE);
 			gtk_widget_set_sensitive
-				(file_menu[FILE_SAVE_AS_ITEM].widget,
+				(gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/SaveAs"),
 				 FALSE);
 		}
 		/* selection changed updates the copy item sensitivity */
 		selection_changed ();
-		gtk_widget_set_sensitive (edit_menu[EDIT_CUT_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/EditMenu/Cut"),
 					  FALSE);
 #ifdef HAVE_GTKSOURCEVIEW
 		setup_undo_redo ();
 #endif
-		gnome_appbar_pop (GNOME_APPBAR (appbar));
+		gtk_statusbar_pop (GTK_STATUSBAR (genius_window_statusbar),
+				   0 /* context */);
 	} else {
 		char *s;
 		GtkWidget *w;
 		/* something else */
-		gtk_widget_set_sensitive (edit_menu[EDIT_CUT_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/EditMenu/Cut"),
 					  TRUE);
-		gtk_widget_set_sensitive (edit_menu[EDIT_COPY_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/EditMenu/Copy"),
 					  TRUE);
-		gtk_widget_set_sensitive (file_menu[FILE_CLOSE_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/Close"),
 					  TRUE);
-		gtk_widget_set_sensitive (calc_menu[CALC_RUN_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/CalculatorMenu/Run"),
 					  TRUE);
-		gtk_widget_set_sensitive (toolbar[TOOLBAR_RUN_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/ToolBar/Run"),
 					  TRUE);
-		gtk_widget_set_sensitive (file_menu[FILE_SAVE_AS_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/SaveAs"),
 					  TRUE);
 
 		if (selected_program != NULL) {
@@ -4424,15 +4407,17 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
 
 		setup_label (selected_program);
 
-		gtk_widget_set_sensitive (file_menu[FILE_RELOAD_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/Reload"),
 					  selected_program->real_file);
-		gtk_widget_set_sensitive (file_menu[FILE_SAVE_ITEM].widget,
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/Save"),
 					  selected_program->real_file);
 
-		gnome_appbar_pop (GNOME_APPBAR (appbar));
+		gtk_statusbar_pop (GTK_STATUSBAR (genius_window_statusbar),
+				   0 /* context */);
 		s = g_strdup_printf (_("Line: %d"),
 				     selected_program->curline + 1);
-		gnome_appbar_push (GNOME_APPBAR (appbar), s);
+		gtk_statusbar_push (GTK_STATUSBAR (genius_window_statusbar),
+				    0 /* context */, s);
 		g_free (s);
 
 #ifdef HAVE_GTKSOURCEVIEW
@@ -4481,28 +4466,20 @@ is_uri (const char *s)
 }
 
 static void
-loadup_files_from_cmdline (GnomeProgram *program)
+loadup_files_from_cmdline (int argc, char *argv[])
 {
 	GValue value = { 0, };
-	poptContext ctx;
-	char **args;
 	int i;
 
-	g_value_init (&value, G_TYPE_POINTER);
-	g_object_get_property (G_OBJECT (program), GNOME_PARAM_POPT_CONTEXT, &value);
-	ctx = g_value_get_pointer (&value);
-	g_value_unset (&value);
-
-	args = (char**) poptGetArgs(ctx);
-	for (i = 0; args != NULL && args[i] != NULL; i++) {
+	for (i = 1; i < argc && argv[i] != NULL; i++) {
 		char *fn;
-		if (is_uri (args[i])) {
-			fn = g_strdup (args[i]);
-		} else if (g_path_is_absolute (args[i])) {
-			fn = gnome_vfs_get_uri_from_local_path (args[i]);
+		if (is_uri (argv[i])) {
+			fn = g_strdup (argv[i]);
+		} else if (g_path_is_absolute (argv[i])) {
+			fn = gnome_vfs_get_uri_from_local_path (argv[i]);
 		} else {
 			char *d = g_get_current_dir ();
-			char *n = g_build_filename (d, args[i], NULL);
+			char *n = g_build_filename (d, argv[i], NULL);
 			fn = gnome_vfs_get_uri_from_local_path (n);
 			g_free (d);
 			g_free (n);
@@ -4576,10 +4553,8 @@ main (int argc, char *argv[])
 	GtkWidget *hbox;
 	GtkWidget *w;
 	char *file;
-	GnomeUIInfo *plugins;
 	int plugin_count = 0;
 	GIOChannel *channel;
-	GnomeProgram *program;
 	gboolean give_no_lib_error_after_init = FALSE;
 
 	genius_is_gui = TRUE;
@@ -4629,12 +4604,18 @@ main (int argc, char *argv[])
 						      G_DIR_SEPARATOR_S,
 						      NULL);
 
+#if 0
 	program = gnome_program_init ("genius", VERSION, 
 				      LIBGNOMEUI_MODULE /* module_info */,
 				      argc, argv,
 				      GNOME_PARAM_APP_DATADIR, genius_datadir,
 				      /* GNOME_PARAM_POPT_TABLE, options, */
 				      NULL);
+#endif
+
+	gtk_init (&argc, &argv);
+	gnome_vfs_init ();
+	/* FIXME: handle errors */
 
 	if (give_no_lib_error_after_init) {
 		genius_display_error (NULL /* parent */,
@@ -4668,8 +4649,11 @@ main (int argc, char *argv[])
 	g_free (file);
 
 	
+	/* create our notebook and setup toplevel window */
+	notebook = gtk_notebook_new ();
+	gtk_container_set_border_width (GTK_CONTAINER (notebook), 5);
         /*set up the top level window*/
-	genius_window = create_main_window();
+	create_main_window (notebook);
 
 	/* Drag and drop support */
 	gtk_drag_dest_set (GTK_WIDGET (genius_window),
@@ -4687,11 +4671,8 @@ main (int argc, char *argv[])
 	tips = gtk_tooltips_new();
 
 	/* setup the notebook */
-	notebook = gtk_notebook_new ();
 	g_signal_connect (G_OBJECT (notebook), "switch_page",
 			  G_CALLBACK (switch_page), NULL);
-	gtk_widget_show (notebook);
-	gnome_app_set_contents (GNOME_APP (genius_window), notebook);
 
 	/*the main box to put everything in*/
 	hbox = gtk_hbox_new(FALSE,0);
@@ -4726,43 +4707,38 @@ main (int argc, char *argv[])
 	if (gel_plugin_list != NULL) {
 		GSList *li;
 		int i;
-		plugins = g_new0(GnomeUIInfo,g_slist_length(gel_plugin_list)+1);
-		genius_menu[PLUGINS_MENU].moreinfo = plugins;
-		
+		GtkWidget *menu = GTK_MENU_ITEM (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/PluginsMenu"))->submenu;
+
 		for (i = 0, li = gel_plugin_list;
 		     li != NULL;
 		     li = li->next, i++) {
+			GtkWidget *item;
 			GelPlugin *plug = li->data;
 			if (plug->hide)
 				continue;
-			plugins[i].type = GNOME_APP_UI_ITEM;
-			plugins[i].label = g_strdup(plug->name);
-			plugins[i].hint = g_strdup(plug->description);
-			plugins[i].moreinfo = GTK_SIGNAL_FUNC(open_plugin_cb);
-			plugins[i].user_data = plug;
-			plugins[i].pixmap_type = GNOME_APP_PIXMAP_NONE;
+
+			item = gtk_menu_item_new_with_label (plug->name);
+			g_signal_connect (item, "select",
+					  G_CALLBACK (simple_menu_item_select_cb), 
+					  plug->description);
+			g_signal_connect (item, "deselect",
+					  G_CALLBACK (simple_menu_item_deselect_cb), 
+					  plug->description);
+			gtk_widget_show (item);
+			g_signal_connect (G_OBJECT (item), "activate",
+					  G_CALLBACK (open_plugin_cb), plug);
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 			plugin_count ++;
 		}
-		plugins[i].type = GNOME_APP_UI_ENDOFINFO;
 	}
-
-	/*set up the menu*/
-        gnome_app_create_menus(GNOME_APP(genius_window), genius_menu);
-	/*set up the toolbar*/
-	gnome_app_create_toolbar (GNOME_APP(genius_window), toolbar);
 
 	/* if no plugins, hide the menu */
 	if (plugin_count == 0) {
-		gtk_widget_hide (genius_menu[PLUGINS_MENU].widget);
+		gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/PluginsMenu"));
+	} else {
+		gtk_widget_show (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/PluginsMenu"));
+		gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/PluginsMenu/NoPlugin"));
 	}
-
-	/*setup appbar*/
-	appbar = gnome_appbar_new(FALSE, TRUE, GNOME_PREFERENCES_USER);
-	gnome_app_set_statusbar(GNOME_APP(genius_window), appbar);
-	gtk_widget_show(appbar);
-
-	gnome_app_install_menu_hints(GNOME_APP(genius_window),
-				     genius_menu);
 
 	/*set up the main window*/
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
@@ -4771,20 +4747,6 @@ main (int argc, char *argv[])
 	/* FIXME:
 	gtk_widget_queue_resize (vte);
 	*/
-	gtk_container_set_border_width(
-		GTK_CONTAINER (GNOME_APP (genius_window)->contents), 5);
-
-	{
-		int width = 800;
-		int height = 600;
-
-		if (width > gdk_screen_width () * 0.75)
-			width = gdk_screen_width () * 0.75;
-		if (height > gdk_screen_height () * 0.75)
-			height = gdk_screen_height () * 0.75;
-
-		gtk_window_set_default_size (GTK_WINDOW (genius_window), width, height);
-	}
 
 	gtk_widget_show_all (genius_window);
 
@@ -4872,10 +4834,10 @@ main (int argc, char *argv[])
 		gel_load_compiled_file (NULL, "../lib/lib.cgel", FALSE);
 	} else {
 		file = g_build_filename (genius_datadir,
-					       "genius",
-					       "gel",
-					       "lib.cgel",
-					       NULL);
+					 "genius",
+					 "gel",
+					 "lib.cgel",
+					 NULL);
 		gel_load_compiled_file (NULL, file, FALSE);
 		g_free (file);
 	}
@@ -4913,7 +4875,7 @@ main (int argc, char *argv[])
 	start_cb_p_expression (genius_got_etree, torlfp);
 
 	/* Load all given files */
-	loadup_files_from_cmdline (program);
+	loadup_files_from_cmdline (argc, argv);
 
 	gtk_main ();
 

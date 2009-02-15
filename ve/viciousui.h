@@ -24,6 +24,6 @@
 #include "vicious.h"
 
 #include "ve-miscui.h"
-#include "glade-helper.h"
+/* #include "glade-helper.h" */
 
 #endif /* VICIOUSUI_H */
