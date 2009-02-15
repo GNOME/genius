@@ -36,4 +36,7 @@ GtkWidget *	ve_hig_dialog_new (GtkWindow      *parent,
 				   const gchar    *messagefmt,
 				   ...) G_GNUC_PRINTF (7, 8);
 
+int		ve_dialog_run_nonmodal (GtkDialog *dialog);
+
+
 #endif /* VE_MISCUI_H */

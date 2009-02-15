@@ -1,3 +1,16 @@
+Sun Feb 15 11:25:47 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/gnome-genius.c: in the event hook, handle events until all
+	  handled, fixes "hangs" or extreme ui slowdowns
+	  when event hook is not run often enough
+
+	* ve/ve-miscui.[ch]: steal gtk_dialog_run and do
+	  ve_dialog_run_nonmodal.  This way we can interrupt a tight loop
+	  with AskString's in it
+
+	* src/gnome-genius.c: start implementing a window with GtkUIManager
+	  to get rid of libgnomeui dep.
+
 Fri Feb 13 14:51:43 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c: use gtk_show_uri to show help
