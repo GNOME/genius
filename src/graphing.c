@@ -57,6 +57,7 @@ static GtkWidget *plot_notebook = NULL;
 static GtkWidget *function_notebook = NULL;
 
 static GtkWidget *solver_dialog = NULL;
+gboolean solver_dialog_slopefield = TRUE;
 
 static GtkWidget *plot_zoomout_item = NULL;
 static GtkWidget *plot_zoomin_item = NULL;
@@ -106,8 +107,8 @@ static GtkWidget *parametric_status_z = NULL;
 static GtkWidget *slopefield_entry = NULL;
 static GtkWidget *slopefield_status = NULL;
 
-static GtkWidget *slopefield_sol_x_sb = NULL;
-static GtkWidget *slopefield_sol_y_sb = NULL;
+static GtkWidget *solver_x_sb = NULL;
+static GtkWidget *solver_y_sb = NULL;
 
 static GtkWidget *vectorfield_entry_x = NULL;
 static GtkWidget *vectorfield_status_x = NULL;
@@ -141,9 +142,9 @@ static double deftinc = 0.01;
 static gboolean lineplot_draw_legends = TRUE;
 static gboolean lineplot_draw_legends_cb = TRUE;
 static gboolean lineplot_draw_legends_parameter = TRUE;
-static gboolean vectorfield_normalize_arrow_length = TRUE;
-static gboolean vectorfield_normalize_arrow_length_cb = TRUE;
-static gboolean vectorfield_normalize_arrow_length_parameter = TRUE;
+static gboolean vectorfield_normalize_arrow_length = FALSE;
+static gboolean vectorfield_normalize_arrow_length_cb = FALSE;
+static gboolean vectorfield_normalize_arrow_length_parameter = FALSE;
 
 /* Replotting info */
 static GelEFunc *plot_func[MAXFUNC] = { NULL };
@@ -183,6 +184,8 @@ static double *plot_points_dy = NULL;
 static int plot_points_num = 0;
 
 static double solver_xinc = 0.1;
+static double solver_tinc = 0.1;
+static double solver_tlen = 0.1;
 static double solver_x = 0.0;
 static double solver_y = 0.0;
 
@@ -254,6 +257,7 @@ static void plot_surface_functions (gboolean do_window_present);
 static void replot_fields (void);
 
 static void slopefield_draw_solution (double x, double y, double dx);
+static void vectorfield_draw_solution (double x, double y, double dt, double tlen);
 
 static GtkWidget *
 create_range_spinboxes (const char *title, double *val1, GtkWidget **w1,
@@ -324,6 +328,16 @@ plot_window_setup (void)
 		}
 
 		if (plot_mode == MODE_LINEPLOT_SLOPEFIELD) {
+			if ( ! solver_dialog_slopefield &&
+			    solver_dialog != NULL) {
+				gtk_widget_destroy (solver_dialog);
+			}
+			gtk_widget_show (solver_menu_item);
+		} else if (plot_mode == MODE_LINEPLOT_VECTORFIELD) {
+			if (solver_dialog_slopefield &&
+			    solver_dialog != NULL) {
+				gtk_widget_destroy (solver_dialog);
+			}
 			gtk_widget_show (solver_menu_item);
 		} else {
 			if (solver_dialog != NULL) {
@@ -1247,7 +1261,8 @@ plot_select_region (GtkPlotCanvas *canvas,
 
 	if (plot_in_progress == 0 &&
 	    line_plot != NULL &&
-	    plot_mode == MODE_LINEPLOT_SLOPEFIELD &&
+	    (plot_mode == MODE_LINEPLOT_SLOPEFIELD ||
+	     plot_mode == MODE_LINEPLOT_VECTORFIELD) &&
 	    solver_dialog != NULL) {
 		double x, y;
 		len = plotx2 - plotx1;
@@ -1255,14 +1270,18 @@ plot_select_region (GtkPlotCanvas *canvas,
 		len = ploty2 - ploty1;
 		y = ploty1 + len * ymin;
 
-		if (slopefield_sol_x_sb != NULL)
+		if (solver_x_sb != NULL)
 			gtk_spin_button_set_value
-				(GTK_SPIN_BUTTON (slopefield_sol_x_sb), x);
-		if (slopefield_sol_y_sb != NULL)
+				(GTK_SPIN_BUTTON (solver_x_sb), x);
+		if (solver_y_sb != NULL)
 			gtk_spin_button_set_value
-				(GTK_SPIN_BUTTON (slopefield_sol_y_sb), y);
+				(GTK_SPIN_BUTTON (solver_y_sb), y);
 
-		slopefield_draw_solution (x, y, solver_xinc);
+		if (plot_mode == MODE_LINEPLOT_SLOPEFIELD)
+			slopefield_draw_solution (x, y, solver_xinc);
+		else if (plot_mode == MODE_LINEPLOT_VECTORFIELD)
+			vectorfield_draw_solution (x, y, solver_tinc,
+						   solver_tlen);
 
 		return;
 	}
@@ -1460,7 +1479,10 @@ static void
 solver_dialog_response (GtkWidget *w, int response, gpointer data)
 {
 	if (response == RESPONSE_PLOT) {
-		slopefield_draw_solution (solver_x, solver_y, solver_xinc);
+		if (plot_mode == MODE_LINEPLOT_SLOPEFIELD)
+			slopefield_draw_solution (solver_x, solver_y, solver_xinc);
+		else
+			vectorfield_draw_solution (solver_x, solver_y, solver_tinc, solver_tlen);
 	} else if (response == RESPONSE_CLEAR) {
 		clear_solutions ();
 	} else  {
@@ -1483,7 +1505,8 @@ solver_cb (GtkWidget *item, gpointer data)
 	double inc;
 
 	if (line_plot == NULL ||
-	    plot_mode != MODE_LINEPLOT_SLOPEFIELD)
+	    (plot_mode != MODE_LINEPLOT_SLOPEFIELD &&
+	     plot_mode != MODE_LINEPLOT_VECTORFIELD))
 		return;
 
 	if (solver_dialog != NULL) {
@@ -1528,23 +1551,48 @@ solver_cb (GtkWidget *item, gpointer data)
 	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 
-	solver_xinc = (plotx2-plotx1) / 100;
+	if (plot_mode == MODE_LINEPLOT_SLOPEFIELD) {
+		solver_dialog_slopefield = TRUE;
 
-	if (solver_xinc <= 0.005)
-		inc = 0.001;
-	else if (solver_xinc <= 0.05)
-		inc = 0.01;
-	else if (solver_xinc <= 0.5)
-		inc = 0.1;
-	else
-		inc = 1;
+		solver_xinc = (plotx2-plotx1) / 100;
 
-	w = create_range_spinboxes (_("X increment:"), &solver_xinc, NULL,
-				    0, G_MAXDOUBLE, inc,
-				    NULL, NULL, NULL, 0, 0, 0,
-				    NULL, NULL, NULL, 0, 0, 0,
-				    solver_entry_activate);
-	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+		if (solver_xinc <= 0.005)
+			inc = 0.001;
+		else if (solver_xinc <= 0.05)
+			inc = 0.01;
+		else if (solver_xinc <= 0.5)
+			inc = 0.1;
+		else
+			inc = 1;
+
+		w = create_range_spinboxes (_("X increment:"), &solver_xinc, NULL,
+					    0, G_MAXDOUBLE, inc,
+					    NULL, NULL, NULL, 0, 0, 0,
+					    NULL, NULL, NULL, 0, 0, 0,
+					    solver_entry_activate);
+		gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+	} else {
+		solver_dialog_slopefield = FALSE;
+
+		solver_tinc = (plotx2-plotx1) / 100;
+
+		if (solver_tinc <= 0.005)
+			inc = 0.001;
+		else if (solver_tinc <= 0.05)
+			inc = 0.01;
+		else if (solver_tinc <= 0.5)
+			inc = 0.1;
+		else
+			inc = 1;
+
+		w = create_range_spinboxes (_("T increment:"), &solver_tinc, NULL,
+					    0, G_MAXDOUBLE, inc,
+					    _("T interval length:"), &solver_tlen, NULL,
+					    0, G_MAXDOUBLE, 1,
+					    NULL, NULL, NULL, 0, 0, 0,
+					    solver_entry_activate);
+		gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+	}
 
 	if (solver_x < plotx1 || solver_x > plotx2)
 		solver_x = plotx1 + (plotx2-plotx1)/2;
@@ -1552,10 +1600,10 @@ solver_cb (GtkWidget *item, gpointer data)
 		solver_y = ploty1 + (ploty2-ploty1)/2;
 
 	w = create_range_spinboxes (_("Point x:"), &solver_x,
-				    &slopefield_sol_x_sb,
+				    &solver_x_sb,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
 				    _("y:"), &solver_y,
-				    &slopefield_sol_y_sb,
+				    &solver_y_sb,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
 				    NULL, NULL, NULL, 0, 0, 0,
 				    solver_entry_activate);
@@ -3039,6 +3087,91 @@ slopefield_draw_solution (double x, double y, double dx)
 }
 
 static void
+vectorfield_draw_solution (double x, double y, double dt, double tlen)
+{
+	double *xx, *yy;
+	double cx, cy, t;
+	int len;
+	int i;
+	GdkColor color;
+	GtkPlotData *data;
+
+	if (vectorfield_func_x == NULL ||
+	    vectorfield_func_y == NULL ||
+	    dt <= 0.0 ||
+	    tlen <= 0.0)
+		return;
+
+	gdk_color_parse ("red", &color);
+
+	len = (int)(tlen / dt) + 2;
+	xx = g_new0 (double, len);
+	yy = g_new0 (double, len);
+
+	i = 1;
+	xx[0] = x;
+	yy[0] = y;
+	cx = x;
+	cy = y;
+	t = 0.0;
+	while (t < tlen && i < len) {
+		gboolean ex = FALSE;
+		double xk1, xk2, xk3, xk4, xsl;
+		double yk1, yk2, yk3, yk4, ysl;
+
+		/* standard Runge-Kutta */
+		xk1 = call_xy_or_z_function (vectorfield_func_x,
+					     cx, cy, &ex);
+		if G_UNLIKELY (ex) break;
+		yk1 = call_xy_or_z_function (vectorfield_func_y,
+					     cx, cy, &ex);
+		if G_UNLIKELY (ex) break;
+
+		xk2 = call_xy_or_z_function (vectorfield_func_x,
+					     cx+(dt/2)*xk1, cy+(dt/2)*yk1, &ex);
+		if G_UNLIKELY (ex) break;
+		yk2 = call_xy_or_z_function (vectorfield_func_y,
+					     cx+(dt/2)*xk1, cy+(dt/2)*yk1, &ex);
+		if G_UNLIKELY (ex) break;
+
+		xk3 = call_xy_or_z_function (vectorfield_func_x,
+					     cx+(dt/2)*xk2, cy+(dt/2)*yk2, &ex);
+		if G_UNLIKELY (ex) break;
+		yk3 = call_xy_or_z_function (vectorfield_func_y,
+					     cx+(dt/2)*xk2, cy+(dt/2)*yk2, &ex);
+		if G_UNLIKELY (ex) break;
+
+		xk4 = call_xy_or_z_function (vectorfield_func_x,
+					     cx+dt*xk3, cy+dt*yk3, &ex);
+		if G_UNLIKELY (ex) break;
+		yk4 = call_xy_or_z_function (vectorfield_func_y,
+					     cx+dt*xk3, cy+dt*yk3, &ex);
+		if G_UNLIKELY (ex) break;
+
+		xsl = (xk1+2*xk2+2*xk3+xk4)/6.0;
+		ysl = (yk1+2*yk2+2*yk3+yk4)/6.0;
+
+		cx += xsl * dt;
+		cy += ysl * dt;
+
+		xx[i] = cx;
+		yy[i] = cy;
+
+		i ++;
+		t += dt;
+	}
+
+	len = i;
+
+	data = draw_line (xx, yy, len, 2 /* thickness */, &color);
+	solutions_list = g_slist_prepend (solutions_list,
+					  data);
+	g_signal_connect (G_OBJECT (data), "destroy",
+			  G_CALLBACK (solution_destroyed), NULL);
+}
+
+
+static void
 replot_fields (void)
 {
 	if (slopefield_func != NULL) {
@@ -3119,7 +3252,7 @@ replot_fields (void)
 
 
 				gtk_plot_flux_set_arrow (GTK_PLOT_FLUX (vectorfield_data),
-							 6, 6, GTK_PLOT_SYMBOL_OPAQUE);
+							 6, 6, GTK_PLOT_SYMBOL_EMPTY);
 
 				gtk_plot_flux_show_scale (GTK_PLOT_FLUX (vectorfield_data), FALSE);
 
@@ -4955,10 +5088,59 @@ SlopefieldDrawSolution_op (GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 SlopefieldClearSolutions_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
-	if (plot_mode != MODE_LINEPLOT_SLOPEFIELD ||
-	    slopefield_func == NULL) {
+	if (plot_mode != MODE_LINEPLOT_SLOPEFIELD) {
 		gel_errorout (_("%s: Slope field not active"),
 			      "SlopefieldClearSolutions");
+		return NULL;
+	}
+
+	clear_solutions ();
+
+	return gel_makenum_null ();
+}
+
+static GelETree *
+VectorfieldDrawSolution_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	double x, y, dt, tlen;
+
+	GET_DOUBLE (x, 0, "VectorfieldDrawSolution");
+	GET_DOUBLE (y, 1, "VectorfieldDrawSolution");
+	GET_DOUBLE (dt, 2, "VectorfieldDrawSolution");
+	GET_DOUBLE (tlen, 3, "VectorfieldDrawSolution");
+
+	if (dt <= 0.0) {
+		gel_errorout (_("%s: dt must be positive"),
+			      "VectorfieldDrawSolution");
+		return NULL;
+	}
+
+	if (tlen <= 0.0) {
+		gel_errorout (_("%s: tlen must be positive"),
+			      "VectorfieldDrawSolution");
+		return NULL;
+	}
+
+	if (plot_mode != MODE_LINEPLOT_VECTORFIELD ||
+	    vectorfield_func_x == NULL ||
+	    vectorfield_func_y == NULL) {
+		gel_errorout (_("%s: Vector field not active"),
+			      "VectorfieldDrawSolution");
+		return NULL;
+	}
+
+	vectorfield_draw_solution (x, y, dt, tlen);
+
+	return gel_makenum_null ();
+}
+
+
+static GelETree *
+VectorfieldClearSolutions_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	if (plot_mode != MODE_LINEPLOT_VECTORFIELD) {
+		gel_errorout (_("%s: Vector field not active"),
+			      "VectorfieldClearSolutions");
 		return NULL;
 	}
 
@@ -5876,6 +6058,9 @@ gel_add_graph_functions (void)
 
 	FUNC (SlopefieldDrawSolution, 3, "x,y,dx", "plotting", N_("Draw a solution for a slope field starting at x,y and using dx as increment"));
 	FUNC (SlopefieldClearSolutions, 0, "", "plotting", N_("Clear all the slopefield solutions"));
+
+	FUNC (VectorfieldDrawSolution, 4, "x,y,dt,tlen", "plotting", N_("Draw a solution for a vector field starting at x,y, using dt as increment for tlen units"));
+	FUNC (VectorfieldClearSolutions, 0, "", "plotting", N_("Clear all the vectorfield solutions"));
 
 
 	VFUNC (SurfacePlot, 2, "func,args", "plotting", N_("Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"));

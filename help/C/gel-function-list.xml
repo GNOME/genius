@@ -4966,6 +4966,36 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-VectorfieldClearSolutions">
+         <term>VectorfieldClearSolutions</term>
+         <listitem>
+          <synopsis>VectorfieldClearSolutions ()</synopsis>
+          <para>
+	    Clears the solutions drawn by the
+	    <link linkend="gel-function-VectorfieldDrawSolution"><function>VectorfieldDrawSolution</function></link>
+	    function.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-VectorfieldDrawSolution">
+         <term>VectorfieldDrawSolution</term>
+         <listitem>
+          <synopsis>VectorfieldDrawSolution (x, y, dt, tlen)</synopsis>
+          <para>
+	    When a vector field plot is active, draw a solution with
+	    the specified initial condition.  The standard
+	    Runge-Kutta method is used with increment <varname>dt</varname>
+	    for an interval of length <varname>tlen</varname>.
+	    Solutions stay on the graph until a different plot is shown or until
+	    you call 
+	    <link linkend="gel-function-VectorfieldClearSolutions"><function>VectorfieldClearSolutions</function></link>.
+	    You can also use the graphical interface to draw solutions and specify
+	    initial conditions with the mouse.
+          </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-VectorfieldPlot">
          <term>VectorfieldPlot</term>
          <listitem>

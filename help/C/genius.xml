@@ -3,7 +3,7 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
   <!ENTITY app "<application>Genius Mathematics Tool</application>">
   <!ENTITY appname "Genius">
-  <!ENTITY appversion "1.0.5">
+  <!ENTITY appversion "1.0.6">
   <!ENTITY manrevision "0.2.3">
   <!ENTITY date "February 2009">
 
@@ -603,8 +603,28 @@ See <xref linkend="lineplot-fig"/>.
       </para>
 
       <para>
-	By default only the direction of the vector field is shown.  To show the magnitude, uncheck the
-	appropriate checkbox.
+	By default the direction and magnitude of the vector field is shown.
+	To only show direction and not the magnitude, check the appropriate
+	checkbox to normalize the arrow lengths.
+      </para>
+
+      <para>
+	When a vector field is active, there is an extra <guilabel>Solver</guilabel> menu available,
+	through which you can bring up the solver dialog.  Here you can have &appname; plot specific
+	solutions for the given initial conditions.  You can either specify initial conditions in the dialog,
+	or you can click on the plot directly to specify the initial point.  While the solver dialog
+	is active, the zooming by clicking and dragging does not work.  You have to close the dialog first
+	if you want to zoom using the mouse.
+      </para>
+
+      <para>
+	The solver uses the standard Runge-Kutta method.
+	The plots will stay on the screen until cleared.
+	Zooming does not change the limits or parameters of the solutions,
+	you will have to clear and redraw them with appropriate parameters.
+	You can also use the
+        <link linkend="gel-function-VectorfieldDrawSolution"><function>VectorfieldDrawSolution</function></link>
+	function to draw solutions from the command line or programs.  
       </para>
 
     </sect1>

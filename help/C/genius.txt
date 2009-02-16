@@ -550,8 +550,23 @@
    plotting using the command line see the documentation of the
    VectorfieldPlot function.
 
-   By default only the direction of the vector field is shown. To show the
-   magnitude, uncheck the appropriate checkbox.
+   By default the direction and magnitude of the vector field is shown. To
+   only show direction and not the magnitude, check the appropriate checkbox
+   to normalize the arrow lengths.
+
+   When a vector field is active, there is an extra Solver menu available,
+   through which you can bring up the solver dialog. Here you can have Genius
+   plot specific solutions for the given initial conditions. You can either
+   specify initial conditions in the dialog, or you can click on the plot
+   directly to specify the initial point. While the solver dialog is active,
+   the zooming by clicking and dragging does not work. You have to close the
+   dialog first if you want to zoom using the mouse.
+
+   The solver uses the standard Runge-Kutta method. The plots will stay on
+   the screen until cleared. Zooming does not change the limits or parameters
+   of the solutions, you will have to clear and redraw them with appropriate
+   parameters. You can also use the VectorfieldDrawSolution function to draw
+   solutions from the command line or programs.
 
      ----------------------------------------------------------------------
 
@@ -5555,6 +5570,25 @@
  genius> SurfacePlot(|sin|,-1,1,-1,1,0,1.5)
  genius> SurfacePlot(`(x,y)=x^2+y,-1,1,-1,1,-2,2)
  genius> SurfacePlot(`(z)=|z|^2,-1,1,-1,1,0,2)
+
+   VectorfieldClearSolutions
+
+ VectorfieldClearSolutions ()
+
+           Clears the solutions drawn by the VectorfieldDrawSolution
+           function.
+
+   VectorfieldDrawSolution
+
+ VectorfieldDrawSolution (x, y, dt, tlen)
+
+           When a vector field plot is active, draw a solution with the
+           specified initial condition. The standard Runge-Kutta method is
+           used with increment dt for an interval of length tlen. Solutions
+           stay on the graph until a different plot is shown or until you
+           call VectorfieldClearSolutions. You can also use the graphical
+           interface to draw solutions and specify initial conditions with
+           the mouse.
 
    VectorfieldPlot
 
