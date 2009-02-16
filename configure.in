@@ -181,11 +181,6 @@ PKG_CHECK_MODULES(VICIOUS, $VICIOUS_MODULES)
 AC_SUBST(VICIOUS_CFLAGS)
 AC_SUBST(VICIOUS_LIBS)
 
-AC_CHECK_LIB(popt, poptGetArgs, [POPT_LIBS="-lpopt"],
-AC_MSG_ERROR([popt is required to build genius.
-You can download the latest version from ftp://ftp.rpm.org/pub/rpm/dist/rpm-4.0.x/]))
-AC_SUBST(POPT_LIBS)
-
 dnl ******************************
 dnl More compiler warnings
 dnl ******************************

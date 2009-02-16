@@ -4604,15 +4604,6 @@ main (int argc, char *argv[])
 						      G_DIR_SEPARATOR_S,
 						      NULL);
 
-#if 0
-	program = gnome_program_init ("genius", VERSION, 
-				      LIBGNOMEUI_MODULE /* module_info */,
-				      argc, argv,
-				      GNOME_PARAM_APP_DATADIR, genius_datadir,
-				      /* GNOME_PARAM_POPT_TABLE, options, */
-				      NULL);
-#endif
-
 	gtk_init (&argc, &argv);
 	gnome_vfs_init ();
 	/* FIXME: handle errors */
