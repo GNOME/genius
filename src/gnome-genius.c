@@ -25,6 +25,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <vte/vte.h>
+#include <libgnomevfs/gnome-vfs.h>
 
 #include <string.h>
 #include <unistd.h>
@@ -4468,7 +4469,6 @@ is_uri (const char *s)
 static void
 loadup_files_from_cmdline (int argc, char *argv[])
 {
-	GValue value = { 0, };
 	int i;
 
 	for (i = 1; i < argc && argv[i] != NULL; i++) {

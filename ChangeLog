@@ -1,3 +1,13 @@
+Mon Feb 16 00:11:29 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/gnome-genius.c, src/plugin.c: minor fixes.  Display help for
+	  plugin loading, don't do lazy binding (can lead to stupid crashes,
+	  better just not load bad plugins) also pass the LOCAL flag to
+	  plugins to be safer.
+
+	* src/Makefile.am: add the NOGUI libs to gnome-genius.  That will
+	  make plugins work again
+
 Sun Feb 15 20:05:05 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* configure.in, src/gnome-genius.c: small cleanup

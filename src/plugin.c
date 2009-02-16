@@ -144,13 +144,16 @@ open_get_info (GelPlugin *plug)
 					   ".",
 					   G_MODULE_SUFFIX,
 					   NULL);
-		mod = g_module_open (fname, G_MODULE_BIND_LAZY);
-		/* printf ("error: '%s'\n", g_module_error ()); */
+		if (access (fname, R_OK) == 0)
+			mod = g_module_open (fname,
+					     G_MODULE_BIND_LOCAL);
+		else if (access (plug->file, R_OK) == 0)
+			mod = g_module_open (plug->file,
+					     G_MODULE_BIND_LOCAL);
 		g_free (fname);
-		if (mod == NULL)
-			mod = g_module_open (plug->file, G_MODULE_BIND_LAZY);
 		if (mod == NULL) {
 			gel_errorout (_("Can't open plugin!"));
+			gel_errorout ("%s", g_module_error ());
 		 	return NULL;
 		}
 		g_module_make_resident(mod);

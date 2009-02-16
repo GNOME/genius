@@ -97,6 +97,7 @@ gnome_genius_LDADD = \
 	-lmpfr					\
 	@LEXLIB@				\
 	$(GENIUS_LIBS)				\
+	$(GENIUS_NOGUI_LIBS)			\
 	$(GSV_LIBS)				\
 	@READLINE_LIB@				\
 	@TERMCAP_LIB@
