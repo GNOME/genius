@@ -353,11 +353,11 @@ static GtkActionEntry entries[] = {
     N_("_Monitor a Variable"), "",
     N_("Monitor a variable continuously"),
     G_CALLBACK (monitor_user_var) },
-  { "Plot", GTK_STOCK_EXECUTE,
+  { "Plot", "genius-stock-plot",
     N_("_Plot..."), "",
     N_("Plot functions, vector fields, surfaces, etc..."),
     G_CALLBACK (genius_plot_dialog) },
-  { "ToolbarPlot", GTK_STOCK_EXECUTE,
+  { "ToolbarPlot", "genius-stock-plot",
     N_("_Plot"), "",
     N_("Plot functions, vector fields, surfaces, etc..."),
     G_CALLBACK (genius_plot_dialog) },
@@ -544,12 +544,61 @@ simple_menu_item_deselect_cb (GtkMenuItem *item, gpointer data)
 	gtk_statusbar_pop (GTK_STATUSBAR (genius_window_statusbar), 0 /* context */);
 } 
 
+static const struct {
+	char *stock_id;
+	char *icon;
+} stock_icons [] = {
+	{ "genius-stock-plot", "genius-stock-plot" }
+};
+
+static const GtkStockItem stock_items [] = {
+	{ "genius-stock-plot", N_("_Plot"), 0, 0, GETTEXT_PACKAGE },
+};
+
+static void
+stock_init (void)
+{
+	GtkIconFactory *factory;
+	GtkIconSource *source;
+	static gboolean stock_initialized = FALSE;
+	int i;
+
+	if (stock_initialized)
+		return;
+	stock_initialized = TRUE;
+
+	gtk_stock_add_static (stock_items, G_N_ELEMENTS (stock_items));
+
+	factory = gtk_icon_factory_new ();
+	gtk_icon_factory_add_default (factory);
+
+	source = gtk_icon_source_new ();
+
+	for (i = 0; i < G_N_ELEMENTS (stock_icons); i++) {
+		GtkIconSet *set;
+
+		gtk_icon_source_set_icon_name (source, stock_icons [i].icon);
+
+		set = gtk_icon_set_new ();
+		gtk_icon_set_add_source (set, source);
+
+		gtk_icon_factory_add (factory, stock_icons [i].stock_id, set);
+		gtk_icon_set_unref (set);
+	}
+
+	gtk_icon_source_free (source);
+
+	g_object_unref (factory);
+}
+
 static void
 add_main_window_contents (GtkWidget *window, GtkWidget *notebook)
 {
 	GtkWidget *box1;
 	GtkActionGroup *actions;
 	GError *error = NULL;
+
+	stock_init ();
 
 	actions = gtk_action_group_new ("Actions");
 	gtk_action_group_add_actions (actions, entries, n_entries, NULL);
@@ -665,6 +714,7 @@ gel_ask_string (const char *query)
 {
 	GtkWidget *d;
 	GtkWidget *e;
+	GtkWidget *box;
 	int ret;
 	char *txt = NULL;
 
@@ -678,15 +728,22 @@ gel_ask_string (const char *query)
 
 	gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_OK);
 
-	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+			    box,
+			    TRUE, TRUE, 0);
+
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+	gtk_box_pack_start (GTK_BOX (box),
 			    gtk_label_new (ve_sure_string(query)),
 			    FALSE, FALSE, 0);
 
 	e = gtk_entry_new ();
 	g_signal_connect (G_OBJECT (e), "activate",
 			  G_CALLBACK (dialog_entry_activate), d);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (box),
 			    e,
 			    FALSE, FALSE, 0);
 
@@ -714,6 +771,7 @@ help_on_function (GtkWidget *menuitem, gpointer data)
 {
 	GtkWidget *d;
 	GtkWidget *e;
+	GtkWidget *box;
 	int ret;
 
 	d = gtk_dialog_new_with_buttons
@@ -727,14 +785,21 @@ help_on_function (GtkWidget *menuitem, gpointer data)
 	gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_OK);
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+
+	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+			    box,
+			    TRUE, TRUE, 0);
+
+	gtk_box_pack_start (GTK_BOX (box),
 			    gtk_label_new (_("Function or command name:")),
 			    FALSE, FALSE, 0);
 
 	e = gtk_entry_new ();
 	g_signal_connect (G_OBJECT (e), "activate",
 			  G_CALLBACK (dialog_entry_activate), d);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (box),
 			    e,
 			    FALSE, FALSE, 0);
 
@@ -1334,6 +1399,7 @@ monitor_user_var (GtkWidget *menu_item, gpointer data)
 {
 	GtkWidget *d;
 	GtkWidget *e;
+	GtkWidget *box;
 	int ret;
 
 	d = gtk_dialog_new_with_buttons
@@ -1346,15 +1412,21 @@ monitor_user_var (GtkWidget *menu_item, gpointer data)
 
 	gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_OK);
 
-	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+			    box,
+			    TRUE, TRUE, 0);
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+	gtk_box_pack_start (GTK_BOX (box),
 			    gtk_label_new (_("Variable name:")),
 			    FALSE, FALSE, 0);
 
 	e = gtk_entry_new ();
 	g_signal_connect (G_OBJECT (e), "activate",
 			  G_CALLBACK (dialog_entry_activate), d);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (box),
 			    e,
 			    FALSE, FALSE, 0);
 

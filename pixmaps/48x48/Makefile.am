@@ -3,7 +3,8 @@
 appsicondir = \
 	$(datadir)/icons/hicolor/48x48/apps
 appsicon_DATA = \
-	gnome-genius.png
+	gnome-genius.png \
+	genius-stock-plot.png
 
 EXTRA_DIST = \
 	$(appsicon_DATA)
