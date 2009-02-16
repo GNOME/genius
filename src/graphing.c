@@ -185,7 +185,7 @@ static int plot_points_num = 0;
 
 static double solver_xinc = 0.1;
 static double solver_tinc = 0.1;
-static double solver_tlen = 0.1;
+static double solver_tlen = 5;
 static double solver_x = 0.0;
 static double solver_y = 0.0;
 
@@ -1574,7 +1574,7 @@ solver_cb (GtkWidget *item, gpointer data)
 	} else {
 		solver_dialog_slopefield = FALSE;
 
-		solver_tinc = (plotx2-plotx1) / 100;
+		solver_tinc = solver_tlen / 100;
 
 		if (solver_tinc <= 0.005)
 			inc = 0.001;
