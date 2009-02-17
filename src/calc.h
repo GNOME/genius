@@ -113,7 +113,7 @@ void gel_printout_infos (void);
 void gel_call_help (const char *function);
 
 /* implemented in the frontend (query can be NULL) */
-char *gel_ask_string (const char *query);
+char *gel_ask_string (const char *query, const char *def);
 
 void gel_help_on (const char *text);
 

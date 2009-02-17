@@ -1978,10 +1978,13 @@
 
  AskString (query)
 
+ AskString (query, default)
+
            Asks a question and lets the user enter a string which it then
            returns. If the user cancels or closes the window, then null is
            returned. The execution of the program is blocked until the user
-           responds.
+           responds. If default is given, then it is pre-typed in for the
+           user to just press enter on.
 
    Compose
 
@@ -2694,7 +2697,9 @@
 
    log
 
- log (x,b...)
+ log (x)
+
+ log (x,b)
 
            Logarithm of x base b (calls DiscreteLog if in modulo mode), if
            base is not given, e is used.

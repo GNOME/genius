@@ -68,10 +68,11 @@ in the proper directory.</para>
          <term>AskString</term>
          <listitem>
           <synopsis>AskString (query)</synopsis>
+          <synopsis>AskString (query, default)</synopsis>
           <para>Asks a question and lets the user enter a string which
 it then returns.  If the user cancels or closes the window, then
 <constant>null</constant> is returned.  The execution of the program
-is blocked until the user responds.</para>
+is blocked until the user responds.  If <varname>default</varname> is given, then it is pre-typed in for the user to just press enter on.</para>
          </listitem>
         </varlistentry>
 
@@ -1020,7 +1021,8 @@ value then <function>Sign</function> returns the direction or 0.
         <varlistentry id="gel-function-log">
          <term>log</term>
          <listitem>
-          <synopsis>log (x,b...)</synopsis>
+          <synopsis>log (x)</synopsis>
+          <synopsis>log (x,b)</synopsis>
           <para>Logarithm of <varname>x</varname> base <varname>b</varname> (calls <function>DiscreteLog</function> if in modulo mode), if base is not given, <varname>e</varname> is used.</para>
          </listitem>
         </varlistentry>

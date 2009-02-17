@@ -5636,11 +5636,18 @@ static GelETree *
 AskString_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	char *txt;
+	const char *def = NULL;
 
 	if G_UNLIKELY ( ! check_argument_string (a, 0, "AskString"))
 		return NULL;
 
-	txt = gel_ask_string (a[0]->str.str);
+	if (a[1] != NULL) {
+		if G_UNLIKELY ( ! check_argument_string (a, 1, "AskString"))
+			return NULL;
+		def = a[1]->str.str;
+	}
+
+	txt = gel_ask_string (a[0]->str.str, def);
 
 	if (txt == NULL)
 		return gel_makenum_null ();
@@ -6350,7 +6357,7 @@ gel_funclib_addall(void)
 	FUNC (Parse, 1, "str", "basic", N_("Parse a string (but do not execute)"));
 	FUNC (Evaluate, 1, "str", "basic", N_("Parse and evaluate a string"));
 
-	FUNC (AskString, 1, "query", "basic", N_("Ask a question and return a string"));
+	VFUNC (AskString, 2, "query,...", "basic", N_("Ask a question and return a string.  Optionally pass in a default."));
 
 	FUNC (CompositeSimpsonsRule, 4, "f,a,b,n", "calculus", N_("Integration of f by Composite Simpson's Rule on the interval [a,b] with n subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be even"));
 	f->no_mod_all_args = 1;

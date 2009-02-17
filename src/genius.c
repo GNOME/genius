@@ -195,19 +195,27 @@ gel_call_help (const char *function)
 }
 
 char *
-gel_ask_string (const char *query)
+gel_ask_string (const char *query, const char *def)
 {
 	char *txt = NULL;
 
 	g_print ("\n%s\n", ve_sure_string (query));
 	if (use_readline) {
-		char *s = readline (">");
+		char *s;
+		if ( ! ve_string_empty (def)) {
+			const char *p;
+			for (p = def; *p != '\0'; p++)
+				rl_stuff_char (*p);
+		}
+		s = readline (">");
 		if (s != NULL) {
 			txt = g_strdup (s);
 			free (s);
 		}
 	} else {
 		char buf[256];
+		if ( ! ve_string_empty (def))
+			g_print (_("Suggested: %s\n"), ve_sure_string (def));
 		if (fgets (buf, sizeof (buf), stdin) != NULL) {
 			int len = strlen (buf);
 			if (buf[len-1] == '\n')

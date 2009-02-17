@@ -710,7 +710,7 @@ dialog_entry_activate (GtkWidget *e, gpointer data)
 }
 
 char *
-gel_ask_string (const char *query)
+gel_ask_string (const char *query, const char *def)
 {
 	GtkWidget *d;
 	GtkWidget *e;
@@ -741,6 +741,9 @@ gel_ask_string (const char *query)
 			    FALSE, FALSE, 0);
 
 	e = gtk_entry_new ();
+	if ( ! ve_string_empty (def)) {
+		gtk_entry_set_text (GTK_ENTRY (e), def);
+	}
 	g_signal_connect (G_OBJECT (e), "activate",
 			  G_CALLBACK (dialog_entry_activate), d);
 	gtk_box_pack_start (GTK_BOX (box),

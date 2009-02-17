@@ -1862,37 +1862,40 @@ get_ticks (double start, double end, double *tick, int *prec)
 	int incs;
 	double len = end-start;
 	int tries = 0;
+	int tickprec;
 
-	*tick = pow (10, floor (log10(len)));
+	tickprec = -floor (log10(len));
+	*tick = pow (10, -tickprec);
 	incs = floor (len / *tick);
 
-	while (incs < 3) {
-		*tick /= 2.0;
-		incs = floor (len / *tick);
-		/* sanity */
-		if (tries ++ > 100) {
-			*tick = len / 5;
-			*prec = - (int) log10 (*tick) + 1;
-			return;
+	if (incs < 3) {
+		while (incs < 3) {
+			*tick /= 2.0;
+
+			tickprec ++;
+
+			incs = floor (len / *tick);
+			/* sanity */
+			if (tries ++ > 100) {
+				break;
+			}
+
 		}
-
-	}
-
-	while (incs > 6) {
-		*tick *= 2.0;
-		incs = floor (len / *tick);
-		/* sanity */
-		if (tries ++ > 200) {
-			*tick = len / 5;
-			*prec = - (int) log10 (*tick) + 1;
-			return;
+	} else {
+		while (incs > 6) {
+			*tick *= 2.0;
+			incs = floor (len / *tick);
+			/* sanity */
+			if (tries ++ > 100) {
+				break;
+			}
 		}
 	}
 
 	if (*tick >= 0.99) {
 		*prec = 0;
 	} else {
-		*prec = - (int) log10 (*tick) + 1;
+		*prec = tickprec;
 	}
 }
 
@@ -1902,6 +1905,7 @@ plot_setup_axis (void)
 	int xprec, yprec;
 	double xtick, ytick;
 	GtkPlotAxis *x, *y;
+	GdkColor gray;
 
 	get_ticks (plotx1, plotx2, &xtick, &xprec);
 	get_ticks (ploty1, ploty2, &ytick, &yprec);
@@ -1913,25 +1917,57 @@ plot_setup_axis (void)
 	gtk_plot_set_ticks (GTK_PLOT (line_plot), GTK_PLOT_AXIS_X, xtick, 9);
 	gtk_plot_set_ticks (GTK_PLOT (line_plot), GTK_PLOT_AXIS_Y, ytick, 9);
 
-	x = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_LEFT);
+	/* this should all be configurable */
+	gtk_plot_x0_set_visible (GTK_PLOT (line_plot), TRUE);
+	gtk_plot_y0_set_visible (GTK_PLOT (line_plot), TRUE);
+
+	gtk_plot_grids_set_visible (GTK_PLOT (line_plot),
+				    TRUE /* vmajor */,
+				    FALSE /* vminor */,
+				    TRUE /* vmajor */,
+				    FALSE /* vminor */);
+
+	gdk_color_parse ("gray75", &gray);
+
+	gtk_plot_x0line_set_attributes (GTK_PLOT (line_plot),
+					GTK_PLOT_LINE_SOLID,
+					1 /* width */,
+					&gray);
+	gtk_plot_y0line_set_attributes (GTK_PLOT (line_plot),
+					GTK_PLOT_LINE_SOLID,
+					1 /* width */,
+					&gray);
+
+	gtk_plot_major_vgrid_set_attributes (GTK_PLOT (line_plot),
+					     GTK_PLOT_LINE_DOTTED,
+					     1 /* width */,
+					     &gray);
+	gtk_plot_major_hgrid_set_attributes (GTK_PLOT (line_plot),
+					     GTK_PLOT_LINE_DOTTED,
+					     1 /* width */,
+					     &gray);
+
+
+	x = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_TOP);
 	gtk_plot_axis_set_labels_style (x,
 					GTK_PLOT_LABEL_FLOAT,
 					xprec /* precision */);
 
-	x = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_RIGHT);
+	x = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_BOTTOM);
 	gtk_plot_axis_set_labels_style (x,
 					GTK_PLOT_LABEL_FLOAT,
 					xprec /* precision */);
 
-	y = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_TOP);
+	y = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_LEFT);
 	gtk_plot_axis_set_labels_style (y,
 					GTK_PLOT_LABEL_FLOAT,
 					yprec /* precision */);
 
-	y = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_BOTTOM);
+	y = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_RIGHT);
 	gtk_plot_axis_set_labels_style (y,
 					GTK_PLOT_LABEL_FLOAT,
 					yprec /* precision */);
+
 
 	/* FIXME: implement logarithmic scale
 	gtk_plot_set_xscale (GTK_PLOT (line_plot), GTK_PLOT_SCALE_LOG10);
