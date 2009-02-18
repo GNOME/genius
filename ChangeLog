@@ -1,3 +1,15 @@
+Wed Feb 18 00:28:12 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/gnome-genius.c: handle read only files properly.  Also verify 
+	  text to be proper utf8 before inserting it into the text entry.
+	  And the notebook now has a right click menu to switch between
+	  programs.
+
+	* src/graphing.c, gtkextra/gtkplotcanvas.c: avoid spurious draws
+	  during new plots to avoid flicker when several LinePlot actions
+	  are done in sequence.  Also fix gtkextra to honour the freeze 
+	  in child draw.
+
 Tue Feb 17 17:35:44 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/graphing.c: fix the scales on the axis (the precision was

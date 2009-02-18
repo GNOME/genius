@@ -2047,6 +2047,8 @@ void
 gtk_plot_canvas_child_draw(GtkPlotCanvas *canvas,
                            GtkPlotCanvasChild *child)
 {
+  if(canvas->freeze_count > 0) return;
+
   gtk_plot_pc_gsave(canvas->pc);
 
   GTK_PLOT_CANVAS_CHILD_CLASS(GTK_OBJECT_GET_CLASS(GTK_OBJECT(child)))->draw(canvas, child);

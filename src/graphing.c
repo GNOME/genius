@@ -3356,6 +3356,9 @@ plot_functions (gboolean do_window_present)
 
 	ensure_window (do_window_present);
 
+	if (plot_canvas != NULL /* sanity */)
+		gtk_plot_canvas_freeze (GTK_PLOT_CANVAS (plot_canvas));
+
 	clear_graph ();
 
 	add_line_plot ();
@@ -3365,9 +3368,6 @@ plot_functions (gboolean do_window_present)
 
 	plot_in_progress ++;
 	plot_window_setup ();
-
-	if (evalnode_hook != NULL)
-		(*evalnode_hook)();
 
 	/* sanity */
 	if (plotx2 < plotx1) {
@@ -3394,6 +3394,9 @@ plot_functions (gboolean do_window_present)
 	plot_setup_axis ();
 
 	init_plot_ctx ();
+
+	if (evalnode_hook != NULL)
+		(*evalnode_hook)();
 
 	color_i = 0;
 
@@ -3501,6 +3504,7 @@ plot_functions (gboolean do_window_present)
 
 	/* could be whacked by closing the window or some such */
 	if (plot_canvas != NULL) {
+		gtk_plot_canvas_thaw (GTK_PLOT_CANVAS (plot_canvas));
 		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
 	}
@@ -3518,14 +3522,14 @@ plot_surface_functions (gboolean do_window_present)
 
 	add_surface_plot ();
 
+	if (plot_canvas != NULL /* sanity */)
+		gtk_plot_canvas_freeze (GTK_PLOT_CANVAS (plot_canvas));
+
 	GTK_PLOT_CANVAS_UNSET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
 				     GTK_PLOT_CANVAS_CAN_SELECT);
 
 	plot_in_progress ++;
 	plot_window_setup ();
-
-	if (evalnode_hook != NULL)
-		(*evalnode_hook)();
 
 	/* sanity */
 	if (surfacex2 == surfacex1)
@@ -3545,6 +3549,10 @@ plot_surface_functions (gboolean do_window_present)
 	gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 30.0);
 
 	init_plot_ctx ();
+
+	if (evalnode_hook != NULL)
+		(*evalnode_hook)();
+
 
 	if (surface_func != NULL) {
 		char *label;
@@ -3577,6 +3585,7 @@ plot_surface_functions (gboolean do_window_present)
 
 	/* could be whacked by closing the window or some such */
 	if (plot_canvas != NULL) {
+		gtk_plot_canvas_thaw (GTK_PLOT_CANVAS (plot_canvas));
 		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
 	}

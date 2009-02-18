@@ -145,9 +145,11 @@ typedef struct {
 	gboolean changed;
 	gboolean real_file;
 	gboolean selected;
+	gboolean readonly;
 	GtkWidget *tv;
 	GtkTextBuffer *buffer;
 	GtkWidget *label;
+	GtkWidget *mlabel;
 } Program;
 
 enum {
@@ -2941,7 +2943,7 @@ setup_label (Program *p)
 {
 	char *s;
 	const char *vname;
-	const char *pre = "", *post = "", *mark = "";
+	const char *pre = "", *post = "", *mark = "", *mark2 = "";
 
 	g_assert (p != NULL);
 
@@ -2955,13 +2957,21 @@ setup_label (Program *p)
 		mark = " [+]";
 	}
 
+	if (p->real_file &&
+	    p->readonly) {
+		mark2 = " (RO)";
+	}
+
 	vname = p->vname;
 	if (vname == NULL)
 		vname = "???";
 
-	s = g_strdup_printf ("%s%s%s%s", pre, vname, mark, post);
+	s = g_strdup_printf ("%s%s%s%s%s", pre, vname, mark, mark2, post);
 
 	gtk_label_set_markup (GTK_LABEL (p->label), s);
+	gtk_label_set_markup (GTK_LABEL (p->mlabel), s);
+
+	g_free (s);
 }
 
 static void
@@ -3139,7 +3149,8 @@ reload_cb (GtkWidget *menu_item)
 				&iter, &iter_end);
 
 	contents = get_contents_vfs (selected_program->name);
-	if (contents != NULL) {
+	if (contents != NULL &&
+	    g_utf8_validate (contents, -1, NULL)) {
 		gtk_text_buffer_get_iter_at_offset (selected_program->buffer,
 						    &iter, 0);
 		gtk_text_buffer_insert_with_tags_by_name
@@ -3149,6 +3160,8 @@ reload_cb (GtkWidget *menu_item)
 		selected_program->changed = FALSE;
 	} else {
 		genius_display_error (NULL, _("Cannot open file"));
+		if (contents != NULL)
+			g_free (contents);
 	}
 
 	selected_program->ignore_changes--;
@@ -3220,6 +3233,32 @@ get_source_language_manager ()
 }
 #endif
 #endif
+
+static gboolean
+file_is_writable (const char *fname)
+{
+	GnomeVFSFileInfo *info;
+	GnomeVFSResult result;
+	gboolean ret;
+
+	if (ve_string_empty (fname))
+		return FALSE; 
+
+	info = gnome_vfs_file_info_new ();
+	result = gnome_vfs_get_file_info (fname, 
+					  info, 
+					  (GNOME_VFS_FILE_INFO_DEFAULT 
+					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS
+					   | GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS));
+	ret = (info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE);
+	gnome_vfs_file_info_unref (info);
+
+	if (result == GNOME_VFS_OK)
+		return ret;
+	else
+		return FALSE;
+}
+
 
 
 static void
@@ -3314,6 +3353,7 @@ new_program (const char *filename)
 	p->real_file = FALSE;
 	p->changed = FALSE;
 	p->selected = FALSE;
+	p->readonly = FALSE;
 	p->buffer = buffer;
 	p->tv = tv;
 	p->curline = 0;
@@ -3338,8 +3378,10 @@ new_program (const char *filename)
 	} else {
 		char *contents;
 		p->name = g_strdup (filename);
+		p->readonly = ! file_is_writable (filename);
 		contents = get_contents_vfs (p->name);
-		if (contents != NULL) {
+		if (contents != NULL &&
+		    g_utf8_validate (contents, -1, NULL)) {
 			GtkTextIter iter;
 #ifdef HAVE_GTKSOURCEVIEW
 			gtk_source_buffer_begin_not_undoable_action
@@ -3357,13 +3399,38 @@ new_program (const char *filename)
 			char *s = g_strdup_printf (_("Cannot open %s"), filename);
 			genius_display_error (NULL, s);
 			g_free (s);
+			if (contents != NULL)
+				g_free (contents);
 		}
 		p->vname = g_path_get_basename (p->name);
 		p->real_file = TRUE;
 	}
 	/* the label will change after the set_current_page */
 	p->label = gtk_label_new (p->vname);
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), sw, p->label);
+	p->mlabel = gtk_label_new (p->vname);
+
+	/* FIXME: imeplement close button, but must get vertical size smaller */
+	/*GtkWidget *b, *cl, *im;*/
+	/*b = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (b), p->label, FALSE, FALSE, 0);
+	cl = gtk_button_new ();
+	im = gtk_image_new_from_stock (GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
+	gtk_container_add (GTK_CONTAINER (cl), im);
+	gtk_box_pack_start (GTK_BOX (b), cl, FALSE, FALSE, 3);
+	gtk_widget_show_all (b);*/
+
+	gtk_misc_set_alignment (GTK_MISC (p->mlabel), 0.0, 0.5);
+	gtk_notebook_append_page_menu (GTK_NOTEBOOK (notebook), sw,
+				       p->label, p->mlabel);
+
+	/* FIXME: if set, then if we move something in front of the 
+	 * Console, things crash.  Make Console be possible in other
+	 * positions and then enable this here (and when we are adding
+	 * the console as well) */
+	/*gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (notebook),
+					  sw,
+					  TRUE);*/
+
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), -1);
 
 	g_signal_connect (G_OBJECT (buffer), "changed",
@@ -3491,7 +3558,9 @@ save_callback (GtkWidget *w)
 	    ! selected_program->real_file)
 		return;
 
-	if ( ! save_program (selected_program, NULL /* new fname */)) {
+	if (selected_program->readonly) {
+		genius_display_error (NULL, _("Program is read only"));
+	} else if ( ! save_program (selected_program, NULL /* new fname */)) {
 		char *err = g_strdup_printf (_("<b>Cannot save file</b>\n"
 					       "Details: %s"),
 					     g_strerror (errno));
@@ -3506,6 +3575,7 @@ save_all_cb (GtkWidget *w)
 	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
 	int i;
 	gboolean there_are_unsaved = FALSE;
+	gboolean there_are_readonly_modified = FALSE;
 
 	if (n <= 1)
 		return;
@@ -3520,7 +3590,9 @@ save_all_cb (GtkWidget *w)
 			there_are_unsaved = TRUE;
 
 		if (p->changed && p->real_file) {
-			if ( ! save_program (p, NULL /* new fname */)) {
+			if (p->readonly) {
+				there_are_readonly_modified = TRUE;
+			} else if ( ! save_program (p, NULL /* new fname */)) {
 				char *err = g_strdup_printf (_("<b>Cannot save file</b>\n"
 							       "Details: %s"),
 							     g_strerror (errno));
@@ -3533,6 +3605,14 @@ save_all_cb (GtkWidget *w)
 	if (there_are_unsaved) {
 		genius_display_error (NULL, _("Save new programs by "
 					      "\"Save As..\" first!"));
+	}
+
+	if (there_are_readonly_modified) {
+		genius_display_error (NULL,
+				      _("Some read-only programs are "
+					"modified.  Use \"Save As..\" "
+					"to save them to "
+					"a new location."));
 	}
 }
 
@@ -4718,6 +4798,9 @@ main (int argc, char *argv[])
 	/* create our notebook and setup toplevel window */
 	notebook = gtk_notebook_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (notebook), 5);
+	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
+	gtk_notebook_popup_enable (GTK_NOTEBOOK (notebook));
+
         /*set up the top level window*/
 	create_main_window (notebook);
 
