@@ -39,8 +39,6 @@ extern int interrupted;
 
 static int toplevelokg = TRUE;
 
-extern char *genius_params[];
-
 static int
 ok_for_top(char *s)
 {
@@ -283,12 +281,6 @@ command_generator (const char *text, int state)
 
 	while(genius_operators[oi]) {
 		const char *s = genius_operators[oi++];
-		if(strncmp(s,text,len)==0)
-			return strdup(s);
-	}
-
-	while(genius_params[pi]) {
-		char *s = genius_params[pi++];
 		if(strncmp(s,text,len)==0)
 			return strdup(s);
 	}
