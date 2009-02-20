@@ -25,8 +25,6 @@
 void		ve_entry_set_red (GtkWidget *w,
 				  gboolean state);
 
-GtkWidget *	ve_gtk_option_menu_get_item (GtkOptionMenu *option_menu,
-					     int index);
 GtkWidget *	ve_hig_dialog_new (GtkWindow      *parent,
 				   GtkDialogFlags flags,
 				   GtkMessageType type,

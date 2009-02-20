@@ -2694,7 +2694,7 @@ static void
 setup_undo_redo (void)
 {
 	if (ur_idle_id == 0) {
-		ur_idle_id = gtk_idle_add (setup_undo_redo_idle, NULL);
+		ur_idle_id = g_idle_add (setup_undo_redo_idle, NULL);
 	}
 }
 

@@ -49,19 +49,6 @@ ve_entry_set_red (GtkWidget *w, gboolean state)
 	}
 }
 
-GtkWidget *
-ve_gtk_option_menu_get_item (GtkOptionMenu *option_menu, int index)
-{
-	g_return_val_if_fail (option_menu != NULL, NULL);
-	g_return_val_if_fail (GTK_IS_OPTION_MENU (option_menu), NULL);
-
-	if (option_menu->menu != NULL) {
-		return g_list_nth_data (GTK_MENU_SHELL(option_menu->menu)->children,
-					index);
-	}
-	return NULL;
-}
-
 /* stolen from gsearchtool */
 GtkWidget *
 ve_hig_dialog_new (GtkWindow      *parent,
