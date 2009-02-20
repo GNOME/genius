@@ -304,6 +304,9 @@ main(int argc, char *argv[])
 
 	genius_is_gui = FALSE;
 
+	g_set_prgname ("genius");
+	g_set_application_name (_("Genius"));
+
 	/* kind of a hack to find out if we are being run from the
 	 * directory we were built in */
 	file = g_get_current_dir ();
