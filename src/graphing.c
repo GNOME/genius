@@ -677,6 +677,11 @@ plot_print_cb (void)
 	else
 		ret = FALSE;
 
+	/* need this for some reason */
+	if (plot_canvas != NULL) {
+		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+	}
+
 	if ( ! ret || interrupted) {
 		plot_in_progress --;
 		plot_window_setup ();
@@ -788,6 +793,11 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 			 400, ASPECT * 400);
 	else
 		ret = FALSE;
+
+	/* need this for some reason */
+	if (plot_canvas != NULL) {
+		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+	}
 
 	/* If we used a temporary file, now use ps2epsi */
 	if (fd >= 0) {
