@@ -2991,6 +2991,54 @@ draw_line (double *x, double *y, int len, int thickness, GdkColor *color)
 }
 
 static void
+clip_line_ends (double xx[], double yy[], int len)
+{
+	if G_UNLIKELY (len < 2)
+		return;
+
+	if (xx[0] < plotx1) {
+		double slope = (yy[1]-yy[0])/(xx[1]-xx[0]);
+		xx[0] = plotx1;
+		yy[0] = yy[1] - (xx[1]-plotx1) * slope;
+	}
+
+	if (yy[0] < ploty1) {
+		if G_LIKELY (/* sanity */(xx[1]-xx[0]) > 0) {
+			double slope = (yy[1]-yy[0])/(xx[1]-xx[0]);
+			xx[0] = (ploty1 -yy[1] + slope*xx[1]) / slope;
+			yy[0] = ploty1;
+		}
+	} else if (yy[0] > ploty2) {
+		if G_LIKELY (/* sanity */(xx[1]-xx[0]) > 0) {
+			double slope = (yy[1]-yy[0])/(xx[1]-xx[0]);
+			xx[0] = (ploty2 -yy[1] + slope*xx[1]) / slope;
+			yy[0] = ploty2;
+		}
+	}
+
+	if (xx[len-1] > plotx2) {
+		double slope = (yy[len-1]-yy[len-2])
+			/ (xx[len-1]-xx[len-2]);
+		xx[len-1] = plotx2;
+		yy[len-1] = yy[len-2] + (plotx2-xx[len-2]) * slope;
+	}
+
+	if (yy[len-1] < ploty1) {
+		if G_LIKELY (/* sanity */(xx[len-1]-xx[len-2]) > 0) {
+			double slope = (yy[len-1]-yy[len-2])/(xx[len-1]-xx[len-2]);
+			xx[len-1] = (ploty1 - yy[len-2] + slope*xx[len-2]) / slope;
+			yy[len-1] = ploty1;
+		}
+	} else if (yy[len-1] > ploty2) {
+		if G_LIKELY (/* sanity */(xx[len-1]-xx[len-2]) > 0) {
+			double slope = (yy[len-1]-yy[len-2])/(xx[len-1]-xx[len-2]);
+			xx[len-1] = (ploty2 - yy[len-2] + slope*xx[len-2]) / slope;
+			yy[len-1] = ploty2;
+		}
+	}
+}
+
+static void
 solution_destroyed (GtkWidget *plotdata, gpointer data)
 {
 	solutions_list = g_slist_remove (solutions_list, plotdata);
@@ -3017,7 +3065,7 @@ slopefield_draw_solution (double x, double y, double dx)
 	len1 = 0;
 	cx = x;
 	cy = y;
-	while (cx <= plotx2 && cy >= ploty1 && cy <= ploty2) {
+	while (cx < plotx2 && cy > ploty1 && cy < ploty2) {
 		double *pt;
 		gboolean ex = FALSE;
 		double k1, k2, k3, k4, sl;
@@ -3055,7 +3103,7 @@ slopefield_draw_solution (double x, double y, double dx)
 	len2 = 0;
 	cx = x;
 	cy = y;
-	while (cx >= plotx1 && cy >= ploty1 && cy <= ploty2) {
+	while (cx > plotx1 && cy > ploty1 && cy < ploty2) {
 		double *pt;
 		gboolean ex = FALSE;
 		double k1, k2, k3, k4, sl;
@@ -3124,6 +3172,9 @@ slopefield_draw_solution (double x, double y, double dx)
 
 	g_slist_free (points1);
 	g_slist_free (points2);
+
+	/* Adjust ends */
+	clip_line_ends (xx, yy, len);
 
 	data = draw_line (xx, yy, len, 2 /* thickness */, &color);
 	solutions_list = g_slist_prepend (solutions_list,
