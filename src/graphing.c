@@ -1873,39 +1873,43 @@ get_ticks (double start, double end, double *tick, int *prec)
 	double len = end-start;
 	int tries = 0;
 	int tickprec;
+	int extra_prec;
 
 	tickprec = -floor (log10(len));
 	*tick = pow (10, -tickprec);
 	incs = floor (len / *tick);
 
-	if (incs < 3) {
-		while (incs < 3) {
-			*tick /= 2.0;
+	extra_prec = 0;
 
-			tickprec ++;
+	while (incs < 4) {
+		*tick /= 2.0;
 
-			incs = floor (len / *tick);
-			/* sanity */
-			if (tries ++ > 100) {
-				break;
-			}
+		extra_prec ++;
 
-		}
-	} else {
-		while (incs > 6) {
-			*tick *= 2.0;
-			incs = floor (len / *tick);
-			/* sanity */
-			if (tries ++ > 100) {
-				break;
-			}
+		incs = floor (len / *tick);
+		/* sanity */
+		if (tries ++ > 100) {
+			break;
 		}
 	}
 
-	if (*tick >= 0.99) {
+	while (incs > 6) {
+		*tick *= 2.0;
+		incs = floor (len / *tick);
+
+		if (extra_prec > 0)
+			extra_prec --;
+
+		/* sanity */
+		if (tries ++ > 100) {
+			break;
+		}
+	}
+
+	if (tickprec + extra_prec <= 0) {
 		*prec = 0;
 	} else {
-		*prec = tickprec;
+		*prec = tickprec + extra_prec;
 	}
 }
 
