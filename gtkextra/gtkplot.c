@@ -49,6 +49,7 @@ enum
   UPDATE,
   MOVED,
   RESIZED,
+  PLOT_AXIS_CHANGED,
   LAST_SIGNAL
 };
 
@@ -307,6 +308,14 @@ gtk_plot_class_init (GtkPlotClass *klass)
                    GTK_SIGNAL_OFFSET (GtkPlotClass, resized),
                    gtkextra_BOOL__POINTER_POINTER,
                    GTK_TYPE_BOOL, 2, GTK_TYPE_POINTER, GTK_TYPE_POINTER); 
+
+  plot_signals[PLOT_AXIS_CHANGED] = 
+    gtk_signal_new("axis_changed",
+                   GTK_RUN_LAST,
+                   GTK_CLASS_TYPE(object_class),
+                   GTK_SIGNAL_OFFSET (GtkPlotClass, moved),
+                   gtkextra_BOOL__POINTER,
+                   GTK_TYPE_BOOL, 1, GTK_TYPE_PLOT_AXIS); 
 
   object_class->destroy = gtk_plot_destroy;
   gobject_class->set_property = gtk_plot_set_property;
@@ -2951,7 +2960,8 @@ gtk_plot_ticks_inverse(GtkPlotAxis *axis, gdouble x)
             point = ticks.break_max + (x - ticks.break_position)*(ticks.max-ticks.break_max)/(1-ticks.break_position);
           }
         } else { 
-            point = ticks.min + x*(ticks.max-ticks.min);
+            point = log(ticks.min) + x*(log(ticks.max/ticks.min));
+            point = exp(point); 
         }
         break;
     }
@@ -4978,7 +4988,7 @@ printf("%f %f\n",max/ticks->step,ceil(max/ticks->step));
    tick = min;
    n = 0;
    while(tick <= max + 2*fabs(major_step)){
-     if(tick >= min-major_step*1.E-10 && tick <= max+major_step*1.E-10){
+     if(tick >= min-major_step*1.E-2 && tick <= max+major_step*1.E-2){
         nmajor ++;
         major = g_realloc(major, nmajor*sizeof(GtkPlotTick)); 
         major[nmajor-1].value = tick;
@@ -5006,7 +5016,7 @@ printf("%f %f\n",max/ticks->step,ceil(max/ticks->step));
    gint i;
    n = 0;
    for(nmajor = 0; nmajor <= ticks->nmajorticks; nmajor++){
-    if(nmajor < ticks->nmajorticks && major[nmajor].value >= absmin-major_step*1.E-10 && major[nmajor].value <= absmax+major_step*1.E-10){
+    if(nmajor < ticks->nmajorticks && major[nmajor].value >= absmin-major_step*1.E-2 && major[nmajor].value <= absmax+major_step*1.E-2){
       n++;
       ticks->values = g_realloc(ticks->values, n*sizeof(GtkPlotTick));
       ticks->values[n-1] = major[nmajor];
@@ -5036,7 +5046,7 @@ printf("%f %f\n",max/ticks->step,ceil(max/ticks->step));
             tick += tick_step; 
             break;
      }   
-     if(tick >= absmin-major_step*1.E-10 && tick <= absmax+major_step*1.E-10){
+     if(tick >= absmin-major_step*1.E-2 && tick <= absmax+major_step*1.E-2){
         n++;
         ticks->values = g_realloc(ticks->values, n*sizeof(GtkPlotTick));
         ticks->values[n-1].value = tick;
@@ -5052,7 +5062,6 @@ printf("%f %f\n",max/ticks->step,ceil(max/ticks->step));
   if(major) g_free(major);
 
   /* sorting ticks */
-
   while(changed){
     gint i;
     changed = FALSE;

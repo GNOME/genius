@@ -1,3 +1,18 @@
+Tue Feb 24 01:35:34 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c: use gtkextra clipping of lines
+
+	* gtkextra/*.c: apply patches from cvs gtkextra
+
+	* gtkextra/gtkplotgdk.c: fix drawing of lines which have parts which
+	  are very far offscreen.  Need to push this logic higher up the stack
+	  since such lines also kill the postscript output.
+
+	* src/graphing.c: remove some pointless allocation of point
+	  arrays.
+
+	* src/gnome-genius.c, src/graphing.c: fix menu accelerators
+
 Mon Feb 23 11:01:10 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/graphing.c: fix the extra precision calculations to work 

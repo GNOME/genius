@@ -249,6 +249,7 @@ enum {
   ARG_GRADIENT_BREAK_NMINOR,
   ARG_GRADIENT_BREAK_SCALE,
   ARG_GRADIENT_BREAK_POSITION,
+  ARG_GRADIENT,
 };
 
 static GtkWidgetClass *parent_class = NULL;
@@ -883,6 +884,13 @@ gtk_plot_data_class_init (GtkPlotDataClass *klass)
                            P_(""),
                            0.,1.,0.0,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+  g_object_class_install_property(gobject_class,
+                           ARG_GRADIENT,
+  g_param_spec_object ("bottom_axis",
+                           P_(""),
+                           P_(""),
+                           GTK_TYPE_PLOT_AXIS,
+                           G_PARAM_READABLE));
 
   data_class->clone = gtk_plot_data_real_clone;
   data_class->add_to_plot = NULL;
@@ -1714,6 +1722,9 @@ gtk_plot_data_get_property (GObject      *object,
         if(!data->gradient) return;
         g_value_set_double(value, data->gradient->ticks.break_position);
         break;
+      case ARG_GRADIENT:
+        g_value_set_object(value, GTK_OBJECT(data->gradient));
+        break;
       default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
         break;
@@ -2295,6 +2306,8 @@ draw_gradient_vertical(GtkPlotData *data, gdouble px, gdouble py)
   gint gradient_width = 0;
   gint gradient_height = 0;
   gint width = 0, height = 0;
+  gint nmajor = 0;
+  gint y_max = 0;
 
   g_return_if_fail(data->plot != NULL);
   g_return_if_fail(GTK_IS_PLOT(data->plot));
@@ -2439,9 +2452,12 @@ draw_gradient_vertical(GtkPlotData *data, gdouble px, gdouble py)
     }
   }
 
+  for(level = nlevels-1; level >= 0; level--){
+    if(!data->gradient->ticks.values[level].minor) nmajor++;
+  }
 
   if(!data->gradient_custom){
-    gint ncolors = line_height * (data->gradient->ticks.nticks - 1);
+    gint ncolors = (nmajor-1)*line_height;
     gint cy;
     gdouble h;
     gint l;
@@ -2466,6 +2482,7 @@ draw_gradient_vertical(GtkPlotData *data, gdouble px, gdouble py)
                                x, y,
                                roundint(data->gradient_line_width * m),
                                ncolors);
+    y_max = y + ncolors;
 
   } else {
 
@@ -2473,12 +2490,17 @@ draw_gradient_vertical(GtkPlotData *data, gdouble px, gdouble py)
     legend.x = (gdouble)(area.x + x) / (gdouble)area.width;
 
     ry = y;
+    gint ncolors = 0;
     for(level = nlevels-1; level >= 0; level--){
       gdouble val, h;
       gboolean sublevel = FALSE;
 
       val = data->gradient->ticks.values[level].value;
       sublevel = data->gradient->ticks.values[level].minor;
+
+/*     
+      if(val <= data->gradient->ticks.min || val > data->gradient->ticks.max) continue;
+*/
 
       if(level != 0){
         h = val;
@@ -2489,16 +2511,18 @@ draw_gradient_vertical(GtkPlotData *data, gdouble px, gdouble py)
         gtk_plot_pc_draw_rectangle(plot->pc, TRUE,
                                    x, ry,
                                    roundint(data->gradient_line_width * m),
-                                   line_height/(gdouble)(data->gradient->ticks.nminor+1)+1);
+                                   line_height/(gdouble)(data->gradient->ticks.nminor+1));
+        ncolors++;
+        ry += line_height/(gdouble)(data->gradient->ticks.nminor+1);
       }
-      ry += line_height/(gdouble)(data->gradient->ticks.nminor+1);
     }
     gtk_plot_pc_set_color(plot->pc, &plot->legends_attr.fg);
     gtk_plot_pc_set_lineattr(plot->pc, plot->legends_border_width, 0, 0, 0);
     gtk_plot_pc_draw_rectangle(plot->pc, FALSE,
                                x, y,
                                roundint(data->gradient_line_width * m),
-                               (data->gradient->ticks.nmajorticks)*line_height);
+                               ry-y);
+    y_max = ry;
 
   }
 
@@ -2510,7 +2534,11 @@ draw_gradient_vertical(GtkPlotData *data, gdouble px, gdouble py)
     val = data->gradient->ticks.values[level].value;
     if(data->gradient->ticks.values[level].minor) sublevel = TRUE;
 
+    if(val < data->gradient->ticks.min || val > data->gradient->ticks.max) continue;
+
+
     if(!sublevel){
+      ry = y_max-gtk_plot_axis_ticks_transform(data->gradient, val)*(y_max-y); 
       legend.y = (gdouble)(area.y + ry + lascent - (lascent + ldescent)/2.) / (gdouble)area.height;
 
       gtk_plot_axis_parse_label(data->gradient, val, data->gradient->label_precision, data->gradient->label_style, text);
@@ -2547,8 +2575,8 @@ draw_gradient_vertical(GtkPlotData *data, gdouble px, gdouble py)
                             x + roundint(data->gradient_line_width * m),
                             ry);
     }
-
     ry += line_height/(gdouble)(data->gradient->ticks.nminor+1);
+
 
   }
   if(data->gradient->title_visible){
@@ -2563,7 +2591,7 @@ draw_gradient_vertical(GtkPlotData *data, gdouble px, gdouble py)
         break;
       case GTK_PLOT_AXIS_RIGHT:
         legend = data->gradient->title;
-	  legend.angle = 270;
+        legend.angle = 270;
         legend.x = (gdouble)(area.x + x + lwidth + roundint((data->gradient_line_width + 2*data->gradient_border_offset) * m)) / (gdouble)area.width;
         legend.y = (gdouble)(area.y + y_orig + height / 2.)/(gdouble)area.height;
         legend.justification = GTK_JUSTIFY_CENTER;
@@ -2612,6 +2640,9 @@ draw_gradient_horizontal(GtkPlotData *data, gdouble px, gdouble py)
   gint nlevels = data->gradient->ticks.nticks;
   gint gradient_width = 0;
   gint gradient_height = 0;
+  gint nmajor = 0;
+  gint ncolors = 0;
+  gint x_max = 0;
 
   g_return_if_fail(data->plot != NULL);
   g_return_if_fail(GTK_IS_PLOT(data->plot));
@@ -2760,17 +2791,20 @@ draw_gradient_horizontal(GtkPlotData *data, gdouble px, gdouble py)
     }
   }
 
+  for(level = nlevels-1; level >= 0; level--){
+    if(!data->gradient->ticks.values[level].minor) nmajor++;
+  }
 
   if(!data->gradient_custom){
-    gint ncolors = line_width * (data->gradient->ticks.nticks - 1);
+    gint ncolors = (nmajor-1)*line_width;
     gint cx;
     gdouble h;
     gint l;
 
     cx = x;
     gtk_plot_pc_set_lineattr(plot->pc, 0, 0, 0, 0);
-    for(l = ncolors; l >= 0; l -= 1){
-      h = gtk_plot_axis_ticks_inverse(data->gradient, (gdouble)l/(gdouble)ncolors);
+    for(l = ncolors; l >= 0; l--){
+      h = gtk_plot_axis_ticks_inverse(data->gradient, (gdouble)(ncolors-l)/(gdouble)ncolors);
       gtk_plot_data_get_gradient_level(data, h, &color);
       gtk_plot_pc_set_color(plot->pc, &color);
 
@@ -2788,18 +2822,25 @@ draw_gradient_horizontal(GtkPlotData *data, gdouble px, gdouble py)
                                ncolors,
                                roundint(data->gradient_line_height * m));
 
+    x_max = x + ncolors;
+
   } else {
 
 
     legend.x = (gdouble)(area.x + x) / (gdouble)area.width;
 
     rx = x;
-    for(level = nlevels-1; level >= 0; level--){
+    ncolors = 0;
+    for(level = 0; level < nlevels; level++){
       gdouble val, h;
       gboolean sublevel = FALSE;
 
       val = data->gradient->ticks.values[level].value;
       sublevel = data->gradient->ticks.values[level].minor;
+
+/*
+      if(val <= data->gradient->ticks.min || val > data->gradient->ticks.max) continue;
+*/
 
       if(level != 0){
         h = val;
@@ -2809,17 +2850,19 @@ draw_gradient_horizontal(GtkPlotData *data, gdouble px, gdouble py)
 
         gtk_plot_pc_draw_rectangle(plot->pc, TRUE,
                                    rx, y,
-                                   line_width/(gdouble)(data->gradient->ticks.nminor+1)+1,
+                                   line_width/(gdouble)(data->gradient->ticks.nminor+1),
                                    roundint(data->gradient_line_height * m));
+        ncolors++;
+        rx += line_width/(gdouble)(data->gradient->ticks.nminor+1);
       }
-      rx += line_width/(gdouble)(data->gradient->ticks.nminor+1);
     }
     gtk_plot_pc_set_color(plot->pc, &plot->legends_attr.fg);
     gtk_plot_pc_set_lineattr(plot->pc, plot->legends_border_width, 0, 0, 0);
     gtk_plot_pc_draw_rectangle(plot->pc, FALSE,
                                x, y,
-                               (data->gradient->ticks.nmajorticks)*line_width,
+                               rx - x,
                                roundint(data->gradient_line_height * m));
+    x_max = rx;
 
   }
 
@@ -2831,7 +2874,10 @@ draw_gradient_horizontal(GtkPlotData *data, gdouble px, gdouble py)
     val = data->gradient->ticks.values[level].value;
     if(data->gradient->ticks.values[level].minor) sublevel = TRUE;
 
+    if(val < data->gradient->ticks.min || val > data->gradient->ticks.max) continue;
+
     if(!sublevel){
+      rx = x+gtk_plot_axis_ticks_transform(data->gradient, val)*(x_max-x);
       legend.x = (gdouble)(area.x + rx) / (gdouble)area.width;
 
       gtk_plot_axis_parse_label(data->gradient, val, data->gradient->label_precision, data->gradient->label_style, text);
@@ -3115,6 +3161,8 @@ gtk_plot_data_get_gradient_size(GtkPlotData *data, gint *width, gint *height)
   gint gradient_height = 0;
   gint line_height = 0;
   gint nlevels = data->gradient->ticks.nticks;
+  gint nmajor;
+  gint n;
 
   g_return_if_fail(data->plot != NULL);
   g_return_if_fail(GTK_IS_PLOT(data->plot));
@@ -3178,9 +3226,14 @@ gtk_plot_data_get_gradient_size(GtkPlotData *data, gint *width, gint *height)
                          &twidth, &theight,
                          &tascent, &tdescent);
 
+  nmajor = 0;
+  for(n = nlevels-1; n >= 0; n--){
+    if(!data->gradient->ticks.values[n].minor) nmajor++;
+  }
+
   if(data->gradient->orientation == GTK_ORIENTATION_VERTICAL){
     line_height = MAX(lheight, roundint(data->gradient_line_height * m));
-    gradient_height = (nlevels - 1) * line_height;
+    gradient_height = (nmajor - 1) * line_height;
     gradient_height += 2*roundint(data->gradient_border_offset * m);
     gradient_height += lheight;
 
@@ -3188,14 +3241,14 @@ gtk_plot_data_get_gradient_size(GtkPlotData *data, gint *width, gint *height)
     gradient_width += roundint(data->gradient_line_width * m);
 
     if(data->gradient->label_mask & GTK_PLOT_LABEL_IN){
-      gradient_width += lwidth + roundint(data->gradient->labels_offset * m);
+      gradient_width += lwidth + roundint(data->gradient->labels_offset * 2* m);
     }
     if(data->gradient->label_mask & GTK_PLOT_LABEL_OUT){
-      gradient_width += lwidth + roundint(data->gradient->labels_offset * m);
+      gradient_width += lwidth + roundint(data->gradient->labels_offset * 2 * m);
     }
   } else {
     line_height = MAX(lwidth + roundint(data->gradient->labels_offset * m), roundint(data->gradient_line_width * m));
-    gradient_width = (nlevels - 1) * line_height;
+    gradient_width = (nmajor - 1) * line_height;
     gradient_width += 2*roundint(data->gradient_border_offset * m);
     gradient_width += lwidth + roundint(data->gradient_border_offset * m);
 
@@ -3203,10 +3256,10 @@ gtk_plot_data_get_gradient_size(GtkPlotData *data, gint *width, gint *height)
     gradient_height += roundint(data->gradient_line_height * m);
 
     if(data->gradient->label_mask & GTK_PLOT_LABEL_IN){
-      gradient_height += lheight + roundint(data->gradient->labels_offset * m);
+      gradient_height += lheight + roundint(data->gradient->labels_offset * 2 * m);
     }
     if(data->gradient->label_mask & GTK_PLOT_LABEL_OUT){
-      gradient_height += lheight + roundint(data->gradient->labels_offset * m);
+      gradient_height += lheight + roundint(data->gradient->labels_offset * 2 * m);
     }
   }
 
@@ -3214,12 +3267,12 @@ gtk_plot_data_get_gradient_size(GtkPlotData *data, gint *width, gint *height)
     switch(data->gradient_title_pos){
       case GTK_PLOT_AXIS_LEFT:
       case GTK_PLOT_AXIS_RIGHT:
-        gradient_height = MAX(gradient_height, theight + roundint(data->gradient->labels_offset * 2 * m) + lheight);
+        gradient_height = MAX(gradient_height, theight + roundint(data->gradient->labels_offset * 3 * m) + lheight);
         gradient_width += twidth + roundint(data->gradient->labels_offset * m);
         break;
       case GTK_PLOT_AXIS_TOP:
       case GTK_PLOT_AXIS_BOTTOM:
-        gradient_width = MAX(gradient_width, twidth + roundint(data->gradient->labels_offset * 2 * m));
+        gradient_width = MAX(gradient_width, twidth + roundint(data->gradient->labels_offset * 3 * m));
         gradient_height += theight + roundint(data->gradient->labels_offset * m);
         break;
     }
@@ -4970,16 +5023,19 @@ gtk_plot_data_get_gradient_level (GtkPlotData *data, gdouble level, GdkColor *co
   gdouble h2, s2, v2;
   gdouble value;
   GtkPlotTicks *ticks = &data->gradient->ticks;
+  gint i;
+  gint start;
+  gint end = ticks->nticks;
 
   min = data->color_min;
   max = data->color_max;
 
   if(level > ticks->max) { *color = data->color_gt_max; return; }
   if(level < ticks->min) { *color = data->color_lt_min; return; }
+
+  start = ticks->scale == GTK_PLOT_SCALE_LINEAR ? (level - ticks->min) / (ticks->max - ticks->min) * ticks->nticks : 0;
+
   if(data->gradient_custom){
-    gint i;
-    gint start = ticks->scale == GTK_PLOT_SCALE_LINEAR ? (level - ticks->min) / (ticks->max - ticks->min) * ticks->nticks : 0;
-    gint end = ticks->nticks;
     for(i = MAX(start-2,0); i < end; i++){
       if(level > ticks->values[i].value && level <= ticks->values[i+1].value)
         {
@@ -4991,7 +5047,20 @@ gtk_plot_data_get_gradient_level (GtkPlotData *data, gdouble level, GdkColor *co
     return;
   }
 
+/*
+  value = -1;
+  for(i = MAX(start-2,0); i < end; i++){
+    if(level > ticks->values[i].value && level <= ticks->values[i+1].value)
+        {
+           value = (gdouble)i/(gdouble)end;
+           break;
+        }
+  }
+  if(value == -1)  value = 1.;
+*/
+
   value = gtk_plot_axis_ticks_transform(data->gradient, level);
+
 
   red = min.red;
   green = min.green;
@@ -5002,9 +5071,9 @@ gtk_plot_data_get_gradient_level (GtkPlotData *data, gdouble level, GdkColor *co
   blue = max.blue;
   rgb_to_hsv(red, green, blue, &h2, &s2, &v2);
 
-  s = 1.;
-  v = 1.;
-  h = 1.;
+  s = MAX(s2,s1);
+  v = MAX(v2,v1);
+  h = MAX(h2,h1);
   if(data->gradient_mask & GTK_PLOT_GRADIENT_S)
                     s = s1 + (s2 - s1) * value;
   if(data->gradient_mask & GTK_PLOT_GRADIENT_V)
@@ -5013,7 +5082,6 @@ gtk_plot_data_get_gradient_level (GtkPlotData *data, gdouble level, GdkColor *co
                     h = h1 + (h2 - h1) * value;
 
   hsv_to_rgb(h, MIN(s, 1.0), MIN(v, 1.0), &red, &green, &blue);
-
   color->red = red;
   color->green = green;
   color->blue = blue;
@@ -5219,6 +5287,7 @@ gtk_plot_data_reset_gradient(GtkPlotData *data)
   data->gradient->ticks.step = (data->gradient->ticks.max - data->gradient->ticks.min)/data->gradient->ticks.nmajorticks;
   gtk_plot_axis_ticks_recalc(data->gradient);
 
+/*
   max = data->gradient->ticks.max;
   min = data->gradient->ticks.min;
   if(data->gradient->ticks.set_limits){
@@ -5226,9 +5295,11 @@ gtk_plot_data_reset_gradient(GtkPlotData *data)
     min = MAX(min, data->gradient->ticks.begin);
   }
   data->gradient->ticks.nmajorticks = nmajorticks;
+*/
+/*
   data->gradient->ticks.values[0].value = min;
   data->gradient->ticks.values[data->gradient->ticks.nticks-1].value = max;
-
+*/
   gtk_signal_emit(GTK_OBJECT(data), data_signals[GRADIENT_CHANGED]);
   gtk_plot_data_reset_gradient_colors(data);
 }
@@ -5253,8 +5324,10 @@ gtk_plot_data_reset_gradient_colors(GtkPlotData *data)
   max = data->gradient->ticks.max;
   min = data->gradient->ticks.min;
 
-  if(data->gradient_colors)
+  if(data->gradient_colors){
     g_free(data->gradient_colors);
+    data->gradient_colors = NULL;
+  }
 
   data->gradient_custom = FALSE;
   data->gradient_colors = g_new0(GdkColor, ticks->nticks + 1);

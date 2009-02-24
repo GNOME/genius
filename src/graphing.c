@@ -1412,6 +1412,8 @@ add_line_plot (void)
 	gtk_plot_set_legends_border (GTK_PLOT (line_plot),
 				     GTK_PLOT_BORDER_LINE, 3);
 
+	gtk_plot_clip_data (GTK_PLOT (line_plot), TRUE);
+
 	line_plot_move_about ();
 }
 
@@ -1729,7 +1731,7 @@ ensure_window (gboolean do_window_present)
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	plot_exporteps_item = item;
 
-	item = gtk_menu_item_new_with_mnemonic (_("_Export PNG..."));
+	item = gtk_menu_item_new_with_mnemonic (_("Export P_NG..."));
 	g_signal_connect (G_OBJECT (item), "activate",
 			  G_CALLBACK (plot_exportpng_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -2962,21 +2964,14 @@ parametric_get_value (double *x, double *y, double t)
 static GtkPlotData *
 draw_line (double *x, double *y, int len, int thickness, GdkColor *color)
 {
-	double *dx, *dy;
 	GtkPlotData *data;
 
 	data = GTK_PLOT_DATA (gtk_plot_data_new ());
-	dx = g_new0 (double, len);
-	dy = g_new0 (double, len);
-	gtk_plot_data_set_points (data, x, y, dx, dy, len);
+	gtk_plot_data_set_points (data, x, y, NULL, NULL, len);
 	g_object_set_data_full (G_OBJECT (data),
 				"x", x, (GDestroyNotify)g_free);
 	g_object_set_data_full (G_OBJECT (data),
 				"y", y, (GDestroyNotify)g_free);
-	g_object_set_data_full (G_OBJECT (data),
-				"dx", dx, (GDestroyNotify)g_free);
-	g_object_set_data_full (G_OBJECT (data),
-				"dy", dy, (GDestroyNotify)g_free);
 	gtk_plot_add_data (GTK_PLOT (line_plot), data);
 	gtk_plot_data_hide_legend (data);
 
@@ -2994,6 +2989,7 @@ draw_line (double *x, double *y, int len, int thickness, GdkColor *color)
 	return data;
 }
 
+#if 0
 static void
 clip_line_ends (double xx[], double yy[], int len)
 {
@@ -3041,6 +3037,7 @@ clip_line_ends (double xx[], double yy[], int len)
 		}
 	}
 }
+#endif
 
 static void
 solution_destroyed (GtkWidget *plotdata, gpointer data)
@@ -3178,7 +3175,7 @@ slopefield_draw_solution (double x, double y, double dx)
 	g_slist_free (points2);
 
 	/* Adjust ends */
-	clip_line_ends (xx, yy, len);
+	/*clip_line_ends (xx, yy, len);*/
 
 	data = draw_line (xx, yy, len, 2 /* thickness */, &color);
 	solutions_list = g_slist_prepend (solutions_list,
@@ -3492,7 +3489,7 @@ plot_functions (gboolean do_window_present)
 		GdkColor color;
 		char *label;
 		int len;
-		double *x, *y, *dx, *dy;
+		double *x, *y;
 		double t;
 
 		parametric_data = GTK_PLOT_DATA (gtk_plot_data_new ());
@@ -3501,8 +3498,6 @@ plot_functions (gboolean do_window_present)
 		len = MAX(ceil (((plott2 - plott1) / plottinc)) + 2,1);
 		x = g_new0 (double, len);
 		y = g_new0 (double, len);
-		dx = g_new0 (double, len);
-		dy = g_new0 (double, len);
 
 		t = plott1;
 		for (i = 0; i < len; i++) {
@@ -3523,15 +3518,11 @@ plot_functions (gboolean do_window_present)
 		/* how many actually went */
 		len = MAX(1,i);
 
-		gtk_plot_data_set_points (parametric_data, x, y, dx, dy, len);
+		gtk_plot_data_set_points (parametric_data, x, y, NULL, NULL, len);
 		g_object_set_data_full (G_OBJECT (parametric_data),
 					"x", x, (GDestroyNotify)g_free);
 		g_object_set_data_full (G_OBJECT (parametric_data),
 					"y", y, (GDestroyNotify)g_free);
-		g_object_set_data_full (G_OBJECT (parametric_data),
-					"dx", dx, (GDestroyNotify)g_free);
-		g_object_set_data_full (G_OBJECT (parametric_data),
-					"dy", dy, (GDestroyNotify)g_free);
 		gtk_plot_add_data (GTK_PLOT (line_plot), parametric_data);
 
 		gtk_widget_show (GTK_WIDGET (parametric_data));
