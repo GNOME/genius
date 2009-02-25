@@ -429,144 +429,24 @@ gtk_plot_gdk_draw_line                               (GtkPlotPC *pc,
                 roundint(x1), roundint(y1), roundint(x2), roundint(y2));
 }
 
-static gboolean
-line_on_screen (int x1, int y1, int x2, int y2, int width, int height)
-{
-	if ( (x1 >= 0 && y1 >= 0 && x1 <= width && y1 <= height) ||
-	     (x2 >= 0 && y2 >= 0 && x2 <= width && y2 <= height))
-		return TRUE;
-
-	if ( (x1 < 0 && x2 < 0) ||
-	     (x1 > width && x2 > width) ||
-	     (y1 < 0 && y2 < 0) ||
-	     (y1 > height && y2 > height) )
-		return FALSE; /* obvious */
-
-	if (x1 == x2) {
-		/* in this case it must be true that y is in range, */
-		return TRUE;
-	} else if (x1 > x2) {
-		int t = x1;
-		x1 = x2;
-		x2 = t;
-
-		t = y1;
-		y1 = y2;
-		y2 = t;
-	}
-
-	if (x1 < 0) {
-		/* Move line so that x1 = 0 */
-		double t = -x2 / (double)(x1-x2);
-		x1 = t*x1 + (1-t)*x2;
-		y1 = t*y1 + (1-t)*y2;
-
-		/* note that x2 > 0, so t < 1 !*/
-
-		if (y1 >= 0 || y1 <= height)
-			return TRUE;
-
-		if (y1 < 0) {
-			if (y2 < 0)
-				return FALSE;
-
-			/* Move line so that y1 = 0 */
-			t = -y2 / (double)(y1-y2);
-			x1 = t*x1 + (1-t)*x2;
-			y1 = t*y1 + (1-t)*y2;
-
-			/* note that y2 > 0, so 0 < t < 1 !*/
-
-			if (x1 <= width)
-				return TRUE;
-			else
-				return FALSE;
-		} else {
-			if (y2 > height)
-				return FALSE;
-
-			/* Move line so that y1 = height */
-			t = (height-y2) / (double)(y1-y2);
-			x1 = t*x1 + (1-t)*x2;
-			y1 = t*y1 + (1-t)*y2;
-
-			/* note that y2 < height, so 0 < t < 1 !*/
-
-			if (x1 <= width)
-				return TRUE;
-			else
-				return FALSE;
-		}
-
-	}
-
-	/* must be that x1 <= width and y1 < 0 or y1 > height */
-
-	if (y1 < 0) {
-		/* Move line so that y1 = 0 */
-		double t = -y2 / (double)(y1-y2);
-		x1 = t*x1 + (1-t)*x2;
-		y1 = t*y1 + (1-t)*y2;
-
-		/* y2 >= 0 so 0 < t < 1 */
-
-		if (x1 <= width)
-			return TRUE;
-		else
-			return FALSE;
-	} else {
-		/* Move line so that y1 = height */
-		double t = (height-y2) / (double)(y1-y2);
-		x1 = t*x1 + (1-t)*x2;
-		y1 = t*y1 + (1-t)*y2;
-
-		/* y2 < height so 0 < t < 1 */
-
-		if (x1 <= width)
-			return TRUE;
-		else
-			return FALSE;
-	}
-}
-
 static void
 gtk_plot_gdk_draw_lines                              (GtkPlotPC *pc,
                                                      GtkPlotPoint *points,
                                                      gint numpoints)
 {
   GdkPoint *p = NULL;
-  gint width, height;
-  gboolean last_off = FALSE;
-  gint i, j;
+  gint i;
 
   if(!GTK_PLOT_GDK(pc)->gc) return;
   if(!GTK_PLOT_GDK(pc)->drawable) return;
 
-  gdk_drawable_get_size (GTK_PLOT_GDK(pc)->drawable, &width, &height);
-
   p = (GdkPoint *)g_malloc(numpoints * sizeof(GdkPoint));
-  j = 0;
   for(i = 0; i < numpoints; i++){
-    p[j].x = roundint(points[i].x);
-    p[j].y = roundint(points[i].y);
-    if (j > 0 && ! line_on_screen (p[j-1].x, p[j-1].y, p[j].x, p[j].y, width, height)) {
-	    if (j > 1) {
-		    gdk_draw_lines(GTK_PLOT_GDK(pc)->drawable, GTK_PLOT_GDK(pc)->gc, p, j);
-	    }
-	    last_off = TRUE;
-	    p[0].x = p[j].x;
-	    p[0].y = p[j].y;
-	    j = 1;
-	    continue;
-    } else {
-	    last_off = FALSE;
-    }
-
-    j++;
+    p[i].x = roundint(points[i].x);
+    p[i].y = roundint(points[i].y);
   }
 
-  if ( ! last_off)
-	  gdk_draw_lines(GTK_PLOT_GDK(pc)->drawable, GTK_PLOT_GDK(pc)->gc, p, j);
+  gdk_draw_lines(GTK_PLOT_GDK(pc)->drawable, GTK_PLOT_GDK(pc)->gc, p, numpoints);
 
   g_free(p);
 }

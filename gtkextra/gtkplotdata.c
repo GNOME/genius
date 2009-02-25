@@ -3548,6 +3548,162 @@ gtk_plot_data_draw_xyz (GtkPlotData *dataset, gint npoints)
   if(plot->clip_data && !GTK_IS_PLOT3D(plot)) gtk_plot_pc_clip(plot->pc, NULL);
 }
 
+static gboolean
+line_on_screen (double x1, double y1, double x2, double y2,
+		int left, int right,
+	       	int top, int bottom)
+{
+	if ( (x1 >= left && y1 >= top &&
+	      x1 <= right && y1 <= bottom) ||
+	     (x2 >= left && y2 >= top &&
+	      x2 <= right && y2 <= bottom))
+		return TRUE;
+
+	if ( (x1 < left && x2 < left) ||
+	     (x1 > right && x2 > right) ||
+	     (y1 < top && y2 < top) ||
+	     (y1 > bottom && y2 > bottom) )
+		return FALSE; /* obvious */
+
+	if (x1 == x2) {
+		/* in this case it must be true that y is in range, */
+		return TRUE;
+	} else if (x1 > x2) {
+		int t = x1;
+		x1 = x2;
+		x2 = t;
+
+		t = y1;
+		y1 = y2;
+		y2 = t;
+	}
+
+	if (x1 < left) {
+		/* Move line so that x1 = left */
+		double t = (left-x2) / (double)(x1-x2);
+		x1 = t*x1 + (1-t)*x2;
+		y1 = t*y1 + (1-t)*y2;
+
+		/* note that x2 > left, so t < 1 !*/
+
+		if (y1 >= top || y1 <= bottom)
+			return TRUE;
+
+		if (y1 < top) {
+			if (y2 < top)
+				return FALSE;
+
+			/* Move line so that y1 = top */
+			t = (top-y2) / (double)(y1-y2);
+			x1 = t*x1 + (1-t)*x2;
+			y1 = t*y1 + (1-t)*y2;
+
+			/* note that y2 > top, so 0 < t < 1 !*/
+
+			if (x1 <= right)
+				return TRUE;
+			else
+				return FALSE;
+		} else {
+			if (y2 > bottom)
+				return FALSE;
+
+			/* Move line so that y1 = bottom */
+			t = (bottom-y2) / (double)(y1-y2);
+			x1 = t*x1 + (1-t)*x2;
+			y1 = t*y1 + (1-t)*y2;
+
+			/* note that y2 < bottom, so 0 < t < 1 !*/
+
+			if (x1 <= right)
+				return TRUE;
+			else
+				return FALSE;
+		}
+
+	}
+
+	/* must be that x1 <= right and y1 < top or y1 > bottom */
+
+	if (y1 < 0) {
+		/* Move line so that y1 = top */
+		double t = (top-y2) / (double)(y1-y2);
+		x1 = t*x1 + (1-t)*x2;
+		y1 = t*y1 + (1-t)*y2;
+
+		/* y2 >= top so 0 < t < 1 */
+
+		if (x1 <= right)
+			return TRUE;
+		else
+			return FALSE;
+	} else {
+		/* Move line so that y1 = bottom */
+		double t = (bottom-y2) / (double)(y1-y2);
+		x1 = t*x1 + (1-t)*x2;
+		y1 = t*y1 + (1-t)*y2;
+
+		/* y2 < bottom so 0 < t < 1 */
+
+		if (x1 <= right)
+			return TRUE;
+		else
+			return FALSE;
+	}
+}
+
+/*
+ * FIXME:
+ * There is some loss when the line ends are way too far in either direction.
+ * Perhaps roundoff error?  Above?
+ *
+ * But this works better than the alternative of failing completely.
+ */
+static void
+gtk_plot_data_draw_lines (GtkPlotData *dataset,
+			  GtkPlotPoint *points,
+			  int numpoints)
+{
+  GtkPlot *plot;
+  GtkWidget *widget;
+  int beg = 0;
+  int i, j;
+  int lx1, lx2, ly1, ly2;
+  gboolean last_off = TRUE;
+
+  plot = dataset->plot;
+  widget = GTK_WIDGET (plot);
+
+  lx1 = widget->allocation.x;
+  lx2 = lx1 + widget->allocation.width;
+  ly1 = widget->allocation.y;
+  ly2 = ly1 + widget->allocation.height;
+
+  j = 0;
+  for(i = 0; i < numpoints; i++){
+    if (j > 0 && ! line_on_screen (points[i-1].x,
+				   points[i-1].y,
+				   points[i].x,
+				   points[i].y,
+				   lx1, lx2, ly1, ly2)) {
+	    if (j > 1) {
+		    gtk_plot_pc_draw_lines (plot->pc, &(points[beg]), j);
+	    }
+	    last_off = TRUE;
+	    beg = i;
+	    j = 1;
+	    continue;
+    } else {
+	    last_off = FALSE;
+    }
+
+    j++;
+  }
+
+  if ( ! last_off)
+	  gtk_plot_pc_draw_lines (plot->pc, &(points[beg]), j);
+}
+
 static void
 gtk_plot_data_draw_errbars(GtkPlotData *dataset,
                            gdouble x, gdouble y, gdouble z,
@@ -3847,10 +4003,10 @@ gtk_plot_data_connect_points(GtkPlotData *dataset, gint npoints)
   plot = dataset->plot;
   widget = GTK_WIDGET(plot);
 
-  area.x = GTK_WIDGET(plot)->allocation.x;
-  area.y = GTK_WIDGET(plot)->allocation.y;
-  area.width = GTK_WIDGET(plot)->allocation.width;
-  area.height = GTK_WIDGET(plot)->allocation.height;
+  area.x = widget->allocation.x;
+  area.y = widget->allocation.y;
+  area.width = widget->allocation.width;
+  area.height = widget->allocation.height;
 
   clip_area.x = area.x + roundint(plot->x * widget->allocation.width);
   clip_area.y = area.y + roundint(plot->y * widget->allocation.height);
@@ -4058,7 +4214,11 @@ gtk_plot_data_connect_points(GtkPlotData *dataset, gint npoints)
       gtk_plot_pc_draw_polygon(plot->pc, TRUE, points, num_points);
     }
   } else {
-    gtk_plot_pc_draw_lines(plot->pc, points, num_points);
+    /* This function clips offscreen parts, which we need, probably
+     * in more places than here, but I'm not sure if it is necessarily safe
+     * elsewhere
+     * -Jiri */
+    gtk_plot_data_draw_lines(dataset, points, num_points);
   }
 
   if(plot->clip_data && !GTK_IS_PLOT3D(plot)) gtk_plot_pc_clip(plot->pc, NULL);

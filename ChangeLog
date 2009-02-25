@@ -1,3 +1,14 @@
+Tue Feb 24 22:05:41 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* gtkextra/gtkplotdata.c, gtkextra/gtkplotgdk.c: Move the line
+	  clipping code from the GDK backend to the plotdata.  Replace
+	  the one relevant draw_lines call with the new one.  I wonder
+	  if this should be done in more places.  This is a mess!
+	  There are still bugs if you zoom in way too much.  Not quite sure
+	  what the bug is.  We may need to actually move the endpoints 
+	  of the line.  This fixes broken EPS/PS export and printing
+	  when zoomed in to a slopefield/vectorfield/parametric graph.
+
 Tue Feb 24 01:35:34 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/graphing.c: use gtkextra clipping of lines
