@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2008 Jiri (George) Lebl
+ * Copyright (C) 1997-2009 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -43,8 +43,6 @@ typedef struct _GelDictContext {
 static GelDictContext context = {NULL, NULL, NULL, -1};
 
 static GHashTable *dictionary;
-
-extern GHashTable *uncompiled;
 
 extern const char *genius_toplevels[];
 extern const char *genius_operators[];

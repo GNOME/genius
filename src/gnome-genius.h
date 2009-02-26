@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2004-2007 George Lebl
+ * Copyright (C) 2004-2009 George Lebl
  *
  * Author: George Lebl
  *
@@ -35,7 +35,6 @@ typedef struct {
 
 extern GeniusSetup genius_setup;
 extern GtkWidget *genius_window;
-extern GHashTable *uncompiled;
 extern calcstate_t calcstate;
 
 void genius_interrupt_calc (void);

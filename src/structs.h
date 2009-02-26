@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2004 Jiri (George) Lebl
+ * Copyright (C) 1997-2009 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -81,9 +81,11 @@ struct _GelToken {
 	GSList *refs;
 
 	/* For built-in parameters this is the get and set function
-	 * of type ParameterGetFunc and ParameterSetFunc */
+	 * of type ParameterGetFunc and ParameterSetFunc. */
 	gpointer data1;
 	gpointer data2;
+
+	char *uncompiled;
 
 	guint8 protected_:1;
 	guint8 parameter:1;

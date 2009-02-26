@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2008 Jiri (George) Lebl
+ * Copyright (C) 1997-2009 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -88,8 +88,6 @@ static GHashTable *gel_helphash = NULL;
 static gboolean ignore_end_parse_errors = FALSE;
 static gboolean got_end_too_soon = FALSE;
 
-GHashTable *uncompiled = NULL;
-
 /* stack ... has to be global:-( */
 GSList *gel_parsestack=NULL;
 
@@ -129,32 +127,59 @@ help_sort (gconstpointer data1, gconstpointer data2)
 	return strcmp (h1->func, h2->func);
 }
 
+static HelpCategory *get_category_cache = NULL;
+
+static HelpCategory *
+create_category (const char *category)
+{
+	HelpCategory *cat = g_new0 (HelpCategory, 1);
+	cat->category = g_strdup (category);
+	gel_categories = g_slist_append (gel_categories, cat);
+	get_category_cache = cat;
+	return cat;
+}
+
 static HelpCategory *
 get_category (const char *category, gboolean insert)
 {
 	GSList *li;
+
+	if (get_category_cache != NULL &&
+	    strcmp (get_category_cache->category, category) == 0)
+		return get_category_cache;
+
 	for (li = gel_categories; li != NULL; li = li->next) {
 		HelpCategory *cat = li->data;
-		if (strcmp (cat->category, category) == 0)
+		if (cat != get_category_cache &&
+		    strcmp (cat->category, category) == 0) {
+			get_category_cache = cat;
 			return cat;
+		}
 	}
 
 	if (insert) {
-		HelpCategory *cat = g_new0 (HelpCategory, 1);
-		cat->category = g_strdup (category);
-		gel_categories = g_slist_append (gel_categories, cat);
-		return cat;
+		return create_category (category);
 	} else {
 		return NULL;
 	}
 }
+
+static GelHelp *get_help_cache = NULL;
+static const char *get_help_func_cache = NULL;
 
 GelHelp *
 get_help (const char *func, gboolean insert)
 {
 	GelHelp *help;
 
-	if (gel_helphash == NULL)
+	if (get_help_cache != NULL &&
+	    /* just checking pointers is not safe, but it is fast,
+	     * if pointers are same it is likely the string will be the same */
+	    get_help_func_cache == func &&
+	    strcmp (get_help_cache->func, func) == 0)
+		return get_help_cache;
+
+	if G_UNLIKELY (gel_helphash == NULL)
 		gel_helphash = g_hash_table_new (g_str_hash, g_str_equal);
 
 	help = g_hash_table_lookup (gel_helphash, func);
@@ -163,6 +188,11 @@ get_help (const char *func, gboolean insert)
 		help = g_new0 (GelHelp, 1);
 		help->func = g_strdup (func);
 		g_hash_table_insert (gel_helphash, help->func, help);
+	}
+
+	if (help != NULL) {
+		get_help_func_cache = func;
+		get_help_cache = help;
 	}
 
 	return help;
@@ -188,7 +218,8 @@ get_category_name (const char *category)
 	if (category == NULL)
 		return _("Uncategorized");
 
-	cat = get_category (category, FALSE /* insert */);
+	cat = get_category (category,
+			    FALSE /* insert */);
 	if (cat == NULL || cat->name == NULL)
 		return category;
 	else
@@ -236,7 +267,8 @@ get_helps (const char *category)
 		return get_uncategorized_documented ();
 	}
 
-	cat = get_category (category, FALSE /* insert */);
+	cat = get_category (category,
+			    FALSE /* insert */);
 	if (cat == NULL) {
 		return NULL;
 	} else {
@@ -291,8 +323,15 @@ get_undocumented (void)
 void
 new_category (const char *category, const char *name, gboolean internal)
 {
-	HelpCategory *cat = get_category (category, TRUE /* insert */);
-	g_free (cat->name);
+
+	HelpCategory *cat;
+       
+	if (internal) {
+		cat = create_category (category);
+	} else {
+		cat = get_category (category, TRUE /* insert */);
+		g_free (cat->name);
+	}
 	cat->name = g_strdup (name);
 	cat->internal = internal;
 }
@@ -301,7 +340,8 @@ static void
 remove_from_category (const char *func, const char *category)
 {
 	GSList *li;
-	HelpCategory *cat = get_category (category, TRUE /* insert */);
+	HelpCategory *cat = get_category (category,
+					  TRUE /* insert */);
 
 	for (li = cat->funcs; li != NULL; li = li->next) {
 		char *f = li->data;
@@ -317,7 +357,8 @@ void
 add_category (const char *func, const char *category)
 {
 	GelHelp *help = get_help (func, TRUE /* insert */);
-	HelpCategory *cat = get_category (category, TRUE /* insert */);
+	HelpCategory *cat = get_category (category,
+					  TRUE /* insert */);
 
 	if (help->category != NULL) {
 		if (strcmp (help->category, category) == 0)
@@ -356,7 +397,7 @@ add_alias (const char *func, const char *alias)
 	GelHelp *help, *ahelp;
 
 	help = get_help (func, TRUE /* insert */);
-	if (help->aliasfor != NULL) {
+	if G_UNLIKELY (help->aliasfor != NULL) {
 		gel_errorout (_("Trying to set an alias for an alias"));
 		return;
 	}
@@ -399,17 +440,18 @@ add_description (const char *func, const char *desc)
 	char *p;
 	char *d;
 	
-	/*kill \n's \r's and ;'s (for compiled parsing purposes) */
-	d = g_strdup(desc);
-	if((p=strchr(d,'\n')))
-		*p = '\0';
-	if((p=strchr(d,'\r')))
-		*p = '\0';
+	/*kill \n's and \r's (for compiled parsing purposes) */
+	d = g_strdup (desc);
+	for (p = d; *p != '\0'; p++) {
+		if (*p == '\n' || *p == '\r') {
+			*p = '\0';
+			break;
+		}
+	}
 
 	help = get_help (func, TRUE /* insert */);
 	g_free (help->description);
-	help->description = g_strdup (d);
-	g_free (d);
+	help->description = d;
 }
 
 void
@@ -435,6 +477,9 @@ whack_help (const char *func)
 			remove_alias (help->aliasfor, func);
 		if (help->category != NULL)
 			remove_from_category (func, help->category);
+
+		if (get_help_cache == help)
+			get_help_cache = NULL;
 
 		g_hash_table_remove (gel_helphash, func);
 
@@ -1784,8 +1829,7 @@ compile_funcs_in_dict (FILE *outfile, GSList *dict, gboolean is_extra_dict)
 		if (func->data.user) {
 			body = gel_compile_tree(func->data.user);
 		} else {
-			body = g_strdup (g_hash_table_lookup (uncompiled,
-							      func->id));
+			body = g_strdup (func->id->uncompiled);
 			g_assert (body != NULL);
 		}
 		if (func->type == GEL_USER_FUNC) {
@@ -2150,9 +2194,7 @@ load_compiled_fp (const char *file, FILE *fp)
 					(last_func->extra_dict, func);
 		} else {
 			GelEFunc *func;
-			if(!uncompiled)
-				uncompiled = g_hash_table_new(NULL,NULL);
-			g_hash_table_insert(uncompiled,tok,b2);
+			tok->uncompiled = b2;
 			if(type == GEL_USER_FUNC) {
 				func = d_makeufunc (tok, NULL, li, nargs, NULL);
 				func->vararg = vararg ? 1 : 0;

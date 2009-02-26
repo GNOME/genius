@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2008 Jiri (George) Lebl
+ * Copyright (C) 1997-2009 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -55,8 +55,6 @@ static void _gel_make_free_evl (void);
 static void _gel_make_free_evf (void);
 static void _gel_make_free_evfi (void);
 #endif /* ! MEM_DEBUG_FRIENDLY */
-
-extern GHashTable *uncompiled;
 
 extern gboolean interrupted;
 

@@ -1,3 +1,12 @@
+Thu Feb 26 02:27:06 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/eval.c, src/calc.c, src/dict.[ch], src/gnome-genius.h,
+	  src/structs.h, src/symbolic.c: store uncompiled string in the
+	  token, not in a separate hash table.  This avoids extra lookups
+	  during startup.
+
+	* src/calc.c: a bit more optimization for help initialization
+
 Thu Feb 26 00:54:16 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c: handle crashes of the readline-helper without

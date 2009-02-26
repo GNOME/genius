@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2007 Jiri (George) Lebl
+ * Copyright (C) 1997-2009 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -125,14 +125,13 @@ void d_add_named_args (GelEFunc *f, const char *args);
 
 #define D_ENSURE_USER_BODY(f) \
 	if G_UNLIKELY (f->data.user == NULL) {				\
-		g_assert (uncompiled != NULL);				\
+		g_assert (f->id->uncompiled != NULL);			\
 		f->data.user =						\
-			gel_decompile_tree (g_hash_table_lookup		\
-					    (uncompiled, f->id));	\
+			gel_decompile_tree (f->id->uncompiled);		\
+		f->id->uncompiled = NULL;				\
 		/* On error give null tree */				\
 		if (f->data.user == NULL)				\
 			f->data.user = gel_makenum_null ();		\
-		g_hash_table_remove (uncompiled, f->id);		\
 	}								\
 
 
