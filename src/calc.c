@@ -2711,8 +2711,6 @@ gel_dump_strings_from_help (FILE *outfile)
 		}
 
 		dump_cat (outfile, cats->category);
-
-		cli->data = NULL;
 	}
 
 	dump_cat (outfile, NULL);
