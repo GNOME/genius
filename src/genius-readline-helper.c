@@ -156,6 +156,9 @@ main(int argc, char *argv[])
 		exit(1);
 	}
 
+	/* for some reasons we get SIGINT sometimes because of vte? */
+	signal (SIGINT, SIG_IGN);
+
 	rl_catch_signals = 1;
 	rl_catch_sigwinch = 1;
 	rl_terminal_name = "xterm";

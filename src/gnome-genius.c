@@ -243,6 +243,8 @@ static void display_warning (GtkWidget *parent, const char *warn);
 
 static void actually_open_help (const char *id);
 
+static void fork_helper_setup_comm (void);
+
 static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File") },		/* name, stock id, label */
   { "EditMenu", NULL, N_("_Edit") },		/* name, stock id, label */
@@ -1615,7 +1617,9 @@ gel_printout_infos (void)
 static void
 actually_open_help (const char *id)
 {
-#if GTK_CHECK_VERSION(2,14,0)
+/* breaks binary back compatibility */
+#if 0
+/*#if GTK_CHECK_VERSION(2,14,0) */
 	GError *error = NULL;
 	char *str;
 
@@ -1636,7 +1640,8 @@ actually_open_help (const char *id)
 		g_free (str);
 		g_error_free (error);
 	}
-#else
+/*#else*/
+#endif
 	char *xdgopen;
 	char *uri;
 	char *file = NULL;
@@ -1695,7 +1700,7 @@ actually_open_help (const char *id)
 
 	g_free (xdgopen);
 	g_free (uri);
-#endif
+/*#endif*/
 }
 
 void
@@ -2121,9 +2126,18 @@ setup_response (GtkWidget *widget, gint resp, gpointer data)
 			   default_console_font :
 			   genius_setup.font);
 		setup_term_color ();
+		/* breaks binary back compatibility */
+/*#if VTE_CHECK_VERSION(0,17,1)
+		vte_terminal_set_cursor_blink_mode
+			(VTE_TERMINAL (term),
+			 genius_setup.blinking_cursor ?
+			 VTE_CURSOR_BLINK_SYSTEM :
+			 VTE_CURSOR_BLINK_OFF);
+#else*/
 		vte_terminal_set_cursor_blinks
 			(VTE_TERMINAL (term),
 			genius_setup.blinking_cursor);
+/*#endif */
 
 
 		if (resp == GTK_RESPONSE_OK ||
@@ -4387,12 +4401,48 @@ fork_a_helper (void)
 	g_free (foo);
 }
 
+static void
+genius_got_etree (GelETree *e)
+{
+	if (e != NULL) {
+		calc_running ++;
+		gel_evalexp_parsed (e, main_out, "= \e[1;36m", TRUE);
+		gel_test_max_nodes_again ();
+		calc_running --;
+		gel_output_full_string (main_out, "\e[0m");
+		gel_output_flush (main_out);
+	}
+
+	gel_printout_infos ();
+
+	if (gel_got_eof) {
+		gel_output_full_string (main_out, "\n");
+		gel_output_flush (main_out);
+		gel_got_eof = FALSE;
+		gtk_main_quit();
+	}
+}
+
+
 static gboolean
 get_new_line (GIOChannel *source, GIOCondition condition, gpointer data)
 {
 	int fd = g_io_channel_unix_get_fd (source);
 	int r;
 	char buf[5] = "EOF!";
+	
+	if (condition & G_IO_HUP) {
+		char *str;
+		str = g_strdup_printf ("\r\n\e[01;31m%s\e[0m\r\n", 
+				       _("Readline helper died, weird.  Trying to recover, things may be odd."));
+		vte_terminal_feed (VTE_TERMINAL (term), str, -1);
+		g_free (str);
+		close (fromrl);
+		fclose (torlfp);
+		fork_helper_setup_comm ();
+		start_cb_p_expression (genius_got_etree, torlfp);
+		return FALSE;
+	}
 
 	if ( ! (condition & G_IO_IN))
 		return TRUE;
@@ -4431,26 +4481,23 @@ get_new_line (GIOChannel *source, GIOCondition condition, gpointer data)
 }
 
 static void
-genius_got_etree (GelETree *e)
+fork_helper_setup_comm (void)
 {
-	if (e != NULL) {
-		calc_running ++;
-		gel_evalexp_parsed (e, main_out, "= \e[1;36m", TRUE);
-		gel_test_max_nodes_again ();
-		calc_running --;
-		gel_output_full_string (main_out, "\e[0m");
-		gel_output_flush (main_out);
-	}
+	GIOChannel *channel;
 
-	gel_printout_infos ();
+	fork_a_helper ();
 
-	if (gel_got_eof) {
-		gel_output_full_string (main_out, "\n");
-		gel_output_flush (main_out);
-		gel_got_eof = FALSE;
-		gtk_main_quit();
-	}
+	torlfp = fopen (torlfifo, "w");
+
+	fromrl = open (fromrlfifo, O_RDONLY);
+	g_assert (fromrl >= 0);
+
+	channel = g_io_channel_unix_new (fromrl);
+	g_io_add_watch_full (channel, G_PRIORITY_DEFAULT, G_IO_IN | G_IO_HUP | G_IO_ERR, 
+			     get_new_line, NULL, NULL);
+	g_io_channel_unref (channel);
 }
+
 
 static char *
 make_a_fifo (const char *postfix)
@@ -4709,7 +4756,6 @@ main (int argc, char *argv[])
 	GtkWidget *w;
 	char *file;
 	int plugin_count = 0;
-	GIOChannel *channel;
 	gboolean give_no_lib_error_after_init = FALSE;
 
 	genius_is_gui = TRUE;
@@ -4771,7 +4817,8 @@ main (int argc, char *argv[])
 				      _("Cannot find the library file, genius installation may be incorrect"));
 	}
 
-	setup_rl_fifos ();
+	/*read parameters */
+	get_properties ();
 
 	main_out = gel_output_new();
 	gel_output_setup_string (main_out, 80, get_term_width);
@@ -4780,11 +4827,6 @@ main (int argc, char *argv[])
 	evalnode_hook = check_events;
 	statechange_hook = set_state;
 	_gel_tree_limit_hook = tree_limit_hit;
-
-	gel_read_plugin_list ();
-
-	/*read parameters */
-	get_properties ();
 
 	file = g_build_filename (genius_datadir,
 				 "icons",
@@ -4832,7 +4874,6 @@ main (int argc, char *argv[])
 	term = vte_terminal_new ();
 	vte_terminal_set_scrollback_lines (VTE_TERMINAL (term),
 					   genius_setup.scrollback);
-	vte_terminal_set_cursor_blinks (VTE_TERMINAL (term), TRUE);
 	vte_terminal_set_audible_bell (VTE_TERMINAL (term), TRUE);
 	vte_terminal_set_scroll_on_keystroke (VTE_TERMINAL (term), TRUE);
 	vte_terminal_set_scroll_on_output (VTE_TERMINAL (term), FALSE);
@@ -4856,6 +4897,62 @@ main (int argc, char *argv[])
 		(vte_terminal_get_adjustment (VTE_TERMINAL (term)));
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 	
+	/*set up the main window*/
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
+				  hbox,
+				  gtk_label_new (_("Console")));
+	/* FIXME:
+	gtk_widget_queue_resize (vte);
+	*/
+
+	gtk_widget_show_all (genius_window);
+
+	/* Try to deduce the standard font size, kind of evil, but sorta
+	 * works.  The user can always set the font themselves. */
+	{
+		GtkStyle *style = gtk_widget_get_style (genius_window);
+		int sz = (style == NULL ||
+			  style->font_desc == NULL) ? 10 :
+			pango_font_description_get_size (style->font_desc) / PANGO_SCALE;
+		if (sz == 0) sz = 10;
+		default_console_font = g_strdup_printf ("Monospace %d", sz);
+	}
+
+	/* for some reason we must set the font here and not above
+	 * or the "monospace 12" (or default terminal font or whatnot)
+	 * will get used */
+	vte_terminal_set_font_from_string (VTE_TERMINAL (term),
+					   ve_string_empty (genius_setup.font) ?
+					     default_console_font :
+					     genius_setup.font);
+	setup_term_color ();
+	/* breaks binary back compatibility */
+/* #if VTE_CHECK_VERSION(0,17,1)
+	vte_terminal_set_cursor_blink_mode
+		(VTE_TERMINAL (term),
+		 genius_setup.blinking_cursor ?
+		 VTE_CURSOR_BLINK_SYSTEM :
+		 VTE_CURSOR_BLINK_OFF);
+#else*/
+	vte_terminal_set_cursor_blinks
+		(VTE_TERMINAL (term),
+		 genius_setup.blinking_cursor);
+/*#endif*/
+	vte_terminal_set_encoding (VTE_TERMINAL (term), "UTF-8");
+
+	update_term_geometry ();
+	g_signal_connect (G_OBJECT (term), "char-size-changed",
+			  G_CALLBACK (update_term_geometry), NULL);
+
+	gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/PluginsMenu"));
+
+	/* Show the window now before going on with the
+	 * setup */
+	gtk_widget_show_now (genius_window);
+	check_events ();
+
+	gel_read_plugin_list ();
+
 	if (gel_plugin_list != NULL) {
 		GSList *li;
 		int i;
@@ -4892,45 +4989,6 @@ main (int argc, char *argv[])
 		gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/PluginsMenu/NoPlugin"));
 	}
 
-	/*set up the main window*/
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
-				  hbox,
-				  gtk_label_new (_("Console")));
-	/* FIXME:
-	gtk_widget_queue_resize (vte);
-	*/
-
-	gtk_widget_show_all (genius_window);
-
-	/* Try to deduce the standard font size, kind of evil, but sorta
-	 * works.  The user can always set the font themselves. */
-	{
-		GtkStyle *style = gtk_widget_get_style (genius_window);
-		int sz = (style == NULL ||
-			  style->font_desc == NULL) ? 10 :
-			pango_font_description_get_size (style->font_desc) / PANGO_SCALE;
-		if (sz == 0) sz = 10;
-		default_console_font = g_strdup_printf ("Monospace %d", sz);
-	}
-
-	/* for some reason we must set the font here and not above
-	 * or the "monospace 12" (or default terminal font or whatnot)
-	 * will get used */
-	vte_terminal_set_font_from_string (VTE_TERMINAL (term),
-					   ve_string_empty (genius_setup.font) ?
-					     default_console_font :
-					     genius_setup.font);
-	setup_term_color ();
-	vte_terminal_set_cursor_blinks
-		(VTE_TERMINAL (term),
-		 genius_setup.blinking_cursor);
-	vte_terminal_set_encoding (VTE_TERMINAL (term), "UTF-8");
-
-	update_term_geometry ();
-	g_signal_connect (G_OBJECT (term), "char-size-changed",
-			  G_CALLBACK (update_term_geometry), NULL);
-
-	gtk_widget_show_now (genius_window);
 
 	gel_output_printf (main_out,
 			   _("%sGenius %s%s\n"
@@ -4956,17 +5014,9 @@ main (int argc, char *argv[])
 	set_new_errorout (geniuserror);
 	set_new_infoout (geniusinfo);
 
-	fork_a_helper ();
+	setup_rl_fifos ();
 
-	torlfp = fopen (torlfifo, "w");
-
-	fromrl = open (fromrlfifo, O_RDONLY);
-	g_assert (fromrl >= 0);
-
-	channel = g_io_channel_unix_new (fromrl);
-	g_io_add_watch_full (channel, G_PRIORITY_DEFAULT, G_IO_IN | G_IO_HUP | G_IO_ERR, 
-			     get_new_line, NULL, NULL);
-	g_io_channel_unref (channel);
+	fork_helper_setup_comm ();
 
 	/*init the context stack and clear out any stale dictionaries
 	  except the global one, if this is the first time called it

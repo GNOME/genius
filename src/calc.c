@@ -78,9 +78,10 @@ typedef struct {
 	char *name;
 	gboolean internal;
 	GSList *funcs;
+	gboolean funcs_sorted;
 } HelpCategory;
-static GSList *categories = NULL;
-static GHashTable *helphash = NULL;
+static GSList *gel_categories = NULL;
+static GHashTable *gel_helphash = NULL;
 
 /*these two are used for test parses so that we know when we have a complete
   expression toevaluate*/
@@ -132,7 +133,7 @@ static HelpCategory *
 get_category (const char *category, gboolean insert)
 {
 	GSList *li;
-	for (li = categories; li != NULL; li = li->next) {
+	for (li = gel_categories; li != NULL; li = li->next) {
 		HelpCategory *cat = li->data;
 		if (strcmp (cat->category, category) == 0)
 			return cat;
@@ -141,7 +142,7 @@ get_category (const char *category, gboolean insert)
 	if (insert) {
 		HelpCategory *cat = g_new0 (HelpCategory, 1);
 		cat->category = g_strdup (category);
-		categories = g_slist_append (categories, cat);
+		gel_categories = g_slist_append (gel_categories, cat);
 		return cat;
 	} else {
 		return NULL;
@@ -153,15 +154,15 @@ get_help (const char *func, gboolean insert)
 {
 	GelHelp *help;
 
-	if (helphash == NULL)
-		helphash = g_hash_table_new (g_str_hash, g_str_equal);
+	if (gel_helphash == NULL)
+		gel_helphash = g_hash_table_new (g_str_hash, g_str_equal);
 
-	help = g_hash_table_lookup (helphash, func);
+	help = g_hash_table_lookup (gel_helphash, func);
 
 	if (help == NULL && insert) {
 		help = g_new0 (GelHelp, 1);
 		help->func = g_strdup (func);
-		g_hash_table_insert (helphash, help->func, help);
+		g_hash_table_insert (gel_helphash, help->func, help);
 	}
 
 	return help;
@@ -172,7 +173,7 @@ GSList *
 get_categories (void)
 {
 	GSList *li, *list = NULL;
-	for (li = categories; li != NULL; li = li->next) {
+	for (li = gel_categories; li != NULL; li = li->next) {
 		HelpCategory *cat = li->data;
 		list = g_slist_prepend (list, g_strdup (cat->category));
 	}
@@ -240,6 +241,11 @@ get_helps (const char *category)
 		return NULL;
 	} else {
 		GSList *li, *list = NULL;
+		if ( ! cat->funcs_sorted) {
+			cat->funcs = g_slist_sort (cat->funcs,
+						   function_sort);
+			cat->funcs_sorted = TRUE;
+		}
 		for (li = cat->funcs; li != NULL; li = li->next) {
 			const char *func = li->data;
 			GelHelp *help = get_help (func, FALSE /* insert */);
@@ -321,9 +327,9 @@ add_category (const char *func, const char *category)
 	}
 	help->category = g_strdup (category);
 
-	cat->funcs = g_slist_insert_sorted (cat->funcs,
-					    g_strdup (func),
-					    function_sort);
+	cat->funcs = g_slist_prepend (cat->funcs,
+				      g_strdup (func));
+	cat->funcs_sorted = FALSE;
 }
 
 static void
@@ -411,10 +417,10 @@ whack_help (const char *func)
 {
 	GelHelp *help;
 
-	if (helphash == NULL)
+	if (gel_helphash == NULL)
 		return;
 
-	help = g_hash_table_lookup (helphash, func);
+	help = g_hash_table_lookup (gel_helphash, func);
 	if (help != NULL) {
 		GSList *li, *list;
 
@@ -430,7 +436,7 @@ whack_help (const char *func)
 		if (help->category != NULL)
 			remove_from_category (func, help->category);
 
-		g_hash_table_remove (helphash, func);
+		g_hash_table_remove (gel_helphash, func);
 
 		g_slist_free (help->aliases);
 		g_free (help->aliasfor);
@@ -2404,7 +2410,6 @@ print_command_help (const char *cmd)
 static void
 full_help (void)
 {
-	GSList *categories = get_categories ();
 	GSList *functions;
 	GSList *cli, *fli;
 	int i;
@@ -2429,14 +2434,14 @@ full_help (void)
 	for (i = 0; genius_toplevels[i] != NULL; i++)
 		print_command_help (genius_toplevels[i]);
 
-	for (cli = categories; cli != NULL; cli = cli->next) {
-		char *cat = cli->data;
-		functions = get_helps (cat);
+	for (cli = gel_categories; cli != NULL; cli = cli->next) {
+		HelpCategory *cat = cli->data;
+		functions = get_helps (cat->category);
 
 		if (functions != NULL) {
 			do_black ();
 			gel_output_printf_full (main_out, FALSE, "\n%s:\n",
-						get_category_name (cat));
+						get_category_name (cat->category));
 
 			for (fli = functions; fli != NULL; fli = fli->next) {
 				GelHelp *help = fli->data;
@@ -2445,10 +2450,7 @@ full_help (void)
 
 			g_slist_free (functions);
 		}
-
-		g_free (cat);
 	}
-	g_slist_free (categories);
 
 	functions = get_helps (NULL);
 	if (functions != NULL) {
@@ -2655,26 +2657,21 @@ dump_cat (FILE *outfile, const char *cat)
 void
 gel_dump_strings_from_help (FILE *outfile)
 {
-	GSList *categories = get_categories ();
 	GSList *cli;
 
-	for (cli = categories; cli != NULL; cli = cli->next) {
-		char *cat = cli->data;
-		HelpCategory *cats;
+	for (cli = gel_categories; cli != NULL; cli = cli->next) {
+		HelpCategory *cats = cli->data;
 
-		cats = get_category (cat, FALSE /* insert */);
 		if (cats != NULL &&
 		    cats->name != NULL &&
 		    ! cats->internal) {
 			dump_a_string (outfile, cats->name);
 		}
 
-		dump_cat (outfile, cat);
+		dump_cat (outfile, cats->category);
 
 		cli->data = NULL;
-		g_free (cat);
 	}
-	g_slist_free (categories);
 
 	dump_cat (outfile, NULL);
 }

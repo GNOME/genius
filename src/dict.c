@@ -819,6 +819,18 @@ d_getcontext_global (void)
 }
 
 static int
+lowercase_ascii_sum_square (const char *id)
+{
+	int sum = 0;
+	int i;
+	for (i = 0; id[i] != '\0'; i++) {
+		int n = g_ascii_tolower (id[i]) - 'a';
+		sum += n*n;
+	}
+	return sum;
+}
+
+static int
 lowercase_ascii_sum (const char *id)
 {
 	int sum = 0;
@@ -891,13 +903,16 @@ are_ids_similar (const char *id1, const char *id2)
 
 	if (len1 > 6 && len1 == len2) {
 		int sum1, sum2;
+		int sum1s, sum2s;
 
 		sum1 = lowercase_ascii_sum (id1);
 		sum2 = lowercase_ascii_sum (id2);
 
-		/* just a reordering (possibly)
-		   (won't work right on small words) */
-		if (sum1 == sum2) {
+		sum1s = lowercase_ascii_sum_square (id1);
+		sum2s = lowercase_ascii_sum_square (id2);
+
+		/* just a reordering (possibly) */
+		if (sum1 == sum2 && sum1s == sum2s) {
 			return TRUE;
 		}
 	}

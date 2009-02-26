@@ -1,3 +1,20 @@
+Thu Feb 26 00:54:16 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/gnome-genius.c: handle crashes of the readline-helper without
+	  hanging.  Slight reorganization of startup to show window few
+	  nanoseconds faster.  Also don't use gtk_show_uri yet.  This
+	  causes backwards binary incompatibility which sucks as my other
+	  laptop uses hardy.
+
+	* src/calc.c: slight improvement in help handling.  Don't sort
+	  the functions in the categories until we really need to.
+
+	* src/dict.c: when checking for similar id's do the sum and a square
+	  sum to check for reorderings.  This fixes the strange suggestions
+	  sometimes
+
+	* src/genius-readline-helper.c: avoid crashes on getting SIGINT, ignore
+
 Tue Feb 24 22:05:41 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* gtkextra/gtkplotdata.c, gtkextra/gtkplotgdk.c: Move the line
