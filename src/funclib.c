@@ -1322,7 +1322,7 @@ ErrorFunction_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	MPW_MPF_REAL (num, a[0]->val.value, tmp);
 
-	mpf_init (ret);
+	mpfr_init (ret);
 	mpfr_erf (ret, num, GMP_RNDN);
 
 	MPW_MPF_KILL (num, tmp);
@@ -1360,7 +1360,7 @@ RiemannZeta_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	MPW_MPF_REAL (num, a[0]->val.value, tmp);
 
-	mpf_init (ret);
+	mpfr_init (ret);
 	mpfr_zeta (ret, num, GMP_RNDN);
 
 	MPW_MPF_KILL (num, tmp);
@@ -1397,7 +1397,7 @@ GammaFunction_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	MPW_MPF_REAL (num, a[0]->val.value, tmp);
 
-	mpf_init (ret);
+	mpfr_init (ret);
 	mpfr_gamma (ret, num, GMP_RNDN);
 
 	MPW_MPF_KILL (num, tmp);

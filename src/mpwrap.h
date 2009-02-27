@@ -30,8 +30,6 @@
 
 /* FIXME: we may need the same as above */
 #include <mpfr.h>
-/* FIXME: get rid of mpf usage altogether */
-#include <mpf2mpfr.h>
 
 
 enum {
@@ -91,10 +89,27 @@ enum {
 void mpw_set_default_prec(unsigned long int i);
 
 /*initialize a number*/
-void mpw_init(mpw_ptr op);
 void mpw_init_set(mpw_ptr rop,mpw_ptr op);
+
+/* Maybe it is overkill to try to keep bin compat? */
+void mpw_init(mpw_ptr op);
+static inline void
+mpw_init_inline (mpw_ptr op)
+{
+	op->r = gel_zero;
+	gel_zero->alloc.usage++;
+	op->i = gel_zero;
+	gel_zero->alloc.usage++;
+}
+#define mpw_init(op) mpw_init_inline(op)
+
 /* don't try to decomplexify the number */
-void mpw_init_set_no_uncomplex (mpw_ptr rop, mpw_ptr op);
+#define mpw_init_set_no_uncomplex(rop,op) \
+{	(rop)->r = (op)->r; \
+	(rop)->r->alloc.usage++; \
+	(rop)->i = (op)->i; \
+	(rop)->i->alloc.usage++; }
+
 
 /*clear memory held by number*/
 void mpw_clear(mpw_ptr op);
@@ -285,12 +300,20 @@ void mpw_set_str (mpw_ptr rop, const char *s, int base);
 
 gboolean mpw_is_complex(mpw_ptr op);
 gboolean mpw_is_integer(mpw_ptr op);
-gboolean mpw_is_complex_integer(mpw_ptr op);
 gboolean mpw_is_rational(mpw_ptr op);
-gboolean mpw_is_rational_or_integer(mpw_ptr op);
-gboolean mpw_is_complex_rational_or_integer(mpw_ptr op);
 gboolean mpw_is_float(mpw_ptr op);
-gboolean mpw_is_complex_float(mpw_ptr op);
+
+#define mpw_is_complex_float(op) \
+	 ( ((op)->r->type == MPW_FLOAT) || \
+	   (MPW_IS_COMPLEX (op) && ((op)->i->type == MPW_FLOAT)) )
+
+#define mpw_is_complex_rational_or_integer(op) \
+	 ( ((op)->r->type <= MPW_RATIONAL) && \
+	   ( ! MPW_IS_COMPLEX (op) || ((op)->i->type <= MPW_RATIONAL)) )
+
+#define mpw_is_complex_integer(op) \
+	 ( ((op)->r->type == MPW_INTEGER) && \
+	   ( ! MPW_IS_COMPLEX (op) || ((op)->i->type == MPW_INTEGER)) )
 
 void mpw_im(mpw_ptr rop, mpw_ptr op);
 void mpw_re(mpw_ptr rop, mpw_ptr op);

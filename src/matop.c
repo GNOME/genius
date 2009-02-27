@@ -341,31 +341,37 @@ static gboolean
 mul_sub_row (GelCtx *ctx, GelMatrixW *m, int row, mpw_t mul, int row2)
 {
 	int i, w;
-	mpw_t tmp;
+	static mpw_t tmp;
+	static gboolean tmp_inited = FALSE;
 	gboolean ret = TRUE;
 	
 	/* no need for this, only used within gauss and matrix is already private
 	gel_matrixw_make_private(m);*/
 	
-	mpw_init(tmp);
+	if G_UNLIKELY ( ! tmp_inited) {
+		mpw_init(tmp);
+		tmp_inited = TRUE;
+	}
 	w = gel_matrixw_width(m);
 	for (i = 0; i < w; i++) {
 		GelETree *t = gel_matrixw_get_index(m,i,row);
 		if (t && ! mpw_zero_p (t->val.value)) {
 			GelETree *t2 = gel_matrixw_get_index(m,i,row2);
 			mpw_mul(tmp,t->val.value,mul);
-			if(!t2) {
+			if (t2 == NULL) {
 				mpw_neg(tmp,tmp);
-				gel_matrixw_set_index(m,i,row2) = t2 = gel_makenum_use(tmp);
+				t2 = gel_makenum_use(tmp);
+				gel_matrixw_set_index(m,i,row2) = t2;
 				mpw_init(tmp);
+			} else if ( ! mpw_is_complex_float (tmp) &&
+				   mpw_symbolic_eql (t2->val.value, tmp)) {
+				gel_freetree (t2);
+				gel_matrixw_set_index(m,i,row2) = NULL;
 			} else {
-				mpw_sub(t2->val.value,t2->val.value,tmp);
-				if (mpw_exact_zero_p (t2->val.value)) {
-					gel_freetree (t2);
-					gel_matrixw_set_index(m,i,row2) = NULL;
-				}
+				mpw_sub (t2->val.value,
+					 t2->val.value, tmp);
 			}
-			if (ctx->modulo != NULL) {
+			if (ctx->modulo != NULL && t2 != NULL) {
 				gel_mod_node (ctx, t2);
 				/* can't mod so we have a singular matrix / system */
 				if (t2 != NULL && t2->type != VALUE_NODE)
@@ -373,7 +379,6 @@ mul_sub_row (GelCtx *ctx, GelMatrixW *m, int row, mpw_t mul, int row2)
 			}
 		}
 	}
-	mpw_clear(tmp);
 	return ret;
 }
 

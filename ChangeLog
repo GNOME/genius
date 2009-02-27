@@ -1,3 +1,13 @@
+Fri Feb 27 14:42:12 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/mpwrap.[ch], src/funclib.c: remove the dependence on the MPF
+	  compat layer.  Inline a few more functions.  Implement mpwl_eql
+	  to make comparisons of rationals quicker.  Remove certain old
+	  gmp/mpfr bug workarounds, a bit of cleanup
+
+	* src/matop.c: in the mul_sub_row, cache the tmp variable for
+	  greater speed.
+
 Thu Feb 26 18:40:16 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/calc.c: don't kill newlines in descriptions.  This is no longer
