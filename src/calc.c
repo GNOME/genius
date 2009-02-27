@@ -437,21 +437,10 @@ void
 add_description (const char *func, const char *desc)
 {
 	GelHelp *help;
-	char *p;
-	char *d;
-	
-	/*kill \n's and \r's (for compiled parsing purposes) */
-	d = g_strdup (desc);
-	for (p = d; *p != '\0'; p++) {
-		if (*p == '\n' || *p == '\r') {
-			*p = '\0';
-			break;
-		}
-	}
 
 	help = get_help (func, TRUE /* insert */);
 	g_free (help->description);
-	help->description = d;
+	help->description = g_strdup (desc);
 }
 
 void
