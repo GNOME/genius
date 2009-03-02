@@ -19,6 +19,14 @@ if ENABLE_UPDATE_MIMEDB
 	-update-mime-database "$(DESTDIR)${datadir}/mime"
 endif
 
+profile-generate:
+	make clean
+	PGO_CFLAGS="-fprofile-generate" make
+
+profile-use:
+	make clean
+	PGO_CFLAGS="-fprofile-use" make
+
 EXTRA_DIST = \
 	genius.spec \
 	genius.spec.in \

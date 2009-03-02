@@ -7,6 +7,8 @@ INCLUDES = \
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 	$(VICIOUS_CFLAGS)
 
+AM_CFLAGS = $(PGO_CFLAGS)
+
 # Use these only really for checking for deprecated use, not all the time
 #	-DG_DISABLE_DEPRECATED			\
 #	-DGDK_DISABLE_DEPRECATED		\

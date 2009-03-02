@@ -10,8 +10,10 @@ INCLUDES = \
 	-I$(top_builddir)					\
 	-I$(top_builddir)/ve					\
 	-I$(top_builddir)/gtkextra				\
-	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
+	-DGNOMELOCALEDIR=\""$(datadir)/locale"\"		\
 	$(GENIUS_CFLAGS)
+
+AM_CFLAGS = $(PGO_CFLAGS)
 
 # Use these only really for checking for deprecated use, not all the time
 #	-DG_DISABLE_DEPRECATED			\
