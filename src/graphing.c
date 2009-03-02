@@ -2395,10 +2395,13 @@ plot_func_data (GtkPlot *plot, GtkPlotData *data, double x, gboolean *error)
 			plot_miny = y;
 	}
 
+	/* No need of this anymore, my hacked version handles lines going
+	 * way off at least in our use case
 	if (y > ploty2 || y < ploty1) {
 		if (error != NULL)
 			*error = TRUE;
 	}
+	*/
 
 
 	if (hookrun++ >= 10) {
