@@ -141,7 +141,6 @@ static double deftinc = 0.01;
 
 static gboolean lineplot_draw_legends = TRUE;
 static gboolean lineplot_draw_legends_cb = TRUE;
-static gboolean lineplot_draw_legends_parameter = TRUE;
 static gboolean vectorfield_normalize_arrow_length = FALSE;
 static gboolean vectorfield_normalize_arrow_length_cb = FALSE;
 static gboolean vectorfield_normalize_arrow_length_parameter = FALSE;
@@ -292,6 +291,27 @@ color_alloc (GdkColor *color)
 	gdk_colormap_alloc_color (colormap, color, FALSE /* writable */, TRUE /* best_match */);
 	/* errors? */
 }
+
+/* FIXME: This seems like a rather ugly hack, am I missing something about
+ * spinboxes or are they really this stupid */
+static void
+update_spinboxes (GtkWidget *w)
+{
+	if (GTK_IS_SPIN_BUTTON (w))
+		gtk_spin_button_update (GTK_SPIN_BUTTON (w));
+	else if (GTK_IS_CONTAINER (w)) {
+		GList *children, *li;
+
+		children = gtk_container_get_children (GTK_CONTAINER (w));
+
+		for (li = children; li != NULL; li = li->next) {
+			update_spinboxes (li->data);
+		}
+
+		g_list_free (children);
+	}
+}
+
 
 static void
 plot_window_setup (void)
@@ -1499,6 +1519,7 @@ static void
 solver_dialog_response (GtkWidget *w, int response, gpointer data)
 {
 	if (response == RESPONSE_PLOT) {
+		update_spinboxes (w);
 		if (plot_mode == MODE_LINEPLOT_SLOPEFIELD)
 			slopefield_draw_solution (solver_x, solver_y, solver_xinc);
 		else
@@ -3716,8 +3737,6 @@ create_range_spinboxes (const char *title, double *val1, GtkWidget **w1,
 				  w1);
 	}
 	g_signal_connect (G_OBJECT (w), "activate",
-			  G_CALLBACK (gtk_spin_button_update), NULL);
-	g_signal_connect (G_OBJECT (w), "activate",
 			  G_CALLBACK (activate_callback), NULL);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
 	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (w), GTK_UPDATE_ALWAYS);
@@ -3743,8 +3762,6 @@ create_range_spinboxes (const char *title, double *val1, GtkWidget **w1,
 					  G_CALLBACK (gtk_widget_destroyed),
 					  w2);
 		}
-		g_signal_connect (G_OBJECT (w), "activate",
-				  G_CALLBACK (gtk_spin_button_update), NULL);
 		g_signal_connect (G_OBJECT (w), "activate",
 				  G_CALLBACK (activate_callback), NULL);
 		gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
@@ -3772,8 +3789,6 @@ create_range_spinboxes (const char *title, double *val1, GtkWidget **w1,
 					  G_CALLBACK (gtk_widget_destroyed),
 					  wb);
 		}
-		g_signal_connect (G_OBJECT (w), "activate",
-				  G_CALLBACK (gtk_spin_button_update), NULL);
 		g_signal_connect (G_OBJECT (w), "activate",
 				  G_CALLBACK (activate_callback), NULL);
 		gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (w), TRUE);
@@ -4991,6 +5006,7 @@ plot_dialog_response (GtkWidget *w, int response, gpointer data)
 		gtk_widget_destroy (plot_dialog);
 	} else if (response == RESPONSE_PLOT) {
 		int pg = gtk_notebook_get_current_page (GTK_NOTEBOOK (plot_notebook));
+		update_spinboxes (w);
 		if (pg == 0 /* line plot */)
 			plot_from_dialog ();
 		else if (pg == 1 /* surface plot */)
@@ -5384,8 +5400,6 @@ SlopefieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	reset_ploty1 = ploty1 = y1;
 	reset_ploty2 = ploty2 = y2;
 
-	lineplot_draw_legends = lineplot_draw_legends_parameter;
-
 	plot_mode = MODE_LINEPLOT_SLOPEFIELD;
 	plot_functions (FALSE /* do_window_present */);
 
@@ -5499,7 +5513,6 @@ VectorfieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	reset_ploty1 = ploty1 = y1;
 	reset_ploty2 = ploty2 = y2;
 
-	lineplot_draw_legends = lineplot_draw_legends_parameter;
 	vectorfield_normalize_arrow_length =
 		vectorfield_normalize_arrow_length_parameter;
 
@@ -5619,8 +5632,6 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	reset_plotx2 = plotx2 = x2;
 	reset_ploty1 = ploty1 = y1;
 	reset_ploty2 = ploty2 = y2;
-
-	lineplot_draw_legends = lineplot_draw_legends_parameter;
 
 	plot_mode = MODE_LINEPLOT;
 	plot_functions (FALSE /* do_window_present */);
@@ -5765,8 +5776,6 @@ LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plott2 = t2;
 	plottinc = tinc;
 
-	lineplot_draw_legends = lineplot_draw_legends_parameter;
-
 	plot_mode = MODE_LINEPLOT_PARAMETRIC;
 	plot_functions (FALSE /* do_window_present */);
 
@@ -5905,8 +5914,6 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plott1 = t1;
 	plott2 = t2;
 	plottinc = tinc;
-
-	lineplot_draw_legends = lineplot_draw_legends_parameter;
 
 	plot_mode = MODE_LINEPLOT_PARAMETRIC;
 	plot_functions (FALSE /* do_window_present */);
@@ -6485,17 +6492,26 @@ set_LinePlotDrawLegends (GelETree * a)
 	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_LinePlotDrawLegend"))
 		return NULL;
 	if (a->type == VALUE_NODE)
-		lineplot_draw_legends_parameter
+		lineplot_draw_legends
 			= ! mpw_zero_p (a->val.value);
 	else /* a->type == BOOL_NODE */
-		lineplot_draw_legends_parameter = a->bool_.bool_;
+		lineplot_draw_legends = a->bool_.bool_;
 
-	return gel_makenum_bool (lineplot_draw_legends_parameter);
+	if (line_plot != NULL) {
+		if (lineplot_draw_legends)
+			gtk_plot_show_legends (GTK_PLOT (line_plot));
+		else
+			gtk_plot_hide_legends (GTK_PLOT (line_plot));
+
+		line_plot_move_about ();
+	}
+
+	return gel_makenum_bool (lineplot_draw_legends);
 }
 static GelETree *
 get_LinePlotDrawLegends (void)
 {
-	return gel_makenum_bool (lineplot_draw_legends_parameter);
+	return gel_makenum_bool (lineplot_draw_legends);
 }
 
 void
