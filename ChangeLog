@@ -1,3 +1,18 @@
+Wed Mar 04 23:58:43 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c: add two more style strings to LinePlotDrawLine.
+	  First "window" can set the window, with a "fit" being a fitting
+	  window.  Also allow drawing of arrows by "arrow" followed by
+	  "end", "both", "origin", "none" (done in canvas coordinates, not
+	  screen coordinates, not ideal, try zooming)
+	
+	* src/graphing.c, src/funclib.c: a bit of cleanup, some pointless
+	  optimizations, and make sure the graphing functions don't get
+	  called during plotting.  Also setting LinePlotWindow,
+	  SurfacePlotWindow will change zoom immediately as one would expect
+
+	* help/C/gel-function-list.xml: update
+
 Mon Mar 02 02:38:40 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* **/Makefile.am: implement profile-generate and profile-use

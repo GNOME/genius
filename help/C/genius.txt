@@ -5477,14 +5477,20 @@
            Draw a line from x1,y1 to x2,y2. x1,y1, x2,y2 can be replaced by
            an n by 2 matrix for a longer line.
 
-           Extra parameters can be added to specify line color and thickness,
-           by adding a string "color" or "thickness" and the color and
-           thickness after as a string or integer respectively.
+           Extra parameters can be added to specify line color, thickness,
+           arrows, and the plotting window. You can do this by adding a
+           string "color", "thickness", "window", or "arrow", and after it
+           either the color string, the thicknes as an integer, the window as
+           4-vector, and for arrow either "origin", "end", "both", or "none".
+           For "window" we can specify "fit" rather than a vector in which
+           case, the x range will be set precisely and the y range will be
+           set with five percent borders around the line.
 
            Examples:
 
  genius> LinePlotDrawLine(0,0,1,1,"color","blue","thickness",3)
  genius> LinePlotDrawLine([0,0;1,-1;-1,-1])
+ genius> LinePlotDrawLine([0,0;1,1],"arrow","end")
 
    LinePlotParametric
 

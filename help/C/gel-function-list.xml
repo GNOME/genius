@@ -4824,15 +4824,28 @@ do (
 	    <varname>n</varname> by 2 matrix for a longer line.
           </para>
           <para>
-	    Extra parameters can be added to specify line color and thickness,
-	    by adding a string <userinput>"color"</userinput> or
-	    <userinput>"thickness"</userinput> and the color and thickness
-	    after as a string or integer respectively.
+	    Extra parameters can be added to specify line color, thickness,
+	    arrows, and the plotting window.
+	    You can do this by adding a string <userinput>"color"</userinput>, 
+	    <userinput>"thickness"</userinput>,
+	    <userinput>"window"</userinput>, or
+	    <userinput>"arrow"</userinput>, and after it either
+	    the color string, the thicknes as an integer, the window
+	    as 4-vector, and for arrow either 
+	    <userinput>"origin"</userinput>,
+	    <userinput>"end"</userinput>,
+	    <userinput>"both"</userinput>, or
+	    <userinput>"none"</userinput>.  For 
+	    <userinput>"window"</userinput> we can specify 
+	    <userinput>"fit"</userinput> rather than a vector in which case,
+	    the x range will be set precisely and the y range will be set with
+	    five percent borders around the line.
           </para>
 	  <para>
 	  Examples:
           <screen><prompt>genius></prompt> <userinput>LinePlotDrawLine(0,0,1,1,"color","blue","thickness",3)</userinput>
 <prompt>genius></prompt> <userinput>LinePlotDrawLine([0,0;1,-1;-1,-1])</userinput>
+<prompt>genius></prompt> <userinput>LinePlotDrawLine([0,0;1,1],"arrow","end")</userinput>
 </screen>
           </para>
          </listitem>

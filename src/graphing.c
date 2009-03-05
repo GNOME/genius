@@ -286,6 +286,14 @@ enum {
 };
 
 static void
+color_alloc (GdkColor *color)
+{
+	GdkColormap *colormap = gdk_colormap_get_system();
+	gdk_colormap_alloc_color (colormap, color, FALSE /* writable */, TRUE /* best_match */);
+	/* errors? */
+}
+
+static void
 plot_window_setup (void)
 {
 	if (graph_window != NULL) {
@@ -1944,6 +1952,7 @@ plot_setup_axis (void)
 				    FALSE /* vminor */);
 
 	gdk_color_parse ("gray75", &gray);
+	color_alloc (&gray);
 
 	gtk_plot_x0line_set_attributes (GTK_PLOT (line_plot),
 					GTK_PLOT_LINE_SOLID,
@@ -2978,7 +2987,7 @@ draw_line (double *x, double *y, int len, int thickness, GdkColor *color)
 	gtk_plot_add_data (GTK_PLOT (line_plot), data);
 	gtk_plot_data_hide_legend (data);
 
-	gdk_color_alloc (gdk_colormap_get_system (), color); 
+	color_alloc (color); 
 
 	gtk_plot_data_set_line_attributes (data,
 					   GTK_PLOT_LINE_SOLID,
@@ -3287,6 +3296,7 @@ replot_fields (void)
 				gtk_plot_add_data (GTK_PLOT (line_plot),
 						   slopefield_data);
 				gdk_color_parse ("blue", &color);
+				color_alloc (&color);
 				gtk_plot_data_set_line_attributes (slopefield_data,
 								   GTK_PLOT_LINE_NONE,
 								   0, 0, 1, &color);
@@ -3339,6 +3349,7 @@ replot_fields (void)
 				gtk_plot_add_data (GTK_PLOT (line_plot),
 						   vectorfield_data);
 				gdk_color_parse ("blue", &color);
+				color_alloc (&color);
 				gtk_plot_data_set_line_attributes (vectorfield_data,
 								   GTK_PLOT_LINE_NONE,
 								   0, 0, 1, &color);
@@ -3477,7 +3488,7 @@ plot_functions (gboolean do_window_present)
 		gtk_widget_show (GTK_WIDGET (line_data[i]));
 
 		gdk_color_parse (colors[color_i++], &color);
-		gdk_color_alloc (gdk_colormap_get_system (), &color); 
+		color_alloc (&color);
 		gtk_plot_data_set_line_attributes (line_data[i],
 						   GTK_PLOT_LINE_SOLID,
 						   0, 0, 2, &color);
@@ -3531,7 +3542,7 @@ plot_functions (gboolean do_window_present)
 		gtk_widget_show (GTK_WIDGET (parametric_data));
 
 		gdk_color_parse (colors[color_i++], &color);
-		gdk_color_alloc (gdk_colormap_get_system (), &color); 
+		color_alloc (&color);
 		gtk_plot_data_set_line_attributes (parametric_data,
 						   GTK_PLOT_LINE_SOLID,
 						   0, 0, 2, &color);
@@ -5035,6 +5046,12 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	int i;
 	GelEFunc *func = NULL;
 
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "SurfacePlot", "SurfacePlot");
+		return NULL;
+	}
+
 	i = 0;
 
 	if (a[i] != NULL && a[i]->type != FUNCTION_NODE) {
@@ -5167,6 +5184,12 @@ SlopefieldDrawSolution_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	double x, y, dx;
 
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "SlopefieldDrawSolution", "SlopefieldDrawSolution");
+		return NULL;
+	}
+
 	GET_DOUBLE (x, 0, "SlopefieldDrawSolution");
 	GET_DOUBLE (y, 1, "SlopefieldDrawSolution");
 	GET_DOUBLE (dx, 2, "SlopefieldDrawSolution");
@@ -5192,6 +5215,11 @@ SlopefieldDrawSolution_op (GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 SlopefieldClearSolutions_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "SlopefieldClearSolutions", "SlopefieldClearSolutions");
+		return NULL;
+	}
 	if (plot_mode != MODE_LINEPLOT_SLOPEFIELD) {
 		gel_errorout (_("%s: Slope field not active"),
 			      "SlopefieldClearSolutions");
@@ -5208,26 +5236,32 @@ VectorfieldDrawSolution_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	double x, y, dt, tlen;
 
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "VectorfieldDrawSolution", "VectorfieldDrawSolution");
+		return NULL;
+	}
+
 	GET_DOUBLE (x, 0, "VectorfieldDrawSolution");
 	GET_DOUBLE (y, 1, "VectorfieldDrawSolution");
 	GET_DOUBLE (dt, 2, "VectorfieldDrawSolution");
 	GET_DOUBLE (tlen, 3, "VectorfieldDrawSolution");
 
-	if (dt <= 0.0) {
+	if G_UNLIKELY (dt <= 0.0) {
 		gel_errorout (_("%s: dt must be positive"),
 			      "VectorfieldDrawSolution");
 		return NULL;
 	}
 
-	if (tlen <= 0.0) {
+	if G_UNLIKELY (tlen <= 0.0) {
 		gel_errorout (_("%s: tlen must be positive"),
 			      "VectorfieldDrawSolution");
 		return NULL;
 	}
 
-	if (plot_mode != MODE_LINEPLOT_VECTORFIELD ||
-	    vectorfield_func_x == NULL ||
-	    vectorfield_func_y == NULL) {
+	if G_UNLIKELY (plot_mode != MODE_LINEPLOT_VECTORFIELD ||
+		       vectorfield_func_x == NULL ||
+		       vectorfield_func_y == NULL) {
 		gel_errorout (_("%s: Vector field not active"),
 			      "VectorfieldDrawSolution");
 		return NULL;
@@ -5242,7 +5276,13 @@ VectorfieldDrawSolution_op (GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 VectorfieldClearSolutions_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
-	if (plot_mode != MODE_LINEPLOT_VECTORFIELD) {
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "VectorfieldClearSolutions", "VectorfieldClearSolutions");
+		return NULL;
+	}
+
+	if G_UNLIKELY (plot_mode != MODE_LINEPLOT_VECTORFIELD) {
 		gel_errorout (_("%s: Vector field not active"),
 			      "VectorfieldClearSolutions");
 		return NULL;
@@ -5260,8 +5300,14 @@ SlopefieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	GelEFunc *func = NULL;
 	int i;
 
-	if (a[0] == NULL ||
-	    a[0]->type != FUNCTION_NODE) {
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "SlopefieldPlot", "SlopefieldPlot");
+		return NULL;
+	}
+
+	if G_UNLIKELY (a[0] == NULL ||
+		       a[0]->type != FUNCTION_NODE) {
 		gel_errorout (_("%s: First argument must be a function"),
 			      "SlopefieldPlot");
 		return NULL;
@@ -5363,12 +5409,18 @@ VectorfieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	GelEFunc *funcy = NULL;
 	int i;
 
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "VectorfieldPlot", "VectorfieldPlot");
+		return NULL;
+	}
+
 	/* FIXME: also accept just one function and then treat it as complex
 	 * valued */
 
-	if (a[0] == NULL || a[1] == NULL ||
-	    a[0]->type != FUNCTION_NODE ||
-	    a[1]->type != FUNCTION_NODE) {
+	if G_UNLIKELY (a[0] == NULL || a[1] == NULL ||
+		       a[0]->type != FUNCTION_NODE ||
+		       a[1]->type != FUNCTION_NODE) {
 		gel_errorout (_("%s: First two arguments must be functions"), "VectorfieldPlot");
 		return NULL;
 	}
@@ -5415,24 +5467,24 @@ VectorfieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 		}
 	}
 
-	if (x1 > x2) {
+	if G_UNLIKELY (x1 > x2) {
 		double s = x1;
 		x1 = x2;
 		x2 = s;
 	}
 
-	if (y1 > y2) {
+	if G_UNLIKELY (y1 > y2) {
 		double s = y1;
 		y1 = y2;
 		y2 = s;
 	}
 
-	if (x1 == x2) {
+	if G_UNLIKELY (x1 == x2) {
 		gel_errorout (_("%s: invalid X range"), "VectorfieldPlot");
 		goto whack_copied_funcs;
 	}
 
-	if (y1 == y2) {
+	if G_UNLIKELY (y1 == y2) {
 		gel_errorout (_("%s: invalid Y range"), "VectorfieldPlot");
 		goto whack_copied_funcs;
 	}
@@ -5476,6 +5528,12 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	GelEFunc *func[MAXFUNC] = { NULL };
 	int i;
 
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "LinePlot", "LinePlot");
+		return NULL;
+	}
+
 	for (i = 0;
 	     i < MAXFUNC && a[i] != NULL && a[i]->type == FUNCTION_NODE;
 	     i++) {
@@ -5484,12 +5542,12 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 		funcs++;
 	}
 
-	if (a[i] != NULL && a[i]->type == FUNCTION_NODE) {
+	if G_UNLIKELY (a[i] != NULL && a[i]->type == FUNCTION_NODE) {
 		gel_errorout (_("%s: only up to 10 functions supported"), "LinePlot");
 		goto whack_copied_funcs;
 	}
 
-	if (funcs == 0) {
+	if G_UNLIKELY (funcs == 0) {
 		gel_errorout (_("%s: argument not a function"), "LinePlot");
 		goto whack_copied_funcs;
 	}
@@ -5521,31 +5579,31 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 				}
 			}
 			/* FIXME: what about errors */
-			if (error_num != 0) {
+			if G_UNLIKELY (error_num != 0) {
 				error_num = 0;
 				goto whack_copied_funcs;
 			}
 		}
 	}
 
-	if (x1 > x2) {
+	if G_UNLIKELY (x1 > x2) {
 		double s = x1;
 		x1 = x2;
 		x2 = s;
 	}
 
-	if (y1 > y2) {
+	if G_UNLIKELY (y1 > y2) {
 		double s = y1;
 		y1 = y2;
 		y2 = s;
 	}
 
-	if (x1 == x2) {
+	if G_UNLIKELY (x1 == x2) {
 		gel_errorout (_("%s: invalid X range"), "LinePlot");
 		goto whack_copied_funcs;
 	}
 
-	if (y1 == y2) {
+	if G_UNLIKELY (y1 == y2) {
 		gel_errorout (_("%s: invalid Y range"), "LinePlot");
 		goto whack_copied_funcs;
 	}
@@ -5567,7 +5625,7 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plot_mode = MODE_LINEPLOT;
 	plot_functions (FALSE /* do_window_present */);
 
-	if (interrupted)
+	if G_UNLIKELY (interrupted)
 		return NULL;
 	else
 		return gel_makenum_null ();
@@ -5589,9 +5647,15 @@ LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 	GelEFunc *funcy = NULL;
 	int i;
 
-	if (a[0] == NULL || a[1] == NULL ||
-	    a[0]->type != FUNCTION_NODE ||
-	    a[1]->type != FUNCTION_NODE) {
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "LinePlotParametric", "LinePlotParametric");
+		return NULL;
+	}
+
+	if G_UNLIKELY (a[0] == NULL || a[1] == NULL ||
+		       a[0]->type != FUNCTION_NODE ||
+		       a[1]->type != FUNCTION_NODE) {
 		gel_errorout (_("%s: First two arguments must be functions"), "LinePlotParametric");
 		return NULL;
 	}
@@ -5625,7 +5689,7 @@ LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 			}
 		}
 		/* FIXME: what about errors */
-		if (error_num != 0) {
+		if G_UNLIKELY (error_num != 0) {
 			error_num = 0;
 			goto whack_copied_funcs;
 		}
@@ -5653,36 +5717,36 @@ LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 				}
 			}
 			/* FIXME: what about errors */
-			if (error_num != 0) {
+			if G_UNLIKELY (error_num != 0) {
 				error_num = 0;
 				goto whack_copied_funcs;
 			}
 		}
 	}
 
-	if (x1 > x2) {
+	if G_UNLIKELY (x1 > x2) {
 		double s = x1;
 		x1 = x2;
 		x2 = s;
 	}
 
-	if (y1 > y2) {
+	if G_UNLIKELY (y1 > y2) {
 		double s = y1;
 		y1 = y2;
 		y2 = s;
 	}
 
-	if (x1 == x2) {
+	if G_UNLIKELY (x1 == x2) {
 		gel_errorout (_("%s: invalid X range"), "LinePlotParametric");
 		goto whack_copied_funcs;
 	}
 
-	if (y1 == y2) {
+	if G_UNLIKELY (y1 == y2) {
 		gel_errorout (_("%s: invalid Y range"), "LinePlotParametric");
 		goto whack_copied_funcs;
 	}
 
-	if (t1 >= t2 || tinc <= 0) {
+	if G_UNLIKELY (t1 >= t2 || tinc <= 0) {
 		gel_errorout (_("%s: invalid T range"), "LinePlotParametric");
 		goto whack_copied_funcs;
 	}
@@ -5706,7 +5770,7 @@ LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plot_mode = MODE_LINEPLOT_PARAMETRIC;
 	plot_functions (FALSE /* do_window_present */);
 
-	if (interrupted)
+	if G_UNLIKELY (interrupted)
 		return NULL;
 	else
 		return gel_makenum_null ();
@@ -5727,8 +5791,14 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 	GelEFunc *func = NULL;
 	int i;
 
-	if (a[0] == NULL ||
-	    a[0]->type != FUNCTION_NODE) {
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "LinePlotCParametric", "LinePlotCParametric");
+		return NULL;
+	}
+
+	if G_UNLIKELY (a[0] == NULL ||
+		       a[0]->type != FUNCTION_NODE) {
 		gel_errorout (_("%s: First argument must be a function"),
 			      "LinePlotCParametric");
 		return NULL;
@@ -5761,7 +5831,7 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 			}
 		}
 		/* FIXME: what about errors */
-		if (error_num != 0) {
+		if G_UNLIKELY (error_num != 0) {
 			error_num = 0;
 			goto whack_copied_funcs;
 		}
@@ -5789,36 +5859,36 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 				}
 			}
 			/* FIXME: what about errors */
-			if (error_num != 0) {
+			if G_UNLIKELY (error_num != 0) {
 				error_num = 0;
 				goto whack_copied_funcs;
 			}
 		}
 	}
 
-	if (x1 > x2) {
+	if G_UNLIKELY (x1 > x2) {
 		double s = x1;
 		x1 = x2;
 		x2 = s;
 	}
 
-	if (y1 > y2) {
+	if G_UNLIKELY (y1 > y2) {
 		double s = y1;
 		y1 = y2;
 		y2 = s;
 	}
 
-	if (x1 == x2) {
+	if G_UNLIKELY (x1 == x2) {
 		gel_errorout (_("%s: invalid X range"), "LinePlotCParametric");
 		goto whack_copied_funcs;
 	}
 
-	if (y1 == y2) {
+	if G_UNLIKELY (y1 == y2) {
 		gel_errorout (_("%s: invalid Y range"), "LinePlotCParametric");
 		goto whack_copied_funcs;
 	}
 
-	if (t1 >= t2 || tinc <= 0) {
+	if G_UNLIKELY (t1 >= t2 || tinc <= 0) {
 		gel_errorout (_("%s: invalid T range"), "LinePlotCParametric");
 		goto whack_copied_funcs;
 	}
@@ -5841,7 +5911,7 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plot_mode = MODE_LINEPLOT_PARAMETRIC;
 	plot_functions (FALSE /* do_window_present */);
 
-	if (interrupted)
+	if G_UNLIKELY (interrupted)
 		return NULL;
 	else
 		return gel_makenum_null ();
@@ -5856,29 +5926,81 @@ whack_copied_funcs:
 static GelETree *
 LinePlotClear_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "LinePlotClear", "LinePlotClear");
+		return NULL;
+	}
+
 	line_plot_clear_funcs ();
 
 	/* This will just clear the window */
 	plot_mode = MODE_LINEPLOT;
 	plot_functions (FALSE /* do_window_present */);
 
-	if (interrupted)
+	if G_UNLIKELY (interrupted)
 		return NULL;
 	else
 		return gel_makenum_null ();
 }
 
 static gboolean
-get_line_numbers (GelETree *a, double **x, double **y, int *len)
+update_lineplot_window (double x1, double x2, double y1, double y2)
+{
+	if G_UNLIKELY (x1 > x2) {
+		double s = x1;
+		x1 = x2;
+		x2 = s;
+	}
+
+	if G_UNLIKELY (y1 > y2) {
+		double s = y1;
+		y1 = y2;
+		y2 = s;
+	}
+
+	reset_plotx1 = defx1 = x1;
+	reset_plotx2 = defx2 = x2;
+	reset_ploty1 = defy1 = y1;
+	reset_ploty2 = defy2 = y2;
+	
+	if (plotx1 == x1 &&
+	    plotx2 == x2 &&
+	    ploty1 == y1 &&
+	    ploty2 == y2)
+		return FALSE;
+
+	plotx1 = x1;
+	plotx2 = x2;
+	ploty1 = y1;
+	ploty2 = y2;
+
+	return TRUE;
+}
+
+
+
+static gboolean
+get_line_numbers (GelETree *a, double **x, double **y, int *len,
+		  double *minx, double *maxx, double *miny, double *maxy)
 {
 	int i;
 	GelMatrixW *m;
+	gboolean nominmax = TRUE;
+#define UPDATE_MINMAX \
+	if (minx != NULL) { \
+		if (xx > *maxx || nominmax) *maxx = xx; \
+		if (xx < *minx || nominmax) *minx = xx; \
+		if (yy > *maxy || nominmax) *maxy = yy; \
+		if (yy < *miny || nominmax) *miny = yy; \
+		nominmax = FALSE; \
+	}
 
 	g_return_val_if_fail (a->type == MATRIX_NODE, FALSE);
 
 	m = a->mat.matrix;
 
-	if ( ! gel_is_matrix_value_only_real (m)) {
+	if G_UNLIKELY ( ! gel_is_matrix_value_only_real (m)) {
 		gel_errorout (_("%s: Line should be given as a real, n by 2 matrix "
 				"with columns for x and y, n>=2"),
 			      "LinePlotDrawLine");
@@ -5893,10 +6015,12 @@ get_line_numbers (GelETree *a, double **x, double **y, int *len)
 		*y = g_new (double, *len);
 
 		for (i = 0; i < *len; i++) {
+			double xx, yy;
 			GelETree *t = gel_matrixw_index (m, 0, i);
-			(*x)[i] = mpw_get_double (t->val.value);
+			(*x)[i] = xx = mpw_get_double (t->val.value);
 			t = gel_matrixw_index (m, 1, i);
-			(*y)[i] = mpw_get_double (t->val.value);
+			(*y)[i] = yy = mpw_get_double (t->val.value);
+			UPDATE_MINMAX
 		}
 	} else if (gel_matrixw_width (m) == 1 &&
 		   gel_matrixw_height (m) % 2 == 0 &&
@@ -5907,10 +6031,12 @@ get_line_numbers (GelETree *a, double **x, double **y, int *len)
 		*y = g_new (double, *len);
 
 		for (i = 0; i < *len; i++) {
+			double xx, yy;
 			GelETree *t = gel_matrixw_index (m, 0, 2*i);
-			(*x)[i] = mpw_get_double (t->val.value);
+			(*x)[i] = xx = mpw_get_double (t->val.value);
 			t = gel_matrixw_index (m, 0, (2*i) + 1);
-			(*y)[i] = mpw_get_double (t->val.value);
+			(*y)[i] = yy = mpw_get_double (t->val.value);
+			UPDATE_MINMAX
 		}
 	} else if (gel_matrixw_height (m) == 1 &&
 		   gel_matrixw_width (m) % 2 == 0 &&
@@ -5921,10 +6047,12 @@ get_line_numbers (GelETree *a, double **x, double **y, int *len)
 		*y = g_new (double, *len);
 
 		for (i = 0; i < *len; i++) {
+			double xx, yy;
 			GelETree *t = gel_matrixw_index (m, 2*i, 0);
-			(*x)[i] = mpw_get_double (t->val.value);
+			(*x)[i] = xx = mpw_get_double (t->val.value);
 			t = gel_matrixw_index (m, (2*i) + 1, 0);
-			(*y)[i] = mpw_get_double (t->val.value);
+			(*y)[i] = yy = mpw_get_double (t->val.value);
+			UPDATE_MINMAX
 		}
 	} else {
 		gel_errorout (_("%s: Line should be given as a real, n by 2 matrix "
@@ -5934,7 +6062,45 @@ get_line_numbers (GelETree *a, double **x, double **y, int *len)
 	}
 
 	return TRUE;
+#undef UPDATE_MINMAX
 }
+
+static void
+draw_arrowhead (double xx1, double yy1, double xx2, double yy2,
+		int thickness, GdkColor *color)
+{
+	double x1, x2, y1, y2, xm, ym;
+	double *ax, *ay;
+	double angle;
+
+	/* nowhere to go */
+	if (xx1 == xx2 && yy1 == yy2)
+		return;
+
+
+	gtk_plot_get_pixel (GTK_PLOT (line_plot), xx1, yy1, &x1, &y1);
+	gtk_plot_get_pixel (GTK_PLOT (line_plot), xx2, yy2, &x2, &y2);
+
+	angle = atan2 ( (y2-y1) , (x2-x1) );
+
+	ax = g_new (double, 3);
+	ay = g_new (double, 3);
+	ax[1] = xx2;
+	ay[1] = yy2;
+
+	xm = x2 - cos(angle) * /*al*/ 5* thickness;
+	ym = y2 - sin(angle) * /*al*/ 5* thickness;
+	gtk_plot_get_point (GTK_PLOT (line_plot),
+			    xm - sin(angle)* /*aw*/5* thickness / 2.0,
+			    ym + cos(angle)* /*aw*/5* thickness / 2.0,
+			    & (ax[0]), & (ay[0]));
+	gtk_plot_get_point (GTK_PLOT (line_plot),
+			    xm + sin(angle)* /*aw*/5* thickness / 2.0,
+			    ym - cos(angle)* /*aw*/5* thickness / 2.0,
+			    & (ax[2]), & (ay[2]));
+
+	draw_line (ax, ay, 3, thickness, color);
+} 
 
 
 static GelETree *
@@ -5943,27 +6109,26 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 	int len;
 	int nextarg;
 	double *x, *y;
+	double minx = 0, miny = 0, maxx = 0, maxy = 0;
 	GdkColor color;
 	int thickness;
+	gboolean arrow_origin = FALSE;
+	gboolean arrow_end = FALSE;
 	int i;
+	gboolean update = FALSE;
+
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "LinePlotDrawLine", "LinePlotDrawLine");
+		return NULL;
+	}
 
 	ensure_window (FALSE /* do_window_present */);
 
-	if (plot_mode != MODE_LINEPLOT &&
-	    plot_mode != MODE_LINEPLOT_PARAMETRIC &&
-	    plot_mode != MODE_LINEPLOT_SLOPEFIELD &&
-	    plot_mode != MODE_LINEPLOT_VECTORFIELD) {
-		plot_mode = MODE_LINEPLOT;
-		clear_graph ();
-	}
-	if (line_plot == NULL) {
-		add_line_plot ();
-		plot_setup_axis ();
-	}
-
 	if (a[0]->type == MATRIX_NODE) {
-		if ( ! get_line_numbers (a[0], &x, &y, &len))
-			return FALSE;
+		if G_UNLIKELY ( ! get_line_numbers (a[0], &x, &y, &len,
+						    &minx, &maxx, &miny, &maxy))
+			return NULL;
 		nextarg = 1;
 	} else {
 		double x1, y1, x2, y2;
@@ -5984,6 +6149,11 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 		y[0] = y1;
 		y[1] = y2;
 		nextarg = 4;
+
+		minx = MIN(x1,x2);
+		maxx = MAX(x1,x2);
+		miny = MIN(y1,y2);
+		maxy = MAX(y1,y2);
 	}
 
 	gdk_color_parse ("black", &color);
@@ -5995,10 +6165,24 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 			GelToken *id;
 			static GelToken *colorid = NULL;
 			static GelToken *thicknessid = NULL;
+			static GelToken *windowid = NULL;
+			static GelToken *fitid = NULL;
+			static GelToken *arrowid = NULL;
+			static GelToken *originid = NULL;
+			static GelToken *endid = NULL;
+			static GelToken *bothid = NULL;
+			static GelToken *noneid = NULL;
 
 			if (colorid == NULL) {
 				colorid = d_intern ("color");
 				thicknessid = d_intern ("thickness");
+				windowid = d_intern ("window");
+				fitid = d_intern ("fit");
+				arrowid = d_intern ("arrow");
+				originid = d_intern ("origin");
+				endid = d_intern ("end");
+				bothid = d_intern ("both");
+				noneid = d_intern ("none");
 			}
 
 			if (a[i]->type == STRING_NODE)
@@ -6043,13 +6227,95 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				thickness = gel_get_nonnegative_integer (a[i+1]->val.value,
 									 "LinePlotDrawLine");
 				i++;
+			} else if (id == windowid) {
+				double x1, x2, y1, y2;
+				if G_UNLIKELY (a[i+1] == NULL ||
+					       (a[i+1]->type != STRING_NODE &&
+						a[i+1]->type != IDENTIFIER_NODE &&
+						a[i+1]->type != MATRIX_NODE)) {
+					gel_errorout (_("%s: No window specified"),
+						      "LinePlotDrawLine");
+					g_free (x);
+					g_free (y);
+					return NULL;
+				}
+				if ((a[i+1]->type == STRING_NODE &&
+				     fitid == d_intern (a[i+1]->str.str)) ||
+				    (a[i+1]->type == IDENTIFIER_NODE &&
+				     fitid == a[i+1]->id.id)) {
+					x1 = minx;
+					x2 = maxx;
+					y1 = miny;
+					y2 = maxy;
+					if G_UNLIKELY (x1 == x2) {
+						x1 -= 0.1;
+						x2 += 0.1;
+					}
+
+					/* assume line is a graph so x fits tightly */
+
+					if G_UNLIKELY (y1 == y2) {
+						y1 -= 0.1;
+						y2 += 0.1;
+					} else {
+						/* Make window 5% larger on each vertical side */
+						double height = (y2-y1);
+						y1 -= height * 0.05;
+						y2 += height * 0.05;
+					}
+
+					update = update_lineplot_window (x1, x2, y1, y2);
+				} else if (get_limits_from_matrix (a[i+1], &x1, &x2, &y1, &y2)) {
+					update = update_lineplot_window (x1, x2, y1, y2);
+				} else {
+					g_free (x);
+					g_free (y);
+					return NULL;
+				}
+				i++;
+			} else if (id == arrowid) {
+				GelToken *astyleid;
+
+				if G_UNLIKELY (a[i+1] == NULL ||
+					       (a[i+1]->type != STRING_NODE &&
+						a[i+1]->type != IDENTIFIER_NODE)) {
+					gel_errorout (_("%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""),
+						      "LinePlotDrawLine");
+					g_free (x);
+					g_free (y);
+					return NULL;
+				}
+				if (a[i+1]->type == STRING_NODE)
+					astyleid = d_intern (a[i+1]->str.str);
+				else
+					astyleid = a[i+1]->id.id;
+
+				if (astyleid == originid) {
+					arrow_origin = TRUE;
+					arrow_end = FALSE;
+				} else if (astyleid == endid) {
+					arrow_origin = FALSE;
+					arrow_end = TRUE;
+				} else if (astyleid == bothid) {
+					arrow_origin = TRUE;
+					arrow_end = TRUE;
+				} else if (astyleid == noneid) { 
+					arrow_origin = FALSE;
+					arrow_end = FALSE;
+				} else {
+					gel_errorout (_("%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""),
+						      "LinePlotDrawLine");
+					g_free (x);
+					g_free (y);
+					return NULL;
+				}
+				i++;
 			} else {
 				gel_errorout (_("%s: Unknown style"), "LinePlotDrawLine");
 				g_free (x);
 				g_free (y);
 				return NULL;
 			}
-			
 		} else {
 			gel_errorout (_("%s: Bad parameter"), "LinePlotDrawLine");
 			g_free (x);
@@ -6058,7 +6324,36 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 		}
 	}
 
+	if (plot_mode != MODE_LINEPLOT &&
+	    plot_mode != MODE_LINEPLOT_PARAMETRIC &&
+	    plot_mode != MODE_LINEPLOT_SLOPEFIELD &&
+	    plot_mode != MODE_LINEPLOT_VECTORFIELD) {
+		plot_mode = MODE_LINEPLOT;
+		clear_graph ();
+		update = FALSE;
+	}
+
+
+	if (line_plot == NULL) {
+		add_line_plot ();
+		plot_setup_axis ();
+		update = FALSE;
+	}
+
+	if (update) {
+		plot_axis ();
+	}
+
 	draw_line (x, y, len, thickness, &color);
+
+	if (arrow_end && len > 1)
+		draw_arrowhead (x[len-2], y[len-2],
+				x[len-1], y[len-1],
+				thickness, &color);
+	if (arrow_origin && len > 1)
+		draw_arrowhead (x[1], y[1],
+				x[0], y[0],
+				thickness, &color);
 
 	return gel_makenum_null ();
 }
@@ -6067,13 +6362,21 @@ static GelETree *
 set_LinePlotWindow (GelETree * a)
 {
 	double x1, x2, y1, y2;
-	if ( ! get_limits_from_matrix (a, &x1, &x2, &y1, &y2))
+
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "set_LinePlotWindow", "set_LinePlotWindow");
+		return NULL;
+	}
+
+
+	if G_UNLIKELY ( ! get_limits_from_matrix (a, &x1, &x2, &y1, &y2))
 		return NULL;
 
-	reset_plotx1 = plotx1 = defx1 = x1;
-	reset_plotx2 = plotx2 = defx2 = x2;
-	reset_ploty1 = ploty1 = defy1 = y1;
-	reset_ploty2 = ploty2 = defy2 = y2;
+	if (update_lineplot_window (x1, x2, y1, y2)) {
+		if (line_plot != NULL)
+			plot_axis ();
+	}
 
 	return make_matrix_from_limits ();
 }
@@ -6088,15 +6391,54 @@ static GelETree *
 set_SurfacePlotWindow (GelETree * a)
 {
 	double x1, x2, y1, y2, z1, z2;
-	if ( ! get_limits_from_matrix_surf (a, &x1, &x2, &y1, &y2, &z1, &z2))
+	gboolean update = FALSE;
+
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "set_SurfacePlotWindow", "set_SurfacePlotWindow");
+		return NULL;
+	}
+
+	if G_UNLIKELY ( ! get_limits_from_matrix_surf (a, &x1, &x2, &y1, &y2, &z1, &z2))
 		return NULL;
 
-	surf_defx1 = x1;
-	surf_defx2 = x2;
-	surf_defy1 = y1;
-	surf_defy2 = y2;
-	surf_defz1 = z1;
-	surf_defz2 = z2;
+	if G_UNLIKELY (x1 > x2) {
+		double s = x1;
+		x1 = x2;
+		x2 = s;
+	}
+
+	if G_UNLIKELY (y1 > y2) {
+		double s = y1;
+		y1 = y2;
+		y2 = s;
+	}
+
+	if G_UNLIKELY (z1 > z2) {
+		double s = z1;
+		z1 = z2;
+		z2 = s;
+	}
+
+
+	if (surfacex1 != x1 ||
+	    surfacex2 != x2 ||
+	    surfacey1 != y1 ||
+	    surfacey2 != y2 ||
+	    surfacez1 != z1 ||
+	    surfacez2 != z2)
+		update = TRUE;
+
+	reset_surfacex1 = surfacex1 = surf_defx1 = x1;
+	reset_surfacex2 = surfacex2 = surf_defx2 = x2;
+	reset_surfacey1 = surfacey1 = surf_defy1 = y1;
+	reset_surfacey2 = surfacey2 = surf_defy2 = y2;
+	reset_surfacez1 = surfacez1 = surf_defz1 = z1;
+	reset_surfacez2 = surfacez2 = surf_defz2 = z2;
+
+	if (update && surface_plot != NULL) {
+		plot_axis ();
+	}
 
 	return make_matrix_from_limits_surf ();
 }
@@ -6110,6 +6452,12 @@ get_SurfacePlotWindow (void)
 static GelETree *
 set_VectorfieldNormalized (GelETree * a)
 {
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "set_VectorfieldNormalized", "set_VectorfieldNormalized");
+		return NULL;
+	}
+
 	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_VectorfieldNormalized"))
 		return NULL;
 	if (a->type == VALUE_NODE)
@@ -6129,6 +6477,11 @@ get_VectorfieldNormalized (void)
 static GelETree *
 set_LinePlotDrawLegends (GelETree * a)
 {
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "set_LinePlotDrawLegends", "set_LinePlotDrawLegends");
+		return NULL;
+	}
 	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_LinePlotDrawLegend"))
 		return NULL;
 	if (a->type == VALUE_NODE)

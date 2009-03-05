@@ -332,17 +332,17 @@ wait_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	int secs;
 
-	if ( ! check_argument_nonnegative_integer (a, 0, "wait"))
+	if G_UNLIKELY ( ! check_argument_nonnegative_integer (a, 0, "wait"))
 		return NULL;
 
 	secs = gel_get_nonnegative_integer (a[0]->val.value, "wait");
-	if (secs < 0)
+	if G_UNLIKELY (secs < 0)
 		return NULL;
 	if (secs == 0) {
 		if (evalnode_hook != NULL)
 			(*evalnode_hook)();
 
-		if (interrupted)
+		if G_UNLIKELY (interrupted)
 			return NULL;
 		else
 			return gel_makenum_null ();
@@ -373,7 +373,7 @@ wait_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 				sleep (1);
 		}
 
-		if (interrupted)
+		if G_UNLIKELY (interrupted)
 			return NULL;
 		else
 			return gel_makenum_null ();
@@ -502,11 +502,11 @@ rand_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		GelMatrix *m;
 		int size, i;
 
-		if ( ! check_argument_nonnegative_integer (a, 0, "rand"))
+		if G_UNLIKELY ( ! check_argument_nonnegative_integer (a, 0, "rand"))
 			return NULL;
 
 		size = gel_get_nonnegative_integer (a[0]->val.value, "rand");
-		if (size < 0)
+		if G_UNLIKELY (size < 0)
 			return NULL;
 
 		if (size == 0)
@@ -533,15 +533,15 @@ rand_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		GelMatrix *m;
 		int sizex, sizey, i, j;
 
-		if ( ! check_argument_nonnegative_integer (a, 0, "rand") ||
-		     ! check_argument_nonnegative_integer (a, 1, "rand"))
+		if G_UNLIKELY ( ! check_argument_nonnegative_integer (a, 0, "rand") ||
+				! check_argument_nonnegative_integer (a, 1, "rand"))
 			return NULL;
 
 		sizey = gel_get_nonnegative_integer (a[0]->val.value, "rand");
-		if (sizey < 0)
+		if G_UNLIKELY (sizey < 0)
 			return NULL;
 		sizex = gel_get_nonnegative_integer (a[1]->val.value, "rand");
-		if (sizex < 0)
+		if G_UNLIKELY (sizex < 0)
 			return NULL;
 
 		if (sizex == 0 || sizey == 0)
@@ -587,12 +587,12 @@ randint_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if (args == 1) {
 		mpw_t fr; 
 
-		if ( ! check_argument_integer (a, 0, "randint"))
+		if G_UNLIKELY ( ! check_argument_integer (a, 0, "randint"))
 			return NULL;
 
 		mpw_init (fr);
 		mpw_randint (fr, a[0]->val.value);
-		if (error_num != 0) {
+		if G_UNLIKELY (error_num != 0) {
 			mpw_clear (fr);
 			return NULL;
 		}
@@ -603,12 +603,12 @@ randint_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		GelMatrix *m;
 		int size, i;
 
-		if ( ! check_argument_integer (a, 0, "randint") ||
-		     ! check_argument_nonnegative_integer (a, 1, "randint"))
+		if G_UNLIKELY ( ! check_argument_integer (a, 0, "randint") ||
+				! check_argument_nonnegative_integer (a, 1, "randint"))
 			return NULL;
 
 		size = gel_get_nonnegative_integer (a[1]->val.value, "randint");
-		if (size < 0)
+		if G_UNLIKELY (size < 0)
 			return NULL;
 
 		if (size == 0)
@@ -620,7 +620,7 @@ randint_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			mpw_t fr;
 			mpw_init (fr);
 			mpw_randint (fr, a[0]->val.value);
-			if (error_num != 0) {
+			if G_UNLIKELY (error_num != 0) {
 				mpw_clear (fr);
 				/* This can only happen if a[0]->val.value is
 				 * evil, in which case we have not set any
@@ -645,16 +645,16 @@ randint_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		GelMatrix *m;
 		int sizex, sizey, i, j;
 
-		if ( ! check_argument_integer (a, 0, "randint") ||
-		     ! check_argument_nonnegative_integer (a, 1, "randint") ||
-		     ! check_argument_nonnegative_integer (a, 2, "randint"))
+		if G_UNLIKELY ( ! check_argument_integer (a, 0, "randint") ||
+				! check_argument_nonnegative_integer (a, 1, "randint") ||
+				! check_argument_nonnegative_integer (a, 2, "randint"))
 			return NULL;
 
 		sizey = gel_get_nonnegative_integer (a[1]->val.value, "randint");
-		if (sizey < 0)
+		if G_UNLIKELY (sizey < 0)
 			return NULL;
 		sizex = gel_get_nonnegative_integer (a[2]->val.value, "randint");
-		if (sizex < 0)
+		if G_UNLIKELY (sizex < 0)
 			return NULL;
 
 		if (sizex == 0 || sizey == 0)
@@ -667,7 +667,7 @@ randint_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 				mpw_t fr;
 				mpw_init (fr);
 				mpw_randint (fr, a[0]->val.value);
-				if (error_num != 0) {
+				if G_UNLIKELY (error_num != 0) {
 					mpw_clear (fr);
 					/* This can only happen if a[0]->val.value is
 					 * evil, in which case we have not set any
@@ -1263,10 +1263,10 @@ EulerConstant_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 static GelETree *
 CatalanConstant_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
-	mpw_t e;
-	mpw_init (e);
-	mpw_catalan_constant (e);
-	return gel_makenum_use (e);
+	mpw_t cc;
+	mpw_init (cc);
+	mpw_catalan_constant (cc);
+	return gel_makenum_use (cc);
 }
 
 /*pi function (or pi variable or whatever)*/
@@ -1283,7 +1283,7 @@ pi_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 static GelETree *
 GoldenRatio_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
-	if (golden_ratio_iscached)
+	if G_LIKELY (golden_ratio_iscached)
 		return gel_makenum (golden_ratio_cache);
 
 	mpw_init (golden_ratio_cache);
@@ -1733,7 +1733,7 @@ Numerator_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 	mpw_init(fr);
 	mpw_numerator(fr,a[0]->val.value);
-	if(error_num) {
+	if G_UNLIKELY (error_num) {
 		error_num = 0;
 		mpw_clear(fr);
 		return NULL;
@@ -1758,7 +1758,7 @@ Denominator_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 	mpw_init(fr);
 	mpw_denominator(fr,a[0]->val.value);
-	if(error_num) {
+	if G_UNLIKELY (error_num) {
 		error_num = 0;
 		mpw_clear(fr);
 		return NULL;
@@ -1833,15 +1833,15 @@ sqrt_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		num = mpw_peek_real_mpz (ctx->modulo);
 		is_prime = mympz_is_prime (num, -1);
 
-		if ( ! is_prime) {
+		if G_UNLIKELY ( ! is_prime) {
 			gel_errorout (_("%s: square root for composite moduli "
 					"is not yet implemented"), "sqrt");
 			return NULL;
 		}
-		if (SqrtModPrime_id == NULL)
+		if G_UNLIKELY (SqrtModPrime_id == NULL)
 			SqrtModPrime_id = d_intern ("SqrtModPrime");
 		SqrtModPrime = d_lookup_only_global (SqrtModPrime_id);
-		if (SqrtModPrime == NULL) {
+		if G_UNLIKELY (SqrtModPrime == NULL) {
 			gel_errorout (_("%s: Cannot find square root function "
 					"for prime moduli"), "sqrt");
 			return NULL;
@@ -1873,8 +1873,8 @@ exp_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	}
 
 	if(a[0]->type==MATRIX_NODE) {
-		if(gel_matrixw_width(a[0]->mat.matrix) !=
-		   gel_matrixw_height(a[0]->mat.matrix)) {
+		if G_UNLIKELY (gel_matrixw_width(a[0]->mat.matrix) !=
+			       gel_matrixw_height(a[0]->mat.matrix)) {
 			gel_errorout (_("%s: matrix argument is not square"),
 				      "exp");
 			return NULL;
@@ -1906,7 +1906,7 @@ ln_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 	mpw_init(fr);
 	mpw_ln(fr,a[0]->val.value);
-	if(error_num) {
+	if G_UNLIKELY (error_num) {
 		error_num = 0;
 		mpw_clear(fr);
 		return NULL;
@@ -1931,7 +1931,7 @@ log2_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 	mpw_init(fr);
 	mpw_log2(fr,a[0]->val.value);
-	if(error_num) {
+	if G_UNLIKELY (error_num) {
 		error_num = 0;
 		mpw_clear(fr);
 		return NULL;
@@ -1956,7 +1956,7 @@ log10_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return NULL;
 	mpw_init(fr);
 	mpw_log10(fr,a[0]->val.value);
-	if(error_num) {
+	if G_UNLIKELY (error_num) {
 		error_num = 0;
 		mpw_clear(fr);
 		return NULL;
@@ -5427,9 +5427,9 @@ call_func (GelCtx *ctx,
 
 	mpw_clear (arg.val.value);
 
-	if (error_num != 0 ||
-	    ret == NULL ||
-	    ret->type != VALUE_NODE) {
+	if G_UNLIKELY (error_num != 0 ||
+		       ret == NULL ||
+		       ret->type != VALUE_NODE) {
 		gel_freetree (ret);
 		return FALSE;
 	}
