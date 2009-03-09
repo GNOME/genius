@@ -68,8 +68,10 @@
 
 /*Globals:*/
 
+const gboolean genius_is_gui = FALSE;
+
 /*calculator state*/
-calcstate_t curstate={
+GelCalcState curstate={
 	128,
 	12,
 	FALSE,
@@ -83,10 +85,11 @@ calcstate_t curstate={
 	20, /* chop */
 	5 /* chop_when */
 	};
+
+const GelHookFunc gel_evalnode_hook = NULL;
+const GelHookFunc _gel_tree_limit_hook = NULL;
 	
 extern int parenth_depth;
-
-extern int interrupted;
 
 static int use_readline = TRUE;
 
@@ -252,8 +255,8 @@ get_term_width (GelOutput *gelo)
 }
 
 
-static void
-set_state(calcstate_t state)
+void
+gel_set_state(GelCalcState state)
 {
 	curstate = state;
 
@@ -261,15 +264,15 @@ set_state(calcstate_t state)
 	    state.output_style == GEL_OUTPUT_LATEX ||
 	    state.output_style == GEL_OUTPUT_MATHML ||
 	    state.output_style == GEL_OUTPUT_TROFF)
-		gel_output_set_length_limit (main_out, FALSE);
+		gel_output_set_length_limit (gel_main_out, FALSE);
 	else
-		gel_output_set_length_limit (main_out, TRUE);
+		gel_output_set_length_limit (gel_main_out, TRUE);
 }
 
 static void
 interrupt (int sig)
 {
-	interrupted = TRUE;
+	gel_interrupted = TRUE;
 	if (use_readline)
 		rl_stuff_char ('\n');
 	signal (SIGINT, interrupt);
@@ -302,8 +305,6 @@ main(int argc, char *argv[])
 	gboolean be_quiet = FALSE;
 	char *exec = NULL;
 
-	genius_is_gui = FALSE;
-
 	g_set_prgname ("genius");
 	g_set_application_name (_("Genius"));
 
@@ -329,8 +330,6 @@ main(int argc, char *argv[])
 	setlocale (LC_ALL, "");
 
 	signal (SIGINT, interrupt);
-
-	statechange_hook = set_state;
 
 	for(i=1;i<argc;i++) {
 		int val;
@@ -444,7 +443,7 @@ main(int argc, char *argv[])
 			g_print (_("Genius %s\n"
 				   "%s%s\n"),
 				 VERSION,
-				 COPYRIGHT_STRING,
+				 GENIUS_COPYRIGHT_STRING,
 				 get_version_details ());
 			exit (0);
 		} else {
@@ -499,22 +498,22 @@ main(int argc, char *argv[])
 			   "For license details type `warranty'.\n"
 			   "For help type 'manual' or 'help'.%s\n\n"),
 			 VERSION,
-			 COPYRIGHT_STRING,
+			 GENIUS_COPYRIGHT_STRING,
 			 get_version_details ());
 		be_quiet = FALSE;
 	}
 
-	main_out = gel_output_new();
+	gel_main_out = gel_output_new();
 	if(!be_quiet)
-		gel_output_setup_file(main_out, stdout, 80,
+		gel_output_setup_file(gel_main_out, stdout, 80,
 				      get_term_width);
 	else
-		gel_output_setup_black_hole(main_out);
+		gel_output_setup_black_hole(gel_main_out);
 
 
-	set_new_calcstate(curstate);
-	set_new_errorout(calc_puterror);
-	set_new_infoout(puterror);
+	gel_set_new_calcstate(curstate);
+	gel_set_new_errorout(calc_puterror);
+	gel_set_new_infoout(puterror);
 
 	/*init the context stack and clear out any stale dictionaries
 	  except the global one, if this is the first time called it
@@ -614,7 +613,7 @@ main(int argc, char *argv[])
 
 	if (exec != NULL) {
 		line_len_cache = -1;
-		gel_evalexp (exec, NULL, main_out, NULL, FALSE, NULL);
+		gel_evalexp (exec, NULL, gel_main_out, NULL, FALSE, NULL);
 		gel_test_max_nodes_again ();
 		line_len_cache = -1;
 		goto after_exec;
@@ -628,14 +627,14 @@ main(int argc, char *argv[])
 				line_len_cache = -1;
 				e = get_p_expression();
 				line_len_cache = -1;
-				if(e) gel_evalexp_parsed(e,main_out,"= ",TRUE);
+				if(e) gel_evalexp_parsed(e,gel_main_out,"= ",TRUE);
 				gel_test_max_nodes_again ();
 				line_len_cache = -1;
 			} else {
 				line_len_cache = -1;
-				gel_evalexp(NULL, fp, main_out, NULL, FALSE, NULL);
+				gel_evalexp(NULL, fp, gel_main_out, NULL, FALSE, NULL);
 				line_len_cache = -1;
-				if (interrupted)
+				if G_UNLIKELY (gel_interrupted)
 					gel_got_eof = TRUE;
 			}
 			if(inter)

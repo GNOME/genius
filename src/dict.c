@@ -191,7 +191,7 @@ d_copyfunc(GelEFunc *o)
 	if(n->type == GEL_USER_FUNC ||
 	   n->type == GEL_VARIABLE_FUNC) {
 		D_ENSURE_USER_BODY (o);
-		n->data.user=copynode(o->data.user);
+		n->data.user = gel_copynode(o->data.user);
 	}
 	n->named_args = g_slist_copy (o->named_args);
 
@@ -229,7 +229,7 @@ d_makerealfunc(GelEFunc *o,GelToken *id, gboolean use)
 			n->data.user = o->data.user;
 			o->data.user = NULL;
 		} else
-			n->data.user = copynode(o->data.user);
+			n->data.user = gel_copynode(o->data.user);
 	}
 	if(use) {
 		o->named_args = NULL;
@@ -275,7 +275,7 @@ d_setrealfunc(GelEFunc *n,GelEFunc *fake, gboolean use)
 			n->data.user = fake->data.user;
 			fake->data.user = NULL;
 		} else
-			n->data.user = copynode(fake->data.user);
+			n->data.user = gel_copynode(fake->data.user);
 	}
 
 	if(use) {

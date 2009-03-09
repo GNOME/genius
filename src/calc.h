@@ -29,22 +29,22 @@
 
 #include "structs.h"
 
-#define COPYRIGHT_STRING "Copyright (C) 1997-2009 Jiří (George) Lebl, Ph.D."
+#define GENIUS_COPYRIGHT_STRING "Copyright (C) 1997-2009 Jiří (George) Lebl, Ph.D."
 
 typedef enum {
-	NO_ERROR = 0,
-	PARSE_ERROR,
-	INTERNAL_MPW_ERROR,
-	NUMERICAL_MPW_ERROR,
-	EOF_ERROR,
-	EOE_ERROR, /*end of expression*/
-	IGNORE_ERROR /*set this if you want to ignore the result*/
+	GEL_NO_ERROR = 0,
+	GEL_PARSE_ERROR,
+	GEL_INTERNAL_MPW_ERROR,
+	GEL_NUMERICAL_MPW_ERROR,
+	GEL_EOF_ERROR,
+	GEL_EOE_ERROR, /*end of expression*/
+	GEL_IGNORE_ERROR /*set this if you want to ignore the result*/
 } GeniusError;
 
 /* FIXME: This should be nicer */
-extern GeniusError error_num;
+extern GeniusError gel_error_num;
 
-extern gboolean interrupted;
+extern gboolean gel_interrupted;
 
 typedef enum {
 	GEL_OUTPUT_NORMAL,
@@ -53,7 +53,7 @@ typedef enum {
 	GEL_OUTPUT_MATHML
 } GelOutputStyle;
 
-typedef struct _calcstate_t {
+typedef struct {
 	/*about incoming stuff*/
 	int float_prec;        /*precision of floats to use*/
 	/*about outgoing stuff*/
@@ -70,7 +70,7 @@ typedef struct _calcstate_t {
 			   smaller than approximately 10^-chop */
 	int chop_when;  /* but only if the object contains a number greater
 			   than 10^-chop_when */
-} calcstate_t;
+} GelCalcState;
 
 /*so we can use and set the yyparse function for parse errors*/
 int yyparse(void);
@@ -147,9 +147,15 @@ void gel_load_guess_file (const char *dirprefix,
 void gel_dump_strings_from_user_funcs (FILE *outfile);
 void gel_dump_strings_from_help (FILE *outfile);
 
-void set_new_calcstate(calcstate_t state);
-void set_new_errorout(void (*func)(const char *));
-void set_new_infoout(void (*func)(const char *));
+void gel_set_new_calcstate(GelCalcState state);
+void gel_set_new_errorout(void (*func)(const char *));
+void gel_set_new_infoout(void (*func)(const char *));
+
+/* Don't set directly */
+extern GelCalcState gel_calcstate;
+
+/* frontend specific function, implemented there */
+void gel_set_state (GelCalcState state);
 
 void gel_errorout   (const char *format, ...) G_GNUC_PRINTF (1, 2);
 void gel_infoout   (const char *format, ...) G_GNUC_PRINTF (1, 2);
@@ -164,10 +170,9 @@ void gel_incr_file_info(void);
 void gel_rewind_file_info(void);
 void gel_get_file_info(char **file, int *line);
 
-extern FILE *outputfp;
-extern void (*evalnode_hook)(void);
-#define RUN_HOOK_EVERY_MASK 0x3FF
-extern void (*statechange_hook)(calcstate_t);
+extern const GelHookFunc gel_evalnode_hook;
+#define GEL_RUN_HOOK_EVERY_MASK 0x3FF
+
 
 typedef struct {
 	char *func;
@@ -185,25 +190,25 @@ typedef struct {
 } GelHelp;
 
 /* well sorted */
-GSList *get_categories (void);
-const char *get_category_name (const char *category);
+GSList *gel_get_categories (void);
+const char *gel_get_category_name (const char *category);
 /* null for uncategorized */
-GSList *get_helps (const char *category);
+GSList *gel_get_helps (const char *category);
 /* gets undocumented functions */
-GSList *get_undocumented (void);
+GSList *gel_get_undocumented (void);
 
-void new_category (const char *category, const char *name, gboolean internal);
+void gel_new_category (const char *category, const char *name, gboolean internal);
 
-GelHelp *get_help (const char *func, gboolean insert);
+GelHelp *gel_get_help (const char *func, gboolean insert);
 
-void add_description (const char *func, const char *desc);
-void add_category (const char *func, const char *category);
-void add_alias (const char *func, const char *alias);
-void add_help_link (const char *func, const char *link);
-void add_help_html (const char *func, const char *html);
-void whack_help (const char *func);
+void gel_add_description (const char *func, const char *desc);
+void gel_add_category (const char *func, const char *category);
+void gel_add_alias (const char *func, const char *alias);
+void gel_add_help_link (const char *func, const char *link);
+void gel_add_help_html (const char *func, const char *html);
+void gel_whack_help (const char *func);
 
-extern gboolean genius_is_gui;
+extern const gboolean genius_is_gui;
 
 typedef enum {
 	GEL_NO_COMMAND,
@@ -221,7 +226,7 @@ typedef enum {
 extern GelCommand gel_command;
 extern char *gel_command_arg;
 
-extern GelOutput *main_out;
+extern GelOutput *gel_main_out;
 
 extern gboolean gel_got_eof;
 

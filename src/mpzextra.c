@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2008 Jiri (George) Lebl
+ * Copyright (C) 1997-2009 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -24,11 +24,9 @@
 #include <string.h>
 #include <glib.h>
 
-#include "calc.h" /* for evalnode_hook and i18n stuff */
+#include "calc.h" /* for gel_evalnode_hook and i18n stuff */
 
 #include "mpzextra.h"
-
-extern gboolean interrupted;
 
 /* The strong pseudoprime test code copied from GMP */
 
@@ -162,10 +160,10 @@ mympz_miller_rabin_test_sure (mpz_srcptr n)
 		  break;
 	  }
 	  mpz_add_ui (b, b, 1L);
-	  if (evalnode_hook != NULL) {
-		  (*evalnode_hook)();
+	  if (gel_evalnode_hook != NULL) {
+		  (*gel_evalnode_hook)();
 	  }
-	  if G_UNLIKELY (interrupted) {
+	  if G_UNLIKELY (gel_interrupted) {
 		  is_prime = 0;
 		  break;
 	  }
@@ -241,9 +239,9 @@ mympz_is_prime (mpz_srcptr n, int miller_rabin_reps)
 	if (mpz_cmp (n, test) <= 0)
 		return 1;
 
-	if (evalnode_hook != NULL)
-		(*evalnode_hook)();
-	if G_UNLIKELY (interrupted)
+	if (gel_evalnode_hook != NULL)
+		(*gel_evalnode_hook)();
+	if G_UNLIKELY (gel_interrupted)
 		return 0;
 
 	return mpz_millerrabin (n, miller_rabin_reps-1);
@@ -380,14 +378,14 @@ factor_using_pollard_rho (GArray *fact, mpz_t n, int a_int)
   while (mpz_cmp_ui (n, 1) != 0)
     {
 S2:
-      if (evalnode_hook != NULL) {
+      if (gel_evalnode_hook != NULL) {
 	      static int i = 0;
-	      if G_UNLIKELY ((i++ & RUN_HOOK_EVERY_MASK) == RUN_HOOK_EVERY_MASK) {
-		      (*evalnode_hook)();
+	      if G_UNLIKELY ((i++ & GEL_RUN_HOOK_EVERY_MASK) == GEL_RUN_HOOK_EVERY_MASK) {
+		      (*gel_evalnode_hook)();
 		      i = 0;
 	      }
       }
-      if G_UNLIKELY (interrupted) {
+      if G_UNLIKELY (gel_interrupted) {
 	      mpz_set_ui (n, 1);
 	      continue;
       }
@@ -523,7 +521,7 @@ mympz_pollard_rho_factorize (mpz_srcptr t)
 
 	mpz_clear (n);
 
-	if G_UNLIKELY (interrupted) {
+	if G_UNLIKELY (gel_interrupted) {
 		mympz_factorization_free (fact);
 		return NULL;
 	}

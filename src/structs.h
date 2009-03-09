@@ -429,4 +429,6 @@ struct _GelOutput {
 	int force_chop;
 };
 
+typedef void (*GelHookFunc) (void);
+
 #endif /* STRUCTS_H */

@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2009 George Lebl
  *
  * Author: George Lebl
  *
@@ -30,7 +30,7 @@
 
 /*shift the sring to the right by n*/
 void
-shiftstr(char *s,int n)
+gel_shiftstr(char *s,int n)
 {
 	char *p;
 	if(!s || n<=0)
@@ -42,7 +42,7 @@ shiftstr(char *s,int n)
 
 /*allocate new space in s for p and append it*/
 char *
-appendstr (char *s,const char *p)
+gel_appendstr (char *s,const char *p)
 {
 	if (p == NULL || *p == '\0')
 		return s;
@@ -58,7 +58,7 @@ appendstr (char *s,const char *p)
 
 /*allocate new space in s for p and prepend it*/
 char *
-prependstr(char *s,const char *p)
+gel_prependstr(char *s,const char *p)
 {
 	char *p2;
 	if (p == NULL || *p == '\0')
@@ -78,14 +78,14 @@ prependstr(char *s,const char *p)
 
 
 void
-stack_push(GSList **stack, gpointer data)
+gel_stack_push(GSList **stack, gpointer data)
 {
 	g_return_if_fail (stack != NULL);
 	*stack = g_slist_prepend(*stack,data);
 }
 
 gpointer
-stack_pop(GSList **stack)
+gel_stack_pop(GSList **stack)
 {
 	gpointer data;
 	GSList *p;
@@ -105,7 +105,7 @@ stack_pop(GSList **stack)
 }
 
 gpointer
-stack_peek (GSList **stack)
+gel_stack_peek (GSList **stack)
 {
 	gpointer data;
 
@@ -121,7 +121,7 @@ stack_peek (GSList **stack)
 }
 
 char *
-unescape_string(char *s,char *end,char *nounescape)
+gel_unescape_string(char *s,char *end,char *nounescape)
 {
 	char *n;
 	char *p;
@@ -157,7 +157,7 @@ unescape_string(char *s,char *end,char *nounescape)
 
 /*escape also "'s and \'s*/
 char *
-escape_string(char *s)
+gel_escape_string(char *s)
 {
 	char *n;
 	char *p;

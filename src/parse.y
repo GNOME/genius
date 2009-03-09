@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2004 Jiri (George) Lebl
+ * Copyright (C) 1997-2009 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -36,14 +36,7 @@
 
 extern GSList *gel_parsestack;
 
-extern int return_ret; /*should the lexer return on \n*/
-extern char *loadfile;
-extern char *loadfile_glob;
-extern char *changedir;
-extern char *changedir_glob;
-extern gboolean pwd_command;
-extern gboolean ls_command;
-extern char *load_plugin;
+extern gboolean gel_return_ret; /*should the lexer return on \n*/
 
 /* prototype for yylex */
 int yylex(void);
@@ -132,8 +125,8 @@ fullexpr:	STARTTOK expr '\n' { YYACCEPT; }
 	|	STARTTOK LOAD_PLUGIN '\n' { gel_command = GEL_LOADPLUGIN; gel_command_arg = $<id>2; YYACCEPT; }
 	|	STARTTOK '\n' { YYACCEPT; }
 	|	STARTTOK expr SEPAR '\n' { gp_push_null(); PUSH_ACT(E_SEPAR); YYACCEPT; }
-	|	error '\n' { return_ret = TRUE; yyclearin; YYABORT; }
-	|	error { return_ret = TRUE; }
+	|	error '\n' { gel_return_ret = TRUE; yyclearin; YYABORT; }
+	|	error { gel_return_ret = TRUE; }
 	;
 
 expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
@@ -145,8 +138,8 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 					  mpw_init (i);
 					  mpw_i (i);
 					  gp_push_spacer();
-					  stack_push(&gel_parsestack,
-						     gel_makenum_use(i));
+					  gel_stack_push(&gel_parsestack,
+							 gel_makenum_use(i));
 					  PUSH_ACT(E_MUL); }
 	|	expr EQUALS expr	{ PUSH_ACT(E_EQUALS); }
 	|	expr DEFEQUALS expr	{ PUSH_ACT(E_DEFEQUALS); }
@@ -258,8 +251,8 @@ expr:		expr SEPAR expr		{ PUSH_ACT(E_SEPAR); }
 	|	EXCEPTION		{ PUSH_ACT(E_EXCEPTION); }
 	|	CONTINUE		{ PUSH_ACT(E_CONTINUE); }
 	|	BREAK			{ PUSH_ACT(E_BREAK); }
-	|	NUMBER			{ stack_push(&gel_parsestack,
-						     gel_makenum_use($<val>1)); }
+	|	NUMBER			{ gel_stack_push(&gel_parsestack,
+							 gel_makenum_use($<val>1)); }
 	|	STRING			{ PUSH_CONST_STRING($<id>1); }
 	|	'.'			{ gp_push_null(); }
 	;

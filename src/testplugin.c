@@ -10,7 +10,7 @@
 static GelETree *
 TestPluginFunction_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
-	gel_output_printf (main_out, _("This is the test-plugin function\n"));
+	gel_output_printf (gel_main_out, _("This is the test-plugin function\n"));
 
 	/* return a null */
 	return gel_makenum_null ();
@@ -21,24 +21,24 @@ open (void)
 {
 	GelEFunc *f;
 
-	gel_output_printf (main_out, _("You have opened test plugin!\n\n"
+	gel_output_printf (gel_main_out, _("You have opened test plugin!\n\n"
 				       "Will evaluate 2+2 as a demonstration\n"
 				       "2+2 = "));
 
-	gel_evalexp ("2+2", NULL, main_out, NULL, TRUE, NULL);
+	gel_evalexp ("2+2", NULL, gel_main_out, NULL, TRUE, NULL);
 
-	gel_output_printf (main_out, _("For my next trick I will add a "
+	gel_output_printf (gel_main_out, _("For my next trick I will add a "
 				       "function named "
 				       "TestPluginFunction\n\n"));
 
 	f = d_addfunc (d_makebifunc (d_intern ("TestPluginFunction"),
 				     TestPluginFunction_op, 0));
 	d_add_named_args (f, "");
-	add_category ("TestPluginFunction" , "misc");
-	add_description ("TestPluginFunction",
+	gel_add_category ("TestPluginFunction" , "misc");
+	gel_add_description ("TestPluginFunction",
 			 "This is a test function added by the test plugin");
 
-	gel_output_printf (main_out, _("That's it, isn't this fun\n\n"));
+	gel_output_printf (gel_main_out, _("That's it, isn't this fun\n\n"));
 }
 
 static gboolean

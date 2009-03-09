@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2009 George Lebl
  *
  * Author: George Lebl
  *
@@ -19,29 +19,29 @@
  * USA.
  */
 
-#ifndef _UTIL_H_
-#define _UTIL_H_
+#ifndef _GENIUS_UTIL_H_
+#define _GENIUS_UTIL_H_
 
 #include <stdlib.h>
 
 /*shift the sring to the right by n*/
-void shiftstr(char *s,int n);
+void gel_shiftstr(char *s,int n);
 
 /*allocate new space in s for p and append it*/
-char * appendstr(char *s,const char *p);
+char * gel_appendstr(char *s,const char *p);
 
 /*allocate new space in s for p and prepend it*/
-char * prependstr(char *s,const char *p);
+char * gel_prependstr(char *s,const char *p);
 
 /*stack operations using GSList*/
-void stack_push(GSList **stack, gpointer data);
-gpointer stack_pop(GSList **stack);
-gpointer stack_peek(GSList **stack);
+void gel_stack_push(GSList **stack, gpointer data);
+gpointer gel_stack_pop(GSList **stack);
+gpointer gel_stack_peek(GSList **stack);
 
 /*escape/unescape \n\t\r\b\a\"\\ ... unescape also \<anything>==<anything>,
   nounescape means characters which to leave escaped*/
-char *unescape_string(char *s, char *end, char *nounescape);
+char *gel_unescape_string(char *s, char *end, char *nounescape);
 /*escape also "'s and \'s*/
-char *escape_string(char *s);
+char *gel_escape_string(char *s);
 
 #endif

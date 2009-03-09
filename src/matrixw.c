@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2008 Jiri (George) Lebl
+ * Copyright (C) 1997-2009 Jiri (George) Lebl
  *
  * Author: George Lebl
  *
@@ -299,7 +299,7 @@ make_us_a_copy (GelMatrixW *m, int neww, int newh)
 #ifdef MATRIX_DEBUG
 			printf ("(%d,%d) = (%d,%d)\n", i, j,mi, mj);
 #endif
-			gel_matrix_index (m->m, i, j) = copynode (t);
+			gel_matrix_index (m->m, i, j) = gel_copynode (t);
 		}
 	}
 
@@ -338,7 +338,7 @@ copy_with_region (GelMatrixW *m, int *regx, int *regy, int w, int h)
 			int mi = m->regx ? m->regx[regx[i]] : regx[i];
 			int mj = m->regy ? m->regy[regy[j]] : regy[j];
 			GelETree *t = gel_matrix_index (old, mi, mj);
-			gel_matrix_index (m->m, i, j) = copynode (t);
+			gel_matrix_index (m->m, i, j) = gel_copynode (t);
 		}
 	}
 
@@ -380,7 +380,7 @@ copy_internal_region (GelMatrixW *m, int w, int h)
 			if (t != NULL &&
 			    (t->type != VALUE_NODE ||
 			     ! mpw_exact_zero_p (t->val.value)))
-				gel_matrix_index (m->m, i, j) = copynode (t);
+				gel_matrix_index (m->m, i, j) = gel_copynode (t);
 		}
 	}
 
@@ -717,7 +717,7 @@ gel_matrixw_get_vregion (GelMatrixW *m, int *reg, int len)
 	for (i = 0; i < len; i++) {
 		GelETree *t = gel_matrixw_get_vindex (m, reg[i]);
 		if (t != NULL)
-			t = copynode (t);
+			t = gel_copynode (t);
 		gel_matrix_index (vec, i, 0) = t;
 	}
 
@@ -780,7 +780,7 @@ gel_matrixw_set_region(GelMatrixW *m, GelMatrixW *src,
 			    sj >= src->regh) {
 				gel_matrix_index (m->m, destx[i], desty[j]) = NULL;
 			} else {
-				gel_matrix_index (m->m, destx[i], desty[j]) = copynode
+				gel_matrix_index (m->m, destx[i], desty[j]) = gel_copynode
 					(gel_matrix_index (src->m,
 							   src->regx ? src->regx[si] : si,
 							   src->regy ? src->regy[sj] : sj));
@@ -831,7 +831,7 @@ gel_matrixw_set_region_etree (GelMatrixW *m, GelETree *src,
 	for (i = 0; i < w; i++) {
 		for ( j = 0; j < h; j++) {
 			GelETree *t = gel_matrix_index (m->m, destx[i], desty[j]);
-			gel_matrix_index (m->m, destx[i], desty[j]) = copynode (src);
+			gel_matrix_index (m->m, destx[i], desty[j]) = gel_copynode (src);
 			if (t != NULL)
 				gel_freetree (t);
 		}
@@ -891,7 +891,7 @@ gel_matrixw_rowsof (GelMatrixW *source)
 	for (i = 0; i < height; i++) {
 		GelETree *n;
 
-		GET_NEW_NODE (n);
+		GEL_GET_NEW_NODE (n);
 		n->type = MATRIX_NODE;
 		n->mat.matrix = gel_matrixw_get_region (source, reg, &i, width, 1);
 
@@ -929,7 +929,7 @@ gel_matrixw_columnsof (GelMatrixW *source)
 	for (i = 0; i < width; i++) {
 		GelETree *n;
 
-		GET_NEW_NODE (n);
+		GEL_GET_NEW_NODE (n);
 		n->type = MATRIX_NODE;
 		n->mat.matrix = gel_matrixw_get_region (source, &i, reg, 1, height);
 		n->mat.quoted = 0;
@@ -965,7 +965,7 @@ gel_matrixw_diagonalof (GelMatrixW *source)
 	for (i = 0; i < len; i++) {
 		GelETree *n = gel_matrixw_get_index (source, i, i);
 		if (n != NULL)
-			n = copynode (n);
+			n = gel_copynode (n);
 
 		gel_matrix_index (mm, 0, i) = n;
 	}
@@ -1124,7 +1124,7 @@ gel_matrixw_set_vregion (GelMatrixW *m, GelMatrixW *src, int *desti, int len)
 			} else {
 				GelETree *s = gel_matrixw_get_vindex (src, i);
 				if (s != NULL)
-					s = copynode (s);
+					s = gel_copynode (s);
 				gel_matrix_index (m->m, x, y) = s;
 			}
 
@@ -1163,7 +1163,7 @@ gel_matrixw_set_vregion (GelMatrixW *m, GelMatrixW *src, int *desti, int len)
 			} else {
 				GelETree *s = gel_matrixw_get_vindex (src, i);
 				if (s != NULL)
-					s = copynode (s);
+					s = gel_copynode (s);
 				gel_matrix_index (m->m, x, y) = s;
 			}
 
@@ -1200,7 +1200,7 @@ gel_matrixw_set_vregion_etree (GelMatrixW *m, GelETree *src, int *desti, int len
 			int x = desti[i] / m->regw;
 			int y = desti[i] % m->regw;
 			GelETree *t = gel_matrix_index (m->m, x, y);
-			gel_matrix_index (m->m, x, y) = copynode (src);
+			gel_matrix_index (m->m, x, y) = gel_copynode (src);
 			if (t != NULL)
 				gel_freetree (t);
 		}
@@ -1219,7 +1219,7 @@ gel_matrixw_set_vregion_etree (GelMatrixW *m, GelETree *src, int *desti, int len
 			int x = desti[i] % m->regw;
 			int y = desti[i] / m->regw;
 			GelETree *t = gel_matrix_index (m->m, x, y);
-			gel_matrix_index (m->m, x, y) = copynode (src);
+			gel_matrix_index (m->m, x, y) = gel_copynode (src);
 			if (t != NULL)
 				gel_freetree (t);
 		}

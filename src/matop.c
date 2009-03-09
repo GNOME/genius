@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2008 Jiri (George) Lebl
+ * Copyright (C) 1997-2009 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -34,8 +34,6 @@
 #include "matrixw.h"
 
 #include "matop.h"
-
-extern calcstate_t calcstate;
 
 gboolean
 gel_is_matrix_value_only (GelMatrixW *m)
@@ -221,11 +219,11 @@ gel_matrix_conjugate_transpose (GelMatrixW *m)
 					mpw_conj (n->val.value, n->val.value);
 			} else {
 				GelETree *nn;
-				GET_NEW_NODE (nn);
+				GEL_GET_NEW_NODE (nn);
 				nn->type = OPERATOR_NODE;
 				nn->op.oper = E_DIRECTCALL;
 
-				GET_NEW_NODE (nn->op.args);
+				GEL_GET_NEW_NODE (nn->op.args);
 				nn->op.args->type = IDENTIFIER_NODE;
 				nn->op.args->id.id = d_intern ("conj");
 
@@ -268,8 +266,8 @@ gel_value_matrix_multiply (GelMatrixW *res, GelMatrixW *m1, GelMatrixW *m2,
 				mpw_add(accu,accu,tmp);
 				if (modulo != NULL) {
 					mpw_mod (accu, accu, modulo);
-					if (error_num != 0) { /*FIXME: for now ignore errors in moding*/
-						error_num = 0;
+					if G_UNLIKELY (gel_error_num != 0) { /*FIXME: for now ignore errors in moding*/
+						gel_error_num = 0;
 					}
 					if (mpw_sgn (accu) < 0)
 						mpw_add (accu, modulo, accu);

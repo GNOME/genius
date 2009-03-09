@@ -5,29 +5,29 @@
 #define FUNC(name,args,argn,category,desc) \
 	f = d_addfunc (d_makebifunc (d_intern ( #name ), name ## _op, args)); \
 	d_add_named_args (f, argn); \
-	add_category ( #name , category); \
-	add_description ( #name , desc);
+	gel_add_category ( #name , category); \
+	gel_add_description ( #name , desc);
 #define VFUNC(name,args,argn,category,desc) \
 	f = d_addfunc (d_makebifunc (d_intern ( #name ), name ## _op, args)); \
 	d_add_named_args (f, argn); \
 	f->vararg = TRUE; \
-	add_category ( #name , category); \
-	add_description ( #name , desc);
+	gel_add_category ( #name , category); \
+	gel_add_description ( #name , desc);
 #define ALIAS(name,args,aliasfor) \
 	d_addfunc (d_makebifunc (d_intern ( #name ), aliasfor ## _op, args)); \
-	add_alias ( #aliasfor , #name );
+	gel_add_alias ( #aliasfor , #name );
 #define VALIAS(name,args,aliasfor) \
 	f = d_addfunc (d_makebifunc (d_intern ( #name ), aliasfor ## _op, args)); \
 	f->vararg = TRUE; \
-	add_alias ( #aliasfor , #name );
+	gel_add_alias ( #aliasfor , #name );
 #define PARAMETER(name,desc) \
 	id = d_intern ( #name ); \
 	id->parameter = 1; \
 	id->built_in_parameter = 1; \
 	id->data1 = set_ ## name; \
 	id->data2 = get_ ## name; \
-	add_category ( #name , "parameters"); \
-	add_description ( #name , desc); \
+	gel_add_category ( #name , "parameters"); \
+	gel_add_description ( #name , desc); \
 	/* bogus value */ \
 	d_addfunc_global (d_makevfunc (id, gel_makenum_null()));
 

@@ -40,8 +40,6 @@
 
 #include "funclibhelper.cP"
 
-extern calcstate_t calcstate;
-
 static GelETree * differentiate_expr (GelETree *expr, GelToken *xtok);
 static GelETree * gel_differentiate_func1_expr (GelToken *tok);
 
@@ -258,7 +256,7 @@ is_constant (GelETree *expr, GelToken *xtok)
 	     expr->id.id != xtok)) {
 		return TRUE;
 	}
-	if (eval_find_identifier (expr, xtok, FALSE /* funcbody */))
+	if (gel_eval_find_identifier (expr, xtok, FALSE /* funcbody */))
 		return FALSE;
 	else
 		return TRUE;
@@ -325,7 +323,7 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 					if (mpw_zero_p (val)) {
 						n = gel_makenum_ui (1);
 					} else if (mpw_eql_ui (val, 1)) {
-						n = copynode (PARSE ("2*x"));
+						n = gel_copynode (PARSE ("2*x"));
 					} else {
 						n = PARSE ("y*x^ymo");
 						ymo = gel_makenum (val);
@@ -412,7 +410,7 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 			/* FIXME: */
 			return NULL;
 		}
-		GET_NEW_NODE(n);
+		GEL_GET_NEW_NODE(n);
 		n->type = OPERATOR_NODE;
 		n->op.oper = expr->op.oper;
 		n->op.args = nn;
@@ -428,10 +426,10 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 				/* FIXME: */
 				return NULL;
 			}
-			GET_NEW_NODE(n);
+			GEL_GET_NEW_NODE(n);
 			n->type = OPERATOR_NODE;
 			n->op.oper = expr->op.oper;
-			n->op.args = copynode (expr->op.args);
+			n->op.args = gel_copynode (expr->op.args);
 			n->op.args->any.next = nnn;
 			n->op.args->any.next->any.next = NULL;
 			n->op.nargs = 2;
@@ -442,11 +440,11 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 				/* FIXME: */
 				return NULL;
 			}
-			GET_NEW_NODE(n);
+			GEL_GET_NEW_NODE(n);
 			n->type = OPERATOR_NODE;
 			n->op.oper = expr->op.oper;
 			n->op.args = nn;
-			n->op.args->any.next = copynode (expr->op.args->any.next);
+			n->op.args->any.next = gel_copynode (expr->op.args->any.next);
 			n->op.args->any.next->any.next = NULL;
 			n->op.nargs = 2;
 			return n;
@@ -477,11 +475,11 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 				/* FIXME: */
 				return NULL;
 			}
-			GET_NEW_NODE(n);
+			GEL_GET_NEW_NODE(n);
 			n->type = OPERATOR_NODE;
 			n->op.oper = expr->op.oper;
 			n->op.args = nn;
-			n->op.args->any.next = copynode (expr->op.args->any.next);
+			n->op.args->any.next = gel_copynode (expr->op.args->any.next);
 			n->op.args->any.next->any.next = NULL;
 			n->op.nargs = 2;
 			return n;
@@ -520,7 +518,7 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 			/* FIXME: */
 			return NULL;
 		}
-		GET_NEW_NODE(n);
+		GEL_GET_NEW_NODE(n);
 		n->type = OPERATOR_NODE;
 		n->op.oper = expr->op.oper;
 		n->op.args = nn;
@@ -580,7 +578,7 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 			return gel_makenum_ui (0);
 		}
 
-		GET_NEW_NODE (n);
+		GEL_GET_NEW_NODE (n);
 		n->type = OPERATOR_NODE;
 		n->op.oper = E_MUL;
 		n->op.args = nn;
@@ -602,12 +600,12 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 static GelETree *
 differentiate_expr (GelETree *expr, GelToken *xtok)
 {
-	if (evalnode_hook != NULL) {
+	if (gel_evalnode_hook != NULL) {
 		static int i = 0;
-		if G_UNLIKELY ((i++ & RUN_HOOK_EVERY_MASK) == RUN_HOOK_EVERY_MASK) {
-			(*evalnode_hook)();
+		if G_UNLIKELY ((i++ & GEL_RUN_HOOK_EVERY_MASK) == GEL_RUN_HOOK_EVERY_MASK) {
+			(*gel_evalnode_hook)();
 			i = 0;
-			if G_UNLIKELY (interrupted)
+			if G_UNLIKELY (gel_interrupted)
 				return NULL;
 		}
 	}
@@ -695,7 +693,7 @@ gel_differentiate_func (GelEFunc *f)
 
 	if (rf == NULL &&
 	    gel_derivative_silent <= 0 &&
-	    ! interrupted) {
+	    ! gel_interrupted) {
 		gel_errorout (_("%s: Cannot differentiate the '%s' function"),
 			      "SymbolicDerivative",
 			      f->id ? f->id->token : "anonymous");
@@ -728,7 +726,7 @@ SymbolicDerivative_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	rf = gel_differentiate_func (f);
 	if (rf != NULL) {
-		GET_NEW_NODE (n);
+		GEL_GET_NEW_NODE (n);
 		n->type = FUNCTION_NODE;
 		n->func.func = rf;
 		return n;
@@ -781,7 +779,7 @@ gel_add_symbolic_functions (void)
 {
 	GelEFunc *f;
 
-	new_category ("symbolic", N_("Symbolic Operations"), TRUE /* internal */);
+	gel_new_category ("symbolic", N_("Symbolic Operations"), TRUE /* internal */);
 
 	FUNC (SymbolicDerivative, 1, "f", "symbolic",
 	      N_("Attempt to symbolically differentiate the function f, "

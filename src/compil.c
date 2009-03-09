@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2004 George Lebl
+ * Copyright (C) 1997-2009 George Lebl
  *
  * Author: George Lebl
  *
@@ -257,7 +257,7 @@ gel_decompile_node(char **ptrptr)
 				}
 			}
 		}
-		GET_NEW_NODE(n);
+		GEL_GET_NEW_NODE(n);
 		n->type = MATRIX_NODE;
 		n->mat.matrix = m;
 		n->mat.quoted = quote;
@@ -293,7 +293,7 @@ gel_decompile_node(char **ptrptr)
 			li->any.next = NULL;
 		}
 
-		GET_NEW_NODE(n);
+		GEL_GET_NEW_NODE(n);
 		n->type = OPERATOR_NODE;
 		n->op.args = args;
 		n->op.nargs = nargs;
@@ -302,7 +302,7 @@ gel_decompile_node(char **ptrptr)
 	case IDENTIFIER_NODE:
 		p = strtok_r (NULL,";", ptrptr);
 		if G_UNLIKELY (!p) return NULL;
-		GET_NEW_NODE(n);
+		GEL_GET_NEW_NODE(n);
 		n->type = IDENTIFIER_NODE;
 		n->id.id = d_intern(p);
 		return n;
@@ -381,7 +381,7 @@ gel_decompile_node(char **ptrptr)
 		func->propagate_mod = propagate_mod ? 1 : 0;
 		func->no_mod_all_args = no_mod_all_args ? 1 : 0;
 
-		GET_NEW_NODE(n);
+		GEL_GET_NEW_NODE(n);
 		n->type = FUNCTION_NODE;
 		n->func.func = func;
 		return n;
@@ -427,7 +427,7 @@ gel_decompile_node(char **ptrptr)
 			li->any.next = NULL;
 		}
 
-		GET_NEW_NODE(n);
+		GEL_GET_NEW_NODE(n);
 		n->type = COMPARISON_NODE;
 		n->comp.args = args;
 		n->comp.nargs = nargs;

@@ -76,8 +76,10 @@
 
 /*Globals:*/
 
+const gboolean genius_is_gui = TRUE;
+
 /*calculator state*/
-calcstate_t curstate={
+GelCalcState curstate={
 	128,
 	12,
 	FALSE,
@@ -93,9 +95,14 @@ calcstate_t curstate={
 	};
 
 #define MAX_CHOP 1000
-	
+
+static void check_events (void);
+const GelHookFunc gel_evalnode_hook = check_events;
+
+static void tree_limit_hit (void);
+const GelHookFunc _gel_tree_limit_hook = tree_limit_hit;
+
 extern int parenth_depth;
-extern gboolean interrupted;
 extern const char *genius_toplevels[];
 
 GtkWidget *genius_window = NULL;
@@ -816,7 +823,7 @@ run_help_dlg_again:
 
 	if (ret == GTK_RESPONSE_OK) {
 		char *txt = g_strstrip (g_strdup (gtk_entry_get_text (GTK_ENTRY (e))));
-		GelHelp *help = get_help (txt, FALSE /* insert */);
+		GelHelp *help = gel_get_help (txt, FALSE /* insert */);
 		gboolean found = FALSE;
 		int i;
 
@@ -1513,10 +1520,10 @@ printout_error_num_and_reset(void)
 		}
 	} else {
 		if(errors_printed-curstate.max_errors > 0) {
-			gel_output_printf(main_out,
+			gel_output_printf(gel_main_out,
 					  _("\e[01;31mToo many errors! (%d followed)\e[0m\n"),
 					  errors_printed-curstate.max_errors);
-			gel_output_flush (main_out);
+			gel_output_flush (gel_main_out);
 		}
 	}
 	errors_printed = 0;
@@ -1588,9 +1595,9 @@ geniuserror(const char *s)
 			errors = g_string_new(str);
 		}
 	} else {
-		gel_output_printf_full (main_out, FALSE,
+		gel_output_printf_full (gel_main_out, FALSE,
 					"\e[01;31m%s\e[0m\r\n", str);
-		gel_output_flush (main_out);
+		gel_output_flush (gel_main_out);
 	}
 
 	g_free(str);
@@ -1753,9 +1760,9 @@ geniusinfo(const char *s)
 			infos = g_string_new(str);
 		}
 	} else {
-		gel_output_printf_full (main_out, FALSE,
+		gel_output_printf_full (gel_main_out, FALSE,
 					"\e[32m%s\e[0m\r\n", str);
-		gel_output_flush (main_out);
+		gel_output_flush (gel_main_out);
 	}
 
 	g_free(str);
@@ -1828,11 +1835,11 @@ aboutcb(GtkWidget * widget, gpointer data)
 	       "    You should have received a copy of the GNU General Public License\n"
 	       "    along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"),
 		    VERSION,
-		    COPYRIGHT_STRING);
+		    GENIUS_COPYRIGHT_STRING);
 	gtk_show_about_dialog (GTK_WINDOW (genius_window),
 			      "program-name", _("Genius Mathematical Tool"), 
 			      "version", VERSION,
-			      "copyright", COPYRIGHT_STRING,
+			      "copyright", GENIUS_COPYRIGHT_STRING,
 			      "comments",
 			      _("The Gnome calculator style edition of "
 				"the Genius Mathematical Tool."),
@@ -2035,7 +2042,7 @@ quitapp (GtkWidget * widget, gpointer data)
 						      "unsaved programs.\nAre "
 						      "you sure you wish to quit?")))
 				return;
-			interrupted = TRUE;
+			gel_interrupted = TRUE;
 		} else {
 			if ( ! genius_ask_question (NULL,
 						    _("There are unsaved programs, "
@@ -2049,7 +2056,7 @@ quitapp (GtkWidget * widget, gpointer data)
 						      "are you sure you wish to "
 						      "quit?")))
 				return;
-			interrupted = TRUE;
+			gel_interrupted = TRUE;
 		} else {
 			if ( ! genius_ask_question (NULL,
 						    _("Are you sure you wish "
@@ -2086,10 +2093,10 @@ fontsetcb (GtkWidget *fb, char **font)
 }
 
 
-static calcstate_t tmpstate={0};
+static GelCalcState tmpstate={0};
 static GeniusSetup tmpsetup={0};
 
-static calcstate_t cancelstate={0};
+static GelCalcState cancelstate={0};
 static GeniusSetup cancelsetup={0};
 
 static void
@@ -2117,7 +2124,7 @@ setup_response (GtkWidget *widget, gint resp, gpointer data)
 			curstate = tmpstate;
 		}
 
-		set_new_calcstate (curstate);
+		gel_set_new_calcstate (curstate);
 		vte_terminal_set_scrollback_lines (VTE_TERMINAL (term),
 						   genius_setup.scrollback);
 		vte_terminal_set_font_from_string
@@ -2538,7 +2545,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 void
 genius_interrupt_calc (void)
 {
-	interrupted = TRUE;
+	gel_interrupted = TRUE;
 	if (!calc_running) {
 		vte_terminal_feed_child (VTE_TERMINAL (term), "\n", 1);
 	}
@@ -2563,7 +2570,7 @@ warranty_call (GtkWidget *widget, gpointer data)
 		/* perhaps a bit ugly */
 		gboolean last = genius_setup.info_box;
 		genius_setup.info_box = TRUE;
-		gel_evalexp ("warranty", NULL, main_out, NULL, TRUE, NULL);
+		gel_evalexp ("warranty", NULL, gel_main_out, NULL, TRUE, NULL);
 		gel_printout_infos ();
 		genius_setup.info_box = last;
 	}
@@ -2636,7 +2643,7 @@ really_load_cb (GtkFileChooser *fs, int response, gpointer data)
 	g_free (str);
 
 	/* interrupt the current command line */
-	interrupted = TRUE;
+	gel_interrupted = TRUE;
 	vte_terminal_feed_child (VTE_TERMINAL (term), "\n", 1);
 }
 
@@ -2886,12 +2893,12 @@ copy_as_plain (GtkWidget *menu_item, gpointer data)
 		/* FIXME: Ugly push/pop of output style */
 		GelOutputStyle last_style = curstate.output_style;
 		curstate.output_style = GEL_OUTPUT_NORMAL;
-		set_new_calcstate (curstate);
+		gel_set_new_calcstate (curstate);
 
 		copy_answer ();
 
 		curstate.output_style = last_style;
-		set_new_calcstate (curstate);
+		gel_set_new_calcstate (curstate);
 	}
 }
 
@@ -2905,12 +2912,12 @@ copy_as_latex (GtkWidget *menu_item, gpointer data)
 		/* FIXME: Ugly push/pop of output style */
 		GelOutputStyle last_style = curstate.output_style;
 		curstate.output_style = GEL_OUTPUT_LATEX;
-		set_new_calcstate (curstate);
+		gel_set_new_calcstate (curstate);
 
 		copy_answer ();
 
 		curstate.output_style = last_style;
-		set_new_calcstate (curstate);
+		gel_set_new_calcstate (curstate);
 	}
 }
 
@@ -2924,12 +2931,12 @@ copy_as_troff (GtkWidget *menu_item, gpointer data)
 		/* FIXME: Ugly push/pop of output style */
 		GelOutputStyle last_style = curstate.output_style;
 		curstate.output_style = GEL_OUTPUT_TROFF;
-		set_new_calcstate (curstate);
+		gel_set_new_calcstate (curstate);
 
 		copy_answer ();
 
 		curstate.output_style = last_style;
-		set_new_calcstate (curstate);
+		gel_set_new_calcstate (curstate);
 	}
 }
 
@@ -2943,12 +2950,12 @@ copy_as_mathml (GtkWidget *menu_item, gpointer data)
 		/* FIXME: Ugly push/pop of output style */
 		GelOutputStyle last_style = curstate.output_style;
 		curstate.output_style = GEL_OUTPUT_MATHML;
-		set_new_calcstate (curstate);
+		gel_set_new_calcstate (curstate);
 
 		copy_answer ();
 
 		curstate.output_style = last_style;
-		set_new_calcstate (curstate);
+		gel_set_new_calcstate (curstate);
 	}
 }
 
@@ -3996,17 +4003,17 @@ run_program (GtkWidget *menu_item, gpointer data)
 		running_program = selected_program;
 
 		gel_push_file_info (name, 1);
-		/* FIXME: Should not use main_out, we should have a separate
+		/* FIXME: Should not use gel_main_out, we should have a separate
 		   console for output, the switching is annoying */
 		while (1) {
-			gel_evalexp (NULL, fp, main_out, "= \e[1;36m",
+			gel_evalexp (NULL, fp, gel_main_out, "= \e[1;36m",
 				     TRUE, NULL);
-			gel_output_full_string (main_out, "\e[0m");
+			gel_output_full_string (gel_main_out, "\e[0m");
 			if (gel_got_eof) {
 				gel_got_eof = FALSE;
 				break;
 			}
-			if (interrupted) {
+			if (gel_interrupted) {
 				break;
 			}
 		}
@@ -4028,7 +4035,7 @@ run_program (GtkWidget *menu_item, gpointer data)
 		g_free (str);
 
 		/* interrupt the current command line */
-		interrupted = TRUE;
+		gel_interrupted = TRUE;
 		vte_terminal_feed_child (VTE_TERMINAL (term), "\n", 1);
 
 		/* sanity */
@@ -4266,8 +4273,8 @@ get_term_width(GelOutput *gelo)
 	return vte_terminal_get_column_count (VTE_TERMINAL (term));
 }
 
-static void
-set_state (calcstate_t state)
+void
+gel_set_state (GelCalcState state)
 {
 	curstate = state;
 
@@ -4275,9 +4282,9 @@ set_state (calcstate_t state)
 	    state.output_style == GEL_OUTPUT_LATEX ||
 	    state.output_style == GEL_OUTPUT_MATHML ||
 	    state.output_style == GEL_OUTPUT_TROFF)
-		gel_output_set_length_limit (main_out, FALSE);
+		gel_output_set_length_limit (gel_main_out, FALSE);
 	else
-		gel_output_set_length_limit (main_out, TRUE);
+		gel_output_set_length_limit (gel_main_out, TRUE);
 }
 
 static void
@@ -4292,7 +4299,7 @@ tree_limit_hit (void)
 {
 	if (genius_ask_question (NULL,
 				 _("Memory (node number) limit has been reached, interrupt the computation?"))) {
-		interrupted = TRUE;
+		gel_interrupted = TRUE;
 		/*genius_interrupt_calc ();*/
 	}
 }
@@ -4406,18 +4413,18 @@ genius_got_etree (GelETree *e)
 {
 	if (e != NULL) {
 		calc_running ++;
-		gel_evalexp_parsed (e, main_out, "= \e[1;36m", TRUE);
+		gel_evalexp_parsed (e, gel_main_out, "= \e[1;36m", TRUE);
 		gel_test_max_nodes_again ();
 		calc_running --;
-		gel_output_full_string (main_out, "\e[0m");
-		gel_output_flush (main_out);
+		gel_output_full_string (gel_main_out, "\e[0m");
+		gel_output_flush (gel_main_out);
 	}
 
 	gel_printout_infos ();
 
 	if (gel_got_eof) {
-		gel_output_full_string (main_out, "\n");
-		gel_output_flush (main_out);
+		gel_output_full_string (gel_main_out, "\n");
+		gel_output_flush (gel_main_out);
 		gel_got_eof = FALSE;
 		gtk_main_quit();
 	}
@@ -4758,8 +4765,6 @@ main (int argc, char *argv[])
 	int plugin_count = 0;
 	gboolean give_no_lib_error_after_init = FALSE;
 
-	genius_is_gui = TRUE;
-
 	arg0 = g_strdup (argv[0]); 
 
 	g_set_prgname ("gnome-genius");
@@ -4820,14 +4825,10 @@ main (int argc, char *argv[])
 	/*read parameters */
 	get_properties ();
 
-	main_out = gel_output_new();
-	gel_output_setup_string (main_out, 80, get_term_width);
-	gel_output_set_notify (main_out, output_notify_func);
+	gel_main_out = gel_output_new();
+	gel_output_setup_string (gel_main_out, 80, get_term_width);
+	gel_output_set_notify (gel_main_out, output_notify_func);
 	
-	evalnode_hook = check_events;
-	statechange_hook = set_state;
-	_gel_tree_limit_hook = tree_limit_hit;
-
 	file = g_build_filename (genius_datadir,
 				 "icons",
 				 "hicolor",
@@ -4990,7 +4991,7 @@ main (int argc, char *argv[])
 	}
 
 
-	gel_output_printf (main_out,
+	gel_output_printf (gel_main_out,
 			   _("%sGenius %s%s\n"
 			     "%s\n"
 			     "This is free software with ABSOLUTELY NO WARRANTY.\n"
@@ -4999,7 +5000,7 @@ main (int argc, char *argv[])
 			   "\e[0;32m" /* green */,
 			   "\e[0m" /* white on black */,
 			   VERSION,
-			   COPYRIGHT_STRING,
+			   GENIUS_COPYRIGHT_STRING,
 			   "\e[01;36m" /* cyan */,
 			   "\e[0m" /* white on black */,
 			   "\e[01;36m" /* cyan */,
@@ -5007,12 +5008,12 @@ main (int argc, char *argv[])
 			   "\e[01;36m" /* cyan */,
 			   "\e[0m" /* white on black */,
 			   get_version_details ());
-	gel_output_flush (main_out);
+	gel_output_flush (gel_main_out);
 	check_events ();
 
-	set_new_calcstate (curstate);
-	set_new_errorout (geniuserror);
-	set_new_infoout (geniusinfo);
+	gel_set_new_calcstate (curstate);
+	gel_set_new_errorout (geniuserror);
+	gel_set_new_infoout (geniusinfo);
 
 	setup_rl_fifos ();
 

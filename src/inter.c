@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2009 George Lebl
  *
  * Author: George Lebl
  *
@@ -35,8 +35,6 @@
 
 #include "inter.h"
 
-extern int interrupted;
-
 static int toplevelokg = TRUE;
 
 static int
@@ -62,7 +60,7 @@ get_p_expression(void)
 	GString *gs;
 	char *prompt = "genius> ";
 	
-	interrupted = FALSE;
+	gel_interrupted = FALSE;
 	
 	gs = g_string_new("");
 	
@@ -76,7 +74,7 @@ get_p_expression(void)
 		s = readline(prompt);
 		toplevelokg = oldtop;
 		
-		if(interrupted) {
+		if(gel_interrupted) {
 			g_string_free(gs,TRUE);
 			if(s) free(s);
 			return NULL;
@@ -172,9 +170,9 @@ get_cb_p_expression(char *s, FILE *torlfp)
 	char *prompt = "      > ";
 	toplevelokg = old_toplevelokg;
 
-	if(interrupted) {
+	if(gel_interrupted) {
 		prompt = "\001\e[1m\002genius>\001\e[0m\002 ";
-		interrupted = FALSE;
+		gel_interrupted = FALSE;
 		if(p_expr) g_string_free(p_expr,TRUE);
 		p_expr = NULL;
 		goto done_with_get;
@@ -187,7 +185,7 @@ get_cb_p_expression(char *s, FILE *torlfp)
 		g_string_free(p_expr, TRUE);
 		p_expr = NULL;
 		(*got_expr_func)(ret);
-		interrupted = FALSE;
+		gel_interrupted = FALSE;
 		prompt = "\001\e[1m\002genius>\001\e[0m\002 ";
 		goto done_with_get;
 	}
@@ -205,7 +203,7 @@ get_cb_p_expression(char *s, FILE *torlfp)
 		g_string_free(p_expr,TRUE);
 		p_expr = NULL;
 		(*got_expr_func)(ret);
-		interrupted = FALSE;
+		gel_interrupted = FALSE;
 		prompt = "\001\e[1m\002genius>\001\e[0m\002 ";
 	}
 done_with_get:
@@ -221,7 +219,7 @@ done_with_get:
 void
 start_cb_p_expression(void (*get_func)(GelETree *), FILE *torlfp)
 {
-	interrupted = FALSE;
+	gel_interrupted = FALSE;
 	
 	gel_rewind_file_info();
 	

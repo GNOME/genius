@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2007 Jiri (George) Lebl
+ * Copyright (C) 1997-2009 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -34,11 +34,11 @@
 #include "util.h"
 #include "binreloc.h"
 
-int lex_fd[2];
-int first_tok = STARTTOK;
-int return_ret = FALSE;
-int parenth_depth = 0;
-int lex_init = TRUE;
+int gel_lex_fd[2];
+int gel_first_tok = STARTTOK;
+gboolean gel_return_ret = FALSE;
+int gel_parenth_depth = 0;
+gboolean gel_lex_init = TRUE;
 extern GSList *gel_parsestack;
 static int matrix_entry = 0;
 static GSList *matrix_entry_stack = NULL;
@@ -50,12 +50,12 @@ static GSList *matrix_entry_stack = NULL;
 int yylex(void);
 #endif
 
-#define NO_RET {return_ret = FALSE;}
+#define NO_RET {gel_return_ret = FALSE;}
 #define DO_RET { \
-	if(!parenth_depth) \
-		return_ret = TRUE; \
+	if(!gel_parenth_depth) \
+		gel_return_ret = TRUE; \
 	else \
-		return_ret = FALSE; \
+		gel_return_ret = FALSE; \
 }
 
 static GHashTable *fp_hash = NULL;
@@ -115,17 +115,17 @@ gel_lexer_close(FILE *fp)
 %%
 
 %{
-	if(lex_init) {
-		return_ret = FALSE;
-		parenth_depth = 0;
+	if(gel_lex_init) {
+		gel_return_ret = FALSE;
+		gel_parenth_depth = 0;
 		matrix_entry = 0;
 		matrix_entry_stack = NULL;
-		lex_init = FALSE;
+		gel_lex_init = FALSE;
 	}
 	
-	if(first_tok!=INT_MAX) {
-		int i = first_tok;
-		first_tok = INT_MAX;
+	if(gel_first_tok!=INT_MAX) {
+		int i = gel_first_tok;
+		gel_first_tok = INT_MAX;
 		return i;
 	}
 %}
@@ -137,10 +137,10 @@ gel_lexer_close(FILE *fp)
 			char *s;
 			char *end;
 			char *dir;
-			if(gel_parsestack || parenth_depth) {REJECT;}
+			if(gel_parsestack || gel_parenth_depth) {REJECT;}
 			s=strchr(yytext,'<')+1; /*find the beginning*/
 			end=strrchr(yytext,'>'); /*find the end*/
-			s = unescape_string(s,end,NULL);
+			s = gel_unescape_string(s,end,NULL);
 			dir = gbr_find_data_dir (DATADIR);
 			yylval.id = g_build_filename (dir,
 						      "genius",
@@ -154,7 +154,7 @@ gel_lexer_close(FILE *fp)
 
 ^[ 	]*load[ 	]+[^ 	].*$ {
 			char *s;
-			if(gel_parsestack || parenth_depth) {REJECT;}
+			if(gel_parsestack || gel_parenth_depth) {REJECT;}
 			s=strchr(yytext,'d')+1; /*move after the load*/
 			/*btw from the above RE we know this will work*/
 			while(*s==' ' || *s=='\t')
@@ -166,7 +166,7 @@ gel_lexer_close(FILE *fp)
 
 ^[ 	]*cd[ 	]+[^ 	].*$ {
 			char *s;
-			if(gel_parsestack || parenth_depth) {REJECT;}
+			if(gel_parsestack || gel_parenth_depth) {REJECT;}
 			s=strchr(yytext,'d')+1; /*move after the cd*/
 			/*btw from the above RE we know this will work*/
 			while(*s==' ' || *s=='\t')
@@ -178,7 +178,7 @@ gel_lexer_close(FILE *fp)
 
 ^[ 	]*plugin[ 	]+[^ 	].*$ {
 			char *s;
-			if(gel_parsestack || parenth_depth) {REJECT;}
+			if(gel_parsestack || gel_parenth_depth) {REJECT;}
 			s=strchr(yytext,'n')+1; /*move after the plugin*/
 			/*btw from the above RE we know this will work*/
 			while(*s==' ' || *s=='\t')
@@ -189,14 +189,14 @@ gel_lexer_close(FILE *fp)
 		}
 
 ^[ 	]*pwd[ 	]*$ {
-			if(gel_parsestack || parenth_depth) {REJECT;}
+			if(gel_parsestack || gel_parenth_depth) {REJECT;}
 			DO_RET;
 			return PWD;
 		}
 
 ^[ 	]*ls[ 	]+[^ 	].*$ {
 			char *s;
-			if(gel_parsestack || parenth_depth) {REJECT;}
+			if(gel_parsestack || gel_parenth_depth) {REJECT;}
 			s=strchr(yytext,'s')+1; /*move after the ls*/
 			/*btw from the above RE we know this will work*/
 			while(*s==' ' || *s=='\t')
@@ -207,14 +207,14 @@ gel_lexer_close(FILE *fp)
 		}
 
 ^[ 	]*ls[ 	]*$ {
-			if(gel_parsestack || parenth_depth) {REJECT;}
+			if(gel_parsestack || gel_parenth_depth) {REJECT;}
 			DO_RET;
 			return LS;
 		}
 
 ^[ 	]*help[ 	]+[^ 	].*$ {
 			char *s;
-			if(gel_parsestack || parenth_depth) {REJECT;}
+			if(gel_parsestack || gel_parenth_depth) {REJECT;}
 			s=strchr(yytext,'p')+1; /*move after the help*/
 			/*btw from the above RE we know this will work*/
 			while(*s==' ' || *s=='\t')
@@ -225,7 +225,7 @@ gel_lexer_close(FILE *fp)
 		}
 
 ^[ 	]*help[ 	]*$ {
-			if(gel_parsestack || parenth_depth) {REJECT;}
+			if(gel_parsestack || gel_parenth_depth) {REJECT;}
 			DO_RET;
 			return HELP;
 		}
@@ -242,7 +242,7 @@ gel_lexer_close(FILE *fp)
 
 \"([^"]|\\\")*\"	{ 
 			DO_RET;
-			yylval.id = unescape_string(&yytext[1],NULL,NULL);
+			yylval.id = gel_unescape_string(&yytext[1],NULL,NULL);
 			/*kill the trailing "*/
 			yylval.id[strlen(yylval.id)-1]='\0';
 			return STRING;
@@ -295,7 +295,7 @@ mod		{ NO_RET; return MOD; }
 null		{ DO_RET; return '.'; }
 
 "@("		{
-			parenth_depth++;
+			gel_parenth_depth++;
 			if (matrix_entry_stack != NULL)
 				matrix_entry_stack->data =
 					GINT_TO_POINTER
@@ -310,7 +310,7 @@ null		{ DO_RET; return '.'; }
 
 [[][\t ]*	{
 			matrix_entry++;
-			parenth_depth++;
+			gel_parenth_depth++;
 			matrix_entry_stack =
 				g_slist_prepend (matrix_entry_stack,
 						 GINT_TO_POINTER (0));
@@ -321,7 +321,7 @@ null		{ DO_RET; return '.'; }
 [\t ]*[]]	{
 			GSList *li;
 			matrix_entry--;
-			parenth_depth--;
+			gel_parenth_depth--;
 			li = matrix_entry_stack;
 			matrix_entry_stack = g_slist_remove_link (matrix_entry_stack, li);
 			g_slist_free_1 (li);
@@ -331,7 +331,7 @@ null		{ DO_RET; return '.'; }
 			
 
 [({]		{
-			parenth_depth++;
+			gel_parenth_depth++;
 			if (matrix_entry_stack != NULL)
 				matrix_entry_stack->data =
 					GINT_TO_POINTER
@@ -341,7 +341,7 @@ null		{ DO_RET; return '.'; }
 		}
 
 [)][ \t]*i		{
-			parenth_depth--;
+			gel_parenth_depth--;
 			if (matrix_entry_stack != NULL)
 				matrix_entry_stack->data =
 					GINT_TO_POINTER
@@ -351,7 +351,7 @@ null		{ DO_RET; return '.'; }
 		}
 
 [)}]		{
-			parenth_depth--;
+			gel_parenth_depth--;
 			if (matrix_entry_stack != NULL)
 				matrix_entry_stack->data =
 					GINT_TO_POINTER
@@ -443,8 +443,8 @@ null		{ DO_RET; return '.'; }
 			gel_incr_file_info();
 			if(matrix_entry) {
 				return NEXTROW;
-			} else if(return_ret) {
-				first_tok = 0;
+			} else if(gel_return_ret) {
+				gel_first_tok = 0;
 				return '\n';
 			}
 		}

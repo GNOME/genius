@@ -598,7 +598,7 @@ static gboolean
 graph_window_delete_event (GtkWidget *w, gpointer data)
 {
 	if (plot_in_progress > 0) {
-		interrupted = TRUE;
+		gel_interrupted = TRUE;
 		whack_window_after_plot = TRUE;
 		return TRUE;
 	} else {
@@ -613,13 +613,13 @@ graph_window_response (GtkWidget *w, int response, gpointer data)
 	if (response == GTK_RESPONSE_CLOSE ||
 	    response == GTK_RESPONSE_DELETE_EVENT) {
 		if (plot_in_progress > 0) {
-			interrupted = TRUE;
+			gel_interrupted = TRUE;
 			whack_window_after_plot = TRUE;
 		} else {
 			gtk_widget_destroy (graph_window);
 		}
 	} else if (response == RESPONSE_STOP && plot_in_progress > 0) {
-		interrupted = TRUE;
+		gel_interrupted = TRUE;
 	}
 }
 
@@ -710,13 +710,13 @@ plot_print_cb (void)
 		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
 	}
 
-	if ( ! ret || interrupted) {
+	if ( ! ret || gel_interrupted) {
 		plot_in_progress --;
 		plot_window_setup ();
 
-		if ( ! interrupted)
+		if ( ! gel_interrupted)
 			genius_display_error (graph_window, _("Printing failed"));
-		interrupted = FALSE;
+		gel_interrupted = FALSE;
 		close (fd);
 		unlink (tmpfile);
 		return;
@@ -853,11 +853,11 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 	plot_in_progress --;
 	plot_window_setup ();
 
-	if ( ! ret || interrupted) {
-		if ( ! interrupted)
+	if ( ! ret || gel_interrupted) {
+		if ( ! gel_interrupted)
 			genius_display_error (graph_window, _("Export failed"));
 		g_free (s);
-		interrupted = FALSE;
+		gel_interrupted = FALSE;
 		return;
 	}
 
@@ -1075,8 +1075,8 @@ plot_zoomin_cb (void)
 
 		plot_axis ();
 
-		if (interrupted)
-			interrupted = FALSE;
+		if (gel_interrupted)
+			gel_interrupted = FALSE;
 
 		gel_printout_infos ();
 		genius_setup.info_box = last_info;
@@ -1121,8 +1121,8 @@ plot_zoomout_cb (void)
 
 		plot_axis ();
 
-		if (interrupted)
-			interrupted = FALSE;
+		if (gel_interrupted)
+			gel_interrupted = FALSE;
 
 		gel_printout_infos ();
 		genius_setup.info_box = last_info;
@@ -1213,8 +1213,8 @@ plot_zoomfit_cb (void)
 
 		plot_axis ();
 
-		if (interrupted)
-			interrupted = FALSE;
+		if (gel_interrupted)
+			gel_interrupted = FALSE;
 
 		gel_printout_infos ();
 		genius_setup.info_box = last_info;
@@ -1250,8 +1250,8 @@ plot_resetzoom_cb (void)
 
 		plot_axis ();
 
-		if (interrupted)
-			interrupted = FALSE;
+		if (gel_interrupted)
+			gel_interrupted = FALSE;
 
 		gel_printout_infos ();
 		genius_setup.info_box = last_info;
@@ -1360,8 +1360,8 @@ plot_select_region (GtkPlotCanvas *canvas,
 
 		plot_axis ();
 
-		if (interrupted)
-			interrupted = FALSE;
+		if (gel_interrupted)
+			gel_interrupted = FALSE;
 
 		gel_printout_infos ();
 		genius_setup.info_box = last_info;
@@ -2132,22 +2132,22 @@ call_func3 (GelCtx *ctx,
 	args[2] = arg3;
 	args[3] = NULL;
 
-	ret = funccall (ctx, func, args, 3);
+	ret = gel_funccall (ctx, func, args, 3);
 
 	/* FIXME: handle errors! */
-	if (error_num != 0)
-		error_num = 0;
+	if G_UNLIKELY (gel_error_num != 0)
+		gel_error_num = 0;
 
 	/* only do one level of indirection to avoid infinite loops */
 	if (ret != NULL && ret->type == FUNCTION_NODE) {
 		if (ret->func.func->nargs == 3) {
 			GelETree *ret2;
-			ret2 = funccall (ctx, ret->func.func, args, 3);
+			ret2 = gel_funccall (ctx, ret->func.func, args, 3);
 			gel_freetree (ret);
 			ret = ret2;
 			/* FIXME: handle errors! */
-			if (error_num != 0)
-				error_num = 0;
+			if G_UNLIKELY (gel_error_num != 0)
+				gel_error_num = 0;
 		} else if (func_ret != NULL) {
 			*func_ret = ret;
 #ifdef HUGE_VAL
@@ -2170,9 +2170,9 @@ call_func3 (GelCtx *ctx,
 	}
 
 	retd = mpw_get_double (ret->val.value);
-	if (error_num != 0) {
+	if G_UNLIKELY (gel_error_num != 0) {
 		*ex = TRUE;
-		error_num = 0;
+		gel_error_num = 0;
 #ifdef HUGE_VAL
 		retd = HUGE_VAL;
 #endif
@@ -2198,22 +2198,22 @@ call_func2 (GelCtx *ctx,
 	args[1] = arg2;
 	args[2] = NULL;
 
-	ret = funccall (ctx, func, args, 2);
+	ret = gel_funccall (ctx, func, args, 2);
 
 	/* FIXME: handle errors! */
-	if (error_num != 0)
-		error_num = 0;
+	if G_UNLIKELY (gel_error_num != 0)
+		gel_error_num = 0;
 
 	/* only do one level of indirection to avoid infinite loops */
 	if (ret != NULL && ret->type == FUNCTION_NODE) {
 		if (ret->func.func->nargs == 2) {
 			GelETree *ret2;
-			ret2 = funccall (ctx, ret->func.func, args, 2);
+			ret2 = gel_funccall (ctx, ret->func.func, args, 2);
 			gel_freetree (ret);
 			ret = ret2;
 			/* FIXME: handle errors! */
-			if (error_num != 0)
-				error_num = 0;
+			if G_UNLIKELY (gel_error_num != 0)
+				gel_error_num = 0;
 		} else if (func_ret != NULL) {
 			*func_ret = ret;
 #ifdef HUGE_VAL
@@ -2235,9 +2235,9 @@ call_func2 (GelCtx *ctx,
 	}
 
 	retd = mpw_get_double (ret->val.value);
-	if (error_num != 0) {
+	if G_UNLIKELY (gel_error_num != 0) {
 		*ex = TRUE;
-		error_num = 0;
+		gel_error_num = 0;
 #ifdef HUGE_VAL
 		retd = HUGE_VAL;
 #endif
@@ -2261,22 +2261,22 @@ call_func (GelCtx *ctx,
 	args[0] = arg;
 	args[1] = NULL;
 
-	ret = funccall (ctx, func, args, 1);
+	ret = gel_funccall (ctx, func, args, 1);
 
 	/* FIXME: handle errors! */
-	if (error_num != 0)
-		error_num = 0;
+	if G_UNLIKELY (gel_error_num != 0)
+		gel_error_num = 0;
 
 	/* only do one level of indirection to avoid infinite loops */
 	if (ret != NULL && ret->type == FUNCTION_NODE) {
 		if (ret->func.func->nargs == 1) {
 			GelETree *ret2;
-			ret2 = funccall (ctx, ret->func.func, args, 1);
+			ret2 = gel_funccall (ctx, ret->func.func, args, 1);
 			gel_freetree (ret);
 			ret = ret2;
 			/* FIXME: handle errors! */
-			if (error_num != 0)
-				error_num = 0;
+			if G_UNLIKELY (gel_error_num != 0)
+				gel_error_num = 0;
 		} else if (func_ret != NULL) {
 			*func_ret = ret;
 #ifdef HUGE_VAL
@@ -2299,9 +2299,9 @@ call_func (GelCtx *ctx,
 	}
 
 	retd = mpw_get_double (ret->val.value);
-	if (error_num != 0) {
+	if G_UNLIKELY (gel_error_num != 0) {
 		*ex = TRUE;
-		error_num = 0;
+		gel_error_num = 0;
 #ifdef HUGE_VAL
 		retd = HUGE_VAL;
 #endif
@@ -2326,22 +2326,22 @@ call_func_z (GelCtx *ctx,
 	args[0] = arg;
 	args[1] = NULL;
 
-	ret = funccall (ctx, func, args, 1);
+	ret = gel_funccall (ctx, func, args, 1);
 
 	/* FIXME: handle errors! */
-	if (error_num != 0)
-		error_num = 0;
+	if G_UNLIKELY (gel_error_num != 0)
+		gel_error_num = 0;
 
 	/* only do one level of indirection to avoid infinite loops */
 	if (ret != NULL && ret->type == FUNCTION_NODE) {
 		if (ret->func.func->nargs == 1) {
 			GelETree *ret2;
-			ret2 = funccall (ctx, ret->func.func, args, 1);
+			ret2 = gel_funccall (ctx, ret->func.func, args, 1);
 			gel_freetree (ret);
 			ret = ret2;
 			/* FIXME: handle errors! */
-			if (error_num != 0)
-				error_num = 0;
+			if G_UNLIKELY (gel_error_num != 0)
+				gel_error_num = 0;
 		} else if (func_ret != NULL) {
 			*func_ret = ret;
 #ifdef HUGE_VAL
@@ -2370,9 +2370,9 @@ call_func_z (GelCtx *ctx,
 	}
 
 	mpw_get_complex_double (ret->val.value, retx, rety);
-	if (error_num != 0) {
+	if G_UNLIKELY (gel_error_num != 0) {
 		*ex = TRUE;
-		error_num = 0;
+		gel_error_num = 0;
 #ifdef HUGE_VAL
 		*retx = HUGE_VAL;
 		*rety = HUGE_VAL;
@@ -2396,7 +2396,7 @@ plot_func_data (GtkPlot *plot, GtkPlotData *data, double x, gboolean *error)
 	if (error != NULL)
 		*error = FALSE;
 
-	if G_UNLIKELY (interrupted) {
+	if G_UNLIKELY (gel_interrupted) {
 		if (error != NULL)
 			*error = TRUE;
 		return 0.0;
@@ -2434,11 +2434,11 @@ plot_func_data (GtkPlot *plot, GtkPlotData *data, double x, gboolean *error)
 	*/
 
 
-	if (hookrun++ >= 10) {
-		hookrun = 0;
-		if (evalnode_hook != NULL) {
-			(*evalnode_hook)();
-			if G_UNLIKELY (interrupted) {
+	if G_UNLIKELY (hookrun++ >= 10) {
+		if (gel_evalnode_hook != NULL) {
+			hookrun = 0;
+			(*gel_evalnode_hook)();
+			if G_UNLIKELY (gel_interrupted) {
 				if (error != NULL)
 					*error = TRUE;
 				return y;
@@ -2506,7 +2506,7 @@ surface_func_data (GtkPlot *plot, GtkPlotData *data, double x, double y, gboolea
 	if (error != NULL)
 		*error = FALSE;
 
-	if G_UNLIKELY (interrupted) {
+	if G_UNLIKELY (gel_interrupted) {
 		if (error != NULL)
 			*error = TRUE;
 		return 0.0;
@@ -2532,11 +2532,11 @@ surface_func_data (GtkPlot *plot, GtkPlotData *data, double x, double y, gboolea
 	}
 
 
-	if (hookrun++ >= 10) {
-		hookrun = 0;
-		if (evalnode_hook != NULL) {
-			(*evalnode_hook)();
-			if G_UNLIKELY (interrupted) {
+	if G_UNLIKELY (hookrun++ >= 10) {
+		if (gel_evalnode_hook != NULL) {
+			hookrun = 0;
+			(*gel_evalnode_hook)();
+			if G_UNLIKELY (gel_interrupted) {
 				if (error != NULL)
 					*error = TRUE;
 				return z;
@@ -2720,10 +2720,10 @@ label_func (int i, GelEFunc *func, const char *var, const char *name)
 		gel_output_setup_string (out, 0, NULL);
 
 		/* FIXME: the push/pop of style is UGLY */
-		old_style = calcstate.output_style;
-		calcstate.output_style = GEL_OUTPUT_NORMAL;
+		old_style = gel_calcstate.output_style;
+		gel_calcstate.output_style = GEL_OUTPUT_NORMAL;
 		gel_print_etree (out, func->data.user, TRUE /* toplevel */);
-		calcstate.output_style = old_style;
+		gel_calcstate.output_style = old_style;
 
 		text = gel_output_snarf_string (out);
 		gel_output_unref (out);
@@ -2801,8 +2801,8 @@ get_limits_from_matrix (GelETree *m, double *x1, double *x2, double *y1, double 
 	*y2 = mpw_get_double (t->val.value);
 
 	/* FIXME: what about errors */
-	if (error_num != 0) {
-		error_num = 0;
+	if G_UNLIKELY (gel_error_num != 0) {
+		gel_error_num = 0;
 		return FALSE;
 	}
 
@@ -2833,7 +2833,7 @@ make_matrix_from_limits (void)
 	GelETree *n;
 	GelMatrixW *m;
 	/*make us a new empty node*/
-	GET_NEW_NODE (n);
+	GEL_GET_NEW_NODE (n);
 	n->type = MATRIX_NODE;
 	m = n->mat.matrix = gel_matrixw_new ();
 	n->mat.quoted = FALSE;
@@ -2896,8 +2896,8 @@ get_limits_from_matrix_surf (GelETree *m, double *x1, double *x2, double *y1, do
 	*z2 = mpw_get_double (t->val.value);
 
 	/* FIXME: what about errors */
-	if (error_num != 0) {
-		error_num = 0;
+	if G_UNLIKELY (gel_error_num != 0) {
+		gel_error_num = 0;
 		return FALSE;
 	}
 
@@ -2937,7 +2937,7 @@ make_matrix_from_limits_surf (void)
 	GelETree *n;
 	GelMatrixW *m;
 	/*make us a new empty node*/
-	GET_NEW_NODE (n);
+	GEL_GET_NEW_NODE (n);
 	n->type = MATRIX_NODE;
 	m = n->mat.matrix = gel_matrixw_new ();
 	n->mat.quoted = FALSE;
@@ -2984,10 +2984,10 @@ parametric_get_value (double *x, double *y, double t)
 	}
 	/* FIXME: sanity on x/y ??? */
 
-	if (hookrun++ >= 10) {
-		hookrun = 0;
-		if (evalnode_hook != NULL) {
-			(*evalnode_hook)();
+	if G_UNLIKELY (hookrun++ >= 10) {
+		if (gel_evalnode_hook != NULL) {
+			hookrun = 0;
+			(*gel_evalnode_hook)();
 		}
 	}
 
@@ -3418,7 +3418,7 @@ init_plot_ctx (void)
 	if G_UNLIKELY (plot_ctx == NULL) {
 		mpw_t xx;
 
-		plot_ctx = eval_get_context ();
+		plot_ctx = gel_eval_get_context ();
 
 		mpw_init (xx);
 		plot_arg = gel_makenum_use (xx);
@@ -3492,8 +3492,8 @@ plot_functions (gboolean do_window_present)
 
 	init_plot_ctx ();
 
-	if (evalnode_hook != NULL)
-		(*evalnode_hook)();
+	if (gel_evalnode_hook != NULL)
+		(*gel_evalnode_hook)();
 
 	color_i = 0;
 
@@ -3538,7 +3538,7 @@ plot_functions (gboolean do_window_present)
 		for (i = 0; i < len; i++) {
 			parametric_get_value (&(x[i]), &(y[i]), t);
 
-			if G_UNLIKELY (interrupted) {
+			if G_UNLIKELY (gel_interrupted) {
 				break;
 			}
 
@@ -3641,8 +3641,8 @@ plot_surface_functions (gboolean do_window_present)
 
 	init_plot_ctx ();
 
-	if (evalnode_hook != NULL)
-		(*evalnode_hook)();
+	if (gel_evalnode_hook != NULL)
+		(*gel_evalnode_hook)();
 
 
 	if (surface_func != NULL) {
@@ -4316,9 +4316,9 @@ function_from_expression2 (const char *e, gboolean *ex)
 	g_free (ce);
 
 	/* FIXME: funcbody?  I think it must be done. */
-	got_x = eval_find_identifier (value, d_intern ("x"), TRUE /*funcbody*/);
-	got_y = eval_find_identifier (value, d_intern ("y"), TRUE /*funcbody*/);
-	got_z = eval_find_identifier (value, d_intern ("z"), TRUE /*funcbody*/);
+	got_x = gel_eval_find_identifier (value, d_intern ("x"), TRUE /*funcbody*/);
+	got_y = gel_eval_find_identifier (value, d_intern ("y"), TRUE /*funcbody*/);
+	got_z = gel_eval_find_identifier (value, d_intern ("z"), TRUE /*funcbody*/);
 
 	/* FIXME: if "x" or "y" or "z" not used try to evaluate and if it returns a function use that */
 	if (value != NULL) {
@@ -4499,8 +4499,8 @@ surface_from_dialog (void)
 	plot_mode = MODE_SURFACE;
 	plot_surface_functions (TRUE /* do_window_present */);
 
-	if (interrupted)
-		interrupted = FALSE;
+	if (gel_interrupted)
+		gel_interrupted = FALSE;
 
 	gel_printout_infos ();
 	genius_setup.info_box = last_info;
@@ -4642,8 +4642,8 @@ plot_from_dialog_lineplot (void)
 
 	plot_functions (TRUE /* do_window_present */);
 
-	if (interrupted)
-		interrupted = FALSE;
+	if (gel_interrupted)
+		gel_interrupted = FALSE;
 
 	gel_printout_infos ();
 	genius_setup.info_box = last_info;
@@ -4768,8 +4768,8 @@ plot_from_dialog_parametric (void)
 
 	plot_functions (TRUE /* do_window_present */);
 
-	if (interrupted)
-		interrupted = FALSE;
+	if (gel_interrupted)
+		gel_interrupted = FALSE;
 
 	gel_printout_infos ();
 	genius_setup.info_box = last_info;
@@ -4861,8 +4861,8 @@ plot_from_dialog_slopefield (void)
 
 	plot_functions (TRUE /* do_window_present */);
 
-	if (interrupted)
-		interrupted = FALSE;
+	if (gel_interrupted)
+		gel_interrupted = FALSE;
 
 	gel_printout_infos ();
 	genius_setup.info_box = last_info;
@@ -4958,8 +4958,8 @@ plot_from_dialog_vectorfield (void)
 
 	plot_functions (TRUE /* do_window_present */);
 
-	if (interrupted)
-		interrupted = FALSE;
+	if (gel_interrupted)
+		gel_interrupted = FALSE;
 
 	gel_printout_infos ();
 	genius_setup.info_box = last_info;
@@ -5122,8 +5122,8 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 				}
 			}
 			/* FIXME: what about errors */
-			if (error_num != 0) {
-				error_num = 0;
+			if G_UNLIKELY (gel_error_num != 0) {
+				gel_error_num = 0;
 				goto whack_copied_funcs;
 			}
 		}
@@ -5181,7 +5181,7 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plot_mode = MODE_SURFACE;
 	plot_surface_functions (FALSE /* do_window_present */);
 
-	if (interrupted)
+	if (gel_interrupted)
 		return NULL;
 	else
 		return gel_makenum_null ();
@@ -5362,8 +5362,8 @@ SlopefieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 				}
 			}
 			/* FIXME: what about errors */
-			if (error_num != 0) {
-				error_num = 0;
+			if G_UNLIKELY (gel_error_num != 0) {
+				gel_error_num = 0;
 				goto whack_copied_funcs;
 			}
 		}
@@ -5403,7 +5403,7 @@ SlopefieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plot_mode = MODE_LINEPLOT_SLOPEFIELD;
 	plot_functions (FALSE /* do_window_present */);
 
-	if (interrupted)
+	if (gel_interrupted)
 		return NULL;
 	else
 		return gel_makenum_null ();
@@ -5474,8 +5474,8 @@ VectorfieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 				}
 			}
 			/* FIXME: what about errors */
-			if (error_num != 0) {
-				error_num = 0;
+			if G_UNLIKELY (gel_error_num != 0) {
+				gel_error_num = 0;
 				goto whack_copied_funcs;
 			}
 		}
@@ -5519,7 +5519,7 @@ VectorfieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plot_mode = MODE_LINEPLOT_VECTORFIELD;
 	plot_functions (FALSE /* do_window_present */);
 
-	if (interrupted)
+	if (gel_interrupted)
 		return NULL;
 	else
 		return gel_makenum_null ();
@@ -5592,8 +5592,8 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 				}
 			}
 			/* FIXME: what about errors */
-			if G_UNLIKELY (error_num != 0) {
-				error_num = 0;
+			if G_UNLIKELY (gel_error_num != 0) {
+				gel_error_num = 0;
 				goto whack_copied_funcs;
 			}
 		}
@@ -5636,7 +5636,7 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plot_mode = MODE_LINEPLOT;
 	plot_functions (FALSE /* do_window_present */);
 
-	if G_UNLIKELY (interrupted)
+	if G_UNLIKELY (gel_interrupted)
 		return NULL;
 	else
 		return gel_makenum_null ();
@@ -5700,8 +5700,8 @@ LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 			}
 		}
 		/* FIXME: what about errors */
-		if G_UNLIKELY (error_num != 0) {
-			error_num = 0;
+		if G_UNLIKELY (gel_error_num != 0) {
+			gel_error_num = 0;
 			goto whack_copied_funcs;
 		}
 	}
@@ -5728,8 +5728,8 @@ LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 				}
 			}
 			/* FIXME: what about errors */
-			if G_UNLIKELY (error_num != 0) {
-				error_num = 0;
+			if G_UNLIKELY (gel_error_num != 0) {
+				gel_error_num = 0;
 				goto whack_copied_funcs;
 			}
 		}
@@ -5779,7 +5779,7 @@ LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plot_mode = MODE_LINEPLOT_PARAMETRIC;
 	plot_functions (FALSE /* do_window_present */);
 
-	if G_UNLIKELY (interrupted)
+	if G_UNLIKELY (gel_interrupted)
 		return NULL;
 	else
 		return gel_makenum_null ();
@@ -5840,8 +5840,8 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 			}
 		}
 		/* FIXME: what about errors */
-		if G_UNLIKELY (error_num != 0) {
-			error_num = 0;
+		if G_UNLIKELY (gel_error_num != 0) {
+			gel_error_num = 0;
 			goto whack_copied_funcs;
 		}
 	}
@@ -5868,8 +5868,8 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 				}
 			}
 			/* FIXME: what about errors */
-			if G_UNLIKELY (error_num != 0) {
-				error_num = 0;
+			if G_UNLIKELY (gel_error_num != 0) {
+				gel_error_num = 0;
 				goto whack_copied_funcs;
 			}
 		}
@@ -5918,7 +5918,7 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plot_mode = MODE_LINEPLOT_PARAMETRIC;
 	plot_functions (FALSE /* do_window_present */);
 
-	if G_UNLIKELY (interrupted)
+	if G_UNLIKELY (gel_interrupted)
 		return NULL;
 	else
 		return gel_makenum_null ();
@@ -5945,7 +5945,7 @@ LinePlotClear_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plot_mode = MODE_LINEPLOT;
 	plot_functions (FALSE /* do_window_present */);
 
-	if G_UNLIKELY (interrupted)
+	if G_UNLIKELY (gel_interrupted)
 		return NULL;
 	else
 		return gel_makenum_null ();
@@ -6520,7 +6520,7 @@ gel_add_graph_functions (void)
 	GelEFunc *f;
 	GelToken *id;
 
-	new_category ("plotting", N_("Plotting"), TRUE /* internal */);
+	gel_new_category ("plotting", N_("Plotting"), TRUE /* internal */);
 
 	VFUNC (LinePlot, 2, "func,args", "plotting", N_("Plot a function with a line.  First come the functions (up to 10) then optionally limits as x1,x2,y1,y2"));
 	VFUNC (LinePlotParametric, 3, "xfunc,yfunc,args", "plotting", N_("Plot a parametric function with a line.  First come the functions for x and y then optionally the t limits as t1,t2,tinc, then optionally the limits as x1,x2,y1,y2"));
