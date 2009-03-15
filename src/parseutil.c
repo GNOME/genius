@@ -52,13 +52,13 @@ gp_push_func (gboolean vararg)
 
 	for(;;) {
 		tree = gel_stack_pop(&gel_parsestack);
-		if(tree && tree->type==EXPRLIST_START_NODE) {
+		if(tree && tree->type==GEL_EXPRLIST_START_NODE) {
 			gel_freetree(tree);
 			break;
 		}
 		/*we have gone all the way to the top and haven't found a
 		  marker or tree is not an ident node*/
-		if(!tree || tree->type != IDENTIFIER_NODE) {
+		if(!tree || tree->type != GEL_IDENTIFIER_NODE) {
 			if(tree) gel_freetree(tree);
 			g_slist_foreach(list,(GFunc)gel_freetree,NULL);
 			g_slist_free(list); 
@@ -71,7 +71,7 @@ gp_push_func (gboolean vararg)
 	
 	GEL_GET_NEW_NODE(tree);
 
-	tree->type = FUNCTION_NODE;
+	tree->type = GEL_FUNCTION_NODE;
 	tree->func.func = d_makeufunc(NULL,val,list,i, NULL);
 	tree->func.func->context = -1;
 	tree->func.func->vararg = vararg;
@@ -117,8 +117,8 @@ gp_prepare_push_region_sep (void)
 	e2 = gel_stack_pop (&gel_parsestack);
 	e1 = gel_stack_pop (&gel_parsestack);
 
-	if (e2->type == OPERATOR_NODE &&
-	    e2->op.oper == E_REGION_SEP) {
+	if (e2->type == GEL_OPERATOR_NODE &&
+	    e2->op.oper == GEL_E_REGION_SEP) {
 		GelETree *a1 = e2->op.args;
 		GelETree *a2 = e2->op.args->any.next;
 		a1->any.next = NULL;
@@ -175,12 +175,12 @@ gp_push_spacer(void)
 	
 	if(!last_expr)
 		return FALSE;
-	else if(last_expr->type == SPACER_NODE)
+	else if(last_expr->type == GEL_SPACER_NODE)
 		gel_stack_push(&gel_parsestack,last_expr);
 	else {
 		GelETree * tree;
 		GEL_GET_NEW_NODE(tree);
-		tree->type = SPACER_NODE;
+		tree->type = GEL_SPACER_NODE;
 		tree->sp.arg = last_expr;
 		gel_stack_push(&gel_parsestack,tree);
 	}
@@ -188,7 +188,7 @@ gp_push_spacer(void)
 }
 	
 /*gather all expressions up until a row start marker and push the
-  result as a MATRIX_ROW_NODE*/
+  result as a GEL_MATRIX_ROW_NODE*/
 gboolean
 gp_push_matrix_row(void)
 {
@@ -207,7 +207,7 @@ gp_push_matrix_row(void)
 			}
 			return FALSE;
 		}
-		if(tree->type==EXPRLIST_START_NODE) {
+		if(tree->type==GEL_EXPRLIST_START_NODE) {
 			gel_freetree(tree);
 			break;
 		}
@@ -216,7 +216,7 @@ gp_push_matrix_row(void)
 		i++;
 	}
 	GEL_GET_NEW_NODE(tree);
-	tree->type = MATRIX_ROW_NODE;
+	tree->type = GEL_MATRIX_ROW_NODE;
 	tree->row.args = row;
 	tree->row.nargs = i;
 
@@ -258,10 +258,10 @@ gp_push_matrix(gboolean quoted)
 			g_slist_free(rowl);
 			/**/g_warning("BAD MATRIX, NO START MARKER");
 			return FALSE;
-		} else if(tree->type==MATRIX_START_NODE) {
+		} else if(tree->type==GEL_MATRIX_START_NODE) {
 			gel_freetree(tree);
 			break;
-		} else if(tree->type==MATRIX_ROW_NODE) {
+		} else if(tree->type==GEL_MATRIX_ROW_NODE) {
 			if(tree->row.nargs>cols)
 				cols = tree->row.nargs;
 			rowl = g_slist_prepend(rowl,tree->row.args);
@@ -306,7 +306,7 @@ gp_push_matrix(gboolean quoted)
 	g_slist_free(rowl);
 	
 	GEL_GET_NEW_NODE(tree);
-	tree->type = MATRIX_NODE;
+	tree->type = GEL_MATRIX_NODE;
 	tree->mat.matrix = gel_matrixw_new_with_matrix(matrix);
 	tree->mat.quoted = quoted ? 1 : 0;
 	
@@ -321,7 +321,7 @@ gp_push_null(void)
 {
 	GelETree *tree;
 	GEL_GET_NEW_NODE(tree);
-	tree->type = NULL_NODE;
+	tree->type = GEL_NULL_NODE;
 
 	gel_stack_push(&gel_parsestack,tree);
 }
@@ -333,7 +333,7 @@ gp_convert_identifier_to_bool (void)
 
 	val = gel_stack_peek (&gel_parsestack);
 	if (val == NULL ||
-	    val->type != IDENTIFIER_NODE) {
+	    val->type != GEL_IDENTIFIER_NODE) {
 		/**/g_warning ("NO IDENTIFIER TO CONVERT TO TRY TO CONVERT BOOL");
 		return;
 	}

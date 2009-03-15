@@ -88,15 +88,15 @@ gel_compile_node(GelETree *t,GString *gs)
 	GelETree *ali;
 	g_string_append_printf (gs, ";%d", t->type);
 	switch(t->type) {
-	case NULL_NODE:
+	case GEL_NULL_NODE:
 		break;
-	case VALUE_NODE:
+	case GEL_VALUE_NODE:
 		s = mpw_getstring(t->val.value,0,FALSE,FALSE,FALSE,GEL_OUTPUT_NORMAL,10, TRUE);
 		g_string_append_c(gs,';');
 		g_string_append(gs,s);
 		g_free(s);
 		break;
-	case MATRIX_NODE:
+	case GEL_MATRIX_NODE:
 		g_string_append_printf (gs, ";%dx%d;%d",
 					gel_matrixw_width (t->mat.matrix),
 					gel_matrixw_height (t->mat.matrix),
@@ -114,7 +114,7 @@ gel_compile_node(GelETree *t,GString *gs)
 			}
 		}
 		break;
-	case OPERATOR_NODE:
+	case GEL_OPERATOR_NODE:
 		g_string_append_printf (gs, ";%d;%d",
 					t->op.oper,
 					t->op.nargs);
@@ -122,10 +122,10 @@ gel_compile_node(GelETree *t,GString *gs)
 			gel_compile_node(ali,gs);
 		}
 		break;
-	case IDENTIFIER_NODE:
+	case GEL_IDENTIFIER_NODE:
 		g_string_append_printf (gs, ";%s", t->id.id->token);
 		break;
-	case STRING_NODE:
+	case GEL_STRING_NODE:
 		if(*t->str.str) {
 			g_string_append_c(gs,';');
 			append_string(gs,t->str.str);
@@ -133,7 +133,7 @@ gel_compile_node(GelETree *t,GString *gs)
 			g_string_append(gs,";E");
 		}
 		break;
-	case FUNCTION_NODE:
+	case GEL_FUNCTION_NODE:
 		g_assert(t->func.func->type==GEL_USER_FUNC);
 		/*g_assert(t->func.func->id==NULL);*/
 		g_string_append_printf (gs, ";%s;%s;%d;%d;%d;%d",
@@ -149,7 +149,7 @@ gel_compile_node(GelETree *t,GString *gs)
 		}
 		gel_compile_node(t->func.func->data.user,gs);
 		break;
-	case COMPARISON_NODE:
+	case GEL_COMPARISON_NODE:
 		g_string_append_printf (gs, ";%d", t->comp.nargs);
 		for(li=t->comp.comp;li;li=g_slist_next(li)) {
 			int oper = GPOINTER_TO_INT(li->data);
@@ -159,7 +159,7 @@ gel_compile_node(GelETree *t,GString *gs)
 			gel_compile_node(ali,gs);
 		}
 		break;
-	case BOOL_NODE:
+	case GEL_BOOL_NODE:
 		g_string_append_printf (gs, ";%c", 
 					t->bool_.bool_ ? 't' : 'f');
 		break;
@@ -211,15 +211,15 @@ gel_decompile_node(char **ptrptr)
 	if G_UNLIKELY (type==-1) return NULL;
 
 	switch(type) {
-	case NULL_NODE:
+	case GEL_NULL_NODE:
 		return gel_makenum_null();
-	case VALUE_NODE:
+	case GEL_VALUE_NODE:
 		p = strtok_r(NULL,";", ptrptr);
 		if G_UNLIKELY (!p) return NULL;
 		mpw_init(tmp);
 		mpw_set_str(tmp,p,10);
 		return gel_makenum_use(tmp);
-	case MATRIX_NODE:
+	case GEL_MATRIX_NODE:
 		p = strtok_r(NULL,";", ptrptr);
 		if G_UNLIKELY (!p) return NULL;
 		h = w = -1;
@@ -258,11 +258,11 @@ gel_decompile_node(char **ptrptr)
 			}
 		}
 		GEL_GET_NEW_NODE(n);
-		n->type = MATRIX_NODE;
+		n->type = GEL_MATRIX_NODE;
 		n->mat.matrix = m;
 		n->mat.quoted = quote;
 		return n;
-	case OPERATOR_NODE:
+	case GEL_OPERATOR_NODE:
 		p = strtok_r (NULL,";", ptrptr);
 		if G_UNLIKELY (!p) return NULL;
 		oper = -1;
@@ -294,19 +294,19 @@ gel_decompile_node(char **ptrptr)
 		}
 
 		GEL_GET_NEW_NODE(n);
-		n->type = OPERATOR_NODE;
+		n->type = GEL_OPERATOR_NODE;
 		n->op.args = args;
 		n->op.nargs = nargs;
 		n->op.oper = oper;
 		return n;
-	case IDENTIFIER_NODE:
+	case GEL_IDENTIFIER_NODE:
 		p = strtok_r (NULL,";", ptrptr);
 		if G_UNLIKELY (!p) return NULL;
 		GEL_GET_NEW_NODE(n);
-		n->type = IDENTIFIER_NODE;
+		n->type = GEL_IDENTIFIER_NODE;
 		n->id.id = d_intern(p);
 		return n;
-	case STRING_NODE:
+	case GEL_STRING_NODE:
 		p = strtok_r (NULL, ";", ptrptr);
 		if G_UNLIKELY (p == NULL)
 			return NULL;
@@ -321,7 +321,7 @@ gel_decompile_node(char **ptrptr)
 			g_free (p);
 		}
 		return n;
-	case FUNCTION_NODE:
+	case GEL_FUNCTION_NODE:
 		p = strtok_r (NULL,";", ptrptr);
 		if G_UNLIKELY (!p) return NULL;
 		if (strcmp (p, "*") == 0)
@@ -382,10 +382,10 @@ gel_decompile_node(char **ptrptr)
 		func->no_mod_all_args = no_mod_all_args ? 1 : 0;
 
 		GEL_GET_NEW_NODE(n);
-		n->type = FUNCTION_NODE;
+		n->type = GEL_FUNCTION_NODE;
 		n->func.func = func;
 		return n;
-	case COMPARISON_NODE:
+	case GEL_COMPARISON_NODE:
 		p = strtok_r (NULL,";", ptrptr);
 		if G_UNLIKELY (!p) return NULL;
 		sscanf(p,"%d",&nargs);
@@ -428,12 +428,12 @@ gel_decompile_node(char **ptrptr)
 		}
 
 		GEL_GET_NEW_NODE(n);
-		n->type = COMPARISON_NODE;
+		n->type = GEL_COMPARISON_NODE;
 		n->comp.args = args;
 		n->comp.nargs = nargs;
 		n->comp.comp = oli;
 		return n;
-	case BOOL_NODE:
+	case GEL_BOOL_NODE:
 		p = strtok_r (NULL, ";", ptrptr);
 		if G_UNLIKELY (p == NULL)
 			return NULL;

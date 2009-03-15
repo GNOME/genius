@@ -1267,7 +1267,7 @@ monitor_timeout (gpointer data)
 			gel_output_string (md->out, "\n ");
 			gel_output_clear_string (md->out);
 
-			if (func->data.user->type == MATRIX_NODE)
+			if (func->data.user->type == GEL_MATRIX_NODE)
 				any_matrix = TRUE;
 			gel_pretty_print_etree (md->out, func->data.user);
 
@@ -1473,13 +1473,13 @@ full_answer (GtkWidget *menu_item, gpointer data)
 
 	if (ans != NULL) {
 		if (ans->type == GEL_VARIABLE_FUNC) {
-			if (ans->data.user->type == MATRIX_NODE)
+			if (ans->data.user->type == GEL_MATRIX_NODE)
 				wrap = FALSE;
 			gel_pretty_print_etree (out, ans->data.user);
 		} else {
 			/* ugly? maybe! */
 			GelETree n;
-			n.type = FUNCTION_NODE;
+			n.type = GEL_FUNCTION_NODE;
 			n.any.next = NULL;
 			n.func.func = ans;
 			gel_pretty_print_etree (out, &n);

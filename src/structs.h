@@ -19,8 +19,8 @@
  * USA.
  */
 
-#ifndef STRUCTS_H
-#define STRUCTS_H
+#ifndef _GEL_STRUCTS_H
+#define _GEL_STRUCTS_H
 
 #include <stdio.h>
 #include "mpwrap.h"
@@ -123,24 +123,24 @@ struct _GelEFunc {
 };
 
 typedef enum {
-	NULL_NODE=0,
-	VALUE_NODE,
-	MATRIX_NODE,
-	SET_NODE, /* FIXME: Note implemented */
-	POLYNOMIAL_NODE, /* FIXME: Note implemented */
-	OPERATOR_NODE,
-	IDENTIFIER_NODE,
-	STRING_NODE,
-	FUNCTION_NODE, /*stores an anonymous function*/
-	COMPARISON_NODE,
-	USERTYPE_NODE, /*for user types, FIXME: not finished*/
-	BOOL_NODE, /*boolean*/
+	GEL_NULL_NODE=0,
+	GEL_VALUE_NODE,
+	GEL_MATRIX_NODE,
+	GEL_SET_NODE, /* FIXME: Note implemented */
+	GEL_POLYNOMIAL_NODE, /* FIXME: Note implemented */
+	GEL_OPERATOR_NODE,
+	GEL_IDENTIFIER_NODE,
+	GEL_STRING_NODE,
+	GEL_FUNCTION_NODE, /*stores an anonymous function*/
+	GEL_COMPARISON_NODE,
+	GEL_USERTYPE_NODE, /*for user types, FIXME: not finished*/
+	GEL_BOOL_NODE, /*boolean*/
 	
 	/*marker nodes*/
-	MATRIX_ROW_NODE=1000,
-	MATRIX_START_NODE,
-	EXPRLIST_START_NODE,
-	SPACER_NODE
+	GEL_MATRIX_ROW_NODE=1000,
+	GEL_MATRIX_START_NODE,
+	GEL_EXPRLIST_START_NODE,
+	GEL_SPACER_NODE
 } GelETreeType;
 
 struct _GelETreeAny {
@@ -307,6 +307,78 @@ union _GelETree {
 	GelETreeSpacer sp;
 };
 
+/* builtin primitives (operator node type) */
+enum {
+	GEL_E_SEPAR = 0,
+	GEL_E_EQUALS, /* see E_DEFEQUALS (on the end not to break bincompat) */
+	GEL_E_PARAMETER,
+	GEL_E_ABS,
+	GEL_E_PLUS,
+	GEL_E_ELTPLUS,
+	GEL_E_MINUS,
+	GEL_E_ELTMINUS,
+	GEL_E_MUL,
+	GEL_E_ELTMUL,
+	GEL_E_DIV,
+	GEL_E_ELTDIV,
+	GEL_E_BACK_DIV,
+	GEL_E_ELT_BACK_DIV,
+	GEL_E_MOD,
+	GEL_E_ELTMOD,
+	GEL_E_NEG,
+	GEL_E_EXP,
+	GEL_E_ELTEXP,
+	GEL_E_FACT,
+	GEL_E_DBLFACT,
+	GEL_E_TRANSPOSE,
+	GEL_E_CONJUGATE_TRANSPOSE,
+	GEL_E_IF_CONS,
+	GEL_E_IFELSE_CONS,
+	GEL_E_WHILE_CONS,
+	GEL_E_UNTIL_CONS,
+	GEL_E_DOWHILE_CONS,
+	GEL_E_DOUNTIL_CONS,
+	GEL_E_FOR_CONS,
+	GEL_E_FORBY_CONS,
+	GEL_E_FORIN_CONS,
+	GEL_E_SUM_CONS,
+	GEL_E_SUMBY_CONS,
+	GEL_E_SUMIN_CONS,
+	GEL_E_PROD_CONS,
+	GEL_E_PRODBY_CONS,
+	GEL_E_PRODIN_CONS,
+	GEL_E_EQ_CMP,
+	GEL_E_NE_CMP,
+	GEL_E_CMP_CMP,
+	GEL_E_LT_CMP,
+	GEL_E_GT_CMP,
+	GEL_E_LE_CMP,
+	GEL_E_GE_CMP,
+	GEL_E_LOGICAL_AND,
+	GEL_E_LOGICAL_OR,
+	GEL_E_LOGICAL_XOR,
+	GEL_E_LOGICAL_NOT,
+	GEL_E_REGION_SEP,
+	GEL_E_REGION_SEP_BY,
+	GEL_E_GET_VELEMENT,
+	GEL_E_GET_ELEMENT,
+	GEL_E_GET_ROW_REGION,
+	GEL_E_GET_COL_REGION,
+	GEL_E_QUOTE,
+	GEL_E_REFERENCE,
+	GEL_E_DEREFERENCE,
+	GEL_E_DIRECTCALL,
+	GEL_E_CALL,
+	GEL_E_RETURN,
+	GEL_E_BAILOUT,
+	GEL_E_EXCEPTION,
+	GEL_E_CONTINUE,
+	GEL_E_BREAK,
+	GEL_E_MOD_CALC,
+	GEL_E_DEFEQUALS,
+	GEL_E_OPER_LAST
+};
+
 /* Evaluation stack */
 
 /* The flag for the stack */
@@ -431,4 +503,4 @@ struct _GelOutput {
 
 typedef void (*GelHookFunc) (void);
 
-#endif /* STRUCTS_H */
+#endif /* _GEL_STRUCTS_H */

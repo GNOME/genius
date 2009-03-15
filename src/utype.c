@@ -148,7 +148,7 @@ gel_make_new_user_variable(int type, gpointer data)
 
 	GEL_GET_NEW_NODE(n);
 
-	n->type = USERTYPE_NODE;
+	n->type = GEL_USERTYPE_NODE;
 	n->ut.next = NULL;
 	n->ut.ttype = ut->type;
 	n->ut.data = data;

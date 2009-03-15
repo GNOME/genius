@@ -46,7 +46,7 @@ gel_is_matrix_value_only (GelMatrixW *m)
 	for (j = 0; j < h; j++) {
 		for (i = 0; i < w; i++) {
 			GelETree *n = gel_matrixw_get_index(m,i,j);
-			if(n && n->type != VALUE_NODE) {
+			if(n && n->type != GEL_VALUE_NODE) {
 				m->cached_value_only = 1;
 				m->value_only = 0;
 				m->cached_value_only_real = 1;
@@ -78,12 +78,12 @@ gel_is_matrix_value_or_bool_only (GelMatrixW *m)
 			GelETree *n = gel_matrixw_get_index(m,i,j);
 			if ( ! n)
 				continue;
-			if (n->type == BOOL_NODE) {
+			if (n->type == GEL_BOOL_NODE) {
 				got_bools = TRUE;
 				continue;
 			}
 
-			if (n->type != VALUE_NODE) {
+			if (n->type != GEL_VALUE_NODE) {
 				m->cached_value_or_bool_only = 1;
 				m->value_or_bool_only = 0;
 				m->cached_value_only = 1;
@@ -122,7 +122,7 @@ gel_is_matrix_value_only_real (GelMatrixW *m)
 		for (i = 0; i < w; i++) {
 			GelETree *n = gel_matrixw_get_index(m,i,j);
 			if (n != NULL &&
-			    (n->type != VALUE_NODE ||
+			    (n->type != GEL_VALUE_NODE ||
 			     mpw_is_complex (n->val.value))) {
 				m->cached_value_only_real = 1;
 				m->value_only_real = 0;
@@ -149,7 +149,7 @@ gel_is_matrix_value_only_rational (GelMatrixW *m)
 		for (i = 0; i < w; i++) {
 			GelETree *n = gel_matrixw_get_index(m,i,j);
 			if (n != NULL &&
-			    (n->type != VALUE_NODE ||
+			    (n->type != GEL_VALUE_NODE ||
 			     mpw_is_complex (n->val.value) ||
 			     mpw_is_float (n->val.value))) {
 				m->cached_value_only_rational = 1;
@@ -177,7 +177,7 @@ gel_is_matrix_value_only_integer (GelMatrixW *m)
 		for (i = 0; i < w; i++) {
 			GelETree *n = gel_matrixw_get_index(m,i,j);
 			if (n != NULL &&
-			    (n->type != VALUE_NODE ||
+			    (n->type != GEL_VALUE_NODE ||
 			     mpw_is_complex (n->val.value) ||
 			     ! mpw_is_integer (n->val.value))) {
 				m->cached_value_only_integer = 1;
@@ -214,17 +214,17 @@ gel_matrix_conjugate_transpose (GelMatrixW *m)
 			GelETree *n = gel_matrixw_get_index (m, i, j);
 			if (n == NULL)
 				continue;
-			if (n->type == VALUE_NODE) {
+			if (n->type == GEL_VALUE_NODE) {
 				if (mpw_is_complex (n->val.value))
 					mpw_conj (n->val.value, n->val.value);
 			} else {
 				GelETree *nn;
 				GEL_GET_NEW_NODE (nn);
-				nn->type = OPERATOR_NODE;
-				nn->op.oper = E_DIRECTCALL;
+				nn->type = GEL_OPERATOR_NODE;
+				nn->op.oper = GEL_E_DIRECTCALL;
 
 				GEL_GET_NEW_NODE (nn->op.args);
-				nn->op.args->type = IDENTIFIER_NODE;
+				nn->op.args->type = GEL_IDENTIFIER_NODE;
 				nn->op.args->id.id = d_intern ("conj");
 
 				nn->op.args->any.next = n;
@@ -326,7 +326,7 @@ div_row (GelCtx *ctx, GelMatrixW *m, int row, mpw_t div)
 			if (ctx->modulo != NULL) {
 				gel_mod_node (ctx, t);
 				/* can't mod so we have a singular matrix / system */
-				if (t != NULL && t->type != VALUE_NODE)
+				if (t != NULL && t->type != GEL_VALUE_NODE)
 					ret = FALSE;
 			}
 		}
@@ -372,7 +372,7 @@ mul_sub_row (GelCtx *ctx, GelMatrixW *m, int row, mpw_t mul, int row2)
 			if (ctx->modulo != NULL && t2 != NULL) {
 				gel_mod_node (ctx, t2);
 				/* can't mod so we have a singular matrix / system */
-				if (t2 != NULL && t2->type != VALUE_NODE)
+				if (t2 != NULL && t2->type != GEL_VALUE_NODE)
 					ret = FALSE;
 			}
 		}
@@ -545,7 +545,7 @@ gel_value_matrix_gauss (GelCtx *ctx,
 					gel_mod_node (ctx, t);
 					if (stopsing &&
 					    t != NULL &&
-					    t->type != VALUE_NODE) {
+					    t->type != GEL_VALUE_NODE) {
 						mpw_clear(tmp);
 						return FALSE;
 					}

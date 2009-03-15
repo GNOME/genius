@@ -378,7 +378,7 @@ copy_internal_region (GelMatrixW *m, int w, int h)
 			int mj = m->regy ? m->regy[j] : j;
 			GelETree *t = gel_matrix_index (old, mi, mj);
 			if (t != NULL &&
-			    (t->type != VALUE_NODE ||
+			    (t->type != GEL_VALUE_NODE ||
 			     ! mpw_exact_zero_p (t->val.value)))
 				gel_matrix_index (m->m, i, j) = gel_copynode (t);
 		}
@@ -892,7 +892,7 @@ gel_matrixw_rowsof (GelMatrixW *source)
 		GelETree *n;
 
 		GEL_GET_NEW_NODE (n);
-		n->type = MATRIX_NODE;
+		n->type = GEL_MATRIX_NODE;
 		n->mat.matrix = gel_matrixw_get_region (source, reg, &i, width, 1);
 
 		gel_matrix_index (mm, 0, i) = n;
@@ -930,7 +930,7 @@ gel_matrixw_columnsof (GelMatrixW *source)
 		GelETree *n;
 
 		GEL_GET_NEW_NODE (n);
-		n->type = MATRIX_NODE;
+		n->type = GEL_MATRIX_NODE;
 		n->mat.matrix = gel_matrixw_get_region (source, &i, reg, 1, height);
 		n->mat.quoted = 0;
 

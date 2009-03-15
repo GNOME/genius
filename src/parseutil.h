@@ -41,7 +41,7 @@ void gp_push_marker_simple(GelETreeType markertype) GEL_WEAK_FUNC;
 gboolean gp_push_spacer(void) GEL_WEAK_FUNC;
 
 /*gather all expressions up until a row start marker and push the
-  result as a MATRIX_ROW_NODE*/
+  result as a GEL_MATRIX_ROW_NODE*/
 gboolean gp_push_matrix_row(void) GEL_WEAK_FUNC;
 
 /*gather all expressions up until a row start marker and push the
@@ -63,7 +63,7 @@ void gp_push_null(void) GEL_WEAK_FUNC;
 #define PUSH_IDENTIFIER(ID) { \
 	GelETree * tree; \
 	GEL_GET_NEW_NODE(tree); \
-	tree->type = IDENTIFIER_NODE; \
+	tree->type = GEL_IDENTIFIER_NODE; \
 	tree->id.id = d_intern(ID); \
 	gel_stack_push(&gel_parsestack,tree); \
 	g_free (ID); \

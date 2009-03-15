@@ -2139,7 +2139,7 @@ call_func3 (GelCtx *ctx,
 		gel_error_num = 0;
 
 	/* only do one level of indirection to avoid infinite loops */
-	if (ret != NULL && ret->type == FUNCTION_NODE) {
+	if (ret != NULL && ret->type == GEL_FUNCTION_NODE) {
 		if (ret->func.func->nargs == 3) {
 			GelETree *ret2;
 			ret2 = gel_funccall (ctx, ret->func.func, args, 3);
@@ -2159,7 +2159,7 @@ call_func3 (GelCtx *ctx,
 
 	}
 
-	if (ret == NULL || ret->type != VALUE_NODE) {
+	if (ret == NULL || ret->type != GEL_VALUE_NODE) {
 		*ex = TRUE;
 		gel_freetree (ret);
 #ifdef HUGE_VAL
@@ -2205,7 +2205,7 @@ call_func2 (GelCtx *ctx,
 		gel_error_num = 0;
 
 	/* only do one level of indirection to avoid infinite loops */
-	if (ret != NULL && ret->type == FUNCTION_NODE) {
+	if (ret != NULL && ret->type == GEL_FUNCTION_NODE) {
 		if (ret->func.func->nargs == 2) {
 			GelETree *ret2;
 			ret2 = gel_funccall (ctx, ret->func.func, args, 2);
@@ -2224,7 +2224,7 @@ call_func2 (GelCtx *ctx,
 		}
 	}
 
-	if (ret == NULL || ret->type != VALUE_NODE) {
+	if (ret == NULL || ret->type != GEL_VALUE_NODE) {
 		*ex = TRUE;
 		gel_freetree (ret);
 #ifdef HUGE_VAL
@@ -2268,7 +2268,7 @@ call_func (GelCtx *ctx,
 		gel_error_num = 0;
 
 	/* only do one level of indirection to avoid infinite loops */
-	if (ret != NULL && ret->type == FUNCTION_NODE) {
+	if (ret != NULL && ret->type == GEL_FUNCTION_NODE) {
 		if (ret->func.func->nargs == 1) {
 			GelETree *ret2;
 			ret2 = gel_funccall (ctx, ret->func.func, args, 1);
@@ -2288,7 +2288,7 @@ call_func (GelCtx *ctx,
 
 	}
 
-	if (ret == NULL || ret->type != VALUE_NODE) {
+	if (ret == NULL || ret->type != GEL_VALUE_NODE) {
 		*ex = TRUE;
 		gel_freetree (ret);
 #ifdef HUGE_VAL
@@ -2333,7 +2333,7 @@ call_func_z (GelCtx *ctx,
 		gel_error_num = 0;
 
 	/* only do one level of indirection to avoid infinite loops */
-	if (ret != NULL && ret->type == FUNCTION_NODE) {
+	if (ret != NULL && ret->type == GEL_FUNCTION_NODE) {
 		if (ret->func.func->nargs == 1) {
 			GelETree *ret2;
 			ret2 = gel_funccall (ctx, ret->func.func, args, 1);
@@ -2356,7 +2356,7 @@ call_func_z (GelCtx *ctx,
 
 	}
 
-	if (ret == NULL || ret->type != VALUE_NODE) {
+	if (ret == NULL || ret->type != GEL_VALUE_NODE) {
 		*ex = TRUE;
 		gel_freetree (ret);
 #ifdef HUGE_VAL
@@ -2757,7 +2757,7 @@ label_func (int i, GelEFunc *func, const char *var, const char *name)
 
 #define GET_DOUBLE(var,argnum,func) \
 	{ \
-	if (a[argnum]->type != VALUE_NODE) { \
+	if (a[argnum]->type != GEL_VALUE_NODE) { \
 		gel_errorout (_("%s: argument number %d not a number"), func, argnum+1); \
 		return NULL; \
 	} \
@@ -2769,32 +2769,32 @@ get_limits_from_matrix (GelETree *m, double *x1, double *x2, double *y1, double 
 {
 	GelETree *t;
 
-	if (m->type != MATRIX_NODE ||
+	if (m->type != GEL_MATRIX_NODE ||
 	    gel_matrixw_elements (m->mat.matrix) != 4) {
 		gel_errorout (_("Graph limits not given as a 4-vector"));
 		return FALSE;
 	}
 
 	t = gel_matrixw_vindex (m->mat.matrix, 0);
-	if (t->type != VALUE_NODE) {
+	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*x1 = mpw_get_double (t->val.value);
 	t = gel_matrixw_vindex (m->mat.matrix, 1);
-	if (t->type != VALUE_NODE) {
+	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*x2 = mpw_get_double (t->val.value);
 	t = gel_matrixw_vindex (m->mat.matrix, 2);
-	if (t->type != VALUE_NODE) {
+	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*y1 = mpw_get_double (t->val.value);
 	t = gel_matrixw_vindex (m->mat.matrix, 3);
-	if (t->type != VALUE_NODE) {
+	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
@@ -2834,7 +2834,7 @@ make_matrix_from_limits (void)
 	GelMatrixW *m;
 	/*make us a new empty node*/
 	GEL_GET_NEW_NODE (n);
-	n->type = MATRIX_NODE;
+	n->type = GEL_MATRIX_NODE;
 	m = n->mat.matrix = gel_matrixw_new ();
 	n->mat.quoted = FALSE;
 	gel_matrixw_set_size (m, 4, 1);
@@ -2852,44 +2852,44 @@ get_limits_from_matrix_surf (GelETree *m, double *x1, double *x2, double *y1, do
 {
 	GelETree *t;
 
-	if (m->type != MATRIX_NODE ||
+	if (m->type != GEL_MATRIX_NODE ||
 	    gel_matrixw_elements (m->mat.matrix) != 6) {
 		gel_errorout (_("Graph limits not given as a 6-vector"));
 		return FALSE;
 	}
 
 	t = gel_matrixw_vindex (m->mat.matrix, 0);
-	if (t->type != VALUE_NODE) {
+	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*x1 = mpw_get_double (t->val.value);
 	t = gel_matrixw_vindex (m->mat.matrix, 1);
-	if (t->type != VALUE_NODE) {
+	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*x2 = mpw_get_double (t->val.value);
 	t = gel_matrixw_vindex (m->mat.matrix, 2);
-	if (t->type != VALUE_NODE) {
+	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*y1 = mpw_get_double (t->val.value);
 	t = gel_matrixw_vindex (m->mat.matrix, 3);
-	if (t->type != VALUE_NODE) {
+	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*y2 = mpw_get_double (t->val.value);
 	t = gel_matrixw_vindex (m->mat.matrix, 4);
-	if (t->type != VALUE_NODE) {
+	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*z1 = mpw_get_double (t->val.value);
 	t = gel_matrixw_vindex (m->mat.matrix, 5);
-	if (t->type != VALUE_NODE) {
+	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
@@ -2938,7 +2938,7 @@ make_matrix_from_limits_surf (void)
 	GelMatrixW *m;
 	/*make us a new empty node*/
 	GEL_GET_NEW_NODE (n);
-	n->type = MATRIX_NODE;
+	n->type = GEL_MATRIX_NODE;
 	m = n->mat.matrix = gel_matrixw_new ();
 	n->mat.quoted = FALSE;
 	gel_matrixw_set_size (m, 6, 1);
@@ -5070,7 +5070,7 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	i = 0;
 
-	if (a[i] != NULL && a[i]->type != FUNCTION_NODE) {
+	if (a[i] != NULL && a[i]->type != GEL_FUNCTION_NODE) {
 		gel_errorout (_("%s: argument not a function"), "SurfacePlot");
 		goto whack_copied_funcs;
 	}
@@ -5080,7 +5080,7 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	i++;
 
-	if (a[i] != NULL && a[i]->type == FUNCTION_NODE) {
+	if (a[i] != NULL && a[i]->type == GEL_FUNCTION_NODE) {
 		gel_errorout (_("%s: only one function supported"), "SurfacePlot");
 		goto whack_copied_funcs;
 	}
@@ -5094,7 +5094,7 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	z2 = surf_defz2;
 
 	if (a[i] != NULL) {
-		if (a[i]->type == MATRIX_NODE) {
+		if (a[i]->type == GEL_MATRIX_NODE) {
 			if ( ! get_limits_from_matrix_surf (a[i], &x1, &x2, &y1, &y2, &z1, &z2))
 				goto whack_copied_funcs;
 			i++;
@@ -5323,7 +5323,7 @@ SlopefieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	}
 
 	if G_UNLIKELY (a[0] == NULL ||
-		       a[0]->type != FUNCTION_NODE) {
+		       a[0]->type != GEL_FUNCTION_NODE) {
 		gel_errorout (_("%s: First argument must be a function"),
 			      "SlopefieldPlot");
 		return NULL;
@@ -5342,7 +5342,7 @@ SlopefieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	/* Get window limits */
 	if (a[i] != NULL) {
-		if (a[i]->type == MATRIX_NODE) {
+		if (a[i]->type == GEL_MATRIX_NODE) {
 			if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
 				goto whack_copied_funcs;
 			i++;
@@ -5433,8 +5433,8 @@ VectorfieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	 * valued */
 
 	if G_UNLIKELY (a[0] == NULL || a[1] == NULL ||
-		       a[0]->type != FUNCTION_NODE ||
-		       a[1]->type != FUNCTION_NODE) {
+		       a[0]->type != GEL_FUNCTION_NODE ||
+		       a[1]->type != GEL_FUNCTION_NODE) {
 		gel_errorout (_("%s: First two arguments must be functions"), "VectorfieldPlot");
 		return NULL;
 	}
@@ -5454,7 +5454,7 @@ VectorfieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	/* Get window limits */
 	if (a[i] != NULL) {
-		if (a[i]->type == MATRIX_NODE) {
+		if (a[i]->type == GEL_MATRIX_NODE) {
 			if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
 				goto whack_copied_funcs;
 			i++;
@@ -5548,14 +5548,14 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	}
 
 	for (i = 0;
-	     i < MAXFUNC && a[i] != NULL && a[i]->type == FUNCTION_NODE;
+	     i < MAXFUNC && a[i] != NULL && a[i]->type == GEL_FUNCTION_NODE;
 	     i++) {
 		func[funcs] = d_copyfunc (a[i]->func.func);
 		func[funcs]->context = -1;
 		funcs++;
 	}
 
-	if G_UNLIKELY (a[i] != NULL && a[i]->type == FUNCTION_NODE) {
+	if G_UNLIKELY (a[i] != NULL && a[i]->type == GEL_FUNCTION_NODE) {
 		gel_errorout (_("%s: only up to 10 functions supported"), "LinePlot");
 		goto whack_copied_funcs;
 	}
@@ -5572,7 +5572,7 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	y2 = defy2;
 
 	if (a[i] != NULL) {
-		if (a[i]->type == MATRIX_NODE) {
+		if (a[i]->type == GEL_MATRIX_NODE) {
 			if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
 				goto whack_copied_funcs;
 			i++;
@@ -5665,8 +5665,8 @@ LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 	}
 
 	if G_UNLIKELY (a[0] == NULL || a[1] == NULL ||
-		       a[0]->type != FUNCTION_NODE ||
-		       a[1]->type != FUNCTION_NODE) {
+		       a[0]->type != GEL_FUNCTION_NODE ||
+		       a[1]->type != GEL_FUNCTION_NODE) {
 		gel_errorout (_("%s: First two arguments must be functions"), "LinePlotParametric");
 		return NULL;
 	}
@@ -5708,7 +5708,7 @@ LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	/* Get window limits */
 	if (a[i] != NULL) {
-		if (a[i]->type == MATRIX_NODE) {
+		if (a[i]->type == GEL_MATRIX_NODE) {
 			if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
 				goto whack_copied_funcs;
 			i++;
@@ -5807,7 +5807,7 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 	}
 
 	if G_UNLIKELY (a[0] == NULL ||
-		       a[0]->type != FUNCTION_NODE) {
+		       a[0]->type != GEL_FUNCTION_NODE) {
 		gel_errorout (_("%s: First argument must be a function"),
 			      "LinePlotCParametric");
 		return NULL;
@@ -5848,7 +5848,7 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	/* Get window limits */
 	if (a[i] != NULL) {
-		if (a[i]->type == MATRIX_NODE) {
+		if (a[i]->type == GEL_MATRIX_NODE) {
 			if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
 				goto whack_copied_funcs;
 			i++;
@@ -6003,7 +6003,7 @@ get_line_numbers (GelETree *a, double **x, double **y, int *len,
 		nominmax = FALSE; \
 	}
 
-	g_return_val_if_fail (a->type == MATRIX_NODE, FALSE);
+	g_return_val_if_fail (a->type == GEL_MATRIX_NODE, FALSE);
 
 	m = a->mat.matrix;
 
@@ -6132,7 +6132,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	ensure_window (FALSE /* do_window_present */);
 
-	if (a[0]->type == MATRIX_NODE) {
+	if (a[0]->type == GEL_MATRIX_NODE) {
 		if G_UNLIKELY ( ! get_line_numbers (a[0], &x, &y, &len,
 						    &minx, &maxx, &miny, &maxy))
 			return NULL;
@@ -6167,8 +6167,8 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 	thickness = 2;
 
 	for (i = nextarg; a[i] != NULL; i++) {
-		if G_LIKELY (a[i]->type == STRING_NODE ||
-			     a[i]->type == IDENTIFIER_NODE) {
+		if G_LIKELY (a[i]->type == GEL_STRING_NODE ||
+			     a[i]->type == GEL_IDENTIFIER_NODE) {
 			GelToken *id;
 			static GelToken *colorid = NULL;
 			static GelToken *thicknessid = NULL;
@@ -6192,7 +6192,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				noneid = d_intern ("none");
 			}
 
-			if (a[i]->type == STRING_NODE)
+			if (a[i]->type == GEL_STRING_NODE)
 				id = d_intern (a[i]->str.str);
 			else
 				id = a[i]->id.id;
@@ -6205,9 +6205,9 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 					return NULL;
 				}
 				/* FIXME: helper routine for getting color */
-				if (a[i+1]->type == STRING_NODE) {
+				if (a[i+1]->type == GEL_STRING_NODE) {
 					gdk_color_parse (a[i+1]->str.str, &color);
-				} else if (a[i+1]->type == IDENTIFIER_NODE) {
+				} else if (a[i+1]->type == GEL_IDENTIFIER_NODE) {
 					gdk_color_parse (a[i+1]->id.id->token, &color);
 				} else {
 					gel_errorout (_("%s: Color must be a string"),
@@ -6237,18 +6237,18 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 			} else if (id == windowid) {
 				double x1, x2, y1, y2;
 				if G_UNLIKELY (a[i+1] == NULL ||
-					       (a[i+1]->type != STRING_NODE &&
-						a[i+1]->type != IDENTIFIER_NODE &&
-						a[i+1]->type != MATRIX_NODE)) {
+					       (a[i+1]->type != GEL_STRING_NODE &&
+						a[i+1]->type != GEL_IDENTIFIER_NODE &&
+						a[i+1]->type != GEL_MATRIX_NODE)) {
 					gel_errorout (_("%s: No window specified"),
 						      "LinePlotDrawLine");
 					g_free (x);
 					g_free (y);
 					return NULL;
 				}
-				if ((a[i+1]->type == STRING_NODE &&
+				if ((a[i+1]->type == GEL_STRING_NODE &&
 				     fitid == d_intern (a[i+1]->str.str)) ||
-				    (a[i+1]->type == IDENTIFIER_NODE &&
+				    (a[i+1]->type == GEL_IDENTIFIER_NODE &&
 				     fitid == a[i+1]->id.id)) {
 					x1 = minx;
 					x2 = maxx;
@@ -6284,15 +6284,15 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				GelToken *astyleid;
 
 				if G_UNLIKELY (a[i+1] == NULL ||
-					       (a[i+1]->type != STRING_NODE &&
-						a[i+1]->type != IDENTIFIER_NODE)) {
+					       (a[i+1]->type != GEL_STRING_NODE &&
+						a[i+1]->type != GEL_IDENTIFIER_NODE)) {
 					gel_errorout (_("%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""),
 						      "LinePlotDrawLine");
 					g_free (x);
 					g_free (y);
 					return NULL;
 				}
-				if (a[i+1]->type == STRING_NODE)
+				if (a[i+1]->type == GEL_STRING_NODE)
 					astyleid = d_intern (a[i+1]->str.str);
 				else
 					astyleid = a[i+1]->id.id;
@@ -6467,10 +6467,10 @@ set_VectorfieldNormalized (GelETree * a)
 
 	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_VectorfieldNormalized"))
 		return NULL;
-	if (a->type == VALUE_NODE)
+	if (a->type == GEL_VALUE_NODE)
 		vectorfield_normalize_arrow_length_parameter
 			= ! mpw_zero_p (a->val.value);
-	else /* a->type == BOOL_NODE */
+	else /* a->type == GEL_BOOL_NODE */
 		vectorfield_normalize_arrow_length_parameter = a->bool_.bool_;
 
 	return gel_makenum_bool (vectorfield_normalize_arrow_length_parameter);
@@ -6491,10 +6491,10 @@ set_LinePlotDrawLegends (GelETree * a)
 	}
 	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_LinePlotDrawLegend"))
 		return NULL;
-	if (a->type == VALUE_NODE)
+	if (a->type == GEL_VALUE_NODE)
 		lineplot_draw_legends
 			= ! mpw_zero_p (a->val.value);
-	else /* a->type == BOOL_NODE */
+	else /* a->type == GEL_BOOL_NODE */
 		lineplot_draw_legends = a->bool_.bool_;
 
 	if (line_plot != NULL) {

@@ -544,12 +544,12 @@ append_anal_binaryoper(GelOutput *gelo, char *p, GelETree *n)
 	gboolean extra_param2 = FALSE;
 	GelETree *l,*r;
 	GEL_GET_LR(n,l,r);
-	if (l->type == VALUE_NODE &&
+	if (l->type == GEL_VALUE_NODE &&
 	    (mpw_is_complex (l->val.value) ||
 	     mpw_sgn (l->val.value) < 0 ||
 	     mpw_is_rational (l->val.value)))
 		extra_param1 = TRUE;
-	if (r->type == VALUE_NODE &&
+	if (r->type == GEL_VALUE_NODE &&
 	    (mpw_is_complex (r->val.value) ||
 	     mpw_sgn (r->val.value) < 0 ||
 	     mpw_is_rational (r->val.value)))
@@ -602,7 +602,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 	GelETree *li;
 
 	switch(n->op.oper) {
-		case E_SEPAR:
+		case GEL_E_SEPAR:
 			gel_output_string (gelo,"(");
 			r = n->op.args;
 			while (r != NULL) {
@@ -613,11 +613,11 @@ appendoper(GelOutput *gelo, GelETree *n)
 			}
 			gel_output_string (gelo,")");
 			break;
-		case E_EQUALS:
+		case GEL_E_EQUALS:
 			append_binaryoper(gelo,"=",n); break;
-		case E_PARAMETER:
+		case GEL_E_PARAMETER:
 			GEL_GET_LRR(n,l,r,rr);
-			if (l->type != NULL_NODE) {
+			if (l->type != GEL_NULL_NODE) {
 				gel_output_string(gelo,"(parameter (");
 				gel_print_etree (gelo, l, FALSE);
 				gel_output_string(gelo,") ");
@@ -633,56 +633,56 @@ appendoper(GelOutput *gelo, GelETree *n)
 				gel_output_string(gelo,")");
 			}
 			break;
-		case E_ABS:
+		case GEL_E_ABS:
 			GEL_GET_L(n,l);
 			gel_output_string(gelo,"|");
 			gel_print_etree(gelo, l, FALSE);
 			gel_output_string(gelo,"|");
 			break;
-		case E_PLUS:
+		case GEL_E_PLUS:
 			append_binaryoper(gelo,"+",n); break;
-		case E_ELTPLUS:
+		case GEL_E_ELTPLUS:
 			append_binaryoper(gelo,".+",n); break;
-		case E_MINUS:
+		case GEL_E_MINUS:
 			append_binaryoper(gelo,"-",n); break;
-		case E_ELTMINUS:
+		case GEL_E_ELTMINUS:
 			append_binaryoper(gelo,".-",n); break;
-		case E_MUL:
+		case GEL_E_MUL:
 			append_binaryoper(gelo,"*",n); break;
-		case E_ELTMUL:
+		case GEL_E_ELTMUL:
 			append_binaryoper(gelo,".*",n); break;
-		case E_DIV:
+		case GEL_E_DIV:
 			append_binaryoper(gelo,"/",n); break;
-		case E_ELTDIV:
+		case GEL_E_ELTDIV:
 			append_binaryoper(gelo,"./",n); break;
-		case E_BACK_DIV:
-			if(n->op.args->type == VALUE_NODE &&
-			   n->op.args->any.next->type == VALUE_NODE)
+		case GEL_E_BACK_DIV:
+			if(n->op.args->type == GEL_VALUE_NODE &&
+			   n->op.args->any.next->type == GEL_VALUE_NODE)
 				append_binaryoper(gelo," \\ ",n);
 			else
 				append_binaryoper(gelo,"\\",n);
 			break;
-		case E_ELT_BACK_DIV:
-			if(n->op.args->type == VALUE_NODE &&
-			   n->op.args->any.next->type == VALUE_NODE)
+		case GEL_E_ELT_BACK_DIV:
+			if(n->op.args->type == GEL_VALUE_NODE &&
+			   n->op.args->any.next->type == GEL_VALUE_NODE)
 				append_binaryoper(gelo," .\\ ",n);
 			else
 				append_binaryoper(gelo,".\\",n);
 			break;
-		case E_MOD:
+		case GEL_E_MOD:
 			append_binaryoper(gelo,"%",n); break;
-		case E_ELTMOD:
+		case GEL_E_ELTMOD:
 			append_binaryoper(gelo,".%",n); break;
-		case E_NEG:
+		case GEL_E_NEG:
 			append_unaryoper(gelo,"-",n); break;
-		case E_EXP:
+		case GEL_E_EXP:
 			append_anal_binaryoper(gelo,"^",n); break;
-		case E_ELTEXP:
+		case GEL_E_ELTEXP:
 			append_anal_binaryoper(gelo,".^",n); break;
-		case E_FACT:
+		case GEL_E_FACT:
 			GEL_GET_L(n,l);
 			gel_output_string(gelo, "(");
-			if (l->type == VALUE_NODE &&
+			if (l->type == GEL_VALUE_NODE &&
 			    (mpw_is_complex (l->val.value) ||
 			     mpw_sgn (l->val.value) < 0 ||
 			     mpw_is_rational (l->val.value))) {
@@ -694,10 +694,10 @@ appendoper(GelOutput *gelo, GelETree *n)
 			}
 			gel_output_string(gelo, "!)");
 			break;
-		case E_DBLFACT:
+		case GEL_E_DBLFACT:
 			GEL_GET_L(n,l);
 			gel_output_string(gelo, "(");
-			if (l->type == VALUE_NODE &&
+			if (l->type == GEL_VALUE_NODE &&
 			    (mpw_is_complex (l->val.value) ||
 			     mpw_sgn (l->val.value) < 0 ||
 			     mpw_is_rational (l->val.value))) {
@@ -710,47 +710,47 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_output_string(gelo, "!!)");
 			break;
 
-		case E_TRANSPOSE:
+		case GEL_E_TRANSPOSE:
 			GEL_GET_L(n,l);
 			gel_output_string(gelo, "(");
 			gel_print_etree (gelo, l, FALSE);
 			gel_output_string(gelo, ".')");
 			break;
 			
-		case E_CONJUGATE_TRANSPOSE:
+		case GEL_E_CONJUGATE_TRANSPOSE:
 			GEL_GET_L(n,l);
 			gel_output_string(gelo, "(");
 			gel_print_etree (gelo, l, FALSE);
 			gel_output_string(gelo, "')");
 			break;
 
-		case E_EQ_CMP:
+		case GEL_E_EQ_CMP:
 			append_binaryoper(gelo,"==",n); break;
-		case E_NE_CMP:
+		case GEL_E_NE_CMP:
 			append_binaryoper(gelo,"!=",n); break;
-		case E_CMP_CMP:
+		case GEL_E_CMP_CMP:
 			append_binaryoper(gelo,"<=>",n); break;
-		case E_LT_CMP:
+		case GEL_E_LT_CMP:
 			append_binaryoper(gelo,"<",n); break;
-		case E_GT_CMP:
+		case GEL_E_GT_CMP:
 			append_binaryoper(gelo,">",n); break;
-		case E_LE_CMP:
+		case GEL_E_LE_CMP:
 			append_binaryoper(gelo,"<=",n); break;
-		case E_GE_CMP:
+		case GEL_E_GE_CMP:
 			append_binaryoper(gelo,">=",n); break;
-		case E_LOGICAL_AND:
+		case GEL_E_LOGICAL_AND:
 			append_binaryoper(gelo," and ",n); break;
-		case E_LOGICAL_OR:
+		case GEL_E_LOGICAL_OR:
 			append_binaryoper(gelo," or ",n); break;
-		case E_LOGICAL_XOR:
+		case GEL_E_LOGICAL_XOR:
 			append_binaryoper(gelo," xor ",n); break;
-		case E_LOGICAL_NOT:
+		case GEL_E_LOGICAL_NOT:
 			append_unaryoper(gelo,"not ",n); break;
 
-		case E_REGION_SEP:
+		case GEL_E_REGION_SEP:
 			append_binaryoper(gelo,":",n); break;
 
-		case E_REGION_SEP_BY:
+		case GEL_E_REGION_SEP_BY:
 			GEL_GET_LRR(n,l,r,rr);
 			gel_output_string(gelo,"(");
 			gel_print_etree (gelo, l, FALSE);
@@ -761,7 +761,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_output_string(gelo,")");
 			break;
 
-		case E_GET_VELEMENT:
+		case GEL_E_GET_VELEMENT:
 			GEL_GET_LR(n,l,r);
 			gel_output_string(gelo,"(");
 			gel_print_etree (gelo, l, FALSE);
@@ -770,7 +770,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_output_string(gelo,"))");
 			break;
 
-		case E_GET_ELEMENT:
+		case GEL_E_GET_ELEMENT:
 			GEL_GET_LRR(n,l,r,rr);
 			gel_output_string(gelo,"(");
 			gel_print_etree (gelo, l, FALSE);
@@ -780,7 +780,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, rr, FALSE);
 			gel_output_string(gelo,"))");
 			break;
-		case E_GET_ROW_REGION:
+		case GEL_E_GET_ROW_REGION:
 			GEL_GET_LR(n,l,r);
 			gel_output_string(gelo,"(");
 			gel_print_etree (gelo, l, FALSE);
@@ -788,7 +788,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, r, FALSE);
 			gel_output_string(gelo,",))");
 			break;
-		case E_GET_COL_REGION:
+		case GEL_E_GET_COL_REGION:
 			GEL_GET_LR(n,l,r);
 			gel_output_string(gelo,"(");
 			gel_print_etree (gelo, l, FALSE);
@@ -797,14 +797,14 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_output_string(gelo,"))");
 			break;
 
-		case E_QUOTE:
+		case GEL_E_QUOTE:
 			append_unaryoper(gelo,"`",n); break;
-		case E_REFERENCE:
+		case GEL_E_REFERENCE:
 			append_unaryoper(gelo,"&",n); break;
-		case E_DEREFERENCE:
+		case GEL_E_DEREFERENCE:
 			append_unaryoper(gelo,"*",n); break;
 
-		case E_IF_CONS:
+		case GEL_E_IF_CONS:
 			GEL_GET_LR(n,l,r);
 			gel_output_string(gelo,"(if ");
 			gel_print_etree (gelo, l, FALSE);
@@ -812,7 +812,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, r, FALSE);
 			gel_output_string(gelo,")");
 			break;
-		case E_IFELSE_CONS:
+		case GEL_E_IFELSE_CONS:
 			GEL_GET_LRR(n,l,r,rr);
 			gel_output_string(gelo,"(if ");
 			gel_print_etree (gelo, l, FALSE);
@@ -822,7 +822,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, rr, FALSE);
 			gel_output_string(gelo,")");
 			break;
-		case E_WHILE_CONS:
+		case GEL_E_WHILE_CONS:
 			GEL_GET_LR(n,l,r);
 			gel_output_string(gelo,"(while ");
 			gel_print_etree (gelo, l, FALSE);
@@ -830,7 +830,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, r, FALSE);
 			gel_output_string(gelo,")");
 			break;
-		case E_UNTIL_CONS:
+		case GEL_E_UNTIL_CONS:
 			GEL_GET_LR(n,l,r);
 			gel_output_string(gelo, "(until ");
 			gel_print_etree (gelo, l, FALSE);
@@ -838,7 +838,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, r, FALSE);
 			gel_output_string(gelo, ")");
 			break;
-		case E_DOWHILE_CONS:
+		case GEL_E_DOWHILE_CONS:
 			GEL_GET_LR(n,l,r);
 			gel_output_string (gelo, "(do ");
 			gel_print_etree (gelo, l, FALSE);
@@ -846,7 +846,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, r, FALSE);
 			gel_output_string (gelo, ")");
 			break;
-		case E_DOUNTIL_CONS:
+		case GEL_E_DOUNTIL_CONS:
 			GEL_GET_LR(n,l,r);
 			gel_output_string(gelo,"(do ");
 			gel_print_etree (gelo, l, FALSE);
@@ -854,7 +854,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, r, FALSE);
 			gel_output_string(gelo,")");
 			break;
-		case E_FOR_CONS:
+		case GEL_E_FOR_CONS:
 			GEL_GET_ABCD (n, a, b, c, d);
 			gel_output_string (gelo, "(for ");
 			gel_print_etree (gelo, a, FALSE);
@@ -866,7 +866,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, d, FALSE);
 			gel_output_string (gelo, ")");
 			break;
-		case E_FORBY_CONS:
+		case GEL_E_FORBY_CONS:
 			GEL_GET_ABCDE (n, a, b, c, d, e);
 			gel_output_string (gelo, "(for ");
 			gel_print_etree (gelo, a, FALSE);
@@ -880,7 +880,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, e, FALSE);
 			gel_output_string (gelo, ")");
 			break;
-		case E_FORIN_CONS:
+		case GEL_E_FORIN_CONS:
 			GEL_GET_LRR(n,l,r,rr);
 			gel_output_string(gelo,"(for ");
 			gel_print_etree (gelo, l, FALSE);
@@ -890,7 +890,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, rr, FALSE);
 			gel_output_string(gelo,")");
 			break;
-		case E_SUM_CONS:
+		case GEL_E_SUM_CONS:
 			GEL_GET_ABCD (n, a, b, c, d);
 			gel_output_string (gelo, "(sum ");
 			gel_print_etree (gelo, a, FALSE);
@@ -902,7 +902,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, d, FALSE);
 			gel_output_string (gelo, ")");
 			break;
-		case E_SUMBY_CONS:
+		case GEL_E_SUMBY_CONS:
 			GEL_GET_ABCDE (n, a, b, c, d, e);
 			gel_output_string (gelo, "(sum ");
 			gel_print_etree (gelo, a, FALSE);
@@ -916,7 +916,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, e, FALSE);
 			gel_output_string (gelo, ")");
 			break;
-		case E_SUMIN_CONS:
+		case GEL_E_SUMIN_CONS:
 			GEL_GET_LRR(n,l,r,rr);
 			gel_output_string(gelo,"(sum ");
 			gel_print_etree (gelo, l, FALSE);
@@ -926,7 +926,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, rr, FALSE);
 			gel_output_string(gelo,")");
 			break;
-		case E_PROD_CONS:
+		case GEL_E_PROD_CONS:
 			GEL_GET_ABCD(n,a,b,c,d);
 			gel_output_string (gelo, "(prod ");
 			gel_print_etree (gelo, a, FALSE);
@@ -938,7 +938,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, d, FALSE);
 			gel_output_string (gelo, ")");
 			break;
-		case E_PRODBY_CONS:
+		case GEL_E_PRODBY_CONS:
 			GEL_GET_ABCDE (n, a, b, c, d, e);
 			gel_output_string (gelo, "(prod ");
 			gel_print_etree (gelo, a, FALSE);
@@ -952,7 +952,7 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_print_etree (gelo, e, FALSE);
 			gel_output_string (gelo, ")");
 			break;
-		case E_PRODIN_CONS:
+		case GEL_E_PRODIN_CONS:
 			GEL_GET_LRR(n,l,r,rr);
 			gel_output_string(gelo,"(prod ");
 			gel_print_etree (gelo, l, FALSE);
@@ -963,18 +963,18 @@ appendoper(GelOutput *gelo, GelETree *n)
 			gel_output_string(gelo,")");
 			break;
 
-		case E_DIRECTCALL:
-		case E_CALL:
+		case GEL_E_DIRECTCALL:
+		case GEL_E_CALL:
 			GEL_GET_L(n,l);
-			if (l->type==IDENTIFIER_NODE) {
+			if (l->type==GEL_IDENTIFIER_NODE) {
 				gel_output_string (gelo, l->id.id->token);
-			} else if (l->type == FUNCTION_NODE &&
+			} else if (l->type == GEL_FUNCTION_NODE &&
 				   l->func.func->id != NULL) {
 				gel_output_string (gelo, l->func.func->id->token);
-			} else if(l->type == OPERATOR_NODE && l->op.oper == E_DEREFERENCE) {
+			} else if(l->type == GEL_OPERATOR_NODE && l->op.oper == GEL_E_DEREFERENCE) {
 				GelETree *t;
 				GEL_GET_L(l,t);
-				if G_UNLIKELY (t->type!=IDENTIFIER_NODE) {
+				if G_UNLIKELY (t->type!=GEL_IDENTIFIER_NODE) {
 					gel_errorout (_("Bad identifier for function node!"));
 					gel_output_string(gelo,"?)");
 					break;
@@ -997,19 +997,19 @@ appendoper(GelOutput *gelo, GelETree *n)
 			}
 			gel_output_string(gelo,")");
 			break;
-		case E_RETURN:
+		case GEL_E_RETURN:
 			append_unaryoper(gelo,"return ",n); break;
-		case E_BAILOUT:
+		case GEL_E_BAILOUT:
 			gel_output_string(gelo,"(bailout)"); break;
-		case E_EXCEPTION:
+		case GEL_E_EXCEPTION:
 			gel_output_string(gelo,"(exception)"); break;
-		case E_CONTINUE:
+		case GEL_E_CONTINUE:
 			gel_output_string(gelo,"(continue)"); break;
-		case E_BREAK:
+		case GEL_E_BREAK:
 			gel_output_string(gelo,"(break)"); break;
-		case E_MOD_CALC:
+		case GEL_E_MOD_CALC:
 			append_binaryoper(gelo," mod ",n); break;
-		case E_DEFEQUALS:
+		case GEL_E_DEFEQUALS:
 			append_binaryoper (gelo, ":=", n); break;
 
 		default:
@@ -1032,17 +1032,17 @@ appendcomp(GelOutput *gelo, GelETree *n)
 		int oper= GPOINTER_TO_INT(oli->data);
 		gel_print_etree (gelo, li, FALSE);
 		switch(oper) {
-		case E_EQ_CMP:
+		case GEL_E_EQ_CMP:
 			gel_output_string(gelo,"=="); break;
-		case E_NE_CMP:
+		case GEL_E_NE_CMP:
 			gel_output_string(gelo,"!="); break;
-		case E_LT_CMP:
+		case GEL_E_LT_CMP:
 			gel_output_string(gelo,"<"); break;
-		case E_GT_CMP:
+		case GEL_E_GT_CMP:
 			gel_output_string(gelo,">"); break;
-		case E_LE_CMP:
+		case GEL_E_LE_CMP:
 			gel_output_string(gelo,"<="); break;
-		case E_GE_CMP:
+		case GEL_E_GE_CMP:
 			gel_output_string(gelo,">="); break;
 		default:
 			g_assert_not_reached();
@@ -1283,7 +1283,7 @@ matrix_chop_p (GelMatrixW *m, int chop_when)
 		for (i = 0; i < gel_matrixw_width(m); i++) {
 			GelETree *t = gel_matrixw_get_index (m, i, j);
 			if (t != NULL &&
-			    t->type == VALUE_NODE &&
+			    t->type == GEL_VALUE_NODE &&
 			    mpw_chop_p (t->val.value, chop_when))
 				return TRUE;
 		}
@@ -1369,15 +1369,15 @@ gel_print_etree (GelOutput *gelo,
 	/* all non-value nodes printed as <ci></ci> and
 	 * value nodes as <cn></cn> */
 	if (gel_calcstate.output_style == GEL_OUTPUT_MATHML &&
-	    n->type != VALUE_NODE)
+	    n->type != GEL_VALUE_NODE)
 		gel_output_string (gelo, "<ci>");
 
 
 	switch(n->type) {
-	case NULL_NODE:
+	case GEL_NULL_NODE:
 		gel_output_string (gelo, "(null)");
 		break;
-	case VALUE_NODE:
+	case GEL_VALUE_NODE:
 		p=mpw_getstring_chop (n->val.value,gel_calcstate.max_digits,
 				      gel_calcstate.scientific_notation,
 				      gel_calcstate.results_as_floats,
@@ -1402,7 +1402,7 @@ gel_print_etree (GelOutput *gelo,
 			gel_output_string (gelo, "</cn>");
 		g_free(p);
 		break;
-	case MATRIX_NODE:
+	case GEL_MATRIX_NODE:
 		old_force_chop = gelo->force_chop;
 		if ( ! gelo->force_chop &&
 		     matrix_chop_p (n->mat.matrix,
@@ -1416,33 +1416,33 @@ gel_print_etree (GelOutput *gelo,
 		appendmatrix (gelo, n->mat.matrix);
 		gelo->force_chop = old_force_chop;
 		break;
-	case SET_NODE:
+	case GEL_SET_NODE:
 		/* FIXME: not implemented */
 		g_assert_not_reached ();
 		break;
-	case POLYNOMIAL_NODE:
+	case GEL_POLYNOMIAL_NODE:
 		appendpolynomial (gelo, n);
 		break;
-	case OPERATOR_NODE:
+	case GEL_OPERATOR_NODE:
 		appendoper(gelo,n);
 		break;
-	case IDENTIFIER_NODE:
+	case GEL_IDENTIFIER_NODE:
 		gel_output_string(gelo,n->id.id->token);
 		break;
-	case STRING_NODE:
+	case GEL_STRING_NODE:
 		gel_output_string(gelo,"\"");
 		p = gel_escape_string(n->str.str);
 		gel_output_string(gelo,p);
 		g_free(p);
 		gel_output_string(gelo,"\"");
 		break;
-	case FUNCTION_NODE:
+	case GEL_FUNCTION_NODE:
 		append_func (gelo, n->func.func);
 		break;
-	case COMPARISON_NODE:
+	case GEL_COMPARISON_NODE:
 		appendcomp(gelo,n);
 		break;
-	case BOOL_NODE:
+	case GEL_BOOL_NODE:
 		if (n->bool_.bool_)
 			gel_output_string (gelo, "true");
 		else
@@ -1456,7 +1456,7 @@ gel_print_etree (GelOutput *gelo,
 	/* all non-value nodes printed as <ci></ci> and
 	 * value nodes as <cn></cn> */
 	if (gel_calcstate.output_style == GEL_OUTPUT_MATHML &&
-	    n->type != VALUE_NODE)
+	    n->type != GEL_VALUE_NODE)
 		gel_output_string (gelo, "</ci>");
 
 	gel_output_pop_nonotify (gelo);
@@ -1649,10 +1649,10 @@ gel_pretty_print_etree (GelOutput *gelo, GelETree *n)
 	/*do a nice printout of matrices if that's the
 	  top node*/
 	gel_output_push_nonotify (gelo);
-	if (n->type == VALUE_NODE &&
+	if (n->type == GEL_VALUE_NODE &&
 	    gel_calcstate.output_style == GEL_OUTPUT_NORMAL) {
 		pretty_print_value_normal (gelo, n);
-	} else if (n->type == MATRIX_NODE) {
+	} else if (n->type == GEL_MATRIX_NODE) {
 		int i, j, w, h;
 		int old_force_chop = gelo->force_chop;
 		char **entries;
@@ -3217,7 +3217,7 @@ gel_evalexp_parsed (GelETree *parsed,
 	if (ret == NULL)
 		return;
 
-	if(ret->type != NULL_NODE && gelo) {
+	if(ret->type != GEL_NULL_NODE && gelo) {
 		if(prefix) {
 			gel_output_string(gelo, prefix);
 		}
@@ -3229,14 +3229,14 @@ gel_evalexp_parsed (GelETree *parsed,
 	}
 
 	/*set ans to the last answer*/
-	if(ret->type == FUNCTION_NODE) {
+	if(ret->type == GEL_FUNCTION_NODE) {
 		if(ret->func.func)
 			d_addfunc(d_makerealfunc(ret->func.func,d_intern("Ans"),TRUE));
 		else
 			d_addfunc(d_makevfunc(d_intern("Ans"),gel_makenum_ui(0)));
 		gel_freetree(ret);
-	} else if(ret->type == OPERATOR_NODE &&
-		ret->op.oper == E_REFERENCE) {
+	} else if(ret->type == GEL_OPERATOR_NODE &&
+		ret->op.oper == GEL_E_REFERENCE) {
 		GelETree *t = ret->op.args;
 		if(!t) {
 			GelEFunc *rf = d_lookup_global(t->id.id);

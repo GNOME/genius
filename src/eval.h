@@ -19,8 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef EVAL_H
-#define EVAL_H
+#ifndef _GEL_EVAL_H
+#define _GEL_EVAL_H
 
 /* #define EVAL_DEBUG 1 */
 /* Note: this won't be completely mem-debug friendly, but only mostly */
@@ -31,79 +31,6 @@
 
 /*declarations of structures*/
 #include "structs.h"
-
-/* builtin primitives */
-enum {
-	E_SEPAR = 0,
-	E_EQUALS, /* see E_DEFEQUALS (on the end not to break bincompat) */
-	E_PARAMETER,
-	E_ABS,
-	E_PLUS,
-	E_ELTPLUS,
-	E_MINUS,
-	E_ELTMINUS,
-	E_MUL,
-	E_ELTMUL,
-	E_DIV,
-	E_ELTDIV,
-	E_BACK_DIV,
-	E_ELT_BACK_DIV,
-	E_MOD,
-	E_ELTMOD,
-	E_NEG,
-	E_EXP,
-	E_ELTEXP,
-	E_FACT,
-	E_DBLFACT,
-	E_TRANSPOSE,
-	E_CONJUGATE_TRANSPOSE,
-	E_IF_CONS,
-	E_IFELSE_CONS,
-	E_WHILE_CONS,
-	E_UNTIL_CONS,
-	E_DOWHILE_CONS,
-	E_DOUNTIL_CONS,
-	E_FOR_CONS,
-	E_FORBY_CONS,
-	E_FORIN_CONS,
-	E_SUM_CONS,
-	E_SUMBY_CONS,
-	E_SUMIN_CONS,
-	E_PROD_CONS,
-	E_PRODBY_CONS,
-	E_PRODIN_CONS,
-	E_EQ_CMP,
-	E_NE_CMP,
-	E_CMP_CMP,
-	E_LT_CMP,
-	E_GT_CMP,
-	E_LE_CMP,
-	E_GE_CMP,
-	E_LOGICAL_AND,
-	E_LOGICAL_OR,
-	E_LOGICAL_XOR,
-	E_LOGICAL_NOT,
-	E_REGION_SEP,
-	E_REGION_SEP_BY,
-	E_GET_VELEMENT,
-	E_GET_ELEMENT,
-	E_GET_ROW_REGION,
-	E_GET_COL_REGION,
-	E_QUOTE,
-	E_REFERENCE,
-	E_DEREFERENCE,
-	E_DIRECTCALL,
-	E_CALL,
-	E_RETURN,
-	E_BAILOUT,
-	E_EXCEPTION,
-	E_CONTINUE,
-	E_BREAK,
-	E_MOD_CALC,
-	E_DEFEQUALS,
-	E_OPER_LAST
-};
-
 
 /*table of operators, at least the primitive types*/
 enum {
@@ -274,7 +201,7 @@ void _gel_make_free_trees (void);
 const extern GelHookFunc _gel_tree_limit_hook;
 void gel_test_max_nodes_again (void);
 
-extern GelEFunc *_internal_ln_function;
-extern GelEFunc *_internal_exp_function;
+extern GelEFunc *_gel_internal_ln_function;
+extern GelEFunc *_gel_internal_exp_function;
 
-#endif /* EVAL_H */
+#endif /* _GEL_EVAL_H */
