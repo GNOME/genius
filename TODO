@@ -1,58 +1,51 @@
 * Logfiles and/or save session
 * Whack the readline nonsense in the GUI
+* Native polynomial operation
+* Add continued fraction type of a loop
+* Add user argument checking functions for parameters (to make calling GEL
+  functions that check their arguments faster)
+* fix matrix exp function and add matrix ln function
+* matrix powers for rational numbers, and scalar^matrix (as matlab does it)
+* Graph of 1/x or atan must not have vertical lines.  Futhermore maybe we
+  should perhaps think about removing the vertical line if two consecutive
+  points are much further from each other than the previous two points on the
+  graph.  This would graph the step function correctly.
+* Implement max_nodes in the command line version
+  * Implement MaxNodes parameter
+* Kill plugin interface maybe?  It is just a pain to maintain and no one uses 
+  AFAIK.  It was originally done to make Dr.Genius possible, but that's long
+  over.
+
+
+Possibly old
+------------
+
 * Check this strange thing of locals living on the global context somehow,
   try the testprogfamily.gel and look at vars and notice there are things
   with context > 0 on the toplevel context.   It's strange.  And I can't
   repro it now
 
-* Implement max_nodes in the command line version
-  * Implement MaxNodes parameter
+This is out of date
+-------------------
 
-
-
-This is somewhat out of date, though some of these may be fine ideas still.
-
----------------
-
-*	Make mod arithmetic propagation into user functions possible
-
-*	Gauss needs to be mod aware
-
-*	Add flags to arguments to function to not-mod them where appropriate
-	(for example I(n))
+*	Gauss needs to be mod aware (isn't it now?)
 
 *	Check variable substitution of references, that could refer
 	to freed data I think
-
-*	Add continued fraction type of a loop
 
 *	Check rational powers in mod mode to work correctly
 
 *	Check modular arithmetic to be correct (such as: "expr mod n"),
         that is, when do we mod is the question.
 
-*	Add extended gcd
-
 *	Perhaps latex and troff mode should not be used on error output,
 	only on toplevel.  Alternantively everything should be latex/troffized
 	I suppose.  I like the first alternative more though.
-
-*	Native polynomial operation
-
-*	Add user argument checking functions for parameters
-
-*	fix matrix exp function and add matrix ln function
-
-*	matrix powers for rational numbers, and scalar^matrix (as matlab
-	does it)
 
 *	add try/catch operator for exceptions (need special exception
 	variable like return_val)
 
 *	interrupt internal mpwrap calculation (need new error type)
-
-*	result display (optional) ... for matrix display and normal
-	numbers ...
 
 *	cleanup engine
 
