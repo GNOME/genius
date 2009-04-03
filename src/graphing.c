@@ -3012,7 +3012,9 @@ draw_line (double *x, double *y, int len, int thickness, GdkColor *color)
 
 	gtk_plot_data_set_line_attributes (data,
 					   GTK_PLOT_LINE_SOLID,
-					   0, 0, thickness, color);
+					   GDK_CAP_ROUND, 
+					   GDK_JOIN_ROUND,
+					   thickness, color);
 
 	gtk_widget_show (GTK_WIDGET (data));
 
@@ -3318,9 +3320,13 @@ replot_fields (void)
 						   slopefield_data);
 				gdk_color_parse ("blue", &color);
 				color_alloc (&color);
-				gtk_plot_data_set_line_attributes (slopefield_data,
-								   GTK_PLOT_LINE_NONE,
-								   0, 0, 1, &color);
+				gtk_plot_data_set_line_attributes
+					(slopefield_data,
+					 GTK_PLOT_LINE_NONE,
+					 GDK_CAP_ROUND, 
+					 GDK_JOIN_ROUND,
+					 1 /* thickness */,
+					 &color);
 				gtk_plot_data_set_symbol (slopefield_data,
 							  GTK_PLOT_SYMBOL_NONE /* symbol type? */,
 							  GTK_PLOT_SYMBOL_EMPTY /* symbol style */,
@@ -3371,9 +3377,13 @@ replot_fields (void)
 						   vectorfield_data);
 				gdk_color_parse ("blue", &color);
 				color_alloc (&color);
-				gtk_plot_data_set_line_attributes (vectorfield_data,
-								   GTK_PLOT_LINE_NONE,
-								   0, 0, 1, &color);
+				gtk_plot_data_set_line_attributes
+					(vectorfield_data,
+					 GTK_PLOT_LINE_NONE,
+					 GDK_CAP_ROUND, 
+					 GDK_JOIN_ROUND,
+					 1 /* thickess */,
+					 &color);
 				gtk_plot_data_set_symbol (vectorfield_data,
 							  GTK_PLOT_SYMBOL_NONE /* symbol type? */,
 							  GTK_PLOT_SYMBOL_EMPTY /* symbol style */,
@@ -3512,7 +3522,9 @@ plot_functions (gboolean do_window_present)
 		color_alloc (&color);
 		gtk_plot_data_set_line_attributes (line_data[i],
 						   GTK_PLOT_LINE_SOLID,
-						   0, 0, 2, &color);
+						   GDK_CAP_ROUND, 
+						   GDK_JOIN_ROUND,
+						   2, &color);
 
 		label = label_func (i, plot_func[i], "x", plot_func_name[i]);
 		gtk_plot_data_set_legend (line_data[i], label);
@@ -3566,7 +3578,9 @@ plot_functions (gboolean do_window_present)
 		color_alloc (&color);
 		gtk_plot_data_set_line_attributes (parametric_data,
 						   GTK_PLOT_LINE_SOLID,
-						   0, 0, 2, &color);
+						   GDK_CAP_ROUND, 
+						   GDK_JOIN_ROUND,
+						   2, &color);
 
 		if (parametric_name != NULL) {
 			label = g_strdup (parametric_name);
