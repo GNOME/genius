@@ -109,11 +109,12 @@ static __mpfr_struct *free_mpfr_top = free_mpfr;
 		memcpy (THE_f, free_mpfr_top, sizeof (__mpfr_struct));	\
 	}
 #define CLEAR_FREE_MPF(THE_f)				\
-	if (free_mpfr_top == &free_mpfr[FREE_LIST_SIZE-1]) { \
+	if (free_mpfr_top == &free_mpfr[FREE_LIST_SIZE-1] || \
+	    mpfr_get_prec (THE_f) != default_mpfr_prec) { \
 		mpfr_clear (THE_f);			\
 	} else {					\
 		memcpy (free_mpfr_top, THE_f, sizeof (__mpfr_struct));	\
-		free_mpfr_top++;				\
+		free_mpfr_top++;			\
 	}
 
 #define MAKE_CPLX_OPS(THE_op,THE_r,THE_i) {		\
@@ -1971,7 +1972,7 @@ mpwl_pow_z(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 			mpwl_pow_ui(rop,op1,mpz_get_ui(op2->data.ival),reverse);
 	}
 
-	if(reverse)
+	if(reverse && op2 != rop)
 		mpz_neg(op2->data.ival,op2->data.ival);
 }
 
@@ -3160,6 +3161,7 @@ void
 mpw_set_default_prec (unsigned long int prec)
 {
 	__mpfr_struct *p;
+
 	mpfr_set_default_prec (prec);
 
 	/* whack the mpf cache */
@@ -5462,6 +5464,8 @@ mpw_im(mpw_ptr rop, mpw_ptr op)
 	if (rop == op) {
 		MAKE_IMAG(rop);
 		rop->r = rop->i;
+		/* Note that rop->r is set to gel_zero
+		   and it is allocated in MAKE_IMAG */
 		rop->i = gel_zero;
 		return;
 	}
