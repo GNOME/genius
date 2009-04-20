@@ -4643,6 +4643,7 @@ plot_from_dialog_lineplot (void)
 
 	line_plot_clear_funcs ();
 
+	j = 0;
 	for (i = 0; i < MAXFUNC; i++) {
 		if (func[i] != NULL) {
 			plot_func[j] = func[i];

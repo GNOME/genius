@@ -1,0 +1,13 @@
+function f(z) = [1-1.4*z@(1)^2+z@(2),0.3*z@(1)];
+g= ComposePower(f,1000,[0.0,0.0]);
+FloatPrecision = 300;
+function f(z) = [1-1.4*z@(1)^2+z@(2),0.3*z@(1)];
+h= ComposePower(f,1000,[0.0,0.0]);
+FloatPrecision = 250;
+function f(z) = [1-1.4*z@(1)^2+z@(2),0.3*z@(1)];
+k= ComposePower(f,1000,[0.0,0.0]);
+function f(z) = [1-1.4*z@(1)^2+z@(2),0.3*z@(1)];
+a = ComposePower(f,1000,[0.0,0.0]);
+function f(z) = [1-1.4*z@(1)^2+z@(2),0.3*z@(1)];
+b = ComposePower(f,1000,[0.0,0.0]);
+if a==b then print(true) else print(false)
