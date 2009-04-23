@@ -1,7 +1,7 @@
 Librarydir = $(datadir)/genius/gel/calculus
 SUBDIRS =
 
-GELFILES = differentiation.gel integration.gel limits.gel sums_products.gel
+GELFILES = differentiation.gel integration.gel limits.gel sums_products.gel fourier.gel
 
 EXTRA_DIST = $(GELFILES)
 

@@ -1,0 +1,172 @@
+# FourierSeries
+# 
+function NumericalFourierSeriesFunction(f,L,N) =
+	(
+# check arguments
+	if not IsFunctionOrIdentifier(f) then
+		(error("NumericalFourierSeriesFunction: argument f must be a function");bailout)
+	else if not (IsReal(L) and L > 0) then
+		(error("NumericalFourierSeriesFunction: argument L must be a positive real value");bailout)
+	else if not IsPositiveInteger(N) then
+		(error("NumericalFourierSeriesFunction: argument N must be a positive integer");bailout);
+
+	c = NumericalFourierSeriesCoefficients(f,L,N);
+
+	FourierSeriesFunction(c@(1),c@(2),L)
+)
+SetHelp("NumericalFourierSeriesFunction","calculus","FIXME");
+protect("NumericalFourierSeriesFunction");
+
+function FourierSeriesFunction(a,b,L) =
+	(
+# check arguments
+	if not (IsVector(a) and IsVector(b)) then
+		(error("FourierSeriesFunction: arguments a and b must be vectors");bailout)
+	else if not (IsReal(L) and L > 0) then
+		(error("FourierSeriesFunction: argument L must be a positive real value");bailout);
+
+	`(x) = (
+		if not IsNull(a) then (
+			val = a@(1)/2 + sum n = 2 to elements(a) do
+				a@(n) * cos(x*(n-1)*pi/L)
+		) else (
+			val = 0
+		);
+	
+		if not IsNull(b) then (
+			val = val + sum n = 1 to elements(b) do
+				b@(n) * sin(x*n*pi/L)
+		);
+	
+		val
+	)
+)
+SetHelp("FourierSeries","calculus","FIXME");
+protect("FourierSeries");
+
+function NumericalFourierSeriesCoefficients(f,L,N) =
+	(
+# check arguments
+	if not IsFunctionOrIdentifier(f) then
+		(error("NumericalFourierSeriesCoefficients: argument f must be a function");bailout)
+	else if not (IsReal(L) and L > 0) then
+		(error("NumericalFourierSeriesCoefficients: argument L must be a positive real value");bailout)
+	else if not IsPositiveInteger(N) then
+		(error("NumericalFourierSeriesCoefficients: argument N must be a positive integer");bailout);
+
+	a = .;
+	b = .;
+
+	a@(1) = (1/L)*NumericalIntegral(f,-L,L);
+	__fs_L = L;
+	__fs_f = f;
+	for __fs_n = 1 to N do (
+		a@(__fs_n+1) = (1/L)*NumericalIntegral(`(x)=((__fs_f call (x))*cos(x*__fs_n*pi/__fs_L)),-L,L);
+		b@(__fs_n) = (1/L)*NumericalIntegral(`(x)=((__fs_f call (x))*sin(x*__fs_n*pi/__fs_L)),-L,L)
+	);
+	`[a,b]
+)
+SetHelp("NumericalFourierSeriesCoefficients","calculus","FIXME");
+protect("NumericalFourierSeriesCoefficients");
+
+function NumericalFourierSineSeriesCoefficients(f,L,N) =
+	(
+# check arguments
+	if not IsFunctionOrIdentifier(f) then
+		(error("NumericalFourierSineSeriesCoefficients: argument f must be a function");bailout)
+	else if not (IsReal(L) and L > 0) then
+		(error("NumericalFourierSineSeriesCoefficients: argument L must be a positive real value");bailout)
+	else if not IsPositiveInteger(N) then
+		(error("NumericalFourierSineSeriesCoefficients: argument N must be a positive integer");bailout);
+
+	b = .;
+
+	__fs_L = L;
+	__fs_f = f;
+	for __fs_n = 1 to N do (
+		b@(__fs_n) = (2/L)*NumericalIntegral(`(x)=((__fs_f call (x))*sin(x*__fs_n*pi/__fs_L)),0,L)
+	);
+	b
+)
+SetHelp("NumericalFourierSineSeriesCoefficients","calculus","FIXME");
+protect("NumericalFourierSineSeriesCoefficients");
+
+function NumericalFourierCosineSeriesCoefficients(f,L,N) =
+	(
+# check arguments
+	if not IsFunctionOrIdentifier(f) then
+		(error("NumericalFourierCosineSeriesCoefficients: argument f must be a function");bailout)
+	else if not (IsReal(L) and L > 0) then
+		(error("NumericalFourierCosineSeriesCoefficients: argument L must be a positive real value");bailout)
+	else if not IsPositiveInteger(N) then
+		(error("NumericalFourierCosineSeriesCoefficients: argument N must be a positive integer");bailout);
+
+	a = .;
+
+	__fs_L = L;
+	__fs_f = f;
+
+	a@(1) = (1/L)*NumericalIntegral(f,-L,L);
+	for __fs_n = 1 to N do (
+		a@(__fs_n+1) = (1/L)*NumericalIntegral(`(x)=((__fs_f call (x))*cos(x*__fs_n*pi/__fs_L)),-L,L)
+	);
+	a
+)
+SetHelp("NumericalFourierCosineSeriesCoefficients","calculus","FIXME");
+protect("NumericalFourierCosineSeriesCoefficients");
+
+function PeriodicExtension(f,a,b) =
+(
+# check arguments
+	if not IsFunctionOrIdentifier(f) then
+		(error("PeriodicExtension: argument f must be a function");bailout)
+	else if not (IsReal(a) and IsReal(b) and b > a) then
+		(error("PeriodicExtension: arguments a, b must be a real, b > a");bailout);
+
+	`(x) = (
+		#This is pretty stupid, but simplest way to do this
+		while x > b do x = x-(b-a);
+		while x < a do x = x+(b-a);
+		(f call (x))
+	)
+)
+SetHelp("PeriodicExtension","calculus","FIXME");
+protect("PeriodicExtension");
+
+function EvenPeriodicExtension(f,L) =
+	(
+# check arguments
+	if not IsFunctionOrIdentifier(f) then
+		(error("EvenPeriodicExtension: argument f must be a function");bailout)
+	else if not (IsReal(L) and L > 0) then
+		(error("EvenPeriodicExtension: argument L must be a positive real value");bailout);
+
+	`(x) = (
+		#This is pretty stupid, but simplest way to do this
+		while x > L do x = x-2*L;
+		while x < -L do x = x+2*L;
+
+		if x >= 0 then (f call (x)) else (f call (-x))
+	)
+)
+SetHelp("EvenPeriodicExtension","calculus","FIXME");
+protect("EvenPeriodicExtension");
+
+function OddPeriodicExtension(f,L) =
+(
+# check arguments
+	if not IsFunctionOrIdentifier(f) then
+		(error("OddPeriodicExtension: argument f must be a function");bailout)
+	else if not (IsReal(L) and L > 0) then
+		(error("OddPeriodicExtension: argument L must be a positive real value");bailout);
+
+	`(x) = (
+		#This is pretty stupid, but simplest way to do this
+		while x > L do x = x-2*L;
+		while x < -L do x = x+2*L;
+
+		if x >= 0 then (f call (x)) else -(f call (-x))
+	)
+)
+SetHelp("OddPeriodicExtension","calculus","FIXME");
+protect("OddPeriodicExtension");

@@ -3256,6 +3256,22 @@ get_source_language_manager ()
 #endif
 
 static gboolean
+file_exists (const char *fname)
+{
+	GnomeVFSURI *uri;
+	gboolean ret;
+
+	if (ve_string_empty (fname))
+		return FALSE; 
+
+	uri = gnome_vfs_uri_new (fname);
+	ret = gnome_vfs_uri_exists (uri);
+	gnome_vfs_uri_unref (uri);
+
+	return ret;
+}
+
+static gboolean
 file_is_writable (const char *fname)
 {
 	GnomeVFSFileInfo *info;
@@ -3399,8 +3415,13 @@ new_program (const char *filename)
 	} else {
 		char *contents;
 		p->name = g_strdup (filename);
-		p->readonly = ! file_is_writable (filename);
-		contents = get_contents_vfs (p->name);
+		if (file_exists (filename)) { 
+			p->readonly = ! file_is_writable (filename);
+			contents = get_contents_vfs (p->name);
+		} else {
+			p->readonly = FALSE;
+			contents = g_strdup ("");
+		}
 		if (contents != NULL &&
 		    g_utf8_validate (contents, -1, NULL)) {
 			GtkTextIter iter;
