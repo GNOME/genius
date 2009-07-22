@@ -106,8 +106,9 @@ MersennePrimeExponents = [2
 24036583
 25964951
 30402457
-32582657,
-37156667,
+32582657
+37156667
+42643801
 43112609];
 protect("MersennePrimeExponents");
 
@@ -124,11 +125,11 @@ function IsMersennePrimeExponent(p) = (
 		return true;
 
 	# http://www.mersenne.org / GIMPS doublechecked everything up
-	# to 17,001,247
-	if p <= 17001247 then
+	# to 18,297,089 (on Jul. 22, 2009)
+	if p <= 18297089 then
 		return false;
 
-	error("IsMersennePrimeExponent: Number too large (known values up to: " + 17001247 + ")");
+	error("IsMersennePrimeExponent: Number too large (known values up to: " + 18297089 + ")");
 	bailout
 );
 protect("IsMersennePrimeExponent")
