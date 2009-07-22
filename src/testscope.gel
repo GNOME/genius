@@ -1,0 +1,50 @@
+A = 1;
+function f(x) = (
+	A=2;
+	A
+);
+if f(0) != 2 then (error("simple local lookup failed");exit());
+
+A = 1;
+function f(x) = (
+	A
+);
+if f(0) != 1 then (error("simple global lookup failed");exit());
+
+A = 1;
+function f(x) = (
+	A = 8;
+	function g(y) = A+5;
+	g(x)
+);
+if f(0) != 8+5 then (error("intermediate global lookup failed");exit());
+
+A = 1;
+function f(x) = (
+	A = 8;
+	function g(y) = A+5;
+	g
+);
+h = f(0);
+if h(0) != 8+5 then (error("single subst lookup failed");exit());
+
+A = 1;
+function f(x) = (
+	local A;
+	A = 8;
+	function g(y) = A+5;
+	g(x)
+);
+if f(0) != 1+5 then (error("global lookup over local failed");exit());
+
+A = 1;
+function f(x) = (
+	local *;
+	A = 8;
+	function g(y) = A+5;
+	g(x)
+);
+if f(0) != 1+5 then (error("global lookup over all local failed");exit());
+
+
+print("true");

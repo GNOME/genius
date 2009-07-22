@@ -294,6 +294,8 @@ mod		{ NO_RET; return MOD; }
 
 null		{ DO_RET; return '.'; }
 
+local		{ DO_RET; return LOCAL; }
+
 "@("		{
 			gel_parenth_depth++;
 			if (matrix_entry_stack != NULL)

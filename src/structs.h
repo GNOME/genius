@@ -53,6 +53,7 @@ typedef struct _GelETreeMatrixRow GelETreeMatrixRow;
 /*typedef struct _GelETreeMatrixStart GelETreeMatrixStart;*/
 /*typedef struct _GelETreeExprlistStart GelETreeExprlistStart;*/
 typedef struct _GelETreeSpacer GelETreeSpacer;
+typedef struct _GelETreeLocal GelETreeLocal;
 typedef struct _GelToken GelToken;
 
 typedef struct _GelEvalStack GelEvalStack;
@@ -73,11 +74,11 @@ typedef GelETree *(* ParameterGetFunc) (void);
 
 typedef	GelETree *(* GelBIFunction) (GelCtx *ctx, GelETree * *, gboolean *); /*the gboolean is exception*/
 
+
 /* tokens point to this structure globaly, there is
    one such structure for each token.  */
 struct _GelToken {
 	char *token;
-	GelEFunc *curref;
 	GSList *refs;
 
 	/* For built-in parameters this is the get and set function
@@ -102,6 +103,9 @@ struct _GelEFunc {
 
 	GSList *extra_dict;
 
+	GSList *local_idents;
+	GSList *subst_dict;
+
 	union {
 		GelETree *user;
 		GelBIFunction func;
@@ -109,17 +113,27 @@ struct _GelEFunc {
 		GelEFunc *next; /*this is for keeping a free list*/
 	} data;
 
-	guint16 nargs; /*number of arguments*/
+	guint32 nargs:16; /*number of arguments*/
 
 	/* GelEFuncType type; */
-	guint8 type:3;
+	guint32 type:3;
 
 	/* if true, we must take this off the subst list for a context pop,
 	 * before we free the function */
-	guint8 on_subst_list:1;
-	guint8 vararg:1;
-	guint8 propagate_mod:1;
-	guint8 no_mod_all_args:1;
+	guint32 on_subst_list:1;
+	guint32 vararg:1;
+	guint32 propagate_mod:1;
+	guint32 no_mod_all_args:1;
+
+	/* this is true if all local vars of this function
+	   will be local-scoped */
+	guint32 local_all:1;
+
+	/* is this variable local */
+	guint32 is_local:1;
+
+	/* did we already build the subst_list */
+	guint32 built_subst_dict:1;
 };
 
 typedef enum {
@@ -140,7 +154,8 @@ typedef enum {
 	GEL_MATRIX_ROW_NODE=1000,
 	GEL_MATRIX_START_NODE,
 	GEL_EXPRLIST_START_NODE,
-	GEL_SPACER_NODE
+	GEL_SPACER_NODE,
+	GEL_LOCAL_NODE
 } GelETreeType;
 
 struct _GelETreeAny {
@@ -286,6 +301,13 @@ struct _GelETreeSpacer {
 	GelETree *arg;
 };
 
+struct _GelETreeLocal {
+	GelETreeType type;
+	GelETree *next;
+	GSList *idents; /* NULL means all */
+	GelETree *arg;
+};
+
 union _GelETree {
 	GelETreeType type;
 	GelETreeAny any; /*for allocation purposes only*/
@@ -305,6 +327,7 @@ union _GelETree {
 	/*GelETreeMatrixStart mats;*/
 	/*GelETreeExprlistStart exps;*/
 	GelETreeSpacer sp;
+	GelETreeLocal loc;
 };
 
 /* builtin primitives (operator node type) */

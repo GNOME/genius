@@ -54,9 +54,6 @@ struct _MpwCtx {
 };
 #endif
 
-static MpwRealNum *free_reals = NULL;
-static int free_reals_n = 0;
-
 MpwRealNum *gel_zero = NULL;
 MpwRealNum *gel_one = NULL;
 
@@ -137,16 +134,42 @@ static __mpfr_struct *free_mpfr_top = free_mpfr;
 	}						\
 }
 
+#ifdef MEM_DEBUG_FRIENDLY
+# define GET_NEW_REAL(n) (n = g_new0 (MpwRealNum, 1));
+#else
 
-#define GET_NEW_REAL(n) {				\
-	if(!free_reals) {				\
-		n = g_new0(MpwRealNum,1);		\
-	} else {					\
-		n = free_reals;				\
-		free_reals = free_reals->alloc.next;	\
-		free_reals_n--;				\
-	}						\
+/* In tests it seems that this achieves better then 4096 */
+#define GEL_CHUNK_SIZE 4048
+#define ALIGNED_SIZE(t) (sizeof(t) + sizeof (t) % G_MEM_ALIGN)
+
+static MpwRealNum *free_reals = NULL;
+
+static void
+_gel_make_free_reals (void)
+{
+	int i;
+	char *p;
+
+	p = g_malloc ((GEL_CHUNK_SIZE / ALIGNED_SIZE (MpwRealNum)) *
+		      ALIGNED_SIZE (MpwRealNum));
+	for (i = 0; i < (GEL_CHUNK_SIZE / ALIGNED_SIZE (MpwRealNum)); i++) {
+		MpwRealNum *t = (MpwRealNum *)p;
+		/*put onto the free list*/
+		t->alloc.next = free_reals;
+		free_reals = t;
+		p += ALIGNED_SIZE (MpwRealNum);
+	}
 }
+#define GET_NEW_REAL(n) {				\
+	if G_UNLIKELY (free_reals == NULL) {		\
+		_gel_make_free_reals ();		\
+	}						\
+	(n) = free_reals;				\
+    	free_reals = free_reals->alloc.next;		\
+}
+
+#endif
+
 #define MAKE_COPY(n) {					\
 	if((n)->alloc.usage>1) {			\
 		MpwRealNum *m;				\
@@ -643,18 +666,12 @@ mpwl_free(MpwRealNum *op)
 
 	mpwl_clear(op);
 
-	/*FIXME: the 2000 should be settable*/
-	/*if we want to store this so that we don't allocate new one
-	  each time, up to a limit of 2000, unless it was some local
-	  var in which case it can't be freed nor put on the free
-	  stack*/
-	if(free_reals_n>2000) {
-		g_free(op);
-	} else {
-		op->alloc.next = free_reals;
-		free_reals = op;
-		free_reals_n++;
-	}
+#ifdef MEM_DEBUG_FRIENDLY
+	g_free (op);
+#else
+	op->alloc.next = free_reals;
+	free_reals = op;
+#endif
 }
 
 static inline int

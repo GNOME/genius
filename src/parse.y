@@ -59,7 +59,7 @@ void yyerror(char *);
 
 %token FUNCTION CALL THREEDOTS PARAMETER
 
-%token RETURNTOK BAILOUT EXCEPTION CONTINUE BREAK
+%token RETURNTOK BAILOUT EXCEPTION CONTINUE BREAK LOCAL
 
 %token WHILE UNTIL FOR SUM PROD DO IF THEN ELSE TO BY IN
 
@@ -75,15 +75,15 @@ void yyerror(char *);
 
 %token LOGICAL_XOR LOGICAL_OR LOGICAL_AND LOGICAL_NOT
 
-
 %left NEXTROW
 
 %left SEPAR
 
+
 %nonassoc FUNCTION PARAMETER
 
-%nonassoc LOWER_THEN_ELSE
-%nonassoc WHILE UNTIL DO IF FOR SUM PROD TO BY IN THEN ELSE RETURNTOK
+%nonassoc LOWER_THAN_ELSE
+%nonassoc WHILE UNTIL DO IF FOR SUM PROD TO BY IN THEN ELSE RETURNTOK LOCAL
 
 %left LOGICAL_XOR LOGICAL_OR
 %left LOGICAL_AND
@@ -130,6 +130,14 @@ fullexpr:	STARTTOK expr '\n' { YYACCEPT; }
 	;
 
 expr:		expr SEPAR expr		{ PUSH_ACT(GEL_E_SEPAR); }
+	|	LOCAL '*' SEPAR expr	{ if ( ! gp_push_local_all ()) {
+						SYNTAX_ERROR;
+					  }
+       					}
+	|	LOCAL identlist SEPAR expr { if ( ! gp_push_local_idents ()) {
+						SYNTAX_ERROR;
+					  }
+					}
 	|	expr MOD expr		{ PUSH_ACT(GEL_E_MOD_CALC); }
 	|	'(' expr SEPAR ')'	{ gp_push_null(); PUSH_ACT(GEL_E_SEPAR);
 					  gp_push_spacer(); }
@@ -226,7 +234,7 @@ expr:		expr SEPAR expr		{ PUSH_ACT(GEL_E_SEPAR); }
 	|	PROD ident anyequals expr TO expr DO expr { PUSH_ACT(GEL_E_PROD_CONS); }
 	|	PROD ident anyequals expr TO expr BY expr DO expr { PUSH_ACT(GEL_E_PRODBY_CONS); }
 	|	PROD ident IN expr DO expr { PUSH_ACT(GEL_E_PRODIN_CONS); }
-	|	IF expr THEN expr %prec LOWER_THEN_ELSE	{ PUSH_ACT(GEL_E_IF_CONS); }
+	|	IF expr THEN expr %prec LOWER_THAN_ELSE	{ PUSH_ACT(GEL_E_IF_CONS); }
 	|	IF expr THEN expr ELSE expr { PUSH_ACT(GEL_E_IFELSE_CONS); }
 	|	ident			{ gp_convert_identifier_to_bool ();
 					  /* convert true/false to bool */}
@@ -276,7 +284,7 @@ paramdef: 	ident anyequals expr %prec EQUALS {
 anyequals:	EQUALS
 	|	DEFEQUALS
 	;
-	
+
 funcdef:	'(' identlist ')' anyequals expr %prec FUNCTION {
 			if ( ! gp_push_func (FALSE /* vararg */)) {
 				SYNTAX_ERROR;

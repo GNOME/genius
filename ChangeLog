@@ -1,3 +1,23 @@
+Wed Jul 22 14:44:10 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* configure.in: raise version, require slightly newer glib (2.10)
+
+	* src/compil.c, src/dict.[ch], src/eval.[ch], src/lexer.l,
+	  src/parse.y, src/parseutil.[ch], src/structs.h:  Add local
+	  variables (not seen by higher contexts).  Also fix several minor
+	  issues relating to dictionaries and lookup, mainly subst list
+	  function is not substituted again if it is passed up and down the
+	  contexts, and substitution is done in a smarter way.
+
+	* src/dict.[ch], src/gnome-genius.c: Redo the way contexts are done
+	  to get rid of some gslists
+
+	* src/mpwrap.[ch]: allocate new real nums in a smarter way (by large
+	  blocks) and put no limit on the number of real number structures
+	  on the free list.
+
+	* src/geniustests.txt, src/testscope.gel:  Add scope tests
+
 Wed Jul 22 00:30:36 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* lib/number_theory/primes.gel: update for newest info from
@@ -963,7 +983,7 @@ Sat Nov 03 20:51:37 2007  Jiri (George) Lebl <jirka@5z.com>
 	* src/Makefile.am:
 	* src/gnome-genius.c: (get_source_language_manager), (new_program):
 	Optionally allow to use GtkSourceView2 instead of GtkSourceView1.
-	Version 2 is preffered if available, otherwise version 1 will be used.
+	Version 2 is preferred if available, otherwise version 1 will be used.
 
 2007-11-03  Sebastian Dröge  <slomo@circular-chaos.org>
 

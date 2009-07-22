@@ -964,10 +964,9 @@ geniusbox (gboolean error,
 static void
 populate_var_box (GtkTextBuffer *buffer)
 {
-	GSList *all_contexts;
+	GelContextFrame *all_contexts, *lic;
 	GSList *funcs;
-	GSList *context_names;
-	GSList *li, *lic;
+	GSList *li;
 	GelOutput *out;
 	GtkTextIter iter;
 	GtkTextIter iter_end;
@@ -982,7 +981,6 @@ populate_var_box (GtkTextBuffer *buffer)
 	gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
 
 	all_contexts = d_get_all_contexts ();
-	context_names = d_get_context_names ();
 	funcs = d_getcontext_global ();
 
 	out = gel_output_new ();
@@ -1027,8 +1025,8 @@ populate_var_box (GtkTextBuffer *buffer)
 			(buffer, &iter, _("(depth of context in parentheses)\n\n"), -1, "note", NULL);
 
 		/* go over all local contexts (not the last one, that is global) */
-		for (lic = context_names; lic != NULL && lic->next != NULL; lic = lic->next) {
-			GelToken *tok = lic->data;
+		for (lic = all_contexts; lic != NULL && lic->next != NULL; lic = lic->next) {
+			GelToken *tok = lic->name;
 			char *s;
 
 			if (tok == NULL) {
@@ -1069,7 +1067,7 @@ populate_var_box (GtkTextBuffer *buffer)
 
 	/* go over all local contexts (not the last one, that is global) */
 	for (lic = all_contexts; lic != NULL && lic->next != NULL; lic = lic->next) {
-		for (li = lic->data; li != NULL; li = li->next) {
+		for (li = lic->functions; li != NULL; li = li->next) {
 			GelEFunc *f = li->data;
 			char *s;
 			if (f->type != GEL_VARIABLE_FUNC ||

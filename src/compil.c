@@ -34,16 +34,16 @@
 
 #include "compil.h"
 
-/*sort of weird encoding, use 'a'+upper 4 bits and 'a'+lower 4 bits*/
+/* sort of weird encoding, for each byte use 'a'+upper 4 bits and 'a'+lower 4 bits */
 static void
 append_string (GString *gs,const char *s)
 {
 	const char *p;
-	char out[3]="aa";
-	for(p=s;*p;p++) {
-		out[0]='a'+((*p)&0xF);
-		out[1]='a'+((*p)>>4);
-		g_string_append(gs,out);
+	char out[3] = "aa";
+	for (p = s; *p != '\0'; p++) {
+		out[0] = 'a' + ((*p)&0xF);
+		out[1] = 'a' + ((*p)>>4);
+		g_string_append (gs, out);
 	}
 }
 
@@ -53,8 +53,8 @@ gel_decode_string (const char *s)
 {
 	int len = strlen(s);
 	const char *ps;
-	char *p,*pp;
-	if(len%2 == 1)
+	char *p, *pp;
+	if (len%2 == 1)
 		return NULL;
 	
 	/*the 0 takes care of the termination*/
@@ -136,14 +136,25 @@ gel_compile_node(GelETree *t,GString *gs)
 	case GEL_FUNCTION_NODE:
 		g_assert(t->func.func->type==GEL_USER_FUNC);
 		/*g_assert(t->func.func->id==NULL);*/
-		g_string_append_printf (gs, ";%s;%s;%d;%d;%d;%d",
+		g_string_append_printf (gs, ";%s;%s;%d;%d;%d;%d;%d;",
 					t->func.func->id ? t->func.func->id->token : "*",
 					t->func.func->symbolic_id ? t->func.func->symbolic_id->token : "*",
 					t->func.func->nargs,
 					t->func.func->vararg,
 					t->func.func->propagate_mod,
-					t->func.func->no_mod_all_args);
-		for(li=t->func.func->named_args;li;li=g_slist_next(li)) {
+					t->func.func->no_mod_all_args,
+					t->func.func->local_all);
+
+		if (t->func.func->local_idents == NULL)
+			g_string_append (gs, "-");
+		for (li = t->func.func->local_idents; li != NULL; li = li->next) {
+			GelToken *tok = li->data;
+			if (li != t->func.func->local_idents)
+				g_string_append_printf (gs, ",%s", tok->token);
+			else
+				g_string_append_printf (gs, "%s", tok->token);
+		}
+		for (li = t->func.func->named_args; li != NULL; li = li->next) {
 			GelToken *tok = li->data;
 			g_string_append_printf (gs, ";%s", tok->token);
 		}
@@ -194,6 +205,7 @@ gel_decompile_node(char **ptrptr)
 	int vararg = -1;
 	int propagate_mod = -1;
 	int no_mod_all_args = -1;
+	int local_all = -1;
 	int quote;
 	int oper;
 	int i,j;
@@ -201,7 +213,7 @@ gel_decompile_node(char **ptrptr)
 	GelMatrixW *m;
 	GelETree *li = NULL;
 	GelETree *args;
-	GSList *oli;
+	GSList *oli, *local_idents;
 	GelEFunc *func;
 	mpw_t tmp;
 
@@ -357,11 +369,29 @@ gel_decompile_node(char **ptrptr)
 		sscanf(p,"%d",&no_mod_all_args);
 		if G_UNLIKELY (no_mod_all_args == -1) return NULL;
 
+		p = strtok_r (NULL,";", ptrptr);
+		if G_UNLIKELY (p == NULL) return NULL;
+		sscanf(p,"%d",&local_all);
+		if G_UNLIKELY (local_all == -1) return NULL;
+
+		p = strtok_r (NULL,";", ptrptr);
+		if G_UNLIKELY (p == NULL) return NULL;
+		local_idents = NULL;
+		if (strcmp (p, "-") != 0) {
+			char **s;
+			s = g_strsplit (p, ",", -1);
+			for (i = 0; s[i] != NULL; i++) {
+				local_idents = g_slist_append (local_idents, d_intern (s[i]));
+			}
+			g_strfreev (s);
+		}
+
 		oli = NULL;
 		for(i=0;i<nargs;i++) {
 			p = strtok_r (NULL,";", ptrptr);
 			if G_UNLIKELY (!p) {
-				g_slist_free(oli);
+				g_slist_free (oli);
+				g_slist_free (local_idents);
 				return NULL;
 			}
 			oli = g_slist_append(oli,d_intern(p));
@@ -369,7 +399,8 @@ gel_decompile_node(char **ptrptr)
 		
 		n = gel_decompile_node (ptrptr);
 		if G_UNLIKELY (!n) {
-			g_slist_free(oli);
+			g_slist_free (oli);
+			g_slist_free (local_idents);
 			return NULL;
 		}
 
@@ -380,6 +411,8 @@ gel_decompile_node(char **ptrptr)
 		func->vararg = vararg ? 1 : 0;
 		func->propagate_mod = propagate_mod ? 1 : 0;
 		func->no_mod_all_args = no_mod_all_args ? 1 : 0;
+		func->local_all = local_all ? 1 : 0;
+		func->local_idents = local_idents;
 
 		GEL_GET_NEW_NODE(n);
 		n->type = GEL_FUNCTION_NODE;
@@ -466,7 +499,6 @@ gel_decompile_tree (char *s)
 	
 	t = gel_decompile_node (&ptrptr);
 	if G_UNLIKELY (t == NULL) {
-		printf ("FOO!\n");
 		gel_errorout (_("Bad tree record when decompiling"));
 		return NULL;
 	}

@@ -113,6 +113,13 @@ GelETree * gel_function_from_function (GelEFunc *func, GelETree *l);
 
 /* Functions to fixup the parsed tree */
 GelETree * gel_gather_comparisons(GelETree *n);
+
+/* 0 not found
+   1 found OK
+   2 found not first */
+gboolean gel_get_local_node (GelETree *n, gboolean first_arg,
+			     gboolean *local_all, GSList **local_idents);
+
 void gel_replace_equals (GelETree *n, gboolean in_expression);
 void gel_replace_exp (GelETree *n);
 void gel_fixup_num_neg (GelETree *n);
@@ -131,8 +138,11 @@ gboolean gel_eval_find_identifier (GelETree *n,
 char * gel_similar_possible_ids (const char *id);
 
 
-/* return a list of used local functions (copies of) */
-GSList * gel_subst_local_vars (GSList *, GelETree *n);
+GSList * gel_get_ids_for_extradict (GSList *toklist, GSList *args, GSList *locals, GelETree *n);
+
+/* return a list of used local functions (copies of).
+ * Modifies toklist to remove those already put on funclist */
+GSList * gel_subst_local_vars (GSList *funclist, GSList **toklist);
 
 void gel_mod_node (GelCtx *ctx, GelETree *n);
 gboolean gel_mod_integer_rational (mpw_t num, mpw_t mod);
