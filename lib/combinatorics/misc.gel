@@ -23,7 +23,6 @@ function Hofstadter(n) = (
     _h (n)
 )
 
-protect("Hofstadter");
 
 # return the Fibonacci number, calculated using an iterative method
 SetHelp("Fibonacci", "combinatorics", "Calculate n'th Fibonacci number");
@@ -36,10 +35,8 @@ function Fibonacci(x) = (
 		(error("Fibonacci: argument less than zero");bailout)
 	else (([1,1;1,0]^x)@(1,2))
 );
-protect("Fibonacci")
 SetHelpAlias ("Fibonacci", "fib");
 fib=Fibonacci
-protect("fib")
 
 ## Harmonic Numbers
 ## H_n^(r) (the nth harmonic number of order r)
@@ -50,10 +47,8 @@ function HarmonicNumber(n,r) = (
   		return ApplyOverMatrix2 (m, n, HarmonicNumber);
 	sum x=1 to n do x^(-r)
 )
-protect("HarmonicNumber");
 SetHelpAlias ("HarmonicNumber", "HarmonicH");
 HarmonicH = HarmonicNumber;
-protect("HarmonicH");
 
 
 # return the Frobenius number
@@ -94,7 +89,6 @@ function FrobeniusNumber(v,arg...) = (
 	);
 	k
 );
-protect("FrobeniusNumber");
 
 SetHelp("GreedyAlgorithm", "combinatorics", "Use greedy algorithm to find c, for c . v = n.  (v must be sorted)");
 function GreedyAlgorithm(n,v) = (
@@ -125,7 +119,6 @@ function GreedyAlgorithm(n,v) = (
 	);
 	null
 );
-protect("GreedyAlgorithm");
 
 SetHelp("StirlingNumberFirst", "combinatorics", "Stirling number of the first kind");
 function StirlingNumberFirst(n,m) = (
@@ -143,10 +136,8 @@ function StirlingNumberFirst(n,m) = (
 		StirlingNumberFirst(n-1,m-1) - n * StirlingNumberFirst(n-1,m)
 	)
 )
-protect("StirlingNumberFirst");
 SetHelpAlias ("StirlingNumberFirst", "StirlingS1");
 StirlingS1 = StirlingNumberFirst;
-protect("StirlingS1");
 
 SetHelp("StirlingNumberSecond", "combinatorics", "Stirling number of the second kind");
 function StirlingNumberSecond(n,m) = (
@@ -157,10 +148,8 @@ function StirlingNumberSecond(n,m) = (
 
 	1/(m!) * (sum j=0 to m do ((-1)^j * Binomial(m,j)*(m-j)^n))
 )
-protect("StirlingNumberSecond");
 SetHelpAlias ("StirlingNumberSecond", "StirlingS2");
 StirlingS2 = StirlingNumberSecond;
-protect("StirlingS2");
 
 ## More: BernoulliPolynomial,
 ## EulerNumber, EulerPolynomial

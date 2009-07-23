@@ -46,5 +46,80 @@ function f(x) = (
 );
 if f(0) != 1+5 then (error("global lookup over all local failed");exit());
 
+A = 1;
+x = 9;
+function f(x) = (
+	local *;
+	A = 8;
+	function g(y) = A+5+x;
+	g(x)
+);
+if f(0) != 1+5+9 then (error("global lookup over all local (2) failed");exit());
+
+A = 1;
+function f(x) = (
+	A = 8;
+	function g(y) = A+5;
+	g
+);
+h = f(0);
+function f2(g) = (
+	A=-9;
+	g(0)
+);
+if f2(h) != 8+5 then (error("subst pass up 1 failed");exit());
+
+A = 1;
+function f(x) = (
+	A = 8;
+	function g(y) = A+5;
+	g
+);
+h = f(0);
+function f2(g) = (
+	A=-9;
+	g(5);
+	g
+);
+h2=f2(h);
+if h2(0) != 8+5 then (error("subst pass up 2 failed");exit());
+
+function f(x) = (
+	local *;
+	function g(y) = 5;
+	g
+);
+h = f(0);
+function f2(x) = (
+	h(9)
+);
+if f2(0) != 5 then (error("ret of local failed");exit());
+
+function f(x) = (
+	local g;
+	function g(y) = 19;
+	g
+);
+h = f(0);
+function f2(x) = (
+	h(9)
+);
+if f2(0) != 19 then (error("ret of local 2 failed");exit());
+
+
+function ff() = (
+  function f(x) = (
+	local g;
+	function g(y) = 999;
+	g
+  );
+  h = f(0);
+  function f2(x) = (
+	h(9)
+  );
+  if f2(0) != 999 then (error("ret of local failed");exit());
+);
+ff();
+
 
 print("true");

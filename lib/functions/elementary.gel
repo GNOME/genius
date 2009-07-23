@@ -13,7 +13,6 @@ function rad2deg(x) = (
 		(error("rad2deg: argument not a value");bailout);
 	(x*180)/pi
 );
-protect("rad2deg")
 
 SetHelp("deg2rad", "functions", "Convert degrees to radians");
 function deg2rad(x) = (
@@ -23,7 +22,6 @@ function deg2rad(x) = (
 		(error("deg2rad: argument not a value");bailout);
 	(x*pi)/180
 );
-protect("deg2rad")
 
 #FIXME: these may not deal well with zero values.
 
@@ -36,7 +34,6 @@ function asin(x) = (
 	if (x==1) then pi/2 else if (x==-1) then -pi/2
             else atan(x/sqrt(1-x^2))
 );
-protect("asin")
 arcsin = asin
 SetHelpAlias ("asin", "arcsin");
 
@@ -48,7 +45,6 @@ function asinh(x) = (
 		(error("asinh: argument not a value");bailout);
 	ln(x+sqrt((x^2)+1))
 );
-protect("asinh")
 arcsinh = asinh
 SetHelpAlias ("asinh", "arcsinh");
 
@@ -61,7 +57,6 @@ function acos(x) = (
         if (x==0) then pi/2 
            else atan(sqrt(1-x^2)/x)+(if x>0 then 0 else pi)
 );
-protect("acos")
 arccos = acos
 SetHelpAlias ("acos", "arccos");
 
@@ -73,7 +68,6 @@ function acosh(x) = (
 		(error("acosh: argument not a value");bailout);
 	ln(x+sqrt((x^2)-1))
 );
-protect("acosh")
 arccosh = acosh
 SetHelpAlias ("acosh", "arccosh");
 
@@ -85,7 +79,6 @@ function cot(x) = (
 		(error("cot: argument not a value");bailout);
 	1/tan(x)
 );
-protect("cot")
 
 SetHelp("coth","trigonometry","The hyperbolic cotangent function");
 function coth(x) = (
@@ -95,7 +88,6 @@ function coth(x) = (
 		(error("coth: argument not a value");bailout);
 	1/tanh(x)
 );
-protect("coth")
 
 SetHelp("acot","trigonometry","The arccot (inverse cot) function");
 function acot(x) = (
@@ -105,7 +97,6 @@ function acot(x) = (
 		(error("acot: argument not a value");bailout);
 	atan(1/x)
 );
-protect("acot")
 arccot = acot
 SetHelpAlias ("acot", "arccot");
 
@@ -117,7 +108,6 @@ function acoth(x) = (
 		(error("acoth: argument not a value");bailout);
 	atanh(1/x)
 );
-protect("acoth")
 arccoth = acoth
 SetHelpAlias ("acoth", "arccoth");
 
@@ -129,7 +119,6 @@ function tanh(x) = (
 		(error("tanh: argument not a value");bailout);
 	sinh(x)/cosh(x)
 );
-protect("tanh")
 
 SetHelp("atanh","trigonometry","The arctanh (inverse tanh) function");
 function atanh(x) = (
@@ -139,7 +128,6 @@ function atanh(x) = (
 		(error("atanh: argument not a value");bailout);
 	ln((1+x)/(1-x))/2
 );
-protect("atanh")
 arctanh = atanh
 SetHelpAlias ("atanh", "arctanh");
 
@@ -151,7 +139,6 @@ function csc(x) = (
 		(error("csc: argument not a value");bailout);
 	1/sin(x)
 );
-protect("csc")
 
 SetHelp("csch","trigonometry","The hyperbolic cosecant function");
 function csch(x) = (
@@ -161,7 +148,6 @@ function csch(x) = (
 		(error("csch: argument not a value");bailout);
 	1/sinh(x)
 );
-protect("csch")
 
 SetHelp("acsc","trigonometry","The inverse cosecant function");
 function acsc(x) = (
@@ -171,7 +157,6 @@ function acsc(x) = (
 		(error("acsch: argument not a value");bailout);
 	asin(1/x)
 );
-protect("acsc")
 arccsc = acsc
 SetHelpAlias ("acsc", "arccsc");
 
@@ -183,7 +168,6 @@ function acsch(x) = (
 		(error("acsc: argument not a value");bailout);
 	asinh(1/x)
 );
-protect("acsch")
 arccsch = acsch
 SetHelpAlias ("acsch", "arccsch");
 
@@ -195,7 +179,6 @@ function sec(x) = (
 		(error("sec: argument not a value");bailout);
 	1/cos(x)
 );
-protect("sec")
 
 SetHelp("sech","trigonometry","The hyperbolic secant function");
 function sech(x) = (
@@ -205,7 +188,6 @@ function sech(x) = (
 		(error("sech: argument not a value");bailout);
 	1/cosh(x)
 );
-protect("sech")
 
 SetHelp("asec","trigonometry","The inverse secant function");
 function asec(x) = (
@@ -215,7 +197,6 @@ function asec(x) = (
 		(error("asec: argument not a value");bailout);
 	acos(1/x)
 );
-protect("asec")
 arcsec = asec
 SetHelpAlias ("asec", "arcsec");
 
@@ -227,7 +208,6 @@ function asech(x) = (
 		(error("asech: argument not a value");bailout);
 	acosh(1/x)
 );
-protect("asech")
 arcsech = asech
 SetHelpAlias ("asech", "arcsech");
 
@@ -252,7 +232,6 @@ function log(x,b...) = (
 		(error("log: arguments not values");bailout);
 	ln(x)/ln(base)
 );
-protect("log")
 
 parameter ErrorFunctionTolerance = 10.0^(-10);
 SetHelp ("ErrorFunctionTolerance", "parameters", "Tolerance of the ErrorFunction")
@@ -280,7 +259,6 @@ function ErrorFunction (x) = (
 	) while (|t| > ErrorFunctionTolerance);
 	s
 );
-protect("ErrorFunction")
 erf = ErrorFunction
 SetHelpAlias ("ErrorFunction", "erf");
 
@@ -303,4 +281,3 @@ function NewtonsMethodPoly(poly,guess,epsilon,maxn) = (
 	);
 	null
 )
-protect("NewtonsMethodPoly")

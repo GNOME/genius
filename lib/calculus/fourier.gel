@@ -15,7 +15,6 @@ function NumericalFourierSeriesFunction(f,L,N) =
 	FourierSeriesFunction(c@(1),c@(2),L)
 )
 SetHelp("NumericalFourierSeriesFunction","calculus","FIXME");
-protect("NumericalFourierSeriesFunction");
 
 function FourierSeriesFunction(a,b,L) =
 	(
@@ -42,7 +41,6 @@ function FourierSeriesFunction(a,b,L) =
 	)
 )
 SetHelp("FourierSeries","calculus","FIXME");
-protect("FourierSeries");
 
 function NumericalFourierSeriesCoefficients(f,L,N) =
 	(
@@ -67,7 +65,6 @@ function NumericalFourierSeriesCoefficients(f,L,N) =
 	`[a,b]
 )
 SetHelp("NumericalFourierSeriesCoefficients","calculus","FIXME");
-protect("NumericalFourierSeriesCoefficients");
 
 function NumericalFourierSineSeriesCoefficients(f,L,N) =
 	(
@@ -89,7 +86,6 @@ function NumericalFourierSineSeriesCoefficients(f,L,N) =
 	b
 )
 SetHelp("NumericalFourierSineSeriesCoefficients","calculus","FIXME");
-protect("NumericalFourierSineSeriesCoefficients");
 
 function NumericalFourierCosineSeriesCoefficients(f,L,N) =
 	(
@@ -113,7 +109,6 @@ function NumericalFourierCosineSeriesCoefficients(f,L,N) =
 	a
 )
 SetHelp("NumericalFourierCosineSeriesCoefficients","calculus","FIXME");
-protect("NumericalFourierCosineSeriesCoefficients");
 
 function PeriodicExtension(f,a,b) =
 (
@@ -131,7 +126,6 @@ function PeriodicExtension(f,a,b) =
 	)
 )
 SetHelp("PeriodicExtension","calculus","FIXME");
-protect("PeriodicExtension");
 
 function EvenPeriodicExtension(f,L) =
 	(
@@ -150,7 +144,6 @@ function EvenPeriodicExtension(f,L) =
 	)
 )
 SetHelp("EvenPeriodicExtension","calculus","FIXME");
-protect("EvenPeriodicExtension");
 
 function OddPeriodicExtension(f,L) =
 (
@@ -169,4 +162,3 @@ function OddPeriodicExtension(f,L) =
 	)
 )
 SetHelp("OddPeriodicExtension","calculus","FIXME");
-protect("OddPeriodicExtension");

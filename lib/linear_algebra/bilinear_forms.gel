@@ -5,13 +5,11 @@
 #FIXME: check parameters
 SetHelp ("BilinearForm", "linear_algebra", "Evaluate (v,w) with respect to the bilinear form given by the matrix A")
 function BilinearForm(v,A,w) = (v.'*A*w)@(1)
-protect ("BilinearForm")
 
 # Evaluate (v,w) with respect to the sesquilinear form given by the matrix A.
 #FIXME: check parameters
 SetHelp ("SesquilinearForm", "linear_algebra", "Evaluate (v,w) with respect to the sesquilinear form given by the matrix A")
 function SesquilinearForm(v,A,w) = (v'*A*w)@(1)
-protect ("SesquilinearForm")
 
 # The angle of two vectors, given an inner product
 #FIXME: default inner product!
@@ -29,16 +27,13 @@ function VectorAngle(v,w,B...) =
  	
 	acos(P(v,w)/(P(v,v)*P(w,w)))
 )
-protect ("VectorAngle")
 
 #FIXME: check parameters
 SetHelp ("BilinearFormFunction", "linear_algebra", "Return a function that evaluates two vectors with respect to the bilinear form given by A")
 function BilinearFormFunction(A)=(`(v,w)=(v.'*A*w)@(1))
-protect ("BilinearFormFunction")
 
 SetHelp ("SesquilinearFormFunction", "linear_algebra", "Return a function that evaluates two vectors with respect to the sesquilinear form given by A")
 function SesquilinearFormFunction(A)=(`(v,w)=(v'*A*w)@(1))
-protect ("SesquilinearFormFunction")
 
 # Projection onto a vector space
 # Projection of vector v onto subspace W given a sesquilinear form B
@@ -57,7 +52,6 @@ function Projection(v,W,B...) =
 		(P(v,c)/P(c,c))*c
 	)
   )
-protect ("Projection")
 
 # Gram-Schmidt Orthogonalization
 # Described, for instance, in Hoffman & Kunze, ``Linear Algebra'' p.~280
@@ -85,4 +79,3 @@ function GramSchmidt(v,B...) =
 	);
 	w
 	)
-protect ("GramSchmidt")

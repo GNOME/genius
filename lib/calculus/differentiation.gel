@@ -44,7 +44,6 @@ function OneSidedThreePointFormula(f,x0,h) =
         (-3*f(x0)+4*(f call (x0+h))-(f call (x0+2*h)))/(2*h)
 	)
 SetHelp("OneSidedThreePointFormula","calculus","Compute one-sided derivative using three-point formula");
-protect("OneSidedThreePointFormula");
 
 # Two-sided three-point formula, Section 4.1, Formula 4.5, p. 161
 function TwoSidedThreePointFormula(f,x0,h) =
@@ -63,7 +62,6 @@ function TwoSidedThreePointFormula(f,x0,h) =
         ((f call (x0+h))-(f call (x0-h)))/(2*h)
 	)
 SetHelp("TwoSidedThreePointFormula","calculus","Compute two-sided derivative using three-point formula");
-protect("TwoSidedThreePointFormula");
 
 # One-sided five-point formula, Section 4.1, Formula 4.7, p. 161
 function OneSidedFivePointFormula(f,x0,h) =
@@ -82,7 +80,6 @@ function OneSidedFivePointFormula(f,x0,h) =
         (-25*(f call (x0))+48*(f call (x0+h))-36*(f call (x0+2*h))+16*(f call (x0+3*h))-3*(f call (x0+4*h)))/(12*h)
 	)
 SetHelp("OneSidedFivePointFormula","calculus","Compute one-sided derivative using five point formula");
-protect("OneSidedFivePointFormula");
 
 # Two-sided five-point formula, Section 4.1, Formula 4.6, p. 161
 function TwoSidedFivePointFormula(f,x0,h) =
@@ -101,7 +98,6 @@ function TwoSidedFivePointFormula(f,x0,h) =
         ((f call (x0-2*h))-8*(f call (x0-h))+8*(f call (x0+h))-(f call (x0+2*h)))/(12*h)
 	)
 SetHelp("TwoSidedFivePointFormula","calculus","Compute two-sided derivative using five-point formula");
-protect("TwoSidedFivePointFormula");
 
 SetHelp ("DerivativeTolerance", "parameters", "Tolerance for calculating the derivatives of functions")
 parameter DerivativeTolerance=10.0^(-5);
@@ -119,7 +115,6 @@ function IsDifferentiable(f,x0) =
 	| NumericalLeftDerivative (f,x0) - NumericalRightDerivative (f,x0) | < 2*DerivativeTolerance
 )
 SetHelp("IsDifferentiable","calculus","Test for differentiability by approximating the left and right limits and comparing");
-protect("IsDifferentiable");
 
 # Simple derivative function
 #FIXME!!!! BROKEN!!!! ???
@@ -134,10 +129,8 @@ function NumericalDerivative(f,x0) =
 			      DerivativeNumberOfTries)
 )
 SetHelp("NumericalDerivative","calculus","Attempt to calculate numerical derivative");
-protect("NumericalDerivative");
 SetHelpAlias ("NumericalDerivative", "NDerivative");
 NDerivative = NumericalDerivative
-protect("NDerivative");
 
 function NumericalLeftDerivative(f,x0) =
 (
@@ -148,7 +141,6 @@ function NumericalLeftDerivative(f,x0) =
 			      DerivativeNumberOfTries)
 )
 SetHelp("NumericalLeftDerivative","calculus","Attempt to calculate numerical left derivative");
-protect("NumericalLeftDerivative");
 
 function NumericalRightDerivative(f,x0) =
 (
@@ -159,7 +151,6 @@ function NumericalRightDerivative(f,x0) =
 			      DerivativeNumberOfTries)
 )
 SetHelp("NumericalRightDerivative","calculus","Attempt to calculate numerical right derivative");
-protect("NumericalRightDerivative");
 
 function Derivative(f,x0) =
 (
@@ -170,4 +161,3 @@ function Derivative(f,x0) =
 		df(x0)
 )
 SetHelp("Derivative","calculus","Attempt to calculate derivative by trying first symbolically and then numerically");
-protect("Derivative");

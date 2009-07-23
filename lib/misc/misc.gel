@@ -3,11 +3,9 @@
 #make something a string
 SetHelp("string","basic","Make a string");
 function string(s) = s + ""
-protect("string")
 
 SetHelp("Compose","basic","Compose two functions")
 function Compose(f,g) = `(x)=f(g(x))
-protect("Compose")
 
 SetHelp("ComposePower","basic","Compose a function with itself n times, passing x as argument, and returning x if n == 0")
 function ComposePower(f,n,x) = (
@@ -15,4 +13,3 @@ function ComposePower(f,n,x) = (
 		x = f call (x);
 	x
 )
-protect("ComposePower")

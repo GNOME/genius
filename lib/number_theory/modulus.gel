@@ -11,7 +11,6 @@ function EulerPhi(n) =
 		(error("EulerPhi: argument not an integer larger than 0");bailout);
 	n * (prod p in PrimeFactors(n) do (1-(1/p)))
 )
-protect("EulerPhi");
 
 # Silver-Pohlig-Hellman as described in
 # Neil Koblitz, A Course in Number Theory and Cryptography, Springer, 1987
@@ -61,7 +60,6 @@ function SilverPohligHellmanWithFactorization(n,b,q,f) = (
   # Now return the chinese remainder of the system
   ChineseRemainder(x,m)
 )
-protect ("SilverPohligHellmanWithFactorization")
 
 # compute the discrete log using the SilverPohligHellman alg
 SetHelp("DiscreteLog", "number_theory", "Find discrete log of n base b in F_q where q is a prime using the Silver-Pohlig-Hellman algoritm");
@@ -74,7 +72,6 @@ function DiscreteLog(n,b,q) = (
   f = Factorize(q-1);
   SilverPohligHellmanWithFactorization(n,b,q,f)
 )
-protect ("DiscreteLog")
 
 # precalculates the table of logarithms for the
 # factor base mentioned in S for the generator b mod q
@@ -139,7 +136,6 @@ function IndexCalculusPrecalculation (b, q, S) = (
   # column the computed logarithms
   [S@(,1) , mat^-1 * v mod q-1]
 );
-protect ("IndexCalculusPrecalculation")
 
 # outputs log_b n mod q (using factor base S),
 # first column of S is the factor base and second column
@@ -180,7 +176,6 @@ function IndexCalculus (n, b, q, S) = (
   ) while f > 1;
   l mod q-1
 );
-protect ("IndexCalculus")
 
 # g is primitive mod p iff g^((g-1)/p) == 1 mod q  for all prime
 # factors p of q-1
@@ -197,7 +192,6 @@ function IsPrimitiveModWithPrimeFactors(g,q,f) = (
   );
   true
 )
-protect ("IsPrimitiveModWithPrimeFactors")
 
 # g is primitive mod p iff g^((g-1)/p) == 1 mod q  for all prime
 # factors p of q-1
@@ -213,7 +207,6 @@ function IsPrimitiveMod(g,q) = (
   );
   true
 )
-protect ("IsPrimitiveMod")
 
 # Find the first primitive element
 SetHelp("FindPrimitiveElementMod", "number_theory", "Find the first primitive element in F_q (q must be a prime)");
@@ -227,7 +220,6 @@ function FindPrimitiveElementMod(q) = (
 
   if g == q then null else g
 );
-protect ("FindPrimitiveElementMod")
 
 # Find a random primitive element
 SetHelp("FindRandomPrimitiveElementMod", "number_theory", "Find a random primitive element in F_q (q must be a prime)");
@@ -237,7 +229,6 @@ function FindRandomPrimitiveElementMod(q) = (
     g = randint(q)
   while not IsPrimitiveModWithPrimeFactors(g,q,f)
 );
-protect ("FindRandomPrimitiveElementMod")
 
 #ref: 
 # Alfred J. Menezes, Paul C. van Oorschot, Scott A. Vanstone,
@@ -289,4 +280,3 @@ function SqrtModPrime(n,p) = (
     [r,-r] mod p
   )
 )
-protect ("SqrtModPrime")

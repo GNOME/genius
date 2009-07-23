@@ -44,7 +44,6 @@ function CubicFormula(pol) = (
      	 p/(3*u*omega1) - u*omega1 - a/3
      	 p/(3*u*omega2) - u*omega2 - a/3]
 )
-protect ("CubicFormula")
 
 ## see planetmath
 SetHelp ("QuarticFormula", "equation_solving",
@@ -86,7 +85,6 @@ function QuarticFormula(pol) = (
 	 (r3pr4 + A2)/2
 	 (r3pr4 - A2)/2]
 )
-protect ("QuarticFormula")
 
 SetHelp ("PolynomialRoots", "equation_solving",
          "Find roots of a polynomial (given as vector of coefficients)")
@@ -106,4 +104,3 @@ function PolynomialRoots(p) = (
 	else # if elements(p) == 5 then
 		QuarticFormula (p)
 )
-protect ("PolynomialRoots")

@@ -1,3 +1,15 @@
+Thu Jul 23 12:26:47 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/funclib.c: Add UndefineAll, ProtectAll, make Undefine an alias
+	  for undefine.
+
+	* src/dict.[ch], src/eval.c: allow setting of protected parameters,
+	  they just can't be deleted or changed
+
+	* lib/*.gel: Use the ProtectAll function
+
+	* src/testscope.gel: add extra tests
+
 Wed Jul 22 14:44:10 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* configure.in: raise version, require slightly newer glib (2.10)

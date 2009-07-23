@@ -15,7 +15,6 @@ function SymbolicNthDerivative(f,n) =
 	df
 )
 SetHelp("SymbolicNthDerivative","symbolic","Attempt to symbolically differentiate a function n times");
-protect("SymbolicNthDerivative");
 
 function SymbolicNthDerivativeTry(f,n) =
 (
@@ -34,7 +33,6 @@ function SymbolicNthDerivativeTry(f,n) =
 	df
 )
 SetHelp("SymbolicNthDerivativeTry","symbolic","Attempt to symbolically differentiate a function n times quietly and return null on failure");
-protect("SymbolicNthDerivativeTry");
 
 function SymbolicTaylorApproximationFunction(f,x0,n) =
 (
@@ -60,4 +58,3 @@ function SymbolicTaylorApproximationFunction(f,x0,n) =
 	`(x) = (tp call (x - x0))
 )
 SetHelp("SymbolicTaylorApproximationFunction","symbolic","Attempt to construct the taylor approximation function around x0 to the nth degree.");
-protect("SymbolicTaylorApproximationFunction");

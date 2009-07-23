@@ -21,7 +21,6 @@ function IsNthPower(m,n) =
 	(IsNthPower(Numerator(m),n)) and IsNthPower(Denominator(m),n)
  )
 SetHelp("IsNthPower","number_theory","Tests if a rational number is a perfect power");
-protect("IsNthPower");
 
 # Returns the highest power of p that divides n, where n is rational.
 # FIXME: This is only a valuation if p is prime, so this is an abuse
@@ -47,7 +46,6 @@ function PadicValuation(n,p) =
   valuation
  )
 SetHelp("PadicValuation","number_theory","Returns the padic valuation (number of trailing zeros in base p).");
-protect("PadicValuation");
 
 function RemoveFactor(n,m) =
  (
@@ -65,11 +63,9 @@ function RemoveFactor(n,m) =
   n
  )
 SetHelp("RemoveFactor","number_theory","Removes all instances of the factor m from the number n");
-protect("RemoveFactor");
 
 function PowerMod(a,b,m) = a^b mod m
 SetHelp("PowerMod","number_theory","Compute a^b mod m");
-protect("PowerMod");
 
 function AreRelativelyPrime(a,b) = (
 	if IsMatrix (a) or IsMatrix (b) then
@@ -77,7 +73,6 @@ function AreRelativelyPrime(a,b) = (
 	gcd(a,b) == 1
 )
 SetHelp("AreRelativelyPrime","number_theory","Are a and b relatively prime?");
-protect("AreRelativelyPrime");
 
 function LeastAbsoluteResidue(a,n) = (
   	if not IsInteger(a) or not IsPositiveInteger(n) then
@@ -92,7 +87,6 @@ function LeastAbsoluteResidue(a,n) = (
 		b
 )
 SetHelp("LeastAbsoluteResidue", "number_theory", "Return the residue of a mod n with the least absolute value (in the interval -n/2 to n/2)");
-protect("LeastAbsoluteResidue");
 
 SetHelp("ChineseRemainder", "number_theory", "Find the x that solves the system given by the vector a and modulo the elements of m, using the Chinese Remainder Theorem");
 function ChineseRemainder(a,m) = (
@@ -103,10 +97,8 @@ function ChineseRemainder(a,m) = (
     )
   ) % M
 )
-protect("ChineseRemainder");
 SetHelpAlias ("ChineseRemainder", "CRT")
 CRT = ChineseRemainder
-protect("CRT")
 
 SetHelp("ConvertToBase", "number_theory", "Convert a number to a vector of powers for elements in base b");
 function ConvertToBase(n,b) = (
@@ -123,7 +115,6 @@ function ConvertToBase(n,b) = (
   );
   ret
 )
-protect("ConvertToBase");
 
 SetHelp("ConvertFromBase", "number_theory", "Convert a vector of values indicating powers of b to a number");
 function ConvertFromBase(v,b) = (
@@ -137,7 +128,6 @@ function ConvertFromBase(v,b) = (
     n = n + v@(i)*b^(i-1);
   n
 )
-protect("ConvertFromBase");
 
 # Eric W. Weisstein. "Bernoulli Number." From MathWorld--A Wolfram Web Resource. http://mathworld.wolfram.com/BernoulliNumber.html
 SetHelp("BernoulliNumber", "number_theory", "Return the nth Bernoulli number");
@@ -158,7 +148,6 @@ function BernoulliNumber(n) = (
 		)
 	)
 )
-protect("BernoulliNumber");
 
 
 SetHelp("MoebiusMu", "number_theory", "Return the Moebius mu function evaluated in n");
@@ -181,5 +170,4 @@ function MoebiusMu(n) = (
       );
       moeb
 )
-protect("MoebiusMu");
 

@@ -16,7 +16,6 @@ function ColumnSpace(M) =
     (error("ColumnSpace: argument not a matrix");bailout);
   StripZeroColumns (cref (M))
 )
-protect ("ColumnSpace")
 
 # Row Space of a matrix
 SetHelp ("RowSpace", "linear_algebra", "Get a basis matrix for the rowspace of a matrix")
@@ -26,7 +25,6 @@ function RowSpace(M) = (
     (error("RowSpace: argument not a matrix");bailout);
   ColumnSpace (M.')
 )
-protect ("RowSpace")
 
 # Rank of a matrix
 SetHelp ("Rank", "linear_algebra", "Get the rank of a matrix")
@@ -37,10 +35,8 @@ function Rank(M) =
     (error("Rank: argument not a matrix");bailout);
   columns (M) - CountZeroColumns(cref(M))
 )
-protect ("Rank")
 SetHelpAlias ("Rank", "rank");
 rank = Rank
-protect ("rank")
 
 # Nullity of a matrix
 SetHelp ("Nullity", "linear_algebra", "Get the nullity of a matrix")
@@ -51,35 +47,29 @@ function Nullity (M) =
     (error("Nullity: argument not a matrix");bailout);
   CountZeroColumns(cref(M))
 )
-protect ("Nullity")
 SetHelpAlias ("Nullity", "nullity");
 nullity = Nullity
-protect ("nullity")
 
 # Image of a linear transform (=column space of the corresponding matrix)
 SetHelp ("Image", "linear_algebra", "Get the image (columnspace) of a linear transform")
 Image = ColumnSpace
-protect ("Image")
 
 # Null space/kernel of a linear transform
 # NullSpace is now built-in for speed
 
 SetHelp ("Kernel", "linear_algebra", "Get the kernel (nullspace) of a linear transform")
 function Kernel(M) = NullSpace(M)
-protect ("Kernel")
 
 ## Vector Subspace operations
 # Given W1, W2 subspaces of V, returns W1 + W2
 # = {w | w=w1+w2, w1 in W1, w2 in W2}
 SetHelp ("VectorSubspaceSum", "linear_algebra", "The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}")
 function VectorSubspaceSum(M,N)=ColumnSpace([M,N])
-protect ("VectorSubspaceSum")
 
 # Given vector spaces V1, V2, return V1 (+) V2 (the direct sum)
 # (given by the column space of the direct sum of matrices)
 SetHelp ("VectorSpaceDirectSum", "linear_algebra", "The direct sum of the vector spaces M and N")
 function VectorSpaceDirectSum(M,N)=ColumnSpace(DirectSum(M,N))
-protect ("VectorSpaceDirectSum")
 
 # Given vector spaces V1, V2, return V1 (x) V2 (the tensor product)
 # (given by the column space of the tensor product of matrices)
@@ -92,7 +82,6 @@ protect ("VectorSpaceDirectSum")
 # W1 cap W2 = (W1^perp+W2^perp)^perp
 SetHelp ("VectorSubspaceIntersection", "linear_algebra", "Intersection of the subspaces given by M and N")
 function VectorSubspaceIntersection(M,N)= OrthogonalComplement(VectorSubspaceSum(OrthogonalComplement(M),OrthogonalComplement(N)))
-protect ("VectorSubspaceIntersection")
 
 # Given a vector subspace of an Inner Product Space (or maybe just
 # a space with a (symmetric?) bilinear form (check lang),
@@ -101,7 +90,6 @@ protect ("VectorSubspaceIntersection")
 # inner product on
 SetHelp ("OrthogonalComplement", "linear_algebra", "Get the orthogonal complement of the columnspace")
 function OrthogonalComplement(M)=NullSpace(M')
-protect ("OrthogonalComplement")
 
 ## (Vector space + a vector) operations
 
@@ -115,5 +103,4 @@ protect ("OrthogonalComplement")
 #....)
 SetHelp ("IsInSubspace", "linear_algebra", "Test if a vector is in a subspace")
 function IsInSubspace(v,W) = (v==Projection(v,W,.))
-protect ("IsInSubspace")
 

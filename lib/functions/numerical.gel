@@ -5,10 +5,8 @@
 #just for somewhat of "source compatibility"
 SetHelp ("AbsoluteValue", "numeric", "Absolute value");
 function AbsoluteValue (x) = |x|
-protect ("AbsoluteValue")
 SetHelpAlias ("AbsoluteValue", "abs")
 abs = AbsoluteValue
-protect ("abs")
 
 SetHelp("Sign","numeric","Return the sign (-1,0,1)");
 function Sign (x) = (
@@ -24,10 +22,8 @@ function Sign (x) = (
 		-1
 	) else 0
 );
-protect("Sign")
 SetHelpAlias ("Sign", "sign")
 sign = Sign
-protect("sign")
 
 #-----
 
@@ -39,7 +35,6 @@ function FractionalPart(x) =
 	else
 		x - IntegerPart (x)
 )
-protect ("FractionalPart")
 
 # Chop replaces very small number with zero
 parameter ChopTolerance = 10.0^(-10);
@@ -55,7 +50,6 @@ function Chop(x) =
 	else
 		x
 )
-protect ("Chop")
 
 #-----
 # Mod (built-in)
@@ -64,7 +58,6 @@ protect ("Chop")
 # Division w/o remainder
 SetHelp ("IntegerQuotient", "numeric", "Division w/o remainder")
 function IntegerQuotient(m,n) = floor(m/n)
-protect ("IntegerQuotient")
 # IntergerQuotient w/offset (such that d <= m-r*n < d+n
 # IntegerDigits = (convert interger to its list of digits, base b, of length len)
 # IntegerExponent = (number of trailing zeros in base b expansion = heighest power

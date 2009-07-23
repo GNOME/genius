@@ -36,7 +36,6 @@ function CompositeSimpsonsRuleTolerance(f,a,b,FourthDerivativeBound,Tolerance) =
 
 	CompositeSimpsonsRule (f, a, b, n)
 )
-protect ("CompositeSimpsonsRuleTolerance")
 
 # FIXME: reference, though this is really stupid
 SetHelp ("MidpointRule", "calculus", "Integration by midpoint rule")
@@ -56,7 +55,6 @@ function MidpointRule(f,a,b,n) =
   s = sum i=1 to n do float(f(a+(len*(i-0.5))/n));
   (s*len)/n
 )
-protect ("MidpointRule")
 
 SetHelp ("NumericalIntegralSteps", "parameters", "Steps to perform in NumericalIntegral")
 parameter NumericalIntegralSteps = 1000
@@ -66,4 +64,3 @@ parameter NumericalIntegralFunction = `CompositeSimpsonsRule
 
 SetHelp ("NumericalIntegral", "calculus", "Integration by rule set in NumericalIntegralFunction of f from a to b using NumericalIntegralSteps steps")
 function NumericalIntegral(f,a,b) = (NumericalIntegralFunction call (f,a,b,NumericalIntegralSteps))
-protect ("NumericalIntegral")

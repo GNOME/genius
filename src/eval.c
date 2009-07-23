@@ -5444,16 +5444,15 @@ iter_equalsop(GelETree *n)
 	}
 
 	if(l->type == GEL_IDENTIFIER_NODE) {
-		if G_UNLIKELY (d_curcontext() == 0 &&
-			       l->id.id->protected_) {
-			gel_errorout (_("Trying to set a protected id '%s'"),
-				      l->id.id->token);
-			return;
-		}
 		if (l->id.id->parameter) {
 			GelETree *ret = set_parameter (l->id.id, r);
 			if (ret != NULL)
 				replacenode (n, ret);
+			return;
+		} else if G_UNLIKELY (d_curcontext() == 0 &&
+			       l->id.id->protected_) {
+			gel_errorout (_("Trying to set a protected id '%s'"),
+				      l->id.id->token);
 			return;
 		} else if(r->type == GEL_FUNCTION_NODE) {
 			d_addfunc (d_makerealfunc (r->func.func,

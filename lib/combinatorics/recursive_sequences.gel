@@ -9,7 +9,6 @@ SetHelp ("GaloisMatrix", "combinatorics", "Galois matrix given a linear combinin
 function GaloisMatrix(combining_rule) = (
  [[0;I(columns(combining_rule)-1)],combining_rule.']
 )
-protect ("GaloisMatrix")
 
 # Linear recursive sequence
 SetHelp ("LinearRecursiveSequence", "combinatorics", "Compute linear recursive sequence using galois stepping")
@@ -28,4 +27,3 @@ function LinearRecursiveSequence(seed_values,combining_rule,n) =
   else null                         # (if sequence is reversible)
  )
 )
-protect ("LinearRecursiveSequence")

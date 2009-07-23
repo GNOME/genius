@@ -3,12 +3,10 @@
 # Transpose of a matrix
 SetHelp ("Transpose", "linear_algebra", "Transpose of a matrix")
 function Transpose(M)=M.'
-protect ("Transpose")
 
 # Conjugate Transpose of a matrix
 SetHelp ("ConjugateTranspose", "linear_algebra", "Conjugate transpose of a matrix (adjoint)")
 function ConjugateTranspose(M)=M'
-protect ("Conjugate Transpose")
 
 #FIXME: We'll need more sophisticated tools for Tensors
 
@@ -25,7 +23,6 @@ function NonPivotColumns(M) =
     else
       non_pivot
   )
-protect ("NonPivotColumns")
 
 # Delete a row from a matrix
 # Shamelessly copied from DeleteRowColumn
@@ -37,7 +34,6 @@ function DeleteRow(M,row) = (
         else if row==row_dim_M then M@(1:row_dim_M-1,)
         else                       [M@(1:row-1,);M@(row+1:row_dim_M,)]
 )
-protect ("DeleteRow")
 
 # Delete a column from a matrix
 # Also shamelessly copied from DeleteRowColumn
@@ -49,18 +45,14 @@ function DeleteColumn(M,col) = (
         else if col==col_dim_M then M@(,1:col_dim_M-1)
         else                       [M@(,1:col-1),M@(,col+1:col_dim_M)]
 )
-protect ("DeleteColumn")
 
 # Column Reduced Echelon Form
 SetHelp("cref", "linear_algebra", "Compute the Column Reduced Echelon Form")
 function cref(M)=(rref(M.').')
-protect ("cref")
 SetHelpAlias ("cref", "CREF")
 CREF = cref
-protect ("CREF")
 SetHelpAlias ("cref", "ColumnReducedEchelonForm")
 ColumnReducedEchelonForm = cref
-protect ("ColumnReducedEchelonForm")
 
 SetHelp ("StripZeroRows", "matrix", "Removes any all-zero rows of M")
 function StripZeroRows (M) =
@@ -70,7 +62,6 @@ function StripZeroRows (M) =
     (error("StripZeroColumns: argument not a matrix");bailout);
   StripZeroColumns (M.').'
 )
-protect ("StripZeroRows")
 
 # Cross product of two vectors (in R^3)
 ##<refentry id="fun-linear-algebra-cross-product">
@@ -118,7 +109,6 @@ function CrossProduct(v,w) =
   M=[v;w;1,1,1];
   [Minor(M,3,1),Minor(M,3,2),Minor(M,3,3)]
  )
-protect ("CrossProduct")
 
 # Direct sum of a vector of matrices
 SetHelp ("DirectSumMatrixVector", "linear_algebra", "Direct sum of a vector of matrices")
@@ -132,7 +122,6 @@ function DirectSumMatrixVector(v) = (
   else
     [v@(1),0;0,DirectSumMatrixVector(v@(1,2:columns(v)))] 
 )
-protect ("DirectSumMatrixVector");
 
 # Direct sum of matrices
 SetHelp ("DirectSum", "linear_algebra", "Direct sum of matrices")
@@ -144,7 +133,6 @@ function DirectSum(M,N...) = (
   else
     [M,0;0,DirectSumMatrixVector(N)] 
 )
-protect ("DirectSum");
 
 # (Kronecker) Tensor product of two matrices
 #FIXME!
@@ -166,7 +154,6 @@ function IsInvertible(n) =
                                              #  determinant is a unit
  error ("IsInvertible: argument not a value or matrix");bailout
 )
-protect ("IsInvertible")
 
 SetHelp ("IsInvertibleField", "linear_algebra", "Is a matrix (or number) invertible over a field")
 function IsInvertibleField(n) =
@@ -178,7 +165,6 @@ function IsInvertibleField(n) =
                                              #  determinant is a unit
  error ("IsInvertibleField: argument not a value or matrix");bailout
 )
-protect ("IsInvertibleField")
 
 # SmithNormal Form for fields (will end up with 1's on the diagonal)
 SetHelp("SmithNormalFormField", "linear_algebra", "Smith Normal Form for fields (will end up with 1's on the diagonal)")
@@ -186,7 +172,6 @@ function SmithNormalFormField(A) =
 (
   ref (ref (A).').'
 )
-protect ("SmithNormalFormField")
 
 SetHelp("SmithNormalFormInteger", "linear_algebra", "Smith Normal Form for square integer matrices (not its characteristic)")
 function SmithNormalFormInteger(M) =
@@ -200,7 +185,6 @@ function SmithNormalFormInteger(M) =
 		S@(i,i) = d@(i)/d@(i-1);
 	S
 )
-protect ("SmithNormalFormInteger")
 
 # AuxilliaryUnitMatrix
 SetHelp("AuxilliaryUnitMatrix", "linear_algebra", "Get the auxilliary unit matrix of size n")
@@ -211,7 +195,6 @@ function AuxilliaryUnitMatrix(n) =
   else
     [0,I(n-1);0,0]
 )
-protect ("AuxilliaryUnitMatrix")
 
 # AuxilliaryUnitMatrix
 SetHelp("JordanBlock", "linear_algebra", "Get the jordan block corresponding to lambda and n")
@@ -226,10 +209,8 @@ function JordanBlock(n,lambda) =
   else
     lambda * I(n) + AuxilliaryUnitMatrix(n)
 )
-protect ("JordanBlock")
 SetHelpAlias("JordanBlock", "J")
 J = JordanBlock
-protect ("J")
 
 # Dot product
 SetHelp("DotProduct", "matrix", "Get the dot product of two vectors (no conjugates)")
@@ -246,7 +227,6 @@ function DotProduct(u,v) =
   else # if columns (u) == 1 and rows (v) == 1 then
     ( ( u .' ) * (v.') )@(1)
 )
-protect ("DotProduct")
 
 # Outer product
 SetHelp("OuterProduct", "matrix", "Get the outer product of two vectors")
@@ -263,7 +243,6 @@ function OuterProduct(u,v) =
   else # if columns (u) == 1 and rows (v) == 1 then
     u * conj(v)
 )
-protect ("OuterProduct")
 
 SetHelp("InfNorm", "linear_algebra", "Get the Inf Norm of a vector");
 function InfNorm(v) = (
@@ -272,7 +251,6 @@ function InfNorm(v) = (
   else
     max (|v|)
 )
-protect("InfNorm")
 
 SetHelp("Norm", "linear_algebra", "Get the p Norm (or 2 Norm if no p is supplied) of a vector");
 function Norm(v,p...) = (
@@ -285,10 +263,8 @@ function Norm(v,p...) = (
   else
     (sum k in v do (|k|^p@(1)))^(1/p@(1))
 )
-protect("Norm")
 SetHelpAlias ("Norm", "norm")
 norm = Norm
-protect("norm")
 
 SetHelp ("CharacteristicPolynomial", "linear_algebra", "Get the characteristic polynomial as a vector")
 function CharacteristicPolynomial(M) = (
@@ -303,14 +279,11 @@ function CharacteristicPolynomial(M) = (
 	v@(n+1) = (-1) ^ n;
 	v
 )
-protect("CharacteristicPolynomial")
 SetHelpAlias ("CharacteristicPolynomial", "CharPoly")
 CharPoly = CharacteristicPolynomial
-protect("CharPoly")
 
 SetHelp ("CharacteristicPolynomialFunction", "linear_algebra", "Get the characteristic polynomial as a function")
 function CharacteristicPolynomialFunction(M) = PolyToFunction (CharacteristicPolynomial (M))
-protect("CharacteristicPolynomialFunction")
 
 SetHelp ("DeterminantalDivisorsInteger", "linear_algebra", "Get the determinantal divisors of an integer matrix (not its characteristic)")
 function DeterminantalDivisorsInteger(M) = (
@@ -328,7 +301,6 @@ function DeterminantalDivisorsInteger(M) = (
 	v@(n) = |det (M)|;
 	v
 )
-protect("DeterminantalDivisorsInteger")
 
 SetHelp("InvariantFactorsInteger", "linear_algebra", "Get the invariant factors of a square integer matrix (not its characteristic)")
 function InvariantFactorsInteger(M) =
@@ -341,7 +313,6 @@ function InvariantFactorsInteger(M) =
 		H@(i) = d@(i)/d@(i-1);
 	H
 )
-protect ("InvariantFactorsInteger")
 
 SetHelp("IsNormal", "linear_algebra", "Is a matrix normal")
 function IsNormal(M) = (
@@ -349,7 +320,6 @@ function IsNormal(M) = (
 		(error("IsNormal: argument not a square matrix");bailout);
 	M' * M == M * M'
 )
-protect ("IsNormal")
 
 SetHelp("IsUnitary", "linear_algebra", "Is a matrix unitary")
 function IsUnitary(M) = (
@@ -357,7 +327,6 @@ function IsUnitary(M) = (
 		(error("IsUnitary: argument not a square matrix");bailout);
 	M' * M == I(columns(M))
 )
-protect ("IsUnitary")
 
 SetHelp("IsHermitian", "linear_algebra", "Is a matrix hermitian")
 function IsHermitian(M) = (
@@ -365,7 +334,6 @@ function IsHermitian(M) = (
 		(error("IsHermitian: argument not a square matrix");bailout);
 	M' == M
 )
-protect ("IsHermitian")
 
 SetHelp("IsSkewHermitian", "linear_algebra", "Is a matrix skew-hermitian")
 function IsSkewHermitian(M) = (
@@ -373,7 +341,6 @@ function IsSkewHermitian(M) = (
 		(error("IsSkewHermitian: argument not a square matrix");bailout);
 	M' == -M
 )
-protect ("IsSkewHermitian")
 
 SetHelp("IsPositiveDefinite", "linear_algebra", "Is a matrix positive definite")
 function IsPositiveDefinite(M) = (
@@ -391,7 +358,6 @@ function IsPositiveDefinite(M) = (
 	) else
 		false
 )
-protect ("IsPositiveDefinite")
 
 SetHelp("IsPositiveSemidefinite", "linear_algebra", "Is a matrix positive semidefinite")
 function IsPositiveSemidefinite(M) = (
@@ -409,7 +375,6 @@ function IsPositiveSemidefinite(M) = (
 	) else
 		false
 )
-protect ("IsPositiveSemidefinite")
 
 SetHelp("RayleighQuotient", "linear_algebra", "Return the Rayleigh quotient of a matrix and a vector")
 function RayleighQuotient(A,x) = (
@@ -417,7 +382,6 @@ function RayleighQuotient(A,x) = (
 	if columns (x) > 1 then x = x.';
 	( ( x' * A * x ) / ( x' * x ) ) @(1)
 )
-protect ("RayleighQuotient")
 
 SetHelp("Eigenvalues", "linear_algebra", "Get the eigenvalues of a matrix (Currently only for up to 4x4 or triangular matrices)")
 function Eigenvalues(M) = (
@@ -435,10 +399,8 @@ function Eigenvalues(M) = (
 	) else
 		(error("Eigenvalues: Currently only implemented for up to 4x4 or triangular matrices");bailout)
 )
-protect ("Eigenvalues")
 eig = Eigenvalues;
 SetHelpAlias ("Eigenvalues", "eig")
-protect ("eig")
 
 SetHelp("Eigenvectors", "linear_algebra", "Get the eigenvalues and eigenvectors of a matrix (Currently only for up to 2x2 matrices)")
 function Eigenvectors(M, evsmults...) = (
@@ -501,7 +463,6 @@ function Eigenvectors(M, evsmults...) = (
 	) else
 		(error("Eigenvectors: Currently only implemented for up to 2x2");bailout)
 )
-protect ("Eigenvectors")
 
 # Written by David W. Hutchison, dahutchi@indiana.edu for Genius 0.7.1
 # Copyright (C) 2004 David W. Hutchison (GPL)
@@ -549,7 +510,6 @@ function LUDecomposition(A,L,U) = (
 	*U = upper;
 	true
 );
-protect("LUDecomposition");
 
 # FIXME: Should use more stable algorithm
 SetHelp("QRDecomposition", "linear_algebra", "Get the QR decomposition of A, returns R and Q can be a reference")
@@ -565,7 +525,6 @@ function QRDecomposition(A,Q) = (
 	
 	UpperTriangular (QQ' * A)
 )
-protect("QRDecomposition")
 
 # See for example: http://www.cs.utk.edu/~dongarra/etemplates/node97.html
 SetHelp("RayleighQuotientIteration", "linear_algebra", "Compute an eigenvalue using the Rayleigh Quotient Iteration method until we are epsilon from eigenvalue or for maxiter iterations")
@@ -605,4 +564,3 @@ function RayleighQuotientIteration(A,x,epsilon,maxiter,vecref) = (
 	);
 	null
 )
-protect ("RayleighQuotientIteration")

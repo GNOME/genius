@@ -9,9 +9,6 @@ arg=Argument;
 SetHelp("Argument","functions","argument (angle) of complex number");
 SetHelpAlias ("Argument", "arg");
 SetHelpAlias ("Argument", "Arg");
-protect("Argument");
-protect("Arg");
-protect("arg");
 
 
 #
@@ -23,35 +20,29 @@ SetHelp("MoebiusDiskMapping","functions","Moebius mapping of the disk to itself 
 function MoebiusDiskMapping(a,z) = (
 	(z-a)/(1-conj(a)*z)
 )
-protect("MoebiusDiskMapping");
 
 SetHelp("MoebiusMapping","functions","Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity respectively");
 function MoebiusMapping(z,z2,z3,z4) = (
 	((z-z3)/(z-z4))/((z2-z3)/(z2-z4))
 )
-protect("MoebiusMapping");
 
 SetHelp("MoebiusMappingInftyToOne","functions","Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 and infinity respectively");
 function MoebiusMappingInftyToOne(z,z3,z4) = (
 	(z-z3)/(z-z4)
 )
-protect("MoebiusMappingInftyToOne");
 
 SetHelp("MoebiusMappingInftyToZero","functions","Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 and infinity respectively");
 function MoebiusMappingInftyToZero(z,z2,z4) = (
 	(z2-z4)/(z-z4)
 )
-protect("MoebiusMappingInftyToZero");
 
 SetHelp("MoebiusMappingInftyToInfty","functions","Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 to 1 and 0 respectively");
 function MoebiusMappingInftyToInfty(z,z2,z3) = (
 	(z-z3)/(z2-z3)
 )
-protect("MoebiusMappingInftyToInfty");
 
 SetHelp("cis","functions","The cis function, that is cos(x)+i*sin(x)");
 function cis(x) = cos(x)+(sin(x))i
-protect("cis");
 
 # FIXME: this is too stupid, must have better implementation
 # to be at all useful
@@ -79,7 +70,6 @@ protect("cis");
 		#(error("ZetaFunction: Not yet defined for Re z < 0");bailout);
 	#)
 #)
-#protect("ZetaFunction");
 
 #SetHelp("GammaFunctionTolerance", "parameters", "Tolerance for the GammaFunction");
 #parameter GammaFunctionTolerance = 10.0^(-10);
@@ -88,4 +78,3 @@ protect("cis");
 #function GammaFunction(z) = (
 # FIXME: implement
 #)
-#protect("GammaFunction");

@@ -19,7 +19,6 @@ function RowMedian(m) = (
 	);
 	r
 );
-protect("RowMedian")
 
 SetHelp("Median","statistics","Calculate median of an entire matrix");
 function Median(m) = (
@@ -37,10 +36,8 @@ function Median(m) = (
 		(s@(1,columns(s)/2) +
 		 s@(1,(columns(s)/2)+1))/2
 );
-protect("Median")
 SetHelpAlias ("Median", "median")
 median = Median
-protect("median")
 
 SetHelp("RowAverage","statistics","Calculate average of each row in a matrix");
 function RowAverage(m) = (
@@ -54,10 +51,8 @@ function RowAverage(m) = (
 	);
 	r
 );
-protect("RowAverage")
 SetHelpAlias("RowAverage", "RowMean")
 RowMean = RowAverage
-protect("RowMean")
 
 SetHelp("Average","statistics","Calculate average of an entire matrix");
 function Average(m) = (
@@ -65,16 +60,12 @@ function Average(m) = (
 		(error("Average: argument not value-only matrix");bailout);
 	MatrixSum (m) / elements (m)
 );
-protect("Average")
 SetHelpAlias ("Average", "average")
 average = Average
-protect("average")
 SetHelpAlias ("Average", "Mean")
 Mean = Average
-protect("Mean")
 SetHelpAlias ("Average", "mean")
 mean = Average
-protect("mean")
 
 SetHelp("RowStandardDeviation", "statistics", "Calculate the standard deviations of rows of a matrix and return a vertical vector")
 function RowStandardDeviation(m) = (
@@ -92,10 +83,8 @@ function RowStandardDeviation(m) = (
 	);
 	r
 );
-protect("RowStandardDeviation")
 SetHelpAlias ("RowStandardDeviation", "rowstdev")
 rowstdev = RowStandardDeviation
-protect("rowstdev")
 
 SetHelp("RowPopulationStandardDeviation", "statistics", "Calculate the population standard deviations of rows of a matrix and return a vertical vector")
 function RowPopulationStandardDeviation(m) = (
@@ -111,10 +100,8 @@ function RowPopulationStandardDeviation(m) = (
 	);
 	r
 );
-protect("RowPopulationStandardDeviation")
 SetHelpAlias ("RowPopulationStandardDeviation", "rowstdevp")
 rowstdevp = RowPopulationStandardDeviation
-protect("rowstdevp")
 
 SetHelp("StandardDeviation", "statistics", "Calculate the standard deviation of a whole matrix")
 function StandardDeviation(m) = (
@@ -128,10 +115,8 @@ function StandardDeviation(m) = (
 		rr = rr + (k-r)^2;
 	sqrt(rr/(elements(m)-1))
 );
-protect("StandardDeviation")
 SetHelpAlias ("StandardDeviation", "stdev")
 stdev = StandardDeviation
-protect("stdev")
 
 SetHelp("PopulationStandardDeviation", "statistics", "Calculate the population standard deviation of a whole matrix")
 function PopulationStandardDeviation(m) = (
@@ -143,17 +128,14 @@ function PopulationStandardDeviation(m) = (
 		rr = rr + (k-r)^2;
 	sqrt(rr/elements(m))
 );
-protect("PopulationStandardDeviation")
 SetHelpAlias ("PopulationStandardDeviation", "stdevp")
 stdevp = PopulationStandardDeviation
-protect("stdevp")
 
 SetHelp("GaussFunction", "statistics", "The normalized Gauss distribution function (the normal curve)")
 function GaussFunction(x,sigma) = (
 	(1/(sigma*sqrt(2*pi))) *
 	exp(-x^2 / (2*sigma^2))
 )
-protect("GaussFunction")
 
 SetHelp ("GaussDistributionTolerance", "parameters", "Tolerance of the GaussDistribution function")
 parameter GaussDistributionTolerance = 10.0^(-10)
@@ -166,4 +148,3 @@ function GaussDistribution(x,sigma) = (
 				       3/(sqrt(2*pi)*sigma^5),
 				       GaussDistributionTolerance)
 )
-protect("GaussDistribution")

@@ -15,7 +15,6 @@ function CompanionMatrix(p)= (
 		p = p.';
 	[ [0;I(elements(p)-2)] , -p@(1 : elements(p)-1,1) ]
 )
-protect ("CompanionMatrix")
 
 SetHelp ("HankelMatrix", "linear_algebra", "Hankel matrix")
 function HankelMatrix(c,r)= (
@@ -25,7 +24,6 @@ function HankelMatrix(c,r)= (
 			H@(i,j) = if i+j-1 <= elements(c) then c@(i+j-1) else r@(i+j-elements(c));
 	H
 )
-protect ("HankelMatrix")
 
 SetHelp ("HilbertMatrix", "linear_algebra", "Hilbert matrix of order n")
 function HilbertMatrix(n)= (
@@ -35,11 +33,9 @@ function HilbertMatrix(n)= (
 			H@(i,j) = 1/(i+j-1);
 	H
 )
-protect ("HilbertMatrix")
 
 SetHelp ("InverseHilbertMatrix", "linear_algebra", "Inverse Hilbert matrix of order n")
 function InverseHilbertMatrix(n) = HilbertMatrix(n)^(-1)
-protect ("InverseHilbertMatrix")
 #	magic square (exists for n != 2 -- I know how to make them for n odd)
 #	pascal matrix
 #	toeplitz matrix 
@@ -63,10 +59,8 @@ function VandermondeMatrix(v) =
     );
    vandermonde
   )
-protect ("VandermondeMatrix")
 SetHelpAlias ("VandermondeMatrix", "vander")
 vander = VandermondeMatrix
-protect ("vander")
 
 SetHelp ("RosserMatrix", "linear_algebra", "Rosser matrix, a classic symmetric eigenvalue test problem")
 RosserMatrix = [611,196,-192,407,-8,-52,-49,29
@@ -77,7 +71,6 @@ RosserMatrix = [611,196,-192,407,-8,-52,-49,29
 -52,-43,49,44,-599,411,208,208
 -49,-8,8,59,208,208,99,-911
 29,-44,52,-23,208,208,-911,99];
-protect("RosserMatrix")
 
 #Rotation matrices
 # See http://mathworld.wolfram.com/RotationMatrix.html
@@ -87,10 +80,8 @@ function Rotation2D(angle) = (
  [cos(angle),sin(angle)
   -sin(angle),cos(angle)]
 )
-protect("Rotation2D")
 SetHelpAlias ("Rotation2D", "RotationMatrix")
 RotationMatrix = Rotation2D
-protect ("RotationMatrix")
 
 SetHelp ("Rotation3DX", "linear_algebra", "Rotation around origin in R^3 about the x-axis")
 function Rotation3DX(angle) = (
@@ -98,7 +89,6 @@ function Rotation3DX(angle) = (
   0,cos(angle),sin(angle)
   0,-sin(angle),cos(angle)]
 )
-protect("Rotation3DX")
 
 SetHelp ("Rotation3DY", "linear_algebra", "Rotation around origin in R^3 about the y-axis")
 function Rotation3DY(angle) = (
@@ -106,7 +96,6 @@ function Rotation3DY(angle) = (
   0,1,0
   sin(angle),0,cos(angle)]
 )
-protect("Rotation3DY")
 
 SetHelp ("Rotation3DZ", "linear_algebra", "Rotation around origin in R^3 about the z-axis")
 function Rotation3DZ(angle) = (
@@ -114,7 +103,6 @@ function Rotation3DZ(angle) = (
   -sin(angle),cos(angle),0
   0,0,1]
 )
-protect("Rotation3DZ")
 
 # Ported from octave
 SetHelp ("CommutationMatrix", "linear_algebra", "Return the commutation matrix K(m,n) which is the unique m*n by m*n matrix such that K(m,n) * MakeVector(A) = MakeVector(A.') for all m by n matrices A.")
@@ -131,7 +119,6 @@ function CommutationMatrix(m,n) = (
   );
   k
 )
-protect("CommutationMatrix")
 
 #ported from octave
 SetHelp ("ToeplitzMatrix", "linear_algebra", "Return the Toeplitz matrix constructed given the first column c and (optionally) the first row r.")
@@ -178,4 +165,3 @@ function ToeplitzMatrix (c, r...) = (
 
   retval
 )
-protect("ToeplitzMatrix")

@@ -10,7 +10,6 @@ function Subfactorial(n) = (
 		(error("Subfactorial: argument not an integer >= 0");bailout);
 	(n!) * sum k=1 to n do ((-1)^k)/(k!)
 )
-protect("Subfactorial")
 
 SetHelp("Catalan","combinatorics","Get n'th catalan number");
 function Catalan(n) = (
@@ -20,7 +19,6 @@ function Catalan(n) = (
 		(error("Catalan: argument not an integer >= 0");bailout);
 	nCr(2*n,n)/(n+1)
 );
-protect("Catalan")
 
 ## Factorial
 ## Defined by n! = n(n-1)(n-2)...
@@ -30,7 +28,6 @@ function Factorial(n) = (
 		(error("Factorial: argument not an integer >= 0");bailout);
 	n!
 )
-protect("Factorial")
 
 ## Double Factorial
 ## Defined by n!! = n(n-2)(n-4)...
@@ -40,7 +37,6 @@ function DoubleFactorial(n) = (
 		(error("DoubleFactorial: argument not an integer >= 0");bailout);
 	n!!
 )
-protect("DoubleFactorial")
 
 SetHelp ("RisingFactorial", "combinatorics", "(Pochhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))")
 ## (Pochhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))
@@ -53,10 +49,8 @@ function RisingFactorial(n,k) =
     prod i=0 to (k-1) do (n+i)
   );
  )
-protect("RisingFactorial")
 SetHelpAlias ("RisingFactorial", "Pochhammer")
 Pochhammer = RisingFactorial
-protect("Pochhammer")
 
 # Falling factorial: (n)_k = n(n-1)...(n-(k-1))
 SetHelp ("FallingFactorial", "combinatorics", "Falling factorial: (n)_k = n(n-1)...(n-(k-1))")
@@ -69,7 +63,6 @@ function FallingFactorial(n,k) =
     prod i=0 to (k-1) do (n-i)
    )
 )
-protect("FallingFactorial");
 
 ## Binomial Coefficients
 
@@ -87,7 +80,6 @@ function nPr(n,r) = (
 		prod i=0 to (r-1) do (n-i)
 	)
 );
-protect("nPr")
 
 # nCr is built in now!
 
@@ -106,7 +98,6 @@ function Multinomial(v,arg...) = (
 
 	MatrixSum(m)!/MatrixProduct(ApplyOverMatrix(m,`(x)=x!))
 )
-protect("Multinomial");
 
 SetHelp("Pascal","combinatorics","Get the pascal's triangle as a matrix");
 function Pascal(i) = (
@@ -120,7 +111,6 @@ function Pascal(i) = (
 	);
 	m
 );
-protect("Pascal")
 
 SetHelp("Triangular", "combinatorics", "Calculate the nth triangular number");
 function Triangular(nth) = (
@@ -130,4 +120,3 @@ function Triangular(nth) = (
 		(error("Trianglular: argument not an integer larger than or equal to 0");bailout);
 	(nth*(nth+1))/2
 );
-protect("Triangular")

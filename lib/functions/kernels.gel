@@ -8,13 +8,11 @@ SetHelp("PoissonKernel","functions","Poisson kernel on D(0,1) (not normalized to
 function PoissonKernel(r,sigma) = (
 	(1 - r^2) / (1 - 2*r*cos(sigma) + r^2)
 )
-protect("PoissonKernel")
 
 SetHelp("PoissonKernelRadius","functions","Poisson kernel on D(0,R) (not normalized to 1)");
 function PoissonKernelRadius(r,sigma) = (
 	(R^2 - r^2) / (R^2 - 2*R*r*cos(sigma) + r^2)
 )
-protect("PoissonKernelRadius")
 
 # See Planetmath http://planetmath.org/encyclopedia/DirchletKernel.html
 SetHelp("DirichletKernel","functions","Dirichlet kernel of order n");
@@ -25,7 +23,6 @@ function DirichletKernel(n,t) = (
 		( sin ((n+0.5)*t) ) / ( sin(t/2))
 	)
 )
-protect("DirichletKernel")
 
 # See Planetmath http://planetmath.org/encyclopedia/FejerKernel.html
 SetHelp("FejerKernel","functions","Fejer kernel of order n");
@@ -37,4 +34,3 @@ function FejerKernel(n,t) = (
 		( ( sin ((n*t)/2) ) / ( sin(t/2)) )^2
 	)
 )
-protect("FejerKernel")

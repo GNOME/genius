@@ -508,7 +508,8 @@ d_intern (const char *id)
 
 /* this may be inefficient as it also goes through global,
  * but we don't assume we do this kind of thing often.  Only 
- * done in d_delete which is only done on Undefine. */
+ * done in d_delete and d_delete_global which are only done
+ * on Undefine and UndefineAll. */
 static void
 whack_from_all_contexts (GelEFunc *func)
 {
@@ -523,6 +524,8 @@ d_delete(GelToken *id)
 {
 	GSList *li, *list;
 
+	g_return_val_if_fail (id != NULL && id->token != NULL, FALSE);
+
 	id->protected_ = 0;
 	id->parameter = 0;
 	id->built_in_parameter = 0;
@@ -536,6 +539,35 @@ d_delete(GelToken *id)
 		d_freefunc (f);
 	}
 	g_slist_free (list);
+
+	return TRUE;
+}
+
+gboolean
+d_delete_global(GelToken *id)
+{
+	GSList *list;
+	GelEFunc *f;
+
+	g_return_val_if_fail (id != NULL && id->token != NULL, FALSE);
+
+			printf ("FOO3 %s\n", id->token);
+
+	id->protected_ = 0;
+	id->parameter = 0;
+	id->built_in_parameter = 0;
+
+	list = g_slist_last (id->refs);
+	f = list->data;
+
+	if (f->context == 0) {
+		/* inefficient, but it need not be */
+		id->refs = g_slist_remove_link (id->refs, list);
+
+		f->id = NULL;
+		whack_from_all_contexts (f);
+		d_freefunc (f);
+	}
 
 	return TRUE;
 }
@@ -1012,8 +1044,7 @@ d_protect_all(void)
 		GelEFunc *func = li->data;
 		if(!func->id || strcmp(func->id->token,"Ans")==0)
 			continue;
-		if ( ! func->id->parameter)
-			func->id->protected_ = 1;
+		func->id->protected_ = 1;
 	}
 }
 

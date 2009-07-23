@@ -44,7 +44,6 @@ function NumericalLimitAtInfinity(_f,step_fun,tolerance,successive_for_success,N
     );
     null
 )
-protect ("NumericalLimitAtInfinity")
 
 
 # The following are simple functions to find
@@ -69,7 +68,6 @@ function LeftLimit(f,x0) =
 				  ContinuousSFS,
 				  ContinuousNumberOfTries)
 )
-protect ("LeftLimit")
 
 SetHelp ("RightLimit", "calculus", "Calculate the right limit of a real-valued function at x0")
 function RightLimit(f,x0) =
@@ -80,7 +78,6 @@ function RightLimit(f,x0) =
 				  ContinuousSFS,
 				  ContinuousNumberOfTries)
 )
-protect ("RightLimit")
 
 SetHelp ("Limit", "calculus", "Calculate the limit of a real-valued function at x0.  Tries to calculate both left and right limits.")
 function Limit(f,x0) =
@@ -92,7 +89,6 @@ function Limit(f,x0) =
 	     |LeftLim-RightLim| < 2*ContinuousTolerance ) then
 		(LeftLim+RightLim)/2
 )
-protect ("Limit")
 
 SetHelp ("IsContinuous", "calculus", "Try and see if a real-valued function is continuous at x0 by calculating the limit there")
 function IsContinuous(f,x0) =
@@ -100,4 +96,3 @@ function IsContinuous(f,x0) =
     l = Limit(f,x0);
     not IsNull(l) and |l-f(x0)| < ContinuousTolerance
 )
-protect ("IsContinuous")

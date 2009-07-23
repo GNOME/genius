@@ -93,6 +93,7 @@ GelEFunc * d_lookup_global (GelToken *id);
 GelToken * d_intern (const char *id);
 
 gboolean d_delete(GelToken *id);
+gboolean d_delete_global(GelToken *id);
 
 /*clear all context dictionaries and pop out all the contexts except
   the global one

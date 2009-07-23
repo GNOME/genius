@@ -274,6 +274,44 @@ undefine_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 }
 
 static GelETree *
+UndefineAll_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GSList *li;
+	GSList *list;
+
+	list = g_slist_copy (d_getcontext_global ());
+
+	for (li = list;
+	     li != NULL;
+	     li = li->next) {
+		GelEFunc *f = li->data;
+		GelToken *tok = f->id;
+		if (tok->parameter) {
+			printf ("FOO %s %d %d %p\n",
+				tok->token,
+				tok->parameter,
+				tok->protected_,
+				f);
+		}
+		if ( ! tok->protected_ &&
+		    strcmp (tok->token, "Ans") != 0) {
+			printf ("FOO2 %s\n", tok->token);
+			d_delete_global (tok);
+		}
+	}
+
+	return gel_makenum_null ();
+}
+
+static GelETree *
+ProtectAll_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	d_protect_all ();
+
+	return gel_makenum_null ();
+}
+
+static GelETree *
 true_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	return gel_makenum_bool (1);
@@ -6339,12 +6377,15 @@ gel_funclib_addall(void)
 	FUNC (StringToAlphabet, 2, "str,alphabet", "misc", N_("Convert a string to a vector of 0-based alphabet values (positions in the alphabet string), -1's for unknown letters"));
 	FUNC (AlphabetToString, 2, "vec,alphabet", "misc", N_("Convert a vector of 0-based alphabet values (positions in the alphabet string) to a string"));
 
-	FUNC (protect, 1, "id", "basic", N_("Protect a variable from being modified"));
-	FUNC (unprotect, 1, "id", "basic", N_("Unprotect a variable from being modified"));
+	FUNC (protect, 1, "id", "basic", N_("Protect a variable from being modified.  It will be treated as a system defined variable from now on.  Protected parameters can still be modified."));
+	FUNC (unprotect, 1, "id", "basic", N_("Unprotect a variable from being modified.  It will be treated as a user defined variable from now on."));
 	VFUNC (SetFunctionFlags, 2, "id,flags", "basic", N_("Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments\""));
 	FUNC (GetCurrentModulo, 0, "", "basic", N_("Get current modulo from the context outside the function"));
 	FUNC (IsDefined, 1, "id", "basic", N_("Check if a variable or function is defined"));
-	FUNC (undefine, 1, "id", "basic", N_("Undefine a variable (including locals and globals)"));
+	FUNC (undefine, 1, "id", "basic", N_("Undefine a variable (including all locals and globals of the same name)"));
+	ALIAS (Undefine, 1, undefine);
+	FUNC (UndefineAll, 0, "", "basic", N_("Undefine all unprotected (user defined) global variables and parameters.  Does not reset or change protected (system) parameters."));
+	FUNC (ProtectAll, 0, "", "basic", N_("Mark all currently defined variables as protected.  They will be treated as system defined variables from now on."));
 
 	FUNC (Parse, 1, "str", "basic", N_("Parse a string (but do not execute)"));
 	FUNC (Evaluate, 1, "str", "basic", N_("Parse and evaluate a string"));
