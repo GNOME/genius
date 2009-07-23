@@ -121,6 +121,10 @@ struct _GelEFunc {
 	/* if true, we must take this off the subst list for a context pop,
 	 * before we free the function */
 	guint32 on_subst_list:1;
+
+	/* never put on a substlist, have a set extradict */
+	guint32 never_on_subst_list:1;
+
 	guint32 vararg:1;
 	guint32 propagate_mod:1;
 	guint32 no_mod_all_args:1;

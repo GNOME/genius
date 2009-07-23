@@ -29,6 +29,7 @@ function NumericalLimitAtInfinity(_f,step_fun,tolerance,successive_for_success,N
 #FIXME: should have a way of dealing with +infinity, -infinity, and
 # bounded oscillation (like sin(x))
 (
+    local *;
     current_limit = _f(step_fun(1));
     number_of_consecutive_differences_within_tolerance = 0;
     for i = 2 to N do (
@@ -62,8 +63,9 @@ parameter ContinuousNumberOfTries=100;
 SetHelp ("LeftLimit", "calculus", "Calculate the left limit of a real-valued function at x0")
 function LeftLimit(f,x0) =
 (
+	local *;
 	NumericalLimitAtInfinity (f,
-				  `(n)=(x0-2.0^(-n)),
+				  `(n)[x0]=(x0-2.0^(-n)),
 				  ContinuousTolerance,
 				  ContinuousSFS,
 				  ContinuousNumberOfTries)
@@ -72,8 +74,9 @@ function LeftLimit(f,x0) =
 SetHelp ("RightLimit", "calculus", "Calculate the right limit of a real-valued function at x0")
 function RightLimit(f,x0) =
 (
+	local *;
 	NumericalLimitAtInfinity (f,
-				  `(n)=(x0+2.0^(-n)),
+				  `(n)[x0]=(x0+2.0^(-n)),
 				  ContinuousTolerance,
 				  ContinuousSFS,
 				  ContinuousNumberOfTries)
@@ -82,6 +85,7 @@ function RightLimit(f,x0) =
 SetHelp ("Limit", "calculus", "Calculate the limit of a real-valued function at x0.  Tries to calculate both left and right limits.")
 function Limit(f,x0) =
 (
+	local *;
 	LeftLim = LeftLimit(f,x0);
 	RightLim = RightLimit(f,x0);
 	if ( not IsNull(LeftLim) and
@@ -93,6 +97,7 @@ function Limit(f,x0) =
 SetHelp ("IsContinuous", "calculus", "Try and see if a real-valued function is continuous at x0 by calculating the limit there")
 function IsContinuous(f,x0) =
 (
+    local *;
     l = Limit(f,x0);
     not IsNull(l) and |l-f(x0)| < ContinuousTolerance
 )

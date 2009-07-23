@@ -1,5 +1,6 @@
 SetHelp("ApplyOverMatrix", "matrix", "Apply a function over all entries of a matrix and return a matrix of the results")
 function ApplyOverMatrix(a,func) = (
+	local *;
 	if(not IsMatrix(a)) then
 		(error("ApplyOverMatrix: argument 1 must be a matrix");bailout)
 	else if(not IsFunction(func)) then
@@ -15,6 +16,7 @@ function ApplyOverMatrix(a,func) = (
 
 SetHelp("ApplyOverMatrix2", "matrix", "Apply a function over all entries of 2 matrices (or 1 value and 1 matrix) and return a matrix of the results")
 function ApplyOverMatrix2(a,b,func) = (
+	local *;
 	if(not IsMatrix(a) and not IsMatrix(b)) then
 		(error("ApplyOverMatrix2: argument 1 or 2 must be a matrix");bailout)
 	else if(not IsFunction(func)) then
@@ -151,6 +153,7 @@ Adjugate = adj
 
 SetHelp("MinimizeFunction","functions","Find the first value where f(x)=0");
 function MinimizeFunction(func,x,incr) = (
+	local *;
 	if(not IsValue(x) or not IsValue(incr)) then
 		(error("MinimizeFunction: x,incr arguments not values");bailout)
 	else if(not IsFunction(func)) then

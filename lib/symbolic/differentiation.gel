@@ -1,5 +1,6 @@
 function SymbolicNthDerivative(f,n) =
 (
+	local *;
 	if not IsFunction(f) then
 		(error("SymbolicNthDerivative: argument 1 must be a function");bailout)
 	else if not IsNonNegativeInteger(n) then
@@ -18,6 +19,7 @@ SetHelp("SymbolicNthDerivative","symbolic","Attempt to symbolically differentiat
 
 function SymbolicNthDerivativeTry(f,n) =
 (
+	local *;
 	if not IsFunction(f) then
 		(error("SymbolicNthDerivativeTry: argument 1 must be a function");bailout)
 	else if not IsNonNegativeInteger(n) then
@@ -36,6 +38,7 @@ SetHelp("SymbolicNthDerivativeTry","symbolic","Attempt to symbolically different
 
 function SymbolicTaylorApproximationFunction(f,x0,n) =
 (
+	local f,df,c,n,k;
 	if not IsFunction(f) then
 		(error("SymbolicTaylorApproximationFunction: argument 1 must be a function");bailout)
 	else if not IsValue(x0) then

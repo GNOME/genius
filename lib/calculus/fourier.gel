@@ -2,6 +2,7 @@
 # 
 function NumericalFourierSeriesFunction(f,L,N) =
 	(
+	local *;
 # check arguments
 	if not IsFunctionOrIdentifier(f) then
 		(error("NumericalFourierSeriesFunction: argument f must be a function");bailout)
@@ -14,7 +15,7 @@ function NumericalFourierSeriesFunction(f,L,N) =
 
 	FourierSeriesFunction(c@(1),c@(2),L)
 )
-SetHelp("NumericalFourierSeriesFunction","calculus","FIXME");
+SetHelp("NumericalFourierSeriesFunction","calculus","Return a function which is the fourier series of f with half-period L with coefficients up to N computed numerically");
 
 function FourierSeriesFunction(a,b,L) =
 	(
@@ -24,7 +25,7 @@ function FourierSeriesFunction(a,b,L) =
 	else if not (IsReal(L) and L > 0) then
 		(error("FourierSeriesFunction: argument L must be a positive real value");bailout);
 
-	`(x) = (
+	`(x)[a,b,L] = (
 		if not IsNull(a) then (
 			val = a@(1)/2 + sum n = 2 to elements(a) do
 				a@(n) * cos(x*(n-1)*pi/L)
@@ -40,10 +41,11 @@ function FourierSeriesFunction(a,b,L) =
 		val
 	)
 )
-SetHelp("FourierSeries","calculus","FIXME");
+SetHelp("FourierSeriesFunction","calculus","Return a function which is a Fourier series with the coefficients given by the vectors a (sines) and b (cosines).  Note that a@(1) is the constant coefficient!");
 
 function NumericalFourierSeriesCoefficients(f,L,N) =
 	(
+	local *;
 # check arguments
 	if not IsFunctionOrIdentifier(f) then
 		(error("NumericalFourierSeriesCoefficients: argument f must be a function");bailout)
@@ -56,18 +58,17 @@ function NumericalFourierSeriesCoefficients(f,L,N) =
 	b = .;
 
 	a@(1) = (1/L)*NumericalIntegral(f,-L,L);
-	__fs_L = L;
-	__fs_f = f;
-	for __fs_n = 1 to N do (
-		a@(__fs_n+1) = (1/L)*NumericalIntegral(`(x)=((__fs_f call (x))*cos(x*__fs_n*pi/__fs_L)),-L,L);
-		b@(__fs_n) = (1/L)*NumericalIntegral(`(x)=((__fs_f call (x))*sin(x*__fs_n*pi/__fs_L)),-L,L)
+	for n = 1 to N do (
+		a@(n+1) = (1/L)*NumericalIntegral(`(x)[f,L,n]=(local *;(f call (x))*cos(x*n*pi/L)),-L,L);
+		b@(n) = (1/L)*NumericalIntegral(`(x)[f,L,n]=(local *;(f call (x))*sin(x*n*pi/L)),-L,L)
 	);
 	`[a,b]
 )
-SetHelp("NumericalFourierSeriesCoefficients","calculus","FIXME");
+SetHelp("NumericalFourierSeriesCoefficients","calculus","Numerically compute the coefficients for a Fourier series with half-period L up to the Nth coefficient.");
 
 function NumericalFourierSineSeriesCoefficients(f,L,N) =
 	(
+	local *;
 # check arguments
 	if not IsFunctionOrIdentifier(f) then
 		(error("NumericalFourierSineSeriesCoefficients: argument f must be a function");bailout)
@@ -78,17 +79,16 @@ function NumericalFourierSineSeriesCoefficients(f,L,N) =
 
 	b = .;
 
-	__fs_L = L;
-	__fs_f = f;
-	for __fs_n = 1 to N do (
-		b@(__fs_n) = (2/L)*NumericalIntegral(`(x)=((__fs_f call (x))*sin(x*__fs_n*pi/__fs_L)),0,L)
+	for n = 1 to N do (
+		b@(n) = (2/L)*NumericalIntegral(`(x)[f,L,n]=(local *;(f call (x))*sin(x*n*pi/L)),0,L)
 	);
 	b
 )
-SetHelp("NumericalFourierSineSeriesCoefficients","calculus","FIXME");
+SetHelp("NumericalFourierSineSeriesCoefficients","calculus","Numerically compute the coefficients for a sine Fourier series for a function on [0,L] up to the Nth coefficient.");
 
 function NumericalFourierCosineSeriesCoefficients(f,L,N) =
 	(
+	local *;
 # check arguments
 	if not IsFunctionOrIdentifier(f) then
 		(error("NumericalFourierCosineSeriesCoefficients: argument f must be a function");bailout)
@@ -99,16 +99,13 @@ function NumericalFourierCosineSeriesCoefficients(f,L,N) =
 
 	a = .;
 
-	__fs_L = L;
-	__fs_f = f;
-
 	a@(1) = (1/L)*NumericalIntegral(f,-L,L);
-	for __fs_n = 1 to N do (
-		a@(__fs_n+1) = (1/L)*NumericalIntegral(`(x)=((__fs_f call (x))*cos(x*__fs_n*pi/__fs_L)),-L,L)
+	for n = 1 to N do (
+		a@(n+1) = (1/L)*NumericalIntegral(`(x)[f,L,n]=(local *;(f call (x))*cos(x*n*pi/L)),-L,L)
 	);
 	a
 )
-SetHelp("NumericalFourierCosineSeriesCoefficients","calculus","FIXME");
+SetHelp("NumericalFourierCosineSeriesCoefficients","calculus","Numerically compute the coefficients for a cosine Fourier series for a function on [0,L] up to the Nth coefficient.");
 
 function PeriodicExtension(f,a,b) =
 (
@@ -118,14 +115,15 @@ function PeriodicExtension(f,a,b) =
 	else if not (IsReal(a) and IsReal(b) and b > a) then
 		(error("PeriodicExtension: arguments a, b must be a real, b > a");bailout);
 
-	`(x) = (
+	`(x)[f,a,b] = (
+		local *;
 		#This is pretty stupid, but simplest way to do this
 		while x > b do x = x-(b-a);
 		while x < a do x = x+(b-a);
 		(f call (x))
 	)
 )
-SetHelp("PeriodicExtension","calculus","FIXME");
+SetHelp("PeriodicExtension","calculus","Return a function which is the periodic extension of f defined on the interval [a,b]");
 
 function EvenPeriodicExtension(f,L) =
 	(
@@ -135,7 +133,8 @@ function EvenPeriodicExtension(f,L) =
 	else if not (IsReal(L) and L > 0) then
 		(error("EvenPeriodicExtension: argument L must be a positive real value");bailout);
 
-	`(x) = (
+	`(x)[f,L] = (
+		local *;
 		#This is pretty stupid, but simplest way to do this
 		while x > L do x = x-2*L;
 		while x < -L do x = x+2*L;
@@ -143,7 +142,7 @@ function EvenPeriodicExtension(f,L) =
 		if x >= 0 then (f call (x)) else (f call (-x))
 	)
 )
-SetHelp("EvenPeriodicExtension","calculus","FIXME");
+SetHelp("EvenPeriodicExtension","calculus","Return a function which is the even periodic extension of f defined on the interval [0,L]");
 
 function OddPeriodicExtension(f,L) =
 (
@@ -153,7 +152,8 @@ function OddPeriodicExtension(f,L) =
 	else if not (IsReal(L) and L > 0) then
 		(error("OddPeriodicExtension: argument L must be a positive real value");bailout);
 
-	`(x) = (
+	`(x)[f,L] = (
+		local *;
 		#This is pretty stupid, but simplest way to do this
 		while x > L do x = x-2*L;
 		while x < -L do x = x+2*L;
@@ -161,4 +161,4 @@ function OddPeriodicExtension(f,L) =
 		if x >= 0 then (f call (x)) else -(f call (-x))
 	)
 )
-SetHelp("OddPeriodicExtension","calculus","FIXME");
+SetHelp("OddPeriodicExtension","calculus","Return a function which is the odd periodic extension of f defined on the interval [0,L]");

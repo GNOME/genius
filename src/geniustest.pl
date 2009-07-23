@@ -38,7 +38,7 @@ while(<TESTS>) {
 		print " (should be)=$shd\n";
 		print " (reported)=$rep\n";
 		if($rep ne $shd) {
-			print "\e[01:31mERROR!\e[0m\n";
+			print "\e[01;31mERROR!\e[0m\n";
 			$errors++;
 			$errorinputs = $errorinputs . "\n$command";
 		}
@@ -47,7 +47,7 @@ while(<TESTS>) {
 		print " (should be)=$shd\n";
 		print " (reported)=\n";
 		if($shd ne "") {
-			print "\e[01:31mERROR! NO OUTPUT\e[0m\n";
+			print "\e[01;31mERROR! NO OUTPUT\e[0m\n";
 			$errors++;
 			$errorinputs = $errorinputs . "\n$command";
 		}

@@ -466,6 +466,8 @@ ones(2,2).-1							[0,0;0,0]
 sum n in ColumnsOf([1,2;3,4]) do n				[3;7]
 sum n in RowsOf([1,2;3,4]) do n					[4,6]
 function f(x) = `(l) = x+l; k=f(2);k(11)			13
+function f(x) = `(l)[x] = x+l; k=f(2);k(11)			13
+function f(x) = `(l)[] = x+l; k=f(2);k(11)			(x+11)
 function f(a,b,c...) = c ; f()					f()
 function f(a,b,c...) = c ; f(1)					f(1)
 function f(a,b,c...) = c ; f(1,2)+1				((null)+1)
@@ -941,6 +943,7 @@ a=7;(function f(x)=(b=9));f(8);UserVariables()			[f,a]
 a=7;(function f(x)=(b=9));f(8);UndefineAll();UserVariables()+0	((null)+0)
 parameter FloatPrecision = 888					(parameter FloatPrecision = 888)
 parameter foo = 888						888
+y=9;(function g(x)[y]=(y+1));y=0;g(0)				10
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
 load "testprec.gel"						true

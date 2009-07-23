@@ -286,20 +286,75 @@ anyequals:	EQUALS
 	;
 
 funcdef:	'(' identlist ')' anyequals expr %prec FUNCTION {
-			if ( ! gp_push_func (FALSE /* vararg */)) {
+			if ( ! gp_push_func (FALSE /* vararg */,
+					     TRUE /* arguments */,
+					     FALSE /* extradict */,
+					     FALSE /* never_subst */)) {
 				SYNTAX_ERROR;
 			}
 						}
 	|	'(' identlist THREEDOTS ')' anyequals expr %prec FUNCTION {
-			if ( ! gp_push_func (TRUE /* vararg */)) {
+			if ( ! gp_push_func (TRUE /* vararg */,
+					     TRUE /* arguments */,
+					     FALSE /* extradict */,
+					     FALSE /* never_subst */)) {
 				SYNTAX_ERROR;
 			}
 							}
 	|	'(' ')' anyequals expr %prec FUNCTION {
-			if ( ! gp_push_marker (GEL_EXPRLIST_START_NODE)) {
+			if ( ! gp_push_func (FALSE /* vararg */,
+					     FALSE /* arguments */,
+					     FALSE /* extradict */,
+					     FALSE /* never_subst */)) {
 				SYNTAX_ERROR;
 			}
-			if ( ! gp_push_func (FALSE /* vararg */)) {
+					}
+	|	'(' identlist ')' '[' identlist ']' anyequals expr %prec FUNCTION {
+			if ( ! gp_push_func (FALSE /* vararg */,
+					     TRUE /* arguments */,
+					     TRUE /* extradict */,
+					     TRUE /* never_subst */)) {
+				SYNTAX_ERROR;
+			}
+						}
+	|	'(' identlist THREEDOTS ')' '[' identlist ']' anyequals expr %prec FUNCTION {
+			if ( ! gp_push_func (TRUE /* vararg */,
+					     TRUE /* arguments */,
+					     TRUE /* extradict */,
+					     TRUE /* never_subst */)) {
+				SYNTAX_ERROR;
+			}
+							}
+	|	'(' ')' '[' identlist ']' anyequals expr %prec FUNCTION {
+			if ( ! gp_push_func (FALSE /* vararg */,
+					     FALSE /* arguments */,
+					     TRUE /* extradict */,
+					     TRUE /* never_subst */)) {
+				SYNTAX_ERROR;
+			}
+					}
+	;
+	|	'(' identlist ')' '[' ']' anyequals expr %prec FUNCTION {
+			if ( ! gp_push_func (FALSE /* vararg */,
+					     TRUE /* arguments */,
+					     FALSE /* extradict */,
+					     TRUE /* never_subst */)) {
+				SYNTAX_ERROR;
+			}
+						}
+	|	'(' identlist THREEDOTS ')' '[' ']' anyequals expr %prec FUNCTION {
+			if ( ! gp_push_func (TRUE /* vararg */,
+					     TRUE /* arguments */,
+					     FALSE /* extradict */,
+					     TRUE /* never_subst */)) {
+				SYNTAX_ERROR;
+			}
+							}
+	|	'(' ')' '[' ']' anyequals expr %prec FUNCTION {
+			if ( ! gp_push_func (FALSE /* vararg */,
+					     FALSE /* arguments */,
+					     FALSE /* extradict */,
+					     TRUE /* never_subst */)) {
 				SYNTAX_ERROR;
 			}
 					}

@@ -26,6 +26,7 @@
 SetHelp ("CompositeSimpsonsRuleTolerance", "calculus", "Integration of f by Composite Simpson's Rule on the interval [a,b] with the number of steps calculated by the fourth derivative bound and the desired tolerance")
 function CompositeSimpsonsRuleTolerance(f,a,b,FourthDerivativeBound,Tolerance) =
 (
+	local *;
 	# Error term = max(f'''')*h^4*(b-a)/180,
 	# where h=(b-a)/n
 	n = ceil(|FourthDerivativeBound*(b-a)^5 / (180*Tolerance)|^(1/4));
@@ -41,6 +42,7 @@ function CompositeSimpsonsRuleTolerance(f,a,b,FourthDerivativeBound,Tolerance) =
 SetHelp ("MidpointRule", "calculus", "Integration by midpoint rule")
 function MidpointRule(f,a,b,n) =
 (
+  local *;
   if(not IsFunction(f)) then
 	(error("MidpointRule: argument 1 must be a function");bailout)
   else if(not IsReal(a) or not IsReal(b)) then
@@ -63,4 +65,4 @@ SetHelp ("NumericalIntegralFunction", "parameters", "The function used for numer
 parameter NumericalIntegralFunction = `CompositeSimpsonsRule
 
 SetHelp ("NumericalIntegral", "calculus", "Integration by rule set in NumericalIntegralFunction of f from a to b using NumericalIntegralSteps steps")
-function NumericalIntegral(f,a,b) = (NumericalIntegralFunction call (f,a,b,NumericalIntegralSteps))
+function NumericalIntegral(f,a,b) = (local *;NumericalIntegralFunction call (f,a,b,NumericalIntegralSteps))

@@ -24,6 +24,7 @@ SetHelp ("FindRootBisection", "equation_solving",
          "Find root of a function using the bisection method")
 function FindRootBisection(f,a,b,TOL,N) =
 	(
+	local *;
 # check arguments
 ## check types
 	if(not IsFunction(f)) then
@@ -59,6 +60,7 @@ SetHelp ("FindRootSecant", "equation_solving",
          "Find root of a function using the secant method")
 function FindRootSecant(f,a,b,TOL,N) =
 	(
+	local *;
 # check arguments
 ## check types
 	if(not IsFunction(f)) then
@@ -94,6 +96,7 @@ SetHelp ("FindRootFalsePosition", "equation_solving",
          "Find root of a function using the method of false position")
 function FindRootFalsePosition(f,a,b,TOL,N) =
 	(
+	local *;
 # check arguments
 ## check types
 	if(not IsFunction(f)) then
@@ -131,6 +134,7 @@ SetHelp ("FindRootMullersMethod", "equation_solving",
          "Find root of a function using the Muller's method")
 function FindRootMullersMethod(f,x1,x2,x3,TOL,N) =
 	(
+	local *;
 # check arguments
 ## check types
 	if(not IsFunction(f)) then

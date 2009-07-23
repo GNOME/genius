@@ -30,6 +30,7 @@
 function OneSidedThreePointFormula(f,x0,h) =
 # This has error term max(f''')h^2/3
 	(
+	local *;
 # check arguments
 ## check types
 	if not IsFunctionOrIdentifier(f) then
@@ -49,6 +50,7 @@ SetHelp("OneSidedThreePointFormula","calculus","Compute one-sided derivative usi
 function TwoSidedThreePointFormula(f,x0,h) =
 # This has error term max(f''')h^2/6
 	(
+	local *;
 # check arguments
 ## check types
 	if not IsFunctionOrIdentifier(f) then
@@ -67,6 +69,7 @@ SetHelp("TwoSidedThreePointFormula","calculus","Compute two-sided derivative usi
 function OneSidedFivePointFormula(f,x0,h) =
 # This has error term max(f''''')h^4/5
 	(
+	local *;
 # check arguments
 ## check types
 	if not IsFunctionOrIdentifier(f) then
@@ -85,6 +88,7 @@ SetHelp("OneSidedFivePointFormula","calculus","Compute one-sided derivative usin
 function TwoSidedFivePointFormula(f,x0,h) =
 # This has error term max(f''''')h^4/30
 	(
+	local *;
 # check arguments
 ## check types
 	if(not IsFunctionOrIdentifier(f)) then
@@ -109,6 +113,7 @@ parameter DerivativeNumberOfTries=100;
 # Simple test for differentiability
 function IsDifferentiable(f,x0) =
 (
+	local *;
 	# differentiable functions have to be continuous and left and right derivatives must
 	# be equal
 	IsContinuous (f, x0) and
@@ -121,6 +126,7 @@ SetHelp("IsDifferentiable","calculus","Test for differentiability by approximati
 function NumericalDerivative(f,x0) =
 # returns f'(x0)
 (
+    local *;
     # FIXME: perhaps check differentiability first, but then we're doing so many limits already
     NumericalLimitAtInfinity (`(n)=(TwoSidedFivePointFormula(f,x0,2.0^(-n))),
 			      Identity,
@@ -134,6 +140,7 @@ NDerivative = NumericalDerivative
 
 function NumericalLeftDerivative(f,x0) =
 (
+    local *;
     NumericalLimitAtInfinity (`(n)=(OneSidedFivePointFormula(f,x0,-(2.0^(-n)))),
 			      Identity,
 			      DerivativeTolerance,
@@ -144,6 +151,7 @@ SetHelp("NumericalLeftDerivative","calculus","Attempt to calculate numerical lef
 
 function NumericalRightDerivative(f,x0) =
 (
+    local *;
     NumericalLimitAtInfinity (`(n)=(OneSidedFivePointFormula(f,x0,2.0^(-n))),
 			      Identity,
 			      DerivativeTolerance,
@@ -154,6 +162,7 @@ SetHelp("NumericalRightDerivative","calculus","Attempt to calculate numerical ri
 
 function Derivative(f,x0) =
 (
+	local *;
 	df = SymbolicDerivativeTry (f);
 	if IsNull(df) then
 		NumericalDerivative (f, x0)

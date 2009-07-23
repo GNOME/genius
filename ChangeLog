@@ -1,3 +1,17 @@
+Thu Jul 23 18:35:28 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/parse.y, src/eval.c, src/dict.c, src/structs.h: Add an optional
+	  list of extra_dict parameters to function definition.  In this
+	  case the subst dance never happens and those variables are added to
+	  extra dict at function definition time.
+
+	* lib/*/*.gel: Use local where appropriate and the [] extra dict
+	  definition where appropriate
+
+	* src/testscope.gel, src/geniustests.txt: update test suite
+
+	* src/geniustest.pl: fix colors
+
 Thu Jul 23 16:28:59 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/dict.c, src/eval.c: remove some forgotten debug prints

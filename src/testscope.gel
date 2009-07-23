@@ -139,5 +139,22 @@ function ff() = (
 );
 ff();
 
+A = 1;
+function f(x) = (
+	A = 8;
+	function g(y)[A] = A+5;
+	g
+);
+h = f(0);
+if h(0) != 8+5 then (error("single explicit subst lookup failed");exit());
+
+A = 1;
+function f(x) = (
+	A = 8;
+	function g(y)[] = A+5;
+	g
+);
+h = f(0);
+if h(0) != 1+5 then (error("single explicit non-subst lookup failed");exit());
 
 print("true");

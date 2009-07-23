@@ -5,10 +5,11 @@ SetHelp("string","basic","Make a string");
 function string(s) = s + ""
 
 SetHelp("Compose","basic","Compose two functions")
-function Compose(f,g) = `(x)=f(g(x))
+function Compose(f,g) = (`(x)[f,g]=(local *;f(g(x))))
 
 SetHelp("ComposePower","basic","Compose a function with itself n times, passing x as argument, and returning x if n == 0")
 function ComposePower(f,n,x) = (
+	local *;
 	for k=1 to n do
 		x = f call (x);
 	x

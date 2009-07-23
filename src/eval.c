@@ -2646,6 +2646,8 @@ function_finish_bin_op (GelCtx *ctx, GelETree *n, int nargs, GelETree *la, GelET
 	n->func.func = f;
 	n->func.func->context = -1;
 
+	/* FIXME: never on subst list maybe? but only when not adding random expression! */
+
 	return TRUE;
 }
 
@@ -2761,6 +2763,8 @@ function_uni_op (GelCtx *ctx, GelETree *n, GelETree *l)
 	n->func.func = f;
 	n->func.func->context = -1;
 
+	n->func.func->never_on_subst_list = 1;
+
 	return TRUE;
 }
 
@@ -2818,6 +2822,8 @@ gel_function_from_function (GelEFunc *func, GelETree *l)
 	n->type = GEL_FUNCTION_NODE;
 	n->func.func = f;
 	n->func.func->context = -1;
+
+	n->func.func->never_on_subst_list = 1;
 
 	return n;
 }
@@ -3311,7 +3317,8 @@ iter_do_var(GelCtx *ctx, GelETree *n, GelEFunc *f)
 					    f->extra_dict);
 		n->func.func->context = -1;
 		n->func.func->vararg = f->vararg;
-		if (f->on_subst_list &&
+		if ( ! f->never_on_subst_list &&
+		    f->on_subst_list &&
 		    d_curcontext () != 0)
 			d_put_on_subst_list (n->func.func);
 	} else if(f->type == GEL_BUILTIN_FUNC) {
@@ -6662,7 +6669,9 @@ gel_get_ids_for_extradict (GSList *toklist, GSList *args, GSList *locals, GelETr
 		if (g_slist_find (args, n->id.id) == NULL &&
 		    g_slist_find (locals, n->id.id) == NULL &&
 		    g_slist_find (toklist, n->id.id) == NULL) {
-			toklist = g_slist_prepend (toklist, n->id.id);
+			GelEFunc *f = d_lookup_global (n->id.id);
+			if (f != NULL && f->context > 0)
+				toklist = g_slist_prepend (toklist, n->id.id);
 		}
 	} else if (n->type == GEL_SPACER_NODE) {
 		toklist = gel_get_ids_for_extradict (toklist, args, locals, n->sp.arg);
@@ -6735,6 +6744,37 @@ gel_subst_local_vars (GSList *funclist, GSList **toklist)
 		} else {
 			prev = li;
 			li = li->next;
+		}
+	}
+	return funclist;
+}
+
+static GSList *
+build_extradict (GSList *funclist, GSList *toklist)
+{
+	GSList *li;
+
+	for (li = toklist; li != NULL; li = li->next) {
+		GelToken *id = li->data;
+		GelEFunc *func = d_lookup_global (id);
+		if G_LIKELY (func != NULL) {
+			GelEFunc *f = d_copyfunc (func);
+			if ( ! f->on_subst_list)
+				f->context = -1;
+			funclist = g_slist_prepend (funclist, f);
+		} else {
+			char *similar = gel_similar_possible_ids (id->token);
+			if (similar != NULL) {
+				gel_errorout (_("Variable '%s' used uninitialized, "
+						"perhaps you meant %s."),
+					      id->token,
+					      similar);
+
+				g_free (similar);
+			} else {
+				gel_errorout (_("Variable '%s' used uninitialized"),
+					      id->token);
+			}
 		}
 	}
 	return funclist;
@@ -6860,10 +6900,18 @@ iter_eval_etree(GelCtx *ctx)
 
 		case GEL_FUNCTION_NODE:
 			EDEBUG(" FUNCTION NODE");
-			if (n->func.func != NULL &&
-			    (n->func.func->type == GEL_USER_FUNC ||
-			     n->func.func->type == GEL_VARIABLE_FUNC) &&
-			    d_curcontext () != 0) {
+			if (n->func.func->never_on_subst_list) {
+				if (n->func.func->built_subst_dict) {
+					n->func.func->extra_dict = build_extradict (n->func.func->extra_dict,
+										    n->func.func->subst_dict);
+					n->func.func->built_subst_dict = 0;
+					g_slist_free (n->func.func->subst_dict);
+					n->func.func->subst_dict = NULL;
+				}
+			} else if (n->func.func != NULL &&
+				   (n->func.func->type == GEL_USER_FUNC ||
+				    n->func.func->type == GEL_VARIABLE_FUNC) &&
+				   d_curcontext () != 0) {
 				d_put_on_subst_list (n->func.func);
 			}
 			WHACK_SAVEDN_POP;
