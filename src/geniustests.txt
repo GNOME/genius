@@ -930,6 +930,17 @@ EulersMethod (`(x,y)=[(x-y@(1));(x-y@(2))],0,[0;0],3,3)		[2.0;2.0]
 CompositeSimpsonsRule(`(x)=x^2,0,3,100)				9.0
 CompositeSimpsonsRule(`(x)=x^2,3,0,100)				-9.0
 CompositeSimpsonsRule(`(x)=x^2,3,3,100)				0
+a								a
+a=7;UndefineAll();a						a
+UndefineAll();a							a
+UndefineAll()+0							((null)+0)
+UserVariables()+0						((null)+0)
+a=9;ProtectAll();UserVariables()+0				((null)+0)
+a=9;ProtectAll();a=11;a						9
+a=7;(function f(x)=(b=9));f(8);UserVariables()			[f,a]
+a=7;(function f(x)=(b=9));f(8);UndefineAll();UserVariables()+0	((null)+0)
+parameter FloatPrecision = 888					(parameter FloatPrecision = 888)
+parameter foo = 888						888
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
 load "testprec.gel"						true

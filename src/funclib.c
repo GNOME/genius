@@ -286,16 +286,8 @@ UndefineAll_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	     li = li->next) {
 		GelEFunc *f = li->data;
 		GelToken *tok = f->id;
-		if (tok->parameter) {
-			printf ("FOO %s %d %d %p\n",
-				tok->token,
-				tok->parameter,
-				tok->protected_,
-				f);
-		}
 		if ( ! tok->protected_ &&
 		    strcmp (tok->token, "Ans") != 0) {
-			printf ("FOO2 %s\n", tok->token);
 			d_delete_global (tok);
 		}
 	}
@@ -309,6 +301,55 @@ ProtectAll_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	d_protect_all ();
 
 	return gel_makenum_null ();
+}
+
+static GelETree *
+UserVariables_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GSList *li;
+	GelMatrix *m;
+	GelETree *n;
+	int len, i;
+
+	len = 0;
+
+	for (li = d_getcontext_global ();
+	     li != NULL;
+	     li = li->next) {
+		GelEFunc *f = li->data;
+		GelToken *tok = f->id;
+		if ( ! tok->protected_ &&
+		    strcmp (tok->token, "Ans") != 0) {
+			len++;
+		}
+	}
+
+	if (len == 0)
+		return gel_makenum_null ();
+
+	m = gel_matrix_new ();
+	gel_matrix_set_size (m, len, 1, FALSE /* padding */);
+
+	i = 0;
+	for (li = d_getcontext_global ();
+	     li != NULL;
+	     li = li->next) {
+		GelEFunc *f = li->data;
+		GelToken *tok = f->id;
+		if ( ! tok->protected_ &&
+		    strcmp (tok->token, "Ans") != 0) {
+			gel_matrix_index (m, i, 0) =
+				gel_makenum_identifier (tok);
+			i++;
+		}
+	}
+
+	GEL_GET_NEW_NODE (n);
+	n->type = GEL_MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_new_with_matrix (m);
+	n->mat.quoted = FALSE;
+
+	return n;
 }
 
 static GelETree *
@@ -6386,6 +6427,7 @@ gel_funclib_addall(void)
 	ALIAS (Undefine, 1, undefine);
 	FUNC (UndefineAll, 0, "", "basic", N_("Undefine all unprotected (user defined) global variables and parameters.  Does not reset or change protected (system) parameters."));
 	FUNC (ProtectAll, 0, "", "basic", N_("Mark all currently defined variables as protected.  They will be treated as system defined variables from now on."));
+	FUNC (UserVariables, 0, "", "basic", N_("Return a vector of all global unprotected (user defined) variable names."));
 
 	FUNC (Parse, 1, "str", "basic", N_("Parse a string (but do not execute)"));
 	FUNC (Evaluate, 1, "str", "basic", N_("Parse and evaluate a string"));

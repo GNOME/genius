@@ -5698,7 +5698,13 @@ iter_parameterop (GelETree *n)
 		gel_errorout (_("Parameters can only be created in the global context"));
 		return;
 	}
-	
+
+	if G_UNLIKELY (r->id.id->protected_) {
+		gel_errorout (_("Trying to set a protected id '%s'"),
+			      r->id.id->token);
+		return;
+	}
+
 	d_addfunc (d_makevfunc (r->id.id, gel_copynode (rr)));
 	r->id.id->parameter = 1;
 

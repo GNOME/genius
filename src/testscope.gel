@@ -56,6 +56,24 @@ function f(x) = (
 );
 if f(0) != 1+5+9 then (error("global lookup over all local (2) failed");exit());
 
+function g(x) = 545;
+function f(x) = (
+	local g;
+	function g(y) = 11;
+	function h(x) = g(6);
+	h(x)
+);
+if f(0) != 545 then (error("global function lookup over local failed");exit());
+
+function g(x) = -987;
+function f(x) = (
+	local *;
+	function g(y) = 11;
+	function h(x) = g(6);
+	h(x)
+);
+if f(0) != -987 then (error("global function lookup over all local failed");exit());
+
 A = 1;
 function f(x) = (
 	A = 8;

@@ -551,8 +551,6 @@ d_delete_global(GelToken *id)
 
 	g_return_val_if_fail (id != NULL && id->token != NULL, FALSE);
 
-			printf ("FOO3 %s\n", id->token);
-
 	id->protected_ = 0;
 	id->parameter = 0;
 	id->built_in_parameter = 0;
