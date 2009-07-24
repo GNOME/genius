@@ -1714,6 +1714,9 @@ ensure_window (gboolean do_window_present)
 		 GTK_STOCK_CLOSE,
 		 GTK_RESPONSE_CLOSE,
 		 NULL);
+	gtk_window_set_type_hint (GTK_WINDOW (graph_window),
+				  GDK_WINDOW_TYPE_HINT_NORMAL);
+
 	gtk_window_add_accel_group (GTK_WINDOW (graph_window),
 				    accel_group);
 
@@ -5056,6 +5059,8 @@ genius_plot_dialog (void)
 		 _("_Plot"),
 		 RESPONSE_PLOT,
 		 NULL);
+	gtk_window_set_type_hint (GTK_WINDOW (plot_dialog),
+				  GDK_WINDOW_TYPE_HINT_NORMAL);
 	gtk_dialog_set_default_response (GTK_DIALOG (plot_dialog),
 					 RESPONSE_PLOT);
 

@@ -1,0 +1,63 @@
+f = NumericalFourierSeriesFunction(`(x)=x^2,1,10);
+if |f(0)| >= 0.01 then (error("Fourier test 1 fail");exit());
+if |f(1)-1| >= 0.05 then (error("Fourier test 2 fail");exit());
+if |f(-1)-1| >= 0.05 then (error("Fourier test 3 fail");exit());
+if |f(2)| >= 0.01 then (error("Fourier test 4 fail");exit());
+if |f(-2)| >= 0.01 then (error("Fourier test 5 fail");exit());
+
+function ff(x) = x^3+x^2;
+f = NumericalFourierSeriesFunction(ff,1,30);
+for x=-0.7 to 0.7 by 0.1 do (
+	if |f(x)-ff(x)| >= 0.025 then (error("Fourier test 6 fail at x=" + x);exit());
+);
+
+function ff(x) = x^3+x^2;
+f = NumericalFourierSineSeriesFunction(ff,1,30);
+for x=0.3 to 0.7 by 0.1 do (
+	if |f(x)-ff(x)| >= 0.03 then (error("Fourier test 7 fail at x=" + x);exit());
+);
+for x=0.3 to 0.7 by 0.1 do (
+	if |-f(-x)-ff(x)| >= 0.03 then (error("Fourier test 8 fail at x=" + x);exit());
+);
+
+function ff(x) = x^3+x^2;
+f = NumericalFourierCosineSeriesFunction(ff,1,20);
+for x=0.3 to 0.7 by 0.1 do (
+	if |f(x)-ff(x)| >= 0.01 then (error("Fourier test 9 fail at x=" + x);exit());
+);
+for x=0.3 to 0.7 by 0.1 do (
+	if |f(-x)-ff(x)| >= 0.01 then (error("Fourier test 10 fail at x=" + x);exit());
+);
+
+function ff(x) = x^3+x^2;
+f1=OddPeriodicExtension (ff,1);
+for x=0.1 to 0.9 by 0.1 do (
+	if f1(x) != ff(x) then (error("Odd ext test 1 fail at x=" + x);exit());
+);
+for x=0.1 to 0.9 by 0.1 do (
+	if |-f1(-x) - ff(x)| >= 0.000001 then (error("Odd ext test 2 fail at x=" + x);exit());
+);
+for x=0.1 to 0.9 by 0.1 do (
+	if |-f1(-x+2) - ff(x)| >= 0.000001 then (error("Odd ext test 3 fail at x=" + x);exit());
+);
+for x=0.1 to 0.9 by 0.1 do (
+	if |-f1(-x-2) - ff(x)| >= 0.000001 then (error("Odd ext test 4 fail at x=" + x);exit());
+);
+
+function ff(x) = x^3+x^2;
+f1=EvenPeriodicExtension (ff,1);
+for x=0.1 to 0.9 by 0.1 do (
+	if f1(x) != ff(x) then (error("Odd ext test 1 fail at x=" + x);exit());
+);
+for x=0.1 to 0.9 by 0.1 do (
+	if |f1(-x) - ff(x)| >= 0.000001 then (error("Odd ext test 2 fail at x=" + x);exit());
+);
+for x=0.1 to 0.9 by 0.1 do (
+	if |f1(-x+2) - ff(x)| >= 0.000001 then (error("Odd ext test 3 fail at x=" + x);exit());
+);
+for x=0.1 to 0.9 by 0.1 do (
+	if |f1(-x-2) - ff(x)| >= 0.000001 then (error("Odd ext test 4 fail at x=" + x);exit());
+);
+
+
+print("true");

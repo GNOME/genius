@@ -54,7 +54,7 @@ SetHelp("NumericalFourierCosineSeriesFunction","calculus","Return a function whi
 function FourierSeriesFunction(a,b,L) =
 	(
 # check arguments
-	if not (IsVector(a) and IsVector(b)) then
+	if not ((IsVector(a) or IsNull(a)) and (IsVector(b) or IsNull(b))) then
 		(error("FourierSeriesFunction: arguments a and b must be vectors");bailout)
 	else if not (IsReal(L) and L > 0) then
 		(error("FourierSeriesFunction: argument L must be a positive real value");bailout);
@@ -133,9 +133,9 @@ function NumericalFourierCosineSeriesCoefficients(f,L,N) =
 
 	a = .;
 
-	a@(1) = (1/L)*NumericalIntegral(f,-L,L);
+	a@(1) = (2/L)*NumericalIntegral(f,0,L);
 	for n = 1 to N do (
-		a@(n+1) = (1/L)*NumericalIntegral(`(x)[f,L,n]=(local *;(f call (x))*cos(x*n*pi/L)),-L,L)
+		a@(n+1) = (2/L)*NumericalIntegral(`(x)[f,L,n]=(local *;(f call (x))*cos(x*n*pi/L)),0,L)
 	);
 	a
 )
