@@ -136,23 +136,37 @@ gel_compile_node(GelETree *t,GString *gs)
 	case GEL_FUNCTION_NODE:
 		g_assert(t->func.func->type==GEL_USER_FUNC);
 		/*g_assert(t->func.func->id==NULL);*/
-		g_string_append_printf (gs, ";%s;%s;%d;%d;%d;%d;%d;",
+		g_string_append_printf (gs,
+					";%s;%s;n%d;v%d;p%d;o%d;l%d;e%d;b%d",
 					t->func.func->id ? t->func.func->id->token : "*",
 					t->func.func->symbolic_id ? t->func.func->symbolic_id->token : "*",
 					t->func.func->nargs,
 					t->func.func->vararg,
 					t->func.func->propagate_mod,
 					t->func.func->no_mod_all_args,
-					t->func.func->local_all);
+					t->func.func->local_all,
+					t->func.func->never_on_subst_list,
+					t->func.func->built_subst_dict);
+		/* Make sure to also update calc compile_funcs_in_dict
+		 * and related! */
 
 		if (t->func.func->local_idents == NULL)
-			g_string_append (gs, "-");
+			g_string_append (gs, ";-");
 		for (li = t->func.func->local_idents; li != NULL; li = li->next) {
 			GelToken *tok = li->data;
 			if (li != t->func.func->local_idents)
 				g_string_append_printf (gs, ",%s", tok->token);
 			else
-				g_string_append_printf (gs, "%s", tok->token);
+				g_string_append_printf (gs, ";%s", tok->token);
+		}
+		if (t->func.func->subst_dict == NULL)
+			g_string_append (gs, ";-");
+		for (li = t->func.func->subst_dict; li != NULL; li = li->next) {
+			GelToken *tok = li->data;
+			if (li != t->func.func->subst_dict)
+				g_string_append_printf (gs, ",%s", tok->token);
+			else
+				g_string_append_printf (gs, ";%s", tok->token);
 		}
 		for (li = t->func.func->named_args; li != NULL; li = li->next) {
 			GelToken *tok = li->data;
@@ -206,6 +220,8 @@ gel_decompile_node(char **ptrptr)
 	int propagate_mod = -1;
 	int no_mod_all_args = -1;
 	int local_all = -1;
+	int never_on_subst_list = -1;
+	int built_subst_dict = -1;
 	int quote;
 	int oper;
 	int i,j;
@@ -213,7 +229,7 @@ gel_decompile_node(char **ptrptr)
 	GelMatrixW *m;
 	GelETree *li = NULL;
 	GelETree *args;
-	GSList *oli, *local_idents;
+	GSList *oli, *local_idents, *subst_dict;
 	GelEFunc *func;
 	mpw_t tmp;
 
@@ -351,28 +367,38 @@ gel_decompile_node(char **ptrptr)
 		p = strtok_r (NULL,";", ptrptr);
 		if G_UNLIKELY (!p) return NULL;
 		nargs = -1;
-		sscanf(p,"%d",&nargs);
+		sscanf(p,"n%d",&nargs);
 		if G_UNLIKELY (nargs==-1) return NULL;
 
 		p = strtok_r (NULL,";", ptrptr);
 		if G_UNLIKELY (!p) return NULL;
-		sscanf(p,"%d",&vararg);
+		sscanf(p,"v%d",&vararg);
 		if G_UNLIKELY (vararg == -1) return NULL;
 
 		p = strtok_r (NULL,";", ptrptr);
 		if G_UNLIKELY (!p) return NULL;
-		sscanf(p,"%d",&propagate_mod);
+		sscanf(p,"p%d",&propagate_mod);
 		if G_UNLIKELY (propagate_mod == -1) return NULL;
 
 		p = strtok_r (NULL,";", ptrptr);
 		if G_UNLIKELY (!p) return NULL;
-		sscanf(p,"%d",&no_mod_all_args);
+		sscanf(p,"o%d",&no_mod_all_args);
 		if G_UNLIKELY (no_mod_all_args == -1) return NULL;
 
 		p = strtok_r (NULL,";", ptrptr);
 		if G_UNLIKELY (p == NULL) return NULL;
-		sscanf(p,"%d",&local_all);
+		sscanf(p,"l%d",&local_all);
 		if G_UNLIKELY (local_all == -1) return NULL;
+
+		p = strtok_r (NULL,";", ptrptr);
+		if G_UNLIKELY (p == NULL) return NULL;
+		sscanf(p,"e%d",&never_on_subst_list);
+		if G_UNLIKELY (never_on_subst_list == -1) return NULL;
+
+		p = strtok_r (NULL,";", ptrptr);
+		if G_UNLIKELY (p == NULL) return NULL;
+		sscanf(p,"b%d",&built_subst_dict);
+		if G_UNLIKELY (built_subst_dict == -1) return NULL;
 
 		p = strtok_r (NULL,";", ptrptr);
 		if G_UNLIKELY (p == NULL) return NULL;
@@ -382,6 +408,18 @@ gel_decompile_node(char **ptrptr)
 			s = g_strsplit (p, ",", -1);
 			for (i = 0; s[i] != NULL; i++) {
 				local_idents = g_slist_append (local_idents, d_intern (s[i]));
+			}
+			g_strfreev (s);
+		}
+
+		p = strtok_r (NULL,";", ptrptr);
+		if G_UNLIKELY (p == NULL) return NULL;
+		subst_dict = NULL;
+		if (strcmp (p, "-") != 0) {
+			char **s;
+			s = g_strsplit (p, ",", -1);
+			for (i = 0; s[i] != NULL; i++) {
+				subst_dict = g_slist_append (subst_dict, d_intern (s[i]));
 			}
 			g_strfreev (s);
 		}
@@ -412,7 +450,10 @@ gel_decompile_node(char **ptrptr)
 		func->propagate_mod = propagate_mod ? 1 : 0;
 		func->no_mod_all_args = no_mod_all_args ? 1 : 0;
 		func->local_all = local_all ? 1 : 0;
+		func->never_on_subst_list = never_on_subst_list ? 1 : 0;
+		func->built_subst_dict = built_subst_dict ? 1 : 0;
 		func->local_idents = local_idents;
+		func->subst_dict = subst_dict;
 
 		GEL_GET_NEW_NODE(n);
 		n->type = GEL_FUNCTION_NODE;

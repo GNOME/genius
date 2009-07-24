@@ -64,6 +64,7 @@ static GelEFunc *
 hack_parse_function (const char *expr)
 {
 	GelEFunc *f;
+	/* FIXME: parseexp could set gel_error_num! */
 	f = d_makeufunc (NULL /* id */,
 			 gel_parseexp(expr,
 				      NULL, FALSE, FALSE,

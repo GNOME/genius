@@ -14,13 +14,13 @@ function Hofstadter(n) = (
     	(error("Hofstadter: argument not a positive integer");bailout);
     # reason for doing this is that it's just plain faster then calling self
     # again
-    function _h (n) = (
+    function h (n) = (
     	if n <= 2 then
 		1
 	else
-		_h(n - _h(n-1)) + _h(n - _h(n-2))
+		h(n - h(n-1)) + h(n - h(n-2))
     );
-    _h (n)
+    h (n)
 )
 
 

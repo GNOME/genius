@@ -138,6 +138,8 @@ struct _GelEFunc {
 
 	/* did we already build the subst_list */
 	guint32 built_subst_dict:1;
+
+	/* NOTE: Make sure! to update d_setrealfunc and others */
 };
 
 typedef enum {

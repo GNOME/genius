@@ -185,6 +185,7 @@ d_copyfunc(GelEFunc *o)
 	}
 	n->named_args = g_slist_copy (o->named_args);
 	n->local_idents = g_slist_copy (o->local_idents);
+	n->subst_dict = g_slist_copy (o->subst_dict);
 
 	n->extra_dict = g_slist_copy (o->extra_dict);
 	for (li = n->extra_dict; li != NULL; li = li->next)
@@ -206,6 +207,9 @@ d_makerealfunc(GelEFunc *o,GelToken *id, gboolean use)
 
 	n = g_slice_dup (GelEFunc, o);
 
+	/* never copy is_local! */
+	n->is_local = 0;
+
 	n->id = id;
 	if (o->symbolic_id == NULL)
 		n->symbolic_id = o->id;
@@ -226,6 +230,7 @@ d_makerealfunc(GelEFunc *o,GelToken *id, gboolean use)
 		o->extra_dict = NULL;
 		o->named_args = NULL;
 		o->local_idents = NULL;
+		o->subst_dict = NULL;
 		o->nargs = 0;
 	} else {
 		GSList *li;
@@ -234,6 +239,7 @@ d_makerealfunc(GelEFunc *o,GelToken *id, gboolean use)
 			li->data = d_copyfunc (li->data);
 		n->named_args = g_slist_copy (o->named_args);
 		n->local_idents = g_slist_copy (o->local_idents);
+		n->subst_dict = g_slist_copy (o->subst_dict);
 	}
 
 	if (n->on_subst_list) {
@@ -268,24 +274,34 @@ d_setrealfunc(GelEFunc *n,GelEFunc *fake, gboolean use)
 			n->data.user = gel_copynode(fake->data.user);
 	}
 
+	n->never_on_subst_list = fake->never_on_subst_list;
+	n->vararg = fake->vararg;
+	n->propagate_mod = fake->propagate_mod;
+	n->no_mod_all_args = fake->no_mod_all_args;
+	n->local_all = fake->local_all;
+	/* Never copy is_local */
+	n->built_subst_dict = fake->built_subst_dict;
+
 	if(use) {
 		n->named_args = fake->named_args;
 		n->local_idents = fake->local_idents;
+		n->subst_dict = fake->subst_dict;
 		n->nargs = fake->nargs;
 		fake->named_args = NULL;
 		fake->local_idents = NULL;
 		fake->nargs = 0;
-	} else {
-		n->named_args = g_slist_copy (fake->named_args);
-		n->local_idents = g_slist_copy (fake->local_idents);
-		n->nargs = fake->nargs;
-	}
+		fake->subst_dict = NULL;
 
-	if (use) {
 		n->extra_dict = fake->extra_dict;
 		fake->extra_dict = NULL;
 	} else {
 		GSList *li;
+
+		n->named_args = g_slist_copy (fake->named_args);
+		n->local_idents = g_slist_copy (fake->local_idents);
+		n->subst_dict = g_slist_copy (fake->subst_dict);
+		n->nargs = fake->nargs;
+
 		n->extra_dict = g_slist_copy (fake->extra_dict);
 		for (li = n->extra_dict; li != NULL; li = li->next)
 			li->data = d_copyfunc (li->data);
@@ -659,6 +675,7 @@ d_freefunc (GelEFunc *n)
 
 	g_slist_free (n->named_args);
 	g_slist_free (n->local_idents);
+	g_slist_free (n->subst_dict);
 
 	g_slice_free (GelEFunc, n);
 }
@@ -692,6 +709,7 @@ d_replacefunc(GelEFunc *old,GelEFunc *_new)
 
 	g_slist_free (old->named_args);
 	g_slist_free (old->local_idents);
+	g_slist_free (old->subst_dict);
 
 	for (li = old->extra_dict; li != NULL; li = li->next) {
 		d_freefunc (li->data);
@@ -721,9 +739,18 @@ d_set_ref(GelEFunc *n,GelEFunc *ref)
 	n->type = GEL_REFERENCE_FUNC;
 	g_slist_free (n->named_args);
 	g_slist_free (n->local_idents);
+	g_slist_free (n->subst_dict);
 	n->nargs = 0;
 	n->named_args = NULL;
-	n->local_idents = NULL;
+	n->subst_dict = NULL;
+
+	n->never_on_subst_list = 0;
+	n->vararg = 0;
+	n->propagate_mod = 0;
+	n->no_mod_all_args = 0;
+	n->local_all = 0;
+	/* don't touch is_local */
+	n->built_subst_dict = 0;
 	
 	n->data.ref = ref;
 }
@@ -740,10 +767,20 @@ d_set_value(GelEFunc *n,GelETree *value)
 	n->type = GEL_VARIABLE_FUNC;
 	g_slist_free (n->named_args);
 	g_slist_free (n->local_idents);
+	g_slist_free (n->subst_dict);
 	n->nargs = 0;
 	n->named_args = NULL;
 	n->local_idents = NULL;
-	
+	n->subst_dict = NULL;
+
+	n->never_on_subst_list = 0;
+	n->vararg = 0;
+	n->propagate_mod = 0;
+	n->no_mod_all_args = 0;
+	n->local_all = 0;
+	/* don't touch is_local */
+	n->built_subst_dict = 0;
+
 	n->data.user = value;
 }
 
@@ -776,7 +813,8 @@ d_popcontext (void)
 		GelContextFrame *of;
 
 		if (context.top != 0) {
-			for (li = subst; li != NULL; li = li->next) {
+			li = subst;
+			while (li != NULL) {
 				GelEFunc *func = li->data;
 				if (context.top == 1)
 					func->on_subst_list = 0;
@@ -799,9 +837,24 @@ d_popcontext (void)
 					if (func->context >= context.top)
 						func->context = context.top - 1;
 
+					/* If subst_dict goes to NULL, we no
+					 * longer need to keep this around on
+					 * the subst_lists */
+					if (func->subst_dict == NULL) {
+						if (substlast != NULL) {
+							substlast = g_slist_remove_link (substlast, li);
+							li = substlast->next;
+						} else {
+							subst = g_slist_remove_link (subst, subst);
+							li = subst;
+						}
+						continue;
+					}
+
 				}
 
 				substlast = li;
+				li = li->next;
 			}
 		}
 

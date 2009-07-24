@@ -1318,12 +1318,29 @@ append_func (GelOutput *gelo, GelEFunc *f)
 	if (f->vararg)
 		gel_output_string (gelo, "...");
 
-	if G_LIKELY (f->type==GEL_USER_FUNC) {
+	if G_LIKELY (f->type == GEL_USER_FUNC) {
 		gel_output_string(gelo,")=");
 		D_ENSURE_USER_BODY (f);
+		if (f->extra_dict != NULL ||
+		    f->local_all ||
+		    f->local_idents != NULL) {
+			gel_output_string(gelo,"(");
+		}
+		if (f->local_all) {
+			gel_output_string(gelo,"local *;");
+		} else if (f->local_idents != NULL) {
+			GSList *li;
+			gel_output_string(gelo,"local ");
+			for (li = f->local_idents; li != NULL; li = li->next) {
+				GelToken *tok = li->data;
+				if (li != f->local_idents)
+					gel_output_string(gelo,",");
+				gel_output_string (gelo, tok->token);
+			}
+			gel_output_string(gelo,";");
+		}
 		if (f->extra_dict != NULL) {
 			GSList *li;
-			gel_output_string(gelo,"(");
 			for (li = f->extra_dict; li != NULL; li = li->next) {
 				GelEFunc *ff = li->data;
 				gel_output_string (gelo, ff->id->token);
@@ -1337,7 +1354,9 @@ append_func (GelOutput *gelo, GelEFunc *f)
 			}
 		}
 		gel_print_etree (gelo, f->data.user, FALSE);
-		if (f->extra_dict != NULL) {
+		if (f->extra_dict != NULL ||
+		    f->local_all ||
+		    f->local_idents != NULL) {
 			gel_output_string(gelo,")");
 		}
 		gel_output_string(gelo,")");
@@ -1821,13 +1840,36 @@ compile_funcs_in_dict (FILE *outfile, GSList *dict, gboolean is_extra_dict)
 		}
 		if (func->type == GEL_USER_FUNC) {
 			fprintf (outfile,
-				 "%c;%d;%s;%s;%d;%d",
+				 "%c;%d;%s;%s;n%d;v%d;p%d;o%d;l%d;e%d;b%d",
 				 fs,
 				 (int)strlen (body),
 				 func->id->token,
 				 func->symbolic_id ? func->symbolic_id->token : "*",
 				 (int)func->nargs,
-				 (int)func->vararg);
+				 (int)func->vararg,
+				 (int)func->propagate_mod,
+				 (int)func->no_mod_all_args,
+				 (int)func->local_all,
+				 (int)func->never_on_subst_list,
+				 (int)func->built_subst_dict);
+			if (func->local_idents == NULL)
+				fprintf (outfile, ";-");
+			for (l = func->local_idents; l != NULL; l = l->next) {
+				GelToken *tok = l->data;
+				if (l != func->local_idents)
+					fprintf (outfile, ",%s", tok->token);
+				else
+					fprintf (outfile, ";%s", tok->token);
+			}
+			if (func->subst_dict == NULL)
+				fprintf (outfile, ";-");
+			for (l = func->subst_dict; l != NULL; l = l->next) {
+				GelToken *tok = l->data;
+				if (l != func->subst_dict)
+					fprintf (outfile, ",%s", tok->token);
+				else
+					fprintf (outfile, ";%s", tok->token);
+			}
 			for (l = func->named_args; l != NULL; l = l->next) {
 				GelToken *tok = l->data;
 				fprintf (outfile, ";%s", tok->token);
@@ -1902,6 +1944,8 @@ gel_compile_all_user_funcs (FILE *outfile)
 	g_slist_free (funcs);
 }
 
+/* FIXME: function reading is almost identical to that for FUNCTION_NODEs
+   in compile.c  We should really unify these! */
 static void
 load_compiled_fp (const char *file, FILE *fp)
 {
@@ -1939,7 +1983,9 @@ load_compiled_fp (const char *file, FILE *fp)
 		char *p;
 		char *b2;
 		GelToken *tok, *symbolic_tok = NULL;
-		int size, nargs, vararg;
+		int size, nargs, vararg, propagate_mod, no_mod_all_args;
+		int local_all, never_on_subst_list, built_subst_dict;
+		GSList *local_idents, *subst_dict;
 		gboolean extra_dict = FALSE;
 		gboolean parameter = FALSE;
 		int i;
@@ -2107,7 +2153,7 @@ load_compiled_fp (const char *file, FILE *fp)
 				continue;
 			}
 			nargs = -1;
-			sscanf(p,"%d",&nargs);
+			sscanf(p,"n%d",&nargs);
 			if G_UNLIKELY (nargs == -1) {
 				gel_errorout (_("Badly formed record"));
 				continue;
@@ -2120,10 +2166,107 @@ load_compiled_fp (const char *file, FILE *fp)
 				continue;
 			}
 			vararg = -1;
-			sscanf(p,"%d",&vararg);
+			sscanf(p,"v%d",&vararg);
 			if G_UNLIKELY (vararg == -1) {
 				gel_errorout (_("Badly formed record"));
 				continue;
+			}
+
+			/*propagate_mod*/
+			p = strtok_r (NULL,";", &ptrptr);
+			if (p == NULL) {
+				gel_errorout (_("Badly formed record"));
+				continue;
+			}
+			propagate_mod = -1;
+			sscanf(p,"p%d",&propagate_mod);
+			if G_UNLIKELY (propagate_mod == -1) {
+				gel_errorout (_("Badly formed record"));
+				continue;
+			}
+
+			/*no_mod_all_args*/
+			p = strtok_r (NULL,";", &ptrptr);
+			if (p == NULL) {
+				gel_errorout (_("Badly formed record"));
+				continue;
+			}
+			no_mod_all_args = -1;
+			sscanf(p,"o%d",&no_mod_all_args);
+			if G_UNLIKELY (no_mod_all_args == -1) {
+				gel_errorout (_("Badly formed record"));
+				continue;
+			}
+
+			/*local_all*/
+			p = strtok_r (NULL,";", &ptrptr);
+			if (p == NULL) {
+				gel_errorout (_("Badly formed record"));
+				continue;
+			}
+			local_all = -1;
+			sscanf(p,"l%d",&local_all);
+			if G_UNLIKELY (local_all == -1) {
+				gel_errorout (_("Badly formed record"));
+				continue;
+			}
+
+			/*never_on_subst_list*/
+			p = strtok_r (NULL,";", &ptrptr);
+			if (p == NULL) {
+				gel_errorout (_("Badly formed record"));
+				continue;
+			}
+			never_on_subst_list = -1;
+			sscanf(p,"e%d",&never_on_subst_list);
+			if G_UNLIKELY (never_on_subst_list == -1) {
+				gel_errorout (_("Badly formed record"));
+				continue;
+			}
+
+			/*built_subst_list*/
+			p = strtok_r (NULL,";", &ptrptr);
+			if (p == NULL) {
+				gel_errorout (_("Badly formed record"));
+				continue;
+			}
+			built_subst_dict = -1;
+			sscanf(p,"b%d",&built_subst_dict);
+			if G_UNLIKELY (built_subst_dict == -1) {
+				gel_errorout (_("Badly formed record"));
+				continue;
+			}
+
+			/*local_idents*/
+			p = strtok_r (NULL,";", &ptrptr);
+			if G_UNLIKELY (p == NULL) {
+				gel_errorout (_("Badly formed record"));
+				continue;
+			}
+			local_idents = NULL;
+			if (strcmp (p, "-") != 0) {
+				char **s;
+				s = g_strsplit (p, ",", -1);
+				for (i = 0; s[i] != NULL; i++) {
+					local_idents = g_slist_append (local_idents, d_intern (s[i]));
+				}
+				g_strfreev (s);
+			}
+
+			/*subst_dict*/
+			p = strtok_r (NULL,";", &ptrptr);
+			if G_UNLIKELY (p == NULL) {
+				gel_errorout (_("Badly formed record"));
+				continue;
+			}
+			subst_dict = NULL;
+			if (strcmp (p, "-") != 0) {
+				char **s;
+				s = g_strsplit (p, ",", -1);
+				for (i = 0; s[i] != NULL; i++) {
+					subst_dict = g_slist_append (subst_dict, d_intern (s[i]));
+				}
+				g_strfreev (s);
 			}
 
 			/*argument names*/
@@ -2170,6 +2313,13 @@ load_compiled_fp (const char *file, FILE *fp)
 				func = d_makeufunc (tok, NULL, li, nargs, NULL);
 				func->vararg = vararg ? 1 : 0;
 				func->symbolic_id = symbolic_tok;
+				func->propagate_mod = propagate_mod ? 1 : 0;
+				func->no_mod_all_args = no_mod_all_args ? 1 : 0;
+				func->local_all = local_all ? 1 : 0;
+				func->never_on_subst_list = never_on_subst_list ? 1 : 0;
+				func->built_subst_dict = built_subst_dict ? 1 : 0;
+				func->subst_dict = subst_dict;
+				func->local_idents = local_idents;
 			} else /*GEL_VARIABLE_FUNC*/ {
 				func = d_makevfunc (tok, NULL);
 			}
@@ -2186,6 +2336,13 @@ load_compiled_fp (const char *file, FILE *fp)
 				func = d_makeufunc (tok, NULL, li, nargs, NULL);
 				func->vararg = vararg ? 1 : 0;
 				func->symbolic_id = symbolic_tok;
+				func->propagate_mod = propagate_mod ? 1 : 0;
+				func->no_mod_all_args = no_mod_all_args ? 1 : 0;
+				func->local_all = local_all ? 1 : 0;
+				func->never_on_subst_list = never_on_subst_list ? 1 : 0;
+				func->built_subst_dict = built_subst_dict ? 1 : 0;
+				func->subst_dict = subst_dict;
+				func->local_idents = local_idents;
 			} else /*GEL_VARIABLE_FUNC*/ {
 				func = d_makevfunc(tok,NULL);
 			}
@@ -3140,18 +3297,32 @@ gel_parseexp (const char *str, FILE *infile, gboolean exec_commands,
 	
 	stacklen = g_slist_length(gel_parsestack);
 	
-	if(stacklen==0) {
-		if(finished) *finished = FALSE;
+	if (stacklen == 0) {
+		if (finished != NULL)
+			*finished = FALSE;
 		return NULL;
 	}
 
 	/*stack is supposed to have only ONE entry*/
-	if(stacklen!=1) {
-		while(gel_parsestack)
-			gel_freetree(gel_stack_pop(&gel_parsestack));
+	if (stacklen != 1) {
+		while (gel_parsestack != NULL)
+			gel_freetree (gel_stack_pop (&gel_parsestack));
 		if G_UNLIKELY (!testparse)
 			gel_errorout (_("ERROR: Probably corrupt stack!"));
-		if(finished) *finished = FALSE;
+		if (finished != NULL)
+			*finished = FALSE;
+		return NULL;
+	}
+	/* local nodes should not exist now, they should all
+	   have been eaten */
+	if (gel_get_local_node (gel_parsestack->data,
+			        FALSE /* first_arg */,
+				NULL,
+				NULL)) {
+		gel_freetree (gel_stack_pop (&gel_parsestack));
+		gel_errorout (_("ERROR: 'local' in a wrong place, can only be first statement in a function!"));
+		if (finished != NULL)
+			*finished = TRUE;
 		return NULL;
 	}
 	gel_replace_equals (gel_parsestack->data, FALSE /* in_expression */);

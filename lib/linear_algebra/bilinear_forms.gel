@@ -30,10 +30,10 @@ function VectorAngle(v,w,B...) =
 
 #FIXME: check parameters
 SetHelp ("BilinearFormFunction", "linear_algebra", "Return a function that evaluates two vectors with respect to the bilinear form given by A")
-function BilinearFormFunction(A)=(`(v,w)=(v.'*A*w)@(1))
+function BilinearFormFunction(A)=(`(v,w)[A]=(v.'*A*w)@(1))
 
 SetHelp ("SesquilinearFormFunction", "linear_algebra", "Return a function that evaluates two vectors with respect to the sesquilinear form given by A")
-function SesquilinearFormFunction(A)=(`(v,w)=(v'*A*w)@(1))
+function SesquilinearFormFunction(A)=(`(v,w)[A]=(v'*A*w)@(1))
 
 # Projection onto a vector space
 # Projection of vector v onto subspace W given a sesquilinear form B
@@ -65,7 +65,7 @@ function GramSchmidt(v,B...) =
         # if you don't give anything, assume standard inner product
 	if IsNull(B) or IsNull(B@(1)) then P=HermitianProduct
 	# If it's a matrix, then use the sesquilinear form defined by that matrix
-	else if IsMatrix(B@(1)) then (function P(u,w)=SesquilinearForm(u,B@(1),w))
+	else if IsMatrix(B@(1)) then (function P(u,w)[B]=SesquilinearForm(u,B@(1),w))
 	# If B is just some function, assume that it's an inner product
         else if elements(B) > 1 or not IsFunction(B@(1)) then (error("GramSchmidt: argument B not a function or Matrix");bailout)
 	else P = B@(1);

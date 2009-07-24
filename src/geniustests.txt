@@ -689,7 +689,10 @@ false == 0							true
 |cos(pi+0.1i) +1| < 0.1						true
 |sin(pi+0.1i)| < 0.11						true
 NDerivative(`(x)=x^2,1)						2.0
+Derivative(`(x)=x^2,1)						2
 NDerivative(`(x)=x^2,10)					20.0
+Derivative(`(x)=x^2,10)						20
+Derivative(`(x)=float(x)^2,10)					20.0
 function f(x) = x^2 ; NDerivative(f,10)				20.0
 function _f(x) = x^2 ; NDerivative(_f,10)			20.0
 function f(x) = x^2 ; IsDifferentiable(f,10)			true
@@ -944,6 +947,28 @@ a=7;(function f(x)=(b=9));f(8);UndefineAll();UserVariables()+0	((null)+0)
 parameter FloatPrecision = 888					(parameter FloatPrecision = 888)
 parameter foo = 888						888
 y=9;(function g(x)[y]=(y+1));y=0;g(0)				10
+a=9;function f(x)[a]=(local *;x+a)				(`(x)=(local *;a=9;(x+a)))
+a=9;function f(x)[a]=(local x;x+a)				(`(x)=(local x;a=9;(x+a)))
+a=9;function f(x)[a]=(local x,h,g;x+a)				(`(x)=(local x,h,g;a=9;(x+a)))
+function f(x)=(local x,h,g;x+a)					(`(x)=(local x,h,g;(x+a)))
+function f(x)=(local *;x+a)					(`(x)=(local *;(x+a)))
+Parse("local *")						Parse("local *")
+Evaluate("local *")						Evaluate("local *")
+Parse("local *;x")						Parse("local *;x")
+Evaluate("local *;x")						Evaluate("local *;x")
+NumericalIntegral(`(x)=x^3,0,1)					0.25
+NumericalIntegral(`(x)=x^3,-1,1)+1				1.0
+NumericalLimitAtInfinity (atan,`(n)=2^n,10^(-20),10,10000)	1.57079632679
+LeftLimit (UnitStep,0)						0
+RightLimit (UnitStep,0)						1
+UnitStep(-1)							0
+UnitStep(1)							1
+Limit(UnitStep,0)+1						((null)+1)
+Limit(UnitStep,1)						1
+Limit(UnitStep,-1)						0
+Limit (cos,pi)							-1.0
+round(100*InfiniteSum(`(n)=2^(-n),1,1))				100
+func=1;start=2;inc=3;round(100*InfiniteSum(`(n)=inc-func-start+2^(-n),1,1))	100
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
 load "testprec.gel"						true

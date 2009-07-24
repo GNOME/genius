@@ -128,7 +128,7 @@ function NumericalDerivative(f,x0) =
 (
     local *;
     # FIXME: perhaps check differentiability first, but then we're doing so many limits already
-    NumericalLimitAtInfinity (`(n)=(TwoSidedFivePointFormula(f,x0,2.0^(-n))),
+    NumericalLimitAtInfinity (`(n)[f,x0]=(TwoSidedFivePointFormula(f,x0,2.0^(-n))),
 			      Identity,
 			      DerivativeTolerance,
 			      DerivativeSFS,
@@ -141,7 +141,7 @@ NDerivative = NumericalDerivative
 function NumericalLeftDerivative(f,x0) =
 (
     local *;
-    NumericalLimitAtInfinity (`(n)=(OneSidedFivePointFormula(f,x0,-(2.0^(-n)))),
+    NumericalLimitAtInfinity (`(n)[f,x0]=(OneSidedFivePointFormula(f,x0,-(2.0^(-n)))),
 			      Identity,
 			      DerivativeTolerance,
 			      DerivativeSFS,
@@ -152,7 +152,7 @@ SetHelp("NumericalLeftDerivative","calculus","Attempt to calculate numerical lef
 function NumericalRightDerivative(f,x0) =
 (
     local *;
-    NumericalLimitAtInfinity (`(n)=(OneSidedFivePointFormula(f,x0,2.0^(-n))),
+    NumericalLimitAtInfinity (`(n)[f,x0]=(OneSidedFivePointFormula(f,x0,2.0^(-n))),
 			      Identity,
 			      DerivativeTolerance,
 			      DerivativeSFS,

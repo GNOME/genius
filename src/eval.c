@@ -1306,6 +1306,8 @@ get_func_call_node(GelEFunc *func, GelETree **args, int nargs)
 	GEL_GET_NEW_NODE(l);
 	l->type = GEL_FUNCTION_NODE;
 	l->func.func = d_copyfunc(func);
+	/* never copy is_local */
+	l->func.func->is_local = 0;
 	l->any.next = NULL;
 
 	GEL_GET_NEW_NODE(ret);
@@ -2600,6 +2602,8 @@ make_funccall (GelEFunc *a)
 	GEL_GET_NEW_NODE (nn);
 	nn->type = GEL_FUNCTION_NODE;
 	nn->func.func = d_copyfunc (a);
+	/* never copy is_local */
+	nn->func.func->is_local = 0;
 	if ( ! nn->func.func->on_subst_list)
 		nn->func.func->context = -1;
 
@@ -2798,6 +2802,8 @@ gel_function_from_function (GelEFunc *func, GelETree *l)
 	GEL_GET_NEW_NODE (n);
 	n->type = GEL_FUNCTION_NODE;
 	n->func.func = d_copyfunc (func);
+	/* never copy is_local */
+	n->func.func->is_local = 0;
 	if ( ! n->func.func->on_subst_list)
 		n->func.func->context = -1;
 
@@ -3310,17 +3316,11 @@ iter_do_var(GelCtx *ctx, GelETree *n, GelEFunc *f)
 
 		n->type = GEL_FUNCTION_NODE;
 		/* FIXME: are we ok with passing the token as well? */
-		n->func.func = d_makeufunc (f->id /* FIXME: does this need to be NULL */,
-					    gel_copynode (f->data.user),
-					    g_slist_copy (f->named_args),
-					    f->nargs,
-					    f->extra_dict);
-		n->func.func->context = -1;
-		n->func.func->vararg = f->vararg;
-		if ( ! f->never_on_subst_list &&
-		    f->on_subst_list &&
-		    d_curcontext () != 0)
-			d_put_on_subst_list (n->func.func);
+		n->func.func = d_copyfunc (f);
+		/* The function can no longer be local */
+		n->func.func->is_local = 0;
+		if ( ! f->on_subst_list)
+			n->func.func->context = -1;
 	} else if(f->type == GEL_BUILTIN_FUNC) {
 		GelETree *ret;
 		gboolean exception = FALSE;
@@ -3332,7 +3332,6 @@ iter_do_var(GelCtx *ctx, GelETree *n, GelEFunc *f)
 			n->func.func = d_makerealfunc(f,f->id,FALSE);
 			if ( ! n->func.func->on_subst_list)
 				n->func.func->context = -1;
-			n->func.func->vararg = f->vararg;
 			/* FIXME: no need for extra_dict right? */
 			return TRUE;
 		}
@@ -4549,30 +4548,20 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 
 		d_addcontext (f);
 
-		EDEBUG("     USER FUNC CONTEXT PUSHED TO ADD EXTRA DICT");
+		EDEBUG("     USER FUNC TO ADD ARGS TO DICT");
 
-		/* add extra dictionary stuff */
-		for (li = f->extra_dict; li != NULL; li = li->next) {
-			GelEFunc *func = d_copyfunc (li->data);
-			func->context = d_curcontext ();
-			d_addfunc (func);
-		}
-
-		EDEBUG("     USER FUNC EXTRA DICT ADDED, TO PUSH ARGS ON CONTEXT STACK");
-
-		/*push arguments on context stack*/
+		/*add arguments to dictionary*/
 		li = f->named_args;
 		for(ali = n->op.args->any.next;
 		    ali != NULL;
 		    ali = ali->any.next) {
-			GelEFunc *vf;
 			if (li->next == NULL) {
 				last_arg = li->data;
 				if (f->vararg)
 					break;
 			}
 			if (ali->type == GEL_FUNCTION_NODE) {
-				vf = d_addfunc(d_makerealfunc(ali->func.func,li->data,FALSE));
+				d_addfunc(d_makerealfunc(ali->func.func,li->data,FALSE));
 			} else if(ali->type == GEL_OPERATOR_NODE &&
 				  ali->op.oper == GEL_E_REFERENCE) {
 				GelETree *t = ali->op.args;
@@ -4582,12 +4571,10 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 					gel_errorout (_("Referencing an undefined variable %s!"), t->id.id->token);
 					goto funccall_done_ok;
 				}
-				vf = d_addfunc(d_makereffunc(li->data,rf));
+				d_addfunc(d_makereffunc(li->data,rf));
 			} else {
-				vf = d_addfunc(d_makevfunc(li->data,gel_copynode(ali)));
+				d_addfunc(d_makevfunc(li->data,gel_copynode(ali)));
 			}
-			if (f->local_all)
-				vf->is_local = 1;
 			li = li->next;
 			if (li == NULL)
 				break;
@@ -4596,7 +4583,6 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 		EDEBUG("     USER FUNC ABOUT TO HANDLE VARARG");
 
 		if (f->vararg) {
-			GelEFunc *vf;
 			if (last_arg == NULL) {
 				li = g_slist_last (f->named_args);
 				g_assert (li != NULL);
@@ -4604,7 +4590,7 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 			}
 			/* no extra argument */
 			if (n->op.nargs == f->nargs) {
-				vf = d_addfunc (d_makevfunc (last_arg, gel_makenum_null ()));
+				d_addfunc (d_makevfunc (last_arg, gel_makenum_null ()));
 			} else {
 				GelETree *nn;
 				GelMatrix *m;
@@ -4624,11 +4610,19 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 				nn->mat.quoted = FALSE;
 				nn->mat.matrix = gel_matrixw_new_with_matrix (m);
 
-				vf = d_addfunc (d_makevfunc (last_arg, nn));
+				d_addfunc (d_makevfunc (last_arg, nn));
 			}
-			if (f->local_all)
-				vf->is_local = 1;
 		}
+
+		EDEBUG("     USER FUNC CONTEXT PUSHED TO ADD EXTRA DICT");
+
+		/* add extra dictionary stuff */
+		for (li = f->extra_dict; li != NULL; li = li->next) {
+			GelEFunc *func = d_copyfunc (li->data);
+			func->context = d_curcontext ();
+			d_addfunc (func);
+		}
+
 
 		EDEBUG("     CREATING LOCAL VARS");
 
@@ -6759,6 +6753,7 @@ build_extradict (GSList *funclist, GSList *toklist)
 		GelEFunc *func = d_lookup_global (id);
 		if G_LIKELY (func != NULL) {
 			GelEFunc *f = d_copyfunc (func);
+			/* note that local stays local! */
 			if ( ! f->on_subst_list)
 				f->context = -1;
 			funclist = g_slist_prepend (funclist, f);

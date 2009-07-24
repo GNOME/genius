@@ -1,3 +1,30 @@
+Fri Jul 24 16:01:28 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/calc.c, src/compil.c: Correctly compile/decompile all the new
+	  function attributes
+
+	* src/calc.c: correctly print out the local stuff, handle local node
+	  correctly when outside of functions
+
+	* src/funclib.c, src/graphing.c: handle eof errors from parsing
+	  things correctly without dying.
+
+	* src/dict.c, src/eval.c, src/structs.h: is_local generally should
+	  not be moved around with the function.  Also correctly copy/free
+	  all the other attributes when needed as well.
+
+	* src/eval.c: Set arguments BEFORE extradict.  This should never
+	  be an issue, but it feels more correct.
+
+	* src/dict.c: when the subst list becomes empty, remove from subst
+	  list to avoid unnecessary lookups
+
+	* lib/*/*.gel: update and fix for the [] operator
+
+	* src/geniustests.txt: Add some testcases
+
+	* src/symbolic.c: just a comment change
+
 Thu Jul 23 18:35:28 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/parse.y, src/eval.c, src/dict.c, src/structs.h: Add an optional

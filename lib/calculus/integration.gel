@@ -65,4 +65,7 @@ SetHelp ("NumericalIntegralFunction", "parameters", "The function used for numer
 parameter NumericalIntegralFunction = `CompositeSimpsonsRule
 
 SetHelp ("NumericalIntegral", "calculus", "Integration by rule set in NumericalIntegralFunction of f from a to b using NumericalIntegralSteps steps")
-function NumericalIntegral(f,a,b) = (local *;NumericalIntegralFunction call (f,a,b,NumericalIntegralSteps))
+function NumericalIntegral(f,a,b) = (
+	local *;
+	NumericalIntegralFunction call (f,a,b,NumericalIntegralSteps)
+)

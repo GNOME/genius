@@ -4278,6 +4278,10 @@ function_from_expression (const char *e, const char *var, gboolean *ex)
 			      NULL /* dirprefix */);
 	g_free (ce);
 
+	/* Have to reset the error here, else we may die */
+	gel_error_num = GEL_NO_ERROR;
+	gel_got_eof = FALSE;
+
 	/* FIXME: if "x" (var) not used try to evaluate and if it returns a function use that */
 
 	if (value != NULL) {
@@ -4328,6 +4332,10 @@ function_from_expression2 (const char *e, gboolean *ex)
 			      NULL /* finished */,
 			      NULL /* dirprefix */);
 	g_free (ce);
+
+	/* Have to reset the error here, else we may die */
+	gel_error_num = GEL_NO_ERROR;
+	gel_got_eof = FALSE;
 
 	/* FIXME: funcbody?  I think it must be done. */
 	got_x = gel_eval_find_identifier (value, d_intern ("x"), TRUE /*funcbody*/);

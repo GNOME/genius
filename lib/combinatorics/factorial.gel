@@ -96,7 +96,7 @@ function Multinomial(v,arg...) = (
 	else
 		m = [v, arg];
 
-	MatrixSum(m)!/MatrixProduct(ApplyOverMatrix(m,`(x)=x!))
+	MatrixSum(m)!/MatrixProduct(ApplyOverMatrix(m,`(x)[]=x!))
 )
 
 SetHelp("Pascal","combinatorics","Get the pascal's triangle as a matrix");

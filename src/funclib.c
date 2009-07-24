@@ -5679,18 +5679,26 @@ end_of_simpson:
 static GelETree *
 Parse_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
+	GelETree *r;
+
 	if (a[0]->type == GEL_NULL_NODE)
 		return gel_makenum_null ();
 
 	if G_UNLIKELY ( ! check_argument_string (a, 0, "Parse"))
 		return NULL;
 
-	return gel_parseexp (a[0]->str.str,
-			     NULL /* infile */,
-			     FALSE /* exec_commands */,
-			     FALSE /* testparse */,
-			     NULL /* finished */,
-			     NULL /* dirprefix */);
+	r = gel_parseexp (a[0]->str.str,
+			  NULL /* infile */,
+			  FALSE /* exec_commands */,
+			  FALSE /* testparse */,
+			  NULL /* finished */,
+			  NULL /* dirprefix */);
+
+	/* Have to reset the error here, else we may die */
+	gel_error_num = GEL_NO_ERROR;
+	gel_got_eof = FALSE;
+
+	return r;
 }
 
 static GelETree *
@@ -5710,6 +5718,14 @@ Evaluate_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			   FALSE /* testparse */,
 			   NULL /* finished */,
 			   NULL /* dirprefix */);
+
+	/* Have to reset the error here, else we may die */
+	gel_error_num = GEL_NO_ERROR;
+	gel_got_eof = FALSE;
+
+	if (et == NULL)
+		return NULL;
+
 
 	return gel_eval_etree (ctx, et);
 }
