@@ -822,14 +822,7 @@ d_popcontext (void)
 				if ((func->type == GEL_USER_FUNC ||
 				     func->type == GEL_VARIABLE_FUNC) &&
 				    func->context >= context.top) {
-					D_ENSURE_USER_BODY (func);
-					if ( ! func->built_subst_dict) {
-						func->subst_dict = gel_get_ids_for_extradict (NULL,
-											      func->named_args,
-											      func->local_idents,
-											      func->data.user);
-						func->built_subst_dict = 1;
-					}
+					D_ENSURE_SUBST_DICT (func);
 					func->extra_dict =
 						gel_subst_local_vars (func->extra_dict, &(func->subst_dict));
 					/* With substitution, context of the function is

@@ -6907,7 +6907,10 @@ iter_eval_etree(GelCtx *ctx)
 				   (n->func.func->type == GEL_USER_FUNC ||
 				    n->func.func->type == GEL_VARIABLE_FUNC) &&
 				   d_curcontext () != 0) {
-				d_put_on_subst_list (n->func.func);
+				D_ENSURE_SUBST_DICT (n->func.func);
+				if (n->func.func->subst_dict != NULL) {
+					d_put_on_subst_list (n->func.func);
+				}
 			}
 			WHACK_SAVEDN_POP;
 			break;

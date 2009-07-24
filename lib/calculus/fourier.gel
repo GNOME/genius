@@ -15,7 +15,41 @@ function NumericalFourierSeriesFunction(f,L,N) =
 
 	FourierSeriesFunction(c@(1),c@(2),L)
 )
-SetHelp("NumericalFourierSeriesFunction","calculus","Return a function which is the fourier series of f with half-period L with coefficients up to N computed numerically");
+SetHelp("NumericalFourierSeriesFunction","calculus","Return a function which is the Fourier series of f with half-period L with coefficients up to N computed numerically");
+
+function NumericalFourierSineSeriesFunction(f,L,N) =
+	(
+	local *;
+# check arguments
+	if not IsFunctionOrIdentifier(f) then
+		(error("NumericalFourierSineSeriesFunction: argument f must be a function");bailout)
+	else if not (IsReal(L) and L > 0) then
+		(error("NumericalFourierSineSeriesFunction: argument L must be a positive real value");bailout)
+	else if not IsPositiveInteger(N) then
+		(error("NumericalFourierSineSeriesFunction: argument N must be a positive integer");bailout);
+
+	b = NumericalFourierSineSeriesCoefficients(f,L,N);
+
+	FourierSeriesFunction(null,b,L)
+)
+SetHelp("NumericalFourierSineSeriesFunction","calculus","Return a function which is the Fourier sine series of f on [0,L] with coefficients up to N computed numerically");
+
+function NumericalFourierCosineSeriesFunction(f,L,N) =
+	(
+	local *;
+# check arguments
+	if not IsFunctionOrIdentifier(f) then
+		(error("NumericalFourierCosineSeriesFunction: argument f must be a function");bailout)
+	else if not (IsReal(L) and L > 0) then
+		(error("NumericalFourierCosineSeriesFunction: argument L must be a positive real value");bailout)
+	else if not IsPositiveInteger(N) then
+		(error("NumericalFourierCosineSeriesFunction: argument N must be a positive integer");bailout);
+
+	a = NumericalFourierCosineSeriesCoefficients(f,L,N);
+
+	FourierSeriesFunction(a,null,L)
+)
+SetHelp("NumericalFourierCosineSeriesFunction","calculus","Return a function which is the Fourier cosine series of f on [0,L] with coefficients up to N computed numerically");
 
 function FourierSeriesFunction(a,b,L) =
 	(

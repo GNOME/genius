@@ -136,15 +136,25 @@ void d_protect_all(void);
 void d_add_named_args (GelEFunc *f, const char *args);
 
 #define D_ENSURE_USER_BODY(f) \
-	if G_UNLIKELY (f->data.user == NULL) {				\
-		g_assert (f->id->uncompiled != NULL);			\
-		f->data.user =						\
-			gel_decompile_tree (f->id->uncompiled);		\
-		f->id->uncompiled = NULL;				\
+	if G_UNLIKELY ((f)->data.user == NULL) {			\
+		g_assert ((f)->id->uncompiled != NULL);			\
+		(f)->data.user =					\
+			gel_decompile_tree ((f)->id->uncompiled);	\
+		(f)->id->uncompiled = NULL;				\
 		/* On error give null tree */				\
-		if (f->data.user == NULL)				\
-			f->data.user = gel_makenum_null ();		\
+		if ((f)->data.user == NULL)				\
+			(f)->data.user = gel_makenum_null ();		\
 	}								\
+
+#define D_ENSURE_SUBST_DICT(f) \
+	D_ENSURE_USER_BODY (f);							\
+	if ( ! (f)->built_subst_dict) {						\
+		(f)->subst_dict = gel_get_ids_for_extradict (NULL,		\
+						             (f)->named_args,	\
+							     (f)->local_idents,	\
+							     (f)->data.user);	\
+		(f)->built_subst_dict = 1;					\
+	}
 
 
 #endif
