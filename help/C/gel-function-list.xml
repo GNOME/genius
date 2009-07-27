@@ -335,6 +335,17 @@ avoid them being accidentally overridden.</para>
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-ProtectAll">
+         <term>ProtectAll</term>
+         <listitem>
+          <synopsis>ProtectAll ()</synopsis>
+          <para>Protect all currently defined variables, parameters and
+functions from being modified.  This is used on the internal GEL functions to
+avoid them being accidentally overridden.  Normally &app; considers
+unprotected variables as user defined.</para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-set">
          <term>set</term>
          <listitem>
@@ -370,9 +381,26 @@ avoid them being accidentally overridden.</para>
          <term>undefine</term>
          <listitem>
           <synopsis>undefine (id)</synopsis>
+          <para>Alias: <function>Undefine</function></para>
           <para>Undefine a variable.  This includes locals and globals,
 	    every value on all context levels is wiped.  This function
-	    should really not be used on local variables.</para>
+	    should really not be used on local variables.  A vector of
+	    identifiers can also be passed to undefine several variables.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-UndefineAll">
+         <term>UndefineAll</term>
+         <listitem>
+          <synopsis>UndefineAll ()</synopsis>
+	  <para>Undefine all unprotected global variables
+	    (including functions and parameters).  Normally &app;
+	    considers protected variables as system defined functions
+	    and variables.  Note that <function>UndefineAll</function>
+	    only removes the global definition of symbols not local ones,
+	    so that it may be run from inside other functions safely.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -381,6 +409,15 @@ avoid them being accidentally overridden.</para>
          <listitem>
           <synopsis>unprotect (id)</synopsis>
           <para>Unprotect a variable from being modified.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-UserVariables">
+         <term>UserVariables</term>
+         <listitem>
+          <synopsis>UserVariables ()</synopsis>
+          <para>Return a vector of identifiers of
+	    user defined (unprotected) global variables.</para>
          </listitem>
         </varlistentry>
 
@@ -722,6 +759,7 @@ greater than or equal to
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Euler-Mascheroni_constant">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/MascheroniConstant.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/Euler-MascheroniConstant.html">Mathworld</ulink> for more information.
 	  </para>
@@ -735,6 +773,7 @@ greater than or equal to
           <para>The Golden Ratio.</para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Golden_ratio">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/GoldenRatio.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/GoldenRatio.html">Mathworld</ulink> for more information.
 	  </para>
@@ -745,7 +784,11 @@ greater than or equal to
          <term>Gravity</term>
          <listitem>
           <synopsis>Gravity</synopsis>
-          <para>Free fall acceleration.</para>
+          <para>Free fall acceleration at sea level.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Standard_gravity">Wikipedia</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -761,6 +804,7 @@ greater than or equal to
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/E_(mathematical_constant)">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/E.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/e.html">Mathworld</ulink> for more information.
 	  </para>
@@ -777,6 +821,7 @@ greater than or equal to
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Pi">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/Pi.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/Pi.html">Mathworld</ulink> for more information.
 	  </para>
@@ -801,6 +846,7 @@ greater than or equal to
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Absolute_value">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/encyclopedia/AbsoluteValue.html">Planetmath (absolute value)</ulink>,
 	    <ulink url="http://planetmath.org/encyclopedia/ModulusOfComplexNumber.html">Planetmath (modulus)</ulink>,
 	    <ulink url="http://mathworld.wolfram.com/AbsoluteValue.html">Mathworld (absolute value)</ulink> or
@@ -821,9 +867,14 @@ for more information.
         <varlistentry id="gel-function-ComplexConjugate">
          <term>ComplexConjugate</term>
          <listitem>
-          <synopsis>ComplexConjugate (M)</synopsis>
+          <synopsis>ComplexConjugate (z)</synopsis>
           <para>Aliases: <function>conj</function> <function>Conj</function></para>
-          <para>Calculates the conjugate.</para>
+          <para>Calculates the complex conjugate of the complex number <varname>z</varname>.  If <varname>z</varname> is a vector or matrix,
+all its elements are conjugated.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Complex_conjugate">Wikipedia</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -832,6 +883,10 @@ for more information.
          <listitem>
           <synopsis>Denominator (x)</synopsis>
           <para>Get the denominator of a rational number.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Denominator">Wikipedia</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -840,6 +895,10 @@ for more information.
          <listitem>
           <synopsis>FractionalPart (x)</synopsis>
           <para>Return the fractional part of a number.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Fractional_part">Wikipedia</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -849,6 +908,10 @@ for more information.
           <synopsis>Im (z)</synopsis>
           <para>Aliases: <function>ImaginaryPart</function></para>
           <para>Get the imaginary part of a complex number.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Imaginary_part">Wikipedia</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -940,6 +1003,10 @@ we accept the convention that 0 is not a natural number.</para>
          <listitem>
           <synopsis>Numerator (x)</synopsis>
           <para>Get the numerator of a rational number.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Numerator">Wikipedia</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -949,6 +1016,10 @@ we accept the convention that 0 is not a natural number.</para>
           <synopsis>Re (z)</synopsis>
           <para>Aliases: <function>RealPart</function></para>
           <para>Get the real part of a complex number.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Real_part">Wikipedia</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -987,6 +1058,7 @@ value then <function>Sign</function> returns the direction or 0.
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Exponential_function">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/LogarithmFunction.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/ExponentialFunction.html">Mathworld</ulink> for more information.
 	  </para>
@@ -1240,6 +1312,7 @@ number is specified) of the given size returned.  For example
           <para>Calculates the arctan (inverse tan) function.</para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Arctangent">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/InverseTangent.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -1269,6 +1342,7 @@ number is specified) of the given size returned.  For example
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Atan2">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/InverseTangent.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -1445,6 +1519,11 @@ number is specified) of the given size returned.  For example
          <listitem>
           <synopsis>BernoulliNumber (n)</synopsis>
           <para>Return the <varname>n</varname>th Bernoulli number.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Bernoulli_number">Wikipedia</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/BernoulliNumber.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -1459,6 +1538,7 @@ number is specified) of the given size returned.  For example
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Chinese_remainder_theorem">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/ChineseRemainderTheorem.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/ChineseRemainderTheorem.html">Mathworld</ulink> for more information.
 	  </para>
@@ -1500,6 +1580,7 @@ number is specified) of the given size returned.  For example
 	    is a prime, using the Silver-Pohlig-Hellman algoritm.</para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Discrete_logarithm">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/DiscreteLogarithm.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/DiscreteLogarithm.html">Mathworld</ulink> for more information.
 	  </para>
@@ -1525,6 +1606,7 @@ number is specified) of the given size returned.  For example
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Euler_phi">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/EulerPhifunction.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/TotientFunction.html">Mathworld</ulink> for more information.
 	  </para>
@@ -1558,6 +1640,10 @@ number is specified) of the given size returned.  For example
 =
 [1      11      13
  1      2       1]</screen>
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Factorization">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -1595,6 +1681,10 @@ number is specified) of the given size returned.  For example
           <para>
 	    This is a fairly good factorization if your number is the product
 	    of two factors that are very close to each other.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Fermat_factorization">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -1667,6 +1757,7 @@ precalculated and returned in the second column.</para>
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Mersenne_prime">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/encyclopedia/MersenneNumbers.html">Planetmath</ulink>,
 	    <ulink url="http://mathworld.wolfram.com/MersennePrime.html">Mathworld</ulink> or 
 	    <ulink url="http://www.mersenne.org/">GIMPS</ulink>
@@ -1837,6 +1928,7 @@ that is if <userinput>b^(n-1) == 1 mod n</userinput>.  This calles the <function
           </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Lucas%E2%80%93Lehmer_primality_test">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/LucasLhemer.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/Lucas-LehmerTest.html">Mathworld</ulink> for more information.
 	  </para>
@@ -1850,6 +1942,7 @@ that is if <userinput>b^(n-1) == 1 mod n</userinput>.  This calles the <function
           <para>Returns the <varname>n</varname>th Lucas number.</para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Lucas_number">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/LucasNumbers.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/LucasNumber.html">Mathworld</ulink> for more information.
 	  </para>
@@ -1880,6 +1973,7 @@ that is if <userinput>b^(n-1) == 1 mod n</userinput>.  This calles the <function
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Mersenne_prime">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/encyclopedia/MersenneNumbers.html">Planetmath</ulink>,
 	    <ulink url="http://mathworld.wolfram.com/MersennePrime.html">Mathworld</ulink> or 
 	    <ulink url="http://www.mersenne.org/">GIMPS</ulink>
@@ -1903,6 +1997,7 @@ that is if <userinput>b^(n-1) == 1 mod n</userinput>.  This calles the <function
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/MillerRabinPrimeTest.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html">Mathworld</ulink> for more information.
 	  </para>
@@ -1920,6 +2015,7 @@ that is if <userinput>b^(n-1) == 1 mod n</userinput>.  This calles the <function
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/MillerRabinPrimeTest.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html">Mathworld</ulink> for more information.
 	  </para>
@@ -2212,6 +2308,10 @@ that is if <userinput>b^(n-1) == 1 mod n</userinput>.  This calles the <function
          <listitem>
           <synopsis>DiagonalOf (M)</synopsis>
           <para>Gets the diagonal entries of a matrix as a column vector.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Diagonal_of_a_matrix#Matrices">Wikipedia</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -2284,6 +2384,7 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
           <para>Is a matrix diagonal.</para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Diagonal_matrix">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/DiagonalMatrix.html">Planetmath</ulink> for more information.
 	  </para>
          </listitem>
@@ -2430,6 +2531,7 @@ functions make this check.  Values can be any number including complex numbers.<
           <para>Make diagonal matrix from a vector.</para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Diagonal_matrix">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/DiagonalMatrix.html">Planetmath</ulink> for more information.
           </para>
          </listitem>
@@ -3457,6 +3559,7 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
           <para>Get the determinant of a matrix.</para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Determinant">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/Determinant2.html">Planetmath</ulink> for more information.
           </para>
          </listitem>
@@ -3472,6 +3575,7 @@ elimination but not backaddition to <varname>M</varname>.  The pivot rows are
 divided to make all pivots 1.</para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Row_echelon_form">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/RowEchelonForm.html">Planetmath</ulink> for more information.
           </para>
          </listitem>
@@ -3485,6 +3589,7 @@ divided to make all pivots 1.</para>
           <para>Get the reduced row echelon form of a matrix.  That is, apply gaussian elimination together with backaddition to <varname>M</varname>.</para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Reduced_row_echelon_form">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/ReducedRowEchelonForm.html">Planetmath</ulink> for more information.
           </para>
          </listitem>
@@ -3568,6 +3673,7 @@ divided to make all pivots 1.</para>
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Fibonacci_number">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/FibonacciSequence.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FibonacciNumber.html">Mathworld</ulink> for more information.
 	  </para>
@@ -3853,6 +3959,44 @@ do (
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-EvenPeriodicExtension">
+         <term>EvenPeriodicExtension</term>
+         <listitem>
+          <synopsis>EvenPeriodicExtension (f,L)</synopsis>
+	  <para>Return a function which is even periodic extension of
+<function>f</function> with half period <varname>L</varname>.  That
+is a function defined on the interval <userinput>[0,L]</userinput>
+extended to be even on <userinput>[-L,L]</userinput> and then
+extended to be periodic with period <userinput>2*L</userinput>.</para>
+	  <para>
+	    See also
+	    <link linkend='gel-function-OddPeriodicExtension'>OddPeriodicExtension</link>
+	    and
+	    <link linkend='gel-function-PeriodicExtension'>PeriodicExtension</link>.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-FourierSeriesFunction">
+         <term>FourierSeriesFunction</term>
+         <listitem>
+          <synopsis>FourierSeriesFunction (a,b,L)</synopsis>
+	  <para>Return a function which is a Fourier series with the
+coefficients given by the vectors <varname>a</varname> (sines) and
+<varname>b</varname> (cosines).  Note that <userinput>a@(1)</userinput> is
+the constant coefficient!  That is, <userinput>a@(n)</userinput> refers to
+the term <userinput>cos(x*(n-1)*pi/L)</userinput>, while
+<userinput>b@(n)</userinput> refers to the term
+<userinput>sin(x*n*pi/L)</userinput>.  Either <varname>a</varname>
+or <varname>b</varname> can be <constant>null</constant>.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/FourierSeries.html">Mathworld</ulink> for more information.
+          </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-InfiniteProduct">
          <term>InfiniteProduct</term>
          <listitem>
@@ -3934,6 +4078,131 @@ do (
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-NumericalFourierSeriesCoefficients">
+         <term>NumericalFourierSeriesCoefficients</term>
+         <listitem>
+          <synopsis>NumericalFourierSeriesCoefficients (f,L,N)</synopsis>
+	  <para>Return a vector of vectors <userinput>[a,b]</userinput>
+where <varname>a</varname> are the cosine coefficients and
+<varname>b</varname> are the sine coefficients of
+the Fourier series of
+<function>f</function> with half-period <varname>L</varname> (that is defined
+on <userinput>[-L,L]</userinput> and extended periodically) with coefficients
+up to <varname>N</varname>th harmonic computed numerically.  The coefficients are
+computed by numerical integration using
+<function>NumericalIntegral</function>.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/FourierSeries.html">Mathworld</ulink> for more information.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-NumericalFourierSeriesFunction">
+         <term>NumericalFourierSeriesFunction</term>
+         <listitem>
+          <synopsis>NumericalFourierSeriesFunction (f,L,N)</synopsis>
+	  <para>Return a function which is the Fourier series of
+<function>f</function> with half-period <varname>L</varname> (that is defined
+on <userinput>[-L,L]</userinput> and extended periodically) with coefficients
+up to <varname>N</varname>th harmonic computed numerically.  This is the
+trigonometric real series composed of sines and cosines.  The coefficients are
+computed by numerical integration using
+<function>NumericalIntegral</function>.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/FourierSeries.html">Mathworld</ulink> for more information.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-NumericalFourierCosineSeriesCoefficients">
+         <term>NumericalFourierCosineSeriesCoefficients</term>
+         <listitem>
+          <synopsis>NumericalFourierCosineSeriesCoefficients (f,L,N)</synopsis>
+	  <para>Return a vector of coefficients of the
+the cosine Fourier series of
+<function>f</function> with half-period <varname>L</varname>.  That is,
+we take <function>f</function> defined on <userinput>[0,L]</userinput>
+take the even periodic extension and compute the Fourier series, which
+only has sine terms.  The series is computed up to the 
+<varname>N</varname>th harmonic.  The coefficients are
+computed by numerical integration using
+<function>NumericalIntegral</function>.
+Note that <userinput>a@(1)</userinput> is
+the constant coefficient!  That is, <userinput>a@(n)</userinput> refers to
+the term <userinput>cos(x*(n-1)*pi/L)</userinput>.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/FourierCosineSeries.html">Mathworld</ulink> for more information.
+          </para>
+	  </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-NumericalFourierCosineSeriesFunction">
+         <term>NumericalFourierCosineSeriesFunction</term>
+         <listitem>
+          <synopsis>NumericalFourierCosineSeriesFunction (f,L,N)</synopsis>
+	  <para>Return a function which is the cosine Fourier series of
+<function>f</function> with half-period <varname>L</varname>.  That is,
+we take <function>f</function> defined on <userinput>[0,L]</userinput>
+take the even periodic extension and compute the Fourier series, which
+only has cosine terms.  The series is computed up to the 
+<varname>N</varname>th harmonic.  The coefficients are
+computed by numerical integration using
+<function>NumericalIntegral</function>.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/FourierCosineSeries.html">Mathworld</ulink> for more information.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-NumericalFourierSineSeriesCoefficients">
+         <term>NumericalFourierSineSeriesCoefficients</term>
+         <listitem>
+          <synopsis>NumericalFourierSineSeriesCoefficients (f,L,N)</synopsis>
+	  <para>Return a vector of coefficients of the
+the sine Fourier series of
+<function>f</function> with half-period <varname>L</varname>.  That is,
+we take <function>f</function> defined on <userinput>[0,L]</userinput>
+take the odd periodic extension and compute the Fourier series, which
+only has sine terms.  The series is computed up to the 
+<varname>N</varname>th harmonic.  The coefficients are
+computed by numerical integration using
+<function>NumericalIntegral</function>.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/FourierSineSeries.html">Mathworld</ulink> for more information.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-NumericalFourierSineSeriesFunction">
+         <term>NumericalFourierSineSeriesFunction</term>
+         <listitem>
+          <synopsis>NumericalFourierSineSeriesFunction (f,L,N)</synopsis>
+	  <para>Return a function which is the sine Fourier series of
+<function>f</function> with half-period <varname>L</varname>.  That is,
+we take <function>f</function> defined on <userinput>[0,L]</userinput>
+take the odd periodic extension and compute the Fourier series, which
+only has sine terms.  The series is computed up to the 
+<varname>N</varname>th harmonic.  The coefficients are
+computed by numerical integration using
+<function>NumericalIntegral</function>.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/FourierSineSeries.html">Mathworld</ulink> for more information.
+          </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-NumericalIntegral">
          <term>NumericalIntegral</term>
          <listitem>
@@ -3966,6 +4235,24 @@ do (
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-OddPeriodicExtension">
+         <term>OddPeriodicExtension</term>
+         <listitem>
+          <synopsis>OddPeriodicExtension (f,L)</synopsis>
+	  <para>Return a function which is odd periodic extension of
+<function>f</function> with half period <varname>L</varname>.  That
+is a function defined on the interval <userinput>[0,L]</userinput>
+extended to be odd on <userinput>[-L,L]</userinput> and then
+extended to be periodic with period <userinput>2*L</userinput>.</para>
+	  <para>
+	    See also
+	    <link linkend='gel-function-EvenPeriodicExtension'>EvenPeriodicExtension</link>
+	    and
+	    <link linkend='gel-function-PeriodicExtension'>PeriodicExtension</link>.
+	  </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-OneSidedFivePointFormula">
          <term>OneSidedFivePointFormula</term>
          <listitem>
@@ -3979,6 +4266,22 @@ do (
          <listitem>
           <synopsis>OneSidedThreePointFormula (f,x0,h)</synopsis>
           <para>Compute one-sided derivative using three-point formula.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-PeriodicExtension">
+         <term>PeriodicExtension</term>
+         <listitem>
+          <synopsis>PeriodicExtension (f,a,b)</synopsis>
+	  <para>Return a function which is the periodic extension of
+<function>f</function> defined on the interval <userinput>[a,b]</userinput>
+and has period <userinput>b-a</userinput>.</para>
+	  <para>
+	    See also
+	    <link linkend='gel-function-OddPeriodicExtension'>OddPeriodicExtension</link>
+	    and
+	    <link linkend='gel-function-EvenPeriodicExtension'>EvenPeriodicExtension</link>.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -4185,7 +4488,11 @@ do (
          <term>UnitStep</term>
          <listitem>
           <synopsis>UnitStep (x)</synopsis>
-          <para>The unit step function is 0 for x&lt;0, 1 otherwise.  This is the integral of the Dirac Delta function.</para>
+          <para>The unit step function is 0 for x&lt;0, 1 otherwise.  This is the integral of the Dirac Delta function.  Also called the Heaviside function.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Unit_step">Wikipedia</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 

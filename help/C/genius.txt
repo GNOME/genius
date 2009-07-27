@@ -173,9 +173,11 @@
 
                 7.3. Returning Functions
 
-                7.4. GEL Startup Procedure
+                7.4. True Local Variables
 
-                7.5. Loading Programs
+                7.5. GEL Startup Procedure
+
+                7.6. Loading Programs
 
    8. Matrices in GEL
 
@@ -1429,38 +1431,65 @@
 
 6.5. Global Variables and Scope of Variables
 
-   Like most programming languages, GEL has two different types of variables:
-   local and global. A local variable only exists in the context of the
-   function where it is set and all functions called from inside this
-   function. A global variable exists in all contexts. When you set a
-   variable on the toplevel command line, outside of any function, then it
-   will be a global. All functions will see it.
-
-   When you set a variable inside a function, it will only be seen inside the
-   function, including all function calls that are made inside this function.
-   This is where GEL differs from a language such as C. One could describe
-   local variables as being semi global in this sense. For example the
-   following code will print out 5. but the function g cannot be called on
-   the top level as a will not be defined.
+   Like most programming languages, GEL has different types of variables.
+   Normally when a variable is defined in a function, it is visible from that
+   function and from all functions that are called (all higher contexts). For
+   example, suppose a function f defines a variable a and then calls function
+   g. Then function g can reference a. But once f returns, the variable a
+   goes out of scope. This is where GEL differs from a language such as C.
+   One could describe variables as being semi global in a sense For example,
+   the following code will print out 5. The function g cannot be called on
+   the top level (outside f as a will not be defined).
 
  function f() = (a:=5; g());
  function g() = print(a);
  f();
 
-   Suppose you assign a value to an identifier inside a function, and this
-   identifier is also used for a global variable, or a variable set in a
-   calling function. Then this has the effect of creating a new local
-   variable inside the function. For example the following code will print
-   out 6 and not 5.
+   If you define a variable inside a function it will override any variables
+   defined in calling functions. For example, we modify the above code and
+   write:
+
+ function f() = (a:=5; g());
+ function g() = print(a);
+ a:=10;
+ f();
+
+   This code will still print out 5. But if you call g outside of f then you
+   will get a printout of 10. Note that setting a to 5 inside f does not
+   change the value of a at the top (global) level, so if you now check the
+   value of a it will still be 10.
+
+   Function arguments are exactly like variables defined inside the function,
+   except that they are initialized with the value that was passed to the
+   function. Other than this point, they are treated just like all other
+   variables defined inside the function.
+
+   Functions are treated exactly like variables. Hence you can locally
+   redefine functions. Normally (on the top level) you cannot redefine
+   protected variables and functions. But locally you can do this. Consider
+   the following session:
+
+ genius> function f(x) = sin(x)^2
+ = (`(x)=(sin(x)^2))
+ genius> function f(x) = sin(x)^2
+ = (`(x)=(sin(x)^2))
+ genius> function g(x) = ((function sin(x)=x^10);f(x))
+ = (`(x)=((sin:=(`(x)=(x^10)));f(x)))
+ genius> g(10)
+ = 1e20
+
+   Functions and variables defined at the top level are considered global.
+   They are visible from anywhere. As we said the following function f will
+   not change the value of a to 5.
 
  a=6;
  function f() = (a:=5);
- print(a);
+ f();
 
-   Sometimes however it is neccessary to set a global variable from inside a
-   function. For this, use the set function. Passing a string or a quoted
-   identifier to this function sets the variable globally. For example, to
-   set a to the value 3 you could call:
+   Sometimes, however, it is neccessary to set a global variable from inside
+   a function. When this behaviour is needed, use the set function. Passing a
+   string or a quoted identifier to this function sets the variable globally
+   (on the top level). For example, to set a to the value 3 you could call:
 
  set(`a,3)
 
@@ -1469,8 +1498,22 @@
  set("a",3)
 
    The set function always sets the toplevel global. There is no way to set a
-   local variable in some function from a subroutine. For this you must use
-   passing by reference.
+   local variable in some function from a subroutine. If this is required,
+   must use passing by reference.
+
+   So to recap in a more technical language: Genius operates with different
+   numberred contexts. The top level is the context 0 (zero). Whenever a
+   function is entered, the context is raised, and when the function returns
+   the context is lowered. A function or a variable is always visible from
+   all higher numbered contexts. When a variable was defined in a lower
+   numbered context, then setting this variable has the effect of creating a
+   new local variable in the current context number and this variable will
+   now be visible from all higher numbered contexts.
+
+   There are also true local variables which are not seen from anywhere but
+   the current context. Also when returning functions by value it may
+   reference variables not visible from higher context and this may be a
+   problem. See the sections True Local Variables and Returning Functions.
 
      ----------------------------------------------------------------------
 
@@ -1629,10 +1672,11 @@
    functions which construct special purpose functions according to some
    parameters. The tricky bit is what variables does the function see. The
    way this works in GEL is that when a function returns another function,
-   all identifiers referenced in the function body are prepended a private
-   dictionary of the returned function. So the function will see all
-   variables that were in scope when it was defined. For example we define a
-   function which returns a function which adds 5 to its argument.
+   all identifiers referenced in the function body that went out of scope are
+   prepended a private dictionary of the returned function. So the function
+   will see all variables that were in scope when it was defined. For example
+   we define a function which returns a function which adds 5 to its
+   argument.
 
  function f() = (
    k = 5;
@@ -1647,12 +1691,12 @@
    And g(5) should return 10.
 
    One thing to note is that the value of k that is used is the one that's in
-   effect when the f returns. So for example
+   effect when the f returns. For example:
 
  function f() = (
-   k = 5;
-   r = `(x) = (x+k);
-   k = 10;
+   k := 5;
+   function r(x) = (x+k);
+   k := 10;
    r
  )
 
@@ -1664,11 +1708,111 @@
    variables are added to the extra dictionary that are in the context that
    just ended and no longer exists. Variables used in the function that are
    in still valid contexts will work as usual, using the current value of the
-   variable.
+   variable. The only difference is with global variables and functions. All
+   identifiers that referenced global variables at time of the function
+   definition are not added to the private dictionary. This is to avoid much
+   unnecessary work when returning functions and would rarely be a problem.
+   For example, suppose that you delete the "k=5" from the function f, and at
+   the top level you define k to be say 5. Then when you run f, the function
+   r will not put k into the private dictionary because it was global
+   (toplevel) at the time of definition of r.
+
+   Sometimes it is better to have more control over how variables are copied
+   into the private dictionary. Since version 1.0.7, you can specify which
+   variables are copied into the private dictionary by putting extra square
+   brackets after the arguments with the list of variables to be copied
+   separated by commas. If you do this, then variables are copied into the
+   private dictionary at time of the function definition, and the private
+   dictionary is not touched afterwards. For example
+
+ function f() = (
+   k := 5;
+   function r(x) [k] = (x+k);
+   k := 10;
+   r
+ )
+
+   will return a function that when called will add 5 to its argument. The
+   local copy of k was created when the function was defined.
+
+   When you want the function to not have any private dictionary when put
+   empty square brackets after the argument list. Then no private dictionary
+   will be created at all. Doing this is good to increase efficiency when a
+   private dictionary is not needed or when you want the function to lookup
+   all variables as it sees them when called. For example suppose you want
+   the function returned from f to see the value of k from the toplevel
+   despite there being a local variable of the same name during definition.
+   So the code
+
+ function f() = (
+   k := 5;
+   function r(x) [] = (x+k);
+   r
+ );
+ k := 10;
+ g = f();
+ g(10)
+
+   will return 20 and not 15, which would happen if k with a value of 5 was
+   added to the private dictionary.
 
      ----------------------------------------------------------------------
 
-7.4. GEL Startup Procedure
+7.4. True Local Variables
+
+   When passing functions into other functions, the normal scoping of
+   variables might be undesired. For example:
+
+ k := 10;
+ function r(x) = (x+k);
+ function f(g,x) = (
+   k := 5;
+   g(x)
+ );
+ f(r,1)
+
+   you probably want the function r when passed as g into f to see k as 10
+   rather than 5, so that the code returns 11 and not 6. However, as written,
+   the function when executed will see the k that is equal to 5. There are
+   two ways to solve this. One would be to have r get k in a private
+   dictionary using the square bracket notation section Returning Functions.
+
+   But there is another solution. Since version 1.0.7 there are true local
+   variables. These are variables that are visible only from the current
+   context and not from any called functions. We could define k as a local
+   variable in the function f. To do this add a local statement as the first
+   statement in the function (it must always be the first statement in the
+   function). You can also make any arguments be local variables as well.
+   That is,
+
+ function f(g,x) = (
+   local g,x,k;
+   k := 5;
+   g(x)
+ );
+
+   Then the code will work as expected and prints out 11. Note that the local
+   statement initializes all the refereced variables (except for function
+   arguments) to a null.
+
+   If all variables are to be created as locals you can just pass an asterix
+   instead of a list of variables. In this case the variables will not be
+   initialized until they are actually set of course. So the following
+   definition of f will also work:
+
+ function f(g,x) = (
+   local *;
+   k := 5;
+   g(x)
+ );
+
+   It is good practice that all functions that take other functions as
+   arguments use local variables. This way the passed function does not see
+   implementation details and get confused.
+
+     ----------------------------------------------------------------------
+
+7.5. GEL Startup Procedure
 
    First the program looks for the installed library file (the compiled
    version lib.cgel) in the installed directory, then it looks into the
@@ -1680,7 +1824,7 @@
 
      ----------------------------------------------------------------------
 
-7.5. Loading Programs
+7.6. Loading Programs
 
    Sometimes you have a larger program that you wrote into a file and want to
    read in that file. In these situations, you have two options. You can keep
@@ -2190,6 +2334,15 @@
            internal GEL functions to avoid them being accidentally
            overridden.
 
+   ProtectAll
+
+ ProtectAll ()
+
+           Protect all currently defined variables, parameters and functions
+           from being modified. This is used on the internal GEL functions to
+           avoid them being accidentally overridden. Normally Genius
+           Mathematics Tool considers unprotected variables as user defined.
+
    set
 
  set (id,val)
@@ -2220,15 +2373,36 @@
 
  undefine (id)
 
+           Alias: Undefine
+
            Undefine a variable. This includes locals and globals, every value
            on all context levels is wiped. This function should really not be
-           used on local variables.
+           used on local variables. A vector of identifiers can also be
+           passed to undefine several variables.
+
+   UndefineAll
+
+ UndefineAll ()
+
+           Undefine all unprotected global variables (including functions and
+           parameters). Normally Genius Mathematics Tool considers protected
+           variables as system defined functions and variables. Note that
+           UndefineAll only removes the global definition of symbols not
+           local ones, so that it may be run from inside other functions
+           safely.
 
    unprotect
 
  unprotect (id)
 
            Unprotect a variable from being modified.
+
+   UserVariables
+
+ UserVariables ()
+
+           Return a vector of identifiers of user defined (unprotected)
+           global variables.
 
    wait
 
@@ -2483,7 +2657,7 @@
            Euler's Constant gamma. Sometimes called the Euler-Mascheroni
            constant.
 
-           See Planetmath or Mathworld for more information.
+           See Wikipedia or Planetmath or Mathworld for more information.
 
    GoldenRatio
 
@@ -2491,13 +2665,15 @@
 
            The Golden Ratio.
 
-           See Planetmath or Mathworld for more information.
+           See Wikipedia or Planetmath or Mathworld for more information.
 
    Gravity
 
  Gravity
 
-           Free fall acceleration.
+           Free fall acceleration at sea level.
+
+           See Wikipedia for more information.
 
    e
 
@@ -2506,7 +2682,7 @@
            The base of the natural logarithm. e^x is the exponential function
            exp. This is the number approximately 2.71828182846...
 
-           See Planetmath or Mathworld for more information.
+           See Wikipedia or Planetmath or Mathworld for more information.
 
    pi
 
@@ -2515,7 +2691,7 @@
            The number pi, that is the ratio of a circle's circumference to
            its diameter. This is approximately 3.14159265359...
 
-           See Planetmath or Mathworld for more information.
+           See Wikipedia or Planetmath or Mathworld for more information.
 
      ----------------------------------------------------------------------
 
@@ -2530,8 +2706,8 @@
            Absolute value of a number and if x is a complex value the modulus
            of x. I.e. this the distance of x to the origin.
 
-           See Planetmath (absolute value), Planetmath (modulus), Mathworld
-           (absolute value) or Mathworld (complex modulus) for more
+           See Wikipedia, Planetmath (absolute value), Planetmath (modulus),
+           Mathworld (absolute value) or Mathworld (complex modulus) for more
            information.
 
    Chop
@@ -2542,11 +2718,14 @@
 
    ComplexConjugate
 
- ComplexConjugate (M)
+ ComplexConjugate (z)
 
            Aliases: conj Conj
 
-           Calculates the conjugate.
+           Calculates the complex conjugate of the complex number z. If z is
+           a vector or matrix, all its elements are conjugated.
+
+           See Wikipedia for more information.
 
    Denominator
 
@@ -2554,11 +2733,15 @@
 
            Get the denominator of a rational number.
 
+           See Wikipedia for more information.
+
    FractionalPart
 
  FractionalPart (x)
 
            Return the fractional part of a number.
+
+           See Wikipedia for more information.
 
    Im
 
@@ -2567,6 +2750,8 @@
            Aliases: ImaginaryPart
 
            Get the imaginary part of a complex number.
+
+           See Wikipedia for more information.
 
    IntegerQuotient
 
@@ -2639,6 +2824,8 @@
 
            Get the numerator of a rational number.
 
+           See Wikipedia for more information.
+
    Re
 
  Re (z)
@@ -2646,6 +2833,8 @@
            Aliases: RealPart
 
            Get the real part of a complex number.
+
+           See Wikipedia for more information.
 
    Sign
 
@@ -2672,7 +2861,7 @@
            The exponential function. This is the function e^x where e is the
            base of the natural logarithm.
 
-           See Planetmath or Mathworld for more information.
+           See Wikipedia or Planetmath or Mathworld for more information.
 
    float
 
@@ -2889,7 +3078,7 @@
 
            Calculates the arctan (inverse tan) function.
 
-           See Mathworld for more information.
+           See Wikipedia or Mathworld for more information.
 
    atanh
 
@@ -2909,7 +3098,7 @@
            If x<0 then it returns sign(y) * (pi - atan(|y/x|). When x=0 it
            returns sign(y) * pi/2. atan2(0,0) returns 0 rather then failing.
 
-           See Mathworld for more information.
+           See Wikipedia or Mathworld for more information.
 
    cos
 
@@ -3026,6 +3215,8 @@
 
            Return the nth Bernoulli number.
 
+           See Wikipedia or Mathworld for more information.
+
    ChineseRemainder
 
  ChineseRemainder (a,m)
@@ -3035,7 +3226,7 @@
            Find the x that solves the system given by the vector a and modulo
            the elements of m, using the Chinese Remainder Theorem.
 
-           See Planetmath or Mathworld for more information.
+           See Wikipedia or Planetmath or Mathworld for more information.
 
    CombineFactorizations
 
@@ -3064,7 +3255,7 @@
            Find discrete log of n base b in Fq, the finite field of order q,
            where q is a prime, using the Silver-Pohlig-Hellman algoritm.
 
-           See Planetmath or Mathworld for more information.
+           See Wikipedia or Planetmath or Mathworld for more information.
 
    Divides
 
@@ -3079,7 +3270,7 @@
            Compute the Euler phi function for n, that is the number of
            integers between 1 and n relatively prime to n.
 
-           See Planetmath or Mathworld for more information.
+           See Wikipedia or Planetmath or Mathworld for more information.
 
    ExactDivision
 
@@ -3102,6 +3293,8 @@
  =
  [1      11      13
   1      2       1]
+
+           See Wikipedia for more information.
 
    Factors
 
@@ -3128,6 +3321,8 @@
 
            This is a fairly good factorization if your number is the product
            of two factors that are very close to each other.
+
+           See Wikipedia for more information.
 
    FindPrimitiveElementMod
 
@@ -3176,7 +3371,8 @@
            known values which is relatively short. See also
            MersennePrimeExponents and LucasLehmer.
 
-           See Planetmath, Mathworld or GIMPS for more information.
+           See Wikipedia, Planetmath, Mathworld or GIMPS for more
+           information.
 
    IsNthPower
 
@@ -3291,7 +3487,7 @@
            Test if 2p-1 is a Mersenne prime using the Lucas-Lehmer test. See
            also MersennePrimeExponents and IsMersennePrimeExponent.
 
-           See Planetmath or Mathworld for more information.
+           See Wikipedia or Planetmath or Mathworld for more information.
 
    LucasNumber
 
@@ -3299,7 +3495,7 @@
 
            Returns the nth Lucas number.
 
-           See Planetmath or Mathworld for more information.
+           See Wikipedia or Planetmath or Mathworld for more information.
 
    MaximalPrimePowerFactors
 
@@ -3315,7 +3511,8 @@
            positive integers p such that 2p-1 is a prime. See also
            IsMersennePrimeExponent and LucasLehmer.
 
-           See Planetmath, Mathworld or GIMPS for more information.
+           See Wikipedia, Planetmath, Mathworld or GIMPS for more
+           information.
 
    MillerRabinTest
 
@@ -3326,7 +3523,7 @@
            usually better to use   IsPrime since that is faster and better on
            smaller integers.
 
-           See Planetmath or Mathworld for more information.
+           See Wikipedia or Planetmath or Mathworld for more information.
 
    MillerRabinTestSure
 
@@ -3336,7 +3533,7 @@
            assuming the Generalized Reimann Hypothesis the result is
            deterministic.
 
-           See Planetmath or Mathworld for more information.
+           See Wikipedia or Planetmath or Mathworld for more information.
 
    ModInvert
 
@@ -3535,6 +3732,8 @@
 
            Gets the diagonal entries of a matrix as a column vector.
 
+           See Wikipedia for more information.
+
    DotProduct
 
  DotProduct (u,v)
@@ -3591,7 +3790,7 @@
 
            Is a matrix diagonal.
 
-           See Planetmath for more information.
+           See Wikipedia or Planetmath for more information.
 
    IsIdentity
 
@@ -3702,7 +3901,7 @@
 
            Make diagonal matrix from a vector.
 
-           See Planetmath for more information.
+           See Wikipedia or Planetmath for more information.
 
    MakeVector
 
@@ -4471,7 +4670,7 @@
 
            Get the determinant of a matrix.
 
-           See Planetmath for more information.
+           See Wikipedia or Planetmath for more information.
 
    ref
 
@@ -4483,7 +4682,7 @@
            elimination but not backaddition to M. The pivot rows are divided
            to make all pivots 1.
 
-           See Planetmath for more information.
+           See Wikipedia or Planetmath for more information.
 
    rref
 
@@ -4494,7 +4693,7 @@
            Get the reduced row echelon form of a matrix. That is, apply
            gaussian elimination together with backaddition to M.
 
-           See Planetmath for more information.
+           See Wikipedia or Planetmath for more information.
 
      ----------------------------------------------------------------------
 
@@ -4549,7 +4748,7 @@
            recursively by Fibonacci(n) = Fibonacci(n-1) + Fibonacci(n-2) and
            Fibonacci(1) = Fibonacci(2) = 1.
 
-           See Planetmath or Mathworld for more information.
+           See Wikipedia or Planetmath or Mathworld for more information.
 
    FrobeniusNumber
 
@@ -4759,6 +4958,29 @@
            Attempt to calculate derivative by trying first symbolically and
            then numerically.
 
+   EvenPeriodicExtension
+
+ EvenPeriodicExtension (f,L)
+
+           Return a function which is even periodic extension of f with half
+           period L. That is a function defined on the interval [0,L]
+           extended to be even on [-L,L] and then extended to be periodic
+           with period 2*L.
+
+           See also OddPeriodicExtension and PeriodicExtension.
+
+   FourierSeriesFunction
+
+ FourierSeriesFunction (a,b,L)
+
+           Return a function which is a Fourier series with the coefficients
+           given by the vectors a (sines) and b (cosines). Note that a@(1) is
+           the constant coefficient! That is, a@(n) refers to the term
+           cos(x*(n-1)*pi/L), while b@(n) refers to the term sin(x*n*pi/L).
+           Either a or b can be null.
+
+           See Wikipedia or Mathworld for more information.
+
    InfiniteProduct
 
  InfiniteProduct (func,start,inc)
@@ -4827,6 +5049,85 @@
 
            Attempt to calculate numerical derivative.
 
+   NumericalFourierSeriesCoefficients
+
+ NumericalFourierSeriesCoefficients (f,L,N)
+
+           Return a vector of vectors [a,b] where a are the cosine
+           coefficients and b are the sine coefficients of the Fourier series
+           of f with half-period L (that is defined on [-L,L] and extended
+           periodically) with coefficients up to Nth harmonic computed
+           numerically. The coefficients are computed by numerical
+           integration using NumericalIntegral.
+
+           See Wikipedia or Mathworld for more information.
+
+   NumericalFourierSeriesFunction
+
+ NumericalFourierSeriesFunction (f,L,N)
+
+           Return a function which is the Fourier series of f with
+           half-period L (that is defined on [-L,L] and extended
+           periodically) with coefficients up to Nth harmonic computed
+           numerically. This is the trigonometric real series composed of
+           sines and cosines. The coefficients are computed by numerical
+           integration using NumericalIntegral.
+
+           See Wikipedia or Mathworld for more information.
+
+   NumericalFourierCosineSeriesCoefficients
+
+ NumericalFourierCosineSeriesCoefficients (f,L,N)
+
+           Return a vector of coefficients of the the cosine Fourier series
+           of f with half-period L. That is, we take f defined on [0,L] take
+           the even periodic extension and compute the Fourier series, which
+           only has sine terms. The series is computed up to the Nth
+           harmonic. The coefficients are computed by numerical integration
+           using NumericalIntegral. Note that a@(1) is the constant
+           coefficient! That is, a@(n) refers to the term cos(x*(n-1)*pi/L).
+
+           See Wikipedia or Mathworld for more information.
+
+   NumericalFourierCosineSeriesFunction
+
+ NumericalFourierCosineSeriesFunction (f,L,N)
+
+           Return a function which is the cosine Fourier series of f with
+           half-period L. That is, we take f defined on [0,L] take the even
+           periodic extension and compute the Fourier series, which only has
+           cosine terms. The series is computed up to the Nth harmonic. The
+           coefficients are computed by numerical integration using
+           NumericalIntegral.
+
+           See Wikipedia or Mathworld for more information.
+
+   NumericalFourierSineSeriesCoefficients
+
+ NumericalFourierSineSeriesCoefficients (f,L,N)
+
+           Return a vector of coefficients of the the sine Fourier series of
+           f with half-period L. That is, we take f defined on [0,L] take the
+           odd periodic extension and compute the Fourier series, which only
+           has sine terms. The series is computed up to the Nth harmonic. The
+           coefficients are computed by numerical integration using
+           NumericalIntegral.
+
+           See Wikipedia or Mathworld for more information.
+
+   NumericalFourierSineSeriesFunction
+
+ NumericalFourierSineSeriesFunction (f,L,N)
+
+           Return a function which is the sine Fourier series of f with
+           half-period L. That is, we take f defined on [0,L] take the odd
+           periodic extension and compute the Fourier series, which only has
+           sine terms. The series is computed up to the Nth harmonic. The
+           coefficients are computed by numerical integration using
+           NumericalIntegral.
+
+           See Wikipedia or Mathworld for more information.
+
    NumericalIntegral
 
  NumericalIntegral (f,a,b)
@@ -4853,6 +5154,17 @@
 
            Attempt to calculate numerical right derivative.
 
+   OddPeriodicExtension
+
+ OddPeriodicExtension (f,L)
+
+           Return a function which is odd periodic extension of f with half
+           period L. That is a function defined on the interval [0,L]
+           extended to be odd on [-L,L] and then extended to be periodic with
+           period 2*L.
+
+           See also EvenPeriodicExtension and PeriodicExtension.
+
    OneSidedFivePointFormula
 
  OneSidedFivePointFormula (f,x0,h)
@@ -4864,6 +5176,15 @@
  OneSidedThreePointFormula (f,x0,h)
 
            Compute one-sided derivative using three-point formula.
+
+   PeriodicExtension
+
+ PeriodicExtension (f,a,b)
+
+           Return a function which is the periodic extension of f defined on
+           the interval [a,b] and has period b-a.
+
+           See also OddPeriodicExtension and EvenPeriodicExtension.
 
    RightLimit
 
@@ -5020,7 +5341,10 @@
  UnitStep (x)
 
            The unit step function is 0 for x<0, 1 otherwise. This is the
-           integral of the Dirac Delta function.
+           integral of the Dirac Delta function. Also called the Heaviside
+           function.
+
+           See Wikipedia for more information.
 
    cis
 
@@ -5898,3 +6222,8 @@
    the License, or (at your option) any later version. A copy of this license
    can be found at this link, or in the file COPYING included with the source
    code of this program.
+
+   Jiri Lebl was during various parts of the development partially supported
+   for the work by NSF grant DMS 0900885 and the University of Illinois at
+   Urbana-Champaign. The software has been used for both teaching and
+   research.

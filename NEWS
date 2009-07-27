@@ -1,6 +1,40 @@
 Changes to 1.0.7
 
-FIXME
+* SYNTAX: Added a possibility to exactly specify which variables are copied
+  into a function's extra dictionary when it is being returned.
+    E.g. "`(x) [x0] = (x-x0)" will copy x0 from the current context.  This
+  is a lot more efficient than the current behaviour which tries to copy
+  everything referenced.
+* SYNTAX: Add "local" variables by specifying "local x,y,z" or "local *" as
+  the first statement in a function.  Local variables are not visible from
+  higher contexts (functions called within)
+* CHANGE: all system parameters are now protected and cannot be redefined
+  using the "parameter" keyword
+* Add UserVariables, UndefineAll, ProtectAll, and add Undefine as an alias to
+  undefine.
+* Add trigonometric Fourier series related functions:
+  NumericalFourierSeriesFunction, NumericalFourierSineSeriesFunction,
+  NumericalFourierCosineSeriesFunction, FourierSeriesFunction,
+  NumericalFourierSeriesCoefficients, NumericalFourierSineSeriesCoefficients,
+  NumericalFourierCosineSeriesCoefficients, PeriodicExtension,
+  EvenPeriodicExtension, OddPeriodicExtension
+* Fix changing floating point precision!
+* Fix uninitialied variable in graphing (Matthias Drochner)
+* Improve variable substitution for returned functions to be more efficient.
+  Slightly changes behaviour with respect to global functions and variables
+  used.
+* Plot windows now not treated annoingly as dialogs
+* Fix compilation/decompilation of all function attributes.
+* Parse/Evaluate with a syntax error at end of string no longer terminate
+  genius
+* Updated Mersenne stuff for the newest data from mersenne.org and
+  fix MersennePrimeExponents
+* Fix opening new files from the command line.
+* Update the gel library to use the new language features.
+* Various other minor fixes
+* Translation updates (Philip Withnall, Jen Ockwell)
+* For some of the changes the author (Jiri) was partially supported by
+  NSF grant DMS 0900885 and the University of Illinois at Urbana-Champaign
 
 Changes to 1.0.6
 
