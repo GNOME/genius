@@ -5399,25 +5399,45 @@
 
  FindRootBisection (f,a,b,TOL,N)
 
-           Find root of a function using the bisection method.
+           Find root of a function using the bisection method. TOL is the
+           desired tolerance and N is the limit on the number of iterations
+           to run, 0 means no limit. The function returns a vector
+           [success,value,iteration], where success is a boolean indicating
+           success, value is the last value computed, and iteration is the
+           number of iterations done.
 
    FindRootFalsePosition
 
  FindRootFalsePosition (f,a,b,TOL,N)
 
-           Find root of a function using the method of false position.
+           Find root of a function using the method of false position. TOL is
+           the desired tolerance and N is the limit on the number of
+           iterations to run, 0 means no limit. The function returns a vector
+           [success,value,iteration], where success is a boolean indicating
+           success, value is the last value computed, and iteration is the
+           number of iterations done.
 
    FindRootMullersMethod
 
  FindRootMullersMethod (f,x1,x2,x3,TOL,N)
 
-           Find root of a function using the Muller's method.
+           Find root of a function using the Muller's method. TOL is the
+           desired tolerance and N is the limit on the number of iterations
+           to run, 0 means no limit. The function returns a vector
+           [success,value,iteration], where success is a boolean indicating
+           success, value is the last value computed, and iteration is the
+           number of iterations done.
 
    FindRootSecant
 
  FindRootSecant (f,a,b,TOL,N)
 
-           Find root of a function using the secant method.
+           Find root of a function using the secant method. TOL is the
+           desired tolerance and N is the limit on the number of iterations
+           to run, 0 means no limit. The function returns a vector
+           [success,value,iteration], where success is a boolean indicating
+           success, value is the last value computed, and iteration is the
+           number of iterations done.
 
    PolynomialRoots
 

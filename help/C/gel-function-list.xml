@@ -4581,7 +4581,9 @@ and has period <userinput>b-a</userinput>.</para>
          <term>FindRootBisection</term>
          <listitem>
           <synopsis>FindRootBisection (f,a,b,TOL,N)</synopsis>
-          <para>Find root of a function using the bisection method.</para>
+          <para>Find root of a function using the bisection method.
+	    <varname>TOL</varname> is the desired tolerance and
+<varname>N</varname> is the limit on the number of iterations to run, 0 means no limit.  The function returns a vector <userinput>[success,value,iteration]</userinput>, where <varname>success</varname> is a boolean indicating success, <varname>value</varname> is the last value computed, and <varname>iteration</varname> is the number of iterations done.</para>
          </listitem>
         </varlistentry>
 
@@ -4589,7 +4591,9 @@ and has period <userinput>b-a</userinput>.</para>
          <term>FindRootFalsePosition</term>
          <listitem>
           <synopsis>FindRootFalsePosition (f,a,b,TOL,N)</synopsis>
-          <para>Find root of a function using the method of false position.</para>
+          <para>Find root of a function using the method of false position.
+	    <varname>TOL</varname> is the desired tolerance and
+<varname>N</varname> is the limit on the number of iterations to run, 0 means no limit.  The function returns a vector <userinput>[success,value,iteration]</userinput>, where <varname>success</varname> is a boolean indicating success, <varname>value</varname> is the last value computed, and <varname>iteration</varname> is the number of iterations done.</para>
          </listitem>
         </varlistentry>
 
@@ -4597,7 +4601,9 @@ and has period <userinput>b-a</userinput>.</para>
          <term>FindRootMullersMethod</term>
          <listitem>
           <synopsis>FindRootMullersMethod (f,x1,x2,x3,TOL,N)</synopsis>
-          <para>Find root of a function using the Muller's method.</para>
+          <para>Find root of a function using the Muller's method.
+	    <varname>TOL</varname> is the desired tolerance and
+<varname>N</varname> is the limit on the number of iterations to run, 0 means no limit.  The function returns a vector <userinput>[success,value,iteration]</userinput>, where <varname>success</varname> is a boolean indicating success, <varname>value</varname> is the last value computed, and <varname>iteration</varname> is the number of iterations done.</para>
          </listitem>
         </varlistentry>
 
@@ -4605,7 +4611,9 @@ and has period <userinput>b-a</userinput>.</para>
          <term>FindRootSecant</term>
          <listitem>
           <synopsis>FindRootSecant (f,a,b,TOL,N)</synopsis>
-          <para>Find root of a function using the secant method.</para>
+          <para>Find root of a function using the secant method.
+	    <varname>TOL</varname> is the desired tolerance and
+<varname>N</varname> is the limit on the number of iterations to run, 0 means no limit.  The function returns a vector <userinput>[success,value,iteration]</userinput>, where <varname>success</varname> is a boolean indicating success, <varname>value</varname> is the last value computed, and <varname>iteration</varname> is the number of iterations done.</para>
          </listitem>
         </varlistentry>
 
