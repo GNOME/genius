@@ -608,11 +608,27 @@ add_main_window_contents (GtkWidget *window, GtkWidget *notebook)
 	GtkWidget *box1;
 	GtkActionGroup *actions;
 	GError *error = NULL;
+	GtkAction *act;
 
 	stock_init ();
 
 	actions = gtk_action_group_new ("Actions");
 	gtk_action_group_add_actions (actions, entries, n_entries, NULL);
+
+	/* FIXME: I have no clue if this is correct, but I can't find any docs
+	 * on this */
+	act = gtk_action_group_get_action (actions, "Interrupt");
+	gtk_action_set_is_important (act, TRUE);
+	act = gtk_action_group_get_action (actions, "Run");
+	gtk_action_set_is_important (act, TRUE);
+	act = gtk_action_group_get_action (actions, "ToolbarNew");
+	gtk_action_set_is_important (act, TRUE);
+	act = gtk_action_group_get_action (actions, "ToolbarOpen");
+	gtk_action_set_is_important (act, TRUE);
+	act = gtk_action_group_get_action (actions, "ToolbarPlot");
+	gtk_action_set_is_important (act, TRUE);
+	act = gtk_action_group_get_action (actions, "Quit");
+	gtk_action_set_is_important (act, TRUE);
 
 	genius_ui = gtk_ui_manager_new ();
 	genius_window_statusbar = gtk_statusbar_new ();
