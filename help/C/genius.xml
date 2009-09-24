@@ -4,8 +4,8 @@
   <!ENTITY app "<application>Genius Mathematics Tool</application>">
   <!ENTITY appname "Genius">
   <!ENTITY appversion "1.0.7">
-  <!ENTITY manrevision "0.2.3">
-  <!ENTITY date "March 2009">
+  <!ENTITY manrevision "0.2.4">
+  <!ENTITY date "September 2009">
 
   <!ENTITY legal SYSTEM "legal.xml">
 
@@ -1827,6 +1827,15 @@ for conditional evaluation works here as well. For example, <literal>1 or a=1</l
       <sect1 id="genius-gel-variables-global">
         <title>Global Variables and Scope of Variables</title>
 	<para>
+	  GEL is a
+	  <ulink url="http://en.wikipedia.org/wiki/Scope_%28programming%29">
+	  dynamically scoped language</ulink>.  We will explain what this
+	  means below.  That is, normal variables and functions are dynamically
+	  scoped.  The exception are 
+	  <link linkend="genius-gel-parameters">parameter variables</link>,
+	  which are always global.
+	</para>
+	<para>
 	  Like most programming languages, GEL has different types
 	  of variables.  Normally when a variable is defined in a function,
 	  it is visible from that function and from all functions that are
@@ -1836,9 +1845,6 @@ for conditional evaluation works here as well. For example, <literal>1 or a=1</l
 	  function <function>g</function> can reference
 	  <varname>a</varname>.  But once <function>f</function> returns,
 	  the variable <varname>a</varname> goes out of scope.
-	  This is where GEL differs from a language
-	  such as C.  One could describe variables as being semi global
-	  in a sense
 	  For example, the following code will print out 5.
 	  The function <function>g</function> cannot be called on the
 	  top level (outside <function>f</function> as <varname>a</varname>
@@ -1928,7 +1934,7 @@ or:
 	  will now be visible from all higher numbered contexts.
 	</para>
 	<para>
-	  There are also true local variables which are not seen from
+	  There are also true local variables, which are not seen from
 	  anywhere but the current context.  Also when returning functions
 	  by value it may reference variables not visible from higher context
 	  and this may be a problem.  See the sections
@@ -1937,6 +1943,30 @@ or:
 	  <link linkend="genius-gel-returning-functions">Returning
 	  Functions</link>.
 	</para>
+      </sect1>
+
+      <sect1 id="genius-gel-parameters">
+        <title>Parameter variables</title>
+	<para>
+	  As we said before, there exist special variables called parameters
+	  that exist in all scopes.  To declare a parameter called
+	  <variable>foo</variable> with the initial value 1, we write
+<programlisting><![CDATA[parameter foo = 1
+]]></programlisting>
+	  From then on, <variable>foo</variable> is a strictly global variable.
+	  Setting <variable>foo</variable> inside any function will modify the
+	  variable in all contexts, that is, functions do not have a private
+	  copy of parameters.
+        </para>
+        <para>
+	  When you undefine a parameter using the
+	  <link linkend="gel-function-undefine">
+	  <function>undefine</function></link> function, it stops being
+	  a parameter.
+        </para>
+        <para>
+	  Some parameters are built-in and modify the behaviour of genius.
+        </para>
       </sect1>
 
     <sect1 id="genius-gel-returning">
@@ -1973,7 +2003,7 @@ Example:
 	to use references only for this purpose, but this is their main use.
       </para>
       <para>
-	When using functions which return values through references
+	When using functions that return values through references
 	in the argument list, just pass the variable name with an ampersand.
 	For example the following code will compute an eigenvalue of a matrix
 	<varname>A</varname> with initial eigenvector guess
@@ -2125,7 +2155,7 @@ else
        <title>Returning Functions</title>
 	<para>
 	  It is possible to return functions as value.  This way you can
-	  build functions which construct special purpose functions according
+	  build functions that construct special purpose functions according
 	  to some parameters.  The tricky bit is what variables does the
 	  function see.  The way this works in GEL is that when a function
 	  returns another function, all identifiers referenced in the
@@ -2133,8 +2163,8 @@ else
 	  are prepended a private dictionary of the returned
 	  function.  So the function will see all variables that were in
 	  scope
-	  when it was defined.  For example we define a function which
-	  returns a function which adds 5 to its argument.
+	  when it was defined.  For example, we define a function that
+	  returns a function that adds 5 to its argument.
 <programlisting>function f() = (
   k = 5;
   `(x) = (x+k)
@@ -2314,7 +2344,7 @@ Sometimes you have a larger program that you wrote into a file and want to read 
 <programlisting>load program1.gel program2.gel
 load "Weird File Name With SPACES.gel"
 </programlisting>
-There are also <command>cd</command>, <command>pwd</command> and <command>ls</command> commands built in. <command>cd</command> will take one argument, <command>ls</command> will take an argument which is like the glob in the unix shell (i.e., you can use wildcards). <command>pwd</command> takes no arguments. For example:
+There are also <command>cd</command>, <command>pwd</command> and <command>ls</command> commands built in. <command>cd</command> will take one argument, <command>ls</command> will take an argument that is like the glob in the unix shell (i.e., you can use wildcards). <command>pwd</command> takes no arguments. For example:
 <programlisting>cd directory_with_gel_programs
 ls *.gel
 </programlisting>
@@ -2460,7 +2490,7 @@ the given linear subspace.
       <para>
 	It should be noted that &appname; can remember certain properties of a
 matrix.  For example, it will remember that a matrix is in row reduced form.
-If many calls are made to functions which internally use row reduced form of
+If many calls are made to functions that internally use row reduced form of
 the matrix, we can just row reduce the matrix beforehand once.  Successive
 calls to <function>rref</function> will be very fast.
       </para>
@@ -2509,7 +2539,7 @@ You can also get a function representation of the polynomial so that you can
 evaluate it. This is done by using
 <link linkend="gel-function-PolyToFunction"><function>PolyToFunction</function></link>,
 which
-returns an anonymous function which you can assign to something.
+returns an anonymous function.
 <programlisting>f = PolyToFunction([0,1,1])
 f(2)
 </programlisting>
