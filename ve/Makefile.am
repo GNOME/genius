@@ -50,7 +50,7 @@ test_ve_config_SOURCES = \
 	test-ve-config.c
 
 test_ve_config_LDADD = \
-	$(top_builddir)/ve/libvicious.a		\
+	libvicious.a				\
 	$(VICIOUS_LIBS)				\
 	$(INTLLIBS)				\
 	$(GLIB_LIBS)
