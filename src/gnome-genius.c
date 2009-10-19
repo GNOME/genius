@@ -4448,6 +4448,7 @@ genius_got_etree (GelETree *e)
 {
 	if (e != NULL) {
 		calc_running ++;
+		check_events();
 		gel_evalexp_parsed (e, gel_main_out, "= \e[1;36m", TRUE);
 		gel_test_max_nodes_again ();
 		calc_running --;
