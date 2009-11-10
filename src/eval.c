@@ -6640,19 +6640,6 @@ iter_operator_post (GelCtx *ctx, gboolean *repushed)
 	return TRUE;
 }
 
-static gboolean
-id_on_function_list (GSList *funclist, GelToken *id)
-{
-	GSList *li;
-       
-	for (li = funclist; li != NULL; li = li->next) {
-		GelEFunc *func = li->data;
-		if (func->id == id)
-			return TRUE;
-	}
-	return FALSE;
-}
-
 GSList *
 gel_get_ids_for_extradict (GSList *toklist, GSList *args, GSList *locals, GelETree *n)
 {
