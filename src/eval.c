@@ -940,13 +940,7 @@ expand_row (GelMatrix *dest, GelMatrixW *src, int di, int si, gboolean *need_col
 {
 	int i;
 	int height = 0;
-	int roww;
-	
-	roww = 0;
-	for(i=0;i<gel_matrixw_width(src);i++) {
-		if(!gel_matrixw_get_index(src,i,si)) continue;
-		roww = i+1;
-	}
+	int roww = gel_matrixw_width(src);
 
 	for(i=0;i<roww;i++) {
 		GelETree *et = gel_matrixw_get_index(src,i,si);
@@ -1208,9 +1202,9 @@ gel_expandmatrix (GelETree *n)
 
 	m = gel_matrix_new();
 	gel_matrix_set_size(m, w, h, TRUE /* padding */);
-	
+
 	cols = gel_matrixw_width (nm);
-	
+
 	for (i = 0, k = 0; i < h; i++) {
 		int w;
 		w = expand_row (m, nm, k, i, &need_colwise);
@@ -1266,6 +1260,7 @@ gel_expandmatrix (GelETree *n)
 			tm = gel_matrix_new ();
 
 			gel_matrix_set_size (tm,cols,m->height, TRUE /* padding */);
+
 			for (i = 0, ii = 0; i < m->width; ii += colwidths[i], i++) {
 				if (colwidths[i] > 0) {
 					expand_col (tm, m, i, ii, colwidths[i]);

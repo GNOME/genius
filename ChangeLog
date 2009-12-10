@@ -1,3 +1,12 @@
+Thu Dec 10 17:00:49 2009  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/eval.c: fix matrix expansion.  After zeros were replaced
+	  the expression [0,I(2);0,0] would not include the last row.  This
+	  fixes AuxilliaryUnitMatrix and JordanBlock functions.
+
+	* src/geniustests.txt: add some tests for matrix expansion and the
+	  above functions
+
 Tue Nov 10 00:30:53 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* Release 1.0.8
