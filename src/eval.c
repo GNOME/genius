@@ -8153,14 +8153,8 @@ resimplify:
 	}
 }
 
-#ifndef MEM_DEBUG_FRIENDLY
-/* In tests it seems that this achieves better then 4096 */
-#define GEL_CHUNK_SIZE 4048
-#define ALIGNED_SIZE(t) (sizeof(t) + sizeof (t) % G_MEM_ALIGN)
-
-static long _gel_tree_num = 0;
+/* we define these even if MEM_DEBUG_FRIENDLY is on */
 static gboolean _gel_max_nodes_check = TRUE;
-
 /* Will get to the warning another page later, but that's OK
  * we don't expect this to be happening often */
 void
@@ -8168,6 +8162,14 @@ gel_test_max_nodes_again (void)
 {
 	_gel_max_nodes_check = TRUE;
 }
+
+
+#ifndef MEM_DEBUG_FRIENDLY
+/* In tests it seems that this achieves better then 4096 */
+#define GEL_CHUNK_SIZE 4048
+#define ALIGNED_SIZE(t) (sizeof(t) + sizeof (t) % G_MEM_ALIGN)
+
+static long _gel_tree_num = 0;
 
 void
 _gel_make_free_trees (void)

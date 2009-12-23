@@ -2299,7 +2299,6 @@ load_compiled_fp (const char *file, FILE *fp)
 		b2 = g_new(char,size+2);
 		if G_UNLIKELY (!fgets(b2,size+2,fp)) {
 			gel_errorout (_("Missing value for function"));
-			g_free(b2);
 			g_slist_free(li);
 			goto continue_reading;
 		}
@@ -2332,6 +2331,7 @@ load_compiled_fp (const char *file, FILE *fp)
 		} else {
 			GelEFunc *func;
 			tok->uncompiled = b2;
+			b2 = NULL;
 			if(type == GEL_USER_FUNC) {
 				func = d_makeufunc (tok, NULL, li, nargs, NULL);
 				func->vararg = vararg ? 1 : 0;
@@ -2349,7 +2349,11 @@ load_compiled_fp (const char *file, FILE *fp)
 			last_func = func;
 			d_addfunc (func);
 		}
-continue_reading:	;
+continue_reading:
+		if (b2 != NULL) {
+			g_free (b2);
+			b2 = NULL;
+		}
 	}
 	fclose(fp);
 	g_free (buf);
