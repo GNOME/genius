@@ -46,12 +46,11 @@ gel_appendstr (char *s,const char *p)
 {
 	if (p == NULL || *p == '\0')
 		return s;
-	if (s) {
+	if (s != NULL) {
 		s = g_realloc (s, strlen(s)+strlen(p)+1);
 		strcat(s,p);
 	} else {
-		s=(char*)g_malloc(strlen(p)+1);
-		strcpy(s,p);
+		s = g_strdup (p);
 	}
 	return s;
 }
@@ -63,16 +62,14 @@ gel_prependstr(char *s,const char *p)
 	char *p2;
 	if (p == NULL || *p == '\0')
 		return s;
-	if(s) {
+	if (s != NULL) {
 		p2=(char *)g_malloc(strlen(s)+strlen(p)+1);
 		strcpy(p2,p);
 		strcat(p2,s);
 		g_free(s);
 		return p2;
 	}
-	s=(char*)g_malloc(strlen(p)+1);
-	strcpy(s,p);
-	return s;
+	return g_strdup (p);
 }
 
 

@@ -2736,8 +2736,11 @@ label_func (int i, GelEFunc *func, const char *var, const char *name)
 		if (len > 2 &&
 		    text[0] == '(' &&
 		    text[len-1] == ')') {
+			char *s;
 			text[len-1] = '\0';
-			strcpy (text, &text[1]);
+			s = g_strdup (&text[1]);
+			g_free (text);
+			text = s;
 			len-=2;
 		}
 
