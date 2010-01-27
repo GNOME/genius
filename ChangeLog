@@ -1,3 +1,18 @@
+Wed Jan 27 00:52:13 2010  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/calc.h, src/genius.c, src/gnome-genius.c, src/funclib.c:
+	  Implement AskButtons interactive function which asks the user to
+	  select from a list of buttons.
+
+	* src/eval.c: allow comparisons (only == and !=) with null.  We
+	  really want to treat null as an empty matrix.  null is only
+	  equal to null itself of course.
+
+	* src/geniustests.txt: add tests for null comparisons
+
+	* help/C/genius.xml, help/C/gel-function-list.xml: Document
+	  AskButtons
+
 Wed Dec 23 15:41:42 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* Release 1.0.9

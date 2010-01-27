@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2009 Jiri (George) Lebl
+ * Copyright (C) 1997-2010 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -114,6 +114,9 @@ void gel_call_help (const char *function);
 
 /* implemented in the frontend (query can be NULL) */
 char *gel_ask_string (const char *query, const char *def);
+
+/* implemented in the frontend, buttons should be a nonempty list of strings */
+int gel_ask_buttons (const char *query, GSList *buttons);
 
 void gel_help_on (const char *text);
 

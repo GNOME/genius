@@ -64,6 +64,20 @@ in the proper directory.</para>
     <sect1 id="genius-gel-function-list-basic">
       <title>Basic</title>
       <variablelist>
+        <varlistentry id="gel-function-AskButtons">
+         <term>AskButtons</term>
+         <listitem>
+          <synopsis>AskButtons (query)</synopsis>
+          <synopsis>AskButtons (query, button1, ...)</synopsis>
+	  <para>Asks a question and presents a list of buttons to the user (or
+a menu of options in text mode).  Returns the 1-based index of the button
+pressed.  That is, returns 1 if the first button was pressed, 2 if the second
+button was pressed, and so on.  If the user closes the window (or simply hits
+enter in text mode), then <constant>null</constant> is returned.  The execution
+of the program is blocked until the user responds.</para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-AskString">
          <term>AskString</term>
          <listitem>

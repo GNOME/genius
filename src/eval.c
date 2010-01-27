@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2009 Jiri (George) Lebl
+ * Copyright (C) 1997-2010 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -1490,6 +1490,9 @@ eqmatrix(GelETree *a, GelETree *b, int *error)
 					break;
 			}
 		}
+	} else if (a->type == GEL_NULL_NODE ||
+		   b->type == GEL_NULL_NODE) {
+		return a->type == b->type ? 1 : 0;
 	} else if(a->type == GEL_MATRIX_NODE) {
 		GelMatrixW *m = a->mat.matrix;
 		if G_UNLIKELY (gel_matrixw_width(m)>1 ||
@@ -3488,7 +3491,7 @@ iter_derefvarop(GelCtx *ctx, GelETree *n)
 	gel_makenum_bool_from(n,x);	\
 	return;
 
-/*returns 0 if all numeric, 1 if numeric/matrix, 2 if contains string, 3 otherwise*/
+/*returns 0 if all numeric (or bool if bool_ok), 1 if numeric/matrix/null, 2 if contains string, 3 otherwise*/
 static int
 arglevel (GelETree *r, int cnt, gboolean bool_ok)
 {
@@ -3497,12 +3500,12 @@ arglevel (GelETree *r, int cnt, gboolean bool_ok)
 	for(i=0;i<cnt;i++,r = r->any.next) {
 		if (r->type == GEL_VALUE_NODE)
 			continue;
-		if (bool_ok && r->type == GEL_BOOL_NODE)
+		else if (bool_ok && r->type == GEL_BOOL_NODE)
 			continue;
-
-		if(r->type==GEL_MATRIX_NODE)
-			level = level<1?1:level;
-		else if(r->type==GEL_STRING_NODE)
+		else if (r->type == GEL_MATRIX_NODE ||
+			 r->type == GEL_NULL_NODE)
+			level = level < 1 ? 1 : level;
+		else if (r->type == GEL_STRING_NODE)
 			level = 2;
 		else
 			return 3;

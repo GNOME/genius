@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2009 Jiri (George) Lebl
+ * Copyright (C) 1997-2010 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -733,6 +733,51 @@ dialog_entry_activate (GtkWidget *e, gpointer data)
 {
 	GtkWidget *d = data;
 	gtk_dialog_response (GTK_DIALOG (d), GTK_RESPONSE_OK);
+}
+
+int
+gel_ask_buttons (const char *query, GSList *buttons)
+{
+	GtkWidget *d;
+	GtkWidget *box;
+	GSList *li;
+	int i;
+	int ret;
+
+	d = gtk_dialog_new_with_buttons
+		(_("Genius"),
+		 GTK_WINDOW (genius_window) /* parent */,
+		 0 /* flags */,
+		 NULL);
+
+	i = 1;
+	for (li = buttons; li != NULL; li = li->next) {
+		gtk_dialog_add_button (GTK_DIALOG (d),
+				       ve_sure_string (li->data),
+				       i);
+		i++;
+	}
+
+	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+			    box,
+			    TRUE, TRUE, 0);
+
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+	gtk_box_pack_start (GTK_BOX (box),
+			    gtk_label_new (ve_sure_string(query)),
+			    FALSE, FALSE, 0);
+
+	gtk_widget_show_all (d);
+	ret = ve_dialog_run_nonmodal (GTK_DIALOG (d));
+	gtk_widget_destroy (d);
+
+	if (ret < 0)
+		return -1;
+	else
+		return ret;
 }
 
 char *

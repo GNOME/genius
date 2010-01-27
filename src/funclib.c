@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2009 Jiri (George) Lebl
+ * Copyright (C) 1997-2010 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -5753,6 +5753,38 @@ AskString_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return gel_makenum_string_use (txt);
 }
 
+static GelETree *
+AskButtons_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GSList *buttons = NULL;
+	int i;
+	int ret;
+
+	if G_UNLIKELY ( ! check_argument_string (a, 0, "AskButtons"))
+		return NULL;
+
+	i = 1;
+	while (a != NULL && a[i] != NULL) {
+		if G_UNLIKELY ( ! check_argument_string (a, i, "AskButtons")) {
+			g_slist_foreach (buttons, (GFunc)g_free, NULL);
+			g_slist_free (buttons);
+			return NULL;
+		}
+		buttons = g_slist_append (buttons, g_strdup (a[i]->str.str));
+		i++;
+	}
+
+	ret = gel_ask_buttons (a[0]->str.str, buttons);
+
+	g_slist_foreach (buttons, (GFunc)g_free, NULL);
+	g_slist_free (buttons);
+	
+	if (ret < 0)
+		return gel_makenum_null ();
+	else
+		return gel_makenum_ui (ret);
+}
+
 
 static GelETree *
 set_FloatPrecision (GelETree * a)
@@ -6449,6 +6481,7 @@ gel_funclib_addall(void)
 	FUNC (Evaluate, 1, "str", "basic", N_("Parse and evaluate a string"));
 
 	VFUNC (AskString, 2, "query,...", "basic", N_("Ask a question and return a string.  Optionally pass in a default."));
+	VFUNC (AskButtons, 3, "query,button1,...", "basic", N_("Ask a question and present a list of buttons.  Returns the 1-based index of the button pressed (or null on failure)."));
 
 	FUNC (CompositeSimpsonsRule, 4, "f,a,b,n", "calculus", N_("Integration of f by Composite Simpson's Rule on the interval [a,b] with n subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be even"));
 	f->no_mod_all_args = 1;
