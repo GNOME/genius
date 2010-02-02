@@ -241,7 +241,7 @@ reread_buttons:
 	g_print ("\n%s\n", ve_sure_string (query));
 	i = 1;
 	for (li = buttons; li != NULL; li = li->next) {
-		g_print ("%d) %s\n", i, ve_sure_string (li->data));
+		g_print ("%d) %s\n", i, ve_sure_string ((char *)li->data));
 		i++;
 	}
 	max = i-1;

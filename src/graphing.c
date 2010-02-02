@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2009 Jiri (George) Lebl
+ * Copyright (C) 2003-2010 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -171,6 +171,12 @@ static double reset_plotx1 = -10;
 static double reset_plotx2 = 10;
 static double reset_ploty1 = -10;
 static double reset_ploty2 = 10;
+
+static int plot_sf_Vtick = 20;
+static int plot_sf_Htick = 20;
+
+static int plot_vf_Vtick = 20;
+static int plot_vf_Htick = 20;
 
 static int plotVtick = 20;
 static int plotHtick = 20;
@@ -2787,26 +2793,39 @@ get_limits_from_matrix (GelETree *m, double *x1, double *x2, double *y1, double 
 		return FALSE;
 	}
 	*x1 = mpw_get_double (t->val.value);
+	if G_UNLIKELY (gel_error_num != 0) {
+		gel_error_num = 0;
+		return FALSE;
+	}
+
 	t = gel_matrixw_vindex (m->mat.matrix, 1);
 	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*x2 = mpw_get_double (t->val.value);
+	if G_UNLIKELY (gel_error_num != 0) {
+		gel_error_num = 0;
+		return FALSE;
+	}
+
 	t = gel_matrixw_vindex (m->mat.matrix, 2);
 	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*y1 = mpw_get_double (t->val.value);
+	if G_UNLIKELY (gel_error_num != 0) {
+		gel_error_num = 0;
+		return FALSE;
+	}
+
 	t = gel_matrixw_vindex (m->mat.matrix, 3);
 	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*y2 = mpw_get_double (t->val.value);
-
-	/* FIXME: what about errors */
 	if G_UNLIKELY (gel_error_num != 0) {
 		gel_error_num = 0;
 		return FALSE;
@@ -2870,38 +2889,61 @@ get_limits_from_matrix_surf (GelETree *m, double *x1, double *x2, double *y1, do
 		return FALSE;
 	}
 	*x1 = mpw_get_double (t->val.value);
+	if G_UNLIKELY (gel_error_num != 0) {
+		gel_error_num = 0;
+		return FALSE;
+	}
+
 	t = gel_matrixw_vindex (m->mat.matrix, 1);
 	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*x2 = mpw_get_double (t->val.value);
+	if G_UNLIKELY (gel_error_num != 0) {
+		gel_error_num = 0;
+		return FALSE;
+	}
+
 	t = gel_matrixw_vindex (m->mat.matrix, 2);
 	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*y1 = mpw_get_double (t->val.value);
+	if G_UNLIKELY (gel_error_num != 0) {
+		gel_error_num = 0;
+		return FALSE;
+	}
+
 	t = gel_matrixw_vindex (m->mat.matrix, 3);
 	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*y2 = mpw_get_double (t->val.value);
+	if G_UNLIKELY (gel_error_num != 0) {
+		gel_error_num = 0;
+		return FALSE;
+	}
+
 	t = gel_matrixw_vindex (m->mat.matrix, 4);
 	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*z1 = mpw_get_double (t->val.value);
+	if G_UNLIKELY (gel_error_num != 0) {
+		gel_error_num = 0;
+		return FALSE;
+	}
+
 	t = gel_matrixw_vindex (m->mat.matrix, 5);
 	if (t->type != GEL_VALUE_NODE) {
 		gel_errorout (_("Graph limits not given as numbers"));
 		return FALSE;
 	}
 	*z2 = mpw_get_double (t->val.value);
-
-	/* FIXME: what about errors */
 	if G_UNLIKELY (gel_error_num != 0) {
 		gel_error_num = 0;
 		return FALSE;
@@ -2955,6 +2997,78 @@ make_matrix_from_limits_surf (void)
 	gel_matrixw_set_index (m, 3, 0) = gel_makenum_d (surf_defy2);
 	gel_matrixw_set_index (m, 4, 0) = gel_makenum_d (surf_defz1);
 	gel_matrixw_set_index (m, 5, 0) = gel_makenum_d (surf_defz2);
+
+	return n;
+}
+
+static gboolean
+get_ticks_from_matrix (GelETree *m, int *v, int *h)
+{
+	GelETree *t;
+
+	if (m->type == GEL_VALUE_NODE) {
+		long n = mpw_get_long (m->val.value);
+		if G_UNLIKELY (gel_error_num != 0) {
+			gel_error_num = 0;
+			return FALSE;
+		}
+		if (n <= 1 || n > 200) {
+			gel_errorout (_("Ticks must be between 2 and 200"));
+			return FALSE;
+		}
+		*v = *h = n;
+		return TRUE;
+	} else if (m->type == GEL_MATRIX_NODE &&
+	    gel_matrixw_elements (m->mat.matrix) == 2) {
+		t = gel_matrixw_vindex (m->mat.matrix, 0);
+		if (t->type != GEL_VALUE_NODE) {
+			gel_errorout (_("Ticks not given as numbers"));
+			return FALSE;
+		}
+		*v = mpw_get_long (t->val.value);
+		if G_UNLIKELY (gel_error_num != 0) {
+			gel_error_num = 0;
+			return FALSE;
+		}
+		if (*v <= 1 || *v > 200) {
+			gel_errorout (_("Ticks must be between 2 and 200"));
+			return FALSE;
+		}
+		t = gel_matrixw_vindex (m->mat.matrix, 1);
+		if (t->type != GEL_VALUE_NODE) {
+			gel_errorout (_("Ticks not given as numbers"));
+			return FALSE;
+		}
+		*h = mpw_get_long (t->val.value);
+		if G_UNLIKELY (gel_error_num != 0) {
+			gel_error_num = 0;
+			return FALSE;
+		}
+		if (*h <= 1 || *h > 200) {
+			gel_errorout (_("Ticks must be between 2 and 200"));
+			return FALSE;
+		}
+		return TRUE;
+	} else {
+		gel_errorout (_("Ticks not given as a number or a 2-vector"));
+		return FALSE;
+	}
+}
+
+static GelETree *
+make_matrix_from_ticks (int v, int h)
+{
+	GelETree *n;
+	GelMatrixW *m;
+	/*make us a new empty node*/
+	GEL_GET_NEW_NODE (n);
+	n->type = GEL_MATRIX_NODE;
+	m = n->mat.matrix = gel_matrixw_new ();
+	n->mat.quoted = FALSE;
+	gel_matrixw_set_size (m, 2, 1);
+
+	gel_matrixw_set_index (m, 0, 0) = gel_makenum_si (v);
+	gel_matrixw_set_index (m, 1, 0) = gel_makenum_si (h);
 
 	return n;
 }
@@ -5431,6 +5545,9 @@ SlopefieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	reset_ploty1 = ploty1 = y1;
 	reset_ploty2 = ploty2 = y2;
 
+	plotVtick = plot_sf_Vtick;
+	plotHtick = plot_sf_Htick;
+
 	plot_mode = MODE_LINEPLOT_SLOPEFIELD;
 	plot_functions (FALSE /* do_window_present */);
 
@@ -5546,6 +5663,9 @@ VectorfieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	vectorfield_normalize_arrow_length =
 		vectorfield_normalize_arrow_length_parameter;
+
+	plotVtick = plot_vf_Vtick;
+	plotHtick = plot_vf_Htick;
 
 	plot_mode = MODE_LINEPLOT_VECTORFIELD;
 	plot_functions (FALSE /* do_window_present */);
@@ -6488,6 +6608,60 @@ get_SurfacePlotWindow (void)
 }
 
 static GelETree *
+set_SlopefieldTicks (GelETree * a)
+{
+	int v, h;
+	gboolean update = FALSE;
+
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "set_SlopefieldTicks", "set_SlopefieldTicks");
+		return NULL;
+	}
+
+	if G_UNLIKELY ( ! get_ticks_from_matrix (a, &v, &h))
+		return NULL;
+
+	plot_sf_Vtick = v;
+	plot_sf_Htick = h;
+
+	return make_matrix_from_ticks (plot_sf_Vtick, plot_sf_Htick);
+}
+
+static GelETree *
+get_SlopefieldTicks (void)
+{
+	return make_matrix_from_ticks (plot_sf_Vtick, plot_sf_Htick);
+}
+
+static GelETree *
+set_VectorfieldTicks (GelETree * a)
+{
+	int v, h;
+	gboolean update = FALSE;
+
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "set_VectorfieldTicks", "set_VectorfieldTicks");
+		return NULL;
+	}
+
+	if G_UNLIKELY ( ! get_ticks_from_matrix (a, &v, &h))
+		return NULL;
+
+	plot_vf_Vtick = v;
+	plot_vf_Htick = h;
+
+	return make_matrix_from_ticks (plot_vf_Vtick, plot_vf_Htick);
+}
+
+static GelETree *
+get_VectorfieldTicks (void)
+{
+	return make_matrix_from_ticks (plot_vf_Vtick, plot_vf_Htick);
+}
+
+static GelETree *
 set_VectorfieldNormalized (GelETree * a)
 {
 	if G_UNLIKELY (plot_in_progress != 0) {
@@ -6571,6 +6745,9 @@ gel_add_graph_functions (void)
 
 	FUNC (LinePlotClear, 0, "", "plotting", N_("Show the line plot window and clear out functions"));
 	VFUNC (LinePlotDrawLine, 2, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"));
+
+	PARAMETER (SlopefieldTicks, N_("Number of slopefield ticks as a vector [vertical,horizontal]."));
+	PARAMETER (VectorfieldTicks, N_("Number of vectorfield ticks as a vector [vertical,horizontal]."));
 
 	PARAMETER (VectorfieldNormalized, N_("Normalize vectorfields if true.  That is, only show direction and not magnitude."));
 	PARAMETER (LinePlotDrawLegends, N_("If to draw legends or not on line plots."));
