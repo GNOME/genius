@@ -1245,7 +1245,7 @@ plot_zoomfit_cb (void)
 			ploty2 = plot_maxy + size * 0.05;
 
 			/* sanity */
-			if (ploty2 < ploty1)
+			if (ploty2 <= ploty1)
 				ploty2 = ploty1 + 0.1;
 
 			/* sanity */
@@ -1264,7 +1264,7 @@ plot_zoomfit_cb (void)
 			plotx2 = plot_maxx + sizex * 0.05;
 
 			/* sanity */
-			if (plotx2 < plotx1)
+			if (plotx2 <= plotx1)
 				plotx2 = plotx1 + 0.1;
 
 			/* sanity */
@@ -1277,7 +1277,7 @@ plot_zoomfit_cb (void)
 			ploty2 = plot_maxy + size * 0.05;
 
 			/* sanity */
-			if (ploty2 < ploty1)
+			if (ploty2 <= ploty1)
 				ploty2 = ploty1 + 0.1;
 
 			/* sanity */
@@ -1291,7 +1291,7 @@ plot_zoomfit_cb (void)
 			surfacez2 = plot_maxy + size * 0.05;
 
 			/* sanity */
-			if (surfacez2 < surfacez1)
+			if (surfacez2 <= surfacez1)
 				surfacez2 = surfacez1 + 0.1;
 
 			/* sanity */
@@ -3328,16 +3328,19 @@ slopefield_draw_solution (double x, double y, double dx)
 	GSList *points2 = NULL;
 	GSList *li;
 	GtkPlotData *data;
+	double fudgey;
 
 	if (slopefield_func == NULL)
 		return;
 
 	gdk_color_parse ("red", &color);
 
+	fudgey = (ploty2-ploty1)/100;
+
 	len1 = 0;
 	cx = x;
 	cy = y;
-	while (cx < plotx2 && cy > ploty1 && cy < ploty2) {
+	while (cx < plotx2 && cy > ploty1-fudgey && cy < ploty2+fudgey) {
 		double *pt;
 		gboolean ex = FALSE;
 		double k1, k2, k3, k4, sl;
@@ -3375,7 +3378,7 @@ slopefield_draw_solution (double x, double y, double dx)
 	len2 = 0;
 	cx = x;
 	cy = y;
-	while (cx > plotx1 && cy > ploty1 && cy < ploty2) {
+	while (cx > plotx1 && cy > ploty1-fudgey && cy < ploty2+fudgey) {
 		double *pt;
 		gboolean ex = FALSE;
 		double k1, k2, k3, k4, sl;

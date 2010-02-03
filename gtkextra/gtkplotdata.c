@@ -987,6 +987,7 @@ gtk_plot_data_init (GtkPlotData *dataset)
   dataset->gradient->ticks.nminorticks = 0;
   dataset->gradient->ticks.nminor = 0;
   dataset->gradient->ticks.values = NULL;
+  dataset->gradient->ticks.nticks = 0;
   dataset->gradient->ticks.scale = GTK_PLOT_SCALE_LINEAR;
   dataset->gradient->ticks.apply_break = FALSE;
   dataset->gradient->ticks_length = 4;

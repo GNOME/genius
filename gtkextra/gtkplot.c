@@ -1439,6 +1439,7 @@ gtk_plot_axis_init (GtkPlotAxis *axis)
   axis->ticks.nmajorticks = 0;
   axis->ticks.nminorticks = 0;
   axis->ticks.values = NULL;
+  axis->ticks.nticks = 0;
   axis->ticks.set_limits = FALSE;
   axis->ticks.begin = 0;
   axis->ticks.end = 0;
@@ -1893,6 +1894,7 @@ gtk_plot_axis_destroy (GtkObject *object)
   if(axis->ticks.values){
     g_free (axis->ticks.values);
     axis->ticks.values = NULL;
+    axis->ticks.nticks = 0;
   }
 
   if(axis->tick_labels) g_object_unref(G_OBJECT(axis->tick_labels));
@@ -2181,6 +2183,7 @@ gtk_plot_axis_construct(GtkPlotAxis *axis, GtkPlotOrientation orientation)
   axis->title.border_space = 2;
   axis->title.shadow_width = 3;
   axis->ticks.values = NULL;
+  axis->ticks.nticks = 0;
 
   axis->ticks_transform = gtk_plot_ticks_transform;
   axis->ticks_inverse = gtk_plot_ticks_inverse;
@@ -4965,6 +4968,7 @@ printf("%f %f\n",max/ticks->step,ceil(max/ticks->step));
   if(ticks->values){
      g_free(ticks->values);
      ticks->values = NULL;
+     ticks->nticks = 0;
   }
 
   ticks->nmajorticks = 0; 
@@ -5099,6 +5103,7 @@ gtk_plot_ticks_recalc(GtkPlotAxis *axis)
     a1.min = ticks->min;
     a1.max = ticks->break_min;
     a1.values = NULL;
+    a1.nticks = 0;
     gtk_plot_real_ticks_recalc(&a1);
 
     a2.scale = ticks->break_scale;
@@ -5110,11 +5115,13 @@ gtk_plot_ticks_recalc(GtkPlotAxis *axis)
     a2.min = ticks->break_max;
     a2.max = ticks->max;
     a2.values = NULL;
+    a2.nticks = 0;
     gtk_plot_real_ticks_recalc(&a2);
 
     if(ticks->values){
       g_free(ticks->values);
       ticks->values = NULL;
+      ticks->nticks = 0;
     }
     ticks->nmajorticks = a1.nmajorticks+a2.nmajorticks;
     ticks->nminorticks = a1.nminorticks+a2.nminorticks;

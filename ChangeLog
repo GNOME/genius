@@ -1,3 +1,14 @@
+Wed Feb 03 00:10:42 2010  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c: when drawing slopefield solutions, allow the graph
+	  to leave window by a small fudge factor of 1/100 of the window size
+
+	* gtkextra/gtkplot.c, gtkextra/gtkplot3d.c: add some sanity fixes to
+	  fix crashes on tick calculations when the supplied data is less
+	  than sane.  The tick calculation stuff is very evil and there are
+	  still some crashes around when doing insensible things with 
+	  graphs.
+
 Tue Feb 02 21:42:42 2010  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c: fix compilation when gtksourceview is disabled

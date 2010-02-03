@@ -574,6 +574,7 @@ gtk_plot3d_init (GtkPlot3D *plot)
   plot->ax->ticks.nmajorticks = 0;
   plot->ax->ticks.nminorticks = 0;
   plot->ax->ticks.values = NULL;
+  plot->ax->ticks.nticks = 0;
   plot->ax->ticks.set_limits = FALSE;
   plot->ax->ticks.begin = 0;
   plot->ax->ticks.end = 0;
@@ -583,6 +584,7 @@ gtk_plot3d_init (GtkPlot3D *plot)
   plot->ay->ticks.nmajorticks = 0;
   plot->ay->ticks.nminorticks = 0;
   plot->ay->ticks.values = NULL;
+  plot->ay->ticks.nticks = 0;
   plot->ay->ticks.set_limits = FALSE;
   plot->ay->ticks.begin = 0;
   plot->ay->ticks.end = 0;
@@ -592,6 +594,7 @@ gtk_plot3d_init (GtkPlot3D *plot)
   plot->az->ticks.nmajorticks = 0;
   plot->az->ticks.nminorticks = 0;
   plot->az->ticks.values = NULL;
+  plot->az->ticks.nticks = 0;
   plot->az->ticks.set_limits = FALSE;
   plot->az->ticks.begin = 0;
   plot->az->ticks.end = 0;
@@ -1550,6 +1553,9 @@ gtk_plot3d_draw_grids(GtkPlot3D *plot, GtkPlotAxis *axis, GtkPlotVector delta)
 
   widget = GTK_WIDGET(plot);
 
+  /* no values! */
+  if (axis->ticks.values == NULL) return;
+
   xp = GTK_PLOT(plot)->internal_allocation.x;
   yp = GTK_PLOT(plot)->internal_allocation.y;
   width = GTK_PLOT(plot)->internal_allocation.width;
@@ -1638,6 +1644,9 @@ gtk_plot3d_draw_axis(GtkPlot3D *plot,
   gdouble x1, x2, y1, y2;
   gint size;
   gint ticks_length;
+
+  if (axis->ticks.values == NULL)
+    return;
 
   widget = GTK_WIDGET(plot); 
   pc = GTK_PLOT(plot)->pc;
@@ -1784,7 +1793,9 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
   ticks_direction.y = aux.x*plot->e1.y + aux.y*plot->e2.y + aux.z*plot->e3.y; 
   ticks_direction.z = aux.x*plot->e1.z + aux.y*plot->e2.z + aux.z*plot->e3.z; 
 
-  for(ntick = 0; ntick < axis->ticks.nticks; ntick++){
+  for(ntick = 0;
+      axis->ticks.values != NULL &&
+      ntick < axis->ticks.nticks; ntick++){
     if(axis->ticks.values[ntick].minor) continue;
     xx = axis->ticks.values[ntick].value;
     gtk_plot3d_get_pixel(plot, 
