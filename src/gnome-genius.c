@@ -307,6 +307,7 @@ static GtkActionEntry entries[] = {
     N_("_Quit"), "<control>Q",
     N_("Quit"),
     G_CALLBACK (quitapp) },
+#ifdef HAVE_GTKSOURCEVIEW
   { "Undo", GTK_STOCK_UNDO,
     N_("_Undo"), "<control>Z",
     N_("Undo the last action"),
@@ -315,6 +316,7 @@ static GtkActionEntry entries[] = {
     N_("_Redo"), "<shift><control>Z",
     N_("Redo the undone action"),
     G_CALLBACK (redo_callback) },
+#endif
   { "Cut", GTK_STOCK_CUT,
     N_("Cu_t"), "<control>X",
     N_("Cut the selection"),
