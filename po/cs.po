@@ -3,14 +3,15 @@
 # Copyrigyt (C) 2004, 2005 Miloslav Trmac <mitr@volny.cz>
 # Miloslav Trmac <mitr@volny.cz>, 2003, 2004, 2005.
 # Jiri Lebl <jirka@5z.com>, 1998-2009
-# Marek Černocký <marek@manet.cz>, 2009.
+# Marek Černocký <marek@manet.cz>, 2009, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-03 00:17-0600\n"
-"PO-Revision-Date: 2010-02-01 20:44+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=genius&component=general\n"
+"POT-Creation-Date: 2010-02-03 06:18+0000\n"
+"PO-Revision-Date: 2010-02-03 13:06+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4230,28 +4231,26 @@ msgstr "Limity grafu nebyly zadány jako šestiprvkový vektor"
 
 #: ../src/graphing.c:3132 ../src/graphing.c:3150 ../src/graphing.c:3164
 msgid "Ticks must be between 2 and 200"
-msgstr ""
+msgstr "Úseky musí být v rozmezí od 2 do 200"
 
 #: ../src/graphing.c:3141 ../src/graphing.c:3155
-#, fuzzy
 msgid "Ticks not given as numbers"
-msgstr "Limity grafu nebyly zadány jako čísla"
+msgstr "Úseky nejsou zadány jako číslo"
 
 #: ../src/graphing.c:3169
-#, fuzzy
 msgid "Ticks not given as a number or a 2-vector"
-msgstr "Limity grafu nebyly zadány jako čtyřprvkový vektor"
+msgstr "Úseky nejsou zadány jako číslo nebo 2prvkový vektor"
 
 #: ../src/graphing.c:4204
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Type in function name or expression involving the %s and %s variables (or "
 "the %s variable which will be %s=%s+i%s) that gives the slope at the point (%"
 "s,%s)."
 msgstr ""
 "Směrové pole vytvořte zadáním názvu funkce nebo výrazu obsahujícího proměnné "
-"x a y (nebo proměnnou z, která bude z=x+iy) vyjadřující směrnici v bodě (x,"
-"y). "
+"%s a %s (nebo proměnnou %s, která bude %s=%s+i%s) vyjadřující směrnici v "
+"bodě (%s,%s). "
 
 #: ../src/graphing.c:4229 ../src/graphing.c:4236
 #, c-format
@@ -4294,7 +4293,7 @@ msgstr ""
 "do polí níže"
 
 #: ../src/graphing.c:4330
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
 "below to graph them.  Either fill in both boxes with %s= and %s= in front of "
@@ -4302,10 +4301,10 @@ msgid ""
 "the %s= box giving %s and %s as the real and imaginary part of a complex "
 "number."
 msgstr ""
-"Pro vykreslení grafu zadejte názvy funkcí nebo výrazy používající proměnnou "
-"t do polí níže. Buď vyplňte obě pole s x= a y= před nimi a zadejte "
-"souřadnice x a y odděleně, nebo vyplňte pole z= a zadejte x a y jako reálné "
-"a imaginární části komplexního čísla."
+"Pro vykreslení grafu zadejte názvy funkcí nebo výrazy používající proměnnou %"
+"s do polí níže. Buď vyplňte obě pole s %s= a %s= před nimi a zadejte "
+"souřadnice %s a %s odděleně, nebo vyplňte pole %s= a zadejte %s a %s jako "
+"reálné a imaginární části komplexního čísla."
 
 #: ../src/graphing.c:4371
 #, c-format
@@ -4365,12 +4364,12 @@ msgstr "_Parametrické"
 #. # of ticks
 #: ../src/graphing.c:4672 ../src/graphing.c:4724
 msgid "Vertical ticks:"
-msgstr "Vertikálních úseků:"
+msgstr "Svislých úseků:"
 
 #. # of ticks
 #: ../src/graphing.c:4676 ../src/graphing.c:4728
 msgid "Horizontal ticks:"
-msgstr "Horizontálních úseklů:"
+msgstr "Vodorovných úseků:"
 
 #: ../src/graphing.c:4681
 msgid "Sl_ope field"
@@ -4608,23 +4607,21 @@ msgid "%s: Bad parameter"
 msgstr "%s: Špatný parametr"
 
 #: ../src/graphing.c:7236
-#, fuzzy
 msgid "Variable names not given in a 4-vector"
-msgstr "Limity grafu nebyly zadány jako čtyřprvkový vektor"
+msgstr "Názvy proměnných nebyly zadány jako 4prvkový vektor"
 
 #: ../src/graphing.c:7246 ../src/graphing.c:7255 ../src/graphing.c:7264
 #: ../src/graphing.c:7273
 msgid "Variable names should be strings"
-msgstr ""
+msgstr "Název proměnné by měl být řetězec"
 
 #: ../src/graphing.c:7280
-#, fuzzy
 msgid "Variable names must be valid identifiers"
-msgstr "Proměnná „%s“ použita bez inicializace"
+msgstr "Název proměnné musí být platný identifikátor"
 
 #: ../src/graphing.c:7289
 msgid "Variable names must be mutually distinct"
-msgstr ""
+msgstr "Názvy proměnných musí být vzájemně odlišné"
 
 #: ../src/graphing.c:7373
 msgid "Plotting"
@@ -4718,17 +4715,19 @@ msgstr ""
 
 #: ../src/graphing.c:7394
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
-msgstr ""
+msgstr "Počet úseků směrového pole jako vektor [svisle,vodorovně]"
 
 #: ../src/graphing.c:7395
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
-msgstr ""
+msgstr "Počet úseků vektorového pole jako vektor [svisle,vodorovně]"
 
 #: ../src/graphing.c:7396
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
 msgstr ""
+"Výchozí názvy použité všemi funkce pro kreslení ve 2D. Mělo by se jednat o "
+"4prvkový vektor řetězců nebo identifikátorů [x,y,z,t]."
 
 #: ../src/graphing.c:7398
 msgid ""
@@ -5103,3 +5102,4 @@ msgstr "ERROR: výraz local může být jen první výraz v definici funkce"
 
 #~ msgid "Invalid t range"
 #~ msgstr "Neplatný rozsah t"
+
