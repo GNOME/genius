@@ -4518,6 +4518,9 @@ get_new_line (GIOChannel *source, GIOCondition condition, gpointer data)
 	int fd = g_io_channel_unix_get_fd (source);
 	int r;
 	char buf[5] = "EOF!";
+
+	/* make sure the GUI responds */
+	check_events ();
 	
 	if (condition & G_IO_HUP) {
 		char *str;
