@@ -1,5 +1,7 @@
+# Slovenian translation of genius.
 # Copyright (C) 2009 genius's COPYRIGHT HOLDER
 # This file is distributed under the same license as the genius package.
+#
 # Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010.
 #
 msgid ""
@@ -7,8 +9,8 @@ msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=genius&component=general\n"
 "POT-Creation-Date: 2010-02-03 06:18+0000\n"
-"PO-Revision-Date: 2010-02-15 15:43+0100\n"
-"Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
+"PO-Revision-Date: 2010-03-12 13:47+0100\n"
+"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -281,7 +283,7 @@ msgstr "Vrne vse največje faktorje potenc deliteljev števila, ki so praštevil
 
 #: ../lib/library-strings.c:65
 msgid "Vector with the known Mersenne prime exponents"
-msgstr "Vektor z znanimi eksponenti Mersennovih praštevil"
+msgstr "Vektor z znanimi potencami Mersennovih praštevil"
 
 #: ../lib/library-strings.c:66
 msgid "Return the Moebius mu function evaluated in n"
@@ -1352,7 +1354,7 @@ msgstr "Potence matrik v načinu modula so definirane le na matrikah celih štev
 
 #: ../src/eval.c:2063
 msgid "Exponent too large"
-msgstr "Eksponent je prevelik"
+msgstr "Potenca je prevelika"
 
 #: ../src/eval.c:2090
 #: ../src/eval.c:2205
@@ -1402,7 +1404,7 @@ msgstr "Spremenljivka 'i' je uporabljena nezagnana. Najbrž ste želeli napisati
 #: ../src/eval.c:6748
 #, c-format
 msgid "Variable '%s' used uninitialized, perhaps you meant %s."
-msgstr "Spremenljivka '%s' je uporabljena nezagnana, najbrž ste mislili %s."
+msgstr "Spremenljivka '%s' je uporabljena nezačeta, najbrž ste mislili %s."
 
 #: ../src/eval.c:3442
 #: ../src/eval.c:3470
@@ -1410,7 +1412,7 @@ msgstr "Spremenljivka '%s' je uporabljena nezagnana, najbrž ste mislili %s."
 #: ../src/eval.c:6755
 #, c-format
 msgid "Variable '%s' used uninitialized"
-msgstr "Spremenljivka '%s' je uporabljena nezagnana"
+msgstr "Spremenljivka '%s' je uporabljena nezačeta"
 
 #: ../src/eval.c:3474
 #: ../src/eval.c:4525
@@ -1446,7 +1448,7 @@ msgstr "Slab argument za modularno opravilo"
 #: ../src/eval.c:4460
 #, c-format
 msgid "Function '%s' used uninitialized, perhaps you meant %s."
-msgstr "Funkcija '%s' je uporabljena nezagnana, najbrž ste mislili %s."
+msgstr "Funkcija '%s' je uporabljena nezačeta, najbrž ste mislili %s."
 
 #: ../src/eval.c:4467
 #, c-format
@@ -2284,7 +2286,7 @@ msgstr "Kvadratni koren"
 
 #: ../src/funclib.c:6285
 msgid "The exponential function"
-msgstr "Eksponentna funkcija"
+msgstr "Potenčna funkcija"
 
 #: ../src/funclib.c:6288
 msgid "The natural logarithm"
@@ -2679,7 +2681,7 @@ msgstr "Dobi vse permutacije k števil od 1 do n kot vektor vektorjev"
 
 #: ../src/funclib.c:6460
 msgid "Calculate combinations (binomial coefficient)"
-msgstr "Izračunaj kombinacije (binomski koeficient)"
+msgstr "Izračunaj kombinacije (dvočlenski koeficient)"
 
 #: ../src/funclib.c:6463
 msgid "Convert a string to a vector of ASCII values"
@@ -3350,7 +3352,7 @@ msgstr "Neprekinjeno posodabljaj"
 
 #: ../src/gnome-genius.c:1480
 msgid "Monitor a Variable"
-msgstr "Nadziraj spremenljivko"
+msgstr "Nadzoruj spremenljivko"
 
 #: ../src/gnome-genius.c:1497
 msgid "Variable name:"
@@ -3360,7 +3362,7 @@ msgstr "Ime spremenljivke:"
 #. always textbox
 #: ../src/gnome-genius.c:1553
 msgid "Full Answer"
-msgstr "Polen odgovor"
+msgstr "Poln odgovor"
 
 #: ../src/gnome-genius.c:1569
 #, c-format
@@ -3563,7 +3565,7 @@ msgid ""
 "Setting to 0 disables the limit."
 msgstr ""
 "Ko bo omejitev dosežena boste vprašani ali\n"
-"nželite prekiniti izračun ali nadaljevati.\n"
+"želite prekiniti izračun ali nadaljevati.\n"
 "Nastavljanje na 0 onemogoči mejo."
 
 #: ../src/gnome-genius.c:2577
@@ -3720,7 +3722,7 @@ msgid ""
 msgstr ""
 "<b>Napaka med izvajanjem programa</b>\n"
 "\n"
-"Med zapisovanjem programa v pogon je\n"
+"Med zapisovanjem programa v strojnik je\n"
 "prišlo do napake."
 
 #: ../src/gnome-genius.c:4155
@@ -3730,7 +3732,7 @@ msgstr "Genius %s"
 
 #: ../src/gnome-genius.c:4381
 msgid "Memory (node number) limit has been reached, interrupt the computation?"
-msgstr "Meja pomnilnika (število vozlišč) je bila dosežena, prekinitev izračuna?"
+msgstr "Meja pomnilnika (število vozlišč) je bila dosežena. Ali naj se izračun prekine?"
 
 #. error
 #. always textbox
@@ -3743,7 +3745,7 @@ msgstr "Ni mogoče izvesti genius-readline-helper-fifo!\n"
 
 #: ../src/gnome-genius.c:4525
 msgid "Readline helper died, weird.  Trying to recover, things may be odd."
-msgstr "Pomočnik readline se je zaprl. Poskušanje obnavljanja, stvari so lahko čudne."
+msgstr "Pomočnik readline se je zaprl. Program bo sejo poskušal obnoviti."
 
 #: ../src/gnome-genius.c:4729
 msgid ""
@@ -3817,7 +3819,7 @@ msgstr "Ukaz tiskanja:"
 
 #: ../src/graphing.c:781
 msgid "Cannot open temporary file, cannot print."
-msgstr "Začasne datoteke ni mogoče odpreti, ni mogoče tiskati."
+msgstr "Začasne datoteke ni mogoče odpreti, zato je n mogoče natisniti."
 
 #: ../src/graphing.c:808
 msgid "Printing failed"
@@ -4224,7 +4226,7 @@ msgstr "Neveljaven obseg Z"
 #: ../src/graphing.c:5373
 #, c-format
 msgid "Only specify %s and %s, or %s, not all at once."
-msgstr "Določiti je potrebno le %s in %s ali %s, ne vse hkrati."
+msgstr "Določiti je treba le %s in %s ali %s, ne vse hkrati."
 
 #: ../src/graphing.c:5386
 #: ../src/graphing.c:5409
@@ -4262,7 +4264,7 @@ msgstr "Ustvari graf"
 #: ../src/graphing.c:7338
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
-msgstr "%s: Poteka izrisovanje grafa, ni mogoče poklicati %s"
+msgstr "%s: preko opravila izrisovanja grafa, ni mogoče poklicati %s"
 
 #: ../src/graphing.c:5773
 #: ../src/graphing.c:6271
@@ -4309,7 +4311,7 @@ msgstr "%s: dx mora biti pozitiven"
 #: ../src/graphing.c:5939
 #, c-format
 msgid "%s: Slope field not active"
-msgstr "%s: Polje naklona ni dejavno"
+msgstr "%s: polje naklona ni dejavno"
 
 #: ../src/graphing.c:5966
 #, c-format
@@ -4325,19 +4327,19 @@ msgstr "%s: tlen mora biti pozitiven"
 #: ../src/graphing.c:6001
 #, c-format
 msgid "%s: Vector field not active"
-msgstr "%s: Vektorsko polje ni dejavno"
+msgstr "%s: vektorsko polje ni dejavno"
 
 #: ../src/graphing.c:6026
 #: ../src/graphing.c:6520
 #, c-format
 msgid "%s: First argument must be a function"
-msgstr "%s: Prvi argument mora biti funkcija"
+msgstr "%s: prvi argument mora biti funkcija"
 
 #: ../src/graphing.c:6141
 #: ../src/graphing.c:6378
 #, c-format
 msgid "%s: First two arguments must be functions"
-msgstr "%s: Prva dva argumenta morata biti funkciji"
+msgstr "%s: prva dva argumenta morata biti funkciji"
 
 #: ../src/graphing.c:6266
 #, c-format
@@ -4354,32 +4356,32 @@ msgstr "%s: neveljaven obseg T"
 #: ../src/graphing.c:6776
 #, c-format
 msgid "%s: Line should be given as a real, n by 2 matrix with columns for x and y, n>=2"
-msgstr "%s: Črta bi morala biti podana kot realna, n krat 2 matrika s stolpci za x in y, n>=2"
+msgstr "%s: črta bi morala biti podana kot realna, n krat 2 matrika s stolpci za x in y, n>=2"
 
 #: ../src/graphing.c:6854
 #, c-format
 msgid "%s: Wrong number of arguments"
-msgstr "%s: Napačno število argumentov"
+msgstr "%s: napačno število argumentov"
 
 #: ../src/graphing.c:6912
 #, c-format
 msgid "%s: No color specified"
-msgstr "%s: Barva ni določena"
+msgstr "%s: barva ni določena"
 
 #: ../src/graphing.c:6924
 #, c-format
 msgid "%s: Color must be a string"
-msgstr "%s: Barva mora biti niz"
+msgstr "%s: barva mora biti niz"
 
 #: ../src/graphing.c:6933
 #, c-format
 msgid "%s: No thickness specified"
-msgstr "%s: Debelina ni določena"
+msgstr "%s: debelina ni določena"
 
 #: ../src/graphing.c:6954
 #, c-format
 msgid "%s: No window specified"
-msgstr "%s: Ni določenega okna"
+msgstr "%s: ni določenega okna"
 
 #: ../src/graphing.c:7000
 #: ../src/graphing.c:7024
@@ -4390,12 +4392,12 @@ msgstr "%s: slog puščice mora biti \"origin\", \"end\", \"both\" ali \"none\""
 #: ../src/graphing.c:7032
 #, c-format
 msgid "%s: Unknown style"
-msgstr "%s: Neznan slog"
+msgstr "%s: neznan slog"
 
 #: ../src/graphing.c:7038
 #, c-format
 msgid "%s: Bad parameter"
-msgstr "%s: Slab parameter"
+msgstr "%s: slab parameter"
 
 # To je ustaljen izraz za vektor v 4 dimenzionalnem realnem prostoru...
 #: ../src/graphing.c:7236
@@ -4505,7 +4507,7 @@ msgstr "Determinanta ne-kvadratne matrike ni definirana"
 
 #: ../src/mpwrap.c:520
 msgid "Integer exponent too large to compute"
-msgstr "Eksponent celega števila je prevelik za izračun"
+msgstr "Potenca celega števila je prevelik za izračun"
 
 #: ../src/mpwrap.c:1455
 msgid "Can't do modulo of floats or rationals!"
@@ -4513,7 +4515,7 @@ msgstr "Ni mogoče narediti modula racionalnih ali decimalnih števil!"
 
 #: ../src/mpwrap.c:1469
 msgid "Can't do GCD of floats or rationals!"
-msgstr "Ni mogoče narediti GCD racionalnih ali decimalnih števil!"
+msgstr "Ni mogoče določiti največjega skupnega delitelja racionalnih ali decimalnih števil!"
 
 #: ../src/mpwrap.c:1496
 msgid "Can't modulo invert non integers!"
@@ -4521,27 +4523,27 @@ msgstr "Ni mogoče izvesti obratnega modula za ne-cela števila!"
 
 #: ../src/mpwrap.c:1517
 msgid "Can't get jacobi symbols of floats or rationals!"
-msgstr "Ni mogoče dobiti jacobijevih simbolov racionalnih ali decimalnih števil!"
+msgstr "Ni mogoče dobiti Jacobijevih simbolov racionalnih ali decimalnih števil!"
 
 #: ../src/mpwrap.c:1536
 msgid "Can't get legendre symbols of floats or rationals!"
-msgstr "Ni mogoče dobiti legendrevih simbolov za racionalna ali decimalna števila!"
+msgstr "Ni mogoče dobiti Legendrevih simbolov za racionalna ali decimalna števila!"
 
 #: ../src/mpwrap.c:1555
 msgid "Can't get jacobi symbol with Kronecker extension of floats or rationals!"
-msgstr "Ni mogoče dobiti jacobijevega simbola s Kroneckerjevo razširitvijo za racionalna ali decimalna števila!"
+msgstr "Ni mogoče dobiti Jacobijevega simbola s Kroneckerjevo razširitvijo za racionalna ali decimalna števila!"
 
 #: ../src/mpwrap.c:1564
 msgid "Lucas must get an integer argument!"
-msgstr "Lucas zahteva celo številčni argument!"
+msgstr "Lucasov izračun zahteva celoštevilčni argument!"
 
 #: ../src/mpwrap.c:1570
 msgid "Number too large to compute lucas number!"
-msgstr "Število je preveliko za izračun lukasovega števila!"
+msgstr "Število je preveliko za izračun Lukasovega števila!"
 
 #: ../src/mpwrap.c:1575
 msgid "No such thing as negative lucas numbers!"
-msgstr "Negativno lukasovo število ne obstaja!"
+msgstr "Negativno Lukasovo število ne obstaja!"
 
 #: ../src/mpwrap.c:1590
 msgid "Cannot get next prime after non-integer!"
@@ -4558,7 +4560,7 @@ msgstr "%s: ne deluje za ne-cela števila!"
 #: ../src/mpwrap.c:1691
 #: ../src/mpwrap.c:1731
 msgid "Can't do factorials of rationals or floats!"
-msgstr "Ni mogoče izvesti fakultet racionalnih ali decimalnih števil!"
+msgstr "Ni mogoče izračunati fakultet racionalnih ali decimalnih števil!"
 
 #: ../src/mpwrap.c:1697
 #: ../src/mpwrap.c:1737
@@ -4572,7 +4574,7 @@ msgstr "Ni mogoče izračunati fakultet negativnih števil!"
 
 #: ../src/mpwrap.c:1753
 msgid "Can't do binomials of rationals or floats!"
-msgstr "Ni mogoče narediti binomov racionalnih ali decimalnih števil!"
+msgstr "Ni mogoče narediti dvočlenskih racionalnih ali decimalnih števil!"
 
 #: ../src/mpwrap.c:2060
 #: ../src/mpwrap.c:2128
@@ -4580,7 +4582,7 @@ msgstr "Ni mogoče narediti binomov racionalnih ali decimalnih števil!"
 #: ../src/mpwrap.c:4265
 #, c-format
 msgid "%s: Bad types for mod power"
-msgstr "%s: Slabe vrste za potenco mod"
+msgstr "%s: slabe vrste za potenco mod"
 
 #: ../src/mpwrap.c:2097
 #, c-format
@@ -4589,7 +4591,7 @@ msgstr "Ni mogoče obrniti %s modula %s v %s"
 
 #: ../src/mpwrap.c:2418
 msgid "Can't make random integer from a non-integer"
-msgstr "NI mogoče narediti naključnega celega števila iz ne-celega števila"
+msgstr "Ni mogoče narediti naključnega celega števila iz ne-celega števila"
 
 #: ../src/mpwrap.c:2423
 msgid "Range for random integer must be positive"
@@ -4621,27 +4623,27 @@ msgstr "Ni mogoče izvesti inverznega modula na kompleksnih številih"
 
 #: ../src/mpwrap.c:3969
 msgid "Can't GCD complex numbers"
-msgstr "Ni mogoče dobiti GCD kompleksnih števil"
+msgstr "Ni mogoče določiti največjega skupnega delitelja kompleksnih števil"
 
 #: ../src/mpwrap.c:3998
 msgid "Can't LCM complex numbers"
-msgstr "NI mogoče dobiti LCM kompleksnih števil"
+msgstr "Ni mogoče določiti najmanjšega skupnega večkratnika kompleksnih števil"
 
 #: ../src/mpwrap.c:4015
 msgid "Can't get jacobi symbols of complex numbers"
-msgstr "Ni mogoče dobiti jacobijevih simbolov kompleksnih števil"
+msgstr "Ni mogoče dobiti Jacobijevih simbolov kompleksnih števil"
 
 #: ../src/mpwrap.c:4031
 msgid "Can't get legendre symbols complex numbers"
-msgstr "Ni mogoče dobiti legendrevih simbolov kompleksnih števil"
+msgstr "Ni mogoče dobiti Legendrevih simbolov kompleksnih števil"
 
 #: ../src/mpwrap.c:4047
 msgid "Can't get jacobi symbol with Kronecker extension for complex numbers"
-msgstr "Ni mogoče dobiti jacobijevega simbola s Kroneckerjevo razširitvijo za kompleksna števila"
+msgstr "Ni mogoče dobiti Jacobijevega simbola s Kroneckerjevo razširitvijo za kompleksna števila"
 
 #: ../src/mpwrap.c:4063
 msgid "Can't get lucas number for complex numbers"
-msgstr "Za kompleksna števila ni mogoče dobiti lucaskovih števil"
+msgstr "Za kompleksna števila ni mogoče dobiti Lucasovih števil"
 
 #: ../src/mpwrap.c:4079
 msgid "Can't get next prime for complex numbers"
@@ -4653,7 +4655,7 @@ msgstr "Ni mogoče dobiti naslednjega praštevila za kompleksna števila"
 #: ../src/mpwrap.c:4125
 #, c-format
 msgid "%s: can't work on complex numbers"
-msgstr "%s: ni mogoče delati na kompleksnih številih"
+msgstr "%s: ni mogoče delati s kompleksnimi števili"
 
 #: ../src/mpwrap.c:4354
 #: ../src/mpwrap.c:4432
@@ -4677,7 +4679,7 @@ msgstr "Ni mogoče narediti fakultet kompleksnih števil"
 
 #: ../src/mpwrap.c:5070
 msgid "Can't make binomials of complex numbers"
-msgstr "Bionomov kompleksnih števil ni mogoče ustvariti"
+msgstr "Dvočlenskih kompleksnih števil ni mogoče ustvariti"
 
 #: ../src/mpwrap.c:5449
 #: ../src/mpwrap.c:5460
@@ -4702,11 +4704,11 @@ msgstr "Celo število je preveliko za to operacijo"
 
 #: ../src/mpwrap.c:5611
 msgid "Can't convert complex number into a double"
-msgstr "Kompleksnega števila ni mogoče pretvoriti v decimalno dvojne natančnosti"
+msgstr "Kompleksnega števila ni mogoče pretvoriti v decimalno število dvojne natančnosti"
 
 #: ../src/mpwrap.c:5620
 msgid "Can't convert real number to double"
-msgstr "Realnega števila ni mogoče pretvoriti v decimalno dvojne natančnosti"
+msgstr "Realnega števila ni mogoče pretvoriti v decimalno število dvojne natančnosti"
 
 #: ../src/mpwrap.c:5626
 #: ../src/mpwrap.c:5641
@@ -4720,7 +4722,7 @@ msgstr "Ni mogoče odpreti vstavka!"
 #: ../src/plugin.c:171
 #: ../src/plugin.c:179
 msgid "Can't initialize plugin!"
-msgstr "Ni mogoče zagnati vstavka!"
+msgstr "Ni mogoče začeti vstavka!"
 
 #: ../src/symbolic.c:665
 #, c-format
@@ -4730,19 +4732,19 @@ msgstr "%s: '%s' ni funkcija ene spremenljivke"
 #: ../src/symbolic.c:698
 #, c-format
 msgid "%s: Cannot differentiate the '%s' function"
-msgstr "%s: Ni mogoče odvajati funkcije '%s'"
+msgstr "%s: ni mogoče odvajati funkcije '%s'"
 
 #: ../src/symbolic.c:783
 msgid "Symbolic Operations"
-msgstr "Simbolne operacije"
+msgstr "Simbolične operacije"
 
 #: ../src/symbolic.c:786
 msgid "Attempt to symbolically differentiate the function f, where f is a function of one variable."
-msgstr "Poskušanje simboličnega odvajanja funkcije f, kjer je f funkcija ene spremenljivke."
+msgstr "Poskus simboličnega odvajanja funkcije f, kjer je f funkcija ene spremenljivke."
 
 #: ../src/symbolic.c:789
 msgid "Attempt to symbolically differentiate the function f, where f is a function of one variable, returns null if unsuccessful but is silent."
-msgstr "Poskušanje simboličnega odvajanja funkcije f, kjer je f funkcija ene spremenljivke, vrne null, če neuspešno, toda je tiho."
+msgstr "Poskus simboličnega odvajanja funkcije f, kjer je f funkcija ene spremenljivke (vrne tiho null rešitev, če je odvajanje neuspešno)."
 
 #: ../src/testplugin.c:13
 msgid "This is the test-plugin function\n"
@@ -4773,7 +4775,7 @@ msgid ""
 "That's it, isn't this fun\n"
 "\n"
 msgstr ""
-"To je to, ali to ni zabavno?\n"
+"To je to, ali ni to zabavno?\n"
 "\n"
 
 #: ../src/util.c:93
