@@ -139,10 +139,18 @@ static GtkWidget *vectorfield_yder_label = NULL;
 static GtkWidget *lineplot_x_range_label = NULL;
 static GtkWidget *lineplot_y_range_label = NULL;
 
+static GtkWidget *surface_info_label = NULL;
+static GtkWidget *surface_x_range_label = NULL;
+static GtkWidget *surface_y_range_label = NULL;
+
 static char *lp_x_name = NULL;
 static char *lp_y_name = NULL;
 static char *lp_z_name = NULL;
 static char *lp_t_name = NULL;
+
+static char *sp_x_name = NULL;
+static char *sp_y_name = NULL;
+static char *sp_z_name = NULL;
 
 static GSList *solutions_list = NULL;
 
@@ -306,6 +314,7 @@ create_range_spinboxes (const char *title, GtkWidget **titlew,
 			GCallback activate_callback);
 
 static void set_lineplot_labels (void);
+static void set_surface_labels (void);
 
 #define WIDTH 640
 #define HEIGHT 480
@@ -372,6 +381,10 @@ init_var_names (void)
 	lp_y_name = g_strdup ("y");
 	lp_z_name = g_strdup ("z");
 	lp_t_name = g_strdup ("t");
+
+	sp_x_name = g_strdup ("x");
+	sp_y_name = g_strdup ("y");
+	sp_z_name = g_strdup ("z");
 }
 
 static void
@@ -552,6 +565,7 @@ rotate_cb (GtkWidget *item, gpointer data)
 	GtkWidget *req = NULL;
 	GtkWidget *hbox, *w, *b;
         GtkSizeGroup *sg;
+	char *tmp;
 
 	if (surface_plot == NULL)
 		return;
@@ -576,7 +590,11 @@ rotate_cb (GtkWidget *item, gpointer data)
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
 			    hbox, TRUE, TRUE, 0);
 
-	w = gtk_label_new (_("Rotate X: "));
+	tmp = g_strdup_printf (_("Rotate about %s axis: "),
+			       sp_x_name);
+	w = gtk_label_new (tmp);
+	g_free (tmp);
+
 	gtk_size_group_add_widget (sg, w);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 
@@ -601,7 +619,11 @@ rotate_cb (GtkWidget *item, gpointer data)
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
 			    hbox, TRUE, TRUE, 0);
 
-	w = gtk_label_new (_("Rotate Y: "));
+	tmp = g_strdup_printf (_("Rotate about %s axis: "),
+			       sp_y_name);
+	w = gtk_label_new (tmp);
+	g_free (tmp);
+
 	gtk_size_group_add_widget (sg, w);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 
@@ -626,7 +648,7 @@ rotate_cb (GtkWidget *item, gpointer data)
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
 			    hbox, TRUE, TRUE, 0);
 
-	w = gtk_label_new (_("Rotate Z: "));
+	w = gtk_label_new (_("Rotate about dependent axis: "));
 	gtk_size_group_add_widget (sg, w);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 
@@ -1574,9 +1596,9 @@ add_surface_plot (void)
 	bottom = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_BOTTOM);
 	left = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_LEFT);
 
-	gtk_plot_axis_set_title (bottom, "X");
-	gtk_plot_axis_set_title (left, "Y");
-	gtk_plot_axis_set_title (top, "Z");
+	gtk_plot_axis_set_title (bottom, sp_x_name);
+	gtk_plot_axis_set_title (left, sp_y_name);
+	gtk_plot_axis_set_title (top, "");
 
 	gtk_plot_set_legends_border (GTK_PLOT (surface_plot),
 				     GTK_PLOT_BORDER_LINE, 3);
@@ -4375,6 +4397,43 @@ set_lineplot_labels (void)
 	}
 }
 
+static void
+set_surface_labels (void)
+{
+	char *s;
+	/* XXX */
+
+	if (surface_info_label != NULL) {
+		s = g_strdup_printf
+			(_("Type a function name or an expression involving "
+			   "the %s and %s variables (or the %s variable which will be %s=%s+i%s) "
+			   "in the boxes below to graph them.  Functions with one argument only "
+			   "will be passed a complex number."),
+			 sp_x_name,
+			 sp_y_name,
+			 sp_z_name,
+			 sp_z_name,
+			 sp_x_name,
+			 sp_y_name);
+		gtk_label_set_text (GTK_LABEL (surface_info_label), s);
+		g_free (s);
+	}
+
+	if (surface_x_range_label != NULL) {
+		s = g_strdup_printf (_("%s from:"),
+				     sp_x_name);
+		gtk_label_set_text (GTK_LABEL (surface_x_range_label), s);
+		g_free (s);
+	}
+
+	if (surface_y_range_label != NULL) {
+		s = g_strdup_printf (_("%s from:"),
+				     sp_y_name);
+		gtk_label_set_text (GTK_LABEL (surface_y_range_label), s);
+		g_free (s);
+	}
+}
+
 static char *
 get_varname_from_entry (GtkEntry *e, const char *def, gboolean *ex)
 {
@@ -4517,6 +4576,108 @@ run_dialog_again:
 	gtk_widget_destroy (req);
 
 	set_lineplot_labels ();
+}
+
+static void
+change_surface_varnames (GtkWidget *button, gpointer data)
+{
+	GtkWidget *req = NULL;
+	GtkWidget *b, *l;
+	GtkWidget *xe;
+	GtkWidget *ye;
+	GtkWidget *ze;
+	GtkWidget *te;
+	GtkWidget *errlabel;
+        GtkSizeGroup *sg;
+
+	req = gtk_dialog_new_with_buttons
+		(_("Change variable names") /* title */,
+		 GTK_WINDOW (graph_window) /* parent */,
+		 GTK_DIALOG_MODAL /* flags */,
+		 GTK_STOCK_OK,
+		 GTK_RESPONSE_OK,
+		 GTK_STOCK_CANCEL,
+		 GTK_RESPONSE_CANCEL,
+		 NULL);
+
+	gtk_dialog_set_default_response (GTK_DIALOG (req),
+					 GTK_RESPONSE_OK);
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (req), FALSE);
+
+	sg = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+
+	errlabel = gtk_label_new (_("Some values were illegal"));
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+			    errlabel, FALSE, FALSE, 0);
+
+	b = create_simple_expression_box (_("independent variable (x):"),
+					  &l, &xe);
+	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+	gtk_size_group_add_widget (sg, l);
+	gtk_entry_set_text (GTK_ENTRY (xe), sp_x_name);
+	g_signal_connect (G_OBJECT (xe), "activate",
+			  G_CALLBACK (ok_dialog_entry_activate), req);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+			    b, FALSE, FALSE, 0);
+
+	b = create_simple_expression_box (_("independent variable (y):"),
+					  &l, &ye);
+	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+	gtk_size_group_add_widget (sg, l);
+	gtk_entry_set_text (GTK_ENTRY (ye), sp_y_name);
+	g_signal_connect (G_OBJECT (ye), "activate",
+			  G_CALLBACK (ok_dialog_entry_activate), req);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+			    b, FALSE, FALSE, 0);
+
+	b = create_simple_expression_box (_("independent complex variable (z = x+iy):"),
+					  &l, &ze);
+	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+	gtk_size_group_add_widget (sg, l);
+	gtk_entry_set_text (GTK_ENTRY (ze), sp_z_name);
+	g_signal_connect (G_OBJECT (ze), "activate",
+			  G_CALLBACK (ok_dialog_entry_activate), req);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+			    b, FALSE, FALSE, 0);
+
+	gtk_widget_show_all (req);
+	gtk_widget_hide (errlabel);
+
+run_dialog_again:
+
+	if (gtk_dialog_run (GTK_DIALOG (req)) == GTK_RESPONSE_OK) {
+		gboolean ex = FALSE;
+		char *xn, *yn, *zn, *tn;
+
+		xn = get_varname_from_entry (GTK_ENTRY (xe), "x", &ex);
+		yn = get_varname_from_entry (GTK_ENTRY (ye), "y", &ex);
+		zn = get_varname_from_entry (GTK_ENTRY (ze), "z", &ex);
+		if (strcmp (xn, yn) == 0 ||
+		    strcmp (xn, zn) == 0 ||
+		    strcmp (yn, zn) == 0)
+			ex = TRUE;
+		if (ex) {
+			gtk_entry_set_text (GTK_ENTRY (xe), xn);
+			gtk_entry_set_text (GTK_ENTRY (ye), yn);
+			gtk_entry_set_text (GTK_ENTRY (ze), zn);
+			g_free (xn);
+			g_free (yn);
+			g_free (zn);
+			gtk_widget_show (errlabel);
+			goto run_dialog_again;
+		}
+
+		g_free (sp_x_name);
+		g_free (sp_y_name);
+		g_free (sp_z_name);
+		sp_x_name = xn;
+		sp_y_name = yn;
+		sp_z_name = zn;
+	}
+	gtk_widget_destroy (req);
+
+	set_surface_labels ();
 }
 
 static GtkWidget *
@@ -4797,7 +4958,7 @@ static GtkWidget *
 create_surface_box (void)
 {
 	GtkWidget *mainbox, *frame;
-	GtkWidget *box, *b, *w;
+	GtkWidget *hbox, *box, *b, *w;
 
 	mainbox = gtk_vbox_new (FALSE, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (mainbox), GENIUS_PAD);
@@ -4807,15 +4968,12 @@ create_surface_box (void)
 	box = gtk_vbox_new (FALSE, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	gtk_container_add (GTK_CONTAINER (frame), box);
-	w = gtk_label_new (_("Type a function name or an expression involving "
-			     "the x and y variables (or the z variable which will be z=x+iy) "
-			     "in the boxes below to graph them.  Functions with one argument only "
-			     "will be passed a complex number."));
-	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.5);
-	gtk_widget_set_size_request (w, 610, -1);
-	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
+	surface_info_label = gtk_label_new ("");
+	gtk_misc_set_alignment (GTK_MISC (surface_info_label), 0.0, 0.5);
+	gtk_widget_set_size_request (surface_info_label, 610, -1);
+	gtk_label_set_line_wrap (GTK_LABEL (surface_info_label), TRUE);
 
-	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (box), surface_info_label, FALSE, FALSE, 0);
 
 	b = gtk_hbox_new (FALSE, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (box), b, FALSE, FALSE, 0);
@@ -4828,6 +4986,20 @@ create_surface_box (void)
 	surface_entry_status = gtk_image_new ();
 	gtk_box_pack_start (GTK_BOX (b), surface_entry_status, FALSE, FALSE, 0);
 
+
+	/* change varnames */
+	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
+	gtk_box_pack_start (GTK_BOX (mainbox), hbox, FALSE, FALSE, 0);
+
+	b = gtk_button_new_with_label (_("Change variable names..."));
+	gtk_box_pack_end (GTK_BOX (hbox), b, FALSE, FALSE, 0);
+	g_signal_connect (G_OBJECT (b), "clicked",
+			  G_CALLBACK (change_surface_varnames), NULL);
+
+	/*
+	 * Plot window frame
+	 */
+
 	frame = gtk_frame_new (_("Plot Window"));
 	gtk_box_pack_start (GTK_BOX (mainbox), frame, FALSE, FALSE, 0);
 	box = gtk_vbox_new (FALSE, GENIUS_PAD);
@@ -4837,7 +5009,8 @@ create_surface_box (void)
 	/*
 	 * X range
 	 */
-	b = create_range_spinboxes (_("X from:"), NULL, &surf_spinx1, NULL,
+	b = create_range_spinboxes (_("X from:"), &surface_x_range_label,
+				    &surf_spinx1, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
 				    _("to:"), NULL, &surf_spinx2, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
@@ -4848,7 +5021,8 @@ create_surface_box (void)
 	/*
 	 * Y range
 	 */
-	b = create_range_spinboxes (_("Y from:"), NULL, &surf_spiny1, NULL,
+	b = create_range_spinboxes (_("Y from:"), &surface_y_range_label,
+				    &surf_spiny1, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
 				    _("to:"), NULL, &surf_spiny2, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
@@ -4859,13 +5033,16 @@ create_surface_box (void)
 	/*
 	 * Z range
 	 */
-	b = create_range_spinboxes (_("Z from:"), NULL, &surf_spinz1, NULL,
+	b = create_range_spinboxes (_("Dependent axis from:"), NULL, &surf_spinz1, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
 				    _("to:"), NULL, &surf_spinz2, NULL,
 				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
 				    NULL, NULL, NULL, 0, 0, 0,
 				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
+
+	/* set labels correclty */
+	set_surface_labels ();
 
 	return mainbox;
 }
@@ -5096,11 +5273,11 @@ surface_from_dialog (void)
 
 	ex = FALSE;
 	func = get_func_from_entry2 (surface_entry, surface_entry_status, 
-				     "x", "y", "z", &ex);
+				     sp_x_name, sp_y_name, sp_z_name, &ex);
 
 	if (func == NULL) {
-		error_to_print = _("No functions to plot or no functions "
-				   "could be parsed");
+		error_to_print = g_strdup (_("No functions to plot or no functions "
+					     "could be parsed"));
 		goto whack_copied_funcs;
 	}
 
@@ -5130,17 +5307,19 @@ surface_from_dialog (void)
 	}
 
 	if (x1 == x2) {
-		error_to_print = _("Invalid X range");
+		error_to_print = g_strdup_printf (_("Invalid %s range"),
+						  sp_x_name);
 		goto whack_copied_funcs;
 	}
 
 	if (y1 == y2) {
-		error_to_print = _("Invalid Y range");
+		error_to_print = g_strdup_printf (_("Invalid %s range"),
+						  sp_y_name);
 		goto whack_copied_funcs;
 	}
 
 	if (z1 == z2) {
-		error_to_print = _("Invalid Z range");
+		error_to_print = g_strdup (_("Invalid dependent range"));
 		goto whack_copied_funcs;
 	}
 
@@ -5187,8 +5366,10 @@ whack_copied_funcs:
 	genius_setup.info_box = last_info;
 	genius_setup.error_box = last_error;
 
-	if (error_to_print != NULL)
+	if (error_to_print != NULL) {
 		genius_display_error (plot_dialog, error_to_print);
+		g_free (error_to_print);
+	}
 }
 
 static void
@@ -5259,8 +5440,8 @@ plot_from_dialog_lineplot (void)
 	}
 
 	if (funcs == 0) {
-		error_to_print = _("No functions to plot or no functions "
-				   "could be parsed");
+		error_to_print = g_strdup (_("No functions to plot or no functions "
+					     "could be parsed"));
 		goto whack_copied_funcs;
 	}
 
@@ -5282,12 +5463,14 @@ plot_from_dialog_lineplot (void)
 	}
 
 	if (x1 == x2) {
-		error_to_print = _("Invalid X range");
+		error_to_print = g_strdup_printf (_("Invalid %s range"),
+						  lp_x_name);
 		goto whack_copied_funcs;
 	}
 
 	if (y1 == y2) {
-		error_to_print = _("Invalid Y range");
+		error_to_print = g_strdup_printf (_("Invalid %s range"),
+						  lp_y_name);
 		goto whack_copied_funcs;
 	}
 
@@ -5332,8 +5515,10 @@ whack_copied_funcs:
 	genius_setup.info_box = last_info;
 	genius_setup.error_box = last_error;
 
-	if (error_to_print != NULL)
+	if (error_to_print != NULL) {
 		genius_display_error (plot_dialog, error_to_print);
+		g_free (error_to_print);
+	}
 }
 
 static void
