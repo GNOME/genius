@@ -745,6 +745,18 @@ slopefield plot.  (See <link linkend="gel-function-SlopefieldPlot"><function>Slo
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-SurfacePlotVariableNames">
+         <term>SurfacePlotVariableNames</term>
+         <listitem>
+          <synopsis>SurfacePlotVariableNames = ["x","y","z"]</synopsis>
+          <para>Tells genius which variable names are used as default names for <link linkend="genius-gel-function-list-plotting">surface plotting
+	  functions</link> using <link linkend="gel-function-SurfacePlot"><function>SurfacePlot</function></link>.
+          Note that the <varname>z</varname> does not refer to the dependent (vertical) axis, but to the indepent complex variable
+          <userinput>z=x+iy</userinput>.
+          </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-SurfacePlotWindow">
          <term>SurfacePlotWindow</term>
          <listitem>
@@ -980,7 +992,8 @@ all its elements are conjugated.</para>
          <term>IsComplexRational</term>
          <listitem>
           <synopsis>IsComplexRational (num)</synopsis>
-          <para>Check if argument is a possibly complex rational number.</para>
+	  <para>Check if argument is a possibly complex rational number.  That is, if both real and imaginary parts are
+	  given as rational numbers.  Of course rational simply means "not stored as a floating point number."</para>
          </listitem>
         </varlistentry>
 
@@ -1031,7 +1044,7 @@ we accept the convention that 0 is not a natural number.</para>
          <term>IsRational</term>
          <listitem>
           <synopsis>IsRational (num)</synopsis>
-          <para>Check if argument is a rational number (non-complex).</para>
+          <para>Check if argument is a rational number (non-complex).  Of course rational simply means "not stored as a floating point number."</para>
          </listitem>
         </varlistentry>
 
@@ -4775,7 +4788,7 @@ and has period <userinput>b-a</userinput>.</para>
          <term>GaussDistribution</term>
          <listitem>
           <synopsis>GaussDistribution (x,sigma)</synopsis>
-          <para>Integral of the GaussFunction from 0 to x (area under the normal curve).</para>
+	  <para>Integral of the GaussFunction from 0 to <varname>x</varname> (area under the normal curve).</para>
           <para>
 	    See
 	    <ulink url="http://mathworld.wolfram.com/NormalDistribution.html">Mathworld</ulink> for more information.

@@ -3002,10 +3002,33 @@ make_matrix_from_lp_varnames (void)
 	n->mat.quoted = FALSE;
 	gel_matrixw_set_size (m, 4, 1);
 
+	init_var_names ();
+
 	gel_matrixw_set_index (m, 0, 0) = gel_makenum_string (lp_x_name);
 	gel_matrixw_set_index (m, 1, 0) = gel_makenum_string (lp_y_name);
 	gel_matrixw_set_index (m, 2, 0) = gel_makenum_string (lp_z_name);
 	gel_matrixw_set_index (m, 3, 0) = gel_makenum_string (lp_t_name);
+
+	return n;
+}
+
+static GelETree *
+make_matrix_from_sp_varnames (void)
+{
+	GelETree *n;
+	GelMatrixW *m;
+	/*make us a new empty node*/
+	GEL_GET_NEW_NODE (n);
+	n->type = GEL_MATRIX_NODE;
+	m = n->mat.matrix = gel_matrixw_new ();
+	n->mat.quoted = FALSE;
+	gel_matrixw_set_size (m, 3, 1);
+
+	init_var_names ();
+
+	gel_matrixw_set_index (m, 0, 0) = gel_makenum_string (sp_x_name);
+	gel_matrixw_set_index (m, 1, 0) = gel_makenum_string (sp_y_name);
+	gel_matrixw_set_index (m, 2, 0) = gel_makenum_string (sp_z_name);
 
 	return n;
 }
@@ -3912,6 +3935,8 @@ plot_functions (gboolean do_window_present,
 static void
 plot_surface_functions (gboolean do_window_present)
 {
+	init_var_names ();
+
 	ensure_window (do_window_present);
 
 	clear_graph ();
@@ -4401,7 +4426,6 @@ static void
 set_surface_labels (void)
 {
 	char *s;
-	/* XXX */
 
 	if (surface_info_label != NULL) {
 		s = g_strdup_printf
@@ -4959,6 +4983,8 @@ create_surface_box (void)
 {
 	GtkWidget *mainbox, *frame;
 	GtkWidget *hbox, *box, *b, *w;
+
+	init_var_names ();
 
 	mainbox = gtk_vbox_new (FALSE, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (mainbox), GENIUS_PAD);
@@ -7475,6 +7501,10 @@ set_LinePlotVariableNames (GelETree * a)
 		return NULL;
 	}
 
+	g_free (lp_x_name);
+	g_free (lp_y_name);
+	g_free (lp_z_name);
+	g_free (lp_t_name);
 	lp_x_name = g_strdup (sx);
 	lp_y_name = g_strdup (sy);
 	lp_z_name = g_strdup (sz);
@@ -7489,6 +7519,82 @@ static GelETree *
 get_LinePlotVariableNames (void)
 {
 	return make_matrix_from_lp_varnames ();
+}
+
+static GelETree *
+set_SurfacePlotVariableNames (GelETree * a)
+{
+	GelETree *t;
+	char *sx, *sy, *sz;
+
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "set_SurfacePlotVariableNames", "set_SurfacePlotVariableNames");
+		return NULL;
+	}
+
+	if (a->type != GEL_MATRIX_NODE ||
+	    gel_matrixw_elements (a->mat.matrix) != 3) {
+		gel_errorout (_("Variable names not given in a 3-vector"));
+		return NULL;
+	}
+
+	t = gel_matrixw_vindex (a->mat.matrix, 0);
+	if (t->type == GEL_IDENTIFIER_NODE) {
+		sx = t->id.id->token;
+	} else if (t->type == GEL_STRING_NODE) {
+		sx = t->str.str;
+	} else {
+		gel_errorout (_("Variable names should be strings"));
+		return NULL;
+	}
+	t = gel_matrixw_vindex (a->mat.matrix, 1);
+	if (t->type == GEL_IDENTIFIER_NODE) {
+		sy = t->id.id->token;
+	} else if (t->type == GEL_STRING_NODE) {
+		sy = t->str.str;
+	} else {
+		gel_errorout (_("Variable names should be strings"));
+		return NULL;
+	}
+	t = gel_matrixw_vindex (a->mat.matrix, 2);
+	if (t->type == GEL_IDENTIFIER_NODE) {
+		sz = t->id.id->token;
+	} else if (t->type == GEL_STRING_NODE) {
+		sz = t->str.str;
+	} else {
+		gel_errorout (_("Variable names should be strings"));
+		return NULL;
+	}
+	if ( ! is_identifier (sx) ||
+	     ! is_identifier (sy) ||
+	     ! is_identifier (sz)) {
+		gel_errorout (_("Variable names must be valid identifiers"));
+		return NULL;
+	}
+	if (strcmp (sx, sy) == 0 ||
+	    strcmp (sx, sz) == 0 ||
+	    strcmp (sy, sz) == 0) {
+		gel_errorout (_("Variable names must be mutually distinct"));
+		return NULL;
+	}
+
+	g_free (sp_x_name);
+	g_free (sp_y_name);
+	g_free (sp_z_name);
+	sp_x_name = g_strdup (sx);
+	sp_y_name = g_strdup (sy);
+	sp_z_name = g_strdup (sz);
+
+	set_surface_labels ();
+
+	return make_matrix_from_sp_varnames ();
+}
+
+static GelETree *
+get_SurfacePlotVariableNames (void)
+{
+	return make_matrix_from_sp_varnames ();
 }
 
 static GelETree *
@@ -7579,6 +7685,7 @@ gel_add_graph_functions (void)
 	PARAMETER (SlopefieldTicks, N_("Number of slopefield ticks as a vector [vertical,horizontal]."));
 	PARAMETER (VectorfieldTicks, N_("Number of vectorfield ticks as a vector [vertical,horizontal]."));
 	PARAMETER (LinePlotVariableNames, N_("Default names used by all 2D plot functions.  Should be a 4 vector of strings or identifiers [x,y,z,t]."));
+	PARAMETER (SurfacePlotVariableNames, N_("Default names used by surface plot functions.  Should be a 3 vector of strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."));
 
 	PARAMETER (VectorfieldNormalized, N_("Normalize vectorfields if true.  That is, only show direction and not magnitude."));
 	PARAMETER (LinePlotDrawLegends, N_("If to draw legends or not on line plots."));
