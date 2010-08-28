@@ -1,4 +1,4 @@
-# translation of genius.HEAD.po to Español
+# translation of genius.master.po to Español
 # spanish translation for genius
 # traducción al español de genius
 #
@@ -10,11 +10,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: genius.HEAD\n"
+"Project-Id-Version: genius.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=genius&component=general\n"
-"POT-Creation-Date: 2010-07-08 21:15+0000\n"
-"PO-Revision-Date: 2010-07-18 21:02+0200\n"
+"POT-Creation-Date: 2010-07-18 19:03+0000\n"
+"PO-Revision-Date: 2010-08-28 10:30+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1040,6 +1040,8 @@ msgid ""
 "Numerically compute the coefficients for a sine Fourier series for a "
 "function on [0,L] up to the Nth coefficient."
 msgstr ""
+"Calcular numéricamente los coeficientes de una serie de senos de Fourier "
+"para una función en [0,L] hasta el coeficiente enésimo."
 
 #: ../lib/library-strings.c:200
 msgid ""
@@ -1553,6 +1555,8 @@ msgstr "ERROR: La pila probablemente está corrupta"
 msgid ""
 "ERROR: 'local' in a wrong place, can only be first statement in a function!"
 msgstr ""
+"ERROR: «local» en posición incorrecta, sólo puede estar en la primera "
+"declaración de una función"
 
 #: ../src/calc.c:3351
 msgid "ERROR: Can't execute more things at once!"
@@ -2995,12 +2999,17 @@ msgid ""
 "Protect a variable from being modified.  It will be treated as a system "
 "defined variable from now on.  Protected parameters can still be modified."
 msgstr ""
+"Proteger una variable de que sea modificada. De ahora en adelante se tratará "
+"como una variable definida del sistema. Los parámetros protegidos aún se "
+"pueden modificar."
 
 #: ../src/funclib.c:6470
 msgid ""
 "Unprotect a variable from being modified.  It will be treated as a user "
 "defined variable from now on."
 msgstr ""
+"Desproteger una variable de que sea modificada. De ahora en adelante se "
+"tratará como una variable definida por el usuario."
 
 #: ../src/funclib.c:6471
 msgid ""
@@ -3086,7 +3095,7 @@ msgstr "No se puede localizar el manual"
 #: ../src/genius.c:221
 #, c-format
 msgid "Suggested: %s\n"
-msgstr ""
+msgstr "Sugerencia: %s\n"
 
 #: ../src/genius.c:267
 #, c-format
@@ -3962,7 +3971,6 @@ msgid "Open..."
 msgstr "Abrir..."
 
 #: ../src/gnome-genius.c:3663
-#| msgid "Program %d"
 msgid "Program is read only"
 msgstr "El programa es de sólo lectura"
 
@@ -4079,7 +4087,6 @@ msgstr ""
 "Nota: Compilado sin GtkSourceView (mejor editor de fuentes)"
 
 #: ../src/gnome-genius.c:4855
-#| msgid "Genius"
 msgid "GNOME Genius"
 msgstr "GNOME Genius"
 
@@ -4129,7 +4136,6 @@ msgid "Rotate about %s axis: "
 msgstr "Rotar alrededor del eje %s: "
 
 #: ../src/graphing.c:651
-#| msgid "_Fit dependent axis"
 msgid "Rotate about dependent axis: "
 msgstr "Rotar alrededor de un eje dependiente: "
 
@@ -4191,7 +4197,6 @@ msgid "Clea_r solutions"
 msgstr "Limpia_r soluciones"
 
 #: ../src/graphing.c:1678
-#| msgid "Plot a function"
 msgid "_Plot solution"
 msgstr "_Dibujar solución"
 
@@ -4217,12 +4222,10 @@ msgid "T interval length:"
 msgstr "El logaritmo natural"
 
 #: ../src/graphing.c:1761
-#| msgid "Font:"
 msgid "Point x:"
 msgstr "Punto x:"
 
 #: ../src/graphing.c:1766
-#| msgid "by:"
 msgid "y:"
 msgstr "y:"
 
@@ -4247,7 +4250,6 @@ msgid "E_xport encapsulated postscript..."
 msgstr "E_xportar a PostScript encapsulado..."
 
 #: ../src/graphing.c:1890
-#| msgid "_Export PNG..."
 msgid "Export P_NG..."
 msgstr "Exportar a P_NG…"
 
@@ -4292,7 +4294,6 @@ msgid "_Solver"
 msgstr "_Resolutor"
 
 #: ../src/graphing.c:1970
-#| msgid "Save As..."
 msgid "_Solver..."
 msgstr "_Resolutor…"
 
@@ -4453,7 +4454,6 @@ msgstr ""
 "Las funciones con un argumento solo, serán pasadas como un número complejo."
 
 #: ../src/graphing.c:4498 ../src/graphing.c:4618
-#| msgid "Variable name:"
 msgid "Change variable names"
 msgstr "Cambiar los nombres de las variables"
 
@@ -4541,7 +4541,6 @@ msgstr "_Dibujar leyenda"
 
 #. change varnames
 #: ../src/graphing.c:4937 ../src/graphing.c:5020
-#| msgid "Variable name:"
 msgid "Change variable names..."
 msgstr "Cambiar los nombres de las variables…"
 
@@ -4598,21 +4597,19 @@ msgstr "No hay funciones a dibujar o no se pudieron analizar las funciones"
 #: ../src/graphing.c:5626 ../src/graphing.c:5734 ../src/graphing.c:5740
 #: ../src/graphing.c:5838 ../src/graphing.c:5844
 #, c-format
-#| msgid "Invalid X range"
 msgid "Invalid %s range"
 msgstr "Rango %s no válido"
 
 #: ../src/graphing.c:5348
-#, fuzzy
 #| msgid "Invalid t range"
 msgid "Invalid dependent range"
-msgstr "Rango t inválido"
+msgstr "Rango dependiente no válido"
 
 #: ../src/graphing.c:5584
-#, fuzzy, c-format
+#, c-format
 #| msgid "Only specify x and y, or z, not all at once."
 msgid "Only specify %s and %s, or %s, not all at once."
-msgstr "Especifique sólo x e y, o z, no todas a la vez."
+msgstr "Especifique sólo %s y %s, o %s, no todas a la vez."
 
 #: ../src/graphing.c:5936
 msgid "Create Plot"
@@ -4657,10 +4654,10 @@ msgid "%s: invalid Z range"
 msgstr "%s: rango Z inválido"
 
 #: ../src/graphing.c:6124
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s: Color must be a string"
 msgid "%s: dx must be positive"
-msgstr "%s: El color debe ser una cadena"
+msgstr "%s: dx debe ser positivo"
 
 #: ../src/graphing.c:6131 ../src/graphing.c:6150
 #, c-format
@@ -4668,16 +4665,16 @@ msgid "%s: Slope field not active"
 msgstr ""
 
 #: ../src/graphing.c:6177
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s: Color must be a string"
 msgid "%s: dt must be positive"
-msgstr "%s: El color debe ser una cadena"
+msgstr "%s: dt debe ser positivo"
 
 #: ../src/graphing.c:6183
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s: Color must be a string"
 msgid "%s: tlen must be positive"
-msgstr "%s: El color debe ser una cadena"
+msgstr "%s: tlen debe ser positivo"
 
 #: ../src/graphing.c:6191 ../src/graphing.c:6212
 #, fuzzy, c-format
