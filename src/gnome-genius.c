@@ -3875,7 +3875,7 @@ really_save_console_cb (GtkFileChooser *fs, int response, gpointer data)
 					      MAX(row-genius_setup.scrollback+1, 0),
 					      0,
 					      row,
-					      VTE_TERMINAL (term)->column_count - 1,
+					      vte_terminal_get_column_count (VTE_TERMINAL (term)) - 1,
 					      always_selected,
 					      NULL,
 					      NULL);
@@ -4813,8 +4813,8 @@ update_term_geometry (void)
 	int char_height;
 	int xpad, ypad;
 
-	char_width = VTE_TERMINAL (term)->char_width;
-	char_height = VTE_TERMINAL (term)->char_height;
+	char_width = vte_terminal_get_char_width (VTE_TERMINAL (term));
+	char_height = vte_terminal_get_char_height (VTE_TERMINAL (term));
   
 	vte_terminal_get_padding (VTE_TERMINAL (term), &xpad, &ypad);
 
