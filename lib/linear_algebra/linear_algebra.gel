@@ -186,17 +186,16 @@ function SmithNormalFormInteger(M) =
 	S
 )
 
-# AuxilliaryUnitMatrix
-SetHelp("AuxilliaryUnitMatrix", "linear_algebra", "Get the auxilliary unit matrix of size n")
-function AuxilliaryUnitMatrix(n) =
+# AuxiliaryUnitMatrix
+SetHelp("AuxiliaryUnitMatrix", "linear_algebra", "Get the auxiliary unit matrix of size n")
+function AuxiliaryUnitMatrix(n) =
 (
   if not IsInteger (n) or n < 2 then
-    (error ("AuxilliaryUnitMatrix: n must be an integer greater than 1");bailout)
+    (error ("AuxiliaryUnitMatrix: n must be an integer greater than 1");bailout)
   else
     [0,I(n-1);0,0]
 )
 
-# AuxilliaryUnitMatrix
 SetHelp("JordanBlock", "linear_algebra", "Get the jordan block corresponding to lambda and n")
 function JordanBlock(n,lambda) =
 (
@@ -207,7 +206,7 @@ function JordanBlock(n,lambda) =
   else if n == 1 then
     [lambda]
   else
-    lambda * I(n) + AuxilliaryUnitMatrix(n)
+    lambda * I(n) + AuxiliaryUnitMatrix(n)
 )
 SetHelpAlias("JordanBlock", "J")
 J = JordanBlock
@@ -328,14 +327,14 @@ function IsUnitary(M) = (
 	M' * M == I(columns(M))
 )
 
-SetHelp("IsHermitian", "linear_algebra", "Is a matrix hermitian")
+SetHelp("IsHermitian", "linear_algebra", "Is a matrix Hermitian")
 function IsHermitian(M) = (
 	if not IsMatrix(M) or not IsMatrixSquare(M) then
 		(error("IsHermitian: argument not a square matrix");bailout);
 	M' == M
 )
 
-SetHelp("IsSkewHermitian", "linear_algebra", "Is a matrix skew-hermitian")
+SetHelp("IsSkewHermitian", "linear_algebra", "Is a matrix skew-Hermitian")
 function IsSkewHermitian(M) = (
 	if not IsMatrix(M) or not IsMatrixSquare(M) then
 		(error("IsSkewHermitian: argument not a square matrix");bailout);

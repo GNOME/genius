@@ -271,7 +271,7 @@ function LowerTriangular(M) = (
 	UpperTriangular (M.').'
 )
 
-SetHelp("CompoundMatrix", "matrix", "Calculate the kth compund matrix of A")
+SetHelp("CompoundMatrix", "matrix", "Calculate the kth compound matrix of A")
 function CompoundMatrix(k,A) = (
 	if not IsInteger(k) or k < 1 or k > min(columns(A),rows(A)) or not IsMatrix(A) then
 		(error("CompoundMatrix: arguments of right type/size");bailout);

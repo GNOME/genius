@@ -37,7 +37,7 @@ function SesquilinearFormFunction(A)=(`(v,w)[A]=(v'*A*w)@(1))
 
 # Projection onto a vector space
 # Projection of vector v onto subspace W given a sesquilinear form B
-SetHelp ("Projection", "linear_algebra", "Projection of vector v onto subspace W given a sesquilinear form B (if not given use hermitian product)")
+SetHelp ("Projection", "linear_algebra", "Projection of vector v onto subspace W given a sesquilinear form B (if not given use Hermitian product)")
 function Projection(v,W,B...) =
   (
         # if you don't give anything, assume standard inner product
@@ -55,7 +55,7 @@ function Projection(v,W,B...) =
 
 # Gram-Schmidt Orthogonalization
 # Described, for instance, in Hoffman & Kunze, ``Linear Algebra'' p.~280
-SetHelp ("GramSchmidt", "linear_algebra", "Apply the Gram-Schmidt process (to the columns) with respect to inner product given by B (if not given use hermitian product)")
+SetHelp ("GramSchmidt", "linear_algebra", "Apply the Gram-Schmidt process (to the columns) with respect to inner product given by B (if not given use Hermitian product)")
 function GramSchmidt(v,B...) =
 # Takes k column vectors v_1,...,v_k
 # and returns a collection, orthonormal with respect to the inner product given by B(-,-): V x V -> R

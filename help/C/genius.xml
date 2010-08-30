@@ -326,7 +326,7 @@ variables.  Finally it allows plotting functions using a user friendly dialog bo
 	work area.  If you are running the text only version then the console
 	will be the only thing that is available to you.  If you want to use
 	&app; as a calculator only, just type in your expression here and it
-	willg et evaluated.
+	will be evaluated.
       </para>
 
       <para>
@@ -693,7 +693,7 @@ Values in GEL can be <link linkend="genius-gel-values-numbers">numbers</link>, <
 Integers are the first type of number in GEL. Integers are written in the normal way.
 <programlisting>1234
 </programlisting>
-Hexidecimal and octal numbers can be written using C notation. For example:
+Hexadecimal and octal numbers can be written using C notation. For example:
 <programlisting>0x123ABC
 01234
 </programlisting>
@@ -1076,7 +1076,7 @@ this should be second nature. However genius can let you pretend it is a
 terminator somewhat, if a <literal>;</literal> is found at the end of a parenthesis or a block,
 genius will itself append a null node to it as if you would have written
 <userinput>;null</userinput>.
-This is usefull in case you do not want to return a value from say a loop,
+This is useful in case you do not want to return a value from say a loop,
 or if you handle the return differently. Note that it will slightly slow down
 the code if it is executed too often as there is one more operator involved.
       </para>
@@ -1310,7 +1310,7 @@ different from <literal>=</literal> because it never gets translated to a
          <term><synopsis>a.%b</synopsis></term>
          <listitem>
            <para>
-             Element by element the mod operator.  Returns the remaineder
+             Element by element the mod operator.  Returns the remainder
 	     after element by element <userinput>a./b</userinput>.
            </para>
          </listitem>
@@ -1588,7 +1588,7 @@ different from <literal>=</literal> because it never gets translated to a
          <term><synopsis>a:b</synopsis></term>
          <listitem>
            <para>
-             Build a vector from <varname>a</varname> to <varname>b</varname> (or specify a row, column region for the <literal>@</literal> operator).  For example to get rows 2 to 4 of mamtrix <varname>A</varname> we could do
+             Build a vector from <varname>a</varname> to <varname>b</varname> (or specify a row, column region for the <literal>@</literal> operator).  For example to get rows 2 to 4 of matrix <varname>A</varname> we could do
 	     <programlisting>A@(2:4,)
 	     </programlisting>
 	     as <userinput>2:4</userinput> will return a vector
@@ -1706,7 +1706,7 @@ until <expression1> do <expression2>
 do <expression2> while <expression1>
 do <expression2> until <expression1>]]></programlisting>
 
-These are similiar to other languages, however they return the result of the last iteration or <literal>NULL</literal> if no iteration was done.  In the boolean expression, <literal>=</literal> is translated into <literal>==</literal> just as for the <literal>if</literal> statement.
+These are similar to other languages, however they return the result of the last iteration or <literal>NULL</literal> if no iteration was done.  In the boolean expression, <literal>=</literal> is translated into <literal>==</literal> just as for the <literal>if</literal> statement.
         </para>
       </sect2>
 
@@ -1793,7 +1793,7 @@ If no body is executed (for example <userinput>sum i=1 to 0 do ...</userinput>) 
 
       <para>
 	Normally <literal>=</literal> is translated to <literal>==</literal> if
-	it happens to be somewhere where GEL is expecing a condition such as
+	it happens to be somewhere where GEL is expecting a condition such as
 	in the if condition.  For example
 	<programlisting>if a=b then c
 if a==b then c
@@ -1817,7 +1817,7 @@ if a==b then c
 	To build up logical expressions use the words <literal>not</literal>,
 	<literal>and</literal>, <literal>or</literal>, <literal>xor</literal>.
 	The operators <literal>or</literal> and <literal>and</literal> are
-special beasts as they evaluate their arguemnts one by one, so the usual trick
+special beasts as they evaluate their arguments one by one, so the usual trick
 for conditional evaluation works here as well. For example, <literal>1 or a=1</literal> will not set
 <literal>a=1</literal> since the first argument was true.
       </para>
@@ -1902,7 +1902,7 @@ f();
 function f() = (a:=5);
 f();
 </programlisting>
-	  Sometimes, however, it is neccessary to set
+	  Sometimes, however, it is necessary to set
 a global variable from inside a function.  When this behaviour is needed,
 use the
 <function>set</function> function. Passing a string or a quoted identifier to
@@ -1923,7 +1923,7 @@ or:
         </para>
 	<para>
 	  So to recap in a more technical language:  Genius operates with
-	  different numberred contexts.  The top level is the context 0
+	  different numbered contexts.  The top level is the context 0
 	  (zero).  Whenever a function is entered, the context is raised,
 	  and when the function returns the context is lowered.  A function
 	  or a variable is always visible from all higher numbered contexts.
@@ -1994,7 +1994,7 @@ Example:
     <sect1 id="genius-gel-references">
       <title>References</title>
       <para>
-	It may be neccessary for some functions to return more than one value.
+	It may be necessary for some functions to return more than one value.
 	This may be accomplished by returning a vector of values, but many
 	times it is convenient to use passing a reference to a variable.
 	You pass a reference to a variable to a function, and the function
@@ -2043,7 +2043,7 @@ gives us 4.
     <term><userinput>a</userinput></term>
     <listitem>
       <para>
-	Identifier.  Here we would be setting the varable of name
+	Identifier.  Here we would be setting the variable of name
 	<varname>a</varname>.
       </para>
     </listitem>
@@ -2122,7 +2122,7 @@ could use the following code.
 	as just sequence of lines as if were entered on the command line.
 	In particular, you do not need to enter the separator at the end of the
 	line (unless it is of course part of several statements inside
-	parenteses).
+	parentheses).
       </para>
       <para>
 	The following code will produce an error when entered on the top
@@ -2140,7 +2140,7 @@ else
 	go on to the next
 	line, it will see <literal>else</literal>, and it will produce
 	a parsing error.  To fix this, use parentheses.  &app; will not
-	be satisfied until it has found that all parenteses are closed.
+	be satisfied until it has found that all parentheses are closed.
 <programlisting>if Something() then (
   DoSomething()
 ) else (

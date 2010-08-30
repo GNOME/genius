@@ -6448,7 +6448,7 @@ gel_funclib_addall(void)
 
 	FUNC (SetMatrixSize, 3, "M,rows,columns", "matrix", N_("Make new matrix of given size from old one"));
 	FUNC (IndexComplement, 2, "vec,msize", "matrix", N_("Return the index complement of a vector of indexes"));
-	FUNC (HermitianProduct, 2, "u,v", "matrix", N_("Get the hermitian product of two vectors"));
+	FUNC (HermitianProduct, 2, "u,v", "matrix", N_("Get the Hermitian product of two vectors"));
 	ALIAS (InnerProduct, 2, HermitianProduct);
 
 	FUNC (IsValueOnly, 1, "M", "matrix", N_("Check if a matrix is a matrix of numbers"));
