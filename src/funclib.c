@@ -940,6 +940,9 @@ ExpandMatrix_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	GelETree *n;
 
+	if (a[0]->type == GEL_NULL_NODE)
+		return gel_makenum_null ();
+
 	if G_UNLIKELY ( ! check_argument_matrix (a, 0, "ExpandMatrix"))
 		return NULL;
 
@@ -956,6 +959,9 @@ RowsOf_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	GelETree *n;
 
+	if (a[0]->type == GEL_NULL_NODE)
+		return gel_makenum_null ();
+
 	if G_UNLIKELY ( ! check_argument_matrix (a, 0, "RowsOf"))
 		return NULL;
 
@@ -970,6 +976,9 @@ static GelETree *
 ColumnsOf_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	GelETree *n;
+
+	if (a[0]->type == GEL_NULL_NODE)
+		return gel_makenum_null ();
 
 	if G_UNLIKELY ( ! check_argument_matrix (a, 0, "ColumnsOf"))
 		return NULL;
@@ -1588,6 +1597,9 @@ IsReal_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 static GelETree *
 IsMatrixReal_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
+	if (a[0]->type == GEL_NULL_NODE)
+		return gel_makenum_bool (1);
+
 	if G_UNLIKELY ( ! check_argument_matrix (a, 0, "IsMatrixReal"))
 		return NULL;
 
@@ -1644,6 +1656,9 @@ IsGaussInteger_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 static GelETree *
 IsMatrixInteger_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
+	if (a[0]->type == GEL_NULL_NODE)
+		return gel_makenum_bool (1);
+
 	if G_UNLIKELY ( ! check_argument_matrix (a, 0, "IsMatrixInteger"))
 		return NULL;
 
@@ -1677,6 +1692,9 @@ IsComplexRational_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 static GelETree *
 IsMatrixRational_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
+	if (a[0]->type == GEL_NULL_NODE)
+		return gel_makenum_bool (1);
+
 	if G_UNLIKELY ( ! check_argument_matrix (a, 0, "IsMatrixRational"))
 		return NULL;
 
@@ -2581,6 +2599,9 @@ min_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 static GelETree *
 IsValueOnly_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
+	if (a[0]->type == GEL_NULL_NODE)
+		return gel_makenum_bool (1);
+
 	if G_UNLIKELY ( ! check_argument_matrix (a, 0, "IsValueOnly"))
 		return NULL;
 	
@@ -2915,6 +2936,9 @@ elements_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 static GelETree *
 IsMatrixSquare_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
+	if (a[0]->type == GEL_NULL_NODE)
+		return gel_makenum_bool (1);
+
 	if G_UNLIKELY ( ! check_argument_matrix (a, 0, "IsMatrixSquare"))
 		return NULL;
 	if (gel_matrixw_width (a[0]->mat.matrix) == gel_matrixw_height (a[0]->mat.matrix))
@@ -3008,7 +3032,7 @@ SetMatrixSize_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	GelETree *n;
 	long w,h;
 
-	if G_UNLIKELY ( ! check_argument_matrix (a, 0, "SetMatrixSize"))
+	if G_UNLIKELY ( ! check_argument_matrix_or_null (a, 0, "SetMatrixSize"))
 		return NULL;
 	if G_UNLIKELY ( ! check_argument_nonnegative_integer (a, 1, "SetMatrixSize"))
 		return NULL;
@@ -3026,7 +3050,30 @@ SetMatrixSize_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		return gel_makenum_null ();
 
 	n = gel_stealnode (a[0]);
-	gel_matrixw_set_size (n->mat.matrix, h, w);
+	if (n->type == GEL_NULL_NODE) {
+		GelMatrixW *m;
+
+		n->type = GEL_MATRIX_NODE;
+		n->mat.matrix = m = gel_matrixw_new();
+		n->mat.quoted = FALSE;
+		gel_matrixw_set_size (m, h, w);
+
+		/* trivially rref */
+		m->rref = 1;
+
+		m->cached_value_only = 1;
+		m->value_only = 1;
+		m->cached_value_only_real = 1;
+		m->value_only_real = 1;
+		m->cached_value_only_rational = 1;
+		m->value_only_rational = 1;
+		m->cached_value_only_integer = 1;
+		m->value_only_integer = 1;
+		m->cached_value_or_bool_only = 1;
+		m->value_or_bool_only = 1;
+	} else {
+		gel_matrixw_set_size (n->mat.matrix, h, w);
+	}
 	return n;
 }
 
