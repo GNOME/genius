@@ -1,3 +1,11 @@
+Mon Aug 30 14:43:41 2010  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/gnome-genius.c, configure.in: Apply patch from
+	  Jan de Groot jan at jgc.homeip.net to port the GnomeVFS stuff
+	  to GIO.  This raises the glib requirement to 2.16 for the gnome
+	  version.  When built without gnome then 2.12 is all that is needed
+	  still.
+
 Mon Aug 30 13:41:49 2010  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/funclib.c: ExpandMatrix,SetMatrixSize,ColumnsOf,RowsOf,

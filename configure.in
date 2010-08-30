@@ -13,11 +13,11 @@ AC_PROG_INTLTOOL([0.21])
 dnl ================= Requirements ================================================
 
 VTE_REQUIRED=0.8.19
-LIBGNOMEVFS_REQUIRED=2.0.0
 GTK_REQUIRED=2.12.0
 GLIB_REQUIRED=2.12.0
 GTKSOURCEVIEW_REQUIRED=0.3.0
 GTKSOURCEVIEW2_REQUIRED=2.0.2
+GIO_REQUIRED=2.16.0
 
 dnl ===============================================================================
 
@@ -117,11 +117,11 @@ PKG_CHECK_MODULES(GLIB, glib-2.0 >= $GLIB_REQUIRED)
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
-GENIUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED gnome-vfs-2.0 >= $LIBGNOMEVFS_REQUIRED vte >= $VTE_REQUIRED"
+GENIUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED gio-2.0 >= $GIO_REQUIRED vte >= $VTE_REQUIRED"
 
 if test "x$use_gnome" = "xyes" ; then
   echo " 
-Testing for presence of GNOME (GTK and gnome-vfs is enough) and GtkSourceView:
+Testing for presence of GNOME (GTK and GIO is enough) and GtkSourceView:
 Note:
       You can compile without GNOME by using the --disable-gnome option
 "
