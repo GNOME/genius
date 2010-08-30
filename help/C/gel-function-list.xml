@@ -4635,6 +4635,34 @@ and has period <userinput>b-a</userinput>.</para>
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-EulersMethodFull">
+         <term>EulersMethodFull</term>
+         <listitem>
+          <synopsis>EulersMethodFull (f,x0,y0,x1,n)</synopsis>
+          <para>
+	    Use classical Euler's method to numerically solve y'=f(x,y) for
+	    initial <varname>x0</varname>, <varname>y0</varname> going to
+	    <varname>x1</varname> with <varname>n</varname> increments,
+	    returns a 2 by <userinput>n+1</userinput> matrix with the
+	    <varname>x</varname> and <varname>y</varname> values.  Suitable
+	    for plugging into 
+	    <link linkend="gel-function-LinePlotDrawLine">LinePlotDrawLine</link>.
+	  </para>
+	  <para>
+	    Systems can be solved by just having <varname>y</varname> be a
+	    (column) vector everywhere.  That is, <varname>y0</varname> can
+	    be a vector in which case <varname>f</varname> should take a number
+	    <varname>x</varname> and a vector of the same size for the second
+	    argument and should return a vector of the same size.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/EulerForwardMethod.html">Mathworld</ulink>, or
+	    <ulink url="http://en.wikipedia.org/wiki/Eulers_method">Wikipedia</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-FindRootBisection">
          <term>FindRootBisection</term>
          <listitem>
@@ -4748,6 +4776,36 @@ and has period <userinput>b-a</userinput>.</para>
 	    y'=f(x,y) for initial <varname>x0</varname>, <varname>y0</varname>
 	    going to <varname>x1</varname> with <varname>n</varname>
 	    increments, returns <varname>y</varname> at <varname>x1</varname>.
+	  </para>
+	  <para>
+	    Systems can be solved by just having <varname>y</varname> be a
+	    (column) vector everywhere.  That is, <varname>y0</varname> can
+	    be a vector in which case <varname>f</varname> should take a number
+	    <varname>x</varname> and a vector of the same size for the second
+	    argument and should return a vector of the same size.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://mathworld.wolfram.com/Runge-KuttaMethod.html">Mathworld</ulink>, or
+	    <ulink url="http://en.wikipedia.org/wiki/Runge-Kutta_methods">Wikipedia</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-RungeKuttaFull">
+         <term>RungeKuttaFull</term>
+         <listitem>
+          <synopsis>RungeKuttaFull (f,x0,y0,x1,n)</synopsis>
+          <para>
+	    Use classical non-adaptive fourth order Runge-Kutta method to
+	    numerically solve
+	    y'=f(x,y) for initial <varname>x0</varname>, <varname>y0</varname>
+	    going to <varname>x1</varname> with <varname>n</varname>
+	    increments,
+	    returns a 2 by <userinput>n+1</userinput> matrix with the
+	    <varname>x</varname> and <varname>y</varname> values.  Suitable
+	    for plugging into 
+	    <link linkend="gel-function-LinePlotDrawLine">LinePlotDrawLine</link>.
 	  </para>
 	  <para>
 	    Systems can be solved by just having <varname>y</varname> be a
@@ -5212,13 +5270,16 @@ and has period <userinput>b-a</userinput>.</para>
 	    <userinput>"window"</userinput> we can specify 
 	    <userinput>"fit"</userinput> rather than a vector in which case,
 	    the x range will be set precisely and the y range will be set with
-	    five percent borders around the line.
+	    five percent borders around the line.  Finally, the legend
+	    can be specified by adding
+	    <userinput>"legend"</userinput> and the string with the legend.
           </para>
 	  <para>
 	  Examples:
           <screen><prompt>genius></prompt> <userinput>LinePlotDrawLine(0,0,1,1,"color","blue","thickness",3)</userinput>
 <prompt>genius></prompt> <userinput>LinePlotDrawLine([0,0;1,-1;-1,-1])</userinput>
 <prompt>genius></prompt> <userinput>LinePlotDrawLine([0,0;1,1],"arrow","end")</userinput>
+<prompt>genius></prompt> <userinput>LinePlotDrawLine(EulersMethodFull(`(x,y)=y,0,3,100),"color","blue","legend","The Solution")</userinput>
 </screen>
           </para>
          </listitem>

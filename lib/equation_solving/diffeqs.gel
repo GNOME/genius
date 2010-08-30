@@ -14,13 +14,35 @@ function EulersMethod(f,x0,y0,x1,n) = (
 	else if not IsPositiveInteger(n) then
 		(error("EulersMethod: n must be a positive integer");bailout);
 	h := float(x1-x0) / n;
-	x := x0;
-	y := y0;
+	x := float(x0);
+	y := float(y0);
 	for k = 1 to n do (
 		y := y + h*f(x,y);
 		x := x + h
 	);
 	y
+)
+
+SetHelp ("EulersMethodFull", "equation_solving",
+         "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an n+1 by 2 matrix of values")
+function EulersMethodFull(f,x0,y0,x1,n) = (
+	local *;
+	# Note we can't check the 2 arguments, FIXME
+	if not IsFunction(f) then
+		(error("EulersMethodFull: f must be a function of two arguments");bailout)
+	else if not IsValue(x0) or (not IsValue(y0) and not IsVector(y0)) or not IsValue(x1) then
+		(error("EulersMethodFull: x0, y0 and x1 must be numbers (y0 can be a vector)");bailout)
+	else if not IsPositiveInteger(n) then
+		(error("EulersMethodFull: n must be a positive integer");bailout);
+	h := float(x1-x0) / n;
+        out := zeros(n+1,2);
+	out@(1,1) := x := float(x0);
+	out@(1,2) := y := float(y0);
+	for k = 2 to n+1 do (
+		out@(k,2) := y := y + h*f(x,y);
+		out@(k,1) := x := x + h
+	);
+	out
 )
 
 # See Handbook of Mathematics and Computational Science,
@@ -37,22 +59,43 @@ function RungeKutta(f,x0,y0,x1,n) = (
 	else if not IsPositiveInteger(n) then
 		(error("RungeKutta: n must be a positive integer");bailout);
 	h := float(x1-x0) / n;
+	hover2 := h/2;
 	x := float(x0);
 	y := float(y0);
 	for k = 1 to n do (
-		# This is unoptimized
 		k1 := f(x,y);
-		x1 := x + h/2;
-		y1 := y + k1*h/2;
-		k2 := f(x1,y1);
-		x2 := x1;
-		y2 := y + k2*h/2;
-		k3 := f(x2,y2);
-		x3 := x + h;
-		y3 := y + k3*h;
-		k4 := f(x3,y3);
-		y := y + (1/6)*(k1 + 2*k2 + 2*k3 + k4)*h;
-		x := x + h
+		k2 := f(x + hover2,y + k1*hover2);
+		k3 := f(x + hover2,y + k2*hover2);
+		x := x + h;
+		k4 := f(x,y + k3*h);
+		y := y + (1/6)*(k1 + 2*k2 + 2*k3 + k4)*h
 	);
 	y
+)
+
+SetHelp ("RungeKuttaFull", "equation_solving",
+         "Use classical non-adaptive Runge-Kutta of fourth order method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an n+1 by 2 matrix of values")
+function RungeKuttaFull(f,x0,y0,x1,n) = (
+	local *;
+	# Note we can't check the 2 arguments, FIXME
+	if not IsFunction(f) then
+		(error("RungeKuttaFull: f must be a function of two arguments");bailout)
+	else if not IsValue(x0) or (not IsValue(y0) and not IsVector(y0)) or not IsValue(x1) then
+		(error("RungeKuttaFull: x0, y0 and x1 must be numbers (y0 can be a vector)");bailout)
+	else if not IsPositiveInteger(n) then
+		(error("RungeKuttaFull: n must be a positive integer");bailout);
+	h := float(x1-x0) / n;
+	hover2 := h/2;
+        out := zeros(n+1,2);
+	out@(1,1) := x := float(x0);
+	out@(1,2) := y := float(y0);
+	for k = 2 to n+1 do (
+		k1 := f(x,y);
+		k2 := f(x + hover2,y + k1*hover2);
+		k3 := f(x + hover2,y + k2*hover2);
+		out@(k,1) := x := x + h;
+		k4 := f(x,y + k3*h);
+		out@(k,2) := y := y + (1/6)*(k1 + 2*k2 + 2*k3 + k4)*h
+	);
+	out
 )

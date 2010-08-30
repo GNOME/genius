@@ -3276,7 +3276,8 @@ parametric_get_value (double *x, double *y, double t)
 }
 
 static GtkPlotData *
-draw_line (double *x, double *y, int len, int thickness, GdkColor *color)
+draw_line (double *x, double *y, int len, int thickness, GdkColor *color,
+	   char *legend)
 {
 	GtkPlotData *data;
 
@@ -3287,7 +3288,11 @@ draw_line (double *x, double *y, int len, int thickness, GdkColor *color)
 	g_object_set_data_full (G_OBJECT (data),
 				"y", y, (GDestroyNotify)g_free);
 	gtk_plot_add_data (GTK_PLOT (line_plot), data);
-	gtk_plot_data_hide_legend (data);
+	if (legend == NULL)
+		gtk_plot_data_hide_legend (data);
+	else
+		gtk_plot_data_set_legend (data,
+					  legend);
 
 	color_alloc (color); 
 
@@ -3496,7 +3501,7 @@ slopefield_draw_solution (double x, double y, double dx)
 	/* Adjust ends */
 	/*clip_line_ends (xx, yy, len);*/
 
-	data = draw_line (xx, yy, len, 2 /* thickness */, &color);
+	data = draw_line (xx, yy, len, 2 /* thickness */, &color, NULL /*legend*/);
 	solutions_list = g_slist_prepend (solutions_list,
 					  data);
 	g_signal_connect (G_OBJECT (data), "destroy",
@@ -3580,7 +3585,7 @@ vectorfield_draw_solution (double x, double y, double dt, double tlen)
 
 	len = i;
 
-	data = draw_line (xx, yy, len, 2 /* thickness */, &color);
+	data = draw_line (xx, yy, len, 2 /* thickness */, &color, NULL /*legend*/);
 	solutions_list = g_slist_prepend (solutions_list,
 					  data);
 	g_signal_connect (G_OBJECT (data), "destroy",
@@ -7028,7 +7033,7 @@ draw_arrowhead (double xx1, double yy1, double xx2, double yy2,
 			    ym - cos(angle)* /*aw*/5* thickness / 2.0,
 			    & (ax[2]), & (ay[2]));
 
-	draw_line (ax, ay, 3, thickness, color);
+	draw_line (ax, ay, 3, thickness, color, NULL /*legend*/);
 } 
 
 
@@ -7045,6 +7050,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 	gboolean arrow_end = FALSE;
 	int i;
 	gboolean update = FALSE;
+	char *legend = NULL;
 
 	if G_UNLIKELY (plot_in_progress != 0) {
 		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
@@ -7101,6 +7107,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 			static GelToken *endid = NULL;
 			static GelToken *bothid = NULL;
 			static GelToken *noneid = NULL;
+			static GelToken *legendid = NULL;
 
 			if (colorid == NULL) {
 				colorid = d_intern ("color");
@@ -7112,6 +7119,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				endid = d_intern ("end");
 				bothid = d_intern ("both");
 				noneid = d_intern ("none");
+				legendid = d_intern ("legend");
 			}
 
 			if (a[i]->type == GEL_STRING_NODE)
@@ -7122,6 +7130,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				if G_UNLIKELY (a[i+1] == NULL)  {
 					gel_errorout (_("%s: No color specified"),
 						      "LinePlotDrawLine");
+					g_free (legend);
 					g_free (x);
 					g_free (y);
 					return NULL;
@@ -7134,6 +7143,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				} else {
 					gel_errorout (_("%s: Color must be a string"),
 						      "LinePlotDrawLine");
+					g_free (legend);
 					g_free (x);
 					g_free (y);
 					return NULL;
@@ -7143,12 +7153,14 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				if G_UNLIKELY (a[i+1] == NULL)  {
 					gel_errorout (_("%s: No thickness specified"),
 						      "LinePlotDrawLine");
+					g_free (legend);
 					g_free (x);
 					g_free (y);
 					return NULL;
 				}
 				if G_UNLIKELY ( ! check_argument_positive_integer (a, i+1,
 										   "LinePlotDrawLine")) {
+					g_free (legend);
 					g_free (x);
 					g_free (y);
 					return NULL;
@@ -7164,6 +7176,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 						a[i+1]->type != GEL_MATRIX_NODE)) {
 					gel_errorout (_("%s: No window specified"),
 						      "LinePlotDrawLine");
+					g_free (legend);
 					g_free (x);
 					g_free (y);
 					return NULL;
@@ -7197,6 +7210,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				} else if (get_limits_from_matrix (a[i+1], &x1, &x2, &y1, &y2)) {
 					update = update_lineplot_window (x1, x2, y1, y2);
 				} else {
+					g_free (legend);
 					g_free (x);
 					g_free (y);
 					return NULL;
@@ -7210,6 +7224,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 						a[i+1]->type != GEL_IDENTIFIER_NODE)) {
 					gel_errorout (_("%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""),
 						      "LinePlotDrawLine");
+					g_free (legend);
 					g_free (x);
 					g_free (y);
 					return NULL;
@@ -7234,6 +7249,31 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				} else {
 					gel_errorout (_("%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""),
 						      "LinePlotDrawLine");
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					return NULL;
+				}
+				i++;
+			} else if (id == legendid) {
+				if G_UNLIKELY (a[i+1] == NULL)  {
+					gel_errorout (_("%s: No legend specified"),
+						      "LinePlotDrawLine");
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					return NULL;
+				}
+				if (a[i+1]->type == GEL_STRING_NODE) {
+					g_free (legend);
+					legend = g_strdup (a[i+1]->str.str);
+				} else if (a[i+1]->type == GEL_IDENTIFIER_NODE) {
+					g_free (legend);
+					legend = g_strdup (a[i+1]->id.id->token);
+				} else {
+					gel_errorout (_("%s: Legend must be a string"),
+						      "LinePlotDrawLine");
+					g_free (legend);
 					g_free (x);
 					g_free (y);
 					return NULL;
@@ -7241,12 +7281,14 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				i++;
 			} else {
 				gel_errorout (_("%s: Unknown style"), "LinePlotDrawLine");
+				g_free (legend);
 				g_free (x);
 				g_free (y);
 				return NULL;
 			}
 		} else {
 			gel_errorout (_("%s: Bad parameter"), "LinePlotDrawLine");
+			g_free (legend);
 			g_free (x);
 			g_free (y);
 			return NULL;
@@ -7273,7 +7315,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 		plot_axis ();
 	}
 
-	draw_line (x, y, len, thickness, &color);
+	draw_line (x, y, len, thickness, &color, legend);
 
 	if (arrow_end && len > 1)
 		draw_arrowhead (x[len-2], y[len-2],
@@ -7283,6 +7325,8 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 		draw_arrowhead (x[1], y[1],
 				x[0], y[0],
 				thickness, &color);
+
+	g_free (legend);
 
 	return gel_makenum_null ();
 }
