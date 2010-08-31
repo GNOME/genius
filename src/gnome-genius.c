@@ -1892,11 +1892,11 @@ aboutcb(GtkWidget * widget, gpointer data)
 	       "    You should have received a copy of the GNU General Public License\n"
 	       "    along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"),
 		    VERSION,
-		    GENIUS_COPYRIGHT_STRING);
+		    _(GENIUS_COPYRIGHT_STRING));
 	gtk_show_about_dialog (GTK_WINDOW (genius_window),
 			      "program-name", _("Genius Mathematical Tool"), 
 			      "version", VERSION,
-			      "copyright", GENIUS_COPYRIGHT_STRING,
+			      "copyright", _(GENIUS_COPYRIGHT_STRING),
 			      "comments",
 			      _("The Gnome calculator style edition of "
 				"the Genius Mathematical Tool."),
@@ -5045,7 +5045,7 @@ main (int argc, char *argv[])
 			   "\e[0;32m" /* green */,
 			   "\e[0m" /* white on black */,
 			   VERSION,
-			   GENIUS_COPYRIGHT_STRING,
+			   _(GENIUS_COPYRIGHT_STRING),
 			   "\e[01;36m" /* cyan */,
 			   "\e[0m" /* white on black */,
 			   "\e[01;36m" /* cyan */,

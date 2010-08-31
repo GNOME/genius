@@ -485,7 +485,7 @@ main(int argc, char *argv[])
 			g_print (_("Genius %s\n"
 				   "%s%s\n"),
 				 VERSION,
-				 GENIUS_COPYRIGHT_STRING,
+				 _(GENIUS_COPYRIGHT_STRING),
 				 get_version_details ());
 			exit (0);
 		} else {
@@ -540,7 +540,7 @@ main(int argc, char *argv[])
 			   "For license details type `warranty'.\n"
 			   "For help type 'manual' or 'help'.%s\n\n"),
 			 VERSION,
-			 GENIUS_COPYRIGHT_STRING,
+			 _(GENIUS_COPYRIGHT_STRING),
 			 get_version_details ());
 		be_quiet = FALSE;
 	}

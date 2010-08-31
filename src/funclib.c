@@ -184,7 +184,7 @@ warranty_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		       "    You should have received a copy of the GNU General Public License\n"
 		       "    along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"),
 			    VERSION,
-			    GENIUS_COPYRIGHT_STRING);
+			    _(GENIUS_COPYRIGHT_STRING));
 	gel_error_num = GEL_IGNORE_ERROR;
 	RAISE_EXCEPTION (exception);
 	return NULL;
