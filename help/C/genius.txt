@@ -371,7 +371,7 @@ Using the Work Area
    area. If you are running the text only version then the console will be
    the only thing that is available to you. If you want to use Genius
    Mathematics Tool as a calculator only, just type in your expression here
-   and it willg et evaluated.
+   and it will be evaluated.
 
    Type your expression into the Console work area and press enter and the
    expression will be evaluated. Expressions are written in a language called
@@ -603,7 +603,7 @@ Values
 
    1234                                                                       
 
-   Hexidecimal and octal numbers can be written using C notation. For
+   Hexadecimal and octal numbers can be written using C notation. For
    example:
 
    0x123ABC                                                                   
@@ -980,7 +980,7 @@ Separator
    familiar with pascal this should be second nature. However genius can let
    you pretend it is a terminator somewhat, if a ; is found at the end of a
    parenthesis or a block, genius will itself append a null node to it as if
-   you would have written ;null. This is usefull in case you do not want to
+   you would have written ;null. This is useful in case you do not want to
    return a value from say a loop, or if you handle the return differently.
    Note that it will slightly slow down the code if it is executed too often
    as there is one more operator involved.
@@ -1104,7 +1104,7 @@ List of GEL Operators
 
    a.%b                                                                       
 
-           Element by element the mod operator. Returns the remaineder after
+           Element by element the mod operator. Returns the remainder after
            element by element a./b.
 
    a mod b                                                                    
@@ -1220,7 +1220,7 @@ List of GEL Operators
    a:b                                                                        
 
            Build a vector from a to b (or specify a row, column region for
-           the @ operator). For example to get rows 2 to 4 of mamtrix A we
+           the @ operator). For example to get rows 2 to 4 of matrix A we
            could do
 
            A@(2:4,)                                                           
@@ -1311,7 +1311,7 @@ Loops
    do <expression2> while <expression1>                                       
    do <expression2> until <expression1>                                       
 
-   These are similiar to other languages, however they return the result of
+   These are similar to other languages, however they return the result of
    the last iteration or NULL if no iteration was done. In the boolean
    expression, = is translated into == just as for the if statement.
 
@@ -1402,7 +1402,7 @@ Comparison Operators
    0 if both sides are equal, 1 if left side is larger.
 
    Normally = is translated to == if it happens to be somewhere where GEL is
-   expecing a condition such as in the if condition. For example
+   expecting a condition such as in the if condition. For example
 
    if a=b then c                                                              
    if a==b then c                                                             
@@ -1417,7 +1417,7 @@ Comparison Operators
    expression and means just what it should, that is (1<x and x=<y and y<5)
 
    To build up logical expressions use the words not, and, or, xor. The
-   operators or and and are special beasts as they evaluate their arguemnts
+   operators or and and are special beasts as they evaluate their arguments
    one by one, so the usual trick for conditional evaluation works here as
    well. For example, 1 or a=1 will not set a=1 since the first argument was
    true.
@@ -1484,8 +1484,8 @@ Global Variables and Scope of Variables
    function f() = (a:=5);                                                     
    f();                                                                       
 
-   Sometimes, however, it is neccessary to set a global variable from inside
-   a function. When this behaviour is needed, use the set function. Passing a
+   Sometimes, however, it is necessary to set a global variable from inside a
+   function. When this behaviour is needed, use the set function. Passing a
    string or a quoted identifier to this function sets the variable globally
    (on the top level). For example, to set a to the value 3 you could call:
 
@@ -1500,7 +1500,7 @@ Global Variables and Scope of Variables
    must use passing by reference.
 
    So to recap in a more technical language: Genius operates with different
-   numberred contexts. The top level is the context 0 (zero). Whenever a
+   numbered contexts. The top level is the context 0 (zero). Whenever a
    function is entered, the context is raised, and when the function returns
    the context is lowered. A function or a variable is always visible from
    all higher numbered contexts. When a variable was defined in a lower
@@ -1558,12 +1558,12 @@ Returning
 
 References
 
-   It may be neccessary for some functions to return more than one value.
-   This may be accomplished by returning a vector of values, but many times
-   it is convenient to use passing a reference to a variable. You pass a
-   reference to a variable to a function, and the function will set the
-   variable for you using a dereference. You do not have to use references
-   only for this purpose, but this is their main use.
+   It may be necessary for some functions to return more than one value. This
+   may be accomplished by returning a vector of values, but many times it is
+   convenient to use passing a reference to a variable. You pass a reference
+   to a variable to a function, and the function will set the variable for
+   you using a dereference. You do not have to use references only for this
+   purpose, but this is their main use.
 
    When using functions that return values through references in the argument
    list, just pass the variable name with an ampersand. For example the
@@ -1601,7 +1601,7 @@ Lvalues
 
    a
 
-           Identifier. Here we would be setting the varable of name a.
+           Identifier. Here we would be setting the variable of name a.
 
    *a
 
@@ -1658,7 +1658,7 @@ Toplevel Syntax
    Therefore think of programs as just sequence of lines as if were entered
    on the command line. In particular, you do not need to enter the separator
    at the end of the line (unless it is of course part of several statements
-   inside parenteses).
+   inside parentheses).
 
    The following code will produce an error when entered on the top level of
    a program, while it will work just fine in a function.
@@ -1673,7 +1673,7 @@ Toplevel Syntax
    will execute it. After the execution is done, Genius Mathematics Tool will
    go on to the next line, it will see else, and it will produce a parsing
    error. To fix this, use parentheses. Genius Mathematics Tool will not be
-   satisfied until it has found that all parenteses are closed.
+   satisfied until it has found that all parentheses are closed.
 
    if Something() then (                                                      
      DoSomething()                                                            
@@ -2211,7 +2211,7 @@ Basic
 
            Make integer (0 for false or 1 for true) from a boolean value.
            bval can also be a number in which case a non-zero value will be
-           interpreted as true and zero will be interpretted as false.
+           interpreted as true and zero will be interpreted as false.
 
    IsBoolean
 
@@ -2277,7 +2277,7 @@ Basic
            Parse (str)                                                        
 
            Parses but does not evaluate a string. Note that certain
-           precomputation is done during the parsing stage.
+           pre-computation is done during the parsing stage.
 
    SetFunctionFlags
 
@@ -2440,7 +2440,7 @@ Basic
 
            wait (secs)                                                        
 
-           Waits a specified number of seconds. secs must be nonnegative.
+           Waits a specified number of seconds. secs must be non-negative.
            Zero is accepted and nothing happens in this case, except possibly
            user interface events are processed.
 
@@ -2449,7 +2449,7 @@ Basic
            version                                                            
 
            Returns the version of Genius as a horizontal 3-vector with major
-           version first, then minor version and finally patchlevel.
+           version first, then minor version and finally the patch level.
 
    warranty
 
@@ -2604,7 +2604,7 @@ Parameters
            instead of the number.
 
            Output is never chopped if OutputChopExponent is zero. It must be
-           a nonnegative integer.
+           a non-negative integer.
 
            If you want output always chopped according to OutputChopExponent,
            then set OutputChopWhenExponent, to something greater than or
@@ -3319,7 +3319,7 @@ Number Theory
            DiscreteLog (n,b,q)                                                
 
            Find discrete log of n base b in Fq, the finite field of order q,
-           where q is a prime, using the Silver-Pohlig-Hellman algoritm.
+           where q is a prime, using the Silver-Pohlig-Hellman algorithm.
 
            See Wikipedia or Planetmath or Mathworld for more information.
 
@@ -3370,7 +3370,7 @@ Number Theory
            non-prime factors as well. It includes 1 and the number itself. So
            for example to print all the perfect numbers (those that are sums
            of their factors) up to the number 1000 you could do (this is of
-           course very inefficent)
+           course very inefficient)
 
            for n=1 to 1000 do (                                               
                if MatrixSum (Factors(n)) == 2*n then                          
@@ -3638,7 +3638,7 @@ Number Theory
 
            PadicValuation (n,p)                                               
 
-           Returns the padic valuation (number of trailing zeros in base p).
+           Returns the p-adic valuation (number of trailing zeros in base p).
 
            See Planetmath for more information.
 
@@ -3690,8 +3690,8 @@ Number Theory
            SilverPohligHellmanWithFactorization (n,b,q,f)                     
 
            Find discrete log of n base b in Fq, the finite group of order q,
-           where q is a prime using the Silver-Pohlig-Hellman algoritm, given
-           f being the factorization of q-1.
+           where q is a prime using the Silver-Pohlig-Hellman algorithm,
+           given f being the factorization of q-1.
 
    SqrtModPrime
 
@@ -3770,7 +3770,7 @@ Matrix Manipulation
 
            CompoundMatrix (k,A)                                               
 
-           Calculate the kth compund matrix of A.
+           Calculate the kth compound matrix of A.
 
    CountZeroColumns
 
@@ -3825,7 +3825,7 @@ Matrix Manipulation
 
            Aliases: InnerProduct
 
-           Get the hermitian product of two vectors. The vectors must be of
+           Get the Hermitian product of two vectors. The vectors must be of
            the same size. This is a sesquilinear form using the identity
            matrix.
 
@@ -3885,8 +3885,8 @@ Matrix Manipulation
 
            IsMatrixNonnegative (M)                                            
 
-           Check if a matrix is nonnegative, that is if each element is
-           nonnegative. Do not confuse positive matrices with positive
+           Check if a matrix is non-negative, that is if each element is
+           non-negative. Do not confuse positive matrices with positive
            semi-definite matrices.
 
            See Wikipedia for more information.
@@ -3988,7 +3988,7 @@ Matrix Manipulation
 
            MatrixSum (A)                                                      
 
-           Calculate the sum of all elements in a matrix or vecgtor. That is
+           Calculate the sum of all elements in a matrix or vector. That is
            we add all the elements and return a number that is the sum of all
            the elements.
 
@@ -4119,11 +4119,11 @@ Matrix Manipulation
 
 Linear Algebra
 
-   AuxilliaryUnitMatrix
+   AuxiliaryUnitMatrix
 
-           AuxilliaryUnitMatrix (n)                                           
+           AuxiliaryUnitMatrix (n)                                            
 
-           Get the auxilliary unit matrix of size n. This is a square matrix
+           Get the auxiliary unit matrix of size n. This is a square matrix
            matrix with that is all zero except the superdiagonal being all
            ones. It is the Jordan block matrix of one zero eigenvalue.
 
@@ -4271,7 +4271,7 @@ Linear Algebra
 
            Apply the Gram-Schmidt process (to the columns) with respect to
            inner product given by B. If B is not given then the standard
-           hermitian product is used. B can either be a sesquilinear function
+           Hermitian product is used. B can either be a sesquilinear function
            of two arguments or it can be a matrix giving a sesquilinear form.
            The vectors will be made orthonormal with respect to B.
 
@@ -4323,7 +4323,7 @@ Linear Algebra
 
            IsHermitian (M)                                                    
 
-           Is a matrix hermitian. That is, is it equal to its conjugate
+           Is a matrix Hermitian. That is, is it equal to its conjugate
            transpose.
 
            See Planetmath for more information.
@@ -4359,16 +4359,16 @@ Linear Algebra
 
            IsPositiveDefinite (M)                                             
 
-           Is M a hermitian positive definite matrix. That is if
+           Is M a Hermitian positive definite matrix. That is if
            HermitianProduct(M*v,v) is always strictly positive for any vector
-           v. M must be square and hermitian to be positive definite. The
+           v. M must be square and Hermitian to be positive definite. The
            check that is performed is that every principal submatrix has a
-           nonnegative determinant. (See HermitianProduct)
+           non-negative determinant. (See HermitianProduct)
 
            Note that some authors (for example Mathworld) do not require that
-           M be hermitian, and then the condition is on the real part of the
+           M be Hermitian, and then the condition is on the real part of the
            inner product, but we do not take this view. If you wish to
-           perform this check, just check the hermitian part of the matrix M
+           perform this check, just check the Hermitian part of the matrix M
            as follows: IsPositiveDefinite(M+M').
 
            See Planetmath or Mathworld for more information.
@@ -4377,16 +4377,16 @@ Linear Algebra
 
            IsPositiveSemidefinite (M)                                         
 
-           Is M a hermitian positive semidefinite matrix. That is if
-           HermitianProduct(M*v,v) is always nonnegative for any vector v. M
-           must be square and hermitian to be positive semidefinite. The
+           Is M a Hermitian positive semidefinite matrix. That is if
+           HermitianProduct(M*v,v) is always non-negative for any vector v. M
+           must be square and Hermitian to be positive semidefinite. The
            check that is performed is that every principal submatrix has a
-           nonnegative determinant. (See HermitianProduct)
+           non-negative determinant. (See HermitianProduct)
 
-           Note that some authors do not require that M be hermitian, and
+           Note that some authors do not require that M be Hermitian, and
            then the condition is on the real part of the inner product, but
            we do not take this view. If you wish to perform this check, just
-           check the hermitian part of the matrix M as follows:
+           check the Hermitian part of the matrix M as follows:
            IsPositiveSemidefinite(M+M').
 
            See Planetmath or Mathworld for more information.
@@ -4395,7 +4395,7 @@ Linear Algebra
 
            IsSkewHermitian (M)                                                
 
-           Is a matrix skew-hermitian. That is, is the conjugate transpose
+           Is a matrix skew-Hermitian. That is, is the conjugate transpose
            equal to negative of the matrix.
 
            See Planetmath for more information.
@@ -4515,7 +4515,7 @@ Linear Algebra
            Projection (v,W,B...)                                              
 
            Projection of vector v onto subspace W with respect to inner
-           product given by B. If B is not given then the standard hermitian
+           product given by B. If B is not given then the standard Hermitian
            product is used. B can either be a sesquilinear function of two
            arguments or it can be a matrix giving a sesquilinear form.
 
@@ -4689,7 +4689,7 @@ Linear Algebra
            VectorAngle (v,w,B...)                                             
 
            The angle of two vectors with respect to inner product given by B.
-           If B is not given then the standard hermitian product is used. B
+           If B is not given then the standard Hermitian product is used. B
            can either be a sesquilinear function of two arguments or it can
            be a matrix giving a sesquilinear form.
 
@@ -4810,7 +4810,7 @@ Combinatorics
 
            Aliases: fib
 
-           Calculate nth fibonacci number. That is the number defined
+           Calculate nth Fibonacci number. That is the number defined
            recursively by Fibonacci(n) = Fibonacci(n-1) + Fibonacci(n-2) and
            Fibonacci(1) = Fibonacci(2) = 1.
 
@@ -4821,10 +4821,10 @@ Combinatorics
            FrobeniusNumber (v,arg...)                                         
 
            Calculate the Frobenius number. That is calculate smallest number
-           that cannot be given as a nonnegative integer linear combination
-           of a given vector of nonnegative integers. The vector can be given
-           as separate numbers or a single vector. All the numbers given
-           should have GCD of 1.
+           that cannot be given as a non-negative integer linear combination
+           of a given vector of non-negative integers. The vector can be
+           given as separate numbers or a single vector. All the numbers
+           given should have GCD of 1.
 
            See Mathworld for more information.
 
@@ -4839,10 +4839,10 @@ Combinatorics
 
            FrobeniusNumber (n,v)                                              
 
-           Find the vector c of nonnegative integers such that taking the dot
-           product with v is equal to n. If not possible returns null. v
+           Find the vector c of non-negative integers such that taking the
+           dot product with v is equal to n. If not possible returns null. v
            should be given sorted in increasing order and should consist of
-           nonnegative integers.
+           non-negative integers.
 
            See Mathworld for more information.
 
@@ -4872,7 +4872,7 @@ Combinatorics
            Multinomial (v,arg...)                                             
 
            Calculate multinomial coefficients. Takes a vector of k
-           nonnegative integers and computes the multinomial coefficient.
+           non-negative integers and computes the multinomial coefficient.
            This corresponds to the coefficient in the homogeneous polynomial
            in k variables with the corresponding powers.
 
@@ -5461,6 +5461,22 @@ Equation Solving
 
            See Mathworld, or Wikipedia for more information.
 
+   EulersMethodFull
+
+           EulersMethodFull (f,x0,y0,x1,n)                                    
+
+           Use classical Euler's method to numerically solve y'=f(x,y) for
+           initial x0, y0 going to x1 with n increments, returns a 2 by n+1
+           matrix with the x and y values. Suitable for plugging into
+           LinePlotDrawLine.
+
+           Systems can be solved by just having y be a (column) vector
+           everywhere. That is, y0 can be a vector in which case f should
+           take a number x and a vector of the same size for the second
+           argument and should return a vector of the same size.
+
+           See Mathworld, or Wikipedia for more information.
+
    FindRootBisection
 
            FindRootBisection (f,a,b,TOL,N)                                    
@@ -5546,6 +5562,22 @@ Equation Solving
            Use classical non-adaptive fourth order Runge-Kutta method to
            numerically solve y'=f(x,y) for initial x0, y0 going to x1 with n
            increments, returns y at x1.
+
+           Systems can be solved by just having y be a (column) vector
+           everywhere. That is, y0 can be a vector in which case f should
+           take a number x and a vector of the same size for the second
+           argument and should return a vector of the same size.
+
+           See Mathworld, or Wikipedia for more information.
+
+   RungeKuttaFull
+
+           RungeKuttaFull (f,x0,y0,x1,n)                                      
+
+           Use classical non-adaptive fourth order Runge-Kutta method to
+           numerically solve y'=f(x,y) for initial x0, y0 going to x1 with n
+           increments, returns a 2 by n+1 matrix with the x and y values.
+           Suitable for plugging into LinePlotDrawLine.
 
            Systems can be solved by just having y be a (column) vector
            everywhere. That is, y0 can be a vector in which case f should
@@ -5894,13 +5926,16 @@ Plotting
            4-vector, and for arrow either "origin", "end", "both", or "none".
            For "window" we can specify "fit" rather than a vector in which
            case, the x range will be set precisely and the y range will be
-           set with five percent borders around the line.
+           set with five percent borders around the line. Finally, the legend
+           can be specified by adding "legend" and the string with the
+           legend.
 
            Examples:
 
-           genius> LinePlotDrawLine(0,0,1,1,"color","blue","thickness",3)     
-           genius> LinePlotDrawLine([0,0;1,-1;-1,-1])                         
-           genius> LinePlotDrawLine([0,0;1,1],"arrow","end")                  
+genius> LinePlotDrawLine(0,0,1,1,"color","blue","thickness",3)                                      
+genius> LinePlotDrawLine([0,0;1,-1;-1,-1])                                                          
+genius> LinePlotDrawLine([0,0;1,1],"arrow","end")                                                   
+genius> LinePlotDrawLine(EulersMethodFull(`(x,y)=y,0,3,100),"color","blue","legend","The Solution") 
 
    LinePlotParametric
 
