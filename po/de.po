@@ -14,10 +14,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=genius&component=general\n"
-"POT-Creation-Date: 2010-08-28 08:41+0000\n"
-"PO-Revision-Date: 2010-08-29 00:58+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-09-04 12:19+0200\n"
+"PO-Revision-Date: 2010-09-04 12:29+0200\n"
 "Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -374,7 +373,7 @@ msgid "Return the Moebius mu function evaluated in n"
 msgstr "Die Moebius-mu-Funktion, ausgewertet in n, zurückgeben"
 
 #: ../lib/library-strings.c:67
-msgid "Returns the padic valuation (number of trailing zeros in base p)."
+msgid "Returns the p-adic valuation (number of trailing zeros in base p)."
 msgstr ""
 "Gibt die p-adische Bewertung zurück (Anzahl der angehängten Nullen in Basis "
 "p)"
@@ -432,7 +431,7 @@ msgid "Remove column(s) and row(s) from a matrix"
 msgstr "Spalte(n) und Reihe(n) einer Matrix entfernen"
 
 #: ../lib/library-strings.c:77
-msgid "Calculate the kth compund matrix of A"
+msgid "Calculate the kth compound matrix of A"
 msgstr "Die k-te Compound-Matrix von A berechnen"
 
 #: ../lib/library-strings.c:78
@@ -513,7 +512,7 @@ msgstr ""
 "erstellt"
 
 #: ../lib/library-strings.c:96
-msgid "Get the auxilliary unit matrix of size n"
+msgid "Get the auxiliary unit matrix of size n"
 msgstr "Die Einheitsmatrix der Größe n ermitteln"
 
 #: ../lib/library-strings.c:97
@@ -599,11 +598,11 @@ msgstr ""
 #: ../lib/library-strings.c:113
 msgid ""
 "Apply the Gram-Schmidt process (to the columns) with respect to inner "
-"product given by B (if not given use hermitian product)"
+"product given by B (if not given use Hermitian product)"
 msgstr ""
 "Das Gram-Schmidtsche Orthonormalisierungsverfahren (auf die Spalten) "
 "anwenden, im Bezug auf das durch B gegebene innere Produkt (falls nicht "
-"angegeben, so wird das hermitische Produkt verwendet)"
+"angegeben, so wird das hermitesche Produkt verwendet)"
 
 #: ../lib/library-strings.c:114
 msgid "Hankel matrix"
@@ -633,8 +632,8 @@ msgid "Inverse Hilbert matrix of order n"
 msgstr "Inverse Hilbert-Matrix der Ordnung n"
 
 #: ../lib/library-strings.c:120
-msgid "Is a matrix hermitian"
-msgstr "Ist eine hermitesche Matrix"
+msgid "Is a matrix Hermitian"
+msgstr "Ermitteln, ob eine Matrix hermitesch ist"
 
 #: ../lib/library-strings.c:121
 msgid "Test if a vector is in a subspace"
@@ -665,7 +664,7 @@ msgid "Is a matrix positive semidefinite"
 msgstr "Ist eine positiv semi-definite Matrix"
 
 #: ../lib/library-strings.c:127
-msgid "Is a matrix skew-hermitian"
+msgid "Is a matrix skew-Hermitian"
 msgstr "Ermitteln, ob eine Matrix nichtlinear hermitesch ist"
 
 #: ../lib/library-strings.c:128
@@ -712,10 +711,10 @@ msgstr "Das orthogonale Komplement eines Spaltenraumes ermitteln"
 #: ../lib/library-strings.c:137
 msgid ""
 "Projection of vector v onto subspace W given a sesquilinear form B (if not "
-"given use hermitian product)"
+"given use Hermitian product)"
 msgstr ""
 "Projektion eines Vektors v auf den Unterraum W mit der Sesquilinearform B "
-"(falls B nicht gegeben, so wird das hermitische Standardprodukt verwendet)"
+"(falls B nicht gegeben, so wird das hermitesche Standardprodukt verwendet)"
 
 #: ../lib/library-strings.c:138
 msgid "Get the QR decomposition of A, returns R and Q can be a reference"
@@ -732,11 +731,13 @@ msgid "Return the Rayleigh quotient of a matrix and a vector"
 msgstr "Den Rayleigh-Quotienten einer Matrix oder eines Vektors bestimmen"
 
 #: ../lib/library-strings.c:141
-#, fuzzy
 msgid ""
 "Compute an eigenvalue using the Rayleigh Quotient Iteration method until we "
 "are epsilon from eigenvalue or for maxiter iterations"
-msgstr "Einen Eigenwert mit (?)"
+msgstr ""
+"Einen Eigenwert mit der Methode iterierter Rayleigh-Quotienten bestimmen. Es "
+"wird iteriert bis zur Genauigkeit epsilon, jedoch höchstens maxiter "
+"Iterationen"
 
 #: ../lib/library-strings.c:142
 msgid "Rosser matrix, a classic symmetric eigenvalue test problem"
@@ -1227,33 +1228,41 @@ msgstr ""
 "verwenden, wobei x0,y0 bis x1 in n Schritten läuft. Gibt y bei x1 zurück."
 
 #: ../lib/library-strings.c:232
+msgid ""
+"Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
+"y0 going to x1 with n increments, returns an n+1 by 2 matrix of values"
+msgstr ""
+"Die klassische Euler-Methode zur numerischen Berechnung von y'=f(x,y) "
+"verwenden, wobei x0,y0 bis x1 in n Schritten läuft. Gibt y bei x1 zurück."
+
+#: ../lib/library-strings.c:233
 msgid "Find root of a function using the bisection method"
 msgstr "Die Nullstelle einer Funktion mit dem Bisektionsverfahren suchen"
 
-#: ../lib/library-strings.c:233
+#: ../lib/library-strings.c:234
 msgid "Find root of a function using the method of false position"
 msgstr "Die Nullstelle einer Funktion mit dem Regula-falsi-Verfahren suchen"
 
-#: ../lib/library-strings.c:234
+#: ../lib/library-strings.c:235
 msgid "Find root of a function using the Muller's method"
 msgstr "Die Nullstelle einer Funktion mit dem Verfahren nach Müller suchen"
 
-#: ../lib/library-strings.c:235
+#: ../lib/library-strings.c:236
 msgid "Find root of a function using the secant method"
 msgstr "Die Nullstelle einer Funktion mit dem Sekantenverfahren suchen"
 
-#: ../lib/library-strings.c:236
+#: ../lib/library-strings.c:237
 msgid "Find roots of a polynomial (given as vector of coefficients)"
 msgstr ""
 "Die Nullstellen eines Polynoms suchen (gegeben als Vektor aus Koeffizienten)"
 
-#: ../lib/library-strings.c:237
+#: ../lib/library-strings.c:238
 msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
 msgstr ""
 "Die Nullstellen eines Polynoms vierten Grades suchen (gegeben als Vektor aus "
 "Koeffizienten)"
 
-#: ../lib/library-strings.c:238
+#: ../lib/library-strings.c:239
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
@@ -1263,36 +1272,46 @@ msgstr ""
 "verwenden, um y'=f(x,y) numerisch für die Startwerte x0,y0 zu lösen. Bis x1 "
 "wird in n Schritten vorgegangen und y für x1 zurück gegeben"
 
-#: ../lib/library-strings.c:239
+#: ../lib/library-strings.c:240
+msgid ""
+"Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
+"solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an n"
+"+1 by 2 matrix of values"
+msgstr ""
+"Klassisches, nicht adaptives Runge-Kutta-Verfahren vierter Ordnung "
+"verwenden, um y'=f(x,y) numerisch für die Startwerte x0,y0 zu lösen. Bis x1 "
+"wird in n Schritten vorgegangen und y für x1 zurück gegeben"
+
+#: ../lib/library-strings.c:241
 msgid "Calculate average of an entire matrix"
 msgstr "Den Mittelwert einer Matrix berechnen"
 
-#: ../lib/library-strings.c:240
+#: ../lib/library-strings.c:242
 msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 msgstr ""
 "Integral der Gaußschen Funktion von 0 bis x (Fläche unter der Glockenkurve)"
 
-#: ../lib/library-strings.c:241
+#: ../lib/library-strings.c:243
 msgid "The normalized Gauss distribution function (the normal curve)"
 msgstr "Die normalisierte Gaußsche Normalverteilung (die Glockenkurve)"
 
-#: ../lib/library-strings.c:242
+#: ../lib/library-strings.c:244
 msgid "Calculate median of an entire matrix"
 msgstr "Den Zentralwert einer Matrix berechnen"
 
-#: ../lib/library-strings.c:243
+#: ../lib/library-strings.c:245
 msgid "Calculate the population standard deviation of a whole matrix"
 msgstr "Die Normalverteilung der Grundgesamtheit einer ganzen Matrix berechnen"
 
-#: ../lib/library-strings.c:244
+#: ../lib/library-strings.c:246
 msgid "Calculate average of each row in a matrix"
 msgstr "Den Mittelwert jeder Zeile in einer Matrix berechnen"
 
-#: ../lib/library-strings.c:245
+#: ../lib/library-strings.c:247
 msgid "Calculate median of each row in a matrix"
 msgstr "Den Zentralwert jeder Reihe einer Matrix berechnen"
 
-#: ../lib/library-strings.c:246
+#: ../lib/library-strings.c:248
 msgid ""
 "Calculate the population standard deviations of rows of a matrix and return "
 "a vertical vector"
@@ -1300,7 +1319,7 @@ msgstr ""
 "Die Normalverteilungen der Grundgesamtheit von Zeilen einer Matrix berechnen "
 "und einen vertikalen Vektor zurückgeben"
 
-#: ../lib/library-strings.c:247
+#: ../lib/library-strings.c:249
 msgid ""
 "Calculate the standard deviations of rows of a matrix and return a vertical "
 "vector"
@@ -1308,11 +1327,11 @@ msgstr ""
 "Die Standardabweichungen der Zeilen einer Matrix berechnen und einen "
 "vertikalen Vektor zurückgeben"
 
-#: ../lib/library-strings.c:248
+#: ../lib/library-strings.c:250
 msgid "Calculate the standard deviation of a whole matrix"
 msgstr "Die Standardabweichung einer gesamten Matrix berechnen"
 
-#: ../lib/library-strings.c:249
+#: ../lib/library-strings.c:251
 msgid ""
 "Run newton's method on a polynomial to attempt to find a root, returns after "
 "two successive values are within epsilon or after maxn tries (then returns "
@@ -1323,12 +1342,12 @@ msgstr ""
 "innerhalb Epsilon sind, oder nach maxn Versuchen (dann wird Null zurück "
 "gegeben)"
 
-#: ../lib/library-strings.c:250
+#: ../lib/library-strings.c:252
 msgid "Returns a set where every element of X appears only once"
 msgstr ""
 "Eine Menge zurückgeben, in der jedes Element von X nur einmal enthalten ist"
 
-#: ../lib/library-strings.c:251
+#: ../lib/library-strings.c:253
 msgid ""
 "Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
 "be sets)"
@@ -1336,11 +1355,11 @@ msgstr ""
 "Die Vereinigungsmenge von X und Y zurückgeben (X und Y sind als Mengen "
 "aufgefasste Vektoren)"
 
-#: ../lib/library-strings.c:252
+#: ../lib/library-strings.c:254
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "Versuchen, eine Funktion symbolisch n-mal abzuleiten"
 
-#: ../lib/library-strings.c:253
+#: ../lib/library-strings.c:255
 msgid ""
 "Attempt to symbolically differentiate a function n times quietly and return "
 "null on failure"
@@ -1348,7 +1367,7 @@ msgstr ""
 "Versuchen, eine Funktion symbolisch n-mal ohne Rückmeldungen abzuleiten und "
 "Null bei Fehlschlagen zurückgeben"
 
-#: ../lib/library-strings.c:254
+#: ../lib/library-strings.c:256
 msgid ""
 "Attempt to construct the taylor approximation function around x0 to the nth "
 "degree."
@@ -1585,6 +1604,10 @@ msgstr "FEHLER: %s am Ende der Eingabe"
 #, c-format
 msgid "ERROR: %s before '%s'"
 msgstr "FEHLER: %s vor »%s«"
+
+#: ../src/calc.h:32
+msgid "Copyright (C) 1997-2010 Jiří (George) Lebl, Ph.D."
+msgstr "Copyright (C) 1997-2010 Jiří (George) Lebl, Ph.D."
 
 #: ../src/compil.c:537 ../src/compil.c:543
 msgid "Bad tree record when decompiling"
@@ -2014,7 +2037,7 @@ msgstr "%s: Argument zu groß"
 msgid "Cannot parse version string: %s"
 msgstr "Versionsinformation konnte nicht eingelesen werden: %s"
 
-#: ../src/funclib.c:172 ../src/gnome-genius.c:1883
+#: ../src/funclib.c:172 ../src/gnome-genius.c:1880
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -2082,351 +2105,351 @@ msgid "Cannot apply function to two differently sized matrixes"
 msgstr ""
 "Funktion kann nicht auf zwei verschieden große Matrizen angewendet werden"
 
-#: ../src/funclib.c:1433 ../src/funclib.c:1470
+#: ../src/funclib.c:1442 ../src/funclib.c:1479
 #, c-format
 msgid "%s: Not implemented (yet) for complex values"
 msgstr "%s: Für komplexe Werte (noch) nicht implementiert"
 
-#: ../src/funclib.c:1914
+#: ../src/funclib.c:1932
 #, c-format
 msgid "%s: square root for composite moduli is not yet implemented"
 msgstr "%s: Quadratwurzel für Composite-Moduli ist noch nicht implementiert"
 
-#: ../src/funclib.c:1922
+#: ../src/funclib.c:1940
 #, c-format
 msgid "%s: Cannot find square root function for prime moduli"
 msgstr ""
 "%s: Es kann keine Quadratwurzelfunktion für Primzahlen-Moduli gefunden werden"
 
-#: ../src/funclib.c:1955
+#: ../src/funclib.c:1973
 #, c-format
 msgid "%s: matrix argument is not square"
 msgstr "%s: Matrix-Argument ist nicht quadratisch"
 
-#: ../src/funclib.c:2083 ../src/funclib.c:2183
+#: ../src/funclib.c:2101 ../src/funclib.c:2201
 #, c-format
 msgid "%s: matrix argument must be integer only"
 msgstr "%s: Matrix-Argument darf nur eine Ganzzahl sein"
 
-#: ../src/funclib.c:2105 ../src/funclib.c:2205
+#: ../src/funclib.c:2123 ../src/funclib.c:2223
 #, c-format
 msgid "%s: argument must be an integer"
 msgstr "%s: Argument muss eine Ganzzahl sein"
 
-#: ../src/funclib.c:2440 ../src/funclib.c:2527
+#: ../src/funclib.c:2458 ../src/funclib.c:2545
 #, c-format
 msgid "%s: matrix argument must be value only"
 msgstr "%s: Matrix-Argument darf nur ein Wert sein"
 
-#: ../src/funclib.c:2783 ../src/funclib.c:2841 ../src/funclib.c:4353
-#: ../src/funclib.c:4647
+#: ../src/funclib.c:2804 ../src/funclib.c:2862 ../src/funclib.c:4400
+#: ../src/funclib.c:4694
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: zu viele Argumente"
 
-#: ../src/funclib.c:3065
+#: ../src/funclib.c:3112
 #, c-format
 msgid "%s: vector argument not value only"
 msgstr "%s: Vektor-Argument darf nicht nur ein Wert sein"
 
-#: ../src/funclib.c:3076 ../src/funclib.c:3115
+#: ../src/funclib.c:3123 ../src/funclib.c:3162
 #, c-format
 msgid "%s: argument can't be negative or 0"
 msgstr "%s: Argument kann nicht negativ oder 0 sein"
 
-#: ../src/funclib.c:3084 ../src/funclib.c:3120
+#: ../src/funclib.c:3131 ../src/funclib.c:3167
 #, c-format
 msgid "%s: vector argument has too large entries"
 msgstr "%s: Das Vektor-Argument hat zu viele Einträge"
 
-#: ../src/funclib.c:3162
+#: ../src/funclib.c:3209
 #, c-format
 msgid "%s: arguments must be vectors of equal size"
 msgstr "%s: Argumente müssen Vektoren gleicher Größe sein"
 
-#: ../src/funclib.c:3654 ../src/funclib.c:3660
+#: ../src/funclib.c:3701 ../src/funclib.c:3707
 #, c-format
 msgid "%s: %s not a reference"
 msgstr "%s: %s keine Referenz"
 
-#: ../src/funclib.c:3699
+#: ../src/funclib.c:3746
 #, c-format
 msgid "%s: matrices not of the same height"
 msgstr "%s: Matrizen haben nicht die gleiche Höhe"
 
-#: ../src/funclib.c:3704 ../src/funclib.c:4347
+#: ../src/funclib.c:3751 ../src/funclib.c:4394
 msgid "third argument"
 msgstr "drittes Argument"
 
-#: ../src/funclib.c:3709
+#: ../src/funclib.c:3756
 msgid "fourth argument"
 msgstr "viertes Argument"
 
-#: ../src/funclib.c:3984
+#: ../src/funclib.c:4031
 #, c-format
 msgid "%s: argument must be greater than 2"
 msgstr "%s: Argument muss größer als 2 sein"
 
-#: ../src/funclib.c:4087 ../src/funclib.c:4116 ../src/funclib.c:4368
+#: ../src/funclib.c:4134 ../src/funclib.c:4163 ../src/funclib.c:4415
 #: ../src/mpwrap.c:3736 ../src/mpwrap.c:3755 ../src/mpwrap.c:3812
 #: ../src/mpwrap.c:3841 ../src/mpwrap.c:3858 ../src/mpwrap.c:3907
 msgid "Division by zero!"
 msgstr "Division durch Null!"
 
-#: ../src/funclib.c:4172
+#: ../src/funclib.c:4219
 #, c-format
 msgid "%s: arguments not horizontal vectors"
 msgstr "%s: Argumente sind keine horizontalen Vektoren"
 
-#: ../src/funclib.c:4181
+#: ../src/funclib.c:4228
 #, c-format
 msgid "%s: arguments not numeric only vectors"
 msgstr "%s: Argumente sind keine nur-numerischen Vektoren"
 
-#: ../src/funclib.c:4565
+#: ../src/funclib.c:4612
 #, c-format
 msgid "%s: argument 1 must be a quadratic polynomial"
 msgstr "%s: Argument 1 muss ein quadratisches Polynom sein"
 
-#: ../src/funclib.c:4875 ../src/funclib.c:4964 ../src/funclib.c:5192
-#: ../src/funclib.c:5247 ../src/funclib.c:5317 ../src/funclib.c:5331
+#: ../src/funclib.c:4922 ../src/funclib.c:5011 ../src/funclib.c:5239
+#: ../src/funclib.c:5294 ../src/funclib.c:5364 ../src/funclib.c:5378
 #, c-format
 msgid "%s: value out of range"
 msgstr "%s: Wert außerhalb des Bereichs"
 
-#: ../src/funclib.c:5457
+#: ../src/funclib.c:5504
 #, c-format
 msgid "%s: undefined function"
 msgstr "%s: undefinierte Funktion"
 
-#: ../src/funclib.c:5463
+#: ../src/funclib.c:5510
 #, c-format
 msgid "%s: flags argument must be a string"
 msgstr "%s: Flags-Argument muss eine Zeichenkette sein"
 
-#: ../src/funclib.c:5591 ../src/symbolic.c:723
+#: ../src/funclib.c:5638 ../src/symbolic.c:723
 #, c-format
 msgid "%s: argument not a function of one variable"
 msgstr "%s: Argument ist nicht die Funktion einer Variable"
 
-#: ../src/funclib.c:5803 ../src/funclib.c:5838 ../src/funclib.c:6083
+#: ../src/funclib.c:5850 ../src/funclib.c:5885 ../src/funclib.c:6130
 #, c-format
 msgid "%s: argument should be between %d and %d"
 msgstr "%s: Argument sollte zwischen %d und %d liegen"
 
-#: ../src/funclib.c:5991
+#: ../src/funclib.c:6038
 msgid "OutputStyle must be one of normal, troff, latex or mathml"
 msgstr "»OutputStyle« muss entweder »normal«, »troff«, »latex« oder »mathml« sein"
 
-#: ../src/funclib.c:6031
+#: ../src/funclib.c:6078
 #, c-format
 msgid "%s: argument should be larger or equal to 0"
 msgstr "%s: Argument sollte größer oder gleich 0 sein"
 
-#: ../src/funclib.c:6144
+#: ../src/funclib.c:6191
 msgid "Basic"
 msgstr "Grundlegend"
 
 #. internal
-#: ../src/funclib.c:6145
+#: ../src/funclib.c:6192
 msgid "Parameters"
 msgstr "Parameter"
 
 #. internal
-#: ../src/funclib.c:6146
+#: ../src/funclib.c:6193
 msgid "Constants"
 msgstr "Konstanten"
 
 #. internal
-#: ../src/funclib.c:6147
+#: ../src/funclib.c:6194
 msgid "Numeric"
 msgstr "Numerisch"
 
 #. internal
-#: ../src/funclib.c:6148
+#: ../src/funclib.c:6195
 msgid "Trigonometry"
 msgstr "Trigonometrie"
 
 #. internal
-#: ../src/funclib.c:6149
+#: ../src/funclib.c:6196
 msgid "Number Theory"
 msgstr "Zahlentheorie"
 
 #. internal
-#: ../src/funclib.c:6150
+#: ../src/funclib.c:6197
 msgid "Matrix Manipulation"
 msgstr "Matrixmanipulation"
 
 #. internal
-#: ../src/funclib.c:6151
+#: ../src/funclib.c:6198
 msgid "Linear Algebra"
 msgstr "Lineare Algebra"
 
 #. internal
-#: ../src/funclib.c:6152
+#: ../src/funclib.c:6199
 msgid "Combinatorics"
 msgstr "Kombinatorik"
 
 #. internal
-#: ../src/funclib.c:6153
+#: ../src/funclib.c:6200
 msgid "Calculus"
 msgstr "Infinitesimalrechnung"
 
 #. internal
-#: ../src/funclib.c:6154
+#: ../src/funclib.c:6201
 msgid "Functions"
 msgstr "Funktionen"
 
 #. internal
-#: ../src/funclib.c:6155
+#: ../src/funclib.c:6202
 msgid "Equation Solving"
 msgstr "Gleichungslösung"
 
 #. internal
-#: ../src/funclib.c:6156
+#: ../src/funclib.c:6203
 msgid "Statistics"
 msgstr "Statistik"
 
 #. internal
-#: ../src/funclib.c:6157
+#: ../src/funclib.c:6204
 msgid "Polynomials"
 msgstr "Polynome"
 
 #. internal
-#: ../src/funclib.c:6158
+#: ../src/funclib.c:6205
 msgid "Set Theory"
 msgstr "Mengentheorie"
 
 #. internal
-#: ../src/funclib.c:6159
+#: ../src/funclib.c:6206
 msgid "Miscellaneous"
 msgstr "Verschiedenes"
 
 #. internal
-#: ../src/funclib.c:6161
+#: ../src/funclib.c:6208
 msgid "Displays the user manual"
 msgstr "Das Benutzerhandbuch anzeigen"
 
-#: ../src/funclib.c:6162
+#: ../src/funclib.c:6209
 msgid "Gives the warranty information"
 msgstr "Informationen zur Gewährleistungen geben"
 
-#: ../src/funclib.c:6163
+#: ../src/funclib.c:6210
 msgid "Return version as a 3-vector"
 msgstr "Version als 3-dimensionaler Vektor zurückgeben"
 
-#: ../src/funclib.c:6164
+#: ../src/funclib.c:6211
 msgid "Exits the program"
 msgstr "Beendet das Programm"
 
-#: ../src/funclib.c:6166
+#: ../src/funclib.c:6213
 msgid "Prints a string to the error stream"
 msgstr "Gibt eine Zeichenkette in den Fehlerstrom aus"
 
-#: ../src/funclib.c:6167
+#: ../src/funclib.c:6214
 msgid "Waits a specified number of seconds"
 msgstr "Wartet eine festgelegte Zahl von Sekunden"
 
-#: ../src/funclib.c:6168
+#: ../src/funclib.c:6215
 msgid "The true boolean value"
 msgstr "Der boolesche Wert »wahr«"
 
-#: ../src/funclib.c:6170
+#: ../src/funclib.c:6217
 msgid "The false boolean value"
 msgstr "Der boolesche Wert »falsch«"
 
-#: ../src/funclib.c:6179
+#: ../src/funclib.c:6226
 msgid "Make integer (0 or 1) from a boolean value"
 msgstr "Einen booleschen Wert in eine Ganzzahl (0 oder 1) umwandeln"
 
-#: ../src/funclib.c:6181
+#: ../src/funclib.c:6228
 msgid "Prints an expression"
 msgstr "Gibt einen Ausdruck aus"
 
-#: ../src/funclib.c:6182
+#: ../src/funclib.c:6229
 msgid "Changes current directory"
 msgstr "Wechselt den aktuellen Ordner"
 
-#: ../src/funclib.c:6183
+#: ../src/funclib.c:6230
 msgid "Prints an expression without a trailing newline"
 msgstr "Gibt einen Ausdruck ohne angehängten Zeilenumbruch aus"
 
-#: ../src/funclib.c:6184
+#: ../src/funclib.c:6231
 msgid "Display a string and an expression"
 msgstr "Eine Zeichenkette und einen Ausdruck anzeigen"
 
-#: ../src/funclib.c:6185
+#: ../src/funclib.c:6232
 msgid "Set a global variable"
 msgstr "Eine globale Variable setzen"
 
-#: ../src/funclib.c:6187
+#: ../src/funclib.c:6234
 msgid "Set the category and help description line for a function"
 msgstr "Zeilen für Kategorie und Beschreibung einer Funktion festlegen"
 
-#: ../src/funclib.c:6188
+#: ../src/funclib.c:6235
 msgid "Sets up a help alias"
 msgstr "Richtet einen Hilfe-Alias ein"
 
-#: ../src/funclib.c:6190
+#: ../src/funclib.c:6237
 msgid "Identity function, returns its argument"
 msgstr "Identitätsfunktion, die ihr Argument zurück gibt"
 
-#: ../src/funclib.c:6192
+#: ../src/funclib.c:6239
 msgid "Generate random float"
 msgstr "Zufallsgleitkommazahl erzeugen"
 
-#: ../src/funclib.c:6194
+#: ../src/funclib.c:6241
 msgid "Generate random integer"
 msgstr "Zufallsganzzahl erzeugen"
 
-#: ../src/funclib.c:6197 ../src/gnome-genius.c:2440
+#: ../src/funclib.c:6244 ../src/gnome-genius.c:2437
 msgid "Floating point precision"
 msgstr "Gleitkommagenauigkeit"
 
-#: ../src/funclib.c:6199 ../src/gnome-genius.c:2329
+#: ../src/funclib.c:6246 ../src/gnome-genius.c:2326
 msgid ""
 "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr ""
 "0.0 anzeigen, wenn die Gleitkommazahl kleiner als 10^-x ist (0 bedeutet "
 "niemals abschneiden)"
 
-#: ../src/funclib.c:6202 ../src/gnome-genius.c:2352
+#: ../src/funclib.c:6249 ../src/gnome-genius.c:2349
 msgid "Only chop numbers when another number is greater than 10^-x"
 msgstr "Nur Zahlen abschneiden, wenn eine andere Zahl größer als 10^-x ist"
 
-#: ../src/funclib.c:6203
+#: ../src/funclib.c:6250
 msgid "Maximum digits to display"
 msgstr "Maximale Anzahl der ausgegebenen Stellen"
 
-#: ../src/funclib.c:6204
+#: ../src/funclib.c:6251
 msgid "Maximum errors to display"
 msgstr "Maximale Anzahl der ausgegebenen Fehler"
 
-#: ../src/funclib.c:6205
+#: ../src/funclib.c:6252
 msgid "Output style: normal, latex, mathml or troff"
 msgstr "Ausgabestil: normal, latex, mathml oder troff"
 
-#: ../src/funclib.c:6206
+#: ../src/funclib.c:6253
 msgid "Integer output base"
 msgstr "Basis für die Ganzzahlausgabe"
 
-#: ../src/funclib.c:6207
+#: ../src/funclib.c:6254
 msgid "If true, mixed fractions are printed"
 msgstr "Legt fest, ob gemischte Zahlen ausgegeben werden"
 
-#: ../src/funclib.c:6208
+#: ../src/funclib.c:6255
 msgid "Print full expressions, even if more than a line"
 msgstr "Volle Ausdrücke ausgeben, auch über mehrere Zeilen"
 
-#: ../src/funclib.c:6209
+#: ../src/funclib.c:6256
 msgid "Convert all results to floats before printing"
 msgstr "Alle Ergebnisse vor der Ausgabe in Gleitkommazahlen umwandeln"
 
-#: ../src/funclib.c:6210
+#: ../src/funclib.c:6257
 msgid "Use scientific notation"
 msgstr "Wissenschaftliche Schreibweise verwenden"
 
-#: ../src/funclib.c:6212
+#: ../src/funclib.c:6259
 msgid ""
 "Number of extra Miller-Rabin tests to run on a number before declaring it a "
 "prime in IsPrime"
@@ -2434,191 +2457,191 @@ msgstr ""
 "Anzahl der zusätzlich für eine Zahl auszuführenden Miller-Rabin-Tests, bevor "
 "diese in IsPrime als Primzahl deklariert wird"
 
-#: ../src/funclib.c:6218
+#: ../src/funclib.c:6265
 msgid "Expands a matrix just like we do on unquoted matrix input"
 msgstr ""
 
-#: ../src/funclib.c:6219
+#: ../src/funclib.c:6266
 msgid "Gets the rows of a matrix as a vertical vector"
 msgstr "Ermittelt die Zeilen einer Matrix als vertikalen Vektor"
 
-#: ../src/funclib.c:6220
+#: ../src/funclib.c:6267
 msgid "Gets the columns of a matrix as a horizontal vector"
 msgstr "Ermittelt die Zeilen einer Matrix als horizontalen Vektor"
 
-#: ../src/funclib.c:6221
+#: ../src/funclib.c:6268
 msgid "Gets the diagonal entries of a matrix as a column vector"
 msgstr "Ermittelt die Diagonale einer Matrix als einspaltiger Vektor"
 
-#: ../src/funclib.c:6222
+#: ../src/funclib.c:6269
 msgid "Count the number of zero columns in a matrix"
 msgstr "Anzahl der Null-Spalten einer Matrix ausgeben"
 
-#: ../src/funclib.c:6223
+#: ../src/funclib.c:6270
 msgid "Removes any all-zero columns of M"
 msgstr "Entfernt alle aus Nullen bestehenden Spalten von M"
 
-#: ../src/funclib.c:6225
+#: ../src/funclib.c:6272
 msgid "Calculates the conjugate"
 msgstr "Berechnet die Konjugierte"
 
-#: ../src/funclib.c:6230
+#: ../src/funclib.c:6277
 msgid "Calculates the sine function"
 msgstr "Berechnet die Sinus-Funktion"
 
-#: ../src/funclib.c:6233
+#: ../src/funclib.c:6280
 msgid "Calculates the cosine function"
 msgstr "Berechnet die Cosinus-Funktion"
 
-#: ../src/funclib.c:6236
+#: ../src/funclib.c:6283
 msgid "Calculates the hyperbolic sine function"
 msgstr "Berechnet die Hyperbel-Sinus-Funktion"
 
-#: ../src/funclib.c:6239
+#: ../src/funclib.c:6286
 msgid "Calculates the hyperbolic cosine function"
 msgstr "Berechnet die Hyperbel-Kosinus-Funktion"
 
-#: ../src/funclib.c:6242
+#: ../src/funclib.c:6289
 msgid "Calculates the tan function"
 msgstr "Berechnet die Tangens-Funktion"
 
-#: ../src/funclib.c:6245
+#: ../src/funclib.c:6292
 msgid "Calculates the arctan function"
 msgstr "Berechnet die Arcustangens-Funktion"
 
-#: ../src/funclib.c:6250
+#: ../src/funclib.c:6297
 msgid "Calculates the arctan2 function (arctan(y/x) if x>0)"
 msgstr "Berechnet die Arcustangens-2-Funktion (arctan(y/x) if x>0)"
 
-#: ../src/funclib.c:6254
+#: ../src/funclib.c:6301
 msgid "The number pi"
 msgstr "Die Zahl Pi"
 
-#: ../src/funclib.c:6256
+#: ../src/funclib.c:6303
 msgid "The natural number e"
 msgstr "Die Naturkonstante e"
 
-#: ../src/funclib.c:6258
+#: ../src/funclib.c:6305
 msgid "The Golden Ratio"
 msgstr "Der goldene Schnitt"
 
-#: ../src/funclib.c:6260
+#: ../src/funclib.c:6307
 msgid "Free fall acceleration"
 msgstr "Beschleunigung im freien Fall"
 
-#: ../src/funclib.c:6263
+#: ../src/funclib.c:6310
 msgid "Euler's Constant gamma"
 msgstr "Eulersche Konstante"
 
-#: ../src/funclib.c:6267
+#: ../src/funclib.c:6314
 msgid "Catalan's Constant (0.915...)"
 msgstr "Die Catalansche Konstante (0.915...)"
 
 #. FUNC (ErrorFunction, 1, "x", "functions", N_("The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt (only real values implemented)"));
 #. ErrorFunction_function = f;
 #. ALIAS (erf, 1, ErrorFunction);
-#: ../src/funclib.c:6272
+#: ../src/funclib.c:6319
 msgid "The Riemann zeta function (only real values implemented)"
 msgstr "Riemannsche Zeta-Funktion (nur reelle Werte implementiert)"
 
-#: ../src/funclib.c:6276
+#: ../src/funclib.c:6323
 msgid "The Gamma function (only real values implemented)"
 msgstr "Die Gamma-Funktion (nur reelle Werte implementiert)"
 
-#: ../src/funclib.c:6281
+#: ../src/funclib.c:6328
 msgid "The square root"
 msgstr "Die Quadratwurzel"
 
-#: ../src/funclib.c:6285
+#: ../src/funclib.c:6332
 msgid "The exponential function"
 msgstr "Die Exponentialfunktion"
 
-#: ../src/funclib.c:6288
+#: ../src/funclib.c:6335
 msgid "The natural logarithm"
 msgstr "Der natürliche Algorithmus"
 
-#: ../src/funclib.c:6291
+#: ../src/funclib.c:6338
 msgid "Logarithm of x base 2"
 msgstr "Logarithmus von x zur Basis 2"
 
-#: ../src/funclib.c:6296
+#: ../src/funclib.c:6343
 msgid "Logarithm of x base 10"
 msgstr "Logarithmus von x zur Basis 10"
 
-#: ../src/funclib.c:6299
+#: ../src/funclib.c:6346
 msgid "Round a number"
 msgstr "Eine Zahl runden"
 
-#: ../src/funclib.c:6303
+#: ../src/funclib.c:6350
 msgid "Get the highest integer less than or equal to n"
 msgstr "Ermittelt die größte Ganzzahl kleiner als oder gleich 0"
 
-#: ../src/funclib.c:6307
+#: ../src/funclib.c:6354
 msgid "Get the lowest integer more than or equal to n"
 msgstr "Ermittelt die kleinste Ganzzahl größer als oder gleich 0"
 
-#: ../src/funclib.c:6311
+#: ../src/funclib.c:6358
 msgid "Truncate number to an integer (return the integer part)"
 msgstr ""
 "Wandelt eine Zahl in eine Ganzzahl um (gibt den ganzzahligen Anteil zurück)"
 
-#: ../src/funclib.c:6316
+#: ../src/funclib.c:6363
 msgid "Make number a float"
 msgstr "Eine Zahl in eine Gleitkommazahl umwandeln"
 
-#: ../src/funclib.c:6319
+#: ../src/funclib.c:6366
 msgid "Get the numerator of a rational number"
 msgstr "Den Zähler einer rationalen Zahl ermitteln"
 
-#: ../src/funclib.c:6321
+#: ../src/funclib.c:6368
 msgid "Get the denominator of a rational number"
 msgstr "Den Nenner einer rationalen Zahl ermitteln"
 
-#: ../src/funclib.c:6324
+#: ../src/funclib.c:6371
 msgid "Greatest common divisor"
 msgstr "Größter gemeinsamer Teiler"
 
-#: ../src/funclib.c:6326
+#: ../src/funclib.c:6373
 msgid "Least common multiplier"
 msgstr "Kleinstes gemeinsames Vielfaches"
 
-#: ../src/funclib.c:6328
+#: ../src/funclib.c:6375
 msgid "Check a number for being a perfect square"
 msgstr "Überprüfen, ob eine Zahl eine perfekte Quadratwurzel ist"
 
-#: ../src/funclib.c:6329
+#: ../src/funclib.c:6376
 msgid "Check a number for being any perfect power (a^b)"
 msgstr "Überprüfen, ob eine Zahl eine perfekte Potenz ist (a^b)"
 
-#: ../src/funclib.c:6330
+#: ../src/funclib.c:6377
 msgid "Return the n'th prime (up to a limit)"
 msgstr "Die n-te Primzahl zurückgeben (bis zu einem Grenzwert)"
 
-#: ../src/funclib.c:6332
+#: ../src/funclib.c:6379
 msgid "Tests if an integer is even"
 msgstr "Prüft, ob eine Ganzzahl gerade ist"
 
-#: ../src/funclib.c:6333
+#: ../src/funclib.c:6380
 msgid "Tests if an integer is odd"
 msgstr "Prüft, ob eine Ganzzahl ungerade ist"
 
-#: ../src/funclib.c:6335
+#: ../src/funclib.c:6382
 msgid "Returns the least prime greater than n (if n is positive)"
 msgstr "Gebt die kleinste Primzahl größer als n zurück (wobei n positiv ist)"
 
-#: ../src/funclib.c:6336
+#: ../src/funclib.c:6383
 msgid "Returns the n'th Lucas number"
 msgstr "Gibt die n-te Lucas-Zahl zurück"
 
-#: ../src/funclib.c:6337
+#: ../src/funclib.c:6384
 msgid "Returns inverse of n mod m"
 msgstr "Gibt den Kehrwert von n mod m zurück"
 
-#: ../src/funclib.c:6338
+#: ../src/funclib.c:6385
 msgid "Checks divisibility (if m divides n)"
 msgstr "Überprüft die Teilbarkeit (wobei n durch m dividiert wird)"
 
-#: ../src/funclib.c:6339
+#: ../src/funclib.c:6386
 msgid ""
 "Return n/d but only if d divides n else returns garbage (this is faster than "
 "writing n/d)"
@@ -2626,17 +2649,17 @@ msgstr ""
 "n/d zurückgeben genau dann, wenn n durch d teilbar ist. Sonst wird Unsinn "
 "zurückgegeben (ist schneller als n/d zu schreiben)"
 
-#: ../src/funclib.c:6340
+#: ../src/funclib.c:6387
 msgid ""
 "Tests primality of integers, for numbers greater than 25*10^9 false positive "
 "is with low probability depending on IsPrimeMillerRabinReps"
 msgstr "Primzahltest für Ganzzahlen. Für Zahlen größer  25*10^9 "
 
-#: ../src/funclib.c:6341
+#: ../src/funclib.c:6388
 msgid "Run the strong pseudoprime test base b on n"
 msgstr "Den Test auf Pseudoprimzahlen zur Basis b auf n"
 
-#: ../src/funclib.c:6342
+#: ../src/funclib.c:6389
 msgid ""
 "Use the Miller-Rabin primality test on n, reps number of times.  The "
 "probability of false positive is (1/4)^reps"
@@ -2644,31 +2667,31 @@ msgstr ""
 "Den Miller-Rabin-Test reps Mal auf n anwenden. Die Wahrscheinlichkeit einer "
 "falschen Positivmeldung beträgt (1/4)^reps"
 
-#: ../src/funclib.c:6343
+#: ../src/funclib.c:6390
 #, fuzzy
 msgid ""
 "Use the Miller-Rabin primality test on n with enough bases that assuming the "
 "Generalized Reimann Hypothesis the result is deterministic"
 msgstr ""
-"Den Miller-Rabin-Test auf n anwenden. Dabei werden genug Basen verwendet "
+"Den Miller-Rabin-Test auf n anwenden. Dabei werden genug Basen verwendet (?)"
 
-#: ../src/funclib.c:6344
+#: ../src/funclib.c:6391
 msgid "Return factorization of a number as a matrix"
 msgstr "Die Faktorisierung einer Zahl als Matrix zurückgeben"
 
-#: ../src/funclib.c:6346
+#: ../src/funclib.c:6393
 msgid "Returns the maximum of arguments or matrix"
 msgstr "Gibt das Maximum von Argumenten oder Matrizen zurück"
 
-#: ../src/funclib.c:6349
+#: ../src/funclib.c:6396
 msgid "Returns the minimum of arguments or matrix"
 msgstr "Gibt das Minimum von Argumenten oder Matrizen zurück"
 
-#: ../src/funclib.c:6353
+#: ../src/funclib.c:6400
 msgid "Calculate the Jacobi symbol (a/b) (b should be odd)"
 msgstr "Das Jacobi-Symbol berechnen (a/b, wobei b ungerade sein sollte)"
 
-#: ../src/funclib.c:6355
+#: ../src/funclib.c:6402
 msgid ""
 "Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) "
 "when a odd, or (a/2)=0 when a even"
@@ -2676,73 +2699,73 @@ msgstr ""
 "Das Jacobi-Symbol berechnen (a/b), mit der Kronecker-Verallgemeinerung (a/2)="
 "(2/a), wenn a ungerade, oder (a/2)=0, wenn a gerade ist"
 
-#: ../src/funclib.c:6357
+#: ../src/funclib.c:6404
 msgid "Calculate the Legendre symbol (a/p)"
 msgstr "Das Legendre-Symbol berechnen (a/p)"
 
-#: ../src/funclib.c:6360
+#: ../src/funclib.c:6407
 msgid "Get the real part of a complex number"
 msgstr "Den reellen Teil einer komplexen Zahl ermitteln"
 
-#: ../src/funclib.c:6363
+#: ../src/funclib.c:6410
 msgid "Get the imaginary part of a complex number"
 msgstr "Den imaginären Teil einer komplexen Zahl ermitteln"
 
-#: ../src/funclib.c:6367
+#: ../src/funclib.c:6414
 msgid "Make an identity matrix of a given size"
 msgstr "Eine Einheitsmatrix einer bestimmten Größe erstellen"
 
-#: ../src/funclib.c:6370
+#: ../src/funclib.c:6417
 msgid "Make an matrix of all zeros (or a row vector)"
 msgstr ""
 "Eine nur aus Nullen bestehende Matrix (oder einen liegenden Vektor) erstellen"
 
-#: ../src/funclib.c:6372
+#: ../src/funclib.c:6419
 msgid "Make an matrix of all ones (or a row vector)"
 msgstr ""
 "Eine nur aus Einsen bestehende Matrix (oder einen liegenden Vektor) erstellen"
 
-#: ../src/funclib.c:6375
+#: ../src/funclib.c:6422
 msgid "Get the number of rows of a matrix"
 msgstr "Die Anzahl von Zeilen in einer Matrix ermitteln"
 
-#: ../src/funclib.c:6376
+#: ../src/funclib.c:6423
 msgid "Get the number of columns of a matrix"
 msgstr "Die Anzahl von Spalten in einer Matrix ermitteln"
 
-#: ../src/funclib.c:6377
+#: ../src/funclib.c:6424
 msgid "Is a matrix square"
 msgstr "Überprüfen, ob eine Matrix quadratisch ist"
 
-#: ../src/funclib.c:6378
+#: ../src/funclib.c:6425
 msgid "Is argument a horizontal or a vertical vector"
 msgstr "Überprüfen, ob das Argument ein liegender oder stehender Vektor ist"
 
-#: ../src/funclib.c:6379
+#: ../src/funclib.c:6426
 msgid "Is a matrix upper triangular"
 msgstr "Überprüfen, ob es eine obere Dreiecksmatrix ist"
 
-#: ../src/funclib.c:6380
+#: ../src/funclib.c:6427
 msgid "Is a matrix lower triangular"
 msgstr "Überprüfen, ob es eine untere Dreiecksmatrix ist"
 
-#: ../src/funclib.c:6381
+#: ../src/funclib.c:6428
 msgid "Is a matrix diagonal"
 msgstr "Überprüfen, ob eine Matrix diagonal ist"
 
-#: ../src/funclib.c:6382
+#: ../src/funclib.c:6429
 msgid "Get the number of elements of a matrix"
 msgstr "Ermittelt die anzahl von Argumenten in einer Matrix"
 
-#: ../src/funclib.c:6384
+#: ../src/funclib.c:6431
 msgid "Get the row echelon form of a matrix"
 msgstr "Die Stufenform einer Matrix berechnen"
 
-#: ../src/funclib.c:6388
+#: ../src/funclib.c:6435
 msgid "Get the reduced row echelon form of a matrix"
 msgstr "Die reduzierte Stufenform einer Matrix berechnen"
 
-#: ../src/funclib.c:6392
+#: ../src/funclib.c:6439
 msgid ""
 "Solve linear system Mx=V, return solution V if there is a unique solution, "
 "null otherwise.  Extra two reference parameters can optionally be used to "
@@ -2752,11 +2775,11 @@ msgstr ""
 "eindeutige Lösung gibt, sonst Null.  Zwei zusätzliche Referenzparameter "
 "können optional verwendet werden, um die reduzierten M und V zu ermitteln."
 
-#: ../src/funclib.c:6395
+#: ../src/funclib.c:6442
 msgid "Get the determinant of a matrix"
 msgstr "Ermittelt die Determinante einer Matrix"
 
-#: ../src/funclib.c:6398
+#: ../src/funclib.c:6445
 #, fuzzy
 msgid ""
 "Return pivot columns of a matrix, that is columns which have a leading 1 in "
@@ -2766,60 +2789,60 @@ msgstr ""
 "führender 1 in\n"
 "der reduzierten Stufenform. (?)"
 
-#: ../src/funclib.c:6400
+#: ../src/funclib.c:6447
 msgid "Get the nullspace of a matrix"
 msgstr "Den Kern (Nullraum) einer Matrix ermitteln"
 
-#: ../src/funclib.c:6402
+#: ../src/funclib.c:6449
 msgid "Make new matrix of given size from old one"
 msgstr "Erstellt eine neue Matrix der angegebenen Größe aus der alten Matrix"
 
-#: ../src/funclib.c:6403
+#: ../src/funclib.c:6450
 msgid "Return the index complement of a vector of indexes"
 msgstr ""
 
-#: ../src/funclib.c:6404
-msgid "Get the hermitian product of two vectors"
-msgstr "Das hermitische Produkt zweier Vektoren ermitteln"
+#: ../src/funclib.c:6451
+msgid "Get the Hermitian product of two vectors"
+msgstr "Das hermitesche Produkt zweier Vektoren ermitteln"
 
-#: ../src/funclib.c:6407
+#: ../src/funclib.c:6454
 msgid "Check if a matrix is a matrix of numbers"
 msgstr "Überprüfen, ob eine Matrix eine Zahlenmatrix ist"
 
-#: ../src/funclib.c:6408
+#: ../src/funclib.c:6455
 msgid "Check if a matrix is an integer (non-complex) matrix"
 msgstr "Überprüfen, ob eine Matrix eine Ganzzahl (nicht komplex) ist"
 
-#: ../src/funclib.c:6409
+#: ../src/funclib.c:6456
 msgid "Check if a matrix is a rational (non-complex) matrix"
 msgstr "Überprüfen, ob eine Matrix rational (nicht komplex) ist"
 
-#: ../src/funclib.c:6410
+#: ../src/funclib.c:6457
 msgid "Check if a matrix is a real (non-complex) matrix"
 msgstr "Überprüfen, ob eine Matrix reell (nicht komplex) ist"
 
-#: ../src/funclib.c:6411
+#: ../src/funclib.c:6458
 msgid "Check if a matrix is positive, that is if each element is positive"
 msgstr ""
 "Überprüfen, ob eine Matrix positiv ist, das heißt, dass jedes Element "
 "positiv ist"
 
-#: ../src/funclib.c:6412
+#: ../src/funclib.c:6459
 msgid ""
 "Check if a matrix is nonnegative, that is if each element is nonnegative"
 msgstr ""
 "Überprüfen, ob eine Matrix nichtnegativ ist, das heißt, dass jedes Element "
 "nichtnegativ ist"
 
-#: ../src/funclib.c:6414
+#: ../src/funclib.c:6461
 msgid "Check if a number or a matrix is all zeros"
 msgstr "Überprüfen, ob eine Zahl oder eine Matrix nur aus Nullen besteht"
 
-#: ../src/funclib.c:6415
+#: ../src/funclib.c:6462
 msgid "Check if a number or a matrix is 1 or identity respectively"
 msgstr "Überprüfen, ob eine Zahl 1 oder eine Matrix eine Einheitsmatrix ist"
 
-#: ../src/funclib.c:6417
+#: ../src/funclib.c:6464
 msgid ""
 "Returns true if the element x is in the set X (where X is a vector "
 "pretending to be a set)"
@@ -2827,11 +2850,11 @@ msgstr ""
 "Gibt WAHR zurück, wenn das Element x Teil der Menge X ist (X ist ein als "
 "Menge aufgefasster Vektor)"
 
-#: ../src/funclib.c:6418
+#: ../src/funclib.c:6465
 msgid "Returns true if X is a subset of Y"
 msgstr "Gibt »wahr« zurück, wenn X eine Untermenge von Y ist"
 
-#: ../src/funclib.c:6419
+#: ../src/funclib.c:6466
 msgid ""
 "Returns a set theoretic difference X-Y (X and Y are vectors pretending to be "
 "sets)"
@@ -2839,7 +2862,7 @@ msgstr ""
 "Die Differenzmenge X-Y zurückgeben (X und Y sind als Mengen aufgefasste "
 "Vektoren)"
 
-#: ../src/funclib.c:6420
+#: ../src/funclib.c:6467
 msgid ""
 "Returns a set theoretic intersection of X and Y (X and Y are vectors "
 "pretending to be sets)"
@@ -2847,154 +2870,154 @@ msgstr ""
 "Die Schnittmenge von X und Y zurückgeben (X und Y sind als Mengen "
 "aufgefasste Vektoren)"
 
-#: ../src/funclib.c:6422
+#: ../src/funclib.c:6469
 msgid "Check if argument is a null"
 msgstr "Überprüfen, ob ein Argument eine Null ist"
 
-#: ../src/funclib.c:6423
+#: ../src/funclib.c:6470
 msgid "Check if argument is a number"
 msgstr "Überprüfen, ob ein Argument eine Zahl ist"
 
-#: ../src/funclib.c:6424
+#: ../src/funclib.c:6471
 msgid "Check if argument is a boolean (and not a number)"
 msgstr "Überprüfen, ob ein Argument ein boolescher Wert ist (und keine Zahl)"
 
-#: ../src/funclib.c:6425
+#: ../src/funclib.c:6472
 msgid "Check if argument is a text string"
 msgstr "Überprüfen, ob ein Argument eine Textzeichenkette ist"
 
-#: ../src/funclib.c:6426
+#: ../src/funclib.c:6473
 msgid "Check if argument is a matrix"
 msgstr "Überprüfen, ob ein Argument eine Matrix ist"
 
-#: ../src/funclib.c:6427
+#: ../src/funclib.c:6474
 msgid "Check if argument is a function"
 msgstr "Überprüfen, ob ein Argument eine Funktion ist"
 
-#: ../src/funclib.c:6428
+#: ../src/funclib.c:6475
 msgid "Check if argument is a function or an identifier"
 msgstr "Überprüfen, ob ein Argument eine Funktion oder ein Bezeichner ist"
 
-#: ../src/funclib.c:6429
+#: ../src/funclib.c:6476
 msgid "Check if argument is a function reference"
 msgstr "Überprüfen, ob ein Argument eine Funktionsreferenz ist"
 
-#: ../src/funclib.c:6431
+#: ../src/funclib.c:6478
 msgid "Check if argument is a complex (non-real) number"
 msgstr "Überprüfen, ob ein Argument eine komplexe (nicht reelle) Zahl ist"
 
-#: ../src/funclib.c:6432
+#: ../src/funclib.c:6479
 msgid "Check if argument is a real number"
 msgstr "Überprüfen, ob ein Argument eine reelle Zahl ist"
 
-#: ../src/funclib.c:6433
+#: ../src/funclib.c:6480
 msgid "Check if argument is an integer (non-complex)"
 msgstr "Überprüfen, ob ein Argument eine Ganzzahl ist (keine komplexe Zahl)"
 
-#: ../src/funclib.c:6434
+#: ../src/funclib.c:6481
 msgid "Check if argument is a positive real integer"
 msgstr "Überprüfen, ob ein Argument eine positive reelle Ganzzahl ist"
 
-#: ../src/funclib.c:6436
+#: ../src/funclib.c:6483
 msgid "Check if argument is a non-negative real integer"
 msgstr "Überprüfen, ob ein Argument eine nichtnegative  reelle Ganzzahl ist"
 
-#: ../src/funclib.c:6437
+#: ../src/funclib.c:6484
 msgid "Check if argument is a possibly complex integer"
 msgstr "Überprüfen, ob ein Argument möglicherweise eine komplexe Ganzzahl ist"
 
-#: ../src/funclib.c:6439
+#: ../src/funclib.c:6486
 msgid "Check if argument is a rational number (non-complex)"
 msgstr ""
 "Überprüfen, ob ein Argument eine rationale Zahl ist (keine komplexe Zahl)"
 
-#: ../src/funclib.c:6440
+#: ../src/funclib.c:6487
 msgid "Check if argument is a possibly complex rational number"
 msgstr ""
 "Überprüfen, ob ein Argument möglicherweise eine komplexe rationale Zahl ist"
 
-#: ../src/funclib.c:6441
+#: ../src/funclib.c:6488
 msgid "Check if argument is a floating point number (non-complex)"
 msgstr ""
 "Überprüfen, ob ein Argument eine Gleitkommazahl ist (keine komplexe Zahl)"
 
-#: ../src/funclib.c:6443
+#: ../src/funclib.c:6490
 msgid "Add two polynomials (vectors)"
 msgstr "Zwei Polynome addieren (Vektoren)"
 
-#: ../src/funclib.c:6444
+#: ../src/funclib.c:6491
 msgid "Subtract two polynomials (as vectors)"
 msgstr "Zwei Polynome subtrahieren (als Vektoren)"
 
-#: ../src/funclib.c:6445
+#: ../src/funclib.c:6492
 msgid "Multiply two polynomials (as vectors)"
 msgstr "Zwei Polynome multiplizieren (als Vektoren)"
 
-#: ../src/funclib.c:6446
+#: ../src/funclib.c:6493
 msgid "Divide polynomial p by q, return the remainder in r"
 msgstr "Die Polynome p durch q dividieren und den Rest in r zurückgeben"
 
-#: ../src/funclib.c:6447
+#: ../src/funclib.c:6494
 msgid "Take polynomial (as vector) derivative"
 msgstr ""
 
-#: ../src/funclib.c:6448
+#: ../src/funclib.c:6495
 msgid "Take second polynomial (as vector) derivative"
 msgstr ""
 
-#: ../src/funclib.c:6449
+#: ../src/funclib.c:6496
 msgid "Trim zeros from a polynomial (as vector)"
 msgstr "Nullen aus einem Polynom entfernen (als Vektor)"
 
-#: ../src/funclib.c:6450
+#: ../src/funclib.c:6497
 msgid "Check if a vector is usable as a polynomial"
 msgstr "Überprüfen, ob ein Vektor als Polynom nutzbar ist"
 
-#: ../src/funclib.c:6451
+#: ../src/funclib.c:6498
 msgid "Make string out of a polynomial (as vector)"
 msgstr "Eine Zeichenkette aus einem Polynom erstellen (als Vektor)"
 
-#: ../src/funclib.c:6452
+#: ../src/funclib.c:6499
 msgid "Make function out of a polynomial (as vector)"
 msgstr "Eine Funktion aus einem Polynom erstellen (als Vektor)"
 
-#: ../src/funclib.c:6454
+#: ../src/funclib.c:6501
 msgid "Find roots of a quadratic polynomial (given as vector of coefficients)"
 msgstr ""
 "Die Nullstellen eines quadratischen Polynoms ermitteln (angegeben als Vektor "
 "der Koeffizienten)"
 
-#: ../src/funclib.c:6456
+#: ../src/funclib.c:6503
 msgid "Get all combinations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
 "Alle Kombinationen aus k Zahlen von 1 bis n als einen Vektor aus Vektoren "
 "ermitteln"
 
-#: ../src/funclib.c:6457
+#: ../src/funclib.c:6504
 msgid ""
 "Get combination that would come after v in call to combinations, first "
 "combination should be [1:k]."
 msgstr ""
 
-#: ../src/funclib.c:6458
+#: ../src/funclib.c:6505
 msgid "Get all permutations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
 "Alle Permutationen aus k Zahlen von 1 bis n als einen Vektor aus Vektoren "
 "ermitteln"
 
-#: ../src/funclib.c:6460
+#: ../src/funclib.c:6507
 msgid "Calculate combinations (binomial coefficient)"
 msgstr "Berechnet Kombinationen (binominaler Koeffizient)"
 
-#: ../src/funclib.c:6463
+#: ../src/funclib.c:6510
 msgid "Convert a string to a vector of ASCII values"
 msgstr "Wandelt eine Zeichenkette in einen Vektor aus ASCII-Werten um"
 
-#: ../src/funclib.c:6464
+#: ../src/funclib.c:6511
 msgid "Convert a vector of ASCII values to a string"
 msgstr "Wandelt einen Vektor aus ASCII-Werten in eine Zeichenkette um"
 
-#: ../src/funclib.c:6466
+#: ../src/funclib.c:6513
 msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters"
@@ -3003,7 +3026,7 @@ msgstr ""
 "Werten um (Positionen in der Alphabet-Zeichenkette), -1 für unbekannte "
 "Buchstaben"
 
-#: ../src/funclib.c:6467
+#: ../src/funclib.c:6514
 msgid ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string"
@@ -3011,7 +3034,7 @@ msgstr ""
 "Wandelt einen Vektor aus 0-basierten alphabetischen Werten (Positionen in "
 "der Alphabet-Zeichenkette) in eine Zeichenkette um"
 
-#: ../src/funclib.c:6469
+#: ../src/funclib.c:6516
 msgid ""
 "Protect a variable from being modified.  It will be treated as a system "
 "defined variable from now on.  Protected parameters can still be modified."
@@ -3020,7 +3043,7 @@ msgstr ""
 "systemdefinierte Variable identifiziert. Geschützte Variablen können jedoch "
 "immer noch geändert werden."
 
-#: ../src/funclib.c:6470
+#: ../src/funclib.c:6517
 msgid ""
 "Unprotect a variable from being modified.  It will be treated as a user "
 "defined variable from now on."
@@ -3028,28 +3051,28 @@ msgstr ""
 "Den Bearbeitungsschutz einer Varaible zurücknehmen. Sie wird von nun an als "
 "benutzerdefinierte Variable identifiziert."
 
-#: ../src/funclib.c:6471
+#: ../src/funclib.c:6518
 msgid ""
 "Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
 "\""
 msgstr ""
 "Setzt Flags für eine Funktion, derzeit »PropagateMod« und »NoModuloArguments«"
 
-#: ../src/funclib.c:6472
+#: ../src/funclib.c:6519
 msgid "Get current modulo from the context outside the function"
 msgstr ""
 
-#: ../src/funclib.c:6473
+#: ../src/funclib.c:6520
 msgid "Check if a variable or function is defined"
 msgstr "Überprüfen, ob eine Variable oder Funktion definiert ist"
 
-#: ../src/funclib.c:6474
+#: ../src/funclib.c:6521
 msgid "Undefine a variable (including all locals and globals of the same name)"
 msgstr ""
 "Eine Variablendefinition aufheben (einschließlich aller lokalen und globalen "
 "mit dem gleichen Namen)"
 
-#: ../src/funclib.c:6476
+#: ../src/funclib.c:6523
 msgid ""
 "Undefine all unprotected (user defined) global variables and parameters.  "
 "Does not reset or change protected (system) parameters."
@@ -3058,7 +3081,7 @@ msgstr ""
 "aufheben. Geschützte (System)parameter werden nicht zurückgesetzt oder "
 "verändert."
 
-#: ../src/funclib.c:6477
+#: ../src/funclib.c:6524
 msgid ""
 "Mark all currently defined variables as protected.  They will be treated as "
 "system defined variables from now on."
@@ -3066,28 +3089,28 @@ msgstr ""
 "Alle gegenwärtig definierten Variablen als geschützt markieren. Sie werden "
 "von nun an als systemdefinierte Variablen identifiziert."
 
-#: ../src/funclib.c:6478
+#: ../src/funclib.c:6525
 msgid ""
 "Return a vector of all global unprotected (user defined) variable names."
 msgstr ""
 "Einen Vektor aller globalen, nicht geschützten (selbst definierten) "
 "Variablennamen zurückgeben."
 
-#: ../src/funclib.c:6480
+#: ../src/funclib.c:6527
 msgid "Parse a string (but do not execute)"
 msgstr "Liest eine Zeichenkette ein (aber führt sie nicht aus)"
 
-#: ../src/funclib.c:6481
+#: ../src/funclib.c:6528
 msgid "Parse and evaluate a string"
 msgstr "Eine Zeichenkette einlesen und auswerten"
 
-#: ../src/funclib.c:6483
+#: ../src/funclib.c:6530
 msgid "Ask a question and return a string.  Optionally pass in a default."
 msgstr ""
 "Eine Frage stellen und eine Zeichenkette zurückgeben. Optional kann eine "
 "Vorgabe übergeben werden."
 
-#: ../src/funclib.c:6484
+#: ../src/funclib.c:6531
 msgid ""
 "Ask a question and present a list of buttons.  Returns the 1-based index of "
 "the button pressed (or null on failure)."
@@ -3095,7 +3118,7 @@ msgstr ""
 "Eine Frage stellen und eine Knopfliste darstellen. Gibt den einstelligen "
 "Index des gedrückten Knopfes zurück (oder Null bei Fehlschlag)."
 
-#: ../src/funclib.c:6486
+#: ../src/funclib.c:6533
 msgid ""
 "Integration of f by Composite Simpson's Rule on the interval [a,b] with n "
 "subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be "
@@ -3126,8 +3149,8 @@ msgstr "Empfohlen: %s\n"
 msgid "Out of range!\n"
 msgstr "Außerhalb des Bereichs!\n"
 
-#: ../src/genius.c:351 ../src/genius.lang.h:5 ../src/gnome-genius.c:750
-#: ../src/gnome-genius.c:795
+#: ../src/genius.c:351 ../src/genius.lang.h:5 ../src/gnome-genius.c:747
+#: ../src/gnome-genius.c:792
 msgid "Genius"
 msgstr "Genius"
 
@@ -3236,7 +3259,7 @@ msgstr ""
 
 # Kennt jemand dieses Zitat im Originaltext?
 # Ich habe nichts finden können, und schließe daraus, das er es in Englisch gesagt haben muss.
-#: ../src/genius.c:610 ../src/gnome-genius.c:5142
+#: ../src/genius.c:610 ../src/gnome-genius.c:5106
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -3280,340 +3303,340 @@ msgstr "Skripte"
 msgid "String"
 msgstr "Zeichenkette"
 
-#: ../src/gnome-genius.c:255
+#: ../src/gnome-genius.c:252
 msgid "_File"
 msgstr "_Datei"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:256
+#: ../src/gnome-genius.c:253
 msgid "_Edit"
 msgstr "_Bearbeiten"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:257
+#: ../src/gnome-genius.c:254
 msgid "_Calculator"
 msgstr "Re_chner"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:258
+#: ../src/gnome-genius.c:255
 msgid "P_lugins"
 msgstr "P_lugins"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:259
+#: ../src/gnome-genius.c:256
 msgid "_Programs"
 msgstr "_Programme"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:260
+#: ../src/gnome-genius.c:257
 msgid "_Settings"
 msgstr "_Einstellungen"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:261
+#: ../src/gnome-genius.c:258
 msgid "_Help"
 msgstr "_Hilfe"
 
 #. name, stock id, label
 #. name, stock id
-#: ../src/gnome-genius.c:263
+#: ../src/gnome-genius.c:260
 msgid "_New Program"
 msgstr "_Neues Programm"
 
 #. label, accelerator
-#: ../src/gnome-genius.c:264 ../src/gnome-genius.c:268
+#: ../src/gnome-genius.c:261 ../src/gnome-genius.c:265
 msgid "Create new program tab"
 msgstr "Neuen Programmreiter erstellen"
 
-#: ../src/gnome-genius.c:267
+#: ../src/gnome-genius.c:264
 msgid "New"
 msgstr "Neu"
 
 #. name, stock id
-#: ../src/gnome-genius.c:271
+#: ../src/gnome-genius.c:268
 msgid "_Open..."
 msgstr "Ö_ffnen …"
 
 #. label, accelerator
-#: ../src/gnome-genius.c:272 ../src/gnome-genius.c:276
+#: ../src/gnome-genius.c:269 ../src/gnome-genius.c:273
 msgid "Open a file"
 msgstr "Eine Datei öffnen"
 
-#: ../src/gnome-genius.c:275
+#: ../src/gnome-genius.c:272
 msgid "Open"
 msgstr "Öffnen"
 
 #. name, stock id
-#: ../src/gnome-genius.c:279
+#: ../src/gnome-genius.c:276
 msgid "_Save"
 msgstr "_Speichern"
 
 #. label, accelerator
-#: ../src/gnome-genius.c:280
+#: ../src/gnome-genius.c:277
 msgid "Save current file"
 msgstr "Aktuelle Datei speichern"
 
-#: ../src/gnome-genius.c:283
+#: ../src/gnome-genius.c:280
 msgid "Save All _Unsaved"
 msgstr "Alle _ungespeicherten speichern"
 
-#: ../src/gnome-genius.c:284
+#: ../src/gnome-genius.c:281
 msgid "Save all unsaved programs"
 msgstr "Alle ungespeicherten Programme speichern"
 
-#: ../src/gnome-genius.c:287
+#: ../src/gnome-genius.c:284
 msgid "Save _As..."
 msgstr "Speichern _unter …"
 
-#: ../src/gnome-genius.c:288
+#: ../src/gnome-genius.c:285
 msgid "Save to a file"
 msgstr "In eine Datei speichern"
 
-#: ../src/gnome-genius.c:291
+#: ../src/gnome-genius.c:288
 msgid "_Reload from Disk"
 msgstr "Von Festplatte _neu laden"
 
-#: ../src/gnome-genius.c:292
+#: ../src/gnome-genius.c:289
 msgid "Reload the selected program from disk"
 msgstr "Ausgewähltes Programm von Festplatte neu laden"
 
-#: ../src/gnome-genius.c:295
+#: ../src/gnome-genius.c:292
 msgid "_Close"
 msgstr "S_chließen"
 
-#: ../src/gnome-genius.c:296
+#: ../src/gnome-genius.c:293
 msgid "Close the current file"
 msgstr "Die aktuelle Datei schließen"
 
-#: ../src/gnome-genius.c:299
+#: ../src/gnome-genius.c:296
 msgid "_Load and Run..."
 msgstr "_Laden und ausführen …"
 
-#: ../src/gnome-genius.c:300
+#: ../src/gnome-genius.c:297
 msgid "Load and execute a file in genius"
 msgstr "Eine Datei in Genius laden und ausführen"
 
-#: ../src/gnome-genius.c:303
+#: ../src/gnome-genius.c:300
 msgid "Save Console Ou_tput..."
 msgstr "_Konsolenausgabe speichern …"
 
-#: ../src/gnome-genius.c:304
+#: ../src/gnome-genius.c:301
 msgid ""
 "Save what is visible on the console (including scrollback) to a text file"
 msgstr ""
 "Den sichtbaren Text der Konsole (einschließlich durchgelaufenem) als "
 "Textdatei abspeichern"
 
-#: ../src/gnome-genius.c:307
+#: ../src/gnome-genius.c:304
 msgid "_Quit"
 msgstr "_Beenden"
 
-#: ../src/gnome-genius.c:308
+#: ../src/gnome-genius.c:305
 msgid "Quit"
 msgstr "Beenden"
 
-#: ../src/gnome-genius.c:312
+#: ../src/gnome-genius.c:309
 msgid "_Undo"
 msgstr "_Rückgängig"
 
-#: ../src/gnome-genius.c:313
+#: ../src/gnome-genius.c:310
 msgid "Undo the last action"
 msgstr "Macht die letzte Aktion rückgängig."
 
-#: ../src/gnome-genius.c:316
+#: ../src/gnome-genius.c:313
 msgid "_Redo"
 msgstr "_Wiederholen"
 
-#: ../src/gnome-genius.c:317
+#: ../src/gnome-genius.c:314
 msgid "Redo the undone action"
 msgstr "Die rückgängig gemachte Aktion wiederholen"
 
-#: ../src/gnome-genius.c:321
+#: ../src/gnome-genius.c:318
 msgid "Cu_t"
 msgstr "A_usschneiden"
 
-#: ../src/gnome-genius.c:322
+#: ../src/gnome-genius.c:319
 msgid "Cut the selection"
 msgstr "Die Auswahl ausschneiden"
 
-#: ../src/gnome-genius.c:325
+#: ../src/gnome-genius.c:322
 msgid "_Copy"
 msgstr "_Kopieren"
 
-#: ../src/gnome-genius.c:326
+#: ../src/gnome-genius.c:323
 msgid "Copy the selection"
 msgstr "Die Auswahl kopieren"
 
-#: ../src/gnome-genius.c:329
+#: ../src/gnome-genius.c:326
 msgid "_Paste"
 msgstr "_Einfügen"
 
-#: ../src/gnome-genius.c:330
+#: ../src/gnome-genius.c:327
 msgid "Paste the clipboard"
 msgstr "Fügt den Inhalt der Zwischenablage ein."
 
-#: ../src/gnome-genius.c:333
+#: ../src/gnome-genius.c:330
 msgid "Copy Answer As Plain Te_xt"
 msgstr "Antwort als Klar_text kopieren"
 
-#: ../src/gnome-genius.c:334
+#: ../src/gnome-genius.c:331
 msgid "Copy last answer into the clipboard in plain text"
 msgstr "Letzte Anwort als Klartext in die Zwischenablage kopieren"
 
-#: ../src/gnome-genius.c:337
+#: ../src/gnome-genius.c:334
 msgid "Copy Answer As _LaTeX"
 msgstr "Antwort als _LaTeX kopieren"
 
-#: ../src/gnome-genius.c:338
+#: ../src/gnome-genius.c:335
 msgid "Copy last answer into the clipboard as LaTeX"
 msgstr "Letzte Anwort als LaTeX in die Zwischenablage kopieren"
 
-#: ../src/gnome-genius.c:341
+#: ../src/gnome-genius.c:338
 msgid "Copy Answer As _MathML"
 msgstr "Antwort als _MathML kopieren"
 
-#: ../src/gnome-genius.c:342
+#: ../src/gnome-genius.c:339
 msgid "Copy last answer into the clipboard as MathML"
 msgstr "Letzte Anwort als MathML in die Zwischenablage kopieren"
 
-#: ../src/gnome-genius.c:345
+#: ../src/gnome-genius.c:342
 msgid "Copy Answer As T_roff"
 msgstr "Antwort als T_roff kopieren"
 
-#: ../src/gnome-genius.c:346
+#: ../src/gnome-genius.c:343
 msgid "Copy last answer into the clipboard as Troff eqn"
 msgstr "Letzte Anwort als Troff in die Zwischenablage kopieren"
 
-#: ../src/gnome-genius.c:349
+#: ../src/gnome-genius.c:346
 msgid "_Run"
 msgstr "_Ausführen"
 
-#: ../src/gnome-genius.c:350
+#: ../src/gnome-genius.c:347
 msgid "Run current program"
 msgstr "Aktuelles Programm ausführen"
 
-#: ../src/gnome-genius.c:353
+#: ../src/gnome-genius.c:350
 msgid "_Interrupt"
 msgstr "_Unterbrechen"
 
-#: ../src/gnome-genius.c:354
+#: ../src/gnome-genius.c:351
 msgid "Interrupt current calculation"
 msgstr "Momentane Berechnung unterbrechen"
 
-#: ../src/gnome-genius.c:357
+#: ../src/gnome-genius.c:354
 msgid "Show _Full Answer"
 msgstr "_Vollständige Antwort zeigen"
 
-#: ../src/gnome-genius.c:358
+#: ../src/gnome-genius.c:355
 msgid "Show the full text of last answer"
 msgstr "Vollständigen Text der letzten Antwort zeigen"
 
-#: ../src/gnome-genius.c:361
+#: ../src/gnome-genius.c:358
 msgid "Show User _Variables"
 msgstr "Benutzer_variablen zeigen"
 
-#: ../src/gnome-genius.c:362
+#: ../src/gnome-genius.c:359
 msgid "Show the current value of all user variables"
 msgstr "Aktuelle Werte aller Benutzervariablen zeigen"
 
-#: ../src/gnome-genius.c:365
+#: ../src/gnome-genius.c:362
 msgid "_Monitor a Variable"
 msgstr "Eine Variable ü_berwachen"
 
-#: ../src/gnome-genius.c:366
+#: ../src/gnome-genius.c:363
 msgid "Monitor a variable continuously"
 msgstr "Eine Variable fortlaufend überwachen"
 
-#: ../src/gnome-genius.c:369
+#: ../src/gnome-genius.c:366
 msgid "_Plot..."
 msgstr "_Darstellen …"
 
-#: ../src/gnome-genius.c:370 ../src/gnome-genius.c:374
+#: ../src/gnome-genius.c:367 ../src/gnome-genius.c:371
 msgid "Plot functions, vector fields, surfaces, etc..."
 msgstr "Funktionen, Vektorfelder, Oberflächen usw. darstellen …"
 
-#: ../src/gnome-genius.c:373 ../src/gnome-genius.c:567 ../src/graphing.c:5941
+#: ../src/gnome-genius.c:370 ../src/gnome-genius.c:564 ../src/graphing.c:5946
 msgid "_Plot"
 msgstr "_Darstellen"
 
-#: ../src/gnome-genius.c:377
+#: ../src/gnome-genius.c:374
 msgid "_Next Tab"
 msgstr "_Nächster Reiter"
 
-#: ../src/gnome-genius.c:378
+#: ../src/gnome-genius.c:375
 msgid "Go to next tab"
 msgstr "Zum nächsten Reiter wechseln"
 
-#: ../src/gnome-genius.c:381
+#: ../src/gnome-genius.c:378
 msgid "_Previous Tab"
 msgstr "_Vorheriger Reiter"
 
-#: ../src/gnome-genius.c:382
+#: ../src/gnome-genius.c:379
 msgid "Go to previous tab"
 msgstr "Zum vorherigen Reiter wechseln"
 
-#: ../src/gnome-genius.c:385
+#: ../src/gnome-genius.c:382
 msgid "_Console"
 msgstr "_Konsole"
 
-#: ../src/gnome-genius.c:386
+#: ../src/gnome-genius.c:383
 msgid "Go to the console tab"
 msgstr "Zum Konsolen-Reiter wechseln"
 
-#: ../src/gnome-genius.c:389
+#: ../src/gnome-genius.c:386
 msgid "_Preferences"
 msgstr "_Einstellungen"
 
-#: ../src/gnome-genius.c:390
+#: ../src/gnome-genius.c:387
 msgid "Configure Genius"
 msgstr "Genius einrichten"
 
-#: ../src/gnome-genius.c:393
+#: ../src/gnome-genius.c:390
 msgid "_Contents"
 msgstr "_Inhalt"
 
-#: ../src/gnome-genius.c:394
+#: ../src/gnome-genius.c:391
 msgid "View the Genius manual"
 msgstr "Das Genius-Handbuch anzeigen"
 
-#: ../src/gnome-genius.c:397
+#: ../src/gnome-genius.c:394
 msgid "_Help on Function"
 msgstr "_Hilfe zu Funktion"
 
-#: ../src/gnome-genius.c:398
+#: ../src/gnome-genius.c:395
 msgid "Help on a function or a command"
 msgstr "Hilfe zu einer Funktion oder einem Befehl"
 
-#: ../src/gnome-genius.c:401
+#: ../src/gnome-genius.c:398
 msgid "_Warranty"
 msgstr "_Garantie"
 
-#: ../src/gnome-genius.c:402
+#: ../src/gnome-genius.c:399
 msgid "Display warranty information"
 msgstr "Garantieinformationen anzeigen"
 
-#: ../src/gnome-genius.c:405
+#: ../src/gnome-genius.c:402
 msgid "_About"
 msgstr "_Info"
 
-#: ../src/gnome-genius.c:406
+#: ../src/gnome-genius.c:403
 msgid "About Genius"
 msgstr "Über Genius"
 
-#: ../src/gnome-genius.c:854
+#: ../src/gnome-genius.c:851
 msgid "Help on Function"
 msgstr "Hilfe zu Funktion"
 
-#: ../src/gnome-genius.c:872
+#: ../src/gnome-genius.c:869
 msgid "Function or command name:"
 msgstr "Funktions- oder Befehlsname:"
 
-#: ../src/gnome-genius.c:905
+#: ../src/gnome-genius.c:902
 #, c-format
 msgid "<b>Help on %s not found</b>"
 msgstr "<b>Hilfe zu %s nicht gefunden</b>"
 
-#: ../src/gnome-genius.c:909
+#: ../src/gnome-genius.c:906
 #, c-format
 msgid ""
 "<b>Help on %s not found</b>\n"
@@ -3624,15 +3647,15 @@ msgstr ""
 "\n"
 "Vielleicht meinten Sie %s."
 
-#: ../src/gnome-genius.c:964
+#: ../src/gnome-genius.c:961
 msgid "Error"
 msgstr "Fehler"
 
-#: ../src/gnome-genius.c:966
+#: ../src/gnome-genius.c:963
 msgid "Information"
 msgstr "Information"
 
-#: ../src/gnome-genius.c:1052
+#: ../src/gnome-genius.c:1049
 msgid ""
 "Global variables:\n"
 "\n"
@@ -3640,7 +3663,7 @@ msgstr ""
 "Globale Variablen:\n"
 "\n"
 
-#: ../src/gnome-genius.c:1085
+#: ../src/gnome-genius.c:1082
 msgid ""
 "\n"
 "Function call stack:\n"
@@ -3648,7 +3671,7 @@ msgstr ""
 "\n"
 "Liste der Funktionsaufrufe:\n"
 
-#: ../src/gnome-genius.c:1087 ../src/gnome-genius.c:1146
+#: ../src/gnome-genius.c:1084 ../src/gnome-genius.c:1143
 msgid ""
 "(depth of context in parentheses)\n"
 "\n"
@@ -3656,7 +3679,7 @@ msgstr ""
 "(Kontexttiefe in Klammern)\n"
 "\n"
 
-#: ../src/gnome-genius.c:1144
+#: ../src/gnome-genius.c:1141
 msgid ""
 "\n"
 "Local variables:\n"
@@ -3664,56 +3687,56 @@ msgstr ""
 "\n"
 "Lokale Variablen:\n"
 
-#: ../src/gnome-genius.c:1198
+#: ../src/gnome-genius.c:1195
 msgid "User Variable Listing"
 msgstr "Auflistung benutzerdefinierter Variablen"
 
-#: ../src/gnome-genius.c:1306
+#: ../src/gnome-genius.c:1303
 #, c-format
 msgid "%s undefined"
 msgstr "%s undefiniert"
 
 #. printed before a global variable
-#: ../src/gnome-genius.c:1341
+#: ../src/gnome-genius.c:1338
 msgid "(global) "
 msgstr "(global)"
 
 #. printed before local variable in certain
 #. * context
-#: ../src/gnome-genius.c:1345
+#: ../src/gnome-genius.c:1342
 #, c-format
 msgid "(context %d) "
 msgstr "(Kontext %d) "
 
-#: ../src/gnome-genius.c:1367
+#: ../src/gnome-genius.c:1364
 #, c-format
 msgid "%s not a user variable"
 msgstr "%s ist keine Benutzervariable"
 
-#: ../src/gnome-genius.c:1401
+#: ../src/gnome-genius.c:1398
 #, c-format
 msgid "Monitoring: %s"
 msgstr "Überwachen: %s"
 
-#: ../src/gnome-genius.c:1449
+#: ../src/gnome-genius.c:1446
 msgid "Update continuously"
 msgstr "Fortlaufend aktualisieren"
 
-#: ../src/gnome-genius.c:1480
+#: ../src/gnome-genius.c:1477
 msgid "Monitor a Variable"
 msgstr "Eine Variable überwachen"
 
-#: ../src/gnome-genius.c:1497
+#: ../src/gnome-genius.c:1494
 msgid "Variable name:"
 msgstr "Variablenname:"
 
 #. error
 #. always textbox
-#: ../src/gnome-genius.c:1553
+#: ../src/gnome-genius.c:1550
 msgid "Full Answer"
 msgstr "Vollständige Antwort"
 
-#: ../src/gnome-genius.c:1569
+#: ../src/gnome-genius.c:1566
 #, c-format
 msgid ""
 "\n"
@@ -3722,12 +3745,12 @@ msgstr ""
 "\n"
 "Zu viele Fehler! (%d folgen)"
 
-#: ../src/gnome-genius.c:1584
+#: ../src/gnome-genius.c:1581
 #, c-format
 msgid "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
 msgstr "\\e[01;31mZu viele Fehler! (%d folgen)\\e[0m\n"
 
-#: ../src/gnome-genius.c:1704
+#: ../src/gnome-genius.c:1701
 #, c-format
 msgid ""
 "<b>Cannot display help</b>\n"
@@ -3739,24 +3762,24 @@ msgstr ""
 "%s"
 
 #. parent
-#: ../src/gnome-genius.c:1737
+#: ../src/gnome-genius.c:1734
 msgid "Genius manual not found.  Perhaps the installation is not correct."
 msgstr ""
 "Das Genius-Handbuch konnte nicht gefunden werden. Die Installation könnte "
 "inkorrekt sein."
 
 #. parent
-#: ../src/gnome-genius.c:1765
+#: ../src/gnome-genius.c:1762
 msgid "Command 'xdg-open' is not found.  Cannot open help."
 msgstr ""
 "Der Befehl »xdg-open« wurde nicht gefunden. Die Hilfe kann nicht geöffnet "
 "werden."
 
-#: ../src/gnome-genius.c:1837
+#: ../src/gnome-genius.c:1834
 msgid "Nils Barth (initial implementation of parts of the GEL library)"
 msgstr "Nils Barth (erste Implementierung von Teilen der GEL-Bibliothek)"
 
-#: ../src/gnome-genius.c:1838
+#: ../src/gnome-genius.c:1835
 msgid "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"
 msgstr ""
 "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - Darstellungs-Widgets)"
@@ -3765,7 +3788,7 @@ msgstr ""
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: ../src/gnome-genius.c:1852
+#: ../src/gnome-genius.c:1849
 msgid "translator-credits"
 msgstr ""
 "Matthias Warkus <mawa@iname.com>\n"
@@ -3775,15 +3798,15 @@ msgstr ""
 "Christian Kirbach  <Christian.Kirbach@googlemail.com>\n"
 "Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>"
 
-#: ../src/gnome-genius.c:1900
+#: ../src/gnome-genius.c:1897
 msgid "Genius Mathematical Tool"
 msgstr "Genius Mathematik-Werkzeug"
 
-#: ../src/gnome-genius.c:1904
+#: ../src/gnome-genius.c:1901
 msgid "The Gnome calculator style edition of the Genius Mathematical Tool."
 msgstr "Das Genius Mathematikwerkzeug in seiner Ausgabe als Gnome-Rechner."
 
-#: ../src/gnome-genius.c:2100
+#: ../src/gnome-genius.c:2097
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -3791,58 +3814,58 @@ msgstr ""
 "Genius führt noch etwas aus, und außerdem gibt es ungespeicherte Programme.\n"
 "Wollen Sie wirklich beenden?"
 
-#: ../src/gnome-genius.c:2108
+#: ../src/gnome-genius.c:2105
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr ""
 "Es gibt ungespeicherte Programme. Sind Sie sicher, dass Sie es beenden "
 "wollen?"
 
-#: ../src/gnome-genius.c:2115
+#: ../src/gnome-genius.c:2112
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr ""
 "Genius führt etwas aus. Sind Sie sicher, dass Sie Genius beenden wollen?"
 
-#: ../src/gnome-genius.c:2122
+#: ../src/gnome-genius.c:2119
 msgid "Are you sure you wish to quit?"
 msgstr "Sind Sie sicher, dass Sie Genius beenden wollen?"
 
-#: ../src/gnome-genius.c:2243
+#: ../src/gnome-genius.c:2240
 msgid "Genius Setup"
 msgstr "Genius einrichten"
 
-#: ../src/gnome-genius.c:2261
+#: ../src/gnome-genius.c:2258
 msgid "Output"
 msgstr "Ausgabe"
 
-#: ../src/gnome-genius.c:2264
+#: ../src/gnome-genius.c:2261
 msgid "Number/Expression output options"
 msgstr "Ausgabeoptionen für Zahlen und Ausdrücke"
 
-#: ../src/gnome-genius.c:2274
+#: ../src/gnome-genius.c:2271
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Maximale Anzahl Ziffern der Ausgabe (0=unbegrenzt)"
 
-#: ../src/gnome-genius.c:2294
+#: ../src/gnome-genius.c:2291
 msgid "Results as floats"
 msgstr "Ergebnisse als Gleitkommazahlen"
 
-#: ../src/gnome-genius.c:2302
+#: ../src/gnome-genius.c:2299
 msgid "Floats in scientific notation"
 msgstr "Gleitkommazahlen in wissenschaftlicher Schreibweise"
 
-#: ../src/gnome-genius.c:2310
+#: ../src/gnome-genius.c:2307
 msgid "Always print full expressions"
 msgstr "Immer vollständige Ausdrücke ausgeben"
 
-#: ../src/gnome-genius.c:2318
+#: ../src/gnome-genius.c:2315
 msgid "Use mixed fractions"
 msgstr "Gemischte Zahlen verwenden"
 
-#: ../src/gnome-genius.c:2371
+#: ../src/gnome-genius.c:2368
 msgid "Remember output settings across sessions"
 msgstr "Ausgabeeinstellungen für folgende Sitzungen beibehalten"
 
-#: ../src/gnome-genius.c:2381
+#: ../src/gnome-genius.c:2378
 msgid ""
 "Should the output settings in the \"Number/Expression output options\" frame "
 "be remembered for next session.  Does not apply to the \"Error/Info output "
@@ -3852,27 +3875,27 @@ msgstr ""
 "Zahlen und Ausdrücke« für folgende Sitzungen beibehalten werden sollen. Dies "
 "betrifft nicht das Teilfenster »Fehler-/Info-Ausgabeoptionen«."
 
-#: ../src/gnome-genius.c:2386
+#: ../src/gnome-genius.c:2383
 msgid "Error/Info output options"
 msgstr "Fehler-/Info-Ausgabeoptionen"
 
-#: ../src/gnome-genius.c:2394
+#: ../src/gnome-genius.c:2391
 msgid "Display errors in a dialog"
 msgstr "Fehler in einem Dialogfeld anzeigen"
 
-#: ../src/gnome-genius.c:2402
+#: ../src/gnome-genius.c:2399
 msgid "Display information messages in a dialog"
 msgstr "Informationsmeldungen in einem Dialogfeld anzeigen"
 
-#: ../src/gnome-genius.c:2413
+#: ../src/gnome-genius.c:2410
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Maximal anzuzeigende Fehler (0=unbegrenzt)"
 
-#: ../src/gnome-genius.c:2437
+#: ../src/gnome-genius.c:2434
 msgid "Precision"
 msgstr "Genauigkeit"
 
-#: ../src/gnome-genius.c:2447
+#: ../src/gnome-genius.c:2444
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -3882,51 +3905,51 @@ msgstr ""
 "für alle Zahlen wirksam werden, nur neuberechnete Nummern\n"
 "und neue Variablen werden betroffen sein."
 
-#: ../src/gnome-genius.c:2456
+#: ../src/gnome-genius.c:2453
 msgid "Floating point precision (bits)"
 msgstr "Gleitkommagenauigkeit (Bits)"
 
-#: ../src/gnome-genius.c:2475
+#: ../src/gnome-genius.c:2472
 msgid "Remember precision setting across sessions"
 msgstr "Genauigkeitseinstellungen für folgende Sitzungen merken"
 
-#: ../src/gnome-genius.c:2484
+#: ../src/gnome-genius.c:2481
 msgid "Should the precision setting be remembered for next session."
 msgstr "Genauigkeitseinstellungen für folgende Sitzungen merken"
 
-#: ../src/gnome-genius.c:2492
+#: ../src/gnome-genius.c:2489
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ../src/gnome-genius.c:2494
+#: ../src/gnome-genius.c:2491
 msgid "Terminal options"
 msgstr "Terminaloptionen"
 
-#: ../src/gnome-genius.c:2503
+#: ../src/gnome-genius.c:2500
 msgid "Scrollback lines"
 msgstr "Zeilen an Scrollback"
 
-#: ../src/gnome-genius.c:2526
+#: ../src/gnome-genius.c:2523
 msgid "Font:"
 msgstr "Schriftart:"
 
-#: ../src/gnome-genius.c:2537
+#: ../src/gnome-genius.c:2534
 msgid "Black on white"
 msgstr "Schwarz auf Weiß"
 
-#: ../src/gnome-genius.c:2545
+#: ../src/gnome-genius.c:2542
 msgid "Blinking cursor"
 msgstr "Blinkender Cursor"
 
-#: ../src/gnome-genius.c:2558
+#: ../src/gnome-genius.c:2555
 msgid "Memory"
 msgstr "Speicher"
 
-#: ../src/gnome-genius.c:2561
+#: ../src/gnome-genius.c:2558
 msgid "Limits"
 msgstr "Begrenzungen"
 
-#: ../src/gnome-genius.c:2568
+#: ../src/gnome-genius.c:2565
 msgid ""
 "When the limit is reached you will be asked if\n"
 "you wish to interrupt the calculation or continue.\n"
@@ -3937,11 +3960,11 @@ msgstr ""
 "fortsetzen wollen.\n"
 "Die Einstellung »0« bedeutet keine Begrenzung."
 
-#: ../src/gnome-genius.c:2577
+#: ../src/gnome-genius.c:2574
 msgid "Maximum number of nodes to allocate"
 msgstr "Maximale Anzahl zuzuweisender Knoten"
 
-#: ../src/gnome-genius.c:2617
+#: ../src/gnome-genius.c:2614
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -3952,70 +3975,70 @@ msgstr ""
 "Bitte versuchen Sie es später erneut oder brechen Sie den aktuellen Vorgang "
 "ab."
 
-#: ../src/gnome-genius.c:2645
+#: ../src/gnome-genius.c:2642
 msgid "GEL files"
 msgstr "GEL-Dateien"
 
-#: ../src/gnome-genius.c:2650 ../src/graphing.c:1104
+#: ../src/gnome-genius.c:2647 ../src/graphing.c:1104
 msgid "All files"
 msgstr "Alle Dateien"
 
-#: ../src/gnome-genius.c:2674 ../src/gnome-genius.c:3566
+#: ../src/gnome-genius.c:2671 ../src/gnome-genius.c:3561
 msgid "Cannot open file!"
 msgstr "Datei kann nicht geöffnet werden!"
 
-#: ../src/gnome-genius.c:2684 ../src/gnome-genius.c:4044
+#: ../src/gnome-genius.c:2681 ../src/gnome-genius.c:4039
 msgid "Output from "
 msgstr "Ausgabe von"
 
-#: ../src/gnome-genius.c:2700 ../src/gnome-genius.c:4113
+#: ../src/gnome-genius.c:2697 ../src/gnome-genius.c:4108
 msgid "End"
 msgstr "Ende"
 
-#: ../src/gnome-genius.c:2719
+#: ../src/gnome-genius.c:2716
 msgid "Load and Run"
 msgstr "Laden und Ausführen"
 
-#: ../src/gnome-genius.c:2723
+#: ../src/gnome-genius.c:2720
 msgid "_Load"
 msgstr "_Laden"
 
-#: ../src/gnome-genius.c:3242
+#: ../src/gnome-genius.c:3232
 msgid "Cannot open file"
 msgstr "Datei kann nicht geöffnet werden"
 
 #. context
-#: ../src/gnome-genius.c:3277 ../src/gnome-genius.c:4711
+#: ../src/gnome-genius.c:3267 ../src/gnome-genius.c:4706
 #, c-format
 msgid "Line: %d"
 msgstr "Zeile: %d"
 
-#: ../src/gnome-genius.c:3465
+#: ../src/gnome-genius.c:3456
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Programm_%d.gel"
 
-#: ../src/gnome-genius.c:3472
+#: ../src/gnome-genius.c:3467
 #, c-format
 msgid "Program %d"
 msgstr "Programm %d"
 
-#: ../src/gnome-genius.c:3500
+#: ../src/gnome-genius.c:3495
 #, c-format
 msgid "Cannot open %s"
 msgstr "%s kann nicht geöffnet werden"
 
-#: ../src/gnome-genius.c:3588
+#: ../src/gnome-genius.c:3583
 msgid "Open..."
 msgstr "Öffnen …"
 
-#: ../src/gnome-genius.c:3663
+#: ../src/gnome-genius.c:3658
 msgid "Program is read only"
 msgstr "Programm ist schreibgeschützt"
 
 #. new fname
-#: ../src/gnome-genius.c:3665 ../src/gnome-genius.c:3697
-#: ../src/gnome-genius.c:3756 ../src/gnome-genius.c:3885
+#: ../src/gnome-genius.c:3660 ../src/gnome-genius.c:3692
+#: ../src/gnome-genius.c:3751 ../src/gnome-genius.c:3880
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -4024,11 +4047,11 @@ msgstr ""
 "<b>Datei kann nicht gespeichert werden</b>\n"
 "Details: %s"
 
-#: ../src/gnome-genius.c:3707
+#: ../src/gnome-genius.c:3702
 msgid "Save new programs by \"Save As..\" first!"
 msgstr "Speichern Sie neue Programme zunächst mit »Speichern unter«."
 
-#: ../src/gnome-genius.c:3713
+#: ../src/gnome-genius.c:3708
 msgid ""
 "Some read-only programs are modified.  Use \"Save As..\" to save them to a "
 "new location."
@@ -4036,20 +4059,20 @@ msgstr ""
 "Einige schreibgeschützte Programme wurden geändert. Speichern Sie diese mit "
 "»Speichern unter« an einem anderen Ort."
 
-#: ../src/gnome-genius.c:3750 ../src/gnome-genius.c:3865 ../src/graphing.c:901
+#: ../src/gnome-genius.c:3745 ../src/gnome-genius.c:3860 ../src/graphing.c:901
 #: ../src/graphing.c:1007
 msgid "File already exists.  Overwrite it?"
 msgstr "Datei existiert bereits. Überschreiben?"
 
-#: ../src/gnome-genius.c:3792
+#: ../src/gnome-genius.c:3787
 msgid "Save As..."
 msgstr "Speichern unter …"
 
-#: ../src/gnome-genius.c:3919
+#: ../src/gnome-genius.c:3914
 msgid "Save Console Output..."
 msgstr "Konsolenausgabe speichern …"
 
-#: ../src/gnome-genius.c:3982
+#: ../src/gnome-genius.c:3977
 msgid ""
 "The program you are closing is unsaved, are you sure you wish to close it "
 "without saving?"
@@ -4057,7 +4080,7 @@ msgstr ""
 "Das zu schleißende Programm wurde noch nicht gespeichert. Sind Sie sicher, "
 "dass Sie es schleißen wollen, ohne zu speichern?"
 
-#: ../src/gnome-genius.c:4001
+#: ../src/gnome-genius.c:3996
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -4068,12 +4091,12 @@ msgstr ""
 "Erstellen Sie ein neues Programm, oder wählen Sie ein existierendes Programm "
 "in der Reitermappe."
 
-#: ../src/gnome-genius.c:4031
+#: ../src/gnome-genius.c:4026
 #, c-format
 msgid "Cannot open pipe: %s"
 msgstr "Weiterleitung kann nicht geöffnet werden: %s"
 
-#: ../src/gnome-genius.c:4060
+#: ../src/gnome-genius.c:4055
 msgid ""
 "<b>Cannot execute program</b>\n"
 "\n"
@@ -4083,7 +4106,7 @@ msgstr ""
 "\n"
 "Fork kann nicht erzeugt werden."
 
-#: ../src/gnome-genius.c:4130
+#: ../src/gnome-genius.c:4125
 msgid ""
 "<b>Error executing program</b>\n"
 "\n"
@@ -4095,12 +4118,12 @@ msgstr ""
 "Es gab einen Fehler beim Schreiben des\n"
 "Programms in die Engine."
 
-#: ../src/gnome-genius.c:4155
+#: ../src/gnome-genius.c:4150
 #, c-format
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: ../src/gnome-genius.c:4381
+#: ../src/gnome-genius.c:4376
 msgid "Memory (node number) limit has been reached, interrupt the computation?"
 msgstr ""
 "Speichergrenze (Anzahl der Knoten) wurde erreicht. Berchnung abbrechen?"
@@ -4110,17 +4133,17 @@ msgstr ""
 #. textbox_title
 #. bind_response
 #. wrap
-#: ../src/gnome-genius.c:4461
+#: ../src/gnome-genius.c:4456
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "»genius-readline-helper-fifo« kann nicht ausgeführt werden!\n"
 
-#: ../src/gnome-genius.c:4528
+#: ../src/gnome-genius.c:4523
 msgid "Readline helper died, weird.  Trying to recover, things may be odd."
 msgstr ""
 "Das Hilfsprogramm »readline« wurde unerwartet beendet. Es wird versucht "
 "fortzusetzen, aber es können Ungereimtheiten auftreten."
 
-#: ../src/gnome-genius.c:4732
+#: ../src/gnome-genius.c:4727
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -4128,22 +4151,22 @@ msgstr ""
 "\n"
 "Achtung: Wurde ohne GtkSourceView kompiliert (besserer Quelleditor)"
 
-#: ../src/gnome-genius.c:4855
+#: ../src/gnome-genius.c:4820
 msgid "GNOME Genius"
 msgstr "GNOME Genius"
 
 #. parent
-#: ../src/gnome-genius.c:4906
+#: ../src/gnome-genius.c:4870
 msgid "Cannot find the library file, genius installation may be incorrect"
 msgstr ""
 "Die Bibliotheksdatei kann nicht gefunden werden, die Genius-Installation ist "
 "möglicherweise inkorrekt"
 
-#: ../src/gnome-genius.c:4985
+#: ../src/gnome-genius.c:4949
 msgid "Console"
 msgstr "Konsole"
 
-#: ../src/gnome-genius.c:5076
+#: ../src/gnome-genius.c:5040
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -4389,7 +4412,7 @@ msgstr "Ticks sind nicht als Zahlen gegeben"
 msgid "Ticks not given as a number or a 2-vector"
 msgstr "Ticks sind nicht als Zahl oder zweidimensionaler Vektor gegeben"
 
-#: ../src/graphing.c:4251
+#: ../src/graphing.c:4256
 #, c-format
 msgid ""
 "Type in function name or expression involving the %s and %s variables (or "
@@ -4400,28 +4423,28 @@ msgstr ""
 "(oder die Variable %s, welche %s=%s+i%s sein sollte) ein, der die Steigung "
 "im Punkt (%s,%s) festlegt."
 
-#: ../src/graphing.c:4276 ../src/graphing.c:4283 ../src/graphing.c:4447
-#: ../src/graphing.c:4454
+#: ../src/graphing.c:4281 ../src/graphing.c:4288 ../src/graphing.c:4452
+#: ../src/graphing.c:4459
 #, c-format
 msgid "%s from:"
 msgstr "%s von:"
 
-#: ../src/graphing.c:4290 ../src/graphing.c:4297
+#: ../src/graphing.c:4295 ../src/graphing.c:4302
 #, c-format
 msgid "%s increment:"
 msgstr "Schrittweite von %s:"
 
-#: ../src/graphing.c:4304
+#: ../src/graphing.c:4309
 #, c-format
 msgid "%s interval length:"
 msgstr "Intervallänge von %s:"
 
-#: ../src/graphing.c:4311
+#: ../src/graphing.c:4316
 #, c-format
 msgid "Point %s:"
 msgstr "Punkt %s:"
 
-#: ../src/graphing.c:4324
+#: ../src/graphing.c:4329
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s and %s variables (or "
@@ -4432,7 +4455,7 @@ msgstr ""
 "die Variable %s, welche %s=%s+i%s sein sollte) ein, die d%s/d%s und d%s/d%s "
 "des autonomen Systems im Punkt (%s,%s) festlegen."
 
-#: ../src/graphing.c:4360
+#: ../src/graphing.c:4365
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4441,7 +4464,7 @@ msgstr ""
 "Geben Sie einen Funktionsnamen oder Ausdruck mit der Variable %s in die "
 "Eingabefelder unten ein, um sie darstellen zu lassen"
 
-#: ../src/graphing.c:4377
+#: ../src/graphing.c:4382
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4457,12 +4480,12 @@ msgstr ""
 "vorangestelltem »%s=« mit %s und %s aus und geben Sie den reellen und den "
 "imaginären Teil der komplexen Zahl ein."
 
-#: ../src/graphing.c:4418
+#: ../src/graphing.c:4423
 #, c-format
 msgid "Parameter %s from:"
 msgstr "Parameter %s von:"
 
-#: ../src/graphing.c:4432
+#: ../src/graphing.c:4437
 #, c-format
 msgid ""
 "Type a function name or an expression involving the %s and %s variables (or "
@@ -4474,94 +4497,94 @@ msgstr ""
 "sie darzustellen. In Funktionen mit nur einem Argument werden komplexe "
 "Zahlen eingesetzt."
 
-#: ../src/graphing.c:4498 ../src/graphing.c:4618
+#: ../src/graphing.c:4503 ../src/graphing.c:4623
 msgid "Change variable names"
 msgstr "Variablennamen ändern"
 
-#: ../src/graphing.c:4514 ../src/graphing.c:4634
+#: ../src/graphing.c:4519 ../src/graphing.c:4639
 msgid "Some values were illegal"
 msgstr "Einige Werte waren illegal"
 
-#: ../src/graphing.c:4518 ../src/graphing.c:4638
+#: ../src/graphing.c:4523 ../src/graphing.c:4643
 msgid "independent variable (x):"
 msgstr "Unabhängige Variable (x):"
 
-#: ../src/graphing.c:4528
+#: ../src/graphing.c:4533
 msgid "dependent variable (y):"
 msgstr "Abhängige Variable (y):"
 
-#: ../src/graphing.c:4538
+#: ../src/graphing.c:4543
 msgid "complex variable (z = x+iy):"
 msgstr "Komplexe Variable (z = x+iy):"
 
-#: ../src/graphing.c:4548
+#: ../src/graphing.c:4553
 msgid "parameter variable (t):"
 msgstr "Parametervariable (t):"
 
-#: ../src/graphing.c:4648
+#: ../src/graphing.c:4653
 msgid "independent variable (y):"
 msgstr "Unabhängige Variable (y):"
 
-#: ../src/graphing.c:4658
+#: ../src/graphing.c:4663
 msgid "independent complex variable (z = x+iy):"
 msgstr "Unabhängige komplexe Variable (z = x+iy):"
 
-#: ../src/graphing.c:4768
+#: ../src/graphing.c:4773
 msgid "_Functions / Expressions"
 msgstr "_Funktionen / Ausdrücke"
 
-#: ../src/graphing.c:4800
+#: ../src/graphing.c:4805
 msgid "or"
 msgstr "oder"
 
 #. t range
-#: ../src/graphing.c:4815
+#: ../src/graphing.c:4820
 msgid "Parameter t from:"
 msgstr "Parameter t von:"
 
-#: ../src/graphing.c:4819 ../src/graphing.c:4957 ../src/graphing.c:4969
-#: ../src/graphing.c:5041 ../src/graphing.c:5053 ../src/graphing.c:5064
+#: ../src/graphing.c:4824 ../src/graphing.c:4962 ../src/graphing.c:4974
+#: ../src/graphing.c:5046 ../src/graphing.c:5058 ../src/graphing.c:5069
 msgid "to:"
 msgstr "bis:"
 
-#: ../src/graphing.c:4823
+#: ../src/graphing.c:4828
 msgid "by:"
 msgstr "durch:"
 
-#: ../src/graphing.c:4830
+#: ../src/graphing.c:4835
 msgid "Pa_rametric"
 msgstr "Pa_rametrisch"
 
 #. # of ticks
-#: ../src/graphing.c:4857 ../src/graphing.c:4909
+#: ../src/graphing.c:4862 ../src/graphing.c:4914
 msgid "Vertical ticks:"
 msgstr "Vertikale Ticks:"
 
 #. # of ticks
-#: ../src/graphing.c:4861 ../src/graphing.c:4913
+#: ../src/graphing.c:4866 ../src/graphing.c:4918
 msgid "Horizontal ticks:"
 msgstr "Horizontale Ticks:"
 
-#: ../src/graphing.c:4866
+#: ../src/graphing.c:4871
 msgid "Sl_ope field"
 msgstr "_Richtungsfeld"
 
 #. Normalize the arrow length?
-#: ../src/graphing.c:4900
+#: ../src/graphing.c:4905
 msgid "_Normalize arrow length (do not show size)"
 msgstr "Pfeillänge _normalisieren (Größe nicht anzeigen)"
 
-#: ../src/graphing.c:4918
+#: ../src/graphing.c:4923
 msgid "_Vector field"
 msgstr "_Vektorfeld"
 
 #. draw legend?
-#: ../src/graphing.c:4928
+#: ../src/graphing.c:4933
 msgid "_Draw legend"
 msgstr "Legende _zeichnen"
 
 #. change varnames
-#: ../src/graphing.c:4937 ../src/graphing.c:5020
+#: ../src/graphing.c:4942 ../src/graphing.c:5025
 msgid "Change variable names..."
 msgstr "Variablennamen ändern …"
 
@@ -4569,157 +4592,157 @@ msgstr "Variablennamen ändern …"
 #.
 #. * Plot window frame
 #.
-#: ../src/graphing.c:4945 ../src/graphing.c:5029
+#: ../src/graphing.c:4950 ../src/graphing.c:5034
 msgid "Plot Window"
 msgstr "Fenster darstellen"
 
 #.
 #. * X range
 #.
-#: ../src/graphing.c:4954 ../src/graphing.c:5038
+#: ../src/graphing.c:4959 ../src/graphing.c:5043
 msgid "X from:"
 msgstr "X von:"
 
 #.
 #. * Y range
 #.
-#: ../src/graphing.c:4966 ../src/graphing.c:5050
+#: ../src/graphing.c:4971 ../src/graphing.c:5055
 msgid "Y from:"
 msgstr "Y von:"
 
-#: ../src/graphing.c:4992
+#: ../src/graphing.c:4997
 msgid "Function / Expression"
 msgstr "Funktion / Ausdruck"
 
 #.
 #. * Z range
 #.
-#: ../src/graphing.c:5062
+#: ../src/graphing.c:5067
 msgid "Dependent axis from:"
 msgstr "Abhängige Achse von:"
 
-#: ../src/graphing.c:5083
+#: ../src/graphing.c:5088
 msgid "Function _line plot"
 msgstr "Funktions_graphen darstellen"
 
-#: ../src/graphing.c:5087
+#: ../src/graphing.c:5092
 #, fuzzy
 msgid "_Surface plot"
 msgstr "_2D-Darstellung"
 
-#: ../src/graphing.c:5305 ../src/graphing.c:5469 ../src/graphing.c:5590
-#: ../src/graphing.c:5711 ../src/graphing.c:5815
+#: ../src/graphing.c:5310 ../src/graphing.c:5474 ../src/graphing.c:5595
+#: ../src/graphing.c:5716 ../src/graphing.c:5820
 msgid "No functions to plot or no functions could be parsed"
 msgstr ""
 "Keine Funktionen zum Darstellen oder es konnte keine Funktion interpretiert "
 "werden"
 
-#: ../src/graphing.c:5336 ../src/graphing.c:5342 ../src/graphing.c:5492
-#: ../src/graphing.c:5498 ../src/graphing.c:5597 ../src/graphing.c:5620
-#: ../src/graphing.c:5626 ../src/graphing.c:5734 ../src/graphing.c:5740
-#: ../src/graphing.c:5838 ../src/graphing.c:5844
+#: ../src/graphing.c:5341 ../src/graphing.c:5347 ../src/graphing.c:5497
+#: ../src/graphing.c:5503 ../src/graphing.c:5602 ../src/graphing.c:5625
+#: ../src/graphing.c:5631 ../src/graphing.c:5739 ../src/graphing.c:5745
+#: ../src/graphing.c:5843 ../src/graphing.c:5849
 #, c-format
 msgid "Invalid %s range"
 msgstr "Ungültiger %s-Bereich"
 
-#: ../src/graphing.c:5348
+#: ../src/graphing.c:5353
 msgid "Invalid dependent range"
 msgstr "Ungültiger abhängiger Bereich"
 
-#: ../src/graphing.c:5584
+#: ../src/graphing.c:5589
 #, c-format
 msgid "Only specify %s and %s, or %s, not all at once."
 msgstr ""
 "Geben Sie nur %s und %s zusammen oder %s ein, aber nicht alle auf einmal."
 
-#: ../src/graphing.c:5936
+#: ../src/graphing.c:5941
 msgid "Create Plot"
 msgstr "Darstellung erstellen"
 
-#: ../src/graphing.c:5976 ../src/graphing.c:6114 ../src/graphing.c:6145
-#: ../src/graphing.c:6166 ../src/graphing.c:6206 ../src/graphing.c:6230
-#: ../src/graphing.c:6341 ../src/graphing.c:6463 ../src/graphing.c:6581
-#: ../src/graphing.c:6724 ../src/graphing.c:6858 ../src/graphing.c:7050
-#: ../src/graphing.c:7296 ../src/graphing.c:7326 ../src/graphing.c:7387
-#: ../src/graphing.c:7413 ../src/graphing.c:7440 ../src/graphing.c:7531
-#: ../src/graphing.c:7604 ../src/graphing.c:7629
+#: ../src/graphing.c:5981 ../src/graphing.c:6119 ../src/graphing.c:6150
+#: ../src/graphing.c:6171 ../src/graphing.c:6211 ../src/graphing.c:6235
+#: ../src/graphing.c:6346 ../src/graphing.c:6468 ../src/graphing.c:6586
+#: ../src/graphing.c:6729 ../src/graphing.c:6863 ../src/graphing.c:7056
+#: ../src/graphing.c:7340 ../src/graphing.c:7370 ../src/graphing.c:7431
+#: ../src/graphing.c:7457 ../src/graphing.c:7484 ../src/graphing.c:7575
+#: ../src/graphing.c:7648 ../src/graphing.c:7673
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr "%s: Darstellung läuft, %s kann nicht aufgerufen werden"
 
-#: ../src/graphing.c:5984 ../src/graphing.c:6482
+#: ../src/graphing.c:5989 ../src/graphing.c:6487
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: Argument ist keine Funktion"
 
-#: ../src/graphing.c:5994
+#: ../src/graphing.c:5999
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: nur eine  Funktion wird unterstützt"
 
-#: ../src/graphing.c:6061 ../src/graphing.c:6295 ../src/graphing.c:6411
-#: ../src/graphing.c:6533 ../src/graphing.c:6670 ../src/graphing.c:6811
+#: ../src/graphing.c:6066 ../src/graphing.c:6300 ../src/graphing.c:6416
+#: ../src/graphing.c:6538 ../src/graphing.c:6675 ../src/graphing.c:6816
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: ungültiger X-Bereich"
 
-#: ../src/graphing.c:6066 ../src/graphing.c:6300 ../src/graphing.c:6416
-#: ../src/graphing.c:6538 ../src/graphing.c:6675 ../src/graphing.c:6816
+#: ../src/graphing.c:6071 ../src/graphing.c:6305 ../src/graphing.c:6421
+#: ../src/graphing.c:6543 ../src/graphing.c:6680 ../src/graphing.c:6821
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: ungültiger Y-Bereich"
 
-#: ../src/graphing.c:6071
+#: ../src/graphing.c:6076
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: ungültiger Z-Bereich"
 
-#: ../src/graphing.c:6124
+#: ../src/graphing.c:6129
 #, c-format
 msgid "%s: dx must be positive"
 msgstr "%s: dx muss positiv sein"
 
-#: ../src/graphing.c:6131 ../src/graphing.c:6150
+#: ../src/graphing.c:6136 ../src/graphing.c:6155
 #, c-format
 msgid "%s: Slope field not active"
 msgstr "%s: Richtungsfeld ist nicht aktiv"
 
-#: ../src/graphing.c:6177
+#: ../src/graphing.c:6182
 #, c-format
 msgid "%s: dt must be positive"
 msgstr "%s: dt muss positiv sein"
 
-#: ../src/graphing.c:6183
+#: ../src/graphing.c:6188
 #, c-format
 msgid "%s: tlen must be positive"
 msgstr "%s: tlen muss positiv sein"
 
-#: ../src/graphing.c:6191 ../src/graphing.c:6212
+#: ../src/graphing.c:6196 ../src/graphing.c:6217
 #, c-format
 msgid "%s: Vector field not active"
 msgstr "%s: Vektorfeld ist nicht aktiv"
 
-#: ../src/graphing.c:6237 ../src/graphing.c:6731
+#: ../src/graphing.c:6242 ../src/graphing.c:6736
 #, c-format
 msgid "%s: First argument must be a function"
 msgstr "%s: Erstes Argument muss eine Funktion sein"
 
-#: ../src/graphing.c:6352 ../src/graphing.c:6589
+#: ../src/graphing.c:6357 ../src/graphing.c:6594
 #, c-format
 msgid "%s: First two arguments must be functions"
 msgstr "%s: die ersten zwei Argumente müssen Funktionen sein"
 
-#: ../src/graphing.c:6477
+#: ../src/graphing.c:6482
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: maximal 10 Funktionen werden unterstützt"
 
-#: ../src/graphing.c:6680 ../src/graphing.c:6821
+#: ../src/graphing.c:6685 ../src/graphing.c:6826
 #, c-format
 msgid "%s: invalid T range"
 msgstr "%s: ungültiger T-Bereich"
 
-#: ../src/graphing.c:6933 ../src/graphing.c:6987
+#: ../src/graphing.c:6938 ../src/graphing.c:6992
 #, c-format
 msgid ""
 "%s: Line should be given as a real, n by 2 matrix with columns for x and y, "
@@ -4728,76 +4751,86 @@ msgstr ""
 "%s: Die Linie muss als reale (n,2)-Matrix mit Spalten für x und y angegeben "
 "werden, n>=2"
 
-#: ../src/graphing.c:7065
+#: ../src/graphing.c:7071
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: Falsche Anzahl Argumente"
 
-#: ../src/graphing.c:7123
+#: ../src/graphing.c:7131
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: Keine Farbe angegeben"
 
-#: ../src/graphing.c:7135
+#: ../src/graphing.c:7144
 #, c-format
 msgid "%s: Color must be a string"
 msgstr "%s: Farbe muss eine Zeichenkette sein"
 
-#: ../src/graphing.c:7144
+#: ../src/graphing.c:7154
 #, c-format
 msgid "%s: No thickness specified"
 msgstr "%s: Keine Dicke angegeben"
 
-#: ../src/graphing.c:7165
+#: ../src/graphing.c:7177
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: Kein Fenster angegeben"
 
-#: ../src/graphing.c:7211 ../src/graphing.c:7235
+#: ../src/graphing.c:7225 ../src/graphing.c:7250
 #, c-format
 msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
 msgstr ""
 "%s: Der Stil der Pfeile muss »origin« (Ursprung), »end« (Ende), »both« (beides) "
 "oder »none« (keiner) sein."
 
-#: ../src/graphing.c:7243
+#: ../src/graphing.c:7260
+#, c-format
+msgid "%s: No legend specified"
+msgstr "%s: Keine Legende angegeben"
+
+#: ../src/graphing.c:7274
+#, c-format
+msgid "%s: Legend must be a string"
+msgstr "%s: Legende muss eine Zeichenkette sein"
+
+#: ../src/graphing.c:7283
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: Unbekannter Stil"
 
-#: ../src/graphing.c:7249
+#: ../src/graphing.c:7290
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: Falscher Parameter"
 
-#: ../src/graphing.c:7447
+#: ../src/graphing.c:7491
 msgid "Variable names not given in a 4-vector"
 msgstr "Variablennamen sind nicht als vierdimensionaler Vektor gegeben"
 
-#: ../src/graphing.c:7457 ../src/graphing.c:7466 ../src/graphing.c:7475
-#: ../src/graphing.c:7484 ../src/graphing.c:7548 ../src/graphing.c:7557
-#: ../src/graphing.c:7566
+#: ../src/graphing.c:7501 ../src/graphing.c:7510 ../src/graphing.c:7519
+#: ../src/graphing.c:7528 ../src/graphing.c:7592 ../src/graphing.c:7601
+#: ../src/graphing.c:7610
 msgid "Variable names should be strings"
 msgstr "Variablennamen sollten Zeichenketten sein"
 
-#: ../src/graphing.c:7491 ../src/graphing.c:7572
+#: ../src/graphing.c:7535 ../src/graphing.c:7616
 msgid "Variable names must be valid identifiers"
 msgstr "Variablennamen müssen gültige Bezeichner sein"
 
-#: ../src/graphing.c:7500 ../src/graphing.c:7578
+#: ../src/graphing.c:7544 ../src/graphing.c:7622
 msgid "Variable names must be mutually distinct"
 msgstr "Variablennamen müssen voneinander zu unterscheiden sein"
 
-#: ../src/graphing.c:7538
+#: ../src/graphing.c:7582
 msgid "Variable names not given in a 3-vector"
 msgstr "Variablennamen sind nicht als dreidimensionaler Vektor gegeben"
 
-#: ../src/graphing.c:7664
+#: ../src/graphing.c:7708
 msgid "Plotting"
 msgstr "Darstellung läuft"
 
 #. internal
-#: ../src/graphing.c:7666
+#: ../src/graphing.c:7710
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -4805,7 +4838,7 @@ msgstr ""
 "Eine Funktion als Linie darstellen. Zuerst kommen (bis zu 10) Funktionen und "
 "dann optional die Begrenzungen als x1,x2,y1,y2"
 
-#: ../src/graphing.c:7667
+#: ../src/graphing.c:7711
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
@@ -4815,7 +4848,7 @@ msgstr ""
 "Funktionen x und y und dann optional die t Begrenzungen als t1,t2,tinc, und "
 "dann optional die Begrenzungen x1,x2,y1,y2"
 
-#: ../src/graphing.c:7668
+#: ../src/graphing.c:7712
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
@@ -4825,7 +4858,7 @@ msgstr ""
 "die Funktion, die x+iy zurück gibt und dann optional die t Begrenzungen als "
 "t1,t2,tinc, und dann optional die Begrenzungen x1,x2,y1,y2"
 
-#: ../src/graphing.c:7670
+#: ../src/graphing.c:7714
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
@@ -4834,7 +4867,7 @@ msgstr ""
 "und y (oder die komplexe Variable z), und dann optional die Begrenzungen als "
 "x1,x2,y1,y2"
 
-#: ../src/graphing.c:7671
+#: ../src/graphing.c:7715
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
@@ -4842,18 +4875,18 @@ msgstr ""
 "Ein Vektorfeld zeichnen. Zuerst kommen die Funktionen dx/dt und dy/dt in "
 "Bezug auf x und y, und dann optional die Begrenzungen als x1,x2,y1,y2"
 
-#: ../src/graphing.c:7673
+#: ../src/graphing.c:7717
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr ""
 "Eine Lösung für ein Richtungsfeld beginnend bei (x,y) mit dx als "
 "Schrittweite zeichnen"
 
-#: ../src/graphing.c:7674
+#: ../src/graphing.c:7718
 msgid "Clear all the slopefield solutions"
 msgstr "Alle Lösungen zu Richtungsfeldern löschen"
 
-#: ../src/graphing.c:7676
+#: ../src/graphing.c:7720
 msgid ""
 "Draw a solution for a vector field starting at x,y, using dt as increment "
 "for tlen units"
@@ -4861,21 +4894,21 @@ msgstr ""
 "Eine Lösung für ein Vektorfeld beginnend bei (x,y) mit dt als Schrittweite "
 "für tlen Einheiten zeichnen"
 
-#: ../src/graphing.c:7677
+#: ../src/graphing.c:7721
 msgid "Clear all the vectorfield solutions"
 msgstr "Alle Lösungen zu Vektorfeldern löschen"
 
-#: ../src/graphing.c:7680
+#: ../src/graphing.c:7724
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
 msgstr ""
 
-#: ../src/graphing.c:7682
+#: ../src/graphing.c:7726
 msgid "Show the line plot window and clear out functions"
 msgstr "Das Kurvenfenster zeigen und alle Funktionen löschen"
 
-#: ../src/graphing.c:7683
+#: ../src/graphing.c:7727
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line"
@@ -4883,15 +4916,15 @@ msgstr ""
 "Eine Linie von (x1,y1) nach (x2,y2) zeichnen.  x1,y1,x2,y2 können für eine "
 "längere Linie durch eine (n,2)-Matrix ersetzt werden."
 
-#: ../src/graphing.c:7685
+#: ../src/graphing.c:7729
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr ""
 
-#: ../src/graphing.c:7686
+#: ../src/graphing.c:7730
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
 msgstr ""
 
-#: ../src/graphing.c:7687
+#: ../src/graphing.c:7731
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
@@ -4899,7 +4932,7 @@ msgstr ""
 "Vorgegebene Namen für alle 2D-Darstellungsfunktionen.  Es sollte ein Vektor "
 "mit 4 Komponenten aus Zeichenketten oder Bezeichnern [x,y,z,t].sein."
 
-#: ../src/graphing.c:7688
+#: ../src/graphing.c:7732
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
@@ -4907,7 +4940,7 @@ msgstr ""
 "Vorgegebene Namen für alle 2D-Darstellungsfunktionen. Es sollte ein Vektor "
 "mit 3 Komponenten aus Zeichenketten oder Bezeichnern [x,y,z] sein."
 
-#: ../src/graphing.c:7690
+#: ../src/graphing.c:7734
 msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
@@ -4915,17 +4948,17 @@ msgstr ""
 "Legt fest, ob Vektorfelder normalisiert werden. Das bedeutet, dass nur die "
 "Richtung und nicht der Betrag dargestellt wird"
 
-#: ../src/graphing.c:7691
+#: ../src/graphing.c:7735
 msgid "If to draw legends or not on line plots."
 msgstr "Legt fest, ob eine Legende für Kurvendarstellungen angezeigt wird."
 
-#: ../src/graphing.c:7693
+#: ../src/graphing.c:7737
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr ""
 "Fenster zur Kurvendarstellung (Begrenzung) als ein 4-dimensionaler Vektor "
 "der Form [x1,x2,y1,y2]"
 
-#: ../src/graphing.c:7694
+#: ../src/graphing.c:7738
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
