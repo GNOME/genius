@@ -1,3 +1,15 @@
+Wed Sep 08 00:47:50 2010  Jiri (George) Lebl <jirka@5z.com>
+
+	* configure.in: require Gtk+ 2.14 and VTE 0.17.1
+
+	* src/gnome-genius.c, src/graphing.c, ve/ve-miscui.c: fix some
+	  sealing things.  Do note that we do not yet compile even without
+	  deprecated stuff since gtkextra is full of it.  Also use some newer
+	  things that required gtk+ 2.14 and vte 0.17.1
+
+	* src/graphing.c: fix zooming in 2D plots when moving mouse
+	  in any direction.
+
 Mon Aug 30 22:33:08 2010  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/calc.h, ssrc/funclib.c, src/genius.c, src/gnome-genius.c:

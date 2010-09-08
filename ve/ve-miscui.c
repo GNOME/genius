@@ -1,7 +1,7 @@
 /* Misc UI routines
  *
  * (c) 2000 Eazel, Inc.
- * (c) 2001 George Lebl
+ * (c) 2001, 2010 Jiri (George) Lebl
  * (c) 2003 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
@@ -34,7 +34,7 @@ ve_entry_set_red (GtkWidget *w, gboolean state)
 		GtkStyle *ns;
 		GdkColor red = { 0, 65535, 0, 0 };
 
-		ns = gtk_style_copy (w->style);
+		ns = gtk_style_copy (gtk_widget_get_style (w));
 		g_object_ref (G_OBJECT (ns));
 
 		ns->fg[GTK_STATE_NORMAL] = red;
@@ -93,7 +93,7 @@ ve_hig_dialog_new (GtkWindow      *parent,
 	gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
 	gtk_window_set_title (GTK_WINDOW (dialog), "");
   
-	dialog_vbox = GTK_DIALOG (dialog)->vbox;
+	dialog_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	gtk_box_set_spacing (GTK_BOX (dialog_vbox), 12);
 
 	hbox = gtk_hbox_new (FALSE, 12);
@@ -141,7 +141,7 @@ ve_hig_dialog_new (GtkWindow      *parent,
 		gtk_widget_show (label);
 	}
 	
-	dialog_action_area = GTK_DIALOG (dialog)->action_area;
+	dialog_action_area = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area), GTK_BUTTONBOX_END);
 
 	switch (buttons) 

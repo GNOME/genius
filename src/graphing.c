@@ -587,7 +587,7 @@ rotate_cb (GtkWidget *item, gpointer data)
 	/* X dir */
 
 	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    hbox, TRUE, TRUE, 0);
 
 	tmp = g_strdup_printf (_("Rotate about %s axis: "),
@@ -616,7 +616,7 @@ rotate_cb (GtkWidget *item, gpointer data)
 	/* Y dir */
 
 	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    hbox, TRUE, TRUE, 0);
 
 	tmp = g_strdup_printf (_("Rotate about %s axis: "),
@@ -645,7 +645,7 @@ rotate_cb (GtkWidget *item, gpointer data)
 	/* Z dir */
 
 	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    hbox, TRUE, TRUE, 0);
 
 	w = gtk_label_new (_("Rotate about dependent axis: "));
@@ -770,7 +770,7 @@ plot_print_cb (void)
 	gtk_dialog_set_has_separator (GTK_DIALOG (req), FALSE);
 
 	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    hbox, TRUE, TRUE, 0);
 
 	w = gtk_label_new (_("Print command: "));
@@ -1409,6 +1409,18 @@ plot_select_region (GtkPlotCanvas *canvas,
 		ymax = 1.0 - oldymin;
 	}
 
+	if (xmin > xmax) {
+		double tmp = xmax;
+		xmax = xmin;
+		xmin = tmp;
+	}
+
+	if (ymin > ymax) {
+		double tmp = ymax;
+		ymax = ymin;
+		ymin = tmp;
+	}
+
 	if (plot_in_progress == 0 &&
 	    line_plot != NULL &&
 	    (plot_mode == MODE_LINEPLOT_SLOPEFIELD ||
@@ -1692,7 +1704,7 @@ solver_cb (GtkWidget *item, gpointer data)
 	gtk_dialog_set_has_separator (GTK_DIALOG (solver_dialog), FALSE);
 
 	box = gtk_vbox_new (FALSE, GENIUS_PAD);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (solver_dialog)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (solver_dialog))),
 			    box, TRUE, TRUE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 
@@ -1857,7 +1869,7 @@ ensure_window (gboolean do_window_present)
 			  NULL);
 
 	menubar = gtk_menu_bar_new ();
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (graph_window)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (graph_window))),
 			    GTK_WIDGET (menubar), FALSE, TRUE, 0);
 
 	/*
@@ -1984,7 +1996,7 @@ ensure_window (gboolean do_window_present)
 	g_signal_connect (G_OBJECT (plot_canvas), "select_region",
 			  G_CALLBACK (plot_select_region),
 			  NULL);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (graph_window)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (graph_window))),
 			    GTK_WIDGET (plot_canvas), TRUE, TRUE, 0);
 
 
@@ -4022,16 +4034,16 @@ plot_surface_functions (gboolean do_window_present)
 
 /*exact answer callback*/
 static void
-double_spin_cb(GtkAdjustment *adj, double *data)
+double_spin_cb (GtkAdjustment *adj, double *data)
 {
-	*data = adj->value;
+	*data = gtk_adjustment_get_value (adj);
 }
 
 /*exact answer callback*/
 static void
-int_spin_cb(GtkAdjustment *adj, int *data)
+int_spin_cb (GtkAdjustment *adj, int *data)
 {
-	*data = (int)(adj->value);
+	*data = (int)(gtk_adjustment_get_value (adj));
 }
 
 static void
@@ -4241,7 +4253,7 @@ create_simple_expression_box (const char *label,
 static void
 optioncb (GtkWidget * widget, int *data)
 {
-	if (GTK_TOGGLE_BUTTON (widget)->active)
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
 		*data = TRUE;
 	else
 		*data = FALSE;
@@ -4517,7 +4529,7 @@ change_lineplot_varnames (GtkWidget *button, gpointer data)
 	sg = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
 	errlabel = gtk_label_new (_("Some values were illegal"));
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    errlabel, FALSE, FALSE, 0);
 
 	b = create_simple_expression_box (_("independent variable (x):"),
@@ -4527,7 +4539,7 @@ change_lineplot_varnames (GtkWidget *button, gpointer data)
 	gtk_entry_set_text (GTK_ENTRY (xe), lp_x_name);
 	g_signal_connect (G_OBJECT (xe), "activate",
 			  G_CALLBACK (ok_dialog_entry_activate), req);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    b, FALSE, FALSE, 0);
 
 	b = create_simple_expression_box (_("dependent variable (y):"),
@@ -4537,7 +4549,7 @@ change_lineplot_varnames (GtkWidget *button, gpointer data)
 	gtk_entry_set_text (GTK_ENTRY (ye), lp_y_name);
 	g_signal_connect (G_OBJECT (ye), "activate",
 			  G_CALLBACK (ok_dialog_entry_activate), req);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    b, FALSE, FALSE, 0);
 
 	b = create_simple_expression_box (_("complex variable (z = x+iy):"),
@@ -4547,7 +4559,7 @@ change_lineplot_varnames (GtkWidget *button, gpointer data)
 	gtk_entry_set_text (GTK_ENTRY (ze), lp_z_name);
 	g_signal_connect (G_OBJECT (ze), "activate",
 			  G_CALLBACK (ok_dialog_entry_activate), req);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    b, FALSE, FALSE, 0);
 
 	b = create_simple_expression_box (_("parameter variable (t):"),
@@ -4557,7 +4569,7 @@ change_lineplot_varnames (GtkWidget *button, gpointer data)
 	gtk_entry_set_text (GTK_ENTRY (te), lp_t_name);
 	g_signal_connect (G_OBJECT (te), "activate",
 			  G_CALLBACK (ok_dialog_entry_activate), req);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    b, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (req);
@@ -4637,7 +4649,7 @@ change_surface_varnames (GtkWidget *button, gpointer data)
 	sg = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
 	errlabel = gtk_label_new (_("Some values were illegal"));
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    errlabel, FALSE, FALSE, 0);
 
 	b = create_simple_expression_box (_("independent variable (x):"),
@@ -4647,7 +4659,7 @@ change_surface_varnames (GtkWidget *button, gpointer data)
 	gtk_entry_set_text (GTK_ENTRY (xe), sp_x_name);
 	g_signal_connect (G_OBJECT (xe), "activate",
 			  G_CALLBACK (ok_dialog_entry_activate), req);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    b, FALSE, FALSE, 0);
 
 	b = create_simple_expression_box (_("independent variable (y):"),
@@ -4657,7 +4669,7 @@ change_surface_varnames (GtkWidget *button, gpointer data)
 	gtk_entry_set_text (GTK_ENTRY (ye), sp_y_name);
 	g_signal_connect (G_OBJECT (ye), "activate",
 			  G_CALLBACK (ok_dialog_entry_activate), req);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    b, FALSE, FALSE, 0);
 
 	b = create_simple_expression_box (_("independent complex variable (z = x+iy):"),
@@ -4667,7 +4679,7 @@ change_surface_varnames (GtkWidget *button, gpointer data)
 	gtk_entry_set_text (GTK_ENTRY (ze), sp_z_name);
 	g_signal_connect (G_OBJECT (ze), "activate",
 			  G_CALLBACK (ok_dialog_entry_activate), req);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (req)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    b, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (req);
@@ -5292,7 +5304,7 @@ surface_from_dialog (void)
 	double x1, x2, y1, y2, z1, z2;
 	gboolean last_info;
 	gboolean last_error;
-	const char *error_to_print = NULL;
+	char *error_to_print = NULL;
 	gboolean ex;
 
 	plot_mode = MODE_SURFACE;
@@ -5448,7 +5460,7 @@ plot_from_dialog_lineplot (void)
 	int i, j;
 	gboolean last_info;
 	gboolean last_error;
-	const char *error_to_print = NULL;
+	char *error_to_print = NULL;
 
 	plot_mode = MODE_LINEPLOT;
 
@@ -5963,7 +5975,7 @@ genius_plot_dialog (void)
 
 	insides = create_plot_dialog ();
 
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (plot_dialog)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (plot_dialog))),
 			    insides, TRUE, TRUE, 0);
 
 	gtk_widget_show_all (plot_dialog);

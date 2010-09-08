@@ -669,16 +669,16 @@ void
 genius_setup_window_cursor (GtkWidget *win, GdkCursorType type)
 {
 	GdkCursor *cursor = gdk_cursor_new (type);
-	if (win != NULL && win->window != NULL)
-		gdk_window_set_cursor (win->window, cursor);
+	if (win != NULL && gtk_widget_get_window (win) != NULL)
+		gdk_window_set_cursor (gtk_widget_get_window (win), cursor);
 	gdk_cursor_unref (cursor);
 }
 
 void
 genius_unsetup_window_cursor (GtkWidget *win)
 {
-	if (win != NULL && win->window != NULL)
-		gdk_window_set_cursor (win->window, NULL);
+	if (win != NULL && gtk_widget_get_window (win) != NULL)
+		gdk_window_set_cursor (gtk_widget_get_window (win), NULL);
 }
 
 
@@ -759,7 +759,7 @@ gel_ask_buttons (const char *query, GSList *buttons)
 
 	box = gtk_vbox_new (FALSE, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))),
 			    box,
 			    TRUE, TRUE, 0);
 
@@ -800,7 +800,7 @@ gel_ask_string (const char *query, const char *def)
 
 	box = gtk_vbox_new (FALSE, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))),
 			    box,
 			    TRUE, TRUE, 0);
 
@@ -861,7 +861,7 @@ help_on_function (GtkWidget *menuitem, gpointer data)
 
 	box = gtk_vbox_new (FALSE, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))),
 			    box,
 			    TRUE, TRUE, 0);
 
@@ -975,7 +975,7 @@ geniusbox (gboolean error,
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 						GTK_POLICY_AUTOMATIC,
 						GTK_POLICY_AUTOMATIC);
-		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (mb)->vbox),
+		gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (mb))),
 				    sw,
 				    TRUE, TRUE, 0);
 
@@ -1203,7 +1203,7 @@ show_user_vars (GtkWidget *menu_item, gpointer data)
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (var_box)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (var_box))),
 			    sw,
 			    TRUE, TRUE, 0);
 
@@ -1414,7 +1414,7 @@ run_monitor (const char *var)
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))),
 			    sw,
 			    TRUE, TRUE, 0);
 
@@ -1444,7 +1444,7 @@ run_monitor (const char *var)
 
 	md->updatecb = gtk_check_button_new_with_label
 		(_("Update continuously"));
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))),
 			    md->updatecb,
 			    FALSE, FALSE, 0);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (md->updatecb), TRUE);
@@ -1485,7 +1485,7 @@ monitor_user_var (GtkWidget *menu_item, gpointer data)
 
 	box = gtk_vbox_new (FALSE, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))),
 			    box,
 			    TRUE, TRUE, 0);
 
@@ -1681,9 +1681,6 @@ gel_printout_infos (void)
 static void
 actually_open_help (const char *id)
 {
-/* breaks binary back compatibility */
-#if 0
-/*#if GTK_CHECK_VERSION(2,14,0) */
 	GError *error = NULL;
 	char *str;
 
@@ -1704,67 +1701,6 @@ actually_open_help (const char *id)
 		g_free (str);
 		g_error_free (error);
 	}
-/*#else*/
-#endif
-	char *xdgopen;
-	char *uri;
-	char *file = NULL;
-	const char * const* langs;
-	int i;
-
-	langs = g_get_language_names ();
-
-	for (i = 0; langs[i] != NULL; i++) {
-		file = g_build_filename (genius_datadir,
-					 "gnome",
-					 "help",
-					 "genius",
-					 langs[i],
-					 "genius.xml",
-					 NULL);
-		if (access (file, R_OK) == 0) {
-			break;
-		}
-		g_free (file);
-		file = NULL;
-	}
-
-	if (file == NULL) {
-		genius_display_error (NULL /* parent */,
-				      _("Genius manual not found.  Perhaps the installation is not correct."));
-		return;
-	}
-
-	uri = g_strdup_printf ("ghelp://%s%s%s",
-			       file,
-			       /* FIXME: 1: not non-unix safe I guess */
-			       id ? "?" : "",
-			       id ? id : "");
-	g_free (file);
-
-	xdgopen = g_find_program_in_path ("xdg-open");
-	if G_LIKELY (xdgopen != NULL) {
-		char *argv[3];
-
-		argv[0] = xdgopen;
-		argv[1] = uri;
-		argv[2] = NULL;
-		g_spawn_async (NULL /* wd */,
-			       argv,
-			       NULL /* envp */,
-			       0 /* flags */,
-			       NULL /* child_setup */,
-			       NULL /* user_data */,
-			       NULL /* child_pid */,
-			       NULL /* error */);
-	} else {
-		genius_display_error (NULL /* parent */,
-				      _("Command 'xdg-open' is not found.  Cannot open help."));
-	}
-
-	g_free (xdgopen);
-	g_free (uri);
-/*#endif*/
 }
 
 void
@@ -1985,16 +1921,14 @@ genius_display_error (GtkWidget *parent, const char *err)
 	if (parent == NULL)
 		parent = genius_window;
 
-	w = gtk_message_dialog_new (parent ?
-				      GTK_WINDOW (parent) :
-				      NULL /* parent */,
-				    GTK_DIALOG_MODAL /* flags */,
-				    GTK_MESSAGE_ERROR,
-				    GTK_BUTTONS_CLOSE,
-				    "%s",
-				    err);
-	gtk_label_set_use_markup
-		(GTK_LABEL (GTK_MESSAGE_DIALOG (w)->label), TRUE);
+	w = gtk_message_dialog_new_with_markup (parent ?
+						GTK_WINDOW (parent) :
+						NULL /* parent */,
+						GTK_DIALOG_MODAL /* flags */,
+						GTK_MESSAGE_ERROR,
+						GTK_BUTTONS_CLOSE,
+						"%s",
+						err);
 
 	g_signal_connect (G_OBJECT (w), "destroy",
 			  G_CALLBACK (gtk_widget_destroyed),
@@ -2015,14 +1949,12 @@ display_warning (GtkWidget *parent, const char *warn)
 	if (parent == NULL)
 		parent = genius_window;
 
-	w = gtk_message_dialog_new (GTK_WINDOW (parent) /* parent */,
-				    GTK_DIALOG_MODAL /* flags */,
-				    GTK_MESSAGE_WARNING,
-				    GTK_BUTTONS_CLOSE,
-				    "%s",
-				    warn);
-	gtk_label_set_use_markup
-		(GTK_LABEL (GTK_MESSAGE_DIALOG (w)->label), TRUE);
+	w = gtk_message_dialog_new_with_markup (GTK_WINDOW (parent) /* parent */,
+						GTK_DIALOG_MODAL /* flags */,
+						GTK_MESSAGE_WARNING,
+						GTK_BUTTONS_CLOSE,
+						"%s",
+						warn);
 
 	g_signal_connect (G_OBJECT (w), "destroy",
 			  G_CALLBACK (gtk_widget_destroyed),
@@ -2044,14 +1976,12 @@ genius_ask_question (GtkWidget *parent, const char *question)
 	if (parent == NULL)
 		parent = genius_window;
 
-	req = gtk_message_dialog_new (GTK_WINDOW (parent) /* parent */,
-				      GTK_DIALOG_MODAL /* flags */,
-				      GTK_MESSAGE_QUESTION,
-				      GTK_BUTTONS_YES_NO,
-				      "%s",
-				      question);
-	gtk_label_set_use_markup
-		(GTK_LABEL (GTK_MESSAGE_DIALOG (req)->label), TRUE);
+	req = gtk_message_dialog_new_with_markup (GTK_WINDOW (parent) /* parent */,
+						  GTK_DIALOG_MODAL /* flags */,
+						  GTK_MESSAGE_QUESTION,
+						  GTK_BUTTONS_YES_NO,
+						  "%s",
+						  question);
 
 	g_signal_connect (G_OBJECT (req), "destroy",
 			  G_CALLBACK (gtk_widget_destroyed),
@@ -2127,19 +2057,19 @@ quitapp (GtkWidget * widget, gpointer data)
 
 /*exact answer callback*/
 static void
-intspincb(GtkAdjustment *adj, int *data)
+intspincb (GtkAdjustment *adj, int *data)
 {
-	*data=adj->value;
+	*data = gtk_adjustment_get_value (adj);
 }
 
 /*option callback*/
 static void
-optioncb(GtkWidget * widget, int *data)
+optioncb (GtkWidget * widget, int *data)
 {
-	if(GTK_TOGGLE_BUTTON(widget)->active)
-		*data=TRUE;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
+		*data = TRUE;
 	else
-		*data=FALSE;
+		*data = FALSE;
 }
 
 static void
@@ -2190,18 +2120,11 @@ setup_response (GtkWidget *widget, gint resp, gpointer data)
 			   default_console_font :
 			   genius_setup.font);
 		setup_term_color ();
-		/* breaks binary back compatibility */
-/*#if VTE_CHECK_VERSION(0,17,1)
 		vte_terminal_set_cursor_blink_mode
 			(VTE_TERMINAL (term),
 			 genius_setup.blinking_cursor ?
 			 VTE_CURSOR_BLINK_SYSTEM :
 			 VTE_CURSOR_BLINK_OFF);
-#else*/
-		vte_terminal_set_cursor_blinks
-			(VTE_TERMINAL (term),
-			genius_setup.blinking_cursor);
-/*#endif */
 
 
 		if (resp == GTK_RESPONSE_OK ||
@@ -2248,7 +2171,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 	gtk_dialog_set_has_separator (GTK_DIALOG (setupdialog), FALSE);
 
 	notebook = gtk_notebook_new ();
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (setupdialog)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (setupdialog))),
 			    notebook, TRUE, TRUE, 0);
 	
 	mainbox = gtk_vbox_new(FALSE, GENIUS_PAD);
@@ -3088,7 +3011,7 @@ build_program_menu (void)
 		prog_menu_items = g_list_remove_link (prog_menu_items, prog_menu_items);
 	}
 
-	menu = GTK_MENU_ITEM (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ProgramsMenu"))->submenu;
+	menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ProgramsMenu")));
 
 	for (i = 1; i < n; i++) {
 		GtkWidget *item;
@@ -4761,10 +4684,9 @@ drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	if (info != TARGET_URI_LIST)
 		return;
 			
-	uris = g_uri_list_extract_uris (selection_data->data);
+	uris = gtk_selection_data_get_uris (selection_data);
 
-	for (uri = uris[i]; uri != NULL; i++, uri = uris[i])
-	{
+	for (uri = uris[i]; uri != NULL; i++, uri = uris[i]) {
 		new_program (uri);
 	}
 	g_strfreev (uris);
@@ -4972,18 +4894,11 @@ main (int argc, char *argv[])
 					     default_console_font :
 					     genius_setup.font);
 	setup_term_color ();
-	/* breaks binary back compatibility */
-/* #if VTE_CHECK_VERSION(0,17,1)
 	vte_terminal_set_cursor_blink_mode
 		(VTE_TERMINAL (term),
 		 genius_setup.blinking_cursor ?
 		 VTE_CURSOR_BLINK_SYSTEM :
 		 VTE_CURSOR_BLINK_OFF);
-#else*/
-	vte_terminal_set_cursor_blinks
-		(VTE_TERMINAL (term),
-		 genius_setup.blinking_cursor);
-/*#endif*/
 	vte_terminal_set_encoding (VTE_TERMINAL (term), "UTF-8");
 
 	update_term_geometry ();
@@ -5002,7 +4917,7 @@ main (int argc, char *argv[])
 	if (gel_plugin_list != NULL) {
 		GSList *li;
 		int i;
-		GtkWidget *menu = GTK_MENU_ITEM (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/PluginsMenu"))->submenu;
+		GtkWidget *menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/PluginsMenu")));
 
 		for (i = 0, li = gel_plugin_list;
 		     li != NULL;
