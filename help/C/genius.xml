@@ -3,8 +3,8 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
   <!ENTITY app "<application>Genius Mathematics Tool</application>">
   <!ENTITY appname "Genius">
-  <!ENTITY appversion "1.0.10">
-  <!ENTITY date "August 2010">
+  <!ENTITY appversion "1.0.11">
+  <!ENTITY date "September 2010">
 
   <!ENTITY legal SYSTEM "legal.xml">
 
@@ -998,10 +998,10 @@ Example:
 function b(x) = x*x;
 f(b,2)
 </programlisting>
-
-If you want to pass a function that doesn&rsquo;t exist yet, you can use an anonymous function (see <xref linkend="genius-gel-functions-defining" />).
         </para>
         <para>
+To pass functions which are not defined,
+you can use an anonymous function (see <xref linkend="genius-gel-functions-defining" />).  That is, you want to pass a function without giving it a name.
 Syntax:
 <programlisting><![CDATA[function(<comma separated arguments>) = <function body>
 `(<comma separated arguments>) = <function body>
@@ -1010,6 +1010,7 @@ Example:
 <programlisting>function f(a,b) = a(b)+1;
 f(`(x) = x*x,2)
 </programlisting>
+This will return 5.
         </para>
       </sect2>
 
@@ -1020,20 +1021,23 @@ f(`(x) = x*x,2)
 Some functions allow arithmetic operations, and some single argument functions such as <function>exp</function> or <function>ln</function>, to operate on the function. For example,
 <programlisting>exp(sin*cos+4)
 </programlisting>
-will return a function that does
-<programlisting>exp(sin(x)*cos(x)+4)
+will return a function that takes <varname>x</varname> and returns <userinput>exp(sin(x)*cos(x)+4)</userinput>.  It is functionally equivalent
+to typing
+<programlisting>`(x) = exp(sin(x)*cos(x)+4)
 </programlisting>
-This can be useful when quickly defining functions. For example to create a function to perform the above operation, you can just type:
+
+This operation can be useful when quickly defining functions. For example to create a function called <varname>f</varname>
+to perform the above operation, you can just type:
 <programlisting>f = exp(sin*cos+4)
 </programlisting>
-This can also be used in plotting. For example, to plot sin squared you can enter:
+It can also be used in plotting. For example, to plot sin squared you can enter:
 <programlisting>LinePlot(sin^2)
 </programlisting>
       </para>
 
       <warning>
         <para>
-Not all functions can be used in this way. In addition, when you use a binary operation the functions must take the same arguments. 
+Not all functions can be used in this way.  For example, when you use a binary operation the functions must take the same number of arguments. 
         </para>
       </warning>
     </sect2>
@@ -1085,10 +1089,18 @@ the code if it is executed too often as there is one more operator involved.
     <sect1 id="genius-gel-modular-evaluation">
       <title>Modular Evaluation</title>
       <para>
-Sometimes when working with large numbers, it might be faster if results are
-modded after each calculation.  To use it you just add "mod &lt;integer&gt;" after
+	      &appname; implements modular arithmetic.
+To use it you just add "mod &lt;integer&gt;" after
 the expression.  Example:
 <programlisting>2^(5!) * 3^(6!) mod 5</programlisting>
+It could be possible to do modular arithmetic by computing with integers and then modding in the end with
+the <literal>%</literal> operator, but
+that may be time consuming if not impossible when working with larger numbers.
+For example <userinput>10^(10^10) % 6</userinput> will simply not work (the exponent
+will be too large), while
+<userinput>10^(10^10) mod 6</userinput> is instanteneous.
+      </para>
+      <para>
 You can calculate the inverses of numbers mod some integer by just using
 rational numbers (of course the inverse has to exist).
 Examples:
@@ -1123,9 +1135,9 @@ genius> 2*2 mod 7
       <title>List of GEL Operators</title>
 
       <para>
-	As everything in gel is really just an expression, it is really just
-	all connected together with operators.  Here is a list of the
-	operators in GEL. 
+	      Everything in gel is really just an expression.  Expressions are stringed together with
+	      different operators.  As we have seen, even the separator is simply a binary operator
+	      in GEL.  Here is a list of the operators in GEL. 
       </para>
 
       <variablelist>
@@ -1311,7 +1323,7 @@ different from <literal>=</literal> because it never gets translated to a
          <listitem>
            <para>
              Element by element the mod operator.  Returns the remainder
-	     after element by element <userinput>a./b</userinput>.
+	     after element by element integer <userinput>a./b</userinput>.
            </para>
          </listitem>
         </varlistentry>
@@ -1706,7 +1718,8 @@ until <expression1> do <expression2>
 do <expression2> while <expression1>
 do <expression2> until <expression1>]]></programlisting>
 
-These are similar to other languages, however they return the result of the last iteration or <literal>NULL</literal> if no iteration was done.  In the boolean expression, <literal>=</literal> is translated into <literal>==</literal> just as for the <literal>if</literal> statement.
+	These are similar to other languages.  However, as in gel it is simply an expression that must have some return value, these
+	constructs will simply return the result of the last iteration or <literal>NULL</literal> if no iteration was done.  In the boolean expression, <literal>=</literal> is translated into <literal>==</literal> just as for the <literal>if</literal> statement.
         </para>
       </sect2>
 
@@ -1729,7 +1742,8 @@ Loop with identifier being set to all values from <literal>&lt;from&gt;</literal
 Syntax:
 <programlisting><![CDATA[for <identifier> in <matrix> do <body>]]></programlisting>
 
-For each element, going row by row from left to right do the body. To
+			For each element in the matrix, going row by row from left to right we execute the body
+		       with the identifier set to the current element. To
 print numbers 1,2,3 and 4 in this order you could do:
 <programlisting>for n in [1,2:3,4] do print(n)
 </programlisting>

@@ -69,7 +69,7 @@
    application or this manual, follow the directions in the GNOME Feedback
    Page.
 
-   This manual describes version 1.0.10 of Genius.
+   This manual describes version 1.0.11 of Genius.
 
      ----------------------------------------------------------------------
 
@@ -909,10 +909,9 @@ Using Functions
    function b(x) = x*x;                                                       
    f(b,2)                                                                     
 
-   If you want to pass a function that doesn't exist yet, you can use an
-   anonymous function (see the Section called Defining Functions).
-
-   Syntax:
+   To pass functions which are not defined, you can use an anonymous function
+   (see the Section called Defining Functions). That is, you want to pass a
+   function without giving it a name. Syntax:
 
    function(<comma separated arguments>) = <function body>                    
    `(<comma separated arguments>) = <function body>                           
@@ -921,6 +920,8 @@ Using Functions
 
    function f(a,b) = a(b)+1;                                                  
    f(`(x) = x*x,2)                                                            
+
+   This will return 5.
 
      ----------------------------------------------------------------------
 
@@ -931,22 +932,25 @@ Using Functions
 
    exp(sin*cos+4)                                                             
 
-   will return a function that does
+   will return a function that takes x and returns exp(sin(x)*cos(x)+4). It
+   is functionally equivalent to typing
 
-   exp(sin(x)*cos(x)+4)                                                       
+   `(x) = exp(sin(x)*cos(x)+4)                                                
 
-   This can be useful when quickly defining functions. For example to create
-   a function to perform the above operation, you can just type:
+   This operation can be useful when quickly defining functions. For example
+   to create a function called f to perform the above operation, you can just
+   type:
 
    f = exp(sin*cos+4)                                                         
 
-   This can also be used in plotting. For example, to plot sin squared you
-   can enter:
+   It can also be used in plotting. For example, to plot sin squared you can
+   enter:
 
    LinePlot(sin^2)                                                            
 
-   Warning Not all functions can be used in this way. In addition, when you   
-           use a binary operation the functions must take the same arguments. 
+   Warning Not all functions can be used in this way. For example, when you   
+           use a binary operation the functions must take the same number of  
+           arguments.                                                         
 
      ----------------------------------------------------------------------
 
@@ -989,11 +993,16 @@ Separator
 
 Modular Evaluation
 
-   Sometimes when working with large numbers, it might be faster if results
-   are modded after each calculation. To use it you just add "mod <integer>"
-   after the expression. Example:
+   Genius implements modular arithmetic. To use it you just add "mod
+   <integer>" after the expression. Example:
 
    2^(5!) * 3^(6!) mod 5                                                      
+
+   It could be possible to do modular arithmetic by computing with integers
+   and then modding in the end with the % operator, but that may be time
+   consuming if not impossible when working with larger numbers. For example
+   10^(10^10) % 6 will simply not work (the exponent will be too large),
+   while 10^(10^10) mod 6 is instanteneous.
 
    You can calculate the inverses of numbers mod some integer by just using
    rational numbers (of course the inverse has to exist). Examples:
@@ -1026,8 +1035,9 @@ Modular Evaluation
 
 List of GEL Operators
 
-   As everything in gel is really just an expression, it is really just all
-   connected together with operators. Here is a list of the operators in GEL.
+   Everything in gel is really just an expression. Expressions are stringed
+   together with different operators. As we have seen, even the separator is
+   simply a binary operator in GEL. Here is a list of the operators in GEL.
 
    a;b                                                                        
 
@@ -1105,7 +1115,7 @@ List of GEL Operators
    a.%b                                                                       
 
            Element by element the mod operator. Returns the remainder after
-           element by element a./b.
+           element by element integer a./b.
 
    a mod b                                                                    
 
@@ -1311,9 +1321,11 @@ Loops
    do <expression2> while <expression1>                                       
    do <expression2> until <expression1>                                       
 
-   These are similar to other languages, however they return the result of
-   the last iteration or NULL if no iteration was done. In the boolean
-   expression, = is translated into == just as for the if statement.
+   These are similar to other languages. However, as in gel it is simply an
+   expression that must have some return value, these constructs will simply
+   return the result of the last iteration or NULL if no iteration was done.
+   In the boolean expression, = is translated into == just as for the if
+   statement.
 
      ----------------------------------------------------------------------
 
@@ -1344,8 +1356,9 @@ Loops
 
    for <identifier> in <matrix> do <body>                                     
 
-   For each element, going row by row from left to right do the body. To
-   print numbers 1,2,3 and 4 in this order you could do:
+   For each element in the matrix, going row by row from left to right we
+   execute the body with the identifier set to the current element. To print
+   numbers 1,2,3 and 4 in this order you could do:
 
    for n in [1,2:3,4] do print(n)                                             
 
