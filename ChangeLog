@@ -1,3 +1,12 @@
+Thu Sep 09 21:29:33 2010  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/genius.c, src/calc.h, src/gnome-genius.c:  In a fit of
+	  incredible evilness (or stupidity) somebody made <term.h>
+	  #define buttons ... thinking buttons is an uncommon word.
+	  Yaikes.  Wonder why it doesn't break on Fedora but it did break on
+	  SuSE.  Anyway, thanks go to Stephan Hegel for hunting this one
+	  down!
+
 Wed Sep 08 00:48:15 2010  Jiri (George) Lebl <jirka@5z.com>
 
 	* Release 1.0.10

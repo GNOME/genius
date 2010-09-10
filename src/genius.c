@@ -230,7 +230,7 @@ gel_ask_string (const char *query, const char *def)
 }
 
 int
-gel_ask_buttons (const char *query, GSList *buttons)
+gel_ask_buttons (const char *query, GSList *buttonlist)
 {
 	int ret;
 	GSList *li;
@@ -240,7 +240,7 @@ gel_ask_buttons (const char *query, GSList *buttons)
 reread_buttons:
 	g_print ("\n%s\n", ve_sure_string (query));
 	i = 1;
-	for (li = buttons; li != NULL; li = li->next) {
+	for (li = buttonlist; li != NULL; li = li->next) {
 		g_print ("%d) %s\n", i, ve_sure_string ((char *)li->data));
 		i++;
 	}

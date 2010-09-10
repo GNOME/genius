@@ -116,7 +116,7 @@ void gel_call_help (const char *function);
 char *gel_ask_string (const char *query, const char *def);
 
 /* implemented in the frontend, buttons should be a nonempty list of strings */
-int gel_ask_buttons (const char *query, GSList *buttons);
+int gel_ask_buttons (const char *query, GSList *buttonlist);
 
 void gel_help_on (const char *text);
 

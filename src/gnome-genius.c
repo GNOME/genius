@@ -735,7 +735,7 @@ dialog_entry_activate (GtkWidget *e, gpointer data)
 }
 
 int
-gel_ask_buttons (const char *query, GSList *buttons)
+gel_ask_buttons (const char *query, GSList *buttonlist)
 {
 	GtkWidget *d;
 	GtkWidget *box;
@@ -750,7 +750,7 @@ gel_ask_buttons (const char *query, GSList *buttons)
 		 NULL);
 
 	i = 1;
-	for (li = buttons; li != NULL; li = li->next) {
+	for (li = buttonlist; li != NULL; li = li->next) {
 		gtk_dialog_add_button (GTK_DIALOG (d),
 				       ve_sure_string (li->data),
 				       i);
