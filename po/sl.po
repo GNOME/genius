@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=genius&component=general\n"
-"POT-Creation-Date: 2010-02-03 06:18+0000\n"
-"PO-Revision-Date: 2010-08-16 19:48+0100\n"
-"Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
+"POT-Creation-Date: 2010-09-18 09:45+0000\n"
+"PO-Revision-Date: 2010-09-26 19:30+0100\n"
+"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -204,9 +204,8 @@ msgid "Given two factorizations, give the factorization of the product, see Fact
 msgstr "V primeru "
 
 #: ../lib/library-strings.c:46
-#, fuzzy
 msgid "Convert a vector of values indicating powers of b to a number"
-msgstr "Pretvori vektor vrednosti, ki XXX potence b v število"
+msgstr "Pretvori vektor vrednosti, ki določa potenco b v število a"
 
 #: ../lib/library-strings.c:47
 msgid "Convert a number to a vector of powers for elements in base b"
@@ -290,7 +289,8 @@ msgid "Return the Moebius mu function evaluated in n"
 msgstr "Vrne Moebiusovo mu funkcijo ocenjeno v n"
 
 #: ../lib/library-strings.c:67
-msgid "Returns the padic valuation (number of trailing zeros in base p)."
+#, fuzzy
+msgid "Returns the p-adic valuation (number of trailing zeros in base p)."
 msgstr "Vrne padijsko oceno (število sledečih ničel v osnovi p)."
 
 #: ../lib/library-strings.c:68
@@ -330,7 +330,7 @@ msgid "Remove column(s) and row(s) from a matrix"
 msgstr "Odstrani stolp-ec/ce in vrstic-o/e iz matrike"
 
 #: ../lib/library-strings.c:77
-msgid "Calculate the kth compund matrix of A"
+msgid "Calculate the kth compound matrix of A"
 msgstr "Izračunaj k-to sestavljeno matriko A"
 
 #: ../lib/library-strings.c:78
@@ -406,7 +406,8 @@ msgid "Zero out entries below the diagonal"
 msgstr "Spremeni vrednost vnosov pod diagonalo na nič"
 
 #: ../lib/library-strings.c:96
-msgid "Get the auxilliary unit matrix of size n"
+#, fuzzy
+msgid "Get the auxiliary unit matrix of size n"
 msgstr "Dobi pomožno enoto matrike velikosti n"
 
 #: ../lib/library-strings.c:97
@@ -472,7 +473,8 @@ msgid "Get the eigenvalues and eigenvectors of a matrix (Currently only for up t
 msgstr "Dobi prve vrednosti in prve vektorje matrike (Trenutno le do 2x2 matrik)"
 
 #: ../lib/library-strings.c:113
-msgid "Apply the Gram-Schmidt process (to the columns) with respect to inner product given by B (if not given use hermitian product)"
+#, fuzzy
+msgid "Apply the Gram-Schmidt process (to the columns) with respect to inner product given by B (if not given use Hermitian product)"
 msgstr "Uporabi Gram-Schmidtov proces (na stolpce) glede na notranji produkt, ki ga je podal B (če ni podan, uporabi hermitski produkt)"
 
 #: ../lib/library-strings.c:114
@@ -500,8 +502,9 @@ msgid "Inverse Hilbert matrix of order n"
 msgstr "Obrnjena Hilbertova matrika reda n"
 
 #: ../lib/library-strings.c:120
-msgid "Is a matrix hermitian"
-msgstr "Je matrika hermitska"
+#, fuzzy
+msgid "Is a matrix Hermitian"
+msgstr "MPEG4 delitvena matrica"
 
 #: ../lib/library-strings.c:121
 msgid "Test if a vector is in a subspace"
@@ -528,8 +531,9 @@ msgid "Is a matrix positive semidefinite"
 msgstr "Je matrika pozitivna poldoločena"
 
 #: ../lib/library-strings.c:127
-msgid "Is a matrix skew-hermitian"
-msgstr ""
+#, fuzzy
+msgid "Is a matrix skew-Hermitian"
+msgstr "Je matrika hermitska"
 
 #: ../lib/library-strings.c:128
 msgid "Is a matrix unitary"
@@ -570,7 +574,7 @@ msgstr "Dobi ortogonalni komplement prostora stolpcev"
 
 #: ../lib/library-strings.c:137
 #, fuzzy
-msgid "Projection of vector v onto subspace W given a sesquilinear form B (if not given use hermitian product)"
+msgid "Projection of vector v onto subspace W given a sesquilinear form B (if not given use Hermitian product)"
 msgstr "Projekcija vektorja v na podprostor W "
 
 #: ../lib/library-strings.c:138
@@ -953,95 +957,105 @@ msgid "Use classical Euler's method to numerically solve y'=f(x,y) for initial x
 msgstr "Uporabi klasično Eulerjevo metodo za numerično rešitev y'=f(x,y) za začetna x0, y0 do x1 z n koraki povečav, vrne y pri x1"
 
 #: ../lib/library-strings.c:232
+#, fuzzy
+msgid "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an n+1 by 2 matrix of values"
+msgstr "Uporabi klasično Eulerjevo metodo za numerično rešitev y'=f(x,y) za začetna x0, y0 do x1 z n koraki povečav, vrne y pri x1"
+
+#: ../lib/library-strings.c:233
 msgid "Find root of a function using the bisection method"
 msgstr "Najde ničlo funkcije z uporabo bisekcijske metode"
 
-#: ../lib/library-strings.c:233
+#: ../lib/library-strings.c:234
 msgid "Find root of a function using the method of false position"
 msgstr "Najde ničlo funkcije z uporabo metode napačnega položaja"
 
-#: ../lib/library-strings.c:234
+#: ../lib/library-strings.c:235
 msgid "Find root of a function using the Muller's method"
 msgstr "Najde ničlo funkcije z uporabo Mullerjeve metode"
 
-#: ../lib/library-strings.c:235
+#: ../lib/library-strings.c:236
 msgid "Find root of a function using the secant method"
 msgstr "Najde ničle funkcije z uporabo sekantne metode"
 
-#: ../lib/library-strings.c:236
+#: ../lib/library-strings.c:237
 msgid "Find roots of a polynomial (given as vector of coefficients)"
 msgstr "Najde ničle polinoma (podanega kot vektor koeficientov)"
 
 # quartic je x^4
-#: ../lib/library-strings.c:237
+#: ../lib/library-strings.c:238
 msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
 msgstr "Najde ničle polnima četrtega reda (podan kot vektor koeficientov)"
 
-#: ../lib/library-strings.c:238
+#: ../lib/library-strings.c:239
 msgid "Use classical non-adaptive Runge-Kutta of fourth order method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y at x1"
 msgstr "Uporabi klasično ne-prilagodljivo metodo Runge-Kutta četrtega reda za numerično rešitev y'=f(x,y), za začetna x0,y0 do x1 z n koraki povečav, vrne y pri x1"
 
-#: ../lib/library-strings.c:239
+#: ../lib/library-strings.c:240
+#, fuzzy
+msgid "Use classical non-adaptive Runge-Kutta of fourth order method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an n+1 by 2 matrix of values"
+msgstr "Uporabi klasično ne-prilagodljivo metodo Runge-Kutta četrtega reda za numerično rešitev y'=f(x,y), za začetna x0,y0 do x1 z n koraki povečav, vrne y pri x1"
+
+#: ../lib/library-strings.c:241
 msgid "Calculate average of an entire matrix"
 msgstr "Izračuna povprečje celotne matrike"
 
-#: ../lib/library-strings.c:240
+#: ../lib/library-strings.c:242
 msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 msgstr "Integral GaussoveFunkcije od 0 do x (področje pod normalno krivuljo)"
 
-#: ../lib/library-strings.c:241
+#: ../lib/library-strings.c:243
 msgid "The normalized Gauss distribution function (the normal curve)"
 msgstr "Normalizirana Gaussova distribucijska funkcija (normalna krivulja)"
 
-#: ../lib/library-strings.c:242
+#: ../lib/library-strings.c:244
 msgid "Calculate median of an entire matrix"
 msgstr "Izračuna mediano celotne matrike"
 
-#: ../lib/library-strings.c:243
+#: ../lib/library-strings.c:245
 msgid "Calculate the population standard deviation of a whole matrix"
 msgstr "Izračuna standardni odmik populacije celotne matrike"
 
-#: ../lib/library-strings.c:244
+#: ../lib/library-strings.c:246
 msgid "Calculate average of each row in a matrix"
 msgstr "Izračuna povprečje vsake vrstice v matriki"
 
-#: ../lib/library-strings.c:245
+#: ../lib/library-strings.c:247
 msgid "Calculate median of each row in a matrix"
 msgstr "Izračuna mediano vsake vrstice v matriki"
 
-#: ../lib/library-strings.c:246
+#: ../lib/library-strings.c:248
 msgid "Calculate the population standard deviations of rows of a matrix and return a vertical vector"
 msgstr "Izračuna standardni odmik populacije vrstic matrike in vrne navpični vektor"
 
-#: ../lib/library-strings.c:247
+#: ../lib/library-strings.c:249
 msgid "Calculate the standard deviations of rows of a matrix and return a vertical vector"
 msgstr "Izračuna standardne odmike vrstic matrike in vrne navpični vektor"
 
-#: ../lib/library-strings.c:248
+#: ../lib/library-strings.c:250
 msgid "Calculate the standard deviation of a whole matrix"
 msgstr "Izračuna standardni odmik celotne matrike"
 
-#: ../lib/library-strings.c:249
+#: ../lib/library-strings.c:251
 msgid "Run newton's method on a polynomial to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns null)"
 msgstr "Požene newtonovo metodo na polinomu in poskusi najti ničlo, vrne rezultat, ko sta dve zaporedni vrednosti znotraj epsilona ali po največjem številu poskusov (v tem primeru vrne null) "
 
-#: ../lib/library-strings.c:250
+#: ../lib/library-strings.c:252
 msgid "Returns a set where every element of X appears only once"
 msgstr "Vrne set, kjer se vsak element X pojavi le enkrat"
 
-#: ../lib/library-strings.c:251
+#: ../lib/library-strings.c:253
 msgid "Returns a set theoretic union of X and Y (X and Y are vectors pretending to be sets)"
 msgstr "Vrne množico teoretične unije med X in Y (X in Y sta vektorja, ki se pretvarjata da sta množici)"
 
-#: ../lib/library-strings.c:252
+#: ../lib/library-strings.c:254
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "Poskus simbolnega odvajanja funkcije n krat"
 
-#: ../lib/library-strings.c:253
+#: ../lib/library-strings.c:255
 msgid "Attempt to symbolically differentiate a function n times quietly and return null on failure"
 msgstr "Poskus simbolnega odvajanja funkcije n krat tiho in vračanja null ob neuspehu"
 
-#: ../lib/library-strings.c:254
+#: ../lib/library-strings.c:256
 msgid "Attempt to construct the taylor approximation function around x0 to the nth degree."
 msgstr "Poskus ustvarjanje taylorjeve približne funkcije okoli x0 do n-te stopnje."
 
@@ -1309,6 +1323,10 @@ msgstr "NAPAKA: %s na koncu vhoda"
 msgid "ERROR: %s before '%s'"
 msgstr "NAPAKA: %s pred '%s'"
 
+#: ../src/calc.h:32
+msgid "Copyright (C) 1997-2010 Jiří (George) Lebl, Ph.D."
+msgstr "Avtorske pravice (C) 1997-2010 Jiří (George) Lebl"
+
 #: ../src/compil.c:537
 #: ../src/compil.c:543
 #, fuzzy
@@ -1457,7 +1475,7 @@ msgstr "Funkcija '%s' je uporabljena nezačeta"
 #: ../src/eval.c:4488
 #, fuzzy, c-format
 msgid "Can't dereference '%s'!"
-msgstr "Ni mogoče odstraniti reference '%s'!"
+msgstr "Lahko izbriše"
 
 #: ../src/eval.c:4496
 msgid "Can't call a non-function!"
@@ -1543,7 +1561,7 @@ msgstr "Določilo dejavnosti/podatka"
 #: ../src/eval.c:5484
 #, fuzzy
 msgid "Dereference of undefined variable!"
-msgstr "Uporaba spremenljive bitne hitrosti"
+msgstr "Vstavite novo spremenljivko"
 
 #: ../src/eval.c:5374
 #: ../src/eval.c:5488
@@ -1657,7 +1675,7 @@ msgstr "Deljenje elementa z elementom"
 #: ../src/eval.c:5994
 #, fuzzy
 msgid "Back division"
-msgstr "Deljenje nazaj"
+msgstr "Nazaj - istovetnost"
 
 #: ../src/eval.c:5995
 #, fuzzy
@@ -1753,7 +1771,7 @@ msgid "Cannot parse version string: %s"
 msgstr "Ni mogoče razčleniti niza različice: %s"
 
 #: ../src/funclib.c:172
-#: ../src/gnome-genius.c:1883
+#: ../src/gnome-genius.c:1816
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -1814,103 +1832,103 @@ msgstr "%s: Preveč argumentov, sprejetih je lahko največ %d"
 msgid "Cannot apply function to two differently sized matrixes"
 msgstr "Ni mogoče uveljaviti funkcije na dveh različno velikih matrikah"
 
-#: ../src/funclib.c:1433
-#: ../src/funclib.c:1470
+#: ../src/funclib.c:1442
+#: ../src/funclib.c:1479
 #, c-format
 msgid "%s: Not implemented (yet) for complex values"
 msgstr "%s: Ni (še) podprto za kompleksne vrednosti"
 
-#: ../src/funclib.c:1914
+#: ../src/funclib.c:1932
 #, c-format
 msgid "%s: square root for composite moduli is not yet implemented"
 msgstr "%s: kvadrati koren sestavljenega modula še ni podprt"
 
-#: ../src/funclib.c:1922
+#: ../src/funclib.c:1940
 #, c-format
 msgid "%s: Cannot find square root function for prime moduli"
 msgstr "%s: Ni mogoče najti funkcije kvadratnega korena za modul praštevila"
 
-#: ../src/funclib.c:1955
+#: ../src/funclib.c:1973
 #, c-format
 msgid "%s: matrix argument is not square"
 msgstr "%s: argument matrike ni kvadrat"
 
-#: ../src/funclib.c:2083
-#: ../src/funclib.c:2183
+#: ../src/funclib.c:2101
+#: ../src/funclib.c:2201
 #, c-format
 msgid "%s: matrix argument must be integer only"
 msgstr "%s: argument matrike mora biti le celo število"
 
-#: ../src/funclib.c:2105
-#: ../src/funclib.c:2205
+#: ../src/funclib.c:2123
+#: ../src/funclib.c:2223
 #, c-format
 msgid "%s: argument must be an integer"
 msgstr "%s: argument mora biti celo število"
 
-#: ../src/funclib.c:2440
-#: ../src/funclib.c:2527
+#: ../src/funclib.c:2458
+#: ../src/funclib.c:2545
 #, c-format
 msgid "%s: matrix argument must be value only"
 msgstr "%s: argument matrike mora biti le vrednost"
 
-#: ../src/funclib.c:2783
-#: ../src/funclib.c:2841
-#: ../src/funclib.c:4353
-#: ../src/funclib.c:4647
+#: ../src/funclib.c:2804
+#: ../src/funclib.c:2862
+#: ../src/funclib.c:4400
+#: ../src/funclib.c:4694
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: preveč argumentov"
 
-#: ../src/funclib.c:3065
+#: ../src/funclib.c:3112
 #, c-format
 msgid "%s: vector argument not value only"
 msgstr "%s: argument vektorja ni le vrednost"
 
-#: ../src/funclib.c:3076
-#: ../src/funclib.c:3115
+#: ../src/funclib.c:3123
+#: ../src/funclib.c:3162
 #, c-format
 msgid "%s: argument can't be negative or 0"
 msgstr "%s: argument ne more biti negativen ali 0"
 
-#: ../src/funclib.c:3084
-#: ../src/funclib.c:3120
+#: ../src/funclib.c:3131
+#: ../src/funclib.c:3167
 #, c-format
 msgid "%s: vector argument has too large entries"
 msgstr "%s: argument vektorja ima prevelike vnose"
 
-#: ../src/funclib.c:3162
+#: ../src/funclib.c:3209
 #, c-format
 msgid "%s: arguments must be vectors of equal size"
 msgstr "%s: argumenti morajo biti vektorji enakih velikosti"
 
-#: ../src/funclib.c:3654
-#: ../src/funclib.c:3660
+#: ../src/funclib.c:3701
+#: ../src/funclib.c:3707
 #, c-format
 msgid "%s: %s not a reference"
 msgstr "%s: %s ni sklic"
 
-#: ../src/funclib.c:3699
+#: ../src/funclib.c:3746
 #, c-format
 msgid "%s: matrices not of the same height"
 msgstr "%s: matriki nimata enake višine"
 
-#: ../src/funclib.c:3704
-#: ../src/funclib.c:4347
+#: ../src/funclib.c:3751
+#: ../src/funclib.c:4394
 msgid "third argument"
 msgstr "tretji argument"
 
-#: ../src/funclib.c:3709
+#: ../src/funclib.c:3756
 msgid "fourth argument"
 msgstr "četrti argument"
 
-#: ../src/funclib.c:3984
+#: ../src/funclib.c:4031
 #, c-format
 msgid "%s: argument must be greater than 2"
 msgstr "%s: argument mora biti večji kot 2"
 
-#: ../src/funclib.c:4087
-#: ../src/funclib.c:4116
-#: ../src/funclib.c:4368
+#: ../src/funclib.c:4134
+#: ../src/funclib.c:4163
+#: ../src/funclib.c:4415
 #: ../src/mpwrap.c:3736
 #: ../src/mpwrap.c:3755
 #: ../src/mpwrap.c:3812
@@ -1920,836 +1938,837 @@ msgstr "%s: argument mora biti večji kot 2"
 msgid "Division by zero!"
 msgstr "Deljenje z nič!"
 
-#: ../src/funclib.c:4172
+#: ../src/funclib.c:4219
 #, c-format
 msgid "%s: arguments not horizontal vectors"
 msgstr "%s: argumenti niso vodoravni vektorji"
 
-#: ../src/funclib.c:4181
+#: ../src/funclib.c:4228
 #, c-format
 msgid "%s: arguments not numeric only vectors"
 msgstr "%s: argumenti niso le številski vektorji"
 
-#: ../src/funclib.c:4565
+#: ../src/funclib.c:4612
 #, c-format
 msgid "%s: argument 1 must be a quadratic polynomial"
 msgstr "%s: argument 1 mora biti kvadratni polinom"
 
-#: ../src/funclib.c:4875
-#: ../src/funclib.c:4964
-#: ../src/funclib.c:5192
-#: ../src/funclib.c:5247
-#: ../src/funclib.c:5317
-#: ../src/funclib.c:5331
+#: ../src/funclib.c:4922
+#: ../src/funclib.c:5011
+#: ../src/funclib.c:5239
+#: ../src/funclib.c:5294
+#: ../src/funclib.c:5364
+#: ../src/funclib.c:5378
 #, c-format
 msgid "%s: value out of range"
 msgstr "%s: vrednost je izven obsega"
 
-#: ../src/funclib.c:5457
+#: ../src/funclib.c:5504
 #, c-format
 msgid "%s: undefined function"
 msgstr "%s: nedefinirana funkcija"
 
-#: ../src/funclib.c:5463
+#: ../src/funclib.c:5510
 #, c-format
 msgid "%s: flags argument must be a string"
 msgstr "%s: argument zastavic mora biti niz"
 
-#: ../src/funclib.c:5591
+#: ../src/funclib.c:5638
 #: ../src/symbolic.c:723
 #, c-format
 msgid "%s: argument not a function of one variable"
 msgstr "%s: argument ni funkcija ene spremenljivke"
 
-#: ../src/funclib.c:5803
-#: ../src/funclib.c:5838
-#: ../src/funclib.c:6083
+#: ../src/funclib.c:5850
+#: ../src/funclib.c:5885
+#: ../src/funclib.c:6130
 #, c-format
 msgid "%s: argument should be between %d and %d"
 msgstr "%s: argument mora biti med %d in %d"
 
-#: ../src/funclib.c:5991
+#: ../src/funclib.c:6038
 msgid "OutputStyle must be one of normal, troff, latex or mathml"
 msgstr "Izhodni slog mora biti eden od običajni, troff, latex ali mathml"
 
-#: ../src/funclib.c:6031
+#: ../src/funclib.c:6078
 #, c-format
 msgid "%s: argument should be larger or equal to 0"
 msgstr "%s: argument mora biti večji ali enak 0"
 
-#: ../src/funclib.c:6144
+#: ../src/funclib.c:6191
 msgid "Basic"
 msgstr "Osnovno"
 
 #. internal
-#: ../src/funclib.c:6145
+#: ../src/funclib.c:6192
 msgid "Parameters"
 msgstr "Parametri"
 
 #. internal
-#: ../src/funclib.c:6146
+#: ../src/funclib.c:6193
 msgid "Constants"
 msgstr "Konstante"
 
 #. internal
-#: ../src/funclib.c:6147
+#: ../src/funclib.c:6194
 msgid "Numeric"
 msgstr "Numerika"
 
 #. internal
-#: ../src/funclib.c:6148
+#: ../src/funclib.c:6195
 msgid "Trigonometry"
 msgstr "Trigonometrija"
 
 #. internal
-#: ../src/funclib.c:6149
+#: ../src/funclib.c:6196
 msgid "Number Theory"
 msgstr "Teorija števil"
 
 #. internal
-#: ../src/funclib.c:6150
+#: ../src/funclib.c:6197
 msgid "Matrix Manipulation"
 msgstr "Upravljanje z matrikami"
 
 #. internal
-#: ../src/funclib.c:6151
+#: ../src/funclib.c:6198
 msgid "Linear Algebra"
 msgstr "Linearna algebra"
 
 #. internal
-#: ../src/funclib.c:6152
+#: ../src/funclib.c:6199
 msgid "Combinatorics"
 msgstr "Kombinatorika"
 
 #. internal
-#: ../src/funclib.c:6153
+#: ../src/funclib.c:6200
 msgid "Calculus"
 msgstr "Računanje"
 
 #. internal
-#: ../src/funclib.c:6154
+#: ../src/funclib.c:6201
 msgid "Functions"
 msgstr "Funkcije"
 
 #. internal
-#: ../src/funclib.c:6155
+#: ../src/funclib.c:6202
 msgid "Equation Solving"
 msgstr "Reševanje enačb"
 
 #. internal
-#: ../src/funclib.c:6156
+#: ../src/funclib.c:6203
 msgid "Statistics"
 msgstr "Statistika"
 
 #. internal
-#: ../src/funclib.c:6157
+#: ../src/funclib.c:6204
 msgid "Polynomials"
 msgstr "Polinomi"
 
 #. internal
-#: ../src/funclib.c:6158
+#: ../src/funclib.c:6205
 msgid "Set Theory"
 msgstr "Nastavi teorijo"
 
 #. internal
-#: ../src/funclib.c:6159
+#: ../src/funclib.c:6206
 msgid "Miscellaneous"
 msgstr "Različno"
 
 #. internal
-#: ../src/funclib.c:6161
+#: ../src/funclib.c:6208
 msgid "Displays the user manual"
 msgstr "Prikaže uporabniški priročnik"
 
-#: ../src/funclib.c:6162
+#: ../src/funclib.c:6209
 msgid "Gives the warranty information"
 msgstr "Poda podrobnosti garancije"
 
-#: ../src/funclib.c:6163
+#: ../src/funclib.c:6210
 msgid "Return version as a 3-vector"
 msgstr "Vrne različico kot 3-vektor"
 
-#: ../src/funclib.c:6164
+#: ../src/funclib.c:6211
 msgid "Exits the program"
 msgstr "Konča program"
 
-#: ../src/funclib.c:6166
+#: ../src/funclib.c:6213
 msgid "Prints a string to the error stream"
 msgstr "Natisne niz v pretok napak"
 
-#: ../src/funclib.c:6167
+#: ../src/funclib.c:6214
 msgid "Waits a specified number of seconds"
 msgstr "Čaka navedeno število sekund"
 
-#: ../src/funclib.c:6168
+#: ../src/funclib.c:6215
 msgid "The true boolean value"
 msgstr "Boolova vrednost prav"
 
-#: ../src/funclib.c:6170
+#: ../src/funclib.c:6217
 msgid "The false boolean value"
 msgstr "Boolova vrednost napak"
 
-#: ../src/funclib.c:6179
+#: ../src/funclib.c:6226
 msgid "Make integer (0 or 1) from a boolean value"
 msgstr "Naredi število (0 ali 1) iz boolove vrednosti"
 
-#: ../src/funclib.c:6181
+#: ../src/funclib.c:6228
 msgid "Prints an expression"
 msgstr "Natisne izraz"
 
-#: ../src/funclib.c:6182
+#: ../src/funclib.c:6229
 msgid "Changes current directory"
 msgstr "Spremeni trenutno mapo"
 
-#: ../src/funclib.c:6183
+#: ../src/funclib.c:6230
 msgid "Prints an expression without a trailing newline"
 msgstr "Natisne izraz brez sledeče nove vrstice"
 
-#: ../src/funclib.c:6184
+#: ../src/funclib.c:6231
 msgid "Display a string and an expression"
 msgstr "Prikaži niz in izraz"
 
-#: ../src/funclib.c:6185
+#: ../src/funclib.c:6232
 msgid "Set a global variable"
 msgstr "Nastavi splošno spremenljivko"
 
-#: ../src/funclib.c:6187
+#: ../src/funclib.c:6234
 msgid "Set the category and help description line for a function"
 msgstr "Nastavi vrstico kategorije in opisa pomoči za funkcijo"
 
-#: ../src/funclib.c:6188
+#: ../src/funclib.c:6235
 msgid "Sets up a help alias"
 msgstr "Nastavi vzdevek pomoči"
 
-#: ../src/funclib.c:6190
+#: ../src/funclib.c:6237
 msgid "Identity function, returns its argument"
 msgstr "Funkcija identitete, vrne svoj argument"
 
-#: ../src/funclib.c:6192
+#: ../src/funclib.c:6239
 msgid "Generate random float"
 msgstr "Ustvari naključno decimalno število"
 
-#: ../src/funclib.c:6194
+#: ../src/funclib.c:6241
 msgid "Generate random integer"
 msgstr "Ustvari naključno celo število"
 
-#: ../src/funclib.c:6197
-#: ../src/gnome-genius.c:2440
+#: ../src/funclib.c:6244
+#: ../src/gnome-genius.c:2360
 msgid "Floating point precision"
 msgstr "Natančnost plavajoče vejice"
 
-#: ../src/funclib.c:6199
-#: ../src/gnome-genius.c:2329
+#: ../src/funclib.c:6246
+#: ../src/gnome-genius.c:2249
 msgid "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr "Prikaže 0,0, ko je decimalno število manjše od 10^-x (0=nikoli ne obreži)"
 
-#: ../src/funclib.c:6202
-#: ../src/gnome-genius.c:2352
+#: ../src/funclib.c:6249
+#: ../src/gnome-genius.c:2272
 msgid "Only chop numbers when another number is greater than 10^-x"
 msgstr "Obreži števila le, ko je drugo število večje kot 10^-x"
 
-#: ../src/funclib.c:6203
+#: ../src/funclib.c:6250
 msgid "Maximum digits to display"
 msgstr "Največje število številk za prikaz"
 
-#: ../src/funclib.c:6204
+#: ../src/funclib.c:6251
 msgid "Maximum errors to display"
 msgstr "Največje število napak za prikaz"
 
-#: ../src/funclib.c:6205
+#: ../src/funclib.c:6252
 msgid "Output style: normal, latex, mathml or troff"
 msgstr "Izhodni slog: običajni, latex, mathml ali troff"
 
-#: ../src/funclib.c:6206
+#: ../src/funclib.c:6253
 msgid "Integer output base"
 msgstr "Izhodna osnova celega števila"
 
-#: ../src/funclib.c:6207
+#: ../src/funclib.c:6254
 msgid "If true, mixed fractions are printed"
 msgstr "Izbrana možnost omogoči tisk mešanih ulomkov"
 
-#: ../src/funclib.c:6208
+#: ../src/funclib.c:6255
 msgid "Print full expressions, even if more than a line"
 msgstr "Natisni polne izraze, tudi če so daljši kot vrstica"
 
-#: ../src/funclib.c:6209
+#: ../src/funclib.c:6256
 msgid "Convert all results to floats before printing"
 msgstr "Pretvori vse rezultate v decimalna števila pred tiskanjem"
 
-#: ../src/funclib.c:6210
+#: ../src/funclib.c:6257
 msgid "Use scientific notation"
 msgstr "Uporabi znanstveni zapis"
 
-#: ../src/funclib.c:6212
+#: ../src/funclib.c:6259
 msgid "Number of extra Miller-Rabin tests to run on a number before declaring it a prime in IsPrime"
 msgstr "Število dodatnih Miller-Rabin preizkusov na številu pred izjavo, da je praštevilo v IsPrime"
 
-#: ../src/funclib.c:6218
+#: ../src/funclib.c:6265
 #, fuzzy
 msgid "Expands a matrix just like we do on unquoted matrix input"
 msgstr "Razširi matriko kot na neci"
 
-#: ../src/funclib.c:6219
+#: ../src/funclib.c:6266
 msgid "Gets the rows of a matrix as a vertical vector"
 msgstr "Dobi vrstice matrike kot navpičen vektor"
 
-#: ../src/funclib.c:6220
+#: ../src/funclib.c:6267
 msgid "Gets the columns of a matrix as a horizontal vector"
 msgstr "Dobi stolpce matrike kot vodoraven vektor"
 
-#: ../src/funclib.c:6221
+#: ../src/funclib.c:6268
 msgid "Gets the diagonal entries of a matrix as a column vector"
 msgstr "Dobi diagonalne vnose matrike kot vektor stolpca"
 
-#: ../src/funclib.c:6222
+#: ../src/funclib.c:6269
 msgid "Count the number of zero columns in a matrix"
 msgstr "Preštej število stolpcev z ničlami v matriki"
 
-#: ../src/funclib.c:6223
+#: ../src/funclib.c:6270
 msgid "Removes any all-zero columns of M"
 msgstr "Odstrani vse stolpce M s samimi ničlami"
 
 # konjugat z=a+bi je z'=a-bi
-#: ../src/funclib.c:6225
+#: ../src/funclib.c:6272
 msgid "Calculates the conjugate"
 msgstr "Izračuna konjugirano vrednost"
 
-#: ../src/funclib.c:6230
+#: ../src/funclib.c:6277
 msgid "Calculates the sine function"
 msgstr "Izračuna funkcijo sinus"
 
-#: ../src/funclib.c:6233
+#: ../src/funclib.c:6280
 msgid "Calculates the cosine function"
 msgstr "Izračuna funkcijo kosinus"
 
-#: ../src/funclib.c:6236
+#: ../src/funclib.c:6283
 msgid "Calculates the hyperbolic sine function"
 msgstr "Izračuna funkcijo hiperboličnega sinusa"
 
-#: ../src/funclib.c:6239
+#: ../src/funclib.c:6286
 msgid "Calculates the hyperbolic cosine function"
 msgstr "Izračuna funkcijo hiperboličnega kosinusa"
 
-#: ../src/funclib.c:6242
+#: ../src/funclib.c:6289
 msgid "Calculates the tan function"
 msgstr "Izračuna funkcijo tan"
 
-#: ../src/funclib.c:6245
+#: ../src/funclib.c:6292
 msgid "Calculates the arctan function"
 msgstr "Izračuna funkcijo arctan"
 
-#: ../src/funclib.c:6250
+#: ../src/funclib.c:6297
 msgid "Calculates the arctan2 function (arctan(y/x) if x>0)"
 msgstr "Izračuna funkcijo arctan2 (arctan(y/x), če je x>0)"
 
-#: ../src/funclib.c:6254
+#: ../src/funclib.c:6301
 msgid "The number pi"
 msgstr "Število pi"
 
-#: ../src/funclib.c:6256
+#: ../src/funclib.c:6303
 msgid "The natural number e"
 msgstr "Naravno število e"
 
-#: ../src/funclib.c:6258
+#: ../src/funclib.c:6305
 msgid "The Golden Ratio"
 msgstr "Zlati rez"
 
-#: ../src/funclib.c:6260
+#: ../src/funclib.c:6307
 msgid "Free fall acceleration"
 msgstr "Pospešek prostega pada"
 
-#: ../src/funclib.c:6263
+#: ../src/funclib.c:6310
 msgid "Euler's Constant gamma"
 msgstr "Eulerjeva stalna gama"
 
 # http://sl.wikipedia.org/wiki/Eug%C3%A8ne_Charles_Catalan
-#: ../src/funclib.c:6267
+#: ../src/funclib.c:6314
 msgid "Catalan's Constant (0.915...)"
 msgstr "Catalanova konstanta (0,915 ...)"
 
 #. FUNC (ErrorFunction, 1, "x", "functions", N_("The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt (only real values implemented)"));
 #. ErrorFunction_function = f;
 #. ALIAS (erf, 1, ErrorFunction);
-#: ../src/funclib.c:6272
+#: ../src/funclib.c:6319
 msgid "The Riemann zeta function (only real values implemented)"
 msgstr "Riemannova zeta funkcija (podprte so le realne vrednosti)"
 
-#: ../src/funclib.c:6276
+#: ../src/funclib.c:6323
 msgid "The Gamma function (only real values implemented)"
 msgstr "Gama funkcija (podprte so le realne vrednosti)"
 
-#: ../src/funclib.c:6281
+#: ../src/funclib.c:6328
 msgid "The square root"
 msgstr "Kvadratni koren"
 
-#: ../src/funclib.c:6285
+#: ../src/funclib.c:6332
 msgid "The exponential function"
 msgstr "Potenčna funkcija"
 
-#: ../src/funclib.c:6288
+#: ../src/funclib.c:6335
 msgid "The natural logarithm"
 msgstr "Naravni logaritem"
 
-#: ../src/funclib.c:6291
+#: ../src/funclib.c:6338
 msgid "Logarithm of x base 2"
 msgstr "Dvojiški logaritem x"
 
-#: ../src/funclib.c:6296
+#: ../src/funclib.c:6343
 msgid "Logarithm of x base 10"
 msgstr "Desetiški logaritem x"
 
-#: ../src/funclib.c:6299
+#: ../src/funclib.c:6346
 msgid "Round a number"
 msgstr "Zaokroži število"
 
-#: ../src/funclib.c:6303
+#: ../src/funclib.c:6350
 msgid "Get the highest integer less than or equal to n"
 msgstr "Dobi največje število manjše ali enako n."
 
-#: ../src/funclib.c:6307
+#: ../src/funclib.c:6354
 msgid "Get the lowest integer more than or equal to n"
 msgstr "Dobi najnižje število večje ali enako n"
 
-#: ../src/funclib.c:6311
+#: ../src/funclib.c:6358
 msgid "Truncate number to an integer (return the integer part)"
 msgstr "Skrajšaj število v celo število (vrni celoštevilčni del)"
 
-#: ../src/funclib.c:6316
+#: ../src/funclib.c:6363
 msgid "Make number a float"
 msgstr "Naredi število decimalno"
 
-#: ../src/funclib.c:6319
+#: ../src/funclib.c:6366
 msgid "Get the numerator of a rational number"
 msgstr "Dobi števec racionalnega števila"
 
-#: ../src/funclib.c:6321
+#: ../src/funclib.c:6368
 msgid "Get the denominator of a rational number"
 msgstr "Dobi imenovalec racionalnega števila"
 
-#: ../src/funclib.c:6324
+#: ../src/funclib.c:6371
 msgid "Greatest common divisor"
 msgstr "Največji skupni delitelj"
 
-#: ../src/funclib.c:6326
+#: ../src/funclib.c:6373
 msgid "Least common multiplier"
 msgstr "Najmanjši skupni večkratnik"
 
-#: ../src/funclib.c:6328
+#: ../src/funclib.c:6375
 msgid "Check a number for being a perfect square"
 msgstr "Preveri, če je število idealen kvadrat"
 
-#: ../src/funclib.c:6329
+#: ../src/funclib.c:6376
 msgid "Check a number for being any perfect power (a^b)"
 msgstr "Preveri, če je število idealna potenca (a^b)"
 
-#: ../src/funclib.c:6330
+#: ../src/funclib.c:6377
 msgid "Return the n'th prime (up to a limit)"
 msgstr "Vrne n-to praštevilo (do meje)"
 
-#: ../src/funclib.c:6332
+#: ../src/funclib.c:6379
 msgid "Tests if an integer is even"
 msgstr "Preizkusi, če je število sodo"
 
-#: ../src/funclib.c:6333
+#: ../src/funclib.c:6380
 msgid "Tests if an integer is odd"
 msgstr "Preizkusi, če je število liho"
 
-#: ../src/funclib.c:6335
+#: ../src/funclib.c:6382
 msgid "Returns the least prime greater than n (if n is positive)"
 msgstr "Vrne najmanjše praštevilo večje kot n (če je n pozitiven)"
 
-#: ../src/funclib.c:6336
+#: ../src/funclib.c:6383
 msgid "Returns the n'th Lucas number"
 msgstr "Vrne n-to Lukasovo število"
 
-#: ../src/funclib.c:6337
+#: ../src/funclib.c:6384
 msgid "Returns inverse of n mod m"
 msgstr "Vrne obratno vrednost n mod m"
 
-#: ../src/funclib.c:6338
+#: ../src/funclib.c:6385
 msgid "Checks divisibility (if m divides n)"
 msgstr "Preveri deljivost (če m deli n)"
 
-#: ../src/funclib.c:6339
+#: ../src/funclib.c:6386
 msgid "Return n/d but only if d divides n else returns garbage (this is faster than writing n/d)"
 msgstr "Vrne n/d, toda le če d deli n, v nasprotnem primeru vrne smeti (to je hitrejše od zapisovanja n/d)"
 
-#: ../src/funclib.c:6340
+#: ../src/funclib.c:6387
 msgid "Tests primality of integers, for numbers greater than 25*10^9 false positive is with low probability depending on IsPrimeMillerRabinReps"
 msgstr "Preizkusi ali so števila praštevila, za števila večja kot 25*10^9 obstaja majhna verjetnost za lažno praštevilo, ki je odvisna od IsPrimeMillerRabinReps"
 
-#: ../src/funclib.c:6341
+#: ../src/funclib.c:6388
 msgid "Run the strong pseudoprime test base b on n"
 msgstr "Požene močan preizkus psevdo praštevil baze b na n"
 
-#: ../src/funclib.c:6342
+#: ../src/funclib.c:6389
 msgid "Use the Miller-Rabin primality test on n, reps number of times.  The probability of false positive is (1/4)^reps"
 msgstr "Uporabi večkrat ponovljen Miller-Rabinov preizkus praštevil na n. Verjetnost lažnih praštevil je (1/4)^št. ponovitev"
 
-#: ../src/funclib.c:6343
+#: ../src/funclib.c:6390
 msgid "Use the Miller-Rabin primality test on n with enough bases that assuming the Generalized Reimann Hypothesis the result is deterministic"
 msgstr "Uporabi Miller-Rabinov preizkus praštevil na n z dovolj bazami, da je rezultat s predpostavko splošne Riemannove hipoteze determinističen"
 
 # Tukaj govorimo o razstavljanju predmetov, ko na primer a²-b² razstaviš na (a+b)(a-b)
-#: ../src/funclib.c:6344
+#: ../src/funclib.c:6391
 msgid "Return factorization of a number as a matrix"
 msgstr "Vrne razstavljeno število kot matriko"
 
-#: ../src/funclib.c:6346
+#: ../src/funclib.c:6393
 msgid "Returns the maximum of arguments or matrix"
 msgstr "Vrne največji argument matrike"
 
-#: ../src/funclib.c:6349
+#: ../src/funclib.c:6396
 msgid "Returns the minimum of arguments or matrix"
 msgstr "Vrne najmanjši argument matrike"
 
-#: ../src/funclib.c:6353
+#: ../src/funclib.c:6400
 msgid "Calculate the Jacobi symbol (a/b) (b should be odd)"
 msgstr "Izračuna Jacobijev simbol (a/b) (b mora biti lih)"
 
-#: ../src/funclib.c:6355
+#: ../src/funclib.c:6402
 msgid "Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even"
 msgstr "Izračuna Jacobijev simbol (a/b) s Kroneckerjevo razširitvijo (a/2)=(2/a), ko je a lih ali (a/2)=0, ko je a sod"
 
-#: ../src/funclib.c:6357
+#: ../src/funclib.c:6404
 msgid "Calculate the Legendre symbol (a/p)"
 msgstr "Izračunaj Legendrov simbol (a/p)"
 
-#: ../src/funclib.c:6360
+#: ../src/funclib.c:6407
 msgid "Get the real part of a complex number"
 msgstr "Dobi realni del kompleksnega števila"
 
-#: ../src/funclib.c:6363
+#: ../src/funclib.c:6410
 msgid "Get the imaginary part of a complex number"
 msgstr "Dobi imaginarni del kompleksnega števila"
 
-#: ../src/funclib.c:6367
+#: ../src/funclib.c:6414
 msgid "Make an identity matrix of a given size"
 msgstr "Naredi identično matriko dane velikosti"
 
-#: ../src/funclib.c:6370
+#: ../src/funclib.c:6417
 msgid "Make an matrix of all zeros (or a row vector)"
 msgstr "Naredi matriko iz samih ničel (ali vektor vrstice)"
 
-#: ../src/funclib.c:6372
+#: ../src/funclib.c:6419
 msgid "Make an matrix of all ones (or a row vector)"
 msgstr "Naredi matriko iz samih enk (ali vektor vrstice)"
 
-#: ../src/funclib.c:6375
+#: ../src/funclib.c:6422
 msgid "Get the number of rows of a matrix"
 msgstr "Dobi število vrstic matrike"
 
-#: ../src/funclib.c:6376
+#: ../src/funclib.c:6423
 msgid "Get the number of columns of a matrix"
 msgstr "Dobi število stolpcev matrike"
 
-#: ../src/funclib.c:6377
+#: ../src/funclib.c:6424
 msgid "Is a matrix square"
 msgstr "Je matrika kvadratna"
 
-#: ../src/funclib.c:6378
+#: ../src/funclib.c:6425
 msgid "Is argument a horizontal or a vertical vector"
 msgstr "Je argument vodoravni ali navpični vektor"
 
-#: ../src/funclib.c:6379
+#: ../src/funclib.c:6426
 msgid "Is a matrix upper triangular"
 msgstr "Je matrika zgornja trikotna"
 
-#: ../src/funclib.c:6380
+#: ../src/funclib.c:6427
 msgid "Is a matrix lower triangular"
 msgstr "Je matrika spodnja trikotna"
 
-#: ../src/funclib.c:6381
+#: ../src/funclib.c:6428
 msgid "Is a matrix diagonal"
 msgstr "Je matrika diagonalna"
 
-#: ../src/funclib.c:6382
+#: ../src/funclib.c:6429
 msgid "Get the number of elements of a matrix"
 msgstr "Dobi število elementov matrike"
 
-#: ../src/funclib.c:6384
+#: ../src/funclib.c:6431
 msgid "Get the row echelon form of a matrix"
 msgstr ""
 
-#: ../src/funclib.c:6388
+#: ../src/funclib.c:6435
 msgid "Get the reduced row echelon form of a matrix"
 msgstr ""
 
-#: ../src/funclib.c:6392
+#: ../src/funclib.c:6439
 msgid "Solve linear system Mx=V, return solution V if there is a unique solution, null otherwise.  Extra two reference parameters can optionally be used to get the reduced M and V."
 msgstr "Reši linearni sistem Mx=V, vrne rešitev V, če obstaja edinstvena rešitev, v nasprotnem primeru vrne null. Dodatna dva referenčna parametra je mogoče izbirno uporabiti za pridobivanje reduciranega M in V."
 
-#: ../src/funclib.c:6395
+#: ../src/funclib.c:6442
 msgid "Get the determinant of a matrix"
 msgstr "Dobi determinanto matrike"
 
-#: ../src/funclib.c:6398
+#: ../src/funclib.c:6445
 #, fuzzy
 msgid "Return pivot columns of a matrix, that is columns which have a leading 1 in rref form, also returns the row where they occur"
 msgstr "Vrni pivotne stolpce matrike, to so stolpci ki imajo vodilno 1 v obliki rref, vrne tudi vrstico, kjer se pojavijo"
 
-#: ../src/funclib.c:6400
+#: ../src/funclib.c:6447
 msgid "Get the nullspace of a matrix"
 msgstr "Dobi ničti prostor matrike"
 
-#: ../src/funclib.c:6402
+#: ../src/funclib.c:6449
 msgid "Make new matrix of given size from old one"
 msgstr "Naredi novo matriko dane velikosti iz stare"
 
-#: ../src/funclib.c:6403
+#: ../src/funclib.c:6450
 msgid "Return the index complement of a vector of indexes"
 msgstr "Vrne indeks komplementaren vektorju indeksov"
 
-#: ../src/funclib.c:6404
-msgid "Get the hermitian product of two vectors"
-msgstr "Dobi hermitski produkt dveh vektorjev"
+#: ../src/funclib.c:6451
+#, fuzzy
+msgid "Get the Hermitian product of two vectors"
+msgstr "Pridobi hermitski produkt dveh vektorjev"
 
-#: ../src/funclib.c:6407
+#: ../src/funclib.c:6454
 msgid "Check if a matrix is a matrix of numbers"
 msgstr "Preveri, če je matrika matrika števil"
 
-#: ../src/funclib.c:6408
+#: ../src/funclib.c:6455
 msgid "Check if a matrix is an integer (non-complex) matrix"
 msgstr "Preveri, če je matrika celo številčna (ne-kompleksna) matrika"
 
-#: ../src/funclib.c:6409
+#: ../src/funclib.c:6456
 msgid "Check if a matrix is a rational (non-complex) matrix"
 msgstr "Preveri, če je matrika racionalna (ne-kompleksna) matrika"
 
-#: ../src/funclib.c:6410
+#: ../src/funclib.c:6457
 msgid "Check if a matrix is a real (non-complex) matrix"
 msgstr "Preveri, če je matrika realna (ne-kompleksna) matrika"
 
-#: ../src/funclib.c:6411
+#: ../src/funclib.c:6458
 msgid "Check if a matrix is positive, that is if each element is positive"
 msgstr "Preveri, če je matrika pozitivna, torej če so vsi elementi pozitivni"
 
-#: ../src/funclib.c:6412
+#: ../src/funclib.c:6459
 msgid "Check if a matrix is nonnegative, that is if each element is nonnegative"
 msgstr "Preveri, če je matrika nenegativna, torej če so vsi elementi nenegativni"
 
-#: ../src/funclib.c:6414
+#: ../src/funclib.c:6461
 msgid "Check if a number or a matrix is all zeros"
 msgstr "Preveri, če število ali matrika vsebuje same ničle"
 
-#: ../src/funclib.c:6415
+#: ../src/funclib.c:6462
 msgid "Check if a number or a matrix is 1 or identity respectively"
 msgstr "Preveri, če je število ali matrika 1 ali identiteta"
 
-#: ../src/funclib.c:6417
+#: ../src/funclib.c:6464
 msgid "Returns true if the element x is in the set X (where X is a vector pretending to be a set)"
 msgstr "Vrne prav, če je element x v množici X (kjer je X vektor, ki se pretvarja da je množica)"
 
-#: ../src/funclib.c:6418
+#: ../src/funclib.c:6465
 msgid "Returns true if X is a subset of Y"
 msgstr "Vrne prav, če je X podniz Y"
 
-#: ../src/funclib.c:6419
+#: ../src/funclib.c:6466
 msgid "Returns a set theoretic difference X-Y (X and Y are vectors pretending to be sets)"
 msgstr "Vrne množico teoretične razlike X-Y (X in Y sta vektorja, ki se pretvarjata da sta množici)"
 
 # Set = množica (matematično)
-#: ../src/funclib.c:6420
+#: ../src/funclib.c:6467
 msgid "Returns a set theoretic intersection of X and Y (X and Y are vectors pretending to be sets)"
 msgstr "Vrne množico teoretičnega preseka X in Y (X in Y sta vektorja, ki se pretvarjata da sta množici)"
 
-#: ../src/funclib.c:6422
+#: ../src/funclib.c:6469
 msgid "Check if argument is a null"
 msgstr "Preveri, če je argument null"
 
-#: ../src/funclib.c:6423
+#: ../src/funclib.c:6470
 msgid "Check if argument is a number"
 msgstr "Preveri, če je argument število"
 
-#: ../src/funclib.c:6424
+#: ../src/funclib.c:6471
 msgid "Check if argument is a boolean (and not a number)"
 msgstr "Preveri, če je argument boolova vrednost (in ne število)"
 
-#: ../src/funclib.c:6425
+#: ../src/funclib.c:6472
 msgid "Check if argument is a text string"
 msgstr "Preveri, če je argument niz besedila"
 
-#: ../src/funclib.c:6426
+#: ../src/funclib.c:6473
 msgid "Check if argument is a matrix"
 msgstr "Preveri, če je argument matrika"
 
-#: ../src/funclib.c:6427
+#: ../src/funclib.c:6474
 msgid "Check if argument is a function"
 msgstr "Preveri, če je argument funkcija"
 
-#: ../src/funclib.c:6428
+#: ../src/funclib.c:6475
 msgid "Check if argument is a function or an identifier"
 msgstr "Preveri, če je argument funkcija ali določilo"
 
-#: ../src/funclib.c:6429
+#: ../src/funclib.c:6476
 msgid "Check if argument is a function reference"
 msgstr "Preveri, če je argument sklic funkcije"
 
-#: ../src/funclib.c:6431
+#: ../src/funclib.c:6478
 msgid "Check if argument is a complex (non-real) number"
 msgstr "Preveri, če je argument kompleksno (ne-realno) število"
 
-#: ../src/funclib.c:6432
+#: ../src/funclib.c:6479
 msgid "Check if argument is a real number"
 msgstr "Preveri, če je argument realno število"
 
-#: ../src/funclib.c:6433
+#: ../src/funclib.c:6480
 msgid "Check if argument is an integer (non-complex)"
 msgstr "Preveri, če je argument celo število (ne-kompleksno)"
 
-#: ../src/funclib.c:6434
+#: ../src/funclib.c:6481
 msgid "Check if argument is a positive real integer"
 msgstr "Preveri, če je argument pozitivno realno število"
 
-#: ../src/funclib.c:6436
+#: ../src/funclib.c:6483
 msgid "Check if argument is a non-negative real integer"
 msgstr "Preveri, če je argument ne-negativno realno število"
 
-#: ../src/funclib.c:6437
+#: ../src/funclib.c:6484
 msgid "Check if argument is a possibly complex integer"
 msgstr "Preveri, če je argument morda kompleksno celo število"
 
-#: ../src/funclib.c:6439
+#: ../src/funclib.c:6486
 msgid "Check if argument is a rational number (non-complex)"
 msgstr "Preveri, če je argument racionalno število (ne-kompleksno)"
 
-#: ../src/funclib.c:6440
+#: ../src/funclib.c:6487
 msgid "Check if argument is a possibly complex rational number"
 msgstr "Preveri, če je argument morda kompleksno racionalno število"
 
-#: ../src/funclib.c:6441
+#: ../src/funclib.c:6488
 msgid "Check if argument is a floating point number (non-complex)"
 msgstr "Preveri, če je argument decimalno število (ne-kompleksno)"
 
-#: ../src/funclib.c:6443
+#: ../src/funclib.c:6490
 msgid "Add two polynomials (vectors)"
 msgstr "Seštej dva polinoma (vektorja)"
 
-#: ../src/funclib.c:6444
+#: ../src/funclib.c:6491
 msgid "Subtract two polynomials (as vectors)"
 msgstr "Odštej dva polinoma (kot vektorja)"
 
-#: ../src/funclib.c:6445
+#: ../src/funclib.c:6492
 msgid "Multiply two polynomials (as vectors)"
 msgstr "Pomnoži dva polinoma (kot vektorja)"
 
-#: ../src/funclib.c:6446
+#: ../src/funclib.c:6493
 msgid "Divide polynomial p by q, return the remainder in r"
 msgstr "Deli polinom p s q, vrni ostanek v r"
 
-#: ../src/funclib.c:6447
+#: ../src/funclib.c:6494
 msgid "Take polynomial (as vector) derivative"
 msgstr "Vzemi prvi odvod polinoma (kot vektor)"
 
-#: ../src/funclib.c:6448
+#: ../src/funclib.c:6495
 msgid "Take second polynomial (as vector) derivative"
 msgstr "Vzemi drugi odvod polinoma (kot vektor)"
 
-#: ../src/funclib.c:6449
+#: ../src/funclib.c:6496
 msgid "Trim zeros from a polynomial (as vector)"
 msgstr "Obreži ničle iz polinoma (kot vektor)"
 
-#: ../src/funclib.c:6450
+#: ../src/funclib.c:6497
 msgid "Check if a vector is usable as a polynomial"
 msgstr "Preveri, če je vektor uporaben kot polinom"
 
-#: ../src/funclib.c:6451
+#: ../src/funclib.c:6498
 msgid "Make string out of a polynomial (as vector)"
 msgstr "Naredi niz iz polinoma (kot vektor)"
 
-#: ../src/funclib.c:6452
+#: ../src/funclib.c:6499
 msgid "Make function out of a polynomial (as vector)"
 msgstr "Naredi funkcijo iz polinoma (kot vektor)"
 
-#: ../src/funclib.c:6454
+#: ../src/funclib.c:6501
 msgid "Find roots of a quadratic polynomial (given as vector of coefficients)"
 msgstr "Najde ničle kvadratnega polinoma (podane kot vektor koeficientov)"
 
-#: ../src/funclib.c:6456
+#: ../src/funclib.c:6503
 msgid "Get all combinations of k numbers from 1 to n as a vector of vectors"
 msgstr "Dobi vse kombinacije k števil od 1 do n kot vektor vektorjev"
 
-#: ../src/funclib.c:6457
+#: ../src/funclib.c:6504
 msgid "Get combination that would come after v in call to combinations, first combination should be [1:k]."
 msgstr "Dobi kombinacije, ki pridejo v klicu kombinacij za v, prva kombinacija bi morala biti [1:k]."
 
-#: ../src/funclib.c:6458
+#: ../src/funclib.c:6505
 msgid "Get all permutations of k numbers from 1 to n as a vector of vectors"
 msgstr "Dobi vse permutacije k števil od 1 do n kot vektor vektorjev"
 
-#: ../src/funclib.c:6460
+#: ../src/funclib.c:6507
 msgid "Calculate combinations (binomial coefficient)"
 msgstr "Izračunaj kombinacije (binomski koeficient)"
 
-#: ../src/funclib.c:6463
+#: ../src/funclib.c:6510
 msgid "Convert a string to a vector of ASCII values"
 msgstr "Pretvori niz v vektor vrednosti ASCII"
 
-#: ../src/funclib.c:6464
+#: ../src/funclib.c:6511
 msgid "Convert a vector of ASCII values to a string"
 msgstr "Pretvori vektor ASCII vrednosti v niz"
 
-#: ../src/funclib.c:6466
+#: ../src/funclib.c:6513
 msgid "Convert a string to a vector of 0-based alphabet values (positions in the alphabet string), -1's for unknown letters"
 msgstr "Pretvori niz v vektor 0-osnovanih vrednosti abecede (položajev v nizu abecede), -1 za neznane črke"
 
-#: ../src/funclib.c:6467
+#: ../src/funclib.c:6514
 msgid "Convert a vector of 0-based alphabet values (positions in the alphabet string) to a string"
 msgstr "Pretvori vektor 0-osnovanih vrednosti abecede (položajev v nizu abecede) v niz"
 
-#: ../src/funclib.c:6469
+#: ../src/funclib.c:6516
 msgid "Protect a variable from being modified.  It will be treated as a system defined variable from now on.  Protected parameters can still be modified."
 msgstr "Zaščiti spremenljivko pred spremembami. Od sedaj naprej bo obravnavana kot sistemsko določena spremenljivka. Zaščitene parametre je še vedno mogoče spreminjati."
 
-#: ../src/funclib.c:6470
+#: ../src/funclib.c:6517
 msgid "Unprotect a variable from being modified.  It will be treated as a user defined variable from now on."
 msgstr "Odstrani zaščito spremenljivke pred spremembami. Od sedaj bo obravnavana kot uporabniško določena spremenljivka."
 
-#: ../src/funclib.c:6471
+#: ../src/funclib.c:6518
 msgid "Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments\""
-msgstr ""
+msgstr "Določevanje zastavic funkcije, trenutno \"PropagateMod\" in \"NoModuloArguments\""
 
-#: ../src/funclib.c:6472
+#: ../src/funclib.c:6519
 msgid "Get current modulo from the context outside the function"
 msgstr "Dobi trenutni modul za vsebino zunaj funkcije"
 
-#: ../src/funclib.c:6473
+#: ../src/funclib.c:6520
 msgid "Check if a variable or function is defined"
 msgstr "Preveri, če je spremenljivka ali funkcija določena"
 
-#: ../src/funclib.c:6474
+#: ../src/funclib.c:6521
 msgid "Undefine a variable (including all locals and globals of the same name)"
 msgstr "Odstrani definicijo spremenljivke (vključno z vsemi krajevnimi in splošnimi spremenljivkami z enakim imenom)"
 
-#: ../src/funclib.c:6476
+#: ../src/funclib.c:6523
 msgid "Undefine all unprotected (user defined) global variables and parameters.  Does not reset or change protected (system) parameters."
 msgstr "Odstrani definicije vseh nezaščitenih (uporabniško določenih) splošnih spremenljivk in parametrov. Ne ponastavi ali spremeni zaščitenih (sistemskih) parametrov."
 
-#: ../src/funclib.c:6477
+#: ../src/funclib.c:6524
 msgid "Mark all currently defined variables as protected.  They will be treated as system defined variables from now on."
 msgstr "Označi vse trenutno definirane spremenljivke kot zaščitene. Od sedaj bodo obravnavane kot sistemsko določene spremenljivke."
 
-#: ../src/funclib.c:6478
+#: ../src/funclib.c:6525
 msgid "Return a vector of all global unprotected (user defined) variable names."
 msgstr "Vrni vektor vseh splošnih nezaščitenih (uporabniško določenih) imen spremenljivk."
 
-#: ../src/funclib.c:6480
+#: ../src/funclib.c:6527
 msgid "Parse a string (but do not execute)"
 msgstr "Razčleni niz (toda ne izvedi)"
 
-#: ../src/funclib.c:6481
+#: ../src/funclib.c:6528
 msgid "Parse and evaluate a string"
 msgstr "Razčleni in oceni niz"
 
-#: ../src/funclib.c:6483
+#: ../src/funclib.c:6530
 msgid "Ask a question and return a string.  Optionally pass in a default."
 msgstr "Postavi vprašanje in vrne niz. Izbirno je podan privzet niz."
 
-#: ../src/funclib.c:6484
+#: ../src/funclib.c:6531
 msgid "Ask a question and present a list of buttons.  Returns the 1-based index of the button pressed (or null on failure)."
 msgstr "Postavi vprašanje in predstavi seznam gumbov. Vrne 1-osnovni indeks pritisnjenega gumba (ali null ob napaki)"
 
-#: ../src/funclib.c:6486
+#: ../src/funclib.c:6533
 msgid "Integration of f by Composite Simpson's Rule on the interval [a,b] with n subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be even"
 msgstr "Integracija f po Simpsonovem pravilu na intervalu [a,b] z n podintervali z največjo napako f'''*h^4*(b-a)/180, n mora biti sodo"
 
@@ -2779,8 +2798,8 @@ msgstr "Izven obsega!\n"
 
 #: ../src/genius.c:351
 #: ../src/genius.lang.h:5
-#: ../src/gnome-genius.c:750
-#: ../src/gnome-genius.c:795
+#: ../src/gnome-genius.c:747
+#: ../src/gnome-genius.c:792
 msgid "Genius"
 msgstr "Genius"
 
@@ -2883,7 +2902,7 @@ msgstr ""
 "\n"
 
 #: ../src/genius.c:610
-#: ../src/gnome-genius.c:5139
+#: ../src/gnome-genius.c:5021
 msgid "The only thing that interferes with my learning is my education.  -- Albert Einstein"
 msgstr "Edina stvar, ki se vmešava v moje učenje, je moja izobrazba. -- Albert Einstein"
 
@@ -2893,9 +2912,8 @@ msgid "Can't open file"
 msgstr "Ni mogoče odpreti datoteke"
 
 #: ../src/genius.lang.h:1
-#, fuzzy
 msgid "Base-N Integers"
-msgstr "Osnovna pot:"
+msgstr "Cela števila z osnovo N"
 
 #: ../src/genius.lang.h:2
 msgid "Commands"
@@ -2925,342 +2943,342 @@ msgstr "Skripti"
 msgid "String"
 msgstr "Niz"
 
-#: ../src/gnome-genius.c:255
+#: ../src/gnome-genius.c:252
 msgid "_File"
 msgstr "_Datoteka"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:256
+#: ../src/gnome-genius.c:253
 msgid "_Edit"
 msgstr "_Uredi"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:257
+#: ../src/gnome-genius.c:254
 msgid "_Calculator"
 msgstr "_Računalo"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:258
+#: ../src/gnome-genius.c:255
 msgid "P_lugins"
 msgstr "_Vstavki"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:259
+#: ../src/gnome-genius.c:256
 msgid "_Programs"
 msgstr "_Programi"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:260
+#: ../src/gnome-genius.c:257
 msgid "_Settings"
 msgstr "_Nastavitve"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:261
+#: ../src/gnome-genius.c:258
 msgid "_Help"
 msgstr "Pomo_č"
 
 #. name, stock id, label
 #. name, stock id
-#: ../src/gnome-genius.c:263
+#: ../src/gnome-genius.c:260
 msgid "_New Program"
 msgstr "_Nov program"
 
 #. label, accelerator
-#: ../src/gnome-genius.c:264
-#: ../src/gnome-genius.c:268
+#: ../src/gnome-genius.c:261
+#: ../src/gnome-genius.c:265
 msgid "Create new program tab"
 msgstr "Ustvari nov programski zavihek"
 
-#: ../src/gnome-genius.c:267
+#: ../src/gnome-genius.c:264
 msgid "New"
 msgstr "Nov"
 
 #. name, stock id
-#: ../src/gnome-genius.c:271
+#: ../src/gnome-genius.c:268
 msgid "_Open..."
 msgstr "_Odpri ..."
 
 #. label, accelerator
-#: ../src/gnome-genius.c:272
-#: ../src/gnome-genius.c:276
+#: ../src/gnome-genius.c:269
+#: ../src/gnome-genius.c:273
 msgid "Open a file"
 msgstr "Odpre datoteko"
 
-#: ../src/gnome-genius.c:275
+#: ../src/gnome-genius.c:272
 msgid "Open"
 msgstr "Odpri"
 
 #. name, stock id
-#: ../src/gnome-genius.c:279
+#: ../src/gnome-genius.c:276
 msgid "_Save"
 msgstr "_Shrani"
 
 #. label, accelerator
-#: ../src/gnome-genius.c:280
+#: ../src/gnome-genius.c:277
 msgid "Save current file"
 msgstr "Shrani trenutno datoteko"
 
-#: ../src/gnome-genius.c:283
+#: ../src/gnome-genius.c:280
 msgid "Save All _Unsaved"
 msgstr "Shrani vse n_eshranjene"
 
-#: ../src/gnome-genius.c:284
+#: ../src/gnome-genius.c:281
 msgid "Save all unsaved programs"
 msgstr "Shrani vse neshranjene programe"
 
-#: ../src/gnome-genius.c:287
+#: ../src/gnome-genius.c:284
 msgid "Save _As..."
 msgstr "Shrani _kot ..."
 
-#: ../src/gnome-genius.c:288
+#: ../src/gnome-genius.c:285
 msgid "Save to a file"
 msgstr "Shranjevanje v datoteko"
 
-#: ../src/gnome-genius.c:291
+#: ../src/gnome-genius.c:288
 msgid "_Reload from Disk"
 msgstr "_Znova naloži z diska"
 
-#: ../src/gnome-genius.c:292
+#: ../src/gnome-genius.c:289
 msgid "Reload the selected program from disk"
 msgstr "Znova naloži izbranega programa z diska"
 
-#: ../src/gnome-genius.c:295
+#: ../src/gnome-genius.c:292
 msgid "_Close"
 msgstr "_Zapri"
 
-#: ../src/gnome-genius.c:296
+#: ../src/gnome-genius.c:293
 msgid "Close the current file"
 msgstr "Zapre trenutno datoteko"
 
-#: ../src/gnome-genius.c:299
+#: ../src/gnome-genius.c:296
 msgid "_Load and Run..."
 msgstr "_Naloži in poženi ..."
 
-#: ../src/gnome-genius.c:300
+#: ../src/gnome-genius.c:297
 msgid "Load and execute a file in genius"
 msgstr "Naloži in izvede datoteko v genius"
 
-#: ../src/gnome-genius.c:303
+#: ../src/gnome-genius.c:300
 msgid "Save Console Ou_tput..."
 msgstr "Shrani iz_hod konzole ..."
 
-#: ../src/gnome-genius.c:304
+#: ../src/gnome-genius.c:301
 msgid "Save what is visible on the console (including scrollback) to a text file"
 msgstr "Shrani vidne podatke na konzoli (vključno s pomnilnikom vrstic) v besedilo datoteko"
 
-#: ../src/gnome-genius.c:307
+#: ../src/gnome-genius.c:304
 msgid "_Quit"
 msgstr "_Končaj"
 
-#: ../src/gnome-genius.c:308
+#: ../src/gnome-genius.c:305
 msgid "Quit"
 msgstr "Končaj"
 
-#: ../src/gnome-genius.c:312
+#: ../src/gnome-genius.c:309
 msgid "_Undo"
 msgstr "_Razveljavi"
 
-#: ../src/gnome-genius.c:313
+#: ../src/gnome-genius.c:310
 msgid "Undo the last action"
 msgstr "Razveljavi zadnje dejanje"
 
-#: ../src/gnome-genius.c:316
+#: ../src/gnome-genius.c:313
 msgid "_Redo"
 msgstr "_Uveljavi"
 
-#: ../src/gnome-genius.c:317
+#: ../src/gnome-genius.c:314
 msgid "Redo the undone action"
 msgstr "Uveljavi razveljavljeno dejanje"
 
-#: ../src/gnome-genius.c:321
+#: ../src/gnome-genius.c:318
 msgid "Cu_t"
 msgstr "_Izreži"
 
-#: ../src/gnome-genius.c:322
+#: ../src/gnome-genius.c:319
 msgid "Cut the selection"
 msgstr "Izreže izbor"
 
-#: ../src/gnome-genius.c:325
+#: ../src/gnome-genius.c:322
 msgid "_Copy"
 msgstr "_Kopiraj"
 
-#: ../src/gnome-genius.c:326
+#: ../src/gnome-genius.c:323
 msgid "Copy the selection"
 msgstr "Kopira izbor"
 
-#: ../src/gnome-genius.c:329
+#: ../src/gnome-genius.c:326
 msgid "_Paste"
 msgstr "_Prilepi"
 
-#: ../src/gnome-genius.c:330
+#: ../src/gnome-genius.c:327
 msgid "Paste the clipboard"
 msgstr "Prilepi odložišče"
 
-#: ../src/gnome-genius.c:333
+#: ../src/gnome-genius.c:330
 msgid "Copy Answer As Plain Te_xt"
 msgstr "Kopiraj odgovor kot običajno be_sedilo"
 
-#: ../src/gnome-genius.c:334
+#: ../src/gnome-genius.c:331
 msgid "Copy last answer into the clipboard in plain text"
 msgstr "Kopira zadnji odgovor na odložišče kot običajno besedilo"
 
-#: ../src/gnome-genius.c:337
+#: ../src/gnome-genius.c:334
 msgid "Copy Answer As _LaTeX"
 msgstr "Kopiraj odgovor kot _LaTeX"
 
-#: ../src/gnome-genius.c:338
+#: ../src/gnome-genius.c:335
 msgid "Copy last answer into the clipboard as LaTeX"
 msgstr "Kopira zadnji odgovor na odložišče kot LaTeX"
 
-#: ../src/gnome-genius.c:341
+#: ../src/gnome-genius.c:338
 msgid "Copy Answer As _MathML"
 msgstr "Kopiraj odgovor kot _MathML"
 
-#: ../src/gnome-genius.c:342
+#: ../src/gnome-genius.c:339
 msgid "Copy last answer into the clipboard as MathML"
 msgstr "Kopira zadnji odgovor na odložišče kot MathML"
 
-#: ../src/gnome-genius.c:345
+#: ../src/gnome-genius.c:342
 msgid "Copy Answer As T_roff"
 msgstr "Kopiraj odgovor kot T_roff"
 
-#: ../src/gnome-genius.c:346
+#: ../src/gnome-genius.c:343
 msgid "Copy last answer into the clipboard as Troff eqn"
 msgstr "Kopira zadnji odgovor na odložišče kot enačbo Troff"
 
-#: ../src/gnome-genius.c:349
+#: ../src/gnome-genius.c:346
 msgid "_Run"
 msgstr "_Zaženi"
 
-#: ../src/gnome-genius.c:350
+#: ../src/gnome-genius.c:347
 msgid "Run current program"
 msgstr "Zažene trenutni program"
 
-#: ../src/gnome-genius.c:353
+#: ../src/gnome-genius.c:350
 msgid "_Interrupt"
 msgstr "_Prekini"
 
-#: ../src/gnome-genius.c:354
+#: ../src/gnome-genius.c:351
 msgid "Interrupt current calculation"
 msgstr "Prekine trenutni izračun"
 
-#: ../src/gnome-genius.c:357
+#: ../src/gnome-genius.c:354
 msgid "Show _Full Answer"
 msgstr "Pokaži _polen odgovor"
 
-#: ../src/gnome-genius.c:358
+#: ../src/gnome-genius.c:355
 msgid "Show the full text of last answer"
 msgstr "Pokaže polno besedilo zadnjega odgovora"
 
-#: ../src/gnome-genius.c:361
+#: ../src/gnome-genius.c:358
 msgid "Show User _Variables"
 msgstr "Pokaži uporabniške _spremenljivke"
 
-#: ../src/gnome-genius.c:362
+#: ../src/gnome-genius.c:359
 msgid "Show the current value of all user variables"
 msgstr "Pokaže trenutno vrednost vseh uporabniških spremenljivk"
 
-#: ../src/gnome-genius.c:365
+#: ../src/gnome-genius.c:362
 msgid "_Monitor a Variable"
 msgstr "_Nadziraj spremenljivko"
 
-#: ../src/gnome-genius.c:366
+#: ../src/gnome-genius.c:363
 msgid "Monitor a variable continuously"
 msgstr "Nenehno nadzira spremenljivko"
 
-#: ../src/gnome-genius.c:369
+#: ../src/gnome-genius.c:366
 msgid "_Plot..."
 msgstr "_Graf ..."
 
-#: ../src/gnome-genius.c:370
-#: ../src/gnome-genius.c:374
+#: ../src/gnome-genius.c:367
+#: ../src/gnome-genius.c:371
 msgid "Plot functions, vector fields, surfaces, etc..."
 msgstr "Izriše grafe funkcij, vektorskih polj, površin, itn ..."
 
-#: ../src/gnome-genius.c:373
-#: ../src/gnome-genius.c:567
-#: ../src/graphing.c:5730
+#: ../src/gnome-genius.c:370
+#: ../src/gnome-genius.c:564
+#: ../src/graphing.c:5958
 msgid "_Plot"
 msgstr "_Izriši graf"
 
-#: ../src/gnome-genius.c:377
+#: ../src/gnome-genius.c:374
 msgid "_Next Tab"
 msgstr "_Naslednji zavihek"
 
-#: ../src/gnome-genius.c:378
+#: ../src/gnome-genius.c:375
 msgid "Go to next tab"
 msgstr "Gre na naslednji zavihek"
 
-#: ../src/gnome-genius.c:381
+#: ../src/gnome-genius.c:378
 msgid "_Previous Tab"
 msgstr "_Predhodni zavihek"
 
-#: ../src/gnome-genius.c:382
+#: ../src/gnome-genius.c:379
 msgid "Go to previous tab"
 msgstr "Gre na predhodni zavihek"
 
-#: ../src/gnome-genius.c:385
+#: ../src/gnome-genius.c:382
 msgid "_Console"
 msgstr "_Konzola"
 
-#: ../src/gnome-genius.c:386
+#: ../src/gnome-genius.c:383
 msgid "Go to the console tab"
 msgstr "Gre na zavihek konzole"
 
-#: ../src/gnome-genius.c:389
+#: ../src/gnome-genius.c:386
 msgid "_Preferences"
 msgstr "_Možnosti"
 
-#: ../src/gnome-genius.c:390
+#: ../src/gnome-genius.c:387
 msgid "Configure Genius"
 msgstr "Nastavitev Geniusa"
 
-#: ../src/gnome-genius.c:393
+#: ../src/gnome-genius.c:390
 msgid "_Contents"
 msgstr "_Vsebina"
 
-#: ../src/gnome-genius.c:394
+#: ../src/gnome-genius.c:391
 msgid "View the Genius manual"
 msgstr "Ogled priročnika Genius"
 
-#: ../src/gnome-genius.c:397
+#: ../src/gnome-genius.c:394
 msgid "_Help on Function"
 msgstr "_Pomoč o funkciji"
 
-#: ../src/gnome-genius.c:398
+#: ../src/gnome-genius.c:395
 msgid "Help on a function or a command"
 msgstr "Pomoč o funkciji ali ukazu"
 
-#: ../src/gnome-genius.c:401
+#: ../src/gnome-genius.c:398
 msgid "_Warranty"
 msgstr "_Garancija"
 
-#: ../src/gnome-genius.c:402
+#: ../src/gnome-genius.c:399
 msgid "Display warranty information"
 msgstr "Prikaži podrobnosti garancije"
 
-#: ../src/gnome-genius.c:405
+#: ../src/gnome-genius.c:402
 msgid "_About"
 msgstr "_O Programu"
 
-#: ../src/gnome-genius.c:406
+#: ../src/gnome-genius.c:403
 msgid "About Genius"
 msgstr "O programu"
 
-#: ../src/gnome-genius.c:854
+#: ../src/gnome-genius.c:851
 msgid "Help on Function"
 msgstr "Pomoč o funkciji"
 
-#: ../src/gnome-genius.c:872
+#: ../src/gnome-genius.c:869
 msgid "Function or command name:"
 msgstr "Ime funkcije ali ukaza:"
 
-#: ../src/gnome-genius.c:905
+#: ../src/gnome-genius.c:902
 #, c-format
 msgid "<b>Help on %s not found</b>"
 msgstr "<b>Pomoči o %s ni mogoče najti</b>"
 
-#: ../src/gnome-genius.c:909
+#: ../src/gnome-genius.c:906
 #, c-format
 msgid ""
 "<b>Help on %s not found</b>\n"
@@ -3271,15 +3289,15 @@ msgstr ""
 "\n"
 "Morda ste mislili %s."
 
-#: ../src/gnome-genius.c:964
+#: ../src/gnome-genius.c:961
 msgid "Error"
 msgstr "Napaka"
 
-#: ../src/gnome-genius.c:966
+#: ../src/gnome-genius.c:963
 msgid "Information"
 msgstr "Podrobnosti"
 
-#: ../src/gnome-genius.c:1052
+#: ../src/gnome-genius.c:1049
 msgid ""
 "Global variables:\n"
 "\n"
@@ -3287,7 +3305,7 @@ msgstr ""
 "Splošne spremenljivke:\n"
 "\n"
 
-#: ../src/gnome-genius.c:1085
+#: ../src/gnome-genius.c:1082
 msgid ""
 "\n"
 "Function call stack:\n"
@@ -3295,8 +3313,8 @@ msgstr ""
 "\n"
 "Klicni sklad funkcije:\n"
 
-#: ../src/gnome-genius.c:1087
-#: ../src/gnome-genius.c:1146
+#: ../src/gnome-genius.c:1084
+#: ../src/gnome-genius.c:1143
 msgid ""
 "(depth of context in parentheses)\n"
 "\n"
@@ -3304,7 +3322,7 @@ msgstr ""
 "(globina vsebine v oklepajih)\n"
 "\n"
 
-#: ../src/gnome-genius.c:1144
+#: ../src/gnome-genius.c:1141
 msgid ""
 "\n"
 "Local variables:\n"
@@ -3312,56 +3330,56 @@ msgstr ""
 "\n"
 "Krajevne spremenljivke:\n"
 
-#: ../src/gnome-genius.c:1198
+#: ../src/gnome-genius.c:1195
 msgid "User Variable Listing"
 msgstr "Seznam uporabniških spremenljivk"
 
-#: ../src/gnome-genius.c:1306
+#: ../src/gnome-genius.c:1303
 #, c-format
 msgid "%s undefined"
 msgstr "%s nedoločeno"
 
 #. printed before a global variable
-#: ../src/gnome-genius.c:1341
+#: ../src/gnome-genius.c:1338
 msgid "(global) "
 msgstr "(splošno)"
 
 #. printed before local variable in certain
 #. * context
-#: ../src/gnome-genius.c:1345
+#: ../src/gnome-genius.c:1342
 #, c-format
 msgid "(context %d) "
 msgstr "(vsebina %d)"
 
-#: ../src/gnome-genius.c:1367
+#: ../src/gnome-genius.c:1364
 #, c-format
 msgid "%s not a user variable"
 msgstr "%s ni uporabniška spremenljivka"
 
-#: ../src/gnome-genius.c:1401
+#: ../src/gnome-genius.c:1398
 #, c-format
 msgid "Monitoring: %s"
 msgstr "Nadziranje: %s"
 
-#: ../src/gnome-genius.c:1449
+#: ../src/gnome-genius.c:1446
 msgid "Update continuously"
 msgstr "Nenehno posodabljaj"
 
-#: ../src/gnome-genius.c:1480
+#: ../src/gnome-genius.c:1477
 msgid "Monitor a Variable"
 msgstr "Nadzoruj spremenljivko"
 
-#: ../src/gnome-genius.c:1497
+#: ../src/gnome-genius.c:1494
 msgid "Variable name:"
 msgstr "Ime spremenljivke:"
 
 #. error
 #. always textbox
-#: ../src/gnome-genius.c:1553
+#: ../src/gnome-genius.c:1550
 msgid "Full Answer"
 msgstr "Poln odgovor"
 
-#: ../src/gnome-genius.c:1569
+#: ../src/gnome-genius.c:1566
 #, c-format
 msgid ""
 "\n"
@@ -3370,12 +3388,12 @@ msgstr ""
 "\n"
 "Preveč napak! (%d je sledilo)"
 
-#: ../src/gnome-genius.c:1584
+#: ../src/gnome-genius.c:1581
 #, c-format
 msgid "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
 msgstr "\\e[01;31mPreveč napak! (%d je sledilo)\\e[0m\n"
 
-#: ../src/gnome-genius.c:1704
+#: ../src/gnome-genius.c:1698
 #, c-format
 msgid ""
 "<b>Cannot display help</b>\n"
@@ -3386,21 +3404,11 @@ msgstr ""
 "\n"
 "%s"
 
-#. parent
-#: ../src/gnome-genius.c:1737
-msgid "Genius manual not found.  Perhaps the installation is not correct."
-msgstr "Priročnika Genius ni mogoče najti. Morda namestitev ni pravilna."
-
-#. parent
-#: ../src/gnome-genius.c:1765
-msgid "Command 'xdg-open' is not found.  Cannot open help."
-msgstr "Ukaza 'xdg-open' ni mogoče najti. Ni mogoče odpreti pomoči."
-
-#: ../src/gnome-genius.c:1837
+#: ../src/gnome-genius.c:1770
 msgid "Nils Barth (initial implementation of parts of the GEL library)"
 msgstr "Nils Barth (začetna podpora delov knjižnice GEL)"
 
-#: ../src/gnome-genius.c:1838
+#: ../src/gnome-genius.c:1771
 msgid "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"
 msgstr "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - gradniki izrisovanja grafov)"
 
@@ -3408,19 +3416,19 @@ msgstr "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - gradniki izrisovanja
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: ../src/gnome-genius.c:1852
+#: ../src/gnome-genius.c:1785
 msgid "translator-credits"
 msgstr "Andrej Žnidaršič <andrej.znidarsic@gmail.com>"
 
-#: ../src/gnome-genius.c:1900
+#: ../src/gnome-genius.c:1833
 msgid "Genius Mathematical Tool"
 msgstr "Genius matematično orodje"
 
-#: ../src/gnome-genius.c:1904
+#: ../src/gnome-genius.c:1837
 msgid "The Gnome calculator style edition of the Genius Mathematical Tool."
 msgstr "Izdaja matematičnega orodja Genius v slogu računala Gnome."
 
-#: ../src/gnome-genius.c:2100
+#: ../src/gnome-genius.c:2027
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -3428,79 +3436,79 @@ msgstr ""
 "Genius izvaja opravilo in obstajajo neshranjeni programi.\n"
 "Ali ste prepričani, da želite končati?"
 
-#: ../src/gnome-genius.c:2108
+#: ../src/gnome-genius.c:2035
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr "Obstajajo neshranjeni programi, ali ste prepričani da želite končati?"
 
-#: ../src/gnome-genius.c:2115
+#: ../src/gnome-genius.c:2042
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr "Program izvaja opravilo, ali ste prepričani da želite končati?"
 
-#: ../src/gnome-genius.c:2122
+#: ../src/gnome-genius.c:2049
 msgid "Are you sure you wish to quit?"
 msgstr "Ali ste prepričani, da želite končati?"
 
-#: ../src/gnome-genius.c:2243
+#: ../src/gnome-genius.c:2163
 msgid "Genius Setup"
 msgstr "Nastavitve programa"
 
-#: ../src/gnome-genius.c:2261
+#: ../src/gnome-genius.c:2181
 msgid "Output"
 msgstr "Izhod"
 
-#: ../src/gnome-genius.c:2264
+#: ../src/gnome-genius.c:2184
 msgid "Number/Expression output options"
 msgstr "Izhodne možnosti števila/izraza"
 
-#: ../src/gnome-genius.c:2274
+#: ../src/gnome-genius.c:2194
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Največje število številk za izhod (0=neomejeno)"
 
-#: ../src/gnome-genius.c:2294
+#: ../src/gnome-genius.c:2214
 msgid "Results as floats"
 msgstr "Rezultati kot decimalna števila"
 
-#: ../src/gnome-genius.c:2302
+#: ../src/gnome-genius.c:2222
 msgid "Floats in scientific notation"
 msgstr "Decimalna mesta v znanstvenem zapisu"
 
-#: ../src/gnome-genius.c:2310
+#: ../src/gnome-genius.c:2230
 msgid "Always print full expressions"
 msgstr "Vedno natisni polne izraze"
 
-#: ../src/gnome-genius.c:2318
+#: ../src/gnome-genius.c:2238
 msgid "Use mixed fractions"
 msgstr "Uporabi mešane ulomke"
 
-#: ../src/gnome-genius.c:2371
+#: ../src/gnome-genius.c:2291
 msgid "Remember output settings across sessions"
 msgstr "Zapomni si izhodne nastavitve čez seje"
 
-#: ../src/gnome-genius.c:2381
+#: ../src/gnome-genius.c:2301
 msgid "Should the output settings in the \"Number/Expression output options\" frame be remembered for next session.  Does not apply to the \"Error/Info output options\" frame."
 msgstr "Ali naj bodo izhodne nastavitve v okvirju \"možnosti izhoda števila/izraza\" zapomnjene za naslednjo sejo. Ne velja za okvir \"Možnosti izhoda napak/podrobnosti\"."
 
-#: ../src/gnome-genius.c:2386
+#: ../src/gnome-genius.c:2306
 msgid "Error/Info output options"
 msgstr "Možnosti izhoda napak/podrobnosti"
 
-#: ../src/gnome-genius.c:2394
+#: ../src/gnome-genius.c:2314
 msgid "Display errors in a dialog"
 msgstr "Prikaži napake v pogovornem oknu"
 
-#: ../src/gnome-genius.c:2402
+#: ../src/gnome-genius.c:2322
 msgid "Display information messages in a dialog"
 msgstr "Prikaži sporočila podrobnosti v pogovornem oknu"
 
-#: ../src/gnome-genius.c:2413
+#: ../src/gnome-genius.c:2333
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Največ napak za prikaz (0=neomejeno)"
 
-#: ../src/gnome-genius.c:2437
+#: ../src/gnome-genius.c:2357
 msgid "Precision"
 msgstr "Natančnost"
 
-#: ../src/gnome-genius.c:2447
+#: ../src/gnome-genius.c:2367
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -3510,51 +3518,51 @@ msgstr ""
 "učinka nemudoma. Vplivala bo le na novo izračunana\n"
 "števila in nove spremenljivke."
 
-#: ../src/gnome-genius.c:2456
+#: ../src/gnome-genius.c:2376
 msgid "Floating point precision (bits)"
 msgstr "Natančnost plavajoče vejice (biti)"
 
-#: ../src/gnome-genius.c:2475
+#: ../src/gnome-genius.c:2395
 msgid "Remember precision setting across sessions"
 msgstr "Pomnjenje nastavitve natančnosti čez seje"
 
-#: ../src/gnome-genius.c:2484
+#: ../src/gnome-genius.c:2404
 msgid "Should the precision setting be remembered for next session."
 msgstr "Ali naj bo nastavitev natančnosti pomnjenja za naslednjo sejo."
 
-#: ../src/gnome-genius.c:2492
+#: ../src/gnome-genius.c:2412
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ../src/gnome-genius.c:2494
+#: ../src/gnome-genius.c:2414
 msgid "Terminal options"
 msgstr "Možnosti terminala"
 
-#: ../src/gnome-genius.c:2503
+#: ../src/gnome-genius.c:2423
 msgid "Scrollback lines"
 msgstr "Pomnjene vrstice"
 
-#: ../src/gnome-genius.c:2526
+#: ../src/gnome-genius.c:2446
 msgid "Font:"
 msgstr "Pisava:"
 
-#: ../src/gnome-genius.c:2537
+#: ../src/gnome-genius.c:2457
 msgid "Black on white"
 msgstr "Črno na belem"
 
-#: ../src/gnome-genius.c:2545
+#: ../src/gnome-genius.c:2465
 msgid "Blinking cursor"
 msgstr "Utripanje kazalke"
 
-#: ../src/gnome-genius.c:2558
+#: ../src/gnome-genius.c:2478
 msgid "Memory"
 msgstr "Pomnilnik"
 
-#: ../src/gnome-genius.c:2561
+#: ../src/gnome-genius.c:2481
 msgid "Limits"
 msgstr "Meje"
 
-#: ../src/gnome-genius.c:2568
+#: ../src/gnome-genius.c:2488
 msgid ""
 "When the limit is reached you will be asked if\n"
 "you wish to interrupt the calculation or continue.\n"
@@ -3564,11 +3572,11 @@ msgstr ""
 "želite prekiniti izračun ali nadaljevati.\n"
 "Nastavljanje na 0 onemogoči mejo."
 
-#: ../src/gnome-genius.c:2577
+#: ../src/gnome-genius.c:2497
 msgid "Maximum number of nodes to allocate"
 msgstr "Največje število vozlov za dodelitev"
 
-#: ../src/gnome-genius.c:2617
+#: ../src/gnome-genius.c:2537
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -3578,77 +3586,77 @@ msgstr ""
 "\n"
 "Poskusite znova kasneje ali prekinite trenutno opravilo."
 
-#: ../src/gnome-genius.c:2645
+#: ../src/gnome-genius.c:2565
 msgid "GEL files"
 msgstr "Datoteke GEL"
 
-#: ../src/gnome-genius.c:2650
-#: ../src/graphing.c:1082
+#: ../src/gnome-genius.c:2570
+#: ../src/graphing.c:1104
 msgid "All files"
 msgstr "Vse datoteke"
 
-#: ../src/gnome-genius.c:2674
-#: ../src/gnome-genius.c:3566
+#: ../src/gnome-genius.c:2594
+#: ../src/gnome-genius.c:3484
 msgid "Cannot open file!"
 msgstr "Ni mogoče odpreti datoteke!"
 
-#: ../src/gnome-genius.c:2684
-#: ../src/gnome-genius.c:4044
+#: ../src/gnome-genius.c:2604
+#: ../src/gnome-genius.c:3962
 msgid "Output from "
 msgstr "Izhod od"
 
-#: ../src/gnome-genius.c:2700
-#: ../src/gnome-genius.c:4113
+#: ../src/gnome-genius.c:2620
+#: ../src/gnome-genius.c:4031
 msgid "End"
 msgstr "Končaj"
 
-#: ../src/gnome-genius.c:2719
+#: ../src/gnome-genius.c:2639
 msgid "Load and Run"
 msgstr "Naloži in poženi"
 
-#: ../src/gnome-genius.c:2723
+#: ../src/gnome-genius.c:2643
 msgid "_Load"
 msgstr "_Naloži"
 
-#: ../src/gnome-genius.c:3242
+#: ../src/gnome-genius.c:3155
 msgid "Cannot open file"
 msgstr "Ni mogoče odpreti datoteke"
 
 #. context
-#: ../src/gnome-genius.c:3277
-#: ../src/gnome-genius.c:4708
+#: ../src/gnome-genius.c:3190
+#: ../src/gnome-genius.c:4629
 #, c-format
 msgid "Line: %d"
 msgstr "Vrstica: %d"
 
-#: ../src/gnome-genius.c:3465
+#: ../src/gnome-genius.c:3379
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Program_%d.gel"
 
-#: ../src/gnome-genius.c:3472
+#: ../src/gnome-genius.c:3390
 #, c-format
 msgid "Program %d"
 msgstr "Program %d"
 
-#: ../src/gnome-genius.c:3500
+#: ../src/gnome-genius.c:3418
 #, c-format
 msgid "Cannot open %s"
 msgstr "Ni mogoče odpreti %s"
 
-#: ../src/gnome-genius.c:3588
+#: ../src/gnome-genius.c:3506
 msgid "Open..."
 msgstr "Odpri ..."
 
-#: ../src/gnome-genius.c:3663
+#: ../src/gnome-genius.c:3581
 msgid "Program is read only"
 msgstr "Program je le za branje"
 
 #. new fname
-#: ../src/gnome-genius.c:3665
-#: ../src/gnome-genius.c:3697
-#: ../src/gnome-genius.c:3756
-#: ../src/gnome-genius.c:3885
+#: ../src/gnome-genius.c:3583
+#: ../src/gnome-genius.c:3615
+#: ../src/gnome-genius.c:3674
+#: ../src/gnome-genius.c:3803
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -3657,34 +3665,34 @@ msgstr ""
 "<b>Ni mogoče shraniti datoteke</b>\n"
 "Podrobnosti: %s"
 
-#: ../src/gnome-genius.c:3707
+#: ../src/gnome-genius.c:3625
 msgid "Save new programs by \"Save As..\" first!"
 msgstr "Najprej shranite nove programe s \"Shrani kot ...\"!"
 
-#: ../src/gnome-genius.c:3713
+#: ../src/gnome-genius.c:3631
 msgid "Some read-only programs are modified.  Use \"Save As..\" to save them to a new location."
 msgstr "Nekateri programi le za branje so spremenjeni. Za shranjevanje na drugo mesto uporabite \"Shrani kot ...\"."
 
-#: ../src/gnome-genius.c:3750
-#: ../src/gnome-genius.c:3865
-#: ../src/graphing.c:879
-#: ../src/graphing.c:985
+#: ../src/gnome-genius.c:3668
+#: ../src/gnome-genius.c:3783
+#: ../src/graphing.c:901
+#: ../src/graphing.c:1007
 msgid "File already exists.  Overwrite it?"
 msgstr "Datoteka že obstaja. Ali naj bo prepisana?"
 
-#: ../src/gnome-genius.c:3792
+#: ../src/gnome-genius.c:3710
 msgid "Save As..."
 msgstr "Shrani kot ..."
 
-#: ../src/gnome-genius.c:3919
+#: ../src/gnome-genius.c:3837
 msgid "Save Console Output..."
 msgstr "Shrani izhod konzole ..."
 
-#: ../src/gnome-genius.c:3982
+#: ../src/gnome-genius.c:3900
 msgid "The program you are closing is unsaved, are you sure you wish to close it without saving?"
 msgstr "Program, ki ga zapirate ni shranjen, ali ste prepričani da ga želite zapreti brez shranjevanja?"
 
-#: ../src/gnome-genius.c:4001
+#: ../src/gnome-genius.c:3919
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -3694,12 +3702,12 @@ msgstr ""
 "\n"
 "Ustvarite nov program ali izberite obstoječi zavihek v beležki."
 
-#: ../src/gnome-genius.c:4031
+#: ../src/gnome-genius.c:3949
 #, c-format
 msgid "Cannot open pipe: %s"
 msgstr "Ni mogoče odpreti cevi: %s"
 
-#: ../src/gnome-genius.c:4060
+#: ../src/gnome-genius.c:3978
 msgid ""
 "<b>Cannot execute program</b>\n"
 "\n"
@@ -3709,7 +3717,7 @@ msgstr ""
 "\n"
 "Ni mogoče razvejati."
 
-#: ../src/gnome-genius.c:4130
+#: ../src/gnome-genius.c:4048
 msgid ""
 "<b>Error executing program</b>\n"
 "\n"
@@ -3721,12 +3729,12 @@ msgstr ""
 "Med zapisovanjem programa v programnik je\n"
 "prišlo do napake."
 
-#: ../src/gnome-genius.c:4155
+#: ../src/gnome-genius.c:4073
 #, c-format
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: ../src/gnome-genius.c:4381
+#: ../src/gnome-genius.c:4299
 msgid "Memory (node number) limit has been reached, interrupt the computation?"
 msgstr "Meja pomnilnika (število vozlišč) je bila dosežena. Ali naj se izračun prekine?"
 
@@ -3735,15 +3743,15 @@ msgstr "Meja pomnilnika (število vozlišč) je bila dosežena. Ali naj se izra�
 #. textbox_title
 #. bind_response
 #. wrap
-#: ../src/gnome-genius.c:4461
+#: ../src/gnome-genius.c:4379
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Ni mogoče izvesti genius-readline-helper-fifo!\n"
 
-#: ../src/gnome-genius.c:4525
+#: ../src/gnome-genius.c:4446
 msgid "Readline helper died, weird.  Trying to recover, things may be odd."
 msgstr "Pomočnik readline se je zaprl. Program bo sejo poskušal obnoviti. Morda bodo stvari čudne."
 
-#: ../src/gnome-genius.c:4729
+#: ../src/gnome-genius.c:4650
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -3751,20 +3759,20 @@ msgstr ""
 "\n"
 "Opomba: Prevedeno brez GtkSourceView (boljši urejevalnik virov)"
 
-#: ../src/gnome-genius.c:4852
+#: ../src/gnome-genius.c:4742
 msgid "GNOME Genius"
 msgstr "GNOME Genius"
 
 #. parent
-#: ../src/gnome-genius.c:4903
+#: ../src/gnome-genius.c:4792
 msgid "Cannot find the library file, genius installation may be incorrect"
 msgstr "Ni mogoče najti datoteke knjižnice, morda je namestitev programa nepravilna"
 
-#: ../src/gnome-genius.c:4982
+#: ../src/gnome-genius.c:4871
 msgid "Console"
 msgstr "Konzola"
 
-#: ../src/gnome-genius.c:5073
+#: ../src/gnome-genius.c:4955
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -3789,710 +3797,745 @@ msgstr "Genius matematično orodje"
 msgid "Genius Mathematical Tool and Calculator"
 msgstr "Genius matematično orodje in računalo"
 
-#: ../src/graphing.c:560
+#: ../src/graphing.c:574
 msgid "Rotate"
 msgstr "Vrtenje"
 
-#: ../src/graphing.c:579
-msgid "Rotate X: "
-msgstr "Vrtenje X:"
+#: ../src/graphing.c:593
+#: ../src/graphing.c:622
+#, c-format
+msgid "Rotate about %s axis: "
+msgstr "Zavrti okoli osi %s:"
 
-#: ../src/graphing.c:604
-msgid "Rotate Y: "
-msgstr "Vrtenje Y:"
+#: ../src/graphing.c:651
+msgid "Rotate about dependent axis: "
+msgstr "Zavrti okoli odvisne osi:"
 
-#: ../src/graphing.c:629
-msgid "Rotate Z: "
-msgstr "Vrtenje Z:"
-
-#: ../src/graphing.c:737
+#: ../src/graphing.c:759
 msgid "Print"
 msgstr "Natisni"
 
-#: ../src/graphing.c:754
+#: ../src/graphing.c:776
 msgid "Print command: "
 msgstr "Ukaz tiskanja:"
 
-#: ../src/graphing.c:781
+#: ../src/graphing.c:803
 msgid "Cannot open temporary file, cannot print."
 msgstr "Začasne datoteke ni mogoče odpreti, zato je ni mogoče natisniti."
 
-#: ../src/graphing.c:808
+#: ../src/graphing.c:830
 msgid "Printing failed"
 msgstr "Tiskanje je spodletelo"
 
-#: ../src/graphing.c:820
+#: ../src/graphing.c:842
 #, c-format
 msgid "Printing failed: %s"
 msgstr "Tiskanje je spodletelo: %s"
 
-#: ../src/graphing.c:948
-#: ../src/graphing.c:1000
-#: ../src/graphing.c:1017
+#: ../src/graphing.c:970
+#: ../src/graphing.c:1022
+#: ../src/graphing.c:1039
 msgid "Export failed"
 msgstr "Izvoz je spodletel"
 
-#: ../src/graphing.c:1048
+#: ../src/graphing.c:1070
 msgid "Export encapsulated postscript"
 msgstr "Izvoz vloženega postscripta"
 
-#: ../src/graphing.c:1050
+#: ../src/graphing.c:1072
 msgid "Export postscript"
 msgstr "Izvoz postscript"
 
-#: ../src/graphing.c:1052
+#: ../src/graphing.c:1074
 msgid "Export PNG"
 msgstr "Izvoz PNG"
 
-#: ../src/graphing.c:1068
+#: ../src/graphing.c:1090
 msgid "EPS files"
 msgstr "Datoteke EPS"
 
-#: ../src/graphing.c:1072
+#: ../src/graphing.c:1094
 msgid "PS files"
 msgstr "Datoteke PS"
 
-#: ../src/graphing.c:1076
+#: ../src/graphing.c:1098
 msgid "PNG files"
 msgstr "Datoteke PNG"
 
-#: ../src/graphing.c:1649
+#: ../src/graphing.c:1683
 msgid "Solver"
 msgstr "Reševalnik"
 
-#: ../src/graphing.c:1654
+#: ../src/graphing.c:1688
 msgid "Clea_r solutions"
 msgstr "Počisti _rešitve"
 
-#: ../src/graphing.c:1656
+#: ../src/graphing.c:1690
 msgid "_Plot solution"
 msgstr "_Izriši graf rešitve"
 
-#: ../src/graphing.c:1677
+#: ../src/graphing.c:1711
 msgid "Clicking on the graph window now will draw a solution according to the parameters set below, starting at the point clicked.  To be able to zoom by mouse again, close this window."
 msgstr "Klik na okno grafa sedaj bo narisal rešitev glede na parametre nastavljene spodaj, začenjajoč s kliknjeno točko. Za ponovno zmožnost povečave z miško zaprite to okno."
 
-#: ../src/graphing.c:1699
+#: ../src/graphing.c:1733
 msgid "X increment:"
 msgstr "Povečevanje X:"
 
-#: ../src/graphing.c:1721
+#: ../src/graphing.c:1755
 msgid "T increment:"
 msgstr "Povečevanje T:"
 
-#: ../src/graphing.c:1725
+#: ../src/graphing.c:1759
 msgid "T interval length:"
 msgstr "Dolžina intervala T:"
 
-#: ../src/graphing.c:1739
+#: ../src/graphing.c:1773
 msgid "Point x:"
 msgstr "Točka x:"
 
-#: ../src/graphing.c:1744
+#: ../src/graphing.c:1778
 msgid "y:"
 msgstr "y:"
 
-#: ../src/graphing.c:1811
+#: ../src/graphing.c:1845
 msgid "Plot"
 msgstr "Graf"
 
-#: ../src/graphing.c:1846
+#: ../src/graphing.c:1880
 msgid "_Graph"
 msgstr "_Graf"
 
-#: ../src/graphing.c:1850
+#: ../src/graphing.c:1884
 msgid "_Print..."
 msgstr "Na_tisni ..."
 
-#: ../src/graphing.c:1856
+#: ../src/graphing.c:1890
 msgid "_Export postscript..."
 msgstr "_Izvozi postscript ..."
 
-#: ../src/graphing.c:1862
+#: ../src/graphing.c:1896
 msgid "E_xport encapsulated postscript..."
 msgstr "I_zvozi vložen postscript ..."
 
-#: ../src/graphing.c:1868
+#: ../src/graphing.c:1902
 msgid "Export P_NG..."
 msgstr "Izvozi P_NG ..."
 
-#: ../src/graphing.c:1880
+#: ../src/graphing.c:1914
 msgid "_Zoom"
 msgstr "_Povečava"
 
-#: ../src/graphing.c:1884
+#: ../src/graphing.c:1918
 msgid "Zoom _out"
 msgstr "Po_manjšaj"
 
-#: ../src/graphing.c:1891
+#: ../src/graphing.c:1925
 msgid "Zoom _in"
 msgstr "Po_večaj"
 
-#: ../src/graphing.c:1898
+#: ../src/graphing.c:1932
 msgid "_Fit dependent axis"
 msgstr "_Prilagodi odvisne osi"
 
-#: ../src/graphing.c:1905
+#: ../src/graphing.c:1939
 msgid "_Reset to original zoom"
 msgstr "_Ponastavi na izvorno velikost"
 
-#: ../src/graphing.c:1918
+#: ../src/graphing.c:1952
 msgid "_View"
 msgstr "_Pogled"
 
-#: ../src/graphing.c:1923
+#: ../src/graphing.c:1957
 msgid "_Reset angles"
 msgstr "_Ponastavi kote"
 
-#: ../src/graphing.c:1928
+#: ../src/graphing.c:1962
 msgid "_Top view"
 msgstr "_Zgornji pogled"
 
-#: ../src/graphing.c:1933
+#: ../src/graphing.c:1967
 msgid "R_otate axis..."
 msgstr "Z_avrti os ..."
 
-#: ../src/graphing.c:1943
+#: ../src/graphing.c:1977
 msgid "_Solver"
 msgstr "_Reševalnik"
 
-#: ../src/graphing.c:1948
+#: ../src/graphing.c:1982
 msgid "_Solver..."
 msgstr "_Reševalnik ..."
 
-#: ../src/graphing.c:1953
+#: ../src/graphing.c:1987
 msgid "_Clear solutions"
 msgstr "_Počisti rešitve"
 
-#: ../src/graphing.c:2858
+#: ../src/graphing.c:2892
 #, c-format
 msgid "Function"
 msgstr "Funkcija"
 
-#: ../src/graphing.c:2860
+#: ../src/graphing.c:2894
 #, c-format
 msgid "Function #%d"
 msgstr "Funkcija #%d"
 
-#: ../src/graphing.c:2869
+#: ../src/graphing.c:2903
 #: ../src/funclibhelper.cP:113
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: argument številka %d ni število"
 
-#: ../src/graphing.c:2882
+#: ../src/graphing.c:2916
 msgid "Graph limits not given as a 4-vector"
 msgstr "Meje grafa niso podane kot 4-vektor"
 
-#: ../src/graphing.c:2888
-#: ../src/graphing.c:2899
-#: ../src/graphing.c:2910
-#: ../src/graphing.c:2921
-#: ../src/graphing.c:3004
-#: ../src/graphing.c:3015
-#: ../src/graphing.c:3026
-#: ../src/graphing.c:3037
-#: ../src/graphing.c:3048
-#: ../src/graphing.c:3059
+#: ../src/graphing.c:2922
+#: ../src/graphing.c:2933
+#: ../src/graphing.c:2944
+#: ../src/graphing.c:2955
+#: ../src/graphing.c:3061
+#: ../src/graphing.c:3072
+#: ../src/graphing.c:3083
+#: ../src/graphing.c:3094
+#: ../src/graphing.c:3105
+#: ../src/graphing.c:3116
 msgid "Graph limits not given as numbers"
 msgstr "Meje grafa niso podane kot števila"
 
-#: ../src/graphing.c:2998
+#: ../src/graphing.c:3055
 msgid "Graph limits not given as a 6-vector"
 msgstr "Meje grafa niso podane kot 6-vektor"
 
-#: ../src/graphing.c:3132
-#: ../src/graphing.c:3150
-#: ../src/graphing.c:3164
+#: ../src/graphing.c:3189
+#: ../src/graphing.c:3207
+#: ../src/graphing.c:3221
 msgid "Ticks must be between 2 and 200"
 msgstr "Kljukice morajo biti med 2 in 200"
 
-#: ../src/graphing.c:3141
-#: ../src/graphing.c:3155
+#: ../src/graphing.c:3198
+#: ../src/graphing.c:3212
 msgid "Ticks not given as numbers"
 msgstr "Kljukice niso podane kot števila"
 
-#: ../src/graphing.c:3169
+#: ../src/graphing.c:3226
 msgid "Ticks not given as a number or a 2-vector"
 msgstr "Kljukice niso podane kot 2-vektor"
 
-#: ../src/graphing.c:4204
+#: ../src/graphing.c:4268
 #, c-format
 msgid "Type in function name or expression involving the %s and %s variables (or the %s variable which will be %s=%s+i%s) that gives the slope at the point (%s,%s)."
 msgstr "Vnesite imena funkcij ali izrazov, ki vključujejo spremenljivki %s in %s (ali spremenljivko %s, ki je %s=%s+i%s), ki dajo naklon v točki (%s,%s)."
 
-#: ../src/graphing.c:4229
-#: ../src/graphing.c:4236
+#: ../src/graphing.c:4293
+#: ../src/graphing.c:4300
+#: ../src/graphing.c:4464
+#: ../src/graphing.c:4471
 #, c-format
 msgid "%s from:"
 msgstr "%s od:"
 
-#: ../src/graphing.c:4243
-#: ../src/graphing.c:4250
+#: ../src/graphing.c:4307
+#: ../src/graphing.c:4314
 #, c-format
 msgid "%s increment:"
 msgstr "%s povečevanje:"
 
-#: ../src/graphing.c:4257
+#: ../src/graphing.c:4321
 #, c-format
 msgid "%s interval length:"
 msgstr "%s dolžina intervala:"
 
-#: ../src/graphing.c:4264
+#: ../src/graphing.c:4328
 #, c-format
 msgid "Point %s:"
 msgstr "Točka %s:"
 
-#: ../src/graphing.c:4277
+#: ../src/graphing.c:4341
 #, c-format
 msgid "Type in function names or expressions involving the %s and %s variables (or the %s variable which will be %s=%s+i%s) that give the d%s/d%s and d%s/d%s of the autonomous system to be plotted at the point (%s,%s)."
 msgstr "Vnesite imena funkcij ali izrazov, ki vključujejo spremenljivki %s in %s (ali spremenljivko %s, ki je %s=%s+i%s), ki dajo d%s/d%s in d%s/d%s avtonomnega sistema za izris v točki (%s,%s)."
 
-#: ../src/graphing.c:4313
+#: ../src/graphing.c:4377
 #, c-format
 msgid "Type in function names or expressions involving the %s variable in the boxes below to graph them"
 msgstr "Vnesite imena funkcij ali izrazov, ki vključujejo spremenljivko %s v polja spodaj za njihov izris"
 
-#: ../src/graphing.c:4330
+#: ../src/graphing.c:4394
 #, c-format
 msgid "Type in function names or expressions involving the %s variable in the boxes below to graph them.  Either fill in both boxes with %s= and %s= in front of them giving the %s and %s coordinates separately, or alternatively fill in the %s= box giving %s and %s as the real and imaginary part of a complex number."
 msgstr "Vnesite imena funkcij ali izrazov, ki vključujejo spremenljivko %s v polja spodaj za njihov izris. V primeru da zapolnite obe polji z %s= in %s= pred njima, s tem dobita %s in %s ločene koordinate.  V primeru da zapolnite polje %s= postaneta %s in %s realni in imaginarni del kompleksnega števila. "
 
-#: ../src/graphing.c:4371
+#: ../src/graphing.c:4435
 #, c-format
 msgid "Parameter %s from:"
 msgstr "Parameter %s od:"
 
-#: ../src/graphing.c:4415
+#: ../src/graphing.c:4449
+#, c-format
+msgid "Type a function name or an expression involving the %s and %s variables (or the %s variable which will be %s=%s+i%s) in the boxes below to graph them.  Functions with one argument only will be passed a complex number."
+msgstr "Vnesite ime funkcije ali izraza, ki vključuje spremenljivki %s in %s (ali spremenljivko %s, ki je določena kot %s=%s+i%s) v polja spodaj za izris grafa. Funkcijam z le enim argumentom bo podano kompleksno število. "
+
+#: ../src/graphing.c:4515
+#: ../src/graphing.c:4635
 msgid "Change variable names"
 msgstr "Sprememba imen spremenljivk"
 
-#: ../src/graphing.c:4431
+#: ../src/graphing.c:4531
+#: ../src/graphing.c:4651
 msgid "Some values were illegal"
 msgstr "Nekatere vrednosti so neveljavne"
 
-#: ../src/graphing.c:4435
+#: ../src/graphing.c:4535
+#: ../src/graphing.c:4655
 msgid "independent variable (x):"
 msgstr "neodvisna spremenljivka (x):"
 
-#: ../src/graphing.c:4445
+#: ../src/graphing.c:4545
 msgid "dependent variable (y):"
 msgstr "odvisna spremenljivka (y):"
 
-#: ../src/graphing.c:4455
+#: ../src/graphing.c:4555
 msgid "complex variable (z = x+iy):"
 msgstr "kompleksna spremenljivka (z = x+iy)"
 
-#: ../src/graphing.c:4465
+#: ../src/graphing.c:4565
 msgid "parameter variable (t):"
 msgstr "spremenljivka parametra (t):"
 
-#: ../src/graphing.c:4583
+#: ../src/graphing.c:4665
+msgid "independent variable (y):"
+msgstr "neodvisna spremenljivka (y):"
+
+#: ../src/graphing.c:4675
+msgid "independent complex variable (z = x+iy):"
+msgstr "neodvisna kompleksna spremenljivka (z = x+iy)"
+
+#: ../src/graphing.c:4785
 msgid "_Functions / Expressions"
 msgstr "_Funkcije / izrazi"
 
-#: ../src/graphing.c:4615
+#: ../src/graphing.c:4817
 msgid "or"
 msgstr "ali"
 
 #. t range
-#: ../src/graphing.c:4630
+#: ../src/graphing.c:4832
 msgid "Parameter t from:"
 msgstr "Parameter t od:"
 
-#: ../src/graphing.c:4634
-#: ../src/graphing.c:4772
-#: ../src/graphing.c:4784
-#: ../src/graphing.c:4842
-#: ../src/graphing.c:4853
-#: ../src/graphing.c:4864
+#: ../src/graphing.c:4836
+#: ../src/graphing.c:4974
+#: ../src/graphing.c:4986
+#: ../src/graphing.c:5058
+#: ../src/graphing.c:5070
+#: ../src/graphing.c:5081
 msgid "to:"
 msgstr "za:"
 
-#: ../src/graphing.c:4638
+#: ../src/graphing.c:4840
 msgid "by:"
 msgstr "od:"
 
-#: ../src/graphing.c:4645
+#: ../src/graphing.c:4847
 msgid "Pa_rametric"
 msgstr "Pa_rametrično"
 
 #. # of ticks
-#: ../src/graphing.c:4672
-#: ../src/graphing.c:4724
+#: ../src/graphing.c:4874
+#: ../src/graphing.c:4926
 msgid "Vertical ticks:"
 msgstr "Navpične kljukice:"
 
 #. # of ticks
-#: ../src/graphing.c:4676
-#: ../src/graphing.c:4728
+#: ../src/graphing.c:4878
+#: ../src/graphing.c:4930
 msgid "Horizontal ticks:"
 msgstr "Vodoravne kljukice:"
 
-#: ../src/graphing.c:4681
+#: ../src/graphing.c:4883
 msgid "Sl_ope field"
 msgstr "N_aklonsko polje"
 
 #. Normalize the arrow length?
-#: ../src/graphing.c:4715
+#: ../src/graphing.c:4917
 msgid "_Normalize arrow length (do not show size)"
 msgstr "_Normaliziraj dolžino puščic (ne prikaži velikosti)"
 
-#: ../src/graphing.c:4733
+#: ../src/graphing.c:4935
 msgid "_Vector field"
 msgstr "_Vektorsko polje"
 
 #. draw legend?
-#: ../src/graphing.c:4743
+#: ../src/graphing.c:4945
 msgid "_Draw legend"
 msgstr "_Nariši legendo"
 
 #. change varnames
-#: ../src/graphing.c:4752
+#: ../src/graphing.c:4954
+#: ../src/graphing.c:5037
 msgid "Change variable names..."
 msgstr "Spremeni imena spremenljivk ..."
 
 #. plot window
-#: ../src/graphing.c:4760
-#: ../src/graphing.c:4831
+#.
+#. * Plot window frame
+#.
+#: ../src/graphing.c:4962
+#: ../src/graphing.c:5046
 msgid "Plot Window"
 msgstr "Okno grafa"
 
 #.
 #. * X range
 #.
-#: ../src/graphing.c:4769
-#: ../src/graphing.c:4840
+#: ../src/graphing.c:4971
+#: ../src/graphing.c:5055
 msgid "X from:"
 msgstr "X od:"
 
 #.
 #. * Y range
 #.
-#: ../src/graphing.c:4781
-#: ../src/graphing.c:4851
+#: ../src/graphing.c:4983
+#: ../src/graphing.c:5067
 msgid "Y from:"
 msgstr "Y od:"
 
-#: ../src/graphing.c:4805
+#: ../src/graphing.c:5009
 msgid "Function / Expression"
 msgstr "Funkcija / Izraz"
-
-#: ../src/graphing.c:4810
-msgid "Type a function name or an expression involving the x and y variables (or the z variable which will be z=x+iy) in the boxes below to graph them.  Functions with one argument only will be passed a complex number."
-msgstr "Vnesite ime funkcije ali izraza, ki vključuje spremenljivki x in y (ali spremenljivko z, ki je z=x+iy) v polja spodaj za izris grafa. Funkcijam z le enim argumentov bo podano kompleksno število. "
 
 #.
 #. * Z range
 #.
-#: ../src/graphing.c:4862
-msgid "Z from:"
-msgstr "Z od:"
+#: ../src/graphing.c:5079
+msgid "Dependent axis from:"
+msgstr "Odvisna os iz:"
 
-#: ../src/graphing.c:4880
+#: ../src/graphing.c:5100
 msgid "Function _line plot"
 msgstr "_Črtast graf funkcije"
 
-#: ../src/graphing.c:4884
+#: ../src/graphing.c:5104
 msgid "_Surface plot"
 msgstr "Graf _površin"
 
-#: ../src/graphing.c:5102
-#: ../src/graphing.c:5262
-#: ../src/graphing.c:5379
-#: ../src/graphing.c:5500
-#: ../src/graphing.c:5604
+#: ../src/graphing.c:5322
+#: ../src/graphing.c:5486
+#: ../src/graphing.c:5607
+#: ../src/graphing.c:5728
+#: ../src/graphing.c:5832
 msgid "No functions to plot or no functions could be parsed"
 msgstr "Ni funkcij za izris grafa ali funkcij ni mogoče razčleniti"
 
-#: ../src/graphing.c:5133
-#: ../src/graphing.c:5285
-msgid "Invalid X range"
-msgstr "Neveljaven obseg X"
-
-#: ../src/graphing.c:5138
-#: ../src/graphing.c:5290
-msgid "Invalid Y range"
-msgstr "Neveljaven obseg Y"
-
-#: ../src/graphing.c:5143
-msgid "Invalid Z range"
-msgstr "Neveljaven obseg Z"
-
-#: ../src/graphing.c:5373
-#, c-format
-msgid "Only specify %s and %s, or %s, not all at once."
-msgstr "Določiti je treba le %s in %s ali %s, ne vse hkrati."
-
-#: ../src/graphing.c:5386
-#: ../src/graphing.c:5409
-#: ../src/graphing.c:5415
-#: ../src/graphing.c:5523
-#: ../src/graphing.c:5529
-#: ../src/graphing.c:5627
-#: ../src/graphing.c:5633
+#: ../src/graphing.c:5353
+#: ../src/graphing.c:5359
+#: ../src/graphing.c:5509
+#: ../src/graphing.c:5515
+#: ../src/graphing.c:5614
+#: ../src/graphing.c:5637
+#: ../src/graphing.c:5643
+#: ../src/graphing.c:5751
+#: ../src/graphing.c:5757
+#: ../src/graphing.c:5855
+#: ../src/graphing.c:5861
 #, c-format
 msgid "Invalid %s range"
 msgstr "Neveljavno območje %s"
 
-#: ../src/graphing.c:5725
+#: ../src/graphing.c:5365
+msgid "Invalid dependent range"
+msgstr "Neveljavna odvisna podatkovna vrsta"
+
+#: ../src/graphing.c:5601
+#, c-format
+msgid "Only specify %s and %s, or %s, not all at once."
+msgstr "Določiti je treba le %s in %s ali %s, ne vse hkrati."
+
+#: ../src/graphing.c:5953
 msgid "Create Plot"
 msgstr "Ustvari graf"
 
-#: ../src/graphing.c:5765
-#: ../src/graphing.c:5903
-#: ../src/graphing.c:5934
-#: ../src/graphing.c:5955
-#: ../src/graphing.c:5995
-#: ../src/graphing.c:6019
-#: ../src/graphing.c:6130
-#: ../src/graphing.c:6252
-#: ../src/graphing.c:6370
-#: ../src/graphing.c:6513
-#: ../src/graphing.c:6647
-#: ../src/graphing.c:6839
-#: ../src/graphing.c:7085
-#: ../src/graphing.c:7115
-#: ../src/graphing.c:7176
-#: ../src/graphing.c:7202
-#: ../src/graphing.c:7229
-#: ../src/graphing.c:7313
-#: ../src/graphing.c:7338
+#: ../src/graphing.c:5993
+#: ../src/graphing.c:6131
+#: ../src/graphing.c:6162
+#: ../src/graphing.c:6183
+#: ../src/graphing.c:6223
+#: ../src/graphing.c:6247
+#: ../src/graphing.c:6358
+#: ../src/graphing.c:6480
+#: ../src/graphing.c:6598
+#: ../src/graphing.c:6741
+#: ../src/graphing.c:6875
+#: ../src/graphing.c:7068
+#: ../src/graphing.c:7352
+#: ../src/graphing.c:7382
+#: ../src/graphing.c:7443
+#: ../src/graphing.c:7469
+#: ../src/graphing.c:7496
+#: ../src/graphing.c:7587
+#: ../src/graphing.c:7660
+#: ../src/graphing.c:7685
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr "%s: poteka opravilo izrisovanja grafa, ni mogoče poklicati %s"
 
-#: ../src/graphing.c:5773
-#: ../src/graphing.c:6271
+#: ../src/graphing.c:6001
+#: ../src/graphing.c:6499
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: argument ni funkcija"
 
-#: ../src/graphing.c:5783
+#: ../src/graphing.c:6011
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: podprta je le ena funkcija"
 
-#: ../src/graphing.c:5850
-#: ../src/graphing.c:6084
-#: ../src/graphing.c:6200
-#: ../src/graphing.c:6322
-#: ../src/graphing.c:6459
-#: ../src/graphing.c:6600
+#: ../src/graphing.c:6078
+#: ../src/graphing.c:6312
+#: ../src/graphing.c:6428
+#: ../src/graphing.c:6550
+#: ../src/graphing.c:6687
+#: ../src/graphing.c:6828
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: neveljaven obseg X"
 
-#: ../src/graphing.c:5855
-#: ../src/graphing.c:6089
-#: ../src/graphing.c:6205
-#: ../src/graphing.c:6327
-#: ../src/graphing.c:6464
-#: ../src/graphing.c:6605
+#: ../src/graphing.c:6083
+#: ../src/graphing.c:6317
+#: ../src/graphing.c:6433
+#: ../src/graphing.c:6555
+#: ../src/graphing.c:6692
+#: ../src/graphing.c:6833
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: neveljaven obseg Y"
 
-#: ../src/graphing.c:5860
+#: ../src/graphing.c:6088
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: neveljaven obseg Z"
 
-#: ../src/graphing.c:5913
+#: ../src/graphing.c:6141
 #, c-format
 msgid "%s: dx must be positive"
 msgstr "%s: dx mora biti pozitiven"
 
-#: ../src/graphing.c:5920
-#: ../src/graphing.c:5939
+#: ../src/graphing.c:6148
+#: ../src/graphing.c:6167
 #, c-format
 msgid "%s: Slope field not active"
 msgstr "%s: naklonsko polje ni dejavno"
 
-#: ../src/graphing.c:5966
+#: ../src/graphing.c:6194
 #, c-format
 msgid "%s: dt must be positive"
 msgstr "%s: dt mora biti pozitiven"
 
-#: ../src/graphing.c:5972
+#: ../src/graphing.c:6200
 #, c-format
 msgid "%s: tlen must be positive"
 msgstr "%s: tlen mora biti pozitiven"
 
-#: ../src/graphing.c:5980
-#: ../src/graphing.c:6001
+#: ../src/graphing.c:6208
+#: ../src/graphing.c:6229
 #, c-format
 msgid "%s: Vector field not active"
 msgstr "%s: vektorsko polje ni dejavno"
 
-#: ../src/graphing.c:6026
-#: ../src/graphing.c:6520
+#: ../src/graphing.c:6254
+#: ../src/graphing.c:6748
 #, c-format
 msgid "%s: First argument must be a function"
 msgstr "%s: prvi argument mora biti funkcija"
 
-#: ../src/graphing.c:6141
-#: ../src/graphing.c:6378
+#: ../src/graphing.c:6369
+#: ../src/graphing.c:6606
 #, c-format
 msgid "%s: First two arguments must be functions"
 msgstr "%s: prva dva argumenta morata biti funkciji"
 
-#: ../src/graphing.c:6266
+#: ../src/graphing.c:6494
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: podprtih je le do 10 funkcij"
 
-#: ../src/graphing.c:6469
-#: ../src/graphing.c:6610
+#: ../src/graphing.c:6697
+#: ../src/graphing.c:6838
 #, c-format
 msgid "%s: invalid T range"
 msgstr "%s: neveljaven obseg T"
 
-#: ../src/graphing.c:6722
-#: ../src/graphing.c:6776
+#: ../src/graphing.c:6950
+#: ../src/graphing.c:7004
 #, c-format
 msgid "%s: Line should be given as a real, n by 2 matrix with columns for x and y, n>=2"
 msgstr "%s: črta bi morala biti podana kot realna, n krat 2 matrika s stolpci za x in y, n>=2"
 
-#: ../src/graphing.c:6854
+#: ../src/graphing.c:7083
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: napačno število argumentov"
 
-#: ../src/graphing.c:6912
+#: ../src/graphing.c:7143
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: barva ni navedena"
 
-#: ../src/graphing.c:6924
+#: ../src/graphing.c:7156
 #, c-format
 msgid "%s: Color must be a string"
 msgstr "%s: barva mora biti niz"
 
-#: ../src/graphing.c:6933
+#: ../src/graphing.c:7166
 #, c-format
 msgid "%s: No thickness specified"
 msgstr "%s: debelina ni določena"
 
-#: ../src/graphing.c:6954
+#: ../src/graphing.c:7189
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: ni navedenega okna"
 
-#: ../src/graphing.c:7000
-#: ../src/graphing.c:7024
+#: ../src/graphing.c:7237
+#: ../src/graphing.c:7262
 #, c-format
 msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
 msgstr "%s: slog puščice mora biti \"origin\", \"end\", \"both\" ali \"none\""
 
-#: ../src/graphing.c:7032
+#: ../src/graphing.c:7272
+#, c-format
+msgid "%s: No legend specified"
+msgstr "%s: ni določene legende"
+
+#: ../src/graphing.c:7286
+#, c-format
+msgid "%s: Legend must be a string"
+msgstr "%s: legenda mora bit določena kot niz"
+
+#: ../src/graphing.c:7295
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: neznan slog"
 
-#: ../src/graphing.c:7038
+#: ../src/graphing.c:7302
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: slab parameter"
 
 # To je ustaljen izraz za vektor v 4 dimenzionalnem realnem prostoru...
-#: ../src/graphing.c:7236
+#: ../src/graphing.c:7503
 msgid "Variable names not given in a 4-vector"
 msgstr "Imena spremenljivk niso podana v 4-vektorju"
 
-#: ../src/graphing.c:7246
-#: ../src/graphing.c:7255
-#: ../src/graphing.c:7264
-#: ../src/graphing.c:7273
+#: ../src/graphing.c:7513
+#: ../src/graphing.c:7522
+#: ../src/graphing.c:7531
+#: ../src/graphing.c:7540
+#: ../src/graphing.c:7604
+#: ../src/graphing.c:7613
+#: ../src/graphing.c:7622
 msgid "Variable names should be strings"
 msgstr "Imena spremenljivk morajo biti nizi"
 
-#: ../src/graphing.c:7280
+#: ../src/graphing.c:7547
+#: ../src/graphing.c:7628
 msgid "Variable names must be valid identifiers"
 msgstr "Imena spremenljivk morajo biti veljavni določilniki"
 
-#: ../src/graphing.c:7289
+#: ../src/graphing.c:7556
+#: ../src/graphing.c:7634
 msgid "Variable names must be mutually distinct"
 msgstr "Imena spremenljivk morajo biti medsebojno različna"
 
-#: ../src/graphing.c:7373
+# !
+#: ../src/graphing.c:7594
+msgid "Variable names not given in a 3-vector"
+msgstr "Imena spremenljivk niso podana v 3-vektorju"
+
+#: ../src/graphing.c:7720
 msgid "Plotting"
 msgstr "Izris grafov"
 
 #. internal
-#: ../src/graphing.c:7375
+#: ../src/graphing.c:7722
 msgid "Plot a function with a line.  First come the functions (up to 10) then optionally limits as x1,x2,y1,y2"
 msgstr "Nariši graf funkcije s črto. Najprej je treba vnesti funkcije (do 10) potem izbirno meje kot x1,x2,y1,y2"
 
-#: ../src/graphing.c:7376
+#: ../src/graphing.c:7723
 msgid "Plot a parametric function with a line.  First come the functions for x and y then optionally the t limits as t1,t2,tinc, then optionally the limits as x1,x2,y1,y2"
 msgstr "Nariši graf parametrične funkcije s črto. Najprej je treba vnesti funkciji za x in y, ter potem izbirno meje t kot t1,t2,tinc, ter izbirno meje kot x1,x2,y1,y2"
 
-#: ../src/graphing.c:7377
+#: ../src/graphing.c:7724
 msgid "Plot a parametric complex valued function with a line.  First comes the function that returns x+iy then optionally the t limits as t1,t2,tinc, then optionally the limits as x1,x2,y1,y2"
 msgstr "Nariši graf parametrične funkcije kompleksnih vrednosti s črto. Najprej je treba vnesti funkcijo, ki vrne x+iy potem izbirno meje kot t1,t2,tinc ter potem izbirno meje kot x1,x2,y1,y2"
 
-#: ../src/graphing.c:7379
+#: ../src/graphing.c:7726
 msgid "Draw a slope field.  First comes the function dy/dx in terms of x and y (or a complex z) then optionally the limits as x1,x2,y1,y2"
 msgstr "Nariši naklonsko polje. Najprej je treba vnesti funkcijo dy/dx izraženo z x in y (ali kompleksnim z), nato izbirno omejitve kot x1,x2,y1,y2"
 
-#: ../src/graphing.c:7380
+#: ../src/graphing.c:7727
 msgid "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x and y then optionally the limits as x1,x2,y1,y2"
 msgstr "Nariši vektorsko polje. Najprej je treba vnesti funkcije dx/dt in dy/dt izražene v x in y, ter nato izbirno meje kot x1,x2,y1,y2"
 
-#: ../src/graphing.c:7382
+#: ../src/graphing.c:7729
 msgid "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr "Nariši rešitev za naklonsko polje, ki se začne na x,y z uporabo dx kot korak povečevanja"
 
-#: ../src/graphing.c:7383
+#: ../src/graphing.c:7730
 msgid "Clear all the slopefield solutions"
 msgstr "Počisti vse rešitve naklonskega polja"
 
-#: ../src/graphing.c:7385
+#: ../src/graphing.c:7732
 msgid "Draw a solution for a vector field starting at x,y, using dt as increment for tlen units"
 msgstr "Nariši rešitev vektorskega polja, ki se začne na x,y, z uporabo dt kot povečevanje za enot tlen"
 
-#: ../src/graphing.c:7386
+#: ../src/graphing.c:7733
 msgid "Clear all the vectorfield solutions"
 msgstr "Počisti vse rešitve vektorskega polja"
 
-#: ../src/graphing.c:7389
+#: ../src/graphing.c:7736
 msgid "Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
 msgstr "Nariši graf površinske funkcije, ki ima dva argumenta, ali pa je argument kompleksno število.  Najprej je treba vnesti funkcijo, sledijo izbirne meje kot so x1,x2,y1,y2,z1,z2"
 
-#: ../src/graphing.c:7391
+#: ../src/graphing.c:7738
 msgid "Show the line plot window and clear out functions"
 msgstr "Pokaži okno črtastega grafa in počisti funkcije"
 
-#: ../src/graphing.c:7392
+#: ../src/graphing.c:7739
 msgid "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"
 msgstr "Nariši črto od x1,y1 do x2,y2.  x1,y1,x2,y2 je mogoče zamenjati z n krat 2 matriko za daljšo črto"
 
-#: ../src/graphing.c:7394
+#: ../src/graphing.c:7741
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr "Število kljukic naklonskega polja kot vektor [navpično,vodoravno]."
 
-#: ../src/graphing.c:7395
+#: ../src/graphing.c:7742
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
 msgstr "Število kljukic vektorskega polja kot vektor [navpično,vodoravno]."
 
-#: ../src/graphing.c:7396
+#: ../src/graphing.c:7743
 msgid "Default names used by all 2D plot functions.  Should be a 4 vector of strings or identifiers [x,y,z,t]."
 msgstr "Privzeta imena, ki jih uporabijo vse funkcije 2D grafov. Naj bi bil 4 komponenti vektor z nizi ali določili [x,y,z,t]"
 
-#: ../src/graphing.c:7398
+#: ../src/graphing.c:7744
+msgid "Default names used by surface plot functions.  Should be a 3 vector of strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
+msgstr "Privzeta imena, ki jih uporabijo funkcije površinskih grafov. Vrednost mora biti 3-vektor nizov [x,y,z], kjer je z=x+iy in ni odvisna os."
+
+#: ../src/graphing.c:7746
 msgid "Normalize vectorfields if true.  That is, only show direction and not magnitude."
 msgstr "Izbrana možnost normalizira vektorska polja. To pomeni, da prikaže le smer in ne velikosti."
 
-#: ../src/graphing.c:7399
+#: ../src/graphing.c:7747
 msgid "If to draw legends or not on line plots."
 msgstr "Ali naj bodo legende na črtastih grafih narisane."
 
-#: ../src/graphing.c:7401
+#: ../src/graphing.c:7749
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr "Okno izrisa črtastih grafov (meje) kot 4-vektor oblike [x1,x2,y1,y2]"
 
-#: ../src/graphing.c:7402
+#: ../src/graphing.c:7750
 msgid "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,z2]"
 msgstr "Okno izrisa grafov površin (meje) kot 6-vektor oblike [x1,x2,y1,y2,z1,z2]"
 
@@ -4775,9 +4818,8 @@ msgstr ""
 
 #: ../src/util.c:93
 #: ../src/util.c:112
-#, fuzzy
 msgid "Stack underflow!"
-msgstr "Sled sklada"
+msgstr ""
 
 #: ../src/funclibhelper.cP:40
 #, c-format
@@ -4854,4 +4896,21 @@ msgstr "%s: argument številka %d ni funkcija ali določilo"
 #: ../src/parseutil.c:57
 msgid "ERROR: local statement not the first statement in function definition"
 msgstr "NAPAKA: krajevna izjava ni prva izjava v definiciji funkcije"
+
+#~ msgid "Genius manual not found.  Perhaps the installation is not correct."
+#~ msgstr "Priročnika Genius ni mogoče najti. Morda namestitev ni pravilna."
+#~ msgid "Command 'xdg-open' is not found.  Cannot open help."
+#~ msgstr "Ukaza 'xdg-open' ni mogoče najti. Ni mogoče odpreti pomoči."
+#~ msgid "Rotate X: "
+#~ msgstr "Vrtenje X:"
+#~ msgid "Rotate Y: "
+#~ msgstr "Vrtenje Y:"
+#~ msgid "Rotate Z: "
+#~ msgstr "Vrtenje Z:"
+#~ msgid "Z from:"
+#~ msgstr "Z od:"
+#~ msgid "Invalid Y range"
+#~ msgstr "Neveljaven obseg Y"
+#~ msgid "Invalid Z range"
+#~ msgstr "Neveljaven obseg Z"
 
