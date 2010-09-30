@@ -106,8 +106,11 @@ function StripZeroRows (M) =
 SetHelp ("CrossProduct", "linear_algebra", "CrossProduct of two vectors in R^3")
 function CrossProduct(v,w) =
  (
-  M=[v;w;1,1,1];
-  [Minor(M,3,1),Minor(M,3,2),Minor(M,3,3)]
+  if not IsVector (v) or not IsVector (w) then
+    (error ("CrossProduct: v,w must be vectors");bailout)
+  else if elements(v) != 3 or elements(w) != 3 then
+    (error ("CrossProduct: v,w must be vectors in R^3");bailout);
+  [v@(2)*w@(3)-v@(3)*w@(2); v@(3)*w@(1)-v@(1)*w@(3); v@(1)*w@(2)-v@(2)*w@(1)]
  )
 
 # Direct sum of a vector of matrices
