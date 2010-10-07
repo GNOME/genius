@@ -3986,6 +3986,8 @@ run_program (GtkWidget *menu_item, gpointer data)
 			close (p[0]);
 			if (write (p[1], prog, len) < len) {
 				status = 1;
+			} else if (prog[len-1] != '\n') {
+				write (p[1], "\n", 1);
 			}
 			close (p[1]);
 			_exit (status);

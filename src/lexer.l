@@ -133,7 +133,7 @@ gel_lexer_close(FILE *fp)
 
 #.*$		; /*comment, ignore*/
 
-^[ 	]*load[ 	]+<([^>]|\\>)*>[ 	]*$ {
+^[ 	]*load[ 	]+<([^\n>]|\\>)*>[ 	]*$ {
 			char *s;
 			char *end;
 			char *dir;
@@ -152,7 +152,7 @@ gel_lexer_close(FILE *fp)
 			return LOADFILE;
 		}
 
-^[ 	]*load[ 	]+[^ 	].*$ {
+^[ 	]*load[ 	]+[^\n 	].*$ {
 			char *s;
 			if(gel_parsestack || gel_parenth_depth) {REJECT;}
 			s=strchr(yytext,'d')+1; /*move after the load*/
@@ -164,7 +164,7 @@ gel_lexer_close(FILE *fp)
 			return LOADFILE_GLOB;
 		}
 
-^[ 	]*cd[ 	]+[^ 	].*$ {
+^[ 	]*cd[ 	]+[^\n 	].*$ {
 			char *s;
 			if(gel_parsestack || gel_parenth_depth) {REJECT;}
 			s=strchr(yytext,'d')+1; /*move after the cd*/
@@ -176,7 +176,7 @@ gel_lexer_close(FILE *fp)
 			return CHANGEDIR;
 		}
 
-^[ 	]*plugin[ 	]+[^ 	].*$ {
+^[ 	]*plugin[ 	]+[^\n 	].*$ {
 			char *s;
 			if(gel_parsestack || gel_parenth_depth) {REJECT;}
 			s=strchr(yytext,'n')+1; /*move after the plugin*/
@@ -194,7 +194,7 @@ gel_lexer_close(FILE *fp)
 			return PWD;
 		}
 
-^[ 	]*ls[ 	]+[^ 	].*$ {
+^[ 	]*ls[ 	]+[^\n 	].*$ {
 			char *s;
 			if(gel_parsestack || gel_parenth_depth) {REJECT;}
 			s=strchr(yytext,'s')+1; /*move after the ls*/
@@ -212,7 +212,7 @@ gel_lexer_close(FILE *fp)
 			return LS;
 		}
 
-^[ 	]*help[ 	]+[^ 	].*$ {
+^[ 	]*help[ 	]+[^\n 	].*$ {
 			char *s;
 			if(gel_parsestack || gel_parenth_depth) {REJECT;}
 			s=strchr(yytext,'p')+1; /*move after the help*/

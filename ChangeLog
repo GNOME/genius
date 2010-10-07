@@ -1,3 +1,12 @@
+Thu Oct 07 12:38:44 2010  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/lexer.l: note that [^?] is may include newlines,
+	  must explicitly exclude them
+
+	* src/gnome-genius.c:  Add a trailing newline to programs unless
+	  given.  Fixes parse errors at end of file if ends on a comment
+	  or a lexer rule which expects endofline
+
 Thu Sep 30 15:28:50 2010  Jiri (George) Lebl <jirka@5z.com>
 
 	* lib/linear_algebra/linear_algebra.gel: Fix CrossProduct and
