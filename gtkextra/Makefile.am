@@ -99,13 +99,13 @@ libgtkextra_genius_a_SOURCES =	\
 	gtkplotsurface.c
 
 $(srcdir)/gtkextra-marshal.h: gtkextra-marshal.list
-        ( @GLIB_GENMARSHAL@ --prefix=gtkextra gtkextra-marshal.list --header > gtkextra-marshal.tmp \
-        && mv gtkextra-marshal.tmp gtkextra-marshal.h ) \
-        || ( rm -f gtkextra-marshal.tmp && exit 1 )
+	( @GLIB_GENMARSHAL@ --prefix=gtkextra gtkextra-marshal.list --header > gtkextra-marshal.tmp \
+	&& mv gtkextra-marshal.tmp gtkextra-marshal.h ) \
+	|| ( rm -f gtkextra-marshal.tmp && exit 1 )
 $(srcdir)/gtkextra-marshal.c: gtkextra-marshal.h
-        ( @GLIB_GENMARSHAL@ --prefix=gtkextra gtkextra-marshal.list --body > gtkextra-marshal.tmp \
-        && mv gtkextra-marshal.tmp gtkextra-marshal.c ) \
-        || ( rm -f gtkextra-marshal.tmp && exit 1 )
+	( @GLIB_GENMARSHAL@ --prefix=gtkextra gtkextra-marshal.list --body > gtkextra-marshal.tmp \
+	&& mv gtkextra-marshal.tmp gtkextra-marshal.c ) \
+	|| ( rm -f gtkextra-marshal.tmp && exit 1 )
 
 
 $(srcdir)/gtkextratypebuiltins.h: $(public_h_sources)
