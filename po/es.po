@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: genius.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=genius&component=general\n"
-"POT-Creation-Date: 2010-09-08 07:48+0000\n"
-"PO-Revision-Date: 2010-09-18 11:44+0200\n"
+"POT-Creation-Date: 2010-09-18 09:45+0000\n"
+"PO-Revision-Date: 2010-10-09 13:11+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -369,7 +369,6 @@ msgid "Return the Moebius mu function evaluated in n"
 msgstr "Devuelve la función de Moebius my evaluada en n"
 
 #: ../lib/library-strings.c:67
-#| msgid "Returns the padic valuation (number of trailing zeros in base p)."
 msgid "Returns the p-adic valuation (number of trailing zeros in base p)."
 msgstr ""
 "Devuelve la valoración p-ádica (número de ceros arrastrados en la base p)."
@@ -428,7 +427,6 @@ msgid "Remove column(s) and row(s) from a matrix"
 msgstr "Eliminar filas y columnas de una matriz"
 
 #: ../lib/library-strings.c:77
-#| msgid "Calculate the kth compund matrix of A"
 msgid "Calculate the kth compound matrix of A"
 msgstr "Calcular la késima matriz compuesta de A"
 
@@ -507,7 +505,6 @@ msgid "Zero out entries below the diagonal"
 msgstr "Hacer ceros todas los elementos debajo de la diagonal"
 
 #: ../lib/library-strings.c:96
-#| msgid "Get the auxilliary unit matrix of size n"
 msgid "Get the auxiliary unit matrix of size n"
 msgstr "Obtener la matriz unidad auxiliar de tamaño n"
 
@@ -592,7 +589,6 @@ msgstr ""
 "matrices 2x2)"
 
 #: ../lib/library-strings.c:113
-#, fuzzy
 #| msgid ""
 #| "Apply the Gram-Schmidt process (to the columns) with respect to inner "
 #| "product given by B (if not given use hermitian product)"
@@ -631,7 +627,6 @@ msgid "Inverse Hilbert matrix of order n"
 msgstr "Matriz inversa de Hilbert de orden n"
 
 #: ../lib/library-strings.c:120
-#, fuzzy
 #| msgid "Is a matrix hermitian"
 msgid "Is a matrix Hermitian"
 msgstr "Es una matriz de Hermite"
@@ -665,7 +660,6 @@ msgid "Is a matrix positive semidefinite"
 msgstr "Es una matriz semidefinida positiva"
 
 #: ../lib/library-strings.c:127
-#, fuzzy
 #| msgid "Is a matrix skew-hermitian"
 msgid "Is a matrix skew-Hermitian"
 msgstr "Es una matriz de Skew-Hermite"
@@ -711,7 +705,6 @@ msgid "Get the orthogonal complement of the columnspace"
 msgstr "Obtiene el complemento ortogonal del espacio de columnas"
 
 #: ../lib/library-strings.c:137
-#, fuzzy
 #| msgid ""
 #| "Projection of vector v onto subspace W given a sesquilinear form B (if "
 #| "not given use hermitian product)"
@@ -720,7 +713,7 @@ msgid ""
 "given use Hermitian product)"
 msgstr ""
 "Proyección del vector «v» en el subespacio «W» dada una forma sesquilineal de "
-"B (si no se da se usa el producto de hermite)"
+"B (si no se da se usa el producto de Hermite)"
 
 #: ../lib/library-strings.c:138
 msgid "Get the QR decomposition of A, returns R and Q can be a reference"
@@ -1043,12 +1036,16 @@ msgid ""
 "Numerically compute the coefficients for a Fourier series with half-period L "
 "up to the Nth coefficient."
 msgstr ""
+"Calcular numéricamente los coeficientes para una serie de Fourier con "
+"semiperiodo L hasta el coeficiente enésimo."
 
 #: ../lib/library-strings.c:198
 msgid ""
 "Return a function which is the Fourier series of f with half-period L with "
 "coefficients up to N computed numerically"
 msgstr ""
+"Devolver una función que es la serie de Fourier de f con un semiperiodo L "
+"con coeficientes calculados numéricamente hasta N"
 
 #: ../lib/library-strings.c:199
 msgid ""
@@ -1232,7 +1229,6 @@ msgstr ""
 "unas x0,y0 iniciales que con incrementos de n van a x1, devuelve y en x1"
 
 #: ../lib/library-strings.c:232
-#, fuzzy
 #| msgid ""
 #| "Use classical Euler's method to numerically solve y'=f(x,y) for initial "
 #| "x0,y0 going to x1 with n increments, returns y at x1"
@@ -1241,7 +1237,8 @@ msgid ""
 "y0 going to x1 with n increments, returns an n+1 by 2 matrix of values"
 msgstr ""
 "Usar el método clásico de Euler para resolver numéricamente y'=f(x,y) para "
-"unas x0,y0 iniciales que con incrementos de n van a x1, devuelve y en x1"
+"unas x0,y0 iniciales que con incrementos de n van a x1, devuelve una matriz "
+"de valores de n+1 por 2"
 
 #: ../lib/library-strings.c:233
 msgid "Find root of a function using the bisection method"
@@ -1281,10 +1278,6 @@ msgstr ""
 "incrementos de n, devuelve y en x1"
 
 #: ../lib/library-strings.c:240
-#| msgid ""
-#| "Use classical non-adaptive Runge-Kutta of fourth order method to "
-#| "numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n "
-#| "increments, returns y at x1"
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an n"
@@ -2809,7 +2802,6 @@ msgid "Return the index complement of a vector of indexes"
 msgstr "Devolver el complemento de índices de un vector de índices"
 
 #: ../src/funclib.c:6451
-#| msgid "Get the hermitian product of two vectors"
 msgid "Get the Hermitian product of two vectors"
 msgstr "Obtener el producto hermítico de dos vectores"
 
@@ -4404,7 +4396,6 @@ msgstr ""
 #: ../src/graphing.c:4293 ../src/graphing.c:4300 ../src/graphing.c:4464
 #: ../src/graphing.c:4471
 #, c-format
-#| msgid "X from:"
 msgid "%s from:"
 msgstr "%s desde:"
 
@@ -4473,7 +4464,6 @@ msgstr ""
 
 #: ../src/graphing.c:4435
 #, c-format
-#| msgid "Parameter t from:"
 msgid "Parameter %s from:"
 msgstr "Parámetro %s desde:"
 
@@ -4613,7 +4603,6 @@ msgstr "Función / Expresión"
 #. * Z range
 #.
 #: ../src/graphing.c:5079
-#| msgid "_Fit dependent axis"
 msgid "Dependent axis from:"
 msgstr "Eje dependiente de:"
 
@@ -4711,13 +4700,11 @@ msgstr "%s: tlen debe ser positivo"
 
 #: ../src/graphing.c:6208 ../src/graphing.c:6229
 #, c-format
-#| msgid "_Vector field"
 msgid "%s: Vector field not active"
 msgstr "%s: el campo del vector no está activo"
 
 #: ../src/graphing.c:6254 ../src/graphing.c:6748
 #, c-format
-#| msgid "%s: First argument must be functions"
 msgid "%s: First argument must be a function"
 msgstr "%s: el primer argumento debe ser una función"
 
@@ -4762,13 +4749,11 @@ msgstr "%s: el color debe ser una cadena"
 
 #: ../src/graphing.c:7166
 #, c-format
-#| msgid "%s: No thicnkess specified"
 msgid "%s: No thickness specified"
 msgstr "%s: no se especificó el grosor"
 
 #: ../src/graphing.c:7189
 #, c-format
-#| msgid "%s: No color specified"
 msgid "%s: No window specified"
 msgstr "%s: no se especificó ninguna ventana"
 
@@ -4779,13 +4764,11 @@ msgstr "%s: el estilo de la flecha debe ser «origin», «end», «both» o «no
 
 #: ../src/graphing.c:7272
 #, c-format
-#| msgid "%s: No color specified"
 msgid "%s: No legend specified"
 msgstr "%s: no se especificó ninguna leyenda"
 
 #: ../src/graphing.c:7286
 #, c-format
-#| msgid "%s: Color must be a string"
 msgid "%s: Legend must be a string"
 msgstr "%s: la leyenda debe ser una cadena"
 
@@ -4800,7 +4783,6 @@ msgid "%s: Bad parameter"
 msgstr "%s: parámetro incorrecto"
 
 #: ../src/graphing.c:7503
-#| msgid "Graph limits not given as a 4-vector"
 msgid "Variable names not given in a 4-vector"
 msgstr "No se han proporcionado los nombres de variables en un vector-4"
 
@@ -4811,7 +4793,6 @@ msgid "Variable names should be strings"
 msgstr "Los nombres de variables deben ser cadenas"
 
 #: ../src/graphing.c:7547 ../src/graphing.c:7628
-#| msgid "Variable '%s' used uninitialized"
 msgid "Variable names must be valid identifiers"
 msgstr "Los nombres de variables deben ser identificadores válidos"
 
@@ -4820,7 +4801,6 @@ msgid "Variable names must be mutually distinct"
 msgstr "Los nombres de variables deben ser mutuamente distintos"
 
 #: ../src/graphing.c:7594
-#| msgid "Graph limits not given as a 4-vector"
 msgid "Variable names not given in a 3-vector"
 msgstr "No se han proporcionado los nombres de variables en un vector-3"
 
