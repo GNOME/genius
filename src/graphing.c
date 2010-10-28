@@ -869,6 +869,8 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 	char tmpfile[] = "/tmp/genius-ps-XXXXXX";
 	char *file_to_write = NULL;
 	int fd = -1;
+	gboolean run_epsi = FALSE;
+	GtkWidget *w;
 
 	eps = GPOINTER_TO_INT (data);
 
@@ -877,6 +879,13 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 		/* FIXME: don't want to deal with modality issues right now */
 		gtk_widget_set_sensitive (graph_window, TRUE);
 		return;
+	}
+
+	/* run epsi checkbox */
+	w = gtk_file_chooser_get_extra_widget (GTK_FILE_CHOOSER (fs));
+	if (w != NULL &&
+	    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w))) {
+		run_epsi = TRUE;
 	}
 
 	s = g_strdup (gtk_file_chooser_get_filename (fs));
@@ -911,7 +920,7 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 	gtk_widget_set_sensitive (graph_window, TRUE);
 
 	file_to_write = s;
-	if (eps && ve_is_prog_in_path ("ps2epsi")) {
+	if (eps && run_epsi && ve_is_prog_in_path ("ps2epsi")) {
 		fd = g_mkstemp (tmpfile);
 		/* FIXME: tell about errors ?*/
 		if (fd >= 0) {
@@ -1107,6 +1116,14 @@ do_export_cb (int export_type)
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (fs), filter_ps);
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (fs), filter_all);
 	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (fs), filter_ps);
+
+	if (ve_is_prog_in_path ("ps2epsi")) {
+		GtkWidget *w;
+		w = gtk_check_button_new_with_label (_("Generate preview in EPS file (with ps2epsi)"));
+		gtk_widget_show (w);
+		gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (fs), w);
+	}
+
 
 	g_signal_connect (G_OBJECT (fs), "destroy",
 			  G_CALLBACK (gtk_widget_destroyed), &fs);

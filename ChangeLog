@@ -1,3 +1,12 @@
+Thu Oct 28 16:09:42 2010  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c: Don't run ps2epsi by default, and make it an option
+	  on the export dialog.  ps2epsi can take really really long
+	  sometimes, generate large files, and most of the time I found out
+	  you don't want it anyway.
+	
+	* src/eval.c: fix 64 bit build
+
 Sat Oct 09 12:23:07 2010  Jiri (George) Lebl <jirka@5z.com>
 
 	* Makefile.am: apply patch from Dominique Leuenberger

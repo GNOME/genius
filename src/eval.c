@@ -270,7 +270,7 @@ gel_find_pre_function_modulo (GelCtx *ctx)
 		stack = stack->next;
 		iter = &(stack->stack[STACK_SIZE]);
 	}
-	while ((int)(*(iter-1)) != GE_FUNCCALL) {
+	while (GPOINTER_TO_INT(*(iter-1)) != GE_FUNCCALL) {
 		last = iter;
 		iter -= 2;
 		if ((gpointer)iter == (gpointer)stack) {
@@ -281,7 +281,7 @@ gel_find_pre_function_modulo (GelCtx *ctx)
 		}
 	}
 
-	if (last == NULL || (int)(*(last-1)) != GE_SETMODULO) {
+	if (last == NULL || GPOINTER_TO_INT(*(last-1)) != GE_SETMODULO) {
 		return NULL;
 	} else {
 		return *(last-2);
