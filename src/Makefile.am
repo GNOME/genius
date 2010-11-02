@@ -218,6 +218,9 @@ DISTCLEANFILES = $(Desktop_DATA) test.plugin
 EXTRA_DIST = \
 	geniustest.pl \
 	geniustests.txt \
+	testfourier.gel \
+	testscope.gel \
+	testprec.gel \
 	longtest.gel \
 	nullspacetest.gel \
 	gnome-genius.desktop.in \
