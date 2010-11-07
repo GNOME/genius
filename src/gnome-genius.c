@@ -111,6 +111,7 @@ static GtkWidget *term = NULL;
 static GtkWidget *notebook = NULL;
 static GString *errors = NULL;
 static GString *infos = NULL;
+static GtkRecentManager *recent_manager;
 
 static char *clipboard_str = NULL;
 
@@ -248,6 +249,8 @@ static void actually_open_help (const char *id);
 
 static void fork_helper_setup_comm (void);
 
+static void new_program (const char *filename);
+
 static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File") },		/* name, stock id, label */
   { "EditMenu", NULL, N_("_Edit") },		/* name, stock id, label */
@@ -272,6 +275,7 @@ static GtkActionEntry entries[] = {
     N_("Open"), "",
     N_("Open a file"),
     G_CALLBACK (open_callback) }, 
+  { "OpenRecent", NULL, N_("Open R_ecent") },	/* name, stock id, label */
   { "Save", GTK_STOCK_SAVE,                    /* name, stock id */
     N_("_Save"), "<control>S",                      /* label, accelerator */     
     N_("Save current file"),                       /* tooltip */
@@ -417,6 +421,7 @@ static const gchar *ui_info =
 "    <menu action='FileMenu'>"
 "      <menuitem action='New'/>"
 "      <menuitem action='Open'/>"
+"      <menuitem action='OpenRecent'/>"
 "      <menuitem action='Save'/>"
 "      <menuitem action='SaveAll'/>"
 "      <menuitem action='SaveAs'/>"
@@ -600,10 +605,78 @@ stock_init (void)
 	g_object_unref (factory);
 }
 
+GtkWidget *
+recent_create_menu (void)
+{
+        GtkWidget *recent_menu;
+        GtkRecentFilter *recent_filter;
+
+        recent_menu  =
+                gtk_recent_chooser_menu_new_for_manager (recent_manager);
+        gtk_recent_chooser_set_show_icons
+		(GTK_RECENT_CHOOSER (recent_menu), TRUE);
+        gtk_recent_chooser_set_limit (GTK_RECENT_CHOOSER (recent_menu), 10);
+        gtk_recent_chooser_set_sort_type (GTK_RECENT_CHOOSER (recent_menu),
+					  GTK_RECENT_SORT_MRU);
+
+        recent_filter = gtk_recent_filter_new ();
+        gtk_recent_filter_add_mime_type (recent_filter,
+					 "text/x-genius");
+        gtk_recent_chooser_set_filter (GTK_RECENT_CHOOSER (recent_menu),
+				       recent_filter);
+
+        return recent_menu;
+}
+
+void 
+file_open_recent (GtkRecentChooser *chooser, gpointer data)
+{
+        GtkRecentInfo *item;
+	const char *uri;
+
+        g_return_if_fail (chooser && GTK_IS_RECENT_CHOOSER(chooser));
+
+        item = gtk_recent_chooser_get_current_item (chooser);
+        if (item == NULL)
+                return;
+
+        uri = gtk_recent_info_get_uri (item);
+
+	new_program (uri);
+
+        gtk_recent_info_unref (item);
+}
+
+void
+recent_add (const char *uri)
+{
+	GtkRecentData *data;
+
+        static gchar *groups[2] = {
+                "gnome-genius",
+                NULL
+        };
+
+	data = g_slice_new0 (GtkRecentData);
+
+        data->display_name = NULL;
+        data->description = NULL;
+        data->mime_type = "text/x-genius";
+        data->app_name = (gchar *) g_get_application_name ();
+        data->app_exec = g_strconcat (g_get_prgname (), " %u", NULL);
+        data->groups = groups;
+        data->is_private = FALSE;
+
+	gtk_recent_manager_add_full (recent_manager, uri, data);
+
+        g_free (data->app_exec);
+	g_slice_free (GtkRecentData, data);
+}
+
 static void
 add_main_window_contents (GtkWidget *window, GtkWidget *notebook)
 {
-	GtkWidget *box1;
+	GtkWidget *box1, *recent_menu;
 	GtkActionGroup *actions;
 	GError *error = NULL;
 	GtkAction *act;
@@ -662,6 +735,14 @@ add_main_window_contents (GtkWidget *window, GtkWidget *notebook)
 
 	gtk_statusbar_set_has_resize_grip (GTK_STATUSBAR (genius_window_statusbar), TRUE);
 	gtk_box_pack_start (GTK_BOX (box1), genius_window_statusbar, FALSE, TRUE, 0);
+
+        recent_menu  = recent_create_menu ();
+	g_signal_connect (G_OBJECT (recent_menu), "item-activated",
+			  G_CALLBACK (file_open_recent), NULL);
+	gtk_menu_item_set_submenu
+		(GTK_MENU_ITEM (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/OpenRecent")),
+		 recent_menu);
+
 }
 
 
@@ -3391,6 +3472,7 @@ new_program (const char *filename)
 		cnt++;
 	} else {
 		char *contents;
+		recent_add (filename);
 		p->name = g_strdup (filename);
 		if (file_exists (filename)) { 
 			p->readonly = ! file_is_writable (filename);
@@ -3548,6 +3630,8 @@ save_program (Program *p, const char *new_fname)
 		g_free (prog);
 		return FALSE;
 	}
+
+	recent_add (fname);
 
 	if (p->name != fname) {
 		g_free (p->name);
@@ -4812,6 +4896,7 @@ main (int argc, char *argv[])
 		gtk_window_set_default_icon_from_file (file, NULL);
 	g_free (file);
 
+	recent_manager = gtk_recent_manager_get_default ();
 	
 	/* create our notebook and setup toplevel window */
 	notebook = gtk_notebook_new ();
