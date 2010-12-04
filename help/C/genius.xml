@@ -8,6 +8,8 @@
 
   <!ENTITY legal SYSTEM "legal.xml">
 
+  <!ENTITY manrevision "0.2">
+
   <!ENTITY gel-function-list SYSTEM "gel-function-list.xml">
 ]>
 
@@ -23,7 +25,8 @@
 <book id="index" lang="en">
 <!-- please do not change the id; for translations, change lang to -->
 <!-- appropriate code -->
-  <bookinfo> 
+  <bookinfo>
+    <abstract role="description">Manual for the Genius Math Tool.</abstract>
     <title>&appname; Manual</title>       
 
     <copyright>
@@ -51,7 +54,7 @@
 	any of this. -->
 
     <authorgroup> 
-      <author> 
+      <author role="maintainer"> 
 		<firstname>Ji&#345;&iacute;</firstname> 
 		<surname>Lebl</surname> 
 		<affiliation> 
@@ -130,6 +133,17 @@
     </revhistory> 
 -->
 
+    <revhistory>
+      <revision> 
+		<revnumber>&manrevision;</revnumber> 
+		<date>&date;</date> 
+		<revdescription> 
+	  		<para role="author">Jiri (George) Lebl
+	    	<email>jirka@5z.com</email>
+	  		</para>
+		</revdescription> 
+      </revision> 
+    </revhistory>
     <releaseinfo>This manual describes version &appversion; of &appname;.
     </releaseinfo> 
     <legalnotice> 

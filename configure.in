@@ -256,6 +256,8 @@ AC_ARG_ENABLE(update-mimedb,
 		enable_update_mimedb=yes)
 AM_CONDITIONAL(ENABLE_UPDATE_MIMEDB, test x$enable_update_mimedb = xyes)
 
+GNOME_DOC_INIT
+
 AC_OUTPUT([
 genius.spec
 Makefile
@@ -278,7 +280,6 @@ pixmaps/32x32/Makefile
 pixmaps/48x48/Makefile
 po/Makefile.in
 help/Makefile
-help/C/Makefile
 ])
 
 echo "

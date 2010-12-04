@@ -34,12 +34,14 @@ EXTRA_DIST = \
 	genius.mime \
 	genius.keys \
 	genius.applications \
+	gnome-doc-utils.make	\
 	intltool-extract.in	\
 	intltool-merge.in	\
 	intltool-update.in	\
 	INSTALL.MacOSX
 
 DISTCLEANFILES = \
+	gnome-doc-utils.make	\
 	intltool-extract	\
 	intltool-merge		\
 	intltool-update
