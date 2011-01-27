@@ -19,7 +19,7 @@ DOC_FIGURES =	genius_window.eps	\
 DOC_ENTITIES =	gel-function-list.xml	\
            	legal.xml
 
-DOC_LINGUAS = de
+DOC_LINGUAS = de es
 
 #
 # Text version
