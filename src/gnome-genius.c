@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2010 Jiri (George) Lebl
+ * Copyright (C) 1997-2011 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -1773,15 +1773,41 @@ actually_open_help (const char *id)
 
 	gtk_show_uri (NULL, str, GDK_CURRENT_TIME, &error);
 
-	g_free (str);
+	if G_UNLIKELY (error != NULL) {
+		char *gnomehelp = NULL;
+		if (g_error_matches (error, G_IO_ERROR,
+				     G_IO_ERROR_NOT_SUPPORTED) &&
+		    (gnomehelp = g_find_program_in_path("gnome-help")) != NULL) {
+			char *argv[3];
 
-	if (error != NULL) {
-		str = g_strdup_printf (_("<b>Cannot display help</b>\n\n%s"),
-				       error->message);
-		genius_display_error (NULL /* parent */, str);
-		g_free (str);
+			g_error_free (error);
+			error = NULL;
+
+			argv[0] = gnomehelp;
+			argv[1] = str;
+			argv[2] = NULL;
+			g_spawn_async (NULL /* wd */,
+				       argv,
+				       NULL /* envp */,
+				       0 /* flags */,
+				       NULL /* child_setup */,
+				       NULL /* user_data */,
+				       NULL /* child_pid */,
+				       &error);
+			g_free (gnomehelp);
+		}
+		if (error != NULL) {
+			char *err = g_strdup_printf
+				(_("<b>Cannot display help</b>\n\n%s"),
+				 error->message);
+			genius_display_error (NULL /* parent */, err);
+			g_free (err);
+		}
 		g_error_free (error);
 	}
+
+	g_free (str);
+
 }
 
 void
@@ -2002,14 +2028,14 @@ genius_display_error (GtkWidget *parent, const char *err)
 	if (parent == NULL)
 		parent = genius_window;
 
-	w = gtk_message_dialog_new_with_markup (parent ?
-						GTK_WINDOW (parent) :
-						NULL /* parent */,
-						GTK_DIALOG_MODAL /* flags */,
-						GTK_MESSAGE_ERROR,
-						GTK_BUTTONS_CLOSE,
-						"%s",
-						err);
+	w = gtk_message_dialog_new (parent ?
+				    GTK_WINDOW (parent) :
+				    NULL /* parent */,
+				    GTK_DIALOG_MODAL /* flags */,
+				    GTK_MESSAGE_ERROR,
+				    GTK_BUTTONS_CLOSE,
+				    NULL);
+	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (w), err);
 
 	g_signal_connect (G_OBJECT (w), "destroy",
 			  G_CALLBACK (gtk_widget_destroyed),
@@ -2030,12 +2056,12 @@ display_warning (GtkWidget *parent, const char *warn)
 	if (parent == NULL)
 		parent = genius_window;
 
-	w = gtk_message_dialog_new_with_markup (GTK_WINDOW (parent) /* parent */,
-						GTK_DIALOG_MODAL /* flags */,
-						GTK_MESSAGE_WARNING,
-						GTK_BUTTONS_CLOSE,
-						"%s",
-						warn);
+	w = gtk_message_dialog_new (GTK_WINDOW (parent) /* parent */,
+				    GTK_DIALOG_MODAL /* flags */,
+				    GTK_MESSAGE_WARNING,
+				    GTK_BUTTONS_CLOSE,
+				    NULL);
+	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (w), warn);
 
 	g_signal_connect (G_OBJECT (w), "destroy",
 			  G_CALLBACK (gtk_widget_destroyed),
@@ -2057,12 +2083,12 @@ genius_ask_question (GtkWidget *parent, const char *question)
 	if (parent == NULL)
 		parent = genius_window;
 
-	req = gtk_message_dialog_new_with_markup (GTK_WINDOW (parent) /* parent */,
-						  GTK_DIALOG_MODAL /* flags */,
-						  GTK_MESSAGE_QUESTION,
-						  GTK_BUTTONS_YES_NO,
-						  "%s",
-						  question);
+	req = gtk_message_dialog_new (GTK_WINDOW (parent) /* parent */,
+				      GTK_DIALOG_MODAL /* flags */,
+				      GTK_MESSAGE_QUESTION,
+				      GTK_BUTTONS_YES_NO,
+				      NULL);
+	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (req), question);
 
 	g_signal_connect (G_OBJECT (req), "destroy",
 			  G_CALLBACK (gtk_widget_destroyed),
