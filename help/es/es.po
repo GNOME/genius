@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
-"POT-Creation-Date: 2011-02-05 16:26+0000\n"
-"PO-Revision-Date: 2011-02-27 21:23+0100\n"
+"POT-Creation-Date: 2011-02-27 20:27+0000\n"
+"PO-Revision-Date: 2011-03-04 18:21+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -842,7 +842,7 @@ msgstr ""
 
 #: C/genius.xml:684(title)
 msgid "GEL Basics"
-msgstr ""
+msgstr "Conceptos de GEL"
 
 #: C/genius.xml:686(para)
 msgid ""
@@ -1114,7 +1114,7 @@ msgstr ""
 
 #: C/genius.xml:838(para) C/genius.xml:2007(para)
 msgid "Example: <placeholder-1/>"
-msgstr ""
+msgstr "Ejemplo: <placeholder-1/>"
 
 #: C/genius.xml:844(para)
 msgid ""
@@ -1427,12 +1427,11 @@ msgid ""
 "functions such as <function>exp</function> or <function>ln</function>, to "
 "operate on the function. For example, <placeholder-1/> will return a "
 "function that takes <varname>x</varname> and returns <userinput>exp(sin(x)"
-"*cos(x)+4)</userinput>. It is functionally equivalent to typing "
-"<placeholder-2/> This operation can be useful when quickly defining "
-"functions. For example to create a function called <varname>f</varname> to "
-"perform the above operation, you can just type: <placeholder-3/> It can also "
-"be used in plotting. For example, to plot sin squared you can enter: "
-"<placeholder-4/>"
+"*cos(x)+4)</userinput>. It is functionally equivalent to typing <placeholder-"
+"2/> This operation can be useful when quickly defining functions. For "
+"example to create a function called <varname>f</varname> to perform the "
+"above operation, you can just type: <placeholder-3/> It can also be used in "
+"plotting. For example, to plot sin squared you can enter: <placeholder-4/>"
 msgstr ""
 
 #: C/genius.xml:1053(para)
@@ -1636,6 +1635,8 @@ msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/AbsoluteValue.html"
 "\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://mathworld.wolfram.com/AbsoluteValue.html"
+"\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:1215(synopsis)
 #, no-wrap
@@ -1720,7 +1721,7 @@ msgstr "a./b"
 
 #: C/genius.xml:1296(para)
 msgid "Element by element division."
-msgstr ""
+msgstr "División elemento por elemento."
 
 #: C/genius.xml:1304(synopsis)
 #, no-wrap
@@ -1738,7 +1739,7 @@ msgstr "a.\\b"
 
 #: C/genius.xml:1316(para)
 msgid "Element by element back division."
-msgstr ""
+msgstr "División hacia atrás elemento por elemento."
 
 #: C/genius.xml:1324(synopsis)
 #, no-wrap
@@ -2110,15 +2111,15 @@ msgid ""
 "The unitary minus operates in a different fashion depending on where it "
 "appears. If it appears before a number it binds very closely, if it appears "
 "in front of an expression it binds less than the power and factorial "
-"operators. So for example <userinput>-1^k</userinput> is really <userinput>"
-"(-1)^k</userinput>, but <userinput>-foo(1)^k</userinput> is really "
-"<userinput>-(foo(1)^k)</userinput>. So be careful how you use it and if in "
-"doubt, add parentheses."
+"operators. So for example <userinput>-1^k</userinput> is really <userinput>(-"
+"1)^k</userinput>, but <userinput>-foo(1)^k</userinput> is really <userinput>-"
+"(foo(1)^k)</userinput>. So be careful how you use it and if in doubt, add "
+"parentheses."
 msgstr ""
 
 #: C/genius.xml:1697(title)
 msgid "Programming with GEL"
-msgstr ""
+msgstr "Programar con GEL"
 
 #: C/genius.xml:1700(title)
 msgid "Conditionals"
@@ -2218,7 +2219,7 @@ msgstr ""
 
 #: C/genius.xml:1774(title)
 msgid "Break and Continue"
-msgstr ""
+msgstr "Parar y continuar"
 
 #: C/genius.xml:1775(para)
 msgid ""
@@ -2310,8 +2311,8 @@ msgstr ""
 
 #: C/genius.xml:1856(para)
 msgid ""
-"GEL is a <ulink url=\"http://en.wikipedia.org/wiki/Scope_%28programming"
-"%29\"> dynamically scoped language</ulink>. We will explain what this means "
+"GEL is a <ulink url=\"http://en.wikipedia.org/wiki/Scope_%28programming%29"
+"\"> dynamically scoped language</ulink>. We will explain what this means "
 "below. That is, normal variables and functions are dynamically scoped. The "
 "exception are <link linkend=\"genius-gel-parameters\">parameter variables</"
 "link>, which are always global."
@@ -2993,12 +2994,12 @@ msgid ""
 "has a slightly different syntax than the rest of genius, more similiar to a "
 "shell. You can enter the file in quotes. If you use the '' quotes, you will "
 "get exactly the string that you typed, if you use the \"\" quotes, special "
-"characters will be unescaped as they are for strings. Example: "
-"<placeholder-1/> There are also <command>cd</command>, <command>pwd</"
-"command> and <command>ls</command> commands built in. <command>cd</command> "
-"will take one argument, <command>ls</command> will take an argument that is "
-"like the glob in the unix shell (i.e., you can use wildcards). <command>pwd</"
-"command> takes no arguments. For example: <placeholder-2/>"
+"characters will be unescaped as they are for strings. Example: <placeholder-"
+"1/> There are also <command>cd</command>, <command>pwd</command> and "
+"<command>ls</command> commands built in. <command>cd</command> will take one "
+"argument, <command>ls</command> will take an argument that is like the glob "
+"in the unix shell (i.e., you can use wildcards). <command>pwd</command> "
+"takes no arguments. For example: <placeholder-2/>"
 msgstr ""
 
 #: C/genius.xml:2385(title)
@@ -3387,7 +3388,7 @@ msgstr "ayuda NombreFunción"
 
 #: C/genius.xml:16(para)
 msgid "Print help (or help on a function/command)."
-msgstr ""
+msgstr "Imprimir ayuda (o ayuda en una función/comando)."
 
 #: C/genius.xml:21(term)
 msgid "load"
@@ -3423,7 +3424,7 @@ msgstr "pwd"
 
 #: C/genius.xml:41(para)
 msgid "Print the current working directory."
-msgstr ""
+msgstr "Imprimir la carpeta de trabajo actual."
 
 #: C/genius.xml:46(term) C/genius.xml:48(synopsis)
 msgid "ls"
@@ -3431,7 +3432,7 @@ msgstr "ls"
 
 #: C/genius.xml:49(para)
 msgid "List files in the current directory."
-msgstr ""
+msgstr "Listar archivos en la carpeta actual."
 
 #: C/genius.xml:54(term)
 msgid "plugin"
@@ -3547,7 +3548,7 @@ msgstr "Evaluate (cadena)"
 
 #: C/genius.xml:122(para)
 msgid "Parses and evaluates a string."
-msgstr ""
+msgstr "Analiza y evalúa una cadena."
 
 #: C/genius.xml:128(term) C/genius.xml:130(synopsis)
 msgid "GetCurrentModulo"
@@ -3603,7 +3604,7 @@ msgstr "IsBoolean (arg)"
 
 #: C/genius.xml:164(para)
 msgid "Check if argument is a boolean (and not a number)."
-msgstr ""
+msgstr "Comprobar si el argumento es un booleano (y no un número)."
 
 #: C/genius.xml:169(term)
 msgid "IsDefined"
@@ -3632,7 +3633,7 @@ msgstr "IsFunction (arg)"
 
 #: C/genius.xml:183(para)
 msgid "Check if argument is a function."
-msgstr ""
+msgstr "Comprobar si el argumento es una función."
 
 #: C/genius.xml:188(term)
 msgid "IsFunctionOrIdentifier"
@@ -3645,7 +3646,7 @@ msgstr "IsFunctionOrIdentifier (arg)"
 
 #: C/genius.xml:191(para)
 msgid "Check if argument is a function or an identifier."
-msgstr ""
+msgstr "Comprobar si el argumento es una función o un identificador."
 
 #: C/genius.xml:196(term)
 msgid "IsFunctionRef"
@@ -3688,7 +3689,7 @@ msgstr "IsNull (arg)"
 
 #: C/genius.xml:218(para)
 msgid "Check if argument is a null."
-msgstr ""
+msgstr "Comprobar si el argumento es nulo."
 
 #: C/genius.xml:223(term)
 msgid "IsString"
@@ -3701,7 +3702,7 @@ msgstr "IsString (arg)"
 
 #: C/genius.xml:226(para)
 msgid "Check if argument is a text string."
-msgstr ""
+msgstr "Comprobar si el argumento es una cadena de texto."
 
 #: C/genius.xml:231(term)
 msgid "IsValue"
@@ -3714,7 +3715,7 @@ msgstr "IsValue (arg)"
 
 #: C/genius.xml:234(para)
 msgid "Check if argument is a number."
-msgstr ""
+msgstr "Comprobar si el argumento es un número."
 
 #: C/genius.xml:239(term)
 msgid "Parse"
@@ -3758,7 +3759,7 @@ msgstr "SetHelp"
 #: C/genius.xml:262(synopsis)
 #, no-wrap
 msgid "SetHelp (id,category,desc)"
-msgstr ""
+msgstr "SetHelp (id,categoria,desc)"
 
 #: C/genius.xml:263(para)
 msgid "Set the category and help description line for a function."
@@ -3775,7 +3776,7 @@ msgstr "SetHelpAlias (id,alias)"
 
 #: C/genius.xml:271(para)
 msgid "Sets up a help alias."
-msgstr ""
+msgstr "Establece un alias de ayuda."
 
 #: C/genius.xml:276(term)
 msgid "chdir"
@@ -3826,7 +3827,7 @@ msgstr ""
 
 #: C/genius.xml:304(para)
 msgid "Exits the program."
-msgstr ""
+msgstr "Sale el programa."
 
 #: C/genius.xml:309(term) C/genius.xml:311(synopsis)
 msgid "false"
@@ -3846,7 +3847,7 @@ msgstr "manual"
 
 #: C/genius.xml:321(para)
 msgid "Displays the user manual."
-msgstr ""
+msgstr "Muestra el manual de usuario."
 
 #: C/genius.xml:326(term)
 msgid "print"
@@ -3871,7 +3872,7 @@ msgstr "printn"
 #: C/genius.xml:337(synopsis)
 #, no-wrap
 msgid "printn (str)"
-msgstr ""
+msgstr "printn (cad)"
 
 #: C/genius.xml:338(para)
 msgid ""
@@ -4048,7 +4049,7 @@ msgstr ""
 
 #: C/genius.xml:449(term) C/genius.xml:451(synopsis)
 msgid "version"
-msgstr ""
+msgstr "version"
 
 #: C/genius.xml:452(para)
 msgid ""
@@ -4058,15 +4059,15 @@ msgstr ""
 
 #: C/genius.xml:458(term) C/genius.xml:460(synopsis)
 msgid "warranty"
-msgstr ""
+msgstr "warranty"
 
 #: C/genius.xml:461(para)
 msgid "Gives the warranty information."
-msgstr ""
+msgstr "Da la información de garantía."
 
 #: C/genius.xml:469(title)
 msgid "Parameters"
-msgstr ""
+msgstr "Parámetros"
 
 #: C/genius.xml:472(term)
 msgid "ChopTolerance"
@@ -4588,7 +4589,7 @@ msgstr ""
 
 #: C/genius.xml:792(title)
 msgid "Constants"
-msgstr ""
+msgstr "Constantes"
 
 #: C/genius.xml:795(term) C/genius.xml:797(synopsis)
 msgid "CatalanConstant"
@@ -4606,6 +4607,8 @@ msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/CatalansConstant.html"
 "\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://mathworld.wolfram.com/CatalansConstant.html"
+"\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:809(term) C/genius.xml:811(synopsis)
 msgid "EulerConstant"
@@ -4627,6 +4630,11 @@ msgid ""
 "mathworld.wolfram.com/Euler-MascheroniConstant.html\">Mathworld</ulink> for "
 "more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Euler-"
+"Mascheroni_constant\">Wikipedia</ulink> o <ulink url=\"http://planetmath.org/"
+"encyclopedia/MascheroniConstant.html\">Planetmath</ulink> o <ulink url="
+"\"http://mathworld.wolfram.com/Euler-MascheroniConstant.html\">Mathworld</"
+"ulink> para obtener más información."
 
 #: C/genius.xml:827(term) C/genius.xml:829(synopsis)
 msgid "GoldenRatio"
@@ -4643,6 +4651,11 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "GoldenRatio.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Golden_ratio"
+"\">Wikipedia</ulink> o <ulink url=\"http://planetmath.org/encyclopedia/"
+"GoldenRatio.html\">Planetmath</ulink> o <ulink url=\"http://mathworld."
+"wolfram.com/GoldenRatio.html\">Mathworld</ulink> para obtener más "
+"información."
 
 #: C/genius.xml:841(term) C/genius.xml:843(synopsis)
 msgid "Gravity"
@@ -4657,6 +4670,8 @@ msgid ""
 "See <ulink url=\"http://en.wikipedia.org/wiki/Standard_gravity\">Wikipedia</"
 "ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Standard_gravity"
+"\">Wikipedia</ulink> para obtener más información."
 
 #: C/genius.xml:853(term) C/genius.xml:855(synopsis)
 msgid "e"
@@ -4671,12 +4686,15 @@ msgstr ""
 
 #: C/genius.xml:862(para)
 msgid ""
-"See <ulink url=\"http://en.wikipedia.org/wiki/E_"
-"(mathematical_constant)\">Wikipedia</ulink> or <ulink url=\"http://"
-"planetmath.org/encyclopedia/E.html\">Planetmath</ulink> or <ulink url="
-"\"http://mathworld.wolfram.com/e.html\">Mathworld</ulink> for more "
-"information."
+"See <ulink url=\"http://en.wikipedia.org/wiki/E_(mathematical_constant)"
+"\">Wikipedia</ulink> or <ulink url=\"http://planetmath.org/encyclopedia/E."
+"html\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/e.html"
+"\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/E_"
+"(mathematical_constant)\">Wikipedia</ulink> o <ulink url=\"http://planetmath."
+"org/encyclopedia/E.html\">Planetmath</ulink> o <ulink url=\"http://mathworld."
+"wolfram.com/e.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:872(term) C/genius.xml:874(synopsis)
 msgid "pi"
@@ -4695,6 +4713,10 @@ msgid ""
 "or <ulink url=\"http://mathworld.wolfram.com/Pi.html\">Mathworld</ulink> for "
 "more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Pi\">Wikipedia</ulink> "
+"o <ulink url=\"http://planetmath.org/encyclopedia/Pi.html\">Planetmath</"
+"ulink> o <ulink url=\"http://mathworld.wolfram.com/Pi.html\">Mathworld</"
+"ulink> para obtener más información."
 
 #: C/genius.xml:892(title)
 msgid "Numeric"
@@ -4731,6 +4753,14 @@ msgid ""
 "ComplexModulus.html\">Mathworld (complex modulus)</ulink> for more "
 "information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Absolute_value"
+"\">Wikipedia</ulink>, <ulink url=\"http://planetmath.org/encyclopedia/"
+"AbsoluteValue.html\">Planetmath (valor absoluto)</ulink>, <ulink url="
+"\"http://planetmath.org/encyclopedia/ModulusOfComplexNumber.html"
+"\">Planetmath (módulo)</ulink>, <ulink url=\"http://mathworld.wolfram.com/"
+"AbsoluteValue.html\">Mathworld (valor absoluto)</ulink> o <ulink url="
+"\"http://mathworld.wolfram.com/ComplexModulus.html\">Mathworld (módulo "
+"complejo)</ulink> para obtener más información."
 
 #: C/genius.xml:917(term)
 msgid "Chop"
@@ -4770,6 +4800,8 @@ msgid ""
 "See <ulink url=\"http://en.wikipedia.org/wiki/Complex_conjugate\">Wikipedia</"
 "ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Complex_conjugate"
+"\">Wikipedia</ulink> para obtener más información."
 
 #: C/genius.xml:939(term)
 msgid "Denominator"
@@ -4789,6 +4821,8 @@ msgid ""
 "See <ulink url=\"http://en.wikipedia.org/wiki/Denominator\">Wikipedia</"
 "ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Denominator"
+"\">Wikipedia</ulink> para obtener más información."
 
 #: C/genius.xml:951(term)
 msgid "FractionalPart"
@@ -4808,6 +4842,8 @@ msgid ""
 "See <ulink url=\"http://en.wikipedia.org/wiki/Fractional_part\">Wikipedia</"
 "ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Fractional_part"
+"\">Wikipedia</ulink> para obtener más información."
 
 #: C/genius.xml:963(term)
 msgid "Im"
@@ -4831,6 +4867,8 @@ msgid ""
 "See <ulink url=\"http://en.wikipedia.org/wiki/Imaginary_part\">Wikipedia</"
 "ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Imaginary_part"
+"\">Wikipedia</ulink> para obtener más información."
 
 #: C/genius.xml:976(term)
 msgid "IntegerQuotient"
@@ -4852,11 +4890,11 @@ msgstr "IsComplex"
 #: C/genius.xml:986(synopsis)
 #, no-wrap
 msgid "IsComplex (num)"
-msgstr ""
+msgstr "IsComplex (num)"
 
 #: C/genius.xml:987(para)
 msgid "Check if argument is a complex (non-real) number."
-msgstr ""
+msgstr "Comprobar si el argumento es un número complejo (no real)."
 
 #: C/genius.xml:992(term)
 msgid "IsComplexRational"
@@ -4865,7 +4903,7 @@ msgstr "IsComplexRational"
 #: C/genius.xml:994(synopsis)
 #, no-wrap
 msgid "IsComplexRational (num)"
-msgstr ""
+msgstr "IsComplexRational (num)"
 
 #: C/genius.xml:995(para)
 msgid ""
@@ -4881,11 +4919,11 @@ msgstr "IsFloat"
 #: C/genius.xml:1003(synopsis)
 #, no-wrap
 msgid "IsFloat (num)"
-msgstr ""
+msgstr "IsFloat (num)"
 
 #: C/genius.xml:1004(para)
 msgid "Check if argument is a floating point number (non-complex)."
-msgstr ""
+msgstr "Comprobar si el argumento es un número en coma flotante (no complejo)."
 
 #: C/genius.xml:1009(term)
 msgid "IsGaussInteger"
@@ -4894,7 +4932,7 @@ msgstr "IsGaussInteger"
 #: C/genius.xml:1011(synopsis)
 #, no-wrap
 msgid "IsGaussInteger (num)"
-msgstr ""
+msgstr "IsGaussInteger (num)"
 
 #: C/genius.xml:1012(para)
 msgid "Aliases: <function>IsComplexInteger</function>"
@@ -4902,7 +4940,7 @@ msgstr ""
 
 #: C/genius.xml:1013(para)
 msgid "Check if argument is a possibly complex integer."
-msgstr ""
+msgstr "Comprobar si el argumento es un posible entero complejo."
 
 #: C/genius.xml:1018(term)
 msgid "IsInteger"
@@ -4911,11 +4949,11 @@ msgstr "IsInteger"
 #: C/genius.xml:1020(synopsis)
 #, no-wrap
 msgid "IsInteger (num)"
-msgstr ""
+msgstr "IsInteger (num)"
 
 #: C/genius.xml:1021(para)
 msgid "Check if argument is an integer (non-complex)."
-msgstr ""
+msgstr "Comprobar si el argumento es un entero (no complejo)."
 
 #: C/genius.xml:1026(term)
 msgid "IsNonNegativeInteger"
@@ -4924,20 +4962,20 @@ msgstr "IsNonNegativeInteger"
 #: C/genius.xml:1028(synopsis)
 #, no-wrap
 msgid "IsNonNegativeInteger (num)"
-msgstr ""
+msgstr "IsNonNegativeInteger (num)"
 
 #: C/genius.xml:1029(para)
 msgid "Check if argument is a non-negative real integer."
-msgstr ""
+msgstr "Comprobar si el argumento es un entero real no negativo."
 
 #: C/genius.xml:1034(term)
 msgid "IsPositiveInteger"
-msgstr ""
+msgstr "IsPositiveInteger"
 
 #: C/genius.xml:1036(synopsis)
 #, no-wrap
 msgid "IsPositiveInteger (num)"
-msgstr ""
+msgstr "IsPositiveInteger (num)"
 
 #: C/genius.xml:1037(para)
 msgid "Aliases: <function>IsNaturalNumber</function>"
@@ -4956,7 +4994,7 @@ msgstr "IsRational"
 #: C/genius.xml:1046(synopsis)
 #, no-wrap
 msgid "IsRational (num)"
-msgstr ""
+msgstr "IsRational (num)"
 
 #: C/genius.xml:1047(para)
 msgid ""
@@ -4971,7 +5009,7 @@ msgstr "IsReal"
 #: C/genius.xml:1054(synopsis)
 #, no-wrap
 msgid "IsReal (num)"
-msgstr ""
+msgstr "IsReal (num)"
 
 #: C/genius.xml:1055(para)
 msgid "Check if argument is a real number."
@@ -4984,17 +5022,19 @@ msgstr "Numerator"
 #: C/genius.xml:1062(synopsis)
 #, no-wrap
 msgid "Numerator (x)"
-msgstr ""
+msgstr "Numerator (x)"
 
 #: C/genius.xml:1063(para)
 msgid "Get the numerator of a rational number."
-msgstr ""
+msgstr "Obtener el numerador de un número racional."
 
 #: C/genius.xml:1064(para)
 msgid ""
 "See <ulink url=\"http://en.wikipedia.org/wiki/Numerator\">Wikipedia</ulink> "
 "for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Numerator\">Wikipedia</"
+"ulink> para obtener más información."
 
 #: C/genius.xml:1072(term)
 msgid "Re"
@@ -5018,6 +5058,8 @@ msgid ""
 "See <ulink url=\"http://en.wikipedia.org/wiki/Real_part\">Wikipedia</ulink> "
 "for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Real_part\">Wikipedia</"
+"ulink> para obtener más información."
 
 #: C/genius.xml:1085(term)
 msgid "Sign"
@@ -5055,7 +5097,7 @@ msgstr ""
 
 #: C/genius.xml:1103(para)
 msgid "Get the lowest integer more than or equal to n."
-msgstr ""
+msgstr "Obtener el entero más bajo mayor o igual que n."
 
 #: C/genius.xml:1108(term)
 msgid "exp"
@@ -5081,6 +5123,11 @@ msgid ""
 "wolfram.com/ExponentialFunction.html\">Mathworld</ulink> for more "
 "information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Exponential_function"
+"\">Wikipedia</ulink> o <ulink url=\"http://planetmath.org/encyclopedia/"
+"LogarithmFunction.html\">Planetmath</ulink> o <ulink url=\"http://mathworld."
+"wolfram.com/ExponentialFunction.html\">Mathworld</ulink> para obtener más "
+"información."
 
 #: C/genius.xml:1127(term)
 msgid "float"
@@ -5269,7 +5316,7 @@ msgstr ""
 
 #: C/genius.xml:1232(para)
 msgid "Round a number."
-msgstr ""
+msgstr "Redondear un número."
 
 #: C/genius.xml:1237(term)
 msgid "sqrt"
@@ -5305,6 +5352,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/SquareRoot.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/SquareRoot.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:1261(term)
 msgid "trunc"
@@ -5325,7 +5374,7 @@ msgstr ""
 
 #: C/genius.xml:1273(title)
 msgid "Trigonometry"
-msgstr ""
+msgstr "Trigonometría"
 
 #: C/genius.xml:1276(term)
 msgid "acos"
@@ -5342,7 +5391,7 @@ msgstr ""
 
 #: C/genius.xml:1280(para)
 msgid "The arccos (inverse cos) function."
-msgstr ""
+msgstr "La función arccos (inversa del cos)."
 
 #: C/genius.xml:1285(term)
 msgid "acosh"
@@ -5359,7 +5408,7 @@ msgstr ""
 
 #: C/genius.xml:1289(para)
 msgid "The arccosh (inverse cosh) function."
-msgstr ""
+msgstr "La función arccosh (inversa del cosh)."
 
 #: C/genius.xml:1294(term)
 msgid "acot"
@@ -5393,7 +5442,7 @@ msgstr ""
 
 #: C/genius.xml:1307(para)
 msgid "The arccoth (inverse coth) function."
-msgstr ""
+msgstr "La función arccoth (inversa de la coth)."
 
 #: C/genius.xml:1312(term)
 msgid "acsc"
@@ -5410,7 +5459,7 @@ msgstr ""
 
 #: C/genius.xml:1316(para)
 msgid "The inverse cosecant function."
-msgstr ""
+msgstr "La inversa de la función cosecante."
 
 #: C/genius.xml:1321(term)
 msgid "acsch"
@@ -5427,7 +5476,7 @@ msgstr ""
 
 #: C/genius.xml:1325(para)
 msgid "The inverse hyperbolic cosecant function."
-msgstr ""
+msgstr "La inversa de la función cosecante hiperbólica."
 
 #: C/genius.xml:1330(term)
 msgid "asec"
@@ -5444,7 +5493,7 @@ msgstr ""
 
 #: C/genius.xml:1334(para)
 msgid "The inverse secant function."
-msgstr ""
+msgstr "La inversa de la función secante."
 
 #: C/genius.xml:1339(term)
 msgid "asech"
@@ -5461,7 +5510,7 @@ msgstr ""
 
 #: C/genius.xml:1343(para)
 msgid "The inverse hyperbolic secant function."
-msgstr ""
+msgstr "La inversa de la función secante hiperbólica."
 
 #: C/genius.xml:1348(term)
 msgid "asin"
@@ -5478,7 +5527,7 @@ msgstr ""
 
 #: C/genius.xml:1352(para)
 msgid "The arcsin (inverse sin) function."
-msgstr ""
+msgstr "La función arcsen (inversa del sen)."
 
 #: C/genius.xml:1357(term)
 msgid "asinh"
@@ -5495,7 +5544,7 @@ msgstr ""
 
 #: C/genius.xml:1361(para)
 msgid "The arcsinh (inverse sinh) function."
-msgstr ""
+msgstr "La función arcsenh (inversa del senh)."
 
 #: C/genius.xml:1366(term)
 msgid "atan"
@@ -5520,6 +5569,9 @@ msgid ""
 "or <ulink url=\"http://mathworld.wolfram.com/InverseTangent.html"
 "\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Arctangent"
+"\">Wikipedia</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"InverseTangent.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:1380(term)
 msgid "atanh"
@@ -5536,7 +5588,7 @@ msgstr ""
 
 #: C/genius.xml:1384(para)
 msgid "The arctanh (inverse tanh) function."
-msgstr ""
+msgstr "La función arctanh (inversa de la tanh)."
 
 #: C/genius.xml:1389(term)
 msgid "atan2"
@@ -5567,6 +5619,9 @@ msgid ""
 "<ulink url=\"http://mathworld.wolfram.com/InverseTangent.html\">Mathworld</"
 "ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Atan2\">Wikipedia</"
+"ulink> o <ulink url=\"http://mathworld.wolfram.com/InverseTangent.html"
+"\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:1410(term)
 msgid "cos"
@@ -5579,7 +5634,7 @@ msgstr "cos (x)"
 
 #: C/genius.xml:1413(para)
 msgid "Calculates the cosine function."
-msgstr ""
+msgstr "Calcula la función coseno."
 
 #: C/genius.xml:1414(para) C/genius.xml:1438(para) C/genius.xml:1462(para)
 #: C/genius.xml:1486(para) C/genius.xml:1510(para) C/genius.xml:1534(para)
@@ -5599,7 +5654,7 @@ msgstr "cosh (x)"
 
 #: C/genius.xml:1425(para)
 msgid "Calculates the hyperbolic cosine function."
-msgstr ""
+msgstr "Calcula la función coseno hiperbólico."
 
 #: C/genius.xml:1426(para) C/genius.xml:1450(para) C/genius.xml:1474(para)
 #: C/genius.xml:1498(para) C/genius.xml:1522(para) C/genius.xml:1546(para)
@@ -5619,7 +5674,7 @@ msgstr "cot (x)"
 
 #: C/genius.xml:1437(para)
 msgid "The cotangent function."
-msgstr ""
+msgstr "La función cotangente."
 
 #: C/genius.xml:1446(term)
 msgid "coth"
@@ -5632,7 +5687,7 @@ msgstr "coth (x)"
 
 #: C/genius.xml:1449(para)
 msgid "The hyperbolic cotangent function."
-msgstr ""
+msgstr "La función cotangente hiperbólica."
 
 #: C/genius.xml:1458(term)
 msgid "csc"
@@ -5645,7 +5700,7 @@ msgstr "csc (x)"
 
 #: C/genius.xml:1461(para)
 msgid "The cosecant function."
-msgstr ""
+msgstr "La función cosecante."
 
 #: C/genius.xml:1470(term)
 msgid "csch"
@@ -5658,7 +5713,7 @@ msgstr "csch (x)"
 
 #: C/genius.xml:1473(para)
 msgid "The hyperbolic cosecant function."
-msgstr ""
+msgstr "La función cosecante hiperbólica."
 
 #: C/genius.xml:1482(term)
 msgid "sec"
@@ -5671,7 +5726,7 @@ msgstr "sec (x)"
 
 #: C/genius.xml:1485(para)
 msgid "The secant function."
-msgstr ""
+msgstr "La función secante."
 
 #: C/genius.xml:1494(term)
 msgid "sech"
@@ -5684,7 +5739,7 @@ msgstr "sech (x)"
 
 #: C/genius.xml:1497(para)
 msgid "The hyperbolic secant function."
-msgstr ""
+msgstr "La función secante hiperbólica."
 
 #: C/genius.xml:1506(term)
 msgid "sin"
@@ -5697,7 +5752,7 @@ msgstr "sin (x)"
 
 #: C/genius.xml:1509(para)
 msgid "Calculates the sine function."
-msgstr ""
+msgstr "Calcula la función seno."
 
 #: C/genius.xml:1518(term)
 msgid "sinh"
@@ -5710,7 +5765,7 @@ msgstr "sinh (x)"
 
 #: C/genius.xml:1521(para)
 msgid "Calculates the hyperbolic sine function."
-msgstr ""
+msgstr "Calcula la función seno hiperbólico."
 
 #: C/genius.xml:1530(term)
 msgid "tan"
@@ -5723,7 +5778,7 @@ msgstr "tan (x)"
 
 #: C/genius.xml:1533(para)
 msgid "Calculates the tan function."
-msgstr ""
+msgstr "Calcula la función tangente."
 
 #: C/genius.xml:1542(term)
 msgid "tanh"
@@ -5736,11 +5791,11 @@ msgstr "tanh (x)"
 
 #: C/genius.xml:1545(para)
 msgid "The hyperbolic tangent function."
-msgstr ""
+msgstr "La función tangente hiperbólica."
 
 #: C/genius.xml:1557(title)
 msgid "Number Theory"
-msgstr ""
+msgstr "Teoría de números"
 
 #: C/genius.xml:1560(term)
 msgid "AreRelativelyPrime"
@@ -5764,6 +5819,9 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "RelativelyPrime.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/RelativelyPrime.html"
+"\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"RelativelyPrime.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:1576(term)
 msgid "BernoulliNumber"
@@ -5784,6 +5842,9 @@ msgid ""
 "ulink> or <ulink url=\"http://mathworld.wolfram.com/BernoulliNumber.html"
 "\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Bernoulli_number"
+"\">Wikipedia</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"BernoulliNumber.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:1589(term)
 msgid "ChineseRemainder"
@@ -5813,6 +5874,11 @@ msgid ""
 "mathworld.wolfram.com/ChineseRemainderTheorem.html\">Mathworld</ulink> for "
 "more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/"
+"Chinese_remainder_theorem\">Wikipedia</ulink> o <ulink url=\"http://"
+"planetmath.org/encyclopedia/ChineseRemainderTheorem.html\">Planetmath</"
+"ulink> o <ulink url=\"http://mathworld.wolfram.com/ChineseRemainderTheorem."
+"html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:1607(term)
 msgid "CombineFactorizations"
@@ -5830,6 +5896,8 @@ msgstr ""
 #: C/genius.xml:1612(para)
 msgid "See <link linkend=\"gel-function-Factorize\">Factorize</link>."
 msgstr ""
+"Consulte la sección<link linkend=\"gel-function-Factorize\">factorizar</"
+"link>."
 
 #: C/genius.xml:1617(term)
 msgid "ConvertFromBase"
@@ -5883,6 +5951,11 @@ msgid ""
 "DiscreteLogarithm.html\">Planetmath</ulink> or <ulink url=\"http://mathworld."
 "wolfram.com/DiscreteLogarithm.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Discrete_logarithm"
+"\">Wikipedia</ulink> o <ulink url=\"http://planetmath.org/encyclopedia/"
+"DiscreteLogarithm.html\">Planetmath</ulink> o <ulink url=\"http://mathworld."
+"wolfram.com/DiscreteLogarithm.html\">Mathworld</ulink> para obtener más "
+"información."
 
 #: C/genius.xml:1649(term)
 msgid "Divides"
@@ -5921,6 +5994,10 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "TotientFunction.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Euler_phi\">Wikipedia</"
+"ulink> o <ulink url=\"http://planetmath.org/encyclopedia/EulerPhifunction."
+"html\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"TotientFunction.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:1675(term)
 msgid "ExactDivision"
@@ -5965,6 +6042,8 @@ msgid ""
 "See <ulink url=\"http://en.wikipedia.org/wiki/Factorization\">Wikipedia</"
 "ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Factorization"
+"\">Wikipedia</ulink> para obtener más información."
 
 #: C/genius.xml:1710(term)
 msgid "Factors"
@@ -6021,6 +6100,8 @@ msgid ""
 "See <ulink url=\"http://en.wikipedia.org/wiki/Fermat_factorization"
 "\">Wikipedia</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Fermat_factorization"
+"\">Wikipedia</ulink> para obtener más información."
 
 #: C/genius.xml:1751(term)
 msgid "FindPrimitiveElementMod"
@@ -6101,7 +6182,7 @@ msgstr "IsEven (n)"
 
 #: C/genius.xml:1797(para)
 msgid "Tests if an integer is even."
-msgstr ""
+msgstr "Comprueba si un entero es par."
 
 #: C/genius.xml:1802(term)
 msgid "IsMersennePrimeExponent"
@@ -6130,6 +6211,11 @@ msgid ""
 "MersennePrime.html\">Mathworld</ulink> or <ulink url=\"http://www.mersenne."
 "org/\">GIMPS</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Mersenne_prime"
+"\">Wikipedia</ulink>, <ulink url=\"http://planetmath.org/encyclopedia/"
+"MersenneNumbers.html\">Planetmath</ulink>, <ulink url=\"http://mathworld."
+"wolfram.com/MersennePrime.html\">Mathworld</ulink> o <ulink url=\"http://www."
+"mersenne.org/\">GIMPS</ulink>para obtener más información."
 
 #: C/genius.xml:1828(term)
 msgid "IsNthPower"
@@ -6159,7 +6245,7 @@ msgstr "IsOdd (n)"
 
 #: C/genius.xml:1845(para)
 msgid "Tests if an integer is odd."
-msgstr ""
+msgstr "Comprueba su un entero es impar."
 
 #: C/genius.xml:1850(term)
 msgid "IsPerfectPower"
@@ -6225,6 +6311,9 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "PrimeNumber.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/PrimeNumber.html"
+"\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"PrimeNumber.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:1901(term)
 msgid "IsPrimitiveMod"
@@ -6305,7 +6394,7 @@ msgstr ""
 
 #: C/genius.xml:1942(para)
 msgid "Calculate the Jacobi symbol (a/b) (b should be odd)."
-msgstr ""
+msgstr "Calcula el símbolo de Jacobi (a/b) (b debe ser impar)."
 
 #: C/genius.xml:1947(term)
 msgid "JacobiKronecker"
@@ -6325,6 +6414,8 @@ msgid ""
 "Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) "
 "when a odd, or (a/2)=0 when a even."
 msgstr ""
+"Calcular el símbolo de Jacobi (a/b) con extensión de Kronecker (a/2)=(2/a) "
+"cuando sea impar, o (a/2)=0 cuando sea par."
 
 #: C/genius.xml:1956(term)
 msgid "LeastAbsoluteResidue"
@@ -6356,7 +6447,7 @@ msgstr ""
 
 #: C/genius.xml:1968(para)
 msgid "Calculate the Legendre symbol (a/p)."
-msgstr ""
+msgstr "Calcular el símbolo de Legendre (a/p)."
 
 #: C/genius.xml:1969(para)
 msgid ""
@@ -6364,6 +6455,9 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "LegendreSymbol.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/LegendreSymbol.html"
+"\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"LegendreSymbol.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:1978(term)
 msgid "LucasLehmer"
@@ -6384,12 +6478,17 @@ msgstr ""
 
 #: C/genius.xml:1987(para)
 msgid ""
-"See <ulink url=\"http://en.wikipedia.org/wiki/Lucas"
-"%E2%80%93Lehmer_primality_test\">Wikipedia</ulink> or <ulink url=\"http://"
+"See <ulink url=\"http://en.wikipedia.org/wiki/Lucas%E2%80%"
+"93Lehmer_primality_test\">Wikipedia</ulink> or <ulink url=\"http://"
 "planetmath.org/encyclopedia/LucasLhemer.html\">Planetmath</ulink> or <ulink "
 "url=\"http://mathworld.wolfram.com/Lucas-LehmerTest.html\">Mathworld</ulink> "
 "for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Lucas%E2%80%"
+"93Lehmer_primality_test\">Wikipedia</ulink> o <ulink url=\"http://planetmath."
+"org/encyclopedia/LucasLhemer.html\">Planetmath</ulink> o <ulink url=\"http://"
+"mathworld.wolfram.com/Lucas-LehmerTest.html\">Mathworld</ulink> para obtener "
+"más información."
 
 #: C/genius.xml:1997(term)
 msgid "LucasNumber"
@@ -6411,6 +6510,11 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "LucasNumber.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Lucas_number"
+"\">Wikipedia</ulink> o <ulink url=\"http://planetmath.org/encyclopedia/"
+"LucasNumbers.html\">Planetmath</ulink> o <ulink url=\"http://mathworld."
+"wolfram.com/LucasNumber.html\">Mathworld</ulink> para obtener más "
+"información."
 
 #: C/genius.xml:2011(term)
 msgid "MaximalPrimePowerFactors"
@@ -6423,7 +6527,7 @@ msgstr "MaximalPrimePowerFactors (n)"
 
 #: C/genius.xml:2014(para)
 msgid "Return all maximal prime power factors of a number."
-msgstr ""
+msgstr "Devuelve todos los factores primos de un número."
 
 #: C/genius.xml:2019(term) C/genius.xml:2021(synopsis)
 msgid "MersennePrimeExponents"
@@ -6458,12 +6562,17 @@ msgstr ""
 
 #: C/genius.xml:2056(para) C/genius.xml:2074(para)
 msgid ""
-"See <ulink url=\"http://en.wikipedia.org/wiki/Miller"
-"%E2%80%93Rabin_primality_test\">Wikipedia</ulink> or <ulink url=\"http://"
-"planetmath.org/encyclopedia/MillerRabinPrimeTest.html\">Planetmath</ulink> "
-"or <ulink url=\"http://mathworld.wolfram.com/Rabin-"
-"MillerStrongPseudoprimeTest.html\">Mathworld</ulink> for more information."
+"See <ulink url=\"http://en.wikipedia.org/wiki/Miller%E2%80%"
+"93Rabin_primality_test\">Wikipedia</ulink> or <ulink url=\"http://planetmath."
+"org/encyclopedia/MillerRabinPrimeTest.html\">Planetmath</ulink> or <ulink "
+"url=\"http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html"
+"\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Miller%E2%80%"
+"93Rabin_primality_test\">Wikipedia</ulink> o <ulink url=\"http://planetmath."
+"org/encyclopedia/MillerRabinPrimeTest.html\">Planetmath</ulink> o <ulink url="
+"\"http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html"
+"\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:2066(term)
 msgid "MillerRabinTestSure"
@@ -6492,13 +6601,15 @@ msgstr "ModInvert (n,m)"
 
 #: C/genius.xml:2087(para)
 msgid "Returns inverse of n mod m."
-msgstr ""
+msgstr "Devuelve el inverso de n módulo m."
 
 #: C/genius.xml:2088(para)
 msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/ModularInverse.html"
 "\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://mathworld.wolfram.com/ModularInverse.html"
+"\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:2096(term)
 msgid "MoebiusMu"
@@ -6523,6 +6634,9 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "MoebiusFunction.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/MoebiusFunction.html"
+"\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"MoebiusFunction.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:2114(term)
 msgid "NextPrime"
@@ -6568,6 +6682,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/PAdicValuation.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/PAdicValuation.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:2151(term)
 msgid "PowerMod"
@@ -6621,6 +6737,8 @@ msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/PrimeFactor.html\">Mathworld</"
 "ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://mathworld.wolfram.com/PrimeFactor.html"
+"\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:2191(term)
 msgid "PseudoprimeTest"
@@ -6643,6 +6761,9 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "Pseudoprime.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/Pseudoprime.html"
+"\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"Pseudoprime.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:2205(term)
 msgid "RemoveFactor"
@@ -6666,6 +6787,9 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/Factor."
 "html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/Divisibility.html"
+"\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram.com/Factor.html"
+"\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:2218(term)
 msgid "SilverPohligHellmanWithFactorization"
@@ -6707,6 +6831,9 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "QuadraticResidue.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/QuadraticResidue."
+"html\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"QuadraticResidue.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:2239(term)
 msgid "StrongPseudoprimeTest"
@@ -6729,6 +6856,9 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "StrongPseudoprime.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/StrongPseudoprime."
+"html\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"StrongPseudoprime.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:2252(term)
 msgid "gcd"
@@ -6756,6 +6886,10 @@ msgid ""
 "html\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "GreatestCommonDivisor.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/"
+"GreatestCommonDivisor.html\">Planetmath</ulink> o <ulink url=\"http://"
+"mathworld.wolfram.com/GreatestCommonDivisor.html\">Mathworld</ulink> para "
+"obtener más información."
 
 #: C/genius.xml:2271(term)
 msgid "lcm"
@@ -6783,10 +6917,13 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "LeastCommonMultiple.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/LeastCommonMultiple."
+"html\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"LeastCommonMultiple.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:2293(title)
 msgid "Matrix Manipulation"
-msgstr ""
+msgstr "Manipulación de matrices"
 
 #: C/genius.xml:2296(term)
 msgid "ApplyOverMatrix"
@@ -6802,6 +6939,8 @@ msgid ""
 "Apply a function over all entries of a matrix and return a matrix of the "
 "results."
 msgstr ""
+"Aplicar una función sobre todos los elementos de una matriz y devolver una "
+"matriz con los resultados."
 
 #: C/genius.xml:2304(term)
 msgid "ApplyOverMatrix2"
@@ -6817,6 +6956,8 @@ msgid ""
 "Apply a function over all entries of 2 matrices (or 1 value and 1 matrix) "
 "and return a matrix of the results."
 msgstr ""
+"Aplicar una función sobre todos los elementos de dos matrices (o un valor y "
+"una matriz) y devolver una matriz con los resultados."
 
 #: C/genius.xml:2312(term)
 msgid "ColumnsOf"
@@ -6829,7 +6970,7 @@ msgstr "ColumnsOf (M)"
 
 #: C/genius.xml:2315(para)
 msgid "Gets the columns of a matrix as a horizontal vector."
-msgstr ""
+msgstr "Obtiene las columnas de una matriz como un vector horizontal."
 
 #: C/genius.xml:2320(term)
 msgid "ComplementSubmatrix"
@@ -6842,7 +6983,7 @@ msgstr "ComplementSubmatrix (m,r,c)"
 
 #: C/genius.xml:2323(para)
 msgid "Remove column(s) and row(s) from a matrix."
-msgstr ""
+msgstr "Eliminar filas y columnas de una matriz."
 
 #: C/genius.xml:2328(term)
 msgid "CompoundMatrix"
@@ -6855,7 +6996,7 @@ msgstr "CompoundMatrix (k,A)"
 
 #: C/genius.xml:2331(para)
 msgid "Calculate the kth compound matrix of A."
-msgstr ""
+msgstr "Calcular la k-ésima matriz compuesta de A."
 
 #: C/genius.xml:2336(term)
 msgid "CountZeroColumns"
@@ -6885,7 +7026,7 @@ msgstr "DeleteColumn (M,col)"
 
 #: C/genius.xml:2352(para)
 msgid "Delete a column of a matrix."
-msgstr ""
+msgstr "Elimina una columna de una matriz."
 
 #: C/genius.xml:2357(term)
 msgid "DeleteRow"
@@ -6898,7 +7039,7 @@ msgstr "DeleteRow (M,row)"
 
 #: C/genius.xml:2360(para)
 msgid "Delete a row of a matrix."
-msgstr ""
+msgstr "Elimina una fila de una matriz."
 
 #: C/genius.xml:2365(term)
 msgid "DiagonalOf"
@@ -6918,6 +7059,9 @@ msgid ""
 "See <ulink url=\"http://en.wikipedia.org/wiki/Diagonal_of_a_matrix#Matrices"
 "\">Wikipedia</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/"
+"Diagonal_of_a_matrix#Matrices\">Wikipedia</ulink> para obtener más "
+"información."
 
 #: C/genius.xml:2377(term)
 msgid "DotProduct"
@@ -6940,6 +7084,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/DotProduct.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/DotProduct.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:2390(term)
 msgid "ExpandMatrix"
@@ -6982,6 +7128,8 @@ msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/HermitianInnerProduct.html"
 "\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://mathworld.wolfram.com/HermitianInnerProduct.html"
+"\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:2416(term)
 msgid "I"
@@ -7007,6 +7155,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/IdentityMatrix.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/IdentityMatrix.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:2429(term)
 msgid "IndexComplement"
@@ -7036,7 +7186,7 @@ msgstr "IsDiagonal (M)"
 
 #: C/genius.xml:2442(para)
 msgid "Is a matrix diagonal."
-msgstr ""
+msgstr "Es una matriz diagonal."
 
 #: C/genius.xml:2443(para) C/genius.xml:2590(para)
 msgid ""
@@ -7044,6 +7194,9 @@ msgid ""
 "ulink> or <ulink url=\"http://planetmath.org/encyclopedia/DiagonalMatrix.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Diagonal_matrix"
+"\">Wikipedia</ulink> o <ulink url=\"http://planetmath.org/encyclopedia/"
+"DiagonalMatrix.html\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:2452(term)
 msgid "IsIdentity"
@@ -7112,6 +7265,8 @@ msgid ""
 "See <ulink url=\"http://en.wikipedia.org/wiki/Positive_matrix\">Wikipedia</"
 "ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Positive_matrix"
+"\">Wikipedia</ulink> para obtener más información."
 
 #: C/genius.xml:2493(term)
 msgid "IsMatrixPositive"
@@ -7262,7 +7417,7 @@ msgstr ""
 
 #: C/genius.xml:2589(para)
 msgid "Make diagonal matrix from a vector."
-msgstr ""
+msgstr "Hacer una matriz diagonal de un vector."
 
 #: C/genius.xml:2599(term)
 msgid "MakeVector"
@@ -7350,7 +7505,7 @@ msgstr "ReverseVector (v)"
 
 #: C/genius.xml:2654(para)
 msgid "Reverse elements in a vector."
-msgstr ""
+msgstr "Invertir los elementos de un vector."
 
 #: C/genius.xml:2659(term)
 msgid "RowSum"
@@ -7405,7 +7560,7 @@ msgstr "SetMatrixSize"
 #: C/genius.xml:2690(synopsis)
 #, no-wrap
 msgid "SetMatrixSize (M,rows,columns)"
-msgstr ""
+msgstr "SetMatrixSize (M,filas,columnas)"
 
 #: C/genius.xml:2691(para)
 msgid ""
@@ -7478,11 +7633,11 @@ msgstr "SwapRows"
 #: C/genius.xml:2737(synopsis)
 #, no-wrap
 msgid "SwapRows (m,row1,row2)"
-msgstr ""
+msgstr "SwapRows (m,fila1,fila2)"
 
 #: C/genius.xml:2738(para)
 msgid "Swap two rows in a matrix."
-msgstr ""
+msgstr "Intercambiar dos columnas de una matriz."
 
 #: C/genius.xml:2743(term)
 msgid "UpperTriangular"
@@ -7510,7 +7665,7 @@ msgstr "columns (M)"
 
 #: C/genius.xml:2754(para)
 msgid "Get the number of columns of a matrix."
-msgstr ""
+msgstr "Obtener el número de columnas de una matriz."
 
 #: C/genius.xml:2759(term)
 msgid "elements"
@@ -7534,7 +7689,7 @@ msgstr "ones"
 #: C/genius.xml:2770(synopsis)
 #, no-wrap
 msgid "ones (rows,columns...)"
-msgstr ""
+msgstr "ones (filas,columnas...)"
 
 #: C/genius.xml:2771(para)
 msgid ""
@@ -7553,7 +7708,7 @@ msgstr "rows (M)"
 
 #: C/genius.xml:2779(para)
 msgid "Get the number of rows of a matrix."
-msgstr ""
+msgstr "Obtener el número de filas de una matriz."
 
 #: C/genius.xml:2784(term)
 msgid "zeros"
@@ -7562,7 +7717,7 @@ msgstr "zeros"
 #: C/genius.xml:2786(synopsis)
 #, no-wrap
 msgid "zeros (rows,columns...)"
-msgstr ""
+msgstr "zeros (filas,columnas...)"
 
 #: C/genius.xml:2787(para)
 msgid ""
@@ -7650,6 +7805,9 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/CharacteristicEquation."
 "html\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/"
+"CharacteristicEquation.html\">Planetmath</ulink> para obtener más "
+"información."
 
 #: C/genius.xml:2846(term)
 msgid "CharacteristicPolynomialFunction"
@@ -7698,6 +7856,9 @@ msgid ""
 "Return the commutation matrix K(m,n) which is the unique m*n by m*n matrix "
 "such that K(m,n) * MakeVector(A) = MakeVector(A.') for all m by n matrices A."
 msgstr ""
+"Devolver la matriz de conmutación K(m,n) que es la única matriz m*n por m*n "
+"tal que K(m,n) * MakeVector(A) = MakeVector(A.') para todas las matrices A m "
+"por n."
 
 #: C/genius.xml:2883(term)
 msgid "CompanionMatrix"
@@ -7732,6 +7893,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/ConjugateTranspose.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/ConjugateTranspose."
+"html\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:2904(term)
 msgid "Convolution"
@@ -7748,7 +7911,7 @@ msgstr ""
 
 #: C/genius.xml:2908(para)
 msgid "Calculate convolution of two horizontal vectors."
-msgstr ""
+msgstr "Calcular la convolución de dos vectores horizontales."
 
 #: C/genius.xml:2913(term)
 msgid "ConvolutionVector"
@@ -7805,7 +7968,7 @@ msgstr "DirectSum (M,N...)"
 
 #: C/genius.xml:2942(para)
 msgid "Direct sum of matrices."
-msgstr ""
+msgstr "Suma directa de matrices."
 
 #: C/genius.xml:2947(term)
 msgid "DirectSumMatrixVector"
@@ -7818,7 +7981,7 @@ msgstr "DirectSumMatrixVector (v)"
 
 #: C/genius.xml:2950(para)
 msgid "Direct sum of a vector of matrices."
-msgstr ""
+msgstr "Suma directa de un vector de matrices."
 
 #: C/genius.xml:2955(term)
 msgid "Eigenvalues"
@@ -7847,6 +8010,10 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "Eigenvalue.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Eigenvalue"
+"\">Wikipedia</ulink> o <ulink url=\"http://planetmath.org/encyclopedia/"
+"Eigenvalue.html\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram."
+"com/Eigenvalue.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:2974(term)
 msgid "Eigenvectors"
@@ -7881,6 +8048,11 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "Eigenvector.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Eigenvector"
+"\">Wikipedia</ulink> o <ulink url=\"http://planetmath.org/encyclopedia/"
+"Eigenvector.html\">Planetmath</ulink> o <ulink url=\"http://mathworld."
+"wolfram.com/Eigenvector.html\">Mathworld</ulink> para obtener más "
+"información."
 
 #: C/genius.xml:2993(term)
 msgid "GramSchmidt"
@@ -7906,6 +8078,9 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/"
 "GramSchmidtOrthogonalization.html\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/"
+"GramSchmidtOrthogonalization.html\">Planetmath</ulink> para obtener más "
+"información."
 
 #: C/genius.xml:3010(term)
 msgid "HankelMatrix"
@@ -7938,6 +8113,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/HilbertMatrix.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/HilbertMatrix.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3030(term)
 msgid "Image"
@@ -8012,6 +8189,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/HermitianMatrix.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/HermitianMatrix.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3078(term)
 msgid "IsInSubspace"
@@ -8024,7 +8203,7 @@ msgstr "IsInSubspace (v,W)"
 
 #: C/genius.xml:3081(para)
 msgid "Test if a vector is in a subspace."
-msgstr ""
+msgstr "Comprueba si un vector está en un subespacio."
 
 #: C/genius.xml:3086(term)
 msgid "IsInvertible"
@@ -8075,6 +8254,9 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "NormalMatrix.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/NormalMatrix.html"
+"\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"NormalMatrix.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:3116(term)
 msgid "IsPositiveDefinite"
@@ -8110,6 +8292,9 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "PositiveDefiniteMatrix.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/PositiveDefinite."
+"html\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"PositiveDefiniteMatrix.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:3143(term)
 msgid "IsPositiveSemidefinite"
@@ -8145,6 +8330,10 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "PositiveSemidefiniteMatrix.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/"
+"PositiveSemidefinite.html\">Planetmath</ulink> o <ulink url=\"http://"
+"mathworld.wolfram.com/PositiveSemidefiniteMatrix.html\">Mathworld</ulink> "
+"para obtener más información."
 
 #: C/genius.xml:3170(term)
 msgid "IsSkewHermitian"
@@ -8166,6 +8355,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/SkewHermitianMatrix.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/SkewHermitianMatrix."
+"html\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3182(term)
 msgid "IsUnitary"
@@ -8188,6 +8379,10 @@ msgid ""
 "html\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "UnitaryMatrix.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/"
+"UnitaryTransformation.html\">Planetmath</ulink> o <ulink url=\"http://"
+"mathworld.wolfram.com/UnitaryMatrix.html\">Mathworld</ulink> para obtener "
+"más información."
 
 #: C/genius.xml:3197(term)
 msgid "JordanBlock"
@@ -8215,6 +8410,10 @@ msgid ""
 "mathworld.wolfram.com/JordanBlock.html\">Mathworld</ulink> for more "
 "information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/"
+"JordanCanonicalFormTheorem.html\">Planetmath</ulink> o <ulink url=\"http://"
+"mathworld.wolfram.com/JordanBlock.html\">Mathworld</ulink> para obtener más "
+"información."
 
 #: C/genius.xml:3213(term)
 msgid "Kernel"
@@ -8227,7 +8426,7 @@ msgstr "Kernel (T)"
 
 #: C/genius.xml:3216(para)
 msgid "Get the kernel (nullspace) of a linear transform."
-msgstr ""
+msgstr "Obtener el núcleo (espacio nulo) de una trasformación lineal."
 
 #: C/genius.xml:3217(para)
 msgid "(See <link linkend=\"gel-function-NullSpace\">NullSpace</link>)"
@@ -8275,6 +8474,9 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "LUDecomposition.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/LUDecomposition.html"
+"\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"LUDecomposition.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:3262(term)
 msgid "Minor"
@@ -8294,6 +8496,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/Minor.html\">Planetmath</"
 "ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/Minor.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3274(term)
 msgid "NonPivotColumns"
@@ -8346,6 +8550,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/Nullspace.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/Nullspace.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3306(term)
 msgid "Nullity"
@@ -8371,6 +8577,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/Nullity.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/Nullity.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3320(term)
 msgid "OrthogonalComplement"
@@ -8383,7 +8591,7 @@ msgstr "OrthogonalComplement (M)"
 
 #: C/genius.xml:3323(para)
 msgid "Get the orthogonal complement of the columnspace."
-msgstr ""
+msgstr "Obtener el complemento ortogonal del espacio de columnas."
 
 #: C/genius.xml:3328(term)
 msgid "PivotColumns"
@@ -8446,6 +8654,9 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "QRDecomposition.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/QRDecomposition.html"
+"\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"QRDecomposition.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:3375(term)
 msgid "RayleighQuotient"
@@ -8467,6 +8678,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/RayleighQuotient.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/RayleighQuotient."
+"html\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3387(term)
 msgid "RayleighQuotientIteration"
@@ -8509,13 +8722,15 @@ msgstr ""
 
 #: C/genius.xml:3412(para)
 msgid "Get the rank of a matrix."
-msgstr ""
+msgstr "Obtener el rango de una matriz."
 
 #: C/genius.xml:3413(para)
 msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/SylvestersLaw.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/SylvestersLaw.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3421(term)
 msgid "RosserMatrix"
@@ -8537,7 +8752,7 @@ msgstr "Rotation2D"
 #: C/genius.xml:3431(synopsis)
 #, no-wrap
 msgid "Rotation2D (angle)"
-msgstr ""
+msgstr "Rotation2D (ángulo)"
 
 #: C/genius.xml:3432(para)
 msgid "Aliases: <function>RotationMatrix</function>"
@@ -8556,7 +8771,7 @@ msgstr "Rotation3DX"
 #: C/genius.xml:3440(synopsis)
 #, no-wrap
 msgid "Rotation3DX (angle)"
-msgstr ""
+msgstr "Rotation3DX (ángulo)"
 
 #: C/genius.xml:3441(para)
 msgid ""
@@ -8571,7 +8786,7 @@ msgstr "Rotation3DY"
 #: C/genius.xml:3448(synopsis)
 #, no-wrap
 msgid "Rotation3DY (angle)"
-msgstr ""
+msgstr "Rotation3DY (ángulo)"
 
 #: C/genius.xml:3449(para)
 msgid ""
@@ -8586,7 +8801,7 @@ msgstr "Rotation3DZ"
 #: C/genius.xml:3456(synopsis)
 #, no-wrap
 msgid "Rotation3DZ (angle)"
-msgstr ""
+msgstr "Rotation3DZ (ángulo)"
 
 #: C/genius.xml:3457(para)
 msgid ""
@@ -8700,6 +8915,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/ToeplitzMatrix.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/ToeplitzMatrix.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3525(term)
 msgid "Trace"
@@ -8724,6 +8941,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/Trace.html\">Planetmath</"
 "ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/Trace.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3538(term)
 msgid "Transpose"
@@ -8745,6 +8964,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/Transpose.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/Transpose.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3551(term)
 msgid "VandermondeMatrix"
@@ -8761,7 +8982,7 @@ msgstr ""
 
 #: C/genius.xml:3555(para)
 msgid "Return the Vandermonde matrix."
-msgstr ""
+msgstr "Devuelve la matriz de Vandermonde."
 
 #: C/genius.xml:3560(term)
 msgid "VectorAngle"
@@ -8871,7 +9092,7 @@ msgstr ""
 
 #: C/genius.xml:3618(para)
 msgid "Get the determinant of a matrix."
-msgstr ""
+msgstr "Obtener el determinante de una matriz."
 
 #: C/genius.xml:3619(para)
 msgid ""
@@ -8879,6 +9100,9 @@ msgid ""
 "ulink> or <ulink url=\"http://planetmath.org/encyclopedia/Determinant2.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Determinant"
+"\">Wikipedia</ulink> o <ulink url=\"http://planetmath.org/encyclopedia/"
+"Determinant2.html\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3628(term)
 msgid "ref"
@@ -8906,6 +9130,9 @@ msgid ""
 "ulink> or <ulink url=\"http://planetmath.org/encyclopedia/RowEchelonForm.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Row_echelon_form"
+"\">Wikipedia</ulink> o <ulink url=\"http://planetmath.org/encyclopedia/"
+"RowEchelonForm.html\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3644(term)
 msgid "rref"
@@ -8933,10 +9160,14 @@ msgid ""
 "\">Wikipedia</ulink> or <ulink url=\"http://planetmath.org/encyclopedia/"
 "ReducedRowEchelonForm.html\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/"
+"Reduced_row_echelon_form\">Wikipedia</ulink> o <ulink url=\"http://"
+"planetmath.org/encyclopedia/ReducedRowEchelonForm.html\">Planetmath</ulink> "
+"para obtener más información."
 
 #: C/genius.xml:3661(title)
 msgid "Combinatorics"
-msgstr ""
+msgstr "Combinatoria"
 
 #: C/genius.xml:3664(term)
 msgid "Catalan"
@@ -8956,6 +9187,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/CatalanNumbers.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/CatalanNumbers.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3676(term)
 msgid "Combinations"
@@ -8990,6 +9223,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/DoubleFactorial.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/DoubleFactorial.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3698(term)
 msgid "Factorial"
@@ -9009,6 +9244,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/Factorial.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/Factorial.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3710(term)
 msgid "FallingFactorial"
@@ -9028,6 +9265,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/FallingFactorial.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://planetmath.org/encyclopedia/FallingFactorial."
+"html\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3722(term)
 msgid "Fibonacci"
@@ -9056,6 +9295,11 @@ msgid ""
 "html\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "FibonacciNumber.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Fibonacci_number"
+"\">Wikipedia</ulink> o <ulink url=\"http://planetmath.org/encyclopedia/"
+"FibonacciSequence.html\">Planetmath</ulink> o <ulink url=\"http://mathworld."
+"wolfram.com/FibonacciNumber.html\">Mathworld</ulink> para obtener más "
+"información."
 
 #: C/genius.xml:3743(term)
 msgid "FrobeniusNumber"
@@ -9079,6 +9323,8 @@ msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/FrobeniusNumber.html"
 "\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://mathworld.wolfram.com/FrobeniusNumber.html"
+"\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:3761(term)
 msgid "GaloisMatrix"
@@ -9116,6 +9362,8 @@ msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/GreedyAlgorithm.html"
 "\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://mathworld.wolfram.com/GreedyAlgorithm.html"
+"\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:3787(term)
 msgid "HarmonicNumber"
@@ -9203,6 +9451,11 @@ msgid ""
 "wikipedia.org/wiki/Multinomial_theorem\">Wikipedia</ulink> for more "
 "information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/MultinomialTheorem."
+"html\">Planetmath</ulink>, <ulink url=\"http://mathworld.wolfram.com/"
+"MultinomialCoefficient.html\">Mathworld</ulink>, o la <ulink url=\"http://en."
+"wikipedia.org/wiki/Multinomial_theorem\">Wikipedia</ulink> para obtener más "
+"información."
 
 #: C/genius.xml:3841(term)
 msgid "NextCombination"
@@ -9257,6 +9510,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/PascalsTriangle.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/PascalsTriangle.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3882(term)
 msgid "Permutations"
@@ -9279,6 +9534,9 @@ msgid ""
 "ulink> or <ulink url=\"http://en.wikipedia.org/wiki/Permutation\">Wikipedia</"
 "ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://mathworld.wolfram.com/Permutation.html"
+"\">Mathworld</ulink> o la <ulink url=\"http://en.wikipedia.org/wiki/"
+"Permutation\">Wikipedia</ulink> para obtener más información."
 
 #: C/genius.xml:3895(term)
 msgid "RisingFactorial"
@@ -9302,6 +9560,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/RisingFactorial.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/RisingFactorial.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3908(term)
 msgid "StirlingNumberFirst"
@@ -9327,6 +9587,10 @@ msgid ""
 "\"http://mathworld.wolfram.com/StirlingNumberoftheFirstKind.html"
 "\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/"
+"StirlingNumbersOfTheFirstKind.html\">Planetmath</ulink> o <ulink url="
+"\"http://mathworld.wolfram.com/StirlingNumberoftheFirstKind.html"
+"\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:3922(term)
 msgid "StirlingNumberSecond"
@@ -9352,6 +9616,10 @@ msgid ""
 "mathworld.wolfram.com/StirlingNumberoftheSecondKind.html\">Mathworld</ulink> "
 "for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/"
+"StirlingNumbersSecondKind.html\">Planetmath</ulink> o <ulink url=\"http://"
+"mathworld.wolfram.com/StirlingNumberoftheSecondKind.html\">Mathworld</ulink> "
+"para obtener más información."
 
 #: C/genius.xml:3936(term)
 msgid "Subfactorial"
@@ -9384,6 +9652,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/TriangularNumbers.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/TriangularNumbers."
+"html\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3956(term)
 msgid "nCr"
@@ -9409,6 +9679,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/Choose.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/Choose.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:3970(term)
 msgid "nPr"
@@ -9427,7 +9699,7 @@ msgstr ""
 
 #: C/genius.xml:3987(title)
 msgid "Calculus"
-msgstr ""
+msgstr "Cálculo"
 
 #: C/genius.xml:3990(term)
 msgid "CompositeSimpsonsRule"
@@ -9450,6 +9722,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/SimpsonsRule.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/SimpsonsRule.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:4002(term)
 msgid "CompositeSimpsonsRuleTolerance"
@@ -9533,6 +9807,9 @@ msgid ""
 "ulink> or <ulink url=\"http://mathworld.wolfram.com/FourierSeries.html"
 "\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Fourier_series"
+"\">Wikipedia</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"FourierSeries.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:4060(term)
 msgid "InfiniteProduct"
@@ -9647,6 +9924,8 @@ msgid ""
 "Calculate the limit of a real-valued function at x0. Tries to calculate both "
 "left and right limits."
 msgstr ""
+"Calcular el límite de una función real en x0. Intenta calcular tanto el "
+"límite por la derecha como por la izquierda."
 
 #: C/genius.xml:4124(term)
 msgid "MidpointRule"
@@ -9659,7 +9938,7 @@ msgstr "MidpointRule (f,a,b,n)"
 
 #: C/genius.xml:4127(para)
 msgid "Integration by midpoint rule."
-msgstr ""
+msgstr "Integración por la regla del punto medio."
 
 #: C/genius.xml:4132(term)
 msgid "NumericalDerivative"
@@ -9676,7 +9955,7 @@ msgstr ""
 
 #: C/genius.xml:4136(para)
 msgid "Attempt to calculate numerical derivative."
-msgstr ""
+msgstr "Intentar calcular la derivada numérica."
 
 #: C/genius.xml:4141(term)
 msgid "NumericalFourierSeriesCoefficients"
@@ -9745,6 +10024,9 @@ msgid ""
 "ulink> or <ulink url=\"http://mathworld.wolfram.com/FourierCosineSeries.html"
 "\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Fourier_series"
+"\">Wikipedia</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"FourierCosineSeries.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:4205(term)
 msgid "NumericalFourierCosineSeriesFunction"
@@ -9982,7 +10264,7 @@ msgstr ""
 
 #: C/genius.xml:4375(title)
 msgid "Functions"
-msgstr ""
+msgstr "Funciones"
 
 #: C/genius.xml:4378(term)
 msgid "Argument"
@@ -9999,7 +10281,7 @@ msgstr ""
 
 #: C/genius.xml:4382(para)
 msgid "argument (angle) of complex number."
-msgstr ""
+msgstr "argumento (ángulo) de un número complejo."
 
 #: C/genius.xml:4387(term)
 msgid "DirichletKernel"
@@ -10012,7 +10294,7 @@ msgstr "DirichletKernel (n,t)"
 
 #: C/genius.xml:4390(para)
 msgid "Dirichlet kernel of order n."
-msgstr ""
+msgstr "Núcleo de Dirichlet de orden n."
 
 #: C/genius.xml:4395(term)
 msgid "DiscreteDelta"
@@ -10025,7 +10307,7 @@ msgstr "DiscreteDelta (v)"
 
 #: C/genius.xml:4398(para)
 msgid "Returns 1 iff all elements are zero."
-msgstr ""
+msgstr "Devuelve 1 si todos los elementos son cero."
 
 #: C/genius.xml:4403(term)
 msgid "ErrorFunction"
@@ -10042,13 +10324,15 @@ msgstr ""
 
 #: C/genius.xml:4407(para)
 msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt."
-msgstr ""
+msgstr "La función de error, 2/sqrt(pi) * int_0^x e^(-t^2) dt."
 
 #: C/genius.xml:4408(para)
 msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/ErrorFunction.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/ErrorFunction.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:4416(term)
 msgid "FejerKernel"
@@ -10069,6 +10353,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/FejerKernel.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/FejerKernel.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:4429(term)
 msgid "GammaFunction"
@@ -10092,6 +10378,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/GammaFunction.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/GammaFunction.html"
+"\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:4442(term)
 msgid "KroneckerDelta"
@@ -10104,7 +10392,7 @@ msgstr "KroneckerDelta (v)"
 
 #: C/genius.xml:4445(para)
 msgid "Returns 1 iff all elements are equal."
-msgstr ""
+msgstr "Devuelve 1 si todos los elementos son iguales."
 
 #: C/genius.xml:4450(term)
 msgid "MinimizeFunction"
@@ -10113,11 +10401,11 @@ msgstr "MinimizeFunction"
 #: C/genius.xml:4452(synopsis)
 #, no-wrap
 msgid "MinimizeFunction (func,x,incr)"
-msgstr ""
+msgstr "MinimizeFunction (func,x,incr)"
 
 #: C/genius.xml:4453(para)
 msgid "Find the first value where f(x)=0."
-msgstr ""
+msgstr "Buscar el primer valor donde f(x)=0."
 
 #: C/genius.xml:4458(term)
 msgid "MoebiusDiskMapping"
@@ -10138,6 +10426,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/MobiusTransformation.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/"
+"MobiusTransformation.html\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:4470(term)
 msgid "MoebiusMapping"
@@ -10249,6 +10539,8 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/RiemannZetaFunction.html"
 "\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/RiemannZetaFunction."
+"html\">Planetmath</ulink> para obtener más información."
 
 #: C/genius.xml:4547(term)
 msgid "UnitStep"
@@ -10270,6 +10562,8 @@ msgid ""
 "See <ulink url=\"http://en.wikipedia.org/wiki/Unit_step\">Wikipedia</ulink> "
 "for more information."
 msgstr ""
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Unit_step\">Wikipedia</"
+"ulink> para obtener más información."
 
 #: C/genius.xml:4559(term)
 msgid "cis"
@@ -10282,8 +10576,8 @@ msgstr "cis (x)"
 
 #: C/genius.xml:4562(para)
 msgid ""
-"The <function>cis</function> function, that is the same as <userinput>cos"
-"(x)+1i*sin(x)</userinput>"
+"The <function>cis</function> function, that is the same as <userinput>cos(x)"
+"+1i*sin(x)</userinput>"
 msgstr ""
 
 #: C/genius.xml:4570(term)
@@ -10297,7 +10591,7 @@ msgstr "deg2rad (x)"
 
 #: C/genius.xml:4573(para)
 msgid "Convert degrees to radians."
-msgstr ""
+msgstr "Convertir grados a radianes."
 
 #: C/genius.xml:4578(term)
 msgid "rad2deg"
@@ -10310,11 +10604,11 @@ msgstr "rad2deg (x)"
 
 #: C/genius.xml:4581(para)
 msgid "Convert radians to degrees."
-msgstr ""
+msgstr "Convertir radianes a grados."
 
 #: C/genius.xml:4589(title)
 msgid "Equation Solving"
-msgstr ""
+msgstr "Resolución de ecuaciones"
 
 #: C/genius.xml:4593(term)
 msgid "CubicFormula"
@@ -10342,6 +10636,10 @@ msgid ""
 "CubicFormula.html\">Mathworld</ulink>, or <ulink url=\"http://en.wikipedia."
 "org/wiki/Cubic_equation\">Wikipedia</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/CubicFormula.html"
+"\">Planetmath</ulink>, <ulink url=\"http://mathworld.wolfram.com/"
+"CubicFormula.html\">Mathworld</ulink>, o <ulink url=\"http://en.wikipedia."
+"org/wiki/Cubic_equation\">Wikipedia</ulink> para obtener más información."
 
 #: C/genius.xml:4615(term)
 msgid "EulersMethod"
@@ -10376,6 +10674,9 @@ msgid ""
 "\">Mathworld</ulink>, or <ulink url=\"http://en.wikipedia.org/wiki/"
 "Eulers_method\">Wikipedia</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://mathworld.wolfram.com/EulerForwardMethod.html"
+"\">Mathworld</ulink>, o la <ulink url=\"http://en.wikipedia.org/wiki/"
+"Eulers_method\">Wikipedia</ulink> para obtener más información."
 
 #: C/genius.xml:4640(term)
 msgid "EulersMethodFull"
@@ -10525,6 +10826,9 @@ msgid ""
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
 "QuadraticFormula.html\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/QuadraticFormula."
+"html\">Planetmath</ulink> o <ulink url=\"http://mathworld.wolfram.com/"
+"QuadraticFormula.html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:4750(term)
 msgid "QuarticFormula"
@@ -10550,6 +10854,11 @@ msgid ""
 "QuarticEquation.html\">Mathworld</ulink>, or <ulink url=\"http://en."
 "wikipedia.org/wiki/Quartic_equation\">Wikipedia</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/QuarticFormula.html"
+"\">Planetmath</ulink>, <ulink url=\"http://mathworld.wolfram.com/"
+"QuarticEquation.html\">Mathworld</ulink>, o la <ulink url=\"http://en."
+"wikipedia.org/wiki/Quartic_equation\">Wikipedia</ulink> para obtener más "
+"información."
 
 #: C/genius.xml:4771(term)
 msgid "RungeKutta"
@@ -10574,6 +10883,9 @@ msgid ""
 "\">Mathworld</ulink>, or <ulink url=\"http://en.wikipedia.org/wiki/Runge-"
 "Kutta_methods\">Wikipedia</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://mathworld.wolfram.com/Runge-KuttaMethod.html"
+"\">Mathworld</ulink>, o la <ulink url=\"http://en.wikipedia.org/wiki/Runge-"
+"Kutta_methods\">Wikipedia</ulink> para obtener más información."
 
 #: C/genius.xml:4797(term)
 msgid "RungeKuttaFull"
@@ -10596,7 +10908,7 @@ msgstr ""
 
 #: C/genius.xml:4831(title)
 msgid "Statistics"
-msgstr ""
+msgstr "Estadísticas"
 
 #: C/genius.xml:4834(term)
 msgid "Average"
@@ -10615,13 +10927,15 @@ msgstr ""
 
 #: C/genius.xml:4838(para)
 msgid "Calculate average of an entire matrix."
-msgstr ""
+msgstr "Calcular la media de una matriz entera."
 
 #: C/genius.xml:4839(para) C/genius.xml:4899(para)
 msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/ArithmeticMean.html"
 "\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://mathworld.wolfram.com/ArithmeticMean.html"
+"\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:4847(term)
 msgid "GaussDistribution"
@@ -10643,6 +10957,8 @@ msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/NormalDistribution.html"
 "\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://mathworld.wolfram.com/NormalDistribution.html"
+"\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:4859(term)
 msgid "GaussFunction"
@@ -10655,7 +10971,7 @@ msgstr "GaussFunction (x,sigma)"
 
 #: C/genius.xml:4862(para)
 msgid "The normalized Gauss distribution function (the normal curve)."
-msgstr ""
+msgstr "La función de distribución Gausiana normalizada (la curva normal)."
 
 #: C/genius.xml:4872(term)
 msgid "Median"
@@ -10672,13 +10988,15 @@ msgstr ""
 
 #: C/genius.xml:4876(para)
 msgid "Calculate median of an entire matrix."
-msgstr ""
+msgstr "Calcula la mediana de una matriz entera."
 
 #: C/genius.xml:4877(para) C/genius.xml:4912(para)
 msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/StatisticalMedian.html"
 "\">Mathworld</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://mathworld.wolfram.com/StatisticalMedian.html"
+"\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:4885(term)
 msgid "PopulationStandardDeviation"
@@ -10782,11 +11100,11 @@ msgstr ""
 
 #: C/genius.xml:4942(para)
 msgid "Calculate the standard deviation of a whole matrix."
-msgstr ""
+msgstr "Calcular la desviación estándar de una matriz entera."
 
 #: C/genius.xml:4950(title)
 msgid "Polynomials"
-msgstr ""
+msgstr "Polinomios"
 
 #: C/genius.xml:4953(term)
 msgid "AddPoly"
@@ -10799,7 +11117,7 @@ msgstr "AddPoly (p1,p2)"
 
 #: C/genius.xml:4956(para)
 msgid "Add two polynomials (vectors)."
-msgstr ""
+msgstr "Suma dos polinomios (vectores)."
 
 #: C/genius.xml:4961(term)
 msgid "DividePoly"
@@ -10823,6 +11141,9 @@ msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/PolynomialLongDivision."
 "html\">Planetmath</ulink> for more information."
 msgstr ""
+"Consulte <ulink url=\"http://planetmath.org/encyclopedia/"
+"PolynomialLongDivision.html\">Planetmath</ulink> para obtener más "
+"información."
 
 #: C/genius.xml:4977(term)
 msgid "IsPoly"
@@ -10835,7 +11156,7 @@ msgstr "IsPoly (p)"
 
 #: C/genius.xml:4980(para)
 msgid "Check if a vector is usable as a polynomial."
-msgstr ""
+msgstr "Comprobar si un vector se puede usar como un polinomio."
 
 #: C/genius.xml:4985(term)
 msgid "MultiplyPoly"
@@ -10848,7 +11169,7 @@ msgstr "MultiplyPoly (p1,p2)"
 
 #: C/genius.xml:4988(para)
 msgid "Multiply two polynomials (as vectors)."
-msgstr ""
+msgstr "Multiplica dos polinomios (como vectores)."
 
 #: C/genius.xml:4993(term)
 msgid "NewtonsMethodPoly"
@@ -10865,6 +11186,10 @@ msgid ""
 "two successive values are within epsilon or after maxn tries (then returns "
 "null)."
 msgstr ""
+"Ejecuta el método de Newton sobre un polinomio para tratar de encontrar una "
+"raíz, devuelve un resultado cuando dos valores sucesivos están dentro de los "
+"límites que marca épsilon o después de maxn iteraciones (en cuyo caso "
+"devuelve null)."
 
 #: C/genius.xml:5001(term)
 msgid "Poly2ndDerivative"
@@ -10929,7 +11254,7 @@ msgstr "SubtractPoly (p1,p2)"
 
 #: C/genius.xml:5036(para)
 msgid "Subtract two polynomials (as vectors)."
-msgstr ""
+msgstr "Restar dos polinomios (como vectores)."
 
 #: C/genius.xml:5041(term)
 msgid "TrimPoly"
@@ -10942,11 +11267,11 @@ msgstr "TrimPoly (p)"
 
 #: C/genius.xml:5044(para)
 msgid "Trim zeros from a polynomial (as vector)."
-msgstr ""
+msgstr "Eliminar ceros de un polinomio (como vector)."
 
 #: C/genius.xml:5052(title)
 msgid "Set Theory"
-msgstr ""
+msgstr "Teoría de conjuntos"
 
 #: C/genius.xml:5055(term)
 msgid "Intersection"
@@ -11047,11 +11372,11 @@ msgstr "ASCIIToString"
 #: C/genius.xml:5111(synopsis)
 #, no-wrap
 msgid "ASCIIToString (vec)"
-msgstr ""
+msgstr "ASCIIToString (vec)"
 
 #: C/genius.xml:5112(para)
 msgid "Convert a vector of ASCII values to a string."
-msgstr ""
+msgstr "Convertir un vector de valores ASCII en una cadena."
 
 #: C/genius.xml:5117(term)
 msgid "AlphabetToString"
@@ -11075,11 +11400,11 @@ msgstr "StringToASCII"
 #: C/genius.xml:5127(synopsis)
 #, no-wrap
 msgid "StringToASCII (str)"
-msgstr ""
+msgstr "StringToASCII (cad)"
 
 #: C/genius.xml:5128(para)
 msgid "Convert a string to a vector of ASCII values."
-msgstr ""
+msgstr "Convertir una cadena a un vector de valores ASCII."
 
 #: C/genius.xml:5133(term)
 msgid "StringToAlphabet"
@@ -11095,10 +11420,12 @@ msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters."
 msgstr ""
+"Convertir una cadena en un vector de valores alfabéticos basados en 0 "
+"(posiciones en la cadena alfabeto), -1 para las letras desconocidas."
 
 #: C/genius.xml:5144(title)
 msgid "Symbolic Operations"
-msgstr ""
+msgstr "Operaciones simbólicas"
 
 #: C/genius.xml:5147(term)
 msgid "SymbolicDerivative"
@@ -11198,12 +11525,12 @@ msgstr "LinePlot"
 #: C/genius.xml:5210(synopsis)
 #, no-wrap
 msgid "LinePlot (func1,func2,func3,...)"
-msgstr ""
+msgstr "LinePlot (func1,func2,func3,...)"
 
 #: C/genius.xml:5211(synopsis)
 #, no-wrap
 msgid "LinePlot (func1,func2,func3,x1,x2,y1,y2)"
-msgstr ""
+msgstr "LinePlot (func1,func2,func3,x1,x2,y1,y2)"
 
 #: C/genius.xml:5212(para)
 msgid ""
@@ -11339,7 +11666,7 @@ msgstr "LinePlotCParametric"
 #: C/genius.xml:5316(synopsis)
 #, no-wrap
 msgid "LinePlotCParametric (func,...)"
-msgstr ""
+msgstr "LinePlotCParametric (func,...)"
 
 #: C/genius.xml:5317(synopsis)
 #, no-wrap
@@ -11426,6 +11753,9 @@ msgid ""
 "=sin(x-y),-5,5,-5,5)</userinput>\n"
 "</screen>"
 msgstr ""
+"Ejemplos: <screen><prompt>genius&gt;</prompt> <userinput>Slopefield(`(x,y)"
+"=sin(x-y),-5,5,-5,5)</userinput>\n"
+"</screen>"
 
 #: C/genius.xml:5397(term)
 msgid "SurfacePlot"
@@ -11454,14 +11784,21 @@ msgstr ""
 
 #: C/genius.xml:5409(para)
 msgid ""
-"Examples: <screen><prompt>genius&gt;</prompt> <userinput>SurfacePlot(|"
-"sin|,-1,1,-1,1,0,1.5)</userinput>\n"
-"<prompt>genius&gt;</prompt> <userinput>SurfacePlot(`(x,y)"
-"=x^2+y,-1,1,-1,1,-2,2)</userinput>\n"
+"Examples: <screen><prompt>genius&gt;</prompt> <userinput>SurfacePlot(|sin|,-"
+"1,1,-1,1,0,1.5)</userinput>\n"
+"<prompt>genius&gt;</prompt> <userinput>SurfacePlot(`(x,y)=x^2+y,-1,1,-1,1,-"
+"2,2)</userinput>\n"
 "<prompt>genius&gt;</prompt> <userinput>SurfacePlot(`(z)=|z|^2,-1,1,-1,1,0,2)"
 "</userinput>\n"
 "</screen>"
 msgstr ""
+"Ejemplos: <screen><prompt>genius&gt;</prompt> <userinput>SurfacePlot(|sin|,-"
+"1,1,-1,1,0,1.5)</userinput>\n"
+"<prompt>genius&gt;</prompt> <userinput>SurfacePlot(`(x,y)=x^2+y,-1,1,-1,1,-"
+"2,2)</userinput>\n"
+"<prompt>genius&gt;</prompt> <userinput>SurfacePlot(`(z)=|z|^2,-1,1,-1,1,0,2)"
+"</userinput>\n"
+"</screen>"
 
 #: C/genius.xml:5420(term)
 msgid "VectorfieldClearSolutions"
@@ -11512,7 +11849,7 @@ msgstr "VectorfieldPlot (funcx, funcy)"
 #: C/genius.xml:5453(synopsis)
 #, no-wrap
 msgid "VectorfieldPlot (funcx, funcy, x1, x2, y1, y2)"
-msgstr ""
+msgstr "VectorfieldPlot (funcx, funcy, x1, x2, y1, y2)"
 
 #: C/genius.xml:5454(para)
 msgid ""
@@ -11541,10 +11878,13 @@ msgid ""
 "y)=x^2-y, `(x,y)=y^2-x, -1, 1, -1, 1)</userinput>\n"
 "</screen>"
 msgstr ""
+"Ejemplos: <screen><prompt>genius&gt;</prompt> <userinput>VectorfieldPlot(`(x,"
+"y)=x^2-y, `(x,y)=y^2-x, -1, 1, -1, 1)</userinput>\n"
+"</screen>"
 
 #: C/genius.xml:2663(title)
 msgid "Example Programs in GEL"
-msgstr ""
+msgstr "Programas de ejemplo en GEL"
 
 #: C/genius.xml:2665(para)
 msgid "Here is a function that calculates factorials: <placeholder-1/>"
@@ -11631,7 +11971,7 @@ msgstr ""
 
 #: C/genius.xml:2790(guilabel)
 msgid "Results as floats"
-msgstr ""
+msgstr "Resultados como números de coma flotante"
 
 #: C/genius.xml:2793(para)
 msgid ""
@@ -11641,7 +11981,7 @@ msgstr ""
 
 #: C/genius.xml:2798(guilabel)
 msgid "Floats in scientific notation"
-msgstr ""
+msgstr "Números de coma flotante en notación científica"
 
 #: C/genius.xml:2801(para)
 msgid ""
@@ -11651,7 +11991,7 @@ msgstr ""
 
 #: C/genius.xml:2806(guilabel)
 msgid "Always print full expressions"
-msgstr ""
+msgstr "Imprimir siempre expresiones completas"
 
 #: C/genius.xml:2809(para)
 msgid ""
@@ -11772,7 +12112,7 @@ msgstr "Precisión"
 
 #: C/genius.xml:2937(guilabel)
 msgid "Floating point precision"
-msgstr ""
+msgstr "Precisión en coma flotante"
 
 #: C/genius.xml:2940(para)
 msgid ""
@@ -11786,7 +12126,7 @@ msgstr ""
 
 #: C/genius.xml:2955(guilabel)
 msgid "Remember precision setting across sessions"
-msgstr ""
+msgstr "Recordar los ajustes de precisión entre sesiones"
 
 #: C/genius.xml:2958(para)
 msgid ""
@@ -11819,7 +12159,7 @@ msgstr "Tipografía"
 
 #: C/genius.xml:2991(para)
 msgid "The font to use on the terminal."
-msgstr ""
+msgstr "La tipografía que usar en la terminal."
 
 #: C/genius.xml:2996(guilabel)
 msgid "Black on white"
@@ -11827,7 +12167,7 @@ msgstr "Negro sobre blanco"
 
 #: C/genius.xml:2999(para)
 msgid "If to use black on white on the terminal."
-msgstr ""
+msgstr "Si usar blanco sobre negro en la terminal."
 
 #: C/genius.xml:3004(guilabel)
 msgid "Blinking cursor"
@@ -11895,6 +12235,9 @@ msgid ""
 "manual, follow the directions in this <ulink url=\"ghelp:gnome-feedback\" "
 "type=\"help\">document</ulink>."
 msgstr ""
+"Para informar de un error o hacer una sugerencia sobre esta aplicación o "
+"sobre este manual, siga las explicaciones en este <ulink url=\"ghelp:gnome-"
+"feedback\" type=\"help\">documento</ulink>."
 
 #: C/genius.xml:3066(para)
 msgid ""
