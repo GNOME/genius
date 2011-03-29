@@ -1,3 +1,23 @@
+/* GENIUS Calculator
+ * Copyright (C) 1997-2011 Jiri (George) Lebl
+ *
+ * Author: Jiri (George) Lebl
+ *
+ * This file is part of Genius.
+ *
+ * Genius is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -170,6 +190,7 @@ main(int argc, char *argv[])
 		int count;
 		if(sscanf(buf,"PLUGINS %d\n",&count) == 1) {
 			int i;
+			GQueue queue = G_QUEUE_INIT;
 			if(plugins) {
 				g_list_foreach(plugins,(GFunc)g_free,NULL);
 				g_list_free(plugins);
@@ -181,11 +202,12 @@ main(int argc, char *argv[])
 					goto end_with_an_error;
 				p = strchr(buf,'\n');
 				if(p) *p = '\0';
-				plugins = g_list_prepend(plugins,g_strdup(buf));
+				g_queue_push_tail (&queue, g_strdup (buf));
 			}
-			plugins = g_list_reverse(plugins);
+			plugins = queue.head;
 		} else if(sscanf(buf,"FUNCTIONS %d\n",&count) == 1) {
 			int i;
+			GQueue queue = G_QUEUE_INIT;
 			if(functions) {
 				g_list_foreach(functions,(GFunc)g_free,NULL);
 				g_list_free(functions);
@@ -197,9 +219,9 @@ main(int argc, char *argv[])
 					goto end_with_an_error;
 				p = strchr(buf,'\n');
 				if(p) *p = '\0';
-				functions = g_list_prepend(functions,g_strdup(buf));
+				g_queue_push_tail (&queue, g_strdup (buf));
 			}
-			functions = g_list_reverse(functions);
+			functions = queue.head;
 		} else if (strncmp (buf, "CWD ", strlen ("CWD "))==0) {
 			char *r = strrchr (buf, '\n');
 			if (r != NULL)

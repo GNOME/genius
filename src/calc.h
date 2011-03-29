@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2010 Jiri (George) Lebl
+ * Copyright (C) 1997-2011 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -29,7 +29,7 @@
 
 #include "structs.h"
 
-#define GENIUS_COPYRIGHT_STRING N_("Copyright (C) 1997-2010 Jiří (George) Lebl, Ph.D.")
+#define GENIUS_COPYRIGHT_STRING N_("Copyright (C) 1997-2011 Jiří (George) Lebl, Ph.D.")
 
 typedef enum {
 	GEL_NO_ERROR = 0,

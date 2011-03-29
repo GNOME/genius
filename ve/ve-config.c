@@ -1,6 +1,6 @@
 /* Config reader routines
  *
- * (c) 2002 George Lebl
+ * (c) 2002,2011 George Lebl
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -861,17 +861,15 @@ GList *
 ve_config_get_sections (VeConfig *config)
 {
 	GList *li;
-	GList *list;
+	GQueue queue = G_QUEUE_INIT;
 
 	g_return_val_if_fail (config != NULL, NULL);
 
-	list = NULL;
-
 	for (li = config->sections; li != NULL; li = li->next) {
 		VeSection *section = li->data;
-		list = g_list_prepend (list, g_strdup (section->name));
+		g_queue_push_tail (&queue, g_strdup (section->name));
 	}
-	return g_list_reverse (list);
+	return queue.head;
 }
 
 GList *
@@ -879,7 +877,7 @@ ve_config_get_keys (VeConfig *config, const char *section)
 {
 	VeSection *sec;
 	GList *li;
-	GList *list;
+	GQueue queue = G_QUEUE_INIT;
 
 	g_return_val_if_fail (config != NULL, NULL);
 	g_return_val_if_fail (section != NULL, NULL);
@@ -888,15 +886,13 @@ ve_config_get_keys (VeConfig *config, const char *section)
 	if (sec == NULL)
 		return NULL;
 
-	list = NULL;
-
 	for (li = sec->lines; li != NULL; li = li->next) {
 		VeLine *ll = li->data;
 		if (ll->type == VE_LINE_KEY &&
 		    ! ve_string_empty (ll->key))
-			list = g_list_prepend (list, g_strdup (ll->key));
+			g_queue_push_tail (&queue, g_strdup (ll->key));
 	}
-	return g_list_reverse (list);
+	return queue.head;
 }
 
 void

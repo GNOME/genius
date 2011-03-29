@@ -1,3 +1,14 @@
+Mon Mar 28 18:17:52 2011  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/calc.h, src/funclib.c, src/matrix.[ch],
+	  src/genius-readline-helper.c, ve/ve-config.c, src/graphing.c:
+	  Bunch of optimizations.  Use GQueues where useful, drop use of
+	  g_ptr_array for matrices which saves a tiny bit of overhead and
+	  will allow graceful handling of out of memory problems rather than
+	  just crashing.  Optimize Combinations/Permutations quite a bit.
+
+	* src/geniustests.txt: add some tests.
+
 Wed Feb 16 21:12:34 2011  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c: try gnome-help if gtk_open_uri don't work (am

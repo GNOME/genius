@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2010 Jiri (George) Lebl
+ * Copyright (C) 2003-2011 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -3403,9 +3403,10 @@ slopefield_draw_solution (double x, double y, double dx)
 	int len1, len2, len;
 	int i;
 	GdkColor color;
-	GSList *points1 = NULL;
+	GQueue points1 = G_QUEUE_INIT;
 	GSList *points2 = NULL;
-	GSList *li;
+	GList *li;
+	GSList *sli;
 	GtkPlotData *data;
 	double fudgey;
 
@@ -3449,10 +3450,8 @@ slopefield_draw_solution (double x, double y, double dx)
 		pt[0] = cx;
 		pt[1] = cy;
 
-		points1 = g_slist_prepend (points1, pt);
+		g_queue_push_tail (&points1, pt);
 	}
-
-	points1 = g_slist_reverse (points1);
 
 	len2 = 0;
 	cx = x;
@@ -3495,9 +3494,9 @@ slopefield_draw_solution (double x, double y, double dx)
 	yy = g_new0 (double, len);
 
 	i = 0;
-	for (li = points2; li != NULL; li = li->next) {
-		double *pt = li->data;
-		li->data = NULL;
+	for (sli = points2; sli != NULL; sli = sli->next) {
+		double *pt = sli->data;
+		sli->data = NULL;
 
 		xx[i] = pt[0];
 		yy[i] = pt[1];
@@ -3512,7 +3511,7 @@ slopefield_draw_solution (double x, double y, double dx)
 
 	i++;
 
-	for (li = points1; li != NULL; li = li->next) {
+	for (li = points1.head; li != NULL; li = li->next) {
 		double *pt = li->data;
 		li->data = NULL;
 
@@ -3524,7 +3523,7 @@ slopefield_draw_solution (double x, double y, double dx)
 		i++;
 	}
 
-	g_slist_free (points1);
+	g_queue_clear (&points1);
 	g_slist_free (points2);
 
 	/* Adjust ends */

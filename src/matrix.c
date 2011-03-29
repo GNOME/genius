@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2006 George Lebl
+ * Copyright (C) 1997-2011 George Lebl
  *
  * Author: George Lebl
  *
@@ -58,7 +58,7 @@ gel_matrix_new(void)
 	m->width = 0;
 	m->height = 0;
 	
-	m->data = NULL;
+	m->thedata = NULL;
 	
 	m->realwidth = 0;
 	m->fullsize = 0;
@@ -72,7 +72,7 @@ gel_matrix_new(void)
 void
 gel_matrix_set_size (GelMatrix *matrix, int width, int height, gboolean padding)
 {
-	GPtrArray *na;
+	gpointer *na;
 	int i;
 	int wpadding;
 	int hpadding;
@@ -91,32 +91,29 @@ gel_matrix_set_size (GelMatrix *matrix, int width, int height, gboolean padding)
 		if(hpadding > 10) hpadding = 10;
 	}
 	
-	if(!matrix->data) {
+	if (matrix->thedata == NULL) {
 		matrix->width = width;
 		matrix->realwidth = width+wpadding;
 		matrix->height = height;
 		matrix->fullsize=(width+wpadding)*(height+hpadding);
 
-		matrix->data = g_ptr_array_new();
-		g_ptr_array_set_size(matrix->data,matrix->fullsize);
-
-		memset(matrix->data->pdata, 0,
-		       (matrix->fullsize*sizeof(void *)));
+		matrix->thedata = g_new0 (gpointer, matrix->fullsize);
 		return;
 	}
 	
-	if(width<=matrix->realwidth) {
+	if (width <= matrix->realwidth) {
 		int newsize = matrix->realwidth*height;
-		if(newsize>matrix->fullsize) {
+		if (newsize > matrix->fullsize) {
+			matrix->thedata = g_renew (gpointer, matrix->thedata, newsize);
+			memset (matrix->thedata + matrix->fullsize, 0, (newsize - matrix->fullsize) * sizeof(void *));
 			matrix->fullsize = newsize;
-			g_ptr_array_set_size(matrix->data,matrix->fullsize);
 		}
-		if(width<matrix->width) {
+		if (width < matrix->width) {
 			for(i=0;i<matrix->height;i++)
-				memset(matrix->data->pdata+((matrix->realwidth*i)+width),0,(matrix->width-width)*sizeof(void *));
+				memset(matrix->thedata+((matrix->realwidth*i)+width),0,(matrix->width-width)*sizeof(void *));
 		}
-		if(height<matrix->height) {
-			memset(matrix->data->pdata+(matrix->realwidth*height),0,
+		if (height < matrix->height) {
+			memset(matrix->thedata+(matrix->realwidth*height),0,
 			       ((matrix->realwidth*matrix->height)-(matrix->realwidth*height))*sizeof(void *));
 		}
 		matrix->width = width;
@@ -125,13 +122,11 @@ gel_matrix_set_size (GelMatrix *matrix, int width, int height, gboolean padding)
 	}
 
 	matrix->fullsize = (width+wpadding)*(height+hpadding);
-	na = g_ptr_array_new();
-	g_ptr_array_set_size(na,matrix->fullsize);
-	memset(na->pdata,0,matrix->fullsize*sizeof(void *));
+	na = g_new0 (gpointer, matrix->fullsize);
 	
 	for(i=0;i<matrix->height;i++) {
-		memcpy(na->pdata+((width+wpadding)*i),
-		       matrix->data->pdata+(matrix->realwidth*i),
+		memcpy(na+((width+wpadding)*i),
+		       matrix->thedata+(matrix->realwidth*i),
 		       matrix->width*sizeof(void *));
 	}
 	
@@ -139,9 +134,9 @@ gel_matrix_set_size (GelMatrix *matrix, int width, int height, gboolean padding)
 	matrix->width = width;
 	matrix->height = height;
 
-	g_ptr_array_free(matrix->data,TRUE);
+	g_free (matrix->thedata);
 	
-	matrix->data = na;
+	matrix->thedata = na;
 }
 
 /*set the size of the matrix to be at least this*/
@@ -172,9 +167,9 @@ gel_matrix_set_element(GelMatrix *matrix, int x, int y, gpointer data)
 				     MAX(x+1,matrix->width),
 				     MAX(y+1,matrix->height),
 				     TRUE /* padding */);
-	g_return_if_fail(matrix->data!=NULL);
+	g_return_if_fail(matrix->thedata!=NULL);
 	
-	matrix->data->pdata[x+y*matrix->realwidth]=data;
+	matrix->thedata[x+y*matrix->realwidth]=data;
 }
 
 /*copy a matrix*/
@@ -191,9 +186,9 @@ gel_matrix_copy(GelMatrix *source, GelElementCopyFunc el_copy, gpointer func_dat
 	/*copy over the structure*/
 	*matrix = *source;
 	
-	matrix->data = NULL;
+	matrix->thedata = NULL;
 	
-	if(source->data==NULL)
+	if(source->thedata==NULL)
 		return matrix;
 
 	/*make us a new matrix data array*/
@@ -228,7 +223,7 @@ gel_matrix_transpose(GelMatrix *matrix)
 	
 	new = gel_matrix_new();
 
-	if(!matrix->data)
+	if (matrix->thedata == NULL)
 		return new;
 
 	gel_matrix_set_size (new, matrix->height, matrix->width, TRUE /* padding */);
@@ -249,7 +244,7 @@ gel_matrix_foreach(GelMatrix *matrix, GFunc func, gpointer func_data)
 	g_return_if_fail(matrix != NULL);
 	g_return_if_fail(func != NULL);
 	
-	if(matrix->data==NULL)
+	if (matrix->thedata == NULL)
 		return;
 
 	for(i=0;i<matrix->width;i++)
@@ -270,9 +265,10 @@ gel_matrix_free(GelMatrix *matrix)
 	
 	mf = (GelMatrixFreeList *)matrix;
 
-	if(matrix->data)
-		g_ptr_array_free(matrix->data,TRUE);
-	matrix->data = NULL;
+	if (matrix->thedata != NULL) {
+		g_free (matrix->thedata);
+		matrix->thedata = NULL;
+	}
 #ifdef MEM_DEBUG_FRIENDLY
 	memset (matrix, 0xaa, sizeof (GelMatrix));
 	g_free (matrix);

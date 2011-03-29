@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 George Lebl
+ * Copyright (C) 1997-2011 George Lebl
  *
  * Author: George Lebl
  *
@@ -29,7 +29,7 @@ struct _GelMatrix {
 	int width;
 	int height;
 
-	GPtrArray *data;
+	gpointer *thedata;
 
 	/*private data*/
 	int realwidth;
@@ -65,6 +65,6 @@ void gel_matrix_foreach(GelMatrix *matrix, GFunc func, gpointer func_data);
 void gel_matrix_free(GelMatrix *matrix);
 
 /*get the value at*/
-#define gel_matrix_index(m,x,y) (g_ptr_array_index((m)->data,(x)+(y)*(m)->realwidth))
+#define gel_matrix_index(m,x,y) ((m)->thedata[(x)+(y)*(m)->realwidth])
 
 #endif
