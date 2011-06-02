@@ -81,7 +81,7 @@ gel_matrix_set_size (GelMatrix *matrix, int width, int height, gboolean padding)
 	g_return_if_fail(width>0);
 	g_return_if_fail(height>0);
 
-	if ( ! padding) {
+	if (! padding) {
 		wpadding = 0;
 		hpadding = 0;
 	} else {
@@ -196,16 +196,17 @@ gel_matrix_copy(GelMatrix *source, GelElementCopyFunc el_copy, gpointer func_dat
 	
 	/*copy the data*/
 	if(el_copy) {
-		for(i=0;i<source->width;i++)
-			for(j=0;j<source->height;j++) {
+		for(j=0;j<source->height;j++) {
+			for(i=0;i<source->width;i++) {
 				gpointer data = gel_matrix_index(source,i,j);
 				if(data)
 					gel_matrix_index(matrix,i,j) =
 						(*el_copy)(data, func_data);
 			}
+		}
 	} else {
-		for(i=0;i<source->width;i++)
-			for(j=0;j<source->height;j++)
+		for(j=0;j<source->height;j++)
+			for(i=0;i<source->width;i++)
 				gel_matrix_index(matrix,i,j) =
 					gel_matrix_index(source,i,j);
 	}
@@ -247,12 +248,13 @@ gel_matrix_foreach(GelMatrix *matrix, GFunc func, gpointer func_data)
 	if (matrix->thedata == NULL)
 		return;
 
-	for(i=0;i<matrix->width;i++)
-		for(j=0;j<matrix->height;j++) {
+	for(j=0;j<matrix->height;j++) {
+		for(i=0;i<matrix->width;i++) {
 			gpointer data = gel_matrix_index(matrix,i,j);
 			if(data)
 				(*func)(data,func_data);
 		}
+	}
 }
 
 /*free a matrix*/

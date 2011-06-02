@@ -513,7 +513,7 @@ d_intern (const char *id)
 		return NULL;
 
         tok = g_hash_table_lookup (dictionary, id);
-	if (tok == NULL) {
+	if G_UNLIKELY (tok == NULL) {
 		tok = g_new0 (GelToken, 1);
 		tok->token = g_strdup (id);
 		g_hash_table_insert (dictionary, tok->token, tok);

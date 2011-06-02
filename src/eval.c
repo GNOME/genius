@@ -1240,8 +1240,8 @@ gel_expandmatrix (GelETree *n)
 
 		if (just_denull) {
 			int j;
-			for (i = 0; i < m->width; i++) {
-				for (j = 0; j < m->height; j++) {
+			for (j = 0; j < m->height; j++) {
+				for (i = 0; i < m->width; i++) {
 					GelETree *et
 						= gel_matrix_index (m, i, j);
 					if (et != NULL &&
@@ -5304,10 +5304,12 @@ iter_get_index_regions (GelETree *i1, GelETree *i2,
 			int **reg1, int **reg2,
 			int *l1, int *l2)
 {
-	if ( ! iter_get_index_region (i1, max1, reg1, l1))
+	if G_UNLIKELY ( ! iter_get_index_region (i1, max1, reg1, l1))
 		return FALSE;
-	if ( ! iter_get_index_region (i2, max2, reg2, l2))
+	if G_UNLIKELY ( ! iter_get_index_region (i2, max2, reg2, l2)) {
+		g_free (reg1);
 		return FALSE;
+	}
 	return TRUE;
 }
 

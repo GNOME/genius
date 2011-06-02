@@ -626,8 +626,8 @@ rand_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 		m = gel_matrix_new ();
 		gel_matrix_set_size (m, sizex, sizey, FALSE /* padding */);
-		for (i = 0; i < sizex; i++) {
-			for (j = 0; j < sizey; j++) {
+		for (j = 0; j < sizey; j++) {
+			for (i = 0; i < sizex; i++) {
 				mpw_t fr; 
 				mpw_init (fr);
 				mpw_rand (fr);
@@ -739,8 +739,8 @@ randint_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 		m = gel_matrix_new ();
 		gel_matrix_set_size (m, sizex, sizey, FALSE /* padding */);
-		for (i = 0; i < sizex; i++) {
-			for (j = 0; j < sizey; j++) {
+		for (j = 0; j < sizey; j++) {
+			for (i = 0; i < sizex; i++) {
 				mpw_t fr;
 				mpw_init (fr);
 				mpw_randint (fr, a[0]->val.value);

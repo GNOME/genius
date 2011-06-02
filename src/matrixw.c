@@ -74,8 +74,8 @@ internal_matrix_free (GelMatrix *m)
 #ifdef MATRIX_DEBUG
 		/*debug*/printf ("ACTUALLY FREE\n");
 #endif
-		for (i = 0; i < m->width; i++) {
-			for (j = 0; j < m->height; j++) {
+		for (j = 0; j < m->height; j++) {
+			for (i = 0; i < m->width; i++) {
 				GelETree *t = gel_matrix_index (m, i, j);
 				if (t != NULL)
 					gel_freetree (t);
@@ -291,8 +291,8 @@ make_us_a_copy (GelMatrixW *m, int neww, int newh)
 	gel_matrix_set_size (m->m, neww, newh, TRUE /* padding */);
 	w = MIN (neww, m->regw);
 	h = MIN (newh, m->regh);
-	for (i = 0; i < w; i++) {
-		for(j = 0; j < h; j++) {
+	for(j = 0; j < h; j++) {
+		for (i = 0; i < w; i++) {
 			int mi = m->regx ? m->regx[i] : i;
 			int mj = m->regy ? m->regy[j] : j;
 			GelETree *t = gel_matrix_index (old, mi, mj);
@@ -333,8 +333,8 @@ copy_with_region (GelMatrixW *m, int *regx, int *regy, int w, int h)
 	gel_matrix_set_size (m->m, w, h, TRUE /* padding */);
 	cw = MIN (w, m->regw);
 	ch = MIN (h, m->regh);
-	for (i = 0; i < cw; i++) {
-		for(j = 0; j < ch; j++) {
+	for(j = 0; j < ch; j++) {
+		for (i = 0; i < cw; i++) {
 			int mi = m->regx ? m->regx[regx[i]] : regx[i];
 			int mj = m->regy ? m->regy[regy[j]] : regy[j];
 			GelETree *t = gel_matrix_index (old, mi, mj);
@@ -372,8 +372,8 @@ copy_internal_region (GelMatrixW *m, int w, int h)
 	gel_matrix_set_size (m->m, w, h, TRUE /* padding */);
 	cw = MIN (w, m->regw);
 	ch = MIN (h, m->regh);
-	for (i = 0; i < cw; i++) {
-		for(j = 0; j < ch; j++) {
+	for (j = 0; j < ch; j++) {
+		for (i = 0; i < cw; i++) {
 			int mi = m->regx ? m->regx[i] : i;
 			int mj = m->regy ? m->regy[j] : j;
 			GelETree *t = gel_matrix_index (old, mi, mj);
@@ -427,8 +427,8 @@ ensure_at_least_size (GelMatrixW *m, int w, int h)
 		gel_matrix_set_size (m->m, w, h, TRUE /* padding */);
 		nw = MIN (w, m->regw);
 		nh = MIN (h, m->regh);
-		for (i = 0; i < nw; i++) {
-			for (j = 0; j < nh; j++) {
+		for (j = 0; j < nh; j++) {
+			for (i = 0; i < nw; i++) {
 				int mi = m->regx ? m->regx[i] : i;
 				int mj = m->regy ? m->regy[j] : j;
 				GelETree *t = gel_matrix_index (old, mi, mj);
@@ -438,8 +438,8 @@ ensure_at_least_size (GelMatrixW *m, int w, int h)
 				}
 			}
 		}
-		for (i = 0; i < old->width; i++) {
-			for (j = 0; j < old->height; j++) {
+		for (j = 0; j < old->height; j++) {
+			for (i = 0; i < old->width; i++) {
 				GelETree *t = gel_matrix_index (old,i,j);
 				if (t != NULL)
 					gel_freetree (t);
@@ -499,8 +499,8 @@ gel_matrixw_set_size (GelMatrixW *m, int nwidth, int nheight)
 				internal_matrix_free (old);
 				return;
 			}
-			for (i = width; i < m->regw; i++) {
-				for (j = 0; j < m->regh; j++) {
+			for (j = 0; j < m->regh; j++) {
+				for (i = width; i < m->regw; i++) {
 					int mi = m->regx ? m->regx[i] : i;
 					int mj = m->regy ? m->regy[j] : j;
 					if (gel_matrix_index (m->m, mi, mj) != NULL) {
@@ -509,8 +509,8 @@ gel_matrixw_set_size (GelMatrixW *m, int nwidth, int nheight)
 					}
 				}
 			}
-			for (i = 0; i < width; i++) {
-				for (j = height; j < m->regh; j++) {
+			for (j = height; j < m->regh; j++) {
+				for (i = 0; i < width; i++) {
 					int mi = m->regx ? m->regx[i] : i;
 					int mj = m->regy ? m->regy[j] : j;
 					if (gel_matrix_index (m->m, mi, mj) != NULL) {
@@ -764,8 +764,8 @@ gel_matrixw_set_region(GelMatrixW *m, GelMatrixW *src,
 	/* assume that's what ensure/make_us_a_copy does */
 	g_assert (m->regx == NULL && m->regy == NULL);
 
-	for (i = 0; i < w; i++) {
-		for ( j = 0; j < h; j++) {
+	for (j = 0; j < h; j++) {
+		for (i = 0; i < w; i++) {
 			int si, sj;
 			GelETree *t = gel_matrix_index (m->m, destx[i], desty[j]);
 			if (m->tr == src->tr) {
@@ -828,8 +828,8 @@ gel_matrixw_set_region_etree (GelMatrixW *m, GelETree *src,
 	/* assume that's what ensure/make_us_a_copy does */
 	g_assert (m->regx == NULL && m->regy == NULL);
 
-	for (i = 0; i < w; i++) {
-		for ( j = 0; j < h; j++) {
+	for (j = 0; j < h; j++) {
+		for (i = 0; i < w; i++) {
 			GelETree *t = gel_matrix_index (m->m, destx[i], desty[j]);
 			gel_matrix_index (m->m, destx[i], desty[j]) = gel_copynode (src);
 			if (t != NULL)

@@ -65,6 +65,6 @@ void gel_matrix_foreach(GelMatrix *matrix, GFunc func, gpointer func_data);
 void gel_matrix_free(GelMatrix *matrix);
 
 /*get the value at*/
-#define gel_matrix_index(m,x,y) ((m)->thedata[(x)+(y)*(m)->realwidth])
+#define gel_matrix_index(m,x,y) ((m)->thedata[(x)+(y)*((m)->realwidth)])
 
 #endif
