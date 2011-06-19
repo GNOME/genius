@@ -4480,7 +4480,7 @@ msgstr "_Plošný graf"
 #: ../src/graphing.c:5338 ../src/graphing.c:5502 ../src/graphing.c:5623
 #: ../src/graphing.c:5744 ../src/graphing.c:5848
 msgid "No functions to plot or no functions could be parsed"
-msgstr "Není funkce, kterou kreslitn, nebo funcke nemohla být zpracována"
+msgstr "Není funkce, kterou by šlo vykreslit nebo funcke nemohla být zpracována"
 
 #: ../src/graphing.c:5369 ../src/graphing.c:5375 ../src/graphing.c:5525
 #: ../src/graphing.c:5531 ../src/graphing.c:5630 ../src/graphing.c:5653
@@ -4492,7 +4492,7 @@ msgstr "Neplatný rozsah %s"
 
 #: ../src/graphing.c:5381
 msgid "Invalid dependent range"
-msgstr "Neplatný závislý rozsah"
+msgstr "Neplatný rozsah závislé proměnné"
 
 #: ../src/graphing.c:5617
 #, c-format
@@ -4501,7 +4501,7 @@ msgstr "Zadejte jen %s a %s, nebo %s, ne vše najednou."
 
 #: ../src/graphing.c:5969
 msgid "Create Plot"
-msgstr "Vytvořit graf"
+msgstr "Vytvoření grafu"
 
 #: ../src/graphing.c:6009 ../src/graphing.c:6147 ../src/graphing.c:6178
 #: ../src/graphing.c:6199 ../src/graphing.c:6239 ../src/graphing.c:6263
@@ -4512,12 +4512,12 @@ msgstr "Vytvořit graf"
 #: ../src/graphing.c:7676 ../src/graphing.c:7701
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
-msgstr "%s: Kreslím graf, nemohu zavolat %s"
+msgstr "%s: Vykresluje se graf, nelze zavolat %s"
 
 #: ../src/graphing.c:6017 ../src/graphing.c:6515
 #, c-format
 msgid "%s: argument not a function"
-msgstr "%s: parametr není funkce"
+msgstr "%s: argument není funkce"
 
 #: ../src/graphing.c:6027
 #, c-format
@@ -4544,7 +4544,7 @@ msgstr "%s: neplatný rozsah Z"
 #: ../src/graphing.c:6157
 #, c-format
 msgid "%s: dx must be positive"
-msgstr "%s: dx musí být positivní"
+msgstr "%s: dx musí být kladné"
 
 #: ../src/graphing.c:6164 ../src/graphing.c:6183
 #, c-format
@@ -4554,12 +4554,12 @@ msgstr "%s: Směrové pole není aktivní"
 #: ../src/graphing.c:6210
 #, c-format
 msgid "%s: dt must be positive"
-msgstr "%s: dt musí být positivní"
+msgstr "%s: dt musí být kladné"
 
 #: ../src/graphing.c:6216
 #, c-format
 msgid "%s: tlen must be positive"
-msgstr "%s: tlen musí být positivní"
+msgstr "%s: tlen musí být kladné"
 
 #: ../src/graphing.c:6224 ../src/graphing.c:6245
 #, c-format
@@ -4597,7 +4597,7 @@ msgstr ""
 #: ../src/graphing.c:7099
 #, c-format
 msgid "%s: Wrong number of arguments"
-msgstr "%s: Špatný počet mnoho parametrů"
+msgstr "%s: Špatný počet argumentů"
 
 #: ../src/graphing.c:7159
 #, c-format
@@ -4668,7 +4668,7 @@ msgstr "Názvy proměnných nebyly zadány jako 3prvkový vektor"
 
 #: ../src/graphing.c:7736
 msgid "Plotting"
-msgstr "Kreslím"
+msgstr "Vykresluje se"
 
 #. internal
 #: ../src/graphing.c:7738
@@ -4676,8 +4676,8 @@ msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
 msgstr ""
-"Vykreslit funkci jako křivku. Nejdříve jsou funkce (nejvýš 10), pak "
-"nepovinně limity jako x1, x2, y1, y2"
+"Vykreslit funkci jako křivku. První jsou funkce (nejvýš 10), pak "
+"následují nepovinně limity jako x1, x2, y1, y2"
 
 #: ../src/graphing.c:7739
 msgid ""
@@ -4685,9 +4685,9 @@ msgid ""
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
 "x1,x2,y1,y2"
 msgstr ""
-"Vykreslit parametrickou funkci jako křivku. Nejdříve jsou funkce pro x a y, "
-"pak nepovinně limity t jako t1, t2, tpřír, pak nepovinně limity jako x1, x2, "
-"y1, y2"
+"Vykreslit parametrickou funkci jako křivku. První jsou funkce pro x a y, "
+"pak nepovinně limity t jako t1, t2, tprirustek, pak následují nepovinně limity "
+"jako x1, x2, y1, y2"
 
 #: ../src/graphing.c:7740
 msgid ""
@@ -4695,25 +4695,25 @@ msgid ""
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
 "optionally the limits as x1,x2,y1,y2"
 msgstr ""
-"Vykreslit parametrickou funkci do komplexních čísel jako křivku. Nejdříve je "
-"funkce, která vrací x+iy, pak nepovinně limity t jako t1, t2, tpřír, pak "
-"nepovinně limity jako x1, x2, y1, y2"
+"Vykreslit parametrickou funkci do komplexních čísel jako křivku. První je "
+"funkce, která vrací x+iy, pak následují nepovinně limity t jako t1, t2, "
+"tprírustek a pak nepovinně limity jako x1, x2, y1, y2"
 
 #: ../src/graphing.c:7742
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
 msgstr ""
-"Vykreslit směrové pole. Nejdříve je funkce dy/dx s argumenty x a y (nebo "
-"komplexní z), pak nepovinně limity jako x1, x2, y1, y2"
+"Vykreslit směrové pole. První je funkce dy/dx s argumenty x a y (nebo "
+"komplexní z), pak následují nepovinně limity jako x1, x2, y1, y2"
 
 #: ../src/graphing.c:7743
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
 msgstr ""
-"Vykreslit vektorové pole.  Nejdříve jsou funkce dx/dt and dy/dt s argumenty "
-"x a y, pak nepovinně limity jako x1, x2, y1, y2"
+"Vykreslit vektorové pole.  První jsou funkce dx/dt a dy/dt s argumenty "
+"x a y, pak následují nepovinně limity jako x1, x2, y1, y2"
 
 #: ../src/graphing.c:7745
 msgid ""
