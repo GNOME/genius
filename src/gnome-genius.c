@@ -684,6 +684,7 @@ add_main_window_contents (GtkWidget *window, GtkWidget *notebook)
 	stock_init ();
 
 	actions = gtk_action_group_new ("Actions");
+	gtk_action_group_set_translation_domain (actions, GETTEXT_PACKAGE);
 	gtk_action_group_add_actions (actions, entries, n_entries, NULL);
 
 	/* FIXME: I have no clue if this is correct, but I can't find any docs
