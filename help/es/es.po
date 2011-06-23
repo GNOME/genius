@@ -1,13 +1,14 @@
 # Spanish translation for genius.
 # Copyright (C) 2011 genius's COPYRIGHT HOLDER
 # This file is distributed under the same license as the genius package.
+# Juan Matías Olmos <colonizare@yahoo.com.ar>, 2011.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
-"POT-Creation-Date: 2011-03-29 08:48+0000\n"
-"PO-Revision-Date: 2011-04-14 11:50+0200\n"
+"POT-Creation-Date: 2011-06-22 05:03+0000\n"
+"PO-Revision-Date: 2011-06-22 13:26+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -118,7 +119,6 @@ msgid "1997-2010"
 msgstr "1997-2010"
 
 #: C/genius.xml:41(holder)
-#| msgid "Jiř&iacute; (George) Lebl"
 msgid "Jiří (George) Lebl"
 msgstr "Jiří (George) Lebl"
 
@@ -244,7 +244,7 @@ msgstr "Lebl"
 
 #: C/genius.xml:68(orgname)
 msgid "University of Illinois, Urbana-Champaign"
-msgstr "Universdad de Illinois, Urbana-Champaign"
+msgstr "Universidad de Illinois, Urbana-Champaign"
 
 #: C/genius.xml:69(email)
 msgid "jirka@5z.com"
@@ -316,9 +316,21 @@ msgid ""
 "manipulation and can handle basic linear algebra. The programming language "
 "allows user defined functions, variables and modification of parameters."
 msgstr ""
+"La <application>Herramienta matemática Genius</application> es una "
+"calculadora de uso general para usarse como una calculadora de escritorio, "
+"una herramienta educativa para matemáticas, incluso es útil en "
+"investigaciones. El lenguaje utilizado por la <application>Herramienta "
+"matemática Genius</application> está diseñado para ser «matemático» en el "
+"sentido en que debería ser «lo que quieres decir es lo que obtienes». Por "
+"supuesto que no es una meta completamente alcanzable. La "
+"<application>Herramienta matemática Genius</application> soporta números "
+"racionales, enteros de precisión arbitraria y flotantes de precisión "
+"múltiple usando la librería GMP. Maneja números complejos usando notación "
+"cartesiana. Tiene buena manipulación de vectores y matrices, y puede manejar "
+"álgebra lineal básica. El lenguaje de programación permite funciones "
+"definidas por el usuario, variables y modificaciones de los parámetros."
 
 #: C/genius.xml:183(para)
-#, fuzzy
 msgid ""
 "<application>Genius Mathematics Tool</application> comes in two versions. "
 "One version is the graphical GNOME version, which features an IDE style "
@@ -514,6 +526,13 @@ msgid ""
 "can view a listing of the values of all user defined variables. Finally it "
 "allows plotting functions using a user friendly dialog box."
 msgstr ""
+"El menú <guilabel>Calculadora</guilabel> controla el motor de la "
+"calculadora. Permite ejecutar el programa actualmente seleccionado o "
+"interrumpir el cálculo actual. También puede mirar la expresión completa del "
+"último resultado (útil si el último resultado fue demasiado grande para "
+"ajustar a la consola), y puede mirar una lista con los valores de todas las "
+"variables definidas por el usuario. Finalmente, permite trazar funciones "
+"usando un cuadro de diálogo amigable."
 
 #: C/genius.xml:302(para)
 msgid "The other menus have same familiar functions as in other applications."
@@ -549,12 +568,19 @@ msgid ""
 "expressions and the results are immediately returned after you hit the Enter "
 "key."
 msgstr ""
+"Inicialmente, el área de trabajo sólo tenía la pestaña <guilabel>Consola</"
+"guilabel>, que es el principal medio de interacción con la calculadora. Aquí "
+"puede escribir expresiones y el resultado se devuelve inmediatamente después "
+"de pulsar la tecla «Intro»."
 
 #: C/genius.xml:326(para)
 msgid ""
 "Alternatively you can write longer programs and those can appear in separate "
 "tabs and can be stored in files for later retrieval."
 msgstr ""
+"Alternativamente, puede escribir programas más largos y éstos  pueden "
+"aparecer en pestañas separadas y se pueden guardar en archivos para su "
+"posterior recuperación."
 
 #: C/genius.xml:340(title)
 msgid "Basic Usage"
@@ -572,6 +598,11 @@ msgid ""
 "want to use <application>Genius Mathematics Tool</application> as a "
 "calculator only, just type in your expression here and it will be evaluated."
 msgstr ""
+"Normalmente, interactúa con la calculadora en la pestaña <guilabel>Consola</"
+"guilabel>. Si ejecuta la versión de solo texto, entonces la consola será el "
+"único medio disponible. Si quiere usar la <application>Herramienta "
+"matemática Genius</application> como una calculadora solamente, simplemente "
+"escriba aquí su expresión y se evaluará."
 
 #: C/genius.xml:353(para)
 msgid ""
@@ -588,6 +619,18 @@ msgid ""
 "1/n</userinput>\n"
 "</screen> (Last is the harmonic sum from 1 to 70)"
 msgstr ""
+"Escriba su expresión en el área de trabajo de la <guilabel>Consola</"
+"guilabel>, pulse «Intro» y la expresión se evaluará. Las expresiones están "
+"escritas en un lenguaje llamado GEL. Las expresiones GEL más simples parecen "
+"matemáticas. Por ejemplo <screen><prompt>genius&gt; </"
+"prompt><userinput>30*70 + 67^3.0 + ln(7) * (88.8/100)</userinput>\n"
+"</screen> o <screen><prompt>genius&gt; </prompt><userinput>62734 + 812634 + "
+"77^4 mod 5</userinput>\n"
+"</screen> o <screen><prompt>genius&gt; </prompt><userinput>| sin(37) - e^7 |"
+"</userinput>\n"
+"</screen> o <screen><prompt>genius&gt; </prompt><userinput>sum n=1 to 70 do "
+"1/n</userinput>\n"
+"</screen> (El último es la suma armónica de 1 a 70)"
 
 #: C/genius.xml:371(para)
 msgid ""
@@ -620,6 +663,15 @@ msgid ""
 "<command>ls</command>, to change directory do <userinput>cd directory</"
 "userinput> as in the unix command shell."
 msgstr ""
+"Suponga que ha guardado algún comando GEL previamente como un programa en un "
+"archivo y quiere ejecutarlo. Para cargar este programa desde el archivo "
+"<filename>ruta/a/programa.gel</filename>, escriba <screen><prompt>genius&gt; "
+"</prompt><userinput>load ruta/a/programa.gel</userinput>\n"
+"</screen> la<application>Herramienta matemática Genius</application> "
+"mantiene la ruta de la carpeta actual. Para listar los archivos de la "
+"carpeta actual, escriba <command>ls</command>, para cambiar de carpeta "
+"escriba <userinput>cd carpeta</userinput>, igual que en la línea de comandos "
+"de UNIX."
 
 #: C/genius.xml:396(title)
 msgid "To Create a New Program"
@@ -642,6 +694,22 @@ msgid ""
 "guilabel> tab. The currently selected program has its tab in bold type. To "
 "select a program, just click on its tab."
 msgstr ""
+"Para escribir un programa nuevo, eliga <menuchoice><guimenu>Archivo</"
+"guimenu><guimenuitem>Programa Nuevo</guimenuitem></menuchoice>. Aparecerá "
+"una pestaña nueva en el área de trabajo. Puede escribir un programa <link "
+"linkend=\"genius-gel\">GEL</link> en esta área de trabajo. Una vez que haya "
+"escrito su programa, puede ejecutarlo desde "
+"<menuchoice><guimenu>Calculadora</guimenu><guimenuitem>Ejecutar</"
+"guimenuitem></menuchoice>. Esto ejecutará su programa y mostrará cualquier "
+"salida en la pestaña <guilabel>Consola</guilabel>. Ejecutar un programa es "
+"equivalente a tomar el texto del programa y escribirlo en la consola. La "
+"única diferencia es que esta entrada se realiza independientemente de la "
+"consola y solo la salida va hacia la consola. "
+"<menuchoice><guimenu>Calculadora</guimenu><guimenuitem>Ejecutar</"
+"guimenuitem></menuchoice> siempre ejecutará el programa actualmente "
+"seleccionado incluso si se encuentra en la pestaña <guilabel>Consola</"
+"guilabel>. El programa actual tiene su letra en negrita. Para seleccionar un "
+"programa, simplemente pulse sobre su pestaña."
 
 #: C/genius.xml:413(para)
 msgid ""
@@ -694,10 +762,20 @@ msgid ""
 "the GEL language. See <xref linkend=\"genius-gel\"/> to find out how to "
 "enter expressions that Genius understands."
 msgstr ""
+"El soporte de dibujo solo está disponible para la versión gráfica de GNOME. "
+"Todo el dibujo disponible desde la interfaz gráfica está disponible en la "
+"ventana <guilabel>Crear dibujo</guilabel>. Puede acceder a esta ventana "
+"pulsando en el botón  <guilabel>Dibujo</guilabel> de la barra de "
+"herramientas o seleccionando <guilabel>Dibujo</guilabel> desde el menú "
+"<guilabel>Calculadora</guilabel>. También puede acceder a las "
+"funcionalidades de dibujo usando las <link linkend=\"genius-gel-function-"
+"list-plotting\">funciones de trazado</link> del lenguaje GEL. Consulte la "
+"<xref linkend=\"genius-gel\"/> para aprender a introducir expresiones que "
+"entienda Genius."
 
 #: C/genius.xml:453(title)
 msgid "Line Plots"
-msgstr ""
+msgstr "Trazado de líneas"
 
 #: C/genius.xml:454(para)
 msgid ""
@@ -706,6 +784,10 @@ msgid ""
 "LinePlot\"><function>LinePlot</function></link> function on the command line "
 "(see its documentation)."
 msgstr ""
+"Para crear gráficas de funciones de valores reales de una variable, abra la "
+"ventana <guilabel>Crear dibujo</guilabel>. También puede usar la función "
+"<link linkend=\"gel-function-LinePlot\"><function>LinePlot</function></link> "
+"en la línea de comandos (consulte su documentación)."
 
 #: C/genius.xml:460(para)
 msgid ""
@@ -715,6 +797,11 @@ msgid ""
 "<guilabel>Functions / Expressions</guilabel> notebook tab. See <xref linkend="
 "\"lineplot-fig\"/>."
 msgstr ""
+"Una vez que pulse el botón <guilabel>Dibujo</guilabel>, se abre una ventana "
+"con algunas pestañas en ella. Se encontrará con la pestaña <guilabel>Dibujo "
+"de la línea de función</guilabel> y dentro de ella encontrará la pestaña "
+"<guilabel>Funciones / Expresiones</guilabel>. Consulte la <xref linkend="
+"\"lineplot-fig\"/>."
 
 #: C/genius.xml:468(title)
 msgid "Create Plot Window"
@@ -722,7 +809,7 @@ msgstr "Crear una ventana de dibujo"
 
 #: C/genius.xml:478(phrase)
 msgid "Shows the line plotting window."
-msgstr ""
+msgstr "Muestra la ventana de trazado de líneas"
 
 #: C/genius.xml:484(para)
 msgid ""
@@ -737,6 +824,17 @@ msgid ""
 "<guilabel>Plot</guilabel> button produces the graph shown in <xref linkend="
 "\"lineplot2-fig\"/>."
 msgstr ""
+"En los cuadros de texto escriba sólo las expresiones donde <userinput>x</"
+"userinput> es la variable independiente. También puede dar simplemente "
+"nombres de funciones como <userinput>cos</userinput> en lugar de tener que "
+"escribir <userinput>cos(x)</userinput>. Puede crear gráficas de hasta 10 "
+"funciones. Si comete un error y Genius no puede analizar la entrada, se "
+"señalará con un ícono de advertencia a la derecha del cuadro de texto donde "
+"ocurrió el error, así como se mostrará un diálogo de error. Puede cambiar "
+"los rangos de las variables dependientes e independientes en la parte "
+"inferior de la ventana de diálogo. Pulsando el botón <guilabel>Dibujar</"
+"guilabel> se producirá el gráfico mostrado en la <xref linkend=\"lineplot2-"
+"fig\"/>."
 
 #: C/genius.xml:497(title)
 msgid "Plot Window"
@@ -753,6 +851,10 @@ msgid ""
 "set correctly you can have Genius fit it by finding out the extrema of the "
 "graphed functions."
 msgstr ""
+"Desde aquí puede imprimir el dibujo, crear un PostScript encapsulado o un "
+"PNG del dibujo, o cambiar la escala. Si el eje dependiente no se ha "
+"establecido correctamente, puede hacer que Genius lo ajuste buscando los "
+"extremos de las funciones representadas."
 
 #: C/genius.xml:520(para)
 msgid ""
@@ -760,10 +862,13 @@ msgid ""
 "linkend=\"gel-function-LinePlot\"><function>LinePlot</function></link> "
 "function."
 msgstr ""
+"Para dibujar usando la línea de comandos, consulte la documentación de la "
+"función <link linkend=\"gel-function-LinePlot\"><function>LinePlot</"
+"function></link>."
 
 #: C/genius.xml:527(title)
 msgid "Parametric Plots"
-msgstr ""
+msgstr "Gráficos paramétricos"
 
 #: C/genius.xml:528(para)
 msgid ""
@@ -773,10 +878,15 @@ msgid ""
 "as x and y, or giving a single complex number. See <xref linkend=\"paramplot-"
 "fig\"/>."
 msgstr ""
+"En la ventana de crear dibujo, también puede elegir la pestaña "
+"<guilabel>Paramétrico</guilabel> para crear dibujos paramétricos "
+"bidimensionales. De este modo, puede dibujar una única función paramétrica. "
+"Puede especificar los puntos como X e Y, o dar un número complejo único. "
+"Consulte la <xref linkend=\"paramplot-fig\"/>."
 
 #: C/genius.xml:537(title)
 msgid "Parametric Plot Tab"
-msgstr ""
+msgstr "Pestaña dibujo paramétrico"
 
 #: C/genius.xml:547(guilabel)
 msgid "Create Plot"
@@ -784,7 +894,7 @@ msgstr "Crear dibujo"
 
 #: C/genius.xml:547(phrase)
 msgid "Parametric plotting tab in the <placeholder-1/> window."
-msgstr ""
+msgstr "Pestaña dibujo paramétrico en la ventana <placeholder-1/>."
 
 #: C/genius.xml:553(para)
 msgid ""
@@ -796,18 +906,25 @@ msgid ""
 "function-LinePlotCParametric\"><function>LinePlotCParametric</function></"
 "link> function."
 msgstr ""
+"Puede ver un ejemplo de un dibujo paramétrico en la <xref linkend="
+"\"paramplot-fig\"/>. Puede realizar operaciones similares en este gráfico, "
+"así como en el otro dibujo de líneas. Para dibujar usando la línea de "
+"comandos, consulte la documentación de las funciones <link linkend=\"gel-"
+"function-LinePlotParametric\"><function>LinePlotParametric</function></link> "
+"o <link linkend=\"gel-function-LinePlotCParametric"
+"\"><function>LinePlotCParametric</function></link>."
 
 #: C/genius.xml:564(title)
 msgid "Parametric Plot"
-msgstr ""
+msgstr "Gráfico paramétrico"
 
 #: C/genius.xml:574(phrase)
 msgid "Parametric plot produced"
-msgstr ""
+msgstr "Gráfico paramétrico producido"
 
 #: C/genius.xml:583(title)
 msgid "Slopefield Plots"
-msgstr ""
+msgstr "Dibujos de campos de inclinación"
 
 #: C/genius.xml:584(para)
 msgid ""
@@ -818,6 +935,11 @@ msgid ""
 "<link linkend=\"gel-function-SlopefieldPlot\"><function>SlopefieldPlot</"
 "function></link> function."
 msgstr ""
+"En la ventana de crear dibujo, también puede elegir la pestaña "
+"<guilabel>Campo de inclinación</guilabel> para crear dibujos de campos de "
+"inclinación bidimensionales. Para dibujar usando la línea de comandos, "
+"conuslte la documentación de la función <link linkend=\"gel-function-"
+"SlopefieldPlot\"><function>SlopefieldPlot</function></link>."
 
 #: C/genius.xml:593(para)
 msgid ""
@@ -829,6 +951,14 @@ msgid ""
 "active, the zooming by clicking and dragging does not work. You have to "
 "close the dialog first if you want to zoom using the mouse."
 msgstr ""
+"Cuando un campo de inclinación está activo, hay un menú adicional disponible "
+"<guilabel>Solucionador</guilabel>, a través del cual puede abrir el cuadro "
+"de diálogo del mismo nombre. Aquí puede tener soluciones específicas de "
+"dibujo de Genius. Puede especificar condiciones iniciales en el diálogo, o "
+"puede pulsar directamente en el dibujo para indicar el punto inicial. "
+"Mientras el diálogo del solucionador esté activo, la ampliación al pulsar y "
+"arrastrar no funcionará. Si quiere ampliar usando el cursor tendrá que "
+"cerrar el diálogo primero."
 
 #: C/genius.xml:602(para)
 msgid ""
@@ -840,10 +970,18 @@ msgid ""
 "SlopefieldDrawSolution\"><function>SlopefieldDrawSolution</function></link> "
 "function to draw solutions from the command line or programs."
 msgstr ""
+"El solucionador usa el método Runge-Kutta estándar. Los gráficos se quedarán "
+"en la pantalla hasta que los borre. El solucionador se detendrá cuando "
+"alcance el límite de la ventana de dibujo. La ampliación no cambia los "
+"límites o los parámetros de la solución, tendrá que borrar y redibujar con "
+"los parámetros apropiados. También puede usar la función <link linkend=\"gel-"
+"function-SlopefieldDrawSolution\"><function>SlopefieldDrawSolution</"
+"function></link> para dibujar soluciones desde la línea de comandos o "
+"programas."
 
 #: C/genius.xml:615(title)
 msgid "Vectorfield Plots"
-msgstr ""
+msgstr "Gráficos de campos de vectores"
 
 #: C/genius.xml:616(para)
 msgid ""
