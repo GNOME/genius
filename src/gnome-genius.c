@@ -494,7 +494,7 @@ menu_item_select_cb (GtkMenuItem *proxy, gpointer data)
 	GtkAction *action;
 	char *message;
 
-	action = gtk_widget_get_action (GTK_WIDGET (proxy));
+	action = gtk_activatable_get_related_action (GTK_ACTIVATABLE (proxy));
 	g_return_if_fail (action != NULL);
 
 	g_object_get (G_OBJECT (action), "tooltip", &message, NULL);
@@ -4419,7 +4419,7 @@ static int
 catch_interrupts (GtkWidget *w, GdkEvent *e)
 {
 	if (e->type == GDK_KEY_PRESS &&
-	    e->key.keyval == GDK_c &&
+	    e->key.keyval == GDK_KEY_c &&
 	    e->key.state & GDK_CONTROL_MASK) {
 		genius_interrupt_calc ();
 		return TRUE;
@@ -4671,7 +4671,9 @@ selection_changed (void)
 }
 
 static void
-switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num)
+/* switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num) */
+/* GTK3: switch_page (GtkNotebook *notebook, GtkWidget *page, guint page_num) */
+switch_page (GtkNotebook *notebook, gpointer page, guint page_num)
 {
 	if (page_num == 0) {
 		/* console */

@@ -153,7 +153,7 @@ ve_hig_dialog_new (GtkWindow      *parent,
 		
 			button = gtk_button_new_from_stock (GTK_STOCK_OK);
 			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
-			GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+			gtk_widget_set_can_default (button, TRUE);
 			gtk_widget_show (button);
 
 			gtk_dialog_set_default_response (GTK_DIALOG (dialog),
@@ -164,7 +164,7 @@ ve_hig_dialog_new (GtkWindow      *parent,
 		
 			button = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
 			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_CLOSE);
-			GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+			gtk_widget_set_can_default (button, TRUE);
 			gtk_widget_show (button);
 
 			gtk_dialog_set_default_response (GTK_DIALOG (dialog),
@@ -175,7 +175,7 @@ ve_hig_dialog_new (GtkWindow      *parent,
 		
 			button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
 			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_CANCEL);
-			GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+			gtk_widget_set_can_default (button, TRUE);
 			gtk_widget_show (button);
 
 			gtk_dialog_set_default_response (GTK_DIALOG (dialog),
@@ -186,12 +186,12 @@ ve_hig_dialog_new (GtkWindow      *parent,
 		
 			button = gtk_button_new_from_stock (GTK_STOCK_NO);
 			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_NO);
-			GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+			gtk_widget_set_can_default (button, TRUE);
 			gtk_widget_show (button);
 
 			button = gtk_button_new_from_stock (GTK_STOCK_YES);
 			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_YES);
-			GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+			gtk_widget_set_can_default (button, TRUE);
 			gtk_widget_show (button);
 
 			gtk_dialog_set_default_response (GTK_DIALOG (dialog),
@@ -204,12 +204,12 @@ ve_hig_dialog_new (GtkWindow      *parent,
 			button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
   			gtk_widget_show (button);
   			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_CANCEL);
-  			GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+			gtk_widget_set_can_default (button, TRUE);
 
 		  	button = gtk_button_new_from_stock (GTK_STOCK_OK);
   			gtk_widget_show (button);
   			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
-  			GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+			gtk_widget_set_can_default (button, TRUE);
 
 			gtk_dialog_set_default_response (GTK_DIALOG (dialog),
 							 GTK_RESPONSE_OK);
@@ -309,7 +309,7 @@ ve_dialog_run_nonmodal (GtkDialog *dialog)
 
   g_object_ref (dialog);
 
-  if (!GTK_WIDGET_VISIBLE (dialog))
+  if ( ! gtk_widget_get_visible (GTK_WIDGET (dialog)))
     gtk_widget_show (GTK_WIDGET (dialog));
   
   response_handler =
