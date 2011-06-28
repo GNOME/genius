@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2009 George Lebl
+ * Copyright (C) 1997-2011 George Lebl
  *
  * Author: George Lebl
  *
@@ -32,51 +32,64 @@
 #include "matrix.h"
 #include "matrixw.h"
 
+#include <vicious.h>
+
 #include "compil.h"
 
-/* sort of weird encoding, for each byte use 'a'+upper 4 bits and 'a'+lower 4 bits */
-static void
-append_string (GString *gs,const char *s)
-{
-	const char *p;
-	char out[3] = "aa";
-	for (p = s; *p != '\0'; p++) {
-		out[0] = 'a' + ((*p)&0xF);
-		out[1] = 'a' + ((*p)>>4);
-		g_string_append (gs, out);
-	}
-}
-
-/*sort of weird encoding, use 'a'+upper 4 bits and 'a'+lower 4 bits*/
+/* first char 'A' then rest just ascii */
+/* first char 'B' then rest Base64 */
+/* first char 'E' then empty */
 char *
 gel_decode_string (const char *s)
 {
-	int len = strlen(s);
-	const char *ps;
-	char *p, *pp;
-	if (len%2 == 1)
+	if (s == NULL)
 		return NULL;
-	
-	/*the 0 takes care of the termination*/
-	p = g_new0(char,(len/2)+1);
-	
-	for(ps=s,pp=p;*ps;ps+=2,pp++) {
-		if(*ps<'a' || *ps >'a'+0xF ||
-		   *(ps+1)<'a' || *(ps+1) >'a'+0xF) {
-			g_free(p);
+	if (s[0] == 'A') {
+		return g_strdup (&(s[1]));
+	} else if (s[0] == 'B') {
+		int len;
+		char *p = g_base64_decode (&(s[1]), &len);
+		if (p == NULL || len < 0) /* error was probably logged by now */
 			return NULL;
-		}
-		*pp = (*ps-'a') + ((*(ps+1)-'a')<<4);
+		p = g_realloc (p, len+1);
+		p[len] = '\0';
+		return p;
+	} else if (s[0] == 'E') {
+		return g_strdup ("");
+	} else {
+		g_warning ("gel_decode_string: bad string!");
+		return NULL;
 	}
-	return p;
+}
+
+static int
+is_ok_ascii (const char *s)
+{
+	const char *p;
+	for (p = s; *p != '\0'; p++) {
+		if ( ! ( (*p >= 'a' && *p <= 'z') ||
+			 (*p >= 'A' && *p <= 'Z') ||
+			 (*p >= '0' && *p <= '9') ||
+			 strchr ("():,.[] !?~+-_{}/=><*^'\"", *p) != NULL) ) {
+			return FALSE;
+		}
+	}
+	return TRUE;
 }
 
 char *
 gel_encode_string (const char *s)
 {
-	GString *gs = g_string_new (NULL);
-	append_string (gs, s);
-	return g_string_free (gs, FALSE);
+	if (ve_string_empty (s))
+		return g_strdup ("E");
+	if (is_ok_ascii (s)) {
+		return g_strconcat ("A", s, NULL);
+	} else {
+		char *p = g_base64_encode (s, strlen (s));
+		char *ret = g_strconcat ("B", p, NULL);
+		g_free (p);
+		return ret;
+	}
 }
 
 static void
@@ -126,12 +139,10 @@ gel_compile_node(GelETree *t,GString *gs)
 		g_string_append_printf (gs, ";%s", t->id.id->token);
 		break;
 	case GEL_STRING_NODE:
-		if(*t->str.str) {
-			g_string_append_c(gs,';');
-			append_string(gs,t->str.str);
-		} else {
-			g_string_append(gs,";E");
-		}
+		g_string_append_c (gs, ';');
+		s = gel_encode_string (t->str.str);
+		g_string_append (gs, s);
+		g_free (s);
 		break;
 	case GEL_FUNCTION_NODE:
 		g_assert(t->func.func->type==GEL_USER_FUNC);
@@ -535,16 +546,17 @@ gel_decompile_tree (char *s)
 
 	if G_UNLIKELY (strcmp (p, "T") != 0) {
 		gel_errorout (_("Bad tree record when decompiling"));
+		g_free (s);
 		return NULL;
 	}
 	
 	t = gel_decompile_node (&ptrptr);
+	g_free (s);
+
 	if G_UNLIKELY (t == NULL) {
 		gel_errorout (_("Bad tree record when decompiling"));
 		return NULL;
 	}
 
-	g_free (s);
-	
 	return t;
 }
