@@ -4049,7 +4049,7 @@ run_program (GtkWidget *menu_item, gpointer data)
 		char *prog;
 		int p[2];
 		FILE *fp;
-		int pid;
+		pid_t pid;
 		int status;
 		char *str;
 
