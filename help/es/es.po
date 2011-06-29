@@ -2,13 +2,14 @@
 # Copyright (C) 2011 genius's COPYRIGHT HOLDER
 # This file is distributed under the same license as the genius package.
 # Juan Matías Olmos <colonizare@yahoo.com.ar>, 2011.
+# Joaquín Ignacio Aramendía <samsagax@gmail.com>, 2011.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
-"POT-Creation-Date: 2011-06-22 05:03+0000\n"
-"PO-Revision-Date: 2011-06-22 13:26+0200\n"
+"POT-Creation-Date: 2011-06-27 22:17+0000\n"
+"PO-Revision-Date: 2011-06-29 20:31+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -409,8 +410,8 @@ msgid ""
 "command>."
 msgstr ""
 "Dependiendo de la instalación de su sistema, el elemento del menú puede no "
-"estar disponible. si no lo está, puede abrir el diálogo «Ejecutar» y ejecutar "
-"<command>gnome-genius</command>."
+"estar disponible. si no lo está, puede abrir el diálogo «Ejecutar» y "
+"ejecutar <command>gnome-genius</command>."
 
 #: C/genius.xml:238(term)
 msgid "Command line"
@@ -1043,11 +1044,11 @@ msgstr ""
 
 #: C/genius.xml:669(title)
 msgid "Surface Plot"
-msgstr ""
+msgstr "Gráfico de superficie"
 
 #: C/genius.xml:679(phrase)
 msgid "Modulus of the complex cosine function."
-msgstr ""
+msgstr "Valor absoluto de la función coseno complejo."
 
 #: C/genius.xml:691(title)
 msgid "GEL Basics"
@@ -1194,12 +1195,19 @@ msgid ""
 "need to refer to <literal>i</literal> by itself, use <literal>1i</literal> "
 "instead."
 msgstr ""
+"Al introducir números imaginarios, deba haber un número delante de la "
+"<literal>i</literal>. Si usa <literal>i</literal> por sí sola, Genius lo "
+"interpretará como una referencia a la variable <varname>i</varname>. Si "
+"necesita referirse a <literal>i</literal> por sí sola, use <literal>1i</"
+"literal> en su lugar."
 
 #: C/genius.xml:764(para)
 msgid ""
 "In order to use mixed fraction notation with imaginary numbers you must have "
 "the mixed fraction in parentheses. (i.e., <userinput>(1 2/5)i</userinput>)"
 msgstr ""
+"Para usar notación de fracciones mixtas con números imaginarios debe colocar "
+"las fracciones mixtas entre paréntesis (ej. <userinput>(1 2/5)i</userinput>)."
 
 #: C/genius.xml:773(title)
 msgid "Booleans"
@@ -1214,6 +1222,12 @@ msgid ""
 "<constant>False</constant> and <constant>FALSE</constant> as aliases for the "
 "above."
 msgstr ""
+"Genius también soporta valores booleanos nativos. Las dos constantes "
+"booleanas están definidas como <constant>true</constant> y <constant>false</"
+"constant>; estos identificadores se pueden utilizar como cualquier otra "
+"variable. Así mismo, puede utilizar los identificadores <constant>True</"
+"constant>, <constant>TRUE</constant>, <constant>False</constant> y "
+"<constant>FALSE</constant> como alias de las anteriores."
 
 #: C/genius.xml:782(para)
 msgid ""
@@ -1222,6 +1236,11 @@ msgid ""
 "Genius needs to evaluate a number as a Boolean it will interpret 0 as "
 "<constant>false</constant> and any other number as <constant>true</constant>."
 msgstr ""
+"Puede usar un valor booleano o cualquier expresión que produzca un número o "
+"valor booleano en cualquier lugar donde se espera una expresión Booleana. Si "
+"Genius necesita evaluar un valor numérico como un valor booleano "
+"interpretará «0» como <constant>false</constant> y cualquier otro valor como "
+"<constant>true</constant>."
 
 #: C/genius.xml:791(programlisting)
 #, no-wrap
@@ -1248,6 +1267,14 @@ msgid ""
 "<constant>true</constant> since 1 will be converted to <constant>true</"
 "constant> before being compared to <constant>true</constant>."
 msgstr ""
+"Además, puede efectuar operaciones con valores booleanos. Por ejemplo: "
+"<placeholder-1/> equivale a: <placeholder-2/> Solamente están soportadas la "
+"adición, la sustracción y la multiplicación. Si mezcla valores numéricos con "
+"booleanos en una expresión, los valores numéricos se convertirán a booleanos "
+"como se describió anteriormente. Esto significa que, por ejemplo: "
+"<placeholder-3/> siempre se evaluará como <constant>true</constant> dado que "
+"«1» siempre se convertirá a <constant>true</constant> antes de compararlo "
+"con <constant>true</constant>."
 
 #: C/genius.xml:805(title)
 msgid "Strings"
@@ -1266,12 +1293,12 @@ msgstr "El resultado es: 5\n"
 #: C/genius.xml:814(programlisting)
 #, no-wrap
 msgid "\"Slash: \\\\ Quotes: \\\" Tabs: \\t1\\t2\\t3\"\n"
-msgstr ""
+msgstr "\"Barra: \\\\ Comillas: \\\" Tabulaciones: \\t1\\t2\\t3\"\n"
 
 #: C/genius.xml:817(programlisting)
 #, no-wrap
 msgid "Slash: \\ Quotes: \" Tabs: \t1\t2\t3\n"
-msgstr ""
+msgstr "Barra: \\ Comillas: \" Tabulaciones: \t1\t2\t3\n"
 
 #: C/genius.xml:806(para)
 msgid ""
@@ -1320,6 +1347,14 @@ msgid ""
 "a separator <literal>;</literal>, it is equivalent to ending it with a "
 "separator followed by a <constant>null</constant>."
 msgstr ""
+"Existe un valor especial llamado <constant>null</constant>. No se permite "
+"efectuar operaciones sobre él y no se muestra nada cuando se devuelve este "
+"valor. Por lo tanto, <constant>null</constant> es útil cuando no quiera "
+"ninguna salida de una expresión. El valor <constant>null</constant> puede "
+"obtenerse como una expresión al escribir <literal>.</literal>, la constante "
+"<constant>null</constant> o nada. Nada referido a que si termina una "
+"expresión con un separador <literal>;</literal>, equivale a terminar la "
+"expresión con un separador seguido de <constant>null</constant>."
 
 #: C/genius.xml:847(programlisting)
 #, no-wrap
@@ -1340,15 +1375,19 @@ msgid ""
 "returned or an error happened. Also <constant>null</constant> is used as an "
 "empty vector or matrix, or an empty reference."
 msgstr ""
+"Algunas funciones devuelven <constant>null</constant> cuando no pueden "
+"devolver un valor o producen algún error. También se usa <constant>null</"
+"constant> como un vector o matriz vacía o una referencia vacía."
 
 #: C/genius.xml:861(title)
 msgid "Using Variables"
 msgstr "Usar variables"
 
+# Falta contexto
 #: C/genius.xml:865(programlisting)
 #, no-wrap
 msgid "VariableName\n"
-msgstr ""
+msgstr "NombreVariable\n"
 
 #: C/genius.xml:863(para)
 msgid ""
@@ -1370,10 +1409,15 @@ msgid ""
 "when defining functions that take arguments (see <xref linkend=\"genius-gel-"
 "functions-defining\"/>)."
 msgstr ""
+"Para evaluar una variable por sí misma, simplemente introduzca el nombre de "
+"la variable. Esto devolverá el valor de la variable. Puede usar una variable "
+"en cualquier lugar donde pueda utilizar un número o cadena. Además, las "
+"variables son necesarias al definir funciones que toman argumentos (consulte "
+"la <xref linkend=\"genius-gel-functions-defining\"/>)."
 
 #: C/genius.xml:878(title) C/genius.xml:964(title)
 msgid "Using Tab completion"
-msgstr ""
+msgstr "Usar completado con el tabulador"
 
 #: C/genius.xml:879(para)
 msgid ""
@@ -1381,6 +1425,9 @@ msgid ""
 "Try typing the first few letters of the name and pressing <userinput>Tab</"
 "userinput>."
 msgstr ""
+"Puede usar el completado con el tabulador para que Genius complete nombres "
+"de las variables. Intente escribir las primeras letras del nombre de la "
+"variable y pulse <userinput>Tab</userinput>."
 
 #: C/genius.xml:885(title)
 msgid "Variable names are case sensitive"
@@ -1424,6 +1471,9 @@ msgid ""
 "literal> operators. These operators set the value of the variable and return "
 "the number you set, so you can do things like <placeholder-1/>"
 msgstr ""
+"Para asignar una variable, use los operadores <literal>=</literal> o "
+"<literal>:=</literal>. Estos operadores establecen el valor de la variable y "
+"devuelven el número asignado, así puede hacer cosas como <placeholder-1/>"
 
 #: C/genius.xml:911(para)
 msgid ""
@@ -1433,12 +1483,19 @@ msgid ""
 "<literal>=</literal> operator may be interpreted as testing for equality "
 "when used in a context where a Boolean expression is expected."
 msgstr ""
+"Los operadores <literal>=</literal> y <literal>:=</literal> se pueden usar "
+"para asignar variables. La diferencia entre ellos es que <literal>:=</"
+"literal> siempre actuará como operador de asignación mientras que "
+"<literal>=</literal> se puede interpretar como prueba de igualdad usado en "
+"un contexto donde se espera una variable booleana."
 
 #: C/genius.xml:915(para)
 msgid ""
 "For issues regarding the scope of variables, see <xref linkend=\"genius-gel-"
 "variables-global\"/>."
 msgstr ""
+"Para temas relacionados con el ámbito de las variables, consulte la <xref "
+"linkend=\"genius-gel-variables-global\"/>."
 
 #: C/genius.xml:922(title)
 msgid "Built-in Variables"
@@ -1590,6 +1647,8 @@ msgid ""
 "function. This can be done using either ‘function nodes’ or anonymous "
 "functions."
 msgstr ""
+"En Genius es posible pasar una función como argumento de otra función. Esto "
+"se puede hacer usando «nodos de funciones» o funciones anónimas."
 
 #: C/genius.xml:1018(programlisting)
 #, no-wrap
@@ -1606,8 +1665,8 @@ msgstr ""
 msgid ""
 "If you do not enter the parentheses after a function name, instead of being "
 "evaluated, the function will instead be returned as a ‘function node’. The "
-"function node can then be passed to another function. Example: <placeholder-"
-"1/>"
+"function node can then be passed to another function. Example: "
+"<placeholder-1/>"
 msgstr ""
 
 #: C/genius.xml:1031(programlisting)
@@ -1657,11 +1716,12 @@ msgid ""
 "functions such as <function>exp</function> or <function>ln</function>, to "
 "operate on the function. For example, <placeholder-1/> will return a "
 "function that takes <varname>x</varname> and returns <userinput>exp(sin(x)"
-"*cos(x)+4)</userinput>. It is functionally equivalent to typing <placeholder-"
-"2/> This operation can be useful when quickly defining functions. For "
-"example to create a function called <varname>f</varname> to perform the "
-"above operation, you can just type: <placeholder-3/> It can also be used in "
-"plotting. For example, to plot sin squared you can enter: <placeholder-4/>"
+"*cos(x)+4)</userinput>. It is functionally equivalent to typing "
+"<placeholder-2/> This operation can be useful when quickly defining "
+"functions. For example to create a function called <varname>f</varname> to "
+"perform the above operation, you can just type: <placeholder-3/> It can also "
+"be used in plotting. For example, to plot sin squared you can enter: "
+"<placeholder-4/>"
 msgstr ""
 
 #: C/genius.xml:1060(para)
@@ -2361,10 +2421,10 @@ msgid ""
 "The unitary minus operates in a different fashion depending on where it "
 "appears. If it appears before a number it binds very closely, if it appears "
 "in front of an expression it binds less than the power and factorial "
-"operators. So for example <userinput>-1^k</userinput> is really <userinput>(-"
-"1)^k</userinput>, but <userinput>-foo(1)^k</userinput> is really <userinput>-"
-"(foo(1)^k)</userinput>. So be careful how you use it and if in doubt, add "
-"parentheses."
+"operators. So for example <userinput>-1^k</userinput> is really <userinput>"
+"(-1)^k</userinput>, but <userinput>-foo(1)^k</userinput> is really "
+"<userinput>-(foo(1)^k)</userinput>. So be careful how you use it and if in "
+"doubt, add parentheses."
 msgstr ""
 
 #: C/genius.xml:1704(title)
@@ -2561,12 +2621,12 @@ msgstr ""
 
 #: C/genius.xml:1862(title)
 msgid "Global Variables and Scope of Variables"
-msgstr ""
+msgstr "Variables globales y ámbito de variables"
 
 #: C/genius.xml:1863(para)
 msgid ""
-"GEL is a <ulink url=\"http://en.wikipedia.org/wiki/Scope_%28programming%29"
-"\"> dynamically scoped language</ulink>. We will explain what this means "
+"GEL is a <ulink url=\"http://en.wikipedia.org/wiki/Scope_%28programming"
+"%29\"> dynamically scoped language</ulink>. We will explain what this means "
 "below. That is, normal variables and functions are dynamically scoped. The "
 "exception are <link linkend=\"genius-gel-parameters\">parameter variables</"
 "link>, which are always global."
@@ -2714,7 +2774,7 @@ msgstr ""
 
 #: C/genius.xml:1983(title)
 msgid "Parameter variables"
-msgstr ""
+msgstr "Variables de parámetros"
 
 #: C/genius.xml:1984(para)
 msgid ""
@@ -3103,7 +3163,7 @@ msgstr ""
 
 #: C/genius.xml:2298(title)
 msgid "True Local Variables"
-msgstr ""
+msgstr "Variables locales verdaderas"
 
 #: C/genius.xml:2302(programlisting)
 #, no-wrap
@@ -3199,7 +3259,7 @@ msgstr ""
 
 #: C/genius.xml:2363(title)
 msgid "GEL Startup Procedure"
-msgstr ""
+msgstr "Procedimiento de inicio de GEL"
 
 #: C/genius.xml:2364(para)
 msgid ""
@@ -3249,12 +3309,12 @@ msgid ""
 "has a slightly different syntax than the rest of genius, more similiar to a "
 "shell. You can enter the file in quotes. If you use the '' quotes, you will "
 "get exactly the string that you typed, if you use the \"\" quotes, special "
-"characters will be unescaped as they are for strings. Example: <placeholder-"
-"1/> There are also <command>cd</command>, <command>pwd</command> and "
-"<command>ls</command> commands built in. <command>cd</command> will take one "
-"argument, <command>ls</command> will take an argument that is like the glob "
-"in the unix shell (i.e., you can use wildcards). <command>pwd</command> "
-"takes no arguments. For example: <placeholder-2/>"
+"characters will be unescaped as they are for strings. Example: "
+"<placeholder-1/> There are also <command>cd</command>, <command>pwd</"
+"command> and <command>ls</command> commands built in. <command>cd</command> "
+"will take one argument, <command>ls</command> will take an argument that is "
+"like the glob in the unix shell (i.e., you can use wildcards). <command>pwd</"
+"command> takes no arguments. For example: <placeholder-2/>"
 msgstr ""
 
 #: C/genius.xml:2392(title)
@@ -3380,7 +3440,7 @@ msgstr ""
 
 #: C/genius.xml:2467(title)
 msgid "Conjugate Transpose and Transpose Operator"
-msgstr ""
+msgstr "Conjugada de la traspuesta y operador de trasposición"
 
 #: C/genius.xml:2475(programlisting)
 #, no-wrap
@@ -4220,7 +4280,7 @@ msgstr "string (s)"
 
 #: C/genius.xml:381(para)
 msgid "Make a string. This will make a string out of any argument."
-msgstr ""
+msgstr "Crear una cadena. Esto creará una cadena desde cualquier argumento."
 
 #: C/genius.xml:386(term) C/genius.xml:388(synopsis)
 msgid "true"
@@ -4905,6 +4965,7 @@ msgstr "Alias: <function>gamma</function>"
 #: C/genius.xml:813(para)
 msgid "Euler's Constant gamma. Sometimes called the Euler-Mascheroni constant."
 msgstr ""
+"Constante gamma de Euler. También llamada constante de Euler-Mascheroni,"
 
 #: C/genius.xml:817(para)
 msgid ""
@@ -4970,10 +5031,11 @@ msgstr ""
 
 #: C/genius.xml:862(para)
 msgid ""
-"See <ulink url=\"http://en.wikipedia.org/wiki/E_(mathematical_constant)"
-"\">Wikipedia</ulink> or <ulink url=\"http://planetmath.org/encyclopedia/E."
-"html\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/e.html"
-"\">Mathworld</ulink> for more information."
+"See <ulink url=\"http://en.wikipedia.org/wiki/E_"
+"(mathematical_constant)\">Wikipedia</ulink> or <ulink url=\"http://"
+"planetmath.org/encyclopedia/E.html\">Planetmath</ulink> or <ulink url="
+"\"http://mathworld.wolfram.com/e.html\">Mathworld</ulink> for more "
+"information."
 msgstr ""
 "Consulte la <ulink url=\"http://en.wikipedia.org/wiki/E_"
 "(mathematical_constant)\">Wikipedia</ulink> o <ulink url=\"http://planetmath."
@@ -5006,7 +5068,7 @@ msgstr ""
 
 #: C/genius.xml:892(title)
 msgid "Numeric"
-msgstr ""
+msgstr "Numérico"
 
 #: C/genius.xml:895(term)
 msgid "AbsoluteValue"
@@ -5526,7 +5588,7 @@ msgstr "Alias: <function>Max</function><function>Maximum</function>"
 
 #: C/genius.xml:1182(para)
 msgid "Returns the maximum of arguments or matrix."
-msgstr ""
+msgstr "Devuelve el máximo de los argumentos o las matrices."
 
 #: C/genius.xml:1187(term)
 msgid "min"
@@ -5543,7 +5605,7 @@ msgstr "Alias: <function>Min</function><function>Minimum</function>"
 
 #: C/genius.xml:1191(para)
 msgid "Returns the minimum of arguments or matrix."
-msgstr ""
+msgstr "Devuelve el mínimo de los argumentos o las matrices."
 
 #: C/genius.xml:1196(term)
 msgid "rand"
@@ -6775,17 +6837,17 @@ msgstr ""
 
 #: C/genius.xml:1987(para)
 msgid ""
-"See <ulink url=\"http://en.wikipedia.org/wiki/Lucas%E2%80%"
-"93Lehmer_primality_test\">Wikipedia</ulink> or <ulink url=\"http://"
+"See <ulink url=\"http://en.wikipedia.org/wiki/Lucas"
+"%E2%80%93Lehmer_primality_test\">Wikipedia</ulink> or <ulink url=\"http://"
 "planetmath.org/encyclopedia/LucasLhemer.html\">Planetmath</ulink> or <ulink "
 "url=\"http://mathworld.wolfram.com/Lucas-LehmerTest.html\">Mathworld</ulink> "
 "for more information."
 msgstr ""
-"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Lucas%E2%80%"
-"93Lehmer_primality_test\">Wikipedia</ulink> o <ulink url=\"http://planetmath."
-"org/encyclopedia/LucasLhemer.html\">Planetmath</ulink> o <ulink url=\"http://"
-"mathworld.wolfram.com/Lucas-LehmerTest.html\">Mathworld</ulink> para obtener "
-"más información."
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Lucas"
+"%E2%80%93Lehmer_primality_test\">Wikipedia</ulink> o <ulink url=\"http://"
+"planetmath.org/encyclopedia/LucasLhemer.html\">Planetmath</ulink> o <ulink "
+"url=\"http://mathworld.wolfram.com/Lucas-LehmerTest.html\">Mathworld</ulink> "
+"para obtener más información."
 
 #: C/genius.xml:1997(term)
 msgid "LucasNumber"
@@ -6826,9 +6888,11 @@ msgstr "MaximalPrimePowerFactors (n)"
 msgid "Return all maximal prime power factors of a number."
 msgstr "Devuelve todos los factores primos de un número."
 
+# Si se refiera a un nombre de variable global debería traducirse literalmente
+# Leo: es el nombre de una función de GEL
 #: C/genius.xml:2019(term) C/genius.xml:2021(synopsis)
 msgid "MersennePrimeExponents"
-msgstr ""
+msgstr "MersennePrimeExponents"
 
 #: C/genius.xml:2022(para)
 msgid ""
@@ -6859,17 +6923,17 @@ msgstr ""
 
 #: C/genius.xml:2056(para) C/genius.xml:2074(para)
 msgid ""
-"See <ulink url=\"http://en.wikipedia.org/wiki/Miller%E2%80%"
-"93Rabin_primality_test\">Wikipedia</ulink> or <ulink url=\"http://planetmath."
-"org/encyclopedia/MillerRabinPrimeTest.html\">Planetmath</ulink> or <ulink "
-"url=\"http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html"
-"\">Mathworld</ulink> for more information."
+"See <ulink url=\"http://en.wikipedia.org/wiki/Miller"
+"%E2%80%93Rabin_primality_test\">Wikipedia</ulink> or <ulink url=\"http://"
+"planetmath.org/encyclopedia/MillerRabinPrimeTest.html\">Planetmath</ulink> "
+"or <ulink url=\"http://mathworld.wolfram.com/Rabin-"
+"MillerStrongPseudoprimeTest.html\">Mathworld</ulink> for more information."
 msgstr ""
-"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Miller%E2%80%"
-"93Rabin_primality_test\">Wikipedia</ulink> o <ulink url=\"http://planetmath."
-"org/encyclopedia/MillerRabinPrimeTest.html\">Planetmath</ulink> o <ulink url="
-"\"http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html"
-"\">Mathworld</ulink> para obtener más información."
+"Consulte la <ulink url=\"http://en.wikipedia.org/wiki/Miller"
+"%E2%80%93Rabin_primality_test\">Wikipedia</ulink> o <ulink url=\"http://"
+"planetmath.org/encyclopedia/MillerRabinPrimeTest.html\">Planetmath</ulink> o "
+"<ulink url=\"http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest."
+"html\">Mathworld</ulink> para obtener más información."
 
 #: C/genius.xml:2066(term)
 msgid "MillerRabinTestSure"
@@ -7525,7 +7589,7 @@ msgstr "IsLowerTriangular (M)"
 
 #: C/genius.xml:2467(para)
 msgid ""
-"Is a matrix lower triangular. That is, are all the entries below the "
+"Is a matrix lower triangular. That is, are all the entries above the "
 "diagonal zero."
 msgstr ""
 
@@ -7593,6 +7657,7 @@ msgstr "IsMatrixRational (M)"
 #: C/genius.xml:2510(para)
 msgid "Check if a matrix is a matrix of rational (non-complex) numbers."
 msgstr ""
+"Comprobar si el argumento es una matriz de números racionales (no complejos)"
 
 #: C/genius.xml:2516(term)
 msgid "IsMatrixReal"
@@ -7830,7 +7895,7 @@ msgstr "RowSumSquares (m)"
 
 #: C/genius.xml:2671(para)
 msgid "Calculate sum of squares of each row in a matrix."
-msgstr ""
+msgstr "Calcular la suma de los cuadrados de cada fila de una matriz."
 
 #: C/genius.xml:2676(term)
 msgid "RowsOf"
@@ -7878,7 +7943,7 @@ msgstr "SortVector (v)"
 
 #: C/genius.xml:2704(para)
 msgid "Sort vector elements in an increasing order."
-msgstr ""
+msgstr "Ordenar los elementos del vector en orden ascendente."
 
 #: C/genius.xml:2709(term)
 msgid "StripZeroColumns"
@@ -7891,7 +7956,7 @@ msgstr "StripZeroColumns (M)"
 
 #: C/genius.xml:2712(para)
 msgid "Removes any all-zero columns of <varname>M</varname>."
-msgstr ""
+msgstr "Quita todas las columnas de ceros de <varname>M</varname>."
 
 #: C/genius.xml:2717(term)
 msgid "StripZeroRows"
@@ -7904,7 +7969,7 @@ msgstr "StripZeroRows (M)"
 
 #: C/genius.xml:2720(para)
 msgid "Removes any all-zero rows of <varname>M</varname>."
-msgstr ""
+msgstr "Quita todas las filas de ceros de <varname>M</varname>."
 
 #: C/genius.xml:2725(term)
 msgid "Submatrix"
@@ -8326,12 +8391,12 @@ msgstr "Eigenvectors (M)"
 #: C/genius.xml:2977(synopsis)
 #, no-wrap
 msgid "Eigenvectors (M, &amp;eigenvalues)"
-msgstr ""
+msgstr "Eigenvectors (M, &amp;eigenvalues)"
 
 #: C/genius.xml:2978(synopsis)
 #, no-wrap
 msgid "Eigenvectors (M, &amp;eigenvalues, &amp;multiplicities)"
-msgstr ""
+msgstr "Eigenvectors (M, &amp;eigenvalues, &amp;multiplicities)"
 
 #: C/genius.xml:2979(para)
 msgid ""
@@ -8339,6 +8404,9 @@ msgid ""
 "and their algebraic multiplicities. Currently only works for matrices of "
 "size up to 2 by 2."
 msgstr ""
+"Obtener los autovectores de una matriz cuadrada. Opcionalmente, obtener los "
+"autovalores y su multiplicidad algebraica. Actualmente funciona sólo para "
+"matrices de hasta 2x2."
 
 #: C/genius.xml:2983(para)
 msgid ""
@@ -8426,7 +8494,7 @@ msgstr "Image (T)"
 
 #: C/genius.xml:3033(para)
 msgid "Get the image (columnspace) of a linear transform."
-msgstr ""
+msgstr "Obtener la imagen (espacio columna) de una transformación lineal."
 
 #: C/genius.xml:3038(term)
 msgid "InfNorm"
@@ -8648,6 +8716,8 @@ msgid ""
 "Is a matrix skew-Hermitian. That is, is the conjugate transpose equal to "
 "negative of the matrix."
 msgstr ""
+"Es matriz antihermítica. Esto es, la transposición conjugada es igual al "
+"negativo de la matriz."
 
 #: C/genius.xml:3174(para)
 msgid ""
@@ -8690,7 +8760,7 @@ msgstr "JordanBlock"
 #: C/genius.xml:3199(synopsis)
 #, no-wrap
 msgid "JordanBlock (n,lambda)"
-msgstr ""
+msgstr "JordanBlock (n,lambda)"
 
 #: C/genius.xml:3200(para)
 msgid "Aliases: <function>J</function>"
@@ -8789,6 +8859,7 @@ msgstr "Minor (M,i,j)"
 #: C/genius.xml:3265(para)
 msgid "Get the <varname>i</varname>-<varname>j</varname> minor of a matrix."
 msgstr ""
+"Obtener el menor <varname>i</varname>-<varname>j</varname> de una matriz."
 
 #: C/genius.xml:3266(para)
 msgid ""
@@ -8987,7 +9058,7 @@ msgstr "RayleighQuotientIteration"
 #: C/genius.xml:3389(synopsis)
 #, no-wrap
 msgid "RayleighQuotientIteration (A,x,epsilon,maxiter,vecref)"
-msgstr ""
+msgstr "RayleighQuotientIteration (A,x,epsilon,maxiter,vecref)"
 
 #: C/genius.xml:3390(para)
 msgid ""
@@ -9164,7 +9235,7 @@ msgstr "SmithNormalFormField (A)"
 
 #: C/genius.xml:3489(para)
 msgid "Smith Normal Form for fields (will end up with 1's on the diagonal)."
-msgstr ""
+msgstr "Forma normal de Smith para campos (terminará con unos en la diagonal)."
 
 #: C/genius.xml:3494(term)
 msgid "SmithNormalFormInteger"
@@ -9178,6 +9249,7 @@ msgstr "SmithNormalFormInteger (M)"
 #: C/genius.xml:3497(para)
 msgid "Smith Normal Form for square integer matrices (not its characteristic)."
 msgstr ""
+"Forma normal de Smith para matrices cuadradas enteras (no su característica)."
 
 #: C/genius.xml:3502(term)
 msgid "SolveLinearSystem"
@@ -9240,6 +9312,7 @@ msgstr "Alias: <function>trace</function>"
 msgid ""
 "Calculate the trace of a matrix. That is the sum of the diagonal elements."
 msgstr ""
+"Calcular la traza de una matriz. Esto es la suma de sus elementos diagonales."
 
 #: C/genius.xml:3530(para)
 msgid ""
@@ -9263,6 +9336,8 @@ msgid ""
 "Transpose of a matrix. This is the same as the <userinput>.'</userinput> "
 "operator."
 msgstr ""
+"Traspuesta de una matriz. Es lo mismo que el operador  <userinput>.'</"
+"userinput>."
 
 #: C/genius.xml:3543(para)
 msgid ""
@@ -9330,7 +9405,7 @@ msgstr "VectorSubspaceIntersection (M,N)"
 
 #: C/genius.xml:3583(para)
 msgid "Intersection of the subspaces given by M and N."
-msgstr ""
+msgstr "Intersección de subespacios dados por M y N."
 
 #: C/genius.xml:3588(term)
 msgid "VectorSubspaceSum"
@@ -9345,6 +9420,8 @@ msgstr "VectorSubspaceSum (M,N)"
 msgid ""
 "The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}."
 msgstr ""
+"La suma de los espacios vectoriales M y N, esto es {w | w=m+n, m en M, n en "
+"N}."
 
 #: C/genius.xml:3596(term)
 msgid "adj"
@@ -9523,7 +9600,7 @@ msgstr "DoubleFactorial (n)"
 
 #: C/genius.xml:3689(para)
 msgid "Double factorial: <userinput>n(n-2)(n-4)...</userinput>"
-msgstr ""
+msgstr "Doble factorial: <userinput>n(n-2)(n-4)...</userinput>"
 
 #: C/genius.xml:3690(para)
 msgid ""
@@ -10046,7 +10123,7 @@ msgstr "CompositeSimpsonsRuleTolerance"
 #: C/genius.xml:4004(synopsis)
 #, no-wrap
 msgid "CompositeSimpsonsRuleTolerance (f,a,b,FourthDerivativeBound,Tolerance)"
-msgstr ""
+msgstr "CompositeSimpsonsRuleTolerance (f,a,b,FourthDerivativeBound,Tolerance)"
 
 #: C/genius.xml:4005(para)
 msgid ""
@@ -10141,6 +10218,7 @@ msgstr "InfiniteProduct (func,inicio,inc)"
 #: C/genius.xml:4063(para)
 msgid "Try to calculate an infinite product for a single parameter function."
 msgstr ""
+"Intenta calcular un producto infinito para una función de un sólo parámetro."
 
 #: C/genius.xml:4068(term)
 msgid "InfiniteProduct2"
@@ -10156,6 +10234,8 @@ msgid ""
 "Try to calculate an infinite product for a double parameter function with "
 "func(arg,n)."
 msgstr ""
+"Intenta calcular un producto infinito para una función de dos parámetros con "
+"func(arg,n)"
 
 #: C/genius.xml:4076(term)
 msgid "InfiniteSum"
@@ -10185,6 +10265,8 @@ msgid ""
 "Try to calculate an infinite sum for a double parameter function with func"
 "(arg,n)."
 msgstr ""
+"Intenta calcular una suma infinita para una función de dos parámetros con "
+"func(arg,n)."
 
 #: C/genius.xml:4092(term)
 msgid "IsContinuous"
@@ -10200,6 +10282,8 @@ msgid ""
 "Try and see if a real-valued function is continuous at x0 by calculating the "
 "limit there."
 msgstr ""
+"Comprueba si una función real es continua en x0 calculando el límite en ese "
+"punto."
 
 #: C/genius.xml:4100(term)
 msgid "IsDifferentiable"
@@ -10215,6 +10299,8 @@ msgid ""
 "Test for differentiability by approximating the left and right limits and "
 "comparing."
 msgstr ""
+"Comprobar la diferenciabilidad aproximando los límites izquierdo y derecho y "
+"comparándolos."
 
 #: C/genius.xml:4108(term)
 msgid "LeftLimit"
@@ -10227,7 +10313,7 @@ msgstr "LeftLimit (f,x0)"
 
 #: C/genius.xml:4111(para)
 msgid "Calculate the left limit of a real-valued function at x0."
-msgstr ""
+msgstr "Calcular el límite por la izquierda de una función real en x0."
 
 #: C/genius.xml:4116(term)
 msgid "Limit"
@@ -10454,11 +10540,11 @@ msgstr "NumericalLimitAtInfinity"
 #: C/genius.xml:4284(synopsis)
 #, no-wrap
 msgid "NumericalLimitAtInfinity (_f,step_fun,tolerance,successive_for_success,N)"
-msgstr ""
+msgstr "NumericalLimitAtInfinity (_f,step_fun,tolerance,successive_for_success,N)"
 
 #: C/genius.xml:4285(para)
 msgid "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N."
-msgstr ""
+msgstr "Intentar calcular el límite de f(step_fun(i)), para i desde 1 hasta N."
 
 #: C/genius.xml:4290(term)
 msgid "NumericalRightDerivative"
@@ -10497,6 +10583,9 @@ msgid ""
 "\">EvenPeriodicExtension</link> and <link linkend=\"gel-function-"
 "PeriodicExtension\">PeriodicExtension</link>."
 msgstr ""
+"Consulte también <link linkend=\"gel-function-EvenPeriodicExtension"
+"\">EvenPeriodicExtension</link> y <link linkend=\"gel-function-"
+"PeriodicExtension\">PeriodicExtension</link>."
 
 #: C/genius.xml:4316(term)
 msgid "OneSidedFivePointFormula"
@@ -10546,6 +10635,9 @@ msgid ""
 "\">OddPeriodicExtension</link> and <link linkend=\"gel-function-"
 "EvenPeriodicExtension\">EvenPeriodicExtension</link>."
 msgstr ""
+"Consulte también <link linkend=\"gel-function-OddPeriodicExtension"
+"\">OddPeriodicExtension</link> y <link linkend=\"gel-function-"
+"EvenPeriodicExtension\">EvenPeriodicExtension</link>."
 
 #: C/genius.xml:4348(term)
 msgid "RightLimit"
@@ -10695,7 +10787,7 @@ msgstr "Alias: <function>Gamma</function>"
 
 #: C/genius.xml:4433(para)
 msgid "The Gamma function. Currently only implemented for real values."
-msgstr ""
+msgstr "La función «Gamma». Actualmente sólo implementada para valores reales."
 
 #: C/genius.xml:4434(para)
 msgid ""
@@ -10867,6 +10959,8 @@ msgstr "Alias: <function>zeta</function>"
 #: C/genius.xml:4538(para)
 msgid "The Riemann zeta function. Currently only implemented for real values."
 msgstr ""
+"La función «zeta de Riemann». Actualmente sólo implementada para valores "
+"reales."
 
 #: C/genius.xml:4539(para)
 msgid ""
@@ -10890,6 +10984,8 @@ msgid ""
 "The unit step function is 0 for x&lt;0, 1 otherwise. This is the integral of "
 "the Dirac Delta function. Also called the Heaviside function."
 msgstr ""
+"La función escalón unitario es 0 para x&lt;0, 1 si no. Es la integral de la "
+"función delta de Dirac. También llamada función de Heaviside."
 
 #: C/genius.xml:4551(para)
 msgid ""
@@ -10910,8 +11006,8 @@ msgstr "cis (x)"
 
 #: C/genius.xml:4562(para)
 msgid ""
-"The <function>cis</function> function, that is the same as <userinput>cos(x)"
-"+1i*sin(x)</userinput>"
+"The <function>cis</function> function, that is the same as <userinput>cos"
+"(x)+1i*sin(x)</userinput>"
 msgstr ""
 "La función <function>cis</function> es la misma que <userinput>cos(x)+1i*sin"
 "(x)</userinput>"
@@ -11351,7 +11447,7 @@ msgstr "Alias: <function>stdevp</function>"
 
 #: C/genius.xml:4889(para)
 msgid "Calculate the population standard deviation of a whole matrix."
-msgstr ""
+msgstr "Calcula la desviación de población típica de una matriz completa."
 
 #: C/genius.xml:4894(term)
 msgid "RowAverage"
@@ -11520,7 +11616,7 @@ msgstr "NewtonsMethodPoly"
 #: C/genius.xml:4995(synopsis)
 #, no-wrap
 msgid "NewtonsMethodPoly (poly,guess,epsilon,maxn)"
-msgstr ""
+msgstr "NewtonsMethodPoly (poly,guess,epsilon,maxn)"
 
 #: C/genius.xml:4996(para)
 msgid ""
@@ -11675,7 +11771,7 @@ msgstr "MakeSet (X)"
 
 #: C/genius.xml:5082(para)
 msgid "Returns a vector where every element of X appears only once."
-msgstr ""
+msgstr "Devuelve un vector donde cada elemento de X aparece una sola vez."
 
 #: C/genius.xml:5087(term)
 msgid "SetMinus"
@@ -11710,7 +11806,7 @@ msgstr ""
 
 #: C/genius.xml:5106(title)
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Miscelánea"
 
 #: C/genius.xml:5109(term)
 msgid "ASCIIToString"
@@ -12156,18 +12252,18 @@ msgstr ""
 
 #: C/genius.xml:5409(para)
 msgid ""
-"Examples: <screen><prompt>genius&gt;</prompt> <userinput>SurfacePlot(|sin|,-"
-"1,1,-1,1,0,1.5)</userinput>\n"
-"<prompt>genius&gt;</prompt> <userinput>SurfacePlot(`(x,y)=x^2+y,-1,1,-1,1,-"
-"2,2)</userinput>\n"
+"Examples: <screen><prompt>genius&gt;</prompt> <userinput>SurfacePlot(|"
+"sin|,-1,1,-1,1,0,1.5)</userinput>\n"
+"<prompt>genius&gt;</prompt> <userinput>SurfacePlot(`(x,y)"
+"=x^2+y,-1,1,-1,1,-2,2)</userinput>\n"
 "<prompt>genius&gt;</prompt> <userinput>SurfacePlot(`(z)=|z|^2,-1,1,-1,1,0,2)"
 "</userinput>\n"
 "</screen>"
 msgstr ""
-"Ejemplos: <screen><prompt>genius&gt;</prompt> <userinput>SurfacePlot(|sin|,-"
-"1,1,-1,1,0,1.5)</userinput>\n"
-"<prompt>genius&gt;</prompt> <userinput>SurfacePlot(`(x,y)=x^2+y,-1,1,-1,1,-"
-"2,2)</userinput>\n"
+"Ejemplos: <screen><prompt>genius&gt;</prompt> <userinput>SurfacePlot(|"
+"sin|,-1,1,-1,1,0,1.5)</userinput>\n"
+"<prompt>genius&gt;</prompt> <userinput>SurfacePlot(`(x,y)"
+"=x^2+y,-1,1,-1,1,-2,2)</userinput>\n"
 "<prompt>genius&gt;</prompt> <userinput>SurfacePlot(`(z)=|z|^2,-1,1,-1,1,0,2)"
 "</userinput>\n"
 "</screen>"
@@ -12385,6 +12481,8 @@ msgstr ""
 msgid ""
 "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr ""
+"Mostrar 0.0 cuando el número en coma flotante es menor que 10^-x (0=no "
+"truncar nunca)"
 
 #: C/genius.xml:2834(para)
 msgid ""
@@ -12395,7 +12493,7 @@ msgstr ""
 
 #: C/genius.xml:2842(guilabel)
 msgid "Only chop numbers when another number is greater than 10^-x"
-msgstr ""
+msgstr "Sólo truncar los números cuando otro número es mayor que 10^-x"
 
 #: C/genius.xml:2845(para)
 msgid ""
