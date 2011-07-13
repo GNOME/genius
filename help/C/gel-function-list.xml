@@ -215,7 +215,7 @@ not consider <constant>null</constant> a matrix.</para>
          <term>IsNull</term>
          <listitem>
           <synopsis>IsNull (arg)</synopsis>
-          <para>Check if argument is a null.</para>
+	  <para>Check if argument is a <constant>null</constant>.</para>
          </listitem>
         </varlistentry>
 
@@ -310,7 +310,7 @@ is called inside a block that was evaluated using modular arithmetic (using <lit
          <listitem>
           <synopsis>false</synopsis>
           <para>Aliases: <function>False</function> <function>FALSE</function></para>
-          <para>The false boolean value.</para>
+	  <para>The <constant>false</constant> boolean value.</para>
          </listitem>
         </varlistentry>
 
@@ -387,7 +387,7 @@ unprotected variables as user defined.</para>
          <listitem>
           <synopsis>true</synopsis>
           <para>Aliases: <function>True</function> <function>TRUE</function></para>
-          <para>The true boolean value.</para>
+	  <para>The <constant>true</constant> boolean value.</para>
          </listitem>
         </varlistentry>
 
@@ -1209,7 +1209,7 @@ number is specified) of the given size returned.</para>
           <para>Generate random integer in the range
 <literal>[0,max)</literal>.
 If size is given then a matrix (if two numbers are specified) or vector (if one
-number is specified) of the given size returned.  For example
+number is specified) of the given size returned.  For example,
           <screen><prompt>genius></prompt> <userinput>randint(4)</userinput>
 = 3
 <prompt>genius></prompt> <userinput>randint(4,2)</userinput>
@@ -1732,7 +1732,7 @@ number is specified) of the given size returned.  For example
           <para>
 	    Attempt fermat factorization of <varname>n</varname> into
 	    <userinput>(t-s)*(t+s)</userinput>, returns <varname>t</varname>
-	    and <varname>s</varname> as a vector if possible, null otherwise.
+	    and <varname>s</varname> as a vector if possible, <constant>null</constant> otherwise.
 	    <varname>tries</varname> specifies the number of tries before
 	    giving up.
 	  </para>
@@ -1882,7 +1882,7 @@ precalculated and returned in the second column.</para>
 	    value of 22 yields a probability of about 5.7e-14.
 	  </para>
           <para>
-	    If <literal>false</literal> is returned, you can be sure that
+	    If <constant>false</constant> is returned, you can be sure that
 	    the number is a composite.  If you want to be absolutely sure
 	    that you have a prime you can use 
 	    <link linkend='gel-function-MillerRabinTestSure'>
@@ -2191,7 +2191,7 @@ that is if <userinput>b^(n-1) == 1 mod n</userinput>.  This calles the <function
          <term>PseudoprimeTest</term>
          <listitem>
           <synopsis>PseudoprimeTest (n,b)</synopsis>
-          <para>Pseudoprime test, returns true if and only if
+	  <para>Pseudoprime test, returns <constant>true</constant> if and only if
 		<userinput>b^(n-1) == 1  mod n</userinput></para>
           <para>
 	    See
@@ -2417,7 +2417,7 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <listitem>
           <synopsis>I (n)</synopsis>
           <para>Aliases: <function>eye</function></para>
-          <para>Return an identity matrix of a given size, that is <varname>n</varname> by <varname>n</varname>.  If <varname>n</varname> is zero, returns null.</para>
+	  <para>Return an identity matrix of a given size, that is <varname>n</varname> by <varname>n</varname>.  If <varname>n</varname> is zero, returns <constant>null</constant>.</para>
           <para>
 	    See
 	    <ulink url="http://planetmath.org/encyclopedia/IdentityMatrix.html">Planetmath</ulink> for more information.
@@ -2431,7 +2431,7 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
           <synopsis>IndexComplement (vec,msize)</synopsis>
           <para>Return the index complement of a vector of indexes.  Everything is one based.  For example for vector <userinput>[2,3]</userinput> and size
 <userinput>5</userinput>, we return <userinput>[1,4,5]</userinput>.  If
-<varname>msize</varname> is 0, we always return null.</para>
+<varname>msize</varname> is 0, we always return <constant>null</constant>.</para>
          </listitem>
         </varlistentry>
 
@@ -2452,11 +2452,11 @@ same size.  No conjugates are taken so this is a bilinear form even if working o
          <term>IsIdentity</term>
          <listitem>
           <synopsis>IsIdentity (x)</synopsis>
-          <para>Check if a matrix is the identity matrix.  Automatically returns <varname>false</varname>
+          <para>Check if a matrix is the identity matrix.  Automatically returns <constant>false</constant>
 	    if the matrix is not square.  Also works on numbers, in which
 	    case it is equivalent to <userinput>x==1</userinput>.  When <varname>x</varname> is
-	    <literal>null</literal> (we could think of that as a 0 by 0 matrix),
-	    no error is generated and <varname>false</varname> is returned.</para>
+	    <constant>null</constant> (we could think of that as a 0 by 0 matrix),
+	    no error is generated and <constant>false</constant> is returned.</para>
          </listitem>
         </varlistentry>
 
@@ -2566,8 +2566,8 @@ functions make this check.  Values can be any number including complex numbers.<
           <synopsis>IsZero (x)</synopsis>
           <para>Check if a matrix is composed of all zeros.  Also works on numbers, in which
 	    case it is equivalent to <userinput>x==0</userinput>.  When <varname>x</varname> is
-	    <literal>null</literal> (we could think of that as a 0 by 0 matrix),
-	    no error is generated and <varname>true</varname> is returned as the condition is
+	    <constant>null</constant> (we could think of that as a 0 by 0 matrix),
+	    no error is generated and <constant>true</constant> is returned as the condition is
 	    vacuous.
 	    </para>
          </listitem>
@@ -2600,7 +2600,7 @@ functions make this check.  Values can be any number including complex numbers.<
          <listitem>
           <synopsis>MakeVector (A)</synopsis>
           <para>Make column vector out of matrix by putting columns above
-	    each other.  Returns null when given null.</para>
+		  each other.  Returns <constant>null</constant> when given <constant>null</constant>.</para>
          </listitem>
         </varlistentry>
 
@@ -2651,7 +2651,7 @@ the outer product is <userinput>v * u.'</userinput>.</para>
          <term>ReverseVector</term>
          <listitem>
           <synopsis>ReverseVector (v)</synopsis>
-          <para>Reverse elements in a vector.</para>
+	  <para>Reverse elements in a vector.  Return <constant>null</constant> if given <constant>null</constant></para>
          </listitem>
         </varlistentry>
 
@@ -2692,8 +2692,16 @@ something(r)</userinput>.</para>
 	  matrix will be returned to which the old one is copied.  Entries that
 	  don't fit are clipped and extra space is filled with zeros.
 	  if <varname>rows</varname> or <varname>columns</varname> are zero
-	  then null is returned.
+	  then <constant>null</constant> is returned.
 	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-ShuffleVector">
+         <term>ShuffleVector</term>
+         <listitem>
+          <synopsis>ShuffleVector (v)</synopsis>
+	  <para>Shuffle elements in a vector.  Return <constant>null</constant> if given <constant>null</constant></para>
          </listitem>
         </varlistentry>
 
@@ -2768,7 +2776,7 @@ number of columns times the number of rows.</para>
          <term>ones</term>
          <listitem>
           <synopsis>ones (rows,columns...)</synopsis>
-          <para>Make an matrix of all ones (or a row vector if only one argument is given).  Returns null if either rows or columns are zero.</para>
+	  <para>Make an matrix of all ones (or a row vector if only one argument is given).  Returns <constant>null</constant> if either rows or columns are zero.</para>
          </listitem>
         </varlistentry>
 
@@ -2784,7 +2792,7 @@ number of columns times the number of rows.</para>
          <term>zeros</term>
          <listitem>
           <synopsis>zeros (rows,columns...)</synopsis>
-          <para>Make a matrix of all zeros (or a row vector if only one argument is given).  Returns null if either rows or columns are zero.</para>
+	  <para>Make a matrix of all zeros (or a row vector if only one argument is given).  Returns <constant>null</constant> if either rows or columns are zero.</para>
          </listitem>
         </varlistentry>
 
@@ -3227,7 +3235,7 @@ determinant.
           <para>
 	    Get the LU decomposition of <varname>A</varname>
 	    and store the result in the <varname>L</varname> and
-	    <varname>U</varname> which should be references.  It returns true
+	    <varname>U</varname> which should be references.  It returns <constant>true</constant>
 	    if successful.
 	    For example suppose that A is a square matrix, then after running:
 	    <screen><prompt>genius></prompt> <userinput>LUDecomposition(A,&amp;L,&amp;U)</userinput>
@@ -3247,8 +3255,8 @@ determinant.
 	  <para>
 	    Not all matrices have LU decompositions, for example
 	    <userinput>[0,1;1,0]</userinput> does not and this function returns
-	    <literal>false</literal> in this case and sets <varname>L</varname>
-	    and <varname>U</varname> to null.
+	    <constant>false</constant> in this case and sets <varname>L</varname>
+	    and <varname>U</varname> to <constant>null</constant>.
 	  </para>
           <para>
 	    See
@@ -3353,7 +3361,7 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
 	    Get the QR decomposition of a square matrix <varname>A</varname>,
 	    returns the upper triangular matrix <varname>R</varname>
 	    and sets <varname>Q</varname> to the orthogonal (unitary) matrix.
-	    <varname>Q</varname> should be a reference or null if you don't
+	    <varname>Q</varname> should be a reference or <constant>null</constant> if you don't
 	    want any return.
 	    For example:
 	    <screen><prompt>genius></prompt> <userinput>R = QRDecomposition(A,&amp;Q)</userinput>
@@ -3392,9 +3400,9 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
 		at a eigenvector and could be random.  It should have 
 	        nonzero imaginary part if it will have any chance at finding
 	        complex eigenvalues.  The code will run at most
-	        <varname>maxiter</varname> iterations and return null
+		<varname>maxiter</varname> iterations and return <constant>null</constant>
 		if we cannot get within an error of <varname>epsilon</varname>.
-		<varname>vecref</varname> should either be null or a reference
+		<varname>vecref</varname> should either be <constant>null</constant> or a reference
 		to a variable where the eigenvector should be stored.
 		</para>
           <para>
@@ -3502,7 +3510,7 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
          <term>SolveLinearSystem</term>
          <listitem>
           <synopsis>SolveLinearSystem (M,V,args...)</synopsis>
-          <para>Solve linear system Mx=V, return solution V if there is a unique solution, null otherwise.  Extra two reference parameters can optionally be used to get the reduced M and V.</para>
+	  <para>Solve linear system Mx=V, return solution V if there is a unique solution, <constant>null</constant> otherwise.  Extra two reference parameters can optionally be used to get the reduced M and V.</para>
          </listitem>
         </varlistentry>
 
@@ -3772,7 +3780,7 @@ divided to make all pivots 1.</para>
           <para>
 	    Find the vector <varname>c</varname> of non-negative integers
 	    such that taking the dot product with <varname>v</varname> is
-	    equal to n.  If not possible returns null.  <varname>v</varname>
+	    equal to n.  If not possible returns <constant>null</constant>.  <varname>v</varname>
 	    should be given sorted in increasing order and should consist
 	    of non-negative integers.
 	  </para>
@@ -4993,7 +5001,7 @@ and has period <userinput>b-a</userinput>.</para>
          <term>NewtonsMethodPoly</term>
          <listitem>
           <synopsis>NewtonsMethodPoly (poly,guess,epsilon,maxn)</synopsis>
-          <para>Run newton's method on a polynomial to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns null).</para>
+	  <para>Run newton's method on a polynomial to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns <constant>null</constant>).</para>
          </listitem>
         </varlistentry>
 
@@ -5063,7 +5071,7 @@ and has period <userinput>b-a</userinput>.</para>
          <term>IsIn</term>
          <listitem>
           <synopsis>IsIn (x,X)</synopsis>
-          <para>Returns true if the element x is in the set X (where X is a vector pretending to be a set).</para>
+	  <para>Returns <constant>true</constant> if the element x is in the set X (where X is a vector pretending to be a set).</para>
          </listitem>
         </varlistentry>
 
@@ -5071,7 +5079,7 @@ and has period <userinput>b-a</userinput>.</para>
          <term>IsSubset</term>
          <listitem>
           <synopsis>IsSubset (X, Y)</synopsis>
-          <para>Returns true if X is a subset of Y (X and Y are vectors pretending to be sets).</para>
+	  <para>Returns <constant>true</constant> if X is a subset of Y (X and Y are vectors pretending to be sets).</para>
          </listitem>
         </varlistentry>
 
@@ -5163,7 +5171,7 @@ and has period <userinput>b-a</userinput>.</para>
          <term>SymbolicDerivativeTry</term>
          <listitem>
           <synopsis>SymbolicDerivativeTry (f)</synopsis>
-          <para>Attempt to symbolically differentiate the function f, where f is a function of one variable, returns null if unsuccessful but is silent.
+	  <para>Attempt to symbolically differentiate the function f, where f is a function of one variable, returns <constant>null</constant> if unsuccessful but is silent.
 	  (See <link linkend="gel-function-SymbolicDerivative"><function>SymbolicDerivative</function></link>)
           </para>
          </listitem>
@@ -5183,7 +5191,7 @@ and has period <userinput>b-a</userinput>.</para>
          <term>SymbolicNthDerivativeTry</term>
          <listitem>
           <synopsis>SymbolicNthDerivativeTry (f,n)</synopsis>
-	  <para>Attempt to symbolically differentiate a function n times quietly and return null on failure
+	  <para>Attempt to symbolically differentiate a function n times quietly and return <constant>null</constant> on failure
 	  (See <link linkend="gel-function-SymbolicNthDerivative"><function>SymbolicNthDerivative</function></link>)
           </para>
          </listitem>

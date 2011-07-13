@@ -51,7 +51,7 @@ function LucasLehmer(p) = (
 	Mp = (2^p) - 1;
 	while n<p-1 do (
 		S = ((S^2) - 2) % Mp;
-		n = n+1
+		increment n
 	);
 	S == 0
 );
@@ -120,10 +120,10 @@ function IsMersennePrimeExponent(p) = (
 		return true;
 
 	# http://www.mersenne.org / GIMPS doublechecked everything up
-	# to 18,297,089 (on Jul. 22, 2009)
-	if p <= 18297089 then
+	# to 22,338,397 (on Jul. 12, 2011)
+	if p <= 22338397 then
 		return false;
 
-	error("IsMersennePrimeExponent: Number too large (known values up to: " + 18297089 + ")");
+	error("IsMersennePrimeExponent: Number too large (known values up to: " + 22338397 + ")");
 	bailout
 );

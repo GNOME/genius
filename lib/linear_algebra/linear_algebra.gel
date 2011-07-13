@@ -458,7 +458,7 @@ function Eigenvectors(M, evsmults...) = (
 				) else (
 					out@(k) := [1;-row@(1)/row@(2)]
 				);
-				k = k+1;
+				increment k
 			);
 			out
 		)
@@ -555,7 +555,7 @@ function RayleighQuotientIteration(A,x,epsilon,maxiter,vecref) = (
 
 		nsq = HermitianProduct (y,y);
 
-		p = p + (y'*x)@(1) / nsq;
+		increment p by (y'*x)@(1) / nsq;
 
 		x = y/sqrt(nsq);
 

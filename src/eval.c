@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2010 Jiri (George) Lebl
+ * Copyright (C) 1997-2011 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -247,6 +247,9 @@ branches (int op)
 		case GEL_E_BREAK: return 0;
 		case GEL_E_MOD_CALC: return 2;
 		case GEL_E_DEFEQUALS: return 2;
+		case GEL_E_SWAPWITH: return 2;
+		case GEL_E_INCREMENT: return 1;
+		case GEL_E_INCREMENT_BY: return 2;
 	}
 	return 0;
 }
@@ -3138,6 +3141,9 @@ static const GelOper prim_table[GEL_E_OPER_LAST] = {
 	/*GEL_E_BREAK*/ EMPTY_PRIM,
 	/*GEL_E_MOD_CALC*/ EMPTY_PRIM,
 	/*GEL_E_DEFEQUALS*/ EMPTY_PRIM,
+	/*GEL_E_SWAPWITH*/ EMPTY_PRIM,
+	/*GEL_E_INCREMENT*/ EMPTY_PRIM,
+	/*GEL_E_INCREMENT_BY*/ EMPTY_PRIM,
 	/*GEL_E_OPER_LAST*/
 };
 
@@ -5327,17 +5333,25 @@ iter_get_matrix_p(GelETree *m, gboolean *new_matrix)
 			return NULL;
 		}
 		f = d_lookup_local(m->id.id);
-		if(!f) {
-			GelETree *t;
-			GEL_GET_NEW_NODE(t);
-			t->type = GEL_MATRIX_NODE;
-			t->mat.matrix = gel_matrixw_new();
-			t->mat.quoted = FALSE;
-			gel_matrixw_set_size(t->mat.matrix,1,1);
+		if (f == NULL) {
+			GelEFunc *fg = d_lookup_global (m->id.id);
 
-			f = d_makevfunc(m->id.id,t);
-			d_addfunc(f);
-			if(new_matrix) *new_matrix = TRUE;
+			if (fg != NULL) {
+				f = d_addfunc (d_makerealfunc (fg,
+							       m->id.id,
+							       FALSE));
+			} else {
+				GelETree *t;
+				GEL_GET_NEW_NODE(t);
+				t->type = GEL_MATRIX_NODE;
+				t->mat.matrix = gel_matrixw_new();
+				t->mat.quoted = FALSE;
+				gel_matrixw_set_size(t->mat.matrix,1,1);
+
+				f = d_makevfunc(m->id.id,t);
+				d_addfunc(f);
+				if(new_matrix) *new_matrix = TRUE;
+			}
 		} else if G_UNLIKELY (f->type != GEL_USER_FUNC &&
 				      f->type != GEL_VARIABLE_FUNC) {
 			gel_errorout (_("Indexed Lvalue not user function"));
@@ -5367,7 +5381,7 @@ iter_get_matrix_p(GelETree *m, gboolean *new_matrix)
 			return NULL;
 		}
 
-		f = d_lookup_local(l->id.id);
+		f = d_lookup_global(l->id.id);
 		if G_UNLIKELY (f == NULL) {
 			gel_errorout (_("Dereference of undefined variable!"));
 			return NULL;
@@ -5481,7 +5495,7 @@ iter_equalsop(GelETree *n)
 			return;
 		}
 		
-		f = d_lookup_local(ll->id.id);
+		f = d_lookup_global(ll->id.id);
 		if G_UNLIKELY (f == NULL) {
 			gel_errorout (_("Dereference of undefined variable!"));
 			return;
@@ -5684,6 +5698,476 @@ iter_equalsop(GelETree *n)
 	replacenode(n,r);
 }
 
+static GelEFunc *
+get_functoset (GelETree *l)
+{
+	if(l->type == GEL_IDENTIFIER_NODE) {
+		if G_UNLIKELY (l->id.id->parameter) {
+			gel_errorout (_("Increment/Swapwith does not work on parameters (trying to increment '%s')"),
+				      l->id.id->token);
+			return NULL;
+		} else if G_UNLIKELY (d_curcontext() == 0 &&
+			       l->id.id->protected_) {
+			gel_errorout (_("Trying to set a protected id '%s'"),
+				      l->id.id->token);
+			return NULL;
+		} else {
+			GelEFunc *f;
+
+			f = d_lookup_local (l->id.id);
+			if (f == NULL) {
+				GelEFunc *fg = d_lookup_global (l->id.id);
+				if (fg != NULL)
+					f = d_addfunc (d_makerealfunc (fg,
+								       l->id.id,
+								       FALSE));
+				else
+					f = d_addfunc (d_makevfunc (l->id.id, gel_makenum_ui (0)));
+			}
+			return f;
+		}
+	} else if(l->op.oper == GEL_E_DEREFERENCE) {
+		GelEFunc *f;
+		GelETree *ll;
+		GEL_GET_L(l,ll);
+
+		if G_UNLIKELY (ll->type != GEL_IDENTIFIER_NODE) {
+			gel_errorout (_("Dereference of non-identifier!"));
+			return NULL;
+		}
+		
+		f = d_lookup_global (ll->id.id);
+		if G_UNLIKELY (f == NULL) {
+			gel_errorout (_("Dereference of undefined variable!"));
+			return NULL;
+		}
+		if G_UNLIKELY (f->type!=GEL_REFERENCE_FUNC) {
+			gel_errorout (_("Dereference of non-reference!"));
+			return NULL;
+		}
+
+		if G_UNLIKELY (f->data.ref->context == 0 &&
+			       f->data.ref->id->protected_) {
+			gel_errorout (_("Trying to set a protected id '%s'"),
+				      f->data.ref->id->token);
+			return NULL;
+		}
+
+		return f->data.ref;
+	}
+
+	return NULL;
+}
+
+static void
+iter_incrementop (GelETree *n)
+{
+	GelETree *l;
+	mpw_ptr by;
+
+	if (n->op.args->any.next == NULL) {
+		GEL_GET_L(n,l);
+		by = NULL;
+	} else {
+		GelETree *r;
+		GEL_GET_LR(n,l,r);
+		if (r->type != GEL_VALUE_NODE) {
+			gel_errorout (_("Increment not a value!"));
+			return;
+		}
+		by = r->val.value;
+	}
+
+	if G_UNLIKELY (l->type != GEL_IDENTIFIER_NODE &&
+		       !(l->type == GEL_OPERATOR_NODE && l->op.oper == GEL_E_GET_VELEMENT) &&
+		       !(l->type == GEL_OPERATOR_NODE && l->op.oper == GEL_E_GET_ELEMENT) &&
+		       !(l->type == GEL_OPERATOR_NODE && l->op.oper == GEL_E_GET_COL_REGION) &&
+		       !(l->type == GEL_OPERATOR_NODE && l->op.oper == GEL_E_GET_ROW_REGION) &&
+		       !(l->type == GEL_OPERATOR_NODE && l->op.oper == GEL_E_DEREFERENCE)) {
+		gel_errorout (_("Lvalue not an identifier/dereference/matrix location!"));
+		return;
+	}
+
+	if (l->type == GEL_IDENTIFIER_NODE ||
+	    l->op.oper == GEL_E_DEREFERENCE) {
+		GelEFunc *f = get_functoset (l);
+		if G_UNLIKELY (f == NULL) {
+			return;
+		} else if G_UNLIKELY (f->type != GEL_VARIABLE_FUNC ||
+				      ! (f->data.user->type == GEL_VALUE_NODE ||
+					 f->data.user->type == GEL_MATRIX_NODE)) {
+			gel_errorout (_("Trying to increment non-value id '%s'"),
+				      l->id.id->token);
+			return;
+		}
+
+		if (f->data.user->type == GEL_VALUE_NODE) {
+			if (by == NULL)
+				mpw_add_ui (f->data.user->val.value, f->data.user->val.value, 1);
+			else
+				mpw_add (f->data.user->val.value, f->data.user->val.value, by);
+		} else if (f->data.user->type == GEL_MATRIX_NODE) {
+			gel_matrixw_incr (f->data.user->mat.matrix, by);
+		}
+	} else if(l->op.oper == GEL_E_GET_ELEMENT) {
+		GelMatrixW *mat;
+		GelETree *m, *index1, *index2;
+		GEL_GET_LRR (l, m, index1, index2);
+
+		if (index1->type == GEL_VALUE_NODE &&
+		    index2->type == GEL_VALUE_NODE) {
+			int x, y;
+
+			x = iter_get_matrix_index_num (index2, INT_MAX);
+			if (x < 0)
+				return;
+			y = iter_get_matrix_index_num (index1, INT_MAX);
+			if (y < 0)
+				return;
+
+			mat = iter_get_matrix_p (l->op.args, NULL);
+			if (mat == NULL)
+				return;
+
+			gel_matrixw_incr_element (mat, x, y, by);
+		} else if ((index1->type == GEL_VALUE_NODE ||
+			    index1->type == GEL_MATRIX_NODE) &&
+			   (index2->type == GEL_VALUE_NODE ||
+			    index2->type == GEL_MATRIX_NODE)) {
+			int *regx, *regy;
+			int lx, ly;
+
+			if ( ! iter_get_index_regions (index1, index2,
+						       INT_MAX, INT_MAX,
+						       &regy, &regx,
+						       &ly, &lx))
+				return;
+
+			mat = iter_get_matrix_p (l->op.args, NULL);
+			if (mat == NULL) {
+				g_free (regx);
+				g_free (regy);
+				return;
+			}
+
+			gel_matrixw_incr_region (mat, regx, regy, lx, ly, by);
+			g_free (regx);
+			g_free (regy);
+		} else {
+			gel_errorout (_("Matrix index not an integer or a vector"));
+			return;
+		}
+	} else if(l->op.oper == GEL_E_GET_VELEMENT) {
+		GelMatrixW *mat;
+		GelETree *m, *index;
+		GEL_GET_LR (l, m, index);
+
+		if (index->type == GEL_VALUE_NODE) {
+			int i;
+
+			i = iter_get_matrix_index_num (index, INT_MAX);
+			if (i < 0)
+				return;
+
+			mat = iter_get_matrix_p (l->op.args, NULL);
+			if (mat == NULL)
+				return;
+
+			gel_matrixw_incr_velement (mat, i, by);
+		} else if (index->type == GEL_MATRIX_NODE) {
+			int *reg;
+			int len;
+
+			if ( ! iter_get_index_region (index, INT_MAX,
+						      &reg, &len))
+				return;
+
+			mat = iter_get_matrix_p (l->op.args, NULL);
+			if (mat == NULL) {
+				g_free (reg);
+				return;
+			}
+
+			gel_matrixw_incr_vregion (mat, reg, len, by);
+			g_free (reg);
+		} else {
+			gel_errorout (_("Matrix index not an integer or a vector"));
+			return;
+		}
+	} else /*l->data.oper == GEL_E_GET_COL_REGION GEL_E_GET_ROW_REGION*/ {
+		GelMatrixW *mat;
+		GelETree *m, *index;
+		GEL_GET_LR (l, m, index);
+
+		if (index->type == GEL_VALUE_NODE ||
+		    index->type == GEL_MATRIX_NODE) {
+			int *regx, *regy;
+			int lx, ly;
+			int i;
+
+			if (l->op.oper == GEL_E_GET_COL_REGION) {
+				if ( ! iter_get_index_region (index, INT_MAX, &regx, &lx))
+					return;
+			} else {
+				if ( ! iter_get_index_region (index, INT_MAX, &regy, &ly))
+					return;
+			}
+
+			mat = iter_get_matrix_p (l->op.args, NULL);
+			if (mat == NULL) {
+				g_free (regx);
+				g_free (regy);
+				return;
+			}
+
+			if (l->op.oper == GEL_E_GET_COL_REGION) {
+				ly = gel_matrixw_height (mat);
+				regy = g_new (int, ly);
+				for (i = 0; i < ly; i++)
+					regy[i] = i;
+			} else {
+				lx = gel_matrixw_width (mat);
+				regx = g_new (int, lx);
+				for (i = 0; i < lx; i++)
+					regx[i] = i;
+			}
+
+			gel_matrixw_incr_region (mat, regx, regy, lx, ly, by);
+			g_free (regx);
+			g_free (regy);
+		} else {
+			gel_errorout (_("Matrix index not an integer or a vector"));
+			return;
+		}
+	}
+	replacenode(n,gel_makenum_null ());
+}
+
+static void
+do_swapwithop (GelETree *l, GelETree *r)
+{
+	int lx, ly;
+	int rx, ry;
+	GelMatrixW *matr, *matl;
+	GelETree *tmp;
+
+	if (l->type == GEL_IDENTIFIER_NODE ||
+	    l->op.oper == GEL_E_DEREFERENCE) {
+		GelEFunc *lf = get_functoset (l);
+		if (lf == NULL)
+			return;
+		if (lf->type != GEL_VARIABLE_FUNC) {
+			gel_errorout (_("Can only swap user variables"));
+			return;
+		}
+		if (r->type == GEL_IDENTIFIER_NODE ||
+		    r->op.oper == GEL_E_DEREFERENCE) {
+			GelEFunc *rf = get_functoset (r);
+			GelETree *tmp;
+
+			if (rf->type != GEL_VARIABLE_FUNC) {
+				gel_errorout (_("Can only swap user variables"));
+				return;
+			}
+
+			tmp = lf->data.user;
+			lf->data.user = rf->data.user;
+			rf->data.user = tmp;
+		} else if(r->op.oper == GEL_E_GET_ELEMENT) {
+			GelMatrixW *mat;
+			GelETree *m, *index1, *index2;
+			GEL_GET_LRR (r, m, index1, index2);
+
+			if (index1->type == GEL_VALUE_NODE &&
+			    index2->type == GEL_VALUE_NODE) {
+				int x, y;
+				GelETree *t, *tmp;
+
+				x = iter_get_matrix_index_num (index2, INT_MAX);
+				if (x < 0)
+					return;
+				y = iter_get_matrix_index_num (index1, INT_MAX);
+				if (y < 0)
+					return;
+
+				mat = iter_get_matrix_p (r->op.args, NULL);
+				if (mat == NULL)
+					return;
+
+				gel_matrixw_set_at_least_size (mat, x+1, y+1);
+				gel_matrixw_make_private (mat, TRUE /* kill_type_caches */);
+				t = gel_matrixw_get_index (mat, x, y);
+				if (t != NULL) {
+					tmp = lf->data.user;
+					lf->data.user = t;
+					gel_matrixw_set_index (mat, x, y) = tmp;
+				} else {
+					gel_matrixw_set_index (mat, x, y) = lf->data.user;
+					lf->data.user = gel_makenum_ui (0);
+				}
+			} else {
+				gel_errorout (_("Cannot swap matrix regions"));
+			}
+		} else if(r->op.oper == GEL_E_GET_VELEMENT) {
+			GelMatrixW *mat;
+			GelETree *m, *index;
+			GEL_GET_LR (r, m, index);
+
+			if (index->type == GEL_VALUE_NODE) {
+				int i, x, y;
+				GelETree *t, *tmp;
+
+				i = iter_get_matrix_index_num (index, INT_MAX);
+				if (i < 0)
+					return;
+
+				mat = iter_get_matrix_p (r->op.args, NULL);
+				if (mat == NULL)
+					return;
+
+
+				GEL_MATRIXW_VINDEX_TO_INDEX (matl, i, x, y);
+
+				gel_matrixw_set_at_least_size (mat, x+1, y+1);
+				gel_matrixw_make_private (mat, TRUE /* kill_type_caches */);
+
+				t = gel_matrixw_get_vindex (mat, i);
+				if (t != NULL) {
+					tmp = lf->data.user;
+					lf->data.user = t;
+					gel_matrixw_set_index (mat, x, y) = tmp;
+				} else {
+					gel_matrixw_set_index (mat, x, y) = lf->data.user;
+					lf->data.user = gel_makenum_ui (0);
+				}
+			} else {
+				gel_errorout (_("Cannot swap matrix regions"));
+			}
+		}
+		return;
+	} else if (r->type == GEL_IDENTIFIER_NODE ||
+		   r->op.oper == GEL_E_DEREFERENCE) {
+		do_swapwithop (r, l);
+		return;
+	}
+
+	matl = iter_get_matrix_p (l->op.args, NULL);
+	if (matl == NULL)
+		return;
+
+	matr = iter_get_matrix_p (r->op.args, NULL);
+	if (matr == NULL)
+		return;
+
+	if (l->op.oper == GEL_E_GET_ELEMENT) {
+		GelETree *m, *index1, *index2;
+		GEL_GET_LRR (l, m, index1, index2);
+
+		if (index1->type == GEL_VALUE_NODE &&
+		    index2->type == GEL_VALUE_NODE) {
+			lx = iter_get_matrix_index_num (index2, INT_MAX);
+			if (lx < 0)
+				return;
+			ly = iter_get_matrix_index_num (index1, INT_MAX);
+			if (ly < 0)
+				return;
+		} else {
+			gel_errorout (_("Cannot swap matrix regions"));
+			return;
+		}
+	} else if (l->op.oper == GEL_E_GET_VELEMENT) {
+		GelETree *m, *index;
+		GEL_GET_LR (l, m, index);
+
+		if (index->type == GEL_VALUE_NODE) {
+			int i;
+
+			i = iter_get_matrix_index_num (index, INT_MAX);
+			if (i < 0)
+				return;
+
+			GEL_MATRIXW_VINDEX_TO_INDEX (matl, i, lx, ly);
+		} else {
+			gel_errorout (_("Cannot swap matrix regions"));
+			return;
+		}
+	}
+
+	if (r->op.oper == GEL_E_GET_ELEMENT) {
+		GelETree *m, *index1, *index2;
+		GEL_GET_LRR (r, m, index1, index2);
+
+		if (index1->type == GEL_VALUE_NODE &&
+		    index2->type == GEL_VALUE_NODE) {
+			rx = iter_get_matrix_index_num (index2, INT_MAX);
+			if (rx < 0)
+				return;
+			ry = iter_get_matrix_index_num (index1, INT_MAX);
+			if (ry < 0)
+				return;
+		} else {
+			gel_errorout (_("Cannot swap matrix regions"));
+			return;
+		}
+	} else if(r->op.oper == GEL_E_GET_VELEMENT) {
+		GelETree *m, *index;
+		GEL_GET_LR (r, m, index);
+
+		if (index->type == GEL_VALUE_NODE) {
+			int i;
+
+			i = iter_get_matrix_index_num (index, INT_MAX);
+			if (i < 0)
+				return;
+
+			GEL_MATRIXW_VINDEX_TO_INDEX (matl, i, rx, ry);
+		} else {
+			gel_errorout (_("Cannot swap matrix regions"));
+			return;
+		}
+	}
+
+	gel_matrixw_set_at_least_size (matl, lx+1, ly+1);
+	gel_matrixw_set_at_least_size (matr, rx+1, ry+1);
+
+	if (matl == matr && lx == rx && ly == ry)
+		return;
+
+	gel_matrixw_make_private (matl, TRUE /* kill_type_caches */);
+	gel_matrixw_make_private (matr, TRUE /* kill_type_caches */);
+
+	tmp = gel_matrixw_set_index (matr, rx, ry);
+	gel_matrixw_set_index (matr, rx, ry) = gel_matrixw_set_index (matl, lx, ly);
+	gel_matrixw_set_index (matl, lx, ly) = tmp;
+}
+
+static void
+iter_swapwithop(GelETree *n)
+{
+	GelETree *l, *r;
+
+	GEL_GET_LR(n,l,r);
+
+	if G_UNLIKELY (l->type != GEL_IDENTIFIER_NODE &&
+		       !(l->type == GEL_OPERATOR_NODE && l->op.oper == GEL_E_GET_VELEMENT) &&
+		       !(l->type == GEL_OPERATOR_NODE && l->op.oper == GEL_E_GET_ELEMENT) &&
+		       !(l->type == GEL_OPERATOR_NODE && l->op.oper == GEL_E_DEREFERENCE)) {
+		gel_errorout (_("Lvalue not an identifier/dereference/matrix location!"));
+		return;
+	}
+	if G_UNLIKELY (r->type != GEL_IDENTIFIER_NODE &&
+		       !(r->type == GEL_OPERATOR_NODE && r->op.oper == GEL_E_GET_VELEMENT) &&
+		       !(r->type == GEL_OPERATOR_NODE && r->op.oper == GEL_E_GET_ELEMENT) &&
+		       !(r->type == GEL_OPERATOR_NODE && r->op.oper == GEL_E_DEREFERENCE)) {
+		gel_errorout (_("Lvalue not an identifier/dereference/matrix location!"));
+		return;
+	}
+
+	do_swapwithop (l, r);
+
+	replacenode (n, gel_makenum_null ());
+}
+
 static void
 iter_parameterop (GelETree *n)
 {
@@ -5747,6 +6231,52 @@ iter_push_indexes_and_arg(GelCtx *ctx, GelETree *n)
 		ctx->current = n->op.args->any.next;
 		ctx->whackarg = FALSE;
 	}
+}
+
+static inline void
+iter_do_push_index (GelCtx *ctx, GelETree *l)
+{
+	GelETree *ident;
+
+	if (l->op.oper == GEL_E_GET_ELEMENT) {
+		GelETree *ll,*rr;
+		
+		GEL_GET_LRR(l,ident,ll,rr);
+
+		GE_PUSH_STACK(ctx,rr,GE_PRE);
+		GE_PUSH_STACK(ctx,ll,GE_PRE);
+	} else if(l->op.oper == GEL_E_GET_VELEMENT ||
+		  l->op.oper == GEL_E_GET_COL_REGION ||
+		  l->op.oper == GEL_E_GET_ROW_REGION) {
+		GelETree *ll;
+		
+		GEL_GET_LR(l,ident,ll);
+		GE_PUSH_STACK(ctx,ll,GE_PRE);
+	}
+}
+
+static inline void
+iter_push_left_indexes_only(GelCtx *ctx, GelETree *n)
+{
+	GelETree *l;
+
+	GEL_GET_L(n,l);
+
+	iter_do_push_index (ctx, l);
+	iter_pop_stack (ctx);
+}
+
+static inline void
+iter_push_indexes_both (GelCtx *ctx, GelETree *n)
+{
+	GelETree *l,*r,*ident;
+
+	GEL_GET_LR(n,l,r);
+
+	iter_do_push_index (ctx, l);
+	iter_do_push_index (ctx, r);
+
+	iter_pop_stack (ctx);
 }
 
 static void
@@ -5983,6 +6513,9 @@ iter_get_op_name(int oper)
 	case GEL_E_SEPAR:
 	case GEL_E_EQUALS:
 	case GEL_E_DEFEQUALS:
+	case GEL_E_SWAPWITH:
+	case GEL_E_INCREMENT:
+	case GEL_E_INCREMENT_BY:
 	case GEL_E_PARAMETER: break;
 	case GEL_E_ABS: name = g_strdup(_("Absolute value")); break;
 	case GEL_E_PLUS: name = g_strdup(_("Addition")); break;
@@ -6169,6 +6702,30 @@ iter_operator_pre(GelCtx *ctx)
 			       GE_ADDWHACKARG (GE_POST,
 					       ctx->whackarg));
 		iter_push_indexes_and_arg(ctx,n);
+		break;
+
+	case GEL_E_INCREMENT:
+		EDEBUG("  INCREMENT PRE");
+		GE_PUSH_STACK (ctx, n,
+			       GE_ADDWHACKARG (GE_POST,
+					       ctx->whackarg));
+		iter_push_left_indexes_only(ctx,n);
+		break;
+
+	case GEL_E_INCREMENT_BY:
+		EDEBUG("  EQUALS PRE");
+		GE_PUSH_STACK (ctx, n,
+			       GE_ADDWHACKARG (GE_POST,
+					       ctx->whackarg));
+		iter_push_indexes_and_arg(ctx,n);
+		break;
+
+	case GEL_E_SWAPWITH:
+		EDEBUG("  SWAPWITH PRE");
+		GE_PUSH_STACK (ctx, n,
+			       GE_ADDWHACKARG (GE_POST,
+					       ctx->whackarg));
+		iter_push_indexes_both(ctx,n);
 		break;
 
 	case GEL_E_PARAMETER:
@@ -6467,6 +7024,19 @@ iter_operator_post (GelCtx *ctx, gboolean *repushed)
 	case GEL_E_DEFEQUALS:
 		EDEBUG("  EQUALS POST");
 		iter_equalsop(n);
+		iter_pop_stack(ctx);
+		break;
+
+	case GEL_E_INCREMENT:
+	case GEL_E_INCREMENT_BY:
+		EDEBUG("  INCREMENT POST");
+		iter_incrementop(n);
+		iter_pop_stack(ctx);
+		break;
+
+	case GEL_E_SWAPWITH:
+		EDEBUG("  SWAPWITH POST");
+		iter_swapwithop(n);
 		iter_pop_stack(ctx);
 		break;
 

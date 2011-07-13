@@ -21,7 +21,7 @@ function InfiniteSum (func, start, inc) = (
 	for n = 1 to SumProductNumberOfTries do (
 		newsum = oldsum + func(start);
 		if |newsum-oldsum| < SumProductTolerance then (
-			wt = wt + 1;
+			increment wt;
 			if wt >= SumProductSFS then (
 				return newsum
 			)
@@ -47,7 +47,7 @@ function InfiniteSum2(func,arg,start,inc) = (
 	for n = 1 to SumProductNumberOfTries do (
 		newsum = oldsum + func(arg,start);
 		if |newsum-oldsum| < SumProductTolerance then (
-			wt = wt + 1;
+			increment wt;
 			if wt >= SumProductSFS then (
 				return newsum
 			)
@@ -73,7 +73,7 @@ function InfiniteProduct (func, start, inc) = (
 	for n = 1 to SumProductNumberOfTries do (
 		newprod = oldprod * func(start);
 		if |newprod-oldprod| < SumProductTolerance then (
-			wt = wt + 1;
+			increment wt;
 			if wt >= SumProductSFS then (
 				return newprod
 			)
@@ -99,7 +99,7 @@ function InfiniteProduct2(func,arg,start,inc) = (
 	for n = 1 to SumProductNumberOfTries do (
 		newprod = oldprod * func(arg,start);
 		if |newprod-oldprod| < SumProductTolerance then (
-			wt = wt + 1;
+			increment wt;
 			if wt >= SumProductSFS then (
 				return newprod
 			)

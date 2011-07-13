@@ -572,7 +572,7 @@ append_anal_binaryoper(GelOutput *gelo, char *p, GelETree *n)
 }
 
 static void
-append_binaryoper(GelOutput *gelo, char *p, GelETree *n)
+append_binaryoper(GelOutput *gelo, const char *p, GelETree *n)
 {
 	GelETree *l,*r;
 	GEL_GET_LR(n,l,r);
@@ -1011,6 +1011,18 @@ appendoper(GelOutput *gelo, GelETree *n)
 			append_binaryoper(gelo," mod ",n); break;
 		case GEL_E_DEFEQUALS:
 			append_binaryoper (gelo, ":=", n); break;
+		case GEL_E_SWAPWITH:
+			append_binaryoper (gelo, " swapwith ", n); break;
+		case GEL_E_INCREMENT:
+			append_unaryoper (gelo, "increment ", n); break;
+		case GEL_E_INCREMENT_BY:
+			GEL_GET_LR(n,l,r);
+			gel_output_string(gelo,"(increment ");
+			gel_print_etree (gelo, l, FALSE);
+			gel_output_string(gelo," by ");
+			gel_print_etree (gelo, r, FALSE);
+			gel_output_string(gelo,")");
+			break;
 
 		default:
 			gel_errorout (_("Unexpected operator!"));

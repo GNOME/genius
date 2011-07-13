@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2008 Jiri (George) Lebl
+ * Copyright (C) 1997-2011 Jiri (George) Lebl
  *
  * Author: George Lebl
  *
@@ -66,6 +66,19 @@ void gel_matrixw_set_at_least_size(GelMatrixW *m, int width, int height);
 /*set element*/
 void gel_matrixw_set_element(GelMatrixW *m, int x, int y, gpointer data);
 void gel_matrixw_set_velement(GelMatrixW *m, int i, gpointer data);
+
+/*increment element (returns true on success) */
+/* NULL by means increment by 1 */
+int gel_matrixw_incr_element(GelMatrixW *m, int x, int y, mpw_ptr by);
+int gel_matrixw_incr_velement(GelMatrixW *m, int i, mpw_ptr by);
+int gel_matrixw_incr_region (GelMatrixW *m,
+			     int *destx, int *desty,
+			     int w, int h, mpw_ptr by);
+int gel_matrixw_incr_vregion (GelMatrixW *m,
+			     int *desti, int len,
+			     mpw_ptr by);
+int gel_matrixw_incr (GelMatrixW *m, mpw_ptr by);
+
 
 /*copy a matrix*/
 GelMatrixW * gel_matrixw_copy(GelMatrixW *source);
@@ -166,6 +179,21 @@ gel_matrixw_get_vindex(GelMatrixW *m, int i) {
 		return gel_matrixw_get_index (m, i % w, i / w);
 }
 #endif
+
+#define GEL_MATRIXW_VINDEX_TO_INDEX(m,i,x,y) \
+	{ \
+		int w = gel_matrixw_width(m); \
+		if (w == 1) { \
+			x = 0; \
+			y = i; \
+		} else if (gel_matrixw_height(m) == 1) { \
+			x = i; \
+			y = 0; \
+		} else { \
+			x = i % w; \
+			y = i / w; \
+		} \
+	}
 
 /* This should be usable as an lvalue */
 #define gel_matrixw_set_vindex(m,i) gel_matrixw_set_index((m),(i)%gel_matrixw_width(m),(i)/gel_matrixw_width(m))

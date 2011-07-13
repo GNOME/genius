@@ -17,8 +17,9 @@ function EulersMethod(f,x0,y0,x1,n) = (
 	x := float(x0);
 	y := float(y0);
 	for k = 1 to n do (
-		y := y + h*f(x,y);
-		x := x + h
+		# y could be a vector, so do not use increment
+		y := y+h*f(x,y);
+		increment x by h
 	);
 	y
 )
@@ -39,8 +40,10 @@ function EulersMethodFull(f,x0,y0,x1,n) = (
 	out@(1,1) := x := float(x0);
 	out@(1,2) := y := float(y0);
 	for k = 2 to n+1 do (
+		# y could be a vector, so do not use increment
 		out@(k,2) := y := y + h*f(x,y);
-		out@(k,1) := x := x + h
+		increment x by h;
+		out@(k,1) := x
 	);
 	out
 )
@@ -66,8 +69,9 @@ function RungeKutta(f,x0,y0,x1,n) = (
 		k1 := f(x,y);
 		k2 := f(x + hover2,y + k1*hover2);
 		k3 := f(x + hover2,y + k2*hover2);
-		x := x + h;
+		increment x by h;
 		k4 := f(x,y + k3*h);
+		# y could be a vector, so do not use increment
 		y := y + (1/6)*(k1 + 2*k2 + 2*k3 + k4)*h
 	);
 	y
@@ -93,9 +97,11 @@ function RungeKuttaFull(f,x0,y0,x1,n) = (
 		k1 := f(x,y);
 		k2 := f(x + hover2,y + k1*hover2);
 		k3 := f(x + hover2,y + k2*hover2);
-		out@(k,1) := x := x + h;
+		increment x by h;
 		k4 := f(x,y + k3*h);
-		out@(k,2) := y := y + (1/6)*(k1 + 2*k2 + 2*k3 + k4)*h
+		# y could be a vector, so do not use increment
+		out@(k,2) := y := y + (1/6)*(k1 + 2*k2 + 2*k3 + k4)*h;
+		out@(k,1) := x;
 	);
 	out
 )

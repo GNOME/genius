@@ -28,14 +28,14 @@ function SilverPohligHellmanWithFactorization(n,b,q,f) = (
   for i = 2 to columns(f) do (
     p = f@(1,i);
     for j = 0 to p-1 do
-      r@(i-1,j+1) = b^(j*(q-1)/p) mod q;
+      r@(i-1,j+1) = b^(j*(q-1)/p) mod q
   );
 
   # utility function to find the root in the table
   function FindRoot(rt,p,i) = (
     for j = 1 to p do
       if r@(i-1,j) == rt then return j-1;
-    (error("DiscreteLog: Error finding log, probably bogus arguments");bailout);
+    (error("DiscreteLog: Error finding log, probably bogus arguments");bailout)
   );
 
   # This will be our vector of moduli for the ChineseRemainder
@@ -52,9 +52,9 @@ function SilverPohligHellmanWithFactorization(n,b,q,f) = (
     for l = 0 to alpha-1 do (
       y = n/(b^xx);
       rt = y^((q-1)/p^(l+1)) mod q;
-      xx = xx + FindRoot(rt,p,i) * p^l;
+      xx = xx + FindRoot(rt,p,i) * p^l
     );
-    x@(i-1) = xx;
+    x@(i-1) = xx
   );
 
   # Now return the chinese remainder of the system
@@ -99,7 +99,7 @@ function IndexCalculusPrecalculation (b, q, S) = (
         divn = n / S@(i,1);
         if IsInteger (divn) then (
           fact@(i) = fact@(i) + 1;
-          n = divn;
+          n = divn
         )
       ) while n > 1 and IsInteger(divn);
     );
@@ -125,7 +125,7 @@ function IndexCalculusPrecalculation (b, q, S) = (
         # matrix we throw it away
         gcd(det(mat),q-1) != 1 then (
         mat = null;
-        v = null;
+        v = null
       )
     )
   ) while IsNull(mat) or rows (mat) < rows(S);
@@ -169,9 +169,9 @@ function IndexCalculus (n, b, q, S) = (
         divf = f / S@(i,1);
         if IsInteger (divf) then (
           l = l + S@(i,2);
-          f = divf;
+          f = divf
         )
-      ) while f > 1 and IsInteger(divf);
+      ) while f > 1 and IsInteger(divf)
     )
   ) while f > 1;
   l mod q-1
@@ -262,7 +262,7 @@ function SqrtModPrime(n,p) = (
     s=1; t=(p-1)/2;
     while IsEven(t) do (
       t = t/2;
-      s = s+1
+      increment s
     );
 
     nn = n^-1 mod p;

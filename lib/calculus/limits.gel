@@ -35,13 +35,13 @@ function NumericalLimitAtInfinity(f,step_fun,tolerance,successive_for_success,N)
     for i = 2 to N do (
         new_limit = f(step_fun(i));
         if (|new_limit-current_limit| < tolerance) then (
-            number_of_consecutive_differences_within_tolerance = number_of_consecutive_differences_within_tolerance+1
+            increment number_of_consecutive_differences_within_tolerance
         ) else (
             number_of_consecutive_differences_within_tolerance = 0
         );
         current_limit = new_limit;
         if (number_of_consecutive_differences_within_tolerance >= successive_for_success) then
-            return current_limit;
+            return current_limit
     );
     null
 )

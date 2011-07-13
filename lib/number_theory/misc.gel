@@ -40,7 +40,7 @@ function PadicValuation(n,p) =
   valuation=0;
   while Divides(p,n) do
    (
-    valuation=valuation+1;
+    increment valuation;
     n=ExactDivision(n,p);
    );
   valuation
@@ -58,7 +58,7 @@ function RemoveFactor(n,m) =
 
   while Divides(m,n) do
    (
-    n = ExactDivision(n,m);
+    n = ExactDivision(n,m)
    );
   n
  )
@@ -111,7 +111,7 @@ function ConvertToBase(n,b) = (
   while n != 0 do (
     r = n % b;
     n = (n-r)/b;
-    ret = [ret;r];
+    ret = [ret;r]
   );
   ret
 )

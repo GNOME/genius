@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2009 Jiri (George) Lebl
+ * Copyright (C) 1997-2011 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -261,6 +261,9 @@ gel_lexer_close(FILE *fp)
 
 =		{ NO_RET; return EQUALS; }
 :=		{ NO_RET; return DEFEQUALS; }
+
+swapwith	{ NO_RET; return SWAPWITH; }
+increment	{ NO_RET; return INCREMENT; }
 
 not		{ NO_RET; return LOGICAL_NOT; }
 and		{ NO_RET; return LOGICAL_AND; }

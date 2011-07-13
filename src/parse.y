@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2009 Jiri (George) Lebl
+ * Copyright (C) 1997-2011 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -65,7 +65,7 @@ void yyerror(char *);
 
 %token AT MAKEIMAGPARENTH
 
-%token SEPAR NEXTROW EQUALS DEFEQUALS
+%token SEPAR NEXTROW EQUALS DEFEQUALS SWAPWITH
 
 %token TRANSPOSE
 
@@ -75,6 +75,8 @@ void yyerror(char *);
 
 %token LOGICAL_XOR LOGICAL_OR LOGICAL_AND LOGICAL_NOT
 
+%token INCREMENT
+
 %left NEXTROW
 
 %left SEPAR
@@ -83,6 +85,8 @@ void yyerror(char *);
 %nonassoc FUNCTION PARAMETER
 
 %nonassoc LOWER_THAN_ELSE
+%nonassoc LOWER_THAN_INCREMENT
+%nonassoc INCREMENT
 %nonassoc WHILE UNTIL DO IF FOR SUM PROD TO BY IN THEN ELSE RETURNTOK LOCAL
 
 %left LOGICAL_XOR LOGICAL_OR
@@ -91,7 +95,8 @@ void yyerror(char *);
 
 %left MOD
 
-%right EQUALS DEFEQUALS
+%right EQUALS DEFEQUALS 
+%nonassoc SWAPWITH
 
 %nonassoc CMP_CMP
 %right EQ_CMP NE_CMP LT_CMP GT_CMP LE_CMP GE_CMP
@@ -151,6 +156,9 @@ expr:		expr SEPAR expr		{ PUSH_ACT(GEL_E_SEPAR); }
 					  PUSH_ACT(GEL_E_MUL); }
 	|	expr EQUALS expr	{ PUSH_ACT(GEL_E_EQUALS); }
 	|	expr DEFEQUALS expr	{ PUSH_ACT(GEL_E_DEFEQUALS); }
+	|	INCREMENT expr %prec LOWER_THAN_INCREMENT { PUSH_ACT(GEL_E_INCREMENT); }
+	|	INCREMENT expr BY expr %prec INCREMENT { PUSH_ACT(GEL_E_INCREMENT_BY); }
+	|	expr SWAPWITH expr	{ PUSH_ACT(GEL_E_SWAPWITH); }
 	|	'|' expr '|'		{ PUSH_ACT(GEL_E_ABS); }
 	|	expr '+' expr		{ PUSH_ACT(GEL_E_PLUS); }
 	|	expr ELTELTPLUS expr	{ PUSH_ACT(GEL_E_ELTPLUS); }

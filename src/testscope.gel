@@ -157,4 +157,38 @@ function f(x) = (
 h = f(0);
 if h(0) != 1+5 then (error("single explicit non-subst lookup failed");exit());
 
+v = [1,2,3];
+function f() = (
+	v@(3) = 99;
+	v
+);
+w = f();
+if [v;w] != [1,2,3;1,2,99] then (error("set vector element in function failed");exit());
+
+v = [1,2,3];
+function f() = (
+	v@(1) swapwith v@(3);
+	v
+);
+w = f();
+if [v;w] != [1,2,3;3,2,1] then (error("swapwith on vectors in function failed");exit());
+
+A = 1;
+B = 2;
+function f() = (
+	A swapwith B;
+	B
+);
+C=f();
+if [A,B,C] != [1,2,1] then (error("swapwith on variables in function failed");exit());
+
+A = 1;
+function f() = (
+	increment A;
+	A
+);
+B = f();
+if [A,B] != [1,2] then (error("increment on variable in function failed");exit());
+
+
 print("true");

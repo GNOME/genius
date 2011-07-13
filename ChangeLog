@@ -1,3 +1,26 @@
+Tue Jul 12 23:16:59 2011  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/eval.c, src/structs.h, src/parse.y, src/lexer.l, src/calc.c,
+	  src/matrixw.[ch]: add increment and swapwith operators which
+	  are quicker ways to do these common operations.  swapwith does
+	  not yet work with ranges, something that should be remedied.
+
+	* src/funclib.c: improve inline docs for rand and randint
+
+	* src/geniustests.txt, src/testscope.gel: add tests
+
+	* lib/linear_algebra/misc.gel: add ShuffleVector, fix some other
+	  functions to accept null
+
+	* lib/*/*.gel: use increment and swapwith, remove some unneeded
+	  trailing semicolons
+
+	* help/Makefile.am, help/genius.txt: add the genius.txt back into
+	  the distribution
+
+	* help/C/gel-function-list.xml help/C/genius.xml: document new
+	  features and functions
+
 Tue Jun 28 15:53:40 2011  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/compil.c: use basic ascii for encoding simple strings

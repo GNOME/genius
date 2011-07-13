@@ -3,8 +3,8 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
   <!ENTITY app "<application>Genius Mathematics Tool</application>">
   <!ENTITY appname "Genius">
-  <!ENTITY appversion "1.0.11">
-  <!ENTITY date "September 2010">
+  <!ENTITY appversion "1.0.13">
+  <!ENTITY date "July 2011">
 
   <!ENTITY legal SYSTEM "legal.xml">
 
@@ -33,11 +33,11 @@
 <!-- please do not change the id; for translations, change lang to -->
 <!-- appropriate code -->
   <bookinfo>
-    <abstract role="description">Manual for the Genius Math Tool.</abstract>
+	  <!--<abstract role="description">Manual for the Genius Math Tool.</abstract>-->
     <title>&appname; Manual</title>       
 
     <copyright>
-      <year>1997-2010</year>
+      <year>1997-2011</year>
       <holder>Ji&#345;&#237; (George) Lebl</holder>
     </copyright>
     <copyright>
@@ -1666,6 +1666,45 @@ different from <literal>=</literal> because it never gets translated to a
            <para>
              Quote an identifier so that it doesn't get evaluated.  Or
 	     quote a matrix so that it doesn't get expanded.
+           </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><synopsis>a swapwith b</synopsis></term>
+         <listitem>
+           <para>
+		   Swap value of <varname>a</varname> with the value
+		   of <varname>b</varname>.  Currently does not operate
+		   on ranges of matrix elements.
+		   It returns <constant>null</constant>.
+		   Available from version 1.0.13.
+           </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><synopsis>increment a</synopsis></term>
+         <listitem>
+           <para>
+		   Increment the variable <varname>a</varname> by 1.  If
+		   <varname>a</varname> is a matrix, then increment each element.
+		   This is equivalent to <userinput>a=a+1</userinput>, but 
+		   it is somewhat faster.  It returns <constant>null</constant>.
+		   Available from version 1.0.13.
+           </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><synopsis>increment a by b</synopsis></term>
+         <listitem>
+           <para>
+		   Increment the variable <varname>a</varname> by <varname>b</varname>.  If
+		   <varname>a</varname> is a matrix, then increment each element.
+		   This is equivalent to <userinput>a=a+b</userinput>, but 
+		   it is somewhat faster.  It returns <constant>null</constant>.
+		   Available from version 1.0.13.
            </para>
          </listitem>
         </varlistentry>

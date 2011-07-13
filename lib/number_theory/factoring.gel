@@ -50,18 +50,18 @@ function CombineFactorizations(a,b) = (
     if k > columns(a) or a@(1,k) > b@(1,l) then (
       combined@(1,n) = a@(1,l);
       combined@(2,n) = a@(2,l);
-      l = l+1
+      increment l
     ) else if l > columns(b) or a@(1,k) < b@(1,l) then (
       combined@(1,n) = a@(1,k);
       combined@(2,n) = a@(2,k);
-      k = k+1
+      increment k
     ) else if a@(1,k) == b@(1,l) then (
       combined@(1,n) = a@(1,k);
       combined@(2,n) = a@(2,k) + b@(2,k);
-      k = k+1;
-      l = l+1
+      increment k;
+      increment l
     );
-    n = n+1;
+    increment n
   );
   combined
 )
@@ -107,10 +107,10 @@ function FermatFactorization(n,tries) = (
   	(error("FermatFactorization: arguments not positive integers");bailout);
   t = floor(sqrt(n));
   for i=1 to tries do (
-    t = t+1;
+    increment t;
     m = t^2 - n;
     s = sqrt(m);
-    if IsInteger (s) then return [t,s];
+    if IsInteger (s) then return [t,s]
   );
   null
 )

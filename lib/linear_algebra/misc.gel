@@ -99,14 +99,16 @@ function ConvolutionVector(a,b) = (
 #calculate the sum of all elements in a matrix
 SetHelp("MatrixSum", "matrix","Calculate the sum of all elements in a matrix");
 function MatrixSum(a) = (
-	if(not IsMatrix(a) or not IsValueOnly(a)) then
+	if IsNull(a) then return 0
+	else if(not IsMatrix(a) or not IsValueOnly(a)) then
 		(error("MatrixSum: argument not a value only matrix");bailout);
 	sum n in a do n
 );
 
 SetHelp("MatrixSumSquares", "matrix","Calculate the sum of squares of all elements in a matrix");
 function MatrixSumSquares(a) = (
-	if(not IsMatrix(a) or not IsValueOnly(a)) then
+	if IsNull(a) then return 0
+	else if(not IsMatrix(a) or not IsValueOnly(a)) then
 		(error("MatrixSumSquares: argument not a value only matrix");bailout);
 	sum n in a do n^2
 );
@@ -158,7 +160,7 @@ function MinimizeFunction(func,x,incr) = (
 		(error("MinimizeFunction: x,incr arguments not values");bailout)
 	else if(not IsFunction(func)) then
 		(error("MinimizeFunction: func argument not a function");bailout);
-	while(func(x)>0) do x=x+incr;
+	while(func(x)>0) do increment x by incr;
 	x
 );
 
@@ -198,24 +200,26 @@ function SwapRows(m,row1,row2) = (
 
 SetHelp("RowSum","matrix","Calculate sum of each row in a matrix");
 function RowSum(m) = (
-	if not IsMatrix(m) then
+	if IsNull(m) then return null
+	else if not IsMatrix(m) then
 		(error("RowSum: argument not matrix");bailout);
 	r = zeros (rows(m),1);
 	for i = 1 to rows(m) do (
 		for j = 1 to columns(m) do
-			r@(i,1) = r@(i,1) + m@(i,j)
+			increment r@(i,1) by + m@(i,j)
 	);
 	r
 );
 
 SetHelp("RowSumSquares","matrix","Calculate sum of squares of each row in a matrix");
 function RowSumSquares(m) = (
-	if not IsMatrix(m) then
+	if IsNull(m) then return null
+	else if not IsMatrix(m) then
 		(error("RowSumSquares: argument not matrix");bailout);
 	r = zeros (rows(m),1);
 	for i = 1 to rows(m) do (
 		for j = 1 to columns(m) do
-			r@(i,1) = r@(i,1) + m@(i,j)^2
+			increment r@(i,1) by m@(i,j)^2
 	);
 	r
 );
@@ -223,16 +227,16 @@ function RowSumSquares(m) = (
 #sort a horizontal vector
 SetHelp("SortVector","matrix","Sort vector elements");
 function SortVector(v) = (
-	if not IsVector(v) then
+	if IsNull(v) then return null
+	else if not IsVector(v) then
 		(error("SortVector: argument not a vector");bailout);
+	# FIXME: really bad bubble sort
 	j = 1;
 	do (
 		sorted = true;
 		for i = 1 to elements(v)-j do (
 			if v@(i)>v@(i+1) then (
-				t = v@(i);
-				v@(i) = v@(i+1);
-				v@(i+1) = t;
+				v@(i) swapwith v@(i+1);
 				sorted = false
 			)
 		);
@@ -243,13 +247,27 @@ function SortVector(v) = (
 
 SetHelp("ReverseVector","matrix","Reverse elements in a vector");
 function ReverseVector(v) = (
-	if not IsVector(v) then
+	if IsNull(v) then return null
+	else if not IsVector(v) then
 		(error("ReverseVector: argument not a vector");bailout);
-	r = zeros (rows(v),columns(v));
 	ev = elements(v);
-	for i = 1 to ev do
-		r@(i) = v@(ev-i+1);
-	r
+	for i=1 to ceil((ev-1)/2) do (
+		v@(ev-i+1) swapwith v@(i)
+	);
+	v
+);
+
+SetHelp("ShuffleVector","matrix","Shuffle elements in a vector");
+function ShuffleVector(v) = (
+	if IsNull(v) then return null
+	else if not IsVector(v) then
+		(error("ShuffleVector: argument not a vector");bailout);
+
+	ev = elements(v);
+	for i=ev to 2 by -1 do (
+		v@(i) swapwith v@(randint(i)+1)
+	);
+	v
 );
 
 SetHelp("UpperTriangular", "matrix", "Zero out entries below the diagonal")

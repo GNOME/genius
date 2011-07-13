@@ -27,11 +27,11 @@ DOC_LINGUAS = de es
 
 # Run this by hand for now
 #genius.txt: genius.xml $(entities)
-#	docbook2txt genius.xml
-#	dos2unix -a genius.txt # for svn
+#	docbook2txt C/genius.xml
+#	dos2unix genius.txt
 
 manualdir = $(datadir)/genius
 
-#manual_DATA = genius.txt
+manual_DATA = genius.txt
 
-#EXTRA_DIST = += genius.txt
+EXTRA_DIST = genius.txt

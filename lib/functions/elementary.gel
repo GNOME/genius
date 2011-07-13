@@ -252,10 +252,10 @@ function ErrorFunction (x) = (
 	do (
 		t = xx * a * twosqrtpi;
 		s = s + t;
-		n = n + 1;
+		increment n;
 		f = f * n;
 		a = ((-1)^n) / (((2*n)+1) * f);
-		xx = xx * xsq;
+		xx = xx * xsq
 	) while (|t| > ErrorFunctionTolerance);
 	s
 );

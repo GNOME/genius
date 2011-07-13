@@ -47,7 +47,7 @@ gel_decode_string (const char *s)
 	if (s[0] == 'A') {
 		return g_strdup (&(s[1]));
 	} else if (s[0] == 'B') {
-		int len;
+		gsize len;
 		char *p = g_base64_decode (&(s[1]), &len);
 		if (p == NULL || len < 0) /* error was probably logged by now */
 			return NULL;

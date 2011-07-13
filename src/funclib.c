@@ -6285,9 +6285,9 @@ gel_funclib_addall(void)
 
 	FUNC (Identity, 1, "x", "basic", N_("Identity function, returns its argument"));
 
-	VFUNC (rand, 1, "size", "numeric", N_("Generate random float"));
+	VFUNC (rand, 1, "size", "numeric", N_("Generate random float between 0 and 1, or if size given generate vector or matrix of random floats"));
 	f->no_mod_all_args = 1;
-	VFUNC (randint, 2, "max,size", "numeric", N_("Generate random integer"));
+	VFUNC (randint, 2, "max,size", "numeric", N_("Generate random integer between 0 and max-1 inclusive, or if size given generate vector or matrix of random integers"));
 	f->no_mod_all_args = 1;
 
 	PARAMETER (FloatPrecision, N_("Floating point precision"));

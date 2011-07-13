@@ -45,7 +45,7 @@ function FindRootBisection(f,a,b,TOL,N) =
 	 diff=(b-a)/2;
 	 p=a+diff;
 	 if(f(p)==0 or diff<TOL) then (return [true,p,iteration]);
-	 iteration=iteration+1;
+	 increment iteration;
 	 if(f(a)*f(b)>0) then (a=p) else (b=p)
 	);
 	[false,p,iteration]
@@ -82,11 +82,11 @@ function FindRootSecant(f,a,b,TOL,N) =
 	(
 	 p=b-qb*(b-a)/(qb-qa);
 	 if(|p-b|<TOL) then (return [true,p,iteration]);
-	 iteration=iteration+1;
+	 increment iteration;
 	 a=b;
 	 qa=qb;
          b=p;
-         qb=f(p);
+         qb=f(p)
 	);
 	[false,p,iteration]
 )
@@ -118,11 +118,11 @@ function FindRootFalsePosition(f,a,b,TOL,N) =
 	(
 	 p=b-qb*(b-a)/(qb-qa);
 	 if(|p-b|<TOL) then (return [true,p,iteration]);
-	 iteration=iteration+1;
+	 increment iteration;
 	 q=f(p);
 	 if(q*qb<0) then (a=b;qa=qb);
          b=p;
-         qb=q;
+         qb=q
 	);
 	[false,p,iteration]
 )
@@ -168,7 +168,7 @@ function FindRootMullersMethod(f,x1,x2,x3,TOL,N) =
 	d1=(f(x1)-f(x0))/h1;
 	d2=(f(x2)-f(x1))/h2;
 	d=(d2-d1)/(h2+h1);
-	i=i+1;
+	increment i
 	);
 	[false,p,iteration]
 )
