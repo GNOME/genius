@@ -230,19 +230,55 @@ function SortVector(v) = (
 	if IsNull(v) then return null
 	else if not IsVector(v) then
 		(error("SortVector: argument not a vector");bailout);
-	# FIXME: really bad bubble sort
-	j = 1;
-	do (
-		sorted = true;
-		for i = 1 to elements(v)-j do (
-			if v@(i)>v@(i+1) then (
-				v@(i) swapwith v@(i+1);
-				sorted = false
-			)
-		);
-		j=j+1
-	) while not sorted;
-	v
+
+	# cross between bubble and quicksort.  Bubble sort is faster in GEL
+	# for short arrays
+
+	function bubble(v) = (
+		j = elements(v)-1;
+		do (
+			unsorted = false;
+			for i = 1 to j do (
+				if v@(i) > v@(i+1) then (
+					v@(i) swapwith v@(i+1);
+					unsorted = true
+				)
+			);
+			increment j by -1
+		) while unsorted;
+		v
+	);
+	function quicksort(v) = (
+		if elements(v) <= 9 then
+			bubble(v)
+		else (
+			pe = floor(elements(v)/2);
+			piv = v@(pe);
+			less = more = .;
+			k = 1;
+			j = 1;
+			for i=1 to pe-1 do (
+				if v@(i) <= piv then (
+					less@(k) = v@(i);
+					increment k
+				) else (
+					more@(j) = v@(i);
+					increment j
+				)
+			);
+			for i=pe+1 to elements(v) do (
+				if v@(i) <= piv then (
+					less@(k) = v@(i);
+					increment k
+				) else (
+					more@(j) = v@(i);
+					increment j
+				)
+			);
+			[quicksort(less), piv, quicksort(more)]
+		)
+	);
+	quicksort(v)
 );
 
 SetHelp("ReverseVector","matrix","Reverse elements in a vector");
