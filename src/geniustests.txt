@@ -1066,6 +1066,9 @@ ReverseVector([1:5])						`[5,4,3,2,1]
 ReverseVector(null)+1						((null)+1)
 ShuffleVector([1])						[1]
 SortVector(ShuffleVector([6,5,4,3,2,1]))			[1,2,3,4,5,6]
+SortVector(ShuffleVector([1:100]))==[1:100]			true
+SortVector(ReverseVector([1:100]))==[1:100]			true
+SortVector([1:100])==[1:100]					true
 ShuffleVector(null)+1						((null)+1)
 IntegerQuotient(2,3)						0
 IntegerQuotient(3,3)						1
