@@ -252,7 +252,7 @@ function SortVector(v) = (
 		if elements(v) <= 9 then
 			bubble(v)
 		else (
-			pe = floor(elements(v)/2);
+			pe = IntegerQuotient(elements(v),2);
 			piv = v@(pe);
 			less = more = .;
 			k = 1;

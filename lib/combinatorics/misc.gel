@@ -83,7 +83,7 @@ function FrobeniusNumber(v,arg...) = (
 	# Vitek's inequality for upper bound
 	#  See: Y. Vitek, Bounds for a Linear Diophantine Problem of Frobenius,
 	#  J. London Math.  Soc., (2) 10 (1975), 79–85.
-	for j = 2 to floor((m@(2)-1)*(m@(elements(m))-1)/2)-1 do (
+	for j = 2 to IntegerQuotient((m@(2)-1)*(m@(elements(m))-1),2)-1 do (
 		if IsNull(GreedyAlgorithm(j,m)) then
 			k = j
 	);
@@ -104,12 +104,12 @@ function GreedyAlgorithm(n,v) = (
 
 	if elts == 1 then (
 		if Divides (v@(1), n) then
-			return [floor(n / v@(1))]
+			return [IntegerQuotient(n,v@(1))]
 		else
 			return null
 	);
 
-	k = floor (n / v@(elts));
+	k = IntegerQuotient (n, v@(elts));
 	for m = k to 0 by -1 do (
 		c = GreedyAlgorithm (n - m * v@(elts),
 				     v@(1:(elts-1)));

@@ -18,7 +18,6 @@ char *fake = N_("Tolerance for InfiniteSum and InfiniteProduct");
 char *fake = N_("Absolute value");
 char *fake = N_("Replace very small number with zero");
 char *fake = N_("Return the fractional part of a number");
-char *fake = N_("Division w/o remainder");
 char *fake = N_("Return the sign (-1,0,1)");
 char *fake = N_("Logarithm of any base (calls DiscreteLog if in modulo mode), if base is not given, e is used");
 char *fake = N_("The arccos (inverse cos) function");

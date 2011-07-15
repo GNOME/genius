@@ -385,6 +385,7 @@ t=0;for k in [1,2,3;4,5,6;7,8,9] do t=t+k;t			45
 t=0;for k in 3 do t=t+k;t					3
 for k in [1,2,3] do k						3
 for n in &d do .						(for n in (&d) do (null))
+(for k in . do 1)+2						((null)+2)
 RowMedian([1,2,2,3;1,2,3,4;2,2,2,2;2,2,3,2])			[2;2 1/2;2;2]
 Median([1,2,3])							2
 Median([1,4,2,3])						2 1/2
@@ -969,6 +970,8 @@ Parse("local *;x")						Parse("local *;x")
 Evaluate("local *;x")						Evaluate("local *;x")
 NumericalIntegral(`(x)=x^3,0,1)					0.25
 NumericalIntegral(`(x)=x^3,-1,1)+1				1.0
+NumericalIntegral(`(x)=GaussFunction(x,10),-100,100)		1.0
+floor(NumericalIntegral(`(x)=GaussFunction(x,10),-10,10)*100)	68
 NumericalLimitAtInfinity (atan,`(n)=2^n,10^(-20),10,10000)	1.57079632679
 LeftLimit (UnitStep,0)						0
 RightLimit (UnitStep,0)						1
@@ -1064,6 +1067,13 @@ ReverseVector(null)+1						((null)+1)
 ShuffleVector([1])						[1]
 SortVector(ShuffleVector([6,5,4,3,2,1]))			[1,2,3,4,5,6]
 ShuffleVector(null)+1						((null)+1)
+IntegerQuotient(2,3)						0
+IntegerQuotient(3,3)						1
+IntegerQuotient(4,3)						1
+IntegerQuotient(6,3)						2
+IntegerQuotient(-1,3)						-1
+IntegerQuotient(1,-3)						-1
+IntegerQuotient([1,2,3],[2,2,2])				[0,1,1]
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
 load "testprec.gel"						true

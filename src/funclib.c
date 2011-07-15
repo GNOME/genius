@@ -2285,6 +2285,37 @@ Jacobi_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	return gel_makenum_use(tmp);
 }
 
+static GelETree *
+IntegerQuotient_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	mpz_ptr num1, num2;
+	mpz_t quo;
+	mpw_t numw;
+
+	if (a[0]->type == GEL_MATRIX_NODE ||
+	    a[1]->type == GEL_MATRIX_NODE)
+		return gel_apply_func_to_matrixen (ctx, a[0], a[1], IntegerQuotient_op, "IntegerQuotient", exception);
+
+	if G_UNLIKELY ( ! check_argument_integer (a, 0, "IntegerQuotient") ||
+			! check_argument_integer (a, 1, "IntegerQuotient"))
+		return NULL;
+
+	num1 = mpw_peek_real_mpz (a[0]->val.value);
+	num2 = mpw_peek_real_mpz (a[1]->val.value);
+
+	if (mpz_sgn (num2) == 0) {
+		gel_errorout (_("Division by zero!"));
+
+		return NULL;
+	}
+
+	mpz_init (quo);
+	mpz_fdiv_q (quo, num1, num2);
+	mpw_init (numw);
+	mpw_set_mpz_use (numw, quo);
+	return gel_makenum_use (numw);
+}
+
 /*kronecker function*/
 static GelETree *
 JacobiKronecker_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
@@ -6445,6 +6476,8 @@ gel_funclib_addall(void)
 	VFUNC (min, 2, "a,args", "numeric", N_("Returns the minimum of arguments or matrix"));
 	VALIAS (Min, 2, min);
 	VALIAS (Minimum, 2, min);
+
+	FUNC (IntegerQuotient, 2, "a,b", "numeric", N_("Division w/o remainder, equivalent to floor(a/b)"));
 
 	FUNC (Jacobi, 2, "a,b", "number_theory", N_("Calculate the Jacobi symbol (a/b) (b should be odd)"));
 	ALIAS (JacobiSymbol, 2, Jacobi);
