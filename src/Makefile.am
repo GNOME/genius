@@ -98,6 +98,7 @@ gnome_genius_LDADD = \
 	@GMP_LIB@				\
 	-lmpfr					\
 	@LEXLIB@				\
+	$(INTLLIBS)				\
 	$(GENIUS_LIBS)				\
 	$(GENIUS_NOGUI_LIBS)			\
 	$(GSV_LIBS)				\
@@ -113,6 +114,7 @@ genius_readline_helper_fifo_LDADD = \
 	$(top_builddir)/ve/libvicious.a		\
 	-lm					\
 	$(GENIUS_NOGUI_LIBS)			\
+	$(INTLLIBS)				\
 	@READLINE_LIB@				\
 	@TERMCAP_LIB@
 
@@ -174,6 +176,7 @@ genius_LDADD = \
 	@GMP_LIB@				\
 	-lmpfr					\
 	@LEXLIB@				\
+	$(INTLLIBS)				\
 	$(GENIUS_NOGUI_LIBS)			\
 	@READLINE_LIB@				\
 	@TERMCAP_LIB@
