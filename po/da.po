@@ -1,16 +1,19 @@
 # Danish translation for genius.
 # Copyright (C) 2011 genius's COPYRIGHT HOLDER
 # This file is distributed under the same license as the genius package.
+# Joe Hansen <joedalton2@yahoo.dk>, 2011.
 # Ask Hjorth Larsen <asklarsen@gmail.com>, 2011.
 #
 # iff ("if and only if") -> hviss ("hvis og kun hvis")
+# increment -> trin
+# swap -> ombyt
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-27 22:09+0100\n"
-"PO-Revision-Date: 2011-01-26 19:32+0100\n"
+"POT-Creation-Date: 2011-07-26 23:47+0200\n"
+"PO-Revision-Date: 2011-07-26 19:32+0100\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -108,7 +111,7 @@ msgstr ""
 msgid "Tolerance for InfiniteSum and InfiniteProduct"
 msgstr "Tolerance for InfiniteSum og InfiniteProduct"
 
-#: ../lib/library-strings.c:18 ../src/eval.c:5985
+#: ../lib/library-strings.c:18 ../src/eval.c:6528
 msgid "Absolute value"
 msgstr "Absolutværdi"
 
@@ -121,14 +124,10 @@ msgid "Return the fractional part of a number"
 msgstr "Returnér decimaldelen af et tal"
 
 #: ../lib/library-strings.c:21
-msgid "Division w/o remainder"
-msgstr "Division uden rest"
-
-#: ../lib/library-strings.c:22
 msgid "Return the sign (-1,0,1)"
 msgstr "Returnér fortegnet (-1,0,1)"
 
-#: ../lib/library-strings.c:23
+#: ../lib/library-strings.c:22
 msgid ""
 "Logarithm of any base (calls DiscreteLog if in modulo mode), if base is not "
 "given, e is used"
@@ -136,88 +135,88 @@ msgstr ""
 "Logaritme med vilkårligt grundtal (kalder DiscreteLog i modulotilstand).  "
 "Hvis grundtal ikke er givet, bruges e"
 
-#: ../lib/library-strings.c:24
+#: ../lib/library-strings.c:23
 msgid "The arccos (inverse cos) function"
 msgstr "Funktionen arccos (invers cosinus)"
 
-#: ../lib/library-strings.c:25
+#: ../lib/library-strings.c:24
 msgid "The arccosh (inverse cosh) function"
 msgstr "Funktionen arccosh (invers cosh)"
 
-#: ../lib/library-strings.c:26
+#: ../lib/library-strings.c:25
 msgid "The arccot (inverse cot) function"
 msgstr "Funktionen arccot (invers cot)"
 
-#: ../lib/library-strings.c:27
+#: ../lib/library-strings.c:26
 msgid "The arccoth (inverse coth) function"
 msgstr "Funktionen arccoth (invers coth)"
 
-#: ../lib/library-strings.c:28
+#: ../lib/library-strings.c:27
 msgid "The inverse cosecant function"
 msgstr "Funktionen invers cosecant"
 
-#: ../lib/library-strings.c:29
+#: ../lib/library-strings.c:28
 msgid "The inverse hyperbolic cosecant function"
 msgstr "Funktionen invers hyperbolsk cosecant"
 
-#: ../lib/library-strings.c:30
+#: ../lib/library-strings.c:29
 msgid "The inverse secant function"
 msgstr "Funktionen invers secant"
 
-#: ../lib/library-strings.c:31
+#: ../lib/library-strings.c:30
 msgid "The inverse hyperbolic secant function"
 msgstr "Funktionen invers hyperbolsk secant"
 
-#: ../lib/library-strings.c:32
+#: ../lib/library-strings.c:31
 msgid "The arcsin (inverse sin) function"
 msgstr "Funktionen arcsin (invers sin)"
 
-#: ../lib/library-strings.c:33
+#: ../lib/library-strings.c:32
 msgid "The arcsinh (inverse sinh) function"
 msgstr "Funktionen arcsinh (invers sinh)"
 
-#: ../lib/library-strings.c:34
+#: ../lib/library-strings.c:33
 msgid "The arctanh (inverse tanh) function"
 msgstr "Funktionen arctanh (invers tanh)"
 
-#: ../lib/library-strings.c:35
+#: ../lib/library-strings.c:34
 msgid "The cotangent function"
 msgstr "Funktionen cotangens"
 
-#: ../lib/library-strings.c:36
+#: ../lib/library-strings.c:35
 msgid "The hyperbolic cotangent function"
 msgstr "Funktionen hyperbolsk cotangens"
 
-#: ../lib/library-strings.c:37
+#: ../lib/library-strings.c:36
 msgid "The cosecant function"
 msgstr "Funktionen cosecant"
 
-#: ../lib/library-strings.c:38
+#: ../lib/library-strings.c:37
 msgid "The hyperbolic cosecant function"
 msgstr "Funktionen hyperbolsk cosecant"
 
-#: ../lib/library-strings.c:39
+#: ../lib/library-strings.c:38
 msgid "The secant function"
 msgstr "Secantfunktionen"
 
-#: ../lib/library-strings.c:40
+#: ../lib/library-strings.c:39
 msgid "The hyperbolic secant function"
 msgstr "Den hyperbolske secantfunktion"
 
-#: ../lib/library-strings.c:41
+#: ../lib/library-strings.c:40
 msgid "The hyperbolic tangent function"
 msgstr "Den hyperbolske tangensfunktion"
 
-#: ../lib/library-strings.c:42
+#: ../lib/library-strings.c:41
 msgid "Are a and b relatively prime?"
 msgstr "Er a og b indbyrdes primiske?"
 
-#: ../lib/library-strings.c:43
+#: ../lib/library-strings.c:42
 msgid "Return the nth Bernoulli number"
 msgstr "Returnér det n'te Bernoulli-tal"
 
 # (ja, den kinesiske restklassesætning)
-#: ../lib/library-strings.c:44
+#: ../lib/library-strings.c:43
 msgid ""
 "Find the x that solves the system given by the vector a and modulo the "
 "elements of m, using the Chinese Remainder Theorem"
@@ -225,21 +224,21 @@ msgstr ""
 "Find det x, der løser systemet givet ved vektoren a, modulo elementerne i m, "
 "ved brug af den kinesiske restklassesætning"
 
-#: ../lib/library-strings.c:45
+#: ../lib/library-strings.c:44
 msgid ""
 "Given two factorizations, give the factorization of the product, see "
 "Factorize"
 msgstr "Find faktoriseringen af produktet af to faktoriseringer; se Factorize"
 
-#: ../lib/library-strings.c:46
+#: ../lib/library-strings.c:45
 msgid "Convert a vector of values indicating powers of b to a number"
 msgstr "Konvertér en vektor af værdier, der angiver potenser af b, til et tal"
 
-#: ../lib/library-strings.c:47
+#: ../lib/library-strings.c:46
 msgid "Convert a number to a vector of powers for elements in base b"
 msgstr "Omdan et tal til en vektor af potenser for elementer med grundtal b"
 
-#: ../lib/library-strings.c:48
+#: ../lib/library-strings.c:47
 msgid ""
 "Find discrete log of n base b in F_q where q is a prime using the Silver-"
 "Pohlig-Hellman algoritm"
@@ -248,7 +247,7 @@ msgstr ""
 "hjælp af Silver-Pohlig-Hellman-algoritmen"
 
 # http://da.wikipedia.org/wiki/Eulers_totientfunktion
-#: ../lib/library-strings.c:49
+#: ../lib/library-strings.c:48
 msgid ""
 "Compute phi(n), the Euler phi function, that is the number of integers "
 "between 1 and n relatively prime to n"
@@ -256,11 +255,11 @@ msgstr ""
 "Beregn Eulers totientfunktion phi(n), som er antallet af heltal mellem 1 og "
 "n som er indbyrdes primiske med n"
 
-#: ../lib/library-strings.c:50
+#: ../lib/library-strings.c:49
 msgid "Return all factors of a number"
 msgstr "Returnér alle faktorer i et tal"
 
-#: ../lib/library-strings.c:51
+#: ../lib/library-strings.c:50
 msgid ""
 "Attempt fermat factorization of n into (t-s)*(t+s), returns t and s as a "
 "vector if possible, null otherwise"
@@ -268,15 +267,15 @@ msgstr ""
 "Forsøg at Fermat-faktorisere n i (t-s)*(t+s) og returnér t og s som vektor "
 "hvis muligt, ellers null"
 
-#: ../lib/library-strings.c:52
+#: ../lib/library-strings.c:51
 msgid "Find the first primitive element in F_q (q must be a prime)"
 msgstr "Find det første primitive element i F_q (q skal være et primtal)"
 
-#: ../lib/library-strings.c:53
+#: ../lib/library-strings.c:52
 msgid "Find a random primitive element in F_q (q must be a prime)"
 msgstr "Find et tilfældigt primitivt element i F_q (q skal være et primtal)"
 
-#: ../lib/library-strings.c:54
+#: ../lib/library-strings.c:53
 msgid ""
 "Compute discrete log base b of n in F_q (q a prime) using the factor base "
 "S.  S should be a column of primes possibly with second column precalculated "
@@ -287,7 +286,7 @@ msgstr ""
 "kolonne forudberegnet af IndexCalculusPrecalculation."
 
 # Er ikke ekspert i diskret matematik, men tror første og anden brug af 'base' refererer til forskellige begreber
-#: ../lib/library-strings.c:55
+#: ../lib/library-strings.c:54
 msgid ""
 "Run the precalculation step of IndexCalculus for logarithms base b in F_q (q "
 "a prime) for the factor base S (where S is a column vector of primes).  The "
@@ -298,15 +297,15 @@ msgstr ""
 "primtal).  Logaritmerne vil blive forudberegnet og returneret i anden "
 "kolonne."
 
-#: ../lib/library-strings.c:56
+#: ../lib/library-strings.c:55
 msgid "Test if Mp is a Mersenne prime using a table"
 msgstr "Afgør om Mp er et Mersenneprimtal ved hjælp af en tabel"
 
-#: ../lib/library-strings.c:57
+#: ../lib/library-strings.c:56
 msgid "Tests if a rational number is a perfect power"
 msgstr "Afgør om et rationalt tal er en perfekt potens"
 
-#: ../lib/library-strings.c:58
+#: ../lib/library-strings.c:57
 msgid ""
 "Check if g is primitive in F_q, where q is a prime.  If q is not prime "
 "results are bogus."
@@ -314,7 +313,7 @@ msgstr ""
 "Afgør om g er primitiv i F_q, hvor q er et primtal.  Hvis q ikke er et "
 "primtal, er resultaterne meningsløse."
 
-#: ../lib/library-strings.c:59
+#: ../lib/library-strings.c:58
 msgid ""
 "Check if g is primitive in F_q, where q is a prime and f is a vector of "
 "prime factors of q-1.  If q is not prime results are bogus."
@@ -322,19 +321,19 @@ msgstr ""
 "Afgør om g er primitiv i F_q, hvor q er et primtal, og f en vektor af "
 "primfaktorer af q-1.  Hvis q ikke er et primtal, er resultaterne meningsløse."
 
-#: ../lib/library-strings.c:60
+#: ../lib/library-strings.c:59
 msgid ""
 "If n is a pseudoprime base b but not a prime, that is if b^(n-1) == 1 mod n"
 msgstr ""
 "Afgør om n er et pseudoprimtal med grundtal b men ikke et primtal, dvs. om b^"
 "(n-1) == 1 mod n"
 
-#: ../lib/library-strings.c:61
+#: ../lib/library-strings.c:60
 msgid "Test if n is a strong pseudoprime to base b but not a prime"
 msgstr ""
 "Afgør om n er et stærkt pseudoprimtal for grundtal b, men ikke et primtal"
 
-#: ../lib/library-strings.c:62
+#: ../lib/library-strings.c:61
 msgid ""
 "Return the residue of a mod n with the least absolute value (in the interval "
 "-n/2 to n/2)"
@@ -342,47 +341,47 @@ msgstr ""
 "Returnér resten af a mod n med mindste absolutværdi (i intervallet -n/2 til "
 "n/2)"
 
-#: ../lib/library-strings.c:63
+#: ../lib/library-strings.c:62
 msgid "Test if Mp is a Mersenne prime using the Lucas-Lehmer test"
 msgstr "Afgør om Mp er et Mersenneprimtal ved brug af Locas-Lehmer-testen"
 
-#: ../lib/library-strings.c:64
+#: ../lib/library-strings.c:63
 msgid "Return all maximal prime power factors of a number"
 msgstr "Returnér alle maksimale primtalspotensfaktorer for et tal"
 
-#: ../lib/library-strings.c:65
+#: ../lib/library-strings.c:64
 msgid "Vector with the known Mersenne prime exponents"
 msgstr "Vektor med kendte eksponenter for Mersenneprimtal"
 
-#: ../lib/library-strings.c:66
+#: ../lib/library-strings.c:65
 msgid "Return the Moebius mu function evaluated in n"
 msgstr "Returnér Möbius' µ-funktion evalueret i n"
 
 # Ikke sikker på valuering, men p-adisk er vist o.k.
-#: ../lib/library-strings.c:67
+#: ../lib/library-strings.c:66
 msgid "Returns the p-adic valuation (number of trailing zeros in base p)."
 msgstr ""
 "Returnerer den p-adiske valuering (antallet af afsluttende nuller med "
 "grundtal p)."
 
-#: ../lib/library-strings.c:68
+#: ../lib/library-strings.c:67
 msgid "Compute a^b mod m"
 msgstr "Beregn a^b mod m"
 
-#: ../lib/library-strings.c:69
+#: ../lib/library-strings.c:68
 msgid "Return all prime factors of a number"
 msgstr "Returnér alle primfaktorer for et tal"
 
 # iff og hviss betyder "hvis og kun hvis" (altså at ting skal medføre hinanden)
-#: ../lib/library-strings.c:70
+#: ../lib/library-strings.c:69
 msgid "Pseudoprime test, true iff b^(n-1) == 1 (mod n)"
 msgstr "Pseudoprimtalstest, sand hviss b^(n-1) == 1 (mod n)"
 
-#: ../lib/library-strings.c:71
+#: ../lib/library-strings.c:70
 msgid "Removes all instances of the factor m from the number n"
 msgstr "Fjerner alle instanser af faktoren m fra tallet n"
 
-#: ../lib/library-strings.c:72
+#: ../lib/library-strings.c:71
 msgid ""
 "Find discrete log of n base b in F_q where q is a prime using the Silver-"
 "Pohlig-Hellman algoritm, given f being the factorization of q-1"
@@ -390,7 +389,7 @@ msgstr ""
 "Find diskret logaritme af n med grundtal b i F_q, hvor q er et primtal, ved "
 "brug af Silver-Pohlig-Hellman-algoritmen, givet faktoriseringen f af q-1"
 
-#: ../lib/library-strings.c:73
+#: ../lib/library-strings.c:72
 msgid ""
 "Find square root of n mod p (a prime). Null is returned if not a quadratic "
 "residue."
@@ -398,7 +397,7 @@ msgstr ""
 "Find kvadratrod af n mod p (et primtal). Der returneres null ved ikke-"
 "kvadratisk rest."
 
-#: ../lib/library-strings.c:74
+#: ../lib/library-strings.c:73
 msgid ""
 "Apply a function over all entries of a matrix and return a matrix of the "
 "results"
@@ -406,7 +405,7 @@ msgstr ""
 "Anvend en funktion på alle elementer i en matrix og returnér resultaterne "
 "som en matrix"
 
-#: ../lib/library-strings.c:75
+#: ../lib/library-strings.c:74
 msgid ""
 "Apply a function over all entries of 2 matrices (or 1 value and 1 matrix) "
 "and return a matrix of the results"
@@ -414,67 +413,71 @@ msgstr ""
 "Anvend en funktion på alle elementer i to matricer (eller en værdi og en "
 "matrix) og returnér resultaterne som en matrix"
 
-#: ../lib/library-strings.c:76
+#: ../lib/library-strings.c:75
 msgid "Remove column(s) and row(s) from a matrix"
 msgstr "Fjern kolonner og rækker fra en matrix"
 
 # Jeg kan ikke finde ud af hvad compound matrix er på noget andet sprog
-#: ../lib/library-strings.c:77
+#: ../lib/library-strings.c:76
 msgid "Calculate the kth compound matrix of A"
 msgstr "Beregn den k'te compoundmatrix af A"
 
-#: ../lib/library-strings.c:78
+#: ../lib/library-strings.c:77
 msgid "Delete a column of a matrix"
 msgstr "Slet en kolonne i en matrix"
 
-#: ../lib/library-strings.c:79
+#: ../lib/library-strings.c:78
 msgid "Delete a row of a matrix"
 msgstr "Slet en række i en matrix"
 
-#: ../lib/library-strings.c:80
+#: ../lib/library-strings.c:79
 msgid "Get the dot product of two vectors (no conjugates)"
 msgstr "Find prikproduktet af to vektorer (ingen konjugering)"
 
-#: ../lib/library-strings.c:81
+#: ../lib/library-strings.c:80
 msgid "Zero out entries above the diagonal"
 msgstr "Sæt elementer over diagonalen til nul"
 
-#: ../lib/library-strings.c:82
+#: ../lib/library-strings.c:81
 msgid "Make diagonal matrix from a vector"
 msgstr "Lav en diagonalmatrix ud af en vektor"
 
-#: ../lib/library-strings.c:83
+#: ../lib/library-strings.c:82
 msgid "Make column vector out of matrix by putting columns above each other"
 msgstr ""
 "Lav en kolonnevektor ud af en matrix ved at stille kolonner over hinanden"
 
-#: ../lib/library-strings.c:84
+#: ../lib/library-strings.c:83
 msgid "Calculate the product of all elements in a matrix"
 msgstr "Beregn produktet af alle elementer i en matrix"
 
-#: ../lib/library-strings.c:85
+#: ../lib/library-strings.c:84
 msgid "Calculate the sum of all elements in a matrix"
 msgstr "Beregn summen af alle elementer i en matrix"
 
-#: ../lib/library-strings.c:86
+#: ../lib/library-strings.c:85
 msgid "Calculate the sum of squares of all elements in a matrix"
 msgstr "Beregn kvadratsummen af alle elementerne i en matrix"
 
-#: ../lib/library-strings.c:87
+#: ../lib/library-strings.c:86
 msgid "Get the outer product of two vectors"
 msgstr "Find det ydre produkt af to vektorer"
 
-#: ../lib/library-strings.c:88
+#: ../lib/library-strings.c:87
 msgid "Reverse elements in a vector"
 msgstr "Omvend elementerne i en vektor"
 
-#: ../lib/library-strings.c:89
+#: ../lib/library-strings.c:88
 msgid "Calculate sum of each row in a matrix"
 msgstr "Beregn summen af hver række i en matrix"
 
-#: ../lib/library-strings.c:90
+#: ../lib/library-strings.c:89
 msgid "Calculate sum of squares of each row in a matrix"
 msgstr "Beregn rækkekvadratsummerne i en matrix"
+
+#: ../lib/library-strings.c:90
+msgid "Shuffle elements in a vector"
+msgstr "Bland elementerne i en vektor"
 
 #: ../lib/library-strings.c:91
 msgid "Sort vector elements"
@@ -1366,92 +1369,92 @@ msgstr "Prøver at sætte et alias til et alias"
 msgid "Bad identifier for function node!"
 msgstr "Ugyldig identifikator for funktionsknude!"
 
-#: ../src/calc.c:1016 ../src/eval.c:6437 ../src/eval.c:6631
+#: ../src/calc.c:1028 ../src/eval.c:7004 ../src/eval.c:7211
 msgid "Unexpected operator!"
 msgstr "Uventet operator!"
 
 #. FIXME:
-#: ../src/calc.c:1208
+#: ../src/calc.c:1220
 msgid "Cannot currently print polynomials of more than 3 vars"
 msgstr "Kan ikke i øjeblikket udskrive polynomier af mere end 3 variable"
 
-#: ../src/calc.c:1300
+#: ../src/calc.c:1312
 msgid "NULL function!"
 msgstr "NULL-funktion!"
 
 #. variable and reference functions should
 #. never be in the etree
-#: ../src/calc.c:1366
+#: ../src/calc.c:1378
 msgid "Unexpected function type!"
 msgstr "Uventet funktionstype!"
 
-#: ../src/calc.c:1381
+#: ../src/calc.c:1393
 msgid "NULL tree!"
 msgstr "NULL-træ!"
 
-#: ../src/calc.c:1471 ../src/eval.c:6930
+#: ../src/calc.c:1483 ../src/eval.c:7510
 msgid "Unexpected node!"
 msgstr "Uventet knude!"
 
-#: ../src/calc.c:1966
+#: ../src/calc.c:1978
 #, c-format
 msgid "File '%s' is a wrong version of GEL"
 msgstr "Filen \"%s\" er en forkert version af GEL"
 
-#: ../src/calc.c:2016 ../src/calc.c:2025 ../src/calc.c:2030 ../src/calc.c:2039
-#: ../src/calc.c:2044 ../src/calc.c:2053 ../src/calc.c:2058 ../src/calc.c:2067
-#: ../src/calc.c:2072 ../src/calc.c:2083 ../src/calc.c:2088 ../src/calc.c:2099
-#: ../src/calc.c:2106 ../src/calc.c:2119 ../src/calc.c:2125 ../src/calc.c:2132
-#: ../src/calc.c:2141 ../src/calc.c:2152 ../src/calc.c:2158 ../src/calc.c:2165
-#: ../src/calc.c:2171 ../src/calc.c:2178 ../src/calc.c:2184 ../src/calc.c:2191
-#: ../src/calc.c:2197 ../src/calc.c:2204 ../src/calc.c:2210 ../src/calc.c:2217
-#: ../src/calc.c:2223 ../src/calc.c:2230 ../src/calc.c:2236 ../src/calc.c:2243
-#: ../src/calc.c:2259 ../src/calc.c:2277 ../src/calc.c:2287
+#: ../src/calc.c:2028 ../src/calc.c:2037 ../src/calc.c:2042 ../src/calc.c:2051
+#: ../src/calc.c:2056 ../src/calc.c:2065 ../src/calc.c:2070 ../src/calc.c:2079
+#: ../src/calc.c:2084 ../src/calc.c:2095 ../src/calc.c:2100 ../src/calc.c:2111
+#: ../src/calc.c:2118 ../src/calc.c:2131 ../src/calc.c:2137 ../src/calc.c:2144
+#: ../src/calc.c:2153 ../src/calc.c:2164 ../src/calc.c:2170 ../src/calc.c:2177
+#: ../src/calc.c:2183 ../src/calc.c:2190 ../src/calc.c:2196 ../src/calc.c:2203
+#: ../src/calc.c:2209 ../src/calc.c:2216 ../src/calc.c:2222 ../src/calc.c:2229
+#: ../src/calc.c:2235 ../src/calc.c:2242 ../src/calc.c:2248 ../src/calc.c:2255
+#: ../src/calc.c:2271 ../src/calc.c:2289 ../src/calc.c:2299
 msgid "Badly formed record"
 msgstr "Fejludformet record"
 
-#: ../src/calc.c:2019
+#: ../src/calc.c:2031
 msgid "Record out of place"
 msgstr "Record fejlplaceret"
 
-#: ../src/calc.c:2301
+#: ../src/calc.c:2313
 msgid "Missing value for function"
 msgstr "Mangler værdi for funktion"
 
-#: ../src/calc.c:2327
+#: ../src/calc.c:2339
 msgid "Extra dictionary for NULL function"
 msgstr "Ekstra ordbog for NULL-funktion"
 
-#: ../src/calc.c:2379 ../src/calc.c:2922 ../src/calc.c:2957
+#: ../src/calc.c:2391 ../src/calc.c:2934 ../src/calc.c:2969
 #, c-format
 msgid "Can't open file: '%s'"
 msgstr "Kan ikke åbne fil: \"%s\""
 
-#: ../src/calc.c:2580
+#: ../src/calc.c:2592
 msgid "Load a file into the interpretor"
 msgstr "Indlæs en fil i fortolkeren"
 
-#: ../src/calc.c:2583
+#: ../src/calc.c:2595
 msgid "Load a plugin"
 msgstr "Indlæs et udvidelsesmodul"
 
-#: ../src/calc.c:2586
+#: ../src/calc.c:2598
 msgid "List files in the current directory"
 msgstr "Vis filerne i det nuværende katalog"
 
-#: ../src/calc.c:2589
+#: ../src/calc.c:2601
 msgid "Change directory"
 msgstr "Ændr katalog"
 
-#: ../src/calc.c:2592
+#: ../src/calc.c:2604
 msgid "Print current directory"
 msgstr "Udskriv det aktuelle katalog"
 
-#: ../src/calc.c:2595
+#: ../src/calc.c:2607
 msgid "Print help (or help on a function/command)"
 msgstr "Vis hjælp (eller hjælp til en funktion/kommando)"
 
-#: ../src/calc.c:2611
+#: ../src/calc.c:2623
 msgid ""
 "\n"
 "For a manual on using Genius and the GEL language type:\n"
@@ -1459,11 +1462,11 @@ msgstr ""
 "\n"
 "For at se manualen om brug af Genius og GEL-sproget kan du skrive:\n"
 
-#: ../src/calc.c:2613
+#: ../src/calc.c:2625
 msgid "  manual\n"
 msgstr "  manual\n"
 
-#: ../src/calc.c:2617
+#: ../src/calc.c:2629
 msgid ""
 "\n"
 "For help on a specific function type:\n"
@@ -1471,11 +1474,11 @@ msgstr ""
 "\n"
 "For at få hjælp om en bestemt funktionstype:\n"
 
-#: ../src/calc.c:2619
+#: ../src/calc.c:2631
 msgid "  help FunctionName\n"
 msgstr "  help Funktionsnavn\n"
 
-#: ../src/calc.c:2623
+#: ../src/calc.c:2635
 msgid ""
 "\n"
 "Commands:\n"
@@ -1483,7 +1486,7 @@ msgstr ""
 "\n"
 "Kommandoer:\n"
 
-#: ../src/calc.c:2668
+#: ../src/calc.c:2680
 msgid ""
 "\n"
 "Undocumented:\n"
@@ -1494,118 +1497,118 @@ msgstr ""
 #. func
 #. aliasfor
 #. category
-#: ../src/calc.c:2711
+#: ../src/calc.c:2723
 msgid "Not documented"
 msgstr "Ikke dokumenteret"
 
-#: ../src/calc.c:2733
+#: ../src/calc.c:2745
 #, c-format
 msgid "'%s' is not documented"
 msgstr "\"%s\" er ikke dokumenteret"
 
-#: ../src/calc.c:2735
+#: ../src/calc.c:2747
 #, c-format
 msgid "'%s' is not documented.  Perhaps you meant %s."
 msgstr "\"%s\" er ikke dokumenteret.  Måske mente du %s."
 
-#: ../src/calc.c:2745
+#: ../src/calc.c:2757
 #, c-format
 msgid "%s is an alias for %s\n"
 msgstr "%s er et alias for %s\n"
 
-#: ../src/calc.c:2759
+#: ../src/calc.c:2771
 msgid "Parameter: "
 msgstr "Parameter: "
 
-#: ../src/calc.c:2784
+#: ../src/calc.c:2796
 msgid "Aliases:"
 msgstr "Aliaser:"
 
-#: ../src/calc.c:2796
+#: ../src/calc.c:2808
 #, c-format
 msgid "Description: %s\n"
 msgstr "Beskrivelse: %s\n"
 
-#: ../src/calc.c:2982 ../src/calc.c:2989
+#: ../src/calc.c:2994 ../src/calc.c:3001
 #, c-format
 msgid "Error changing to directory '%s': %s"
 msgstr "Fejl ved ændring til kataloget \"%s\": %s"
 
 # bruges normalt ikke på dansk, kan dog ikke finde noget bedre
-#: ../src/calc.c:3003 ../src/calc.c:3014
+#: ../src/calc.c:3015 ../src/calc.c:3026
 #, c-format
 msgid "Can't expand '%s'"
 msgstr "Kan ikke udvide \"%s\""
 
-#: ../src/calc.c:3084
+#: ../src/calc.c:3096
 #, c-format
 msgid "Cannot open plugin '%s'!"
 msgstr "Kan ikke åbne udvidelsesmodulet \"%s\"!"
 
-#: ../src/calc.c:3174
+#: ../src/calc.c:3186
 #, c-format
 msgid "getcwd error: %s"
 msgstr "fejl i getcwd: %s"
 
-#: ../src/calc.c:3233
+#: ../src/calc.c:3245
 #, c-format
 msgid "ERROR: 'pipe' failed: %s"
 msgstr "FEJL: \"pipe\" mislykkedes: %s"
 
-#: ../src/calc.c:3240 ../src/calc.c:3247
+#: ../src/calc.c:3252 ../src/calc.c:3259
 #, c-format
 msgid "ERROR: 'write' possibly failed: %s"
 msgstr "FEJL: \"write\" mislykkedes muligvis: %s"
 
-#: ../src/calc.c:3315
+#: ../src/calc.c:3327
 msgid "ERROR: Probably corrupt stack!"
 msgstr "Fejl: Sandsynligvis korrumperet stak!"
 
-#: ../src/calc.c:3327
+#: ../src/calc.c:3339
 msgid ""
 "ERROR: 'local' in a wrong place, can only be first statement in a function!"
 msgstr ""
 "FEJL: \"local\" er placeret forkert - kan kun være første erklæring i en "
 "funktion!"
 
-#: ../src/calc.c:3351
+#: ../src/calc.c:3363
 msgid "ERROR: Can't execute more things at once!"
 msgstr "FEJL: Kan ikke udføre flere ting på samme tid!"
 
-#: ../src/calc.c:3457
+#: ../src/calc.c:3469
 #, c-format
 msgid "ERROR: %s before newline"
 msgstr "FEJL: %s før linjeskift"
 
-#: ../src/calc.c:3459
+#: ../src/calc.c:3471
 #, c-format
 msgid "ERROR: %s at end of input"
 msgstr "FEJL: %s ved slutning af inddata"
 
-#: ../src/calc.c:3466
+#: ../src/calc.c:3478
 #, c-format
 msgid "ERROR: %s before '%s'"
 msgstr "FEJL: %s før \"%s\""
 
 #: ../src/calc.h:32
-msgid "Copyright (C) 1997-2010 Jiří (George) Lebl, Ph.D."
-msgstr "Ophavsret (C) 1997-2010 Jiří (George) Lebl, Ph.D."
+msgid "Copyright (C) 1997-2011 Jiří (George) Lebl, Ph.D."
+msgstr "Ophavsret (C) 1997-2011 Jiří (George) Lebl, Ph.D."
 
-#: ../src/compil.c:537 ../src/compil.c:543
+#: ../src/compil.c:548 ../src/compil.c:557
 msgid "Bad tree record when decompiling"
 msgstr "Ugyldig træ-record ved dekompilering"
 
-#: ../src/eval.c:1448 ../src/eval.c:1505 ../src/eval.c:1520
+#: ../src/eval.c:1451 ../src/eval.c:1508 ../src/eval.c:1523
 msgid "Cannot compare non value or bool only matrixes"
 msgstr ""
 "Kan ikke sammenligne ikke-numeriske eller udelukkende booleske matricer"
 
 #. also on rationals but as integers
-#: ../src/eval.c:1576 ../src/eval.c:1622
+#: ../src/eval.c:1579 ../src/eval.c:1625
 msgid "Modulo arithmetic only works on integers"
 msgstr "Modulo-aritmetik kan kun bruges på heltal"
 
-#: ../src/eval.c:1834
+#: ../src/eval.c:1837
 msgid ""
 "Can't add/subtract a scalar to non-square matrix (A + x is defined as A + "
 "x*I)"
@@ -1613,72 +1616,72 @@ msgstr ""
 "Kan ikke summere eller fratrække en skalar fra en ikke-kvadratisk matrix (A "
 "+ x er defineret som A + x*I)"
 
-#: ../src/eval.c:1930
+#: ../src/eval.c:1933
 msgid "Can't add/subtract two matricies of different sizes"
 msgstr "Kan ikke summere eller fratrække to matricer af forskellig størrelse"
 
-#: ../src/eval.c:1932
+#: ../src/eval.c:1935
 msgid ""
 "Can't do element by element operations on two matricies of different sizes"
 msgstr ""
 "Kan ikke udføre elementvise operationer på to matricer af forskellig "
 "størrelse"
 
-#: ../src/eval.c:1998
+#: ../src/eval.c:2001
 msgid "Can't multiply matricies of wrong sizes"
 msgstr "Kan ikke multiplicere matricer af forkerte størrelser"
 
-#: ../src/eval.c:2049
+#: ../src/eval.c:2052
 msgid "Powers are defined on (square matrix)^(integer) only"
 msgstr "Potenser er kun defineret for (kvadratisk matrix)^(heltal)"
 
-#: ../src/eval.c:2055
+#: ../src/eval.c:2058
 msgid "Powers on matrices in modulo mode are defined on integer matrices only"
 msgstr ""
 "Potenser af matricer i modulotilstand er kun defineret på heltalsmatricer"
 
-#: ../src/eval.c:2063
+#: ../src/eval.c:2066
 msgid "Exponent too large"
 msgstr "Eksponent for stor"
 
-#: ../src/eval.c:2090 ../src/eval.c:2205 ../src/eval.c:2271
+#: ../src/eval.c:2093 ../src/eval.c:2208 ../src/eval.c:2274
 msgid "Matrix appears singular and can't be inverted"
 msgstr "Matrix synes at være singulær og har ingen invers"
 
-#: ../src/eval.c:2182
+#: ../src/eval.c:2185
 msgid "Can't divide matrices of different sizes or non-square matrices"
 msgstr ""
 "Kan ikke dividere matricer af forskellige størrelser eller ikke-kvadratiske "
 "matricer"
 
-#: ../src/eval.c:2253
+#: ../src/eval.c:2256
 msgid "Can't divide by a non-square matrix"
 msgstr "Kan ikke dividere med en ikke-kvadratisk matrix"
 
-#: ../src/eval.c:2669 ../src/eval.c:2696 ../src/eval.c:2717 ../src/eval.c:2741
-#: ../src/eval.c:2789
+#: ../src/eval.c:2672 ../src/eval.c:2699 ../src/eval.c:2720 ../src/eval.c:2744
+#: ../src/eval.c:2792
 msgid "Operations on functions with variable argument list not supported"
 msgstr "Operationer på funktioner med variabel argumentliste understøttes ikke"
 
-#: ../src/eval.c:2674
+#: ../src/eval.c:2677
 msgid ""
 "Operations on functions with different number of arguments not supported"
 msgstr ""
 "Operationer på funktioner med forskelligt antal argumenter understøttes ikke"
 
-#: ../src/eval.c:2794
+#: ../src/eval.c:2797
 msgid "Function creation with wrong number of arguments"
 msgstr "Funktionsoprettelse med forkert antal argumenter"
 
-#: ../src/eval.c:3372 ../src/eval.c:4746
+#: ../src/eval.c:3378 ../src/eval.c:4752
 msgid "Unevaluatable function type encountered!"
 msgstr "Stødte på en funktionstype der ikke kan evalueres!"
 
-#: ../src/eval.c:3394
+#: ../src/eval.c:3400
 msgid "' or '"
 msgstr "\" eller \""
 
-#: ../src/eval.c:3429
+#: ../src/eval.c:3435
 msgid ""
 "Variable 'i' used uninitialized.  Perhaps you meant to write '1i' for the "
 "imaginary number (square root of -1)."
@@ -1686,17 +1689,17 @@ msgstr ""
 "Variablen \"i\" bruges, men er ikke defineret.  Måske ville du skrive \"1i\" "
 "for det imaginære tal (kvadratroden af -1)."
 
-#: ../src/eval.c:3435 ../src/eval.c:3463 ../src/eval.c:6748
+#: ../src/eval.c:3441 ../src/eval.c:3469 ../src/eval.c:7328
 #, c-format
 msgid "Variable '%s' used uninitialized, perhaps you meant %s."
 msgstr "Variablen \"%s\" bruges, men er ikke defineret.  Måske mente du %s."
 
-#: ../src/eval.c:3442 ../src/eval.c:3470 ../src/eval.c:4482 ../src/eval.c:6755
+#: ../src/eval.c:3448 ../src/eval.c:3476 ../src/eval.c:4488 ../src/eval.c:7335
 #, c-format
 msgid "Variable '%s' used uninitialized"
 msgstr "Variablen \"%s\" bruges, men er ikke defineret"
 
-#: ../src/eval.c:3474 ../src/eval.c:4525
+#: ../src/eval.c:3480 ../src/eval.c:4531
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -1705,47 +1708,47 @@ msgstr ""
 "Kald af \"%s\" med forkert antal argumenter!\n"
 "(bør være %d)"
 
-#: ../src/eval.c:3477
+#: ../src/eval.c:3483
 #, c-format
 msgid "Trying to dereference '%s' which is not a reference!\n"
 msgstr "Prøver at dereferere \"%s\", som ikke er en reference!\n"
 
-#: ../src/eval.c:3482
+#: ../src/eval.c:3488
 msgid "NULL reference encountered!"
 msgstr "Stødte på en NULL-reference!"
 
-#: ../src/eval.c:3609
+#: ../src/eval.c:3615
 msgid "Cannot compare matrixes"
 msgstr "Kan ikke sammenligne matricer"
 
-#: ../src/eval.c:3651
+#: ../src/eval.c:3657
 msgid "Primitives must get numeric/matrix/string arguments"
 msgstr "Primitiver skal tage numeriske, matrix- eller strengargumenter"
 
-#: ../src/eval.c:3742
+#: ../src/eval.c:3748
 msgid "Bad argument to modular operation"
 msgstr "Ugyldigt argument til en modulær operation"
 
-#: ../src/eval.c:4460
+#: ../src/eval.c:4466
 #, c-format
 msgid "Function '%s' used uninitialized, perhaps you meant %s."
 msgstr "Funktionen \"%s\" bruges, men er ikke defineret.  Måske mente du %s."
 
-#: ../src/eval.c:4467
+#: ../src/eval.c:4473
 #, c-format
 msgid "Function '%s' used uninitialized"
 msgstr "Funktionen \"%s\" bruges, men er ikke defineret"
 
-#: ../src/eval.c:4488
+#: ../src/eval.c:4494
 #, c-format
 msgid "Can't dereference '%s'!"
 msgstr "Kan ikke dereferere \"%s\"!"
 
-#: ../src/eval.c:4496
+#: ../src/eval.c:4502
 msgid "Can't call a non-function!"
 msgstr "Kan ikke kalde en ikke-funktion!"
 
-#: ../src/eval.c:4530
+#: ../src/eval.c:4536
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -1754,248 +1757,273 @@ msgstr ""
 "Kald af \"%s\" med forkert antal argumenter!\n"
 "(bør være større end %d)"
 
-#: ../src/eval.c:4569
+#: ../src/eval.c:4575
 #, c-format
 msgid "Referencing an undefined variable %s!"
 msgstr "Refererer til en udefineret variabel %s!"
 
-#: ../src/eval.c:4723
+#: ../src/eval.c:4729
 msgid "Reference function with arguments encountered!"
 msgstr "Stødte på en referencefunktion med argumenter!"
 
-#: ../src/eval.c:4728
+#: ../src/eval.c:4734
 msgid "Unnamed reference function encountered!"
 msgstr "Stødte på en unavngivet referencefunktion!"
 
-#: ../src/eval.c:4851
+#: ../src/eval.c:4857
 msgid "Bad type for 'for/sum/prod' loop!"
 msgstr "Ugyldig type for for-, sum- eller prod-løkke!"
 
-#: ../src/eval.c:4856
+#: ../src/eval.c:4862
 msgid "'for/sum/prod' loop increment can't be 0"
 msgstr "for-, sum- eller prod-løkketrin kan ikke være 0"
 
-#: ../src/eval.c:4967
+#: ../src/eval.c:4973
 msgid "Bad type for 'for in' loop!"
 msgstr "Ugyldig type for \"for in\"-løkke!"
 
-#: ../src/eval.c:5131 ../src/eval.c:5164
+#: ../src/eval.c:5137 ../src/eval.c:5170
 msgid "Continue or break outside a loop, assuming \"return null\""
 msgstr "Continue eller break uden for en løkke.  Antager \"return null\""
 
-#: ../src/eval.c:5225
+#: ../src/eval.c:5231
 msgid "Wrong argument type as matrix index"
 msgstr "Forkert argumenttype som matrixindeks"
 
-#: ../src/eval.c:5235
+#: ../src/eval.c:5241
 msgid "Matrix index too large"
 msgstr "Matrixindeks er for stort"
 
-#: ../src/eval.c:5238
+#: ../src/eval.c:5244
 msgid "Matrix index less than 1"
 msgstr "Matrixindeks er mindre end 1"
 
-#: ../src/eval.c:5261 ../src/eval.c:5276
+#: ../src/eval.c:5267 ../src/eval.c:5282
 msgid "Matrix index out of range"
 msgstr "Matrixindeks er uden for gyldigt interval"
 
-#: ../src/eval.c:5323 ../src/eval.c:5385 ../src/eval.c:5453 ../src/eval.c:5494
-#: ../src/eval.c:5702
+#: ../src/eval.c:5331 ../src/eval.c:5401 ../src/eval.c:5469 ../src/eval.c:5510
+#: ../src/eval.c:5719 ../src/eval.c:5759 ../src/eval.c:6196
 #, c-format
 msgid "Trying to set a protected id '%s'"
 msgstr "Prøver at sætte en beskyttet id \"%s\""
 
-#: ../src/eval.c:5341 ../src/eval.c:5380
+#: ../src/eval.c:5357 ../src/eval.c:5396
 msgid "Indexed Lvalue not user function"
 msgstr "Indekseret Lvalue er ikke en brugerfunktion"
 
-#: ../src/eval.c:5364 ../src/eval.c:5478
+#: ../src/eval.c:5380 ../src/eval.c:5494 ../src/eval.c:5743
 msgid "Dereference of non-identifier!"
 msgstr "Dereferering af ikke-identifikator!"
 
-#: ../src/eval.c:5370 ../src/eval.c:5484
+#: ../src/eval.c:5386 ../src/eval.c:5500 ../src/eval.c:5749
 msgid "Dereference of undefined variable!"
 msgstr "Dereferering af udefineret variabel!"
 
-#: ../src/eval.c:5374 ../src/eval.c:5488
+#: ../src/eval.c:5390 ../src/eval.c:5504 ../src/eval.c:5753
 msgid "Dereference of non-reference!"
 msgstr "Dereferering af ikke-reference!"
 
-#: ../src/eval.c:5403
+#: ../src/eval.c:5419
 msgid "Indexed Lvalue not an identifier or a dereference"
 msgstr "Indekseret Lvalue er ikke en identifikator eller dereference"
 
-#: ../src/eval.c:5441
+#: ../src/eval.c:5457 ../src/eval.c:5795 ../src/eval.c:6163 ../src/eval.c:6170
 msgid "Lvalue not an identifier/dereference/matrix location!"
 msgstr "Lvalue er ikke en identifikator, dereference eller matrixplacering!"
 
-#: ../src/eval.c:5465 ../src/eval.c:5506
+#: ../src/eval.c:5481 ../src/eval.c:5522
 msgid "Referencing an undefined variable!"
 msgstr "Refererer til en udefineret variabel!"
 
-#: ../src/eval.c:5552 ../src/eval.c:5630 ../src/eval.c:5639
+#: ../src/eval.c:5572 ../src/eval.c:5654 ../src/eval.c:5663
 msgid "Wrong matrix dimensions when setting"
 msgstr "Forkerte matrixdimensioner ved værditildeling"
 
-#: ../src/eval.c:5570 ../src/eval.c:5610 ../src/eval.c:5676 ../src/eval.c:5812
-#: ../src/eval.c:5937
+#: ../src/eval.c:5590 ../src/eval.c:5634 ../src/eval.c:5700 ../src/eval.c:5865
+#: ../src/eval.c:5902 ../src/eval.c:5947 ../src/eval.c:6352 ../src/eval.c:6477
 msgid "Matrix index not an integer or a vector"
 msgstr "Matrixindeks er ikke et heltal eller en vektor"
 
-#: ../src/eval.c:5697
+#: ../src/eval.c:5714
+#, c-format
+msgid ""
+"Increment/Swapwith does not work on parameters (trying to increment '%s')"
+msgstr ""
+"Øg trinvis/ombyt virker ikke på parametre (forsøger at trinvis øge \"%s\")"
+
+#: ../src/eval.c:5783
+msgid "Increment not a value!"
+msgstr "Trin er ikke en værdi!"
+
+#: ../src/eval.c:5807
+#, c-format
+msgid "Trying to increment non-value id '%s'"
+msgstr "Prøver at trinvis øge en id uden værdi \"%s\""
+
+#: ../src/eval.c:5968 ../src/eval.c:5977
+msgid "Can only swap user variables"
+msgstr "Kan kun ombytte brugervariabler"
+
+#: ../src/eval.c:6017 ../src/eval.c:6052 ../src/eval.c:6083 ../src/eval.c:6099
+#: ../src/eval.c:6117 ../src/eval.c:6133
+msgid "Cannot swap matrix regions"
+msgstr "Kan ikke ombytte matrixregioner"
+
+#: ../src/eval.c:6191
 msgid "Parameters can only be created in the global context"
 msgstr "Parametre kan kun oprettes i den globale kontekst"
 
-#: ../src/eval.c:5759 ../src/eval.c:5804 ../src/eval.c:5895
+#: ../src/eval.c:6299 ../src/eval.c:6344 ../src/eval.c:6435
 msgid "Index works only on matricies"
 msgstr "Indeks fungerer kun på matricer"
 
-#: ../src/eval.c:5792
+#: ../src/eval.c:6332
 msgid "Vector index not an integer or a vector"
 msgstr "Vektorindeks er ikke et heltal eller en vektor"
 
-#: ../src/eval.c:5960
+#: ../src/eval.c:6500
 msgid "number"
 msgstr "tal"
 
-#: ../src/eval.c:5961
+#: ../src/eval.c:6501
 msgid "matrix"
 msgstr "matrix"
 
-#: ../src/eval.c:5962
+#: ../src/eval.c:6502
 msgid "string"
 msgstr "streng"
 
-#: ../src/eval.c:5963
+#: ../src/eval.c:6503
 msgid "function"
 msgstr "funktion"
 
-#: ../src/eval.c:5964
+#: ../src/eval.c:6504
 msgid "identifier"
 msgstr "variabelnavn"
 
-#: ../src/eval.c:5965
+#: ../src/eval.c:6505
 msgid "polynomial"
 msgstr "polynomium"
 
-#: ../src/eval.c:5966
+#: ../src/eval.c:6506
 msgid "boolean"
 msgstr "boolesk"
 
-#: ../src/eval.c:5986
+#: ../src/eval.c:6529
 msgid "Addition"
 msgstr "Addition"
 
-#: ../src/eval.c:5987
+#: ../src/eval.c:6530
 msgid "Element by element addition"
 msgstr "Elementvis addition"
 
-#: ../src/eval.c:5988
+#: ../src/eval.c:6531
 msgid "Subtraction"
 msgstr "Subtraktion"
 
-#: ../src/eval.c:5989
+#: ../src/eval.c:6532
 msgid "Element by element subtraction"
 msgstr "Elementvis subtraktion"
 
-#: ../src/eval.c:5990
+#: ../src/eval.c:6533
 msgid "Multiplication"
 msgstr "Multiplikation"
 
-#: ../src/eval.c:5991
+#: ../src/eval.c:6534
 msgid "Element by element multiplication"
 msgstr "Elementvis multiplikation"
 
-#: ../src/eval.c:5992
+#: ../src/eval.c:6535
 msgid "Division"
 msgstr "Division"
 
-#: ../src/eval.c:5993
+#: ../src/eval.c:6536
 msgid "Element by element division"
 msgstr "Elementvis division"
 
-#: ../src/eval.c:5994
+#: ../src/eval.c:6537
 msgid "Back division"
 msgstr "Baglæns division"
 
-#: ../src/eval.c:5995
+#: ../src/eval.c:6538
 msgid "Element by element back division"
 msgstr "Elementvis baglæns division"
 
-#: ../src/eval.c:5996
+#: ../src/eval.c:6539
 msgid "Modulo"
 msgstr "Modulo"
 
-#: ../src/eval.c:5997
+#: ../src/eval.c:6540
 msgid "Element by element modulo"
 msgstr "Elementvis modulo"
 
-#: ../src/eval.c:5998
+#: ../src/eval.c:6541
 msgid "Negation"
 msgstr "Negation"
 
-#: ../src/eval.c:5999
+#: ../src/eval.c:6542
 msgid "Power"
 msgstr "Potens"
 
-#: ../src/eval.c:6000
+#: ../src/eval.c:6543
 msgid "Element by element power"
 msgstr "Elementvis potens"
 
-#: ../src/eval.c:6001
+#: ../src/eval.c:6544
 msgid "Factorial"
 msgstr "Fakultet"
 
-#: ../src/eval.c:6002
+#: ../src/eval.c:6545
 msgid "Double factorial"
 msgstr "Dobbeltfakultet"
 
-#: ../src/eval.c:6003
+#: ../src/eval.c:6546
 msgid "Transpose"
 msgstr "Transponering"
 
-#: ../src/eval.c:6004
+#: ../src/eval.c:6547
 msgid "ConjugateTranspose"
 msgstr "Konjugering-transponering"
 
-#: ../src/eval.c:6005
+#: ../src/eval.c:6548
 msgid "Comparison (<=>)"
 msgstr "Sammenligning (<=>)"
 
-#: ../src/eval.c:6006
+#: ../src/eval.c:6549
 msgid "XOR"
 msgstr "XOR"
 
-#: ../src/eval.c:6007
+#: ../src/eval.c:6550
 msgid "NOT"
 msgstr "NOT"
 
-#: ../src/eval.c:6027
+#: ../src/eval.c:6570
 #, c-format
 msgid "Bad types for '%s'"
 msgstr "Ugyldige typer for \"%s\""
 
-#: ../src/eval.c:6038
+#: ../src/eval.c:6581
 #, c-format
 msgid "%s not defined on <%s> and <%s>"
 msgstr "%s er ikke defineret på <%s> og <%s>"
 
-#: ../src/eval.c:6057
+#: ../src/eval.c:6600
 #, c-format
 msgid "Bad type for '%s'"
 msgstr "Ugyldig type for \"%s\""
 
-#: ../src/eval.c:6067
+#: ../src/eval.c:6610
 #, c-format
 msgid "%s not defined on <%s>"
 msgstr "%s er ikke defineret på <%s>"
 
-#: ../src/eval.c:6086 ../src/eval.c:6103
+#: ../src/eval.c:6629 ../src/eval.c:6646
 msgid "Vector building only works on numbers"
 msgstr "Vektorbygning fungerer kun på tal"
 
 #. FIXME: perhaps we should just return null like octave?
-#: ../src/eval.c:6096
+#: ../src/eval.c:6639
 msgid "Impossible arguments to vector building operator"
 msgstr "Umulige argumenter til vektorbyggeoperator"
 
@@ -2009,7 +2037,7 @@ msgstr "%s: argument er for stort"
 msgid "Cannot parse version string: %s"
 msgstr "Kan ikke fortolke versionsstreng: %s"
 
-#: ../src/funclib.c:172 ../src/gnome-genius.c:1897
+#: ../src/funclib.c:172 ../src/gnome-genius.c:1924
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -2102,319 +2130,329 @@ msgstr "%s: matrixargument må kun bestå af heltal"
 msgid "%s: argument must be an integer"
 msgstr "%s: argumentet skal være et heltal"
 
-#: ../src/funclib.c:2458 ../src/funclib.c:2545
+#: ../src/funclib.c:2307 ../src/funclib.c:4165 ../src/funclib.c:4194
+#: ../src/funclib.c:4446 ../src/mpwrap.c:3736 ../src/mpwrap.c:3755
+#: ../src/mpwrap.c:3812 ../src/mpwrap.c:3841 ../src/mpwrap.c:3858
+#: ../src/mpwrap.c:3907
+msgid "Division by zero!"
+msgstr "Division med nul!"
+
+#: ../src/funclib.c:2489 ../src/funclib.c:2576
 #, c-format
 msgid "%s: matrix argument must be value only"
 msgstr "%s: Matrixargumentet skal være udelukkende numerisk"
 
-#: ../src/funclib.c:2804 ../src/funclib.c:2862 ../src/funclib.c:4400
-#: ../src/funclib.c:4694
+#: ../src/funclib.c:2835 ../src/funclib.c:2893 ../src/funclib.c:4431
+#: ../src/funclib.c:4725
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: for mange argumenter"
 
-#: ../src/funclib.c:3112
+#: ../src/funclib.c:3143
 #, c-format
 msgid "%s: vector argument not value only"
 msgstr "%s: Vektorargument er ikke udelukkende numerisk"
 
-#: ../src/funclib.c:3123 ../src/funclib.c:3162
+#: ../src/funclib.c:3154 ../src/funclib.c:3193
 #, c-format
 msgid "%s: argument can't be negative or 0"
 msgstr "%s: argument kan ikke være negativt eller 0"
 
-#: ../src/funclib.c:3131 ../src/funclib.c:3167
+#: ../src/funclib.c:3162 ../src/funclib.c:3198
 #, c-format
 msgid "%s: vector argument has too large entries"
 msgstr "%s: vektorargument har for store elementer"
 
-#: ../src/funclib.c:3209
+#: ../src/funclib.c:3240
 #, c-format
 msgid "%s: arguments must be vectors of equal size"
 msgstr "%s: argumenter skal være vektorer af samme størrelse"
 
-#: ../src/funclib.c:3701 ../src/funclib.c:3707
+#: ../src/funclib.c:3732 ../src/funclib.c:3738
 #, c-format
 msgid "%s: %s not a reference"
 msgstr "%s: %s er ikke en reference"
 
-#: ../src/funclib.c:3746
+#: ../src/funclib.c:3777
 #, c-format
 msgid "%s: matrices not of the same height"
 msgstr "%s: matricerne er ikke lige høje"
 
-#: ../src/funclib.c:3751 ../src/funclib.c:4394
+#: ../src/funclib.c:3782 ../src/funclib.c:4425
 msgid "third argument"
 msgstr "tredje argument"
 
-#: ../src/funclib.c:3756
+#: ../src/funclib.c:3787
 msgid "fourth argument"
 msgstr "fjerde argument"
 
-#: ../src/funclib.c:4031
+#: ../src/funclib.c:4062
 #, c-format
 msgid "%s: argument must be greater than 2"
 msgstr "%s: argument skal være større end 2"
 
-#: ../src/funclib.c:4134 ../src/funclib.c:4163 ../src/funclib.c:4415
-#: ../src/mpwrap.c:3736 ../src/mpwrap.c:3755 ../src/mpwrap.c:3812
-#: ../src/mpwrap.c:3841 ../src/mpwrap.c:3858 ../src/mpwrap.c:3907
-msgid "Division by zero!"
-msgstr "Division med nul!"
-
-#: ../src/funclib.c:4219
+#: ../src/funclib.c:4250
 #, c-format
 msgid "%s: arguments not horizontal vectors"
 msgstr "%s: argumenter er ikke vandrette vektorer"
 
-#: ../src/funclib.c:4228
+#: ../src/funclib.c:4259
 #, c-format
 msgid "%s: arguments not numeric only vectors"
 msgstr "%s: argumenter er ikke rent numeriske vektorer"
 
-#: ../src/funclib.c:4612
+#: ../src/funclib.c:4643
 #, c-format
 msgid "%s: argument 1 must be a quadratic polynomial"
 msgstr "%s: argument 1 skal være et andengradspolynomium"
 
-#: ../src/funclib.c:4922 ../src/funclib.c:5011 ../src/funclib.c:5239
-#: ../src/funclib.c:5294 ../src/funclib.c:5364 ../src/funclib.c:5378
+#: ../src/funclib.c:4953 ../src/funclib.c:5042 ../src/funclib.c:5303
+#: ../src/funclib.c:5310 ../src/funclib.c:5366 ../src/funclib.c:5373
+#: ../src/funclib.c:5444 ../src/funclib.c:5458
 #, c-format
 msgid "%s: value out of range"
 msgstr "%s: værdi uden for gyldigt interval"
 
-#: ../src/funclib.c:5504
+#: ../src/funclib.c:5584
 #, c-format
 msgid "%s: undefined function"
 msgstr "%s: udefineret funktion"
 
-#: ../src/funclib.c:5510
+#: ../src/funclib.c:5590
 #, c-format
 msgid "%s: flags argument must be a string"
 msgstr "%s: argument til flag skal være en streng"
 
-#: ../src/funclib.c:5638 ../src/symbolic.c:723
+#: ../src/funclib.c:5718 ../src/symbolic.c:723
 #, c-format
 msgid "%s: argument not a function of one variable"
 msgstr "%s: argument er ikke en funktion af en variabel"
 
-#: ../src/funclib.c:5850 ../src/funclib.c:5885 ../src/funclib.c:6130
+#: ../src/funclib.c:5930 ../src/funclib.c:5965 ../src/funclib.c:6210
 #, c-format
 msgid "%s: argument should be between %d and %d"
 msgstr "%s: argument bør være mellem %d og %d"
 
-#: ../src/funclib.c:6038
+#: ../src/funclib.c:6118
 msgid "OutputStyle must be one of normal, troff, latex or mathml"
 msgstr "OutputStyle skal være enten normal, troff, latex eller mathml"
 
-#: ../src/funclib.c:6078
+#: ../src/funclib.c:6158
 #, c-format
 msgid "%s: argument should be larger or equal to 0"
 msgstr "%s: argument skal være større end eller lig med 0"
 
-#: ../src/funclib.c:6191
+#: ../src/funclib.c:6271
 msgid "Basic"
 msgstr "Grundlæggende"
 
 #. internal
-#: ../src/funclib.c:6192
+#: ../src/funclib.c:6272
 msgid "Parameters"
 msgstr "Parametre"
 
 #. internal
-#: ../src/funclib.c:6193
+#: ../src/funclib.c:6273
 msgid "Constants"
 msgstr "Konstanter"
 
 #. internal
-#: ../src/funclib.c:6194
+#: ../src/funclib.c:6274
 msgid "Numeric"
 msgstr "Numerisk"
 
 #. internal
-#: ../src/funclib.c:6195
+#: ../src/funclib.c:6275
 msgid "Trigonometry"
 msgstr "Trigonometri"
 
 #. internal
-#: ../src/funclib.c:6196
+#: ../src/funclib.c:6276
 msgid "Number Theory"
 msgstr "Talteori"
 
 #. internal
-#: ../src/funclib.c:6197
+#: ../src/funclib.c:6277
 msgid "Matrix Manipulation"
 msgstr "Matrixmanipulation"
 
 #. internal
-#: ../src/funclib.c:6198
+#: ../src/funclib.c:6278
 msgid "Linear Algebra"
 msgstr "Lineær algebra"
 
 #. internal
-#: ../src/funclib.c:6199
+#: ../src/funclib.c:6279
 msgid "Combinatorics"
 msgstr "Kombinatorik"
 
 #. internal
-#: ../src/funclib.c:6200
+#: ../src/funclib.c:6280
 msgid "Calculus"
 msgstr "Integralregning"
 
 #. internal
-#: ../src/funclib.c:6201
+#: ../src/funclib.c:6281
 msgid "Functions"
 msgstr "Funktioner"
 
 #. internal
-#: ../src/funclib.c:6202
+#: ../src/funclib.c:6282
 msgid "Equation Solving"
 msgstr "Løsning af ligninger"
 
 #. internal
-#: ../src/funclib.c:6203
+#: ../src/funclib.c:6283
 msgid "Statistics"
 msgstr "Statistik"
 
 #. internal
-#: ../src/funclib.c:6204
+#: ../src/funclib.c:6284
 msgid "Polynomials"
 msgstr "Polynomier"
 
 #. internal
-#: ../src/funclib.c:6205
+#: ../src/funclib.c:6285
 msgid "Set Theory"
 msgstr "Mængdelære"
 
 #. internal
-#: ../src/funclib.c:6206
+#: ../src/funclib.c:6286
 msgid "Miscellaneous"
 msgstr "Diverse"
 
 #. internal
-#: ../src/funclib.c:6208
+#: ../src/funclib.c:6288
 msgid "Displays the user manual"
 msgstr "Viser brugervejledningen"
 
-#: ../src/funclib.c:6209
+#: ../src/funclib.c:6289
 msgid "Gives the warranty information"
 msgstr "Viser garantioplysningerne"
 
-#: ../src/funclib.c:6210
+#: ../src/funclib.c:6290
 msgid "Return version as a 3-vector"
 msgstr "Returnér version som en 3-vektor"
 
-#: ../src/funclib.c:6211
+#: ../src/funclib.c:6291
 msgid "Exits the program"
 msgstr "Afslutter programmet"
 
-#: ../src/funclib.c:6213
+#: ../src/funclib.c:6293
 msgid "Prints a string to the error stream"
 msgstr "Udskriver en streng til fejlstrømmen"
 
-#: ../src/funclib.c:6214
+#: ../src/funclib.c:6294
 msgid "Waits a specified number of seconds"
 msgstr "Venter det angivne antal sekunder"
 
-#: ../src/funclib.c:6215
+#: ../src/funclib.c:6295
 msgid "The true boolean value"
 msgstr "Den booleske værdi sand"
 
-#: ../src/funclib.c:6217
+#: ../src/funclib.c:6297
 msgid "The false boolean value"
 msgstr "Den booleske værdi falsk"
 
-#: ../src/funclib.c:6226
+#: ../src/funclib.c:6306
 msgid "Make integer (0 or 1) from a boolean value"
 msgstr "Lav et heltal (0 eller 1) ud af en boolesk værdi"
 
-#: ../src/funclib.c:6228
+#: ../src/funclib.c:6308
 msgid "Prints an expression"
 msgstr "Udskriver et udtryk"
 
-#: ../src/funclib.c:6229
+#: ../src/funclib.c:6309
 msgid "Changes current directory"
 msgstr "Skifter det nuværende katalog"
 
-#: ../src/funclib.c:6230
+#: ../src/funclib.c:6310
 msgid "Prints an expression without a trailing newline"
 msgstr "Udskriver et udtryk uden afsluttende linjeskift"
 
-#: ../src/funclib.c:6231
+#: ../src/funclib.c:6311
 msgid "Display a string and an expression"
 msgstr "Vis en streng og et udtryk"
 
-#: ../src/funclib.c:6232
+#: ../src/funclib.c:6312
 msgid "Set a global variable"
 msgstr "Sæt en global variabel"
 
-#: ../src/funclib.c:6234
+#: ../src/funclib.c:6314
 msgid "Set the category and help description line for a function"
 msgstr "Sæt kategori og hjælpebeskrivelseslinje for en funktion"
 
-#: ../src/funclib.c:6235
+#: ../src/funclib.c:6315
 msgid "Sets up a help alias"
 msgstr "Opretter et hjælpealias"
 
-#: ../src/funclib.c:6237
+#: ../src/funclib.c:6317
 msgid "Identity function, returns its argument"
 msgstr "Identitetsfunktionen; returnerer sit argument"
 
-#: ../src/funclib.c:6239
-msgid "Generate random float"
-msgstr "Generér tilfældigt flydende tal"
+#: ../src/funclib.c:6319
+msgid ""
+"Generate random float between 0 and 1, or if size given generate vector or "
+"matrix of random floats"
+msgstr ""
+"Opret tilfældigt flydende tal mellem 0 og 1, eller hvis størrelse er "
+"angivet, opret vektor eller matrix af tilfældige flydende tal"
 
-#: ../src/funclib.c:6241
-msgid "Generate random integer"
-msgstr "Generér tilfældigt heltal"
+#: ../src/funclib.c:6321
+msgid ""
+"Generate random integer between 0 and max-1 inclusive, or if size given "
+"generate vector or matrix of random integers"
+msgstr ""
+"Opret tilfældigt heltal mellem 0 og maks-1 inklusiv, eller hvis størrelse er "
+"angivet, opret vektor eller matrix af tilfældige heltal"
 
-#: ../src/funclib.c:6244 ../src/gnome-genius.c:2441
+#: ../src/funclib.c:6324 ../src/gnome-genius.c:2468
 msgid "Floating point precision"
 msgstr "Præcision for flydende tal"
 
-#: ../src/funclib.c:6246 ../src/gnome-genius.c:2330
+#: ../src/funclib.c:6326 ../src/gnome-genius.c:2357
 msgid ""
 "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr "Vis 0.0 når et flydende tal er mindre end 10^-x (0=afskær aldrig)"
 
-#: ../src/funclib.c:6249 ../src/gnome-genius.c:2353
+#: ../src/funclib.c:6329 ../src/gnome-genius.c:2380
 msgid "Only chop numbers when another number is greater than 10^-x"
 msgstr "Afskær kun tal når et andet tal er større end 10^-x"
 
-#: ../src/funclib.c:6250
+#: ../src/funclib.c:6330
 msgid "Maximum digits to display"
 msgstr "Maksimalt antal cifre der vises"
 
-#: ../src/funclib.c:6251
+#: ../src/funclib.c:6331
 msgid "Maximum errors to display"
 msgstr "Maksimalt antal fejl der skal vises"
 
-#: ../src/funclib.c:6252
+#: ../src/funclib.c:6332
 msgid "Output style: normal, latex, mathml or troff"
 msgstr "Udskriftsstil: normal, latex, mathml eller troff"
 
-#: ../src/funclib.c:6253
+#: ../src/funclib.c:6333
 msgid "Integer output base"
 msgstr "Grundtal for visning af heltal"
 
 # blandet tal = 2½
-#: ../src/funclib.c:6254
+#: ../src/funclib.c:6334
 msgid "If true, mixed fractions are printed"
 msgstr "Hvis sand, vil der blive udskrevet blandede tal"
 
-#: ../src/funclib.c:6255
+#: ../src/funclib.c:6335
 msgid "Print full expressions, even if more than a line"
 msgstr "Udskriv fylde udtryk, selv om de fylder mere end én linje"
 
-#: ../src/funclib.c:6256
+#: ../src/funclib.c:6336
 msgid "Convert all results to floats before printing"
 msgstr "Konvertér alle resultater til flydende tal før udskrift"
 
-#: ../src/funclib.c:6257
+#: ../src/funclib.c:6337
 msgid "Use scientific notation"
 msgstr "Brug videnskabelig notation"
 
-#: ../src/funclib.c:6259
+#: ../src/funclib.c:6339
 msgid ""
 "Number of extra Miller-Rabin tests to run on a number before declaring it a "
 "prime in IsPrime"
@@ -2423,192 +2461,192 @@ msgstr ""
 "erklæret som værende et primtal i IsPrime"
 
 # expane ~ gange ud i forbindelse med parenteser, men ingen direkte oversættelse for dette tilfælde
-#: ../src/funclib.c:6265
+#: ../src/funclib.c:6345
 msgid "Expands a matrix just like we do on unquoted matrix input"
 msgstr ""
 "Udregner en matrix på samme vis som når der gives et matrixinput uden "
 "anførselstegn"
 
-#: ../src/funclib.c:6266
+#: ../src/funclib.c:6346
 msgid "Gets the rows of a matrix as a vertical vector"
 msgstr "Giver rækkerne i en matrix som en lodret vektor"
 
-#: ../src/funclib.c:6267
+#: ../src/funclib.c:6347
 msgid "Gets the columns of a matrix as a horizontal vector"
 msgstr "Giver kolonnerne af en matrix som en vandret vektor"
 
-#: ../src/funclib.c:6268
+#: ../src/funclib.c:6348
 msgid "Gets the diagonal entries of a matrix as a column vector"
 msgstr "Giver diagonalen i en matrix som en kolonnevektor"
 
-#: ../src/funclib.c:6269
+#: ../src/funclib.c:6349
 msgid "Count the number of zero columns in a matrix"
 msgstr "Find antallet af nulkolonner i en matrix"
 
-#: ../src/funclib.c:6270
+#: ../src/funclib.c:6350
 msgid "Removes any all-zero columns of M"
 msgstr "Fjerner alle kolonner i M, som kun indeholder nuller"
 
-#: ../src/funclib.c:6272
+#: ../src/funclib.c:6352
 msgid "Calculates the conjugate"
 msgstr "Beregner den konjugerede"
 
-#: ../src/funclib.c:6277
+#: ../src/funclib.c:6357
 msgid "Calculates the sine function"
 msgstr "Beregner sinusfunktionen"
 
-#: ../src/funclib.c:6280
+#: ../src/funclib.c:6360
 msgid "Calculates the cosine function"
 msgstr "Beregner cosinusfunktionen"
 
-#: ../src/funclib.c:6283
+#: ../src/funclib.c:6363
 msgid "Calculates the hyperbolic sine function"
 msgstr "Beregner den hyperbolske sinusfunktion"
 
-#: ../src/funclib.c:6286
+#: ../src/funclib.c:6366
 msgid "Calculates the hyperbolic cosine function"
 msgstr "Beregner den hyperbolske cosinusfunktion"
 
-#: ../src/funclib.c:6289
+#: ../src/funclib.c:6369
 msgid "Calculates the tan function"
 msgstr "Beregner tangensfunktionen"
 
-#: ../src/funclib.c:6292
+#: ../src/funclib.c:6372
 msgid "Calculates the arctan function"
 msgstr "Beregner arctan-funktionen"
 
-#: ../src/funclib.c:6297
+#: ../src/funclib.c:6377
 msgid "Calculates the arctan2 function (arctan(y/x) if x>0)"
 msgstr "Beregner arctan2-funktionen (arctan(y/x) hvis x>0)"
 
-#: ../src/funclib.c:6301
+#: ../src/funclib.c:6381
 msgid "The number pi"
 msgstr "Tallet pi"
 
-#: ../src/funclib.c:6303
+#: ../src/funclib.c:6383
 msgid "The natural number e"
 msgstr "Grundtallet for den naturlige logaritme e"
 
-#: ../src/funclib.c:6305
+#: ../src/funclib.c:6385
 msgid "The Golden Ratio"
 msgstr "Det gyldne snit"
 
-#: ../src/funclib.c:6307
+#: ../src/funclib.c:6387
 msgid "Free fall acceleration"
 msgstr "Acceleration i frit fald"
 
-#: ../src/funclib.c:6310
+#: ../src/funclib.c:6390
 msgid "Euler's Constant gamma"
 msgstr "Eulers konstant gamma"
 
-#: ../src/funclib.c:6314
+#: ../src/funclib.c:6394
 msgid "Catalan's Constant (0.915...)"
 msgstr "Catalans konstant (0.915...)"
 
 #. FUNC (ErrorFunction, 1, "x", "functions", N_("The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt (only real values implemented)"));
 #. ErrorFunction_function = f;
 #. ALIAS (erf, 1, ErrorFunction);
-#: ../src/funclib.c:6319
+#: ../src/funclib.c:6399
 msgid "The Riemann zeta function (only real values implemented)"
 msgstr "Riemanns zetafunktion (kun reelle værdier er implementeret)"
 
-#: ../src/funclib.c:6323
+#: ../src/funclib.c:6403
 msgid "The Gamma function (only real values implemented)"
 msgstr "Gammafunktionen (kun reelle værdier er implementeret)"
 
-#: ../src/funclib.c:6328
+#: ../src/funclib.c:6408
 msgid "The square root"
 msgstr "Kvadratroden"
 
-#: ../src/funclib.c:6332
+#: ../src/funclib.c:6412
 msgid "The exponential function"
 msgstr "Eksponentialfunktionen"
 
-#: ../src/funclib.c:6335
+#: ../src/funclib.c:6415
 msgid "The natural logarithm"
 msgstr "Den naturlige logaritme"
 
-#: ../src/funclib.c:6338
+#: ../src/funclib.c:6418
 msgid "Logarithm of x base 2"
 msgstr "Totalslogaritmen af x"
 
-#: ../src/funclib.c:6343
+#: ../src/funclib.c:6423
 msgid "Logarithm of x base 10"
 msgstr "Titalslogaritmen af x"
 
-#: ../src/funclib.c:6346
+#: ../src/funclib.c:6426
 msgid "Round a number"
 msgstr "Afrund et tal"
 
-#: ../src/funclib.c:6350
+#: ../src/funclib.c:6430
 msgid "Get the highest integer less than or equal to n"
 msgstr "Find det største heltal mindre end eller lig med n"
 
-#: ../src/funclib.c:6354
+#: ../src/funclib.c:6434
 msgid "Get the lowest integer more than or equal to n"
 msgstr "Find det laveste heltal større end eller lig med n"
 
-#: ../src/funclib.c:6358
+#: ../src/funclib.c:6438
 msgid "Truncate number to an integer (return the integer part)"
 msgstr "Afkort et tal til et heltal (returnér heltalsdelen)"
 
-#: ../src/funclib.c:6363
+#: ../src/funclib.c:6443
 msgid "Make number a float"
 msgstr "Omdan et tal til et flydende tal"
 
-#: ../src/funclib.c:6366
+#: ../src/funclib.c:6446
 msgid "Get the numerator of a rational number"
 msgstr "Find tælleren for et rationalt tal"
 
-#: ../src/funclib.c:6368
+#: ../src/funclib.c:6448
 msgid "Get the denominator of a rational number"
 msgstr "Find nævneren for et rationalt tal"
 
-#: ../src/funclib.c:6371
+#: ../src/funclib.c:6451
 msgid "Greatest common divisor"
 msgstr "Største fællesnævner"
 
-#: ../src/funclib.c:6373
+#: ../src/funclib.c:6453
 msgid "Least common multiplier"
 msgstr "Mindste fælles multiplum"
 
-#: ../src/funclib.c:6375
+#: ../src/funclib.c:6455
 msgid "Check a number for being a perfect square"
 msgstr "Afgør om et tal er et kvadrattal"
 
-#: ../src/funclib.c:6376
+#: ../src/funclib.c:6456
 msgid "Check a number for being any perfect power (a^b)"
 msgstr "Afgør om et tal er en perfekt potens (a^b)"
 
-#: ../src/funclib.c:6377
+#: ../src/funclib.c:6457
 msgid "Return the n'th prime (up to a limit)"
 msgstr "Returnér det n'te primtal (op til en grænse)"
 
-#: ../src/funclib.c:6379
+#: ../src/funclib.c:6459
 msgid "Tests if an integer is even"
 msgstr "Afgør om et heltal er lige"
 
-#: ../src/funclib.c:6380
+#: ../src/funclib.c:6460
 msgid "Tests if an integer is odd"
 msgstr "Afgør om et heltal er ulige"
 
-#: ../src/funclib.c:6382
+#: ../src/funclib.c:6462
 msgid "Returns the least prime greater than n (if n is positive)"
 msgstr "Returnerer det mindste primtal større end n (hvis n er positiv)"
 
-#: ../src/funclib.c:6383
+#: ../src/funclib.c:6463
 msgid "Returns the n'th Lucas number"
 msgstr "Returnerer det n'te Lucas-tal"
 
-#: ../src/funclib.c:6384
+#: ../src/funclib.c:6464
 msgid "Returns inverse of n mod m"
 msgstr "Returnerer den inverse af n mod m"
 
-#: ../src/funclib.c:6385
+#: ../src/funclib.c:6465
 msgid "Checks divisibility (if m divides n)"
 msgstr "Afgør divisibilitet (om m går op i n)"
 
-#: ../src/funclib.c:6386
+#: ../src/funclib.c:6466
 msgid ""
 "Return n/d but only if d divides n else returns garbage (this is faster than "
 "writing n/d)"
@@ -2616,7 +2654,7 @@ msgstr ""
 "Returnér n/d, men kun hvis d går op i n, ellers meningsløst vrøvl (dette er "
 "hurtigere end at skrive n/d)"
 
-#: ../src/funclib.c:6387
+#: ../src/funclib.c:6467
 msgid ""
 "Tests primality of integers, for numbers greater than 25*10^9 false positive "
 "is with low probability depending on IsPrimeMillerRabinReps"
@@ -2625,11 +2663,11 @@ msgstr ""
 "positiver forekomme med en lav sandsynlighed afhængigt af "
 "IsPrimeMillerRabinReps"
 
-#: ../src/funclib.c:6388
+#: ../src/funclib.c:6468
 msgid "Run the strong pseudoprime test base b on n"
 msgstr "Kør den stærke pseudoprimtalstest med grundtal b på n"
 
-#: ../src/funclib.c:6389
+#: ../src/funclib.c:6469
 msgid ""
 "Use the Miller-Rabin primality test on n, reps number of times.  The "
 "probability of false positive is (1/4)^reps"
@@ -2638,7 +2676,7 @@ msgstr ""
 "falske positiver er (1/4)^reps"
 
 # Riemann er korrekt
-#: ../src/funclib.c:6390
+#: ../src/funclib.c:6470
 msgid ""
 "Use the Miller-Rabin primality test on n with enough bases that assuming the "
 "Generalized Reimann Hypothesis the result is deterministic"
@@ -2646,23 +2684,28 @@ msgstr ""
 "Udfør Miller-Rabin-primtalstesten på n med nok grundtal til at resultatet "
 "under antagelse af den generaliserede Riemann-hypotese er deterministisk"
 
-#: ../src/funclib.c:6391
+#: ../src/funclib.c:6471
 msgid "Return factorization of a number as a matrix"
 msgstr "Returnér faktoriseringen af et tal som en matrix"
 
-#: ../src/funclib.c:6393
+#: ../src/funclib.c:6473
 msgid "Returns the maximum of arguments or matrix"
 msgstr "Returnerer det største element i argumenterne eller matricen"
 
-#: ../src/funclib.c:6396
+#: ../src/funclib.c:6476
 msgid "Returns the minimum of arguments or matrix"
 msgstr "Returnerer det mindste element i argumenterne eller matricen"
 
-#: ../src/funclib.c:6400
+# http://en.wikipedia.org/wiki/Floor_and_ceiling_functions
+#: ../src/funclib.c:6480
+msgid "Division w/o remainder, equivalent to floor(a/b)"
+msgstr "Division uden rest, svarende til floor(a/b)"
+
+#: ../src/funclib.c:6482
 msgid "Calculate the Jacobi symbol (a/b) (b should be odd)"
 msgstr "Beregn Jacobisymbolet (a/b) (b bør være ulige)"
 
-#: ../src/funclib.c:6402
+#: ../src/funclib.c:6484
 msgid ""
 "Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) "
 "when a odd, or (a/2)=0 when a even"
@@ -2670,73 +2713,73 @@ msgstr ""
 "Beregn Jacobisymbolet (a/b) med Kronecker-udvidelsen (a/2)=(2/a) når a er "
 "ulige, eller (a/2)=0 når a er lige"
 
-#: ../src/funclib.c:6404
+#: ../src/funclib.c:6486
 msgid "Calculate the Legendre symbol (a/p)"
 msgstr "Beregn Legendre-symbolet (a/p)"
 
-#: ../src/funclib.c:6407
+#: ../src/funclib.c:6489
 msgid "Get the real part of a complex number"
 msgstr "Find realdelen af et komplekst tal"
 
-#: ../src/funclib.c:6410
+#: ../src/funclib.c:6492
 msgid "Get the imaginary part of a complex number"
 msgstr "Find imaginærdelen af et komplekst tal"
 
-#: ../src/funclib.c:6414
+#: ../src/funclib.c:6496
 msgid "Make an identity matrix of a given size"
 msgstr "Konstruér en enhedsmatrix af den givne størrelse"
 
-#: ../src/funclib.c:6417
+#: ../src/funclib.c:6499
 msgid "Make an matrix of all zeros (or a row vector)"
 msgstr "Konstruér en matrix fyldt med nuller (eller en rækkevektor)"
 
-#: ../src/funclib.c:6419
+#: ../src/funclib.c:6501
 msgid "Make an matrix of all ones (or a row vector)"
 msgstr "Konstruér en matrix fyldt med et-taller (eller en rækkevektor)"
 
-#: ../src/funclib.c:6422
+#: ../src/funclib.c:6504
 msgid "Get the number of rows of a matrix"
 msgstr "Find antallet af rækker i en matrix"
 
-#: ../src/funclib.c:6423
+#: ../src/funclib.c:6505
 msgid "Get the number of columns of a matrix"
 msgstr "Find antallet af kolonner i en matrix"
 
-#: ../src/funclib.c:6424
+#: ../src/funclib.c:6506
 msgid "Is a matrix square"
 msgstr "Afgør om en matrix er kvadratisk"
 
-#: ../src/funclib.c:6425
+#: ../src/funclib.c:6507
 msgid "Is argument a horizontal or a vertical vector"
 msgstr "Afgør om argumentet er en vandret eller lodret vektor"
 
-#: ../src/funclib.c:6426
+#: ../src/funclib.c:6508
 msgid "Is a matrix upper triangular"
 msgstr "Afgør om en matrix er på øvre trekantsform"
 
-#: ../src/funclib.c:6427
+#: ../src/funclib.c:6509
 msgid "Is a matrix lower triangular"
 msgstr "Afgør om en matrix er på nedre trekantsform"
 
-#: ../src/funclib.c:6428
+#: ../src/funclib.c:6510
 msgid "Is a matrix diagonal"
 msgstr "Afgør om en matrix er diagonal"
 
-#: ../src/funclib.c:6429
+#: ../src/funclib.c:6511
 msgid "Get the number of elements of a matrix"
 msgstr "Find antallet af elementer i en matrix"
 
 # yuck, kender ikke et godt dansk begreb her
-#: ../src/funclib.c:6431
+#: ../src/funclib.c:6513
 msgid "Get the row echelon form of a matrix"
 msgstr ""
 "Bring en matrix på delvis rækkekanonisk form (svarende til fremadløsning)"
 
-#: ../src/funclib.c:6435
+#: ../src/funclib.c:6517
 msgid "Get the reduced row echelon form of a matrix"
 msgstr "Bring en matrix på rækkekanonisk form"
 
-#: ../src/funclib.c:6439
+#: ../src/funclib.c:6521
 msgid ""
 "Solve linear system Mx=V, return solution V if there is a unique solution, "
 "null otherwise.  Extra two reference parameters can optionally be used to "
@@ -2746,11 +2789,11 @@ msgstr ""
 "ellers null.  Yderligere to referenceparametre kan valgfrit gives for at få "
 "de reducerede M og V."
 
-#: ../src/funclib.c:6442
+#: ../src/funclib.c:6524
 msgid "Get the determinant of a matrix"
 msgstr "Find determinanten af en matrix"
 
-#: ../src/funclib.c:6445
+#: ../src/funclib.c:6527
 msgid ""
 "Return pivot columns of a matrix, that is columns which have a leading 1 in "
 "rref form, also returns the row where they occur"
@@ -2758,57 +2801,57 @@ msgstr ""
 "Returnér pivotkolonnerne af en matrix, dvs. kolonnerne som har et indledende "
 "1 i rref-form; returnerer også rækken hvori de forekommer"
 
-#: ../src/funclib.c:6447
+#: ../src/funclib.c:6529
 msgid "Get the nullspace of a matrix"
 msgstr "Find kernen (nulrummet) af en matrix"
 
-#: ../src/funclib.c:6449
+#: ../src/funclib.c:6531
 msgid "Make new matrix of given size from old one"
 msgstr "Opret en matrix af den givne størrelse ud fra en gammel matrix"
 
-#: ../src/funclib.c:6450
+#: ../src/funclib.c:6532
 msgid "Return the index complement of a vector of indexes"
 msgstr "Returnér indekskomplementet til en vektor af indeks"
 
-#: ../src/funclib.c:6451
+#: ../src/funclib.c:6533
 msgid "Get the Hermitian product of two vectors"
 msgstr "Find det hermitiske produkt af to vektorer"
 
-#: ../src/funclib.c:6454
+#: ../src/funclib.c:6536
 msgid "Check if a matrix is a matrix of numbers"
 msgstr "Afgør om en matrix er en talmatrix"
 
-#: ../src/funclib.c:6455
+#: ../src/funclib.c:6537
 msgid "Check if a matrix is an integer (non-complex) matrix"
 msgstr "Afgør om en matrix er en (ikke-kompleks) heltalsmatrix"
 
-#: ../src/funclib.c:6456
+#: ../src/funclib.c:6538
 msgid "Check if a matrix is a rational (non-complex) matrix"
 msgstr "Afgør om en matrix er rational (ikke-kompleks)"
 
-#: ../src/funclib.c:6457
+#: ../src/funclib.c:6539
 msgid "Check if a matrix is a real (non-complex) matrix"
 msgstr "Afgør om en matrix er reel (ikke-kompleks)"
 
-#: ../src/funclib.c:6458
+#: ../src/funclib.c:6540
 msgid "Check if a matrix is positive, that is if each element is positive"
 msgstr "Afgør om en matrix er positiv, dvs. om hvert element er positivt"
 
-#: ../src/funclib.c:6459
+#: ../src/funclib.c:6541
 msgid ""
 "Check if a matrix is nonnegative, that is if each element is nonnegative"
 msgstr ""
 "Afgør om matrix er ikke-negativ, dvs. om hvert element er ikke-negativt"
 
-#: ../src/funclib.c:6461
+#: ../src/funclib.c:6543
 msgid "Check if a number or a matrix is all zeros"
 msgstr "Afgør om et tal eller en matrix indeholder udelukkende nuller"
 
-#: ../src/funclib.c:6462
+#: ../src/funclib.c:6544
 msgid "Check if a number or a matrix is 1 or identity respectively"
 msgstr "Afgør om et tal eller en matrix er henholdsvis 1 eller identiteten"
 
-#: ../src/funclib.c:6464
+#: ../src/funclib.c:6546
 msgid ""
 "Returns true if the element x is in the set X (where X is a vector "
 "pretending to be a set)"
@@ -2816,11 +2859,11 @@ msgstr ""
 "Returnerer sand hvis elementet x tilhører mængden X (hvor X er en vektor, "
 "der anses som en mængde)"
 
-#: ../src/funclib.c:6465
+#: ../src/funclib.c:6547
 msgid "Returns true if X is a subset of Y"
 msgstr "Returnerer sand hvis X er en delmængde af Y"
 
-#: ../src/funclib.c:6466
+#: ../src/funclib.c:6548
 msgid ""
 "Returns a set theoretic difference X-Y (X and Y are vectors pretending to be "
 "sets)"
@@ -2828,7 +2871,7 @@ msgstr ""
 "Returnerer en mængdeteoretisk differens X-Y (X og Y er vektorer, der anses "
 "som mængder)"
 
-#: ../src/funclib.c:6467
+#: ../src/funclib.c:6549
 msgid ""
 "Returns a set theoretic intersection of X and Y (X and Y are vectors "
 "pretending to be sets)"
@@ -2836,125 +2879,125 @@ msgstr ""
 "Returnerer en mængdeteoretisk fællesmængde af X og Y (X og Y er vektorer, "
 "der anses som mængder)"
 
-#: ../src/funclib.c:6469
+#: ../src/funclib.c:6551
 msgid "Check if argument is a null"
 msgstr "Afgør om argumentet er null"
 
-#: ../src/funclib.c:6470
+#: ../src/funclib.c:6552
 msgid "Check if argument is a number"
 msgstr "Afgør om argumentet er et tal"
 
-#: ../src/funclib.c:6471
+#: ../src/funclib.c:6553
 msgid "Check if argument is a boolean (and not a number)"
 msgstr "Afgør om argumentet er en boolesk variabel (og ikke et tal)"
 
-#: ../src/funclib.c:6472
+#: ../src/funclib.c:6554
 msgid "Check if argument is a text string"
 msgstr "Afgør om argumentet er en tekststreng"
 
-#: ../src/funclib.c:6473
+#: ../src/funclib.c:6555
 msgid "Check if argument is a matrix"
 msgstr "Afgør om argumentet er en matrix"
 
-#: ../src/funclib.c:6474
+#: ../src/funclib.c:6556
 msgid "Check if argument is a function"
 msgstr "Afgør om argumentet er en funktion"
 
-#: ../src/funclib.c:6475
+#: ../src/funclib.c:6557
 msgid "Check if argument is a function or an identifier"
 msgstr "Afgør om argumentet er en funktion eller in identifikator"
 
-#: ../src/funclib.c:6476
+#: ../src/funclib.c:6558
 msgid "Check if argument is a function reference"
 msgstr "Afgør om argumentet er en funktionsreference"
 
-#: ../src/funclib.c:6478
+#: ../src/funclib.c:6560
 msgid "Check if argument is a complex (non-real) number"
 msgstr "Afgør om argumentet er et komplekst (ikke-reelt) tal"
 
-#: ../src/funclib.c:6479
+#: ../src/funclib.c:6561
 msgid "Check if argument is a real number"
 msgstr "Afgør om argumentet er et reelt tal"
 
-#: ../src/funclib.c:6480
+#: ../src/funclib.c:6562
 msgid "Check if argument is an integer (non-complex)"
 msgstr "Afgør om argumentet er et heltal (ikke-komplekst)"
 
-#: ../src/funclib.c:6481
+#: ../src/funclib.c:6563
 msgid "Check if argument is a positive real integer"
 msgstr "Afgør om argumentet er et positivt reelt heltal"
 
-#: ../src/funclib.c:6483
+#: ../src/funclib.c:6565
 msgid "Check if argument is a non-negative real integer"
 msgstr "Afgør om argumentet er et ikke-negativt reelt heltal"
 
-#: ../src/funclib.c:6484
+#: ../src/funclib.c:6566
 msgid "Check if argument is a possibly complex integer"
 msgstr "Afgør om argumentet er et heltal, evt. komplekst"
 
 # (NB. rationale tal, ikke rationelle)
-#: ../src/funclib.c:6486
+#: ../src/funclib.c:6568
 msgid "Check if argument is a rational number (non-complex)"
 msgstr "Afgør om argumentet er et rationalt tal (ikke-komplekst)"
 
-#: ../src/funclib.c:6487
+#: ../src/funclib.c:6569
 msgid "Check if argument is a possibly complex rational number"
 msgstr "Afgør om argumentet er et rationalt tal, evt. komplekst"
 
-#: ../src/funclib.c:6488
+#: ../src/funclib.c:6570
 msgid "Check if argument is a floating point number (non-complex)"
 msgstr "Afgør om argumentet er et flydende tal (ikke-komplekst)"
 
-#: ../src/funclib.c:6490
+#: ../src/funclib.c:6572
 msgid "Add two polynomials (vectors)"
 msgstr "Læg to polynomier (vektorer) sammen"
 
-#: ../src/funclib.c:6491
+#: ../src/funclib.c:6573
 msgid "Subtract two polynomials (as vectors)"
 msgstr "Træk to polynomier fra hinanden (som vektorer)"
 
-#: ../src/funclib.c:6492
+#: ../src/funclib.c:6574
 msgid "Multiply two polynomials (as vectors)"
 msgstr "Multiplicér to polynomier (som vektorer)"
 
-#: ../src/funclib.c:6493
+#: ../src/funclib.c:6575
 msgid "Divide polynomial p by q, return the remainder in r"
 msgstr "Dividér polynomiet p med q, og returnér resten i r"
 
-#: ../src/funclib.c:6494
+#: ../src/funclib.c:6576
 msgid "Take polynomial (as vector) derivative"
 msgstr "Find den afledte af et polynomium (som en vektor)"
 
-#: ../src/funclib.c:6495
+#: ../src/funclib.c:6577
 msgid "Take second polynomial (as vector) derivative"
 msgstr "Find den andenafledte af et polynomium (som en vektor)"
 
-#: ../src/funclib.c:6496
+#: ../src/funclib.c:6578
 msgid "Trim zeros from a polynomial (as vector)"
 msgstr "Fjern overflødige nuller fra et polynomium (som en vektor)"
 
-#: ../src/funclib.c:6497
+#: ../src/funclib.c:6579
 msgid "Check if a vector is usable as a polynomial"
 msgstr "Afgør om en vektor kan opfattes som et polynomium"
 
-#: ../src/funclib.c:6498
+#: ../src/funclib.c:6580
 msgid "Make string out of a polynomial (as vector)"
 msgstr "Gør et polynomium (som vektor) til en streng"
 
-#: ../src/funclib.c:6499
+#: ../src/funclib.c:6581
 msgid "Make function out of a polynomial (as vector)"
 msgstr "Gør et polynomium (som vektor) til en funktion"
 
-#: ../src/funclib.c:6501
+#: ../src/funclib.c:6583
 msgid "Find roots of a quadratic polynomial (given as vector of coefficients)"
 msgstr ""
 "Find rødder i et kvadratisk polynomium (givet som en koefficientvektor)"
 
-#: ../src/funclib.c:6503
+#: ../src/funclib.c:6585
 msgid "Get all combinations of k numbers from 1 to n as a vector of vectors"
 msgstr "Find alle kombinationer af k tal fra 1 til n som en vektor af vektorer"
 
-#: ../src/funclib.c:6504
+#: ../src/funclib.c:6586
 msgid ""
 "Get combination that would come after v in call to combinations, first "
 "combination should be [1:k]."
@@ -2962,23 +3005,23 @@ msgstr ""
 "Find den kombination, der ville komme efter v i et kald til combinations. "
 "Første kombination bør være [1:k]."
 
-#: ../src/funclib.c:6505
+#: ../src/funclib.c:6587
 msgid "Get all permutations of k numbers from 1 to n as a vector of vectors"
 msgstr "Find alle permutationer af k tal fra 1 til n som en vektor af vektorer"
 
-#: ../src/funclib.c:6507
+#: ../src/funclib.c:6589
 msgid "Calculate combinations (binomial coefficient)"
 msgstr "Beregn kombinationer (binomialkoefficienter)"
 
-#: ../src/funclib.c:6510
+#: ../src/funclib.c:6592
 msgid "Convert a string to a vector of ASCII values"
 msgstr "Omdan en streng til en vektor af ASCII-værdier"
 
-#: ../src/funclib.c:6511
+#: ../src/funclib.c:6593
 msgid "Convert a vector of ASCII values to a string"
 msgstr "Omdan en vektor af ASCII-værdier til en streng"
 
-#: ../src/funclib.c:6513
+#: ../src/funclib.c:6595
 msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters"
@@ -2986,7 +3029,7 @@ msgstr ""
 "Omdan en streng til en vektor af 0-baserede alfabetiske værdier (positioner "
 "i alfabetstrengen), og -1 for ukendte bogstaver"
 
-#: ../src/funclib.c:6514
+#: ../src/funclib.c:6596
 msgid ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string"
@@ -2994,7 +3037,7 @@ msgstr ""
 "Konvertér en vektor af 0-baserede alfabetværdier (positioner i "
 "alfabetstrengen) til en streng"
 
-#: ../src/funclib.c:6516
+#: ../src/funclib.c:6598
 msgid ""
 "Protect a variable from being modified.  It will be treated as a system "
 "defined variable from now on.  Protected parameters can still be modified."
@@ -3002,7 +3045,7 @@ msgstr ""
 "Beskyt en variabel fra at blive ændret.  Den vil blive behandlet som en "
 "systemdefineret variabel fra nu af.  Beskyttede parametre kan stadig ændres."
 
-#: ../src/funclib.c:6517
+#: ../src/funclib.c:6599
 msgid ""
 "Unprotect a variable from being modified.  It will be treated as a user "
 "defined variable from now on."
@@ -3010,7 +3053,7 @@ msgstr ""
 "Fjern ændringsbeskyttelse fra en variabel.  Den vil blive behandlet som en "
 "brugerdefineret variabel fra nu af."
 
-#: ../src/funclib.c:6518
+#: ../src/funclib.c:6600
 msgid ""
 "Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
 "\""
@@ -3019,21 +3062,21 @@ msgstr ""
 "\"NoModuloArguments\""
 
 # ikke sikker på hvad de mener, men oversættelsen er temmelig direkte så det går nok
-#: ../src/funclib.c:6519
+#: ../src/funclib.c:6601
 msgid "Get current modulo from the context outside the function"
 msgstr "Find nuværende modulo fra konteksten uden for funktionen"
 
-#: ../src/funclib.c:6520
+#: ../src/funclib.c:6602
 msgid "Check if a variable or function is defined"
 msgstr "Afgør om en variabel eller funktion er defineret"
 
-#: ../src/funclib.c:6521
+#: ../src/funclib.c:6603
 msgid "Undefine a variable (including all locals and globals of the same name)"
 msgstr ""
 "Fjern variabeldefinition (inklusive alle lokale og globale variable med "
 "samme navn)"
 
-#: ../src/funclib.c:6523
+#: ../src/funclib.c:6605
 msgid ""
 "Undefine all unprotected (user defined) global variables and parameters.  "
 "Does not reset or change protected (system) parameters."
@@ -3041,7 +3084,7 @@ msgstr ""
 "Fjern alle ubeskyttede (brugerdefinerede) globale variable og parametre.  "
 "Nulstiller eller ændrer ikke beskyttede (system-) parametre."
 
-#: ../src/funclib.c:6524
+#: ../src/funclib.c:6606
 msgid ""
 "Mark all currently defined variables as protected.  They will be treated as "
 "system defined variables from now on."
@@ -3049,28 +3092,28 @@ msgstr ""
 "Markér alle nu definerede variable som beskyttede.  De vil blive behandlet "
 "som systemdefinerede variable fra nu af."
 
-#: ../src/funclib.c:6525
+#: ../src/funclib.c:6607
 msgid ""
 "Return a vector of all global unprotected (user defined) variable names."
 msgstr ""
 "Returnér en vektor af alle globale ubeskyttede (brugerdefinerede) "
 "variabelnavne."
 
-#: ../src/funclib.c:6527
+#: ../src/funclib.c:6609
 msgid "Parse a string (but do not execute)"
 msgstr "Fortolk en streng (men udfør ikke)"
 
-#: ../src/funclib.c:6528
+#: ../src/funclib.c:6610
 msgid "Parse and evaluate a string"
 msgstr "Fortolk og evaluér en streng"
 
-#: ../src/funclib.c:6530
+#: ../src/funclib.c:6612
 msgid "Ask a question and return a string.  Optionally pass in a default."
 msgstr ""
 "Stil et spørgsmål og returnér en streng.  Der kan valgfrit gives en "
 "standardværdi."
 
-#: ../src/funclib.c:6531
+#: ../src/funclib.c:6613
 msgid ""
 "Ask a question and present a list of buttons.  Returns the 1-based index of "
 "the button pressed (or null on failure)."
@@ -3078,7 +3121,7 @@ msgstr ""
 "Stil et spørgsmål og vis en liste af knapper.  Returnerer det 1-baserede "
 "indeks for den knap, der blev trykket (eller null ved fejl)."
 
-#: ../src/funclib.c:6533
+#: ../src/funclib.c:6615
 msgid ""
 "Integration of f by Composite Simpson's Rule on the interval [a,b] with n "
 "subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be "
@@ -3112,8 +3155,8 @@ msgstr "Foreslået: %s\n"
 msgid "Out of range!\n"
 msgstr "Uden for gyldigt interval!\n"
 
-#: ../src/genius.c:351 ../src/genius.lang.h:5 ../src/gnome-genius.c:828
-#: ../src/gnome-genius.c:873
+#: ../src/genius.c:351 ../src/genius.lang.h:5 ../src/gnome-genius.c:829
+#: ../src/gnome-genius.c:874
 msgid "Genius"
 msgstr "Genius"
 
@@ -3214,7 +3257,7 @@ msgstr ""
 "Skriv \"manual\" eller \"help\" for at få hjælp.%s\n"
 "\n"
 
-#: ../src/genius.c:610 ../src/gnome-genius.c:5108
+#: ../src/genius.c:610 ../src/gnome-genius.c:5137
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -3514,7 +3557,7 @@ msgstr "_Graf..."
 msgid "Plot functions, vector fields, surfaces, etc..."
 msgstr "Tegn grafer over funktioner, vektorfelter, flader med videre..."
 
-#: ../src/gnome-genius.c:374 ../src/gnome-genius.c:569 ../src/graphing.c:5975
+#: ../src/gnome-genius.c:374 ../src/gnome-genius.c:569 ../src/graphing.c:5974
 msgid "_Plot"
 msgstr "_Graf"
 
@@ -3582,20 +3625,20 @@ msgstr "_Om"
 msgid "About Genius"
 msgstr "Om Genius"
 
-#: ../src/gnome-genius.c:932
+#: ../src/gnome-genius.c:933
 msgid "Help on Function"
 msgstr "Hjælp til funktion"
 
-#: ../src/gnome-genius.c:950
+#: ../src/gnome-genius.c:951
 msgid "Function or command name:"
 msgstr "Funktions- eller kommandonavn:"
 
-#: ../src/gnome-genius.c:983
+#: ../src/gnome-genius.c:984
 #, c-format
 msgid "<b>Help on %s not found</b>"
 msgstr "<b>Hjælp om %s blev ikke fundet</b>"
 
-#: ../src/gnome-genius.c:987
+#: ../src/gnome-genius.c:988
 #, c-format
 msgid ""
 "<b>Help on %s not found</b>\n"
@@ -3606,15 +3649,15 @@ msgstr ""
 "\n"
 "Måske mente du %s."
 
-#: ../src/gnome-genius.c:1042
+#: ../src/gnome-genius.c:1043
 msgid "Error"
 msgstr "Fejl"
 
-#: ../src/gnome-genius.c:1044
+#: ../src/gnome-genius.c:1045
 msgid "Information"
 msgstr "Information"
 
-#: ../src/gnome-genius.c:1130
+#: ../src/gnome-genius.c:1131
 msgid ""
 "Global variables:\n"
 "\n"
@@ -3622,7 +3665,7 @@ msgstr ""
 "Globale variable:\n"
 "\n"
 
-#: ../src/gnome-genius.c:1163
+#: ../src/gnome-genius.c:1164
 msgid ""
 "\n"
 "Function call stack:\n"
@@ -3630,7 +3673,7 @@ msgstr ""
 "\n"
 "Funktionsstak:\n"
 
-#: ../src/gnome-genius.c:1165 ../src/gnome-genius.c:1224
+#: ../src/gnome-genius.c:1166 ../src/gnome-genius.c:1225
 msgid ""
 "(depth of context in parentheses)\n"
 "\n"
@@ -3638,7 +3681,7 @@ msgstr ""
 "(kontekstdybde i parenteser)\n"
 "\n"
 
-#: ../src/gnome-genius.c:1222
+#: ../src/gnome-genius.c:1223
 msgid ""
 "\n"
 "Local variables:\n"
@@ -3646,56 +3689,56 @@ msgstr ""
 "\n"
 "Lokale variable:\n"
 
-#: ../src/gnome-genius.c:1276
+#: ../src/gnome-genius.c:1277
 msgid "User Variable Listing"
 msgstr "Oversigt over brugervariable"
 
-#: ../src/gnome-genius.c:1384
+#: ../src/gnome-genius.c:1385
 #, c-format
 msgid "%s undefined"
 msgstr "%s udefineret"
 
 #. printed before a global variable
-#: ../src/gnome-genius.c:1419
+#: ../src/gnome-genius.c:1420
 msgid "(global) "
 msgstr "(global) "
 
 #. printed before local variable in certain
 #. * context
-#: ../src/gnome-genius.c:1423
+#: ../src/gnome-genius.c:1424
 #, c-format
 msgid "(context %d) "
 msgstr "(kontekst %d) "
 
-#: ../src/gnome-genius.c:1445
+#: ../src/gnome-genius.c:1446
 #, c-format
 msgid "%s not a user variable"
 msgstr "%s er ikke en brugervariabel"
 
-#: ../src/gnome-genius.c:1479
+#: ../src/gnome-genius.c:1480
 #, c-format
 msgid "Monitoring: %s"
 msgstr "Overvåger: %s"
 
-#: ../src/gnome-genius.c:1527
+#: ../src/gnome-genius.c:1528
 msgid "Update continuously"
 msgstr "Opdatér løbende"
 
-#: ../src/gnome-genius.c:1558
+#: ../src/gnome-genius.c:1559
 msgid "Monitor a Variable"
 msgstr "Overvåg en variabel"
 
-#: ../src/gnome-genius.c:1575
+#: ../src/gnome-genius.c:1576
 msgid "Variable name:"
 msgstr "Variabelnavn:"
 
 #. error
 #. always textbox
-#: ../src/gnome-genius.c:1631
+#: ../src/gnome-genius.c:1632
 msgid "Full Answer"
 msgstr "Fulde svar"
 
-#: ../src/gnome-genius.c:1647
+#: ../src/gnome-genius.c:1648
 #, c-format
 msgid ""
 "\n"
@@ -3704,12 +3747,12 @@ msgstr ""
 "\n"
 "For mange fejl! (%d fulgt)"
 
-#: ../src/gnome-genius.c:1662
+#: ../src/gnome-genius.c:1663
 #, c-format
 msgid "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
 msgstr "\\e[01;31mFor mange fejl! (%d fulgt)\\e[0m\n"
 
-#: ../src/gnome-genius.c:1779
+#: ../src/gnome-genius.c:1802
 #, c-format
 msgid ""
 "<b>Cannot display help</b>\n"
@@ -3720,11 +3763,11 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/gnome-genius.c:1851
+#: ../src/gnome-genius.c:1878
 msgid "Nils Barth (initial implementation of parts of the GEL library)"
 msgstr "Nils Barth (første implementation af dele af GEL-biblioteket)"
 
-#: ../src/gnome-genius.c:1852
+#: ../src/gnome-genius.c:1879
 msgid "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"
 msgstr "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - grafkontroller)"
 
@@ -3732,7 +3775,7 @@ msgstr "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - grafkontroller)"
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: ../src/gnome-genius.c:1866
+#: ../src/gnome-genius.c:1893
 msgid "translator-credits"
 msgstr ""
 "Ask Hjorth Larsen <asklarsen@gmail.com>, 2011\n"
@@ -3740,15 +3783,15 @@ msgstr ""
 "Dansk-gruppen <dansk@dansk-gruppen.dk>\n"
 "Mere info: http://www.dansk-gruppen.dk"
 
-#: ../src/gnome-genius.c:1914
+#: ../src/gnome-genius.c:1941
 msgid "Genius Mathematical Tool"
 msgstr "Geninus - Matematikværktøj"
 
-#: ../src/gnome-genius.c:1918
+#: ../src/gnome-genius.c:1945
 msgid "The Gnome calculator style edition of the Genius Mathematical Tool."
 msgstr "Gnome-udgaven af matematikværktøjet Genius."
 
-#: ../src/gnome-genius.c:2108
+#: ../src/gnome-genius.c:2135
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -3756,56 +3799,56 @@ msgstr ""
 "Genius er ved at udføre noget, og i øvrigt er der ugemte programmer.\n"
 "Er du sikker på at du vil afslutte?"
 
-#: ../src/gnome-genius.c:2116
+#: ../src/gnome-genius.c:2143
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr "Der er ugemte programmer.  Er du sikker på at du vil afslutte?"
 
-#: ../src/gnome-genius.c:2123
+#: ../src/gnome-genius.c:2150
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr "Geinus er ved at udføre noget.  Er du sikker på at du vil afslutte?"
 
-#: ../src/gnome-genius.c:2130
+#: ../src/gnome-genius.c:2157
 msgid "Are you sure you wish to quit?"
 msgstr "Er du sikker på at du vil afslutte?"
 
-#: ../src/gnome-genius.c:2244
+#: ../src/gnome-genius.c:2271
 msgid "Genius Setup"
 msgstr "Opsætning af Genius"
 
-#: ../src/gnome-genius.c:2262
+#: ../src/gnome-genius.c:2289
 msgid "Output"
 msgstr "Uddata"
 
-#: ../src/gnome-genius.c:2265
+#: ../src/gnome-genius.c:2292
 msgid "Number/Expression output options"
 msgstr "Indstillinger for udskrift af tal og udtryk"
 
-#: ../src/gnome-genius.c:2275
+#: ../src/gnome-genius.c:2302
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Maksimalt antal cifre i uddata (0=ubegrænset)"
 
-#: ../src/gnome-genius.c:2295
+#: ../src/gnome-genius.c:2322
 msgid "Results as floats"
 msgstr "Resultater som flydende tal"
 
-#: ../src/gnome-genius.c:2303
+#: ../src/gnome-genius.c:2330
 msgid "Floats in scientific notation"
 msgstr "Videnskabelig notation til flydende tal"
 
-#: ../src/gnome-genius.c:2311
+#: ../src/gnome-genius.c:2338
 msgid "Always print full expressions"
 msgstr "Udskriv altid fulde udtryk"
 
 # blandet tal såsom 2½
-#: ../src/gnome-genius.c:2319
+#: ../src/gnome-genius.c:2346
 msgid "Use mixed fractions"
 msgstr "Brug blandede tal"
 
-#: ../src/gnome-genius.c:2372
+#: ../src/gnome-genius.c:2399
 msgid "Remember output settings across sessions"
 msgstr "Husk udskriftsindstillinger på tværs af sessioner"
 
-#: ../src/gnome-genius.c:2382
+#: ../src/gnome-genius.c:2409
 msgid ""
 "Should the output settings in the \"Number/Expression output options\" frame "
 "be remembered for next session.  Does not apply to the \"Error/Info output "
@@ -3815,27 +3858,27 @@ msgstr ""
 "og udtryk\" huskes til næste session?  Gælder ikke for rammen "
 "\"Indstillinger for udskrift af fejl og info\"."
 
-#: ../src/gnome-genius.c:2387
+#: ../src/gnome-genius.c:2414
 msgid "Error/Info output options"
 msgstr "Indstillinger for udskrift af fejl og info"
 
-#: ../src/gnome-genius.c:2395
+#: ../src/gnome-genius.c:2422
 msgid "Display errors in a dialog"
 msgstr "Vis fejl i et dialogvindue"
 
-#: ../src/gnome-genius.c:2403
+#: ../src/gnome-genius.c:2430
 msgid "Display information messages in a dialog"
 msgstr "Vis informationsbeskeder i et dialogvindue"
 
-#: ../src/gnome-genius.c:2414
+#: ../src/gnome-genius.c:2441
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Maksimalt antal fejl der skal vises (0=ubegrænset)"
 
-#: ../src/gnome-genius.c:2438
+#: ../src/gnome-genius.c:2465
 msgid "Precision"
 msgstr "Præcision"
 
-#: ../src/gnome-genius.c:2448
+#: ../src/gnome-genius.c:2475
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -3845,51 +3888,51 @@ msgstr ""
 "i kraft for alle tal med det samme.  Kun nyudregnede\n"
 "tal og variable vil blive påvirket."
 
-#: ../src/gnome-genius.c:2457
+#: ../src/gnome-genius.c:2484
 msgid "Floating point precision (bits)"
 msgstr "Præcision for flydende tal (bit)"
 
-#: ../src/gnome-genius.c:2476
+#: ../src/gnome-genius.c:2503
 msgid "Remember precision setting across sessions"
 msgstr "Husk præcisionsindstillinger på tværs af sessioner"
 
-#: ../src/gnome-genius.c:2485
+#: ../src/gnome-genius.c:2512
 msgid "Should the precision setting be remembered for next session."
 msgstr "Om præcisionsindstillingerne skal huskes til næste session."
 
-#: ../src/gnome-genius.c:2493
+#: ../src/gnome-genius.c:2520
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ../src/gnome-genius.c:2495
+#: ../src/gnome-genius.c:2522
 msgid "Terminal options"
 msgstr "Terminalindstillinger"
 
-#: ../src/gnome-genius.c:2504
+#: ../src/gnome-genius.c:2531
 msgid "Scrollback lines"
 msgstr "Linjehistorik"
 
-#: ../src/gnome-genius.c:2527
+#: ../src/gnome-genius.c:2554
 msgid "Font:"
 msgstr "Skrifttype:"
 
-#: ../src/gnome-genius.c:2538
+#: ../src/gnome-genius.c:2565
 msgid "Black on white"
 msgstr "Sort på hvidt"
 
-#: ../src/gnome-genius.c:2546
+#: ../src/gnome-genius.c:2573
 msgid "Blinking cursor"
 msgstr "Blinkende markør"
 
-#: ../src/gnome-genius.c:2559
+#: ../src/gnome-genius.c:2586
 msgid "Memory"
 msgstr "Hukommelse"
 
-#: ../src/gnome-genius.c:2562
+#: ../src/gnome-genius.c:2589
 msgid "Limits"
 msgstr "Grænser"
 
-#: ../src/gnome-genius.c:2569
+#: ../src/gnome-genius.c:2596
 msgid ""
 "When the limit is reached you will be asked if\n"
 "you wish to interrupt the calculation or continue.\n"
@@ -3899,11 +3942,11 @@ msgstr ""
 "beregningen eller fortsætte.  Værdien 0 slår\n"
 "denne grænse fra."
 
-#: ../src/gnome-genius.c:2578
+#: ../src/gnome-genius.c:2605
 msgid "Maximum number of nodes to allocate"
 msgstr "Maksimalt antal knuder der skal allokeres"
 
-#: ../src/gnome-genius.c:2618
+#: ../src/gnome-genius.c:2645
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -3913,71 +3956,71 @@ msgstr ""
 "\n"
 "Prøv venligst igen senere eller afbryd den nuværende operation."
 
-#: ../src/gnome-genius.c:2646
+#: ../src/gnome-genius.c:2673
 msgid "GEL files"
 msgstr "GEL-filer"
 
-#: ../src/gnome-genius.c:2651 ../src/graphing.c:1113
+#: ../src/gnome-genius.c:2678 ../src/graphing.c:1113
 msgid "All files"
 msgstr "Alle filer"
 
-#: ../src/gnome-genius.c:2675 ../src/gnome-genius.c:3566
+#: ../src/gnome-genius.c:2702 ../src/gnome-genius.c:3593
 msgid "Cannot open file!"
 msgstr "Kan ikke åbne fil!"
 
-#: ../src/gnome-genius.c:2685 ../src/gnome-genius.c:4046
+#: ../src/gnome-genius.c:2712 ../src/gnome-genius.c:4073
 msgid "Output from "
 msgstr "Uddata fra "
 
 # ?
-#: ../src/gnome-genius.c:2701 ../src/gnome-genius.c:4117
+#: ../src/gnome-genius.c:2728 ../src/gnome-genius.c:4144
 msgid "End"
 msgstr "Slut"
 
-#: ../src/gnome-genius.c:2720
+#: ../src/gnome-genius.c:2747
 msgid "Load and Run"
 msgstr "Indlæs og kør"
 
-#: ../src/gnome-genius.c:2724
+#: ../src/gnome-genius.c:2751
 msgid "_Load"
 msgstr "_Indlæs"
 
-#: ../src/gnome-genius.c:3236
+#: ../src/gnome-genius.c:3263
 msgid "Cannot open file"
 msgstr "Kan ikke åbne fil"
 
 #. context
-#: ../src/gnome-genius.c:3271 ../src/gnome-genius.c:4715
+#: ../src/gnome-genius.c:3298 ../src/gnome-genius.c:4744
 #, c-format
 msgid "Line: %d"
 msgstr "Linje: %d"
 
-#: ../src/gnome-genius.c:3460
+#: ../src/gnome-genius.c:3487
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Program_%d.gel"
 
-#: ../src/gnome-genius.c:3471
+#: ../src/gnome-genius.c:3498
 #, c-format
 msgid "Program %d"
 msgstr "Program %d"
 
-#: ../src/gnome-genius.c:3500
+#: ../src/gnome-genius.c:3527
 #, c-format
 msgid "Cannot open %s"
 msgstr "Kan ikke åbne %s"
 
-#: ../src/gnome-genius.c:3588
+#: ../src/gnome-genius.c:3615
 msgid "Open..."
 msgstr "Åbn..."
 
-#: ../src/gnome-genius.c:3665
+#: ../src/gnome-genius.c:3692
 msgid "Program is read only"
 msgstr "Programmet er skrivebeskyttet"
 
 #. new fname
-#: ../src/gnome-genius.c:3667 ../src/gnome-genius.c:3699
-#: ../src/gnome-genius.c:3758 ../src/gnome-genius.c:3887
+#: ../src/gnome-genius.c:3694 ../src/gnome-genius.c:3726
+#: ../src/gnome-genius.c:3785 ../src/gnome-genius.c:3914
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -3986,11 +4029,11 @@ msgstr ""
 "<b>Kan ikke gemme fil</b>\n"
 "Detaljer: %s"
 
-#: ../src/gnome-genius.c:3709
+#: ../src/gnome-genius.c:3736
 msgid "Save new programs by \"Save As..\" first!"
 msgstr "Gem nye programer med \"Gem som...\" først!"
 
-#: ../src/gnome-genius.c:3715
+#: ../src/gnome-genius.c:3742
 msgid ""
 "Some read-only programs are modified.  Use \"Save As..\" to save them to a "
 "new location."
@@ -3998,20 +4041,20 @@ msgstr ""
 "Der er ændringer i skrivebeskyttede programmer.  Brug \"Gem som...\" for at "
 "gemme dem til et nyt sted."
 
-#: ../src/gnome-genius.c:3752 ../src/gnome-genius.c:3867 ../src/graphing.c:910
+#: ../src/gnome-genius.c:3779 ../src/gnome-genius.c:3894 ../src/graphing.c:910
 #: ../src/graphing.c:1016
 msgid "File already exists.  Overwrite it?"
 msgstr "Filen findes allerede.  Overskriv den?"
 
-#: ../src/gnome-genius.c:3794
+#: ../src/gnome-genius.c:3821
 msgid "Save As..."
 msgstr "Gem som..."
 
-#: ../src/gnome-genius.c:3921
+#: ../src/gnome-genius.c:3948
 msgid "Save Console Output..."
 msgstr "Gem konsoludskrift..."
 
-#: ../src/gnome-genius.c:3984
+#: ../src/gnome-genius.c:4011
 msgid ""
 "The program you are closing is unsaved, are you sure you wish to close it "
 "without saving?"
@@ -4019,7 +4062,7 @@ msgstr ""
 "Programmet du er ved at lukke er ikke gemt.  Er du sikker på at du vil lukke "
 "det uden at gemme?"
 
-#: ../src/gnome-genius.c:4003
+#: ../src/gnome-genius.c:4030
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -4029,12 +4072,12 @@ msgstr ""
 "\n"
 "Opret et nyt program, eller vælg et eksisterende faneblad i notesbogen."
 
-#: ../src/gnome-genius.c:4033
+#: ../src/gnome-genius.c:4060
 #, c-format
 msgid "Cannot open pipe: %s"
 msgstr "Kan ikke åbne rør: %s"
 
-#: ../src/gnome-genius.c:4062
+#: ../src/gnome-genius.c:4089
 msgid ""
 "<b>Cannot execute program</b>\n"
 "\n"
@@ -4044,7 +4087,7 @@ msgstr ""
 "\n"
 "Kan ikke forgrene (fork)."
 
-#: ../src/gnome-genius.c:4134
+#: ../src/gnome-genius.c:4161
 msgid ""
 "<b>Error executing program</b>\n"
 "\n"
@@ -4056,12 +4099,12 @@ msgstr ""
 "Der opstod en fejl ved skrivning af\n"
 "programmet til maskinen."
 
-#: ../src/gnome-genius.c:4159
+#: ../src/gnome-genius.c:4186
 #, c-format
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: ../src/gnome-genius.c:4385
+#: ../src/gnome-genius.c:4412
 msgid "Memory (node number) limit has been reached, interrupt the computation?"
 msgstr "Hukommelsesgrænsen (knudetal) blev nået.  Afbryd beregningen?"
 
@@ -4070,17 +4113,17 @@ msgstr "Hukommelsesgrænsen (knudetal) blev nået.  Afbryd beregningen?"
 #. textbox_title
 #. bind_response
 #. wrap
-#: ../src/gnome-genius.c:4465
+#: ../src/gnome-genius.c:4492
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Kan ikke udføre genius-readline-helper-fifo!\n"
 
-#: ../src/gnome-genius.c:4532
+#: ../src/gnome-genius.c:4559
 msgid "Readline helper died, weird.  Trying to recover, things may be odd."
 msgstr ""
 "Readline-hjælperen døde.  Mærkværdigt!  Prøver at klare den, men det kan "
 "godt ske at tingene bliver lidt mystiske."
 
-#: ../src/gnome-genius.c:4736
+#: ../src/gnome-genius.c:4765
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -4088,21 +4131,21 @@ msgstr ""
 "\n"
 "Bemærk: Kompileret uden GtkSourceView (bedre koderedigering)"
 
-#: ../src/gnome-genius.c:4828
+#: ../src/gnome-genius.c:4857
 msgid "GNOME Genius"
 msgstr "GNOME Genius"
 
 #. parent
-#: ../src/gnome-genius.c:4878
+#: ../src/gnome-genius.c:4907
 msgid "Cannot find the library file, genius installation may be incorrect"
 msgstr ""
 "Kan ikke finde biblioteksfilen.  Installationen af genius er måske forfejlet"
 
-#: ../src/gnome-genius.c:4958
+#: ../src/gnome-genius.c:4987
 msgid "Console"
 msgstr "Konsol"
 
-#: ../src/gnome-genius.c:5042
+#: ../src/gnome-genius.c:5071
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -4349,7 +4392,7 @@ msgstr "Akseinddelinger er ikke givet som tal"
 msgid "Ticks not given as a number or a 2-vector"
 msgstr "Akseinddelinger er ikke givet som et tal eller en 2-vektor"
 
-#: ../src/graphing.c:4285
+#: ../src/graphing.c:4284
 #, c-format
 msgid ""
 "Type in function name or expression involving the %s and %s variables (or "
@@ -4359,28 +4402,28 @@ msgstr ""
 "Skriv et funktionsnavn eller et udtryk med %s- og %s-variablene (eller %s-"
 "variablen, som vil være %s=%s+i%s), der giver hældningen i punktet (%s,%s)."
 
-#: ../src/graphing.c:4310 ../src/graphing.c:4317 ../src/graphing.c:4481
-#: ../src/graphing.c:4488
+#: ../src/graphing.c:4309 ../src/graphing.c:4316 ../src/graphing.c:4480
+#: ../src/graphing.c:4487
 #, c-format
 msgid "%s from:"
 msgstr "%s fra:"
 
-#: ../src/graphing.c:4324 ../src/graphing.c:4331
+#: ../src/graphing.c:4323 ../src/graphing.c:4330
 #, c-format
 msgid "%s increment:"
 msgstr "%s-trin:"
 
-#: ../src/graphing.c:4338
+#: ../src/graphing.c:4337
 #, c-format
 msgid "%s interval length:"
 msgstr "%s-intervallængde:"
 
-#: ../src/graphing.c:4345
+#: ../src/graphing.c:4344
 #, c-format
 msgid "Point %s:"
 msgstr "Punkt %s:"
 
-#: ../src/graphing.c:4358
+#: ../src/graphing.c:4357
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s and %s variables (or "
@@ -4391,7 +4434,7 @@ msgstr ""
 "variablen, som vil være %s=%s+i%s), der giver d%s/d%s og d%s/d%s for det "
 "autonome system, der skal plottes i punktet (%s,%s)."
 
-#: ../src/graphing.c:4394
+#: ../src/graphing.c:4393
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4400,7 +4443,7 @@ msgstr ""
 "Skriv funktionsnavne eller udtryk med %s-variablen i kasserne herunder for "
 "at tegne grafer for dem"
 
-#: ../src/graphing.c:4411
+#: ../src/graphing.c:4410
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4414,12 +4457,12 @@ msgstr ""
 "hvilket angiver %s- og %s-koordinaterne separat, eller kassen %s= med %s og "
 "%s, som angiver real- og imaginærdel af et komplekst tal."
 
-#: ../src/graphing.c:4452
+#: ../src/graphing.c:4451
 #, c-format
 msgid "Parameter %s from:"
 msgstr "Parameter %s fra:"
 
-#: ../src/graphing.c:4466
+#: ../src/graphing.c:4465
 #, c-format
 msgid ""
 "Type a function name or an expression involving the %s and %s variables (or "
@@ -4430,94 +4473,94 @@ msgstr ""
 "%s, som vil være %s=%s+i%s) i kasserne herunder for at tegne grafer for "
 "dem.  Funktioner med kun et argument vil blive givet et komplekst tal."
 
-#: ../src/graphing.c:4532 ../src/graphing.c:4652
+#: ../src/graphing.c:4531 ../src/graphing.c:4651
 msgid "Change variable names"
 msgstr "Omdøb variable"
 
-#: ../src/graphing.c:4548 ../src/graphing.c:4668
+#: ../src/graphing.c:4547 ../src/graphing.c:4667
 msgid "Some values were illegal"
 msgstr "Nogle værdier var ugyldige"
 
-#: ../src/graphing.c:4552 ../src/graphing.c:4672
+#: ../src/graphing.c:4551 ../src/graphing.c:4671
 msgid "independent variable (x):"
 msgstr "uafhængig variabel (x):"
 
-#: ../src/graphing.c:4562
+#: ../src/graphing.c:4561
 msgid "dependent variable (y):"
 msgstr "afhængig variabel (y):"
 
-#: ../src/graphing.c:4572
+#: ../src/graphing.c:4571
 msgid "complex variable (z = x+iy):"
 msgstr "kompleks variabel (z = x+iy):"
 
-#: ../src/graphing.c:4582
+#: ../src/graphing.c:4581
 msgid "parameter variable (t):"
 msgstr "parametervariabel (t):"
 
-#: ../src/graphing.c:4682
+#: ../src/graphing.c:4681
 msgid "independent variable (y):"
 msgstr "uafhængig variabel (y):"
 
-#: ../src/graphing.c:4692
+#: ../src/graphing.c:4691
 msgid "independent complex variable (z = x+iy):"
 msgstr "uafhængig kompleks variabel (z = x+iy):"
 
-#: ../src/graphing.c:4802
+#: ../src/graphing.c:4801
 msgid "_Functions / Expressions"
 msgstr "_Funktioner / udtryk"
 
-#: ../src/graphing.c:4834
+#: ../src/graphing.c:4833
 msgid "or"
 msgstr "eller"
 
 #. t range
-#: ../src/graphing.c:4849
+#: ../src/graphing.c:4848
 msgid "Parameter t from:"
 msgstr "Parameter t fra:"
 
-#: ../src/graphing.c:4853 ../src/graphing.c:4991 ../src/graphing.c:5003
-#: ../src/graphing.c:5075 ../src/graphing.c:5087 ../src/graphing.c:5098
+#: ../src/graphing.c:4852 ../src/graphing.c:4990 ../src/graphing.c:5002
+#: ../src/graphing.c:5074 ../src/graphing.c:5086 ../src/graphing.c:5097
 msgid "to:"
 msgstr "til:"
 
-#: ../src/graphing.c:4857
+#: ../src/graphing.c:4856
 msgid "by:"
 msgstr "trin:"
 
-#: ../src/graphing.c:4864
+#: ../src/graphing.c:4863
 msgid "Pa_rametric"
 msgstr "Pa_rametrisk"
 
 #. # of ticks
-#: ../src/graphing.c:4891 ../src/graphing.c:4943
+#: ../src/graphing.c:4890 ../src/graphing.c:4942
 msgid "Vertical ticks:"
 msgstr "Lodrette aksemærker:"
 
 #. # of ticks
-#: ../src/graphing.c:4895 ../src/graphing.c:4947
+#: ../src/graphing.c:4894 ../src/graphing.c:4946
 msgid "Horizontal ticks:"
 msgstr "Vandrette aksemærker:"
 
-#: ../src/graphing.c:4900
+#: ../src/graphing.c:4899
 msgid "Sl_ope field"
 msgstr "_Gradientfelt"
 
 #. Normalize the arrow length?
-#: ../src/graphing.c:4934
+#: ../src/graphing.c:4933
 msgid "_Normalize arrow length (do not show size)"
 msgstr "_Normér pilelængde (vis ikke størrelsen)"
 
-#: ../src/graphing.c:4952
+#: ../src/graphing.c:4951
 msgid "_Vector field"
 msgstr "_Vektorfelt"
 
 #. draw legend?
-#: ../src/graphing.c:4962
+#: ../src/graphing.c:4961
 msgid "_Draw legend"
 msgstr "_Tegn signaturforklaring"
 
 #. change varnames
-#: ../src/graphing.c:4971 ../src/graphing.c:5054
+#: ../src/graphing.c:4970 ../src/graphing.c:5053
 msgid "Change variable names..."
 msgstr "Omdøb variable..."
 
@@ -4525,153 +4568,153 @@ msgstr "Omdøb variable..."
 #.
 #. * Plot window frame
 #.
-#: ../src/graphing.c:4979 ../src/graphing.c:5063
+#: ../src/graphing.c:4978 ../src/graphing.c:5062
 msgid "Plot Window"
 msgstr "Grafvindue"
 
 #.
 #. * X range
 #.
-#: ../src/graphing.c:4988 ../src/graphing.c:5072
+#: ../src/graphing.c:4987 ../src/graphing.c:5071
 msgid "X from:"
 msgstr "X fra:"
 
 #.
 #. * Y range
 #.
-#: ../src/graphing.c:5000 ../src/graphing.c:5084
+#: ../src/graphing.c:4999 ../src/graphing.c:5083
 msgid "Y from:"
 msgstr "Y fra:"
 
-#: ../src/graphing.c:5026
+#: ../src/graphing.c:5025
 msgid "Function / Expression"
 msgstr "Funktion / udtryk"
 
 #.
 #. * Z range
 #.
-#: ../src/graphing.c:5096
+#: ../src/graphing.c:5095
 msgid "Dependent axis from:"
 msgstr "Afhængig akse fra:"
 
-#: ../src/graphing.c:5117
+#: ../src/graphing.c:5116
 msgid "Function _line plot"
 msgstr "Funktions_linjeplot"
 
-#: ../src/graphing.c:5121
+#: ../src/graphing.c:5120
 msgid "_Surface plot"
 msgstr "_Fladeplot"
 
-#: ../src/graphing.c:5339 ../src/graphing.c:5503 ../src/graphing.c:5624
-#: ../src/graphing.c:5745 ../src/graphing.c:5849
+#: ../src/graphing.c:5338 ../src/graphing.c:5502 ../src/graphing.c:5623
+#: ../src/graphing.c:5744 ../src/graphing.c:5848
 msgid "No functions to plot or no functions could be parsed"
 msgstr "Ingen funktioner at tegne, eller ingen funktioner kunne fortolkes"
 
-#: ../src/graphing.c:5370 ../src/graphing.c:5376 ../src/graphing.c:5526
-#: ../src/graphing.c:5532 ../src/graphing.c:5631 ../src/graphing.c:5654
-#: ../src/graphing.c:5660 ../src/graphing.c:5768 ../src/graphing.c:5774
-#: ../src/graphing.c:5872 ../src/graphing.c:5878
+#: ../src/graphing.c:5369 ../src/graphing.c:5375 ../src/graphing.c:5525
+#: ../src/graphing.c:5531 ../src/graphing.c:5630 ../src/graphing.c:5653
+#: ../src/graphing.c:5659 ../src/graphing.c:5767 ../src/graphing.c:5773
+#: ../src/graphing.c:5871 ../src/graphing.c:5877
 #, c-format
 msgid "Invalid %s range"
 msgstr "Ugyldigt %s-interval"
 
-#: ../src/graphing.c:5382
+#: ../src/graphing.c:5381
 msgid "Invalid dependent range"
 msgstr "Ugyldig afhængigt interval"
 
-#: ../src/graphing.c:5618
+#: ../src/graphing.c:5617
 #, c-format
 msgid "Only specify %s and %s, or %s, not all at once."
 msgstr "Angiv kun %s og %s, eller %s, men ikke alle."
 
-#: ../src/graphing.c:5970
+#: ../src/graphing.c:5969
 msgid "Create Plot"
 msgstr "Opret graf"
 
-#: ../src/graphing.c:6010 ../src/graphing.c:6148 ../src/graphing.c:6179
-#: ../src/graphing.c:6200 ../src/graphing.c:6240 ../src/graphing.c:6264
-#: ../src/graphing.c:6375 ../src/graphing.c:6497 ../src/graphing.c:6615
-#: ../src/graphing.c:6758 ../src/graphing.c:6892 ../src/graphing.c:7085
-#: ../src/graphing.c:7369 ../src/graphing.c:7399 ../src/graphing.c:7460
-#: ../src/graphing.c:7486 ../src/graphing.c:7513 ../src/graphing.c:7604
-#: ../src/graphing.c:7677 ../src/graphing.c:7702
+#: ../src/graphing.c:6009 ../src/graphing.c:6147 ../src/graphing.c:6178
+#: ../src/graphing.c:6199 ../src/graphing.c:6239 ../src/graphing.c:6263
+#: ../src/graphing.c:6374 ../src/graphing.c:6496 ../src/graphing.c:6614
+#: ../src/graphing.c:6757 ../src/graphing.c:6891 ../src/graphing.c:7084
+#: ../src/graphing.c:7368 ../src/graphing.c:7398 ../src/graphing.c:7459
+#: ../src/graphing.c:7485 ../src/graphing.c:7512 ../src/graphing.c:7603
+#: ../src/graphing.c:7676 ../src/graphing.c:7701
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr "%s: Graf bliver tegnet; kan ikke kalde %s"
 
-#: ../src/graphing.c:6018 ../src/graphing.c:6516
+#: ../src/graphing.c:6017 ../src/graphing.c:6515
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: argument er ikke en funktion"
 
-#: ../src/graphing.c:6028
+#: ../src/graphing.c:6027
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: kun en funktion understøttes"
 
-#: ../src/graphing.c:6095 ../src/graphing.c:6329 ../src/graphing.c:6445
-#: ../src/graphing.c:6567 ../src/graphing.c:6704 ../src/graphing.c:6845
+#: ../src/graphing.c:6094 ../src/graphing.c:6328 ../src/graphing.c:6444
+#: ../src/graphing.c:6566 ../src/graphing.c:6703 ../src/graphing.c:6844
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: ugyldigt X-interval"
 
-#: ../src/graphing.c:6100 ../src/graphing.c:6334 ../src/graphing.c:6450
-#: ../src/graphing.c:6572 ../src/graphing.c:6709 ../src/graphing.c:6850
+#: ../src/graphing.c:6099 ../src/graphing.c:6333 ../src/graphing.c:6449
+#: ../src/graphing.c:6571 ../src/graphing.c:6708 ../src/graphing.c:6849
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: ugyldigt Y-interval"
 
-#: ../src/graphing.c:6105
+#: ../src/graphing.c:6104
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: ugyldigt Z-interval"
 
-#: ../src/graphing.c:6158
+#: ../src/graphing.c:6157
 #, c-format
 msgid "%s: dx must be positive"
 msgstr "%s: dx skal være positiv"
 
-#: ../src/graphing.c:6165 ../src/graphing.c:6184
+#: ../src/graphing.c:6164 ../src/graphing.c:6183
 #, c-format
 msgid "%s: Slope field not active"
 msgstr "%s: Gradientfelt ikke aktiveret"
 
-#: ../src/graphing.c:6211
+#: ../src/graphing.c:6210
 #, c-format
 msgid "%s: dt must be positive"
 msgstr "%s: dt skal være positiv"
 
-#: ../src/graphing.c:6217
+#: ../src/graphing.c:6216
 #, c-format
 msgid "%s: tlen must be positive"
 msgstr "%s: tlen skal være positiv"
 
-#: ../src/graphing.c:6225 ../src/graphing.c:6246
+#: ../src/graphing.c:6224 ../src/graphing.c:6245
 #, c-format
 msgid "%s: Vector field not active"
 msgstr "%s: Vektorfelt ikke aktivt"
 
-#: ../src/graphing.c:6271 ../src/graphing.c:6765
+#: ../src/graphing.c:6270 ../src/graphing.c:6764
 #, c-format
 msgid "%s: First argument must be a function"
 msgstr "%s: Første argument skal være en funktion"
 
-#: ../src/graphing.c:6386 ../src/graphing.c:6623
+#: ../src/graphing.c:6385 ../src/graphing.c:6622
 #, c-format
 msgid "%s: First two arguments must be functions"
 msgstr "%s: Første to argumenter skal være funktioner"
 
-#: ../src/graphing.c:6511
+#: ../src/graphing.c:6510
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: Der understøttes kun op til 10 funktioner"
 
-#: ../src/graphing.c:6714 ../src/graphing.c:6855
+#: ../src/graphing.c:6713 ../src/graphing.c:6854
 #, c-format
 msgid "%s: invalid T range"
 msgstr "%s: Ugyldigt T-interval"
 
-#: ../src/graphing.c:6967 ../src/graphing.c:7021
+#: ../src/graphing.c:6966 ../src/graphing.c:7020
 #, c-format
 msgid ""
 "%s: Line should be given as a real, n by 2 matrix with columns for x and y, "
@@ -4680,84 +4723,84 @@ msgstr ""
 "%s: Linjen skal gives som en reel n gange 2-matrix med kolonner til x og y, "
 "med n>=2"
 
-#: ../src/graphing.c:7100
+#: ../src/graphing.c:7099
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: Forkert antal argumenter"
 
-#: ../src/graphing.c:7160
+#: ../src/graphing.c:7159
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: Ingen farve angivet"
 
-#: ../src/graphing.c:7173
+#: ../src/graphing.c:7172
 #, c-format
 msgid "%s: Color must be a string"
 msgstr "%s: Farve skal være en streng"
 
-#: ../src/graphing.c:7183
+#: ../src/graphing.c:7182
 #, c-format
 msgid "%s: No thickness specified"
 msgstr "%s: Ingen tykkelse angivet"
 
-#: ../src/graphing.c:7206
+#: ../src/graphing.c:7205
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: Intet vindue angivet"
 
-#: ../src/graphing.c:7254 ../src/graphing.c:7279
+#: ../src/graphing.c:7253 ../src/graphing.c:7278
 #, c-format
 msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
 msgstr "%s: pilestil skal være \"origin\", \"end\", \"both\" eller \"none\""
 
-#: ../src/graphing.c:7289
+#: ../src/graphing.c:7288
 #, c-format
 msgid "%s: No legend specified"
 msgstr "%s: Ingen signaturforklaring angivet"
 
-#: ../src/graphing.c:7303
+#: ../src/graphing.c:7302
 #, c-format
 msgid "%s: Legend must be a string"
 msgstr "%s: Signaturforklaring skal være en streng"
 
-#: ../src/graphing.c:7312
+#: ../src/graphing.c:7311
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: Ukendt stil"
 
-#: ../src/graphing.c:7319
+#: ../src/graphing.c:7318
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: Ugyldig parameter"
 
-#: ../src/graphing.c:7520
+#: ../src/graphing.c:7519
 msgid "Variable names not given in a 4-vector"
 msgstr "Variabelnavne er ikke givet i en 4-vektor"
 
-#: ../src/graphing.c:7530 ../src/graphing.c:7539 ../src/graphing.c:7548
-#: ../src/graphing.c:7557 ../src/graphing.c:7621 ../src/graphing.c:7630
-#: ../src/graphing.c:7639
+#: ../src/graphing.c:7529 ../src/graphing.c:7538 ../src/graphing.c:7547
+#: ../src/graphing.c:7556 ../src/graphing.c:7620 ../src/graphing.c:7629
+#: ../src/graphing.c:7638
 msgid "Variable names should be strings"
 msgstr "Variabelnavne skal være strenge"
 
-#: ../src/graphing.c:7564 ../src/graphing.c:7645
+#: ../src/graphing.c:7563 ../src/graphing.c:7644
 msgid "Variable names must be valid identifiers"
 msgstr "Variabelnavne skal være gyldige identifikatorer"
 
-#: ../src/graphing.c:7573 ../src/graphing.c:7651
+#: ../src/graphing.c:7572 ../src/graphing.c:7650
 msgid "Variable names must be mutually distinct"
 msgstr "Variabelnavne skal alle være forskellige"
 
-#: ../src/graphing.c:7611
+#: ../src/graphing.c:7610
 msgid "Variable names not given in a 3-vector"
 msgstr "Variabelnavne er ikke givet i en 3-vektor"
 
-#: ../src/graphing.c:7737
+#: ../src/graphing.c:7736
 msgid "Plotting"
 msgstr "Graftegning"
 
 #. internal
-#: ../src/graphing.c:7739
+#: ../src/graphing.c:7738
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -4765,7 +4808,7 @@ msgstr ""
 "Tegn grafen for en funktion med en linje.  Først gives funktionerne (maks "
 "10), og dernæst evt. grænser som x1,x2,y1,y2"
 
-#: ../src/graphing.c:7740
+#: ../src/graphing.c:7739
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
@@ -4775,7 +4818,7 @@ msgstr ""
 "for x og y, dernæst evt. t-grænserne som t1,t2,trin, og så evt. grænserne "
 "som x1,x2,y1,y2"
 
-#: ../src/graphing.c:7741
+#: ../src/graphing.c:7740
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
@@ -4785,7 +4828,7 @@ msgstr ""
 "funktionen, der returnerer x+iy, dernæst evt. t-grænserne som t1,t2,trin, og "
 "så evt. grænserne x1,x2,y1,y2"
 
-#: ../src/graphing.c:7743
+#: ../src/graphing.c:7742
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
@@ -4793,7 +4836,7 @@ msgstr ""
 "Tegn et gradientfelt.  Først gives funktionen dy/dx ved x og y (eller en "
 "kompleks variabel z), og så evt. grænserne som x1,x2,y1,y2"
 
-#: ../src/graphing.c:7744
+#: ../src/graphing.c:7743
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
@@ -4801,16 +4844,16 @@ msgstr ""
 "Tegn et vektorfelt.  Først gives funktionerne dx/dt og dy/dt ved x og y, og "
 "dernæst evt. grænserne x1,x2,y1,y2"
 
-#: ../src/graphing.c:7746
+#: ../src/graphing.c:7745
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr "Tegn løsningen til et gradientfelt startende i x,y med dx som trin"
 
-#: ../src/graphing.c:7747
+#: ../src/graphing.c:7746
 msgid "Clear all the slopefield solutions"
 msgstr "Ryd alle gradientfeltløsningerne"
 
-#: ../src/graphing.c:7749
+#: ../src/graphing.c:7748
 msgid ""
 "Draw a solution for a vector field starting at x,y, using dt as increment "
 "for tlen units"
@@ -4818,11 +4861,11 @@ msgstr ""
 "Tegn løsningen til et vektorfelt, der begynder i x,y med dt som trin i tlen "
 "enheder"
 
-#: ../src/graphing.c:7750
+#: ../src/graphing.c:7749
 msgid "Clear all the vectorfield solutions"
 msgstr "Ryd alle vektorfeltløsninger"
 
-#: ../src/graphing.c:7753
+#: ../src/graphing.c:7752
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -4830,11 +4873,11 @@ msgstr ""
 "Tegn en fladefunktion, som tager to argumenter eller et komplekst tal.  "
 "Først gives funktionen og så evt. grænserne som x1,x2,y1,y2,z1,z2"
 
-#: ../src/graphing.c:7755
+#: ../src/graphing.c:7754
 msgid "Show the line plot window and clear out functions"
 msgstr "Vis linjeplotvinduet og ryd ud i funktionerne"
 
-#: ../src/graphing.c:7756
+#: ../src/graphing.c:7755
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line"
@@ -4842,15 +4885,15 @@ msgstr ""
 "Tegn en linje fra x1,y1 til x2,y2.  x1,y1,x2,y2 kan erstattes af en n gange "
 "2-matrix for at forlænge linjen"
 
-#: ../src/graphing.c:7758
+#: ../src/graphing.c:7757
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr "Antal vektorfelt-aksemærker som en vektor [lodret,vandret]."
 
-#: ../src/graphing.c:7759
+#: ../src/graphing.c:7758
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
 msgstr "Antal vektorfelt-aksemærker som en vektor [lodret,vandret]."
 
-#: ../src/graphing.c:7760
+#: ../src/graphing.c:7759
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
@@ -4858,7 +4901,7 @@ msgstr ""
 "Standardnavne, der bruges af alle 2D-graffunktioner.  Skal være en 4-vektor "
 "af strenge eller identifikatorer [x,y,z,t]."
 
-#: ../src/graphing.c:7761
+#: ../src/graphing.c:7760
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
@@ -4867,7 +4910,7 @@ msgstr ""
 "af strenge eller identifikatorer [x,y,z] (hvor z=x+iy, og ikke den afhængige "
 "akse)."
 
-#: ../src/graphing.c:7763
+#: ../src/graphing.c:7762
 msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
@@ -4875,15 +4918,15 @@ msgstr ""
 "Normér vektorfelter hvis sand.  Dette vil sige at der kun vises retning og "
 "ikke størrelse."
 
-#: ../src/graphing.c:7764
+#: ../src/graphing.c:7763
 msgid "If to draw legends or not on line plots."
 msgstr "Om der skal tegnes signaturforklaringer på plot af linjer."
 
-#: ../src/graphing.c:7766
+#: ../src/graphing.c:7765
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr "Linjeplotvindue (grænser) som en 4-vektor på formen [x1,x2,y1,y2]"
 
-#: ../src/graphing.c:7767
+#: ../src/graphing.c:7766
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
@@ -5236,3 +5279,9 @@ msgstr "%s: Argument %d er ikke en funktion eller identifikator"
 #: ../src/parseutil.c:57
 msgid "ERROR: local statement not the first statement in function definition"
 msgstr "FEJL: local-erklæring er ikke første erklæring i funktionsdefinition"
+
+#~ msgid "Generate random float"
+#~ msgstr "Generér tilfældigt flydende tal"
+
+#~ msgid "Generate random integer"
+#~ msgstr "Generér tilfældigt heltal"
