@@ -3,18 +3,18 @@ include $(top_srcdir)/gnome-doc-utils.make
 dist-hook: doc-dist-hook
 
 DOC_MODULE = genius
-DOC_FIGURES =	genius_window.eps	\
-		line_plot_graph.eps	\
-		parametric.eps		\
-		parametric.png		\
-		genius_window.png	\
-		line_plot_graph.png	\
-		parametric_graph.eps	\
-		surface_graph.eps	\
-		line_plot.eps		\
-		line_plot.png		\
-		parametric_graph.png	\
-		surface_graph.png
+DOC_FIGURES =	figures/genius_window.eps	\
+		figures/line_plot_graph.eps	\
+		figures/parametric.eps		\
+		figures/parametric.png		\
+		figures/genius_window.png	\
+		figures/line_plot_graph.png	\
+		figures/parametric_graph.eps	\
+		figures/surface_graph.eps	\
+		figures/line_plot.eps		\
+		figures/line_plot.png		\
+		figures/parametric_graph.png	\
+		figures/surface_graph.png
 
 DOC_ENTITIES =	gel-function-list.xml	\
            	legal.xml
