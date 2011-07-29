@@ -5,6 +5,7 @@ INCLUDES = \
  	-I.					\
 	-I..					\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
+	$(WARN_CFLAGS)				\
 	$(VICIOUS_CFLAGS)
 
 AM_CFLAGS = $(PGO_CFLAGS)

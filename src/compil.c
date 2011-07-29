@@ -48,7 +48,7 @@ gel_decode_string (const char *s)
 		return g_strdup (&(s[1]));
 	} else if (s[0] == 'B') {
 		gsize len;
-		char *p = g_base64_decode (&(s[1]), &len);
+		char *p = (char *)g_base64_decode (&(s[1]), &len);
 		if (p == NULL || len < 0) /* error was probably logged by now */
 			return NULL;
 		p = g_realloc (p, len+1);
@@ -85,7 +85,7 @@ gel_encode_string (const char *s)
 	if (is_ok_ascii (s)) {
 		return g_strconcat ("A", s, NULL);
 	} else {
-		char *p = g_base64_encode (s, strlen (s));
+		char *p = g_base64_encode ((const unsigned char *)s, strlen (s));
 		char *ret = g_strconcat ("B", p, NULL);
 		g_free (p);
 		return ret;

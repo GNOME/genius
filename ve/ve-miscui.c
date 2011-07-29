@@ -299,7 +299,6 @@ int
 ve_dialog_run_nonmodal (GtkDialog *dialog)
 {
   RunInfo ri = { NULL, GTK_RESPONSE_NONE, NULL, FALSE };
-  gboolean was_modal;
   gulong response_handler;
   gulong unmap_handler;
   gulong destroy_handler;

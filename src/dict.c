@@ -439,7 +439,6 @@ d_lookup_local(GelToken *id)
 GelEFunc *
 d_lookup_global_up1(GelToken *id)
 {
-	GelEFunc *func;
 	GSList *li;
 
 	if G_UNLIKELY (id == NULL || id->refs == NULL)
@@ -485,7 +484,6 @@ d_lookup_only_global (GelToken *id)
 GelEFunc *
 d_lookup_global (GelToken *id)
 {
-	GelEFunc *func;
 	GSList *li;
 	
 	if G_UNLIKELY (id == NULL || id->refs == NULL)

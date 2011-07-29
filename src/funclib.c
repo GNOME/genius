@@ -5243,7 +5243,7 @@ perm_switch_all_above (int *perm, char *arrow, int pos, int n)
 	}
 }
 
-int
+static int
 nPr (unsigned int n, unsigned int k)
 {
 	/* assume k+1 <= n */
@@ -5257,7 +5257,7 @@ nPr (unsigned int n, unsigned int k)
 	return (int)m;
 }
 
-int
+static int
 nCr (unsigned int n, unsigned int k)
 {
 	mpz_t ret;
@@ -5339,7 +5339,6 @@ static GelETree *
 Permutations_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	GelETree *r;
-	GQueue queue = G_QUEUE_INIT;
 	long k, n, len;
 	int *comb;
 	int *perm;

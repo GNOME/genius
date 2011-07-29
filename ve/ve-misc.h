@@ -30,6 +30,7 @@
 
 char **	ve_split (const char *s);
 char *	ve_first_word (const char *s);
+gboolean ve_first_word_executable (const char *s, gboolean only_existance);
 char *  ve_rest (const char *s);
 char **	ve_vector_merge (char * const *v1, char * const *v2);
 int	ve_vector_len (char * const *v);

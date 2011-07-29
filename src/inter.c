@@ -257,12 +257,11 @@ extern const char *genius_operators[];
 static char *
 command_generator (const char *text, int state)
 {
-	static int oi,ti,pi,len;
+	static int oi,ti,len;
 	static GSList *fli;
 
 	if(!state) {
 		oi = 0;
-		pi = 0;
 		if(addtoplevels)
 			ti = 0;
 		else

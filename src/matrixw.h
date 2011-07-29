@@ -67,17 +67,17 @@ void gel_matrixw_set_at_least_size(GelMatrixW *m, int width, int height);
 void gel_matrixw_set_element(GelMatrixW *m, int x, int y, gpointer data);
 void gel_matrixw_set_velement(GelMatrixW *m, int i, gpointer data);
 
-/*increment element (returns true on success) */
+/*increment element */
 /* NULL by means increment by 1 */
-int gel_matrixw_incr_element(GelMatrixW *m, int x, int y, mpw_ptr by);
-int gel_matrixw_incr_velement(GelMatrixW *m, int i, mpw_ptr by);
-int gel_matrixw_incr_region (GelMatrixW *m,
-			     int *destx, int *desty,
-			     int w, int h, mpw_ptr by);
-int gel_matrixw_incr_vregion (GelMatrixW *m,
-			     int *desti, int len,
-			     mpw_ptr by);
-int gel_matrixw_incr (GelMatrixW *m, mpw_ptr by);
+void gel_matrixw_incr_element(GelMatrixW *m, int x, int y, mpw_ptr by);
+void gel_matrixw_incr_velement(GelMatrixW *m, int i, mpw_ptr by);
+void gel_matrixw_incr_region (GelMatrixW *m,
+			      int *destx, int *desty,
+			      int w, int h, mpw_ptr by);
+void gel_matrixw_incr_vregion (GelMatrixW *m,
+			       int *desti, int len,
+			       mpw_ptr by);
+void gel_matrixw_incr (GelMatrixW *m, mpw_ptr by);
 
 
 /*copy a matrix*/

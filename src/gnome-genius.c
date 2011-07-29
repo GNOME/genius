@@ -31,6 +31,7 @@
 #include <errno.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <signal.h>
 #include <fcntl.h>
@@ -605,7 +606,7 @@ stock_init (void)
 	g_object_unref (factory);
 }
 
-GtkWidget *
+static GtkWidget *
 recent_create_menu (void)
 {
         GtkWidget *recent_menu;
@@ -628,7 +629,7 @@ recent_create_menu (void)
         return recent_menu;
 }
 
-void 
+static void 
 file_open_recent (GtkRecentChooser *chooser, gpointer data)
 {
         GtkRecentInfo *item;
@@ -647,7 +648,7 @@ file_open_recent (GtkRecentChooser *chooser, gpointer data)
         gtk_recent_info_unref (item);
 }
 
-void
+static void
 recent_add (const char *uri)
 {
 	GtkRecentData *data;
@@ -3167,7 +3168,7 @@ save_contents_vfs (const char *filename, const char *str, int size)
 {
 	GFile* file;
 	GFileOutputStream* stream;
-	gssize bytes;
+	gsize bytes;
 
 	file = g_file_new_for_uri (filename);
 	stream = g_file_replace (file, NULL, TRUE, G_FILE_CREATE_NONE, NULL, NULL);

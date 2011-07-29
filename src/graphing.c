@@ -4643,7 +4643,6 @@ change_surface_varnames (GtkWidget *button, gpointer data)
 	GtkWidget *xe;
 	GtkWidget *ye;
 	GtkWidget *ze;
-	GtkWidget *te;
 	GtkWidget *errlabel;
         GtkSizeGroup *sg;
 
@@ -4705,7 +4704,7 @@ run_dialog_again:
 
 	if (gtk_dialog_run (GTK_DIALOG (req)) == GTK_RESPONSE_OK) {
 		gboolean ex = FALSE;
-		char *xn, *yn, *zn, *tn;
+		char *xn, *yn, *zn;
 
 		xn = get_varname_from_entry (GTK_ENTRY (xe), "x", &ex);
 		yn = get_varname_from_entry (GTK_ENTRY (ye), "y", &ex);
@@ -4742,7 +4741,6 @@ create_lineplot_box (void)
 {
 	GtkWidget *mainbox, *frame;
 	GtkWidget *box, *hbox, *b, *fb, *w;
-	char *s;
 	int i;
 
 	init_var_names ();
@@ -5015,7 +5013,7 @@ static GtkWidget *
 create_surface_box (void)
 {
 	GtkWidget *mainbox, *frame;
-	GtkWidget *hbox, *box, *b, *w;
+	GtkWidget *hbox, *box, *b;
 
 	init_var_names ();
 

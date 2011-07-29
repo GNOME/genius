@@ -11,6 +11,7 @@ INCLUDES = \
 	-I$(top_builddir)/ve					\
 	-I$(top_builddir)/gtkextra				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\"		\
+	$(WARN_CFLAGS)						\
 	$(GENIUS_CFLAGS)
 
 AM_CFLAGS = $(PGO_CFLAGS)

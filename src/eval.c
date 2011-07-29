@@ -1764,15 +1764,12 @@ matrix_scalar_matrix_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	GelMatrixW *m;
 	GelETree *node;
 	int order = 0;
-	int quote = 0;
 	if(l->type == GEL_MATRIX_NODE) {
 		m = l->mat.matrix;
-		quote = l->mat.quoted;
 		node = r;
 	} else {
 		order = 1;
 		m = r->mat.matrix;
-		quote = r->mat.quoted;
 		node = l;
 	}
 
@@ -1817,15 +1814,12 @@ matrix_addsub_scalar_matrix_op (GelCtx *ctx, GelETree *n, GelETree *l, GelETree 
 	int i;
 	GelMatrixW *m;
 	GelETree *node;
-	int quote = 0;
 
 	if (l->type == GEL_MATRIX_NODE) {
 		m = l->mat.matrix;
-		quote = l->mat.quoted;
 		node = r;
 	} else {
 		m = r->mat.matrix;
-		quote = r->mat.quoted;
 		node = l;
 	}
 
@@ -5001,9 +4995,9 @@ static inline void
 iter_loop (GelCtx *ctx, GelETree *n, gboolean body_first, gboolean is_while)
 {
 	GelEvalLoop *evl;
-	GelETree *l, *r;
+	GelETree *l;
 	
-	GEL_GET_LR(n,l,r);
+	GEL_GET_L(n,l);
 	
 	EDEBUG("   ITER LOOP");
 	
@@ -5641,7 +5635,7 @@ iter_equalsop(GelETree *n)
 
 		if (index->type == GEL_VALUE_NODE ||
 		    index->type == GEL_MATRIX_NODE) {
-			int *regx, *regy;
+			int *regx = NULL, *regy = NULL;
 			int lx, ly;
 			int i;
 
@@ -5954,8 +5948,8 @@ iter_incrementop (GelETree *n)
 static void
 do_swapwithop (GelETree *l, GelETree *r)
 {
-	int lx, ly;
-	int rx, ry;
+	int lx = 0, ly = 0;
+	int rx = 0, ry = 0;
 	GelMatrixW *matr, *matl;
 	GelETree *tmp;
 
@@ -6034,7 +6028,7 @@ do_swapwithop (GelETree *l, GelETree *r)
 					return;
 
 
-				GEL_MATRIXW_VINDEX_TO_INDEX (matl, i, x, y);
+				GEL_MATRIXW_VINDEX_TO_INDEX (mat, i, x, y);
 
 				gel_matrixw_set_at_least_size (mat, x+1, y+1);
 				gel_matrixw_make_private (mat, TRUE /* kill_type_caches */);
@@ -6277,7 +6271,7 @@ iter_push_left_indexes_only(GelCtx *ctx, GelETree *n)
 static inline void
 iter_push_indexes_both (GelCtx *ctx, GelETree *n)
 {
-	GelETree *l,*r,*ident;
+	GelETree *l,*r;
 
 	GEL_GET_LR(n,l,r);
 

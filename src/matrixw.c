@@ -588,7 +588,7 @@ gel_matrixw_set_element (GelMatrixW *m, int x, int y, gpointer data)
 }
 
 /*increment element*/
-int
+void
 gel_matrixw_incr_element (GelMatrixW *m, int x, int y, mpw_ptr by)
 {
 	GelETree *t;
@@ -620,9 +620,7 @@ gel_matrixw_incr_element (GelMatrixW *m, int x, int y, mpw_ptr by)
 			mpw_add (t->val.value, t->val.value, by);
 	} else {
 		gel_errorout (_("Trying to increment a nonvalue"));
-		return FALSE;
 	}
-	return TRUE;
 }
 
 /*set vector element*/
@@ -664,7 +662,7 @@ gel_matrixw_set_velement (GelMatrixW *m, int i, gpointer data)
 }
 
 /*increment vector element*/
-int
+void
 gel_matrixw_incr_velement (GelMatrixW *m, int i, mpw_ptr by)
 {
 	GelETree *t;
@@ -708,12 +706,10 @@ gel_matrixw_incr_velement (GelMatrixW *m, int i, mpw_ptr by)
 			mpw_add (t->val.value, t->val.value, by);
 	} else {
 		gel_errorout (_("Trying to increment a nonvalue"));
-		return FALSE;
 	}
-	return TRUE;
 }
 
-int
+void
 gel_matrixw_incr_region (GelMatrixW *m,
 			 int *destx, int *desty,
 			 int w, int h,
@@ -728,7 +724,7 @@ gel_matrixw_incr_region (GelMatrixW *m,
 	}
 }
 
-int
+void
 gel_matrixw_incr (GelMatrixW *m, mpw_ptr by)
 {
 	int i, j, w, h;
@@ -743,7 +739,7 @@ gel_matrixw_incr (GelMatrixW *m, mpw_ptr by)
 	}
 }
 
-int
+void
 gel_matrixw_incr_vregion (GelMatrixW *m,
 			  int *desti, int len, mpw_ptr by)
 {

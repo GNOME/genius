@@ -1997,7 +1997,7 @@ load_compiled_fp (const char *file, FILE *fp)
 		GelToken *tok, *symbolic_tok = NULL;
 		int size, nargs, vararg, propagate_mod, no_mod_all_args;
 		int local_all, never_on_subst_list, built_subst_dict;
-		GSList *local_idents, *subst_dict;
+		GSList *local_idents = NULL, *subst_dict = NULL;
 		gboolean extra_dict = FALSE;
 		gboolean parameter = FALSE;
 		int i;
