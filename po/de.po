@@ -17,9 +17,9 @@ msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=genius&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-07-29 17:45+0000\n"
-"PO-Revision-Date: 2011-07-30 09:55+0200\n"
-"Last-Translator: Wolfgang Stoeggl <c72578@yahoo.de>\n"
+"POT-Creation-Date: 2011-09-15 10:19+0000\n"
+"PO-Revision-Date: 2011-09-24 11:39+0100\n"
+"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3190,6 +3190,81 @@ msgstr ""
 "mit n Unterintervallen und einem Fehler von max(f'''')*h^4*(b-a)/180. "
 "Beachten Sie, dass n gerade sein sollte."
 
+#: ../src/funclibhelper.cP:40
+#, c-format
+msgid "%s: argument number %d not an integer"
+msgstr "%s: Argumentzahl %d ist keine Ganzzahl"
+
+#: ../src/funclibhelper.cP:53
+#, c-format
+msgid "%s: argument number %d not an integer or a matrix"
+msgstr "%s: Argumentzahl %d ist keine Ganzzahl oder Matrix"
+
+#: ../src/funclibhelper.cP:65 ../src/funclibhelper.cP:76
+#, c-format
+msgid "%s: argument number %d not a number or a matrix"
+msgstr "%s: Argumentzahl %d ist keine Zahl oder eine Matrix"
+
+#: ../src/funclibhelper.cP:89
+#, c-format
+msgid "%s: argument number %d not a nonnegative integer"
+msgstr "%s: Argumentzahl %d ist keine nichtnegative Ganzzahl"
+
+#: ../src/funclibhelper.cP:103
+#, c-format
+msgid "%s: argument number %d not a positive integer"
+msgstr "%s: Argumentzahl %d ist keine positive Ganzzahl"
+
+#: ../src/funclibhelper.cP:113 ../src/graphing.c:2920
+#, c-format
+msgid "%s: argument number %d not a number"
+msgstr "%s: Argument Nummer %d ist keine Zahl"
+
+#: ../src/funclibhelper.cP:124
+#, c-format
+msgid "%s: argument number %d not a boolean"
+msgstr "%s: Argumentzahl %d ist kein boolescher Wert"
+
+#: ../src/funclibhelper.cP:135
+#, c-format
+msgid "%s: argument number %d not a real number"
+msgstr "%s: Argumentzahl %d ist keine reelle Zahl"
+
+#: ../src/funclibhelper.cP:145
+#, c-format
+msgid "%s: argument number %d not a matrix"
+msgstr "%s: Argumentzahl %d ist keine Matrix"
+
+#: ../src/funclibhelper.cP:156
+#, c-format
+msgid "%s: argument number %d not a square matrix"
+msgstr "%s: Argumentzahl %d ist keine quadratische Matrix"
+
+#: ../src/funclibhelper.cP:167
+#, c-format
+msgid "%s: argument number %d not a matrix or null node"
+msgstr "%s: Argumentzahl %d ist keine Matrix oder Null-Knoten"
+
+#: ../src/funclibhelper.cP:178
+#, c-format
+msgid "%s: argument number %d not a value only matrix"
+msgstr "%s: Argumentzahl %d ist keine Nur-Wert-Matrix"
+
+#: ../src/funclibhelper.cP:191
+#, c-format
+msgid "%s: argument number %d not a value only vector"
+msgstr "%s: Argumentzahl %d ist kein Nur-Wert-Vektor"
+
+#: ../src/funclibhelper.cP:201 ../src/funclibhelper.cP:212
+#, c-format
+msgid "%s: argument number %d not a string"
+msgstr "%s: Argumentzahl %d ist keine Zeichenkette"
+
+#: ../src/funclibhelper.cP:223
+#, c-format
+msgid "%s: argument number %d not a function or identifier"
+msgstr "%s: Argumentzahl %d ist keine Funktion oder Bezeichner"
+
 #: ../src/genius.c:110
 #, c-format
 msgid "line %d: %s\n"
@@ -4438,11 +4513,6 @@ msgstr "Funktion"
 msgid "Function #%d"
 msgstr "Funktion #%d"
 
-#: ../src/graphing.c:2920 ../src/funclibhelper.cP:113
-#, c-format
-msgid "%s: argument number %d not a number"
-msgstr "%s: Argument Nummer %d ist keine Zahl"
-
 #: ../src/graphing.c:2933
 msgid "Graph limits not given as a 4-vector"
 msgstr ""
@@ -4737,7 +4807,7 @@ msgstr "%s: Argument ist keine Funktion"
 #: ../src/graphing.c:6025
 #, c-format
 msgid "%s: only one function supported"
-msgstr "%s: nur eine  Funktion wird unterstützt"
+msgstr "%s: nur eine Funktion wird unterstützt"
 
 #: ../src/graphing.c:6092 ../src/graphing.c:6326 ../src/graphing.c:6442
 #: ../src/graphing.c:6564 ../src/graphing.c:6701 ../src/graphing.c:6842
@@ -5033,6 +5103,10 @@ msgstr ""
 msgid "Determinant of a non-square matrix is undefined"
 msgstr "Determinante einer nichtquadratischen Matrix ist nicht definiert"
 
+#: ../src/matrixw.c:622 ../src/matrixw.c:708
+msgid "Trying to increment a nonvalue"
+msgstr "Versuch, einen Nicht-Wert zu erhöhen"
+
 #: ../src/mpwrap.c:520
 msgid "Integer exponent too large to compute"
 msgstr "Ganzzahl-Exponent ist zu groß für die Berechnung"
@@ -5239,6 +5313,12 @@ msgstr ""
 msgid "Number too large for this operation"
 msgstr "Zahl zu groß für diese Operation"
 
+#: ../src/parseutil.c:57
+msgid "ERROR: local statement not the first statement in function definition"
+msgstr ""
+"FEHLER: Lokale Anweisung ist nicht die erste Anweisung in der "
+"Funktionsdefinition"
+
 #: ../src/plugin.c:155
 msgid "Can't open plugin!"
 msgstr "Plugin kann nicht geöffnet werden!"
@@ -5315,85 +5395,90 @@ msgstr ""
 msgid "Stack underflow!"
 msgstr "Stackunterlauf!"
 
-#: ../src/funclibhelper.cP:40
-#, c-format
-msgid "%s: argument number %d not an integer"
-msgstr "%s: Argumentzahl %d ist keine Ganzzahl"
+#: ../ve/glade-helper.c:82 ../ve/glade-helper.c:114 ../ve/glade-helper.c:136
+msgid "(memory buffer)"
+msgstr "(Speicherpuffer)"
 
-#: ../src/funclibhelper.cP:53
-#, c-format
-msgid "%s: argument number %d not an integer or a matrix"
-msgstr "%s: Argumentzahl %d ist keine Ganzzahl oder Matrix"
+#. markup
+#: ../ve/glade-helper.c:171 ../ve/glade-helper.c:224 ../ve/glade-helper.c:278
+msgid "Cannot load user interface"
+msgstr "Benutzeroberfläche konnte nicht geladen werden"
 
-#: ../src/funclibhelper.cP:65 ../src/funclibhelper.cP:76
+#: ../ve/glade-helper.c:172
 #, c-format
-msgid "%s: argument number %d not a number or a matrix"
-msgstr "%s: Argumentzahl %d ist keine Zahl oder eine Matrix"
-
-#: ../src/funclibhelper.cP:89
-#, c-format
-msgid "%s: argument number %d not a nonnegative integer"
-msgstr "%s: Argumentzahl %d ist keine nichtnegative Ganzzahl"
-
-#: ../src/funclibhelper.cP:103
-#, c-format
-msgid "%s: argument number %d not a positive integer"
-msgstr "%s: Argumentzahl %d ist keine positive Ganzzahl"
-
-#: ../src/funclibhelper.cP:124
-#, c-format
-msgid "%s: argument number %d not a boolean"
-msgstr "%s: Argumentzahl %d ist kein boolescher Wert"
-
-#: ../src/funclibhelper.cP:135
-#, c-format
-msgid "%s: argument number %d not a real number"
-msgstr "%s: Argumentzahl %d ist keine reelle Zahl"
-
-#: ../src/funclibhelper.cP:145
-#, c-format
-msgid "%s: argument number %d not a matrix"
-msgstr "%s: Argumentzahl %d ist keine Matrix"
-
-#: ../src/funclibhelper.cP:156
-#, c-format
-msgid "%s: argument number %d not a square matrix"
-msgstr "%s: Argumentzahl %d ist keine quadratische Matrix"
-
-#: ../src/funclibhelper.cP:167
-#, c-format
-msgid "%s: argument number %d not a matrix or null node"
-msgstr "%s: Argumentzahl %d ist keine Matrix oder Null-Knoten"
-
-#: ../src/funclibhelper.cP:178
-#, c-format
-msgid "%s: argument number %d not a value only matrix"
-msgstr "%s: Argumentzahl %d ist keine Nur-Wert-Matrix"
-
-#: ../src/funclibhelper.cP:191
-#, c-format
-msgid "%s: argument number %d not a value only vector"
-msgstr "%s: Argumentzahl %d ist kein Nur-Wert-Vektor"
-
-#: ../src/funclibhelper.cP:201 ../src/funclibhelper.cP:212
-#, c-format
-msgid "%s: argument number %d not a string"
-msgstr "%s: Argumentzahl %d ist keine Zeichenkette"
-
-#: ../src/funclibhelper.cP:223
-#, c-format
-msgid "%s: argument number %d not a function or identifier"
-msgstr "%s: Argumentzahl %d ist keine Funktion oder Bezeichner"
-
-#: ../src/parseutil.c:57
-msgid "ERROR: local statement not the first statement in function definition"
+msgid ""
+"An error occurred while loading user interface element %s%s from file %s.  "
+"Possibly the glade interface description was corrupted.  %s cannot continue "
+"and will exit now.  You should check your installation of %s or reinstall %s."
 msgstr ""
-"FEHLER: Lokale Anweisung ist nicht die erste Anweisung in der "
-"Funktionsdefinition"
+"Ein Fehler trat beim Laden des Benutzeroberflächenelements %s%s aus Datei %s "
+"auf. Möglicherweise ist die glade-Oberfächenbeschreibung beschädigt. %s kann "
+"nicht fortgesetzt werden und wird jetzt beendet. Sie sollten Ihre "
+"Installation von %s prüfen oder %s erneut installieren."
 
-#: ../src/matrixw.c:622 ../src/matrixw.c:708
-msgid "Trying to increment a nonvalue"
-msgstr "Versuch, einen Nicht-Wert zu erhöhen"
+#: ../ve/glade-helper.c:188
+#, c-format
+msgid ""
+"Glade file is on crack! Make sure the correct file is installed!\n"
+"file: %s widget: %s"
+msgstr ""
+"Die Glade-Datei ist verrückt! Stellen Sie sicher, dass die richtige Datei "
+"installiert ist!\n"
+"Datei: %s Widget: %s"
+
+#: ../ve/glade-helper.c:225
+#, c-format
+msgid ""
+"An error occurred while loading the user interface element %s%s from file %"
+"s. CList type widget should have %d column. Possibly the glade interface "
+"description was corrupted. %s cannot continue and will exit now. You should "
+"check your installation of %s or reinstall %s."
+msgid_plural ""
+"An error occurred while loading the user interface element %s%s from file %"
+"s. CList type widget should have %d columns. Possibly the glade interface "
+"description was corrupted. %s cannot continue and will exit now. You should "
+"check your installation of %s or reinstall %s."
+msgstr[0] ""
+"Ein Fehler trat beim Laden des Benutzeroberflächenelements %s%s aus Datei %s "
+"auf. Das Widget »CList type« sollte %d Spalte haben. Möglicherweise ist die "
+"glade-Oberfächenbeschreibung beschädigt. %s kann nicht fortgesetzt werden "
+"und wird jetzt beendet. Sie sollten Ihre Installation von %s prüfen oder %s "
+"erneut installieren."
+msgstr[1] ""
+"Ein Fehler trat beim Laden des Benutzeroberflächenelements %s%s aus Datei %s "
+"auf. Das Widget »CList type« sollte %d Spalten haben. Möglicherweise ist die "
+"glade-Oberfächenbeschreibung beschädigt. %s kann nicht fortgesetzt werden "
+"und wird jetzt beendet. Sie sollten Ihre Installation von %s prüfen oder %s "
+"erneut installieren."
+
+#: ../ve/glade-helper.c:254
+#, c-format
+msgid ""
+"Glade file is on crack! Make sure the correct file is installed!\n"
+"file: %s widget: %s expected clist columns: %d"
+msgstr ""
+"Die Glade-Datei ist verrückt! Stellen Sie sicher, dass die richtige Datei "
+"installiert ist!\n"
+"Datei: %s Widget: %s erwartete clist-Spalten: %d"
+
+#: ../ve/glade-helper.c:279
+#, c-format
+msgid ""
+"An error occurred while loading the user interface from file %s.  Possibly "
+"the glade interface description was not found.  %s cannot continue and will "
+"exit now.  You should check your installation of %s or reinstall %s."
+msgstr ""
+"Ein Fehler trat beim Laden der Benutzeroberfläche aus Datei %s auf. "
+"Möglicherweise wurde die glade-Oberfächenbeschreibung nicht gefunden. %s "
+"kann nicht fortgesetzt werden und wird jetzt beendet. Sie sollten Ihre "
+"Installation von %s prüfen oder %s erneut installieren."
+
+#: ../ve/glade-helper.c:291
+#, c-format
+msgid "No interface could be loaded. This is BAD! (file: %s)"
+msgstr ""
+"Es konnte keine Benutzeroberfläche geladen werden. Dies ist sehr schlecht! "
+"(Datei: %s)"
 
 #~ msgid "Generate random float"
 #~ msgstr "Zufallsgleitkommazahl erzeugen"
@@ -5443,12 +5528,6 @@ msgstr "Versuch, einen Nicht-Wert zu erhöhen"
 
 #~ msgid "Exit genius"
 #~ msgstr "Genius beenden"
-
-#~ msgid "(memory buffer)"
-#~ msgstr "(Speicherpuffer)"
-
-#~ msgid "Cannot load user interface"
-#~ msgstr "Benutzeroberfläche konnte nicht geladen werden"
 
 #~ msgid "GnomENIUS Calculator"
 #~ msgstr "GnomENIUS, der Rechner"
