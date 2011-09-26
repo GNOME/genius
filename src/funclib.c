@@ -6282,6 +6282,7 @@ gel_funclib_addall(void)
 	gel_new_category ("statistics", N_("Statistics"), TRUE /* internal */);
 	gel_new_category ("polynomial", N_("Polynomials"), TRUE /* internal */);
 	gel_new_category ("sets", N_("Set Theory"), TRUE /* internal */);
+	gel_new_category ("commutative_algebra", N_("Commutative Algebra"), TRUE /* internal */);
 	gel_new_category ("misc", N_("Miscellaneous"), TRUE /* internal */);
 
 	FUNC (manual, 0, "", "basic", N_("Displays the user manual"));

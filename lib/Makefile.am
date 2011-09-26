@@ -1,6 +1,7 @@
 Librarydir = $(datadir)/genius/gel
 SUBDIRS = calculus combinatorics equation_solving functions \
-	linear_algebra misc number_theory statistics sets symbolic
+	linear_algebra misc number_theory statistics sets symbolic \
+	commutative_algebra
 
 Library_DATA = lib.cgel loader.gel
 

@@ -1,0 +1,45 @@
+SetHelp("MacaulayRep", "commutative_algebra", "Return the dth Macaulay representation of a positive integer c")
+function MacaulayRep (c,d) = (
+	if not IsNonNegativeInteger(c) or not IsPositiveInteger(d) then
+		(error("MacaulayRep: c should be a nonnegative integer and d a positive integer");bailout);
+	r = null;
+	for n=d to 1 by -1 do (
+		r@(1,n) = d-n;
+		r@(2,n) = d-n+1
+	);
+	j = 1;
+	while (sum n in ColumnsOf(r) do nCr(n@(1),n@(2))) != c do (
+		if j < d and r@(1,j+1) + 1 < r@(1,j) then (
+			increment j
+		) else (
+			while j > 1 and r@(1,j)+1 >= r@(1,j-1) do (
+				increment j by -1
+			);
+			for n=(j+1) to d do r@(1,n) = d-n
+		);
+		increment r@(1,j)
+	);
+	len = 1;
+	until len >= d or r@(1,len+1) < r@(2,len+1) do
+		increment len;
+	SetMatrixSize(r,2,len)
+)
+
+SetHelp("MacaulayLowerOperator", "commutative_algebra", "The c_<d> operator from Green's proof of Macaulay's Theorem")
+function MacaulayLowerOperator (c,d) = (
+	if not IsNonNegativeInteger(c) or not IsPositiveInteger(d) then
+		(error("MacaulayLowerOperator: c should be a nonnegative integer and d a positive integer");bailout);
+	r = MacaulayRep(c,d);
+	r@(1,) = r@(1,)-1;
+	sum n in ColumnsOf(r) do nCr(n@(1),n@(2))
+)
+
+SetHelp("MacaulayBound", "commutative_algebra", "For a Hilbert function that is c for degree d, given the Macaulay bound for the Hilbert function of degree d+1 (The c^<d> operator from Green's proof)")
+function MacaulayBound (c,d) = (
+	if not IsNonNegativeInteger(c) or not IsPositiveInteger(d) then
+		(error("MacaulayBound: c should be a nonnegative integer and d a positive integer");bailout);
+	r = MacaulayRep(c,d);
+	r@(1,) = r@(1,)+1;
+	r@(2,) = r@(2,)+1;
+	sum n in ColumnsOf(r) do nCr(n@(1),n@(2))
+)
