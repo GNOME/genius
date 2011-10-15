@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: genius fr\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=genius&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-07-30 18:51+0000\n"
+"POT-Creation-Date: 2011-09-26 22:40+0000\n"
 "PO-Revision-Date: 2011-07-31 01:07+0300\n"
 "Last-Translator: Bruno Brouard <annoa.b@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -755,7 +755,7 @@ msgstr ""
 #: ../lib/library-strings.c:142
 msgid "Rosser matrix, a classic symmetric eigenvalue test problem"
 msgstr ""
-"Matrice Rosser, un problème classique de test de valeurs propres symétriques"
+"Matrice de Rosser, un problème classique de test de valeurs propres symétriques"
 
 #: ../lib/library-strings.c:143
 msgid "Rotation around origin in R^2"
@@ -1146,7 +1146,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:212
 msgid "argument (angle) of complex number"
-msgstr "Argument (angle) d'un nombre complexe"
+msgstr "argument (angle) d'un nombre complexe"
 
 #: ../lib/library-strings.c:213
 msgid "Dirichlet kernel of order n"
@@ -1386,10 +1386,27 @@ msgstr ""
 "prétendus être des ensembles)"
 
 #: ../lib/library-strings.c:254
+msgid ""
+"For a Hilbert function that is c for degree d, given the Macaulay bound for "
+"the Hilbert function of degree d+1 (The c^<d> operator from Green's proof)"
+msgstr ""
+"Pour une fonction de Hilbert qui vaut c pour le degré d, étant donné la limite "
+"de Macaulay pour la fonction de Hilbert de degré d+1 (l'opérateur c^<d> "
+"de la preuve de Green)"
+
+#: ../lib/library-strings.c:255
+msgid "The c_<d> operator from Green's proof of Macaulay's Theorem"
+msgstr "L'opérateur c_<d> de la preuve de Green du théorème de Macaulay"
+
+#: ../lib/library-strings.c:256
+msgid "Return the dth Macaulay representation of a positive integer c"
+msgstr "Renvoie la d-ième représentation de Macaulay d'un entier positif c"
+
+#: ../lib/library-strings.c:257
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "Essaie de dériver n fois de manière symbolique une fonction"
 
-#: ../lib/library-strings.c:255
+#: ../lib/library-strings.c:258
 msgid ""
 "Attempt to symbolically differentiate a function n times quietly and return "
 "null on failure"
@@ -1397,7 +1414,7 @@ msgstr ""
 "Essaie de dériver silencieusement n fois de manière symbolique une fonction "
 "et renvoie « null » en cas d'échec"
 
-#: ../lib/library-strings.c:256
+#: ../lib/library-strings.c:259
 msgid ""
 "Attempt to construct the taylor approximation function around x0 to the nth "
 "degree."
@@ -1622,7 +1639,7 @@ msgstr ""
 
 #: ../src/calc.c:3363
 msgid "ERROR: Can't execute more things at once!"
-msgstr "ERREUR: impossible d'exécuter plus de choses à la fois."
+msgstr "ERREUR : impossible d'exécuter plus de choses à la fois."
 
 #: ../src/calc.c:3469
 #, c-format
@@ -1760,7 +1777,7 @@ msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
 "(should be %d)"
 msgstr ""
-"Appel de « %s » avec un mauvais nombre de paramètres\n"
+"Appel de « %s » avec un mauvais nombre d'arguments\n"
 "(devrait être %d)"
 
 #: ../src/eval.c:3477
@@ -1779,11 +1796,11 @@ msgstr "Impossible de comparer des matrices"
 #: ../src/eval.c:3651
 msgid "Primitives must get numeric/matrix/string arguments"
 msgstr ""
-"Les primitives doivent recevoir des paramètres numériques/matrices/chaînes"
+"Les primitives doivent recevoir des arguments numériques/matrices/chaînes"
 
 #: ../src/eval.c:3742
 msgid "Bad argument to modular operation"
-msgstr "Paramètre incorrect pour une opération modulaire"
+msgstr "Argument incorrect pour une opération modulaire"
 
 #: ../src/eval.c:4460
 #, c-format
@@ -1812,7 +1829,7 @@ msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
 "(should be greater than %d)"
 msgstr ""
-"Appel de « %s » avec un nombre de paramètres incorrect\n"
+"Appel de « %s » avec un nombre d'arguments incorrect\n"
 "(devrait être plus grand que %d)"
 
 #: ../src/eval.c:4569
@@ -1822,7 +1839,7 @@ msgstr "Référencement d'une variable non définie %s."
 
 #: ../src/eval.c:4723
 msgid "Reference function with arguments encountered!"
-msgstr "Une fonction de référence avec paramètres a été rencontrée."
+msgstr "Une fonction de référence avec arguments a été rencontrée."
 
 #: ../src/eval.c:4728
 msgid "Unnamed reference function encountered!"
@@ -1848,7 +1865,7 @@ msgstr ""
 
 #: ../src/eval.c:5225
 msgid "Wrong argument type as matrix index"
-msgstr "Mauvais type de paramètre pour un indice de matrice"
+msgstr "Mauvais type d'argument pour un indice de matrice"
 
 #: ../src/eval.c:5235
 msgid "Matrix index too large"
@@ -1874,24 +1891,24 @@ msgstr "La « Lvalue » indexée n'est pas une fonction utilisateur"
 
 #: ../src/eval.c:5374 ../src/eval.c:5488 ../src/eval.c:5737
 msgid "Dereference of non-identifier!"
-msgstr "Déréférence d'un non-identificateur."
+msgstr "Déréférencement d'un non-identificateur."
 
 #: ../src/eval.c:5380 ../src/eval.c:5494 ../src/eval.c:5743
 msgid "Dereference of undefined variable!"
-msgstr "Déréférence d'une variable non définie."
+msgstr "Déréférencement d'une variable non définie."
 
 #: ../src/eval.c:5384 ../src/eval.c:5498 ../src/eval.c:5747
 msgid "Dereference of non-reference!"
-msgstr "Déréférence d'une non-référence."
+msgstr "Déréférencement d'une non-référence."
 
 #: ../src/eval.c:5413
 msgid "Indexed Lvalue not an identifier or a dereference"
-msgstr "La Lvalue indexée n'est pas un identificateur ou une déréférence"
+msgstr "La Lvalue indexée n'est pas un identificateur ou un déréférencement"
 
 #: ../src/eval.c:5451 ../src/eval.c:5789 ../src/eval.c:6157 ../src/eval.c:6164
 msgid "Lvalue not an identifier/dereference/matrix location!"
 msgstr ""
-"La Lvalue n'est pas un emplacement d'identificateur/de déréférence/de "
+"La Lvalue n'est pas un identificateur, un déréférencement ou un emplacement de "
 "matrice."
 
 #: ../src/eval.c:5475 ../src/eval.c:5516
@@ -2088,12 +2105,12 @@ msgstr "La construction de vecteur fonctionne uniquement avec des nombres"
 #. FIXME: perhaps we should just return null like octave?
 #: ../src/eval.c:6633
 msgid "Impossible arguments to vector building operator"
-msgstr "Paramètres incorrects pour l'opération de construction de vecteur"
+msgstr "Arguments incorrects pour l'opération de construction de vecteur"
 
 #: ../src/funclib.c:116
 #, c-format
 msgid "%s: argument too large"
-msgstr "%s : paramètre trop grand"
+msgstr "%s : argument trop grand"
 
 #: ../src/funclib.c:143
 #, c-format
@@ -2156,7 +2173,7 @@ msgstr "%s : tentative de définir un paramètre, utilisez le signe égal"
 #: ../src/funclib.c:566 ../src/funclib.c:659
 #, c-format
 msgid "%s: Too many arguments, should be at most %d"
-msgstr "%s : trop de paramètres, le maximum est %d"
+msgstr "%s : trop d'arguments, le maximum est %d"
 
 #: ../src/funclib.c:807
 msgid "Cannot apply function to two differently sized matrixes"
@@ -2184,17 +2201,17 @@ msgstr ""
 #: ../src/funclib.c:1973
 #, c-format
 msgid "%s: matrix argument is not square"
-msgstr "%s : la matrice en paramètre n'est pas carrée"
+msgstr "%s : la matrice en argument n'est pas carrée"
 
 #: ../src/funclib.c:2101 ../src/funclib.c:2201
 #, c-format
 msgid "%s: matrix argument must be integer only"
-msgstr "%s : la matrice en paramètre doit être constituée d'entiers uniquement"
+msgstr "%s : la matrice en argument doit être constituée d'entiers uniquement"
 
 #: ../src/funclib.c:2123 ../src/funclib.c:2223
 #, c-format
 msgid "%s: argument must be an integer"
-msgstr "%s : le paramètre doit être un entier"
+msgstr "%s : l'argument doit être un entier"
 
 #: ../src/funclib.c:2307 ../src/funclib.c:4165 ../src/funclib.c:4194
 #: ../src/funclib.c:4446 ../src/mpwrap.c:3736 ../src/mpwrap.c:3755
@@ -2222,17 +2239,17 @@ msgstr "%s : le vecteur en argument doit uniquement être composé de valeurs"
 #: ../src/funclib.c:3154 ../src/funclib.c:3193
 #, c-format
 msgid "%s: argument can't be negative or 0"
-msgstr "%s : le paramètre ne peut être négatif ou nul"
+msgstr "%s : l'argument ne peut être négatif ou nul"
 
 #: ../src/funclib.c:3162 ../src/funclib.c:3198
 #, c-format
 msgid "%s: vector argument has too large entries"
-msgstr "%s: le vecteur en argument contient des entrées trop grandes"
+msgstr "%s : le vecteur en argument contient des entrées trop grandes"
 
 #: ../src/funclib.c:3240
 #, c-format
 msgid "%s: arguments must be vectors of equal size"
-msgstr "%s : les paramètres doivent être des vecteurs de même taille"
+msgstr "%s : les arguments doivent être des vecteurs de même taille"
 
 #: ../src/funclib.c:3732 ../src/funclib.c:3738
 #, c-format
@@ -2246,27 +2263,27 @@ msgstr "%s : les matrices n'ont pas la même hauteur"
 
 #: ../src/funclib.c:3782 ../src/funclib.c:4425
 msgid "third argument"
-msgstr "troisième paramètre"
+msgstr "troisième argument"
 
 #: ../src/funclib.c:3787
 msgid "fourth argument"
-msgstr "quatrième paramètre"
+msgstr "quatrième argument"
 
 #: ../src/funclib.c:4062
 #, c-format
 msgid "%s: argument must be greater than 2"
-msgstr "%s : le paramètre doit être plus grand que 2"
+msgstr "%s : l'argument doit être plus grand que 2"
 
 #: ../src/funclib.c:4250
 #, c-format
 msgid "%s: arguments not horizontal vectors"
-msgstr "%s : les paramètres ne sont pas des vecteurs horizontaux"
+msgstr "%s : les arguments ne sont pas des vecteurs horizontaux"
 
 #: ../src/funclib.c:4259
 #, c-format
 msgid "%s: arguments not numeric only vectors"
 msgstr ""
-"%s : les paramètres ne sont pas des nombres mais seulement des vecteurs"
+"%s : les arguments ne sont pas des nombres mais seulement des vecteurs"
 
 #: ../src/funclib.c:4643
 #, c-format
@@ -2288,17 +2305,17 @@ msgstr "%s : fonction non définie"
 #: ../src/funclib.c:5589
 #, c-format
 msgid "%s: flags argument must be a string"
-msgstr "%s : le drapeau en paramètre doit être une chaîne"
+msgstr "%s : le drapeau en argument doit être une chaîne"
 
 #: ../src/funclib.c:5717 ../src/symbolic.c:723
 #, c-format
 msgid "%s: argument not a function of one variable"
-msgstr "%s : le paramètre n'est pas une fonction d'une variable"
+msgstr "%s : l'argument n'est pas une fonction d'une variable"
 
 #: ../src/funclib.c:5929 ../src/funclib.c:5964 ../src/funclib.c:6209
 #, c-format
 msgid "%s: argument should be between %d and %d"
-msgstr "%s : le paramètre doit être compris entre %d et %d"
+msgstr "%s : l'argument doit être compris entre %d et %d"
 
 #: ../src/funclib.c:6117
 msgid "OutputStyle must be one of normal, troff, latex or mathml"
@@ -2307,7 +2324,7 @@ msgstr "OutputStyle doit être soit « normal », « troff », « latex »
 #: ../src/funclib.c:6157
 #, c-format
 msgid "%s: argument should be larger or equal to 0"
-msgstr "%s : le paramètre doit être supérieur ou égal à 0"
+msgstr "%s : l'argument doit être supérieur ou égal à 0"
 
 #: ../src/funclib.c:6270
 msgid "Basic"
@@ -2385,80 +2402,85 @@ msgstr "Théorie des ensembles"
 
 #. internal
 #: ../src/funclib.c:6285
+msgid "Commutative Algebra"
+msgstr "Algèbre commutative"
+
+#. internal
+#: ../src/funclib.c:6286
 msgid "Miscellaneous"
 msgstr "Divers"
 
 #. internal
-#: ../src/funclib.c:6287
+#: ../src/funclib.c:6288
 msgid "Displays the user manual"
 msgstr "Affiche le manuel utilisateur"
 
-#: ../src/funclib.c:6288
+#: ../src/funclib.c:6289
 msgid "Gives the warranty information"
 msgstr "Renvoie des informations sur la licence"
 
-#: ../src/funclib.c:6289
+#: ../src/funclib.c:6290
 msgid "Return version as a 3-vector"
 msgstr "Renvoie la version comme un vecteur à 3 dimensions"
 
-#: ../src/funclib.c:6290
+#: ../src/funclib.c:6291
 msgid "Exits the program"
 msgstr "Quitte le programme"
 
-#: ../src/funclib.c:6292
+#: ../src/funclib.c:6293
 msgid "Prints a string to the error stream"
 msgstr "Affiche une chaîne dans le flux d'erreur"
 
-#: ../src/funclib.c:6293
+#: ../src/funclib.c:6294
 msgid "Waits a specified number of seconds"
 msgstr "Attends le nombre de secondes indiqué"
 
-#: ../src/funclib.c:6294
+#: ../src/funclib.c:6295
 msgid "The true boolean value"
 msgstr "La valeur booléenne vraie"
 
-#: ../src/funclib.c:6296
+#: ../src/funclib.c:6297
 msgid "The false boolean value"
 msgstr "La valeur booléenne fausse"
 
-#: ../src/funclib.c:6305
+#: ../src/funclib.c:6306
 msgid "Make integer (0 or 1) from a boolean value"
 msgstr "Crée un entier (0 ou 1) à partir d'une valeur booléenne"
 
-#: ../src/funclib.c:6307
+#: ../src/funclib.c:6308
 msgid "Prints an expression"
 msgstr "Affiche une expression"
 
-#: ../src/funclib.c:6308
+#: ../src/funclib.c:6309
 msgid "Changes current directory"
 msgstr "Change le répertoire courant"
 
-#: ../src/funclib.c:6309
+#: ../src/funclib.c:6310
 msgid "Prints an expression without a trailing newline"
 msgstr "Affiche une expression sans retour à la ligne final"
 
-#: ../src/funclib.c:6310
+#: ../src/funclib.c:6311
 msgid "Display a string and an expression"
 msgstr "Affiche une chaîne et une expression"
 
-#: ../src/funclib.c:6311
+#: ../src/funclib.c:6312
 msgid "Set a global variable"
 msgstr "Définit une variable globale"
 
-#: ../src/funclib.c:6313
+#: ../src/funclib.c:6314
 msgid "Set the category and help description line for a function"
 msgstr ""
 "Définit la catégorie et la ligne de description d'aide pour une fonction"
 
-#: ../src/funclib.c:6314
+#: ../src/funclib.c:6315
 msgid "Sets up a help alias"
 msgstr "Met en place un alias pour l'aide"
 
-#: ../src/funclib.c:6316
+#: ../src/funclib.c:6317
 msgid "Identity function, returns its argument"
 msgstr "Fonction identité, renvoie ses arguments"
 
-#: ../src/funclib.c:6318
+#: ../src/funclib.c:6319
 msgid ""
 "Generate random float between 0 and 1, or if size given generate vector or "
 "matrix of random floats"
@@ -2466,7 +2488,7 @@ msgstr ""
 "Génère un nombre réel aléatoire compris entre 0 et 1 ou si la taille est "
 "fournie, génère un vecteur ou une matrice de nombres réels aléatoires"
 
-#: ../src/funclib.c:6320
+#: ../src/funclib.c:6321
 msgid ""
 "Generate random integer between 0 and max-1 inclusive, or if size given "
 "generate vector or matrix of random integers"
@@ -2474,55 +2496,55 @@ msgstr ""
 "Génère un entier aléatoire compris entre 0 et max-1 inclus ou si la taille "
 "est fournie, génère un vecteur ou une matrice d'entiers aléatoires"
 
-#: ../src/funclib.c:6323 ../src/gnome-genius.c:2469
+#: ../src/funclib.c:6324 ../src/gnome-genius.c:2469
 msgid "Floating point precision"
 msgstr "Précision en virgule flottante"
 
-#: ../src/funclib.c:6325 ../src/gnome-genius.c:2358
+#: ../src/funclib.c:6326 ../src/gnome-genius.c:2358
 msgid ""
 "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr ""
-"Afficher 0.0 lorsqu'un nombre réel est inférieur à 10^-x (0=jamais arrondir)"
+"Afficher 0.0 lorsqu'un nombre flottant est inférieur à 10^-x (0=jamais arrondir)"
 
-#: ../src/funclib.c:6328 ../src/gnome-genius.c:2381
+#: ../src/funclib.c:6329 ../src/gnome-genius.c:2381
 msgid "Only chop numbers when another number is greater than 10^-x"
 msgstr ""
 "Arrondir les nombres uniquement si un autre nombre est plus grand que 10^-x"
 
-#: ../src/funclib.c:6329
+#: ../src/funclib.c:6330
 msgid "Maximum digits to display"
 msgstr "Nombre maximum de chiffres à afficher"
 
-#: ../src/funclib.c:6330
+#: ../src/funclib.c:6331
 msgid "Maximum errors to display"
 msgstr "Nombre maximum d'erreurs à afficher"
 
-#: ../src/funclib.c:6331
+#: ../src/funclib.c:6332
 msgid "Output style: normal, latex, mathml or troff"
 msgstr "Style de sortie : « normal », « latex », « mathml » ou « troff »"
 
-#: ../src/funclib.c:6332
+#: ../src/funclib.c:6333
 msgid "Integer output base"
 msgstr "Base de sortie pour les entiers"
 
-#: ../src/funclib.c:6333
+#: ../src/funclib.c:6334
 msgid "If true, mixed fractions are printed"
 msgstr "Si vrai, les fractions mixtes sont affichées"
 
-#: ../src/funclib.c:6334
+#: ../src/funclib.c:6335
 msgid "Print full expressions, even if more than a line"
 msgstr "Affiche les expressions complètes, même celles de plus d'une ligne"
 
-#: ../src/funclib.c:6335
+#: ../src/funclib.c:6336
 msgid "Convert all results to floats before printing"
 msgstr ""
 "Convertit tous les résultats en nombres flottants avant de les afficher"
 
-#: ../src/funclib.c:6336
+#: ../src/funclib.c:6337
 msgid "Use scientific notation"
 msgstr "Utilise la notation scientifique"
 
-#: ../src/funclib.c:6338
+#: ../src/funclib.c:6339
 msgid ""
 "Number of extra Miller-Rabin tests to run on a number before declaring it a "
 "prime in IsPrime"
@@ -2530,194 +2552,194 @@ msgstr ""
 "Nombre de tests supplémentaires de Miller-Rabin à lancer sur un nombre avant "
 "de le déclarer comme premier dans IsPrime"
 
-#: ../src/funclib.c:6344
+#: ../src/funclib.c:6345
 msgid "Expands a matrix just like we do on unquoted matrix input"
 msgstr ""
 "Développe une matrice de la même manière que pour les entrées de matrice non "
 "précédée d'une apostrophe"
 
-#: ../src/funclib.c:6345
+#: ../src/funclib.c:6346
 msgid "Gets the rows of a matrix as a vertical vector"
 msgstr "Extrait les lignes de matrice comme une vecteur vertical"
 
-#: ../src/funclib.c:6346
+#: ../src/funclib.c:6347
 msgid "Gets the columns of a matrix as a horizontal vector"
 msgstr "Extrait les colonnes de la matrice comme un vecteur horizontal"
 
-#: ../src/funclib.c:6347
+#: ../src/funclib.c:6348
 msgid "Gets the diagonal entries of a matrix as a column vector"
 msgstr ""
 "Extrait les données en diagonale de la matrice comme un vecteur colonne"
 
-#: ../src/funclib.c:6348
+#: ../src/funclib.c:6349
 msgid "Count the number of zero columns in a matrix"
 msgstr "Compte le nombre de colonnes de zéro dans une matrice"
 
-#: ../src/funclib.c:6349
+#: ../src/funclib.c:6350
 msgid "Removes any all-zero columns of M"
 msgstr "Supprime toutes les colonnes entièrement nulles de M"
 
-#: ../src/funclib.c:6351
+#: ../src/funclib.c:6352
 msgid "Calculates the conjugate"
 msgstr "Calcule le complexe conjugué"
 
-#: ../src/funclib.c:6356
+#: ../src/funclib.c:6357
 msgid "Calculates the sine function"
 msgstr "Calcule la fonction sinus"
 
-#: ../src/funclib.c:6359
+#: ../src/funclib.c:6360
 msgid "Calculates the cosine function"
 msgstr "Calcule la fonction cosinus"
 
-#: ../src/funclib.c:6362
+#: ../src/funclib.c:6363
 msgid "Calculates the hyperbolic sine function"
 msgstr "Calcule la fonction sinus hyperbolique"
 
-#: ../src/funclib.c:6365
+#: ../src/funclib.c:6366
 msgid "Calculates the hyperbolic cosine function"
 msgstr "Calcule la fonction cosinus hyperbolique"
 
-#: ../src/funclib.c:6368
+#: ../src/funclib.c:6369
 msgid "Calculates the tan function"
 msgstr "Calcule la fonction tangente"
 
-#: ../src/funclib.c:6371
+#: ../src/funclib.c:6372
 msgid "Calculates the arctan function"
 msgstr "Calcule la fonction arctangente"
 
-#: ../src/funclib.c:6376
+#: ../src/funclib.c:6377
 msgid "Calculates the arctan2 function (arctan(y/x) if x>0)"
 msgstr "Calcule la fonction arctan2 (arctan(y/x) si x>0)"
 
-#: ../src/funclib.c:6380
+#: ../src/funclib.c:6381
 msgid "The number pi"
 msgstr "Le nombre pi"
 
-#: ../src/funclib.c:6382
+#: ../src/funclib.c:6383
 msgid "The natural number e"
 msgstr "Le nombre naturel e"
 
-#: ../src/funclib.c:6384
+#: ../src/funclib.c:6385
 msgid "The Golden Ratio"
 msgstr "Le nombre d'or"
 
-#: ../src/funclib.c:6386
+#: ../src/funclib.c:6387
 msgid "Free fall acceleration"
 msgstr "Accélération de la chute libre"
 
-#: ../src/funclib.c:6389
+#: ../src/funclib.c:6390
 msgid "Euler's Constant gamma"
 msgstr "Constante gamma d'Euler"
 
-#: ../src/funclib.c:6393
+#: ../src/funclib.c:6394
 msgid "Catalan's Constant (0.915...)"
 msgstr "Constante de Catalan (0,915...)"
 
 #. FUNC (ErrorFunction, 1, "x", "functions", N_("The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt (only real values implemented)"));
 #. ErrorFunction_function = f;
 #. ALIAS (erf, 1, ErrorFunction);
-#: ../src/funclib.c:6398
+#: ../src/funclib.c:6399
 msgid "The Riemann zeta function (only real values implemented)"
 msgstr ""
 "Fonction zeta de Riemann (seules les valeurs réelles sont implémentées)"
 
-#: ../src/funclib.c:6402
+#: ../src/funclib.c:6403
 msgid "The Gamma function (only real values implemented)"
 msgstr "Fonction Gamma (seules les valeurs réelles sont implémentées)"
 
-#: ../src/funclib.c:6407
+#: ../src/funclib.c:6408
 msgid "The square root"
 msgstr "La racine carré"
 
-#: ../src/funclib.c:6411
+#: ../src/funclib.c:6412
 msgid "The exponential function"
 msgstr "La fonction exponentielle"
 
-#: ../src/funclib.c:6414
+#: ../src/funclib.c:6415
 msgid "The natural logarithm"
 msgstr "Le logarithme naturel"
 
-#: ../src/funclib.c:6417
+#: ../src/funclib.c:6418
 msgid "Logarithm of x base 2"
 msgstr "Le logarithme base 2 de x"
 
-#: ../src/funclib.c:6422
+#: ../src/funclib.c:6423
 msgid "Logarithm of x base 10"
 msgstr "Le logarithme base 10 de x"
 
-#: ../src/funclib.c:6425
+#: ../src/funclib.c:6426
 msgid "Round a number"
 msgstr "Arrondit un nombre"
 
-#: ../src/funclib.c:6429
+#: ../src/funclib.c:6430
 msgid "Get the highest integer less than or equal to n"
 msgstr "Renvoie le plus grand entier inférieur ou égale à n"
 
-#: ../src/funclib.c:6433
+#: ../src/funclib.c:6434
 msgid "Get the lowest integer more than or equal to n"
 msgstr "Renvoie le petit petit entier supérieur ou égal à n"
 
-#: ../src/funclib.c:6437
+#: ../src/funclib.c:6438
 msgid "Truncate number to an integer (return the integer part)"
 msgstr "Tronque le nombre à un entier (renvoie la partie entière)"
 
-#: ../src/funclib.c:6442
+#: ../src/funclib.c:6443
 msgid "Make number a float"
 msgstr "Transforme un nombre en nombre réel"
 
-#: ../src/funclib.c:6445
+#: ../src/funclib.c:6446
 msgid "Get the numerator of a rational number"
 msgstr "Renvoie le numérateur d'un nombre rationnel"
 
-#: ../src/funclib.c:6447
+#: ../src/funclib.c:6448
 msgid "Get the denominator of a rational number"
 msgstr "Renvoie le dénominateur d'un nombre rationnel"
 
-#: ../src/funclib.c:6450
+#: ../src/funclib.c:6451
 msgid "Greatest common divisor"
 msgstr "Plus grand commun diviseur (PGCD)"
 
-#: ../src/funclib.c:6452
+#: ../src/funclib.c:6453
 msgid "Least common multiplier"
 msgstr "Plus petit commun multiple (PPCM)"
 
-#: ../src/funclib.c:6454
+#: ../src/funclib.c:6455
 msgid "Check a number for being a perfect square"
 msgstr "Vérifie qu'un nombre est un carré parfait"
 
-#: ../src/funclib.c:6455
+#: ../src/funclib.c:6456
 msgid "Check a number for being any perfect power (a^b)"
 msgstr "Vérifie qu'un nombre est une puissance parfaite (a^b)"
 
-#: ../src/funclib.c:6456
+#: ../src/funclib.c:6457
 msgid "Return the n'th prime (up to a limit)"
 msgstr "Renvoie le n-ième nombre premier (jusqu'à une limite) "
 
-#: ../src/funclib.c:6458
+#: ../src/funclib.c:6459
 msgid "Tests if an integer is even"
 msgstr "Teste si un entier est pair"
 
-#: ../src/funclib.c:6459
+#: ../src/funclib.c:6460
 msgid "Tests if an integer is odd"
 msgstr "Teste si un entier est impair"
 
-#: ../src/funclib.c:6461
+#: ../src/funclib.c:6462
 msgid "Returns the least prime greater than n (if n is positive)"
 msgstr "Renvoie le premier nombre premier supérieur à n (si n est positif)"
 
-#: ../src/funclib.c:6462
+#: ../src/funclib.c:6463
 msgid "Returns the n'th Lucas number"
 msgstr "Renvoie le n-ième nombre de Lucas"
 
-#: ../src/funclib.c:6463
+#: ../src/funclib.c:6464
 msgid "Returns inverse of n mod m"
 msgstr "Renvoie l'inverse de n mod m"
 
-#: ../src/funclib.c:6464
+#: ../src/funclib.c:6465
 msgid "Checks divisibility (if m divides n)"
 msgstr "Vérifie la divisibilité (est-ce que m divise n)"
 
-#: ../src/funclib.c:6465
+#: ../src/funclib.c:6466
 msgid ""
 "Return n/d but only if d divides n else returns garbage (this is faster than "
 "writing n/d)"
@@ -2725,7 +2747,7 @@ msgstr ""
 "Renvoie n/d mais seulement if d divise n sinon renvoie une valeur incorrecte "
 "(c'est plus rapide que d'écrire n/d)"
 
-#: ../src/funclib.c:6466
+#: ../src/funclib.c:6467
 msgid ""
 "Tests primality of integers, for numbers greater than 25*10^9 false positive "
 "is with low probability depending on IsPrimeMillerRabinReps"
@@ -2734,11 +2756,11 @@ msgstr ""
 "probabilité d'une erreur de détermination dépend du paramètre "
 "IsPrimeMillerRabinReps"
 
-#: ../src/funclib.c:6467
+#: ../src/funclib.c:6468
 msgid "Run the strong pseudoprime test base b on n"
 msgstr "Lance le test de pseudo-primarité forte en base b sur n"
 
-#: ../src/funclib.c:6468
+#: ../src/funclib.c:6469
 msgid ""
 "Use the Miller-Rabin primality test on n, reps number of times.  The "
 "probability of false positive is (1/4)^reps"
@@ -2746,7 +2768,7 @@ msgstr ""
 "Utilise le test de primalité de Miller-Rabin sur n, en faisant « reps » "
 "essais. La probabilité d'une erreur de détermination est (1/4)^reps"
 
-#: ../src/funclib.c:6469
+#: ../src/funclib.c:6470
 msgid ""
 "Use the Miller-Rabin primality test on n with enough bases that assuming the "
 "Generalized Reimann Hypothesis the result is deterministic"
@@ -2755,28 +2777,28 @@ msgstr ""
 "d'essais pour qu'en supposant la véracité de l'hypothèse de Riemann "
 "généralisée, le résultat soit déterministe"
 
-#: ../src/funclib.c:6470
+#: ../src/funclib.c:6471
 msgid "Return factorization of a number as a matrix"
 msgstr "Renvoie la factorisation d'un nombre sous forme de matrice"
 
-#: ../src/funclib.c:6472
+#: ../src/funclib.c:6473
 msgid "Returns the maximum of arguments or matrix"
 msgstr "Renvoie le maximum des arguments ou de la matrice"
 
-#: ../src/funclib.c:6475
+#: ../src/funclib.c:6476
 msgid "Returns the minimum of arguments or matrix"
 msgstr "Renvoie le minimum des arguments ou de la matrice"
 
 # w/o = without
-#: ../src/funclib.c:6479
+#: ../src/funclib.c:6480
 msgid "Division w/o remainder, equivalent to floor(a/b)"
 msgstr "Division sans reste, équivalente à floor(a/b)"
 
-#: ../src/funclib.c:6481
+#: ../src/funclib.c:6482
 msgid "Calculate the Jacobi symbol (a/b) (b should be odd)"
 msgstr "Calcule le symbole de Jacobi (a/b) (b doit être impair)"
 
-#: ../src/funclib.c:6483
+#: ../src/funclib.c:6484
 msgid ""
 "Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) "
 "when a odd, or (a/2)=0 when a even"
@@ -2784,71 +2806,71 @@ msgstr ""
 "Calcule le symbole de Jacobi (a/b) avec l'extension de Kronecker (a/2)=(2/a) "
 "si impair, ou (a/2)=0 si pair"
 
-#: ../src/funclib.c:6485
+#: ../src/funclib.c:6486
 msgid "Calculate the Legendre symbol (a/p)"
 msgstr "Calcule le symbole de Legendre (a/p)"
 
-#: ../src/funclib.c:6488
+#: ../src/funclib.c:6489
 msgid "Get the real part of a complex number"
 msgstr "Renvoie la partie réelle d'un nombre complexe"
 
-#: ../src/funclib.c:6491
+#: ../src/funclib.c:6492
 msgid "Get the imaginary part of a complex number"
 msgstr "Renvoie la partie imaginaire d'un nombre complexe"
 
-#: ../src/funclib.c:6495
+#: ../src/funclib.c:6496
 msgid "Make an identity matrix of a given size"
 msgstr "Construit une matrice identité de la taille donnée"
 
-#: ../src/funclib.c:6498
+#: ../src/funclib.c:6499
 msgid "Make an matrix of all zeros (or a row vector)"
 msgstr "Construit une matrice de zéros (ou un vecteur ligne)"
 
-#: ../src/funclib.c:6500
+#: ../src/funclib.c:6501
 msgid "Make an matrix of all ones (or a row vector)"
 msgstr "Construit une matrice de uns (ou un vecteur ligne)"
 
-#: ../src/funclib.c:6503
+#: ../src/funclib.c:6504
 msgid "Get the number of rows of a matrix"
 msgstr "Renvoie le nombre de lignes d'une matrice"
 
-#: ../src/funclib.c:6504
+#: ../src/funclib.c:6505
 msgid "Get the number of columns of a matrix"
 msgstr "Renvoie le nombre de colonnes d'une matrice"
 
-#: ../src/funclib.c:6505
+#: ../src/funclib.c:6506
 msgid "Is a matrix square"
 msgstr "Vérifie que la matrice est carrée"
 
-#: ../src/funclib.c:6506
+#: ../src/funclib.c:6507
 msgid "Is argument a horizontal or a vertical vector"
 msgstr "Vérifie que l'argument est un vecteur ligne ou colonne"
 
-#: ../src/funclib.c:6507
+#: ../src/funclib.c:6508
 msgid "Is a matrix upper triangular"
 msgstr "Vérifie que la matrice est triangulaire supérieure"
 
-#: ../src/funclib.c:6508
+#: ../src/funclib.c:6509
 msgid "Is a matrix lower triangular"
 msgstr "Vérifie que la matrice triangulaire inférieure"
 
-#: ../src/funclib.c:6509
+#: ../src/funclib.c:6510
 msgid "Is a matrix diagonal"
 msgstr "Vérifie que la matrice est diagonale"
 
-#: ../src/funclib.c:6510
+#: ../src/funclib.c:6511
 msgid "Get the number of elements of a matrix"
 msgstr "Renvoie le nombre d'éléments d'une matrice"
 
-#: ../src/funclib.c:6512
+#: ../src/funclib.c:6513
 msgid "Get the row echelon form of a matrix"
 msgstr "Renvoie la forme échelonnée en lignes d'une matrice"
 
-#: ../src/funclib.c:6516
+#: ../src/funclib.c:6517
 msgid "Get the reduced row echelon form of a matrix"
 msgstr "Renvoie la forme échelonnée réduite en lignes d'une matrice"
 
-#: ../src/funclib.c:6520
+#: ../src/funclib.c:6521
 msgid ""
 "Solve linear system Mx=V, return solution V if there is a unique solution, "
 "null otherwise.  Extra two reference parameters can optionally be used to "
@@ -2858,11 +2880,11 @@ msgstr ""
 "« null » sinon. Deux références de paramètres supplémentaires peuvent être "
 "utilisés pour recevoir les réductions de M et V."
 
-#: ../src/funclib.c:6523
+#: ../src/funclib.c:6524
 msgid "Get the determinant of a matrix"
 msgstr "Renvoie le déterminant d'une matrice"
 
-#: ../src/funclib.c:6526
+#: ../src/funclib.c:6527
 msgid ""
 "Return pivot columns of a matrix, that is columns which have a leading 1 in "
 "rref form, also returns the row where they occur"
@@ -2872,64 +2894,64 @@ msgstr ""
 "qui contiennent 1 en première position, et renvoie également dans quelles "
 "lignes se trouvent ces derniers"
 
-#: ../src/funclib.c:6528
+#: ../src/funclib.c:6529
 msgid "Get the nullspace of a matrix"
 msgstr "Renvoie le noyau d'une matrice"
 
-#: ../src/funclib.c:6530
+#: ../src/funclib.c:6531
 msgid "Make new matrix of given size from old one"
 msgstr ""
 "Construit une nouvelle matrice, de la taille donnée, à partir de l'ancienne"
 
-#: ../src/funclib.c:6531
+#: ../src/funclib.c:6532
 msgid "Return the index complement of a vector of indexes"
 msgstr "Renvoie le complémentaire d'un vecteur d'indices."
 
-#: ../src/funclib.c:6532
+#: ../src/funclib.c:6533
 msgid "Get the Hermitian product of two vectors"
 msgstr "Renvoie le produit hermitien de deux vecteurs"
 
-#: ../src/funclib.c:6535
+#: ../src/funclib.c:6536
 msgid "Check if a matrix is a matrix of numbers"
 msgstr "Vérifie qu'une matrice est constituée de nombres"
 
-#: ../src/funclib.c:6536
+#: ../src/funclib.c:6537
 msgid "Check if a matrix is an integer (non-complex) matrix"
 msgstr ""
 "Vérifie qu'une matrice est constituée de nombres entiers (non complexes)"
 
-#: ../src/funclib.c:6537
+#: ../src/funclib.c:6538
 msgid "Check if a matrix is a rational (non-complex) matrix"
 msgstr ""
 "Vérifie qu'une matrice est constituée de nombres rationnels (non complexes)"
 
-#: ../src/funclib.c:6538
+#: ../src/funclib.c:6539
 msgid "Check if a matrix is a real (non-complex) matrix"
 msgstr ""
 "Vérifier qu'une matrice est constituée de nombres réels (non complexes)"
 
-#: ../src/funclib.c:6539
+#: ../src/funclib.c:6540
 msgid "Check if a matrix is positive, that is if each element is positive"
 msgstr ""
 "Vérifie qu'une matrice est positive, c'est-à-dire que chaque élément est "
 "positif"
 
-#: ../src/funclib.c:6540
+#: ../src/funclib.c:6541
 msgid ""
 "Check if a matrix is nonnegative, that is if each element is nonnegative"
 msgstr ""
 "Vérifie qu'une matrice est non négative, c'est-à-dire que chaque élément est "
 "non négatif"
 
-#: ../src/funclib.c:6542
+#: ../src/funclib.c:6543
 msgid "Check if a number or a matrix is all zeros"
 msgstr "Vérifie qu'un nombre ou une matrice est entièrement constitué de zéros"
 
-#: ../src/funclib.c:6543
+#: ../src/funclib.c:6544
 msgid "Check if a number or a matrix is 1 or identity respectively"
 msgstr "Vérifie qu'un nombre ou une matrice est 1 ou l'identité respectivement"
 
-#: ../src/funclib.c:6545
+#: ../src/funclib.c:6546
 msgid ""
 "Returns true if the element x is in the set X (where X is a vector "
 "pretending to be a set)"
@@ -2937,11 +2959,11 @@ msgstr ""
 "Renvoie true (vrai) si l'élément x fait partie de l'ensemble X (où X est un "
 "vecteur supposé être un ensemble)"
 
-#: ../src/funclib.c:6546
+#: ../src/funclib.c:6547
 msgid "Returns true if X is a subset of Y"
 msgstr "Renvoie true (vrai) si X est un sous-ensemble de Y"
 
-#: ../src/funclib.c:6547
+#: ../src/funclib.c:6548
 msgid ""
 "Returns a set theoretic difference X-Y (X and Y are vectors pretending to be "
 "sets)"
@@ -2949,7 +2971,7 @@ msgstr ""
 "Renvoie la différence X-Y selon la théorie des ensembles (X et Y sont des "
 "vecteurs supposés être des ensembles)"
 
-#: ../src/funclib.c:6548
+#: ../src/funclib.c:6549
 msgid ""
 "Returns a set theoretic intersection of X and Y (X and Y are vectors "
 "pretending to be sets)"
@@ -2957,127 +2979,127 @@ msgstr ""
 "Renvoie l'intersection, selon la théorie des ensembles, de X et Y (X et Y "
 "sont des vecteurs supposés être des ensembles)"
 
-#: ../src/funclib.c:6550
-msgid "Check if argument is a null"
-msgstr "Vérifie que le paramètre est « null »"
-
 #: ../src/funclib.c:6551
-msgid "Check if argument is a number"
-msgstr "Vérifie que le paramètre est un nombre"
+msgid "Check if argument is a null"
+msgstr "Vérifie que l'argument est « null »"
 
 #: ../src/funclib.c:6552
+msgid "Check if argument is a number"
+msgstr "Vérifie que l'argument est un nombre"
+
+#: ../src/funclib.c:6553
 msgid "Check if argument is a boolean (and not a number)"
 msgstr "Vérifie que l'argument est un booléen (et pas un nombre)"
 
-#: ../src/funclib.c:6553
-msgid "Check if argument is a text string"
-msgstr "Vérifie que le paramètre est une chaîne de caractères"
-
 #: ../src/funclib.c:6554
-msgid "Check if argument is a matrix"
-msgstr "Vérifie que le paramètre est une matrice"
+msgid "Check if argument is a text string"
+msgstr "Vérifie que l'argument est une chaîne de caractères"
 
 #: ../src/funclib.c:6555
+msgid "Check if argument is a matrix"
+msgstr "Vérifie que l'argument est une matrice"
+
+#: ../src/funclib.c:6556
 msgid "Check if argument is a function"
 msgstr "Vérifie que l'argument est une fonction"
 
-#: ../src/funclib.c:6556
+#: ../src/funclib.c:6557
 msgid "Check if argument is a function or an identifier"
 msgstr "Vérifie que l'argument est une fonction ou un identificateur"
 
-#: ../src/funclib.c:6557
+#: ../src/funclib.c:6558
 msgid "Check if argument is a function reference"
 msgstr "Vérifie que l'argument est une référence à une fonction"
 
-#: ../src/funclib.c:6559
+#: ../src/funclib.c:6560
 msgid "Check if argument is a complex (non-real) number"
 msgstr "Vérifie que l'argument est un nombre complexe (non réel)"
 
-#: ../src/funclib.c:6560
-msgid "Check if argument is a real number"
-msgstr "Vérifie que le paramètre est une nombre réel"
-
 #: ../src/funclib.c:6561
-msgid "Check if argument is an integer (non-complex)"
-msgstr "Vérifie que le paramètre est un entier (non complexe)"
+msgid "Check if argument is a real number"
+msgstr "Vérifie que l'argument est une nombre réel"
 
 #: ../src/funclib.c:6562
-msgid "Check if argument is a positive real integer"
-msgstr "Vérifie que le paramètre est un entier réel positif"
+msgid "Check if argument is an integer (non-complex)"
+msgstr "Vérifie que l'argument est un entier (non complexe)"
 
-#: ../src/funclib.c:6564
-msgid "Check if argument is a non-negative real integer"
-msgstr "Vérifie que le paramètre est un entier réel non négatif"
+#: ../src/funclib.c:6563
+msgid "Check if argument is a positive real integer"
+msgstr "Vérifie que l'argument est un entier réel positif"
 
 #: ../src/funclib.c:6565
-msgid "Check if argument is a possibly complex integer"
-msgstr "Vérifie que le paramètre peut être un entier complexe"
+msgid "Check if argument is a non-negative real integer"
+msgstr "Vérifie que l'argument est un entier réel non négatif"
 
-#: ../src/funclib.c:6567
-msgid "Check if argument is a rational number (non-complex)"
-msgstr "Vérifie que le paramètre est un nombre rationnel (non complexe)"
+#: ../src/funclib.c:6566
+msgid "Check if argument is a possibly complex integer"
+msgstr "Vérifie que l'argument peut être un entier complexe"
 
 #: ../src/funclib.c:6568
-msgid "Check if argument is a possibly complex rational number"
-msgstr "Vérifie que le paramètre peut être un nombre complexe rationnel"
+msgid "Check if argument is a rational number (non-complex)"
+msgstr "Vérifie que l'argument est un nombre rationnel (non complexe)"
 
 #: ../src/funclib.c:6569
-msgid "Check if argument is a floating point number (non-complex)"
-msgstr "Vérifie que le paramètre est un nombre flottant (non complexe)"
+msgid "Check if argument is a possibly complex rational number"
+msgstr "Vérifie que l'argument peut être un nombre complexe rationnel"
 
-#: ../src/funclib.c:6571
+#: ../src/funclib.c:6570
+msgid "Check if argument is a floating point number (non-complex)"
+msgstr "Vérifie que l'argument est un nombre flottant (non complexe)"
+
+#: ../src/funclib.c:6572
 msgid "Add two polynomials (vectors)"
 msgstr "Ajoute deux polynômes (vecteurs)"
 
-#: ../src/funclib.c:6572
+#: ../src/funclib.c:6573
 msgid "Subtract two polynomials (as vectors)"
 msgstr "Soustrait deux polynômes (comme vecteurs)"
 
-#: ../src/funclib.c:6573
+#: ../src/funclib.c:6574
 msgid "Multiply two polynomials (as vectors)"
 msgstr "Multiplie deux polynômes (comme vecteurs)"
 
-#: ../src/funclib.c:6574
+#: ../src/funclib.c:6575
 msgid "Divide polynomial p by q, return the remainder in r"
 msgstr "Divise les polynômes p par q et renvoie le reste r"
 
-#: ../src/funclib.c:6575
+#: ../src/funclib.c:6576
 msgid "Take polynomial (as vector) derivative"
 msgstr "Prend la dérivée du polynôme (comme vecteur)"
 
-#: ../src/funclib.c:6576
+#: ../src/funclib.c:6577
 msgid "Take second polynomial (as vector) derivative"
 msgstr "Prend la dérivée seconde du polynôme (comme vecteur)"
 
-#: ../src/funclib.c:6577
+#: ../src/funclib.c:6578
 msgid "Trim zeros from a polynomial (as vector)"
 msgstr "Retire les zéros d'un polynôme (défini comme vecteur)"
 
-#: ../src/funclib.c:6578
+#: ../src/funclib.c:6579
 msgid "Check if a vector is usable as a polynomial"
 msgstr "Vérifie qu'un vecteur est utilisable en tant que polynôme"
 
-#: ../src/funclib.c:6579
+#: ../src/funclib.c:6580
 msgid "Make string out of a polynomial (as vector)"
 msgstr "Fabrique une chaîne à partir d'un polynôme (comme vecteur)"
 
-#: ../src/funclib.c:6580
+#: ../src/funclib.c:6581
 msgid "Make function out of a polynomial (as vector)"
 msgstr "Fabrique une fonction à partir d'un polynôme (comme vecteur)"
 
-#: ../src/funclib.c:6582
+#: ../src/funclib.c:6583
 msgid "Find roots of a quadratic polynomial (given as vector of coefficients)"
 msgstr ""
 "Cherche les racines d'un polynôme du second degré (donné par un vecteur de "
 "coefficients)"
 
-#: ../src/funclib.c:6584
+#: ../src/funclib.c:6585
 msgid "Get all combinations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
 "Renvoie toutes les combinaisons de k nombres de 1 à n comme un vecteur de "
 "vecteurs"
 
-#: ../src/funclib.c:6585
+#: ../src/funclib.c:6586
 msgid ""
 "Get combination that would come after v in call to combinations, first "
 "combination should be [1:k]."
@@ -3085,25 +3107,25 @@ msgstr ""
 "Calcule la combinaison qui apparaîtrait après v dans un appel à la fonction "
 "combinations, la première combinaison devrait être [1:k]."
 
-#: ../src/funclib.c:6586
+#: ../src/funclib.c:6587
 msgid "Get all permutations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
 "Renvoie toutes les permutations de k nombres de 1 à n comme un vecteur de "
 "vecteurs"
 
-#: ../src/funclib.c:6588
+#: ../src/funclib.c:6589
 msgid "Calculate combinations (binomial coefficient)"
 msgstr "Calcule le nombre de combinaisons (coefficient binomial)"
 
-#: ../src/funclib.c:6591
+#: ../src/funclib.c:6592
 msgid "Convert a string to a vector of ASCII values"
 msgstr "Convertit une chaîne en vecteur de valeurs ASCII"
 
-#: ../src/funclib.c:6592
+#: ../src/funclib.c:6593
 msgid "Convert a vector of ASCII values to a string"
 msgstr "Convertit un vecteur de valeurs ASCII en chaîne"
 
-#: ../src/funclib.c:6594
+#: ../src/funclib.c:6595
 msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters"
@@ -3111,7 +3133,7 @@ msgstr ""
 "Convertit une chaîne en un vecteur de valeurs commençant à 0 (positions dans "
 "la chaîne alphabétique), -1 pour chaque lettre non trouvée"
 
-#: ../src/funclib.c:6595
+#: ../src/funclib.c:6596
 msgid ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string"
@@ -3119,7 +3141,7 @@ msgstr ""
 "Convertit un vecteur de valeurs commençant à 0 (positions dans la chaîne "
 "alphabétique) en chaîne"
 
-#: ../src/funclib.c:6597
+#: ../src/funclib.c:6598
 msgid ""
 "Protect a variable from being modified.  It will be treated as a system "
 "defined variable from now on.  Protected parameters can still be modified."
@@ -3128,7 +3150,7 @@ msgstr ""
 "comme une variable définie par le système. Les paramètres protégés peuvent "
 "encore être modifiés."
 
-#: ../src/funclib.c:6598
+#: ../src/funclib.c:6599
 msgid ""
 "Unprotect a variable from being modified.  It will be treated as a user "
 "defined variable from now on."
@@ -3136,7 +3158,7 @@ msgstr ""
 "Annule la protection d'une variable contre toute modification. Elle est "
 "maintenant traitée comme une variable définie par l'utilisateur."
 
-#: ../src/funclib.c:6599
+#: ../src/funclib.c:6600
 msgid ""
 "Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
 "\""
@@ -3144,21 +3166,21 @@ msgstr ""
 "Positionne les drapeaux pour une fonction, actuellement « PropagateMod » et "
 "« NoModuloArguments »"
 
-#: ../src/funclib.c:6600
+#: ../src/funclib.c:6601
 msgid "Get current modulo from the context outside the function"
 msgstr "Obtient le modulo actuel à partir du contexte extérieur à la fonction."
 
-#: ../src/funclib.c:6601
+#: ../src/funclib.c:6602
 msgid "Check if a variable or function is defined"
 msgstr "Vérifie si une variable ou une fonction est définie"
 
-#: ../src/funclib.c:6602
+#: ../src/funclib.c:6603
 msgid "Undefine a variable (including all locals and globals of the same name)"
 msgstr ""
 "Annule la définition d'une variable (y compris toutes les variables locales "
 "et globales de même nom)"
 
-#: ../src/funclib.c:6604
+#: ../src/funclib.c:6605
 msgid ""
 "Undefine all unprotected (user defined) global variables and parameters.  "
 "Does not reset or change protected (system) parameters."
@@ -3167,7 +3189,7 @@ msgstr ""
 "par l'utilisateur) non protégés. Ne remet pas à zéro ou ne modifie pas les "
 "paramètres (système) protégés."
 
-#: ../src/funclib.c:6605
+#: ../src/funclib.c:6606
 msgid ""
 "Mark all currently defined variables as protected.  They will be treated as "
 "system defined variables from now on."
@@ -3175,28 +3197,28 @@ msgstr ""
 "Marque toutes les variables actuellement définies comme protégées. Elles "
 "sont maintenant traitées comme des variables définies par le système."
 
-#: ../src/funclib.c:6606
+#: ../src/funclib.c:6607
 msgid ""
 "Return a vector of all global unprotected (user defined) variable names."
 msgstr ""
 "Renvoie un vecteur contenant tous les noms des variables globales (définies "
 "par l'utilisateur) non protégées."
 
-#: ../src/funclib.c:6608
+#: ../src/funclib.c:6609
 msgid "Parse a string (but do not execute)"
 msgstr "Analyse (mais n'évalue pas) une chaîne de caractères"
 
-#: ../src/funclib.c:6609
+#: ../src/funclib.c:6610
 msgid "Parse and evaluate a string"
 msgstr "Analyse et évalue une chaîne de caractères"
 
-#: ../src/funclib.c:6611
+#: ../src/funclib.c:6612
 msgid "Ask a question and return a string.  Optionally pass in a default."
 msgstr ""
 "Pose une question et renvoie une chaîne de caractères. Il est possible de "
 "transmettre une valeur par défaut."
 
-#: ../src/funclib.c:6612
+#: ../src/funclib.c:6613
 msgid ""
 "Ask a question and present a list of buttons.  Returns the 1-based index of "
 "the button pressed (or null on failure)."
@@ -3204,7 +3226,7 @@ msgstr ""
 "Pose une question et présente une liste de boutons. Renvoie l'indice en base "
 "1 du bouton enfoncé (ou « null » en cas d'échec)."
 
-#: ../src/funclib.c:6614
+#: ../src/funclib.c:6615
 msgid ""
 "Integration of f by Composite Simpson's Rule on the interval [a,b] with n "
 "subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be "
@@ -3213,6 +3235,85 @@ msgstr ""
 "Intégration de f par la méthode de Simpson composée sur l'intervalle [a,b] "
 "avec n sous-intervalles avec une erreur de l'ordre max(f'''')*h^4*(b-a)/180, "
 "notez que n doit être pair"
+
+#: ../src/funclibhelper.cP:40
+#, c-format
+msgid "%s: argument number %d not an integer"
+msgstr "%s : l'argument numéro %d n'est pas un entier"
+
+#: ../src/funclibhelper.cP:53
+#, c-format
+msgid "%s: argument number %d not an integer or a matrix"
+msgstr "%s : l'argument numéro %d n'est pas un entier ou une matrice"
+
+#: ../src/funclibhelper.cP:65 ../src/funclibhelper.cP:76
+#, c-format
+msgid "%s: argument number %d not a number or a matrix"
+msgstr "%s : l'argument numéro %d n'est pas un nombre ou une matrice"
+
+#: ../src/funclibhelper.cP:89
+#, c-format
+msgid "%s: argument number %d not a nonnegative integer"
+msgstr "%s : l'argument numéro %d n'est pas un entier non négatif"
+
+#: ../src/funclibhelper.cP:103
+#, c-format
+msgid "%s: argument number %d not a positive integer"
+msgstr "%s : l'argument numéro %d n'est pas un entier positif"
+
+#: ../src/funclibhelper.cP:113 ../src/graphing.c:2920
+#, c-format
+msgid "%s: argument number %d not a number"
+msgstr "%s : l'argument numéro %d n'est pas un entier"
+
+#: ../src/funclibhelper.cP:124
+#, c-format
+msgid "%s: argument number %d not a boolean"
+msgstr "%s : l'argument numéro %d n'est pas un booléen"
+
+#: ../src/funclibhelper.cP:135
+#, c-format
+msgid "%s: argument number %d not a real number"
+msgstr "%s : l'argument numéro %d n'est pas un nombre réel"
+
+#: ../src/funclibhelper.cP:145
+#, c-format
+msgid "%s: argument number %d not a matrix"
+msgstr "%s : l'argument numéro %d n'est pas une matrice"
+
+#: ../src/funclibhelper.cP:156
+#, c-format
+msgid "%s: argument number %d not a square matrix"
+msgstr "%s : l'argument numéro %d n'est pas une matrice carrée"
+
+#: ../src/funclibhelper.cP:167
+#, c-format
+msgid "%s: argument number %d not a matrix or null node"
+msgstr "%s : l'argument numéro %d n'est pas une matrice ou un nœud « null »"
+
+#: ../src/funclibhelper.cP:178
+#, c-format
+msgid "%s: argument number %d not a value only matrix"
+msgstr ""
+"%s : l'argument numéro %d n'est pas une matrice qui contient seulement des "
+"valeurs"
+
+#: ../src/funclibhelper.cP:191
+#, c-format
+msgid "%s: argument number %d not a value only vector"
+msgstr ""
+"%s : l'argument numéro %d n'est pas un vecteur qui contient seulement des "
+"valeurs"
+
+#: ../src/funclibhelper.cP:201 ../src/funclibhelper.cP:212
+#, c-format
+msgid "%s: argument number %d not a string"
+msgstr "%s : l'argument numéro %d n'est pas une chaîne de caractères"
+
+#: ../src/funclibhelper.cP:223
+#, c-format
+msgid "%s: argument number %d not a function or identifier"
+msgstr "%s : l'argument numéro %d n'est pas une fonction ou un identifiant"
 
 #: ../src/genius.c:110
 #, c-format
@@ -3247,7 +3348,7 @@ msgstr "Genius"
 #: ../src/genius.c:409
 #, c-format
 msgid "%s should be between %d and %d, using %d"
-msgstr "%s doit être compris entre %d et %d, en utilisant %d"
+msgstr "%s doit être compris entre %d et %d, en utilisant %d"
 
 #: ../src/genius.c:428 ../src/genius.c:437
 #, c-format
@@ -3293,7 +3394,7 @@ msgid ""
 msgstr ""
 "Utilisation de Genius %s :\n"
 "\n"
-"genius [options] [fichiers]\n"
+"genius [options] [fichiers]\n"
 "\n"
 "\t--help            \tAffiche cette aide\n"
 "\t--version         \tAffiche le numéro de version\n"
@@ -4291,7 +4392,7 @@ msgstr "Impression"
 
 #: ../src/graphing.c:776
 msgid "Print command: "
-msgstr "Commande d'impression :"
+msgstr "Commande d'impression : "
 
 #: ../src/graphing.c:803
 msgid "Cannot open temporary file, cannot print."
@@ -4462,11 +4563,6 @@ msgstr "Fonction"
 #, c-format
 msgid "Function #%d"
 msgstr "Fonction n°%d"
-
-#: ../src/graphing.c:2920 ../src/funclibhelper.cP:113
-#, c-format
-msgid "%s: argument number %d not a number"
-msgstr "%s : le paramètre numéro %d n'est pas un entier"
 
 #: ../src/graphing.c:2933
 msgid "Graph limits not given as a 4-vector"
@@ -4654,7 +4750,7 @@ msgstr "Traits horizontaux :"
 
 #: ../src/graphing.c:4897
 msgid "Sl_ope field"
-msgstr "L_igne de champ"
+msgstr "Champ de _directions"
 
 #. Normalize the arrow length?
 #: ../src/graphing.c:4931
@@ -4756,7 +4852,7 @@ msgstr "%s : tracé en cours, impossible d'appeler %s"
 #: ../src/graphing.c:6015 ../src/graphing.c:6513
 #, c-format
 msgid "%s: argument not a function"
-msgstr "%s : le paramètre n'est pas une fonction"
+msgstr "%s : l'argument n'est pas une fonction"
 
 #: ../src/graphing.c:6025
 #, c-format
@@ -4788,7 +4884,7 @@ msgstr "%s : dx doit être positif"
 #: ../src/graphing.c:6162 ../src/graphing.c:6181
 #, c-format
 msgid "%s: Slope field not active"
-msgstr "%s : ligne de champ non actif"
+msgstr "%s : champ de directions non actif"
 
 #: ../src/graphing.c:6208
 #, c-format
@@ -4831,8 +4927,8 @@ msgid ""
 "%s: Line should be given as a real, n by 2 matrix with columns for x and y, "
 "n>=2"
 msgstr ""
-"%s : une ligne doit être donnée par une matrice (de taille n par 2) réelle "
-"dont les colonnes sont x et y, avec n >= 2"
+"%s : une ligne doit être donnée par une matrice (de taille n par 2) réelle "
+"dont les colonnes sont x et y, avec n >= 2"
 
 #: ../src/graphing.c:7097
 #, c-format
@@ -4947,7 +5043,7 @@ msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
 msgstr ""
-"Dessine des lignes de champ. D'abord vient la fonction dy/dx en terme de x "
+"Trace un champ de directions. D'abord vient la fonction dy/dx en terme de x "
 "et y (ou d'un complexe z) puis, en option, les limites sous la forme x1,x2,"
 "y1,y2"
 
@@ -4963,12 +5059,12 @@ msgstr ""
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr ""
-"Trace une solution pour une ligne de champ commençant en x,y et en utilisant "
+"Trace une solution pour un champ de directions commençant en x,y et en utilisant "
 "l'incrément dx"
 
 #: ../src/graphing.c:7744
 msgid "Clear all the slopefield solutions"
-msgstr "Efface toutes les solutions de ligne de champ"
+msgstr "Efface toutes les solutions du champ de directions"
 
 #: ../src/graphing.c:7746
 msgid ""
@@ -4987,7 +5083,7 @@ msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
 msgstr ""
-"Dessine une fonction surface qui prend soit deux arguments ou un seul "
+"Dessine une surface qui prend soit deux arguments ou un seul "
 "argument complexe. D'abord vient la fonction puis en option les limites sous "
 "la forme x1,x2,y1,y2,z1,z2"
 
@@ -5006,7 +5102,7 @@ msgstr ""
 #: ../src/graphing.c:7755
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr ""
-"Nombre de traits de ligne de champ sous la forme d'un vecteur [vertical,"
+"Nombre de traits du champ de directions sous la forme d'un vecteur [vertical,"
 "horizontal]."
 
 #: ../src/graphing.c:7756
@@ -5061,6 +5157,10 @@ msgstr ""
 #: ../src/matop.c:687
 msgid "Determinant of a non-square matrix is undefined"
 msgstr "Le déterminant d'une matrice non carrée n'est pas défini"
+
+#: ../src/matrixw.c:622 ../src/matrixw.c:708
+msgid "Trying to increment a nonvalue"
+msgstr "Tentative d'incrémenter quelque chose sans valeur"
 
 #: ../src/mpwrap.c:520
 msgid "Integer exponent too large to compute"
@@ -5264,6 +5364,12 @@ msgstr "Impossible de convertir un nombre réel en double"
 msgid "Number too large for this operation"
 msgstr "Nombre trop grand pour cette opération"
 
+#: ../src/parseutil.c:57
+msgid "ERROR: local statement not the first statement in function definition"
+msgstr ""
+"ERREUR : l'instruction « local » n'est pas la première instruction dans la "
+"définition de la fonction"
+
 #: ../src/plugin.c:155
 msgid "Can't open plugin!"
 msgstr "Impossible d'ouvrir le greffon."
@@ -5339,86 +5445,83 @@ msgstr ""
 msgid "Stack underflow!"
 msgstr "Dépassement de capacité négatif de pile."
 
-#: ../src/funclibhelper.cP:40
-#, c-format
-msgid "%s: argument number %d not an integer"
-msgstr "%s : le paramètre numéro %d n'est pas un entier"
+#: ../ve/glade-helper.c:82 ../ve/glade-helper.c:114 ../ve/glade-helper.c:136
+msgid "(memory buffer)"
+msgstr "(tampon mémoire)"
 
-#: ../src/funclibhelper.cP:53
-#, c-format
-msgid "%s: argument number %d not an integer or a matrix"
-msgstr "%s : le paramètre numéro %d n'est pas un entier ou une matrice"
+#. markup
+#: ../ve/glade-helper.c:171 ../ve/glade-helper.c:224 ../ve/glade-helper.c:278
+msgid "Cannot load user interface"
+msgstr "Impossible de charger l'interface utilisateur"
 
-#: ../src/funclibhelper.cP:65 ../src/funclibhelper.cP:76
+#: ../ve/glade-helper.c:172
 #, c-format
-msgid "%s: argument number %d not a number or a matrix"
-msgstr "%s : le paramètre numéro %d n'est pas un nombre ou une matrice"
-
-#: ../src/funclibhelper.cP:89
-#, c-format
-msgid "%s: argument number %d not a nonnegative integer"
-msgstr "%s : le paramètre numéro %d n'est pas un entier non négatif"
-
-#: ../src/funclibhelper.cP:103
-#, c-format
-msgid "%s: argument number %d not a positive integer"
-msgstr "%s : le paramètre numéro %d n'est pas un entier positif"
-
-#: ../src/funclibhelper.cP:124
-#, c-format
-msgid "%s: argument number %d not a boolean"
-msgstr "%s : le paramètre numéro %d n'est pas un booléen"
-
-#: ../src/funclibhelper.cP:135
-#, c-format
-msgid "%s: argument number %d not a real number"
-msgstr "%s : le paramètre numéro %d n'est pas un nombre réel"
-
-#: ../src/funclibhelper.cP:145
-#, c-format
-msgid "%s: argument number %d not a matrix"
-msgstr "%s : le paramètre numéro %d n'est pas une matrice"
-
-#: ../src/funclibhelper.cP:156
-#, c-format
-msgid "%s: argument number %d not a square matrix"
-msgstr "%s : le paramètre numéro %d n'est pas une matrice carrée"
-
-#: ../src/funclibhelper.cP:167
-#, c-format
-msgid "%s: argument number %d not a matrix or null node"
-msgstr "%s : le paramètre numéro %d n'est pas une matrice ou un nœud « null »"
-
-#: ../src/funclibhelper.cP:178
-#, c-format
-msgid "%s: argument number %d not a value only matrix"
+msgid ""
+"An error occurred while loading user interface element %s%s from file %s.  "
+"Possibly the glade interface description was corrupted.  %s cannot continue "
+"and will exit now.  You should check your installation of %s or reinstall %s."
 msgstr ""
-"%s : le paramètre numéro %d n'est pas une matrice qui contient seulement des "
-"valeurs"
+"Une erreur s'est produite pendant le chargement de l'élément %s%s de l'interface "
+"utilisateur dans le fichier %s. Il se peut que la description d'interface glade "
+"soit corrompue. %s ne peut poursuivre et quitte maintenant. Vous devriez vérifier "
+"votre installation de %s ou réinstaller %s."
 
-#: ../src/funclibhelper.cP:191
+#: ../ve/glade-helper.c:188
 #, c-format
-msgid "%s: argument number %d not a value only vector"
+msgid ""
+"Glade file is on crack! Make sure the correct file is installed!\n"
+"file: %s widget: %s"
 msgstr ""
-"%s : le paramètre numéro %d n'est pas un vecteur qui contient seulement des "
-"valeurs"
+"Le fichier glade est corrompu ! Vérifiez que le fichier correct est installé !\n"
+"Fichier : %s ; élément graphique : %s"
 
-#: ../src/funclibhelper.cP:201 ../src/funclibhelper.cP:212
+#: ../ve/glade-helper.c:225
 #, c-format
-msgid "%s: argument number %d not a string"
-msgstr "%s : le paramètre numéro %d n'est pas une chaîne de caractères"
+msgid ""
+"An error occurred while loading the user interface element %s%s from file %"
+"s. CList type widget should have %d column. Possibly the glade interface "
+"description was corrupted. %s cannot continue and will exit now. You should "
+"check your installation of %s or reinstall %s."
+msgid_plural ""
+"An error occurred while loading the user interface element %s%s from file %"
+"s. CList type widget should have %d columns. Possibly the glade interface "
+"description was corrupted. %s cannot continue and will exit now. You should "
+"check your installation of %s or reinstall %s."
+msgstr[0] ""
+"Une erreur s'est produite pendant le chargement de l'élément %s%s de l'interface "
+"utilisateur dans le fichier %s. L'élément graphique de type CList devrait posséder "
+"%d colonne. Il se peut que la description d'interface glade "
+"soit corrompue. %s ne peut poursuivre et quitte maintenant. Vous devriez vérifier "
+"votre installation de %s ou réinstaller %s."
+msgstr[1] ""
+"Une erreur s'est produite pendant le chargement de l'élément %s%s de l'interface "
+"utilisateur dans le fichier %s. L'élément graphique de type CList devrait posséder "
+"%d colonnes. Il se peut que la description d'interface glade "
+"soit corrompue. %s ne peut poursuivre et quitte maintenant. Vous devriez vérifier "
+"votre installation de %s ou réinstaller %s."
 
-#: ../src/funclibhelper.cP:223
+#: ../ve/glade-helper.c:254
 #, c-format
-msgid "%s: argument number %d not a function or identifier"
-msgstr "%s : le paramètre numéro %d n'est pas une fonction ou un identifiant"
-
-#: ../src/parseutil.c:57
-msgid "ERROR: local statement not the first statement in function definition"
+msgid ""
+"Glade file is on crack! Make sure the correct file is installed!\n"
+"file: %s widget: %s expected clist columns: %d"
 msgstr ""
-"ERREUR : l'instruction « local » n'est pas la première instruction dans la "
-"définition de la fonction"
+"Le fichier glade est corrompu ! Vérifiez que le fichier correct est installé !\n"
+"Fichier : %s ; élément graphique : %s ; nombre de colonnes clist attentu : %d"
 
-#: ../src/matrixw.c:622 ../src/matrixw.c:708
-msgid "Trying to increment a nonvalue"
-msgstr "Tentative d'incrémenter quelque chose sans valeur"
+#: ../ve/glade-helper.c:279
+#, c-format
+msgid ""
+"An error occurred while loading the user interface from file %s.  Possibly "
+"the glade interface description was not found.  %s cannot continue and will "
+"exit now.  You should check your installation of %s or reinstall %s."
+msgstr ""
+"Une erreur s'est produite pendant le chargement de l'interface "
+"utilisateur dans le fichier %s. Il se peut que la description d'interface glade "
+"n'ait pas été trouvée. %s ne peut poursuivre et quitte maintenant. Vous devriez vérifier "
+"votre installation de %s ou réinstaller %s."
+
+#: ../ve/glade-helper.c:291
+#, c-format
+msgid "No interface could be loaded. This is BAD! (file: %s)"
+msgstr "Aucune interface n'a pu être chargée. C'est très mauvais (fichier : %s)."
