@@ -364,6 +364,21 @@ false_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	return gel_makenum_bool (0);
 }
 
+static GelETree *
+CurrentTime_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	mpw_t tm;
+	struct timeval tv;
+
+	mpw_init (tm);
+	gettimeofday (&tv, NULL);
+	mpw_set_ui (tm, tv.tv_usec);
+	mpw_make_float (tm);
+	mpw_div_ui (tm, tm, 1000000);
+	mpw_add_ui (tm, tm, tv.tv_sec);
+	return gel_makenum_use (tm);
+}
+
 /*sin function*/
 static GelETree *
 IntegerFromBoolean_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
@@ -6296,6 +6311,8 @@ gel_funclib_addall(void)
 	ALIAS (True, 0, true);
 	FUNC (false, 0, "", "basic", N_("The false boolean value"));
 	ALIAS (False, 0, false);
+
+	FUNC (CurrentTime, 0, "", "basic", N_("Unix time in seconds as a floating point number"));
 
 	/* FIXME: TRUE, FALSE aliases can't be done with the macros in funclibhelper.cP! */
 	d_addfunc (d_makebifunc (d_intern ("TRUE"), true_op, 0));
