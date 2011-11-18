@@ -102,6 +102,7 @@ gel_differentiate_func1_expr (GelToken *tok)
 	/* Better then 1/x, since doing multiple derivatives
 	   on that sucks without simplification */
 	DERIVATIVE_ENTRY ("ln", "x^-1");
+	DERIVATIVE_ENTRY ("log", "x^-1");
 	DERIVATIVE_ENTRY ("log2", "log2(e)*x^-1");
 	DERIVATIVE_ENTRY ("log10", "log10(e)*x^-1");
 
