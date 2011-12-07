@@ -1815,12 +1815,25 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 			GET_INIT_MPZ (z);
 
 			if (mpz_root (z, op1->data.ival, den) != 0) {
-				mympz_pow_z (z, z,
-					     mpq_numref (op2->data.rval));
-				mpwl_clear (rop);
-				rop->type = MPW_INTEGER;
-				memcpy (rop->data.ival, z,
-					sizeof (__mpz_struct));
+				mpz_ptr num = mpq_numref (op2->data.rval);
+				if (mpz_sgn (num) < 0) {
+					mpz_neg (num, num);
+					mympz_pow_z (z, z, num);
+					mpz_neg (num, num);
+					mpwl_clear (rop);
+					rop->type = MPW_RATIONAL;
+					mpq_init (rop->data.rval);
+					mpq_set_z (rop->data.rval, z);
+					mpq_inv (rop->data.rval,
+						 rop->data.rval);
+					CLEAR_FREE_MPZ (z);
+				} else {
+					mympz_pow_z (z, z, num);
+					mpwl_clear (rop);
+					rop->type = MPW_INTEGER;
+					memcpy (rop->data.ival, z,
+						sizeof (__mpz_struct));
+				}
 
 				return FALSE;
 			}
@@ -1835,15 +1848,31 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 			    mpz_root (mpq_denref (q),
 				      mpq_denref (op1->data.rval),
 				      den) != 0) {
-				mympz_pow_z (mpq_numref (q), mpq_numref (q),
-					     mpq_numref (op2->data.rval));
-				mympz_pow_z (mpq_denref (q), mpq_denref (q),
-					     mpq_numref (op2->data.rval));
+				mpz_ptr num = mpq_numref (op2->data.rval);
+				if (mpz_sgn (num) < 0) {
+					mpz_neg (num, num);
+					mympz_pow_z (mpq_numref (q),
+						     mpq_numref (q),
+						     num);
+					mympz_pow_z (mpq_denref (q),
+						     mpq_denref (q),
+						     num);
+					mpz_neg (num, num);
+					mpq_inv (q, q);
+				} else {
+					mympz_pow_z (mpq_numref (q),
+						     mpq_numref (q),
+						     num);
+					mympz_pow_z (mpq_denref (q),
+						     mpq_denref (q),
+						     num);
+				}
 				mpwl_clear (rop);
 				rop->type = MPW_RATIONAL;
 				memcpy (rop->data.rval, q,
 					sizeof (__mpq_struct));
-				mpq_canonicalize (rop->data.rval);
+				// the below does mpq_canonicalize
+				mpwl_make_int (rop);
 
 				return FALSE;
 			}
@@ -1864,7 +1893,9 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		mpfr_neg (op1_f, op1_f, GMP_RNDN);
 		mpfr_pow (r.data.fval, op1_f, op2_f, GMP_RNDN);
 		mpfr_neg (op1_f, op1_f, GMP_RNDN);
-		mpfr_neg (r.data.fval, r.data.fval, GMP_RNDN);
+		if (mpz_odd_p (mpq_numref(op2->data.rval))) {
+			mpfr_neg (r.data.fval, r.data.fval, GMP_RNDN);
+		}
 	} else {
 		mpfr_pow (r.data.fval, op1_f, op2_f, GMP_RNDN);
 	}
