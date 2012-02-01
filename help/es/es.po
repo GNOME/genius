@@ -4,13 +4,14 @@
 # Juan Matías Olmos <colonizare@yahoo.com.ar>, 2011.
 # Joaquín Ignacio Aramendía <samsagax@gmail.com>, 2011.
 # Juan Carlos Vallejo <urizev@gmail.com>, 2011.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
+# Gustavo Jasso Ahuja <gjasso@gmail.com>, 2012.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
-"POT-Creation-Date: 2011-11-07 06:30+0000\n"
-"PO-Revision-Date: 2011-11-07 15:32+0100\n"
+"POT-Creation-Date: 2012-01-11 12:17+0000\n"
+"PO-Revision-Date: 2012-02-01 10:45+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1993,6 +1994,7 @@ msgstr ""
 "B = A^-1 mod 5\n"
 "A*B mod 5"
 
+# Utilicé símbolos en el primer enunciado. Generalemente, evitar "dar nombres" a objetos matemáticos resulta en una redacción difícil de seguir. En el original, comparar el primer enunciado con el útlimo.
 #: C/genius.xml:1124(para)
 msgid ""
 "You can calculate the inverses of numbers mod some integer by just using "
@@ -2001,6 +2003,12 @@ msgid ""
 "taking inverses, powers and dividing. Example: <placeholder-2/> This should "
 "yield the identity matrix as B will be the inverse of A mod 5."
 msgstr ""
+"Dados dos números enteros a y b, puede calcular el inverso multiplicativo de "
+"a módulo b usando números racionales (desde luego, el inverso debe existir). "
+"Ejemplos: <placeholder-1/> Puede obtener la evaluación modular de una "
+"matriz, calcular potencias, la matriz inversa y dividir. Ejemplo: "
+"<placeholder-2/> Es la matriz identidad, pues B es la matriz inversa de A "
+"módulo 5."
 
 #: C/genius.xml:1145(programlisting)
 #, no-wrap
@@ -2256,6 +2264,8 @@ msgid ""
 "Element by element the mod operator. Returns the remainder after element by "
 "element integer <userinput>a./b</userinput>."
 msgstr ""
+"Operador mod elemento por elemento. Devuelve el resto de <userinput>a./b</"
+"userinput> elemento por elemento."
 
 #: C/genius.xml:1354(synopsis)
 #, no-wrap
@@ -2872,6 +2882,10 @@ msgid ""
 "will restart the current loop at its next iteration, while the "
 "<literal>break</literal> command exits the current loop. <placeholder-1/>"
 msgstr ""
+"También puede utilizar los comandos <literal>break</literal> y "
+"<literal>continue</literal> en un bucle. El comando <literal>continue</"
+"literal> reinicia el bucle actual en la siguiente iteración, mientras que el "
+"comando <literar>break</literal> sale del bucle actual. <placeholder-1/>"
 
 #: C/genius.xml:1834(title)
 msgid "Sums and Products"
@@ -2885,6 +2899,11 @@ msgid ""
 "the last value, these will return the sum or the product of the values "
 "respectively."
 msgstr ""
+"Sintaxis: <placeholder-1/> Si sustituye <literal>for</literal> por "
+"<literal>sum</sum> o <literal>prod</literal>, obtendrá una suma o un "
+"producto en lugar de un bucle <literal>for</literal>. En vez de el último "
+"valor del bucle, devolverá la suma o el producto de todos los valores "
+"obtenidos respectivamente."
 
 #: C/genius.xml:1846(para)
 msgid ""
@@ -2892,6 +2911,9 @@ msgid ""
 "userinput>) then <literal>sum</literal> returns 0 and <literal>prod</"
 "literal> returns 1 as is the standard convention."
 msgstr ""
+"Si no se ejecuta ningún comando (por ejemplo <userinput>sum i=1 to 0 do ...</"
+"userinput>), <literal>sum</literal> devuelve el valor 0 y <literal>prod</"
+"literal> devuelve el valor 1, que es el convenio estándar."
 
 #: C/genius.xml:1852(title)
 msgid "Comparison Operators"
@@ -2909,6 +2931,16 @@ msgid ""
 "literal>, which returns -1 if left side is smaller, 0 if both sides are "
 "equal, 1 if left side is larger."
 msgstr ""
+"Los siguientes operadores de comparación comunes están soportados en GEL, y "
+"tienen el significado obvio: <literal>==</literal>, <literal>&gt;=</"
+"literal>, <literal>&lt;=</literal>, <literal>!=</literal>, <literal>&lt;&gt;"
+"</literal>, <literal>&lt;</literal>, <literal>&gt;</literal>. Éstos "
+"devuelven los valores <constant>true</constant> o <constant>false</"
+"constant>. Los operadores <literal>!=</literal> y <literal>&lt;&gt;</"
+"literal> son lo mismo y significan «no es igual a». GEL también permite "
+"utilizar el operador <literal>&lt;=&gt;</literal>, que devuelve el valor -1 "
+"si el lado izquierdo es menor, 0 si ambos lados son iguales, y 1 si el lado "
+"izquierdo es mayor."
 
 #: C/genius.xml:1872(programlisting)
 #, no-wrap
@@ -2928,6 +2960,12 @@ msgid ""
 "you want to compare or assign respectively if you want your code to be easy "
 "to read and to avoid mistakes."
 msgstr ""
+"Generalmente <literal>=</literal> se traduce como <literal>==</literal> si "
+"aparece en algún lugar dónde GEL espera una condición, como la condición "
+"<literal>if</literal>. Por ejemplo <placeholder-1> son lo mismo en GEL. Sin "
+"embargo, debería utilizar <literal>==</literal> o <literal>:=</literal> "
+"cuando se quiere comparar o asignar, respectivamente, si quiere que su "
+"código sea fácil de leer. Además le ayuda a evitar errores."
 
 #: C/genius.xml:1881(para)
 msgid ""
@@ -2937,6 +2975,12 @@ msgid ""
 "x&lt;=y&lt;5</literal>) is a legal boolean expression and means just what it "
 "should, that is (1&lt;x and x≤y and y&lt;5)"
 msgstr ""
+"No todos los operadores de comparación (salvo el operador <literal>&lt;=&gt;"
+"</literal>, que se comporta de manera normal), son operadores binarios en el "
+"sentido estricto del concepto. De hecho, se pueden agrupar en el modo "
+"matemático usual. Por ejemplo, (<literal>1&lt;x&lt;=y&lt;5</literal>) es una "
+"expresión booleana legítima que significa lo que debería: (1&lt;x and x≤y "
+"and y&lt;5)."
 
 #: C/genius.xml:1890(para)
 msgid ""
@@ -2948,11 +2992,19 @@ msgid ""
 "literal> will not set <literal>a=1</literal> since the first argument was "
 "true."
 msgstr ""
+"Para construir expresiones lógicas utilice las palabras <literal>not</"
+"literal>, <literal>and</literal>, <literal>or</literal>, <literal>xor</"
+"literal>. Los operadores <literal>or</literal> y <literal>and</literal> son "
+"especiales pues evalúan sus argumentos de uno en uno, por lo que la técnica "
+"usual para implementar la evaluación condicional también funciona aquí. Por "
+"ejemplo, <literal>1 or a=1</literal> no ejecuta el comando <literal>a=1</"
+"literal>, pues el primer argumento es verdadero."
 
 #: C/genius.xml:1901(title)
 msgid "Global Variables and Scope of Variables"
 msgstr "Variables globales y ámbito de variables"
 
+# ¿Al parecer se explica inmediatamente?
 #: C/genius.xml:1902(para)
 msgid ""
 "GEL is a <ulink url=\"http://en.wikipedia.org/wiki/Scope_%28programming%29"
@@ -2961,6 +3013,12 @@ msgid ""
 "exception are <link linkend=\"genius-gel-parameters\">parameter variables</"
 "link>, which are always global."
 msgstr ""
+"GEL es un <ulink url=\"http://es.wikipedia.org/wiki/%C3%81mbito_(programaci%"
+"C3%B3n)\">lenguaje con ámbitos dinámicos</ulink>. Esto se explicará más "
+"adelante. Esto significa que a las variables ordinarias y a las funciones se "
+"les asigna un ámbito de manera dinámica. La única excepción son las <link "
+"linkend=\"genius-gel-parameters\">variables de parámetros</link>, que "
+"siempre son globales."
 
 #: C/genius.xml:1925(programlisting)
 #, no-wrap
@@ -2987,6 +3045,18 @@ msgid ""
 "<function>f</function> as <varname>a</varname> will not be defined). "
 "<placeholder-1/>"
 msgstr ""
+"Al igual que la mayoría de los lenguajes de programación, GEL tiene "
+"diferentes tipos de variables. Normalmente, cuando se define una variable en "
+"una función ésta es visible desde esa función y desde todas las funciones "
+"que se llamen (todos los contextos superiores). Por ejemplo, suponga que una "
+"función <function>f</function> define una variable <varname>a</varname> y "
+"luego llama a otra función <function>g</varname>. Entonces, la función "
+"<function>g</function> puede hacer referencia a la variable <varname>a</"
+"varname>. Pero, una vez que la ejecución de <function>f</function> concluye, "
+"la variable <varname>a</varname> sale del ámbito. Por ejemplo, el siguiente "
+"código imprime el número 5. No se puede llamar a la función <function>g</"
+"function> desde el nivel más alto (fuera de <function>f</function>, dado que "
+"<varname>a</varname> no se habrá definido)."
 
 #: C/genius.xml:1934(programlisting)
 #, no-wrap
@@ -3012,6 +3082,14 @@ msgid ""
 "the top (global) level, so if you now check the value of <varname>a</"
 "varname> it will still be 10."
 msgstr ""
+"Si define una variable dentro de una función, ésta anulará toda variable "
+"definida al llamar a funciones. Por ejemplo, si modifica el código anterior "
+"y escribe: <placeholder-1/> Este código aún imprime 5. Pero si llama a la "
+"función <function>g</function> fuera de <function>f</function>, entonces se "
+"imprimirá 10. Observe que al definir <varname>a</varname> como 5 dentro de "
+"<function>f</function> no cambia el valor de <varname>a</varname> al nivel "
+"superior (global), por lo que si verifica el valor de <varname>a</varname> "
+"es aún 10."
 
 #: C/genius.xml:1948(para)
 msgid ""
@@ -3020,6 +3098,10 @@ msgid ""
 "function. Other than this point, they are treated just like all other "
 "variables defined inside the function."
 msgstr ""
+"Los argumentos de funciones son exactamente como variables definidas dentro "
+"de la función, salvo que éstas se inicializan con el valor que se introduce "
+"en la función. Además de esto, se les trata como a cualquier otra variable "
+"definida dentro de la función."
 
 #: C/genius.xml:1955(para)
 msgid ""
@@ -3038,6 +3120,20 @@ msgid ""
 "= 1e20\n"
 "</screen>"
 msgstr ""
+"Las funciones se tratan exactamente como variables. Por lo tanto, puede "
+"redefinir funciones. Normalmente, (en el nivel superior) no puede redefinir "
+"variables y funciones protegidas. Pero localmente si lo puede hacer. "
+"Considere la siguiente sesión: <screen><prompt>genius&gt; </"
+"prompt><userinput>function f(x) = sin(x)^2</userinput>\n"
+"= (`(x)=(sin(x)^2))\n"
+"<prompt>genius&gt; </prompt><userinput>function f(x) = sin(x)^2</userinput>\n"
+"= (`(x)=(sin(x)^2))\n"
+"<prompt>genius&gt; </prompt><userinput>function g(x) = ((function sin(x)"
+"=x^10);f(x))</userinput>\n"
+"= (`(x)=((sin:=(`(x)=(x^10)));f(x)))\n"
+"<prompt>genius&gt; </prompt><userinput>g(10)</userinput>\n"
+"= 1e20\n"
+"</screen>"
 
 #: C/genius.xml:1975(programlisting)
 #, no-wrap
@@ -3072,6 +3168,15 @@ msgid ""
 "to set <varname>a</varname> to the value 3 you could call: <placeholder-2/> "
 "or: <placeholder-3/>"
 msgstr ""
+"Las funciones definidas en el nivel superior se consideran globales. Éstas "
+"son visibles desde cualquier parte. Como se dijo, la función <function>f</"
+"function> no cambiará el valor de <varname>a</varname> a 5. <placeholder-1/> "
+"Sin embargo, en algunas ocasiones es necesario fijar una variable global "
+"dentro de una función. Cuando este comportamiento es necesario, utilice la "
+"función <function>set</function>. Si introduce una cadena o un identificador "
+"entrecomillado a esta función, ésta fija la variable globalmente (al nivel "
+"superior). Por ejemplo, podría utilizar <placeholder-2/> o <placeholder-3/> "
+"para fijar el valor 3 en la variable <varname>a</varname>."
 
 #: C/genius.xml:1992(para)
 msgid ""
@@ -3181,7 +3286,7 @@ msgstr ""
 
 #: C/genius.xml:2111(title)
 msgid "Lvalues"
-msgstr ""
+msgstr "Lvalues"
 
 #: C/genius.xml:2117(userinput)
 #, no-wrap
@@ -4465,7 +4570,7 @@ msgstr "Cambia la carpeta actual, igual que <command>cd</command>."
 
 #: C/genius.xml:284(term) C/genius.xml:286(synopsis)
 msgid "CurrentTime"
-msgstr ""
+msgstr "CurrentTime"
 
 #: C/genius.xml:287(para)
 msgid ""
@@ -10255,6 +10360,17 @@ msgid ""
 "</screen> See also <link linkend=\"gel-function-Combinations\">Combinations</"
 "link>."
 msgstr ""
+"Por ejemplo, con Combination normalmente escribiría un bucle como sigue: "
+"<screen><userinput>for n in Combinations (4,6) do (\n"
+"  AlgunaFuncion (n)\n"
+");</userinput>\n"
+"</screen> Pero con NextCombination escribiría algo como lo siguiente: "
+"<screen><userinput>n:=[1:4];\n"
+"do (\n"
+"  AlgunaFuncion (n)\n"
+") while not IsNull(n:=NextCombination(n,6));</userinput>\n"
+"</screen> Consulte también <link linkend=\"gel-function-Combinations"
+"\">Combination</link>."
 
 #: C/genius.xml:3883(term)
 msgid "Pascal"
@@ -12762,7 +12878,7 @@ msgstr ""
 #: C/genius.xml:2739(programlisting)
 #, no-wrap
 msgid "function f(x) = prod k=1 to x do k\n"
-msgstr ""
+msgstr "function f(x) = prod k=1 to x do k\n"
 
 #: C/genius.xml:2735(para)
 msgid ""
