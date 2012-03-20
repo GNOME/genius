@@ -3,15 +3,9 @@ include $(top_srcdir)/gnome-doc-utils.make
 dist-hook: doc-dist-hook
 
 DOC_MODULE = genius
-DOC_FIGURES =	figures/genius_window.eps	\
-		figures/line_plot_graph.eps	\
-		figures/parametric.eps		\
-		figures/parametric.png		\
+DOC_FIGURES =	figures/parametric.png		\
 		figures/genius_window.png	\
 		figures/line_plot_graph.png	\
-		figures/parametric_graph.eps	\
-		figures/surface_graph.eps	\
-		figures/line_plot.eps		\
 		figures/line_plot.png		\
 		figures/parametric_graph.png	\
 		figures/surface_graph.png
