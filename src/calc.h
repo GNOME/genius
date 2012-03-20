@@ -29,7 +29,7 @@
 
 #include "structs.h"
 
-#define GENIUS_COPYRIGHT_STRING N_("Copyright (C) 1997-2011 Jiří (George) Lebl, Ph.D.")
+#define GENIUS_COPYRIGHT_STRING N_("Copyright (C) 1997-2012 Jiří (George) Lebl, Ph.D.")
 
 typedef enum {
 	GEL_NO_ERROR = 0,

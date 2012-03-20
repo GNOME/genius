@@ -2,7 +2,7 @@ Genius Manual
 
 Jiří Lebl
 
-   University of Illinois, Urbana-Champaign
+   University of Wisconsin-Madison
 
     <jirka@5z.com>
 
@@ -12,7 +12,7 @@ Kai Willadsen
 
     <kaiw@itee.uq.edu.au>
 
-   Copyright © 1997-2011 Jiří (George) Lebl
+   Copyright © 1997-2012 Jiří (George) Lebl
 
    Copyright © 2004 Kai Willadsen
 
@@ -75,7 +75,7 @@ Kai Willadsen
    To report a bug or make a suggestion regarding the Genius
    Mathematics Tool application or this manual, follow the
    directions in the GNOME Feedback Page.
-   This manual describes version 1.0.13 of Genius.
+   This manual describes version 1.0.15 of Genius.
      __________________________________________________________
 
    Table of Contents
@@ -185,6 +185,7 @@ Kai Willadsen
         Statistics
         Polynomials
         Set Theory
+        Commutative Algebra
         Miscellaneous
         Symbolic Operations
         Plotting
@@ -2265,6 +2266,14 @@ chdir (dir)
 
           Changes current directory, same as the cd.
 
+   CurrentTime
+
+CurrentTime
+
+          Returns the current UNIX time with microsecond precision
+          as a floating point number. That is, returns the number
+          of seconds since January 1st 1970.
+
    display
 
 display (str,expr)
@@ -2898,6 +2907,19 @@ ceil (x)
           Aliases: Ceiling
 
           Get the lowest integer more than or equal to n.
+          Examples:
+
+genius> ceil(1.1)
+= 2
+genius> ceil(-1.1)
+= -1
+
+          Note that you should be careful and notice that floating
+          point numbers are stored an binary and so may not be
+          what you expect. For example ceil(420/4.2) returns 101
+          instead of the expected 100. This is because 4.2 is
+          actually very slightly less than 4.2. Use rational
+          representation 42/10 if you want exact arithmetic.
 
    exp
 
@@ -5900,6 +5922,31 @@ Union (X,Y)
           vectors pretending to be sets).
      __________________________________________________________
 
+Commutative Algebra
+
+   MacaulayBound
+
+MacaulayBound (c,d)
+
+          For a Hilbert function that is c for degree d, given the
+          Macaulay bound for the Hilbert function of degree d+1
+          (The c^<d> operator from Green's proof).
+
+   MacaulayLowerOperator
+
+MacaulayLowerOperator (c,d)
+
+          The c_<d> operator from Green's proof of Macaulay's
+          Theorem.
+
+   MacaulayRep
+
+MacaulayRep (c,d)
+
+          Return the dth Macaulay representation of a positive
+          integer c.
+     __________________________________________________________
+
 Miscellaneous
 
    ASCIIToString
@@ -6320,12 +6367,13 @@ Output
           Genius Mathematics Tool and then uncheck it again.
 
    Display errors in a dialog
-          If set the errors will be displayed in a seprate dialog,
-          if unset the errors will be printed on the console.
+          If set the errors will be displayed in a separate
+          dialog, if unset the errors will be printed on the
+          console.
 
    Display information messages in a dialog
           If set the information messages will be displayed in a
-          seprate dialog, if unset the information messages will
+          separate dialog, if unset the information messages will
           be printed on the console.
 
    Maximum errors to display
@@ -6435,6 +6483,7 @@ About Genius Mathematics Tool
    program.
 
    Jiří Lebl was during various parts of the development partially
-   supported for the work by NSF grant DMS 0900885 and the
-   University of Illinois at Urbana-Champaign. The software has
-   been used for both teaching and research.
+   supported for the work by NSF grant DMS 0900885, the University
+   of Illinois at Urbana-Champaign, the University of California
+   at San Diego and the University of Wisconsin-Madison. The
+   software has been used for both teaching and research.

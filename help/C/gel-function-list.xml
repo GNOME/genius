@@ -1108,7 +1108,21 @@ value then <function>Sign</function> returns the direction or 0.
          <listitem>
           <synopsis>ceil (x)</synopsis>
           <para>Aliases: <function>Ceiling</function></para>
-          <para>Get the lowest integer more than or equal to n.</para>
+	  <para>Get the lowest integer more than or equal to <varname>n</varname>. Examples:
+          <screen><prompt>genius></prompt> <userinput>ceil(1.1)</userinput>
+= 2
+<prompt>genius></prompt> <userinput>ceil(-1.1)</userinput>
+= -1
+</screen>
+           </para>
+	   <para>Note that you should be careful and notice that floating point
+		   numbers are stored an binary and so may not be what you
+		   expect.  For example <userinput>ceil(420/4.2)</userinput>
+		   returns 101 instead of the expected 100.  This is because
+		   4.2 is actually very slightly less than 4.2.  Use rational
+		   representation <userinput>42/10</userinput> if you want
+		   exact arithmetic.
+           </para>
          </listitem>
         </varlistentry>
 
@@ -5115,6 +5129,35 @@ and has period <userinput>b-a</userinput>.</para>
          </listitem>
         </varlistentry>
 
+      </variablelist>
+    </sect1>
+
+    <sect1 id="genius-gel-function-list-commutative-algebra">
+      <title>Commutative Algebra</title>
+      <variablelist>
+        <varlistentry id="gel-function-MacaulayBound">
+         <term>MacaulayBound</term>
+         <listitem>
+          <synopsis>MacaulayBound (c,d)</synopsis>
+          <para>For a Hilbert function that is c for degree d, given the Macaulay bound for the Hilbert function of degree d+1 (The c^&lt;d&gt; operator from Green's proof).</para>
+         </listitem>
+        </varlistentry>
+	
+        <varlistentry id="gel-function-MacaulayLowerOperator">
+         <term>MacaulayLowerOperator</term>
+         <listitem>
+          <synopsis>MacaulayLowerOperator (c,d)</synopsis>
+          <para>The c_&lt;d&gt; operator from Green's proof of Macaulay's Theorem.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-MacaulayRep">
+         <term>MacaulayRep</term>
+         <listitem>
+          <synopsis>MacaulayRep (c,d)</synopsis>
+          <para>Return the dth Macaulay representation of a positive integer c.</para>
+         </listitem>
+        </varlistentry>
       </variablelist>
     </sect1>
 

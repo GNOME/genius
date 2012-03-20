@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2011 Jiri (George) Lebl
+ * Copyright (C) 2003-2012 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -1388,6 +1388,64 @@ plot_resetzoom_cb (void)
 	}
 }
 
+static guint dozoom_idle_id = 0;
+static gdouble dozoom_xmin;
+static gdouble dozoom_ymin;
+static gdouble dozoom_xmax;
+static gdouble dozoom_ymax;
+static gboolean dozoom_just_click;
+
+static gboolean
+dozoom_idle (gpointer data)
+{
+	dozoom_idle_id = 0;
+
+	if (plot_in_progress == 0 && line_plot != NULL) {
+		double len;
+		gboolean last_info = genius_setup.info_box;
+		gboolean last_error = genius_setup.error_box;
+		genius_setup.info_box = TRUE;
+		genius_setup.error_box = TRUE;
+
+		/* just click, so zoom in */
+		if (dozoom_just_click) {
+			len = plotx2 - plotx1;
+			plotx1 += len * dozoom_xmin - len / 4.0;
+			plotx2 = plotx1 + len / 2.0;
+
+			len = ploty2 - ploty1;
+			ploty1 += len * dozoom_ymin - len / 4.0;
+			ploty2 = ploty1 + len / 2.0;
+		} else {
+			len = plotx2 - plotx1;
+			plotx1 += len * dozoom_xmin;
+			plotx2 = plotx1 + (len * (dozoom_xmax-dozoom_xmin));
+
+			len = ploty2 - ploty1;
+			ploty1 += len * dozoom_ymin;
+			ploty2 = ploty1 + (len * (dozoom_ymax-dozoom_ymin));
+		}
+
+		/* sanity */
+		if (plotx2 - plotx1 < MINPLOT)
+			plotx2 = plotx1 + MINPLOT;
+		/* sanity */
+		if (ploty2 - ploty1 < MINPLOT)
+			ploty2 = ploty1 + MINPLOT;
+
+		plot_axis ();
+
+		if (gel_interrupted)
+			gel_interrupted = FALSE;
+
+		gel_printout_infos ();
+		genius_setup.info_box = last_info;
+		genius_setup.error_box = last_error;
+	}
+
+	return FALSE;
+}
+
 static void
 plot_select_region (GtkPlotCanvas *canvas,
 		    gdouble xmin,
@@ -1397,11 +1455,11 @@ plot_select_region (GtkPlotCanvas *canvas,
 {
 	double len;
 	double px, py, pw, ph;
-	gboolean just_click = FALSE;
 
+	dozoom_just_click = FALSE;
 	if (fabs(xmin-xmax) < 0.001 ||
 	    fabs(ymin-ymax) < 0.001) {
-		just_click = TRUE;
+		dozoom_just_click = TRUE;
 	}
 
 	/* FIXME: evil because this is the selection thingie,
@@ -1468,45 +1526,13 @@ plot_select_region (GtkPlotCanvas *canvas,
 
 	/* only for line plots! */
 	if (plot_in_progress == 0 && line_plot != NULL) {
-		gboolean last_info = genius_setup.info_box;
-		gboolean last_error = genius_setup.error_box;
-		genius_setup.info_box = TRUE;
-		genius_setup.error_box = TRUE;
-
-		/* just click, so zoom in */
-		if (just_click) {
-			len = plotx2 - plotx1;
-			plotx1 += len * xmin - len / 4.0;
-			plotx2 = plotx1 + len / 2.0;
-
-			len = ploty2 - ploty1;
-			ploty1 += len * ymin - len / 4.0;
-			ploty2 = ploty1 + len / 2.0;
-		} else {
-			len = plotx2 - plotx1;
-			plotx1 += len * xmin;
-			plotx2 = plotx1 + (len * (xmax-xmin));
-
-			len = ploty2 - ploty1;
-			ploty1 += len * ymin;
-			ploty2 = ploty1 + (len * (ymax-ymin));
+		dozoom_xmin = xmin;
+		dozoom_xmax = xmax;
+		dozoom_ymin = ymin;
+		dozoom_ymax = ymax;
+		if (dozoom_idle_id == 0) {
+			dozoom_idle_id = g_idle_add (dozoom_idle, NULL);
 		}
-
-		/* sanity */
-		if (plotx2 - plotx1 < MINPLOT)
-			plotx2 = plotx1 + MINPLOT;
-		/* sanity */
-		if (ploty2 - ploty1 < MINPLOT)
-			ploty2 = ploty1 + MINPLOT;
-
-		plot_axis ();
-
-		if (gel_interrupted)
-			gel_interrupted = FALSE;
-
-		gel_printout_infos ();
-		genius_setup.info_box = last_info;
-		genius_setup.error_box = last_error;
 	}
 }
 

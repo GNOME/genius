@@ -120,10 +120,10 @@ function IsMersennePrimeExponent(p) = (
 		return true;
 
 	# http://www.mersenne.org / GIMPS doublechecked everything up
-	# to 24,052,939 (on Dec. 25, 2011)
-	if p <= 24052939 then
+	# to 24,077,267 (on Mar. 20, 2012)
+	if p <= 24077267 then
 		return false;
 
-	error("IsMersennePrimeExponent: Number too large (known values up to: " + 24052939 + ")");
+	error("IsMersennePrimeExponent: Number too large (known values up to: " + 24077267 + ")");
 	bailout
 );
