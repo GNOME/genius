@@ -292,8 +292,8 @@ static inline void mpwl_init_type(MpwRealNum *op,int type);
 
 static inline void mpwl_free(MpwRealNum *op);
 
-static inline int mpwl_sgn (MpwRealNum *op);
-static inline int mpwl_zero_p (MpwRealNum *op);
+static inline int mpwl_sgn (MpwRealNum *op) G_GNUC_PURE;
+static inline int mpwl_zero_p (MpwRealNum *op) G_GNUC_PURE;
 
 static long mpwl_get_exp(MpwRealNum *op);
 
@@ -686,7 +686,7 @@ mpwl_sgn(MpwRealNum *op)
 }
 
 static inline int
-mpwl_zero_p (MpwRealNum *op)
+mpwl_zero_p (MpwRealNum *op) /* PURE!*/
 {
 	switch(op->type) {
 	case MPW_FLOAT: return mpfr_zero_p (op->data.fval);
@@ -3456,7 +3456,7 @@ mpw_peek_imag_mpf (mpw_ptr op)
 }
 
 int
-mpw_sgn(mpw_ptr op)
+mpw_sgn(mpw_ptr op) 
 {
 	if G_LIKELY (MPW_IS_REAL (op)) {
 		return mpwl_sgn(op->r);
@@ -3468,13 +3468,13 @@ mpw_sgn(mpw_ptr op)
 }
 
 int
-mpw_re_sgn(mpw_ptr op)
+mpw_re_sgn(mpw_ptr op) /* PURE */
 {
 	return mpwl_sgn(op->r);
 }
 
 int
-mpw_im_sgn(mpw_ptr op)
+mpw_im_sgn(mpw_ptr op) /* PURE */
 {
 	return mpwl_sgn(op->i);
 }
@@ -4161,7 +4161,7 @@ mpw_odd_p(mpw_ptr op)
 
 /* exact zero, not a float! */
 gboolean
-mpw_exact_zero_p (mpw_ptr op)
+mpw_exact_zero_p (mpw_ptr op) /* PURE! */
 {
 	if (MPW_IS_REAL (op) &&
 	    (op->r == gel_zero ||
@@ -4175,7 +4175,7 @@ mpw_exact_zero_p (mpw_ptr op)
 }
 
 gboolean
-mpw_zero_p (mpw_ptr op)
+mpw_zero_p (mpw_ptr op) /* PURE!*/
 {
 	if ((op->r == gel_zero || mpwl_zero_p (op->r)) &&
 	    (op->i == gel_zero || mpwl_zero_p (op->i))) {

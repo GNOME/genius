@@ -1390,7 +1390,7 @@ static int
 logicalxorop(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 {
 	gboolean bad_node = FALSE;
-	gboolean ret = gel_isnodetrue (l, &bad_node) != gel_isnodetrue (r,& bad_node);
+	gboolean ret = gel_isnodetrue (l, &bad_node) != gel_isnodetrue (r, &bad_node);
 
 	if G_UNLIKELY (bad_node || gel_error_num) {
 		gel_error_num = GEL_NO_ERROR;
@@ -2363,7 +2363,7 @@ gel_mod_node (GelCtx *ctx, GelETree *n)
 
 /*return TRUE if node is true (a number node !=0), false otherwise*/
 gboolean
-gel_isnodetrue (GelETree *n, gboolean *bad_node)
+gel_isnodetrue (GelETree *n, gboolean *bad_node) /*PURE!*/
 {
 	switch (n->type) {
 	case GEL_NULL_NODE:
@@ -3492,6 +3492,7 @@ iter_derefvarop(GelCtx *ctx, GelETree *n)
 	return;
 
 /*returns 0 if all numeric (or bool if bool_ok), 1 if numeric/matrix/null, 2 if contains string, 3 otherwise*/
+static int arglevel (GelETree *r, int cnt, gboolean bool_ok) G_GNUC_PURE;
 static int
 arglevel (GelETree *r, int cnt, gboolean bool_ok)
 {

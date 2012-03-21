@@ -134,7 +134,7 @@ extern GelETree *the_zero;
 #define gel_matrixw_elements(a) ((a)->regw*(a)->regh)
 
 /*get the value at, make sure it's in the range*/
-G_INLINE_FUNC GelETree *gel_matrixw_index(GelMatrixW *m, int x, int y);
+G_INLINE_FUNC GelETree *gel_matrixw_index(GelMatrixW *m, int x, int y) G_GNUC_PURE;
 /* Keep up to date with the one in the .c file */
 #ifdef G_CAN_INLINE
 G_INLINE_FUNC GelETree *
@@ -145,7 +145,7 @@ gel_matrixw_index(GelMatrixW *m, int x, int y) {
 #endif
 
 /*get the value at, make sure it's in the range*/
-G_INLINE_FUNC GelETree *gel_matrixw_vindex(GelMatrixW *m, int i);
+G_INLINE_FUNC GelETree *gel_matrixw_vindex(GelMatrixW *m, int i) G_GNUC_PURE;
 /* Keep up to date with the one in the .c file */
 #ifdef G_CAN_INLINE
 G_INLINE_FUNC GelETree *
@@ -164,7 +164,7 @@ gel_matrixw_vindex(GelMatrixW *m, int i) {
 #endif
 
 /*get the value at, make sure it's in the range*/
-G_INLINE_FUNC GelETree *gel_matrixw_get_vindex(GelMatrixW *m, int i);
+G_INLINE_FUNC GelETree *gel_matrixw_get_vindex(GelMatrixW *m, int i) G_GNUC_PURE;
 /* Keep up to date with the one in the .c file */
 #ifdef G_CAN_INLINE
 G_INLINE_FUNC GelETree *

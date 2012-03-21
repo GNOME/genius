@@ -48,7 +48,7 @@ extern const char *genius_operators[];
 
 /*return current context number (0 is global, -1 is uninitialized)*/
 int
-d_curcontext (void)
+d_curcontext (void) /* PURE! no side effects*/
 {
 	return context.top;
 }
@@ -418,7 +418,7 @@ d_setvalue (GelToken *id, GelETree *value)
 
 /*lookup a function in the dictionary in the current context*/
 GelEFunc *
-d_lookup_local(GelToken *id)
+d_lookup_local(GelToken *id) /* PURE! no side effects*/
 {
 	GelEFunc *func;
 
@@ -437,7 +437,7 @@ d_lookup_local(GelToken *id)
 
 /*lookup a function in the dictionary NOT in the current context*/
 GelEFunc *
-d_lookup_global_up1(GelToken *id)
+d_lookup_global_up1(GelToken *id)/* PURE! no side effects*/
 {
 	GSList *li;
 
@@ -459,7 +459,7 @@ d_lookup_global_up1(GelToken *id)
 
 /*lookup a function in the dictionary but only in the toplevel context */
 GelEFunc *
-d_lookup_only_global (GelToken *id)
+d_lookup_only_global (GelToken *id)/* PURE! no side effects*/
 {
 	GSList *li;
 	GelEFunc *func;
@@ -482,7 +482,7 @@ d_lookup_only_global (GelToken *id)
 
 /*lookup a function in the dictionary*/
 GelEFunc *
-d_lookup_global (GelToken *id)
+d_lookup_global (GelToken *id)/* PURE! no side effects*/
 {
 	GSList *li;
 	
@@ -874,7 +874,7 @@ d_popcontext (void)
 
 /*gimme the current dictinary*/
 GSList *
-d_getcontext (void)
+d_getcontext (void)/* PURE! no side effects*/
 {
 	if (context.top == -1)
 		return NULL;
@@ -885,7 +885,7 @@ d_getcontext (void)
 }
 
 GelContextFrame *
-d_get_all_contexts (void)
+d_get_all_contexts (void)/* PURE! no side effects*/
 {
 	if (context.top == -1)
 		return NULL;
@@ -895,7 +895,7 @@ d_get_all_contexts (void)
 
 /*gimme the current global dictinary*/
 GSList *
-d_getcontext_global (void)
+d_getcontext_global (void)/* PURE! no side effects*/
 {
 	if (context.top == -1) {
 		return NULL;
@@ -905,8 +905,9 @@ d_getcontext_global (void)
 	}
 }
 
+static int lowercase_ascii_sum_square (const char *id) G_GNUC_PURE;
 static int
-lowercase_ascii_sum_square (const char *id)
+lowercase_ascii_sum_square (const char *id) 
 {
 	int sum = 0;
 	int i;
@@ -917,8 +918,9 @@ lowercase_ascii_sum_square (const char *id)
 	return sum;
 }
 
+static int lowercase_ascii_sum (const char *id) G_GNUC_PURE;
 static int
-lowercase_ascii_sum (const char *id)
+lowercase_ascii_sum (const char *id) 
 {
 	int sum = 0;
 	int i;
@@ -928,8 +930,9 @@ lowercase_ascii_sum (const char *id)
 	return sum;
 }
 
+static int lowercase_kronecker_difference (const char *id1, const char *id2) G_GNUC_PURE;
 static int
-lowercase_kronecker_difference (const char *id1, const char *id2)
+lowercase_kronecker_difference (const char *id1, const char *id2) 
 {
 	int sum = 0;
 	int i;

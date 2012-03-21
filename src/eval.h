@@ -101,7 +101,7 @@ GelETree * gel_eval_etree(GelCtx *ctx, GelETree *etree);
 
 /*return TRUE if node is true (a number node !=0, or nonempty string),
   false otherwise*/
-int gel_isnodetrue(GelETree *n, int *bad_node);
+int gel_isnodetrue(GelETree *n, int *bad_node) G_GNUC_PURE;
 
 /*call a function (arguments should have already been evaluated)*/
 GelETree * gel_funccall(GelCtx *ctx, GelEFunc *func, GelETree **args, int nargs);
