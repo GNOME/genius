@@ -40,7 +40,7 @@
 
 #include "binreloc.h"
 
-static GelEFunc *_internal_ln_function = NULL;
+/* FIXME:static GelEFunc *_internal_ln_function = NULL; */
 static GelEFunc *_internal_exp_function = NULL;
 
 static GelEFunc *conj_function = NULL;
@@ -1988,6 +1988,19 @@ exp_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 			gel_errorout (_("%s: matrix argument is not square"),
 				      "exp");
 			return NULL;
+		}
+		if G_UNLIKELY (_internal_exp_function == NULL) {
+			_internal_exp_function = d_makeufunc(d_intern("<internal>exp"),
+							     gel_parseexp
+							     ("s = float(x^0); "
+							      "fact = 1; "
+							      "for i = 1 to 100 do "
+							      "(fact = fact * x / i; "
+							      "s = s + fact) ; s",
+							      NULL, FALSE, FALSE,
+							      NULL, NULL),
+							     g_slist_append(NULL,d_intern("x")),1,
+							     NULL);
 		}
 		return gel_funccall(ctx,_internal_exp_function,a,1);
 	}
@@ -6633,6 +6646,9 @@ gel_funclib_addall(void)
 	f->no_mod_all_args = 1;
 
 	/*temporary until well done internal functions are done*/
+	/* Search also for _internal_exp_function above, it's done on
+	 * demand */
+#if 0
 	_internal_ln_function = d_makeufunc(d_intern("<internal>ln"),
 					    /*FIXME:this is not the correct 
 					      function*/
@@ -6641,17 +6657,7 @@ gel_funclib_addall(void)
 							 NULL, NULL),
 					    g_slist_append(NULL,d_intern("x")),1,
 					    NULL);
-	_internal_exp_function = d_makeufunc(d_intern("<internal>exp"),
-					     gel_parseexp
-					     ("s = float(x^0); "
-					      "fact = 1; "
-					      "for i = 1 to 100 do "
-					      "(fact = fact * x / i; "
-					      "s = s + fact) ; s",
-					      NULL, FALSE, FALSE,
-					      NULL, NULL),
-					     g_slist_append(NULL,d_intern("x")),1,
-					     NULL);
+#endif
 
 	gel_add_symbolic_functions ();
 
