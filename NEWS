@@ -19,7 +19,7 @@ Changes to 1.0.14
 * Fix some compilation warnings (Vincent Untz, me)
 * Fix a crasher
 * Optimize and quantize the new pngs for a smaller file
-* Transation updates (Inaki Larranaga Murgoitio)
+* Translation updates (Inaki Larranaga Murgoitio)
 
 Changes to 1.0.13
 
@@ -51,7 +51,7 @@ Changes to 1.0.12
 * Fix CrossProduct
 * Some self tests were missing in the distro (Matthias Drochner)
 * Fix 64 bit build to be warning free
-* Fix buld on Make 3.82 (Dominique Leuenberger)
+* Fix build on Make 3.82 (Dominique Leuenberger)
 * Updated translations (Jorge Gonzales, Matej Urbancic, Marek Cernocky,
   Petr Kovar)
 
@@ -204,7 +204,7 @@ Changes to 1.0.4
 
 Changes to 1.0.3
 
-Syntax and semantical changes are marked with CHANGE:
+Syntax and semantics changes are marked with CHANGE:
 
 * Add "Save Console Output" menu item to save console contents
 * Add "Monitor a Variable" menu item to continuously monitor a single
@@ -230,7 +230,7 @@ Syntax and semantical changes are marked with CHANGE:
 
 Changes to 1.0.2
 
-* Symbolic deriative of erf, yay!
+* Symbolic derivative of erf, yay!
 * @() works correctly with null as an empty range returning null (an empty
   matrix)
 * Saner switching to scientific notation for floating point output
@@ -248,7 +248,7 @@ Changes to 1.0.2
 
 Changes to 1.0.1
 
-Syntax and semantical changes are marked with CHANGE:
+Syntax and semantics changes are marked with CHANGE:
 
 * GNOME version can now show listing of all user defined global and local
   variables (can display this even while the engine is running, including
@@ -263,7 +263,7 @@ Syntax and semantical changes are marked with CHANGE:
   DividePoly, IsSubset
 * PivotColumns and NullSpace are built in for greater speed.
 * CHANGE: Drop the support for tab as a matrix separator, it didn't
-  work properly, especialy not on the command line
+  work properly, especially not on the command line
 * CHANGE: Remove IsGaussianInteger, we already have IsGaussInteger alias
   IsComplexInteger
 * CHANGE: OrthogonalComplement is with respect to the Hermitian product
@@ -279,7 +279,7 @@ Syntax and semantical changes are marked with CHANGE:
 * Add "Save all unsaved" menu item
 * Add Ctrl->R for "Run"
 * Default graphing limits are -10 to 10 for all axis (no more pi as default)
-* Require at least GKT+ 2.4 for the GUI.
+* Require at least GTK+ 2.4 for the GUI.
 * Optionally compile with GtkSourceview2 and drop back to
   GtkSourceview1 if unavailable (Sebastian Dröge)
 * Fit dependent axis works for parametric plots
@@ -291,7 +291,7 @@ Syntax and semantical changes are marked with CHANGE:
 * Use Binreloc 2.0 so that the package is relocatable
 * Slight optimizations
 * Handle null in more linear algebra function as an empty matrix/subspace
-* Fix command line editting
+* Fix command line editing
 * Fix showing full answer in the gui.
 * Fix hangs in the graphing code by enforcing a minimum plot window size
 * Consistently traverse matrices row-wise everywhere
@@ -303,13 +303,13 @@ Syntax and semantical changes are marked with CHANGE:
 
 Changes to 1.0.0
 
-* Killed the internal MPFR.  This lib is quite ubiquitous nowdays
+* Killed the internal MPFR.  This lib is quite ubiquitous nowadays
   and it's not worth it maintaining our own out of date copy
 * Add FrobeniusNumber, GreedyAlgorithm, StirlingNumberFirst,
   StirlingNumberSecond, RayleighQuotientIteration
 * IsVector, IsDiagonal, IsUpperTriangular, IsLowerTriangular, nCr (Binomial)
   are now builtin for greater speed
-* Hofstadter, HarmonicNumber work over matrixes
+* Hofstadter, HarmonicNumber work over matrices
 * Fix ApplyOverMatrix2, RayleighQuotient
 * Fix GCD and LCM aliases with respect to varargs
 * Fix bug with printing scientific notation wrt newer gcc optimizations
@@ -443,7 +443,7 @@ Changes to 0.7.2
   IsNonNegativeInteger, LUDecomposition (David W. Hutchison),
   EulersMethod, RungeKutta
 * Fixed, round, ceil, trunc and Hofstadter
-* Few more functions now apply over matrixes with matrix arguments
+* Few more functions now apply over matrices with matrix arguments
 * CompositeSimpsonsRule and Divides are built in for speed
 * Treat strings as constants, thus getting pretty good speedups where
   strings are used
@@ -599,7 +599,7 @@ Changes to 0.5.6
 * Allow loading programs from the command line
   to gnome-genius
 * Use GtkSourceView if available for syntax highlighting
-* Handle change directory for filename completition
+* Handle change directory for filename completion
   correctly
 * GUI a teeny bit HIGgier (but not completely)
 * Translation updates (Guntupalli Karunakar, Danilo Segan,
@@ -627,7 +627,7 @@ Changes to 0.5.4
 
 Note the syntax changes marked with 'SYNTAX:'
 
-* The GUI now allows editting program files and running them directly from
+* The GUI now allows editing program files and running them directly from
   the gui.
 * SYNTAX: If "log" is used in mod environment it acts as DiscreteLog
 * IsEven and IsOdd are now internal and fast
@@ -655,7 +655,7 @@ Note the syntax changes marked with 'SYNTAX:'
 * SYNTAX: Allow return after comma to break a long vector input
 * Mod matrices after all primitives (fixes for example "-[1] mod 2")
 * when function is undocumented, print at least a prototype on help
-* SYNTAX: 'mod' and 'call' now binds tighet then logical olperators to
+* SYNTAX: 'mod' and 'call' now binds tighter then logical operators to
   make "if a == b mod n and a == c mod n then ..."
 * SYNTAX: I, zeros, ones, rand, randint don't mod their arguments when in
   mod mode
@@ -684,7 +684,7 @@ Note the syntax changes marked with 'SYNTAX:'
 * SYNTAX: Negation parsing changed -1^k still parses as (-1)^k but -a^k parses
   as -(a^k) (where a is anything but a number
 * Rational powers now return integers if possible, and so the
-  SymbolicSquareRoot and SymbolicNthRoot functions are not neccessary
+  SymbolicSquareRoot and SymbolicNthRoot functions are not necessary
 * Nicer printing of complex numbers
 * Printing fixes
 * Fractions printed nicely in troff and latex mode
@@ -721,10 +721,10 @@ Changes to 0.5.2
   file, but can now be viewed directly from genius.
 * Use vte instead of zvt since zvt was giving me fits (vte is on the other
   hand giving me different fits).
-* Fix precendence of defining a function (now "function f(x) = foo mod bar"
+* Fix precedence of defining a function (now "function f(x) = foo mod bar"
   will work as expected)
 * Using rationals in modular mode will take the inverses mod n
-* Negative powers and division of matrixes in modular mode
+* Negative powers and division of matrices in modular mode
 * Implement IsPrimeProbability, LucasNumber, ModInvert, EulerPhi,
   Subfactorial, GoldenRatio
 * Use gmp for NextPrime
@@ -796,7 +796,7 @@ Changes to 0.4.4
 
 Changes to 0.4.3
 
-* depreceated the bc way of adding functions
+* deprecated the bc way of adding functions
 * better interactive parsing
 * i18n actually works
 

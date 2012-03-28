@@ -1,3 +1,11 @@
+Wed Mar 28 17:08:55 2012  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/calc.c: fix possible uninitialized use when reading 
+	  the compiled library (though it's code that never gets hit
+	  unless the installed library gets corrupted)
+
+	* NEWS: fix typos
+
 Wed Mar 28 15:57:41 2012  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/calc.c: when running help and things are not documented and not

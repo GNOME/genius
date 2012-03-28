@@ -1993,7 +1993,7 @@ load_compiled_fp (const char *file, FILE *fp)
 
 	while ( ! break_on_next && fgets (buf, buf_size, fp) != NULL) {
 		char *p;
-		char *b2;
+		char *b2 = NULL;
 		GelToken *tok, *symbolic_tok = NULL;
 		int size, nargs, vararg, propagate_mod, no_mod_all_args;
 		int local_all, never_on_subst_list, built_subst_dict;
