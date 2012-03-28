@@ -2726,6 +2726,7 @@ gel_help_on (const char *text)
 				   NULL /* help_html */ };
 	GelEFunc *f;
 	int i;
+	gboolean documented_or_func_or_param = TRUE;
 
 	gel_output_push_nonotify (gel_main_out);
 
@@ -2762,9 +2763,17 @@ gel_help_on (const char *text)
 		return;
 	}
 
-	do_cyan ();
 
 	f = d_lookup_global (d_intern (text));
+
+	if (f == NULL &&
+	    help == &not_documented &&
+	    ! d_intern (text)->parameter) {
+		documented_or_func_or_param = FALSE;
+	}
+
+	if (documented_or_func_or_param)
+		do_cyan ();
 
 	if (d_intern (text)->parameter) {
 		gel_output_printf_full (gel_main_out, FALSE, "%s%s\n",
@@ -2773,7 +2782,8 @@ gel_help_on (const char *text)
 		   || (f->type == GEL_BUILTIN_FUNC &&
 		       f->named_args == NULL &&
 		       ! f->vararg)) {
-		gel_output_printf_full (gel_main_out, FALSE, "%s\n", text);
+		if (documented_or_func_or_param)
+			gel_output_printf_full (gel_main_out, FALSE, "%s\n", text);
 	} else {
 		GSList *li;
 		gel_output_printf_full (gel_main_out, FALSE, "%s (", text);
@@ -2789,7 +2799,8 @@ gel_help_on (const char *text)
 			gel_output_full_string (gel_main_out, "...");
 		gel_output_full_string (gel_main_out, ")\n");
 	}
-	do_green ();
+	if (documented_or_func_or_param)
+		do_green ();
 
 	if (help->aliases != NULL) {
 		GSList *li;
@@ -2803,7 +2814,7 @@ gel_help_on (const char *text)
 		g_string_free (gs, TRUE);
 	}
 
-	if (help->description != NULL) {
+	if (documented_or_func_or_param && help->description != NULL) {
 		gel_output_printf_full (gel_main_out, FALSE,
 					_("Description: %s\n"),
 					_(help->description));
