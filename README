@@ -4,7 +4,7 @@ Genius Calculator
 Genius calculator is a general purpose calculator and mathematics tool
 with many features.
 
-For a manual read help/C/genius.txt (or see the manual in the gnome
+For a manual read help/genius.txt (or see the manual in the gnome
 help browser).
 
 ****************************************************************************
@@ -14,11 +14,11 @@ Requirements:
 	- yacc (tested under bison -y)
 	- gmp (relatively new one required)
 	- mpfr (relatively new one)
-	- glib 2.x
+	- glib 2.12
 And for the GNOME frontend you need:
-	- gtk+ 2.4
-	- gnome libs
-	- gtksourceview (optional but recommended)
+	- gtk+ 2.18
+	- vte
+	- gtksourceview or gtksourceview2 (optional but recommended)
 
 If you want to compile without the GNOME frontend, try the
   --disable-gnome
