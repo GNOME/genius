@@ -11,7 +11,7 @@ function Subfactorial(n) = (
 	(n!) * sum k=1 to n do ((-1)^k)/(k!)
 )
 
-SetHelp("Catalan","combinatorics","Get n'th catalan number");
+SetHelp("Catalan","combinatorics","Get nth Catalan number");
 function Catalan(n) = (
 	if(IsMatrix(n)) then
 		return ApplyOverMatrix(n,Catalan)
@@ -99,7 +99,7 @@ function Multinomial(v,arg...) = (
 	MatrixSum(m)!/MatrixProduct(ApplyOverMatrix(m,`(x)[]=x!))
 )
 
-SetHelp("Pascal","combinatorics","Get the pascal's triangle as a matrix");
+SetHelp("Pascal","combinatorics","Get the Pascal's triangle as a matrix");
 function Pascal(i) = (
 	if not IsNonNegativeInteger(i) then
 		(error("Pascal: argument not a non-negative integer");bailout);

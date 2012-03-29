@@ -1,25 +1,32 @@
-# Compute linear recursive sequences using galois stepping (I think --
+# Compute linear recursive sequences using Galois stepping (I think --
 # or maybe I have it backwards)
 # FIXME: Check names for this stuff!
 
 # Galois Matrix
 # Given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1)),
-# gives the galois stepping matrix
+# gives the Galois stepping matrix
 SetHelp ("GaloisMatrix", "combinatorics", "Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))")
 function GaloisMatrix(combining_rule) = (
  [[0;I(columns(combining_rule)-1)],combining_rule.']
 )
 
 # Linear recursive sequence
-SetHelp ("LinearRecursiveSequence", "combinatorics", "Compute linear recursive sequence using galois stepping")
+SetHelp ("LinearRecursiveSequence", "combinatorics", "Compute linear recursive sequence using Galois stepping")
 function LinearRecursiveSequence(seed_values,combining_rule,n) =
 (
+ if IsNull(n) then return null;
+ if IsMatrix(n) then (
+  for j=1 to elements(n) do (
+   n@(j) = LinearRecursiveSequence(seed_values,combining_rule,n@(j))
+  );
+  return n
+ );
  k=columns(seed_values);
  if (k > n >= 0) then                      # If asks for one of the seed values, return it
    seed_values@(n+1)
  else                                      # otherwise...
  (
-  G=galois_matrix(combining_rule);         # form the galois matrix
+  G=GaloisMatrix(combining_rule);         # form the Galois matrix
   if (n >= k) then
    (seed_values*G^(n-k+1))@(k)       # ...and step it enough times
   else if (IsInvertible(G)) then

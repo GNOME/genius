@@ -1752,7 +1752,7 @@ number is specified) of the given size returned.  For example,
          <listitem>
           <synopsis>FermatFactorization (n,tries)</synopsis>
           <para>
-	    Attempt fermat factorization of <varname>n</varname> into
+	    Attempt Fermat factorization of <varname>n</varname> into
 	    <userinput>(t-s)*(t+s)</userinput>, returns <varname>t</varname>
 	    and <varname>s</varname> as a vector if possible, <constant>null</constant> otherwise.
 	    <varname>tries</varname> specifies the number of tries before
@@ -2608,7 +2608,10 @@ functions make this check.  Values can be any number including complex numbers.<
          <listitem>
           <synopsis>MakeDiagonal (v,arg...)</synopsis>
           <para>Aliases: <function>diag</function></para>
-          <para>Make diagonal matrix from a vector.</para>
+	  <para>Make diagonal matrix from a vector.  Alternatively you can pass
+		  in the values to put on the diagonal as arguments.  So
+		  <userinput>MakeDiagonal([1,2,3])</userinput> is the same as
+		  <userinput>MakeDiagonal(1,2,3)</userinput>.</para>
           <para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Diagonal_matrix">Wikipedia</ulink> or
@@ -2690,7 +2693,7 @@ vector with the result.</para>
          <term>RowSumSquares</term>
          <listitem>
           <synopsis>RowSumSquares (m)</synopsis>
-          <para>Calculate sum of squares of each row in a matrix.</para>
+          <para>Calculate sum of squares of each row in a matrix and return a vertical vector with the results.</para>
          </listitem>
         </varlistentry>
 
@@ -3116,7 +3119,7 @@ a sesquilinear form.  The vectors will be made orthonormal with respect to
          <term>IsInvertible</term>
          <listitem>
           <synopsis>IsInvertible (n)</synopsis>
-          <para>Is a matrix (or number) invertible (Integer matrix is invertible iff it's invertible over the integers).</para>
+          <para>Is a matrix (or number) invertible (Integer matrix is invertible if and only if it is invertible over the integers).</para>
          </listitem>
         </varlistentry>
 
@@ -3451,7 +3454,7 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
          <term>RosserMatrix</term>
          <listitem>
           <synopsis>RosserMatrix ()</synopsis>
-          <para>Rosser matrix, a classic symmetric eigenvalue test problem.</para>
+          <para>Returns the Rosser matrix, which is a classic symmetric eigenvalue test problem.</para>
          </listitem>
         </varlistentry>
 
@@ -3694,7 +3697,7 @@ divided to make all pivots 1.</para>
          <term>Catalan</term>
          <listitem>
           <synopsis>Catalan (n)</synopsis>
-          <para>Get <varname>n</varname>'th catalan number.</para>
+          <para>Get <varname>n</varname>th Catalan number.</para>
           <para>
 	    See
 	    <ulink url="http://planetmath.org/encyclopedia/CatalanNumbers.html">Planetmath</ulink> for more information.
@@ -3818,7 +3821,7 @@ divided to make all pivots 1.</para>
          <listitem>
           <synopsis>HarmonicNumber (n,r)</synopsis>
           <para>Aliases: <function>HarmonicH</function></para>
-          <para>Harmonic Number, the <varname>n</varname>'th harmonic number of order <varname>r</varname>.</para>
+          <para>Harmonic Number, the <varname>n</varname>th harmonic number of order <varname>r</varname>.</para>
          </listitem>
         </varlistentry>
 
@@ -3834,7 +3837,7 @@ divided to make all pivots 1.</para>
          <term>LinearRecursiveSequence</term>
          <listitem>
           <synopsis>LinearRecursiveSequence (seed_values,combining_rule,n)</synopsis>
-          <para>Compute linear recursive sequence using galois stepping.</para>
+          <para>Compute linear recursive sequence using Galois stepping.</para>
          </listitem>
         </varlistentry>
 
@@ -3974,7 +3977,7 @@ do (
          <term>Triangular</term>
          <listitem>
           <synopsis>Triangular (nth)</synopsis>
-          <para>Calculate the <varname>n</varname>'th triangular number.</para>
+          <para>Calculate the <varname>n</varname>th triangular number.</para>
           <para>
 	    See
 	    <ulink url="http://planetmath.org/encyclopedia/TriangularNumbers.html">Planetmath</ulink> for more information.
@@ -4425,7 +4428,7 @@ and has period <userinput>b-a</userinput>.</para>
          <term>DiscreteDelta</term>
          <listitem>
           <synopsis>DiscreteDelta (v)</synopsis>
-          <para>Returns 1 iff all elements are zero.</para>
+          <para>Returns 1 if and only if all elements are zero.</para>
          </listitem>
         </varlistentry>
 
@@ -4472,7 +4475,7 @@ and has period <userinput>b-a</userinput>.</para>
          <term>KroneckerDelta</term>
          <listitem>
           <synopsis>KroneckerDelta (v)</synopsis>
-          <para>Returns 1 iff all elements are equal.</para>
+          <para>Returns 1 if and only if all elements are equal.</para>
          </listitem>
         </varlistentry>
 
@@ -5252,7 +5255,7 @@ and has period <userinput>b-a</userinput>.</para>
          <term>SymbolicTaylorApproximationFunction</term>
          <listitem>
           <synopsis>SymbolicTaylorApproximationFunction (f,x0,n)</synopsis>
-	  <para>Attempt to construct the taylor approximation function around x0 to the nth degree.
+	  <para>Attempt to construct the Taylor approximation function around x0 to the nth degree.
 	  (See <link linkend="gel-function-SymbolicDerivative"><function>SymbolicDerivative</function></link>)
           </para>
          </listitem>
@@ -5312,7 +5315,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    <varname>x2</varname>,<varname>y2</varname>.
 	    <varname>x1</varname>,<varname>y1</varname>,
 	    <varname>x2</varname>,<varname>y2</varname> can be replaced by an
-	    <varname>n</varname> by 2 matrix for a longer line.
+	    <varname>n</varname> by 2 matrix for a longer polyline.
           </para>
           <para>
 	    Extra parameters can be added to specify line color, thickness,

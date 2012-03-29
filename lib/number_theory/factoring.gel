@@ -101,7 +101,7 @@ function Factors(n) =
   r@(2:elements(r)-1)
  )
 
-SetHelp("FermatFactorization", "number_theory", "Attempt fermat factorization of n into (t-s)*(t+s), returns t and s as a vector if possible, null otherwise")
+SetHelp("FermatFactorization", "number_theory", "Attempt Fermat factorization of n into (t-s)*(t+s), returns t and s as a vector if possible, null otherwise")
 function FermatFactorization(n,tries) = (
   if not IsPositiveInteger(n) or not IsPositiveInteger(tries) then
   	(error("FermatFactorization: arguments not positive integers");bailout);

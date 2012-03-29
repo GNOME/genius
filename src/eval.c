@@ -1448,7 +1448,7 @@ eqmatrix(GelETree *a, GelETree *b, int *error)
 	   b->type == GEL_MATRIX_NODE) {
 		if G_UNLIKELY (!gel_is_matrix_value_or_bool_only(a->mat.matrix) ||
 			       !gel_is_matrix_value_or_bool_only(b->mat.matrix)) {
-			gel_errorout (_("Cannot compare non value or bool only matrixes"));
+			gel_errorout (_("Cannot compare non value or bool only matrices"));
 			*error = TRUE;
 			return 0;
 		}
@@ -1505,7 +1505,7 @@ eqmatrix(GelETree *a, GelETree *b, int *error)
 			GelETree *t = gel_matrixw_index(m,0,0);
 			if G_UNLIKELY (t->type != GEL_VALUE_NODE &&
 				       t->type != GEL_BOOL_NODE) {
-				gel_errorout (_("Cannot compare non value or bool only matrixes"));
+				gel_errorout (_("Cannot compare non value or bool only matrices"));
 				*error = TRUE;
 				return 0;
 			}
@@ -1520,7 +1520,7 @@ eqmatrix(GelETree *a, GelETree *b, int *error)
 			GelETree *t = gel_matrixw_index(m,0,0);
 			if G_UNLIKELY (t->type != GEL_VALUE_NODE &&
 				       t->type != GEL_BOOL_NODE) {
-				gel_errorout (_("Cannot compare non value or bool only matrixes"));
+				gel_errorout (_("Cannot compare non value or bool only matrices"));
 				*error = TRUE;
 				return 0;
 			}
@@ -1924,9 +1924,9 @@ pure_matrix_eltbyelt_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 		    n->op.oper == GEL_E_ELTPLUS ||
 		    n->op.oper == GEL_E_MINUS ||
 		    n->op.oper == GEL_E_ELTMINUS)
-			gel_errorout (_("Can't add/subtract two matricies of different sizes"));
+			gel_errorout (_("Can't add/subtract two matrices of different sizes"));
 		else
-			gel_errorout (_("Can't do element by element operations on two matricies of different sizes"));
+			gel_errorout (_("Can't do element by element operations on two matrices of different sizes"));
 		return TRUE;
 	}
 	l->mat.quoted = l->mat.quoted || r->mat.quoted;
@@ -1992,7 +1992,7 @@ pure_matrix_mul_op(GelCtx *ctx, GelETree *n, GelETree *l, GelETree *r)
 	m1 = l->mat.matrix;
 	m2 = r->mat.matrix;
 	if G_UNLIKELY ((gel_matrixw_width(m1) != gel_matrixw_height(m2))) {
-		gel_errorout (_("Can't multiply matricies of wrong sizes"));
+		gel_errorout (_("Can't multiply matrices of wrong sizes"));
 		return TRUE;
 	}
 	m = gel_matrixw_new();
@@ -3607,7 +3607,7 @@ evalcomp(GelETree *n)
 				}
 				break;
 			default:
-				gel_errorout (_("Cannot compare matrixes"));
+				gel_errorout (_("Cannot compare matrices"));
 				gel_error_num = GEL_NO_ERROR;
 				return;
 			}
@@ -6291,7 +6291,7 @@ iter_get_velement (GelETree *n)
 	GEL_GET_LR (n, m, index);
 
 	if G_UNLIKELY (m->type != GEL_MATRIX_NODE) {
-		gel_errorout (_("Index works only on matricies"));
+		gel_errorout (_("Index works only on matrices"));
 		return;
 	}
 
@@ -6336,7 +6336,7 @@ iter_get_element (GelETree *n)
 	GEL_GET_LRR (n, m, index1, index2);
 
 	if G_UNLIKELY (m->type != GEL_MATRIX_NODE) {
-		gel_errorout (_("Index works only on matricies"));
+		gel_errorout (_("Index works only on matrices"));
 		return;
 	} else if G_UNLIKELY (index1->type != GEL_NULL_NODE &&
 			      index1->type != GEL_MATRIX_NODE &&
@@ -6427,7 +6427,7 @@ iter_get_region (GelETree *n, gboolean col)
 	GEL_GET_LR (n, m, index);
 
 	if G_UNLIKELY (m->type != GEL_MATRIX_NODE) {
-		gel_errorout (_("Index works only on matricies"));
+		gel_errorout (_("Index works only on matrices"));
 		return;
 	} else if G_LIKELY (index->type == GEL_VALUE_NODE ||
 			    index->type == GEL_MATRIX_NODE) {

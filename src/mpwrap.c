@@ -1514,7 +1514,7 @@ mpwl_jacobi(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		}
 		mpwl_set_si (rop, ret);
 	} else {
-		gel_errorout (_("Can't get jacobi symbols of floats or rationals!"));
+		gel_errorout (_("Can't get Jacobi symbols of floats or rationals!"));
 		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
 	}
 }
@@ -1533,7 +1533,7 @@ mpwl_legendre(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		}
 		mpwl_set_si (rop, ret);
 	} else {
-		gel_errorout (_("Can't get legendre symbols of floats or rationals!"));
+		gel_errorout (_("Can't get Legendre symbols of floats or rationals!"));
 		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
 	}
 }
@@ -1552,7 +1552,7 @@ mpwl_kronecker (MpwRealNum *rop, MpwRealNum *op1, MpwRealNum *op2)
 		}
 		mpwl_set_si (rop, ret);
 	} else {
-		gel_errorout (_("Can't get jacobi symbol with Kronecker extension of floats or rationals!"));
+		gel_errorout (_("Can't get Jacobi symbol with Kronecker extension of floats or rationals!"));
 		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
 	}
 }
@@ -1567,12 +1567,12 @@ mpwl_lucnum (MpwRealNum *rop, MpwRealNum *op)
 	}
 
 	if G_UNLIKELY (mpz_cmp_ui(op->data.ival,G_MAXULONG)>0) {
-		gel_errorout (_("Number too large to compute lucas number!"));
+		gel_errorout (_("Number too large to compute Lucas number!"));
 		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
 		return;
 	}
 	if G_UNLIKELY (mpz_sgn(op->data.ival)<0) {
-		gel_errorout (_("No such thing as negative lucas numbers!"));
+		gel_errorout (_("No such thing as negative Lucas numbers!"));
 		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
 		return;
 	}
@@ -4043,7 +4043,7 @@ mpw_jacobi(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 		mpwl_jacobi(rop->r,op1->r,op2->r);
 	} else {
 		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
-		gel_errorout (_("Can't get jacobi symbols of complex numbers"));
+		gel_errorout (_("Can't get Jacobi symbols of complex numbers"));
 	}
 }
 void
@@ -4059,7 +4059,7 @@ mpw_legendre(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 		mpwl_legendre(rop->r,op1->r,op2->r);
 	} else {
 		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
-		gel_errorout (_("Can't get legendre symbols complex numbers"));
+		gel_errorout (_("Can't get Legendre symbols complex numbers"));
 	}
 }
 void
@@ -4075,7 +4075,7 @@ mpw_kronecker(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 		mpwl_kronecker(rop->r,op1->r,op2->r);
 	} else {
 		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
-		gel_errorout (_("Can't get jacobi symbol with Kronecker extension for complex numbers"));
+		gel_errorout (_("Can't get Jacobi symbol with Kronecker extension for complex numbers"));
 	}
 }
 void
@@ -4091,7 +4091,7 @@ mpw_lucnum (mpw_ptr rop, mpw_ptr op)
 		mpwl_lucnum (rop->r, op->r);
 	} else {
 		gel_error_num = GEL_NUMERICAL_MPW_ERROR;
-		gel_errorout  (_("Can't get lucas number for complex numbers"));
+		gel_errorout  (_("Can't get Lucas number for complex numbers"));
 	}
 }
 void

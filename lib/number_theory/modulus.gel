@@ -15,7 +15,7 @@ function EulerPhi(n) =
 # Silver-Pohlig-Hellman as described in
 # Neil Koblitz, A Course in Number Theory and Cryptography, Springer, 1987
 # page 102-103
-SetHelp("SilverPohligHellmanWithFactorization", "number_theory", "Find discrete log of n base b in F_q where q is a prime using the Silver-Pohlig-Hellman algoritm, given f being the factorization of q-1");
+SetHelp("SilverPohligHellmanWithFactorization", "number_theory", "Find discrete log of n base b in F_q where q is a prime using the Silver-Pohlig-Hellman algorithm, given f being the factorization of q-1");
 function SilverPohligHellmanWithFactorization(n,b,q,f) = (
   if not IsPositiveInteger(n) or
      not IsPositiveInteger(b) or
@@ -62,7 +62,7 @@ function SilverPohligHellmanWithFactorization(n,b,q,f) = (
 )
 
 # compute the discrete log using the SilverPohligHellman alg
-SetHelp("DiscreteLog", "number_theory", "Find discrete log of n base b in F_q where q is a prime using the Silver-Pohlig-Hellman algoritm");
+SetHelp("DiscreteLog", "number_theory", "Find discrete log of n base b in F_q where q is a prime using the Silver-Pohlig-Hellman algorithm");
 function DiscreteLog(n,b,q) = (
   if not IsPositiveInteger(n) or
      not IsPositiveInteger(b) or

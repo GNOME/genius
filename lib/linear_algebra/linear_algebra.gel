@@ -146,7 +146,7 @@ function DirectSum(M,N...) = (
 # Note that given an integer matrix, returns true iff it is invertible OVER THE INTEGERS,
 # so for instance [2,0;0,1] is not invertible
 # FIXME: We need good coercion rules!
-SetHelp ("IsInvertible", "linear_algebra", "Is a matrix (or number) invertible (Integer matrix is invertible iff it's invertible over the integers)")
+SetHelp ("IsInvertible", "linear_algebra", "Is a matrix (or number) invertible (Integer matrix is invertible if and only if it is invertible over the integers)")
 function IsInvertible(n) =
 (
   if IsNull (n) then return false
@@ -199,7 +199,7 @@ function AuxiliaryUnitMatrix(n) =
     [0,I(n-1);0,0]
 )
 
-SetHelp("JordanBlock", "linear_algebra", "Get the jordan block corresponding to lambda and n")
+SetHelp("JordanBlock", "linear_algebra", "Get the Jordan block corresponding to lambda and n")
 function JordanBlock(n,lambda) =
 (
   if not IsInteger (n) or n < 1 then

@@ -2589,7 +2589,7 @@ print_command_help (const char *cmd)
 
 	if (strcmp (cmd, "load") == 0) {
 		gel_output_full_string (gel_main_out,
-					_("Load a file into the interpretor"));
+					_("Load a file into the interpreter"));
 	} else if (strcmp (cmd, "plugin") == 0) {
 		gel_output_full_string (gel_main_out,
 					_("Load a plugin"));

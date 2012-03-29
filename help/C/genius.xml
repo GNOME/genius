@@ -266,10 +266,6 @@ linkend="mainwindow-fig"/> is displayed.</para>
               <imagedata fileref="figures/genius_window.png" format="PNG"
 scale="50" scalefit="1"/> 
             </imageobject>
-            <imageobject>
-              <imagedata fileref="figures/genius_window.eps" format="EPS"
-scale="50" scalefit="1"/> 
-            </imageobject>
             <textobject> 
 	      <phrase>Shows &app; main window. Contains titlebar, menubar,
 toolbar and working area. Menubar contains <guilabel>File</guilabel>,
@@ -471,9 +467,6 @@ See <xref linkend="lineplot-fig"/>.
             <imageobject>
               <imagedata fileref="figures/line_plot.png" format="PNG" scale="50" scalefit="1"/> 
             </imageobject>
-            <imageobject>
-              <imagedata fileref="figures/line_plot.eps" format="EPS" scale="50" scalefit="1"/> 
-            </imageobject>
             <textobject> 
               <phrase>Shows the line plotting window.</phrase> 
             </textobject> 
@@ -499,9 +492,6 @@ See <xref linkend="lineplot-fig"/>.
           <mediaobject> 
             <imageobject>
               <imagedata fileref="figures/line_plot_graph.png" format="PNG" scale="50" scalefit="1"/> 
-            </imageobject>
-            <imageobject>
-              <imagedata fileref="figures/line_plot_graph.eps" format="EPS" scale="50" scalefit="1"/> 
             </imageobject>
             <textobject> 
               <phrase>The graph produced.</phrase> 
@@ -540,9 +530,6 @@ See <xref linkend="lineplot-fig"/>.
             <imageobject>
               <imagedata fileref="figures/parametric.png" format="PNG" scale="50" scalefit="1"/> 
             </imageobject>
-            <imageobject>
-              <imagedata fileref="figures/parametric.eps" format="EPS" scale="50" scalefit="1"/> 
-            </imageobject>
             <textobject> 
               <phrase>Parametric plotting tab in the <guilabel>Create Plot</guilabel> window.</phrase> 
             </textobject> 
@@ -552,7 +539,7 @@ See <xref linkend="lineplot-fig"/>.
 
       <para>
 	An example of a parametric plot is given in
-	<xref linkend="paramplot-fig"/>.
+	<xref linkend="paramplot2-fig"/>.
 	Similar operations can be
 	done on such graphs as can be done on the other line plots.
 	For plotting using the command line see the documentation of the
@@ -566,9 +553,6 @@ See <xref linkend="lineplot-fig"/>.
           <mediaobject> 
             <imageobject>
               <imagedata fileref="figures/parametric_graph.png" format="PNG" scale="50" scalefit="1"/> 
-            </imageobject>
-            <imageobject>
-              <imagedata fileref="figures/parametric_graph.eps" format="EPS" scale="50" scalefit="1"/> 
             </imageobject>
             <textobject> 
               <phrase>Parametric plot produced</phrase> 
@@ -672,9 +656,6 @@ See <xref linkend="lineplot-fig"/>.
             <imageobject>
               <imagedata fileref="figures/surface_graph.png" format="PNG" scale="50" scalefit="1"/> 
             </imageobject>
-            <imageobject>
-              <imagedata fileref="figures/surface_graph.eps" format="EPS" scale="50" scalefit="1"/> 
-            </imageobject>
             <textobject> 
               <phrase>Modulus of the complex cosine function.</phrase> 
             </textobject> 
@@ -695,7 +676,7 @@ See <xref linkend="lineplot-fig"/>.
 	  stands for George's Ego Leverage. -->  It is the language you use
 	  to write programs in &appname;. A program in GEL is simply an
 	  expression that evaluates to a number.
-	  &app; can therefore be used as a simple calculator, or as a
+	  &app; can be used as a simple calculator, or as a
 	  powerful theoretical research tool.  The syntax is meant to
 	  have as shallow of a learning curve as possible, especially for use
 	  as a calculator.
@@ -749,7 +730,7 @@ The next type if number is floating point. These are entered in a similar fashio
         </para>
 
         <para>
-The final type of number in gel is the complex numbers. You can enter a complex number as a sum of real and imaginary parts. The imaginary part ends with an <literal>i</literal>.  Here are examples of entering complex numbers:
+The final type of number in gel is the complex numbers. You can enter a complex number as a sum of real and imaginary parts. To add an imaginary part, append an <literal>i</literal>.  Here are examples of entering complex numbers:
 <programlisting>1+2i
 8.01i
 77*e^(1.3i)
@@ -1525,7 +1506,7 @@ different from <literal>=</literal> because it never gets translated to a
          <term><synopsis>*a</synopsis></term>
          <listitem>
            <para>
-             Variable dereferencing (to access a referenced varible).
+             Variable dereferencing (to access a referenced variable).
 	     See <xref linkend='genius-gel-references' />.
            </para>
          </listitem>
@@ -2309,7 +2290,7 @@ g(5)
 	</para>
 	<para>
 	  When you want the function to not have any private dictionary
-	  when put empty square brackets after the argument list.  Then
+	  then put empty square brackets after the argument list.  Then
 	  no private dictionary will be created at all.  Doing this is
 	  good to increase efficiency when a private dictionary is not
 	  needed or when you want the function to lookup all variables
@@ -2748,7 +2729,7 @@ but this example demonstrates some of the more complex features of GEL.
 <programlisting><![CDATA[# Calculate the row-echelon form of a matrix
 function MyOwnREF(m) = (
   if not IsMatrix(m) or not IsValueOnly(m) then
-    (error("ref: argument not a value only matrix");bailout);
+    (error("MyOwnREF: argument not a value only matrix");bailout);
   s := min(rows(m), columns(m));
   i := 1;
   d := 1;

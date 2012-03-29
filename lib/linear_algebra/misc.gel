@@ -24,7 +24,7 @@ function ApplyOverMatrix2(a,b,func) = (
 
 	else if(IsMatrix(a) and IsMatrix(b) and
 		(rows(a)!=rows(b) or columns(a)!=columns(b))) then
-		(error("ApplyOverMatrix2: cannot apply a function over two matrixes of different sizes");bailout);
+		(error("ApplyOverMatrix2: cannot apply a function over two matrices of different sizes");bailout);
 
 	if IsMatrix(a) and IsMatrix(b) then (
 	        r = zeros(rows(a),columns(a));

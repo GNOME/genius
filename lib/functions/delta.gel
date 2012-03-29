@@ -6,11 +6,8 @@
 
 ## Discrete Delta
 ## Takes a vector v and returns 1 if any entry is non-zero, 0 otherwise
-## FIXME: Is this right?
-## FIXME: this works fine for vectors, but I need to cast matrices
-# as vectors to get it to work for matrices.
 function DiscreteDelta(v) = KroneckerDelta([0,v])
-SetHelp("DiscreteDelta","functions","Returns 1 iff all elements are zero");
+SetHelp("DiscreteDelta","functions","Returns 1 if and only if all elements are zero");
 
 ## Kronecker Delta
 ## Takes a vector v and returns 1 if all entries are equal,
@@ -23,7 +20,7 @@ function KroneckerDelta(v) =
   );
   1
  )
-SetHelp("KroneckerDelta","functions","Returns 1 iff all elements are equal");
+SetHelp("KroneckerDelta","functions","Returns 1 if and only if all elements are equal");
 
 ## Unit Step Function
 ## The integral of the Dirac Delta function

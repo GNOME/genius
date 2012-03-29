@@ -1090,6 +1090,20 @@ MacaulayLowerOperator(27,3)					13
 (-8)^(-2/3)							1/4
 (-1/8)^(-2/3)							4
 (-2)^(-2/3)							0.629960524947
+KroneckerDelta([1,1,1])						1
+KroneckerDelta([1;1;1])						1
+KroneckerDelta([1;1,1])						0
+KroneckerDelta([10,12])						0
+DiscreteDelta([0,0])						1
+DiscreteDelta([0;0])						1
+DiscreteDelta([0,0;0,1])					0
+DiscreteDelta([1,0;0,0])					0
+LinearRecursiveSequence ([0,1],[1,1],6)				8
+LinearRecursiveSequence ([0,1],[1,1],[0,1,2,3,4,5,6])		[0,1,1,2,3,5,8]
+LinearRecursiveSequence ([0,1],[1,1],[0,1,2,3,4,5,6])		[0,1,1,2,3,5,8]
+LinearRecursiveSequence ([5,7],[1,2],2)				19
+LinearRecursiveSequence ([1,3,5],[1,2,-1],2)			2
+LinearRecursiveSequence ([1,3,5],[1,2,-1],null)+1		((null)+1)
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
 load "testprec.gel"						true

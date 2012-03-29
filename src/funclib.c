@@ -819,7 +819,7 @@ gel_apply_func_to_matrixen (GelCtx *ctx,
 	
 	if G_UNLIKELY (m2 && (gel_matrixw_width(m1) != gel_matrixw_width(m2) ||
 			      gel_matrixw_height(m1) != gel_matrixw_height(m2))) {
-		gel_errorout (_("Cannot apply function to two differently sized matrixes"));
+		gel_errorout (_("Cannot apply function to two differently sized matrices"));
 		return NULL;
 	}
 
@@ -6484,13 +6484,13 @@ gel_funclib_addall(void)
 	VALIAS (LCM, 2, lcm);
 	FUNC (IsPerfectSquare, 1, "n", "number_theory", N_("Check a number for being a perfect square"));
 	FUNC (IsPerfectPower, 1, "n", "number_theory", N_("Check a number for being any perfect power (a^b)"));
-	FUNC (Prime, 1, "n", "number_theory", N_("Return the n'th prime (up to a limit)"));
+	FUNC (Prime, 1, "n", "number_theory", N_("Return the nth prime (up to a limit)"));
 	ALIAS (prime, 1, Prime);
 	FUNC (IsEven, 1, "n", "number_theory", N_("Tests if an integer is even"));
 	FUNC (IsOdd, 1, "n", "number_theory", N_("Tests if an integer is odd"));
 
 	FUNC (NextPrime, 1, "n", "number_theory", N_("Returns the least prime greater than n (if n is positive)"));
-	FUNC (LucasNumber, 1, "n", "number_theory", N_("Returns the n'th Lucas number"));
+	FUNC (LucasNumber, 1, "n", "number_theory", N_("Returns the nth Lucas number"));
 	FUNC (ModInvert, 2, "n,m", "number_theory", N_("Returns inverse of n mod m"));
 	FUNC (Divides, 2, "m,n", "number_theory", N_("Checks divisibility (if m divides n)"));
 	FUNC (ExactDivision, 2, "n,d", "number_theory", N_("Return n/d but only if d divides n else returns garbage (this is faster than writing n/d)"));

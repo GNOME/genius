@@ -12,7 +12,7 @@
 # Returns true iff b^(n-1) == 1 (mod n).
 # FIXME: Should we take |n| if n is negative?
 # FIXME: is there a good name for an integer that is EITHER a pseudoprime OR a prime?
-SetHelp("PseudoprimeTest","number_theory","Pseudoprime test, true iff b^(n-1) == 1 (mod n)");
+SetHelp("PseudoprimeTest","number_theory","Pseudoprime test, true if and only if b^(n-1) == 1 (mod n)");
 function PseudoprimeTest(n,b) =
  (
   b^(|n|-1) == 1 mod |n|
