@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2009 Jiri (George) Lebl
+ * Copyright (C) 1997-2012 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -239,6 +239,13 @@ struct _GelETreeIdentifier {
 	GelETreeType type;
 	GelETree *next;
 	GelToken *id;
+	gboolean uninitialized;
+	
+	/* gboolean is faster, then a bitfield and we right now
+	   don't gain anything */
+	/*
+	guint uninitialized:1;
+	*/
 };
 
 struct _GelETreeString {

@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2011 Jiri (George) Lebl
+ * Copyright (C) 1997-2012 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -338,6 +338,7 @@ gel_makenum_identifier (GelToken *id)
 	GEL_GET_NEW_NODE (n);
 	n->type = GEL_IDENTIFIER_NODE;
 	n->id.id = id; 
+	n->id.uninitialized = FALSE;
 	n->any.next = NULL;
 
 	return n;
@@ -704,6 +705,7 @@ copynode_to(GelETree *empty, GelETree *o)
 		empty->type = GEL_IDENTIFIER_NODE;
 		empty->any.next = o->any.next;
 		empty->id.id = o->id.id;
+		empty->id.uninitialized = o->id.uninitialized;
 		break;
 	case GEL_STRING_NODE:
 		empty->type = GEL_STRING_NODE;
@@ -3352,6 +3354,7 @@ iter_do_var(GelCtx *ctx, GelETree *n, GelEFunc *f)
 		
 		GEL_GET_NEW_NODE(i);
 		i->type = GEL_IDENTIFIER_NODE;
+		i->id.uninitialized = FALSE;
 		if(f->id) {
 			i->id.id = f->id;
 		} else {
@@ -3425,23 +3428,28 @@ iter_variableop(GelCtx *ctx, GelETree *n)
 	f = d_lookup_global(n->id.id);
 	if G_UNLIKELY (f == NULL) {
 		char *similar;
-		if (strcmp (n->id.id->token, "i") == 0) {
-			gel_errorout (_("Variable 'i' used uninitialized.  "
-					"Perhaps you meant to write '1i' for "
-					"the imaginary number (square root of "
-					"-1)."));
-		} else if ((similar = gel_similar_possible_ids (n->id.id->token))
-			       != NULL) {
-			gel_errorout (_("Variable '%s' used uninitialized, "
-					"perhaps you meant %s."),
-				      n->id.id->token,
-				      similar);
+		if ( ! n->id.uninitialized) {
+			if (strcmp (n->id.id->token, "i") == 0) {
+				gel_errorout (_("Variable 'i' used uninitialized.  "
+						"Perhaps you meant to write '1i' for "
+						"the imaginary number (square root of "
+						"-1)."));
+			} else if ((similar = gel_similar_possible_ids (n->id.id->token))
+				       != NULL) {
+				gel_errorout (_("Variable '%s' used uninitialized, "
+						"perhaps you meant %s."),
+					      n->id.id->token,
+					      similar);
 
-			g_free (similar);
-		} else {
-			gel_errorout (_("Variable '%s' used uninitialized"),
-				      n->id.id->token);
+				g_free (similar);
+			} else {
+				gel_errorout (_("Variable '%s' used uninitialized"),
+					      n->id.id->token);
+			}
 		}
+		/* save that we have determined that this was
+		 * uninitialized */
+		n->id.uninitialized = TRUE;
 		return TRUE;
 	} else {
 		return iter_do_var(ctx,n,f);
@@ -3459,17 +3467,22 @@ iter_derefvarop(GelCtx *ctx, GelETree *n)
 	f = d_lookup_global(l->id.id);
 	if G_UNLIKELY (f == NULL) {
 		char *similar = gel_similar_possible_ids (l->id.id->token);
-		if (similar != NULL) {
-			gel_errorout (_("Variable '%s' used uninitialized, "
-					"perhaps you meant %s."),
-				      l->id.id->token,
-				      similar);
+		if ( ! l->id.uninitialized) {
+			if (similar != NULL) {
+				gel_errorout (_("Variable '%s' used uninitialized, "
+						"perhaps you meant %s."),
+					      l->id.id->token,
+					      similar);
 
-			g_free (similar);
-		} else {
-			gel_errorout (_("Variable '%s' used uninitialized"),
-				      l->id.id->token);
+				g_free (similar);
+			} else {
+				gel_errorout (_("Variable '%s' used uninitialized"),
+					      l->id.id->token);
+			}
 		}
+		/* save that we have determined that this was
+		 * uninitialized */
+		l->id.uninitialized = TRUE;
 	} else if G_UNLIKELY (f->nargs != 0) {
 		gel_errorout (_("Call of '%s' with the wrong number of arguments!\n"
 				"(should be %d)"), f->id ? f->id->token : "anonymous", f->nargs);
@@ -4454,7 +4467,8 @@ get_func_from (GelETree *l, gboolean silent)
 	if(l->type == GEL_IDENTIFIER_NODE) {
 		f = d_lookup_global(l->id.id);
 		if (f == NULL) {
-			if G_UNLIKELY ( ! silent) {
+			if G_UNLIKELY ( ! silent &&
+				        ! l->id.uninitialized) {
 				char * similar =
 					gel_similar_possible_ids (l->id.id->token);
 				if (similar != NULL) {
@@ -4468,6 +4482,9 @@ get_func_from (GelETree *l, gboolean silent)
 					gel_errorout (_("Function '%s' used uninitialized"),
 						      l->id.id->token);
 				}
+				/* save that we have determined that this was
+				 * uninitialized */
+				l->id.uninitialized = TRUE;
 			}
 			return NULL;
 		}
@@ -4479,12 +4496,16 @@ get_func_from (GelETree *l, gboolean silent)
 		GEL_GET_L(l,ll);
 		f = d_lookup_global(ll->id.id);
 		if (f == NULL) {
-			if G_UNLIKELY ( ! silent) {
+			if G_UNLIKELY ( ! silent &&
+					! ll->id.uninitialized) {
 				gel_errorout (_("Variable '%s' used uninitialized"),
 					      ll->id.id->token);
+				/* save that we have determined that this was
+				 * uninitialized */
+				ll->id.uninitialized = TRUE;
 			}
 			return NULL;
-		} else if(f->type != GEL_REFERENCE_FUNC) {
+		} else if (f->type != GEL_REFERENCE_FUNC) {
 			if G_UNLIKELY ( ! silent) {
 				gel_errorout (_("Can't dereference '%s'!"),
 					      ll->id.id->token);
@@ -4733,6 +4754,7 @@ iter_funccallop(GelCtx *ctx, GelETree *n, gboolean *repushed)
 		GEL_GET_NEW_NODE(id);
 		id->type = GEL_IDENTIFIER_NODE;
 		id->id.id = f->id; /*this WILL have an id*/
+		id->id.uninitialized = FALSE;
 		id->any.next = NULL;
 
 		freetree_full(n,TRUE,FALSE);
