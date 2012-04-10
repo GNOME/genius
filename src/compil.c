@@ -1,7 +1,7 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2011 George Lebl
+ * Copyright (C) 1997-2012 Jiri (George) Lebl
  *
- * Author: George Lebl
+ * Author: Jiri (George) Lebl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -344,6 +344,10 @@ gel_decompile_node(char **ptrptr)
 		GEL_GET_NEW_NODE(n);
 		n->type = GEL_IDENTIFIER_NODE;
 		n->id.id = d_intern(p);
+		/* never compile the uninitialized state,
+		 * we simply forget that we already gave an
+		 * error here and will warn again */
+		n->id.uninitialized = FALSE;
 		return n;
 	case GEL_STRING_NODE:
 		p = strtok_r (NULL, ";", ptrptr);

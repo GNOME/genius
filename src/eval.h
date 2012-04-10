@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2009 Jiri (George) Lebl
+ * Copyright (C) 1997-2012 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -172,7 +172,12 @@ gboolean gel_eqlnodes (GelETree *l, GelETree *r);
 	(r) = (n)->op.args->any.next; \
 	(rr) = (n)->op.args->any.next->any.next; \
 }
+#define GEL_GET_XRR(n,r,rr) { \
+	(r) = (n)->op.args->any.next; \
+	(rr) = (n)->op.args->any.next->any.next; \
+}
 #define GEL_GET_LR(n,l,r) { (l) = (n)->op.args; (r) = (n)->op.args->any.next; }
+#define GEL_GET_XR(n,r) { (r) = (n)->op.args->any.next; }
 #define GEL_GET_L(n,l) { (l) = (n)->op.args; }
 
 extern GelETree *gel_free_trees;

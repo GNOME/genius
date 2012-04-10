@@ -124,6 +124,17 @@ ge_remove_stack_array(GelCtx *ctx)
 		(pointer) = NULL;					\
 	}								\
 }
+#define GE_POP_STACKNF(thectx,pointer) { \
+	if((thectx)->topstack != (gpointer *)(thectx)->stack ||		\
+	   ge_remove_stack_array(ctx)) {				\
+		-- (thectx)->topstack;					\
+		*((thectx)->topstack) = NULL;	 			\
+		(pointer) = *(-- (thectx)->topstack);			\
+		*((thectx)->topstack) = NULL;	 			\
+	} else {							\
+		(pointer) = NULL;					\
+	}								\
+}
 #else /* MEM_DEBUG_FRIENDLY */
 #define GE_POP_STACK(thectx,pointer,flag) { \
 	if G_LIKELY ((thectx)->topstack != (gpointer *)(thectx)->stack ||	\
@@ -132,6 +143,15 @@ ge_remove_stack_array(GelCtx *ctx)
 		(pointer) = *(-- (thectx)->topstack);			\
 	} else {							\
 		(flag) = GE_EMPTY_STACK;				\
+		(pointer) = NULL;					\
+	}								\
+}
+#define GE_POP_STACKNF(thectx,pointer) { \
+	if G_LIKELY ((thectx)->topstack != (gpointer *)(thectx)->stack ||	\
+	   ge_remove_stack_array(ctx)) {				\
+		-- (thectx)->topstack;					\
+		(pointer) = *(-- (thectx)->topstack);			\
+	} else {							\
 		(pointer) = NULL;					\
 	}								\
 }
@@ -4447,10 +4467,9 @@ iter_push_matrix(GelCtx *ctx, GelETree *n, GelMatrixW *m)
 		}
 	}
 	if (pushed) {
-		int flag;
 		ctx->post = FALSE;
 		/* will pop the last thing which was t in PRE mode */
-		GE_POP_STACK (ctx, ctx->current, flag);
+		GE_POP_STACKNF (ctx, ctx->current);
 		ctx->whackarg = FALSE;
 	} else {
 		/*if we haven't pushed ourselves,
@@ -5545,8 +5564,8 @@ iter_equalsop(GelETree *n)
 		}
 	} else if(l->op.oper == GEL_E_GET_ELEMENT) {
 		GelMatrixW *mat;
-		GelETree *m, *index1, *index2;
-		GEL_GET_LRR (l, m, index1, index2);
+		GelETree *index1, *index2;
+		GEL_GET_XRR (l, index1, index2);
 
 		if (index1->type == GEL_VALUE_NODE &&
 		    index2->type == GEL_VALUE_NODE) {
@@ -5609,8 +5628,8 @@ iter_equalsop(GelETree *n)
 		}
 	} else if(l->op.oper == GEL_E_GET_VELEMENT) {
 		GelMatrixW *mat;
-		GelETree *m, *index;
-		GEL_GET_LR (l, m, index);
+		GelETree *index;
+		GEL_GET_XR (l, index);
 
 		if (index->type == GEL_VALUE_NODE) {
 			int i;
@@ -5653,8 +5672,8 @@ iter_equalsop(GelETree *n)
 		}
 	} else /*l->data.oper == GEL_E_GET_COL_REGION GEL_E_GET_ROW_REGION*/ {
 		GelMatrixW *mat;
-		GelETree *m, *index;
-		GEL_GET_LR (l, m, index);
+		GelETree *index;
+		GEL_GET_XR (l, index);
 
 		if (index->type == GEL_VALUE_NODE ||
 		    index->type == GEL_MATRIX_NODE) {
@@ -5836,8 +5855,8 @@ iter_incrementop (GelETree *n)
 		}
 	} else if(l->op.oper == GEL_E_GET_ELEMENT) {
 		GelMatrixW *mat;
-		GelETree *m, *index1, *index2;
-		GEL_GET_LRR (l, m, index1, index2);
+		GelETree *index1, *index2;
+		GEL_GET_XRR (l, index1, index2);
 
 		if (index1->type == GEL_VALUE_NODE &&
 		    index2->type == GEL_VALUE_NODE) {
@@ -5884,8 +5903,8 @@ iter_incrementop (GelETree *n)
 		}
 	} else if(l->op.oper == GEL_E_GET_VELEMENT) {
 		GelMatrixW *mat;
-		GelETree *m, *index;
-		GEL_GET_LR (l, m, index);
+		GelETree *index;
+		GEL_GET_XR (l, index);
 
 		if (index->type == GEL_VALUE_NODE) {
 			int i;
@@ -5921,8 +5940,8 @@ iter_incrementop (GelETree *n)
 		}
 	} else /*l->data.oper == GEL_E_GET_COL_REGION GEL_E_GET_ROW_REGION*/ {
 		GelMatrixW *mat;
-		GelETree *m, *index;
-		GEL_GET_LR (l, m, index);
+		GelETree *index;
+		GEL_GET_XR (l, index);
 
 		if (index->type == GEL_VALUE_NODE ||
 		    index->type == GEL_MATRIX_NODE) {
@@ -6000,8 +6019,8 @@ do_swapwithop (GelETree *l, GelETree *r)
 			rf->data.user = tmp;
 		} else if(r->op.oper == GEL_E_GET_ELEMENT) {
 			GelMatrixW *mat;
-			GelETree *m, *index1, *index2;
-			GEL_GET_LRR (r, m, index1, index2);
+			GelETree *index1, *index2;
+			GEL_GET_XRR (r, index1, index2);
 
 			if (index1->type == GEL_VALUE_NODE &&
 			    index2->type == GEL_VALUE_NODE) {
@@ -6035,8 +6054,8 @@ do_swapwithop (GelETree *l, GelETree *r)
 			}
 		} else if(r->op.oper == GEL_E_GET_VELEMENT) {
 			GelMatrixW *mat;
-			GelETree *m, *index;
-			GEL_GET_LR (r, m, index);
+			GelETree *index;
+			GEL_GET_XR (r, index);
 
 			if (index->type == GEL_VALUE_NODE) {
 				int i, x, y;
@@ -6085,8 +6104,8 @@ do_swapwithop (GelETree *l, GelETree *r)
 		return;
 
 	if (l->op.oper == GEL_E_GET_ELEMENT) {
-		GelETree *m, *index1, *index2;
-		GEL_GET_LRR (l, m, index1, index2);
+		GelETree *index1, *index2;
+		GEL_GET_XRR (l, index1, index2);
 
 		if (index1->type == GEL_VALUE_NODE &&
 		    index2->type == GEL_VALUE_NODE) {
@@ -6101,8 +6120,8 @@ do_swapwithop (GelETree *l, GelETree *r)
 			return;
 		}
 	} else if (l->op.oper == GEL_E_GET_VELEMENT) {
-		GelETree *m, *index;
-		GEL_GET_LR (l, m, index);
+		GelETree *index;
+		GEL_GET_XR (l, index);
 
 		if (index->type == GEL_VALUE_NODE) {
 			int i;
@@ -6119,8 +6138,8 @@ do_swapwithop (GelETree *l, GelETree *r)
 	}
 
 	if (r->op.oper == GEL_E_GET_ELEMENT) {
-		GelETree *m, *index1, *index2;
-		GEL_GET_LRR (r, m, index1, index2);
+		GelETree *index1, *index2;
+		GEL_GET_XRR (r, index1, index2);
 
 		if (index1->type == GEL_VALUE_NODE &&
 		    index2->type == GEL_VALUE_NODE) {
@@ -6135,8 +6154,8 @@ do_swapwithop (GelETree *l, GelETree *r)
 			return;
 		}
 	} else if(r->op.oper == GEL_E_GET_VELEMENT) {
-		GelETree *m, *index;
-		GEL_GET_LR (r, m, index);
+		GelETree *index;
+		GEL_GET_XR (r, index);
 
 		if (index->type == GEL_VALUE_NODE) {
 			int i;
@@ -6196,9 +6215,9 @@ iter_swapwithop(GelETree *n)
 static void
 iter_parameterop (GelETree *n)
 {
-	GelETree *l,*r,*rr;
+	GelETree *r,*rr;
 
-	GEL_GET_LRR (n, l, r, rr);
+	GEL_GET_XRR (n, r, rr);
 
 	/* FIXME: l should be the set func */
 	
@@ -6226,14 +6245,14 @@ iter_parameterop (GelETree *n)
 static inline void
 iter_push_indexes_and_arg(GelCtx *ctx, GelETree *n)
 {
-	GelETree *l,*ident;
+	GelETree *l;
 
 	GEL_GET_L(n,l);
 	
 	if (l->op.oper == GEL_E_GET_ELEMENT) {
 		GelETree *ll,*rr;
 		
-		GEL_GET_LRR(l,ident,ll,rr);
+		GEL_GET_XRR(l,ll,rr);
 
 		GE_PUSH_STACK(ctx,n->op.args->any.next,GE_PRE);
 		GE_PUSH_STACK(ctx,rr,GE_PRE);
@@ -6245,7 +6264,7 @@ iter_push_indexes_and_arg(GelCtx *ctx, GelETree *n)
 		  l->op.oper == GEL_E_GET_ROW_REGION) {
 		GelETree *ll;
 		
-		GEL_GET_LR(l,ident,ll);
+		GEL_GET_XR(l,ll);
 
 		GE_PUSH_STACK(ctx,n->op.args->any.next,GE_PRE);
 		ctx->post = FALSE;
@@ -6261,12 +6280,10 @@ iter_push_indexes_and_arg(GelCtx *ctx, GelETree *n)
 static inline void
 iter_do_push_index (GelCtx *ctx, GelETree *l)
 {
-	GelETree *ident;
-
 	if (l->op.oper == GEL_E_GET_ELEMENT) {
 		GelETree *ll,*rr;
 		
-		GEL_GET_LRR(l,ident,ll,rr);
+		GEL_GET_XRR(l,ll,rr);
 
 		GE_PUSH_STACK(ctx,rr,GE_PRE);
 		GE_PUSH_STACK(ctx,ll,GE_PRE);
@@ -6275,7 +6292,7 @@ iter_do_push_index (GelCtx *ctx, GelETree *l)
 		  l->op.oper == GEL_E_GET_ROW_REGION) {
 		GelETree *ll;
 		
-		GEL_GET_LR(l,ident,ll);
+		GEL_GET_XR(l,ll);
 		GE_PUSH_STACK(ctx,ll,GE_PRE);
 	}
 }
