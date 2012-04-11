@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2009 Jiri (George) Lebl
+ * Copyright (C) 1997-2012 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -99,16 +99,16 @@ gel_differentiate_func1_expr (GelToken *tok)
 	DERIVATIVE_ENTRY ("conj", "0");
 
 	DERIVATIVE_ENTRY ("exp", "exp(x)");
-	/* Better then 1/x, since doing multiple derivatives
+	/* Better than 1/x, since doing multiple derivatives
 	   on that sucks without simplification */
 	DERIVATIVE_ENTRY ("ln", "x^-1");
 	DERIVATIVE_ENTRY ("log", "x^-1");
 	DERIVATIVE_ENTRY ("log2", "log2(e)*x^-1");
 	DERIVATIVE_ENTRY ("log10", "log10(e)*x^-1");
 
-	/* treat z and zbar separately */
-	DERIVATIVE_ENTRY ("Re", "(1/2)*conj(x)");
-	DERIVATIVE_ENTRY ("Im", "(-1/2i)*conj(x)");
+	/* treat z and zbar separately, we are differentiating in z */
+	DERIVATIVE_ENTRY ("Re", "(1/2)");
+	DERIVATIVE_ENTRY ("Im", "(-1/2i)");
 
 	DERIVATIVE_ENTRY ("sin", "cos(x)");
 	DERIVATIVE_ENTRY ("sinh", "cosh(x)");
@@ -122,6 +122,8 @@ gel_differentiate_func1_expr (GelToken *tok)
 	DERIVATIVE_ENTRY ("tanh", "sech(x)^2");
 	DERIVATIVE_ENTRY ("cot", "-csc(x)^2");
 	DERIVATIVE_ENTRY ("coth", "-csch(x)^2");
+
+	DERIVATIVE_ENTRY ("sinc", "cos(x)*x^(-1)-sinc(x)*x^(-1)");
 
 	/* FIXME: check these, I don't trust the CRC handbook */
 	DERIVATIVE_ENTRY_ALIAS ("asin", "arcsin", "1/sqrt(1-x^2)");

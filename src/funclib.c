@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2011 Jiri (George) Lebl
+ * Copyright (C) 1997-2012 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -45,6 +45,7 @@ static GelEFunc *_internal_exp_function = NULL;
 
 static GelEFunc *conj_function = NULL;
 static GelEFunc *sin_function = NULL;
+static GelEFunc *sinc_function = NULL;
 static GelEFunc *cos_function = NULL;
 static GelEFunc *sinh_function = NULL;
 static GelEFunc *cosh_function = NULL;
@@ -1168,6 +1169,34 @@ sin_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	mpw_init(fr);
 
 	mpw_sin(fr,a[0]->val.value);
+
+	return gel_makenum_use(fr);
+}
+
+/*sinc function*/
+static GelETree *
+sinc_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	mpw_t fr;
+
+	if (a[0]->type == GEL_FUNCTION_NODE ||
+	    a[0]->type == GEL_IDENTIFIER_NODE) {
+		return gel_function_from_function (sinc_function, a[0]);
+	}
+
+	if(a[0]->type==GEL_MATRIX_NODE)
+		return gel_apply_func_to_matrix(ctx,a[0],sinc_op,"sinc", exception);
+
+	if G_UNLIKELY ( ! check_argument_number (a, 0, "sinc"))
+		return NULL;
+
+	if (mpw_zero_p (a[0]->val.value))
+		return gel_makenum_ui(1);
+
+	mpw_init(fr);
+
+	mpw_sin(fr,a[0]->val.value);
+	mpw_div(fr,fr,a[0]->val.value);
 
 	return gel_makenum_use(fr);
 }
@@ -6403,6 +6432,10 @@ gel_funclib_addall(void)
 	f->no_mod_all_args = 1;
 	atan_function = f;
 	ALIAS (arctan, 1, atan);
+
+	FUNC (sinc, 1, "x", "functions", N_("Calculates the sinc function, that is sin(x)/x"));
+	f->no_mod_all_args = 1;
+	sinc_function = f;
 
 	FUNC (atan2, 2, "y,x", "trigonometry", N_("Calculates the arctan2 function (arctan(y/x) if x>0)"));
 	f->no_mod_all_args = 1;

@@ -1107,6 +1107,8 @@ LinearRecursiveSequence ([1,3,5],[1,2,-1],null)+1		((null)+1)
 prod n=1 to 20 do (A=randint(10,7,7)-4*ones(7,7);IsPositiveSemidefinite(A'*A))	true
 prod n=1 to 20 do (A=randint(10,3,7)-4*ones(3,7);IsPositiveSemidefinite(A'*A))	true
 prod n=1 to 20 do (A=randint(10,7,7)-4*ones(7,7);(rank(A'*A) < 7) or IsPositiveDefinite(A'*A))	true
+sinc(0)==1							true
+sinc(5)==sin(5)/5						true
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
 load "testprec.gel"						true
