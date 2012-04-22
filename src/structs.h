@@ -294,7 +294,7 @@ struct _GelETreeBool {
 struct _GelETreeMatrixRow {
 	GelETreeType type;
 	GelETree *next;
-	gint16 nargs;
+	guint32 nargs;
 	GelETree *args;
 };
 

@@ -1,3 +1,10 @@
+Sun Apr 22 17:53:07 2012  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/structs.h, src/eval.c: MatrixRow tree node is also
+	  used in expanding matrices, not just entering, so
+	  gint16 was just not enough for width.  So can now
+	  handle wider matrices in expansion.
+
 Wed Apr 11 16:56:15 2012  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/symbolic.c: fix derivatives of Im and Re to be the z

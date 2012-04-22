@@ -1231,9 +1231,9 @@ gel_expandmatrix (GelETree *n)
 	cols = gel_matrixw_width (nm);
 
 	for (i = 0, k = 0; i < h; i++) {
-		int w;
-		w = expand_row (m, nm, k, i, &need_colwise);
-		k += w;
+		int kk;
+		kk = expand_row (m, nm, k, i, &need_colwise);
+		k += kk;
 	}
 
 	if (k == 0) {
