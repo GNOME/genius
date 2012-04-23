@@ -1175,6 +1175,89 @@ mat_need_expand (GelMatrixW *m)
 	return FALSE;
 }
 
+/* we know we are a row matrix */
+static void
+quick_wide_expand (GelETree *n)
+{
+	GelMatrix *m;
+	int h, w, i, j;
+	GelMatrixW *nm = n->mat.matrix;
+
+	h = 0;
+	w = 0;
+	for (i = 0; i < gel_matrixw_width (nm); i++) {
+		GelETree *et = gel_matrixw_get_index (nm, i, 0);
+		if (et == NULL) {
+			if (h <= 0)
+				h = 1;
+			w++;
+		} else if (et->type == GEL_MATRIX_NODE) {
+			if (gel_matrixw_height (et->mat.matrix) > h)
+				h = gel_matrixw_height (et->mat.matrix);
+			w += gel_matrixw_width (et->mat.matrix);
+		} else if (et->type != GEL_NULL_NODE) {
+			if (h <= 0)
+				h = 1;
+			w++;
+		}
+	}
+
+	gel_matrixw_make_private (nm, FALSE /* kill_type_caches */);
+
+	m = gel_matrix_new();
+	gel_matrix_set_size(m, w, h, TRUE /* padding */);
+
+	j = 0;
+	for (i = 0; i < gel_matrixw_width (nm); i++) {
+		GelETree *et = gel_matrixw_get_index (nm, i, 0);
+		if (et == NULL) {
+			j++;
+		} else if (et->type == GEL_MATRIX_NODE) {
+			int hh = gel_matrixw_height (et->mat.matrix);
+			int ww = gel_matrixw_width (et->mat.matrix);
+			int ii, jj;
+			GelMatrixW *mm = et->mat.matrix;
+
+			gel_matrixw_make_private (mm,
+						  FALSE /* kill_type_caches */);
+
+			for (ii = 0; ii < ww; ii++) {
+				int jjj;
+				for (jj = 0; jj < hh; jj++) {
+					GelETree *e = 
+						gel_matrixw_get_index (mm, ii, jj);
+					gel_matrix_index (m, j+ii, jj) = e;
+					gel_matrixw_set_index (mm, ii, jj) = NULL;
+				}
+				jjj = 0;
+				for (; jj < h; jj++) {
+					GelETree *e = 
+						gel_matrix_index (m, j+ii, jjj);
+					if (e != NULL)
+						gel_matrix_index (m, j+ii, jj) = gel_copynode (e);
+					if (++jjj >= hh)
+						jjj = 0;
+				}
+			}
+			j += ww;
+		} else if (et->type != GEL_NULL_NODE) {
+			int jj;
+			gel_matrixw_set_index (nm, i, 0) = NULL;
+			gel_matrix_index (m, j, 0) = et;
+			for (jj = 1; jj < h; jj++) {
+				gel_matrix_index (m, j, jj) = gel_copynode (et);
+			}
+			j++;
+		}
+	}
+
+	freetree_full (n, TRUE, FALSE);
+
+	n->type = GEL_MATRIX_NODE;
+	n->mat.matrix = gel_matrixw_new_with_matrix (m);
+	n->mat.quoted = FALSE;
+}
+
 /*evaluate a matrix (or try to), it will try to expand the matrix and
   put 0's into the empty, undefined, spots. For example, a matrix such
   as if b = [8,7]; a = [1,2:3,b]  should expand to, [1,2,2:3,8,7] */
@@ -1221,6 +1304,11 @@ gel_expandmatrix (GelETree *n)
 			return;
 		}
 		/* never should be reached */
+	}
+
+	if (h == 1) {
+		quick_wide_expand (n);
+		return;
 	}
 
 	gel_matrixw_make_private (nm, FALSE /* kill_type_caches */);

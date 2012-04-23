@@ -1,3 +1,11 @@
+Sun Apr 22 23:52:34 2012  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/eval.c: avoid linked lists on expanding just one row,
+	  we can do that directly faster.  Improves speed of things
+	  that concatenate things like [a,b,c].  For example sorting.
+
+	* src/geniustests.txt: add some tests
+
 Sun Apr 22 17:53:07 2012  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/structs.h, src/eval.c: MatrixRow tree node is also
