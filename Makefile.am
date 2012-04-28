@@ -1,4 +1,4 @@
-SUBDIRS = ve gtkextra src pixmaps lib po help
+SUBDIRS = atblas atlapack ve gtkextra src pixmaps lib po help
 
 mimeinfodir = $(datadir)/mime-info
 mimeinfo_DATA = genius.keys genius.mime
