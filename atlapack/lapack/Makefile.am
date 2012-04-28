@@ -223,21 +223,21 @@ DSLASRC = \
 	sgetrf.f
 
 # Single precision real LAPACK routines using extra precision.
-if USEXBLAS
-SXLASRC = \
-	sgesvxx.f	sgerfsx.f	sla_geamv.f	\
-	ssysvxx.f	ssyrfsx.f	sposvxx.f	\
-	sporfsx.f	sgbsvxx.f	sgbrfsx.f	\
-	slarscl2.f	slascl2.f			\
-	sla_gerfsx_extended.f	sla_gercond.f		\
-	sla_gerpvgrw.f		sla_syrfsx_extended.f	\
-	sla_syamv.f		sla_syrcond.f		\
-	sla_syrpvgrw.f		sla_porfsx_extended.f	\
-	sla_porcond.f		sla_gbrfsx_extended.f	\
-	sla_porpvgrw.f		sla_gbamv.f		\
-	sla_gbrcond.f		sla_gbrpvgrw.f		\
-	sla_lin_berr.f		sla_wwaddw.f
-endif
+#if USEXBLAS
+#SXLASRC = \
+#	sgesvxx.f	sgerfsx.f	sla_geamv.f	\
+#	ssysvxx.f	ssyrfsx.f	sposvxx.f	\
+#	sporfsx.f	sgbsvxx.f	sgbrfsx.f	\
+#	slarscl2.f	slascl2.f			\
+#	sla_gerfsx_extended.f	sla_gercond.f		\
+#	sla_gerpvgrw.f		sla_syrfsx_extended.f	\
+#	sla_syamv.f		sla_syrcond.f		\
+#	sla_syrpvgrw.f		sla_porfsx_extended.f	\
+#	sla_porcond.f		sla_gbrfsx_extended.f	\
+#	sla_porpvgrw.f		sla_gbamv.f		\
+#	sla_gbrcond.f		sla_gbrpvgrw.f		\
+#	sla_lin_berr.f		sla_wwaddw.f
+#endif
 
 # Single precision complex LAPACK routines.
 CLASRC = \
@@ -363,26 +363,26 @@ CLASRC = \
 	ctpqrt2.f	ctpmqrt.f	ctprfb.f
 
 # Single precision complex LAPACK routines using extra precision.
-if USEXBLAS
-CXLASRC = \
-	cgesvxx.f	cgerfsx.f	csysvxx.f	\
-	csyrfsx.f	cposvxx.f	cporfsx.f	\
-	cgbsvxx.f	cgbrfsx.f	chesvxx.f	\
-	cherfsx.f	clarscl2.f	clascl2.f 	\
-	cla_gerfsx_extended.f	cla_geamv.f		\
-	cla_gercond_c.f		cla_gercond_x.f		\
-	cla_gerpvgrw.f		cla_syrfsx_extended.f	\
-	cla_syamv.f		cla_syrcond_c.f		\
-	cla_syrcond_x.f		cla_syrpvgrw.f		\
-	cla_porfsx_extended.f	cla_porcond_c.f		\
-	cla_porcond_x.f		cla_porpvgrw.f		\
-	cla_gbrfsx_extended.f	cla_gbamv.f		\
-	cla_gbrcond_c.f		cla_gbrcond_x.f		\
-	cla_gbrpvgrw.f		cla_herfsx_extended.f	\
-	cla_heamv.f		cla_hercond_c.f		\
-	cla_hercond_x.f		cla_herpvgrw.f		\
-	cla_lin_berr.f		cla_wwaddw.f
-endif
+#if USEXBLAS
+#CXLASRC = \
+#	cgesvxx.f	cgerfsx.f	csysvxx.f	\
+#	csyrfsx.f	cposvxx.f	cporfsx.f	\
+#	cgbsvxx.f	cgbrfsx.f	chesvxx.f	\
+#	cherfsx.f	clarscl2.f	clascl2.f 	\
+#	cla_gerfsx_extended.f	cla_geamv.f		\
+#	cla_gercond_c.f		cla_gercond_x.f		\
+#	cla_gerpvgrw.f		cla_syrfsx_extended.f	\
+#	cla_syamv.f		cla_syrcond_c.f		\
+#	cla_syrcond_x.f		cla_syrpvgrw.f		\
+#	cla_porfsx_extended.f	cla_porcond_c.f		\
+#	cla_porcond_x.f		cla_porpvgrw.f		\
+#	cla_gbrfsx_extended.f	cla_gbamv.f		\
+#	cla_gbrcond_c.f		cla_gbrcond_x.f		\
+#	cla_gbrpvgrw.f		cla_herfsx_extended.f	\
+#	cla_heamv.f		cla_hercond_c.f		\
+#	cla_hercond_x.f		cla_herpvgrw.f		\
+#	cla_lin_berr.f		cla_wwaddw.f
+#endif
 
 # Double-single mixed  precision complex routines  called from single,
 # single-extra and double precision complex LAPACK routines (i.e. from
@@ -504,22 +504,22 @@ DLASRC = \
 	dtpqrt2.f	dtpmqrt.f	dtprfb.f
 
 # Double precision real LAPACK routines using extra precision.
-if USEXBLAS
-DXLASRC = \
-	dgesvxx.f	dgerfsx.f	dsysvxx.f	\
-	dsyrfsx.f	dposvxx.f	dporfsx.f	\
-	dgbsvxx.f	dgbrfsx.f	dlarscl2.f	\
-	dlascl2.f					\
-	dla_gerfsx_extended.f	dla_geamv.f		\
-	dla_gercond.f		dla_gerpvgrw.f		\
-	dla_syrfsx_extended.f	dla_syamv.f		\
-	dla_syrcond.f		dla_syrpvgrw.f		\
-	dla_porfsx_extended.f	dla_porcond.f		\
-	dla_porpvgrw.f	 	dla_gbrfsx_extended.f	\
-	dla_gbamv.f		dla_gbrcond.f		\
-	dla_gbrpvgrw.f		dla_lin_berr.f		\
-	dla_wwaddw.f
-endif
+#if USEXBLAS
+#DXLASRC = \
+#	dgesvxx.f	dgerfsx.f	dsysvxx.f	\
+#	dsyrfsx.f	dposvxx.f	dporfsx.f	\
+#	dgbsvxx.f	dgbrfsx.f	dlarscl2.f	\
+#	dlascl2.f					\
+#	dla_gerfsx_extended.f	dla_geamv.f		\
+#	dla_gercond.f		dla_gerpvgrw.f		\
+#	dla_syrfsx_extended.f	dla_syamv.f		\
+#	dla_syrcond.f		dla_syrpvgrw.f		\
+#	dla_porfsx_extended.f	dla_porcond.f		\
+#	dla_porpvgrw.f	 	dla_gbrfsx_extended.f	\
+#	dla_gbamv.f		dla_gbrcond.f		\
+#	dla_gbrpvgrw.f		dla_lin_berr.f		\
+#	dla_wwaddw.f
+#endif
 
 # Double precision complex LAPACK routines.
 ZLASRC = \
@@ -648,26 +648,26 @@ ZLASRC = \
 	ztpqrt2.f	ztpmqrt.f	ztprfb.f
 
 # Double precision complex LAPACK routines using extra precision.
-if USEXBLAS
-ZXLASRC = \
-	zgesvxx.f	zgerfsx.f	zsysvxx.f	\
-	zsyrfsx.f	zposvxx.f	zporfsx.f	\
-	zgbsvxx.f	zgbrfsx.f	zhesvxx.f	\
-	zherfsx.f	zlarscl2.f	zlascl2.f	\
-	zla_gerfsx_extended.f	zla_geamv.f		\
-	zla_gercond_c.f		zla_gercond_x.f		\
-	zla_gerpvgrw.f		zla_syrfsx_extended.f	\
-	zla_syamv.f		zla_syrcond_c.f		\
-	zla_syrcond_x.f		zla_syrpvgrw.f 		\
-	zla_porfsx_extended.f	zla_porcond_c.f		\
-	zla_porcond_x.f		zla_porpvgrw.f		\
-	zla_gbrfsx_extended.f	zla_gbamv.f		\
-	zla_gbrcond_c.f		zla_gbrcond_x.f		\
-	zla_gbrpvgrw.f		zla_herfsx_extended.f	\
-	zla_heamv.f		zla_hercond_c.f		\
-	zla_hercond_x.f		zla_herpvgrw.f		\
-	zla_lin_berr.f		zla_wwaddw.f
-endif
+#if USEXBLAS
+#ZXLASRC = \
+#	zgesvxx.f	zgerfsx.f	zsysvxx.f	\
+#	zsyrfsx.f	zposvxx.f	zporfsx.f	\
+#	zgbsvxx.f	zgbrfsx.f	zhesvxx.f	\
+#	zherfsx.f	zlarscl2.f	zlascl2.f	\
+#	zla_gerfsx_extended.f	zla_geamv.f		\
+#	zla_gercond_c.f		zla_gercond_x.f		\
+#	zla_gerpvgrw.f		zla_syrfsx_extended.f	\
+#	zla_syamv.f		zla_syrcond_c.f		\
+#	zla_syrcond_x.f		zla_syrpvgrw.f 		\
+#	zla_porfsx_extended.f	zla_porcond_c.f		\
+#	zla_porcond_x.f		zla_porpvgrw.f		\
+#	zla_gbrfsx_extended.f	zla_gbamv.f		\
+#	zla_gbrcond_c.f		zla_gbrcond_x.f		\
+#	zla_gbrpvgrw.f		zla_herfsx_extended.f	\
+#	zla_heamv.f		zla_hercond_c.f		\
+#	zla_hercond_x.f		zla_herpvgrw.f		\
+#	zla_lin_berr.f		zla_wwaddw.f
+#endif
 
 #page
 ## --------------------------------------------------------------------
@@ -680,14 +680,14 @@ ALLOBJ	= \
 	$(SCLAUX)	$(DZLAUX)	$(ALLAUX)
 ALLXOBJ = $(SXLASRC) $(DXLASRC) $(CXLASRC) $(ZXLASRC)
 
-lib_LTLIBRARIES		= liblapack.la
-liblapack_la_LDFLAGS	= -version-info 1:0:0
+noinst_LIBRARIES	= liblapack.a
+#liblapack_la_LDFLAGS	= -version-info 1:0:0
 
-if USEXBLAS
-liblapack_la_SOURCES	= $(ALLOBJ) $(ALLXOBJ)
-else
-liblapack_la_SOURCES	= $(ALLOBJ)
-endif
+#if USEXBLAS
+#liblapack_a_SOURCES	= $(ALLOBJ) $(ALLXOBJ)
+#else
+liblapack_a_SOURCES	= $(ALLOBJ)
+#endif
 
 # .o.f:
 # 	$(FORTRAN) $(OPTS) -c $< -o $@

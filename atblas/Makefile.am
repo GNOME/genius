@@ -3,6 +3,8 @@
 AUTOMAKE_OPTIONS	= foreign
 SUBDIRS			= blas cblas tests
 EXTRA_DIST		= README COPYING INSTALL
-dist_doc_DATA		= README COPYING
+
+#JL:probably shouldn't do this
+# dist_doc_DATA		= README COPYING
 
 ### end of file

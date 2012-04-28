@@ -2,7 +2,7 @@
 
 AM_CPPFLAGS	= -I$(top_srcdir)/cblas
 check_PROGRAMS	= level1
-LDADD		= ../cblas/libcblas.la
+LDADD		= ../cblas/libcblas.a
 TESTS		= $(check_PROGRAMS)
 
 ### end of file

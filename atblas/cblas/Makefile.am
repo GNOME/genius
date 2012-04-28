@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-include_HEADERS	= cblas.h cblas_f77.h
+noinst_HEADERS	= cblas.h cblas_f77.h
 
 # The  following line defines  auxiliary routines  needed by  both the
 # Level 2 and  Level 3 BLAS.  Comment it out only  if you already have
@@ -130,10 +130,10 @@ FBLAS	= \
 ## Library.
 ## --------------------------------------------------------------------
 
-lib_LTLIBRARIES		= libcblas.la
-libcblas_la_LDFLAGS	= -version-info 1:0:0
-libcblas_la_LIBADD	= ../blas/libblas.la
-libcblas_la_SOURCES	= \
+noinst_LIBRARIES	= libcblas.a
+#libcblas_la_LDFLAGS	= -version-info 1:0:0
+libcblas_a_LIBADD	= ../blas/libblas.a
+libcblas_a_SOURCES	= \
 		$(BLASAUX)				\
 		$(SBLAS1) $(CBLAS1) $(DBLAS1) $(ZBLAS1) \
 		$(SBLAS2) $(CBLAS2) $(DBLAS2) $(ZBLAS2)	\

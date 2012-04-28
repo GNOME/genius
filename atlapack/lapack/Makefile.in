@@ -45,618 +45,532 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
-am__vpath_adj = case $$p in \
-    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
-    *) f=$$p;; \
-  esac;
-am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
-am__install_max = 40
-am__nobase_strip_setup = \
-  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
-am__nobase_strip = \
-  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
-am__nobase_list = $(am__nobase_strip_setup); \
-  for p in $$list; do echo "$$p $$p"; done | \
-  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
-  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
-    if (++n[$$2] == $(am__install_max)) \
-      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
-    END { for (dir in files) print dir, files[dir] }'
-am__base_list = \
-  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
-  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__installdirs = "$(DESTDIR)$(libdir)"
-LTLIBRARIES = $(lib_LTLIBRARIES)
-liblapack_la_LIBADD =
-am__liblapack_la_SOURCES_DIST = sgbbrd.f sgbcon.f sgbequ.f sgbrfs.f \
-	sgbsv.f sgbsvx.f sgbtf2.f sgbtrf.f sgbtrs.f sgebak.f sgebal.f \
-	sgebd2.f sgebrd.f sgecon.f sgeequ.f sgees.f sgeesx.f sgeev.f \
-	sgeevx.f sgegs.f sgegv.f sgehd2.f sgehrd.f sgelq2.f sgelqf.f \
-	sgels.f sgelsd.f sgelss.f sgelsx.f sgelsy.f sgeql2.f sgeqlf.f \
-	sgeqp3.f sgeqpf.f sgeqr2.f sgeqr2p.f sgeqrf.f sgeqrfp.f \
-	sgerfs.f sgerq2.f sgerqf.f sgesc2.f sgesdd.f sgesv.f sgesvd.f \
-	sgesvx.f sgetc2.f sgetf2.f sgetri.f sggbak.f sggbal.f sgges.f \
-	sggesx.f sggev.f sggevx.f sggglm.f sgghrd.f sgglse.f sggqrf.f \
-	sggrqf.f sggsvd.f sggsvp.f sgtcon.f sgtrfs.f sgtsv.f sgtsvx.f \
-	sgttrf.f sgttrs.f sgtts2.f shgeqz.f shsein.f shseqr.f slabrd.f \
-	slacon.f slacn2.f slaein.f slaexc.f slag2.f slags2.f slagtm.f \
-	slagv2.f slahqr.f slahrd.f slahr2.f slaic1.f slaln2.f slals0.f \
-	slalsa.f slalsd.f slangb.f slange.f slangt.f slanhs.f slansb.f \
-	slansp.f slansy.f slantb.f slantp.f slantr.f slanv2.f slapll.f \
-	slapmt.f slaqgb.f slaqge.f slaqp2.f slaqps.f slaqsb.f slaqsp.f \
-	slaqsy.f slaqr0.f slaqr1.f slaqr2.f slaqr3.f slaqr4.f slaqr5.f \
-	slaqtr.f slar1v.f slar2v.f ilaslr.f ilaslc.f slarf.f slarfb.f \
-	slarfg.f slarfgp.f slarft.f slarfx.f slargv.f slarrv.f \
-	slartv.f slarz.f slarzb.f slarzt.f slaswp.f slasy2.f slasyf.f \
-	slatbs.f slatdf.f slatps.f slatrd.f slatrs.f slatrz.f slatzm.f \
-	slauu2.f slauum.f sopgtr.f sopmtr.f sorg2l.f sorg2r.f sorgbr.f \
-	sorghr.f sorgl2.f sorglq.f sorgql.f sorgqr.f sorgr2.f sorgrq.f \
-	sorgtr.f sorm2l.f sorm2r.f sormbr.f sormhr.f sorml2.f sormlq.f \
-	sormql.f sormqr.f sormr2.f sormr3.f sormrq.f sormrz.f sormtr.f \
-	spbcon.f spbequ.f spbrfs.f spbstf.f spbsv.f spbsvx.f spbtf2.f \
-	spbtrf.f spbtrs.f spocon.f spoequ.f sporfs.f sposv.f sposvx.f \
-	spotf2.f spotri.f spstrf.f spstf2.f sppcon.f sppequ.f spprfs.f \
-	sppsv.f sppsvx.f spptrf.f spptri.f spptrs.f sptcon.f spteqr.f \
-	sptrfs.f sptsv.f sptsvx.f spttrs.f sptts2.f srscl.f ssbev.f \
-	ssbevd.f ssbevx.f ssbgst.f ssbgv.f ssbgvd.f ssbgvx.f ssbtrd.f \
-	sspcon.f sspev.f sspevd.f sspevx.f sspgst.f sspgv.f sspgvd.f \
-	sspgvx.f ssprfs.f sspsv.f sspsvx.f ssptrd.f ssptrf.f ssptri.f \
-	ssptrs.f sstegr.f sstein.f sstev.f sstevd.f sstevr.f sstevx.f \
-	ssycon.f ssyev.f ssyevd.f ssyevr.f ssyevx.f ssygs2.f ssygst.f \
-	ssygv.f ssygvd.f ssygvx.f ssyrfs.f ssysv.f ssysvx.f ssytd2.f \
-	ssytf2.f ssytrd.f ssytrf.f ssytri.f ssytri2.f ssytri2x.f \
-	ssyswapr.f ssytrs.f ssytrs2.f ssyconv.f stbcon.f stbrfs.f \
-	stbtrs.f stgevc.f stgex2.f stgexc.f stgsen.f stgsja.f stgsna.f \
-	stgsy2.f stgsyl.f stpcon.f stprfs.f stptri.f stptrs.f strcon.f \
-	strevc.f strexc.f strrfs.f strsen.f strsna.f strsyl.f strti2.f \
-	strtri.f strtrs.f stzrqf.f stzrzf.f sstemr.f slansf.f spftrf.f \
-	spftri.f spftrs.f ssfrk.f stfsm.f stftri.f stfttp.f stfttr.f \
-	stpttf.f stpttr.f strttf.f strttp.f sgejsv.f sgesvj.f sgsvj0.f \
-	sgsvj1.f sgeequb.f ssyequb.f spoequb.f sgbequb.f sbbcsd.f \
-	slapmr.f sorbdb.f sorcsd.f sgeqrt.f sgeqrt2.f sgeqrt3.f \
-	sgemqrt.f stpqrt.f stpqrt2.f stpmqrt.f stprfb.f dgbbrd.f \
-	dgbcon.f dgbequ.f dgbrfs.f dgbsv.f dgbsvx.f dgbtf2.f dgbtrf.f \
-	dgbtrs.f dgebak.f dgebal.f dgebd2.f dgebrd.f dgecon.f dgeequ.f \
-	dgees.f dgeesx.f dgeev.f dgeevx.f dgegs.f dgegv.f dgehd2.f \
-	dgehrd.f dgelq2.f dgelqf.f dgels.f dgelsd.f dgelss.f dgelsx.f \
-	dgelsy.f dgeql2.f dgeqlf.f dgeqp3.f dgeqpf.f dgeqr2.f \
-	dgeqr2p.f dgeqrf.f dgeqrfp.f dgerfs.f dgerq2.f dgerqf.f \
-	dgesc2.f dgesdd.f dgesv.f dgesvd.f dgesvx.f dgetc2.f dgetf2.f \
-	dgetrf.f dgetri.f dgetrs.f dggbak.f dggbal.f dgges.f dggesx.f \
-	dggev.f dggevx.f dggglm.f dgghrd.f dgglse.f dggqrf.f dggrqf.f \
-	dggsvd.f dggsvp.f dgtcon.f dgtrfs.f dgtsv.f dgtsvx.f dgttrf.f \
-	dgttrs.f dgtts2.f dhgeqz.f dhsein.f dhseqr.f dlabrd.f dlacon.f \
-	dlacn2.f dlaein.f dlaexc.f dlag2.f dlags2.f dlagtm.f dlagv2.f \
-	dlahqr.f dlahrd.f dlahr2.f dlaic1.f dlaln2.f dlals0.f dlalsa.f \
-	dlalsd.f dlangb.f dlange.f dlangt.f dlanhs.f dlansb.f dlansp.f \
-	dlansy.f dlantb.f dlantp.f dlantr.f dlanv2.f dlapll.f dlapmt.f \
-	dlaqgb.f dlaqge.f dlaqp2.f dlaqps.f dlaqsb.f dlaqsp.f dlaqsy.f \
-	dlaqr0.f dlaqr1.f dlaqr2.f dlaqr3.f dlaqr4.f dlaqr5.f dlaqtr.f \
-	dlar1v.f dlar2v.f iladlr.f iladlc.f dlarf.f dlarfb.f dlarfg.f \
-	dlarfgp.f dlarft.f dlarfx.f dlargv.f dlarrv.f dlartv.f dlarz.f \
-	dlarzb.f dlarzt.f dlaswp.f dlasy2.f dlasyf.f dlatbs.f dlatdf.f \
-	dlatps.f dlatrd.f dlatrs.f dlatrz.f dlatzm.f dlauu2.f dlauum.f \
-	dopgtr.f dopmtr.f dorg2l.f dorg2r.f dorgbr.f dorghr.f dorgl2.f \
-	dorglq.f dorgql.f dorgqr.f dorgr2.f dorgrq.f dorgtr.f dorm2l.f \
-	dorm2r.f dormbr.f dormhr.f dorml2.f dormlq.f dormql.f dormqr.f \
-	dormr2.f dormr3.f dormrq.f dormrz.f dormtr.f dpbcon.f dpbequ.f \
-	dpbrfs.f dpbstf.f dpbsv.f dpbsvx.f dpbtf2.f dpbtrf.f dpbtrs.f \
-	dpocon.f dpoequ.f dporfs.f dposv.f dposvx.f dpotf2.f dpotrf.f \
-	dpotri.f dpotrs.f dpstrf.f dpstf2.f dppcon.f dppequ.f dpprfs.f \
-	dppsv.f dppsvx.f dpptrf.f dpptri.f dpptrs.f dptcon.f dpteqr.f \
-	dptrfs.f dptsv.f dptsvx.f dpttrs.f dptts2.f drscl.f dsbev.f \
-	dsbevd.f dsbevx.f dsbgst.f dsbgv.f dsbgvd.f dsbgvx.f dsbtrd.f \
-	dspcon.f dspev.f dspevd.f dspevx.f dspgst.f dspgv.f dspgvd.f \
-	dspgvx.f dsprfs.f dspsv.f dspsvx.f dsptrd.f dsptrf.f dsptri.f \
-	dsptrs.f dstegr.f dstein.f dstev.f dstevd.f dstevr.f dstevx.f \
-	dsycon.f dsyev.f dsyevd.f dsyevr.f dsyevx.f dsygs2.f dsygst.f \
-	dsygv.f dsygvd.f dsygvx.f dsyrfs.f dsysv.f dsysvx.f dsytd2.f \
-	dsytf2.f dsytrd.f dsytrf.f dsytri.f dsytri2.f dsytri2x.f \
-	dsyswapr.f dsytrs.f dsytrs2.f dsyconv.f dtbcon.f dtbrfs.f \
-	dtbtrs.f dtgevc.f dtgex2.f dtgexc.f dtgsen.f dtgsja.f dtgsna.f \
-	dtgsy2.f dtgsyl.f dtpcon.f dtprfs.f dtptri.f dtptrs.f dtrcon.f \
-	dtrevc.f dtrexc.f dtrrfs.f dtrsen.f dtrsna.f dtrsyl.f dtrti2.f \
-	dtrtri.f dtrtrs.f dtzrqf.f dtzrzf.f dstemr.f dsgesv.f dsposv.f \
-	dlag2s.f slag2d.f dlat2s.f dlansf.f dpftrf.f dpftri.f dpftrs.f \
-	dsfrk.f dtfsm.f dtftri.f dtfttp.f dtfttr.f dtpttf.f dtpttr.f \
-	dtrttf.f dtrttp.f dgejsv.f dgesvj.f dgsvj0.f dgsvj1.f \
-	dgeequb.f dsyequb.f dpoequb.f dgbequb.f dbbcsd.f dlapmr.f \
-	dorbdb.f dorcsd.f dgeqrt.f dgeqrt2.f dgeqrt3.f dgemqrt.f \
-	dtpqrt.f dtpqrt2.f dtpmqrt.f dtprfb.f spotrs.f sgetrs.f \
-	spotrf.f sgetrf.f cbdsqr.f cgbbrd.f cgbcon.f cgbequ.f cgbrfs.f \
-	cgbsv.f cgbsvx.f cgbtf2.f cgbtrf.f cgbtrs.f cgebak.f cgebal.f \
-	cgebd2.f cgebrd.f cgecon.f cgeequ.f cgees.f cgeesx.f cgeev.f \
-	cgeevx.f cgegs.f cgegv.f cgehd2.f cgehrd.f cgelq2.f cgelqf.f \
-	cgels.f cgelsd.f cgelss.f cgelsx.f cgelsy.f cgeql2.f cgeqlf.f \
-	cgeqp3.f cgeqpf.f cgeqr2.f cgeqr2p.f cgeqrf.f cgeqrfp.f \
-	cgerfs.f cgerq2.f cgerqf.f cgesc2.f cgesdd.f cgesv.f cgesvd.f \
-	cgesvx.f cgetc2.f cgetf2.f cgetri.f cggbak.f cggbal.f cgges.f \
-	cggesx.f cggev.f cggevx.f cggglm.f cgghrd.f cgglse.f cggqrf.f \
-	cggrqf.f cggsvd.f cggsvp.f cgtcon.f cgtrfs.f cgtsv.f cgtsvx.f \
-	cgttrf.f cgttrs.f cgtts2.f chbev.f chbevd.f chbevx.f chbgst.f \
-	chbgv.f chbgvd.f chbgvx.f chbtrd.f checon.f cheev.f cheevd.f \
-	cheevr.f cheevx.f chegs2.f chegst.f chegv.f chegvd.f chegvx.f \
-	cherfs.f chesv.f chesvx.f chetd2.f chetf2.f chetrd.f chetrf.f \
-	chetri.f chetri2.f chetri2x.f cheswapr.f chetrs.f chetrs2.f \
-	chgeqz.f chpcon.f chpev.f chpevd.f chpevx.f chpgst.f chpgv.f \
-	chpgvd.f chpgvx.f chprfs.f chpsv.f chpsvx.f chptrd.f chptrf.f \
-	chptri.f chptrs.f chsein.f chseqr.f clabrd.f clacgv.f clacon.f \
-	clacn2.f clacp2.f clacpy.f clacrm.f clacrt.f cladiv.f claed0.f \
-	claed7.f claed8.f claein.f claesy.f claev2.f clags2.f clagtm.f \
-	clahef.f clahqr.f clahrd.f clahr2.f claic1.f clals0.f clalsa.f \
-	clalsd.f clangb.f clange.f clangt.f clanhb.f clanhe.f clanhp.f \
-	clanhs.f clanht.f clansb.f clansp.f clansy.f clantb.f clantp.f \
-	clantr.f clapll.f clapmt.f clarcm.f claqgb.f claqge.f claqhb.f \
-	claqhe.f claqhp.f claqp2.f claqps.f claqsb.f claqr0.f claqr1.f \
-	claqr2.f claqr3.f claqr4.f claqr5.f claqsp.f claqsy.f clar1v.f \
-	clar2v.f ilaclr.f ilaclc.f clarf.f clarfb.f clarfg.f clarft.f \
-	clarfgp.f clarfx.f clargv.f clarnv.f clarrv.f clartg.f \
-	clartv.f clarz.f clarzb.f clarzt.f clascl.f claset.f clasr.f \
-	classq.f claswp.f clasyf.f clatbs.f clatdf.f clatps.f clatrd.f \
-	clatrs.f clatrz.f clatzm.f clauu2.f clauum.f cpbcon.f cpbequ.f \
-	cpbrfs.f cpbstf.f cpbsv.f cpbsvx.f cpbtf2.f cpbtrf.f cpbtrs.f \
-	cpocon.f cpoequ.f cporfs.f cposv.f cposvx.f cpotf2.f cpotri.f \
-	cpstrf.f cpstf2.f cppcon.f cppequ.f cpprfs.f cppsv.f cppsvx.f \
-	cpptrf.f cpptri.f cpptrs.f cptcon.f cpteqr.f cptrfs.f cptsv.f \
-	cptsvx.f cpttrf.f cpttrs.f cptts2.f crot.f cspcon.f cspmv.f \
-	cspr.f csprfs.f cspsv.f cspsvx.f csptrf.f csptri.f csptrs.f \
-	csrscl.f cstedc.f cstegr.f cstein.f csteqr.f csycon.f csymv.f \
-	csyr.f csyrfs.f csysv.f csysvx.f csytf2.f csytrf.f csytri.f \
-	csytri2.f csytri2x.f csyswapr.f csytrs.f csytrs2.f csyconv.f \
-	ctbcon.f ctbrfs.f ctbtrs.f ctgevc.f ctgex2.f ctgexc.f ctgsen.f \
-	ctgsja.f ctgsna.f ctgsy2.f ctgsyl.f ctpcon.f ctprfs.f ctptri.f \
-	ctptrs.f ctrcon.f ctrevc.f ctrexc.f ctrrfs.f ctrsen.f ctrsna.f \
-	ctrsyl.f ctrti2.f ctrtri.f ctrtrs.f ctzrqf.f ctzrzf.f cung2l.f \
-	cung2r.f cungbr.f cunghr.f cungl2.f cunglq.f cungql.f cungqr.f \
-	cungr2.f cungrq.f cungtr.f cunm2l.f cunm2r.f cunmbr.f cunmhr.f \
-	cunml2.f cunmlq.f cunmql.f cunmqr.f cunmr2.f cunmr3.f cunmrq.f \
-	cunmrz.f cunmtr.f cupgtr.f cupmtr.f icmax1.f scsum1.f cstemr.f \
-	chfrk.f ctfttp.f clanhf.f cpftrf.f cpftri.f cpftrs.f ctfsm.f \
-	ctftri.f ctfttr.f ctpttf.f ctpttr.f ctrttf.f ctrttp.f \
-	cgeequb.f cgbequb.f csyequb.f cpoequb.f cheequb.f cbbcsd.f \
-	clapmr.f cunbdb.f cuncsd.f cgeqrt.f cgeqrt2.f cgeqrt3.f \
-	cgemqrt.f ctpqrt.f ctpqrt2.f ctpmqrt.f ctprfb.f zbdsqr.f \
-	zgbbrd.f zgbcon.f zgbequ.f zgbrfs.f zgbsv.f zgbsvx.f zgbtf2.f \
-	zgbtrf.f zgbtrs.f zgebak.f zgebal.f zgebd2.f zgebrd.f zgecon.f \
-	zgeequ.f zgees.f zgeesx.f zgeev.f zgeevx.f zgegs.f zgegv.f \
-	zgehd2.f zgehrd.f zgelq2.f zgelqf.f zgels.f zgelsd.f zgelss.f \
-	zgelsx.f zgelsy.f zgeql2.f zgeqlf.f zgeqp3.f zgeqpf.f zgeqr2.f \
-	zgeqr2p.f zgeqrf.f zgeqrfp.f zgerfs.f zgerq2.f zgerqf.f \
-	zgesc2.f zgesdd.f zgesv.f zgesvd.f zgesvx.f zgetc2.f zgetf2.f \
-	zgetrf.f zgetri.f zgetrs.f zggbak.f zggbal.f zgges.f zggesx.f \
-	zggev.f zggevx.f zggglm.f zgghrd.f zgglse.f zggqrf.f zggrqf.f \
-	zggsvd.f zggsvp.f zgtcon.f zgtrfs.f zgtsv.f zgtsvx.f zgttrf.f \
-	zgttrs.f zgtts2.f zhbev.f zhbevd.f zhbevx.f zhbgst.f zhbgv.f \
-	zhbgvd.f zhbgvx.f zhbtrd.f zhecon.f zheev.f zheevd.f zheevr.f \
-	zheevx.f zhegs2.f zhegst.f zhegv.f zhegvd.f zhegvx.f zherfs.f \
-	zhesv.f zhesvx.f zhetd2.f zhetf2.f zhetrd.f zhetrf.f zhetri.f \
-	zhetri2.f zhetri2x.f zheswapr.f zhetrs.f zhetrs2.f zhgeqz.f \
-	zhpcon.f zhpev.f zhpevd.f zhpevx.f zhpgst.f zhpgv.f zhpgvd.f \
-	zhpgvx.f zhprfs.f zhpsv.f zhpsvx.f zhptrd.f zhptrf.f zhptri.f \
-	zhptrs.f zhsein.f zhseqr.f zlabrd.f zlacgv.f zlacon.f zlacn2.f \
-	zlacp2.f zlacpy.f zlacrm.f zlacrt.f zladiv.f zlaed0.f zlaed7.f \
-	zlaed8.f zlaein.f zlaesy.f zlaev2.f zlags2.f zlagtm.f zlahef.f \
-	zlahqr.f zlahrd.f zlahr2.f zlaic1.f zlals0.f zlalsa.f zlalsd.f \
-	zlangb.f zlange.f zlangt.f zlanhb.f zlanhe.f zlanhp.f zlanhs.f \
-	zlanht.f zlansb.f zlansp.f zlansy.f zlantb.f zlantp.f zlantr.f \
-	zlapll.f zlapmt.f zlaqgb.f zlaqge.f zlaqhb.f zlaqhe.f zlaqhp.f \
-	zlaqp2.f zlaqps.f zlaqsb.f zlaqr0.f zlaqr1.f zlaqr2.f zlaqr3.f \
-	zlaqr4.f zlaqr5.f zlaqsp.f zlaqsy.f zlar1v.f zlar2v.f ilazlr.f \
-	ilazlc.f zlarcm.f zlarf.f zlarfb.f zlarfg.f zlarft.f zlarfgp.f \
-	zlarfx.f zlargv.f zlarnv.f zlarrv.f zlartg.f zlartv.f zlarz.f \
-	zlarzb.f zlarzt.f zlascl.f zlaset.f zlasr.f zlassq.f zlaswp.f \
-	zlasyf.f zlatbs.f zlatdf.f zlatps.f zlatrd.f zlatrs.f zlatrz.f \
-	zlatzm.f zlauu2.f zlauum.f zpbcon.f zpbequ.f zpbrfs.f zpbstf.f \
-	zpbsv.f zpbsvx.f zpbtf2.f zpbtrf.f zpbtrs.f zpocon.f zpoequ.f \
-	zporfs.f zposv.f zposvx.f zpotf2.f zpotrf.f zpotri.f zpotrs.f \
-	zpstrf.f zpstf2.f zppcon.f zppequ.f zpprfs.f zppsv.f zppsvx.f \
-	zpptrf.f zpptri.f zpptrs.f zptcon.f zpteqr.f zptrfs.f zptsv.f \
-	zptsvx.f zpttrf.f zpttrs.f zptts2.f zrot.f zspcon.f zspmv.f \
-	zspr.f zsprfs.f zspsv.f zspsvx.f zsptrf.f zsptri.f zsptrs.f \
-	zdrscl.f zstedc.f zstegr.f zstein.f zsteqr.f zsycon.f zsymv.f \
-	zsyr.f zsyrfs.f zsysv.f zsysvx.f zsytf2.f zsytrf.f zsytri.f \
-	zsytri2.f zsytri2x.f zsyswapr.f zsytrs.f zsytrs2.f zsyconv.f \
-	ztbcon.f ztbrfs.f ztbtrs.f ztgevc.f ztgex2.f ztgexc.f ztgsen.f \
-	ztgsja.f ztgsna.f ztgsy2.f ztgsyl.f ztpcon.f ztprfs.f ztptri.f \
-	ztptrs.f ztrcon.f ztrevc.f ztrexc.f ztrrfs.f ztrsen.f ztrsna.f \
-	ztrsyl.f ztrti2.f ztrtri.f ztrtrs.f ztzrqf.f ztzrzf.f zung2l.f \
-	zung2r.f zungbr.f zunghr.f zungl2.f zunglq.f zungql.f zungqr.f \
-	zungr2.f zungrq.f zungtr.f zunm2l.f zunm2r.f zunmbr.f zunmhr.f \
-	zunml2.f zunmlq.f zunmql.f zunmqr.f zunmr2.f zunmr3.f zunmrq.f \
-	zunmrz.f zunmtr.f zupgtr.f zupmtr.f izmax1.f dzsum1.f zstemr.f \
-	zcgesv.f zcposv.f zlag2c.f clag2z.f zlat2c.f zhfrk.f ztfttp.f \
-	zlanhf.f zpftrf.f zpftri.f zpftrs.f ztfsm.f ztftri.f ztfttr.f \
-	ztpttf.f ztpttr.f ztrttf.f ztrttp.f zgeequb.f zgbequb.f \
-	zsyequb.f zpoequb.f zheequb.f zbbcsd.f zlapmr.f zunbdb.f \
-	zuncsd.f zgeqrt.f zgeqrt2.f zgeqrt3.f zgemqrt.f ztpqrt.f \
-	ztpqrt2.f ztpmqrt.f ztprfb.f cpotrs.f cgetrs.f cpotrf.f \
-	cgetrf.f sbdsdc.f sbdsqr.f sdisna.f slabad.f slacpy.f sladiv.f \
-	slae2.f slaebz.f slaed0.f slaed1.f slaed2.f slaed3.f slaed4.f \
-	slaed5.f slaed6.f slaed7.f slaed8.f slaed9.f slaeda.f slaev2.f \
-	slagtf.f slagts.f slamrg.f slanst.f slapy2.f slapy3.f slarnv.f \
-	slarra.f slarrb.f slarrc.f slarrd.f slarre.f slarrf.f slarrj.f \
-	slarrk.f slarrr.f slaneg.f slartg.f slaruv.f slas2.f slascl.f \
-	slasd0.f slasd1.f slasd2.f slasd3.f slasd4.f slasd5.f slasd6.f \
-	slasd7.f slasd8.f slasda.f slasdq.f slasdt.f slaset.f slasq1.f \
-	slasq2.f slasq3.f slasq4.f slasq5.f slasq6.f slasr.f slasrt.f \
-	slassq.f slasv2.f spttrf.f sstebz.f sstedc.f ssteqr.f ssterf.f \
-	slaisnan.f sisnan.f slartgp.f slartgs.f \
-	$(MACHINE_DEP_DIR)/second_$(TIMER).f dbdsdc.f dbdsqr.f \
-	ddisna.f dlabad.f dlacpy.f dladiv.f dlae2.f dlaebz.f dlaed0.f \
-	dlaed1.f dlaed2.f dlaed3.f dlaed4.f dlaed5.f dlaed6.f dlaed7.f \
-	dlaed8.f dlaed9.f dlaeda.f dlaev2.f dlagtf.f dlagts.f dlamrg.f \
-	dlanst.f dlapy2.f dlapy3.f dlarnv.f dlarra.f dlarrb.f dlarrc.f \
-	dlarrd.f dlarre.f dlarrf.f dlarrj.f dlarrk.f dlarrr.f dlaneg.f \
-	dlartg.f dlaruv.f dlas2.f dlascl.f dlasd0.f dlasd1.f dlasd2.f \
-	dlasd3.f dlasd4.f dlasd5.f dlasd6.f dlasd7.f dlasd8.f dlasda.f \
-	dlasdq.f dlasdt.f dlaset.f dlasq1.f dlasq2.f dlasq3.f dlasq4.f \
-	dlasq5.f dlasq6.f dlasr.f dlasrt.f dlassq.f dlasv2.f dpttrf.f \
-	dstebz.f dstedc.f dsteqr.f dsterf.f dlaisnan.f disnan.f \
-	dlartgp.f dlartgs.f $(MACHINE_DEP_DIR)/dlamch.f \
-	$(MACHINE_DEP_DIR)/dsecnd_$(TIMER).f ilaenv.f ieeeck.f \
-	lsamen.f xerbla.f xerbla_array.f iparmq.f ilaprec.f ilatrans.f \
-	ilauplo.f iladiag.f chla_transtype.f \
-	$(MACHINE_DEP_DIR)/ilaver.f $(MACHINE_DEP_DIR)/lsame.f \
-	$(MACHINE_DEP_DIR)/slamch.f sgesvxx.f sgerfsx.f sla_geamv.f \
-	ssysvxx.f ssyrfsx.f sposvxx.f sporfsx.f sgbsvxx.f sgbrfsx.f \
-	slarscl2.f slascl2.f sla_gerfsx_extended.f sla_gercond.f \
-	sla_gerpvgrw.f sla_syrfsx_extended.f sla_syamv.f sla_syrcond.f \
-	sla_syrpvgrw.f sla_porfsx_extended.f sla_porcond.f \
-	sla_gbrfsx_extended.f sla_porpvgrw.f sla_gbamv.f sla_gbrcond.f \
-	sla_gbrpvgrw.f sla_lin_berr.f sla_wwaddw.f dgesvxx.f dgerfsx.f \
-	dsysvxx.f dsyrfsx.f dposvxx.f dporfsx.f dgbsvxx.f dgbrfsx.f \
-	dlarscl2.f dlascl2.f dla_gerfsx_extended.f dla_geamv.f \
-	dla_gercond.f dla_gerpvgrw.f dla_syrfsx_extended.f dla_syamv.f \
-	dla_syrcond.f dla_syrpvgrw.f dla_porfsx_extended.f \
-	dla_porcond.f dla_porpvgrw.f dla_gbrfsx_extended.f dla_gbamv.f \
-	dla_gbrcond.f dla_gbrpvgrw.f dla_lin_berr.f dla_wwaddw.f \
-	cgesvxx.f cgerfsx.f csysvxx.f csyrfsx.f cposvxx.f cporfsx.f \
-	cgbsvxx.f cgbrfsx.f chesvxx.f cherfsx.f clarscl2.f clascl2.f \
-	cla_gerfsx_extended.f cla_geamv.f cla_gercond_c.f \
-	cla_gercond_x.f cla_gerpvgrw.f cla_syrfsx_extended.f \
-	cla_syamv.f cla_syrcond_c.f cla_syrcond_x.f cla_syrpvgrw.f \
-	cla_porfsx_extended.f cla_porcond_c.f cla_porcond_x.f \
-	cla_porpvgrw.f cla_gbrfsx_extended.f cla_gbamv.f \
-	cla_gbrcond_c.f cla_gbrcond_x.f cla_gbrpvgrw.f \
-	cla_herfsx_extended.f cla_heamv.f cla_hercond_c.f \
-	cla_hercond_x.f cla_herpvgrw.f cla_lin_berr.f cla_wwaddw.f \
-	zgesvxx.f zgerfsx.f zsysvxx.f zsyrfsx.f zposvxx.f zporfsx.f \
-	zgbsvxx.f zgbrfsx.f zhesvxx.f zherfsx.f zlarscl2.f zlascl2.f \
-	zla_gerfsx_extended.f zla_geamv.f zla_gercond_c.f \
-	zla_gercond_x.f zla_gerpvgrw.f zla_syrfsx_extended.f \
-	zla_syamv.f zla_syrcond_c.f zla_syrcond_x.f zla_syrpvgrw.f \
-	zla_porfsx_extended.f zla_porcond_c.f zla_porcond_x.f \
-	zla_porpvgrw.f zla_gbrfsx_extended.f zla_gbamv.f \
-	zla_gbrcond_c.f zla_gbrcond_x.f zla_gbrpvgrw.f \
-	zla_herfsx_extended.f zla_heamv.f zla_hercond_c.f \
-	zla_hercond_x.f zla_herpvgrw.f zla_lin_berr.f zla_wwaddw.f
-am__objects_1 = sgbbrd.lo sgbcon.lo sgbequ.lo sgbrfs.lo sgbsv.lo \
-	sgbsvx.lo sgbtf2.lo sgbtrf.lo sgbtrs.lo sgebak.lo sgebal.lo \
-	sgebd2.lo sgebrd.lo sgecon.lo sgeequ.lo sgees.lo sgeesx.lo \
-	sgeev.lo sgeevx.lo sgegs.lo sgegv.lo sgehd2.lo sgehrd.lo \
-	sgelq2.lo sgelqf.lo sgels.lo sgelsd.lo sgelss.lo sgelsx.lo \
-	sgelsy.lo sgeql2.lo sgeqlf.lo sgeqp3.lo sgeqpf.lo sgeqr2.lo \
-	sgeqr2p.lo sgeqrf.lo sgeqrfp.lo sgerfs.lo sgerq2.lo sgerqf.lo \
-	sgesc2.lo sgesdd.lo sgesv.lo sgesvd.lo sgesvx.lo sgetc2.lo \
-	sgetf2.lo sgetri.lo sggbak.lo sggbal.lo sgges.lo sggesx.lo \
-	sggev.lo sggevx.lo sggglm.lo sgghrd.lo sgglse.lo sggqrf.lo \
-	sggrqf.lo sggsvd.lo sggsvp.lo sgtcon.lo sgtrfs.lo sgtsv.lo \
-	sgtsvx.lo sgttrf.lo sgttrs.lo sgtts2.lo shgeqz.lo shsein.lo \
-	shseqr.lo slabrd.lo slacon.lo slacn2.lo slaein.lo slaexc.lo \
-	slag2.lo slags2.lo slagtm.lo slagv2.lo slahqr.lo slahrd.lo \
-	slahr2.lo slaic1.lo slaln2.lo slals0.lo slalsa.lo slalsd.lo \
-	slangb.lo slange.lo slangt.lo slanhs.lo slansb.lo slansp.lo \
-	slansy.lo slantb.lo slantp.lo slantr.lo slanv2.lo slapll.lo \
-	slapmt.lo slaqgb.lo slaqge.lo slaqp2.lo slaqps.lo slaqsb.lo \
-	slaqsp.lo slaqsy.lo slaqr0.lo slaqr1.lo slaqr2.lo slaqr3.lo \
-	slaqr4.lo slaqr5.lo slaqtr.lo slar1v.lo slar2v.lo ilaslr.lo \
-	ilaslc.lo slarf.lo slarfb.lo slarfg.lo slarfgp.lo slarft.lo \
-	slarfx.lo slargv.lo slarrv.lo slartv.lo slarz.lo slarzb.lo \
-	slarzt.lo slaswp.lo slasy2.lo slasyf.lo slatbs.lo slatdf.lo \
-	slatps.lo slatrd.lo slatrs.lo slatrz.lo slatzm.lo slauu2.lo \
-	slauum.lo sopgtr.lo sopmtr.lo sorg2l.lo sorg2r.lo sorgbr.lo \
-	sorghr.lo sorgl2.lo sorglq.lo sorgql.lo sorgqr.lo sorgr2.lo \
-	sorgrq.lo sorgtr.lo sorm2l.lo sorm2r.lo sormbr.lo sormhr.lo \
-	sorml2.lo sormlq.lo sormql.lo sormqr.lo sormr2.lo sormr3.lo \
-	sormrq.lo sormrz.lo sormtr.lo spbcon.lo spbequ.lo spbrfs.lo \
-	spbstf.lo spbsv.lo spbsvx.lo spbtf2.lo spbtrf.lo spbtrs.lo \
-	spocon.lo spoequ.lo sporfs.lo sposv.lo sposvx.lo spotf2.lo \
-	spotri.lo spstrf.lo spstf2.lo sppcon.lo sppequ.lo spprfs.lo \
-	sppsv.lo sppsvx.lo spptrf.lo spptri.lo spptrs.lo sptcon.lo \
-	spteqr.lo sptrfs.lo sptsv.lo sptsvx.lo spttrs.lo sptts2.lo \
-	srscl.lo ssbev.lo ssbevd.lo ssbevx.lo ssbgst.lo ssbgv.lo \
-	ssbgvd.lo ssbgvx.lo ssbtrd.lo sspcon.lo sspev.lo sspevd.lo \
-	sspevx.lo sspgst.lo sspgv.lo sspgvd.lo sspgvx.lo ssprfs.lo \
-	sspsv.lo sspsvx.lo ssptrd.lo ssptrf.lo ssptri.lo ssptrs.lo \
-	sstegr.lo sstein.lo sstev.lo sstevd.lo sstevr.lo sstevx.lo \
-	ssycon.lo ssyev.lo ssyevd.lo ssyevr.lo ssyevx.lo ssygs2.lo \
-	ssygst.lo ssygv.lo ssygvd.lo ssygvx.lo ssyrfs.lo ssysv.lo \
-	ssysvx.lo ssytd2.lo ssytf2.lo ssytrd.lo ssytrf.lo ssytri.lo \
-	ssytri2.lo ssytri2x.lo ssyswapr.lo ssytrs.lo ssytrs2.lo \
-	ssyconv.lo stbcon.lo stbrfs.lo stbtrs.lo stgevc.lo stgex2.lo \
-	stgexc.lo stgsen.lo stgsja.lo stgsna.lo stgsy2.lo stgsyl.lo \
-	stpcon.lo stprfs.lo stptri.lo stptrs.lo strcon.lo strevc.lo \
-	strexc.lo strrfs.lo strsen.lo strsna.lo strsyl.lo strti2.lo \
-	strtri.lo strtrs.lo stzrqf.lo stzrzf.lo sstemr.lo slansf.lo \
-	spftrf.lo spftri.lo spftrs.lo ssfrk.lo stfsm.lo stftri.lo \
-	stfttp.lo stfttr.lo stpttf.lo stpttr.lo strttf.lo strttp.lo \
-	sgejsv.lo sgesvj.lo sgsvj0.lo sgsvj1.lo sgeequb.lo ssyequb.lo \
-	spoequb.lo sgbequb.lo sbbcsd.lo slapmr.lo sorbdb.lo sorcsd.lo \
-	sgeqrt.lo sgeqrt2.lo sgeqrt3.lo sgemqrt.lo stpqrt.lo \
-	stpqrt2.lo stpmqrt.lo stprfb.lo
-am__objects_2 = dgbbrd.lo dgbcon.lo dgbequ.lo dgbrfs.lo dgbsv.lo \
-	dgbsvx.lo dgbtf2.lo dgbtrf.lo dgbtrs.lo dgebak.lo dgebal.lo \
-	dgebd2.lo dgebrd.lo dgecon.lo dgeequ.lo dgees.lo dgeesx.lo \
-	dgeev.lo dgeevx.lo dgegs.lo dgegv.lo dgehd2.lo dgehrd.lo \
-	dgelq2.lo dgelqf.lo dgels.lo dgelsd.lo dgelss.lo dgelsx.lo \
-	dgelsy.lo dgeql2.lo dgeqlf.lo dgeqp3.lo dgeqpf.lo dgeqr2.lo \
-	dgeqr2p.lo dgeqrf.lo dgeqrfp.lo dgerfs.lo dgerq2.lo dgerqf.lo \
-	dgesc2.lo dgesdd.lo dgesv.lo dgesvd.lo dgesvx.lo dgetc2.lo \
-	dgetf2.lo dgetrf.lo dgetri.lo dgetrs.lo dggbak.lo dggbal.lo \
-	dgges.lo dggesx.lo dggev.lo dggevx.lo dggglm.lo dgghrd.lo \
-	dgglse.lo dggqrf.lo dggrqf.lo dggsvd.lo dggsvp.lo dgtcon.lo \
-	dgtrfs.lo dgtsv.lo dgtsvx.lo dgttrf.lo dgttrs.lo dgtts2.lo \
-	dhgeqz.lo dhsein.lo dhseqr.lo dlabrd.lo dlacon.lo dlacn2.lo \
-	dlaein.lo dlaexc.lo dlag2.lo dlags2.lo dlagtm.lo dlagv2.lo \
-	dlahqr.lo dlahrd.lo dlahr2.lo dlaic1.lo dlaln2.lo dlals0.lo \
-	dlalsa.lo dlalsd.lo dlangb.lo dlange.lo dlangt.lo dlanhs.lo \
-	dlansb.lo dlansp.lo dlansy.lo dlantb.lo dlantp.lo dlantr.lo \
-	dlanv2.lo dlapll.lo dlapmt.lo dlaqgb.lo dlaqge.lo dlaqp2.lo \
-	dlaqps.lo dlaqsb.lo dlaqsp.lo dlaqsy.lo dlaqr0.lo dlaqr1.lo \
-	dlaqr2.lo dlaqr3.lo dlaqr4.lo dlaqr5.lo dlaqtr.lo dlar1v.lo \
-	dlar2v.lo iladlr.lo iladlc.lo dlarf.lo dlarfb.lo dlarfg.lo \
-	dlarfgp.lo dlarft.lo dlarfx.lo dlargv.lo dlarrv.lo dlartv.lo \
-	dlarz.lo dlarzb.lo dlarzt.lo dlaswp.lo dlasy2.lo dlasyf.lo \
-	dlatbs.lo dlatdf.lo dlatps.lo dlatrd.lo dlatrs.lo dlatrz.lo \
-	dlatzm.lo dlauu2.lo dlauum.lo dopgtr.lo dopmtr.lo dorg2l.lo \
-	dorg2r.lo dorgbr.lo dorghr.lo dorgl2.lo dorglq.lo dorgql.lo \
-	dorgqr.lo dorgr2.lo dorgrq.lo dorgtr.lo dorm2l.lo dorm2r.lo \
-	dormbr.lo dormhr.lo dorml2.lo dormlq.lo dormql.lo dormqr.lo \
-	dormr2.lo dormr3.lo dormrq.lo dormrz.lo dormtr.lo dpbcon.lo \
-	dpbequ.lo dpbrfs.lo dpbstf.lo dpbsv.lo dpbsvx.lo dpbtf2.lo \
-	dpbtrf.lo dpbtrs.lo dpocon.lo dpoequ.lo dporfs.lo dposv.lo \
-	dposvx.lo dpotf2.lo dpotrf.lo dpotri.lo dpotrs.lo dpstrf.lo \
-	dpstf2.lo dppcon.lo dppequ.lo dpprfs.lo dppsv.lo dppsvx.lo \
-	dpptrf.lo dpptri.lo dpptrs.lo dptcon.lo dpteqr.lo dptrfs.lo \
-	dptsv.lo dptsvx.lo dpttrs.lo dptts2.lo drscl.lo dsbev.lo \
-	dsbevd.lo dsbevx.lo dsbgst.lo dsbgv.lo dsbgvd.lo dsbgvx.lo \
-	dsbtrd.lo dspcon.lo dspev.lo dspevd.lo dspevx.lo dspgst.lo \
-	dspgv.lo dspgvd.lo dspgvx.lo dsprfs.lo dspsv.lo dspsvx.lo \
-	dsptrd.lo dsptrf.lo dsptri.lo dsptrs.lo dstegr.lo dstein.lo \
-	dstev.lo dstevd.lo dstevr.lo dstevx.lo dsycon.lo dsyev.lo \
-	dsyevd.lo dsyevr.lo dsyevx.lo dsygs2.lo dsygst.lo dsygv.lo \
-	dsygvd.lo dsygvx.lo dsyrfs.lo dsysv.lo dsysvx.lo dsytd2.lo \
-	dsytf2.lo dsytrd.lo dsytrf.lo dsytri.lo dsytri2.lo dsytri2x.lo \
-	dsyswapr.lo dsytrs.lo dsytrs2.lo dsyconv.lo dtbcon.lo \
-	dtbrfs.lo dtbtrs.lo dtgevc.lo dtgex2.lo dtgexc.lo dtgsen.lo \
-	dtgsja.lo dtgsna.lo dtgsy2.lo dtgsyl.lo dtpcon.lo dtprfs.lo \
-	dtptri.lo dtptrs.lo dtrcon.lo dtrevc.lo dtrexc.lo dtrrfs.lo \
-	dtrsen.lo dtrsna.lo dtrsyl.lo dtrti2.lo dtrtri.lo dtrtrs.lo \
-	dtzrqf.lo dtzrzf.lo dstemr.lo dsgesv.lo dsposv.lo dlag2s.lo \
-	slag2d.lo dlat2s.lo dlansf.lo dpftrf.lo dpftri.lo dpftrs.lo \
-	dsfrk.lo dtfsm.lo dtftri.lo dtfttp.lo dtfttr.lo dtpttf.lo \
-	dtpttr.lo dtrttf.lo dtrttp.lo dgejsv.lo dgesvj.lo dgsvj0.lo \
-	dgsvj1.lo dgeequb.lo dsyequb.lo dpoequb.lo dgbequb.lo \
-	dbbcsd.lo dlapmr.lo dorbdb.lo dorcsd.lo dgeqrt.lo dgeqrt2.lo \
-	dgeqrt3.lo dgemqrt.lo dtpqrt.lo dtpqrt2.lo dtpmqrt.lo \
-	dtprfb.lo
-am__objects_3 = spotrs.lo sgetrs.lo spotrf.lo sgetrf.lo
-am__objects_4 = cbdsqr.lo cgbbrd.lo cgbcon.lo cgbequ.lo cgbrfs.lo \
-	cgbsv.lo cgbsvx.lo cgbtf2.lo cgbtrf.lo cgbtrs.lo cgebak.lo \
-	cgebal.lo cgebd2.lo cgebrd.lo cgecon.lo cgeequ.lo cgees.lo \
-	cgeesx.lo cgeev.lo cgeevx.lo cgegs.lo cgegv.lo cgehd2.lo \
-	cgehrd.lo cgelq2.lo cgelqf.lo cgels.lo cgelsd.lo cgelss.lo \
-	cgelsx.lo cgelsy.lo cgeql2.lo cgeqlf.lo cgeqp3.lo cgeqpf.lo \
-	cgeqr2.lo cgeqr2p.lo cgeqrf.lo cgeqrfp.lo cgerfs.lo cgerq2.lo \
-	cgerqf.lo cgesc2.lo cgesdd.lo cgesv.lo cgesvd.lo cgesvx.lo \
-	cgetc2.lo cgetf2.lo cgetri.lo cggbak.lo cggbal.lo cgges.lo \
-	cggesx.lo cggev.lo cggevx.lo cggglm.lo cgghrd.lo cgglse.lo \
-	cggqrf.lo cggrqf.lo cggsvd.lo cggsvp.lo cgtcon.lo cgtrfs.lo \
-	cgtsv.lo cgtsvx.lo cgttrf.lo cgttrs.lo cgtts2.lo chbev.lo \
-	chbevd.lo chbevx.lo chbgst.lo chbgv.lo chbgvd.lo chbgvx.lo \
-	chbtrd.lo checon.lo cheev.lo cheevd.lo cheevr.lo cheevx.lo \
-	chegs2.lo chegst.lo chegv.lo chegvd.lo chegvx.lo cherfs.lo \
-	chesv.lo chesvx.lo chetd2.lo chetf2.lo chetrd.lo chetrf.lo \
-	chetri.lo chetri2.lo chetri2x.lo cheswapr.lo chetrs.lo \
-	chetrs2.lo chgeqz.lo chpcon.lo chpev.lo chpevd.lo chpevx.lo \
-	chpgst.lo chpgv.lo chpgvd.lo chpgvx.lo chprfs.lo chpsv.lo \
-	chpsvx.lo chptrd.lo chptrf.lo chptri.lo chptrs.lo chsein.lo \
-	chseqr.lo clabrd.lo clacgv.lo clacon.lo clacn2.lo clacp2.lo \
-	clacpy.lo clacrm.lo clacrt.lo cladiv.lo claed0.lo claed7.lo \
-	claed8.lo claein.lo claesy.lo claev2.lo clags2.lo clagtm.lo \
-	clahef.lo clahqr.lo clahrd.lo clahr2.lo claic1.lo clals0.lo \
-	clalsa.lo clalsd.lo clangb.lo clange.lo clangt.lo clanhb.lo \
-	clanhe.lo clanhp.lo clanhs.lo clanht.lo clansb.lo clansp.lo \
-	clansy.lo clantb.lo clantp.lo clantr.lo clapll.lo clapmt.lo \
-	clarcm.lo claqgb.lo claqge.lo claqhb.lo claqhe.lo claqhp.lo \
-	claqp2.lo claqps.lo claqsb.lo claqr0.lo claqr1.lo claqr2.lo \
-	claqr3.lo claqr4.lo claqr5.lo claqsp.lo claqsy.lo clar1v.lo \
-	clar2v.lo ilaclr.lo ilaclc.lo clarf.lo clarfb.lo clarfg.lo \
-	clarft.lo clarfgp.lo clarfx.lo clargv.lo clarnv.lo clarrv.lo \
-	clartg.lo clartv.lo clarz.lo clarzb.lo clarzt.lo clascl.lo \
-	claset.lo clasr.lo classq.lo claswp.lo clasyf.lo clatbs.lo \
-	clatdf.lo clatps.lo clatrd.lo clatrs.lo clatrz.lo clatzm.lo \
-	clauu2.lo clauum.lo cpbcon.lo cpbequ.lo cpbrfs.lo cpbstf.lo \
-	cpbsv.lo cpbsvx.lo cpbtf2.lo cpbtrf.lo cpbtrs.lo cpocon.lo \
-	cpoequ.lo cporfs.lo cposv.lo cposvx.lo cpotf2.lo cpotri.lo \
-	cpstrf.lo cpstf2.lo cppcon.lo cppequ.lo cpprfs.lo cppsv.lo \
-	cppsvx.lo cpptrf.lo cpptri.lo cpptrs.lo cptcon.lo cpteqr.lo \
-	cptrfs.lo cptsv.lo cptsvx.lo cpttrf.lo cpttrs.lo cptts2.lo \
-	crot.lo cspcon.lo cspmv.lo cspr.lo csprfs.lo cspsv.lo \
-	cspsvx.lo csptrf.lo csptri.lo csptrs.lo csrscl.lo cstedc.lo \
-	cstegr.lo cstein.lo csteqr.lo csycon.lo csymv.lo csyr.lo \
-	csyrfs.lo csysv.lo csysvx.lo csytf2.lo csytrf.lo csytri.lo \
-	csytri2.lo csytri2x.lo csyswapr.lo csytrs.lo csytrs2.lo \
-	csyconv.lo ctbcon.lo ctbrfs.lo ctbtrs.lo ctgevc.lo ctgex2.lo \
-	ctgexc.lo ctgsen.lo ctgsja.lo ctgsna.lo ctgsy2.lo ctgsyl.lo \
-	ctpcon.lo ctprfs.lo ctptri.lo ctptrs.lo ctrcon.lo ctrevc.lo \
-	ctrexc.lo ctrrfs.lo ctrsen.lo ctrsna.lo ctrsyl.lo ctrti2.lo \
-	ctrtri.lo ctrtrs.lo ctzrqf.lo ctzrzf.lo cung2l.lo cung2r.lo \
-	cungbr.lo cunghr.lo cungl2.lo cunglq.lo cungql.lo cungqr.lo \
-	cungr2.lo cungrq.lo cungtr.lo cunm2l.lo cunm2r.lo cunmbr.lo \
-	cunmhr.lo cunml2.lo cunmlq.lo cunmql.lo cunmqr.lo cunmr2.lo \
-	cunmr3.lo cunmrq.lo cunmrz.lo cunmtr.lo cupgtr.lo cupmtr.lo \
-	icmax1.lo scsum1.lo cstemr.lo chfrk.lo ctfttp.lo clanhf.lo \
-	cpftrf.lo cpftri.lo cpftrs.lo ctfsm.lo ctftri.lo ctfttr.lo \
-	ctpttf.lo ctpttr.lo ctrttf.lo ctrttp.lo cgeequb.lo cgbequb.lo \
-	csyequb.lo cpoequb.lo cheequb.lo cbbcsd.lo clapmr.lo cunbdb.lo \
-	cuncsd.lo cgeqrt.lo cgeqrt2.lo cgeqrt3.lo cgemqrt.lo ctpqrt.lo \
-	ctpqrt2.lo ctpmqrt.lo ctprfb.lo
-am__objects_5 = zbdsqr.lo zgbbrd.lo zgbcon.lo zgbequ.lo zgbrfs.lo \
-	zgbsv.lo zgbsvx.lo zgbtf2.lo zgbtrf.lo zgbtrs.lo zgebak.lo \
-	zgebal.lo zgebd2.lo zgebrd.lo zgecon.lo zgeequ.lo zgees.lo \
-	zgeesx.lo zgeev.lo zgeevx.lo zgegs.lo zgegv.lo zgehd2.lo \
-	zgehrd.lo zgelq2.lo zgelqf.lo zgels.lo zgelsd.lo zgelss.lo \
-	zgelsx.lo zgelsy.lo zgeql2.lo zgeqlf.lo zgeqp3.lo zgeqpf.lo \
-	zgeqr2.lo zgeqr2p.lo zgeqrf.lo zgeqrfp.lo zgerfs.lo zgerq2.lo \
-	zgerqf.lo zgesc2.lo zgesdd.lo zgesv.lo zgesvd.lo zgesvx.lo \
-	zgetc2.lo zgetf2.lo zgetrf.lo zgetri.lo zgetrs.lo zggbak.lo \
-	zggbal.lo zgges.lo zggesx.lo zggev.lo zggevx.lo zggglm.lo \
-	zgghrd.lo zgglse.lo zggqrf.lo zggrqf.lo zggsvd.lo zggsvp.lo \
-	zgtcon.lo zgtrfs.lo zgtsv.lo zgtsvx.lo zgttrf.lo zgttrs.lo \
-	zgtts2.lo zhbev.lo zhbevd.lo zhbevx.lo zhbgst.lo zhbgv.lo \
-	zhbgvd.lo zhbgvx.lo zhbtrd.lo zhecon.lo zheev.lo zheevd.lo \
-	zheevr.lo zheevx.lo zhegs2.lo zhegst.lo zhegv.lo zhegvd.lo \
-	zhegvx.lo zherfs.lo zhesv.lo zhesvx.lo zhetd2.lo zhetf2.lo \
-	zhetrd.lo zhetrf.lo zhetri.lo zhetri2.lo zhetri2x.lo \
-	zheswapr.lo zhetrs.lo zhetrs2.lo zhgeqz.lo zhpcon.lo zhpev.lo \
-	zhpevd.lo zhpevx.lo zhpgst.lo zhpgv.lo zhpgvd.lo zhpgvx.lo \
-	zhprfs.lo zhpsv.lo zhpsvx.lo zhptrd.lo zhptrf.lo zhptri.lo \
-	zhptrs.lo zhsein.lo zhseqr.lo zlabrd.lo zlacgv.lo zlacon.lo \
-	zlacn2.lo zlacp2.lo zlacpy.lo zlacrm.lo zlacrt.lo zladiv.lo \
-	zlaed0.lo zlaed7.lo zlaed8.lo zlaein.lo zlaesy.lo zlaev2.lo \
-	zlags2.lo zlagtm.lo zlahef.lo zlahqr.lo zlahrd.lo zlahr2.lo \
-	zlaic1.lo zlals0.lo zlalsa.lo zlalsd.lo zlangb.lo zlange.lo \
-	zlangt.lo zlanhb.lo zlanhe.lo zlanhp.lo zlanhs.lo zlanht.lo \
-	zlansb.lo zlansp.lo zlansy.lo zlantb.lo zlantp.lo zlantr.lo \
-	zlapll.lo zlapmt.lo zlaqgb.lo zlaqge.lo zlaqhb.lo zlaqhe.lo \
-	zlaqhp.lo zlaqp2.lo zlaqps.lo zlaqsb.lo zlaqr0.lo zlaqr1.lo \
-	zlaqr2.lo zlaqr3.lo zlaqr4.lo zlaqr5.lo zlaqsp.lo zlaqsy.lo \
-	zlar1v.lo zlar2v.lo ilazlr.lo ilazlc.lo zlarcm.lo zlarf.lo \
-	zlarfb.lo zlarfg.lo zlarft.lo zlarfgp.lo zlarfx.lo zlargv.lo \
-	zlarnv.lo zlarrv.lo zlartg.lo zlartv.lo zlarz.lo zlarzb.lo \
-	zlarzt.lo zlascl.lo zlaset.lo zlasr.lo zlassq.lo zlaswp.lo \
-	zlasyf.lo zlatbs.lo zlatdf.lo zlatps.lo zlatrd.lo zlatrs.lo \
-	zlatrz.lo zlatzm.lo zlauu2.lo zlauum.lo zpbcon.lo zpbequ.lo \
-	zpbrfs.lo zpbstf.lo zpbsv.lo zpbsvx.lo zpbtf2.lo zpbtrf.lo \
-	zpbtrs.lo zpocon.lo zpoequ.lo zporfs.lo zposv.lo zposvx.lo \
-	zpotf2.lo zpotrf.lo zpotri.lo zpotrs.lo zpstrf.lo zpstf2.lo \
-	zppcon.lo zppequ.lo zpprfs.lo zppsv.lo zppsvx.lo zpptrf.lo \
-	zpptri.lo zpptrs.lo zptcon.lo zpteqr.lo zptrfs.lo zptsv.lo \
-	zptsvx.lo zpttrf.lo zpttrs.lo zptts2.lo zrot.lo zspcon.lo \
-	zspmv.lo zspr.lo zsprfs.lo zspsv.lo zspsvx.lo zsptrf.lo \
-	zsptri.lo zsptrs.lo zdrscl.lo zstedc.lo zstegr.lo zstein.lo \
-	zsteqr.lo zsycon.lo zsymv.lo zsyr.lo zsyrfs.lo zsysv.lo \
-	zsysvx.lo zsytf2.lo zsytrf.lo zsytri.lo zsytri2.lo zsytri2x.lo \
-	zsyswapr.lo zsytrs.lo zsytrs2.lo zsyconv.lo ztbcon.lo \
-	ztbrfs.lo ztbtrs.lo ztgevc.lo ztgex2.lo ztgexc.lo ztgsen.lo \
-	ztgsja.lo ztgsna.lo ztgsy2.lo ztgsyl.lo ztpcon.lo ztprfs.lo \
-	ztptri.lo ztptrs.lo ztrcon.lo ztrevc.lo ztrexc.lo ztrrfs.lo \
-	ztrsen.lo ztrsna.lo ztrsyl.lo ztrti2.lo ztrtri.lo ztrtrs.lo \
-	ztzrqf.lo ztzrzf.lo zung2l.lo zung2r.lo zungbr.lo zunghr.lo \
-	zungl2.lo zunglq.lo zungql.lo zungqr.lo zungr2.lo zungrq.lo \
-	zungtr.lo zunm2l.lo zunm2r.lo zunmbr.lo zunmhr.lo zunml2.lo \
-	zunmlq.lo zunmql.lo zunmqr.lo zunmr2.lo zunmr3.lo zunmrq.lo \
-	zunmrz.lo zunmtr.lo zupgtr.lo zupmtr.lo izmax1.lo dzsum1.lo \
-	zstemr.lo zcgesv.lo zcposv.lo zlag2c.lo clag2z.lo zlat2c.lo \
-	zhfrk.lo ztfttp.lo zlanhf.lo zpftrf.lo zpftri.lo zpftrs.lo \
-	ztfsm.lo ztftri.lo ztfttr.lo ztpttf.lo ztpttr.lo ztrttf.lo \
-	ztrttp.lo zgeequb.lo zgbequb.lo zsyequb.lo zpoequb.lo \
-	zheequb.lo zbbcsd.lo zlapmr.lo zunbdb.lo zuncsd.lo zgeqrt.lo \
-	zgeqrt2.lo zgeqrt3.lo zgemqrt.lo ztpqrt.lo ztpqrt2.lo \
-	ztpmqrt.lo ztprfb.lo
-am__objects_6 = cpotrs.lo cgetrs.lo cpotrf.lo cgetrf.lo
-am__objects_7 = sbdsdc.lo sbdsqr.lo sdisna.lo slabad.lo slacpy.lo \
-	sladiv.lo slae2.lo slaebz.lo slaed0.lo slaed1.lo slaed2.lo \
-	slaed3.lo slaed4.lo slaed5.lo slaed6.lo slaed7.lo slaed8.lo \
-	slaed9.lo slaeda.lo slaev2.lo slagtf.lo slagts.lo slamrg.lo \
-	slanst.lo slapy2.lo slapy3.lo slarnv.lo slarra.lo slarrb.lo \
-	slarrc.lo slarrd.lo slarre.lo slarrf.lo slarrj.lo slarrk.lo \
-	slarrr.lo slaneg.lo slartg.lo slaruv.lo slas2.lo slascl.lo \
-	slasd0.lo slasd1.lo slasd2.lo slasd3.lo slasd4.lo slasd5.lo \
-	slasd6.lo slasd7.lo slasd8.lo slasda.lo slasdq.lo slasdt.lo \
-	slaset.lo slasq1.lo slasq2.lo slasq3.lo slasq4.lo slasq5.lo \
-	slasq6.lo slasr.lo slasrt.lo slassq.lo slasv2.lo spttrf.lo \
-	sstebz.lo sstedc.lo ssteqr.lo ssterf.lo slaisnan.lo sisnan.lo \
-	slartgp.lo slartgs.lo second_$(TIMER).lo
-am__objects_8 = dbdsdc.lo dbdsqr.lo ddisna.lo dlabad.lo dlacpy.lo \
-	dladiv.lo dlae2.lo dlaebz.lo dlaed0.lo dlaed1.lo dlaed2.lo \
-	dlaed3.lo dlaed4.lo dlaed5.lo dlaed6.lo dlaed7.lo dlaed8.lo \
-	dlaed9.lo dlaeda.lo dlaev2.lo dlagtf.lo dlagts.lo dlamrg.lo \
-	dlanst.lo dlapy2.lo dlapy3.lo dlarnv.lo dlarra.lo dlarrb.lo \
-	dlarrc.lo dlarrd.lo dlarre.lo dlarrf.lo dlarrj.lo dlarrk.lo \
-	dlarrr.lo dlaneg.lo dlartg.lo dlaruv.lo dlas2.lo dlascl.lo \
-	dlasd0.lo dlasd1.lo dlasd2.lo dlasd3.lo dlasd4.lo dlasd5.lo \
-	dlasd6.lo dlasd7.lo dlasd8.lo dlasda.lo dlasdq.lo dlasdt.lo \
-	dlaset.lo dlasq1.lo dlasq2.lo dlasq3.lo dlasq4.lo dlasq5.lo \
-	dlasq6.lo dlasr.lo dlasrt.lo dlassq.lo dlasv2.lo dpttrf.lo \
-	dstebz.lo dstedc.lo dsteqr.lo dsterf.lo dlaisnan.lo disnan.lo \
-	dlartgp.lo dlartgs.lo dlamch.lo dsecnd_$(TIMER).lo
-am__objects_9 = ilaenv.lo ieeeck.lo lsamen.lo xerbla.lo \
-	xerbla_array.lo iparmq.lo ilaprec.lo ilatrans.lo ilauplo.lo \
-	iladiag.lo chla_transtype.lo ilaver.lo lsame.lo slamch.lo
+LIBRARIES = $(noinst_LIBRARIES)
+ARFLAGS = cru
+liblapack_a_AR = $(AR) $(ARFLAGS)
+liblapack_a_LIBADD =
+am__objects_1 = sgbbrd.$(OBJEXT) sgbcon.$(OBJEXT) sgbequ.$(OBJEXT) \
+	sgbrfs.$(OBJEXT) sgbsv.$(OBJEXT) sgbsvx.$(OBJEXT) \
+	sgbtf2.$(OBJEXT) sgbtrf.$(OBJEXT) sgbtrs.$(OBJEXT) \
+	sgebak.$(OBJEXT) sgebal.$(OBJEXT) sgebd2.$(OBJEXT) \
+	sgebrd.$(OBJEXT) sgecon.$(OBJEXT) sgeequ.$(OBJEXT) \
+	sgees.$(OBJEXT) sgeesx.$(OBJEXT) sgeev.$(OBJEXT) \
+	sgeevx.$(OBJEXT) sgegs.$(OBJEXT) sgegv.$(OBJEXT) \
+	sgehd2.$(OBJEXT) sgehrd.$(OBJEXT) sgelq2.$(OBJEXT) \
+	sgelqf.$(OBJEXT) sgels.$(OBJEXT) sgelsd.$(OBJEXT) \
+	sgelss.$(OBJEXT) sgelsx.$(OBJEXT) sgelsy.$(OBJEXT) \
+	sgeql2.$(OBJEXT) sgeqlf.$(OBJEXT) sgeqp3.$(OBJEXT) \
+	sgeqpf.$(OBJEXT) sgeqr2.$(OBJEXT) sgeqr2p.$(OBJEXT) \
+	sgeqrf.$(OBJEXT) sgeqrfp.$(OBJEXT) sgerfs.$(OBJEXT) \
+	sgerq2.$(OBJEXT) sgerqf.$(OBJEXT) sgesc2.$(OBJEXT) \
+	sgesdd.$(OBJEXT) sgesv.$(OBJEXT) sgesvd.$(OBJEXT) \
+	sgesvx.$(OBJEXT) sgetc2.$(OBJEXT) sgetf2.$(OBJEXT) \
+	sgetri.$(OBJEXT) sggbak.$(OBJEXT) sggbal.$(OBJEXT) \
+	sgges.$(OBJEXT) sggesx.$(OBJEXT) sggev.$(OBJEXT) \
+	sggevx.$(OBJEXT) sggglm.$(OBJEXT) sgghrd.$(OBJEXT) \
+	sgglse.$(OBJEXT) sggqrf.$(OBJEXT) sggrqf.$(OBJEXT) \
+	sggsvd.$(OBJEXT) sggsvp.$(OBJEXT) sgtcon.$(OBJEXT) \
+	sgtrfs.$(OBJEXT) sgtsv.$(OBJEXT) sgtsvx.$(OBJEXT) \
+	sgttrf.$(OBJEXT) sgttrs.$(OBJEXT) sgtts2.$(OBJEXT) \
+	shgeqz.$(OBJEXT) shsein.$(OBJEXT) shseqr.$(OBJEXT) \
+	slabrd.$(OBJEXT) slacon.$(OBJEXT) slacn2.$(OBJEXT) \
+	slaein.$(OBJEXT) slaexc.$(OBJEXT) slag2.$(OBJEXT) \
+	slags2.$(OBJEXT) slagtm.$(OBJEXT) slagv2.$(OBJEXT) \
+	slahqr.$(OBJEXT) slahrd.$(OBJEXT) slahr2.$(OBJEXT) \
+	slaic1.$(OBJEXT) slaln2.$(OBJEXT) slals0.$(OBJEXT) \
+	slalsa.$(OBJEXT) slalsd.$(OBJEXT) slangb.$(OBJEXT) \
+	slange.$(OBJEXT) slangt.$(OBJEXT) slanhs.$(OBJEXT) \
+	slansb.$(OBJEXT) slansp.$(OBJEXT) slansy.$(OBJEXT) \
+	slantb.$(OBJEXT) slantp.$(OBJEXT) slantr.$(OBJEXT) \
+	slanv2.$(OBJEXT) slapll.$(OBJEXT) slapmt.$(OBJEXT) \
+	slaqgb.$(OBJEXT) slaqge.$(OBJEXT) slaqp2.$(OBJEXT) \
+	slaqps.$(OBJEXT) slaqsb.$(OBJEXT) slaqsp.$(OBJEXT) \
+	slaqsy.$(OBJEXT) slaqr0.$(OBJEXT) slaqr1.$(OBJEXT) \
+	slaqr2.$(OBJEXT) slaqr3.$(OBJEXT) slaqr4.$(OBJEXT) \
+	slaqr5.$(OBJEXT) slaqtr.$(OBJEXT) slar1v.$(OBJEXT) \
+	slar2v.$(OBJEXT) ilaslr.$(OBJEXT) ilaslc.$(OBJEXT) \
+	slarf.$(OBJEXT) slarfb.$(OBJEXT) slarfg.$(OBJEXT) \
+	slarfgp.$(OBJEXT) slarft.$(OBJEXT) slarfx.$(OBJEXT) \
+	slargv.$(OBJEXT) slarrv.$(OBJEXT) slartv.$(OBJEXT) \
+	slarz.$(OBJEXT) slarzb.$(OBJEXT) slarzt.$(OBJEXT) \
+	slaswp.$(OBJEXT) slasy2.$(OBJEXT) slasyf.$(OBJEXT) \
+	slatbs.$(OBJEXT) slatdf.$(OBJEXT) slatps.$(OBJEXT) \
+	slatrd.$(OBJEXT) slatrs.$(OBJEXT) slatrz.$(OBJEXT) \
+	slatzm.$(OBJEXT) slauu2.$(OBJEXT) slauum.$(OBJEXT) \
+	sopgtr.$(OBJEXT) sopmtr.$(OBJEXT) sorg2l.$(OBJEXT) \
+	sorg2r.$(OBJEXT) sorgbr.$(OBJEXT) sorghr.$(OBJEXT) \
+	sorgl2.$(OBJEXT) sorglq.$(OBJEXT) sorgql.$(OBJEXT) \
+	sorgqr.$(OBJEXT) sorgr2.$(OBJEXT) sorgrq.$(OBJEXT) \
+	sorgtr.$(OBJEXT) sorm2l.$(OBJEXT) sorm2r.$(OBJEXT) \
+	sormbr.$(OBJEXT) sormhr.$(OBJEXT) sorml2.$(OBJEXT) \
+	sormlq.$(OBJEXT) sormql.$(OBJEXT) sormqr.$(OBJEXT) \
+	sormr2.$(OBJEXT) sormr3.$(OBJEXT) sormrq.$(OBJEXT) \
+	sormrz.$(OBJEXT) sormtr.$(OBJEXT) spbcon.$(OBJEXT) \
+	spbequ.$(OBJEXT) spbrfs.$(OBJEXT) spbstf.$(OBJEXT) \
+	spbsv.$(OBJEXT) spbsvx.$(OBJEXT) spbtf2.$(OBJEXT) \
+	spbtrf.$(OBJEXT) spbtrs.$(OBJEXT) spocon.$(OBJEXT) \
+	spoequ.$(OBJEXT) sporfs.$(OBJEXT) sposv.$(OBJEXT) \
+	sposvx.$(OBJEXT) spotf2.$(OBJEXT) spotri.$(OBJEXT) \
+	spstrf.$(OBJEXT) spstf2.$(OBJEXT) sppcon.$(OBJEXT) \
+	sppequ.$(OBJEXT) spprfs.$(OBJEXT) sppsv.$(OBJEXT) \
+	sppsvx.$(OBJEXT) spptrf.$(OBJEXT) spptri.$(OBJEXT) \
+	spptrs.$(OBJEXT) sptcon.$(OBJEXT) spteqr.$(OBJEXT) \
+	sptrfs.$(OBJEXT) sptsv.$(OBJEXT) sptsvx.$(OBJEXT) \
+	spttrs.$(OBJEXT) sptts2.$(OBJEXT) srscl.$(OBJEXT) \
+	ssbev.$(OBJEXT) ssbevd.$(OBJEXT) ssbevx.$(OBJEXT) \
+	ssbgst.$(OBJEXT) ssbgv.$(OBJEXT) ssbgvd.$(OBJEXT) \
+	ssbgvx.$(OBJEXT) ssbtrd.$(OBJEXT) sspcon.$(OBJEXT) \
+	sspev.$(OBJEXT) sspevd.$(OBJEXT) sspevx.$(OBJEXT) \
+	sspgst.$(OBJEXT) sspgv.$(OBJEXT) sspgvd.$(OBJEXT) \
+	sspgvx.$(OBJEXT) ssprfs.$(OBJEXT) sspsv.$(OBJEXT) \
+	sspsvx.$(OBJEXT) ssptrd.$(OBJEXT) ssptrf.$(OBJEXT) \
+	ssptri.$(OBJEXT) ssptrs.$(OBJEXT) sstegr.$(OBJEXT) \
+	sstein.$(OBJEXT) sstev.$(OBJEXT) sstevd.$(OBJEXT) \
+	sstevr.$(OBJEXT) sstevx.$(OBJEXT) ssycon.$(OBJEXT) \
+	ssyev.$(OBJEXT) ssyevd.$(OBJEXT) ssyevr.$(OBJEXT) \
+	ssyevx.$(OBJEXT) ssygs2.$(OBJEXT) ssygst.$(OBJEXT) \
+	ssygv.$(OBJEXT) ssygvd.$(OBJEXT) ssygvx.$(OBJEXT) \
+	ssyrfs.$(OBJEXT) ssysv.$(OBJEXT) ssysvx.$(OBJEXT) \
+	ssytd2.$(OBJEXT) ssytf2.$(OBJEXT) ssytrd.$(OBJEXT) \
+	ssytrf.$(OBJEXT) ssytri.$(OBJEXT) ssytri2.$(OBJEXT) \
+	ssytri2x.$(OBJEXT) ssyswapr.$(OBJEXT) ssytrs.$(OBJEXT) \
+	ssytrs2.$(OBJEXT) ssyconv.$(OBJEXT) stbcon.$(OBJEXT) \
+	stbrfs.$(OBJEXT) stbtrs.$(OBJEXT) stgevc.$(OBJEXT) \
+	stgex2.$(OBJEXT) stgexc.$(OBJEXT) stgsen.$(OBJEXT) \
+	stgsja.$(OBJEXT) stgsna.$(OBJEXT) stgsy2.$(OBJEXT) \
+	stgsyl.$(OBJEXT) stpcon.$(OBJEXT) stprfs.$(OBJEXT) \
+	stptri.$(OBJEXT) stptrs.$(OBJEXT) strcon.$(OBJEXT) \
+	strevc.$(OBJEXT) strexc.$(OBJEXT) strrfs.$(OBJEXT) \
+	strsen.$(OBJEXT) strsna.$(OBJEXT) strsyl.$(OBJEXT) \
+	strti2.$(OBJEXT) strtri.$(OBJEXT) strtrs.$(OBJEXT) \
+	stzrqf.$(OBJEXT) stzrzf.$(OBJEXT) sstemr.$(OBJEXT) \
+	slansf.$(OBJEXT) spftrf.$(OBJEXT) spftri.$(OBJEXT) \
+	spftrs.$(OBJEXT) ssfrk.$(OBJEXT) stfsm.$(OBJEXT) \
+	stftri.$(OBJEXT) stfttp.$(OBJEXT) stfttr.$(OBJEXT) \
+	stpttf.$(OBJEXT) stpttr.$(OBJEXT) strttf.$(OBJEXT) \
+	strttp.$(OBJEXT) sgejsv.$(OBJEXT) sgesvj.$(OBJEXT) \
+	sgsvj0.$(OBJEXT) sgsvj1.$(OBJEXT) sgeequb.$(OBJEXT) \
+	ssyequb.$(OBJEXT) spoequb.$(OBJEXT) sgbequb.$(OBJEXT) \
+	sbbcsd.$(OBJEXT) slapmr.$(OBJEXT) sorbdb.$(OBJEXT) \
+	sorcsd.$(OBJEXT) sgeqrt.$(OBJEXT) sgeqrt2.$(OBJEXT) \
+	sgeqrt3.$(OBJEXT) sgemqrt.$(OBJEXT) stpqrt.$(OBJEXT) \
+	stpqrt2.$(OBJEXT) stpmqrt.$(OBJEXT) stprfb.$(OBJEXT)
+am__objects_2 = dgbbrd.$(OBJEXT) dgbcon.$(OBJEXT) dgbequ.$(OBJEXT) \
+	dgbrfs.$(OBJEXT) dgbsv.$(OBJEXT) dgbsvx.$(OBJEXT) \
+	dgbtf2.$(OBJEXT) dgbtrf.$(OBJEXT) dgbtrs.$(OBJEXT) \
+	dgebak.$(OBJEXT) dgebal.$(OBJEXT) dgebd2.$(OBJEXT) \
+	dgebrd.$(OBJEXT) dgecon.$(OBJEXT) dgeequ.$(OBJEXT) \
+	dgees.$(OBJEXT) dgeesx.$(OBJEXT) dgeev.$(OBJEXT) \
+	dgeevx.$(OBJEXT) dgegs.$(OBJEXT) dgegv.$(OBJEXT) \
+	dgehd2.$(OBJEXT) dgehrd.$(OBJEXT) dgelq2.$(OBJEXT) \
+	dgelqf.$(OBJEXT) dgels.$(OBJEXT) dgelsd.$(OBJEXT) \
+	dgelss.$(OBJEXT) dgelsx.$(OBJEXT) dgelsy.$(OBJEXT) \
+	dgeql2.$(OBJEXT) dgeqlf.$(OBJEXT) dgeqp3.$(OBJEXT) \
+	dgeqpf.$(OBJEXT) dgeqr2.$(OBJEXT) dgeqr2p.$(OBJEXT) \
+	dgeqrf.$(OBJEXT) dgeqrfp.$(OBJEXT) dgerfs.$(OBJEXT) \
+	dgerq2.$(OBJEXT) dgerqf.$(OBJEXT) dgesc2.$(OBJEXT) \
+	dgesdd.$(OBJEXT) dgesv.$(OBJEXT) dgesvd.$(OBJEXT) \
+	dgesvx.$(OBJEXT) dgetc2.$(OBJEXT) dgetf2.$(OBJEXT) \
+	dgetrf.$(OBJEXT) dgetri.$(OBJEXT) dgetrs.$(OBJEXT) \
+	dggbak.$(OBJEXT) dggbal.$(OBJEXT) dgges.$(OBJEXT) \
+	dggesx.$(OBJEXT) dggev.$(OBJEXT) dggevx.$(OBJEXT) \
+	dggglm.$(OBJEXT) dgghrd.$(OBJEXT) dgglse.$(OBJEXT) \
+	dggqrf.$(OBJEXT) dggrqf.$(OBJEXT) dggsvd.$(OBJEXT) \
+	dggsvp.$(OBJEXT) dgtcon.$(OBJEXT) dgtrfs.$(OBJEXT) \
+	dgtsv.$(OBJEXT) dgtsvx.$(OBJEXT) dgttrf.$(OBJEXT) \
+	dgttrs.$(OBJEXT) dgtts2.$(OBJEXT) dhgeqz.$(OBJEXT) \
+	dhsein.$(OBJEXT) dhseqr.$(OBJEXT) dlabrd.$(OBJEXT) \
+	dlacon.$(OBJEXT) dlacn2.$(OBJEXT) dlaein.$(OBJEXT) \
+	dlaexc.$(OBJEXT) dlag2.$(OBJEXT) dlags2.$(OBJEXT) \
+	dlagtm.$(OBJEXT) dlagv2.$(OBJEXT) dlahqr.$(OBJEXT) \
+	dlahrd.$(OBJEXT) dlahr2.$(OBJEXT) dlaic1.$(OBJEXT) \
+	dlaln2.$(OBJEXT) dlals0.$(OBJEXT) dlalsa.$(OBJEXT) \
+	dlalsd.$(OBJEXT) dlangb.$(OBJEXT) dlange.$(OBJEXT) \
+	dlangt.$(OBJEXT) dlanhs.$(OBJEXT) dlansb.$(OBJEXT) \
+	dlansp.$(OBJEXT) dlansy.$(OBJEXT) dlantb.$(OBJEXT) \
+	dlantp.$(OBJEXT) dlantr.$(OBJEXT) dlanv2.$(OBJEXT) \
+	dlapll.$(OBJEXT) dlapmt.$(OBJEXT) dlaqgb.$(OBJEXT) \
+	dlaqge.$(OBJEXT) dlaqp2.$(OBJEXT) dlaqps.$(OBJEXT) \
+	dlaqsb.$(OBJEXT) dlaqsp.$(OBJEXT) dlaqsy.$(OBJEXT) \
+	dlaqr0.$(OBJEXT) dlaqr1.$(OBJEXT) dlaqr2.$(OBJEXT) \
+	dlaqr3.$(OBJEXT) dlaqr4.$(OBJEXT) dlaqr5.$(OBJEXT) \
+	dlaqtr.$(OBJEXT) dlar1v.$(OBJEXT) dlar2v.$(OBJEXT) \
+	iladlr.$(OBJEXT) iladlc.$(OBJEXT) dlarf.$(OBJEXT) \
+	dlarfb.$(OBJEXT) dlarfg.$(OBJEXT) dlarfgp.$(OBJEXT) \
+	dlarft.$(OBJEXT) dlarfx.$(OBJEXT) dlargv.$(OBJEXT) \
+	dlarrv.$(OBJEXT) dlartv.$(OBJEXT) dlarz.$(OBJEXT) \
+	dlarzb.$(OBJEXT) dlarzt.$(OBJEXT) dlaswp.$(OBJEXT) \
+	dlasy2.$(OBJEXT) dlasyf.$(OBJEXT) dlatbs.$(OBJEXT) \
+	dlatdf.$(OBJEXT) dlatps.$(OBJEXT) dlatrd.$(OBJEXT) \
+	dlatrs.$(OBJEXT) dlatrz.$(OBJEXT) dlatzm.$(OBJEXT) \
+	dlauu2.$(OBJEXT) dlauum.$(OBJEXT) dopgtr.$(OBJEXT) \
+	dopmtr.$(OBJEXT) dorg2l.$(OBJEXT) dorg2r.$(OBJEXT) \
+	dorgbr.$(OBJEXT) dorghr.$(OBJEXT) dorgl2.$(OBJEXT) \
+	dorglq.$(OBJEXT) dorgql.$(OBJEXT) dorgqr.$(OBJEXT) \
+	dorgr2.$(OBJEXT) dorgrq.$(OBJEXT) dorgtr.$(OBJEXT) \
+	dorm2l.$(OBJEXT) dorm2r.$(OBJEXT) dormbr.$(OBJEXT) \
+	dormhr.$(OBJEXT) dorml2.$(OBJEXT) dormlq.$(OBJEXT) \
+	dormql.$(OBJEXT) dormqr.$(OBJEXT) dormr2.$(OBJEXT) \
+	dormr3.$(OBJEXT) dormrq.$(OBJEXT) dormrz.$(OBJEXT) \
+	dormtr.$(OBJEXT) dpbcon.$(OBJEXT) dpbequ.$(OBJEXT) \
+	dpbrfs.$(OBJEXT) dpbstf.$(OBJEXT) dpbsv.$(OBJEXT) \
+	dpbsvx.$(OBJEXT) dpbtf2.$(OBJEXT) dpbtrf.$(OBJEXT) \
+	dpbtrs.$(OBJEXT) dpocon.$(OBJEXT) dpoequ.$(OBJEXT) \
+	dporfs.$(OBJEXT) dposv.$(OBJEXT) dposvx.$(OBJEXT) \
+	dpotf2.$(OBJEXT) dpotrf.$(OBJEXT) dpotri.$(OBJEXT) \
+	dpotrs.$(OBJEXT) dpstrf.$(OBJEXT) dpstf2.$(OBJEXT) \
+	dppcon.$(OBJEXT) dppequ.$(OBJEXT) dpprfs.$(OBJEXT) \
+	dppsv.$(OBJEXT) dppsvx.$(OBJEXT) dpptrf.$(OBJEXT) \
+	dpptri.$(OBJEXT) dpptrs.$(OBJEXT) dptcon.$(OBJEXT) \
+	dpteqr.$(OBJEXT) dptrfs.$(OBJEXT) dptsv.$(OBJEXT) \
+	dptsvx.$(OBJEXT) dpttrs.$(OBJEXT) dptts2.$(OBJEXT) \
+	drscl.$(OBJEXT) dsbev.$(OBJEXT) dsbevd.$(OBJEXT) \
+	dsbevx.$(OBJEXT) dsbgst.$(OBJEXT) dsbgv.$(OBJEXT) \
+	dsbgvd.$(OBJEXT) dsbgvx.$(OBJEXT) dsbtrd.$(OBJEXT) \
+	dspcon.$(OBJEXT) dspev.$(OBJEXT) dspevd.$(OBJEXT) \
+	dspevx.$(OBJEXT) dspgst.$(OBJEXT) dspgv.$(OBJEXT) \
+	dspgvd.$(OBJEXT) dspgvx.$(OBJEXT) dsprfs.$(OBJEXT) \
+	dspsv.$(OBJEXT) dspsvx.$(OBJEXT) dsptrd.$(OBJEXT) \
+	dsptrf.$(OBJEXT) dsptri.$(OBJEXT) dsptrs.$(OBJEXT) \
+	dstegr.$(OBJEXT) dstein.$(OBJEXT) dstev.$(OBJEXT) \
+	dstevd.$(OBJEXT) dstevr.$(OBJEXT) dstevx.$(OBJEXT) \
+	dsycon.$(OBJEXT) dsyev.$(OBJEXT) dsyevd.$(OBJEXT) \
+	dsyevr.$(OBJEXT) dsyevx.$(OBJEXT) dsygs2.$(OBJEXT) \
+	dsygst.$(OBJEXT) dsygv.$(OBJEXT) dsygvd.$(OBJEXT) \
+	dsygvx.$(OBJEXT) dsyrfs.$(OBJEXT) dsysv.$(OBJEXT) \
+	dsysvx.$(OBJEXT) dsytd2.$(OBJEXT) dsytf2.$(OBJEXT) \
+	dsytrd.$(OBJEXT) dsytrf.$(OBJEXT) dsytri.$(OBJEXT) \
+	dsytri2.$(OBJEXT) dsytri2x.$(OBJEXT) dsyswapr.$(OBJEXT) \
+	dsytrs.$(OBJEXT) dsytrs2.$(OBJEXT) dsyconv.$(OBJEXT) \
+	dtbcon.$(OBJEXT) dtbrfs.$(OBJEXT) dtbtrs.$(OBJEXT) \
+	dtgevc.$(OBJEXT) dtgex2.$(OBJEXT) dtgexc.$(OBJEXT) \
+	dtgsen.$(OBJEXT) dtgsja.$(OBJEXT) dtgsna.$(OBJEXT) \
+	dtgsy2.$(OBJEXT) dtgsyl.$(OBJEXT) dtpcon.$(OBJEXT) \
+	dtprfs.$(OBJEXT) dtptri.$(OBJEXT) dtptrs.$(OBJEXT) \
+	dtrcon.$(OBJEXT) dtrevc.$(OBJEXT) dtrexc.$(OBJEXT) \
+	dtrrfs.$(OBJEXT) dtrsen.$(OBJEXT) dtrsna.$(OBJEXT) \
+	dtrsyl.$(OBJEXT) dtrti2.$(OBJEXT) dtrtri.$(OBJEXT) \
+	dtrtrs.$(OBJEXT) dtzrqf.$(OBJEXT) dtzrzf.$(OBJEXT) \
+	dstemr.$(OBJEXT) dsgesv.$(OBJEXT) dsposv.$(OBJEXT) \
+	dlag2s.$(OBJEXT) slag2d.$(OBJEXT) dlat2s.$(OBJEXT) \
+	dlansf.$(OBJEXT) dpftrf.$(OBJEXT) dpftri.$(OBJEXT) \
+	dpftrs.$(OBJEXT) dsfrk.$(OBJEXT) dtfsm.$(OBJEXT) \
+	dtftri.$(OBJEXT) dtfttp.$(OBJEXT) dtfttr.$(OBJEXT) \
+	dtpttf.$(OBJEXT) dtpttr.$(OBJEXT) dtrttf.$(OBJEXT) \
+	dtrttp.$(OBJEXT) dgejsv.$(OBJEXT) dgesvj.$(OBJEXT) \
+	dgsvj0.$(OBJEXT) dgsvj1.$(OBJEXT) dgeequb.$(OBJEXT) \
+	dsyequb.$(OBJEXT) dpoequb.$(OBJEXT) dgbequb.$(OBJEXT) \
+	dbbcsd.$(OBJEXT) dlapmr.$(OBJEXT) dorbdb.$(OBJEXT) \
+	dorcsd.$(OBJEXT) dgeqrt.$(OBJEXT) dgeqrt2.$(OBJEXT) \
+	dgeqrt3.$(OBJEXT) dgemqrt.$(OBJEXT) dtpqrt.$(OBJEXT) \
+	dtpqrt2.$(OBJEXT) dtpmqrt.$(OBJEXT) dtprfb.$(OBJEXT)
+am__objects_3 = spotrs.$(OBJEXT) sgetrs.$(OBJEXT) spotrf.$(OBJEXT) \
+	sgetrf.$(OBJEXT)
+am__objects_4 = cbdsqr.$(OBJEXT) cgbbrd.$(OBJEXT) cgbcon.$(OBJEXT) \
+	cgbequ.$(OBJEXT) cgbrfs.$(OBJEXT) cgbsv.$(OBJEXT) \
+	cgbsvx.$(OBJEXT) cgbtf2.$(OBJEXT) cgbtrf.$(OBJEXT) \
+	cgbtrs.$(OBJEXT) cgebak.$(OBJEXT) cgebal.$(OBJEXT) \
+	cgebd2.$(OBJEXT) cgebrd.$(OBJEXT) cgecon.$(OBJEXT) \
+	cgeequ.$(OBJEXT) cgees.$(OBJEXT) cgeesx.$(OBJEXT) \
+	cgeev.$(OBJEXT) cgeevx.$(OBJEXT) cgegs.$(OBJEXT) \
+	cgegv.$(OBJEXT) cgehd2.$(OBJEXT) cgehrd.$(OBJEXT) \
+	cgelq2.$(OBJEXT) cgelqf.$(OBJEXT) cgels.$(OBJEXT) \
+	cgelsd.$(OBJEXT) cgelss.$(OBJEXT) cgelsx.$(OBJEXT) \
+	cgelsy.$(OBJEXT) cgeql2.$(OBJEXT) cgeqlf.$(OBJEXT) \
+	cgeqp3.$(OBJEXT) cgeqpf.$(OBJEXT) cgeqr2.$(OBJEXT) \
+	cgeqr2p.$(OBJEXT) cgeqrf.$(OBJEXT) cgeqrfp.$(OBJEXT) \
+	cgerfs.$(OBJEXT) cgerq2.$(OBJEXT) cgerqf.$(OBJEXT) \
+	cgesc2.$(OBJEXT) cgesdd.$(OBJEXT) cgesv.$(OBJEXT) \
+	cgesvd.$(OBJEXT) cgesvx.$(OBJEXT) cgetc2.$(OBJEXT) \
+	cgetf2.$(OBJEXT) cgetri.$(OBJEXT) cggbak.$(OBJEXT) \
+	cggbal.$(OBJEXT) cgges.$(OBJEXT) cggesx.$(OBJEXT) \
+	cggev.$(OBJEXT) cggevx.$(OBJEXT) cggglm.$(OBJEXT) \
+	cgghrd.$(OBJEXT) cgglse.$(OBJEXT) cggqrf.$(OBJEXT) \
+	cggrqf.$(OBJEXT) cggsvd.$(OBJEXT) cggsvp.$(OBJEXT) \
+	cgtcon.$(OBJEXT) cgtrfs.$(OBJEXT) cgtsv.$(OBJEXT) \
+	cgtsvx.$(OBJEXT) cgttrf.$(OBJEXT) cgttrs.$(OBJEXT) \
+	cgtts2.$(OBJEXT) chbev.$(OBJEXT) chbevd.$(OBJEXT) \
+	chbevx.$(OBJEXT) chbgst.$(OBJEXT) chbgv.$(OBJEXT) \
+	chbgvd.$(OBJEXT) chbgvx.$(OBJEXT) chbtrd.$(OBJEXT) \
+	checon.$(OBJEXT) cheev.$(OBJEXT) cheevd.$(OBJEXT) \
+	cheevr.$(OBJEXT) cheevx.$(OBJEXT) chegs2.$(OBJEXT) \
+	chegst.$(OBJEXT) chegv.$(OBJEXT) chegvd.$(OBJEXT) \
+	chegvx.$(OBJEXT) cherfs.$(OBJEXT) chesv.$(OBJEXT) \
+	chesvx.$(OBJEXT) chetd2.$(OBJEXT) chetf2.$(OBJEXT) \
+	chetrd.$(OBJEXT) chetrf.$(OBJEXT) chetri.$(OBJEXT) \
+	chetri2.$(OBJEXT) chetri2x.$(OBJEXT) cheswapr.$(OBJEXT) \
+	chetrs.$(OBJEXT) chetrs2.$(OBJEXT) chgeqz.$(OBJEXT) \
+	chpcon.$(OBJEXT) chpev.$(OBJEXT) chpevd.$(OBJEXT) \
+	chpevx.$(OBJEXT) chpgst.$(OBJEXT) chpgv.$(OBJEXT) \
+	chpgvd.$(OBJEXT) chpgvx.$(OBJEXT) chprfs.$(OBJEXT) \
+	chpsv.$(OBJEXT) chpsvx.$(OBJEXT) chptrd.$(OBJEXT) \
+	chptrf.$(OBJEXT) chptri.$(OBJEXT) chptrs.$(OBJEXT) \
+	chsein.$(OBJEXT) chseqr.$(OBJEXT) clabrd.$(OBJEXT) \
+	clacgv.$(OBJEXT) clacon.$(OBJEXT) clacn2.$(OBJEXT) \
+	clacp2.$(OBJEXT) clacpy.$(OBJEXT) clacrm.$(OBJEXT) \
+	clacrt.$(OBJEXT) cladiv.$(OBJEXT) claed0.$(OBJEXT) \
+	claed7.$(OBJEXT) claed8.$(OBJEXT) claein.$(OBJEXT) \
+	claesy.$(OBJEXT) claev2.$(OBJEXT) clags2.$(OBJEXT) \
+	clagtm.$(OBJEXT) clahef.$(OBJEXT) clahqr.$(OBJEXT) \
+	clahrd.$(OBJEXT) clahr2.$(OBJEXT) claic1.$(OBJEXT) \
+	clals0.$(OBJEXT) clalsa.$(OBJEXT) clalsd.$(OBJEXT) \
+	clangb.$(OBJEXT) clange.$(OBJEXT) clangt.$(OBJEXT) \
+	clanhb.$(OBJEXT) clanhe.$(OBJEXT) clanhp.$(OBJEXT) \
+	clanhs.$(OBJEXT) clanht.$(OBJEXT) clansb.$(OBJEXT) \
+	clansp.$(OBJEXT) clansy.$(OBJEXT) clantb.$(OBJEXT) \
+	clantp.$(OBJEXT) clantr.$(OBJEXT) clapll.$(OBJEXT) \
+	clapmt.$(OBJEXT) clarcm.$(OBJEXT) claqgb.$(OBJEXT) \
+	claqge.$(OBJEXT) claqhb.$(OBJEXT) claqhe.$(OBJEXT) \
+	claqhp.$(OBJEXT) claqp2.$(OBJEXT) claqps.$(OBJEXT) \
+	claqsb.$(OBJEXT) claqr0.$(OBJEXT) claqr1.$(OBJEXT) \
+	claqr2.$(OBJEXT) claqr3.$(OBJEXT) claqr4.$(OBJEXT) \
+	claqr5.$(OBJEXT) claqsp.$(OBJEXT) claqsy.$(OBJEXT) \
+	clar1v.$(OBJEXT) clar2v.$(OBJEXT) ilaclr.$(OBJEXT) \
+	ilaclc.$(OBJEXT) clarf.$(OBJEXT) clarfb.$(OBJEXT) \
+	clarfg.$(OBJEXT) clarft.$(OBJEXT) clarfgp.$(OBJEXT) \
+	clarfx.$(OBJEXT) clargv.$(OBJEXT) clarnv.$(OBJEXT) \
+	clarrv.$(OBJEXT) clartg.$(OBJEXT) clartv.$(OBJEXT) \
+	clarz.$(OBJEXT) clarzb.$(OBJEXT) clarzt.$(OBJEXT) \
+	clascl.$(OBJEXT) claset.$(OBJEXT) clasr.$(OBJEXT) \
+	classq.$(OBJEXT) claswp.$(OBJEXT) clasyf.$(OBJEXT) \
+	clatbs.$(OBJEXT) clatdf.$(OBJEXT) clatps.$(OBJEXT) \
+	clatrd.$(OBJEXT) clatrs.$(OBJEXT) clatrz.$(OBJEXT) \
+	clatzm.$(OBJEXT) clauu2.$(OBJEXT) clauum.$(OBJEXT) \
+	cpbcon.$(OBJEXT) cpbequ.$(OBJEXT) cpbrfs.$(OBJEXT) \
+	cpbstf.$(OBJEXT) cpbsv.$(OBJEXT) cpbsvx.$(OBJEXT) \
+	cpbtf2.$(OBJEXT) cpbtrf.$(OBJEXT) cpbtrs.$(OBJEXT) \
+	cpocon.$(OBJEXT) cpoequ.$(OBJEXT) cporfs.$(OBJEXT) \
+	cposv.$(OBJEXT) cposvx.$(OBJEXT) cpotf2.$(OBJEXT) \
+	cpotri.$(OBJEXT) cpstrf.$(OBJEXT) cpstf2.$(OBJEXT) \
+	cppcon.$(OBJEXT) cppequ.$(OBJEXT) cpprfs.$(OBJEXT) \
+	cppsv.$(OBJEXT) cppsvx.$(OBJEXT) cpptrf.$(OBJEXT) \
+	cpptri.$(OBJEXT) cpptrs.$(OBJEXT) cptcon.$(OBJEXT) \
+	cpteqr.$(OBJEXT) cptrfs.$(OBJEXT) cptsv.$(OBJEXT) \
+	cptsvx.$(OBJEXT) cpttrf.$(OBJEXT) cpttrs.$(OBJEXT) \
+	cptts2.$(OBJEXT) crot.$(OBJEXT) cspcon.$(OBJEXT) \
+	cspmv.$(OBJEXT) cspr.$(OBJEXT) csprfs.$(OBJEXT) \
+	cspsv.$(OBJEXT) cspsvx.$(OBJEXT) csptrf.$(OBJEXT) \
+	csptri.$(OBJEXT) csptrs.$(OBJEXT) csrscl.$(OBJEXT) \
+	cstedc.$(OBJEXT) cstegr.$(OBJEXT) cstein.$(OBJEXT) \
+	csteqr.$(OBJEXT) csycon.$(OBJEXT) csymv.$(OBJEXT) \
+	csyr.$(OBJEXT) csyrfs.$(OBJEXT) csysv.$(OBJEXT) \
+	csysvx.$(OBJEXT) csytf2.$(OBJEXT) csytrf.$(OBJEXT) \
+	csytri.$(OBJEXT) csytri2.$(OBJEXT) csytri2x.$(OBJEXT) \
+	csyswapr.$(OBJEXT) csytrs.$(OBJEXT) csytrs2.$(OBJEXT) \
+	csyconv.$(OBJEXT) ctbcon.$(OBJEXT) ctbrfs.$(OBJEXT) \
+	ctbtrs.$(OBJEXT) ctgevc.$(OBJEXT) ctgex2.$(OBJEXT) \
+	ctgexc.$(OBJEXT) ctgsen.$(OBJEXT) ctgsja.$(OBJEXT) \
+	ctgsna.$(OBJEXT) ctgsy2.$(OBJEXT) ctgsyl.$(OBJEXT) \
+	ctpcon.$(OBJEXT) ctprfs.$(OBJEXT) ctptri.$(OBJEXT) \
+	ctptrs.$(OBJEXT) ctrcon.$(OBJEXT) ctrevc.$(OBJEXT) \
+	ctrexc.$(OBJEXT) ctrrfs.$(OBJEXT) ctrsen.$(OBJEXT) \
+	ctrsna.$(OBJEXT) ctrsyl.$(OBJEXT) ctrti2.$(OBJEXT) \
+	ctrtri.$(OBJEXT) ctrtrs.$(OBJEXT) ctzrqf.$(OBJEXT) \
+	ctzrzf.$(OBJEXT) cung2l.$(OBJEXT) cung2r.$(OBJEXT) \
+	cungbr.$(OBJEXT) cunghr.$(OBJEXT) cungl2.$(OBJEXT) \
+	cunglq.$(OBJEXT) cungql.$(OBJEXT) cungqr.$(OBJEXT) \
+	cungr2.$(OBJEXT) cungrq.$(OBJEXT) cungtr.$(OBJEXT) \
+	cunm2l.$(OBJEXT) cunm2r.$(OBJEXT) cunmbr.$(OBJEXT) \
+	cunmhr.$(OBJEXT) cunml2.$(OBJEXT) cunmlq.$(OBJEXT) \
+	cunmql.$(OBJEXT) cunmqr.$(OBJEXT) cunmr2.$(OBJEXT) \
+	cunmr3.$(OBJEXT) cunmrq.$(OBJEXT) cunmrz.$(OBJEXT) \
+	cunmtr.$(OBJEXT) cupgtr.$(OBJEXT) cupmtr.$(OBJEXT) \
+	icmax1.$(OBJEXT) scsum1.$(OBJEXT) cstemr.$(OBJEXT) \
+	chfrk.$(OBJEXT) ctfttp.$(OBJEXT) clanhf.$(OBJEXT) \
+	cpftrf.$(OBJEXT) cpftri.$(OBJEXT) cpftrs.$(OBJEXT) \
+	ctfsm.$(OBJEXT) ctftri.$(OBJEXT) ctfttr.$(OBJEXT) \
+	ctpttf.$(OBJEXT) ctpttr.$(OBJEXT) ctrttf.$(OBJEXT) \
+	ctrttp.$(OBJEXT) cgeequb.$(OBJEXT) cgbequb.$(OBJEXT) \
+	csyequb.$(OBJEXT) cpoequb.$(OBJEXT) cheequb.$(OBJEXT) \
+	cbbcsd.$(OBJEXT) clapmr.$(OBJEXT) cunbdb.$(OBJEXT) \
+	cuncsd.$(OBJEXT) cgeqrt.$(OBJEXT) cgeqrt2.$(OBJEXT) \
+	cgeqrt3.$(OBJEXT) cgemqrt.$(OBJEXT) ctpqrt.$(OBJEXT) \
+	ctpqrt2.$(OBJEXT) ctpmqrt.$(OBJEXT) ctprfb.$(OBJEXT)
+am__objects_5 = zbdsqr.$(OBJEXT) zgbbrd.$(OBJEXT) zgbcon.$(OBJEXT) \
+	zgbequ.$(OBJEXT) zgbrfs.$(OBJEXT) zgbsv.$(OBJEXT) \
+	zgbsvx.$(OBJEXT) zgbtf2.$(OBJEXT) zgbtrf.$(OBJEXT) \
+	zgbtrs.$(OBJEXT) zgebak.$(OBJEXT) zgebal.$(OBJEXT) \
+	zgebd2.$(OBJEXT) zgebrd.$(OBJEXT) zgecon.$(OBJEXT) \
+	zgeequ.$(OBJEXT) zgees.$(OBJEXT) zgeesx.$(OBJEXT) \
+	zgeev.$(OBJEXT) zgeevx.$(OBJEXT) zgegs.$(OBJEXT) \
+	zgegv.$(OBJEXT) zgehd2.$(OBJEXT) zgehrd.$(OBJEXT) \
+	zgelq2.$(OBJEXT) zgelqf.$(OBJEXT) zgels.$(OBJEXT) \
+	zgelsd.$(OBJEXT) zgelss.$(OBJEXT) zgelsx.$(OBJEXT) \
+	zgelsy.$(OBJEXT) zgeql2.$(OBJEXT) zgeqlf.$(OBJEXT) \
+	zgeqp3.$(OBJEXT) zgeqpf.$(OBJEXT) zgeqr2.$(OBJEXT) \
+	zgeqr2p.$(OBJEXT) zgeqrf.$(OBJEXT) zgeqrfp.$(OBJEXT) \
+	zgerfs.$(OBJEXT) zgerq2.$(OBJEXT) zgerqf.$(OBJEXT) \
+	zgesc2.$(OBJEXT) zgesdd.$(OBJEXT) zgesv.$(OBJEXT) \
+	zgesvd.$(OBJEXT) zgesvx.$(OBJEXT) zgetc2.$(OBJEXT) \
+	zgetf2.$(OBJEXT) zgetrf.$(OBJEXT) zgetri.$(OBJEXT) \
+	zgetrs.$(OBJEXT) zggbak.$(OBJEXT) zggbal.$(OBJEXT) \
+	zgges.$(OBJEXT) zggesx.$(OBJEXT) zggev.$(OBJEXT) \
+	zggevx.$(OBJEXT) zggglm.$(OBJEXT) zgghrd.$(OBJEXT) \
+	zgglse.$(OBJEXT) zggqrf.$(OBJEXT) zggrqf.$(OBJEXT) \
+	zggsvd.$(OBJEXT) zggsvp.$(OBJEXT) zgtcon.$(OBJEXT) \
+	zgtrfs.$(OBJEXT) zgtsv.$(OBJEXT) zgtsvx.$(OBJEXT) \
+	zgttrf.$(OBJEXT) zgttrs.$(OBJEXT) zgtts2.$(OBJEXT) \
+	zhbev.$(OBJEXT) zhbevd.$(OBJEXT) zhbevx.$(OBJEXT) \
+	zhbgst.$(OBJEXT) zhbgv.$(OBJEXT) zhbgvd.$(OBJEXT) \
+	zhbgvx.$(OBJEXT) zhbtrd.$(OBJEXT) zhecon.$(OBJEXT) \
+	zheev.$(OBJEXT) zheevd.$(OBJEXT) zheevr.$(OBJEXT) \
+	zheevx.$(OBJEXT) zhegs2.$(OBJEXT) zhegst.$(OBJEXT) \
+	zhegv.$(OBJEXT) zhegvd.$(OBJEXT) zhegvx.$(OBJEXT) \
+	zherfs.$(OBJEXT) zhesv.$(OBJEXT) zhesvx.$(OBJEXT) \
+	zhetd2.$(OBJEXT) zhetf2.$(OBJEXT) zhetrd.$(OBJEXT) \
+	zhetrf.$(OBJEXT) zhetri.$(OBJEXT) zhetri2.$(OBJEXT) \
+	zhetri2x.$(OBJEXT) zheswapr.$(OBJEXT) zhetrs.$(OBJEXT) \
+	zhetrs2.$(OBJEXT) zhgeqz.$(OBJEXT) zhpcon.$(OBJEXT) \
+	zhpev.$(OBJEXT) zhpevd.$(OBJEXT) zhpevx.$(OBJEXT) \
+	zhpgst.$(OBJEXT) zhpgv.$(OBJEXT) zhpgvd.$(OBJEXT) \
+	zhpgvx.$(OBJEXT) zhprfs.$(OBJEXT) zhpsv.$(OBJEXT) \
+	zhpsvx.$(OBJEXT) zhptrd.$(OBJEXT) zhptrf.$(OBJEXT) \
+	zhptri.$(OBJEXT) zhptrs.$(OBJEXT) zhsein.$(OBJEXT) \
+	zhseqr.$(OBJEXT) zlabrd.$(OBJEXT) zlacgv.$(OBJEXT) \
+	zlacon.$(OBJEXT) zlacn2.$(OBJEXT) zlacp2.$(OBJEXT) \
+	zlacpy.$(OBJEXT) zlacrm.$(OBJEXT) zlacrt.$(OBJEXT) \
+	zladiv.$(OBJEXT) zlaed0.$(OBJEXT) zlaed7.$(OBJEXT) \
+	zlaed8.$(OBJEXT) zlaein.$(OBJEXT) zlaesy.$(OBJEXT) \
+	zlaev2.$(OBJEXT) zlags2.$(OBJEXT) zlagtm.$(OBJEXT) \
+	zlahef.$(OBJEXT) zlahqr.$(OBJEXT) zlahrd.$(OBJEXT) \
+	zlahr2.$(OBJEXT) zlaic1.$(OBJEXT) zlals0.$(OBJEXT) \
+	zlalsa.$(OBJEXT) zlalsd.$(OBJEXT) zlangb.$(OBJEXT) \
+	zlange.$(OBJEXT) zlangt.$(OBJEXT) zlanhb.$(OBJEXT) \
+	zlanhe.$(OBJEXT) zlanhp.$(OBJEXT) zlanhs.$(OBJEXT) \
+	zlanht.$(OBJEXT) zlansb.$(OBJEXT) zlansp.$(OBJEXT) \
+	zlansy.$(OBJEXT) zlantb.$(OBJEXT) zlantp.$(OBJEXT) \
+	zlantr.$(OBJEXT) zlapll.$(OBJEXT) zlapmt.$(OBJEXT) \
+	zlaqgb.$(OBJEXT) zlaqge.$(OBJEXT) zlaqhb.$(OBJEXT) \
+	zlaqhe.$(OBJEXT) zlaqhp.$(OBJEXT) zlaqp2.$(OBJEXT) \
+	zlaqps.$(OBJEXT) zlaqsb.$(OBJEXT) zlaqr0.$(OBJEXT) \
+	zlaqr1.$(OBJEXT) zlaqr2.$(OBJEXT) zlaqr3.$(OBJEXT) \
+	zlaqr4.$(OBJEXT) zlaqr5.$(OBJEXT) zlaqsp.$(OBJEXT) \
+	zlaqsy.$(OBJEXT) zlar1v.$(OBJEXT) zlar2v.$(OBJEXT) \
+	ilazlr.$(OBJEXT) ilazlc.$(OBJEXT) zlarcm.$(OBJEXT) \
+	zlarf.$(OBJEXT) zlarfb.$(OBJEXT) zlarfg.$(OBJEXT) \
+	zlarft.$(OBJEXT) zlarfgp.$(OBJEXT) zlarfx.$(OBJEXT) \
+	zlargv.$(OBJEXT) zlarnv.$(OBJEXT) zlarrv.$(OBJEXT) \
+	zlartg.$(OBJEXT) zlartv.$(OBJEXT) zlarz.$(OBJEXT) \
+	zlarzb.$(OBJEXT) zlarzt.$(OBJEXT) zlascl.$(OBJEXT) \
+	zlaset.$(OBJEXT) zlasr.$(OBJEXT) zlassq.$(OBJEXT) \
+	zlaswp.$(OBJEXT) zlasyf.$(OBJEXT) zlatbs.$(OBJEXT) \
+	zlatdf.$(OBJEXT) zlatps.$(OBJEXT) zlatrd.$(OBJEXT) \
+	zlatrs.$(OBJEXT) zlatrz.$(OBJEXT) zlatzm.$(OBJEXT) \
+	zlauu2.$(OBJEXT) zlauum.$(OBJEXT) zpbcon.$(OBJEXT) \
+	zpbequ.$(OBJEXT) zpbrfs.$(OBJEXT) zpbstf.$(OBJEXT) \
+	zpbsv.$(OBJEXT) zpbsvx.$(OBJEXT) zpbtf2.$(OBJEXT) \
+	zpbtrf.$(OBJEXT) zpbtrs.$(OBJEXT) zpocon.$(OBJEXT) \
+	zpoequ.$(OBJEXT) zporfs.$(OBJEXT) zposv.$(OBJEXT) \
+	zposvx.$(OBJEXT) zpotf2.$(OBJEXT) zpotrf.$(OBJEXT) \
+	zpotri.$(OBJEXT) zpotrs.$(OBJEXT) zpstrf.$(OBJEXT) \
+	zpstf2.$(OBJEXT) zppcon.$(OBJEXT) zppequ.$(OBJEXT) \
+	zpprfs.$(OBJEXT) zppsv.$(OBJEXT) zppsvx.$(OBJEXT) \
+	zpptrf.$(OBJEXT) zpptri.$(OBJEXT) zpptrs.$(OBJEXT) \
+	zptcon.$(OBJEXT) zpteqr.$(OBJEXT) zptrfs.$(OBJEXT) \
+	zptsv.$(OBJEXT) zptsvx.$(OBJEXT) zpttrf.$(OBJEXT) \
+	zpttrs.$(OBJEXT) zptts2.$(OBJEXT) zrot.$(OBJEXT) \
+	zspcon.$(OBJEXT) zspmv.$(OBJEXT) zspr.$(OBJEXT) \
+	zsprfs.$(OBJEXT) zspsv.$(OBJEXT) zspsvx.$(OBJEXT) \
+	zsptrf.$(OBJEXT) zsptri.$(OBJEXT) zsptrs.$(OBJEXT) \
+	zdrscl.$(OBJEXT) zstedc.$(OBJEXT) zstegr.$(OBJEXT) \
+	zstein.$(OBJEXT) zsteqr.$(OBJEXT) zsycon.$(OBJEXT) \
+	zsymv.$(OBJEXT) zsyr.$(OBJEXT) zsyrfs.$(OBJEXT) \
+	zsysv.$(OBJEXT) zsysvx.$(OBJEXT) zsytf2.$(OBJEXT) \
+	zsytrf.$(OBJEXT) zsytri.$(OBJEXT) zsytri2.$(OBJEXT) \
+	zsytri2x.$(OBJEXT) zsyswapr.$(OBJEXT) zsytrs.$(OBJEXT) \
+	zsytrs2.$(OBJEXT) zsyconv.$(OBJEXT) ztbcon.$(OBJEXT) \
+	ztbrfs.$(OBJEXT) ztbtrs.$(OBJEXT) ztgevc.$(OBJEXT) \
+	ztgex2.$(OBJEXT) ztgexc.$(OBJEXT) ztgsen.$(OBJEXT) \
+	ztgsja.$(OBJEXT) ztgsna.$(OBJEXT) ztgsy2.$(OBJEXT) \
+	ztgsyl.$(OBJEXT) ztpcon.$(OBJEXT) ztprfs.$(OBJEXT) \
+	ztptri.$(OBJEXT) ztptrs.$(OBJEXT) ztrcon.$(OBJEXT) \
+	ztrevc.$(OBJEXT) ztrexc.$(OBJEXT) ztrrfs.$(OBJEXT) \
+	ztrsen.$(OBJEXT) ztrsna.$(OBJEXT) ztrsyl.$(OBJEXT) \
+	ztrti2.$(OBJEXT) ztrtri.$(OBJEXT) ztrtrs.$(OBJEXT) \
+	ztzrqf.$(OBJEXT) ztzrzf.$(OBJEXT) zung2l.$(OBJEXT) \
+	zung2r.$(OBJEXT) zungbr.$(OBJEXT) zunghr.$(OBJEXT) \
+	zungl2.$(OBJEXT) zunglq.$(OBJEXT) zungql.$(OBJEXT) \
+	zungqr.$(OBJEXT) zungr2.$(OBJEXT) zungrq.$(OBJEXT) \
+	zungtr.$(OBJEXT) zunm2l.$(OBJEXT) zunm2r.$(OBJEXT) \
+	zunmbr.$(OBJEXT) zunmhr.$(OBJEXT) zunml2.$(OBJEXT) \
+	zunmlq.$(OBJEXT) zunmql.$(OBJEXT) zunmqr.$(OBJEXT) \
+	zunmr2.$(OBJEXT) zunmr3.$(OBJEXT) zunmrq.$(OBJEXT) \
+	zunmrz.$(OBJEXT) zunmtr.$(OBJEXT) zupgtr.$(OBJEXT) \
+	zupmtr.$(OBJEXT) izmax1.$(OBJEXT) dzsum1.$(OBJEXT) \
+	zstemr.$(OBJEXT) zcgesv.$(OBJEXT) zcposv.$(OBJEXT) \
+	zlag2c.$(OBJEXT) clag2z.$(OBJEXT) zlat2c.$(OBJEXT) \
+	zhfrk.$(OBJEXT) ztfttp.$(OBJEXT) zlanhf.$(OBJEXT) \
+	zpftrf.$(OBJEXT) zpftri.$(OBJEXT) zpftrs.$(OBJEXT) \
+	ztfsm.$(OBJEXT) ztftri.$(OBJEXT) ztfttr.$(OBJEXT) \
+	ztpttf.$(OBJEXT) ztpttr.$(OBJEXT) ztrttf.$(OBJEXT) \
+	ztrttp.$(OBJEXT) zgeequb.$(OBJEXT) zgbequb.$(OBJEXT) \
+	zsyequb.$(OBJEXT) zpoequb.$(OBJEXT) zheequb.$(OBJEXT) \
+	zbbcsd.$(OBJEXT) zlapmr.$(OBJEXT) zunbdb.$(OBJEXT) \
+	zuncsd.$(OBJEXT) zgeqrt.$(OBJEXT) zgeqrt2.$(OBJEXT) \
+	zgeqrt3.$(OBJEXT) zgemqrt.$(OBJEXT) ztpqrt.$(OBJEXT) \
+	ztpqrt2.$(OBJEXT) ztpmqrt.$(OBJEXT) ztprfb.$(OBJEXT)
+am__objects_6 = cpotrs.$(OBJEXT) cgetrs.$(OBJEXT) cpotrf.$(OBJEXT) \
+	cgetrf.$(OBJEXT)
+am__objects_7 = sbdsdc.$(OBJEXT) sbdsqr.$(OBJEXT) sdisna.$(OBJEXT) \
+	slabad.$(OBJEXT) slacpy.$(OBJEXT) sladiv.$(OBJEXT) \
+	slae2.$(OBJEXT) slaebz.$(OBJEXT) slaed0.$(OBJEXT) \
+	slaed1.$(OBJEXT) slaed2.$(OBJEXT) slaed3.$(OBJEXT) \
+	slaed4.$(OBJEXT) slaed5.$(OBJEXT) slaed6.$(OBJEXT) \
+	slaed7.$(OBJEXT) slaed8.$(OBJEXT) slaed9.$(OBJEXT) \
+	slaeda.$(OBJEXT) slaev2.$(OBJEXT) slagtf.$(OBJEXT) \
+	slagts.$(OBJEXT) slamrg.$(OBJEXT) slanst.$(OBJEXT) \
+	slapy2.$(OBJEXT) slapy3.$(OBJEXT) slarnv.$(OBJEXT) \
+	slarra.$(OBJEXT) slarrb.$(OBJEXT) slarrc.$(OBJEXT) \
+	slarrd.$(OBJEXT) slarre.$(OBJEXT) slarrf.$(OBJEXT) \
+	slarrj.$(OBJEXT) slarrk.$(OBJEXT) slarrr.$(OBJEXT) \
+	slaneg.$(OBJEXT) slartg.$(OBJEXT) slaruv.$(OBJEXT) \
+	slas2.$(OBJEXT) slascl.$(OBJEXT) slasd0.$(OBJEXT) \
+	slasd1.$(OBJEXT) slasd2.$(OBJEXT) slasd3.$(OBJEXT) \
+	slasd4.$(OBJEXT) slasd5.$(OBJEXT) slasd6.$(OBJEXT) \
+	slasd7.$(OBJEXT) slasd8.$(OBJEXT) slasda.$(OBJEXT) \
+	slasdq.$(OBJEXT) slasdt.$(OBJEXT) slaset.$(OBJEXT) \
+	slasq1.$(OBJEXT) slasq2.$(OBJEXT) slasq3.$(OBJEXT) \
+	slasq4.$(OBJEXT) slasq5.$(OBJEXT) slasq6.$(OBJEXT) \
+	slasr.$(OBJEXT) slasrt.$(OBJEXT) slassq.$(OBJEXT) \
+	slasv2.$(OBJEXT) spttrf.$(OBJEXT) sstebz.$(OBJEXT) \
+	sstedc.$(OBJEXT) ssteqr.$(OBJEXT) ssterf.$(OBJEXT) \
+	slaisnan.$(OBJEXT) sisnan.$(OBJEXT) slartgp.$(OBJEXT) \
+	slartgs.$(OBJEXT) second_$(TIMER).$(OBJEXT)
+am__objects_8 = dbdsdc.$(OBJEXT) dbdsqr.$(OBJEXT) ddisna.$(OBJEXT) \
+	dlabad.$(OBJEXT) dlacpy.$(OBJEXT) dladiv.$(OBJEXT) \
+	dlae2.$(OBJEXT) dlaebz.$(OBJEXT) dlaed0.$(OBJEXT) \
+	dlaed1.$(OBJEXT) dlaed2.$(OBJEXT) dlaed3.$(OBJEXT) \
+	dlaed4.$(OBJEXT) dlaed5.$(OBJEXT) dlaed6.$(OBJEXT) \
+	dlaed7.$(OBJEXT) dlaed8.$(OBJEXT) dlaed9.$(OBJEXT) \
+	dlaeda.$(OBJEXT) dlaev2.$(OBJEXT) dlagtf.$(OBJEXT) \
+	dlagts.$(OBJEXT) dlamrg.$(OBJEXT) dlanst.$(OBJEXT) \
+	dlapy2.$(OBJEXT) dlapy3.$(OBJEXT) dlarnv.$(OBJEXT) \
+	dlarra.$(OBJEXT) dlarrb.$(OBJEXT) dlarrc.$(OBJEXT) \
+	dlarrd.$(OBJEXT) dlarre.$(OBJEXT) dlarrf.$(OBJEXT) \
+	dlarrj.$(OBJEXT) dlarrk.$(OBJEXT) dlarrr.$(OBJEXT) \
+	dlaneg.$(OBJEXT) dlartg.$(OBJEXT) dlaruv.$(OBJEXT) \
+	dlas2.$(OBJEXT) dlascl.$(OBJEXT) dlasd0.$(OBJEXT) \
+	dlasd1.$(OBJEXT) dlasd2.$(OBJEXT) dlasd3.$(OBJEXT) \
+	dlasd4.$(OBJEXT) dlasd5.$(OBJEXT) dlasd6.$(OBJEXT) \
+	dlasd7.$(OBJEXT) dlasd8.$(OBJEXT) dlasda.$(OBJEXT) \
+	dlasdq.$(OBJEXT) dlasdt.$(OBJEXT) dlaset.$(OBJEXT) \
+	dlasq1.$(OBJEXT) dlasq2.$(OBJEXT) dlasq3.$(OBJEXT) \
+	dlasq4.$(OBJEXT) dlasq5.$(OBJEXT) dlasq6.$(OBJEXT) \
+	dlasr.$(OBJEXT) dlasrt.$(OBJEXT) dlassq.$(OBJEXT) \
+	dlasv2.$(OBJEXT) dpttrf.$(OBJEXT) dstebz.$(OBJEXT) \
+	dstedc.$(OBJEXT) dsteqr.$(OBJEXT) dsterf.$(OBJEXT) \
+	dlaisnan.$(OBJEXT) disnan.$(OBJEXT) dlartgp.$(OBJEXT) \
+	dlartgs.$(OBJEXT) dlamch.$(OBJEXT) dsecnd_$(TIMER).$(OBJEXT)
+am__objects_9 = ilaenv.$(OBJEXT) ieeeck.$(OBJEXT) lsamen.$(OBJEXT) \
+	xerbla.$(OBJEXT) xerbla_array.$(OBJEXT) iparmq.$(OBJEXT) \
+	ilaprec.$(OBJEXT) ilatrans.$(OBJEXT) ilauplo.$(OBJEXT) \
+	iladiag.$(OBJEXT) chla_transtype.$(OBJEXT) ilaver.$(OBJEXT) \
+	lsame.$(OBJEXT) slamch.$(OBJEXT)
 am__objects_10 = $(am__objects_1) $(am__objects_2) $(am__objects_3) \
 	$(am__objects_4) $(am__objects_5) $(am__objects_6) \
 	$(am__objects_7) $(am__objects_8) $(am__objects_9)
-@USEXBLAS_TRUE@am__objects_11 = sgesvxx.lo sgerfsx.lo sla_geamv.lo \
-@USEXBLAS_TRUE@	ssysvxx.lo ssyrfsx.lo sposvxx.lo sporfsx.lo \
-@USEXBLAS_TRUE@	sgbsvxx.lo sgbrfsx.lo slarscl2.lo slascl2.lo \
-@USEXBLAS_TRUE@	sla_gerfsx_extended.lo sla_gercond.lo \
-@USEXBLAS_TRUE@	sla_gerpvgrw.lo sla_syrfsx_extended.lo \
-@USEXBLAS_TRUE@	sla_syamv.lo sla_syrcond.lo sla_syrpvgrw.lo \
-@USEXBLAS_TRUE@	sla_porfsx_extended.lo sla_porcond.lo \
-@USEXBLAS_TRUE@	sla_gbrfsx_extended.lo sla_porpvgrw.lo \
-@USEXBLAS_TRUE@	sla_gbamv.lo sla_gbrcond.lo sla_gbrpvgrw.lo \
-@USEXBLAS_TRUE@	sla_lin_berr.lo sla_wwaddw.lo
-@USEXBLAS_TRUE@am__objects_12 = dgesvxx.lo dgerfsx.lo dsysvxx.lo \
-@USEXBLAS_TRUE@	dsyrfsx.lo dposvxx.lo dporfsx.lo dgbsvxx.lo \
-@USEXBLAS_TRUE@	dgbrfsx.lo dlarscl2.lo dlascl2.lo \
-@USEXBLAS_TRUE@	dla_gerfsx_extended.lo dla_geamv.lo \
-@USEXBLAS_TRUE@	dla_gercond.lo dla_gerpvgrw.lo \
-@USEXBLAS_TRUE@	dla_syrfsx_extended.lo dla_syamv.lo \
-@USEXBLAS_TRUE@	dla_syrcond.lo dla_syrpvgrw.lo \
-@USEXBLAS_TRUE@	dla_porfsx_extended.lo dla_porcond.lo \
-@USEXBLAS_TRUE@	dla_porpvgrw.lo dla_gbrfsx_extended.lo \
-@USEXBLAS_TRUE@	dla_gbamv.lo dla_gbrcond.lo dla_gbrpvgrw.lo \
-@USEXBLAS_TRUE@	dla_lin_berr.lo dla_wwaddw.lo
-@USEXBLAS_TRUE@am__objects_13 = cgesvxx.lo cgerfsx.lo csysvxx.lo \
-@USEXBLAS_TRUE@	csyrfsx.lo cposvxx.lo cporfsx.lo cgbsvxx.lo \
-@USEXBLAS_TRUE@	cgbrfsx.lo chesvxx.lo cherfsx.lo clarscl2.lo \
-@USEXBLAS_TRUE@	clascl2.lo cla_gerfsx_extended.lo cla_geamv.lo \
-@USEXBLAS_TRUE@	cla_gercond_c.lo cla_gercond_x.lo \
-@USEXBLAS_TRUE@	cla_gerpvgrw.lo cla_syrfsx_extended.lo \
-@USEXBLAS_TRUE@	cla_syamv.lo cla_syrcond_c.lo cla_syrcond_x.lo \
-@USEXBLAS_TRUE@	cla_syrpvgrw.lo cla_porfsx_extended.lo \
-@USEXBLAS_TRUE@	cla_porcond_c.lo cla_porcond_x.lo \
-@USEXBLAS_TRUE@	cla_porpvgrw.lo cla_gbrfsx_extended.lo \
-@USEXBLAS_TRUE@	cla_gbamv.lo cla_gbrcond_c.lo cla_gbrcond_x.lo \
-@USEXBLAS_TRUE@	cla_gbrpvgrw.lo cla_herfsx_extended.lo \
-@USEXBLAS_TRUE@	cla_heamv.lo cla_hercond_c.lo cla_hercond_x.lo \
-@USEXBLAS_TRUE@	cla_herpvgrw.lo cla_lin_berr.lo cla_wwaddw.lo
-@USEXBLAS_TRUE@am__objects_14 = zgesvxx.lo zgerfsx.lo zsysvxx.lo \
-@USEXBLAS_TRUE@	zsyrfsx.lo zposvxx.lo zporfsx.lo zgbsvxx.lo \
-@USEXBLAS_TRUE@	zgbrfsx.lo zhesvxx.lo zherfsx.lo zlarscl2.lo \
-@USEXBLAS_TRUE@	zlascl2.lo zla_gerfsx_extended.lo zla_geamv.lo \
-@USEXBLAS_TRUE@	zla_gercond_c.lo zla_gercond_x.lo \
-@USEXBLAS_TRUE@	zla_gerpvgrw.lo zla_syrfsx_extended.lo \
-@USEXBLAS_TRUE@	zla_syamv.lo zla_syrcond_c.lo zla_syrcond_x.lo \
-@USEXBLAS_TRUE@	zla_syrpvgrw.lo zla_porfsx_extended.lo \
-@USEXBLAS_TRUE@	zla_porcond_c.lo zla_porcond_x.lo \
-@USEXBLAS_TRUE@	zla_porpvgrw.lo zla_gbrfsx_extended.lo \
-@USEXBLAS_TRUE@	zla_gbamv.lo zla_gbrcond_c.lo zla_gbrcond_x.lo \
-@USEXBLAS_TRUE@	zla_gbrpvgrw.lo zla_herfsx_extended.lo \
-@USEXBLAS_TRUE@	zla_heamv.lo zla_hercond_c.lo zla_hercond_x.lo \
-@USEXBLAS_TRUE@	zla_herpvgrw.lo zla_lin_berr.lo zla_wwaddw.lo
-am__objects_15 = $(am__objects_11) $(am__objects_12) $(am__objects_13) \
-	$(am__objects_14)
-@USEXBLAS_FALSE@am_liblapack_la_OBJECTS = $(am__objects_10)
-@USEXBLAS_TRUE@am_liblapack_la_OBJECTS = $(am__objects_10) \
-@USEXBLAS_TRUE@	$(am__objects_15)
-liblapack_la_OBJECTS = $(am_liblapack_la_OBJECTS)
-liblapack_la_LINK = $(LIBTOOL) --tag=F77 $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(F77LD) $(AM_FFLAGS) $(FFLAGS) \
-	$(liblapack_la_LDFLAGS) $(LDFLAGS) -o $@
+am_liblapack_a_OBJECTS = $(am__objects_10)
+liblapack_a_OBJECTS = $(am_liblapack_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 F77COMPILE = $(F77) $(AM_FFLAGS) $(FFLAGS)
 LTF77COMPILE = $(LIBTOOL) --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
@@ -665,8 +579,8 @@ F77LD = $(F77)
 F77LINK = $(LIBTOOL) --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(F77LD) $(AM_FFLAGS) $(FFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(liblapack_la_SOURCES)
-DIST_SOURCES = $(am__liblapack_la_SOURCES_DIST)
+SOURCES = $(liblapack_a_SOURCES)
+DIST_SOURCES = $(liblapack_a_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -685,6 +599,7 @@ CPPFLAGS = @CPPFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
+DLLTOOL = @DLLTOOL@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
 ECHO_C = @ECHO_C@
@@ -712,6 +627,7 @@ LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
+MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 NM = @NM@
 NMEDIT = @NMEDIT@
@@ -737,6 +653,7 @@ abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
+ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
 ac_ct_F77 = @ac_ct_F77@
@@ -1014,20 +931,21 @@ DSLASRC = \
 
 
 # Single precision real LAPACK routines using extra precision.
-@USEXBLAS_TRUE@SXLASRC = \
-@USEXBLAS_TRUE@	sgesvxx.f	sgerfsx.f	sla_geamv.f	\
-@USEXBLAS_TRUE@	ssysvxx.f	ssyrfsx.f	sposvxx.f	\
-@USEXBLAS_TRUE@	sporfsx.f	sgbsvxx.f	sgbrfsx.f	\
-@USEXBLAS_TRUE@	slarscl2.f	slascl2.f			\
-@USEXBLAS_TRUE@	sla_gerfsx_extended.f	sla_gercond.f		\
-@USEXBLAS_TRUE@	sla_gerpvgrw.f		sla_syrfsx_extended.f	\
-@USEXBLAS_TRUE@	sla_syamv.f		sla_syrcond.f		\
-@USEXBLAS_TRUE@	sla_syrpvgrw.f		sla_porfsx_extended.f	\
-@USEXBLAS_TRUE@	sla_porcond.f		sla_gbrfsx_extended.f	\
-@USEXBLAS_TRUE@	sla_porpvgrw.f		sla_gbamv.f		\
-@USEXBLAS_TRUE@	sla_gbrcond.f		sla_gbrpvgrw.f		\
-@USEXBLAS_TRUE@	sla_lin_berr.f		sla_wwaddw.f
-
+#if USEXBLAS
+#SXLASRC = \
+#	sgesvxx.f	sgerfsx.f	sla_geamv.f	\
+#	ssysvxx.f	ssyrfsx.f	sposvxx.f	\
+#	sporfsx.f	sgbsvxx.f	sgbrfsx.f	\
+#	slarscl2.f	slascl2.f			\
+#	sla_gerfsx_extended.f	sla_gercond.f		\
+#	sla_gerpvgrw.f		sla_syrfsx_extended.f	\
+#	sla_syamv.f		sla_syrcond.f		\
+#	sla_syrpvgrw.f		sla_porfsx_extended.f	\
+#	sla_porcond.f		sla_gbrfsx_extended.f	\
+#	sla_porpvgrw.f		sla_gbamv.f		\
+#	sla_gbrcond.f		sla_gbrpvgrw.f		\
+#	sla_lin_berr.f		sla_wwaddw.f
+#endif
 
 # Single precision complex LAPACK routines.
 CLASRC = \
@@ -1154,25 +1072,26 @@ CLASRC = \
 
 
 # Single precision complex LAPACK routines using extra precision.
-@USEXBLAS_TRUE@CXLASRC = \
-@USEXBLAS_TRUE@	cgesvxx.f	cgerfsx.f	csysvxx.f	\
-@USEXBLAS_TRUE@	csyrfsx.f	cposvxx.f	cporfsx.f	\
-@USEXBLAS_TRUE@	cgbsvxx.f	cgbrfsx.f	chesvxx.f	\
-@USEXBLAS_TRUE@	cherfsx.f	clarscl2.f	clascl2.f 	\
-@USEXBLAS_TRUE@	cla_gerfsx_extended.f	cla_geamv.f		\
-@USEXBLAS_TRUE@	cla_gercond_c.f		cla_gercond_x.f		\
-@USEXBLAS_TRUE@	cla_gerpvgrw.f		cla_syrfsx_extended.f	\
-@USEXBLAS_TRUE@	cla_syamv.f		cla_syrcond_c.f		\
-@USEXBLAS_TRUE@	cla_syrcond_x.f		cla_syrpvgrw.f		\
-@USEXBLAS_TRUE@	cla_porfsx_extended.f	cla_porcond_c.f		\
-@USEXBLAS_TRUE@	cla_porcond_x.f		cla_porpvgrw.f		\
-@USEXBLAS_TRUE@	cla_gbrfsx_extended.f	cla_gbamv.f		\
-@USEXBLAS_TRUE@	cla_gbrcond_c.f		cla_gbrcond_x.f		\
-@USEXBLAS_TRUE@	cla_gbrpvgrw.f		cla_herfsx_extended.f	\
-@USEXBLAS_TRUE@	cla_heamv.f		cla_hercond_c.f		\
-@USEXBLAS_TRUE@	cla_hercond_x.f		cla_herpvgrw.f		\
-@USEXBLAS_TRUE@	cla_lin_berr.f		cla_wwaddw.f
-
+#if USEXBLAS
+#CXLASRC = \
+#	cgesvxx.f	cgerfsx.f	csysvxx.f	\
+#	csyrfsx.f	cposvxx.f	cporfsx.f	\
+#	cgbsvxx.f	cgbrfsx.f	chesvxx.f	\
+#	cherfsx.f	clarscl2.f	clascl2.f 	\
+#	cla_gerfsx_extended.f	cla_geamv.f		\
+#	cla_gercond_c.f		cla_gercond_x.f		\
+#	cla_gerpvgrw.f		cla_syrfsx_extended.f	\
+#	cla_syamv.f		cla_syrcond_c.f		\
+#	cla_syrcond_x.f		cla_syrpvgrw.f		\
+#	cla_porfsx_extended.f	cla_porcond_c.f		\
+#	cla_porcond_x.f		cla_porpvgrw.f		\
+#	cla_gbrfsx_extended.f	cla_gbamv.f		\
+#	cla_gbrcond_c.f		cla_gbrcond_x.f		\
+#	cla_gbrpvgrw.f		cla_herfsx_extended.f	\
+#	cla_heamv.f		cla_hercond_c.f		\
+#	cla_hercond_x.f		cla_herpvgrw.f		\
+#	cla_lin_berr.f		cla_wwaddw.f
+#endif
 
 # Double-single mixed  precision complex routines  called from single,
 # single-extra and double precision complex LAPACK routines (i.e. from
@@ -1296,21 +1215,22 @@ DLASRC = \
 
 
 # Double precision real LAPACK routines using extra precision.
-@USEXBLAS_TRUE@DXLASRC = \
-@USEXBLAS_TRUE@	dgesvxx.f	dgerfsx.f	dsysvxx.f	\
-@USEXBLAS_TRUE@	dsyrfsx.f	dposvxx.f	dporfsx.f	\
-@USEXBLAS_TRUE@	dgbsvxx.f	dgbrfsx.f	dlarscl2.f	\
-@USEXBLAS_TRUE@	dlascl2.f					\
-@USEXBLAS_TRUE@	dla_gerfsx_extended.f	dla_geamv.f		\
-@USEXBLAS_TRUE@	dla_gercond.f		dla_gerpvgrw.f		\
-@USEXBLAS_TRUE@	dla_syrfsx_extended.f	dla_syamv.f		\
-@USEXBLAS_TRUE@	dla_syrcond.f		dla_syrpvgrw.f		\
-@USEXBLAS_TRUE@	dla_porfsx_extended.f	dla_porcond.f		\
-@USEXBLAS_TRUE@	dla_porpvgrw.f	 	dla_gbrfsx_extended.f	\
-@USEXBLAS_TRUE@	dla_gbamv.f		dla_gbrcond.f		\
-@USEXBLAS_TRUE@	dla_gbrpvgrw.f		dla_lin_berr.f		\
-@USEXBLAS_TRUE@	dla_wwaddw.f
-
+#if USEXBLAS
+#DXLASRC = \
+#	dgesvxx.f	dgerfsx.f	dsysvxx.f	\
+#	dsyrfsx.f	dposvxx.f	dporfsx.f	\
+#	dgbsvxx.f	dgbrfsx.f	dlarscl2.f	\
+#	dlascl2.f					\
+#	dla_gerfsx_extended.f	dla_geamv.f		\
+#	dla_gercond.f		dla_gerpvgrw.f		\
+#	dla_syrfsx_extended.f	dla_syamv.f		\
+#	dla_syrcond.f		dla_syrpvgrw.f		\
+#	dla_porfsx_extended.f	dla_porcond.f		\
+#	dla_porpvgrw.f	 	dla_gbrfsx_extended.f	\
+#	dla_gbamv.f		dla_gbrcond.f		\
+#	dla_gbrpvgrw.f		dla_lin_berr.f		\
+#	dla_wwaddw.f
+#endif
 
 # Double precision complex LAPACK routines.
 ZLASRC = \
@@ -1440,25 +1360,26 @@ ZLASRC = \
 
 
 # Double precision complex LAPACK routines using extra precision.
-@USEXBLAS_TRUE@ZXLASRC = \
-@USEXBLAS_TRUE@	zgesvxx.f	zgerfsx.f	zsysvxx.f	\
-@USEXBLAS_TRUE@	zsyrfsx.f	zposvxx.f	zporfsx.f	\
-@USEXBLAS_TRUE@	zgbsvxx.f	zgbrfsx.f	zhesvxx.f	\
-@USEXBLAS_TRUE@	zherfsx.f	zlarscl2.f	zlascl2.f	\
-@USEXBLAS_TRUE@	zla_gerfsx_extended.f	zla_geamv.f		\
-@USEXBLAS_TRUE@	zla_gercond_c.f		zla_gercond_x.f		\
-@USEXBLAS_TRUE@	zla_gerpvgrw.f		zla_syrfsx_extended.f	\
-@USEXBLAS_TRUE@	zla_syamv.f		zla_syrcond_c.f		\
-@USEXBLAS_TRUE@	zla_syrcond_x.f		zla_syrpvgrw.f 		\
-@USEXBLAS_TRUE@	zla_porfsx_extended.f	zla_porcond_c.f		\
-@USEXBLAS_TRUE@	zla_porcond_x.f		zla_porpvgrw.f		\
-@USEXBLAS_TRUE@	zla_gbrfsx_extended.f	zla_gbamv.f		\
-@USEXBLAS_TRUE@	zla_gbrcond_c.f		zla_gbrcond_x.f		\
-@USEXBLAS_TRUE@	zla_gbrpvgrw.f		zla_herfsx_extended.f	\
-@USEXBLAS_TRUE@	zla_heamv.f		zla_hercond_c.f		\
-@USEXBLAS_TRUE@	zla_hercond_x.f		zla_herpvgrw.f		\
-@USEXBLAS_TRUE@	zla_lin_berr.f		zla_wwaddw.f
-
+#if USEXBLAS
+#ZXLASRC = \
+#	zgesvxx.f	zgerfsx.f	zsysvxx.f	\
+#	zsyrfsx.f	zposvxx.f	zporfsx.f	\
+#	zgbsvxx.f	zgbrfsx.f	zhesvxx.f	\
+#	zherfsx.f	zlarscl2.f	zlascl2.f	\
+#	zla_gerfsx_extended.f	zla_geamv.f		\
+#	zla_gercond_c.f		zla_gercond_x.f		\
+#	zla_gerpvgrw.f		zla_syrfsx_extended.f	\
+#	zla_syamv.f		zla_syrcond_c.f		\
+#	zla_syrcond_x.f		zla_syrpvgrw.f 		\
+#	zla_porfsx_extended.f	zla_porcond_c.f		\
+#	zla_porcond_x.f		zla_porpvgrw.f		\
+#	zla_gbrfsx_extended.f	zla_gbamv.f		\
+#	zla_gbrcond_c.f		zla_gbrcond_x.f		\
+#	zla_gbrpvgrw.f		zla_herfsx_extended.f	\
+#	zla_heamv.f		zla_hercond_c.f		\
+#	zla_hercond_x.f		zla_herpvgrw.f		\
+#	zla_lin_berr.f		zla_wwaddw.f
+#endif
 
 #page
 ALLOBJ = \
@@ -1467,10 +1388,13 @@ ALLOBJ = \
 	$(SCLAUX)	$(DZLAUX)	$(ALLAUX)
 
 ALLXOBJ = $(SXLASRC) $(DXLASRC) $(CXLASRC) $(ZXLASRC)
-lib_LTLIBRARIES = liblapack.la
-liblapack_la_LDFLAGS = -version-info 1:0:0
-@USEXBLAS_FALSE@liblapack_la_SOURCES = $(ALLOBJ)
-@USEXBLAS_TRUE@liblapack_la_SOURCES = $(ALLOBJ) $(ALLXOBJ)
+noinst_LIBRARIES = liblapack.a
+#liblapack_la_LDFLAGS	= -version-info 1:0:0
+
+#if USEXBLAS
+#liblapack_a_SOURCES	= $(ALLOBJ) $(ALLXOBJ)
+#else
+liblapack_a_SOURCES = $(ALLOBJ)
 all: all-am
 
 .SUFFIXES:
@@ -1484,9 +1408,9 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign lapack/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu lapack/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign lapack/Makefile
+	  $(AUTOMAKE) --gnu lapack/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -1505,39 +1429,13 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
-install-libLTLIBRARIES: $(lib_LTLIBRARIES)
-	@$(NORMAL_INSTALL)
-	test -z "$(libdir)" || $(MKDIR_P) "$(DESTDIR)$(libdir)"
-	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
-	list2=; for p in $$list; do \
-	  if test -f $$p; then \
-	    list2="$$list2 $$p"; \
-	  else :; fi; \
-	done; \
-	test -z "$$list2" || { \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(libdir)'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(libdir)"; \
-	}
 
-uninstall-libLTLIBRARIES:
-	@$(NORMAL_UNINSTALL)
-	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
-	for p in $$list; do \
-	  $(am__strip_dir) \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(libdir)/$$f'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(libdir)/$$f"; \
-	done
-
-clean-libLTLIBRARIES:
-	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
-	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
-	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
-	  test "$$dir" != "$$p" || dir=.; \
-	  echo "rm -f \"$${dir}/so_locations\""; \
-	  rm -f "$${dir}/so_locations"; \
-	done
-liblapack.la: $(liblapack_la_OBJECTS) $(liblapack_la_DEPENDENCIES) 
-	$(liblapack_la_LINK) -rpath $(libdir) $(liblapack_la_OBJECTS) $(liblapack_la_LIBADD) $(LIBS)
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+liblapack.a: $(liblapack_a_OBJECTS) $(liblapack_a_DEPENDENCIES) 
+	-rm -f liblapack.a
+	$(liblapack_a_AR) liblapack.a $(liblapack_a_OBJECTS) $(liblapack_a_LIBADD)
+	$(RANLIB) liblapack.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -1554,23 +1452,41 @@ distclean-compile:
 .f.lo:
 	$(LTF77COMPILE) -c -o $@ $<
 
-second_$(TIMER).lo: $(MACHINE_DEP_DIR)/second_$(TIMER).f
-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o second_$(TIMER).lo `test -f '$(MACHINE_DEP_DIR)/second_$(TIMER).f' || echo '$(srcdir)/'`$(MACHINE_DEP_DIR)/second_$(TIMER).f
+second_$(TIMER).o: $(MACHINE_DEP_DIR)/second_$(TIMER).f
+	$(F77) $(AM_FFLAGS) $(FFLAGS) -c -o second_$(TIMER).o `test -f '$(MACHINE_DEP_DIR)/second_$(TIMER).f' || echo '$(srcdir)/'`$(MACHINE_DEP_DIR)/second_$(TIMER).f
 
-dlamch.lo: $(MACHINE_DEP_DIR)/dlamch.f
-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o dlamch.lo `test -f '$(MACHINE_DEP_DIR)/dlamch.f' || echo '$(srcdir)/'`$(MACHINE_DEP_DIR)/dlamch.f
+second_$(TIMER).obj: $(MACHINE_DEP_DIR)/second_$(TIMER).f
+	$(F77) $(AM_FFLAGS) $(FFLAGS) -c -o second_$(TIMER).obj `if test -f '$(MACHINE_DEP_DIR)/second_$(TIMER).f'; then $(CYGPATH_W) '$(MACHINE_DEP_DIR)/second_$(TIMER).f'; else $(CYGPATH_W) '$(srcdir)/$(MACHINE_DEP_DIR)/second_$(TIMER).f'; fi`
 
-dsecnd_$(TIMER).lo: $(MACHINE_DEP_DIR)/dsecnd_$(TIMER).f
-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o dsecnd_$(TIMER).lo `test -f '$(MACHINE_DEP_DIR)/dsecnd_$(TIMER).f' || echo '$(srcdir)/'`$(MACHINE_DEP_DIR)/dsecnd_$(TIMER).f
+dlamch.o: $(MACHINE_DEP_DIR)/dlamch.f
+	$(F77) $(AM_FFLAGS) $(FFLAGS) -c -o dlamch.o `test -f '$(MACHINE_DEP_DIR)/dlamch.f' || echo '$(srcdir)/'`$(MACHINE_DEP_DIR)/dlamch.f
 
-ilaver.lo: $(MACHINE_DEP_DIR)/ilaver.f
-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o ilaver.lo `test -f '$(MACHINE_DEP_DIR)/ilaver.f' || echo '$(srcdir)/'`$(MACHINE_DEP_DIR)/ilaver.f
+dlamch.obj: $(MACHINE_DEP_DIR)/dlamch.f
+	$(F77) $(AM_FFLAGS) $(FFLAGS) -c -o dlamch.obj `if test -f '$(MACHINE_DEP_DIR)/dlamch.f'; then $(CYGPATH_W) '$(MACHINE_DEP_DIR)/dlamch.f'; else $(CYGPATH_W) '$(srcdir)/$(MACHINE_DEP_DIR)/dlamch.f'; fi`
 
-lsame.lo: $(MACHINE_DEP_DIR)/lsame.f
-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o lsame.lo `test -f '$(MACHINE_DEP_DIR)/lsame.f' || echo '$(srcdir)/'`$(MACHINE_DEP_DIR)/lsame.f
+dsecnd_$(TIMER).o: $(MACHINE_DEP_DIR)/dsecnd_$(TIMER).f
+	$(F77) $(AM_FFLAGS) $(FFLAGS) -c -o dsecnd_$(TIMER).o `test -f '$(MACHINE_DEP_DIR)/dsecnd_$(TIMER).f' || echo '$(srcdir)/'`$(MACHINE_DEP_DIR)/dsecnd_$(TIMER).f
 
-slamch.lo: $(MACHINE_DEP_DIR)/slamch.f
-	$(LIBTOOL)  --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(AM_FFLAGS) $(FFLAGS) -c -o slamch.lo `test -f '$(MACHINE_DEP_DIR)/slamch.f' || echo '$(srcdir)/'`$(MACHINE_DEP_DIR)/slamch.f
+dsecnd_$(TIMER).obj: $(MACHINE_DEP_DIR)/dsecnd_$(TIMER).f
+	$(F77) $(AM_FFLAGS) $(FFLAGS) -c -o dsecnd_$(TIMER).obj `if test -f '$(MACHINE_DEP_DIR)/dsecnd_$(TIMER).f'; then $(CYGPATH_W) '$(MACHINE_DEP_DIR)/dsecnd_$(TIMER).f'; else $(CYGPATH_W) '$(srcdir)/$(MACHINE_DEP_DIR)/dsecnd_$(TIMER).f'; fi`
+
+ilaver.o: $(MACHINE_DEP_DIR)/ilaver.f
+	$(F77) $(AM_FFLAGS) $(FFLAGS) -c -o ilaver.o `test -f '$(MACHINE_DEP_DIR)/ilaver.f' || echo '$(srcdir)/'`$(MACHINE_DEP_DIR)/ilaver.f
+
+ilaver.obj: $(MACHINE_DEP_DIR)/ilaver.f
+	$(F77) $(AM_FFLAGS) $(FFLAGS) -c -o ilaver.obj `if test -f '$(MACHINE_DEP_DIR)/ilaver.f'; then $(CYGPATH_W) '$(MACHINE_DEP_DIR)/ilaver.f'; else $(CYGPATH_W) '$(srcdir)/$(MACHINE_DEP_DIR)/ilaver.f'; fi`
+
+lsame.o: $(MACHINE_DEP_DIR)/lsame.f
+	$(F77) $(AM_FFLAGS) $(FFLAGS) -c -o lsame.o `test -f '$(MACHINE_DEP_DIR)/lsame.f' || echo '$(srcdir)/'`$(MACHINE_DEP_DIR)/lsame.f
+
+lsame.obj: $(MACHINE_DEP_DIR)/lsame.f
+	$(F77) $(AM_FFLAGS) $(FFLAGS) -c -o lsame.obj `if test -f '$(MACHINE_DEP_DIR)/lsame.f'; then $(CYGPATH_W) '$(MACHINE_DEP_DIR)/lsame.f'; else $(CYGPATH_W) '$(srcdir)/$(MACHINE_DEP_DIR)/lsame.f'; fi`
+
+slamch.o: $(MACHINE_DEP_DIR)/slamch.f
+	$(F77) $(AM_FFLAGS) $(FFLAGS) -c -o slamch.o `test -f '$(MACHINE_DEP_DIR)/slamch.f' || echo '$(srcdir)/'`$(MACHINE_DEP_DIR)/slamch.f
+
+slamch.obj: $(MACHINE_DEP_DIR)/slamch.f
+	$(F77) $(AM_FFLAGS) $(FFLAGS) -c -o slamch.obj `if test -f '$(MACHINE_DEP_DIR)/slamch.f'; then $(CYGPATH_W) '$(MACHINE_DEP_DIR)/slamch.f'; else $(CYGPATH_W) '$(srcdir)/$(MACHINE_DEP_DIR)/slamch.f'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -1662,11 +1578,8 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LIBRARIES)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)"; do \
-	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
-	done
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -1694,7 +1607,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
+clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
 	mostlyclean-am
 
 distclean: distclean-am
@@ -1720,7 +1633,7 @@ install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-libLTLIBRARIES
+install-exec-am:
 
 install-html: install-html-am
 
@@ -1759,24 +1672,24 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES
+uninstall-am:
 
 .MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
-	clean-libLTLIBRARIES clean-libtool ctags distclean \
+	clean-libtool clean-noinstLIBRARIES ctags distclean \
 	distclean-compile distclean-generic distclean-libtool \
 	distclean-tags distdir dvi dvi-am html html-am info info-am \
 	install install-am install-data install-data-am install-dvi \
 	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am \
-	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-libLTLIBRARIES
+	install-html-am install-info install-info-am install-man \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags uninstall uninstall-am
 
+#endif
 
 # .o.f:
 # 	$(FORTRAN) $(OPTS) -c $< -o $@

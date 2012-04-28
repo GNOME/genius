@@ -2,7 +2,9 @@
 
 AUTOMAKE_OPTIONS	= foreign
 SUBDIRS			= lapack lapacke tests
-dist_doc_DATA		= README COPYING
+
+#JL: we probably don't want to do this
+#dist_doc_DATA		= README COPYING
 
 EXTRA_DIST		= \
 	README COPYING INSTALL			\

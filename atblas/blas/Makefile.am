@@ -123,9 +123,9 @@ ZBLAS3 = \
 ## Library.
 ## --------------------------------------------------------------------
 
-lib_LTLIBRARIES		= libblas.la
-libblas_la_LDFLAGS	= -version-info 1:0:0
-libblas_la_SOURCES	= \
+noinst_LIBRARIES	= libblas.a
+#libblas_la_LDFLAGS	= -version-info 1:0:0
+libblas_a_SOURCES	= \
 		$(BLASAUX)				\
 		$(SBLAS1) $(CBLAS1) $(DBLAS1) $(ZBLAS1) \
 		$(SBLAS2) $(CBLAS2) $(DBLAS2) $(ZBLAS2)	\

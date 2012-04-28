@@ -1,9 +1,13 @@
 ## Process this file with automake to produce Makefile.in
 
-include_HEADERS	= \
+noinst_HEADERS	= \
 	src/lapacke_config.h	\
 	src/lapacke.h		\
 	src/lapacke_utils.h
+
+INCLUDES = \
+	   -I$(top_srcdir)/../atblas/cblas \
+	   -I$(top_srcdir)/lapacke/src
 
 SRC_SOURCES	= \
 	src/lapacke_cbbcsd.c	\
@@ -2219,13 +2223,13 @@ XBLAS_SRC_SOURCES = \
 ## Library.
 ## --------------------------------------------------------------------
 
-lib_LTLIBRARIES		= liblapacke.la
-liblapacke_la_LDFLAGS	= -version-info 1:0:0
-liblapacke_la_LIBADD	= ../lapack/liblapack.la
-if USEXBLAS
-liblapacke_la_SOURCES	= $(SRC_SOURCES) $(UTILS_SOURCES) $(XBLAS_SRC_SOURCES)
-else
-liblapacke_la_SOURCES	= $(SRC_SOURCES) $(UTILS_SOURCES)
-endif
+noinst_LIBRARIES	= liblapacke.a
+#liblapacke_la_LDFLAGS	= -version-info 1:0:0
+liblapacke_a_LIBADD	= ../lapack/liblapack.a ../../atblas/cblas/libcblas.a
+#if USEXBLAS
+#liblapacke_a_SOURCES	= $(SRC_SOURCES) $(UTILS_SOURCES) $(XBLAS_SRC_SOURCES)
+#else
+liblapacke_a_SOURCES	= $(SRC_SOURCES) $(UTILS_SOURCES)
+#endif
 
 ### end of file
