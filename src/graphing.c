@@ -178,6 +178,8 @@ static double deftinc = 0.01;
 
 static gboolean lineplot_draw_legends = TRUE;
 static gboolean lineplot_draw_legends_cb = TRUE;
+static gboolean lineplot_draw_labels = TRUE;
+static gboolean lineplot_draw_labels_cb = TRUE;
 static gboolean vectorfield_normalize_arrow_length = FALSE;
 static gboolean vectorfield_normalize_arrow_length_cb = FALSE;
 static gboolean vectorfield_normalize_arrow_length_parameter = FALSE;
@@ -2131,7 +2133,7 @@ plot_setup_axis (void)
 {
 	int xprec, yprec;
 	double xtick, ytick;
-	GtkPlotAxis *x, *y;
+	GtkPlotAxis *axis;
 	GdkColor gray;
 
 	get_ticks (plotx1, plotx2, &xtick, &xprec);
@@ -2176,25 +2178,37 @@ plot_setup_axis (void)
 					     &gray);
 
 
-	x = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_TOP);
-	gtk_plot_axis_set_labels_style (x,
+	axis = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_TOP);
+	gtk_plot_axis_set_labels_style (axis,
 					GTK_PLOT_LABEL_FLOAT,
 					xprec /* precision */);
+	gtk_plot_axis_show_labels (axis, lineplot_draw_labels ?
+				      GTK_PLOT_LABEL_OUT :
+				      GTK_PLOT_LABEL_NONE);
 
-	x = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_BOTTOM);
-	gtk_plot_axis_set_labels_style (x,
+	axis = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_BOTTOM);
+	gtk_plot_axis_set_labels_style (axis,
 					GTK_PLOT_LABEL_FLOAT,
 					xprec /* precision */);
+	gtk_plot_axis_show_labels (axis, lineplot_draw_labels ?
+				      GTK_PLOT_LABEL_OUT :
+				      GTK_PLOT_LABEL_NONE);
 
-	y = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_LEFT);
-	gtk_plot_axis_set_labels_style (y,
+	axis = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_LEFT);
+	gtk_plot_axis_set_labels_style (axis,
 					GTK_PLOT_LABEL_FLOAT,
 					yprec /* precision */);
+	gtk_plot_axis_show_labels (axis, lineplot_draw_labels ?
+				      GTK_PLOT_LABEL_OUT :
+				      GTK_PLOT_LABEL_NONE);
 
-	y = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_RIGHT);
-	gtk_plot_axis_set_labels_style (y,
+	axis = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_RIGHT);
+	gtk_plot_axis_set_labels_style (axis,
 					GTK_PLOT_LABEL_FLOAT,
 					yprec /* precision */);
+	gtk_plot_axis_show_labels (axis, lineplot_draw_labels ?
+				      GTK_PLOT_LABEL_OUT :
+				      GTK_PLOT_LABEL_NONE);
 
 
 	/* FIXME: implement logarithmic scale
@@ -4990,6 +5004,15 @@ create_lineplot_box (void)
 			  G_CALLBACK (optioncb),
 			  (gpointer)&lineplot_draw_legends_cb);
 
+	/* draw axis labels? */
+	w = gtk_check_button_new_with_mnemonic (_("Draw axis labels"));
+	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), 
+				      lineplot_draw_labels_cb);
+	g_signal_connect (G_OBJECT (w), "toggled",
+			  G_CALLBACK (optioncb),
+			  (gpointer)&lineplot_draw_labels_cb);
+
 	/* change varnames */
 	b = gtk_button_new_with_label (_("Change variable names..."));
 	gtk_box_pack_end (GTK_BOX (hbox), b, FALSE, FALSE, 0);
@@ -5952,6 +5975,7 @@ plot_from_dialog (void)
 	int function_page = gtk_notebook_get_current_page (GTK_NOTEBOOK (function_notebook));
 
 	lineplot_draw_legends = lineplot_draw_legends_cb;
+	lineplot_draw_labels = lineplot_draw_labels_cb;
 
 	if (function_page == 0)
 		plot_from_dialog_lineplot ();
@@ -7726,7 +7750,7 @@ set_LinePlotDrawLegends (GelETree * a)
 			      "set_LinePlotDrawLegends", "set_LinePlotDrawLegends");
 		return NULL;
 	}
-	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_LinePlotDrawLegend"))
+	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_LinePlotDrawLegends"))
 		return NULL;
 	if (a->type == GEL_VALUE_NODE)
 		lineplot_draw_legends
@@ -7749,6 +7773,39 @@ static GelETree *
 get_LinePlotDrawLegends (void)
 {
 	return gel_makenum_bool (lineplot_draw_legends);
+}
+
+static GelETree *
+set_LinePlotDrawAxisLabels (GelETree * a)
+{
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "set_LinePlotDrawAxisLabels", "set_LinePlotDrawAxisLabels");
+		return NULL;
+	}
+	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_LinePlotDrawAxisLabels"))
+		return NULL;
+	if (a->type == GEL_VALUE_NODE)
+		lineplot_draw_labels
+			= ! mpw_zero_p (a->val.value);
+	else /* a->type == GEL_BOOL_NODE */
+		lineplot_draw_labels = a->bool_.bool_;
+
+	if (line_plot != NULL) {
+		if (lineplot_draw_labels)
+			gtk_plot_show_legends (GTK_PLOT (line_plot));
+		else
+			gtk_plot_hide_legends (GTK_PLOT (line_plot));
+
+		line_plot_move_about ();
+	}
+
+	return gel_makenum_bool (lineplot_draw_labels);
+}
+static GelETree *
+get_LinePlotDrawAxisLabels (void)
+{
+	return gel_makenum_bool (lineplot_draw_labels);
 }
 
 void
