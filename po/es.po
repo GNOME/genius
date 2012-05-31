@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: genius.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=genius&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-04-12 14:43+0000\n"
+"POT-Creation-Date: 2012-05-31 11:18+0000\n"
 "PO-Revision-Date: 2012-04-12 14:40+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -116,7 +116,7 @@ msgid "Tolerance for InfiniteSum and InfiniteProduct"
 msgstr ""
 "Tolerancia para InfiniteSum e InfiniteProduct (suma y producto infinito)"
 
-#: ../lib/library-strings.c:18 ../src/eval.c:6562
+#: ../lib/library-strings.c:18 ../src/eval.c:6650
 msgid "Absolute value"
 msgstr "Valor absoluto"
 
@@ -1398,7 +1398,7 @@ msgstr "Intentando establecer un alias para un alias"
 msgid "Bad identifier for function node!"
 msgstr "Identificador erróneo para el nodo de función"
 
-#: ../src/calc.c:1028 ../src/eval.c:7038 ../src/eval.c:7245
+#: ../src/calc.c:1028 ../src/eval.c:7126 ../src/eval.c:7333
 msgid "Unexpected operator!"
 msgstr "Operador no esperado"
 
@@ -1421,7 +1421,7 @@ msgstr "Tipo de función no esperado"
 msgid "NULL tree!"
 msgstr "Árbol NULO"
 
-#: ../src/calc.c:1483 ../src/eval.c:7544
+#: ../src/calc.c:1483 ../src/eval.c:7632
 msgid "Unexpected node!"
 msgstr "Nodo no esperado"
 
@@ -1626,16 +1626,16 @@ msgstr "Copyright (C) 1997-2012 Jiří (George) Lebl, Ph.D."
 msgid "Bad tree record when decompiling"
 msgstr "Entrada del árbol errónea al descompilar"
 
-#: ../src/eval.c:1473 ../src/eval.c:1530 ../src/eval.c:1545
+#: ../src/eval.c:1561 ../src/eval.c:1618 ../src/eval.c:1633
 msgid "Cannot compare non value or bool only matrices"
 msgstr "No se pueden comparar matrices booleanas o no valoradas"
 
 #. also on rationals but as integers
-#: ../src/eval.c:1601 ../src/eval.c:1647
+#: ../src/eval.c:1689 ../src/eval.c:1735
 msgid "Modulo arithmetic only works on integers"
 msgstr "El módulo aritmético sólo funciona con enteros"
 
-#: ../src/eval.c:1853
+#: ../src/eval.c:1941
 msgid ""
 "Can't add/subtract a scalar to non-square matrix (A + x is defined as A + "
 "x*I)"
@@ -1643,77 +1643,77 @@ msgstr ""
 "No se puede sumar/restar un escalar a una matriz no cuadrada (A + x se "
 "define como A + x*I)"
 
-#: ../src/eval.c:1949
+#: ../src/eval.c:2037
 msgid "Can't add/subtract two matrices of different sizes"
 msgstr "No se pueden sumar/restar dos matrices de tamaños diferentes"
 
-#: ../src/eval.c:1951
+#: ../src/eval.c:2039
 msgid ""
 "Can't do element by element operations on two matrices of different sizes"
 msgstr ""
 "No se pueden realizar operaciones elemento a elemento entre dos matrices de "
 "tamaños diferentes"
 
-#: ../src/eval.c:2017
+#: ../src/eval.c:2105
 msgid "Can't multiply matrices of wrong sizes"
 msgstr "No se pueden multiplicar matrices de tamaños incorrectos"
 
-#: ../src/eval.c:2068
+#: ../src/eval.c:2156
 msgid "Powers are defined on (square matrix)^(integer) only"
 msgstr ""
 "La elevación a una potencia solo está definido para potencias enteras y "
 "matrices cuadradas"
 
-#: ../src/eval.c:2074
+#: ../src/eval.c:2162
 msgid "Powers on matrices in modulo mode are defined on integer matrices only"
 msgstr ""
 "Las potencias modulares sobre matrices están definidas en matrices de "
 "enteros únicamente"
 
-#: ../src/eval.c:2082
+#: ../src/eval.c:2170
 msgid "Exponent too large"
 msgstr "Exponente demasiado grande"
 
-#: ../src/eval.c:2109 ../src/eval.c:2224 ../src/eval.c:2290
+#: ../src/eval.c:2197 ../src/eval.c:2312 ../src/eval.c:2378
 msgid "Matrix appears singular and can't be inverted"
 msgstr "La matriz parece ser singular y no puede ser invertida"
 
-#: ../src/eval.c:2201
+#: ../src/eval.c:2289
 msgid "Can't divide matrices of different sizes or non-square matrices"
 msgstr ""
 "No se pueden dividir matrices de tamaños diferentes, o que no son cuadradas"
 
-#: ../src/eval.c:2272
+#: ../src/eval.c:2360
 msgid "Can't divide by a non-square matrix"
 msgstr "No se puede dividir por una matriz que no es cuadrada"
 
-#: ../src/eval.c:2688 ../src/eval.c:2715 ../src/eval.c:2736 ../src/eval.c:2760
-#: ../src/eval.c:2808
+#: ../src/eval.c:2776 ../src/eval.c:2803 ../src/eval.c:2824 ../src/eval.c:2848
+#: ../src/eval.c:2896
 msgid "Operations on functions with variable argument list not supported"
 msgstr ""
 "Las operaciones en las funciones con lista variable de argumentos no están "
 "soportadas"
 
-#: ../src/eval.c:2693
+#: ../src/eval.c:2781
 msgid ""
 "Operations on functions with different number of arguments not supported"
 msgstr ""
 "Las operaciones en las funciones con número diferente de argumentos no están "
 "soportadas"
 
-#: ../src/eval.c:2813
+#: ../src/eval.c:2901
 msgid "Function creation with wrong number of arguments"
 msgstr "Creación de función con número de argumentos erróneo"
 
-#: ../src/eval.c:3395 ../src/eval.c:4788
+#: ../src/eval.c:3483 ../src/eval.c:4876
 msgid "Unevaluatable function type encountered!"
 msgstr "Se encontró una función cuyo tipo no se pudo evaluar"
 
-#: ../src/eval.c:3417
+#: ../src/eval.c:3505
 msgid "' or '"
 msgstr "' o '"
 
-#: ../src/eval.c:3453
+#: ../src/eval.c:3541
 msgid ""
 "Variable 'i' used uninitialized.  Perhaps you meant to write '1i' for the "
 "imaginary number (square root of -1)."
@@ -1721,18 +1721,18 @@ msgstr ""
 "La variable 'i' se usó sin inicializar. Quizá quiso decir '1i' para el "
 "número imaginario (la raíz cuadrada de -1)."
 
-#: ../src/eval.c:3459 ../src/eval.c:3492 ../src/eval.c:7362
+#: ../src/eval.c:3547 ../src/eval.c:3580 ../src/eval.c:7450
 #, c-format
 msgid "Variable '%s' used uninitialized, perhaps you meant %s."
 msgstr ""
 "La variable «%s» fue usada sin haber sido inicializada, quizá quiso decir %s."
 
-#: ../src/eval.c:3466 ../src/eval.c:3499 ../src/eval.c:4520 ../src/eval.c:7369
+#: ../src/eval.c:3554 ../src/eval.c:3587 ../src/eval.c:4608 ../src/eval.c:7457
 #, c-format
 msgid "Variable '%s' used uninitialized"
 msgstr "La variable «%s» fue usada sin haber sido inicializada"
 
-#: ../src/eval.c:3507 ../src/eval.c:4566
+#: ../src/eval.c:3595 ../src/eval.c:4654
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -1741,48 +1741,48 @@ msgstr ""
 "Llamada a «%s» con un número de argumentos erróneo\n"
 "(tendría(n) que ser %d)"
 
-#: ../src/eval.c:3510
+#: ../src/eval.c:3598
 #, c-format
 msgid "Trying to dereference '%s' which is not a reference!\n"
 msgstr "Se intentó desreferenciar «%s» que no es una referencia\n"
 
-#: ../src/eval.c:3515
+#: ../src/eval.c:3603
 msgid "NULL reference encountered!"
 msgstr "Se encontró una referencia NULL"
 
-#: ../src/eval.c:3643
+#: ../src/eval.c:3731
 msgid "Cannot compare matrices"
 msgstr "No se pueden comparar las matrices"
 
-#: ../src/eval.c:3685
+#: ../src/eval.c:3773
 msgid "Primitives must get numeric/matrix/string arguments"
 msgstr "Las primitivas deben recibir argumentos numéricos/matriz/cadena"
 
-#: ../src/eval.c:3776
+#: ../src/eval.c:3864
 msgid "Bad argument to modular operation"
 msgstr "Argumento incorrecto para una operación modular"
 
-#: ../src/eval.c:4494
+#: ../src/eval.c:4582
 #, c-format
 msgid "Function '%s' used uninitialized, perhaps you meant %s."
 msgstr ""
 "La función «%s» fue usada sin haber sido inicializada, quizá quiso decir %s."
 
-#: ../src/eval.c:4501
+#: ../src/eval.c:4589
 #, c-format
 msgid "Function '%s' used uninitialized"
 msgstr "La función «%s» fue usada sin haber sido inicializada"
 
-#: ../src/eval.c:4529
+#: ../src/eval.c:4617
 #, c-format
 msgid "Can't dereference '%s'!"
 msgstr "Imposible desreferenciar «%s»"
 
-#: ../src/eval.c:4537
+#: ../src/eval.c:4625
 msgid "Can't call a non-function!"
 msgstr "Imposible llamar a una no-función"
 
-#: ../src/eval.c:4571
+#: ../src/eval.c:4659
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -1791,98 +1791,98 @@ msgstr ""
 "Llamada a «%s» con un número de argumentos erróneo\n"
 "(tendría(n) que ser mayores que %d)"
 
-#: ../src/eval.c:4610
+#: ../src/eval.c:4698
 #, c-format
 msgid "Referencing an undefined variable %s!"
 msgstr "Referenciando una variable no definida %s"
 
-#: ../src/eval.c:4764
+#: ../src/eval.c:4852
 msgid "Reference function with arguments encountered!"
 msgstr "Se encontró una función de referencia con argumentos"
 
-#: ../src/eval.c:4769
+#: ../src/eval.c:4857
 msgid "Unnamed reference function encountered!"
 msgstr "Se encontró una función de referencia sin nombre"
 
-#: ../src/eval.c:4893
+#: ../src/eval.c:4981
 msgid "Bad type for 'for/sum/prod' loop!"
 msgstr "Tipo incorrecto para el bucle «for/sum/prod»"
 
-#: ../src/eval.c:4898
+#: ../src/eval.c:4986
 msgid "'for/sum/prod' loop increment can't be 0"
 msgstr "El incremento del bucle «for/sum/prod» no puede ser 0"
 
-#: ../src/eval.c:5009
+#: ../src/eval.c:5097
 msgid "Bad type for 'for in' loop!"
 msgstr "Tipo incorrecto para el bucle «for in»"
 
-#: ../src/eval.c:5173 ../src/eval.c:5206
+#: ../src/eval.c:5261 ../src/eval.c:5294
 msgid "Continue or break outside a loop, assuming \"return null\""
 msgstr "Continuar o saltar fuera del bucle, asumiendo «return null»"
 
-#: ../src/eval.c:5267
+#: ../src/eval.c:5355
 msgid "Wrong argument type as matrix index"
 msgstr "Tipo de argumento erróneo como índice de matriz"
 
-#: ../src/eval.c:5277
+#: ../src/eval.c:5365
 msgid "Matrix index too large"
 msgstr "Índice de matriz demasiado grande"
 
-#: ../src/eval.c:5280
+#: ../src/eval.c:5368
 msgid "Matrix index less than 1"
 msgstr "Índice de matriz inferior a 1"
 
-#: ../src/eval.c:5303 ../src/eval.c:5318
+#: ../src/eval.c:5391 ../src/eval.c:5406
 msgid "Matrix index out of range"
 msgstr "Índice de matriz fuera de límites"
 
-#: ../src/eval.c:5367 ../src/eval.c:5437 ../src/eval.c:5505 ../src/eval.c:5546
-#: ../src/eval.c:5755 ../src/eval.c:5795 ../src/eval.c:6232
+#: ../src/eval.c:5455 ../src/eval.c:5525 ../src/eval.c:5593 ../src/eval.c:5634
+#: ../src/eval.c:5843 ../src/eval.c:5883 ../src/eval.c:6320
 #, c-format
 msgid "Trying to set a protected id '%s'"
 msgstr "Intentando establecer un id protegido «%s»"
 
-#: ../src/eval.c:5393 ../src/eval.c:5432
+#: ../src/eval.c:5481 ../src/eval.c:5520
 msgid "Indexed Lvalue not user function"
 msgstr "Valor izquierdo indexado, no una función del usuario"
 
-#: ../src/eval.c:5416 ../src/eval.c:5530 ../src/eval.c:5779
+#: ../src/eval.c:5504 ../src/eval.c:5618 ../src/eval.c:5867
 msgid "Dereference of non-identifier!"
 msgstr "Desreferenciación de un no-identificador"
 
-#: ../src/eval.c:5422 ../src/eval.c:5536 ../src/eval.c:5785
+#: ../src/eval.c:5510 ../src/eval.c:5624 ../src/eval.c:5873
 msgid "Dereference of undefined variable!"
 msgstr "Desreferenciación de una variable no definida"
 
-#: ../src/eval.c:5426 ../src/eval.c:5540 ../src/eval.c:5789
+#: ../src/eval.c:5514 ../src/eval.c:5628 ../src/eval.c:5877
 msgid "Dereference of non-reference!"
 msgstr "Desreferenciación de una no-referencia"
 
-#: ../src/eval.c:5455
+#: ../src/eval.c:5543
 msgid "Indexed Lvalue not an identifier or a dereference"
 msgstr ""
 "El valor izquierdo indexado no es un identificador o una desreferenciación"
 
-#: ../src/eval.c:5493 ../src/eval.c:5831 ../src/eval.c:6199 ../src/eval.c:6206
+#: ../src/eval.c:5581 ../src/eval.c:5919 ../src/eval.c:6287 ../src/eval.c:6294
 msgid "Lvalue not an identifier/dereference/matrix location!"
 msgstr ""
 "El valor izquierdo no es una posición de identificador/desreferenciación/"
 "matriz"
 
-#: ../src/eval.c:5517 ../src/eval.c:5558
+#: ../src/eval.c:5605 ../src/eval.c:5646
 msgid "Referencing an undefined variable!"
 msgstr "Referenciando una variable no definida"
 
-#: ../src/eval.c:5608 ../src/eval.c:5690 ../src/eval.c:5699
+#: ../src/eval.c:5696 ../src/eval.c:5778 ../src/eval.c:5787
 msgid "Wrong matrix dimensions when setting"
 msgstr "Dimensiones de matriz equivocadas al establecer"
 
-#: ../src/eval.c:5626 ../src/eval.c:5670 ../src/eval.c:5736 ../src/eval.c:5901
-#: ../src/eval.c:5938 ../src/eval.c:5983 ../src/eval.c:6386 ../src/eval.c:6511
+#: ../src/eval.c:5714 ../src/eval.c:5758 ../src/eval.c:5824 ../src/eval.c:5989
+#: ../src/eval.c:6026 ../src/eval.c:6071 ../src/eval.c:6474 ../src/eval.c:6599
 msgid "Matrix index not an integer or a vector"
 msgstr "El índice de la matriz no es un entero o un vector"
 
-#: ../src/eval.c:5750
+#: ../src/eval.c:5838
 #, c-format
 msgid ""
 "Increment/Swapwith does not work on parameters (trying to increment '%s')"
@@ -1890,178 +1890,178 @@ msgstr ""
 "Incrementar/intercambiar con no funciona con parámetros (intentando "
 "incrementar «%s»)"
 
-#: ../src/eval.c:5819
+#: ../src/eval.c:5907
 msgid "Increment not a value!"
 msgstr "El incremento no es un valor"
 
-#: ../src/eval.c:5843
+#: ../src/eval.c:5931
 #, c-format
 msgid "Trying to increment non-value id '%s'"
 msgstr "Intentando incrementar un id «%s» sin valor"
 
-#: ../src/eval.c:6004 ../src/eval.c:6013
+#: ../src/eval.c:6092 ../src/eval.c:6101
 msgid "Can only swap user variables"
 msgstr "Sólo se pueden intercambiar variables de usuario"
 
-#: ../src/eval.c:6053 ../src/eval.c:6088 ../src/eval.c:6119 ../src/eval.c:6135
-#: ../src/eval.c:6153 ../src/eval.c:6169
+#: ../src/eval.c:6141 ../src/eval.c:6176 ../src/eval.c:6207 ../src/eval.c:6223
+#: ../src/eval.c:6241 ../src/eval.c:6257
 msgid "Cannot swap matrix regions"
 msgstr "No se pueden intercambiar regiones de una matriz"
 
-#: ../src/eval.c:6227
+#: ../src/eval.c:6315
 msgid "Parameters can only be created in the global context"
 msgstr "Los parámetros pueden usarse sólo en el contexto global"
 
-#: ../src/eval.c:6333 ../src/eval.c:6378 ../src/eval.c:6469
+#: ../src/eval.c:6421 ../src/eval.c:6466 ../src/eval.c:6557
 msgid "Index works only on matrices"
 msgstr "Un índice solo funciona con matrices"
 
-#: ../src/eval.c:6366
+#: ../src/eval.c:6454
 msgid "Vector index not an integer or a vector"
 msgstr "El índice del vector no es un entero o un vector"
 
-#: ../src/eval.c:6534
+#: ../src/eval.c:6622
 msgid "number"
 msgstr "número"
 
-#: ../src/eval.c:6535
+#: ../src/eval.c:6623
 msgid "matrix"
 msgstr "matriz"
 
-#: ../src/eval.c:6536
+#: ../src/eval.c:6624
 msgid "string"
 msgstr "cadena"
 
-#: ../src/eval.c:6537
+#: ../src/eval.c:6625
 msgid "function"
 msgstr "función"
 
-#: ../src/eval.c:6538
+#: ../src/eval.c:6626
 msgid "identifier"
 msgstr "identificador"
 
-#: ../src/eval.c:6539
+#: ../src/eval.c:6627
 msgid "polynomial"
 msgstr "polinómico"
 
-#: ../src/eval.c:6540
+#: ../src/eval.c:6628
 msgid "boolean"
 msgstr "booleano"
 
-#: ../src/eval.c:6563
+#: ../src/eval.c:6651
 msgid "Addition"
 msgstr "Suma"
 
-#: ../src/eval.c:6564
+#: ../src/eval.c:6652
 msgid "Element by element addition"
 msgstr "Suma elemento a elemento"
 
-#: ../src/eval.c:6565
+#: ../src/eval.c:6653
 msgid "Subtraction"
 msgstr "Resta"
 
-#: ../src/eval.c:6566
+#: ../src/eval.c:6654
 msgid "Element by element subtraction"
 msgstr "Resta elemento a elemento"
 
-#: ../src/eval.c:6567
+#: ../src/eval.c:6655
 msgid "Multiplication"
 msgstr "Multiplicación"
 
-#: ../src/eval.c:6568
+#: ../src/eval.c:6656
 msgid "Element by element multiplication"
 msgstr "Multiplicación elemento por elemento"
 
-#: ../src/eval.c:6569
+#: ../src/eval.c:6657
 msgid "Division"
 msgstr "División"
 
-#: ../src/eval.c:6570
+#: ../src/eval.c:6658
 msgid "Element by element division"
 msgstr "División elemento por elemento"
 
-#: ../src/eval.c:6571
+#: ../src/eval.c:6659
 msgid "Back division"
 msgstr "División hacia atrás"
 
-#: ../src/eval.c:6572
+#: ../src/eval.c:6660
 msgid "Element by element back division"
 msgstr "División hacia atrás elemento por elemento"
 
-#: ../src/eval.c:6573
+#: ../src/eval.c:6661
 msgid "Modulo"
 msgstr "Módulo"
 
-#: ../src/eval.c:6574
+#: ../src/eval.c:6662
 msgid "Element by element modulo"
 msgstr "Módulo elemento por elemento"
 
-#: ../src/eval.c:6575
+#: ../src/eval.c:6663
 msgid "Negation"
 msgstr "Negación"
 
-#: ../src/eval.c:6576
+#: ../src/eval.c:6664
 msgid "Power"
 msgstr "Potencia"
 
-#: ../src/eval.c:6577
+#: ../src/eval.c:6665
 msgid "Element by element power"
 msgstr "Potencia elemento por elemento"
 
-#: ../src/eval.c:6578
+#: ../src/eval.c:6666
 msgid "Factorial"
 msgstr "Factorial"
 
-#: ../src/eval.c:6579
+#: ../src/eval.c:6667
 msgid "Double factorial"
 msgstr "Doble factorial"
 
-#: ../src/eval.c:6580
+#: ../src/eval.c:6668
 msgid "Transpose"
 msgstr "Trasponer"
 
-#: ../src/eval.c:6581
+#: ../src/eval.c:6669
 msgid "ConjugateTranspose"
 msgstr "Trasposición conjugada"
 
-#: ../src/eval.c:6582
+#: ../src/eval.c:6670
 msgid "Comparison (<=>)"
 msgstr "Comparación (<=>)"
 
-#: ../src/eval.c:6583
+#: ../src/eval.c:6671
 msgid "XOR"
 msgstr "XOR"
 
-#: ../src/eval.c:6584
+#: ../src/eval.c:6672
 msgid "NOT"
 msgstr "NOT"
 
-#: ../src/eval.c:6604
+#: ../src/eval.c:6692
 #, c-format
 msgid "Bad types for '%s'"
 msgstr "Tipo incorrecto para «%s»"
 
-#: ../src/eval.c:6615
+#: ../src/eval.c:6703
 #, c-format
 msgid "%s not defined on <%s> and <%s>"
 msgstr "%s no definido en <%s> y <%s>"
 
-#: ../src/eval.c:6634
+#: ../src/eval.c:6722
 #, c-format
 msgid "Bad type for '%s'"
 msgstr "Tipo incorrecto para «%s»"
 
-#: ../src/eval.c:6644
+#: ../src/eval.c:6732
 #, c-format
 msgid "%s not defined on <%s>"
 msgstr "%s no está definido para <%s>"
 
-#: ../src/eval.c:6663 ../src/eval.c:6680
+#: ../src/eval.c:6751 ../src/eval.c:6768
 msgid "Vector building only works on numbers"
 msgstr "La construcción de vectores sólo funciona con números"
 
 #. FIXME: perhaps we should just return null like octave?
-#: ../src/eval.c:6673
+#: ../src/eval.c:6761
 msgid "Impossible arguments to vector building operator"
 msgstr "Argumentos imposibles para el operador de construcción de vectores"
 
@@ -4798,7 +4798,7 @@ msgstr "%s: valor fuera de rango Y"
 #: ../src/graphing.c:6128
 #, c-format
 msgid "%s: invalid Z range"
-msgstr "%s: rango Z inválido"
+msgstr "%s: rango Z no válido"
 
 #: ../src/graphing.c:6181
 #, c-format
@@ -4843,7 +4843,7 @@ msgstr "%s: sólo se soportan un máximo de 10 funciones"
 #: ../src/graphing.c:6737 ../src/graphing.c:6878
 #, c-format
 msgid "%s: invalid T range"
-msgstr "%s: rango T inválido"
+msgstr "%s: rango T no válido"
 
 #: ../src/graphing.c:6990 ../src/graphing.c:7044
 #, c-format
@@ -4857,7 +4857,7 @@ msgstr ""
 #: ../src/graphing.c:7123
 #, c-format
 msgid "%s: Wrong number of arguments"
-msgstr "%s: número de argumentos inválido"
+msgstr "%s: número de argumentos no válido"
 
 #: ../src/graphing.c:7183
 #, c-format
