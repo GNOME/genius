@@ -320,13 +320,6 @@ interrupt (int sig)
 	signal (SIGINT, interrupt);
 }
 
-static int
-nop (void)
-{
-	usleep(10000);
-	return 0;
-}
-
 static const char *
 get_version_details (void)
 {
@@ -651,8 +644,6 @@ main(int argc, char *argv[])
 
 	gel_printout_infos ();
 	
-	rl_event_hook = nop;
-
 	if (exec != NULL) {
 		line_len_cache = -1;
 		gel_evalexp (exec, NULL, gel_main_out, NULL, FALSE, NULL);
