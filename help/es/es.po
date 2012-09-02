@@ -7,13 +7,14 @@
 # Maria Majadas <alixis82@gmail.com>, 2012.
 # Gustavo Jasso Ahuja <gjasso@gmail.com>, 2012.
 # miguel rodriguez nuñez <bokerones.fritos@gmail.com>, 2012.
+# Miguel Rodríguez Núñez <bokerones.fritos@gmail.com>, 2012.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
-"POT-Creation-Date: 2012-08-28 13:45+0000\n"
-"PO-Revision-Date: 2012-09-01 12:01+0200\n"
+"POT-Creation-Date: 2012-09-02 10:26+0000\n"
+"PO-Revision-Date: 2012-09-02 12:33+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -7804,9 +7805,14 @@ msgid "IsPseudoprime (n,b)"
 msgstr "IsPseudoprime (n,b)"
 
 #: C/genius.xml:1956(para)
+#, fuzzy
+#| msgid ""
+#| "If <varname>n</varname> is a pseudoprime base <varname>b</varname> but "
+#| "not a prime, that is if <userinput>b^(n-1) == 1 mod n</userinput>. This "
+#| "calles the <function>PseudoprimeTest</function>"
 msgid ""
 "If <varname>n</varname> is a pseudoprime base <varname>b</varname> but not a "
-"prime, that is if <userinput>b^(n-1) == 1 mod n</userinput>. This calles the "
+"prime, that is if <userinput>b^(n-1) == 1 mod n</userinput>. This calls the "
 "<function>PseudoprimeTest</function>"
 msgstr ""
 "Si <varname>n</varname> es pseudo-primo en base <varname>b</varname> pero no "
@@ -8059,6 +8065,9 @@ msgid ""
 "bases that assuming the Generalized Reimann Hypothesis the result is "
 "deterministic."
 msgstr ""
+"Utiliza la prueba Miller-Rabin de números primos de <varname>n</varname> con "
+"las bases suficientes que asuman la hipótesis generalizada de Reimann, el "
+"resultado es determinista."
 
 #: C/genius.xml:2116(term)
 msgid "ModInvert"
@@ -8097,6 +8106,10 @@ msgid ""
 "<userinput>(-1)^k</userinput> if it is a product of <varname>k</varname> "
 "distinct primes."
 msgstr ""
+"Devuelve la función de Moebius «mu» de <varname>n</varname>. Esto es, "
+"devuelve 0 si <varname>n</varname> no es un producto entre primos distintos "
+"y <userinput>(-1)^k</userinput> si es un producto de <varname>k</varname> "
+"primos distintos."
 
 #: C/genius.xml:2137(para)
 msgid ""
@@ -8123,6 +8136,9 @@ msgid ""
 "primes are considered prime and so to get the previous prime you can use "
 "<userinput>-NextPrime(-n)</userinput>."
 msgstr ""
+"Devuelve el primo menor más grande que <varname>n</varname>. Los primos "
+"negativos se consideran primos y así, para obtener el primo anterior, puede "
+"usar <userinput>-NextPrime(-n)</userinput>."
 
 #: C/genius.xml:2154(para)
 msgid ""
@@ -8131,6 +8147,11 @@ msgid ""
 "function-MillerRabinTest\">MillerRabinTest</link>). The probability of false "
 "positive is not tunable, but is low enough for all practical purposes."
 msgstr ""
+"Esta función utiliza las GMP <function>mpz_nextprime</function> la cual "
+"vuelve a utilizar la prueba probabilística de Miller-Rabin (consulte también "
+"<link linkend=\"gel-function-MillerRabinTest\">MillerRabinTest</link>). La "
+"probabilidad de un falso positivo no se da, pero es lo suficientemente baja "
+"para prácticamente todos los propósitos."
 
 #: C/genius.xml:2171(term)
 msgid "PadicValuation"
@@ -8146,6 +8167,8 @@ msgid ""
 "Returns the p-adic valuation (number of trailing zeros in base <varname>p</"
 "varname>)."
 msgstr ""
+"Devuelve la evaluación del número «p-adic» (número de ceros que va dejando "
+"en base <varname>p</varname>)."
 
 #: C/genius.xml:2175(para)
 msgid ""
@@ -8171,6 +8194,10 @@ msgid ""
 "use this function as it is automatically used in modulo mode. Hence "
 "<userinput>a^b mod m</userinput> is just as fast."
 msgstr ""
+"Calcula <userinput>a^b mod m</userinput>. La potencia <varname>b</varname> "
+"de <varname>a</varname> módulo <varname>m</varname>. No es necesario "
+"utilizar esta función ya que se utiliza automáticamente en modo módulo. Por "
+"lo tanto <userinput>a^b mod m</userinput> es igual de rápido."
 
 #: C/genius.xml:2197(term)
 msgid "Prime"
@@ -8224,6 +8251,8 @@ msgid ""
 "Pseudoprime test, returns <constant>true</constant> if and only if "
 "<userinput>b^(n-1) == 1  mod n</userinput>"
 msgstr ""
+"Prueba de pseudo-primo, devuelve <constant>true</constant> sólo si "
+"<userinput>b^(n-1) == 1  mod n</userinput>"
 
 #: C/genius.xml:2228(para)
 msgid ""
@@ -8250,6 +8279,9 @@ msgid ""
 "<varname>n</varname>. That is divides by the largest power of <varname>m</"
 "varname>, that divides <varname>n</varname>."
 msgstr ""
+"Elimina todas las instancias del factor <varname>m</varname> desde el número "
+"<varname>n</varname>. Esto es, lo divide por la potencia mas grande de "
+"<varname>m</varname>, que divide <varname>n</varname>."
 
 #: C/genius.xml:2241(para)
 msgid ""
@@ -8278,6 +8310,11 @@ msgid ""
 "algorithm, given <varname>f</varname> being the factorization of <varname>q</"
 "varname>-1."
 msgstr ""
+"Buscar el logaritmo sencillo de <varname>n</varname> base <varname>b</"
+"varname> en F<subscript>q</subscript>, de grupo de orden finito <varname>q</"
+"varname>, donde <varname>q</varname> es un primo que utiliza el algoritmo de "
+"Silver-Pohlig-Hellman, dado <varname>f</varname> es la factorización de "
+"<varname>q</varname>-1."
 
 #: C/genius.xml:2258(term)
 msgid "SqrtModPrime"
@@ -8294,6 +8331,9 @@ msgid ""
 "<varname>p</varname> is a prime). Null is returned if not a quadratic "
 "residue."
 msgstr ""
+"Buscar la raíz cuadrada de <varname>n</varname> módulo <varname>p</varname> "
+"(donde <varname>p</varname> es un primo). Se devuelve «null» si el resto no "
+"es cuadrático."
 
 #: C/genius.xml:2262(para)
 msgid ""
@@ -8319,6 +8359,8 @@ msgid ""
 "Run the strong pseudoprime test base <varname>b</varname> on <varname>n</"
 "varname>."
 msgstr ""
+"Ejecutar la prueba del pseudo-primo fuerte en base <varname>b</varname> de "
+"<varname>n</varname>."
 
 #: C/genius.xml:2275(para)
 msgid ""
@@ -8349,6 +8391,10 @@ msgid ""
 "argument list, or you can give a vector or a matrix of integers. If you give "
 "more than one matrix of the same size then GCD is done element by element."
 msgstr ""
+"Máximo común divisor de enteros. Puede introducir tantos enteros en la lista "
+"de argumentos, o puede introducir un vector o una matriz de enteros. Si "
+"introduce más de una matriz del mismo tamaño, entonces el máximo común "
+"divisor se realiza elemento a elemento."
 
 #: C/genius.xml:2294(para)
 msgid ""
@@ -8380,6 +8426,10 @@ msgid ""
 "argument list, or you can give a vector or a matrix of integers. If you give "
 "more than one matrix of the same size then LCM is done element by element."
 msgstr ""
+"Mínimo común múltiplo de enteros. Puede introducir tantos enteros en la "
+"lista de argumentos, o introducir un vector o matriz de enteros. Si "
+"introduce mas de una matriz del mismo tamaño, entonces el mínimo común "
+"múltiplo se realiza elemento a elemento."
 
 #: C/genius.xml:2313(para)
 msgid ""
@@ -8440,7 +8490,7 @@ msgstr "ColumnsOf (M)"
 
 #: C/genius.xml:2347(para)
 msgid "Gets the columns of a matrix as a horizontal vector."
-msgstr "Obtiene las columnas de una matriz como un vector horizontal."
+msgstr "Obtener las columnas de una matriz como un vector horizontal."
 
 #: C/genius.xml:2352(term)
 msgid "ComplementSubmatrix"
@@ -8478,12 +8528,22 @@ msgid "CountZeroColumns (M)"
 msgstr "CountZeroColumns (M)"
 
 #: C/genius.xml:2371(para)
+#| msgid ""
+#| "Count the number of zero columns in a matrix. For example Once you column "
+#| "reduce a matrix you can use this to find the nullity. See <link linkend="
+#| "\"gel-function-cref\"><function>cref</function></link> and <link linkend="
+#| "\"gel-function-Nullity\"><function>Nullity</function></link>."
 msgid ""
-"Count the number of zero columns in a matrix. For example Once you column "
+"Count the number of zero columns in a matrix. For example once your column "
 "reduce a matrix you can use this to find the nullity. See <link linkend="
 "\"gel-function-cref\"><function>cref</function></link> and <link linkend="
 "\"gel-function-Nullity\"><function>Nullity</function></link>."
 msgstr ""
+"Contar el número de cero columnas en una matriz. Por ejemplo una vez que su "
+"columna reduce una matriz puede usar esto para encontrar la nulidad. "
+"Consulte <link linkend=\"gel-function-cref\"><function>cref</function></"
+"link> y <link linkend=\"gel-function-Nullity\"><function>Nullity</function></"
+"link>."
 
 #: C/genius.xml:2381(term)
 msgid "DeleteColumn"
@@ -8496,7 +8556,7 @@ msgstr "DeleteColumn (M,col)"
 
 #: C/genius.xml:2384(para)
 msgid "Delete a column of a matrix."
-msgstr "Elimina una columna de una matriz."
+msgstr "Eliminar una columna de una matriz."
 
 #: C/genius.xml:2389(term)
 msgid "DeleteRow"
@@ -8509,7 +8569,7 @@ msgstr "DeleteRow (M,row)"
 
 #: C/genius.xml:2392(para)
 msgid "Delete a row of a matrix."
-msgstr "Elimina una fila de una matriz."
+msgstr "Eliminar una fila de una matriz."
 
 #: C/genius.xml:2397(term)
 msgid "DiagonalOf"
@@ -8522,7 +8582,7 @@ msgstr "DiagonalOf (M)"
 
 #: C/genius.xml:2400(para)
 msgid "Gets the diagonal entries of a matrix as a column vector."
-msgstr "Obtiene las entradas diagonales de una matriz como un vector columna."
+msgstr "Obtener las entradas diagonales de una matriz como un vector columna."
 
 #: C/genius.xml:2401(para)
 msgid ""
@@ -8548,6 +8608,9 @@ msgid ""
 "conjugates are taken so this is a bilinear form even if working over the "
 "complex numbers."
 msgstr ""
+"Obtener el producto escalar de dos vectores. Los vectores serán del mismo "
+"tamaño. Se toman no conjugados por lo que tendrá forma bilineal incluso si "
+"se trabaja con números complejos."
 
 #: C/genius.xml:2414(para)
 msgid ""
@@ -8573,6 +8636,11 @@ msgid ""
 "smaller ones and this is normally done automatically on input unless the "
 "matrix is quoted."
 msgstr ""
+"Expandir una matriz de la misma manera que hacemos con la entrada sin "
+"comillas de la matriz. Esto es, se expande cualquier matriz interna como "
+"bloques. Esto es una manera de construir matrices fuera de las mas pequeñas "
+"y se hace de manera automática en la entrada a menos que la matriz se "
+"entrecomille."
 
 #: C/genius.xml:2435(term)
 msgid "HermitianProduct"
@@ -8592,6 +8660,9 @@ msgid ""
 "Get the Hermitian product of two vectors. The vectors must be of the same "
 "size. This is a sesquilinear form using the identity matrix."
 msgstr ""
+"Obtener el producto de Hermitian de dos vectores. Los vectores serán del "
+"mismo tamaño. Esto es una forma «sesquilinear» para utilizar la identidad de "
+"la matriz."
 
 #: C/genius.xml:2440(para)
 msgid ""
@@ -8620,7 +8691,7 @@ msgid ""
 "<varname>n</varname>. If <varname>n</varname> is zero, returns "
 "<constant>null</constant>."
 msgstr ""
-"Devuelve una matriz identidad del tamaño dado, es decir, de <varname>n</"
+"Devolver una matriz identidad del tamaño dado, es decir, de <varname>n</"
 "varname> por <varname>n</varname>. Si <varname>n</varname> es cero, devuelve "
 "<constant>null</constant>."
 
@@ -8648,6 +8719,10 @@ msgid ""
 "userinput>, we return <userinput>[1,4,5]</userinput>. If <varname>msize</"
 "varname> is 0, we always return <constant>null</constant>."
 msgstr ""
+"Devuelve el complemento índice de un vector de índices. Todo en base a uno. "
+"Por ejemplo para el vector <userinput>[2,3]</userinput> y tamaño "
+"<userinput>5</userinput>, devolverá <userinput>[1,4,5]</userinput>. Si "
+"<varname>msize</varname> es 0, siempre devolverá <constant>null</constant>."
 
 #: C/genius.xml:2471(term)
 msgid "IsDiagonal"
@@ -8690,6 +8765,12 @@ msgid ""
 "a 0 by 0 matrix), no error is generated and <constant>false</constant> is "
 "returned."
 msgstr ""
+"Comprobar si una matriz es la matriz de identidad. Automáticamente devuelve "
+"<constant>false</constant> si la matriz no es cuadrada. También trabaja con "
+"números, en cualquier caso este es equivalente a <userinput>x==1</"
+"userinput>. Cuando <varname>x</varname> es <constant>null</constant> "
+"(imaginemos que es como una matriz de 0 por 0), no se genera error y se "
+"devuelve <constant>false</constant>."
 
 #: C/genius.xml:2496(term)
 msgid "IsLowerTriangular"
