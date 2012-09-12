@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: daniel.mustieles@gmail.com\n"
-"POT-Creation-Date: 2012-09-10 09:29+0000\n"
-"PO-Revision-Date: 2012-09-12 10:36+0200\n"
+"POT-Creation-Date: 2012-09-12 08:38+0000\n"
+"PO-Revision-Date: 2012-09-12 13:57+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -7802,7 +7802,6 @@ msgid "IsPseudoprime (n,b)"
 msgstr "IsPseudoprime (n,b)"
 
 #: C/genius.xml:1956(para)
-#, fuzzy
 #| msgid ""
 #| "If <varname>n</varname> is a pseudoprime base <varname>b</varname> but "
 #| "not a prime, that is if <userinput>b^(n-1) == 1 mod n</userinput>. This "
@@ -11257,7 +11256,6 @@ msgid "LinearRecursiveSequence (seed_values,combining_rule,n)"
 msgstr "LinearRecursiveSequence (seed_values,combining_rule,n)"
 
 #: C/genius.xml:3850(para)
-#| msgid "Compute linear recursive sequence using galois stepping."
 msgid "Compute linear recursive sequence using Galois stepping."
 msgstr ""
 "Calcular la sucesión lineal recursiva utilizando el escalamiento de Galois."
@@ -12190,6 +12188,9 @@ msgid ""
 "defined on the interval <userinput>[a,b]</userinput> and has period "
 "<userinput>b-a</userinput>."
 msgstr ""
+"Devuelve una función que es la extensión periódica de <function>f</function> "
+"que se define en el intervalo <userinput>[a,b]</userinput> y tiene un "
+"periodo <userinput>b-a</userinput>."
 
 #: C/genius.xml:4381(para)
 msgid ""
@@ -12325,6 +12326,8 @@ msgstr "FejerKernel (n,t)"
 msgid ""
 "Fejer kernel of order <varname>n</varname> evaluated at <varname>t</varname>"
 msgstr ""
+"Núcleo de Fejer de orden <varname>n</varname> evaluado en <varname>t</"
+"varname>"
 
 #: C/genius.xml:4464(para)
 msgid ""
@@ -12615,6 +12618,9 @@ msgid ""
 "userinput>. If you want the normalized function call <userinput>sinc(pi*x)</"
 "userinput>."
 msgstr ""
+"Calcular la función sinc no normalizada, esto es <userinput>sin(x)/x</"
+"userinput>. Si quiere normalizar la función utilice <userinput>sinc(pi*x)</"
+"userinput>."
 
 #: C/genius.xml:4635(para)
 msgid ""
@@ -12646,6 +12652,12 @@ msgid ""
 "first solution is always the real one as a cubic always has one real "
 "solution."
 msgstr ""
+"Calcular las raíces de un polinomio cúbico (de grado 3) utilizando la "
+"fórmula cúbica. El polinomio se dará como un vector de coeficientes. Esto es "
+"<userinput>4*x^3 + 2*x + 1</userinput> que corresponde al vector <userinput>"
+"[1,2,0,4]</userinput>. Devuelve un vector columna de tres soluciones. La "
+"primera solución siempre es la real como un cúbico siempre tiene una "
+"solución real."
 
 #: C/genius.xml:4662(para)
 msgid ""
@@ -12689,6 +12701,11 @@ msgid ""
 "vector of the same size for the second argument and should return a vector "
 "of the same size."
 msgstr ""
+"Los sistemas se pueden resolver teniendo a <varname>y</varname> como un "
+"vector (columna) en cualquier parte. Es decir, <varname>y0</varname> puede "
+"ser un vector en cuyo caso <varname>f</varname> será un número <varname>x</"
+"varname> y un vector del mismo tamaño para el segundo argumento y devolverá "
+"un vector del mismo tamaño."
 
 #: C/genius.xml:4688(para) C/genius.xml:4716(para)
 msgid ""
@@ -12718,6 +12735,12 @@ msgid ""
 "values. Suitable for plugging into <link linkend=\"gel-function-"
 "LinePlotDrawLine\">LinePlotDrawLine</link>."
 msgstr ""
+"Utilizar el método clásico de Euler para resolver numéricamente y'=f(x,y) de "
+"forma inicial <varname>x0</varname>, <varname>y0</varname> pasan a "
+"<varname>x1</varname> con <varname>n</varname> incrementos, devuelve una "
+"matriz de 2 por <userinput>n+1</userinput> con los valores <varname>x</"
+"varname> e <varname>y</varname>. Adecuado para enlazar con <link linkend="
+"\"gel-function-LinePlotDrawLine\">LinePlotDrawLine</link>."
 
 #: C/genius.xml:4725(term)
 msgid "FindRootBisection"
@@ -12738,6 +12761,13 @@ msgid ""
 "last value computed, and <varname>iteration</varname> is the number of "
 "iterations done."
 msgstr ""
+"Buscar raíces de una función utilizando el método de la bisección. "
+"<varname>TOL</varname> es la tolerancia deseada y <varname>N</varname> es el "
+"límite del número de iteraciones a ejecutar, 0 indica sin límites. La "
+"función devuelve un vector <userinput>[success,value,iteration]</userinput>, "
+"donde <varname>success</varname> un booleano que indica el éxito, "
+"<varname>value</varname> es el último valor calculado, e <varname>iteration</"
+"varname> es el número de iteraciones realizadas."
 
 #: C/genius.xml:4735(term)
 msgid "FindRootFalsePosition"
@@ -12758,6 +12788,13 @@ msgid ""
 "varname> is the last value computed, and <varname>iteration</varname> is the "
 "number of iterations done."
 msgstr ""
+"Buscar la raíz de una función utilizando el método de la posición falsa. "
+"<varname>TOL</varname> es la tolerancia deseada y <varname>N</varname> es el "
+"límite del número de iteraciones a ejecutar, 0 indica sin límites. La "
+"función devuelve un vector <userinput>[success,value,iteration]</userinput>, "
+"donde <varname>success</varname> un booleano que indica el éxito, "
+"<varname>value</varname> es el último valor calculado, e <varname>iteration</"
+"varname> es el número de iteraciones realizadas."
 
 #: C/genius.xml:4745(term)
 msgid "FindRootMullersMethod"
@@ -12778,6 +12815,13 @@ msgid ""
 "last value computed, and <varname>iteration</varname> is the number of "
 "iterations done."
 msgstr ""
+"Buscar la raíz de una función utilizando el método de Muller. <varname>TOL</"
+"varname> es la tolerancia deseada y <varname>N</varname> es el límite del "
+"número de iteraciones a ejecutar, 0 indica sin límites. La función devuelve "
+"un vector <userinput>[success,value,iteration]</userinput>, donde "
+"<varname>success</varname> un booleano que indica el éxito, <varname>value</"
+"varname> es el último valor calculado, e <varname>iteration</varname> es el "
+"número de iteraciones realizadas."
 
 #: C/genius.xml:4755(term)
 msgid "FindRootSecant"
@@ -12798,6 +12842,13 @@ msgid ""
 "last value computed, and <varname>iteration</varname> is the number of "
 "iterations done."
 msgstr ""
+"Buscar la raíz de una función utilizando el método de la secante. "
+"<varname>TOL</varname> es la tolerancia deseada y <varname>N</varname> es el "
+"límite del número de iteraciones a ejecutar, 0 indica sin límites. La "
+"función devuelve un vector <userinput>[success,value,iteration]</userinput>, "
+"donde <varname>success</varname> un booleano que indica el éxito, "
+"<varname>value</varname> es el último valor calculado, e <varname>iteration</"
+"varname> es el número de iteraciones realizadas."
 
 #: C/genius.xml:4765(term)
 msgid "PolynomialRoots"
@@ -12816,6 +12867,11 @@ msgid ""
 "the vector <userinput>[1,2,0,4]</userinput>. Returns a column vector of the "
 "solutions."
 msgstr ""
+"Calcular las raíces de un polinomio (de grado 1 a 4) utilizando una de las "
+"fórmulas para cada polinomio. El polinomio entregará un vector de "
+"coeficientes. Esto es <userinput>4*x^3 + 2*x + 1</userinput> que corresponde "
+"al vector <userinput>[1,2,0,4]</userinput>. Devuelve un vector columna de "
+"las soluciones."
 
 #: C/genius.xml:4777(para)
 msgid ""
@@ -12845,6 +12901,11 @@ msgid ""
 "<userinput>3*x^2 + 2*x + 1</userinput> corresponds to the vector <userinput>"
 "[1,2,3]</userinput>. Returns a column vector of the two solutions."
 msgstr ""
+"Calcular las raíces de una polinomio cuadrático (de grado 2) utilizando la "
+"fórmula cuadrática. El polinomio será un vector de coeficientes. Es es "
+"<userinput>3*x^2 + 2*x + 1</userinput> que corresponde con el vector "
+"<userinput>[1,2,3]</userinput>. Devuelve un vector columna de las dos "
+"soluciones."
 
 #: C/genius.xml:4798(para)
 msgid ""
@@ -12872,6 +12933,11 @@ msgid ""
 "<userinput>5*x^4 + 2*x + 1</userinput> corresponds to the vector <userinput>"
 "[1,2,0,0,5]</userinput>. Returns a column vector of the four solutions."
 msgstr ""
+"Calcular las raíces de un polinomio cuadrático (de grado 4) utilizando la "
+"fórmula cuadrática. El polinomio será un vector de coeficientes. Esto es "
+"<userinput>5*x^4 + 2*x + 1</userinput> que corresponde con el vector "
+"<userinput>[1,2,0,0,5]</userinput>. Devuelve un vector columna de las cuatro "
+"soluciones."
 
 #: C/genius.xml:4818(para)
 msgid ""
@@ -12902,6 +12968,10 @@ msgid ""
 "going to <varname>x1</varname> with <varname>n</varname> increments, returns "
 "<varname>y</varname> at <varname>x1</varname>."
 msgstr ""
+"Utilizar el método clásico no adaptativo de cuarto orden Runge-Kutta para "
+"resolver numéricamente y'=f(x,y) que de forma inicial <varname>x0</varname>, "
+"<varname>y0</varname> tienden a <varname>x1</varname> con <varname>n</"
+"varname> incrementos, devuelve <varname>y</varname> en <varname>x1</varname>."
 
 #: C/genius.xml:4845(para) C/genius.xml:4875(para)
 msgid ""
@@ -12931,6 +13001,13 @@ msgid ""
 "<varname>y</varname> values. Suitable for plugging into <link linkend=\"gel-"
 "function-LinePlotDrawLine\">LinePlotDrawLine</link>."
 msgstr ""
+"Utilizar el método clásico no adaptativo de cuarto orden Runge-Kutta para "
+"resolver numéricamente y'=f(x,y) que de forma inicial <varname>x0</varname>, "
+"<varname>y0</varname> tienden a <varname>x1</varname> con <varname>n</"
+"varname> incrementos, devuelve una matriz de 2 por <userinput>n+1</"
+"userinput> con los valores <varname>x</varname> e <varname>y</varname>. "
+"Adecuado para enlazar con <link linkend=\"gel-function-LinePlotDrawLine"
+"\">LinePlotDrawLine</link>."
 
 #: C/genius.xml:4888(title)
 msgid "Statistics"
@@ -12979,6 +13056,8 @@ msgid ""
 "Integral of the GaussFunction from 0 to <varname>x</varname> (area under the "
 "normal curve)."
 msgstr ""
+"Integral de la función de Gauss desde 0 a <varname>x</varname> (área debajo "
+"de la curva normal)."
 
 #: C/genius.xml:4908(para) C/genius.xml:4920(para)
 msgid ""
@@ -13016,7 +13095,7 @@ msgstr "Alias: <function>median</function>"
 
 #: C/genius.xml:4933(para)
 msgid "Calculate median of an entire matrix."
-msgstr "Calcula la mediana de una matriz entera."
+msgstr "Calcular la mediana de una matriz entera."
 
 #: C/genius.xml:4934(para) C/genius.xml:4969(para)
 msgid ""
@@ -13041,7 +13120,7 @@ msgstr "Alias: <function>stdevp</function>"
 
 #: C/genius.xml:4946(para)
 msgid "Calculate the population standard deviation of a whole matrix."
-msgstr "Calcula la desviación de población típica de una matriz completa."
+msgstr "Calcular la desviación de población típica de una matriz completa."
 
 #: C/genius.xml:4951(term)
 msgid "RowAverage"
@@ -13074,6 +13153,8 @@ msgid ""
 "Calculate median of each row in a matrix and return a column vector of the "
 "medians."
 msgstr ""
+"Calcular la mediana de cada fila en una matriz y devolver una vector columna "
+"de las medianas."
 
 #: C/genius.xml:4977(term)
 msgid "RowPopulationStandardDeviation"
@@ -13167,6 +13248,10 @@ msgid ""
 "is used to return the remainder. The remainder will have lower degree than "
 "<varname>q</varname>."
 msgstr ""
+"Dividir dos polinomios (como vectores) utilizando la división larga. "
+"Devuelve el cociente de los dos polinomios. El argumento opcional "
+"<varname>r</varname> se utiliza para devolver el residuo. El residuo tendrá "
+"el grado más bajo que <varname>q</varname>."
 
 #: C/genius.xml:5026(para)
 msgid ""
@@ -13386,6 +13471,8 @@ msgid ""
 "Returns a set theoretic difference X-Y (X and Y are vectors pretending to be "
 "sets)."
 msgstr ""
+"Devuelve un conjunto teorético de diferencia X-Y (X e Y son vectores que "
+"pretender ser conjuntos)."
 
 #: C/genius.xml:5152(term)
 msgid "Union"
@@ -13422,6 +13509,9 @@ msgid ""
 "the Hilbert function of degree d+1 (The c^&lt;d&gt; operator from Green's "
 "proof)."
 msgstr ""
+"Para una función de Hilbert que es c de grado d, dada la función de Macaulay "
+"obligado por la función de Hilbert de grado d+1 (el c^&lt;d&gt; operador de "
+"la prueba de Green)."
 
 #: C/genius.xml:5174(term)
 msgid "MacaulayLowerOperator"
@@ -13434,7 +13524,7 @@ msgstr "MacaulayLowerOperator (c,d)"
 
 #: C/genius.xml:5177(para)
 msgid "The c_&lt;d&gt; operator from Green's proof of Macaulay's Theorem."
-msgstr ""
+msgstr "El operador c_&lt;d&gt; de la prueba de Green del teorema de Macaulay."
 
 #: C/genius.xml:5182(term)
 msgid "MacaulayRep"
