@@ -13,7 +13,7 @@ DOC_FIGURES =	figures/parametric.png		\
 DOC_ENTITIES =	gel-function-list.xml	\
            	legal.xml
 
-DOC_LINGUAS = cs de es fr
+DOC_LINGUAS = cs de es fr ru
 
 #
 # Text version
