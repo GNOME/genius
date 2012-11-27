@@ -84,12 +84,6 @@ AC_CHECK_LIB(mpfr, mpfr_pow_z, [],
 	[AC_MSG_ERROR([New enough MPFR (2.2.0+) not found, see http://www.mpfr.org])],
 	"$GMP_LIB")
 
-# use internal atlapack, maybe later we'll allow linking with
-# an external lapack and external blas, speed for us is really
-# not the issue
-AC_CONFIG_SUBDIRS(atblas)
-AC_CONFIG_SUBDIRS(atlapack)
-
 # No schemas yet so ignore this section for now
 #AC_PATH_PROG(GCONFTOOL, gconftool-2)
 #dnl Specify the gconf configuration source,

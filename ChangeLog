@@ -1,3 +1,10 @@
+Tue Nov 27 10:05:50 2012  Jiri (George) Lebl <jirka@5z.com>
+
+	* atlapack/ atblas/: remove, this was just a pain and I don't have
+	  time to make it work as is.  We'll try to link to lapack if
+	  available or maybe even make it a requirement.  The fortran version
+	  seems available on most distros so it should not be a problem.
+
 Fri Jul 13 07:15:05 2012  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/genius.c: avoid a small delay on history, it seems no longer

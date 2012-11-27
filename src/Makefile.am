@@ -175,6 +175,9 @@ genius_SOURCES = 	\
 
 genius_LDADD = \
 	$(top_builddir)/atlapack/lapacke/liblapacke.a	\
+	$(top_builddir)/atlapack/lapack/liblapack.a	\
+	$(top_builddir)/atblas/cblas/libcblas.a	\
+	$(top_builddir)/atblas/blas/libblas.a	\
 	$(top_builddir)/ve/libvicious.a		\
 	-lm					\
 	@GMP_LIB@				\
