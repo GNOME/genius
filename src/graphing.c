@@ -183,6 +183,8 @@ static gboolean lineplot_draw_labels_cb = TRUE;
 static gboolean vectorfield_normalize_arrow_length = FALSE;
 static gboolean vectorfield_normalize_arrow_length_cb = FALSE;
 static gboolean vectorfield_normalize_arrow_length_parameter = FALSE;
+static gboolean surfaceplot_draw_legends = TRUE;
+static gboolean surfaceplot_draw_legends_cb = TRUE;
 
 /* Replotting info */
 static GelEFunc *plot_func[MAXFUNC] = { NULL };
@@ -1615,6 +1617,24 @@ add_line_plot (void)
 }
 
 static void
+surface_plot_move_about (void)
+{
+	if (surface_plot == NULL)
+		return;
+
+	if (surfaceplot_draw_legends) {
+		gtk_plot_move (GTK_PLOT (surface_plot),
+			       0.0,
+			       PROPORTION3D_OFFSET);
+	} else {
+		gtk_plot_move (GTK_PLOT (surface_plot),
+			       PROPORTION3D_OFFSET,
+			       PROPORTION3D_OFFSET);
+	}
+}
+
+
+static void
 add_surface_plot (void)
 {
 	GtkPlotAxis *xy, *xz, *yx, *yz, *zx, *zy;
@@ -1660,6 +1680,8 @@ add_surface_plot (void)
 	gtk_plot_set_legends_border (GTK_PLOT (surface_plot),
 				     GTK_PLOT_BORDER_LINE, 3);
 	gtk_plot_legends_move (GTK_PLOT (surface_plot), 0.93, 0.05);
+
+	surface_plot_move_about ();
 }
 
 static void
@@ -4056,7 +4078,13 @@ plot_surface_functions (gboolean do_window_present)
 		gtk_plot_surface_use_amplitud (GTK_PLOT_SURFACE (surface_data), FALSE);
 		gtk_plot_surface_use_height_gradient (GTK_PLOT_SURFACE (surface_data), TRUE);
 		gtk_plot_surface_set_mesh_visible (GTK_PLOT_SURFACE (surface_data), TRUE);
-		gtk_plot_data_gradient_set_visible (GTK_PLOT_DATA (surface_data), TRUE);
+		if (surfaceplot_draw_legends) {
+			gtk_plot_data_gradient_set_visible (GTK_PLOT_DATA (surface_data), TRUE);
+			gtk_plot_data_show_legend (GTK_PLOT_DATA (surface_data));
+		} else {
+			gtk_plot_data_gradient_set_visible (GTK_PLOT_DATA (surface_data), FALSE);
+			gtk_plot_data_hide_legend (GTK_PLOT_DATA (surface_data));
+		}
 		gtk_plot_data_move_gradient (GTK_PLOT_DATA (surface_data),
 					     0.93, 0.15);
 		gtk_plot_axis_hide_title (GTK_PLOT_DATA (surface_data)->gradient);
@@ -4076,6 +4104,14 @@ plot_surface_functions (gboolean do_window_present)
 	/* FIXME: this doesn't work (crashes) must fix in GtkExtra
 	gtk_plot3d_autoscale (GTK_PLOT3D (surface_plot));
 	*/
+
+	/* could be whacked by closing the window or some such */
+	if (surface_plot != NULL) {
+		if (surfaceplot_draw_legends)
+			gtk_plot_show_legends (GTK_PLOT (surface_plot));
+		else
+			gtk_plot_hide_legends (GTK_PLOT (surface_plot));
+	}
 
 	/* could be whacked by closing the window or some such */
 	if (plot_canvas != NULL) {
@@ -5062,7 +5098,7 @@ static GtkWidget *
 create_surface_box (void)
 {
 	GtkWidget *mainbox, *frame;
-	GtkWidget *hbox, *box, *b;
+	GtkWidget *hbox, *box, *b, *w;
 
 	init_var_names ();
 
@@ -5092,10 +5128,19 @@ create_surface_box (void)
 	surface_entry_status = gtk_image_new ();
 	gtk_box_pack_start (GTK_BOX (b), surface_entry_status, FALSE, FALSE, 0);
 
-
-	/* change varnames */
 	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (mainbox), hbox, FALSE, FALSE, 0);
+
+	/* draw legend? */
+	w = gtk_check_button_new_with_mnemonic (_("_Draw legend"));
+	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), 
+				      surfaceplot_draw_legends_cb);
+	g_signal_connect (G_OBJECT (w), "toggled",
+			  G_CALLBACK (optioncb),
+			  (gpointer)&surfaceplot_draw_legends_cb);
+
+	/* change varnames */
 
 	b = gtk_button_new_with_label (_("Change variable names..."));
 	gtk_box_pack_end (GTK_BOX (hbox), b, FALSE, FALSE, 0);
@@ -5386,6 +5431,8 @@ surface_from_dialog (void)
 					     "could be parsed"));
 		goto whack_copied_funcs;
 	}
+
+	surfaceplot_draw_legends = surfaceplot_draw_legends_cb;
 
 	x1 = surf_spinx1;
 	x2 = surf_spinx2;
@@ -7765,6 +7812,11 @@ set_LinePlotDrawLegends (GelETree * a)
 			gtk_plot_hide_legends (GTK_PLOT (line_plot));
 
 		line_plot_move_about ();
+
+		if (plot_canvas != NULL) {
+			gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+			gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+		}
 	}
 
 	return gel_makenum_bool (lineplot_draw_legends);
@@ -7773,6 +7825,54 @@ static GelETree *
 get_LinePlotDrawLegends (void)
 {
 	return gel_makenum_bool (lineplot_draw_legends);
+}
+
+static GelETree *
+set_SurfacePlotDrawLegends (GelETree * a)
+{
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "set_SurfacePlotDrawLegends", "set_SurfacePlotDrawLegends");
+		return NULL;
+	}
+	if G_UNLIKELY ( ! check_argument_bool (&a, 0, "set_LinePlotDrawLegends"))
+		return NULL;
+	if (a->type == GEL_VALUE_NODE)
+		surfaceplot_draw_legends
+			= ! mpw_zero_p (a->val.value);
+	else /* a->type == GEL_BOOL_NODE */
+		surfaceplot_draw_legends = a->bool_.bool_;
+
+	if (surface_plot != NULL) {
+		if (surface_data != NULL) {
+			if (surfaceplot_draw_legends) {
+				gtk_plot_data_gradient_set_visible (GTK_PLOT_DATA (surface_data), TRUE);
+				gtk_plot_data_show_legend (GTK_PLOT_DATA (surface_data));
+			} else {
+				gtk_plot_data_gradient_set_visible (GTK_PLOT_DATA (surface_data), FALSE);
+				gtk_plot_data_hide_legend (GTK_PLOT_DATA (surface_data));
+			}
+		}
+
+		if (surfaceplot_draw_legends)
+			gtk_plot_show_legends (GTK_PLOT (surface_plot));
+		else
+			gtk_plot_hide_legends (GTK_PLOT (surface_plot));
+
+		surface_plot_move_about ();
+
+		if (plot_canvas != NULL) {
+			gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+			gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+		}
+	}
+
+	return gel_makenum_bool (surfaceplot_draw_legends);
+}
+static GelETree *
+get_SurfacePlotDrawLegends (void)
+{
+	return gel_makenum_bool (surfaceplot_draw_legends);
 }
 
 static GelETree *
@@ -7792,12 +7892,12 @@ set_LinePlotDrawAxisLabels (GelETree * a)
 		lineplot_draw_labels = a->bool_.bool_;
 
 	if (line_plot != NULL) {
-		if (lineplot_draw_labels)
-			gtk_plot_show_legends (GTK_PLOT (line_plot));
-		else
-			gtk_plot_hide_legends (GTK_PLOT (line_plot));
+		plot_setup_axis ();
 
-		line_plot_move_about ();
+		if (plot_canvas != NULL) {
+			gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+			gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+		}
 	}
 
 	return gel_makenum_bool (lineplot_draw_labels);
@@ -7842,6 +7942,8 @@ gel_add_graph_functions (void)
 
 	PARAMETER (VectorfieldNormalized, N_("Normalize vectorfields if true.  That is, only show direction and not magnitude."));
 	PARAMETER (LinePlotDrawLegends, N_("If to draw legends or not on line plots."));
+
+	PARAMETER (SurfacePlotDrawLegends, N_("If to draw legends or not on surface plots."));
 
 	PARAMETER (LinePlotWindow, N_("Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"));
 	PARAMETER (SurfacePlotWindow, N_("Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,z2]"));
