@@ -276,6 +276,12 @@ static double reset_surfacey2 = 10;
 static double reset_surfacez1 = -10;
 static double reset_surfacez2 = 10;
 
+/* surface data */
+static double *surface_data_x = NULL;
+static double *surface_data_y = NULL;
+static double *surface_data_z = NULL;
+static int surface_data_len = 0;
+
 
 /* used for both */
 static double plot_maxy = - G_MAXDOUBLE/2;
@@ -4099,6 +4105,45 @@ plot_surface_functions (gboolean do_window_present)
 		label = label_func (-1, surface_func, /* FIXME: correct variable */ "...", surface_func_name);
 		gtk_plot_data_set_legend (surface_data, label);
 		g_free (label);
+	} else if (surface_data_x != NULL &&
+		   surface_data_y != NULL &&
+		   surface_data_z != NULL) {
+
+		surface_data = GTK_PLOT_DATA (gtk_plot_surface_new ());
+		gtk_plot_surface_use_amplitud (GTK_PLOT_SURFACE (surface_data), FALSE);
+		gtk_plot_surface_use_height_gradient (GTK_PLOT_SURFACE (surface_data), TRUE);
+		gtk_plot_surface_set_mesh_visible (GTK_PLOT_SURFACE (surface_data), TRUE);
+		if (surfaceplot_draw_legends) {
+			gtk_plot_data_gradient_set_visible (GTK_PLOT_DATA (surface_data), TRUE);
+			gtk_plot_data_show_legend (GTK_PLOT_DATA (surface_data));
+		} else {
+			gtk_plot_data_gradient_set_visible (GTK_PLOT_DATA (surface_data), FALSE);
+			gtk_plot_data_hide_legend (GTK_PLOT_DATA (surface_data));
+		}
+		gtk_plot_data_move_gradient (GTK_PLOT_DATA (surface_data),
+					     0.93, 0.15);
+		gtk_plot_axis_hide_title (GTK_PLOT_DATA (surface_data)->gradient);
+
+		gtk_plot_add_data (GTK_PLOT (surface_plot),
+				   surface_data);
+
+		gtk_plot_data_set_x (GTK_PLOT_DATA (surface_data), surface_data_x);
+		gtk_plot_data_set_y (GTK_PLOT_DATA (surface_data), surface_data_y);
+		gtk_plot_data_set_z (GTK_PLOT_DATA (surface_data), surface_data_z);
+		gtk_plot_data_set_numpoints (GTK_PLOT_DATA (surface_data), surface_data_len);
+		gtk_plot_surface_build_mesh (GTK_PLOT_SURFACE (surface_data));
+
+		gtk_plot_surface_recalc_nodes(surface_data);
+
+
+		surface_setup_steps ();
+
+		gtk_widget_show (GTK_WIDGET (surface_data));
+
+		if (surface_func_name)
+			gtk_plot_data_set_legend (surface_data, surface_func_name);
+		else
+			gtk_plot_data_set_legend (surface_data, "");
 	}
 
 	/* FIXME: this doesn't work (crashes) must fix in GtkExtra
@@ -5492,6 +5537,20 @@ surface_from_dialog (void)
 
 	surface_func = func;
 	func = NULL;
+	
+	/* don't plot from data */
+	if (surface_data_x != NULL) {
+		g_free (surface_data_x);
+		surface_data_x = NULL;
+	}
+	if (surface_data_y != NULL) {
+		g_free (surface_data_y);
+		surface_data_y = NULL;
+	}
+	if (surface_data_z != NULL) {
+		g_free (surface_data_z);
+		surface_data_z = NULL;
+	}
 
 	/* setup name when the functions don't have their own name */
 	if (surface_func->id == NULL)
@@ -6208,6 +6267,20 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	surface_func = func;
 	func = NULL;
+
+	/* don't plot from data */
+	if (surface_data_x != NULL) {
+		g_free (surface_data_x);
+		surface_data_x = NULL;
+	}
+	if (surface_data_y != NULL) {
+		g_free (surface_data_y);
+		surface_data_y = NULL;
+	}
+	if (surface_data_z != NULL) {
+		g_free (surface_data_z);
+		surface_data_z = NULL;
+	}
 
 	reset_surfacex1 = surfacex1 = x1;
 	reset_surfacex2 = surfacex2 = x2;
@@ -7454,6 +7527,252 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 	return gel_makenum_null ();
 }
 
+static gboolean
+get_surface_data (GelETree *a, double **x, double **y, double **z, int *len,
+		  double *minx, double *maxx, double *miny, double *maxy, double *minz, double *maxz)
+{
+	int i;
+	GelMatrixW *m;
+	gboolean nominmax = TRUE;
+#define UPDATE_MINMAX \
+	if (minx != NULL) { \
+		if (xx > *maxx || nominmax) *maxx = xx; \
+		if (xx < *minx || nominmax) *minx = xx; \
+		if (yy > *maxy || nominmax) *maxy = yy; \
+		if (yy < *miny || nominmax) *miny = yy; \
+		if (zz > *maxz || nominmax) *maxz = zz; \
+		if (zz < *minz || nominmax) *minz = zz; \
+		nominmax = FALSE; \
+	}
+
+	g_return_val_if_fail (a->type == GEL_MATRIX_NODE, FALSE);
+
+	m = a->mat.matrix;
+
+	if G_UNLIKELY ( ! gel_is_matrix_value_only_real (m)) {
+		gel_errorout (_("%s: Line should be given as a real, n by 3 matrix "
+				"with columns for x, y, z, where n>=2"),
+			      "SurfacePlotData");
+		return FALSE;
+	}
+
+	if (gel_matrixw_width (m) == 3 &&
+	    gel_matrixw_height (m) >= 2) {
+		*len = gel_matrixw_height (m);
+
+		*x = g_new (double, *len);
+		*y = g_new (double, *len);
+		*z = g_new (double, *len);
+
+		for (i = 0; i < *len; i++) {
+			double xx, yy, zz;
+			GelETree *t = gel_matrixw_index (m, 0, i);
+			(*x)[i] = xx = mpw_get_double (t->val.value);
+			t = gel_matrixw_index (m, 1, i);
+			(*y)[i] = yy = mpw_get_double (t->val.value);
+			t = gel_matrixw_index (m, 2, i);
+			(*z)[i] = zz = mpw_get_double (t->val.value);
+			UPDATE_MINMAX
+		}
+	} else if (gel_matrixw_width (m) == 1 &&
+		   gel_matrixw_height (m) % 3 == 0 &&
+		   gel_matrixw_height (m) >= 6) {
+		*len = gel_matrixw_height (m) / 3;
+
+		*x = g_new (double, *len);
+		*y = g_new (double, *len);
+		*z = g_new (double, *len);
+
+		for (i = 0; i < *len; i++) {
+			double xx, yy, zz;
+			GelETree *t = gel_matrixw_index (m, 0, 3*i);
+			(*x)[i] = xx = mpw_get_double (t->val.value);
+			t = gel_matrixw_index (m, 0, (3*i) + 1);
+			(*y)[i] = yy = mpw_get_double (t->val.value);
+			t = gel_matrixw_index (m, 0, (3*i) + 2);
+			(*z)[i] = zz = mpw_get_double (t->val.value);
+			UPDATE_MINMAX
+		}
+	} else if (gel_matrixw_height (m) == 1 &&
+		   gel_matrixw_width (m) % 3 == 0 &&
+		   gel_matrixw_width (m) >= 6) {
+		*len = gel_matrixw_width (m) / 3;
+
+		*x = g_new (double, *len);
+		*y = g_new (double, *len);
+		*z = g_new (double, *len);
+
+		for (i = 0; i < *len; i++) {
+			double xx, yy, zz;
+			GelETree *t = gel_matrixw_index (m, 3*i, 0);
+			(*x)[i] = xx = mpw_get_double (t->val.value);
+			t = gel_matrixw_index (m, (3*i) + 1, 0);
+			(*y)[i] = yy = mpw_get_double (t->val.value);
+			t = gel_matrixw_index (m, (3*i) + 2, 0);
+			(*z)[i] = zz = mpw_get_double (t->val.value);
+			UPDATE_MINMAX
+		}
+	} else {
+		gel_errorout (_("%s: Line should be given as a real, n by 3 matrix "
+				"with columns for x, y, z, where n>=2"),
+			      "SurfacePlotData");
+		return FALSE;
+	}
+
+	return TRUE;
+#undef UPDATE_MINMAX
+}
+
+static GelETree *
+SurfacePlotData_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	double x1, x2, y1, y2, z1, z2;
+	double *x,*y,*z;
+	char *name = NULL;
+	int len;
+	int i;
+
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "SurfacePlotData", "SurfacePlotData");
+		return NULL;
+	}
+
+	i = 0;
+
+	if (a[i] != NULL && a[i]->type != GEL_MATRIX_NODE) {
+		gel_errorout (_("%s: argument not a matrix of data"), "SurfacePlotData");
+		return NULL;
+	}
+
+	if ( ! get_surface_data (a[i], &x, &y, &z, &len,
+				 &x1, &x2, &y1, &y2, &z1, &z2)) {
+		return NULL;
+	}
+
+	i++;
+
+	if (a[i] != NULL && a[i]->type == GEL_STRING_NODE) {
+		name = a[i]->str.str;
+		i++;
+	}
+
+	/* Defaults to min/max of the data */
+
+	if (a[i] != NULL) {
+		if (a[i]->type == GEL_MATRIX_NODE) {
+			if ( ! get_limits_from_matrix_surf (a[i], &x1, &x2, &y1, &y2, &z1, &z2))
+				goto whack_copied_data;
+			i++;
+		} else {
+			GET_DOUBLE(x1, i, "SurfacePlotData");
+			i++;
+			if (a[i] != NULL) {
+				GET_DOUBLE(x2, i, "SurfacePlotData");
+				i++;
+				if (a[i] != NULL) {
+					GET_DOUBLE(y1, i, "SurfacePlotData");
+					i++;
+					if (a[i] != NULL) {
+						GET_DOUBLE(y2, i, "SurfacePlotData");
+						i++;
+						if (a[i] != NULL) {
+							GET_DOUBLE(z1, i, "SurfacePlotData");
+							i++;
+							if (a[i] != NULL) {
+								GET_DOUBLE(z2, i, "SurfacePlotData");
+								i++;
+							}
+						}
+					}
+				}
+			}
+			/* FIXME: what about errors */
+			if G_UNLIKELY (gel_error_num != 0) {
+				gel_error_num = 0;
+				goto whack_copied_data;
+			}
+		}
+	}
+
+	if (x1 > x2) {
+		double s = x1;
+		x1 = x2;
+		x2 = s;
+	}
+
+	if (y1 > y2) {
+		double s = y1;
+		y1 = y2;
+		y2 = s;
+	}
+
+	if (z1 > z2) {
+		double s = z1;
+		z1 = z2;
+		z2 = s;
+	}
+
+	if (x1 == x2) {
+		gel_errorout (_("%s: invalid X range"), "SurfacePlotData");
+		goto whack_copied_data;
+	}
+
+	if (y1 == y2) {
+		gel_errorout (_("%s: invalid Y range"), "SurfacePlotData");
+		goto whack_copied_data;
+	}
+
+	if (z1 == z2) {
+		gel_errorout (_("%s: invalid Z range"), "SurfacePlotData");
+		goto whack_copied_data;
+	}
+
+	/* name could also come after */
+	if (a[i] != NULL && a[i]->type == GEL_STRING_NODE) {
+		name = a[i]->str.str;
+		i++;
+	}
+
+	if (surface_func_name != NULL)
+		g_free (surface_func_name);
+	surface_func_name = g_strdup (name);
+
+	surface_func = NULL;
+	surface_data_x = x;
+	x = NULL;
+	surface_data_y = y;
+	y = NULL;
+	surface_data_z = z;
+	z = NULL;
+	surface_data_len = len;
+
+	reset_surfacex1 = surfacex1 = x1;
+	reset_surfacex2 = surfacex2 = x2;
+	reset_surfacey1 = surfacey1 = y1;
+	reset_surfacey2 = surfacey2 = y2;
+	reset_surfacez1 = surfacez1 = z1;
+	reset_surfacez2 = surfacez2 = z2;
+
+	plot_mode = MODE_SURFACE;
+	plot_surface_functions (FALSE /* do_window_present */);
+
+	if (gel_interrupted)
+		return NULL;
+	else
+		return gel_makenum_null ();
+
+whack_copied_data:
+	if (x != NULL)
+		g_free (x);
+	if (y != NULL)
+		g_free (y);
+	if (z != NULL)
+		g_free (z);
+
+	return NULL;
+}
+
 static GelETree *
 set_LinePlotWindow (GelETree * a)
 {
@@ -7932,6 +8251,8 @@ gel_add_graph_functions (void)
 
 	VFUNC (SurfacePlot, 2, "func,args", "plotting", N_("Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"));
 
+	VFUNC (SurfacePlotData, 2, "data,args", "plotting", N_("Plot surface data given as n by 3 matrix of data with each row being x,y,z.  Optionally can pass a label string and limits.  If no limits passed, limits computed from data."));
+
 	FUNC (LinePlotClear, 0, "", "plotting", N_("Show the line plot window and clear out functions"));
 	VFUNC (LinePlotDrawLine, 2, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"));
 
@@ -7942,6 +8263,7 @@ gel_add_graph_functions (void)
 
 	PARAMETER (VectorfieldNormalized, N_("Normalize vectorfields if true.  That is, only show direction and not magnitude."));
 	PARAMETER (LinePlotDrawLegends, N_("If to draw legends or not on line plots."));
+	PARAMETER (LinePlotDrawAxisLabels, N_("If to draw axis labels on line plots."));
 
 	PARAMETER (SurfacePlotDrawLegends, N_("If to draw legends or not on surface plots."));
 

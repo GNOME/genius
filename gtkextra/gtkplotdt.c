@@ -354,8 +354,10 @@ gtk_plot_dt_add_triangle(GtkPlotDT *data, gint a, gint b, gint c)
   if (orientation<0) {
     t->nc= nb; t->nb= nc;
     t->c= b; t->b= c;
+#ifdef DELAUNAY_DEBUG
     /* if this ever turns up, enclose it in ifdef DELAUNAY_DEBUG ! */
     fprintf(stderr,"corrected orientation of new triangle\n");
+#endif
   }
 
   /* create bounding-box */
