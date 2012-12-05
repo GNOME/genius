@@ -288,6 +288,8 @@ static double plot_maxy = - G_MAXDOUBLE/2;
 static double plot_miny = G_MAXDOUBLE/2;
 static double plot_maxx = - G_MAXDOUBLE/2;
 static double plot_minx = G_MAXDOUBLE/2;
+static double plot_maxz = - G_MAXDOUBLE/2;
+static double plot_minz = G_MAXDOUBLE/2;
 
 static GelCtx *plot_ctx = NULL;
 static GelETree *plot_arg = NULL;
@@ -1285,11 +1287,11 @@ plot_zoomfit_cb (void)
 		genius_setup.info_box = TRUE;
 		genius_setup.error_box = TRUE;
 
-		size = plot_maxy - plot_miny;
-		if (size <= 0)
-			size = 1.0;
-
 		if (plot_mode == MODE_LINEPLOT) {
+			size = plot_maxy - plot_miny;
+			if (size <= 0)
+				size = 1.0;
+
 			ploty1 = plot_miny - size * 0.05;
 			ploty2 = plot_maxy + size * 0.05;
 
@@ -1305,6 +1307,9 @@ plot_zoomfit_cb (void)
 
 		} else if (plot_mode == MODE_LINEPLOT_PARAMETRIC) {
 			double sizex;
+			size = plot_maxy - plot_miny;
+			if (size <= 0)
+				size = 1.0;
 			sizex = plot_maxx - plot_minx;
 			if (sizex <= 0)
 				sizex = 1.0;
@@ -1336,9 +1341,12 @@ plot_zoomfit_cb (void)
 				ploty2 = (G_MAXDOUBLE/2);
 
 		} else if (plot_mode == MODE_SURFACE) {
-			surfacez1 = plot_miny - size * 0.05;
-			surfacez2 = plot_maxy + size * 0.05;
-
+			size = plot_maxz - plot_minz;
+			if (size <= 0)
+				size = 1.0;
+			surfacez1 = plot_minz - size * 0.05;
+			surfacez2 = plot_maxz + size * 0.05;
+			
 			/* sanity */
 			if (surfacez2 <= surfacez1)
 				surfacez2 = surfacez1 + 0.1;
@@ -2742,10 +2750,10 @@ surface_func_data (GtkPlot *plot, GtkPlotData *data, double x, double y, gboolea
 		if (error != NULL)
 			*error = TRUE;
 	} else {
-		if G_UNLIKELY (z > plot_maxy)
-			plot_maxy = z;
-		if G_UNLIKELY (z < plot_miny)
-			plot_miny = z;
+		if G_UNLIKELY (z > plot_maxz)
+			plot_maxz = z;
+		if G_UNLIKELY (z < plot_minz)
+			plot_minz = z;
 	}
 
 	size = surfacez1 - surfacez2;
@@ -4061,8 +4069,11 @@ plot_surface_functions (gboolean do_window_present)
 	if (surfacez2 == surfacez1)
 		surfacez2 = surfacez1 + MINPLOT;
 
-	plot_maxy = - G_MAXDOUBLE/2;
-	plot_miny = G_MAXDOUBLE/2;
+	/* only if plotting a function do we need to reset the min/max */
+	if (surface_func != NULL) {
+		plot_maxz = - G_MAXDOUBLE/2;
+		plot_minz = G_MAXDOUBLE/2;
+	}
 
 	surface_setup_axis ();
 
@@ -7529,7 +7540,9 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 static gboolean
 get_surface_data (GelETree *a, double **x, double **y, double **z, int *len,
-		  double *minx, double *maxx, double *miny, double *maxy, double *minz, double *maxz)
+		  double *minx, double *maxx,
+		  double *miny, double *maxy,
+		  double *minz, double *maxz)
 {
 	int i;
 	GelMatrixW *m;
@@ -7550,14 +7563,14 @@ get_surface_data (GelETree *a, double **x, double **y, double **z, int *len,
 	m = a->mat.matrix;
 
 	if G_UNLIKELY ( ! gel_is_matrix_value_only_real (m)) {
-		gel_errorout (_("%s: Line should be given as a real, n by 3 matrix "
-				"with columns for x, y, z, where n>=2"),
+		gel_errorout (_("%s: Surface should be given as a real, n by 3 matrix "
+				"with columns for x, y, z, where n>=3"),
 			      "SurfacePlotData");
 		return FALSE;
 	}
 
 	if (gel_matrixw_width (m) == 3 &&
-	    gel_matrixw_height (m) >= 2) {
+	    gel_matrixw_height (m) >= 3) {
 		*len = gel_matrixw_height (m);
 
 		*x = g_new (double, *len);
@@ -7576,7 +7589,7 @@ get_surface_data (GelETree *a, double **x, double **y, double **z, int *len,
 		}
 	} else if (gel_matrixw_width (m) == 1 &&
 		   gel_matrixw_height (m) % 3 == 0 &&
-		   gel_matrixw_height (m) >= 6) {
+		   gel_matrixw_height (m) >= 9) {
 		*len = gel_matrixw_height (m) / 3;
 
 		*x = g_new (double, *len);
@@ -7595,7 +7608,7 @@ get_surface_data (GelETree *a, double **x, double **y, double **z, int *len,
 		}
 	} else if (gel_matrixw_height (m) == 1 &&
 		   gel_matrixw_width (m) % 3 == 0 &&
-		   gel_matrixw_width (m) >= 6) {
+		   gel_matrixw_width (m) >= 9) {
 		*len = gel_matrixw_width (m) / 3;
 
 		*x = g_new (double, *len);
@@ -7613,8 +7626,8 @@ get_surface_data (GelETree *a, double **x, double **y, double **z, int *len,
 			UPDATE_MINMAX
 		}
 	} else {
-		gel_errorout (_("%s: Line should be given as a real, n by 3 matrix "
-				"with columns for x, y, z, where n>=2"),
+		gel_errorout (_("%s: Surface should be given as a real, n by 3 matrix "
+				"with columns for x, y, z, where n>=3"),
 			      "SurfacePlotData");
 		return FALSE;
 	}
@@ -7648,6 +7661,20 @@ SurfacePlotData_op (GelCtx *ctx, GelETree * * a, int *exception)
 	if ( ! get_surface_data (a[i], &x, &y, &z, &len,
 				 &x1, &x2, &y1, &y2, &z1, &z2)) {
 		return NULL;
+	}
+
+	/* sanity checks */
+	if (x1 == x2) {
+		x1=x1-0.1;
+		x2=x2+0.1;
+	}
+	if (y1 == y2) {
+		y1=y1-0.1;
+		y2=y2+0.1;
+	}
+	if (z1 == z2) {
+		z1=z1-0.1;
+		z2=z2+0.1;
 	}
 
 	i++;
@@ -7736,7 +7763,10 @@ SurfacePlotData_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	if (surface_func_name != NULL)
 		g_free (surface_func_name);
-	surface_func_name = g_strdup (name);
+	if (name != NULL)
+		surface_func_name = g_strdup (name);
+	else
+		surface_func_name = NULL;
 
 	surface_func = NULL;
 	surface_data_x = x;
@@ -7753,6 +7783,9 @@ SurfacePlotData_op (GelCtx *ctx, GelETree * * a, int *exception)
 	reset_surfacey2 = surfacey2 = y2;
 	reset_surfacez1 = surfacez1 = z1;
 	reset_surfacez2 = surfacez2 = z2;
+
+	plot_minz = z1;
+	plot_maxz = z2;
 
 	plot_mode = MODE_SURFACE;
 	plot_surface_functions (FALSE /* do_window_present */);
@@ -8251,7 +8284,7 @@ gel_add_graph_functions (void)
 
 	VFUNC (SurfacePlot, 2, "func,args", "plotting", N_("Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"));
 
-	VFUNC (SurfacePlotData, 2, "data,args", "plotting", N_("Plot surface data given as n by 3 matrix of data with each row being x,y,z.  Optionally can pass a label string and limits.  If no limits passed, limits computed from data."));
+	VFUNC (SurfacePlotData, 2, "data,args", "plotting", N_("Plot surface data given as n by 3 matrix (n>=3) of data with each row being x,y,z.  Optionally can pass a label string and limits.  If no limits passed, limits computed from data."));
 
 	FUNC (LinePlotClear, 0, "", "plotting", N_("Show the line plot window and clear out functions"));
 	VFUNC (LinePlotDrawLine, 2, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"));
