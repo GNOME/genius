@@ -4035,6 +4035,9 @@ plot_functions (gboolean do_window_present,
 		gtk_plot_canvas_thaw (GTK_PLOT_CANVAS (plot_canvas));
 		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+
+		if (gel_evalnode_hook != NULL)
+			(*gel_evalnode_hook)();
 	}
 
 	plot_in_progress --;
@@ -4048,18 +4051,19 @@ plot_surface_functions (gboolean do_window_present)
 
 	ensure_window (do_window_present);
 
+	if (plot_canvas != NULL /* sanity */)
+		gtk_plot_canvas_freeze (GTK_PLOT_CANVAS (plot_canvas));
+
 	clear_graph ();
 
 	add_surface_plot ();
-
-	if (plot_canvas != NULL /* sanity */)
-		gtk_plot_canvas_freeze (GTK_PLOT_CANVAS (plot_canvas));
 
 	GTK_PLOT_CANVAS_UNSET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
 				     GTK_PLOT_CANVAS_CAN_SELECT);
 
 	plot_in_progress ++;
 	plot_window_setup ();
+
 
 	/* sanity */
 	if (surfacex2 == surfacex1)
@@ -4085,7 +4089,6 @@ plot_surface_functions (gboolean do_window_present)
 
 	if (gel_evalnode_hook != NULL)
 		(*gel_evalnode_hook)();
-
 
 	if (surface_func != NULL) {
 		char *label;
@@ -4135,19 +4138,20 @@ plot_surface_functions (gboolean do_window_present)
 					     0.93, 0.15);
 		gtk_plot_axis_hide_title (GTK_PLOT_DATA (surface_data)->gradient);
 
-		gtk_plot_add_data (GTK_PLOT (surface_plot),
-				   surface_data);
-
 		gtk_plot_data_set_x (GTK_PLOT_DATA (surface_data), surface_data_x);
 		gtk_plot_data_set_y (GTK_PLOT_DATA (surface_data), surface_data_y);
 		gtk_plot_data_set_z (GTK_PLOT_DATA (surface_data), surface_data_z);
 		gtk_plot_data_set_numpoints (GTK_PLOT_DATA (surface_data), surface_data_len);
 		gtk_plot_surface_build_mesh (GTK_PLOT_SURFACE (surface_data));
 
-		gtk_plot_surface_recalc_nodes(surface_data);
+		gtk_plot_surface_recalc_nodes (GTK_PLOT_SURFACE (surface_data));
 
 
 		surface_setup_steps ();
+
+		gtk_plot_add_data (GTK_PLOT (surface_plot),
+				   surface_data);
+
 
 		gtk_widget_show (GTK_WIDGET (surface_data));
 
@@ -4169,11 +4173,15 @@ plot_surface_functions (gboolean do_window_present)
 			gtk_plot_hide_legends (GTK_PLOT (surface_plot));
 	}
 
+
 	/* could be whacked by closing the window or some such */
 	if (plot_canvas != NULL) {
 		gtk_plot_canvas_thaw (GTK_PLOT_CANVAS (plot_canvas));
 		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+
+		if (gel_evalnode_hook != NULL)
+			(*gel_evalnode_hook)();
 	}
 
 	plot_in_progress --;
@@ -7665,16 +7673,16 @@ SurfacePlotData_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	/* sanity checks */
 	if (x1 == x2) {
-		x1=x1-0.1;
-		x2=x2+0.1;
+		x1=x1-1;
+		x2=x2+1;
 	}
 	if (y1 == y2) {
-		y1=y1-0.1;
-		y2=y2+0.1;
+		y1=y1-1;
+		y2=y2+1;
 	}
 	if (z1 == z2) {
-		z1=z1-0.1;
-		z2=z2+0.1;
+		z1=z1-1;
+		z2=z2+1;
 	}
 
 	i++;
@@ -7802,6 +7810,152 @@ whack_copied_data:
 		g_free (y);
 	if (z != NULL)
 		g_free (z);
+
+	return NULL;
+}
+
+static gboolean
+get_surface_data_grid (GelETree *a,
+		       double **x, double **y, double **z, int *len,
+		       double minx, double maxx,
+		       double miny, double maxy,
+		       gboolean setz,
+		       double *minz, double *maxz)
+{
+	int i, j, k;
+	GelMatrixW *m;
+	gboolean nominmax = TRUE;
+	int w, h;
+
+#define UPDATE_MINMAX \
+	if (setz) { \
+		if (zz > *maxz || nominmax) *maxz = zz; \
+		if (zz < *minz || nominmax) *minz = zz; \
+		nominmax = FALSE; \
+	}
+
+	g_return_val_if_fail (a->type == GEL_MATRIX_NODE, FALSE);
+
+	m = a->mat.matrix;
+
+	if G_UNLIKELY ( ! gel_is_matrix_value_only_real (m)) {
+		gel_errorout (_("%s: Surface grid data should be given as a real matrix "),
+			      "SurfacePlotDataGrid");
+		return FALSE;
+	}
+
+	w = gel_matrixw_width (m);
+	h = gel_matrixw_height (m);
+	*len = w * h;
+
+	*x = g_new (double, *len);
+	*y = g_new (double, *len);
+	*z = g_new (double, *len);
+
+	k = 0;
+	for (i = 0; i < w; i++) {
+		for (j = 0; j < h; j++) {
+			double zz;
+			GelETree *t = gel_matrixw_index (m, i, j);
+			(*z)[k] = zz = mpw_get_double (t->val.value);
+			(*x)[k] = minx+((double)j)*(maxx-minx)/((double)(h-1));
+			(*y)[k] = miny+((double)i)*(maxy-miny)/((double)(w-1));
+			k++;
+			UPDATE_MINMAX
+		}
+	}
+
+	return TRUE;
+#undef UPDATE_MINMAX
+}
+
+static GelETree *
+SurfacePlotDataGrid_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	double x1, x2, y1, y2, z1, z2;
+	double *x,*y,*z;
+	char *name = NULL;
+	int len;
+	gboolean setz = FALSE;
+
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "SurfacePlotDataGrid", "SurfacePlotDataGrid");
+		return NULL;
+	}
+
+	if (a[1]->type != GEL_MATRIX_NODE) {
+		gel_errorout (_("%s: first argument not a matrix of data"), "SurfacePlotDataGrid");
+		return NULL;
+	}
+
+	if (a[1]->type != GEL_MATRIX_NODE &&
+	    (gel_matrixw_elements (a[1]->mat.matrix) != 6 ||
+	     gel_matrixw_elements (a[1]->mat.matrix) != 4)) {
+		gel_errorout (_("%s: second argument not a 4 or 6 element vector of limits"), "SurfacePlotDataGrid");
+		return NULL;
+	}
+
+	if (gel_matrixw_elements (a[1]->mat.matrix) == 6) {
+		if ( ! get_limits_from_matrix_surf (a[1], &x1, &x2, &y1, &y2, &z1, &z2))
+			return NULL;
+		setz = FALSE;
+	} else {
+		if ( ! get_limits_from_matrix (a[1], &x1, &x2, &y1, &y2))
+			return NULL;
+		setz = TRUE;
+	}
+
+	if (a[2] != NULL && a[2]->type == GEL_STRING_NODE) {
+		name = a[2]->str.str;
+	} else if (a[2] != NULL && a[3] != NULL) {
+		gel_errorout (_("%s: too many arguments or last argument not a string label"), "SurfacePlotDataGrid");
+		return NULL;
+	}
+
+	if ( ! get_surface_data_grid (a[0], &x, &y, &z, &len, x1, x2, y1, y2, setz, &z1, &z2)) {
+		return NULL;
+	}
+
+	/* sanity */
+	if (z1 == z2) {
+		z1=z1-1;
+		z2=z2+1;
+	}
+
+	if (surface_func_name != NULL)
+		g_free (surface_func_name);
+	if (name != NULL)
+		surface_func_name = g_strdup (name);
+	else
+		surface_func_name = NULL;
+
+	surface_func = NULL;
+	surface_data_x = x;
+	x = NULL;
+	surface_data_y = y;
+	y = NULL;
+	surface_data_z = z;
+	z = NULL;
+	surface_data_len = len;
+
+	reset_surfacex1 = surfacex1 = x1;
+	reset_surfacex2 = surfacex2 = x2;
+	reset_surfacey1 = surfacey1 = y1;
+	reset_surfacey2 = surfacey2 = y2;
+	reset_surfacez1 = surfacez1 = z1;
+	reset_surfacez2 = surfacez2 = z2;
+
+	plot_minz = z1;
+	plot_maxz = z2;
+
+	plot_mode = MODE_SURFACE;
+	plot_surface_functions (FALSE /* do_window_present */);
+
+	if (gel_interrupted)
+		return NULL;
+	else
+		return gel_makenum_null ();
 
 	return NULL;
 }
@@ -8285,6 +8439,7 @@ gel_add_graph_functions (void)
 	VFUNC (SurfacePlot, 2, "func,args", "plotting", N_("Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"));
 
 	VFUNC (SurfacePlotData, 2, "data,args", "plotting", N_("Plot surface data given as n by 3 matrix (n>=3) of data with each row being x,y,z.  Optionally can pass a label string and limits.  If no limits passed, limits computed from data."));
+	VFUNC (SurfacePlotDataGrid, 3, "data,limits,label", "plotting", N_("Plot surface data given as a matrix (where rows are the x coordinate and columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or optionally [x1,x2,y1,y2,z1,z2], and optionally a string for the label."));
 
 	FUNC (LinePlotClear, 0, "", "plotting", N_("Show the line plot window and clear out functions"));
 	VFUNC (LinePlotDrawLine, 2, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"));

@@ -956,6 +956,7 @@ gtk_plot_canvas_draw_grid(GtkPlotCanvas *canvas)
   if(!canvas->show_grid) return;
 
   if(!GTK_IS_PLOT_GDK(canvas->pc)) return;
+  if(canvas->freeze_count > 0) return;
 
   gtk_plot_canvas_set_line_attributes(canvas, canvas->grid);
 

@@ -1,3 +1,12 @@
+Thu Dec 06 12:03:12 2012  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c: Add SurfacePlotDrawGrid to draw data directly from
+	  grid to avoid having to make up a data matrix
+
+	* src/graphing.c, gtkextra/gtkplotcanvas.c: Fix flicker during
+	  surface animations by properly freezing the display and also
+	  letting the painting happen at the right time.
+
 Tue Dec 04 23:31:30 2012  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/graphing.c: some cleanup with respect to fitting dependent
