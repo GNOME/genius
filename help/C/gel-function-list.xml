@@ -5372,6 +5372,34 @@ and has period <userinput>b-a</userinput>.</para>
     <sect1 id="genius-gel-function-list-plotting">
       <title>Plotting</title>
       <variablelist>
+        <varlistentry id="gel-function-ExportPlot">
+         <term>ExportPlot</term>
+         <listitem>
+          <synopsis>ExportPlot (file,type)</synopsis>
+          <synopsis>ExportPlot (file)</synopsis>
+          <para>
+		  Export the contents of the plotting window to a file.
+		  the type is a string that specifies the file type to
+		  use, "png", "eps", or "ps".  If the type is not
+		  specified, then it is taken to be the extension, in
+		  which case the extension must be ".png", ".eps", or ".ps".
+	  </para>
+	  <para>
+		  Note that files are overwritten without asking.
+	  </para>
+	  <para>
+		  On successful export, true is returned.  Otherwise
+		  error is printed and exception is raised.
+	  </para>
+          <para>
+	    Examples:
+          <screen><prompt>genius></prompt> <userinput>ExportPlot("file.png")</userinput>
+<prompt>genius></prompt> <userinput>ExportPlot("/directory/file","eps")</userinput>
+</screen>
+          </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-LinePlot">
          <term>LinePlot</term>
          <listitem>

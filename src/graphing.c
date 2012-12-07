@@ -7961,6 +7961,117 @@ SurfacePlotDataGrid_op (GelCtx *ctx, GelETree * * a, int *exception)
 }
 
 static GelETree *
+ExportPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	char *file;
+	char *type;
+
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "ExportPlot", "ExportPlot");
+		return NULL;
+	}
+
+	if (a[0]->type != GEL_STRING_NODE ||
+	    ve_string_empty(a[0]->str.str)) {
+		gel_errorout (_("%s: first argument not a nonempty string"), "ExportPlot");
+		return NULL;
+	}
+	file = a[0]->str.str;
+
+	if (a[1] == NULL) {
+		char *dot = strrchr (file, '.');
+		if (dot == NULL) {
+			gel_errorout (_("%s: type not specified and filename has no extension"), "ExportPlot");
+			return NULL;
+		}
+		type = dot+1;
+	}
+
+	if (a[1] != NULL) {
+		if (a[1]->type != GEL_STRING_NODE ||
+		    ve_string_empty(a[1]->str.str)) {
+			gel_errorout (_("%s: second argument not a nonempty string"), "ExportPlot");
+			return NULL;
+		}
+		type = a[1]->str.str;
+	}
+
+	if (a[1] != NULL && a[2] != NULL) {
+		gel_errorout (_("%s: too many arguments"), "ExportPlot");
+		return NULL;
+	}
+
+	if (plot_canvas == NULL) {
+		gel_errorout (_("%s: plot canvas not active, cannot export"), "ExportPlot");
+		return NULL;
+	}
+
+	if (strcasecmp (type, "png") == 0) {
+		GdkPixbuf *pix;
+
+		/* sanity */
+		if (GTK_PLOT_CANVAS (plot_canvas)->pixmap == NULL) {
+			gel_errorout (_("%s: export failed"), "ExportPlot");
+			return NULL;
+		}
+
+		pix = gdk_pixbuf_get_from_drawable
+			(NULL /* dest */,
+			 GTK_PLOT_CANVAS (plot_canvas)->pixmap,
+			 NULL /* cmap */,
+			 0 /* src x */, 0 /* src y */,
+			 0 /* dest x */, 0 /* dest y */,
+			 GTK_PLOT_CANVAS (plot_canvas)->pixmap_width,
+			 GTK_PLOT_CANVAS (plot_canvas)->pixmap_height);
+
+		if (pix == NULL ||
+		    ! gdk_pixbuf_save (pix, file, "png", NULL /* error */, NULL)) {
+			if (pix != NULL)
+				g_object_unref (G_OBJECT (pix));
+			gel_errorout (_("%s: export failed"), "ExportPlot");
+			return NULL;
+		}
+
+		g_object_unref (G_OBJECT (pix));
+	} else if (strcasecmp (type, "eps") == 0 ||
+		   strcasecmp (type, "ps") == 0) {
+		gboolean eps = (strcasecmp (type, "eps") == 0);
+
+		plot_in_progress ++;
+		plot_window_setup ();
+
+		if ( ! gtk_plot_canvas_export_ps_with_size
+			(GTK_PLOT_CANVAS (plot_canvas),
+			 file,
+			 GTK_PLOT_PORTRAIT,
+			 eps /* epsflag */,
+			 GTK_PLOT_PSPOINTS,
+			 400, ASPECT * 400)) {
+			plot_in_progress --;
+			plot_window_setup ();
+			gel_errorout (_("%s: export failed"), "ExportPlot");
+			return NULL;
+		}
+
+		/* need this for some reason */
+		if (plot_canvas != NULL) {
+			gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+		}
+
+		plot_in_progress --;
+		plot_window_setup ();
+	} else {
+		gel_errorout (_("%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."), "ExportPlot");
+		return NULL;
+	}
+
+	return gel_makenum_bool (TRUE);
+}
+
+
+
+static GelETree *
 set_LinePlotWindow (GelETree * a)
 {
 	double x1, x2, y1, y2;
@@ -8443,6 +8554,8 @@ gel_add_graph_functions (void)
 
 	FUNC (LinePlotClear, 0, "", "plotting", N_("Show the line plot window and clear out functions"));
 	VFUNC (LinePlotDrawLine, 2, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"));
+
+	VFUNC (ExportPlot, 2, "filename,type", "plotting", N_("Export the current contents of the plot canvas to a file.  The file type is given by the string type, which can be \"png\", \"eps\", or \"ps\"."));
 
 	PARAMETER (SlopefieldTicks, N_("Number of slopefield ticks as a vector [vertical,horizontal]."));
 	PARAMETER (VectorfieldTicks, N_("Number of vectorfield ticks as a vector [vertical,horizontal]."));

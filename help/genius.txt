@@ -6139,6 +6139,29 @@ SymbolicTaylorApproximationFunction (f,x0,n)
 
 Plotting
 
+   ExportPlot
+
+ExportPlot (file,type)
+
+ExportPlot (file)
+
+          Export the contents of the plotting window to a file.
+          the type is a string that specifies the file type to
+          use, "png", "eps", or "ps". If the type is not
+          specified, then it is taken to be the extension, in
+          which case the extension must be ".png", ".eps", or
+          ".ps".
+
+          Note that files are overwritten without asking.
+
+          On successful export, true is returned. Otherwise error
+          is printed and exception is raised.
+
+          Examples:
+
+genius> ExportPlot("file.png")
+genius> ExportPlot("/directory/file","eps")
+
    LinePlot
 
 LinePlot (func1,func2,func3,...)
