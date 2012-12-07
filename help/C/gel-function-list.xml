@@ -763,6 +763,16 @@ slopefield plot.  (See <link linkend="gel-function-SlopefieldPlot"><function>Slo
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-SurfacePlotDrawLegends">
+         <term>SurfacePlotDrawLegends</term>
+         <listitem>
+          <synopsis>SurfacePlotDrawLegends = true</synopsis>
+          <para>Tells genius to draw the legends for <link linkend="genius-gel-function-list-plotting">surface plotting
+	  functions</link> such as <link linkend="gel-function-SurfacePlot"><function>SurfacePlot</function></link>.
+          </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-SurfacePlotVariableNames">
          <term>SurfacePlotVariableNames</term>
          <listitem>
@@ -4426,6 +4436,78 @@ and has period <userinput>b-a</userinput>.</para>
          </listitem>
         </varlistentry>
 
+        <varlistentry id="gel-function-BesselJ0">
+         <term>BesselJ0</term>
+         <listitem>
+          <synopsis>BesselJ0 (x)</synopsis>
+          <para>Bessel function of the first kind of order 0.  Only implemented for real numbers.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-BesselJ1">
+         <term>BesselJ1</term>
+         <listitem>
+          <synopsis>BesselJ1 (x)</synopsis>
+          <para>Bessel function of the first kind of order 1.  Only implemented for real numbers.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-BesselJn">
+         <term>BesselJn</term>
+         <listitem>
+          <synopsis>BesselJn (n,x)</synopsis>
+	  <para>Bessel function of the first kind of order <varname>n</varname>.  Only implemented for real numbers.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-BesselY0">
+         <term>BesselY0</term>
+         <listitem>
+          <synopsis>BesselY0 (x)</synopsis>
+          <para>Bessel function of the second kind of order 0.  Only implemented for real numbers.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-BesselY1">
+         <term>BesselY1</term>
+         <listitem>
+          <synopsis>BesselY1 (x)</synopsis>
+          <para>Bessel function of the second kind of order 1.  Only implemented for real numbers.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-BesselYn">
+         <term>BesselYn</term>
+         <listitem>
+          <synopsis>BesselYn (n,x)</synopsis>
+	  <para>Bessel function of the second kind of order <varname>n</varname>.  Only implemented for real numbers.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
         <varlistentry id="gel-function-DirichletKernel">
          <term>DirichletKernel</term>
          <listitem>
@@ -5484,6 +5566,7 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
          <listitem>
           <synopsis>SurfacePlot (func)</synopsis>
           <synopsis>SurfacePlot (func,x1,x2,y1,y2,z1,z2)</synopsis>
+          <synopsis>SurfacePlot (func,[x1,x2,y1,y2,z1,z2])</synopsis>
           <para>
 	    Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as <varname>x1</varname>, <varname>x2</varname>,
 	    <varname>y1</varname>, <varname>y2</varname>,
@@ -5497,6 +5580,84 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
           <screen><prompt>genius></prompt> <userinput>SurfacePlot(|sin|,-1,1,-1,1,0,1.5)</userinput>
 <prompt>genius></prompt> <userinput>SurfacePlot(`(x,y)=x^2+y,-1,1,-1,1,-2,2)</userinput>
 <prompt>genius></prompt> <userinput>SurfacePlot(`(z)=|z|^2,-1,1,-1,1,0,2)</userinput>
+</screen>
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-SurfacePlotData">
+         <term>SurfacePlotData</term>
+         <listitem>
+          <synopsis>SurfacePlotData (data)</synopsis>
+          <synopsis>SurfacePlotData (data,label)</synopsis>
+          <synopsis>SurfacePlotData (data,x1,x2,y1,y2,z1,z2)</synopsis>
+          <synopsis>SurfacePlotData (data,label,x1,x2,y1,y2,z1,z2)</synopsis>
+          <synopsis>SurfacePlotData (data,[x1,x2,y1,y2,z1,z2])</synopsis>
+          <synopsis>SurfacePlotData (data,label,[x1,x2,y1,y2,z1,z2])</synopsis>
+          <para>
+		  Plot a surface from data.  The data is an n by 3 matrix whose
+		  rows are the x, y and z coordinates.  The data can also be
+		  simply a vector whose length is a multiple of 3 and so
+		  contains the tripples of x, y, z.  The data should contain at
+		  least 3 points.
+	  </para>
+          <para>
+		  Optionally we can give the label and also optionally the
+		  limits.  If limits are not given, they are computed from
+		  the data, <link linkend="gel-function-SurfacePlotWindow"><function>SurfacePlotWindow</function></link>
+		  is not used, if you want to use it, pass it in explicitly.
+		  If label is not given then empty label is used.
+	  </para>
+          <para>
+	    Examples:
+          <screen><prompt>genius></prompt> <userinput>SurfacePlotData([0,0,0;1,0,1;0,1,1;1,1,3])</userinput>
+<prompt>genius></prompt> <userinput>SurfacePlotData(data,"My data")</userinput>
+<prompt>genius></prompt> <userinput>SurfacePlotData(data,-1,1,-1,1,0,10)</userinput>
+<prompt>genius></prompt> <userinput>SurfacePlotData(data,SurfacePlotWindow)</userinput>
+</screen>
+          </para>
+	  <para>
+		  Here's an example of how to plot in polar coordinates,
+		  in particular how to plot the function
+		  <userinput>-r^2 * theta</userinput>:
+          <screen><prompt>genius></prompt> <userinput>d:=null; for r=0 to 1 by 0.1 do for theta=0 to 2*pi by pi/5 do d=[d;[r*cos(theta),r*sin(theta),-r^2*theta]];</userinput>
+<prompt>genius></prompt> <userinput>SurfacePlotData(d)</userinput>
+</screen>
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry id="gel-function-SurfacePlotDataGrid">
+         <term>SurfacePlotDataGrid</term>
+         <listitem>
+          <synopsis>SurfacePlotDataGrid (data,[x1,x2,y1,y2])</synopsis>
+          <synopsis>SurfacePlotDataGrid (data,[x1,x2,y1,y2,z1,z2])</synopsis>
+          <synopsis>SurfacePlotDataGrid (data,[x1,x2,y1,y2],label)</synopsis>
+          <synopsis>SurfacePlotDataGrid (data,[x1,x2,y1,y2,z1,z2],label)</synopsis>
+          <para>
+		  Plot a surface from regular rectangular data.
+		  The data is given in a n by m matrix where the rows are the
+		  x coordinate and the columns are the y coordinate.
+		  The x coordinate is divided into equal n-1 subintervals
+		  and y coordinate is divided into equal m-1 subintervals.
+		  The limits <varname>x1</varname> and <varname>x2</varname>
+		  give the interval on the x-axis that we use, and 
+		  the limits <varname>y1</varname> and <varname>y2</varname>
+		  give the interval on the y-axis that we use.
+		  If the limits <varname>z1</varname> and <varname>z2</varname>
+		  are not given they are computed from the data (to be
+		  the extreme values from the data).
+	  </para>
+          <para>
+		  Optionally we can give the label, if label is not given then
+		  empty label is used.
+	  </para>
+          <para>
+	    Examples:
+          <screen><prompt>genius></prompt> <userinput>SurfacePlotDataGrid([1,2;3,4],[0,1,0,1])</userinput>
+<prompt>genius></prompt> <userinput>SurfacePlotDataGrid(data,[-1,1,-1,1],"My data")</userinput>
+<prompt>genius></prompt> <userinput>d:=null; for i=1 to 20 do for j=1 to 10 d@(i,j) = (0.1*i-1)^2-(0.1*j)^2;</userinput>
+<prompt>genius></prompt> <userinput>SurfacePlotDataGrid(d,[-1,1,0,1],"half a saddle")</userinput>
 </screen>
           </para>
          </listitem>

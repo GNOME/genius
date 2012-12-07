@@ -3,8 +3,8 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
   <!ENTITY app "<application>Genius Mathematics Tool</application>">
   <!ENTITY appname "Genius">
-  <!ENTITY appversion "1.0.15">
-  <!ENTITY date "March 2012">
+  <!ENTITY appversion "1.0.16">
+  <!ENTITY date "December 2012">
 
   <!ENTITY legal SYSTEM "legal.xml">
 
@@ -1231,7 +1231,9 @@ different from <literal>=</literal> because it never gets translated to a
          <listitem>
            <para>
              Addition.  Adds two numbers, matrices, functions or strings.  If
-	     you add a string to anything the result will just be a string.
+	     you add a string to anything the result will just be a string.  If one is
+	     a square matrix and the other a number, then the number is multiplied by
+	     the identity matrix.
            </para>
          </listitem>
         </varlistentry>
@@ -1272,7 +1274,9 @@ different from <literal>=</literal> because it never gets translated to a
          <term><synopsis>a/b</synopsis></term>
          <listitem>
            <para>
-             Division.
+		   Division.  When <varname>a</varname> and <varname>b</varname> are just numbers
+		   this is the normal division.  When they are matrices, then this is
+		   equivalent to <userinput>a*b^-1</userinput>.
            </para>
          </listitem>
         </varlistentry>
@@ -1282,7 +1286,8 @@ different from <literal>=</literal> because it never gets translated to a
          <term><synopsis>a./b</synopsis></term>
          <listitem>
            <para>
-             Element by element division.
+		   Element by element division.  Same as <userinput>a/b</userinput> for
+		   numbers, but operarates element by element on matrices.
            </para>
          </listitem>
         </varlistentry>
@@ -1370,8 +1375,9 @@ different from <literal>=</literal> because it never gets translated to a
          <term><synopsis>a==b</synopsis></term>
          <listitem>
            <para>
-	     Equality operator
-	     (returns <constant>true</constant> or <constant>false</constant>).
+	     Equality operator.
+	     Returns <constant>true</constant> or <constant>false</constant>
+	     depending on <varname>a</varname> and <varname>b</varname> being equal or not.
            </para>
          </listitem>
         </varlistentry>
@@ -1409,6 +1415,8 @@ different from <literal>=</literal> because it never gets translated to a
 	     returns <constant>true</constant> if <varname>a</varname> is
 	     less than or equal to 
 	     <varname>b</varname> else returns <constant>false</constant>.
+	     These can be chained as in <userinput>a &lt;= b &lt;= c</userinput> (can
+	     also be combined with the less than operator).
            </para>
          </listitem>
         </varlistentry>
@@ -1422,6 +1430,37 @@ different from <literal>=</literal> because it never gets translated to a
 	     returns <constant>true</constant> if <varname>a</varname> is
 	     greater than or equal to 
 	     <varname>b</varname> else returns <constant>false</constant>.
+	     These can be chained as in <userinput>a &gt;= b &gt;= c</userinput>
+	     (can also be combine with the greater than operator).
+           </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><synopsis>a&lt;b</synopsis></term>
+         <listitem>
+           <para>
+             Less than operator,
+	     returns <constant>true</constant> if <varname>a</varname> is
+	     less than or equal to 
+	     <varname>b</varname> else returns <constant>false</constant>.
+	     These can be chained as in <userinput>a &lt; b &lt; c</userinput>
+	     (can also be combine with the less than or equal to operator).
+           </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
+         <term><synopsis>a&gt;b</synopsis></term>
+         <listitem>
+           <para>
+             Greater than operator,
+	     returns <constant>true</constant> if <varname>a</varname> is
+	     greater than or equal to 
+	     <varname>b</varname> else returns <constant>false</constant>.
+	     These can be chained as in <userinput>a &gt; b &gt; c</userinput>
+	     (can also be combine with the greater than or equal to operator).
            </para>
          </listitem>
         </varlistentry>
@@ -1445,7 +1484,10 @@ different from <literal>=</literal> because it never gets translated to a
          <term><synopsis>a and b</synopsis></term>
          <listitem>
            <para>
-             Logical and.
+		   Logical and.  Returns true if both
+		   <varname>a</varname> and <varname>b</varname> are true,
+		   else returns false.  If given numbers, nonzero numbers
+		   are treated as true.
            </para>
          </listitem>
         </varlistentry>
@@ -1456,6 +1498,10 @@ different from <literal>=</literal> because it never gets translated to a
          <listitem>
            <para>
              Logical or.
+	     Returns true if both
+	     <varname>a</varname> or <varname>b</varname> are true,
+	     else returns false.  If given numbers, nonzero numbers
+	     are treated as true.
            </para>
          </listitem>
         </varlistentry>
@@ -1466,6 +1512,10 @@ different from <literal>=</literal> because it never gets translated to a
          <listitem>
            <para>
              Logical xor.
+	     Returns true exactly one of
+	     <varname>a</varname> or <varname>b</varname> is true,
+	     else returns false.  If given numbers, nonzero numbers
+	     are treated as true.
            </para>
          </listitem>
         </varlistentry>
@@ -1475,7 +1525,7 @@ different from <literal>=</literal> because it never gets translated to a
          <term><synopsis>not a</synopsis></term>
          <listitem>
            <para>
-             Logical not.
+		   Logical not.  Returns the logical negation of <varname>a</varname>
            </para>
          </listitem>
         </varlistentry>

@@ -75,7 +75,7 @@ Kai Willadsen
    To report a bug or make a suggestion regarding the Genius
    Mathematics Tool application or this manual, follow the
    directions in the GNOME Feedback Page.
-   This manual describes version 1.0.15 of Genius.
+   This manual describes version 1.0.16 of Genius.
      __________________________________________________________
 
    Table of Contents
@@ -450,7 +450,7 @@ Parametric Plots
 
    Figure 3. Parametric Plot Tab
 
-   An example of a parametric plot is given in Figure 3. Similar
+   An example of a parametric plot is given in Figure 4. Similar
    operations can be done on such graphs as can be done on the
    other line plots. For plotting using the command line see the
    documentation of the LinePlotParametric or LinePlotCParametric
@@ -538,10 +538,10 @@ GEL Basics
    GEL stands for Genius Extension Language. It is the language
    you use to write programs in Genius. A program in GEL is simply
    an expression that evaluates to a number. Genius Mathematics
-   Tool can therefore be used as a simple calculator, or as a
-   powerful theoretical research tool. The syntax is meant to have
-   as shallow of a learning curve as possible, especially for use
-   as a calculator.
+   Tool can be used as a simple calculator, or as a powerful
+   theoretical research tool. The syntax is meant to have as
+   shallow of a learning curve as possible, especially for use as
+   a calculator.
      __________________________________________________________
 
 Values
@@ -597,8 +597,8 @@ Numbers
    the .0.
 
    The final type of number in gel is the complex numbers. You can
-   enter a complex number as a sum of real and imaginary parts.
-   The imaginary part ends with an i. Here are examples of
+   enter a complex number as a sum of real and imaginary parts. To
+   add an imaginary part, append an i. Here are examples of
    entering complex numbers:
 1+2i
 8.01i
@@ -1020,7 +1020,9 @@ a+b
 
           Addition. Adds two numbers, matrices, functions or
           strings. If you add a string to anything the result will
-          just be a string.
+          just be a string. If one is a square matrix and the
+          other a number, then the number is multiplied by the
+          identity matrix.
 
 a-b
 
@@ -1039,11 +1041,14 @@ a.*b
 
 a/b
 
-          Division.
+          Division. When a and b are just numbers this is the
+          normal division. When they are matrices, then this is
+          equivalent to a*b^-1.
 
 a./b
 
-          Element by element division.
+          Element by element division. Same as a/b for numbers,
+          but operarates element by element on matrices.
 
 a\b
 
@@ -1081,7 +1086,8 @@ a!!
 
 a==b
 
-          Equality operator (returns true or false).
+          Equality operator. Returns true or false depending on a
+          and b being equal or not.
 
 a!=b
 
@@ -1096,12 +1102,30 @@ a<>b
 a<=b
 
           Less than or equal operator, returns true if a is less
-          than or equal to b else returns false.
+          than or equal to b else returns false. These can be
+          chained as in a <= b <= c (can also be combined with the
+          less than operator).
 
 a>=b
 
           Greater than or equal operator, returns true if a is
-          greater than or equal to b else returns false.
+          greater than or equal to b else returns false. These can
+          be chained as in a >= b >= c (can also be combine with
+          the greater than operator).
+
+a<b
+
+          Less than operator, returns true if a is less than or
+          equal to b else returns false. These can be chained as
+          in a < b < c (can also be combine with the less than or
+          equal to operator).
+
+a>b
+
+          Greater than operator, returns true if a is greater than
+          or equal to b else returns false. These can be chained
+          as in a > b > c (can also be combine with the greater
+          than or equal to operator).
 
 a<=>b
 
@@ -1111,19 +1135,25 @@ a<=>b
 
 a and b
 
-          Logical and.
+          Logical and. Returns true if both a and b are true, else
+          returns false. If given numbers, nonzero numbers are
+          treated as true.
 
 a or b
 
-          Logical or.
+          Logical or. Returns true if both a or b are true, else
+          returns false. If given numbers, nonzero numbers are
+          treated as true.
 
 a xor b
 
-          Logical xor.
+          Logical xor. Returns true exactly one of a or b is true,
+          else returns false. If given numbers, nonzero numbers
+          are treated as true.
 
 not a
 
-          Logical not.
+          Logical not. Returns the logical negation of a
 
 -a
 
@@ -1137,9 +1167,9 @@ not a
 
 *a
 
-          Variable dereferencing (to access a referenced varible).
-          See the Section called References in the Chapter called
-          Programming with GEL.
+          Variable dereferencing (to access a referenced
+          variable). See the Section called References in the
+          Chapter called Programming with GEL.
 
 a'
 
@@ -1721,7 +1751,7 @@ function f() = (
    defined.
 
    When you want the function to not have any private dictionary
-   when put empty square brackets after the argument list. Then no
+   then put empty square brackets after the argument list. Then no
    private dictionary will be created at all. Doing this is good
    to increase efficiency when a private dictionary is not needed
    or when you want the function to lookup all variables as it
@@ -2523,6 +2553,13 @@ LinePlotDrawLegends = true
           Tells genius to draw the legends for line plotting
           functions such as LinePlot.
 
+   LinePlotDrawAxisLabels
+
+LinePlotDrawAxisLabels = true
+
+          Tells genius to draw the axis labels for line plotting
+          functions such as LinePlot.
+
    LinePlotVariableNames
 
 LinePlotVariableNames = ["x","y","z","t"]
@@ -2643,6 +2680,13 @@ SumProductSFS = number
 SumProductTolerance = number
 
           Tolerance for InfiniteSum and InfiniteProduct.
+
+   SurfacePlotDrawLegends
+
+SurfacePlotDrawLegends = true
+
+          Tells genius to draw the legends for surface plotting
+          functions such as SurfacePlot.
 
    SurfacePlotVariableNames
 
@@ -3395,7 +3439,7 @@ for n=1 to 1000 do (
 
 FermatFactorization (n,tries)
 
-          Attempt fermat factorization of n into (t-s)*(t+s),
+          Attempt Fermat factorization of n into (t-s)*(t+s),
           returns t and s as a vector if possible, null otherwise.
           tries specifies the number of tries before giving up.
 
@@ -3525,7 +3569,7 @@ IsPrimitiveModWithPrimeFactors (g,q,f)
 IsPseudoprime (n,b)
 
           If n is a pseudoprime base b but not a prime, that is if
-          b^(n-1) == 1 mod n. This calles the PseudoprimeTest
+          b^(n-1) == 1 mod n. This calls the PseudoprimeTest
 
    IsStrongPseudoprime
 
@@ -3812,8 +3856,8 @@ CompoundMatrix (k,A)
 CountZeroColumns (M)
 
           Count the number of zero columns in a matrix. For
-          example Once you column reduce a matrix you can use this
-          to find the nullity. See cref and Nullity.
+          example once your column reduce a matrix you can use
+          this to find the nullity. See cref and Nullity.
 
    DeleteColumn
 
@@ -3967,7 +4011,7 @@ IsMatrixSquare (M)
 IsUpperTriangular (M)
 
           Is a matrix upper triangular? That is, a matrix is upper
-          triangular if all all the entries below the diagonal are
+          triangular if all the entries below the diagonal are
           zero.
 
    IsValueOnly
@@ -4009,7 +4053,10 @@ MakeDiagonal (v,arg...)
 
           Aliases: diag
 
-          Make diagonal matrix from a vector.
+          Make diagonal matrix from a vector. Alternatively you
+          can pass in the values to put on the diagonal as
+          arguments. So MakeDiagonal([1,2,3]) is the same as
+          MakeDiagonal(1,2,3).
 
           See Wikipedia or Planetmath for more information.
 
@@ -4068,7 +4115,8 @@ RowSum (m)
 
 RowSumSquares (m)
 
-          Calculate sum of squares of each row in a matrix.
+          Calculate sum of squares of each row in a matrix and
+          return a vertical vector with the results.
 
    RowsOf
 
@@ -4087,7 +4135,7 @@ SetMatrixSize (M,rows,columns)
           Make new matrix of given size from old one. That is, a
           new matrix will be returned to which the old one is
           copied. Entries that don't fit are clipped and extra
-          space is filled with zeros. if rows or columns are zero
+          space is filled with zeros. If rows or columns are zero
           then null is returned.
 
    ShuffleVector
@@ -4402,7 +4450,8 @@ IsInSubspace (v,W)
 IsInvertible (n)
 
           Is a matrix (or number) invertible (Integer matrix is
-          invertible iff it's invertible over the integers).
+          invertible if and only if it is invertible over the
+          integers).
 
    IsInvertibleField
 
@@ -4651,8 +4700,8 @@ Rank (M)
 
 RosserMatrix ()
 
-          Rosser matrix, a classic symmetric eigenvalue test
-          problem.
+          Returns the Rosser matrix, which is a classic symmetric
+          eigenvalue test problem.
 
    Rotation2D
 
@@ -4854,7 +4903,7 @@ Combinatorics
 
 Catalan (n)
 
-          Get n'th catalan number.
+          Get nth Catalan number.
 
           See Planetmath for more information.
 
@@ -4940,7 +4989,7 @@ HarmonicNumber (n,r)
 
           Aliases: HarmonicH
 
-          Harmonic Number, the n'th harmonic number of order r.
+          Harmonic Number, the nth harmonic number of order r.
 
    Hofstadter
 
@@ -4953,7 +5002,7 @@ Hofstadter (n)
 
 LinearRecursiveSequence (seed_values,combining_rule,n)
 
-          Compute linear recursive sequence using galois stepping.
+          Compute linear recursive sequence using Galois stepping.
 
    Multinomial
 
@@ -5062,7 +5111,7 @@ Subfactorial (n)
 
 Triangular (nth)
 
-          Calculate the n'th triangular number.
+          Calculate the nth triangular number.
 
           See Planetmath for more information.
 
@@ -5385,6 +5434,60 @@ Argument (z)
 
           argument (angle) of complex number.
 
+   BesselJ0
+
+BesselJ0 (x)
+
+          Bessel function of the first kind of order 0. Only
+          implemented for real numbers.
+
+          See Wikipedia for more information.
+
+   BesselJ1
+
+BesselJ1 (x)
+
+          Bessel function of the first kind of order 1. Only
+          implemented for real numbers.
+
+          See Wikipedia for more information.
+
+   BesselJn
+
+BesselJn (n,x)
+
+          Bessel function of the first kind of order n. Only
+          implemented for real numbers.
+
+          See Wikipedia for more information.
+
+   BesselY0
+
+BesselY0 (x)
+
+          Bessel function of the second kind of order 0. Only
+          implemented for real numbers.
+
+          See Wikipedia for more information.
+
+   BesselY1
+
+BesselY1 (x)
+
+          Bessel function of the second kind of order 1. Only
+          implemented for real numbers.
+
+          See Wikipedia for more information.
+
+   BesselYn
+
+BesselYn (n,x)
+
+          Bessel function of the second kind of order n. Only
+          implemented for real numbers.
+
+          See Wikipedia for more information.
+
    DirichletKernel
 
 DirichletKernel (n,t)
@@ -5395,7 +5498,7 @@ DirichletKernel (n,t)
 
 DiscreteDelta (v)
 
-          Returns 1 iff all elements are zero.
+          Returns 1 if and only if all elements are zero.
 
    ErrorFunction
 
@@ -5430,7 +5533,7 @@ GammaFunction (x)
 
 KroneckerDelta (v)
 
-          Returns 1 iff all elements are equal.
+          Returns 1 if and only if all elements are equal.
 
    MinimizeFunction
 
@@ -5533,6 +5636,16 @@ deg2rad (x)
 rad2deg (x)
 
           Convert radians to degrees.
+
+   sinc
+
+sinc (x)
+
+          Calculates the unnormalized sinc function, that is
+          sin(x)/x. If you want the normalized function call
+          sinc(pi*x).
+
+          See Wikipedia for more information.
      __________________________________________________________
 
 Equation Solving
@@ -6020,7 +6133,7 @@ SymbolicNthDerivativeTry (f,n)
 
 SymbolicTaylorApproximationFunction (f,x0,n)
 
-          Attempt to construct the taylor approximation function
+          Attempt to construct the Taylor approximation function
           around x0 to the nth degree. (See SymbolicDerivative)
      __________________________________________________________
 
@@ -6060,7 +6173,7 @@ LinePlotDrawLine (x1,y1,x2,y2,...)
 LinePlotDrawLine (v,...)
 
           Draw a line from x1,y1 to x2,y2. x1,y1, x2,y2 can be
-          replaced by an n by 2 matrix for a longer line.
+          replaced by an n by 2 matrix for a longer polyline.
 
           Extra parameters can be added to specify line color,
           thickness, arrows, and the plotting window. You can do
@@ -6164,6 +6277,8 @@ SurfacePlot (func)
 
 SurfacePlot (func,x1,x2,y1,y2,z1,z2)
 
+SurfacePlot (func,[x1,x2,y1,y2,z1,z2])
+
           Plot a surface function which takes either two arguments
           or a complex number. First comes the function then
           optionally limits as x1, x2, y1, y2, z1, z2. If limits
@@ -6176,6 +6291,78 @@ SurfacePlot (func,x1,x2,y1,y2,z1,z2)
 genius> SurfacePlot(|sin|,-1,1,-1,1,0,1.5)
 genius> SurfacePlot(`(x,y)=x^2+y,-1,1,-1,1,-2,2)
 genius> SurfacePlot(`(z)=|z|^2,-1,1,-1,1,0,2)
+
+   SurfacePlotData
+
+SurfacePlotData (data)
+
+SurfacePlotData (data,label)
+
+SurfacePlotData (data,x1,x2,y1,y2,z1,z2)
+
+SurfacePlotData (data,label,x1,x2,y1,y2,z1,z2)
+
+SurfacePlotData (data,[x1,x2,y1,y2,z1,z2])
+
+SurfacePlotData (data,label,[x1,x2,y1,y2,z1,z2])
+
+          Plot a surface from data. The data is an n by 3 matrix
+          whose rows are the x, y and z coordinates. The data can
+          also be simply a vector whose length is a multiple of 3
+          and so contains the tripples of x, y, z. The data should
+          contain at least 3 points.
+
+          Optionally we can give the label and also optionally the
+          limits. If limits are not given, they are computed from
+          the data, SurfacePlotWindow is not used, if you want to
+          use it, pass it in explicitly. If label is not given
+          then empty label is used.
+
+          Examples:
+
+genius> SurfacePlotData([0,0,0;1,0,1;0,1,1;1,1,3])
+genius> SurfacePlotData(data,"My data")
+genius> SurfacePlotData(data,-1,1,-1,1,0,10)
+genius> SurfacePlotData(data,SurfacePlotWindow)
+
+          Here's an example of how to plot in polar coordinates,
+          in particular how to plot the function -r^2 * theta:
+
+genius> d:=null; for r=0 to 1 by 0.1 do for theta=0 to 2*pi by pi/5 do d
+=[d;[r*cos(theta),r*sin(theta),-r^2*theta]];
+genius> SurfacePlotData(d)
+
+   SurfacePlotDataGrid
+
+SurfacePlotDataGrid (data,[x1,x2,y1,y2])
+
+SurfacePlotDataGrid (data,[x1,x2,y1,y2,z1,z2])
+
+SurfacePlotDataGrid (data,[x1,x2,y1,y2],label)
+
+SurfacePlotDataGrid (data,[x1,x2,y1,y2,z1,z2],label)
+
+          Plot a surface from regular rectangular data. The data
+          is given in a n by m matrix where the rows are the x
+          coordinate and the columns are the y coordinate. The x
+          coordinate is divided into equal n-1 subintervals and y
+          coordinate is divided into equal m-1 subintervals. The
+          limits x1 and x2 give the interval on the x-axis that we
+          use, and the limits y1 and y2 give the interval on the
+          y-axis that we use. If the limits z1 and z2 are not
+          given they are computed from the data (to be the extreme
+          values from the data).
+
+          Optionally we can give the label, if label is not given
+          then empty label is used.
+
+          Examples:
+
+genius> SurfacePlotDataGrid([1,2;3,4],[0,1,0,1])
+genius> SurfacePlotDataGrid(data,[-1,1,-1,1],"My data")
+genius> d:=null; for i=1 to 20 do for j=1 to 10 d@(i,j) = (0.1*i-1)^2-(0
+.1*j)^2;
+genius> SurfacePlotDataGrid(d,[-1,1,0,1],"half a saddle")
 
    VectorfieldClearSolutions
 
@@ -6260,7 +6447,7 @@ function f(x) = prod k=1 to x do k
 # Calculate the row-echelon form of a matrix
 function MyOwnREF(m) = (
   if not IsMatrix(m) or not IsValueOnly(m) then
-    (error("ref: argument not a value only matrix");bailout);
+    (error("MyOwnREF: argument not a value only matrix");bailout);
   s := min(rows(m), columns(m));
   i := 1;
   d := 1;
@@ -6394,7 +6581,7 @@ Output
 
    OutputStyle
           A string, can be "normal", "latex", "mathml" or "troff"
-          and it will effect how matrices (and perhaps other
+          and it will affect how matrices (and perhaps other
           stuff) is printed, useful for pasting into documents.
           Normal style is the default human readable printing
           style of Genius Mathematics Tool. The other styles are
