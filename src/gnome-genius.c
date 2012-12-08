@@ -1191,7 +1191,7 @@ populate_var_box (GtkTextBuffer *buffer)
 				gtk_text_buffer_insert_with_tags_by_name
 					(buffer, &iter, "\n", -1, "context", NULL);
 				if (i < 1)
-					printf ("EKI!!");
+					printf ("EKI!!\n");
 			} else if (cols >= 58) {
 				gtk_text_buffer_insert_with_tags_by_name
 					(buffer, &iter, ",\n", -1, "context", NULL);
@@ -2759,9 +2759,15 @@ load_cb (GtkWidget *w)
 	g_signal_connect (G_OBJECT (fs), "response",
 			  G_CALLBACK (really_load_cb), NULL);
 
-	if (last_dir != NULL)
+	if (last_dir != NULL) {
 		gtk_file_chooser_set_current_folder
 			(GTK_FILE_CHOOSER (fs), last_dir);
+	} else {
+		char *s = g_get_current_dir ();
+		gtk_file_chooser_set_current_folder
+			(GTK_FILE_CHOOSER (fs), s);
+		g_free (s);
+	}
 
 	gtk_widget_show (fs);
 }
@@ -3628,9 +3634,15 @@ open_callback (GtkWidget *w)
 	g_signal_connect (G_OBJECT (fs), "response",
 			  G_CALLBACK (really_open_cb), NULL);
 
-	if (last_dir != NULL)
+	if (last_dir != NULL) {
 		gtk_file_chooser_set_current_folder
 			(GTK_FILE_CHOOSER (fs), last_dir);
+	} else {
+		char *s = g_get_current_dir ();
+		gtk_file_chooser_set_current_folder
+			(GTK_FILE_CHOOSER (fs), s);
+		g_free (s);
+	}
 
 	gtk_widget_show (fs);
 }
@@ -3775,13 +3787,6 @@ really_save_as_cb (GtkFileChooser *fs, int response, gpointer data)
 	}
 	g_free (base);
 	
-	if (uri_exists (s) &&
-	    ! genius_ask_question (GTK_WIDGET (fs),
-			    _("File already exists.  Overwrite it?"))) {
-		g_free (s);
-		return;
-	}
-
 	if ( ! save_program (selected_program, s /* new fname */)) {
 		char *err = g_strdup_printf (_("<b>Cannot save file</b>\n"
 					       "Details: %s"),
@@ -3826,6 +3831,8 @@ save_as_callback (GtkWidget *w)
 					  GTK_STOCK_SAVE, GTK_RESPONSE_OK,
 					  NULL);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (fs), FALSE);
+	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (fs),
+							TRUE);
 
 	add_filters (GTK_FILE_CHOOSER (fs));
 
@@ -3837,6 +3844,11 @@ save_as_callback (GtkWidget *w)
 	if (last_dir != NULL) {
 		gtk_file_chooser_set_current_folder
 			(GTK_FILE_CHOOSER (fs), last_dir);
+	} else {
+		char *s = g_get_current_dir ();
+		gtk_file_chooser_set_current_folder
+			(GTK_FILE_CHOOSER (fs), s);
+		g_free (s);
 	}
 	if (selected_program->real_file) {
 		gtk_file_chooser_set_uri
@@ -3890,13 +3902,6 @@ really_save_console_cb (GtkFileChooser *fs, int response, gpointer data)
 	}
 	g_free (base);
 	
-	if (uri_exists (s) &&
-	    ! genius_ask_question (GTK_WIDGET (fs),
-			    _("File already exists.  Overwrite it?"))) {
-		g_free (s);
-		return;
-	}
-
 	/* this is moronic! VTE has an idiotic API, there is no
 	 * way to find out what the proper row range is! */
 	vte_terminal_get_cursor_position (VTE_TERMINAL (term),
@@ -3953,6 +3958,8 @@ save_console_cb (GtkWidget *w)
 					  GTK_STOCK_SAVE, GTK_RESPONSE_OK,
 					  NULL);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (fs), FALSE);
+	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (fs),
+							TRUE);
 
 	g_signal_connect (G_OBJECT (fs), "destroy",
 			  G_CALLBACK (gtk_widget_destroyed), &fs);
@@ -3962,6 +3969,11 @@ save_console_cb (GtkWidget *w)
 	if (last_dir != NULL) {
 		gtk_file_chooser_set_current_folder
 			(GTK_FILE_CHOOSER (fs), last_dir);
+	} else {
+		char *s = g_get_current_dir ();
+		gtk_file_chooser_set_current_folder
+			(GTK_FILE_CHOOSER (fs), s);
+		g_free (s);
 	}
 
 	gtk_file_chooser_set_current_name

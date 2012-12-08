@@ -1156,6 +1156,11 @@ do_export_cb (int export_type)
 	if (last_export_dir != NULL) {
 		gtk_file_chooser_set_current_folder
 			(GTK_FILE_CHOOSER (fs), last_export_dir);
+	} else {
+		char *s = g_get_current_dir ();
+		gtk_file_chooser_set_current_folder
+			(GTK_FILE_CHOOSER (fs), s);
+		g_free (s);
 	}
 
 	gtk_widget_show (fs);

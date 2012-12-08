@@ -1,3 +1,11 @@
+Fri Dec 07 21:36:50 2012  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c, src/gnome-genius.c: kill our own overwrite dialog
+	  since gtk does it already.  Also when no last dir, set current
+	  directory in the file chooser, because the current default 
+	  behaviour is godawfully annoying.  I can always click on "Recent",
+	  but getting to "current working directory" can be quite a chore.
+
 Fri Dec 07 17:21:26 2012  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/graphing.c, help/C/gel-function-list.xml: add ExportPlot
