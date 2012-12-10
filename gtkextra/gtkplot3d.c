@@ -31,6 +31,8 @@
 #define DEFAULT_WIDTH 420
 #define DEFAULT_HEIGHT 340
 #define DEFAULT_FONT_HEIGHT 10 
+/* This should be same as in gtkplot.c */
+#define LABEL_MAX_LENGTH 100
 
 #ifndef PI
 #define PI 3.141592653589793238462643383279502884197
@@ -1720,7 +1722,7 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
   GtkWidget *widget;
   GtkPlotPC *pc;
   GtkPlotText title, tick;
-  gchar label[100];
+  gchar label[LABEL_MAX_LENGTH];
   gdouble tick_value;
   gdouble xx;
   gint text_height, text_width, ascent, descent;

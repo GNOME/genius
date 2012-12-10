@@ -1,3 +1,17 @@
+Mon Dec 10 16:20:53 2012  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c: when number of digits of labels is too much
+	  use the scientific notation.  Avoids ugly huge numbers.
+	  Also make the graph slightly bigger (700x500) and in lineplot mode
+	  make the margins bigger so that we don't lose any digits on axes
+	  when zooming out or in.  Also fixup labels for gradient.  Gradient
+	  is now done only for the range of the function not the whole range
+	  that makes it more useful.
+
+	* gtkextra/gtkplot.c, gtkextra/gtkplot3d.c, gtkextra/gtkplotsurface.c:
+	  minor cleanup and fix crash when labels too big.  Also fix gradient
+	  label style settings, and zero out data we just freed.
+
 Fri Dec 07 21:36:50 2012  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/graphing.c, src/gnome-genius.c: kill our own overwrite dialog

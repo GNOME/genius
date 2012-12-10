@@ -5254,8 +5254,8 @@ gtk_plot_data_gradient_set_style        (GtkPlotData *data,
                                          GtkPlotLabelStyle style,
                                          gint precision)
 {
-  data->legends_style = style,
-  data->legends_precision = style;
+  data->gradient->label_style = style;
+  data->gradient->label_precision = precision;
 }
 
 void            gtk_plot_data_gradient_set_scale        (GtkPlotData *data,

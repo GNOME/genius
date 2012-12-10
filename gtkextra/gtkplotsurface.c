@@ -469,7 +469,11 @@ gtk_plot_surface_update_range (GtkPlotData *data)
      gtk_plot_data_set_z(GTK_PLOT_DATA(surface), fz);
      gtk_plot_data_set_numpoints(GTK_PLOT_DATA(surface), npoints);
 
-     gtk_plot_surface_build_mesh(surface);
+     gtk_plot_surface_real_build_mesh(surface);
+
+     gtk_plot_data_set_x(GTK_PLOT_DATA(surface), NULL);
+     gtk_plot_data_set_y(GTK_PLOT_DATA(surface), NULL);
+     gtk_plot_data_set_z(GTK_PLOT_DATA(surface), NULL);
 
      g_free(fx);
      g_free(fy);
@@ -1443,6 +1447,10 @@ gtk_plot_surface_build_mesh(GtkPlotSurface *surface)
      gtk_plot_data_set_numpoints(data, npoints);
      gtk_plot_surface_real_build_mesh(surface);
 
+     gtk_plot_data_set_x(data, NULL);
+     gtk_plot_data_set_y(data, NULL);
+     gtk_plot_data_set_z(data, NULL);
+
      g_free(fx);
      g_free(fy);
      g_free(fz);
@@ -1483,6 +1491,10 @@ gtk_plot_surface_build_mesh(GtkPlotSurface *surface)
      gtk_plot_data_set_z(GTK_PLOT_DATA(surface), fz);
 
      gtk_plot_surface_real_build_mesh(surface);
+
+     gtk_plot_data_set_x(GTK_PLOT_DATA(surface), NULL);
+     gtk_plot_data_set_y(GTK_PLOT_DATA(surface), NULL);
+     gtk_plot_data_set_z(GTK_PLOT_DATA(surface), NULL);
 
      g_free(fx);
      g_free(fy);

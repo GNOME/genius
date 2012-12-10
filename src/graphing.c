@@ -328,13 +328,14 @@ create_range_spinboxes (const char *title, GtkWidget **titlew,
 static void set_lineplot_labels (void);
 static void set_surface_labels (void);
 
-#define WIDTH 640
-#define HEIGHT 480
+#define WIDTH 700
+#define HEIGHT 500
 #define ASPECT ((double)HEIGHT/(double)WIDTH)
 
 #define PROPORTION 0.85
 #define PROPORTION3D 0.80
-#define PROPORTION_OFFSET 0.075
+#define PROPORTION_OFFSETX 0.1
+#define PROPORTION_OFFSETY 0.075
 #define PROPORTION3D_OFFSET 0.1
 
 #include "funclibhelper.cP"
@@ -1572,22 +1573,22 @@ line_plot_move_about (void)
 		/* move plot out of the way if we are in parametric mode and
 		 * there is a legend */
 		gtk_plot_move (GTK_PLOT (line_plot),
-			       PROPORTION_OFFSET,
-			       PROPORTION_OFFSET);
+			       PROPORTION_OFFSETX,
+			       PROPORTION_OFFSETY);
 		gtk_plot_resize (GTK_PLOT (line_plot),
-				 1.0-2*PROPORTION_OFFSET,
-				 1.0-2*PROPORTION_OFFSET-0.05);
+				 1.0-2*PROPORTION_OFFSETX,
+				 1.0-2*PROPORTION_OFFSETY-0.05);
 
 		gtk_plot_legends_move (GTK_PLOT (line_plot),
 				       0.0,
 				       1.07);
 	} else {
 		gtk_plot_move (GTK_PLOT (line_plot),
-			       PROPORTION_OFFSET,
-			       PROPORTION_OFFSET);
+			       PROPORTION_OFFSETX,
+			       PROPORTION_OFFSETY);
 		gtk_plot_resize (GTK_PLOT (line_plot),
-				 1.0-2*PROPORTION_OFFSET,
-				 1.0-2*PROPORTION_OFFSET);
+				 1.0-2*PROPORTION_OFFSETX,
+				 1.0-2*PROPORTION_OFFSETY);
 		gtk_plot_legends_move (GTK_PLOT (line_plot), 0.80, 0.05);
 	}
 }
@@ -1607,10 +1608,10 @@ add_line_plot (void)
 	plot_child = gtk_plot_canvas_plot_new (GTK_PLOT (line_plot));
 	gtk_plot_canvas_put_child (GTK_PLOT_CANVAS (plot_canvas),
 				   plot_child,
-				   PROPORTION_OFFSET,
-				   PROPORTION_OFFSET,
-				   1.0-PROPORTION_OFFSET,
-				   1.0-PROPORTION_OFFSET);
+				   PROPORTION_OFFSETX,
+				   PROPORTION_OFFSETY,
+				   1.0-PROPORTION_OFFSETX,
+				   1.0-PROPORTION_OFFSETY);
 
 	top = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_TOP);
 	right = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_RIGHT);
@@ -2123,7 +2124,8 @@ clear_graph (void)
 }
 
 static void
-get_ticks (double start, double end, double *tick, int *prec)
+get_ticks (double start, double end, double *tick, int *prec,
+	   int *style)
 {
 	int incs;
 	double len = end-start;
@@ -2162,9 +2164,17 @@ get_ticks (double start, double end, double *tick, int *prec)
 		}
 	}
 
-	if (tickprec + extra_prec <= 0) {
+	if (tickprec + extra_prec <= -6) {
+		*prec = 1;
+		*style = GTK_PLOT_LABEL_EXP;
+	} else if (tickprec + extra_prec <= 0) {
+		*style = GTK_PLOT_LABEL_FLOAT;
 		*prec = 0;
+	} else if (tickprec + extra_prec >= 6) {
+		*prec = 1;
+		*style = GTK_PLOT_LABEL_EXP;
 	} else {
+		*style = GTK_PLOT_LABEL_FLOAT;
 		*prec = tickprec + extra_prec;
 	}
 }
@@ -2172,13 +2182,13 @@ get_ticks (double start, double end, double *tick, int *prec)
 static void
 plot_setup_axis (void)
 {
-	int xprec, yprec;
+	int xprec, yprec, xstyle, ystyle;
 	double xtick, ytick;
 	GtkPlotAxis *axis;
 	GdkColor gray;
 
-	get_ticks (plotx1, plotx2, &xtick, &xprec);
-	get_ticks (ploty1, ploty2, &ytick, &yprec);
+	get_ticks (plotx1, plotx2, &xtick, &xprec, &xstyle);
+	get_ticks (ploty1, ploty2, &ytick, &yprec, &ystyle);
 
 	gtk_plot_freeze (GTK_PLOT (line_plot));
 
@@ -2221,7 +2231,7 @@ plot_setup_axis (void)
 
 	axis = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_TOP);
 	gtk_plot_axis_set_labels_style (axis,
-					GTK_PLOT_LABEL_FLOAT,
+					xstyle /* style */,
 					xprec /* precision */);
 	gtk_plot_axis_show_labels (axis, lineplot_draw_labels ?
 				      GTK_PLOT_LABEL_OUT :
@@ -2229,7 +2239,7 @@ plot_setup_axis (void)
 
 	axis = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_BOTTOM);
 	gtk_plot_axis_set_labels_style (axis,
-					GTK_PLOT_LABEL_FLOAT,
+					xstyle /* style */,
 					xprec /* precision */);
 	gtk_plot_axis_show_labels (axis, lineplot_draw_labels ?
 				      GTK_PLOT_LABEL_OUT :
@@ -2237,7 +2247,7 @@ plot_setup_axis (void)
 
 	axis = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_LEFT);
 	gtk_plot_axis_set_labels_style (axis,
-					GTK_PLOT_LABEL_FLOAT,
+					ystyle /* style */,
 					yprec /* precision */);
 	gtk_plot_axis_show_labels (axis, lineplot_draw_labels ?
 				      GTK_PLOT_LABEL_OUT :
@@ -2245,7 +2255,7 @@ plot_setup_axis (void)
 
 	axis = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_RIGHT);
 	gtk_plot_axis_set_labels_style (axis,
-					GTK_PLOT_LABEL_FLOAT,
+					ystyle /* style */,
 					yprec /* precision */);
 	gtk_plot_axis_show_labels (axis, lineplot_draw_labels ?
 				      GTK_PLOT_LABEL_OUT :
@@ -2264,12 +2274,13 @@ static void
 surface_setup_axis (void)
 {
 	int xprec, yprec, zprec;
+	int xstyle, ystyle, zstyle;
 	double xtick, ytick, ztick;
 	GtkPlotAxis *x, *y, *z;
 
-	get_ticks (surfacex1, surfacex2, &xtick, &xprec);
-	get_ticks (surfacey1, surfacey2, &ytick, &yprec);
-	get_ticks (surfacez1, surfacez2, &ztick, &zprec);
+	get_ticks (surfacex1, surfacex2, &xtick, &xprec, &xstyle);
+	get_ticks (surfacey1, surfacey2, &ytick, &yprec, &ystyle);
+	get_ticks (surfacez1, surfacez2, &ztick, &zprec, &zstyle);
 
 	x = gtk_plot3d_get_axis (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_X);
 	y = gtk_plot3d_get_axis (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_Y);
@@ -2287,13 +2298,13 @@ surface_setup_axis (void)
 	gtk_plot_axis_set_ticks (z, ztick, 1);
 
 	gtk_plot_axis_set_labels_style (x,
-					GTK_PLOT_LABEL_FLOAT,
+					xstyle,
 					xprec /* precision */);
 	gtk_plot_axis_set_labels_style (y,
-					GTK_PLOT_LABEL_FLOAT,
+					ystyle,
 					yprec /* precision */);
 	gtk_plot_axis_set_labels_style (z,
-					GTK_PLOT_LABEL_FLOAT,
+					zstyle,
 					zprec /* precision */);
 
 	gtk_plot_axis_thaw (x);
@@ -2308,11 +2319,43 @@ surface_setup_steps (void)
 	gtk_plot_surface_set_xstep (GTK_PLOT_SURFACE (surface_data), (surfacex2-surfacex1)/30);
 	gtk_plot_surface_set_ystep (GTK_PLOT_SURFACE (surface_data), (surfacey2-surfacey1)/30);
 
+	gtk_plot_surface_build_mesh (surface_data);
+
+	/* FIXME: CAN DO AUTOSCALE NOW! */
+}
+
+/* FIXME: perhaps should be smarter ? */
+static void
+surface_setup_gradient (void)
+{
+	double min, max, absminmax;
+
+	min = MAX(surfacez1, plot_minz);
+	max = MIN(surfacez2, plot_maxz);
+
 	gtk_plot_data_set_gradient (surface_data,
-				    surfacez1,
-				    surfacez2,
+				    min,
+				    max,
 				    10 /* nlevels */,
 				    0 /* nsublevels */);
+	absminmax = MAX(fabs(min),fabs(max));
+	if (absminmax < 0.0001 || absminmax > 1000000) {
+		gtk_plot_data_gradient_set_style (surface_data,
+						  GTK_PLOT_LABEL_EXP,
+						  3);
+	} else {
+		int powten = floor (log10(absminmax));
+		int prec = 0;
+		if (-powten+2 > 0) {
+			prec = -powten+2;
+		} else {
+			prec = 0;
+		}
+		gtk_plot_data_gradient_set_style (surface_data,
+						  GTK_PLOT_LABEL_FLOAT,
+						  prec);
+	}
+
 }
 
 static void
@@ -2323,6 +2366,8 @@ plot_axis (void)
 
 	plot_maxy = - G_MAXDOUBLE/2;
 	plot_miny = G_MAXDOUBLE/2;
+	plot_maxz = - G_MAXDOUBLE/2;
+	plot_minz = G_MAXDOUBLE/2;
 	plot_maxx = - G_MAXDOUBLE/2;
 	plot_minx = G_MAXDOUBLE/2;
 
@@ -2334,6 +2379,7 @@ plot_axis (void)
 	} else if (plot_mode == MODE_SURFACE) {
 		surface_setup_axis ();
 		surface_setup_steps ();
+		surface_setup_gradient ();
 		/* FIXME: this doesn't work (crashes) must fix in GtkExtra, then
 		   we can always just autoscale stuff
 		   gtk_plot3d_autoscale (GTK_PLOT3D (surface_plot));
@@ -4118,6 +4164,7 @@ plot_surface_functions (gboolean do_window_present)
 				   surface_data);
 
 		surface_setup_steps ();
+		surface_setup_gradient ();
 
 		gtk_widget_show (GTK_WIDGET (surface_data));
 
@@ -4152,11 +4199,10 @@ plot_surface_functions (gboolean do_window_present)
 		gtk_plot_surface_recalc_nodes (GTK_PLOT_SURFACE (surface_data));
 
 
-		surface_setup_steps ();
-
 		gtk_plot_add_data (GTK_PLOT (surface_plot),
 				   surface_data);
 
+		surface_setup_gradient ();
 
 		gtk_widget_show (GTK_WIDGET (surface_data));
 
