@@ -1,7 +1,7 @@
 /* GENIUS Calculator
  * Copyright (C) 1997-2011 Jiri (George) Lebl
  *
- * Author: George Lebl
+ * Author: Jiri (George) Lebl
  *
  * This file is part of Genius.
  *
