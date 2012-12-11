@@ -29,7 +29,8 @@ It's under GPL so read COPYING
 
 Note: the gtkextra/ directory which includes the plotting widgetry is
 copyright: Adrian E. Feiguin <feiguin@ifir.edu.ar> and is under LGPL.  When
-GtkExtra is actually released, stable, widely deployed and all that it will
-become a requirement rather then being included like this.
+GtkExtra is actually released, stable, free of bugs, widely deployed and all
+that it will become a requirement rather then being included like this.  This
+seems very unlikely at this time.
 
 George <jirka@5z.com>
