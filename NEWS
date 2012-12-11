@@ -8,11 +8,13 @@ Changes to 1.0.16
   to a file from GEL
 * Add sinc, BesselJ0, BesselJ1, BesselJn, BesselY0, BesselY1, BesselYn functions
 * Plot window slightly bigger (700x500 now) and there are wider
-  side margins in the lineplot (2d) version to make tick labels always fit,
+  side margins in the lineplot (2D) version to make tick labels always fit,
 * In both 2D and 3D plots, tick labels now use scientific notation when
   needed to avoid ugly labels
 * In surface plot the gradient always shows only the range of the function, so
   color is more useful when zoomed out.
+* Surface plot now allows "fit dependent axis" automatically when
+  z limits are unspecified.
 * Simpler output when typing "help foo" when foo is neither defined nor
   documented.
 * Handle wider matrices than 2^15 columns in expansion

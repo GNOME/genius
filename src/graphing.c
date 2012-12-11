@@ -180,11 +180,16 @@ static gboolean lineplot_draw_legends = TRUE;
 static gboolean lineplot_draw_legends_cb = TRUE;
 static gboolean lineplot_draw_labels = TRUE;
 static gboolean lineplot_draw_labels_cb = TRUE;
+/* static gboolean lineplot_fit_dependent_axis_cb = TRUE; */
 static gboolean vectorfield_normalize_arrow_length = FALSE;
 static gboolean vectorfield_normalize_arrow_length_cb = FALSE;
 static gboolean vectorfield_normalize_arrow_length_parameter = FALSE;
 static gboolean surfaceplot_draw_legends = TRUE;
 static gboolean surfaceplot_draw_legends_cb = TRUE;
+static gboolean surfaceplot_fit_dependent_axis_cb = TRUE;
+
+static GtkWidget* surfaceplot_dep_axis_buttons = NULL;
+/* static GtkWidget* lineplot_dep_axis_buttons = NULL; */
 
 /* Replotting info */
 static GelEFunc *plot_func[MAXFUNC] = { NULL };
@@ -306,7 +311,7 @@ static void plot_functions (gboolean do_window_present,
 			    gboolean from_gui);
 
 /* surfaces */
-static void plot_surface_functions (gboolean do_window_present);
+static void plot_surface_functions (gboolean do_window_present, gboolean fit_function);
 
 /* replot the slope/vector fields after zoom or other axis changing event */
 static void replot_fields (void);
@@ -380,6 +385,23 @@ is_identifier (const char *e)
 			return FALSE;
 	}
 	return TRUE;
+}
+
+static char *
+FIXME_removeuscore (char *s)
+{
+	char *p;
+	s = g_strdup (s);
+
+	p = strchr (s, '_');
+	if (p != NULL) {
+		do {
+			*p = *(p+1);
+			p++;
+		} while (*p != '\0');
+	}
+
+	return s;
 }
 
 
@@ -2316,15 +2338,12 @@ surface_setup_axis (void)
 static void
 surface_setup_steps (void)
 {
+	gtk_plot3d_set_xrange (GTK_PLOT3D (surface_plot), surfacex1, surfacex2);
+	gtk_plot3d_set_yrange (GTK_PLOT3D (surface_plot), surfacey1, surfacey2);
 	gtk_plot_surface_set_xstep (GTK_PLOT_SURFACE (surface_data), (surfacex2-surfacex1)/30);
 	gtk_plot_surface_set_ystep (GTK_PLOT_SURFACE (surface_data), (surfacey2-surfacey1)/30);
-
-	gtk_plot_surface_build_mesh (surface_data);
-
-	/* FIXME: CAN DO AUTOSCALE NOW! */
 }
 
-/* FIXME: perhaps should be smarter ? */
 static void
 surface_setup_gradient (void)
 {
@@ -2379,6 +2398,7 @@ plot_axis (void)
 	} else if (plot_mode == MODE_SURFACE) {
 		surface_setup_axis ();
 		surface_setup_steps ();
+		gtk_plot_surface_build_mesh (GTK_PLOT_SURFACE (surface_data));
 		surface_setup_gradient ();
 		/* FIXME: this doesn't work (crashes) must fix in GtkExtra, then
 		   we can always just autoscale stuff
@@ -4096,7 +4116,7 @@ plot_functions (gboolean do_window_present,
 }
 
 static void
-plot_surface_functions (gboolean do_window_present)
+plot_surface_functions (gboolean do_window_present, gboolean fit_function)
 {
 	init_var_names ();
 
@@ -4130,8 +4150,6 @@ plot_surface_functions (gboolean do_window_present)
 		plot_minz = G_MAXDOUBLE/2;
 	}
 
-	surface_setup_axis ();
-
 	gtk_plot3d_reset_angles (GTK_PLOT3D (surface_plot));
 	gtk_plot3d_rotate_x (GTK_PLOT3D (surface_plot), 60.0);
 	gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 30.0);
@@ -4164,6 +4182,29 @@ plot_surface_functions (gboolean do_window_present)
 				   surface_data);
 
 		surface_setup_steps ();
+
+		gtk_plot_surface_build_mesh (GTK_PLOT_SURFACE (surface_data));
+		/* plot_minz and plot_maxz are set in build_mesh
+		 * calling the function */
+
+		if (fit_function) {
+			double size = plot_maxz - plot_minz;
+			if (size <= 0)
+				size = 1.0;
+			surfacez1 = plot_minz - size * 0.05;
+			surfacez2 = plot_maxz + size * 0.05;
+			
+			/* sanity */
+			if (surfacez2 <= surfacez1)
+				surfacez2 = surfacez1 + 0.1;
+
+			/* sanity */
+			if (surfacez1 < -(G_MAXDOUBLE/2))
+				surfacez1 = -(G_MAXDOUBLE/2);
+			if (surfacez2 > (G_MAXDOUBLE/2))
+				surfacez2 = (G_MAXDOUBLE/2);
+		}
+
 		surface_setup_gradient ();
 
 		gtk_widget_show (GTK_WIDGET (surface_data));
@@ -4211,6 +4252,8 @@ plot_surface_functions (gboolean do_window_present)
 		else
 			gtk_plot_data_set_legend (surface_data, "");
 	}
+
+	surface_setup_axis ();
 
 	/* FIXME: this doesn't work (crashes) must fix in GtkExtra
 	gtk_plot3d_autoscale (GTK_PLOT3D (surface_plot));
@@ -5209,6 +5252,19 @@ create_lineplot_box (void)
 	return mainbox;
 }
 
+/*option callback*/
+static void
+surface_fit_cb_cb (GtkWidget * widget)
+{
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget))) {
+		surfaceplot_fit_dependent_axis_cb = TRUE;
+		gtk_widget_set_sensitive (surfaceplot_dep_axis_buttons, FALSE);
+	} else {
+		surfaceplot_fit_dependent_axis_cb = FALSE;
+		gtk_widget_set_sensitive (surfaceplot_dep_axis_buttons, TRUE);
+	}
+}
+
 static GtkWidget *
 create_surface_box (void)
 {
@@ -5306,6 +5362,16 @@ create_surface_box (void)
 				    NULL, NULL, NULL, 0, 0, 0,
 				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
+	surfaceplot_dep_axis_buttons = b;
+
+	/* fit dependent axis? */
+	w = gtk_check_button_new_with_label (FIXME_removeuscore(_("_Fit dependent axis")));
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), 
+				      surfaceplot_fit_dependent_axis_cb);
+	g_signal_connect (G_OBJECT (w), "toggled",
+			  G_CALLBACK (surface_fit_cb_cb), NULL);
+	surface_fit_cb_cb (w);
 
 	/* set labels correclty */
 	set_surface_labels ();
@@ -5627,7 +5693,13 @@ surface_from_dialog (void)
 		surface_func_name = g_strdup (gtk_entry_get_text (GTK_ENTRY (surface_entry)));
 
 	plot_mode = MODE_SURFACE;
-	plot_surface_functions (TRUE /* do_window_present */);
+	plot_surface_functions (TRUE /* do_window_present */,
+				surfaceplot_fit_dependent_axis_cb /*fit*/);
+
+	if (surfaceplot_fit_dependent_axis_cb) {
+		reset_surfacez1 = surfacez1;
+		reset_surfacez2 = surfacez2;
+	}
 
 	if (gel_interrupted)
 		gel_interrupted = FALSE;
@@ -6228,6 +6300,7 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	double x1, x2, y1, y2, z1, z2;
 	int i;
 	GelEFunc *func = NULL;
+	gboolean fitz = FALSE;
 
 	if G_UNLIKELY (plot_in_progress != 0) {
 		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
@@ -6262,8 +6335,15 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	if (a[i] != NULL) {
 		if (a[i]->type == GEL_MATRIX_NODE) {
-			if ( ! get_limits_from_matrix_surf (a[i], &x1, &x2, &y1, &y2, &z1, &z2))
-				goto whack_copied_funcs;
+			if (gel_matrixw_elements (a[i]->mat.matrix) == 6) {
+				if ( ! get_limits_from_matrix_surf (a[i], &x1, &x2, &y1, &y2, &z1, &z2))
+					goto whack_copied_funcs;
+				fitz = FALSE;
+			} else {
+				if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
+					goto whack_copied_funcs;
+				fitz = TRUE;
+			}
 			i++;
 		} else {
 			GET_DOUBLE(x1, i, "SurfacePlot");
@@ -6277,9 +6357,11 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 					if (a[i] != NULL) {
 						GET_DOUBLE(y2, i, "SurfacePlot");
 						i++;
+						fitz = TRUE;
 						if (a[i] != NULL) {
 							GET_DOUBLE(z1, i, "SurfacePlot");
 							i++;
+							fitz = FALSE;
 							if (a[i] != NULL) {
 								GET_DOUBLE(z2, i, "SurfacePlot");
 								i++;
@@ -6360,7 +6442,13 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	reset_surfacez2 = surfacez2 = z2;
 
 	plot_mode = MODE_SURFACE;
-	plot_surface_functions (FALSE /* do_window_present */);
+	plot_surface_functions (FALSE /* do_window_present */,
+				fitz /* fit */);
+
+	if (fitz) {
+		reset_surfacez1 = surfacez1;
+		reset_surfacez2 = surfacez2;
+	}
 
 	if (gel_interrupted)
 		return NULL;
@@ -7747,8 +7835,14 @@ SurfacePlotData_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	if (a[i] != NULL) {
 		if (a[i]->type == GEL_MATRIX_NODE) {
-			if ( ! get_limits_from_matrix_surf (a[i], &x1, &x2, &y1, &y2, &z1, &z2))
-				goto whack_copied_data;
+			if (gel_matrixw_elements (a[i]->mat.matrix) == 6) {
+				if ( ! get_limits_from_matrix_surf (a[i], &x1, &x2, &y1, &y2, &z1, &z2))
+					goto whack_copied_data;
+			} else {
+				if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
+					goto whack_copied_data;
+			}
+
 			i++;
 		} else {
 			GET_DOUBLE(x1, i, "SurfacePlotData");
@@ -7847,7 +7941,8 @@ SurfacePlotData_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plot_maxz = z2;
 
 	plot_mode = MODE_SURFACE;
-	plot_surface_functions (FALSE /* do_window_present */);
+	plot_surface_functions (FALSE /* do_window_present */,
+				FALSE /* fit */);
 
 	if (gel_interrupted)
 		return NULL;
@@ -8001,7 +8096,8 @@ SurfacePlotDataGrid_op (GelCtx *ctx, GelETree * * a, int *exception)
 	plot_maxz = z2;
 
 	plot_mode = MODE_SURFACE;
-	plot_surface_functions (FALSE /* do_window_present */);
+	plot_surface_functions (FALSE /* do_window_present */,
+				FALSE /* fit */);
 
 	if (gel_interrupted)
 		return NULL;
