@@ -16,7 +16,6 @@ INCLUDES = \
 	-DBUILDDIR=\""@abs_top_builddir@"\"			\
 	-I$(srcdir)						\
 	-I$(top_srcdir)						\
-	-I$(top_srcdir)/atlapack/lapacke/src			\
 	-I$(top_srcdir)/ve					\
 	-I$(top_srcdir)/gtkextra				\
 	-I$(top_builddir)					\
@@ -94,7 +93,6 @@ gnome_genius_SOURCES = 	\
 	funclibhelper.cP
 
 gnome_genius_LDADD = \
-	$(top_builddir)/atlapack/lapacke/liblapacke.a	\
 	$(top_builddir)/ve/libviciousui.a	\
 	$(top_builddir)/gtkextra/libgtkextra-genius.a	\
 	-lm					\
@@ -174,10 +172,6 @@ genius_SOURCES = 	\
 	funclibhelper.cP
 
 genius_LDADD = \
-	$(top_builddir)/atlapack/lapacke/liblapacke.a	\
-	$(top_builddir)/atlapack/lapack/liblapack.a	\
-	$(top_builddir)/atblas/cblas/libcblas.a	\
-	$(top_builddir)/atblas/blas/libblas.a	\
 	$(top_builddir)/ve/libvicious.a		\
 	-lm					\
 	@GMP_LIB@				\
