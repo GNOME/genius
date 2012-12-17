@@ -387,24 +387,6 @@ is_identifier (const char *e)
 	return TRUE;
 }
 
-static char *
-FIXME_removeuscore (char *s)
-{
-	char *p;
-	s = g_strdup (s);
-
-	p = strchr (s, '_');
-	if (p != NULL) {
-		do {
-			*p = *(p+1);
-			p++;
-		} while (*p != '\0');
-	}
-
-	return s;
-}
-
-
 static void
 init_var_names (void)
 {
@@ -5365,7 +5347,7 @@ create_surface_box (void)
 	surfaceplot_dep_axis_buttons = b;
 
 	/* fit dependent axis? */
-	w = gtk_check_button_new_with_label (FIXME_removeuscore(_("_Fit dependent axis")));
+	w = gtk_check_button_new_with_label (_("Fit dependent axis"));
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), 
 				      surfaceplot_fit_dependent_axis_cb);

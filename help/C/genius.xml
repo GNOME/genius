@@ -1088,6 +1088,20 @@ the code if it is executed too often as there is one more operator involved.
       </para>
     </sect1>
 
+    <sect1 id="genius-gel-comments">
+      <title>Comments</title>
+      <para>
+	      GEL is similar to other scripting languages in that <literal>#</literal> denotes
+	      a comments, that is text that is not meant to be evaluated.  Everything beyond the
+	      pound sign till the end of line will just be ignored.  So
+<programlisting># This is just a comment
+# every line in a comment must have its own pond sign
+# in the next line we set x to the value 123
+x=123;
+</programlisting>
+      </para>
+    </sect1>
+
     <sect1 id="genius-gel-modular-evaluation">
       <title>Modular Evaluation</title>
       <para>
@@ -1825,6 +1839,20 @@ Loop with identifier being set to all values from <literal>&lt;from&gt;</literal
 <programlisting>for i = 1 to 20 by 2 do print(i)
 </programlisting>
         </para>
+        <para>
+		When one of the values is a floating point number, then the
+		final check is done to within 2^-20 of the step size.  That is,
+		even if we overshoot by 2^-20 times the "by" above, we still execute the last
+		iteration.  This way 
+<programlisting>for x = 0 to 1 by 0.1 do print(x)
+</programlisting>
+does the expected even though adding 0.1 ten times becomes just slightly more 1.0 due to the way that floating point numbers
+are stored in base 2 (there is no 0.1, the actual number stored is just ever so slightly bigger).  This is not perfect but it handles
+the majority of the cases.  If you want to avoid dealing with this issue, use actual rational numbers for example:
+<programlisting>for x = 0 to 1 by 1/10 do print(x)
+</programlisting>
+		This check is done only from version 1.0.16 onwards, so execution of your code may differ on older versions.
+	</para>
       </sect2>
 
       <sect2 id="genius-gel-loops-foreach">
@@ -1876,6 +1904,10 @@ If you substitute <literal>for</literal> with <literal>sum</literal> or <literal
       </para>
       <para>
 If no body is executed (for example <userinput>sum i=1 to 0 do ...</userinput>) then <literal>sum</literal> returns 0 and <literal>prod</literal> returns 1 as is the standard convention.
+      </para>
+      <para>
+	      For floating point numbers the same roundoff error protection is done as in the for loop.
+	     See <xref linkend='genius-gel-loops-for' />.
       </para>
     </sect1>
 

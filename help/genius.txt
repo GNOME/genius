@@ -123,6 +123,7 @@ Kai Willadsen
 
         Absolute Value / Modulus
         Separator
+        Comments
         Modular Evaluation
         List of GEL Operators
 
@@ -931,6 +932,18 @@ Separator
    there is one more operator involved.
      __________________________________________________________
 
+Comments
+
+   GEL is similar to other scripting languages in that # denotes a
+   comments, that is text that is not meant to be evaluated.
+   Everything beyond the pound sign till the end of line will just
+   be ignored. So
+# This is just a comment
+# every line in a comment must have its own pond sign
+# in the next line we set x to the value 123
+x=123;
+     __________________________________________________________
+
 Modular Evaluation
 
    Genius implements modular arithmetic. To use it you just add
@@ -1344,6 +1357,23 @@ for <identifier> = <from> to <to> by <increment> do <body>
    but will never be overshot, for example the following prints
    out odd numbers from 1 to 19:
 for i = 1 to 20 by 2 do print(i)
+
+   When one of the values is a floating point number, then the
+   final check is done to within 2^-20 of the step size. That is,
+   even if we overshoot by 2^-20 times the "by" above, we still
+   execute the last iteration. This way
+for x = 0 to 1 by 0.1 do print(x)
+
+   does the expected even though adding 0.1 ten times becomes just
+   slightly more 1.0 due to the way that floating point numbers
+   are stored in base 2 (there is no 0.1, the actual number stored
+   is just ever so slightly bigger). This is not perfect but it
+   handles the majority of the cases. If you want to avoid dealing
+   with this issue, use actual rational numbers for example:
+for x = 0 to 1 by 1/10 do print(x)
+
+   This check is done only from version 1.0.16 onwards, so
+   execution of your code may differ on older versions.
      __________________________________________________________
 
 Foreach Loops
@@ -1394,6 +1424,9 @@ prod <identifier> in <matrix> do <body>
 
    If no body is executed (for example sum i=1 to 0 do ...) then
    sum returns 0 and prod returns 1 as is the standard convention.
+
+   For floating point numbers the same roundoff error protection
+   is done as in the for loop. See the Section called For Loops.
      __________________________________________________________
 
 Comparison Operators
@@ -6146,7 +6179,7 @@ ExportPlot (file,type)
 ExportPlot (file)
 
           Export the contents of the plotting window to a file.
-          the type is a string that specifies the file type to
+          The type is a string that specifies the file type to
           use, "png", "eps", or "ps". If the type is not
           specified, then it is taken to be the extension, in
           which case the extension must be ".png", ".eps", or
