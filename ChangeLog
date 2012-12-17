@@ -1,3 +1,17 @@
+Mon Dec 17 13:45:21 2012  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/eval.c: when forloop (sum/prod/for) is with floats then check
+	  for overrun, and if within 2^-20 times the step size, then still
+	  execute the last body (assume things were because of roundoff
+	  error), this makes things like for n=0 to 1 by 0.1 actually work
+	  as expected.
+
+	* src/mpwrap.[ch], src/eval.c, src/funclib.c, src/matop.c: minor
+	  optimization in make_float and new macro to check real part for
+	  being floating point
+
+	* src/geniustests.txt, src/testfourier.gel: update testsuite
+
 Tue Dec 11 00:10:02 2012  Jiri (George) Lebl <jirka@5z.com>
 
 	* configure.in, src/Makefile.am: exorcise last vestiges of the

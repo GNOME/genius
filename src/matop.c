@@ -151,7 +151,7 @@ gel_is_matrix_value_only_rational (GelMatrixW *m)
 			if (n != NULL &&
 			    (n->type != GEL_VALUE_NODE ||
 			     mpw_is_complex (n->val.value) ||
-			     mpw_is_float (n->val.value))) {
+			     mpw_is_real_part_float (n->val.value))) {
 				m->cached_value_only_rational = 1;
 				m->value_only_rational = 0;
 				return FALSE;

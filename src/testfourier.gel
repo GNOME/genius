@@ -14,10 +14,10 @@ for x=-0.7 to 0.7 by 0.1 do (
 function ff(x) = x^3+x^2;
 f = NumericalFourierSineSeriesFunction(ff,1,30);
 for x=0.3 to 0.7 by 0.1 do (
-	if |f(x)-ff(x)| >= 0.03 then (error("Fourier test 7 fail at x=" + x);exit());
+	if |f(x)-ff(x)| >= x/15 then (error("Fourier test 7 fail at x=" + x);exit());
 );
 for x=0.3 to 0.7 by 0.1 do (
-	if |-f(-x)-ff(x)| >= 0.03 then (error("Fourier test 8 fail at x=" + x);exit());
+	if |-f(-x)-ff(x)| >= x/15 then (error("Fourier test 8 fail at x=" + x);exit());
 );
 
 function ff(x) = x^3+x^2;

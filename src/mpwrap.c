@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2011 Jiri (George) Lebl
+ * Copyright (C) 1997-2012 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -5120,13 +5120,13 @@ mpw_make_int(mpw_ptr rop)
 void
 mpw_make_float(mpw_ptr rop)
 {
-	if (MPW_IS_REAL (rop)) {
+	if (rop->r->type != MPW_FLOAT) {
 		MAKE_COPY(rop->r);
 		mpwl_make_float(rop->r);
-	} else {
-		MAKE_COPY(rop->r);
+	}
+	if ( ! MPW_IS_REAL (rop) &&
+	    rop->i->type != MPW_FLOAT) {
 		MAKE_COPY(rop->i);
-		mpwl_make_float(rop->r);
 		mpwl_make_float(rop->i);
 	}
 }

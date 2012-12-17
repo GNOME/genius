@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2008 Jiri (George) Lebl
+ * Copyright (C) 1997-2012 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -302,6 +302,8 @@ gboolean mpw_is_complex(mpw_ptr op);
 gboolean mpw_is_integer(mpw_ptr op);
 gboolean mpw_is_rational(mpw_ptr op);
 gboolean mpw_is_float(mpw_ptr op);
+
+#define mpw_is_real_part_float(op) ((op)->r->type == MPW_FLOAT)
 
 #define mpw_is_complex_float(op) \
 	 ( ((op)->r->type == MPW_FLOAT) || \

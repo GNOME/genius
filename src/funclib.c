@@ -2006,7 +2006,7 @@ IsFloat_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if(a[0]->type!=GEL_VALUE_NODE ||
 	   mpw_is_complex(a[0]->val.value))
 		return gel_makenum_bool (0);
-	else if(mpw_is_float(a[0]->val.value))
+	else if(mpw_is_real_part_float(a[0]->val.value))
 		return gel_makenum_bool (1);
 	else
 		return gel_makenum_bool (0);

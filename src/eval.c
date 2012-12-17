@@ -4099,12 +4099,47 @@ iter_pop_stack(GelCtx *ctx)
 		case GE_FOR:
 			{
 				GelEvalFor *evf = data;
-				if(evf->by)
-					mpw_add(evf->x,evf->x,evf->by);
+				gboolean done = FALSE;
+				if (evf->by)
+					mpw_add (evf->x, evf->x, evf->by);
 				else
-					mpw_add_ui(evf->x,evf->x,1);
-				/*if done*/
-				if(mpw_cmp(evf->x,evf->to) == -evf->init_cmp) {
+					mpw_add_ui (evf->x, evf->x, 1);
+				/* we know we aren't dealing with complexes */
+				if (mpw_is_real_part_float (evf->x)) {
+					int thecmp = mpw_cmp (evf->x, evf->to);
+					if (mpw_cmp (evf->x, evf->to) == -evf->init_cmp) {
+						/* maybe we just missed it, let's look back within 2^-20 of the by and see */
+						mpw_t tmp;
+						if (evf->by != NULL) {
+							mpfr_ptr f;
+							/* by is definitely mpfr */
+							mpw_init_set (tmp, evf->by);
+							f = mpw_peek_real_mpf (tmp);
+							mpfr_mul_2si (f, f, -20, GMP_RNDN);
+						} else {
+							mpw_init (tmp);
+							mpw_set_d (tmp, 1.0/1048576.0 /* 2^-20 */);
+						}
+
+						mpw_sub (tmp, evf->x, tmp);
+
+						done = (mpw_cmp(tmp,evf->to) == -evf->init_cmp);
+
+						/* don't use x, but use the to, x might be too far */
+						if ( ! done) {
+							mpw_set (evf->x, evf->to);
+						}
+
+						mpw_clear (tmp);
+					} else {
+						done = FALSE;
+					}
+				} else {
+					/*if done*/
+					done = (mpw_cmp(evf->x,evf->to) == -evf->init_cmp);
+				}
+
+				if (done) {
 					GelETree *res;
 					GE_POP_STACK(ctx,data,flag);
 					g_assert ((flag & GE_MASK) == GE_POST);
@@ -4990,8 +5025,8 @@ iter_forloop (GelCtx *ctx, GelETree *n, gboolean *repushed)
 	
 	init_cmp = mpw_cmp(from->val.value,to->val.value);
 	
-	/*if no iterations*/
 	if(!by) {
+		/*if no iterations*/
 		if(init_cmp>0) {
 			d_addfunc(d_makevfunc(ident->id.id,gel_copynode(from)));
 			freetree_full(n,TRUE,FALSE);
@@ -5007,10 +5042,17 @@ iter_forloop (GelCtx *ctx, GelETree *n, gboolean *repushed)
 		} else if(init_cmp==0) {
 			init_cmp = -1;
 		}
+		if (mpw_is_real_part_float (from->val.value) ||
+		    mpw_is_real_part_float (to->val.value)) {
+			/* ensure all float */
+			mpw_make_float (to->val.value);
+			mpw_make_float (from->val.value);
+		}
 		evf = evf_new(type, from->val.value,to->val.value,NULL,init_cmp,
 			      gel_copynode(body),body,ident->id.id);
 	} else {
 		int sgn = mpw_sgn(by->val.value);
+		/*if no iterations*/
 		if((sgn>0 && init_cmp>0) || (sgn<0 && init_cmp<0)) {
 			d_addfunc(d_makevfunc(ident->id.id,gel_copynode(from)));
 			freetree_full(n,TRUE,FALSE);
@@ -5026,6 +5068,14 @@ iter_forloop (GelCtx *ctx, GelETree *n, gboolean *repushed)
 		}
 		if(init_cmp == 0)
 			init_cmp = -sgn;
+		if (mpw_is_real_part_float (from->val.value) ||
+		    mpw_is_real_part_float (to->val.value) ||
+		    mpw_is_real_part_float (by->val.value)) {
+			/* ensure all float */
+			mpw_make_float (to->val.value);
+			mpw_make_float (from->val.value);
+			mpw_make_float (by->val.value);
+		}
 		evf = evf_new(type, from->val.value,to->val.value,by->val.value,
 			      init_cmp,gel_copynode(body),body,ident->id.id);
 	}
@@ -8213,7 +8263,7 @@ op_precalc_1 (GelETree *n,
 	if (l->type != GEL_VALUE_NODE ||
 	    (respect_type &&
 	     (mpw_is_complex (l->val.value) ||
-	      mpw_is_float (l->val.value))))
+	      mpw_is_real_part_float (l->val.value))))
 		return;
 	mpw_init(res);
 	(*func)(res,l->val.value);
@@ -8239,8 +8289,8 @@ op_precalc_2 (GelETree *n,
 	    (respect_type &&
 	     (mpw_is_complex (l->val.value) ||
 	      mpw_is_complex (r->val.value) ||
-	      mpw_is_float (l->val.value) ||
-	      mpw_is_float (r->val.value))))
+	      mpw_is_real_part_float (l->val.value) ||
+	      mpw_is_real_part_float (r->val.value))))
 		return;
 	mpw_init(res);
 	(*func)(res,l->val.value,r->val.value);
