@@ -7,8 +7,14 @@ fi
 echo rm -f *.html *.pdf *.ps
 rm -f *.html *.pdf *.ps
 
-echo SP_ENCODING=\"utf-8\" docbook2html genius.xml
-SP_ENCODING="utf-8" docbook2html genius.xml
+#echo SP_ENCODING=\"utf-8\" docbook2html genius.xml
+#SP_ENCODING="utf-8" docbook2html genius.xml
+
+echo xmlto html genius.xml
+xmlto html genius.xml
+
+#echo xmlto pdf genius.xml
+#xmlto pdf genius.xml
 
 echo docbook2pdf genius.xml
 docbook2pdf genius.xml
