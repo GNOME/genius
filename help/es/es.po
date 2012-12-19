@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: daniel.mustieles@gmail.com\n"
-"POT-Creation-Date: 2012-12-08 18:56+0000\n"
-"PO-Revision-Date: 2012-12-12 11:15+0100\n"
+"POT-Creation-Date: 2012-12-17 21:17+0000\n"
+"PO-Revision-Date: 2012-12-19 14:15+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -433,7 +433,7 @@ msgstr "Editar"
 msgid "Calculator"
 msgstr "Calculadora"
 
-#: C/genius.xml:273(guilabel) C/genius.xml:2827(title)
+#: C/genius.xml:273(guilabel) C/genius.xml:2859(title)
 msgid "Settings"
 msgstr "Configuración"
 
@@ -1412,7 +1412,7 @@ msgstr ""
 "x=5;.\n"
 "x=5;\n"
 
-#: C/genius.xml:826(para) C/genius.xml:2084(para)
+#: C/genius.xml:826(para) C/genius.xml:2116(para)
 msgid "Example: <placeholder-1/>"
 msgstr "Ejemplo: <placeholder-1/>"
 
@@ -1908,15 +1908,45 @@ msgstr ""
 "demasiado frecuentemente ya que se toma como un operador más."
 
 #: C/genius.xml:1092(title)
+#| msgid "Commands"
+msgid "Comments"
+msgstr "Comentarios"
+
+#: C/genius.xml:1097(programlisting)
+#, no-wrap
+msgid ""
+"# This is just a comment\n"
+"# every line in a comment must have its own pond sign\n"
+"# in the next line we set x to the value 123\n"
+"x=123;\n"
+msgstr ""
+"# Esto es un comentario\n"
+"# cada línea debe empezar por una almohadilla\n"
+"# en la siguiente línea se establece el valor de x a 123\n"
+"x=123;\n"
+
+#: C/genius.xml:1093(para)
+msgid ""
+"GEL is similar to other scripting languages in that <literal>#</literal> "
+"denotes a comments, that is text that is not meant to be evaluated. "
+"Everything beyond the pound sign till the end of line will just be ignored. "
+"So <placeholder-1/>"
+msgstr ""
+"GEL es similar a otros lenguajes de scripts en el sentido de que <literal>#</"
+"literal> indica un comentario, que es texto que no se evaluará. Todo lo que "
+"vaya después de la almohadilla hasta el final de la línea se ignorará. Así "
+"pues <placeholder-1/>"
+
+#: C/genius.xml:1106(title)
 msgid "Modular Evaluation"
 msgstr "Evaluación modular"
 
-#: C/genius.xml:1097(programlisting)
+#: C/genius.xml:1111(programlisting)
 #, no-wrap
 msgid "2^(5!) * 3^(6!) mod 5"
 msgstr "2^(5!) * 3^(6!) mod 5"
 
-#: C/genius.xml:1093(para)
+#: C/genius.xml:1107(para)
 msgid ""
 "Genius implements modular arithmetic. To use it you just add \"mod &lt;"
 "integer&gt;\" after the expression. Example: <placeholder-1/> It could be "
@@ -1936,7 +1966,7 @@ msgstr ""
 "demasiado grande), sin embargo <userinput>10^(10^10) mod 6</userinput> es "
 "instantáneo."
 
-#: C/genius.xml:1109(programlisting)
+#: C/genius.xml:1123(programlisting)
 #, no-wrap
 msgid ""
 "10^-1 mod 101\n"
@@ -1945,7 +1975,7 @@ msgstr ""
 "10^-1 mod 101\n"
 "1/10 mod 101"
 
-#: C/genius.xml:1114(programlisting)
+#: C/genius.xml:1128(programlisting)
 #, no-wrap
 msgid ""
 "A = [1,2;3,4]\n"
@@ -1957,7 +1987,7 @@ msgstr ""
 "A*B mod 5"
 
 # Utilicé símbolos en el primer enunciado. Generalemente, evitar "dar nombres" a objetos matemáticos resulta en una redacción difícil de seguir. En el original, comparar el primer enunciado con el útlimo.
-#: C/genius.xml:1105(para)
+#: C/genius.xml:1119(para)
 msgid ""
 "You can calculate the inverses of numbers mod some integer by just using "
 "rational numbers (of course the inverse has to exist). Examples: "
@@ -1972,7 +2002,7 @@ msgstr ""
 "<placeholder-2/> Es la matriz identidad, pues B es la matriz inversa de A "
 "módulo 5."
 
-#: C/genius.xml:1126(programlisting)
+#: C/genius.xml:1140(programlisting)
 #, no-wrap
 msgid ""
 "genius&gt; sqrt(4) mod 7\n"
@@ -1987,7 +2017,7 @@ msgstr ""
 "genius&gt; 2*2 mod 7\n"
 "= 4"
 
-#: C/genius.xml:1119(para)
+#: C/genius.xml:1133(para)
 msgid ""
 "Some functions such as <link linkend=\"gel-function-sqrt\"><function>sqrt</"
 "function></link> or <link linkend=\"gel-function-log\"><function>log</"
@@ -2003,11 +2033,11 @@ msgstr ""
 "el usuario ha seleccionado. Por ejemplo: <placeholder-1/><function>sqrt</"
 "function> devolverá todas las raíces cuadradas posibles."
 
-#: C/genius.xml:1137(title)
+#: C/genius.xml:1151(title)
 msgid "List of GEL Operators"
 msgstr "Lista de operadores GEL"
 
-#: C/genius.xml:1139(para)
+#: C/genius.xml:1153(para)
 msgid ""
 "Everything in gel is really just an expression. Expressions are stringed "
 "together with different operators. As we have seen, even the separator is "
@@ -2018,12 +2048,12 @@ msgstr ""
 "separador es un operador binario en GEL. A continuación se muestra una lista "
 "de los operadores en GEL."
 
-#: C/genius.xml:1147(synopsis)
+#: C/genius.xml:1161(synopsis)
 #, no-wrap
 msgid "a;b"
 msgstr "a;b"
 
-#: C/genius.xml:1149(para)
+#: C/genius.xml:1163(para)
 msgid ""
 "The separator, just evaluates both <varname>a</varname> and <varname>b</"
 "varname>, but returns only the result of <varname>b</varname>."
@@ -2031,12 +2061,12 @@ msgstr ""
 "El separador evalúa <varname>a</varname> y <varname>b</varname>, pero sólo "
 "devuelve el valor de <varname>b</varname>."
 
-#: C/genius.xml:1161(synopsis)
+#: C/genius.xml:1175(synopsis)
 #, no-wrap
 msgid "a=b"
 msgstr "a=b"
 
-#: C/genius.xml:1163(para)
+#: C/genius.xml:1177(para)
 msgid ""
 "The assignment operator. This assigns <varname>b</varname> to <varname>a</"
 "varname> (<varname>a</varname> must be a valid <link linkend=\"genius-gel-"
@@ -2049,12 +2079,12 @@ msgstr ""
 "\">lvalue</link> válido) (tenga en cuenta que este operador puede equivaler "
 "a <literal>==</literal> si se usa cuando se espera una expresión booleana)"
 
-#: C/genius.xml:1175(synopsis)
+#: C/genius.xml:1189(synopsis)
 #, no-wrap
 msgid "a:=b"
 msgstr "a:=b"
 
-#: C/genius.xml:1177(para)
+#: C/genius.xml:1191(para)
 msgid ""
 "The assignment operator. Assigns <varname>b</varname> to <varname>a</"
 "varname> (<varname>a</varname> must be a valid <link linkend=\"genius-gel-"
@@ -2066,18 +2096,18 @@ msgstr ""
 "\">lvalue</link> válido). Se diferencia de <literal>=</literal> en que nunca "
 "equivale a <literal>==</literal>."
 
-#: C/genius.xml:1188(synopsis)
+#: C/genius.xml:1202(synopsis)
 #, no-wrap
 msgid "|a|"
 msgstr "|a|"
 
-#: C/genius.xml:1190(para)
+#: C/genius.xml:1204(para)
 msgid ""
 "Absolute value or modulus (if <varname>a</varname> is a complex number)."
 msgstr ""
 "Valor absoluto o módulo (si <varname>a</varname> es un número complejo)."
 
-#: C/genius.xml:1194(para)
+#: C/genius.xml:1208(para)
 msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/AbsoluteValue.html"
 "\">Mathworld</ulink> for more information."
@@ -2085,12 +2115,12 @@ msgstr ""
 "Consulte <ulink url=\"http://mathworld.wolfram.com/AbsoluteValue.html"
 "\">Mathworld</ulink> para obtener más información."
 
-#: C/genius.xml:1203(synopsis)
+#: C/genius.xml:1217(synopsis)
 #, no-wrap
 msgid "a^b"
 msgstr "a^b"
 
-#: C/genius.xml:1205(para)
+#: C/genius.xml:1219(para)
 msgid ""
 "Exponentiation, raises <varname>a</varname> to the <varname>b</varname>th "
 "power."
@@ -2098,12 +2128,12 @@ msgstr ""
 "Exponenciación, eleva <varname>a</varname> a la <varname>b</varname>-ésima "
 "potencia."
 
-#: C/genius.xml:1213(synopsis)
+#: C/genius.xml:1227(synopsis)
 #, no-wrap
 msgid "a.^b"
 msgstr "a.^b"
 
-#: C/genius.xml:1215(para)
+#: C/genius.xml:1229(para)
 msgid ""
 "Element by element exponentiation. Raise each element of a matrix "
 "<varname>a</varname> to the <varname>b</varname>th power. Or if <varname>b</"
@@ -2121,12 +2151,12 @@ msgstr ""
 "que <varname>b</varname> formada por <varname>a</varname> elevado a todas "
 "las diferentes potencias de <varname>b</varname>."
 
-#: C/genius.xml:1230(synopsis)
+#: C/genius.xml:1244(synopsis)
 #, no-wrap
 msgid "a+b"
 msgstr "a+b"
 
-#: C/genius.xml:1232(para)
+#: C/genius.xml:1246(para)
 msgid ""
 "Addition. Adds two numbers, matrices, functions or strings. If you add a "
 "string to anything the result will just be a string. If one is a square "
@@ -2138,30 +2168,30 @@ msgstr ""
 "cuadrada y el otro un número, el número se multiplica por la identidad de la "
 "matriz."
 
-#: C/genius.xml:1243(synopsis)
+#: C/genius.xml:1257(synopsis)
 #, no-wrap
 msgid "a-b"
 msgstr "a-b"
 
-#: C/genius.xml:1245(para)
+#: C/genius.xml:1259(para)
 msgid "Subtraction. Subtract two numbers, matrices or functions."
 msgstr "Sustracción. Resta dos números, matrices o funciones."
 
-#: C/genius.xml:1253(synopsis)
+#: C/genius.xml:1267(synopsis)
 #, no-wrap
 msgid "a*b"
 msgstr "a*b"
 
-#: C/genius.xml:1255(para)
+#: C/genius.xml:1269(para)
 msgid "Multiplication. This is the normal matrix multiplication."
 msgstr "Multiplicación. Es la multiplicación normal de matrices."
 
-#: C/genius.xml:1263(synopsis)
+#: C/genius.xml:1277(synopsis)
 #, no-wrap
 msgid "a.*b"
 msgstr "a.*b"
 
-#: C/genius.xml:1265(para)
+#: C/genius.xml:1279(para)
 msgid ""
 "Element by element multiplication if <varname>a</varname> and <varname>b</"
 "varname> are matrices."
@@ -2169,12 +2199,12 @@ msgstr ""
 "Multiplicación elemento a elemento si <varname>a</varname> y <varname>b</"
 "varname> son matrices."
 
-#: C/genius.xml:1274(synopsis)
+#: C/genius.xml:1288(synopsis)
 #, no-wrap
 msgid "a/b"
 msgstr "a/b"
 
-#: C/genius.xml:1276(para)
+#: C/genius.xml:1290(para)
 msgid ""
 "Division. When <varname>a</varname> and <varname>b</varname> are just "
 "numbers this is the normal division. When they are matrices, then this is "
@@ -2184,12 +2214,12 @@ msgstr ""
 "números es la división normal. Cuando son matrices, esto es el equivalente a "
 "<userinput>a*b^-1</userinput>."
 
-#: C/genius.xml:1286(synopsis)
+#: C/genius.xml:1300(synopsis)
 #, no-wrap
 msgid "a./b"
 msgstr "a./b"
 
-#: C/genius.xml:1288(para)
+#: C/genius.xml:1302(para)
 msgid ""
 "Element by element division. Same as <userinput>a/b</userinput> for numbers, "
 "but operarates element by element on matrices."
@@ -2197,30 +2227,30 @@ msgstr ""
 "División elemento por elemento. Igual que <userinput>a/b</userinput> para "
 "números, pero opera elemento por elemento en matrices.."
 
-#: C/genius.xml:1297(synopsis)
+#: C/genius.xml:1311(synopsis)
 #, no-wrap
 msgid "a\\b"
 msgstr "a\\b"
 
-#: C/genius.xml:1299(para)
+#: C/genius.xml:1313(para)
 msgid "Back division. That is this is the same as <userinput>b/a</userinput>."
 msgstr "División hacia atrás. Es lo mismo que <userinput>b/a</userinput>."
 
-#: C/genius.xml:1307(synopsis)
+#: C/genius.xml:1321(synopsis)
 #, no-wrap
 msgid "a.\\b"
 msgstr "a.\\b"
 
-#: C/genius.xml:1309(para)
+#: C/genius.xml:1323(para)
 msgid "Element by element back division."
 msgstr "División hacia atrás elemento por elemento."
 
-#: C/genius.xml:1317(synopsis)
+#: C/genius.xml:1331(synopsis)
 #, no-wrap
 msgid "a%b"
 msgstr "a%b"
 
-#: C/genius.xml:1319(para)
+#: C/genius.xml:1333(para)
 msgid ""
 "The mod operator. This does not turn on the <link linkend=\"genius-gel-"
 "modular-evaluation\">modular mode</link>, but just returns the remainder of "
@@ -2230,12 +2260,12 @@ msgstr ""
 "\">modo modular</link> sino que simplemente devuelve el resto de "
 "<userinput>a/b</userinput>."
 
-#: C/genius.xml:1329(synopsis)
+#: C/genius.xml:1343(synopsis)
 #, no-wrap
 msgid "a.%b"
 msgstr "a.%b"
 
-#: C/genius.xml:1331(para)
+#: C/genius.xml:1345(para)
 msgid ""
 "Element by element the mod operator. Returns the remainder after element by "
 "element integer <userinput>a./b</userinput>."
@@ -2243,12 +2273,12 @@ msgstr ""
 "Operador mod elemento por elemento. Devuelve el resto de <userinput>a./b</"
 "userinput> elemento por elemento."
 
-#: C/genius.xml:1340(synopsis)
+#: C/genius.xml:1354(synopsis)
 #, no-wrap
 msgid "a mod b"
 msgstr "a mod b"
 
-#: C/genius.xml:1342(para)
+#: C/genius.xml:1356(para)
 msgid ""
 "Modular evaluation operator. The expression <varname>a</varname> is "
 "evaluated modulo <varname>b</varname>. See <xref linkend=\"genius-gel-"
@@ -2260,35 +2290,35 @@ msgstr ""
 "evaluation\"/>. Algunas de las funciones y operadores se comportan de un "
 "modo distinto cuando trabajan en módulo entero."
 
-#: C/genius.xml:1353(synopsis)
+#: C/genius.xml:1367(synopsis)
 #, no-wrap
 msgid "a!"
 msgstr "a!"
 
-#: C/genius.xml:1355(para)
+#: C/genius.xml:1369(para)
 msgid ""
 "Factorial operator. This is like <userinput>1*...*(n-2)*(n-1)*n</userinput>."
 msgstr ""
 "Operador factorial. Esto es <userinput>1*...*(n-2)*(n-1)*n</userinput>."
 
-#: C/genius.xml:1364(synopsis)
+#: C/genius.xml:1378(synopsis)
 #, no-wrap
 msgid "a!!"
 msgstr "a!!"
 
-#: C/genius.xml:1366(para)
+#: C/genius.xml:1380(para)
 msgid ""
 "Double factorial operator. This is like <userinput>1*...*(n-4)*(n-2)*n</"
 "userinput>."
 msgstr ""
 "Operador doble factorial. Esto es <userinput>1*...*(n-4)*(n-2)*n</userinput>."
 
-#: C/genius.xml:1375(synopsis)
+#: C/genius.xml:1389(synopsis)
 #, no-wrap
 msgid "a==b"
 msgstr "a==b"
 
-#: C/genius.xml:1377(para)
+#: C/genius.xml:1391(para)
 msgid ""
 "Equality operator. Returns <constant>true</constant> or <constant>false</"
 "constant> depending on <varname>a</varname> and <varname>b</varname> being "
@@ -2298,12 +2328,12 @@ msgstr ""
 "constant> dependiendo de si <varname>a</varname> y <varname>b</varname> son "
 "iguales o no."
 
-#: C/genius.xml:1387(synopsis)
+#: C/genius.xml:1401(synopsis)
 #, no-wrap
 msgid "a!=b"
 msgstr "a!=b"
 
-#: C/genius.xml:1389(para)
+#: C/genius.xml:1403(para)
 msgid ""
 "Inequality operator, returns <constant>true</constant> if <varname>a</"
 "varname> does not equal <varname>b</varname> else returns <constant>false</"
@@ -2313,12 +2343,12 @@ msgstr ""
 "varname> no es igual a <varname>b</varname>; si lo es, devuelve "
 "<constant>false</constant>."
 
-#: C/genius.xml:1399(synopsis)
+#: C/genius.xml:1413(synopsis)
 #, no-wrap
 msgid "a&lt;&gt;b"
 msgstr "a&lt;&gt;b"
 
-#: C/genius.xml:1401(para)
+#: C/genius.xml:1415(para)
 msgid ""
 "Alternative inequality operator, returns <constant>true</constant> if "
 "<varname>a</varname> does not equal <varname>b</varname> else returns "
@@ -2328,12 +2358,12 @@ msgstr ""
 "<varname>a</varname> no es igual a <varname>b</varname> en caso contrario "
 "devuelve <constant>false</constant>."
 
-#: C/genius.xml:1411(synopsis)
+#: C/genius.xml:1425(synopsis)
 #, no-wrap
 msgid "a&lt;=b"
 msgstr "a&lt;=b"
 
-#: C/genius.xml:1413(para)
+#: C/genius.xml:1427(para)
 msgid ""
 "Less than or equal operator, returns <constant>true</constant> if "
 "<varname>a</varname> is less than or equal to <varname>b</varname> else "
@@ -2346,12 +2376,12 @@ msgstr ""
 "<constant>false</constant>. Esto se puede concatenar como <userinput>a &lt;= "
 "b &lt;= c</userinput> (también se puede combinar con el operador menor que)."
 
-#: C/genius.xml:1426(synopsis)
+#: C/genius.xml:1440(synopsis)
 #, no-wrap
 msgid "a&gt;=b"
 msgstr "a&gt;=b"
 
-#: C/genius.xml:1428(para)
+#: C/genius.xml:1442(para)
 msgid ""
 "Greater than or equal operator, returns <constant>true</constant> if "
 "<varname>a</varname> is greater than or equal to <varname>b</varname> else "
@@ -2364,12 +2394,12 @@ msgstr ""
 "<constant>false</constant>. Esto se puede concatenar como <userinput>a &gt;= "
 "b &gt;= c</userinput> (también se puede combinar con el operador mayor que)."
 
-#: C/genius.xml:1440(synopsis)
+#: C/genius.xml:1454(synopsis)
 #, no-wrap
 msgid "a&lt;b"
 msgstr "a&lt;b"
 
-#: C/genius.xml:1442(para)
+#: C/genius.xml:1456(para)
 msgid ""
 "Less than operator, returns <constant>true</constant> if <varname>a</"
 "varname> is less than or equal to <varname>b</varname> else returns "
@@ -2383,12 +2413,12 @@ msgstr ""
 "b &lt; c</userinput> (también se puede combinar con el operador menor o "
 "igual que)."
 
-#: C/genius.xml:1455(synopsis)
+#: C/genius.xml:1469(synopsis)
 #, no-wrap
 msgid "a&gt;b"
 msgstr "a&gt;b"
 
-#: C/genius.xml:1457(para)
+#: C/genius.xml:1471(para)
 msgid ""
 "Greater than operator, returns <constant>true</constant> if <varname>a</"
 "varname> is greater than or equal to <varname>b</varname> else returns "
@@ -2402,12 +2432,12 @@ msgstr ""
 "b &gt; c</userinput> (también se puede combinar con el operador mayor o "
 "igual que)."
 
-#: C/genius.xml:1470(synopsis)
+#: C/genius.xml:1484(synopsis)
 #, no-wrap
 msgid "a&lt;=&gt;b"
 msgstr "a&lt;=&gt;b"
 
-#: C/genius.xml:1472(para)
+#: C/genius.xml:1486(para)
 msgid ""
 "Comparison operator. If <varname>a</varname> is equal to <varname>b</"
 "varname> it returns 0, if <varname>a</varname> is less than <varname>b</"
@@ -2419,12 +2449,12 @@ msgstr ""
 "varname> devuelve -1 y si <varname>a</varname> es mayor que <varname>b</"
 "varname> devuelve 1."
 
-#: C/genius.xml:1484(synopsis)
+#: C/genius.xml:1498(synopsis)
 #, no-wrap
 msgid "a and b"
 msgstr "a and b"
 
-#: C/genius.xml:1486(para)
+#: C/genius.xml:1500(para)
 msgid ""
 "Logical and. Returns true if both <varname>a</varname> and <varname>b</"
 "varname> are true, else returns false. If given numbers, nonzero numbers are "
@@ -2434,12 +2464,12 @@ msgstr ""
 "son ciertos; si no, devuelve falso. Si se dan números, los números distintos "
 "de cero se consideran como «verdadero»."
 
-#: C/genius.xml:1497(synopsis)
+#: C/genius.xml:1511(synopsis)
 #, no-wrap
 msgid "a or b"
 msgstr "a or b"
 
-#: C/genius.xml:1499(para)
+#: C/genius.xml:1513(para)
 msgid ""
 "Logical or. Returns true if both <varname>a</varname> or <varname>b</"
 "varname> are true, else returns false. If given numbers, nonzero numbers are "
@@ -2449,12 +2479,12 @@ msgstr ""
 "son ciertos; si no, devuelve falso. Si se dan números, los números distintos "
 "de cero se consideran como «verdadero»."
 
-#: C/genius.xml:1511(synopsis)
+#: C/genius.xml:1525(synopsis)
 #, no-wrap
 msgid "a xor b"
 msgstr "a xor b"
 
-#: C/genius.xml:1513(para)
+#: C/genius.xml:1527(para)
 msgid ""
 "Logical xor. Returns true exactly one of <varname>a</varname> or <varname>b</"
 "varname> is true, else returns false. If given numbers, nonzero numbers are "
@@ -2464,30 +2494,30 @@ msgstr ""
 "son ciertos; si no, devuelve falso. Si se dan números, los números distintos "
 "de cero se consideran como «verdadero»."
 
-#: C/genius.xml:1525(synopsis)
+#: C/genius.xml:1539(synopsis)
 #, no-wrap
 msgid "not a"
 msgstr "not a"
 
-#: C/genius.xml:1527(para)
+#: C/genius.xml:1541(para)
 msgid "Logical not. Returns the logical negation of <varname>a</varname>"
 msgstr "NOT lódico. Devuelve la negación lógica de <varname>a</varname>"
 
-#: C/genius.xml:1535(synopsis)
+#: C/genius.xml:1549(synopsis)
 #, no-wrap
 msgid "-a"
 msgstr "-a"
 
-#: C/genius.xml:1537(para)
+#: C/genius.xml:1551(para)
 msgid "Negation operator."
 msgstr "Operador de negación."
 
-#: C/genius.xml:1545(synopsis)
+#: C/genius.xml:1559(synopsis)
 #, no-wrap
 msgid "&amp;a"
 msgstr "&amp;a"
 
-#: C/genius.xml:1547(para)
+#: C/genius.xml:1561(para)
 msgid ""
 "Variable referencing (to pass a reference to something). See <xref linkend="
 "\"genius-gel-references\"/>."
@@ -2495,12 +2525,12 @@ msgstr ""
 "Referenciar una variable (para pasar la referencia a algo). Consulte la "
 "<xref linkend=\"genius-gel-references\"/>."
 
-#: C/genius.xml:1556(synopsis) C/genius.xml:2157(userinput)
+#: C/genius.xml:1570(synopsis) C/genius.xml:2189(userinput)
 #, no-wrap
 msgid "*a"
 msgstr "*a"
 
-#: C/genius.xml:1558(para)
+#: C/genius.xml:1572(para)
 msgid ""
 "Variable dereferencing (to access a referenced variable). See <xref linkend="
 "\"genius-gel-references\"/>."
@@ -2508,30 +2538,30 @@ msgstr ""
 "Desreferenciar una variable (para acceder a una variable referenciada). "
 "Consulte la <xref linkend=\"genius-gel-references\"/>."
 
-#: C/genius.xml:1567(synopsis)
+#: C/genius.xml:1581(synopsis)
 #, no-wrap
 msgid "a'"
 msgstr "a'"
 
-#: C/genius.xml:1569(para)
+#: C/genius.xml:1583(para)
 msgid "Matrix conjugate transpose."
 msgstr "Matriz conjugada traspuesta."
 
-#: C/genius.xml:1577(synopsis)
+#: C/genius.xml:1591(synopsis)
 #, no-wrap
 msgid "a.'"
 msgstr "a.'"
 
-#: C/genius.xml:1579(para)
+#: C/genius.xml:1593(para)
 msgid "Matrix transpose, does not conjugate the entries."
 msgstr "Matriz traspuesta, no conjuga los elementos."
 
-#: C/genius.xml:1587(synopsis)
+#: C/genius.xml:1601(synopsis)
 #, no-wrap
 msgid "a@(b,c)"
 msgstr "a@(b,c)"
 
-#: C/genius.xml:1589(para)
+#: C/genius.xml:1603(para)
 msgid ""
 "Get element of a matrix in row <varname>b</varname> and column <varname>c</"
 "varname>. If <varname>b</varname>, <varname>c</varname> are vectors, then "
@@ -2541,48 +2571,48 @@ msgstr ""
 "varname>. Si <varname>b</varname>, <varname>c</varname> son vectores, "
 "devuelve las correspondientes filas, columnas o submatrices."
 
-#: C/genius.xml:1600(synopsis)
+#: C/genius.xml:1614(synopsis)
 #, no-wrap
 msgid "a@(b,)"
 msgstr "a@(b,)"
 
-#: C/genius.xml:1602(para)
+#: C/genius.xml:1616(para)
 msgid "Get row of a matrix (or rows if <varname>b</varname> is a vector)."
 msgstr ""
 "Devuelve la fila de la matriz (o filas si <varname>b</varname> es un vector)."
 
-#: C/genius.xml:1610(synopsis)
+#: C/genius.xml:1624(synopsis)
 #, no-wrap
 msgid "a@(b,:)"
 msgstr "a@(b,:)"
 
-#: C/genius.xml:1612(para) C/genius.xml:1633(para)
+#: C/genius.xml:1626(para) C/genius.xml:1647(para)
 msgid "Same as above."
 msgstr "Igual que el anterior"
 
-#: C/genius.xml:1620(synopsis)
+#: C/genius.xml:1634(synopsis)
 #, no-wrap
 msgid "a@(,c)"
 msgstr "a@(,c)"
 
-#: C/genius.xml:1622(para)
+#: C/genius.xml:1636(para)
 msgid ""
 "Get column of a matrix (or columns if <varname>c</varname> is a vector)."
 msgstr ""
 "Devuelve la columna de la matriz (o columnas si <varname>c</varname> es un "
 "vector)."
 
-#: C/genius.xml:1631(synopsis)
+#: C/genius.xml:1645(synopsis)
 #, no-wrap
 msgid "a@(:,c)"
 msgstr "a@(:,c)"
 
-#: C/genius.xml:1641(synopsis)
+#: C/genius.xml:1655(synopsis)
 #, no-wrap
 msgid "a@(b)"
 msgstr "a@(b)"
 
-#: C/genius.xml:1643(para)
+#: C/genius.xml:1657(para)
 msgid ""
 "Get an element from a matrix treating it as a vector. This will traverse the "
 "matrix row-wise."
@@ -2590,12 +2620,12 @@ msgstr ""
 "Obtiene un elemento de una matriz tratándola como vector. Recorre la matriz "
 "por filas."
 
-#: C/genius.xml:1652(synopsis)
+#: C/genius.xml:1666(synopsis)
 #, no-wrap
 msgid "a:b"
 msgstr "a:b"
 
-#: C/genius.xml:1656(programlisting)
+#: C/genius.xml:1670(programlisting)
 #, no-wrap
 msgid ""
 "A@(2:4,)\n"
@@ -2604,7 +2634,7 @@ msgstr ""
 "A@(2:4,)\n"
 "\t     "
 
-#: C/genius.xml:1654(para)
+#: C/genius.xml:1668(para)
 msgid ""
 "Build a vector from <varname>a</varname> to <varname>b</varname> (or specify "
 "a row, column region for the <literal>@</literal> operator). For example to "
@@ -2618,12 +2648,12 @@ msgstr ""
 "varname> se podría hacer <placeholder-1/> ya que <userinput>2:4</userinput> "
 "devolverá el vector <userinput>[2,3,4]</userinput>."
 
-#: C/genius.xml:1666(synopsis)
+#: C/genius.xml:1680(synopsis)
 #, no-wrap
 msgid "a:b:c"
 msgstr "a:b:c"
 
-#: C/genius.xml:1671(programlisting)
+#: C/genius.xml:1685(programlisting)
 #, no-wrap
 msgid ""
 "genius&gt; 1:2:9\n"
@@ -2634,7 +2664,7 @@ msgstr ""
 "=\n"
 "`[1, 3, 5, 7, 9]\n"
 
-#: C/genius.xml:1668(para)
+#: C/genius.xml:1682(para)
 msgid ""
 "Build a vector from <varname>a</varname> to <varname>c</varname> with "
 "<varname>b</varname> as a step. That is for example <placeholder-1/>"
@@ -2642,12 +2672,12 @@ msgstr ""
 "Crea un vector con valores desde <varname>a</varname> a <varname>c</varname> "
 "usando <varname>b</varname> como paso. Por ejemplo: <placeholder-1/>"
 
-#: C/genius.xml:1681(synopsis)
+#: C/genius.xml:1695(synopsis)
 #, no-wrap
 msgid "(a)i"
 msgstr "(a)i"
 
-#: C/genius.xml:1687(programlisting)
+#: C/genius.xml:1701(programlisting)
 #, no-wrap
 msgid ""
 "(a)*1i\n"
@@ -2656,7 +2686,7 @@ msgstr ""
 "(a)*1i\n"
 "\t     "
 
-#: C/genius.xml:1683(para)
+#: C/genius.xml:1697(para)
 msgid ""
 "Make a imaginary number (multiply <varname>a</varname> by the imaginary). "
 "Note that normally the number <varname>i</varname> is written as "
@@ -2667,12 +2697,12 @@ msgstr ""
 "se escribe <userinput>1i</userinput>. De modo que lo descrito arriba es "
 "equivalente a <placeholder-1/>"
 
-#: C/genius.xml:1695(synopsis)
+#: C/genius.xml:1709(synopsis)
 #, no-wrap
 msgid "`a"
 msgstr "`a"
 
-#: C/genius.xml:1697(para)
+#: C/genius.xml:1711(para)
 msgid ""
 "Quote an identifier so that it doesn't get evaluated. Or quote a matrix so "
 "that it doesn't get expanded."
@@ -2680,12 +2710,12 @@ msgstr ""
 "Escapa un identificador de modo que no sea evaluado. O escapa una matriz de "
 "modo que no sea expandida."
 
-#: C/genius.xml:1705(synopsis)
+#: C/genius.xml:1719(synopsis)
 #, no-wrap
 msgid "a swapwith b"
 msgstr "a swapwith b"
 
-#: C/genius.xml:1707(para)
+#: C/genius.xml:1721(para)
 msgid ""
 "Swap value of <varname>a</varname> with the value of <varname>b</varname>. "
 "Currently does not operate on ranges of matrix elements. It returns "
@@ -2695,12 +2725,12 @@ msgstr ""
 "varname>. Actualmente no funciona con rangos de elementos matriciales. "
 "Devuelve <constant>null</constant>. Está disponible desde la versión 1.0.13."
 
-#: C/genius.xml:1718(synopsis)
+#: C/genius.xml:1732(synopsis)
 #, no-wrap
 msgid "increment a"
 msgstr "increment a"
 
-#: C/genius.xml:1720(para)
+#: C/genius.xml:1734(para)
 msgid ""
 "Increment the variable <varname>a</varname> by 1. If <varname>a</varname> is "
 "a matrix, then increment each element. This is equivalent to <userinput>a=a"
@@ -2712,12 +2742,12 @@ msgstr ""
 "<userinput>a=a+1</userinput> pero más rápido. Devuelve <constant>null</"
 "constant>. Está disponible desde la versión 1.0.13."
 
-#: C/genius.xml:1731(synopsis)
+#: C/genius.xml:1745(synopsis)
 #, no-wrap
 msgid "increment a by b"
 msgstr "increment a by b"
 
-#: C/genius.xml:1733(para)
+#: C/genius.xml:1747(para)
 msgid ""
 "Increment the variable <varname>a</varname> by <varname>b</varname>. If "
 "<varname>a</varname> is a matrix, then increment each element. This is "
@@ -2729,7 +2759,7 @@ msgstr ""
 "equivalente a <userinput>a=a+b</userinput>, pero más rápido. Devuelve null "
 "<constant>null</constant>. Está disponible desde la versión 1.0.13."
 
-#: C/genius.xml:1747(para)
+#: C/genius.xml:1761(para)
 msgid ""
 "The @() operator makes the : operator most useful. With this you can specify "
 "regions of a matrix. So that a@(2:4,6) is the rows 2,3,4 of the column 6. Or "
@@ -2744,7 +2774,7 @@ msgstr ""
 "cuyo tamaño coincida con el tamaño de la región asignada o cualquier otro "
 "tipo de valor."
 
-#: C/genius.xml:1753(para)
+#: C/genius.xml:1767(para)
 msgid ""
 "The comparison operators (except for the &lt;=&gt; operator which behaves "
 "normally), are not strictly binary operators, they can in fact be grouped in "
@@ -2757,7 +2787,7 @@ msgstr ""
 "=y&lt;5) es una expresión booleana válida y significa lo que debería, es "
 "decir, (1&lt;x and x≤y and y&lt;5)"
 
-#: C/genius.xml:1759(para)
+#: C/genius.xml:1773(para)
 msgid ""
 "The unitary minus operates in a different fashion depending on where it "
 "appears. If it appears before a number it binds very closely, if it appears "
@@ -2776,15 +2806,15 @@ msgstr ""
 "tanto, tenga cuidado con el uso de este operador y si tiene alguna duda, use "
 "paréntesis."
 
-#: C/genius.xml:1774(title)
+#: C/genius.xml:1788(title)
 msgid "Programming with GEL"
 msgstr "Programar con GEL"
 
-#: C/genius.xml:1777(title)
+#: C/genius.xml:1791(title)
 msgid "Conditionals"
 msgstr "Condicionales"
 
-#: C/genius.xml:1778(para)
+#: C/genius.xml:1792(para)
 msgid ""
 "Syntax: <placeholder-1/> If <literal>else</literal> is omitted, then if the "
 "<literal>expression1</literal> yields <constant>false</constant> or 0, "
@@ -2794,17 +2824,17 @@ msgstr ""
 "expresión <literal>expression1</literal> devuelve <constant>false</constant> "
 "o <literal>0</literal>, devolverá <literal>NULL</literal>."
 
-#: C/genius.xml:1792(programlisting)
+#: C/genius.xml:1806(programlisting)
 #, no-wrap
 msgid "if a=5 then a=a-1\n"
 msgstr "if a=5 then a=a-1\n"
 
-#: C/genius.xml:1795(programlisting)
+#: C/genius.xml:1809(programlisting)
 #, no-wrap
 msgid "if a==5 then a:=a-1\n"
 msgstr "if a==5 then a:=a-1\n"
 
-#: C/genius.xml:1784(para)
+#: C/genius.xml:1798(para)
 msgid ""
 "Examples: <placeholder-1/> Note that <literal>=</literal> will be translated "
 "to <literal>==</literal> if used inside the expression for <literal>if</"
@@ -2815,15 +2845,15 @@ msgstr ""
 "<literal>if</literal>, por lo que <placeholder-2/> se interpretará como: "
 "<placeholder-3/>"
 
-#: C/genius.xml:1801(title)
+#: C/genius.xml:1815(title)
 msgid "Loops"
 msgstr "Bucles"
 
-#: C/genius.xml:1804(title)
+#: C/genius.xml:1818(title)
 msgid "While Loops"
 msgstr "Bucles «while»"
 
-#: C/genius.xml:1805(para)
+#: C/genius.xml:1819(para)
 msgid ""
 "Syntax: <placeholder-1/> These are similar to other languages. However, as "
 "in gel it is simply an expression that must have some return value, these "
@@ -2839,16 +2869,16 @@ msgstr ""
 "booleana, <literal>=</literal> se traduce a <literal>==</literal> sólo para "
 "la sentencia <literal>if</literal>."
 
-#: C/genius.xml:1818(title)
+#: C/genius.xml:1832(title)
 msgid "For Loops"
 msgstr "Bucles «for»"
 
-#: C/genius.xml:1825(programlisting)
+#: C/genius.xml:1839(programlisting)
 #, no-wrap
 msgid "for i = 1 to 20 by 2 do print(i)\n"
 msgstr "for i = 1 to 20 by 2 do print(i)\n"
 
-#: C/genius.xml:1819(para)
+#: C/genius.xml:1833(para)
 msgid ""
 "Syntax: <placeholder-1/> Loop with identifier being set to all values from "
 "<literal>&lt;from&gt;</literal> to <literal>&lt;to&gt;</literal>, optionally "
@@ -2878,21 +2908,58 @@ msgstr ""
 "literal>, pero sí que nunca se rebasará. El ejemplo siguiente imprime todos "
 "los números pares desde 1 a 19: <placeholder-2/>"
 
-#: C/genius.xml:1831(title)
+#: C/genius.xml:1847(programlisting)
+#, no-wrap
+#| msgid "for i = 1 to 20 by 2 do print(i)\n"
+msgid "for x = 0 to 1 by 0.1 do print(x)\n"
+msgstr "for x = 0 to 1 by 0.1 do print(x)\n"
+
+#: C/genius.xml:1852(programlisting)
+#, no-wrap
+#| msgid "for i = 1 to 20 by 2 do print(i)\n"
+msgid "for x = 0 to 1 by 1/10 do print(x)\n"
+msgstr "for x = 0 to 1 by 1/10 do print(x)\n"
+
+#: C/genius.xml:1842(para)
+msgid ""
+"When one of the values is a floating point number, then the final check is "
+"done to within 2^-20 of the step size. That is, even if we overshoot by 2^-"
+"20 times the \"by\" above, we still execute the last iteration. This way "
+"<placeholder-1/> does the expected even though adding 0.1 ten times becomes "
+"just slightly more 1.0 due to the way that floating point numbers are stored "
+"in base 2 (there is no 0.1, the actual number stored is just ever so "
+"slightly bigger). This is not perfect but it handles the majority of the "
+"cases. If you want to avoid dealing with this issue, use actual rational "
+"numbers for example: <placeholder-2/> This check is done only from version "
+"1.0.16 onwards, so execution of your code may differ on older versions."
+msgstr ""
+"Cuando uno de los valores es un número de coma flotante, la verificación "
+"final se realiza con un paso de de 2 ^ -20. Es decir, incluso si se "
+"sobrestima 2 ^ -20 veces el «por» por encima, todavía se ejecuta la última "
+"iteración. De este modo <placeholder-1/> hace lo esperado aunque sumar 0,1 "
+"diez veces es algo superior a 1,0 debido a la forma en que los números de "
+"coma flotante se almacenan en la base 2 (no hay 0,1, el número real "
+"almacenado es sólo ligeramente más grande). Esto no es perfecto, pero "
+"funciona en la mayoría de los casos. Si quiere evitar este problema, utilice "
+"reales números racionales, por ejemplo: <placeholder-2/> Esta comprobación "
+"se realiza únicamente desde la versión 1.0.16 en adelante, por lo que la "
+"ejecución del código puede variar en versiones anteriores."
+
+#: C/genius.xml:1859(title)
 msgid "Foreach Loops"
 msgstr "Bucles «foreach»"
 
-#: C/genius.xml:1839(programlisting)
+#: C/genius.xml:1867(programlisting)
 #, no-wrap
 msgid "for n in [1,2:3,4] do print(n)\n"
 msgstr "for n in [1,2:3,4] do print(n)\n"
 
-#: C/genius.xml:1844(programlisting)
+#: C/genius.xml:1872(programlisting)
 #, no-wrap
 msgid "for n in RowsOf ([1,2:3,4]) do print(n)\n"
 msgstr "for n in RowsOf ([1,2:3,4]) do print(n)\n"
 
-#: C/genius.xml:1832(para)
+#: C/genius.xml:1860(para)
 msgid ""
 "Syntax: <placeholder-1/> For each element in the matrix, going row by row "
 "from left to right we execute the body with the identifier set to the "
@@ -2911,11 +2978,11 @@ msgstr ""
 "de la matriz. Por lo tanto, <placeholder-3/> imprimirá <literal>[1,2]</"
 "literal> y después <literal>[3,4]</literal>."
 
-#: C/genius.xml:1851(title)
+#: C/genius.xml:1879(title)
 msgid "Break and Continue"
 msgstr "Parar y continuar"
 
-#: C/genius.xml:1852(para)
+#: C/genius.xml:1880(para)
 msgid ""
 "You can also use the <literal>break</literal> and <literal>continue</"
 "literal> commands in loops. The continue <literal>continue</literal> command "
@@ -2927,11 +2994,11 @@ msgstr ""
 "literal> reinicia el bucle actual en la siguiente iteración, mientras que el "
 "comando <literal>break</literal> sale del bucle actual. <placeholder-1/>"
 
-#: C/genius.xml:1865(title)
+#: C/genius.xml:1893(title)
 msgid "Sums and Products"
 msgstr "Sumas y productos"
 
-#: C/genius.xml:1866(para)
+#: C/genius.xml:1894(para)
 msgid ""
 "Syntax: <placeholder-1/> If you substitute <literal>for</literal> with "
 "<literal>sum</literal> or <literal>prod</literal>, then you will get a sum "
@@ -2945,7 +3012,7 @@ msgstr ""
 "valor del bucle, devolverá la suma o el producto de todos los valores "
 "obtenidos respectivamente."
 
-#: C/genius.xml:1877(para)
+#: C/genius.xml:1905(para)
 msgid ""
 "If no body is executed (for example <userinput>sum i=1 to 0 do ...</"
 "userinput>) then <literal>sum</literal> returns 0 and <literal>prod</"
@@ -2955,11 +3022,20 @@ msgstr ""
 "userinput>), <literal>sum</literal> devuelve el valor 0 y <literal>prod</"
 "literal> devuelve el valor 1, que es el convenio estándar."
 
-#: C/genius.xml:1883(title)
+#: C/genius.xml:1908(para)
+msgid ""
+"For floating point numbers the same roundoff error protection is done as in "
+"the for loop. See <xref linkend=\"genius-gel-loops-for\"/>."
+msgstr ""
+"Para los números en coma flotante el redondeo de protección de errores se "
+"realiza como en el bucle for. Consulte la <xref linkend=\"genius-gel-loops-"
+"for\"/>."
+
+#: C/genius.xml:1915(title)
 msgid "Comparison Operators"
 msgstr "Operadores de comparación"
 
-#: C/genius.xml:1884(para)
+#: C/genius.xml:1916(para)
 msgid ""
 "The following standard comparison operators are supported in GEL and have "
 "the obvious meaning: <literal>==</literal>, <literal>&gt;=</literal>, "
@@ -2982,7 +3058,7 @@ msgstr ""
 "si el lado izquierdo es menor, 0 si ambos lados son iguales, y 1 si el lado "
 "izquierdo es mayor."
 
-#: C/genius.xml:1903(programlisting)
+#: C/genius.xml:1935(programlisting)
 #, no-wrap
 msgid ""
 "if a=b then c\n"
@@ -2991,7 +3067,7 @@ msgstr ""
 "if a=b then c\n"
 "if a==b then c\n"
 
-#: C/genius.xml:1899(para)
+#: C/genius.xml:1931(para)
 msgid ""
 "Normally <literal>=</literal> is translated to <literal>==</literal> if it "
 "happens to be somewhere where GEL is expecting a condition such as in the if "
@@ -3007,7 +3083,7 @@ msgstr ""
 "comparar o asignar, respectivamente, si quiere que su código sea fácil de "
 "leer. Además le ayuda a evitar errores."
 
-#: C/genius.xml:1912(para)
+#: C/genius.xml:1944(para)
 msgid ""
 "All the comparison operators (except for the <literal>&lt;=&gt;</literal> "
 "operator which behaves normally), are not strictly binary operators, they "
@@ -3022,7 +3098,7 @@ msgstr ""
 "expresión booleana legítima que significa lo que debería: (1&lt;x and x≤y "
 "and y&lt;5)."
 
-#: C/genius.xml:1921(para)
+#: C/genius.xml:1953(para)
 msgid ""
 "To build up logical expressions use the words <literal>not</literal>, "
 "<literal>and</literal>, <literal>or</literal>, <literal>xor</literal>. The "
@@ -3040,12 +3116,12 @@ msgstr ""
 "ejemplo, <literal>1 or a=1</literal> no ejecuta el comando <literal>a=1</"
 "literal>, pues el primer argumento es verdadero."
 
-#: C/genius.xml:1932(title)
+#: C/genius.xml:1964(title)
 msgid "Global Variables and Scope of Variables"
 msgstr "Variables globales y ámbito de variables"
 
 # ¿Al parecer se explica inmediatamente?
-#: C/genius.xml:1933(para)
+#: C/genius.xml:1965(para)
 msgid ""
 "GEL is a <ulink url=\"http://en.wikipedia.org/wiki/Scope_%28programming%29"
 "\"> dynamically scoped language</ulink>. We will explain what this means "
@@ -3060,7 +3136,7 @@ msgstr ""
 "linkend=\"genius-gel-parameters\">variables de parámetros</link>, que "
 "siempre son globales."
 
-#: C/genius.xml:1956(programlisting)
+#: C/genius.xml:1988(programlisting)
 #, no-wrap
 msgid ""
 "function f() = (a:=5; g());\n"
@@ -3071,7 +3147,7 @@ msgstr ""
 "function g() = print(a);\n"
 "f();\n"
 
-#: C/genius.xml:1942(para)
+#: C/genius.xml:1974(para)
 msgid ""
 "Like most programming languages, GEL has different types of variables. "
 "Normally when a variable is defined in a function, it is visible from that "
@@ -3098,7 +3174,7 @@ msgstr ""
 "function> desde el nivel más alto (fuera de <function>f</function>, dado que "
 "<varname>a</varname> no se habrá definido)."
 
-#: C/genius.xml:1965(programlisting)
+#: C/genius.xml:1997(programlisting)
 #, no-wrap
 msgid ""
 "function f() = (a:=5; g());\n"
@@ -3111,7 +3187,7 @@ msgstr ""
 "a:=10;\n"
 "f();\n"
 
-#: C/genius.xml:1961(para)
+#: C/genius.xml:1993(para)
 msgid ""
 "If you define a variable inside a function it will override any variables "
 "defined in calling functions. For example, we modify the above code and "
@@ -3131,7 +3207,7 @@ msgstr ""
 "superior (global), por lo que si verifica el valor de <varname>a</varname> "
 "es aún 10."
 
-#: C/genius.xml:1979(para)
+#: C/genius.xml:2011(para)
 msgid ""
 "Function arguments are exactly like variables defined inside the function, "
 "except that they are initialized with the value that was passed to the "
@@ -3143,7 +3219,7 @@ msgstr ""
 "en la función. Además de esto, se les trata como a cualquier otra variable "
 "definida dentro de la función."
 
-#: C/genius.xml:1986(para)
+#: C/genius.xml:2018(para)
 msgid ""
 "Functions are treated exactly like variables. Hence you can locally redefine "
 "functions. Normally (on the top level) you cannot redefine protected "
@@ -3175,7 +3251,7 @@ msgstr ""
 "= 1e20\n"
 "</screen>"
 
-#: C/genius.xml:2006(programlisting)
+#: C/genius.xml:2038(programlisting)
 #, no-wrap
 msgid ""
 "a=6;\n"
@@ -3186,17 +3262,17 @@ msgstr ""
 "function f() = (a:=5);\n"
 "f();\n"
 
-#: C/genius.xml:2017(programlisting)
+#: C/genius.xml:2049(programlisting)
 #, no-wrap
 msgid "set(`a,3)\n"
 msgstr "set(`a,3)\n"
 
-#: C/genius.xml:2020(programlisting)
+#: C/genius.xml:2052(programlisting)
 #, no-wrap
 msgid "set(\"a\",3)\n"
 msgstr "set(\"a\",3)\n"
 
-#: C/genius.xml:2001(para)
+#: C/genius.xml:2033(para)
 msgid ""
 "Functions and variables defined at the top level are considered global. They "
 "are visible from anywhere. As we said the following function <function>f</"
@@ -3218,7 +3294,7 @@ msgstr ""
 "superior). Por ejemplo, podría utilizar <placeholder-2/> o <placeholder-3/> "
 "para fijar el valor 3 en la variable <varname>a</varname>."
 
-#: C/genius.xml:2023(para)
+#: C/genius.xml:2055(para)
 msgid ""
 "The <function>set</function> function always sets the toplevel global. There "
 "is no way to set a local variable in some function from a subroutine. If "
@@ -3228,7 +3304,7 @@ msgstr ""
 "No existe alguna manera de definir una variable local en alguna función "
 "desde alguna subrutina. Si se necesita hacer esto, debe utilizar ..."
 
-#: C/genius.xml:2029(para)
+#: C/genius.xml:2061(para)
 msgid ""
 "So to recap in a more technical language: Genius operates with different "
 "numbered contexts. The top level is the context 0 (zero). Whenever a "
@@ -3247,7 +3323,7 @@ msgstr ""
 "contexto menor, al fijar esta variable se crea una nueva variable local en "
 "el contexto actual y esta variable sera visible desde los contextos mayores."
 
-#: C/genius.xml:2040(para)
+#: C/genius.xml:2072(para)
 msgid ""
 "There are also true local variables, which are not seen from anywhere but "
 "the current context. Also when returning functions by value it may reference "
@@ -3263,11 +3339,11 @@ msgstr ""
 "true-local-variables\">Variables locales verdaderas</link> y <link linkend="
 "\"genius-gel-returning-functions\">Devolver funciones</link>."
 
-#: C/genius.xml:2053(title)
+#: C/genius.xml:2085(title)
 msgid "Parameter variables"
 msgstr "Variables de parámetros"
 
-#: C/genius.xml:2054(para)
+#: C/genius.xml:2086(para)
 msgid ""
 "As we said before, there exist special variables called parameters that "
 "exist in all scopes. To declare a parameter called <varname>foo</varname> "
@@ -3284,7 +3360,7 @@ msgstr ""
 "modificará la variable en todos los contextos. Esto significa que las "
 "funciones no tienen una copia privada de los parámetros."
 
-#: C/genius.xml:2065(para)
+#: C/genius.xml:2097(para)
 msgid ""
 "When you undefine a parameter using the <link linkend=\"gel-function-undefine"
 "\"><function>undefine</function></link> function, it stops being a parameter."
@@ -3293,17 +3369,17 @@ msgstr ""
 "function-undefine\"><function>undefine</function></link>, éste deja de ser "
 "un parámetro."
 
-#: C/genius.xml:2071(para)
+#: C/genius.xml:2103(para)
 msgid "Some parameters are built-in and modify the behaviour of genius."
 msgstr ""
 "Algunos parámetros están integrados de manera predeterminada y modifican el "
 "comportamiento de genius."
 
-#: C/genius.xml:2077(title)
+#: C/genius.xml:2109(title)
 msgid "Returning"
 msgstr "Retorno"
 
-#: C/genius.xml:2078(para)
+#: C/genius.xml:2110(para)
 msgid ""
 "Normally a function is one or several expressions separated by a semicolon, "
 "and the value of the last expression is returned. This is fine for simple "
@@ -3322,11 +3398,11 @@ msgstr ""
 "función <literal>return</literal> toma un único valor, que es el valor que "
 "se devolverá."
 
-#: C/genius.xml:2100(title)
+#: C/genius.xml:2132(title)
 msgid "References"
 msgstr "Referencias"
 
-#: C/genius.xml:2101(para)
+#: C/genius.xml:2133(para)
 msgid ""
 "It may be necessary for some functions to return more than one value. This "
 "may be accomplished by returning a vector of values, but many times it is "
@@ -3342,7 +3418,7 @@ msgstr ""
 "referencia. Aunque éste es el principal uso de las referencias, no es el "
 "único."
 
-#: C/genius.xml:2109(para)
+#: C/genius.xml:2141(para)
 msgid ""
 "When using functions that return values through references in the argument "
 "list, just pass the variable name with an ampersand. For example the "
@@ -3357,7 +3433,7 @@ msgstr ""
 "indeterminado <varname>x</varname>, y guarda el vector propio obtenido en la "
 "variable <varname>v</varname>: <placeholder-1/>"
 
-#: C/genius.xml:2119(para)
+#: C/genius.xml:2151(para)
 msgid ""
 "The details of how references work and the syntax is similar to the C "
 "language. The operator <literal>&amp;</literal> references a variable and "
@@ -3370,7 +3446,7 @@ msgstr ""
 "aplicarse sólo a un identificador, por lo que <literal>**a</literal> no es "
 "una expresión legal en GEL."
 
-#: C/genius.xml:2126(para)
+#: C/genius.xml:2158(para)
 msgid ""
 "References are best explained by an example: <placeholder-1/> now "
 "<varname>a</varname> contains 2. You can also reference functions: "
@@ -3380,23 +3456,23 @@ msgstr ""
 "1/> ahora <varname>a</varname> contiene el valor 2. También puede hacer "
 "referencia a funciones: <placeholder-2/> devuelve el valor 4."
 
-#: C/genius.xml:2142(title)
+#: C/genius.xml:2174(title)
 msgid "Lvalues"
 msgstr "Lvalues"
 
-#: C/genius.xml:2148(userinput)
+#: C/genius.xml:2180(userinput)
 #, no-wrap
 msgid "a"
 msgstr "a"
 
-#: C/genius.xml:2150(para)
+#: C/genius.xml:2182(para)
 msgid ""
 "Identifier. Here we would be setting the variable of name <varname>a</"
 "varname>."
 msgstr ""
 "Identificador. Aquí se asignará la variable de nombre <varname>a</varname>."
 
-#: C/genius.xml:2159(para)
+#: C/genius.xml:2191(para)
 msgid ""
 "Dereference of an identifier. This will set whatever variable <varname>a</"
 "varname> points to."
@@ -3404,12 +3480,12 @@ msgstr ""
 "Eliminar la referencia a un identificador. Esto fijará lo que a lo que "
 "apunta la variable <varname>a</varname>."
 
-#: C/genius.xml:2166(userinput)
+#: C/genius.xml:2198(userinput)
 #, no-wrap
 msgid "a@(&lt;region&gt;)"
 msgstr "a@(&lt;region&gt;)"
 
-#: C/genius.xml:2168(para)
+#: C/genius.xml:2200(para)
 msgid ""
 "A region of a matrix. Here the region is specified normally as with the "
 "regular @() operator, and can be a single entry, or an entire region of the "
@@ -3419,7 +3495,7 @@ msgstr ""
 "operador regular @(), y puede ser un sola entrada, o una región completa de "
 "una matriz."
 
-#: C/genius.xml:2143(para)
+#: C/genius.xml:2175(para)
 msgid ""
 "An lvalue is the left hand side of an assignment. In other words, an lvalue "
 "is what you assign something to. Valid lvalues are: <placeholder-1/>"
@@ -3428,7 +3504,7 @@ msgstr ""
 "lvalor es lo que se le asigna a algo. Algunos lvalues válidos son: "
 "<placeholder-1/>"
 
-#: C/genius.xml:2179(programlisting)
+#: C/genius.xml:2211(programlisting)
 #, no-wrap
 msgid ""
 "a:=4\n"
@@ -3441,7 +3517,7 @@ msgstr ""
 "a@(1,1) := 5\n"
 "a@(4:8,3) := [1,2,3,4,5]'\n"
 
-#: C/genius.xml:2177(para)
+#: C/genius.xml:2209(para)
 msgid ""
 "Examples: <placeholder-1/> Note that both <literal>:=</literal> and "
 "<literal>=</literal> can be used interchangably. Except if the assignment "
@@ -3455,15 +3531,15 @@ msgstr ""
 "sólo utilizar <literal>:=</literal> cuando se pretenda establecer una "
 "asignación y <literal>==</literal> para hacer una comparación."
 
-#: C/genius.xml:2195(title)
+#: C/genius.xml:2227(title)
 msgid "Advanced Programming with GEL"
 msgstr "Programación avanzada con GEL"
 
-#: C/genius.xml:2198(title)
+#: C/genius.xml:2230(title)
 msgid "Error Handling"
 msgstr "Control de errores"
 
-#: C/genius.xml:2199(para)
+#: C/genius.xml:2231(para)
 msgid ""
 "If you detect an error in your function, you can bail out of it. For normal "
 "errors, such as wrong types of arguments, you can fail to compute the "
@@ -3477,7 +3553,7 @@ msgstr ""
 "Si algo saliera de verdad mal y quisiera interrumpir definitivamente el "
 "cálculo en curso, puede utilizar la palabra <literal>exception</literal>."
 
-#: C/genius.xml:2209(programlisting)
+#: C/genius.xml:2241(programlisting)
 #, no-wrap
 msgid ""
 "function f(M) = (\n"
@@ -3496,7 +3572,7 @@ msgstr ""
 "  ...\n"
 ")\n"
 
-#: C/genius.xml:2206(para)
+#: C/genius.xml:2238(para)
 msgid ""
 "For example if you want to check for arguments in your function. You could "
 "use the following code. <placeholder-1/>"
@@ -3504,11 +3580,11 @@ msgstr ""
 "Por ejemplo, si quiere verificar argumentos en una función. Podría utilizar "
 "el siguiente código: <placeholder-1/>"
 
-#: C/genius.xml:2221(title)
+#: C/genius.xml:2253(title)
 msgid "Toplevel Syntax"
 msgstr "Sintaxis de nivel superior"
 
-#: C/genius.xml:2222(para)
+#: C/genius.xml:2254(para)
 msgid ""
 "The synatax is slightly different if you enter statements on the top level "
 "versus when they are inside parentheses or inside functions. On the top "
@@ -3526,7 +3602,7 @@ msgstr ""
 "necesita introducir el separador al final de la línea (salvo que sea parte "
 "de varias sentencias dentro de paréntesis)."
 
-#: C/genius.xml:2235(programlisting)
+#: C/genius.xml:2267(programlisting)
 #, no-wrap
 msgid ""
 "if Something() then\n"
@@ -3539,7 +3615,7 @@ msgstr ""
 "else\n"
 "  HacerOtraCosa()\n"
 
-#: C/genius.xml:2232(para)
+#: C/genius.xml:2264(para)
 msgid ""
 "The following code will produce an error when entered on the top level of a "
 "program, while it will work just fine in a function. <placeholder-1/>"
@@ -3547,7 +3623,7 @@ msgstr ""
 "El siguiente código, aunque funcione bien en la función, puede producir un "
 "error al introducirlo en el nivel más alto de un programa. <placeholder-1/>"
 
-#: C/genius.xml:2249(programlisting)
+#: C/genius.xml:2281(programlisting)
 #, no-wrap
 msgid ""
 "if Something() then (\n"
@@ -3562,7 +3638,7 @@ msgstr ""
 "  HacerOtraCosa()\n"
 ")\n"
 
-#: C/genius.xml:2241(para)
+#: C/genius.xml:2273(para)
 msgid ""
 "The problem is that after <application>Genius Mathematics Tool</application> "
 "sees the end of line after the second line, it will decide that we have "
@@ -3583,11 +3659,11 @@ msgstr ""
 "application> no estará satisfecha hasta que todos los paréntesis estén "
 "cerrados. <placeholder-1/>"
 
-#: C/genius.xml:2259(title)
+#: C/genius.xml:2291(title)
 msgid "Returning Functions"
 msgstr "Devolver funciones"
 
-#: C/genius.xml:2272(programlisting)
+#: C/genius.xml:2304(programlisting)
 #, no-wrap
 msgid ""
 "function f() = (\n"
@@ -3600,7 +3676,7 @@ msgstr ""
 "  `(x) = (x+k)\n"
 ")\n"
 
-#: C/genius.xml:2279(programlisting)
+#: C/genius.xml:2311(programlisting)
 #, no-wrap
 msgid ""
 "g = f();\n"
@@ -3609,7 +3685,7 @@ msgstr ""
 "g = f();\n"
 "g(5)\n"
 
-#: C/genius.xml:2260(para)
+#: C/genius.xml:2292(para)
 msgid ""
 "It is possible to return functions as value. This way you can build "
 "functions that construct special purpose functions according to some "
@@ -3637,7 +3713,7 @@ msgstr ""
 "como sigue: <placeholder-2/> And <userinput>g(5)</userinput> devuelve el "
 "valor 10."
 
-#: C/genius.xml:2288(programlisting)
+#: C/genius.xml:2320(programlisting)
 #, no-wrap
 msgid ""
 "function f() = (\n"
@@ -3654,7 +3730,7 @@ msgstr ""
 "  r\n"
 ")\n"
 
-#: C/genius.xml:2284(para)
+#: C/genius.xml:2316(para)
 msgid ""
 "One thing to note is that the value of <varname>k</varname> that is used is "
 "the one that's in effect when the <function>f</function> returns. For "
@@ -3701,7 +3777,7 @@ msgstr ""
 "<varname>k</varname> al diccionario privado pues ésta es una variable global "
 "(del nivel más alto) en el momento en que se definió <varname>r</varname>."
 
-#: C/genius.xml:2330(programlisting)
+#: C/genius.xml:2362(programlisting)
 #, no-wrap
 msgid ""
 "function f() = (\n"
@@ -3718,7 +3794,7 @@ msgstr ""
 "  r\n"
 ")\n"
 
-#: C/genius.xml:2319(para)
+#: C/genius.xml:2351(para)
 msgid ""
 "Sometimes it is better to have more control over how variables are copied "
 "into the private dictionary. Since version 1.0.7, you can specify which "
@@ -3740,7 +3816,7 @@ msgstr ""
 "una función que cuando se llama añade 5 a su argumento. La copia local de "
 "<varname>k</varname> se crea cuando la función se define."
 
-#: C/genius.xml:2352(programlisting)
+#: C/genius.xml:2384(programlisting)
 #, no-wrap
 msgid ""
 "function f() = (\n"
@@ -3761,7 +3837,7 @@ msgstr ""
 "g = f();\n"
 "g(10)\n"
 
-#: C/genius.xml:2341(para)
+#: C/genius.xml:2373(para)
 msgid ""
 "When you want the function to not have any private dictionary then put empty "
 "square brackets after the argument list. Then no private dictionary will be "
@@ -3786,11 +3862,11 @@ msgstr ""
 "suceder si se hubiese añadido <varname>k</varname> con valor 5 al "
 "diccionario privado."
 
-#: C/genius.xml:2368(title)
+#: C/genius.xml:2400(title)
 msgid "True Local Variables"
 msgstr "Variables locales verdaderas"
 
-#: C/genius.xml:2372(programlisting)
+#: C/genius.xml:2404(programlisting)
 #, no-wrap
 msgid ""
 "k := 10;\n"
@@ -3809,7 +3885,7 @@ msgstr ""
 ");\n"
 "f(r,1)\n"
 
-#: C/genius.xml:2369(para)
+#: C/genius.xml:2401(para)
 msgid ""
 "When passing functions into other functions, the normal scoping of variables "
 "might be undesired. For example: <placeholder-1/> you probably want the "
@@ -3834,7 +3910,7 @@ msgstr ""
 "de corchetes. Consulte la sección <link linkend=\"genius-gel-returning-"
 "functions\">Devolver funciones</link>."
 
-#: C/genius.xml:2401(programlisting)
+#: C/genius.xml:2433(programlisting)
 #, no-wrap
 msgid ""
 "function f(g,x) = (\n"
@@ -3849,7 +3925,7 @@ msgstr ""
 "  g(x)\n"
 ");\n"
 
-#: C/genius.xml:2391(para)
+#: C/genius.xml:2423(para)
 msgid ""
 "But there is another solution. Since version 1.0.7 there are true local "
 "variables. These are variables that are visible only from the current "
@@ -3874,7 +3950,7 @@ msgstr ""
 "todas las variables que se referencian (salvo los argumentos de funciones) "
 "como una constante <constant>null</constant>."
 
-#: C/genius.xml:2418(programlisting)
+#: C/genius.xml:2450(programlisting)
 #, no-wrap
 msgid ""
 "function f(g,x) = (\n"
@@ -3889,7 +3965,7 @@ msgstr ""
 "  g(x)\n"
 ");\n"
 
-#: C/genius.xml:2412(para)
+#: C/genius.xml:2444(para)
 msgid ""
 "If all variables are to be created as locals you can just pass an asterix "
 "instead of a list of variables. In this case the variables will not be "
@@ -3901,7 +3977,7 @@ msgstr ""
 "inicializarán hasta que se fijen, desde luego. Entonces, la siguiente "
 "definición de <function>f</function> también funcionará:"
 
-#: C/genius.xml:2425(para)
+#: C/genius.xml:2457(para)
 msgid ""
 "It is good practice that all functions that take other functions as "
 "arguments use local variables. This way the passed function does not see "
@@ -3911,11 +3987,11 @@ msgstr ""
 "utilicen variables locales. De esta manera las funciones que pasan no ven "
 "los detalles de la implementación y luego no se confunden."
 
-#: C/genius.xml:2433(title)
+#: C/genius.xml:2465(title)
 msgid "GEL Startup Procedure"
 msgstr "Procedimiento de inicio de GEL"
 
-#: C/genius.xml:2434(para)
+#: C/genius.xml:2466(para)
 msgid ""
 "First the program looks for the installed library file (the compiled version "
 "<filename>lib.cgel</filename>) in the installed directory, then it looks "
@@ -3927,7 +4003,7 @@ msgstr ""
 "busca en la carpeta actual y finalmente trata de cargar algún archivo no "
 "compilado llamado <filename>~/.geniusinit</filename>."
 
-#: C/genius.xml:2438(para)
+#: C/genius.xml:2470(para)
 msgid ""
 "If you ever change the the library its installed place, you’ll have to first "
 "compile it with <command>genius --compile loader.gel &gt; lib.cgel</command>"
@@ -3936,11 +4012,11 @@ msgstr ""
 "deberá compilarla con el comando <command>genius --compile loader.gel &gt; "
 "lib.cgel</command>"
 
-#: C/genius.xml:2445(title)
+#: C/genius.xml:2477(title)
 msgid "Loading Programs"
 msgstr "Cargar programas"
 
-#: C/genius.xml:2448(programlisting)
+#: C/genius.xml:2480(programlisting)
 #, no-wrap
 msgid ""
 "load program1.gel program2.gel\n"
@@ -3949,7 +4025,7 @@ msgstr ""
 "load programa1.gel programa2.gel\n"
 "load \"Nombre raro de archivo con ESPACIOS.gel\"\n"
 
-#: C/genius.xml:2452(programlisting)
+#: C/genius.xml:2484(programlisting)
 #, no-wrap
 msgid ""
 "cd directory_with_gel_programs\n"
@@ -3959,7 +4035,7 @@ msgstr ""
 "ls *.gel\n"
 
 # genus -> Genius
-#: C/genius.xml:2446(para)
+#: C/genius.xml:2478(para)
 msgid ""
 "Sometimes you have a larger program that you wrote into a file and want to "
 "read in that file. In these situations, you have two options. You can keep "
@@ -3997,11 +4073,11 @@ msgstr ""
 "<command>pwd</command> no toma ningún argumento. Por ejemplo: <placeholder-2/"
 ">"
 
-#: C/genius.xml:2462(title)
+#: C/genius.xml:2494(title)
 msgid "Matrices in GEL"
 msgstr "Matrices en GEL"
 
-#: C/genius.xml:2464(para)
+#: C/genius.xml:2496(para)
 msgid ""
 "Genius has support for vectors and matrices and a sizable library of matrix "
 "manipulation and linear algebra functions."
@@ -4009,16 +4085,16 @@ msgstr ""
 "Genius tiene soporte para vectores y matrices y una biblioteca dimensionable "
 "para manipulación de matrices y funciones de álgebra lineal."
 
-#: C/genius.xml:2470(title)
+#: C/genius.xml:2502(title)
 msgid "Entering Matrices"
 msgstr "Introducir matrices"
 
-#: C/genius.xml:2479(programlisting)
+#: C/genius.xml:2511(programlisting)
 #, no-wrap
 msgid "[1,2,3;4,5,6;7,8,9]\n"
 msgstr "[1,2,3;4,5,6;7,8,9]\n"
 
-#: C/genius.xml:2482(programlisting)
+#: C/genius.xml:2514(programlisting)
 #, no-wrap
 msgid ""
 "[1, 2, 3\n"
@@ -4030,7 +4106,7 @@ msgstr ""
 " 7, 8, 9]\n"
 
 # matrixes -> matrices
-#: C/genius.xml:2471(para)
+#: C/genius.xml:2503(para)
 msgid ""
 "To enter matrixes, you can use one of the following two syntaxes. You can "
 "either enter the matrix on one line, separating values by commas and rows by "
@@ -4047,7 +4123,7 @@ msgstr ""
 "hacer lo siguiente: <placeholder-1/> o <placeholder-2/> No utilice «;» y "
 "«return» en la misma línea."
 
-#: C/genius.xml:2492(programlisting)
+#: C/genius.xml:2524(programlisting)
 #, no-wrap
 msgid ""
 "a = [ 1, 2, 3\n"
@@ -4062,7 +4138,7 @@ msgstr ""
 "b = [ a,  10\n"
 "      11, 12]\n"
 
-#: C/genius.xml:2499(programlisting)
+#: C/genius.xml:2531(programlisting)
 #, no-wrap
 msgid ""
 "[1,   2,  3, 10\n"
@@ -4076,7 +4152,7 @@ msgstr ""
 " 11, 11, 11, 12]\n"
 
 # similarly -> Similarly?
-#: C/genius.xml:2489(para)
+#: C/genius.xml:2521(para)
 msgid ""
 "You can also use the matrix expansion functionality to enter matricies. For "
 "example you can do: <placeholder-1/> and you should get <placeholder-2/> "
@@ -4087,7 +4163,7 @@ msgstr ""
 "obtendrá <placeholder-2/> Puede construir matrices con vectores y cosas "
 "parecidas de manera similar."
 
-#: C/genius.xml:2509(programlisting)
+#: C/genius.xml:2541(programlisting)
 #, no-wrap
 msgid ""
 "[1, 2, 3\n"
@@ -4098,7 +4174,7 @@ msgstr ""
 " 4, 5\n"
 " 6]\n"
 
-#: C/genius.xml:2514(programlisting)
+#: C/genius.xml:2546(programlisting)
 #, no-wrap
 msgid ""
 "\n"
@@ -4111,7 +4187,7 @@ msgstr ""
 " 4, 5, 0\n"
 " 6, 0, 0]\n"
 
-#: C/genius.xml:2507(para)
+#: C/genius.xml:2539(para)
 msgid ""
 "Another thing is that non-specified spots are initialized to 0, so "
 "<placeholder-1/> will end up being <placeholder-2/>"
@@ -4119,7 +4195,7 @@ msgstr ""
 "Otra cosa es que se los puntos no especificados se inicialicen a 0, por lo "
 "que <placeholder-1/> será <placeholder-2/>"
 
-#: C/genius.xml:2521(para)
+#: C/genius.xml:2553(para)
 msgid ""
 "When matrices are evaluated, they are evaluated and traversed row-wise. This "
 "is just like the <literal>M@(j)</literal> operator which traverses the "
@@ -4128,7 +4204,7 @@ msgstr ""
 "Una matriz se evalúa y se recorre fila por fila, justo como el operador "
 "<literal>M@(j)</literal> que recorre la matriz renglón por renglón."
 
-#: C/genius.xml:2527(para)
+#: C/genius.xml:2559(para)
 msgid ""
 "Be careful about using returns for expressions inside the <literal>[ ]</"
 "literal> brackets, as they have a slightly different meaning there. You will "
@@ -4138,21 +4214,21 @@ msgstr ""
 "<literal>[ ]</literal>, ya que tiene un significado ligeramente distinto en "
 "ese contexto. Comenzará una fila nueva."
 
-#: C/genius.xml:2537(title)
+#: C/genius.xml:2569(title)
 msgid "Conjugate Transpose and Transpose Operator"
 msgstr "Conjugada de la traspuesta y operador de trasposición"
 
-#: C/genius.xml:2545(programlisting)
+#: C/genius.xml:2577(programlisting)
 #, no-wrap
 msgid "[1,2,3]*[4,5,6]'\n"
 msgstr "[1,2,3]*[4,5,6]'\n"
 
-#: C/genius.xml:2550(programlisting)
+#: C/genius.xml:2582(programlisting)
 #, no-wrap
 msgid "[1,2,3]*[4,5,6i].'\n"
 msgstr "[1,2,3]*[4,5,6i].'\n"
 
-#: C/genius.xml:2538(para)
+#: C/genius.xml:2570(para)
 msgid ""
 "You can conjugate transpose a matrix by using the <literal>'</literal> "
 "operator. That is the entry in the <varname>i</varname>th column and the "
@@ -4174,7 +4250,7 @@ msgstr ""
 "<placeholder-2/>"
 
 # "Normal transpose" sounds like a new operation
-#: C/genius.xml:2553(para)
+#: C/genius.xml:2585(para)
 msgid ""
 "Note that normal transpose, that is the <literal>.'</literal> operator, is "
 "much faster and will not create a new copy of the matrix in memory. The "
@@ -4188,11 +4264,11 @@ msgstr ""
 "crea una copia nueva. Se recomienda que siempre utilice el operador "
 "<literal>.'</literal> cuando trabaje con matrices y vectores reales."
 
-#: C/genius.xml:2563(title) C/genius.xml:2848(title)
+#: C/genius.xml:2595(title) C/genius.xml:2848(title)
 msgid "Linear Algebra"
 msgstr "Álgebra lineal"
 
-#: C/genius.xml:2564(para)
+#: C/genius.xml:2596(para)
 msgid ""
 "Genius implements many useful linear algebra and matrix manipulation "
 "routines. See the <link linkend=\"genius-gel-function-list-linear-algebra"
@@ -4204,7 +4280,7 @@ msgstr ""
 "linear-algebra\">álgebra lineal</link> y <link linkend=\"genius-gel-function-"
 "list-matrix\">manipulación de matrices</link> de la lista de funciones GEL."
 
-#: C/genius.xml:2571(para)
+#: C/genius.xml:2603(para)
 msgid ""
 "The linear algebra routines implemented in GEL do not currently come from a "
 "well tested numerical package, and thus should not be used for critical "
@@ -4220,7 +4296,7 @@ msgstr ""
 "Éstas son intrínsecamente exactas y, de hecho, dan resultados mucho mejores "
 "que las rutinas comunes de doble precisión para álgebra lineal."
 
-#: C/genius.xml:2579(para)
+#: C/genius.xml:2611(para)
 msgid ""
 "For example, it is pointless to compute the rank and nullspace of a floating "
 "point matrix since for all practical purposes, we need to consider the "
@@ -4237,7 +4313,7 @@ msgstr ""
 "invertible. Sin embargo, si la matriz se compone de números racionales, "
 "entonces el rango y el espacio nulo serán siempre exactos."
 
-#: C/genius.xml:2587(para)
+#: C/genius.xml:2619(para)
 msgid ""
 "In general when Genius computes the basis of a certain vectorspace (for "
 "example with the <function>NullSpace</function>) it will give the basis as a "
@@ -4251,7 +4327,7 @@ msgstr ""
 "decir, cuando Genius habla de un subespacio lineal se refiere a una matriz "
 "cuyo espacio de columna es el subespacio lineal indicado."
 
-#: C/genius.xml:2594(para)
+#: C/genius.xml:2626(para)
 msgid ""
 "It should be noted that Genius can remember certain properties of a matrix. "
 "For example, it will remember that a matrix is in row reduced form. If many "
@@ -4266,11 +4342,11 @@ msgstr ""
 "previamente una sola vez. Las llamadas sucesivas a la función "
 "<function>rref</function> se harán muy rápido."
 
-#: C/genius.xml:2607(title)
+#: C/genius.xml:2639(title)
 msgid "Polynomials in GEL"
 msgstr "Polinomios en GEL"
 
-#: C/genius.xml:2609(para)
+#: C/genius.xml:2641(para)
 msgid ""
 "Currently Genius can handle polynomials of one variable written out as "
 "vectors, and do some basic operations with these. It is planned to expand "
@@ -4280,21 +4356,21 @@ msgstr ""
 "vectores y realizar algunas operaciones básicas con ellos. Se prevé ampliar "
 "este soporte adicional."
 
-#: C/genius.xml:2616(title)
+#: C/genius.xml:2648(title)
 msgid "Using Polynomials"
 msgstr "Usar polinomios"
 
-#: C/genius.xml:2622(programlisting)
+#: C/genius.xml:2654(programlisting)
 #, no-wrap
 msgid "[1,2,3]\n"
 msgstr "[1,2,3]\n"
 
-#: C/genius.xml:2625(programlisting)
+#: C/genius.xml:2657(programlisting)
 #, no-wrap
 msgid "1 + 2*x + 3*x^2\n"
 msgstr "1 + 2*x + 3*x^2\n"
 
-#: C/genius.xml:2617(para)
+#: C/genius.xml:2649(para)
 msgid ""
 "Currently polynomials in one variable are just horizontal vectors with value "
 "only nodes. The power of the term is the position in the vector, with the "
@@ -4306,17 +4382,17 @@ msgstr ""
 "la primera posición siendo 0. Por lo tanto, <placeholder-1/> se traduce en "
 "un polinomio como <placeholder-2/>"
 
-#: C/genius.xml:2637(programlisting)
+#: C/genius.xml:2669(programlisting)
 #, no-wrap
 msgid "PolyToString([1,2,3],\"y\")\n"
 msgstr "PolyToString([1,2,3],\"y\")\n"
 
-#: C/genius.xml:2640(programlisting)
+#: C/genius.xml:2672(programlisting)
 #, no-wrap
 msgid "3*y^2 + 2*y + 1\n"
 msgstr "3*y^2 + 2*y + 1\n"
 
-#: C/genius.xml:2647(programlisting)
+#: C/genius.xml:2679(programlisting)
 #, no-wrap
 msgid ""
 "f = PolyToFunction([0,1,1])\n"
@@ -4325,7 +4401,7 @@ msgstr ""
 "f = PolyToFunction([0,1,1])\n"
 "f(2)\n"
 
-#: C/genius.xml:2628(para)
+#: C/genius.xml:2660(para)
 msgid ""
 "You can add, subtract and multiply polynomials using the <link linkend=\"gel-"
 "function-AddPoly\"><function>AddPoly</function></link>, <link linkend=\"gel-"
@@ -4352,7 +4428,7 @@ msgstr ""
 "\"><function>PolyToFunction</function></link>, que devuelve una función "
 "anónima. <placeholder-3/>"
 
-#: C/genius.xml:2651(para)
+#: C/genius.xml:2683(para)
 msgid ""
 "It is also possible to find roots of polynomials of degrees 1 through 4 by "
 "using the function <link linkend=\"gel-function-PolynomialRoots"
@@ -4378,7 +4454,7 @@ msgstr ""
 "link>, o <link linkend=\"gel-function-FindRootSecant"
 "\"><function>FindRootSecant</function></link>."
 
-#: C/genius.xml:2663(para)
+#: C/genius.xml:2695(para)
 msgid ""
 "See <xref linkend=\"genius-gel-function-list-polynomials\"/> in the function "
 "list for the rest of functions acting on polynomials."
@@ -4386,11 +4462,11 @@ msgstr ""
 "Consulte la <xref linkend=\"genius-gel-function-list-polynomials\"/> en la "
 "lista de funciones el resto de funciones que actúan sobre polinomios."
 
-#: C/genius.xml:2673(title)
+#: C/genius.xml:2705(title)
 msgid "Set Theory in GEL"
 msgstr "Teoría de conjuntos en GEL"
 
-#: C/genius.xml:2675(para)
+#: C/genius.xml:2707(para)
 msgid ""
 "Genius has some basic set theoretic functionality built in. Currently a set "
 "is just a vector (or a matrix). Every distinct object is treated as a "
@@ -4400,11 +4476,11 @@ msgstr ""
 "actualidad, un conjunto es sólo un vector (o una matriz). Cada objeto "
 "distinto se trata como un elemento diferente."
 
-#: C/genius.xml:2681(title)
+#: C/genius.xml:2713(title)
 msgid "Using Sets"
 msgstr "Usar conjuntos"
 
-#: C/genius.xml:2682(para)
+#: C/genius.xml:2714(para)
 msgid ""
 "Just like vectors, objects in sets can include numbers, strings, "
 "<constant>null</constant>, matrices and vectors. It is planned in the future "
@@ -4423,7 +4499,7 @@ msgstr ""
 "<constant>0.0</constant>. La constante <constant>null</constant> se trata "
 "como un conjunto vacío."
 
-#: C/genius.xml:2690(para)
+#: C/genius.xml:2722(para)
 msgid ""
 "To build a set out of a vector, use the <link linkend=\"gel-function-MakeSet"
 "\"><function>MakeSet</function></link> function. Currently, it will just "
@@ -4441,7 +4517,7 @@ msgstr ""
 "= [1, 2, 3]\n"
 "</screen>"
 
-#: C/genius.xml:2699(para)
+#: C/genius.xml:2731(para)
 msgid ""
 "Similarly there are functions <link linkend=\"gel-function-Union"
 "\"><function>Union</function></link>, <link linkend=\"gel-function-"
@@ -4466,7 +4542,7 @@ msgstr ""
 "<link linkend=\"gel-function-SortVector\"><function>SortVector</function></"
 "link>."
 
-#: C/genius.xml:2713(para)
+#: C/genius.xml:2745(para)
 msgid ""
 "For testing membership, there are functions <link linkend=\"gel-function-IsIn"
 "\"><function>IsIn</function></link> and <link linkend=\"gel-function-IsSubset"
@@ -4490,7 +4566,7 @@ msgstr ""
 "que el conjunto vacío es un subconjunto de cada conjunto, <userinput>IsSubset"
 "(null,X)</userinput> es siempre «true»."
 
-#: C/genius.xml:2732(title)
+#: C/genius.xml:2764(title)
 msgid "List of GEL functions"
 msgstr "Lista de funciones GEL"
 
@@ -5464,7 +5540,7 @@ msgstr "GaussDistributionTolerance = número"
 msgid "Tolerance of the <function>GaussDistribution</function> function."
 msgstr "Tolerancia de la función <function>GaussDistribution</function>"
 
-#: C/genius.xml:568(term) C/genius.xml:2986(function)
+#: C/genius.xml:568(term) C/genius.xml:3018(function)
 msgid "IntegerOutputBase"
 msgstr "IntegerOutputBase"
 
@@ -5700,7 +5776,7 @@ msgstr ""
 "Cuando recortar la salida. Consulte <link linkend=\"gel-function-"
 "OutputChopExponent\"><function>OutputChopExponent</function></link>."
 
-#: C/genius.xml:700(term) C/genius.xml:2995(function)
+#: C/genius.xml:700(term) C/genius.xml:3027(function)
 msgid "OutputStyle"
 msgstr "OutputStyle"
 
@@ -13965,12 +14041,6 @@ msgstr ""
 "se eleva una excepción."
 
 #: C/genius.xml:5394(para)
-#| msgid ""
-#| "Examples: <screen><prompt>genius&gt;</prompt> <userinput>LinePlot(sin,cos)"
-#| "</userinput>\n"
-#| "<prompt>genius&gt;</prompt> <userinput>LinePlot(`(x)=x^2,-1,1,0,1)</"
-#| "userinput>\n"
-#| "</screen>"
 msgid ""
 "Examples: <screen><prompt>genius&gt;</prompt> <userinput>ExportPlot(\"file."
 "png\")</userinput>\n"
@@ -14638,19 +14708,19 @@ msgstr ""
 "y)=x^2-y, `(x,y)=y^2-x, -1, 1, -1, 1)</userinput>\n"
 "</screen>"
 
-#: C/genius.xml:2740(title)
+#: C/genius.xml:2772(title)
 msgid "Example Programs in GEL"
 msgstr "Programas de ejemplo en GEL"
 
-#: C/genius.xml:2742(para)
+#: C/genius.xml:2774(para)
 msgid "Here is a function that calculates factorials: <placeholder-1/>"
 msgstr "Esto es una función que calcula factoriales: <placeholder-1/>"
 
-#: C/genius.xml:2747(para)
+#: C/genius.xml:2779(para)
 msgid "With indentation it becomes: <placeholder-1/>"
 msgstr "Con sangría se convierte: <placeholder-1/>"
 
-#: C/genius.xml:2757(para)
+#: C/genius.xml:2789(para)
 msgid ""
 "This is a direct port of the factorial function from the <application>bc</"
 "application> manpage. The syntax seems similar to <application>bc</"
@@ -14664,12 +14734,12 @@ msgstr ""
 "que se devuelve. Utilizar la función <literal>return</literal> en su lugar, "
 "esto será: <placeholder-1/>"
 
-#: C/genius.xml:2770(programlisting)
+#: C/genius.xml:2802(programlisting)
 #, no-wrap
 msgid "function f(x) = prod k=1 to x do k\n"
 msgstr "function f(x) = prod k=1 to x do k\n"
 
-#: C/genius.xml:2766(para)
+#: C/genius.xml:2798(para)
 msgid ""
 "By far the easiest way to define a factorial function would be using the "
 "product loop as follows. This is not only the shortest and fastest, but also "
@@ -14679,7 +14749,7 @@ msgstr ""
 "lazo del producto como sigue. No es sólo la manera más corta y más rápida, "
 "sino probablemente la versión mas legible. <placeholder-1/>"
 
-#: C/genius.xml:2774(para)
+#: C/genius.xml:2806(para)
 msgid ""
 "Here is a larger example, this basically redefines the internal "
 "<function>ref</function> function to calculate the row echelon form of a "
@@ -14693,7 +14763,7 @@ msgstr ""
 "pero este ejemplo demuestra algunas de las características más complejas de "
 "GEL. <placeholder-1/>"
 
-#: C/genius.xml:2829(para)
+#: C/genius.xml:2861(para)
 msgid ""
 "To configure <application>Genius Mathematics Tool</application>, choose "
 "<menuchoice><guimenu>Settings</guimenu><guimenuitem>Preferences</"
@@ -14707,11 +14777,11 @@ msgstr ""
 "la calculadora además de los proporcionados por la biblioteca estándar. "
 "Estos controlan cómo se comporta la calculadora."
 
-#: C/genius.xml:2839(title)
+#: C/genius.xml:2871(title)
 msgid "Changing Settings with GEL"
 msgstr "Cambiar la configuración con GEL"
 
-#: C/genius.xml:2840(para)
+#: C/genius.xml:2872(para)
 msgid ""
 "Many of the settings in Genius are simply global variables, and can be "
 "evaluated and assigned to in the same way as normal variables. See <xref "
@@ -14725,12 +14795,12 @@ msgstr ""
 "y asignar a variables, y la <xref linkend=\"genius-gel-function-parameters\"/"
 "> para una lista de configuraciones que se pueden modificar por este método."
 
-#: C/genius.xml:2849(programlisting)
+#: C/genius.xml:2881(programlisting)
 #, no-wrap
 msgid "MaxDigits = 12\n"
 msgstr "MaxDigits = 12\n"
 
-#: C/genius.xml:2847(para)
+#: C/genius.xml:2879(para)
 msgid ""
 "As an example, you can set the maximum number of digits in a result to 12 by "
 "typing: <placeholder-1/>"
@@ -14738,24 +14808,24 @@ msgstr ""
 "Por ejemplo, puede establecer el número máximo de dígitos en un resultado a "
 "12 escribiendo: <placeholder-1/>"
 
-#: C/genius.xml:2855(title)
+#: C/genius.xml:2887(title)
 msgid "Output"
 msgstr "Salida"
 
-#: C/genius.xml:2859(guilabel)
+#: C/genius.xml:2891(guilabel)
 msgid "Maximum digits to output"
 msgstr "Número máximo de cifras que mostrar"
 
-#: C/genius.xml:2862(para)
+#: C/genius.xml:2894(para)
 msgid "The maximum digits in a result (<function>MaxDigits</function>)"
 msgstr ""
 "El número máximo de dígitos en un resultado (<function>MaxDigits</function>)"
 
-#: C/genius.xml:2867(guilabel)
+#: C/genius.xml:2899(guilabel)
 msgid "Results as floats"
 msgstr "Resultados como números de coma flotante"
 
-#: C/genius.xml:2870(para)
+#: C/genius.xml:2902(para)
 msgid ""
 "If the results should be always printed as floats "
 "(<function>ResultsAsFloats</function>)"
@@ -14763,11 +14833,11 @@ msgstr ""
 "Indica si los resultados se imprimirán siempre como números flotantes "
 "(<function>ResultsAsFloats</function>)"
 
-#: C/genius.xml:2875(guilabel)
+#: C/genius.xml:2907(guilabel)
 msgid "Floats in scientific notation"
 msgstr "Números de coma flotante en notación científica"
 
-#: C/genius.xml:2878(para)
+#: C/genius.xml:2910(para)
 msgid ""
 "If floats should be in scientific notation (<function>ScientificNotation</"
 "function>)"
@@ -14775,11 +14845,11 @@ msgstr ""
 "Indica si los números flotantes están en notación científica "
 "(<function>ScientificNotation</function>)"
 
-#: C/genius.xml:2883(guilabel)
+#: C/genius.xml:2915(guilabel)
 msgid "Always print full expressions"
 msgstr "Imprimir siempre expresiones completas"
 
-#: C/genius.xml:2886(para)
+#: C/genius.xml:2918(para)
 msgid ""
 "Should we print out full expressions for non-numeric return values (longer "
 "than a line) (<function>FullExpressions</function>)"
@@ -14787,11 +14857,11 @@ msgstr ""
 "Indica si se imprimen expresiones completas para valores de retorno no "
 "numéricos (más largos que una línea) (<function>FullExpressions</function>)"
 
-#: C/genius.xml:2892(guilabel)
+#: C/genius.xml:2924(guilabel)
 msgid "Use mixed fractions"
 msgstr "Usar fracciones mixtas"
 
-#: C/genius.xml:2895(para)
+#: C/genius.xml:2927(para)
 msgid ""
 "If fractions should be printed as mixed fractions such as \"1 1/3\" rather "
 "than \"4/3\". (<function>MixedFractions</function>)"
@@ -14799,14 +14869,14 @@ msgstr ""
 "Indica si se imprimen las fracciones como fracciones mixtas utilizando la "
 "forma «1 1/3» en vez de «4/3»."
 
-#: C/genius.xml:2901(guilabel)
+#: C/genius.xml:2933(guilabel)
 msgid ""
 "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr ""
 "Mostrar 0.0 cuando el número en coma flotante es menor que 10^-x (0=no "
 "truncar nunca)"
 
-#: C/genius.xml:2904(para)
+#: C/genius.xml:2936(para)
 msgid ""
 "How to chop output. But only when other numbers nearby are large. See the "
 "documentation of the paramter <link linkend=\"gel-function-OutputChopExponent"
@@ -14816,11 +14886,11 @@ msgstr ""
 "grandes. Consulte la documentación del parámetro <link linkend=\"gel-"
 "function-OutputChopExponent\"><function>OutputChopExponent</function></link>."
 
-#: C/genius.xml:2912(guilabel)
+#: C/genius.xml:2944(guilabel)
 msgid "Only chop numbers when another number is greater than 10^-x"
 msgstr "Sólo truncar los números cuando otro número es mayor que 10^-x"
 
-#: C/genius.xml:2915(para)
+#: C/genius.xml:2947(para)
 msgid ""
 "When to chop output. This is set by the paramter "
 "<function>OutputChopWhenExponent</function>. See the documentation of the "
@@ -14832,11 +14902,11 @@ msgstr ""
 "parámetro <link linkend=\"gel-function-OutputChopExponent"
 "\"><function>OutputChopExponent</function></link>."
 
-#: C/genius.xml:2923(guilabel)
+#: C/genius.xml:2955(guilabel)
 msgid "Remember output settings across sessions"
 msgstr "Recordar los ajustes de salida entre sesiones"
 
-#: C/genius.xml:2926(para)
+#: C/genius.xml:2958(para)
 msgid ""
 "Should the output settings in the <guilabel>Number/Expression output "
 "options</guilabel> frame be remembered for next session. Does not apply to "
@@ -14847,7 +14917,7 @@ msgstr ""
 "No se aplica al campo <guilabel>Opciones de salida de error/información</"
 "guilabel>."
 
-#: C/genius.xml:2928(para)
+#: C/genius.xml:2960(para)
 msgid ""
 "If unchecked, either the default or any previously saved settings are used "
 "each time Genius starts up. Note that settings are saved at the end of the "
@@ -14861,11 +14931,11 @@ msgstr ""
 "<application>herramienta matemática Genius</application> y entonces "
 "desactive la casilla de nuevo."
 
-#: C/genius.xml:2940(guilabel)
+#: C/genius.xml:2972(guilabel)
 msgid "Display errors in a dialog"
 msgstr "Mostrar los errores en una ventana de diálogo"
 
-#: C/genius.xml:2943(para)
+#: C/genius.xml:2975(para)
 msgid ""
 "If set the errors will be displayed in a separate dialog, if unset the "
 "errors will be printed on the console."
@@ -14873,11 +14943,11 @@ msgstr ""
 "Si se activan, los errores se mostrarán en un diálogo separado, si no se "
 "activan, los errores se imprimirán en la consola."
 
-#: C/genius.xml:2950(guilabel)
+#: C/genius.xml:2982(guilabel)
 msgid "Display information messages in a dialog"
 msgstr "Mostrar los mensajes de información en un diálogo"
 
-#: C/genius.xml:2953(para)
+#: C/genius.xml:2985(para)
 msgid ""
 "If set the information messages will be displayed in a separate dialog, if "
 "unset the information messages will be printed on the console."
@@ -14886,11 +14956,11 @@ msgstr ""
 "separado, si no se activan, los mensajes de información se imprimirán en la "
 "consola."
 
-#: C/genius.xml:2961(guilabel)
+#: C/genius.xml:2993(guilabel)
 msgid "Maximum errors to display"
 msgstr "Máximo de errores que mostrar"
 
-#: C/genius.xml:2964(para)
+#: C/genius.xml:2996(para)
 msgid ""
 "The maximum number of errors to return on one evaluation "
 "(<function>MaxErrors</function>). If you set this to 0 then all errors are "
@@ -14904,7 +14974,7 @@ msgstr ""
 "errores, entonces es poco probable que se de cuenta nada más que de unos "
 "pocos fallos, y verá una larga lista de fallos no sirve de mucha ayuda."
 
-#: C/genius.xml:2976(para)
+#: C/genius.xml:3008(para)
 msgid ""
 "In addition to these preferences, there are some preferences that can only "
 "be changed by setting them in the workspace console. For others that may "
@@ -14915,11 +14985,11 @@ msgstr ""
 "afectar a la salida consulte la <xref linkend=\"genius-gel-function-"
 "parameters\"/>."
 
-#: C/genius.xml:2989(para)
+#: C/genius.xml:3021(para)
 msgid "The base that will be used to output integers"
 msgstr "La base que se usará para mostrar enteros"
 
-#: C/genius.xml:2998(para)
+#: C/genius.xml:3030(para)
 msgid ""
 "A string, can be <literal>\"normal\"</literal>, <literal>\"latex\"</"
 "literal>, <literal>\"mathml\"</literal> or <literal>\"troff\"</literal> and "
@@ -14936,15 +15006,15 @@ msgstr ""
 "Los otros estilos son para las tipografías de LaTeX, MathML (XML), o en "
 "Troff."
 
-#: C/genius.xml:3010(title)
+#: C/genius.xml:3042(title)
 msgid "Precision"
 msgstr "Precisión"
 
-#: C/genius.xml:3014(guilabel)
+#: C/genius.xml:3046(guilabel)
 msgid "Floating point precision"
 msgstr "Precisión en coma flotante"
 
-#: C/genius.xml:3017(para)
+#: C/genius.xml:3049(para)
 msgid ""
 "The floating point precision in bits (<function>FloatPrecision</function>). "
 "Note that changing this only affects newly computed quantities. Old values "
@@ -14961,11 +15031,11 @@ msgstr ""
 "excepción a esto son las constantes como <function>pi</function> o "
 "<function>e</function>."
 
-#: C/genius.xml:3032(guilabel)
+#: C/genius.xml:3064(guilabel)
 msgid "Remember precision setting across sessions"
 msgstr "Recordar los ajustes de precisión entre sesiones"
 
-#: C/genius.xml:3035(para)
+#: C/genius.xml:3067(para)
 msgid ""
 "Should the precision setting be remembered for the next session. If "
 "unchecked, either the default or any previously saved setting is used each "
@@ -14980,43 +15050,43 @@ msgstr ""
 "sesión, así que si quiere cambiar la configuración por defecto, active esta "
 "casilla, reinicie Genius y luego vuelva a desactivarla."
 
-#: C/genius.xml:3048(title)
+#: C/genius.xml:3080(title)
 msgid "Terminal"
 msgstr "Terminal"
 
-#: C/genius.xml:3050(para)
+#: C/genius.xml:3082(para)
 msgid "Terminal refers to the console in the work area."
 msgstr "«Terminal» se refiere a la consola en el área de trabajo."
 
-#: C/genius.xml:3057(guilabel)
+#: C/genius.xml:3089(guilabel)
 msgid "Scrollback lines"
 msgstr "Líneas de desplazamiento hacia atrás"
 
-#: C/genius.xml:3060(para)
+#: C/genius.xml:3092(para)
 msgid "Lines of scrollback in the terminal."
 msgstr "Líneas de desfile hacia atrás en la terminal."
 
-#: C/genius.xml:3065(guilabel)
+#: C/genius.xml:3097(guilabel)
 msgid "Font"
 msgstr "Tipografía"
 
-#: C/genius.xml:3068(para)
+#: C/genius.xml:3100(para)
 msgid "The font to use on the terminal."
 msgstr "La tipografía que usar en la terminal."
 
-#: C/genius.xml:3073(guilabel)
+#: C/genius.xml:3105(guilabel)
 msgid "Black on white"
 msgstr "Negro sobre blanco"
 
-#: C/genius.xml:3076(para)
+#: C/genius.xml:3108(para)
 msgid "If to use black on white on the terminal."
 msgstr "Si usar blanco sobre negro en la terminal."
 
-#: C/genius.xml:3081(guilabel)
+#: C/genius.xml:3113(guilabel)
 msgid "Blinking cursor"
 msgstr "Cursor parpadeante"
 
-#: C/genius.xml:3084(para)
+#: C/genius.xml:3116(para)
 msgid ""
 "If the cursor in the terminal should blink when the terminal is in focus. "
 "This can sometimes be annoying and it generates idle traffic if you are "
@@ -15026,15 +15096,15 @@ msgstr ""
 "veces resulte molesto y genere tráfico innecesario si ejecuta Genius "
 "remotamente."
 
-#: C/genius.xml:3091(title)
+#: C/genius.xml:3123(title)
 msgid "Memory"
 msgstr "Memoria"
 
-#: C/genius.xml:3095(guilabel)
+#: C/genius.xml:3127(guilabel)
 msgid "Maximum number of nodes to allocate"
 msgstr "Número máximo de nodos que asignar"
 
-#: C/genius.xml:3098(para)
+#: C/genius.xml:3130(para)
 msgid ""
 "Internally all data is put onto small nodes in memory. This gives a limit on "
 "the maximum number of nodes to allocate for computations. This avoids the "
@@ -15048,7 +15118,7 @@ msgstr ""
 "memoria de lo normal, como podría ser una recursión sin fin. Esto podría "
 "ralentizar su máquina y complicar incluso la interrupción del programa."
 
-#: C/genius.xml:3106(para)
+#: C/genius.xml:3138(para)
 msgid ""
 "Once the limit is reached, <application>Genius Mathematics Tool</"
 "application> asks if you wish to interrupt the computation or if you wish to "
@@ -15064,7 +15134,7 @@ msgstr ""
 "ocasión que ejecuté un programa o una expresión en la consola sin importar "
 "la respuesta a la pregunta."
 
-#: C/genius.xml:3114(para)
+#: C/genius.xml:3146(para)
 msgid ""
 "Setting the limit to zero means there is no limit to the amount of memory "
 "that genius uses."
@@ -15072,11 +15142,11 @@ msgstr ""
 "Establecer el límite a cero significa que no hay límite en la cantidad de "
 "memoria que usa Genius."
 
-#: C/genius.xml:3128(title)
+#: C/genius.xml:3160(title)
 msgid "About <application>Genius Mathematics Tool</application>"
 msgstr "Acerca de la <application>herramienta matemática Genius</application>"
 
-#: C/genius.xml:3130(para)
+#: C/genius.xml:3162(para)
 msgid ""
 "<application>Genius Mathematics Tool</application> was written by Jiří "
 "(George) Lebl (<email>jirka@5z.com</email>). The history of "
@@ -15096,7 +15166,7 @@ msgstr ""
 "la <ulink url=\"http://www.jirka.org/genius.html\" type=\"http\">página web "
 "de Genius</ulink>."
 
-#: C/genius.xml:3137(para)
+#: C/genius.xml:3169(para)
 msgid ""
 "To report a bug or make a suggestion regarding this application or this "
 "manual, follow the directions in this <ulink url=\"ghelp:gnome-feedback\" "
@@ -15106,7 +15176,7 @@ msgstr ""
 "sobre este manual, siga las explicaciones en este <ulink url=\"ghelp:gnome-"
 "feedback\" type=\"help\">documento</ulink>."
 
-#: C/genius.xml:3143(para)
+#: C/genius.xml:3175(para)
 msgid ""
 "This program is distributed under the terms of the GNU General Public "
 "license as published by the Free Software Foundation; either version 2 of "
@@ -15121,7 +15191,7 @@ msgstr ""
 "enlace</ulink>, o en el archivo COPYING incluido con el código fuente de "
 "este programa."
 
-#: C/genius.xml:3150(para)
+#: C/genius.xml:3182(para)
 msgid ""
 "Jiří Lebl was during various parts of the development partially supported "
 "for the work by NSF grant DMS 0900885, the University of Illinois at Urbana-"
