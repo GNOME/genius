@@ -163,7 +163,6 @@ get_category (const char *category, gboolean insert)
  * not really needed to be done fast, but during startup it is done many times
  */
 static GelHelp *get_help_cache = NULL;
-static const char *get_help_func_cache = NULL;
 
 GelHelp *
 gel_get_help (const char *func, gboolean insert)
@@ -171,9 +170,6 @@ gel_get_help (const char *func, gboolean insert)
 	GelHelp *help;
 
 	if (get_help_cache != NULL &&
-	    /* just checking pointers is not safe, but it is fast,
-	     * if pointers are same it is likely the string will be the same */
-	    get_help_func_cache == func &&
 	    strcmp (get_help_cache->func, func) == 0)
 		return get_help_cache;
 
@@ -189,7 +185,6 @@ gel_get_help (const char *func, gboolean insert)
 	}
 
 	if (help != NULL) {
-		get_help_func_cache = func;
 		get_help_cache = help;
 	}
 

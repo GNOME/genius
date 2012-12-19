@@ -3256,15 +3256,18 @@ mpw_clear(mpw_ptr op)
 
 /*make them the same type without loosing information*/
 void
-mpw_make_same_type(mpw_ptr op1,mpw_ptr op2)
+mpw_make_same_type (mpw_ptr op1, mpw_ptr op2)
 {
-	MAKE_COPY(op1->r);
-	MAKE_COPY(op2->r);
-	mpwl_make_same_type(op1->r,op2->r);
-	if (MPW_IS_COMPLEX (op1) || MPW_IS_COMPLEX (op2)) {
-		MAKE_COPY(op1->i);
-		MAKE_COPY(op2->i);
-		mpwl_make_same_type(op1->i,op2->i);
+	if (op1->r->type != op2->r->type) {
+		MAKE_COPY (op1->r);
+		MAKE_COPY (op2->r);
+		mpwl_make_same_type (op1->r, op2->r);
+	}
+	if ((MPW_IS_COMPLEX (op1) || MPW_IS_COMPLEX (op2)) &&
+	    (op1->i->type != op2->i->type)) {
+		MAKE_COPY (op1->i);
+		MAKE_COPY (op2->i);
+		mpwl_make_same_type (op1->i, op2->i);
 	}
 }
 
