@@ -1110,11 +1110,13 @@ To use it you just add "mod &lt;integer&gt;" after
 the expression.  Example:
 <programlisting>2^(5!) * 3^(6!) mod 5</programlisting>
 It could be possible to do modular arithmetic by computing with integers and then modding in the end with
-the <literal>%</literal> operator, but
+the <literal>%</literal> operator, which simply gives the remainder, but
 that may be time consuming if not impossible when working with larger numbers.
-For example <userinput>10^(10^10) % 6</userinput> will simply not work (the exponent
+For example, <userinput>10^(10^10) % 6</userinput> will simply not work (the exponent
 will be too large), while
-<userinput>10^(10^10) mod 6</userinput> is instanteneous.
+<userinput>10^(10^10) mod 6</userinput> is instanteneous.  The first expression first tries to compute the integer
+<userinput>10^(10^10)</userinput> and then find remainder after division by 6, while the second expression evaluates
+everything modulo 6 to begin with.
       </para>
       <para>
 You can calculate the inverses of numbers mod some integer by just using
@@ -1144,6 +1146,16 @@ genius> 2*2 mod 7
 = 4</programlisting>
 	<function>sqrt</function> will actually return all the possible square
 	roots.
+      </para>
+      <para>
+	      Do not chain mod operators, simply place it at the end of the computation, all computations in the expression on the left
+	      will be carried out in mod arithmetic.  If you place a mod inside
+	      a mod, you will get unexpected results.  If you simply want to
+	      mod a single number and control exactly when remainders are
+	      taken, best to use the <literal>%</literal> operator.  When you
+	      need to chain several expressions in modular arithmetic with
+	      different divisors, it may be best to just split up the expression into several and use
+	      temporary variables to avoid a mod inside a mod.
       </para>
     </sect1>
 
@@ -1456,7 +1468,7 @@ different from <literal>=</literal> because it never gets translated to a
            <para>
              Less than operator,
 	     returns <constant>true</constant> if <varname>a</varname> is
-	     less than or equal to 
+	     less than 
 	     <varname>b</varname> else returns <constant>false</constant>.
 	     These can be chained as in <userinput>a &lt; b &lt; c</userinput>
 	     (can also be combine with the less than or equal to operator).
@@ -1471,7 +1483,7 @@ different from <literal>=</literal> because it never gets translated to a
            <para>
              Greater than operator,
 	     returns <constant>true</constant> if <varname>a</varname> is
-	     greater than or equal to 
+	     greater than 
 	     <varname>b</varname> else returns <constant>false</constant>.
 	     These can be chained as in <userinput>a &gt; b &gt; c</userinput>
 	     (can also be combine with the greater than or equal to operator).
@@ -1549,7 +1561,7 @@ different from <literal>=</literal> because it never gets translated to a
          <term><synopsis>-a</synopsis></term>
          <listitem>
            <para>
-             Negation operator.
+             Negation operator.  Returns the negative of a number or a matrix (works elementwise on a matrix).
            </para>
          </listitem>
         </varlistentry>
@@ -1559,7 +1571,7 @@ different from <literal>=</literal> because it never gets translated to a
          <term><synopsis>&amp;a</synopsis></term>
          <listitem>
            <para>
-             Variable referencing (to pass a reference to something).
+             Variable referencing (to pass a reference to a variable).
 	     See <xref linkend='genius-gel-references' />.
            </para>
          </listitem>
@@ -1581,7 +1593,8 @@ different from <literal>=</literal> because it never gets translated to a
          <term><synopsis>a'</synopsis></term>
          <listitem>
            <para>
-             Matrix conjugate transpose.
+		   Matrix conjugate transpose.  That is, rows and columns get swapped and we take complex conjugate of all entries.  That is
+		   if the i,j element of <varname>a</varname> is x+iy, then the j,i element of <userinput>a'</userinput> is x-iy.
            </para>
          </listitem>
         </varlistentry>
@@ -1591,7 +1604,8 @@ different from <literal>=</literal> because it never gets translated to a
          <term><synopsis>a.'</synopsis></term>
          <listitem>
            <para>
-             Matrix transpose, does not conjugate the entries.
+             Matrix transpose, does not conjugate the entries.  That is, the
+	     the i,j element of <varname>a</varname>  becomes the j,i element of <userinput>a.'</userinput>.
            </para>
          </listitem>
         </varlistentry>
@@ -1614,7 +1628,7 @@ different from <literal>=</literal> because it never gets translated to a
          <term><synopsis>a@(b,)</synopsis></term>
          <listitem>
            <para>
-             Get row of a matrix (or rows if <varname>b</varname> is a vector).
+             Get row of a matrix (or multiple rows if <varname>b</varname> is a vector).
            </para>
          </listitem>
         </varlistentry>

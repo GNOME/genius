@@ -951,11 +951,14 @@ Modular Evaluation
    2^(5!) * 3^(6!) mod 5
 
    It could be possible to do modular arithmetic by computing with
-   integers and then modding in the end with the % operator, but
-   that may be time consuming if not impossible when working with
-   larger numbers. For example 10^(10^10) % 6 will simply not work
-   (the exponent will be too large), while 10^(10^10) mod 6 is
-   instanteneous.
+   integers and then modding in the end with the % operator, which
+   simply gives the remainder, but that may be time consuming if
+   not impossible when working with larger numbers. For example,
+   10^(10^10) % 6 will simply not work (the exponent will be too
+   large), while 10^(10^10) mod 6 is instanteneous. The first
+   expression first tries to compute the integer 10^(10^10) and
+   then find remainder after division by 6, while the second
+   expression evaluates everything modulo 6 to begin with.
 
    You can calculate the inverses of numbers mod some integer by
    just using rational numbers (of course the inverse has to
@@ -983,6 +986,17 @@ genius> 2*2 mod 7
 = 4
 
    sqrt will actually return all the possible square roots.
+
+   Do not chain mod operators, simply place it at the end of the
+   computation, all computations in the expression on the left
+   will be carried out in mod arithmetic. If you place a mod
+   inside a mod, you will get unexpected results. If you simply
+   want to mod a single number and control exactly when remainders
+   are taken, best to use the % operator. When you need to chain
+   several expressions in modular arithmetic with different
+   divisors, it may be best to just split up the expression into
+   several and use temporary variables to avoid a mod inside a
+   mod.
      __________________________________________________________
 
 List of GEL Operators
@@ -1128,17 +1142,17 @@ a>=b
 
 a<b
 
-          Less than operator, returns true if a is less than or
-          equal to b else returns false. These can be chained as
-          in a < b < c (can also be combine with the less than or
-          equal to operator).
+          Less than operator, returns true if a is less than b
+          else returns false. These can be chained as in a < b < c
+          (can also be combine with the less than or equal to
+          operator).
 
 a>b
 
           Greater than operator, returns true if a is greater than
-          or equal to b else returns false. These can be chained
-          as in a > b > c (can also be combine with the greater
-          than or equal to operator).
+          b else returns false. These can be chained as in a > b >
+          c (can also be combine with the greater than or equal to
+          operator).
 
 a<=>b
 
@@ -1170,13 +1184,14 @@ not a
 
 -a
 
-          Negation operator.
+          Negation operator. Returns the negative of a number or a
+          matrix (works elementwise on a matrix).
 
 &a
 
-          Variable referencing (to pass a reference to something).
-          See the Section called References in the Chapter called
-          Programming with GEL.
+          Variable referencing (to pass a reference to a
+          variable). See the Section called References in the
+          Chapter called Programming with GEL.
 
 *a
 
@@ -1186,11 +1201,16 @@ not a
 
 a'
 
-          Matrix conjugate transpose.
+          Matrix conjugate transpose. That is, rows and columns
+          get swapped and we take complex conjugate of all
+          entries. That is if the i,j element of a is x+iy, then
+          the j,i element of a' is x-iy.
 
 a.'
 
-          Matrix transpose, does not conjugate the entries.
+          Matrix transpose, does not conjugate the entries. That
+          is, the the i,j element of a becomes the j,i element of
+          a.'.
 
 a@(b,c)
 
@@ -1200,7 +1220,7 @@ a@(b,c)
 
 a@(b,)
 
-          Get row of a matrix (or rows if b is a vector).
+          Get row of a matrix (or multiple rows if b is a vector).
 
 a@(b,:)
 
