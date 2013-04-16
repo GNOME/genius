@@ -6,110 +6,1360 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: genius\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-19 19:09+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=genius&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-01-05 10:09+0000\n"
 "PO-Revision-Date: 2004-04-23 19:56+0200\n"
 "Last-Translator: Xavier Conde Rueda <xaviconde@eresmas.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/calc.c:187
+#: ../lib/library-strings.c:1
+#, fuzzy
+msgid "Compose two functions"
+msgstr "Dibuixa una funció"
+
+#: ../lib/library-strings.c:2
+msgid ""
+"Compose a function with itself n times, passing x as argument, and returning "
+"x if n == 0"
+msgstr ""
+
+#: ../lib/library-strings.c:3
+#, fuzzy
+msgid "Make a string"
+msgstr "cadena de text"
+
+#: ../lib/library-strings.c:4
+#, fuzzy
+msgid "Tolerance of the Chop function"
+msgstr "Calcula la funció cosinus"
+
+#: ../lib/library-strings.c:5
+msgid "How many iterations to try to find the limit for continuity and limits"
+msgstr ""
+
+#: ../lib/library-strings.c:6
+msgid ""
+"How many successive steps to be within tolerance for calculation of "
+"continuity"
+msgstr ""
+
+#: ../lib/library-strings.c:7
+msgid "Tolerance for continuity of functions and for calculating the limit"
+msgstr ""
+
+#: ../lib/library-strings.c:8
+msgid "How many iterations to try to find the limit for derivative"
+msgstr ""
+
+#: ../lib/library-strings.c:9
+msgid ""
+"How many successive steps to be within tolerance for calculation of "
+"derivative"
+msgstr ""
+
+#: ../lib/library-strings.c:10
+msgid "Tolerance for calculating the derivatives of functions"
+msgstr ""
+
+#: ../lib/library-strings.c:11
+msgid "Tolerance of the ErrorFunction"
+msgstr ""
+
+#: ../lib/library-strings.c:12
+msgid "Tolerance of the GaussDistribution function"
+msgstr ""
+
+#: ../lib/library-strings.c:13
+msgid "The function used for numerical integration in NumericalIntegral"
+msgstr ""
+
+#: ../lib/library-strings.c:14
+msgid "Steps to perform in NumericalIntegral"
+msgstr ""
+
+#: ../lib/library-strings.c:15
+msgid "How many iterations to try for InfiniteSum and InfiniteProduct"
+msgstr ""
+
+#: ../lib/library-strings.c:16
+msgid ""
+"How many successive steps to be within tolerance for InfiniteSum and "
+"InfiniteProduct"
+msgstr ""
+
+#: ../lib/library-strings.c:17
+msgid "Tolerance for InfiniteSum and InfiniteProduct"
+msgstr ""
+
+#: ../lib/library-strings.c:18 ../src/eval.c:6700
+msgid "Absolute value"
+msgstr "Valor absolut"
+
+#: ../lib/library-strings.c:19
+msgid "Replace very small number with zero"
+msgstr ""
+
+#: ../lib/library-strings.c:20
+#, fuzzy
+msgid "Return the fractional part of a number"
+msgstr "Obté la part real d'un nombre complex"
+
+#: ../lib/library-strings.c:21
+msgid "Return the sign (-1,0,1)"
+msgstr ""
+
+#: ../lib/library-strings.c:22
+msgid ""
+"Logarithm of any base (calls DiscreteLog if in modulo mode), if base is not "
+"given, e is used"
+msgstr ""
+
+#: ../lib/library-strings.c:23
+msgid "The arccos (inverse cos) function"
+msgstr ""
+
+#: ../lib/library-strings.c:24
+msgid "The arccosh (inverse cosh) function"
+msgstr ""
+
+#: ../lib/library-strings.c:25
+msgid "The arccot (inverse cot) function"
+msgstr ""
+
+#: ../lib/library-strings.c:26
+msgid "The arccoth (inverse coth) function"
+msgstr ""
+
+#: ../lib/library-strings.c:27
+#, fuzzy
+msgid "The inverse cosecant function"
+msgstr "La funció exponencial"
+
+#: ../lib/library-strings.c:28
+#, fuzzy
+msgid "The inverse hyperbolic cosecant function"
+msgstr "Calcula la funció cosinus hiperbòlic"
+
+#: ../lib/library-strings.c:29
+#, fuzzy
+msgid "The inverse secant function"
+msgstr "La funció exponencial"
+
+#: ../lib/library-strings.c:30
+#, fuzzy
+msgid "The inverse hyperbolic secant function"
+msgstr "Calcula la funció sinus hiperbòlic"
+
+#: ../lib/library-strings.c:31
+#, fuzzy
+msgid "The arcsin (inverse sin) function"
+msgstr "Aquesta és la funció del connector de proves\n"
+
+#: ../lib/library-strings.c:32
+msgid "The arcsinh (inverse sinh) function"
+msgstr ""
+
+#: ../lib/library-strings.c:33
+#, fuzzy
+msgid "The arctanh (inverse tanh) function"
+msgstr "Calcula la funció tangent"
+
+#: ../lib/library-strings.c:34
+#, fuzzy
+msgid "The cotangent function"
+msgstr "La funció exponencial"
+
+#: ../lib/library-strings.c:35
+#, fuzzy
+msgid "The hyperbolic cotangent function"
+msgstr "Calcula la funció cosinus hiperbòlic"
+
+#: ../lib/library-strings.c:36
+#, fuzzy
+msgid "The cosecant function"
+msgstr "La funció exponencial"
+
+#: ../lib/library-strings.c:37
+#, fuzzy
+msgid "The hyperbolic cosecant function"
+msgstr "Calcula la funció cosinus hiperbòlic"
+
+#: ../lib/library-strings.c:38
+#, fuzzy
+msgid "The secant function"
+msgstr "La funció exponencial"
+
+#: ../lib/library-strings.c:39
+#, fuzzy
+msgid "The hyperbolic secant function"
+msgstr "Calcula la funció sinus hiperbòlic"
+
+#: ../lib/library-strings.c:40
+#, fuzzy
+msgid "The hyperbolic tangent function"
+msgstr "Calcula la funció sinus hiperbòlic"
+
+#: ../lib/library-strings.c:41
+msgid "Are a and b relatively prime?"
+msgstr ""
+
+#: ../lib/library-strings.c:42
+#, fuzzy
+msgid "Return the nth Bernoulli number"
+msgstr "Retorna l'n-èssim nombre de Lucas"
+
+#: ../lib/library-strings.c:43
+msgid ""
+"Find the x that solves the system given by the vector a and modulo the "
+"elements of m, using the Chinese Remainder Theorem"
+msgstr ""
+
+#: ../lib/library-strings.c:44
+msgid ""
+"Given two factorizations, give the factorization of the product, see "
+"Factorize"
+msgstr ""
+
+#: ../lib/library-strings.c:45
+#, fuzzy
+msgid "Convert a vector of values indicating powers of b to a number"
+msgstr "Converteix un vector de valors ASCII en cadena de text"
+
+#: ../lib/library-strings.c:46
+msgid "Convert a number to a vector of powers for elements in base b"
+msgstr ""
+
+#: ../lib/library-strings.c:47
+msgid ""
+"Find discrete log of n base b in F_q where q is a prime using the Silver-"
+"Pohlig-Hellman algorithm"
+msgstr ""
+
+#: ../lib/library-strings.c:48
+msgid ""
+"Compute phi(n), the Euler phi function, that is the number of integers "
+"between 1 and n relatively prime to n"
+msgstr ""
+
+#: ../lib/library-strings.c:49
+#, fuzzy
+msgid "Return all factors of a number"
+msgstr "Retorna la factorització d'un nombre com a matriu"
+
+#: ../lib/library-strings.c:50
+msgid ""
+"Attempt Fermat factorization of n into (t-s)*(t+s), returns t and s as a "
+"vector if possible, null otherwise"
+msgstr ""
+
+#: ../lib/library-strings.c:51
+msgid "Find the first primitive element in F_q (q must be a prime)"
+msgstr ""
+
+#: ../lib/library-strings.c:52
+msgid "Find a random primitive element in F_q (q must be a prime)"
+msgstr ""
+
+#: ../lib/library-strings.c:53
+msgid ""
+"Compute discrete log base b of n in F_q (q a prime) using the factor base "
+"S.  S should be a column of primes possibly with second column precalculated "
+"by IndexCalculusPrecalculation."
+msgstr ""
+
+#: ../lib/library-strings.c:54
+msgid ""
+"Run the precalculation step of IndexCalculus for logarithms base b in F_q (q "
+"a prime) for the factor base S (where S is a column vector of primes).  The "
+"logs will be precalculated and returned in the second column."
+msgstr ""
+
+#: ../lib/library-strings.c:55
+msgid "Test if Mp is a Mersenne prime using a table"
+msgstr ""
+
+#: ../lib/library-strings.c:56
+#, fuzzy
+msgid "Tests if a rational number is a perfect power"
+msgstr "Comprova si un nombre és una potència perfecta (a^b)"
+
+#: ../lib/library-strings.c:57
+msgid ""
+"Check if g is primitive in F_q, where q is a prime.  If q is not prime "
+"results are bogus."
+msgstr ""
+
+#: ../lib/library-strings.c:58
+msgid ""
+"Check if g is primitive in F_q, where q is a prime and f is a vector of "
+"prime factors of q-1.  If q is not prime results are bogus."
+msgstr ""
+
+#: ../lib/library-strings.c:59
+msgid ""
+"If n is a pseudoprime base b but not a prime, that is if b^(n-1) == 1 mod n"
+msgstr ""
+
+#: ../lib/library-strings.c:60
+#, fuzzy
+msgid "Test if n is a strong pseudoprime to base b but not a prime"
+msgstr "Executa el test fort de pseudo-primer base b en n"
+
+#: ../lib/library-strings.c:61
+msgid ""
+"Return the residue of a mod n with the least absolute value (in the interval "
+"-n/2 to n/2)"
+msgstr ""
+
+#: ../lib/library-strings.c:62
+msgid "Test if Mp is a Mersenne prime using the Lucas-Lehmer test"
+msgstr ""
+
+#: ../lib/library-strings.c:63
+msgid "Return all maximal prime power factors of a number"
+msgstr ""
+
+#: ../lib/library-strings.c:64
+msgid "Vector with the known Mersenne prime exponents"
+msgstr ""
+
+#: ../lib/library-strings.c:65
+msgid "Return the Moebius mu function evaluated in n"
+msgstr ""
+
+#: ../lib/library-strings.c:66
+msgid "Returns the p-adic valuation (number of trailing zeros in base p)."
+msgstr ""
+
+#: ../lib/library-strings.c:67
+msgid "Compute a^b mod m"
+msgstr ""
+
+#: ../lib/library-strings.c:68
+#, fuzzy
+msgid "Return all prime factors of a number"
+msgstr "Retorna la factorització d'un nombre com a matriu"
+
+#: ../lib/library-strings.c:69
+msgid "Pseudoprime test, true if and only if b^(n-1) == 1 (mod n)"
+msgstr ""
+
+#: ../lib/library-strings.c:70
+msgid "Removes all instances of the factor m from the number n"
+msgstr ""
+
+#: ../lib/library-strings.c:71
+msgid ""
+"Find discrete log of n base b in F_q where q is a prime using the Silver-"
+"Pohlig-Hellman algorithm, given f being the factorization of q-1"
+msgstr ""
+
+#: ../lib/library-strings.c:72
+msgid ""
+"Find square root of n mod p (a prime). Null is returned if not a quadratic "
+"residue."
+msgstr ""
+
+#: ../lib/library-strings.c:73
+msgid ""
+"Apply a function over all entries of a matrix and return a matrix of the "
+"results"
+msgstr ""
+
+#: ../lib/library-strings.c:74
+msgid ""
+"Apply a function over all entries of 2 matrices (or 1 value and 1 matrix) "
+"and return a matrix of the results"
+msgstr ""
+
+#: ../lib/library-strings.c:75
+msgid "Remove column(s) and row(s) from a matrix"
+msgstr ""
+
+#: ../lib/library-strings.c:76
+#, fuzzy
+msgid "Calculate the kth compound matrix of A"
+msgstr "Calcula la funció tangent"
+
+#: ../lib/library-strings.c:77
+#, fuzzy
+msgid "Delete a column of a matrix"
+msgstr "Obté el nombre de columnes d'una matriu"
+
+#: ../lib/library-strings.c:78
+#, fuzzy
+msgid "Delete a row of a matrix"
+msgstr "Obté el nombre de files d'una matriu"
+
+#: ../lib/library-strings.c:79
+msgid "Get the dot product of two vectors (no conjugates)"
+msgstr ""
+
+#: ../lib/library-strings.c:80
+msgid "Zero out entries above the diagonal"
+msgstr ""
+
+#: ../lib/library-strings.c:81
+#, fuzzy
+msgid "Make diagonal matrix from a vector"
+msgstr "Construeix una matriu de tot zeros (o un vector fila)"
+
+#: ../lib/library-strings.c:82
+msgid "Make column vector out of matrix by putting columns above each other"
+msgstr ""
+
+#: ../lib/library-strings.c:83
+#, fuzzy
+msgid "Calculate the product of all elements in a matrix"
+msgstr "Obté el nombre d'elements d'una matriu"
+
+#: ../lib/library-strings.c:84
+#, fuzzy
+msgid "Calculate the sum of all elements in a matrix"
+msgstr "Obté el nombre d'elements d'una matriu"
+
+#: ../lib/library-strings.c:85
+#, fuzzy
+msgid "Calculate the sum of squares of all elements in a matrix"
+msgstr "Obté el nombre d'elements d'una matriu"
+
+#: ../lib/library-strings.c:86
+#, fuzzy
+msgid "Get the outer product of two vectors"
+msgstr "Obté el nombre de files d'una matriu"
+
+#: ../lib/library-strings.c:87
+msgid "Reverse elements in a vector"
+msgstr ""
+
+#: ../lib/library-strings.c:88
+#, fuzzy
+msgid "Calculate sum of each row in a matrix"
+msgstr "Obté el nombre de files d'una matriu"
+
+#: ../lib/library-strings.c:89
+msgid "Calculate sum of squares of each row in a matrix"
+msgstr ""
+
+#: ../lib/library-strings.c:90
+msgid "Shuffle elements in a vector"
+msgstr ""
+
+#: ../lib/library-strings.c:91
+msgid "Sort vector elements"
+msgstr ""
+
+#: ../lib/library-strings.c:92
+msgid "Removes any all-zero rows of M"
+msgstr ""
+
+#: ../lib/library-strings.c:93
+#, fuzzy
+msgid "Return column(s) and row(s) from a matrix"
+msgstr "Obté el nombre de columnes d'una matriu"
+
+#: ../lib/library-strings.c:94
+#, fuzzy
+msgid "Swap two rows in a matrix"
+msgstr "Obté el nombre de files d'una matriu"
+
+#: ../lib/library-strings.c:95
+msgid "Zero out entries below the diagonal"
+msgstr ""
+
+#: ../lib/library-strings.c:96
+msgid "Get the auxiliary unit matrix of size n"
+msgstr ""
+
+#: ../lib/library-strings.c:97
+msgid "Evaluate (v,w) with respect to the bilinear form given by the matrix A"
+msgstr ""
+
+#: ../lib/library-strings.c:98
+msgid ""
+"Return a function that evaluates two vectors with respect to the bilinear "
+"form given by A"
+msgstr ""
+
+#: ../lib/library-strings.c:99
+#, fuzzy
+msgid "Get the characteristic polynomial as a vector"
+msgstr "Resta dos polinomis (com a vectors)"
+
+#: ../lib/library-strings.c:100
+msgid "Get the characteristic polynomial as a function"
+msgstr ""
+
+#: ../lib/library-strings.c:101
+#, fuzzy
+msgid "Get a basis matrix for the columnspace of a matrix"
+msgstr "Obté el nombre de columnes d'una matriu"
+
+#: ../lib/library-strings.c:102
+msgid ""
+"Return the commutation matrix K(m,n) which is the unique m*n by m*n matrix "
+"such that K(m,n) * MakeVector(A) = MakeVector(A.') for all m by n matrices A."
+msgstr ""
+
+#: ../lib/library-strings.c:103
+#, fuzzy
+msgid "Companion matrix of a polynomial (as vector)"
+msgstr "Construeix una funció a partir d'un polinomi (com a vector)"
+
+#: ../lib/library-strings.c:104
+msgid "Conjugate transpose of a matrix (adjoint)"
+msgstr ""
+
+#: ../lib/library-strings.c:105 ../lib/library-strings.c:106
+#, fuzzy
+msgid "Calculate convolution of two horizontal vectors"
+msgstr "%s: els arguments no són vectors horitzontals"
+
+#: ../lib/library-strings.c:107
+msgid "CrossProduct of two vectors in R^3"
+msgstr ""
+
+#: ../lib/library-strings.c:108
+msgid ""
+"Get the determinantal divisors of an integer matrix (not its characteristic)"
+msgstr ""
+
+#: ../lib/library-strings.c:109
+msgid "Direct sum of matrices"
+msgstr ""
+
+#: ../lib/library-strings.c:110
+msgid "Direct sum of a vector of matrices"
+msgstr ""
+
+#: ../lib/library-strings.c:111
+msgid ""
+"Get the eigenvalues of a matrix (Currently only for up to 4x4 or triangular "
+"matrices)"
+msgstr ""
+
+#: ../lib/library-strings.c:112
+msgid ""
+"Get the eigenvalues and eigenvectors of a matrix (Currently only for up to "
+"2x2 matrices)"
+msgstr ""
+
+#: ../lib/library-strings.c:113
+msgid ""
+"Apply the Gram-Schmidt process (to the columns) with respect to inner "
+"product given by B (if not given use Hermitian product)"
+msgstr ""
+
+#: ../lib/library-strings.c:114
+#, fuzzy
+msgid "Hankel matrix"
+msgstr "matriu"
+
+#: ../lib/library-strings.c:115
+msgid "Hilbert matrix of order n"
+msgstr ""
+
+#: ../lib/library-strings.c:116
+#, fuzzy
+msgid "Get the image (columnspace) of a linear transform"
+msgstr "Obté el nombre de columnes d'una matriu"
+
+#: ../lib/library-strings.c:117
+#, fuzzy
+msgid "Get the Inf Norm of a vector"
+msgstr "Obté el nombre de columnes d'una matriu"
+
+#: ../lib/library-strings.c:118
+msgid ""
+"Get the invariant factors of a square integer matrix (not its characteristic)"
+msgstr ""
+
+#: ../lib/library-strings.c:119
+msgid "Inverse Hilbert matrix of order n"
+msgstr ""
+
+#: ../lib/library-strings.c:120
+#, fuzzy
+msgid "Is a matrix Hermitian"
+msgstr "És una matriu quadrada"
+
+#: ../lib/library-strings.c:121
+msgid "Test if a vector is in a subspace"
+msgstr ""
+
+#: ../lib/library-strings.c:122
+msgid ""
+"Is a matrix (or number) invertible (Integer matrix is invertible if and only "
+"if it is invertible over the integers)"
+msgstr ""
+
+#: ../lib/library-strings.c:123
+msgid "Is a matrix (or number) invertible over a field"
+msgstr ""
+
+#: ../lib/library-strings.c:124
+#, fuzzy
+msgid "Is a matrix normal"
+msgstr "És una matriu quadrada"
+
+#: ../lib/library-strings.c:125
+msgid "Is a matrix positive definite"
+msgstr ""
+
+#: ../lib/library-strings.c:126
+msgid "Is a matrix positive semidefinite"
+msgstr ""
+
+#: ../lib/library-strings.c:127
+#, fuzzy
+msgid "Is a matrix skew-Hermitian"
+msgstr "És una matriu quadrada"
+
+#: ../lib/library-strings.c:128
+#, fuzzy
+msgid "Is a matrix unitary"
+msgstr "És una matriu quadrada"
+
+#: ../lib/library-strings.c:129
+msgid "Get the Jordan block corresponding to lambda and n"
+msgstr ""
+
+#: ../lib/library-strings.c:130
+msgid "Get the kernel (nullspace) of a linear transform"
+msgstr ""
+
+#: ../lib/library-strings.c:131
+msgid ""
+"Get the LU decomposition of A and store the result in the L and U which "
+"should be references.  If not possible returns false."
+msgstr ""
+
+#: ../lib/library-strings.c:132
+#, fuzzy
+msgid "Get the i-j minor of a matrix"
+msgstr "Obté el determinant d'una matriu"
+
+#: ../lib/library-strings.c:133
+#, fuzzy
+msgid "Return the columns that are not the pivot columns of a matrix"
+msgstr "Obté el nombre de columnes d'una matriu"
+
+#: ../lib/library-strings.c:134
+msgid "Get the p Norm (or 2 Norm if no p is supplied) of a vector"
+msgstr ""
+
+#: ../lib/library-strings.c:135
+#, fuzzy
+msgid "Get the nullity of a matrix"
+msgstr "Obté el determinant d'una matriu"
+
+#: ../lib/library-strings.c:136
+msgid "Get the orthogonal complement of the columnspace"
+msgstr ""
+
+#: ../lib/library-strings.c:137
+msgid ""
+"Projection of vector v onto subspace W given a sesquilinear form B (if not "
+"given use Hermitian product)"
+msgstr ""
+
+#: ../lib/library-strings.c:138
+msgid "Get the QR decomposition of A, returns R and Q can be a reference"
+msgstr ""
+
+#: ../lib/library-strings.c:139
+#, fuzzy
+msgid "Get the rank of a matrix"
+msgstr "Obté el determinant d'una matriu"
+
+#: ../lib/library-strings.c:140
+#, fuzzy
+msgid "Return the Rayleigh quotient of a matrix and a vector"
+msgstr "Obté les entrades diagonals d'una matriu com un vector horitzontal"
+
+#: ../lib/library-strings.c:141
+msgid ""
+"Compute an eigenvalue using the Rayleigh Quotient Iteration method until we "
+"are epsilon from eigenvalue or for maxiter iterations"
+msgstr ""
+
+#: ../lib/library-strings.c:142
+msgid "Rosser matrix, a classic symmetric eigenvalue test problem"
+msgstr ""
+
+#: ../lib/library-strings.c:143
+msgid "Rotation around origin in R^2"
+msgstr ""
+
+#: ../lib/library-strings.c:144
+msgid "Rotation around origin in R^3 about the x-axis"
+msgstr ""
+
+#: ../lib/library-strings.c:145
+msgid "Rotation around origin in R^3 about the y-axis"
+msgstr ""
+
+#: ../lib/library-strings.c:146
+msgid "Rotation around origin in R^3 about the z-axis"
+msgstr ""
+
+#: ../lib/library-strings.c:147
+#, fuzzy
+msgid "Get a basis matrix for the rowspace of a matrix"
+msgstr "Obté el nombre de files d'una matriu"
+
+#: ../lib/library-strings.c:148
+msgid ""
+"Evaluate (v,w) with respect to the sesquilinear form given by the matrix A"
+msgstr ""
+
+#: ../lib/library-strings.c:149
+msgid ""
+"Return a function that evaluates two vectors with respect to the "
+"sesquilinear form given by A"
+msgstr ""
+
+#: ../lib/library-strings.c:150
+msgid "Smith Normal Form for fields (will end up with 1's on the diagonal)"
+msgstr ""
+
+#: ../lib/library-strings.c:151
+msgid "Smith Normal Form for square integer matrices (not its characteristic)"
+msgstr ""
+
+#: ../lib/library-strings.c:152
+msgid ""
+"Return the Toeplitz matrix constructed given the first column c and "
+"(optionally) the first row r."
+msgstr ""
+
+#: ../lib/library-strings.c:153
+#, fuzzy
+msgid "Calculate the trace of a matrix"
+msgstr "Calcula la funció tangent"
+
+#: ../lib/library-strings.c:154
+#, fuzzy
+msgid "Transpose of a matrix"
+msgstr "Transposada"
+
+#: ../lib/library-strings.c:155
+#, fuzzy
+msgid "Return the Vandermonde matrix"
+msgstr "Obté el determinant d'una matriu"
+
+#: ../lib/library-strings.c:156
+msgid "The angle of two vectors, given an inner product"
+msgstr ""
+
+#: ../lib/library-strings.c:157
+msgid "The direct sum of the vector spaces M and N"
+msgstr ""
+
+#: ../lib/library-strings.c:158
+msgid "Intersection of the subspaces given by M and N"
+msgstr ""
+
+#: ../lib/library-strings.c:159
+msgid ""
+"The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}"
+msgstr ""
+
+#: ../lib/library-strings.c:160
+#, fuzzy
+msgid "Get the classical adjoint (adjugate) of a matrix"
+msgstr "Obté el determinant d'una matriu"
+
+#: ../lib/library-strings.c:161
+msgid "Compute the Column Reduced Echelon Form"
+msgstr ""
+
+#: ../lib/library-strings.c:162
+#, fuzzy
+msgid "Get nth Catalan number"
+msgstr "El nombre e"
+
+#: ../lib/library-strings.c:163
+#, fuzzy
+msgid "Double factorial: n(n-2)(n-4)..."
+msgstr "Doble factorial"
+
+#: ../lib/library-strings.c:164
+msgid "Factorial: n(n-1)(n-2)..."
+msgstr ""
+
+#: ../lib/library-strings.c:165
+msgid "Falling factorial: (n)_k = n(n-1)...(n-(k-1))"
+msgstr ""
+
+#: ../lib/library-strings.c:166
+#, fuzzy
+msgid "Calculate nth Fibonacci number"
+msgstr "Calcula el conjugat"
+
+#: ../lib/library-strings.c:167
+msgid "Calculate the Frobenius number for a coin problem"
+msgstr ""
+
+#: ../lib/library-strings.c:168
+msgid ""
+"Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))"
+msgstr ""
+
+#: ../lib/library-strings.c:169
+msgid "Use greedy algorithm to find c, for c . v = n.  (v must be sorted)"
+msgstr ""
+
+#: ../lib/library-strings.c:170
+msgid "Harmonic Number, the nth harmonic number of order r"
+msgstr ""
+
+#: ../lib/library-strings.c:171
+msgid ""
+"Hofstadter's function q(n) defined by q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q"
+"(n-2))"
+msgstr ""
+
+#: ../lib/library-strings.c:172
+msgid "Compute linear recursive sequence using Galois stepping"
+msgstr ""
+
+#: ../lib/library-strings.c:173
+msgid "Calculate multinomial coefficients"
+msgstr ""
+
+#: ../lib/library-strings.c:174
+#, fuzzy
+msgid "Get the Pascal's triangle as a matrix"
+msgstr "Obté el determinant d'una matriu"
+
+#: ../lib/library-strings.c:175
+msgid "(Pochhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))"
+msgstr ""
+
+#: ../lib/library-strings.c:176
+msgid "Stirling number of the first kind"
+msgstr ""
+
+#: ../lib/library-strings.c:177
+msgid "Stirling number of the second kind"
+msgstr ""
+
+#: ../lib/library-strings.c:178
+msgid "Subfactorial: n! times sum_{k=1}^n (-1)^k/k!"
+msgstr ""
+
+#: ../lib/library-strings.c:179
+#, fuzzy
+msgid "Calculate the nth triangular number"
+msgstr "Calcula la funció tangent"
+
+#: ../lib/library-strings.c:180
+#, fuzzy
+msgid "Calculate permutations"
+msgstr "Calcula la funció tangent"
+
+#: ../lib/library-strings.c:181
+msgid ""
+"Integration of f by Composite Simpson's Rule on the interval [a,b] with the "
+"number of steps calculated by the fourth derivative bound and the desired "
+"tolerance"
+msgstr ""
+
+#: ../lib/library-strings.c:182
+msgid ""
+"Attempt to calculate derivative by trying first symbolically and then "
+"numerically"
+msgstr ""
+
+#: ../lib/library-strings.c:183
+msgid ""
+"Return a function which is the even periodic extension of f defined on the "
+"interval [0,L]"
+msgstr ""
+
+#: ../lib/library-strings.c:184
+msgid ""
+"Return a function which is a Fourier series with the coefficients given by "
+"the vectors a (sines) and b (cosines).  Note that a@(1) is the constant "
+"coefficient!"
+msgstr ""
+
+#: ../lib/library-strings.c:185
+msgid "Try to calculate an infinite product for a single parameter function"
+msgstr ""
+
+#: ../lib/library-strings.c:186
+msgid ""
+"Try to calculate an infinite product for a double parameter function with "
+"func(arg,n)"
+msgstr ""
+
+#: ../lib/library-strings.c:187
+msgid "Try to calculate an infinite sum for a single parameter function"
+msgstr ""
+
+#: ../lib/library-strings.c:188
+msgid ""
+"Try to calculate an infinite sum for a double parameter function with func"
+"(arg,n)"
+msgstr ""
+
+#: ../lib/library-strings.c:189
+msgid ""
+"Try and see if a real-valued function is continuous at x0 by calculating the "
+"limit there"
+msgstr ""
+
+#: ../lib/library-strings.c:190
+msgid ""
+"Test for differentiability by approximating the left and right limits and "
+"comparing"
+msgstr ""
+
+#: ../lib/library-strings.c:191
+#, fuzzy
+msgid "Calculate the left limit of a real-valued function at x0"
+msgstr "Calcula la funció arctangent"
+
+#: ../lib/library-strings.c:192
+msgid ""
+"Calculate the limit of a real-valued function at x0.  Tries to calculate "
+"both left and right limits."
+msgstr ""
+
+#: ../lib/library-strings.c:193
+msgid "Integration by midpoint rule"
+msgstr ""
+
+#: ../lib/library-strings.c:194
+msgid "Attempt to calculate numerical derivative"
+msgstr ""
+
+#: ../lib/library-strings.c:195
+msgid ""
+"Numerically compute the coefficients for a cosine Fourier series for a "
+"function on [0,L] up to the Nth coefficient."
+msgstr ""
+
+#: ../lib/library-strings.c:196
+msgid ""
+"Return a function which is the Fourier cosine series of f on [0,L] with "
+"coefficients up to N computed numerically"
+msgstr ""
+
+#: ../lib/library-strings.c:197
+msgid ""
+"Numerically compute the coefficients for a Fourier series with half-period L "
+"up to the Nth coefficient."
+msgstr ""
+
+#: ../lib/library-strings.c:198
+msgid ""
+"Return a function which is the Fourier series of f with half-period L with "
+"coefficients up to N computed numerically"
+msgstr ""
+
+#: ../lib/library-strings.c:199
+msgid ""
+"Numerically compute the coefficients for a sine Fourier series for a "
+"function on [0,L] up to the Nth coefficient."
+msgstr ""
+
+#: ../lib/library-strings.c:200
+msgid ""
+"Return a function which is the Fourier sine series of f on [0,L] with "
+"coefficients up to N computed numerically"
+msgstr ""
+
+#: ../lib/library-strings.c:201
+msgid ""
+"Integration by rule set in NumericalIntegralFunction of f from a to b using "
+"NumericalIntegralSteps steps"
+msgstr ""
+
+#: ../lib/library-strings.c:202
+msgid "Attempt to calculate numerical left derivative"
+msgstr ""
+
+#: ../lib/library-strings.c:203
+msgid "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N"
+msgstr ""
+
+#: ../lib/library-strings.c:204
+msgid "Attempt to calculate numerical right derivative"
+msgstr ""
+
+#: ../lib/library-strings.c:205
+msgid ""
+"Return a function which is the odd periodic extension of f defined on the "
+"interval [0,L]"
+msgstr ""
+
+#: ../lib/library-strings.c:206
+msgid "Compute one-sided derivative using five point formula"
+msgstr ""
+
+#: ../lib/library-strings.c:207
+msgid "Compute one-sided derivative using three-point formula"
+msgstr ""
+
+#: ../lib/library-strings.c:208
+msgid ""
+"Return a function which is the periodic extension of f defined on the "
+"interval [a,b]"
+msgstr ""
+
+#: ../lib/library-strings.c:209
+msgid "Calculate the right limit of a real-valued function at x0"
+msgstr ""
+
+#: ../lib/library-strings.c:210
+msgid "Compute two-sided derivative using five-point formula"
+msgstr ""
+
+#: ../lib/library-strings.c:211
+msgid "Compute two-sided derivative using three-point formula"
+msgstr ""
+
+#: ../lib/library-strings.c:212
+#, fuzzy
+msgid "argument (angle) of complex number"
+msgstr "No es pot obtenir el mòdul d'un nombre complex"
+
+#: ../lib/library-strings.c:213
+msgid "Dirichlet kernel of order n"
+msgstr ""
+
+#: ../lib/library-strings.c:214
+msgid "Returns 1 if and only if all elements are zero"
+msgstr ""
+
+#: ../lib/library-strings.c:215
+msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
+msgstr ""
+
+#: ../lib/library-strings.c:216
+msgid "Fejer kernel of order n"
+msgstr ""
+
+#: ../lib/library-strings.c:217
+msgid "Returns 1 if and only if all elements are equal"
+msgstr ""
+
+#: ../lib/library-strings.c:218
+msgid "Find the first value where f(x)=0"
+msgstr ""
+
+#: ../lib/library-strings.c:219
+msgid "Moebius mapping of the disk to itself mapping a to 0"
+msgstr ""
+
+#: ../lib/library-strings.c:220
+msgid ""
+"Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity "
+"respectively"
+msgstr ""
+
+#: ../lib/library-strings.c:221
+msgid ""
+"Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 "
+"to 1 and 0 respectively"
+msgstr ""
+
+#: ../lib/library-strings.c:222
+msgid ""
+"Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 "
+"and infinity respectively"
+msgstr ""
+
+#: ../lib/library-strings.c:223
+msgid ""
+"Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 "
+"and infinity respectively"
+msgstr ""
+
+#: ../lib/library-strings.c:224
+msgid ""
+"Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is "
+"2pi)"
+msgstr ""
+
+#: ../lib/library-strings.c:225
+msgid "Poisson kernel on D(0,R) (not normalized to 1)"
+msgstr ""
+
+#: ../lib/library-strings.c:226
+msgid ""
+"The unit step function = 0 for x<0, 1 otherwise.  This is the integral of "
+"the Dirac Delta function."
+msgstr ""
+
+#: ../lib/library-strings.c:227
+msgid "The cis function, that is cos(x)+i*sin(x)"
+msgstr ""
+
+#: ../lib/library-strings.c:228
+msgid "Convert degrees to radians"
+msgstr ""
+
+#: ../lib/library-strings.c:229
+msgid "Convert radians to degrees"
+msgstr ""
+
+#: ../lib/library-strings.c:230
+#, fuzzy
+msgid "Find roots of a cubic polynomial (given as vector of coefficients)"
+msgstr "Construeix un text a partir d'un polinomi (com a vector)"
+
+#: ../lib/library-strings.c:231
+msgid ""
+"Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
+"y0 going to x1 with n increments, returns y at x1"
+msgstr ""
+
+#: ../lib/library-strings.c:232
+msgid ""
+"Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
+"y0 going to x1 with n increments, returns an n+1 by 2 matrix of values"
+msgstr ""
+
+#: ../lib/library-strings.c:233
+msgid "Find root of a function using the bisection method"
+msgstr ""
+
+#: ../lib/library-strings.c:234
+msgid "Find root of a function using the method of false position"
+msgstr ""
+
+#: ../lib/library-strings.c:235
+msgid "Find root of a function using the Muller's method"
+msgstr ""
+
+#: ../lib/library-strings.c:236
+msgid "Find root of a function using the secant method"
+msgstr ""
+
+#: ../lib/library-strings.c:237
+#, fuzzy
+msgid "Find roots of a polynomial (given as vector of coefficients)"
+msgstr "Construeix un text a partir d'un polinomi (com a vector)"
+
+#: ../lib/library-strings.c:238
+msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
+msgstr ""
+
+#: ../lib/library-strings.c:239
+msgid ""
+"Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
+"solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
+"at x1"
+msgstr ""
+
+#: ../lib/library-strings.c:240
+msgid ""
+"Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
+"solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an n"
+"+1 by 2 matrix of values"
+msgstr ""
+
+#: ../lib/library-strings.c:241
+msgid "Calculate average of an entire matrix"
+msgstr ""
+
+#: ../lib/library-strings.c:242
+msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
+msgstr ""
+
+#: ../lib/library-strings.c:243
+msgid "The normalized Gauss distribution function (the normal curve)"
+msgstr ""
+
+#: ../lib/library-strings.c:244
+msgid "Calculate median of an entire matrix"
+msgstr ""
+
+#: ../lib/library-strings.c:245
+msgid "Calculate the population standard deviation of a whole matrix"
+msgstr ""
+
+#: ../lib/library-strings.c:246
+msgid "Calculate average of each row in a matrix"
+msgstr ""
+
+#: ../lib/library-strings.c:247
+msgid "Calculate median of each row in a matrix"
+msgstr ""
+
+#: ../lib/library-strings.c:248
+#, fuzzy
+msgid ""
+"Calculate the population standard deviations of rows of a matrix and return "
+"a vertical vector"
+msgstr "Obté les files de la matriu com un vector vertical"
+
+#: ../lib/library-strings.c:249
+#, fuzzy
+msgid ""
+"Calculate the standard deviations of rows of a matrix and return a vertical "
+"vector"
+msgstr "Obté les files de la matriu com un vector vertical"
+
+#: ../lib/library-strings.c:250
+msgid "Calculate the standard deviation of a whole matrix"
+msgstr ""
+
+#: ../lib/library-strings.c:251
+msgid ""
+"Run newton's method on a polynomial to attempt to find a root, returns after "
+"two successive values are within epsilon or after maxn tries (then returns "
+"null)"
+msgstr ""
+
+#: ../lib/library-strings.c:252
+msgid "Returns a set where every element of X appears only once"
+msgstr ""
+
+#: ../lib/library-strings.c:253
+msgid ""
+"Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
+"be sets)"
+msgstr ""
+
+#: ../lib/library-strings.c:254
+msgid ""
+"For a Hilbert function that is c for degree d, given the Macaulay bound for "
+"the Hilbert function of degree d+1 (The c^<d> operator from Green's proof)"
+msgstr ""
+
+#: ../lib/library-strings.c:255
+msgid "The c_<d> operator from Green's proof of Macaulay's Theorem"
+msgstr ""
+
+#: ../lib/library-strings.c:256
+msgid "Return the dth Macaulay representation of a positive integer c"
+msgstr ""
+
+#: ../lib/library-strings.c:257
+msgid "Attempt to symbolically differentiate a function n times"
+msgstr ""
+
+#: ../lib/library-strings.c:258
+msgid ""
+"Attempt to symbolically differentiate a function n times quietly and return "
+"null on failure"
+msgstr ""
+
+#: ../lib/library-strings.c:259
+msgid ""
+"Attempt to construct the Taylor approximation function around x0 to the nth "
+"degree."
+msgstr ""
+
+#: ../src/calc.c:212
 msgid "Uncategorized"
 msgstr "Sense categoria"
 
-#: src/calc.c:352
+#: ../src/calc.c:394
 msgid "Trying to set an alias for an alias"
 msgstr "S'intenta assignar un àlies a un àlies"
 
-#: src/calc.c:939
+#: ../src/calc.c:973
 msgid "Bad identifier for function node!"
 msgstr "Identificador incorrecte per al node de funció"
 
-#: src/calc.c:977 src/eval.c:5457 src/eval.c:5641
+#: ../src/calc.c:1023 ../src/eval.c:7176 ../src/eval.c:7383
 msgid "Unexpected operator!"
 msgstr "Operador inesperat"
 
 #. FIXME:
-#: src/calc.c:1166
+#: ../src/calc.c:1215
 msgid "Cannot currently print polynomials of more than 3 vars"
 msgstr "No es poden imprimir polinomis de més de 3 variables"
 
-#: src/calc.c:1241
-msgid "NULL tree!"
-msgstr "Arbre nul"
-
-#: src/calc.c:1316
+#: ../src/calc.c:1307
 msgid "NULL function!"
 msgstr "Funció nul·la"
 
 #. variable and reference functions should
 #. never be in the etree
-#: src/calc.c:1345
+#: ../src/calc.c:1373
 msgid "Unexpected function type!"
 msgstr "Tipus de funció inesperat"
 
-#: src/calc.c:1354 src/eval.c:5815
+#: ../src/calc.c:1388
+msgid "NULL tree!"
+msgstr "Arbre nul"
+
+#: ../src/calc.c:1478 ../src/eval.c:7682
 msgid "Unexpected node!"
 msgstr "Node inesperat"
 
-#: src/calc.c:1578
+#: ../src/calc.c:1973
 #, c-format
 msgid "File '%s' is a wrong version of GEL"
 msgstr "El fitxer '%s' és una versió incorrecta del GEL"
 
-#: src/calc.c:1625 src/calc.c:1634 src/calc.c:1639 src/calc.c:1648
-#: src/calc.c:1653 src/calc.c:1662 src/calc.c:1667 src/calc.c:1676
-#: src/calc.c:1681 src/calc.c:1692 src/calc.c:1697 src/calc.c:1708
-#: src/calc.c:1715 src/calc.c:1728 src/calc.c:1734 src/calc.c:1741
-#: src/calc.c:1750 src/calc.c:1756 src/calc.c:1763 src/calc.c:1769
-#: src/calc.c:1778 src/calc.c:1788
+#: ../src/calc.c:2023 ../src/calc.c:2032 ../src/calc.c:2037 ../src/calc.c:2046
+#: ../src/calc.c:2051 ../src/calc.c:2060 ../src/calc.c:2065 ../src/calc.c:2074
+#: ../src/calc.c:2079 ../src/calc.c:2090 ../src/calc.c:2095 ../src/calc.c:2106
+#: ../src/calc.c:2113 ../src/calc.c:2126 ../src/calc.c:2132 ../src/calc.c:2139
+#: ../src/calc.c:2148 ../src/calc.c:2159 ../src/calc.c:2165 ../src/calc.c:2172
+#: ../src/calc.c:2178 ../src/calc.c:2185 ../src/calc.c:2191 ../src/calc.c:2198
+#: ../src/calc.c:2204 ../src/calc.c:2211 ../src/calc.c:2217 ../src/calc.c:2224
+#: ../src/calc.c:2230 ../src/calc.c:2237 ../src/calc.c:2243 ../src/calc.c:2250
+#: ../src/calc.c:2266 ../src/calc.c:2284 ../src/calc.c:2294
 msgid "Badly formed record"
 msgstr "Registre format incorrectament"
 
-#: src/calc.c:1628
+#: ../src/calc.c:2026
 msgid "Record out of place"
 msgstr "Registre fora de lloc"
 
-#: src/calc.c:1803
+#: ../src/calc.c:2308
 msgid "Missing value for function"
 msgstr "Falta el valor per a la funció"
 
-#: src/calc.c:1822
+#: ../src/calc.c:2334
 msgid "Extra dictionary for NULL function"
 msgstr "Diccionari afegit per a la funció nul·la"
 
-#: src/calc.c:1862 src/calc.c:2277 src/calc.c:2311
+#: ../src/calc.c:2386 ../src/calc.c:2940 ../src/calc.c:2975
 #, c-format
 msgid "Can't open file: '%s'"
 msgstr "No es pot obrir el fitxer: '%s'"
 
-#: src/calc.c:2009
-msgid "Load a file into the interpretor"
+#: ../src/calc.c:2587
+#, fuzzy
+msgid "Load a file into the interpreter"
 msgstr "Carrega un fitxer a l'intèrpret"
 
-#: src/calc.c:2012
+#: ../src/calc.c:2590
 msgid "Load a plugin"
 msgstr "Carrega un connector"
 
-#: src/calc.c:2015
+#: ../src/calc.c:2593
 msgid "List files in the current directory"
 msgstr "Llista fitxers en el directori actual"
 
-#: src/calc.c:2018
+#: ../src/calc.c:2596
 msgid "Change directory"
 msgstr "Canvia el directori"
 
-#: src/calc.c:2021
+#: ../src/calc.c:2599
 msgid "Print current directory"
 msgstr "Mostra el directori actual"
 
-#: src/calc.c:2024
+#: ../src/calc.c:2602
 msgid "Print help (or help on a function/command)"
 msgstr "Escriu ajuda (o ajuda relacionada amb les funcions/ordres)"
 
-#: src/calc.c:2041
+#: ../src/calc.c:2618
 msgid ""
 "\n"
 "For a manual on using Genius and the GEL language type:\n"
@@ -118,11 +1368,11 @@ msgstr ""
 "Per a més informació sobre com fer servir Genius i el llenguatge GEL "
 "escriviu:\n"
 
-#: src/calc.c:2043
+#: ../src/calc.c:2620
 msgid "  manual\n"
 msgstr "  manual\n"
 
-#: src/calc.c:2047
+#: ../src/calc.c:2624
 msgid ""
 "\n"
 "For help on a specific function type:\n"
@@ -130,11 +1380,11 @@ msgstr ""
 "\n"
 "Per obtenir ajuda relacionada amb una funció escriviu:\n"
 
-#: src/calc.c:2049
+#: ../src/calc.c:2626
 msgid "  help FunctionName\n"
 msgstr "  help NomFunció\n"
 
-#: src/calc.c:2053
+#: ../src/calc.c:2630
 msgid ""
 "\n"
 "Commands:\n"
@@ -142,7 +1392,7 @@ msgstr ""
 "\n"
 "Ordres:\n"
 
-#: src/calc.c:2101
+#: ../src/calc.c:2675
 msgid ""
 "\n"
 "Undocumented:\n"
@@ -153,139 +1403,192 @@ msgstr ""
 #. func
 #. aliasfor
 #. category
-#: src/calc.c:2144
+#: ../src/calc.c:2718
 msgid "Not documented"
 msgstr "Sense documentar"
 
-#: src/calc.c:2163
+#: ../src/calc.c:2741
 #, c-format
 msgid "'%s' is not documented"
 msgstr "'%s' no està documentat"
 
-#: src/calc.c:2170
+#: ../src/calc.c:2743
+#, fuzzy, c-format
+msgid "'%s' is not documented.  Perhaps you meant %s."
+msgstr "'%s' no està documentat"
+
+#: ../src/calc.c:2753
 #, c-format
 msgid "%s is an alias for %s\n"
 msgstr "%s es un àlies per a %s\n"
 
-#: src/calc.c:2202
+#: ../src/calc.c:2775
+#, fuzzy
+msgid "Parameter: "
+msgstr "Paràmetres"
+
+#: ../src/calc.c:2802
 msgid "Aliases:"
 msgstr "Àlies:"
 
-#: src/calc.c:2214
+#: ../src/calc.c:2814
 #, c-format
 msgid "Description: %s\n"
 msgstr "Descripció: %s\n"
 
-#: src/calc.c:2350 src/calc.c:2361
+#: ../src/calc.c:3000 ../src/calc.c:3007
+#, c-format
+msgid "Error changing to directory '%s': %s"
+msgstr ""
+
+#: ../src/calc.c:3021 ../src/calc.c:3032
 #, c-format
 msgid "Can't expand '%s'"
 msgstr "No es pot expandir '%s'"
 
-#: src/calc.c:2431
+#: ../src/calc.c:3102
 #, c-format
 msgid "Cannot open plugin '%s'!"
 msgstr "No es pot obrir el connector '%s'"
 
-#: src/calc.c:2636
+#: ../src/calc.c:3192
+#, c-format
+msgid "getcwd error: %s"
+msgstr ""
+
+#: ../src/calc.c:3251
+#, c-format
+msgid "ERROR: 'pipe' failed: %s"
+msgstr ""
+
+#: ../src/calc.c:3258 ../src/calc.c:3265
+#, c-format
+msgid "ERROR: 'write' possibly failed: %s"
+msgstr ""
+
+#: ../src/calc.c:3333
 msgid "ERROR: Probably corrupt stack!"
 msgstr "S'ha produït un error: probablement, la pila s'ha corromput"
 
-#: src/calc.c:2659
+#: ../src/calc.c:3345
+msgid ""
+"ERROR: 'local' in a wrong place, can only be first statement in a function!"
+msgstr ""
+
+#: ../src/calc.c:3369
 msgid "ERROR: Can't execute more things at once!"
 msgstr "S'ha produït un error: no es pot executar més d'una cosa a la vegada"
 
-#: src/calc.c:2763
+#: ../src/calc.c:3475
 #, c-format
 msgid "ERROR: %s before newline"
 msgstr "S'ha produït un error: %s abans d'una nova línia"
 
-#: src/calc.c:2765
+#: ../src/calc.c:3477
 #, c-format
 msgid "ERROR: %s at end of input"
 msgstr "S'ha produït un error: %s al final de l'entrada"
 
-#: src/calc.c:2772
+#: ../src/calc.c:3484
 #, c-format
 msgid "ERROR: %s before '%s'"
 msgstr "S'ha produït un error: %s abans de '%s'"
 
-#: src/compil.c:424 src/compil.c:430
+#: ../src/calc.h:32
+msgid "Copyright (C) 1997-2012 Jiří (George) Lebl, Ph.D."
+msgstr ""
+
+#: ../src/compil.c:552 ../src/compil.c:561
 msgid "Bad tree record when decompiling"
 msgstr "Registre de l'arbre incorrecte quan s'estava descompilant"
 
-#: src/eval.c:1186 src/eval.c:1223 src/eval.c:1237
-msgid "Cannot compare non value-only matrixes"
+#: ../src/eval.c:1561 ../src/eval.c:1618 ../src/eval.c:1633
+#, fuzzy
+msgid "Cannot compare non value or bool only matrices"
 msgstr "No es poden comparar matrius que no siguin exclusivament amb valor"
 
 #. also on rationals but as integers
-#: src/eval.c:1293 src/eval.c:1339
+#: ../src/eval.c:1689 ../src/eval.c:1735
 msgid "Modulo arithmetic only works on integers"
 msgstr "L'operació aritmètica mòdul només funciona amb enters"
 
-#: src/eval.c:1543
-msgid "Can't add/subtract two matricies of different sizes"
+#: ../src/eval.c:1941
+msgid ""
+"Can't add/subtract a scalar to non-square matrix (A + x is defined as A + "
+"x*I)"
+msgstr ""
+
+#: ../src/eval.c:2037
+#, fuzzy
+msgid "Can't add/subtract two matrices of different sizes"
 msgstr "No es poden sumar/restar dues matrius de mides diferents"
 
-#: src/eval.c:1545
+#: ../src/eval.c:2039
+#, fuzzy
 msgid ""
-"Can't do element by element operations on two matricies of different sizes"
+"Can't do element by element operations on two matrices of different sizes"
 msgstr ""
 "No es poden realitzar operacions d'element a element en dues matrius de "
 "mides diferents"
 
-#: src/eval.c:1603
-msgid "Can't multiply matricies of wrong sizes"
+#: ../src/eval.c:2105
+#, fuzzy
+msgid "Can't multiply matrices of wrong sizes"
 msgstr "No es poden multiplicar matrius que no tinguin mides adecuades"
 
-#: src/eval.c:1652
+#: ../src/eval.c:2156
 msgid "Powers are defined on (square matrix)^(integer) only"
 msgstr "Les potències es defineixen només com a (matriu quadrada)^(enter)"
 
-#: src/eval.c:1658
+#: ../src/eval.c:2162
 msgid "Powers on matrices in modulo mode are defined on integer matrices only"
 msgstr ""
 "Potències en matrius en el mode de mòdul només es defineixen sobre matrius "
 "d'enters"
 
-#: src/eval.c:1666
+#: ../src/eval.c:2170
 msgid "Exponent too large"
 msgstr "Exponent massa gran"
 
-#: src/eval.c:1694 src/eval.c:1810 src/eval.c:1877
+#: ../src/eval.c:2197 ../src/eval.c:2312 ../src/eval.c:2378
 msgid "Matrix appears singular and can't be inverted"
 msgstr "Sembla que la matriu és singular i no es pot invertir"
 
-#: src/eval.c:1786
+#: ../src/eval.c:2289
 msgid "Can't divide matrices of different sizes or non-square matrices"
 msgstr ""
 "No es poden dividir matrius de mides diferents o matrius que no siguin "
 "quadrades"
 
-#: src/eval.c:1858
+#: ../src/eval.c:2360
 msgid "Can't divide by a non-square matrix"
 msgstr "No es pot dividir per una matriu que no sigui quadrada"
 
-#: src/eval.c:2217 src/eval.c:2244 src/eval.c:2265 src/eval.c:2289
-#: src/eval.c:2334
+#: ../src/eval.c:2776 ../src/eval.c:2803 ../src/eval.c:2824 ../src/eval.c:2848
+#: ../src/eval.c:2896
 msgid "Operations on functions with variable argument list not supported"
 msgstr ""
 "No es permeten les operacions en funcions amb una llista d'arguments variable"
 
-#: src/eval.c:2222
+#: ../src/eval.c:2781
 msgid ""
 "Operations on functions with different number of arguments not supported"
 msgstr ""
 "No se suporten operacions en funcions amb un nombre d'arguments diferent"
 
-#: src/eval.c:2339
+#: ../src/eval.c:2901
 msgid "Function creation with wrong number of arguments"
 msgstr "La creació de la funció té un nombre incorrecte d'arguments"
 
-#: src/eval.c:2856 src/eval.c:3934
+#: ../src/eval.c:3483 ../src/eval.c:4911
 msgid "Unevaluatable function type encountered!"
 msgstr "S'ha trobat un tipus de funció que no es pot avaluar"
 
-#: src/eval.c:2879
+#: ../src/eval.c:3505
+msgid "' or '"
+msgstr ""
+
+#: ../src/eval.c:3541
 msgid ""
 "Variable 'i' used uninitialized.  Perhaps you meant to write '1i' for the "
 "imaginary number (square root of -1)."
@@ -293,12 +1596,17 @@ msgstr ""
 "La variable 'i' s'ha usat sense inicialitzar. Potser volíeu escriure '1i' "
 "per representar el nombre imaginari (el nombre que elevat al quadrat val -1)."
 
-#: src/eval.c:2884 src/eval.c:2903 src/eval.c:3714
+#: ../src/eval.c:3547 ../src/eval.c:3580 ../src/eval.c:7500
+#, fuzzy, c-format
+msgid "Variable '%s' used uninitialized, perhaps you meant %s."
+msgstr "S'ha fet servir la variable '%s' sense inicialitzar"
+
+#: ../src/eval.c:3554 ../src/eval.c:3587 ../src/eval.c:4643 ../src/eval.c:7507
 #, c-format
 msgid "Variable '%s' used uninitialized"
 msgstr "S'ha fet servir la variable '%s' sense inicialitzar"
 
-#: src/eval.c:2906 src/eval.c:3759
+#: ../src/eval.c:3595 ../src/eval.c:4689
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -307,43 +1615,49 @@ msgstr ""
 "La crida a '%s' té un nombre equivocat d'arguments\n"
 "(hauria de ser %d)"
 
-#: src/eval.c:2909
+#: ../src/eval.c:3598
 #, c-format
 msgid "Trying to dereference '%s' which is not a reference!\n"
 msgstr ""
 "S'ha intentat dereferenciar a '%s', però no es tracta d'una referència\n"
 
-#: src/eval.c:2914
+#: ../src/eval.c:3603
 msgid "NULL reference encountered!"
 msgstr "S'ha trobat una referència nul·la"
 
-#: src/eval.c:3034
-msgid "Cannot compare matrixes"
+#: ../src/eval.c:3731
+#, fuzzy
+msgid "Cannot compare matrices"
 msgstr "No es poden comparar matrius"
 
-#: src/eval.c:3076
+#: ../src/eval.c:3773
 msgid "Primitives must get numeric/matrix/string arguments"
 msgstr "Les primitives han d'obtenir arguments de tipus numèric/matriu/text"
 
-#: src/eval.c:3149
+#: ../src/eval.c:3864
 msgid "Bad argument to modular operation"
 msgstr "Argument incorrecte per a les operacions modulars"
 
-#: src/eval.c:3700
+#: ../src/eval.c:4617
+#, fuzzy, c-format
+msgid "Function '%s' used uninitialized, perhaps you meant %s."
+msgstr "S'ha fet servir la funció '%s' sense inicialitzar"
+
+#: ../src/eval.c:4624
 #, c-format
 msgid "Function '%s' used uninitialized"
 msgstr "S'ha fet servir la funció '%s' sense inicialitzar"
 
-#: src/eval.c:3720
+#: ../src/eval.c:4652
 #, c-format
 msgid "Can't dereference '%s'!"
 msgstr "No es pot dereferenciar '%s'"
 
-#: src/eval.c:3728
+#: ../src/eval.c:4660
 msgid "Can't call a non-function!"
 msgstr "No es pot fer una crida a quelcom que no és una funció"
 
-#: src/eval.c:3764
+#: ../src/eval.c:4694
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -352,299 +1666,301 @@ msgstr ""
 "La crida a '%s' té un nombre equivocat d'arguments.\n"
 "(hauria de ser més gran que %d)"
 
-#: src/eval.c:3803
+#: ../src/eval.c:4733
 #, c-format
 msgid "Referencing an undefined variable %s!"
 msgstr "Es referencia una variable %s no definida"
 
-#: src/eval.c:3913
+#: ../src/eval.c:4887
 msgid "Reference function with arguments encountered!"
 msgstr "S'ha trobat una funció de referència amb arguments"
 
-#: src/eval.c:3918
+#: ../src/eval.c:4892
 msgid "Unnamed reference function encountered!"
 msgstr "S'ha trobat una funció de referència sense nom"
 
-#: src/eval.c:4027
+#: ../src/eval.c:5016
 msgid "Bad type for 'for/sum/prod' loop!"
 msgstr "Tipus incorrecte per al bucle 'for/sum/prod'"
 
-#: src/eval.c:4032
+#: ../src/eval.c:5021
 msgid "'for/sum/prod' loop increment can't be 0"
 msgstr "l'increment en un bucle 'for/sum/prod' no pot ser 0"
 
-#: src/eval.c:4138
+#: ../src/eval.c:5147
 msgid "Bad type for 'for in' loop!"
 msgstr "Tipus incorrecte per al bucle 'for in'"
 
-#: src/eval.c:4282 src/eval.c:4310
+#: ../src/eval.c:5311 ../src/eval.c:5344
 msgid "Continue or break outside a loop, assuming \"return null\""
 msgstr "Continua o surt fora del bucle, assumint \"return null\""
 
-#: src/eval.c:4360
+#: ../src/eval.c:5405
 msgid "Wrong argument type as matrix index"
 msgstr "Tipus d'argument erroni com a un índex de matriu"
 
-#: src/eval.c:4370
+#: ../src/eval.c:5415
 msgid "Matrix index too large"
 msgstr "L'índex de la matriu és massa gran"
 
-#: src/eval.c:4373
+#: ../src/eval.c:5418
 msgid "Matrix index less than 1"
 msgstr "L'índex de la matriu és inferior a 1"
 
-#: src/eval.c:4396 src/eval.c:4411
+#: ../src/eval.c:5441 ../src/eval.c:5456
 msgid "Matrix index out of range"
 msgstr "L'índex de la matriu és fora de rang"
 
-#: src/eval.c:4458 src/eval.c:4519 src/eval.c:4581 src/eval.c:4625
+#: ../src/eval.c:5505 ../src/eval.c:5575 ../src/eval.c:5643 ../src/eval.c:5684
+#: ../src/eval.c:5893 ../src/eval.c:5933 ../src/eval.c:6370
 #, c-format
 msgid "Trying to set a protected id '%s'"
 msgstr "S'està intentant assignar un identificador protegit '%s'"
 
-#: src/eval.c:4476 src/eval.c:4515
+#: ../src/eval.c:5531 ../src/eval.c:5570
 msgid "Indexed Lvalue not user function"
 msgstr "El valor esquerre indexat no és una funció d'usuari"
 
-#: src/eval.c:4499 src/eval.c:4610
+#: ../src/eval.c:5554 ../src/eval.c:5668 ../src/eval.c:5917
 msgid "Dereference of non-identifier!"
 msgstr "Dereferència de quelcom que no és un identificador"
 
-#: src/eval.c:4505 src/eval.c:4616
+#: ../src/eval.c:5560 ../src/eval.c:5674 ../src/eval.c:5923
 msgid "Dereference of undefined variable!"
 msgstr "Dereferència d'una variable no definida"
 
-#: src/eval.c:4509 src/eval.c:4620
+#: ../src/eval.c:5564 ../src/eval.c:5678 ../src/eval.c:5927
 msgid "Dereference of non-reference!"
 msgstr "Dereferència de quelcom que no és un identificador"
 
-#: src/eval.c:4537
+#: ../src/eval.c:5593
 msgid "Indexed Lvalue not an identifier or a dereference"
 msgstr "El valor esquerre indexat no és un identificador ni una dereferència"
 
-#: src/eval.c:4575
+#: ../src/eval.c:5631 ../src/eval.c:5969 ../src/eval.c:6337 ../src/eval.c:6344
 msgid "Lvalue not an identifier/dereference/matrix location!"
 msgstr ""
 "El valor esquerre no és la ubicació d'un identificador/dereferència/matriu"
 
-#: src/eval.c:4597 src/eval.c:4637
+#: ../src/eval.c:5655 ../src/eval.c:5696
 msgid "Referencing an undefined variable!"
 msgstr "S'està referenciant una variable indefinida"
 
-#: src/eval.c:4683 src/eval.c:4761 src/eval.c:4770
+#: ../src/eval.c:5746 ../src/eval.c:5828 ../src/eval.c:5837
 msgid "Wrong matrix dimensions when setting"
 msgstr "S'està configurant una matriu amb mides incorrectes"
 
-#: src/eval.c:4701 src/eval.c:4741 src/eval.c:4807 src/eval.c:4986
-#: src/eval.c:5039
+#: ../src/eval.c:5764 ../src/eval.c:5808 ../src/eval.c:5874 ../src/eval.c:6039
+#: ../src/eval.c:6076 ../src/eval.c:6121 ../src/eval.c:6524 ../src/eval.c:6649
 msgid "Matrix index not an integer or a vector"
 msgstr "L'índex de la matriu no és un enter ni un vector"
 
-#: src/eval.c:4828
+#: ../src/eval.c:5888
+#, c-format
+msgid ""
+"Increment/Swapwith does not work on parameters (trying to increment '%s')"
+msgstr ""
+
+#: ../src/eval.c:5957
+msgid "Increment not a value!"
+msgstr ""
+
+#: ../src/eval.c:5981
+#, fuzzy, c-format
+msgid "Trying to increment non-value id '%s'"
+msgstr "S'està intentant assignar un identificador protegit '%s'"
+
+#: ../src/eval.c:6142 ../src/eval.c:6151
+msgid "Can only swap user variables"
+msgstr ""
+
+#: ../src/eval.c:6191 ../src/eval.c:6226 ../src/eval.c:6257 ../src/eval.c:6273
+#: ../src/eval.c:6291 ../src/eval.c:6307
+#, fuzzy
+msgid "Cannot swap matrix regions"
+msgstr "No es poden comparar matrius"
+
+#: ../src/eval.c:6365
 msgid "Parameters can only be created in the global context"
 msgstr "Els paràmetres només poden ser creats en el context global"
 
-#: src/eval.c:4881 src/eval.c:4923 src/eval.c:4998
-msgid "Index works only on matricies"
+#: ../src/eval.c:6471 ../src/eval.c:6516 ../src/eval.c:6607
+#, fuzzy
+msgid "Index works only on matrices"
 msgstr "Els índexos només funcionen en matrius"
 
-#: src/eval.c:4911
+#: ../src/eval.c:6504
 msgid "Vector index not an integer or a vector"
 msgstr "L'índex de vector no és un enter ni un vector"
 
-#: src/eval.c:5060
+#: ../src/eval.c:6672
 msgid "number"
 msgstr "nombre"
 
-#: src/eval.c:5061
+#: ../src/eval.c:6673
 msgid "matrix"
 msgstr "matriu"
 
-#: src/eval.c:5062
+#: ../src/eval.c:6674
 msgid "string"
 msgstr "cadena de text"
 
-#: src/eval.c:5063
+#: ../src/eval.c:6675
 msgid "function"
 msgstr "funció"
 
-#: src/eval.c:5087
-msgid "Absolute value"
-msgstr "Valor absolut"
+#: ../src/eval.c:6676
+msgid "identifier"
+msgstr ""
 
-#: src/eval.c:5088
+#: ../src/eval.c:6677
+#, fuzzy
+msgid "polynomial"
+msgstr "Polinomis"
+
+#: ../src/eval.c:6678
+msgid "boolean"
+msgstr "booleà"
+
+#: ../src/eval.c:6701
 msgid "Addition"
 msgstr "Suma"
 
-#: src/eval.c:5089
+#: ../src/eval.c:6702
+#, fuzzy
+msgid "Element by element addition"
+msgstr "Divisió d'element per element"
+
+#: ../src/eval.c:6703
 msgid "Subtraction"
 msgstr "Resta"
 
-#: src/eval.c:5090
+#: ../src/eval.c:6704
+#, fuzzy
+msgid "Element by element subtraction"
+msgstr "Multiplicació d'element per element"
+
+#: ../src/eval.c:6705
 msgid "Multiplication"
 msgstr "Multiplicació"
 
-#: src/eval.c:5091
+#: ../src/eval.c:6706
 msgid "Element by element multiplication"
 msgstr "Multiplicació d'element per element"
 
-#: src/eval.c:5092
+#: ../src/eval.c:6707
 msgid "Division"
 msgstr "Divisió"
 
-#: src/eval.c:5093
+#: ../src/eval.c:6708
 msgid "Element by element division"
 msgstr "Divisió d'element per element"
 
-#: src/eval.c:5094
+#: ../src/eval.c:6709
 msgid "Back division"
 msgstr ""
 
-#: src/eval.c:5095
+#: ../src/eval.c:6710
 msgid "Element by element back division"
 msgstr ""
 
-#: src/eval.c:5096
+#: ../src/eval.c:6711
 msgid "Modulo"
 msgstr "Mòdul"
 
-#: src/eval.c:5097
+#: ../src/eval.c:6712
 msgid "Element by element modulo"
 msgstr "Mòdul element per element"
 
-#: src/eval.c:5098
+#: ../src/eval.c:6713
 msgid "Negation"
 msgstr "Negació"
 
-#: src/eval.c:5099
+#: ../src/eval.c:6714
 msgid "Power"
 msgstr "Potència"
 
-#: src/eval.c:5100
+#: ../src/eval.c:6715
 msgid "Element by element power"
 msgstr "Potència element per element"
 
-#: src/eval.c:5101
+#: ../src/eval.c:6716
 msgid "Factorial"
 msgstr "Factorial"
 
-#: src/eval.c:5102
+#: ../src/eval.c:6717
 msgid "Double factorial"
 msgstr "Doble factorial"
 
-#: src/eval.c:5103
+#: ../src/eval.c:6718
 msgid "Transpose"
 msgstr "Transposada"
 
 # Pot ser el nom d'una funció de línia d'ordres
-#: src/eval.c:5104
+#: ../src/eval.c:6719
 msgid "ConjugateTranspose"
 msgstr "ConjugateTranspose"
 
-#: src/eval.c:5105
+#: ../src/eval.c:6720
 msgid "Comparison (<=>)"
 msgstr "Comparació (<=>)"
 
-#: src/eval.c:5106
+#: ../src/eval.c:6721
 msgid "XOR"
 msgstr "XOR"
 
-#: src/eval.c:5107
+#: ../src/eval.c:6722
 msgid "NOT"
 msgstr "NOT"
 
-#: src/eval.c:5127
+#: ../src/eval.c:6742
 #, c-format
 msgid "Bad types for '%s'"
 msgstr "Tipus incorrectes per a '%s'"
 
-#: src/eval.c:5138
+#: ../src/eval.c:6753
 #, c-format
 msgid "%s not defined on <%s> and <%s>"
 msgstr "%s no definit a <%s> i <%s>"
 
-#: src/eval.c:5157
+#: ../src/eval.c:6772
 #, c-format
 msgid "Bad type for '%s'"
 msgstr "Tipus incorrecte per a '%s'"
 
-#: src/eval.c:5167
+#: ../src/eval.c:6782
 #, c-format
 msgid "%s not defined on <%s>"
 msgstr "%s no definit a <%s>"
 
-#: src/eval.c:5186 src/eval.c:5203
+#: ../src/eval.c:6801 ../src/eval.c:6818
 msgid "Vector building only works on numbers"
 msgstr "La construcció de vectors només funciona amb nombres"
 
 #. FIXME: perhaps we should just return null like octave?
-#: src/eval.c:5196
+#: ../src/eval.c:6811
 msgid "Impossible arguments to vector building operator"
 msgstr "Arguments impossibles per a la operació de construcció de vectors"
 
-#: src/funclib.c:85
-#, c-format
-msgid "%s: argument number %d not an integer"
-msgstr "%s: el nombre d'arguments %d no és un enter"
-
-#: src/funclib.c:98
-#, c-format
-msgid "%s: argument number %d not an integer or a matrix"
-msgstr "%s: l'argument número %d no és un enter ni una matriu"
-
-#: src/funclib.c:112
-#, c-format
-msgid "%s: argument number %d not a positive integer"
-msgstr "%s: l'argument número %d no és un enter positiu"
-
-#: src/funclib.c:122 src/graphing.c:820
-#, c-format
-msgid "%s: argument number %d not a number"
-msgstr "%s: l'argument número %d no és un nombre"
-
-#: src/funclib.c:133
-#, c-format
-msgid "%s: argument number %d not a real number"
-msgstr "%s: l'argument número %d no és un nombre real"
-
-#: src/funclib.c:143
-#, c-format
-msgid "%s: argument number %d not a matrix"
-msgstr "%s: l'argument número %d no és una matriu"
-
-#: src/funclib.c:154
-#, c-format
-msgid "%s: argument number %d not a value only matrix"
-msgstr "%s: l'argument número %d no és una matriu exclusivament de valors"
-
-#: src/funclib.c:164 src/funclib.c:175
-#, c-format
-msgid "%s: argument number %d not a string"
-msgstr "%s: l'argument número %d no és un text"
-
-#: src/funclib.c:204
-#, c-format
-msgid "%s: argument can't be negative or 0"
-msgstr "%s: l'argument no pot ser negatiu ni 0"
-
-#: src/funclib.c:208
+#: ../src/funclib.c:123
 #, c-format
 msgid "%s: argument too large"
 msgstr "%s l'argument és massa gran"
 
-#: src/funclib.c:235
-msgid "Cannot locate the manual"
-msgstr "No es pot localitzar el manual"
+#: ../src/funclib.c:150
+#, fuzzy, c-format
+msgid "Cannot parse version string: %s"
+msgstr "No es poden comparar matrius que no siguin exclusivament amb valor"
 
-#: src/funclib.c:251
-#, c-format
+#: ../src/funclib.c:179 ../src/gnome-genius.c:1925
+#, fuzzy, c-format
 msgid ""
 "Genius %s\n"
 "%s\n"
 "\n"
-"    This program is free software; you can redistribute it and/or modify\n"
+"    This program is free software: you can redistribute it and/or modify\n"
 "    it under the terms of the GNU General Public License as published by\n"
-"    the Free Software Foundation; either version 2 of the License , or\n"
+"    the Free Software Foundation, either version 3 of the License, or\n"
 "    (at your option) any later version.\n"
 "\n"
 "    This program is distributed in the hope that it will be useful,\n"
@@ -653,9 +1969,7 @@ msgid ""
 "    GNU General Public License for more details.\n"
 "\n"
 "    You should have received a copy of the GNU General Public License\n"
-"    along with this program. If not, write to the Free Software\n"
-"    Foundation,  Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,\n"
-"    USA.\n"
+"    along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
 msgstr ""
 "Genius %s\n"
 "%s\n"
@@ -675,290 +1989,403 @@ msgstr ""
 "Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,     MA  "
 "02111, USA.\n"
 
-#: src/funclib.c:381
+#: ../src/funclib.c:273
+#, fuzzy, c-format
+msgid "%s: trying to undefine a protected id!"
+msgstr "%s: s'intenta assignar un identificador protegit"
+
+#: ../src/funclib.c:555
 #, c-format
 msgid "%s: trying to set a protected id!"
 msgstr "%s: s'intenta assignar un identificador protegit"
 
 #. FIXME: fix this, this should just work too
-#: src/funclib.c:387
+#: ../src/funclib.c:561
 #, c-format
 msgid "%s: trying to set a parameter, use the equals sign"
 msgstr "%s: s'intenta definir un paràmetre, feu servir el signe igual"
 
-#: src/funclib.c:411 src/funclib.c:498
+#: ../src/funclib.c:588 ../src/funclib.c:681
 #, c-format
 msgid "%s: Too many arguments, should be at most %d"
 msgstr "%s: massa arguments, com a màxim poden haver %d"
 
-#: src/funclib.c:640
-msgid "Cannot apply function to two differently sized matrixes"
+#: ../src/funclib.c:829
+#, fuzzy
+msgid "Cannot apply function to two differently sized matrices"
 msgstr "No es pot aplicar la funció a dos matrius de mides diferents"
 
-#: src/funclib.c:1453
+#: ../src/funclib.c:1492 ../src/funclib.c:1529 ../src/funclib.c:1566
+#: ../src/funclib.c:1603 ../src/funclib.c:1645 ../src/funclib.c:1682
+#: ../src/funclib.c:1724 ../src/funclib.c:1771
+#, c-format
+msgid "%s: Not implemented (yet) for complex values"
+msgstr ""
+
+#: ../src/funclib.c:1687 ../src/funclib.c:1729 ../src/funclib.c:1776
+#, c-format
+msgid ""
+"%s: Bessel functions of second kind not defined for nonpositive real numbers"
+msgstr ""
+
+#: ../src/funclib.c:2229
 #, c-format
 msgid "%s: square root for composite moduli is not yet implemented"
 msgstr ""
 
-#: src/funclib.c:1461
+#: ../src/funclib.c:2237
 #, c-format
 msgid "%s: Cannot find square root function for prime moduli"
 msgstr ""
 
-#: src/funclib.c:1494
+#: ../src/funclib.c:2270
 #, c-format
 msgid "%s: matrix argument is not square"
 msgstr "%s: la matriu d'argument no és quadrada"
 
-#: src/funclib.c:1622 src/funclib.c:1722
+#: ../src/funclib.c:2411 ../src/funclib.c:2511
 #, c-format
 msgid "%s: matrix argument must be integer only"
 msgstr "%s: la matriu d'argument només pot contenir enters"
 
-#: src/funclib.c:1644 src/funclib.c:1744
+#: ../src/funclib.c:2433 ../src/funclib.c:2533
 #, c-format
 msgid "%s: argument must be an integer"
 msgstr "%s: l'argument ha de ser un enter"
 
-#: src/funclib.c:1979 src/funclib.c:2060
+#: ../src/funclib.c:2617 ../src/funclib.c:4475 ../src/funclib.c:4504
+#: ../src/funclib.c:4756 ../src/mpwrap.c:3770 ../src/mpwrap.c:3789
+#: ../src/mpwrap.c:3846 ../src/mpwrap.c:3875 ../src/mpwrap.c:3892
+#: ../src/mpwrap.c:3941
+msgid "Division by zero!"
+msgstr "Divisió entre zero"
+
+#: ../src/funclib.c:2799 ../src/funclib.c:2886
 #, c-format
 msgid "%s: matrix argument must be value only"
 msgstr "%s: l'argument matriu només pot contenir valors"
 
-#: src/funclib.c:2174 src/funclib.c:2214 src/funclib.c:3229
+#: ../src/funclib.c:3145 ../src/funclib.c:3203 ../src/funclib.c:4741
+#: ../src/funclib.c:5035 ../src/graphing.c:8130
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: massa arguments"
 
-#: src/funclib.c:2337
+#: ../src/funclib.c:3453
 #, c-format
 msgid "%s: vector argument not value only"
 msgstr "%s: els argument dels vectors no poden ser valors"
 
-#: src/funclib.c:2348 src/funclib.c:2377
+#: ../src/funclib.c:3464 ../src/funclib.c:3503
+#, c-format
+msgid "%s: argument can't be negative or 0"
+msgstr "%s: l'argument no pot ser negatiu ni 0"
+
+#: ../src/funclib.c:3472 ../src/funclib.c:3508
 #, c-format
 msgid "%s: vector argument has too large entries"
 msgstr "%s: els arguments del vector tenen entrades massa grans"
 
-#: src/funclib.c:2454 src/funclib.c:2460
+#: ../src/funclib.c:3550
+#, fuzzy, c-format
+msgid "%s: arguments must be vectors of equal size"
+msgstr "%s: l'argument ha de ser més gran que 2"
+
+#: ../src/funclib.c:4042 ../src/funclib.c:4048
 #, c-format
 msgid "%s: %s not a reference"
 msgstr "%s: %s no és una referència"
 
-#: src/funclib.c:2499
+#: ../src/funclib.c:4087
 #, c-format
 msgid "%s: matrices not of the same height"
 msgstr "%s: les matrius no tenen la mateixa alçada"
 
-#: src/funclib.c:2504
+#: ../src/funclib.c:4092 ../src/funclib.c:4735
 msgid "third argument"
 msgstr "tercer argument"
 
-#: src/funclib.c:2509
+#: ../src/funclib.c:4097
 msgid "fourth argument"
 msgstr "quart argument"
 
-#: src/funclib.c:2792
+#: ../src/funclib.c:4372
 #, c-format
 msgid "%s: argument must be greater than 2"
 msgstr "%s: l'argument ha de ser més gran que 2"
 
-#: src/funclib.c:2907
+#: ../src/funclib.c:4560
 #, c-format
 msgid "%s: arguments not horizontal vectors"
 msgstr "%s: els arguments no són vectors horitzontals"
 
-#: src/funclib.c:2916
+#: ../src/funclib.c:4569
 #, c-format
 msgid "%s: arguments not numeric only vectors"
 msgstr "%s: els arguments no són vectors de només xifres"
 
-#: src/funclib.c:3446 src/funclib.c:3535 src/funclib.c:3754 src/funclib.c:3809
+#: ../src/funclib.c:4953
+#, fuzzy, c-format
+msgid "%s: argument 1 must be a quadratic polynomial"
+msgstr "%s: l'argument ha de ser un enter"
+
+#: ../src/funclib.c:5263 ../src/funclib.c:5352 ../src/funclib.c:5613
+#: ../src/funclib.c:5620 ../src/funclib.c:5675 ../src/funclib.c:5682
+#: ../src/funclib.c:5753 ../src/funclib.c:5767
 #, c-format
 msgid "%s: value out of range"
 msgstr "%s: valor fora de rang"
 
-#: src/funclib.c:3912
+#: ../src/funclib.c:5893
 #, c-format
 msgid "%s: undefined function"
 msgstr "%s: funció no definida"
 
-#: src/funclib.c:3918
+#: ../src/funclib.c:5899
 #, c-format
 msgid "%s: flags argument must be a string"
 msgstr "%s: els arguments modificadors han de ser de text"
 
-#: src/funclib.c:3955 src/funclib.c:3991 src/funclib.c:4199
+#: ../src/funclib.c:6027 ../src/symbolic.c:726
+#, fuzzy, c-format
+msgid "%s: argument not a function of one variable"
+msgstr "%s: l'argument no és una funció"
+
+#: ../src/funclib.c:6239 ../src/funclib.c:6274 ../src/funclib.c:6519
 #, c-format
 msgid "%s: argument should be between %d and %d"
 msgstr "%s: l'argument ha d'estar entre %d i %d"
 
-#: src/funclib.c:4101
+#: ../src/funclib.c:6427
 msgid "OutputStyle must be one of normal, troff, latex or mathml"
 msgstr "OutputStyle ha de ser normal, troff, latex o mathml"
 
-#: src/funclib.c:4142
+#: ../src/funclib.c:6467
 #, c-format
 msgid "%s: argument should be larger or equal to 0"
 msgstr "%s: l'argument ha de ser més gran o igual que 0"
 
-#: src/funclib.c:4249
+#: ../src/funclib.c:6580
 msgid "Basic"
 msgstr "Bàsic"
 
-#: src/funclib.c:4250
+#. internal
+#: ../src/funclib.c:6581
 msgid "Parameters"
 msgstr "Paràmetres"
 
-#: src/funclib.c:4251
+#. internal
+#: ../src/funclib.c:6582
 msgid "Constants"
 msgstr "Constants"
 
-#: src/funclib.c:4252
+#. internal
+#: ../src/funclib.c:6583
 msgid "Numeric"
 msgstr "Numèric"
 
-#: src/funclib.c:4253
+#. internal
+#: ../src/funclib.c:6584
 msgid "Trigonometry"
 msgstr "Trigonometria"
 
-#: src/funclib.c:4254
+#. internal
+#: ../src/funclib.c:6585
 msgid "Number Theory"
 msgstr "Teoria de nombres"
 
-#: src/funclib.c:4255
+#. internal
+#: ../src/funclib.c:6586
 msgid "Matrix Manipulation"
 msgstr "Manipulació de matrius"
 
-#: src/funclib.c:4256
+#. internal
+#: ../src/funclib.c:6587
 msgid "Linear Algebra"
 msgstr "Àlgebra linial"
 
-#: src/funclib.c:4257
+#. internal
+#: ../src/funclib.c:6588
 msgid "Combinatorics"
 msgstr "Combinacions"
 
-#: src/funclib.c:4258
+#. internal
+#: ../src/funclib.c:6589
 msgid "Calculus"
 msgstr "Càlcul"
 
-#: src/funclib.c:4259
+#. internal
+#: ../src/funclib.c:6590
 msgid "Functions"
 msgstr "Funcions"
 
-#: src/funclib.c:4260
+#. internal
+#: ../src/funclib.c:6591
 msgid "Equation Solving"
 msgstr "Resolució d'equacions"
 
-#: src/funclib.c:4261
+#. internal
+#: ../src/funclib.c:6592
 msgid "Statistics"
 msgstr "Estadístiques"
 
-#: src/funclib.c:4262
+#. internal
+#: ../src/funclib.c:6593
 msgid "Polynomials"
 msgstr "Polinomis"
 
-#: src/funclib.c:4263
+#. internal
+#: ../src/funclib.c:6594
 msgid "Set Theory"
 msgstr "Teoria de conjunts"
 
-#: src/funclib.c:4264
+#. internal
+#: ../src/funclib.c:6595
+#, fuzzy
+msgid "Commutative Algebra"
+msgstr "Àlgebra linial"
+
+#. internal
+#: ../src/funclib.c:6596
 msgid "Miscellaneous"
 msgstr "Miscel·lània"
 
-#. bogus value
-#: src/funclib.c:4297
+#. internal
+#: ../src/funclib.c:6598
 msgid "Displays the user manual"
 msgstr "Mostra el manual d'usuari"
 
-#: src/funclib.c:4298
+#: ../src/funclib.c:6599
 msgid "Gives the warranty information"
 msgstr "Dóna la informació quant a la garantia"
 
-#: src/funclib.c:4299
+#: ../src/funclib.c:6600
+msgid "Return version as a 3-vector"
+msgstr ""
+
+#: ../src/funclib.c:6601
 msgid "Exits the program"
 msgstr "Surt del programa"
 
-#: src/funclib.c:4301
+#: ../src/funclib.c:6603
 msgid "Prints a string to the error stream"
 msgstr "Escriu una cadena de text al canal d'error"
 
-#: src/funclib.c:4302
+#: ../src/funclib.c:6604
+msgid "Waits a specified number of seconds"
+msgstr ""
+
+#: ../src/funclib.c:6605
+msgid "The true boolean value"
+msgstr ""
+
+#: ../src/funclib.c:6607
+msgid "The false boolean value"
+msgstr ""
+
+#: ../src/funclib.c:6610
+#, fuzzy
+msgid "Unix time in seconds as a floating point number"
+msgstr "Comprova si l'argument és un nombre en coma flotant (no complex)"
+
+#: ../src/funclib.c:6618
+msgid "Make integer (0 or 1) from a boolean value"
+msgstr ""
+
+#: ../src/funclib.c:6620
 msgid "Prints an expression"
 msgstr "Escriu una expressió"
 
-#: src/funclib.c:4303
+#: ../src/funclib.c:6621
 msgid "Changes current directory"
 msgstr "Canvia el directori actual"
 
-#: src/funclib.c:4304
+#: ../src/funclib.c:6622
 msgid "Prints an expression without a trailing newline"
 msgstr "Escriu una expressió sense un caràcter de nova línia"
 
-#: src/funclib.c:4305
+#: ../src/funclib.c:6623
 msgid "Display a string and an expression"
 msgstr "Mostra una cadena de text i una expressió"
 
-#: src/funclib.c:4306
+#: ../src/funclib.c:6624
 msgid "Set a global variable"
 msgstr "Defineix una variable global"
 
-#: src/funclib.c:4308
+#: ../src/funclib.c:6626
 msgid "Set the category and help description line for a function"
 msgstr ""
 "Defineix la categoria i la línia de descripció d'ajuda per a una funció"
 
-#: src/funclib.c:4309
+#: ../src/funclib.c:6627
 msgid "Sets up a help alias"
 msgstr "Defineix un àlies d'ajuda"
 
-#: src/funclib.c:4311
-msgid "Generate random float"
-msgstr "Genera un nombre de coma flotant a l'atzar"
+#: ../src/funclib.c:6629
+msgid "Identity function, returns its argument"
+msgstr ""
 
-#: src/funclib.c:4313
-msgid "Generate random integer"
-msgstr "Genera un nombre enter a l'atzar"
+#: ../src/funclib.c:6631
+msgid ""
+"Generate random float between 0 and 1, or if size given generate vector or "
+"matrix of random floats"
+msgstr ""
 
-#: src/funclib.c:4316 src/gnome-genius.c:911
+#: ../src/funclib.c:6633
+msgid ""
+"Generate random integer between 0 and max-1 inclusive, or if size given "
+"generate vector or matrix of random integers"
+msgstr ""
+
+#: ../src/funclib.c:6636 ../src/gnome-genius.c:2469
 msgid "Floating point precision"
 msgstr "Precisió de coma flotant"
 
-#: src/funclib.c:4317
+#: ../src/funclib.c:6638 ../src/gnome-genius.c:2358
+msgid ""
+"Display 0.0 when floating point number is less than 10^-x (0=never chop)"
+msgstr ""
+
+#: ../src/funclib.c:6641 ../src/gnome-genius.c:2381
+msgid "Only chop numbers when another number is greater than 10^-x"
+msgstr ""
+
+#: ../src/funclib.c:6642
 msgid "Maximum digits to display"
 msgstr "Nombre màxim de xifres que es mostraran"
 
-#: src/funclib.c:4318
+#: ../src/funclib.c:6643
 msgid "Maximum errors to display"
 msgstr "Nombre màxim d'errors que es mostraran"
 
-#: src/funclib.c:4319
-msgid "Output style: normal, latex or troff"
+#: ../src/funclib.c:6644
+#, fuzzy
+msgid "Output style: normal, latex, mathml or troff"
 msgstr "Estil de sortida: normal, latex o troff"
 
-#: src/funclib.c:4320
+#: ../src/funclib.c:6645
 msgid "Integer output base"
 msgstr "Base de l'escriptura d'enters"
 
-#: src/funclib.c:4321
+#: ../src/funclib.c:6646
 msgid "If true, mixed fractions are printed"
 msgstr "Si és cert, s'escriuen fraccions mesclades"
 
-#: src/funclib.c:4322
+#: ../src/funclib.c:6647
 msgid "Print full expressions, even if more than a line"
 msgstr ""
 "Imprimeix expressions completes, fins i tot si són majors que una línia"
 
-#: src/funclib.c:4323
+#: ../src/funclib.c:6648
 msgid "Convert all results to floats before printing"
 msgstr "Converteix tots els resultats a coma flotant abans d'escriure"
 
-#: src/funclib.c:4324
+#: ../src/funclib.c:6649
 msgid "Use scientific notation"
 msgstr "Fes servir notació científica"
 
 # Com IsPrime no torna a aparéixer, no ho tradueixo
-#: src/funclib.c:4326
+#: ../src/funclib.c:6651
 msgid ""
 "Number of extra Miller-Rabin tests to run on a number before declaring it a "
 "prime in IsPrime"
@@ -966,161 +2393,232 @@ msgstr ""
 "Quantes proves extra de Miller-Rabin s'han de fer a un nombre abans de "
 "considerar que és primer a IsPrime"
 
-#: src/funclib.c:4332
+#: ../src/funclib.c:6657
 msgid "Expands a matrix just like we do on unquoted matrix input"
 msgstr ""
 "Expandeix una matriu tal com ho fem amb matrius d'entrada sense cometes"
 
-#: src/funclib.c:4333
+#: ../src/funclib.c:6658
 msgid "Gets the rows of a matrix as a vertical vector"
 msgstr "Obté les files de la matriu com un vector vertical"
 
-#: src/funclib.c:4334
+#: ../src/funclib.c:6659
 msgid "Gets the columns of a matrix as a horizontal vector"
 msgstr "Obté les columnes d'una matriu com un vector horitzontal"
 
-#: src/funclib.c:4335
-msgid "Gets the diagonal entries of a matrix as a horizontal vector"
+#: ../src/funclib.c:6660
+#, fuzzy
+msgid "Gets the diagonal entries of a matrix as a column vector"
 msgstr "Obté les entrades diagonals d'una matriu com un vector horitzontal"
 
-#: src/funclib.c:4337
+#: ../src/funclib.c:6661
+#, fuzzy
+msgid "Count the number of zero columns in a matrix"
+msgstr "Obté el nombre de columnes d'una matriu"
+
+#: ../src/funclib.c:6662
+msgid "Removes any all-zero columns of M"
+msgstr ""
+
+#: ../src/funclib.c:6664
 msgid "Calculates the conjugate"
 msgstr "Calcula el conjugat"
 
-#: src/funclib.c:4342
+#: ../src/funclib.c:6669
 msgid "Calculates the sine function"
 msgstr "Calcula la funció sinus"
 
-#: src/funclib.c:4344
+#: ../src/funclib.c:6672
 msgid "Calculates the cosine function"
 msgstr "Calcula la funció cosinus"
 
-#: src/funclib.c:4346
+#: ../src/funclib.c:6675
 msgid "Calculates the hyperbolic sine function"
 msgstr "Calcula la funció sinus hiperbòlic"
 
-#: src/funclib.c:4348
+#: ../src/funclib.c:6678
 msgid "Calculates the hyperbolic cosine function"
 msgstr "Calcula la funció cosinus hiperbòlic"
 
-#: src/funclib.c:4350
+#: ../src/funclib.c:6681
 msgid "Calculates the tan function"
 msgstr "Calcula la funció tangent"
 
-#: src/funclib.c:4352
+#: ../src/funclib.c:6684
 msgid "Calculates the arctan function"
 msgstr "Calcula la funció arctangent"
 
-#: src/funclib.c:4356
+#: ../src/funclib.c:6689
+#, fuzzy
+msgid "Calculates the sinc function, that is sin(x)/x"
+msgstr "Calcula la funció sinus"
+
+#: ../src/funclib.c:6693
+#, fuzzy
+msgid "Calculates the arctan2 function (arctan(y/x) if x>0)"
+msgstr "Calcula la funció arctangent"
+
+#: ../src/funclib.c:6697
 msgid "The number pi"
 msgstr "El nombre pi"
 
-#: src/funclib.c:4357
+#: ../src/funclib.c:6699
 msgid "The natural number e"
 msgstr "El nombre e"
 
-#: src/funclib.c:4358
+#: ../src/funclib.c:6701
 msgid "The Golden Ratio"
 msgstr "La relació àurea"
 
-#: src/funclib.c:4359
+#: ../src/funclib.c:6703
 msgid "Free fall acceleration"
 msgstr "Acceleració en caiguda lliure"
 
-#: src/funclib.c:4361
-msgid "Euler's Constant gamma good up to about precision of 9516 digits"
-msgstr "La constant gamma d'Euler amb una precissió de fins a 9516 dígits"
+#: ../src/funclib.c:6706
+msgid "Euler's Constant gamma"
+msgstr ""
 
-#: src/funclib.c:4364
+#: ../src/funclib.c:6710
+msgid "Catalan's Constant (0.915...)"
+msgstr ""
+
+#. FUNC (ErrorFunction, 1, "x", "functions", N_("The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt (only real values implemented)"));
+#. ErrorFunction_function = f;
+#. ALIAS (erf, 1, ErrorFunction);
+#: ../src/funclib.c:6715
+msgid "The Riemann zeta function (only real values implemented)"
+msgstr ""
+
+#: ../src/funclib.c:6719
+msgid "The Gamma function (only real values implemented)"
+msgstr ""
+
+#: ../src/funclib.c:6724
+msgid "The Bessel function of first kind of order 0"
+msgstr ""
+
+#: ../src/funclib.c:6727
+msgid "The Bessel function of first kind of order 1"
+msgstr ""
+
+#: ../src/funclib.c:6730
+msgid "The Bessel function of first kind of order n"
+msgstr ""
+
+#: ../src/funclib.c:6733
+msgid "The Bessel function of second kind of order 0"
+msgstr ""
+
+#: ../src/funclib.c:6736
+msgid "The Bessel function of second kind of order 1"
+msgstr ""
+
+#: ../src/funclib.c:6739
+msgid "The Bessel function of second kind of integer order n"
+msgstr ""
+
+#: ../src/funclib.c:6742
 msgid "The square root"
 msgstr "L'arrel quadrada"
 
-#: src/funclib.c:4368
+#: ../src/funclib.c:6746
 msgid "The exponential function"
 msgstr "La funció exponencial"
 
-#: src/funclib.c:4370
+#: ../src/funclib.c:6749
 msgid "The natural logarithm"
 msgstr "El logaritme natural"
 
-#: src/funclib.c:4372
+#: ../src/funclib.c:6752
 msgid "Logarithm of x base 2"
 msgstr "Logaritme d'x en base 2"
 
-#: src/funclib.c:4375
+#: ../src/funclib.c:6757
 msgid "Logarithm of x base 10"
 msgstr "Logaritme d'x en base 10"
 
-#: src/funclib.c:4377
+#: ../src/funclib.c:6760
 msgid "Round a number"
 msgstr "Arrodoneix un nombre"
 
 # ???????????????????
-#: src/funclib.c:4380
+#: ../src/funclib.c:6764
 msgid "Get the highest integer less than or equal to n"
 msgstr "Obté l'enter més gran menor o igual que n"
 
-#: src/funclib.c:4383
+#: ../src/funclib.c:6768
 msgid "Get the lowest integer more than or equal to n"
 msgstr "Obté l'enter més petit més gran o igual que n"
 
-#: src/funclib.c:4386
+#: ../src/funclib.c:6772
 msgid "Truncate number to an integer (return the integer part)"
 msgstr "Trunca un nombre a enter (retorna la part entera)"
 
-#: src/funclib.c:4390
+#: ../src/funclib.c:6777
 msgid "Make number a float"
 msgstr "Converteix el nombre en coma flotant"
 
-#: src/funclib.c:4392
+#: ../src/funclib.c:6780
 msgid "Get the numerator of a rational number"
 msgstr "Obté el numerador d'un nombre racional"
 
-#: src/funclib.c:4394
+#: ../src/funclib.c:6782
 msgid "Get the denominator of a rational number"
 msgstr "Obté el denominador d'un nombre racional"
 
-#: src/funclib.c:4397
+#: ../src/funclib.c:6785
 msgid "Greatest common divisor"
 msgstr "Màxim comú divisor"
 
-#: src/funclib.c:4399
+#: ../src/funclib.c:6787
 msgid "Least common multiplier"
 msgstr "Mínim comú múltiple"
 
-#: src/funclib.c:4401
+#: ../src/funclib.c:6789
 msgid "Check a number for being a perfect square"
 msgstr "Comprova si un nombre és un quadrat perfecte"
 
-#: src/funclib.c:4402
+#: ../src/funclib.c:6790
 msgid "Check a number for being any perfect power (a^b)"
 msgstr "Comprova si un nombre és una potència perfecta (a^b)"
 
-#: src/funclib.c:4403
-msgid "Return the n'th prime (up to a limit)"
+#: ../src/funclib.c:6791
+#, fuzzy
+msgid "Return the nth prime (up to a limit)"
 msgstr "Retorna el nombre primer n-èssim (fins a un límit)"
 
-#: src/funclib.c:4405
+#: ../src/funclib.c:6793
 msgid "Tests if an integer is even"
 msgstr "Prova si un enter és parell"
 
-#: src/funclib.c:4406
+#: ../src/funclib.c:6794
 msgid "Tests if an integer is odd"
 msgstr "Prova si un enter és senar"
 
-#: src/funclib.c:4408
+#: ../src/funclib.c:6796
 msgid "Returns the least prime greater than n (if n is positive)"
 msgstr "Retorna el primer nombre primer més gran que n (si n és positiu)"
 
-#: src/funclib.c:4409
-msgid "Returns the n'th Lucas number"
+#: ../src/funclib.c:6797
+#, fuzzy
+msgid "Returns the nth Lucas number"
 msgstr "Retorna l'n-èssim nombre de Lucas"
 
-#: src/funclib.c:4410
+#: ../src/funclib.c:6798
 msgid "Returns inverse of n mod m"
 msgstr "Retorna l'invers d'n mod m"
 
-#: src/funclib.c:4411
+#: ../src/funclib.c:6799
+msgid "Checks divisibility (if m divides n)"
+msgstr ""
+
+#: ../src/funclib.c:6800
+msgid ""
+"Return n/d but only if d divides n else returns garbage (this is faster than "
+"writing n/d)"
+msgstr ""
+
+#: ../src/funclib.c:6801
 msgid ""
 "Tests primality of integers, for numbers greater than 25*10^9 false positive "
 "is with low probability depending on IsPrimeMillerRabinReps"
@@ -1128,11 +2626,11 @@ msgstr ""
 "Prova de primalitat d'enters. Per a nombres més grans que 25*10^9, la "
 "probabilitat de trobar un fals positiu al test IsPrimeMillerRabinReps"
 
-#: src/funclib.c:4412
+#: ../src/funclib.c:6802
 msgid "Run the strong pseudoprime test base b on n"
 msgstr "Executa el test fort de pseudo-primer base b en n"
 
-#: src/funclib.c:4413
+#: ../src/funclib.c:6803
 msgid ""
 "Use the Miller-Rabin primality test on n, reps number of times.  The "
 "probability of false positive is (1/4)^reps"
@@ -1140,7 +2638,7 @@ msgstr ""
 "Fes servir el test de primalitat Miller-Rabin en n, reps vegades. La "
 "probabilitat d'obtenir un fals positiu és (1/4)^reps"
 
-#: src/funclib.c:4414
+#: ../src/funclib.c:6804
 msgid ""
 "Use the Miller-Rabin primality test on n with enough bases that assuming the "
 "Generalized Reimann Hypothesis the result is deterministic"
@@ -1148,23 +2646,27 @@ msgstr ""
 "Fes servir el test de primalitat en n amb suficients basses per assumir que "
 "el resultat de la hipòtesi generalitzada de Reimann és determinista"
 
-#: src/funclib.c:4415
+#: ../src/funclib.c:6805
 msgid "Return factorization of a number as a matrix"
 msgstr "Retorna la factorització d'un nombre com a matriu"
 
-#: src/funclib.c:4417
+#: ../src/funclib.c:6807
 msgid "Returns the maximum of arguments or matrix"
 msgstr "Retorna el màxim dels arguments o la matriu"
 
-#: src/funclib.c:4420
+#: ../src/funclib.c:6810
 msgid "Returns the minimum of arguments or matrix"
 msgstr "Retorna el mínim dels arguments o la matriu"
 
-#: src/funclib.c:4424
+#: ../src/funclib.c:6814
+msgid "Division w/o remainder, equivalent to floor(a/b)"
+msgstr ""
+
+#: ../src/funclib.c:6816
 msgid "Calculate the Jacobi symbol (a/b) (b should be odd)"
 msgstr "Calcula el símbol de Jacobi (a/b) (b ha de ser senar)"
 
-#: src/funclib.c:4426
+#: ../src/funclib.c:6818
 msgid ""
 "Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) "
 "when a odd, or (a/2)=0 when a even"
@@ -1172,55 +2674,75 @@ msgstr ""
 "Calcula el símbol de Jacobi (a/b) amb l'extensió de Kronecker (a/2)=(2/a) "
 "quan sigui senar, o (a/2)=0 quan sigui parell"
 
-#: src/funclib.c:4428
+#: ../src/funclib.c:6820
 msgid "Calculate the Legendre symbol (a/p)"
 msgstr "Calcula el símbol de Legendre (a/p)"
 
-#: src/funclib.c:4431
+#: ../src/funclib.c:6823
 msgid "Get the real part of a complex number"
 msgstr "Obté la part real d'un nombre complex"
 
-#: src/funclib.c:4434
+#: ../src/funclib.c:6826
 msgid "Get the imaginary part of a complex number"
 msgstr "Obté la part imaginària d'un nombre complex"
 
-#: src/funclib.c:4438
+#: ../src/funclib.c:6830
 msgid "Make an identity matrix of a given size"
 msgstr "Construeix la matriu identitat d'una mida donada"
 
-#: src/funclib.c:4441
+#: ../src/funclib.c:6833
 msgid "Make an matrix of all zeros (or a row vector)"
 msgstr "Construeix una matriu de tot zeros (o un vector fila)"
 
-#: src/funclib.c:4443
+#: ../src/funclib.c:6835
 msgid "Make an matrix of all ones (or a row vector)"
 msgstr "Construeix una matriu de tot uns (o un vector fila)"
 
-#: src/funclib.c:4446
+#: ../src/funclib.c:6838
 msgid "Get the number of rows of a matrix"
 msgstr "Obté el nombre de files d'una matriu"
 
-#: src/funclib.c:4447
+#: ../src/funclib.c:6839
 msgid "Get the number of columns of a matrix"
 msgstr "Obté el nombre de columnes d'una matriu"
 
-#: src/funclib.c:4448
+#: ../src/funclib.c:6840
 msgid "Is a matrix square"
 msgstr "És una matriu quadrada"
 
-#: src/funclib.c:4449
+#: ../src/funclib.c:6841
+#, fuzzy
+msgid "Is argument a horizontal or a vertical vector"
+msgstr "%s: els arguments no són vectors horitzontals"
+
+#: ../src/funclib.c:6842
+#, fuzzy
+msgid "Is a matrix upper triangular"
+msgstr "És una matriu quadrada"
+
+#: ../src/funclib.c:6843
+#, fuzzy
+msgid "Is a matrix lower triangular"
+msgstr "És una matriu quadrada"
+
+#: ../src/funclib.c:6844
+#, fuzzy
+msgid "Is a matrix diagonal"
+msgstr "És una matriu quadrada"
+
+#: ../src/funclib.c:6845
 msgid "Get the number of elements of a matrix"
 msgstr "Obté el nombre d'elements d'una matriu"
 
-#: src/funclib.c:4451
+#: ../src/funclib.c:6847
 msgid "Get the row echelon form of a matrix"
 msgstr ""
 
-#: src/funclib.c:4455
+#: ../src/funclib.c:6851
 msgid "Get the reduced row echelon form of a matrix"
 msgstr ""
 
-#: src/funclib.c:4459
+#: ../src/funclib.c:6855
 msgid ""
 "Solve linear system Mx=V, return solution V if there is a unique solution, "
 "null otherwise.  Extra two reference parameters can optionally be used to "
@@ -1230,147 +2752,236 @@ msgstr ""
 "nul en cas contrari. Opcionalment, es poden usar dos paràmetres de "
 "referència extra per obtenir les M i V reduides."
 
-#: src/funclib.c:4462
+#: ../src/funclib.c:6858
 msgid "Get the determinant of a matrix"
 msgstr "Obté el determinant d'una matriu"
 
-#: src/funclib.c:4465
+#: ../src/funclib.c:6861
+msgid ""
+"Return pivot columns of a matrix, that is columns which have a leading 1 in "
+"rref form, also returns the row where they occur"
+msgstr ""
+
+#: ../src/funclib.c:6863
+#, fuzzy
+msgid "Get the nullspace of a matrix"
+msgstr "Obté el determinant d'una matriu"
+
+#: ../src/funclib.c:6865
 msgid "Make new matrix of given size from old one"
 msgstr "Construeix una nova matriu de mida donada a partir de la vella"
 
-#: src/funclib.c:4466
+#: ../src/funclib.c:6866
 msgid "Return the index complement of a vector of indexes"
 msgstr "Retorna el complement de l'índex d'un vector d'índexos"
 
-#: src/funclib.c:4468
+#: ../src/funclib.c:6867
+#, fuzzy
+msgid "Get the Hermitian product of two vectors"
+msgstr "Obté el determinant d'una matriu"
+
+#: ../src/funclib.c:6870
 msgid "Check if a matrix is a matrix of numbers"
 msgstr "Comprova si una matriu és una matriu de nombres"
 
-#: src/funclib.c:4469
+#: ../src/funclib.c:6871
 msgid "Check if a matrix is an integer (non-complex) matrix"
 msgstr "Comprova si una matriu és una matriu d'enters (no complexos)"
 
-#: src/funclib.c:4470
+#: ../src/funclib.c:6872
 msgid "Check if a matrix is a rational (non-complex) matrix"
 msgstr "Comprova si una matriu és una matriu de racionals (no complexos)"
 
-#: src/funclib.c:4471
+#: ../src/funclib.c:6873
 msgid "Check if a matrix is a real (non-complex) matrix"
 msgstr "Comprova si una matriu és una matriu de reals (no complexos)"
 
-#: src/funclib.c:4473
+#: ../src/funclib.c:6874
+msgid "Check if a matrix is positive, that is if each element is positive"
+msgstr ""
+
+#: ../src/funclib.c:6875
+msgid ""
+"Check if a matrix is nonnegative, that is if each element is nonnegative"
+msgstr ""
+
+#: ../src/funclib.c:6877
+#, fuzzy
+msgid "Check if a number or a matrix is all zeros"
+msgstr "Comprova si una matriu és una matriu de nombres"
+
+#: ../src/funclib.c:6878
+msgid "Check if a number or a matrix is 1 or identity respectively"
+msgstr ""
+
+#: ../src/funclib.c:6880
+msgid ""
+"Returns true if the element x is in the set X (where X is a vector "
+"pretending to be a set)"
+msgstr ""
+
+#: ../src/funclib.c:6881
+msgid "Returns true if X is a subset of Y"
+msgstr ""
+
+#: ../src/funclib.c:6882
+msgid ""
+"Returns a set theoretic difference X-Y (X and Y are vectors pretending to be "
+"sets)"
+msgstr ""
+
+#: ../src/funclib.c:6883
+msgid ""
+"Returns a set theoretic intersection of X and Y (X and Y are vectors "
+"pretending to be sets)"
+msgstr ""
+
+#: ../src/funclib.c:6885
 msgid "Check if argument is a null"
 msgstr "Comprova si l'argument és nul"
 
-#: src/funclib.c:4474
+#: ../src/funclib.c:6886
 msgid "Check if argument is a number"
 msgstr "Comprova si l'argument és un nombre"
 
-#: src/funclib.c:4475
+#: ../src/funclib.c:6887
+#, fuzzy
+msgid "Check if argument is a boolean (and not a number)"
+msgstr "Comprova si l'argument és un nombre complex (no real)"
+
+#: ../src/funclib.c:6888
 msgid "Check if argument is a text string"
 msgstr "Comprova si l'argument és una cadena de text"
 
-#: src/funclib.c:4476
+#: ../src/funclib.c:6889
 msgid "Check if argument is a matrix"
 msgstr "Comprova si l'argument és una matriu"
 
-#: src/funclib.c:4477
+#: ../src/funclib.c:6890
 msgid "Check if argument is a function"
 msgstr "Comprova si l'argument és una funció"
 
-#: src/funclib.c:4478
+#: ../src/funclib.c:6891
+#, fuzzy
+msgid "Check if argument is a function or an identifier"
+msgstr "Comprova si l'argument és una referència a funció"
+
+#: ../src/funclib.c:6892
 msgid "Check if argument is a function reference"
 msgstr "Comprova si l'argument és una referència a funció"
 
-#: src/funclib.c:4480
+#: ../src/funclib.c:6894
 msgid "Check if argument is a complex (non-real) number"
 msgstr "Comprova si l'argument és un nombre complex (no real)"
 
-#: src/funclib.c:4481
+#: ../src/funclib.c:6895
 msgid "Check if argument is a real number"
 msgstr "Comprova si l'argument és un nombre real"
 
-#: src/funclib.c:4482
+#: ../src/funclib.c:6896
 msgid "Check if argument is an integer (non-complex)"
 msgstr "Comprova si l'argument és un enter (no complex)"
 
-#: src/funclib.c:4483
+#: ../src/funclib.c:6897
 msgid "Check if argument is a positive real integer"
 msgstr "Comprova si l'argument és un enter real positiu"
 
-#: src/funclib.c:4485
+#: ../src/funclib.c:6899
+#, fuzzy
+msgid "Check if argument is a non-negative real integer"
+msgstr "Comprova si l'argument és un enter real positiu"
+
+#: ../src/funclib.c:6900
 msgid "Check if argument is a possibly complex integer"
 msgstr "Comprova si l'argument pot ser un enter complex"
 
-#: src/funclib.c:4487
+#: ../src/funclib.c:6902
 msgid "Check if argument is a rational number (non-complex)"
 msgstr "Comprova si l'argument és un nombre racional (no complex)"
 
-#: src/funclib.c:4488
+#: ../src/funclib.c:6903
 msgid "Check if argument is a possibly complex rational number"
 msgstr "Comprova si l'argument pot ser un nombre complex racional"
 
-#: src/funclib.c:4489
+#: ../src/funclib.c:6904
 msgid "Check if argument is a floating point number (non-complex)"
 msgstr "Comprova si l'argument és un nombre en coma flotant (no complex)"
 
-#: src/funclib.c:4491
+#: ../src/funclib.c:6906
 msgid "Add two polynomials (vectors)"
 msgstr "Suma dos polinomis (vectors)"
 
-#: src/funclib.c:4492
+#: ../src/funclib.c:6907
 msgid "Subtract two polynomials (as vectors)"
 msgstr "Resta dos polinomis (com a vectors)"
 
-#: src/funclib.c:4493
+#: ../src/funclib.c:6908
 msgid "Multiply two polynomials (as vectors)"
 msgstr "Multiplica dos polinomis (com a vectors)"
 
-#: src/funclib.c:4494
+#: ../src/funclib.c:6909
+msgid "Divide polynomial p by q, return the remainder in r"
+msgstr ""
+
+#: ../src/funclib.c:6910
 msgid "Take polynomial (as vector) derivative"
 msgstr "Obté la derivada del polinomi (com a vector)"
 
-#: src/funclib.c:4495
+#: ../src/funclib.c:6911
 msgid "Take second polynomial (as vector) derivative"
 msgstr "Obté la segona derivada del polinomi (com a vector)"
 
-#: src/funclib.c:4496
+#: ../src/funclib.c:6912
 msgid "Trim zeros from a polynomial (as vector)"
 msgstr "Treu fora els zeros d'un polinomi (com a vector)"
 
-#: src/funclib.c:4497
+#: ../src/funclib.c:6913
 msgid "Check if a vector is usable as a polynomial"
 msgstr "Comprova si un vector es pot usar com a polinomi"
 
-#: src/funclib.c:4498
+#: ../src/funclib.c:6914
 msgid "Make string out of a polynomial (as vector)"
 msgstr "Construeix un text a partir d'un polinomi (com a vector)"
 
-#: src/funclib.c:4499
+#: ../src/funclib.c:6915
 msgid "Make function out of a polynomial (as vector)"
 msgstr "Construeix una funció a partir d'un polinomi (com a vector)"
 
-#: src/funclib.c:4501
+#: ../src/funclib.c:6917
+msgid "Find roots of a quadratic polynomial (given as vector of coefficients)"
+msgstr ""
+
+#: ../src/funclib.c:6919
 msgid "Get all combinations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
 "Obté totes les combinacions de k nombres des d'1 fins n com a vector de "
 "vectors"
 
-#: src/funclib.c:4502
+#: ../src/funclib.c:6920
+msgid ""
+"Get combination that would come after v in call to combinations, first "
+"combination should be [1:k]."
+msgstr ""
+
+#: ../src/funclib.c:6921
 msgid "Get all permutations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
 "Obté totes les permutacions de k nombres des d'1 fins n com a vector de "
 "vectors"
 
-#: src/funclib.c:4504
+#: ../src/funclib.c:6923
+msgid "Calculate combinations (binomial coefficient)"
+msgstr ""
+
+#: ../src/funclib.c:6926
 msgid "Convert a string to a vector of ASCII values"
 msgstr "Converteix una cadena de text en un vector de valors ASCII"
 
-#: src/funclib.c:4505
+#: ../src/funclib.c:6927
 msgid "Convert a vector of ASCII values to a string"
 msgstr "Converteix un vector de valors ASCII en cadena de text"
 
-#: src/funclib.c:4507
+#: ../src/funclib.c:6929
 msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters"
@@ -1379,7 +2990,7 @@ msgstr ""
 "la seva possició en l'alfabet) a partir de 0, on -1 significa que la lletra "
 "és desconeguda"
 
-#: src/funclib.c:4508
+#: ../src/funclib.c:6930
 msgid ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string"
@@ -1387,15 +2998,19 @@ msgstr ""
 "Converteix un vector de valors a partir de 0 (possicions en l'alfabet de la "
 "cadena de text) en una cadena de text"
 
-#: src/funclib.c:4510
-msgid "Protect a variable from being modified"
-msgstr "Protegeix una variable perquè no es modifiqui"
+#: ../src/funclib.c:6932
+msgid ""
+"Protect a variable from being modified.  It will be treated as a system "
+"defined variable from now on.  Protected parameters can still be modified."
+msgstr ""
 
-#: src/funclib.c:4511
-msgid "Unprotect a variable from being modified"
-msgstr "Desprotegeix una variable perquè es pugui modificar"
+#: ../src/funclib.c:6933
+msgid ""
+"Unprotect a variable from being modified.  It will be treated as a user "
+"defined variable from now on."
+msgstr ""
 
-#: src/funclib.c:4512
+#: ../src/funclib.c:6934
 msgid ""
 "Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
 "\""
@@ -1403,37 +3018,194 @@ msgstr ""
 "Defineix els modificadors per a una funció, poden ser \"PropagateMod\" i "
 "\"NoModuloArguments\""
 
-#: src/funclib.c:4513
+#: ../src/funclib.c:6935
 msgid "Get current modulo from the context outside the function"
 msgstr "Obté el mòdul actual des del context de fora de la funció"
 
-#: src/genius.c:96
+#: ../src/funclib.c:6936
+#, fuzzy
+msgid "Check if a variable or function is defined"
+msgstr "Comprova si l'argument és una referència a funció"
+
+#: ../src/funclib.c:6937
+msgid "Undefine a variable (including all locals and globals of the same name)"
+msgstr ""
+
+#: ../src/funclib.c:6939
+msgid ""
+"Undefine all unprotected (user defined) global variables and parameters.  "
+"Does not reset or change protected (system) parameters."
+msgstr ""
+
+#: ../src/funclib.c:6940
+msgid ""
+"Mark all currently defined variables as protected.  They will be treated as "
+"system defined variables from now on."
+msgstr ""
+
+#: ../src/funclib.c:6941
+msgid ""
+"Return a vector of all global unprotected (user defined) variable names."
+msgstr ""
+
+#: ../src/funclib.c:6943
+#, fuzzy
+msgid "Parse a string (but do not execute)"
+msgstr "Escriu una cadena de text al canal d'error"
+
+#: ../src/funclib.c:6944
+msgid "Parse and evaluate a string"
+msgstr ""
+
+#: ../src/funclib.c:6946
+msgid "Ask a question and return a string.  Optionally pass in a default."
+msgstr ""
+
+#: ../src/funclib.c:6947
+msgid ""
+"Ask a question and present a list of buttons.  Returns the 1-based index of "
+"the button pressed (or null on failure)."
+msgstr ""
+
+#: ../src/funclib.c:6949
+msgid ""
+"Integration of f by Composite Simpson's Rule on the interval [a,b] with n "
+"subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be "
+"even"
+msgstr ""
+
+#: ../src/funclibhelper.cP:40
+#, c-format
+msgid "%s: argument number %d not an integer"
+msgstr "%s: el nombre d'arguments %d no és un enter"
+
+#: ../src/funclibhelper.cP:53
+#, c-format
+msgid "%s: argument number %d not an integer or a matrix"
+msgstr "%s: l'argument número %d no és un enter ni una matriu"
+
+#: ../src/funclibhelper.cP:65 ../src/funclibhelper.cP:76
+#, fuzzy, c-format
+msgid "%s: argument number %d not a number or a matrix"
+msgstr "%s: l'argument número %d no és un enter ni una matriu"
+
+#: ../src/funclibhelper.cP:89
+#, fuzzy, c-format
+msgid "%s: argument number %d not a nonnegative integer"
+msgstr "%s: l'argument número %d no és un enter positiu"
+
+#: ../src/funclibhelper.cP:103
+#, c-format
+msgid "%s: argument number %d not a positive integer"
+msgstr "%s: l'argument número %d no és un enter positiu"
+
+#: ../src/funclibhelper.cP:113 ../src/graphing.c:3049
+#, c-format
+msgid "%s: argument number %d not a number"
+msgstr "%s: l'argument número %d no és un nombre"
+
+#: ../src/funclibhelper.cP:124
+#, fuzzy, c-format
+msgid "%s: argument number %d not a boolean"
+msgstr "%s: l'argument número %d no és un nombre"
+
+#: ../src/funclibhelper.cP:135
+#, c-format
+msgid "%s: argument number %d not a real number"
+msgstr "%s: l'argument número %d no és un nombre real"
+
+#: ../src/funclibhelper.cP:145
+#, c-format
+msgid "%s: argument number %d not a matrix"
+msgstr "%s: l'argument número %d no és una matriu"
+
+#: ../src/funclibhelper.cP:156
+#, fuzzy, c-format
+msgid "%s: argument number %d not a square matrix"
+msgstr "%s: l'argument número %d no és una matriu"
+
+#: ../src/funclibhelper.cP:167
+#, fuzzy, c-format
+msgid "%s: argument number %d not a matrix or null node"
+msgstr "%s: l'argument número %d no és una matriu"
+
+#: ../src/funclibhelper.cP:178
+#, c-format
+msgid "%s: argument number %d not a value only matrix"
+msgstr "%s: l'argument número %d no és una matriu exclusivament de valors"
+
+#: ../src/funclibhelper.cP:191
+#, fuzzy, c-format
+msgid "%s: argument number %d not a value only vector"
+msgstr "%s: l'argument número %d no és una matriu exclusivament de valors"
+
+#: ../src/funclibhelper.cP:201 ../src/funclibhelper.cP:212
+#, c-format
+msgid "%s: argument number %d not a string"
+msgstr "%s: l'argument número %d no és un text"
+
+#: ../src/funclibhelper.cP:223
+#, fuzzy, c-format
+msgid "%s: argument number %d not a function or identifier"
+msgstr "%s: el nombre d'arguments %d no és un enter"
+
+#: ../src/genius.c:110
 #, c-format
 msgid "line %d: %s\n"
 msgstr "línia %d: %s\n"
 
-#: src/genius.c:114
+#: ../src/genius.c:128
 #, c-format
 msgid "Too many errors! (%d followed)\n"
 msgstr "Massa errors (en segueixen %d)\n"
 
-#: src/genius.c:179 src/gnome-genius.c:2504
-msgid ""
-"\n"
-"Note: Compiled without MPFR (some operations may be slow) see www.mpfr.org"
-msgstr ""
-"\n"
-"Atenció: s'ha compilat sense MPFR (algunes operacions poden trigar molt), "
-"veieu www.mpfr.org"
+#: ../src/genius.c:156
+msgid "Cannot locate the manual"
+msgstr "No es pot localitzar el manual"
 
-#: src/genius.c:259
+#: ../src/genius.c:221
 #, c-format
+msgid "Suggested: %s\n"
+msgstr ""
+
+#: ../src/genius.c:267
+#, fuzzy, c-format
+msgid "Out of range!\n"
+msgstr "%s: valor fora de rang"
+
+#: ../src/genius.c:344 ../src/genius.lang.h:2 ../src/gnome-genius.c:830
+#: ../src/gnome-genius.c:875
+msgid "Genius"
+msgstr "Genius"
+
+#: ../src/genius.c:377 ../src/genius.c:386 ../src/genius.c:393
+#: ../src/genius.c:402
+#, fuzzy, c-format
+msgid "%s should be between %d and %d, using %d"
+msgstr "%s: l'argument ha d'estar entre %d i %d"
+
+#: ../src/genius.c:421 ../src/genius.c:430
+#, fuzzy, c-format
+msgid "%s should be greater then or equal to %d, using %d"
+msgstr "%s: l'argument ha de ser més gran o igual que 0"
+
+#: ../src/genius.c:478
+#, fuzzy, c-format
+msgid ""
+"Genius %s\n"
+"%s%s\n"
+msgstr "Genius %s"
+
+#: ../src/genius.c:489
+#, fuzzy, c-format
 msgid ""
 "Genius %s usage:\n"
 "\n"
 "genius [options] [files]\n"
 "\n"
-"\t--precision=num   \tFloating point precision [256]\n"
+"\t--help            \tPrint this help\n"
+"\t--version         \tPrint version number\n"
+"\t--precision=num   \tFloating point precision [128]\n"
 "\t--maxdigits=num   \tMaximum digits to display (0=no limit) [0]\n"
 "\t--[no]floatresult \tAll results as floats [OFF]\n"
 "\t--[no]scinot      \tResults in scientific notation [OFF]\n"
@@ -1441,10 +3213,15 @@ msgid ""
 "\t--maxerrors=num   \tMaximum errors to display (0=no limit) [5]\n"
 "\t--[no]mixed       \tPrint fractions in mixed format\n"
 "\t--intoutbase=num  \tBase to use to print out integers [10]\n"
+"\t--chop=num        \tChop small numbers less than 10^-num [20]\n"
+"\t--chopwhen=num    \tBut only when other numbers 10^-num or more [5]\n"
 "\t--[no]readline    \tUse readline if it is available [ON]\n"
 "\t--[no]compile     \tCompile everything and dump it to stdout [OFF]\n"
+"\t--[no]gettext     \tDump help/error strings in fake .c file to\n"
+"\t                  \tstdout (for use with gettext) [OFF]\n"
 "\t--[no]quiet       \tBe quiet during non-interactive mode,\n"
 "\t                  \t(always on when compiling) [OFF]\n"
+"\t--exec=expr       \tExecute an expression\n"
 "\n"
 msgstr ""
 "Ús del Genius %s:\n"
@@ -1470,7 +3247,13 @@ msgstr ""
 "\t                  \t(activat sempre que s'està compilant) [INACTIU]\n"
 "\n"
 
-#: src/genius.c:300
+#: ../src/genius.c:519
+#, c-format
+msgid ""
+"Can't specify both an expression and files to execute on the command line"
+msgstr ""
+
+#: ../src/genius.c:530
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -1487,7 +3270,7 @@ msgstr ""
 "Per obtenir ajut escriviu 'manual' o 'help'.%s\n"
 "\n"
 
-#: src/genius.c:355 src/gnome-genius.c:2772
+#: ../src/genius.c:603 ../src/gnome-genius.c:5150
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -1495,193 +3278,484 @@ msgstr ""
 "L´única cosa que em va destorbar mentres aprenia era la meva educació. -- "
 "Albert Einstein"
 
-#: src/genius.c:376 src/genius.c:436
+#: ../src/genius.c:624 ../src/genius.c:695
 msgid "Can't open file"
 msgstr "No es pot obrir el fitxer"
 
-#: src/genius.lang.h:1
-msgid "Base-N Integers"
-msgstr "Nombres enters en base n"
-
-#: src/genius.lang.h:2
-msgid "Commands"
-msgstr "Ordres"
-
-#: src/genius.lang.h:3
-msgid "Decimal Integers"
-msgstr "Enters decimals"
-
-#: src/genius.lang.h:4
-msgid "Floats"
-msgstr "Coma flotant"
-
-#: src/genius.lang.h:5
-msgid "Genius"
-msgstr "Genius"
-
-#: src/genius.lang.h:6
-msgid "Keywords"
-msgstr "Paraules reservades"
-
-#: src/genius.lang.h:7
-msgid "Line Comment"
-msgstr "Comentari de línia"
-
-#: src/genius.lang.h:8
+#: ../src/genius.lang.h:1
 msgid "Scripts"
 msgstr "Fitxers de seqüència d'ordres"
 
-#: src/genius.lang.h:9
+#: ../src/genius.lang.h:3
 msgid "String"
 msgstr "Cadena de text"
 
-#: src/gnome-genius.c:161
-msgid "_New Program"
-msgstr "_Nou programa"
+#: ../src/genius.lang.h:4
+msgid "Line Comment"
+msgstr "Comentari de línia"
 
-#: src/gnome-genius.c:161
-msgid "Create new program tab"
-msgstr "Crea una nova pestanya de programa"
+#: ../src/genius.lang.h:5
+msgid "Base-N Integers"
+msgstr "Nombres enters en base n"
 
-#: src/gnome-genius.c:168
-msgid "_Reload from Disk"
-msgstr "To_rna a carregar del disc"
+#: ../src/genius.lang.h:6
+msgid "Decimal Integers"
+msgstr "Enters decimals"
 
-#: src/gnome-genius.c:168
-msgid "Reload the selected program from disk"
-msgstr "Torna a carregar el programa seleccionat del disc"
+#: ../src/genius.lang.h:7
+msgid "Floats"
+msgstr "Coma flotant"
 
-#: src/gnome-genius.c:172
-msgid "_Load and Run..."
-msgstr "_Carrega i executa..."
+#: ../src/genius.lang.h:8
+msgid "Commands"
+msgstr "Ordres"
 
-#: src/gnome-genius.c:172
-msgid "Load and execute a file in genius"
-msgstr "Carrega i executa un fitxer en el genius"
+#: ../src/genius.lang.h:9
+msgid "Keywords"
+msgstr "Paraules reservades"
 
-#: src/gnome-genius.c:185
-msgid "Copy Answer As Plain _Text"
-msgstr "Copia la respos_ta com a un text normal"
+#: ../src/gnome-genius.c:256
+msgid "_File"
+msgstr "_Fitxer"
 
-#: src/gnome-genius.c:186
-msgid "Copy last answer into the clipboard in plain text"
-msgstr "Copia la resposta anterior al porta-retalls com a un text normal"
+#. name, stock id, label
+#: ../src/gnome-genius.c:257
+msgid "_Edit"
+msgstr "_Edita"
 
-#: src/gnome-genius.c:189
-msgid "Copy Answer As _LaTeX"
-msgstr "Copia _la resposta com a LaTeX"
-
-#: src/gnome-genius.c:190
-msgid "Copy last answer into the clipboard as LaTeX"
-msgstr "Copia la resposta anterior al porta-retalls com a LaTeX"
-
-#: src/gnome-genius.c:193
-msgid "Copy Answer As _MathML"
-msgstr "Copia la resposta co_m a MathML"
-
-#: src/gnome-genius.c:194
-msgid "Copy last answer into the clipboard as MathML"
-msgstr "Copia la resposta anterior al porta-retalls com a MathML"
-
-#: src/gnome-genius.c:197
-msgid "Copy Answer As T_roff"
-msgstr "Copia la _resposta com a Troff"
-
-#: src/gnome-genius.c:198
-msgid "Copy last answer into the clipboard as Troff eqn"
-msgstr "Copia la resposta anterior al porta-retalls com a Troff"
-
-#: src/gnome-genius.c:211
-msgid "_Run"
-msgstr "E_xecuta"
-
-#: src/gnome-genius.c:211 src/gnome-genius.c:258
-msgid "Run current program"
-msgstr "Executa el programa actual"
-
-#: src/gnome-genius.c:212
-msgid "_Interrupt"
-msgstr "_Interromp"
-
-#: src/gnome-genius.c:212 src/gnome-genius.c:256
-msgid "Interrupt current calculation"
-msgstr "Interromp el càlcul en curs"
-
-#: src/gnome-genius.c:214 src/graphing.c:1336
-msgid "_Plot"
-msgstr "_Dibuix"
-
-#: src/gnome-genius.c:214 src/gnome-genius.c:260
-msgid "Plot a function"
-msgstr "Dibuixa una funció"
-
-#. FIXME: no help
-#. * GNOMEUIINFO_HELP("genius"),
-#: src/gnome-genius.c:221
-msgid "_Manual"
-msgstr "_Manual"
-
-#: src/gnome-genius.c:222
-msgid "Display the manual"
-msgstr "Mostra el manual"
-
-#: src/gnome-genius.c:225
-msgid "_Warranty"
-msgstr "_Garantia"
-
-#: src/gnome-genius.c:226
-msgid "Display warranty information"
-msgstr "Mostra la informació quant a la garantia"
-
-#: src/gnome-genius.c:244
+#. name, stock id, label
+#: ../src/gnome-genius.c:258
 msgid "_Calculator"
 msgstr "_Calculadora"
 
-#: src/gnome-genius.c:246
+#. name, stock id, label
+#: ../src/gnome-genius.c:259
 msgid "P_lugins"
 msgstr "Connecto_rs"
 
-#: src/gnome-genius.c:248
+#. name, stock id, label
+#: ../src/gnome-genius.c:260
 msgid "_Programs"
 msgstr "_Programes"
 
-#: src/gnome-genius.c:256
-msgid "Interrupt"
-msgstr "Interromp"
+#. name, stock id, label
+#: ../src/gnome-genius.c:261
+msgid "_Settings"
+msgstr "_Paràmetres"
 
-#: src/gnome-genius.c:258
-msgid "Run"
-msgstr "Executa"
+#. name, stock id, label
+#: ../src/gnome-genius.c:262
+msgid "_Help"
+msgstr "A_juda"
 
-#: src/gnome-genius.c:259
+#. name, stock id, label
+#. name, stock id
+#: ../src/gnome-genius.c:264
+msgid "_New Program"
+msgstr "_Nou programa"
+
+#. label, accelerator
+#: ../src/gnome-genius.c:265 ../src/gnome-genius.c:269
+msgid "Create new program tab"
+msgstr "Crea una nova pestanya de programa"
+
+#: ../src/gnome-genius.c:268
+msgid "New"
+msgstr "Nou"
+
+#. name, stock id
+#: ../src/gnome-genius.c:272
+#, fuzzy
+msgid "_Open..."
+msgstr "Obre..."
+
+#. label, accelerator
+#: ../src/gnome-genius.c:273 ../src/gnome-genius.c:277
+#, fuzzy
+msgid "Open a file"
+msgstr "No es pot obrir el fitxer"
+
+#: ../src/gnome-genius.c:276
 msgid "Open"
 msgstr "Obre"
 
-#: src/gnome-genius.c:259
-msgid "Open a GEL file for running"
-msgstr "Obre un fitxer GEL per ser executat"
+#: ../src/gnome-genius.c:279
+msgid "Open R_ecent"
+msgstr ""
 
-#: src/gnome-genius.c:260
-msgid "Plot"
-msgstr "Dibuixa"
+#. name, stock id, label
+#. name, stock id
+#: ../src/gnome-genius.c:281
+msgid "_Save"
+msgstr "_Desa"
 
-#: src/gnome-genius.c:261
-msgid "Exit"
+#. label, accelerator
+#: ../src/gnome-genius.c:282
+#, fuzzy
+msgid "Save current file"
+msgstr "Canvia el directori actual"
+
+#: ../src/gnome-genius.c:285
+msgid "Save All _Unsaved"
+msgstr ""
+
+#: ../src/gnome-genius.c:286
+msgid "Save all unsaved programs"
+msgstr ""
+
+#: ../src/gnome-genius.c:289
+#, fuzzy
+msgid "Save _As..."
+msgstr "Anomena i desa..."
+
+#: ../src/gnome-genius.c:290
+msgid "Save to a file"
+msgstr ""
+
+#: ../src/gnome-genius.c:293
+msgid "_Reload from Disk"
+msgstr "To_rna a carregar del disc"
+
+#: ../src/gnome-genius.c:294
+msgid "Reload the selected program from disk"
+msgstr "Torna a carregar el programa seleccionat del disc"
+
+#: ../src/gnome-genius.c:297
+msgid "_Close"
+msgstr "_Tanca"
+
+#: ../src/gnome-genius.c:298
+msgid "Close the current file"
+msgstr "Tanca el fitxer actual"
+
+#: ../src/gnome-genius.c:301
+msgid "_Load and Run..."
+msgstr "_Carrega i executa..."
+
+#: ../src/gnome-genius.c:302
+msgid "Load and execute a file in genius"
+msgstr "Carrega i executa un fitxer en el genius"
+
+#: ../src/gnome-genius.c:305
+msgid "Save Console Ou_tput..."
+msgstr ""
+
+#: ../src/gnome-genius.c:306
+msgid ""
+"Save what is visible on the console (including scrollback) to a text file"
+msgstr ""
+
+#: ../src/gnome-genius.c:309
+msgid "_Quit"
+msgstr "_Surt"
+
+#: ../src/gnome-genius.c:310
+msgid "Quit"
 msgstr "Surt"
 
-#: src/gnome-genius.c:261
-msgid "Exit genius"
-msgstr "Surt del genius"
+#: ../src/gnome-genius.c:314
+msgid "_Undo"
+msgstr "_Desfés"
 
-#: src/gnome-genius.c:305
+#: ../src/gnome-genius.c:315
+msgid "Undo the last action"
+msgstr "Desfés l'última acció"
+
+#: ../src/gnome-genius.c:318
+msgid "_Redo"
+msgstr "_Refés"
+
+#: ../src/gnome-genius.c:319
+msgid "Redo the undone action"
+msgstr "Torna a fer l'acció prèviament desfeta"
+
+#: ../src/gnome-genius.c:323
+msgid "Cu_t"
+msgstr "Re_talla"
+
+#: ../src/gnome-genius.c:324
+#, fuzzy
+msgid "Cut the selection"
+msgstr "Calcula la funció sinus"
+
+#: ../src/gnome-genius.c:327
+msgid "_Copy"
+msgstr "_Copia"
+
+#: ../src/gnome-genius.c:328
+msgid "Copy the selection"
+msgstr "Copia la selecció"
+
+#: ../src/gnome-genius.c:331
+msgid "_Paste"
+msgstr "_Enganxa"
+
+#: ../src/gnome-genius.c:332
+msgid "Paste the clipboard"
+msgstr "Enganxa el porta-retalls"
+
+#: ../src/gnome-genius.c:335
+#, fuzzy
+msgid "Copy Answer As Plain Te_xt"
+msgstr "Copia la respos_ta com a un text normal"
+
+#: ../src/gnome-genius.c:336
+msgid "Copy last answer into the clipboard in plain text"
+msgstr "Copia la resposta anterior al porta-retalls com a un text normal"
+
+#: ../src/gnome-genius.c:339
+msgid "Copy Answer As _LaTeX"
+msgstr "Copia _la resposta com a LaTeX"
+
+#: ../src/gnome-genius.c:340
+msgid "Copy last answer into the clipboard as LaTeX"
+msgstr "Copia la resposta anterior al porta-retalls com a LaTeX"
+
+#: ../src/gnome-genius.c:343
+msgid "Copy Answer As _MathML"
+msgstr "Copia la resposta co_m a MathML"
+
+#: ../src/gnome-genius.c:344
+msgid "Copy last answer into the clipboard as MathML"
+msgstr "Copia la resposta anterior al porta-retalls com a MathML"
+
+#: ../src/gnome-genius.c:347
+msgid "Copy Answer As T_roff"
+msgstr "Copia la _resposta com a Troff"
+
+#: ../src/gnome-genius.c:348
+msgid "Copy last answer into the clipboard as Troff eqn"
+msgstr "Copia la resposta anterior al porta-retalls com a Troff"
+
+#: ../src/gnome-genius.c:351
+msgid "_Run"
+msgstr "E_xecuta"
+
+#: ../src/gnome-genius.c:352
+msgid "Run current program"
+msgstr "Executa el programa actual"
+
+#: ../src/gnome-genius.c:355
+msgid "_Interrupt"
+msgstr "_Interromp"
+
+#: ../src/gnome-genius.c:356
+msgid "Interrupt current calculation"
+msgstr "Interromp el càlcul en curs"
+
+#: ../src/gnome-genius.c:359
+msgid "Show _Full Answer"
+msgstr ""
+
+#: ../src/gnome-genius.c:360
+msgid "Show the full text of last answer"
+msgstr ""
+
+#: ../src/gnome-genius.c:363
+msgid "Show User _Variables"
+msgstr ""
+
+#: ../src/gnome-genius.c:364
+msgid "Show the current value of all user variables"
+msgstr ""
+
+#: ../src/gnome-genius.c:367
+msgid "_Monitor a Variable"
+msgstr ""
+
+#: ../src/gnome-genius.c:368
+msgid "Monitor a variable continuously"
+msgstr ""
+
+#: ../src/gnome-genius.c:371
+#, fuzzy
+msgid "_Plot..."
+msgstr "_Dibuix"
+
+#: ../src/gnome-genius.c:372 ../src/gnome-genius.c:376
+msgid "Plot functions, vector fields, surfaces, etc..."
+msgstr ""
+
+#: ../src/gnome-genius.c:375 ../src/gnome-genius.c:570 ../src/graphing.c:6252
+msgid "_Plot"
+msgstr "_Dibuix"
+
+#: ../src/gnome-genius.c:379
+msgid "_Next Tab"
+msgstr "Pestanya _següent"
+
+#: ../src/gnome-genius.c:380
+msgid "Go to next tab"
+msgstr ""
+
+#: ../src/gnome-genius.c:383
+msgid "_Previous Tab"
+msgstr "Pestanya _anterior"
+
+#: ../src/gnome-genius.c:384
+msgid "Go to previous tab"
+msgstr ""
+
+#: ../src/gnome-genius.c:387
+#, fuzzy
+msgid "_Console"
+msgstr "Consola"
+
+#: ../src/gnome-genius.c:388
+msgid "Go to the console tab"
+msgstr ""
+
+#: ../src/gnome-genius.c:391
+msgid "_Preferences"
+msgstr "_Preferències"
+
+#: ../src/gnome-genius.c:392
+#, fuzzy
+msgid "Configure Genius"
+msgstr "Quant al Genius"
+
+#: ../src/gnome-genius.c:395
+msgid "_Contents"
+msgstr "_Contingut"
+
+#: ../src/gnome-genius.c:396
+#, fuzzy
+msgid "View the Genius manual"
+msgstr "Mostra el manual d'usuari"
+
+#: ../src/gnome-genius.c:399
+#, fuzzy
+msgid "_Help on Function"
+msgstr "  help NomFunció\n"
+
+#: ../src/gnome-genius.c:400
+#, fuzzy
+msgid "Help on a function or a command"
+msgstr "Escriu ajuda (o ajuda relacionada amb les funcions/ordres)"
+
+#: ../src/gnome-genius.c:403
+msgid "_Warranty"
+msgstr "_Garantia"
+
+#: ../src/gnome-genius.c:404
+msgid "Display warranty information"
+msgstr "Mostra la informació quant a la garantia"
+
+#: ../src/gnome-genius.c:407
+msgid "_About"
+msgstr "_Quant a"
+
+#: ../src/gnome-genius.c:408
+msgid "About Genius"
+msgstr "Quant al Genius"
+
+#: ../src/gnome-genius.c:934
+#, fuzzy
+msgid "Help on Function"
+msgstr "  help NomFunció\n"
+
+#: ../src/gnome-genius.c:952
+msgid "Function or command name:"
+msgstr ""
+
+#: ../src/gnome-genius.c:985
+#, c-format
+msgid "<b>Help on %s not found</b>"
+msgstr ""
+
+#: ../src/gnome-genius.c:989
+#, c-format
+msgid ""
+"<b>Help on %s not found</b>\n"
+"\n"
+"Perhaps you meant %s."
+msgstr ""
+
+#: ../src/gnome-genius.c:1044
 msgid "Error"
 msgstr "S'ha produït un error"
 
-#: src/gnome-genius.c:305
+#: ../src/gnome-genius.c:1046
 msgid "Information"
 msgstr "Informació"
 
-#: src/gnome-genius.c:360
+#: ../src/gnome-genius.c:1132
+#, fuzzy
+msgid ""
+"Global variables:\n"
+"\n"
+msgstr "Defineix una variable global"
+
+#: ../src/gnome-genius.c:1165
+#, fuzzy
+msgid ""
+"\n"
+"Function call stack:\n"
+msgstr "Dibuix de funció lineal"
+
+#: ../src/gnome-genius.c:1167 ../src/gnome-genius.c:1226
+msgid ""
+"(depth of context in parentheses)\n"
+"\n"
+msgstr ""
+
+#: ../src/gnome-genius.c:1224
+#, fuzzy
+msgid ""
+"\n"
+"Local variables:\n"
+msgstr "Defineix una variable global"
+
+#: ../src/gnome-genius.c:1278
+msgid "User Variable Listing"
+msgstr ""
+
+#: ../src/gnome-genius.c:1386
+#, fuzzy, c-format
+msgid "%s undefined"
+msgstr "%s: funció no definida"
+
+#. printed before a global variable
+#: ../src/gnome-genius.c:1421
+msgid "(global) "
+msgstr ""
+
+#. printed before local variable in certain
+#. * context
+#: ../src/gnome-genius.c:1425
+#, c-format
+msgid "(context %d) "
+msgstr ""
+
+#: ../src/gnome-genius.c:1447
+#, fuzzy, c-format
+msgid "%s not a user variable"
+msgstr "Defineix una variable global"
+
+#: ../src/gnome-genius.c:1481
+#, c-format
+msgid "Monitoring: %s"
+msgstr ""
+
+#: ../src/gnome-genius.c:1529
+msgid "Update continuously"
+msgstr ""
+
+#: ../src/gnome-genius.c:1560
+msgid "Monitor a Variable"
+msgstr ""
+
+#: ../src/gnome-genius.c:1577
+msgid "Variable name:"
+msgstr ""
+
+#. error
+#. always textbox
+#: ../src/gnome-genius.c:1633
+msgid "Full Answer"
+msgstr ""
+
+#: ../src/gnome-genius.c:1649
 #, c-format
 msgid ""
 "\n"
@@ -1690,32 +3764,52 @@ msgstr ""
 "\n"
 "Massa errors (en segueixen %d)"
 
-#: src/gnome-genius.c:370
+#: ../src/gnome-genius.c:1664
 #, c-format
 msgid "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
 msgstr "\\e[01;31mMassa errors (en segueixen %d)\\e[0m\n"
+
+#: ../src/gnome-genius.c:1803
+#, fuzzy, c-format
+msgid ""
+"<b>Cannot display help</b>\n"
+"\n"
+"%s"
+msgstr ""
+"<b>No es pot desar el fitxer</b>\n"
+"Detalls: %s"
+
+#: ../src/gnome-genius.c:1879
+msgid "Nils Barth (initial implementation of parts of the GEL library)"
+msgstr ""
+
+#: ../src/gnome-genius.c:1880
+msgid "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"
+msgstr ""
 
 #. Translators should localize the following string
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: src/gnome-genius.c:493
-msgid "translator_credits-PLEASE_ADD_YOURSELF_HERE"
-msgstr "Xavier A. Conde Rueda <xaviconde@eresmas.com>"
+#: ../src/gnome-genius.c:1894
+msgid "translator-credits"
+msgstr ""
+"Jordi Mas i Hernàndez <jmas@softcatala.org>\n"
+"Gil Forcada <gilforcada@guifi.net>"
 
-#: src/gnome-genius.c:496
-msgid "About Genius"
-msgstr "Quant al Genius"
+#: ../src/gnome-genius.c:1942
+#, fuzzy
+msgid "Genius Mathematical Tool"
+msgstr "Eina matemàtica Genius"
 
-#: src/gnome-genius.c:499
-msgid ""
-"The Gnome calculator style edition of the genius calculator.  For license/"
-"warranty details, type 'warranty' into the console."
+#: ../src/gnome-genius.c:1946
+#, fuzzy
+msgid "The Gnome calculator style edition of the Genius Mathematical Tool."
 msgstr ""
 "L'edició amb estil calculadora del Gnome de la calculadora Genius. Per més "
 "detalls quant a la garantia, escriviu 'warranty' a la cònsola."
 
-#: src/gnome-genius.c:661
+#: ../src/gnome-genius.c:2136
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -1724,68 +3818,84 @@ msgstr ""
 "desar.\n"
 "Segur que voleu sortir?"
 
-#: src/gnome-genius.c:669
+#: ../src/gnome-genius.c:2144
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr "Hi ha programes sense desar, esteu segurs que voleu sortir?"
 
-#: src/gnome-genius.c:676
+#: ../src/gnome-genius.c:2151
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr ""
 "El Genius encara està executant alguna cosa, esteu segurs que voleu sortir?"
 
-#: src/gnome-genius.c:683
+#: ../src/gnome-genius.c:2158
 msgid "Are you sure you wish to quit?"
 msgstr "Esteu segur que desitgeu sortir?"
 
-#: src/gnome-genius.c:782
+#: ../src/gnome-genius.c:2272
 msgid "Genius Setup"
 msgstr "Configuració del Genius"
 
-#: src/gnome-genius.c:799
+#: ../src/gnome-genius.c:2290
 msgid "Output"
 msgstr "Sortida"
 
-#: src/gnome-genius.c:802
+#: ../src/gnome-genius.c:2293
 msgid "Number/Expression output options"
 msgstr "Opcions de sortida de nombres/expressió"
 
-#: src/gnome-genius.c:812
+#: ../src/gnome-genius.c:2303
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Nombre màxim de dígits a la sortida (0=cap límit)"
 
-#: src/gnome-genius.c:832
+#: ../src/gnome-genius.c:2323
 msgid "Results as floats"
 msgstr "Resultat com a coma flotant"
 
-#: src/gnome-genius.c:840
+#: ../src/gnome-genius.c:2331
 msgid "Floats in scientific notation"
 msgstr "Coma flotant en notació científica"
 
-#: src/gnome-genius.c:848
+#: ../src/gnome-genius.c:2339
 msgid "Always print full expressions"
 msgstr "Sempre escriu les expressions completes"
 
-#: src/gnome-genius.c:857
+#: ../src/gnome-genius.c:2347
+#, fuzzy
+msgid "Use mixed fractions"
+msgstr "Si és cert, s'escriuen fraccions mesclades"
+
+#: ../src/gnome-genius.c:2400
+msgid "Remember output settings across sessions"
+msgstr ""
+
+#: ../src/gnome-genius.c:2410
+msgid ""
+"Should the output settings in the \"Number/Expression output options\" frame "
+"be remembered for next session.  Does not apply to the \"Error/Info output "
+"options\" frame."
+msgstr ""
+
+#: ../src/gnome-genius.c:2415
 msgid "Error/Info output options"
 msgstr "Opcions de sortida d'error o informació"
 
-#: src/gnome-genius.c:865
+#: ../src/gnome-genius.c:2423
 msgid "Display errors in a dialog"
 msgstr "Mostra els errors en un diàleg"
 
-#: src/gnome-genius.c:873
+#: ../src/gnome-genius.c:2431
 msgid "Display information messages in a dialog"
 msgstr "Mostra missatges d'informació en un diàleg"
 
-#: src/gnome-genius.c:884
+#: ../src/gnome-genius.c:2442
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Nombre màxim d'errors que es mostraran (0=cap límit)"
 
-#: src/gnome-genius.c:908
+#: ../src/gnome-genius.c:2466
 msgid "Precision"
 msgstr "Precissió"
 
-#: src/gnome-genius.c:918
+#: ../src/gnome-genius.c:2476
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -1795,27 +3905,63 @@ msgstr ""
 "immediatament per a tots els nombres, sino que només afectarà\n"
 "als nous nombres que siguin calculats i les noves variables."
 
-#: src/gnome-genius.c:927
+#: ../src/gnome-genius.c:2485
 msgid "Floating point precision (bits)"
 msgstr "Precissió en coma flotant (bits)"
 
-#: src/gnome-genius.c:951
+#: ../src/gnome-genius.c:2504
+msgid "Remember precision setting across sessions"
+msgstr ""
+
+#: ../src/gnome-genius.c:2513
+msgid "Should the precision setting be remembered for next session."
+msgstr ""
+
+#: ../src/gnome-genius.c:2521
 msgid "Terminal"
 msgstr "Terminal"
 
-#: src/gnome-genius.c:954
+#: ../src/gnome-genius.c:2523
 msgid "Terminal options"
 msgstr "Opcions de terminal"
 
-#: src/gnome-genius.c:963
+#: ../src/gnome-genius.c:2532
 msgid "Scrollback lines"
 msgstr "Desplaçament lateral de línies"
 
-#: src/gnome-genius.c:986
+#: ../src/gnome-genius.c:2555
 msgid "Font:"
 msgstr "Tipus de lletra:"
 
-#: src/gnome-genius.c:1022
+#: ../src/gnome-genius.c:2566
+msgid "Black on white"
+msgstr "Negre sobre blanc"
+
+#: ../src/gnome-genius.c:2574
+msgid "Blinking cursor"
+msgstr ""
+
+#: ../src/gnome-genius.c:2587
+msgid "Memory"
+msgstr "Memòria"
+
+#: ../src/gnome-genius.c:2590
+msgid "Limits"
+msgstr "Límits"
+
+#: ../src/gnome-genius.c:2597
+msgid ""
+"When the limit is reached you will be asked if\n"
+"you wish to interrupt the calculation or continue.\n"
+"Setting to 0 disables the limit."
+msgstr ""
+
+#: ../src/gnome-genius.c:2606
+#, fuzzy
+msgid "Maximum number of nodes to allocate"
+msgstr "Nombre màxim d'errors que es mostraran"
+
+#: ../src/gnome-genius.c:2646
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -1825,57 +3971,72 @@ msgstr ""
 "\n"
 "Per favor proveu de nou desprès, o interrompeu la operació en curs."
 
-#: src/gnome-genius.c:1087
+#: ../src/gnome-genius.c:2674
 msgid "GEL files"
 msgstr "Fitxers del GEL"
 
-#: src/gnome-genius.c:1092
+#: ../src/gnome-genius.c:2679 ../src/graphing.c:1130
 msgid "All files"
 msgstr "Tots els fitxers"
 
-#: src/gnome-genius.c:1126 src/gnome-genius.c:1681
+#: ../src/gnome-genius.c:2703 ../src/gnome-genius.c:3600
 msgid "Cannot open file!"
 msgstr "No es pot obrir el fitxer"
 
-#: src/gnome-genius.c:1155 src/gnome-genius.c:1173
+#: ../src/gnome-genius.c:2713 ../src/gnome-genius.c:4086
+#, fuzzy
+msgid "Output from "
+msgstr "Sortida"
+
+#: ../src/gnome-genius.c:2729 ../src/gnome-genius.c:4157
+msgid "End"
+msgstr "Fi"
+
+#: ../src/gnome-genius.c:2748
 msgid "Load and Run"
 msgstr "Carrega i executa"
 
-#: src/gnome-genius.c:1159
+#: ../src/gnome-genius.c:2752
 msgid "_Load"
 msgstr "_Carrega"
 
-#: src/gnome-genius.c:1513
+#: ../src/gnome-genius.c:3270
 msgid "Cannot open file"
 msgstr "No es pot obrir el fitxer"
 
-#: src/gnome-genius.c:1545 src/gnome-genius.c:2489
+#. context
+#: ../src/gnome-genius.c:3305 ../src/gnome-genius.c:4757
 #, c-format
 msgid "Line: %d"
 msgstr "Línia: %d"
 
-#. the file name will have an underscore
-#: src/gnome-genius.c:1616
+#: ../src/gnome-genius.c:3494
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Programa_%d.gel"
 
-#: src/gnome-genius.c:1617
+#: ../src/gnome-genius.c:3505
 #, c-format
 msgid "Program %d"
 msgstr "Programa %d"
 
-#: src/gnome-genius.c:1633
+#: ../src/gnome-genius.c:3534
 #, c-format
 msgid "Cannot open %s"
 msgstr "No es pot obrir %s"
 
-#: src/gnome-genius.c:1708 src/gnome-genius.c:1726
+#: ../src/gnome-genius.c:3622
 msgid "Open..."
 msgstr "Obre..."
 
+#: ../src/gnome-genius.c:3705
+#, fuzzy
+msgid "Program is read only"
+msgstr "Programa %d"
+
 #. new fname
-#: src/gnome-genius.c:1816 src/gnome-genius.c:1871
+#: ../src/gnome-genius.c:3707 ../src/gnome-genius.c:3739
+#: ../src/gnome-genius.c:3791 ../src/gnome-genius.c:3920
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -1884,15 +4045,32 @@ msgstr ""
 "<b>No es pot desar el fitxer</b>\n"
 "Detalls: %s"
 
-#: src/gnome-genius.c:1865
-msgid "File already exists.  Overwrite it?"
-msgstr "El fitxer existeix. Desitgeu sobreescriure'l?"
+#: ../src/gnome-genius.c:3749
+msgid "Save new programs by \"Save As..\" first!"
+msgstr ""
 
-#: src/gnome-genius.c:1922 src/gnome-genius.c:1943
+#: ../src/gnome-genius.c:3755
+msgid ""
+"Some read-only programs are modified.  Use \"Save As..\" to save them to a "
+"new location."
+msgstr ""
+
+#: ../src/gnome-genius.c:3827
 msgid "Save As..."
 msgstr "Anomena i desa..."
 
-#: src/gnome-genius.c:2017
+#: ../src/gnome-genius.c:3954
+msgid "Save Console Output..."
+msgstr ""
+
+#: ../src/gnome-genius.c:4024
+#, fuzzy
+msgid ""
+"The program you are closing is unsaved, are you sure you wish to close it "
+"without saving?"
+msgstr "Hi ha programes sense desar, esteu segurs que voleu sortir?"
+
+#: ../src/gnome-genius.c:4043
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -1902,16 +4080,49 @@ msgstr ""
 "\n"
 "Creeu un nou programa, o seleccioneu-ne un de les pestanyes de la llibreta."
 
-#: src/gnome-genius.c:2114
+#: ../src/gnome-genius.c:4073
+#, fuzzy, c-format
+msgid "Cannot open pipe: %s"
+msgstr "No es pot obrir %s"
+
+#: ../src/gnome-genius.c:4102
+msgid ""
+"<b>Cannot execute program</b>\n"
+"\n"
+"Cannot fork."
+msgstr ""
+
+#: ../src/gnome-genius.c:4174
+msgid ""
+"<b>Error executing program</b>\n"
+"\n"
+"There was an error while writing the\n"
+"program to the engine."
+msgstr ""
+
+#: ../src/gnome-genius.c:4199
 #, c-format
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: src/gnome-genius.c:2296
+#: ../src/gnome-genius.c:4425
+msgid "Memory (node number) limit has been reached, interrupt the computation?"
+msgstr ""
+
+#. error
+#. always textbox
+#. textbox_title
+#. bind_response
+#. wrap
+#: ../src/gnome-genius.c:4505
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "No es pot executar genius-readline-helper-fifo\n"
 
-#: src/gnome-genius.c:2508
+#: ../src/gnome-genius.c:4572
+msgid "Readline helper died, weird.  Trying to recover, things may be odd."
+msgstr ""
+
+#: ../src/gnome-genius.c:4778
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -1920,11 +4131,21 @@ msgstr ""
 "Atenció: s'ha compilat sense GtkSourceView (un editor de codi font molt "
 "millor)"
 
-#: src/gnome-genius.c:2673
+#: ../src/gnome-genius.c:4870
+#, fuzzy
+msgid "GNOME Genius"
+msgstr "Genius"
+
+#. parent
+#: ../src/gnome-genius.c:4920
+msgid "Cannot find the library file, genius installation may be incorrect"
+msgstr ""
+
+#: ../src/gnome-genius.c:5000
 msgid "Console"
 msgstr "Consola"
 
-#: src/gnome-genius.c:2705
+#: ../src/gnome-genius.c:5084
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -1941,333 +4162,1149 @@ msgstr ""
 "Per obtenir ajut escriviu '%smanual%s' o '%shelp%s'.%s\n"
 "\n"
 
-#: src/gnome-genius.desktop.in.h:1
+#: ../src/gnome-genius.desktop.in.h:1
 msgid "Genius Math Tool"
 msgstr "Eina matemàtica Genius"
 
-#: src/gnome-genius.desktop.in.h:2
+#: ../src/gnome-genius.desktop.in.h:2
 msgid "Genius Mathematical Tool and Calculator"
 msgstr "Calculadora i eina matemàtica Genius"
 
-#: src/graphing.c:308
-msgid "Genius Line Plot"
-msgstr "Dibuix de línies Genius"
+#: ../src/graphing.c:591
+msgid "Rotate"
+msgstr "Gira"
 
-#. title
-#. parent
-#. flags
-#: src/graphing.c:311
-msgid "_Zoom out"
+#: ../src/graphing.c:610 ../src/graphing.c:639
+#, c-format
+msgid "Rotate about %s axis: "
+msgstr ""
+
+#: ../src/graphing.c:668
+msgid "Rotate about dependent axis: "
+msgstr ""
+
+#: ../src/graphing.c:776
+msgid "Print"
+msgstr "Impressió"
+
+#: ../src/graphing.c:793
+msgid "Print command: "
+msgstr ""
+
+#: ../src/graphing.c:820
+msgid "Cannot open temporary file, cannot print."
+msgstr ""
+
+#: ../src/graphing.c:847
+msgid "Printing failed"
+msgstr ""
+
+#: ../src/graphing.c:859
+#, c-format
+msgid "Printing failed: %s"
+msgstr ""
+
+#: ../src/graphing.c:927 ../src/graphing.c:1033
+msgid "File already exists.  Overwrite it?"
+msgstr "El fitxer existeix. Desitgeu sobreescriure'l?"
+
+#: ../src/graphing.c:996 ../src/graphing.c:1048 ../src/graphing.c:1065
+msgid "Export failed"
+msgstr "Ha fallat l'exportació"
+
+#: ../src/graphing.c:1096
+msgid "Export encapsulated postscript"
+msgstr ""
+
+#: ../src/graphing.c:1098
+msgid "Export postscript"
+msgstr ""
+
+#: ../src/graphing.c:1100
+msgid "Export PNG"
+msgstr ""
+
+#: ../src/graphing.c:1116
+#, fuzzy
+msgid "EPS files"
+msgstr "Fitxers del GEL"
+
+#: ../src/graphing.c:1120
+#, fuzzy
+msgid "PS files"
+msgstr "Fitxers del GEL"
+
+#: ../src/graphing.c:1124
+#, fuzzy
+msgid "PNG files"
+msgstr "Fitxers del GEL"
+
+#: ../src/graphing.c:1139
+msgid "Generate preview in EPS file (with ps2epsi)"
+msgstr ""
+
+#: ../src/graphing.c:1774
+msgid "Solver"
+msgstr "Resoledor"
+
+#: ../src/graphing.c:1779
+msgid "Clea_r solutions"
+msgstr ""
+
+#: ../src/graphing.c:1781
+#, fuzzy
+msgid "_Plot solution"
+msgstr "Dibuixa una funció"
+
+#: ../src/graphing.c:1802
+msgid ""
+"Clicking on the graph window now will draw a solution according to the "
+"parameters set below, starting at the point clicked.  To be able to zoom by "
+"mouse again, close this window."
+msgstr ""
+
+#: ../src/graphing.c:1824
+msgid "X increment:"
+msgstr ""
+
+#: ../src/graphing.c:1846
+msgid "T increment:"
+msgstr ""
+
+#: ../src/graphing.c:1850
+#, fuzzy
+msgid "T interval length:"
+msgstr "El logaritme natural"
+
+#: ../src/graphing.c:1864
+msgid "Point x:"
+msgstr ""
+
+#: ../src/graphing.c:1869
+msgid "y:"
+msgstr ""
+
+#: ../src/graphing.c:1936
+msgid "Plot"
+msgstr "Dibuixa"
+
+#: ../src/graphing.c:1971
+msgid "_Graph"
+msgstr ""
+
+#: ../src/graphing.c:1975
+msgid "_Print..."
+msgstr "_Imprimeix..."
+
+#: ../src/graphing.c:1981
+msgid "_Export postscript..."
+msgstr ""
+
+#: ../src/graphing.c:1987
+msgid "E_xport encapsulated postscript..."
+msgstr ""
+
+#: ../src/graphing.c:1993
+msgid "Export P_NG..."
+msgstr ""
+
+#: ../src/graphing.c:2005
+#, fuzzy
+msgid "_Zoom"
 msgstr "Reduei_x l'ampliació"
 
-#: src/graphing.c:313
-msgid "_Fit Y Axis"
+#: ../src/graphing.c:2009
+#, fuzzy
+msgid "Zoom _out"
+msgstr "Reduei_x l'ampliació"
+
+#: ../src/graphing.c:2016
+msgid "Zoom _in"
+msgstr "_Amplia"
+
+#: ../src/graphing.c:2023
+#, fuzzy
+msgid "_Fit dependent axis"
 msgstr "A_justa a l'eix Y"
 
-#: src/graphing.c:801
+#: ../src/graphing.c:2030
+msgid "_Reset to original zoom"
+msgstr ""
+
+#: ../src/graphing.c:2043
+msgid "_View"
+msgstr "_Visualitza"
+
+#: ../src/graphing.c:2048
+msgid "_Reset angles"
+msgstr ""
+
+#: ../src/graphing.c:2053
+msgid "_Top view"
+msgstr ""
+
+#: ../src/graphing.c:2058
+msgid "R_otate axis..."
+msgstr ""
+
+#: ../src/graphing.c:2068
+msgid "_Solver"
+msgstr ""
+
+#: ../src/graphing.c:2073
+msgid "_Solver..."
+msgstr "_Resoledor..."
+
+#: ../src/graphing.c:2078
+msgid "_Clear solutions"
+msgstr ""
+
+#: ../src/graphing.c:3038
+#, fuzzy, c-format
+msgid "Function"
+msgstr "Funcions"
+
+#: ../src/graphing.c:3040
 #, c-format
 msgid "Function #%d"
 msgstr "Funció nº %d"
 
-#: src/graphing.c:833
+#: ../src/graphing.c:3062
 msgid "Graph limits not given as a 4-vector"
 msgstr ""
 "Els límits de la gràfica no s'han donat com a vector de quatre elements"
 
-#: src/graphing.c:839 src/graphing.c:845 src/graphing.c:851 src/graphing.c:857
+#: ../src/graphing.c:3068 ../src/graphing.c:3079 ../src/graphing.c:3090
+#: ../src/graphing.c:3101 ../src/graphing.c:3207 ../src/graphing.c:3218
+#: ../src/graphing.c:3229 ../src/graphing.c:3240 ../src/graphing.c:3251
+#: ../src/graphing.c:3262
 msgid "Graph limits not given as numbers"
 msgstr "Els límits de la gràfica no s'han donat com a nombres"
 
-#: src/graphing.c:1002
-msgid "Function line plot"
-msgstr "Dibuix de funció lineal"
+#: ../src/graphing.c:3201
+#, fuzzy
+msgid "Graph limits not given as a 6-vector"
+msgstr ""
+"Els límits de la gràfica no s'han donat com a vector de quatre elements"
 
-#: src/graphing.c:1004
-msgid "Function/Expressions"
-msgstr "Funció/expressions"
+#: ../src/graphing.c:3335 ../src/graphing.c:3353 ../src/graphing.c:3367
+msgid "Ticks must be between 2 and 200"
+msgstr ""
 
-#: src/graphing.c:1009
+#: ../src/graphing.c:3344 ../src/graphing.c:3358
+#, fuzzy
+msgid "Ticks not given as numbers"
+msgstr "Els límits de la gràfica no s'han donat com a nombres"
+
+#: ../src/graphing.c:3372
+#, fuzzy
+msgid "Ticks not given as a number or a 2-vector"
+msgstr ""
+"Els límits de la gràfica no s'han donat com a vector de quatre elements"
+
+#: ../src/graphing.c:4500
+#, fuzzy, c-format
 msgid ""
-"Type in function names or expressions involving the x variable in the boxes "
+"Type in function name or expression involving the %s and %s variables (or "
+"the %s variable which will be %s=%s+i%s) that gives the slope at the point "
+"(%s,%s)."
+msgstr ""
+"Escriviu els noms de funcions o expressions en funció de la variable x en "
+"les caixes de sota per fer-ne una gràfica"
+
+#: ../src/graphing.c:4525 ../src/graphing.c:4532 ../src/graphing.c:4696
+#: ../src/graphing.c:4703
+#, fuzzy, c-format
+msgid "%s from:"
+msgstr "X des de:"
+
+#: ../src/graphing.c:4539 ../src/graphing.c:4546
+#, c-format
+msgid "%s increment:"
+msgstr ""
+
+#: ../src/graphing.c:4553
+#, c-format
+msgid "%s interval length:"
+msgstr ""
+
+#: ../src/graphing.c:4560
+#, c-format
+msgid "Point %s:"
+msgstr ""
+
+#: ../src/graphing.c:4573
+#, c-format
+msgid ""
+"Type in function names or expressions involving the %s and %s variables (or "
+"the %s variable which will be %s=%s+i%s) that give the d%s/d%s and d%s/d%s "
+"of the autonomous system to be plotted at the point (%s,%s)."
+msgstr ""
+
+#: ../src/graphing.c:4609
+#, fuzzy, c-format
+msgid ""
+"Type in function names or expressions involving the %s variable in the boxes "
 "below to graph them"
 msgstr ""
 "Escriviu els noms de funcions o expressions en funció de la variable x en "
 "les caixes de sota per fer-ne una gràfica"
 
-#: src/graphing.c:1027
-msgid "Plot Window"
-msgstr "Finestra de dibuix"
+#: ../src/graphing.c:4626
+#, c-format
+msgid ""
+"Type in function names or expressions involving the %s variable in the boxes "
+"below to graph them.  Either fill in both boxes with %s= and %s= in front of "
+"them giving the %s and %s coordinates separately, or alternatively fill in "
+"the %s= box giving %s and %s as the real and imaginary part of a complex "
+"number."
+msgstr ""
 
-#: src/graphing.c:1038
-msgid "X from:"
-msgstr "X des de:"
+#: ../src/graphing.c:4667
+#, fuzzy, c-format
+msgid "Parameter %s from:"
+msgstr "Paràmetres"
 
-#: src/graphing.c:1055 src/graphing.c:1094
+#: ../src/graphing.c:4681
+#, c-format
+msgid ""
+"Type a function name or an expression involving the %s and %s variables (or "
+"the %s variable which will be %s=%s+i%s) in the boxes below to graph them.  "
+"Functions with one argument only will be passed a complex number."
+msgstr ""
+
+#: ../src/graphing.c:4747 ../src/graphing.c:4866
+msgid "Change variable names"
+msgstr ""
+
+#: ../src/graphing.c:4763 ../src/graphing.c:4882
+msgid "Some values were illegal"
+msgstr ""
+
+#: ../src/graphing.c:4767 ../src/graphing.c:4886
+msgid "independent variable (x):"
+msgstr ""
+
+#: ../src/graphing.c:4777
+msgid "dependent variable (y):"
+msgstr ""
+
+#: ../src/graphing.c:4787
+msgid "complex variable (z = x+iy):"
+msgstr ""
+
+#: ../src/graphing.c:4797
+msgid "parameter variable (t):"
+msgstr ""
+
+#: ../src/graphing.c:4896
+msgid "independent variable (y):"
+msgstr ""
+
+#: ../src/graphing.c:4906
+msgid "independent complex variable (z = x+iy):"
+msgstr ""
+
+#: ../src/graphing.c:5015
+#, fuzzy
+msgid "_Functions / Expressions"
+msgstr "Funció/expressions"
+
+#: ../src/graphing.c:5047
+msgid "or"
+msgstr "o"
+
+#. t range
+#: ../src/graphing.c:5062
+#, fuzzy
+msgid "Parameter t from:"
+msgstr "Paràmetres"
+
+#: ../src/graphing.c:5066 ../src/graphing.c:5213 ../src/graphing.c:5225
+#: ../src/graphing.c:5319 ../src/graphing.c:5331 ../src/graphing.c:5342
 msgid "to:"
 msgstr "a:"
 
-#: src/graphing.c:1077
+#: ../src/graphing.c:5070
+msgid "by:"
+msgstr ""
+
+#: ../src/graphing.c:5077
+#, fuzzy
+msgid "Pa_rametric"
+msgstr "Paràmetres"
+
+#. # of ticks
+#: ../src/graphing.c:5104 ../src/graphing.c:5156
+msgid "Vertical ticks:"
+msgstr ""
+
+#. # of ticks
+#: ../src/graphing.c:5108 ../src/graphing.c:5160
+msgid "Horizontal ticks:"
+msgstr ""
+
+#: ../src/graphing.c:5113
+msgid "Sl_ope field"
+msgstr ""
+
+#. Normalize the arrow length?
+#: ../src/graphing.c:5147
+msgid "_Normalize arrow length (do not show size)"
+msgstr ""
+
+#: ../src/graphing.c:5165
+msgid "_Vector field"
+msgstr ""
+
+#. draw legend?
+#: ../src/graphing.c:5175 ../src/graphing.c:5288
+msgid "_Draw legend"
+msgstr ""
+
+#. draw axis labels?
+#: ../src/graphing.c:5184
+msgid "Draw axis labels"
+msgstr ""
+
+#. change varnames
+#: ../src/graphing.c:5193 ../src/graphing.c:5298
+msgid "Change variable names..."
+msgstr ""
+
+#. plot window
+#.
+#. * Plot window frame
+#.
+#: ../src/graphing.c:5201 ../src/graphing.c:5307
+msgid "Plot Window"
+msgstr "Finestra de dibuix"
+
+#.
+#. * X range
+#.
+#: ../src/graphing.c:5210 ../src/graphing.c:5316
+msgid "X from:"
+msgstr "X des de:"
+
+#.
+#. * Y range
+#.
+#: ../src/graphing.c:5222 ../src/graphing.c:5328
 msgid "Y from:"
 msgstr "Y des de:"
 
-#: src/graphing.c:1238
+#: ../src/graphing.c:5261
+#, fuzzy
+msgid "Function / Expression"
+msgstr "Funció/expressions"
+
+#.
+#. * Z range
+#.
+#: ../src/graphing.c:5340
+msgid "Dependent axis from:"
+msgstr ""
+
+#. fit dependent axis?
+#: ../src/graphing.c:5350
+msgid "Fit dependent axis"
+msgstr ""
+
+#: ../src/graphing.c:5371
+#, fuzzy
+msgid "Function _line plot"
+msgstr "Dibuix de funció lineal"
+
+#: ../src/graphing.c:5375
+msgid "_Surface plot"
+msgstr ""
+
+#: ../src/graphing.c:5593 ../src/graphing.c:5779 ../src/graphing.c:5900
+#: ../src/graphing.c:6021 ../src/graphing.c:6125
 msgid "No functions to plot or no functions could be parsed"
 msgstr "No hi ha cap funció per analitzar o no s'ha pogut analitzar cap funció"
 
-#: src/graphing.c:1261
-msgid "Invalid X range"
+#: ../src/graphing.c:5626 ../src/graphing.c:5632 ../src/graphing.c:5802
+#: ../src/graphing.c:5808 ../src/graphing.c:5907 ../src/graphing.c:5930
+#: ../src/graphing.c:5936 ../src/graphing.c:6044 ../src/graphing.c:6050
+#: ../src/graphing.c:6148 ../src/graphing.c:6154
+#, fuzzy, c-format
+msgid "Invalid %s range"
 msgstr "Conjunt de valors per a X no vàlid"
 
-#: src/graphing.c:1266
-msgid "Invalid Y range"
-msgstr "Conjunt de valors per a Y no vàlid"
+#: ../src/graphing.c:5638
+#, fuzzy
+msgid "Invalid dependent range"
+msgstr "Conjunt de valors per a X no vàlid"
 
-#: src/graphing.c:1331
-msgid "Create Line Plot"
+#: ../src/graphing.c:5894
+#, c-format
+msgid "Only specify %s and %s, or %s, not all at once."
+msgstr ""
+
+#: ../src/graphing.c:6247
+#, fuzzy
+msgid "Create Plot"
 msgstr "Crea una gràfica lineal"
 
-#: src/graphing.c:1378
+#: ../src/graphing.c:6288 ../src/graphing.c:6455 ../src/graphing.c:6486
+#: ../src/graphing.c:6507 ../src/graphing.c:6547 ../src/graphing.c:6571
+#: ../src/graphing.c:6682 ../src/graphing.c:6804 ../src/graphing.c:6922
+#: ../src/graphing.c:7065 ../src/graphing.c:7199 ../src/graphing.c:7392
+#: ../src/graphing.c:7778 ../src/graphing.c:8010 ../src/graphing.c:8099
+#: ../src/graphing.c:8209 ../src/graphing.c:8239 ../src/graphing.c:8300
+#: ../src/graphing.c:8326 ../src/graphing.c:8353 ../src/graphing.c:8444
+#: ../src/graphing.c:8517 ../src/graphing.c:8542 ../src/graphing.c:8580
+#: ../src/graphing.c:8628
 #, c-format
-msgid "%s: only up to 10 functions supported"
-msgstr "%s: només es permeten 10 funcions com a màxim"
+msgid "%s: Plotting in progress, cannot call %s"
+msgstr ""
 
-#: src/graphing.c:1383
+#: ../src/graphing.c:6296 ../src/graphing.c:6823
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: l'argument no és una funció"
 
-#: src/graphing.c:1434
+#: ../src/graphing.c:6306
+#, fuzzy, c-format
+msgid "%s: only one function supported"
+msgstr "%s: només es permeten 10 funcions com a màxim"
+
+#: ../src/graphing.c:6382 ../src/graphing.c:6636 ../src/graphing.c:6752
+#: ../src/graphing.c:6874 ../src/graphing.c:7011 ../src/graphing.c:7152
+#: ../src/graphing.c:7879
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: conjunt de valors per a X no vàlid"
 
-#: src/graphing.c:1439
+#: ../src/graphing.c:6387 ../src/graphing.c:6641 ../src/graphing.c:6757
+#: ../src/graphing.c:6879 ../src/graphing.c:7016 ../src/graphing.c:7157
+#: ../src/graphing.c:7884
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: onjunt de valors per a Y no vàlid"
 
-#: src/graphing.c:1501
+#: ../src/graphing.c:6392 ../src/graphing.c:7889
+#, fuzzy, c-format
+msgid "%s: invalid Z range"
+msgstr "%s: conjunt de valors per a X no vàlid"
+
+#: ../src/graphing.c:6465
+#, c-format
+msgid "%s: dx must be positive"
+msgstr ""
+
+#: ../src/graphing.c:6472 ../src/graphing.c:6491
+#, c-format
+msgid "%s: Slope field not active"
+msgstr ""
+
+#: ../src/graphing.c:6518
+#, fuzzy, c-format
+msgid "%s: dt must be positive"
+msgstr "%s: l'argument ha de ser un enter"
+
+#: ../src/graphing.c:6524
+#, fuzzy, c-format
+msgid "%s: tlen must be positive"
+msgstr "%s: l'argument ha de ser un enter"
+
+#: ../src/graphing.c:6532 ../src/graphing.c:6553
+#, c-format
+msgid "%s: Vector field not active"
+msgstr ""
+
+#: ../src/graphing.c:6578 ../src/graphing.c:7072
+#, fuzzy, c-format
+msgid "%s: First argument must be a function"
+msgstr "%s: l'argument no és una funció"
+
+#: ../src/graphing.c:6693 ../src/graphing.c:6930
+#, fuzzy, c-format
+msgid "%s: First two arguments must be functions"
+msgstr "%s: l'argument no és una funció"
+
+#: ../src/graphing.c:6818
+#, c-format
+msgid "%s: only up to 10 functions supported"
+msgstr "%s: només es permeten 10 funcions com a màxim"
+
+#: ../src/graphing.c:7021 ../src/graphing.c:7162
+#, fuzzy, c-format
+msgid "%s: invalid T range"
+msgstr "%s: conjunt de valors per a X no vàlid"
+
+#: ../src/graphing.c:7274 ../src/graphing.c:7328
+#, c-format
+msgid ""
+"%s: Line should be given as a real, n by 2 matrix with columns for x and y, "
+"n>=2"
+msgstr ""
+
+#: ../src/graphing.c:7407
+#, fuzzy, c-format
+msgid "%s: Wrong number of arguments"
+msgstr "%s: massa arguments"
+
+#: ../src/graphing.c:7467
+#, c-format
+msgid "%s: No color specified"
+msgstr ""
+
+#: ../src/graphing.c:7480
+#, fuzzy, c-format
+msgid "%s: Color must be a string"
+msgstr "%s: els arguments modificadors han de ser de text"
+
+#: ../src/graphing.c:7490
+#, c-format
+msgid "%s: No thickness specified"
+msgstr ""
+
+#: ../src/graphing.c:7513
+#, c-format
+msgid "%s: No window specified"
+msgstr ""
+
+#: ../src/graphing.c:7561 ../src/graphing.c:7586
+#, c-format
+msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
+msgstr ""
+
+#: ../src/graphing.c:7596
+#, c-format
+msgid "%s: No legend specified"
+msgstr ""
+
+#: ../src/graphing.c:7610
+#, fuzzy, c-format
+msgid "%s: Legend must be a string"
+msgstr "%s: els arguments modificadors han de ser de text"
+
+#: ../src/graphing.c:7619
+#, c-format
+msgid "%s: Unknown style"
+msgstr ""
+
+#: ../src/graphing.c:7626
+#, c-format
+msgid "%s: Bad parameter"
+msgstr ""
+
+#: ../src/graphing.c:7695 ../src/graphing.c:7758
+#, c-format
+msgid ""
+"%s: Surface should be given as a real, n by 3 matrix with columns for x, y, "
+"z, where n>=3"
+msgstr ""
+
+#: ../src/graphing.c:7786
+#, fuzzy, c-format
+msgid "%s: argument not a matrix of data"
+msgstr "%s: l'argument número %d no és una matriu"
+
+#: ../src/graphing.c:7970
+#, c-format
+msgid "%s: Surface grid data should be given as a real matrix "
+msgstr ""
+
+#: ../src/graphing.c:8016
+#, fuzzy, c-format
+msgid "%s: first argument not a matrix of data"
+msgstr "%s: l'argument número %d no és una matriu"
+
+#: ../src/graphing.c:8023
+#, fuzzy, c-format
+msgid "%s: second argument not a 4 or 6 element vector of limits"
+msgstr "%s: els arguments no són vectors horitzontals"
+
+#: ../src/graphing.c:8040
+#, fuzzy, c-format
+msgid "%s: too many arguments or last argument not a string label"
+msgstr "%s: massa arguments, com a màxim poden haver %d"
+
+#: ../src/graphing.c:8106
+#, fuzzy, c-format
+msgid "%s: first argument not a nonempty string"
+msgstr "%s: l'argument número %d no és un text"
+
+#: ../src/graphing.c:8114
+#, c-format
+msgid "%s: type not specified and filename has no extension"
+msgstr ""
+
+#: ../src/graphing.c:8123
+#, fuzzy, c-format
+msgid "%s: second argument not a nonempty string"
+msgstr "%s: els argument dels vectors no poden ser valors"
+
+#: ../src/graphing.c:8135
+#, c-format
+msgid "%s: plot canvas not active, cannot export"
+msgstr ""
+
+#: ../src/graphing.c:8144 ../src/graphing.c:8161 ../src/graphing.c:8182
+#, c-format
+msgid "%s: export failed"
+msgstr ""
+
+#: ../src/graphing.c:8194
+#, c-format
+msgid "%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."
+msgstr ""
+
+#: ../src/graphing.c:8360
+#, fuzzy
+msgid "Variable names not given in a 4-vector"
+msgstr ""
+"Els límits de la gràfica no s'han donat com a vector de quatre elements"
+
+#: ../src/graphing.c:8370 ../src/graphing.c:8379 ../src/graphing.c:8388
+#: ../src/graphing.c:8397 ../src/graphing.c:8461 ../src/graphing.c:8470
+#: ../src/graphing.c:8479
+msgid "Variable names should be strings"
+msgstr ""
+
+#: ../src/graphing.c:8404 ../src/graphing.c:8485
+#, fuzzy
+msgid "Variable names must be valid identifiers"
+msgstr "S'ha fet servir la variable '%s' sense inicialitzar"
+
+#: ../src/graphing.c:8413 ../src/graphing.c:8491
+msgid "Variable names must be mutually distinct"
+msgstr ""
+
+#: ../src/graphing.c:8451
+#, fuzzy
+msgid "Variable names not given in a 3-vector"
+msgstr ""
+"Els límits de la gràfica no s'han donat com a vector de quatre elements"
+
+#: ../src/graphing.c:8663
 msgid "Plotting"
 msgstr "Dibuix"
 
-#. bogus value
-#: src/graphing.c:1533
+#. internal
+#: ../src/graphing.c:8665
+#, fuzzy
 msgid ""
-"Plot a function with a line (very rudimentary).  First come the functions "
-"(up to 10) then optionally limits as x1,x2,y1,y2"
+"Plot a function with a line.  First come the functions (up to 10) then "
+"optionally limits as x1,x2,y1,y2"
 msgstr ""
 "Dibuixeu una funció amb una línia (molt rudimentari). Primer indiqueu les "
 "funcions (fins a 10) i desprès opcionalment els límits com a x1,x2,y1,y2"
 
-#: src/graphing.c:1535
-msgid "Plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
+#: ../src/graphing.c:8666
+#, fuzzy
+msgid ""
+"Plot a parametric function with a line.  First come the functions for x and "
+"y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
+"x1,x2,y1,y2"
+msgstr ""
+"Dibuixeu una funció amb una línia (molt rudimentari). Primer indiqueu les "
+"funcions (fins a 10) i desprès opcionalment els límits com a x1,x2,y1,y2"
+
+#: ../src/graphing.c:8667
+#, fuzzy
+msgid ""
+"Plot a parametric complex valued function with a line.  First comes the "
+"function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
+"optionally the limits as x1,x2,y1,y2"
+msgstr ""
+"Dibuixeu una funció amb una línia (molt rudimentari). Primer indiqueu les "
+"funcions (fins a 10) i desprès opcionalment els límits com a x1,x2,y1,y2"
+
+#: ../src/graphing.c:8669
+#, fuzzy
+msgid ""
+"Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
+"a complex z) then optionally the limits as x1,x2,y1,y2"
+msgstr ""
+"Dibuixeu una funció amb una línia (molt rudimentari). Primer indiqueu les "
+"funcions (fins a 10) i desprès opcionalment els límits com a x1,x2,y1,y2"
+
+#: ../src/graphing.c:8670
+#, fuzzy
+msgid ""
+"Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
+"and y then optionally the limits as x1,x2,y1,y2"
+msgstr ""
+"Dibuixeu una funció amb una línia (molt rudimentari). Primer indiqueu les "
+"funcions (fins a 10) i desprès opcionalment els límits com a x1,x2,y1,y2"
+
+#: ../src/graphing.c:8672
+msgid ""
+"Draw a solution for a slope field starting at x,y and using dx as increment"
+msgstr ""
+
+#: ../src/graphing.c:8673
+msgid "Clear all the slopefield solutions"
+msgstr ""
+
+#: ../src/graphing.c:8675
+msgid ""
+"Draw a solution for a vector field starting at x,y, using dt as increment "
+"for tlen units"
+msgstr ""
+
+#: ../src/graphing.c:8676
+msgid "Clear all the vectorfield solutions"
+msgstr ""
+
+#: ../src/graphing.c:8679
+#, fuzzy
+msgid ""
+"Plot a surface function which takes either two arguments or a complex "
+"number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
+msgstr ""
+"Dibuixeu una funció amb una línia (molt rudimentari). Primer indiqueu les "
+"funcions (fins a 10) i desprès opcionalment els límits com a x1,x2,y1,y2"
+
+#: ../src/graphing.c:8681
+msgid ""
+"Plot surface data given as n by 3 matrix (n>=3) of data with each row being "
+"x,y,z.  Optionally can pass a label string and limits.  If no limits passed, "
+"limits computed from data."
+msgstr ""
+
+#: ../src/graphing.c:8682
+msgid ""
+"Plot surface data given as a matrix (where rows are the x coordinate and "
+"columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or "
+"optionally [x1,x2,y1,y2,z1,z2], and optionally a string for the label."
+msgstr ""
+
+#: ../src/graphing.c:8684
+msgid "Show the line plot window and clear out functions"
+msgstr ""
+
+#: ../src/graphing.c:8685
+msgid ""
+"Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
+"matrix for a longer line"
+msgstr ""
+
+#: ../src/graphing.c:8687
+msgid ""
+"Export the current contents of the plot canvas to a file.  The file type is "
+"given by the string type, which can be \"png\", \"eps\", or \"ps\"."
+msgstr ""
+
+#: ../src/graphing.c:8689
+msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
+msgstr ""
+
+#: ../src/graphing.c:8690
+msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
+msgstr ""
+
+#: ../src/graphing.c:8691
+msgid ""
+"Default names used by all 2D plot functions.  Should be a 4 vector of "
+"strings or identifiers [x,y,z,t]."
+msgstr ""
+
+#: ../src/graphing.c:8692
+msgid ""
+"Default names used by surface plot functions.  Should be a 3 vector of "
+"strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
+msgstr ""
+
+#: ../src/graphing.c:8694
+msgid ""
+"Normalize vectorfields if true.  That is, only show direction and not "
+"magnitude."
+msgstr ""
+
+#: ../src/graphing.c:8695
+msgid "If to draw legends or not on line plots."
+msgstr ""
+
+#: ../src/graphing.c:8696
+msgid "If to draw axis labels on line plots."
+msgstr ""
+
+#: ../src/graphing.c:8698
+msgid "If to draw legends or not on surface plots."
+msgstr ""
+
+#: ../src/graphing.c:8700
+#, fuzzy
+msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr ""
 "Finestra de dibuix (límits) com a vector de 4 elements de la forma [x1,x2,y1,"
 "y2]"
 
-#: src/matop.c:485
+#: ../src/graphing.c:8701
+#, fuzzy
+msgid ""
+"Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
+"z2]"
+msgstr ""
+"Finestra de dibuix (límits) com a vector de 4 elements de la forma [x1,x2,y1,"
+"y2]"
+
+#: ../src/matop.c:689
 msgid "Determinant of a non-square matrix is undefined"
 msgstr "No existeix el determinant d'una matriu que no sigu quadrada"
 
-#: src/mpwrap.c:902
-msgid "Number too large to compute exponential!"
-msgstr "El nombre és massa gran per calcular l'exponencial"
+#: ../src/matrixw.c:622 ../src/matrixw.c:708
+msgid "Trying to increment a nonvalue"
+msgstr ""
 
-#: src/mpwrap.c:1293
+#: ../src/mpwrap.c:520
 msgid "Integer exponent too large to compute"
 msgstr "L'exponent enter és massa gran per ser calculat"
 
-#: src/mpwrap.c:2105
+#: ../src/mpwrap.c:1455
 msgid "Can't do modulo of floats or rationals!"
 msgstr "No es pot obtenir el mòdul de punts flotant o racionals"
 
-#: src/mpwrap.c:2122
+#: ../src/mpwrap.c:1469
 msgid "Can't do GCD of floats or rationals!"
 msgstr "No es pot obtenir el MCD de punts flotant o racionals"
 
-#: src/mpwrap.c:2148
+#: ../src/mpwrap.c:1496
 msgid "Can't modulo invert non integers!"
 msgstr "No es pot invertir el mòdul de nombres no enters"
 
-#: src/mpwrap.c:2169
-msgid "Can't get jacobi symbols of floats or rationals!"
+#: ../src/mpwrap.c:1517
+#, fuzzy
+msgid "Can't get Jacobi symbols of floats or rationals!"
 msgstr ""
 "No es poden obtenir els símbols de jacobi de punts flotants o racionals"
 
-#: src/mpwrap.c:2188
-msgid "Can't get legendre symbols of floats or rationals!"
+#: ../src/mpwrap.c:1536
+#, fuzzy
+msgid "Can't get Legendre symbols of floats or rationals!"
 msgstr ""
 "No es poden obtenir els símbols de legendre de punts flotants o racionals"
 
-#: src/mpwrap.c:2207
+#: ../src/mpwrap.c:1555
+#, fuzzy
 msgid ""
-"Can't get jacobi symbol with Kronecker extension of floats or rationals!"
+"Can't get Jacobi symbol with Kronecker extension of floats or rationals!"
 msgstr ""
 "No es pot obtenir el símbol de jacobi amb l'extensió Kronecker de punts "
 "flotants o racionals"
 
-#: src/mpwrap.c:2216
+#: ../src/mpwrap.c:1564
 msgid "Lucas must get an integer argument!"
 msgstr "Lucas ha de rebre un argument enter"
 
-#: src/mpwrap.c:2222
-msgid "Number too large to compute lucas number!"
+#: ../src/mpwrap.c:1570
+#, fuzzy
+msgid "Number too large to compute Lucas number!"
 msgstr "El nombre és massa gran per calcular el nombre de lucas"
 
-#: src/mpwrap.c:2227
-msgid "No such thing as negative lucas numbers!"
+#: ../src/mpwrap.c:1575
+#, fuzzy
+msgid "No such thing as negative Lucas numbers!"
 msgstr "No existeix cap nombre que sigui un nombre de lucas negatiu"
 
-#: src/mpwrap.c:2242
+#: ../src/mpwrap.c:1590
 msgid "Cannot get next prime after non-integer!"
 msgstr "No es pot obtenir el següent primer d'un nombre que no sigui enter"
 
-#: src/mpwrap.c:2262 src/mpwrap.c:2275 src/mpwrap.c:2288 src/mpwrap.c:2301
+#: ../src/mpwrap.c:1610 ../src/mpwrap.c:1623 ../src/mpwrap.c:1636
+#: ../src/mpwrap.c:1649
 #, c-format
 msgid "%s: can't work on non-integers!"
 msgstr "%s: no es pot treballar amb nombres que no siguin enters"
 
-#: src/mpwrap.c:2343 src/mpwrap.c:2383
+#: ../src/mpwrap.c:1691 ../src/mpwrap.c:1731
 msgid "Can't do factorials of rationals or floats!"
 msgstr "No es pot obtenir el factorial d'un racional o d'un coma flotant"
 
-#: src/mpwrap.c:2349 src/mpwrap.c:2389
+#: ../src/mpwrap.c:1697 ../src/mpwrap.c:1737
 msgid "Number too large to compute factorial!"
 msgstr "El nombre és massa gran per calcular el factorial"
 
-#: src/mpwrap.c:2354 src/mpwrap.c:2394
+#: ../src/mpwrap.c:1702 ../src/mpwrap.c:1742
 msgid "Can't do factorials of negative numbers!"
 msgstr "No es pot obtenir el factorial de nombres negatius"
 
-#: src/mpwrap.c:2727 src/mpwrap.c:2795 src/mpwrap.c:4655 src/mpwrap.c:4672
+#: ../src/mpwrap.c:1753
+#, fuzzy
+msgid "Can't do binomials of rationals or floats!"
+msgstr "No es pot obtenir el factorial d'un racional o d'un coma flotant"
+
+#: ../src/mpwrap.c:2091 ../src/mpwrap.c:2159 ../src/mpwrap.c:4278
+#: ../src/mpwrap.c:4299
 #, c-format
 msgid "%s: Bad types for mod power"
 msgstr ""
 
-#: src/mpwrap.c:2764
+#: ../src/mpwrap.c:2128
 #, c-format
 msgid "Can't invert %s modulo %s in %s"
 msgstr "No és pot invertir %s mòdul %s en %s"
 
-#: src/mpwrap.c:3084
+#: ../src/mpwrap.c:2449
 msgid "Can't make random integer from a non-integer"
 msgstr "No es pot obtenir un enter a l'atzar d'un nombre que no és enter"
 
-#: src/mpwrap.c:3089
+#: ../src/mpwrap.c:2454
 msgid "Range for random integer must be positive"
 msgstr "El rang per a l'enter a l'atzar ha de ser positiu"
 
-#: src/mpwrap.c:3284 src/mpwrap.c:3310
+#: ../src/mpwrap.c:2639 ../src/mpwrap.c:2667
 msgid "Can't get numerator of floating types"
 msgstr "No es pot obtenir el numerador d'un tipus de coma flotant"
 
-#: src/mpwrap.c:4036 src/mpwrap.c:5257 src/mpwrap.c:5269
+#: ../src/mpwrap.c:3467 ../src/mpwrap.c:4991 ../src/mpwrap.c:5013
 msgid "Can't compare complex numbers"
 msgstr "No es poden comparar nombres complexos"
 
-#: src/mpwrap.c:4245 src/mpwrap.c:4260 src/mpwrap.c:4311 src/mpwrap.c:4334
-#: src/mpwrap.c:4347 src/mpwrap.c:4392
-msgid "Division by zero!"
-msgstr "Divisió entre zero"
-
-#: src/mpwrap.c:4401
+#: ../src/mpwrap.c:3954
 msgid "Can't modulo complex numbers"
 msgstr "No es pot obtenir el mòdul d'un nombre complex"
 
-#: src/mpwrap.c:4420
+#: ../src/mpwrap.c:3977
 #, c-format
 msgid "Inverse of %s modulo %s not found!"
 msgstr "No s'ha trobat l'invers de %s mòdul %s"
 
-#: src/mpwrap.c:4429
+#: ../src/mpwrap.c:3986
 msgid "Can't do modulo invert on complex numbers"
 msgstr "No es pot obtenir la inversió de mòdul d'un nombre complex"
 
-#: src/mpwrap.c:4442
+#: ../src/mpwrap.c:4003
 msgid "Can't GCD complex numbers"
 msgstr "No es pot obtenir el MCD d'un nombre complex"
 
-#: src/mpwrap.c:4465
+#: ../src/mpwrap.c:4032
 msgid "Can't LCM complex numbers"
 msgstr "No es pot obtenir el mcm d'un nombre complex"
 
-#: src/mpwrap.c:4478
-msgid "Can't get jacobi symbols of complex numbers"
+#: ../src/mpwrap.c:4049
+#, fuzzy
+msgid "Can't get Jacobi symbols of complex numbers"
 msgstr "No es poden obtenir els símbols de jacobi d'un nombre complex"
 
-#: src/mpwrap.c:4490
-msgid "Can't get legendre symbols complex numbers"
+#: ../src/mpwrap.c:4065
+#, fuzzy
+msgid "Can't get Legendre symbols complex numbers"
 msgstr "No es pot obtenir el símbol de legendre d'un nombre complex"
 
-#: src/mpwrap.c:4502
-msgid "Can't get jacobi symbol with Kronecker extension for complex numbers"
+#: ../src/mpwrap.c:4081
+#, fuzzy
+msgid "Can't get Jacobi symbol with Kronecker extension for complex numbers"
 msgstr ""
 "No es pot obtenir el símbol de jacobi amb l'extensió Kronecker d'un nombre "
 "complex"
 
-#: src/mpwrap.c:4514
-msgid "Can't get lucas number for complex numbers"
+#: ../src/mpwrap.c:4097
+#, fuzzy
+msgid "Can't get Lucas number for complex numbers"
 msgstr "No es pot obtenir el nombre de lucas d'un nombre complex"
 
-#: src/mpwrap.c:4526
+#: ../src/mpwrap.c:4113
 msgid "Can't get next prime for complex numbers"
 msgstr "No es pot obtenir el següent primer d'un nombre complex"
 
-#: src/mpwrap.c:4536 src/mpwrap.c:4548 src/mpwrap.c:4560 src/mpwrap.c:4572
+#: ../src/mpwrap.c:4123 ../src/mpwrap.c:4135 ../src/mpwrap.c:4147
+#: ../src/mpwrap.c:4159
 #, c-format
 msgid "%s: can't work on complex numbers"
 msgstr "%s: no es pot treballar amb nombres complexos"
 
-#: src/mpwrap.c:4746 src/mpwrap.c:4817 src/mpwrap.c:4884
+#: ../src/mpwrap.c:4388 ../src/mpwrap.c:4466 ../src/mpwrap.c:4531
 #, c-format
 msgid "%s: can't take logarithm of 0"
 msgstr "%s: no es pot fer el logaritme de 0"
 
-#: src/mpwrap.c:5186
+#: ../src/mpwrap.c:4860
+#, fuzzy
+msgid "arctan2 not defined for complex numbers"
+msgstr "No es pot obtenir el següent primer d'un nombre complex"
+
+#: ../src/mpwrap.c:4908
 msgid "Can't make random integer out of a complex number"
 msgstr "No es pot fer un enter a l'atzar a partir d'un nombre complex"
 
-#: src/mpwrap.c:5307 src/mpwrap.c:5320
+#: ../src/mpwrap.c:5070 ../src/mpwrap.c:5087
 msgid "Can't make factorials of complex numbers"
 msgstr "No es poden calcular factorials d'un nombre complex"
 
-#: src/mpwrap.c:5601 src/mpwrap.c:5623 src/mpwrap.c:5645
+#: ../src/mpwrap.c:5104
+#, fuzzy
+msgid "Can't make binomials of complex numbers"
+msgstr "No es poden calcular factorials d'un nombre complex"
+
+#: ../src/mpwrap.c:5483 ../src/mpwrap.c:5494 ../src/mpwrap.c:5505
 msgid "Can't determine type of a complex number"
 msgstr "No es pot determinar el tipus d'un nombre complex"
 
-#: src/mpwrap.c:5737 src/mpwrap.c:5760
+#: ../src/mpwrap.c:5599 ../src/mpwrap.c:5622
 msgid "Can't convert complex number into integer"
 msgstr "No es pot convertir el nombre complex en enter"
 
-#: src/mpwrap.c:5743
+#: ../src/mpwrap.c:5605 ../src/mpwrap.c:5628
 msgid "Can't convert real number to integer"
 msgstr "No es pot convertir el nombre real en enter"
 
-#: src/mpwrap.c:5747
+#: ../src/mpwrap.c:5609 ../src/mpwrap.c:5632
 msgid "Integer too large for this operation"
 msgstr "L'enter és massa gran per a aquesta operació"
 
-#: src/mpwrap.c:5769
+#: ../src/mpwrap.c:5645
+#, fuzzy
+msgid "Can't convert complex number into a double"
+msgstr "No es pot convertir el nombre complex en enter"
+
+#: ../src/mpwrap.c:5654
 msgid "Can't convert real number to double"
 msgstr "No es pot convertir el nombre real a doble precissió"
 
-#: src/mpwrap.c:5775
+#: ../src/mpwrap.c:5660 ../src/mpwrap.c:5675
 msgid "Number too large for this operation"
 msgstr "El nombre és massa gran per a aquesta operació"
 
-#: src/plugin.c:128
+#: ../src/parseutil.c:57
+msgid "ERROR: local statement not the first statement in function definition"
+msgstr ""
+
+#: ../src/plugin.c:155
 msgid "Can't open plugin!"
 msgstr "No es pot obrir el connector"
 
-#: src/plugin.c:140
+#: ../src/plugin.c:171 ../src/plugin.c:179
 msgid "Can't initialize plugin!"
 msgstr "No es pot inicialitzar el connector"
 
-#: src/testplugin.c:13
+#: ../src/symbolic.c:668
+#, c-format
+msgid "%s: '%s' not a function of one variable"
+msgstr ""
+
+#: ../src/symbolic.c:701
+#, fuzzy, c-format
+msgid "%s: Cannot differentiate the '%s' function"
+msgstr "%s: l'argument no és una funció"
+
+#: ../src/symbolic.c:786
+msgid "Symbolic Operations"
+msgstr ""
+
+#: ../src/symbolic.c:789
+msgid ""
+"Attempt to symbolically differentiate the function f, where f is a function "
+"of one variable."
+msgstr ""
+
+#: ../src/symbolic.c:792
+msgid ""
+"Attempt to symbolically differentiate the function f, where f is a function "
+"of one variable, returns null if unsuccessful but is silent."
+msgstr ""
+
+#: ../src/testplugin.c:13
 msgid "This is the test-plugin function\n"
 msgstr "Aquesta és la funció del connector de proves\n"
 
-#: src/testplugin.c:24
+#: ../src/testplugin.c:24
 msgid ""
 "You have opened test plugin!\n"
 "\n"
@@ -2279,7 +5316,7 @@ msgstr ""
 "S'avaluarà 2+2 com a demostració\n"
 "2+2 = "
 
-#: src/testplugin.c:30
+#: ../src/testplugin.c:30
 msgid ""
 "For my next trick I will add a function named TestPluginFunction\n"
 "\n"
@@ -2287,7 +5324,7 @@ msgstr ""
 "I a continuació, afegiré una funció anomenada TestPluginFuction\n"
 "\n"
 
-#: src/testplugin.c:41
+#: ../src/testplugin.c:41
 msgid ""
 "That's it, isn't this fun\n"
 "\n"
@@ -2295,6 +5332,62 @@ msgstr ""
 "Oi que és divertit?\n"
 "\n"
 
-#: src/util.c:96
+#: ../src/util.c:93 ../src/util.c:112
 msgid "Stack underflow!"
 msgstr "Desbordament inferior de la pila"
+
+#~ msgid "Generate random float"
+#~ msgstr "Genera un nombre de coma flotant a l'atzar"
+
+#~ msgid "Generate random integer"
+#~ msgstr "Genera un nombre enter a l'atzar"
+
+#~ msgid "Euler's Constant gamma good up to about precision of 9516 digits"
+#~ msgstr "La constant gamma d'Euler amb una precissió de fins a 9516 dígits"
+
+#~ msgid "Protect a variable from being modified"
+#~ msgstr "Protegeix una variable perquè no es modifiqui"
+
+#~ msgid "Unprotect a variable from being modified"
+#~ msgstr "Desprotegeix una variable perquè es pugui modificar"
+
+#~ msgid ""
+#~ "\n"
+#~ "Note: Compiled without MPFR (some operations may be slow) see www.mpfr.org"
+#~ msgstr ""
+#~ "\n"
+#~ "Atenció: s'ha compilat sense MPFR (algunes operacions poden trigar molt), "
+#~ "veieu www.mpfr.org"
+
+#~ msgid "_Manual"
+#~ msgstr "_Manual"
+
+#~ msgid "Display the manual"
+#~ msgstr "Mostra el manual"
+
+#~ msgid "Interrupt"
+#~ msgstr "Interromp"
+
+#~ msgid "Run"
+#~ msgstr "Executa"
+
+#~ msgid "Open a GEL file for running"
+#~ msgstr "Obre un fitxer GEL per ser executat"
+
+#~ msgid "Exit"
+#~ msgstr "Surt"
+
+#~ msgid "Exit genius"
+#~ msgstr "Surt del genius"
+
+#~ msgid "translator_credits-PLEASE_ADD_YOURSELF_HERE"
+#~ msgstr "Xavier A. Conde Rueda <xaviconde@eresmas.com>"
+
+#~ msgid "Genius Line Plot"
+#~ msgstr "Dibuix de línies Genius"
+
+#~ msgid "Invalid Y range"
+#~ msgstr "Conjunt de valors per a Y no vàlid"
+
+#~ msgid "Number too large to compute exponential!"
+#~ msgstr "El nombre és massa gran per calcular l'exponencial"
