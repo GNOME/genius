@@ -862,6 +862,7 @@ gel_apply_func_to_matrixen (GelCtx *ctx,
 				GEL_GET_NEW_NODE(ni);
 				ni->type = GEL_IDENTIFIER_NODE;
 				ni->id.id = d_intern(ident);
+				ni->id.uninitialized = FALSE;
 
 				GEL_GET_NEW_NODE(nn);
 				nn->type = GEL_OPERATOR_NODE;
@@ -933,6 +934,7 @@ gel_apply_func_to_matrix (GelCtx *ctx,
 				GEL_GET_NEW_NODE(ni);
 				ni->type = GEL_IDENTIFIER_NODE;
 				ni->id.id = d_intern(ident);
+				ni->id.uninitialized = FALSE;
 				
 				nn->op.args = ni;
 				nn->op.args->any.next = gel_copynode(t[0]);
@@ -5115,6 +5117,7 @@ ptf_makenew_power(GelToken *id, int power)
 	GEL_GET_NEW_NODE(tokn);
 	tokn->type = GEL_IDENTIFIER_NODE;
 	tokn->id.id = id;
+	tokn->id.uninitialized = FALSE;
 
 	if(power == 1)
 		return tokn;

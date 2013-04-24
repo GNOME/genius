@@ -766,7 +766,7 @@ plot_print_cb (void)
 	GtkWidget *req = NULL;
 	GtkWidget *hbox, *w, *cmd;
 	int fd;
-	char tmpfile[] = "/tmp/genius-ps-XXXXXX";
+	char *tmpfile;
 	static char *last_cmd = NULL;
 
 	if (last_cmd == NULL)
@@ -816,8 +816,10 @@ plot_print_cb (void)
 
 	gtk_widget_destroy (req);
 
+	tmpfile = g_build_filename (g_get_tmp_dir (), "genius-ps-XXXXXX", NULL);
 	fd = g_mkstemp (tmpfile);
 	if (fd < 0) {
+		g_free (tmpfile);
 		genius_display_error (graph_window, _("Cannot open temporary file, cannot print."));
 		return;
 	}
@@ -849,6 +851,7 @@ plot_print_cb (void)
 		gel_interrupted = FALSE;
 		close (fd);
 		unlink (tmpfile);
+		g_free (tmpfile);
 		return;
 	}
 
@@ -873,6 +876,7 @@ plot_print_cb (void)
 
 	close (fd);
 	unlink (tmpfile);
+	g_free (tmpfile);
 }
 
 static char *last_export_dir = NULL;
@@ -884,7 +888,7 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 	char *base;
 	gboolean ret;
 	gboolean eps;
-	char tmpfile[] = "/tmp/genius-ps-XXXXXX";
+	char *tmpfile = NULL;
 	char *file_to_write = NULL;
 	int fd = -1;
 	gboolean run_epsi = FALSE;
@@ -939,6 +943,7 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 
 	file_to_write = s;
 	if (eps && run_epsi && ve_is_prog_in_path ("ps2epsi")) {
+		tmpfile = g_build_filename (g_get_tmp_dir (), "genius-ps-XXXXXX", NULL);
 		fd = g_mkstemp (tmpfile);
 		/* FIXME: tell about errors ?*/
 		if (fd >= 0) {
@@ -996,11 +1001,15 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 		if ( ! gel_interrupted)
 			genius_display_error (graph_window, _("Export failed"));
 		g_free (s);
+		if (tmpfile != NULL)
+			g_free (tmpfile);
 		gel_interrupted = FALSE;
 		return;
 	}
 
 	g_free (s);
+	if (tmpfile != NULL)
+		g_free (tmpfile);
 }
 
 static void

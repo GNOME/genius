@@ -71,6 +71,7 @@ void gp_push_null(void) GEL_WEAK_FUNC;
 	GEL_GET_NEW_NODE(tree); \
 	tree->type = GEL_IDENTIFIER_NODE; \
 	tree->id.id = d_intern(ID); \
+	tree->id.uninitialized = FALSE; \
 	gel_stack_push(&gel_parsestack,tree); \
 	g_free (ID); \
 }
