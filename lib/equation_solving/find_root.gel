@@ -21,60 +21,61 @@
 
 # The Bisection Method, Section 2.1, Algorithm 2.1, pp. 41-42
 SetHelp ("FindRootBisection", "equation_solving",
-         "Find root of a function using the bisection method")
+         "Find root of a function using the bisection method to within TOL tolerance in up to N iterations.  f(a) and f(b) must have opposite signs.")
 function FindRootBisection(f,a,b,TOL,N) =
 	(
 	local *;
 # check arguments
 ## check types
 	if(not IsFunction(f)) then
-		(error("find_root_bisection: argument 1 must be a function");bailout)
+		(error("FindRootBisection: argument 1 must be a function");bailout)
 	else if(not IsReal(a) or not IsReal(b) or not IsReal(TOL)) then
-		(error("find_root_bisection: arguments 2, 3, 4 must be real values");bailout)
+		(error("FindRootBisection: arguments 2, 3, 4 must be real values");bailout)
 	else if(not IsInteger(N)) then
-		(error("find_root_bisection: argument 5 must be an integer");bailout);
+		(error("FindRootBisection: argument 5 must be an integer");bailout);
 ## check bounds
-	if(a>b) then (error("find_root_bisection: argument 2 must be less than or equal to argument 3");bailout)
-	else if(f(a)*f(b)>0) then (error("find_root_bisection: value of endpoints must have differing sign");bailout);
+	if(a>b) then (error("FindRootBisection: argument 2 must be less than or equal to argument 3");bailout)
+	else if(Sign(f(a)) == Sign(f(b))) then (error("FindRootBisection: value of endpoints must have differing sign");bailout);
 
 # Start calculating
-	iteration=1;
-	p=a;
+	iteration:=1;
+        a:=float(a);
+        b:=float(b);
+	p:=a;
 	while((iteration <= N) or (N==0)) do
 	(
 	 diff=(b-a)/2;
 	 p=a+diff;
-	 if(f(p)==0 or diff<TOL) then (return [true,p,iteration]);
+	 if(Sign(f(p))==0 or diff<TOL) then (return [true,p,iteration]);
 	 increment iteration;
-	 if(f(a)*f(b)>0) then (a=p) else (b=p)
+	 if(Sign(f(a)) == Sign(f(p))) then (a:=p) else (b:=p)
 	);
 	[false,p,iteration]
 	)
 
-#function root_find_newton
-#FIXME: I can't take derivatives, so this doesn't work
-
 # The Secant Method, Section 2.3, Algorithm 2.4, p. 62
 #FIXME: doesn't work right, check this
 SetHelp ("FindRootSecant", "equation_solving",
-         "Find root of a function using the secant method")
+         "Find root of a function using the secant method to within TOL tolerance in up to N iterations.  f(a) and f(b) must have opposite signs.")
 function FindRootSecant(f,a,b,TOL,N) =
 	(
 	local *;
 # check arguments
 ## check types
 	if(not IsFunction(f)) then
-		(error("find_root_secant: argument 1 must be a function");bailout)
+		(error("FindRootSecant: argument 1 must be a function");bailout)
 	else if(not IsReal(a) or not IsReal(b) or not IsReal(TOL)) then
-		(error("find_root_secant: arguments 2, 3, 4 must be real values");bailout)
+		(error("FindRootSecant: arguments 2, 3, 4 must be real values");bailout)
 	else if(not IsInteger(N)) then
-		(error("find_root_secant: argument 5 must be an integer");bailout);
+		(error("FindRootSecant: argument 5 must be an integer");bailout);
 ## check bounds
-	if(a>b) then (error("find_root_secant: argument 2 must be less than or equal to argument 3");bailout)
-	else if(f(a)*f(b)>0) then (error("find_root_secant: value of endpoints must have differing sign");bailout);
+	if(a>b) then (error("FindRootSecant: argument 2 must be less than or equal to argument 3");bailout)
+        else if(Sign(f(a)) == Sign(f(b))) then (error("FindRootSecant: value of endpoints must have differing sign");bailout);
 
 # Start calculating
 	iteration=2;
+        a:=float(a);
+        b:=float(b);
 	qa=f(a);
 	qb=f(b);
 	p=a;
@@ -93,24 +94,26 @@ function FindRootSecant(f,a,b,TOL,N) =
 
 # The Method of False Position, Section 2.3, Algorithm 2.5, p. 64
 SetHelp ("FindRootFalsePosition", "equation_solving",
-         "Find root of a function using the method of false position")
+         "Find root of a function using the method of false position to within TOL tolerance in up to N iterations.  f(a) and f(b) must have opposite signs.")
 function FindRootFalsePosition(f,a,b,TOL,N) =
 	(
 	local *;
 # check arguments
 ## check types
 	if(not IsFunction(f)) then
-		(error("find_root_false_position: argument 1 must be a function");bailout)
+		(error("FindRootFalsePosition: argument 1 must be a function");bailout)
 	else if(not IsReal(a) or not IsReal(b) or not IsReal(TOL)) then
-		(error("find_root_false_position: arguments 2, 3, 4 must be real values");bailout)
+		(error("FindRootFalsePosition: arguments 2, 3, 4 must be real values");bailout)
 	else if(not IsInteger(N)) then
-		(error("find_root_false_position: argument 5 must be an integer");bailout);
+		(error("FindRootFalsePosition: argument 5 must be an integer");bailout);
 ## check bounds
-	if(a>b) then (error("find_root_false_position: argument 2 must be less than or equal to argument 3");bailout)
-	else if(f(a)*f(b)>0) then (error("find_root_false_position: value of endpoints must have differing sign");bailout);
+	if(a>b) then (error("FindRootFalsePosition: argument 2 must be less than or equal to argument 3");bailout)
+	else if(Sign(f(a)) == Sign(f(b))) then (error("FindRootFalsePosition: value of endpoints must have differing sign");bailout);
 
 # Start calculating
 	iteration=2;
+        a:=float(a);
+        b:=float(b);
 	qa=f(a);
 	qb=f(b);
 	p=a;
@@ -132,14 +135,14 @@ function FindRootFalsePosition(f,a,b,TOL,N) =
 #FIXME: doesn't work right, check this
 SetHelp ("FindRootMullersMethod", "equation_solving",
          "Find root of a function using the Muller's method")
-function FindRootMullersMethod(f,x1,x2,x3,TOL,N) =
+function FindRootMullersMethod(f,x0,x1,x2,TOL,N) =
 	(
 	local *;
 # check arguments
 ## check types
 	if(not IsFunction(f)) then
 		(error("FindRootMullersMethod: argument 1 must be a function");bailout)
-	else if(not IsReal(x1) or not IsReal(x2) or not IsReal(x3) or not IsReal(TOL)) then
+	else if(not IsReal(x0) or not IsReal(x1) or not IsReal(x2) or not IsReal(TOL)) then
 		(error("FindRootMullersMethod: arguments 2, 3, 4, 5 must be real values");bailout)
 	else if(not IsInteger(N)) then
 		(error("FindRootMullersMethod: argument 6 must be an integer");bailout);
@@ -170,5 +173,5 @@ function FindRootMullersMethod(f,x1,x2,x3,TOL,N) =
 	d=(d2-d1)/(h2+h1);
 	increment i
 	);
-	[false,p,iteration]
+	[false,p,i]
 )
