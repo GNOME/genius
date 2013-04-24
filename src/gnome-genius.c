@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2012 Jiri (George) Lebl
+ * Copyright (C) 1997-2013 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -5085,7 +5085,7 @@ main (int argc, char *argv[])
 			     "%s\n"
 			     "This is free software with ABSOLUTELY NO WARRANTY.\n"
 			     "For license details type `%swarranty%s'.\n"
-			     "For help type '%smanual%s' or '%shelp%s'.%s\n\n"),
+			     "For help type `%smanual%s' or `%shelp%s'.%s\n\n"),
 			   "\e[0;32m" /* green */,
 			   "\e[0m" /* white on black */,
 			   VERSION,

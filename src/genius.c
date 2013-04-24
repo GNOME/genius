@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2012 Jiri (George) Lebl
+ * Copyright (C) 1997-2013 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -531,7 +531,7 @@ main(int argc, char *argv[])
 			   "%s\n"
 			   "This is free software with ABSOLUTELY NO WARRANTY.\n"
 			   "For license details type `warranty'.\n"
-			   "For help type 'manual' or 'help'.%s\n\n"),
+			   "For help type `manual' or `help'.%s\n\n"),
 			 VERSION,
 			 _(GENIUS_COPYRIGHT_STRING),
 			 get_version_details ());
