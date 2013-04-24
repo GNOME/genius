@@ -811,6 +811,7 @@ plot_print_cb (void)
 		return;
 	}
 
+	g_free (last_cmd);
 	last_cmd = g_strdup (gtk_entry_get_text (GTK_ENTRY (cmd)));
 
 	gtk_widget_destroy (req);
@@ -2129,17 +2130,22 @@ clear_graph (void)
 
 static void
 get_ticks (double start, double end, double *tick, int *prec,
-	   int *style)
+	   int *style, int *fontheight)
 {
 	int incs;
 	double len = end-start;
 	int tries = 0;
 	int tickprec;
 	int extra_prec;
+	int prec_of_start;
+	int diff_of_prec;
 
+	prec_of_start = -floor (log10(fabs(start)));
 	tickprec = -floor (log10(len));
 	*tick = pow (10, -tickprec);
 	incs = floor (len / *tick);
+
+	*fontheight = 12;
 
 	extra_prec = 0;
 
@@ -2168,18 +2174,39 @@ get_ticks (double start, double end, double *tick, int *prec,
 		}
 	}
 
-	if (tickprec + extra_prec <= -6) {
-		*prec = 1;
+	diff_of_prec = tickprec + extra_prec - prec_of_start;
+
+	if (prec_of_start <= -6) {
+		*prec = MAX(diff_of_prec,1);
 		*style = GTK_PLOT_LABEL_EXP;
-	} else if (tickprec + extra_prec <= 0) {
+	} else if (prec_of_start >= 6) {
+		*prec = MAX(diff_of_prec,1);
+		*style = GTK_PLOT_LABEL_EXP;
+	} else if (prec_of_start <= 0) {
 		*style = GTK_PLOT_LABEL_FLOAT;
-		*prec = 0;
-	} else if (tickprec + extra_prec >= 6) {
-		*prec = 1;
-		*style = GTK_PLOT_LABEL_EXP;
+		*prec = MAX(tickprec + extra_prec,0);
 	} else {
-		*style = GTK_PLOT_LABEL_FLOAT;
-		*prec = tickprec + extra_prec;
+		if (diff_of_prec > 2) {
+			*prec = MAX(diff_of_prec,1);
+			*style = GTK_PLOT_LABEL_EXP;
+		} else {
+			*style = GTK_PLOT_LABEL_FLOAT;
+			*prec = tickprec + extra_prec;
+		}
+	}
+
+	if (*style == GTK_PLOT_LABEL_FLOAT) {
+		if (diff_of_prec > 8) {
+			*fontheight = 8;
+		} else if (diff_of_prec > 6) {
+			*fontheight = 10;
+		}
+	} else if (*style == GTK_PLOT_LABEL_EXP) {
+		if (*prec > 4) {
+			*fontheight = 8;
+		} else if (*prec > 2) {
+			*fontheight = 10;
+		}
 	}
 }
 
@@ -2190,9 +2217,10 @@ plot_setup_axis (void)
 	double xtick, ytick;
 	GtkPlotAxis *axis;
 	GdkColor gray;
+	int xfontheight, yfontheight;
 
-	get_ticks (plotx1, plotx2, &xtick, &xprec, &xstyle);
-	get_ticks (ploty1, ploty2, &ytick, &yprec, &ystyle);
+	get_ticks (plotx1, plotx2, &xtick, &xprec, &xstyle, &xfontheight);
+	get_ticks (ploty1, ploty2, &ytick, &yprec, &ystyle, &yfontheight);
 
 	gtk_plot_freeze (GTK_PLOT (line_plot));
 
@@ -2234,6 +2262,8 @@ plot_setup_axis (void)
 
 
 	axis = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_TOP);
+	/* FIXME: this is a hack */
+	axis->labels_attr.height = xfontheight;
 	gtk_plot_axis_set_labels_style (axis,
 					xstyle /* style */,
 					xprec /* precision */);
@@ -2242,6 +2272,8 @@ plot_setup_axis (void)
 				      GTK_PLOT_LABEL_NONE);
 
 	axis = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_BOTTOM);
+	/* FIXME: this is a hack */
+	axis->labels_attr.height = xfontheight;
 	gtk_plot_axis_set_labels_style (axis,
 					xstyle /* style */,
 					xprec /* precision */);
@@ -2250,6 +2282,8 @@ plot_setup_axis (void)
 				      GTK_PLOT_LABEL_NONE);
 
 	axis = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_LEFT);
+	/* FIXME: this is a hack */
+	axis->labels_attr.height = yfontheight;
 	gtk_plot_axis_set_labels_style (axis,
 					ystyle /* style */,
 					yprec /* precision */);
@@ -2258,6 +2292,8 @@ plot_setup_axis (void)
 				      GTK_PLOT_LABEL_NONE);
 
 	axis = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_RIGHT);
+	/* FIXME: this is a hack */
+	axis->labels_attr.height = yfontheight;
 	gtk_plot_axis_set_labels_style (axis,
 					ystyle /* style */,
 					yprec /* precision */);
@@ -2281,10 +2317,11 @@ surface_setup_axis (void)
 	int xstyle, ystyle, zstyle;
 	double xtick, ytick, ztick;
 	GtkPlotAxis *x, *y, *z;
+	int xfontheight, yfontheight, zfontheight;
 
-	get_ticks (surfacex1, surfacex2, &xtick, &xprec, &xstyle);
-	get_ticks (surfacey1, surfacey2, &ytick, &yprec, &ystyle);
-	get_ticks (surfacez1, surfacez2, &ztick, &zprec, &zstyle);
+	get_ticks (surfacex1, surfacex2, &xtick, &xprec, &xstyle, &xfontheight);
+	get_ticks (surfacey1, surfacey2, &ytick, &yprec, &ystyle, &yfontheight);
+	get_ticks (surfacez1, surfacez2, &ztick, &zprec, &zstyle, &zfontheight);
 
 	x = gtk_plot3d_get_axis (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_X);
 	y = gtk_plot3d_get_axis (GTK_PLOT3D (surface_plot), GTK_PLOT_AXIS_Y);
@@ -2300,6 +2337,11 @@ surface_setup_axis (void)
 	gtk_plot_axis_set_ticks (y, ytick, 1);
 	gtk_plot3d_set_zrange (GTK_PLOT3D (surface_plot), surfacez1, surfacez2);
 	gtk_plot_axis_set_ticks (z, ztick, 1);
+
+	/*FIXME: hack*/
+	x->labels_attr.height = xfontheight;
+	y->labels_attr.height = yfontheight;
+	z->labels_attr.height = zfontheight;
 
 	gtk_plot_axis_set_labels_style (x,
 					xstyle,
