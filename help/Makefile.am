@@ -10,8 +10,7 @@ DOC_FIGURES =	figures/parametric.png		\
 		figures/parametric_graph.png	\
 		figures/surface_graph.png
 
-DOC_ENTITIES =	gel-function-list.xml	\
-           	legal.xml
+DOC_ENTITIES =	legal.xml
 
 DOC_LINGUAS = cs de es fr ru
 

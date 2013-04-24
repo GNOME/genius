@@ -1209,8 +1209,7 @@ a'
 a.'
 
           Matrix transpose, does not conjugate the entries. That
-          is, the the i,j element of a becomes the j,i element of
-          a.'.
+          is, the i,j element of a becomes the j,i element of a.'.
 
 a@(b,c)
 
@@ -1884,7 +1883,7 @@ GEL Startup Procedure
    looks into the current directory, and then it tries to load an
    uncompiled file called ~/.geniusinit.
 
-   If you ever change the the library its installed place, you’ll
+   If you ever change the library in its installed place, you’ll
    have to first compile it with genius --compile loader.gel >
    lib.cgel
      __________________________________________________________
@@ -4280,7 +4279,7 @@ Linear Algebra
 AuxiliaryUnitMatrix (n)
 
           Get the auxiliary unit matrix of size n. This is a
-          square matrix matrix with that is all zero except the
+          square matrix with that is all zero except the
           superdiagonal being all ones. It is the Jordan block
           matrix of one zero eigenvalue.
 
@@ -5344,9 +5343,9 @@ NumericalFourierSeriesFunction (f,L,N)
 
 NumericalFourierCosineSeriesCoefficients (f,L,N)
 
-          Return a vector of coefficients of the the cosine
-          Fourier series of f with half-period L. That is, we take
-          f defined on [0,L] take the even periodic extension and
+          Return a vector of coefficients of the cosine Fourier
+          series of f with half-period L. That is, we take f
+          defined on [0,L] take the even periodic extension and
           compute the Fourier series, which only has cosine terms.
           The series is computed up to the Nth harmonic. The
           coefficients are computed by numerical integration using
@@ -5374,7 +5373,7 @@ NumericalFourierCosineSeriesFunction (f,L,N)
 
 NumericalFourierSineSeriesCoefficients (f,L,N)
 
-          Return a vector of coefficients of the the sine Fourier
+          Return a vector of coefficients of the sine Fourier
           series of f with half-period L. That is, we take f
           defined on [0,L] take the odd periodic extension and
           compute the Fourier series, which only has sine terms.
@@ -5755,29 +5754,31 @@ EulersMethodFull (f,x0,y0,x1,n)
 
 FindRootBisection (f,a,b,TOL,N)
 
-          Find root of a function using the bisection method. TOL
-          is the desired tolerance and N is the limit on the
-          number of iterations to run, 0 means no limit. The
-          function returns a vector [success,value,iteration],
-          where success is a boolean indicating success, value is
-          the last value computed, and iteration is the number of
-          iterations done.
+          Find root of a function using the bisection method. a
+          and b are the initial guess interval, f(a) and f(b)
+          should have opposite signs. TOL is the desired tolerance
+          and N is the limit on the number of iterations to run, 0
+          means no limit. The function returns a vector
+          [success,value,iteration], where success is a boolean
+          indicating success, value is the last value computed,
+          and iteration is the number of iterations done.
 
    FindRootFalsePosition
 
 FindRootFalsePosition (f,a,b,TOL,N)
 
           Find root of a function using the method of false
-          position. TOL is the desired tolerance and N is the
-          limit on the number of iterations to run, 0 means no
-          limit. The function returns a vector
+          position. a and b are the initial guess interval, f(a)
+          and f(b) should have opposite signs. TOL is the desired
+          tolerance and N is the limit on the number of iterations
+          to run, 0 means no limit. The function returns a vector
           [success,value,iteration], where success is a boolean
           indicating success, value is the last value computed,
           and iteration is the number of iterations done.
 
    FindRootMullersMethod
 
-FindRootMullersMethod (f,x1,x2,x3,TOL,N)
+FindRootMullersMethod (f,x0,x1,x2,TOL,N)
 
           Find root of a function using the Muller's method. TOL
           is the desired tolerance and N is the limit on the
@@ -5791,13 +5792,14 @@ FindRootMullersMethod (f,x1,x2,x3,TOL,N)
 
 FindRootSecant (f,a,b,TOL,N)
 
-          Find root of a function using the secant method. TOL is
-          the desired tolerance and N is the limit on the number
-          of iterations to run, 0 means no limit. The function
-          returns a vector [success,value,iteration], where
-          success is a boolean indicating success, value is the
-          last value computed, and iteration is the number of
-          iterations done.
+          Find root of a function using the secant method. a and b
+          are the initial guess interval, f(a) and f(b) should
+          have opposite signs. TOL is the desired tolerance and N
+          is the limit on the number of iterations to run, 0 means
+          no limit. The function returns a vector
+          [success,value,iteration], where success is a boolean
+          indicating success, value is the last value computed,
+          and iteration is the number of iterations done.
 
    PolynomialRoots
 
@@ -6736,11 +6738,12 @@ About Genius Mathematics Tool
    visit the Genius Web page.
 
    To report a bug or make a suggestion regarding this application
-   or this manual, follow the directions in this document.
+   or this manual, send email to me (the author) or post to the
+   mailing list (see the web page).
 
    This program is distributed under the terms of the GNU General
    Public license as published by the Free Software Foundation;
-   either version 2 of the License, or (at your option) any later
+   either version 3 of the License, or (at your option) any later
    version. A copy of this license can be found at this link, or
    in the file COPYING included with the source code of this
    program.
@@ -6748,5 +6751,5 @@ About Genius Mathematics Tool
    Jiří Lebl was during various parts of the development partially
    supported for the work by NSF grant DMS 0900885, the University
    of Illinois at Urbana-Champaign, the University of California
-   at San Diego and the University of Wisconsin-Madison. The
+   at San Diego, and the University of Wisconsin-Madison. The
    software has been used for both teaching and research.
