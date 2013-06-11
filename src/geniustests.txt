@@ -544,6 +544,11 @@ Factorize(15)							[1,3,5;1,1,1]
 Factors(15)							[1,3,5,15]
 Factors(-15)							[-1,1,3,5,15]
 Factors(0)+1							((null)+1)
+Factors(NextPrime(777777)*NextPrime(888888))			[1,777781,888917,691382753177]
+Factors(NextPrime(7777777)*NextPrime(8888888))			[1,7777801,8888927,69136305309527]
+Factors(NextPrime(77777)^2*NextPrime(88888))			[1,77783,88897,6050195089,6914675351,537844192826833]
+Factors(2^10)							[1,2,4,8,16,32,64,128,256,512,1024]
+Factors(2^5*NextPrime(10000000))				[1,2,4,8,16,32,10000019,20000038,40000076,80000152,160000304,320000608]
 PrimeFactors(15)						[3,5]
 MaximalPrimePowerFactors(15)					[3,5]
 MaximalPrimePowerFactors(75)					[3,25]
@@ -1120,6 +1125,10 @@ for n=0 to 1 by 0.1 do n					1.0
 for n=0 to 1 by 0.100000001 do n				1.0
 for n=0 to 1 by 0.10000001 do n					0.90000009
 for n=1 to 9.99999999999 do n					9.99999999999
+FindRootBisection (`(x)=x^2-1,0.5,1.6,10^-20,10000000)		[true,1.0,67]
+FindRootBisection (`(x)=x^2-1,-1,0.9,10^-20,10000000)		[true,-1.0,68]
+FindRootBisection (`(x)=x^2-1,0,10^2000,10^-20,1000)@(1)	false
+FindRootBisection (`(x)=x^2+1,-1,1,0.01,100)			FindRootBisection((`(x)=((x^2)+1)),-1,1,0.01,100)
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
 load "testprec.gel"						true
