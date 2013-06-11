@@ -928,7 +928,13 @@ help_on_function (GtkWidget *menuitem, gpointer data)
 	GtkWidget *d;
 	GtkWidget *e;
 	GtkWidget *box;
+	GtkEntryCompletion *completion;
+	GtkListStore *model;
 	int ret;
+	int i;
+	GSList *funcs;
+	GSList *li;
+	
 
 	d = gtk_dialog_new_with_buttons
 		(_("Help on Function"),
@@ -958,6 +964,31 @@ help_on_function (GtkWidget *menuitem, gpointer data)
 	gtk_box_pack_start (GTK_BOX (box),
 			    e,
 			    FALSE, FALSE, 0);
+
+	completion = gtk_entry_completion_new ();
+	gtk_entry_completion_set_text_column(completion, 0);
+	gtk_entry_set_completion (GTK_ENTRY (e), completion);
+        model = gtk_list_store_new(1, G_TYPE_STRING);
+
+	for (i = 0; genius_toplevels[i] != NULL; i++) {
+		GtkTreeIter iter;
+		gtk_list_store_append (model, &iter);
+		gtk_list_store_set (model, &iter, 0, genius_toplevels[i], -1);
+	}
+
+	funcs = d_getcontext();
+	
+	for (li = funcs; li != NULL; li = li->next) {
+		GelEFunc *f = li->data;
+		GtkTreeIter iter;
+		if (f->id == NULL ||
+		    f->id->token == NULL)
+			continue;
+		gtk_list_store_append (model, &iter);
+		gtk_list_store_set (model, &iter, 0, f->id->token, -1);
+	}
+	gtk_entry_completion_set_model (completion, GTK_TREE_MODEL (model));
+ 
 
 run_help_dlg_again:
 	gtk_widget_show_all (d);
