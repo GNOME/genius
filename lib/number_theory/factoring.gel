@@ -67,39 +67,59 @@ function CombineFactorizations(a,b) = (
 )
 
 # Returns all factors of n, i.e., all numbers between 1 and n that divide
-# n.
-# FIXME: this is a naive implementation. Better would be to compute
-# the prime factorization for n and then combine it in all possible ways.
+# n.  For small n does a naive implementation by trying all factors
+# up to square root, for large numbers does Factorize first and then
+# combines the factors in all possible ways.
 SetHelp("Factors", "number_theory", "Return all factors of a number")
-function Factors(n) =
- (
+function Factors(n) = (
   if not IsInteger(n) then
   	(error("Factors: argument not an integer");bailout);
   if n == 0 then return null;
 
-  front_list=[0];
-  back_list=[0];
+  list = null;
 
   if n < 0 then (
     n = -n;
-    front_list=[0,-1]
+    list = [-1]
   );
 
-  for loop = 1 to floor(sqrt(n-1)) do
-   (
-    if Divides(loop,n) then
-     (
-      front_list=[front_list,loop];
-      back_list=[n/loop,back_list]
-     )
-   );
+  # for small n do naive implementation which is faster
+  if n < 100000 then (
+    back_list=null;
 
-  if IsPerfectSquare(n) then
-    r = [front_list,sqrt(n),back_list]
-  else
-    r = [front_list,back_list];
-  r@(2:elements(r)-1)
- )
+    for loop = 1 to floor(sqrt(n-1)) do (
+      if Divides(loop,n) then (
+        list=[list,loop];
+        back_list=[n/loop,back_list]
+      )
+    );
+
+    if IsPerfectSquare(n) then
+      r = [list,sqrt(n),back_list]
+    else
+      r = [list,back_list];
+    r
+  ) else (
+    fnc = fn = Factorize (n);
+    for j=2 to columns(fnc) do fnc@(2,j) = 0;
+  
+    do (
+      list = [list, (prod j=2 to columns(fnc) do fnc@(1,j)^fnc@(2,j))];
+    
+      gotnext = false;
+      for j = 2 to columns(fnc) do (
+        if fnc@(2,j) < fn@(2,j) then (
+          increment fnc@(2,j);
+          gotnext = true;
+          break
+        ) else ( #fnc@(2,j) == fn@(2,j)
+          fnc@(2,j) := 0
+        )
+      )
+    ) while (gotnext); 
+    SortVector(list)
+  ) 
+)
 
 SetHelp("FermatFactorization", "number_theory", "Attempt Fermat factorization of n into (t-s)*(t+s), returns t and s as a vector if possible, null otherwise")
 function FermatFactorization(n,tries) = (
