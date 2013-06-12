@@ -4,7 +4,7 @@
   <!ENTITY app "<application>Genius Mathematics Tool</application>">
   <!ENTITY appname "Genius">
   <!ENTITY appversion "1.0.17">
-  <!ENTITY date "April 2013">
+  <!ENTITY date "June 2013">
 
   <!ENTITY legal SYSTEM "legal.xml">
 
@@ -475,14 +475,17 @@ See <xref linkend="lineplot-fig"/>.
       </figure>
 
       <para>
-	Into the text boxes just type in expressions where <userinput>x</userinput> is
-	the independent variable.  You can also just give names of functions such as
+	Type expressions with <userinput>x</userinput> as
+	the independent variable into the textboxes.  Alternatively you can give names of functions such as
 	<userinput>cos</userinput> rather then having to type <userinput>cos(x)</userinput>.
 	You can graph up to ten functions.  If you make a mistake and &appname; cannot
 	parse the input it will signify this with a warning icon on the right of the text
 	input box where the error occurred, as well as giving you an error dialog.
 	You can change the ranges of the dependent and independent variables in the bottom
 	part of the dialog.
+	The <varname>y</varname> (dependent) range can be set automatically by turning on the <guilabel>Fit dependent axis</guilabel>
+	checkbox.
+	The names of the variables can also be changed.
 	Pressing the <guilabel>Plot</guilabel> button produces the graph shown in <xref linkend="lineplot2-fig"/>.
       </para>
 
@@ -519,7 +522,13 @@ See <xref linkend="lineplot-fig"/>.
 	In the create plot window, you can also choose the <guilabel>Parametric</guilabel> notebook
         tab to create two dimensional parametric plots.  This way you can
 	plot a single parametric function.  You can either specify the
-	points as x and y, or giving a single complex number.
+	points as <varname>x</varname> and <varname>y</varname>, or giving a single complex number
+	as a function of the variable <varname>t</varname>.
+	The range of the variable <varname>t</varname> is given explicitly, and the function is sampled
+	according to the given increment.
+	The <varname>x</varname> and <varname>y</varname> range can be set
+	automatically by turning on the <guilabel>Fit dependent axis</guilabel>
+	checkbox, or it can be specified explicitly.
 	See <xref linkend="paramplot-fig"/>.
       </para>
 
@@ -647,6 +656,10 @@ See <xref linkend="lineplot-fig"/>.
 	See <xref linkend="surfaceplot-fig"/>.
 	For plotting using the command line see the documentation of the
         <link linkend="gel-function-SurfacePlot"><function>SurfacePlot</function></link> function.
+      </para>
+      <para>
+	      The <varname>z</varname> range can be set automatically by turning on the <guilabel>Fit dependent axis</guilabel>
+	      checkbox.
       </para>
 
       <figure id="surfaceplot-fig"> 
@@ -8190,15 +8203,20 @@ and has period <userinput>b-a</userinput>.</para>
          <term><anchor id="gel-function-LinePlot"/>LinePlot</term>
          <listitem>
           <synopsis>LinePlot (func1,func2,func3,...)</synopsis>
+          <synopsis>LinePlot (func1,func2,func3,x1,x2)</synopsis>
           <synopsis>LinePlot (func1,func2,func3,x1,x2,y1,y2)</synopsis>
+          <synopsis>LinePlot (func1,func2,func3,[x1,x2])</synopsis>
+          <synopsis>LinePlot (func1,func2,func3,[x1,x2,y1,y2])</synopsis>
           <para>
 	    Plot a function (or several functions) with a line.
-	    First up to 10 arguments are functions, then optionally
+	    First (up to 10) arguments are functions, then optionally
             you can specify the limits of the plotting window as
 	    <varname>x1</varname>, <varname>x2</varname>,
 	    <varname>y1</varname>, <varname>y2</varname>.  If limits are not
 	    specified, then the currently set limits apply
 	    (See <link linkend="gel-function-LinePlotWindow"><function>LinePlotWindow</function></link>)
+	    If the y limits are not sepcified, then the functions are computed and then the maxima and minima
+	    are used.
           </para>
           <para>
 	    The parameter
@@ -8274,15 +8292,19 @@ and has period <userinput>b-a</userinput>.</para>
           <synopsis>LinePlotParametric (xfunc,yfunc,...)</synopsis>
           <synopsis>LinePlotParametric (xfunc,yfunc,t1,t2,tinc)</synopsis>
           <synopsis>LinePlotParametric (xfunc,yfunc,t1,t2,tinc,x1,x2,y1,y2)</synopsis>
+          <synopsis>LinePlotParametric (xfunc,yfunc,t1,t2,tinc,[x1,x2,y1,y2])</synopsis>
+          <synopsis>LinePlotParametric (xfunc,yfunc,t1,t2,tinc,"fit")</synopsis>
           <para>
 	    Plot a parametric function with a line.  First come the functions
 for <varname>x</varname> and <varname>y</varname> then optionally the <varname>t</varname> limits as <userinput>t1,t2,tinc</userinput>, then optionally the
 limits as <userinput>x1,x2,y1,y2</userinput>.
           </para>
 	  <para>
-	    If limits are not
+	    If x and y limits are not
 	    specified, then the currently set limits apply
 	    (See <link linkend="gel-function-LinePlotWindow"><function>LinePlotWindow</function></link>).
+	    If instead the string "fit" is given for the x and y limits, then the limits are the maximum extent of
+	    the graph
           </para>
           <para>
 	    The parameter
@@ -8308,6 +8330,8 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 	    If limits are not
 	    specified, then the currently set limits apply
 	    (See <link linkend="gel-function-LinePlotWindow"><function>LinePlotWindow</function></link>).
+	    If instead the string "fit" is given for the x and y limits, then the limits are the maximum extent of
+	    the graph
           </para>
           <para>
 	    The parameter
@@ -8380,7 +8404,9 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
          <listitem>
           <synopsis>SurfacePlot (func)</synopsis>
           <synopsis>SurfacePlot (func,x1,x2,y1,y2,z1,z2)</synopsis>
+          <synopsis>SurfacePlot (func,x1,x2,y1,y2)</synopsis>
           <synopsis>SurfacePlot (func,[x1,x2,y1,y2,z1,z2])</synopsis>
+          <synopsis>SurfacePlot (func,[x1,x2,y1,y2])</synopsis>
           <para>
 	    Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as <varname>x1</varname>, <varname>x2</varname>,
 	    <varname>y1</varname>, <varname>y2</varname>,
@@ -8389,6 +8415,9 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 	    (See <link linkend="gel-function-SurfacePlotWindow"><function>SurfacePlotWindow</function></link>).
 	    Genius can only plot a single surface function at this time.
           </para>
+          <para>
+	    If the z limits are not specified then the maxima and minima of the function are used.
+	  </para>
           <para>
 	    Examples:
           <screen><prompt>genius></prompt> <userinput>SurfacePlot(|sin|,-1,1,-1,1,0,1.5)</userinput>

@@ -12,7 +12,7 @@ Kai Willadsen
 
     <kaiw@itee.uq.edu.au>
 
-   Copyright © 1997-2012 Jiří (George) Lebl
+   Copyright © 1997-2013 Jiří (George) Lebl
 
    Copyright © 2004 Kai Willadsen
 
@@ -75,7 +75,7 @@ Kai Willadsen
    To report a bug or make a suggestion regarding the Genius
    Mathematics Tool application or this manual, follow the
    directions in the GNOME Feedback Page.
-   This manual describes version 1.0.16 of Genius.
+   This manual describes version 1.0.17 of Genius.
      __________________________________________________________
 
    Table of Contents
@@ -415,16 +415,18 @@ Line Plots
 
    Figure 1. Create Plot Window
 
-   Into the text boxes just type in expressions where x is the
-   independent variable. You can also just give names of functions
-   such as cos rather then having to type cos(x). You can graph up
-   to ten functions. If you make a mistake and Genius cannot parse
+   Type expressions with x as the independent variable into the
+   textboxes. Alternatively you can give names of functions such
+   as cos rather then having to type cos(x). You can graph up to
+   ten functions. If you make a mistake and Genius cannot parse
    the input it will signify this with a warning icon on the right
    of the text input box where the error occurred, as well as
    giving you an error dialog. You can change the ranges of the
    dependent and independent variables in the bottom part of the
-   dialog. Pressing the Plot button produces the graph shown in
-   Figure 2.
+   dialog. The y (dependent) range can be set automatically by
+   turning on the Fit dependent axis checkbox. The names of the
+   variables can also be changed. Pressing the Plot button
+   produces the graph shown in Figure 2.
 
    [line_plot_graph.png]
 
@@ -445,7 +447,11 @@ Parametric Plots
    notebook tab to create two dimensional parametric plots. This
    way you can plot a single parametric function. You can either
    specify the points as x and y, or giving a single complex
-   number. See Figure 3.
+   number as a function of the variable t. The range of the
+   variable t is given explicitly, and the function is sampled
+   according to the given increment. The x and y range can be set
+   automatically by turning on the Fit dependent axis checkbox, or
+   it can be specified explicitly. See Figure 3.
 
    [parametric.png]
 
@@ -528,6 +534,9 @@ Surface Plots
    parameters, you could enter |cos(z)|. This would be equivalent
    to |cos(x+1i*y)|. See Figure 5. For plotting using the command
    line see the documentation of the SurfacePlot function.
+
+   The z range can be set automatically by turning on the Fit
+   dependent axis checkbox.
 
    [surface_graph.png]
 
@@ -6221,13 +6230,21 @@ genius> ExportPlot("/directory/file","eps")
 
 LinePlot (func1,func2,func3,...)
 
+LinePlot (func1,func2,func3,x1,x2)
+
 LinePlot (func1,func2,func3,x1,x2,y1,y2)
 
+LinePlot (func1,func2,func3,[x1,x2])
+
+LinePlot (func1,func2,func3,[x1,x2,y1,y2])
+
           Plot a function (or several functions) with a line.
-          First up to 10 arguments are functions, then optionally
-          you can specify the limits of the plotting window as x1,
-          x2, y1, y2. If limits are not specified, then the
-          currently set limits apply (See LinePlotWindow)
+          First (up to 10) arguments are functions, then
+          optionally you can specify the limits of the plotting
+          window as x1, x2, y1, y2. If limits are not specified,
+          then the currently set limits apply (See LinePlotWindow)
+          If the y limits are not sepcified, then the functions
+          are computed and then the maxima and minima are used.
 
           The parameter LinePlotDrawLegends controls the drawing
           of the legend.
@@ -6281,12 +6298,18 @@ LinePlotParametric (xfunc,yfunc,t1,t2,tinc)
 
 LinePlotParametric (xfunc,yfunc,t1,t2,tinc,x1,x2,y1,y2)
 
+LinePlotParametric (xfunc,yfunc,t1,t2,tinc,[x1,x2,y1,y2])
+
+LinePlotParametric (xfunc,yfunc,t1,t2,tinc,"fit")
+
           Plot a parametric function with a line. First come the
           functions for x and y then optionally the t limits as
           t1,t2,tinc, then optionally the limits as x1,x2,y1,y2.
 
-          If limits are not specified, then the currently set
-          limits apply (See LinePlotWindow).
+          If x and y limits are not specified, then the currently
+          set limits apply (See LinePlotWindow). If instead the
+          string "fit" is given for the x and y limits, then the
+          limits are the maximum extent of the graph
 
           The parameter LinePlotDrawLegends controls the drawing
           of the legend.
@@ -6305,7 +6328,9 @@ LinePlotCParametric (func,t1,t2,tinc,x1,x2,y1,y2)
           the limits as x1,x2,y1,y2.
 
           If limits are not specified, then the currently set
-          limits apply (See LinePlotWindow).
+          limits apply (See LinePlotWindow). If instead the string
+          "fit" is given for the x and y limits, then the limits
+          are the maximum extent of the graph
 
           The parameter LinePlotDrawLegends controls the drawing
           of the legend.
@@ -6355,7 +6380,11 @@ SurfacePlot (func)
 
 SurfacePlot (func,x1,x2,y1,y2,z1,z2)
 
+SurfacePlot (func,x1,x2,y1,y2)
+
 SurfacePlot (func,[x1,x2,y1,y2,z1,z2])
+
+SurfacePlot (func,[x1,x2,y1,y2])
 
           Plot a surface function which takes either two arguments
           or a complex number. First comes the function then
@@ -6363,6 +6392,9 @@ SurfacePlot (func,[x1,x2,y1,y2,z1,z2])
           are not specified, then the currently set limits apply
           (See SurfacePlotWindow). Genius can only plot a single
           surface function at this time.
+
+          If the z limits are not specified then the maxima and
+          minima of the function are used.
 
           Examples:
 

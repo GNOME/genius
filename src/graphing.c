@@ -180,7 +180,7 @@ static gboolean lineplot_draw_legends = TRUE;
 static gboolean lineplot_draw_legends_cb = TRUE;
 static gboolean lineplot_draw_labels = TRUE;
 static gboolean lineplot_draw_labels_cb = TRUE;
-/* static gboolean lineplot_fit_dependent_axis_cb = TRUE; */
+static gboolean lineplot_fit_dependent_axis_cb = TRUE;
 static gboolean vectorfield_normalize_arrow_length = FALSE;
 static gboolean vectorfield_normalize_arrow_length_cb = FALSE;
 static gboolean vectorfield_normalize_arrow_length_parameter = FALSE;
@@ -189,7 +189,9 @@ static gboolean surfaceplot_draw_legends_cb = TRUE;
 static gboolean surfaceplot_fit_dependent_axis_cb = TRUE;
 
 static GtkWidget* surfaceplot_dep_axis_buttons = NULL;
-/* static GtkWidget* lineplot_dep_axis_buttons = NULL; */
+static GtkWidget* lineplot_dep_axis_buttons = NULL;
+static GtkWidget* lineplot_depx_axis_buttons = NULL;
+static GtkWidget* lineplot_fit_dep_axis_checkbox = NULL;
 
 /* Replotting info */
 static GelEFunc *plot_func[MAXFUNC] = { NULL };
@@ -308,7 +310,9 @@ static void plot_axis (void);
 
 /* lineplots */
 static void plot_functions (gboolean do_window_present,
-			    gboolean from_gui);
+			    gboolean from_gui,
+			    gboolean fit);
+static void recompute_functions (void);
 
 /* surfaces */
 static void plot_surface_functions (gboolean do_window_present, gboolean fit_function);
@@ -2313,8 +2317,7 @@ plot_setup_axis (void)
 
 	/* FIXME: implement logarithmic scale
 	gtk_plot_set_xscale (GTK_PLOT (line_plot), GTK_PLOT_SCALE_LOG10);
-	gtk_plot_set_yscale (GTK_PLOT (line_plot), GTK_PLOT_SCALE_LOG10);
-	*/
+	gtk_plot_set_yscale (GTK_PLOT (line_plot), GTK_PLOT_SCALE_LOG10);*/
 
 	gtk_plot_thaw (GTK_PLOT (line_plot));
 }
@@ -2416,19 +2419,24 @@ plot_axis (void)
 	plot_in_progress ++;
 	plot_window_setup ();
 
-	plot_maxy = - G_MAXDOUBLE/2;
-	plot_miny = G_MAXDOUBLE/2;
-	plot_maxz = - G_MAXDOUBLE/2;
-	plot_minz = G_MAXDOUBLE/2;
-	plot_maxx = - G_MAXDOUBLE/2;
-	plot_minx = G_MAXDOUBLE/2;
-
-	if (plot_mode == MODE_LINEPLOT ||
-	    plot_mode == MODE_LINEPLOT_PARAMETRIC ||
-	    plot_mode == MODE_LINEPLOT_SLOPEFIELD ||
-	    plot_mode == MODE_LINEPLOT_VECTORFIELD) {
+	if (plot_mode == MODE_LINEPLOT) {
+		plot_maxy = - G_MAXDOUBLE/2;
+		plot_miny = G_MAXDOUBLE/2;
+		plot_maxx = - G_MAXDOUBLE/2;
+		plot_minx = G_MAXDOUBLE/2;
+		recompute_functions ();
+		plot_setup_axis ();
+	} else if (plot_mode == MODE_LINEPLOT_PARAMETRIC ||
+		   plot_mode == MODE_LINEPLOT_SLOPEFIELD ||
+		   plot_mode == MODE_LINEPLOT_VECTORFIELD) {
 		plot_setup_axis ();
 	} else if (plot_mode == MODE_SURFACE) {
+		plot_maxx = - G_MAXDOUBLE/2;
+		plot_minx = G_MAXDOUBLE/2;
+		plot_maxy = - G_MAXDOUBLE/2;
+		plot_miny = G_MAXDOUBLE/2;
+		plot_maxz = - G_MAXDOUBLE/2;
+		plot_minz = G_MAXDOUBLE/2;
 		surface_setup_axis ();
 		surface_setup_steps ();
 		gtk_plot_surface_build_mesh (GTK_PLOT_SURFACE (surface_data));
@@ -2721,6 +2729,7 @@ call_func_z (GelCtx *ctx,
 	gel_freetree (ret);
 }
 
+#if 0
 static double
 plot_func_data (GtkPlot *plot, GtkPlotData *data, double x, gboolean *error)
 {
@@ -2784,6 +2793,7 @@ plot_func_data (GtkPlot *plot, GtkPlotData *data, double x, gboolean *error)
 
 	return y;
 }
+#endif
 
 static double
 call_xy_or_z_function (GelEFunc *f, double x, double y, gboolean *ex)
@@ -3175,6 +3185,52 @@ get_limits_from_matrix (GelETree *m, double *x1, double *x2, double *y1, double 
 		*x2 = *x1 + MINPLOT;
 	if (*y2 - *y1 < MINPLOT)
 		*y2 = *y1 + MINPLOT;
+
+	return TRUE;
+}
+
+static gboolean
+get_limits_from_matrix_xonly (GelETree *m, double *x1, double *x2)
+{
+	GelETree *t;
+
+	if (m->type != GEL_MATRIX_NODE ||
+	    gel_matrixw_elements (m->mat.matrix) != 2) {
+		gel_errorout (_("Graph limits not given as a 2-vector"));
+		return FALSE;
+	}
+
+	t = gel_matrixw_vindex (m->mat.matrix, 0);
+	if (t->type != GEL_VALUE_NODE) {
+		gel_errorout (_("Graph limits not given as numbers"));
+		return FALSE;
+	}
+	*x1 = mpw_get_double (t->val.value);
+	if G_UNLIKELY (gel_error_num != 0) {
+		gel_error_num = 0;
+		return FALSE;
+	}
+
+	t = gel_matrixw_vindex (m->mat.matrix, 1);
+	if (t->type != GEL_VALUE_NODE) {
+		gel_errorout (_("Graph limits not given as numbers"));
+		return FALSE;
+	}
+	*x2 = mpw_get_double (t->val.value);
+	if G_UNLIKELY (gel_error_num != 0) {
+		gel_error_num = 0;
+		return FALSE;
+	}
+
+	if (*x1 > *x2) {
+		double s = *x1;
+		*x1 = *x2;
+		*x2 = s;
+	}
+
+	/* sanity */
+	if (*x2 - *x1 < MINPLOT)
+		*x2 = *x1 + MINPLOT;
 
 	return TRUE;
 }
@@ -3964,8 +4020,101 @@ init_plot_ctx (void)
 }
 
 static void
+recompute_function (int funci, double **x, double **y, int *len)
+{
+	int i, iter, lentried;
+	double maxfuzz;
+	double fuzz[16];
+
+	lentried = 1000;/* FIXME: perhaps settable */
+
+	*x = g_new0 (double, lentried);
+	*y = g_new0 (double, lentried);
+
+	/* up to 1% of the interval is fuzzed */
+	maxfuzz = 0.01*(plotx2-plotx1)/lentried;
+	for (i = 0; i < 16; i++) {
+		fuzz[i] = g_random_double_range (-maxfuzz, maxfuzz);
+	}
+
+	iter = 0;
+	for (i = 0; i < lentried; i++) {
+		static int hookrun = 0;
+		gboolean ex = FALSE;
+		double rety;
+		double thex;
+
+		if G_UNLIKELY (gel_interrupted) {
+			*len = iter;
+			return;
+		}
+
+		thex = plotx1 + ((plotx2-plotx1)*(double)i)/lentried +
+			fuzz[i&0xf];
+
+		mpw_set_d (plot_arg->val.value, thex);
+		rety = call_func (plot_ctx, plot_func[funci], plot_arg, &ex, NULL);
+
+		if G_UNLIKELY (ex) {
+			(*x)[iter] = thex;
+#ifdef NAN
+			(*y)[iter] = NAN;
+#else
+#ifdef INFINITY
+			(*y)[iter] = INFINITY;
+#else
+			(*y)[iter] = 1.0/0.0;
+#endif
+#endif
+			iter++;
+		} else {
+			(*x)[iter] = thex;
+			(*y)[iter] = rety;
+			iter++;
+
+			if G_UNLIKELY (rety > plot_maxy)
+				plot_maxy = rety;
+			if G_UNLIKELY (rety < plot_miny)
+				plot_miny = rety;
+		}
+
+		if G_UNLIKELY (hookrun++ >= 10) {
+			if (gel_evalnode_hook != NULL) {
+				hookrun = 0;
+				(*gel_evalnode_hook)();
+				if G_UNLIKELY (gel_interrupted) {
+					*len = iter;
+					return;
+				}
+			}
+		}
+	}
+	*len = iter;
+}
+
+
+
+static void
+recompute_functions (void)
+{
+	int i;
+	for (i = 0; i < MAXFUNC && plot_func[i] != NULL; i++) {
+		double *x, *y;
+		int len;
+		recompute_function (i,&x, &y, &len);
+
+		gtk_plot_data_set_points (line_data[i], x, y, NULL, NULL, len);
+		g_object_set_data_full (G_OBJECT (line_data[i]),
+					"x", x, (GDestroyNotify)g_free);
+		g_object_set_data_full (G_OBJECT (line_data[i]),
+					"y", y, (GDestroyNotify)g_free);
+	}
+}
+
+static void
 plot_functions (gboolean do_window_present,
-		gboolean from_gui)
+		gboolean from_gui,
+		gboolean fit)
 {
 	char *colors[] = {
 		"darkblue",
@@ -4000,6 +4149,7 @@ plot_functions (gboolean do_window_present,
 
 	plot_in_progress ++;
 	plot_window_setup ();
+	gtk_plot_freeze (GTK_PLOT (line_plot));
 
 	/* sanity */
 	if (plotx2 < plotx1) {
@@ -4023,8 +4173,6 @@ plot_functions (gboolean do_window_present,
 	plot_maxy = - G_MAXDOUBLE/2;
 	plot_miny = G_MAXDOUBLE/2;
 
-	plot_setup_axis ();
-
 	init_plot_ctx ();
 
 	if (gel_evalnode_hook != NULL)
@@ -4036,8 +4184,7 @@ plot_functions (gboolean do_window_present,
 		GdkColor color;
 		char *label;
 
-		line_data[i] = GTK_PLOT_DATA
-			(gtk_plot_data_new_function (plot_func_data));
+		line_data[i] = GTK_PLOT_DATA (gtk_plot_data_new ());
 		gtk_plot_add_data (GTK_PLOT (line_plot),
 				   line_data[i]);
 
@@ -4057,6 +4204,27 @@ plot_functions (gboolean do_window_present,
 		gtk_plot_data_set_legend (line_data[i], label);
 		g_free (label);
 	}
+
+	recompute_functions ();
+
+	if (plot_func[0] != NULL && fit) {
+		double size = plot_maxy - plot_miny;
+		if (size <= 0)
+			size = 1.0;
+		ploty1 = plot_miny - size * 0.05;
+		ploty2 = plot_maxy + size * 0.05;
+
+		/* sanity */
+		if (ploty2 <= ploty1)
+			ploty2 = ploty1 + 0.1;
+
+		/* sanity */
+		if (ploty1 < -(G_MAXDOUBLE/2))
+			ploty1 = -(G_MAXDOUBLE/2);
+		if (ploty2 > (G_MAXDOUBLE/2))
+			ploty2 = (G_MAXDOUBLE/2);
+	}
+
 
 	if ((parametric_func_x != NULL && parametric_func_y != NULL) ||
 	    (parametric_func_z != NULL)) {
@@ -4123,7 +4291,38 @@ plot_functions (gboolean do_window_present,
 		}
 		gtk_plot_data_set_legend (parametric_data, label);
 		g_free (label);
+
+		if (fit) {
+			double sizex = plot_maxx - plot_minx;
+			double sizey = plot_maxy - plot_miny;
+			if (sizex <= 0)
+				sizex = 1.0;
+			if (sizey <= 0)
+				sizey = 1.0;
+			plotx1 = plot_minx - sizex * 0.05;
+			plotx2 = plot_maxx + sizex * 0.05;
+			ploty1 = plot_miny - sizey * 0.05;
+			ploty2 = plot_maxy + sizey * 0.05;
+
+			/* sanity */
+			if (plotx2 <= plotx1)
+				plotx2 = plotx1 + 0.1;
+			if (ploty2 <= ploty1)
+				ploty2 = ploty1 + 0.1;
+
+			/* sanity */
+			if (plotx1 < -(G_MAXDOUBLE/2))
+				plotx1 = -(G_MAXDOUBLE/2);
+			if (plotx2 > (G_MAXDOUBLE/2))
+				plotx2 = (G_MAXDOUBLE/2);
+			if (ploty1 < -(G_MAXDOUBLE/2))
+				ploty1 = -(G_MAXDOUBLE/2);
+			if (ploty2 > (G_MAXDOUBLE/2))
+				ploty2 = (G_MAXDOUBLE/2);
+		}
 	} 
+
+	plot_setup_axis ();
 
 	replot_fields ();
 
@@ -4144,6 +4343,7 @@ plot_functions (gboolean do_window_present,
 			(*gel_evalnode_hook)();
 	}
 
+	gtk_plot_thaw (GTK_PLOT (line_plot));
 	plot_in_progress --;
 	plot_window_setup ();
 }
@@ -5003,6 +5203,61 @@ run_dialog_again:
 	set_surface_labels ();
 }
 
+static void
+setup_page (int page)
+{
+	if (page == 0 /* functions */) {
+		gtk_widget_set_sensitive (lineplot_fit_dep_axis_checkbox, TRUE);
+
+		if (lineplot_fit_dependent_axis_cb) {
+			gtk_widget_set_sensitive (lineplot_dep_axis_buttons, FALSE);
+		} else {
+			gtk_widget_set_sensitive (lineplot_dep_axis_buttons, TRUE);
+		}
+		gtk_widget_set_sensitive (lineplot_depx_axis_buttons, TRUE);
+	} else if (page == 1 /* parametric */) {
+		gtk_widget_set_sensitive (lineplot_fit_dep_axis_checkbox, TRUE);
+
+		if (lineplot_fit_dependent_axis_cb) {
+			gtk_widget_set_sensitive (lineplot_dep_axis_buttons, FALSE);
+			gtk_widget_set_sensitive (lineplot_depx_axis_buttons, FALSE);
+		} else {
+			gtk_widget_set_sensitive (lineplot_dep_axis_buttons, TRUE);
+			gtk_widget_set_sensitive (lineplot_depx_axis_buttons, TRUE);
+		}
+	} else {
+		gtk_widget_set_sensitive (lineplot_fit_dep_axis_checkbox, FALSE);
+
+		gtk_widget_set_sensitive (lineplot_dep_axis_buttons, TRUE);
+		gtk_widget_set_sensitive (lineplot_depx_axis_buttons, TRUE);
+	}
+}
+
+static void
+lineplot_switch_page_cb (GtkNotebook *notebook, GtkWidget *page, guint page_num,
+			 gpointer data)
+{
+	setup_page (page_num);
+}
+
+
+/*option callback*/
+static void
+lineplot_fit_cb_cb (GtkWidget * widget)
+{
+	int function_page = gtk_notebook_get_current_page (GTK_NOTEBOOK (function_notebook));
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget))) {
+		lineplot_fit_dependent_axis_cb = TRUE;
+	} else {
+		lineplot_fit_dependent_axis_cb = FALSE;
+	}
+
+	setup_page (function_page);
+
+}
+
+
 static GtkWidget *
 create_lineplot_box (void)
 {
@@ -5266,6 +5521,7 @@ create_lineplot_box (void)
 				    NULL, NULL, NULL, 0, 0, 0,
 				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
+	lineplot_depx_axis_buttons = b;
 
 	/*
 	 * Y range
@@ -5278,9 +5534,25 @@ create_lineplot_box (void)
 				    NULL, NULL, NULL, 0, 0, 0,
 				    entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
+	lineplot_dep_axis_buttons = b;
+
+	/* fit dependent axis? */
+	w = gtk_check_button_new_with_label (_("Fit dependent axis"));
+	lineplot_fit_dep_axis_checkbox = w;
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), 
+				      lineplot_fit_dependent_axis_cb);
+	g_signal_connect (G_OBJECT (w), "toggled",
+			  G_CALLBACK (lineplot_fit_cb_cb), NULL);
+	lineplot_fit_cb_cb (w);
+
+
 
 	/* set labels correclty */
 	set_lineplot_labels ();
+
+	g_signal_connect (G_OBJECT (function_notebook), "switch_page",
+			  G_CALLBACK (lineplot_switch_page_cb), NULL);
 
 	return mainbox;
 }
@@ -5881,7 +6153,13 @@ plot_from_dialog_lineplot (void)
 	}
 
 	plot_functions (TRUE /* do_window_present */,
-			TRUE /* from_gui */);
+			TRUE /* from_gui */,
+			lineplot_fit_dependent_axis_cb /*fit*/);
+
+	if (lineplot_fit_dependent_axis_cb) {
+		reset_ploty1 = ploty1;
+		reset_ploty2 = ploty2;
+	}
 
 	if (gel_interrupted)
 		gel_interrupted = FALSE;
@@ -6013,7 +6291,15 @@ plot_from_dialog_parametric (void)
 	}
 
 	plot_functions (TRUE /* do_window_present */,
-			TRUE /* from_gui */);
+			TRUE /* from_gui */,
+			lineplot_fit_dependent_axis_cb /*fit*/);
+
+	if (lineplot_fit_dependent_axis_cb) {
+		reset_plotx1 = plotx1;
+		reset_plotx2 = plotx2;
+		reset_ploty1 = ploty1;
+		reset_ploty2 = ploty2;
+	}
 
 	if (gel_interrupted)
 		gel_interrupted = FALSE;
@@ -6117,7 +6403,8 @@ plot_from_dialog_slopefield (void)
 	slopefield_name = g_strdup (gtk_entry_get_text (GTK_ENTRY (slopefield_entry)));
 
 	plot_functions (TRUE /* do_window_present */,
-			TRUE /* from_gui */);
+			TRUE /* from_gui */,
+			FALSE /*fit*/);
 
 	if (gel_interrupted)
 		gel_interrupted = FALSE;
@@ -6223,7 +6510,8 @@ plot_from_dialog_vectorfield (void)
 	vectorfield_name_y = g_strdup (gtk_entry_get_text (GTK_ENTRY (vectorfield_entry_y)));
 
 	plot_functions (TRUE /* do_window_present */,
-			TRUE /* from_gui */);
+			TRUE /* from_gui */,
+			FALSE /*fit*/);
 
 	if (gel_interrupted)
 		gel_interrupted = FALSE;
@@ -6372,10 +6660,13 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 				if ( ! get_limits_from_matrix_surf (a[i], &x1, &x2, &y1, &y2, &z1, &z2))
 					goto whack_copied_funcs;
 				fitz = FALSE;
-			} else {
+			} else if (gel_matrixw_elements (a[i]->mat.matrix) == 4) {
 				if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
 					goto whack_copied_funcs;
 				fitz = TRUE;
+			} else {
+				gel_errorout (_("Graph limits not given as a 4-vector or a 6-vector"));
+				goto whack_copied_funcs;
 			}
 			i++;
 		} else {
@@ -6707,7 +6998,8 @@ SlopefieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	plot_mode = MODE_LINEPLOT_SLOPEFIELD;
 	plot_functions (FALSE /* do_window_present */,
-			FALSE /* from gui */);
+			FALSE /* from gui */,
+			FALSE /*fit*/);
 
 	if (gel_interrupted)
 		return NULL;
@@ -6827,7 +7119,8 @@ VectorfieldPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	plot_mode = MODE_LINEPLOT_VECTORFIELD;
 	plot_functions (FALSE /* do_window_present */,
-			FALSE /* from_gui */);
+			FALSE /* from_gui */,
+			FALSE /* fit */);
 
 	if (gel_interrupted)
 		return NULL;
@@ -6848,6 +7141,7 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	double x1, x2, y1, y2;
 	int funcs = 0;
+	gboolean fity = FALSE;
 	GelEFunc *func[MAXFUNC] = { NULL };
 	int i;
 
@@ -6883,8 +7177,18 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	if (a[i] != NULL) {
 		if (a[i]->type == GEL_MATRIX_NODE) {
-			if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
+			if (gel_matrixw_elements (a[i]->mat.matrix) == 4) {
+				if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
+					goto whack_copied_funcs;
+				fity = FALSE;
+			} else if (gel_matrixw_elements (a[i]->mat.matrix) == 2) {
+				if ( ! get_limits_from_matrix_xonly (a[i], &x1, &x2))
+					goto whack_copied_funcs;
+				fity = TRUE;
+			} else {
+				gel_errorout (_("Graph limits not given as a 2-vector or a 4-vector"));
 				goto whack_copied_funcs;
+			}
 			i++;
 		} else {
 			GET_DOUBLE(x1, i, "LinePlot");
@@ -6892,9 +7196,11 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 			if (a[i] != NULL) {
 				GET_DOUBLE(x2, i, "LinePlot");
 				i++;
+				fity = TRUE;
 				if (a[i] != NULL) {
 					GET_DOUBLE(y1, i, "LinePlot");
 					i++;
+					fity = FALSE;
 					if (a[i] != NULL) {
 						GET_DOUBLE(y2, i, "LinePlot");
 						i++;
@@ -6945,7 +7251,13 @@ LinePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	plot_mode = MODE_LINEPLOT;
 	plot_functions (FALSE /* do_window_present */,
-			FALSE /* from_gui */);
+			FALSE /* from_gui */,
+			fity /* fit */);
+
+	if (fity) {
+		reset_ploty1 = ploty1;
+		reset_ploty2 = ploty2;
+	}
 
 	if G_UNLIKELY (gel_interrupted)
 		return NULL;
@@ -6965,6 +7277,7 @@ static GelETree *
 LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	double x1, x2, y1, y2, t1, t2, tinc;
+	gboolean fit = FALSE;
 	GelEFunc *funcx = NULL;
 	GelEFunc *funcy = NULL;
 	int i;
@@ -7019,7 +7332,12 @@ LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	/* Get window limits */
 	if (a[i] != NULL) {
-		if (a[i]->type == GEL_MATRIX_NODE) {
+		if ( (a[i]->type == GEL_STRING_NODE &&
+		      strcasecmp (a[i]->str.str, "fit") == 0) ||
+		     (a[i]->type == GEL_IDENTIFIER_NODE &&
+		      strcasecmp (a[i]->id.id->token, "fit") == 0)) {
+			fit = TRUE;
+		} else if (a[i]->type == GEL_MATRIX_NODE) {
 			if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
 				goto whack_copied_funcs;
 			i++;
@@ -7089,7 +7407,15 @@ LinePlotParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	plot_mode = MODE_LINEPLOT_PARAMETRIC;
 	plot_functions (FALSE /* do_window_present */,
-			FALSE /* from_gui */ );
+			FALSE /* from_gui */,
+			fit /* fit */);
+
+	if (fit) {
+		reset_plotx1 = plotx1;
+		reset_plotx2 = plotx2;
+		reset_ploty1 = ploty1;
+		reset_ploty2 = ploty2;
+	}
 
 	if G_UNLIKELY (gel_interrupted)
 		return NULL;
@@ -7109,6 +7435,7 @@ static GelETree *
 LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	double x1, x2, y1, y2, t1, t2, tinc;
+	gboolean fit = FALSE;
 	GelEFunc *func = NULL;
 	int i;
 
@@ -7160,7 +7487,12 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	/* Get window limits */
 	if (a[i] != NULL) {
-		if (a[i]->type == GEL_MATRIX_NODE) {
+		if ( (a[i]->type == GEL_STRING_NODE &&
+		      strcasecmp (a[i]->str.str, "fit") == 0) ||
+		     (a[i]->type == GEL_IDENTIFIER_NODE &&
+		      strcasecmp (a[i]->id.id->token, "fit") == 0)) {
+			fit = TRUE;
+		} else if (a[i]->type == GEL_MATRIX_NODE) {
 			if ( ! get_limits_from_matrix (a[i], &x1, &x2, &y1, &y2))
 				goto whack_copied_funcs;
 			i++;
@@ -7229,7 +7561,15 @@ LinePlotCParametric_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	plot_mode = MODE_LINEPLOT_PARAMETRIC;
 	plot_functions (FALSE /* do_window_present */,
-			FALSE /* from_gui */);
+			FALSE /* from_gui */,
+			fit /* fit */);
+
+	if (fit) {
+		reset_plotx1 = plotx1;
+		reset_plotx2 = plotx2;
+		reset_ploty1 = ploty1;
+		reset_ploty2 = ploty2;
+	}
 
 	if G_UNLIKELY (gel_interrupted)
 		return NULL;
@@ -7257,7 +7597,8 @@ LinePlotClear_op (GelCtx *ctx, GelETree * * a, int *exception)
 	/* This will just clear the window */
 	plot_mode = MODE_LINEPLOT;
 	plot_functions (FALSE /* do_window_present */,
-			FALSE /* from_gui */);
+			FALSE /* from_gui */,
+			FALSE /* fit */);
 
 	if G_UNLIKELY (gel_interrupted)
 		return NULL;

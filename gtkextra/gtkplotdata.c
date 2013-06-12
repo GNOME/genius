@@ -3554,6 +3554,14 @@ line_on_screen (double x1, double y1, double x2, double y2,
 		int left, int right,
 	       	int top, int bottom)
 {
+	/* FIXME: hack, we use this to give bad data */
+	if ( ! isfinite(x1) ||
+	     ! isfinite(x2) ||
+	     ! isfinite(y1) ||
+	     ! isfinite(y2)) {
+		return FALSE;
+	}
+
 	if ( (x1 >= left && y1 >= top &&
 	      x1 <= right && y1 <= bottom) ||
 	     (x2 >= left && y2 >= top &&
