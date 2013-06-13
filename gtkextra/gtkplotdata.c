@@ -3697,6 +3697,12 @@ gtk_plot_data_draw_lines (GtkPlotData *dataset,
 				   lx1, lx2, ly1, ly2)) {
 	    if (j > 1) {
 		    gtk_plot_pc_draw_lines (plot->pc, &(points[beg]), j);
+		    /* USEFUL FOR DEBUGGING
+		     * int ii;
+		     * for (ii = beg; ii < beg+j; ii++) {
+		     *    gtk_plot_pc_draw_point (plot->pc, points[ii].x, points[ii].y);
+		     * }
+		     */
 	    }
 	    last_off = TRUE;
 	    beg = i;
@@ -3711,6 +3717,14 @@ gtk_plot_data_draw_lines (GtkPlotData *dataset,
 
   if ( ! last_off)
 	  gtk_plot_pc_draw_lines (plot->pc, &(points[beg]), j);
+  /*USEFUL FOR DEBUGGING
+   * {
+   *   int ii;
+   *   for (ii = beg; ii < beg+j; ii++) {
+   *	    gtk_plot_pc_draw_point (plot->pc, points[ii].x, points[ii].y);
+   *   }
+   * }
+   */
 }
 
 static void

@@ -312,7 +312,7 @@ static void plot_axis (void);
 static void plot_functions (gboolean do_window_present,
 			    gboolean from_gui,
 			    gboolean fit);
-static void recompute_functions (void);
+static void recompute_functions (gboolean fitting);
 
 /* surfaces */
 static void plot_surface_functions (gboolean do_window_present, gboolean fit_function);
@@ -2424,7 +2424,7 @@ plot_axis (void)
 		plot_miny = G_MAXDOUBLE/2;
 		plot_maxx = - G_MAXDOUBLE/2;
 		plot_minx = G_MAXDOUBLE/2;
-		recompute_functions ();
+		recompute_functions (FALSE /*fitting*/);
 		plot_setup_axis ();
 	} else if (plot_mode == MODE_LINEPLOT_PARAMETRIC ||
 		   plot_mode == MODE_LINEPLOT_SLOPEFIELD ||
@@ -4019,89 +4019,335 @@ init_plot_ctx (void)
 	}
 }
 
-static void
-recompute_function (int funci, double **x, double **y, int *len)
+typedef struct {
+	double x;
+	double y;
+} Point;
+
+#ifdef NAN
+# define BADPTVAL NAN
+#else
+#ifdef INFINITY
+# define BADPTVAL INFINITY
+#else
+# define BADPTVAL (1.0/0.0)
+#endif
+#endif
+
+static Point *
+function_get_us_a_point (int funci, double x)
 {
-	int i, iter, lentried;
+	gboolean ex = FALSE;
+	double rety;
+	Point *pt = g_new0 (Point, 1);
+	mpw_set_d (plot_arg->val.value, x);
+	rety = call_func (plot_ctx, plot_func[funci], plot_arg, &ex, NULL);
+
+	if G_UNLIKELY (ex) {
+		pt->x = x;
+		pt->y = BADPTVAL;
+	} else {
+		pt->x = x;
+		pt->y = rety;
+
+		if G_UNLIKELY (rety > plot_maxy)
+			plot_maxy = rety;
+		if G_UNLIKELY (rety < plot_miny)
+			plot_miny = rety;
+	}
+
+	return pt;
+}
+
+
+static double
+approx_arcsin(double x)
+{
+	/* Pade quotient approximation, see
+	 * http://www.ecse.rpi.edu/~wrf/Research/Short_Notes/arcsin/onlyelem.html*/
+	return ((-17.0/60.0)*x*x*x+x)/(1.0-(9.0/20.0)*x*x);
+}
+
+
+static void
+bisect_points (int funci, GQueue *points, GList *li, double sizex, double sizey, int level, int *count)
+{
+	Point *pt;
+	Point *nextpt;
+	Point *prevpt;
+	Point *newpt;
+	double xdiffscaled;
+	double ydiffscaled;
+	double xprevdiffscaled;
+	double yprevdiffscaled;
+	double seglensq;
+	gboolean do_bisect = FALSE;
+	gboolean bisect_prev = FALSE;
+	gboolean bisect_next = FALSE;
+
+	pt = li->data;
+	nextpt = li->next->data;
+
+	if ( ! isfinite (nextpt->y) || ! isfinite(pt->y))
+		return;
+
+	if (li->prev) {
+		prevpt = li->prev->data;
+		if ( ! isfinite (prevpt->y))
+			prevpt = NULL;
+	} else {
+		prevpt = NULL;
+	}
+
+	xdiffscaled = (nextpt->x-pt->x)/sizex;
+	ydiffscaled = (nextpt->y-pt->y)/sizey;
+
+	seglensq = xdiffscaled*xdiffscaled+ydiffscaled*ydiffscaled;
+
+	/* lines of size 1% are fine */
+	if (seglensq >= 0.01*0.01) {
+		do_bisect = TRUE;
+		bisect_next = TRUE;
+	} else if (prevpt != NULL) {
+		double seglen1sq;
+		xprevdiffscaled = (pt->x-prevpt->x)/sizex;
+		yprevdiffscaled = (pt->y-prevpt->y)/sizey;
+
+		seglen1sq = xprevdiffscaled*xprevdiffscaled+yprevdiffscaled*yprevdiffscaled;
+
+		/* difference of angles is bigger than approx 0.1 radians */
+		if (fabs (approx_arcsin (yprevdiffscaled/sqrt(seglen1sq)) - approx_arcsin (ydiffscaled/sqrt(seglensq))) > 0.1) {
+			do_bisect = TRUE;
+			bisect_prev = TRUE;
+		}
+	}
+
+
+	if (do_bisect) {
+		(*count)++;
+		newpt = function_get_us_a_point (funci, pt->x + (nextpt->x-pt->x)/2.0);
+		g_queue_insert_after (points, li, newpt);
+
+		if (level < 3) {
+			GList *linext = li->next;
+			if (bisect_prev)
+				bisect_points (funci, points, li->prev, sizex, sizey, level+1, count);
+			bisect_points (funci, points, li, sizex, sizey, level+1, count);
+			if (bisect_next)
+				bisect_points (funci, points, linext, sizex, sizey, level+1, count);
+		}
+	}
+
+
+}
+
+static void
+recompute_function (int funci, double **x, double **y, int *len, gboolean fitting)
+{
+	int i, count, lentried;
 	double maxfuzz;
 	double fuzz[16];
+	GQueue *points = g_queue_new ();
+	GList *li;
+	double sizex, sizey;
+	double tmpploty1, tmpploty2;
 
-	lentried = 1000;/* FIXME: perhaps settable */
-
-	*x = g_new0 (double, lentried);
-	*y = g_new0 (double, lentried);
+	lentried = WIDTH/2;/* FIXME: perhaps settable */
 
 	/* up to 1% of the interval is fuzzed */
-	maxfuzz = 0.01*(plotx2-plotx1)/lentried;
+	maxfuzz = 0.01*(plotx2-plotx1)/(lentried-1);
 	for (i = 0; i < 16; i++) {
 		fuzz[i] = g_random_double_range (-maxfuzz, maxfuzz);
 	}
 
-	iter = 0;
+	count = 0;
 	for (i = 0; i < lentried; i++) {
 		static int hookrun = 0;
-		gboolean ex = FALSE;
-		double rety;
 		double thex;
+		Point *pt;
 
 		if G_UNLIKELY (gel_interrupted) {
-			*len = iter;
-			return;
+			break;
 		}
 
-		thex = plotx1 + ((plotx2-plotx1)*(double)i)/lentried +
+		thex = plotx1 + ((plotx2-plotx1)*(double)i)/(lentried-1) +
 			fuzz[i&0xf];
+		/* don't fuzz beyond the domain */
+		if (thex < plotx1)
+			thex = plotx1;
+		else if (thex > plotx2)
+			thex = plotx2;
 
-		mpw_set_d (plot_arg->val.value, thex);
-		rety = call_func (plot_ctx, plot_func[funci], plot_arg, &ex, NULL);
-
-		if G_UNLIKELY (ex) {
-			(*x)[iter] = thex;
-#ifdef NAN
-			(*y)[iter] = NAN;
-#else
-#ifdef INFINITY
-			(*y)[iter] = INFINITY;
-#else
-			(*y)[iter] = 1.0/0.0;
-#endif
-#endif
-			iter++;
-		} else {
-			(*x)[iter] = thex;
-			(*y)[iter] = rety;
-			iter++;
-
-			if G_UNLIKELY (rety > plot_maxy)
-				plot_maxy = rety;
-			if G_UNLIKELY (rety < plot_miny)
-				plot_miny = rety;
-		}
+		count++;
+		pt = function_get_us_a_point (funci, thex);
+		g_queue_push_tail (points, pt);
 
 		if G_UNLIKELY (hookrun++ >= 10) {
 			if (gel_evalnode_hook != NULL) {
 				hookrun = 0;
 				(*gel_evalnode_hook)();
 				if G_UNLIKELY (gel_interrupted) {
-					*len = iter;
-					return;
+					break;
 				}
 			}
 		}
 	}
-	*len = iter;
+
+	if (fitting) {
+		sizey = plot_maxy - plot_miny;
+		if (sizey <= 0.0)
+			sizey = 0.01;
+		tmpploty1 = plot_miny - 0.05*sizey;
+		tmpploty2 = plot_maxy + 0.05*sizey;
+
+		sizey *= 1.05 * sizey;
+	} else {
+		sizey = ploty2 - ploty1;
+		tmpploty1 = ploty1;
+		tmpploty2 = ploty2;
+	}
+	sizex = plotx2 - plotx1;
+
+	/* sanity */
+	if (sizey <= 0.0)
+		sizey = 0.01;
+	if (sizex <= 0.0)
+		sizex = 0.01;
+
+
+	/* adaptively bisect points */
+	li = g_queue_peek_head_link (points);
+	while (li != NULL && li->next != NULL) {
+		Point *pt = li->data;
+		GList *orignext = li->next;
+		Point *nextpt = orignext->data;
+
+		if ((pt->y < tmpploty1-0.5*sizey && 
+		     nextpt->y < tmpploty1-0.5*sizey) ||
+		    (pt->y > tmpploty2+0.5*sizey && 
+		     nextpt->y > tmpploty2+0.5*sizey)) {
+			li = orignext;
+			continue;
+		}
+
+		bisect_points (funci, points, li, sizex, sizey, 1, &count);
+		li = orignext;
+	}
+
+	/* find "steep jumps" and insert invalid points */
+	li = g_queue_peek_head_link (points);
+	while (li != NULL && li->next != NULL) {
+		Point *pt = li->data;
+		Point *nextpt = li->next->data;
+		GList *orignext = li->next;
+		double xdiffscaled;
+		double ydiffscaled;
+
+		if ( ! isfinite (nextpt->y) || ! isfinite(pt->y)) {
+			li = orignext;
+			continue;
+		}
+
+		xdiffscaled = fabs(nextpt->x-pt->x)/sizex;
+		ydiffscaled = fabs(nextpt->y-pt->y)/sizey;
+
+		/* derivative at least 100 after scaling, length bigger than 1% */
+		if (100.0*xdiffscaled < ydiffscaled &&
+		    xdiffscaled*xdiffscaled+ydiffscaled*ydiffscaled > 0.01*0.01 &&
+		    li->next->next != NULL && li->prev != NULL) {
+			Point *prevpt = li->prev->data;
+			Point *nextnextpt = li->next->next->data;
+			double xnextdiffscaled;
+			double ynextdiffscaled;
+			double xprevdiffscaled;
+			double yprevdiffscaled;
+
+			xnextdiffscaled = fabs(nextnextpt->x-nextpt->x)/sizex;
+			ynextdiffscaled = fabs(nextnextpt->y-nextpt->y)/sizey;
+
+			xprevdiffscaled = fabs(pt->x-prevpt->x)/sizex;
+			yprevdiffscaled = fabs(pt->y-prevpt->y)/sizey;
+
+
+			/* too steep! and steeper than surrounding which is derivative at most 10 */
+			if (10.0*xprevdiffscaled >= yprevdiffscaled && 
+			    10.0*xnextdiffscaled >= ynextdiffscaled) {
+				Point *newpt;
+				newpt = g_new0 (Point, 1);
+				newpt->x = BADPTVAL;
+				newpt->y = BADPTVAL;
+
+				g_queue_insert_after (points, li, newpt);
+				count++;
+			}
+		};
+		li = orignext;
+	}
+
+	*len = count;
+	*x = g_new0 (double, count);
+	*y = g_new0 (double, count);
+	i = 0;
+	for (li = g_queue_peek_head_link (points); li != NULL; li = li->next) {
+		Point *pt = li->data;
+		li->data = NULL;
+
+		(*x)[i] = pt->x;
+		(*y)[i] = pt->y;
+		i++;
+
+		g_free (pt);
+	}
+
+	g_queue_free (points);
 }
 
+#if 0
+static double
+get_maxes(double **y, int len, int place)
+{
+	double max = 0.0;
+	int i;
+
+	for (i = MAX(place-5,1); i < place; i++) {
+		double diff = fabs(y[i]-y[i-1]);
+		if (diff > max)
+			max = diff;
+	}
+
+	for (i = place+1; i <= MIN(place+5,len-2); i++) {
+		double diff = fabs(y[i]-y[i+1]);
+		if (diff > max)
+			max = diff;
+	}
+	return max;
+}
+
+/* insert invalid points and places where things jump way too much,
+ * FIXME: we should make the step smaller adaptively I think */
+static void
+cutup_function (double **x, double **y, int *len)
+{
+	double *oldx = *x;
+	double *oldy = *y;
+	int oldlen = *len;
+
+	*x = g_new0 (double, *len);
+	*y = g_new0 (double, *len);
+
+	for (i
+}
+#endif
 
 
 static void
-recompute_functions (void)
+recompute_functions (gboolean fitting)
 {
 	int i;
 	for (i = 0; i < MAXFUNC && plot_func[i] != NULL; i++) {
 		double *x, *y;
 		int len;
-		recompute_function (i,&x, &y, &len);
+		recompute_function (i, &x, &y, &len, fitting);
 
 		gtk_plot_data_set_points (line_data[i], x, y, NULL, NULL, len);
 		g_object_set_data_full (G_OBJECT (line_data[i]),
@@ -4205,7 +4451,7 @@ plot_functions (gboolean do_window_present,
 		g_free (label);
 	}
 
-	recompute_functions ();
+	recompute_functions (fit);
 
 	if (plot_func[0] != NULL && fit) {
 		double size = plot_maxy - plot_miny;
