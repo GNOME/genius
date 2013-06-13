@@ -55,6 +55,9 @@ gtk_plot_canvas_export_ps_with_size             (GtkPlotCanvas *canvas,
                                                  gint width,
                                                  gint height);
 
+gboolean
+gtk_plot_canvas_export_cairo                    (GtkPlotCanvas *canvas,
+						 cairo_t *cairo);
 
 #ifdef __cplusplus
 }

@@ -40,6 +40,7 @@ EXTRA_DIST=gtkextra-marshal.list
 
 public_h_sources =	\
 	gtkextra.h		\
+	gtkextra-compat.h	\
 	gtkpsfont.h		\
 	gtkplot.h		\
 	gtkplot3d.h		\
@@ -59,6 +60,7 @@ public_h_sources =	\
 	gtkplotdt.h		\
 	gtkplotflux.h		\
 	gtkplotgdk.h		\
+	gtkplotcairo.h		\
 	gtkplotpc.h		\
 	gtkplotpixmap.h		\
 	gtkplotpolar.h		\
@@ -92,6 +94,7 @@ libgtkextra_genius_a_SOURCES =	\
 	gtkplotdt.c		\
 	gtkplotflux.c		\
 	gtkplotgdk.c		\
+	gtkplotcairo.c		\
 	gtkplotpc.c		\
 	gtkplotpixmap.c		\
 	gtkplotpolar.c		\

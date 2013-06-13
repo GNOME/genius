@@ -28,11 +28,11 @@ extern "C" {
 #endif /* __cplusplus */
 
 
-#define GTK_PLOT_PC(obj)        GTK_CHECK_CAST (obj, gtk_plot_pc_get_type (), GtkPlotPC)
+#define GTK_PLOT_PC(obj)        G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_plot_pc_get_type (), GtkPlotPC)
 #define GTK_TYPE_PLOT_PC   (gtk_plot_pc_get_type ())
 
-#define GTK_PLOT_PC_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, gtk_plot_pc_get_type(), GtkPlotPCClass)
-#define GTK_IS_PLOT_PC(obj)     GTK_CHECK_TYPE (obj, gtk_plot_pc_get_type ())
+#define GTK_PLOT_PC_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gtk_plot_pc_get_type(), GtkPlotPCClass)
+#define GTK_IS_PLOT_PC(obj)     G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_plot_pc_get_type ())
 
 
 /* Page size */
@@ -77,8 +77,15 @@ typedef struct _GtkPlotPC GtkPlotPC;
 typedef struct _GtkPlotPCClass GtkPlotPCClass;
 typedef struct _GtkPlotPoint         GtkPlotPoint;
 
+/**
+ * GtkPlotPoint:
+ *
+ * The GtkPlotPoint struct contains only private data.
+ * It should only be accessed through the functions described below.
+ */
 struct _GtkPlotPoint
 {
+    /*< private >*/
   gdouble x, y;
 };
 
@@ -193,7 +200,7 @@ struct _GtkPlotPCClass
                                                          gdouble scale_y); 
 };
 
-GtkType    gtk_plot_pc_get_type				(void);
+GType     gtk_plot_pc_get_type				(void);
 GtkObject *gtk_plot_pc_new				(void);
 							 
 gboolean gtk_plot_pc_init				(GtkPlotPC *pc);

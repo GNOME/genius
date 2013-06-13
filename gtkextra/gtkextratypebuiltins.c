@@ -1,5 +1,5 @@
 
-/* Generated data (by glib-mkenums) */
+
 
 #define GTKEXTRA_ENABLE_BROKEN
 #include "gtkextra.h"
@@ -446,5 +446,5 @@ gtk_plot_units_get_type (void)
   return etype;
 }
 
-/* Generated data ends here */
+
 

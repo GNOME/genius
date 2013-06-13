@@ -24,11 +24,14 @@
 #include <gdk/gdk.h>
 #include <glib.h>
 
+#define __GTKEXTRA_H_INSIDE__
+
 /* #include <gtkextra/gtkbordercombo.h> */
 /* #include <gtkextra/gtkcharsel.h> */
 /* #include <gtkextra/gtkcheckitem.h> */
 /* #include <gtkextra/gtkcolorcombo.h> */
 /* #include <gtkextra/gtkcombobutton.h> */
+/* #include <gtkextra/gtkdataentry.h> */
 /* #include <gtkextra/gtkdirtree.h> */
 /* #include <gtkextra/gtkextrafeatures.h> */
 /* #include <gtkextra/gtkfilelist.h> */
@@ -43,6 +46,8 @@
 #include <gtkextra/gtkplotdata.h>
 #include <gtkextra/gtkplotarray.h>
 #include <gtkextra/gtkplotsurface.h>
+#include <gtkextra/gtkplotcairo.h>
+/* #include <gtkextra/gtkplotcandle.h> */
 #include <gtkextra/gtkplotcsurface.h>
 #include <gtkextra/gtkplotcanvas.h>
 #include <gtkextra/gtkplotcanvasellipse.h>
@@ -64,5 +69,7 @@
 #include <gtkextra/gtkpsfont.h>
 /* #include <gtkextra/gtksheet.h> */
 /* #include <gtkextra/gtktogglecombo.h> */
+
+#undef __GTKEXTRA_H_INSIDE__
 
 #endif /* GTK_EXTRA_H */
