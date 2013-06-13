@@ -4215,7 +4215,7 @@ recompute_function (int funci, double **x, double **y, int *len, gboolean fittin
 		sizex = 0.01;
 
 
-	/* adaptively bisect points */
+	/* adaptively bisect intervals */
 	li = g_queue_peek_head_link (points);
 	while (li != NULL && li->next != NULL) {
 		Point *pt = li->data;
