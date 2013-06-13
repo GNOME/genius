@@ -17,6 +17,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+/**
+ * SECTION: gtkplotgdk
+ * @short_description: GDK drawing backend (mapped to Cairo)
+ *
+ * This Subclass of #GtkPlotPC has been rewritten to use Cairo 
+ * drawing routines. 
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -126,26 +134,21 @@ extern inline gint roundint                         (gdouble x);
 
 static GtkPlotPCClass *parent_class = NULL;
 
-GtkType
+GType
 gtk_plot_gdk_get_type (void)
 {
-  static GtkType pc_type = 0;
+  static GType pc_type = 0;
 
   if (!pc_type)
     {
-      GtkTypeInfo pc_info =
-      {
-        "GtkPlotGdk",
-        sizeof (GtkPlotGdk),
-        sizeof (GtkPlotGdkClass),
-        (GtkClassInitFunc) gtk_plot_gdk_class_init,
-        (GtkObjectInitFunc) gtk_plot_gdk_init,
-        /* reserved 1*/ NULL,
-        /* reserved 2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      pc_type = gtk_type_unique (GTK_TYPE_PLOT_PC, &pc_info);
+      pc_type = g_type_register_static_simple (
+		GTK_TYPE_PLOT_PC,
+		"GtkPlotGdk",
+		sizeof (GtkPlotGdkClass),
+		(GClassInitFunc) gtk_plot_gdk_class_init,
+		sizeof (GtkPlotGdk),
+		(GInstanceInitFunc) gtk_plot_gdk_init,
+		0);
     }
   return pc_type;
 }
@@ -198,7 +201,7 @@ gtk_plot_gdk_class_init (GtkPlotGdkClass *klass)
   GtkPlotPCClass *pc_class;
   GtkPlotGdkClass *gdk_class;
 
-  parent_class = gtk_type_class (gtk_plot_pc_get_type ());
+  parent_class = g_type_class_ref (gtk_plot_pc_get_type ());
 
   object_class = (GtkObjectClass *) klass;
   gobject_class = (GObjectClass *) klass;
@@ -233,22 +236,37 @@ gtk_plot_gdk_class_init (GtkPlotGdkClass *klass)
 }
 
 
+/**
+ * gtk_plot_gdk_new:
+ * @widget:
+ *
+ *
+ *
+ * Return value:
+ */
 GtkObject *
 gtk_plot_gdk_new                                (GtkWidget *widget)
 {
   GtkObject *object;
 
-  object = gtk_type_new(gtk_plot_gdk_get_type());
+  object = g_object_new(gtk_plot_gdk_get_type(), NULL);
 
   gtk_plot_gdk_construct(GTK_PLOT_GDK(object), widget);
 
   return (object);
 }
 
+/**
+ * gtk_plot_gdk_construct:
+ * @pc:
+ * @widget:
+ *
+ *
+ */
 void
 gtk_plot_gdk_construct(GtkPlotGdk *pc, GtkWidget *widget)
 {
-  pc->window = widget->window;
+  pc->window = gtk_widget_get_window(widget);
   pc->context = gtk_widget_get_pango_context (widget);
   g_object_ref(G_OBJECT(pc->context));
   pc->layout = pango_layout_new(pc->context);
@@ -293,6 +311,13 @@ gtk_plot_gdk_leave (GtkPlotPC *pc)
 {
 }
 
+/**
+ * gtk_plot_gdk_set_drawable:
+ * @gdk:
+ * @drawable:
+ *
+ *
+ */
 void
 gtk_plot_gdk_set_drawable               (GtkPlotGdk *gdk, GdkDrawable *drawable)
 {
@@ -372,8 +397,8 @@ gtk_plot_gdk_set_dash                               (GtkPlotPC *pc,
                                                     gdouble *values,
                                                     gint num_values)
 {
-  gchar list[] = {'\0','\1','\2','\3','\4','\5','\6','\7'};
-  gchar dash[1000] = "";
+  gint list[] = {0, 1, 2, 3, 4, 5, 6, 7};
+  gint8 dash[1000];
   gint i;
 
   if(!GTK_PLOT_GDK(pc)->gc) return;
@@ -570,7 +595,7 @@ drawstring(GtkPlotPC *pc,
 */
 
   }
-  pango_font_description_free(font);
+  if (font) pango_font_description_free(font);
   ret_value = (angle == 0 || angle == 180) ? rect.width : rect.height;
   return PANGO_PIXELS(rect.width);
 }
@@ -609,7 +634,7 @@ gtk_plot_gdk_draw_string                        (GtkPlotPC *pc,
   const gchar *lastchar = text;
   const gchar *wtext = text;
   const gchar *xaux = text;
-  gchar new_text[strlen(text)+1];
+  gchar *new_text; /* Support Tiny C compiler : Original : gchar new_text[strlen(text)+1];*/ 
   gchar num[4];
   PangoRectangle rect;
   PangoFontMetrics *metrics = NULL;
@@ -957,6 +982,8 @@ gtk_plot_gdk_draw_string                        (GtkPlotPC *pc,
        aux = g_utf8_next_char(aux);
      }
      xaux = lastchar;
+
+     new_text = (gchar *) g_new0(gchar , strlen(text)+1); /* Tiny C Compiler support */
      for(i = 0; i < new_len; i++) new_text[i] = *xaux++;
      new_text[new_len] = '\0';
      new_width = drawstring(pc, drawable, gc, angle, tx+x, ty+y,
@@ -964,6 +991,8 @@ gtk_plot_gdk_draw_string                        (GtkPlotPC *pc,
      x += sign_x * new_width;
      y += sign_y * new_width;
      lastchar = aux;
+     
+     g_free (new_text);
    }
   }
 

@@ -24,15 +24,15 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define GTK_PLOT_ARRAY_LIST(obj)        GTK_CHECK_CAST (obj, gtk_plot_array_list_get_type (), GtkPlotArrayList)
-#define GTK_TYPE_PLOT_ARRAY_LIST        (gtk_plot_array_list_get_type ())
-#define GTK_PLOT_ARRAY_LIST_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, gtk_plot_array_list_get_type(), GtkPlotArrayListClass)
-#define GTK_IS_PLOT_ARRAY_LIST(obj)     GTK_CHECK_TYPE (obj, gtk_plot_array_list_get_type ())
+#define GTK_PLOT_ARRAY_LIST(obj)        G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_plot_array_list_get_type (), GtkPlotArrayList)
+#define G_TYPE_PLOT_ARRAY_LIST        (gtk_plot_array_list_get_type ())
+#define GTK_PLOT_ARRAY_LIST_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gtk_plot_array_list_get_type(), GtkPlotArrayListClass)
+#define GTK_IS_PLOT_ARRAY_LIST(obj)     G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_plot_array_list_get_type ())
 
-#define GTK_PLOT_ARRAY(obj)        GTK_CHECK_CAST (obj, gtk_plot_array_get_type (), GtkPlotArray)
-#define GTK_TYPE_PLOT_ARRAY        (gtk_plot_array_get_type ())
-#define GTK_PLOT_ARRAY_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, gtk_plot_array_get_type(), GtkPlotArrayClass)
-#define GTK_IS_PLOT_ARRAY(obj)     GTK_CHECK_TYPE (obj, gtk_plot_array_get_type ())
+#define GTK_PLOT_ARRAY(obj)        G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_plot_array_get_type (), GtkPlotArray)
+#define G_TYPE_PLOT_ARRAY        (gtk_plot_array_get_type ())
+#define GTK_PLOT_ARRAY_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gtk_plot_array_get_type(), GtkPlotArrayClass)
+#define GTK_IS_PLOT_ARRAY(obj)     G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_plot_array_get_type ())
 
 typedef struct _GtkPlotArrayList          GtkPlotArrayList;
 typedef struct _GtkPlotArrayListClass     GtkPlotArrayListClass;
@@ -49,8 +49,15 @@ typedef union
   gpointer *data_pointer;
 } GtkPlotArrayArg;
 
+/**
+ * GtkPlotArrayList:
+ *
+ * The GtkPlotArrayList struct contains only private data.
+ * It should only be accessed through the functions described below.
+ */
 struct _GtkPlotArrayList
 {
+ /*< private >*/
   GObject object;
 
   GList *arrays;
@@ -61,7 +68,12 @@ struct _GtkPlotArrayListClass
   GObjectClass parent_class;
 };
 
-
+/**
+ * GtkPlotArray:
+ *
+ * The GtkPlotArray struct contains only private data.
+ * It should only be accessed through the functions described below.
+ */
 struct _GtkPlotArray
 {
   GObject object;
@@ -71,7 +83,7 @@ struct _GtkPlotArray
   gchar *description;
 
   GtkPlotArrayArg data;
-  GtkType type;
+  GType type;
   gboolean own_data;
   gint size;
 
@@ -91,12 +103,12 @@ GType		gtk_plot_array_get_type		(void);
 GObject*	gtk_plot_array_new		(const gchar *name, 
 						 gpointer array,
 						 gint size,
-						 GtkType type,
+						 GType type,
 						 gboolean own_data);
 void		gtk_plot_array_set		(GtkPlotArray *array,
 						 gpointer data_array,
 						 gint size,
-						 GtkType type); 
+						 GType type); 
 void		gtk_plot_array_set_label	(GtkPlotArray *array,
 						 const gchar *label);
 void		gtk_plot_array_set_description	(GtkPlotArray *array,
@@ -107,7 +119,7 @@ void	 	gtk_plot_array_set_required	(GtkPlotArray *array,
 						 gboolean required);
 void	 	gtk_plot_array_set_independent	(GtkPlotArray *array,
 						 gboolean independent);
-GtkType		gtk_plot_array_get_data_type	(GtkPlotArray *array);
+GType		gtk_plot_array_get_data_type	(GtkPlotArray *array);
 const gchar *	gtk_plot_array_get_name		(GtkPlotArray *array);
 const gchar *	gtk_plot_array_get_label	(GtkPlotArray *array);
 const gchar *	gtk_plot_array_get_description	(GtkPlotArray *array);

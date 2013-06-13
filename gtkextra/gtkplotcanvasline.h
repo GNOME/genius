@@ -20,10 +20,10 @@
 #ifndef __GTK_PLOT_CANVAS_LINE_H__
 #define __GTK_PLOT_CANVAS_LINE_H__
 
-#define GTK_PLOT_CANVAS_LINE(obj)        GTK_CHECK_CAST (obj, gtk_plot_canvas_line_get_type (), GtkPlotCanvasLine)
-#define GTK_PLOT_CANVAS_LINE_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, gtk_plot_canvas_line_get_type(), GtkPlotCanvasLineClass)
-#define GTK_IS_PLOT_CANVAS_LINE(obj)     GTK_CHECK_TYPE (obj, gtk_plot_canvas_line_get_type ())
-#define GTK_TYPE_PLOT_CANVAS_LINE (gtk_plot_canvas_line_get_type ())
+#define GTK_PLOT_CANVAS_LINE(obj)        G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_plot_canvas_line_get_type (), GtkPlotCanvasLine)
+#define GTK_PLOT_CANVAS_LINE_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gtk_plot_canvas_line_get_type(), GtkPlotCanvasLineClass)
+#define GTK_IS_PLOT_CANVAS_LINE(obj)     G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_plot_canvas_line_get_type ())
+#define G_TYPE_PLOT_CANVAS_LINE (gtk_plot_canvas_line_get_type ())
 
 
 #include <gdk/gdk.h>
@@ -43,8 +43,15 @@ typedef enum
       GTK_PLOT_CANVAS_ARROW_END             = 1 << 1
 } GtkPlotCanvasArrow;
                                                                                 
+/**
+ * GtkPlotCanvasLine:
+ *
+ * The GtkPlotCanvasLine struct contains only private data.
+ * It should only be accessed through the functions described below.
+ */
 struct _GtkPlotCanvasLine
 {
+    /*< private >*/
   GtkPlotCanvasChild parent;
 
   GtkPlotLine line;
@@ -63,7 +70,7 @@ struct _GtkPlotCanvasLineClass
   GtkPlotCanvasChildClass parent_class;
 };
 
-GtkType 	gtk_plot_canvas_line_get_type	(void);
+GType 		gtk_plot_canvas_line_get_type	(void);
 GtkPlotCanvasChild * 
 		gtk_plot_canvas_line_new	(GtkPlotLineStyle style,
                          			 gfloat width,

@@ -17,6 +17,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -28,6 +29,15 @@
 #include "gtkplotsurface.h"
 #include "gtkplotcsurface.h"
 #include "gtkpsfont.h"
+
+/**
+ * SECTION: gtkplotcsurface
+ * @short_description: 
+ *
+ * FIXME:: need long description
+ */
+
+
 
 #define P_(string) string
 
@@ -113,26 +123,21 @@ enum {
 
 static GtkPlotSurfaceClass *parent_class = NULL;
 
-GtkType
+GType
 gtk_plot_csurface_get_type (void)
 {
-  static GtkType data_type = 0;
+  static GType data_type = 0;
 
   if (!data_type)
     {
-      GtkTypeInfo data_info =
-      {
-	"GtkPlotCSurface",
-	sizeof (GtkPlotCSurface),
-	sizeof (GtkPlotCSurfaceClass),
-	(GtkClassInitFunc) gtk_plot_csurface_class_init,
-	(GtkObjectInitFunc) gtk_plot_csurface_init,
-	/* reserved 1*/ NULL,
-        /* reserved 2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      data_type = gtk_type_unique (gtk_plot_surface_get_type(), &data_info);
+      data_type = g_type_register_static_simple (
+		gtk_plot_surface_get_type(),
+		"GtkPlotCSurface",
+		sizeof (GtkPlotCSurfaceClass),
+		(GClassInitFunc) gtk_plot_csurface_class_init,
+		sizeof (GtkPlotCSurface),
+		(GInstanceInitFunc) gtk_plot_csurface_init,
+		0);
     }
   return data_type;
 }
@@ -146,7 +151,7 @@ gtk_plot_csurface_class_init (GtkPlotCSurfaceClass *klass)
   GtkPlotSurfaceClass *surface_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
-  parent_class = gtk_type_class (gtk_plot_surface_get_type ());
+  parent_class = g_type_class_ref (gtk_plot_surface_get_type ());
 
   object_class = (GtkObjectClass *) klass;
   widget_class = (GtkWidgetClass *) klass;
@@ -158,6 +163,12 @@ gtk_plot_csurface_class_init (GtkPlotCSurfaceClass *klass)
   gobject_class->set_property = gtk_plot_csurface_set_property;
   gobject_class->get_property = gtk_plot_csurface_get_property;
 
+
+  /**
+   * GtkPlotCSurface:lines_visible:
+   *
+   *
+   **/ 
   g_object_class_install_property (gobject_class,
                            ARG_LINES_VISIBLE,
   g_param_spec_int ("lines_visible",
@@ -165,6 +176,12 @@ gtk_plot_csurface_class_init (GtkPlotCSurfaceClass *klass)
                            P_(""),
                            0,G_MAXINT,0,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCSurface:projection:
+   *
+   *
+   **/ 
   g_object_class_install_property (gobject_class,
                            ARG_PROJECTION,
   g_param_spec_int ("projection",
@@ -172,6 +189,12 @@ gtk_plot_csurface_class_init (GtkPlotCSurfaceClass *klass)
                            P_(""),
                            0,G_MAXINT,0,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCSurface:levels_style:
+   *
+   *
+   **/ 
   g_object_class_install_property (gobject_class,
                            ARG_LEVELS_STYLE,
   g_param_spec_int ("levels_style",
@@ -179,6 +202,13 @@ gtk_plot_csurface_class_init (GtkPlotCSurfaceClass *klass)
                            P_(""),
                            0,G_MAXINT,0,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCSurface:levels_width:
+   *
+   *
+   **/ 
+
   g_object_class_install_property (gobject_class,
                            ARG_LEVELS_WIDTH,
   g_param_spec_double ("levels_width",
@@ -186,12 +216,24 @@ gtk_plot_csurface_class_init (GtkPlotCSurfaceClass *klass)
                            P_(""),
                            0,G_MAXDOUBLE,0.0,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCSurface:levels_color:
+   *
+   *
+   **/ 
   g_object_class_install_property (gobject_class,
                            ARG_LEVELS_COLOR,
   g_param_spec_pointer ("levels_color",
                            P_(""),
                            P_(""),
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCSurface:sublevels_style:
+   *
+   *
+   **/ 
   g_object_class_install_property (gobject_class,
                            ARG_SUBLEVELS_STYLE,
   g_param_spec_int ("sublevels_style",
@@ -199,6 +241,12 @@ gtk_plot_csurface_class_init (GtkPlotCSurfaceClass *klass)
                            P_(""),
                            0,G_MAXINT,0,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCSurface:sublevels_width:
+   *
+   *
+   **/ 
   g_object_class_install_property (gobject_class,
                            ARG_SUBLEVELS_WIDTH,
   g_param_spec_double ("sublevels_width",
@@ -206,6 +254,12 @@ gtk_plot_csurface_class_init (GtkPlotCSurfaceClass *klass)
                            P_(""),
                            0,G_MAXDOUBLE,0.0,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCSurface:sublevels_color:
+   *
+   *
+   **/ 
   g_object_class_install_property (gobject_class,
                            ARG_SUBLEVELS_COLOR,
   g_param_spec_pointer ("sublevels_color",
@@ -321,7 +375,7 @@ gtk_plot_csurface_init (GtkPlotCSurface *dataset)
   GdkColormap *colormap;
   GtkPlotArray *dim;
 
-  GTK_WIDGET_SET_FLAGS(dataset, GTK_NO_WINDOW);
+  gtk_widget_set_has_window(GTK_WIDGET(dataset), FALSE);
 
   widget = GTK_WIDGET(dataset);
   colormap = gtk_widget_get_colormap(widget);
@@ -366,23 +420,33 @@ gtk_plot_csurface_new (void)
 {
   GtkPlotData *data;
 
-  data = gtk_type_new (gtk_plot_csurface_get_type ());
+  data = g_object_new (gtk_plot_csurface_get_type (), NULL);
 
   return GTK_WIDGET (data);
 }
 
+/**
+ * gtk_plot_csurface_new_function:
+ * @function: (scope async): a #GtkPlotFunc3D
+ *
+ *
+ */
 GtkWidget*
 gtk_plot_csurface_new_function (GtkPlotFunc3D function)
 {
   GtkWidget *data;
 
-  data = gtk_type_new (gtk_plot_csurface_get_type ());
+  data = gtk_widget_new (gtk_plot_csurface_get_type (), NULL);
 
   gtk_plot_csurface_construct_function(GTK_PLOT_CSURFACE(data), function);
 
   return data;
 }
 
+/**
+ * gtk_plot_csurface_construct_function:
+ * @function: (scope async): a  #GtkPlotFunc3D
+ */
 void
 gtk_plot_csurface_construct_function (GtkPlotCSurface *data, 
                                       GtkPlotFunc3D function)
@@ -408,6 +472,8 @@ gtk_plot_csurface_draw_private 	(GtkPlotData *data)
   GtkPlot *plot;
   GtkPlotSurface *surface;
   GtkPlotCSurface *csurface;
+
+  if(!gtk_widget_get_visible(GTK_WIDGET(data))) return;
 
   surface = GTK_PLOT_SURFACE(data);
   csurface = GTK_PLOT_CSURFACE(data);
@@ -602,6 +668,7 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
   if(csurface->projection == GTK_PLOT_PROJECT_FULL){
     gtk_plot_data_get_gradient_level(data, data->gradient->ticks.min - 1., &color); 
     gtk_plot_pc_set_color(data->plot->pc, &color);
+
     gtk_plot_pc_draw_rectangle (plot->pc, TRUE,
                                 clip_area.x, clip_area.y,
                                 clip_area.width, clip_area.height);
@@ -693,6 +760,7 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
   }
 
   if(data->show_labels){
+    gtk_plot_pc_clip(plot->pc, NULL);
     list = lines;
     while(list){
       GtkPlotContourLine *s = (GtkPlotContourLine *)list->data;
@@ -745,7 +813,6 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
           }
 */
 
-          gtk_plot_pc_clip(plot->pc, NULL);
           if(bb.x >= plot->internal_allocation.x && bb.x + bb.width <= plot->internal_allocation.x + plot->internal_allocation.width  && bb.y + bb.height < plot->internal_allocation.y + plot->internal_allocation.height && bb.y > plot->internal_allocation.y){
             GList *aux = labels;
             gboolean overlap = FALSE;
@@ -757,23 +824,25 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
             }
 
             if(!overlap){
+              GtkAllocation allocation;
+              gtk_widget_get_allocation(GTK_WIDGET(plot), &allocation);
               prev = pos;
               new_bb = g_new0(GtkAllocation, 1);
               *new_bb = bb;
               labels = g_list_append(labels, new_bb);
-              label.x = GTK_WIDGET(plot)->allocation.x + x;
-              label.y = GTK_WIDGET(plot)->allocation.y + y;
-              label.x /= GTK_WIDGET(plot)->allocation.width;
-              label.y /= GTK_WIDGET(plot)->allocation.height;
+              label.x = allocation.x + x;
+              label.y = allocation.y + y;
+              label.x /= allocation.width;
+              label.y /= allocation.height;
               gtk_plot_draw_text(plot, label);
               if(i != 0) break;
             }
           }
-          gtk_plot_pc_clip(plot->pc, &clip_area);
         }
       }
       list = list->next;
     } 
+    gtk_plot_pc_clip(plot->pc, &clip_area);
   }
 
 
@@ -785,8 +854,11 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
       GtkPlotPoint *p1 = NULL, *p2 = NULL;
       gint i, n = 0, x = 0;
       GtkAllocation *aux_bb = NULL;
-      GtkPlotPoint line[s->n1];
+      GtkPlotPoint *line = NULL;
       gboolean prev_x = 0;
+
+      if(!line)
+	      line = (GtkPlotPoint *) g_new0(GtkPlotPoint,s->n1 +1); /* Tiny C Compiler support */
 
       if(s->sublevel){
 	if(csurface->sublevels_line.line_style == GTK_PLOT_LINE_NONE)
@@ -816,7 +888,7 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
 
         aux = labels;
         while(aux){
-          gdouble t1, t2;
+          gdouble t1 = 0., t2 = 0.;
           aux_bb = (GtkAllocation *)aux->data;
           prev_x = x;
           x = line_intersect(aux_bb,p1,p2,&x1,&x2,&t1,&t2);
@@ -870,6 +942,9 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
       }
 
       list = list->next;
+
+      if(!list)
+	g_free (line);
     }
 
   }
@@ -1592,6 +1667,7 @@ gtk_plot_csurface_draw_legend(GtkPlotData *data, gint x, gint y)
   GdkRectangle area;
   gint lascent = 0, ldescent = 0, lheight = 0, lwidth = 0;
   gdouble m;
+  GtkAllocation allocation;
 
   surface = GTK_PLOT_SURFACE(data);
   csurface = GTK_PLOT_CSURFACE(data);
@@ -1600,10 +1676,11 @@ gtk_plot_csurface_draw_legend(GtkPlotData *data, gint x, gint y)
   g_return_if_fail(GTK_IS_PLOT(data->plot));
 
   plot = data->plot;
-  area.x = GTK_WIDGET(plot)->allocation.x;
-  area.y = GTK_WIDGET(plot)->allocation.y;
-  area.width = GTK_WIDGET(plot)->allocation.width;
-  area.height = GTK_WIDGET(plot)->allocation.height;
+  gtk_widget_get_allocation(GTK_WIDGET(plot), &allocation);
+  area.x = allocation.x;
+  area.y = allocation.y;
+  area.width = allocation.width;
+  area.height = allocation.height;
 
   m = plot->magnification;
   legend = plot->legends_attr;
@@ -1783,30 +1860,69 @@ rgb_to_hsv (gdouble  r, gdouble  g, gdouble  b,
 
  ***********************************/
 
+/**
+ * gtk_plot_csurface_set_lines_visible:
+ * @csurface: a #GtkPlotCSurface/
+ * @visible:
+ *
+ *
+ */
 void
 gtk_plot_csurface_set_lines_visible (GtkPlotCSurface *csurface, gboolean visible)
 {
   csurface->lines_visible = visible;
 }
 
+/**
+ * gtk_plot_csurface_get_lines_visible:
+ * @csurface: a #GtkPlotCSurface.
+ *
+ *
+ *
+ * Return value:
+ */
 gboolean
 gtk_plot_csurface_get_lines_visible (GtkPlotCSurface *csurface)
 {
   return (csurface->lines_visible);
 }
 
+/**
+ * gtk_plot_csurface_set_projection:
+ * @csurface: a #GtkPlotCSurface.
+ * @proj:
+ *
+ *
+ */
 void
 gtk_plot_csurface_set_projection    (GtkPlotCSurface *csurface, GtkPlotProjection proj)
 {
   csurface->projection = proj;
 }
 
+/**
+ * gtk_plot_csurface_projection:
+ * @csurface: a #GtkPlotCSurface.
+ *
+ *
+ *
+ * Return value:
+ */
 GtkPlotProjection       
 gtk_plot_csurface_projection    (GtkPlotCSurface *csurface)
 {
   return (csurface->projection);
 }
 
+/**
+ * gtk_plot_csurface_set_levels_attributes:
+ * @dataset: a #GtkPlotCSurface.
+ * @style:
+ * @width:
+ * @color:
+ *
+ *
+ */
 void
 gtk_plot_csurface_set_levels_attributes (GtkPlotCSurface *dataset,
                                         GtkPlotLineStyle style,
@@ -1818,6 +1934,15 @@ gtk_plot_csurface_set_levels_attributes (GtkPlotCSurface *dataset,
   dataset->levels_line.color = *color;
 }
 
+/**
+ * gtk_plot_csurface_set_sublevels_attributes:
+ * @dataset: a #GtkPlotCSurface.
+ * @style:
+ * @width:
+ * @color:
+ *
+ *
+ */
 void
 gtk_plot_csurface_set_sublevels_attributes (GtkPlotCSurface *dataset,
                                         GtkPlotLineStyle style,
@@ -1829,6 +1954,15 @@ gtk_plot_csurface_set_sublevels_attributes (GtkPlotCSurface *dataset,
   dataset->sublevels_line.color = *color;
 }
 
+/**
+ * gtk_plot_csurface_get_levels_attributes:
+ * @dataset: a #GtkPlotCSurface.
+ * @style:
+ * @width:
+ * @color:
+ *
+ *
+ */
 void
 gtk_plot_csurface_get_levels_attributes (GtkPlotCSurface *dataset,
                                         GtkPlotLineStyle *style,
@@ -1840,6 +1974,15 @@ gtk_plot_csurface_get_levels_attributes (GtkPlotCSurface *dataset,
   *color = dataset->levels_line.color;
 }
 
+/**
+ * gtk_plot_csurface_get_sublevels_attributes:
+ * @dataset: a #GtkPlotCSurface.
+ * @style:
+ * @width:
+ * @color:
+ *
+ *
+ */
 void
 gtk_plot_csurface_get_sublevels_attributes (GtkPlotCSurface *dataset,
                                            GtkPlotLineStyle *style,

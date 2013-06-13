@@ -17,6 +17,13 @@
  * Boston, MA 02111-1307, USA.
  */
 
+/**
+ * SECTION: gtkplotpixmap
+ * @short_description: Pixmap plots widget.
+ *
+ * FIXME:: Need long description.
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -71,26 +78,21 @@ extern inline gint roundint 			(gdouble x);
 
 static GtkPlotDataClass *parent_class = NULL;
 
-GtkType
+GType
 gtk_plot_pixmap_get_type (void)
 {
-  static GtkType data_type = 0;
+  static GType data_type = 0;
 
   if (!data_type)
     {
-      GtkTypeInfo data_info =
-      {
-	"GtkPlotPixmap",
-	sizeof (GtkPlotPixmap),
-	sizeof (GtkPlotPixmapClass),
-	(GtkClassInitFunc) gtk_plot_pixmap_class_init,
-	(GtkObjectInitFunc) gtk_plot_pixmap_init,
-	/* reserved 1*/ NULL,
-        /* reserved 2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      data_type = gtk_type_unique (gtk_plot_data_get_type(), &data_info);
+      data_type = g_type_register_static_simple (
+		gtk_plot_data_get_type(),
+		"GtkPlotPixmap",
+		sizeof (GtkPlotPixmapClass),
+		(GClassInitFunc) gtk_plot_pixmap_class_init,
+		sizeof (GtkPlotPixmap),
+		(GInstanceInitFunc) gtk_plot_pixmap_init,
+		0);
     }
   return data_type;
 }
@@ -103,7 +105,7 @@ gtk_plot_pixmap_class_init (GtkPlotPixmapClass *klass)
   GtkPlotDataClass *data_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
-  parent_class = gtk_type_class (gtk_plot_data_get_type ());
+  parent_class = g_type_class_ref (gtk_plot_data_get_type ());
 
   object_class = (GtkObjectClass *) klass;
   widget_class = (GtkWidgetClass *) klass;
@@ -180,18 +182,33 @@ gtk_plot_pixmap_init (GtkPlotPixmap *dataset)
   dataset->pixmap = NULL;
 }
 
+/**
+ * gtk_plot_pixmap_new:
+ * @pixmap: a GdkPixmap.
+ * @mask: 
+ *
+ * Return value: a new GtkWidget.
+ */
 GtkWidget*
 gtk_plot_pixmap_new (GdkPixmap *pixmap, GdkBitmap *mask)
 {
   GtkWidget *widget;
 
-  widget = gtk_type_new (gtk_plot_pixmap_get_type ());
+  widget = gtk_widget_new (gtk_plot_pixmap_get_type (), NULL);
 
   gtk_plot_pixmap_construct(GTK_PLOT_PIXMAP(widget), pixmap, mask);
 
   return (widget);
 }
 
+/**
+ * gtk_plot_pixmap_construct:
+ * @data:
+ * @pixmap: a GdkPixmap
+ * @mask: 
+ *
+ *
+ */
 void
 gtk_plot_pixmap_construct(GtkPlotPixmap *data, GdkPixmap *pixmap, GdkBitmap *mask)
 {
@@ -286,6 +303,7 @@ gtk_plot_pixmap_draw_legend(GtkPlotData *data, gint x, gint y)
   gint lascent, ldescent, lheight, lwidth;
   gdouble m;
   gint width, height;
+  GtkAllocation allocation;
 
   g_return_if_fail(data->plot != NULL);
   g_return_if_fail(GTK_IS_PLOT(data->plot));
@@ -293,10 +311,11 @@ gtk_plot_pixmap_draw_legend(GtkPlotData *data, gint x, gint y)
   pixmap = GTK_PLOT_PIXMAP(data);
 
   plot = data->plot;
-  area.x = GTK_WIDGET(plot)->allocation.x;
-  area.y = GTK_WIDGET(plot)->allocation.y;
-  area.width = GTK_WIDGET(plot)->allocation.width;
-  area.height = GTK_WIDGET(plot)->allocation.height;
+  gtk_widget_get_allocation(GTK_WIDGET(plot), &allocation);
+  area.x = allocation.x;
+  area.y = allocation.y;
+  area.width = allocation.width;
+  area.height = allocation.height;
 
   m = plot->magnification;
   legend = plot->legends_attr;
@@ -385,12 +404,28 @@ gtk_plot_pixmap_get_legend_size(GtkPlotData *data, gint *width, gint *height)
  * Public methods
  ******************************************************/
 
+/**
+ * gtk_plot_pixmap_get_pixmap:
+ * @pixmap: a #GdkPlotPixmap
+ *
+ * Get pixmap from #GtkPlotPixmap.
+ *
+ * Return value: (transfer none) the #GdkPixmap
+ */
 GdkPixmap *
 gtk_plot_pixmap_get_pixmap (GtkPlotPixmap *pixmap)
 {
   return(pixmap->pixmap);
 }
 
+/**
+ * gtk_plot_pixmap_get_mask:
+ * @pixmap: a #GdkPlotPixmap
+ *
+ * Get mask bitmap from #GtkPlotPixmap.
+ *
+ * Return value: (transfer none) the #GdkBitmap
+ */
 GdkBitmap *
 gtk_plot_pixmap_get_mask (GtkPlotPixmap *pixmap)
 {

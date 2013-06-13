@@ -66,6 +66,7 @@ static GtkWidget *plot_resetzoom_item = NULL;
 static GtkWidget *plot_print_item = NULL;
 static GtkWidget *plot_exportps_item = NULL;
 static GtkWidget *plot_exporteps_item = NULL;
+static GtkWidget *plot_exportpdf_item = NULL;
 static GtkWidget *plot_exportpng_item = NULL;
 
 static GtkWidget *view_menu_item = NULL;
@@ -355,6 +356,14 @@ enum {
 	RESPONSE_CLEAR
 };
 
+enum {
+	EXPORT_PS,
+	EXPORT_EPS,
+	EXPORT_PDF,
+	EXPORT_PNG
+};
+
+
 static gboolean
 is_letter_or_underscore (char l)
 {
@@ -469,6 +478,8 @@ plot_window_setup (void)
 		gtk_widget_set_sensitive (plot_print_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_exportps_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_exporteps_item, ! plot_in_progress);
+		if (plot_exportpdf_item != NULL)
+			gtk_widget_set_sensitive (plot_exportpdf_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_exportpng_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (view_menu_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (solver_menu_item, ! plot_in_progress);
@@ -891,14 +902,14 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 	char *s;
 	char *base;
 	gboolean ret;
-	gboolean eps;
+	int export_type;
 	char *tmpfile = NULL;
 	char *file_to_write = NULL;
 	int fd = -1;
 	gboolean run_epsi = FALSE;
 	GtkWidget *w;
 
-	eps = GPOINTER_TO_INT (data);
+	export_type = GPOINTER_TO_INT (data);
 
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (GTK_WIDGET (fs));
@@ -908,10 +919,12 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 	}
 
 	/* run epsi checkbox */
-	w = gtk_file_chooser_get_extra_widget (GTK_FILE_CHOOSER (fs));
-	if (w != NULL &&
-	    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w))) {
-		run_epsi = TRUE;
+	if (export_type == EXPORT_EPS) {
+		w = gtk_file_chooser_get_extra_widget (GTK_FILE_CHOOSER (fs));
+		if (w != NULL &&
+		    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w))) {
+			run_epsi = TRUE;
+		}
 	}
 
 	s = g_strdup (gtk_file_chooser_get_filename (fs));
@@ -922,8 +935,10 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 	if (base != NULL && base[0] != '\0' &&
 	    strchr (base, '.') == NULL) {
 		char *n;
-		if (eps)
+		if (export_type == EXPORT_EPS)
 			n = g_strconcat (s, ".eps", NULL);
+		else if (export_type == EXPORT_PDF)
+			n = g_strconcat (s, ".pdf", NULL);
 		else
 			n = g_strconcat (s, ".ps", NULL);
 		g_free (s);
@@ -946,7 +961,14 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 	gtk_widget_set_sensitive (graph_window, TRUE);
 
 	file_to_write = s;
-	if (eps && run_epsi && ve_is_prog_in_path ("ps2epsi")) {
+	if (export_type == EXPORT_EPS && run_epsi && ve_is_prog_in_path ("ps2epsi")) {
+		tmpfile = g_build_filename (g_get_tmp_dir (), "genius-ps-XXXXXX", NULL);
+		fd = g_mkstemp (tmpfile);
+		/* FIXME: tell about errors ?*/
+		if (fd >= 0) {
+			file_to_write = tmpfile;
+		}
+	} else if (export_type == EXPORT_PDF) {
 		tmpfile = g_build_filename (g_get_tmp_dir (), "genius-ps-XXXXXX", NULL);
 		fd = g_mkstemp (tmpfile);
 		/* FIXME: tell about errors ?*/
@@ -964,7 +986,8 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 			(GTK_PLOT_CANVAS (plot_canvas),
 			 file_to_write,
 			 GTK_PLOT_PORTRAIT,
-			 eps /* epsflag */,
+			 (export_type == EXPORT_EPS ||
+			  export_type == EXPORT_PDF) /* epsflag */,
 			 GTK_PLOT_PSPOINTS,
 			 400, ASPECT * 400);
 	else
@@ -975,8 +998,8 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
 	}
 
-	/* If we used a temporary file, now use ps2epsi */
-	if (fd >= 0) {
+	/* If we used a temporary file, now use ps2epsi or ps2pdf */
+	if (fd >= 0 && run_epsi) {
 		int status;
 		char *qs = g_shell_quote (s);
 		char *cmd = g_strdup_printf ("ps2epsi %s %s", tmpfile, qs);
@@ -992,6 +1015,26 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 			unlink (tmpfile);
 		} else {
 			/* EEK, couldn't run ps2epsi for some reason */
+			rename (tmpfile, s);
+		}
+		g_free (cmd);
+		g_free (qs);
+	} else if (fd >= 0 && export_type == EXPORT_PDF) {
+		int status;
+		char *qs = g_shell_quote (s);
+		char *cmd = g_strdup_printf ("ps2pdf -dEPSCrop -dPDFSETTINGS=/prepress %s %s", tmpfile, qs);
+		if ( ! g_spawn_command_line_sync  (cmd,
+						   NULL /*stdout*/,
+						   NULL /*stderr*/,
+						   &status,
+						   NULL /* error */)) {
+			status = -1;
+		}
+		close (fd);
+		if (status == 0) {
+			unlink (tmpfile);
+		} else {
+			/* EEK, couldn't run ps2pdf for some reason */
 			rename (tmpfile, s);
 		}
 		g_free (cmd);
@@ -1084,12 +1127,6 @@ really_export_png_cb (GtkFileChooser *fs, int response, gpointer data)
 	g_free (s);
 }
 
-enum {
-	EXPORT_PS,
-	EXPORT_EPS,
-	EXPORT_PNG
-};
-
 static void
 do_export_cb (int export_type)
 {
@@ -1110,11 +1147,19 @@ do_export_cb (int export_type)
 		title = _("Export encapsulated postscript");
 	else if (export_type == EXPORT_PS)
 		title = _("Export postscript");
+	else if (export_type == EXPORT_PDF)
+		title = _("Export PDF");
 	else if (export_type == EXPORT_PNG)
 		title = _("Export PNG");
 	else
 		/* should never happen */
 		title = "Export ???";
+
+	if (export_type == EXPORT_PDF &&
+	    ! ve_is_prog_in_path ("ps2pdf")) {
+		genius_display_error (graph_window, _("Missing ps2pdf command, perhaps ghostscript is not installed."));
+		return;
+	}
 
 	fs = gtk_file_chooser_dialog_new (title,
 					  GTK_WINDOW (graph_window),
@@ -1134,6 +1179,10 @@ do_export_cb (int export_type)
 		gtk_file_filter_set_name (filter_ps, _("PS files"));
 		gtk_file_filter_add_pattern (filter_ps, "*.ps");
 		gtk_file_filter_add_pattern (filter_ps, "*.PS");
+	} else if (export_type == EXPORT_PDF) {
+		gtk_file_filter_set_name (filter_ps, _("PDF files"));
+		gtk_file_filter_add_pattern (filter_ps, "*.pdf");
+		gtk_file_filter_add_pattern (filter_ps, "*.PDF");
 	} else if (export_type == EXPORT_PNG) {
 		gtk_file_filter_set_name (filter_ps, _("PNG files"));
 		gtk_file_filter_add_pattern (filter_ps, "*.png");
@@ -1148,7 +1197,7 @@ do_export_cb (int export_type)
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (fs), filter_all);
 	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (fs), filter_ps);
 
-	if (ve_is_prog_in_path ("ps2epsi")) {
+	if (export_type == EXPORT_EPS && ve_is_prog_in_path ("ps2epsi")) {
 		GtkWidget *w;
 		w = gtk_check_button_new_with_label (_("Generate preview in EPS file (with ps2epsi)"));
 		gtk_widget_show (w);
@@ -1158,14 +1207,12 @@ do_export_cb (int export_type)
 
 	g_signal_connect (G_OBJECT (fs), "destroy",
 			  G_CALLBACK (gtk_widget_destroyed), &fs);
-	if (export_type == EXPORT_EPS) {
+	if (export_type == EXPORT_EPS ||
+	    export_type == EXPORT_PS ||
+	    export_type == EXPORT_PDF) {
 		g_signal_connect (G_OBJECT (fs), "response",
 				  G_CALLBACK (really_export_cb),
-				  GINT_TO_POINTER (TRUE /*eps*/));
-	} else if (export_type == EXPORT_PS) {
-		g_signal_connect (G_OBJECT (fs), "response",
-				  G_CALLBACK (really_export_cb),
-				  GINT_TO_POINTER (FALSE /*eps*/));
+				  GINT_TO_POINTER (export_type));
 	} else if (export_type == EXPORT_PNG) {
 		g_signal_connect (G_OBJECT (fs), "response",
 				  G_CALLBACK (really_export_png_cb),
@@ -1195,6 +1242,12 @@ static void
 plot_exporteps_cb (void)
 {
 	do_export_cb (EXPORT_EPS);
+}
+
+static void
+plot_exportpdf_cb (void)
+{
+	do_export_cb (EXPORT_PDF);
 }
 
 static void
@@ -2003,6 +2056,16 @@ ensure_window (gboolean do_window_present)
 			  G_CALLBACK (plot_exporteps_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	plot_exporteps_item = item;
+
+	if (ve_is_prog_in_path ("ps2pdf")) {
+		item = gtk_menu_item_new_with_mnemonic (_("Export P_DF..."));
+		g_signal_connect (G_OBJECT (item), "activate",
+				  G_CALLBACK (plot_exportpdf_cb), NULL);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		plot_exportpdf_item = item;
+	} else {
+		plot_exportpdf_item = NULL;
+	}
 
 	item = gtk_menu_item_new_with_mnemonic (_("Export P_NG..."));
 	g_signal_connect (G_OBJECT (item), "activate",

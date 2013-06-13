@@ -26,10 +26,10 @@ extern "C" {
 
 #include "gtkplot.h"
 
-#define GTK_PLOT_BAR(obj)        GTK_CHECK_CAST (obj, gtk_plot_bar_get_type (), GtkPlotBar)
-#define GTK_TYPE_PLOT_BAR        (gtk_plot_bar_get_type ())
-#define GTK_PLOT_BAR_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, gtk_plot_bar_get_type(), GtkPlotBarClass)
-#define GTK_IS_PLOT_BAR(obj)     GTK_CHECK_TYPE (obj, gtk_plot_bar_get_type ())
+#define GTK_PLOT_BAR(obj)        G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_plot_bar_get_type (), GtkPlotBar)
+#define G_TYPE_PLOT_BAR        (gtk_plot_bar_get_type ())
+#define GTK_PLOT_BAR_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gtk_plot_bar_get_type(), GtkPlotBarClass)
+#define GTK_IS_PLOT_BAR(obj)     G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_plot_bar_get_type ())
 
 typedef struct _GtkPlotBar             GtkPlotBar;
 typedef struct _GtkPlotBarClass        GtkPlotBarClass;
@@ -41,6 +41,12 @@ typedef enum
   GTK_PLOT_BAR_ABSOLUTE,
 } GtkPlotBarUnits;
 
+/**
+ * GtkPlotBar:
+ *
+ * The GtkPlotBar struct contains only private data.
+ * It should only be accessed through the functions described below.
+ */
 struct _GtkPlotBar
 {
   GtkPlotData data;
@@ -55,7 +61,7 @@ struct _GtkPlotBarClass
 };
 
 
-GtkType		gtk_plot_bar_get_type	(void);
+GType		gtk_plot_bar_get_type	(void);
 GtkWidget*	gtk_plot_bar_new	(GtkOrientation orientation);
 
 void		gtk_plot_bar_construct	(GtkPlotBar *bar, 

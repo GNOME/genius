@@ -17,6 +17,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+/**
+ * SECTION: gtkplotpolar
+ * @short_description: 
+ *
+ * FIXME:: Need long description.
+ */
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -73,26 +81,21 @@ enum
   ARG_ROTATION,
 };
 
-GtkType
+GType
 gtk_plot_polar_get_type (void)
 {
-  static GtkType plot_type = 0;
+  static GType plot_type = 0;
 
   if (!plot_type)
     {
-      GtkTypeInfo plot_info =
-      {
-	"GtkPlotPolar",
-	sizeof (GtkPlotPolar),
-	sizeof (GtkPlotPolarClass),
-	(GtkClassInitFunc) gtk_plot_polar_class_init,
-	(GtkObjectInitFunc) gtk_plot_polar_init,
-	/* reserved 1*/ NULL,
-        /* reserved 2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      plot_type = gtk_type_unique (gtk_plot_get_type(), &plot_info);
+      plot_type = g_type_register_static_simple (
+		gtk_plot_get_type(),
+		"GtkPlotPolar",
+		sizeof (GtkPlotPolarClass),
+		(GClassInitFunc) gtk_plot_polar_class_init,
+		sizeof (GtkPlotPolar),
+		(GInstanceInitFunc) gtk_plot_polar_init,
+		0);
     }
   return plot_type;
 }
@@ -104,7 +107,7 @@ gtk_plot_polar_class_init (GtkPlotPolarClass *klass)
   GtkWidgetClass *widget_class;
   GtkPlotClass *plot_class;
 
-  parent_class = gtk_type_class (gtk_plot_get_type ());
+  parent_class = g_type_class_ref (gtk_plot_get_type ());
 
   gobject_class = G_OBJECT_CLASS(klass);
   widget_class = (GtkWidgetClass *) klass;
@@ -117,6 +120,11 @@ gtk_plot_polar_class_init (GtkPlotPolarClass *klass)
   plot_class->get_point = gtk_plot_polar_real_get_point;
   plot_class->get_pixel = gtk_plot_polar_real_get_pixel;
 
+  /**
+   * GtkPlotPolar:rotation:
+   *
+   *
+   **/
   g_object_class_install_property (gobject_class,
                            ARG_ROTATION,
   g_param_spec_double ("rotation",
@@ -227,7 +235,7 @@ gtk_plot_polar_real_paint (GtkWidget *widget)
   gint xoffset, yoffset ;
   gdouble min;
 
-  if(!GTK_WIDGET_VISIBLE(widget)) return;
+  if(!gtk_widget_get_visible(widget)) return;
 
   plot = GTK_PLOT(widget);
 
@@ -319,37 +327,70 @@ gtk_plot_polar_real_paint (GtkWidget *widget)
 }
 
 
+/**
+ * gtk_plot_polar_new:
+ * @drawable:
+ *
+ *
+ *
+ * Return value:
+ */
 GtkWidget*
 gtk_plot_polar_new (GdkDrawable *drawable)
 {
-  GtkPlotPolar *plot;
+  GtkWidget* plot;
 
-  plot = gtk_type_new (gtk_plot_polar_get_type ());
+  plot = gtk_widget_new (gtk_plot_polar_get_type (), NULL);
 
   gtk_plot_polar_construct(GTK_PLOT_POLAR(plot), drawable);
 
-  return GTK_WIDGET (plot);
+  return plot;
 }
 
+/**
+ * gtk_plot_polar_new_with_size:
+ * @drawable:
+ * @width:
+ * @height:
+ *
+ *
+ *
+ * Return value:
+ */
 GtkWidget*
 gtk_plot_polar_new_with_size (GdkDrawable *drawable, gdouble width, gdouble height)
 {
   GtkWidget *plot; 
 
-  plot = gtk_type_new (gtk_plot_polar_get_type ());
+  plot = gtk_widget_new (gtk_plot_polar_get_type (), NULL);
 
   gtk_plot_polar_construct_with_size(GTK_PLOT_POLAR(plot), drawable,
 				     width, height);
 
   return(plot);
 }
-
+/**
+ * gtk_plot_polar_construct:
+ * @plot: a #GtkPlotPolar widget.
+ * @drawable:
+ *
+ *
+ */
 void
 gtk_plot_polar_construct(GtkPlotPolar *plot, GdkDrawable *drawable)
 {
   GTK_PLOT(plot)->drawable = drawable;
 }
 
+/**
+ * gtk_plot_polar_construct_with_size:
+ * @plot: a #GtkPlotPolar widget.
+ * @drawable:
+ * @width:
+ * @height:
+ *
+ *
+ */
 void
 gtk_plot_polar_construct_with_size(GtkPlotPolar *plot, GdkDrawable *drawable, gdouble width, gdouble height)
 {
@@ -606,6 +647,8 @@ gtk_plot_polar_draw_labels(GtkPlotPolar *polar,
   gdouble m;
   gboolean veto = FALSE;
   gdouble x0, y0;
+  GtkAllocation allocation;
+
 
   widget = GTK_WIDGET(polar);
   plot = GTK_PLOT(polar);
@@ -662,27 +705,27 @@ gtk_plot_polar_draw_labels(GtkPlotPolar *polar,
       }
       else
       {
-        gtk_signal_emit_by_name(GTK_OBJECT(axis), "tick_label", 
+        g_signal_emit_by_name(GTK_OBJECT(axis), "tick_label", 
                                 &x_tick, label, &veto);
         if(!veto)
           gtk_plot_axis_parse_label(axis, x_tick, axis->label_precision, axis->label_style, label);
       }
       tick.text = label;
-
+      gtk_widget_get_allocation (widget, &allocation);
       if(axis->label_mask & GTK_PLOT_LABEL_IN){
          tick.x = x + xx;
          tick.y = y + yy;
          tick.x = tick.x + tick_direction.x*roundint(axis->labels_offset * m);
          tick.y = tick.y + tick_direction.y*roundint(axis->labels_offset * m);
-         tick.x = (gdouble)tick.x / (gdouble)widget->allocation.width;
-         tick.y = (gdouble)tick.y / (gdouble)widget->allocation.height;
+         tick.x = (gdouble)tick.x / (gdouble)allocation.width;
+         tick.y = (gdouble)tick.y / (gdouble)allocation.height;
          gtk_plot_draw_text(plot, tick);
          tick.x = x - xx;
          tick.y = y - yy;
          tick.x = tick.x + tick_direction.x*roundint(axis->labels_offset * m);
          tick.y = tick.y + tick_direction.y*roundint(axis->labels_offset * m);
-         tick.x = (gdouble)tick.x / (gdouble)widget->allocation.width;
-         tick.y = (gdouble)tick.y / (gdouble)widget->allocation.height;
+         tick.x = (gdouble)tick.x / (gdouble)allocation.width;
+         tick.y = (gdouble)tick.y / (gdouble)allocation.height;
          gtk_plot_draw_text(plot, tick);
       }
       if(axis->label_mask & GTK_PLOT_LABEL_OUT){
@@ -690,15 +733,15 @@ gtk_plot_polar_draw_labels(GtkPlotPolar *polar,
          tick.y = y + yy;
          tick.x = tick.x - tick_direction.x*roundint(axis->labels_offset * m);
          tick.y = tick.y - tick_direction.y*roundint(axis->labels_offset * m);
-         tick.x = (gdouble)tick.x / (gdouble)widget->allocation.width;
-         tick.y = (gdouble)tick.y / (gdouble)widget->allocation.height;
+         tick.x = (gdouble)tick.x / (gdouble)allocation.width;
+         tick.y = (gdouble)tick.y / (gdouble)allocation.height;
          gtk_plot_draw_text(plot, tick);
          tick.x = x - xx;
          tick.y = y - yy;
          tick.x = tick.x - tick_direction.x*roundint(axis->labels_offset * m);
          tick.y = tick.y - tick_direction.y*roundint(axis->labels_offset * m);
-         tick.x = (gdouble)tick.x / (gdouble)widget->allocation.width;
-         tick.y = (gdouble)tick.y / (gdouble)widget->allocation.height;
+         tick.x = (gdouble)tick.x / (gdouble)allocation.width;
+         tick.y = (gdouble)tick.y / (gdouble)allocation.height;
          gtk_plot_draw_text(plot, tick);
       }
     }
@@ -730,6 +773,7 @@ gtk_plot_polar_draw_circle(GtkPlotPolar *polar)
   gdouble rotation;
   gboolean veto = FALSE;
   gint sign = 1;
+  GtkAllocation allocation;
 
   widget = GTK_WIDGET(polar);
   plot = GTK_PLOT(polar);
@@ -779,7 +823,7 @@ gtk_plot_polar_draw_circle(GtkPlotPolar *polar)
       }
       else
       {
-        gtk_signal_emit_by_name(GTK_OBJECT(axis), "tick_label", 
+        g_signal_emit_by_name(GTK_OBJECT(axis), "tick_label", 
                                 &x_tick, label, &veto);
         if(!veto)
           gtk_plot_axis_parse_label(axis, x_tick, axis->label_precision, axis->label_style, label);
@@ -823,14 +867,15 @@ gtk_plot_polar_draw_circle(GtkPlotPolar *polar)
       y1 += text_height / 2;
 
       if((x_tick - rotation) != 360.0 && axis->label_mask != 0){
+         gtk_widget_get_allocation (widget, &allocation);
          perp.direction.x = -cos(x_tick * PI / 180. * sign);
          perp.direction.y = sin(x_tick * PI / 180. * sign);
          tick.x = x1;
          tick.y = y1;
          tick.x -= roundint(perp.direction.x*axis->labels_offset * m);
          tick.y -= roundint(perp.direction.y*axis->labels_offset * m);
-         tick.x = (gdouble)tick.x / (gdouble)widget->allocation.width;
-         tick.y = (gdouble)tick.y / (gdouble)widget->allocation.height;
+         tick.x = (gdouble)tick.x / (gdouble)allocation.width;
+         tick.y = (gdouble)tick.y / (gdouble)allocation.height;
          gtk_plot_draw_text(plot, tick);
       }
 
@@ -958,16 +1003,31 @@ gtk_plot_polar_real_get_point(GtkWidget *widget,
 /*******************************************
  * gtk_plot_polar_rotate
  *******************************************/
+
+/**
+ * gtk_plot_polar_rotate:
+ * @plot: a #GtkPlotPolar widget.
+ * @angle:
+ *
+ *
+ */
 void
 gtk_plot_polar_rotate(GtkPlotPolar *polar, gdouble angle)
 {
   polar->rotation = angle;
 
-  gtk_signal_emit_by_name(GTK_OBJECT(polar), "update", TRUE);
-  gtk_signal_emit_by_name(GTK_OBJECT(polar), "changed");
+  g_signal_emit_by_name(GTK_OBJECT(polar), "update", TRUE);
+  g_signal_emit_by_name(GTK_OBJECT(polar), "changed");
 }
 
-
+/**
+ * gtk_plot_polar_get_angle:
+ * @plot: a #GtkPlotPolar widget.
+ *
+ *
+ *
+ * Return value:
+ */
 gdouble
 gtk_plot_polar_get_angle(GtkPlotPolar *polar)
 {

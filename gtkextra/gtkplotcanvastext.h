@@ -20,10 +20,10 @@
 #ifndef __GTK_PLOT_CANVAS_TEXT_H__
 #define __GTK_PLOT_CANVAS_TEXT_H__
 
-#define GTK_PLOT_CANVAS_TEXT(obj)        GTK_CHECK_CAST (obj, gtk_plot_canvas_text_get_type (), GtkPlotCanvasText)
-#define GTK_PLOT_CANVAS_TEXT_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, gtk_plot_canvas_text_get_type(), GtkPlotCanvasTextClass)
-#define GTK_IS_PLOT_CANVAS_TEXT(obj)     GTK_CHECK_TYPE (obj, gtk_plot_canvas_text_get_type ())
-#define GTK_TYPE_PLOT_CANVAS_TEXT (gtk_plot_canvas_text_get_type ())
+#define GTK_PLOT_CANVAS_TEXT(obj)        G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_plot_canvas_text_get_type (), GtkPlotCanvasText)
+#define GTK_PLOT_CANVAS_TEXT_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gtk_plot_canvas_text_get_type(), GtkPlotCanvasTextClass)
+#define GTK_IS_PLOT_CANVAS_TEXT(obj)     G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_plot_canvas_text_get_type ())
+#define G_TYPE_PLOT_CANVAS_TEXT (gtk_plot_canvas_text_get_type ())
 
 
 #include <gdk/gdk.h>
@@ -36,6 +36,12 @@ extern "C" {
 typedef struct _GtkPlotCanvasText	GtkPlotCanvasText;
 typedef struct _GtkPlotCanvasTextClass	GtkPlotCanvasTextClass;
 
+/**
+ * GtkPlotCanvasText:
+ *
+ * The GtkPlotCanvasText struct contains only private data.
+ * It should only be accessed through the functions described below.
+ */
 struct _GtkPlotCanvasText
 {
   GtkPlotCanvasChild parent;
@@ -48,7 +54,7 @@ struct _GtkPlotCanvasTextClass
   GtkPlotCanvasChildClass parent_class;
 };
 
-GtkType 	gtk_plot_canvas_text_get_type	(void);
+GType 		gtk_plot_canvas_text_get_type	(void);
 GtkPlotCanvasChild * 
 		gtk_plot_canvas_text_new 	(const gchar *font, 
 						 gint height, 
@@ -57,7 +63,7 @@ GtkPlotCanvasChild *
 						 const GdkColor *bg,
                           			 gboolean transparent,
                           			 GtkJustification justification,
-                          			 const gchar *text);
+                          			 const gchar *real_text);
 
 void 		gtk_plot_canvas_text_set_attributes
 						(GtkPlotCanvasText *text,

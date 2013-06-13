@@ -74,7 +74,14 @@ extern "C" {
 
 typedef struct _GtkPSFont GtkPSFont;
 
+/**
+ * GtkPSFont:
+ *
+ * The GtkPSFont struct contains only private data.
+ * It should only be accessed through the functions described below.
+ */
 struct _GtkPSFont {
+  /*< private >*/
   gchar *fontname;
   gchar *psname;
   gchar *family;
@@ -88,7 +95,7 @@ struct _GtkPSFont {
 gint		gtk_psfont_init			();
 void		gtk_psfont_unref		();
 GtkPSFont* 	gtk_psfont_get_by_name 		(const gchar *name);
-GtkPSFont* 	gtk_psfont_get_by_family        (const gchar *family, 
+GtkPSFont* 	gtk_psfont_get_by_family        (const gchar *family_name, 
                                                  gboolean italic, 
                                                  gboolean bold);
 GdkFont*	gtk_psfont_get_gdkfont 		(GtkPSFont *font, gint height);
@@ -98,18 +105,18 @@ const gchar *	gtk_psfont_get_psfontname	(GtkPSFont *psfont);
 void		gtk_psfont_add_font		(const char *fontname,
 						 const gchar *psname,
 						 const gchar *family,
-						 const gchar *pango_string,
+						 const gchar *pango_description,
 						 gboolean italic,
                                                  gboolean bold);
 void		gtk_psfont_add_i18n_font	(const char *fontname,
 						 const gchar *psname,
 						 const gchar *family,
 						 const gchar *i18n_latinfamily,
-						 const gchar *pango_string,
+						 const gchar *pango_description,
 						 gboolean italic,
                                                  gboolean bold,
 						 gboolean vertical);
-void 		gtk_psfont_get_families		(GList **family, gint *numf);
+void 		gtk_psfont_get_families		(GList **families, gint *num_families);
 void 		gtk_psfont_get_char_size	(GtkPSFont *psfont,
                         			 GdkFont *font,
                         			 GdkFont *latin_font,

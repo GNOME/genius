@@ -17,11 +17,20 @@
  * Boston, MA 02111-1307, USA.
  */
 
+/**
+ * SECTION: gtkplotbox
+ * @short_description: 
+ *
+ * FIXME:: need long description.
+ */
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
 #include <gtk/gtk.h>
+#include "gtkextra-compat.h"
 #include "gtkplot.h"
 #include "gtkplot3d.h"
 #include "gtkplotdata.h"
@@ -62,26 +71,21 @@ enum {
 
 static GtkPlotDataClass *parent_class = NULL;
 
-GtkType
+GType
 gtk_plot_box_get_type (void)
 {
-  static GtkType data_type = 0;
+  static GType data_type = 0;
 
   if (!data_type)
     {
-      GtkTypeInfo data_info =
-      {
-	"GtkPlotBox",
-	sizeof (GtkPlotBox),
-	sizeof (GtkPlotBoxClass),
-	(GtkClassInitFunc) gtk_plot_box_class_init,
-	(GtkObjectInitFunc) gtk_plot_box_init,
-	/* reserved 1*/ NULL,
-        /* reserved 2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      data_type = gtk_type_unique (gtk_plot_data_get_type(), &data_info);
+      data_type = g_type_register_static_simple (
+		gtk_plot_data_get_type(),
+		"GtkPlotBox",
+		sizeof (GtkPlotBoxClass),
+		(GClassInitFunc) gtk_plot_box_class_init,
+		sizeof (GtkPlotBox),
+		(GInstanceInitFunc) gtk_plot_box_init,
+		0);
     }
   return data_type;
 }
@@ -94,7 +98,7 @@ gtk_plot_box_class_init (GtkPlotBoxClass *klass)
   GtkPlotDataClass *data_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
-  parent_class = gtk_type_class (gtk_plot_data_get_type ());
+  parent_class = g_type_class_ref (gtk_plot_data_get_type ());
 
   object_class = (GtkObjectClass *) klass;
   widget_class = (GtkWidgetClass *) klass;
@@ -108,7 +112,8 @@ gtk_plot_box_class_init (GtkPlotBoxClass *klass)
   g_param_spec_enum ("orientation",
                      P_("Orientation"),
                      P_("Orientation"),
-                     GTK_TYPE_ORIENTATION, 0,
+		     gtk_orientation_get_type (),
+                     0,
                      G_PARAM_READABLE|G_PARAM_WRITABLE));
 
   data_class->clone = gtk_plot_box_clone;
@@ -180,18 +185,34 @@ gtk_plot_box_init (GtkPlotBox *dataset)
   GTK_PLOT_DATA(dataset)->line.color = black;
 }
 
+/**
+ * gtk_plot_box_new:
+ * @orientation: GTK_ORIENTATION_HORIZONTAL or GTK_ORIENTATION_VERTICAL.
+ *
+ * Create a new GtkPlotBox widget.
+ *
+ * Return value: a new GtkWidget.
+ */
+
 GtkWidget*
 gtk_plot_box_new (GtkOrientation orientation)
 {
   GtkWidget *widget;
 
-  widget = gtk_type_new (gtk_plot_box_get_type ());
+  widget = gtk_widget_new (gtk_plot_box_get_type (), NULL);
 
   gtk_plot_box_construct(GTK_PLOT_BOX(widget), orientation);
 
   return (widget);
 }
 
+/**
+ * gtk_plot_box_construct:
+ * @box: a #GtkPlotBox widget.
+ * @orientation: GTK_ORIENTATION_HORIZONTAL or GTK_ORIENTATION_VERTICAL.
+ *
+ * Initializes a #GtkPlotBar structure.
+ */
 void
 gtk_plot_box_construct (GtkPlotBox *box, GtkOrientation orientation)
 {
@@ -380,18 +401,20 @@ gtk_plot_box_draw_legend(GtkPlotData *data, gint x, gint y)
   GdkRectangle area;
   gint lascent, ldescent, lheight, lwidth;
   gdouble m;
+  GtkAllocation allocation;
 
   box = GTK_PLOT_BOX(data);
 
   g_return_if_fail(data->plot != NULL);
   g_return_if_fail(GTK_IS_PLOT(data->plot));
-  g_return_if_fail(GTK_WIDGET_REALIZED(data->plot));
+  //g_return_if_fail(gtk_widget_get_realized(data->plot));  // is this required?? RRR
 
   plot = data->plot;
-  area.x = GTK_WIDGET(plot)->allocation.x;
-  area.y = GTK_WIDGET(plot)->allocation.y;
-  area.width = GTK_WIDGET(plot)->allocation.width;
-  area.height = GTK_WIDGET(plot)->allocation.height;
+  gtk_widget_get_allocation(GTK_WIDGET(plot), &allocation);
+  area.x = allocation.x;
+  area.y = allocation.y;
+  area.width = allocation.width;
+  area.height = allocation.height;
 
   m = plot->magnification;
   legend = plot->legends_attr;

@@ -20,10 +20,10 @@
 #ifndef __GTK_PLOT_CANVAS_PLOT_H__
 #define __GTK_PLOT_CANVAS_PLOT_H__
 
-#define GTK_PLOT_CANVAS_PLOT(obj)        GTK_CHECK_CAST (obj, gtk_plot_canvas_plot_get_type (), GtkPlotCanvasPlot)
-#define GTK_PLOT_CANVAS_PLOT_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, gtk_plot_canvas_plot_get_type(), GtkPlotCanvasPlotClass)
-#define GTK_IS_PLOT_CANVAS_PLOT(obj)     GTK_CHECK_TYPE (obj, gtk_plot_canvas_plot_get_type ())
-#define GTK_TYPE_PLOT_CANVAS_PLOT (gtk_plot_canvas_plot_get_type ())
+#define GTK_PLOT_CANVAS_PLOT(obj)        G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_plot_canvas_plot_get_type (), GtkPlotCanvasPlot)
+#define GTK_PLOT_CANVAS_PLOT_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gtk_plot_canvas_plot_get_type(), GtkPlotCanvasPlotClass)
+#define GTK_IS_PLOT_CANVAS_PLOT(obj)     G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_plot_canvas_plot_get_type ())
+#define G_TYPE_PLOT_CANVAS_PLOT (gtk_plot_canvas_plot_get_type ())
 #define GTK_PLOT_CANVAS_PLOT_SELECT_POINT(plot)  (plot->flags & GTK_PLOT_CANVAS_PLOT_SELECT_POINT)
 #define GTK_PLOT_CANVAS_PLOT_DND_POINT(plot)  (plot->flags & GTK_PLOT_CANVAS_PLOT_DND_POINT)
 #define GTK_PLOT_CANVAS_PLOT_FLAGS(plot)     (GTK_PLOT_CANVAS_PLOT(plot)->flags)
@@ -62,6 +62,12 @@ enum
       GTK_PLOT_CANVAS_PLOT_DND_POINT     =       1 << 1, /* DnD point */
 };
 
+/**
+ * GtkPlotCanvasPlot:
+ *
+ * The GtkPlotBar struct contains only private data.
+ * It should only be accessed through the functions described below.
+ */
 struct _GtkPlotCanvasPlot
 {
   GtkPlotCanvasChild parent;
@@ -83,7 +89,7 @@ struct _GtkPlotCanvasPlotClass
   GtkPlotCanvasChildClass parent_class;
 };
 
-GtkType 	gtk_plot_canvas_plot_get_type	(void);
+GType 		gtk_plot_canvas_plot_get_type	(void);
 GtkPlotCanvasChild * 
 		gtk_plot_canvas_plot_new	(GtkPlot *plot);
 

@@ -17,6 +17,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+/**
+ * SECTION: gtkplotbar
+ * @short_description: 3d scientific plots widget for GTK. 
+ *
+ * FIXME:: Need long description.
+ */
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -65,26 +73,21 @@ enum {
 
 static GtkPlotDataClass *parent_class = NULL;
 
-GtkType
+GType
 gtk_plot_bar_get_type (void)
 {
-  static GtkType data_type = 0;
+  static GType data_type = 0;
 
   if (!data_type)
     {
-      GtkTypeInfo data_info =
-      {
-	"GtkPlotBar",
-	sizeof (GtkPlotBar),
-	sizeof (GtkPlotBarClass),
-	(GtkClassInitFunc) gtk_plot_bar_class_init,
-	(GtkObjectInitFunc) gtk_plot_bar_init,
-	/* reserved 1*/ NULL,
-        /* reserved 2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      data_type = gtk_type_unique (gtk_plot_data_get_type(), &data_info);
+      data_type = g_type_register_static_simple (
+		gtk_plot_data_get_type(),
+		"GtkPlotBar",
+		sizeof (GtkPlotBarClass),
+		(GClassInitFunc) gtk_plot_bar_class_init,
+		sizeof (GtkPlotBar),
+		(GInstanceInitFunc) gtk_plot_bar_init,
+		0);
     }
   return data_type;
 }
@@ -97,7 +100,7 @@ gtk_plot_bar_class_init (GtkPlotBarClass *klass)
   GtkPlotDataClass *data_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
-  parent_class = gtk_type_class (gtk_plot_data_get_type ());
+  parent_class = g_type_class_ref (gtk_plot_data_get_type ());
 
   object_class = (GtkObjectClass *) klass;
   widget_class = (GtkWidgetClass *) klass;
@@ -119,7 +122,8 @@ gtk_plot_bar_class_init (GtkPlotBarClass *klass)
   g_param_spec_enum ("orientation",
                            P_("Orientation"),
                            P_("Orientation"),
-                           GTK_TYPE_ORIENTATION, 0, 
+			   gtk_orientation_get_type (),
+                           0, 
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
 
   data_class->clone = gtk_plot_bar_clone;
@@ -199,18 +203,34 @@ gtk_plot_bar_init (GtkPlotBar *dataset)
   dataset->width = .05;
 }
 
+
+/**
+ * gtk_plot_bar_new:
+ * @orientation: GTK_ORIENTATION_HORIZONTAL or GTK_ORIENTATION_VERTICAL.
+ *
+ * Create a new GtkPlotBar widget.
+ *
+ * Return value: a new GtkWidget.
+ */
 GtkWidget*
 gtk_plot_bar_new (GtkOrientation orientation)
 {
   GtkWidget *widget;
 
-  widget = gtk_type_new (gtk_plot_bar_get_type ());
+  widget = gtk_widget_new (gtk_plot_bar_get_type (), NULL);
 
   gtk_plot_bar_construct(GTK_PLOT_BAR(widget), orientation);
 
   return (widget);
 }
 
+/**
+ * gtk_plot_bar_construct:
+ * @bar: a #GtkPlotBar widget.
+ * @orientation: GTK_ORIENTATION_HORIZONTAL or GTK_ORIENTATION_VERTICAL.
+ *
+ * Initializes a #GtkPlotBar structure.
+ */
 void
 gtk_plot_bar_construct(GtkPlotBar *bar, GtkOrientation orientation)
 {
@@ -237,14 +257,16 @@ gtk_plot_bar_draw_symbol(GtkPlotData *dataset,
   gdouble px, py, px0, py0;
   gdouble x1 = 0.0, y1 = 0.0, width = 0.0, height = 0.0;
   gdouble ex, ey;
+  GtkAllocation allocation;
 
   bar = GTK_PLOT_BAR(dataset);
   plot = dataset->plot;
 
-  area.x = GTK_WIDGET(plot)->allocation.x;
-  area.y = GTK_WIDGET(plot)->allocation.y;
-  area.width = GTK_WIDGET(plot)->allocation.width;
-  area.height = GTK_WIDGET(plot)->allocation.height;
+  gtk_widget_get_allocation(GTK_WIDGET(plot), &allocation);
+  area.x = allocation.x;
+  area.y = allocation.y;
+  area.width = allocation.width;
+  area.height = allocation.height;
 
   clip_area.x = area.x + roundint(plot->x * area.width);
   clip_area.y = area.y + roundint(plot->y * area.height);
@@ -327,19 +349,21 @@ gtk_plot_bar_draw_legend(GtkPlotData *data, gint x, gint y)
   GdkRectangle area;
   gint lascent, ldescent, lheight, lwidth;
   gdouble m;
+  GtkAllocation allocation;
 
   bar = GTK_PLOT_BAR(data);
 
   g_return_if_fail(data->plot != NULL);
   g_return_if_fail(GTK_IS_PLOT(data->plot));
-  g_return_if_fail(GTK_WIDGET_VISIBLE(data));
-  g_return_if_fail(GTK_WIDGET_VISIBLE(data->plot));
+  g_return_if_fail(gtk_widget_get_visible(GTK_WIDGET(data)));
+  g_return_if_fail(gtk_widget_get_visible(GTK_WIDGET(data->plot)));
 
   plot = data->plot;
-  area.x = GTK_WIDGET(plot)->allocation.x;
-  area.y = GTK_WIDGET(plot)->allocation.y;
-  area.width = GTK_WIDGET(plot)->allocation.width;
-  area.height = GTK_WIDGET(plot)->allocation.height;
+  gtk_widget_get_allocation(GTK_WIDGET(plot), &allocation);
+  area.x = allocation.x;
+  area.y = allocation.y;
+  area.width = allocation.width;
+  area.height = allocation.height;
 
   m = plot->magnification;
   legend = plot->legends_attr;
@@ -389,6 +413,13 @@ gtk_plot_bar_draw_legend(GtkPlotData *data, gint x, gint y)
 
 }
 
+/**
+ * gtk_plot_bar_set_width:
+ * @bar: a #GtkPlotBar widget.
+ * @width: widget width.
+ *
+ * Set the width of a GtkPlotBar widget.
+ */
 void
 gtk_plot_bar_set_width (GtkPlotBar *bar, gdouble width)
 {
@@ -397,6 +428,14 @@ gtk_plot_bar_set_width (GtkPlotBar *bar, gdouble width)
   bar->width = width;
 }
 
+/**
+ * gtk_plot_bar_get_width:
+ * @bar: a #GtkPlotBar widget.
+ *
+ * Set the width of a GtkPlotBar widget.
+ *
+ * Return value: widget width.
+ */
 gdouble
 gtk_plot_bar_get_width (GtkPlotBar *bar)
 {

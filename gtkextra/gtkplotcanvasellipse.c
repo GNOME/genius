@@ -17,6 +17,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -27,6 +28,14 @@
 #include "gtkplotcanvasellipse.h"
 #include "gtkplotgdk.h"
 #include "gtkplotps.h"
+
+/**
+ * SECTION: gtkplotcanvasellipse
+ * @short_description: 
+ *
+ * FIXME:: need long description
+ */
+
 
 #define DEFAULT_MARKER_SIZE 6
 #define P_(string) string
@@ -65,26 +74,21 @@ static void gtk_plot_canvas_ellipse_set_property(GObject      *object,
 extern inline gint roundint                     (gdouble x);
 static GtkPlotCanvasChildClass *parent_class = NULL;
 
-GtkType
+GType
 gtk_plot_canvas_ellipse_get_type (void)
 {
-  static GtkType plot_canvas_ellipse_type = 0;
+  static GType plot_canvas_ellipse_type = 0;
 
   if (!plot_canvas_ellipse_type)
     {
-      GtkTypeInfo plot_canvas_ellipse_info =
-      {
-	"GtkPlotCanvasEllipse",
-	sizeof (GtkPlotCanvasEllipse),
-	sizeof (GtkPlotCanvasEllipseClass),
-	(GtkClassInitFunc) gtk_plot_canvas_ellipse_class_init,
-	(GtkObjectInitFunc) gtk_plot_canvas_ellipse_init,
-	/* reserved 1*/ NULL,
-        /* reserved 2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      plot_canvas_ellipse_type = gtk_type_unique (gtk_plot_canvas_child_get_type(), &plot_canvas_ellipse_info);
+      plot_canvas_ellipse_type = g_type_register_static_simple (
+		gtk_plot_canvas_child_get_type(), 
+		"GtkPlotCanvasEllipse",
+		sizeof (GtkPlotCanvasEllipseClass),
+		(GClassInitFunc) gtk_plot_canvas_ellipse_class_init,
+		sizeof (GtkPlotCanvasEllipse),
+		(GInstanceInitFunc) gtk_plot_canvas_ellipse_init,
+		0);
     }
   return plot_canvas_ellipse_type;
 }
@@ -98,7 +102,7 @@ gtk_plot_canvas_ellipse_new (GtkPlotLineStyle style,
 {
   GtkPlotCanvasEllipse *ellipse;
                                                                                 
-  ellipse = gtk_type_new (gtk_plot_canvas_ellipse_get_type ());
+  ellipse = g_object_new (gtk_plot_canvas_ellipse_get_type (), NULL);
                                    
   ellipse->line.line_width = width;                                             
   if(fg) ellipse->line.color = *fg;
@@ -124,7 +128,7 @@ gtk_plot_canvas_ellipse_class_init (GtkPlotCanvasChildClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
-  parent_class = gtk_type_class (gtk_plot_canvas_child_get_type ());
+  parent_class = g_type_class_ref (gtk_plot_canvas_child_get_type ());
 
   klass->draw = gtk_plot_canvas_ellipse_draw; 
   klass->move = gtk_plot_canvas_ellipse_move; 
@@ -133,13 +137,25 @@ gtk_plot_canvas_ellipse_class_init (GtkPlotCanvasChildClass *klass)
 
   gobject_class->get_property = gtk_plot_canvas_ellipse_get_property;
   gobject_class->set_property = gtk_plot_canvas_ellipse_set_property;
-                           
+  
+
+  /**
+   * GtkPlotCanvasEllipse:line:
+   *
+   *
+   **/                       
   g_object_class_install_property (gobject_class,
                            ARG_LINE,
   g_param_spec_pointer ("line",
                            P_("Line"),
                            P_("Line Attributes"),
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCanvasEllipse:filled:
+   *
+   *
+   **/    
   g_object_class_install_property (gobject_class,
                            ARG_FILLED,
   g_param_spec_boolean ("filled",
@@ -147,6 +163,12 @@ gtk_plot_canvas_ellipse_class_init (GtkPlotCanvasChildClass *klass)
                            P_("Fill Figure"),
                            FALSE,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCanvasEllipse:color_bg:
+   *
+   *
+   **/    
   g_object_class_install_property (gobject_class,
                            ARG_BG,
   g_param_spec_pointer ("color_bg",
@@ -227,7 +249,7 @@ draw_marker(GtkPlotCanvas *canvas, GdkGC *gc, gint x, gint y)
 {
   GdkDrawable *darea;
                                                                                 
-  darea = GTK_WIDGET(canvas)->window;
+  darea = gtk_widget_get_window(GTK_WIDGET(canvas));
                                                                                 
   gdk_draw_rectangle(darea, gc, TRUE,
                      x - DEFAULT_MARKER_SIZE / 2, y - DEFAULT_MARKER_SIZE / 2,
@@ -240,17 +262,17 @@ gtk_plot_canvas_ellipse_select(GtkPlotCanvas *canvas, GtkPlotCanvasChild *child,
   GdkGC *xor_gc = NULL;
   GdkGCValues values;
   
-  gdk_gc_get_values(GTK_WIDGET(canvas)->style->fg_gc[0], &values);
+  gdk_gc_get_values(gtk_widget_get_style(GTK_WIDGET(canvas))->fg_gc[0], &values);
   values.function = GDK_INVERT;
-  values.foreground = GTK_WIDGET(canvas)->style->white;
+  values.foreground = gtk_widget_get_style(GTK_WIDGET(canvas))->white;
   values.subwindow_mode = GDK_INCLUDE_INFERIORS;
-  xor_gc = gdk_gc_new_with_values(GTK_WIDGET(canvas)->window,
+  xor_gc = gdk_gc_new_with_values(gtk_widget_get_window(GTK_WIDGET(canvas)),
                                   &values,
                                   GDK_GC_FOREGROUND |
                                   GDK_GC_FUNCTION |
                                   GDK_GC_SUBWINDOW);
 
-  gdk_draw_rectangle (GTK_WIDGET(canvas)->window,
+  gdk_draw_rectangle (gtk_widget_get_window(GTK_WIDGET(canvas)),
                       xor_gc,
                       FALSE,
                       area.x, area.y,
@@ -271,7 +293,7 @@ gtk_plot_canvas_ellipse_select(GtkPlotCanvas *canvas, GtkPlotCanvasChild *child,
   }
 
   gdk_gc_set_line_attributes(xor_gc, 1, 1, 0, 0);
-  gdk_draw_arc (GTK_WIDGET(canvas)->window, xor_gc,
+  gdk_draw_arc (gtk_widget_get_window(GTK_WIDGET(canvas)), xor_gc,
                 FALSE,
                 roundint(area.x), roundint(area.y),
                 roundint(area.width), roundint(area.height), 0, 25000);
@@ -297,6 +319,17 @@ gtk_plot_canvas_ellipse_resize		(GtkPlotCanvas *canvas,
   return;
 }
 
+/**
+ * gtk_plot_canvas_ellipse_set_attributes:
+ * @ellipse: a #GtkPlotCanvasEllipse widget.
+ * @style:
+ * @width:
+ * @fg:
+ * @bg:
+ * @fill:
+ *
+ *
+ */
 void
 gtk_plot_canvas_ellipse_set_attributes	(GtkPlotCanvasEllipse *ellipse,
                                     	 GtkPlotLineStyle style,

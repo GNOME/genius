@@ -26,15 +26,21 @@ extern "C" {
 
 #include "gtkplot.h"
 
-#define GTK_PLOT_FLUX(obj)        GTK_CHECK_CAST (obj, gtk_plot_flux_get_type (), GtkPlotFlux)
-#define GTK_TYPE_PLOT_FLUX        (gtk_plot_flux_get_type ())
-#define GTK_PLOT_FLUX_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, gtk_plot_flux_get_type(), GtkPlotFluxClass)
-#define GTK_IS_PLOT_FLUX(obj)     GTK_CHECK_TYPE (obj, gtk_plot_flux_get_type ())
+#define GTK_PLOT_FLUX(obj)        G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_plot_flux_get_type (), GtkPlotFlux)
+#define G_TYPE_PLOT_FLUX        (gtk_plot_flux_get_type ())
+#define GTK_PLOT_FLUX_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gtk_plot_flux_get_type(), GtkPlotFluxClass)
+#define GTK_IS_PLOT_FLUX(obj)     G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_plot_flux_get_type ())
 
 typedef struct _GtkPlotFlux             GtkPlotFlux;
 typedef struct _GtkPlotFluxClass        GtkPlotFluxClass;
 
 
+/**
+ * GtkPlotFlux:
+ *
+ * The GtkPlotFlux struct contains only private data.
+ * It should only be accessed through the functions described below.
+ */
 struct _GtkPlotFlux
 {
   GtkPlotData data;
@@ -63,16 +69,16 @@ struct _GtkPlotFluxClass
 };
 
 
-GtkType		gtk_plot_flux_get_type		(void);
+GType		gtk_plot_flux_get_type		(void);
 GtkWidget*	gtk_plot_flux_new		(void);
 void		gtk_plot_flux_set_arrow 	(GtkPlotFlux *flux,
                          			 gint arrow_length,
                          			 gint arrow_width,
-                         			 GtkPlotSymbolStyle style);
+                         			 GtkPlotSymbolStyle arrow_style);
 void		gtk_plot_flux_get_arrow 	(GtkPlotFlux *flux,
                          			 gint *arrow_length,
                          			 gint *arrow_width,
-                         			 GtkPlotSymbolStyle *style);
+                         			 GtkPlotSymbolStyle *arrow_style);
 void		gtk_plot_flux_center	 	(GtkPlotFlux *flux,
 						 gboolean center);
 gboolean	gtk_plot_flux_is_centered 	(GtkPlotFlux *flux);

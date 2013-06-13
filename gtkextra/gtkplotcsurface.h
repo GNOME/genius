@@ -30,10 +30,10 @@ extern "C" {
 #include "gtkplotpc.h"
 
 
-#define GTK_PLOT_CSURFACE(obj)        GTK_CHECK_CAST (obj, gtk_plot_csurface_get_type (), GtkPlotCSurface)
-#define GTK_TYPE_PLOT_CSURFACE        (gtk_plot_csurface_get_type ())
-#define GTK_PLOT_CSURFACE_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, gtk_plot_csurface_get_type, GtkPlotCSurfaceClass)
-#define GTK_IS_PLOT_CSURFACE(obj)     GTK_CHECK_TYPE (obj, gtk_plot_csurface_get_type ())
+#define GTK_PLOT_CSURFACE(obj)        G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_plot_csurface_get_type (), GtkPlotCSurface)
+#define G_TYPE_PLOT_CSURFACE        (gtk_plot_csurface_get_type ())
+#define GTK_PLOT_CSURFACE_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gtk_plot_csurface_get_type, GtkPlotCSurfaceClass)
+#define GTK_IS_PLOT_CSURFACE(obj)     G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_plot_csurface_get_type ())
 
 typedef struct _GtkPlotCSurface		GtkPlotCSurface;
 typedef struct _GtkPlotCSurfaceClass	GtkPlotCSurfaceClass;
@@ -49,6 +49,13 @@ typedef enum
   GTK_PLOT_PROJECT_FULL,  /* draw filled contours */
 } GtkPlotProjection;      
 
+
+/**
+ * GtkPlotCSurface:
+ *
+ * The GtkPlotCSurface struct contains only private data.
+ * It should only be accessed through the functions described below.
+ */
 struct _GtkPlotCSurface
 {
   GtkPlotSurface surface;
@@ -74,7 +81,7 @@ struct _GtkPlotCSurfaceClass
 
 /* PlotCSurface */
 
-GtkType		gtk_plot_csurface_get_type	(void);
+GType		gtk_plot_csurface_get_type	(void);
 GtkWidget*	gtk_plot_csurface_new		(void);
 GtkWidget*	gtk_plot_csurface_new_function	(GtkPlotFunc3D function);
 
@@ -87,19 +94,19 @@ gboolean	gtk_plot_csurface_get_lines_visible (GtkPlotCSurface *csurface);
 void		gtk_plot_csurface_set_projection    (GtkPlotCSurface *csurface,
 						     GtkPlotProjection proj);
 GtkPlotProjection	gtk_plot_csurface_projection 	(GtkPlotCSurface *csurface);
-void            gtk_plot_csurface_set_levels_attributes (GtkPlotCSurface *data,
+void            gtk_plot_csurface_set_levels_attributes (GtkPlotCSurface *dataset,
                                                          GtkPlotLineStyle style,
                                                          gfloat width,
                                                          const GdkColor *color);
-void            gtk_plot_csurface_set_sublevels_attributes (GtkPlotCSurface *data,
+void            gtk_plot_csurface_set_sublevels_attributes (GtkPlotCSurface *dataset,
                                                          GtkPlotLineStyle style,
                                                          gfloat width,
                                                          const GdkColor *color);
-void            gtk_plot_csurface_get_levels_attributes (GtkPlotCSurface *data,
+void            gtk_plot_csurface_get_levels_attributes (GtkPlotCSurface *dataset,
                                                          GtkPlotLineStyle *style,
                                                          gfloat *width,
                                                          GdkColor *color);
-void            gtk_plot_csurface_get_sublevels_attributes (GtkPlotCSurface *data,
+void            gtk_plot_csurface_get_sublevels_attributes (GtkPlotCSurface *dataset,
                                                          GtkPlotLineStyle *style,
                                                          gfloat *width,
                                                          GdkColor *color);

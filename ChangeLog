@@ -1,3 +1,17 @@
+Thu Jun 13 16:42:42 2013  Jiri (George) Lebl <jirka@5z.com>
+
+	* gtkextra/*: copied lots of the files from 3.0.5, only gtkplot3d,
+	  gtkplotdt and gtkplotsurface remain unupdated
+
+	* gtkextra/gtkplotps.c: updated to the 3.0.5 version part way, the
+	  new one is still broken so the new geometry stuff is not there (it
+	  is drawn still upside down and then rotated).  Also
+	  a fix from James Cloos to change the EPS header to EPSF from PCF,
+	  seems to fix PDF conversion.
+
+	* src/graphing.c: allow PDF export by calling ps2pdf properly,
+	  also don't show the epsi checkbox unless we are exporting to EPS
+
 Thu Jun 13 00:12:46 2013  Jiri (George) Lebl <jirka@5z.com>
 
 	* gtkextra/*.c: start updating to gtkextra 3.0.5.  Only few files
@@ -964,7 +978,7 @@ Mon Mar 02 02:07:52 2009  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/graphing.c: fix bad drawing of very vertical functions.  Our
 	  new hack in gtkextra handles lines way off screen more sanely so
-	  we needent worry much here.
+	  we needn't worry much here.
 
 Fri Feb 27 14:42:12 2009  Jiri (George) Lebl <jirka@5z.com>
 
@@ -1817,7 +1831,7 @@ Sat Nov 03 20:51:37 2007  Jiri (George) Lebl <jirka@5z.com>
 	  hanging behaviour.
 
 	* gtkextra/*: copy new files from cvs version of gtk extra except
-	  for gtkpslot which is broken, so keep our old version which works
+	  for gtkplotps which is broken, so keep our old version which works
 
 	* gtkextra/gtkplot3d.[ch]: fix up the axis mess
 

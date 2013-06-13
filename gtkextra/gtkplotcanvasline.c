@@ -17,6 +17,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -27,6 +28,14 @@
 #include "gtkplotcanvasline.h"
 #include "gtkplotgdk.h"
 #include "gtkplotps.h"
+
+/**
+ * SECTION: gtkplotcanvasline
+ * @short_description: 
+ *
+ * FIXME:: need long description
+ */
+
 
 #define DEFAULT_MARKER_SIZE 6
 #define P(string) string
@@ -79,26 +88,21 @@ static void gtk_plot_canvas_line_set_property(GObject      *object,
 
 static GtkPlotCanvasChildClass *parent_class = NULL;
 
-GtkType
+GType
 gtk_plot_canvas_line_get_type (void)
 {
-  static GtkType plot_canvas_line_type = 0;
+  static GType plot_canvas_line_type = 0;
 
   if (!plot_canvas_line_type)
     {
-      GtkTypeInfo plot_canvas_line_info =
-      {
-	"GtkPlotCanvasLine",
-	sizeof (GtkPlotCanvasLine),
-	sizeof (GtkPlotCanvasLineClass),
-	(GtkClassInitFunc) gtk_plot_canvas_line_class_init,
-	(GtkObjectInitFunc) gtk_plot_canvas_line_init,
-	/* reserved 1*/ NULL,
-        /* reserved 2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      plot_canvas_line_type = gtk_type_unique (gtk_plot_canvas_child_get_type(), &plot_canvas_line_info);
+      plot_canvas_line_type = g_type_register_static_simple (
+		gtk_plot_canvas_child_get_type(),
+		"GtkPlotCanvasLine",
+		sizeof (GtkPlotCanvasLineClass),
+		(GClassInitFunc) gtk_plot_canvas_line_class_init,
+		sizeof (GtkPlotCanvasLine),
+		(GInstanceInitFunc) gtk_plot_canvas_line_init,
+		0);
     }
   return plot_canvas_line_type;
 }
@@ -111,7 +115,7 @@ gtk_plot_canvas_line_new (GtkPlotLineStyle style,
 {
   GtkPlotCanvasLine *line;
                                                                                 
-  line = gtk_type_new (gtk_plot_canvas_line_get_type ());
+  line = g_object_new (gtk_plot_canvas_line_get_type (), NULL);
                                    
   line->line.line_width = width;                                             
   if(color) line->line.color = *color;
@@ -140,7 +144,7 @@ gtk_plot_canvas_line_class_init (GtkPlotCanvasChildClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
-  parent_class = gtk_type_class (gtk_plot_canvas_child_get_type ());
+  parent_class = g_type_class_ref (gtk_plot_canvas_child_get_type ());
 
   klass->draw = gtk_plot_canvas_line_draw; 
   klass->draw_selection = gtk_plot_canvas_line_draw_selection; 
@@ -152,13 +156,25 @@ gtk_plot_canvas_line_class_init (GtkPlotCanvasChildClass *klass)
 
   gobject_class->get_property = gtk_plot_canvas_line_get_property;
   gobject_class->set_property = gtk_plot_canvas_line_set_property;
-                                                                                
+
+
+  /**
+   * GtkPlotCanvasLine:line:
+   *
+   *
+   **/                                                                                      
   g_object_class_install_property (gobject_class,
                            ARG_LINE,
   g_param_spec_pointer ("line",
                            P("Line Attributes"),
                            P("Line Attributes"),
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCanvasLine:x1:
+   *
+   *
+   **/  
   g_object_class_install_property (gobject_class,
                            ARG_X1,
   g_param_spec_double ("x1",
@@ -166,6 +182,12 @@ gtk_plot_canvas_line_class_init (GtkPlotCanvasChildClass *klass)
                            P("Coordinate X of the first point"),
                            -G_MAXDOUBLE,G_MAXDOUBLE,0.0,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCanvasLine:y1:
+   *
+   *
+   **/  
   g_object_class_install_property (gobject_class,
                            ARG_Y1,
   g_param_spec_double ("y1",
@@ -173,6 +195,12 @@ gtk_plot_canvas_line_class_init (GtkPlotCanvasChildClass *klass)
                            P("Coordinate Y of the first point"),
                            -G_MAXDOUBLE,G_MAXDOUBLE,0.0,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCanvasLine:x2:
+   *
+   *
+   **/  
   g_object_class_install_property (gobject_class,
                            ARG_X2,
   g_param_spec_double ("x2",
@@ -180,6 +208,12 @@ gtk_plot_canvas_line_class_init (GtkPlotCanvasChildClass *klass)
                            P("Coordinate X of the second point"),
                            -G_MAXDOUBLE,G_MAXDOUBLE,0.0,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCanvasLine:y2:
+   *
+   *
+   **/  
   g_object_class_install_property (gobject_class,
                            ARG_Y2,
   g_param_spec_double ("y2",
@@ -187,6 +221,12 @@ gtk_plot_canvas_line_class_init (GtkPlotCanvasChildClass *klass)
                            P("Coordinate Y of the second point"),
                            -G_MAXDOUBLE,G_MAXDOUBLE,0.0,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCanvasLine:pos:
+   *
+   *
+   **/  
   g_object_class_install_property (gobject_class,
                            ARG_POS,
   g_param_spec_int ("pos",
@@ -194,6 +234,12 @@ gtk_plot_canvas_line_class_init (GtkPlotCanvasChildClass *klass)
                            P(""),
                            0,G_MAXINT,0,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCanvasLine:arrow_mask:
+   *
+   *
+   **/  
   g_object_class_install_property (gobject_class,
                            ARG_ARROW_MASK,
   g_param_spec_int ("arrow_mask",
@@ -201,6 +247,12 @@ gtk_plot_canvas_line_class_init (GtkPlotCanvasChildClass *klass)
                            P("Arrow Mask"),
                            0,G_MAXINT,0,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCanvasLine:arrow_width:
+   *
+   *
+   **/  
   g_object_class_install_property (gobject_class,
                            ARG_ARROW_WIDTH,
   g_param_spec_int ("arrow_width",
@@ -208,6 +260,12 @@ gtk_plot_canvas_line_class_init (GtkPlotCanvasChildClass *klass)
                            P("Arrow Width"),
                            0,G_MAXINT,0,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCanvasLine:arrow_length:
+   *
+   *
+   **/  
   g_object_class_install_property (gobject_class,
                            ARG_ARROW_LENGTH,
   g_param_spec_int ("arrow_length",
@@ -215,6 +273,12 @@ gtk_plot_canvas_line_class_init (GtkPlotCanvasChildClass *klass)
                            P("Arrow Length"),
                            0,G_MAXINT,0,
                            G_PARAM_READABLE|G_PARAM_WRITABLE));
+
+  /**
+   * GtkPlotCanvasLine:arrow_style:
+   *
+   *
+   **/  
   g_object_class_install_property (gobject_class,
                            ARG_ARROW_STYLE,
   g_param_spec_int ("arrow_style",
@@ -397,11 +461,11 @@ gtk_plot_canvas_line_draw_selection 	(GtkPlotCanvas *canvas,
   dx = canvas->pointer_x - canvas->drag_x;
   dy = canvas->pointer_y - canvas->drag_y;
   
-  gdk_gc_get_values(GTK_WIDGET(canvas)->style->fg_gc[0], &values);
+  gdk_gc_get_values(gtk_widget_get_style(GTK_WIDGET(canvas))->fg_gc[0], &values);
   values.function = GDK_INVERT;
-  values.foreground = GTK_WIDGET(canvas)->style->white;
+  values.foreground = gtk_widget_get_style(GTK_WIDGET(canvas))->white;
   values.subwindow_mode = GDK_INCLUDE_INFERIORS;
-  xor_gc = gdk_gc_new_with_values(GTK_WIDGET(canvas)->window,
+  xor_gc = gdk_gc_new_with_values(gtk_widget_get_window(GTK_WIDGET(canvas)),
                                   &values,
                                   GDK_GC_FOREGROUND |
                                   GDK_GC_FUNCTION |
@@ -411,47 +475,55 @@ gtk_plot_canvas_line_draw_selection 	(GtkPlotCanvas *canvas,
   gtk_plot_canvas_get_pixel(canvas, line->x2, line->y2, &x2, &y2);
 
   if(line->pos == GTK_PLOT_CANVAS_TOP_LEFT){ 
-    gdk_draw_rectangle(GTK_WIDGET(canvas)->window, xor_gc, TRUE,
-                       x2 - DEFAULT_MARKER_SIZE / 2, 
-                       y2 - DEFAULT_MARKER_SIZE / 2,
-                       DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
+    gdk_draw_rectangle(gtk_widget_get_window(GTK_WIDGET(canvas)), 
+			xor_gc, TRUE,
+                        x2 - DEFAULT_MARKER_SIZE / 2, 
+                        y2 - DEFAULT_MARKER_SIZE / 2,
+                        DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
 
-    gdk_draw_rectangle(GTK_WIDGET(canvas)->window, xor_gc, TRUE,
+    gdk_draw_rectangle(gtk_widget_get_window(GTK_WIDGET(canvas)), 
+		       xor_gc, TRUE,
                        x1 + dx - DEFAULT_MARKER_SIZE / 2, 
                        y1 + dy - DEFAULT_MARKER_SIZE / 2,
                        DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
 
     gdk_gc_set_line_attributes(xor_gc, 1, 1, 0, 0);
-    gdk_draw_line(GTK_WIDGET(canvas)->window, xor_gc, x2, y2, x1 + dx, y1 + dy);
+    gdk_draw_line(gtk_widget_get_window(GTK_WIDGET(canvas)), 
+			xor_gc, x2, y2, x1 + dx, y1 + dy);
  
   } else if(line->pos == GTK_PLOT_CANVAS_BOTTOM_RIGHT){ 
-    gdk_draw_rectangle(GTK_WIDGET(canvas)->window, xor_gc, TRUE,
+    gdk_draw_rectangle(gtk_widget_get_window(GTK_WIDGET(canvas)), 
+		       xor_gc, TRUE,
                        x1 - DEFAULT_MARKER_SIZE / 2, 
                        y1 - DEFAULT_MARKER_SIZE / 2,
                        DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
 
-    gdk_draw_rectangle(GTK_WIDGET(canvas)->window, xor_gc, TRUE,
+    gdk_draw_rectangle(gtk_widget_get_window(GTK_WIDGET(canvas)), 
+		       xor_gc, TRUE,
                        x2 + dx - DEFAULT_MARKER_SIZE / 2, 
                        y2 + dy - DEFAULT_MARKER_SIZE / 2,
                        DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
 
     gdk_gc_set_line_attributes(xor_gc, 1, 1, 0, 0);
-    gdk_draw_line(GTK_WIDGET(canvas)->window, xor_gc, x1, y1, x2 + dx, y2 + dy);
+    gdk_draw_line(gtk_widget_get_window(GTK_WIDGET(canvas)), 
+			xor_gc, x1, y1, x2 + dx, y2 + dy);
  
   } else { 
     
-    gdk_draw_rectangle(GTK_WIDGET(canvas)->window, xor_gc, TRUE,
+    gdk_draw_rectangle(gtk_widget_get_window(GTK_WIDGET(canvas)),
+		        xor_gc, TRUE,
                        x1 + dx - DEFAULT_MARKER_SIZE / 2, 
                        y1 + dy - DEFAULT_MARKER_SIZE / 2,
                        DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
 
-    gdk_draw_rectangle(GTK_WIDGET(canvas)->window, xor_gc, TRUE,
+    gdk_draw_rectangle(gtk_widget_get_window(GTK_WIDGET(canvas)), 
+		       xor_gc, TRUE,
                        x2 + dx - DEFAULT_MARKER_SIZE / 2, 
                        y2 + dy - DEFAULT_MARKER_SIZE / 2,
                        DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
 
     gdk_gc_set_line_attributes(xor_gc, 1, 1, 0, 0);
-    gdk_draw_line(GTK_WIDGET(canvas)->window, xor_gc, 
+    gdk_draw_line(gtk_widget_get_window(GTK_WIDGET(canvas)), xor_gc, 
                  x1 + dx, y1 + dy, x2 + dx, y2 + dy);
   }
   
@@ -581,6 +653,15 @@ gtk_plot_canvas_line_button_release     (GtkPlotCanvas *canvas,
   gtk_plot_canvas_refresh(canvas);
 }
 
+/**
+ * gtk_plot_canvas_line_set_attributes:
+ * @line: a #GtkPlotCanvasLine widget.
+ * @style:
+ * @width:
+ * @color:
+ *
+ *
+ */
 void
 gtk_plot_canvas_line_set_attributes(GtkPlotCanvasLine *line,
                                     GtkPlotLineStyle style,
@@ -592,6 +673,16 @@ gtk_plot_canvas_line_set_attributes(GtkPlotCanvasLine *line,
   line->line.line_style = style;
 }
 
+/**
+ * gtk_plot_canvas_line_set_arrow:
+ * @line: a #GtkPlotCanvasLine widget.
+ * @style:
+ * @width:
+ * @length:
+ * @mask:
+ *
+ *
+ */
 void
 gtk_plot_canvas_line_set_arrow(GtkPlotCanvasLine *line,
                                GtkPlotSymbolStyle style,
