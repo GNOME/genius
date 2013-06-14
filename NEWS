@@ -4,18 +4,19 @@ Changes to 1.0.17
   smaller if needed
 * Line plots and parametric plots now allow "fit dependent axis" automatically when
   z limits are unspecified.  And this is the default in the UI
-* Line plot step size is adaptive, also line plots now detect jumps and don't
-  draw a connecting line
-* All plots are now antialiased on the screen.
-  (Obtained by updating pieces of internal GtkExtra updated to obtain Cairo
-  drawing)
-* Add export of graphs to PDF
+* Add export of graphs to PDF directly
+* Line plot step size is adaptive, also line plots now detect jumps and do not
+  draw a connecting line, try plotting UnitStep for example
+* All plots are now antialiased on the screen (due to GtkExtra update and
+  cairo usage).
+* Update internal GtkExtra to 3.0.5, and forward port all our changes/fixes
+  (this gets us closer to supporting GTK+3 at some point)
 * Completion for "help on function" in the GUI
 * Fix FindRootBisection and FindRootMullersMethod
 * Factors is now a lot faster on very large numbers (as fast as Factorize)
 * A few small fixes and updates to the documentation
 * A few minor bugfixes
-* Update mersenne primes
+* Update mersenne primes (new one is known)
 
 * During making of these changes the author (Jiri) was partially supported by
   NSF grant DMS 0900885 and the University of Wisconsin-Madison

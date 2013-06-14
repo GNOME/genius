@@ -25,11 +25,11 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define GTK_PLOT_DT(obj)        GTK_CHECK_CAST (obj, gtk_plot_dt_get_type (), GtkPlotDT)
-#define GTK_TYPE_PLOT_DT   (gtk_plot_dt_get_type ())
+#define GTK_PLOT_DT(obj)        G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_plot_dt_get_type (), GtkPlotDT)
+#define G_TYPE_PLOT_DT   (gtk_plot_dt_get_type ())
 
-#define GTK_PLOT_DT_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, gtk_plot_dt_get_type(), GtkPlotDTClass)
-#define GTK_IS_PLOT_DT(obj)     GTK_CHECK_TYPE (obj, gtk_plot_dt_get_type ())
+#define GTK_PLOT_DT_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gtk_plot_dt_get_type(), GtkPlotDTClass)
+#define GTK_IS_PLOT_DT(obj)     G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_plot_dt_get_type ())
 
 
 typedef struct _GtkPlotDTnode GtkPlotDTnode;
@@ -39,8 +39,15 @@ typedef struct _GtkPlotDT GtkPlotDT;
 typedef struct _GtkPlotDTClass GtkPlotDTClass;
 
 /* A 2D-node for the delaunay triangulation */
+/**
+ * GtkPlotDTnode:
+ *
+ * The GtkPlotDTnode struct contains only private data.
+ * It should only be accessed through the functions described below.
+ */
 struct _GtkPlotDTnode 
 {
+  /*< private >*/
   gdouble x, y, z;    /* actual coordinates */
   gdouble px, py, pz;	/* pixel coordinates */
   gint id;            /* some kind of 'meta-data' for external use */
@@ -48,8 +55,15 @@ struct _GtkPlotDTnode
   gint boundary_marker;
 };
 
+/**
+ * GtkPlotDTtriangle:
+ *
+ * The GtkPlotDTtriangle struct contains only private data.
+ * It should only be accessed through the functions described below.
+ */
 struct _GtkPlotDTtriangle 
 {
+  /*< private >*/
   gint a, b, c;
   GtkPlotDTnode *na, *nb, *nc;
   double radius;         /* radius-square */
@@ -104,11 +118,11 @@ struct _GtkPlotDTClass
   void		(* clear)			(GtkPlotDT *data);
 };
 
-GtkType         gtk_plot_dt_get_type               	(void);
+GType   	gtk_plot_dt_get_type               	(void);
 GtkObject*	gtk_plot_dt_new 			(gint num);
-void		gtk_plot_dt_set_quadrilateral		(GtkPlotDT *data, 
+void		gtk_plot_dt_set_quadrilateral		(GtkPlotDT *dt, 
 							 gboolean set);
-void		gtk_plot_dt_set_subsampling		(GtkPlotDT *data, 
+void		gtk_plot_dt_set_subsampling		(GtkPlotDT *dt, 
 							 gboolean set);
 gboolean        gtk_plot_dt_add_node			(GtkPlotDT *data, 
 							 GtkPlotDTnode node);

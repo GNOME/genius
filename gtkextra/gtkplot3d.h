@@ -27,10 +27,10 @@ extern "C" {
 #include "gtkplot.h"
 
 
-#define GTK_PLOT3D(obj)        GTK_CHECK_CAST (obj, gtk_plot3d_get_type (), GtkPlot3D)
-#define GTK_TYPE_PLOT3D        (gtk_plot3d_get_type ())
-#define GTK_PLOT3D_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, gtk_plot3d_get_type(), GtkPlot3DClass)
-#define GTK_IS_PLOT3D(obj)     GTK_CHECK_TYPE (obj, gtk_plot3d_get_type ())
+#define GTK_PLOT3D(obj)        G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_plot3d_get_type (), GtkPlot3D)
+#define G_TYPE_PLOT3D        (gtk_plot3d_get_type ())
+#define GTK_PLOT3D_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gtk_plot3d_get_type(), GtkPlot3DClass)
+#define GTK_IS_PLOT3D(obj)     G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_plot3d_get_type ())
 #define GTK_PLOT3D_FLAGS(plot)         (GTK_PLOT3D(plot)->flags)
 #define GTK_PLOT3D_SET_FLAGS(plot,flag) (GTK_PLOT3D_FLAGS(plot) |= (flag))
 #define GTK_PLOT3D_UNSET_FLAGS(plot,flag) (GTK_PLOT3D_FLAGS(plot) &= ~(flag))
@@ -59,6 +59,13 @@ typedef enum
   GTK_PLOT_SIDE_ZX	= 1 << 4 ,
   GTK_PLOT_SIDE_ZY	= 1 << 5 ,
 } GtkPlotSide;
+
+/**
+ * GtkPlot3D:
+ *
+ * The GtkPlot3D struct contains only private data.
+ * It should only be accessed through the functions described below.
+ */
 
 struct _GtkPlot3D
 {
@@ -109,7 +116,7 @@ struct _GtkPlot3DClass
 
 /* Plot3D */
 
-GtkType		gtk_plot3d_get_type		(void);
+GType		gtk_plot3d_get_type		(void);
 GtkWidget*	gtk_plot3d_new			(GdkDrawable *drawable);
 GtkWidget*	gtk_plot3d_new_with_size	(GdkDrawable *drawable,
                                                  gdouble width, gdouble height);
@@ -212,20 +219,20 @@ void		gtk_plot3d_show_title		(GtkPlot3D *plot,
 void		gtk_plot3d_hide_title		(GtkPlot3D *plot,
                                                  GtkPlotSide side);
 void 		gtk_plot3d_set_ticks       	(GtkPlot3D *plot,
-						 GtkPlotOrientation axis,
+						 GtkPlotOrientation direction,
                                  		 gdouble major_step,
                                  		 gint nminor);
 void 		gtk_plot3d_set_major_ticks 	(GtkPlot3D *plot,
-						 GtkPlotOrientation axis,
+						 GtkPlotOrientation direction,
                                  		 gdouble major_step);
 void 		gtk_plot3d_set_minor_ticks 	(GtkPlot3D *plot,
-						 GtkPlotOrientation axis,
+						 GtkPlotOrientation direction,
                                  		 gint nminor);
 void            gtk_plot3d_set_ticks_length	(GtkPlot3D *plot,
-                                                 GtkPlotOrientation axis,
+                                                 GtkPlotOrientation direction,
                                                  gint length);
 void            gtk_plot3d_set_ticks_width 	(GtkPlot3D *plot,
-                                                 GtkPlotOrientation axis,
+                                                 GtkPlotOrientation direction,
                                                  gfloat width);
 void            gtk_plot3d_show_ticks      	(GtkPlot3D *plot,
                                                  GtkPlotSide side,
