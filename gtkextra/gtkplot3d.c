@@ -2067,9 +2067,9 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
   gint ntick;
   gdouble m;
   gdouble size, ox, oy, oz;
+  gdouble sx, sy, sz;
   gdouble y = 0;
-  GtkPlotVector ticks_direction, center, aux;
-  gdouble proj;
+  GtkPlotVector ticks_direction, center;
   gboolean veto = FALSE;
   GtkAllocation allocation;
 
@@ -2107,31 +2107,19 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
   center.y = (plot->ay->ticks.max + plot->ay->ticks.min) / 2.0;
   center.z = (plot->az->ticks.max + plot->az->ticks.min) / 2.0;
 
-  ticks_direction.x = axis->origin.x + delta.x - center.x;
-  ticks_direction.y = axis->origin.y + delta.y - center.y;
-  ticks_direction.z = axis->origin.z + delta.z - center.z;
+  gtk_plot3d_get_pixel(plot, 
+		       axis->origin.x + delta.x + center.x * axis->direction.x,
+		       axis->origin.y + delta.y + center.y * axis->direction.y,
+		       axis->origin.z + delta.z + center.z * axis->direction.z,
+		       &ox, &oy, &oz);
+  gtk_plot3d_get_pixel(plot, 
+		       center.x,
+		       center.y,
+		       center.z,
+		       &sx, &sy, &sz);
 
-  proj = ticks_direction.x * axis->direction.x +
-         ticks_direction.y * axis->direction.y +
-         ticks_direction.z * axis->direction.z;
-
-  ticks_direction.x -= proj * axis->direction.x;
-  ticks_direction.y -= proj * axis->direction.y;
-  ticks_direction.z -= proj * axis->direction.z;
-
-  proj = sqrt(ticks_direction.x * ticks_direction.x +
-              ticks_direction.y * ticks_direction.y +
-              ticks_direction.z * ticks_direction.z);
-
-  ticks_direction.x /= proj;
-  ticks_direction.y /= proj;
-  ticks_direction.z /= proj;
-
-  aux = ticks_direction;
-
-  ticks_direction.x = aux.x*plot->e1.x + aux.y*plot->e2.x + aux.z*plot->e3.x; 
-  ticks_direction.y = aux.x*plot->e1.y + aux.y*plot->e2.y + aux.z*plot->e3.y; 
-  ticks_direction.z = aux.x*plot->e1.z + aux.y*plot->e2.z + aux.z*plot->e3.z; 
+  ticks_direction.x = (ox-sx)/sqrt((ox-sx)*(ox-sx) + (oy-sy)*(oy-sy));
+  ticks_direction.y = (oy-sy)/sqrt((ox-sx)*(ox-sx) + (oy-sy)*(oy-sy));
 
   for(ntick = 0;
       axis->ticks.values != NULL &&
@@ -2144,8 +2132,8 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
                          axis->origin.z + axis->direction.z * xx + delta.z,
                          &ox, &oy, &oz);
    
-    tick.x = ox +  axis->labels_offset * ticks_direction.x; 
-    tick.y = oy +  axis->labels_offset * ticks_direction.y; 
+    tick.x = ox + m * axis->labels_offset * ticks_direction.x;
+    tick.y = oy + m * axis->labels_offset * ticks_direction.y;
 
     tick_value = axis->ticks.values[ntick].value;
 
@@ -2181,8 +2169,8 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
                        axis->origin.z + center.z * axis->direction.z + delta.z, 
                        &ox, &oy, &oz);
     
-         title.x = ox + plot->titles_offset * ticks_direction.x; 
-         title.y = oy + plot->titles_offset * ticks_direction.y; 
+         title.x = ox + m * plot->titles_offset * ticks_direction.x; 
+         title.y = oy + m * plot->titles_offset * ticks_direction.y; 
 
          title.x = title.x / (gdouble)allocation.width;
          title.y = title.y / (gdouble)allocation.height;

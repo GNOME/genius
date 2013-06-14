@@ -346,7 +346,7 @@ static void set_surface_labels (void);
 #define PROPORTION3D 0.80
 #define PROPORTION_OFFSETX 0.1
 #define PROPORTION_OFFSETY 0.075
-#define PROPORTION3D_OFFSET 0.1
+#define PROPORTION3D_OFFSET 0.12
 
 #include "funclibhelper.cP"
 
@@ -1764,7 +1764,7 @@ add_surface_plot (void)
 	GtkPlotAxis *xy, *xz, *yx, *yz, *zx, *zy;
 	GtkPlotAxis *top, *left, *bottom;
 
-	surface_plot = gtk_plot3d_new_with_size (NULL, PROPORTION3D, PROPORTION3D);
+	surface_plot = gtk_plot3d_new (NULL);
 	gtk_widget_show (surface_plot);
 	g_signal_connect (G_OBJECT (surface_plot),
 			  "destroy",
