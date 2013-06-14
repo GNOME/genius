@@ -1483,6 +1483,39 @@ plot_resetzoom_cb (void)
 	}
 }
 
+static void
+lineplot_move_graph (double horiz, double vert)
+{
+	if (plot_in_progress == 0 && 
+	    (plot_mode == MODE_LINEPLOT ||
+	     plot_mode == MODE_LINEPLOT_PARAMETRIC ||
+	     plot_mode == MODE_LINEPLOT_SLOPEFIELD ||
+	     plot_mode == MODE_LINEPLOT_VECTORFIELD)) {
+		double len;
+		gboolean last_info = genius_setup.info_box;
+		gboolean last_error = genius_setup.error_box;
+		genius_setup.info_box = TRUE;
+		genius_setup.error_box = TRUE;
+
+		len = plotx2 - plotx1;
+		plotx1 = plotx1 + horiz * len;
+		plotx2 = plotx2 + horiz* len;
+
+		len = ploty2 - ploty1;
+		ploty1 = ploty1 + vert * len;
+		ploty2 = ploty2 + vert* len;
+
+		plot_axis ();
+
+		if (gel_interrupted)
+			gel_interrupted = FALSE;
+
+		gel_printout_infos ();
+		genius_setup.info_box = last_info;
+		genius_setup.error_box = last_error;
+	}
+}
+
 static guint dozoom_idle_id = 0;
 static gdouble dozoom_xmin;
 static gdouble dozoom_ymin;
@@ -1953,6 +1986,45 @@ clear_solutions_cb (GtkWidget *item, gpointer data)
 	clear_solutions ();
 }
 
+static gboolean
+plot_canvas_key_press_event (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+{
+	switch (event->keyval) {
+	case GDK_Up:
+		lineplot_move_graph (0.0, 0.1);
+		break;
+	case GDK_Down:
+		lineplot_move_graph (0.0, -0.1);
+		break;
+	case GDK_Left:
+		lineplot_move_graph (-0.1, 0.0);
+
+		if (plot_mode == MODE_SURFACE &&
+		    surface_plot != NULL &&
+		    plot_in_progress == 0) {
+			gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 360-10);
+
+			gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+			gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+		}
+		break;
+	case GDK_Right:
+		lineplot_move_graph (0.1, 0.0);
+
+		if (plot_mode == MODE_SURFACE &&
+		    surface_plot != NULL &&
+		    plot_in_progress == 0) {
+			gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 10);
+
+			gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+			gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+		}
+		break;
+	}
+
+	return FALSE; 
+}
+
 static void
 graph_window_destroyed (GtkWidget *w, gpointer data)
 {
@@ -2164,6 +2236,9 @@ ensure_window (gboolean do_window_present)
 	g_signal_connect (G_OBJECT (plot_canvas), "select_region",
 			  G_CALLBACK (plot_select_region),
 			  NULL);
+	g_signal_connect (G_OBJECT (plot_canvas), "key_press_event",
+			  G_CALLBACK (plot_canvas_key_press_event),
+			  NULL);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (graph_window))),
 			    GTK_WIDGET (plot_canvas), TRUE, TRUE, 0);
 
@@ -2213,10 +2288,18 @@ get_ticks (double start, double end, double *tick, int *prec,
 	int tries = 0;
 	int tickprec;
 	int extra_prec;
-	int prec_of_start;
+	int maxprec;
 	int diff_of_prec;
 
-	prec_of_start = -floor (log10(fabs(start)));
+	/* actually maxprec is the minimum since we're taking negatives */
+	if (start == 0.0) {
+		maxprec = -floor (log10(fabs(end)));
+	} else if (end == 0.0) {
+		maxprec = -floor (log10(fabs(start)));
+	} else {
+		maxprec = MIN(-floor (log10(fabs(start))),-floor (log10(fabs(end))));
+	}
+
 	tickprec = -floor (log10(len));
 	*tick = pow (10, -tickprec);
 	incs = floor (len / *tick);
@@ -2250,15 +2333,15 @@ get_ticks (double start, double end, double *tick, int *prec,
 		}
 	}
 
-	diff_of_prec = tickprec + extra_prec - prec_of_start;
+	diff_of_prec = tickprec + extra_prec - maxprec;
 
-	if (prec_of_start <= -6) {
+	if (maxprec <= -6) {
 		*prec = MAX(diff_of_prec,1);
 		*style = GTK_PLOT_LABEL_EXP;
-	} else if (prec_of_start >= 6) {
+	} else if (maxprec >= 6) {
 		*prec = MAX(diff_of_prec,1);
 		*style = GTK_PLOT_LABEL_EXP;
-	} else if (prec_of_start <= 0) {
+	} else if (maxprec <= 0) {
 		*style = GTK_PLOT_LABEL_FLOAT;
 		*prec = MAX(tickprec + extra_prec,0);
 	} else {
