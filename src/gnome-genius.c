@@ -3201,38 +3201,45 @@ changed_cb (GtkTextBuffer *buffer, GtkWidget *tab_widget)
 }
 
 static gboolean
-save_contents_vfs (const char *filename, const char *str, int size)
+save_contents_vfs (const char *filename, const char *str, int size, GError **error)
 {
 	GFile* file;
 	GFileOutputStream* stream;
 	gsize bytes;
 
 	file = g_file_new_for_uri (filename);
-	stream = g_file_replace (file, NULL, TRUE, G_FILE_CREATE_NONE, NULL, NULL);
+	stream = g_file_replace (file, NULL, TRUE, G_FILE_CREATE_NONE, NULL, error);
 	
-	if (stream == NULL)
-	{
+	if G_UNLIKELY (stream == NULL) {
 		g_object_unref (file);
 		return FALSE;
 	}
 
-	g_output_stream_write_all (G_OUTPUT_STREAM (stream), str, size, &bytes, NULL, NULL);
 
-	if (bytes != size)
-	{
+	if G_UNLIKELY ( ! g_output_stream_write_all (G_OUTPUT_STREAM (stream), str, size, &bytes, NULL, error)) {
 		g_object_unref(stream);
 		g_object_unref(file);
 		return FALSE;
 	}
 
-	if (size > 0 && str[size-1] != '\n')
-		g_output_stream_write (G_OUTPUT_STREAM (stream), "\n", 1, NULL, NULL);
+	if (size > 0 && str[size-1] != '\n') {
+		if G_UNLIKELY ( ! g_output_stream_write (G_OUTPUT_STREAM (stream), "\n", 1, NULL, error)) {
+			g_object_unref(stream);
+			g_object_unref(file);
+			return FALSE;
+		}
+	}
 
-	g_output_stream_close (G_OUTPUT_STREAM (stream), NULL, NULL);
-	g_object_unref (stream);
-	g_object_unref (file);
+	if G_LIKELY (g_output_stream_close (G_OUTPUT_STREAM (stream), NULL, error)) {
+		g_object_unref (stream);
+		g_object_unref (file);
+		return TRUE;
+	} else {
+		g_object_unref (stream);
+		g_object_unref (file);
+		return FALSE;
+	}
 
-	return TRUE;
 }
 
 static char *
@@ -3679,7 +3686,7 @@ open_callback (GtkWidget *w)
 }
 
 static gboolean
-save_program (Program *p, const char *new_fname)
+save_program (Program *p, const char *new_fname, GError **error)
 {
 	GtkTextIter iter, iter_end;
 	char *prog;
@@ -3697,7 +3704,7 @@ save_program (Program *p, const char *new_fname)
 					 FALSE /* include_hidden_chars */);
 	sz = strlen (prog);
 
-	if ( ! save_contents_vfs (fname, prog, sz)) {
+	if ( ! save_contents_vfs (fname, prog, sz, error)) {
 		g_free (prog);
 		return FALSE;
 	}
@@ -3728,16 +3735,27 @@ save_program (Program *p, const char *new_fname)
 static void
 save_callback (GtkWidget *w)
 {
+	GError *error = NULL;
+
 	if (selected_program == NULL ||
 	    ! selected_program->real_file)
 		return;
 
 	if (selected_program->readonly) {
 		genius_display_error (NULL, _("Program is read only"));
-	} else if ( ! save_program (selected_program, NULL /* new fname */)) {
-		char *err = g_strdup_printf (_("<b>Cannot save file</b>\n"
+	} else if ( ! save_program (selected_program, NULL /* new fname */,
+				    &error)) {
+		char *err;
+		if (error != NULL) {
+	       		err = g_strdup_printf (_("<b>Cannot save file %s</b>\n"
 					       "Details: %s"),
-					     g_strerror (errno));
+					       selected_program->vname,
+					       error->message);
+			g_error_free (error);
+		} else {
+	       		err = g_strdup_printf (_("<b>Cannot save file %s</b>"),
+					       selected_program->vname);
+		}
 		genius_display_error (NULL, err);
 		g_free (err);
 	}
@@ -3748,6 +3766,7 @@ save_all_cb (GtkWidget *w)
 {
 	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
 	int i;
+	GError *error = NULL;
 	gboolean there_are_unsaved = FALSE;
 	gboolean there_are_readonly_modified = FALSE;
 
@@ -3766,10 +3785,20 @@ save_all_cb (GtkWidget *w)
 		if (p->changed && p->real_file) {
 			if (p->readonly) {
 				there_are_readonly_modified = TRUE;
-			} else if ( ! save_program (p, NULL /* new fname */)) {
-				char *err = g_strdup_printf (_("<b>Cannot save file</b>\n"
-							       "Details: %s"),
-							     g_strerror (errno));
+			} else if ( ! save_program (p, NULL /* new fname */,
+						    &error)) {
+				char *err;
+				if (error != NULL) {
+					err = g_strdup_printf (_("<b>Cannot save file %s</b>\n"
+								 "Details: %s"),
+							       p->vname,
+							       error->message);
+					g_error_free (error);
+					error = NULL;
+				} else {
+					err = g_strdup_printf (_("<b>Cannot save file %s</b>"),
+							       p->vname);
+				}
 				genius_display_error (NULL, err);
 				g_free (err);
 			}
@@ -3795,6 +3824,7 @@ really_save_as_cb (GtkFileChooser *fs, int response, gpointer data)
 {
 	char *s;
 	char *base;
+	GError *error = NULL;
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (GTK_WIDGET (fs));
 		/* FIXME: don't want to deal with modality issues right now */
@@ -3818,10 +3848,17 @@ really_save_as_cb (GtkFileChooser *fs, int response, gpointer data)
 	}
 	g_free (base);
 	
-	if ( ! save_program (selected_program, s /* new fname */)) {
-		char *err = g_strdup_printf (_("<b>Cannot save file</b>\n"
-					       "Details: %s"),
-					     g_strerror (errno));
+	if ( ! save_program (selected_program, s /* new fname */,
+			     &error)) {
+		char *err;
+		if (error != NULL) {
+			err = g_strdup_printf (_("<b>Cannot save file</b>\n"
+						 "Details: %s"),
+					       error->message);
+			g_error_free (error);
+		} else {
+			err = g_strdup (_("<b>Cannot save file</b>"));
+		}
 		genius_display_error (GTK_WIDGET (fs), err);
 		g_free (err);
 		g_free (s);
@@ -3913,6 +3950,7 @@ really_save_console_cb (GtkFileChooser *fs, int response, gpointer data)
 	char *output;
 	glong row, column;
 	int sz;
+	GError *error = NULL;
 
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (GTK_WIDGET (fs));
@@ -3947,10 +3985,16 @@ really_save_console_cb (GtkFileChooser *fs, int response, gpointer data)
 					      NULL);
 	sz = strlen (output);
 
-	if ( ! save_contents_vfs (s, output, sz)) {
-		char *err = g_strdup_printf (_("<b>Cannot save file</b>\n"
+	if ( ! save_contents_vfs (s, output, sz, &error)) {
+		char *err;
+		if (error != NULL) {
+	       		err = g_strdup_printf (_("<b>Cannot save file</b>\n"
 					       "Details: %s"),
-					     g_strerror (errno));
+					       error->message);
+			g_error_free (error);
+		} else {
+	       		err = g_strdup (_("<b>Cannot save file</b>"));
+		}
 		genius_display_error (GTK_WIDGET (fs), err);
 		g_free (err);
 		g_free (output);
