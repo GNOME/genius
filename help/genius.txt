@@ -676,6 +676,11 @@ The result is: 5
    will make a string:
 Slash: \ Quotes: " Tabs:        1       2       3
 
+   Do note however that when a string is returned from a function,
+   escapes are quoted, so that the output can be used as input. If
+   you wish to print the string as it is (without escapes), use
+   the print or printn functions.
+
    In addition, you can use the library function string to convert
    anything to a string. For example:
 string(22)
@@ -798,7 +803,7 @@ gcd(921,317)
    function is, of course, different for each function.
 
    There are many built-in functions, such as sin, cos and tan.
-   You can use the help built-in function to get a list of
+   You can use the help built-in command to get a list of
    available functions, or see the Chapter called List of GEL
    functions for a full listing.
 

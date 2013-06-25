@@ -810,9 +810,15 @@ You can also use C-like escape sequences such as <literal>\n</literal>,<literal>
 will make a string:
 <programlisting>Slash: \ Quotes: " Tabs: 	1	2	3
 </programlisting>
+Do note however that when a string is returned from a function, escapes are
+quoted, so that the output can be used as input.  If you wish to print the
+string as it is (without escapes), use the 
+<link linkend="gel-function-print"><function>print</function></link>
+or
+<link linkend="gel-function-printn"><function>printn</function></link> functions.
         </para>
         <para>
-In addition, you can use the library function <function>string</function> to convert anything to a string. For example:
+		In addition, you can use the library function <link linkend="gel-function-string"><function>string</function></link> to convert anything to a string. For example:
 <programlisting>string(22)
 </programlisting>
 will return
@@ -951,7 +957,7 @@ To evaluate a function, enter the name of the function, followed by the argument
       </para>
 
       <para>
-There are many built-in functions, such as <function>sin</function>, <function>cos</function> and <function>tan</function>. You can use the <function>help</function> built-in function to get a list of available functions, or see <xref linkend="genius-gel-function-list" /> for a full listing.
+	      There are many built-in functions, such as <link linkend="gel-function-sin"><function>sin</function></link>, <link linkend="gel-function-cos"><function>cos</function></link> and <link linkend="gel-function-tan"><function>tan</function></link>. You can use the <link linkend="gel-command-help"><function>help</function></link> built-in command to get a list of available functions, or see <xref linkend="genius-gel-function-list" /> for a full listing.
       </para>
 
       <tip>
@@ -1033,7 +1039,7 @@ This will return 5.
     <sect2 id="genius-gel-functions-operations">
       <title>Operations on Functions</title>
       <para>
-Some functions allow arithmetic operations, and some single argument functions such as <function>exp</function> or <function>ln</function>, to operate on the function. For example,
+	      Some functions allow arithmetic operations, and some single argument functions such as <link linkend="gel-function-exp"><function>exp</function></link> or <link linkend="gel-function-ln"><function>ln</function></link>, to operate on the function. For example,
 <programlisting>exp(sin*cos+4)
 </programlisting>
 will return a function that takes <varname>x</varname> and returns <userinput>exp(sin(x)*cos(x)+4)</userinput>.  It is functionally equivalent
@@ -2069,7 +2075,7 @@ f();
 	  Sometimes, however, it is necessary to set
 a global variable from inside a function.  When this behaviour is needed,
 use the
-<function>set</function> function. Passing a string or a quoted identifier to
+<link linkend="gel-function-set"><function>set</function></link> function. Passing a string or a quoted identifier to
 this function sets the variable globally (on the top level).
 For example, to set
 <varname>a</varname> to the value 3 you could call:
@@ -2645,7 +2651,7 @@ then the rank and nullspace are always exact.
       </para>
       <para>
 	In general when &appname; computes the basis of a certain vectorspace
-(for example with the <function>NullSpace</function>) it will give the basis as
+	(for example with the <link linkend="gel-function-NullSpace"><function>NullSpace</function></link>) it will give the basis as
 a matrix, in which the columns are the vectors of the basis.  That is, when
 &appname; talks of a linear subspace it means a matrix whose column space is
 the given linear subspace.
@@ -2655,7 +2661,7 @@ the given linear subspace.
 matrix.  For example, it will remember that a matrix is in row reduced form.
 If many calls are made to functions that internally use row reduced form of
 the matrix, we can just row reduce the matrix beforehand once.  Successive
-calls to <function>rref</function> will be very fast.
+calls to <link linkend="gel-function-rref"><function>rref</function></link> will be very fast.
       </para>
     </sect1>
 
@@ -3329,7 +3335,7 @@ except possibly user interface events are processed.</para>
          <term><anchor id="gel-function-ErrorFunctionTolerance"/>ErrorFunctionTolerance</term>
          <listitem>
           <synopsis>ErrorFunctionTolerance = number</synopsis>
-          <para>Tolerance of the <function>ErrorFunction</function>.</para>
+	  <para>Tolerance of the <link linkend="gel-function-ErrorFunction"><function>ErrorFunction</function></link>.</para>
          </listitem>
         </varlistentry>
 
@@ -3353,7 +3359,7 @@ except possibly user interface events are processed.</para>
          <term><anchor id="gel-function-GaussDistributionTolerance"/>GaussDistributionTolerance</term>
          <listitem>
           <synopsis>GaussDistributionTolerance = number</synopsis>
-          <para>Tolerance of the <function>GaussDistribution</function> function.</para>
+	  <para>Tolerance of the <link linkend="gel-function-GaussDistribution"><function>GaussDistribution</function></link> function.</para>
          </listitem>
         </varlistentry>
 
@@ -3369,7 +3375,7 @@ except possibly user interface events are processed.</para>
          <term><anchor id="gel-function-IsPrimeMillerRabinReps"/>IsPrimeMillerRabinReps</term>
          <listitem>
           <synopsis>IsPrimeMillerRabinReps = number</synopsis>
-          <para>Number of extra Miller-Rabin tests to run on a number before declaring it a prime in <function>IsPrime</function>.</para>
+	  <para>Number of extra Miller-Rabin tests to run on a number before declaring it a prime in <link linkend="gel-function-IsPrime"><function>IsPrime</function></link>.</para>
          </listitem>
         </varlistentry>
 
@@ -3442,7 +3448,7 @@ except possibly user interface events are processed.</para>
          <term><anchor id="gel-function-NumericalIntegralFunction"/>NumericalIntegralFunction</term>
          <listitem>
           <synopsis>NumericalIntegralFunction = function</synopsis>
-          <para>The function used for numerical integration in <function>NumericalIntegral</function>.</para>
+	  <para>The function used for numerical integration in <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
          </listitem>
         </varlistentry>
 
@@ -3450,7 +3456,7 @@ except possibly user interface events are processed.</para>
          <term><anchor id="gel-function-NumericalIntegralSteps"/>NumericalIntegralSteps</term>
          <listitem>
           <synopsis>NumericalIntegralSteps = number</synopsis>
-          <para>Steps to perform in <function>NumericalIntegral</function>.</para>
+	  <para>Steps to perform in <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
          </listitem>
         </varlistentry>
 
@@ -3536,7 +3542,7 @@ slopefield plot.  (See <link linkend="gel-function-SlopefieldPlot"><function>Slo
          <term><anchor id="gel-function-SumProductNumberOfTries"/>SumProductNumberOfTries</term>
          <listitem>
           <synopsis>SumProductNumberOfTries = number</synopsis>
-          <para>How many iterations to try for <function>InfiniteSum</function> and <function>InfiniteProduct</function>.</para>
+	  <para>How many iterations to try for <link linkend="gel-function-InfiniteSum"><function>InfiniteSum</function></link> and <link linkend="gel-function-InfiniteProduct"><function>InfiniteProduct</function></link>.</para>
          </listitem>
         </varlistentry>
 
@@ -3544,7 +3550,7 @@ slopefield plot.  (See <link linkend="gel-function-SlopefieldPlot"><function>Slo
          <term><anchor id="gel-function-SumProductSFS"/>SumProductSFS</term>
          <listitem>
           <synopsis>SumProductSFS = number</synopsis>
-          <para>How many successive steps to be within tolerance for <function>InfiniteSum</function> and <function>InfiniteProduct</function>.</para>
+          <para>How many successive steps to be within tolerance for <link linkend="gel-function-InfiniteSum"><function>InfiniteSum</function></link> and <link linkend="gel-function-InfiniteProduct"><function>InfiniteProduct</function></link>.</para>
          </listitem>
         </varlistentry>
 
@@ -3552,7 +3558,7 @@ slopefield plot.  (See <link linkend="gel-function-SlopefieldPlot"><function>Slo
          <term><anchor id="gel-function-SumProductTolerance"/>SumProductTolerance</term>
          <listitem>
           <synopsis>SumProductTolerance = number</synopsis>
-          <para>Tolerance for <function>InfiniteSum</function> and <function>InfiniteProduct</function>.</para>
+          <para>Tolerance for <link linkend="gel-function-InfiniteSum"><function>InfiniteSum</function></link> and <link linkend="gel-function-InfiniteProduct"><function>InfiniteProduct</function></link>.</para>
          </listitem>
         </varlistentry>
 
@@ -3988,7 +3994,7 @@ value then <function>Sign</function> returns the direction or 0.
          <listitem>
           <synopsis>log (x)</synopsis>
           <synopsis>log (x,b)</synopsis>
-          <para>Logarithm of <varname>x</varname> base <varname>b</varname> (calls <function>DiscreteLog</function> if in modulo mode), if base is not given, <varname>e</varname> is used.</para>
+	  <para>Logarithm of <varname>x</varname> base <varname>b</varname> (calls <link linkend="gel-function-DiscreteLog"><function>DiscreteLog</function></link> if in modulo mode), if base is not given, <link linkend="gel-function-e"><varname>e</varname></link> is used.</para>
          </listitem>
         </varlistentry>
 
@@ -4608,7 +4614,7 @@ group of order <varname>q</varname> (q must be a prime).</para>
 group of order <varname>q</varname> (<varname>q</varname> a prime), using the
 factor base <varname>S</varname>.  <varname>S</varname> should be a column of
 primes possibly with second column precalculated by
-<function>IndexCalculusPrecalculation</function>.</para>
+<link linkend="gel-function-IndexCalculusPrecalculation"><function>IndexCalculusPrecalculation</function></link>.</para>
          </listitem>
         </varlistentry>
 
@@ -4617,7 +4623,7 @@ primes possibly with second column precalculated by
          <listitem>
           <synopsis>IndexCalculusPrecalculation (b,q,S)</synopsis>
 	  <para>Run the precalculation step of
-<function>IndexCalculus</function> for logarithms base <varname>b</varname> in
+		  <link linkend="gel-function-IndexCalculus"><function>IndexCalculus</function></link> for logarithms base <varname>b</varname> in
 F<subscript>q</subscript>, the finite group of order <varname>q</varname>
 (<varname>q</varname> a prime), for the factor base <varname>S</varname> (where
 <varname>S</varname> is a column vector of primes).  The logs will be
@@ -4757,7 +4763,7 @@ If <varname>q</varname> is not prime results are bogus.</para>
          <listitem>
           <synopsis>IsPseudoprime (n,b)</synopsis>
           <para>If <varname>n</varname> is a pseudoprime base <varname>b</varname> but not a prime,
-that is if <userinput>b^(n-1) == 1 mod n</userinput>.  This calls the <function>PseudoprimeTest</function></para>
+		  that is if <userinput>b^(n-1) == 1 mod n</userinput>.  This calls the <link linkend="gel-function-PseudoprimeTest"><function>PseudoprimeTest</function></link></para>
          </listitem>
         </varlistentry>
 
@@ -4957,7 +4963,7 @@ that is if <userinput>b^(n-1) == 1 mod n</userinput>.  This calls the <function>
           <para>
 	    This function uses the GMP's <function>mpz_nextprime</function>
 	    which in turn uses the probabilistic Miller-Rabin test
-	    (See also <link linkend="gel-function-MillerRabinTest">MillerRabinTest</link>).
+	    (See also <link linkend="gel-function-MillerRabinTest"><function>MillerRabinTest</function></link>).
 	    The probability
 	    of false positive is not tunable, but is low enough
 	    for all practical purposes.
@@ -6995,7 +7001,7 @@ the Fourier series of
 on <userinput>[-L,L]</userinput> and extended periodically) with coefficients
 up to <varname>N</varname>th harmonic computed numerically.  The coefficients are
 computed by numerical integration using
-<function>NumericalIntegral</function>.</para>
+<link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
           <para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
@@ -7014,7 +7020,7 @@ on <userinput>[-L,L]</userinput> and extended periodically) with coefficients
 up to <varname>N</varname>th harmonic computed numerically.  This is the
 trigonometric real series composed of sines and cosines.  The coefficients are
 computed by numerical integration using
-<function>NumericalIntegral</function>.</para>
+<link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
           <para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
@@ -7035,7 +7041,7 @@ take the even periodic extension and compute the Fourier series, which
 only has cosine terms.  The series is computed up to the 
 <varname>N</varname>th harmonic.  The coefficients are
 computed by numerical integration using
-<function>NumericalIntegral</function>.
+<link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.
 Note that <userinput>a@(1)</userinput> is
 the constant coefficient!  That is, <userinput>a@(n)</userinput> refers to
 the term <userinput>cos(x*(n-1)*pi/L)</userinput>.</para>
@@ -7058,7 +7064,7 @@ take the even periodic extension and compute the Fourier series, which
 only has cosine terms.  The series is computed up to the 
 <varname>N</varname>th harmonic.  The coefficients are
 computed by numerical integration using
-<function>NumericalIntegral</function>.</para>
+<link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
           <para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
@@ -7079,7 +7085,7 @@ take the odd periodic extension and compute the Fourier series, which
 only has sine terms.  The series is computed up to the 
 <varname>N</varname>th harmonic.  The coefficients are
 computed by numerical integration using
-<function>NumericalIntegral</function>.</para>
+<link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
           <para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
@@ -7099,7 +7105,7 @@ take the odd periodic extension and compute the Fourier series, which
 only has sine terms.  The series is computed up to the 
 <varname>N</varname>th harmonic.  The coefficients are
 computed by numerical integration using
-<function>NumericalIntegral</function>.</para>
+<link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
           <para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
@@ -8617,7 +8623,7 @@ but also probably the most readable version.
 
     <para>
 Here is a larger example, this basically redefines the internal
-<function>ref</function> function to calculate the row echelon form of a
+<link linkend="gel-function-ref"><function>ref</function></link> function to calculate the row echelon form of a
 matrix.  The function <function>ref</function> is built in and much faster,
 but this example demonstrates some of the more complex features of GEL.
 <programlisting><![CDATA[# Calculate the row-echelon form of a matrix
@@ -8703,7 +8709,7 @@ As an example, you can set the maximum number of digits in a result to 12 by typ
 	    <guilabel>Maximum digits to output</guilabel>
       </term> 
 	  <listitem>
-        <para>The maximum digits in a result (<function>MaxDigits</function>)</para>
+		  <para>The maximum digits in a result (<link linkend="gel-function-MaxDigits"><function>MaxDigits</function></link>)</para>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -8711,7 +8717,7 @@ As an example, you can set the maximum number of digits in a result to 12 by typ
 	    <guilabel>Results as floats</guilabel>
       </term> 
 	  <listitem>
-        <para>If the results should be always printed as floats (<function>ResultsAsFloats</function>)</para>
+		  <para>If the results should be always printed as floats (<link linkend="gel-function-ResultsAsFloats"><function>ResultsAsFloats</function></link>)</para>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -8719,7 +8725,7 @@ As an example, you can set the maximum number of digits in a result to 12 by typ
 	    <guilabel>Floats in scientific notation</guilabel>
       </term> 
 	  <listitem>
-        <para>If floats should be in scientific notation (<function>ScientificNotation</function>)</para>
+		  <para>If floats should be in scientific notation (<link linkend="gel-function-ScientificNotation"><function>ScientificNotation</function></link>)</para>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -8727,7 +8733,7 @@ As an example, you can set the maximum number of digits in a result to 12 by typ
 	    <guilabel>Always print full expressions</guilabel>
       </term> 
 	  <listitem>
-        <para>Should we print out full expressions for non-numeric return values (longer than a line) (<function>FullExpressions</function>)</para>
+		  <para>Should we print out full expressions for non-numeric return values (longer than a line) (<link linkend="gel-function-FullExpressions"><function>FullExpressions</function></link>)</para>
 	  </listitem>
 	</varlistentry>
 
@@ -8736,7 +8742,7 @@ As an example, you can set the maximum number of digits in a result to 12 by typ
 	    <guilabel>Use mixed fractions</guilabel>
       </term> 
 	  <listitem>
-        <para>If fractions should be printed as mixed fractions such as "1 1/3" rather than "4/3". (<function>MixedFractions</function>)</para>
+		  <para>If fractions should be printed as mixed fractions such as "1 1/3" rather than "4/3". (<link linkend="gel-function-MixedFractions"><function>MixedFractions</function></link>)</para>
 	  </listitem>
 	</varlistentry>
 
@@ -8756,7 +8762,7 @@ As an example, you can set the maximum number of digits in a result to 12 by typ
             <guilabel>Only chop numbers when another number is greater than 10^-x</guilabel>
       </term> 
 	  <listitem>
-	  <para>When to chop output.  This is set by the paramter <function>OutputChopWhenExponent</function>.
+		  <para>When to chop output.  This is set by the paramter <link linkend="gel-function-OutputChopWhenExponent"><function>OutputChopWhenExponent</function></link>.
 	   See the documentation of the paramter
           <link linkend="gel-function-OutputChopExponent"><function>OutputChopExponent</function></link>. </para>
 	  </listitem>
@@ -8807,7 +8813,7 @@ As an example, you can set the maximum number of digits in a result to 12 by typ
 	  <listitem>
         <para>
 	  The maximum number of errors to return on one evaluation
-	  (<function>MaxErrors</function>).  If you set this to 0 then
+	  (<link linkend="gel-function-MaxErrors"><function>MaxErrors</function></link>).  If you set this to 0 then
 	  all errors are always returned.  Usually if some loop causes
 	  many errors, then it is unlikely that you will be able to make
 	  sense out of more than a few of these, so seeing a long list
@@ -8860,13 +8866,13 @@ typsetting in LaTeX, MathML (XML), or in Troff.</para>
 	  <listitem>
         <para>
 	  The floating point precision in bits
-	  (<function>FloatPrecision</function>).
+	  (<link linkend="gel-function-FloatPrecision"><function>FloatPrecision</function></link>).
 	  Note that changing this only affects newly computed quantities.
 	  Old values stored in variables are obviously still in the old
 	  precision and if you want to have them more precise you will have
 	  to recompute them.  Exceptions to this are the system constants
-	  such as <function>pi</function> or
-	  <function>e</function>.
+	  such as <link linkend="gel-function-pi"><function>pi</function></link> or
+	  <link linkend="gel-function-e"><function>e</function></link>.
 	  </para>
 	  </listitem>
 	</varlistentry>
