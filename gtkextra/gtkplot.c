@@ -4708,6 +4708,8 @@ gtk_plot_ticks_autoscale(GtkPlotAxis *axis, gdouble xmin, gdouble xmax, gint *pr
           xmax = floor(xmax/pow(10., pmax)) * pow(10., pmax);
           pstep = floor(log10(fabs(dx)));
           dx = ticks->step = floor(dx/pow(10., pstep)) * pow(10., pstep);
+	  /* FIXME: this could lead to numerical trouble and infinite
+	   * loop if dx is too small compared to xmin or xmax */
           while(xmin >= amin) xmin -= dx;
           while(xmax <= amax) xmax += dx;
           dx = floor((xmax - xmin)/ticks->step);
@@ -6600,15 +6602,18 @@ printf("%f %f\n",max/ticks->step,ceil(max/ticks->step));
         major[nmajor-1].value = tick;
         major[nmajor-1].minor = FALSE;
      }
+     n++;
      switch(scale){
         case GTK_PLOT_SCALE_LINEAR:
-            tick += major_step; 
+            tick = min + n * major_step; 
             break;
         case GTK_PLOT_SCALE_LOG10:
-            n++;
             tick = tick_step * pow(10., n*major_step); 
             break;
      }
+     /* FIXME: hard bailout limit in case something is totally off
+      * to avoid locking up */
+     if (nmajor > 1000) { printf("EEEEEEEEEEEEEEK!\n"); break;}
    }
   }
 
@@ -6646,10 +6651,15 @@ printf("%f %f\n",max/ticks->step,ceil(max/ticks->step));
     for(i = 0; i < ticks->nminor; i++){
      switch(scale){
         case GTK_PLOT_SCALE_LINEAR:
-            tick += minor_step; 
+            /* we really do this but in a numerically safer way:
+            tick += minor_step; */
+            tick = tick_step + i * minor_step;
             break;
         case GTK_PLOT_SCALE_LOG10:
-            tick += tick_step; 
+	    /* FIXME: is this correct? this seems wrong */
+            /* we really do this but in a numerically safer way:
+	     * tick += tick_step; */
+            tick = tick_step + i * tick_step;
             break;
      }   
      if(tick >= absmin-major_step*1.E-2 && tick <= absmax+major_step*1.E-2){
