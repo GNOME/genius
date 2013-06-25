@@ -1,5 +1,5 @@
 
-/* Generated data (by glib-mkenums) */
+
 
 #ifndef __GTKEXTRA_TYPE_BUILTINS_H__
 #define __GTKEXTRA_TYPE_BUILTINS_H__
@@ -71,5 +71,5 @@ G_END_DECLS
 
 #endif /* __GTKEXTRA_TYPE_BUILTINS_H__ */
 
-/* Generated data ends here */
+
 
