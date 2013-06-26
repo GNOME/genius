@@ -429,54 +429,45 @@ error_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 static GelETree *
 wait_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
-	int secs;
+	double dsecs;
+	long msecs;
+	struct timeval tv;
+	struct timeval tv2;
 
-	if G_UNLIKELY ( ! check_argument_nonnegative_integer (a, 0, "wait"))
+	if G_UNLIKELY ( ! check_argument_nonnegative_number (a, 0, "wait"))
 		return NULL;
 
-	secs = gel_get_nonnegative_integer (a[0]->val.value, "wait");
-	if G_UNLIKELY (secs < 0)
+	dsecs = mpw_get_double (a[0]->val.value);
+	if G_UNLIKELY (gel_error_num != 0) {
+		gel_error_num = 0;
 		return NULL;
-	if (secs == 0) {
+	}
+
+	msecs = (long)(dsecs * 1000);
+	gettimeofday (&tv, NULL);
+	for (;;) {
 		if (gel_evalnode_hook != NULL)
 			(*gel_evalnode_hook)();
-
-		if G_UNLIKELY (gel_interrupted)
-			return NULL;
-		else
-			return gel_makenum_null ();
-	} else {
-		if (gel_evalnode_hook != NULL) {
-			struct timeval tv;
-			struct timeval tv2;
-			gettimeofday (&tv, NULL);
-			for (;;) {
-				(*gel_evalnode_hook)();
-				if G_UNLIKELY (gel_interrupted) {
-					break;
-				}
-				gettimeofday (&tv2, NULL);
-				if (tv.tv_sec + secs < tv2.tv_sec ||
-				    (tv.tv_sec + secs == tv2.tv_sec &&
-				     tv.tv_usec <= tv2.tv_usec))
-					break;
-				/* sleep 10ms, this is a HORRIBLE HACK! */
-				/* FIXME: do some mainloop thingie over here */
-				usleep (10000);
-			}
-		} else {
-			int i;
-			/* kind of hacky, but I don't want to risk long sleep not
-			   being interrupted on some systems */
-			for (i = 0; i < secs && ! gel_interrupted; i++)
-				sleep (1);
+		if G_UNLIKELY (gel_interrupted) {
+			break;
 		}
+		gettimeofday (&tv2, NULL);
 
-		if G_UNLIKELY (gel_interrupted)
-			return NULL;
-		else
-			return gel_makenum_null ();
+		if ( ((tv2.tv_sec - tv.tv_sec) * 1000
+		      - (tv.tv_usec / 1000)
+		      + (tv2.tv_usec / 1000))
+		     >= msecs)
+			break;
+
+		/* sleep 10ms, this is a HORRIBLE HACK! */
+		/* FIXME: do some mainloop thingie over here */
+		usleep (10000);
 	}
+
+	if G_UNLIKELY (gel_interrupted)
+		return NULL;
+	else
+		return gel_makenum_null ();
 }
 
 /*print function*/

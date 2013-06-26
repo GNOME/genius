@@ -92,6 +92,18 @@ check_argument_nonnegative_integer (GelETree **a, int argnum, const char *funcna
 	return TRUE;
 }
 
+static inline gboolean
+check_argument_nonnegative_number (GelETree **a, int argnum, const char *funcname)
+{
+	if G_UNLIKELY (a[argnum]->type != GEL_VALUE_NODE ||
+		       mpw_is_complex(a[argnum]->val.value) ||
+		       mpw_sgn (a[argnum]->val.value) < 0) {
+		gel_errorout (_("%s: argument number %d not a nonnegative number"), funcname, argnum+1);
+		return FALSE;
+	}
+	return TRUE;
+}
+
 
 static inline gboolean
 check_argument_positive_integer (GelETree **a, int argnum, const char *funcname)
