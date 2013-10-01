@@ -494,14 +494,12 @@ gtk_plot_canvas_class_init (GtkPlotCanvasClass *klass)
 {
   GtkObjectClass *object_class;
   GtkWidgetClass *widget_class;
-  GtkContainerClass *container_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
   parent_class = g_type_class_ref (gtk_fixed_get_type ());
 
   object_class = (GtkObjectClass *) klass;
   widget_class = (GtkWidgetClass *) klass;
-  container_class = (GtkContainerClass *) klass;
 
   
   /**
@@ -1456,17 +1454,13 @@ gtk_plot_canvas_button_press(GtkWidget *widget, GdkEventButton *event)
   GdkModifierType mods;
   gint x = 0, y = 0;
   gboolean veto;
-  gboolean double_click = FALSE;
-  gdouble m;
   gboolean new_item = FALSE;
   GtkPlotCanvasPos pos = GTK_PLOT_CANVAS_OUT;
 
   gdk_window_get_pointer(gtk_widget_get_window(widget), NULL, NULL, &mods);
   if(!(mods & GDK_BUTTON1_MASK)) return FALSE;
-  double_click = (event->button == GDK_2BUTTON_PRESS);
  
   canvas = GTK_PLOT_CANVAS(widget);
-  m = canvas->magnification;
 
 /*
   if(double_click && canvas->state == GTK_STATE_SELECTED) return TRUE;

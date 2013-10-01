@@ -3154,15 +3154,12 @@ gtk_plot_draw_grids(GtkPlot *plot)
 static void
 gtk_plot_draw_axis(GtkPlot *plot, GtkPlotAxis *axis, GtkPlotVector tick_direction)
 {
-  GtkWidget *widget;
   gdouble x_tick;
   gint ntick;
   gdouble m = plot->magnification;
   gdouble x1, y1, x2, y2;
   gdouble px, py;
   gdouble xx, yy;
-
-  widget = GTK_WIDGET(plot); 
 
   gtk_plot_get_pixel(plot, axis->origin.x, axis->origin.y, &x1, &y1);
 
@@ -3879,7 +3876,6 @@ gtk_plot_text_get_size(const gchar *text, gint angle,
   gint x, y, y0;
   GList *family;
   gint numf;
-  gchar num[4];
   const gchar *aux = text;
   const gchar *lastchar = text;
   const gchar *wtext = text;
@@ -4074,7 +4070,7 @@ gtk_plot_text_get_size(const gchar *text, gint angle,
            xaux = aux + 1;
            for (i=0; i<3; i++){
             if (xaux[i] >= '0' && xaux[i] <= '9')
-              num[i] = xaux[i];
+              ; //num[i] = xaux[i];
             else
               break;
            }
@@ -4082,7 +4078,7 @@ gtk_plot_text_get_size(const gchar *text, gint angle,
               aux++;
               break;
            }
-           num[3] = '\0';
+           //num[3] = '\0';
            /* insert_char = (gchar)atoi(num); */
            /* \xNNN is always outputted with latin fonts. */
            pango_layout_set_font_description(layout, font);

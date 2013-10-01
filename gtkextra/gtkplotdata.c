@@ -305,14 +305,12 @@ static void
 gtk_plot_data_class_init (GtkPlotDataClass *klass)
 {
   GtkObjectClass *object_class;
-  GtkWidgetClass *widget_class;
   GtkPlotDataClass *data_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
   parent_class = g_type_class_ref (gtk_widget_get_type ());
 
   object_class = (GtkObjectClass *) klass;
-  widget_class = (GtkWidgetClass *) klass;
   data_class = (GtkPlotDataClass *) klass;
 
   object_class->destroy = gtk_plot_data_destroy;
@@ -2495,8 +2493,7 @@ gtk_plot_data_real_draw   (GtkPlotData *dataset,
   GtkWidget *widget;
   GtkPlot *plot = NULL;
   GtkPlotData *function;
-  GdkColormap *colormap;
-  GdkRectangle area, clip_area;
+  GdkRectangle area;
   gdouble x, y, z = 0., a = 0.;
   gdouble dx = 0., dy = 0., dz = 0., da = 0.;
   gdouble *fx = NULL;
@@ -2509,7 +2506,6 @@ gtk_plot_data_real_draw   (GtkPlotData *dataset,
   gdouble *fda = NULL;
   gchar **fl = NULL;
   gboolean error;
-  gdouble m;
   GtkAllocation allocation;
 
   g_return_if_fail(GTK_IS_PLOT_DATA(dataset));
@@ -2519,22 +2515,14 @@ gtk_plot_data_real_draw   (GtkPlotData *dataset,
 
   plot = dataset->plot;
   widget = GTK_WIDGET(plot);
-  colormap = gdk_colormap_get_system();
 
   gtk_plot_pc_gsave(plot->pc);
-
-  m = plot->magnification;
 
   gtk_widget_get_allocation(widget, &allocation);
   area.x = allocation.x;
   area.y = allocation.y;
   area.width = allocation.width;
   area.height = allocation.height;
-
-  clip_area.x = area.x + roundint(plot->x * area.width);
-  clip_area.y = area.y + roundint(plot->y * area.height);
-  clip_area.width = roundint(plot->width * area.width);
-  clip_area.height = roundint(plot->height * area.height);
 
   if(dataset->is_function)
     {
@@ -2671,7 +2659,6 @@ gtk_plot_data_real_real_draw   (GtkPlotData *dataset,
   GtkWidget *widget;
   GtkPlot *plot = NULL;
   GdkRectangle area;
-  GdkColormap *colormap;
   gdouble *array_x = NULL, *array_y = NULL, *array_z = NULL, *array_a = NULL;
   gdouble *array_dx = NULL, *array_dy = NULL, *array_dz = NULL, *array_da = NULL;
   GtkPlotArray *y_array;
@@ -2690,7 +2677,6 @@ gtk_plot_data_real_real_draw   (GtkPlotData *dataset,
 
   plot = dataset->plot;
   widget = GTK_WIDGET(plot);
-  colormap = gdk_colormap_get_system();
 
   gtk_widget_get_allocation(widget, &allocation);
   area.x = allocation.x;
@@ -3100,18 +3086,15 @@ draw_gradient_vertical(GtkPlotData *data, gdouble px, gdouble py)
     ry = y;
     gint ncolors = 0;
     for(level = nlevels-1; level >= 0; level--){
-      gdouble val, h;
-      gboolean sublevel = FALSE;
+/*     
+      gdouble val;
 
       val = data->gradient->ticks.values[level].value;
-      sublevel = data->gradient->ticks.values[level].minor;
 
-/*     
       if(val <= data->gradient->ticks.min || val > data->gradient->ticks.max) continue;
 */
 
       if(level != 0){
-        h = val;
         color = data->gradient_colors[level-1];
 
         gtk_plot_pc_set_color(plot->pc, &color);
@@ -3447,18 +3430,15 @@ draw_gradient_horizontal(GtkPlotData *data, gdouble px, gdouble py)
     rx = x;
     ncolors = 0;
     for(level = 0; level < nlevels; level++){
-      gdouble val, h;
-      gboolean sublevel = FALSE;
+/*
+      gdouble val;
 
       val = data->gradient->ticks.values[level].value;
-      sublevel = data->gradient->ticks.values[level].minor;
 
-/*
       if(val <= data->gradient->ticks.min || val > data->gradient->ticks.max) continue;
 */
 
       if(level != 0){
-        h = val;
         color = data->gradient_colors[level-1];
 
         gtk_plot_pc_set_color(plot->pc, &color);

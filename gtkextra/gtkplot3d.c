@@ -1873,15 +1873,11 @@ gtk_plot3d_draw_grids(GtkPlot3D *plot, GtkPlotAxis *axis, GtkPlotVector delta)
   gdouble xx;
   GtkPlotLine major_grid, minor_grid;
   gdouble x1, x2, y1, y2;
-  gint width, height;
   gdouble oz;
   gint ntick;
 
   /* no values! */
   if (axis->ticks.values == NULL) return;
-
-  width = GTK_PLOT(plot)->internal_allocation.width;
-  height = GTK_PLOT(plot)->internal_allocation.height;
 
   major_grid = GTK_PLOT(plot)->left->major_grid;
   minor_grid = GTK_PLOT(plot)->left->minor_grid;
@@ -1958,7 +1954,6 @@ gtk_plot3d_draw_axis(GtkPlot3D *plot,
   GtkPlotPC *pc;
   gdouble xx;
   gint line_width;
-  gint width, height;
   gint ntick;
   gdouble m;
   gdouble oz;
@@ -1969,9 +1964,6 @@ gtk_plot3d_draw_axis(GtkPlot3D *plot,
     return;
 
   pc = GTK_PLOT(plot)->pc;
-
-  width = GTK_PLOT(plot)->internal_allocation.width;
-  height = GTK_PLOT(plot)->internal_allocation.height;
 
   m = GTK_PLOT(plot)->magnification;
 
@@ -2040,7 +2032,6 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
   gdouble tick_value;
   gdouble xx;
   gint text_height, text_width, ascent, descent;
-  gint width, height;
   gint ntick;
   gdouble m;
   gdouble ox, oy, oz;
@@ -2052,9 +2043,6 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
 
   widget = GTK_WIDGET(plot); 
   pc = GTK_PLOT(plot)->pc;
-
-  width = GTK_PLOT(plot)->internal_allocation.width;
-  height = GTK_PLOT(plot)->internal_allocation.height;
 
   m = GTK_PLOT(plot)->magnification;
 
