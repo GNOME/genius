@@ -93,15 +93,11 @@ gtk_plot_box_get_type (void)
 static void
 gtk_plot_box_class_init (GtkPlotBoxClass *klass)
 {
-  GtkObjectClass *object_class;
-  GtkWidgetClass *widget_class;
   GtkPlotDataClass *data_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
   parent_class = g_type_class_ref (gtk_plot_data_get_type ());
 
-  object_class = (GtkObjectClass *) klass;
-  widget_class = (GtkWidgetClass *) klass;
   data_class = (GtkPlotDataClass *) klass;
 
   gobject_class->set_property = gtk_plot_box_set_property;
@@ -167,11 +163,8 @@ gtk_plot_box_get_property (GObject      *object,
 static void
 gtk_plot_box_init (GtkPlotBox *dataset)
 {
-  GtkWidget *widget;
   GdkColor black, white;
   GdkColormap *colormap;
-
-  widget = GTK_WIDGET(dataset);
 
   colormap = gdk_colormap_get_system();
 
@@ -395,15 +388,12 @@ gtk_plot_box_draw_symbol(GtkPlotData *dataset,
 static void
 gtk_plot_box_draw_legend(GtkPlotData *data, gint x, gint y)
 {
-  GtkPlotBox *box;
   GtkPlot *plot = NULL;
   GtkPlotText legend;
   GdkRectangle area;
   gint lascent, ldescent, lheight, lwidth;
   gdouble m;
   GtkAllocation allocation;
-
-  box = GTK_PLOT_BOX(data);
 
   g_return_if_fail(data->plot != NULL);
   g_return_if_fail(GTK_IS_PLOT(data->plot));

@@ -43,6 +43,7 @@
 #include "gtkplotsurface.h"
 #include "gtkplotcairo.h"
 #include "gtkplotcanvas.h"
+#include "gtkplotprint.h"
 
 static void recalc_pixels(GtkPlot *plot);
 

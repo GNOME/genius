@@ -2555,8 +2555,6 @@ gtk_plot_real_paint (GtkWidget *widget)
 {
   GtkPlot *plot;
   GtkPlotText *child_text;
-  GtkStyle *style;
-  GdkPixmap *pixmap;
   GList *dataset;
   GList *text;
   gint width, height;
@@ -2568,10 +2566,6 @@ gtk_plot_real_paint (GtkWidget *widget)
   yoffset = plot->internal_allocation.y;
   width = plot->internal_allocation.width;
   height = plot->internal_allocation.height;
-
-  style = gtk_widget_get_style(widget);
-
-  pixmap = plot->drawable;
 
   gtk_plot_pc_gsave(plot->pc);
   gtk_plot_pc_set_color(plot->pc, &plot->background);
@@ -2762,10 +2756,6 @@ gtk_plot_refresh (GtkPlot *plot, GdkRectangle *drawing_area)
 static void
 gtk_plot_size_request (GtkWidget *widget, GtkRequisition *requisition)
 {
-  GtkPlot *plot;
-
-  plot = GTK_PLOT(widget);
-
   requisition->width =  DEFAULT_WIDTH;
   requisition->height =  DEFAULT_HEIGHT;
 }
@@ -3044,7 +3034,6 @@ gtk_plot_is_transparent (GtkPlot *plot)
 static void
 gtk_plot_draw_grids(GtkPlot *plot)
 {
-  GtkWidget *widget;
   GdkRectangle clip_area;
   gdouble width, height;
   gdouble xp, yp;
@@ -3052,8 +3041,6 @@ gtk_plot_draw_grids(GtkPlot *plot)
   gdouble xx, yy;
   gdouble x_tick;
   gint ntick;
-
-  widget = GTK_WIDGET(plot);
 
   xp = plot->internal_allocation.x;
   yp = plot->internal_allocation.y;
@@ -3169,7 +3156,6 @@ gtk_plot_draw_axis(GtkPlot *plot, GtkPlotAxis *axis, GtkPlotVector tick_directio
 {
   GtkWidget *widget;
   gdouble x_tick;
-  gdouble xp, yp, width, height;
   gint ntick;
   gdouble m = plot->magnification;
   gdouble x1, y1, x2, y2;
@@ -3177,10 +3163,6 @@ gtk_plot_draw_axis(GtkPlot *plot, GtkPlotAxis *axis, GtkPlotVector tick_directio
   gdouble xx, yy;
 
   widget = GTK_WIDGET(plot); 
-  xp = plot->internal_allocation.x;
-  yp = plot->internal_allocation.y;
-  width = plot->internal_allocation.width;
-  height = plot->internal_allocation.height;
 
   gtk_plot_get_pixel(plot, axis->origin.x, axis->origin.y, &x1, &y1);
 
@@ -3272,7 +3254,6 @@ gtk_plot_draw_labels(GtkPlot *plot,
   gdouble x_tick;
   gdouble xx, yy;
   gint text_height;
-  gdouble xp, yp, width, height;
   gint ntick;
   gdouble m = plot->magnification;
   gboolean veto = FALSE;
@@ -3282,10 +3263,6 @@ gtk_plot_draw_labels(GtkPlot *plot,
   GtkAllocation  allocation;
 
   widget = GTK_WIDGET(plot); 
-  xp = plot->internal_allocation.x;
-  yp = plot->internal_allocation.y;
-  width = plot->internal_allocation.width;
-  height = plot->internal_allocation.height;
 
   gtk_plot_pc_set_color (plot->pc, &axis->labels_attr.fg);
 
@@ -3902,7 +3879,6 @@ gtk_plot_text_get_size(const gchar *text, gint angle,
   gint x, y, y0;
   GList *family;
   gint numf;
-  gchar insert_char;
   gchar num[4];
   const gchar *aux = text;
   const gchar *lastchar = text;
@@ -4107,7 +4083,7 @@ gtk_plot_text_get_size(const gchar *text, gint angle,
               break;
            }
            num[3] = '\0';
-           insert_char = (gchar)atoi(num);
+           /* insert_char = (gchar)atoi(num); */
            /* \xNNN is always outputted with latin fonts. */
            pango_layout_set_font_description(layout, font);
            pango_layout_set_text(layout, aux, 1);
@@ -4426,10 +4402,8 @@ gtk_plot_resize (GtkPlot *plot, gdouble width, gdouble height)
 void
 gtk_plot_set_magnification (GtkPlot *plot, gdouble magnification)
 {
-  GtkWidget *widget;
   GtkAllocation allocation;
  
-  widget = GTK_WIDGET(plot); 
   plot->magnification = magnification;
   gtk_widget_get_allocation(GTK_WIDGET(plot), &allocation);
 
@@ -4534,7 +4508,6 @@ gtk_plot_real_get_point(GtkWidget *widget,
     GtkPlot *plot;
     gdouble xx, yy;
     gdouble xp, yp, width, height;
-    gdouble rx, ry;
     GtkAllocation allocation;
 
 
@@ -4554,9 +4527,6 @@ gtk_plot_real_get_point(GtkWidget *widget,
       yy = allocation.y + yp + height - y;
     else
       yy = y - allocation.y - yp;
-
-    rx = plot->bottom->ticks.max - plot->bottom->ticks.min;
-    ry = plot->left->ticks.max - plot->left->ticks.min;
 
     *px = gtk_plot_axis_ticks_inverse(plot->bottom, xx / width);
     *py = gtk_plot_axis_ticks_inverse(plot->left, yy / height);
@@ -4988,7 +4958,6 @@ gtk_plot_put_text (GtkPlot *plot, gdouble x, gdouble y,
 {
   GtkWidget *widget;
   GtkPlotText *text_attr;
-  GdkRectangle area;
   GtkAllocation allocation;
 
 
@@ -4997,8 +4966,6 @@ gtk_plot_put_text (GtkPlot *plot, gdouble x, gdouble y,
   text_attr = g_new0(GtkPlotText, 1);
 
   gtk_widget_get_allocation(widget, &allocation);
-  area.x = allocation.x;
-  area.y = allocation.y;
 
   text_attr->x = x;
   text_attr->y = y;

@@ -1,3 +1,13 @@
+Tue Oct 01 18:02:13 2013  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/eval.c, src/mpwrap.[ch]: fix subtle copy on write error with
+	  nested for loops with a floating point "by"
+	
+	* src/eval.[ch]: fix a nasty side effect of erroneously telling gcc
+	  that a function is pure
+
+	* gtkextra/*.c: fix some warnings
+
 Wed Jun 26 14:33:09 2013  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/funclib.c, src/funclibhelper.cP: implement subsecond precision

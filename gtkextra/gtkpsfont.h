@@ -92,8 +92,8 @@ struct _GtkPSFont {
   gboolean vertical;
 };
 
-gint		gtk_psfont_init			();
-void		gtk_psfont_unref		();
+gint		gtk_psfont_init			(void);
+void		gtk_psfont_unref		(void);
 GtkPSFont* 	gtk_psfont_get_by_name 		(const gchar *name);
 GtkPSFont* 	gtk_psfont_get_by_family        (const gchar *family_name, 
                                                  gboolean italic, 

@@ -145,15 +145,7 @@ extern void gtkextra_VOID__INT_POINTER (GClosure     *closure,
                                         gpointer      invocation_hint,
                                         gpointer      marshal_data);
 
-/* VOID:INT,BOXED (gtkextra-marshal.list:20) */
-extern void gtkextra_VOID__INT_BOXED (GClosure     *closure,
-                                      GValue       *return_value,
-                                      guint         n_param_values,
-                                      const GValue *param_values,
-                                      gpointer      invocation_hint,
-                                      gpointer      marshal_data);
-
-/* VOID:POINTER,POINTER (gtkextra-marshal.list:21) */
+/* VOID:POINTER,POINTER (gtkextra-marshal.list:20) */
 extern void gtkextra_VOID__POINTER_POINTER (GClosure     *closure,
                                             GValue       *return_value,
                                             guint         n_param_values,
@@ -161,7 +153,7 @@ extern void gtkextra_VOID__POINTER_POINTER (GClosure     *closure,
                                             gpointer      invocation_hint,
                                             gpointer      marshal_data);
 
-/* VOID:BOXED,POINTER (gtkextra-marshal.list:22) */
+/* VOID:BOXED,POINTER (gtkextra-marshal.list:21) */
 extern void gtkextra_VOID__BOXED_POINTER (GClosure     *closure,
                                           GValue       *return_value,
                                           guint         n_param_values,
@@ -169,7 +161,7 @@ extern void gtkextra_VOID__BOXED_POINTER (GClosure     *closure,
                                           gpointer      invocation_hint,
                                           gpointer      marshal_data);
 
-/* VOID:BOXED,BOXED (gtkextra-marshal.list:23) */
+/* VOID:BOXED,BOXED (gtkextra-marshal.list:22) */
 extern void gtkextra_VOID__BOXED_BOXED (GClosure     *closure,
                                         GValue       *return_value,
                                         guint         n_param_values,
@@ -177,7 +169,7 @@ extern void gtkextra_VOID__BOXED_BOXED (GClosure     *closure,
                                         gpointer      invocation_hint,
                                         gpointer      marshal_data);
 
-/* VOID:OBJECT,OBJECT (gtkextra-marshal.list:24) */
+/* VOID:OBJECT,OBJECT (gtkextra-marshal.list:23) */
 extern void gtkextra_VOID__OBJECT_OBJECT (GClosure     *closure,
                                           GValue       *return_value,
                                           guint         n_param_values,
@@ -185,7 +177,7 @@ extern void gtkextra_VOID__OBJECT_OBJECT (GClosure     *closure,
                                           gpointer      invocation_hint,
                                           gpointer      marshal_data);
 
-/* VOID:DOUBLE,DOUBLE,DOUBLE,DOUBLE (gtkextra-marshal.list:25) */
+/* VOID:DOUBLE,DOUBLE,DOUBLE,DOUBLE (gtkextra-marshal.list:24) */
 extern void gtkextra_VOID__DOUBLE_DOUBLE_DOUBLE_DOUBLE (GClosure     *closure,
                                                         GValue       *return_value,
                                                         guint         n_param_values,

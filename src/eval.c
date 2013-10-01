@@ -2473,7 +2473,7 @@ gel_mod_node (GelCtx *ctx, GelETree *n)
 
 /*return TRUE if node is true (a number node !=0), false otherwise*/
 gboolean
-gel_isnodetrue (GelETree *n, gboolean *bad_node) /*PURE!*/
+gel_isnodetrue (GelETree *n, gboolean *bad_node)
 {
 	switch (n->type) {
 	case GEL_NULL_NODE:
@@ -4106,7 +4106,6 @@ iter_pop_stack(GelCtx *ctx)
 					mpw_add_ui (evf->x, evf->x, 1);
 				/* we know we aren't dealing with complexes */
 				if (mpw_is_real_part_float (evf->x)) {
-					int thecmp = mpw_cmp (evf->x, evf->to);
 					if (mpw_cmp (evf->x, evf->to) == -evf->init_cmp) {
 						/* maybe we just missed it, let's look back within 2^-20 of the by and see */
 						mpw_t tmp;
@@ -4114,6 +4113,7 @@ iter_pop_stack(GelCtx *ctx)
 							mpfr_ptr f;
 							/* by is definitely mpfr */
 							mpw_init_set (tmp, evf->by);
+							mpw_make_copy_real (tmp);
 							f = mpw_peek_real_mpf (tmp);
 							mpfr_mul_2si (f, f, -20, GMP_RNDN);
 						} else {
@@ -5214,6 +5214,7 @@ iter_ifop(GelCtx *ctx, GelETree *n, gboolean has_else, gboolean *repushed)
 	} else {
 		GEL_GET_LR(n,l,r);
 	}
+
 	
 	ret = gel_isnodetrue(l,&bad_node);
 	if G_UNLIKELY (bad_node || gel_error_num) {

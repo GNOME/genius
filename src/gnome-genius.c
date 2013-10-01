@@ -3349,7 +3349,7 @@ move_cursor (GtkTextBuffer *buffer,
 #ifdef HAVE_GTKSOURCEVIEW
 #ifdef HAVE_GTKSOURCEVIEW2
 static GtkSourceLanguageManager*
-get_source_language_manager ()
+get_source_language_manager (void)
 {
 	static GtkSourceLanguageManager *lm = NULL;
 	gchar **lang_dirs;
@@ -4186,7 +4186,8 @@ run_program (GtkWidget *menu_item, gpointer data)
 			if (write (p[1], prog, len) < len) {
 				status = 1;
 			} else if (prog[len-1] != '\n') {
-				write (p[1], "\n", 1);
+				while (write (p[1], "\n", 1) == 0)
+					;
 			}
 			close (p[1]);
 			_exit (status);

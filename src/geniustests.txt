@@ -1129,6 +1129,7 @@ FindRootBisection (`(x)=x^2-1,0.5,1.6,10^-20,10000000)		[true,1.0,67]
 FindRootBisection (`(x)=x^2-1,-1,0.9,10^-20,10000000)		[true,-1.0,68]
 FindRootBisection (`(x)=x^2-1,0,10^2000,10^-20,1000)@(1)	false
 FindRootBisection (`(x)=x^2+1,-1,1,0.01,100)			FindRootBisection((`(x)=((x^2)+1)),-1,1,0.01,100)
+c=0;for x = 0 to 0.3 by 0.1 do ( for y=0.0 to 0.3 by 0.1 do (c=c+1); c)		16
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
 load "testprec.gel"						true

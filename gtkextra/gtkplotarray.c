@@ -94,12 +94,9 @@ gtk_plot_array_get_type (void)
 static void
 gtk_plot_array_class_init (GtkPlotArrayClass *klass)
 {
-  GtkPlotArrayClass *array_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
   array_parent_class = g_type_class_peek_parent (klass);
-
-  array_class = (GtkPlotArrayClass *) klass;
 
   gobject_class->finalize = gtk_plot_array_finalize;
   gobject_class->set_property = gtk_plot_array_set_property;
@@ -547,12 +544,10 @@ static void
 gtk_plot_array_list_class_init (GtkPlotArrayListClass *klass)
 {
   GObjectClass *gobject_class;
-  GtkPlotArrayListClass *array_list_class;
 
   array_list_parent_class = g_type_class_peek_parent (klass);
 
   gobject_class = (GObjectClass *) klass;
-  array_list_class = (GtkPlotArrayListClass *) klass;
 
   gobject_class->finalize = gtk_plot_array_list_finalize;
 }
@@ -582,7 +577,7 @@ gtk_plot_array_list_finalize(GObject *object)
   gtk_plot_array_list_clear(array_list);
 }
 
-GList *
+static GList *
 find_array(GtkPlotArrayList *array_list, const gchar *name)
 {
   GList *list;

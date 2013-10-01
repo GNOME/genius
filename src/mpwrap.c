@@ -3401,6 +3401,26 @@ mpw_set_mpf_use (mpw_ptr rop, mpfr_ptr op)
 	memcpy (rop->r->data.fval, op, sizeof (__mpfr_struct));
 }
 
+void
+mpw_make_copy (mpw_ptr op)
+{
+	MAKE_COPY (op->r);
+	MAKE_COPY (op->i);
+}
+
+void
+mpw_make_copy_real (mpw_ptr op)
+{
+	MAKE_COPY (op->r);
+}
+
+void
+mpw_make_copy_imag (mpw_ptr op)
+{
+	MAKE_COPY (op->r);
+	MAKE_COPY (op->i);
+}
+
 mpz_ptr
 mpw_peek_real_mpz (mpw_ptr op)
 {

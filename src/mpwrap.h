@@ -126,6 +126,12 @@ void mpw_set_mpz_use (mpw_ptr rop, mpz_ptr op);
 void mpw_set_mpq_use (mpw_ptr rop, mpq_ptr op);
 void mpw_set_mpf_use (mpw_ptr rop, mpfr_ptr op);
 
+/* Always use make_copy if peeking and then modifying the
+ * peeked value!  Otherwise copy on write will bite us */
+void mpw_make_copy (mpw_ptr op);
+void mpw_make_copy_real (mpw_ptr op);
+void mpw_make_copy_imag (mpw_ptr op);
+
 mpz_ptr mpw_peek_real_mpz (mpw_ptr op);
 mpq_ptr mpw_peek_real_mpq (mpw_ptr op);
 mpfr_ptr mpw_peek_real_mpf (mpw_ptr op);

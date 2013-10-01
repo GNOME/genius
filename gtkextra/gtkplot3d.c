@@ -166,7 +166,6 @@ static void
 gtk_plot3d_class_init (GtkPlot3DClass *klass)
 {
   GtkObjectClass *object_class;
-  GtkWidgetClass *widget_class;
   GtkPlotClass *plot_class;
   GtkPlot3DClass *plot3d_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
@@ -174,7 +173,6 @@ gtk_plot3d_class_init (GtkPlot3DClass *klass)
   parent_class = g_type_class_ref (gtk_plot_get_type ());
 
   object_class = (GtkObjectClass *) klass;
-  widget_class = (GtkWidgetClass *) klass;
   plot_class = (GtkPlotClass *) klass;
   plot3d_class = (GtkPlot3DClass *) klass;
 
@@ -1433,12 +1431,11 @@ gtk_plot3d_real_paint (GtkWidget *widget)
 {
   GtkPlot3D *plot;
   GtkPlotText *child_text;
-  GdkPixmap *pixmap;
   GtkPlotPC *pc;
   GList *datasets;
   GList *text;
-  gint width, height, size;
-  gint xoffset, yoffset, xp, yp;
+  gint width, height;
+  gint xoffset, yoffset;
   gint origin;
   gdouble pz;
   GtkPlotVector e[8], o, v[8];
@@ -1454,7 +1451,7 @@ gtk_plot3d_real_paint (GtkWidget *widget)
   width = GTK_PLOT(plot)->internal_allocation.width;
   height = GTK_PLOT(plot)->internal_allocation.height;
 
-  pixmap = GTK_PLOT(plot)->drawable;
+  /* pixmap = GTK_PLOT(plot)->drawable; */
   pc = GTK_PLOT(plot)->pc;
 
   gtk_plot_pc_gsave(pc);
@@ -1473,11 +1470,6 @@ gtk_plot3d_real_paint (GtkWidget *widget)
 */
 
   /* find origin */
-
-  xp = GTK_PLOT(plot)->internal_allocation.x;
-  yp = GTK_PLOT(plot)->internal_allocation.y;
-
-  size = MIN(width, height) / SQRT2;
 
   /* 8 vertices of the cube */
 
@@ -1839,7 +1831,6 @@ gtk_plot3d_draw_plane(GtkPlot3D *plot,
                       GdkColor background)
 {
   GtkWidget *widget;
-  GdkPixmap *pixmap;
   GtkPlotPC *pc;
   GtkPlotVector v[4];
   GtkPlotPoint p[4];
@@ -1849,7 +1840,6 @@ gtk_plot3d_draw_plane(GtkPlot3D *plot,
   widget = GTK_WIDGET(plot);
   if(!gtk_widget_get_visible(widget)) return;
 
-  pixmap = GTK_PLOT(plot)->drawable;
   pc = GTK_PLOT(plot)->pc;
 
   gtk_plot_pc_set_color(pc, &background);
@@ -1880,25 +1870,18 @@ gtk_plot3d_draw_plane(GtkPlot3D *plot,
 static void
 gtk_plot3d_draw_grids(GtkPlot3D *plot, GtkPlotAxis *axis, GtkPlotVector delta)
 {
-  GtkWidget *widget;
   gdouble xx;
   GtkPlotLine major_grid, minor_grid;
   gdouble x1, x2, y1, y2;
-  gint size, width, height;
-  gdouble xp, yp, oz;
+  gint width, height;
+  gdouble oz;
   gint ntick;
-
-  widget = GTK_WIDGET(plot);
 
   /* no values! */
   if (axis->ticks.values == NULL) return;
 
-  xp = GTK_PLOT(plot)->internal_allocation.x;
-  yp = GTK_PLOT(plot)->internal_allocation.y;
   width = GTK_PLOT(plot)->internal_allocation.width;
   height = GTK_PLOT(plot)->internal_allocation.height;
-
-  size = MIN(width, height) / SQRT2;
 
   major_grid = GTK_PLOT(plot)->left->major_grid;
   minor_grid = GTK_PLOT(plot)->left->minor_grid;
@@ -1972,31 +1955,25 @@ gtk_plot3d_draw_axis(GtkPlot3D *plot,
                      GtkPlotVector tick,
                      GtkPlotVector delta)
 {
-  GtkWidget *widget;
   GtkPlotPC *pc;
   gdouble xx;
   gint line_width;
-  gint xp, yp, width, height;
+  gint width, height;
   gint ntick;
   gdouble m;
   gdouble oz;
   gdouble x1, x2, y1, y2;
-  gint size;
   gint ticks_length;
 
   if (axis->ticks.values == NULL)
     return;
 
-  widget = GTK_WIDGET(plot); 
   pc = GTK_PLOT(plot)->pc;
 
-  xp = GTK_PLOT(plot)->internal_allocation.x;
-  yp = GTK_PLOT(plot)->internal_allocation.y;
   width = GTK_PLOT(plot)->internal_allocation.width;
   height = GTK_PLOT(plot)->internal_allocation.height;
 
   m = GTK_PLOT(plot)->magnification;
-  size = MIN(width, height) / SQRT2;
 
   line_width = plot->frame.line_width;
   gtk_plot_pc_set_color(pc, &plot->frame.color);
@@ -2063,10 +2040,10 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
   gdouble tick_value;
   gdouble xx;
   gint text_height, text_width, ascent, descent;
-  gint xp, yp, width, height;
+  gint width, height;
   gint ntick;
   gdouble m;
-  gdouble size, ox, oy, oz;
+  gdouble ox, oy, oz;
   gdouble sx, sy, sz;
   gdouble y = 0;
   GtkPlotVector ticks_direction, center;
@@ -2076,12 +2053,9 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
   widget = GTK_WIDGET(plot); 
   pc = GTK_PLOT(plot)->pc;
 
-  xp = GTK_PLOT(plot)->internal_allocation.x;
-  yp = GTK_PLOT(plot)->internal_allocation.y;
   width = GTK_PLOT(plot)->internal_allocation.width;
   height = GTK_PLOT(plot)->internal_allocation.height;
 
-  size = MIN(width, height) / SQRT2;
   m = GTK_PLOT(plot)->magnification;
 
   gtk_plot_pc_set_color (pc, &axis->labels_attr.fg);
@@ -2179,6 +2153,7 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
        }
 }
 
+/*
 gdouble 
 get_clean_tick_size(gdouble delta) 
 {
@@ -2188,6 +2163,7 @@ get_clean_tick_size(gdouble delta)
   magnitude= (gint)(floor(log10(delta)));
   return ceil(delta/pow(10,magnitude))*pow(10,magnitude);
 }
+*/
 
 
 /******************************************

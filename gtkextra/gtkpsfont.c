@@ -312,7 +312,7 @@ static const char *default_font = "fixed";
 static GtkPSFont *find_psfont		(const gchar *name);
 
 gint
-gtk_psfont_init()
+gtk_psfont_init(void)
 {
   GtkPSFont *data = NULL;
   GList *fonts;
@@ -368,7 +368,7 @@ gtk_psfont_init()
  * Unref ps fonts.
  */
 void
-gtk_psfont_unref()
+gtk_psfont_unref(void)
 {
   GList *list;
 

@@ -277,6 +277,11 @@ void		gtk_plot_data_set_link			(GtkPlotData *dataset,
 gpointer	gtk_plot_data_get_link			(GtkPlotData *dataset);
 void		gtk_plot_data_remove_link		(GtkPlotData *dataset);
 
+
+void		gtk_plot_data_set_gradient_show_lt_gt	(GtkPlotData *data,
+							 gboolean show);
+gboolean	gtk_plot_data_gradient_show_lt_gt	(GtkPlotData *data);
+
 /* Markers */
 
 GtkPlotMarker *	gtk_plot_data_add_marker		(GtkPlotData *data,
