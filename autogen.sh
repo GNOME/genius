@@ -17,7 +17,9 @@ PKG_NAME="Genius"
 }
 
 which gnome-autogen.sh || {
-    echo "You need to install gnome-common from the GNOME CVS"
+    echo "Missing gnome-autogen.sh"
+    echo "You need to install gnome-common from the GNOME git,"
+    echo "or possibly the \"gnome-common\" distribution package"
     exit 1
 }
 USE_GNOME2_MACROS=1 . gnome-autogen.sh
