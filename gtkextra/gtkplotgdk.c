@@ -196,14 +196,12 @@ gtk_plot_gdk_init (GtkPlotGdk *pc)
 static void
 gtk_plot_gdk_class_init (GtkPlotGdkClass *klass)
 {
-  GtkObjectClass *object_class;
   GObjectClass *gobject_class;
   GtkPlotPCClass *pc_class;
   GtkPlotGdkClass *gdk_class;
 
   parent_class = g_type_class_ref (gtk_plot_pc_get_type ());
 
-  object_class = (GtkObjectClass *) klass;
   gobject_class = (GObjectClass *) klass;
 
   pc_class = (GtkPlotPCClass *) klass;
@@ -597,7 +595,8 @@ drawstring(GtkPlotPC *pc,
   }
   if (font) pango_font_description_free(font);
   ret_value = (angle == 0 || angle == 180) ? rect.width : rect.height;
-  return PANGO_PIXELS(rect.width);
+  /*return PANGO_PIXELS(rect.width);*/
+  return PANGO_PIXELS(ret_value);
 }
 
 static void
@@ -639,7 +638,6 @@ gtk_plot_gdk_draw_string                        (GtkPlotPC *pc,
   PangoRectangle rect;
   PangoFontMetrics *metrics = NULL;
   PangoLayout *layout = NULL;
-  gint real_x, real_y, real_width, real_height;
   GdkColor real_fg = *fg;
   GdkColor real_bg = *bg;
   PangoMatrix matrix = PANGO_MATRIX_INIT;
@@ -763,11 +761,6 @@ gtk_plot_gdk_draw_string                        (GtkPlotPC *pc,
             break;
       }
   }
-
-  real_x = tx;
-  real_y = ty;
-  real_width = width;
-  real_height = height;
 
   pango_matrix_rotate (&matrix, angle);
   pango_context_set_matrix (context, &matrix);
@@ -1107,8 +1100,8 @@ scale_pixmap (GdkWindow *window, GdkPixmap *pixmap, gdouble scale_x, gdouble sca
   new_pixmap = gdk_pixmap_new(pixmap, new_width, new_height, -1);
   gdk_draw_pixbuf(new_pixmap, gc, aux_pixbuf, 0, 0, 0, 0, new_width, new_height, GDK_RGB_DITHER_MAX, 0, 0);
 
-  gdk_pixbuf_unref(pixbuf);
-  gdk_pixbuf_unref(aux_pixbuf);
+  g_object_unref (G_OBJECT (pixbuf));
+  g_object_unref (G_OBJECT (aux_pixbuf));
 
   gdk_gc_unref(gc);
 

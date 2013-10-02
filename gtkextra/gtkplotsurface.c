@@ -143,7 +143,6 @@ static void
 gtk_plot_surface_class_init (GtkPlotSurfaceClass *klass)
 {
   GtkObjectClass *object_class;
-  GtkWidgetClass *widget_class;
   GtkPlotDataClass *data_class;
   GtkPlotSurfaceClass *surface_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
@@ -151,7 +150,6 @@ gtk_plot_surface_class_init (GtkPlotSurfaceClass *klass)
   parent_class = g_type_class_ref (gtk_plot_data_get_type ());
 
   object_class = (GtkObjectClass *) klass;
-  widget_class = (GtkWidgetClass *) klass;
   data_class = (GtkPlotDataClass *) klass;
   surface_class = (GtkPlotSurfaceClass *) klass;
 
@@ -787,7 +785,6 @@ gtk_plot_surface_draw_polygons (GtkPlotSurface *surface)
   GtkPlotData *data;
   GtkPlotPoint t[3];
   GtkPlotDTtriangle *triangle;
-  GdkDrawable *drawable;
   gboolean visible = TRUE;
   GtkPlotVector side1, side2, light, normal;
   GdkColor color, real_color;
@@ -800,7 +797,6 @@ gtk_plot_surface_draw_polygons (GtkPlotSurface *surface)
 
   data = GTK_PLOT_DATA(surface);
   plot = GTK_PLOT(data->plot);
-  drawable = plot->drawable;
 
   gtk_plot_set_line_attributes(plot, surface->mesh_line);
   array_a = gtk_plot_data_get_a(GTK_PLOT_DATA(surface), &n);
@@ -935,13 +931,10 @@ gtk_plot_surface_draw_polygons (GtkPlotSurface *surface)
 static void
 gtk_plot_surface_get_legend_size(GtkPlotData *data, gint *width, gint *height)
 {
-  GtkPlotSurface *surface;
   GtkPlot *plot = NULL;
   GtkPlotText legend;
   gint lascent = 0, ldescent = 0, lheight = 0, lwidth = 0;
   gdouble m;
-
-  surface = GTK_PLOT_SURFACE(data);
 
   g_return_if_fail(data->plot != NULL);
   g_return_if_fail(GTK_IS_PLOT(data->plot));
@@ -1185,7 +1178,7 @@ rgb_to_hsv (gdouble  r, gdouble  g, gdouble  b,
         *h = (g - b) / delta;
       else if (g == max)
         *h = 2.0 + (b - r) / delta;
-      else if (b == max)
+      else /* if (b == max) */
         *h = 4.0 + (r - g) / delta;
 
       *h = *h * 60.0;
@@ -1890,12 +1883,10 @@ gtk_plot_surface_real_build_mesh(GtkPlotSurface *surface)
 {
   GtkPlotData *data;
   gdouble *array_x, *array_y, *array_z;
-  GtkPlot *plot;
   gint i;
 
   data = GTK_PLOT_DATA(surface);
   if(!data->plot) return;
-  plot = data->plot;
 
   if(data->num_points == 0) return;
 
@@ -2195,8 +2186,8 @@ compare_func (gpointer a, gpointer b)
   for(i = 0; i < 3; i++){
     gdouble n1[3], n2[3];
     gdouble t1, t2, det;
-    gdouble x1, x2;
-    gdouble y1, y2;
+    //gdouble x1, x2;
+    //gdouble y1, y2;
     gdouble z1, z2;
     gint ia0 = naz[i];
     gint ja0 = naz[i == 2 ? 0 : i+1];
@@ -2223,11 +2214,11 @@ compare_func (gpointer a, gpointer b)
         t2 = (-n1[0]*c2+n1[1]*c1) / det;
         if(t1 < -0.0001 || t2 < -0.0001) continue;
         if(t1 > 1.0001 || t2 > 1.0001) continue;
-        x1 = pax[ia0] + t1 * n1[0];
-        y1 = pay[ia0] + t1 * n1[1];
+        //x1 = pax[ia0] + t1 * n1[0];
+        //y1 = pay[ia0] + t1 * n1[1];
         z1 = paz[ia0] + t1 * n1[2];
-        x2 = pbx[ib0] + t2 * n2[0];
-        y2 = pby[ib0] + t2 * n2[1];
+        //x2 = pbx[ib0] + t2 * n2[0];
+        //y2 = pby[ib0] + t2 * n2[1];
         z2 = pbz[ib0] + t2 * n2[2];
         if(z1 < z2) return 1;
         if(z2 < z1) return -1;

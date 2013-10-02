@@ -1,3 +1,16 @@
+Wed Oct 02 17:35:09 2013  Jiri (George) Lebl <jirka@5z.com>
+
+	* gtkextra/*: remove bunch of unused stuff to fix warnings.
+
+	* src/graphing.c: Allow setting color in LinePlotDrawLine as a
+	  3-vector of RGB values in the range of 0 to 1.
+
+	* help/C/genius.xml: Document changes to LinePlotDrawLine and
+	  rewrite part of that entry.
+
+	* src/graphing.c: Allow zooming by selecting when we just do
+	  LinePlotDrawLine and not a LinePlot first.
+
 Tue Oct 01 21:35:09 2013  Jiri (George) Lebl <jirka@5z.com>
 
 	* autogen.sh, configure.in: updates, for example we still refer

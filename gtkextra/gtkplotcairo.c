@@ -185,18 +185,14 @@ gtk_plot_cairo_init (GtkPlotCairo *pc)
 static void
 gtk_plot_cairo_class_init (GtkPlotCairoClass *klass)
 {
-  GtkObjectClass *object_class;
   GObjectClass *gobject_class;
   GtkPlotPCClass *pc_class;
-  GtkPlotCairoClass *cairo_class;
 
   parent_class = g_type_class_ref (gtk_plot_pc_get_type ());
 
-  object_class = (GtkObjectClass *) klass;
   gobject_class = (GObjectClass *) klass;
 
   pc_class = (GtkPlotPCClass *) klass;
-  cairo_class = (GtkPlotCairoClass *) klass;
 
   gobject_class->finalize = gtk_plot_cairo_finalize;
 
@@ -649,7 +645,8 @@ drawstring(GtkPlotPC *pc,
   cairo_restore(cairo);
   pango_font_description_free(font);
   ret_value = (angle == 0 || angle == 180) ? rect.width : rect.height;
-  return PANGO_PIXELS(rect.width);
+  /*return PANGO_PIXELS(rect.width);*/
+  return PANGO_PIXELS(ret_value);
 }
 
 static void 
@@ -690,7 +687,6 @@ gtk_plot_cairo_draw_string                        (GtkPlotPC *pc,
   gchar num[4];
   PangoRectangle rect;
   PangoLayout *layout = NULL;
-  gint real_x, real_y, real_width, real_height;
   GdkColor real_fg = *fg;
   GdkColor real_bg = *bg;
   gint sign_x = 1, sign_y = 0;
@@ -850,11 +846,6 @@ gtk_plot_cairo_draw_string                        (GtkPlotPC *pc,
             break;
       }
   }
-
-  real_x = tx;
-  real_y = ty;
-  real_width = width;
-  real_height = height;
 
   if(!transparent){
     gtk_plot_cairo_set_color(pc, &real_bg);

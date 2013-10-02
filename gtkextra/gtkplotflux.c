@@ -109,14 +109,12 @@ static void
 gtk_plot_flux_class_init (GtkPlotFluxClass *klass)
 {
   GtkObjectClass *object_class;
-  GtkWidgetClass *widget_class;
   GtkPlotDataClass *data_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
   parent_class = g_type_class_ref (gtk_plot_data_get_type ());
 
   object_class = (GtkObjectClass *) klass;
-  widget_class = (GtkWidgetClass *) klass;
   data_class = (GtkPlotDataClass *) klass;
 
   gobject_class->set_property = gtk_plot_flux_set_property;
@@ -276,12 +274,9 @@ gtk_plot_flux_class_init (GtkPlotFluxClass *klass)
 static void
 gtk_plot_flux_init (GtkPlotFlux *dataset)
 {
-  GtkWidget *widget;
   GdkColor black, white;
   GdkColormap *colormap;
   GtkPlotArray *dim;
-
-  widget = GTK_WIDGET(dataset);
 
   colormap = gdk_colormap_get_system();
 
@@ -462,7 +457,7 @@ gtk_plot_flux_draw_symbol(GtkPlotData *dataset,
 {
   GtkPlot *plot;
   GtkPlotFlux *flux = NULL;
-  GdkRectangle area, clip_area;
+  GdkRectangle area; //, clip_area;
   gdouble m;
   gdouble x1 = 0.0, y1 = 0.0, x2 = 0.0, y2=0.0;
   gdouble factor, size, xm;
@@ -484,25 +479,24 @@ gtk_plot_flux_draw_symbol(GtkPlotData *dataset,
   area.width = allocation.width;
   area.height = allocation.height;
 
+  /*
   clip_area.x = area.x + roundint(plot->x * area.width);
   clip_area.y = area.y + roundint(plot->y * area.height);
   clip_area.width = roundint(plot->width * area.width);
   clip_area.height = roundint(plot->height * area.height);
 
-/*
   gtk_plot_pc_clip(plot->pc, &clip_area);
 */
 
 
   if(GTK_IS_PLOT3D(plot)){
-       gdouble z1, z2 = 0;
+       gdouble z1;
 
        xm = sqrt(dx * dx + dy * dy + dz * dz);
        factor = xm / flux->scale_max;
        size = factor * flux->size_max;
        x2 = size * dx / xm;    
        y2 = size * dy / xm;    
-       z2 = size * dz / xm;    
 
        gtk_plot3d_get_pixel(GTK_PLOT3D(plot), x, y, z,
                             &x1, &y1, &z1);
@@ -592,7 +586,6 @@ gtk_plot_flux_draw_legend(GtkPlotData *data, gint x, gint y)
   GdkRectangle area;
   gint lascent, ldescent, lheight, lwidth;
   gdouble m;
-  gint line_width;
   gboolean centered;
   GtkAllocation allocation;
 
@@ -624,8 +617,6 @@ gtk_plot_flux_draw_legend(GtkPlotData *data, gint x, gint y)
                          &lascent, &ldescent);
 
   if(data->show_legend){
-    line_width = plot->legends_line_width;
-
     legend.x = (gdouble)(area.x + x) / (gdouble)area.width;
     legend.y = (gdouble)(area.y + y + lascent) / (gdouble)area.height;
 

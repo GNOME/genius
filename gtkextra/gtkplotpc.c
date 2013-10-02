@@ -66,14 +66,7 @@ gtk_plot_pc_get_type (void)
 static void
 gtk_plot_pc_class_init (GtkPlotPCClass *klass)
 {
-  GtkObjectClass *object_class;
-  GtkPlotPCClass *pc_class;
-
   parent_class = g_type_class_ref (gtk_object_get_type ());
-
-  object_class = (GtkObjectClass *) klass;
-  pc_class = (GtkPlotPCClass *) klass;
-
 }
 
 static void

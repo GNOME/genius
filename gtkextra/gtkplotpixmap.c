@@ -101,14 +101,12 @@ static void
 gtk_plot_pixmap_class_init (GtkPlotPixmapClass *klass)
 {
   GtkObjectClass *object_class;
-  GtkWidgetClass *widget_class;
   GtkPlotDataClass *data_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
   parent_class = g_type_class_ref (gtk_plot_data_get_type ());
 
   object_class = (GtkObjectClass *) klass;
-  widget_class = (GtkWidgetClass *) klass;
   data_class = (GtkPlotDataClass *) klass;
 
   data_class->clone = gtk_plot_pixmap_clone;

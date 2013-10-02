@@ -2493,7 +2493,6 @@ gtk_plot_data_real_draw   (GtkPlotData *dataset,
   GtkWidget *widget;
   GtkPlot *plot = NULL;
   GtkPlotData *function;
-  GdkRectangle area;
   gdouble x, y, z = 0., a = 0.;
   gdouble dx = 0., dy = 0., dz = 0., da = 0.;
   gdouble *fx = NULL;
@@ -2519,10 +2518,6 @@ gtk_plot_data_real_draw   (GtkPlotData *dataset,
   gtk_plot_pc_gsave(plot->pc);
 
   gtk_widget_get_allocation(widget, &allocation);
-  area.x = allocation.x;
-  area.y = allocation.y;
-  area.width = allocation.width;
-  area.height = allocation.height;
 
   if(dataset->is_function)
     {
@@ -3652,7 +3647,7 @@ gtk_plot_data_set_gradient_size(GtkPlotData *data, gint size)
 {
   GtkPlot *plot = NULL;
   GtkPlotText legend;
-  gint lascent = 0, ldescent = 0, lheight = 0, lwidth = 0;
+  gint lheight = 0, lwidth = 0;
   gint tascent = 0, tdescent = 0, theight = 0, twidth = 0;
   gint maxascent = 0, maxdescent = 0, maxheight = 0, maxwidth = 0;
   gint minascent = 0, mindescent = 0, minheight = 0, minwidth = 0;
@@ -3705,8 +3700,6 @@ gtk_plot_data_set_gradient_size(GtkPlotData *data, gint size)
 
   lwidth = MAX(minwidth, maxwidth);
   lheight = MAX(minheight, maxheight);
-  lascent = MAX(minascent, maxascent);
-  ldescent = MAX(mindescent, maxdescent);
 
   if(data->gradient_title_pos == GTK_PLOT_AXIS_LEFT ||
      data->gradient_title_pos == GTK_PLOT_AXIS_RIGHT)
@@ -3774,7 +3767,7 @@ gtk_plot_data_get_gradient_size(GtkPlotData *data, gint *width, gint *height)
 {
   GtkPlot *plot = NULL;
   GtkPlotText legend;
-  gint lascent = 0, ldescent = 0, lheight = 0, lwidth = 0;
+  gint lheight = 0, lwidth = 0;
   gint tascent = 0, tdescent = 0, theight = 0, twidth = 0;
   gint maxascent = 0, maxdescent = 0, maxheight = 0, maxwidth = 0;
   gint minascent = 0, mindescent = 0, minheight = 0, minwidth = 0;
@@ -3833,8 +3826,6 @@ gtk_plot_data_get_gradient_size(GtkPlotData *data, gint *width, gint *height)
 
   lwidth = MAX(minwidth, maxwidth);
   lheight = MAX(minheight, maxheight);
-  lascent = MAX(minascent, maxascent);
-  ldescent = MAX(mindescent, maxdescent);
 
   if(data->gradient_title_pos == GTK_PLOT_AXIS_LEFT ||
      data->gradient_title_pos == GTK_PLOT_AXIS_RIGHT)
@@ -3995,11 +3986,10 @@ gtk_plot_data_draw_symbol_private (GtkPlotData *data,
                                    gdouble x, gdouble y,
                                    GtkPlotSymbol symbol)
 {
-  GtkWidget *widget;
   GtkPlot *plot;
   gdouble x0, y0;
   gdouble px0, py0;
-  GdkRectangle clip_area;
+  //GdkRectangle clip_area;
   gboolean filled;
   gint size;
   gdouble m;
@@ -4007,14 +3997,15 @@ gtk_plot_data_draw_symbol_private (GtkPlotData *data,
   if(symbol.symbol_type == GTK_PLOT_SYMBOL_NONE) return;
 
   plot = data->plot;
-  widget = GTK_WIDGET(plot);
 
   m = plot->magnification;
 
+  /*
   clip_area.x = plot->internal_allocation.x;
   clip_area.y = plot->internal_allocation.y;
   clip_area.width = plot->internal_allocation.width;
   clip_area.height = plot->internal_allocation.height;
+  */
 
 /*
   gdk_gc_set_clip_rectangle(gc, &clip_area);
@@ -4364,7 +4355,6 @@ gtk_plot_data_draw_errbars(GtkPlotData *dataset,
                            gdouble x, gdouble y, gdouble z,
                            gdouble dx, gdouble dy, gdouble dz)
 {
-  GtkWidget *widget;
   GtkPlot *plot;
   GtkPlotPoint errbar[6];
   gdouble px, py;
@@ -4372,7 +4362,6 @@ gtk_plot_data_draw_errbars(GtkPlotData *dataset,
   gdouble m;
 
   plot = dataset->plot;
-  widget = GTK_WIDGET(plot);
   m = plot->magnification;
 
   if(!dataset->show_xerrbars && !dataset->show_yerrbars && !dataset->show_zerrbars) return;
@@ -6693,7 +6682,7 @@ rgb_to_hsv (gdouble  r, gdouble  g, gdouble  b,
         *h = (g - b) / delta;
       else if (g == max)
         *h = 2.0 + (b - r) / delta;
-      else if (b == max)
+      else /* if (b == max) */
         *h = 4.0 + (r - g) / delta;
 
       *h = *h * 60.0;

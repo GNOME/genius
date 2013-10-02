@@ -369,12 +369,9 @@ update_data (GtkPlotData *data)
 static void
 gtk_plot_csurface_init (GtkPlotCSurface *dataset)
 {
-  GtkWidget *widget;
   GtkPlotArray *dim;
 
   gtk_widget_set_has_window(GTK_WIDGET(dataset), FALSE);
-
-  widget = GTK_WIDGET(dataset);
 
   GTK_PLOT_DATA(dataset)->show_gradient = TRUE;
   GTK_PLOT_DATA(dataset)->show_labels = TRUE;

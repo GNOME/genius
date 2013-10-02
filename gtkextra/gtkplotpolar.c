@@ -104,13 +104,11 @@ static void
 gtk_plot_polar_class_init (GtkPlotPolarClass *klass)
 {
   GObjectClass *gobject_class;
-  GtkWidgetClass *widget_class;
   GtkPlotClass *plot_class;
 
   parent_class = g_type_class_ref (gtk_plot_get_type ());
 
   gobject_class = G_OBJECT_CLASS(klass);
-  widget_class = (GtkWidgetClass *) klass;
   plot_class = (GtkPlotClass *) klass;
 
   gobject_class->set_property = gtk_plot_polar_set_property;
@@ -227,8 +225,7 @@ gtk_plot_polar_real_paint (GtkWidget *widget)
 {
   GtkPlot *plot;
   GtkPlotText *child_text;
-  GtkStyle *style;
-  GdkPixmap *pixmap;
+  //GdkPixmap *pixmap;
   GList *dataset;
   GList *text;
   gint width, height;
@@ -244,9 +241,7 @@ gtk_plot_polar_real_paint (GtkWidget *widget)
   width = plot->internal_allocation.width;
   height = plot->internal_allocation.height;
 
-  style = gtk_widget_get_style(widget);
-
-  pixmap = plot->drawable;
+  //pixmap = plot->drawable;
 
   gtk_plot_pc_gsave(plot->pc);
   gtk_plot_pc_set_color(plot->pc, &plot->background);
@@ -401,17 +396,15 @@ gtk_plot_polar_construct_with_size(GtkPlotPolar *plot, GdkDrawable *drawable, gd
 static void
 gtk_plot_polar_draw_grids(GtkPlotPolar *polar)
 {
-  GtkWidget *widget;
   GtkPlot *plot;
   gdouble ix, iy;
   gdouble x1, y1, x2, y2;
-  gdouble width, height, size;
+  gdouble width, height;
   gdouble xp, yp;
   gint ntick;
   gdouble ox, oy;
   gdouble rotation;
 
-  widget = GTK_WIDGET(polar);
   plot = GTK_PLOT(polar);
 
   rotation = polar->rotation;
@@ -423,7 +416,6 @@ gtk_plot_polar_draw_grids(GtkPlotPolar *polar)
 
   ox = xp + width / 2.;
   oy = yp + height / 2.;
-  size = MIN(width, height) / 2.;
 
   if(plot->bottom->show_minor_grid)
     {
@@ -505,7 +497,6 @@ static void
 gtk_plot_polar_draw_axis(GtkPlotPolar *polar, 
                          GtkPlotAxis *axis, GtkPlotVector tick_direction)
 {
-  GtkWidget *widget;
   GtkPlot *plot;
   gdouble x, y;
   gdouble xx, yy;
@@ -517,7 +508,6 @@ gtk_plot_polar_draw_axis(GtkPlotPolar *polar,
   gdouble ox, oy;
   gdouble x0, y0;
 
-  widget = GTK_WIDGET(polar);
   plot = GTK_PLOT(polar);
 
   m = plot->magnification;
@@ -762,7 +752,6 @@ gtk_plot_polar_draw_circle(GtkPlotPolar *polar)
   GtkPlotText tick;
   gchar label[100];
   gdouble x, y;
-  gint line_width;
   gdouble xp, yp, width, height, size;
   gint ntick;
   gdouble m;
@@ -795,7 +784,6 @@ gtk_plot_polar_draw_circle(GtkPlotPolar *polar)
 
   axis = plot->bottom;
 
-  line_width = axis->line.line_width;
   gtk_plot_pc_set_color(plot->pc, &axis->line.color);
 
   gtk_plot_pc_set_lineattr(plot->pc, axis->line.line_width, 0, 3, 0);

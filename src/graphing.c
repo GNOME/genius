@@ -1651,7 +1651,6 @@ plot_select_region (GtkPlotCanvas *canvas,
 		return;
 	}
 
-
 	/* only for line plots! */
 	if (plot_in_progress == 0 && line_plot != NULL) {
 		dozoom_xmin = xmin;
@@ -1717,6 +1716,9 @@ add_line_plot (void)
 				   1.0-PROPORTION_OFFSETX,
 				   1.0-PROPORTION_OFFSETY);
 
+	GTK_PLOT_CANVAS_SET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
+				   GTK_PLOT_CANVAS_CAN_SELECT);
+
 	top = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_TOP);
 	right = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_RIGHT);
 	bottom = gtk_plot_get_axis (GTK_PLOT (line_plot), GTK_PLOT_AXIS_BOTTOM);
@@ -1778,6 +1780,9 @@ add_surface_plot (void)
 				   PROPORTION3D_OFFSET,
 				   0.8,
 				   1.0-PROPORTION3D_OFFSET);
+
+	GTK_PLOT_CANVAS_UNSET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
+				     GTK_PLOT_CANVAS_CAN_SELECT);
 
 	xy = gtk_plot3d_get_side (GTK_PLOT3D (surface_plot), GTK_PLOT_SIDE_XY);
 	xz = gtk_plot3d_get_side (GTK_PLOT3D (surface_plot), GTK_PLOT_SIDE_XZ);
@@ -4536,9 +4541,6 @@ plot_functions (gboolean do_window_present,
 
 	add_line_plot ();
 
-	GTK_PLOT_CANVAS_SET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
-				   GTK_PLOT_CANVAS_CAN_SELECT);
-
 	plot_in_progress ++;
 	plot_window_setup ();
 	gtk_plot_freeze (GTK_PLOT (line_plot));
@@ -4753,9 +4755,6 @@ plot_surface_functions (gboolean do_window_present, gboolean fit_function)
 	clear_graph ();
 
 	add_surface_plot ();
-
-	GTK_PLOT_CANVAS_UNSET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
-				     GTK_PLOT_CANVAS_CAN_SELECT);
 
 	plot_in_progress ++;
 	plot_window_setup ();
@@ -8156,6 +8155,74 @@ draw_arrowhead (double xx1, double yy1, double xx2, double yy2,
 	draw_line (ax, ay, 3, thickness, color, NULL /*legend*/);
 } 
 
+static gboolean
+get_color (GelETree *a, GdkColor *c, const char *funcname)
+{
+	if (a == NULL) {
+		gel_errorout (_("%s: No color specified"),
+			      funcname);
+		return FALSE;
+	} else if (a->type == GEL_STRING_NODE) {
+		if ( ! gdk_color_parse (a->str.str, c)) {
+			gel_errorout (_("%s: Cannot parse color '%s'"),
+				      funcname, a->str.str);
+			return FALSE;
+		}
+		return TRUE;
+	} else if (a->type == GEL_IDENTIFIER_NODE) {
+		if ( ! gdk_color_parse (a->id.id->token, c)) {
+			gel_errorout (_("%s: Cannot parse color '%s'"),
+				      funcname, a->id.id->token);
+			return FALSE;
+		}
+		return TRUE;
+	} else if (a->type == GEL_MATRIX_NODE) {
+		GelMatrixW *m = a->mat.matrix;
+		GelETree *t;
+		double r;
+		double g;
+		double b;
+
+		if G_UNLIKELY ( ! gel_is_matrix_value_only_real (m) ||
+			       gel_matrixw_elements(m) != 3) {
+			gel_errorout (_("%s: A vector giving color should be a 3-vector of real numbers between 0 and 1"),
+				      funcname);
+			return FALSE;
+		}
+		/* we know we have 3 values, so we always get non-null t here that's a value node */
+		t = gel_matrixw_vindex (m, 0);
+		r = mpw_get_double (t->val.value);
+		t = gel_matrixw_vindex (m, 1);
+		g = mpw_get_double (t->val.value);
+		t = gel_matrixw_vindex (m, 2);
+		b = mpw_get_double (t->val.value);
+
+#define FUDGE 0.000001
+		if G_UNLIKELY ( r < -FUDGE || r > (1+FUDGE) ||
+				g < -FUDGE || g > (1+FUDGE) ||
+				b < -FUDGE || b > (1+FUDGE) ) {
+			gel_errorout (_("%s: Warning: Values for red, green, or blue out of range (0 to 1), I will clip them to this interval"),
+				      funcname);
+		}
+#undef FUDGE
+		r = MAX(MIN(r,1.0),0.0);
+		g = MAX(MIN(g,1.0),0.0);
+		b = MAX(MIN(b,1.0),0.0);
+
+		c->red = MAX(MIN(r*65535,65535),0);
+		c->green = MAX(MIN(g*65535,65535),0);
+		c->blue = MAX(MIN(b*65535,65535),0);
+
+		return TRUE;
+	}
+
+
+	gel_errorout (_("%s: Color must be a string or a three-vector of rgb values (between 0 and 1)"),
+		      funcname);
+
+	return FALSE;
+}
+
 
 static GelETree *
 LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
@@ -8247,22 +8314,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 			else
 				id = a[i]->id.id;
 			if (id == colorid) {
-				if G_UNLIKELY (a[i+1] == NULL)  {
-					gel_errorout (_("%s: No color specified"),
-						      "LinePlotDrawLine");
-					g_free (legend);
-					g_free (x);
-					g_free (y);
-					return NULL;
-				}
-				/* FIXME: helper routine for getting color */
-				if (a[i+1]->type == GEL_STRING_NODE) {
-					gdk_color_parse (a[i+1]->str.str, &color);
-				} else if (a[i+1]->type == GEL_IDENTIFIER_NODE) {
-					gdk_color_parse (a[i+1]->id.id->token, &color);
-				} else {
-					gel_errorout (_("%s: Color must be a string"),
-						      "LinePlotDrawLine");
+			        if G_UNLIKELY ( ! get_color (a[i+1], &color, "LinePlotDrawLine")) {
 					g_free (legend);
 					g_free (x);
 					g_free (y);

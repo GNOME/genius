@@ -165,13 +165,11 @@ static void
 gtk_plot_ps_class_init (GtkPlotPSClass *klass)
 {
   GtkObjectClass *object_class;
-  GObjectClass *gobject_class;
   GtkPlotPCClass *pc_class;
 
   parent_class = g_type_class_ref (gtk_plot_pc_get_type ());
 
   object_class = (GtkObjectClass *) klass;
-  gobject_class = (GObjectClass *) klass;
   pc_class = (GtkPlotPCClass *) klass;
 
   pc_class->init = psinit;
@@ -908,7 +906,6 @@ psdrawstring	(GtkPlotPC *pc,
                  const gchar *text)
 
 {
-  gchar *currfont;
   const gchar *c;
   GtkPSFont *psfont, *base_psfont, *latin_psfont = NULL;
   gint curcnt = 0, offset = 0;
@@ -933,8 +930,6 @@ psdrawstring	(GtkPlotPC *pc,
   base_psfont = psfont = gtk_psfont_get_by_name(font);
   italic = psfont->italic;
   bold = psfont->bold;
-
-  currfont = psfont->psname;
 
   if (psfont->i18n_latinfamily) {
     latin_psfont = gtk_psfont_get_by_family(psfont->i18n_latinfamily, italic,
