@@ -6073,12 +6073,33 @@ determinant.
         </varlistentry>
 
         <varlistentry>
+         <term><anchor id="gel-function-KroneckerProduct"/>KroneckerProduct</term>
+         <listitem>
+          <synopsis>KroneckerProduct (M, N)</synopsis>
+          <para>Aliases: <function>TensorProduct</function></para>
+	  <para>
+		  Compute the Kronecker product (tensor product in standard basis)
+		  of two matrices.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Kronecker_product">Wikipedia</ulink>, 
+	    <ulink url="http://planetmath.org/encyclopedia/KroneckerProduct.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/KroneckerProduct.html">Mathworld</ulink> for more information.
+          </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
          <term><anchor id="gel-function-LUDecomposition"/>LUDecomposition</term>
          <listitem>
           <synopsis>LUDecomposition (A, L, U)</synopsis>
           <para>
-	    Get the LU decomposition of <varname>A</varname>
-	    and store the result in the <varname>L</varname> and
+		  Get the LU decomposition of <varname>A</varname>, that is
+		  find a lower triangular matrix and upper triangular
+		  matrix whose product is <varname>A</varname>
+	    Store the result in the <varname>L</varname> and
 	    <varname>U</varname> which should be references.  It returns <constant>true</constant>
 	    if successful.
 	    For example suppose that A is a square matrix, then after running:
@@ -6104,6 +6125,7 @@ determinant.
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/encyclopedia/LUDecomposition.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/LUDecomposition.html">Mathworld</ulink> for more information.
 	  </para>
@@ -6217,6 +6239,7 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/QR_decomposition">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/QRDecomposition.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/QRDecomposition.html">Mathworld</ulink> for more information.
 	  </para>
@@ -6338,7 +6361,11 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
          <term><anchor id="gel-function-SmithNormalFormField"/>SmithNormalFormField</term>
          <listitem>
           <synopsis>SmithNormalFormField (A)</synopsis>
-          <para>Smith Normal Form for fields (will end up with 1's on the diagonal).</para>
+          <para>Returns the Smith normal form of a matrix over fields (will end up with 1's on the diagonal).</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Smith_normal_form">Wikipedia</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -6346,7 +6373,11 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
          <term><anchor id="gel-function-SmithNormalFormInteger"/>SmithNormalFormInteger</term>
          <listitem>
           <synopsis>SmithNormalFormInteger (M)</synopsis>
-          <para>Smith Normal Form for square integer matrices (not its characteristic).</para>
+          <para>Return the Smith normal form for square integer matrices over integers (not its characteristic).</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Smith_normal_form">Wikipedia</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -6368,6 +6399,7 @@ conjugated and the nonconjugated version is used for the first row to give a
 Hermitian matrix (if the first element is real of course).</para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Toeplitz_matrix">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/ToeplitzMatrix.html">Planetmath</ulink> for more information.
           </para>
          </listitem>
@@ -6381,6 +6413,7 @@ Hermitian matrix (if the first element is real of course).</para>
           <para>Calculate the trace of a matrix.  That is the sum of the diagonal elements.</para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Trace_(linear_algebra)">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/Trace.html">Planetmath</ulink> for more information.
           </para>
          </listitem>
@@ -6394,6 +6427,7 @@ Hermitian matrix (if the first element is real of course).</para>
           <userinput>.'</userinput> operator.</para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Transpose">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/encyclopedia/Transpose.html">Planetmath</ulink> for more information.
           </para>
          </listitem>
@@ -6405,6 +6439,10 @@ Hermitian matrix (if the first element is real of course).</para>
           <synopsis>VandermondeMatrix (v)</synopsis>
           <para>Aliases: <function>vander</function></para>
           <para>Return the Vandermonde matrix.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Vandermonde_matrix">Wikipedia</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 

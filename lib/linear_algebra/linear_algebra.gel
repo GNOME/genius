@@ -138,9 +138,22 @@ function DirectSum(M,N...) = (
 )
 
 # (Kronecker) Tensor product of two matrices
-#FIXME!
-# function KroneckerProduct(M,N) = TensorProduct(M,N)
-# function TensorProduct(M,N) = Null
+SetHelp ("KroneckerProduct", "linear_algebra", "Compute the Kronecker product of two matrices")
+function KroneckerProduct(M,N) = (
+  if IsNull (M) or IsNull(N) then return null
+  else if not IsMatrix (M) or not IsMatrix(N) then
+    (error ("KroneckerProduct: M and N must be matrices or vectors");bailout);
+  R = null;
+  for j=1 to rows(M) do (
+    for k=1 to columns(M) do (
+      R@(j,k) := M@(j,k)*N
+    )
+  );
+  ExpandMatrix(R)
+)
+SetHelpAlias("KroneckerProduct", "TensorProduct")
+TensorProduct = KroneckerProduct
+
 
 # Checks to see if a matrix/value is invertible
 # Note that given an integer matrix, returns true iff it is invertible OVER THE INTEGERS,

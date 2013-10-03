@@ -1130,6 +1130,11 @@ FindRootBisection (`(x)=x^2-1,-1,0.9,10^-20,10000000)		[true,-1.0,68]
 FindRootBisection (`(x)=x^2-1,0,10^2000,10^-20,1000)@(1)	false
 FindRootBisection (`(x)=x^2+1,-1,1,0.01,100)			FindRootBisection((`(x)=((x^2)+1)),-1,1,0.01,100)
 c=0;for x = 0 to 0.3 by 0.1 do ( for y=0.0 to 0.3 by 0.1 do (c=c+1); c)		16
+KroneckerProduct([2],[3])					[6]
+KroneckerProduct([11,22;33,44],[1,2;3,4])			[11,22,22,44;33,44,66,88;33,66,44,88;99,132,132,176]
+KroneckerProduct([-1,2],[1,2;3,4])				[-1,-2,2,4;-3,-4,6,8]
+KroneckerProduct(null,[1,2;3,4])+0				((null)+0)
+KroneckerProduct([0],null)+0					((null)+0)
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
 load "testprec.gel"						true

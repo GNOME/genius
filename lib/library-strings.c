@@ -128,6 +128,7 @@ char *fake = N_("Is a matrix skew-Hermitian");
 char *fake = N_("Is a matrix unitary");
 char *fake = N_("Get the Jordan block corresponding to lambda and n");
 char *fake = N_("Get the kernel (nullspace) of a linear transform");
+char *fake = N_("Compute the Kronecker product of two matrices");
 char *fake = N_("Get the LU decomposition of A and store the result in the L and U which should be references.  If not possible returns false.");
 char *fake = N_("Get the i-j minor of a matrix");
 char *fake = N_("Return the columns that are not the pivot columns of a matrix");
