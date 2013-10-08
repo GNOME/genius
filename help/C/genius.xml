@@ -65,7 +65,7 @@
 		<firstname>Ji&#345;&#237;</firstname> 
 		<surname>Lebl</surname> 
 		<affiliation> 
-	  		<orgname>University of Wisconsin-Madison</orgname> 
+	  		<orgname>Oklahoma State University</orgname> 
 	  		<address> <email>jirka@5z.com</email> </address> 
 		</affiliation> 
       </author> 
@@ -314,7 +314,7 @@ variables.  Finally it allows plotting functions using a user friendly dialog bo
 		the application.
 	    </para>
 	    <para>
-	    	The working area initially has just the <guilabel>Console</guilabel> tab which is
+	    	The working area initially has just the <guilabel>Console</guilabel> tab, which is
 		the main way of interacting with the calculator.  Here you
 		type expressions and the results are immediately returned
 		after you hit the Enter key.
@@ -342,13 +342,13 @@ variables.  Finally it allows plotting functions using a user friendly dialog bo
         Normally you interact with the calculator in the <guilabel>Console</guilabel> tab of the
 	work area.  If you are running the text only version then the console
 	will be the only thing that is available to you.  If you want to use
-	&app; as a calculator only, just type in your expression here and it
-	will be evaluated.
+	&app; as a calculator only, just type in your expression in the console, it
+	will be evaluated, and the returned value will be printed.
       </para>
 
       <para>
-	Type your expression into the <guilabel>Console</guilabel> work area and press enter and
-	the expression will be evaluated.  Expressions are written in a
+	      To evaluate an expression, type it into the <guilabel>Console</guilabel> work area and press enter.
+	      Expressions are written in a
 language called GEL.  The most simple GEL expression just looks like
 mathematics.  For example
 <screen><prompt>genius> </prompt><userinput>30*70 + 67^3.0 + ln(7) * (88.8/100)</userinput>
@@ -647,7 +647,7 @@ See <xref linkend="lineplot-fig"/>.
       <para>
 	&appname; can also plot surfaces.  Select the <guilabel>Surface plot</guilabel> tab in the
 	main notebook of the <guilabel>Create Plot</guilabel> window.  Here you can specify a single
-	expression which should use either <varname>x</varname> and <varname>y</varname> as real independent variables
+	expression that should use either <varname>x</varname> and <varname>y</varname> as real independent variables
 	or <varname>z</varname> as a complex variable (where <varname>x</varname> is the real part of <varname>z</varname> and <varname>y</varname> is the
 	imaginary part).  For example to plot the modulus of the cosine
 	function for complex parameters,
@@ -688,7 +688,8 @@ See <xref linkend="lineplot-fig"/>.
 	  GEL stands for Genius Extension Language.  <!-- Alternatively it also
 	  stands for George's Ego Leverage. -->  It is the language you use
 	  to write programs in &appname;. A program in GEL is simply an
-	  expression that evaluates to a number.
+	  expression that evaluates to a number, a matrix, or another object
+	  in GEL.
 	  &app; can be used as a simple calculator, or as a
 	  powerful theoretical research tool.  The syntax is meant to
 	  have as shallow of a learning curve as possible, especially for use
@@ -699,7 +700,9 @@ See <xref linkend="lineplot-fig"/>.
       <title>Values</title>
 
       <para>
-Values in GEL can be <link linkend="genius-gel-values-numbers">numbers</link>, <link linkend="genius-gel-values-booleans">Booleans</link> or <link linkend="genius-gel-values-strings">strings</link>. Values can be used in calculations, assigned to variables and returned from functions, among other uses.
+	      Values in GEL can be <link linkend="genius-gel-values-numbers">numbers</link>, <link linkend="genius-gel-values-booleans">Booleans</link>, or <link linkend="genius-gel-values-strings">strings</link>.   GEL also treats 
+<link linkend="genius-gel-matrices">matrices</link> as values.
+	      Values can be used in calculations, assigned to variables and returned from functions, among other uses.
       </para>
 
       <sect2 id="genius-gel-values-numbers">
@@ -903,9 +906,10 @@ x := 3
         </para>
 
         <para>
-To assign to a variable, use the <literal>=</literal> or <literal>:=</literal> operators. These operators set the value of the variable and return the number you set, so you can do things like
+To assign a value to a variable, use the <literal>=</literal> or <literal>:=</literal> operators. These operators set the value of the variable and return the value you set, so you can do things like
 <programlisting>a = b = 5
 </programlisting>
+This will set <varname>b</varname> to 5 and then also set <varname>a</varname> to 5.
         </para>
 
         <para>
@@ -913,8 +917,8 @@ The <literal>=</literal> and <literal>:=</literal> operators can both be used to
        </para>
 
 	<para>
-	  For issues regarding the scope of variables, see <xref
-linkend="genius-gel-variables-global"/>.
+	  For more information about the scope of variables, that is when are what variables visible, see <xref
+		  linkend="genius-gel-variables-global"/>.
 	</para>
       </sect2>
 
@@ -925,7 +929,9 @@ GEL has a number of built-in &lsquo;variables&rsquo;, such as
 <varname>e</varname>, <varname>pi</varname> or <varname>GoldenRatio</varname>.  These are widely used constants with a preset value, and
 they cannot be assigned new values.
 There are a number of other built-in variables.
-See <xref linkend="genius-gel-function-list-constants" /> for a full list.
+See <xref linkend="genius-gel-function-list-constants" /> for a full list.  Note that <varname>i</varname> is not by default
+the square root of negative one (the imaginary number), and is undefined.  If you wish to write the imaginary number you need to
+use <userinput>1i</userinput>.
         </para>
       </sect2>
 
@@ -986,7 +992,7 @@ The <literal>`</literal> is the backquote character, and signifies an anonymous 
         </para>
 
         <para>
-A function takes zero or more comma separated arguments, and returns the result of the function body. Defining your own functions is primarily a matter of convenience; one possible use is to have sets of functions defined in GEL files which &appname; can load in order to make available.
+A function takes zero or more comma separated arguments, and returns the result of the function body. Defining your own functions is primarily a matter of convenience; one possible use is to have sets of functions defined in GEL files that &appname; can load in order to make them available.
 Example:
 <programlisting>function addup(a,b,c) = a+b+c
 </programlisting>
@@ -1021,7 +1027,7 @@ f(b,2)
 </programlisting>
         </para>
         <para>
-To pass functions which are not defined,
+To pass functions that are not defined,
 you can use an anonymous function (see <xref linkend="genius-gel-functions-defining" />).  That is, you want to pass a function without giving it a name.
 Syntax:
 <programlisting><![CDATA[function(<comma separated arguments>) = <function body>
@@ -1798,7 +1804,7 @@ The @() operator makes the : operator most useful.  With this you can specify re
 
 <note>
 <para>
-The comparison operators (except for the &lt;=&gt; operator which behaves normally), are not strictly binary operators, they can in fact be grouped in the normal mathematical way, e.g.: (1&lt;x&lt;=y&lt;5) is a legal boolean expression and means just what it should, that is (1&lt;x and x&le;y and y&lt;5)
+The comparison operators (except for the &lt;=&gt; operator, which behaves normally), are not strictly binary operators, they can in fact be grouped in the normal mathematical way, e.g.: (1&lt;x&lt;=y&lt;5) is a legal boolean expression and means just what it should, that is (1&lt;x and x&le;y and y&lt;5)
 </para>
 </note>
 
@@ -1900,7 +1906,7 @@ print numbers 1,2,3 and 4 in this order you could do:
 <programlisting>for n in [1,2:3,4] do print(n)
 </programlisting>
 If you wish to run through the rows and columns of a matrix, you can use
-the RowsOf and ColumnsOf functions which return a vector of the rows or
+the RowsOf and ColumnsOf functions, which return a vector of the rows or
 columns of the matrix.  So,
 <programlisting>for n in RowsOf ([1,2:3,4]) do print(n)
 </programlisting>
@@ -1976,7 +1982,7 @@ if a==b then c
 
       <para>
 	All the comparison operators (except for the
-	<literal>&lt;=&gt;</literal> operator which
+	<literal>&lt;=&gt;</literal> operator, which
 	behaves normally), are not strictly binary operators, they can in fact
 	be grouped in the normal mathematical way, e.g.:
 	(<literal>1&lt;x&lt;=y&lt;5</literal>) is
@@ -2103,7 +2109,7 @@ or:
 	  will now be visible from all higher numbered contexts.
 	</para>
 	<para>
-	  There are also true local variables, which are not seen from
+	  There are also true local variables that are not seen from
 	  anywhere but the current context.  Also when returning functions
 	  by value it may reference variables not visible from higher context
 	  and this may be a problem.  See the sections
@@ -2585,7 +2591,7 @@ will end up being
 
       <para>
 	When matrices are evaluated, they are evaluated and traversed row-wise.  This is just
-	like the <literal>M@(j)</literal> operator which traverses the matrix row-wise.
+	like the <literal>M@(j)</literal> operator, which traverses the matrix row-wise.
       </para>
 
       <note>
@@ -2882,7 +2888,7 @@ of the program is blocked until the user responds.</para>
          <listitem>
           <synopsis>AskString (query)</synopsis>
           <synopsis>AskString (query, default)</synopsis>
-          <para>Asks a question and lets the user enter a string which
+          <para>Asks a question and lets the user enter a string, which
 it then returns.  If the user cancels or closes the window, then
 <constant>null</constant> is returned.  The execution of the program
 is blocked until the user responds.  If <varname>default</varname> is given, then it is pre-typed in for the user to just press enter on.</para>
@@ -4647,7 +4653,7 @@ precalculated and returned in the second column.</para>
 	    Tests if a positive integer <varname>p</varname> is a
 	    Mersenne prime exponent.  That is if 
             2<superscript>p</superscript>-1 is a prime.  It does this
-	    by looking it up in a table of known values which is relatively
+	    by looking it up in a table of known values, which is relatively
 	    short.
 	    See also
 	    <link linkend='gel-function-MersennePrimeExponents'>MersennePrimeExponents</link>
@@ -4961,7 +4967,7 @@ If <varname>q</varname> is not prime results are bogus.</para>
 	    previous prime you can use <userinput>-NextPrime(-n)</userinput>.
 	  </para>
           <para>
-	    This function uses the GMP's <function>mpz_nextprime</function>
+	    This function uses the GMPs <function>mpz_nextprime</function>,
 	    which in turn uses the probabilistic Miller-Rabin test
 	    (See also <link linkend="gel-function-MillerRabinTest"><function>MillerRabinTest</function></link>).
 	    The probability
@@ -5521,7 +5527,7 @@ vector with the result.</para>
          <listitem>
           <synopsis>RowsOf (M)</synopsis>
 	  <para>Gets the rows of a matrix as a vertical vector.  Each element
-of the vector is a horizontal vector which is the corresponding row of
+of the vector is a horizontal vector that is the corresponding row of
 <varname>M</varname>.  This function is useful if you wish to loop over the
 rows of a matrix.  For example, as <userinput>for r in RowsOf(M) do
 something(r)</userinput>.</para>
@@ -5725,9 +5731,9 @@ return a matrix whose columns are the basis for the column space of
          <term><anchor id="gel-function-CommutationMatrix"/>CommutationMatrix</term>
          <listitem>
           <synopsis>CommutationMatrix (m, n)</synopsis>
-	  <para>Return the commutation matrix K(m,n) which is the unique m*n by
-m*n matrix such that K(m,n) * MakeVector(A) = MakeVector(A.') for all m by n
-matrices A.</para>
+	  <para>Return the commutation matrix <userinput>K(m,n)</userinput>, which is the unique <userinput>m*n</userinput> by
+		  <userinput>m*n</userinput> matrix such that <userinput>K(m,n) * MakeVector(A) = MakeVector(A.')</userinput> for all <varname>m</varname> by <varname>n</varname>
+		  matrices <varname>A</varname>.</para>
          </listitem>
         </varlistentry>
 
@@ -6100,7 +6106,7 @@ determinant.
 		  find a lower triangular matrix and upper triangular
 		  matrix whose product is <varname>A</varname>
 	    Store the result in the <varname>L</varname> and
-	    <varname>U</varname> which should be references.  It returns <constant>true</constant>
+	    <varname>U</varname>, which should be references.  It returns <constant>true</constant>
 	    if successful.
 	    For example suppose that A is a square matrix, then after running:
 	    <screen><prompt>genius></prompt> <userinput>LUDecomposition(A,&amp;L,&amp;U)</userinput>
@@ -6114,7 +6120,7 @@ determinant.
 	    reduction.
 	    (ISBN 0-201-11577-8 pp.99-103)
 	    The upper triangular matrix features a diagonal
-	    of values 1 (one).  This is not Doolittle's Method which features
+	    of values 1 (one).  This is not Doolittle's Method, which features
 	    the 1's diagonal on the lower matrix. 
 	  </para>
 	  <para>
@@ -6202,7 +6208,7 @@ the nullspace; the dimension of the kernel of <varname>M</varname>.</para>
          <term><anchor id="gel-function-PivotColumns"/>PivotColumns</term>
          <listitem>
           <synopsis>PivotColumns (M)</synopsis>
-          <para>Return pivot columns of a matrix, that is columns which have a leading 1 in row reduced form.  Also returns the row where they occur.</para>
+          <para>Return pivot columns of a matrix, that is columns that have a leading 1 in row reduced form.  Also returns the row where they occur.</para>
          </listitem>
         </varlistentry>
 
@@ -6759,7 +6765,7 @@ do (
           <synopsis>Pascal (i)</synopsis>
           <para>Get the Pascal's triangle as a matrix.  This will return
 	  an <varname>i</varname>+1 by <varname>i</varname>+1 lower diagonal
-	  matrix which is the Pascal's triangle after <varname>i</varname>
+	  matrix that is the Pascal's triangle after <varname>i</varname>
 	  iterations.</para>
           <para>
 	    See
@@ -6912,7 +6918,7 @@ do (
          <term><anchor id="gel-function-EvenPeriodicExtension"/>EvenPeriodicExtension</term>
          <listitem>
           <synopsis>EvenPeriodicExtension (f,L)</synopsis>
-	  <para>Return a function which is even periodic extension of
+	  <para>Return a function that is the even periodic extension of
 <function>f</function> with half period <varname>L</varname>.  That
 is a function defined on the interval <userinput>[0,L]</userinput>
 extended to be even on <userinput>[-L,L]</userinput> and then
@@ -6930,7 +6936,7 @@ extended to be periodic with period <userinput>2*L</userinput>.</para>
          <term><anchor id="gel-function-FourierSeriesFunction"/>FourierSeriesFunction</term>
          <listitem>
           <synopsis>FourierSeriesFunction (a,b,L)</synopsis>
-	  <para>Return a function which is a Fourier series with the
+	  <para>Return a function that is a Fourier series with the
 coefficients given by the vectors <varname>a</varname> (sines) and
 <varname>b</varname> (cosines).  Note that <userinput>a@(1)</userinput> is
 the constant coefficient!  That is, <userinput>a@(n)</userinput> refers to
@@ -7052,7 +7058,7 @@ computed by numerical integration using
          <term><anchor id="gel-function-NumericalFourierSeriesFunction"/>NumericalFourierSeriesFunction</term>
          <listitem>
           <synopsis>NumericalFourierSeriesFunction (f,L,N)</synopsis>
-	  <para>Return a function which is the Fourier series of
+	  <para>Return a function that is the Fourier series of
 <function>f</function> with half-period <varname>L</varname> (that is defined
 on <userinput>[-L,L]</userinput> and extended periodically) with coefficients
 up to <varname>N</varname>th harmonic computed numerically.  This is the
@@ -7095,7 +7101,7 @@ the term <userinput>cos(x*(n-1)*pi/L)</userinput>.</para>
          <term><anchor id="gel-function-NumericalFourierCosineSeriesFunction"/>NumericalFourierCosineSeriesFunction</term>
          <listitem>
           <synopsis>NumericalFourierCosineSeriesFunction (f,L,N)</synopsis>
-	  <para>Return a function which is the cosine Fourier series of
+	  <para>Return a function that is the cosine Fourier series of
 <function>f</function> with half-period <varname>L</varname>.  That is,
 we take <function>f</function> defined on <userinput>[0,L]</userinput>
 take the even periodic extension and compute the Fourier series, which
@@ -7136,7 +7142,7 @@ computed by numerical integration using
          <term><anchor id="gel-function-NumericalFourierSineSeriesFunction"/>NumericalFourierSineSeriesFunction</term>
          <listitem>
           <synopsis>NumericalFourierSineSeriesFunction (f,L,N)</synopsis>
-	  <para>Return a function which is the sine Fourier series of
+	  <para>Return a function that is the sine Fourier series of
 <function>f</function> with half-period <varname>L</varname>.  That is,
 we take <function>f</function> defined on <userinput>[0,L]</userinput>
 take the odd periodic extension and compute the Fourier series, which
@@ -7188,7 +7194,7 @@ computed by numerical integration using
          <term><anchor id="gel-function-OddPeriodicExtension"/>OddPeriodicExtension</term>
          <listitem>
           <synopsis>OddPeriodicExtension (f,L)</synopsis>
-	  <para>Return a function which is odd periodic extension of
+	  <para>Return a function that is the odd periodic extension of
 <function>f</function> with half period <varname>L</varname>.  That
 is a function defined on the interval <userinput>[0,L]</userinput>
 extended to be odd on <userinput>[-L,L]</userinput> and then
@@ -7222,7 +7228,7 @@ extended to be periodic with period <userinput>2*L</userinput>.</para>
          <term><anchor id="gel-function-PeriodicExtension"/>PeriodicExtension</term>
          <listitem>
           <synopsis>PeriodicExtension (f,a,b)</synopsis>
-	  <para>Return a function which is the periodic extension of
+	  <para>Return a function that is the periodic extension of
 <function>f</function> defined on the interval <userinput>[a,b]</userinput>
 and has period <userinput>b-a</userinput>.</para>
 	  <para>
@@ -8501,7 +8507,7 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
           <synopsis>SurfacePlot (func,[x1,x2,y1,y2,z1,z2])</synopsis>
           <synopsis>SurfacePlot (func,[x1,x2,y1,y2])</synopsis>
           <para>
-	    Plot a surface function which takes either two arguments or a complex number.  First comes the function then optionally limits as <varname>x1</varname>, <varname>x2</varname>,
+	    Plot a surface function that takes either two arguments or a complex number.  First comes the function then optionally limits as <varname>x1</varname>, <varname>x2</varname>,
 	    <varname>y1</varname>, <varname>y2</varname>,
 	    <varname>z1</varname>, <varname>z2</varname>.  If limits are not
 	    specified, then the currently set limits apply
@@ -9035,8 +9041,8 @@ typsetting in LaTeX, MathML (XML), or in Troff.</para>
         <para>
 	   Internally all data is put onto small nodes in memory.  This gives
 	   a limit on the maximum number of nodes to allocate for
-	   computations.  This avoids the problem of running out of memory
-	   if you do something by mistake which uses too much memory, such
+	   computations.  This limit avoids the problem of running out of memory
+	   if you do something by mistake that uses too much memory, such
 	   as a recursion without end.  This could slow your computer and make
 	   it hard to even interrupt the program.
 	  </para>
