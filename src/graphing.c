@@ -7997,6 +7997,30 @@ LinePlotClear_op (GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_null ();
 }
 
+static GelETree *
+PlotCanvasFreeze_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	if (plot_canvas != NULL /* sanity */)
+		gtk_plot_canvas_freeze (GTK_PLOT_CANVAS (plot_canvas));
+
+	return gel_makenum_null ();
+}
+
+static GelETree *
+PlotCanvasThaw_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	if (plot_canvas != NULL /* sanity */) {
+		gtk_plot_canvas_thaw (GTK_PLOT_CANVAS (plot_canvas));
+		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+
+		if (gel_evalnode_hook != NULL)
+			(*gel_evalnode_hook)();
+	}
+
+	return gel_makenum_null ();
+}
+
 static gboolean
 update_lineplot_window (double x1, double x2, double y1, double y2)
 {
@@ -9519,6 +9543,10 @@ gel_add_graph_functions (void)
 
 	FUNC (LinePlotClear, 0, "", "plotting", N_("Show the line plot window and clear out functions"));
 	VFUNC (LinePlotDrawLine, 2, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"));
+
+	FUNC (PlotCanvasFreeze, 0, "", "plotting", N_("Freeze the plot canvas, that is, inhibit drawing"));
+	FUNC (PlotCanvasThaw, 0, "", "plotting", N_("Thaw the plot canvas and redraw the plot"));
+
 
 	VFUNC (ExportPlot, 2, "filename,type", "plotting", N_("Export the current contents of the plot canvas to a file.  The file type is given by the string type, which can be \"png\", \"eps\", or \"ps\"."));
 
