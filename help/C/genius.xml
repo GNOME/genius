@@ -8405,6 +8405,36 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
         </varlistentry>
 
         <varlistentry>
+         <term><anchor id="gel-function-PlotCanvasFreeze"/>PlotCanvasFreeze</term>
+         <listitem>
+          <synopsis>PlotCanvasFreeze ()</synopsis>
+          <para>
+		  Freeze drawing of the canvas plot temporarily.  Useful if you need to draw a bunch of elements
+		  and want to delay drawing everything to avoid flicker in an animation.  After everything
+		  has been drawn you should call <link linkend="gel-function-PlotCanvasThaw"><function>PlotCanvasThaw</function></link>.
+          </para>
+          <para>
+		  The canvas is always thawed after end of any execution, so it will never remain frozen.  The moment
+		  a new command line is shown for example the plot canvas is thawed automatically.  Also note that
+		  calls to freeze and thaw may be safely nested.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-PlotCanvasThaw"/>PlotCanvasThaw</term>
+         <listitem>
+          <synopsis>PlotCanvasThaw ()</synopsis>
+          <para>
+		  Thaw the plot canvas frozen by
+		  <link linkend="gel-function-PlotCanvasFreeze"><function>PlotCanvasFreeze</function></link>
+		  and rewdraw the canvas immediately.  The canvas is also always thawed after end of execution
+		  of any program.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term><anchor id="gel-function-SlopefieldClearSolutions"/>SlopefieldClearSolutions</term>
          <listitem>
           <synopsis>SlopefieldClearSolutions ()</synopsis>

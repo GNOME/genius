@@ -88,6 +88,7 @@ GelCalcState curstate={
 
 const GelHookFunc gel_evalnode_hook = NULL;
 const GelHookFunc _gel_tree_limit_hook = NULL;
+const GelHookFunc _gel_finished_toplevel_exec_hook = NULL;
 	
 extern int parenth_depth;
 

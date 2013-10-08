@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2004 Jiri (George) Lebl
+ * Copyright (C) 2003-2013 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -26,5 +26,7 @@
 void gel_add_graph_functions (void);
 
 void genius_plot_dialog (void);
+
+void gel_plot_canvas_thaw_completely (void);
 
 #endif /* GRAPHING_H_ */

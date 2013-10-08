@@ -7997,11 +7997,17 @@ LinePlotClear_op (GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_null ();
 }
 
+static int plot_canvas_freeze_count = 0;
+
 static GelETree *
 PlotCanvasFreeze_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
-	if (plot_canvas != NULL /* sanity */)
-		gtk_plot_canvas_freeze (GTK_PLOT_CANVAS (plot_canvas));
+	if (plot_canvas_freeze_count == 0) {
+		if (plot_canvas != NULL /* sanity */)
+			gtk_plot_canvas_freeze (GTK_PLOT_CANVAS (plot_canvas));
+	}
+
+	plot_canvas_freeze_count ++;
 
 	return gel_makenum_null ();
 }
@@ -8009,16 +8015,37 @@ PlotCanvasFreeze_op (GelCtx *ctx, GelETree * * a, int *exception)
 static GelETree *
 PlotCanvasThaw_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
-	if (plot_canvas != NULL /* sanity */) {
-		gtk_plot_canvas_thaw (GTK_PLOT_CANVAS (plot_canvas));
-		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
-		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+	if (plot_canvas_freeze_count > 0) {
+		plot_canvas_freeze_count --;
+		if (plot_canvas_freeze_count == 0) {
+			if (plot_canvas != NULL /* sanity */) {
+				gtk_plot_canvas_thaw (GTK_PLOT_CANVAS (plot_canvas));
+				gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+				gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
 
-		if (gel_evalnode_hook != NULL)
-			(*gel_evalnode_hook)();
+				if (gel_evalnode_hook != NULL)
+					(*gel_evalnode_hook)();
+			}
+		}
 	}
 
 	return gel_makenum_null ();
+}
+
+void
+gel_plot_canvas_thaw_completely (void)
+{
+	if (plot_canvas_freeze_count > 0) {
+		plot_canvas_freeze_count = 0;
+		if (plot_canvas != NULL /* sanity */) {
+			gtk_plot_canvas_thaw (GTK_PLOT_CANVAS (plot_canvas));
+			gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+			gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+			/* a hook will get called eventually, no need to call it now,
+			 * this only gets called once we're about to be idle and get out of
+			 * computation */
+		}
+	}
 }
 
 static gboolean
@@ -9545,7 +9572,7 @@ gel_add_graph_functions (void)
 	VFUNC (LinePlotDrawLine, 2, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"));
 
 	FUNC (PlotCanvasFreeze, 0, "", "plotting", N_("Freeze the plot canvas, that is, inhibit drawing"));
-	FUNC (PlotCanvasThaw, 0, "", "plotting", N_("Thaw the plot canvas and redraw the plot"));
+	FUNC (PlotCanvasThaw, 0, "", "plotting", N_("Thaw the plot canvas and redraw the plot immediately"));
 
 
 	VFUNC (ExportPlot, 2, "filename,type", "plotting", N_("Export the current contents of the plot canvas to a file.  The file type is given by the string type, which can be \"png\", \"eps\", or \"ps\"."));

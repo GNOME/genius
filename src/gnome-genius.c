@@ -97,6 +97,9 @@ GelCalcState curstate={
 static void check_events (void);
 const GelHookFunc gel_evalnode_hook = check_events;
 
+static void finished_toplevel_exec (void);
+const GelHookFunc _gel_finished_toplevel_exec_hook = finished_toplevel_exec;
+
 static void tree_limit_hit (void);
 const GelHookFunc _gel_tree_limit_hook = tree_limit_hit;
 
@@ -4492,6 +4495,12 @@ check_events (void)
 {
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
+}
+
+static void
+finished_toplevel_exec (void)
+{
+	gel_plot_canvas_thaw_completely ();
 }
 
 static void

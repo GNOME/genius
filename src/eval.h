@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2012 Jiri (George) Lebl
+ * Copyright (C) 1997-2013 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -214,6 +214,7 @@ void _gel_make_free_trees (void);
 #endif
 
 const extern GelHookFunc _gel_tree_limit_hook;
+const extern GelHookFunc _gel_finished_toplevel_exec_hook;
 void gel_test_max_nodes_again (void);
 
 extern GelEFunc *_gel_internal_ln_function;

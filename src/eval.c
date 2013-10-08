@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2012 Jiri (George) Lebl
+ * Copyright (C) 1997-2013 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -7767,8 +7767,12 @@ gel_eval_etree (GelCtx *ctx, GelETree *etree)
 			ev_free_special_data(ctx,data,flag);
 		} while(flag != GE_EMPTY_STACK);
 	}
-	if G_UNLIKELY (--level == 0)
+	if G_UNLIKELY (--level == 0) {
 		purge_free_lists();
+		if (_gel_finished_toplevel_exec_hook != NULL)
+			(*_gel_finished_toplevel_exec_hook) ();
+
+	}
 	
 	GE_POP_STACK(ctx,ctx->current,flag);
 	g_assert ((flag & GE_MASK) == GE_POST || (flag & GE_MASK) == GE_PRE);
