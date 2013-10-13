@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=genius&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-10-04 11:19+0000\n"
-"PO-Revision-Date: 2013-10-06 18:56+0100\n"
+"POT-Creation-Date: 2013-10-11 16:25+0000\n"
+"PO-Revision-Date: 2013-10-14 00:06+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -2060,7 +2060,7 @@ msgstr "%s: vrednost argumenta je prevelika"
 msgid "Cannot parse version string: %s"
 msgstr "Ni mogoče razčleniti niza različice: %s"
 
-#: ../src/funclib.c:179 ../src/gnome-genius.c:1956
+#: ../src/funclib.c:179 ../src/gnome-genius.c:1959
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -2176,7 +2176,7 @@ msgid "%s: matrix argument must be value only"
 msgstr "%s: argument matrike je lahko le vrednost"
 
 #: ../src/funclib.c:3138 ../src/funclib.c:3196 ../src/funclib.c:4734
-#: ../src/funclib.c:5028 ../src/graphing.c:8966
+#: ../src/funclib.c:5028 ../src/graphing.c:9017
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: preveč argumentov"
@@ -2448,18 +2448,18 @@ msgstr ""
 "Ustvari naključno celo število med 0 in max-1, če pa je podana velikost, "
 "ustvari vektor ali matriko naključnih celih števil"
 
-#: ../src/funclib.c:6630 ../src/gnome-genius.c:2500
+#: ../src/funclib.c:6630 ../src/gnome-genius.c:2503
 msgid "Floating point precision"
 msgstr "Natančnost plavajoče vejice"
 
-#: ../src/funclib.c:6632 ../src/gnome-genius.c:2389
+#: ../src/funclib.c:6632 ../src/gnome-genius.c:2392
 msgid ""
 "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr ""
 "Prikaži vrednost 0,0, ko je decimalno število manjše od 10^-x (0=nikoli ne "
 "odreži)"
 
-#: ../src/funclib.c:6635 ../src/gnome-genius.c:2412
+#: ../src/funclib.c:6635 ../src/gnome-genius.c:2415
 msgid "Only chop numbers when another number is greater than 10^-x"
 msgstr "Odreži števila le, ko je drugo število večje kot 10^-x"
 
@@ -3280,47 +3280,47 @@ msgstr "%s: številka argumenta %d ni niz"
 msgid "%s: argument number %d not a function or identifier"
 msgstr "%s: številka argumenta %d ni funkcija ali določilo"
 
-#: ../src/genius.c:110
+#: ../src/genius.c:111
 #, c-format
 msgid "line %d: %s\n"
 msgstr "vrstica %d: %s\n"
 
-#: ../src/genius.c:128
+#: ../src/genius.c:129
 #, c-format
 msgid "Too many errors! (%d followed)\n"
 msgstr "Preveč napak! (%d)\n"
 
-#: ../src/genius.c:156
+#: ../src/genius.c:157
 msgid "Cannot locate the manual"
 msgstr "Ni mogoče najti priročnika"
 
-#: ../src/genius.c:221
+#: ../src/genius.c:222
 #, c-format
 msgid "Suggested: %s\n"
 msgstr "Predlagano: %s\n"
 
-#: ../src/genius.c:267
+#: ../src/genius.c:268
 #, c-format
 msgid "Out of range!\n"
 msgstr "Izven obsega!\n"
 
-#: ../src/genius.c:344 ../src/genius.lang.h:2 ../src/gnome-genius.c:830
-#: ../src/gnome-genius.c:875
+#: ../src/genius.c:345 ../src/genius.lang.h:2 ../src/gnome-genius.c:833
+#: ../src/gnome-genius.c:878
 msgid "Genius"
 msgstr "Genius"
 
-#: ../src/genius.c:377 ../src/genius.c:386 ../src/genius.c:393
-#: ../src/genius.c:402
+#: ../src/genius.c:378 ../src/genius.c:387 ../src/genius.c:394
+#: ../src/genius.c:403
 #, c-format
 msgid "%s should be between %d and %d, using %d"
 msgstr "%s mora biti med %d in %d, uporabljena bo vrednost %d"
 
-#: ../src/genius.c:421 ../src/genius.c:430
+#: ../src/genius.c:422 ../src/genius.c:431
 #, c-format
 msgid "%s should be greater then or equal to %d, using %d"
 msgstr "%s mora biti večji ali enak %d, uporabljena bo vrednost %d"
 
-#: ../src/genius.c:478
+#: ../src/genius.c:479
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -3329,7 +3329,7 @@ msgstr ""
 "Genius %s\n"
 "%s%s\n"
 
-#: ../src/genius.c:489
+#: ../src/genius.c:490
 #, c-format
 msgid ""
 "Genius %s usage:\n"
@@ -3384,14 +3384,14 @@ msgstr ""
 "\t--exec=expr         \tIzvede izraz\n"
 "\n"
 
-#: ../src/genius.c:519
+#: ../src/genius.c:520
 #, c-format
 msgid ""
 "Can't specify both an expression and files to execute on the command line"
 msgstr ""
 "Ni mogoče hkrati navesti izraza in datotek za izvajanje v ukazni vrstici"
 
-#: ../src/genius.c:530
+#: ../src/genius.c:531
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -3408,13 +3408,13 @@ msgstr ""
 "Za pomoč vtipkajte ukaza 'manual' ali 'help'.%s\n"
 "\n"
 
-#: ../src/genius.c:603 ../src/gnome-genius.c:5226
+#: ../src/genius.c:604 ../src/gnome-genius.c:5235
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
 msgstr "Edino kar ovira moje učenje, je moja izobrazba. -- Albert Einstein"
 
-#: ../src/genius.c:624 ../src/genius.c:695
+#: ../src/genius.c:625 ../src/genius.c:696
 msgid "Can't open file"
 msgstr "Ni mogoče odpreti datoteke"
 
@@ -3450,345 +3450,345 @@ msgstr "Ukazi"
 msgid "Keywords"
 msgstr "Ključne besede"
 
-#: ../src/gnome-genius.c:256
+#: ../src/gnome-genius.c:259
 msgid "_File"
 msgstr "_Datoteka"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:257
+#: ../src/gnome-genius.c:260
 msgid "_Edit"
 msgstr "_Uredi"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:258
+#: ../src/gnome-genius.c:261
 msgid "_Calculator"
 msgstr "_Računalo"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:259
+#: ../src/gnome-genius.c:262
 msgid "P_lugins"
 msgstr "_Vstavki"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:260
+#: ../src/gnome-genius.c:263
 msgid "_Programs"
 msgstr "_Programi"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:261
+#: ../src/gnome-genius.c:264
 msgid "_Settings"
 msgstr "_Nastavitve"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:262
+#: ../src/gnome-genius.c:265
 msgid "_Help"
 msgstr "Pomo_č"
 
 #. name, stock id, label
 #. name, stock id
-#: ../src/gnome-genius.c:264
+#: ../src/gnome-genius.c:267
 msgid "_New Program"
 msgstr "_Nov program"
 
 #. label, accelerator
-#: ../src/gnome-genius.c:265 ../src/gnome-genius.c:269
+#: ../src/gnome-genius.c:268 ../src/gnome-genius.c:272
 msgid "Create new program tab"
 msgstr "Ustvari nov zavihek programa"
 
-#: ../src/gnome-genius.c:268
+#: ../src/gnome-genius.c:271
 msgid "New"
 msgstr "Novo"
 
 #. name, stock id
-#: ../src/gnome-genius.c:272
+#: ../src/gnome-genius.c:275
 msgid "_Open..."
 msgstr "_Odpri ..."
 
 #. label, accelerator
-#: ../src/gnome-genius.c:273 ../src/gnome-genius.c:277
+#: ../src/gnome-genius.c:276 ../src/gnome-genius.c:280
 msgid "Open a file"
 msgstr "Odpre datoteko"
 
-#: ../src/gnome-genius.c:276
+#: ../src/gnome-genius.c:279
 msgid "Open"
 msgstr "Odpri"
 
-#: ../src/gnome-genius.c:279
+#: ../src/gnome-genius.c:282
 msgid "Open R_ecent"
 msgstr "Odpri_ nedavno"
 
 #. name, stock id, label
 #. name, stock id
-#: ../src/gnome-genius.c:281
+#: ../src/gnome-genius.c:284
 msgid "_Save"
 msgstr "_Shrani"
 
 #. label, accelerator
-#: ../src/gnome-genius.c:282
+#: ../src/gnome-genius.c:285
 msgid "Save current file"
 msgstr "Shrani trenutno datoteko"
 
-#: ../src/gnome-genius.c:285
+#: ../src/gnome-genius.c:288
 msgid "Save All _Unsaved"
 msgstr "Shrani vse n_eshranjene"
 
-#: ../src/gnome-genius.c:286
+#: ../src/gnome-genius.c:289
 msgid "Save all unsaved programs"
 msgstr "Shrani vse neshranjene programe"
 
-#: ../src/gnome-genius.c:289
+#: ../src/gnome-genius.c:292
 msgid "Save _As..."
 msgstr "Shrani _kot ..."
 
-#: ../src/gnome-genius.c:290
+#: ../src/gnome-genius.c:293
 msgid "Save to a file"
 msgstr "Shrani v datoteko"
 
-#: ../src/gnome-genius.c:293
+#: ../src/gnome-genius.c:296
 msgid "_Reload from Disk"
 msgstr "_Znova naloži z diska"
 
-#: ../src/gnome-genius.c:294
+#: ../src/gnome-genius.c:297
 msgid "Reload the selected program from disk"
 msgstr "Znova naloži izbran program z diska"
 
-#: ../src/gnome-genius.c:297
+#: ../src/gnome-genius.c:300
 msgid "_Close"
 msgstr "_Zapri"
 
-#: ../src/gnome-genius.c:298
+#: ../src/gnome-genius.c:301
 msgid "Close the current file"
 msgstr "Zapre trenutno datoteko"
 
-#: ../src/gnome-genius.c:301
+#: ../src/gnome-genius.c:304
 msgid "_Load and Run..."
 msgstr "_Naloži in izvedi ..."
 
-#: ../src/gnome-genius.c:302
+#: ../src/gnome-genius.c:305
 msgid "Load and execute a file in genius"
 msgstr "Naloži in izvede datoteko v programu Genius"
 
-#: ../src/gnome-genius.c:305
+#: ../src/gnome-genius.c:308
 msgid "Save Console Ou_tput..."
 msgstr "Shrani _odvod konzole ..."
 
-#: ../src/gnome-genius.c:306
+#: ../src/gnome-genius.c:309
 msgid ""
 "Save what is visible on the console (including scrollback) to a text file"
 msgstr ""
 "Shrani vidne podatke konzole (vključno z zgodovino vrstic) v besedilo "
 "datoteko"
 
-#: ../src/gnome-genius.c:309
+#: ../src/gnome-genius.c:312
 msgid "_Quit"
 msgstr "_Končaj"
 
-#: ../src/gnome-genius.c:310
+#: ../src/gnome-genius.c:313
 msgid "Quit"
 msgstr "Končaj"
 
-#: ../src/gnome-genius.c:314
+#: ../src/gnome-genius.c:317
 msgid "_Undo"
 msgstr "_Razveljavi"
 
-#: ../src/gnome-genius.c:315
+#: ../src/gnome-genius.c:318
 msgid "Undo the last action"
 msgstr "Razveljavi zadnje dejanje"
 
-#: ../src/gnome-genius.c:318
+#: ../src/gnome-genius.c:321
 msgid "_Redo"
 msgstr "_Uveljavi"
 
-#: ../src/gnome-genius.c:319
+#: ../src/gnome-genius.c:322
 msgid "Redo the undone action"
 msgstr "Uveljavi razveljavljeno dejanje"
 
-#: ../src/gnome-genius.c:323
+#: ../src/gnome-genius.c:326
 msgid "Cu_t"
 msgstr "_Izreži"
 
-#: ../src/gnome-genius.c:324
+#: ../src/gnome-genius.c:327
 msgid "Cut the selection"
 msgstr "Izreže izbor"
 
-#: ../src/gnome-genius.c:327
+#: ../src/gnome-genius.c:330
 msgid "_Copy"
 msgstr "_Kopiraj"
 
-#: ../src/gnome-genius.c:328
+#: ../src/gnome-genius.c:331
 msgid "Copy the selection"
 msgstr "Kopira izbor"
 
-#: ../src/gnome-genius.c:331
+#: ../src/gnome-genius.c:334
 msgid "_Paste"
 msgstr "_Prilepi"
 
-#: ../src/gnome-genius.c:332
+#: ../src/gnome-genius.c:335
 msgid "Paste the clipboard"
 msgstr "Prilepi iz odložišča"
 
-#: ../src/gnome-genius.c:335
+#: ../src/gnome-genius.c:338
 msgid "Copy Answer As Plain Te_xt"
 msgstr "Kopiraj odgovor kot običajno be_sedilo"
 
-#: ../src/gnome-genius.c:336
+#: ../src/gnome-genius.c:339
 msgid "Copy last answer into the clipboard in plain text"
 msgstr "Kopira zadnji odgovor v odložišče v zapisu običajnega besedila"
 
-#: ../src/gnome-genius.c:339
+#: ../src/gnome-genius.c:342
 msgid "Copy Answer As _LaTeX"
 msgstr "Kopiraj odgovor kot _LaTeX zapis"
 
-#: ../src/gnome-genius.c:340
+#: ../src/gnome-genius.c:343
 msgid "Copy last answer into the clipboard as LaTeX"
 msgstr "Kopira zadnji odgovor v odložišče v zapisu LaTeX"
 
-#: ../src/gnome-genius.c:343
+#: ../src/gnome-genius.c:346
 msgid "Copy Answer As _MathML"
 msgstr "Kopiraj odgovor kot _MathML zapis"
 
-#: ../src/gnome-genius.c:344
+#: ../src/gnome-genius.c:347
 msgid "Copy last answer into the clipboard as MathML"
 msgstr "Kopira zadnji odgovor v odložišče  v zapisu MathML"
 
-#: ../src/gnome-genius.c:347
+#: ../src/gnome-genius.c:350
 msgid "Copy Answer As T_roff"
 msgstr "Kopiraj odgovor kot T_roff zapis"
 
-#: ../src/gnome-genius.c:348
+#: ../src/gnome-genius.c:351
 msgid "Copy last answer into the clipboard as Troff eqn"
 msgstr "Kopira zadnji odgovor v odložišče v zapisu Troff"
 
-#: ../src/gnome-genius.c:351
+#: ../src/gnome-genius.c:354
 msgid "_Run"
 msgstr "_Zaženi"
 
-#: ../src/gnome-genius.c:352
+#: ../src/gnome-genius.c:355
 msgid "Run current program"
 msgstr "Zažene trenutni program"
 
-#: ../src/gnome-genius.c:355
+#: ../src/gnome-genius.c:358
 msgid "_Interrupt"
 msgstr "_Prekini"
 
-#: ../src/gnome-genius.c:356
+#: ../src/gnome-genius.c:359
 msgid "Interrupt current calculation"
 msgstr "Prekine trenutni izračun"
 
-#: ../src/gnome-genius.c:359
+#: ../src/gnome-genius.c:362
 msgid "Show _Full Answer"
 msgstr "Pokaži _celoten odgovor"
 
-#: ../src/gnome-genius.c:360
+#: ../src/gnome-genius.c:363
 msgid "Show the full text of last answer"
 msgstr "Pokaže celotno besedilo zadnjega odgovora"
 
-#: ../src/gnome-genius.c:363
+#: ../src/gnome-genius.c:366
 msgid "Show User _Variables"
 msgstr "Pokaži uporabniške _spremenljivke"
 
-#: ../src/gnome-genius.c:364
+#: ../src/gnome-genius.c:367
 msgid "Show the current value of all user variables"
 msgstr "Pokaže trenutne vrednosti vseh uporabniških spremenljivk"
 
-#: ../src/gnome-genius.c:367
+#: ../src/gnome-genius.c:370
 msgid "_Monitor a Variable"
 msgstr "_Nadzor spremenljivke"
 
-#: ../src/gnome-genius.c:368
+#: ../src/gnome-genius.c:371
 msgid "Monitor a variable continuously"
 msgstr "Neprestan nadzor nad spremenljivko"
 
-#: ../src/gnome-genius.c:371
+#: ../src/gnome-genius.c:374
 msgid "_Plot..."
 msgstr "_Graf ..."
 
-#: ../src/gnome-genius.c:372 ../src/gnome-genius.c:376
+#: ../src/gnome-genius.c:375 ../src/gnome-genius.c:379
 msgid "Plot functions, vector fields, surfaces, etc..."
 msgstr "Izriše grafe funkcij, vektorskih polj, površin, ..."
 
-#: ../src/gnome-genius.c:375 ../src/gnome-genius.c:570 ../src/graphing.c:6982
+#: ../src/gnome-genius.c:378 ../src/gnome-genius.c:573 ../src/graphing.c:6982
 msgid "_Plot"
 msgstr "_Izriši graf"
 
-#: ../src/gnome-genius.c:379
+#: ../src/gnome-genius.c:382
 msgid "_Next Tab"
 msgstr "_Naslednji zavihek"
 
-#: ../src/gnome-genius.c:380
+#: ../src/gnome-genius.c:383
 msgid "Go to next tab"
 msgstr "Skoči na naslednji zavihek"
 
-#: ../src/gnome-genius.c:383
+#: ../src/gnome-genius.c:386
 msgid "_Previous Tab"
 msgstr "_Predhodni zavihek"
 
-#: ../src/gnome-genius.c:384
+#: ../src/gnome-genius.c:387
 msgid "Go to previous tab"
 msgstr "Skoči na predhodni zavihek"
 
-#: ../src/gnome-genius.c:387
+#: ../src/gnome-genius.c:390
 msgid "_Console"
 msgstr "_Konzola"
 
-#: ../src/gnome-genius.c:388
+#: ../src/gnome-genius.c:391
 msgid "Go to the console tab"
 msgstr "Skoči na zavihek konzole"
 
-#: ../src/gnome-genius.c:391
+#: ../src/gnome-genius.c:394
 msgid "_Preferences"
 msgstr "_Možnosti"
 
-#: ../src/gnome-genius.c:392
+#: ../src/gnome-genius.c:395
 msgid "Configure Genius"
 msgstr "Nastavitev programa Genius"
 
-#: ../src/gnome-genius.c:395
+#: ../src/gnome-genius.c:398
 msgid "_Contents"
 msgstr "_Vsebina"
 
-#: ../src/gnome-genius.c:396
+#: ../src/gnome-genius.c:399
 msgid "View the Genius manual"
 msgstr "Pregled priročnika programa Genius"
 
-#: ../src/gnome-genius.c:399
+#: ../src/gnome-genius.c:402
 msgid "_Help on Function"
 msgstr "Pomoč za _funkcijo"
 
-#: ../src/gnome-genius.c:400
+#: ../src/gnome-genius.c:403
 msgid "Help on a function or a command"
 msgstr "Pomoč za funkcijo ali ukaz"
 
-#: ../src/gnome-genius.c:403
+#: ../src/gnome-genius.c:406
 msgid "_Warranty"
 msgstr "_Jamstvo"
 
-#: ../src/gnome-genius.c:404
+#: ../src/gnome-genius.c:407
 msgid "Display warranty information"
 msgstr "Prikaži podrobnosti jamstva"
 
-#: ../src/gnome-genius.c:407
+#: ../src/gnome-genius.c:410
 msgid "_About"
 msgstr "_O Programu"
 
-#: ../src/gnome-genius.c:408
+#: ../src/gnome-genius.c:411
 msgid "About Genius"
 msgstr "O programu"
 
-#: ../src/gnome-genius.c:940
+#: ../src/gnome-genius.c:943
 msgid "Help on Function"
 msgstr "Pomoč o funkciji"
 
-#: ../src/gnome-genius.c:958
+#: ../src/gnome-genius.c:961
 msgid "Function or command name:"
 msgstr "Ime funkcije ali ukaza:"
 
-#: ../src/gnome-genius.c:1016
+#: ../src/gnome-genius.c:1019
 #, c-format
 msgid "<b>Help on %s not found</b>"
 msgstr "<b>Pomoči za %s ni mogoče najti</b>"
 
-#: ../src/gnome-genius.c:1020
+#: ../src/gnome-genius.c:1023
 #, c-format
 msgid ""
 "<b>Help on %s not found</b>\n"
@@ -3799,15 +3799,15 @@ msgstr ""
 "\n"
 "Morda ste iskali %s."
 
-#: ../src/gnome-genius.c:1075
+#: ../src/gnome-genius.c:1078
 msgid "Error"
 msgstr "Napaka"
 
-#: ../src/gnome-genius.c:1077
+#: ../src/gnome-genius.c:1080
 msgid "Information"
 msgstr "Podrobnosti"
 
-#: ../src/gnome-genius.c:1163
+#: ../src/gnome-genius.c:1166
 msgid ""
 "Global variables:\n"
 "\n"
@@ -3815,7 +3815,7 @@ msgstr ""
 "Splošne spremenljivke:\n"
 "\n"
 
-#: ../src/gnome-genius.c:1196
+#: ../src/gnome-genius.c:1199
 msgid ""
 "\n"
 "Function call stack:\n"
@@ -3823,7 +3823,7 @@ msgstr ""
 "\n"
 "Klicni sklad funkcije:\n"
 
-#: ../src/gnome-genius.c:1198 ../src/gnome-genius.c:1257
+#: ../src/gnome-genius.c:1201 ../src/gnome-genius.c:1260
 msgid ""
 "(depth of context in parentheses)\n"
 "\n"
@@ -3831,7 +3831,7 @@ msgstr ""
 "(globina vsebine v oklepajih)\n"
 "\n"
 
-#: ../src/gnome-genius.c:1255
+#: ../src/gnome-genius.c:1258
 msgid ""
 "\n"
 "Local variables:\n"
@@ -3839,56 +3839,56 @@ msgstr ""
 "\n"
 "Krajevne spremenljivke:\n"
 
-#: ../src/gnome-genius.c:1309
+#: ../src/gnome-genius.c:1312
 msgid "User Variable Listing"
 msgstr "Seznam uporabniških spremenljivk"
 
-#: ../src/gnome-genius.c:1417
+#: ../src/gnome-genius.c:1420
 #, c-format
 msgid "%s undefined"
 msgstr "%s ni določeno"
 
 #. printed before a global variable
-#: ../src/gnome-genius.c:1452
+#: ../src/gnome-genius.c:1455
 msgid "(global) "
 msgstr "(splošno)"
 
 #. printed before local variable in certain
 #. * context
-#: ../src/gnome-genius.c:1456
+#: ../src/gnome-genius.c:1459
 #, c-format
 msgid "(context %d) "
 msgstr "(vsebina %d)"
 
-#: ../src/gnome-genius.c:1478
+#: ../src/gnome-genius.c:1481
 #, c-format
 msgid "%s not a user variable"
 msgstr "%s ni uporabniška spremenljivka"
 
-#: ../src/gnome-genius.c:1512
+#: ../src/gnome-genius.c:1515
 #, c-format
 msgid "Monitoring: %s"
 msgstr "Nadziranje: %s"
 
-#: ../src/gnome-genius.c:1560
+#: ../src/gnome-genius.c:1563
 msgid "Update continuously"
 msgstr "Nenehno posodabljaj"
 
-#: ../src/gnome-genius.c:1591
+#: ../src/gnome-genius.c:1594
 msgid "Monitor a Variable"
 msgstr "Nadziranje spremenljivke"
 
-#: ../src/gnome-genius.c:1608
+#: ../src/gnome-genius.c:1611
 msgid "Variable name:"
 msgstr "Ime spremenljivke:"
 
 #. error
 #. always textbox
-#: ../src/gnome-genius.c:1664
+#: ../src/gnome-genius.c:1667
 msgid "Full Answer"
 msgstr "Celoten odgovor"
 
-#: ../src/gnome-genius.c:1680
+#: ../src/gnome-genius.c:1683
 #, c-format
 msgid ""
 "\n"
@@ -3897,12 +3897,12 @@ msgstr ""
 "\n"
 "Preveč napak! (%d)"
 
-#: ../src/gnome-genius.c:1695
+#: ../src/gnome-genius.c:1698
 #, c-format
 msgid "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
 msgstr "\\e[01;31mPreveč napak! (%d)\\e[0m\n"
 
-#: ../src/gnome-genius.c:1834
+#: ../src/gnome-genius.c:1837
 #, c-format
 msgid ""
 "<b>Cannot display help</b>\n"
@@ -3913,11 +3913,11 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/gnome-genius.c:1910
+#: ../src/gnome-genius.c:1913
 msgid "Nils Barth (initial implementation of parts of the GEL library)"
 msgstr "Nils Barth (začetna podpora delov knjižnice GEL)"
 
-#: ../src/gnome-genius.c:1911
+#: ../src/gnome-genius.c:1914
 msgid "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"
 msgstr ""
 "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - gradniki izrisovanja "
@@ -3927,7 +3927,7 @@ msgstr ""
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: ../src/gnome-genius.c:1925
+#: ../src/gnome-genius.c:1928
 msgid "translator-credits"
 msgstr ""
 "Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
@@ -3935,15 +3935,15 @@ msgstr ""
 "Matej Urbančič <mateju@svn.gnome.org>\n"
 "Martin Srebotnjak  <miles@filmsi.net>"
 
-#: ../src/gnome-genius.c:1973
+#: ../src/gnome-genius.c:1976
 msgid "Genius Mathematical Tool"
 msgstr "Matematično orodje Genius"
 
-#: ../src/gnome-genius.c:1977
+#: ../src/gnome-genius.c:1980
 msgid "The Gnome calculator style edition of the Genius Mathematical Tool."
 msgstr "Matematično orodje Genius v slogu računala Gnome."
 
-#: ../src/gnome-genius.c:2167
+#: ../src/gnome-genius.c:2170
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -3951,55 +3951,55 @@ msgstr ""
 "Genius izvaja opravilo, obstajajo pa tudi neshranjeni programi.\n"
 "Ali ste prepričani, da želite končati?"
 
-#: ../src/gnome-genius.c:2175
+#: ../src/gnome-genius.c:2178
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr "Obstajajo neshranjeni programi. Ali ste prepričani, da želite končati?"
 
-#: ../src/gnome-genius.c:2182
+#: ../src/gnome-genius.c:2185
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr "Program izvaja opravilo. Ali ste prepričani, da želite končati?"
 
-#: ../src/gnome-genius.c:2189
+#: ../src/gnome-genius.c:2192
 msgid "Are you sure you wish to quit?"
 msgstr "Ali res želite končati?"
 
-#: ../src/gnome-genius.c:2303
+#: ../src/gnome-genius.c:2306
 msgid "Genius Setup"
 msgstr "Nastavitve programa"
 
-#: ../src/gnome-genius.c:2321
+#: ../src/gnome-genius.c:2324
 msgid "Output"
 msgstr "Izpis"
 
-#: ../src/gnome-genius.c:2324
+#: ../src/gnome-genius.c:2327
 msgid "Number/Expression output options"
 msgstr "Možnosti izpisa števila/izraza"
 
-#: ../src/gnome-genius.c:2334
+#: ../src/gnome-genius.c:2337
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Največje število števk za izpis (0=neomejeno)"
 
-#: ../src/gnome-genius.c:2354
+#: ../src/gnome-genius.c:2357
 msgid "Results as floats"
 msgstr "Rezultati kot decimalna števila"
 
-#: ../src/gnome-genius.c:2362
+#: ../src/gnome-genius.c:2365
 msgid "Floats in scientific notation"
 msgstr "Decimalna mesta v znanstvenem zapisu"
 
-#: ../src/gnome-genius.c:2370
+#: ../src/gnome-genius.c:2373
 msgid "Always print full expressions"
 msgstr "Vedno natisni celotne izraze"
 
-#: ../src/gnome-genius.c:2378
+#: ../src/gnome-genius.c:2381
 msgid "Use mixed fractions"
 msgstr "Uporabi mešane ulomke"
 
-#: ../src/gnome-genius.c:2431
+#: ../src/gnome-genius.c:2434
 msgid "Remember output settings across sessions"
 msgstr "Zapomni si nastavitve odvoda seje"
 
-#: ../src/gnome-genius.c:2441
+#: ../src/gnome-genius.c:2444
 msgid ""
 "Should the output settings in the \"Number/Expression output options\" frame "
 "be remembered for next session.  Does not apply to the \"Error/Info output "
@@ -4008,27 +4008,27 @@ msgstr ""
 "Ali naj bodo nastavitve odvoda \"možnosti odvoda števila/izraza\" shranjene "
 "za naslednjo sejo. Ne velja za \"možnosti odvoda napak/podrobnosti\"."
 
-#: ../src/gnome-genius.c:2446
+#: ../src/gnome-genius.c:2449
 msgid "Error/Info output options"
 msgstr "Možnosti odvoda napak/podrobnosti"
 
-#: ../src/gnome-genius.c:2454
+#: ../src/gnome-genius.c:2457
 msgid "Display errors in a dialog"
 msgstr "Prikaži napake v pogovornem oknu"
 
-#: ../src/gnome-genius.c:2462
+#: ../src/gnome-genius.c:2465
 msgid "Display information messages in a dialog"
 msgstr "Prikaži sporočila o podrobnostih v pogovornem oknu"
 
-#: ../src/gnome-genius.c:2473
+#: ../src/gnome-genius.c:2476
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Največje število napak za prikaz (0=neomejeno)"
 
-#: ../src/gnome-genius.c:2497
+#: ../src/gnome-genius.c:2500
 msgid "Precision"
 msgstr "Natančnost"
 
-#: ../src/gnome-genius.c:2507
+#: ../src/gnome-genius.c:2510
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -4038,51 +4038,51 @@ msgstr ""
 "takoj uporabljena. Vplivala bo le na novo izračunana števila in\n"
 "za nove spremenljivke."
 
-#: ../src/gnome-genius.c:2516
+#: ../src/gnome-genius.c:2519
 msgid "Floating point precision (bits)"
 msgstr "Natančnost plavajoče vejice (biti)"
 
-#: ../src/gnome-genius.c:2535
+#: ../src/gnome-genius.c:2538
 msgid "Remember precision setting across sessions"
 msgstr "Zapomni si nastavitve natančnosti seje"
 
-#: ../src/gnome-genius.c:2544
+#: ../src/gnome-genius.c:2547
 msgid "Should the precision setting be remembered for next session."
 msgstr "Ali naj se nastavitev natančnosti ohrani za naslednjo sejo."
 
-#: ../src/gnome-genius.c:2552
+#: ../src/gnome-genius.c:2555
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ../src/gnome-genius.c:2554
+#: ../src/gnome-genius.c:2557
 msgid "Terminal options"
 msgstr "Možnosti terminala"
 
-#: ../src/gnome-genius.c:2563
+#: ../src/gnome-genius.c:2566
 msgid "Scrollback lines"
 msgstr "Vrstice zgodovine"
 
-#: ../src/gnome-genius.c:2586
+#: ../src/gnome-genius.c:2589
 msgid "Font:"
 msgstr "Pisava:"
 
-#: ../src/gnome-genius.c:2597
+#: ../src/gnome-genius.c:2600
 msgid "Black on white"
 msgstr "Črno na belem"
 
-#: ../src/gnome-genius.c:2605
+#: ../src/gnome-genius.c:2608
 msgid "Blinking cursor"
 msgstr "Utripajoča kazalka"
 
-#: ../src/gnome-genius.c:2618
+#: ../src/gnome-genius.c:2621
 msgid "Memory"
 msgstr "Pomnilnik"
 
-#: ../src/gnome-genius.c:2621
+#: ../src/gnome-genius.c:2624
 msgid "Limits"
 msgstr "Skrajne točke"
 
-#: ../src/gnome-genius.c:2628
+#: ../src/gnome-genius.c:2631
 msgid ""
 "When the limit is reached you will be asked if\n"
 "you wish to interrupt the calculation or continue.\n"
@@ -4092,11 +4092,11 @@ msgstr ""
 "ali želite izračun prekiniti oziroma nadaljevati.\n"
 "Nastavitev z vrednostjo 0 onemogoči omejevanje."
 
-#: ../src/gnome-genius.c:2637
+#: ../src/gnome-genius.c:2640
 msgid "Maximum number of nodes to allocate"
 msgstr "Največje število vozlov za dodelitev"
 
-#: ../src/gnome-genius.c:2677
+#: ../src/gnome-genius.c:2680
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -4106,68 +4106,68 @@ msgstr ""
 "\n"
 "Poskusite znova kasneje ali pa prekinite trenutno opravilo."
 
-#: ../src/gnome-genius.c:2705
+#: ../src/gnome-genius.c:2708
 msgid "GEL files"
 msgstr "Datoteke GEL"
 
-#: ../src/gnome-genius.c:2710 ../src/graphing.c:1193
+#: ../src/gnome-genius.c:2713 ../src/graphing.c:1193
 msgid "All files"
 msgstr "Vse datoteke"
 
-#: ../src/gnome-genius.c:2734 ../src/gnome-genius.c:3638
+#: ../src/gnome-genius.c:2737 ../src/gnome-genius.c:3641
 msgid "Cannot open file!"
 msgstr "Ni mogoče odpreti datoteke!"
 
-#: ../src/gnome-genius.c:2744 ../src/gnome-genius.c:4161
+#: ../src/gnome-genius.c:2747 ../src/gnome-genius.c:4164
 msgid "Output from "
 msgstr "Odvod od"
 
-#: ../src/gnome-genius.c:2760 ../src/gnome-genius.c:4233
+#: ../src/gnome-genius.c:2763 ../src/gnome-genius.c:4236
 msgid "End"
 msgstr "Končaj"
 
-#: ../src/gnome-genius.c:2779
+#: ../src/gnome-genius.c:2782
 msgid "Load and Run"
 msgstr "Naloži in zaženi"
 
-#: ../src/gnome-genius.c:2783
+#: ../src/gnome-genius.c:2786
 msgid "_Load"
 msgstr "_Naloži"
 
-#: ../src/gnome-genius.c:3308
+#: ../src/gnome-genius.c:3311
 msgid "Cannot open file"
 msgstr "Ni mogoče odpreti datoteke"
 
 #. context
-#: ../src/gnome-genius.c:3343 ../src/gnome-genius.c:4833
+#: ../src/gnome-genius.c:3346 ../src/gnome-genius.c:4842
 #, c-format
 msgid "Line: %d"
 msgstr "Vrstica: %d"
 
-#: ../src/gnome-genius.c:3532
+#: ../src/gnome-genius.c:3535
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Program_%d.gel"
 
-#: ../src/gnome-genius.c:3543
+#: ../src/gnome-genius.c:3546
 #, c-format
 msgid "Program %d"
 msgstr "Program %d"
 
-#: ../src/gnome-genius.c:3572
+#: ../src/gnome-genius.c:3575
 #, c-format
 msgid "Cannot open %s"
 msgstr "Ni mogoče odpreti %s"
 
-#: ../src/gnome-genius.c:3660
+#: ../src/gnome-genius.c:3663
 msgid "Open..."
 msgstr "Odpri ..."
 
-#: ../src/gnome-genius.c:3745
+#: ../src/gnome-genius.c:3748
 msgid "Program is read only"
 msgstr "Program je le za branje"
 
-#: ../src/gnome-genius.c:3750 ../src/gnome-genius.c:3792
+#: ../src/gnome-genius.c:3753 ../src/gnome-genius.c:3795
 #, c-format
 msgid ""
 "<b>Cannot save file %s</b>\n"
@@ -4176,16 +4176,16 @@ msgstr ""
 "<b>Ni mogoče shraniti datoteke %s.</b>\n"
 "Podrobnosti: %s"
 
-#: ../src/gnome-genius.c:3756 ../src/gnome-genius.c:3799
+#: ../src/gnome-genius.c:3759 ../src/gnome-genius.c:3802
 #, c-format
 msgid "<b>Cannot save file %s</b>"
 msgstr "<b>Ni mogoče shraniti datoteke %s.</b>"
 
-#: ../src/gnome-genius.c:3809
+#: ../src/gnome-genius.c:3812
 msgid "Save new programs by \"Save As..\" first!"
 msgstr "Najprej je treba shraniti nov program s \"Shrani kot ...\"!"
 
-#: ../src/gnome-genius.c:3815
+#: ../src/gnome-genius.c:3818
 msgid ""
 "Some read-only programs are modified.  Use \"Save As..\" to save them to a "
 "new location."
@@ -4193,7 +4193,7 @@ msgstr ""
 "Nekateri programi le za branje so spremenjeni. Za shranjevanje na drugo "
 "mesto uporabite možnost \"Shrani kot ...\"."
 
-#: ../src/gnome-genius.c:3855 ../src/gnome-genius.c:3991
+#: ../src/gnome-genius.c:3858 ../src/gnome-genius.c:3994
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -4202,19 +4202,19 @@ msgstr ""
 "<b>Ni mogoče shraniti datoteke.</b>\n"
 "Podrobnosti: %s"
 
-#: ../src/gnome-genius.c:3860 ../src/gnome-genius.c:3996
+#: ../src/gnome-genius.c:3863 ../src/gnome-genius.c:3999
 msgid "<b>Cannot save file</b>"
 msgstr "<b>Ni mogoče shraniti datoteke</b>"
 
-#: ../src/gnome-genius.c:3895
+#: ../src/gnome-genius.c:3898
 msgid "Save As..."
 msgstr "Shrani kot ..."
 
-#: ../src/gnome-genius.c:4029
+#: ../src/gnome-genius.c:4032
 msgid "Save Console Output..."
 msgstr "Shrani odvod konzole ..."
 
-#: ../src/gnome-genius.c:4099
+#: ../src/gnome-genius.c:4102
 msgid ""
 "The program you are closing is unsaved, are you sure you wish to close it "
 "without saving?"
@@ -4222,7 +4222,7 @@ msgstr ""
 "Program, ki ga zapirate, ni shranjen. Ali ste prepričani da ga želite "
 "zapreti brez shranjevanja?"
 
-#: ../src/gnome-genius.c:4118
+#: ../src/gnome-genius.c:4121
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -4232,12 +4232,12 @@ msgstr ""
 "\n"
 "Ustvarite nov program ali pa izberite obstoječi zavihek v beležki."
 
-#: ../src/gnome-genius.c:4148
+#: ../src/gnome-genius.c:4151
 #, c-format
 msgid "Cannot open pipe: %s"
 msgstr "Ni mogoče odpreti cevi: %s"
 
-#: ../src/gnome-genius.c:4177
+#: ../src/gnome-genius.c:4180
 msgid ""
 "<b>Cannot execute program</b>\n"
 "\n"
@@ -4247,7 +4247,7 @@ msgstr ""
 "\n"
 "Ni mogoče razvejati."
 
-#: ../src/gnome-genius.c:4250
+#: ../src/gnome-genius.c:4253
 msgid ""
 "<b>Error executing program</b>\n"
 "\n"
@@ -4259,12 +4259,12 @@ msgstr ""
 "Prišlo je do napake med zapisovanjem\n"
 " programa v programnik."
 
-#: ../src/gnome-genius.c:4275
+#: ../src/gnome-genius.c:4278
 #, c-format
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: ../src/gnome-genius.c:4501
+#: ../src/gnome-genius.c:4510
 msgid "Memory (node number) limit has been reached, interrupt the computation?"
 msgstr ""
 "Meja pomnilnika (vozlišča) je bila dosežena. Ali naj se izračun prekine?"
@@ -4274,17 +4274,17 @@ msgstr ""
 #. textbox_title
 #. bind_response
 #. wrap
-#: ../src/gnome-genius.c:4581
+#: ../src/gnome-genius.c:4590
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Ni mogoče izvesti ukaza genius-readline-helper-fifo!\n"
 
-#: ../src/gnome-genius.c:4648
+#: ../src/gnome-genius.c:4657
 msgid "Readline helper died, weird.  Trying to recover, things may be odd."
 msgstr ""
 "Pomočnik readline se je nepričakovano zaprl, zato bo seja samodejno "
 "obnovljena. Stvari morda ne bodo delovale po pričakovanjih."
 
-#: ../src/gnome-genius.c:4854
+#: ../src/gnome-genius.c:4863
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -4293,22 +4293,22 @@ msgstr ""
 "Opomba: program je kodno preveden brez GtkSourceView (izboljšan urejevalnik "
 "virov)"
 
-#: ../src/gnome-genius.c:4946
+#: ../src/gnome-genius.c:4955
 msgid "GNOME Genius"
 msgstr "GNOME Genius"
 
 #. parent
-#: ../src/gnome-genius.c:4996
+#: ../src/gnome-genius.c:5005
 msgid "Cannot find the library file, genius installation may be incorrect"
 msgstr ""
 "Ni mogoče najti datoteke knjižnice, kar pomeni, da je namestitev programa "
 "nepravilna"
 
-#: ../src/gnome-genius.c:5076
+#: ../src/gnome-genius.c:5085
 msgid "Console"
 msgstr "Konzola"
 
-#: ../src/gnome-genius.c:5160
+#: ../src/gnome-genius.c:5169
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -4827,12 +4827,12 @@ msgstr "Ustvari graf"
 #: ../src/graphing.c:7018 ../src/graphing.c:7188 ../src/graphing.c:7219
 #: ../src/graphing.c:7240 ../src/graphing.c:7280 ../src/graphing.c:7304
 #: ../src/graphing.c:7416 ../src/graphing.c:7540 ../src/graphing.c:7677
-#: ../src/graphing.c:7834 ../src/graphing.c:7981 ../src/graphing.c:8243
-#: ../src/graphing.c:8614 ../src/graphing.c:8846 ../src/graphing.c:8935
-#: ../src/graphing.c:9045 ../src/graphing.c:9075 ../src/graphing.c:9136
-#: ../src/graphing.c:9162 ../src/graphing.c:9189 ../src/graphing.c:9280
-#: ../src/graphing.c:9353 ../src/graphing.c:9378 ../src/graphing.c:9416
-#: ../src/graphing.c:9464
+#: ../src/graphing.c:7834 ../src/graphing.c:7981 ../src/graphing.c:8294
+#: ../src/graphing.c:8665 ../src/graphing.c:8897 ../src/graphing.c:8986
+#: ../src/graphing.c:9096 ../src/graphing.c:9126 ../src/graphing.c:9187
+#: ../src/graphing.c:9213 ../src/graphing.c:9240 ../src/graphing.c:9331
+#: ../src/graphing.c:9404 ../src/graphing.c:9429 ../src/graphing.c:9467
+#: ../src/graphing.c:9515
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr "%s: teče izrisovanja grafa, zato ni mogoče klicati %s"
@@ -4853,19 +4853,19 @@ msgstr "Skrajne točke grafa niso podane kot 4-razsežni ali 6-razsežni vektor"
 
 #: ../src/graphing.c:7115 ../src/graphing.c:7369 ../src/graphing.c:7486
 #: ../src/graphing.c:7622 ../src/graphing.c:7771 ../src/graphing.c:7926
-#: ../src/graphing.c:8715
+#: ../src/graphing.c:8766
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: neveljaven obseg X"
 
 #: ../src/graphing.c:7120 ../src/graphing.c:7374 ../src/graphing.c:7491
 #: ../src/graphing.c:7627 ../src/graphing.c:7776 ../src/graphing.c:7931
-#: ../src/graphing.c:8720
+#: ../src/graphing.c:8771
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: neveljaven obseg Y"
 
-#: ../src/graphing.c:7125 ../src/graphing.c:8725
+#: ../src/graphing.c:7125 ../src/graphing.c:8776
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: neveljaven obseg Z"
@@ -4919,7 +4919,7 @@ msgstr "Skrajne točke grafa niso podane kot 2-razsežni ali 4-razsežni vektor"
 msgid "%s: invalid T range"
 msgstr "%s: neveljaven obseg T"
 
-#: ../src/graphing.c:8057 ../src/graphing.c:8111
+#: ../src/graphing.c:8108 ../src/graphing.c:8162
 #, c-format
 msgid ""
 "%s: Line should be given as a real, n by 2 matrix with columns for x and y, "
@@ -4928,17 +4928,17 @@ msgstr ""
 "%s: črta bi morala biti podana kot realna, n krat 2 matrika s stolpci za x "
 "in y, pri n>=2"
 
-#: ../src/graphing.c:8162
+#: ../src/graphing.c:8213
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: barva ni navedena"
 
-#: ../src/graphing.c:8167 ../src/graphing.c:8174
+#: ../src/graphing.c:8218 ../src/graphing.c:8225
 #, c-format
 msgid "%s: Cannot parse color '%s'"
 msgstr "%s: ni mogoče razčleniti barve '%s'"
 
-#: ../src/graphing.c:8188
+#: ../src/graphing.c:8239
 #, c-format
 msgid ""
 "%s: A vector giving color should be a 3-vector of real numbers between 0 and "
@@ -4946,7 +4946,7 @@ msgid ""
 msgstr ""
 "%s: vektor barve mora biti določen s tremi realnimi vrednostmi med 0 in 1"
 
-#: ../src/graphing.c:8204
+#: ../src/graphing.c:8255
 #, c-format
 msgid ""
 "%s: Warning: Values for red, green, or blue out of range (0 to 1), I will "
@@ -4955,55 +4955,55 @@ msgstr ""
 "%s: Opozorilo: vrednost rdeče, zelene ali modre je izven dovoljenega obsega "
 "(0 to 1), zato bo obrezana na to številsko območje"
 
-#: ../src/graphing.c:8220
+#: ../src/graphing.c:8271
 #, c-format
 msgid ""
 "%s: Color must be a string or a three-vector of rgb values (between 0 and 1)"
 msgstr ""
 "%s: barva mora biti določena kot vektorski niz treh vrednosti RGB med 0 in 1"
 
-#: ../src/graphing.c:8258
+#: ../src/graphing.c:8309
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: napačno število argumentov"
 
-#: ../src/graphing.c:8326
+#: ../src/graphing.c:8377
 #, c-format
 msgid "%s: No thickness specified"
 msgstr "%s: debelina ni določena"
 
-#: ../src/graphing.c:8349
+#: ../src/graphing.c:8400
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: ni navedenega okna"
 
-#: ../src/graphing.c:8397 ../src/graphing.c:8422
+#: ../src/graphing.c:8448 ../src/graphing.c:8473
 #, c-format
 msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
 msgstr ""
 "%s: slog puščice mora biti \"izvorno\", \"končno\", \"obe\" ali \"brez\""
 
-#: ../src/graphing.c:8432
+#: ../src/graphing.c:8483
 #, c-format
 msgid "%s: No legend specified"
 msgstr "%s: legenda ni določena"
 
-#: ../src/graphing.c:8446
+#: ../src/graphing.c:8497
 #, c-format
 msgid "%s: Legend must be a string"
 msgstr "%s: legenda mora bit določena kot niz"
 
-#: ../src/graphing.c:8455
+#: ../src/graphing.c:8506
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: neznan slog"
 
-#: ../src/graphing.c:8462
+#: ../src/graphing.c:8513
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: slab parameter"
 
-#: ../src/graphing.c:8531 ../src/graphing.c:8594
+#: ../src/graphing.c:8582 ../src/graphing.c:8645
 #, c-format
 msgid ""
 "%s: Surface should be given as a real, n by 3 matrix with columns for x, y, "
@@ -5012,91 +5012,91 @@ msgstr ""
 "%s: površina bi morala biti podana kot realna, n krat 3 matrika s stolpci za "
 "x in y, pri n>=3"
 
-#: ../src/graphing.c:8622
+#: ../src/graphing.c:8673
 #, c-format
 msgid "%s: argument not a matrix of data"
 msgstr "%s: argument ni matrika podatkov"
 
-#: ../src/graphing.c:8806
+#: ../src/graphing.c:8857
 #, c-format
 msgid "%s: Surface grid data should be given as a real matrix "
 msgstr "%s: površina bi morala biti podana kot realna matrika"
 
-#: ../src/graphing.c:8852
+#: ../src/graphing.c:8903
 #, c-format
 msgid "%s: first argument not a matrix of data"
 msgstr "%s: prvi argument ni matrika podatkov"
 
-#: ../src/graphing.c:8859
+#: ../src/graphing.c:8910
 #, c-format
 msgid "%s: second argument not a 4 or 6 element vector of limits"
 msgstr "%s: drugi argument ni 4 ali 6 vrednostni vektor limit"
 
-#: ../src/graphing.c:8876
+#: ../src/graphing.c:8927
 #, c-format
 msgid "%s: too many arguments or last argument not a string label"
 msgstr "%s: določenih je preveč argumentov ali pa zadnji ni oznaka niza"
 
-#: ../src/graphing.c:8942
+#: ../src/graphing.c:8993
 #, c-format
 msgid "%s: first argument not a nonempty string"
 msgstr "%s: prvi argument ni ne-praznen niz"
 
-#: ../src/graphing.c:8950
+#: ../src/graphing.c:9001
 #, c-format
 msgid "%s: type not specified and filename has no extension"
 msgstr "%s: vrsta ni določena, ime datoteke pa je brez pripone"
 
-#: ../src/graphing.c:8959
+#: ../src/graphing.c:9010
 #, c-format
 msgid "%s: second argument not a nonempty string"
 msgstr "%s: drugi argument ni ne-praznen niz"
 
-#: ../src/graphing.c:8971
+#: ../src/graphing.c:9022
 #, c-format
 msgid "%s: plot canvas not active, cannot export"
 msgstr "%s: platno izrisa ni dejavno, zato izvoz ni mogoč"
 
-#: ../src/graphing.c:8980 ../src/graphing.c:8997 ../src/graphing.c:9018
+#: ../src/graphing.c:9031 ../src/graphing.c:9048 ../src/graphing.c:9069
 #, c-format
 msgid "%s: export failed"
 msgstr "%s: izvoz je spodletel"
 
-#: ../src/graphing.c:9030
+#: ../src/graphing.c:9081
 #, c-format
 msgid "%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."
 msgstr "%s: neznana vrsta datoteke je lahko \"png\", \"eps\", ali \"ps\"."
 
 # To je ustaljen izraz za vektor v 4 dimenzionalnem realnem prostoru...
-#: ../src/graphing.c:9196
+#: ../src/graphing.c:9247
 msgid "Variable names not given in a 4-vector"
 msgstr "Imena spremenljivk niso podana kot 4-razsežni vektor"
 
-#: ../src/graphing.c:9206 ../src/graphing.c:9215 ../src/graphing.c:9224
-#: ../src/graphing.c:9233 ../src/graphing.c:9297 ../src/graphing.c:9306
-#: ../src/graphing.c:9315
+#: ../src/graphing.c:9257 ../src/graphing.c:9266 ../src/graphing.c:9275
+#: ../src/graphing.c:9284 ../src/graphing.c:9348 ../src/graphing.c:9357
+#: ../src/graphing.c:9366
 msgid "Variable names should be strings"
 msgstr "Imena spremenljivk morajo biti nizi"
 
-#: ../src/graphing.c:9240 ../src/graphing.c:9321
+#: ../src/graphing.c:9291 ../src/graphing.c:9372
 msgid "Variable names must be valid identifiers"
 msgstr "Imena spremenljivk morajo biti veljavni določilniki"
 
-#: ../src/graphing.c:9249 ../src/graphing.c:9327
+#: ../src/graphing.c:9300 ../src/graphing.c:9378
 msgid "Variable names must be mutually distinct"
 msgstr "Imena spremenljivk si morajo biti medsebojno različna"
 
 # !
-#: ../src/graphing.c:9287
+#: ../src/graphing.c:9338
 msgid "Variable names not given in a 3-vector"
 msgstr "Imena spremenljivk niso podana kot 3-razsežni vektor"
 
-#: ../src/graphing.c:9499
+#: ../src/graphing.c:9550
 msgid "Plotting"
 msgstr "Izris grafov"
 
 #. internal
-#: ../src/graphing.c:9501
+#: ../src/graphing.c:9552
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -5104,7 +5104,7 @@ msgstr ""
 "Nariši graf funkcije s črto. Najprej je treba vnesti funkcije (do 10), nato "
 "pa izbirno skrajne točke kot x1,x2,y1,y2"
 
-#: ../src/graphing.c:9502
+#: ../src/graphing.c:9553
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
@@ -5114,7 +5114,7 @@ msgstr ""
 "za x in y, nato pa izbirno skrajne točke t kot t1,t2,tinc, ter izbirno meje "
 "kot x1,x2,y1,y2"
 
-#: ../src/graphing.c:9503
+#: ../src/graphing.c:9554
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
@@ -5124,7 +5124,7 @@ msgstr ""
 "treba vnesti funkcijo, ki vrne x+iy, nato izbirno skrajne točke kot t1,t2,"
 "tinc ter na koncu izbirno skrajne točke kot x1,x2,y1,y2"
 
-#: ../src/graphing.c:9505
+#: ../src/graphing.c:9556
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
@@ -5132,7 +5132,7 @@ msgstr ""
 "Nariši naklonsko polje. Najprej je treba vnesti funkcijo dy/dx izraženo z x "
 "in y (ali kompleksnim z), nato izbirno skrajne točke kot x1,x2,y1,y2"
 
-#: ../src/graphing.c:9506
+#: ../src/graphing.c:9557
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
@@ -5140,18 +5140,18 @@ msgstr ""
 "Nariši vektorsko polje. Najprej je treba vnesti funkcije dx/dt in dy/dt "
 "izražene v x in y, nato pa izbirno skrajne točke kot x1,x2,y1,y2"
 
-#: ../src/graphing.c:9508
+#: ../src/graphing.c:9559
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr ""
 "Nariši rešitev za naklonsko polje z začetno točko x,y in s korakom "
 "povečevanja dx"
 
-#: ../src/graphing.c:9509
+#: ../src/graphing.c:9560
 msgid "Clear all the slopefield solutions"
 msgstr "Počisti vse rešitve naklonskega polja"
 
-#: ../src/graphing.c:9511
+#: ../src/graphing.c:9562
 msgid ""
 "Draw a solution for a vector field starting at x,y, using dt as increment "
 "for tlen units"
@@ -5159,11 +5159,11 @@ msgstr ""
 "Nariši rešitev za vektorsko polje z začetno točko x,y in s korakom "
 "povečevanja dt"
 
-#: ../src/graphing.c:9512
+#: ../src/graphing.c:9563
 msgid "Clear all the vectorfield solutions"
 msgstr "Počisti vse rešitve vektorskega polja"
 
-#: ../src/graphing.c:9515
+#: ../src/graphing.c:9566
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -5172,7 +5172,7 @@ msgstr ""
 "kompleksno število.  Najprej je treba vnesti funkcijo, nato pa izbirno "
 "skrajne točke kot x1,x2,y1,y2,z1,z2"
 
-#: ../src/graphing.c:9517
+#: ../src/graphing.c:9568
 msgid ""
 "Plot surface data given as n by 3 matrix (n>=3) of data with each row being "
 "x,y,z.  Optionally can pass a label string and limits.  If no limits passed, "
@@ -5182,7 +5182,7 @@ msgstr ""
 "vsaka vrstica x,y,z.  Izbirno je mogoče podati tudi nize nazivov in limit. "
 "Če slednja ni podana, bo vrednost izračunana iz podatkov."
 
-#: ../src/graphing.c:9518
+#: ../src/graphing.c:9569
 msgid ""
 "Plot surface data given as a matrix (where rows are the x coordinate and "
 "columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or "
@@ -5192,11 +5192,11 @@ msgstr ""
 "koordinate X in stolpci vrednosti koordinate Y), meje so podane kot [x1,x2,"
 "y1,y2] ali izbirno kot [x1,x2,y1,y2,z1,z2], izbirno je možen niz za napis."
 
-#: ../src/graphing.c:9520
+#: ../src/graphing.c:9571
 msgid "Show the line plot window and clear out functions"
 msgstr "Pokaži okno črtastega grafa in počisti funkcije"
 
-#: ../src/graphing.c:9521
+#: ../src/graphing.c:9572
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line"
@@ -5204,7 +5204,15 @@ msgstr ""
 "Nariši daljico od x1,y1 do x2,y2. Točki x1,y1 in x2,y2 je mogoče zamenjati z "
 "matriko velikosti nx2 za daljšo črto"
 
-#: ../src/graphing.c:9523
+#: ../src/graphing.c:9574
+msgid "Freeze the plot canvas, that is, inhibit drawing"
+msgstr "Zamrzni platno izrisa oziroma onemogoči risanje"
+
+#: ../src/graphing.c:9575
+msgid "Thaw the plot canvas and redraw the plot immediately"
+msgstr "Odmakni platno izrisa in sliko takoj ponovno izriši"
+
+#: ../src/graphing.c:9578
 msgid ""
 "Export the current contents of the plot canvas to a file.  The file type is "
 "given by the string type, which can be \"png\", \"eps\", or \"ps\"."
@@ -5212,15 +5220,15 @@ msgstr ""
 "Izvozi trenutno vsebino risalnega platna v datoteko. Vrsto datoteke določa "
 "vrsta niza, ki je lahko \"png\", \"eps\" ali \"ps\"."
 
-#: ../src/graphing.c:9525
+#: ../src/graphing.c:9580
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr "Število črtic naklonskega polja kot vektor [navpično,vodoravno]."
 
-#: ../src/graphing.c:9526
+#: ../src/graphing.c:9581
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
 msgstr "Število črtic vektorskega polja kot vektor [navpično,vodoravno]."
 
-#: ../src/graphing.c:9527
+#: ../src/graphing.c:9582
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
@@ -5228,7 +5236,7 @@ msgstr ""
 "Privzeta imena uporabljena pri vseh funkcijah 2D grafov. Vrednost mora biti "
 "določena kot 4-razsežni vektor določil ali nizov [x,y,z,t]"
 
-#: ../src/graphing.c:9528
+#: ../src/graphing.c:9583
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
@@ -5237,7 +5245,7 @@ msgstr ""
 "biti zapisana kot 3-razsežni vektor nizov [x,y,z], kjer je z=x+iy in ni "
 "odvisna os."
 
-#: ../src/graphing.c:9530
+#: ../src/graphing.c:9585
 msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
@@ -5245,25 +5253,25 @@ msgstr ""
 "Izbrana možnost normalizira vektorska polja, kar pomeni, da je prikazana le "
 "smer, ne pa tudi velikost."
 
-#: ../src/graphing.c:9531
+#: ../src/graphing.c:9586
 msgid "If to draw legends or not on line plots."
 msgstr "Ali naj se izriše legenda na črtastih grafih."
 
-#: ../src/graphing.c:9532
+#: ../src/graphing.c:9587
 msgid "If to draw axis labels on line plots."
 msgstr "Ali naj se izriše legenda na črtastih grafih."
 
-#: ../src/graphing.c:9534
+#: ../src/graphing.c:9589
 msgid "If to draw legends or not on surface plots."
 msgstr "Ali naj se izriše legenda na površinskih grafih."
 
-#: ../src/graphing.c:9536
+#: ../src/graphing.c:9591
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr ""
 "Okno izrisa črtastih grafov (skrajne točke) kot 4-razsežni vektor oblike [x1,"
 "x2,y1,y2]"
 
-#: ../src/graphing.c:9537
+#: ../src/graphing.c:9592
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
