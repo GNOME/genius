@@ -216,6 +216,8 @@ char *fake = N_("Returns 1 if and only if all elements are zero");
 char *fake = N_("The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt");
 char *fake = N_("Fejer kernel of order n");
 char *fake = N_("Returns 1 if and only if all elements are equal");
+char *fake = N_("Principal branch of the Lambert W function for real values greater than or equal to -1/e");
+char *fake = N_("The minus-one branch of the Lambert W function for real values between -1/e and 0");
 char *fake = N_("Find the first value where f(x)=0");
 char *fake = N_("Moebius mapping of the disk to itself mapping a to 0");
 char *fake = N_("Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity respectively");
@@ -235,6 +237,7 @@ char *fake = N_("Find root of a function using the bisection method to within TO
 char *fake = N_("Find root of a function using the method of false position to within TOL tolerance in up to N iterations.  f(a) and f(b) must have opposite signs.");
 char *fake = N_("Find root of a function using the Muller's method");
 char *fake = N_("Find root of a function using the secant method to within TOL tolerance in up to N iterations.  f(a) and f(b) must have opposite signs.");
+char *fake = N_("Run Newton's method on a function to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns null)");
 char *fake = N_("Find roots of a polynomial (given as vector of coefficients)");
 char *fake = N_("Find roots of a quartic polynomial (given as vector of coefficients)");
 char *fake = N_("Use classical non-adaptive Runge-Kutta of fourth order method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y at x1");

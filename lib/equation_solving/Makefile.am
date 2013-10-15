@@ -1,7 +1,7 @@
 Librarydir = $(datadir)/genius/gel/equation_solving
 SUBDIRS =
 
-GELFILES = find_root.gel diffeqs.gel formulas.gel
+GELFILES = find_root.gel diffeqs.gel formulas.gel newton.gel
 
 EXTRA_DIST = $(GELFILES)
 
