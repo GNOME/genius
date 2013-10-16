@@ -8,7 +8,7 @@ function LambertW(x) = (
   else if (x < 24) then 
     (lnxm1 := ln(x)-1; y := 1+lnxm1/2.0+(lnxm1^2)/16.0)
   else
-    (l1:=ln(x);l2:=ln(ln(x));y:=l1-l2+l2/l1);
+    (l1:=ln(x);l2:=ln(l1);y:=l1-l2+l2/l1);
   y := y-(y*e^y-x)/(e^y+y*e^y);
   y := y-(y*e^y-x)/(e^y+y*e^y);
   y := y-(y*e^y-x)/(e^y+y*e^y);
@@ -28,7 +28,7 @@ function LambertW(x) = (
 SetHelp ("LambertWm1", "functions", "The minus-one branch of the Lambert W function for real values between -1/e and 0");
 function LambertWm1(x) = (
   if not IsReal(x) or x < -1/e or x >= 0.0 then (error ("LambertWm1: only defined for real x with -1/e <= x < 0");bailout);
-  if x < -0.116 then y := -8.22*x-4.23 else (l1:=ln(-x);l2:=ln(-ln(-x));y:=l1-l2+l2/l1);
+  if x < -0.116 then y := -8.22*x-4.23 else (l1:=ln(-x);l2:=ln(-l1);y:=l1-l2+l2/l1);
   for n=1 to 10 do (
     ylast := y;
     y := y-(y*e^y-x)/(e^y+y*e^y);
