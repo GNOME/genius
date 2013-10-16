@@ -14,9 +14,9 @@ msgstr ""
 "Project-Id-Version: genius\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=genius&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-10-08 23:11+0000\n"
-"PO-Revision-Date: 2013-10-09 01:04-0300\n"
-"Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
+"POT-Creation-Date: 2013-10-16 06:28+0000\n"
+"PO-Revision-Date: 2013-10-16 09:04-0300\n"
+"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -717,7 +717,7 @@ msgid ""
 "are epsilon from eigenvalue or for maxiter iterations"
 msgstr ""
 "Calcula um autovalor usando o método Iterativo do Quociente de Rayleigh até "
-"encontrar o épsilon do autovalor ou para maxiter iterações"
+"encontrar o épsilon do autovalor ou o máximo número de iterações (maxiter)"
 
 #: ../lib/library-strings.c:143
 msgid "Rosser matrix, a classic symmetric eigenvalue test problem"
@@ -1120,14 +1120,30 @@ msgid "Returns 1 if and only if all elements are equal"
 msgstr "Devolve se, e somente se, todos os elementos forem iguais"
 
 #: ../lib/library-strings.c:219
+msgid ""
+"Principal branch of the Lambert W function for real values greater than or "
+"equal to -1/e"
+msgstr ""
+"Ramo principal da função W de Lambert para valores reais maiores que ou "
+"iguais a -1/e"
+
+# w-1 é conhecido como o ramo inferior da função de Lambert --Enrico
+#: ../lib/library-strings.c:220
+msgid ""
+"The minus-one branch of the Lambert W function for real values between -1/e "
+"and 0"
+msgstr ""
+"O ramo inferior da função W de Lambert para valores reais entre -1/e e 0"
+
+#: ../lib/library-strings.c:221
 msgid "Find the first value where f(x)=0"
 msgstr "Encontra o primeiro valor onde f(x)=0"
 
-#: ../lib/library-strings.c:220
+#: ../lib/library-strings.c:222
 msgid "Moebius mapping of the disk to itself mapping a to 0"
 msgstr "Mapeamento de Moebius do disco para si mesmo mapeando a para 0"
 
-#: ../lib/library-strings.c:221
+#: ../lib/library-strings.c:223
 msgid ""
 "Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity "
 "respectively"
@@ -1135,7 +1151,7 @@ msgstr ""
 "Mapeamento de Moebius usando a taxa cruzada tomando z2,z3,z4 como 1,0, e "
 "infinito respectivamente"
 
-#: ../lib/library-strings.c:222
+#: ../lib/library-strings.c:224
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 "
 "to 1 and 0 respectively"
@@ -1143,7 +1159,7 @@ msgstr ""
 "Mapeamento de Moebius usando a taxa cruzada tomando infinito como infinito e "
 "z2,z3 como 1 e 0 respectivamente"
 
-#: ../lib/library-strings.c:223
+#: ../lib/library-strings.c:225
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 "
 "and infinity respectively"
@@ -1151,7 +1167,7 @@ msgstr ""
 "Mapeamento de Moebius usando a taxa cruzada tomando infinito como 1 e z3,z4 "
 "como 0 e infinito respectivamente"
 
-#: ../lib/library-strings.c:224
+#: ../lib/library-strings.c:226
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 "
 "and infinity respectively"
@@ -1159,7 +1175,7 @@ msgstr ""
 "Mapeamento de Moebius usando a taxa cruzada tomando infinito como 0 e z2,z4 "
 "como 1 e infinito respectivamente"
 
-#: ../lib/library-strings.c:225
+#: ../lib/library-strings.c:227
 msgid ""
 "Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is "
 "2pi)"
@@ -1167,11 +1183,11 @@ msgstr ""
 "Núcleo de Poisson em D(0,1) (não normalizado em 1, isto é, a integral disto "
 "é 2pi)"
 
-#: ../lib/library-strings.c:226
+#: ../lib/library-strings.c:228
 msgid "Poisson kernel on D(0,R) (not normalized to 1)"
 msgstr "Núcleo de Poisson em D(0,R) (não normalizado em 1)"
 
-#: ../lib/library-strings.c:227
+#: ../lib/library-strings.c:229
 msgid ""
 "The unit step function = 0 for x<0, 1 otherwise.  This is the integral of "
 "the Dirac Delta function."
@@ -1179,24 +1195,24 @@ msgstr ""
 "A função de passo unitário, 0 para x<0, e 1 caso contrário. Essa é a "
 "integral da função Delta de Dirac."
 
-#: ../lib/library-strings.c:228
+#: ../lib/library-strings.c:230
 msgid "The cis function, that is cos(x)+i*sin(x)"
 msgstr "A função cis, isto é cos(x)+i*sin(x)"
 
-#: ../lib/library-strings.c:229
+#: ../lib/library-strings.c:231
 msgid "Convert degrees to radians"
 msgstr "Converte graus para radianos"
 
-#: ../lib/library-strings.c:230
+#: ../lib/library-strings.c:232
 msgid "Convert radians to degrees"
 msgstr "Converte radianos para graus"
 
-#: ../lib/library-strings.c:231
+#: ../lib/library-strings.c:233
 msgid "Find roots of a cubic polynomial (given as vector of coefficients)"
 msgstr ""
 "Encontra raízes de um polinômio cúbico (dado como um vetor de coeficientes)"
 
-#: ../lib/library-strings.c:232
+#: ../lib/library-strings.c:234
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns y at x1"
@@ -1204,7 +1220,7 @@ msgstr ""
 "Usa o método clássico de Euler para resolver numericamente y'=f(x,y) para x0,"
 "y0 inicial indo para x1 com n incrementos, retorna y em x1"
 
-#: ../lib/library-strings.c:233
+#: ../lib/library-strings.c:235
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns an n+1 by 2 matrix of values"
@@ -1214,7 +1230,7 @@ msgstr ""
 "+1 por 2"
 
 # Método da Bisseção -> <http://www.im.ufrj.br/dmm/projeto/projetoc/precalculo/sala/conteudo/capitulos/cap114.html> --Enrico
-#: ../lib/library-strings.c:234
+#: ../lib/library-strings.c:236
 msgid ""
 "Find root of a function using the bisection method to within TOL tolerance "
 "in up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1222,7 +1238,7 @@ msgstr ""
 "Encontra a raiz de uma função usando o método da bisseção com tolerância TOL "
 "de até N interações. f(a) e f(b) devem ter sinais opostos."
 
-#: ../lib/library-strings.c:235
+#: ../lib/library-strings.c:237
 msgid ""
 "Find root of a function using the method of false position to within TOL "
 "tolerance in up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1230,11 +1246,11 @@ msgstr ""
 "Encontra a raiz de uma função usando o método do falso positivo com "
 "tolerância TOL de até N interações. f(a) e f(b) devem ter sinais opostos."
 
-#: ../lib/library-strings.c:236
+#: ../lib/library-strings.c:238
 msgid "Find root of a function using the Muller's method"
 msgstr "Encontra a raiz de uma função usando o método de Muller"
 
-#: ../lib/library-strings.c:237
+#: ../lib/library-strings.c:239
 msgid ""
 "Find root of a function using the secant method to within TOL tolerance in "
 "up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1242,16 +1258,26 @@ msgstr ""
 "Encontra a raiz de uma função usando o método da secante com tolerância TOL "
 "de até N interações. f(a) e f(b) devem ter sinais opostos."
 
-#: ../lib/library-strings.c:238
+#: ../lib/library-strings.c:240
+msgid ""
+"Attempt to find a zero of a functionf with derivative df using Newton's "
+"method, returning after two successive values are within epsilon or after "
+"maxn tries (then returns null)"
+msgstr ""
+"Tenta encontrar um zero de uma função f com derivada df usando o método de "
+"Newton, retornando após dois valores sucessivos estarem em épsilon ou após "
+"maxn tentativas (então retorna nulo)"
+
+#: ../lib/library-strings.c:241
 msgid "Find roots of a polynomial (given as vector of coefficients)"
 msgstr "Encontra raízes de um polinômio (dado como um vetor de coeficientes)"
 
-#: ../lib/library-strings.c:239
+#: ../lib/library-strings.c:242
 msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
 msgstr ""
 "Encontra raízes de um polinômio cúbico (dado como um vetor de coeficientes)"
 
-#: ../lib/library-strings.c:240
+#: ../lib/library-strings.c:243
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
@@ -1261,7 +1287,7 @@ msgstr ""
 "resolver numericamente y'=f(x,y) para x0,y0 inicial indo para x1 com n "
 "incrementos, retorna y em x1"
 
-#: ../lib/library-strings.c:241
+#: ../lib/library-strings.c:244
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an n"
@@ -1271,35 +1297,35 @@ msgstr ""
 "resolver numericamente y'=f(x,y) para x0,y0 iniciais indo para x1 com n "
 "incrementos, retorna uma matriz de valores n+1 por 2 "
 
-#: ../lib/library-strings.c:242
+#: ../lib/library-strings.c:245
 msgid "Calculate average of an entire matrix"
 msgstr "Calcula a média de uma matriz inteira"
 
-#: ../lib/library-strings.c:243
+#: ../lib/library-strings.c:246
 msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 msgstr "Integral da Função de Gauss de 0 a x (área sob a curva normal)"
 
-#: ../lib/library-strings.c:244
+#: ../lib/library-strings.c:247
 msgid "The normalized Gauss distribution function (the normal curve)"
 msgstr "A função normalizada da distribuição de Gauss (a curva normal)"
 
-#: ../lib/library-strings.c:245
+#: ../lib/library-strings.c:248
 msgid "Calculate median of an entire matrix"
 msgstr "Calcula a mediana de uma matriz inteira"
 
-#: ../lib/library-strings.c:246
+#: ../lib/library-strings.c:249
 msgid "Calculate the population standard deviation of a whole matrix"
 msgstr "Calcula o desvio padrão da população de uma matriz inteira"
 
-#: ../lib/library-strings.c:247
+#: ../lib/library-strings.c:250
 msgid "Calculate average of each row in a matrix"
 msgstr "Calcula a média de cada linha em uma matriz"
 
-#: ../lib/library-strings.c:248
+#: ../lib/library-strings.c:251
 msgid "Calculate median of each row in a matrix"
 msgstr "Calcula a mediana de cada linha em uma matriz"
 
-#: ../lib/library-strings.c:249
+#: ../lib/library-strings.c:252
 msgid ""
 "Calculate the population standard deviations of rows of a matrix and return "
 "a vertical vector"
@@ -1307,32 +1333,32 @@ msgstr ""
 "Calcula os desvios padrão da população das linhas de uma matriz e retorna um "
 "vetor coluna"
 
-#: ../lib/library-strings.c:250
+#: ../lib/library-strings.c:253
 msgid ""
 "Calculate the standard deviations of rows of a matrix and return a vertical "
 "vector"
 msgstr ""
 "Calcula os desvios padrão de linhas de uma matriz e retorna um vetor coluna"
 
-#: ../lib/library-strings.c:251
+#: ../lib/library-strings.c:254
 msgid "Calculate the standard deviation of a whole matrix"
 msgstr "Calcula o desvio padrão de uma matriz inteira"
 
-#: ../lib/library-strings.c:252
+#: ../lib/library-strings.c:255
 msgid ""
-"Run newton's method on a polynomial to attempt to find a root, returns after "
-"two successive values are within epsilon or after maxn tries (then returns "
-"null)"
+"Attempt to find a root of a polynomial using Newton's method, returning "
+"after two successive values are within epsilon or after maxn tries (then "
+"returns null)"
 msgstr ""
-"Executa o método de Newton em um polinômio para tentar encontrar uma raiz, "
-"retorna depois que dois valores sucessivos estejam dentro de epsilon ou "
-"depois de maxn tentativas (então retorna null)"
+"Tenta encontrar uma raiz de um polinômio usando o método de Newton, "
+"retornando após dois valores sucessivos estarem em épsilon ou após maxn "
+"tentativas (então retorna nulo)"
 
-#: ../lib/library-strings.c:253
+#: ../lib/library-strings.c:256
 msgid "Returns a set where every element of X appears only once"
 msgstr "Devolve um conjunto onde cada elemento de X aparece apenas uma vez"
 
-#: ../lib/library-strings.c:254
+#: ../lib/library-strings.c:257
 msgid ""
 "Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
 "be sets)"
@@ -1340,7 +1366,7 @@ msgstr ""
 "Devolve a união (teoria dos conjuntos) de X e Y (X e Y são vetores "
 "interpretados como conjuntos)"
 
-#: ../lib/library-strings.c:255
+#: ../lib/library-strings.c:258
 msgid ""
 "For a Hilbert function that is c for degree d, given the Macaulay bound for "
 "the Hilbert function of degree d+1 (The c^<d> operator from Green's proof)"
@@ -1349,19 +1375,19 @@ msgstr ""
 "para a função de Hilbert de grau d+1 (O operador c^<d> da demonstração de "
 "Green)"
 
-#: ../lib/library-strings.c:256
+#: ../lib/library-strings.c:259
 msgid "The c_<d> operator from Green's proof of Macaulay's Theorem"
 msgstr "O operador c_<d> da demonstração de Green do teorema de Macaulay"
 
-#: ../lib/library-strings.c:257
+#: ../lib/library-strings.c:260
 msgid "Return the dth Macaulay representation of a positive integer c"
 msgstr "Devolve a d-ésima representação de Macaulay de um c inteiro positivo"
 
-#: ../lib/library-strings.c:258
+#: ../lib/library-strings.c:261
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "Tenta simbolicamente derivar uma função n vezes"
 
-#: ../lib/library-strings.c:259
+#: ../lib/library-strings.c:262
 msgid ""
 "Attempt to symbolically differentiate a function n times quietly and return "
 "null on failure"
@@ -1369,7 +1395,7 @@ msgstr ""
 "Tenta simbolicamente derivar uma função n vezes, de forma silenciosa e "
 "retorna nulo (null) em caso de falhas"
 
-#: ../lib/library-strings.c:260
+#: ../lib/library-strings.c:263
 msgid ""
 "Attempt to construct the Taylor approximation function around x0 to the nth "
 "degree."
@@ -2255,7 +2281,7 @@ msgstr "%s: função indefinida"
 msgid "%s: flags argument must be a string"
 msgstr "%s: argumento de opções deve ser uma string"
 
-#: ../src/funclib.c:6021 ../src/symbolic.c:726
+#: ../src/funclib.c:6021 ../src/symbolic.c:734
 #, c-format
 msgid "%s: argument not a function of one variable"
 msgstr "%s: o argumento não é uma função de uma variável"
@@ -5518,28 +5544,28 @@ msgstr "Não é possível abrir o plug-in!"
 msgid "Can't initialize plugin!"
 msgstr "Não é possível inicializar o plug-in!"
 
-#: ../src/symbolic.c:668
+#: ../src/symbolic.c:676
 #, c-format
 msgid "%s: '%s' not a function of one variable"
 msgstr "%s: \"%s\" não é uma função de uma variável"
 
-#: ../src/symbolic.c:701
+#: ../src/symbolic.c:709
 #, c-format
 msgid "%s: Cannot differentiate the '%s' function"
 msgstr "%s: Não é possível derivar a função \"%s\""
 
-#: ../src/symbolic.c:786
+#: ../src/symbolic.c:794
 msgid "Symbolic Operations"
 msgstr "Operações simbólicas"
 
-#: ../src/symbolic.c:789
+#: ../src/symbolic.c:797
 msgid ""
 "Attempt to symbolically differentiate the function f, where f is a function "
 "of one variable."
 msgstr ""
 "Tenta simbolicamente derivar a função f, onde f é uma função de uma variável."
 
-#: ../src/symbolic.c:792
+#: ../src/symbolic.c:800
 msgid ""
 "Attempt to symbolically differentiate the function f, where f is a function "
 "of one variable, returns null if unsuccessful but is silent."
