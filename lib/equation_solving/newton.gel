@@ -1,11 +1,11 @@
 # Newton's method
 
-SetHelp("NewtonsMethod","equation_solving","Run Newton's method on a function to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns null)")
+SetHelp("NewtonsMethod","equation_solving","Attempt to find a zero of a functionf with derivative df using Newton's method, returning after two successive values are within epsilon or after maxn tries (then returns null)")
 function NewtonsMethod(f,df,guess,epsilon,maxn) = (
 	guess := float(guess);
 	for n=1 to maxn do (
 		dfg := df(guess);
-		if dfg == 0 then (
+		if dfg == 0.0 then (
 			error ("NewtonsMethod: division by zero");
 			bailout
 		);

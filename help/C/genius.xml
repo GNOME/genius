@@ -7401,7 +7401,8 @@ and has period <userinput>b-a</userinput>.</para>
           <para>The Gamma function.  Currently only implemented for real values.</para>
           <para>
 	    See
-	    <ulink url="http://planetmath.org/encyclopedia/GammaFunction.html">Planetmath</ulink> for more information.
+	    <ulink url="http://planetmath.org/encyclopedia/GammaFunction.html">Planetmath</ulink> or
+	    <ulink url="http://en.wikipedia.org/wiki/Gamma_function">Wikipedia</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -7411,6 +7412,45 @@ and has period <userinput>b-a</userinput>.</para>
          <listitem>
           <synopsis>KroneckerDelta (v)</synopsis>
           <para>Returns 1 if and only if all elements are equal.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-LambertW"/>LambertW</term>
+         <listitem>
+          <synopsis>LambertW (x)</synopsis>
+	  <para>
+		  The principal branch of Lambert W function computed for only
+		  real values greater than or equal to <userinput>-1/e</userinput>.
+		  That is, <function>LambertW</function> is the inverse of
+		  the expression <userinput>x*e^x</userinput>.  Even for
+		  real <varname>x</varname> this expression is not one to one and
+		  therefore has two branches over <userinput>[-1/e,0)</userinput>.
+		  See <link linkend="gel-function-LambertWm1"><function>LambertWm1</function></link> for the other real branch.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Lambert_W_function">Wikipedia</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-LambertWm1"/>LambertWm1</term>
+         <listitem>
+          <synopsis>LambertWm1 (x)</synopsis>
+	  <para>
+		  The minus-one branch of Lambert W function computed for only
+		  real values greater than or equal to <userinput>-1/e</userinput>
+		  and less than 0.
+		  That is, <function>LambertWm1</function> is the second
+		  branch of the inverse of <userinput>x*e^x</userinput>.
+		  See <link linkend="gel-function-LambertW"><function>LambertW</function></link> for the principal branch.
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Lambert_W_function">Wikipedia</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -7506,7 +7546,8 @@ and has period <userinput>b-a</userinput>.</para>
           <para>The Riemann zeta function.  Currently only implemented for real values.</para>
           <para>
 	    See
-	    <ulink url="http://planetmath.org/encyclopedia/RiemannZetaFunction.html">Planetmath</ulink> for more information.
+	    <ulink url="http://planetmath.org/encyclopedia/RiemannZetaFunction.html">Planetmath</ulink> or
+	    <ulink url="http://en.wikipedia.org/wiki/Riemann_zeta_function">Wikipedia</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -7689,6 +7730,31 @@ and has period <userinput>b-a</userinput>.</para>
 		  <userinput>f(a)</userinput> and <userinput>f(b)</userinput> should have opposite signs.
 	    <varname>TOL</varname> is the desired tolerance and
 <varname>N</varname> is the limit on the number of iterations to run, 0 means no limit.  The function returns a vector <userinput>[success,value,iteration]</userinput>, where <varname>success</varname> is a boolean indicating success, <varname>value</varname> is the last value computed, and <varname>iteration</varname> is the number of iterations done.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-NewtonsMethod"/>NewtonsMethod</term>
+         <listitem>
+          <synopsis>NewtonsMethod (f,df,guess,epsilon,maxn)</synopsis>
+	  <para>Find zeros using Newton's method.  <varname>f</varname> is
+		  the function and <varname>df</varname> is the derivative of
+		  <varname>f</varname>.  <varname>guess</varname> is the initial
+		  guess.  The function returns after two successive values are
+		  within <varname>epsilon</varname> of each other, or after <varname>maxn</varname> tries, in which case the function returns <constant>null</constant> indicating failure.
+	  </para>
+	  <para>
+	  See also <link linkend="gel-function-NewtonsMethodPoly"><function>NewtonsMethodPoly</function></link> and <link linkend="gel-function-SymbolicDerivative"><function>SymbolicDerivative</function></link>.
+  	  </para>
+	  <para>
+	    Example to find the square root of 10:
+          <screen><prompt>genius></prompt> <userinput>NewtonsMethod(`(x)=x^2-10,`(x)=2*x,3,10^-10,100)</userinput>
+</screen>
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Newtons_method">Wikipedia</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -7981,7 +8047,23 @@ and has period <userinput>b-a</userinput>.</para>
          <term><anchor id="gel-function-NewtonsMethodPoly"/>NewtonsMethodPoly</term>
          <listitem>
           <synopsis>NewtonsMethodPoly (poly,guess,epsilon,maxn)</synopsis>
-	  <para>Run newton's method on a polynomial to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns <constant>null</constant>).</para>
+	  <para>Find a root of a polynomial using Newton's method.  <varname>poly</varname> is
+		  the polynomial as a vector and <varname>guess</varname> is the initial
+		  guess.  The function returns after two successive values are
+		  within <varname>epsilon</varname> of each other, or after <varname>maxn</varname> tries, in which case the function returns <constant>null</constant> indicating failure.
+	  </para>
+	  <para>
+	  See also <link linkend="gel-function-NewtonsMethod"><function>NewtonsMethod</function></link>.
+  	  </para>
+	  <para>
+	    Example to find the square root of 10:
+          <screen><prompt>genius></prompt> <userinput>NewtonsMethodPoly([-10,0,1],3,10^-10,100)</userinput>
+</screen>
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Newtons_method">Wikipedia</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 

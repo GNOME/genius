@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2012 Jiri (George) Lebl
+ * Copyright (C) 1997-2013 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -124,6 +124,14 @@ gel_differentiate_func1_expr (GelToken *tok)
 	DERIVATIVE_ENTRY ("coth", "-csch(x)^2");
 
 	DERIVATIVE_ENTRY ("sinc", "cos(x)*x^(-1)-sinc(x)*x^(-1)");
+
+	DERIVATIVE_ENTRY ("BesselJ0", "-BesselJ1(x)");
+	DERIVATIVE_ENTRY ("BesselJ1", "(1/2)*(BesselJ0(x)-BesselJn(2,x))");
+	DERIVATIVE_ENTRY ("BesselY0", "-BesselY1(x)");
+	DERIVATIVE_ENTRY ("BesselY1", "(1/2)*(BesselY0(x)-BesselYn(2,x))");
+
+	DERIVATIVE_ENTRY ("LambertW", "LambertW(x)/(x*(1+LambertW(x)))");
+	DERIVATIVE_ENTRY ("LambertWm1", "LambertWm1(x)/(x*(1+LambertWm1(x)))");
 
 	/* FIXME: check these, I don't trust the CRC handbook */
 	DERIVATIVE_ENTRY_ALIAS ("asin", "arcsin", "1/sqrt(1-x^2)");

@@ -9,4 +9,4 @@ EXTRA_DIST = \
 	$(image_DATA)
 
 install-data-hook:
-	$(GTK_UPDATE_ICON_CACHE) -q $(datadir)/icons/hicolor
+	$(GTK_UPDATE_ICON_CACHE) -q -t $(datadir)/icons/hicolor

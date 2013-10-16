@@ -237,7 +237,7 @@ char *fake = N_("Find root of a function using the bisection method to within TO
 char *fake = N_("Find root of a function using the method of false position to within TOL tolerance in up to N iterations.  f(a) and f(b) must have opposite signs.");
 char *fake = N_("Find root of a function using the Muller's method");
 char *fake = N_("Find root of a function using the secant method to within TOL tolerance in up to N iterations.  f(a) and f(b) must have opposite signs.");
-char *fake = N_("Run Newton's method on a function to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns null)");
+char *fake = N_("Attempt to find a zero of a functionf with derivative df using Newton's method, returning after two successive values are within epsilon or after maxn tries (then returns null)");
 char *fake = N_("Find roots of a polynomial (given as vector of coefficients)");
 char *fake = N_("Find roots of a quartic polynomial (given as vector of coefficients)");
 char *fake = N_("Use classical non-adaptive Runge-Kutta of fourth order method to numerically solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y at x1");
@@ -252,7 +252,7 @@ char *fake = N_("Calculate median of each row in a matrix");
 char *fake = N_("Calculate the population standard deviations of rows of a matrix and return a vertical vector");
 char *fake = N_("Calculate the standard deviations of rows of a matrix and return a vertical vector");
 char *fake = N_("Calculate the standard deviation of a whole matrix");
-char *fake = N_("Run newton's method on a polynomial to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns null)");
+char *fake = N_("Attempt to find a root of a polynomial using Newton's method, returning after two successive values are within epsilon or after maxn tries (then returns null)");
 char *fake = N_("Returns a set where every element of X appears only once");
 char *fake = N_("Returns a set theoretic union of X and Y (X and Y are vectors pretending to be sets)");
 char *fake = N_("For a Hilbert function that is c for degree d, given the Macaulay bound for the Hilbert function of degree d+1 (The c^<d> operator from Green's proof)");

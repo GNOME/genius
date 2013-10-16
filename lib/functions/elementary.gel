@@ -263,14 +263,14 @@ erf = ErrorFunction
 SetHelpAlias ("ErrorFunction", "erf");
 
 #FIXME: Should probably be in a separate source file
-SetHelp("NewtonsMethodPoly","polynomial","Run newton's method on a polynomial to attempt to find a root, returns after two successive values are within epsilon or after maxn tries (then returns null)")
+SetHelp("NewtonsMethodPoly","polynomial","Attempt to find a root of a polynomial using Newton's method, returning after two successive values are within epsilon or after maxn tries (then returns null)")
 function NewtonsMethodPoly(poly,guess,epsilon,maxn) = (
 	pf := PolyToFunction (poly);
 	pdf := PolyToFunction (PolyDerivative (poly));
 	guess := float(guess);
 	for n=1 to maxn do (
 		pdfg := pdf(guess);
-		if pdfg == 0 then (
+		if pdfg == 0.0 then (
 			error ("NewtonsMethodPoly: division by zero");
 			bailout
 		);
