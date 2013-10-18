@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
-"POT-Creation-Date: 2013-10-08 23:11+0000\n"
-"PO-Revision-Date: 2013-10-11 15:48+0200\n"
+"POT-Creation-Date: 2013-10-16 05:44+0000\n"
+"PO-Revision-Date: 2013-10-18 20:06+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -416,7 +416,7 @@ msgstr "Upravit"
 msgid "Calculator"
 msgstr "Kalkulátor"
 
-#: C/genius.xml:273(guilabel) C/genius.xml:8770(title)
+#: C/genius.xml:273(guilabel) C/genius.xml:8852(title)
 msgid "Settings"
 msgstr "Nastavení"
 
@@ -686,7 +686,7 @@ msgstr ""
 "program spustí, aniž by se otevírala zvláštní karta. To odpovídá chování "
 "příkazu <command>load</command>."
 
-#: C/genius.xml:434(title) C/genius.xml:8222(title)
+#: C/genius.xml:434(title) C/genius.xml:8304(title)
 msgid "Plotting"
 msgstr "Vykreslování"
 
@@ -13045,55 +13045,114 @@ msgstr "Funkce Gama. V současnosti je implementována pouze pro reálná čísl
 #: C/genius.xml:7402(para)
 msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/GammaFunction.html"
-"\">Planetmath</ulink> for more information."
+"\">Planetmath</ulink> or <ulink url=\"http://en.wikipedia.org/wiki/"
+"Gamma_function\">Wikipedia</ulink> for more information."
 msgstr ""
 "Více informací najdete v encyklopediích <ulink url=\"http://planetmath.org/"
 "encyclopedia/GammaFunction.html\">Planetmath</ulink> (text je v angličtině) "
 "nebo <ulink url=\"http://cs.wikipedia.org/wiki/Gama_funkce\">Wikipedia</"
 "ulink>."
 
-#: C/genius.xml:7410(term)
+#: C/genius.xml:7411(term)
 msgid "<anchor id=\"gel-function-KroneckerDelta\"/>KroneckerDelta"
 msgstr "<anchor id=\"gel-function-KroneckerDelta\"/>KroneckerDelta"
 
-#: C/genius.xml:7412(synopsis)
+#: C/genius.xml:7413(synopsis)
 #, no-wrap
 msgid "KroneckerDelta (v)"
 msgstr "KroneckerDelta (v)"
 
-#: C/genius.xml:7413(para)
+#: C/genius.xml:7414(para)
 msgid "Returns 1 if and only if all elements are equal."
 msgstr "Vrátit 1, když a jen když se všechny prvky rovnají."
 
-#: C/genius.xml:7418(term)
+#: C/genius.xml:7419(term)
+msgid "<anchor id=\"gel-function-LambertW\"/>LambertW"
+msgstr "<anchor id=\"gel-function-LambertW\"/>LambertW"
+
+#: C/genius.xml:7421(synopsis)
+#, no-wrap
+msgid "LambertW (x)"
+msgstr "LambertW (x)"
+
+#: C/genius.xml:7422(para)
+msgid ""
+"The principal branch of Lambert W function computed for only real values "
+"greater than or equal to <userinput>-1/e</userinput>. That is, "
+"<function>LambertW</function> is the inverse of the expression "
+"<userinput>x*e^x</userinput>. Even for real <varname>x</varname> this "
+"expression is not one to one and therefore has two branches over "
+"<userinput>[-1/e,0)</userinput>. See <link linkend=\"gel-function-"
+"LambertWm1\"><function>LambertWm1</function></link> for the other real "
+"branch."
+msgstr ""
+"Hlavní větev Lambertovy funkce W vypočítaná pro čistě reálná čísla větší "
+"nebo rovna <userinput>-1/e</userinput>. Funkce <function>LambertW</function> "
+"je inverzní k výrazu <userinput>x*e^x</userinput>. Dokonce i pro reálná "
+"<varname>x</varname> tento výraz není jedna k jedné a proto má dvě větve pro "
+"<userinput>[-1/e,0)</userinput>. Viz <link linkend=\"gel-function-"
+"LambertWm1\"><function>LambertWm1</function> ohledně další reálné větve."
+
+#: C/genius.xml:7431(para) C/genius.xml:7450(para)
+msgid ""
+"See <ulink url=\"http://en.wikipedia.org/wiki/Lambert_W_function"
+"\">Wikipedia</ulink> for more information."
+msgstr ""
+"Více informací najdete v encyklopedii <ulink url=\"http://en.wikipedia.org/"
+"wiki/Lambert_W_function\">Wikipedia</ulink> (text je v angličtině)."
+
+#: C/genius.xml:7439(term)
+msgid "<anchor id=\"gel-function-LambertWm1\"/>LambertWm1"
+msgstr "<anchor id=\"gel-function-LambertWm1\"/>LambertWm1"
+
+#: C/genius.xml:7441(synopsis)
+#, no-wrap
+msgid "LambertWm1 (x)"
+msgstr "LambertWm1 (x)"
+
+#: C/genius.xml:7442(para)
+msgid ""
+"The minus-one branch of Lambert W function computed for only real values "
+"greater than or equal to <userinput>-1/e</userinput> and less than 0. That "
+"is, <function>LambertWm1</function> is the second branch of the inverse of "
+"<userinput>x*e^x</userinput>. See <link linkend=\"gel-function-LambertW"
+"\"><function>LambertW</function></link> for the principal branch."
+msgstr ""
+"Vedlejší (mínus první) větev Lambertovy funkce W vypočítaná pro čistě reálná "
+"čísla větší nebo rovna <userinput>-1/e</userinput>. Funkce "
+"<function>LambertWm1</function> je druhou větví k inverzi výrazu "
+"<userinput>x*e^x</userinput>. Viz <link linkend=\"gel-function-LambertW"
+"\"><function>LambertW</function></link> ohledně hlavní větve."
+
+#: C/genius.xml:7458(term)
 msgid "<anchor id=\"gel-function-MinimizeFunction\"/>MinimizeFunction"
 msgstr "<anchor id=\"gel-function-MinimizeFunction\"/>MinimizeFunction"
 
-#: C/genius.xml:7420(synopsis)
+#: C/genius.xml:7460(synopsis)
 #, no-wrap
 msgid "MinimizeFunction (func,x,incr)"
 msgstr "MinimizeFunction (fce,x,prirust)"
 
-#: C/genius.xml:7421(para)
+#: C/genius.xml:7461(para)
 msgid "Find the first value where f(x)=0."
 msgstr "Najít první hodnotu, kdy f(x)=0."
 
-#: C/genius.xml:7426(term)
+#: C/genius.xml:7466(term)
 msgid "<anchor id=\"gel-function-MoebiusDiskMapping\"/>MoebiusDiskMapping"
 msgstr "<anchor id=\"gel-function-MoebiusDiskMapping\"/>MoebiusDiskMapping"
 
-#: C/genius.xml:7428(synopsis)
+#: C/genius.xml:7468(synopsis)
 #, no-wrap
 msgid "MoebiusDiskMapping (a,z)"
 msgstr "MoebiusDiskMapping (a,z)"
 
-#: C/genius.xml:7429(para)
+#: C/genius.xml:7469(para)
 msgid "Moebius mapping of the disk to itself mapping a to 0."
 msgstr ""
 "Möbiova transformace (lineární lomené zobrazení) kruhu na sebe sama ku 0."
 
-#: C/genius.xml:7430(para) C/genius.xml:7442(para) C/genius.xml:7454(para)
-#: C/genius.xml:7466(para) C/genius.xml:7478(para)
+#: C/genius.xml:7470(para) C/genius.xml:7482(para) C/genius.xml:7494(para)
+#: C/genius.xml:7506(para) C/genius.xml:7518(para)
 msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/MobiusTransformation.html"
 "\">Planetmath</ulink> for more information."
@@ -13102,16 +13161,16 @@ msgstr ""
 "encyclopedia/MobiusTransformation.html\">Planetmath</ulink> (text je v "
 "angličtině)."
 
-#: C/genius.xml:7438(term)
+#: C/genius.xml:7478(term)
 msgid "<anchor id=\"gel-function-MoebiusMapping\"/>MoebiusMapping"
 msgstr "<anchor id=\"gel-function-MoebiusMapping\"/>MoebiusMapping"
 
-#: C/genius.xml:7440(synopsis)
+#: C/genius.xml:7480(synopsis)
 #, no-wrap
 msgid "MoebiusMapping (z,z2,z3,z4)"
 msgstr "MoebiusMapping (z,z2,z3,z4)"
 
-#: C/genius.xml:7441(para)
+#: C/genius.xml:7481(para)
 msgid ""
 "Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity "
 "respectively."
@@ -13119,7 +13178,7 @@ msgstr ""
 "Möbiova transformace (lineární lomené zobrazení) pomocí dvojpoměrů z2,z3,z4 "
 "ku 1,0 a nekonečnu."
 
-#: C/genius.xml:7450(term)
+#: C/genius.xml:7490(term)
 msgid ""
 "<anchor id=\"gel-function-MoebiusMappingInftyToInfty\"/"
 ">MoebiusMappingInftyToInfty"
@@ -13127,12 +13186,12 @@ msgstr ""
 "<anchor id=\"gel-function-MoebiusMappingInftyToInfty\"/"
 ">MoebiusMappingInftyToInfty"
 
-#: C/genius.xml:7452(synopsis)
+#: C/genius.xml:7492(synopsis)
 #, no-wrap
 msgid "MoebiusMappingInftyToInfty (z,z2,z3)"
 msgstr "MoebiusMappingInftyToInfty (z,z2,z3)"
 
-#: C/genius.xml:7453(para)
+#: C/genius.xml:7493(para)
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 "
 "to 1 and 0 respectively."
@@ -13140,7 +13199,7 @@ msgstr ""
 "Möbiova transformace (lineární lomené zobrazení) pomocí dvojpoměrů nekonečna "
 "ku nekonečnu a z2,z3 ku 1 a 0."
 
-#: C/genius.xml:7462(term)
+#: C/genius.xml:7502(term)
 msgid ""
 "<anchor id=\"gel-function-MoebiusMappingInftyToOne\"/"
 ">MoebiusMappingInftyToOne"
@@ -13148,12 +13207,12 @@ msgstr ""
 "<anchor id=\"gel-function-MoebiusMappingInftyToOne\"/"
 ">MoebiusMappingInftyToOne"
 
-#: C/genius.xml:7464(synopsis)
+#: C/genius.xml:7504(synopsis)
 #, no-wrap
 msgid "MoebiusMappingInftyToOne (z,z3,z4)"
 msgstr "MoebiusMappingInftyToOne (z,z3,z4)"
 
-#: C/genius.xml:7465(para)
+#: C/genius.xml:7505(para)
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 "
 "and infinity respectively."
@@ -13161,7 +13220,7 @@ msgstr ""
 "Möbiova transformace (lineární lomené zobrazení) pomocí dvojpoměrů nekonečna "
 "ku 1 a z3,z4 ku 0 a nekonečnu."
 
-#: C/genius.xml:7474(term)
+#: C/genius.xml:7514(term)
 msgid ""
 "<anchor id=\"gel-function-MoebiusMappingInftyToZero\"/"
 ">MoebiusMappingInftyToZero"
@@ -13169,12 +13228,12 @@ msgstr ""
 "<anchor id=\"gel-function-MoebiusMappingInftyToZero\"/"
 ">MoebiusMappingInftyToZero"
 
-#: C/genius.xml:7476(synopsis)
+#: C/genius.xml:7516(synopsis)
 #, no-wrap
 msgid "MoebiusMappingInftyToZero (z,z2,z4)"
 msgstr "MoebiusMappingInftyToZero (z,z2,z4)"
 
-#: C/genius.xml:7477(para)
+#: C/genius.xml:7517(para)
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 "
 "and infinity respectively."
@@ -13182,73 +13241,74 @@ msgstr ""
 "Möbiova transformace (lineární lomené zobrazení) pomocí dvojpoměrů nekonečna "
 "ku 0 a z2,z4 ku 1 a nekonečnu."
 
-#: C/genius.xml:7486(term)
+#: C/genius.xml:7526(term)
 msgid "<anchor id=\"gel-function-PoissonKernel\"/>PoissonKernel"
 msgstr "<anchor id=\"gel-function-PoissonKernel\"/>PoissonKernel"
 
-#: C/genius.xml:7488(synopsis)
+#: C/genius.xml:7528(synopsis)
 #, no-wrap
 msgid "PoissonKernel (r,sigma)"
 msgstr "PoissonKernel (r,sigma)"
 
-#: C/genius.xml:7489(para)
+#: C/genius.xml:7529(para)
 msgid ""
 "Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is "
 "2pi)."
 msgstr ""
 "Poissonovo jádro na D(0,1) (nenormalizované na 1, tj. integrál je 2pi)."
 
-#: C/genius.xml:7494(term)
+#: C/genius.xml:7534(term)
 msgid "<anchor id=\"gel-function-PoissonKernelRadius\"/>PoissonKernelRadius"
 msgstr "<anchor id=\"gel-function-PoissonKernelRadius\"/>PoissonKernelRadius"
 
-#: C/genius.xml:7496(synopsis)
+#: C/genius.xml:7536(synopsis)
 #, no-wrap
 msgid "PoissonKernelRadius (r,sigma)"
 msgstr "PoissonKernelRadius (r,sigma)"
 
-#: C/genius.xml:7497(para)
+#: C/genius.xml:7537(para)
 msgid "Poisson kernel on D(0,R) (not normalized to 1)."
 msgstr "Poissonovo jádro na D(0,R) (nenormalizované na 1)."
 
-#: C/genius.xml:7502(term)
+#: C/genius.xml:7542(term)
 msgid "<anchor id=\"gel-function-RiemannZeta\"/>RiemannZeta"
 msgstr "<anchor id=\"gel-function-RiemannZeta\"/>RiemannZeta"
 
-#: C/genius.xml:7504(synopsis)
+#: C/genius.xml:7544(synopsis)
 #, no-wrap
 msgid "RiemannZeta (x)"
 msgstr "RiemannZeta (x)"
 
-#: C/genius.xml:7505(para)
+#: C/genius.xml:7545(para)
 msgid "Aliases: <function>zeta</function>"
 msgstr "Alternativní názvy: <function>zeta</function>"
 
-#: C/genius.xml:7506(para)
+#: C/genius.xml:7546(para)
 msgid "The Riemann zeta function. Currently only implemented for real values."
 msgstr ""
 "Riemannova funkce zeta. V současnosti je implementována jen pro reálná čísla."
 
-#: C/genius.xml:7507(para)
+#: C/genius.xml:7547(para)
 msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/RiemannZetaFunction.html"
-"\">Planetmath</ulink> for more information."
+"\">Planetmath</ulink> or <ulink url=\"http://en.wikipedia.org/wiki/"
+"Riemann_zeta_function\">Wikipedia</ulink> for more information."
 msgstr ""
 "Více informací najdete v encyklopediích <ulink url=\"http://planetmath.org/"
 "encyclopedia/RiemannZetaFunction.html\">Planetmath</ulink> (text je v "
 "angličtině) nebo <ulink url=\"http://cs.wikipedia.org/wiki/"
 "Riemannova_funkce_zeta\">Wikipedia</ulink>."
 
-#: C/genius.xml:7515(term)
+#: C/genius.xml:7556(term)
 msgid "<anchor id=\"gel-function-UnitStep\"/>UnitStep"
 msgstr "<anchor id=\"gel-function-UnitStep\"/>UnitStep"
 
-#: C/genius.xml:7517(synopsis)
+#: C/genius.xml:7558(synopsis)
 #, no-wrap
 msgid "UnitStep (x)"
 msgstr "UnitStep (x)"
 
-#: C/genius.xml:7518(para)
+#: C/genius.xml:7559(para)
 msgid ""
 "The unit step function is 0 for x&lt;0, 1 otherwise. This is the integral of "
 "the Dirac Delta function. Also called the Heaviside function."
@@ -13257,7 +13317,7 @@ msgstr ""
 "případech. Jedná se o integrál Diracovy funkce delta. Bývá také nazývána "
 "Heavisideova funkce."
 
-#: C/genius.xml:7519(para)
+#: C/genius.xml:7560(para)
 msgid ""
 "See <ulink url=\"http://en.wikipedia.org/wiki/Unit_step\">Wikipedia</ulink> "
 "for more information."
@@ -13265,16 +13325,16 @@ msgstr ""
 "Více informací najdete v encyklopedii <ulink url=\"http://cs.wikipedia.org/"
 "wiki/Heavisideova_funkce\">Wikipedia</ulink>."
 
-#: C/genius.xml:7527(term)
+#: C/genius.xml:7568(term)
 msgid "<anchor id=\"gel-function-cis\"/>cis"
 msgstr "<anchor id=\"gel-function-cis\"/>cis"
 
-#: C/genius.xml:7529(synopsis)
+#: C/genius.xml:7570(synopsis)
 #, no-wrap
 msgid "cis (x)"
 msgstr "cis (x)"
 
-#: C/genius.xml:7530(para)
+#: C/genius.xml:7571(para)
 msgid ""
 "The <function>cis</function> function, that is the same as "
 "<userinput>cos(x)+1i*sin(x)</userinput>"
@@ -13282,42 +13342,42 @@ msgstr ""
 "Funkce <function>cis</function>, což je to stejné jako "
 "<userinput>cos(x)+1i*sin(x)</userinput>"
 
-#: C/genius.xml:7538(term)
+#: C/genius.xml:7579(term)
 msgid "<anchor id=\"gel-function-deg2rad\"/>deg2rad"
 msgstr "<anchor id=\"gel-function-deg2rad\"/>deg2rad"
 
-#: C/genius.xml:7540(synopsis)
+#: C/genius.xml:7581(synopsis)
 #, no-wrap
 msgid "deg2rad (x)"
 msgstr "deg2rad (x)"
 
-#: C/genius.xml:7541(para)
+#: C/genius.xml:7582(para)
 msgid "Convert degrees to radians."
 msgstr "Převést stupně na radiány."
 
-#: C/genius.xml:7546(term)
+#: C/genius.xml:7587(term)
 msgid "<anchor id=\"gel-function-rad2deg\"/>rad2deg"
 msgstr "<anchor id=\"gel-function-rad2deg\"/>rad2deg"
 
-#: C/genius.xml:7548(synopsis)
+#: C/genius.xml:7589(synopsis)
 #, no-wrap
 msgid "rad2deg (x)"
 msgstr "rad2deg (x)"
 
-#: C/genius.xml:7549(para)
+#: C/genius.xml:7590(para)
 msgid "Convert radians to degrees."
 msgstr "Převést radiány na stupně."
 
-#: C/genius.xml:7554(term)
+#: C/genius.xml:7595(term)
 msgid "<anchor id=\"gel-function-sinc\"/>sinc"
 msgstr "<anchor id=\"gel-function-sinc\"/>sinc"
 
-#: C/genius.xml:7556(synopsis)
+#: C/genius.xml:7597(synopsis)
 #, no-wrap
 msgid "sinc (x)"
 msgstr "sinc (x)"
 
-#: C/genius.xml:7557(para)
+#: C/genius.xml:7598(para)
 msgid ""
 "Calculates the unnormalized sinc function, that is <userinput>sin(x)/x</"
 "userinput>. If you want the normalized function call <userinput>sinc(pi*x)</"
@@ -13327,7 +13387,7 @@ msgstr ""
 "userinput>. Jestli chcete normalizovanou funkci, volejte "
 "<userinput>sinc(pi*x)</userinput>."
 
-#: C/genius.xml:7560(para)
+#: C/genius.xml:7601(para)
 msgid ""
 "See <ulink url=\"http://en.wikipedia.org/wiki/Sinc\">Wikipedia</ulink> for "
 "more information."
@@ -13335,20 +13395,20 @@ msgstr ""
 "Více informací najdete v encyklopedii <ulink url=\"http://en.wikipedia.org/"
 "wiki/Sinc\">Wikipedia</ulink> (článek je v angličtině)."
 
-#: C/genius.xml:7571(title)
+#: C/genius.xml:7612(title)
 msgid "Equation Solving"
 msgstr "Řešení rovnic"
 
-#: C/genius.xml:7575(term)
+#: C/genius.xml:7616(term)
 msgid "<anchor id=\"gel-function-CubicFormula\"/>CubicFormula"
 msgstr "<anchor id=\"gel-function-CubicFormula\"/>CubicFormula"
 
-#: C/genius.xml:7577(synopsis)
+#: C/genius.xml:7618(synopsis)
 #, no-wrap
 msgid "CubicFormula (p)"
 msgstr "CubicFormula (p)"
 
-#: C/genius.xml:7578(para)
+#: C/genius.xml:7619(para)
 msgid ""
 "Compute roots of a cubic (degree 3) polynomial using the cubic formula. The "
 "polynomial should be given as a vector of coefficients. That is "
@@ -13363,7 +13423,7 @@ msgstr ""
 "sloupcový vektor tří řešení. První řešení je vždy reálné, protože kubická "
 "rovnice má vždy jedno reálné řešení."
 
-#: C/genius.xml:7587(para)
+#: C/genius.xml:7628(para)
 msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/CubicFormula.html"
 "\">Planetmath</ulink>, <ulink url=\"http://mathworld.wolfram.com/"
@@ -13376,16 +13436,16 @@ msgstr ""
 "ulink> (text je v angličtině) nebo <ulink url=\"http://cs.wikipedia.org/wiki/"
 "Kubick%C3%A1_rovnice\">Wikipedia</ulink>."
 
-#: C/genius.xml:7597(term)
+#: C/genius.xml:7638(term)
 msgid "<anchor id=\"gel-function-EulersMethod\"/>EulersMethod"
 msgstr "<anchor id=\"gel-function-EulersMethod\"/>EulersMethod"
 
-#: C/genius.xml:7599(synopsis)
+#: C/genius.xml:7640(synopsis)
 #, no-wrap
 msgid "EulersMethod (f,x0,y0,x1,n)"
 msgstr "EulersMethod (f,x0,y0,x1,n)"
 
-#: C/genius.xml:7600(para)
+#: C/genius.xml:7641(para)
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial "
 "<varname>x0</varname>, <varname>y0</varname> going to <varname>x1</varname> "
@@ -13397,8 +13457,8 @@ msgstr ""
 "<varname>x1</varname> s přírůstky <varname>n</varname>, vrací <varname>y</"
 "varname> v <varname>x1</varname>."
 
-#: C/genius.xml:7606(para) C/genius.xml:7634(para) C/genius.xml:7769(para)
-#: C/genius.xml:7799(para)
+#: C/genius.xml:7647(para) C/genius.xml:7675(para) C/genius.xml:7835(para)
+#: C/genius.xml:7865(para)
 msgid ""
 "Systems can be solved by just having <varname>y</varname> be a (column) "
 "vector everywhere. That is, <varname>y0</varname> can be a vector in which "
@@ -13412,7 +13472,7 @@ msgstr ""
 "varname> a vektor stejné velikosti pro druhý argument a mělo by vracet "
 "vektor stejné velikosti."
 
-#: C/genius.xml:7613(para) C/genius.xml:7641(para)
+#: C/genius.xml:7654(para) C/genius.xml:7682(para)
 msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/EulerForwardMethod.html"
 "\">Mathworld</ulink>, or <ulink url=\"http://en.wikipedia.org/wiki/"
@@ -13423,16 +13483,16 @@ msgstr ""
 "angličtině) nebo <ulink url=\"http://cs.wikipedia.org/wiki/Eulerova_metoda"
 "\">Wikipedia</ulink>."
 
-#: C/genius.xml:7622(term)
+#: C/genius.xml:7663(term)
 msgid "<anchor id=\"gel-function-EulersMethodFull\"/>EulersMethodFull"
 msgstr "<anchor id=\"gel-function-EulersMethodFull\"/>EulersMethodFull"
 
-#: C/genius.xml:7624(synopsis)
+#: C/genius.xml:7665(synopsis)
 #, no-wrap
 msgid "EulersMethodFull (f,x0,y0,x1,n)"
 msgstr "EulersMethodFull (f,x0,y0,x1,n)"
 
-#: C/genius.xml:7625(para)
+#: C/genius.xml:7666(para)
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial "
 "<varname>x0</varname>, <varname>y0</varname> going to <varname>x1</varname> "
@@ -13448,16 +13508,16 @@ msgstr ""
 "varname>. Použitelné pro zapojení do <link linkend=\"gel-function-"
 "LinePlotDrawLine\">LinePlotDrawLine</link>."
 
-#: C/genius.xml:7650(term)
+#: C/genius.xml:7691(term)
 msgid "<anchor id=\"gel-function-FindRootBisection\"/>FindRootBisection"
 msgstr "<anchor id=\"gel-function-FindRootBisection\"/>FindRootBisection"
 
-#: C/genius.xml:7652(synopsis)
+#: C/genius.xml:7693(synopsis)
 #, no-wrap
 msgid "FindRootBisection (f,a,b,TOL,N)"
 msgstr "FindRootBisection (f,a,b,TOL,N)"
 
-#: C/genius.xml:7653(para)
+#: C/genius.xml:7694(para)
 msgid ""
 "Find root of a function using the bisection method. <varname>a</varname> and "
 "<varname>b</varname> are the initial guess interval, <userinput>f(a)</"
@@ -13479,18 +13539,18 @@ msgstr ""
 "varname> je poslední spočtená hodnota a <varname>iterace</varname> je počet "
 "dokončených iterací."
 
-#: C/genius.xml:7662(term)
+#: C/genius.xml:7703(term)
 msgid ""
 "<anchor id=\"gel-function-FindRootFalsePosition\"/>FindRootFalsePosition"
 msgstr ""
 "<anchor id=\"gel-function-FindRootFalsePosition\"/>FindRootFalsePosition"
 
-#: C/genius.xml:7664(synopsis)
+#: C/genius.xml:7705(synopsis)
 #, no-wrap
 msgid "FindRootFalsePosition (f,a,b,TOL,N)"
 msgstr "FindRootFalsePosition (f,a,b,TOL,N)"
 
-#: C/genius.xml:7665(para)
+#: C/genius.xml:7706(para)
 msgid ""
 "Find root of a function using the method of false position. <varname>a</"
 "varname> and <varname>b</varname> are the initial guess interval, "
@@ -13512,18 +13572,18 @@ msgstr ""
 "varname> je poslední spočtená hodnota a <varname>iterace</varname> je počet "
 "dokončených iterací."
 
-#: C/genius.xml:7674(term)
+#: C/genius.xml:7715(term)
 msgid ""
 "<anchor id=\"gel-function-FindRootMullersMethod\"/>FindRootMullersMethod"
 msgstr ""
 "<anchor id=\"gel-function-FindRootMullersMethod\"/>FindRootMullersMethod"
 
-#: C/genius.xml:7676(synopsis)
+#: C/genius.xml:7717(synopsis)
 #, no-wrap
 msgid "FindRootMullersMethod (f,x0,x1,x2,TOL,N)"
 msgstr "FindRootMullersMethod (f,x0,x1,x2,TOL,N)"
 
-#: C/genius.xml:7677(para)
+#: C/genius.xml:7718(para)
 msgid ""
 "Find root of a function using the Muller's method. <varname>TOL</varname> is "
 "the desired tolerance and <varname>N</varname> is the limit on the number of "
@@ -13540,16 +13600,16 @@ msgstr ""
 "hodnota signalizující úspěch, <varname>hodnota</varname> je poslední "
 "spočtená hodnota a <varname>iterace</varname> je počet dokončených iterací."
 
-#: C/genius.xml:7684(term)
+#: C/genius.xml:7725(term)
 msgid "<anchor id=\"gel-function-FindRootSecant\"/>FindRootSecant"
 msgstr "<anchor id=\"gel-function-FindRootSecant\"/>FindRootSecant"
 
-#: C/genius.xml:7686(synopsis)
+#: C/genius.xml:7727(synopsis)
 #, no-wrap
 msgid "FindRootSecant (f,a,b,TOL,N)"
 msgstr "FindRootSecant (f,a,b,TOL,N)"
 
-#: C/genius.xml:7687(para)
+#: C/genius.xml:7728(para)
 msgid ""
 "Find root of a function using the secant method. <varname>a</varname> and "
 "<varname>b</varname> are the initial guess interval, <userinput>f(a)</"
@@ -13571,16 +13631,69 @@ msgstr ""
 "varname> je poslední spočtená hodnota a <varname>iterace</varname> je počet "
 "dokončených iterací."
 
-#: C/genius.xml:7696(term)
+#: C/genius.xml:7737(term)
+msgid "<anchor id=\"gel-function-NewtonsMethod\"/>NewtonsMethod"
+msgstr "<anchor id=\"gel-function-NewtonsMethod\"/>NewtonsMethod"
+
+#: C/genius.xml:7739(synopsis)
+#, no-wrap
+msgid "NewtonsMethod (f,df,guess,epsilon,maxn)"
+msgstr "NewtonsMethod (f,df,odhad,epsilon,maxn)"
+
+#: C/genius.xml:7740(para)
+msgid ""
+"Find zeros using Newton's method. <varname>f</varname> is the function and "
+"<varname>df</varname> is the derivative of <varname>f</varname>. "
+"<varname>guess</varname> is the initial guess. The function returns after "
+"two successive values are within <varname>epsilon</varname> of each other, "
+"or after <varname>maxn</varname> tries, in which case the function returns "
+"<constant>null</constant> indicating failure."
+msgstr ""
+"Najde nuly pomocí metody tečen (Newtonovy metody). <varname>f</varname> je "
+"funkce a <varname>df</varname> je její derivace. <varname>odhad</varname> je "
+"počáteční odhad. Funkce vrací výsledek po dvou úspěšných hodnotách, které "
+"každá spadají do <varname>epsilon</varname> nebo po <varname>maxn</varname> "
+"pokusech, v kterémžto případě vrací <constant>null</constant>, což značí "
+"selhání."
+
+#: C/genius.xml:7746(para)
+msgid ""
+"See also <link linkend=\"gel-function-NewtonsMethodPoly"
+"\"><function>NewtonsMethodPoly</function></link> and <link linkend=\"gel-"
+"function-SymbolicDerivative\"><function>SymbolicDerivative</function></link>."
+msgstr ""
+"Viz také <link linkend=\"gel-function-NewtonsMethodPoly"
+"\"><function>NewtonsMethodPoly</function></link> a <link linkend=\"gel-"
+"function-SymbolicDerivative\"><function>SymbolicDerivative</function></link>."
+
+#: C/genius.xml:7749(para)
+msgid ""
+"Example to find the square root of 10: <screen><prompt>genius&gt;</prompt> "
+"<userinput>NewtonsMethod(`(x)=x^2-10,`(x)=2*x,3,10^-10,100)</userinput>\n"
+"</screen>"
+msgstr ""
+"Příklad vyhledání druhé odmocniny z 10: <screen><prompt>genius&gt;</prompt> "
+"<userinput>NewtonsMethod(`(x)=x^2-10,`(x)=2*x,3,10^-10,100)</userinput>\n"
+"</screen>"
+
+#: C/genius.xml:7754(para) C/genius.xml:8063(para)
+msgid ""
+"See <ulink url=\"http://en.wikipedia.org/wiki/Newtons_method\">Wikipedia</"
+"ulink> for more information."
+msgstr ""
+"Více informací najdete v encyklopedii <ulink url=\"http://cs.wikipedia.org/"
+"wiki/Metoda_te%C4%8Den\">Wikipedia</ulink>."
+
+#: C/genius.xml:7762(term)
 msgid "<anchor id=\"gel-function-PolynomialRoots\"/>PolynomialRoots"
 msgstr "<anchor id=\"gel-function-PolynomialRoots\"/>PolynomialRoots"
 
-#: C/genius.xml:7698(synopsis)
+#: C/genius.xml:7764(synopsis)
 #, no-wrap
 msgid "PolynomialRoots (p)"
 msgstr "PolynomialRoots (p)"
 
-#: C/genius.xml:7699(para)
+#: C/genius.xml:7765(para)
 msgid ""
 "Compute roots of a polynomial (degrees 1 through 4) using one of the "
 "formulas for such polynomials. The polynomial should be given as a vector of "
@@ -13593,7 +13706,7 @@ msgstr ""
 "<userinput>4*x^3 + 2*x + 1</userinput> odpovídá vektoru "
 "<userinput>[1,2,0,4]</userinput>. Vrací sloupcový vektor řešení."
 
-#: C/genius.xml:7708(para)
+#: C/genius.xml:7774(para)
 msgid ""
 "The function calls <link linkend=\"gel-function-QuadraticFormula"
 "\">QuadraticFormula</link>, <link linkend=\"gel-function-CubicFormula"
@@ -13605,16 +13718,16 @@ msgstr ""
 "\">CubicFormula</link> a <link linkend=\"gel-function-QuarticFormula"
 "\">QuarticFormula</link>."
 
-#: C/genius.xml:7718(term)
+#: C/genius.xml:7784(term)
 msgid "<anchor id=\"gel-function-QuadraticFormula\"/>QuadraticFormula"
 msgstr "<anchor id=\"gel-function-QuadraticFormula\"/>QuadraticFormula"
 
-#: C/genius.xml:7720(synopsis)
+#: C/genius.xml:7786(synopsis)
 #, no-wrap
 msgid "QuadraticFormula (p)"
 msgstr "QuadraticFormula (p)"
 
-#: C/genius.xml:7721(para)
+#: C/genius.xml:7787(para)
 msgid ""
 "Compute roots of a quadratic (degree 2) polynomial using the quadratic "
 "formula. The polynomial should be given as a vector of coefficients. That is "
@@ -13626,7 +13739,7 @@ msgstr ""
 "<userinput>3*x^2 + 2*x + 1</userinput> odpovídá vektoru <userinput>[1,2,3]</"
 "userinput>. Vrací sloupcový vektor dvou řešení."
 
-#: C/genius.xml:7729(para)
+#: C/genius.xml:7795(para)
 msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/QuadraticFormula.html"
 "\">Planetmath</ulink> or <ulink url=\"http://mathworld.wolfram.com/"
@@ -13637,16 +13750,16 @@ msgstr ""
 "angličtině) nebo <ulink url=\"http://mathworld.wolfram.com/QuadraticFormula."
 "html\">Mathworld</ulink> (text je v angličtině)."
 
-#: C/genius.xml:7738(term)
+#: C/genius.xml:7804(term)
 msgid "<anchor id=\"gel-function-QuarticFormula\"/>QuarticFormula"
 msgstr "<anchor id=\"gel-function-QuarticFormula\"/>QuarticFormula"
 
-#: C/genius.xml:7740(synopsis)
+#: C/genius.xml:7806(synopsis)
 #, no-wrap
 msgid "QuarticFormula (p)"
 msgstr "QuarticFormula (p)"
 
-#: C/genius.xml:7741(para)
+#: C/genius.xml:7807(para)
 msgid ""
 "Compute roots of a quartic (degree 4) polynomial using the quartic formula. "
 "The polynomial should be given as a vector of coefficients. That is "
@@ -13659,7 +13772,7 @@ msgstr ""
 "+ 1</userinput> odpovídá vektoru <userinput>[1,2,0,0,5]</userinput>. Vrací "
 "sloupcový vektor čtyř řešení."
 
-#: C/genius.xml:7749(para)
+#: C/genius.xml:7815(para)
 msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/QuarticFormula.html"
 "\">Planetmath</ulink>, <ulink url=\"http://mathworld.wolfram.com/"
@@ -13672,16 +13785,16 @@ msgstr ""
 "\">Mathworld</ulink> (text je v angličtině) nebo <ulink url=\"http://cs."
 "wikipedia.org/wiki/Kvartick%C3%A1_rovnice\">Wikipedia</ulink>."
 
-#: C/genius.xml:7759(term)
+#: C/genius.xml:7825(term)
 msgid "<anchor id=\"gel-function-RungeKutta\"/>RungeKutta"
 msgstr "<anchor id=\"gel-function-RungeKutta\"/>RungeKutta"
 
-#: C/genius.xml:7761(synopsis)
+#: C/genius.xml:7827(synopsis)
 #, no-wrap
 msgid "RungeKutta (f,x0,y0,x1,n)"
 msgstr "RungeKutta (f,x0,y0,x1,n)"
 
-#: C/genius.xml:7762(para)
+#: C/genius.xml:7828(para)
 msgid ""
 "Use classical non-adaptive fourth order Runge-Kutta method to numerically "
 "solve y'=f(x,y) for initial <varname>x0</varname>, <varname>y0</varname> "
@@ -13693,7 +13806,7 @@ msgstr ""
 "<varname>y0</varname> měnící se do <varname>x1</varname> s přírůstky "
 "<varname>n</varname>, vrací <varname>y</varname> v <varname>x1</varname>."
 
-#: C/genius.xml:7776(para) C/genius.xml:7806(para)
+#: C/genius.xml:7842(para) C/genius.xml:7872(para)
 msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/Runge-KuttaMethod.html"
 "\">Mathworld</ulink>, or <ulink url=\"http://en.wikipedia.org/wiki/Runge-"
@@ -13705,16 +13818,16 @@ msgstr ""
 "%C5%99e%C5%A1en%C3%AD_oby%C4%8Dejn%C3%BDch_diferenci%C3%A1ln"
 "%C3%ADch_rovnic#Metody_Runge-Kutta\">Wikipedia</ulink>."
 
-#: C/genius.xml:7785(term)
+#: C/genius.xml:7851(term)
 msgid "<anchor id=\"gel-function-RungeKuttaFull\"/>RungeKuttaFull"
 msgstr "<anchor id=\"gel-function-RungeKuttaFull\"/>RungeKuttaFull"
 
-#: C/genius.xml:7787(synopsis)
+#: C/genius.xml:7853(synopsis)
 #, no-wrap
 msgid "RungeKuttaFull (f,x0,y0,x1,n)"
 msgstr "RungeKuttaFull (f,x0,y0,x1,n)"
 
-#: C/genius.xml:7788(para)
+#: C/genius.xml:7854(para)
 msgid ""
 "Use classical non-adaptive fourth order Runge-Kutta method to numerically "
 "solve y'=f(x,y) for initial <varname>x0</varname>, <varname>y0</varname> "
@@ -13730,20 +13843,20 @@ msgstr ""
 "<varname>y</varname>. Použitelné pro zapojení do <link linkend=\"gel-"
 "function-LinePlotDrawLine\">LinePlotDrawLine</link>."
 
-#: C/genius.xml:7819(title)
+#: C/genius.xml:7885(title)
 msgid "Statistics"
 msgstr "Statistika"
 
-#: C/genius.xml:7822(term)
+#: C/genius.xml:7888(term)
 msgid "<anchor id=\"gel-function-Average\"/>Average"
 msgstr "<anchor id=\"gel-function-Average\"/>Average"
 
-#: C/genius.xml:7824(synopsis)
+#: C/genius.xml:7890(synopsis)
 #, no-wrap
 msgid "Average (m)"
 msgstr "Average (m)"
 
-#: C/genius.xml:7825(para)
+#: C/genius.xml:7891(para)
 msgid ""
 "Aliases: <function>average</function><function>Mean</"
 "function><function>mean</function>"
@@ -13751,11 +13864,11 @@ msgstr ""
 "Alternativní názvy: <function>average</function><function>Mean</"
 "function><function>mean</function>"
 
-#: C/genius.xml:7826(para)
+#: C/genius.xml:7892(para)
 msgid "Calculate average of an entire matrix."
 msgstr "Vypočítat průměr z celé matice."
 
-#: C/genius.xml:7827(para) C/genius.xml:7887(para)
+#: C/genius.xml:7893(para) C/genius.xml:7953(para)
 msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/ArithmeticMean.html"
 "\">Mathworld</ulink> for more information."
@@ -13765,16 +13878,16 @@ msgstr ""
 "nebo <ulink url=\"http://cs.wikipedia.org/wiki/Aritmetick%C3%BD_pr%C5%AFm"
 "%C4%9Br\">Wikipedia</ulink>."
 
-#: C/genius.xml:7835(term)
+#: C/genius.xml:7901(term)
 msgid "<anchor id=\"gel-function-GaussDistribution\"/>GaussDistribution"
 msgstr "<anchor id=\"gel-function-GaussDistribution\"/>GaussDistribution"
 
-#: C/genius.xml:7837(synopsis)
+#: C/genius.xml:7903(synopsis)
 #, no-wrap
 msgid "GaussDistribution (x,sigma)"
 msgstr "GaussDistribution (x,sigma)"
 
-#: C/genius.xml:7838(para)
+#: C/genius.xml:7904(para)
 msgid ""
 "Integral of the GaussFunction from 0 to <varname>x</varname> (area under the "
 "normal curve)."
@@ -13782,7 +13895,7 @@ msgstr ""
 "Integrál Gaussovy funkce od 0 do <varname>x</varname> (oblast pod normální "
 "křivkou)."
 
-#: C/genius.xml:7839(para) C/genius.xml:7851(para)
+#: C/genius.xml:7905(para) C/genius.xml:7917(para)
 msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/NormalDistribution.html"
 "\">Mathworld</ulink> for more information."
@@ -13792,37 +13905,37 @@ msgstr ""
 "angličtině) nebo <ulink url=\"http://cs.wikipedia.org/wiki/Norm%C3%A1ln"
 "%C3%AD_rozd%C4%9Blen%C3%AD\">Wikipedia</ulink>."
 
-#: C/genius.xml:7847(term)
+#: C/genius.xml:7913(term)
 msgid "<anchor id=\"gel-function-GaussFunction\"/>GaussFunction"
 msgstr "<anchor id=\"gel-function-GaussFunction\"/>GaussFunction"
 
-#: C/genius.xml:7849(synopsis)
+#: C/genius.xml:7915(synopsis)
 #, no-wrap
 msgid "GaussFunction (x,sigma)"
 msgstr "GaussFunction (x,sigma)"
 
-#: C/genius.xml:7850(para)
+#: C/genius.xml:7916(para)
 msgid "The normalized Gauss distribution function (the normal curve)."
 msgstr "Normalizovaného Gaussova funkce rozdělení (normální křivka)."
 
-#: C/genius.xml:7860(term)
+#: C/genius.xml:7926(term)
 msgid "<anchor id=\"gel-function-Median\"/>Median"
 msgstr "<anchor id=\"gel-function-Median\"/>Median"
 
-#: C/genius.xml:7862(synopsis)
+#: C/genius.xml:7928(synopsis)
 #, no-wrap
 msgid "Median (m)"
 msgstr "Median (m)"
 
-#: C/genius.xml:7863(para)
+#: C/genius.xml:7929(para)
 msgid "Aliases: <function>median</function>"
 msgstr "Alternativní názvy: <function>median</function>"
 
-#: C/genius.xml:7864(para)
+#: C/genius.xml:7930(para)
 msgid "Calculate median of an entire matrix."
 msgstr "Vypočítat medián z celé matice."
 
-#: C/genius.xml:7865(para) C/genius.xml:7900(para)
+#: C/genius.xml:7931(para) C/genius.xml:7966(para)
 msgid ""
 "See <ulink url=\"http://mathworld.wolfram.com/StatisticalMedian.html"
 "\">Mathworld</ulink> for more information."
@@ -13830,7 +13943,7 @@ msgstr ""
 "Více informací najdete v encyklopedii <ulink url=\"http://mathworld.wolfram."
 "com/StatisticalMedian.html\">Mathworld</ulink> (text je v angličtině)."
 
-#: C/genius.xml:7873(term)
+#: C/genius.xml:7939(term)
 msgid ""
 "<anchor id=\"gel-function-PopulationStandardDeviation\"/"
 ">PopulationStandardDeviation"
@@ -13838,53 +13951,53 @@ msgstr ""
 "<anchor id=\"gel-function-PopulationStandardDeviation\"/"
 ">PopulationStandardDeviation"
 
-#: C/genius.xml:7875(synopsis)
+#: C/genius.xml:7941(synopsis)
 #, no-wrap
 msgid "PopulationStandardDeviation (m)"
 msgstr "PopulationStandardDeviation (m)"
 
-#: C/genius.xml:7876(para)
+#: C/genius.xml:7942(para)
 msgid "Aliases: <function>stdevp</function>"
 msgstr "Alternativní názvy: <function>stdevp</function>"
 
-#: C/genius.xml:7877(para)
+#: C/genius.xml:7943(para)
 msgid "Calculate the population standard deviation of a whole matrix."
 msgstr "Spočítat standardní odchylku souboru celé matice."
 
-#: C/genius.xml:7882(term)
+#: C/genius.xml:7948(term)
 msgid "<anchor id=\"gel-function-RowAverage\"/>RowAverage"
 msgstr "<anchor id=\"gel-function-RowAverage\"/>RowAverage"
 
-#: C/genius.xml:7884(synopsis)
+#: C/genius.xml:7950(synopsis)
 #, no-wrap
 msgid "RowAverage (m)"
 msgstr "RowAverage (m)"
 
-#: C/genius.xml:7885(para)
+#: C/genius.xml:7951(para)
 msgid "Aliases: <function>RowMean</function>"
 msgstr "Alternativní názvy: <function>RowMean</function>"
 
-#: C/genius.xml:7886(para)
+#: C/genius.xml:7952(para)
 msgid "Calculate average of each row in a matrix."
 msgstr "Vypočítat průměr každého řádku v matici."
 
-#: C/genius.xml:7895(term)
+#: C/genius.xml:7961(term)
 msgid "<anchor id=\"gel-function-RowMedian\"/>RowMedian"
 msgstr "<anchor id=\"gel-function-RowMedian\"/>RowMedian"
 
-#: C/genius.xml:7897(synopsis)
+#: C/genius.xml:7963(synopsis)
 #, no-wrap
 msgid "RowMedian (m)"
 msgstr "RowMedian (m)"
 
-#: C/genius.xml:7898(para)
+#: C/genius.xml:7964(para)
 msgid ""
 "Calculate median of each row in a matrix and return a column vector of the "
 "medians."
 msgstr ""
 "Vypočítat medián každého řádku v matici a vrátit sloupcový vektor mediánů."
 
-#: C/genius.xml:7908(term)
+#: C/genius.xml:7974(term)
 msgid ""
 "<anchor id=\"gel-function-RowPopulationStandardDeviation\"/"
 ">RowPopulationStandardDeviation"
@@ -13892,85 +14005,85 @@ msgstr ""
 "<anchor id=\"gel-function-RowPopulationStandardDeviation\"/"
 ">RowPopulationStandardDeviation"
 
-#: C/genius.xml:7910(synopsis)
+#: C/genius.xml:7976(synopsis)
 #, no-wrap
 msgid "RowPopulationStandardDeviation (m)"
 msgstr "RowPopulationStandardDeviation (m)"
 
-#: C/genius.xml:7911(para)
+#: C/genius.xml:7977(para)
 msgid "Aliases: <function>rowstdevp</function>"
 msgstr "Alternativní názvy: <function>rowstdevp</function>"
 
-#: C/genius.xml:7912(para)
+#: C/genius.xml:7978(para)
 msgid ""
 "Calculate the population standard deviations of rows of a matrix and return "
 "a vertical vector."
 msgstr ""
 "Spočítat standardní odchylku souboru řádků matice a vrátit svislý vektor."
 
-#: C/genius.xml:7917(term)
+#: C/genius.xml:7983(term)
 msgid "<anchor id=\"gel-function-RowStandardDeviation\"/>RowStandardDeviation"
 msgstr "<anchor id=\"gel-function-RowStandardDeviation\"/>RowStandardDeviation"
 
-#: C/genius.xml:7919(synopsis)
+#: C/genius.xml:7985(synopsis)
 #, no-wrap
 msgid "RowStandardDeviation (m)"
 msgstr "RowStandardDeviation (m)"
 
-#: C/genius.xml:7920(para)
+#: C/genius.xml:7986(para)
 msgid "Aliases: <function>rowstdev</function>"
 msgstr "Alternativní názvy: <function>rowstdev</function>"
 
-#: C/genius.xml:7921(para)
+#: C/genius.xml:7987(para)
 msgid ""
 "Calculate the standard deviations of rows of a matrix and return a vertical "
 "vector."
 msgstr "Spočítat standardní odchylku řádků matice a vrátit svislý vektor."
 
-#: C/genius.xml:7926(term)
+#: C/genius.xml:7992(term)
 msgid "<anchor id=\"gel-function-StandardDeviation\"/>StandardDeviation"
 msgstr "<anchor id=\"gel-function-StandardDeviation\"/>StandardDeviation"
 
-#: C/genius.xml:7928(synopsis)
+#: C/genius.xml:7994(synopsis)
 #, no-wrap
 msgid "StandardDeviation (m)"
 msgstr "StandardDeviation (m)"
 
-#: C/genius.xml:7929(para)
+#: C/genius.xml:7995(para)
 msgid "Aliases: <function>stdev</function>"
 msgstr "Alternativní názvy: <function>stdev</function>"
 
-#: C/genius.xml:7930(para)
+#: C/genius.xml:7996(para)
 msgid "Calculate the standard deviation of a whole matrix."
 msgstr "Spočítat standardní odchylku celé matice."
 
-#: C/genius.xml:7938(title)
+#: C/genius.xml:8004(title)
 msgid "Polynomials"
 msgstr "Polynomy"
 
-#: C/genius.xml:7941(term)
+#: C/genius.xml:8007(term)
 msgid "<anchor id=\"gel-function-AddPoly\"/>AddPoly"
 msgstr "<anchor id=\"gel-function-AddPoly\"/>AddPoly"
 
-#: C/genius.xml:7943(synopsis)
+#: C/genius.xml:8009(synopsis)
 #, no-wrap
 msgid "AddPoly (p1,p2)"
 msgstr "AddPoly (p1,p2)"
 
-#: C/genius.xml:7944(para)
+#: C/genius.xml:8010(para)
 msgid "Add two polynomials (vectors)."
 msgstr "Sečíst dva polynomy (vektory)."
 
-#: C/genius.xml:7949(term)
+#: C/genius.xml:8015(term)
 msgid "<anchor id=\"gel-function-DividePoly\"/>DividePoly"
 msgstr "<anchor id=\"gel-function-DividePoly\"/>DividePoly"
 
-#: C/genius.xml:7951(synopsis)
+#: C/genius.xml:8017(synopsis)
 #, no-wrap
 msgid "DividePoly (p,q,&amp;r)"
 msgstr "DividePoly (p,q,&amp;r)"
 
-#: C/genius.xml:7952(para)
+#: C/genius.xml:8018(para)
 msgid ""
 "Divide two polynomials (as vectors) using long division. Returns the "
 "quotient of the two polynomials. The optional argument <varname>r</varname> "
@@ -13981,7 +14094,7 @@ msgstr ""
 "dvou polynomů. Volitelný argument <varname>r</varname> se použije k vrácení "
 "zbytku. Zbytek bude mít nižší řád, než polynom <varname>q</varname>."
 
-#: C/genius.xml:7957(para)
+#: C/genius.xml:8023(para)
 msgid ""
 "See <ulink url=\"http://planetmath.org/encyclopedia/PolynomialLongDivision."
 "html\">Planetmath</ulink> for more information."
@@ -13990,158 +14103,182 @@ msgstr ""
 "encyclopedia/PolynomialLongDivision.html\">Planetmath</ulink> (text je v "
 "angličtině)."
 
-#: C/genius.xml:7965(term)
+#: C/genius.xml:8031(term)
 msgid "<anchor id=\"gel-function-IsPoly\"/>IsPoly"
 msgstr "<anchor id=\"gel-function-IsPoly\"/>IsPoly"
 
-#: C/genius.xml:7967(synopsis)
+#: C/genius.xml:8033(synopsis)
 #, no-wrap
 msgid "IsPoly (p)"
 msgstr "IsPoly (p)"
 
-#: C/genius.xml:7968(para)
+#: C/genius.xml:8034(para)
 msgid "Check if a vector is usable as a polynomial."
 msgstr "Zkontrolovat, zda je vektor použitelný jako polynom."
 
-#: C/genius.xml:7973(term)
+#: C/genius.xml:8039(term)
 msgid "<anchor id=\"gel-function-MultiplyPoly\"/>MultiplyPoly"
 msgstr "<anchor id=\"gel-function-MultiplyPoly\"/>MultiplyPoly"
 
-#: C/genius.xml:7975(synopsis)
+#: C/genius.xml:8041(synopsis)
 #, no-wrap
 msgid "MultiplyPoly (p1,p2)"
 msgstr "MultiplyPoly (p1,p2)"
 
-#: C/genius.xml:7976(para)
+#: C/genius.xml:8042(para)
 msgid "Multiply two polynomials (as vectors)."
 msgstr "Vynásobit dva polynomy (jako vektory)."
 
-#: C/genius.xml:7981(term)
+#: C/genius.xml:8047(term)
 msgid "<anchor id=\"gel-function-NewtonsMethodPoly\"/>NewtonsMethodPoly"
 msgstr "<anchor id=\"gel-function-NewtonsMethodPoly\"/>NewtonsMethodPoly"
 
-#: C/genius.xml:7983(synopsis)
+#: C/genius.xml:8049(synopsis)
 #, no-wrap
 msgid "NewtonsMethodPoly (poly,guess,epsilon,maxn)"
 msgstr "NewtonsMethodPoly (poly,odhad,epsilon,maxn)"
 
-#: C/genius.xml:7984(para)
+#: C/genius.xml:8050(para)
 msgid ""
-"Run newton's method on a polynomial to attempt to find a root, returns after "
-"two successive values are within epsilon or after maxn tries (then returns "
-"<constant>null</constant>)."
+"Find a root of a polynomial using Newton's method. <varname>poly</varname> "
+"is the polynomial as a vector and <varname>guess</varname> is the initial "
+"guess. The function returns after two successive values are within "
+"<varname>epsilon</varname> of each other, or after <varname>maxn</varname> "
+"tries, in which case the function returns <constant>null</constant> "
+"indicating failure."
 msgstr ""
-"Spustit metodu tečen (Newtonovu metodu) na polynomu a zkusit najít kořen, "
-"vrátí se, když dvě po sobě jdoucí hodnoty spadají do epsilon, nebo po maxn "
-"pokusech (pak vrátí <constant>null</constant>)."
+"Najde kořeny polynomu pomocí metody tečen (Newtonovy metody). <varname>poly</"
+"varname> je polynom v podobě vektoru a <varname>odhad</varname> je počáteční "
+"odhad. Funkce vrací výsledek po dvou úspěšných hodnotách, které každá "
+"spadají do <varname>epsilon</varname> nebo po <varname>maxn</varname> "
+"pokusech, v kterémžto případě vrací <constant>null</constant>, což značí "
+"selhání."
 
-#: C/genius.xml:7989(term)
+#: C/genius.xml:8055(para)
+msgid ""
+"See also <link linkend=\"gel-function-NewtonsMethod"
+"\"><function>NewtonsMethod</function></link>."
+msgstr ""
+"Viz také <link linkend=\"gel-function-NewtonsMethod"
+"\"><function>NewtonsMethod</function></link>."
+
+#: C/genius.xml:8058(para)
+msgid ""
+"Example to find the square root of 10: <screen><prompt>genius&gt;</prompt> "
+"<userinput>NewtonsMethodPoly([-10,0,1],3,10^-10,100)</userinput>\n"
+"</screen>"
+msgstr ""
+"Příklad vyhledání druhé odmocniny z 10: <screen><prompt>genius&gt;</prompt> "
+"<userinput>NewtonsMethodPoly([-10,0,1],3,10^-10,100)</userinput>\n"
+"</screen>"
+
+#: C/genius.xml:8071(term)
 msgid "<anchor id=\"gel-function-Poly2ndDerivative\"/>Poly2ndDerivative"
 msgstr "<anchor id=\"gel-function-Poly2ndDerivative\"/>Poly2ndDerivative"
 
-#: C/genius.xml:7991(synopsis)
+#: C/genius.xml:8073(synopsis)
 #, no-wrap
 msgid "Poly2ndDerivative (p)"
 msgstr "Poly2ndDerivative (p)"
 
-#: C/genius.xml:7992(para)
+#: C/genius.xml:8074(para)
 msgid "Take second polynomial (as vector) derivative."
 msgstr "Vypočítat druhou derivaci polynomu (jako vektoru)."
 
-#: C/genius.xml:7997(term)
+#: C/genius.xml:8079(term)
 msgid "<anchor id=\"gel-function-PolyDerivative\"/>PolyDerivative"
 msgstr "<anchor id=\"gel-function-PolyDerivative\"/>PolyDerivative"
 
-#: C/genius.xml:7999(synopsis)
+#: C/genius.xml:8081(synopsis)
 #, no-wrap
 msgid "PolyDerivative (p)"
 msgstr "PolyDerivative (p)"
 
-#: C/genius.xml:8000(para)
+#: C/genius.xml:8082(para)
 msgid "Take polynomial (as vector) derivative."
 msgstr "Derivovat polynom (jako vektor)."
 
-#: C/genius.xml:8005(term)
+#: C/genius.xml:8087(term)
 msgid "<anchor id=\"gel-function-PolyToFunction\"/>PolyToFunction"
 msgstr "<anchor id=\"gel-function-PolyToFunction\"/>PolyToFunction"
 
-#: C/genius.xml:8007(synopsis)
+#: C/genius.xml:8089(synopsis)
 #, no-wrap
 msgid "PolyToFunction (p)"
 msgstr "PolyToFunction (p)"
 
-#: C/genius.xml:8008(para)
+#: C/genius.xml:8090(para)
 msgid "Make function out of a polynomial (as vector)."
 msgstr "Vytvořit funkci z polynomu (jako vektoru)."
 
-#: C/genius.xml:8013(term)
+#: C/genius.xml:8095(term)
 msgid "<anchor id=\"gel-function-PolyToString\"/>PolyToString"
 msgstr "<anchor id=\"gel-function-PolyToString\"/>PolyToString"
 
-#: C/genius.xml:8015(synopsis)
+#: C/genius.xml:8097(synopsis)
 #, no-wrap
 msgid "PolyToString (p,var...)"
 msgstr "PolyToString (p,prom...)"
 
-#: C/genius.xml:8016(para)
+#: C/genius.xml:8098(para)
 msgid "Make string out of a polynomial (as vector)."
 msgstr "Vytvořit řetězec z polynomu (jako vektoru)."
 
-#: C/genius.xml:8021(term)
+#: C/genius.xml:8103(term)
 msgid "<anchor id=\"gel-function-SubtractPoly\"/>SubtractPoly"
 msgstr "<anchor id=\"gel-function-SubtractPoly\"/>SubtractPoly"
 
-#: C/genius.xml:8023(synopsis)
+#: C/genius.xml:8105(synopsis)
 #, no-wrap
 msgid "SubtractPoly (p1,p2)"
 msgstr "SubtractPoly (p1,p2)"
 
-#: C/genius.xml:8024(para)
+#: C/genius.xml:8106(para)
 msgid "Subtract two polynomials (as vectors)."
 msgstr "Odečíst dva polynomy (jako vektory)."
 
-#: C/genius.xml:8029(term)
+#: C/genius.xml:8111(term)
 msgid "<anchor id=\"gel-function-TrimPoly\"/>TrimPoly"
 msgstr "<anchor id=\"gel-function-TrimPoly\"/>TrimPoly"
 
-#: C/genius.xml:8031(synopsis)
+#: C/genius.xml:8113(synopsis)
 #, no-wrap
 msgid "TrimPoly (p)"
 msgstr "TrimPoly (p)"
 
-#: C/genius.xml:8032(para)
+#: C/genius.xml:8114(para)
 msgid "Trim zeros from a polynomial (as vector)."
 msgstr "Odstranit nuly z polynomu (jako vektoru)."
 
-#: C/genius.xml:8040(title)
+#: C/genius.xml:8122(title)
 msgid "Set Theory"
 msgstr "Teorie množin"
 
-#: C/genius.xml:8043(term)
+#: C/genius.xml:8125(term)
 msgid "<anchor id=\"gel-function-Intersection\"/>Intersection"
 msgstr "<anchor id=\"gel-function-Intersection\"/>Intersection"
 
-#: C/genius.xml:8045(synopsis)
+#: C/genius.xml:8127(synopsis)
 #, no-wrap
 msgid "Intersection (X,Y)"
 msgstr "Intersection (X,Y)"
 
-#: C/genius.xml:8046(para)
+#: C/genius.xml:8128(para)
 msgid ""
 "Returns a set theoretic intersection of X and Y (X and Y are vectors "
 "pretending to be sets)."
 msgstr "Vrátit průnik množin X a Y (X a Y jsou vektory považované za množiny)."
 
-#: C/genius.xml:8051(term)
+#: C/genius.xml:8133(term)
 msgid "<anchor id=\"gel-function-IsIn\"/>IsIn"
 msgstr "<anchor id=\"gel-function-IsIn\"/>IsIn"
 
-#: C/genius.xml:8053(synopsis)
+#: C/genius.xml:8135(synopsis)
 #, no-wrap
 msgid "IsIn (x,X)"
 msgstr "IsIn (x,X)"
 
-#: C/genius.xml:8054(para)
+#: C/genius.xml:8136(para)
 msgid ""
 "Returns <constant>true</constant> if the element x is in the set X (where X "
 "is a vector pretending to be a set)."
@@ -14149,16 +14286,16 @@ msgstr ""
 "Vrátit <constant>true</constant> (pravda), pokud je x prvkem množiny X (kde "
 "X je vektor považovaný za množinu)."
 
-#: C/genius.xml:8059(term)
+#: C/genius.xml:8141(term)
 msgid "<anchor id=\"gel-function-IsSubset\"/>IsSubset"
 msgstr "<anchor id=\"gel-function-IsSubset\"/>IsSubset"
 
-#: C/genius.xml:8061(synopsis)
+#: C/genius.xml:8143(synopsis)
 #, no-wrap
 msgid "IsSubset (X, Y)"
 msgstr "IsSubset (X, Y)"
 
-#: C/genius.xml:8062(para)
+#: C/genius.xml:8144(para)
 msgid ""
 "Returns <constant>true</constant> if X is a subset of Y (X and Y are vectors "
 "pretending to be sets)."
@@ -14166,64 +14303,64 @@ msgstr ""
 "Vrátit <constant>true</constant> (pravda), pokud X je podmnožinu Y (X a Y "
 "jsou vektory považované za množiny)."
 
-#: C/genius.xml:8067(term)
+#: C/genius.xml:8149(term)
 msgid "<anchor id=\"gel-function-MakeSet\"/>MakeSet"
 msgstr "<anchor id=\"gel-function-MakeSet\"/>MakeSet"
 
-#: C/genius.xml:8069(synopsis)
+#: C/genius.xml:8151(synopsis)
 #, no-wrap
 msgid "MakeSet (X)"
 msgstr "MakeSet (X)"
 
-#: C/genius.xml:8070(para)
+#: C/genius.xml:8152(para)
 msgid "Returns a vector where every element of X appears only once."
 msgstr "Vrátit vektor, ve kterém se každý prvek X vyskytuje jen jednou."
 
-#: C/genius.xml:8075(term)
+#: C/genius.xml:8157(term)
 msgid "<anchor id=\"gel-function-SetMinus\"/>SetMinus"
 msgstr "<anchor id=\"gel-function-SetMinus\"/>SetMinus"
 
-#: C/genius.xml:8077(synopsis)
+#: C/genius.xml:8159(synopsis)
 #, no-wrap
 msgid "SetMinus (X,Y)"
 msgstr "SetMinus (X,Y)"
 
-#: C/genius.xml:8078(para)
+#: C/genius.xml:8160(para)
 msgid ""
 "Returns a set theoretic difference X-Y (X and Y are vectors pretending to be "
 "sets)."
 msgstr "Vrátit rozdíl množin X-Y (X a Y jsou vektory považované za množiny)."
 
-#: C/genius.xml:8083(term)
+#: C/genius.xml:8165(term)
 msgid "<anchor id=\"gel-function-Union\"/>Union"
 msgstr "<anchor id=\"gel-function-Union\"/>Union"
 
-#: C/genius.xml:8085(synopsis)
+#: C/genius.xml:8167(synopsis)
 #, no-wrap
 msgid "Union (X,Y)"
 msgstr "Union (X,Y)"
 
-#: C/genius.xml:8086(para)
+#: C/genius.xml:8168(para)
 msgid ""
 "Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
 "be sets)."
 msgstr ""
 "Vrátit sjednocení množin X a Y (X a Y jsou vektory považované za množiny)."
 
-#: C/genius.xml:8094(title)
+#: C/genius.xml:8176(title)
 msgid "Commutative Algebra"
 msgstr "Komutativní algebra"
 
-#: C/genius.xml:8097(term)
+#: C/genius.xml:8179(term)
 msgid "<anchor id=\"gel-function-MacaulayBound\"/>MacaulayBound"
 msgstr "<anchor id=\"gel-function-MacaulayBound\"/>MacaulayBound"
 
-#: C/genius.xml:8099(synopsis)
+#: C/genius.xml:8181(synopsis)
 #, no-wrap
 msgid "MacaulayBound (c,d)"
 msgstr "MacaulayBound (c,d)"
 
-#: C/genius.xml:8100(para)
+#: C/genius.xml:8182(para)
 msgid ""
 "For a Hilbert function that is c for degree d, given the Macaulay bound for "
 "the Hilbert function of degree d+1 (The c^&lt;d&gt; operator from Green's "
@@ -14232,61 +14369,61 @@ msgstr ""
 "Pro Hilbertovu funkci jde o c pro stupeň d, daný Macaulayho ohraničením pro "
 "Hilbertovu funkci stupně d+1 (operátor c^&lt;d&gt; z Greenova důkazu)"
 
-#: C/genius.xml:8105(term)
+#: C/genius.xml:8187(term)
 msgid ""
 "<anchor id=\"gel-function-MacaulayLowerOperator\"/>MacaulayLowerOperator"
 msgstr ""
 "<anchor id=\"gel-function-MacaulayLowerOperator\"/>MacaulayLowerOperator"
 
-#: C/genius.xml:8107(synopsis)
+#: C/genius.xml:8189(synopsis)
 #, no-wrap
 msgid "MacaulayLowerOperator (c,d)"
 msgstr "MacaulayLowerOperator (c,d)"
 
-#: C/genius.xml:8108(para)
+#: C/genius.xml:8190(para)
 msgid "The c_&lt;d&gt; operator from Green's proof of Macaulay's Theorem."
 msgstr "Operátor c_&lt;d&gt; z Greenova důkazu Macaulayova teorému"
 
-#: C/genius.xml:8113(term)
+#: C/genius.xml:8195(term)
 msgid "<anchor id=\"gel-function-MacaulayRep\"/>MacaulayRep"
 msgstr "<anchor id=\"gel-function-MacaulayRep\"/>MacaulayRep"
 
-#: C/genius.xml:8115(synopsis)
+#: C/genius.xml:8197(synopsis)
 #, no-wrap
 msgid "MacaulayRep (c,d)"
 msgstr "MacaulayRep (c,d)"
 
-#: C/genius.xml:8116(para)
+#: C/genius.xml:8198(para)
 msgid "Return the dth Macaulay representation of a positive integer c."
 msgstr "Vrátit d-tou Macaulayho reprezentaci celého kladného čísla c."
 
-#: C/genius.xml:8123(title)
+#: C/genius.xml:8205(title)
 msgid "Miscellaneous"
 msgstr "Různé"
 
-#: C/genius.xml:8126(term)
+#: C/genius.xml:8208(term)
 msgid "<anchor id=\"gel-function-ASCIIToString\"/>ASCIIToString"
 msgstr "<anchor id=\"gel-function-ASCIIToString\"/>ASCIIToString"
 
-#: C/genius.xml:8128(synopsis)
+#: C/genius.xml:8210(synopsis)
 #, no-wrap
 msgid "ASCIIToString (vec)"
 msgstr "ASCIIToString (vektor)"
 
-#: C/genius.xml:8129(para)
+#: C/genius.xml:8211(para)
 msgid "Convert a vector of ASCII values to a string."
 msgstr "Převést vektor hodnost ASCII na řetězec."
 
-#: C/genius.xml:8134(term)
+#: C/genius.xml:8216(term)
 msgid "<anchor id=\"gel-function-AlphabetToString\"/>AlphabetToString"
 msgstr "<anchor id=\"gel-function-AlphabetToString\"/>AlphabetToString"
 
-#: C/genius.xml:8136(synopsis)
+#: C/genius.xml:8218(synopsis)
 #, no-wrap
 msgid "AlphabetToString (vec,alphabet)"
 msgstr "AlphabetToString (vektor,abeceda)"
 
-#: C/genius.xml:8137(para)
+#: C/genius.xml:8219(para)
 msgid ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string."
@@ -14294,29 +14431,29 @@ msgstr ""
 "Převést vektor hodnot abecedy (pozic v řetězci abecedy) počítaných od 0 na "
 "řetězec."
 
-#: C/genius.xml:8142(term)
+#: C/genius.xml:8224(term)
 msgid "<anchor id=\"gel-function-StringToASCII\"/>StringToASCII"
 msgstr "<anchor id=\"gel-function-StringToASCII\"/>StringToASCII"
 
-#: C/genius.xml:8144(synopsis)
+#: C/genius.xml:8226(synopsis)
 #, no-wrap
 msgid "StringToASCII (str)"
 msgstr "StringToASCII (retezec)"
 
-#: C/genius.xml:8145(para)
+#: C/genius.xml:8227(para)
 msgid "Convert a string to a vector of ASCII values."
 msgstr "Převést retezec na vektor hodnot ASCII."
 
-#: C/genius.xml:8150(term)
+#: C/genius.xml:8232(term)
 msgid "<anchor id=\"gel-function-StringToAlphabet\"/>StringToAlphabet"
 msgstr "<anchor id=\"gel-function-StringToAlphabet\"/>StringToAlphabet"
 
-#: C/genius.xml:8152(synopsis)
+#: C/genius.xml:8234(synopsis)
 #, no-wrap
 msgid "StringToAlphabet (str,alphabet)"
 msgstr "StringToAlphabet (retezec,abeceda)"
 
-#: C/genius.xml:8153(para)
+#: C/genius.xml:8235(para)
 msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters."
@@ -14324,26 +14461,26 @@ msgstr ""
 "Převést řetězec na vektor hodnot abecedy (pozic v řetězci) počítaných od 0, "
 "za neznámé znaky se dosadí -1."
 
-#: C/genius.xml:8161(title)
+#: C/genius.xml:8243(title)
 msgid "Symbolic Operations"
 msgstr "Symbolické operace"
 
-#: C/genius.xml:8164(term)
+#: C/genius.xml:8246(term)
 msgid "<anchor id=\"gel-function-SymbolicDerivative\"/>SymbolicDerivative"
 msgstr "<anchor id=\"gel-function-SymbolicDerivative\"/>SymbolicDerivative"
 
-#: C/genius.xml:8166(synopsis)
+#: C/genius.xml:8248(synopsis)
 #, no-wrap
 msgid "SymbolicDerivative (f)"
 msgstr "SymbolicDerivative (f)"
 
-#: C/genius.xml:8167(para)
+#: C/genius.xml:8249(para)
 msgid ""
 "Attempt to symbolically differentiate the function f, where f is a function "
 "of one variable."
 msgstr "Zkusit symbolicky derivovat funkci f, kde f je funkce jedné proměnné."
 
-#: C/genius.xml:8168(para)
+#: C/genius.xml:8250(para)
 msgid ""
 "Examples: <screen><prompt>genius&gt;</prompt> "
 "<userinput>SymbolicDerivative(sin)</userinput>\n"
@@ -14361,18 +14498,18 @@ msgstr ""
 "= (`(x)=(7*(2*x)))\n"
 "</screen>"
 
-#: C/genius.xml:8180(term)
+#: C/genius.xml:8262(term)
 msgid ""
 "<anchor id=\"gel-function-SymbolicDerivativeTry\"/>SymbolicDerivativeTry"
 msgstr ""
 "<anchor id=\"gel-function-SymbolicDerivativeTry\"/>SymbolicDerivativeTry"
 
-#: C/genius.xml:8182(synopsis)
+#: C/genius.xml:8264(synopsis)
 #, no-wrap
 msgid "SymbolicDerivativeTry (f)"
 msgstr "SymbolicDerivativeTry (f)"
 
-#: C/genius.xml:8183(para)
+#: C/genius.xml:8265(para)
 msgid ""
 "Attempt to symbolically differentiate the function f, where f is a function "
 "of one variable, returns <constant>null</constant> if unsuccessful but is "
@@ -14383,18 +14520,18 @@ msgstr ""
 "neúspěchu vrátit potichu <constant>null</constant>. (Viz <link linkend=\"gel-"
 "function-SymbolicDerivative\"><function>SymbolicDerivative</function></link>)"
 
-#: C/genius.xml:8190(term)
+#: C/genius.xml:8272(term)
 msgid ""
 "<anchor id=\"gel-function-SymbolicNthDerivative\"/>SymbolicNthDerivative"
 msgstr ""
 "<anchor id=\"gel-function-SymbolicNthDerivative\"/>SymbolicNthDerivative"
 
-#: C/genius.xml:8192(synopsis)
+#: C/genius.xml:8274(synopsis)
 #, no-wrap
 msgid "SymbolicNthDerivative (f,n)"
 msgstr "SymbolicNthDerivative (f,n)"
 
-#: C/genius.xml:8193(para)
+#: C/genius.xml:8275(para)
 msgid ""
 "Attempt to symbolically differentiate a function n times. (See <link linkend="
 "\"gel-function-SymbolicDerivative\"><function>SymbolicDerivative</function></"
@@ -14403,7 +14540,7 @@ msgstr ""
 "Zkusit symbolicky n-krát derivovat funkci. (Viz <link linkend=\"gel-function-"
 "SymbolicDerivative\"><function>SymbolicDerivative</function></link>)"
 
-#: C/genius.xml:8200(term)
+#: C/genius.xml:8282(term)
 msgid ""
 "<anchor id=\"gel-function-SymbolicNthDerivativeTry\"/"
 ">SymbolicNthDerivativeTry"
@@ -14411,12 +14548,12 @@ msgstr ""
 "<anchor id=\"gel-function-SymbolicNthDerivativeTry\"/"
 ">SymbolicNthDerivativeTry"
 
-#: C/genius.xml:8202(synopsis)
+#: C/genius.xml:8284(synopsis)
 #, no-wrap
 msgid "SymbolicNthDerivativeTry (f,n)"
 msgstr "SymbolicNthDerivativeTry (f,n)"
 
-#: C/genius.xml:8203(para)
+#: C/genius.xml:8285(para)
 msgid ""
 "Attempt to symbolically differentiate a function n times quietly and return "
 "<constant>null</constant> on failure (See <link linkend=\"gel-function-"
@@ -14426,7 +14563,7 @@ msgstr ""
 "<constant>null</constant>. (Viz <link linkend=\"gel-function-"
 "SymbolicNthDerivative\"><function>SymbolicNthDerivative</function></link>)"
 
-#: C/genius.xml:8210(term)
+#: C/genius.xml:8292(term)
 msgid ""
 "<anchor id=\"gel-function-SymbolicTaylorApproximationFunction\"/"
 ">SymbolicTaylorApproximationFunction"
@@ -14434,12 +14571,12 @@ msgstr ""
 "<anchor id=\"gel-function-SymbolicTaylorApproximationFunction\"/"
 ">SymbolicTaylorApproximationFunction"
 
-#: C/genius.xml:8212(synopsis)
+#: C/genius.xml:8294(synopsis)
 #, no-wrap
 msgid "SymbolicTaylorApproximationFunction (f,x0,n)"
 msgstr "SymbolicTaylorApproximationFunction (f,x0,n)"
 
-#: C/genius.xml:8213(para)
+#: C/genius.xml:8295(para)
 msgid ""
 "Attempt to construct the Taylor approximation function around x0 to the nth "
 "degree. (See <link linkend=\"gel-function-SymbolicDerivative"
@@ -14449,21 +14586,21 @@ msgstr ""
 "aproximuje zadanou funkci. (Viz <link linkend=\"gel-function-"
 "SymbolicDerivative\"><function>SymbolicDerivative</function></link>)"
 
-#: C/genius.xml:8225(term)
+#: C/genius.xml:8307(term)
 msgid "<anchor id=\"gel-function-ExportPlot\"/>ExportPlot"
 msgstr "<anchor id=\"gel-function-ExportPlot\"/>ExportPlot"
 
-#: C/genius.xml:8227(synopsis)
+#: C/genius.xml:8309(synopsis)
 #, no-wrap
 msgid "ExportPlot (file,type)"
 msgstr "ExportPlot (soubor,typ)"
 
-#: C/genius.xml:8228(synopsis)
+#: C/genius.xml:8310(synopsis)
 #, no-wrap
 msgid "ExportPlot (file)"
 msgstr "ExportPlot (soubor)"
 
-#: C/genius.xml:8229(para)
+#: C/genius.xml:8311(para)
 msgid ""
 "Export the contents of the plotting window to a file. The type is a string "
 "that specifies the file type to use, \"png\", \"eps\", or \"ps\". If the "
@@ -14475,11 +14612,11 @@ msgstr ""
 "zadán, určí se podle přípony, která by v takovém případě mela být „.png“, „."
 "eps“ nebo „.ps“."
 
-#: C/genius.xml:8236(para)
+#: C/genius.xml:8318(para)
 msgid "Note that files are overwritten without asking."
 msgstr "Upozorňujeme, že soubory se přepisují bez dotazu."
 
-#: C/genius.xml:8239(para)
+#: C/genius.xml:8321(para)
 msgid ""
 "On successful export, true is returned. Otherwise error is printed and "
 "exception is raised."
@@ -14487,7 +14624,7 @@ msgstr ""
 "Při úspěšném exportu je vrácena hodnota pravda. Jinak je vypsána chyba a "
 "vyvolána výjimka."
 
-#: C/genius.xml:8243(para)
+#: C/genius.xml:8325(para)
 msgid ""
 "Examples: <screen><prompt>genius&gt;</prompt> <userinput>ExportPlot(\"file."
 "png\")</userinput>\n"
@@ -14501,36 +14638,36 @@ msgstr ""
 "\")</userinput>\n"
 "</screen>"
 
-#: C/genius.xml:8253(term)
+#: C/genius.xml:8335(term)
 msgid "<anchor id=\"gel-function-LinePlot\"/>LinePlot"
 msgstr "<anchor id=\"gel-function-LinePlot\"/>LinePlot"
 
-#: C/genius.xml:8255(synopsis)
+#: C/genius.xml:8337(synopsis)
 #, no-wrap
 msgid "LinePlot (func1,func2,func3,...)"
 msgstr "LinePlot (fce1,fce2,fce3,...)"
 
-#: C/genius.xml:8256(synopsis)
+#: C/genius.xml:8338(synopsis)
 #, no-wrap
 msgid "LinePlot (func1,func2,func3,x1,x2)"
 msgstr "LinePlot (fce1,fce2,fce3,x1,x2)"
 
-#: C/genius.xml:8257(synopsis)
+#: C/genius.xml:8339(synopsis)
 #, no-wrap
 msgid "LinePlot (func1,func2,func3,x1,x2,y1,y2)"
 msgstr "LinePlot (fce1,fce2,fce3,x1,x2,y1,y2)"
 
-#: C/genius.xml:8258(synopsis)
+#: C/genius.xml:8340(synopsis)
 #, no-wrap
 msgid "LinePlot (func1,func2,func3,[x1,x2])"
 msgstr "LinePlot (fce1,fce2,fce3,[x1,x2])"
 
-#: C/genius.xml:8259(synopsis)
+#: C/genius.xml:8341(synopsis)
 #, no-wrap
 msgid "LinePlot (func1,func2,func3,[x1,x2,y1,y2])"
 msgstr "LinePlot (fce1,fce2,fce3,[x1,x2,y1,y2])"
 
-#: C/genius.xml:8260(para)
+#: C/genius.xml:8342(para)
 msgid ""
 "Plot a function (or several functions) with a line. First (up to 10) "
 "arguments are functions, then optionally you can specify the limits of the "
@@ -14549,8 +14686,8 @@ msgstr ""
 "\"><function>LinePlotWindow</function></link>). Pokud nejsou zadány jen meze "
 "v ose y, funkce se propočítají a vezme se jejich minimum a maximu."
 
-#: C/genius.xml:8271(para) C/genius.xml:8378(para) C/genius.xml:8405(para)
-#: C/genius.xml:8488(para) C/genius.xml:8663(para)
+#: C/genius.xml:8353(para) C/genius.xml:8460(para) C/genius.xml:8487(para)
+#: C/genius.xml:8570(para) C/genius.xml:8745(para)
 msgid ""
 "The parameter <link linkend=\"gel-function-LinePlotDrawLegends"
 "\"><function>LinePlotDrawLegends</function></link> controls the drawing of "
@@ -14560,7 +14697,7 @@ msgstr ""
 "\"><function>LinePlotDrawLegends</function></link> ovládá vykreslování "
 "legendy."
 
-#: C/genius.xml:8276(para)
+#: C/genius.xml:8358(para)
 msgid ""
 "Examples: <screen><prompt>genius&gt;</prompt> <userinput>LinePlot(sin,cos)</"
 "userinput>\n"
@@ -14574,16 +14711,16 @@ msgstr ""
 "userinput>\n"
 "</screen>"
 
-#: C/genius.xml:8286(term)
+#: C/genius.xml:8368(term)
 msgid "<anchor id=\"gel-function-LinePlotClear\"/>LinePlotClear"
 msgstr "<anchor id=\"gel-function-LinePlotClear\"/>LinePlotClear"
 
-#: C/genius.xml:8288(synopsis)
+#: C/genius.xml:8370(synopsis)
 #, no-wrap
 msgid "LinePlotClear ()"
 msgstr "LinePlotClear ()"
 
-#: C/genius.xml:8289(para)
+#: C/genius.xml:8371(para)
 msgid ""
 "Show the line plot window and clear out functions and any other lines that "
 "were drawn."
@@ -14591,21 +14728,21 @@ msgstr ""
 "Zobrazí okno pro vykreslování a vymaže funkce a ostatní čáry, které jsou v "
 "něm vykresleny."
 
-#: C/genius.xml:8297(term)
+#: C/genius.xml:8379(term)
 msgid "<anchor id=\"gel-function-LinePlotDrawLine\"/>LinePlotDrawLine"
 msgstr "<anchor id=\"gel-function-LinePlotDrawLine\"/>LinePlotDrawLine"
 
-#: C/genius.xml:8299(synopsis)
+#: C/genius.xml:8381(synopsis)
 #, no-wrap
 msgid "LinePlotDrawLine (x1,y1,x2,y2,...)"
 msgstr "LinePlotDrawLine (x1,y1,x2,y2,...)"
 
-#: C/genius.xml:8300(synopsis)
+#: C/genius.xml:8382(synopsis)
 #, no-wrap
 msgid "LinePlotDrawLine (v,...)"
 msgstr "LinePlotDrawLine (v,...)"
 
-#: C/genius.xml:8301(para)
+#: C/genius.xml:8383(para)
 msgid ""
 "Draw a line from <varname>x1</varname>,<varname>y1</varname> to <varname>x2</"
 "varname>,<varname>y2</varname>. <varname>x1</varname>,<varname>y1</varname>, "
@@ -14617,7 +14754,7 @@ msgstr ""
 "<varname>x2</varname>,<varname>y2</varname> může být pro delší lomené čáry "
 "nahrazeno maticí <varname>n</varname> krát 2."
 
-#: C/genius.xml:8308(para)
+#: C/genius.xml:8390(para)
 msgid ""
 "Extra parameters can be added to specify line color, thickness, arrows, the "
 "plotting window, or legend. You can do this by adding an argument string "
@@ -14633,7 +14770,7 @@ msgstr ""
 "<userinput>\"legend\"</userinput> a za ním určit barvu, tloušťku, okno jako "
 "4prvkový vektor, typ šipky nebo legendu."
 
-#: C/genius.xml:8318(para)
+#: C/genius.xml:8400(para)
 msgid ""
 "The color should be either a string indicating the common english word for "
 "the color that GTK will recognize such as <userinput>\"red\"</userinput>, "
@@ -14655,7 +14792,7 @@ msgstr ""
 "reálných čísel, která představují červenou, zelenou a modrou složku v "
 "rozmezí 0 až 1."
 
-#: C/genius.xml:8328(para)
+#: C/genius.xml:8410(para)
 msgid ""
 "The window should be given as usual as <userinput>[x1,x2,y1,y2]</userinput>, "
 "or alternatively can be given as a string <userinput>\"fit\"</userinput> in "
@@ -14667,7 +14804,7 @@ msgstr ""
 "userinput>, v kterémž to případě bude rozsah x určen přesně a rozsah y bude "
 "nastaven s pětiprocentním přesahem křivky."
 
-#: C/genius.xml:8335(para)
+#: C/genius.xml:8417(para)
 msgid ""
 "Arrow specification should be <userinput>\"origin\"</userinput>, <userinput>"
 "\"end\"</userinput>, <userinput>\"both\"</userinput>, or <userinput>\"none"
@@ -14677,7 +14814,7 @@ msgstr ""
 "<userinput>\"end\"</userinput> (konec), <userinput>\"both\"</userinput> "
 "(obojí) nebo <userinput>\"none\"</userinput> (nic)."
 
-#: C/genius.xml:8342(para)
+#: C/genius.xml:8424(para)
 msgid ""
 "Finally, legend should be a string that can be used as the legend in the "
 "graph. That is, if legends are being printed."
@@ -14685,7 +14822,7 @@ msgstr ""
 "A nakonec legenda, která by měla být zadána jako řetězec, který se použije k "
 "osvětlení grafu. Samozřejmě jen v případě, že se legenda tiskne."
 
-#: C/genius.xml:8346(para)
+#: C/genius.xml:8428(para)
 msgid ""
 "Examples: <screen><prompt>genius&gt;</prompt> "
 "<userinput>LinePlotDrawLine(0,0,1,1,\"color\",\"blue\",\"thickness\",3)</"
@@ -14715,36 +14852,36 @@ msgstr ""
 "userinput>\n"
 "</screen>"
 
-#: C/genius.xml:8359(term)
+#: C/genius.xml:8441(term)
 msgid "<anchor id=\"gel-function-LinePlotParametric\"/>LinePlotParametric"
 msgstr "<anchor id=\"gel-function-LinePlotParametric\"/>LinePlotParametric"
 
-#: C/genius.xml:8361(synopsis)
+#: C/genius.xml:8443(synopsis)
 #, no-wrap
 msgid "LinePlotParametric (xfunc,yfunc,...)"
 msgstr "LinePlotParametric (xfce,yfce,...)"
 
-#: C/genius.xml:8362(synopsis)
+#: C/genius.xml:8444(synopsis)
 #, no-wrap
 msgid "LinePlotParametric (xfunc,yfunc,t1,t2,tinc)"
 msgstr "LinePlotParametric (xfce,yfce,t1,t2,tprirust)"
 
-#: C/genius.xml:8363(synopsis)
+#: C/genius.xml:8445(synopsis)
 #, no-wrap
 msgid "LinePlotParametric (xfunc,yfunc,t1,t2,tinc,x1,x2,y1,y2)"
 msgstr "LinePlotParametric (xfce,yfce,t1,t2,tprirust,x1,x2,y1,y2)"
 
-#: C/genius.xml:8364(synopsis)
+#: C/genius.xml:8446(synopsis)
 #, no-wrap
 msgid "LinePlotParametric (xfunc,yfunc,t1,t2,tinc,[x1,x2,y1,y2])"
 msgstr "LinePlotParametric (xfce,yfce,t1,t2,tprirust,[x1,x2,y1,y2])"
 
-#: C/genius.xml:8365(synopsis)
+#: C/genius.xml:8447(synopsis)
 #, no-wrap
 msgid "LinePlotParametric (xfunc,yfunc,t1,t2,tinc,\"fit\")"
 msgstr "LinePlotParametric (xfce,yfce,t1,t2,tprirust, \"fit\")"
 
-#: C/genius.xml:8366(para)
+#: C/genius.xml:8448(para)
 msgid ""
 "Plot a parametric function with a line. First come the functions for "
 "<varname>x</varname> and <varname>y</varname> then optionally the "
@@ -14756,7 +14893,7 @@ msgstr ""
 "volitelnými omezeními <userinput>t1,t2,tprirust</userinput> pro <varname>t</"
 "varname> a pak mezemi v podobě <userinput>x1,x2,y1,y2</userinput>."
 
-#: C/genius.xml:8371(para)
+#: C/genius.xml:8453(para)
 msgid ""
 "If x and y limits are not specified, then the currently set limits apply "
 "(See <link linkend=\"gel-function-LinePlotWindow\"><function>LinePlotWindow</"
@@ -14768,26 +14905,26 @@ msgstr ""
 "function></link>). Místo mezí x a y je možné zadat řetězec \"fit\" a meze se "
 "pak zvolí podle maximálního rozsahu grafu."
 
-#: C/genius.xml:8387(term)
+#: C/genius.xml:8469(term)
 msgid "<anchor id=\"gel-function-LinePlotCParametric\"/>LinePlotCParametric"
 msgstr "<anchor id=\"gel-function-LinePlotCParametric\"/>LinePlotCParametric"
 
-#: C/genius.xml:8389(synopsis)
+#: C/genius.xml:8471(synopsis)
 #, no-wrap
 msgid "LinePlotCParametric (func,...)"
 msgstr "LinePlotCParametric (fce,...)"
 
-#: C/genius.xml:8390(synopsis)
+#: C/genius.xml:8472(synopsis)
 #, no-wrap
 msgid "LinePlotCParametric (func,t1,t2,tinc)"
 msgstr "LinePlotCParametric (fce,t1,t2,tprirust)"
 
-#: C/genius.xml:8391(synopsis)
+#: C/genius.xml:8473(synopsis)
 #, no-wrap
 msgid "LinePlotCParametric (func,t1,t2,tinc,x1,x2,y1,y2)"
 msgstr "LinePlotCParametric (fce,t1,t2,tprirust,x1,x2,y1,y2)"
 
-#: C/genius.xml:8392(para)
+#: C/genius.xml:8474(para)
 msgid ""
 "Plot a parametric complex valued function with a line. First comes the "
 "function that returns <computeroutput>x+iy</computeroutput>, then optionally "
@@ -14800,7 +14937,7 @@ msgstr ""
 "tprirust</userinput> pro <varname>t</varname> a pak mezemi v podobě "
 "<userinput>x1,x2,y1,y2</userinput>."
 
-#: C/genius.xml:8398(para)
+#: C/genius.xml:8480(para)
 msgid ""
 "If limits are not specified, then the currently set limits apply (See <link "
 "linkend=\"gel-function-LinePlotWindow\"><function>LinePlotWindow</function></"
@@ -14812,16 +14949,16 @@ msgstr ""
 "function></link>). Místo mezí x a y je možné zadat řetězec \"fit\" a meze se "
 "pak zvolí podle maximálního rozsahu grafu."
 
-#: C/genius.xml:8414(term)
+#: C/genius.xml:8496(term)
 msgid "<anchor id=\"gel-function-PlotCanvasFreeze\"/>PlotCanvasFreeze"
 msgstr "<anchor id=\"gel-function-PlotCanvasFreeze\"/>PlotCanvasFreeze"
 
-#: C/genius.xml:8416(synopsis)
+#: C/genius.xml:8498(synopsis)
 #, no-wrap
 msgid "PlotCanvasFreeze ()"
 msgstr "PlotCanvasFreeze ()"
 
-#: C/genius.xml:8417(para)
+#: C/genius.xml:8499(para)
 msgid ""
 "Freeze drawing of the canvas plot temporarily. Useful if you need to draw a "
 "bunch of elements and want to delay drawing everything to avoid flicker in "
@@ -14834,7 +14971,7 @@ msgstr ""
 "zavolat funkci <link linkend=\"gel-function-PlotCanvasThaw"
 "\"><function>PlotCanvasThaw</function></link>."
 
-#: C/genius.xml:8422(para)
+#: C/genius.xml:8504(para)
 msgid ""
 "The canvas is always thawed after end of any execution, so it will never "
 "remain frozen. The moment a new command line is shown for example the plot "
@@ -14846,16 +14983,16 @@ msgstr ""
 "příkazový řádek, dojde k automatickému rozmrazení. Také si všimněte, že "
 "volání zmrazení a rozmrazení mohou být zanořená."
 
-#: C/genius.xml:8431(term)
+#: C/genius.xml:8513(term)
 msgid "<anchor id=\"gel-function-PlotCanvasThaw\"/>PlotCanvasThaw"
 msgstr "<anchor id=\"gel-function-PlotCanvasThaw\"/>PlotCanvasThaw"
 
-#: C/genius.xml:8433(synopsis)
+#: C/genius.xml:8515(synopsis)
 #, no-wrap
 msgid "PlotCanvasThaw ()"
 msgstr "PlotCanvasThaw ()"
 
-#: C/genius.xml:8434(para)
+#: C/genius.xml:8516(para)
 msgid ""
 "Thaw the plot canvas frozen by <link linkend=\"gel-function-PlotCanvasFreeze"
 "\"><function>PlotCanvasFreeze</function></link> and rewdraw the canvas "
@@ -14867,7 +15004,7 @@ msgstr ""
 "ihned jej překreslí. Platno je také rozmrazeno vždy po skončení provádění "
 "libovolného programu."
 
-#: C/genius.xml:8444(term)
+#: C/genius.xml:8526(term)
 msgid ""
 "<anchor id=\"gel-function-SlopefieldClearSolutions\"/"
 ">SlopefieldClearSolutions"
@@ -14875,12 +15012,12 @@ msgstr ""
 "<anchor id=\"gel-function-SlopefieldClearSolutions\"/"
 ">SlopefieldClearSolutions"
 
-#: C/genius.xml:8446(synopsis)
+#: C/genius.xml:8528(synopsis)
 #, no-wrap
 msgid "SlopefieldClearSolutions ()"
 msgstr "SlopefieldClearSolutions ()"
 
-#: C/genius.xml:8447(para)
+#: C/genius.xml:8529(para)
 msgid ""
 "Clears the solutions drawn by the <link linkend=\"gel-function-"
 "SlopefieldDrawSolution\"><function>SlopefieldDrawSolution</function></link> "
@@ -14889,18 +15026,18 @@ msgstr ""
 "Vymazat řešení vykreslená funkcí <link linkend=\"gel-function-"
 "SlopefieldDrawSolution\"><function>SlopefieldDrawSolution</function></link>."
 
-#: C/genius.xml:8456(term)
+#: C/genius.xml:8538(term)
 msgid ""
 "<anchor id=\"gel-function-SlopefieldDrawSolution\"/>SlopefieldDrawSolution"
 msgstr ""
 "<anchor id=\"gel-function-SlopefieldDrawSolution\"/>SlopefieldDrawSolution"
 
-#: C/genius.xml:8458(synopsis)
+#: C/genius.xml:8540(synopsis)
 #, no-wrap
 msgid "SlopefieldDrawSolution (x, y, dx)"
 msgstr "SlopefieldDrawSolution (x, y, dx)"
 
-#: C/genius.xml:8459(para)
+#: C/genius.xml:8541(para)
 msgid ""
 "When a slope field plot is active, draw a solution with the specified "
 "initial condition. The standard Runge-Kutta method is used with increment "
@@ -14918,21 +15055,21 @@ msgstr ""
 "link>. Pro vykreslení řešení můžete použít i grafické rozhraní a počáteční "
 "podmínky zadat pomocí myši."
 
-#: C/genius.xml:8473(term)
+#: C/genius.xml:8555(term)
 msgid "<anchor id=\"gel-function-SlopefieldPlot\"/>SlopefieldPlot"
 msgstr "<anchor id=\"gel-function-SlopefieldPlot\"/>SlopefieldPlot"
 
-#: C/genius.xml:8475(synopsis)
+#: C/genius.xml:8557(synopsis)
 #, no-wrap
 msgid "SlopefieldPlot (func)"
 msgstr "SlopefieldPlot (fce)"
 
-#: C/genius.xml:8476(synopsis)
+#: C/genius.xml:8558(synopsis)
 #, no-wrap
 msgid "SlopefieldPlot (func,x1,x2,y1,y2)"
 msgstr "SlopefieldPlot (fce,x1,x2,y1,y2)"
 
-#: C/genius.xml:8477(para)
+#: C/genius.xml:8559(para)
 msgid ""
 "Plot a slope field. The function <varname>func</varname> should take two "
 "real numbers <varname>x</varname> and <varname>y</varname>, or a single "
@@ -14950,7 +15087,7 @@ msgstr ""
 "aktuálně nastavení mezí (viz <link linkend=\"gel-function-LinePlotWindow"
 "\"><function>LinePlotWindow</function></link>)."
 
-#: C/genius.xml:8493(para)
+#: C/genius.xml:8575(para)
 msgid ""
 "Examples: <screen><prompt>genius&gt;</prompt> <userinput>Slopefield(`(x,"
 "y)=sin(x-y),-5,5,-5,5)</userinput>\n"
@@ -14960,36 +15097,36 @@ msgstr ""
 "y)=sin(x-y),-5,5,-5,5)</userinput>\n"
 "</screen>"
 
-#: C/genius.xml:8502(term)
+#: C/genius.xml:8584(term)
 msgid "<anchor id=\"gel-function-SurfacePlot\"/>SurfacePlot"
 msgstr "<anchor id=\"gel-function-SurfacePlot\"/>SurfacePlot"
 
-#: C/genius.xml:8504(synopsis)
+#: C/genius.xml:8586(synopsis)
 #, no-wrap
 msgid "SurfacePlot (func)"
 msgstr "SurfacePlot (fce)"
 
-#: C/genius.xml:8505(synopsis)
+#: C/genius.xml:8587(synopsis)
 #, no-wrap
 msgid "SurfacePlot (func,x1,x2,y1,y2,z1,z2)"
 msgstr "SurfacePlot (fce,x1,x2,y1,y2,z1,z2)"
 
-#: C/genius.xml:8506(synopsis)
+#: C/genius.xml:8588(synopsis)
 #, no-wrap
 msgid "SurfacePlot (func,x1,x2,y1,y2)"
 msgstr "SurfacePlot (fce,x1,x2,y1,y2)"
 
-#: C/genius.xml:8507(synopsis)
+#: C/genius.xml:8589(synopsis)
 #, no-wrap
 msgid "SurfacePlot (func,[x1,x2,y1,y2,z1,z2])"
 msgstr "SurfacePlot (fce,[x1,x2,y1,y2,z1,z2])"
 
-#: C/genius.xml:8508(synopsis)
+#: C/genius.xml:8590(synopsis)
 #, no-wrap
 msgid "SurfacePlot (func,[x1,x2,y1,y2])"
 msgstr "SurfacePlot (fce,[x1,x2,y1,y2])"
 
-#: C/genius.xml:8509(para)
+#: C/genius.xml:8591(para)
 msgid ""
 "Plot a surface function that takes either two arguments or a complex number. "
 "First comes the function then optionally limits as <varname>x1</varname>, "
@@ -15007,13 +15144,13 @@ msgstr ""
 "function-LinePlotWindow\"><function>SurfacePlotWindow</function></link>). V "
 "současnosti umí Genius vykreslovat jen funkci jedné plochy."
 
-#: C/genius.xml:8517(para)
+#: C/genius.xml:8599(para)
 msgid ""
 "If the z limits are not specified then the maxima and minima of the function "
 "are used."
 msgstr "Když nejsou meze zadány, použije se pro ně minimum a maximum funkce."
 
-#: C/genius.xml:8520(para)
+#: C/genius.xml:8602(para)
 msgid ""
 "Examples: <screen><prompt>genius&gt;</prompt> <userinput>SurfacePlot(|"
 "sin|,-1,1,-1,1,0,1.5)</userinput>\n"
@@ -15031,41 +15168,41 @@ msgstr ""
 "^2,-1,1,-1,1,0,2)</userinput>\n"
 "</screen>"
 
-#: C/genius.xml:8531(term)
+#: C/genius.xml:8613(term)
 msgid "<anchor id=\"gel-function-SurfacePlotData\"/>SurfacePlotData"
 msgstr "<anchor id=\"gel-function-SurfacePlotData\"/>SurfacePlotData"
 
-#: C/genius.xml:8533(synopsis)
+#: C/genius.xml:8615(synopsis)
 #, no-wrap
 msgid "SurfacePlotData (data)"
 msgstr "SurfacePlotData (data)"
 
-#: C/genius.xml:8534(synopsis)
+#: C/genius.xml:8616(synopsis)
 #, no-wrap
 msgid "SurfacePlotData (data,label)"
 msgstr "SurfacePlotData (data,popisek)"
 
-#: C/genius.xml:8535(synopsis)
+#: C/genius.xml:8617(synopsis)
 #, no-wrap
 msgid "SurfacePlotData (data,x1,x2,y1,y2,z1,z2)"
 msgstr "SurfacePlotData (data,x1,x2,y1,y2,z1,z2)"
 
-#: C/genius.xml:8536(synopsis)
+#: C/genius.xml:8618(synopsis)
 #, no-wrap
 msgid "SurfacePlotData (data,label,x1,x2,y1,y2,z1,z2)"
 msgstr "SurfacePlotData (data,popisek,x1,x2,y1,y2,z1,z2)"
 
-#: C/genius.xml:8537(synopsis)
+#: C/genius.xml:8619(synopsis)
 #, no-wrap
 msgid "SurfacePlotData (data,[x1,x2,y1,y2,z1,z2])"
 msgstr "SurfacePlotData (data,[x1,x2,y1,y2,z1,z2])"
 
-#: C/genius.xml:8538(synopsis)
+#: C/genius.xml:8620(synopsis)
 #, no-wrap
 msgid "SurfacePlotData (data,label,[x1,x2,y1,y2,z1,z2])"
 msgstr "SurfacePlotData (data,popisek,[x1,x2,y1,y2,z1,z2])"
 
-#: C/genius.xml:8539(para)
+#: C/genius.xml:8621(para)
 msgid ""
 "Plot a surface from data. The data is an n by 3 matrix whose rows are the x, "
 "y and z coordinates. The data can also be simply a vector whose length is a "
@@ -15077,7 +15214,7 @@ msgstr ""
 "dělitelná 3 a který obsahuje trojice x, y, z. Data by měla obsahovat nejméně "
 "3 body."
 
-#: C/genius.xml:8546(para)
+#: C/genius.xml:8628(para)
 msgid ""
 "Optionally we can give the label and also optionally the limits. If limits "
 "are not given, they are computed from the data, <link linkend=\"gel-function-"
@@ -15091,7 +15228,7 @@ msgstr ""
 "pokud ji chcete použít, musíte to provést explicitně. Když není předán "
 "popisek, použije se prázdný."
 
-#: C/genius.xml:8553(para)
+#: C/genius.xml:8635(para)
 msgid ""
 "Examples: <screen><prompt>genius&gt;</prompt> "
 "<userinput>SurfacePlotData([0,0,0;1,0,1;0,1,1;1,1,3])</userinput>\n"
@@ -15113,7 +15250,7 @@ msgstr ""
 "SurfacePlotWindow)</userinput>\n"
 "</screen>"
 
-#: C/genius.xml:8561(para)
+#: C/genius.xml:8643(para)
 msgid ""
 "Here's an example of how to plot in polar coordinates, in particular how to "
 "plot the function <userinput>-r^2 * theta</userinput>: "
@@ -15130,31 +15267,31 @@ msgstr ""
 "<prompt>genius&gt;</prompt> <userinput>SurfacePlotData(d)</userinput>\n"
 "</screen>"
 
-#: C/genius.xml:8573(term)
+#: C/genius.xml:8655(term)
 msgid "<anchor id=\"gel-function-SurfacePlotDataGrid\"/>SurfacePlotDataGrid"
 msgstr "<anchor id=\"gel-function-SurfacePlotDataGrid\"/>SurfacePlotDataGrid"
 
-#: C/genius.xml:8575(synopsis)
+#: C/genius.xml:8657(synopsis)
 #, no-wrap
 msgid "SurfacePlotDataGrid (data,[x1,x2,y1,y2])"
 msgstr "SurfacePlotDataGrid (data,[x1,x2,y1,y2])"
 
-#: C/genius.xml:8576(synopsis)
+#: C/genius.xml:8658(synopsis)
 #, no-wrap
 msgid "SurfacePlotDataGrid (data,[x1,x2,y1,y2,z1,z2])"
 msgstr "SurfacePlotDataGrid (data,[x1,x2,y1,y2,z1,z2])"
 
-#: C/genius.xml:8577(synopsis)
+#: C/genius.xml:8659(synopsis)
 #, no-wrap
 msgid "SurfacePlotDataGrid (data,[x1,x2,y1,y2],label)"
 msgstr "SurfacePlotDataGrid (data,[x1,x2,y1,y2],popisek)"
 
-#: C/genius.xml:8578(synopsis)
+#: C/genius.xml:8660(synopsis)
 #, no-wrap
 msgid "SurfacePlotDataGrid (data,[x1,x2,y1,y2,z1,z2],label)"
 msgstr "SurfacePlotDataGrid (data,[x1,x2,y1,y2,z1,z2],popisek)"
 
-#: C/genius.xml:8579(para)
+#: C/genius.xml:8661(para)
 msgid ""
 "Plot a surface from regular rectangular data. The data is given in a n by m "
 "matrix where the rows are the x coordinate and the columns are the y "
@@ -15175,13 +15312,13 @@ msgstr ""
 "nejsou uvedeny meze <varname>z1</varname> a <varname>z2</varname>, jsou "
 "vypočteny z dat (budou to extrémní hodnoty v datech)."
 
-#: C/genius.xml:8593(para)
+#: C/genius.xml:8675(para)
 msgid ""
 "Optionally we can give the label, if label is not given then empty label is "
 "used."
 msgstr "Volitelně se může zadat popisek, pokud zadán není, použije se prázdný."
 
-#: C/genius.xml:8597(para)
+#: C/genius.xml:8679(para)
 msgid ""
 "Examples: <screen><prompt>genius&gt;</prompt> "
 "<userinput>SurfacePlotDataGrid([1,2;3,4],[0,1,0,1])</userinput>\n"
@@ -15203,7 +15340,7 @@ msgstr ""
 "\"poloviční sedlo\")</userinput>\n"
 "</screen>"
 
-#: C/genius.xml:8609(term)
+#: C/genius.xml:8691(term)
 msgid ""
 "<anchor id=\"gel-function-VectorfieldClearSolutions\"/"
 ">VectorfieldClearSolutions"
@@ -15211,12 +15348,12 @@ msgstr ""
 "<anchor id=\"gel-function-VectorfieldClearSolutions\"/"
 ">VectorfieldClearSolutions"
 
-#: C/genius.xml:8611(synopsis)
+#: C/genius.xml:8693(synopsis)
 #, no-wrap
 msgid "VectorfieldClearSolutions ()"
 msgstr "VectorfieldClearSolutions ()"
 
-#: C/genius.xml:8612(para)
+#: C/genius.xml:8694(para)
 msgid ""
 "Clears the solutions drawn by the <link linkend=\"gel-function-"
 "VectorfieldDrawSolution\"><function>VectorfieldDrawSolution</function></"
@@ -15226,18 +15363,18 @@ msgstr ""
 "VectorfieldDrawSolution\"><function>VectorfieldDrawSolution</function></"
 "link>."
 
-#: C/genius.xml:8621(term)
+#: C/genius.xml:8703(term)
 msgid ""
 "<anchor id=\"gel-function-VectorfieldDrawSolution\"/>VectorfieldDrawSolution"
 msgstr ""
 "<anchor id=\"gel-function-VectorfieldDrawSolution\"/>VectorfieldDrawSolution"
 
-#: C/genius.xml:8623(synopsis)
+#: C/genius.xml:8705(synopsis)
 #, no-wrap
 msgid "VectorfieldDrawSolution (x, y, dt, tlen)"
 msgstr "VectorfieldDrawSolution (x, y, dt, tdelka)"
 
-#: C/genius.xml:8624(para)
+#: C/genius.xml:8706(para)
 msgid ""
 "When a vector field plot is active, draw a solution with the specified "
 "initial condition. The standard Runge-Kutta method is used with increment "
@@ -15257,21 +15394,21 @@ msgstr ""
 "řešení můžete použít i grafické rozhraní a počáteční podmínky zadat pomocí "
 "myši."
 
-#: C/genius.xml:8639(term)
+#: C/genius.xml:8721(term)
 msgid "<anchor id=\"gel-function-VectorfieldPlot\"/>VectorfieldPlot"
 msgstr "<anchor id=\"gel-function-VectorfieldPlot\"/>VectorfieldPlot"
 
-#: C/genius.xml:8641(synopsis)
+#: C/genius.xml:8723(synopsis)
 #, no-wrap
 msgid "VectorfieldPlot (funcx, funcy)"
 msgstr "VectorfieldPlot (fcex, fcey)"
 
-#: C/genius.xml:8642(synopsis)
+#: C/genius.xml:8724(synopsis)
 #, no-wrap
 msgid "VectorfieldPlot (funcx, funcy, x1, x2, y1, y2)"
 msgstr "VectorfieldPlot (fcex, fcey, x1, x2, y1, y2)"
 
-#: C/genius.xml:8643(para)
+#: C/genius.xml:8725(para)
 msgid ""
 "Plot a two dimensional vector field. The function <varname>funcx</varname> "
 "should be the dx/dt of the vectorfield and the function <varname>funcy</"
@@ -15291,7 +15428,7 @@ msgstr ""
 "<constant>true</constant>, pak je velikost vektorů normalizována. To "
 "znamená, že je zobrazen jen směr a velikost ne."
 
-#: C/genius.xml:8656(para)
+#: C/genius.xml:8738(para)
 msgid ""
 "Optionally you can specify the limits of the plotting window as <varname>x1</"
 "varname>, <varname>x2</varname>, <varname>y1</varname>, <varname>y2</"
@@ -15305,7 +15442,7 @@ msgstr ""
 "(viz <link linkend=\"gel-function-LinePlotWindow\"><function>LinePlotWindow</"
 "function></link>)."
 
-#: C/genius.xml:8668(para)
+#: C/genius.xml:8750(para)
 msgid ""
 "Examples: <screen><prompt>genius&gt;</prompt> <userinput>VectorfieldPlot(`(x,"
 "y)=x^2-y, `(x,y)=y^2-x, -1, 1, -1, 1)</userinput>\n"
@@ -15315,19 +15452,19 @@ msgstr ""
 "y)=x^2-y, `(x,y)=y^2-x, -1, 1, -1, 1)</userinput>\n"
 "</screen>"
 
-#: C/genius.xml:8683(title)
+#: C/genius.xml:8765(title)
 msgid "Example Programs in GEL"
 msgstr "Příklad programů v jazyce GEL"
 
-#: C/genius.xml:8685(para)
+#: C/genius.xml:8767(para)
 msgid "Here is a function that calculates factorials: <placeholder-1/>"
 msgstr "Zde je funkce, která vypočítává faktoriály: <placeholder-1/>"
 
-#: C/genius.xml:8690(para)
+#: C/genius.xml:8772(para)
 msgid "With indentation it becomes: <placeholder-1/>"
 msgstr "Naformátovaná odsazováním vypadá takto: <placeholder-1/>"
 
-#: C/genius.xml:8700(para)
+#: C/genius.xml:8782(para)
 msgid ""
 "This is a direct port of the factorial function from the <application>bc</"
 "application> manpage. The syntax seems similar to <application>bc</"
@@ -15341,12 +15478,12 @@ msgstr ""
 "výraz je to, co je vráceno. Pokud by se místo toho použila funkce "
 "<literal>return</literal>, vypadalo by to takto: <placeholder-1/>"
 
-#: C/genius.xml:8713(programlisting)
+#: C/genius.xml:8795(programlisting)
 #, no-wrap
 msgid "function f(x) = prod k=1 to x do k\n"
 msgstr "function f(x) = prod k=1 to x do k\n"
 
-#: C/genius.xml:8709(para)
+#: C/genius.xml:8791(para)
 msgid ""
 "By far the easiest way to define a factorial function would be using the "
 "product loop as follows. This is not only the shortest and fastest, but also "
@@ -15357,7 +15494,7 @@ msgstr ""
 "nejkratší a nejrychlejší řešení, ale je to nejlépe čitelná verze. "
 "<placeholder-1/>"
 
-#: C/genius.xml:8717(para)
+#: C/genius.xml:8799(para)
 msgid ""
 "Here is a larger example, this basically redefines the internal <link "
 "linkend=\"gel-function-ref\"><function>ref</function></link> function to "
@@ -15371,7 +15508,7 @@ msgstr ""
 "function> je vestavěná a mnohem rychlejší, ale tento příklad má ilustrovat "
 "některé komplexnější vlastnosti jazyka GEL. <placeholder-1/>"
 
-#: C/genius.xml:8772(para)
+#: C/genius.xml:8854(para)
 msgid ""
 "To configure <application>Genius Mathematics Tool</application>, choose "
 "<menuchoice><guimenu>Settings</guimenu><guimenuitem>Preferences</"
@@ -15385,11 +15522,11 @@ msgstr ""
 "parametrům, které poskytuje standardní knihovna je zde navíc pár základních "
 "parametrů poskytovaných kalkulátorem. Ty určují, jak se kalkulátor má chovat."
 
-#: C/genius.xml:8782(title)
+#: C/genius.xml:8864(title)
 msgid "Changing Settings with GEL"
 msgstr "Změna nastavení pomocí GEL"
 
-#: C/genius.xml:8783(para)
+#: C/genius.xml:8865(para)
 msgid ""
 "Many of the settings in Genius are simply global variables, and can be "
 "evaluated and assigned to in the same way as normal variables. See <xref "
@@ -15403,12 +15540,12 @@ msgstr ""
 "vyhodnocování a přiřazování proměnných a  <xref linkend=\"genius-gel-"
 "function-parameters\"/> pro seznam nastavení, která lze tímto způsobem měnit."
 
-#: C/genius.xml:8792(programlisting)
+#: C/genius.xml:8874(programlisting)
 #, no-wrap
 msgid "MaxDigits = 12\n"
 msgstr "MaxDigits = 12\n"
 
-#: C/genius.xml:8790(para)
+#: C/genius.xml:8872(para)
 msgid ""
 "As an example, you can set the maximum number of digits in a result to 12 by "
 "typing: <placeholder-1/>"
@@ -15416,15 +15553,15 @@ msgstr ""
 "Jako příklad uveďme, jak můžete nastavit maximální počet číslic ve "
 "výsledcích na 12 tím, že napíšete: <placeholder-1/>"
 
-#: C/genius.xml:8798(title)
+#: C/genius.xml:8880(title)
 msgid "Output"
 msgstr "Výstup"
 
-#: C/genius.xml:8802(guilabel)
+#: C/genius.xml:8884(guilabel)
 msgid "Maximum digits to output"
 msgstr "Maximum číslic na výstupu"
 
-#: C/genius.xml:8805(para)
+#: C/genius.xml:8887(para)
 msgid ""
 "The maximum digits in a result (<link linkend=\"gel-function-MaxDigits"
 "\"><function>MaxDigits</function></link>)"
@@ -15432,11 +15569,11 @@ msgstr ""
 "Maximum číslic ve výsledcích (<link linkend=\"gel-function-MaxDigits"
 "\"><function>MaxDigits</function></link>)"
 
-#: C/genius.xml:8810(guilabel)
+#: C/genius.xml:8892(guilabel)
 msgid "Results as floats"
 msgstr "Výsledky jako čísla s plovoucí desetinnou čárkou"
 
-#: C/genius.xml:8813(para)
+#: C/genius.xml:8895(para)
 msgid ""
 "If the results should be always printed as floats (<link linkend=\"gel-"
 "function-ResultsAsFloats\"><function>ResultsAsFloats</function></link>)"
@@ -15445,11 +15582,11 @@ msgstr ""
 "linkend=\"gel-function-ResultsAsFloats\"><function>ResultsAsFloats</"
 "function></link>)"
 
-#: C/genius.xml:8818(guilabel)
+#: C/genius.xml:8900(guilabel)
 msgid "Floats in scientific notation"
 msgstr "Čísla s plovoucí desetinnou čárkou ve vědecké notaci"
 
-#: C/genius.xml:8821(para)
+#: C/genius.xml:8903(para)
 msgid ""
 "If floats should be in scientific notation (<link linkend=\"gel-function-"
 "ScientificNotation\"><function>ScientificNotation</function></link>)"
@@ -15457,11 +15594,11 @@ msgstr ""
 "Zda by desetinná čísla měla být ve vědecké notaci (<link linkend=\"gel-"
 "function-ScientificNotation\"><function>ScientificNotation</function></link>)"
 
-#: C/genius.xml:8826(guilabel)
+#: C/genius.xml:8908(guilabel)
 msgid "Always print full expressions"
 msgstr "Vždy vypisovat celé výrazy"
 
-#: C/genius.xml:8829(para)
+#: C/genius.xml:8911(para)
 msgid ""
 "Should we print out full expressions for non-numeric return values (longer "
 "than a line) (<link linkend=\"gel-function-FullExpressions"
@@ -15471,11 +15608,11 @@ msgstr ""
 "než řádek) (<link linkend=\"gel-function-FullExpressions"
 "\"><function>FullExpressions</function></link>)"
 
-#: C/genius.xml:8835(guilabel)
+#: C/genius.xml:8917(guilabel)
 msgid "Use mixed fractions"
 msgstr "Vypisovat smíšené zlomky"
 
-#: C/genius.xml:8838(para)
+#: C/genius.xml:8920(para)
 msgid ""
 "If fractions should be printed as mixed fractions such as \"1 1/3\" rather "
 "than \"4/3\". (<link linkend=\"gel-function-MixedFractions"
@@ -15485,13 +15622,13 @@ msgstr ""
 "„4/3“. (<link linkend=\"gel-function-MixedFractions"
 "\"><function>MixedFractions</function></link>)"
 
-#: C/genius.xml:8844(guilabel)
+#: C/genius.xml:8926(guilabel)
 msgid ""
 "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr ""
 "Zobrazovat 0.0, když je desetinné číslo menší než 10^-x (0=nikdy neosekávat)"
 
-#: C/genius.xml:8847(para)
+#: C/genius.xml:8929(para)
 msgid ""
 "How to chop output. But only when other numbers nearby are large. See the "
 "documentation of the paramter <link linkend=\"gel-function-OutputChopExponent"
@@ -15501,11 +15638,11 @@ msgstr ""
 "Podívejte se na dokumentaci k parametru <link linkend=\"gel-function-"
 "OutputChopExponent\"><function>OutputChopExponent</function></link>."
 
-#: C/genius.xml:8855(guilabel)
+#: C/genius.xml:8937(guilabel)
 msgid "Only chop numbers when another number is greater than 10^-x"
 msgstr "Osekávat čísla jen když je jiné číslo větší než 10^-x"
 
-#: C/genius.xml:8858(para)
+#: C/genius.xml:8940(para)
 msgid ""
 "When to chop output. This is set by the paramter <link linkend=\"gel-"
 "function-OutputChopWhenExponent\"><function>OutputChopWhenExponent</"
@@ -15517,11 +15654,11 @@ msgstr ""
 "function></link>. Viz dokumentace k parametru <link linkend=\"gel-function-"
 "OutputChopExponent\"><function>OutputChopExponent</function></link>."
 
-#: C/genius.xml:8866(guilabel)
+#: C/genius.xml:8948(guilabel)
 msgid "Remember output settings across sessions"
 msgstr "Pamatovat si nastavení výstupu pro další sezení"
 
-#: C/genius.xml:8869(para)
+#: C/genius.xml:8951(para)
 msgid ""
 "Should the output settings in the <guilabel>Number/Expression output "
 "options</guilabel> frame be remembered for next session. Does not apply to "
@@ -15531,7 +15668,7 @@ msgstr ""
 "výrazů</guilabel> zapamatovat pro příští sezení. Neplatí pro nastavení ve "
 "skupině <guilabel>Volby výstupu chyb/informací</guilabel>."
 
-#: C/genius.xml:8871(para)
+#: C/genius.xml:8953(para)
 msgid ""
 "If unchecked, either the default or any previously saved settings are used "
 "each time Genius starts up. Note that settings are saved at the end of the "
@@ -15544,11 +15681,11 @@ msgstr ""
 "postupujte následovně: zaškrtněte políčko, <application>matematický nástroj "
 "Genius</application> restartujte a u políčka zaškrtnutí zase zrušte."
 
-#: C/genius.xml:8883(guilabel)
+#: C/genius.xml:8965(guilabel)
 msgid "Display errors in a dialog"
 msgstr "Zobrazovat chyby v dialogovém okně"
 
-#: C/genius.xml:8886(para)
+#: C/genius.xml:8968(para)
 msgid ""
 "If set the errors will be displayed in a separate dialog, if unset the "
 "errors will be printed on the console."
@@ -15556,11 +15693,11 @@ msgstr ""
 "Když je nataveno, budou chyby zobrazovány v samostatném dialogovém okně, "
 "když není nastaveno, budou vypisovány v konzole."
 
-#: C/genius.xml:8893(guilabel)
+#: C/genius.xml:8975(guilabel)
 msgid "Display information messages in a dialog"
 msgstr "Zobrazovat informativní zprávy v dialogovém okně"
 
-#: C/genius.xml:8896(para)
+#: C/genius.xml:8978(para)
 msgid ""
 "If set the information messages will be displayed in a separate dialog, if "
 "unset the information messages will be printed on the console."
@@ -15568,11 +15705,11 @@ msgstr ""
 "Když je nastaveno, budou informativní zprávy zobrazovány v samostatném "
 "dialogovém okně, když není nataveno, budou vypisovány v konzole."
 
-#: C/genius.xml:8904(guilabel)
+#: C/genius.xml:8986(guilabel)
 msgid "Maximum errors to display"
 msgstr "Maximum zobrazovaných chyb"
 
-#: C/genius.xml:8907(para)
+#: C/genius.xml:8989(para)
 msgid ""
 "The maximum number of errors to return on one evaluation (<link linkend="
 "\"gel-function-MaxErrors\"><function>MaxErrors</function></link>). If you "
@@ -15587,7 +15724,7 @@ msgstr ""
 "způsobí hodně chyb, je nepravděpodobné, že jich bude mít význam více než "
 "pár, takže prohlížení dlouhého seznam nemá žádný přínos."
 
-#: C/genius.xml:8919(para)
+#: C/genius.xml:9001(para)
 msgid ""
 "In addition to these preferences, there are some preferences that can only "
 "be changed by setting them in the workspace console. For others that may "
@@ -15597,19 +15734,19 @@ msgstr ""
 "pouze přes prostředí konzoly. Tyto další volby, které se týkají výstupu "
 "najdete v kapitole <xref linkend=\"genius-gel-function-parameters\"/>."
 
-#: C/genius.xml:8929(function)
+#: C/genius.xml:9011(function)
 msgid "IntegerOutputBase"
 msgstr "IntegerOutputBase"
 
-#: C/genius.xml:8932(para)
+#: C/genius.xml:9014(para)
 msgid "The base that will be used to output integers"
 msgstr "Číselná soustava, která se bude používat pro vypisování celých čísel"
 
-#: C/genius.xml:8938(function)
+#: C/genius.xml:9020(function)
 msgid "OutputStyle"
 msgstr "OutputStyle"
 
-#: C/genius.xml:8941(para)
+#: C/genius.xml:9023(para)
 msgid ""
 "A string, can be <literal>\"normal\"</literal>, <literal>\"latex\"</"
 "literal>, <literal>\"mathml\"</literal> or <literal>\"troff\"</literal> and "
@@ -15626,15 +15763,15 @@ msgstr ""
 "application> čitelný pro člověka. Ostatní styly jsou pro sazbu v aplikacích "
 "LaTeX, MathML (XML) nebo Troff."
 
-#: C/genius.xml:8953(title)
+#: C/genius.xml:9035(title)
 msgid "Precision"
 msgstr "Přesnost"
 
-#: C/genius.xml:8957(guilabel)
+#: C/genius.xml:9039(guilabel)
 msgid "Floating point precision"
 msgstr "Přesnost desetinných čísel"
 
-#: C/genius.xml:8960(para)
+#: C/genius.xml:9042(para)
 msgid ""
 "The floating point precision in bits (<link linkend=\"gel-function-"
 "FloatPrecision\"><function>FloatPrecision</function></link>). Note that "
@@ -15654,11 +15791,11 @@ msgstr ""
 "\"><function>pi</function></link> nebo <link linkend=\"gel-function-e"
 "\"><function>e</function></link>."
 
-#: C/genius.xml:8975(guilabel)
+#: C/genius.xml:9057(guilabel)
 msgid "Remember precision setting across sessions"
 msgstr "Pamatovat si nastavené přesnosti pro další sezení"
 
-#: C/genius.xml:8978(para)
+#: C/genius.xml:9060(para)
 msgid ""
 "Should the precision setting be remembered for the next session. If "
 "unchecked, either the default or any previously saved setting is used each "
@@ -15672,43 +15809,43 @@ msgstr ""
 "takže pokud si chcete uložit výchozí nastavení postupujte následovně: "
 "zaškrtněte políčko, Genius restartujte a u políčka zaškrtnutí zase zrušte."
 
-#: C/genius.xml:8991(title)
+#: C/genius.xml:9073(title)
 msgid "Terminal"
 msgstr "Terminál"
 
-#: C/genius.xml:8993(para)
+#: C/genius.xml:9075(para)
 msgid "Terminal refers to the console in the work area."
 msgstr "Terminál představuje konzolu v pracovní oblasti."
 
-#: C/genius.xml:9000(guilabel)
+#: C/genius.xml:9082(guilabel)
 msgid "Scrollback lines"
 msgstr "Paměť řádků"
 
-#: C/genius.xml:9003(para)
+#: C/genius.xml:9085(para)
 msgid "Lines of scrollback in the terminal."
 msgstr "Počet řádků, o které se dá v terminálu vracet zpět."
 
-#: C/genius.xml:9008(guilabel)
+#: C/genius.xml:9090(guilabel)
 msgid "Font"
 msgstr "Písmo"
 
-#: C/genius.xml:9011(para)
+#: C/genius.xml:9093(para)
 msgid "The font to use on the terminal."
 msgstr "Písmo, které se má používat v terminálu."
 
-#: C/genius.xml:9016(guilabel)
+#: C/genius.xml:9098(guilabel)
 msgid "Black on white"
 msgstr "Černé na bílém"
 
-#: C/genius.xml:9019(para)
+#: C/genius.xml:9101(para)
 msgid "If to use black on white on the terminal."
 msgstr "Zda se má terminálu používat černá na bílé."
 
-#: C/genius.xml:9024(guilabel)
+#: C/genius.xml:9106(guilabel)
 msgid "Blinking cursor"
 msgstr "Blikající kurzor"
 
-#: C/genius.xml:9027(para)
+#: C/genius.xml:9109(para)
 msgid ""
 "If the cursor in the terminal should blink when the terminal is in focus. "
 "This can sometimes be annoying and it generates idle traffic if you are "
@@ -15718,15 +15855,15 @@ msgstr ""
 "někdy nepříjemné a vytvářet provoz při nečinnosti v případě, že používáte "
 "aplikaci Genius vzdáleně."
 
-#: C/genius.xml:9034(title)
+#: C/genius.xml:9116(title)
 msgid "Memory"
 msgstr "Paměť"
 
-#: C/genius.xml:9038(guilabel)
+#: C/genius.xml:9120(guilabel)
 msgid "Maximum number of nodes to allocate"
 msgstr "Maximum alokovaných uzlů"
 
-#: C/genius.xml:9041(para)
+#: C/genius.xml:9123(para)
 msgid ""
 "Internally all data is put onto small nodes in memory. This gives a limit on "
 "the maximum number of nodes to allocate for computations. This limit avoids "
@@ -15740,7 +15877,7 @@ msgstr ""
 "spotřebují velké množství, například při nekonečné rekurzi. Při vyčerpání "
 "paměti by došlo ke zpomalení počítače a bylo by obtížné program přerušit."
 
-#: C/genius.xml:9049(para)
+#: C/genius.xml:9131(para)
 msgid ""
 "Once the limit is reached, <application>Genius Mathematics Tool</"
 "application> asks if you wish to interrupt the computation or if you wish to "
@@ -15756,7 +15893,7 @@ msgstr ""
 "programu nebo vyhodnocení výrazu v konzole bez ohledu na to, co jste na "
 "dotaz odpověděli."
 
-#: C/genius.xml:9057(para)
+#: C/genius.xml:9139(para)
 msgid ""
 "Setting the limit to zero means there is no limit to the amount of memory "
 "that genius uses."
@@ -15764,11 +15901,11 @@ msgstr ""
 "Nastavení limitu na nulu znamená, že na množství paměti použité kalkulátorem "
 "Genius nebude žádný limit uplatňován."
 
-#: C/genius.xml:9071(title)
+#: C/genius.xml:9153(title)
 msgid "About <application>Genius Mathematics Tool</application>"
 msgstr "O <application>Matematickém nástroji Genius</application>"
 
-#: C/genius.xml:9073(para)
+#: C/genius.xml:9155(para)
 msgid ""
 "<application>Genius Mathematics Tool</application> was written by Jiří "
 "(George) Lebl (<email>jirka@5z.com</email>). The history of "
@@ -15786,7 +15923,7 @@ msgstr ""
 "informací o něm najdete na <ulink url=\"http://www.jirka.org/genius.html\" "
 "type=\"http\">webových stránkách Genius</ulink>."
 
-#: C/genius.xml:9080(para)
+#: C/genius.xml:9162(para)
 msgid ""
 "To report a bug or make a suggestion regarding this application or this "
 "manual, send email to me (the author) or post to the mailing list (see the "
@@ -15796,7 +15933,7 @@ msgstr ""
 "aplikaci nebo této příručce, pošlete e-mail autorovi nebo do poštovní "
 "konference (viz webové stránky)."
 
-#: C/genius.xml:9086(para)
+#: C/genius.xml:9168(para)
 msgid ""
 "This program is distributed under the terms of the GNU General Public "
 "license as published by the Free Software Foundation; either version 3 of "
@@ -15810,7 +15947,7 @@ msgstr ""
 "naleznete <ulink url=\"ghelp:gpl\" type=\"help\">pod tímto odkazem</ulink> "
 "nebo v souboru COPYING přiloženém ke zdrojovým kódům tohoto programu."
 
-#: C/genius.xml:9093(para)
+#: C/genius.xml:9175(para)
 msgid ""
 "Jiří Lebl was during various parts of the development partially supported "
 "for the work by NSF grant DMS 0900885, the University of Illinois at Urbana-"
