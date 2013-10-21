@@ -12,7 +12,7 @@ DOC_FIGURES =	figures/parametric.png		\
 
 DOC_ENTITIES =	legal.xml
 
-DOC_LINGUAS = cs de es fr pt_BR ru
+DOC_LINGUAS = cs de el es fr pt_BR ru
 
 #
 # Text version
