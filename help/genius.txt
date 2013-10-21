@@ -5869,6 +5869,25 @@ FindRootSecant (f,a,b,TOL,N)
           indicating success, value is the last value computed,
           and iteration is the number of iterations done.
 
+   HalleysMethod
+
+HalleysMethod (f,df,ddf,guess,epsilon,maxn)
+
+          Find zeros using Halleys's method. f is the function, df
+          is the derivative of f, and ddf is the second derivative
+          of f. guess is the initial guess. The function returns
+          after two successive values are within epsilon of each
+          other, or after maxn tries, in which case the function
+          returns null indicating failure.
+
+          See also NewtonsMethod and SymbolicDerivative.
+
+          Example to find the square root of 10:
+
+genius> HalleysMethod(`(x)=x^2-10,`(x)=2*x,`(x)=2,3,10^-10,100)
+
+          See Wikipedia for more information.
+
    NewtonsMethod
 
 NewtonsMethod (f,df,guess,epsilon,maxn)
