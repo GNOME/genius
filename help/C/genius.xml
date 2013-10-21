@@ -7734,6 +7734,32 @@ and has period <userinput>b-a</userinput>.</para>
         </varlistentry>
 
         <varlistentry>
+         <term><anchor id="gel-function-HalleysMethod"/>HalleysMethod</term>
+         <listitem>
+          <synopsis>HalleysMethod (f,df,ddf,guess,epsilon,maxn)</synopsis>
+	  <para>Find zeros using Halleys's method.  <varname>f</varname> is
+		  the function, <varname>df</varname> is the derivative of
+		  <varname>f</varname>, and <varname>ddf</varname> is the second derivative of
+		  <varname>f</varname>.  <varname>guess</varname> is the initial
+		  guess.  The function returns after two successive values are
+		  within <varname>epsilon</varname> of each other, or after <varname>maxn</varname> tries, in which case the function returns <constant>null</constant> indicating failure.
+	  </para>
+	  <para>
+	  See also <link linkend="gel-function-NewtonsMethod"><function>NewtonsMethod</function></link> and <link linkend="gel-function-SymbolicDerivative"><function>SymbolicDerivative</function></link>.
+  	  </para>
+	  <para>
+	    Example to find the square root of 10:
+          <screen><prompt>genius></prompt> <userinput>HalleysMethod(`(x)=x^2-10,`(x)=2*x,`(x)=2,3,10^-10,100)</userinput>
+</screen>
+	  </para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Halley%27s_method">Wikipedia</ulink> for more information.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term><anchor id="gel-function-NewtonsMethod"/>NewtonsMethod</term>
          <listitem>
           <synopsis>NewtonsMethod (f,df,guess,epsilon,maxn)</synopsis>

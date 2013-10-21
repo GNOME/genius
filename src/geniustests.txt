@@ -1137,10 +1137,12 @@ KroneckerProduct(null,[1,2;3,4])+0				((null)+0)
 KroneckerProduct([0],null)+0					((null)+0)
 |NewtonsMethod (`(x)=x^2-10,`(x)=2*x,1.0,0.0001,100)-sqrt(10)|<0.0001	true
 |NewtonsMethod (`(x)=x^2-2,`(x)=2*x,1.0,0.00001,100)-sqrt(2)|<0.00001	true
+|HalleysMethod (`(x)=x^2-2,`(x)=2*x,`(x)=2,1.0,0.00001,100)-sqrt(2)|<0.00001	true
 |NewtonsMethod (`(x)=x*e^x-0.5,`(x)=x*e^x+e^x,1.0,0.0001,100) - LambertW(0.5)|<0.0001	true
 |NewtonsMethod (`(x)=x*e^x+0.1,`(x)=x*e^x+e^x,1.0,0.0001,100) - LambertW(-0.1)|<0.0001	true
 |NewtonsMethod (`(x)=x*e^x-10,`(x)=x*e^x+e^x,1.0,0.0001,100) - LambertW(10)|<0.0001	true
 |NewtonsMethod (`(x)=x*e^x+0.1,`(x)=x*e^x+e^x,-2.0,0.0001,100) - LambertWm1(-0.1)|<0.0001	true
+|HalleysMethod (`(x)=x*e^x-0.5,`(x)=x*e^x+e^x,`(x)=x*e^x+2*e^x,1.0,0.0001,100) - LambertW(0.5)|<0.0001	true
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
 load "testprec.gel"						true

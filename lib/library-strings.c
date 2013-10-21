@@ -237,6 +237,7 @@ char *fake = N_("Find root of a function using the bisection method to within TO
 char *fake = N_("Find root of a function using the method of false position to within TOL tolerance in up to N iterations.  f(a) and f(b) must have opposite signs.");
 char *fake = N_("Find root of a function using the Muller's method");
 char *fake = N_("Find root of a function using the secant method to within TOL tolerance in up to N iterations.  f(a) and f(b) must have opposite signs.");
+char *fake = N_("Attempt to find a zero of a functionf with derivative df and second derivative ddf using Halleys's method, returning after two successive values are within epsilon or after maxn tries (then returns null)");
 char *fake = N_("Attempt to find a zero of a functionf with derivative df using Newton's method, returning after two successive values are within epsilon or after maxn tries (then returns null)");
 char *fake = N_("Find roots of a polynomial (given as vector of coefficients)");
 char *fake = N_("Find roots of a quartic polynomial (given as vector of coefficients)");
