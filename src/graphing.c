@@ -4422,10 +4422,14 @@ recompute_function (int funci, double **x, double **y, int *len, gboolean fittin
 
 			/* too steep! and steeper than surrounding which is derivative at most 10,
 			 * or if the prev and next derivatives are of different sign */
-			if ( (10.0*fabs(xprevdiffscaled) >= fabs(yprevdiffscaled) && 
-			      10.0*fabs(xnextdiffscaled) >= fabs(ynextdiffscaled)) ||
-			     ( ydiffscaled > 0.0 && ynextdiffscaled < 0.0 && yprevdiffscaled < 0.0) ||
-			     ( ydiffscaled < 0.0 && ynextdiffscaled > 0.0 && yprevdiffscaled > 0.0) )  {
+			if ( (10.0*fabs(xprevdiffscaled) >= fabs(yprevdiffscaled) ||
+			      (ydiffscaled > 0.0 && yprevdiffscaled < 0.0) ||
+			      (ydiffscaled < 0.0 && yprevdiffscaled > 0.0) )
+			     &&
+			     (10.0*fabs(xnextdiffscaled) >= fabs(ynextdiffscaled) ||
+			      (ydiffscaled > 0.0 && ynextdiffscaled < 0.0) ||
+			      (ydiffscaled < 0.0 && ynextdiffscaled > 0.0) )
+			     ) {
 				Point *newpt;
 				newpt = g_new0 (Point, 1);
 				newpt->x = BADPTVAL;
