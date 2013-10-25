@@ -4399,11 +4399,11 @@ recompute_function (int funci, double **x, double **y, int *len, gboolean fittin
 			continue;
 		}
 
-		xdiffscaled = fabs(nextpt->x-pt->x)/sizex;
-		ydiffscaled = fabs(nextpt->y-pt->y)/sizey;
+		xdiffscaled = (nextpt->x-pt->x)/sizex;
+		ydiffscaled = (nextpt->y-pt->y)/sizey;
 
 		/* derivative at least 100 after scaling, length bigger than 1% */
-		if (100.0*xdiffscaled < ydiffscaled &&
+		if (100.0*fabs(xdiffscaled) < fabs(ydiffscaled) &&
 		    xdiffscaled*xdiffscaled+ydiffscaled*ydiffscaled > 0.01*0.01 &&
 		    li->next->next != NULL && li->prev != NULL) {
 			Point *prevpt = li->prev->data;
@@ -4413,16 +4413,19 @@ recompute_function (int funci, double **x, double **y, int *len, gboolean fittin
 			double xprevdiffscaled;
 			double yprevdiffscaled;
 
-			xnextdiffscaled = fabs(nextnextpt->x-nextpt->x)/sizex;
-			ynextdiffscaled = fabs(nextnextpt->y-nextpt->y)/sizey;
+			xnextdiffscaled = (nextnextpt->x-nextpt->x)/sizex;
+			ynextdiffscaled = (nextnextpt->y-nextpt->y)/sizey;
 
-			xprevdiffscaled = fabs(pt->x-prevpt->x)/sizex;
-			yprevdiffscaled = fabs(pt->y-prevpt->y)/sizey;
+			xprevdiffscaled = (pt->x-prevpt->x)/sizex;
+			yprevdiffscaled = (pt->y-prevpt->y)/sizey;
 
 
-			/* too steep! and steeper than surrounding which is derivative at most 10 */
-			if (10.0*xprevdiffscaled >= yprevdiffscaled && 
-			    10.0*xnextdiffscaled >= ynextdiffscaled) {
+			/* too steep! and steeper than surrounding which is derivative at most 10,
+			 * or if the prev and next derivatives are of different sign */
+			if ( (10.0*fabs(xprevdiffscaled) >= fabs(yprevdiffscaled) && 
+			      10.0*fabs(xnextdiffscaled) >= fabs(ynextdiffscaled)) ||
+			     ( ydiffscaled > 0.0 && ynextdiffscaled < 0.0 && yprevdiffscaled < 0.0) ||
+			     ( ydiffscaled < 0.0 && ynextdiffscaled > 0.0 && yprevdiffscaled > 0.0) )  {
 				Point *newpt;
 				newpt = g_new0 (Point, 1);
 				newpt->x = BADPTVAL;
