@@ -115,7 +115,7 @@ function Pascal(i) = (
 SetHelp("Triangular", "combinatorics", "Calculate the nth triangular number");
 function Triangular(nth) = (
         if IsMatrix(nth) then
-                return ApplyOverMatrix(nth, triangular)
+                return ApplyOverMatrix(nth, Triangular)
 	else if not IsInteger(nth) or not nth>=0 then
 		(error("Trianglular: argument not an integer larger than or equal to 0");bailout);
 	(nth*(nth+1))/2
