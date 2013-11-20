@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: genius.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=genius&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-10-16 05:43+0000\n"
-"PO-Revision-Date: 2013-10-17 16:47+0200\n"
+"POT-Creation-Date: 2013-10-21 04:46+0000\n"
+"PO-Revision-Date: 2013-11-20 17:33+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -674,7 +674,6 @@ msgid "Get the kernel (nullspace) of a linear transform"
 msgstr "Obtener el núcleo (espacio nulo o kernel) de una trasformación lineal"
 
 #: ../lib/library-strings.c:131
-#| msgid "Get the outer product of two vectors"
 msgid "Compute the Kronecker product of two matrices"
 msgstr "Calcular el producto de Kronecker de dos matrices"
 
@@ -1287,6 +1286,22 @@ msgstr ""
 #| "after two successive values are within epsilon or after maxn tries (then "
 #| "returns null)"
 msgid ""
+"Attempt to find a zero of a functionf with derivative df and second "
+"derivative ddf using Halleys's method, returning after two successive values "
+"are within epsilon or after maxn tries (then returns null)"
+msgstr ""
+"Ejecuta el método de Newton sobre un polinomio para tratar de encontrar una "
+"raíz, devuelve un resultado cuando dos valores sucesivos están dentro de los "
+"límites que marca épsilon o después de maxn iteraciones (en cuyo caso "
+"devuelve null)"
+
+#: ../lib/library-strings.c:241
+#, fuzzy
+#| msgid ""
+#| "Run newton's method on a polynomial to attempt to find a root, returns "
+#| "after two successive values are within epsilon or after maxn tries (then "
+#| "returns null)"
+msgid ""
 "Attempt to find a zero of a functionf with derivative df using Newton's "
 "method, returning after two successive values are within epsilon or after "
 "maxn tries (then returns null)"
@@ -1296,18 +1311,18 @@ msgstr ""
 "límites que marca épsilon o después de maxn iteraciones (en cuyo caso "
 "devuelve null)"
 
-#: ../lib/library-strings.c:241
+#: ../lib/library-strings.c:242
 msgid "Find roots of a polynomial (given as vector of coefficients)"
 msgstr ""
 "Extraer las raíces de una polinomio (dado como un vector de coeficientes)"
 
-#: ../lib/library-strings.c:242
+#: ../lib/library-strings.c:243
 msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
 msgstr ""
 "Encontrar las raíces de un polinomio cuadrático (dado como un vector de "
 "coeficientes)"
 
-#: ../lib/library-strings.c:243
+#: ../lib/library-strings.c:244
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
@@ -1317,7 +1332,7 @@ msgstr ""
 "resolver numéricamente y'=f(x,y) para una x0,y0 inicial que vaya hasta x1 en "
 "incrementos de n, devuelve y en x1"
 
-#: ../lib/library-strings.c:244
+#: ../lib/library-strings.c:245
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an n"
@@ -1327,37 +1342,37 @@ msgstr ""
 "resolver numéricamente y'=f(x,y) para una x0,y0 inicial que vaya hasta x1 en "
 "incrementos de n, devuelve un n+1 por dos matrices de valores"
 
-#: ../lib/library-strings.c:245
+#: ../lib/library-strings.c:246
 msgid "Calculate average of an entire matrix"
 msgstr "Calcular la media de una matriz entera"
 
-#: ../lib/library-strings.c:246
+#: ../lib/library-strings.c:247
 msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 msgstr ""
 "La integral de la GaussFunction (función de Gauss) de 0 a x (el área "
 "comprendida debajo de la curva normal)"
 
-#: ../lib/library-strings.c:247
+#: ../lib/library-strings.c:248
 msgid "The normalized Gauss distribution function (the normal curve)"
 msgstr "La función distribución Gausiana normalizada (la curva normal)"
 
-#: ../lib/library-strings.c:248
+#: ../lib/library-strings.c:249
 msgid "Calculate median of an entire matrix"
 msgstr "Calcula la mediana de una matriz entera"
 
-#: ../lib/library-strings.c:249
+#: ../lib/library-strings.c:250
 msgid "Calculate the population standard deviation of a whole matrix"
 msgstr "Calcula la desviación típica de una matriz entera"
 
-#: ../lib/library-strings.c:250
+#: ../lib/library-strings.c:251
 msgid "Calculate average of each row in a matrix"
 msgstr "Calcular la media de cada columna de una matriz"
 
-#: ../lib/library-strings.c:251
+#: ../lib/library-strings.c:252
 msgid "Calculate median of each row in a matrix"
 msgstr "Calcula la mediana de cada columna de una matriz"
 
-#: ../lib/library-strings.c:252
+#: ../lib/library-strings.c:253
 msgid ""
 "Calculate the population standard deviations of rows of a matrix and return "
 "a vertical vector"
@@ -1365,7 +1380,7 @@ msgstr ""
 "Calcula la desviación típica de las columnas de una matriz y devuelve una "
 "matriz columna"
 
-#: ../lib/library-strings.c:253
+#: ../lib/library-strings.c:254
 msgid ""
 "Calculate the standard deviations of rows of a matrix and return a vertical "
 "vector"
@@ -1373,11 +1388,11 @@ msgstr ""
 "Calcular la desviación estándar de las filas de una matriz y devuelve una "
 "matriz columna"
 
-#: ../lib/library-strings.c:254
+#: ../lib/library-strings.c:255
 msgid "Calculate the standard deviation of a whole matrix"
 msgstr "Calcular la desviación estándar de una matriz entera"
 
-#: ../lib/library-strings.c:255
+#: ../lib/library-strings.c:256
 #, fuzzy
 #| msgid ""
 #| "Run newton's method on a polynomial to attempt to find a root, returns "
@@ -1393,18 +1408,18 @@ msgstr ""
 "límites que marca épsilon o después de maxn iteraciones (en cuyo caso "
 "devuelve null)"
 
-#: ../lib/library-strings.c:256
+#: ../lib/library-strings.c:257
 msgid "Returns a set where every element of X appears only once"
 msgstr "Devuelve un conjunto donde cada elemento de X aparece una sola vez"
 
-#: ../lib/library-strings.c:257
+#: ../lib/library-strings.c:258
 msgid ""
 "Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
 "be sets)"
 msgstr ""
 "Devuelve la unión de X e Y (X e Y son vectores que se tratan como conjuntos)"
 
-#: ../lib/library-strings.c:258
+#: ../lib/library-strings.c:259
 msgid ""
 "For a Hilbert function that is c for degree d, given the Macaulay bound for "
 "the Hilbert function of degree d+1 (The c^<d> operator from Green's proof)"
@@ -1413,19 +1428,19 @@ msgstr ""
 "Macaulay para la función de Hilbert de grado d+1 (el operador c^<d> de la "
 "prueba de Green)"
 
-#: ../lib/library-strings.c:259
+#: ../lib/library-strings.c:260
 msgid "The c_<d> operator from Green's proof of Macaulay's Theorem"
 msgstr "El operador C_<d> de la prueba de Green del Teorema de Macaulay"
 
-#: ../lib/library-strings.c:260
+#: ../lib/library-strings.c:261
 msgid "Return the dth Macaulay representation of a positive integer c"
 msgstr "Devuelve la representación dth de Macaulay de un entero positivo c"
 
-#: ../lib/library-strings.c:261
+#: ../lib/library-strings.c:262
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "Intentar diferenciar simbólicamente n veces una función"
 
-#: ../lib/library-strings.c:262
+#: ../lib/library-strings.c:263
 msgid ""
 "Attempt to symbolically differentiate a function n times quietly and return "
 "null on failure"
@@ -1433,7 +1448,7 @@ msgstr ""
 "Intentar diferenciar simbólicamente n veces una función silenciosamente y "
 "devolver null si ocurre un error"
 
-#: ../lib/library-strings.c:263
+#: ../lib/library-strings.c:264
 msgid ""
 "Attempt to construct the Taylor approximation function around x0 to the nth "
 "degree."
@@ -5014,7 +5029,6 @@ msgstr "%s: no se especificó ningún color"
 
 #: ../src/graphing.c:8218 ../src/graphing.c:8225
 #, c-format
-#| msgid "Cannot open plugin '%s'!"
 msgid "%s: Cannot parse color '%s'"
 msgstr "%s: no se puede analizar el color: «%s»"
 
@@ -5024,6 +5038,8 @@ msgid ""
 "%s: A vector giving color should be a 3-vector of real numbers between 0 and "
 "1"
 msgstr ""
+"%s: un vector que da el color debe ser un vector de 3 números reales entre 0 "
+"y 1"
 
 #: ../src/graphing.c:8255
 #, c-format
@@ -5031,12 +5047,15 @@ msgid ""
 "%s: Warning: Values for red, green, or blue out of range (0 to 1), I will "
 "clip them to this interval"
 msgstr ""
+"%s: advertencia: valores para rojo, verde o azul fuera de rango (0..1). Se "
+"recortarán a este intervalo"
 
 #: ../src/graphing.c:8271
 #, c-format
 msgid ""
 "%s: Color must be a string or a three-vector of rgb values (between 0 and 1)"
 msgstr ""
+"%s: color debe ser una cadena o un vector de tres valores rgb (entre 0 y 1)"
 
 #: ../src/graphing.c:8309
 #, c-format
