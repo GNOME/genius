@@ -16,6 +16,8 @@ Kai Willadsen
 
    Copyright © 2004 Kai Willadsen
 
+   Manual for the Genius Math Tool.
+
    Permission is granted to copy, distribute and/or modify this
    document under the terms of the GNU Free Documentation License
    (GFDL), Version 1.1 or any later version published by the Free
@@ -75,134 +77,141 @@ Kai Willadsen
    To report a bug or make a suggestion regarding the Genius
    Mathematics Tool application or this manual, follow the
    directions in the GNOME Feedback Page.
-   This manual describes version 1.0.18 of Genius.
      __________________________________________________________
 
    Table of Contents
-   Introduction
-   Getting Started
+   1. Introduction
+   2. Getting Started
 
-        To Start Genius Mathematics Tool
-        When You Start Genius
+        2.1. To Start Genius Mathematics Tool
+        2.2. When You Start Genius
 
-   Basic Usage
+   3. Basic Usage
 
-        Using the Work Area
-        To Create a New Program
-        To Open and Run a Program
+        3.1. Using the Work Area
+        3.2. To Create a New Program
+        3.3. To Open and Run a Program
 
-   Plotting
+   4. Plotting
 
-        Line Plots
-        Parametric Plots
-        Slopefield Plots
-        Vectorfield Plots
-        Surface Plots
+        4.1. Line Plots
+        4.2. Parametric Plots
+        4.3. Slopefield Plots
+        4.4. Vectorfield Plots
+        4.5. Surface Plots
 
-   GEL Basics
+   5. GEL Basics
 
-        Values
+        5.1. Values
 
-              Numbers
-              Booleans
-              Strings
-              Null
+              5.1.1. Numbers
+              5.1.2. Booleans
+              5.1.3. Strings
+              5.1.4. Null
 
-        Using Variables
+        5.2. Using Variables
 
-              Setting Variables
-              Built-in Variables
-              Previous Result Variable
+              5.2.1. Setting Variables
+              5.2.2. Built-in Variables
+              5.2.3. Previous Result Variable
 
-        Using Functions
+        5.3. Using Functions
 
-              Defining Functions
-              Variable Argument Lists
-              Passing Functions to Functions
-              Operations on Functions
+              5.3.1. Defining Functions
+              5.3.2. Variable Argument Lists
+              5.3.3. Passing Functions to Functions
+              5.3.4. Operations on Functions
 
-        Absolute Value / Modulus
-        Separator
-        Comments
-        Modular Evaluation
-        List of GEL Operators
+        5.4. Absolute Value / Modulus
+        5.5. Separator
+        5.6. Comments
+        5.7. Modular Evaluation
+        5.8. List of GEL Operators
 
-   Programming with GEL
+   6. Programming with GEL
 
-        Conditionals
-        Loops
+        6.1. Conditionals
+        6.2. Loops
 
-              While Loops
-              For Loops
-              Foreach Loops
-              Break and Continue
+              6.2.1. While Loops
+              6.2.2. For Loops
+              6.2.3. Foreach Loops
+              6.2.4. Break and Continue
 
-        Sums and Products
-        Comparison Operators
-        Global Variables and Scope of Variables
-        Parameter variables
-        Returning
-        References
-        Lvalues
+        6.3. Sums and Products
+        6.4. Comparison Operators
+        6.5. Global Variables and Scope of Variables
+        6.6. Parameter variables
+        6.7. Returning
+        6.8. References
+        6.9. Lvalues
 
-   Advanced Programming with GEL
+   7. Advanced Programming with GEL
 
-        Error Handling
-        Toplevel Syntax
-        Returning Functions
-        True Local Variables
-        GEL Startup Procedure
-        Loading Programs
+        7.1. Error Handling
+        7.2. Toplevel Syntax
+        7.3. Returning Functions
+        7.4. True Local Variables
+        7.5. GEL Startup Procedure
+        7.6. Loading Programs
 
-   Matrices in GEL
+   8. Matrices in GEL
 
-        Entering Matrices
-        Conjugate Transpose and Transpose Operator
-        Linear Algebra
+        8.1. Entering Matrices
+        8.2. Conjugate Transpose and Transpose Operator
+        8.3. Linear Algebra
 
-   Polynomials in GEL
+   9. Polynomials in GEL
 
-        Using Polynomials
+        9.1. Using Polynomials
 
-   Set Theory in GEL
+   10. Set Theory in GEL
 
-        Using Sets
+        10.1. Using Sets
 
-   List of GEL functions
+   11. List of GEL functions
 
-        Commands
-        Basic
-        Parameters
-        Constants
-        Numeric
-        Trigonometry
-        Number Theory
-        Matrix Manipulation
-        Linear Algebra
-        Combinatorics
-        Calculus
-        Functions
-        Equation Solving
-        Statistics
-        Polynomials
-        Set Theory
-        Commutative Algebra
-        Miscellaneous
-        Symbolic Operations
-        Plotting
+        11.1. Commands
+        11.2. Basic
+        11.3. Parameters
+        11.4. Constants
+        11.5. Numeric
+        11.6. Trigonometry
+        11.7. Number Theory
+        11.8. Matrix Manipulation
+        11.9. Linear Algebra
+        11.10. Combinatorics
+        11.11. Calculus
+        11.12. Functions
+        11.13. Equation Solving
+        11.14. Statistics
+        11.15. Polynomials
+        11.16. Set Theory
+        11.17. Commutative Algebra
+        11.18. Miscellaneous
+        11.19. Symbolic Operations
+        11.20. Plotting
 
-   Example Programs in GEL
-   Settings
+   12. Example Programs in GEL
+   13. Settings
 
-        Output
-        Precision
-        Terminal
-        Memory
+        13.1. Output
+        13.2. Precision
+        13.3. Terminal
+        13.4. Memory
 
-   About Genius Mathematics Tool
+   14. About Genius Mathematics Tool
+
+   List of Figures
+   2-1. Genius Mathematics Tool Window
+   4-1. Create Plot Window
+   4-2. Plot Window
+   4-3. Parametric Plot Tab
+   4-4. Parametric Plot
+   4-5. Surface Plot
      __________________________________________________________
 
-Introduction
+Chapter 1. Introduction
 
    The Genius Mathematics Tool application is a general calculator
    for use as a desktop calculator, an educational tool in
@@ -230,9 +239,9 @@ Introduction
    capabilities that require the graphical user interface.
      __________________________________________________________
 
-Getting Started
+Chapter 2. Getting Started
 
-To Start Genius Mathematics Tool
+2.1. To Start Genius Mathematics Tool
 
    You can start Genius Mathematics Tool in the following ways:
 
@@ -261,14 +270,14 @@ To Start Genius Mathematics Tool
           plotting will not be available.
      __________________________________________________________
 
-When You Start Genius
+2.2. When You Start Genius
 
    When you start the GNOME edition of Genius Mathematics Tool,
-   the window pictured in Figure 1 is displayed.
+   the window pictured in Figure 2-1 is displayed.
+
+   Figure 2-1. Genius Mathematics Tool Window
 
    [genius_window.png]
-
-   Figure 1. Genius Mathematics Tool Window
 
    The Genius Mathematics Tool window contains the following
    elements:
@@ -312,9 +321,9 @@ When You Start Genius
           for later retrieval.
      __________________________________________________________
 
-Basic Usage
+Chapter 3. Basic Usage
 
-Using the Work Area
+3.1. Using the Work Area
 
    Normally you interact with the calculator in the Console tab of
    the work area. If you are running the text only version then
@@ -359,7 +368,7 @@ genius> load path/to/program.gel
    directory do cd directory as in the unix command shell.
      __________________________________________________________
 
-To Create a New Program
+3.2. To Create a New Program
 
    To start writing a new program, choose File->New Program. A new
    tab will appear in the work area. You can write a GEL program
@@ -378,7 +387,7 @@ To Create a New Program
    As...
      __________________________________________________________
 
-To Open and Run a Program
+3.3. To Open and Run a Program
 
    To open a file, choose File->Open. A new tab containing the
    file will appear in the work area. You can use this to edit the
@@ -389,7 +398,7 @@ To Open and Run a Program
    This is equivalent to the load command.
      __________________________________________________________
 
-Plotting
+Chapter 4. Plotting
 
    Plotting support is only available in the graphical GNOME
    version. All plotting accessible from the graphical interface
@@ -397,11 +406,11 @@ Plotting
    window by either clicking on the Plot button on the toolbar or
    selecting Plot from the Calculator menu. You can also access
    the plotting functionality by using the plotting functions of
-   the GEL language. See the Chapter called GEL Basics to find out
-   how to enter expressions that Genius understands.
+   the GEL language. See Chapter 5 to find out how to enter
+   expressions that Genius understands.
      __________________________________________________________
 
-Line Plots
+4.1. Line Plots
 
    To graph real valued functions of one variable open the Create
    Plot window. You can also use the LinePlot function on the
@@ -410,11 +419,11 @@ Line Plots
    Once you click the Plot button, a window opens up with some
    notebooks in it. You want to be in the Function line plot
    notebook tab, and inside you want to be on the Functions /
-   Expressions notebook tab. See Figure 1.
+   Expressions notebook tab. See Figure 4-1.
+
+   Figure 4-1. Create Plot Window
 
    [line_plot.png]
-
-   Figure 1. Create Plot Window
 
    Type expressions with x as the independent variable into the
    textboxes. Alternatively you can give names of functions such
@@ -427,11 +436,11 @@ Line Plots
    dialog. The y (dependent) range can be set automatically by
    turning on the Fit dependent axis checkbox. The names of the
    variables can also be changed. Pressing the Plot button
-   produces the graph shown in Figure 2.
+   produces the graph shown in Figure 4-2.
+
+   Figure 4-2. Plot Window
 
    [line_plot_graph.png]
-
-   Figure 2. Plot Window
 
    From here you can print out the plot, create encapsulated
    postscript or a PNG version of the plot or change the zoom. If
@@ -442,7 +451,7 @@ Line Plots
    the LinePlot function.
      __________________________________________________________
 
-Parametric Plots
+4.2. Parametric Plots
 
    In the create plot window, you can also choose the Parametric
    notebook tab to create two dimensional parametric plots. This
@@ -452,24 +461,24 @@ Parametric Plots
    variable t is given explicitly, and the function is sampled
    according to the given increment. The x and y range can be set
    automatically by turning on the Fit dependent axis checkbox, or
-   it can be specified explicitly. See Figure 3.
+   it can be specified explicitly. See Figure 4-3.
+
+   Figure 4-3. Parametric Plot Tab
 
    [parametric.png]
 
-   Figure 3. Parametric Plot Tab
-
-   An example of a parametric plot is given in Figure 4. Similar
+   An example of a parametric plot is given in Figure 4-4. Similar
    operations can be done on such graphs as can be done on the
    other line plots. For plotting using the command line see the
    documentation of the LinePlotParametric or LinePlotCParametric
    function.
 
-   [parametric_graph.png]
+   Figure 4-4. Parametric Plot
 
-   Figure 4. Parametric Plot
+   [parametric_graph.png]
      __________________________________________________________
 
-Slopefield Plots
+4.3. Slopefield Plots
 
    In the create plot window, you can also choose the Slope field
    notebook tab to create a two dimensional slope field plot.
@@ -495,7 +504,7 @@ Slopefield Plots
    from the command line or programs.
      __________________________________________________________
 
-Vectorfield Plots
+4.4. Vectorfield Plots
 
    In the create plot window, you can also choose the Vector field
    notebook tab to create a two dimensional vector field plot.
@@ -524,7 +533,7 @@ Vectorfield Plots
    command line or programs.
      __________________________________________________________
 
-Surface Plots
+4.5. Surface Plots
 
    Genius can also plot surfaces. Select the Surface plot tab in
    the main notebook of the Create Plot window. Here you can
@@ -533,18 +542,18 @@ Surface Plots
    is the real part of z and y is the imaginary part). For example
    to plot the modulus of the cosine function for complex
    parameters, you could enter |cos(z)|. This would be equivalent
-   to |cos(x+1i*y)|. See Figure 5. For plotting using the command
-   line see the documentation of the SurfacePlot function.
+   to |cos(x+1i*y)|. See Figure 4-5. For plotting using the
+   command line see the documentation of the SurfacePlot function.
 
    The z range can be set automatically by turning on the Fit
    dependent axis checkbox.
 
-   [surface_graph.png]
+   Figure 4-5. Surface Plot
 
-   Figure 5. Surface Plot
+   [surface_graph.png]
      __________________________________________________________
 
-GEL Basics
+Chapter 5. GEL Basics
 
    GEL stands for Genius Extension Language. It is the language
    you use to write programs in Genius. A program in GEL is simply
@@ -555,7 +564,7 @@ GEL Basics
    possible, especially for use as a calculator.
      __________________________________________________________
 
-Values
+5.1. Values
 
    Values in GEL can be numbers, Booleans, or strings. GEL also
    treats matrices as values. Values can be used in calculations,
@@ -563,7 +572,7 @@ Values
    uses.
      __________________________________________________________
 
-Numbers
+5.1.1. Numbers
 
    Integers are the first type of number in GEL. Integers are
    written in the normal way.
@@ -616,19 +625,19 @@ Numbers
 8.01i
 77*e^(1.3i)
 
-   Important
+Important
 
-   When entering imaginary numbers, a number must be in front of
-   the i. If you use i by itself, Genius will interpret this as
-   referring to the variable i. If you need to refer to i by
-   itself, use 1i instead.
+          When entering imaginary numbers, a number must be in front of
+          the i. If you use i by itself, Genius will interpret this as
+          referring to the variable i. If you need to refer to i by
+          itself, use 1i instead.
 
-   In order to use mixed fraction notation with imaginary numbers
-   you must have the mixed fraction in parentheses. (i.e., (1
-   2/5)i)
+          In order to use mixed fraction notation with imaginary numbers
+          you must have the mixed fraction in parentheses. (i.e., (1
+          2/5)i)
      __________________________________________________________
 
-Booleans
+5.1.2. Booleans
 
    Genius also supports native Boolean values. The two Boolean
    constants are defined as true and false; these identifiers can
@@ -659,7 +668,7 @@ Booleans
    before being compared to true.
      __________________________________________________________
 
-Strings
+5.1.3. Strings
 
    Like numbers and Booleans, strings in GEL can be stored as
    values inside variables and passed to functions. You can also
@@ -694,7 +703,7 @@ string(22)
    and <=> (comparison) operators
      __________________________________________________________
 
-Null
+5.1.4. Null
 
    There is a special value called null. No operations can be
    performed on it, and nothing is printed when it is returned.
@@ -713,7 +722,7 @@ x=5;
    or an empty reference.
      __________________________________________________________
 
-Using Variables
+5.2. Using Variables
 
    Syntax:
 VariableName
@@ -726,25 +735,24 @@ genius> e
    variable. This will return the value of the variable. You can
    use a variable anywhere you would normally use a number or
    string. In addition, variables are necessary when defining
-   functions that take arguments (see the Section called Defining
-   Functions).
+   functions that take arguments (see Section 5.3.1).
 
    Tip Using Tab completion
 
 
-   You can use Tab completion to get Genius to complete variable
-   names for you. Try typing the first few letters of the name and
-   pressing Tab.
+       You can use Tab completion to get Genius to complete variable
+       names for you. Try typing the first few letters of the name and
+       pressing Tab.
 
    Important Variable names are case sensitive
 
 
-   The names of variables are case sensitive. That means that
-   variables named hello, HELLO and Hello are all different
-   variables.
+             The names of variables are case sensitive. That means that
+             variables named hello, HELLO and Hello are all different
+             variables.
      __________________________________________________________
 
-Setting Variables
+5.2.1. Setting Variables
 
    Syntax:
 <identifier> = <value>
@@ -768,24 +776,21 @@ a = b = 5
    where a Boolean expression is expected.
 
    For more information about the scope of variables, that is when
-   are what variables visible, see the Section called Global
-   Variables and Scope of Variables in the Chapter called
-   Programming with GEL.
+   are what variables visible, see Section 6.5.
      __________________________________________________________
 
-Built-in Variables
+5.2.2. Built-in Variables
 
    GEL has a number of built-in ‘variables’, such as e, pi or
    GoldenRatio. These are widely used constants with a preset
    value, and they cannot be assigned new values. There are a
-   number of other built-in variables. See the Section called
-   Constants in the Chapter called List of GEL functions for a
-   full list. Note that i is not by default the square root of
-   negative one (the imaginary number), and is undefined. If you
-   wish to write the imaginary number you need to use 1i.
+   number of other built-in variables. See Section 11.4 for a full
+   list. Note that i is not by default the square root of negative
+   one (the imaginary number), and is undefined. If you wish to
+   write the imaginary number you need to use 1i.
      __________________________________________________________
 
-Previous Result Variable
+5.2.3. Previous Result Variable
 
    The Ans and ans variables can be used to get the result of the
    last expression. For example, if you had performed some
@@ -793,7 +798,7 @@ Previous Result Variable
 Ans+389
      __________________________________________________________
 
-Using Functions
+5.3. Using Functions
 
    Syntax:
 FunctionName(argument1, argument2, ...)
@@ -811,25 +816,24 @@ gcd(921,317)
 
    There are many built-in functions, such as sin, cos and tan.
    You can use the help built-in command to get a list of
-   available functions, or see the Chapter called List of GEL
-   functions for a full listing.
+   available functions, or see Chapter 11 for a full listing.
 
    Tip Using Tab completion
 
 
-   You can use Tab completion to get Genius to complete function
-   names for you. Try typing the first few letters of the name and
-   pressing Tab.
+       You can use Tab completion to get Genius to complete function
+       names for you. Try typing the first few letters of the name and
+       pressing Tab.
 
-   Important Function names are case sensitive
+  Important Function names are case sensitive
 
 
-   The names of functions are case sensitive. That means that
-   functions named dosomething, DOSOMETHING and DoSomething are
-   all different functions.
+            The names of functions are case sensitive. That means that
+            functions named dosomething, DOSOMETHING and DoSomething are
+            all different functions.
      __________________________________________________________
 
-Defining Functions
+5.3.1. Defining Functions
 
    Syntax:
 function <identifier>(<comma separated arguments>) = <function body>
@@ -849,7 +853,7 @@ function addup(a,b,c) = a+b+c
    then addup(1,4,9) yields 14
      __________________________________________________________
 
-Variable Argument Lists
+5.3.2. Variable Argument Lists
 
    If you include ... after the last argument name in the function
    declaration, then Genius will allow any number of arguments to
@@ -862,7 +866,7 @@ function f(a,b...) = b
    Then f(1,2,3) yields [2,3], while f(1) yields a null.
      __________________________________________________________
 
-Passing Functions to Functions
+5.3.3. Passing Functions to Functions
 
    In Genius, it is possible to pass a function as an argument to
    another function. This can be done using either ‘function
@@ -877,9 +881,8 @@ function b(x) = x*x;
 f(b,2)
 
    To pass functions that are not defined, you can use an
-   anonymous function (see the Section called Defining Functions).
-   That is, you want to pass a function without giving it a name.
-   Syntax:
+   anonymous function (see Section 5.3.1). That is, you want to
+   pass a function without giving it a name. Syntax:
 function(<comma separated arguments>) = <function body>
 `(<comma separated arguments>) = <function body>
 
@@ -890,7 +893,7 @@ f(`(x) = x*x,2)
    This will return 5.
      __________________________________________________________
 
-Operations on Functions
+5.3.4. Operations on Functions
 
    Some functions allow arithmetic operations, and some single
    argument functions such as exp or ln, to operate on the
@@ -912,23 +915,23 @@ LinePlot(sin^2)
 
    Warning
 
-   Not all functions can be used in this way. For example, when
-   you use a binary operation the functions must take the same
-   number of arguments.
+           Not all functions can be used in this way. For example, when
+           you use a binary operation the functions must take the same
+           number of arguments.
      __________________________________________________________
 
-Absolute Value / Modulus
+5.4. Absolute Value / Modulus
 
    You can make an absolute value of something by putting the |'s
    around it. For example:
-   |a-b|
+|a-b|
 
    In case the expression is a complex number the result will be
    the modulus (distance from the origin). For example: |3 *
    e^(1i*pi)| returns 3.
      __________________________________________________________
 
-Separator
+5.5. Separator
 
    In GEL if you want to type more than one command you have to
    use the ; operator, which is a way to separate expressions,
@@ -953,7 +956,7 @@ Separator
    there is one more operator involved.
      __________________________________________________________
 
-Comments
+5.6. Comments
 
    GEL is similar to other scripting languages in that # denotes a
    comments, that is text that is not meant to be evaluated.
@@ -965,11 +968,11 @@ Comments
 x=123;
      __________________________________________________________
 
-Modular Evaluation
+5.7. Modular Evaluation
 
    Genius implements modular arithmetic. To use it you just add
    "mod <integer>" after the expression. Example:
-   2^(5!) * 3^(6!) mod 5
+2^(5!) * 3^(6!) mod 5
 
    It could be possible to do modular arithmetic by computing with
    integers and then modding in the end with the % operator, which
@@ -1020,7 +1023,7 @@ genius> 2*2 mod 7
    mod.
      __________________________________________________________
 
-List of GEL Operators
+5.8. List of GEL Operators
 
    Everything in gel is really just an expression. Expressions are
    stringed together with different operators. As we have seen,
@@ -1119,9 +1122,8 @@ a.%b
 a mod b
 
           Modular evaluation operator. The expression a is
-          evaluated modulo b. See the Section called Modular
-          Evaluation. Some functions and operators behave
-          differently modulo an integer.
+          evaluated modulo b. See Section 5.7. Some functions and
+          operators behave differently modulo an integer.
 
 a!
 
@@ -1211,14 +1213,12 @@ not a
 &a
 
           Variable referencing (to pass a reference to a
-          variable). See the Section called References in the
-          Chapter called Programming with GEL.
+          variable). See Section 6.8.
 
 *a
 
           Variable dereferencing (to access a referenced
-          variable). See the Section called References in the
-          Chapter called Programming with GEL.
+          variable). See Section 6.8.
 
 a'
 
@@ -1313,34 +1313,34 @@ increment a by b
 
    Note
 
-   The @() operator makes the : operator most useful. With this
-   you can specify regions of a matrix. So that a@(2:4,6) is the
-   rows 2,3,4 of the column 6. Or a@(,1:2) will get you the first
-   two columns of a matrix. You can also assign to the @()
-   operator, as long as the right value is a matrix that matches
-   the region in size, or if it is any other type of value.
+        The @() operator makes the : operator most useful. With this
+        you can specify regions of a matrix. So that a@(2:4,6) is the
+        rows 2,3,4 of the column 6. Or a@(,1:2) will get you the first
+        two columns of a matrix. You can also assign to the @()
+        operator, as long as the right value is a matrix that matches
+        the region in size, or if it is any other type of value.
 
    Note
 
-   The comparison operators (except for the <=> operator, which
-   behaves normally), are not strictly binary operators, they can
-   in fact be grouped in the normal mathematical way, e.g.:
-   (1<x<=y<5) is a legal boolean expression and means just what it
-   should, that is (1<x and x≤y and y<5)
+        The comparison operators (except for the <=> operator, which
+        behaves normally), are not strictly binary operators, they can
+        in fact be grouped in the normal mathematical way, e.g.:
+        (1<x<=y<5) is a legal boolean expression and means just what it
+        should, that is (1<x and x≤y and y<5)
 
    Note
 
-   The unitary minus operates in a different fashion depending on
-   where it appears. If it appears before a number it binds very
-   closely, if it appears in front of an expression it binds less
-   than the power and factorial operators. So for example -1^k is
-   really (-1)^k, but -foo(1)^k is really -(foo(1)^k). So be
-   careful how you use it and if in doubt, add parentheses.
+        The unitary minus operates in a different fashion depending on
+        where it appears. If it appears before a number it binds very
+        closely, if it appears in front of an expression it binds less
+        than the power and factorial operators. So for example -1^k is
+        really (-1)^k, but -foo(1)^k is really -(foo(1)^k). So be
+        careful how you use it and if in doubt, add parentheses.
      __________________________________________________________
 
-Programming with GEL
+Chapter 6. Programming with GEL
 
-Conditionals
+6.1. Conditionals
 
    Syntax:
 if <expression1> then <expression2> [else <expression3>]
@@ -1362,9 +1362,9 @@ if a=5 then a=a-1
 if a==5 then a:=a-1
      __________________________________________________________
 
-Loops
+6.2. Loops
 
-While Loops
+6.2.1. While Loops
 
    Syntax:
 while <expression1> do <expression2>
@@ -1379,7 +1379,7 @@ do <expression2> until <expression1>
    is translated into == just as for the if statement.
      __________________________________________________________
 
-For Loops
+6.2.2. For Loops
 
    Syntax:
 for <identifier> = <from> to <to> do <body>
@@ -1416,10 +1416,10 @@ for x = 0 to 1 by 1/10 do print(x)
    execution of your code may differ on older versions.
      __________________________________________________________
 
-Foreach Loops
+6.2.3. Foreach Loops
 
    Syntax:
-   for <identifier> in <matrix> do <body>
+for <identifier> in <matrix> do <body>
 
    For each element in the matrix, going row by row from left to
    right we execute the body with the identifier set to the
@@ -1435,7 +1435,7 @@ for n in RowsOf ([1,2:3,4]) do print(n)
    will print out [1,2] and then [3,4].
      __________________________________________________________
 
-Break and Continue
+6.2.4. Break and Continue
 
    You can also use the break and continue commands in loops. The
    continue continue command will restart the current loop at its
@@ -1447,7 +1447,7 @@ while(<expression1>) do (
 )
      __________________________________________________________
 
-Sums and Products
+6.3. Sums and Products
 
    Syntax:
 sum <identifier> = <from> to <to> do <body>
@@ -1466,10 +1466,10 @@ prod <identifier> in <matrix> do <body>
    sum returns 0 and prod returns 1 as is the standard convention.
 
    For floating point numbers the same roundoff error protection
-   is done as in the for loop. See the Section called For Loops.
+   is done as in the for loop. See Section 6.2.2.
      __________________________________________________________
 
-Comparison Operators
+6.4. Comparison Operators
 
    The following standard comparison operators are supported in
    GEL and have the obvious meaning: ==, >=, <=, !=, <>, <, >.
@@ -1501,7 +1501,7 @@ if a==b then c
    a=1 will not set a=1 since the first argument was true.
      __________________________________________________________
 
-Global Variables and Scope of Variables
+6.5. Global Variables and Scope of Variables
 
    GEL is a dynamically scoped language. We will explain what this
    means below. That is, normal variables and functions are
@@ -1592,7 +1592,7 @@ set("a",3)
    Variables and Returning Functions.
      __________________________________________________________
 
-Parameter variables
+6.6. Parameter variables
 
    As we said before, there exist special variables called
    parameters that exist in all scopes. To declare a parameter
@@ -1610,7 +1610,7 @@ parameter foo = 1
    genius.
      __________________________________________________________
 
-Returning
+6.7. Returning
 
    Normally a function is one or several expressions separated by
    a semicolon, and the value of the last expression is returned.
@@ -1631,7 +1631,7 @@ function f(x) = (
 )
      __________________________________________________________
 
-References
+6.8. References
 
    It may be necessary for some functions to return more than one
    value. This may be accomplished by returning a vector of
@@ -1666,7 +1666,7 @@ t=&f;
    gives us 4.
      __________________________________________________________
 
-Lvalues
+6.9. Lvalues
 
    An lvalue is the left hand side of an assignment. In other
    words, an lvalue is what you assign something to. Valid lvalues
@@ -1697,9 +1697,9 @@ a@(4:8,3) := [1,2,3,4,5]'
    comparison.
      __________________________________________________________
 
-Advanced Programming with GEL
+Chapter 7. Advanced Programming with GEL
 
-Error Handling
+7.1. Error Handling
 
    If you detect an error in your function, you can bail out of
    it. For normal errors, such as wrong types of arguments, you
@@ -1718,7 +1718,7 @@ function f(M) = (
 )
      __________________________________________________________
 
-Toplevel Syntax
+7.2. Toplevel Syntax
 
    The synatax is slightly different if you enter statements on
    the top level versus when they are inside parentheses or inside
@@ -1751,7 +1751,7 @@ if Something() then (
 )
      __________________________________________________________
 
-Returning Functions
+7.3. Returning Functions
 
    It is possible to return functions as value. This way you can
    build functions that construct special purpose functions
@@ -1845,7 +1845,7 @@ g(10)
    of 5 was added to the private dictionary.
      __________________________________________________________
 
-True Local Variables
+7.4. True Local Variables
 
    When passing functions into other functions, the normal scoping
    of variables might be undesired. For example:
@@ -1897,7 +1897,7 @@ function f(g,x) = (
    function does not see implementation details and get confused.
      __________________________________________________________
 
-GEL Startup Procedure
+7.5. GEL Startup Procedure
 
    First the program looks for the installed library file (the
    compiled version lib.cgel) in the installed directory, then it
@@ -1909,7 +1909,7 @@ GEL Startup Procedure
    lib.cgel
      __________________________________________________________
 
-Loading Programs
+7.6. Loading Programs
 
    Sometimes you have a larger program that you wrote into a file
    and want to read in that file. In these situations, you have
@@ -1935,13 +1935,13 @@ cd directory_with_gel_programs
 ls *.gel
      __________________________________________________________
 
-Matrices in GEL
+Chapter 8. Matrices in GEL
 
    Genius has support for vectors and matrices and a sizable
    library of matrix manipulation and linear algebra functions.
      __________________________________________________________
 
-Entering Matrices
+8.1. Entering Matrices
 
    To enter matrixes, you can use one of the following two
    syntaxes. You can either enter the matrix on one line,
@@ -1992,12 +1992,12 @@ b = [ a,  10
 
    Note
 
-   Be careful about using returns for expressions inside the [ ]
-   brackets, as they have a slightly different meaning there. You
-   will start a new row.
+        Be careful about using returns for expressions inside the [ ]
+        brackets, as they have a slightly different meaning there. You
+        will start a new row.
      __________________________________________________________
 
-Conjugate Transpose and Transpose Operator
+8.2. Conjugate Transpose and Transpose Operator
 
    You can conjugate transpose a matrix by using the ' operator.
    That is the entry in the ith column and the jth row will be the
@@ -2017,7 +2017,7 @@ Conjugate Transpose and Transpose Operator
    with real matrices and vectors.
      __________________________________________________________
 
-Linear Algebra
+8.3. Linear Algebra
 
    Genius implements many useful linear algebra and matrix
    manipulation routines. See the Linear Algebra and Matrix
@@ -2053,14 +2053,14 @@ Linear Algebra
    will be very fast.
      __________________________________________________________
 
-Polynomials in GEL
+Chapter 9. Polynomials in GEL
 
    Currently Genius can handle polynomials of one variable written
    out as vectors, and do some basic operations with these. It is
    planned to expand this support further.
      __________________________________________________________
 
-Using Polynomials
+9.1. Using Polynomials
 
    Currently polynomials in one variable are just horizontal
    vectors with value only nodes. The power of the term is the
@@ -2092,19 +2092,18 @@ f(2)
    function such as FindRootBisection, FindRootFalsePosition,
    FindRootMullersMethod, or FindRootSecant.
 
-   See the Section called Polynomials in the Chapter called List
-   of GEL functions in the function list for the rest of functions
-   acting on polynomials.
+   See Section 11.15 in the function list for the rest of
+   functions acting on polynomials.
      __________________________________________________________
 
-Set Theory in GEL
+Chapter 10. Set Theory in GEL
 
    Genius has some basic set theoretic functionality built in.
    Currently a set is just a vector (or a matrix). Every distinct
    object is treated as a different element.
      __________________________________________________________
 
-Using Sets
+10.1. Using Sets
 
    Just like vectors, objects in sets can include numbers,
    strings, null, matrices and vectors. It is planned in the
@@ -2138,13 +2137,13 @@ genius> IsIn (1, [0,1,2])
    IsSubset(null,X) is always true.
      __________________________________________________________
 
-List of GEL functions
+Chapter 11. List of GEL functions
 
    To get help on a specific function from the console type:
 help FunctionName
      __________________________________________________________
 
-Commands
+11.1. Commands
 
    help
 
@@ -2187,7 +2186,7 @@ plugin plugin_name
           the system in the proper directory.
      __________________________________________________________
 
-Basic
+11.2. Basic
 
    AskButtons
 
@@ -2533,7 +2532,7 @@ warranty
           Gives the warranty information.
      __________________________________________________________
 
-Parameters
+11.3. Parameters
 
    ChopTolerance
 
@@ -2793,7 +2792,7 @@ VectorfieldTicks = [vertical,horizontal]
           vectorfield plot. (See VectorfieldPlot).
      __________________________________________________________
 
-Constants
+11.4. Constants
 
    CatalanConstant
 
@@ -2857,7 +2856,7 @@ pi
           information.
      __________________________________________________________
 
-Numeric
+11.5. Numeric
 
    AbsoluteValue
 
@@ -3175,7 +3174,7 @@ trunc (x)
           Truncate number to an integer (return the integer part).
      __________________________________________________________
 
-Trigonometry
+11.6. Trigonometry
 
    acos
 
@@ -3385,7 +3384,7 @@ tanh (x)
           See Planetmath for more information.
      __________________________________________________________
 
-Number Theory
+11.7. Number Theory
 
    AreRelativelyPrime
 
@@ -3890,7 +3889,7 @@ lcm (a,args...)
           See Planetmath or Mathworld for more information.
      __________________________________________________________
 
-Matrix Manipulation
+11.8. Matrix Manipulation
 
    ApplyOverMatrix
 
@@ -4163,6 +4162,20 @@ MatrixSumSquares (A)
           Calculate the sum of squares of all elements in a matrix
           or vector.
 
+   NonzeroColumns
+
+NonzeroColumns (M)
+
+          Returns a row vector of the indices of nonzero columns
+          in the matrix M.
+
+   NonzeroElements
+
+NonzeroElements (v)
+
+          Returns a row vector of the indices of nonzero elements
+          in the vector v.
+
    OuterProduct
 
 OuterProduct (u,v)
@@ -4293,7 +4306,7 @@ zeros (rows,columns...)
           columns are zero.
      __________________________________________________________
 
-Linear Algebra
+11.9. Linear Algebra
 
    AuxiliaryUnitMatrix
 
@@ -4993,7 +5006,7 @@ rref (M)
           See Wikipedia or Planetmath for more information.
      __________________________________________________________
 
-Combinatorics
+11.10. Combinatorics
 
    Catalan
 
@@ -5232,7 +5245,7 @@ nPr (n,r)
           See Mathworld or Wikipedia for more information.
      __________________________________________________________
 
-Calculus
+11.11. Calculus
 
    CompositeSimpsonsRule
 
@@ -5520,7 +5533,7 @@ TwoSidedThreePointFormula (f,x0,h)
           Compute two-sided derivative using three-point formula.
      __________________________________________________________
 
-Functions
+11.12. Functions
 
    Argument
 
@@ -5768,7 +5781,7 @@ sinc (x)
           See Wikipedia for more information.
      __________________________________________________________
 
-Equation Solving
+11.13. Equation Solving
 
    CubicFormula
 
@@ -5979,7 +5992,7 @@ RungeKuttaFull (f,x0,y0,x1,n)
           See Mathworld, or Wikipedia for more information.
      __________________________________________________________
 
-Statistics
+11.14. Statistics
 
    Average
 
@@ -6074,7 +6087,7 @@ StandardDeviation (m)
           Calculate the standard deviation of a whole matrix.
      __________________________________________________________
 
-Polynomials
+11.15. Polynomials
 
    AddPoly
 
@@ -6161,7 +6174,7 @@ TrimPoly (p)
           Trim zeros from a polynomial (as vector).
      __________________________________________________________
 
-Set Theory
+11.16. Set Theory
 
    Intersection
 
@@ -6206,7 +6219,7 @@ Union (X,Y)
           vectors pretending to be sets).
      __________________________________________________________
 
-Commutative Algebra
+11.17. Commutative Algebra
 
    MacaulayBound
 
@@ -6231,7 +6244,7 @@ MacaulayRep (c,d)
           integer c.
      __________________________________________________________
 
-Miscellaneous
+11.18. Miscellaneous
 
    ASCIIToString
 
@@ -6261,7 +6274,7 @@ StringToAlphabet (str,alphabet)
           letters.
      __________________________________________________________
 
-Symbolic Operations
+11.19. Symbolic Operations
 
    SymbolicDerivative
 
@@ -6308,7 +6321,7 @@ SymbolicTaylorApproximationFunction (f,x0,n)
           around x0 to the nth degree. (See SymbolicDerivative)
      __________________________________________________________
 
-Plotting
+11.20. Plotting
 
    ExportPlot
 
@@ -6673,7 +6686,7 @@ VectorfieldPlot (funcx, funcy, x1, x2, y1, y2)
 genius> VectorfieldPlot(`(x,y)=x^2-y, `(x,y)=y^2-x, -1, 1, -1, 1)
      __________________________________________________________
 
-Example Programs in GEL
+Chapter 12. Example Programs in GEL
 
    Here is a function that calculates factorials:
 function f(x) = if x <= 1 then 1 else (f(x-1)*x)
@@ -6748,30 +6761,28 @@ function MyOwnREF(m) = (
 )
      __________________________________________________________
 
-Settings
+Chapter 13. Settings
 
    To configure Genius Mathematics Tool, choose
    Settings->Preferences. There are several basic parameters
    provided by the calculator in addition to the ones provided by
    the standard library. These control how the calculator behaves.
 
-   Note Changing Settings with GEL
+ Note Changing Settings with GEL
 
 
-   Many of the settings in Genius are simply global variables, and
-   can be evaluated and assigned to in the same way as normal
-   variables. See the Section called Using Variables in the
-   Chapter called GEL Basics about evaluating and assigning to
-   variables, and the Section called Parameters in the Chapter
-   called List of GEL functions for a list of settings that can be
-   modified in this way.
+         Many of the settings in Genius are simply global variables, and
+         can be evaluated and assigned to in the same way as normal
+         variables. See Section 5.2 about evaluating and assigning to
+         variables, and Section 11.3 for a list of settings that can be
+         modified in this way.
 
-   As an example, you can set the maximum number of digits in a
-   result to 12 by typing:
-MaxDigits = 12
+         As an example, you can set the maximum number of digits in a
+         result to 12 by typing:
+      MaxDigits = 12
      __________________________________________________________
 
-Output
+13.1. Output
 
    Maximum digits to output
           The maximum digits in a result (MaxDigits)
@@ -6834,8 +6845,8 @@ Output
 
    In addition to these preferences, there are some preferences
    that can only be changed by setting them in the workspace
-   console. For others that may affect the output see the Section
-   called Parameters in the Chapter called List of GEL functions.
+   console. For others that may affect the output see Section
+   11.3.
 
    IntegerOutputBase
           The base that will be used to output integers
@@ -6849,7 +6860,7 @@ Output
           for typsetting in LaTeX, MathML (XML), or in Troff.
      __________________________________________________________
 
-Precision
+13.2. Precision
 
    Floating point precision
           The floating point precision in bits (FloatPrecision).
@@ -6868,7 +6879,7 @@ Precision
           box, restart genius and then uncheck it again.
      __________________________________________________________
 
-Terminal
+13.3. Terminal
 
    Terminal refers to the console in the work area.
 
@@ -6888,7 +6899,7 @@ Terminal
           remotely.
      __________________________________________________________
 
-Memory
+13.4. Memory
 
    Maximum number of nodes to allocate
           Internally all data is put onto small nodes in memory.
@@ -6911,7 +6922,7 @@ Memory
           amount of memory that genius uses.
      __________________________________________________________
 
-About Genius Mathematics Tool
+Chapter 14. About Genius Mathematics Tool
 
    Genius Mathematics Tool was written by Jiří (George) Lebl
    (<jirka@5z.com>). The history of Genius Mathematics Tool goes
