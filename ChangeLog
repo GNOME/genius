@@ -1,3 +1,14 @@
+Wed Mar 12 17:01:07 2014  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/funclib.c, src/calc.h: Implement NonzeroColumns and
+	  NonzeroElements to return indices of nonzero columns in a matrix
+	  and elements in a vector
+
+	* src/matrixw.[ch]: the _vindex function could have returned NULL,
+	  though it didn't seem to cause any crashes
+
+	* src/geniustests.txt: test the above
+
 Mon Nov 18 17:53:27 2013  Jiri (George) Lebl <jirka@5z.com>
 
 	* lib/combinatorics/factorial.gel: Fix applying "Triangular" over

@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2013 Jiri (George) Lebl
+ * Copyright (C) 1997-2014 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -5433,12 +5433,12 @@ etree_out_of_int_vector (int *vec, int len)
 	return n;
 }
 
-#if 0
+/* eats the glist and frees it */
 static GelETree *
-etree_out_of_etree_list (GList *list, int len)
+etree_out_of_etree_list (GSList *list, int len)
 {
 	GelMatrix *mm;
-	GList *li;
+	GSList *li;
 	int i;
 	GelETree *n;
 
@@ -5450,6 +5450,7 @@ etree_out_of_etree_list (GList *list, int len)
 		gel_matrix_index (mm, i, 0) = li->data;
 		li = li->next;
 	}
+	g_slist_free (list);
 
 	GEL_GET_NEW_NODE (n);
 	n->type = GEL_MATRIX_NODE;
@@ -5458,7 +5459,6 @@ etree_out_of_etree_list (GList *list, int len)
 
 	return n;
 }
-#endif
 
 static gboolean
 comb_get_next_combination (int *vec, int len, int n)
@@ -5773,6 +5773,7 @@ NextCombination_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	return r;
 }
 
+
 static GelETree *
 nCr_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
@@ -5815,6 +5816,88 @@ nCr_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		mpw_div (num, num, nm);
 		mpw_clear (nm);
 		return gel_makenum_use(num);
+	}
+}
+
+static GelETree *
+NonzeroColumns_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelMatrixW *m;
+	int i, j, w, h;
+	int cnt;
+	GSList *cols;
+
+	if G_UNLIKELY ( ! check_argument_matrix_or_null (a, 0, "NonzeroColumns"))
+		return NULL;
+
+	if (a[0]->type == GEL_NULL_NODE)
+		return gel_makenum_null ();
+
+	m = a[0]->mat.matrix;
+	w = gel_matrixw_width (m);
+	h = gel_matrixw_height (m);
+	cnt = 0;
+	cols = NULL;
+	/* Must be done in this order and not rowise as is usual for genius! */
+	for (i = 0; i < w; i++) {
+		for (j = 0; j < h; j++) {
+			GelETree *t = gel_matrixw_get_index (m, i, j);
+			if ( ! ( t == NULL ||
+				 t->type == GEL_NULL_NODE ||
+				 (t->type == GEL_VALUE_NODE &&
+				  mpw_zero_p (t->val.value)))) {
+				cols = g_slist_prepend (cols,
+							gel_makenum_ui(i+1));
+				cnt++;
+				break;
+			}
+		}
+	}
+
+	if (cnt == 0) {
+		return gel_makenum_null ();
+	} else {
+		cols = g_slist_reverse (cols);
+		return etree_out_of_etree_list (cols, cnt);
+	}
+}
+
+static GelETree *
+NonzeroElements_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelMatrixW *m;
+	int i, e;
+	int cnt;
+	GSList *elts;
+
+	if G_UNLIKELY ( ! check_argument_matrix_or_null (a, 0, "NonzeroElements"))
+		return NULL;
+
+	if (a[0]->type == GEL_NULL_NODE)
+		return gel_makenum_null ();
+
+	m = a[0]->mat.matrix;
+	e = gel_matrixw_elements (m);
+	cnt = 0;
+	elts = NULL;
+	/* Must be done in this order and not rowise as is usual for genius! */
+	for (i = 0; i < e; i++) {
+		GelETree *t = gel_matrixw_get_vindex (m, i);
+		if ( ! (t == NULL ||
+			t->type == GEL_NULL_NODE ||
+			(t->type == GEL_VALUE_NODE &&
+			 mpw_zero_p (t->val.value)))) {
+			elts = g_slist_prepend (elts,
+						gel_makenum_ui(i+1));
+			cnt++;
+		}
+	}
+
+	if (cnt == 0) {
+		return gel_makenum_null ();
+	} else {
+		elts = g_slist_reverse (elts);
+		return etree_out_of_etree_list (elts, cnt);
 	}
 }
 
@@ -6654,6 +6737,8 @@ gel_funclib_addall(void)
 	FUNC (DiagonalOf, 1, "M", "matrix", N_("Gets the diagonal entries of a matrix as a column vector"));
 	FUNC (CountZeroColumns, 1, "M", "matrix", N_("Count the number of zero columns in a matrix"));
 	FUNC (StripZeroColumns, 1, "M", "matrix", N_("Removes any all-zero columns of M"));
+	FUNC (NonzeroColumns, 1, "M", "matrix", N_("Return a vector with the indices of the nonzero columns in a matrix"));
+	FUNC (NonzeroElements, 1, "v", "matrix", N_("Return a vector with the indices of the nonzero elements in a vector"));
 
 	FUNC (ComplexConjugate, 1, "M", "numeric", N_("Calculates the conjugate"));
 	conj_function = f;

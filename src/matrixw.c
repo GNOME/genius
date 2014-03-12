@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2011 Jiri (George) Lebl
+ * Copyright (C) 1997-2014 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -1367,11 +1367,11 @@ gel_matrixw_vindex(GelMatrixW *m, int i) {
 	int w = gel_matrixw_width(m);
 	/* Avoid dividing things */
 	if (w == 1)
-		t = gel_matrixw_get_index (m, 0, i);
+		t = gel_matrixw_index (m, 0, i);
 	else if (gel_matrixw_height(m) == 1)
-		t = gel_matrixw_get_index (m, i, 0);
+		t = gel_matrixw_index (m, i, 0);
 	else
-		t = gel_matrixw_get_index (m, i % w, i / w);
+		t = gel_matrixw_index (m, i % w, i / w);
 	return t ? t : the_zero;
 }
 #endif
