@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2012 Jiri (George) Lebl
+ * Copyright (C) 1997-2014 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -1372,6 +1372,37 @@ append_func (GelOutput *gelo, GelEFunc *f)
 		  never be in the etree*/
 		gel_errorout (_("Unexpected function type!"));
 		gel_output_string(gelo,")(?))");
+	}
+}
+
+void
+gel_print_func (GelOutput *gelo,
+		GelEFunc *f)
+{
+	if G_UNLIKELY (f == NULL) {
+		gel_errorout (_("NULL function!"));
+		gel_output_string (gelo, "(?)");
+		return;
+	}
+
+	if (f->type == GEL_VARIABLE_FUNC) {
+		gel_print_etree (gelo, f->data.user, FALSE);
+	} else {
+		gel_output_push_nonotify (gelo);
+
+		/* all non-value nodes printed as <ci></ci> and
+		 * value nodes as <cn></cn> */
+		if (gel_calcstate.output_style == GEL_OUTPUT_MATHML)
+			gel_output_string (gelo, "<ci>");
+
+		append_func (gelo, f);
+
+		/* all non-value nodes printed as <ci></ci> and
+		 * value nodes as <cn></cn> */
+		if (gel_calcstate.output_style == GEL_OUTPUT_MATHML)
+			gel_output_string (gelo, "</ci>");
+
+		gel_output_pop_nonotify (gelo);
 	}
 }
 

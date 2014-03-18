@@ -2383,6 +2383,23 @@ display (str,expr)
           Display a string and an expression with a colon to
           separate them.
 
+   DisplayVariables
+
+DisplayVariables (var1,var2,...)
+
+          Display set of variables. The variables can be given as
+          strings or identifiers. For example:
+
+DisplayVariables(`x,`y,`z)
+
+          If called without arguments (must supply empty argument
+          list) as
+
+DisplayVariables()
+
+          then all variables are printed including a stacktrace
+          similar to Show user variables in the graphical version.
+
    error
 
 error (str)
@@ -2426,6 +2443,19 @@ printn (str)
           Prints an expression without a trailing newline. The
           argument str can be any expression. It is made into a
           string before being printed.
+
+   PrintTable
+
+PrintTable (f,v)
+
+          Print a table of values for a function. The values are
+          in the vector v. You can use the vector building
+          notation as follows:
+
+PrintTable (f,[0:10])
+
+          If v is a positive integer, then the table of integers
+          from 1 up to and including v will be used.
 
    protect
 

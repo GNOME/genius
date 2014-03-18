@@ -565,6 +565,133 @@ set_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	return gel_stealnode (a[1]);
 }
 
+static void
+display_all_vars (void)
+{
+	GelContextFrame *all_contexts, *lic;
+	GSList *funcs;
+	GSList *li;
+	gboolean printed_local_title = FALSE;
+
+	all_contexts = d_get_all_contexts ();
+	funcs = d_getcontext_global ();
+
+	gel_output_string (gel_main_out,
+			   _("Global variables:\n\n"));
+
+	for (li = funcs; li != NULL; li = li->next) {
+		GelEFunc *f = li->data;
+		if (f->type != GEL_VARIABLE_FUNC ||
+		    f->id == NULL ||
+		    /* only for toplevel */ f->id->parameter ||
+		    /* only for toplevel */ f->id->protected_ ||
+		    f->id->token == NULL ||
+		    f->data.user == NULL ||
+		    f->context > 0)
+			continue;
+
+		gel_output_printf (gel_main_out, "%s = ", f->id->token);
+		gel_print_etree (gel_main_out, f->data.user, FALSE /*no toplevel, keep this short*/);
+		gel_output_string (gel_main_out, "\n");
+	}
+
+
+	if (d_curcontext () > 0) {
+		int i = d_curcontext ();
+
+		gel_output_string
+			(gel_main_out, _("\nFunction call stack:\n"));
+		gel_output_string
+			(gel_main_out, _("(depth of context in parentheses)\n\n"));
+
+		/* go over all local contexts (not the last one, that is global) */
+		for (lic = all_contexts; lic != NULL && lic->next != NULL; lic = lic->next) {
+			GelToken *tok = lic->name;
+
+			if (tok == NULL) {
+				gel_output_string (gel_main_out, "??");
+			} else {
+				gel_output_string (gel_main_out, tok->token);
+			}
+
+			gel_output_printf (gel_main_out, " (%d)", i);
+
+			if (i <= 1) {
+				gel_output_string (gel_main_out, "\n");
+			} else {
+				gel_output_string (gel_main_out, ", ");
+			}
+
+			i--;
+		}
+	}
+
+
+	/* go over all local contexts (not the last one, that is global) */
+	for (lic = all_contexts; lic != NULL && lic->next != NULL; lic = lic->next) {
+		for (li = lic->functions; li != NULL; li = li->next) {
+			GelEFunc *f = li->data;
+			if (f->type != GEL_VARIABLE_FUNC ||
+			    f->id == NULL ||
+			    f->id->token == NULL ||
+			    f->data.user == NULL ||
+			    f->context <= 0)
+				continue;
+
+			if ( ! printed_local_title) {
+				gel_output_string (gel_main_out,
+					_("\nLocal variables:\n"));
+				gel_output_string (gel_main_out,
+					_("(depth of context in parentheses)\n\n"));
+				printed_local_title = TRUE;
+			}
+
+			gel_output_printf (gel_main_out, "(%d) %s = ", f->context, f->id->token);
+			gel_print_etree (gel_main_out, f->data.user, FALSE /*no toplevel, keep this short*/);
+			gel_output_string (gel_main_out, "\n");
+		}
+	}
+}
+
+/*set function*/
+static GelETree *
+DisplayVariables_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	int j;
+
+	if (a == NULL)
+		display_all_vars ();
+
+	j = 0;
+	while (a != NULL && a[j] != NULL) {
+		GelToken *id;
+		GelEFunc *f;
+		if (a[j]->type == GEL_IDENTIFIER_NODE) {
+			id = a[j]->id.id;
+		} else if (a[j]->type == GEL_STRING_NODE) {
+			id = d_intern (a[j]->str.str);
+		} else {
+			gel_errorout (_("%s: Argument number %d not a string or identifier"),
+				      "DisplayVariables",
+				      j+1);
+			return NULL;
+		}
+
+		f = d_lookup_global (id);
+
+		if (f == NULL) {
+			gel_output_printf(gel_main_out, _("%s undefined\n"), id->token);
+		} else {
+			gel_output_printf(gel_main_out, "%s = ", id->token);
+			gel_print_func (gel_main_out, f);
+			gel_output_string(gel_main_out, "\n");
+		}
+		j++;
+	}
+
+	return gel_makenum_null ();
+}
+
 /*rand function*/
 static GelETree *
 rand_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
@@ -6699,6 +6826,7 @@ gel_funclib_addall(void)
 	FUNC (printn, 1, "str", "basic", N_("Prints an expression without a trailing newline"));
 	FUNC (display, 2, "str,expr", "basic", N_("Display a string and an expression"));
 	FUNC (set, 2, "id,val", "basic", N_("Set a global variable"));
+	VFUNC (DisplayVariables, 1, "var", "basic", N_("Display values of variables, or all if called without arguments"));
 
 	FUNC (SetHelp, 3, "id,category,desc", "basic", N_("Set the category and help description line for a function"));
 	FUNC (SetHelpAlias, 2, "id,alias", "basic", N_("Sets up a help alias"));

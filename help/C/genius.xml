@@ -4,7 +4,7 @@
   <!ENTITY app "<application>Genius Mathematics Tool</application>">
   <!ENTITY appname "Genius">
   <!ENTITY appversion "1.0.18">
-  <!ENTITY date "October 2013">
+  <!ENTITY date "March 2014">
 
   <!ENTITY legal SYSTEM "legal.xml">
 
@@ -3102,6 +3102,25 @@ is called inside a block that was evaluated using modular arithmetic (using <lit
         </varlistentry>
 
         <varlistentry>
+         <term><anchor id="gel-function-DisplayVariables"/>DisplayVariables</term>
+         <listitem>
+          <synopsis>DisplayVariables (var1,var2,...)</synopsis>
+	  <para>Display set of variables.  The variables can be given as
+		  strings or identifiers.  For example:
+	    <programlisting>DisplayVariables(`x,`y,`z)
+	    </programlisting>
+	  </para>
+	  <para>
+		  If called without arguments (must supply empty argument list) as
+	    <programlisting>DisplayVariables()
+	    </programlisting>
+	    then all variables are printed including a stacktrace similar to
+	    <guilabel>Show user variables</guilabel> in the graphical version.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term><anchor id="gel-function-error"/>error</term>
          <listitem>
           <synopsis>error (str)</synopsis>
@@ -3150,6 +3169,21 @@ made into a string before being printed.</para>
           <synopsis>printn (str)</synopsis>
           <para>Prints an expression without a trailing newline.  The argument <varname>str</varname> can be any expression.  It is
 made into a string before being printed.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-PrintTable"/>PrintTable</term>
+         <listitem>
+          <synopsis>PrintTable (f,v)</synopsis>
+	  <para>Print a table of values for a function.  The values are in the 
+		  vector <varname>v</varname>.  You can use the vector
+		  building notation as follows:
+      		  <programlisting>PrintTable (f,[0:10])
+	    </programlisting>
+	    If <varname>v</varname> is a positive integer, then the table of
+	    integers from 1 up to and including v will be used.
+	  </para>
          </listitem>
         </varlistentry>
 

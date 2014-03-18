@@ -1224,8 +1224,6 @@ populate_var_box (GtkTextBuffer *buffer)
 			if (i <= 1) {
 				gtk_text_buffer_insert_with_tags_by_name
 					(buffer, &iter, "\n", -1, "context", NULL);
-				if (i < 1)
-					printf ("EKI!!\n");
 			} else if (cols >= 58) {
 				gtk_text_buffer_insert_with_tags_by_name
 					(buffer, &iter, ",\n", -1, "context", NULL);

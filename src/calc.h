@@ -86,6 +86,10 @@ void	gel_pretty_print_etree	(GelOutput *gelo,
 /* make a newly allocated string for this */
 char *	gel_string_print_etree	(GelETree *n);
 
+/* same as gel_print_etree, but only for function */
+void	gel_print_func (GelOutput *gelo,
+			GelEFunc *f);
+
 /* Note that infile must be gel_lexer_open'ed */
 /*this is the function to be mostly called outsied of calc.c
   evaluate the xpression string and give back a string with the
