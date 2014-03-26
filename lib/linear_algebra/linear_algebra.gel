@@ -176,7 +176,7 @@ function IsInvertibleField(n) =
 (
   if IsNull (n) then return false
  else if (IsValue(n)) then return (n!=0)    # Elements of fields (Q,R,C) are invertible iff != 0
- else if (IsMatrix(n)) then (if IsMatrixSquare(n) then return (IsInvertible(det(n))) else return true);
+ else if (IsMatrix(n)) then (if IsMatrixSquare(n) then return (IsInvertibleField(det(n))) else return true);
                                              # Matrices are invertible iff they are square and their
                                              #  determinant is a unit
  error ("IsInvertibleField: argument not a value or matrix");bailout
