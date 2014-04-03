@@ -367,5 +367,5 @@ init_inter(void)
 {
 	rl_readline_name = "Genius";
 	rl_attempted_completion_function =
-		(CPPFunction *)tab_completion;
+		(rl_completion_func_t *)tab_completion;
 }
