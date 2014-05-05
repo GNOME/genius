@@ -35,6 +35,7 @@ typedef struct {
 
 extern GeniusSetup genius_setup;
 extern GtkWidget *genius_window;
+extern int gel_calc_running;
 
 void genius_interrupt_calc (void);
 

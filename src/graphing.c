@@ -321,8 +321,8 @@ static void plot_surface_functions (gboolean do_window_present, gboolean fit_fun
 /* replot the slope/vector fields after zoom or other axis changing event */
 static void replot_fields (void);
 
-static void slopefield_draw_solution (double x, double y, double dx);
-static void vectorfield_draw_solution (double x, double y, double dt, double tlen);
+static void slopefield_draw_solution (double x, double y, double dx, gboolean is_gui);
+static void vectorfield_draw_solution (double x, double y, double dt, double tlen, gboolean is_gui);
 
 static GtkWidget *
 create_range_spinboxes (const char *title, GtkWidget **titlew,
@@ -840,6 +840,7 @@ plot_print_cb (void)
 	}
 
 	plot_in_progress ++;
+	gel_calc_running ++;
 	plot_window_setup ();
 
 	/* Letter will fit on A4, so just currently do that */
@@ -859,6 +860,7 @@ plot_print_cb (void)
 
 	if ( ! ret || gel_interrupted) {
 		plot_in_progress --;
+		gel_calc_running --;
 		plot_window_setup ();
 
 		if ( ! gel_interrupted)
@@ -887,6 +889,7 @@ plot_print_cb (void)
 	}
 
 	plot_in_progress --;
+	gel_calc_running --;
 	plot_window_setup ();
 
 	close (fd);
@@ -978,6 +981,7 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 	}
 
 	plot_in_progress ++;
+	gel_calc_running ++;
 	plot_window_setup ();
 
 	/* FIXME: There should be some options about size and stuff */
@@ -1042,6 +1046,7 @@ really_export_cb (GtkFileChooser *fs, int response, gpointer data)
 	}
 
 	plot_in_progress --;
+	gel_calc_running --;
 	plot_window_setup ();
 
 	if ( ! ret || gel_interrupted) {
@@ -1643,10 +1648,10 @@ plot_select_region (GtkPlotCanvas *canvas,
 				(GTK_SPIN_BUTTON (solver_y_sb), y);
 
 		if (plot_mode == MODE_LINEPLOT_SLOPEFIELD)
-			slopefield_draw_solution (x, y, solver_xinc);
+			slopefield_draw_solution (x, y, solver_xinc, TRUE /*is_gui*/);
 		else if (plot_mode == MODE_LINEPLOT_VECTORFIELD)
 			vectorfield_draw_solution (x, y, solver_tinc,
-						   solver_tlen);
+						   solver_tlen, TRUE /*is_gui*/);
 
 		return;
 	}
@@ -1841,9 +1846,9 @@ solver_dialog_response (GtkWidget *w, int response, gpointer data)
 	if (response == RESPONSE_PLOT) {
 		update_spinboxes (w);
 		if (plot_mode == MODE_LINEPLOT_SLOPEFIELD)
-			slopefield_draw_solution (solver_x, solver_y, solver_xinc);
+			slopefield_draw_solution (solver_x, solver_y, solver_xinc, TRUE /*is_gui*/);
 		else
-			vectorfield_draw_solution (solver_x, solver_y, solver_tinc, solver_tlen);
+			vectorfield_draw_solution (solver_x, solver_y, solver_tinc, solver_tlen, TRUE /*is_gui*/);
 	} else if (response == RESPONSE_CLEAR) {
 		clear_solutions ();
 	} else  {
@@ -2568,6 +2573,7 @@ static void
 plot_axis (void)
 {
 	plot_in_progress ++;
+	gel_calc_running ++;
 	plot_window_setup ();
 
 	if (plot_mode == MODE_LINEPLOT) {
@@ -2606,6 +2612,7 @@ plot_axis (void)
 	}
 
 	plot_in_progress --;
+	gel_calc_running --;
 	plot_window_setup ();
 }
 
@@ -3783,7 +3790,7 @@ solution_destroyed (GtkWidget *plotdata, gpointer data)
 }
 
 static void
-slopefield_draw_solution (double x, double y, double dx)
+slopefield_draw_solution (double x, double y, double dx, gboolean is_gui)
 {
 	double *xx, *yy;
 	double cx, cy;
@@ -3799,6 +3806,10 @@ slopefield_draw_solution (double x, double y, double dx)
 
 	if (slopefield_func == NULL)
 		return;
+
+	plot_in_progress ++;
+	gel_calc_running ++;
+	plot_window_setup ();
 
 	gdk_color_parse ("red", &color);
 
@@ -3921,10 +3932,17 @@ slopefield_draw_solution (double x, double y, double dx)
 					  data);
 	g_signal_connect (G_OBJECT (data), "destroy",
 			  G_CALLBACK (solution_destroyed), NULL);
+
+	if (is_gui && gel_interrupted)
+		gel_interrupted = FALSE;
+
+	plot_in_progress --;
+	gel_calc_running --;
+	plot_window_setup ();
 }
 
 static void
-vectorfield_draw_solution (double x, double y, double dt, double tlen)
+vectorfield_draw_solution (double x, double y, double dt, double tlen, gboolean is_gui)
 {
 	double *xx, *yy;
 	double cx, cy, t;
@@ -3932,12 +3950,17 @@ vectorfield_draw_solution (double x, double y, double dt, double tlen)
 	int i;
 	GdkColor color;
 	GtkPlotData *data;
+	gboolean ex;
 
 	if (vectorfield_func_x == NULL ||
 	    vectorfield_func_y == NULL ||
 	    dt <= 0.0 ||
 	    tlen <= 0.0)
 		return;
+
+	plot_in_progress ++;
+	gel_calc_running ++;
+	plot_window_setup ();
 
 	gdk_color_parse ("red", &color);
 
@@ -3952,10 +3975,10 @@ vectorfield_draw_solution (double x, double y, double dt, double tlen)
 	cy = y;
 	t = 0.0;
 	while (t < tlen && i < len) {
-		gboolean ex = FALSE;
 		double xk1, xk2, xk3, xk4, xsl;
 		double yk1, yk2, yk3, yk4, ysl;
 
+		ex = FALSE;
 		/* standard Runge-Kutta */
 		xk1 = call_xy_or_z_function (vectorfield_func_x,
 					     cx, cy, &ex);
@@ -4005,6 +4028,13 @@ vectorfield_draw_solution (double x, double y, double dt, double tlen)
 					  data);
 	g_signal_connect (G_OBJECT (data), "destroy",
 			  G_CALLBACK (solution_destroyed), NULL);
+
+	if (is_gui && gel_interrupted)
+		gel_interrupted = FALSE;
+
+	plot_in_progress --;
+	gel_calc_running--;
+	plot_window_setup ();
 }
 
 
@@ -4549,6 +4579,7 @@ plot_functions (gboolean do_window_present,
 	add_line_plot ();
 
 	plot_in_progress ++;
+	gel_calc_running ++;
 	plot_window_setup ();
 	gtk_plot_freeze (GTK_PLOT (line_plot));
 
@@ -4746,6 +4777,7 @@ plot_functions (gboolean do_window_present,
 
 	gtk_plot_thaw (GTK_PLOT (line_plot));
 	plot_in_progress --;
+	gel_calc_running --;
 	plot_window_setup ();
 }
 
@@ -4764,6 +4796,7 @@ plot_surface_functions (gboolean do_window_present, gboolean fit_function)
 	add_surface_plot ();
 
 	plot_in_progress ++;
+	gel_calc_running ++;
 	plot_window_setup ();
 
 
@@ -4910,6 +4943,7 @@ plot_surface_functions (gboolean do_window_present, gboolean fit_function)
 	}
 
 	plot_in_progress --;
+	gel_calc_running --;
 	plot_window_setup ();
 }
 
@@ -7214,7 +7248,7 @@ SlopefieldDrawSolution_op (GelCtx *ctx, GelETree * * a, int *exception)
 		return NULL;
 	}
 
-	slopefield_draw_solution (x, y, dx);
+	slopefield_draw_solution (x, y, dx, FALSE /*is_gui*/);
 
 	return gel_makenum_null ();
 }
@@ -7274,7 +7308,7 @@ VectorfieldDrawSolution_op (GelCtx *ctx, GelETree * * a, int *exception)
 		return NULL;
 	}
 
-	vectorfield_draw_solution (x, y, dt, tlen);
+	vectorfield_draw_solution (x, y, dt, tlen, FALSE /*is_gui*/);
 
 	return gel_makenum_null ();
 }
@@ -9062,6 +9096,7 @@ ExportPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 		gboolean eps = (strcasecmp (type, "eps") == 0);
 
 		plot_in_progress ++;
+		gel_calc_running ++;
 		plot_window_setup ();
 
 		if ( ! gtk_plot_canvas_export_ps_with_size
@@ -9072,6 +9107,7 @@ ExportPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 			 GTK_PLOT_PSPOINTS,
 			 400, ASPECT * 400)) {
 			plot_in_progress --;
+			gel_calc_running --;
 			plot_window_setup ();
 			gel_errorout (_("%s: export failed"), "ExportPlot");
 			return NULL;
@@ -9083,6 +9119,7 @@ ExportPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 		}
 
 		plot_in_progress --;
+		gel_calc_running --;
 		plot_window_setup ();
 	} else {
 		gel_errorout (_("%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."), "ExportPlot");

@@ -110,6 +110,8 @@ GtkWidget *genius_window = NULL;
 GtkWidget *genius_window_statusbar = NULL;
 GtkUIManager *genius_ui = NULL;
 
+int gel_calc_running = 0;
+
 static GtkWidget *setupdialog = NULL;
 static GtkWidget *term = NULL;
 static GtkWidget *notebook = NULL;
@@ -118,8 +120,6 @@ static GString *infos = NULL;
 static GtkRecentManager *recent_manager;
 
 static char *clipboard_str = NULL;
-
-static int calc_running = 0;
 
 static int errors_printed = 0;
 
@@ -2163,7 +2163,7 @@ static void
 quitapp (GtkWidget * widget, gpointer data)
 {
 	if (any_changed ()) {
-		if (calc_running) {
+		if (gel_calc_running) {
 			if ( ! genius_ask_question (NULL,
 						    _("Genius is executing something, "
 						      "and furthermore there are "
@@ -2178,7 +2178,7 @@ quitapp (GtkWidget * widget, gpointer data)
 				return;
 		}
 	} else {
-		if (calc_running) {
+		if (gel_calc_running) {
 			if ( ! genius_ask_question (NULL,
 						    _("Genius is executing something, "
 						      "are you sure you wish to "
@@ -2666,7 +2666,7 @@ void
 genius_interrupt_calc (void)
 {
 	gel_interrupted = TRUE;
-	if (!calc_running) {
+	if ( ! gel_calc_running) {
 		vte_terminal_feed_child (VTE_TERMINAL (term), "\n", 1);
 	}
 }
@@ -2683,7 +2683,7 @@ executing_warning (void)
 static void
 warranty_call (GtkWidget *widget, gpointer data)
 {
-	if (calc_running) {
+	if (gel_calc_running) {
 		executing_warning ();
 		return;
 	} else {
@@ -2751,10 +2751,10 @@ really_load_cb (GtkFileChooser *fs, int response, gpointer data)
 			   "\e[0m (((\r\n", -1);
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
 
-	calc_running ++;
+	gel_calc_running ++;
 	gel_load_guess_file (NULL, s, TRUE);
 	gel_test_max_nodes_again ();
-	calc_running --;
+	gel_calc_running --;
 
 	gel_printout_infos ();
 
@@ -3012,7 +3012,7 @@ copy_answer (void)
 static void
 copy_as_plain (GtkWidget *menu_item, gpointer data)
 {
-	if (calc_running) {
+	if (gel_calc_running) {
 		executing_warning ();
 		return;
 	} else {
@@ -3031,7 +3031,7 @@ copy_as_plain (GtkWidget *menu_item, gpointer data)
 static void
 copy_as_latex (GtkWidget *menu_item, gpointer data)
 {
-	if (calc_running) {
+	if (gel_calc_running) {
 		executing_warning ();
 		return;
 	} else {
@@ -3050,7 +3050,7 @@ copy_as_latex (GtkWidget *menu_item, gpointer data)
 static void
 copy_as_troff (GtkWidget *menu_item, gpointer data)
 {
-	if (calc_running) {
+	if (gel_calc_running) {
 		executing_warning ();
 		return;
 	} else {
@@ -3069,7 +3069,7 @@ copy_as_troff (GtkWidget *menu_item, gpointer data)
 static void
 copy_as_mathml (GtkWidget *menu_item, gpointer data)
 {
-	if (calc_running) {
+	if (gel_calc_running) {
 		executing_warning ();
 		return;
 	} else {
@@ -4130,7 +4130,7 @@ run_program (GtkWidget *menu_item, gpointer data)
 	if (vname == NULL)
 		vname = "???";
 
-	if (calc_running) {
+	if (gel_calc_running) {
 		executing_warning ();
 		return;
 	} else {
@@ -4197,7 +4197,7 @@ run_program (GtkWidget *menu_item, gpointer data)
 		fp = fdopen (p[0], "r");
 		gel_lexer_open (fp);
 
-		calc_running ++;
+		gel_calc_running ++;
 
 		g_free (prog);
 
@@ -4225,7 +4225,7 @@ run_program (GtkWidget *menu_item, gpointer data)
 		fclose (fp);
 
 		gel_test_max_nodes_again ();
-		calc_running --;
+		gel_calc_running --;
 
 		gel_printout_infos ();
 
@@ -4619,11 +4619,11 @@ static void
 genius_got_etree (GelETree *e)
 {
 	if (e != NULL) {
-		calc_running ++;
+		gel_calc_running ++;
 		check_events();
 		gel_evalexp_parsed (e, gel_main_out, "= \e[1;36m", TRUE);
 		gel_test_max_nodes_again ();
-		calc_running --;
+		gel_calc_running --;
 		gel_output_full_string (gel_main_out, "\e[0m");
 		gel_output_flush (gel_main_out);
 	}
