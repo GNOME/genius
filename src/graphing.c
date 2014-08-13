@@ -8191,7 +8191,7 @@ get_line_numbers (GelETree *a, double **x, double **y, int *len,
 	}
 
 	if (gel_matrixw_width (m) == 2 &&
-	    gel_matrixw_height (m) >= 2) {
+	    gel_matrixw_height (m) >= minn) {
 		*len = gel_matrixw_height (m);
 
 		*x = g_new (double, *len);
@@ -8207,7 +8207,7 @@ get_line_numbers (GelETree *a, double **x, double **y, int *len,
 		}
 	} else if (gel_matrixw_width (m) == 1 &&
 		   gel_matrixw_height (m) % 2 == 0 &&
-		   gel_matrixw_height (m) >= 4) {
+		   gel_matrixw_height (m) >= 2*minn) {
 		*len = gel_matrixw_height (m) / 2;
 
 		*x = g_new (double, *len);
@@ -8223,7 +8223,7 @@ get_line_numbers (GelETree *a, double **x, double **y, int *len,
 		}
 	} else if (gel_matrixw_height (m) == 1 &&
 		   gel_matrixw_width (m) % 2 == 0 &&
-		   gel_matrixw_width (m) >= 4) {
+		   gel_matrixw_width (m) >= 2*minn) {
 		*len = gel_matrixw_width (m) / 2;
 
 		*x = g_new (double, *len);
@@ -8377,7 +8377,9 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	ensure_window (FALSE /* do_window_present */);
 
-	if (a[0]->type == GEL_MATRIX_NODE) {
+	if (a[0]->type == GEL_NULL_NODE) {
+		return gel_makenum_null ();
+	} else if (a[0]->type == GEL_MATRIX_NODE) {
 		if G_UNLIKELY ( ! get_line_numbers (a[0], &x, &y, &len,
 						    &minx, &maxx, &miny, &maxy,
 						    "LinePlotDrawLine",
@@ -8656,7 +8658,9 @@ LinePlotDrawPoints_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	ensure_window (FALSE /* do_window_present */);
 
-	if (a[0]->type == GEL_MATRIX_NODE) {
+	if (a[0]->type == GEL_NULL_NODE) {
+		return gel_makenum_null ();
+	} else if (a[0]->type == GEL_MATRIX_NODE) {
 		if G_UNLIKELY ( ! get_line_numbers (a[0], &x, &y, &len,
 						    &minx, &maxx, &miny, &maxy,
 						    "LinePlotDrawPoints",
