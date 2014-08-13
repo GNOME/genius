@@ -1,3 +1,23 @@
+Wed Aug 13 17:06:29 2014  Jiri (George) Lebl <jirka@5z.com>
+
+	 * gtkextra/gtkplotdata.c: Fix drawing data with no connector, then
+	   plot the points only, also fix plotting data with one value only,
+	   finally fix clipping if both endpoints of a segment are out of
+	   bounds.
+
+	 * src/graphing.c: Add LinePlotDrawPoints function
+
+	 * help/C/genius.xml: Document LinePlotDrawPoints, Also add
+	   documentation and examples for EulersMethodFull and RungeKuttaFull
+	   on how to use LinePlotDrawLine or LinePlotDrawPoints.  YELP IS
+	   BROKEN so the links don't work.  The reason for shouting here
+	   is that filing bugs for yelp is useless (these bugs have been filed
+	   for well over a year, and nobody touched them at all).  I'm
+	   thinking of just installing html docs.  Actually I'm thinking of
+	   moving away from this incredibly broken DocBook nonsense and
+	   moving to LaTeX, where I could actually do more math to explain
+	   things and it would be a lot easier to edit.
+
 Mon May 05 17:00:38 2014  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/gnome_genius.[ch], src/graphing.c: export the calc_running

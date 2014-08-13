@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2013 Jiri (George) Lebl
+ * Copyright (C) 2003-2014 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -3724,6 +3724,43 @@ draw_line (double *x, double *y, int len, int thickness, GdkColor *color,
 					   GDK_CAP_ROUND, 
 					   GDK_JOIN_ROUND,
 					   thickness, color);
+
+	gtk_widget_show (GTK_WIDGET (data));
+
+	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+	gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+
+	return data;
+}
+
+static GtkPlotData *
+draw_points (double *x, double *y, int len, int thickness, GdkColor *color,
+	     char *legend)
+{
+	GtkPlotData *data;
+
+	data = GTK_PLOT_DATA (gtk_plot_data_new ());
+	gtk_plot_data_set_points (data, x, y, NULL, NULL, len);
+	g_object_set_data_full (G_OBJECT (data),
+				"x", x, (GDestroyNotify)g_free);
+	g_object_set_data_full (G_OBJECT (data),
+				"y", y, (GDestroyNotify)g_free);
+	gtk_plot_add_data (GTK_PLOT (line_plot), data);
+	if (legend == NULL)
+		gtk_plot_data_hide_legend (data);
+	else
+		gtk_plot_data_set_legend (data,
+					  legend);
+
+	color_alloc (color); 
+
+	gtk_plot_data_set_line_attributes (data,
+					   GTK_PLOT_LINE_SOLID,
+					   GDK_CAP_ROUND, 
+					   GDK_JOIN_ROUND,
+					   thickness, color);
+
+	gtk_plot_data_set_connector (data, GTK_PLOT_CONNECT_NONE);
 
 	gtk_widget_show (GTK_WIDGET (data));
 
@@ -8127,7 +8164,8 @@ update_lineplot_window (double x1, double x2, double y1, double y2)
 
 static gboolean
 get_line_numbers (GelETree *a, double **x, double **y, int *len,
-		  double *minx, double *maxx, double *miny, double *maxy)
+		  double *minx, double *maxx, double *miny, double *maxy,
+		  const char *funcname, int minn)
 {
 	int i;
 	GelMatrixW *m;
@@ -8146,9 +8184,9 @@ get_line_numbers (GelETree *a, double **x, double **y, int *len,
 	m = a->mat.matrix;
 
 	if G_UNLIKELY ( ! gel_is_matrix_value_only_real (m)) {
-		gel_errorout (_("%s: Line should be given as a real, n by 2 matrix "
-				"with columns for x and y, n>=2"),
-			      "LinePlotDrawLine");
+		gel_errorout (_("%s: Points should be given as a real, n by 2 matrix "
+				"with columns for x and y, n>=%d"),
+			      funcname, minn);
 		return FALSE;
 	}
 
@@ -8200,9 +8238,9 @@ get_line_numbers (GelETree *a, double **x, double **y, int *len,
 			UPDATE_MINMAX
 		}
 	} else {
-		gel_errorout (_("%s: Line should be given as a real, n by 2 matrix "
-				"with columns for x and y, n>=2"),
-			      "LinePlotDrawLine");
+		gel_errorout (_("%s: Points should be given as a real, n by 2 matrix "
+				"with columns for x and y, n>=%d"),
+			      funcname, minn);
 		return FALSE;
 	}
 
@@ -8341,7 +8379,9 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	if (a[0]->type == GEL_MATRIX_NODE) {
 		if G_UNLIKELY ( ! get_line_numbers (a[0], &x, &y, &len,
-						    &minx, &maxx, &miny, &maxy))
+						    &minx, &maxx, &miny, &maxy,
+						    "LinePlotDrawLine",
+						    2))
 			return NULL;
 		nextarg = 1;
 	} else {
@@ -8591,6 +8631,223 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				thickness, &color);
 
 	g_free (legend);
+
+	return gel_makenum_null ();
+}
+
+static GelETree *
+LinePlotDrawPoints_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	int len;
+	int nextarg;
+	double *x, *y;
+	double minx = 0, miny = 0, maxx = 0, maxy = 0;
+	GdkColor color;
+	int thickness;
+	int i;
+	gboolean update = FALSE;
+	char *legend = NULL;
+
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "LinePlotDrawPoints", "LinePlotDrawPoints");
+		return NULL;
+	}
+
+	ensure_window (FALSE /* do_window_present */);
+
+	if (a[0]->type == GEL_MATRIX_NODE) {
+		if G_UNLIKELY ( ! get_line_numbers (a[0], &x, &y, &len,
+						    &minx, &maxx, &miny, &maxy,
+						    "LinePlotDrawPoints",
+						    1))
+			return NULL;
+		nextarg = 1;
+	} else {
+		double x1, y1;
+		if G_UNLIKELY (gel_count_arguments (a) < 2) {
+			gel_errorout (_("%s: Wrong number of arguments"),
+				      "LinePlotDrawPoints");
+			return NULL;
+		}
+		GET_DOUBLE(x1, 0, "LinePlotDrawPoints");
+		GET_DOUBLE(y1, 1, "LinePlotDrawPoints");
+		len = 1;
+		x = g_new (double, 1);
+		x[0] = x1;
+		y = g_new (double, 1);
+		y[0] = y1;
+		nextarg = 2;
+
+		minx = x1;
+		maxx = x1;
+		miny = y1;
+		maxy = y1;
+	}
+
+	gdk_color_parse ("black", &color);
+	thickness = 2;
+
+	for (i = nextarg; a[i] != NULL; i++) {
+		if G_LIKELY (a[i]->type == GEL_STRING_NODE ||
+			     a[i]->type == GEL_IDENTIFIER_NODE) {
+			GelToken *id;
+			static GelToken *colorid = NULL;
+			static GelToken *thicknessid = NULL;
+			static GelToken *windowid = NULL;
+			static GelToken *fitid = NULL;
+			static GelToken *legendid = NULL;
+
+			if (colorid == NULL) {
+				colorid = d_intern ("color");
+				thicknessid = d_intern ("thickness");
+				windowid = d_intern ("window");
+				fitid = d_intern ("fit");
+				legendid = d_intern ("legend");
+			}
+
+			if (a[i]->type == GEL_STRING_NODE)
+				id = d_intern (a[i]->str.str);
+			else
+				id = a[i]->id.id;
+			if (id == colorid) {
+			        if G_UNLIKELY ( ! get_color (a[i+1], &color, "LinePlotDrawPoints")) {
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					return NULL;
+				}
+				i++;
+			} else if (id == thicknessid) {
+				if G_UNLIKELY (a[i+1] == NULL)  {
+					gel_errorout (_("%s: No thickness specified"),
+						      "LinePlotDrawPoints");
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					return NULL;
+				}
+				if G_UNLIKELY ( ! check_argument_positive_integer (a, i+1,
+										   "LinePlotDrawPoints")) {
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					return NULL;
+				}
+				thickness = gel_get_nonnegative_integer (a[i+1]->val.value,
+									 "LinePlotDrawPoints");
+				i++;
+			} else if (id == windowid) {
+				double x1, x2, y1, y2;
+				if G_UNLIKELY (a[i+1] == NULL ||
+					       (a[i+1]->type != GEL_STRING_NODE &&
+						a[i+1]->type != GEL_IDENTIFIER_NODE &&
+						a[i+1]->type != GEL_MATRIX_NODE)) {
+					gel_errorout (_("%s: No window specified"),
+						      "LinePlotDrawPoints");
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					return NULL;
+				}
+				if ((a[i+1]->type == GEL_STRING_NODE &&
+				     fitid == d_intern (a[i+1]->str.str)) ||
+				    (a[i+1]->type == GEL_IDENTIFIER_NODE &&
+				     fitid == a[i+1]->id.id)) {
+					x1 = minx;
+					x2 = maxx;
+					y1 = miny;
+					y2 = maxy;
+					if G_UNLIKELY (x1 == x2) {
+						x1 -= 0.1;
+						x2 += 0.1;
+					}
+
+					/* assume line is a graph so x fits tightly */
+
+					if G_UNLIKELY (y1 == y2) {
+						y1 -= 0.1;
+						y2 += 0.1;
+					} else {
+						/* Make window 5% larger on each vertical side */
+						double height = (y2-y1);
+						y1 -= height * 0.05;
+						y2 += height * 0.05;
+					}
+
+					update = update_lineplot_window (x1, x2, y1, y2);
+				} else if (get_limits_from_matrix (a[i+1], &x1, &x2, &y1, &y2)) {
+					update = update_lineplot_window (x1, x2, y1, y2);
+				} else {
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					return NULL;
+				}
+				i++;
+			} else if (id == legendid) {
+				if G_UNLIKELY (a[i+1] == NULL)  {
+					gel_errorout (_("%s: No legend specified"),
+						      "LinePlotDrawPoints");
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					return NULL;
+				}
+				if (a[i+1]->type == GEL_STRING_NODE) {
+					g_free (legend);
+					legend = g_strdup (a[i+1]->str.str);
+				} else if (a[i+1]->type == GEL_IDENTIFIER_NODE) {
+					g_free (legend);
+					legend = g_strdup (a[i+1]->id.id->token);
+				} else {
+					gel_errorout (_("%s: Legend must be a string"),
+						      "LinePlotDrawPoints");
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					return NULL;
+				}
+				i++;
+			} else {
+				gel_errorout (_("%s: Unknown style"), "LinePlotDrawPoints");
+				g_free (legend);
+				g_free (x);
+				g_free (y);
+				return NULL;
+			}
+		} else {
+			gel_errorout (_("%s: Bad parameter"), "LinePlotDrawPoints");
+			g_free (legend);
+			g_free (x);
+			g_free (y);
+			return NULL;
+		}
+	}
+
+	if (plot_mode != MODE_LINEPLOT &&
+	    plot_mode != MODE_LINEPLOT_PARAMETRIC &&
+	    plot_mode != MODE_LINEPLOT_SLOPEFIELD &&
+	    plot_mode != MODE_LINEPLOT_VECTORFIELD) {
+		plot_mode = MODE_LINEPLOT;
+		clear_graph ();
+		update = FALSE;
+	}
+
+
+	if (line_plot == NULL) {
+		add_line_plot ();
+		plot_setup_axis ();
+		update = FALSE;
+	}
+
+	if (update) {
+		plot_axis ();
+	}
+
+	draw_points (x, y, len, thickness, &color, legend);
+
+	g_free(legend);
 
 	return gel_makenum_null ();
 }
@@ -9614,6 +9871,7 @@ gel_add_graph_functions (void)
 
 	FUNC (LinePlotClear, 0, "", "plotting", N_("Show the line plot window and clear out functions"));
 	VFUNC (LinePlotDrawLine, 2, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"));
+	VFUNC (LinePlotDrawPoints, 2, "x,y,args", "plotting", N_("Draw a points at x,y.  x,y can be replaced by a n by 2 matrix for more points"));
 
 	FUNC (PlotCanvasFreeze, 0, "", "plotting", N_("Freeze the plot canvas, that is, inhibit drawing"));
 	FUNC (PlotCanvasThaw, 0, "", "plotting", N_("Thaw the plot canvas and redraw the plot immediately"));

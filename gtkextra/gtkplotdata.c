@@ -2817,8 +2817,16 @@ gtk_plot_data_draw_legend(GtkPlotData *data, gint x, gint y)
                             y + area.y + lheight / 2,
                             x + area.x + roundint(plot->legends_line_width * m),
                             y + area.y + lheight / 2);
+    else
+    /*if(data->line_connector == GTK_PLOT_CONNECT_NONE &&
+       data->symbol.symbol_type != GTK_PLOT_SYMBOL_IMPULSE)*/
+         gtk_plot_draw_line(plot, data->line,
+                            x + area.x + roundint(plot->legends_line_width * m)/2,
+                            y + area.y + lheight / 2,
+                            x + area.x + roundint(plot->legends_line_width * m)/2,
+                            y + area.y + lheight / 2);
 
-    if(data->symbol.symbol_type != GTK_PLOT_SYMBOL_IMPULSE){
+    if(data->symbol.symbol_type != GTK_PLOT_SYMBOL_IMPULSE) {
          GtkPlotSymbol aux_symbol;
          gint x1, y1;
 
@@ -2833,7 +2841,7 @@ gtk_plot_data_draw_legend(GtkPlotData *data, gint x, gint y)
          if(data->symbol.symbol_style == GTK_PLOT_SYMBOL_OPAQUE)
             gtk_plot_data_draw_symbol_private (data, x1, y1, aux_symbol);
 
-         if(data->symbol.symbol_style == GTK_PLOT_SYMBOL_FILLED){
+         if(data->symbol.symbol_style == GTK_PLOT_SYMBOL_FILLED) {
             aux_symbol.color = data->symbol.color;
             gtk_plot_data_draw_symbol_private (data, x1, y1, aux_symbol);
          }
@@ -4289,6 +4297,9 @@ line_on_screen (double x1, double y1, double x2, double y2,
  * There is some loss when the line ends are way too far in either direction.
  * Perhaps roundoff error?  Above?
  *
+ * FIXME: no this is because of the clipping already done I think.
+ * I think I fixed it by simply not clipping at all before
+ *
  * But this works better than the alternative of failing completely.
  */
 static void
@@ -4348,6 +4359,32 @@ gtk_plot_data_draw_lines (GtkPlotData *dataset,
    *   }
    * }
    */
+}
+
+static void
+gtk_plot_data_draw_just_the_points (GtkPlotData *dataset,
+				    GtkPlotPoint *points,
+				    int numpoints)
+{
+  GtkPlot *plot;
+  GtkWidget *widget;
+  int i;
+  int lx1, lx2, ly1, ly2;
+
+  plot = dataset->plot;
+  widget = GTK_WIDGET (plot);
+
+  lx1 = widget->allocation.x;
+  lx2 = lx1 + widget->allocation.width;
+  ly1 = widget->allocation.y;
+  ly2 = ly1 + widget->allocation.height;
+
+  for(i = 0; i < numpoints; i++){
+	if (points[i].x >= lx1 && points[i].y >= ly1 &&
+	    points[i].x <= lx2 && points[i].y <= ly2) {
+		gtk_plot_pc_draw_point (plot->pc, points[i].x, points[i].y);
+	}
+  }
 }
 
 static void
@@ -4625,6 +4662,7 @@ gtk_plot_data_draw_star(GtkPlotData *data, gdouble x, gdouble y, gdouble size)
                         x-s2, y+s2, x+s2, y-s2);
 }
 
+  /* FIXME: if connecter none, draw points, so perhaps bad naming */
 static void
 gtk_plot_data_connect_points(GtkPlotData *dataset, gint npoints)
 {
@@ -4653,6 +4691,9 @@ gtk_plot_data_connect_points(GtkPlotData *dataset, gint npoints)
   area.width = allocation.width;
   area.height = allocation.height;
 
+  /* sanity? */
+  if (num_points <= 0) return;
+
   clip_area.x = area.x + roundint(plot->x * allocation.width);
   clip_area.y = area.y + roundint(plot->y * allocation.height);
   clip_area.width = roundint(plot->width * allocation.width);
@@ -4672,8 +4713,9 @@ gtk_plot_data_connect_points(GtkPlotData *dataset, gint npoints)
   array_z = gtk_plot_data_get_z(dataset, &n);
 
   switch(dataset->line_connector){
+   case GTK_PLOT_CONNECT_NONE:
    case GTK_PLOT_CONNECT_STRAIGHT:
-       if(npoints == 1) break;
+       /*if(npoints == 1) break;*/
        num_points = 0;
        for(n=n0; n<dataset->num_points; n++)
         {
@@ -4681,7 +4723,10 @@ gtk_plot_data_connect_points(GtkPlotData *dataset, gint npoints)
           x = array_x[n];
           y = array_y[n];
           if(array_z != NULL) z = array_z[n];
-          if(gtk_plot_data_point_clipped(dataset, x, y, z, 0.0, TRUE)) continue;
+	  /*FIXME: this is the wrong way of doing it, but we are already
+	   * clipping below.  But this might screw up the area things ...
+	   * hmmm, though it seemed wrong for the polygon anyway */
+          /*if(gtk_plot_data_point_clipped(dataset, x, y, z, 0.0, TRUE)) continue;*/
           if(num_points == 0) first = n;
           if(GTK_IS_PLOT3D(plot)){
             gdouble pz;
@@ -4698,7 +4743,14 @@ gtk_plot_data_connect_points(GtkPlotData *dataset, gint npoints)
        break;
    case GTK_PLOT_CONNECT_HV_STEP:
        if(GTK_IS_PLOT3D(plot)) break;
-       if(dataset->num_points == 1) break;
+       if(dataset->num_points == 1) {
+	       x = array_x[0];
+	       y = array_y[0];
+	       gtk_plot_get_pixel(plot, x, y, &px, &py);
+	       points[0].x = px;
+	       points[0].y = py;
+	       break;
+       }
        num_points=0;
        for(n=0; n < dataset->num_points; n++)
         {
@@ -4722,7 +4774,14 @@ gtk_plot_data_connect_points(GtkPlotData *dataset, gint npoints)
        break;
     case GTK_PLOT_CONNECT_VH_STEP:
        if(GTK_IS_PLOT3D(plot)) break;
-       if(dataset->num_points == 1) break;
+       if(dataset->num_points == 1) {
+	       x = array_x[0];
+	       y = array_y[0];
+	       gtk_plot_get_pixel(plot, x, y, &px, &py);
+	       points[0].x = px;
+	       points[0].y = py;
+	       break;
+       }
        num_points=0;
        for(n=0; n < dataset->num_points; n++)
         {
@@ -4746,7 +4805,14 @@ gtk_plot_data_connect_points(GtkPlotData *dataset, gint npoints)
        break;
      case GTK_PLOT_CONNECT_MIDDLE_STEP:
        if(GTK_IS_PLOT3D(plot)) break;
-       if(dataset->num_points == 1) break;
+       if(dataset->num_points == 1) {
+	       x = array_x[0];
+	       y = array_y[0];
+	       gtk_plot_get_pixel(plot, x, y, &px, &py);
+	       points[0].x = px;
+	       points[0].y = py;
+	       break;
+       }
        num_points=1;
        for(n=1; n < dataset->num_points; n++)
         {
@@ -4780,8 +4846,16 @@ gtk_plot_data_connect_points(GtkPlotData *dataset, gint npoints)
          g_free(points);
          return;
        }
+       if(dataset->num_points == 1) {
+	       x = array_x[0];
+	       y = array_y[0];
+	       gtk_plot_get_pixel(plot, x, y, &px, &py);
+	       points[0].x = px;
+	       points[0].y = py;
+	       break;
+       }
        spline = *dataset;
-       if(dataset->num_points <= 1) break;
+       /*if(dataset->num_points <= 1) break;*/
        spline_coef = (gdouble *)g_malloc(dataset->num_points*sizeof(gdouble));
        spline_points = (GtkPlotPoint *)g_malloc(sizeof(GtkPlotPoint));
        spline_solve(dataset->num_points, array_x, array_y, spline_coef);
@@ -4822,7 +4896,7 @@ gtk_plot_data_connect_points(GtkPlotData *dataset, gint npoints)
        g_free(points);
        if(plot->clip_data && !GTK_IS_PLOT3D(plot)) gtk_plot_pc_clip(plot->pc, NULL);
        return;
-     case GTK_PLOT_CONNECT_NONE:
+     /*case GTK_PLOT_CONNECT_NONE:*/
      default:
        if(plot->clip_data && !GTK_IS_PLOT3D(plot)) gtk_plot_pc_clip(plot->pc, NULL);
        g_free(points);
@@ -4863,7 +4937,12 @@ gtk_plot_data_connect_points(GtkPlotData *dataset, gint npoints)
      * in more places than here, but I'm not sure if it is necessarily safe
      * elsewhere
      * -Jiri */
-    gtk_plot_data_draw_lines(dataset, points, num_points);
+    if (dataset->line_connector == GTK_PLOT_CONNECT_NONE ||
+	num_points == 1) {
+      gtk_plot_data_draw_just_the_points(dataset, points, num_points);
+    } else {
+      gtk_plot_data_draw_lines(dataset, points, num_points);
+    }
   }
 
   if(plot->clip_data && !GTK_IS_PLOT3D(plot)) gtk_plot_pc_clip(plot->pc, NULL);

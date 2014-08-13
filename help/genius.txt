@@ -1,6 +1,6 @@
 Genius Manual
 
-Jiří Lebl
+Jiř Lebl
 
    Oklahoma State University
 
@@ -12,7 +12,7 @@ Kai Willadsen
 
     <kaiw@itee.uq.edu.au>
 
-   Copyright © 1997-2013 Jiří (George) Lebl
+   Copyright © 1997-2013 Jiř (George) Lebl
 
    Copyright © 2004 Kai Willadsen
 
@@ -5834,7 +5834,9 @@ EulersMethod (f,x0,y0,x1,n)
 
           Use classical Euler's method to numerically solve
           y'=f(x,y) for initial x0, y0 going to x1 with n
-          increments, returns y at x1.
+          increments, returns y at x1. Unless you explicitly want
+          to use Euler's method, you should really think about
+          using RungeKutta for solving ODE.
 
           Systems can be solved by just having y be a (column)
           vector everywhere. That is, y0 can be a vector in which
@@ -5851,13 +5853,40 @@ EulersMethodFull (f,x0,y0,x1,n)
           Use classical Euler's method to numerically solve
           y'=f(x,y) for initial x0, y0 going to x1 with n
           increments, returns a 2 by n+1 matrix with the x and y
-          values. Suitable for plugging into LinePlotDrawLine.
+          values. Unless you explicitly want to use Euler's
+          method, you should really think about using
+          RungeKuttaFull for solving ODE. Suitable for plugging
+          into LinePlotDrawLine or LinePlotDrawPoints.
+
+          Example:
+
+genius> LinePlotClear();
+genius> line = EulersMethodFull(`(x,y)=y,0,1.0,3.0,50);
+genius> LinePlotDrawLine(line,"window","fit","color","blue","legend","Ex
+ponential growth");
 
           Systems can be solved by just having y be a (column)
           vector everywhere. That is, y0 can be a vector in which
           case f should take a number x and a vector of the same
           size for the second argument and should return a vector
           of the same size.
+
+          The output for a system is still a n by 2 matrix with
+          the second entry being a vector. If you wish to plot the
+          line, make sure to use row vectors, and then flatten the
+          matrix with ExpandMatrix, and pick out the right
+          columns. Example:
+
+genius> LinePlotClear();
+genius> lines = EulersMethodFull(`(x,y)=[y@(2),-y@(1)],0,[1.0,1.0],10.0,
+500);
+genius> lines = ExpandMatrix(lines);
+genius> firstline = lines@(,[1,2]);
+genius> secondline = lines@(,[1,3]);
+genius> LinePlotWindow = [0,10,-2,2];
+genius> LinePlotDrawLine(firstline,"color","blue","legend","First");
+genius> LinePlotDrawPoints(secondline,"color","red","thickness",3,"legen
+d","Second");
 
           See Mathworld, or Wikipedia for more information.
 
@@ -6011,13 +6040,37 @@ RungeKuttaFull (f,x0,y0,x1,n)
           method to numerically solve y'=f(x,y) for initial x0, y0
           going to x1 with n increments, returns a 2 by n+1 matrix
           with the x and y values. Suitable for plugging into
-          LinePlotDrawLine.
+          LinePlotDrawLine or LinePlotDrawPoints.
+
+          Example:
+
+genius> LinePlotClear();
+genius> line = RungeKuttaFull(`(x,y)=y,0,1.0,3.0,50);
+genius> LinePlotDrawLine(line,"window","fit","color","blue","legend","Ex
+ponential growth");
 
           Systems can be solved by just having y be a (column)
           vector everywhere. That is, y0 can be a vector in which
           case f should take a number x and a vector of the same
           size for the second argument and should return a vector
           of the same size.
+
+          The output for a system is still a n by 2 matrix with
+          the second entry being a vector. If you wish to plot the
+          line, make sure to use row vectors, and then flatten the
+          matrix with ExpandMatrix, and pick out the right
+          columns. Example:
+
+genius> LinePlotClear();
+genius> lines = RungeKuttaFull(`(x,y)=[y@(2),-y@(1)],0,[1.0,1.0],10.0,10
+0);
+genius> lines = ExpandMatrix(lines);
+genius> firstline = lines@(,[1,2]);
+genius> secondline = lines@(,[1,3]);
+genius> LinePlotWindow = [0,10,-2,2];
+genius> LinePlotDrawLine(firstline,"color","blue","legend","First");
+genius> LinePlotDrawPoints(secondline,"color","red","thickness",3,"legen
+d","Second");
 
           See Mathworld, or Wikipedia for more information.
      __________________________________________________________
@@ -6424,7 +6477,7 @@ LinePlotDrawLine (v,...)
           thickness, arrows, the plotting window, or legend. You
           can do this by adding an argument string "color",
           "thickness", "window", "arrow", or "legend", and after
-          it specify the color, the thicknes, the window as
+          it specify the color, the thickness, the window as
           4-vector, type of arrow, or the legend.
 
           The color should be either a string indicating the
@@ -6455,10 +6508,53 @@ LinePlotDrawLine (v,...)
 genius> LinePlotDrawLine(0,0,1,1,"color","blue","thickness",3)
 genius> LinePlotDrawLine([0,0;1,-1;-1,-1])
 genius> LinePlotDrawLine([0,0;1,1],"arrow","end")
-genius> LinePlotDrawLine(EulersMethodFull(`(x,y)=y,0,3,100),"color","blu
-e","legend","The Solution")
+genius> LinePlotDrawLine(RungeKuttaFull(`(x,y)=y,0,3,100),"color","blue"
+,"legend","The Solution")
 genius> for r=0.0 to 1.0 by 0.1 do LinePlotDrawLine([0,0;1,r],"color",[r
 ,(1-r),0.5],"window",[0,1,0,1])
+
+   LinePlotDrawPoints
+
+LinePlotDrawPoints (x,y,...)
+
+LinePlotDrawPoints (v,...)
+
+          Draw a point at x,y. The input can be an n by 2 matrix
+          for n different points. This function has essentially
+          the same input as LinePlotDrawLine.
+
+          Extra parameters can be added to specify line color,
+          thickness, the plotting window, or legend. You can do
+          this by adding an argument string "color", "thickness",
+          "window", or "legend", and after it specify the color,
+          the thickness, the window as 4-vector, or the legend.
+
+          The color should be either a string indicating the
+          common english word for the color that GTK will
+          recognize such as "red", "blue", "yellow", etc...
+          Alternatively the color can be specified in RGB format
+          as "#rgb", "#rrggbb", or "#rrrrggggbbbb", where the r,
+          g, or b are hex digits of the red, green, and blue
+          components of the color. Finally the color can also be
+          specified as a real vector specifying the red green and
+          blue components where the components are between 0 and
+          1.
+
+          The window should be given as usual as [x1,x2,y1,y2], or
+          alternatively can be given as a string "fit" in which
+          case, the x range will be set precisely and the y range
+          will be set with five percent borders around the line.
+
+          Finally, legend should be a string that can be used as
+          the legend in the graph. That is, if legends are being
+          printed.
+
+          Examples:
+
+genius> LinePlotDrawPoints(0,0,"color","blue","thickness",3)
+genius> LinePlotDrawPoints([0,0;1,-1;-1,-1])
+genius> LinePlotDrawPoints(RungeKuttaFull(`(x,y)=y,0,3,100),"color","blu
+e","legend","The Solution")
 
    LinePlotParametric
 
@@ -6954,7 +7050,7 @@ Chapter 13. Settings
 
 Chapter 14. About Genius Mathematics Tool
 
-   Genius Mathematics Tool was written by Jiří (George) Lebl
+   Genius Mathematics Tool was written by Jiř (George) Lebl
    (<jirka@5z.com>). The history of Genius Mathematics Tool goes
    back to late 1997. It was the first calculator program for
    GNOME, but it then grew beyond being just a desktop calculator.
@@ -6972,7 +7068,7 @@ Chapter 14. About Genius Mathematics Tool
    in the file COPYING included with the source code of this
    program.
 
-   Jiří Lebl was during various parts of the development partially
+   Jiř Lebl was during various parts of the development partially
    supported for the work by NSF grant DMS 0900885, the University
    of Illinois at Urbana-Champaign, the University of California
    at San Diego, and the University of Wisconsin-Madison. The
