@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2013 Jiri (George) Lebl
+ * Copyright (C) 1997-2014 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -6794,6 +6794,7 @@ iter_region_sep_op (GelCtx *ctx, GelETree *n)
 	GelMatrix *mat;
 	int bysgn = 1, cmp, initcmp, count, i;
 	mpw_t tmp;
+
 	if (n->op.oper == GEL_E_REGION_SEP_BY) {
 		GEL_GET_LRR (n, from, by, to);
 		if G_UNLIKELY (from->type != GEL_VALUE_NODE ||
@@ -6845,8 +6846,39 @@ iter_region_sep_op (GelCtx *ctx, GelETree *n)
 
 		cmp = mpw_cmp (tmp, to->val.value);
 
-		if (cmp != 0 && cmp != initcmp)
-			break;
+		if (cmp != 0 && cmp != initcmp) {
+			if (mpw_is_real_part_float (tmp)) {
+				mpw_t tmp2;
+				int newcmp;
+
+				/* maybe we just missed it, let's look back within 2^-20 of the by and see */
+				if (by != NULL) {
+					mpfr_ptr f;
+					/* by is definitely mpfr */
+					mpw_init_set (tmp2, by->val.value);
+					mpw_make_copy_real (tmp2);
+					f = mpw_peek_real_mpf (tmp2);
+					mpfr_mul_2si (f, f, -20, GMP_RNDN);
+				} else {
+					mpw_init (tmp2);
+					mpw_set_d (tmp2, 1.0/1048576.0 /* 2^-20 */);
+				}
+
+				mpw_sub (tmp2, tmp, tmp2);
+
+				newcmp = mpw_cmp (tmp2, to->val.value);
+				mpw_clear (tmp2);
+
+				if (newcmp != initcmp) {
+					break;
+				} else {
+					/* don't use x, but use the to, x might be too far */
+					mpw_set (tmp, to->val.value);
+				}
+			} else {
+				break;
+			}
+		}
 	}
 	mpw_clear (tmp);
 

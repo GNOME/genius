@@ -1,12 +1,16 @@
 Changes to 1.0.18
 
-* New functions: KroneckerProduct (alias TensorProduct), NewtonsMethod,
+* New general functions: KroneckerProduct (alias TensorProduct), NewtonsMethod,
   HalleysMethod, LambertW, LambertWm1, NonzeroColumns, NonzeroElements,
   DisplayVariables, PrintTable
-* New PlotCanvasFreeze/PlotCanvasThaw functions to improve flicker
-  if doing animations with genius.
-* Add LinePlotDrawPoints function to draw just points without the line
+* New plotting functions: PlotCanvasFreeze/PlotCanvasThaw to improve flicker
+  if doing animations with genius, LinePlotDrawPoints function to draw just
+  points without the line
 * Allow setting color in LinePlotDrawLine with RGB vector.
+* When the vector building notation is done with floats and the final
+  number is within 2^-20 times the step size of the goal,
+  assume there were roundoff errors and still add it, just like for loops,
+  so something like 1.0:0.1:3.0 now works
 * Implement subsecond precision in wait function.
 * Fix memory corruption error triggered in nested floating point
   for loops with a floating point step

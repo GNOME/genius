@@ -1,3 +1,19 @@
+Fri Aug 15 17:38:41 2014  Jiri (George) Lebl <jirka@5z.com>
+
+	* help/C/genius.xml: update the feedback info to be more within 
+	  reality.  Don't use ghelp: urls as those won't work in the HTML
+	  version.
+
+	* src/eval.c: do the same thing for vector building notation as
+	  in all for/sum/prod loops, where if going over floats, allow
+	  errors withing the final number to within 2^-20 of the step size.
+
+	* src/geniustests.txt: add tests for above
+
+	* src/genius-readline-helper.c: avoid a race in display of errors,
+	  by flushing and waiting 5 miliseconds after readline and before
+	  sending the line onwards to the GUI
+
 Thu Aug 14 00:54:57 2014  Jiri (George) Lebl <jirka@5z.com>
 
 	* lib/equation_solving/diffyqs.gel: slight optimization for

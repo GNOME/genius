@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2011 Jiri (George) Lebl
+ * Copyright (C) 1997-2014 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -238,6 +238,13 @@ main(int argc, char *argv[])
 			if(p) *p = '\0';
 			prompt = &buf[strlen("READLINE ")];
 			p = readline(prompt);
+
+			/* Make sure the return gets displayed first, 5ms should not be
+			 * noticable, but should be sufficient I hope.  Kind of a hack
+			 * here.  With a flush I assume the wait might not be necessary,
+			 * but what have we to lose ... */
+			fflush(stdout);
+			usleep(5000);
 
 			if(p && *p)
 				add_history(p);
