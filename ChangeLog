@@ -1,3 +1,12 @@
+Sun Aug 17 14:39:15 2014  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c, src/gnome-genius.[ch]: When errors are given during
+	  graphing, instead of forcing them into a box, which is in
+	  retrospect really annoying, just display a warning label below the
+	  graph window telling the user to look at the console.  Also
+	  if errors do go into a dialog, make sure that it is parented by the
+	  graph window
+
 Fri Aug 15 17:38:41 2014  Jiri (George) Lebl <jirka@5z.com>
 
 	* help/C/genius.xml: update the feedback info to be more within 

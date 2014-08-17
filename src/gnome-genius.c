@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2013 Jiri (George) Lebl
+ * Copyright (C) 1997-2014 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -91,6 +91,8 @@ GelCalcState curstate={
 	20, /* chop */
 	5 /* chop_when */
 	};
+
+long total_errors = 0;
 
 #define MAX_CHOP 1000
 
@@ -1048,7 +1050,8 @@ geniusbox (gboolean error,
 	   const char *textbox_title,
 	   gboolean bind_response,
 	   gboolean wrap,
-	   const char *s)
+	   const char *s,
+	   GtkWidget *parent_win)
 {
 	GtkWidget *mb;
 	/* if less than 10 lines */
@@ -1057,8 +1060,8 @@ geniusbox (gboolean error,
 		GtkMessageType type = GTK_MESSAGE_INFO;
 		if (error)
 			type = GTK_MESSAGE_ERROR;
-		mb = gtk_message_dialog_new (genius_window ?
-					       GTK_WINDOW (genius_window) :
+		mb = gtk_message_dialog_new (parent_win ?
+					       GTK_WINDOW (parent_win) :
 					       NULL /* parent */,
 					     0 /* flags */,
 					     type,
@@ -1665,14 +1668,15 @@ full_answer (GtkWidget *menu_item, gpointer data)
 		   _("Full Answer") /*textbox_title*/,
 		   TRUE /*bind_response*/,
 		   wrap /* wrap */,
-		   ve_sure_string (s));
+		   ve_sure_string (s),
+		   genius_window /* parent */);
 
 	gel_output_unref (out);
 }
 
 
 static void
-printout_error_num_and_reset(void)
+printout_error_num_and_reset(GtkWidget *parent)
 {
 	if(genius_setup.error_box) {
 		if(errors) {
@@ -1686,7 +1690,8 @@ printout_error_num_and_reset(void)
 				   NULL /*textbox_title*/,
 				   TRUE /*bind_response*/,
 				   FALSE /* wrap */,
-				   errors->str);
+				   errors->str,
+				   parent);
 			g_string_free(errors,TRUE);
 			errors=NULL;
 		}
@@ -1730,8 +1735,11 @@ geniuserror(const char *s)
 	char *file;
 	int line;
 	char *str;
-	if(curstate.max_errors > 0 &&
-	   errors_printed++>=curstate.max_errors)
+
+	total_errors ++;
+
+	if (curstate.max_errors > 0 &&
+	    errors_printed++ >= curstate.max_errors)
 		return;
 
 	gel_get_file_info(&file,&line);
@@ -1776,7 +1784,7 @@ geniuserror(const char *s)
 }
 
 void
-gel_printout_infos (void)
+gel_printout_infos_parent (GtkWidget *parent)
 {
 	/* Print out the infos */
 	if (infos != NULL) {
@@ -1785,12 +1793,19 @@ gel_printout_infos (void)
 			   NULL /*textbox_title*/,
 			   TRUE /*bind_response*/,
 			   FALSE /* wrap */,
-			   infos->str);
+			   infos->str,
+			   parent);
 		g_string_free (infos, TRUE);
 		infos = NULL;
 	}
 
-	printout_error_num_and_reset ();
+	printout_error_num_and_reset (parent);
+}
+
+void
+gel_printout_infos (void)
+{
+	gel_printout_infos_parent (genius_window);
 }
 
 static void
@@ -4585,7 +4600,8 @@ fork_a_helper (void)
 					  NULL /*textbox_title*/,
 					  FALSE /*bind_response*/,
 					  FALSE /*wrap*/,
-					  _("Can't execute genius-readline-helper-fifo!\n"));
+					  _("Can't execute genius-readline-helper-fifo!\n"),
+					  genius_window /* parent */);
 
 		gtk_dialog_run (GTK_DIALOG (d));
 

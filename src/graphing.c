@@ -55,6 +55,7 @@ static GtkWidget *plot_canvas = NULL;
 static GtkWidget *plot_dialog = NULL;
 static GtkWidget *plot_notebook = NULL;
 static GtkWidget *function_notebook = NULL;
+static GtkWidget *errors_label_box = NULL;
 
 static GtkWidget *solver_dialog = NULL;
 gboolean solver_dialog_slopefield = TRUE;
@@ -1266,10 +1267,7 @@ plot_zoomin_cb (void)
 {
 	if (plot_in_progress == 0) {
 		double len;
-		gboolean last_info = genius_setup.info_box;
-		gboolean last_error = genius_setup.error_box;
-		genius_setup.info_box = TRUE;
-		genius_setup.error_box = TRUE;
+		long last_errnum = total_errors;
 
 		if (plot_mode == MODE_LINEPLOT ||
 		    plot_mode == MODE_LINEPLOT_PARAMETRIC ||
@@ -1301,9 +1299,11 @@ plot_zoomin_cb (void)
 		if (gel_interrupted)
 			gel_interrupted = FALSE;
 
-		gel_printout_infos ();
-		genius_setup.info_box = last_info;
-		genius_setup.error_box = last_error;
+		gel_printout_infos_parent (graph_window);
+		if (last_errnum != total_errors &&
+		    ! genius_setup.error_box) {
+			gtk_widget_show (errors_label_box);
+		}
 	}
 }
 
@@ -1312,10 +1312,7 @@ plot_zoomout_cb (void)
 {
 	if (plot_in_progress == 0) {
 		double len;
-		gboolean last_info = genius_setup.info_box;
-		gboolean last_error = genius_setup.error_box;
-		genius_setup.info_box = TRUE;
-		genius_setup.error_box = TRUE;
+		long last_errnum = total_errors;
 
 		if (plot_mode == MODE_LINEPLOT ||
 		    plot_mode == MODE_LINEPLOT_PARAMETRIC ||
@@ -1347,9 +1344,11 @@ plot_zoomout_cb (void)
 		if (gel_interrupted)
 			gel_interrupted = FALSE;
 
-		gel_printout_infos ();
-		genius_setup.info_box = last_info;
-		genius_setup.error_box = last_error;
+		gel_printout_infos_parent (graph_window);
+		if (last_errnum != total_errors &&
+		    ! genius_setup.error_box) {
+			gtk_widget_show (errors_label_box);
+		}
 	}
 }
 
@@ -1364,10 +1363,7 @@ plot_zoomfit_cb (void)
 
 	if (plot_in_progress == 0) {
 		double size;
-		gboolean last_info = genius_setup.info_box;
-		gboolean last_error = genius_setup.error_box;
-		genius_setup.info_box = TRUE;
-		genius_setup.error_box = TRUE;
+		long last_errnum = total_errors;
 
 		if (plot_mode == MODE_LINEPLOT) {
 			size = plot_maxy - plot_miny;
@@ -1445,9 +1441,11 @@ plot_zoomfit_cb (void)
 		if (gel_interrupted)
 			gel_interrupted = FALSE;
 
-		gel_printout_infos ();
-		genius_setup.info_box = last_info;
-		genius_setup.error_box = last_error;
+		gel_printout_infos_parent (graph_window);
+		if (last_errnum != total_errors &&
+		    ! genius_setup.error_box) {
+			gtk_widget_show (errors_label_box);
+		}
 	}
 }
 
@@ -1455,10 +1453,7 @@ static void
 plot_resetzoom_cb (void)
 {
 	if (plot_in_progress == 0) {
-		gboolean last_info = genius_setup.info_box;
-		gboolean last_error = genius_setup.error_box;
-		genius_setup.info_box = TRUE;
-		genius_setup.error_box = TRUE;
+		long last_errnum = total_errors;
 
 		if (plot_mode == MODE_LINEPLOT ||
 		    plot_mode == MODE_LINEPLOT_PARAMETRIC ||
@@ -1482,9 +1477,11 @@ plot_resetzoom_cb (void)
 		if (gel_interrupted)
 			gel_interrupted = FALSE;
 
-		gel_printout_infos ();
-		genius_setup.info_box = last_info;
-		genius_setup.error_box = last_error;
+		gel_printout_infos_parent (graph_window);
+		if (last_errnum != total_errors &&
+		    ! genius_setup.error_box) {
+			gtk_widget_show (errors_label_box);
+		}
 	}
 }
 
@@ -1497,10 +1494,7 @@ lineplot_move_graph (double horiz, double vert)
 	     plot_mode == MODE_LINEPLOT_SLOPEFIELD ||
 	     plot_mode == MODE_LINEPLOT_VECTORFIELD)) {
 		double len;
-		gboolean last_info = genius_setup.info_box;
-		gboolean last_error = genius_setup.error_box;
-		genius_setup.info_box = TRUE;
-		genius_setup.error_box = TRUE;
+		long last_errnum = total_errors;
 
 		len = plotx2 - plotx1;
 		plotx1 = plotx1 + horiz * len;
@@ -1515,9 +1509,11 @@ lineplot_move_graph (double horiz, double vert)
 		if (gel_interrupted)
 			gel_interrupted = FALSE;
 
-		gel_printout_infos ();
-		genius_setup.info_box = last_info;
-		genius_setup.error_box = last_error;
+		gel_printout_infos_parent (graph_window);
+		if (last_errnum != total_errors &&
+		    ! genius_setup.error_box) {
+			gtk_widget_show (errors_label_box);
+		}
 	}
 }
 
@@ -1535,10 +1531,7 @@ dozoom_idle (gpointer data)
 
 	if (plot_in_progress == 0 && line_plot != NULL) {
 		double len;
-		gboolean last_info = genius_setup.info_box;
-		gboolean last_error = genius_setup.error_box;
-		genius_setup.info_box = TRUE;
-		genius_setup.error_box = TRUE;
+		long last_errnum = total_errors;
 
 		/* just click, so zoom in */
 		if (dozoom_just_click) {
@@ -1571,9 +1564,11 @@ dozoom_idle (gpointer data)
 		if (gel_interrupted)
 			gel_interrupted = FALSE;
 
-		gel_printout_infos ();
-		genius_setup.info_box = last_info;
-		genius_setup.error_box = last_error;
+		gel_printout_infos_parent (graph_window);
+		if (last_errnum != total_errors &&
+		    ! genius_setup.error_box) {
+			gtk_widget_show (errors_label_box);
+		}
 	}
 
 	return FALSE;
@@ -2078,6 +2073,8 @@ ensure_window (gboolean do_window_present)
 			gtk_window_present (GTK_WINDOW (graph_window));
 		else
 			gtk_widget_show (graph_window);
+
+		gtk_widget_hide (errors_label_box);
 		return;
 	}
 
@@ -2239,6 +2236,7 @@ ensure_window (gboolean do_window_present)
 			  G_CALLBACK (clear_solutions_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
+	gtk_widget_show_all (menubar);
 
 	plot_canvas = gtk_plot_canvas_new (WIDTH, HEIGHT, 1.0);
 	GTK_PLOT_CANVAS_UNSET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
@@ -2251,10 +2249,26 @@ ensure_window (gboolean do_window_present)
 			  NULL);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (graph_window))),
 			    GTK_WIDGET (plot_canvas), TRUE, TRUE, 0);
+	gtk_widget_show (plot_canvas);
+
+	errors_label_box = gtk_hbox_new (FALSE, GENIUS_PAD);
+	gtk_box_pack_start
+		(GTK_BOX (errors_label_box),
+		 GTK_WIDGET (gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, 24)),
+		 FALSE, FALSE, 0);
+	gtk_box_pack_start
+		(GTK_BOX (errors_label_box),
+		 GTK_WIDGET (gtk_label_new (_("Errors during plotting (possibly harmless), see the console."))),
+		 FALSE, FALSE, 0);
+	gtk_widget_show_all (errors_label_box);
+	gtk_widget_hide (errors_label_box);
+
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (graph_window))),
+			    GTK_WIDGET (errors_label_box), FALSE, FALSE, GENIUS_PAD);
 
 
 
-	gtk_widget_show_all (graph_window);
+	gtk_widget_show (graph_window);
 }
 
 
@@ -2262,6 +2276,8 @@ static void
 clear_graph (void)
 {
 	int i;
+
+	gtk_widget_hide (errors_label_box);
 
 	/* to avoid the costly removes */
 	g_slist_free (solutions_list);
@@ -6365,17 +6381,13 @@ surface_from_dialog (void)
 {
 	GelEFunc *func = { NULL };
 	double x1, x2, y1, y2, z1, z2;
-	gboolean last_info;
-	gboolean last_error;
+	long last_errnum;
 	char *error_to_print = NULL;
 	gboolean ex;
 
 	plot_mode = MODE_SURFACE;
 
-	last_info = genius_setup.info_box;
-	last_error = genius_setup.error_box;
-	genius_setup.info_box = TRUE;
-	genius_setup.error_box = TRUE;
+	last_errnum = total_errors;
 
 	ex = FALSE;
 	func = get_func_from_entry2 (surface_entry, surface_entry_status, 
@@ -6478,9 +6490,11 @@ surface_from_dialog (void)
 	if (gel_interrupted)
 		gel_interrupted = FALSE;
 
-	gel_printout_infos ();
-	genius_setup.info_box = last_info;
-	genius_setup.error_box = last_error;
+	gel_printout_infos_parent (graph_window);
+	if (last_errnum != total_errors &&
+	    ! genius_setup.error_box) {
+		gtk_widget_show (errors_label_box);
+	}
 
 	return;
 
@@ -6490,9 +6504,11 @@ whack_copied_funcs:
 		func = NULL;
 	}
 
-	gel_printout_infos ();
-	genius_setup.info_box = last_info;
-	genius_setup.error_box = last_error;
+	gel_printout_infos_parent (graph_window);
+	if (last_errnum != total_errors &&
+	    ! genius_setup.error_box) {
+		gtk_widget_show (errors_label_box);
+	}
 
 	if (error_to_print != NULL) {
 		genius_display_error (plot_dialog, error_to_print);
@@ -6543,16 +6559,12 @@ plot_from_dialog_lineplot (void)
 	GelEFunc *func[MAXFUNC] = { NULL };
 	double x1, x2, y1, y2;
 	int i, j;
-	gboolean last_info;
-	gboolean last_error;
 	char *error_to_print = NULL;
+	long last_errnum;
 
 	plot_mode = MODE_LINEPLOT;
 
-	last_info = genius_setup.info_box;
-	last_error = genius_setup.error_box;
-	genius_setup.info_box = TRUE;
-	genius_setup.error_box = TRUE;
+	last_errnum = total_errors;
 
 	for (i = 0; i < MAXFUNC; i++) {
 		GelEFunc *f;
@@ -6633,9 +6645,11 @@ plot_from_dialog_lineplot (void)
 	if (gel_interrupted)
 		gel_interrupted = FALSE;
 
-	gel_printout_infos ();
-	genius_setup.info_box = last_info;
-	genius_setup.error_box = last_error;
+	gel_printout_infos_parent (graph_window);
+	if (last_errnum != total_errors &&
+	    ! genius_setup.error_box) {
+		gtk_widget_show (errors_label_box);
+	}
 
 	return;
 
@@ -6645,9 +6659,11 @@ whack_copied_funcs:
 		func[i] = NULL;
 	}
 
-	gel_printout_infos ();
-	genius_setup.info_box = last_info;
-	genius_setup.error_box = last_error;
+	gel_printout_infos_parent (graph_window);
+	if (last_errnum != total_errors &&
+	    ! genius_setup.error_box) {
+		gtk_widget_show (errors_label_box);
+	}
 
 	if (error_to_print != NULL) {
 		genius_display_error (plot_dialog, error_to_print);
@@ -6662,19 +6678,15 @@ plot_from_dialog_parametric (void)
 	GelEFunc *funcpy = NULL;
 	GelEFunc *funcpz = NULL;
 	double x1, x2, y1, y2;
-	gboolean last_info;
-	gboolean last_error;
 	char *error_to_print = NULL;
 	gboolean exx = FALSE;
 	gboolean exy = FALSE;
 	gboolean exz = FALSE;
+	long last_errnum;
 
 	plot_mode = MODE_LINEPLOT_PARAMETRIC;
 
-	last_info = genius_setup.info_box;
-	last_error = genius_setup.error_box;
-	genius_setup.info_box = TRUE;
-	genius_setup.error_box = TRUE;
+	last_errnum = total_errors;
 
 	funcpx = get_func_from_entry (parametric_entry_x,
 				      parametric_status_x,
@@ -6773,9 +6785,11 @@ plot_from_dialog_parametric (void)
 	if (gel_interrupted)
 		gel_interrupted = FALSE;
 
-	gel_printout_infos ();
-	genius_setup.info_box = last_info;
-	genius_setup.error_box = last_error;
+	gel_printout_infos_parent (graph_window);
+	if (last_errnum != total_errors &&
+	    ! genius_setup.error_box) {
+		gtk_widget_show (errors_label_box);
+	}
 
 	return;
 
@@ -6787,9 +6801,11 @@ whack_copied_funcs:
 	d_freefunc (funcpz);
 	funcpz = NULL;
 
-	gel_printout_infos ();
-	genius_setup.info_box = last_info;
-	genius_setup.error_box = last_error;
+	gel_printout_infos_parent (graph_window);
+	if (last_errnum != total_errors &&
+	    ! genius_setup.error_box) {
+		gtk_widget_show (errors_label_box);
+	}
 
 	if (error_to_print != NULL) {
 		genius_display_error (plot_dialog, error_to_print);
@@ -6802,17 +6818,13 @@ plot_from_dialog_slopefield (void)
 {
 	GelEFunc *funcp = NULL;
 	double x1, x2, y1, y2;
-	gboolean last_info;
-	gboolean last_error;
 	char *error_to_print = NULL;
 	gboolean ex = FALSE;
+	long last_errnum;
 
 	plot_mode = MODE_LINEPLOT_SLOPEFIELD;
 
-	last_info = genius_setup.info_box;
-	last_error = genius_setup.error_box;
-	genius_setup.info_box = TRUE;
-	genius_setup.error_box = TRUE;
+	last_errnum = total_errors;
 
 	init_var_names ();
 
@@ -6878,9 +6890,11 @@ plot_from_dialog_slopefield (void)
 	if (gel_interrupted)
 		gel_interrupted = FALSE;
 
-	gel_printout_infos ();
-	genius_setup.info_box = last_info;
-	genius_setup.error_box = last_error;
+	gel_printout_infos_parent (graph_window);
+	if (last_errnum != total_errors &&
+	    ! genius_setup.error_box) {
+		gtk_widget_show (errors_label_box);
+	}
 
 	return;
 
@@ -6888,9 +6902,11 @@ whack_copied_funcs:
 	d_freefunc (funcp);
 	funcp = NULL;
 
-	gel_printout_infos ();
-	genius_setup.info_box = last_info;
-	genius_setup.error_box = last_error;
+	gel_printout_infos_parent (graph_window);
+	if (last_errnum != total_errors &&
+	    ! genius_setup.error_box) {
+		gtk_widget_show (errors_label_box);
+	}
 
 	if (error_to_print != NULL) {
 		genius_display_error (plot_dialog, error_to_print);
@@ -6904,17 +6920,13 @@ plot_from_dialog_vectorfield (void)
 	GelEFunc *funcpx = NULL;
 	GelEFunc *funcpy = NULL;
 	double x1, x2, y1, y2;
-	gboolean last_info;
-	gboolean last_error;
 	char *error_to_print = NULL;
 	gboolean ex = FALSE;
+	long last_errnum;
 
 	plot_mode = MODE_LINEPLOT_VECTORFIELD;
 
-	last_info = genius_setup.info_box;
-	last_error = genius_setup.error_box;
-	genius_setup.info_box = TRUE;
-	genius_setup.error_box = TRUE;
+	last_errnum = total_errors;
 
 	vectorfield_normalize_arrow_length = 
 		vectorfield_normalize_arrow_length_cb;
@@ -6985,9 +6997,11 @@ plot_from_dialog_vectorfield (void)
 	if (gel_interrupted)
 		gel_interrupted = FALSE;
 
-	gel_printout_infos ();
-	genius_setup.info_box = last_info;
-	genius_setup.error_box = last_error;
+	gel_printout_infos_parent (graph_window);
+	if (last_errnum != total_errors &&
+	    ! genius_setup.error_box) {
+		gtk_widget_show (errors_label_box);
+	}
 
 	return;
 
@@ -6997,9 +7011,11 @@ whack_copied_funcs:
 	d_freefunc (funcpy);
 	funcpy = NULL;
 
-	gel_printout_infos ();
-	genius_setup.info_box = last_info;
-	genius_setup.error_box = last_error;
+	gel_printout_infos_parent (graph_window);
+	if (last_errnum != total_errors &&
+	    ! genius_setup.error_box) {
+		gtk_widget_show (errors_label_box);
+	}
 
 	if (error_to_print != NULL) {
 		genius_display_error (plot_dialog, error_to_print);

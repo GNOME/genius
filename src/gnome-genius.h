@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2004-2009 Jiri (George) Lebl
+ * Copyright (C) 2004-2014 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -36,6 +36,7 @@ typedef struct {
 extern GeniusSetup genius_setup;
 extern GtkWidget *genius_window;
 extern int gel_calc_running;
+extern long total_errors;
 
 void genius_interrupt_calc (void);
 
@@ -44,6 +45,8 @@ void genius_unsetup_window_cursor (GtkWidget *win);
 
 gboolean genius_ask_question (GtkWidget *parent, const char *question);
 void genius_display_error (GtkWidget *parent, const char *err);
+
+void gel_printout_infos_parent (GtkWidget *parent);
 
 /* same as GNOME */
 #define GENIUS_PAD          8
