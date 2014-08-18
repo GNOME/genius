@@ -12,7 +12,7 @@ Kai Willadsen
 
     <kaiw@itee.uq.edu.au>
 
-   Copyright © 1997-2013 Jiř (George) Lebl
+   Copyright © 1997-2014 Jiř (George) Lebl
 
    Copyright © 2004 Kai Willadsen
 
@@ -75,8 +75,8 @@ Kai Willadsen
    Feedback
 
    To report a bug or make a suggestion regarding the Genius
-   Mathematics Tool application or this manual, follow the
-   directions in the GNOME Feedback Page.
+   Mathematics Tool application or this manual, please visit the
+   Genius Web page or email me at <jirka@5z.com>.
      __________________________________________________________
 
    Table of Contents
@@ -237,6 +237,11 @@ Chapter 1. Introduction
    calculator, but the language is of course the same. The command
    line only version lacks the graphing capabilities and all other
    capabilities that require the graphical user interface.
+
+   Generally, when some feature of the language (function,
+   operator, etc...) is new is some version past 1.0.5, it is
+   mentioned, but below 1.0.5 you would have to look at the NEWS
+   file.
      __________________________________________________________
 
 Chapter 2. Getting Started
@@ -1278,6 +1283,26 @@ genius> 1:2:9
 =
 `[1, 3, 5, 7, 9]
 
+          When the numbers involved are floating point numbers,
+          for example 1.0:0.4:3.0, the output is what is expected
+          even though adding 0.4 to 1.0 five times is actually
+          just slightly more than 3.0 due to the way that floating
+          point numbers are stored in base 2 (there is no 0.4, the
+          actual number stored is just ever so slightly bigger).
+          The way this is handled is the same as in the for, sum,
+          and prod loops. If the end is within 2^-20 times the
+          step size of the endpoint, the endpoint is used and we
+          assume there were roundoff errors. This is not perfect,
+          but it handles the majority of the cases. This check is
+          done only from version 1.0.18 onwards, so execution of
+          your code may differ on older versions. If you want to
+          avoid dealing with this issue, use actual rational
+          numbers, possibly useing the float if you wish to get
+          floating point numbers in the end. For example 1:2/5:3
+          does the right thing and float(1:2/5:3) even gives you
+          floating point numbers and is ever so slightly more
+          precise than 1.0:0.4:3.0.
+
 (a)i
 
           Make a imaginary number (multiply a by the imaginary).
@@ -1573,6 +1598,8 @@ set("a",3)
    The set function always sets the toplevel global. There is no
    way to set a local variable in some function from a subroutine.
    If this is required, must use passing by reference.
+
+   See also the SetElement and SetVElement functions.
 
    So to recap in a more technical language: Genius operates with
    different numbered contexts. The top level is the context 0
@@ -1911,19 +1938,19 @@ function f(g,x) = (
 
 7.6. Loading Programs
 
-   Sometimes you have a larger program that you wrote into a file
-   and want to read in that file. In these situations, you have
-   two options. You can keep the functions you use most inside the
-   ~/.geniusinit file. Or if you want to load up a file in a
-   middle of a session (or from within another file), you can type
-   load <list of filenames> at the prompt. This has to be done on
-   the top level and not inside any function or whatnot, and it
-   cannot be part of any expression. It also has a slightly
-   different syntax than the rest of genius, more similiar to a
-   shell. You can enter the file in quotes. If you use the ''
-   quotes, you will get exactly the string that you typed, if you
-   use the "" quotes, special characters will be unescaped as they
-   are for strings. Example:
+   Sometimes you have a larger program you wrote into a file and
+   want to read that file into Genius Mathematics Tool. In these
+   situations, you have two options. You can keep the functions
+   you use most inside the ~/.geniusinit file. Or if you want to
+   load up a file in a middle of a session (or from within another
+   file), you can type load <list of filenames> at the prompt.
+   This has to be done on the top level and not inside any
+   function or whatnot, and it cannot be part of any expression.
+   It also has a slightly different syntax than the rest of
+   genius, more similiar to a shell. You can enter the file in
+   quotes. If you use the '' quotes, you will get exactly the
+   string that you typed, if you use the "" quotes, special
+   characters will be unescaped as they are for strings. Example:
 load program1.gel program2.gel
 load "Weird File Name With SPACES.gel"
 
@@ -1937,8 +1964,9 @@ ls *.gel
 
 Chapter 8. Matrices in GEL
 
-   Genius has support for vectors and matrices and a sizable
-   library of matrix manipulation and linear algebra functions.
+   Genius has support for vectors and matrices and posesses a
+   sizable library of matrix manipulation and linear algebra
+   functions.
      __________________________________________________________
 
 8.1. Entering Matrices
@@ -2203,6 +2231,8 @@ AskButtons (query, button1, ...)
           returned. The execution of the program is blocked until
           the user responds.
 
+          Version 1.0.10 onwards.
+
    AskString
 
 AskString (query)
@@ -2214,7 +2244,7 @@ AskString (query, default)
           window, then null is returned. The execution of the
           program is blocked until the user responds. If default
           is given, then it is pre-typed in for the user to just
-          press enter on.
+          press enter on (version 1.0.6 onwards).
 
    Compose
 
@@ -2376,6 +2406,8 @@ CurrentTime
           as a floating point number. That is, returns the number
           of seconds since January 1st 1970.
 
+          Version 1.0.15 onwards.
+
    display
 
 display (str,expr)
@@ -2399,6 +2431,8 @@ DisplayVariables()
 
           then all variables are printed including a stacktrace
           similar to Show user variables in the graphical version.
+
+          Version 1.0.18 onwards.
 
    error
 
@@ -2457,6 +2491,8 @@ PrintTable (f,[0:10])
           If v is a positive integer, then the table of integers
           from 1 up to and including v will be used.
 
+          Version 1.0.18 onwards.
+
    protect
 
 protect (id)
@@ -2475,16 +2511,68 @@ ProtectAll ()
           overridden. Normally Genius Mathematics Tool considers
           unprotected variables as user defined.
 
+          Version 1.0.7 onwards.
+
    set
 
 set (id,val)
 
           Set a global variable. The id can be either a string or
-          a quoted identifier as follows. For example:
+          a quoted identifier. For example:
 
 set(`x,1)
 
           will set the global variable x to the value 1.
+
+          The function returns the val, to be usable in chaining.
+
+   SetElement
+
+SetElement (id,row,col,val)
+
+          Set an element of a global variable which is a matrix.
+          The id can be either a string or a quoted identifier.
+          For example:
+
+SetElement(`x,2,3,1)
+
+          will set the second row third column element of the
+          global variable x to the value 1. If no global variable
+          of the name exists, or if it is set to something that's
+          not a matrix, a new zero matrix of appropriate size will
+          be created.
+
+          The row and col can also be ranges, and the semantics
+          are the same as for regular setting of the elements with
+          an equals sign.
+
+          The function returns the val, to be usable in chaining.
+
+          Available from 1.0.18 onwards.
+
+   SetVElement
+
+SetElement (id,elt,val)
+
+          Set an element of a global variable which is a vector.
+          The id can be either a string or a quoted identifier.
+          For example:
+
+SetElement(`x,2,1)
+
+          will set the second element of the global vector
+          variable x to the value 1. If no global variable of the
+          name exists, or if it is set to something that's not a
+          vector (matrix), a new zero row vector of appropriate
+          size will be created.
+
+          The elt can also be a range, and the semantics are the
+          same as for regular setting of the elements with an
+          equals sign.
+
+          The function returns the val, to be usable in chaining.
+
+          Available from 1.0.18 onwards.
 
    string
 
@@ -2525,6 +2613,8 @@ UndefineAll ()
           so that it may be run from inside other functions
           safely.
 
+          Version 1.0.7 onwards.
+
    unprotect
 
 unprotect (id)
@@ -2538,6 +2628,8 @@ UserVariables ()
           Return a vector of identifiers of user defined
           (unprotected) global variables.
 
+          Version 1.0.7 onwards.
+
    wait
 
 wait (secs)
@@ -2546,6 +2638,9 @@ wait (secs)
           non-negative. Zero is accepted and nothing happens in
           this case, except possibly user interface events are
           processed.
+
+          Since version 1.0.18, secs can be a noninteger number,
+          so wait(0.1) will wait for one tenth of a second.
 
    version
 
@@ -2662,6 +2757,8 @@ LinePlotDrawAxisLabels = true
           Tells genius to draw the axis labels for line plotting
           functions such as LinePlot.
 
+          Version 1.0.16 onwards.
+
    LinePlotVariableNames
 
 LinePlotVariableNames = ["x","y","z","t"]
@@ -2669,6 +2766,8 @@ LinePlotVariableNames = ["x","y","z","t"]
           Tells genius which variable names are used as default
           names for line plotting functions such as LinePlot and
           friends.
+
+          Version 1.0.10 onwards.
 
    LinePlotWindow
 
@@ -2763,6 +2862,8 @@ SlopefieldTicks = [vertical,horizontal]
           Sets the number of vertical and horizontal ticks in a
           slopefield plot. (See SlopefieldPlot).
 
+          Version 1.0.10 onwards.
+
    SumProductNumberOfTries
 
 SumProductNumberOfTries = number
@@ -2790,6 +2891,8 @@ SurfacePlotDrawLegends = true
           Tells genius to draw the legends for surface plotting
           functions such as SurfacePlot.
 
+          Version 1.0.16 onwards.
+
    SurfacePlotVariableNames
 
 SurfacePlotVariableNames = ["x","y","z"]
@@ -2799,6 +2902,8 @@ SurfacePlotVariableNames = ["x","y","z"]
           Note that the z does not refer to the dependent
           (vertical) axis, but to the indepent complex variable
           z=x+iy.
+
+          Version 1.0.10 onwards.
 
    SurfacePlotWindow
 
@@ -2820,6 +2925,8 @@ VectorfieldTicks = [vertical,horizontal]
 
           Sets the number of vertical and horizontal ticks in a
           vectorfield plot. (See VectorfieldPlot).
+
+          Version 1.0.10 onwards.
      __________________________________________________________
 
 11.4. Constants
@@ -4199,12 +4306,16 @@ NonzeroColumns (M)
           Returns a row vector of the indices of nonzero columns
           in the matrix M.
 
+          Version 1.0.18 onwards.
+
    NonzeroElements
 
 NonzeroElements (v)
 
           Returns a row vector of the indices of nonzero elements
           in the vector v.
+
+          Version 1.0.18 onwards.
 
    OuterProduct
 
@@ -4258,7 +4369,9 @@ SetMatrixSize (M,rows,columns)
 
 ShuffleVector (v)
 
-          Shuffle elements in a vector. Return null if given null
+          Shuffle elements in a vector. Return null if given null.
+
+          Version 1.0.13 onwards.
 
    SortVector
 
@@ -4672,6 +4785,8 @@ KroneckerProduct (M, N)
 
           See Wikipedia, Planetmath or Mathworld for more
           information.
+
+          Version 1.0.18 onwards.
 
    LUDecomposition
 
@@ -5315,6 +5430,8 @@ EvenPeriodicExtension (f,L)
 
           See also OddPeriodicExtension and PeriodicExtension.
 
+          Version 1.0.7 onwards.
+
    FourierSeriesFunction
 
 FourierSeriesFunction (a,b,L)
@@ -5412,6 +5529,8 @@ NumericalFourierSeriesCoefficients (f,L,N)
 
           See Wikipedia or Mathworld for more information.
 
+          Version 1.0.7 onwards.
+
    NumericalFourierSeriesFunction
 
 NumericalFourierSeriesFunction (f,L,N)
@@ -5425,6 +5544,8 @@ NumericalFourierSeriesFunction (f,L,N)
           NumericalIntegral.
 
           See Wikipedia or Mathworld for more information.
+
+          Version 1.0.7 onwards.
 
    NumericalFourierCosineSeriesCoefficients
 
@@ -5442,6 +5563,8 @@ NumericalFourierCosineSeriesCoefficients (f,L,N)
 
           See Wikipedia or Mathworld for more information.
 
+          Version 1.0.7 onwards.
+
    NumericalFourierCosineSeriesFunction
 
 NumericalFourierCosineSeriesFunction (f,L,N)
@@ -5455,6 +5578,8 @@ NumericalFourierCosineSeriesFunction (f,L,N)
           NumericalIntegral.
 
           See Wikipedia or Mathworld for more information.
+
+          Version 1.0.7 onwards.
 
    NumericalFourierSineSeriesCoefficients
 
@@ -5470,6 +5595,8 @@ NumericalFourierSineSeriesCoefficients (f,L,N)
 
           See Wikipedia or Mathworld for more information.
 
+          Version 1.0.7 onwards.
+
    NumericalFourierSineSeriesFunction
 
 NumericalFourierSineSeriesFunction (f,L,N)
@@ -5483,6 +5610,8 @@ NumericalFourierSineSeriesFunction (f,L,N)
           NumericalIntegral.
 
           See Wikipedia or Mathworld for more information.
+
+          Version 1.0.7 onwards.
 
    NumericalIntegral
 
@@ -5522,6 +5651,8 @@ OddPeriodicExtension (f,L)
 
           See also EvenPeriodicExtension and PeriodicExtension.
 
+          Version 1.0.7 onwards.
+
    OneSidedFivePointFormula
 
 OneSidedFivePointFormula (f,x0,h)
@@ -5542,6 +5673,8 @@ PeriodicExtension (f,a,b)
           defined on the interval [a,b] and has period b-a.
 
           See also OddPeriodicExtension and EvenPeriodicExtension.
+
+          Version 1.0.7 onwards.
 
    RightLimit
 
@@ -5582,6 +5715,8 @@ BesselJ0 (x)
 
           See Wikipedia for more information.
 
+          Version 1.0.16 onwards.
+
    BesselJ1
 
 BesselJ1 (x)
@@ -5590,6 +5725,8 @@ BesselJ1 (x)
           implemented for real numbers.
 
           See Wikipedia for more information.
+
+          Version 1.0.16 onwards.
 
    BesselJn
 
@@ -5600,6 +5737,8 @@ BesselJn (n,x)
 
           See Wikipedia for more information.
 
+          Version 1.0.16 onwards.
+
    BesselY0
 
 BesselY0 (x)
@@ -5608,6 +5747,8 @@ BesselY0 (x)
           implemented for real numbers.
 
           See Wikipedia for more information.
+
+          Version 1.0.16 onwards.
 
    BesselY1
 
@@ -5618,6 +5759,8 @@ BesselY1 (x)
 
           See Wikipedia for more information.
 
+          Version 1.0.16 onwards.
+
    BesselYn
 
 BesselYn (n,x)
@@ -5626,6 +5769,8 @@ BesselYn (n,x)
           implemented for real numbers.
 
           See Wikipedia for more information.
+
+          Version 1.0.16 onwards.
 
    DirichletKernel
 
@@ -5686,6 +5831,8 @@ LambertW (x)
           for the other real branch.
 
           See Wikipedia for more information.
+
+          Version 1.0.18 onwards.
 
    LambertWm1
 
@@ -5809,6 +5956,8 @@ sinc (x)
           sinc(pi*x).
 
           See Wikipedia for more information.
+
+          Version 1.0.16 onwards.
      __________________________________________________________
 
 11.13. Equation Solving
@@ -5890,6 +6039,8 @@ d","Second");
 
           See Mathworld, or Wikipedia for more information.
 
+          Version 1.0.10 onwards.
+
    FindRootBisection
 
 FindRootBisection (f,a,b,TOL,N)
@@ -5960,6 +6111,8 @@ genius> HalleysMethod(`(x)=x^2-10,`(x)=2*x,`(x)=2,3,10^-10,100)
 
           See Wikipedia for more information.
 
+          Version 1.0.18 onwards.
+
    NewtonsMethod
 
 NewtonsMethod (f,df,guess,epsilon,maxn)
@@ -5977,6 +6130,8 @@ NewtonsMethod (f,df,guess,epsilon,maxn)
 genius> NewtonsMethod(`(x)=x^2-10,`(x)=2*x,3,10^-10,100)
 
           See Wikipedia for more information.
+
+          Version 1.0.18 onwards.
 
    PolynomialRoots
 
@@ -6073,6 +6228,8 @@ genius> LinePlotDrawPoints(secondline,"color","red","thickness",3,"legen
 d","Second");
 
           See Mathworld, or Wikipedia for more information.
+
+          Version 1.0.10 onwards.
      __________________________________________________________
 
 11.14. Statistics
@@ -6312,6 +6469,8 @@ MacaulayBound (c,d)
           Macaulay bound for the Hilbert function of degree d+1
           (The c^<d> operator from Green's proof).
 
+          Version 1.0.15 onwards.
+
    MacaulayLowerOperator
 
 MacaulayLowerOperator (c,d)
@@ -6319,12 +6478,16 @@ MacaulayLowerOperator (c,d)
           The c_<d> operator from Green's proof of Macaulay's
           Theorem.
 
+          Version 1.0.15 onwards.
+
    MacaulayRep
 
 MacaulayRep (c,d)
 
           Return the dth Macaulay representation of a positive
           integer c.
+
+          Version 1.0.15 onwards.
      __________________________________________________________
 
 11.18. Miscellaneous
@@ -6429,6 +6592,8 @@ ExportPlot (file)
 genius> ExportPlot("file.png")
 genius> ExportPlot("/directory/file","eps")
 
+          Version 1.0.16 onwards.
+
    LinePlot
 
 LinePlot (func1,func2,func3,...)
@@ -6478,7 +6643,8 @@ LinePlotDrawLine (v,...)
           can do this by adding an argument string "color",
           "thickness", "window", "arrow", or "legend", and after
           it specify the color, the thickness, the window as
-          4-vector, type of arrow, or the legend.
+          4-vector, type of arrow, or the legend. (Arrow and
+          window are from version 1.0.6 onwards.)
 
           The color should be either a string indicating the
           common english word for the color that GTK will
@@ -6486,10 +6652,10 @@ LinePlotDrawLine (v,...)
           Alternatively the color can be specified in RGB format
           as "#rgb", "#rrggbb", or "#rrrrggggbbbb", where the r,
           g, or b are hex digits of the red, green, and blue
-          components of the color. Finally the color can also be
-          specified as a real vector specifying the red green and
-          blue components where the components are between 0 and
-          1.
+          components of the color. Finally, since version 1.0.18,
+          the color can also be specified as a real vector
+          specifying the red green and blue components where the
+          components are between 0 and 1, e.g. [1.0,0.5,0.1].
 
           The window should be given as usual as [x1,x2,y1,y2], or
           alternatively can be given as a string "fit" in which
@@ -6556,6 +6722,8 @@ genius> LinePlotDrawPoints([0,0;1,-1;-1,-1])
 genius> LinePlotDrawPoints(RungeKuttaFull(`(x,y)=y,0,3,100),"color","blu
 e","legend","The Solution")
 
+          Available from version 1.0.18 onwards.
+
    LinePlotParametric
 
 LinePlotParametric (xfunc,yfunc,...)
@@ -6617,6 +6785,8 @@ PlotCanvasFreeze ()
           automatically. Also note that calls to freeze and thaw
           may be safely nested.
 
+          Version 1.0.18 onwards.
+
    PlotCanvasThaw
 
 PlotCanvasThaw ()
@@ -6624,6 +6794,8 @@ PlotCanvasThaw ()
           Thaw the plot canvas frozen by PlotCanvasFreeze and
           rewdraw the canvas immediately. The canvas is also
           always thawed after end of execution of any program.
+
+          Version 1.0.18 onwards.
 
    SlopefieldClearSolutions
 
@@ -6732,6 +6904,8 @@ genius> d:=null; for r=0 to 1 by 0.1 do for theta=0 to 2*pi by pi/5 do d
 =[d;[r*cos(theta),r*sin(theta),-r^2*theta]];
 genius> SurfacePlotData(d)
 
+          Version 1.0.16 onwards.
+
    SurfacePlotDataGrid
 
 SurfacePlotDataGrid (data,[x1,x2,y1,y2])
@@ -6764,12 +6938,16 @@ genius> d:=null; for i=1 to 20 do for j=1 to 10 d@(i,j) = (0.1*i-1)^2-(0
 .1*j)^2;
 genius> SurfacePlotDataGrid(d,[-1,1,0,1],"half a saddle")
 
+          Version 1.0.16 onwards.
+
    VectorfieldClearSolutions
 
 VectorfieldClearSolutions ()
 
           Clears the solutions drawn by the
           VectorfieldDrawSolution function.
+
+          Version 1.0.6 onwards.
 
    VectorfieldDrawSolution
 
@@ -6783,6 +6961,8 @@ VectorfieldDrawSolution (x, y, dt, tlen)
           VectorfieldClearSolutions. You can also use the
           graphical interface to draw solutions and specify
           initial conditions with the mouse.
+
+          Version 1.0.6 onwards.
 
    VectorfieldPlot
 

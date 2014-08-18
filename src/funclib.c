@@ -565,6 +565,130 @@ set_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	return gel_stealnode (a[1]);
 }
 
+static GelETree *
+SetElement_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelToken *id;
+	GelEFunc *func;
+	GelMatrixW *mat;
+
+	if G_UNLIKELY ( ! check_argument_string_or_identifier (a, 0, "SetElement"))
+		return NULL;
+	if (a[0]->type == GEL_IDENTIFIER_NODE) {
+		id = a[0]->id.id;
+	} else /* GEL_STRING_NODE */ {
+		id = d_intern (a[0]->str.str);
+	}
+
+	if G_UNLIKELY (id->protected_) {
+		gel_errorout (_("%s: trying to set a protected id!"),
+			      "set");
+		return NULL;
+	}
+	if G_UNLIKELY (id->parameter) {
+		/* FIXME: fix this, this should just work too */
+		gel_errorout (_("%s: trying to set a parameter, use the equals sign"),
+			      "set");
+		return NULL;
+	}
+
+	func = d_lookup_only_global (id);
+
+	if (func == NULL ||
+	    func->type != GEL_VARIABLE_FUNC ||
+	    func->data.user->type != GEL_MATRIX_NODE) {
+		GelETree *t;
+
+		GEL_GET_NEW_NODE (t);
+		t->type = GEL_MATRIX_NODE;
+		mat = t->mat.matrix = gel_matrixw_new ();
+		t->mat.quoted = FALSE;
+		gel_matrixw_set_size (mat, 1, 1);
+
+		if G_UNLIKELY ( ! _gel_iter_set_element (mat, a[3], a[1], a[2])) {
+			gel_freetree (t);
+			return NULL;
+		}
+
+		func = d_makevfunc (id, t);
+		/* make function global */
+		func->context = 0;
+		d_addfunc_global (func);
+	} else {
+		mat = func->data.user->mat.matrix;
+		if G_UNLIKELY ( ! _gel_iter_set_element (mat, a[3], a[1], a[2])) {
+			return NULL;
+		}
+	}
+
+	/*
+	 * Evil optimization to avoid copying the node from the argument
+	 */
+	return gel_stealnode (a[3]);
+}
+
+static GelETree *
+SetVElement_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelToken *id;
+	GelEFunc *func;
+	GelMatrixW *mat;
+
+	if G_UNLIKELY ( ! check_argument_string_or_identifier (a, 0, "SetVElement"))
+		return NULL;
+	if (a[0]->type == GEL_IDENTIFIER_NODE) {
+		id = a[0]->id.id;
+	} else /* GEL_STRING_NODE */ {
+		id = d_intern (a[0]->str.str);
+	}
+
+	if G_UNLIKELY (id->protected_) {
+		gel_errorout (_("%s: trying to set a protected id!"),
+			      "set");
+		return NULL;
+	}
+	if G_UNLIKELY (id->parameter) {
+		/* FIXME: fix this, this should just work too */
+		gel_errorout (_("%s: trying to set a parameter, use the equals sign"),
+			      "set");
+		return NULL;
+	}
+
+	func = d_lookup_only_global (id);
+
+	if (func == NULL ||
+	    func->type != GEL_VARIABLE_FUNC ||
+	    func->data.user->type != GEL_MATRIX_NODE) {
+		GelETree *t;
+
+		GEL_GET_NEW_NODE (t);
+		t->type = GEL_MATRIX_NODE;
+		mat = t->mat.matrix = gel_matrixw_new ();
+		t->mat.quoted = FALSE;
+		gel_matrixw_set_size (mat, 1, 1);
+
+		if G_UNLIKELY ( ! _gel_iter_set_velement (mat, a[2], a[1])) {
+			gel_freetree (t);
+			return NULL;
+		}
+
+		func = d_makevfunc (id, t);
+		/* make function global */
+		func->context = 0;
+		d_addfunc_global (func);
+	} else {
+		mat = func->data.user->mat.matrix;
+		if G_UNLIKELY ( ! _gel_iter_set_velement (mat, a[2], a[1])) {
+			return NULL;
+		}
+	}
+
+	/*
+	 * Evil optimization to avoid copying the node from the argument
+	 */
+	return gel_stealnode (a[2]);
+}
+
 static void
 display_all_vars (void)
 {
@@ -6826,6 +6950,8 @@ gel_funclib_addall(void)
 	FUNC (printn, 1, "str", "basic", N_("Prints an expression without a trailing newline"));
 	FUNC (display, 2, "str,expr", "basic", N_("Display a string and an expression"));
 	FUNC (set, 2, "id,val", "basic", N_("Set a global variable"));
+	FUNC (SetElement, 4, "id,row,col,val", "basic", N_("Set an element in a global variable which is a matrix"));
+	FUNC (SetVElement, 3, "id,elt,val", "basic", N_("Set an element in a global variable which is a vector"));
 	VFUNC (DisplayVariables, 1, "var", "basic", N_("Display values of variables, or all if called without arguments"));
 
 	FUNC (SetHelp, 3, "id,category,desc", "basic", N_("Set the category and help description line for a function"));

@@ -1159,6 +1159,17 @@ m=randint(2,5,5);NonzeroColumns(MakeVector(m.').')==NonzeroElements(m)	true
 1.0:0.5:2.0							`[1.0,1.5,2.0]
 1.0:0.5:1.9999							`[1.0,1.5]
 1.0:0.5:1.9999999						`[1.0,1.5,1.9999999]
+function f() = (set(`r,[1,2;3,4])); f(); r			[1,2;3,4]
+function f() = (set("r",[1,2;3,4]);r=1); f(); r			[1,2;3,4]
+function f() = (r=2;set("r",[1,2;3,4]);r=1); f(); r		[1,2;3,4]
+r=[1,2;3,4];function f() = (r@(1,2)=99;set(`r,r)); f(); r	[1,99;3,4]
+function f() = (SetElement(`r,2,3,99)); f(); r			[0,0,0;0,0,99]
+r=[1,2;3,4];function f() = (SetElement(`r,1,2,99)); f(); r	[1,99;3,4]
+function f() = (SetVElement(`r,3,99)); f(); r			[0,0,99]
+r=[1,2,3];function f() = (SetVElement(`r,3,99)); f(); r		[1,2,99]
+r=[1,2,3];function f() = (SetVElement(`r,4,99)); f(); r		[1,2,3,99]
+r=[1;2;3];function f() = (SetVElement("r",5,99)); f(); r	[1;2;3;0;99]
+SetElement("r",-1,2,99)						SetElement("r",-1,2,99)
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
 load "testprec.gel"						true

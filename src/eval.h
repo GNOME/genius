@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2013 Jiri (George) Lebl
+ * Copyright (C) 1997-2014 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -149,6 +149,9 @@ gboolean gel_mod_integer_rational (mpw_t num, mpw_t mod);
 
 mpw_ptr gel_find_pre_function_modulo (GelCtx *ctx);
 
+/* useful in funclib, but really internal */
+gboolean _gel_iter_set_velement(GelMatrixW *mat, GelETree *r, GelETree *index);
+gboolean _gel_iter_set_element(GelMatrixW *mat, GelETree *r, GelETree *index1, GelETree *index2);
 
 /*compare nodes, return TRUE if equal
   makes them the same type as a side effect*/

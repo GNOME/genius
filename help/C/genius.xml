@@ -198,6 +198,12 @@
 	the graphical user interface.
     </para>
 
+    <para>
+	    Generally, when some feature of the language (function, operator, etc...)
+	    is new is some version past 1.0.5, it is mentioned, but
+	    below 1.0.5 you would have to look at the NEWS file.
+    </para>
+
   </chapter>
 
 <!-- =========== Getting Started ============================== -->
@@ -1729,6 +1735,27 @@ different from <literal>=</literal> because it never gets translated to a
 `[1, 3, 5, 7, 9]
 </programlisting>
            </para>
+	   <para>
+	     When the numbers involved are floating point numbers, for example
+	     <userinput>1.0:0.4:3.0</userinput>, the output is what is expected
+	     even though adding 0.4 to 1.0 five times is actually just slightly
+	     more than 3.0 due to the way that floating point numbers are
+	     stored in base 2 (there is no 0.4, the actual number stored is
+	     just ever so slightly bigger).  The way this is handled is the
+	     same as in the for, sum, and prod loops.  If the end is within
+	     <userinput>2^-20</userinput> times the step size of the endpoint,
+	     the endpoint is used and we assume there were roundoff errors.
+	     This is not perfect, but it handles the majority of the cases.
+	     This check is done only from version 1.0.18 onwards, so execution
+	     of your code may differ on older versions.  If you want to avoid
+	     dealing with this issue, use actual rational numbers, possibly
+	     useing the <function>float</function> if you wish to get floating
+	     point numbers in the end.  For example
+	     <userinput>1:2/5:3</userinput> does the right thing and
+	     <userinput>float(1:2/5:3)</userinput> even gives you floating
+	     point numbers and is ever so slightly more precise than
+	     <userinput>1.0:0.4:3.0</userinput>.
+           </para>
          </listitem>
         </varlistentry>
 
@@ -2100,6 +2127,11 @@ or:
 	  from a subroutine.  If this is required, must use passing by
 	  reference.
         </para>
+	<para>
+		See also the
+		<link linkend="gel-function-SetElement"><function>SetElement</function></link> and
+		<link linkend="gel-function-SetVElement"><function>SetVElement</function></link> functions.
+	</para>
 	<para>
 	  So to recap in a more technical language:  Genius operates with
 	  different numbered contexts.  The top level is the context 0
@@ -2518,7 +2550,7 @@ first compile it with <command>genius --compile loader.gel &gt; lib.cgel</comman
     <sect1 id="genius-gel-loading-programs">
       <title>Loading Programs</title>
       <para>
-Sometimes you have a larger program that you wrote into a file and want to read in that file. In these situations, you have two options. You can keep the functions you use most inside the <filename>~/.geniusinit</filename> file. Or if you want to load up a file in a middle of a session (or from within another file), you can type <command>load &lt;list of filenames&gt;</command> at the prompt. This has to be done on the top level and not inside any function or whatnot, and it cannot be part of any expression. It also has a slightly different syntax than the rest of genius, more similiar to a shell. You can enter the file in quotes. If you use the '' quotes, you will get exactly the string that you typed, if you use the "" quotes, special characters will be unescaped as they are for strings. Example:
+Sometimes you have a larger program you wrote into a file and want to read that file into &app;. In these situations, you have two options. You can keep the functions you use most inside the <filename>~/.geniusinit</filename> file. Or if you want to load up a file in a middle of a session (or from within another file), you can type <command>load &lt;list of filenames&gt;</command> at the prompt. This has to be done on the top level and not inside any function or whatnot, and it cannot be part of any expression. It also has a slightly different syntax than the rest of genius, more similiar to a shell. You can enter the file in quotes. If you use the '' quotes, you will get exactly the string that you typed, if you use the "" quotes, special characters will be unescaped as they are for strings. Example:
 <programlisting>load program1.gel program2.gel
 load "Weird File Name With SPACES.gel"
 </programlisting>
@@ -2536,7 +2568,7 @@ ls *.gel
     <title>Matrices in GEL</title>
 
     <para>
-      Genius has support for vectors and matrices and a sizable library of
+      Genius has support for vectors and matrices and posesses a sizable library of
       matrix manipulation and linear algebra functions.
     </para>
 
@@ -2883,6 +2915,7 @@ pressed.  That is, returns 1 if the first button was pressed, 2 if the second
 button was pressed, and so on.  If the user closes the window (or simply hits
 enter in text mode), then <constant>null</constant> is returned.  The execution
 of the program is blocked until the user responds.</para>
+	  <para>Version 1.0.10 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -2894,7 +2927,7 @@ of the program is blocked until the user responds.</para>
           <para>Asks a question and lets the user enter a string, which
 it then returns.  If the user cancels or closes the window, then
 <constant>null</constant> is returned.  The execution of the program
-is blocked until the user responds.  If <varname>default</varname> is given, then it is pre-typed in for the user to just press enter on.</para>
+is blocked until the user responds.  If <varname>default</varname> is given, then it is pre-typed in for the user to just press enter on (version 1.0.6 onwards).</para>
          </listitem>
         </varlistentry>
 
@@ -3093,6 +3126,7 @@ is called inside a block that was evaluated using modular arithmetic (using <lit
          <listitem>
           <synopsis>CurrentTime</synopsis>
           <para>Returns the current UNIX time with microsecond precision as a floating point number.  That is, returns the number of seconds since January 1st 1970.</para>
+	  <para>Version 1.0.15 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -3120,6 +3154,7 @@ is called inside a block that was evaluated using modular arithmetic (using <lit
 	    then all variables are printed including a stacktrace similar to
 	    <guilabel>Show user variables</guilabel> in the graphical version.
 	  </para>
+	  <para>Version 1.0.18 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -3187,6 +3222,7 @@ made into a string before being printed.</para>
 	    If <varname>v</varname> is a positive integer, then the table of
 	    integers from 1 up to and including v will be used.
 	  </para>
+	  <para>Version 1.0.18 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -3207,6 +3243,7 @@ avoid them being accidentally overridden.</para>
 functions from being modified.  This is used on the internal GEL functions to
 avoid them being accidentally overridden.  Normally &app; considers
 unprotected variables as user defined.</para>
+	  <para>Version 1.0.7 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -3215,12 +3252,54 @@ unprotected variables as user defined.</para>
          <listitem>
           <synopsis>set (id,val)</synopsis>
           <para>Set a global variable.  The <varname>id</varname>
-            can be either a string or a quoted identifier as follows.
+            can be either a string or a quoted identifier.
 	    For example:
 	    <programlisting>set(`x,1)
 	    </programlisting>
 	    will set the global variable <varname>x</varname> to the value 1.
 	  </para>
+	  <para>The function returns the <varname>val</varname>, to be
+	  usable in chaining.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-SetElement"/>SetElement</term>
+         <listitem>
+          <synopsis>SetElement (id,row,col,val)</synopsis>
+	  <para>Set an element of a global variable which is a matrix.
+		  The <varname>id</varname>
+            can be either a string or a quoted identifier.
+	    For example:
+	    <programlisting>SetElement(`x,2,3,1)
+	    </programlisting>
+	    will set the second row third column element of the global variable <varname>x</varname> to the value 1.  If no global variable of the name exists, or if it is set to something that's not a matrix, a new zero matrix of appropriate size will be created.
+	  </para>
+	  <para>The <varname>row</varname> and <varname>col</varname> can also be ranges, and the semantics are the same as for regular setting of the elements with an equals sign.
+	  </para>
+	  <para>The function returns the <varname>val</varname>, to be
+	  usable in chaining.</para>
+	  <para>Available from 1.0.18 onwards.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-SetVElement"/>SetVElement</term>
+         <listitem>
+          <synopsis>SetElement (id,elt,val)</synopsis>
+	  <para>Set an element of a global variable which is a vector.
+		  The <varname>id</varname>
+            can be either a string or a quoted identifier.
+	    For example:
+	    <programlisting>SetElement(`x,2,1)
+	    </programlisting>
+	    will set the second element of the global vector variable <varname>x</varname> to the value 1.  If no global variable of the name exists, or if it is set to something that's not a vector (matrix), a new zero row vector of appropriate size will be created.
+	  </para>
+	  <para>The <varname>elt</varname> can also be a range, and the semantics are the same as for regular setting of the elements with an equals sign.
+	  </para>
+	  <para>The function returns the <varname>val</varname>, to be
+	  usable in chaining.</para>
+	  <para>Available from 1.0.18 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -3265,6 +3344,7 @@ unprotected variables as user defined.</para>
 	    only removes the global definition of symbols not local ones,
 	    so that it may be run from inside other functions safely.
 	  </para>
+	  <para>Version 1.0.7 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -3282,6 +3362,7 @@ unprotected variables as user defined.</para>
           <synopsis>UserVariables ()</synopsis>
           <para>Return a vector of identifiers of
 	    user defined (unprotected) global variables.</para>
+	  <para>Version 1.0.7 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -3292,6 +3373,8 @@ unprotected variables as user defined.</para>
           <para>Waits a specified number of seconds.  <varname>secs</varname>
 must be non-negative.  Zero is accepted and nothing happens in this case,
 except possibly user interface events are processed.</para>
+	  <para>Since version 1.0.18, <varname>secs</varname> can be a noninteger number, so
+		  <userinput>wait(0.1)</userinput> will wait for one tenth of a second.</para>
          </listitem>
         </varlistentry>
 
@@ -3439,6 +3522,7 @@ except possibly user interface events are processed.</para>
           <para>Tells genius to draw the axis labels for <link linkend="genius-gel-function-list-plotting">line plotting
 	  functions</link> such as <link linkend="gel-function-LinePlot"><function>LinePlot</function></link>.
           </para>
+	  <para>Version 1.0.16 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -3449,6 +3533,7 @@ except possibly user interface events are processed.</para>
           <para>Tells genius which variable names are used as default names  for <link linkend="genius-gel-function-list-plotting">line plotting
 	  functions</link> such as <link linkend="gel-function-LinePlot"><function>LinePlot</function></link> and friends.
           </para>
+	  <para>Version 1.0.10 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -3578,6 +3663,7 @@ greater than or equal to
           <para>Sets the number of vertical and horizontal ticks in a
 slopefield plot.  (See <link linkend="gel-function-SlopefieldPlot"><function>SlopefieldPlot</function></link>).
           </para>
+	  <para>Version 1.0.10 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -3612,6 +3698,7 @@ slopefield plot.  (See <link linkend="gel-function-SlopefieldPlot"><function>Slo
           <para>Tells genius to draw the legends for <link linkend="genius-gel-function-list-plotting">surface plotting
 	  functions</link> such as <link linkend="gel-function-SurfacePlot"><function>SurfacePlot</function></link>.
           </para>
+	  <para>Version 1.0.16 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -3624,6 +3711,7 @@ slopefield plot.  (See <link linkend="gel-function-SlopefieldPlot"><function>Slo
           Note that the <varname>z</varname> does not refer to the dependent (vertical) axis, but to the indepent complex variable
           <userinput>z=x+iy</userinput>.
           </para>
+	  <para>Version 1.0.10 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -3652,6 +3740,7 @@ slopefield plot.  (See <link linkend="gel-function-SlopefieldPlot"><function>Slo
           <para>Sets the number of vertical and horizontal ticks in a
 vectorfield plot.  (See <link linkend="gel-function-VectorfieldPlot"><function>VectorfieldPlot</function></link>).
           </para>
+	  <para>Version 1.0.10 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -5529,6 +5618,7 @@ functions make this check.  Values can be any number including complex numbers.<
          <listitem>
           <synopsis>NonzeroColumns (M)</synopsis>
           <para>Returns a row vector of the indices of nonzero columns in the matrix <varname>M</varname>.</para>
+	  <para>Version 1.0.18 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -5537,6 +5627,7 @@ functions make this check.  Values can be any number including complex numbers.<
          <listitem>
           <synopsis>NonzeroElements (v)</synopsis>
           <para>Returns a row vector of the indices of nonzero elements in the vector <varname>v</varname>.</para>
+	  <para>Version 1.0.18 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -5604,7 +5695,8 @@ something(r)</userinput>.</para>
          <term><anchor id="gel-function-ShuffleVector"/>ShuffleVector</term>
          <listitem>
           <synopsis>ShuffleVector (v)</synopsis>
-	  <para>Shuffle elements in a vector.  Return <constant>null</constant> if given <constant>null</constant></para>
+	  <para>Shuffle elements in a vector.  Return <constant>null</constant> if given <constant>null</constant>.</para>
+	  <para>Version 1.0.13 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -6146,6 +6238,7 @@ determinant.
 	    <ulink url="http://planetmath.org/encyclopedia/KroneckerProduct.html">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/KroneckerProduct.html">Mathworld</ulink> for more information.
           </para>
+	  <para>Version 1.0.18 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -6982,6 +7075,7 @@ extended to be periodic with period <userinput>2*L</userinput>.</para>
 	    and
 	    <link linkend='gel-function-PeriodicExtension'>PeriodicExtension</link>.
 	  </para>
+	  <para>Version 1.0.7 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7104,6 +7198,7 @@ computed by numerical integration using
 	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FourierSeries.html">Mathworld</ulink> for more information.
           </para>
+	  <para>Version 1.0.7 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7123,6 +7218,7 @@ computed by numerical integration using
 	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FourierSeries.html">Mathworld</ulink> for more information.
           </para>
+	  <para>Version 1.0.7 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7147,6 +7243,7 @@ the term <userinput>cos(x*(n-1)*pi/L)</userinput>.</para>
 	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FourierCosineSeries.html">Mathworld</ulink> for more information.
           </para>
+	  <para>Version 1.0.7 onwards.</para>
 	  </listitem>
         </varlistentry>
 
@@ -7167,6 +7264,7 @@ computed by numerical integration using
 	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FourierCosineSeries.html">Mathworld</ulink> for more information.
           </para>
+	  <para>Version 1.0.7 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7188,6 +7286,7 @@ computed by numerical integration using
 	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FourierSineSeries.html">Mathworld</ulink> for more information.
           </para>
+	  <para>Version 1.0.7 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7208,6 +7307,7 @@ computed by numerical integration using
 	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FourierSineSeries.html">Mathworld</ulink> for more information.
           </para>
+	  <para>Version 1.0.7 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7258,6 +7358,7 @@ extended to be periodic with period <userinput>2*L</userinput>.</para>
 	    and
 	    <link linkend='gel-function-PeriodicExtension'>PeriodicExtension</link>.
 	  </para>
+	  <para>Version 1.0.7 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7290,6 +7391,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    and
 	    <link linkend='gel-function-EvenPeriodicExtension'>EvenPeriodicExtension</link>.
 	  </para>
+	  <para>Version 1.0.7 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7341,6 +7443,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
 	  </para>
+	  <para>Version 1.0.16 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7353,6 +7456,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
 	  </para>
+	  <para>Version 1.0.16 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7365,6 +7469,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
 	  </para>
+	  <para>Version 1.0.16 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7377,6 +7482,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
 	  </para>
+	  <para>Version 1.0.16 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7389,6 +7495,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
 	  </para>
+	  <para>Version 1.0.16 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7401,6 +7508,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
 	  </para>
+	  <para>Version 1.0.16 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7485,6 +7593,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Lambert_W_function">Wikipedia</ulink> for more information.
 	  </para>
+	  <para>Version 1.0.18 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7655,6 +7764,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Sinc">Wikipedia</ulink> for more information.
 	  </para>
+	  <para>Version 1.0.16 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7769,6 +7879,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    <ulink url="http://mathworld.wolfram.com/EulerForwardMethod.html">Mathworld</ulink>, or
 	    <ulink url="http://en.wikipedia.org/wiki/Eulers_method">Wikipedia</ulink> for more information.
 	  </para>
+	  <para>Version 1.0.10 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7841,6 +7952,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Halley%27s_method">Wikipedia</ulink> for more information.
 	  </para>
+	  <para>Version 1.0.18 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7866,6 +7978,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Newtons_method">Wikipedia</ulink> for more information.
 	  </para>
+	  <para>Version 1.0.18 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -8008,6 +8121,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    <ulink url="http://mathworld.wolfram.com/Runge-KuttaMethod.html">Mathworld</ulink>, or
 	    <ulink url="http://en.wikipedia.org/wiki/Runge-Kutta_methods">Wikipedia</ulink> for more information.
 	  </para>
+	  <para>Version 1.0.10 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -8314,6 +8428,7 @@ and has period <userinput>b-a</userinput>.</para>
          <listitem>
           <synopsis>MacaulayBound (c,d)</synopsis>
           <para>For a Hilbert function that is c for degree d, given the Macaulay bound for the Hilbert function of degree d+1 (The c^&lt;d&gt; operator from Green's proof).</para>
+	  <para>Version 1.0.15 onwards.</para>
          </listitem>
         </varlistentry>
 	
@@ -8322,6 +8437,7 @@ and has period <userinput>b-a</userinput>.</para>
          <listitem>
           <synopsis>MacaulayLowerOperator (c,d)</synopsis>
           <para>The c_&lt;d&gt; operator from Green's proof of Macaulay's Theorem.</para>
+	  <para>Version 1.0.15 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -8330,6 +8446,7 @@ and has period <userinput>b-a</userinput>.</para>
          <listitem>
           <synopsis>MacaulayRep (c,d)</synopsis>
           <para>Return the dth Macaulay representation of a positive integer c.</para>
+	  <para>Version 1.0.15 onwards.</para>
          </listitem>
         </varlistentry>
       </variablelist>
@@ -8462,6 +8579,7 @@ and has period <userinput>b-a</userinput>.</para>
 <prompt>genius></prompt> <userinput>ExportPlot("/directory/file","eps")</userinput>
 </screen>
           </para>
+	  <para>Version 1.0.16 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -8529,7 +8647,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    <userinput>"window"</userinput>, 
 	    <userinput>"arrow"</userinput>, or <userinput>"legend"</userinput>, and after it specify
 	    the color, the thickness, the window
-	    as 4-vector, type of arrow, or the legend.
+	    as 4-vector, type of arrow, or the legend.  (Arrow and window are from version 1.0.6 onwards.)
     	  </para>
     	  <para>
 	    The color should be either a string indicating the common english word for the color
@@ -8538,8 +8656,9 @@ and has period <userinput>b-a</userinput>.</para>
 	    Alternatively the color can be specified in RGB format as
 	    <userinput>"#rgb"</userinput>, <userinput>"#rrggbb"</userinput>, or
 	    <userinput>"#rrrrggggbbbb"</userinput>, where the r, g, or b are hex digits of the red, green, and blue
-	    components of the color.  Finally the color can also be specified as a real vector specifying the red green
-	    and blue components where the components are between 0 and 1.
+	    components of the color.  Finally, since version 1.0.18, the color
+	    can also be specified as a real vector specifying the red green and
+	    blue components where the components are between 0 and 1, e.g. <userinput>[1.0,0.5,0.1]</userinput>.
     	  </para>
     	  <para>
 	    The window should be given as usual as <userinput>[x1,x2,y1,y2]</userinput>, or
@@ -8620,6 +8739,9 @@ and has period <userinput>b-a</userinput>.</para>
 <prompt>genius></prompt> <userinput>LinePlotDrawPoints(RungeKuttaFull(`(x,y)=y,0,3,100),"color","blue","legend","The Solution")</userinput>
 </screen>
           </para>
+	  <para>
+		  Available from version 1.0.18 onwards.
+	  </para>
          </listitem>
         </varlistentry>
 
@@ -8692,6 +8814,7 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 		  a new command line is shown for example the plot canvas is thawed automatically.  Also note that
 		  calls to freeze and thaw may be safely nested.
           </para>
+	  <para>Version 1.0.18 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -8705,6 +8828,7 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 		  and rewdraw the canvas immediately.  The canvas is also always thawed after end of execution
 		  of any program.
           </para>
+	  <para>Version 1.0.18 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -8834,6 +8958,7 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 <prompt>genius></prompt> <userinput>SurfacePlotData(d)</userinput>
 </screen>
           </para>
+	  <para>Version 1.0.16 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -8870,6 +8995,7 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 <prompt>genius></prompt> <userinput>SurfacePlotDataGrid(d,[-1,1,0,1],"half a saddle")</userinput>
 </screen>
           </para>
+	  <para>Version 1.0.16 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -8882,6 +9008,7 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 	    <link linkend="gel-function-VectorfieldDrawSolution"><function>VectorfieldDrawSolution</function></link>
 	    function.
           </para>
+	  <para>Version 1.0.6 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -8900,6 +9027,7 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 	    You can also use the graphical interface to draw solutions and specify
 	    initial conditions with the mouse.
           </para>
+	  <para>Version 1.0.6 onwards.</para>
          </listitem>
         </varlistentry>
 
