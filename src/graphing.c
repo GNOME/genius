@@ -9891,7 +9891,7 @@ gel_add_graph_functions (void)
 
 	FUNC (LinePlotClear, 0, "", "plotting", N_("Show the line plot window and clear out functions"));
 	VFUNC (LinePlotDrawLine, 2, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"));
-	VFUNC (LinePlotDrawPoints, 2, "x,y,args", "plotting", N_("Draw a points at x,y.  x,y can be replaced by a n by 2 matrix for more points"));
+	VFUNC (LinePlotDrawPoints, 2, "x,y,args", "plotting", N_("Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points"));
 
 	FUNC (PlotCanvasFreeze, 0, "", "plotting", N_("Freeze the plot canvas, that is, inhibit drawing"));
 	FUNC (PlotCanvasThaw, 0, "", "plotting", N_("Thaw the plot canvas and redraw the plot immediately"));
