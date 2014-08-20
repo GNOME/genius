@@ -1,3 +1,10 @@
+Wed Aug 20 18:49:35 2014  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/calc.c: also encode the description when compiling.  This is
+	  to be on the safe side, I don't think any descriptions right now
+	  contain invalid characters for the compiled file such as a
+	  semicolon, but they could.
+
 Tue Aug 19 14:09:44 2014  Jiri (George) Lebl <jirka@5z.com>
 
 	* lib/number_theory/prime.gel: update the known limits on mersenne

@@ -1946,10 +1946,12 @@ compile_funcs_in_dict (FILE *outfile, GSList *dict, gboolean is_extra_dict)
 				fprintf (outfile, "C;%s;%s\n",
 					 func->id->token,
 					 help->category);
-			if (help->description != NULL)
+			if (help->description != NULL) {
+				char *s = gel_encode_string (help->description);
 				fprintf (outfile, "D;%s;%s\n",
-					 func->id->token,
-					 help->description);
+					 func->id->token, s);
+				g_free (s);
+			}
 			if (help->help_link != NULL) {
 				char *s = gel_encode_string (help->help_link);
 				fprintf (outfile, "L;%s;%s\n",
@@ -2085,7 +2087,7 @@ load_compiled_fp (const char *file, FILE *fp)
 			gel_add_category(p,d);
 			continue;
 		} else if (*p == 'D') {
-			char *d;
+			char *d, *h;
 			p = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!p) {
 				gel_errorout (_("Badly formed record"));
@@ -2096,7 +2098,9 @@ load_compiled_fp (const char *file, FILE *fp)
 				gel_errorout (_("Badly formed record"));
 				continue;
 			}
-			gel_add_description(p,d);
+			h = gel_decode_string (d);
+			gel_add_description (p, h);
+			g_free (h);
 			continue;
 		} else if (*p == 'L') {
 			char *d, *h;
