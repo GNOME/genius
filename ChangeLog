@@ -1,3 +1,11 @@
+Thu Aug 21 16:55:25 2014  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/calc.c, src/compil.c: change the encoding/decoding of strings
+	  to be not stupid, waste a byte and add more legal characters to the
+	  list.  Also remove extra unneeded letters from the function record,
+	  streamlining things a bit more.  Altogether save another 2.7k from
+	  the compiled standard library.
+
 Thu Aug 21 14:11:31 2014  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/calc.c: Reduce redundancy in the compiled file, killing about

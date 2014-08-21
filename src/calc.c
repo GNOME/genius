@@ -1894,7 +1894,8 @@ compile_funcs_in_dict (FILE *outfile, GSList *dict, gboolean is_extra_dict)
 
 		if (func->type == GEL_USER_FUNC) {
 			fprintf (outfile,
-				 "%c;%d;%s;%s;n%d;v%d;p%d;o%d;l%d;e%d;b%d",
+				 /*old "%c;%d;%s;%s;n%d;v%d;p%d;o%d;l%d;e%d;b%d",*/
+				 "%c;%d;%s;%s;%d;%d;%d;%d;%d;%d;%d",
 				 fs,
 				 (int)strlen (body),
 				 func->id->token,
@@ -2213,7 +2214,8 @@ load_compiled_fp (const char *file, FILE *fp)
 				continue;
 			}
 			nargs = -1;
-			sscanf(p,"n%d",&nargs);
+			/*old sscanf(p,"n%d",&nargs); */
+			sscanf(p,"%d",&nargs);
 			if G_UNLIKELY (nargs == -1) {
 				gel_errorout (_("Badly formed record"));
 				continue;
@@ -2226,7 +2228,8 @@ load_compiled_fp (const char *file, FILE *fp)
 				continue;
 			}
 			vararg = -1;
-			sscanf(p,"v%d",&vararg);
+			/*old sscanf(p,"v%d",&vararg); */
+			sscanf(p,"%d",&vararg);
 			if G_UNLIKELY (vararg == -1) {
 				gel_errorout (_("Badly formed record"));
 				continue;
@@ -2239,7 +2242,8 @@ load_compiled_fp (const char *file, FILE *fp)
 				continue;
 			}
 			propagate_mod = -1;
-			sscanf(p,"p%d",&propagate_mod);
+			/*old sscanf(p,"p%d",&propagate_mod); */
+			sscanf(p,"%d",&propagate_mod);
 			if G_UNLIKELY (propagate_mod == -1) {
 				gel_errorout (_("Badly formed record"));
 				continue;
@@ -2252,7 +2256,8 @@ load_compiled_fp (const char *file, FILE *fp)
 				continue;
 			}
 			no_mod_all_args = -1;
-			sscanf(p,"o%d",&no_mod_all_args);
+			/*old sscanf(p,"o%d",&no_mod_all_args); */
+			sscanf(p,"%d",&no_mod_all_args);
 			if G_UNLIKELY (no_mod_all_args == -1) {
 				gel_errorout (_("Badly formed record"));
 				continue;
@@ -2265,7 +2270,8 @@ load_compiled_fp (const char *file, FILE *fp)
 				continue;
 			}
 			local_all = -1;
-			sscanf(p,"l%d",&local_all);
+			/*old sscanf(p,"l%d",&local_all); */
+			sscanf(p,"%d",&local_all);
 			if G_UNLIKELY (local_all == -1) {
 				gel_errorout (_("Badly formed record"));
 				continue;
@@ -2278,7 +2284,8 @@ load_compiled_fp (const char *file, FILE *fp)
 				continue;
 			}
 			never_on_subst_list = -1;
-			sscanf(p,"e%d",&never_on_subst_list);
+			/*old sscanf(p,"e%d",&never_on_subst_list); */
+			sscanf(p,"%d",&never_on_subst_list);
 			if G_UNLIKELY (never_on_subst_list == -1) {
 				gel_errorout (_("Badly formed record"));
 				continue;
@@ -2291,7 +2298,8 @@ load_compiled_fp (const char *file, FILE *fp)
 				continue;
 			}
 			built_subst_dict = -1;
-			sscanf(p,"b%d",&built_subst_dict);
+			/*old sscanf(p,"b%d",&built_subst_dict); */
+			sscanf(p,"%d",&built_subst_dict);
 			if G_UNLIKELY (built_subst_dict == -1) {
 				gel_errorout (_("Badly formed record"));
 				continue;

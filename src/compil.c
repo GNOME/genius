@@ -42,11 +42,9 @@
 char *
 gel_decode_string (const char *s)
 {
-	if (s == NULL)
+	if (s == NULL) {
 		return NULL;
-	if (s[0] == 'A') {
-		return g_strdup (&(s[1]));
-	} else if (s[0] == 'B') {
+	} else if (s[0] == '=') {
 		gsize len;
 		char *p = (char *)g_base64_decode (&(s[1]), &len);
 		if (p == NULL || len < 0) /* error was probably logged by now */
@@ -54,11 +52,8 @@ gel_decode_string (const char *s)
 		p = g_realloc (p, len+1);
 		p[len] = '\0';
 		return p;
-	} else if (s[0] == 'E') {
-		return g_strdup ("");
 	} else {
-		g_warning ("gel_decode_string: bad string!");
-		return NULL;
+		return g_strdup (s);
 	}
 }
 
@@ -66,11 +61,13 @@ static int
 is_ok_ascii (const char *s)
 {
 	const char *p;
+	if (s[0] == '=')
+		return FALSE;
 	for (p = s; *p != '\0'; p++) {
 		if ( ! ( (*p >= 'a' && *p <= 'z') ||
 			 (*p >= 'A' && *p <= 'Z') ||
 			 (*p >= '0' && *p <= '9') ||
-			 strchr ("():,.[] !?~+-_{}/=><*^'\"", *p) != NULL) ) {
+			 strchr ("():,.[] !?~+-_{}/=><*^'\"@#$|\\&\t", *p) != NULL) ) {
 			return FALSE;
 		}
 	}
@@ -80,13 +77,13 @@ is_ok_ascii (const char *s)
 char *
 gel_encode_string (const char *s)
 {
-	if (ve_string_empty (s))
-		return g_strdup ("E");
-	if (is_ok_ascii (s)) {
-		return g_strconcat ("A", s, NULL);
+	if (ve_string_empty (s)) {
+		return g_strdup ("");
+	} else if (is_ok_ascii (s)) {
+		return g_strdup (s);
 	} else {
 		char *p = g_base64_encode ((const unsigned char *)s, strlen (s));
-		char *ret = g_strconcat ("B", p, NULL);
+		char *ret = g_strconcat ("=", p, NULL);
 		g_free (p);
 		return ret;
 	}
