@@ -16,8 +16,10 @@ xmlto html genius.xml
 #echo xmlto pdf genius.xml
 #xmlto pdf genius.xml
 
-echo docbook2pdf genius.xml
-docbook2pdf genius.xml
+#echo docbook2pdf genius.xml
+#docbook2pdf genius.xml
+echo dblatex genius.xml
+dblatex genius.xml
 #echo docbook2ps genius.xml
 #docbook2ps genius.xml
 #echo ps2pdf genius.ps genius.pdf
