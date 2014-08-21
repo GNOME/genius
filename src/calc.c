@@ -105,6 +105,8 @@ gboolean gel_interrupted = FALSE;
 static GSList *curfile = NULL;
 static GSList *curline = NULL;
 
+static GHashTable *gel_bodyhash = NULL;
+
 /*from lexer.l*/
 int my_yyinput(void);
 
@@ -1876,6 +1878,20 @@ compile_funcs_in_dict (FILE *outfile, GSList *dict, gboolean is_extra_dict)
 			body = g_strdup (func->id->uncompiled);
 			g_assert (body != NULL);
 		}
+		if ( ! is_extra_dict) {
+			GelToken *at;
+			if (NULL != (at = g_hash_table_lookup (gel_bodyhash, body))) {
+				g_free (body);
+				body = g_strdup_printf ("t;%s", at->token);
+			/* only do this if it makes sense */
+			} else if (strlen (body) > strlen(func->id->token) + 2) {
+
+				g_hash_table_insert (gel_bodyhash,
+						     g_strdup(body),
+						     func->id);
+			}
+		}
+
 		if (func->type == GEL_USER_FUNC) {
 			fprintf (outfile,
 				 "%c;%d;%s;%s;n%d;v%d;p%d;o%d;l%d;e%d;b%d",
@@ -1938,36 +1954,31 @@ compile_funcs_in_dict (FILE *outfile, GSList *dict, gboolean is_extra_dict)
 
 		help = gel_get_help (func->id->token, FALSE /* insert */);
 		if (help != NULL && help->aliasfor != NULL) {
-			fprintf (outfile, "A;%s;%s\n",
-				 help->aliasfor,
-				 func->id->token);
+			fprintf (outfile, "A;%s\n",
+				 help->aliasfor);
 		} else if (help != NULL) {
 			if (help->category != NULL)
-				fprintf (outfile, "C;%s;%s\n",
-					 func->id->token,
+				fprintf (outfile, "C;%s\n",
 					 help->category);
 			if (help->description != NULL) {
 				char *s = gel_encode_string (help->description);
-				fprintf (outfile, "D;%s;%s\n",
-					 func->id->token, s);
+				fprintf (outfile, "D;%s\n", s);
 				g_free (s);
 			}
 			if (help->help_link != NULL) {
 				char *s = gel_encode_string (help->help_link);
-				fprintf (outfile, "L;%s;%s\n",
-					 func->id->token, s);
+				fprintf (outfile, "L;%s\n", s);
 				g_free (s);
 			}
 			/* FIXME: This may be too demanding */
 			if (help->help_html != NULL) {
 				char *s = gel_encode_string (help->help_html);
-				fprintf (outfile, "H;%s;%s\n",
-					 func->id->token, s);
+				fprintf (outfile, "H;%s\n", s);
 				g_free (s);
 			}
 		}
 		if (func->id->protected_)
-			fprintf (outfile,"P;%s\n",func->id->token);
+			fprintf (outfile,"P\n");
 	}
 }
 
@@ -1980,8 +1991,13 @@ gel_compile_all_user_funcs (FILE *outfile)
 	if (funcs == NULL)
 		return;
 	funcs = g_slist_reverse (g_slist_copy (funcs));
+	gel_bodyhash = g_hash_table_new_full (g_str_hash,
+					      g_str_equal,
+					      g_free, NULL);
 	compile_funcs_in_dict (outfile, funcs, FALSE /* is_extra_dict */);
 	g_slist_free (funcs);
+	g_hash_table_destroy (gel_bodyhash);
+	gel_bodyhash = NULL;
 }
 
 /* FIXME: function reading is almost identical to that for FUNCTION_NODEs
@@ -1993,6 +2009,8 @@ load_compiled_fp (const char *file, FILE *fp)
 	int buf_size = 4096;
 	gboolean break_on_next = FALSE;
 	GelEFunc *last_func = NULL;
+	char *cur_id = NULL;
+	GelToken *cur_tok = NULL;
 
 	buf = g_new (char, buf_size);
 
@@ -2060,37 +2078,36 @@ load_compiled_fp (const char *file, FILE *fp)
 			continue;
 		} else if (*p == 'A') {
 			char *d;
-			p = strtok_r (NULL,";", &ptrptr);
-			if G_UNLIKELY (!p) {
-				gel_errorout (_("Badly formed record"));
+			if G_UNLIKELY (cur_id == NULL) {
+				gel_errorout (_("Record out of place"));
 				continue;
 			}
+
 			d = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!d) {
 				gel_errorout (_("Badly formed record"));
 				continue;
 			}
-			gel_add_alias(p,d);
+			gel_add_alias (d, cur_id);
 			continue;
 		} else if (*p == 'C') {
 			char *d;
-			p = strtok_r (NULL,";", &ptrptr);
-			if G_UNLIKELY (!p) {
-				gel_errorout (_("Badly formed record"));
+			if G_UNLIKELY (cur_id == NULL) {
+				gel_errorout (_("Record out of place"));
 				continue;
 			}
+
 			d = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!d) {
 				gel_errorout (_("Badly formed record"));
 				continue;
 			}
-			gel_add_category(p,d);
+			gel_add_category (cur_id, d);
 			continue;
 		} else if (*p == 'D') {
 			char *d, *h;
-			p = strtok_r (NULL,";", &ptrptr);
-			if G_UNLIKELY (!p) {
-				gel_errorout (_("Badly formed record"));
+			if G_UNLIKELY (cur_id == NULL) {
+				gel_errorout (_("Record out of place"));
 				continue;
 			}
 			d = strtok_r (NULL,";", &ptrptr);
@@ -2099,30 +2116,29 @@ load_compiled_fp (const char *file, FILE *fp)
 				continue;
 			}
 			h = gel_decode_string (d);
-			gel_add_description (p, h);
+			gel_add_description (cur_id, h);
 			g_free (h);
 			continue;
 		} else if (*p == 'L') {
 			char *d, *h;
-			p = strtok_r (NULL,";", &ptrptr);
-			if G_UNLIKELY (!p) {
-				gel_errorout (_("Badly formed record"));
+			if G_UNLIKELY (cur_id == NULL) {
+				gel_errorout (_("Record out of place"));
 				continue;
 			}
+
 			d = strtok_r (NULL,";", &ptrptr);
 			if G_UNLIKELY (!d) {
 				gel_errorout (_("Badly formed record"));
 				continue;
 			}
 			h = gel_decode_string (d);
-			gel_add_help_link (p, h);
+			gel_add_help_link (cur_id, h);
 			g_free (h);
 			continue;
 		} else if (*p == 'H') {
 			char *d, *h;
-			p = strtok_r (NULL,";", &ptrptr);
-			if G_UNLIKELY (!p) {
-				gel_errorout (_("Badly formed record"));
+			if G_UNLIKELY (cur_id == NULL) {
+				gel_errorout (_("Record out of place"));
 				continue;
 			}
 			d = strtok_r (NULL,";", &ptrptr);
@@ -2131,18 +2147,15 @@ load_compiled_fp (const char *file, FILE *fp)
 				continue;
 			}
 			h = gel_decode_string (d);
-			gel_add_help_html (p, h);
+			gel_add_help_html (cur_id, h);
 			g_free (h);
 			continue;
 		} else if (*p == 'P') {
-			GelToken *tok;
-			p = strtok_r (NULL,";", &ptrptr);
-			if G_UNLIKELY (!p) {
-				gel_errorout (_("Badly formed record"));
+			if G_UNLIKELY (cur_id == NULL) {
+				gel_errorout (_("Record out of place"));
 				continue;
 			}
-			tok = d_intern(p);
-			tok->protected_ = 1;
+			cur_tok->protected_ = 1;
 			continue;
 		} else if G_UNLIKELY (*p != 'F' && *p != 'V' && *p != 'f' && *p != 'v') {
 			gel_errorout (_("Badly formed record"));
@@ -2175,6 +2188,11 @@ load_compiled_fp (const char *file, FILE *fp)
 			continue;
 		}
 		tok = d_intern(p);
+		if ( ! extra_dict) {
+			g_free (cur_id);
+			cur_id = g_strdup (p);
+			cur_tok = tok;
+		}
 
 		if (type == GEL_USER_FUNC) {
 			/*symbolic_id*/
@@ -2348,10 +2366,26 @@ load_compiled_fp (const char *file, FILE *fp)
 		p=strchr(b2,'\n');
 		if(p) *p='\0';
 
+		if (b2[0] == 't') {
+			GelToken *at = d_intern (&(b2[2]));
+			if (at->uncompiled == NULL) {
+				gel_errorout (_("Missing value for function"));
+				g_slist_free(li);
+				goto continue_reading;
+			}
+			b2 = g_strdup (at->uncompiled);
+		}
+
 		if (extra_dict) {
 			GelEFunc *func;
+			GelETree *t = gel_decompile_tree (b2);
+			if (t == NULL) {
+				gel_errorout (_("Missing value for function"));
+				g_slist_free(li);
+				goto continue_reading;
+			}
 			if (type == GEL_USER_FUNC) {
-				func = d_makeufunc (tok, NULL, li, nargs, NULL);
+				func = d_makeufunc (tok, t, li, nargs, NULL);
 				func->vararg = vararg ? 1 : 0;
 				func->symbolic_id = symbolic_tok;
 				func->propagate_mod = propagate_mod ? 1 : 0;
@@ -2362,7 +2396,7 @@ load_compiled_fp (const char *file, FILE *fp)
 				func->subst_dict = subst_dict;
 				func->local_idents = local_idents;
 			} else /*GEL_VARIABLE_FUNC*/ {
-				func = d_makevfunc (tok, NULL);
+				func = d_makevfunc (tok, t);
 			}
 			func->context = -1;
 			if G_UNLIKELY (last_func == NULL)
@@ -2399,6 +2433,7 @@ continue_reading:
 	}
 	fclose(fp);
 	g_free (buf);
+	g_free (cur_id);
 }
 
 void

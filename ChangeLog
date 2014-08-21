@@ -1,3 +1,14 @@
+Thu Aug 21 14:11:31 2014  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/calc.c: Reduce redundancy in the compiled file, killing about
+	  27k from the compiled file and improving startup time by a few
+	  mili (or micro) seconds.
+
+	* src/calc.c: fix decompilation of extra_dict functions (fortunately,
+	  no such functions are used in the default library, their use in
+	  compiled files is untested, it is hard to see how they would
+	  ever end up in a reasonable way in a compiled file anyway)
+
 Wed Aug 20 18:56:35 2014  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/graphing.c: fix typo
