@@ -340,12 +340,14 @@ static void set_lineplot_labels (void);
 static void set_surface_labels (void);
 
 #define WIDTH 700
+/* FIXME: for long graphs #define WIDTH (2*700) */
 #define HEIGHT 500
 #define ASPECT ((double)HEIGHT/(double)WIDTH)
 
 #define PROPORTION 0.85
 #define PROPORTION3D 0.80
 #define PROPORTION_OFFSETX 0.1
+/* FIXME: for long graphs #define PROPORTION_OFFSETX 0.05 */
 #define PROPORTION_OFFSETY 0.075
 #define PROPORTION3D_OFFSET 0.12
 
