@@ -4530,7 +4530,11 @@ static int
 catch_interrupts (GtkWidget *w, GdkEvent *e)
 {
 	if (e->type == GDK_KEY_PRESS &&
+#ifndef GDK_KEY_c
+	    e->key.keyval == GDK_c &&
+#else
 	    e->key.keyval == GDK_KEY_c &&
+#endif
 	    e->key.state & GDK_CONTROL_MASK) {
 		genius_interrupt_calc ();
 		return TRUE;
