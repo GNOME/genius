@@ -393,7 +393,7 @@ type
 </screen>
 &app; keeps track of the current directory.
 To list files in the current directory type <command>ls</command>, to change directory
-do <userinput>cd directory</userinput> as in the unix command shell.
+do <userinput>cd directory</userinput> as in the UNIX command shell.
 </para>
     </sect1>
 
@@ -849,7 +849,7 @@ There is a special value called
 it, and nothing is printed when it is returned. Therefore,
 <constant>null</constant> is useful when you do not want output from an
 expression.  The value <constant>null</constant> can be obtained as an expression when you
-type <literal>.</literal>, the contant <constant>null</constant> or nothing.
+type <literal>.</literal>, the constant <constant>null</constant> or nothing.
 By nothing we mean that if you end an expression with
 a separator <literal>;</literal>, it is equivalent to ending it with a
 separator followed by a <constant>null</constant>.
@@ -1148,7 +1148,7 @@ the <literal>%</literal> operator, which simply gives the remainder, but
 that may be time consuming if not impossible when working with larger numbers.
 For example, <userinput>10^(10^10) % 6</userinput> will simply not work (the exponent
 will be too large), while
-<userinput>10^(10^10) mod 6</userinput> is instanteneous.  The first expression first tries to compute the integer
+<userinput>10^(10^10) mod 6</userinput> is instantaneous.  The first expression first tries to compute the integer
 <userinput>10^(10^10)</userinput> and then find remainder after division by 6, while the second expression evaluates
 everything modulo 6 to begin with.
       </para>
@@ -1347,7 +1347,7 @@ different from <literal>=</literal> because it never gets translated to a
          <listitem>
            <para>
 		   Element by element division.  Same as <userinput>a/b</userinput> for
-		   numbers, but operarates element by element on matrices.
+		   numbers, but operates element by element on matrices.
            </para>
          </listitem>
         </varlistentry>
@@ -1595,7 +1595,7 @@ different from <literal>=</literal> because it never gets translated to a
          <term><userinput>-a</userinput></term>
          <listitem>
            <para>
-             Negation operator.  Returns the negative of a number or a matrix (works elementwise on a matrix).
+             Negation operator.  Returns the negative of a number or a matrix (works element-wise on a matrix).
            </para>
          </listitem>
         </varlistentry>
@@ -1749,7 +1749,7 @@ different from <literal>=</literal> because it never gets translated to a
 	     This check is done only from version 1.0.18 onwards, so execution
 	     of your code may differ on older versions.  If you want to avoid
 	     dealing with this issue, use actual rational numbers, possibly
-	     useing the <function>float</function> if you wish to get floating
+	     using the <function>float</function> if you wish to get floating
 	     point numbers in the end.  For example
 	     <userinput>1:2/5:3</userinput> does the right thing and
 	     <userinput>float(1:2/5:3)</userinput> even gives you floating
@@ -2109,7 +2109,7 @@ function f() = (a:=5);
 f();
 </programlisting>
 	  Sometimes, however, it is necessary to set
-a global variable from inside a function.  When this behaviour is needed,
+a global variable from inside a function.  When this behavior is needed,
 use the
 <link linkend="gel-function-set"><function>set</function></link> function. Passing a string or a quoted identifier to
 this function sets the variable globally (on the top level).
@@ -2175,7 +2175,7 @@ or:
 	  a parameter.
         </para>
         <para>
-	  Some parameters are built-in and modify the behaviour of genius.
+	  Some parameters are built-in and modify the behavior of genius.
         </para>
       </sect1>
 
@@ -2288,7 +2288,7 @@ a@(1,1) := 5
 a@(4:8,3) := [1,2,3,4,5]'
 </programlisting>
 Note that both <literal>:=</literal> and <literal>=</literal> can be used
-interchangably.  Except if the assignment appears in a condition.
+interchangeably.  Except if the assignment appears in a condition.
 It is thus always safer to just use
 <literal>:=</literal> when you mean assignment, and <literal>==</literal>
 when you mean comparison.
@@ -2326,7 +2326,7 @@ could use the following code.
     <sect1 id="genius-gel-toplevel-syntax">
       <title>Toplevel Syntax</title>
       <para>
-	The synatax is slightly different if you enter statements on
+	The syntax is slightly different if you enter statements on
 	the top level versus when they are inside parentheses or
 	inside functions.  On the top level, enter acts the same as if
 	you press return on the command line.  Therefore think of programs
@@ -2512,12 +2512,12 @@ f(r,1)
 </programlisting>
 	Then the code will work as expected and prints out 11.
 	Note that the <command>local</command> statement initializes
-	all the refereced variables (except for function arguments) to
+	all the referenced variables (except for function arguments) to
 	a <constant>null</constant>.
       </para>
       <para>
 	If all variables are to be created as locals you can just pass an
-	asterix instead of a list of variables.  In this case the variables
+	asterisk instead of a list of variables.  In this case the variables
 	will not be initialized until they are actually set of course.
 	So the following definition of <function>f</function>
 	will also work:
@@ -2550,11 +2550,11 @@ first compile it with <command>genius --compile loader.gel &gt; lib.cgel</comman
     <sect1 id="genius-gel-loading-programs">
       <title>Loading Programs</title>
       <para>
-Sometimes you have a larger program you wrote into a file and want to read that file into &app;. In these situations, you have two options. You can keep the functions you use most inside the <filename>~/.geniusinit</filename> file. Or if you want to load up a file in a middle of a session (or from within another file), you can type <command>load &lt;list of filenames&gt;</command> at the prompt. This has to be done on the top level and not inside any function or whatnot, and it cannot be part of any expression. It also has a slightly different syntax than the rest of genius, more similiar to a shell. You can enter the file in quotes. If you use the '' quotes, you will get exactly the string that you typed, if you use the "" quotes, special characters will be unescaped as they are for strings. Example:
+Sometimes you have a larger program you wrote into a file and want to read that file into &app;. In these situations, you have two options. You can keep the functions you use most inside the <filename>~/.geniusinit</filename> file. Or if you want to load up a file in a middle of a session (or from within another file), you can type <command>load &lt;list of filenames&gt;</command> at the prompt. This has to be done on the top level and not inside any function or whatnot, and it cannot be part of any expression. It also has a slightly different syntax than the rest of genius, more similar to a shell. You can enter the file in quotes. If you use the '' quotes, you will get exactly the string that you typed, if you use the "" quotes, special characters will be unescaped as they are for strings. Example:
 <programlisting>load program1.gel program2.gel
 load "Weird File Name With SPACES.gel"
 </programlisting>
-There are also <command>cd</command>, <command>pwd</command> and <command>ls</command> commands built in. <command>cd</command> will take one argument, <command>ls</command> will take an argument that is like the glob in the unix shell (i.e., you can use wildcards). <command>pwd</command> takes no arguments. For example:
+There are also <command>cd</command>, <command>pwd</command> and <command>ls</command> commands built in. <command>cd</command> will take one argument, <command>ls</command> will take an argument that is like the glob in the UNIX shell (i.e., you can use wildcards). <command>pwd</command> takes no arguments. For example:
 <programlisting>cd directory_with_gel_programs
 ls *.gel
 </programlisting>
@@ -2568,14 +2568,14 @@ ls *.gel
     <title>Matrices in GEL</title>
 
     <para>
-      Genius has support for vectors and matrices and posesses a sizable library of
+      Genius has support for vectors and matrices and possesses a sizable library of
       matrix manipulation and linear algebra functions.
     </para>
 
     <sect1 id="genius-gel-matrix-support">
       <title>Entering Matrices</title>
       <para>
-To enter matrixes, you can use one of the following two syntaxes. You can either enter
+To enter matrices, you can use one of the following two syntaxes. You can either enter
 the matrix on one line, separating values by commas and rows by semicolons.  Or you
 can enter each row on one line, separating
 values by commas.
@@ -2593,7 +2593,7 @@ Do not use both ';' and return at once on the same line though.
       </para>
 
       <para>
-You can also use the matrix expansion functionality to enter matricies.
+You can also use the matrix expansion functionality to enter matrices.
 For example you can do:
 <programlisting>a = [ 1, 2, 3
       4, 5, 6
@@ -2607,7 +2607,7 @@ and you should get
  7,   8,  9, 10
  11, 11, 11, 12]
 </programlisting>
-similiarly you can build matricies out of vectors and other stuff like that.
+similarly you can build matrices out of vectors and other stuff like that.
       </para>
 
       <para>
@@ -2861,7 +2861,7 @@ To get help on a specific function from the console type:
          <term><anchor id="gel-command-load"/>load</term>
          <listitem>
           <synopsis>load "file.gel"</synopsis>
-          <para>Load a file into the interpretor.  The file will execute
+          <para>Load a file into the interpreter.  The file will execute
 as if it were typed onto the command line.</para>
          </listitem>
         </varlistentry>
@@ -3708,7 +3708,7 @@ slopefield plot.  (See <link linkend="gel-function-SlopefieldPlot"><function>Slo
           <synopsis>SurfacePlotVariableNames = ["x","y","z"]</synopsis>
           <para>Tells genius which variable names are used as default names for <link linkend="genius-gel-function-list-plotting">surface plotting
 	  functions</link> using <link linkend="gel-function-SurfacePlot"><function>SurfacePlot</function></link>.
-          Note that the <varname>z</varname> does not refer to the dependent (vertical) axis, but to the indepent complex variable
+          Note that the <varname>z</varname> does not refer to the dependent (vertical) axis, but to the independent complex variable
           <userinput>z=x+iy</userinput>.
           </para>
 	  <para>Version 1.0.10 onwards.</para>
@@ -5041,7 +5041,7 @@ If <varname>q</varname> is not prime results are bogus.</para>
           <synopsis>MillerRabinTestSure (n)</synopsis>
           <para>
 	    Use the Miller-Rabin primality test on <varname>n</varname> with
-	    enough bases that assuming the Generalized Reimann Hypothesis the
+	    enough bases that assuming the Generalized Riemann Hypothesis the
 	    result is deterministic.
 	  </para>
           <para>
@@ -5127,7 +5127,7 @@ If <varname>q</varname> is not prime results are bogus.</para>
           <para>
 	    Compute <userinput>a^b mod m</userinput>.  The
 	    <varname>b</varname>'s power of <varname>a</varname> modulo
-	    <varname>m</varname>.  It is not neccessary to use this function
+	    <varname>m</varname>.  It is not necessary to use this function
 	    as it is automatically used in modulo mode.  Hence
 	    <userinput>a^b mod m</userinput> is just as fast.
           </para>
@@ -5806,7 +5806,7 @@ superdiagonal being all ones.  It is the Jordan block matrix of one zero eigenva
           <para>
 	    See
 	    <ulink url="http://planetmath.org/encyclopedia/JordanCanonicalFormTheorem.html">Planetmath</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/JordanBlock.html">Mathworld</ulink> for more information on Jordan Cannonical Form.
+	    <ulink url="http://mathworld.wolfram.com/JordanBlock.html">Mathworld</ulink> for more information on Jordan Canonical Form.
           </para>
          </listitem>
         </varlistentry>
@@ -8650,7 +8650,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    as 4-vector, type of arrow, or the legend.  (Arrow and window are from version 1.0.6 onwards.)
     	  </para>
     	  <para>
-	    The color should be either a string indicating the common english word for the color
+	    The color should be either a string indicating the common English word for the color
 	    that GTK will recognize such as 
             <userinput>"red"</userinput>, <userinput>"blue"</userinput>, <userinput>"yellow"</userinput>, etc...
 	    Alternatively the color can be specified in RGB format as
@@ -8712,7 +8712,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    as 4-vector, or the legend.
     	  </para>
     	  <para>
-	    The color should be either a string indicating the common english word for the color
+	    The color should be either a string indicating the common English word for the color
 	    that GTK will recognize such as 
             <userinput>"red"</userinput>, <userinput>"blue"</userinput>, <userinput>"yellow"</userinput>, etc...
 	    Alternatively the color can be specified in RGB format as
@@ -8825,7 +8825,7 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
           <para>
 		  Thaw the plot canvas frozen by
 		  <link linkend="gel-function-PlotCanvasFreeze"><function>PlotCanvasFreeze</function></link>
-		  and rewdraw the canvas immediately.  The canvas is also always thawed after end of execution
+		  and redraw the canvas immediately.  The canvas is also always thawed after end of execution
 		  of any program.
           </para>
 	  <para>Version 1.0.18 onwards.</para>
@@ -8932,7 +8932,7 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 		  Plot a surface from data.  The data is an n by 3 matrix whose
 		  rows are the x, y and z coordinates.  The data can also be
 		  simply a vector whose length is a multiple of 3 and so
-		  contains the tripples of x, y, z.  The data should contain at
+		  contains the triples of x, y, z.  The data should contain at
 		  least 3 points.
 	  </para>
           <para>
@@ -9241,7 +9241,7 @@ As an example, you can set the maximum number of digits in a result to 12 by typ
       </term> 
 	  <listitem>
 	  <para>How to chop output.  But only when other numbers nearby are large.
-	   See the documentation of the paramter
+	   See the documentation of the parameter
           <link linkend="gel-function-OutputChopExponent"><function>OutputChopExponent</function></link>. </para>
 	  </listitem>
 	</varlistentry>
@@ -9251,8 +9251,8 @@ As an example, you can set the maximum number of digits in a result to 12 by typ
             <guilabel>Only chop numbers when another number is greater than 10^-x</guilabel>
       </term> 
 	  <listitem>
-		  <para>When to chop output.  This is set by the paramter <link linkend="gel-function-OutputChopWhenExponent"><function>OutputChopWhenExponent</function></link>.
-	   See the documentation of the paramter
+		  <para>When to chop output.  This is set by the parameter <link linkend="gel-function-OutputChopWhenExponent"><function>OutputChopWhenExponent</function></link>.
+	   See the documentation of the parameter
           <link linkend="gel-function-OutputChopExponent"><function>OutputChopExponent</function></link>. </para>
 	  </listitem>
 	</varlistentry>
@@ -9487,10 +9487,12 @@ type="http">Genius Web page</ulink>.
       COPYING included with the source code of this program. </para>
 
     <para>Ji&#345;&#237; Lebl was during various parts of the development
-      partially supported for the work by NSF grant DMS 0900885, 
+      partially supported for the work by NSF grants DMS 0900885, 
+      DMS 1362337,
       the University of Illinois at Urbana-Champaign,
-      the University of California at San Diego, and
-      the University of Wisconsin-Madison.  The software has
+      the University of California at San Diego, 
+      the University of Wisconsin-Madison, and
+      Oklahoma State University.  The software has
       been used for both teaching and research.</para>
 
   </chapter>
