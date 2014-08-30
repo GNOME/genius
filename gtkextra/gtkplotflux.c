@@ -502,18 +502,25 @@ gtk_plot_flux_draw_symbol(GtkPlotData *dataset,
                             &x1, &y1, &z1);
   }else{
        if(plot->clip_data && 
-          (x < plot->xmin || x > plot->xmax || y <plot->ymin || y > plot->ymax))
+          (x < plot->xmin || x > plot->xmax || y < plot->ymin || y > plot->ymax))
             return;
 
        xm = sqrt(dx * dx + dy * dy);
        factor = xm / flux->scale_max;
        size = factor * flux->size_max;
-       x2 = size * dx / xm;    
-       y2 = size * dy / xm;    
-  
+
        gtk_plot_get_pixel(plot, x, y, &x1, &y1);
 
-       gtk_plot_flux_draw_arrow (flux, x1, y1, x1+x2*m, y1-y2*m);
+       if (xm > 0.0) {
+	       x2 = size * dx / xm;    
+	       y2 = size * dy / xm;    
+
+	       /* check for NaN */
+	       if (x2 == x2 && y2 == y2)
+		       gtk_plot_flux_draw_arrow (flux, x1, y1, x1+x2*m, y1-y2*m);
+       }
+  
+
        gtk_plot_data_draw_symbol(dataset, x1, y1);
   }
 
@@ -681,6 +688,9 @@ gtk_plot_flux_draw_arrow(GtkPlotFlux *flux, gdouble x1, gdouble y1, gdouble x2, 
   width = fabs(x2 - x1);
   height = fabs(y2 - y1);
 
+  /* This is a nan */
+  if (width != width || height != height) return;
+
   if(width == 0 && height == 0) return;
   if(width != 0)
       angle = atan2((y2 - y1), (x2 - x1));
@@ -688,7 +698,7 @@ gtk_plot_flux_draw_arrow(GtkPlotFlux *flux, gdouble x1, gdouble y1, gdouble x2, 
       angle = asin((y2 - y1)/height);
 
   length = (y2 - y1)*(y2 - y1) + (x2 - x1)*(x2 - x1);
-  if(length > 0.0) length = sqrt(length);
+  if (length > 0.0) length = sqrt(length);
 
   arrow_width = flux->arrow_width;
   line_width = data->symbol.border.line_width;
