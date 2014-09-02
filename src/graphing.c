@@ -24,6 +24,7 @@
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
+#include <glib.h>
 #include <math.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -710,6 +711,45 @@ rotate_cb (GtkWidget *item, gpointer data)
 
 	gtk_dialog_run (GTK_DIALOG (req));
 	gtk_widget_destroy (req);
+}
+
+static int anim_timeout_id = 0;
+
+static gboolean
+anim_timeout (gpointer data)
+{
+	if (surface_plot == NULL || plot_canvas == NULL) {
+		anim_timeout_id = 0;
+		return FALSE;
+	}
+
+	gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 360-2);
+
+	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+	gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+
+	/*while (gtk_events_pending ())
+		gtk_main_iteration ();*/
+
+	return TRUE;
+}
+
+static void
+start_rotate_anim_cb (GtkWidget *item, gpointer data)
+{
+	if (anim_timeout_id == 0) {
+		anim_timeout_id = g_timeout_add_full (G_PRIORITY_LOW,
+						      100, anim_timeout, NULL, NULL);
+	}
+}
+
+static void
+stop_rotate_anim_cb (GtkWidget *item, gpointer data)
+{
+	if (anim_timeout_id != 0) {
+		g_source_remove (anim_timeout_id);
+		anim_timeout_id = 0;
+	}
 }
 
 static void
@@ -2218,6 +2258,16 @@ ensure_window (gboolean do_window_present)
 			  G_CALLBACK (rotate_cb), NULL);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
+	item = gtk_menu_item_new_with_mnemonic (_("Start rotate _animation..."));
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (start_rotate_anim_cb), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	item = gtk_menu_item_new_with_mnemonic (_("Stop rotate a_nimation..."));
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (stop_rotate_anim_cb), NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
 	/*
 	 * Solver menu
 	 */
@@ -2550,14 +2600,19 @@ surface_setup_steps (void)
 {
 	gtk_plot3d_set_xrange (GTK_PLOT3D (surface_plot), surfacex1, surfacex2);
 	gtk_plot3d_set_yrange (GTK_PLOT3D (surface_plot), surfacey1, surfacey2);
-	gtk_plot_surface_set_xstep (GTK_PLOT_SURFACE (surface_data), (surfacex2-surfacex1)/30);
-	gtk_plot_surface_set_ystep (GTK_PLOT_SURFACE (surface_data), (surfacey2-surfacey1)/30);
+	if (surface_data != NULL) {
+		gtk_plot_surface_set_xstep (GTK_PLOT_SURFACE (surface_data), (surfacex2-surfacex1)/30);
+		gtk_plot_surface_set_ystep (GTK_PLOT_SURFACE (surface_data), (surfacey2-surfacey1)/30);
+	}
 }
 
 static void
 surface_setup_gradient (void)
 {
 	double min, max, absminmax;
+
+	if (surface_data == NULL)
+		return;
 
 	min = MAX(surfacez1, plot_minz);
 	max = MIN(surfacez2, plot_maxz);
@@ -2614,7 +2669,8 @@ plot_axis (void)
 		plot_minz = G_MAXDOUBLE/2;
 		surface_setup_axis ();
 		surface_setup_steps ();
-		gtk_plot_surface_build_mesh (GTK_PLOT_SURFACE (surface_data));
+		if (surface_data != NULL)
+			gtk_plot_surface_build_mesh (GTK_PLOT_SURFACE (surface_data));
 		surface_setup_gradient ();
 		/* FIXME: this doesn't work (crashes) must fix in GtkExtra, then
 		   we can always just autoscale stuff
@@ -3819,6 +3875,48 @@ draw_surface_line (double *x, double *y, double *z,
 					   GDK_CAP_ROUND, 
 					   GDK_JOIN_ROUND,
 					   thickness, color);
+
+	gtk_widget_show (GTK_WIDGET (data));
+
+	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+	gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+
+	return data;
+}
+
+static GtkPlotData *
+draw_surface_points (double *x, double *y, double *z,
+		     int len, int thickness, GdkColor *color, char *legend)
+{
+	GtkPlotData *data;
+
+	data = GTK_PLOT_DATA (gtk_plot_data_new ());
+	gtk_plot_data_set_x (data, x);
+	gtk_plot_data_set_y (data, y);
+	gtk_plot_data_set_z (data, z);
+	gtk_plot_data_set_numpoints (data, len);
+	g_object_set_data_full (G_OBJECT (data),
+				"x", x, (GDestroyNotify)g_free);
+	g_object_set_data_full (G_OBJECT (data),
+				"y", y, (GDestroyNotify)g_free);
+	g_object_set_data_full (G_OBJECT (data),
+				"z", z, (GDestroyNotify)g_free);
+	gtk_plot_add_data (GTK_PLOT (surface_plot), data);
+	if (legend == NULL)
+		gtk_plot_data_hide_legend (data);
+	else
+		gtk_plot_data_set_legend (data,
+					  legend);
+
+	color_alloc (color); 
+
+	gtk_plot_data_set_line_attributes (data,
+					   GTK_PLOT_LINE_SOLID,
+					   GDK_CAP_ROUND, 
+					   GDK_JOIN_ROUND,
+					   thickness, color);
+
+	gtk_plot_data_set_connector (data, GTK_PLOT_CONNECT_NONE);
 
 	gtk_widget_show (GTK_WIDGET (data));
 
@@ -8259,6 +8357,48 @@ update_lineplot_window (double x1, double x2, double y1, double y2)
 	return TRUE;
 }
 
+static gboolean
+update_surfaceplot_window (double x1, double x2, double y1, double y2, double z1, double z2)
+{
+	gboolean update = FALSE;
+
+	if G_UNLIKELY (x1 > x2) {
+		double s = x1;
+		x1 = x2;
+		x2 = s;
+	}
+
+	if G_UNLIKELY (y1 > y2) {
+		double s = y1;
+		y1 = y2;
+		y2 = s;
+	}
+
+	if G_UNLIKELY (z1 > z2) {
+		double s = z1;
+		z1 = z2;
+		z2 = s;
+	}
+
+
+	if (surfacex1 != x1 ||
+	    surfacex2 != x2 ||
+	    surfacey1 != y1 ||
+	    surfacey2 != y2 ||
+	    surfacez1 != z1 ||
+	    surfacez2 != z2)
+		update = TRUE;
+
+	reset_surfacex1 = surfacex1 = surf_defx1 = x1;
+	reset_surfacex2 = surfacex2 = surf_defx2 = x2;
+	reset_surfacey1 = surfacey1 = surf_defy1 = y1;
+	reset_surfacey2 = surfacey2 = surf_defy2 = y2;
+	reset_surfacez1 = surfacez1 = surf_defz1 = z1;
+	reset_surfacez2 = surfacez2 = surf_defz2 = z2;
+
+	return update;
+}
+
 
 static gboolean
 get_line_numbers (GelETree *a, double **x, double **y, int *len,
@@ -9080,26 +9220,26 @@ SurfacePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 		return gel_makenum_null ();
 	} else if (a[0]->type == GEL_MATRIX_NODE) {
 		if G_UNLIKELY ( ! get_surface_line_numbers (a[0], &x, &y, &z, &len,
-						    &minx, &maxx,
-						    &miny, &maxy,
-						    &minz, &maxz,
-						    "SurfacePlotDrawLine",
-						    2))
+							    &minx, &maxx,
+							    &miny, &maxy,
+							    &minz, &maxz,
+							    "SurfacePlotDrawLine",
+							    2))
 			return NULL;
 		nextarg = 1;
 	} else {
 		double x1, y1, x2, y2, z1, z2;
-		if G_UNLIKELY (gel_count_arguments (a) < 4) {
+		if G_UNLIKELY (gel_count_arguments (a) < 6) {
 			gel_errorout (_("%s: Wrong number of arguments"),
-				      "LinePlotDrawLine");
+				      "SurfacePlotDrawLine");
 			return NULL;
 		}
-		GET_DOUBLE(x1, 0, "LinePlotDrawLine");
-		GET_DOUBLE(y1, 1, "LinePlotDrawLine");
-		GET_DOUBLE(z1, 2, "LinePlotDrawLine");
-		GET_DOUBLE(x2, 3, "LinePlotDrawLine");
-		GET_DOUBLE(y2, 4, "LinePlotDrawLine");
-		GET_DOUBLE(z2, 5, "LinePlotDrawLine");
+		GET_DOUBLE(x1, 0, "SurfacePlotDrawLine");
+		GET_DOUBLE(y1, 1, "SurfacePlotDrawLine");
+		GET_DOUBLE(z1, 2, "SurfacePlotDrawLine");
+		GET_DOUBLE(x2, 3, "SurfacePlotDrawLine");
+		GET_DOUBLE(y2, 4, "SurfacePlotDrawLine");
+		GET_DOUBLE(z2, 5, "SurfacePlotDrawLine");
 		len = 2;
 		x = g_new (double, 2);
 		x[0] = x1;
@@ -9220,12 +9360,9 @@ SurfacePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 						z2 += height * 0.05;
 					}
 
-					/* FIXME SURFACELINE */
-					update = update_lineplot_window (x1, x2, y1, y2);
-					/* FIXME SURFACELINE */
-				} else if (get_limits_from_matrix (a[i+1], &x1, &x2, &y1, &y2)) {
-					/* FIXME SURFACELINE */
-					update = update_lineplot_window (x1, x2, y1, y2);
+					update = update_surfaceplot_window (x1, x2, y1, y2, z1, z2);
+				} else if (get_limits_from_matrix_surf (a[i+1], &x1, &x2, &y1, &y2, &z1, &z2)) {
+					update = update_surfaceplot_window (x1, x2, y1, y2, z1, z2);
 				} else {
 					g_free (legend);
 					g_free (x);
@@ -9280,16 +9417,250 @@ SurfacePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	if (plot_mode != MODE_SURFACE) {
 		plot_mode = MODE_SURFACE;
-		clear_graph ();
+		plot_surface_functions (TRUE /* do_window_present */,
+					surfaceplot_fit_dependent_axis_cb /*fit*/);
 		update = FALSE;
 
 	}
 
-	if (surface_plot == NULL)
-		add_surface_plot ();
-
-
 	draw_surface_line (x, y, z, len, thickness, &color, legend);
+
+	if (update && surface_plot != NULL) {
+		plot_axis ();
+	}
+
+	g_free (legend);
+
+	return gel_makenum_null ();
+}
+
+static GelETree *
+SurfacePlotDrawPoints_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	int len;
+	int nextarg;
+	double *x, *y, *z;
+	double minx = 0, miny = 0, maxx = 0, maxy = 0, minz = 0, maxz = 0;
+	GdkColor color;
+	int thickness;
+	int i;
+	gboolean update = FALSE;
+	char *legend = NULL;
+
+	if G_UNLIKELY (plot_in_progress != 0) {
+		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
+			      "SurfacePlotDrawPoints", "SurfacePlotDrawPoints");
+		return NULL;
+	}
+
+	ensure_window (FALSE /* do_window_present */);
+
+	if (a[0]->type == GEL_NULL_NODE) {
+		return gel_makenum_null ();
+	} else if (a[0]->type == GEL_MATRIX_NODE) {
+		if G_UNLIKELY ( ! get_surface_line_numbers (a[0], &x, &y, &z, &len,
+							    &minx, &maxx,
+							    &miny, &maxy,
+							    &minz, &maxz,
+							    "SurfacePlotDrawPoints",
+							    1))
+			return NULL;
+		nextarg = 1;
+	} else {
+		double x1, y1, z1;
+		if G_UNLIKELY (gel_count_arguments (a) < 3) {
+			gel_errorout (_("%s: Wrong number of arguments"),
+				      "SurfacePlotDrawSurface");
+			return NULL;
+		}
+		GET_DOUBLE(x1, 0, "SurfacePlotDrawPoints");
+		GET_DOUBLE(y1, 1, "SurfacePlotDrawPoints");
+		GET_DOUBLE(z1, 2, "SurfacePlotDrawPoints");
+		len = 1;
+		x = g_new (double, 1);
+		x[0] = x1;
+		y = g_new (double, 1);
+		y[0] = y1;
+		z = g_new (double, 1);
+		z[0] = z1;
+		nextarg = 6;
+
+		minx = x1;
+		maxx = x1;
+		miny = y1;
+		maxy = y1;
+		minz = z1;
+		maxz = z1;
+	}
+
+	gdk_color_parse ("black", &color);
+	thickness = 2;
+
+	for (i = nextarg; a[i] != NULL; i++) {
+		if G_LIKELY (a[i]->type == GEL_STRING_NODE ||
+			     a[i]->type == GEL_IDENTIFIER_NODE) {
+			GelToken *id;
+			static GelToken *colorid = NULL;
+			static GelToken *thicknessid = NULL;
+			static GelToken *windowid = NULL;
+			static GelToken *fitid = NULL;
+			static GelToken *legendid = NULL;
+
+			if (colorid == NULL) {
+				colorid = d_intern ("color");
+				thicknessid = d_intern ("thickness");
+				windowid = d_intern ("window");
+				fitid = d_intern ("fit");
+				legendid = d_intern ("legend");
+			}
+
+			if (a[i]->type == GEL_STRING_NODE)
+				id = d_intern (a[i]->str.str);
+			else
+				id = a[i]->id.id;
+			if (id == colorid) {
+			        if G_UNLIKELY ( ! get_color (a[i+1], &color, "SurfacePlotDrawPoints")) {
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					g_free (z);
+					return NULL;
+				}
+				i++;
+			} else if (id == thicknessid) {
+				if G_UNLIKELY (a[i+1] == NULL)  {
+					gel_errorout (_("%s: No thickness specified"),
+						      "SurfacePlotDrawPoints");
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					g_free (z);
+					return NULL;
+				}
+				if G_UNLIKELY ( ! check_argument_positive_integer (a, i+1,
+										   "SurfacePlotDrawPoints")) {
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					g_free (z);
+					return NULL;
+				}
+				thickness = gel_get_nonnegative_integer (a[i+1]->val.value,
+									 "SurfacePlotDrawPoints");
+				i++;
+			} else if (id == windowid) {
+				double x1, x2, y1, y2, z1, z2;
+				if G_UNLIKELY (a[i+1] == NULL ||
+					       (a[i+1]->type != GEL_STRING_NODE &&
+						a[i+1]->type != GEL_IDENTIFIER_NODE &&
+						a[i+1]->type != GEL_MATRIX_NODE)) {
+					gel_errorout (_("%s: No window specified"),
+						      "SurfacePlotDrawPoints");
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					g_free (z);
+					return NULL;
+				}
+				if ((a[i+1]->type == GEL_STRING_NODE &&
+				     fitid == d_intern (a[i+1]->str.str)) ||
+				    (a[i+1]->type == GEL_IDENTIFIER_NODE &&
+				     fitid == a[i+1]->id.id)) {
+					x1 = minx;
+					x2 = maxx;
+					y1 = miny;
+					y2 = maxy;
+					z1 = minz;
+					z2 = maxz;
+					if G_UNLIKELY (x1 == x2) {
+						x1 -= 0.1;
+						x2 += 0.1;
+					}
+					if G_UNLIKELY (y1 == y2) {
+						y1 -= 0.1;
+						y2 += 0.1;
+					}
+
+					/* assume line is a graph so x fits tightly */
+
+					if G_UNLIKELY (z1 == z2) {
+						z1 -= 0.1;
+						z2 += 0.1;
+					} else {
+						/* Make window 5% larger on each vertical side */
+						double height = (z2-z1);
+						z1 -= height * 0.05;
+						z2 += height * 0.05;
+					}
+
+					update = update_surfaceplot_window (x1, x2, y1, y2, z1, z2);
+				} else if (get_limits_from_matrix_surf (a[i+1], &x1, &x2, &y1, &y2, &z1, &z2)) {
+					update = update_surfaceplot_window (x1, x2, y1, y2, z1, z2);
+				} else {
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					g_free (z);
+					return NULL;
+				}
+				i++;
+			} else if (id == legendid) {
+				if G_UNLIKELY (a[i+1] == NULL)  {
+					gel_errorout (_("%s: No legend specified"),
+						      "SurfacePlotDrawPoints");
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					g_free (z);
+					return NULL;
+				}
+				if (a[i+1]->type == GEL_STRING_NODE) {
+					g_free (legend);
+					legend = g_strdup (a[i+1]->str.str);
+				} else if (a[i+1]->type == GEL_IDENTIFIER_NODE) {
+					g_free (legend);
+					legend = g_strdup (a[i+1]->id.id->token);
+				} else {
+					gel_errorout (_("%s: Legend must be a string"),
+						      "SurfacePlotDrawPoints");
+					g_free (legend);
+					g_free (x);
+					g_free (y);
+					g_free (z);
+					return NULL;
+				}
+				i++;
+			} else {
+				gel_errorout (_("%s: Unknown style"), "SurfacePlotDrawPoints");
+				g_free (legend);
+				g_free (x);
+				g_free (y);
+				g_free (z);
+				return NULL;
+			}
+		} else {
+			gel_errorout (_("%s: Bad parameter"), "SurfacePlotDrawPoints");
+			g_free (legend);
+			g_free (x);
+			g_free (y);
+			g_free (z);
+			return NULL;
+		}
+	}
+
+	if (plot_mode != MODE_SURFACE) {
+		plot_mode = MODE_SURFACE;
+		plot_surface_functions (TRUE /* do_window_present */,
+					surfaceplot_fit_dependent_axis_cb /*fit*/);
+		update = FALSE;
+
+	}
+
+	draw_surface_points (x, y, z, len, thickness, &color, legend);
+
+	if (update && surface_plot != NULL) {
+		plot_axis ();
+	}
 
 	g_free (legend);
 
@@ -9855,6 +10226,8 @@ set_LinePlotWindow (GelETree * a)
 	return make_matrix_from_limits ();
 }
 
+
+
 static GelETree *
 get_LinePlotWindow (void)
 {
@@ -9865,7 +10238,6 @@ static GelETree *
 set_SurfacePlotWindow (GelETree * a)
 {
 	double x1, x2, y1, y2, z1, z2;
-	gboolean update = FALSE;
 
 	if G_UNLIKELY (plot_in_progress != 0) {
 		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
@@ -9876,42 +10248,10 @@ set_SurfacePlotWindow (GelETree * a)
 	if G_UNLIKELY ( ! get_limits_from_matrix_surf (a, &x1, &x2, &y1, &y2, &z1, &z2))
 		return NULL;
 
-	if G_UNLIKELY (x1 > x2) {
-		double s = x1;
-		x1 = x2;
-		x2 = s;
-	}
-
-	if G_UNLIKELY (y1 > y2) {
-		double s = y1;
-		y1 = y2;
-		y2 = s;
-	}
-
-	if G_UNLIKELY (z1 > z2) {
-		double s = z1;
-		z1 = z2;
-		z2 = s;
-	}
-
-
-	if (surfacex1 != x1 ||
-	    surfacex2 != x2 ||
-	    surfacey1 != y1 ||
-	    surfacey2 != y2 ||
-	    surfacez1 != z1 ||
-	    surfacez2 != z2)
-		update = TRUE;
-
-	reset_surfacex1 = surfacex1 = surf_defx1 = x1;
-	reset_surfacex2 = surfacex2 = surf_defx2 = x2;
-	reset_surfacey1 = surfacey1 = surf_defy1 = y1;
-	reset_surfacey2 = surfacey2 = surf_defy2 = y2;
-	reset_surfacez1 = surfacez1 = surf_defz1 = z1;
-	reset_surfacez2 = surfacez2 = surf_defz2 = z2;
-
-	if (update && surface_plot != NULL) {
-		plot_axis ();
+	if (update_surfaceplot_window (x1, x2, y1, y2, z1, z2)) {
+		if (surface_plot != NULL) {
+			plot_axis ();
+		}
 	}
 
 	return make_matrix_from_limits_surf ();
@@ -10314,8 +10654,8 @@ gel_add_graph_functions (void)
 
 	VFUNC (SurfacePlotData, 2, "data,args", "plotting", N_("Plot surface data given as n by 3 matrix (n>=3) of data with each row being x,y,z.  Optionally can pass a label string and limits.  If no limits passed, limits computed from data."));
 	VFUNC (SurfacePlotDataGrid, 3, "data,limits,label", "plotting", N_("Plot surface data given as a matrix (where rows are the x coordinate and columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or optionally [x1,x2,y1,y2,z1,z2], and optionally a string for the label."));
-	VFUNC (SurfacePlotDrawLine, 2, "x1,y1,z1,x2,y2,z2,args", "plotting", N_("Draw a line from x1,y1,z1 to x2,y2,z2.  x1,y1,z1,x2,y2,z2 can be replaced by a n by 3 matrix for a longer line"));
-	/*FIXME: points*/
+	VFUNC (SurfacePlotDrawLine, 2, "x1,y1,z1,x2,y2,z2,args", "plotting", N_("Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  x1,y1,z1,x2,y2,z2 can be replaced by a n by 3 matrix for a longer line"));
+	VFUNC (SurfacePlotDrawPoints, 2, "x,y,z,args", "plotting", N_("Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a n by 3 matrix for a longer line"));
 
 	FUNC (LinePlotClear, 0, "", "plotting", N_("Show the line plot window and clear out functions"));
 	VFUNC (LinePlotDrawLine, 2, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"));

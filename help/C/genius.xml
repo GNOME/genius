@@ -3,7 +3,7 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
   <!ENTITY app "<application>Genius Mathematics Tool</application>">
   <!ENTITY appname "Genius">
-  <!ENTITY appversion "1.0.18">
+  <!ENTITY appversion "1.0.19">
   <!ENTITY date "August 2014">
 
   <!ENTITY legal SYSTEM "legal.xml">
@@ -8920,6 +8920,17 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
         </varlistentry>
 
         <varlistentry>
+         <term><anchor id="gel-function-SurfacePlotClear"/>LinePlotClear</term>
+         <listitem>
+          <synopsis>SurfacePlotClear ()</synopsis>
+          <para>
+            Show the surface plot window and clear out functions and any other
+            lines that were drawn.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term><anchor id="gel-function-SurfacePlotData"/>SurfacePlotData</term>
          <listitem>
           <synopsis>SurfacePlotData (data)</synopsis>
@@ -8996,6 +9007,116 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 </screen>
           </para>
 	  <para>Version 1.0.16 onwards.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-SurfacePlotDrawLine"/>SurfacePlotDrawLine</term>
+         <listitem>
+          <synopsis>SurfacePlotDrawLine (x1,y1,z1,x2,y2,z2,...)</synopsis>
+          <synopsis>SurfacePlotDrawLine (v,...)</synopsis>
+          <para>
+	    Draw a line from <varname>x1</varname>,<varname>y1</varname>,<varname>z1</varname> to
+	    <varname>x2</varname>,<varname>y2</varname>,<varname>z2</varname>.
+	    <varname>x1</varname>,<varname>y1</varname>,<varname>z1</varname>,
+	    <varname>x2</varname>,<varname>y2</varname>,<varname>z2</varname> can be replaced by an
+	    <varname>n</varname> by 3 matrix for a longer polyline.
+          </para>
+          <para>
+	    Extra parameters can be added to specify line color, thickness,
+	    arrows, the plotting window, or legend.
+	    You can do this by adding an argument string <userinput>"color"</userinput>, 
+	    <userinput>"thickness"</userinput>,
+	    <userinput>"window"</userinput>,
+	    or <userinput>"legend"</userinput>, and after it specify
+	    the color, the thickness, the window
+	    as 6-vector, or the legend.
+    	  </para>
+    	  <para>
+	    The color should be either a string indicating the common English word for the color
+	    that GTK will recognize such as 
+            <userinput>"red"</userinput>, <userinput>"blue"</userinput>, <userinput>"yellow"</userinput>, etc...
+	    Alternatively the color can be specified in RGB format as
+	    <userinput>"#rgb"</userinput>, <userinput>"#rrggbb"</userinput>, or
+	    <userinput>"#rrrrggggbbbb"</userinput>, where the r, g, or b are hex digits of the red, green, and blue
+	    components of the color.  Finally, since version 1.0.18, the color
+	    can also be specified as a real vector specifying the red green and
+	    blue components where the components are between 0 and 1, e.g. <userinput>[1.0,0.5,0.1]</userinput>.
+    	  </para>
+    	  <para>
+	    The window should be given as usual as <userinput>[x1,x2,y1,y2,z1,z2]</userinput>, or
+	    alternatively can be given as a string
+	    <userinput>"fit"</userinput> in which case,
+	    the x range will be set precisely and the y range will be set with
+	    five percent borders around the line.
+    	  </para>
+    	  <para>
+	    Finally, legend should be a string that can be used as the legend in the
+	    graph.  That is, if legends are being printed.
+          </para>
+	  <para>
+	  Examples:
+          <screen><prompt>genius></prompt> <userinput>SurfacePlotDrawLine(0,0,0,1,1,1,"color","blue","thickness",3)</userinput>
+<prompt>genius></prompt> <userinput>SurfacePlotDrawLine([0,0,0;1,-1,2;-1,-1,-3])</userinput>
+</screen>
+          </para>
+	  <para>
+		  Available from version 1.0.19 onwards.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-SurfacePlotDrawPoints"/>SurfacePlotDrawPoints</term>
+         <listitem>
+          <synopsis>SurfacePlotDrawPoints (x,y,z,...)</synopsis>
+          <synopsis>SurfacePlotDrawPoints (v,...)</synopsis>
+          <para>
+		  Draw a point at <varname>x</varname>,<varname>y</varname>,<varname>z</varname>.
+		  The input can be an <varname>n</varname> by 3 matrix
+		  for <varname>n</varname> different points.  This function has essentially the same
+		  input as <link linkend="gel-function-SurfacePlotDrawLine">SurfacePlotDrawLine</link>.
+          </para>
+          <para>
+	    Extra parameters can be added to specify line color, thickness,
+	    the plotting window, or legend.
+	    You can do this by adding an argument string <userinput>"color"</userinput>, 
+	    <userinput>"thickness"</userinput>,
+	    <userinput>"window"</userinput>, 
+	    or <userinput>"legend"</userinput>, and after it specify
+	    the color, the thickness, the window
+	    as 6-vector, or the legend.
+    	  </para>
+    	  <para>
+	    The color should be either a string indicating the common English word for the color
+	    that GTK will recognize such as 
+            <userinput>"red"</userinput>, <userinput>"blue"</userinput>, <userinput>"yellow"</userinput>, etc...
+	    Alternatively the color can be specified in RGB format as
+	    <userinput>"#rgb"</userinput>, <userinput>"#rrggbb"</userinput>, or
+	    <userinput>"#rrrrggggbbbb"</userinput>, where the r, g, or b are hex digits of the red, green, and blue
+	    components of the color.  Finally the color can also be specified as a real vector specifying the red green
+	    and blue components where the components are between 0 and 1.
+    	  </para>
+    	  <para>
+	    The window should be given as usual as <userinput>[x1,x2,y1,y2,z1,z2]</userinput>, or
+	    alternatively can be given as a string
+	    <userinput>"fit"</userinput> in which case,
+	    the x range will be set precisely and the y range will be set with
+	    five percent borders around the line.
+    	  </para>
+    	  <para>
+	    Finally, legend should be a string that can be used as the legend in the
+	    graph.  That is, if legends are being printed.
+          </para>
+	  <para>
+	  Examples:
+          <screen><prompt>genius></prompt> <userinput>SurfacePlotDrawPoints(0,0,0,"color","blue","thickness",3)</userinput>
+<prompt>genius></prompt> <userinput>SurfacePlotDrawPoints([0,0,0;1,-1,2;-1,-1,1])</userinput>
+</screen>
+          </para>
+	  <para>
+		  Available from version 1.0.19 onwards.
+	  </para>
          </listitem>
         </varlistentry>
 
