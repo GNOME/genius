@@ -1,0 +1,31 @@
+# Category: Analysis
+# Name: Cantor's devil staircase function (approximation)
+
+function Ternary(x,n) = (
+    # only if x in [0,1)
+    out = null;
+    for k = 1 to n do (
+        x = x*3;
+        fx = floor (x);
+        x = FractionalPart (x);      
+        out = [out, fx]
+    )
+);
+
+# Cantor function, only really for x in [0,1]
+function Cantor(x) = (
+    if x >= 1 then return 1;
+    if x <= 0 then return 0;
+    # Number of steps, the higher the number the more precise the graph
+    n = 20;
+    t = Ternary(x,n);
+    N = n;
+    for k = 1 to n do (
+        if t@(k) == 1 then
+            (N = k; break)
+    );
+
+    1/(2^N) + sum k = 1 to (N-1) do (t@(k)/(2^(k+1)))
+);
+
+LinePlot(Cantor,[0,1]);
