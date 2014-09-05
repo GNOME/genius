@@ -15,7 +15,9 @@ tutor_DATA = \
 	standing-waves.gel \
 	strange-attractor.gel \
 	taylor-exp.gel \
-	taylor-sin.gel
+	taylor-sin.gel \
+	fourier-series-animation.gel \
+	fourier-series-half-sawtooth.gel
 
 EXTRA_DIST = \
 	$(tutor_DATA)
