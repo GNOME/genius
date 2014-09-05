@@ -1,0 +1,54 @@
+# Category: Differential Equations
+# Name: Characteristics and shocks for the traffic flow equation
+#
+# We are looking at characteristics (looking for shocks)
+# for the equation u_t + g(u) u_x = 0, with initial condition
+# u(x,0) = phi(x)
+
+# this is for flux u*(2-u)
+#function g(u) = 2-2*u;
+
+# Quadratic flow for flux u^2 / 2
+function g(u) = u;
+
+# ramp down
+function phi(x) = (
+  if x < 0 then 1
+  else if x < 1 then 1-x
+  else 0
+);
+
+# rampup
+#function phi(x) = (
+#  if x < 0 then 0
+#  else if x < 1 then x
+#  else 1
+#);
+
+
+# we'll have x going from
+xstart = -3;
+xend = 3;
+xstep = 0.1;
+# end at this t, start at 0
+tend = 1.5;
+
+LinePlotWindow = [xstart,xend,-0.1,tend+0.1];
+LinePlotDrawLegends = false;
+LinePlotClear();
+
+# color in [red,green,blue]
+# Color according to phi
+function the_color(x0) = [phi(x0), #red
+                          0.2, # green
+                          1.0-phi(x0)]; #blue
+
+# Color according to x0
+#function the_color(x0) = [(x0-xstart)/(xend-xstart), #red
+#                          0.2, # green
+#                          1.0-(x0-xstart)/(xend-xstart)]; #blue
+
+# Draw characteristics
+for x0=xstart to xend by xstep do (
+  LinePlotDrawLine([x0,0,x0+g(phi(x0))*tend,tend], "color", the_color (x0))
+)

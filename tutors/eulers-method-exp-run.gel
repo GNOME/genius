@@ -1,0 +1,20 @@
+# Category: Differential Equations
+# Name: Estimation of exp(4) using Euler's Method 
+
+# we will measure time it takes
+ct=CurrentTime;
+sp=(CurrentTime-ct);
+
+print("Estimation of e^4 with Euler's method");
+print("h is the step size we use");
+
+# Rounding to specific number of digits
+function ourround(num) = round(num*10000.0)/10000.0;
+function ourroundb(num) = round(num*100000000.0)/100000000.0;
+
+for k=1 to 21 do (
+  ct = CurrentTime;
+  eu = EulersMethod(`(x,y)=y,0,1,4,2^k);
+  ct2 = (CurrentTime-ct-sp);
+  print("h=2^"+(3-k)+" gets "+ourroundb(eu)+" (e^4=" + ourroundb(e^4) + ", error="+ourroundb(|eu-e^4|)+") .. in " + ourround(ct2) + " secs");
+);

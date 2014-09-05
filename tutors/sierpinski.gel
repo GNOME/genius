@@ -1,0 +1,29 @@
+# Category: Chaos
+# Name: Draw Sierpinski's triangle using the chaos game
+
+function dist(p1,p2) = sqrt((p1@(1)-p2@(1))^2+(p1@(2)-p2@(2))^2);
+
+p = [0,0;1,0;0.5,sqrt(3)/2];
+LinePlotClear();
+
+x=[0.5,0.5];
+LinePlotWindow = [-0.1,1.1,-0.1,sqrt(3)/2+0.1];
+points = null;
+for n=1 to 10000 do (
+  j=randint(3)+1;
+  x = 0.5*x + 0.5*p@(j,);
+  points = [points;x];
+  # Draw every 100 iterations 
+  if n%100 == 0 then (
+    # The Freeze and Thaw make the animation smoother, avoids flicker
+    PlotCanvasFreeze();
+    LinePlotClear();
+    LinePlotDrawPoints(points,"color","blue");
+    PlotCanvasThaw();
+  )
+);
+
+PlotCanvasFreeze();
+LinePlotClear();
+LinePlotDrawPoints(points,"color","blue");
+PlotCanvasThaw();

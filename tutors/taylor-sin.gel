@@ -1,0 +1,16 @@
+# Category: Calculus
+# Name: Taylor approximations of sine
+
+LinePlotWindow = [-5,5,-2,2];
+LinePlotDrawLegends=false;
+function c(n) = (
+  if IsEven(n) then
+    0
+  else
+    ((-1)^((n-1)/2))/(n!)
+);
+for M=0 to 12 do (
+  print("Taylor polynomial of degree = " + M);
+  LinePlot(`(x)=sin(x),`(x)=(sum n=0 to M do c(n)*(x^n)));
+  wait(1)
+); 

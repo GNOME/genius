@@ -1,0 +1,38 @@
+# Category: Calculus
+# Name: Newton's method for sqrt(2)
+#
+# Calculate some number of iterations of Newton's method for sqrt(2)
+
+# Try different functions here to try to get roots of.  Note that
+# if genius can't take derivative you can set the derivative function
+# df below.
+function f(x)=x^2-2;
+
+#initial guess
+c1 = 2;
+
+#iterations to run
+iters = 9;
+
+# how long to pause after each iteration
+thepause = 1;
+
+df = SymbolicDerivative(f);
+
+old_MaxDigits = MaxDigits;
+old_FloatPrecision = FloatPrecision;
+
+MaxDigits = 0;
+FloatPrecision = 192;
+
+c = c1;
+for n = 1 to iters do (
+  print("c("+n+") = ");
+  print(float(c));
+  nc = c-float(f(c)/df(c));
+  wait(thepause);
+  c = nc;
+);
+
+MaxDigits = old_MaxDigits;
+FloatPrecision = old_FloatPrecision;

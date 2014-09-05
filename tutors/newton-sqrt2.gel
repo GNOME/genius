@@ -1,0 +1,39 @@
+# Category: Calculus
+# Name: Newton's method graphically computing sqrt(2)
+
+function f(x)=x^2-2;
+c1 = 2;
+LinePlotWindow=[1,2.5,-3,4];
+
+df = SymbolicDerivative(f);
+
+LinePlotDrawLegends=false;
+LinePlotClear();
+
+LinePlot(f);
+LinePlotDrawLine(c1,-100,c1,100,"color","red","thickness",1);
+
+AskButtons("We're starting with an estimate at x=2","OK");
+
+LinePlot(f,`(x)=df(c1)*(x-c1)+f(c1));
+c2=c1-f(c1)/df(c1);
+LinePlotDrawLine(c1,-100,c1,100,"color","black","thickness",1);
+LinePlotDrawLine(c2,-100,c2,100,"color","red","thickness",1);
+AskButtons(float(c2)+" (real sqrt(2) is " + sqrt(2) + ")","OK");
+
+LinePlot(f,
+         `(x)=df(c2)*(x-c2)+f(c2));
+c3=c2-f(c2)/df(c2);
+LinePlotDrawLine(c1,-100,c1,100,"color","black","thickness",1);
+LinePlotDrawLine(c2,-100,c2,100,"color","black","thickness",1);
+LinePlotDrawLine(c3,-100,c3,100,"color","red","thickness",1);
+AskButtons(float(c3)+" (real sqrt(2) is " + sqrt(2) + ")","OK");
+
+LinePlot(f,
+         `(x)=df(c3)*(x-c3)+f(c3));
+c4=c3-f(c3)/df(c3);
+LinePlotDrawLine(c1,-100,c1,100,"color","black","thickness",1);
+LinePlotDrawLine(c2,-100,c2,100,"color","black","thickness",1);
+LinePlotDrawLine(c3,-100,c3,100,"color","black","thickness",1);
+LinePlotDrawLine(c4,-100,c4,100,"color","red","thickness",1);
+AskButtons(float(c4)+" (real sqrt(2) is " + sqrt(2) + ")","OK");

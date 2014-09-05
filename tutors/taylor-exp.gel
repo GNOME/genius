@@ -1,0 +1,10 @@
+# Category: Calculus
+# Name: Taylor approximations of the exponential
+
+LinePlotWindow = [-3,3,-1,10];
+LinePlotDrawLegends=false;
+for M=0 to 8 do (
+  print("Taylor polynomial of degree = " + M);
+  LinePlot(`(x)=e^x,`(x)=(sum n=0 to M do (1/(n!))*x^n));
+  wait(1)
+); 
