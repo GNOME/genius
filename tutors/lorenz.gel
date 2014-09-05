@@ -1,0 +1,37 @@
+# Category: Chaos
+# Name: Lorenz attractor
+#
+# We draw a trajectory of the Lorenz system to exhibit the chaotic behavior.
+# The trajectory will get close to the Lorenz attractor, so we can see how
+# it looks.
+
+
+# The Lorenz system (try playing around with the constants,
+# especially the 28)
+function lorenz(t,x) = [10*(x@(2)-x@(1)),
+					  x@(1)*(28-x@(3))-x@(2),
+					  x@(1)*x@(2)-(8/3)*x@(3)];
+
+# The [1,1,20] is an initial condition, try playing around with it,
+# the 15 is the time to follow a trajectory, 10000 is the number of
+# steps to do
+pt = RungeKuttaFull(lorenz,0,[1,1,20],15,10000);
+
+# Flatten the matrix so that rows are the [t,x@(1),x@(2),x@(3)]
+pt = ExpandMatrix (pt);
+
+SurfacePlotDrawLegends = false;
+# SurfacePlotDrawLine doesn't clear the 3D canvas, so we must do it
+# manually
+SurfacePlotClear ();
+# Note that we are picking out just the x coordinates
+SurfacePlotDrawLine (pt@(,2:4), "color", "blue", "window", "fit");
+
+
+#You could also draw perhaps the components of x against time in a line plot.
+# To do so, uncomment the following lines
+#LinePlotClear();
+#LinePlotWindow = [0,15,-25,50];
+#LinePlotDrawLine(pt@(,[1,2]),"color","blue","legend","x1");
+#LinePlotDrawLine(pt@(,[1,3]),"color","red","legend","x2");
+#LinePlotDrawLine(pt@(,[1,4]),"color","green","legend","x3");

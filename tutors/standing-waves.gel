@@ -1,0 +1,21 @@
+# Category: Differential Equations
+# Name: Standing Waves
+
+the_answer = AskButtons("Number of dimensions?", "2D", "3D");
+
+if the_answer == 1 then (
+    LinePlotDrawLegends = false;
+
+    for t=1 to 100 by 0.1 do (
+        LinePlot(`(x)=cos(t)*sin(x),[-5,5,-2,2]);
+        wait (0.05)
+    )
+) else if the_answer == 2 then (
+    SurfacePlotDrawLegends = false;
+
+    for t=1 to 100 by 0.1 do (
+        SurfacePlot(`(x,y)=cos(t)*sin(x-y),[-5,5,-2,2,-1,1])
+    )
+)
+
+

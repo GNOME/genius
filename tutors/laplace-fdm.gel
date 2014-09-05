@@ -1,0 +1,51 @@
+# Category: Differential Equations
+# Name: Laplace equation solution using Finite Difference Method
+
+points = 25;
+
+# zero initial guess
+u = zeros(points+1,points+1);
+
+# how about random initial guess
+#u = 2*rand(points+1,points+1)-ones(points+1,points+1);
+
+# initial guess of -1s, that's actually somewhat slow to converge
+#u = -ones(points+1,points+1);
+
+# The side conditions
+for n=1 to points+1 do
+  u@(n,1) = -sin(pi*(n-1)/points);
+for n=1 to points+1 do
+  u@(n,points+1) = sin(2*pi*(n-1)/points);
+for n=1 to points+1 do
+  u@(1,n) = 0.5*sin(pi*(n-1)/points);
+for n=1 to points+1 do
+  u@(points+1,n) = 0;
+
+# don't draw the legend
+SurfacePlotDrawLegends = false;
+
+# plot the data
+SurfacePlotDataGrid(u,[0,pi,0,pi]);
+# If you want to export the animation to a sequence of .png
+# images uncomment here and below
+#ExportPlot ("animation" + 0 + ".png");
+
+for n = 1 to 300 do (
+  wait (0.1);
+
+  maxch = 0;
+  for i=2 to points do (
+    for j=2 to points do (
+      old = u@(i,j); 
+      u@(i,j) = (1/4)*(u@(i-1,j)+u@(i+1,j)+u@(i,j-1)+u@(i,j+1));
+      if |u@(i,j)-old| >  maxch then
+        maxch = |u@(i,j)-old|
+    )
+  );
+  print("Maximum change: " + maxch + " (iteration " + n + ")");
+
+  # plot the data
+  SurfacePlotDataGrid(u,[0,pi,0,pi]);
+  #ExportPlot ("animation" + n + ".png");
+);
