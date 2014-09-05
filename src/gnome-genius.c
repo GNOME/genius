@@ -47,6 +47,7 @@
 #include "graphing.h"
 
 #include "plugin.h"
+#include "tutors.h"
 #include "inter.h"
 
 #include "binreloc.h"
@@ -255,13 +256,15 @@ static void actually_open_help (const char *id);
 
 static void fork_helper_setup_comm (void);
 
-static void new_program (const char *filename);
+static void new_program (const char *filename,
+			 gboolean tutor);
 
 static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File") },		/* name, stock id, label */
   { "EditMenu", NULL, N_("_Edit") },		/* name, stock id, label */
   { "CalculatorMenu", NULL, N_("_Calculator") },	/* name, stock id, label */
   { "PluginsMenu", NULL, N_("P_lugins") },	/* name, stock id, label */
+  { "TutorialsMenu", NULL, N_("_Tutorials") },	/* name, stock id, label */
   { "ProgramsMenu", NULL, N_("_Programs") },	/* name, stock id, label */
   { "SettingsMenu", NULL, N_("_Settings") },	/* name, stock id, label */
   { "HelpMenu", NULL, N_("_Help") },		/* name, stock id, label */
@@ -418,6 +421,12 @@ static GtkActionEntry entries[] = {
     "No Plugins", "",
     "No Plugins",
     NULL },
+  /* Kind of a placeholder for empty menu,
+   * FIXME: probably a bad hack */
+  { "NoTutorial", NULL,
+    "No Tutorials", "",
+    "No Tutorials",
+    NULL },
 };
 static guint n_entries = G_N_ELEMENTS (entries);
 
@@ -464,6 +473,9 @@ static const gchar *ui_info =
 "      <menuitem action='MonitorVariable'/>"
 "      <separator/>"
 "      <menuitem action='Plot'/>"
+"    </menu>"
+"    <menu action='TutorialsMenu'>"
+"      <menuitem action='NoTutorial'/>"
 "    </menu>"
 "    <menu action='PluginsMenu'>"
 "      <menuitem action='NoPlugin'/>"
@@ -554,7 +566,6 @@ simple_menu_item_select_cb (GtkMenuItem *item, gpointer data)
 	if (message) {
 		gtk_statusbar_push (GTK_STATUSBAR (genius_window_statusbar), 0 /* context */,
 				    message);
-		g_free (message);
 	}
 }
 
@@ -648,7 +659,7 @@ file_open_recent (GtkRecentChooser *chooser, gpointer data)
 
         uri = gtk_recent_info_get_uri (item);
 
-	new_program (uri);
+	new_program (uri, FALSE);
 
         gtk_recent_info_unref (item);
 }
@@ -3439,9 +3450,11 @@ file_is_writable (const char *fname)
 
 
 
+/* if tutor, filename is a filename and not a uri */
 static void
-new_program (const char *filename)
+new_program (const char *filename, gboolean tutor)
 {
+	char *contents;
 	static int cnt = 1;
 	GtkWidget *tv;
 	GtkWidget *sw;
@@ -3542,7 +3555,7 @@ new_program (const char *filename)
 				G_CALLBACK (move_cursor),
 				p);
 
-	if (filename == NULL) {
+	if (filename == NULL || tutor) {
 		GFile* file;
 		char *d = g_get_current_dir ();
 		char *n = g_strdup_printf (_("Program_%d.gel"), cnt);
@@ -3559,7 +3572,6 @@ new_program (const char *filename)
 		p->vname = g_strdup_printf (_("Program %d"), cnt);
 		cnt++;
 	} else {
-		char *contents;
 		recent_add (filename);
 		p->name = g_strdup (filename);
 		if (file_exists (filename)) { 
@@ -3569,31 +3581,40 @@ new_program (const char *filename)
 			p->readonly = FALSE;
 			contents = g_strdup ("");
 		}
-		if (contents != NULL &&
-		    g_utf8_validate (contents, -1, NULL)) {
-			GtkTextIter iter;
-#ifdef HAVE_GTKSOURCEVIEW
-			gtk_source_buffer_begin_not_undoable_action
-				(GTK_SOURCE_BUFFER (buffer));
-#endif
-			gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
-			gtk_text_buffer_insert_with_tags_by_name
-				(buffer, &iter, contents, -1, "foo", NULL);
-#ifdef HAVE_GTKSOURCEVIEW
-			gtk_source_buffer_end_not_undoable_action
-				(GTK_SOURCE_BUFFER (buffer));
-#endif
-			g_free (contents);
-		} else {
-			char *s = g_strdup_printf (_("Cannot open %s"), filename);
-			genius_display_error (NULL, s);
-			g_free (s);
-			if (contents != NULL)
-				g_free (contents);
-		}
 		p->vname = g_path_get_basename (p->name);
 		p->real_file = TRUE;
 	}
+
+	if (tutor && filename != NULL) {
+		contents = NULL;
+		g_file_get_contents (filename, &contents, NULL, NULL);
+	}
+
+	if (contents != NULL &&
+	    g_utf8_validate (contents, -1, NULL)) {
+		GtkTextIter iter;
+#ifdef HAVE_GTKSOURCEVIEW
+		gtk_source_buffer_begin_not_undoable_action
+			(GTK_SOURCE_BUFFER (buffer));
+#endif
+		gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
+		gtk_text_buffer_insert_with_tags_by_name
+			(buffer, &iter, contents, -1, "foo", NULL);
+#ifdef HAVE_GTKSOURCEVIEW
+		gtk_source_buffer_end_not_undoable_action
+			(GTK_SOURCE_BUFFER (buffer));
+#endif
+		g_free (contents);
+	} else {
+		if (filename != NULL && ! tutor) {
+			char *s = g_strdup_printf (_("Cannot open %s"), filename);
+			genius_display_error (NULL, s);
+			g_free (s);
+		}
+		if (contents != NULL)
+			g_free (contents);
+	}
+
 	/* the label will change after the set_current_page */
 	p->label = gtk_label_new (p->vname);
 	p->mlabel = gtk_label_new (p->vname);
@@ -3635,7 +3656,7 @@ new_program (const char *filename)
 static void
 new_callback (GtkWidget *menu_item, gpointer data)
 {
-	new_program (NULL);
+	new_program (NULL, FALSE);
 }
 
 static void
@@ -3658,7 +3679,7 @@ really_open_cb (GtkFileChooser *fs, int response, gpointer data)
 	g_free (last_dir);
 	last_dir = gtk_file_chooser_get_current_folder (fs);
 
-	new_program (s);
+	new_program (s, FALSE);
 
 	gtk_widget_destroy (GTK_WIDGET (fs));
 }
@@ -4543,6 +4564,12 @@ catch_interrupts (GtkWidget *w, GdkEvent *e)
 }
 
 static void
+open_tutor_cb (GtkWidget *w, GelTutorial * tut)
+{
+	new_program (tut->file, TRUE);
+}
+
+static void
 open_plugin_cb (GtkWidget *w, GelPlugin * plug)
 {
 	gel_open_plugin (plug);
@@ -4897,7 +4924,7 @@ loadup_files_from_cmdline (int argc, char *argv[])
 
 		g_object_unref (file);
 
-		new_program (uri);
+		new_program (uri, FALSE);
 		
 		g_free (uri);
 	}
@@ -4918,7 +4945,7 @@ drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	uris = gtk_selection_data_get_uris (selection_data);
 
 	for (uri = uris[i]; uri != NULL; i++, uri = uris[i]) {
-		new_program (uri);
+		new_program (uri, FALSE);
 	}
 	g_strfreev (uris);
 }
@@ -4965,6 +4992,7 @@ main (int argc, char *argv[])
 	GtkWidget *w;
 	char *file;
 	int plugin_count = 0;
+	int tutor_count = 0;
 	gboolean give_no_lib_error_after_init = FALSE;
 
 	arg0 = g_strdup (argv[0]); 
@@ -5138,11 +5166,52 @@ main (int argc, char *argv[])
 			  G_CALLBACK (update_term_geometry), NULL);
 
 	gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/PluginsMenu"));
+	gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/TutorialsMenu"));
 
 	/* Show the window now before going on with the
 	 * setup */
 	gtk_widget_show_now (genius_window);
 	check_events ();
+
+	gel_read_tutor_list ();
+
+	if (gel_tutor_list != NULL) {
+		GSList *li;
+		int i;
+		GtkWidget *menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/TutorialsMenu")));
+
+		for (i = 0, li = gel_tutor_list;
+		     li != NULL;
+		     li = li->next, i++) {
+			GtkWidget *item;
+			GelTutorial *tut = li->data;
+			char *s;
+
+			s = g_strconcat (tut->category, ": ", tut->name, NULL);
+			item = gtk_menu_item_new_with_label (s);
+			g_free (s);
+
+			g_signal_connect (item, "select",
+					  G_CALLBACK (simple_menu_item_select_cb), 
+					  tut->name);
+			g_signal_connect (item, "deselect",
+					  G_CALLBACK (simple_menu_item_deselect_cb), 
+					  tut->name);
+			gtk_widget_show (item);
+			g_signal_connect (G_OBJECT (item), "activate",
+					  G_CALLBACK (open_tutor_cb), tut);
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+			tutor_count ++;
+		}
+	}
+
+	/* if no tutorials, hide the menu */
+	if (tutor_count == 0) {
+		gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/TutorialsMenu"));
+	} else {
+		gtk_widget_show (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/TutorialsMenu"));
+		gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/TutorialsMenu/NoTutorial"));
+	}
 
 	gel_read_plugin_list ();
 

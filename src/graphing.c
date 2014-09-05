@@ -2291,6 +2291,10 @@ ensure_window (gboolean do_window_present)
 	gtk_widget_show_all (menubar);
 
 	plot_canvas = gtk_plot_canvas_new (WIDTH, HEIGHT, 1.0);
+	g_signal_connect (G_OBJECT (plot_canvas),
+			  "destroy",
+			  G_CALLBACK (gtk_widget_destroyed),
+			  &plot_canvas);
 	GTK_PLOT_CANVAS_UNSET_FLAGS (GTK_PLOT_CANVAS (plot_canvas),
 				     GTK_PLOT_CANVAS_DND_FLAGS);
 	g_signal_connect (G_OBJECT (plot_canvas), "select_region",

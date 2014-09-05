@@ -1,0 +1,57 @@
+# Category: Differential Equations
+# Name: Strange Attractor (Duffing's equation)
+#
+# Creates a strange attractor by strobing the forced Duffing
+# equation
+#
+
+# The Duffing equation (converted to an ODE system)
+# x_1' = x_2, x_2' = -0.05x_2 - x_1^3 + 7.5cos(t)
+#
+function duf(t,x) = [x@(2),-0.05*x@(2)-(x@(1))^3+7.5*cos(t)];
+
+# Strobe period
+strobe = 2*pi;
+
+# Initial time
+t = 0.0;
+
+# Steps to use in RungeKutta for each strobe
+steps = 25;
+
+# Number of points to compute
+ptnum = 5000;
+
+#initial position
+x = [0.0,0.0];
+
+LinePlotDrawLegends = false;
+
+points = null;
+
+k = 1;
+for j=1 to ptnum do (
+  x = RungeKutta(duf,t,x,t+strobe,steps);
+  t = t+strobe;
+
+  # only plot points from the 100th on
+  if (j > 100) then (
+    points@(k,) = x;
+    increment k;
+
+    # every 500 point display intermediate picture
+    if j % 500 == 0 then (
+      DisplayVariables(`j);
+      PlotCanvasFreeze ();
+      LinePlotClear ();
+      LinePlotDrawPoints (points, "color", "blue", "window", "fit");
+      PlotCanvasThaw ();
+    )
+  )
+);
+
+# Display final picture
+PlotCanvasFreeze ();
+LinePlotClear ();
+LinePlotDrawPoints (points, "color", "blue", "window", "fit");
+PlotCanvasThaw ();

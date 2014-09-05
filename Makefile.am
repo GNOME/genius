@@ -1,4 +1,4 @@
-SUBDIRS = ve gtkextra src pixmaps lib po help
+SUBDIRS = ve gtkextra src pixmaps tutors lib po help
 
 mimeinfodir = $(datadir)/mime-info
 mimeinfo_DATA = genius.keys genius.mime
