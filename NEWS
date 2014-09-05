@@ -1,3 +1,17 @@
+Changes to 1.0.19
+
+* New menu: Tutorials.  These are annotated programs that show some
+  mathematical concept.  Generally taken from the classes I have been teaching.
+  They are installed under prefix/share/genius/tutors/ and are mostly using
+  graphics so only work in the graphical GNOME/GTK version
+* New 3D graphing functions, SurfacePlotDrawLine, SurfacePlotDrawPoints,
+  SurfacePlotClear
+* New rotation animation in the surface plot window
+* A few fixes
+
+* During making of these changes the author (Jiri) was partially supported by
+  NSF grant DMS 1362337 and the Oklahoma State University
+
 Changes to 1.0.18
 
 * New general functions: KroneckerProduct (alias TensorProduct), NewtonsMethod,
@@ -6,7 +20,7 @@ Changes to 1.0.18
 * New plotting functions: PlotCanvasFreeze/PlotCanvasThaw to improve flicker
   if doing animations with genius, and LinePlotDrawPoints function to draw just
   points without the line
-* While plotting errors are no longer forced into a dialog, and presence
+* While plotting, errors are no longer forced into a dialog, and presence
   of errors is indicated in the graph window below the graph
 * Allow setting color in LinePlotDrawLine with RGB vector.
 * When the vector building notation is done with floats and the final
