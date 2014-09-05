@@ -155,6 +155,15 @@ read_tutors_from_dir (const char *dir_name)
 	closedir (dir);
 }
 
+static int
+compare_tutors (GelTutorial *a, GelTutorial *b)
+{
+	int s = strcmp (a->category, b->category);
+	if (s != 0)
+		return s;
+	return strcmp (a->name, b->name);
+}
+
 void
 gel_read_tutor_list (void)
 {
@@ -178,5 +187,6 @@ gel_read_tutor_list (void)
 	g_free (dir_name);
 
 	/* FIXME: should do more */
-	gel_tutor_list = g_slist_reverse (gel_tutor_list);
+	gel_tutor_list = g_slist_sort (gel_tutor_list,
+				       compare_tutors);
 }
