@@ -17,7 +17,9 @@ example_DATA = \
 	taylor-exp.gel \
 	taylor-sin.gel \
 	fourier-series-animation.gel \
-	fourier-series-half-sawtooth.gel
+	fourier-series-half-sawtooth.gel \
+	rsa.gel \
+	easy-matrix-examples.gel
 
 EXTRA_DIST = \
 	$(example_DATA)

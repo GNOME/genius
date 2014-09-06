@@ -1,0 +1,59 @@
+# Category: Linear Algebra
+# Name: Finding simple integer matrices (good classroom examples)
+
+#
+# Eigenvalues
+# -----------
+#
+# Find an integer matrix with given eigenvalues.
+#
+
+# Start with the eigenvalues
+D = diag(1,2,3);
+do (
+  # Find some eigenvectors
+  do (
+    E = randint(11,3,3) - 5*ones(3,3)
+  ) while det(E) == 0;
+  # Make the matrix
+  A = E*D*E^-1;
+) while not IsMatrixInteger(A);
+print("Integer matrix with given egeinvalues");
+# print A
+A
+
+#
+# Row reduction
+# -------------
+#
+# Integer matrix where the row reduced form is also
+# integer.  That is find a random 3 by 4 matrice with
+# reduced row echelon form (rref) with only integer entries.
+# The entries of the matrix are between -5 and 5.
+
+do (
+  B = randint (11,3,4) - 5*ones(3,4)
+) while not IsMatrixInteger(rref(B));
+print("Integer matrix with integer RREF form");
+# print B
+B
+# print rref(B)
+rref(B)
+
+#
+# Row reduction with free variables
+# ------------------------------------------
+#
+# Find a random 3 by 4 matrix with reduced row echelon
+# form (rref) with only integer entries, the entries of the matrix are between
+# -5 and 5.  Furthermore the rref form will have a zero row, so probably will
+# be a consistent system with some free variables.
+
+do (
+  C = randint (11,3,4) - 5*ones(3,4)
+) while not IsMatrixInteger(rref(C)) or CountZeroColumns(rref(C).') == 0;
+print("Integer matrix with integer RREF form that includes zero row");
+# print C
+C
+# print rref(C)
+rref(C)

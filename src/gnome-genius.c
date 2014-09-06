@@ -3454,7 +3454,7 @@ file_is_writable (const char *fname)
 static void
 new_program (const char *filename, gboolean example)
 {
-	char *contents;
+	char *contents = NULL;
 	static int cnt = 1;
 	GtkWidget *tv;
 	GtkWidget *sw;

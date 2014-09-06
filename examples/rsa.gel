@@ -1,0 +1,49 @@
+# Category: Number Theory
+# Name: RSA example
+
+#
+# This code is maybe more for reading through than for simply running,
+# you should read perhaps the Wikipedia page on RSA if you are not
+# familiar: http://en.wikipedia.org/wiki/RSA_(cryptosystem)
+#
+
+# We want to print the whole numbers, be careful about about other code
+# run after this, you should maybe set these back after you are done playing
+# around with number theory (by default they are false and 12 respectively)
+FullExpressions = true;
+MaxDigits = 0;
+
+# Find a random modulus of the form n=p*q, we are not testing how good
+# (strong) the key will b
+p = NextPrime (randint (2^256)+2^255);
+q = NextPrime (randint (2^256)+2^255);
+n = p*q;
+phi = (p-1)*(q-1);
+print("The modulus (n=p*q is the modulus):");
+DisplayVariables(`p,`q,`n,`phi);
+
+# 'e' is taken, so using ex for the encryption exponent
+do (
+  ex = randint(2^64)+3;
+) while gcd(ex,phi) != 1;
+
+# compute the decryption exponent
+d = ex^-1 mod phi;
+
+print("The exponents:");
+DisplayVariables(`ex,`d);
+
+print("(n,ex) will be the public key for encryption");
+print("(n,d) will be the private key for decryption");
+
+print ("The message:");
+m = randint(100000000);
+DisplayVariables(`m);
+
+c = m^ex mod n;
+print ("The encnrypted message:");
+DisplayVariables(`c);
+
+dm = c^d mod n;
+print ("The decrypted message (should be same as m):");
+DisplayVariables(`dm);
