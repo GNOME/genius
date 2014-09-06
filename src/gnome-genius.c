@@ -47,7 +47,7 @@
 #include "graphing.h"
 
 #include "plugin.h"
-#include "tutors.h"
+#include "examples.h"
 #include "inter.h"
 
 #include "binreloc.h"
@@ -257,14 +257,14 @@ static void actually_open_help (const char *id);
 static void fork_helper_setup_comm (void);
 
 static void new_program (const char *filename,
-			 gboolean tutor);
+			 gboolean example);
 
 static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File") },		/* name, stock id, label */
   { "EditMenu", NULL, N_("_Edit") },		/* name, stock id, label */
   { "CalculatorMenu", NULL, N_("_Calculator") },	/* name, stock id, label */
   { "PluginsMenu", NULL, N_("P_lugins") },	/* name, stock id, label */
-  { "TutorialsMenu", NULL, N_("_Tutorials") },	/* name, stock id, label */
+  { "ExamplesMenu", NULL, N_("E_xamples") },	/* name, stock id, label */
   { "ProgramsMenu", NULL, N_("_Programs") },	/* name, stock id, label */
   { "SettingsMenu", NULL, N_("_Settings") },	/* name, stock id, label */
   { "HelpMenu", NULL, N_("_Help") },		/* name, stock id, label */
@@ -423,9 +423,9 @@ static GtkActionEntry entries[] = {
     NULL },
   /* Kind of a placeholder for empty menu,
    * FIXME: probably a bad hack */
-  { "NoTutorial", NULL,
-    "No Tutorials", "",
-    "No Tutorials",
+  { "NoExample", NULL,
+    "No Examples", "",
+    "No Examples",
     NULL },
 };
 static guint n_entries = G_N_ELEMENTS (entries);
@@ -474,8 +474,8 @@ static const gchar *ui_info =
 "      <separator/>"
 "      <menuitem action='Plot'/>"
 "    </menu>"
-"    <menu action='TutorialsMenu'>"
-"      <menuitem action='NoTutorial'/>"
+"    <menu action='ExamplesMenu'>"
+"      <menuitem action='NoExample'/>"
 "    </menu>"
 "    <menu action='PluginsMenu'>"
 "      <menuitem action='NoPlugin'/>"
@@ -3450,9 +3450,9 @@ file_is_writable (const char *fname)
 
 
 
-/* if tutor, filename is a filename and not a uri */
+/* if example, filename is a filename and not a uri */
 static void
-new_program (const char *filename, gboolean tutor)
+new_program (const char *filename, gboolean example)
 {
 	char *contents;
 	static int cnt = 1;
@@ -3555,7 +3555,7 @@ new_program (const char *filename, gboolean tutor)
 				G_CALLBACK (move_cursor),
 				p);
 
-	if (filename == NULL || tutor) {
+	if (filename == NULL || example) {
 		GFile* file;
 		char *d = g_get_current_dir ();
 		char *n = g_strdup_printf (_("Program_%d.gel"), cnt);
@@ -3585,7 +3585,7 @@ new_program (const char *filename, gboolean tutor)
 		p->real_file = TRUE;
 	}
 
-	if (tutor && filename != NULL) {
+	if (example && filename != NULL) {
 		contents = NULL;
 		g_file_get_contents (filename, &contents, NULL, NULL);
 	}
@@ -3606,7 +3606,7 @@ new_program (const char *filename, gboolean tutor)
 #endif
 		g_free (contents);
 	} else {
-		if (filename != NULL && ! tutor) {
+		if (filename != NULL && ! example) {
 			char *s = g_strdup_printf (_("Cannot open %s"), filename);
 			genius_display_error (NULL, s);
 			g_free (s);
@@ -4564,9 +4564,9 @@ catch_interrupts (GtkWidget *w, GdkEvent *e)
 }
 
 static void
-open_tutor_cb (GtkWidget *w, GelTutorial * tut)
+open_example_cb (GtkWidget *w, GelExample * exam)
 {
-	new_program (tut->file, TRUE);
+	new_program (exam->file, TRUE);
 }
 
 static void
@@ -4992,7 +4992,7 @@ main (int argc, char *argv[])
 	GtkWidget *w;
 	char *file;
 	int plugin_count = 0;
-	int tutor_count = 0;
+	int example_count = 0;
 	gboolean give_no_lib_error_after_init = FALSE;
 
 	arg0 = g_strdup (argv[0]); 
@@ -5166,51 +5166,51 @@ main (int argc, char *argv[])
 			  G_CALLBACK (update_term_geometry), NULL);
 
 	gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/PluginsMenu"));
-	gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/TutorialsMenu"));
+	gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ExamplesMenu"));
 
 	/* Show the window now before going on with the
 	 * setup */
 	gtk_widget_show_now (genius_window);
 	check_events ();
 
-	gel_read_tutor_list ();
+	gel_read_example_list ();
 
-	if (gel_tutor_list != NULL) {
+	if (gel_example_list != NULL) {
 		GSList *li;
 		int i;
-		GtkWidget *menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/TutorialsMenu")));
+		GtkWidget *menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ExamplesMenu")));
 
-		for (i = 0, li = gel_tutor_list;
+		for (i = 0, li = gel_example_list;
 		     li != NULL;
 		     li = li->next, i++) {
 			GtkWidget *item;
-			GelTutorial *tut = li->data;
+			GelExample *exam = li->data;
 			char *s;
 
-			s = g_strconcat (tut->category, ": ", tut->name, NULL);
+			s = g_strconcat (exam->category, ": ", exam->name, NULL);
 			item = gtk_menu_item_new_with_label (s);
 			g_free (s);
 
 			g_signal_connect (item, "select",
 					  G_CALLBACK (simple_menu_item_select_cb), 
-					  tut->name);
+					  exam->name);
 			g_signal_connect (item, "deselect",
 					  G_CALLBACK (simple_menu_item_deselect_cb), 
-					  tut->name);
+					  exam->name);
 			gtk_widget_show (item);
 			g_signal_connect (G_OBJECT (item), "activate",
-					  G_CALLBACK (open_tutor_cb), tut);
+					  G_CALLBACK (open_example_cb), exam);
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-			tutor_count ++;
+			example_count ++;
 		}
 	}
 
-	/* if no tutorials, hide the menu */
-	if (tutor_count == 0) {
-		gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/TutorialsMenu"));
+	/* if no exampleials, hide the menu */
+	if (example_count == 0) {
+		gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ExamplesMenu"));
 	} else {
-		gtk_widget_show (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/TutorialsMenu"));
-		gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/TutorialsMenu/NoTutorial"));
+		gtk_widget_show (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ExamplesMenu"));
+		gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ExamplesMenu/NoExample"));
 	}
 
 	gel_read_plugin_list ();

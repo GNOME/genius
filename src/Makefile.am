@@ -75,8 +75,8 @@ gnome_genius_SOURCES = 	\
 	parseutil.c	\
 	inter.c		\
 	inter.h		\
-	tutors.c	\
-	tutors.h	\
+	examples.c	\
+	examples.h	\
 	plugin.c	\
 	plugin.h	\
 	plugread.c	\

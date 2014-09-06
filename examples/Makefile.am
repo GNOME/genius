@@ -1,6 +1,6 @@
-tutordir = \
-	$(datadir)/genius/tutors/
-tutor_DATA = \
+exampledir = \
+	$(datadir)/genius/examples/
+example_DATA = \
 	cantor.gel \
 	dalemb-pulse.gel \
 	eulers-method-exp-run.gel \
@@ -20,4 +20,4 @@ tutor_DATA = \
 	fourier-series-half-sawtooth.gel
 
 EXTRA_DIST = \
-	$(tutor_DATA)
+	$(example_DATA)

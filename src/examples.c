@@ -47,17 +47,17 @@
 
 #include "parse.h"
 
-#include "tutors.h"
+#include "examples.h"
 
 #include "binreloc.h"
 
-GSList *gel_tutor_list = NULL;
+GSList *gel_example_list = NULL;
 
 static GHashTable *opened = NULL;
 static GHashTable *info = NULL;
 
-static GelTutorial *
-gel_readtutor (const char *dir_name, const char *file_name)
+static GelExample *
+gel_readexample (const char *dir_name, const char *file_name)
 {
 	char *f = g_build_filename (ve_sure_string (dir_name),
 				    ve_sure_string (file_name), NULL);
@@ -66,7 +66,7 @@ gel_readtutor (const char *dir_name, const char *file_name)
 	char *name;
 	char *cat;
 	char *s;
-	GelTutorial *tut = NULL;
+	GelExample *exam = NULL;
 
 	fp = fopen (f, "r");
 
@@ -109,25 +109,25 @@ gel_readtutor (const char *dir_name, const char *file_name)
 
 	fclose (fp);
 
-	tut = g_new (GelTutorial, 1);
-	tut->category = cat;
-	tut->name = name;
-	tut->file = f;
+	exam = g_new (GelExample, 1);
+	exam->category = cat;
+	exam->name = name;
+	exam->file = f;
 
-	return tut;
+	return exam;
 }
 
 static void
-free_tutor(GelTutorial *tut)
+free_example(GelExample *exam)
 {
-	g_free (tut->category);
-	g_free (tut->name);
-	g_free (tut->file);
-	g_free (tut);
+	g_free (exam->category);
+	g_free (exam->name);
+	g_free (exam->file);
+	g_free (exam);
 }
 
 static void
-read_tutors_from_dir (const char *dir_name)
+read_examples_from_dir (const char *dir_name)
 {
 	DIR *dir;
 	struct dirent *dent;
@@ -138,7 +138,7 @@ read_tutors_from_dir (const char *dir_name)
 	}
 	while((dent = readdir (dir)) != NULL) {
 		char *p;
-		GelTutorial *tut;
+		GelExample *exam;
 		if(dent->d_name[0] == '.' &&
 		   (dent->d_name[1] == '\0' ||
 		    (dent->d_name[1] == '.' &&
@@ -147,16 +147,16 @@ read_tutors_from_dir (const char *dir_name)
 		p = strrchr(dent->d_name,'.');
 		if(!p || strcmp(p,".gel")!=0)
 			continue;
-		tut = gel_readtutor (dir_name, dent->d_name);
-		if (tut != NULL) {
-			gel_tutor_list = g_slist_prepend (gel_tutor_list, tut);
+		exam = gel_readexample (dir_name, dent->d_name);
+		if (exam != NULL) {
+			gel_example_list = g_slist_prepend (gel_example_list, exam);
 		}
 	}
 	closedir (dir);
 }
 
 static int
-compare_tutors (GelTutorial *a, GelTutorial *b)
+compare_examples (GelExample *a, GelExample *b)
 {
 	int s = strcmp (a->category, b->category);
 	if (s != 0)
@@ -165,28 +165,28 @@ compare_tutors (GelTutorial *a, GelTutorial *b)
 }
 
 void
-gel_read_tutor_list (void)
+gel_read_example_list (void)
 {
 	char *dir_name;
 	char *datadir;
 
 	/*free the previous list*/
-	g_slist_foreach (gel_tutor_list, (GFunc)free_tutor, NULL);
-	g_slist_free (gel_tutor_list);
-	gel_tutor_list = NULL;
+	g_slist_foreach (gel_example_list, (GFunc)free_example, NULL);
+	g_slist_free (gel_example_list);
+	gel_example_list = NULL;
 	
 	datadir = gbr_find_data_dir (DATADIR);
-	dir_name = g_build_filename (datadir, "genius", "tutors", NULL);
+	dir_name = g_build_filename (datadir, "genius", "examples", NULL);
 	g_free (datadir);
-	read_tutors_from_dir (dir_name);
+	read_examples_from_dir (dir_name);
 	g_free (dir_name);
 
 	dir_name = g_build_filename (g_get_home_dir (),
-				     ".genius", "tutors", NULL);
-	read_tutors_from_dir (dir_name);
+				     ".genius", "examples", NULL);
+	read_examples_from_dir (dir_name);
 	g_free (dir_name);
 
 	/* FIXME: should do more */
-	gel_tutor_list = g_slist_sort (gel_tutor_list,
-				       compare_tutors);
+	gel_example_list = g_slist_sort (gel_example_list,
+					 compare_examples);
 }

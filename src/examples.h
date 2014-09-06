@@ -19,16 +19,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TUTOR_H__
-#define TUTOR_H__
+#ifndef EXAMPLES_H__
+#define EXAMPLES_H__
 
-typedef struct _GelTutorial {
+typedef struct _GelExample {
 	char *category;
 	char *name;
 	char *file;
-} GelTutorial;
+} GelExample;
 
-void gel_read_tutor_list(void);
-extern GSList *gel_tutor_list;
+void gel_read_example_list(void);
+extern GSList *gel_example_list;
 
-#endif /* PLUGIN_H__ */
+#endif /* EXAMPLES_H__ */
