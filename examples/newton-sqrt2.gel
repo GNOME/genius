@@ -9,6 +9,8 @@ df = SymbolicDerivative(f);
 
 LinePlotDrawLegends=false;
 LinePlotClear();
+PlotWindowPresent(); # Make sure the window is raised
+
 
 LinePlot(f);
 LinePlotDrawLine(c1,-100,c1,100,"color","red","thickness",1);

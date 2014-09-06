@@ -8833,6 +8833,23 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
         </varlistentry>
 
         <varlistentry>
+         <term><anchor id="gel-function-PlotWindowPresent"/>PlotWindowPresent</term>
+         <listitem>
+          <synopsis>PlotWindowPresent ()</synopsis>
+          <para>
+		  Show and raise the plot window, creating it if necessary.
+		  Normally the window is created when one of the plotting
+		  functions is called, but it is not always raised if it
+		  happens to be below other windows.  So this function is
+		  good to call in scripts where the plot window might have 
+		  been created before, and by now hidden behind the console
+		  or other windows.
+          </para>
+	  <para>Version 1.0.19 onwards.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term><anchor id="gel-function-SlopefieldClearSolutions"/>SlopefieldClearSolutions</term>
          <listitem>
           <synopsis>SlopefieldClearSolutions ()</synopsis>

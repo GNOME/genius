@@ -21,6 +21,8 @@ function DoGraph(x) = (
   print("at x=" + x + "  error = |" + lf(x) + " - " + f(x) + "| = " + |lf(x)-f(x)|);
 );
 
+PlotWindowPresent(); # Make sure the window is raised
+
 for x=2 to 5 by 0.0222 do (
   DoGraph(x);
   wait(0.003)

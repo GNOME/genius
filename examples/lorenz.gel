@@ -24,6 +24,8 @@ SurfacePlotDrawLegends = false;
 # SurfacePlotDrawLine doesn't clear the 3D canvas, so we must do it
 # manually
 SurfacePlotClear ();
+PlotWindowPresent(); # Make sure the window is raised
+
 # Note that we are picking out just the x coordinates
 SurfacePlotDrawLine (pt@(,2:4), "color", "blue", "window", "fit");
 

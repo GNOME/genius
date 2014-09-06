@@ -9,6 +9,9 @@ function c(n) = (
   else
     ((-1)^((n-1)/2))/(n!)
 );
+
+PlotWindowPresent(); # Make sure the window is raised
+
 for M=0 to 12 do (
   print("Taylor polynomial of degree = " + M);
   LinePlot(`(x)=sin(x),`(x)=(sum n=0 to M do c(n)*(x^n)));

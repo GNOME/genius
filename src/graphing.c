@@ -8311,6 +8311,14 @@ PlotCanvasThaw_op (GelCtx *ctx, GelETree * * a, int *exception)
 	return gel_makenum_null ();
 }
 
+static GelETree *
+PlotWindowPresent_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	ensure_window (TRUE /* present */);
+
+	return gel_makenum_null ();
+}
+
 void
 gel_plot_canvas_thaw_completely (void)
 {
@@ -10667,6 +10675,7 @@ gel_add_graph_functions (void)
 
 	FUNC (PlotCanvasFreeze, 0, "", "plotting", N_("Freeze the plot canvas, that is, inhibit drawing"));
 	FUNC (PlotCanvasThaw, 0, "", "plotting", N_("Thaw the plot canvas and redraw the plot immediately"));
+	FUNC (PlotWindowPresent, 0, "", "plotting", N_("Raise the plot window, and if create the window if necessary"));
 
 
 	VFUNC (ExportPlot, 2, "filename,type", "plotting", N_("Export the current contents of the plot canvas to a file.  The file type is given by the string type, which can be \"png\", \"eps\", or \"ps\"."));

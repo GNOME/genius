@@ -29,6 +29,7 @@ function F(x) = (
 function yy(x) = (F(x-t) + F(x+t))/2;
 
 LinePlotDrawLegends = false;
+PlotWindowPresent(); # Make sure the window is raised
 
 for n=1 to 1000 do (
 	t = n*0.005;

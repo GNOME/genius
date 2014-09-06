@@ -8,6 +8,8 @@ LinePlotWindow=[-0.2,4,0,e^4+0.2];
 
 LinePlotDrawLegends=false;
 LinePlotClear();
+PlotWindowPresent(); # Make sure the window is raised
+
 LinePlotDrawPoints(0,1,"thickness",10,"color","red");
 
 AskButtons("The initial point (0,1)","Next");

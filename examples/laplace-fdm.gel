@@ -25,6 +25,8 @@ for n=1 to points+1 do
 # don't draw the legend
 SurfacePlotDrawLegends = false;
 
+PlotWindowPresent(); # Make sure the window is raised
+
 # plot the data
 SurfacePlotDataGrid(u,[0,pi,0,pi]);
 # If you want to export the animation to a sequence of .png

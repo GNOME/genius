@@ -28,4 +28,5 @@ function Cantor(x) = (
     1/(2^N) + sum k = 1 to (N-1) do (t@(k)/(2^(k+1)))
 );
 
+PlotWindowPresent(); # Make sure the window is raised
 LinePlot(Cantor,[0,1]);
