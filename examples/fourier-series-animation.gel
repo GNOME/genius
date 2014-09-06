@@ -19,8 +19,6 @@ function F(x) = (
 LinePlotWindow=[-pi*1.1,pi*1.1,-3,3];
 LinePlotDrawLegends=false;
 
-PlotWindowPresent(); # Make sure the window is raised
-
 # For faster animation, precompute,
 print("Precomputing Fourier Series...");
 hvals = [0.0:0.1:2.0,2.0:-0.1:0.0];
@@ -30,6 +28,8 @@ for n=1 to elements(hvals) do (
     fs@(n) = NumericalFourierSeriesFunction (F, pi, 10);
 );
 print("Done... Starting animation...");
+
+PlotWindowPresent(); # Make sure the window is raised
 
 for k = 1 to 3 do (
     for n = 1 to elements(hvals) do (
