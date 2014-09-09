@@ -8527,7 +8527,7 @@ get_surface_line_numbers (GelETree *a,
 
 	if G_UNLIKELY ( ! gel_is_matrix_value_only_real (m)) {
 		gel_errorout (_("%s: Points should be given as a real, n by 3 matrix "
-				"with columns for x and y, n>=%d"),
+				"with columns for x, y and z, n>=%d"),
 			      funcname, minn);
 		return FALSE;
 	}
@@ -10667,11 +10667,11 @@ gel_add_graph_functions (void)
 	VFUNC (SurfacePlotData, 2, "data,args", "plotting", N_("Plot surface data given as n by 3 matrix (n>=3) of data with each row being x,y,z.  Optionally can pass a label string and limits.  If no limits passed, limits computed from data."));
 	VFUNC (SurfacePlotDataGrid, 3, "data,limits,label", "plotting", N_("Plot surface data given as a matrix (where rows are the x coordinate and columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or optionally [x1,x2,y1,y2,z1,z2], and optionally a string for the label."));
 	VFUNC (SurfacePlotDrawLine, 2, "x1,y1,z1,x2,y2,z2,args", "plotting", N_("Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  x1,y1,z1,x2,y2,z2 can be replaced by a n by 3 matrix for a longer line"));
-	VFUNC (SurfacePlotDrawPoints, 2, "x,y,z,args", "plotting", N_("Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a n by 3 matrix for a longer line"));
+	VFUNC (SurfacePlotDrawPoints, 2, "x,y,z,args", "plotting", N_("Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a n by 3 matrix for more points."));
 
 	FUNC (LinePlotClear, 0, "", "plotting", N_("Show the line plot window and clear out functions"));
-	VFUNC (LinePlotDrawLine, 2, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line"));
-	VFUNC (LinePlotDrawPoints, 2, "x,y,args", "plotting", N_("Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points"));
+	VFUNC (LinePlotDrawLine, 2, "x1,y1,x2,y2,args", "plotting", N_("Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 matrix for a longer line."));
+	VFUNC (LinePlotDrawPoints, 2, "x,y,args", "plotting", N_("Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points."));
 
 	FUNC (PlotCanvasFreeze, 0, "", "plotting", N_("Freeze the plot canvas, that is, inhibit drawing"));
 	FUNC (PlotCanvasThaw, 0, "", "plotting", N_("Thaw the plot canvas and redraw the plot immediately"));
