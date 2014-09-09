@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=genius&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-09-06 02:20+0000\n"
-"PO-Revision-Date: 2014-09-09 12:15+0200\n"
+"POT-Creation-Date: 2014-09-09 15:09+0000\n"
+"PO-Revision-Date: 2014-09-09 17:23+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -4946,7 +4946,16 @@ msgstr ""
 "%s: Body by měly být dány reálnou maticí n krát 2 se sloupci pro x a y, kde "
 "n>=%d"
 
-#: ../src/graphing.c:8529 ../src/graphing.c:8592
+#: ../src/graphing.c:8529
+#, c-format
+msgid ""
+"%s: Points should be given as a real, n by 3 matrix with columns for x, y "
+"and z, n>=%d"
+msgstr ""
+"%s: Body by měly být dány reálnou maticí n krát 3 se sloupci pro x, y a z, "
+"kde n>=%d"
+
+#: ../src/graphing.c:8592
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 3 matrix with columns for x and "
@@ -5241,7 +5250,7 @@ msgstr ""
 #: ../src/graphing.c:10670
 msgid ""
 "Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a "
-"n by 3 matrix for a longer line"
+"n by 3 matrix for more points."
 msgstr ""
 "Vykreslit bod v x,y,z na povrchu ve 3D. Parametry x,y,z mohou být nahrazeny "
 "maticí n krát 3 pro více bodů"
@@ -5253,17 +5262,17 @@ msgstr "Zobrazit okno pro vykreslování čar a vymazat funkce"
 #: ../src/graphing.c:10673
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
-"matrix for a longer line"
+"matrix for a longer line."
 msgstr ""
-"Kreslit úsečku od x1,y1 do x2,y2. Parametry x1,y1,x2,y2 mohou být nahrazeny "
-"maticí n krát 2 pro delší čáru"
+"Kreslit úsečku od x1,y1 do x2,y2. Parametry x1, y1, x2, y2 mohou být "
+"nahrazeny maticí n krát 2 pro delší čáru."
 
 #: ../src/graphing.c:10674
 msgid ""
-"Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points"
+"Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points."
 msgstr ""
-"Vykreslit bod v x,y. Parametry x,y mohou být nahrazeny maticí n krát 2 pro "
-"více bodů"
+"Vykreslit bod v x,y. Parametry x a y mohou být nahrazeny maticí n krát 2 pro "
+"více bodů."
 
 #: ../src/graphing.c:10676
 msgid "Freeze the plot canvas, that is, inhibit drawing"
