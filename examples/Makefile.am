@@ -19,7 +19,8 @@ example_DATA = \
 	fourier-series-animation.gel \
 	fourier-series-half-sawtooth.gel \
 	rsa.gel \
-	easy-matrix-examples.gel
+	easy-matrix-examples.gel \
+	peano.gel
 
 EXTRA_DIST = \
 	$(example_DATA)
