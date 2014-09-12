@@ -1,0 +1,31 @@
+# Category: Calculus
+# Name: Peano surface (using polar coordinates)
+#
+# The Peano surface drawn using polar coordinates.
+#
+# z = (y-x^2)(2x^2-y)
+#
+# The function giving the surface has a maximum on every line through the origin,
+# but the origin is not an extremum of the function.  Note that second derivative
+# test fails on the line y=0, even though along that line the function still has
+# a maximum.  While the function has a maximum along every line, it has a minimum
+# along a curve y=ax^2 for any 1 < a < 2.
+#
+# The properties of the function can be easily seen from the factorization and seeing
+# the regions where each factor is positive or negative.
+
+data = null;
+for r=0 to 0.25 by 0.02 do (
+  for theta=0 to 2*pi by pi/15 do (
+    x = r*cos(theta);
+    y = r*sin(theta);
+    data = [data;[x,y,3*x^2*y-y^2-2*x^4]]
+  )
+);
+
+SurfacePlotDrawLegends = false; # don't draw the legend
+PlotWindowPresent(); # Make sure the window is raised
+
+# Plot the data
+SurfacePlotData(data);
+
