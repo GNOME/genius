@@ -5171,50 +5171,33 @@ main (int argc, char *argv[])
 	/* Show the window now before going on with the
 	 * setup */
 	gtk_widget_show_now (genius_window);
+
+	gel_output_printf (gel_main_out,
+			   _("%sGenius %s%s\n"
+			     "%s\n"
+			     "This is free software with ABSOLUTELY NO WARRANTY.\n"
+			     "For license details type `%swarranty%s'.\n"
+			     "For help type `%smanual%s' or `%shelp%s'.%s\n\n"),
+			   "\e[0;32m" /* green */,
+			   "\e[0m" /* white on black */,
+			   VERSION,
+			   _(GENIUS_COPYRIGHT_STRING),
+			   "\e[01;36m" /* cyan */,
+			   "\e[0m" /* white on black */,
+			   "\e[01;36m" /* cyan */,
+			   "\e[0m" /* white on black */,
+			   "\e[01;36m" /* cyan */,
+			   "\e[0m" /* white on black */,
+			   get_version_details ());
+	gel_output_flush (gel_main_out);
 	check_events ();
 
-	gel_read_example_list ();
+	gel_set_new_calcstate (curstate);
+	gel_set_new_errorout (geniuserror);
+	gel_set_new_infoout (geniusinfo);
 
-	if (gel_example_list != NULL) {
-		GSList *li;
-		int i;
-		GtkWidget *menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ExamplesMenu")));
-
-		for (i = 0, li = gel_example_list;
-		     li != NULL;
-		     li = li->next, i++) {
-			GtkWidget *item;
-			GelExample *exam = li->data;
-			char *s;
-
-			s = g_strconcat (exam->category, ": ", exam->name, NULL);
-			item = gtk_menu_item_new_with_label (s);
-			g_free (s);
-
-			g_signal_connect (item, "select",
-					  G_CALLBACK (simple_menu_item_select_cb), 
-					  exam->name);
-			g_signal_connect (item, "deselect",
-					  G_CALLBACK (simple_menu_item_deselect_cb), 
-					  exam->name);
-			gtk_widget_show (item);
-			g_signal_connect (G_OBJECT (item), "activate",
-					  G_CALLBACK (open_example_cb), exam);
-			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-			example_count ++;
-		}
-	}
-
-	/* if no exampleials, hide the menu */
-	if (example_count == 0) {
-		gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ExamplesMenu"));
-	} else {
-		gtk_widget_show (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ExamplesMenu"));
-		gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ExamplesMenu/NoExample"));
-	}
-
+	/* Read plugins */
 	gel_read_plugin_list ();
-
 	if (gel_plugin_list != NULL) {
 		GSList *li;
 		int i;
@@ -5242,7 +5225,6 @@ main (int argc, char *argv[])
 			plugin_count ++;
 		}
 	}
-
 	/* if no plugins, hide the menu */
 	if (plugin_count == 0) {
 		gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/PluginsMenu"));
@@ -5252,32 +5234,8 @@ main (int argc, char *argv[])
 	}
 
 
-	gel_output_printf (gel_main_out,
-			   _("%sGenius %s%s\n"
-			     "%s\n"
-			     "This is free software with ABSOLUTELY NO WARRANTY.\n"
-			     "For license details type `%swarranty%s'.\n"
-			     "For help type `%smanual%s' or `%shelp%s'.%s\n\n"),
-			   "\e[0;32m" /* green */,
-			   "\e[0m" /* white on black */,
-			   VERSION,
-			   _(GENIUS_COPYRIGHT_STRING),
-			   "\e[01;36m" /* cyan */,
-			   "\e[0m" /* white on black */,
-			   "\e[01;36m" /* cyan */,
-			   "\e[0m" /* white on black */,
-			   "\e[01;36m" /* cyan */,
-			   "\e[0m" /* white on black */,
-			   get_version_details ());
-	gel_output_flush (gel_main_out);
-	check_events ();
-
-	gel_set_new_calcstate (curstate);
-	gel_set_new_errorout (geniuserror);
-	gel_set_new_infoout (geniusinfo);
-
+	/* Setup the helper */
 	setup_rl_fifos ();
-
 	fork_helper_setup_comm ();
 
 	/*init the context stack and clear out any stale dictionaries
@@ -5310,9 +5268,10 @@ main (int argc, char *argv[])
 	 * Read init files
 	 */
 	file = g_build_filename (g_get_home_dir (), ".geniusinit",NULL);
-	if(file)
-		gel_load_file(NULL, file, FALSE);
-	g_free(file);
+	if (file != NULL) {
+		gel_load_file (NULL, file, FALSE);
+		g_free (file);
+	}
 
 	gel_load_file (NULL, "geniusinit.gel", FALSE);
 
@@ -5341,6 +5300,52 @@ main (int argc, char *argv[])
 	/* Load all given files */
 	loadup_files_from_cmdline (argc, argv);
 
+	/* check events so that we setup the examples menu only
+	 * once everything is shown */
+	check_events();
+
+	/* Read examples now */
+	gel_read_example_list ();
+	if (gel_example_list != NULL) {
+		GSList *li;
+		int i;
+		GtkWidget *menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ExamplesMenu")));
+
+		for (i = 0, li = gel_example_list;
+		     li != NULL;
+		     li = li->next, i++) {
+			GtkWidget *item;
+			GelExample *exam = li->data;
+			char *s;
+
+			s = g_strconcat (exam->category, ": ", exam->name, NULL);
+			item = gtk_menu_item_new_with_label (s);
+			g_free (s);
+
+			g_signal_connect (item, "select",
+					  G_CALLBACK (simple_menu_item_select_cb), 
+					  exam->name);
+			g_signal_connect (item, "deselect",
+					  G_CALLBACK (simple_menu_item_deselect_cb), 
+					  exam->name);
+			gtk_widget_show (item);
+			g_signal_connect (G_OBJECT (item), "activate",
+					  G_CALLBACK (open_example_cb), exam);
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+			example_count ++;
+		}
+	}
+	/* if no exampleials, hide the menu */
+	if (example_count == 0) {
+		gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ExamplesMenu"));
+	} else {
+		gtk_widget_show (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ExamplesMenu"));
+		gtk_widget_hide (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ExamplesMenu/NoExample"));
+	}
+
+	/*
+	 * Main loop
+	 */
 	gtk_main ();
 
 	/*

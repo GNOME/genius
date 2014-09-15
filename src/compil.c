@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2012 Jiri (George) Lebl
+ * Copyright (C) 1997-2014 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -36,9 +36,8 @@
 
 #include "compil.h"
 
-/* first char 'A' then rest just ascii */
-/* first char 'B' then rest Base64 */
-/* first char 'E' then empty */
+/* first char '=' then rest Base64 */
+/* else just ascii */
 char *
 gel_decode_string (const char *s)
 {
@@ -351,15 +350,12 @@ gel_decompile_node(char **ptrptr)
 		if G_UNLIKELY (p == NULL)
 			return NULL;
 		
-		if (*p=='E') {
-			n = gel_makenum_string_constant ("");
-		} else {
-			p = gel_decode_string (p);
-			if G_UNLIKELY (p == NULL)
-				return NULL;
-			n = gel_makenum_string_constant (p);
-			g_free (p);
-		}
+		p = gel_decode_string (p);
+		if G_UNLIKELY (p == NULL)
+			return NULL;
+		n = gel_makenum_string_constant (p);
+		g_free (p);
+
 		return n;
 	case GEL_FUNCTION_NODE:
 		p = strtok_r (NULL,";", ptrptr);

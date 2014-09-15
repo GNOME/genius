@@ -1,3 +1,13 @@
+Mon Sep 15 13:29:27 2014  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/compil.c: new string decoding routine interacted with a stupid
+	  optimization hence eating string constants from compiled files
+	  starting with 'E'
+
+	* src/gnome-genius.c, src/plugin.c: move the examples reading and
+	  plugin reading to happen later so that things display seemingly
+	  quicker. plus some other very minor optimizations for startup
+
 Fri Sep 12 11:14:14 2014  Jiri (George) Lebl <jirka@5z.com>
 
 	* examples/peano.gel: Add peano example in polar

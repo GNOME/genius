@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002,2006 Jiri (George) Lebl
+ * Copyright (C) 1997-2014 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -238,6 +238,10 @@ gel_save_plugins (void)
 	VeConfig *cfg;
 	char *path;
 
+	/* no plugins */
+	if (gel_plugin_list == NULL)
+		return;
+
 	if (genius_is_gui)
 		path = g_build_filename (g_get_home_dir (),
 					 ".gnome2", "genius", NULL);
@@ -286,6 +290,10 @@ gel_restore_plugins (void)
 	GSList *li;
 	VeConfig *cfg;
 	char *path;
+
+	/* no plugins */
+	if (gel_plugin_list == NULL)
+		return;
 
 	if (genius_is_gui)
 		path = g_build_filename (g_get_home_dir (),
