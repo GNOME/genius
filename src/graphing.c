@@ -1409,8 +1409,10 @@ plot_zoomfit_cb (void)
 
 		if (plot_mode == MODE_LINEPLOT) {
 			size = plot_maxy - plot_miny;
-			if (size <= 0)
-				size = 1.0;
+			if (size <= 0.0) {
+				/* Just don't do anything */
+				return;
+			}
 
 			ploty1 = plot_miny - size * 0.05;
 			ploty2 = plot_maxy + size * 0.05;
@@ -1428,11 +1430,15 @@ plot_zoomfit_cb (void)
 		} else if (plot_mode == MODE_LINEPLOT_PARAMETRIC) {
 			double sizex;
 			size = plot_maxy - plot_miny;
-			if (size <= 0)
-				size = 1.0;
+			if (size <= 0.0) {
+				/* Just don't do anything */
+				return;
+			}
 			sizex = plot_maxx - plot_minx;
-			if (sizex <= 0)
-				sizex = 1.0;
+			if (sizex <= 0.0) {
+				/* Just don't do anything */
+				return;
+			}
 
 			plotx1 = plot_minx - sizex * 0.05;
 			plotx2 = plot_maxx + sizex * 0.05;
@@ -1462,8 +1468,10 @@ plot_zoomfit_cb (void)
 
 		} else if (plot_mode == MODE_SURFACE) {
 			size = plot_maxz - plot_minz;
-			if (size <= 0)
-				size = 1.0;
+			if (size <= 0.0) {
+				/* Just don't do anything */
+				return;
+			}
 			surfacez1 = plot_minz - size * 0.05;
 			surfacez2 = plot_maxz + size * 0.05;
 			

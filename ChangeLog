@@ -1,3 +1,11 @@
+Tue Sep 16 16:30:42 2014  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c:  Fitting dependent axis doesn't work if no
+	  function is selected, so just ignore fitting when size is negative
+	  rather than doing undefined things.  The whole thing is a mess,
+	  we should allow fitting the lines that we draw and such I guess
+	  not just functions.
+
 Mon Sep 15 13:29:27 2014  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/compil.c: new string decoding routine interacted with a stupid
