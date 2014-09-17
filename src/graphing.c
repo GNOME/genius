@@ -8598,7 +8598,7 @@ get_surface_line_numbers (GelETree *a,
 		}
 	} else {
 		gel_errorout (_("%s: Points should be given as a real, n by 3 matrix "
-				"with columns for x and y, n>=%d"),
+				"with columns for x, y and z, n>=%d"),
 			      funcname, minn);
 		return FALSE;
 	}
@@ -10683,7 +10683,7 @@ gel_add_graph_functions (void)
 
 	FUNC (PlotCanvasFreeze, 0, "", "plotting", N_("Freeze the plot canvas, that is, inhibit drawing"));
 	FUNC (PlotCanvasThaw, 0, "", "plotting", N_("Thaw the plot canvas and redraw the plot immediately"));
-	FUNC (PlotWindowPresent, 0, "", "plotting", N_("Raise the plot window, and if create the window if necessary"));
+	FUNC (PlotWindowPresent, 0, "", "plotting", N_("Raise the plot window, and create the window if necessary"));
 
 
 	VFUNC (ExportPlot, 2, "filename,type", "plotting", N_("Export the current contents of the plot canvas to a file.  The file type is given by the string type, which can be \"png\", \"eps\", or \"ps\"."));
