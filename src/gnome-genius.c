@@ -1723,13 +1723,12 @@ resolve_file (const char *file)
 	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
 	int i;
 
-	if (n <= 1)
-		return g_strdup (file);
-
-	for (i = 1; i < n; i++) {
+	for (i = 0; i < n; i++) {
 		GtkWidget *w = gtk_notebook_get_nth_page
 			(GTK_NOTEBOOK (notebook), i);
 		Program *p = g_object_get_data (G_OBJECT (w), "program");
+		if (p == NULL) /* console */
+			continue;
 		g_assert (p != NULL);
 		if (p->name != NULL &&
 		    p->vname != NULL &&
@@ -2170,13 +2169,12 @@ any_changed (void)
 	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
 	int i;
 
-	if (n <= 1)
-		return FALSE;
-
 	for (i = 1; i < n; i++) {
 		GtkWidget *w = gtk_notebook_get_nth_page
 			(GTK_NOTEBOOK (notebook), i);
 		Program *p = g_object_get_data (G_OBJECT (w), "program");
+		if (p == NULL) /* console */
+			continue;
 		g_assert (p != NULL);
 		if (p->changed)
 			return TRUE;
@@ -2306,7 +2304,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 	GtkWidget *mainbox,*frame;
 	GtkWidget *box;
 	GtkWidget *b, *w;
-	GtkWidget *notebook;
+	GtkWidget *notebookw;
 	GtkAdjustment *adj;
 
 	if (setupdialog) {
@@ -2337,13 +2335,13 @@ setup_calc(GtkWidget *widget, gpointer data)
 		 NULL);
 	gtk_dialog_set_has_separator (GTK_DIALOG (setupdialog), FALSE);
 
-	notebook = gtk_notebook_new ();
+	notebookw = gtk_notebook_new ();
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (setupdialog))),
-			    notebook, TRUE, TRUE, 0);
+			    notebookw, TRUE, TRUE, 0);
 	
 	mainbox = gtk_vbox_new(FALSE, GENIUS_PAD);
 	gtk_container_set_border_width(GTK_CONTAINER(mainbox), GENIUS_PAD);
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebookw),
 				  mainbox,
 				  gtk_label_new(_("Output")));
 
@@ -2519,7 +2517,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 
 	mainbox = gtk_vbox_new(FALSE, GENIUS_PAD);
 	gtk_container_set_border_width(GTK_CONTAINER(mainbox), GENIUS_PAD);
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebookw),
 				  mainbox,
 				  gtk_label_new(_("Precision")));
 
@@ -2574,7 +2572,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 
 	mainbox = gtk_vbox_new(FALSE, GENIUS_PAD);
 	gtk_container_set_border_width(GTK_CONTAINER(mainbox), GENIUS_PAD);
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebookw),
 				  mainbox,
 				  gtk_label_new(_("Terminal")));
 	
@@ -2640,7 +2638,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 
 	mainbox = gtk_vbox_new (FALSE, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (mainbox), GENIUS_PAD);
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebookw),
 				  mainbox,
 				  gtk_label_new(_("Memory")));
 
@@ -2722,6 +2720,21 @@ warranty_call (GtkWidget *widget, gpointer data)
 	}
 }
 
+static int
+get_console_pagenum (void)
+{
+	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
+	int i;
+	for (i = 0; i < n; i++) {
+		GtkWidget *w = gtk_notebook_get_nth_page
+			(GTK_NOTEBOOK (notebook), i);
+		Program *p = g_object_get_data (G_OBJECT (w), "program");
+		if (p == NULL) /* console */
+			return i;
+	}
+	return 0; /* should never happen, but that's safe */
+}
+
 static void
 add_filters (GtkFileChooser *fs)
 {
@@ -2775,7 +2788,8 @@ really_load_cb (GtkFileChooser *fs, int response, gpointer data)
 	vte_terminal_feed (VTE_TERMINAL (term), s, -1);
 	vte_terminal_feed (VTE_TERMINAL (term),
 			   "\e[0m (((\r\n", -1);
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook),
+				       get_console_pagenum ());
 
 	gel_calc_running ++;
 	gel_load_guess_file (NULL, s, TRUE);
@@ -2838,20 +2852,23 @@ static gboolean
 setup_undo_redo_idle (gpointer data)
 {
 	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	GtkWidget *w;
+	Program *p;
 
 	ur_idle_id = 0;
 
 	if (page < 0)
 		return FALSE;
-	if (page == 0) {
+
+	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), page);
+	p = g_object_get_data (G_OBJECT (w), "program");
+
+	if (p == NULL) {
 		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/EditMenu/Undo"),
 					  FALSE);
 		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/EditMenu/Redo"),
 					  FALSE);
 	} else {
-		GtkWidget *w = gtk_notebook_get_nth_page
-			(GTK_NOTEBOOK (notebook), page);
-		Program *p = g_object_get_data (G_OBJECT (w), "program");
 		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/EditMenu/Undo"),
 					  gtk_source_buffer_can_undo
 					  (GTK_SOURCE_BUFFER (p->buffer)));
@@ -2876,15 +2893,19 @@ static void
 undo_callback (GtkWidget *menu_item, gpointer data)
 {
 	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	GtkWidget *w;
+	Program *p;
+
 	if (page < 0)
 		return;
-	if (page == 0) {
+
+	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), page);
+	p = g_object_get_data (G_OBJECT (w), "program");
+
+	if (p == NULL) {
 		/* undo from a terminal? what are you talking about */
 		return;
 	} else {
-		GtkWidget *w = gtk_notebook_get_nth_page
-			(GTK_NOTEBOOK (notebook), page);
-		Program *p = g_object_get_data (G_OBJECT (w), "program");
 		if (gtk_source_buffer_can_undo
 			(GTK_SOURCE_BUFFER (p->buffer)))
 			gtk_source_buffer_undo
@@ -2896,15 +2917,19 @@ static void
 redo_callback (GtkWidget *menu_item, gpointer data)
 {
 	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	GtkWidget *w;
+	Program *p;
+	
 	if (page < 0)
 		return;
-	if (page == 0) {
+
+	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), page);
+	p = g_object_get_data (G_OBJECT (w), "program");
+
+	if (p == NULL) {
 		/* redo from a terminal? what are you talking about */
 		return;
 	} else {
-		GtkWidget *w = gtk_notebook_get_nth_page
-			(GTK_NOTEBOOK (notebook), page);
-		Program *p = g_object_get_data (G_OBJECT (w), "program");
 		if (gtk_source_buffer_can_redo
 			(GTK_SOURCE_BUFFER (p->buffer)))
 			gtk_source_buffer_redo
@@ -2917,15 +2942,19 @@ static void
 cut_callback (GtkWidget *menu_item, gpointer data)
 {
 	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	GtkWidget *w;
+	Program *p;
+
 	if (page < 0)
 		return;
-	if (page == 0) {
+
+	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), page);
+	p = g_object_get_data (G_OBJECT (w), "program");
+
+	if (p == NULL) {
 		/* cut from a terminal? what are you talking about */
 		return;
 	} else {
-		GtkWidget *w = gtk_notebook_get_nth_page
-			(GTK_NOTEBOOK (notebook), page);
-		Program *p = g_object_get_data (G_OBJECT (w), "program");
 		gtk_text_buffer_cut_clipboard
 			(p->buffer,
 			 gtk_clipboard_get (GDK_SELECTION_CLIPBOARD),
@@ -2938,14 +2967,18 @@ static void
 copy_callback (GtkWidget *menu_item, gpointer data)
 {
 	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	GtkWidget *w;
+	Program *p;
+
 	if (page < 0)
 		return;
-	if (page == 0) {
+
+	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), page);
+	p = g_object_get_data (G_OBJECT (w), "program");
+
+	if (p == NULL) {
 		vte_terminal_copy_clipboard (VTE_TERMINAL (term));
 	} else {
-		GtkWidget *w = gtk_notebook_get_nth_page
-			(GTK_NOTEBOOK (notebook), page);
-		Program *p = g_object_get_data (G_OBJECT (w), "program");
 		gtk_text_buffer_copy_clipboard
 			(p->buffer,
 			 gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
@@ -2956,14 +2989,18 @@ static void
 paste_callback (GtkWidget *menu_item, gpointer data)
 {
 	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	GtkWidget *w;
+	Program *p;
+
 	if (page < 0)
 		return;
-	if (page == 0) {
+
+	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), page);
+	p = g_object_get_data (G_OBJECT (w), "program");
+
+	if (p == NULL) {
 		vte_terminal_paste_clipboard (VTE_TERMINAL (term));
 	} else {
-		GtkWidget *w = gtk_notebook_get_nth_page
-			(GTK_NOTEBOOK (notebook), page);
-		Program *p = g_object_get_data (G_OBJECT (w), "program");
 		gtk_text_buffer_paste_clipboard
 			(p->buffer,
 			 gtk_clipboard_get (GDK_SELECTION_CLIPBOARD),
@@ -3166,7 +3203,7 @@ prog_menu_activated (GtkWidget *item, gpointer data)
 	int num;
        
 	if (w == NULL)
-		num = 0;
+		num = get_console_pagenum ();
 	else
 		num = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), w);
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), num);
@@ -3186,12 +3223,13 @@ build_program_menu (void)
 
 	menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ProgramsMenu")));
 
-	for (i = 1; i < n; i++) {
+	for (i = 0; i < n; i++) {
 		GtkWidget *item;
 		GtkWidget *w = gtk_notebook_get_nth_page
 			(GTK_NOTEBOOK (notebook), i);
 		Program *p = g_object_get_data (G_OBJECT (w), "program");
-		g_assert (p != NULL);
+		if (p == NULL) /* console */
+			continue;
 
 		item = gtk_menu_item_new_with_label (p->vname);
 		gtk_widget_show (item);
@@ -3448,7 +3486,78 @@ file_is_writable (const char *fname)
 	return ret;
 }
 
+static int
+get_program_pagenum (Program *p)
+{
+	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
+	int i;
+	for (i = 0; i < n; i++) {
+		GtkWidget *w = gtk_notebook_get_nth_page
+			(GTK_NOTEBOOK (notebook), i);
+		Program *pp = g_object_get_data (G_OBJECT (w), "program");
+		if (p == pp)
+			return i;
+	}
+	return -1; /* should never happen */
+}
 
+static void
+whack_program (Program *p)
+{
+	g_assert (p != NULL);
+
+	if (selected_program == p) {
+		p->selected = FALSE;
+		selected_program = NULL;
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/Reload"),
+					  FALSE);
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/Save"),
+					  FALSE);
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/SaveAs"),
+					  FALSE);
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/ToolBar/Run"),
+					  FALSE);
+		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/CalculatorMenu/Run"),
+					  FALSE);
+	}
+	g_free (p->name);
+	g_free (p->vname);
+	g_free (p);
+}
+
+
+
+static void
+close_program (Program *p)
+{
+	int page;
+
+	if (p == NULL)
+		return;
+
+	if (p->changed &&
+	    ! genius_ask_question (NULL,
+				   _("The program you are closing is unsaved, "
+				     "are you sure you wish to close it "
+				     "without saving?")))
+		return;
+
+
+	page = get_program_pagenum (p);
+
+	if (page >= 0) /* sanity */
+		gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), page);
+	whack_program (p);
+
+	build_program_menu ();
+}
+
+
+static void
+close_button_clicked (GtkWidget *b, gpointer data)
+{
+	close_program (data);
+}
 
 /* if example, filename is a filename and not a uri */
 static void
@@ -3458,6 +3567,8 @@ new_program (const char *filename, gboolean example)
 	static int cnt = 1;
 	GtkWidget *tv;
 	GtkWidget *sw;
+	GtkWidget *b, *cl, *im;
+	GtkRcStyle *rcstyle;
 	GtkTextBuffer *buffer;
 	Program *p;
 #ifdef HAVE_GTKSOURCEVIEW
@@ -3619,27 +3730,39 @@ new_program (const char *filename, gboolean example)
 	p->label = gtk_label_new (p->vname);
 	p->mlabel = gtk_label_new (p->vname);
 
-	/* FIXME: imeplement close button, but must get vertical size smaller */
-	/*GtkWidget *b, *cl, *im;*/
-	/*b = gtk_hbox_new (FALSE, 0);
+	b = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (b), p->label, FALSE, FALSE, 0);
 	cl = gtk_button_new ();
+	gtk_container_set_border_width (GTK_CONTAINER (cl), 0);
+	gtk_button_set_relief (GTK_BUTTON (cl), GTK_RELIEF_NONE);
+	gtk_button_set_focus_on_click (GTK_BUTTON (cl), FALSE);
 	im = gtk_image_new_from_stock (GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
 	gtk_container_add (GTK_CONTAINER (cl), im);
+
+	g_signal_connect (G_OBJECT (cl), "clicked",
+			  G_CALLBACK (close_button_clicked), p);
+
+	rcstyle = gtk_rc_style_new ();
+	rcstyle->xthickness = 0;
+	rcstyle->ythickness = 0;
+	gtk_widget_modify_style (cl, rcstyle);
+	g_object_unref (rcstyle);
+
 	gtk_box_pack_start (GTK_BOX (b), cl, FALSE, FALSE, 3);
-	gtk_widget_show_all (b);*/
+	gtk_widget_show_all (b);
 
 	gtk_misc_set_alignment (GTK_MISC (p->mlabel), 0.0, 0.5);
 	gtk_notebook_append_page_menu (GTK_NOTEBOOK (notebook), sw,
-				       p->label, p->mlabel);
+				       b, p->mlabel);
+
 
 	/* FIXME: if set, then if we move something in front of the 
 	 * Console, things crash.  Make Console be possible in other
 	 * positions and then enable this here (and when we are adding
 	 * the console as well) */
-	/*gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (notebook),
+	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (notebook),
 					  sw,
-					  TRUE);*/
+					  TRUE);
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), -1);
 
@@ -3807,14 +3930,12 @@ save_all_cb (GtkWidget *w)
 	gboolean there_are_unsaved = FALSE;
 	gboolean there_are_readonly_modified = FALSE;
 
-	if (n <= 1)
-		return;
-
-	for (i = 1; i < n; i++) {
+	for (i = 0; i < n; i++) {
 		GtkWidget *w = gtk_notebook_get_nth_page
 			(GTK_NOTEBOOK (notebook), i);
 		Program *p = g_object_get_data (G_OBJECT (w), "program");
-		g_assert (p != NULL);
+		if (p == NULL) /* console */
+			continue;
 
 		if (p->changed && ! p->real_file)
 			there_are_unsaved = TRUE;
@@ -4096,52 +4217,17 @@ save_console_cb (GtkWidget *w)
 
 
 static void
-whack_program (Program *p)
-{
-	g_assert (p != NULL);
-
-	if (selected_program == p) {
-		p->selected = FALSE;
-		selected_program = NULL;
-		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/Reload"),
-					  FALSE);
-		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/Save"),
-					  FALSE);
-		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/SaveAs"),
-					  FALSE);
-		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/ToolBar/Run"),
-					  FALSE);
-		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/CalculatorMenu/Run"),
-					  FALSE);
-	}
-	g_free (p->name);
-	g_free (p->vname);
-	g_free (p);
-}
-
-
-static void
 close_callback (GtkWidget *menu_item, gpointer data)
 {
 	GtkWidget *w;
 	Program *p;
 	int current = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
-	if (current <= 0) /* if the console */
-		return;
 	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), current);
 	p = g_object_get_data (G_OBJECT (w), "program");
-
-	if (p->changed &&
-	    ! genius_ask_question (NULL,
-				   _("The program you are closing is unsaved, "
-				     "are you sure you wish to close it "
-				     "without saving?")))
+	if (p == NULL) /* if the console */
 		return;
 
-	gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), current);
-	whack_program (p);
-
-	build_program_menu ();
+	close_program (p);
 }
 
 static void
@@ -4201,7 +4287,7 @@ run_program (GtkWidget *menu_item, gpointer data)
 		vte_terminal_feed (VTE_TERMINAL (term), vname, -1);
 		vte_terminal_feed (VTE_TERMINAL (term),
 				   "\e[0m (((\r\n", -1);
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), get_console_pagenum ());
 
 		/* run this in a fork so that we don't block on very
 		   long input */
@@ -4818,7 +4904,11 @@ static void
 /* GTK3: switch_page (GtkNotebook *notebook, GtkWidget *page, guint page_num) */
 switch_page (GtkNotebook *notebook, gpointer page, guint page_num)
 {
-	if (page_num == 0) {
+	Program *p;
+
+	p = g_object_get_data (G_OBJECT (page), "program");
+
+	if (p == NULL) {
 		/* console */
 		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/FileMenu/Close"),
 					  FALSE);
@@ -4850,7 +4940,7 @@ switch_page (GtkNotebook *notebook, gpointer page, guint page_num)
 				   0 /* context */);
 	} else {
 		char *s;
-		GtkWidget *w;
+
 		/* something else */
 		gtk_widget_set_sensitive (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/EditMenu/Cut"),
 					  TRUE);
@@ -4870,9 +4960,7 @@ switch_page (GtkNotebook *notebook, gpointer page, guint page_num)
 			setup_label (selected_program);
 		}
 
-		w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook),
-					       page_num);
-		selected_program = g_object_get_data (G_OBJECT (w), "program");
+		selected_program = p;
 		selected_program->selected = TRUE;
 
 		setup_label (selected_program);
@@ -5073,6 +5161,7 @@ main (int argc, char *argv[])
 	
 	/* create our notebook and setup toplevel window */
 	notebook = gtk_notebook_new ();
+	/* g_object_set (G_OBJECT (notebook), "tab-vborder", 0, NULL);*/
 	gtk_container_set_border_width (GTK_CONTAINER (notebook), 5);
 	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
 	gtk_notebook_popup_enable (GTK_NOTEBOOK (notebook));
@@ -5129,6 +5218,9 @@ main (int argc, char *argv[])
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
 				  hbox,
 				  gtk_label_new (_("Console")));
+	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (notebook),
+					  hbox,
+					  TRUE);
 	/* FIXME:
 	gtk_widget_queue_resize (vte);
 	*/
