@@ -410,7 +410,7 @@ void gtk_plot_pc_draw_string                             (GtkPlotPC *pc,
 
 {
   if(!text) return;
-  if(strlen(text) == 0) return;
+  if(text[0] == '\0') return;
 
   GTK_PLOT_PC_CLASS(GTK_OBJECT_GET_CLASS(GTK_OBJECT(pc)))->draw_string(pc, x, y, 
                                                        angle,

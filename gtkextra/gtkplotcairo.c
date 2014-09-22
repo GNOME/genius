@@ -609,7 +609,7 @@ drawstring(GtkPlotPC *pc,
   gint dpi_cairo, dpi_screen;
   GdkScreen *screen = gdk_screen_get_default();
 
-  if(!text || strlen(text) == 0) return 0;
+  if(!text || text[0] == '\0') return 0;
   cairo_save(cairo);
 
   map = pango_cairo_font_map_get_default();
@@ -619,7 +619,7 @@ drawstring(GtkPlotPC *pc,
     height *= (double)dpi_screen/(double)dpi_cairo;
   font = gtk_psfont_get_font_description(psfont, height);
   pango_layout_set_font_description(GTK_PLOT_CAIRO(pc)->layout, font);
-  pango_layout_set_text(GTK_PLOT_CAIRO(pc)->layout, text, strlen(text));
+  pango_layout_set_text(GTK_PLOT_CAIRO(pc)->layout, text, -1);
   pango_layout_get_extents(GTK_PLOT_CAIRO(pc)->layout, NULL, &rect);
 
   if (psfont->i18n_latinfamily && psfont->vertical) {

@@ -1,3 +1,10 @@
+Mon Sep 22 13:17:18 2014  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/examples.c, gtkextra/*.c: fix compiler warnings.  Also fix an
+	  overuse of strlen, won't really improve performance, but I find
+	  using "strlen(s) == 0" just annoying enough to make me change it
+	  anyhow
+
 Thu Sep 18 17:52:37 2014  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c: Fix tab reordering, and add the close button

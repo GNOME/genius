@@ -944,7 +944,7 @@ gtk_plot_surface_get_legend_size(GtkPlotData *data, gint *width, gint *height)
   m = plot->magnification;
   legend = plot->legends_attr;
 
-  if(data->legend && strlen(data->legend) > 0)
+  if(data->legend && data->legend[0] != '\0')
     legend.text = data->legend;
   else
     legend.text = "X";
@@ -993,7 +993,7 @@ gtk_plot_surface_draw_legend(GtkPlotData *data, gint x, gint y)
   m = plot->magnification;
   legend = plot->legends_attr;
 
-  if(data->legend && strlen(data->legend) > 0)
+  if(data->legend && data->legend[0] != '\0')
     legend.text = data->legend;
   else
     legend.text = "X";
@@ -1033,7 +1033,7 @@ gtk_plot_surface_draw_legend(GtkPlotData *data, gint x, gint y)
                / (gdouble)area.width;
     legend.y = (gdouble)(area.y + y + lascent) / (gdouble)area.height;
   
-    if(data->legend && strlen(data->legend) > 0) gtk_plot_draw_text(plot, legend);
+    if(data->legend && data->legend != '\0') gtk_plot_draw_text(plot, legend);
   
     y += 2*lheight;
   } else 
@@ -2013,7 +2013,7 @@ compare_func (gpointer a, gpointer b)
   GtkPlotPolygon *pa, *pb;
   GtkPlotDTtriangle *ta, *tb;
   gint i, j;
-  gint na[3], nb[3];
+  //gint na[3], nb[3];
   gint naz[3], nbz[3];
   gdouble pax[3], pbx[3];
   gdouble pay[3], pby[3];
@@ -2074,9 +2074,9 @@ compare_func (gpointer a, gpointer b)
   if(zg == 9) return 1;
   if(zl == 9) return -1;
 
-  na[0] = nb[0] = 0;
-  na[1] = nb[1] = 1;
-  na[2] = nb[2] = 2;
+  //na[0] = nb[0] = 0;
+  //na[1] = nb[1] = 1;
+  //na[2] = nb[2] = 2;
 
   pax[0] = ta->na->px;
   pax[1] = ta->nb->px;
@@ -2109,9 +2109,9 @@ compare_func (gpointer a, gpointer b)
     return(czb > cza ? 1 : -1);
   }
 
-  na[0] = nb[0] = 0;
-  na[1] = nb[1] = 1;
-  na[2] = nb[2] = 2;
+  //na[0] = nb[0] = 0;
+  //na[1] = nb[1] = 1;
+  //na[2] = nb[2] = 2;
 
   pay[0] = ta->na->py;
   pay[1] = ta->nb->py;

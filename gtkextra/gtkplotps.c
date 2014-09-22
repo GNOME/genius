@@ -922,7 +922,7 @@ psdrawstring	(GtkPlotPC *pc,
   gchar *curstr, bkspchar[3];
   gchar num[4];
 
-  if (text == NULL || strlen(text) == 0) return;
+  if (text == NULL || text[0] == '\0') return;
 
   psout = GTK_PLOT_PS(pc)->psfile;
 

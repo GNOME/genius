@@ -1666,7 +1666,7 @@ gtk_plot_csurface_draw_legend(GtkPlotData *data, gint x, gint y)
                          &lwidth, &lheight,
                          &lascent, &ldescent);
 
-  if(GTK_PLOT_DATA(data)->show_legend && data->legend && strlen(data->legend) > 0){
+  if(GTK_PLOT_DATA(data)->show_legend && data->legend && data->legend[0] != '\0'){
     legend.x = (gdouble)(area.x + x + roundint(4 * m))
                / (gdouble)area.width;
     legend.y = (gdouble)(area.y + y + lascent) / (gdouble)area.height;

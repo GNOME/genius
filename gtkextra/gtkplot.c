@@ -3809,7 +3809,7 @@ gtk_plot_draw_text(GtkPlot *plot,
   GtkAllocation  allocation;
 
   if(!text.text) return;
-  if(strlen(text.text) == 0) return;
+  if(text.text[0] == '\0') return;
   if(plot->drawable == NULL) return;
 
   gtk_widget_get_allocation(GTK_WIDGET(plot), &allocation);
@@ -3827,7 +3827,7 @@ gtk_plot_paint_text(GtkPlot *plot,
   gdouble m = plot->magnification;
 
   if(!text.text) return;
-  if(strlen(text.text) == 0) return;
+  if(text.text[0] == '\0') return;
   if(plot->drawable == NULL) return;
 
   gtk_plot_pc_draw_string(plot->pc,
@@ -3886,7 +3886,11 @@ gtk_plot_text_get_size(const gchar *text, gint angle,
   PangoContext *context;
   gint i = 0;
 
-  if(!text || strlen(text) == 0) return;
+
+  if (text == NULL || text[0] == '\0') {
+	  *width = *height = *ascent = *descent = 0;
+	  return;
+  }
   layout = pango_layout_new(context = gdk_pango_context_get_for_screen(gdk_screen_get_default()));
   g_object_unref(G_OBJECT(context));
   pango_layout_set_text(layout, text, -1); 

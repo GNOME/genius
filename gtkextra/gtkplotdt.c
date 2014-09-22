@@ -1085,7 +1085,7 @@ gtk_plot_dt_triangulate_tryquad(GtkPlotDT *data)
   GList *xrow_prev, *xrow_next= NULL, *xrow_sec= NULL;
   GtkPlotDTnode *node, *x0y0, *x0y1, *x1y0, *x1y1, *center;
   gint i, nc, nx= 0, ny= 0, x, y, num_mid, m;
-  double x0;
+  /* double x0;*/
  
   if (!data) return 0;
   if (!data || ! data->nodes || data->node_cnt<3) return 0;
@@ -1096,7 +1096,7 @@ gtk_plot_dt_triangulate_tryquad(GtkPlotDT *data)
     nodes= g_list_insert_sorted(nodes,node,gtk_plot_dt_compare_nodes_xy_wise);
   }
 
-  x0= ((GtkPlotDTnode *)nodes->data)->x;
+  /* x0= ((GtkPlotDTnode *)nodes->data)->x; */
 
   /* sort order: x0y0 x0y1 x0y2 .. x1y0 x1y1 x1y2 .. xnyn */
   for (list=nodes, i=0; list; list=list->next, i++) {

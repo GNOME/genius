@@ -53,9 +53,6 @@
 
 GSList *gel_example_list = NULL;
 
-static GHashTable *opened = NULL;
-static GHashTable *info = NULL;
-
 static GelExample *
 gel_readexample (const char *dir_name, const char *file_name)
 {
@@ -188,5 +185,5 @@ gel_read_example_list (void)
 
 	/* FIXME: should do more */
 	gel_example_list = g_slist_sort (gel_example_list,
-					 compare_examples);
+					 (GCompareFunc)compare_examples);
 }

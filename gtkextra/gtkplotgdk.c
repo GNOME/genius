@@ -567,11 +567,11 @@ drawstring(GtkPlotPC *pc,
   PangoRectangle rect;
   gint ret_value;
 
-  if(!text || strlen(text) == 0) return 0;
+  if(!text || text[0] == '\0') return 0;
   font = gtk_psfont_get_font_description(psfont, height);
   pango_layout_set_font_description(GTK_PLOT_GDK(pc)->layout, font);
 
-  pango_layout_set_text(GTK_PLOT_GDK(pc)->layout, text, strlen(text));
+  pango_layout_set_text(GTK_PLOT_GDK(pc)->layout, text, -1);
   pango_layout_get_extents(GTK_PLOT_GDK(pc)->layout, NULL, &rect);
 
   if (psfont->i18n_latinfamily && psfont->vertical) {
@@ -648,7 +648,7 @@ gtk_plot_gdk_draw_string                        (GtkPlotPC *pc,
 
   if(!GTK_PLOT_GDK(pc)->drawable) return;
   if(!GTK_PLOT_GDK(pc)->gc) return;
-  if(!text || strlen(text) == 0) return;
+  if(!text || text[0] == '\0') return;
 
   gc = GTK_PLOT_GDK(pc)->gc;
   layout = GTK_PLOT_GDK(pc)->layout;

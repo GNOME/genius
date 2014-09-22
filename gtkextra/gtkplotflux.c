@@ -457,7 +457,7 @@ gtk_plot_flux_draw_symbol(GtkPlotData *dataset,
 {
   GtkPlot *plot;
   GtkPlotFlux *flux = NULL;
-  GdkRectangle area; //, clip_area;
+  //GdkRectangle area; //, clip_area;
   gdouble m;
   gdouble x1 = 0.0, y1 = 0.0, x2 = 0.0, y2=0.0;
   gdouble factor, size, xm;
@@ -474,10 +474,10 @@ gtk_plot_flux_draw_symbol(GtkPlotData *dataset,
 
   m = plot->magnification;
   gtk_widget_get_allocation( GTK_WIDGET(plot), &allocation);
-  area.x = allocation.x;
-  area.y = allocation.y;
-  area.width = allocation.width;
-  area.height = allocation.height;
+  //area.x = allocation.x;
+  //area.y = allocation.y;
+  //area.width = allocation.width;
+  //area.height = allocation.height;
 
   /*
   clip_area.x = area.x + roundint(plot->x * area.width);
