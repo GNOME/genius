@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: daniel.mustieles@gmail.com\n"
-"POT-Creation-Date: 2014-09-09 09:34+0000\n"
-"PO-Revision-Date: 2014-09-10 12:56+0200\n"
+"POT-Creation-Date: 2014-09-21 17:10+0000\n"
+"PO-Revision-Date: 2014-09-22 13:55+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -80,7 +80,6 @@ msgid "Genius Manual"
 msgstr "Manual de Genius"
 
 #: C/genius.xml:40(year)
-#| msgid "1997-2013"
 msgid "1997-2014"
 msgstr "1997-2014"
 
@@ -237,7 +236,6 @@ msgid "0.2"
 msgstr "0.2"
 
 #: C/genius.xml:146(date)
-#| msgid "October 2013"
 msgid "September 2014"
 msgstr "Septiembre de 2014"
 
@@ -246,7 +244,6 @@ msgid "Jiri (George) Lebl <email>jirka@5z.com</email>"
 msgstr "Jiri (George) Lebl <email>jirka@5z.com</email>"
 
 #: C/genius.xml:154(releaseinfo)
-#| msgid "This manual describes version 1.0.18 of Genius."
 msgid "This manual describes version 1.0.19 of Genius."
 msgstr "Este manual describe la versión 1.0.19 de Genius."
 
@@ -255,12 +252,6 @@ msgid "Feedback"
 msgstr "Comentarios"
 
 #: C/genius.xml:158(para)
-#, fuzzy
-#| msgid ""
-#| "To report a bug or make a suggestion regarding the <application>Genius "
-#| "Mathematics Tool</application> application or this manual, follow the "
-#| "directions in the <ulink url=\"ghelp:gnome-feedback\" type=\"help\">GNOME "
-#| "Feedback Page</ulink>."
 msgid ""
 "To report a bug or make a suggestion regarding the <application>Genius "
 "Mathematics Tool</application> application or this manual, please visit the "
@@ -269,8 +260,9 @@ msgid ""
 msgstr ""
 "Para informar de un fallo, o hacer alguna sugerencia sobre la aplicación "
 "<application>herramienta matemática Genius</application>, o este manual, "
-"siga las instrucciones en la <ulink url=\"ghelp:gnome-feedback\" type=\"help"
-"\">página de comentarios de GNOME</ulink>."
+"siga las instrucciones en la <ulink url=\"http://www.jirka.org/genius.html\" "
+"type=\"http\">página web de Genius</ulink> o envíe un correo electrónico a "
+"<email>jirka@5z.com</email>."
 
 #: C/genius.xml:171(title)
 msgid "Introduction"
@@ -636,16 +628,6 @@ msgstr ""
 "</screen>"
 
 #: C/genius.xml:387(para)
-#, fuzzy
-#| msgid ""
-#| "Suppose you have previously saved some GEL commands as a program to a "
-#| "file and you now want to execute them. To load this program from the file "
-#| "<filename>path/to/program.gel</filename>, type <screen><prompt>genius&gt; "
-#| "</prompt><userinput>load path/to/program.gel</userinput>\n"
-#| "</screen><application>Genius Mathematics Tool</application> keeps track "
-#| "of the current directory. To list files in the current directory type "
-#| "<command>ls</command>, to change directory do <userinput>cd directory</"
-#| "userinput> as in the unix command shell."
 msgid ""
 "Suppose you have previously saved some GEL commands as a program to a file "
 "and you now want to execute them. To load this program from the file "
@@ -1448,16 +1430,6 @@ msgid "Null"
 msgstr "Nulo"
 
 #: C/genius.xml:846(para)
-#, fuzzy
-#| msgid ""
-#| "There is a special value called <constant>null</constant>. No operations "
-#| "can be performed on it, and nothing is printed when it is returned. "
-#| "Therefore, <constant>null</constant> is useful when you do not want "
-#| "output from an expression. The value <constant>null</constant> can be "
-#| "obtained as an expression when you type <literal>.</literal>, the contant "
-#| "<constant>null</constant> or nothing. By nothing we mean that if you end "
-#| "an expression with a separator <literal>;</literal>, it is equivalent to "
-#| "ending it with a separator followed by a <constant>null</constant>."
 msgid ""
 "There is a special value called <constant>null</constant>. No operations can "
 "be performed on it, and nothing is printed when it is returned. Therefore, "
@@ -2039,19 +2011,6 @@ msgid "2^(5!) * 3^(6!) mod 5"
 msgstr "2^(5!) * 3^(6!) mod 5"
 
 #: C/genius.xml:1141(para)
-#, fuzzy
-#| msgid ""
-#| "Genius implements modular arithmetic. To use it you just add \"mod &lt;"
-#| "integer&gt;\" after the expression. Example: <placeholder-1/> It could be "
-#| "possible to do modular arithmetic by computing with integers and then "
-#| "modding in the end with the <literal>%</literal> operator, which simply "
-#| "gives the remainder, but that may be time consuming if not impossible "
-#| "when working with larger numbers. For example, <userinput>10^(10^10) % 6</"
-#| "userinput> will simply not work (the exponent will be too large), while "
-#| "<userinput>10^(10^10) mod 6</userinput> is instanteneous. The first "
-#| "expression first tries to compute the integer <userinput>10^(10^10)</"
-#| "userinput> and then find remainder after division by 6, while the second "
-#| "expression evaluates everything modulo 6 to begin with."
 msgid ""
 "Genius implements modular arithmetic. To use it you just add \"mod &lt;"
 "integer&gt;\" after the expression. Example: <placeholder-1/> It could be "
@@ -2352,16 +2311,12 @@ msgid "a./b"
 msgstr "a./b"
 
 #: C/genius.xml:1348(para)
-#, fuzzy
-#| msgid ""
-#| "Element by element division. Same as <userinput>a/b</userinput> for "
-#| "numbers, but operarates element by element on matrices."
 msgid ""
 "Element by element division. Same as <userinput>a/b</userinput> for numbers, "
 "but operates element by element on matrices."
 msgstr ""
 "División elemento por elemento. Igual que <userinput>a/b</userinput> para "
-"números, pero opera elemento por elemento en matrices.."
+"números, pero opera elemento por elemento en matrices."
 
 #: C/genius.xml:1357(userinput)
 #, no-wrap
@@ -2643,16 +2598,12 @@ msgid "-a"
 msgstr "-a"
 
 #: C/genius.xml:1597(para)
-#, fuzzy
-#| msgid ""
-#| "Negation operator. Returns the negative of a number or a matrix (works "
-#| "elementwise on a matrix)."
 msgid ""
 "Negation operator. Returns the negative of a number or a matrix (works "
 "element-wise on a matrix)."
 msgstr ""
 "Operador de negación. Devuelve el negativo de un número o una matriz (en una "
-"matriz, funciona de acuerdo al elemento)"
+"matriz, funciona de acuerdo al elemento)."
 
 #: C/genius.xml:1605(userinput)
 #, no-wrap
@@ -3448,18 +3399,6 @@ msgid "set(\"a\",3)\n"
 msgstr "set(\"a\",3)\n"
 
 #: C/genius.xml:2102(para)
-#, fuzzy
-#| msgid ""
-#| "Functions and variables defined at the top level are considered global. "
-#| "They are visible from anywhere. As we said the following function "
-#| "<function>f</function> will not change the value of <varname>a</varname> "
-#| "to 5. <placeholder-1/> Sometimes, however, it is necessary to set a "
-#| "global variable from inside a function. When this behaviour is needed, "
-#| "use the <link linkend=\"gel-function-set\"><function>set</function></"
-#| "link> function. Passing a string or a quoted identifier to this function "
-#| "sets the variable globally (on the top level). For example, to set "
-#| "<varname>a</varname> to the value 3 you could call: <placeholder-2/> or: "
-#| "<placeholder-3/>"
 msgid ""
 "Functions and variables defined at the top level are considered global. They "
 "are visible from anywhere. As we said the following function <function>f</"
@@ -3493,20 +3432,14 @@ msgstr ""
 "desde alguna subrutina. Si se necesita hacer esto, debe utilizar ..."
 
 #: C/genius.xml:2130(para)
-#, fuzzy
-#| msgid ""
-#| "See also <link linkend=\"gel-function-NewtonsMethod"
-#| "\"><function>NewtonsMethod</function></link> and <link linkend=\"gel-"
-#| "function-SymbolicDerivative\"><function>SymbolicDerivative</function></"
-#| "link>."
 msgid ""
 "See also the <link linkend=\"gel-function-SetElement\"><function>SetElement</"
 "function></link> and <link linkend=\"gel-function-SetVElement"
 "\"><function>SetVElement</function></link> functions."
 msgstr ""
-"Consulte también <link linkend=\"gel-function-NewtonsMethod"
-"\"><function>NewtonsMethod</function></link> y <link linkend=\"gel-function-"
-"SymbolicDerivative\"><function>SymbolicDerivative</function></link>."
+"Consulte también las funciones <link linkend=\"gel-function-SetElement"
+"\"><function>SetElement</function></link> y <link linkend=\"gel-function-"
+"SetVElement\"><function>SetVElement</function></link>."
 
 #: C/genius.xml:2135(para)
 msgid ""
@@ -3574,8 +3507,6 @@ msgstr ""
 "un parámetro."
 
 #: C/genius.xml:2177(para)
-#, fuzzy
-#| msgid "Some parameters are built-in and modify the behaviour of genius."
 msgid "Some parameters are built-in and modify the behavior of genius."
 msgstr ""
 "Algunos parámetros están integrados de manera predeterminada y modifican el "
@@ -3724,13 +3655,6 @@ msgstr ""
 "a@(4:8,3) := [1,2,3,4,5]'\n"
 
 #: C/genius.xml:2283(para)
-#, fuzzy
-#| msgid ""
-#| "Examples: <placeholder-1/> Note that both <literal>:=</literal> and "
-#| "<literal>=</literal> can be used interchangably. Except if the assignment "
-#| "appears in a condition. It is thus always safer to just use <literal>:=</"
-#| "literal> when you mean assignment, and <literal>==</literal> when you "
-#| "mean comparison."
 msgid ""
 "Examples: <placeholder-1/> Note that both <literal>:=</literal> and "
 "<literal>=</literal> can be used interchangeably. Except if the assignment "
@@ -3798,15 +3722,6 @@ msgid "Toplevel Syntax"
 msgstr "Sintaxis de nivel superior"
 
 #: C/genius.xml:2328(para)
-#, fuzzy
-#| msgid ""
-#| "The synatax is slightly different if you enter statements on the top "
-#| "level versus when they are inside parentheses or inside functions. On the "
-#| "top level, enter acts the same as if you press return on the command "
-#| "line. Therefore think of programs as just sequence of lines as if were "
-#| "entered on the command line. In particular, you do not need to enter the "
-#| "separator at the end of the line (unless it is of course part of several "
-#| "statements inside parentheses)."
 msgid ""
 "The syntax is slightly different if you enter statements on the top level "
 "versus when they are inside parentheses or inside functions. On the top "
@@ -4148,19 +4063,6 @@ msgstr ""
 ");\n"
 
 #: C/genius.xml:2497(para)
-#, fuzzy
-#| msgid ""
-#| "But there is another solution. Since version 1.0.7 there are true local "
-#| "variables. These are variables that are visible only from the current "
-#| "context and not from any called functions. We could define <varname>k</"
-#| "varname> as a local variable in the function <function>f</function>. To "
-#| "do this add a <command>local</command> statement as the first statement "
-#| "in the function (it must always be the first statement in the function). "
-#| "You can also make any arguments be local variables as well. That is, "
-#| "<placeholder-1/> Then the code will work as expected and prints out 11. "
-#| "Note that the <command>local</command> statement initializes all the "
-#| "refereced variables (except for function arguments) to a <constant>null</"
-#| "constant>."
 msgid ""
 "But there is another solution. Since version 1.0.7 there are true local "
 "variables. These are variables that are visible only from the current "
@@ -4201,12 +4103,6 @@ msgstr ""
 ");\n"
 
 #: C/genius.xml:2518(para)
-#, fuzzy
-#| msgid ""
-#| "If all variables are to be created as locals you can just pass an asterix "
-#| "instead of a list of variables. In this case the variables will not be "
-#| "initialized until they are actually set of course. So the following "
-#| "definition of <function>f</function> will also work: <placeholder-1/>"
 msgid ""
 "If all variables are to be created as locals you can just pass an asterisk "
 "instead of a list of variables. In this case the variables will not be "
@@ -4216,7 +4112,7 @@ msgstr ""
 "Si todas las variables se crean localmente, puede pasar un asterisco en "
 "lugar de una lista de variables. En este caso las variables no se "
 "inicializarán hasta que se fijen, desde luego. Entonces, la siguiente "
-"definición de <function>f</function> también funcionará:"
+"definición de <function>f</function> también funcionará: <placeholder-1/>"
 
 #: C/genius.xml:2531(para)
 msgid ""
@@ -4277,25 +4173,6 @@ msgstr ""
 
 # genus -> Genius
 #: C/genius.xml:2552(para)
-#, fuzzy
-#| msgid ""
-#| "Sometimes you have a larger program that you wrote into a file and want "
-#| "to read in that file. In these situations, you have two options. You can "
-#| "keep the functions you use most inside the <filename>~/.geniusinit</"
-#| "filename> file. Or if you want to load up a file in a middle of a session "
-#| "(or from within another file), you can type <command>load &lt;list of "
-#| "filenames&gt;</command> at the prompt. This has to be done on the top "
-#| "level and not inside any function or whatnot, and it cannot be part of "
-#| "any expression. It also has a slightly different syntax than the rest of "
-#| "genius, more similiar to a shell. You can enter the file in quotes. If "
-#| "you use the '' quotes, you will get exactly the string that you typed, if "
-#| "you use the \"\" quotes, special characters will be unescaped as they are "
-#| "for strings. Example: <placeholder-1/> There are also <command>cd</"
-#| "command>, <command>pwd</command> and <command>ls</command> commands built "
-#| "in. <command>cd</command> will take one argument, <command>ls</command> "
-#| "will take an argument that is like the glob in the unix shell (i.e., you "
-#| "can use wildcards). <command>pwd</command> takes no arguments. For "
-#| "example: <placeholder-2/>"
 msgid ""
 "Sometimes you have a larger program you wrote into a file and want to read "
 "that file into <application>Genius Mathematics Tool</application>. In these "
@@ -4316,18 +4193,19 @@ msgid ""
 "<placeholder-2/>"
 msgstr ""
 "Algunas veces tiene un programa más largo que escribió en un archivo y "
-"quiere leer dicho archivo. En estas situaciones tiene dos opciones. Puede "
-"conservar las funciones que más usa en el archivo <filename>~/.geniusinit</"
-"filename>. Si quiere cargar un archivo a la mitad de una sesión (o desde "
-"otro archivo), puede escribir <command>load &lt;list of filenames&gt;</"
-"command> en la línea de comandos. Esto se tiene que hacer desde el nivel más "
-"alto y no dentro de alguna función a algo similar, y no puede ser parte de "
-"una expresión. También tiene una sintaxis ligeramente distinta que el resto "
-"de Genius, similar a la que se usa en la consola. Puede escribir el nombre "
-"del archivo entre comillas. Si utiliza las comillas '' obtendrá exactamente "
-"la cadena que escriba, si utiliza las comillas \"\" no se escaparán los "
-"caracteres especiales como se hace con las cadenas. Ejemplo: <placeholder-1/"
-"> Los comandos <command>cd</command>, <command>pwd</command> y <command>ls</"
+"quiere leer dicho archivo con la <application>herramienta matemática Genius</"
+"application>. En estas situaciones tiene dos opciones. Puede conservar las "
+"funciones que más usa en el archivo <filename>~/.geniusinit</filename>. Si "
+"quiere cargar un archivo a la mitad de una sesión (o desde otro archivo), "
+"puede escribir <command>load &lt;list of filenames&gt;</command> en la línea "
+"de comandos. Esto se tiene que hacer desde el nivel más alto y no dentro de "
+"alguna función a algo similar, y no puede ser parte de una expresión. "
+"También tiene una sintaxis ligeramente distinta que el resto de Genius, "
+"similar a la que se usa en la consola. Puede escribir el nombre del archivo "
+"entre comillas. Si utiliza las comillas '' obtendrá exactamente la cadena "
+"que escriba, si utiliza las comillas \"\" no se escaparán los caracteres "
+"especiales como se hace con las cadenas. Ejemplo: <placeholder-1/> Los "
+"comandos <command>cd</command>, <command>pwd</command> y <command>ls</"
 "command> también están incluídos. El comando <command>cd</command> toma un "
 "argumento, <command>ls</command> toma una argumento que es como «glob» en la "
 "consola de Unix (puede utilizar comodines, por ejemplo). El comando "
@@ -4339,10 +4217,6 @@ msgid "Matrices in GEL"
 msgstr "Matrices en GEL"
 
 #: C/genius.xml:2570(para)
-#, fuzzy
-#| msgid ""
-#| "Genius has support for vectors and matrices and a sizable library of "
-#| "matrix manipulation and linear algebra functions."
 msgid ""
 "Genius has support for vectors and matrices and possesses a sizable library "
 "of matrix manipulation and linear algebra functions."
@@ -4372,14 +4246,6 @@ msgstr ""
 
 # matrixes -> matrices
 #: C/genius.xml:2577(para)
-#, fuzzy
-#| msgid ""
-#| "To enter matrixes, you can use one of the following two syntaxes. You can "
-#| "either enter the matrix on one line, separating values by commas and rows "
-#| "by semicolons. Or you can enter each row on one line, separating values "
-#| "by commas. You can also just combine the two methods. So to enter a 3x3 "
-#| "matrix of numbers 1-9 you could do <placeholder-1/> or <placeholder-2/> "
-#| "Do not use both ';' and return at once on the same line though."
 msgid ""
 "To enter matrices, you can use one of the following two syntaxes. You can "
 "either enter the matrix on one line, separating values by commas and rows by "
@@ -4426,12 +4292,6 @@ msgstr ""
 
 # similarly -> Similarly?
 #: C/genius.xml:2595(para)
-#, fuzzy
-#| msgid ""
-#| "You can also use the matrix expansion functionality to enter matricies. "
-#| "For example you can do: <placeholder-1/> and you should get "
-#| "<placeholder-2/> similiarly you can build matricies out of vectors and "
-#| "other stuff like that."
 msgid ""
 "You can also use the matrix expansion functionality to enter matrices. For "
 "example you can do: <placeholder-1/> and you should get <placeholder-2/> "
@@ -4897,10 +4757,6 @@ msgid "load \"file.gel\""
 msgstr "load «archivo.gel»"
 
 #: C/genius.xml:2864(para)
-#, fuzzy
-#| msgid ""
-#| "Load a file into the interpretor. The file will execute as if it were "
-#| "typed onto the command line."
 msgid ""
 "Load a file into the interpreter. The file will execute as if it were typed "
 "onto the command line."
@@ -5003,7 +4859,7 @@ msgstr ""
 #: C/genius.xml:3714(para) C/genius.xml:3743(para) C/genius.xml:7882(para)
 #: C/genius.xml:8124(para)
 msgid "Version 1.0.10 onwards."
-msgstr ""
+msgstr "Desde la versión 1.0.10 en adelante."
 
 #: C/genius.xml:2923(term)
 msgid "<anchor id=\"gel-function-AskString\"/>AskString"
@@ -5020,13 +4876,6 @@ msgid "AskString (query, default)"
 msgstr "AskString (consulta, predeterminado)"
 
 #: C/genius.xml:2927(para)
-#, fuzzy
-#| msgid ""
-#| "Asks a question and lets the user enter a string, which it then returns. "
-#| "If the user cancels or closes the window, then <constant>null</constant> "
-#| "is returned. The execution of the program is blocked until the user "
-#| "responds. If <varname>default</varname> is given, then it is pre-typed in "
-#| "for the user to just press enter on."
 msgid ""
 "Asks a question and lets the user enter a string, which it then returns. If "
 "the user cancels or closes the window, then <constant>null</constant> is "
@@ -5039,7 +4888,7 @@ msgstr ""
 "constante <constant>null</constant>. El programa se detiene hasta que el "
 "usuario responda. Si de forma predeterminada <varname>default</varname> se "
 "da, entonces se escribe de forma automática cada vez que el usuario presiona "
-"la tecla «Intro»."
+"la tecla «Intro» (desde la versión 1.0.6 en adelante)."
 
 #: C/genius.xml:2935(term)
 msgid "<anchor id=\"gel-function-Compose\"/>Compose"
@@ -5403,7 +5252,7 @@ msgstr ""
 #: C/genius.xml:3129(para) C/genius.xml:8431(para) C/genius.xml:8440(para)
 #: C/genius.xml:8449(para)
 msgid "Version 1.0.15 onwards."
-msgstr ""
+msgstr "Desde la versión 1.0.15 en adelante."
 
 #: C/genius.xml:3134(term)
 msgid "<anchor id=\"gel-function-display\"/>display"
@@ -5469,7 +5318,7 @@ msgstr ""
 #: C/genius.xml:7955(para) C/genius.xml:7981(para) C/genius.xml:8817(para)
 #: C/genius.xml:8831(para)
 msgid "Version 1.0.18 onwards."
-msgstr ""
+msgstr "Desde la versión 1.0.18 en adelante."
 
 #: C/genius.xml:3162(term)
 msgid "<anchor id=\"gel-function-error\"/>error"
@@ -5644,7 +5493,7 @@ msgstr ""
 #: C/genius.xml:7246(para) C/genius.xml:7267(para) C/genius.xml:7289(para)
 #: C/genius.xml:7310(para) C/genius.xml:7361(para) C/genius.xml:7394(para)
 msgid "Version 1.0.7 onwards."
-msgstr ""
+msgstr "Desde la versión 1.0.7 en adelante."
 
 #: C/genius.xml:3251(term)
 msgid "<anchor id=\"gel-function-set\"/>set"
@@ -5665,29 +5514,23 @@ msgstr ""
 "\t    "
 
 #: C/genius.xml:3254(para)
-#, fuzzy
-#| msgid ""
-#| "Set a global variable. The <varname>id</varname> can be either a string "
-#| "or a quoted identifier as follows. For example: <placeholder-1/> will set "
-#| "the global variable <varname>x</varname> to the value 1."
 msgid ""
 "Set a global variable. The <varname>id</varname> can be either a string or a "
 "quoted identifier. For example: <placeholder-1/> will set the global "
 "variable <varname>x</varname> to the value 1."
 msgstr ""
 "Establecer una variable global. La variable <varname>id</varname> sólo puede "
-"ser una cadena o un identificador como sigue. Por ejemplo: <placeholder-1/> "
-"establecerá la variable global <varname>x</varname> a 1."
+"ser una cadena o un identificador. Por ejemplo: <placeholder-1/> establecerá "
+"la variable global <varname>x</varname> a 1."
 
 #: C/genius.xml:3261(para) C/genius.xml:3280(para) C/genius.xml:3300(para)
-#, fuzzy
-#| msgid "Return the <varname>n</varname>th prime (up to a limit)."
 msgid ""
 "The function returns the <varname>val</varname>, to be usable in chaining."
-msgstr "Devuelve el <varname>n</varname>-ésimo primo (hasta un límite)."
+msgstr ""
+"La función devuelve el <varname>val</varname>, que podrá utilizarse para "
+"encadenamiento."
 
 #: C/genius.xml:3267(term)
-#| msgid "<anchor id=\"gel-function-elements\"/>elements"
 msgid "<anchor id=\"gel-function-SetElement\"/>SetElement"
 msgstr "<anchor id=\"gel-function-SetElement\"/>SetElement"
 
@@ -5698,9 +5541,6 @@ msgstr "SetElement (id,row,col,val)"
 
 #: C/genius.xml:3274(programlisting)
 #, no-wrap
-#| msgid ""
-#| "set(`x,1)\n"
-#| "\t    "
 msgid ""
 "SetElement(`x,2,3,1)\n"
 "\t    "
@@ -5709,11 +5549,6 @@ msgstr ""
 "\t    "
 
 #: C/genius.xml:3270(para)
-#, fuzzy
-#| msgid ""
-#| "Set a global variable. The <varname>id</varname> can be either a string "
-#| "or a quoted identifier as follows. For example: <placeholder-1/> will set "
-#| "the global variable <varname>x</varname> to the value 1."
 msgid ""
 "Set an element of a global variable which is a matrix. The <varname>id</"
 "varname> can be either a string or a quoted identifier. For example: "
@@ -5722,9 +5557,13 @@ msgid ""
 "name exists, or if it is set to something that's not a matrix, a new zero "
 "matrix of appropriate size will be created."
 msgstr ""
-"Establecer una variable global. La variable <varname>id</varname> sólo puede "
-"ser una cadena o un identificador como sigue. Por ejemplo: <placeholder-1/> "
-"establecerá la variable global <varname>x</varname> a 1."
+"Establecer un elemento de una variable global, que es una matriz. La "
+"variable <varname>id</varname> puede ser una cadena o un identificador "
+"entrecomillado. Por ejemplo: <placeholder-1/> establecerá el elemento de la "
+"segunda fila, tercera columna de la variable global <varname>x</varname> a "
+"1. Si no existe el nombre de la variable global, o si se configura algo que "
+"no es una matriz, se creará una nueva matriz con el tamaño apropiado rellena "
+"con ceros."
 
 #: C/genius.xml:3278(para)
 msgid ""
@@ -5735,24 +5574,19 @@ msgstr ""
 
 #: C/genius.xml:3282(para) C/genius.xml:3302(para)
 msgid "Available from 1.0.18 onwards."
-msgstr ""
+msgstr "Disponible desde la versión 1.0.10 en adelante."
 
 #: C/genius.xml:3287(term)
-#| msgid "<anchor id=\"gel-function-elements\"/>elements"
 msgid "<anchor id=\"gel-function-SetVElement\"/>SetVElement"
 msgstr "<anchor id=\"gel-function-SetVElement\"/>SetVElement"
 
 #: C/genius.xml:3289(synopsis)
 #, no-wrap
-#| msgid "set (id,val)"
 msgid "SetElement (id,elt,val)"
 msgstr "SetElement (id,elt,val)"
 
 #: C/genius.xml:3294(programlisting)
 #, no-wrap
-#| msgid ""
-#| "set(`x,1)\n"
-#| "\t    "
 msgid ""
 "SetElement(`x,2,1)\n"
 "\t    "
@@ -6207,7 +6041,7 @@ msgstr ""
 #: C/genius.xml:7498(para) C/genius.xml:7511(para) C/genius.xml:7767(para)
 #: C/genius.xml:8582(para) C/genius.xml:8992(para) C/genius.xml:9029(para)
 msgid "Version 1.0.16 onwards."
-msgstr ""
+msgstr "Desde la versión 1.0.16 en adelante."
 
 #: C/genius.xml:3530(term)
 msgid ""
@@ -10140,7 +9974,7 @@ msgstr ""
 
 #: C/genius.xml:5699(para)
 msgid "Version 1.0.13 onwards."
-msgstr ""
+msgstr "Desde la versión 1.0.13 en adelante."
 
 #: C/genius.xml:5704(term)
 msgid "<anchor id=\"gel-function-SortVector\"/>SortVector"
@@ -14078,14 +13912,6 @@ msgstr ""
 "\"gel-function-LinePlotDrawLine\">LinePlotDrawLine</link>."
 
 #: C/genius.xml:7848(para)
-#| msgid ""
-#| "Examples: <screen><prompt>genius&gt;</prompt> <userinput>SurfacePlot(|"
-#| "sin|,-1,1,-1,1,0,1.5)</userinput>\n"
-#| "<prompt>genius&gt;</prompt> <userinput>SurfacePlot(`(x,"
-#| "y)=x^2+y,-1,1,-1,1,-2,2)</userinput>\n"
-#| "<prompt>genius&gt;</prompt> <userinput>SurfacePlot(`(z)=|z|"
-#| "^2,-1,1,-1,1,0,2)</userinput>\n"
-#| "</screen>"
 msgid ""
 "Example: <screen><prompt>genius&gt;</prompt> <userinput>LinePlotClear();</"
 "userinput>\n"
@@ -14534,14 +14360,6 @@ msgstr ""
 "\">LinePlotDrawLine</link>."
 
 #: C/genius.xml:8090(para)
-#| msgid ""
-#| "Examples: <screen><prompt>genius&gt;</prompt> <userinput>SurfacePlot(|"
-#| "sin|,-1,1,-1,1,0,1.5)</userinput>\n"
-#| "<prompt>genius&gt;</prompt> <userinput>SurfacePlot(`(x,"
-#| "y)=x^2+y,-1,1,-1,1,-2,2)</userinput>\n"
-#| "<prompt>genius&gt;</prompt> <userinput>SurfacePlot(`(z)=|z|"
-#| "^2,-1,1,-1,1,0,2)</userinput>\n"
-#| "</screen>"
 msgid ""
 "Example: <screen><prompt>genius&gt;</prompt> <userinput>LinePlotClear();</"
 "userinput>\n"
@@ -15609,21 +15427,6 @@ msgstr ""
 "leyenda en un gráfico. Es decir, si se imprimen las leyendas."
 
 #: C/genius.xml:8681(para)
-#| msgid ""
-#| "Examples: <screen><prompt>genius&gt;</prompt> "
-#| "<userinput>LinePlotDrawLine(0,0,1,1,\"color\",\"blue\",\"thickness\",3)</"
-#| "userinput>\n"
-#| "<prompt>genius&gt;</prompt> "
-#| "<userinput>LinePlotDrawLine([0,0;1,-1;-1,-1])</userinput>\n"
-#| "<prompt>genius&gt;</prompt> <userinput>LinePlotDrawLine([0,0;1,1],\"arrow"
-#| "\",\"end\")</userinput>\n"
-#| "<prompt>genius&gt;</prompt> "
-#| "<userinput>LinePlotDrawLine(EulersMethodFull(`(x,y)=y,0,3,100),\"color\","
-#| "\"blue\",\"legend\",\"The Solution\")</userinput>\n"
-#| "<prompt>genius&gt;</prompt> <userinput>for r=0.0 to 1.0 by 0.1 do "
-#| "LinePlotDrawLine([0,0;1,r],\"color\",[r,(1-r),0.5],\"window\",[0,1,0,1])</"
-#| "userinput>\n"
-#| "</screen>"
 msgid ""
 "Examples: <screen><prompt>genius&gt;</prompt> "
 "<userinput>LinePlotDrawLine(0,0,1,1,\"color\",\"blue\",\"thickness\",3)</"
@@ -15654,19 +15457,16 @@ msgstr ""
 "</screen>"
 
 #: C/genius.xml:8694(term)
-#| msgid "<anchor id=\"gel-function-LinePlotDrawLine\"/>LinePlotDrawLine"
 msgid "<anchor id=\"gel-function-LinePlotDrawPoints\"/>LinePlotDrawPoints"
 msgstr "<anchor id=\"gel-function-LinePlotDrawPoints\"/>LinePlotDrawPoints"
 
 #: C/genius.xml:8696(synopsis)
 #, no-wrap
-#| msgid "LinePlotDrawLine (v,...)"
 msgid "LinePlotDrawPoints (x,y,...)"
 msgstr "LinePlotDrawPoints (x,y,...)"
 
 #: C/genius.xml:8697(synopsis)
 #, no-wrap
-#| msgid "LinePlotDrawLine (v,...)"
 msgid "LinePlotDrawPoints (v,...)"
 msgstr "LinePlotDrawPoints (v,...)"
 
@@ -15750,21 +15550,6 @@ msgstr ""
 "verde y azul componentes con valores que solo pueden ser 0 o 1."
 
 #: C/genius.xml:8735(para)
-#| msgid ""
-#| "Examples: <screen><prompt>genius&gt;</prompt> "
-#| "<userinput>LinePlotDrawLine(0,0,1,1,\"color\",\"blue\",\"thickness\",3)</"
-#| "userinput>\n"
-#| "<prompt>genius&gt;</prompt> "
-#| "<userinput>LinePlotDrawLine([0,0;1,-1;-1,-1])</userinput>\n"
-#| "<prompt>genius&gt;</prompt> <userinput>LinePlotDrawLine([0,0;1,1],\"arrow"
-#| "\",\"end\")</userinput>\n"
-#| "<prompt>genius&gt;</prompt> "
-#| "<userinput>LinePlotDrawLine(EulersMethodFull(`(x,y)=y,0,3,100),\"color\","
-#| "\"blue\",\"legend\",\"The Solution\")</userinput>\n"
-#| "<prompt>genius&gt;</prompt> <userinput>for r=0.0 to 1.0 by 0.1 do "
-#| "LinePlotDrawLine([0,0;1,r],\"color\",[r,(1-r),0.5],\"window\",[0,1,0,1])</"
-#| "userinput>\n"
-#| "</screen>"
 msgid ""
 "Examples: <screen><prompt>genius&gt;</prompt> "
 "<userinput>LinePlotDrawPoints(0,0,\"color\",\"blue\",\"thickness\",3)</"
@@ -15786,7 +15571,7 @@ msgstr ""
 
 #: C/genius.xml:8742(para)
 msgid "Available from version 1.0.18 onwards."
-msgstr ""
+msgstr "Disponible desde la versión 1.0.18 en adelante."
 
 #: C/genius.xml:8749(term)
 msgid "<anchor id=\"gel-function-LinePlotParametric\"/>LinePlotParametric"
@@ -15950,13 +15735,11 @@ msgstr ""
 "descongelará al finalizar la ejecución de cualquier programa."
 
 #: C/genius.xml:8836(term)
-#| msgid "<anchor id=\"gel-function-LinePlotWindow\"/>LinePlotWindow"
 msgid "<anchor id=\"gel-function-PlotWindowPresent\"/>PlotWindowPresent"
 msgstr "<anchor id=\"gel-function-PlotWindowPresent\"/>PlotWindowPresent"
 
 #: C/genius.xml:8838(synopsis)
 #, no-wrap
-#| msgid "Plot Window"
 msgid "PlotWindowPresent ()"
 msgstr "PlotWindowPresent ()"
 
@@ -15971,7 +15754,7 @@ msgstr ""
 
 #: C/genius.xml:8848(para)
 msgid "Version 1.0.19 onwards."
-msgstr ""
+msgstr "Desde la versión 1.0.19 en adelante."
 
 #: C/genius.xml:8853(term)
 msgid ""
@@ -16142,13 +15925,11 @@ msgstr ""
 "</screen>"
 
 #: C/genius.xml:8940(term)
-#| msgid "<anchor id=\"gel-function-SurfacePlot\"/>SurfacePlot"
 msgid "<anchor id=\"gel-function-SurfacePlotClear\"/>SurfacePlotClear"
 msgstr "<anchor id=\"gel-function-SurfacePlotClear\"/>SurfacePlotClear"
 
 #: C/genius.xml:8942(synopsis)
 #, no-wrap
-#| msgid "SurfacePlot (func)"
 msgid "SurfacePlotClear ()"
 msgstr "SurfacePlotClear ()"
 
@@ -16166,7 +15947,7 @@ msgstr ""
 
 #: C/genius.xml:8947(para)
 msgid "Available in version 1.0.19 and onwards."
-msgstr ""
+msgstr "Disponible en la versión 1.0.19 y posteriores."
 
 #: C/genius.xml:8954(term)
 msgid "<anchor id=\"gel-function-SurfacePlotData\"/>SurfacePlotData"
@@ -16351,20 +16132,16 @@ msgstr ""
 "</screen>"
 
 #: C/genius.xml:9034(term)
-#| msgid ""
-#| "<anchor id=\"gel-function-SurfacePlotDrawLegends\"/>SurfacePlotDrawLegends"
 msgid "<anchor id=\"gel-function-SurfacePlotDrawLine\"/>SurfacePlotDrawLine"
 msgstr "<anchor id=\"gel-function-SurfacePlotDrawLine\"/>SurfacePlotDrawLine"
 
 #: C/genius.xml:9036(synopsis)
 #, no-wrap
-#| msgid "LinePlotDrawLine (x1,y1,x2,y2,...)"
 msgid "SurfacePlotDrawLine (x1,y1,z1,x2,y2,z2,...)"
 msgstr "SurfacePlotDrawLine (x1,y1,z1,x2,y2,z2,...)"
 
 #: C/genius.xml:9037(synopsis)
 #, no-wrap
-#| msgid "LinePlotDrawLine (v,...)"
 msgid "SurfacePlotDrawLine (v,...)"
 msgstr "SurfacePlotDrawLine (v,...)"
 
@@ -16440,12 +16217,6 @@ msgstr ""
 "línea."
 
 #: C/genius.xml:9077(para)
-#| msgid ""
-#| "Examples: <screen><prompt>genius&gt;</prompt> <userinput>LinePlot(sin,"
-#| "cos)</userinput>\n"
-#| "<prompt>genius&gt;</prompt> <userinput>LinePlot(`(x)=x^2,-1,1,0,1)</"
-#| "userinput>\n"
-#| "</screen>"
 msgid ""
 "Examples: <screen><prompt>genius&gt;</prompt> "
 "<userinput>SurfacePlotDrawLine(0,0,0,1,1,1,\"color\",\"blue\",\"thickness"
@@ -16463,10 +16234,9 @@ msgstr ""
 
 #: C/genius.xml:9083(para) C/genius.xml:9137(para)
 msgid "Available from version 1.0.19 onwards."
-msgstr ""
+msgstr "Disponible desde la versión 1.0.19 en adelante."
 
 #: C/genius.xml:9090(term)
-#| msgid "<anchor id=\"gel-function-SurfacePlotData\"/>SurfacePlotData"
 msgid ""
 "<anchor id=\"gel-function-SurfacePlotDrawPoints\"/>SurfacePlotDrawPoints"
 msgstr ""
@@ -16474,13 +16244,11 @@ msgstr ""
 
 #: C/genius.xml:9092(synopsis)
 #, no-wrap
-#| msgid "LinePlotDrawLine (x1,y1,x2,y2,...)"
 msgid "SurfacePlotDrawPoints (x,y,z,...)"
 msgstr "SurfacePlotDrawPoints (x,y,z,...)"
 
 #: C/genius.xml:9093(synopsis)
 #, no-wrap
-#| msgid "LinePlotDrawLine (v,...)"
 msgid "SurfacePlotDrawPoints (v,...)"
 msgstr "SurfacePlotDrawPoints (v,...)"
 
@@ -16532,12 +16300,6 @@ msgstr ""
 "color, el ancho, la ventana como 4 vectores, tipo de flecha, o la leyenda."
 
 #: C/genius.xml:9131(para)
-#| msgid ""
-#| "Examples: <screen><prompt>genius&gt;</prompt> <userinput>LinePlot(sin,"
-#| "cos)</userinput>\n"
-#| "<prompt>genius&gt;</prompt> <userinput>LinePlot(`(x)=x^2,-1,1,0,1)</"
-#| "userinput>\n"
-#| "</screen>"
 msgid ""
 "Examples: <screen><prompt>genius&gt;</prompt> "
 "<userinput>SurfacePlotDrawPoints(0,0,0,\"color\",\"blue\",\"thickness\",3)</"
@@ -16578,7 +16340,7 @@ msgstr ""
 
 #: C/genius.xml:9152(para) C/genius.xml:9171(para)
 msgid "Version 1.0.6 onwards."
-msgstr ""
+msgstr "Desde la versión 1.0.16 en adelante."
 
 #: C/genius.xml:9157(term)
 msgid ""
