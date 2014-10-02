@@ -2323,7 +2323,7 @@ ensure_window (gboolean do_window_present)
 	errors_label_box = gtk_hbox_new (FALSE, GENIUS_PAD);
 	gtk_box_pack_start
 		(GTK_BOX (errors_label_box),
-		 GTK_WIDGET (gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, 24)),
+		 GTK_WIDGET (gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_SMALL_TOOLBAR)),
 		 FALSE, FALSE, 0);
 	gtk_box_pack_start
 		(GTK_BOX (errors_label_box),
