@@ -1,3 +1,13 @@
+Thu Oct 02 15:09:30 2014  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/calc.c: fix minor memory leak
+
+	* gtkextra/gtkplotcanvasplot.c: fix use after free error
+
+	* src/graphing.c: properly show/hide the legends in the "moveabout"
+	  and therefore it always properly does the right thing even without
+	  LinePlotClear before LinePlotDrawLine or Points
+
 Tue Sep 30 17:02:54 2014  Jiri (George) Lebl <jirka@5z.com>
 
 	* pixmaps/*: add svg, 22x22, 24x24, 256x256 versions, and improve the

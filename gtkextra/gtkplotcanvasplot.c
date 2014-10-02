@@ -146,8 +146,10 @@ static void
 gtk_plot_canvas_plot_destroy(GtkObject *object)
 {
   GtkWidget *widget = GTK_WIDGET(GTK_PLOT_CANVAS_PLOT(object)->plot);
-  g_object_unref(widget);
-  widget->parent = NULL;
+  if (widget != NULL) {
+	  widget->parent = NULL;
+	  g_object_unref(widget);
+  }
 }
 
 static void 

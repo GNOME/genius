@@ -1744,6 +1744,11 @@ line_plot_move_about (void)
 				 1.0-2*PROPORTION_OFFSETY);
 		gtk_plot_legends_move (GTK_PLOT (line_plot), 0.80, 0.05);
 	}
+
+	if (lineplot_draw_legends)
+		gtk_plot_show_legends (GTK_PLOT (line_plot));
+	else
+		gtk_plot_hide_legends (GTK_PLOT (line_plot));
 }
 
 static void
@@ -4962,11 +4967,6 @@ plot_functions (gboolean do_window_present,
 	plot_setup_axis ();
 
 	replot_fields ();
-
-	if (lineplot_draw_legends)
-		gtk_plot_show_legends (GTK_PLOT (line_plot));
-	else
-		gtk_plot_hide_legends (GTK_PLOT (line_plot));
 
 	line_plot_move_about ();
 
@@ -10544,11 +10544,6 @@ set_LinePlotDrawLegends (GelETree * a)
 		lineplot_draw_legends = a->bool_.bool_;
 
 	if (line_plot != NULL) {
-		if (lineplot_draw_legends)
-			gtk_plot_show_legends (GTK_PLOT (line_plot));
-		else
-			gtk_plot_hide_legends (GTK_PLOT (line_plot));
-
 		line_plot_move_about ();
 
 		if (plot_canvas != NULL) {

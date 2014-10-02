@@ -2381,6 +2381,7 @@ load_compiled_fp (const char *file, FILE *fp)
 				g_slist_free(li);
 				goto continue_reading;
 			}
+			g_free (b2);
 			b2 = g_strdup (at->uncompiled);
 		}
 
