@@ -293,8 +293,11 @@ When You Start Genius
           the full expression of the last answer (useful if the
           last answer was too large to fit onto the console), or
           you can view a listing of the values of all user defined
-          variables. Finally it allows plotting functions using a
-          user friendly dialog box.
+          variables. You can also monitor user variables, which is
+          especially useful while a long calculation is running,
+          or to debug a certain program. Finally the Calculator
+          allows plotting functions using a user friendly dialog
+          box.
 
           The Examples menu is a list of example programs or
           demos. If you open the menu, it will load the example
@@ -820,8 +823,9 @@ Built-in Variables
    number of other built-in variables. See the Section called
    Constants in the Chapter called List of GEL functions for a
    full list. Note that i is not by default the square root of
-   negative one (the imaginary number), and is undefined. If you
-   wish to write the imaginary number you need to use 1i.
+   negative one (the imaginary number), and is undefined to allow
+   its use as a counter. If you wish to write the imaginary number
+   you need to use 1i.
      __________________________________________________________
 
 Previous Result Variable
@@ -997,7 +1001,7 @@ Comments
    GEL is similar to other scripting languages in that # denotes a
    comments, that is text that is not meant to be evaluated.
    Everything beyond the pound sign till the end of line will just
-   be ignored. So
+   be ignored. For example,
 # This is just a comment
 # every line in a comment must have its own pond sign
 # in the next line we set x to the value 123
