@@ -152,8 +152,8 @@ function PeriodicExtension(f,a,b) =
 	`(x)[f,a,b] = (
 		local *;
 		#This is pretty stupid, but simplest way to do this
-		while x > L do increment x by -(b-a);
-		while x < -L do increment x by (b-a);
+		while x > b do increment x by (a-b); #-(b-a)
+		while x < a do increment x by (b-a);
 		(f call (x))
 	)
 )
