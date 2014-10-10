@@ -3060,10 +3060,20 @@ max_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			g_assert (max != NULL);
 			return gel_copynode (max);
 		} else if (a[0]->type == GEL_VALUE_NODE) {
+			if (mpw_is_complex (a[0]->val.value)) {
+				gel_errorout (_("%s: Cannot compare complex numbers"),
+					      "max");
+				return NULL;
+			}
+
 			/*
 			 * Evil optimization to avoid copying the node from the argument
 			 */
 			return gel_stealnode (a[0]);
+		} else {
+			gel_errorout (_("%s: Input not a number of matrix of numbers."),
+				      "max");
+			return NULL;
 		}
 	}
 
@@ -3147,10 +3157,19 @@ min_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			g_assert (min != NULL);
 			return gel_copynode (min);
 		} else if (a[0]->type == GEL_VALUE_NODE) {
+			if (mpw_is_complex (a[0]->val.value)) {
+				gel_errorout (_("%s: Cannot compare complex numbers"),
+					      "min");
+				return NULL;
+			}
 			/*
 			 * Evil optimization to avoid copying the node from the argument
 			 */
 			return gel_stealnode (a[0]);
+		} else {
+			gel_errorout (_("%s: Input not a number of matrix of numbers."),
+				      "min");
+			return NULL;
 		}
 	}
 

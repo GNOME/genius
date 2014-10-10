@@ -192,7 +192,7 @@
     </para> 
 
     <para>
-	This manual describes mostly the graphical version of the calculator,
+	    Parts of this manual describe the graphical version of the calculator,
 	but the language is of course the same.  The command line only version
 	lacks the graphing capabilities and all other capabilities that require
 	the graphical user interface.
@@ -347,7 +347,9 @@ while a long calculation is running, or to debug a certain program.
 	    </para>
 	    <para>
 	    	Alternatively you can write longer programs and those can
-		appear in separate tabs and can be stored in files for later
+		appear in separate tabs.  The programs are a set of commands or
+	        functions that can be run all at once rather than entering them
+		at the command line.  The programs can be saved in files for later
 		retrieval.
 	    </para>
           </listitem>
@@ -417,12 +419,18 @@ do <userinput>cd directory</userinput> as in the UNIX command shell.
     <sect1 id="genius-usage-create-program"> 
       <title>To Create a New Program </title> 
       <para>
+	      If you wish to enter several more complicated commands, or perhaps write a complicated
+	      function using the <link linkend="genius-gel">GEL</link> language.  You can create a new
+	     program.
+      </para>
+      <para>
 To start writing a new program, choose
 <menuchoice><guimenu>File</guimenu><guimenuitem>New
 Program</guimenuitem></menuchoice>. A new tab will appear in the work area. You
 can write a <link linkend="genius-gel">GEL</link> program in this work area.
 Once you have written your program you can run it by 
-<menuchoice><guimenu>Calculator</guimenu><guimenuitem>Run</guimenuitem></menuchoice>.
+<menuchoice><guimenu>Calculator</guimenu><guimenuitem>Run</guimenuitem></menuchoice> (or
+the <guilabel>Run</guilabel> toolbar button).
 This will execute your program and will display any output on the <guilabel>Console</guilabel> tab.
 Executing a program is equivalent of taking the text of the program and
 typing it into the console.  The only difference is that this input is done
@@ -433,7 +441,16 @@ tab.  The currently selected program has its tab in bold type.  To select a
 program, just click on its tab.
       </para>
       <para>
-To save the program you've just written, choose <menuchoice><guimenu>File</guimenu><guimenuitem>Save As...</guimenuitem></menuchoice>
+To save the program you've just written, choose <menuchoice><guimenu>File</guimenu><guimenuitem>Save As...</guimenuitem></menuchoice>.
+Similarly as in other programs you can choose
+<menuchoice><guimenu>File</guimenu><guimenuitem>Save</guimenuitem></menuchoice> to save a program that already has
+a filename attached to it.  If you have many opened programs you have edited and wish to save you can also choose
+<menuchoice><guimenu>File</guimenu><guimenuitem>Save All Unsaved</guimenuitem></menuchoice>.
+      </para>
+      <para>
+	      Programs that have unsaved changes will have a "[+]" next to their filename.  This way you can see if the file
+	      on disk and the currently opened tab differ in content.  Programs which have not yet had a filename associated
+	      with them are always considered unsaved and no "[+]" is printed.
       </para>
     </sect1>
 
@@ -450,6 +467,12 @@ To run a program from a file, choose
 <menuchoice><guimenu>File</guimenu><guimenuitem>Load and
 Run...</guimenuitem></menuchoice>.  This will run the program without opening it
 in a separate tab.  This is equivalent to the <command>load</command> command.
+      </para>
+      <para>
+	      If you have made edits to a file you wish to throw away and want to reload to the version that's on disk,
+	      you can choose the
+	      <menuchoice><guimenu>File</guimenu><guimenuitem>Reload from Disk</guimenuitem></menuchoice> menuitem.  This is useful for experimenting
+	      with a program and making temporary edits, to run a program, but that you do not intend to keep.
       </para>
     </sect1>
 
@@ -1118,28 +1141,16 @@ Not all functions can be used in this way.  For example, when you use a binary o
 
     </sect1>
 
-    <sect1 id="genius-gel-absolute-value-modulus">
-      <title>Absolute Value / Modulus</title>
-      <para>
-You can make an absolute value of something by putting the
-<literal>|</literal>'s around it.  For example:
-<programlisting>|a-b|</programlisting>
-</para>
-<para>
-In case the expression is a complex number the result will be the modulus
-(distance from the origin).  For example:
-<userinput>|3 * e^(1i*pi)|</userinput>
-returns 3.
-      </para>
-    </sect1>
-
     <sect1 id="genius-gel-separator">
       <title>Separator</title>
       <para>
-In GEL if you want to type more than one command you have to use
-the <literal>;</literal> operator, which is a way to separate expressions,
-such a combined expression will return whatever is the result of the last
-one, so suppose you type the following:
+	      GEL is somewhat different from other languages in how it deals with multiple commands and functions.
+	      In GEL you must chain commands together with a separator operator.
+That is, if you want to type more than one expression you have to use
+the <literal>;</literal> operator in between the expressions.   This is
+a way in which both expressions are evaluated and the result of the second one (or the last one
+if there is more than two expressions) is returned.
+Suppose you type the following:
 <programlisting>3 ; 5
 </programlisting>
 This expression will yield 5.
@@ -1150,12 +1161,17 @@ especially if the <literal>;</literal> is not the top most primitive. This sligh
 other programming languages where the <literal>;</literal> is a terminator of statements, whereas
 in GEL it&rsquo;s actually a binary operator. If you are familiar with pascal
 this should be second nature. However genius can let you pretend it is a
-terminator somewhat, if a <literal>;</literal> is found at the end of a parenthesis or a block,
-genius will itself append a null node to it as if you would have written
+terminator to some degree.  If a <literal>;</literal> is found at the end of a parenthesis or a block,
+genius will append a null to it as if you would have written
 <userinput>;null</userinput>.
 This is useful in case you do not want to return a value from say a loop,
 or if you handle the return differently. Note that it will slightly slow down
 the code if it is executed too often as there is one more operator involved.
+      </para>
+      <para>
+	      If you are typing expressions in a program you do not have to add a semicolon.  In this case
+	      genius will simply print the return value whenever it executes the expression.  However, do note that if you are defining a
+	      function, the body of the function is a single expression.
       </para>
     </sect1>
 
@@ -1179,7 +1195,7 @@ x=123;
 	      &appname; implements modular arithmetic.
 To use it you just add "mod &lt;integer&gt;" after
 the expression.  Example:
-<programlisting>2^(5!) * 3^(6!) mod 5</programlisting>
+<userinput>2^(5!) * 3^(6!) mod 5</userinput>
 It could be possible to do modular arithmetic by computing with integers and then modding in the end with
 the <literal>%</literal> operator, which simply gives the remainder, but
 that may be time consuming if not impossible when working with larger numbers.
@@ -1285,9 +1301,12 @@ different from <literal>=</literal> because it never gets translated to a
          <term><userinput>|a|</userinput></term>
          <listitem>
            <para>
-             Absolute value or modulus (if <varname>a</varname>
-	     is a complex number).
-           </para>
+		   Absolute value.
+		   In case the expression is a complex number the result will be the modulus
+(distance from the origin).  For example:
+<userinput>|3 * e^(1i*pi)|</userinput>
+returns 3.
+	  </para>
           <para>
 	    See
 	    <ulink url="http://mathworld.wolfram.com/AbsoluteValue.html">Mathworld</ulink> for more information.
@@ -3017,7 +3036,7 @@ and this builtin function makes it possible to make GEL functions aware of modul
          <term><anchor id="gel-function-Identity"/>Identity</term>
          <listitem>
           <synopsis>Identity (x)</synopsis>
-          <para>Identity function, returns its argument.</para>
+	  <para>Identity function, returns its argument.  It is equivalent to <userinput>function Identity(x)=x</userinput>.</para>
          </listitem>
         </varlistentry>
 
@@ -3796,6 +3815,7 @@ vectorfield plot.  (See <link linkend="gel-function-VectorfieldPlot"><function>V
 	  </para>
           <para>
 	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Catalan%27s_constant">Wikipedia</ulink>, or
 	    <ulink url="http://mathworld.wolfram.com/CatalansConstant.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -3807,7 +3827,7 @@ vectorfield plot.  (See <link linkend="gel-function-VectorfieldPlot"><function>V
           <synopsis>EulerConstant</synopsis>
           <para>Aliases: <function>gamma</function></para>
           <para>
-	    Euler's Constant gamma.  Sometimes called the
+	    Euler's constant gamma.  Sometimes called the
 	    Euler-Mascheroni constant.
 	  </para>
           <para>
@@ -3837,7 +3857,9 @@ vectorfield plot.  (See <link linkend="gel-function-VectorfieldPlot"><function>V
          <term><anchor id="gel-function-Gravity"/>Gravity</term>
          <listitem>
           <synopsis>Gravity</synopsis>
-          <para>Free fall acceleration at sea level.</para>
+	  <para>Free fall acceleration at sea level in meters per second squared.  This is the standard gravity constant 9.80665.  The gravity
+		  in your particular neck of the woods might be different due to different altitude and the fact that the earth is not perfectly
+	  	  round and uniform.</para>
           <para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Standard_gravity">Wikipedia</ulink> for more information.
@@ -3852,8 +3874,9 @@ vectorfield plot.  (See <link linkend="gel-function-VectorfieldPlot"><function>V
           <para>
 	    The base of the natural logarithm.  <userinput>e^x</userinput>
 	    is the exponential function
-	    <link linkend="gel-function-exp"><function>exp</function></link>.  This is the
-	    number approximately 2.71828182846...
+	    <link linkend="gel-function-exp"><function>exp</function></link>.  It is approximately
+	    2.71828182846...  This number is sometimes called Euler's number, although there are
+	    several numbers that are also called Euler's.  An example is the gamma constant: <link linkend="gel-function-EulerConstant"><function>EulerConstant</function></link>.
 	  </para>
           <para>
 	    See
@@ -3895,7 +3918,8 @@ vectorfield plot.  (See <link linkend="gel-function-VectorfieldPlot"><function>V
           <para>
 	    Absolute value of a number and if <varname>x</varname> is
 	    a complex value the modulus of <varname>x</varname>.  I.e. this
-	    the distance of <varname>x</varname> to the origin.
+	    the distance of <varname>x</varname> to the origin.  This is equivalent
+	    to <userinput>|x|</userinput>.
 	  </para>
           <para>
 	    See
@@ -3960,7 +3984,7 @@ all its elements are conjugated.</para>
          <listitem>
           <synopsis>Im (z)</synopsis>
           <para>Aliases: <function>ImaginaryPart</function></para>
-          <para>Get the imaginary part of a complex number.</para>
+          <para>Get the imaginary part of a complex number.  For example <userinput>Re(3+4i)</userinput> yields 4.</para>
           <para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Imaginary_part">Wikipedia</ulink> for more information.
@@ -3980,7 +4004,9 @@ all its elements are conjugated.</para>
          <term><anchor id="gel-function-IsComplex"/>IsComplex</term>
          <listitem>
           <synopsis>IsComplex (num)</synopsis>
-          <para>Check if argument is a complex (non-real) number.</para>
+	  <para>Check if argument is a complex (non-real) number.  Do note that we really mean nonreal number.  That is,
+	  <userinput>IsComplex(3)</userinput> yields false, while
+	  <userinput>IsComplex(3-1i)</userinput> yields true.</para>
          </listitem>
         </varlistentry>
 
@@ -3997,7 +4023,7 @@ all its elements are conjugated.</para>
          <term><anchor id="gel-function-IsFloat"/>IsFloat</term>
          <listitem>
           <synopsis>IsFloat (num)</synopsis>
-          <para>Check if argument is a floating point number (non-complex).</para>
+          <para>Check if argument is a real floating point number (non-complex).</para>
          </listitem>
         </varlistentry>
 
@@ -4006,7 +4032,9 @@ all its elements are conjugated.</para>
          <listitem>
           <synopsis>IsGaussInteger (num)</synopsis>
           <para>Aliases: <function>IsComplexInteger</function></para>
-          <para>Check if argument is a possibly complex integer.</para>
+	  <para>Check if argument is a possibly complex integer.  That is a complex integer is a number of
+		  the form <userinput>n+1i*m</userinput> where <varname>n</varname> and <varname>m</varname>
+	  are integers.</para>
          </listitem>
         </varlistentry>
 
@@ -4022,7 +4050,7 @@ all its elements are conjugated.</para>
          <term><anchor id="gel-function-IsNonNegativeInteger"/>IsNonNegativeInteger</term>
          <listitem>
           <synopsis>IsNonNegativeInteger (num)</synopsis>
-          <para>Check if argument is a non-negative real integer.</para>
+          <para>Check if argument is a non-negative real integer.  That is, either a positive integer or zero.</para>
          </listitem>
         </varlistentry>
 
@@ -4069,7 +4097,7 @@ we accept the convention that 0 is not a natural number.</para>
          <listitem>
           <synopsis>Re (z)</synopsis>
           <para>Aliases: <function>RealPart</function></para>
-          <para>Get the real part of a complex number.</para>
+	  <para>Get the real part of a complex number.  For example <userinput>Re(3+4i)</userinput> yields 3.</para>
           <para>
 	    See
 	    <ulink url="http://en.wikipedia.org/wiki/Real_part">Wikipedia</ulink> for more information.
@@ -4155,6 +4183,12 @@ value then <function>Sign</function> returns the direction or 0.
          <listitem>
           <synopsis>ln (x)</synopsis>
           <para>The natural logarithm, the logarithm to base <varname>e</varname>.</para>
+          <para>
+	    See
+	    <ulink url="http://en.wikipedia.org/wiki/Natural_logarithm">Wikipedia</ulink> or
+	    <ulink url="http://planetmath.org/encyclopedia/LogarithmFunction.html">Planetmath</ulink> or
+	    <ulink url="http://mathworld.wolfram.com/NaturalLogarithm.html">Mathworld</ulink> for more information.
+	  </para>
          </listitem>
         </varlistentry>
 
