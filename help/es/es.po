@@ -9,14 +9,14 @@
 # miguel rodriguez nuñez <bokerones.fritos@gmail.com>, 2012.
 # Nicolás Satragno <nsatragno@gnome.org>, 2013.
 # Miguel Rodríguez Núñez <bokerones.fritos@gmail.com>, 2012, 2013, 2014.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2013, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: daniel.mustieles@gmail.com\n"
-"POT-Creation-Date: 2014-12-18 18:07+0000\n"
-"PO-Revision-Date: 2014-12-22 11:46+0100\n"
+"POT-Creation-Date: 2014-12-26 06:05+0000\n"
+"PO-Revision-Date: 2015-01-05 08:39+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -769,6 +769,11 @@ msgid ""
 "tab differ in content. Programs which have not yet had a filename associated "
 "with them are always considered unsaved and no \"[+]\" is printed."
 msgstr ""
+"Los programas que no han guardado los cambios todavía, tienen un símbolo "
+"«[+]» junto al nombre de archivo. Así puede ver si el archivo en la pestaña "
+"actual y el que está guardado en el disco, difieren en su contenido. Los "
+"programas que no se han nombrado todavía, se consideran siempre como no "
+"guardados, por lo que no se muestra el símbolo «[+]»."
 
 #: C/genius.xml:458(title)
 msgid "To Open and Run a Program"
@@ -805,6 +810,12 @@ msgid ""
 "This is useful for experimenting with a program and making temporary edits, "
 "to run a program, but that you do not intend to keep."
 msgstr ""
+"Si ha hecho cambios en un archivo y quiere descartarlos y volver a la "
+"versión original del disco, puede elegir la opción de menú "
+"<menuchoice><guimenu>Archivo</guimenu><guimenuitem>Recargar desde el disco</"
+"guimenuitem></menuchoice>. Esto es útil para experimentar con un programa y "
+"hacer cambios temporales, ejecutar el programa, pero no hacer que dichos "
+"cambios sean permanentes."
 
 #: C/genius.xml:483(title) C/genius.xml:8626(title)
 msgid "Plotting"
@@ -2053,6 +2064,14 @@ msgid ""
 "expressions) is returned. Suppose you type the following: <placeholder-1/> "
 "This expression will yield 5."
 msgstr ""
+"GEL es más diferente que otros lenguajes a la hora de tratar con varios "
+"comandos y funciones. En GEL puede encadenar comandos junto con un operador "
+"de separación. Esto es, si quiere escribir más de una expresión utilice el "
+"operador <literal>;</literal> después de cada expresión. Esta es una forma "
+"en la que ambas expresiones se evaluan y se devuelve el resultado de la "
+"segunda expresión (o de la última, si hay más de dos expresiones). Suponga "
+"que escribe la siguiente expresión: <placeholder-1/> Esta expresión dará "
+"como resultado 5."
 
 #: C/genius.xml:1158(para)
 msgid ""
@@ -2089,6 +2108,10 @@ msgid ""
 "it executes the expression. However, do note that if you are defining a "
 "function, the body of the function is a single expression."
 msgstr ""
+"Si escribe expresiones en un programa no tiene que añadir un punto y coma. "
+"En este caso Genius muestra el resultado de la expresión cuando se ejecuta. "
+"Sin embargo, si define una función, el cuerpo de la función es una sola "
+"expresión."
 
 #: C/genius.xml:1179(title)
 msgid "Comments"
@@ -5125,6 +5148,8 @@ msgid ""
 "Identity function, returns its argument. It is equivalent to "
 "<userinput>function Identity(x)=x</userinput>."
 msgstr ""
+"Función identidad, devuelve sus argumentos. Esto es equivalente a "
+"<userinput>function Identity(x)=x</userinput>."
 
 #: C/genius.xml:3044(term)
 msgid "<anchor id=\"gel-function-IntegerFromBoolean\"/>IntegerFromBoolean"
@@ -6726,6 +6751,11 @@ msgid ""
 "of the woods might be different due to different altitude and the fact that "
 "the earth is not perfectly round and uniform."
 msgstr ""
+"La aceleración en caída libre al nivel del mar en metros por segundos al "
+"cuadrado. Es la constante de gravedad estandarizada y su valor es 9.80665. "
+"La gravedad en un desfiladero de un bosque es diferente debido "
+"principalmente a la diferencia de altitud y al hecho de que la Tierra no es "
+"perfectamente redonda ni uniforme."
 
 #: C/genius.xml:3863(para)
 msgid ""
@@ -6994,6 +7024,10 @@ msgid ""
 "mean nonreal number. That is, <userinput>IsComplex(3)</userinput> yields "
 "false, while <userinput>IsComplex(3-1i)</userinput> yields true."
 msgstr ""
+"Comprueba si el argumento es un número complejo (no real). Observe que "
+"hacemos énfasis en número no real. Es decir, <userinput>IsComplex(3)</"
+"userinput> que devuelve «false», mientras que <userinput>IsComplex(3-1i)</"
+"userinput> devuelve «true»."
 
 #: C/genius.xml:4014(term)
 msgid "<anchor id=\"gel-function-IsComplexRational\"/>IsComplexRational"
@@ -7048,6 +7082,9 @@ msgid ""
 "is a number of the form <userinput>n+1i*m</userinput> where <varname>n</"
 "varname> and <varname>m</varname> are integers."
 msgstr ""
+"Comprueba si un argumento es un posible número entero complejo. Es decir, un "
+"entero complejo es un número de la forma <userinput>n+1i*m</userinput> donde "
+"<varname>n</varname> y <varname>m</varname> son enteros."
 
 #: C/genius.xml:4042(term)
 msgid "<anchor id=\"gel-function-IsInteger\"/>IsInteger"
@@ -7169,6 +7206,8 @@ msgid ""
 "Get the real part of a complex number. For example <userinput>Re(3+4i)</"
 "userinput> yields 3."
 msgstr ""
+"Obtiene la parte real de un número complejo. Por ejemplo "
+"<userinput>Re(3+4i)</userinput> devuelve 3."
 
 #: C/genius.xml:4101(para)
 msgid ""
