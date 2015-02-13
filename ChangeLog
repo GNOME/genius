@@ -1,3 +1,10 @@
+Fri Feb 13 11:46:57 2015  Jiri (George) Lebl <jirka@5z.com>
+
+	* gtkextra/*.c: remove the inline from roundint.  Probably not
+	  a performance bottleneck to begin with and likely the
+	  compiler will inline by itself hopefully.  Removes compilation
+	  errors with GCC5
+
 Fri Jan 09 18:19:44 2015  Jiri (George) Lebl <jirka@5z.com>
 
 	* examples/eulers-method-graphs-exp.gel: present plot window after

@@ -231,7 +231,7 @@ static void gtk_plot_real_get_point		(GtkWidget *widget,
 					 	 gdouble *px, gdouble *py);
 void   gtk_plot_remove_dimension		(GtkPlot *plot, 
 						 const gchar *dimension);
-inline gint roundint				(gdouble x);
+gint roundint			(gdouble x);
 static void update_datasets			(GtkPlot *plot, gboolean new_range);
 
 static GtkWidgetClass *parent_class = NULL;
@@ -3726,7 +3726,7 @@ gtk_plot_ticks_inverse(GtkPlotAxis *axis, gdouble x)
     return point;
 }
 
-inline gint
+gint
 roundint (gdouble x)
 {
  return (x+.50999999471);

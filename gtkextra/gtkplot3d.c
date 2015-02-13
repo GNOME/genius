@@ -139,7 +139,7 @@ static void gtk_plot3d_real_get_pixel		(GtkWidget *widget,
                           			 gdouble *px, 
 						 gdouble *py, 
 						 gdouble *pz);
-extern inline gint roundint			(gdouble x);
+gint roundint			(gdouble x);
 
 static GtkPlotClass *parent_class = NULL;
 
