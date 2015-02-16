@@ -1,0 +1,41 @@
+# Category: Differential Equations
+# Name: Fourier series plotting
+
+# Define the function.  We will only use it on [-1,1] and extend
+# periodically.  There are a number of functions to try.  The more
+# regularity the function has (after extending periodically) the
+# faster the convergence.
+function f(x) = (
+  if x < 0 then 0 else x   # half sawtooth
+  #0.5*(x+1)               # sawtooth
+  #if x < 0 then 0 else 1  # step function
+  #|x|                     # function with corners
+  #-(x-1)*(x+1)            # function with sharp corner
+  #((x-1)*(x+1))^2         # function with first derivative
+);  
+
+LinePlotWindow=[-2,2,-0.5,1.5];
+LinePlotDrawLegends=false;
+
+LinePlotClear();
+PlotWindowPresent(); # Make sure the window is raised
+
+N = 20; #number of harmonics to do
+
+LinePlot(PeriodicExtension(f,-1,1));
+
+print("Computing...");
+#Compute the first N harmonics.  c will be a vector of
+#two vectors c@(1) are the cosine coefficients, c@(2) are
+#the sine coefficients 
+c = NumericalFourierSeriesCoefficients (f, 1, N);
+a = c@(1);
+b = c@(2);
+
+for n=1 to N do (
+  #wait(1); if you want to slow the anumation
+  fs = FourierSeriesFunction (a@(1:n), b@(1:n), 1);
+  print("Plotting up to the " + n + "th harmonic...");
+  LinePlot(PeriodicExtension(f,-1,1), fs);
+);
+

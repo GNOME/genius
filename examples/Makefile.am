@@ -17,7 +17,7 @@ example_DATA = \
 	taylor-exp.gel \
 	taylor-sin.gel \
 	fourier-series-animation.gel \
-	fourier-series-half-sawtooth.gel \
+	fourier-series-plotting.gel \
 	rsa.gel \
 	easy-matrix-examples.gel \
 	peano.gel
