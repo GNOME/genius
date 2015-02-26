@@ -42,6 +42,7 @@
 
 /* FIXME:static GelEFunc *_internal_ln_function = NULL; */
 static GelEFunc *_internal_exp_function = NULL;
+static GelEFunc *_internal_erf_function = NULL;
 
 static GelEFunc *conj_function = NULL;
 static GelEFunc *sin_function = NULL;
@@ -65,7 +66,7 @@ static GelEFunc *Numerator_function = NULL;
 static GelEFunc *Denominator_function = NULL;
 static GelEFunc *Re_function = NULL;
 static GelEFunc *Im_function = NULL;
-/*static GelEFunc *ErrorFunction_function = NULL;*/
+static GelEFunc *ErrorFunction_function = NULL;
 static GelEFunc *RiemannZeta_function = NULL;
 static GelEFunc *GammaFunction_function = NULL;
 static GelEFunc *BesselJ0_function = NULL;
@@ -1675,7 +1676,6 @@ GoldenRatio_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	return gel_makenum (golden_ratio_cache);
 }
 
-/*  FIXME: I have bad GEL implementation that handles complex values
 static GelETree *
 ErrorFunction_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
@@ -1695,24 +1695,48 @@ ErrorFunction_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if G_UNLIKELY ( ! check_argument_number (a, 0, "ErrorFunction"))
 		return NULL;
 	if G_UNLIKELY (mpw_is_complex (a[0]->val.value)) {
-		gel_errorout (_("%s: Not implemented (yet) for complex values"),
-			      "ErrorFunction");
+		/* FIXME: this is evil! */
+		if G_UNLIKELY (_internal_erf_function == NULL) {
+			_internal_erf_function = d_makeufunc(d_intern("<internal>exp"),
+							     gel_parseexp
+							     ("twosqrtpi = 2/sqrt(pi); "
+							      "a = 1; "
+							      "s = 0; "
+							      "n = 0; "
+							      "f = 1; "
+							      "xx = x; "
+							      "xsq = x^2; "
+							      "do ( "
+							      " t = xx * a * twosqrtpi; "
+							      " s = s + t; "
+							      " increment n; "
+							      " f = f * n; "
+							      " a = ((-1)^n) / (((2*n)+1) * f); "
+							      " xx = xx * xsq "
+							      ") while (|t| > ErrorFunctionTolerance); "
+							      "s ",
+							      NULL, FALSE, FALSE,
+							      NULL, NULL),
+							     g_slist_append(NULL,d_intern("x")),1,
+							     NULL);
+		}
+		return gel_funccall(ctx,_internal_erf_function,a,1);
+
 		return NULL;
+	} else {
+		MPW_MPF_REAL (num, a[0]->val.value, tmp);
+
+		mpfr_init (ret);
+		mpfr_erf (ret, num, GMP_RNDN);
+
+		MPW_MPF_KILL (num, tmp);
+
+		mpw_init (retw);
+		mpw_set_mpf_use (retw, ret);
+
+		return gel_makenum (retw);
 	}
-
-	MPW_MPF_REAL (num, a[0]->val.value, tmp);
-
-	mpfr_init (ret);
-	mpfr_erf (ret, num, GMP_RNDN);
-
-	MPW_MPF_KILL (num, tmp);
-
-	mpw_init (retw);
-	mpw_set_mpf_use (retw, ret);
-
-	return gel_makenum (retw);
 }
-*/
 
 static GelETree *
 RiemannZeta_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
@@ -7061,9 +7085,9 @@ gel_funclib_addall(void)
 	FUNC (CatalanConstant, 0, "", "constants",
 	      N_("Catalan's Constant (0.915...)"));
 
-	/*FUNC (ErrorFunction, 1, "x", "functions", N_("The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt (only real values implemented)"));
+	FUNC (ErrorFunction, 1, "x", "functions", N_("The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt"));
 	ErrorFunction_function = f;
-	ALIAS (erf, 1, ErrorFunction);*/
+	ALIAS (erf, 1, ErrorFunction);
 	FUNC (RiemannZeta, 1, "x", "functions", N_("The Riemann zeta function (only real values implemented)"));
 	f->no_mod_all_args = 1;
 	RiemannZeta_function = f;

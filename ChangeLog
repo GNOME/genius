@@ -1,3 +1,10 @@
+Thu Feb 26 14:30:40 2015  Jiri (George) Lebl <jirka@5z.com>
+
+	* lib/functions/elementary.gel, src/funclib.c: Use MPFR version of
+	  erf for real values, and move the hacky computation using power
+	  series as gel snippet inside funclib.c.  Should be replaced by
+	  a proper computation
+
 Mon Feb 16 14:26:02 2015  Jiri (George) Lebl <jirka@5z.com>
 
 	* examples/fourier-series-plotting.gel: Replace the hand coded

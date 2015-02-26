@@ -233,34 +233,38 @@ function log(x,b...) = (
 	ln(x)/ln(base)
 );
 
+# This is still used for complex values in the hacky computation in funclib.c
+# although for real values we use MPFR
 parameter ErrorFunctionTolerance = 10.0^(-10);
-SetHelp ("ErrorFunctionTolerance", "parameters", "Tolerance of the ErrorFunction")
+SetHelp ("ErrorFunctionTolerance", "parameters", "Tolerance of the ErrorFunction (used for complex values only)")
 
-SetHelp("ErrorFunction","functions","The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt")
-function ErrorFunction (x) = (
-	if IsMatrix (x) then
-		return ApplyOverMatrix (x, ErrorFunction)
-	else if not IsValue (x) then
-		(error("ErrorFunction: argument not a value");bailout);
-	twosqrtpi = 2/sqrt(pi);
-	a = 1;
-	s = 0;
-	n = 0;
-	f = 1;
-	xx = x;
-	xsq = x^2;
-	do (
-		t = xx * a * twosqrtpi;
-		s = s + t;
-		increment n;
-		f = f * n;
-		a = ((-1)^n) / (((2*n)+1) * f);
-		xx = xx * xsq
-	) while (|t| > ErrorFunctionTolerance);
-	s
-);
-erf = ErrorFunction
-SetHelpAlias ("ErrorFunction", "erf");
+# This is actually done for complex values inside funclib.c
+# This should as some point be replaced by a proper version of erf
+#SetHelp("ErrorFunction","functions","The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt")
+#function ErrorFunction (x) = (
+#	if IsMatrix (x) then
+#		return ApplyOverMatrix (x, ErrorFunction)
+#	else if not IsValue (x) then
+#		(error("ErrorFunction: argument not a value");bailout);
+#	twosqrtpi = 2/sqrt(pi);
+#	a = 1;
+#	s = 0;
+#	n = 0;
+#	f = 1;
+#	xx = x;
+#	xsq = x^2;
+#	do (
+#		t = xx * a * twosqrtpi;
+#		s = s + t;
+#		increment n;
+#		f = f * n;
+#		a = ((-1)^n) / (((2*n)+1) * f);
+#		xx = xx * xsq
+#	) while (|t| > ErrorFunctionTolerance);
+#	s
+#);
+#erf = ErrorFunction
+#SetHelpAlias ("ErrorFunction", "erf");
 
 #FIXME: Should probably be in a separate source file
 SetHelp("NewtonsMethodPoly","polynomial","Attempt to find a root of a polynomial using Newton's method, returning after two successive values are within epsilon or after maxn tries (then returns null)")
