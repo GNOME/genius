@@ -3755,11 +3755,6 @@ new_program (const char *filename, gboolean example)
 	gtk_notebook_append_page_menu (GTK_NOTEBOOK (notebook), sw,
 				       b, p->mlabel);
 
-
-	/* FIXME: if set, then if we move something in front of the 
-	 * Console, things crash.  Make Console be possible in other
-	 * positions and then enable this here (and when we are adding
-	 * the console as well) */
 	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (notebook),
 					  sw,
 					  TRUE);
