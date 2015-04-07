@@ -20,7 +20,8 @@ example_DATA = \
 	fourier-series-plotting.gel \
 	rsa.gel \
 	easy-matrix-examples.gel \
-	peano.gel
+	peano.gel \
+	vibrating-drumhead-modes.gel
 
 EXTRA_DIST = \
 	$(example_DATA)
