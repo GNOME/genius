@@ -5,6 +5,7 @@ example_DATA = \
 	dalemb-pulse.gel \
 	eulers-method-exp-run.gel \
 	eulers-method-graphs-exp.gel \
+	explicit-fdm-heat.gel \
 	laplace-fdm.gel \
 	linapprox.gel \
 	lorenz.gel \
