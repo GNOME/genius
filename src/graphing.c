@@ -10341,6 +10341,8 @@ set_LinePlotVariableNames (GelETree * a)
 	GelETree *t;
 	char *sx, *sy, *sz, *st;
 
+	init_var_names ();
+
 	if G_UNLIKELY (plot_in_progress != 0) {
 		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
 			      "set_LinePlotVariableNames", "set_LinePlotVariableNames");
@@ -10432,6 +10434,8 @@ set_SurfacePlotVariableNames (GelETree * a)
 	GelETree *t;
 	char *sx, *sy, *sz;
 
+	init_var_names ();
+
 	if G_UNLIKELY (plot_in_progress != 0) {
 		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
 			      "set_SurfacePlotVariableNames", "set_SurfacePlotVariableNames");
@@ -10492,6 +10496,22 @@ set_SurfacePlotVariableNames (GelETree * a)
 	sp_z_name = g_strdup (sz);
 
 	set_surface_labels ();
+
+	if (surface_plot != NULL) {
+		GtkPlotAxis *a;
+
+		a = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_BOTTOM);
+		gtk_plot_axis_set_title (a, sp_x_name);
+		a = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_LEFT);
+		gtk_plot_axis_set_title (a, sp_y_name);
+		a = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_TOP);
+		gtk_plot_axis_set_title (a, "");
+
+		if (plot_canvas != NULL) {
+			gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+			gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+		}
+	}
 
 	return make_matrix_from_sp_varnames ();
 }
