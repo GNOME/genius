@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2012 Jiri (George) Lebl
+ * Copyright (C) 1997-2015 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -3111,10 +3111,13 @@ str_getstring_f (mpfr_ptr num,
 		/* approximately the exponent base 10 */
 		e = mpfr_get_exp (num) / 3.32192809489;
 		if (e < -chop) {
+			char *sign = "";
+			if (mpfr_sgn (num) < 0)
+				sign = "-";
 			if (scientific_notation)
-				return g_strconcat ("0e0", postfix, NULL);
+				return g_strconcat (sign, "0e0", postfix, NULL);
 			else
-				return g_strdup ("0.0");
+				return g_strconcat (sign, "0.0", postfix, NULL);
 		}
 	}
 
@@ -5310,7 +5313,7 @@ mpw_getstring_chop (mpw_ptr num, int max_digits,
 		if (justimaginary) {
 			r = p2;
 			p2 = NULL;
-		} else if (mpwl_sgn(num->i)>=0) {
+		} else if (p2[0] != '+' && p2[0] != '-') {
 			if (add_parenths)
 				r = g_strconcat("(",p1,"+",p2,")",NULL);
 			else
