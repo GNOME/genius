@@ -5,6 +5,9 @@
 # times are solved for, though of course we must skip graphing some times when
 # there are too many steps.
 #
+# NOTE that this program changes your variable names in the surface plotting.
+# To set them back to default do SurfacePlotVariableNames = ["x","y","z"];
+#
 # The equation is u_t = u_{xx} where 0 < x < 1
 # The boundary conditions are insulated on x=0, u_x(0,t) = 0
 # and Dirichlet condition on x=1, u(1,t) = 0
@@ -28,25 +31,28 @@ m := round(maxt/k);
 # Never plot more than 4*n steps in the t (that is y) direction
 # rather skip rows.  If you do not want to skip rows, comment out
 # the next line.
-plotevery = max(1,floor(m/(2*n)));
+plotevery := max(1,floor(m/(2*n)));
 
 #Set up initial value
 u := null;
 data := null;
 for j=1 to n+1 do (
-  x = (j-1)*h;
+  x := (j-1)*h;
   u@(j) := initialf(x);
   data := [data;[x,0,u@(j)]]
 );
 
-SurfacePlotDrawLegends = true;
+SurfacePlotDrawLegends := true;
+SurfacePlotVariableNames := ["x","t","u"];
+PlotWindowPresent(); # Make sure the window is raised
+
 
 # If you change it from 0 to plotevery, then no plots will be generated
-toplot = 0;
-#toplot = plotevery;
+toplot := 0;
+#toplot := plotevery;
 
 for i=1 to m do (
-  v = u;
+  v := u;
   for j=2 to n do (
     u@(j) := v@(j) + (k/(h^2))*(v@(j+1)+v@(j-1)-2*v@(j))
   );
@@ -55,12 +61,12 @@ for i=1 to m do (
 
   increment toplot;
   if toplot == plotevery then (
-    toplot = 0;
+    toplot := 0;
     for j=2 to n do (
-      data = [data;[(j-1)*h,i*k,u@(j)]]
+      data := [data;[(j-1)*h,i*k,u@(j)]]
     );
-    data = [data;[0,i*k,u@(1)]];
-    data = [data;[1,i*k,u@(n+1)]];
+    data := [data;[0,i*k,u@(1)]];
+    data := [data;[1,i*k,u@(n+1)]];
     SurfacePlotData(data,"u",[0,1,0,maxt])
   )
 );

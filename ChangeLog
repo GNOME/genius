@@ -5,6 +5,15 @@ Mon May 04 17:34:29 2015  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/geniustests.txt: add some tests for the above
 
+Sun Apr 26 12:33:06 2015  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c: Fix SurfacePlotVariableNames to redraw things
+	  and also to init vars before resetting them, since otherwise it
+	  will all be forgotten.
+
+	* examples/explicit-fdm-heat.gel: set the variable names to match,
+	  and a tiny bit of cleanup
+
 Sun Apr 26 11:57:32 2015  Jiri (George) Lebl <jirka@5z.com>
 
 	* examples/Makefile.am, examples/explicit-fdm-heat.gel: Add example
