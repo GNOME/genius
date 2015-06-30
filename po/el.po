@@ -4,22 +4,22 @@
 # This file is distributed under the same license as the Genius package.
 # Velonis Petros <velonis@freemail.gr>, 2004.
 # Kostas Papadimas <pkst@gnome.org>, 2004.
-# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2013.
+# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2013, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=genius&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-18 03:32+0000\n"
-"PO-Revision-Date: 2014-06-16 23:41+0200\n"
-"Last-Translator: Maria Mavridou <mavridou@gmail.com>\n"
-"Language-Team: team@gnome.gr\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=genius"
+"&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2015-05-04 22:43+0000\n"
+"PO-Revision-Date: 2015-06-27 12:31+0300\n"
+"Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
+"Language-Team: www.gnome.gr\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Virtaal 0.7.1\n"
 "X-Project-Style: gnome\n"
 
 #: ../lib/library-strings.c:1
@@ -84,8 +84,9 @@ msgid "Tolerance for calculating the derivatives of functions"
 msgstr "Ανοχή για τον υπολογισμό των παραγώγων των συναρτήσεων"
 
 #: ../lib/library-strings.c:12
-msgid "Tolerance of the ErrorFunction"
-msgstr "Ανοχή της ErrorFunction"
+#| msgid "Tolerance of the ErrorFunction"
+msgid "Tolerance of the ErrorFunction (used for complex values only)"
+msgstr "Ανοχή της ErrorFunction (που χρησιμοποιείται μόνο για μιγαδικές τιμές)"
 
 #: ../lib/library-strings.c:13
 msgid "Tolerance of the GaussDistribution function"
@@ -117,7 +118,7 @@ msgstr ""
 msgid "Tolerance for InfiniteSum and InfiniteProduct"
 msgstr "Ανοχή για InfiniteSum και InfiniteProduct"
 
-#: ../lib/library-strings.c:19 ../src/eval.c:6701
+#: ../lib/library-strings.c:19 ../src/eval.c:6703
 msgid "Absolute value"
 msgstr "Απόλυτη τιμή"
 
@@ -682,7 +683,6 @@ msgid "Get the kernel (nullspace) of a linear transform"
 msgstr "Λήψη του πυρήνα (μηδενικό χώρο) ενός γραμμικού μετασχηματισμού"
 
 #: ../lib/library-strings.c:132
-#| msgid "Get the outer product of two vectors"
 msgid "Compute the Kronecker product of two matrices"
 msgstr "Υπολογίζει το γινόμενο Kronecker δύο πινάκων"
 
@@ -1151,18 +1151,14 @@ msgid "Returns 1 if and only if all elements are zero"
 msgstr "Επιστρέφει 1 αν και μόνο αν όλα τα στοιχεία είναι μηδέν"
 
 #: ../lib/library-strings.c:217
-msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
-msgstr "Η συνάρτηση σφάλματος, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
-
-#: ../lib/library-strings.c:218
 msgid "Fejer kernel of order n"
 msgstr "Πυρήνας Φέγιερ τάξης n"
 
-#: ../lib/library-strings.c:219
+#: ../lib/library-strings.c:218
 msgid "Returns 1 if and only if all elements are equal"
 msgstr "Επιστρέφει 1 αν και μόνο αν όλα τα στοιχεία είναι ίσα"
 
-#: ../lib/library-strings.c:220
+#: ../lib/library-strings.c:219
 msgid ""
 "Principal branch of the Lambert W function for real values greater than or "
 "equal to -1/e"
@@ -1170,7 +1166,7 @@ msgstr ""
 "Κύριος κλάδος της συνάρτησης W του Lambert για πραγματικές τιμές μεγαλύτερες "
 "ή ίσες με -1/e"
 
-#: ../lib/library-strings.c:221
+#: ../lib/library-strings.c:220
 msgid ""
 "The minus-one branch of the Lambert W function for real values between -1/e "
 "and 0"
@@ -1178,16 +1174,16 @@ msgstr ""
 "Ο κλάδος μείον-ένα της συνάρτησης W του Lambert για πραγματικές τιμές μεταξύ "
 "-1/e και 0"
 
-#: ../lib/library-strings.c:222
+#: ../lib/library-strings.c:221
 msgid "Find the first value where f(x)=0"
 msgstr "Εύρεση της πρώτης τιμής όπου f(x)=0"
 
-#: ../lib/library-strings.c:223
+#: ../lib/library-strings.c:222
 msgid "Moebius mapping of the disk to itself mapping a to 0"
 msgstr ""
 "Απεικόνιση Μέμπιους του δίσκου στον εαυτόν του, απεικονίζοντας το a στο 0"
 
-#: ../lib/library-strings.c:224
+#: ../lib/library-strings.c:223
 msgid ""
 "Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity "
 "respectively"
@@ -1195,7 +1191,7 @@ msgstr ""
 "Απεικόνιση Μέμπιους χρησιμοποιώντας τον σταυρωτό λόγο παίρνοντας z2,z3,z4 "
 "στο 1,0, και άπειρο αντίστοιχα"
 
-#: ../lib/library-strings.c:225
+#: ../lib/library-strings.c:224
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 "
 "to 1 and 0 respectively"
@@ -1203,7 +1199,7 @@ msgstr ""
 "Απεικόνιση Μέμπιους χρησιμοποιώντας τον σταυρωτό λόγο παίρνοντας άπειρο στο "
 "άπειρο και z2,z3 στο 1 και 0 αντίστοιχα"
 
-#: ../lib/library-strings.c:226
+#: ../lib/library-strings.c:225
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 "
 "and infinity respectively"
@@ -1211,7 +1207,7 @@ msgstr ""
 "Απεικόνιση Μέμπιους χρησιμοποιώντας τον σταυρωτό λόγο παίρνοντας άπειρο στο "
 "1 και z3,z4 στο 0 και άπειρο αντίστοιχα"
 
-#: ../lib/library-strings.c:227
+#: ../lib/library-strings.c:226
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 "
 "and infinity respectively"
@@ -1219,7 +1215,7 @@ msgstr ""
 "Απεικόνιση Μέμπιους χρησιμοποιώντας τον σταυρωτό λόγο παίρνοντας άπειρο στο "
 "0 και z2,z4 στο 1 και άπειρο αντίστοιχα"
 
-#: ../lib/library-strings.c:228
+#: ../lib/library-strings.c:227
 msgid ""
 "Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is "
 "2pi)"
@@ -1227,11 +1223,11 @@ msgstr ""
 "Πυρήνας Πουασόν στο D(0,1) (μη κανονικοποιημένο στο 1, δηλαδή το ολοκλήρωμα "
 "αυτού είναι 2pi)"
 
-#: ../lib/library-strings.c:229
+#: ../lib/library-strings.c:228
 msgid "Poisson kernel on D(0,R) (not normalized to 1)"
 msgstr "Πυρήνας Πουασόν στο D(0,R) (μη κανονικοποιημένο στο 1)"
 
-#: ../lib/library-strings.c:230
+#: ../lib/library-strings.c:229
 msgid ""
 "The unit step function = 0 for x<0, 1 otherwise.  This is the integral of "
 "the Dirac Delta function."
@@ -1239,24 +1235,24 @@ msgstr ""
 "Η συνάρτηση μοναδιαίου βήματος = 0 για x<0, αλλιώς 1. Αυτό είναι το "
 "ολοκλήρωμα της συνάρτησης δέλτα Ντιράκ."
 
-#: ../lib/library-strings.c:231
+#: ../lib/library-strings.c:230
 msgid "The cis function, that is cos(x)+i*sin(x)"
 msgstr "Η συνάρτηση cis, δηλαδή cos(x)+i*sin(x)"
 
-#: ../lib/library-strings.c:232
+#: ../lib/library-strings.c:231
 msgid "Convert degrees to radians"
 msgstr "Μετατροπή βαθμών σε ακτίνια"
 
-#: ../lib/library-strings.c:233
+#: ../lib/library-strings.c:232
 msgid "Convert radians to degrees"
 msgstr "Μετατροπή ακτινίων σε μοίρες"
 
-#: ../lib/library-strings.c:234
+#: ../lib/library-strings.c:233
 msgid "Find roots of a cubic polynomial (given as vector of coefficients)"
 msgstr ""
 "Εύρεση ριζών ενός κυβικού πολυωνύμου (που δίνεται ως διάνυσμα συντελεστών)"
 
-#: ../lib/library-strings.c:235
+#: ../lib/library-strings.c:234
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns y at x1"
@@ -1264,7 +1260,7 @@ msgstr ""
 "Χρήση της κλασικής μεθόδου Όιλερ για αριθμητική επίλυση της y'=f(x,y) για "
 "αρχικά x0,y0 που πηγαίνουν στο x1 με n αυξήσεις, επιστρέφει το y στο x1"
 
-#: ../lib/library-strings.c:236
+#: ../lib/library-strings.c:235
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns an n+1 by 2 matrix of values"
@@ -1273,7 +1269,7 @@ msgstr ""
 "αρχικά x0,y0 που πηγαίνουν στο x1 με n αυξήσεις, επιστρέφει έναν πίνακα "
 "τιμών n+1 επί 2"
 
-#: ../lib/library-strings.c:237
+#: ../lib/library-strings.c:236
 msgid ""
 "Find root of a function using the bisection method to within TOL tolerance "
 "in up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1282,7 +1278,7 @@ msgstr ""
 "ανοχή TOL μέχρι Ν επαναλήψεις. Οι f(a) και f(b) πρέπει να έχουν αντίθετα "
 "πρόσημα."
 
-#: ../lib/library-strings.c:238
+#: ../lib/library-strings.c:237
 msgid ""
 "Find root of a function using the method of false position to within TOL "
 "tolerance in up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1291,11 +1287,11 @@ msgstr ""
 "στην ανοχή TOL μέχρι Ν επαναλήψεις. Οι f(a) και f(b) πρέπει να έχουν "
 "αντίθετα πρόσημα."
 
-#: ../lib/library-strings.c:239
+#: ../lib/library-strings.c:238
 msgid "Find root of a function using the Muller's method"
 msgstr "Εύρεση ρίζας μιας συνάρτησης χρησιμοποιώντας τη μέθοδο Μίλερ"
 
-#: ../lib/library-strings.c:240
+#: ../lib/library-strings.c:239
 msgid ""
 "Find root of a function using the secant method to within TOL tolerance in "
 "up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1304,11 +1300,7 @@ msgstr ""
 "ανοχή TOL μέχρι Ν επαναλήψεις. Οι f(a) και f(b) πρέπει να έχουν αντίθετα "
 "πρόσημα."
 
-#: ../lib/library-strings.c:241
-#| msgid ""
-#| "Run newton's method on a polynomial to attempt to find a root, returns "
-#| "after two successive values are within epsilon or after maxn tries (then "
-#| "returns null)"
+#: ../lib/library-strings.c:240
 msgid ""
 "Attempt to find a zero of a functionf with derivative df and second "
 "derivative ddf using Halleys's method, returning after two successive values "
@@ -1319,11 +1311,7 @@ msgstr ""
 "δύο διαδοχικές τιμές που είναι εντός έψιλον ή μετά από maxn προσπάθειες "
 "(έπειτα επιστρέφει μηδενική τιμή)"
 
-#: ../lib/library-strings.c:242
-#| msgid ""
-#| "Run newton's method on a polynomial to attempt to find a root, returns "
-#| "after two successive values are within epsilon or after maxn tries (then "
-#| "returns null)"
+#: ../lib/library-strings.c:241
 msgid ""
 "Attempt to find a zero of a functionf with derivative df using Newton's "
 "method, returning after two successive values are within epsilon or after "
@@ -1334,17 +1322,17 @@ msgstr ""
 "τιμές που είναι εντός έψιλον ή μετά από maxn προσπάθειες (έπειτα επιστρέφει "
 "μηδενική τιμή)"
 
-#: ../lib/library-strings.c:243
+#: ../lib/library-strings.c:242
 msgid "Find roots of a polynomial (given as vector of coefficients)"
 msgstr "Εύρεση ριζών ενός πολυωνύμου (που δίνεται ως διάνυσμα συντελεστών)"
 
-#: ../lib/library-strings.c:244
+#: ../lib/library-strings.c:243
 msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
 msgstr ""
 "Εύρεση ριζών ενός τεταρτοβάθμιου πολυωνύμου (που δίνεται ως διάνυσμα "
 "συντελεστών)"
 
-#: ../lib/library-strings.c:245
+#: ../lib/library-strings.c:244
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
@@ -1354,7 +1342,7 @@ msgstr ""
 "για αριθμητική επίλυση της y'=f(x,y) για αρχικά x0,y0 που πηγαίνουν στο x1 "
 "με n αυξήσεις, επιστρέφει το y στο x1"
 
-#: ../lib/library-strings.c:246
+#: ../lib/library-strings.c:245
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an n"
@@ -1364,37 +1352,37 @@ msgstr ""
 "για αριθμητική επίλυση της y'=f(x,y) για αρχικά x0,y0 που πηγαίνουν στο x1 "
 "με n αυξήσεις, επιστρέφει έναν πίνακα τιμών n+1 επί 2"
 
-#: ../lib/library-strings.c:247
+#: ../lib/library-strings.c:246
 msgid "Calculate average of an entire matrix"
 msgstr "Υπολογισμός του μέσου όρου ενός ολόκληρου πίνακα"
 
-#: ../lib/library-strings.c:248
+#: ../lib/library-strings.c:247
 msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 msgstr ""
 "Ολοκλήρωμα της GaussFunction από 0 μέχρι x (περιοχή κάτω από την κανονική "
 "καμπύλη)"
 
-#: ../lib/library-strings.c:249
+#: ../lib/library-strings.c:248
 msgid "The normalized Gauss distribution function (the normal curve)"
 msgstr "Η συνάρτηση κανονικοποιημένης κατανομής Γκάους (η κανονική καμπύλη)"
 
-#: ../lib/library-strings.c:250
+#: ../lib/library-strings.c:249
 msgid "Calculate median of an entire matrix"
 msgstr "Υπολογισμός του μέσου ενός ολόκληρου πίνακα"
 
-#: ../lib/library-strings.c:251
+#: ../lib/library-strings.c:250
 msgid "Calculate the population standard deviation of a whole matrix"
 msgstr "Υπολογισμός της τυπικής απόκλισης πληθυσμού ενός ολόκληρου πίνακα"
 
-#: ../lib/library-strings.c:252
+#: ../lib/library-strings.c:251
 msgid "Calculate average of each row in a matrix"
 msgstr "Υπολογισμός μέσου όρου κάθε γραμμής σε έναν πίνακα"
 
-#: ../lib/library-strings.c:253
+#: ../lib/library-strings.c:252
 msgid "Calculate median of each row in a matrix"
 msgstr "Υπολογισμός μέσου κάθε γραμμής σε έναν πίνακα"
 
-#: ../lib/library-strings.c:254
+#: ../lib/library-strings.c:253
 msgid ""
 "Calculate the population standard deviations of rows of a matrix and return "
 "a vertical vector"
@@ -1402,7 +1390,7 @@ msgstr ""
 "Υπολογισμός των τυπικών αποκλίσεων πληθυσμού γραμμών ενός πίνακα και "
 "επιστροφή ενός κάθετου διανύσματος"
 
-#: ../lib/library-strings.c:255
+#: ../lib/library-strings.c:254
 msgid ""
 "Calculate the standard deviations of rows of a matrix and return a vertical "
 "vector"
@@ -1410,15 +1398,11 @@ msgstr ""
 "Υπολογισμός των τυπικών αποκλίσεων των γραμμών ενός πίνακα και επιστροφή "
 "ενός κάθετου διανύσματος"
 
-#: ../lib/library-strings.c:256
+#: ../lib/library-strings.c:255
 msgid "Calculate the standard deviation of a whole matrix"
 msgstr "Υπολογισμός της τυπικής απόκλισης ενός ολόκληρου πίνακα"
 
-#: ../lib/library-strings.c:257
-#| msgid ""
-#| "Run newton's method on a polynomial to attempt to find a root, returns "
-#| "after two successive values are within epsilon or after maxn tries (then "
-#| "returns null)"
+#: ../lib/library-strings.c:256
 msgid ""
 "Attempt to find a root of a polynomial using Newton's method, returning "
 "after two successive values are within epsilon or after maxn tries (then "
@@ -1428,12 +1412,12 @@ msgstr ""
 "Νεύτωνα, επιστρέφοντας μετά από δύο διαδοχικές τιμές που είναι εντός έψιλον "
 "ή μετά από maxn προσπάθειες (έπειτα επιστρέφει μηδενική τιμή)"
 
-#: ../lib/library-strings.c:258
+#: ../lib/library-strings.c:257
 msgid "Returns a set where every element of X appears only once"
 msgstr ""
 "Επιστρέφει ένα σύνολο όπου κάθε στοιχείο του Χ εμφανίζεται μόνο μια φορά"
 
-#: ../lib/library-strings.c:259
+#: ../lib/library-strings.c:258
 msgid ""
 "Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
 "be sets)"
@@ -1441,7 +1425,7 @@ msgstr ""
 "Επιστρέφει ένα σύνολο θεωρητικής των Χ και Υ (Χ και Υ είναι διανύσματα που "
 "προσποιούνται ότι είναι σύνολα)"
 
-#: ../lib/library-strings.c:260
+#: ../lib/library-strings.c:259
 msgid ""
 "For a Hilbert function that is c for degree d, given the Macaulay bound for "
 "the Hilbert function of degree d+1 (The c^<d> operator from Green's proof)"
@@ -1450,19 +1434,19 @@ msgstr ""
 "Μακόλεϊ για τη συνάρτηση Χίλμπερτ βαθμού d+1 (Ο τελεστής c^<d> από την "
 "απόδειξη Γκριν)"
 
-#: ../lib/library-strings.c:261
+#: ../lib/library-strings.c:260
 msgid "The c_<d> operator from Green's proof of Macaulay's Theorem"
 msgstr "Ο τελεστής c_<d> από την απόδειξη Γριν του θεωρήματος Μακόλεϊ"
 
-#: ../lib/library-strings.c:262
+#: ../lib/library-strings.c:261
 msgid "Return the dth Macaulay representation of a positive integer c"
 msgstr "Επιστρέφει την dστή αναπαράσταση Μακόλεϊ ενός θετικού ακεραίου c"
 
-#: ../lib/library-strings.c:263
+#: ../lib/library-strings.c:262
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "Προσπάθεια για συμβολική παραγώγιση μιας συνάρτησης n φορές"
 
-#: ../lib/library-strings.c:264
+#: ../lib/library-strings.c:263
 msgid ""
 "Attempt to symbolically differentiate a function n times quietly and return "
 "null on failure"
@@ -1470,7 +1454,7 @@ msgstr ""
 "Προσπάθεια συμβολικής παραγώγισης μιας συνάρτησης n φορές σιωπηρά και "
 "επιστροφή κενού σε περίπτωση αποτυχίας"
 
-#: ../lib/library-strings.c:265
+#: ../lib/library-strings.c:264
 msgid ""
 "Attempt to construct the Taylor approximation function around x0 to the nth "
 "degree."
@@ -1478,29 +1462,29 @@ msgstr ""
 "Προσπάθεια δόμησης της συνάρτησης προσέγγισης Τέιλορ γύρω στο x0 στον nστό "
 "βαθμό."
 
-#: ../src/calc.c:212
+#: ../src/calc.c:214
 msgid "Uncategorized"
 msgstr "Χωρίς κατηγορία"
 
-#: ../src/calc.c:394
+#: ../src/calc.c:396
 msgid "Trying to set an alias for an alias"
 msgstr "Προσπάθεια ορισμού ενός ψευδωνύμου για ένα ψευδώνυμο"
 
-#: ../src/calc.c:973
+#: ../src/calc.c:975
 msgid "Bad identifier for function node!"
 msgstr "Εσφαλμένος ταυτοποιητής για κόμβο συνάρτησης!"
 
-#: ../src/calc.c:1023 ../src/eval.c:7177 ../src/eval.c:7384
+#: ../src/calc.c:1025 ../src/eval.c:7211 ../src/eval.c:7418
 msgid "Unexpected operator!"
 msgstr "Αναπάντεχος τελεστής!"
 
 #. FIXME:
-#: ../src/calc.c:1215
+#: ../src/calc.c:1217
 msgid "Cannot currently print polynomials of more than 3 vars"
 msgstr ""
 "Αδύνατη προς το παρόν η εμφάνιση πολυωνύμων με περισσότερες από 3 μεταβλητές"
 
-#: ../src/calc.c:1307 ../src/calc.c:1383
+#: ../src/calc.c:1309 ../src/calc.c:1385
 msgid "NULL function!"
 msgstr "Συνάρτηση NULL!"
 
@@ -1508,77 +1492,77 @@ msgstr "Συνάρτηση NULL!"
 #  never be in the etree
 #. variable and reference functions should
 #. never be in the etree
-#: ../src/calc.c:1373
+#: ../src/calc.c:1375
 msgid "Unexpected function type!"
 msgstr "Αναπάντεχος τύπος συνάρτησης!"
 
-#: ../src/calc.c:1419
+#: ../src/calc.c:1421
 msgid "NULL tree!"
 msgstr "Δένδρο NULL!"
 
-#: ../src/calc.c:1509 ../src/eval.c:7683
+#: ../src/calc.c:1511 ../src/eval.c:7717
 msgid "Unexpected node!"
 msgstr "Αναπάντεχος κόμβος!"
 
-#: ../src/calc.c:2004
+#: ../src/calc.c:2025
 #, c-format
 msgid "File '%s' is a wrong version of GEL"
 msgstr "Το αρχείο '%s' είναι λανθασμένη έκδοση του GEL"
 
-#: ../src/calc.c:2054 ../src/calc.c:2063 ../src/calc.c:2068 ../src/calc.c:2077
-#: ../src/calc.c:2082 ../src/calc.c:2091 ../src/calc.c:2096 ../src/calc.c:2105
-#: ../src/calc.c:2110 ../src/calc.c:2121 ../src/calc.c:2126 ../src/calc.c:2137
-#: ../src/calc.c:2144 ../src/calc.c:2157 ../src/calc.c:2163 ../src/calc.c:2170
-#: ../src/calc.c:2179 ../src/calc.c:2190 ../src/calc.c:2196 ../src/calc.c:2203
-#: ../src/calc.c:2209 ../src/calc.c:2216 ../src/calc.c:2222 ../src/calc.c:2229
-#: ../src/calc.c:2235 ../src/calc.c:2242 ../src/calc.c:2248 ../src/calc.c:2255
-#: ../src/calc.c:2261 ../src/calc.c:2268 ../src/calc.c:2274 ../src/calc.c:2281
-#: ../src/calc.c:2297 ../src/calc.c:2315 ../src/calc.c:2325
+#: ../src/calc.c:2075 ../src/calc.c:2089 ../src/calc.c:2103 ../src/calc.c:2116
+#: ../src/calc.c:2132 ../src/calc.c:2147 ../src/calc.c:2162 ../src/calc.c:2175
+#: ../src/calc.c:2181 ../src/calc.c:2188 ../src/calc.c:2202 ../src/calc.c:2213
+#: ../src/calc.c:2220 ../src/calc.c:2227 ../src/calc.c:2234 ../src/calc.c:2241
+#: ../src/calc.c:2248 ../src/calc.c:2255 ../src/calc.c:2262 ../src/calc.c:2269
+#: ../src/calc.c:2276 ../src/calc.c:2283 ../src/calc.c:2290 ../src/calc.c:2297
+#: ../src/calc.c:2304 ../src/calc.c:2311 ../src/calc.c:2327 ../src/calc.c:2345
+#: ../src/calc.c:2355
 msgid "Badly formed record"
 msgstr "Κακοσχηματισμένη εγγραφή"
 
-#: ../src/calc.c:2057
+#: ../src/calc.c:2078 ../src/calc.c:2083 ../src/calc.c:2097 ../src/calc.c:2111
+#: ../src/calc.c:2126 ../src/calc.c:2142 ../src/calc.c:2156
 msgid "Record out of place"
 msgstr "Η εγγραφή εκτός θέσης"
 
-#: ../src/calc.c:2339
+#: ../src/calc.c:2369 ../src/calc.c:2380 ../src/calc.c:2392
 msgid "Missing value for function"
 msgstr "Λείπει τιμή για συνάρτηση"
 
-#: ../src/calc.c:2365
+#: ../src/calc.c:2412
 msgid "Extra dictionary for NULL function"
 msgstr "Πρόσθετο λεξικό για τη συνάρτηση NULL"
 
-#: ../src/calc.c:2417 ../src/calc.c:2971 ../src/calc.c:3006
+#: ../src/calc.c:2465 ../src/calc.c:3019 ../src/calc.c:3054
 #, c-format
 msgid "Can't open file: '%s'"
 msgstr "Αδύνατο το άνοιγμα αρχείου: '%s'"
 
-#: ../src/calc.c:2618
+#: ../src/calc.c:2666
 msgid "Load a file into the interpreter"
 msgstr "Φόρτωση ενός αρχείου στον διερμηνευτή"
 
-#: ../src/calc.c:2621
+#: ../src/calc.c:2669
 msgid "Load a plugin"
 msgstr "Φόρτωση επιπρόσθετης λειτουργίας"
 
-#: ../src/calc.c:2624
+#: ../src/calc.c:2672
 msgid "List files in the current directory"
 msgstr "Εμφάνιση αρχείων του τρέχοντος καταλόγου"
 
-#: ../src/calc.c:2627
+#: ../src/calc.c:2675
 msgid "Change directory"
 msgstr "Αλλαγή καταλόγου"
 
-#: ../src/calc.c:2630
+#: ../src/calc.c:2678
 msgid "Print current directory"
 msgstr "Εμφάνιση τωρινού καταλόγου"
 
-#: ../src/calc.c:2633
+#: ../src/calc.c:2681
 msgid "Print help (or help on a function/command)"
 msgstr "Εμφάνιση βοήθειας (ή βοήθεια για μια συνάρτηση/εντολή)"
 
-#: ../src/calc.c:2649
+#: ../src/calc.c:2697
 msgid ""
 "\n"
 "For a manual on using Genius and the GEL language type:\n"
@@ -1586,11 +1570,11 @@ msgstr ""
 "\n"
 "Για ένα εγχειρίδιο χρήσης του Genius και τον τύπο γλώσσας GEL:\n"
 
-#: ../src/calc.c:2651
+#: ../src/calc.c:2699
 msgid "  manual\n"
 msgstr "  εγχειρίδιο\n"
 
-#: ../src/calc.c:2655
+#: ../src/calc.c:2703
 msgid ""
 "\n"
 "For help on a specific function type:\n"
@@ -1598,11 +1582,11 @@ msgstr ""
 "\n"
 "Για βοήθεια σε έναν ειδικό τύπο συνάρτησης:\n"
 
-#: ../src/calc.c:2657
+#: ../src/calc.c:2705
 msgid "  help FunctionName\n"
 msgstr " ΌνομαΣυνάρτησης βοήθειας\n"
 
-#: ../src/calc.c:2661
+#: ../src/calc.c:2709
 msgid ""
 "\n"
 "Commands:\n"
@@ -1610,7 +1594,7 @@ msgstr ""
 "\n"
 "Εντολές:\n"
 
-#: ../src/calc.c:2706
+#: ../src/calc.c:2754
 msgid ""
 "\n"
 "Undocumented:\n"
@@ -1624,104 +1608,104 @@ msgstr ""
 #. func
 #. aliasfor
 #. category
-#: ../src/calc.c:2749
+#: ../src/calc.c:2797
 msgid "Not documented"
 msgstr "Μη τεκμηριωμένο"
 
-#: ../src/calc.c:2772
+#: ../src/calc.c:2820
 #, c-format
 msgid "'%s' is not documented"
 msgstr "Το '%s' δεν είναι τεκμηριωμένο"
 
-#: ../src/calc.c:2774
+#: ../src/calc.c:2822
 #, c-format
 msgid "'%s' is not documented.  Perhaps you meant %s."
 msgstr "Το '%s' δεν είναι τεκμηριωμένο. Ίσως εννοούσατε %s."
 
-#: ../src/calc.c:2784
+#: ../src/calc.c:2832
 #, c-format
 msgid "%s is an alias for %s\n"
 msgstr "Το %s είναι ένα ψευδώνυμο για το %s\n"
 
-#: ../src/calc.c:2806
+#: ../src/calc.c:2854
 msgid "Parameter: "
 msgstr "Παράμετρος: "
 
-#: ../src/calc.c:2833
+#: ../src/calc.c:2881
 msgid "Aliases:"
 msgstr "Ψευδώνυμα:"
 
-#: ../src/calc.c:2845
+#: ../src/calc.c:2893
 #, c-format
 msgid "Description: %s\n"
 msgstr "Περιγραφή: %s\n"
 
-#: ../src/calc.c:3031 ../src/calc.c:3038
+#: ../src/calc.c:3079 ../src/calc.c:3086
 #, c-format
 msgid "Error changing to directory '%s': %s"
 msgstr "Σφάλμα κατά την αλλαγή στον κατάλογο '%s': %s"
 
-#: ../src/calc.c:3052 ../src/calc.c:3063
+#: ../src/calc.c:3100 ../src/calc.c:3111
 #, c-format
 msgid "Can't expand '%s'"
 msgstr "Αδύνατη η επέκταση του '%s'"
 
-#: ../src/calc.c:3133
+#: ../src/calc.c:3181
 #, c-format
 msgid "Cannot open plugin '%s'!"
 msgstr "Αδύνατο το άνοιγμα του προσθέτου '%s'!"
 
-#: ../src/calc.c:3223
+#: ../src/calc.c:3271
 #, c-format
 msgid "getcwd error: %s"
 msgstr "σφάλμα getcwd: %s"
 
-#: ../src/calc.c:3282
+#: ../src/calc.c:3330
 #, c-format
 msgid "ERROR: 'pipe' failed: %s"
 msgstr "ΣΦΑΛΜΑ: αποτυχία 'σωλήνωσης': %s"
 
-#: ../src/calc.c:3289 ../src/calc.c:3296
+#: ../src/calc.c:3337 ../src/calc.c:3344
 #, c-format
 msgid "ERROR: 'write' possibly failed: %s"
 msgstr "ΣΦΑΛΜΑ: η 'εγγραφή' απέτυχε πιθανόν: %s"
 
-#: ../src/calc.c:3364
+#: ../src/calc.c:3412
 msgid "ERROR: Probably corrupt stack!"
 msgstr "ΣΦΑΛΜΑ: προφανώς αλλοιωμένη στοίβα!"
 
-#: ../src/calc.c:3376
+#: ../src/calc.c:3424
 msgid ""
 "ERROR: 'local' in a wrong place, can only be first statement in a function!"
 msgstr ""
 "ΣΦΑΛΜΑ: το 'τοπικό' σε εσφαλμένη θέση, μπορεί να είναι μόνο πρώτη δήλωση σε "
 "μια συνάρτηση!"
 
-#: ../src/calc.c:3400
+#: ../src/calc.c:3448
 msgid "ERROR: Can't execute more things at once!"
 msgstr "ΣΦΑΛΜΑ: Αδύνατη η εκτέλεση περισσότερων πραγμάτων μονομιάς!"
 
-#: ../src/calc.c:3506
+#: ../src/calc.c:3554
 #, c-format
 msgid "ERROR: %s before newline"
 msgstr "ΣΦΑΛΜΑ: %s πριν από νέα γραμμή"
 
-#: ../src/calc.c:3508
+#: ../src/calc.c:3556
 #, c-format
 msgid "ERROR: %s at end of input"
 msgstr "ΣΦΑΛΜΑ: %s στο τέλος εισόδου"
 
-#: ../src/calc.c:3515
+#: ../src/calc.c:3563
 #, c-format
 msgid "ERROR: %s before '%s'"
 msgstr "ΣΦΑΛΜΑ: %s πριν το '%s'"
 
 #: ../src/calc.h:32
-#| msgid "Copyright (C) 1997-2013 Jiří (George) Lebl"
-msgid "Copyright (C) 1997-2014 Jiří (George) Lebl"
-msgstr "Πνευματικά δικαιώματα (C) 1997-2014 Jiří (George) Lebl"
+#| msgid "Copyright (C) 1997-2014 Jiří (George) Lebl"
+msgid "Copyright (C) 1997-2015 Jiří (George) Lebl"
+msgstr "Πνευματικά δικαιώματα (C) 1997-2015 Jiří (George) Lebl"
 
-#: ../src/compil.c:552 ../src/compil.c:561
+#: ../src/compil.c:545 ../src/compil.c:554
 msgid "Bad tree record when decompiling"
 msgstr "Εσφαλμένη εγγραφή δένδρου κατά την απομεταγλώττιση"
 
@@ -1817,13 +1801,13 @@ msgstr ""
 "Η μεταβλητή 'i' χρησιμοποιήθηκε χωρίς αρχικοποίηση. Ίσως προσπαθούσατε να "
 "γράψετε '1i' για τον φανταστικό αριθμό (τετραγωνική ρίζα του -1)."
 
-#: ../src/eval.c:3547 ../src/eval.c:3580 ../src/eval.c:7501
+#: ../src/eval.c:3547 ../src/eval.c:3580 ../src/eval.c:7535
 #, c-format
 msgid "Variable '%s' used uninitialized, perhaps you meant %s."
 msgstr ""
 "Η μεταβλητή '%s' που χρησιμοποιήθηκε δεν αρχικοποιήθηκε, ίσως εννοούσατε %s."
 
-#: ../src/eval.c:3554 ../src/eval.c:3587 ../src/eval.c:4643 ../src/eval.c:7508
+#: ../src/eval.c:3554 ../src/eval.c:3587 ../src/eval.c:4643 ../src/eval.c:7542
 #, c-format
 msgid "Variable '%s' used uninitialized"
 msgstr "Η μεταβλητή '%s' χρησιμοποιήθηκε χωρίς αρχικοποίηση"
@@ -1933,242 +1917,242 @@ msgstr "Ο δείκτης του πίνακα είναι μικρότερος α
 msgid "Matrix index out of range"
 msgstr "Ο δείκτης του πίνακα είναι εκτός εμβέλειας"
 
-#: ../src/eval.c:5506 ../src/eval.c:5576 ../src/eval.c:5644 ../src/eval.c:5685
-#: ../src/eval.c:5894 ../src/eval.c:5934 ../src/eval.c:6371
+#: ../src/eval.c:5506 ../src/eval.c:5574 ../src/eval.c:5732 ../src/eval.c:5773
+#: ../src/eval.c:5896 ../src/eval.c:5936 ../src/eval.c:6373
 #, c-format
 msgid "Trying to set a protected id '%s'"
 msgstr "Προσπάθεια για ορισμό ενός προστατευμένου αναγνωριστικού '%s'"
 
-#: ../src/eval.c:5532 ../src/eval.c:5571
+#: ../src/eval.c:5531 ../src/eval.c:5569
 msgid "Indexed Lvalue not user function"
 msgstr "Η τιμή L με δείκτη δεν είναι συνάρτηση χρήστη"
 
-#: ../src/eval.c:5555 ../src/eval.c:5669 ../src/eval.c:5918
+#: ../src/eval.c:5553 ../src/eval.c:5757 ../src/eval.c:5920
 msgid "Dereference of non-identifier!"
 msgstr "Αποαναφορά μη ταυτοποιητή!"
 
-#: ../src/eval.c:5561 ../src/eval.c:5675 ../src/eval.c:5924
+#: ../src/eval.c:5559 ../src/eval.c:5763 ../src/eval.c:5926
 msgid "Dereference of undefined variable!"
 msgstr "Αποαναφορά απροσδιόριστης μεταβλητής!"
 
-#: ../src/eval.c:5565 ../src/eval.c:5679 ../src/eval.c:5928
+#: ../src/eval.c:5563 ../src/eval.c:5767 ../src/eval.c:5930
 msgid "Dereference of non-reference!"
 msgstr "Αποαναφορά μη αναφοράς!"
 
-#: ../src/eval.c:5594
+#: ../src/eval.c:5591
 msgid "Indexed Lvalue not an identifier or a dereference"
 msgstr "Η Lvalue από ευρετήριο δεν είναι ένας ταυτοποιητής ή μια αποαναφορά"
 
-#: ../src/eval.c:5632 ../src/eval.c:5970 ../src/eval.c:6338 ../src/eval.c:6345
-msgid "Lvalue not an identifier/dereference/matrix location!"
-msgstr "Η Lvalue δεν είναι μια θέση ταυτοποιητή/αποαναφορά/πίνακα!"
-
-#: ../src/eval.c:5656 ../src/eval.c:5697
-msgid "Referencing an undefined variable!"
-msgstr "Αναφορά μιας απροσδιόριστης μεταβλητής!"
-
-#: ../src/eval.c:5747 ../src/eval.c:5829 ../src/eval.c:5838
-msgid "Wrong matrix dimensions when setting"
-msgstr "Εσφαλμένες διαστάσεις πίνακα κατά τον ορισμό"
-
-#: ../src/eval.c:5765 ../src/eval.c:5809 ../src/eval.c:5875 ../src/eval.c:6040
-#: ../src/eval.c:6077 ../src/eval.c:6122 ../src/eval.c:6525 ../src/eval.c:6650
+#: ../src/eval.c:5645 ../src/eval.c:5700 ../src/eval.c:5877 ../src/eval.c:6042
+#: ../src/eval.c:6079 ../src/eval.c:6124 ../src/eval.c:6527 ../src/eval.c:6652
 msgid "Matrix index not an integer or a vector"
 msgstr "Ο δείκτης πίνακα δεν είναι ακέραιος ή διάνυσμα"
 
-#: ../src/eval.c:5889
+#: ../src/eval.c:5689 ../src/eval.c:5831 ../src/eval.c:5840
+msgid "Wrong matrix dimensions when setting"
+msgstr "Εσφαλμένες διαστάσεις πίνακα κατά τον ορισμό"
+
+#: ../src/eval.c:5720 ../src/eval.c:5972 ../src/eval.c:6340 ../src/eval.c:6347
+msgid "Lvalue not an identifier/dereference/matrix location!"
+msgstr "Η Lvalue δεν είναι μια θέση ταυτοποιητή/αποαναφορά/πίνακα!"
+
+#: ../src/eval.c:5744 ../src/eval.c:5785
+msgid "Referencing an undefined variable!"
+msgstr "Αναφορά μιας απροσδιόριστης μεταβλητής!"
+
+#: ../src/eval.c:5891
 #, c-format
 msgid ""
 "Increment/Swapwith does not work on parameters (trying to increment '%s')"
 msgstr "Αύξηση/Εναλλαγή δεν δουλεύει σε παραμέτρους (προσπάθεια αύξησης '%s')"
 
-#: ../src/eval.c:5958
+#: ../src/eval.c:5960
 msgid "Increment not a value!"
 msgstr "Η αύξηση δεν είναι τιμή!"
 
-#: ../src/eval.c:5982
+#: ../src/eval.c:5984
 #, c-format
 msgid "Trying to increment non-value id '%s'"
 msgstr "Προσπάθεια αύξησης αναγνωριστικού χωρίς τιμή '%s'"
 
-#: ../src/eval.c:6143 ../src/eval.c:6152
+#: ../src/eval.c:6145 ../src/eval.c:6154
 msgid "Can only swap user variables"
 msgstr "Μπορούν να εναλλαχτούν μόνο μεταβλητές χρήστη"
 
-#: ../src/eval.c:6192 ../src/eval.c:6227 ../src/eval.c:6258 ../src/eval.c:6274
-#: ../src/eval.c:6292 ../src/eval.c:6308
+#: ../src/eval.c:6194 ../src/eval.c:6229 ../src/eval.c:6260 ../src/eval.c:6276
+#: ../src/eval.c:6294 ../src/eval.c:6310
 msgid "Cannot swap matrix regions"
 msgstr "Αδύνατη η εναλλαγή περιοχών πίνακα"
 
-#: ../src/eval.c:6366
+#: ../src/eval.c:6368
 msgid "Parameters can only be created in the global context"
 msgstr "Οι παράμετροι μπορούν να δημιουργηθούν μόνο στο καθολικό περιεχόμενο"
 
-#: ../src/eval.c:6472 ../src/eval.c:6517 ../src/eval.c:6608
+#: ../src/eval.c:6474 ../src/eval.c:6519 ../src/eval.c:6610
 msgid "Index works only on matrices"
 msgstr "Ο δείκτης δουλεύει μόνο σε πίνακες"
 
-#: ../src/eval.c:6505
+#: ../src/eval.c:6507
 msgid "Vector index not an integer or a vector"
 msgstr "Ο δείκτης διανύσματος δεν είναι ακέραιος ή διάνυσμα"
 
-#: ../src/eval.c:6673
+#: ../src/eval.c:6675
 msgid "number"
 msgstr "αριθμός"
 
-#: ../src/eval.c:6674
+#: ../src/eval.c:6676
 msgid "matrix"
 msgstr "πίνακας"
 
-#: ../src/eval.c:6675
+#: ../src/eval.c:6677
 msgid "string"
 msgstr "συμβολοσειρά"
 
-#: ../src/eval.c:6676
+#: ../src/eval.c:6678
 msgid "function"
 msgstr "συνάρτηση"
 
-#: ../src/eval.c:6677
+#: ../src/eval.c:6679
 msgid "identifier"
 msgstr "αναγνωριστικό"
 
-#: ../src/eval.c:6678
+#: ../src/eval.c:6680
 msgid "polynomial"
 msgstr "πολυώνυμο"
 
-#: ../src/eval.c:6679
+#: ../src/eval.c:6681
 msgid "boolean"
 msgstr "λογική τιμή"
 
-#: ../src/eval.c:6702
+#: ../src/eval.c:6704
 msgid "Addition"
 msgstr "Πρόσθεση"
 
-#: ../src/eval.c:6703
+#: ../src/eval.c:6705
 msgid "Element by element addition"
 msgstr "Πρόσθεση στοιχείου με στοιχείο"
 
-#: ../src/eval.c:6704
+#: ../src/eval.c:6706
 msgid "Subtraction"
 msgstr "Αφαίρεση"
 
-#: ../src/eval.c:6705
+#: ../src/eval.c:6707
 msgid "Element by element subtraction"
 msgstr "Αφαίρεση στοιχείου με στοιχείο"
 
-#: ../src/eval.c:6706
+#: ../src/eval.c:6708
 msgid "Multiplication"
 msgstr "Πολλαπλασιασμός"
 
-#: ../src/eval.c:6707
+#: ../src/eval.c:6709
 msgid "Element by element multiplication"
 msgstr "Πολλαπλασιασμός στοιχείου με στοιχείο"
 
-#: ../src/eval.c:6708
+#: ../src/eval.c:6710
 msgid "Division"
 msgstr "Διαίρεση"
 
-#: ../src/eval.c:6709
+#: ../src/eval.c:6711
 msgid "Element by element division"
 msgstr "Διαίρεση στοιχείου με στοιχείο"
 
-#: ../src/eval.c:6710
+#: ../src/eval.c:6712
 msgid "Back division"
 msgstr "Οπίσθια διαίρεση"
 
-#: ../src/eval.c:6711
+#: ../src/eval.c:6713
 msgid "Element by element back division"
 msgstr "Οπίσθια διαίρεση στοιχείου με στοιχείο"
 
-#: ../src/eval.c:6712
+#: ../src/eval.c:6714
 msgid "Modulo"
 msgstr "Ισοϋπόλοιπο"
 
-#: ../src/eval.c:6713
+#: ../src/eval.c:6715
 msgid "Element by element modulo"
 msgstr "Ισοϋπόλοιπο στοιχείου με στοιχείο"
 
-#: ../src/eval.c:6714
+#: ../src/eval.c:6716
 msgid "Negation"
 msgstr "Άρνηση"
 
-#: ../src/eval.c:6715
+#: ../src/eval.c:6717
 msgid "Power"
 msgstr "Δύναμη"
 
-#: ../src/eval.c:6716
+#: ../src/eval.c:6718
 msgid "Element by element power"
 msgstr "Δύναμη στοιχείου με στοιχείο"
 
-#: ../src/eval.c:6717
+#: ../src/eval.c:6719
 msgid "Factorial"
 msgstr "Παραγοντικό"
 
-#: ../src/eval.c:6718
+#: ../src/eval.c:6720
 msgid "Double factorial"
 msgstr "Διπλό παραγοντικό"
 
-#: ../src/eval.c:6719
+#: ../src/eval.c:6721
 msgid "Transpose"
 msgstr "Αντιμετάθεση"
 
-#: ../src/eval.c:6720
+#: ../src/eval.c:6722
 msgid "ConjugateTranspose"
 msgstr "Αντιμετάθεση συζυγή"
 
-#: ../src/eval.c:6721
+#: ../src/eval.c:6723
 msgid "Comparison (<=>)"
 msgstr "Σύγκριση (<=>)"
 
-#: ../src/eval.c:6722
+#: ../src/eval.c:6724
 msgid "XOR"
 msgstr "XOR"
 
-#: ../src/eval.c:6723
+#: ../src/eval.c:6725
 msgid "NOT"
 msgstr "NOT"
 
-#: ../src/eval.c:6743
+#: ../src/eval.c:6745
 #, c-format
 msgid "Bad types for '%s'"
 msgstr "Εσφαλμένοι τύποι για '%s'"
 
-#: ../src/eval.c:6754
+#: ../src/eval.c:6756
 #, c-format
 msgid "%s not defined on <%s> and <%s>"
 msgstr "το %s δεν ορίστηκε στο <%s> και στο <%s>"
 
-#: ../src/eval.c:6773
+#: ../src/eval.c:6775
 #, c-format
 msgid "Bad type for '%s'"
 msgstr "Εσφαλμένος τύπος για '%s'"
 
-#: ../src/eval.c:6783
+#: ../src/eval.c:6785
 #, c-format
 msgid "%s not defined on <%s>"
 msgstr "το %s δεν προσδιορίστηκε στο <%s>"
 
-#: ../src/eval.c:6802 ../src/eval.c:6819
+#: ../src/eval.c:6805 ../src/eval.c:6822
 msgid "Vector building only works on numbers"
 msgstr "Η δόμηση διανύσματος δουλεύει μόνο σε αριθμούς"
 
 #  FIXME: perhaps we should just return null like octave?
 #. FIXME: perhaps we should just return null like octave?
-#: ../src/eval.c:6812
+#: ../src/eval.c:6815
 msgid "Impossible arguments to vector building operator"
 msgstr "Αδύνατα ορίσματα στον τελεστή δόμησης διανύσματος"
 
-#: ../src/funclib.c:123
+#: ../src/funclib.c:124
 #, c-format
 msgid "%s: argument too large"
 msgstr "%s: υπερβολικά μεγάλο όρισμα"
 
-#: ../src/funclib.c:150
+#: ../src/funclib.c:151
 #, c-format
 msgid "Cannot parse version string: %s"
 msgstr "Αδύνατη η ανάλυση συμβολοσειράς έκδοσης: %s"
 
-#: ../src/funclib.c:179 ../src/gnome-genius.c:1957
+#: ../src/funclib.c:180 ../src/gnome-genius.c:1982
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -2206,24 +2190,24 @@ msgstr ""
 "   Άδειας μαζί με αυτό το πρόγραμμα. Αν όχι, δείτε <http://www.gnu.org/"
 "licenses/>.\n"
 
-#: ../src/funclib.c:273
+#: ../src/funclib.c:274
 #, c-format
 msgid "%s: trying to undefine a protected id!"
 msgstr "%s: προσπάθεια αφαίρεσης ορισμού ενός προστατευμένου αναγνωριστικού!"
 
-#: ../src/funclib.c:546
+#: ../src/funclib.c:547 ../src/funclib.c:585 ../src/funclib.c:647
 #, c-format
 msgid "%s: trying to set a protected id!"
 msgstr "%s: προσπάθεια ορισμού ενός προστατευμένου αναγνωριστικού!"
 
 #  FIXME: fix this, this should just work too
 #. FIXME: fix this, this should just work too
-#: ../src/funclib.c:552
+#: ../src/funclib.c:553 ../src/funclib.c:591 ../src/funclib.c:653
 #, c-format
 msgid "%s: trying to set a parameter, use the equals sign"
 msgstr "%s: προσπάθεια ορισμού μιας παραμέτρου, χρησιμοποιήστε το σύμβολο ίσον"
 
-#: ../src/funclib.c:580 ../src/gnome-genius.c:1166
+#: ../src/funclib.c:705 ../src/gnome-genius.c:1180
 msgid ""
 "Global variables:\n"
 "\n"
@@ -2231,7 +2215,7 @@ msgstr ""
 "Καθολικές μεταβλητές:\n"
 "\n"
 
-#: ../src/funclib.c:603 ../src/gnome-genius.c:1199
+#: ../src/funclib.c:728 ../src/gnome-genius.c:1213
 msgid ""
 "\n"
 "Function call stack:\n"
@@ -2239,8 +2223,8 @@ msgstr ""
 "\n"
 "Στοίβα κλήσης συνάρτησης:\n"
 
-#: ../src/funclib.c:605 ../src/funclib.c:645 ../src/gnome-genius.c:1201
-#: ../src/gnome-genius.c:1258
+#: ../src/funclib.c:730 ../src/funclib.c:770 ../src/gnome-genius.c:1215
+#: ../src/gnome-genius.c:1272
 msgid ""
 "(depth of context in parentheses)\n"
 "\n"
@@ -2248,7 +2232,7 @@ msgstr ""
 "(βάθος του περιεχομένου σε παρενθέσεις)\n"
 "\n"
 
-#: ../src/funclib.c:643 ../src/gnome-genius.c:1256
+#: ../src/funclib.c:768 ../src/gnome-genius.c:1270
 msgid ""
 "\n"
 "Local variables:\n"
@@ -2256,36 +2240,34 @@ msgstr ""
 "\n"
 "Τοπικές μεταβλητές:\n"
 
-#: ../src/funclib.c:674
+#: ../src/funclib.c:799
 #, c-format
-#| msgid "%s: argument number %d not a function or identifier"
 msgid "%s: Argument number %d not a string or identifier"
 msgstr ""
 "%s: Ο αριθμός ορίσματος %d δεν είναι είναι συμβολοσειρά ή αναγνωριστικό"
 
-#: ../src/funclib.c:683
+#: ../src/funclib.c:808
 #, c-format
-#| msgid "%s undefined"
 msgid "%s undefined\n"
 msgstr "απροσδιόριστο %s\n"
 
-#: ../src/funclib.c:706 ../src/funclib.c:799
+#: ../src/funclib.c:831 ../src/funclib.c:924
 #, c-format
 msgid "%s: Too many arguments, should be at most %d"
 msgstr "%s: Υπερβολικά πολλά ορίσματα, πρέπει να είναι το πολύ %d"
 
-#: ../src/funclib.c:947
+#: ../src/funclib.c:1072
 msgid "Cannot apply function to two differently sized matrices"
 msgstr "Αδύνατη η εφαρμογή συνάρτησης σε δύο πίνακες διαφορετικών μεγεθών"
 
-#: ../src/funclib.c:1612 ../src/funclib.c:1649 ../src/funclib.c:1686
-#: ../src/funclib.c:1723 ../src/funclib.c:1765 ../src/funclib.c:1802
-#: ../src/funclib.c:1844 ../src/funclib.c:1891
+#: ../src/funclib.c:1760 ../src/funclib.c:1797 ../src/funclib.c:1834
+#: ../src/funclib.c:1871 ../src/funclib.c:1913 ../src/funclib.c:1950
+#: ../src/funclib.c:1992 ../src/funclib.c:2039
 #, c-format
 msgid "%s: Not implemented (yet) for complex values"
 msgstr "%s: Δεν υλοποιήθηκε (ακόμα) για μιγαδικές τιμές"
 
-#: ../src/funclib.c:1807 ../src/funclib.c:1849 ../src/funclib.c:1896
+#: ../src/funclib.c:1955 ../src/funclib.c:1997 ../src/funclib.c:2044
 #, c-format
 msgid ""
 "%s: Bessel functions of second kind not defined for nonpositive real numbers"
@@ -2293,309 +2275,329 @@ msgstr ""
 "%s: Οι συναρτήσεις Μπεσέλ δεύτερου είδους δεν ορίστηκαν για μη θετικούς "
 "πραγματικούς αριθμούς"
 
-#: ../src/funclib.c:2349
+#: ../src/funclib.c:2497
 #, c-format
 msgid "%s: square root for composite moduli is not yet implemented"
 msgstr "%s: τετραγωνική ρίζα για σύνθετα ισοϋπόλοιπα δεν έχει ακόμα εφαρμοστεί"
 
-#: ../src/funclib.c:2357
+#: ../src/funclib.c:2505
 #, c-format
 msgid "%s: Cannot find square root function for prime moduli"
 msgstr ""
 "%s: Αδύνατη η εύρεση συνάρτησης τετραγωνικής ρίζας για πρώτα ισοϋπόλοιπα"
 
-#: ../src/funclib.c:2390
+#: ../src/funclib.c:2538
 #, c-format
 msgid "%s: matrix argument is not square"
 msgstr "%s: το όρισμα πίνακα δεν είναι τετράγωνο"
 
-#: ../src/funclib.c:2531 ../src/funclib.c:2631
+#: ../src/funclib.c:2679 ../src/funclib.c:2779
 #, c-format
 msgid "%s: matrix argument must be integer only"
 msgstr "%s: το όρισμα πίνακα πρέπει να είναι μόνο ακέραιος"
 
-#: ../src/funclib.c:2553 ../src/funclib.c:2653
+#: ../src/funclib.c:2701 ../src/funclib.c:2801
 #, c-format
 msgid "%s: argument must be an integer"
 msgstr "%s: το όρισμα πρέπει να είναι ακέραιος"
 
-#: ../src/funclib.c:2737 ../src/funclib.c:4595 ../src/funclib.c:4624
-#: ../src/funclib.c:4876 ../src/mpwrap.c:3790 ../src/mpwrap.c:3809
-#: ../src/mpwrap.c:3866 ../src/mpwrap.c:3895 ../src/mpwrap.c:3912
-#: ../src/mpwrap.c:3961
+#: ../src/funclib.c:2885 ../src/funclib.c:4762 ../src/funclib.c:4791
+#: ../src/funclib.c:5043 ../src/mpwrap.c:3793 ../src/mpwrap.c:3812
+#: ../src/mpwrap.c:3869 ../src/mpwrap.c:3898 ../src/mpwrap.c:3915
+#: ../src/mpwrap.c:3964
 msgid "Division by zero!"
 msgstr "Διαίρεση με το 0!"
 
-#: ../src/funclib.c:2919 ../src/funclib.c:3006
+#: ../src/funclib.c:3067 ../src/funclib.c:3164
 #, c-format
 msgid "%s: matrix argument must be value only"
 msgstr "%s: το όρισμα πίνακα πρέπει να είναι μόνο τιμή"
 
-#: ../src/funclib.c:3265 ../src/funclib.c:3323 ../src/funclib.c:4861
-#: ../src/funclib.c:5155 ../src/graphing.c:9024
+#: ../src/funclib.c:3088 ../src/funclib.c:3185
+#, c-format
+#| msgid "Can't compare complex numbers"
+msgid "%s: Cannot compare complex numbers"
+msgstr "%s: Αδύνατη η σύγκριση μιγαδικών αριθμών"
+
+#: ../src/funclib.c:3098 ../src/funclib.c:3194
+#, c-format
+#| msgid "%s: argument number %d not a number"
+msgid "%s: Input not a number of matrix of numbers."
+msgstr "%s: Η είσοδος δεν είναι ένας αριθμός από πίνακα αριθμών."
+
+#: ../src/funclib.c:3432 ../src/funclib.c:3490 ../src/funclib.c:5028
+#: ../src/funclib.c:5322 ../src/graphing.c:10150
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: πάρα πολλά ορίσματα"
 
-#: ../src/funclib.c:3573
+#: ../src/funclib.c:3740
 #, c-format
 msgid "%s: vector argument not value only"
 msgstr "%s: το όρισμα διανύσματος δεν είναι μόνο τιμή"
 
-#: ../src/funclib.c:3584 ../src/funclib.c:3623
+#: ../src/funclib.c:3751 ../src/funclib.c:3790
 #, c-format
 msgid "%s: argument can't be negative or 0"
 msgstr "%s: το όρισμα δε μπορεί να είναι αρνητικός ή 0"
 
-#: ../src/funclib.c:3592 ../src/funclib.c:3628
+#: ../src/funclib.c:3759 ../src/funclib.c:3795
 #, c-format
 msgid "%s: vector argument has too large entries"
 msgstr "%s: το όρισμα διανύσματος έχει υπερβολικά μεγάλες καταχωρίσεις"
 
-#: ../src/funclib.c:3670
+#: ../src/funclib.c:3837
 #, c-format
 msgid "%s: arguments must be vectors of equal size"
 msgstr "%s: τα ορίσματα πρέπει να είναι διανύσματα ίσου μεγέθους"
 
-#: ../src/funclib.c:4162 ../src/funclib.c:4168
+#: ../src/funclib.c:4329 ../src/funclib.c:4335
 #, c-format
 msgid "%s: %s not a reference"
 msgstr "%s: το %s δεν είναι αναφορά"
 
-#: ../src/funclib.c:4207
+#: ../src/funclib.c:4374
 #, c-format
 msgid "%s: matrices not of the same height"
 msgstr "%s: οι πίνακες δεν είναι του ίδιου ύψους"
 
-#: ../src/funclib.c:4212 ../src/funclib.c:4855
+#: ../src/funclib.c:4379 ../src/funclib.c:5022
 msgid "third argument"
 msgstr "τρίτο όρισμα"
 
-#: ../src/funclib.c:4217
+#: ../src/funclib.c:4384
 msgid "fourth argument"
 msgstr "τέταρτο όρισμα"
 
-#: ../src/funclib.c:4492
+#: ../src/funclib.c:4659
 #, c-format
 msgid "%s: argument must be greater than 2"
 msgstr "%s: το όρισμα πρέπει να είναι μεγαλύτερο από το 2"
 
-#: ../src/funclib.c:4680
+#: ../src/funclib.c:4847
 #, c-format
 msgid "%s: arguments not horizontal vectors"
 msgstr "%s: τα ορίσματα δεν είναι οριζόντια διανύσματα"
 
-#: ../src/funclib.c:4689
+#: ../src/funclib.c:4856
 #, c-format
 msgid "%s: arguments not numeric only vectors"
 msgstr "%s: τα ορίσματα δεν είναι μόνο αριθμητικά διανύσματα"
 
-#: ../src/funclib.c:5073
+#: ../src/funclib.c:5240
 #, c-format
 msgid "%s: argument 1 must be a quadratic polynomial"
 msgstr "%s: το όρισμα 1 πρέπει να είναι δευτεροβάθμιο πολυώνυμο"
 
-#: ../src/funclib.c:5384 ../src/funclib.c:5473 ../src/funclib.c:5734
-#: ../src/funclib.c:5741 ../src/funclib.c:5796 ../src/funclib.c:5803
-#: ../src/funclib.c:5874 ../src/funclib.c:5888
+#: ../src/funclib.c:5551 ../src/funclib.c:5640 ../src/funclib.c:5901
+#: ../src/funclib.c:5908 ../src/funclib.c:5963 ../src/funclib.c:5970
+#: ../src/funclib.c:6041 ../src/funclib.c:6055
 #, c-format
 msgid "%s: value out of range"
 msgstr "%s: τιμή εκτός περιοχής"
 
-#: ../src/funclib.c:6097
+#: ../src/funclib.c:6264
 #, c-format
 msgid "%s: undefined function"
 msgstr "%s: απροσδιόριστη συνάρτηση"
 
-#: ../src/funclib.c:6103
+#: ../src/funclib.c:6270
 #, c-format
 msgid "%s: flags argument must be a string"
 msgstr "%s: το όρισμα σημαιών πρέπει να είναι συμβολοσειρά"
 
-#: ../src/funclib.c:6231 ../src/symbolic.c:734
+#: ../src/funclib.c:6398 ../src/symbolic.c:734
 #, c-format
 msgid "%s: argument not a function of one variable"
 msgstr "%s: το όρισμα δεν είναι συνάρτηση μιας μεταβλητής"
 
-#: ../src/funclib.c:6443 ../src/funclib.c:6478 ../src/funclib.c:6723
+#: ../src/funclib.c:6610 ../src/funclib.c:6645 ../src/funclib.c:6890
 #, c-format
 msgid "%s: argument should be between %d and %d"
 msgstr "%s: το όρισμα πρέπει να είναι μεταξύ %d και %d"
 
-#: ../src/funclib.c:6631
+#: ../src/funclib.c:6798
 msgid "OutputStyle must be one of normal, troff, latex or mathml"
 msgstr ""
 "Το OutputStyle πρέπει να είναι ένα από τα normal, troff, latex ή mathml"
 
-#: ../src/funclib.c:6671
+#: ../src/funclib.c:6838
 #, c-format
 msgid "%s: argument should be larger or equal to 0"
 msgstr "%s: το όρισμα πρέπει να είναι μεγαλύτερο ή ίσο του 0"
 
-#: ../src/funclib.c:6784
+#: ../src/funclib.c:6951
 msgid "Basic"
 msgstr "Βασικό"
 
 #. internal
-#: ../src/funclib.c:6785
+#: ../src/funclib.c:6952
 msgid "Parameters"
 msgstr "Παράμετροι"
 
 #. internal
-#: ../src/funclib.c:6786
+#: ../src/funclib.c:6953
 msgid "Constants"
 msgstr "Σταθερές"
 
 #. internal
-#: ../src/funclib.c:6787
+#: ../src/funclib.c:6954
 msgid "Numeric"
 msgstr "Αριθμητικό"
 
 #. internal
-#: ../src/funclib.c:6788
+#: ../src/funclib.c:6955
 msgid "Trigonometry"
 msgstr "Τριγωνομετρία"
 
 #. internal
-#: ../src/funclib.c:6789
+#: ../src/funclib.c:6956
 msgid "Number Theory"
 msgstr "Θεωρία Αριθμών"
 
 #. internal
-#: ../src/funclib.c:6790
+#: ../src/funclib.c:6957
 msgid "Matrix Manipulation"
 msgstr "Διαχείριση πινάκων"
 
 #. internal
-#: ../src/funclib.c:6791
+#: ../src/funclib.c:6958
 msgid "Linear Algebra"
 msgstr "Γραμμική Άλγεβρα"
 
 #. internal
-#: ../src/funclib.c:6792
+#: ../src/funclib.c:6959
 msgid "Combinatorics"
 msgstr "Συνδυαστική"
 
 #. internal
-#: ../src/funclib.c:6793
+#: ../src/funclib.c:6960
 msgid "Calculus"
 msgstr "Λογισμός"
 
 #. internal
-#: ../src/funclib.c:6794
+#: ../src/funclib.c:6961
 msgid "Functions"
 msgstr "Συναρτήσεις"
 
 #. internal
-#: ../src/funclib.c:6795
+#: ../src/funclib.c:6962
 msgid "Equation Solving"
 msgstr "Επίλυση εξίσωσης"
 
 #. internal
-#: ../src/funclib.c:6796
+#: ../src/funclib.c:6963
 msgid "Statistics"
 msgstr "Στατιστική"
 
 #. internal
-#: ../src/funclib.c:6797
+#: ../src/funclib.c:6964
 msgid "Polynomials"
 msgstr "Πολυώνυμα"
 
 #. internal
-#: ../src/funclib.c:6798
+#: ../src/funclib.c:6965
 msgid "Set Theory"
 msgstr "Θεωρία συνόλων"
 
 #. internal
-#: ../src/funclib.c:6799
+#: ../src/funclib.c:6966
 msgid "Commutative Algebra"
 msgstr "Αντιμεταθετική άλγεβρα"
 
 #. internal
-#: ../src/funclib.c:6800
+#: ../src/funclib.c:6967
 msgid "Miscellaneous"
 msgstr "Διάφορα"
 
 #  bogus value
 #. internal
-#: ../src/funclib.c:6802
+#: ../src/funclib.c:6969
 msgid "Displays the user manual"
 msgstr "Εμφανίζει το εγχειρίδιο χρήστη"
 
-#: ../src/funclib.c:6803
+#: ../src/funclib.c:6970
 msgid "Gives the warranty information"
 msgstr "Δίνει τις πληροφορίες εγγύησης"
 
-#: ../src/funclib.c:6804
+#: ../src/funclib.c:6971
 msgid "Return version as a 3-vector"
 msgstr "Επιστροφή έκδοσης ως ενός 3διάστατου διανύσματος"
 
-#: ../src/funclib.c:6805
+#: ../src/funclib.c:6972
 msgid "Exits the program"
 msgstr "Έξοδος από το πρόγραμμα"
 
-#: ../src/funclib.c:6807
+#: ../src/funclib.c:6974
 msgid "Prints a string to the error stream"
 msgstr "Εμφανίζει μια συμβολοσειρά στη ροή σφαλμάτων"
 
-#: ../src/funclib.c:6808
+#: ../src/funclib.c:6975
 msgid "Waits a specified number of seconds"
 msgstr "Περιμένει έναν συγκεκριμένο αριθμό δευτερολέπτων"
 
-#: ../src/funclib.c:6809
+#: ../src/funclib.c:6976
 msgid "The true boolean value"
 msgstr "Η αληθής λογική τιμή"
 
-#: ../src/funclib.c:6811
+#: ../src/funclib.c:6978
 msgid "The false boolean value"
 msgstr "Η ψευδής λογική τιμή"
 
-#: ../src/funclib.c:6814
+#: ../src/funclib.c:6981
 msgid "Unix time in seconds as a floating point number"
 msgstr "Ο χρόνος Γιούνιξ σε δευτερόλεπτα ως ένας αριθμός κινητής υποδιαστολής"
 
-#: ../src/funclib.c:6822
+#: ../src/funclib.c:6989
 msgid "Make integer (0 or 1) from a boolean value"
 msgstr "Δημιουργία ακεραίου (0 ή 1) από μια λογική τιμή"
 
-#: ../src/funclib.c:6824
+#: ../src/funclib.c:6991
 msgid "Prints an expression"
 msgstr "Εμφανίζει μια έκφραση"
 
-#: ../src/funclib.c:6825
+#: ../src/funclib.c:6992
 msgid "Changes current directory"
 msgstr "Αλλάζει τον τρέχοντα κατάλογο"
 
-#: ../src/funclib.c:6826
+#: ../src/funclib.c:6993
 msgid "Prints an expression without a trailing newline"
 msgstr "Εμφανίζει μια έκφραση χωρίς μια τελική νέα γραμμή"
 
-#: ../src/funclib.c:6827
+#: ../src/funclib.c:6994
 msgid "Display a string and an expression"
 msgstr "Εμφάνιση μιας συμβολοσειράς και μιας έκφρασης"
 
-#: ../src/funclib.c:6828
+#: ../src/funclib.c:6995
 msgid "Set a global variable"
 msgstr "Ορισμός καθολικής μεταβλητής"
 
-#: ../src/funclib.c:6829
+#: ../src/funclib.c:6996
+msgid "Set an element in a global variable which is a matrix"
+msgstr "Ορισμός ενός στοιχείου σε μια καθολική μεταβλητή που είναι ένας πίνακας"
+
+#: ../src/funclib.c:6997
+msgid "Set an element in a global variable which is a vector"
+msgstr "Ορισμός ενός στοιχείου σε μια καθολική μεταβλητή που είναι ένα διάνυσμα"
+
+#: ../src/funclib.c:6998
 msgid "Display values of variables, or all if called without arguments"
 msgstr "Εμφάνιση τιμών των μεταβλητών, ή όλων αν κλήθηκε χωρίς επιχειρήματα"
 
-#: ../src/funclib.c:6831
+#: ../src/funclib.c:7000
 msgid "Set the category and help description line for a function"
 msgstr ""
 "Ορισμός της γραμμής περιγραφής κατηγορίας και βοήθειας για μια συνάρτηση"
 
-#: ../src/funclib.c:6832
+#: ../src/funclib.c:7001
 msgid "Sets up a help alias"
 msgstr "Εγκαθιστά ένα ψευδώνυμο βοήθειας"
 
-#: ../src/funclib.c:6834
+#: ../src/funclib.c:7003
 msgid "Identity function, returns its argument"
 msgstr "Η συνάρτηση ταυτότητας, επιστρέφει το όρισμα της"
 
-#: ../src/funclib.c:6836
+#: ../src/funclib.c:7005
 msgid ""
 "Generate random float between 0 and 1, or if size given generate vector or "
 "matrix of random floats"
@@ -2604,7 +2606,7 @@ msgstr ""
 "δεδομένο μέγεθος δημιουργήστε διάνυσμα ή πίνακα τυχαίων αριθμών κινητής "
 "υποδιαστολής"
 
-#: ../src/funclib.c:6838
+#: ../src/funclib.c:7007
 msgid ""
 "Generate random integer between 0 and max-1 inclusive, or if size given "
 "generate vector or matrix of random integers"
@@ -2612,59 +2614,59 @@ msgstr ""
 "Δημιουργία τυχαίου ακεραίου μεταξύ 0 και max-1 συμπεριλαμβανόμενου, ή με "
 "δεδομένο μέγεθος δημιουργήστε διάνυσμα ή πίνακα τυχαίων ακεραίων"
 
-#: ../src/funclib.c:6841 ../src/gnome-genius.c:2501
+#: ../src/funclib.c:7010 ../src/gnome-genius.c:2525
 msgid "Floating point precision"
 msgstr "Ακρίβεια κινητής υποδιαστολής"
 
-#: ../src/funclib.c:6843 ../src/gnome-genius.c:2390
+#: ../src/funclib.c:7012 ../src/gnome-genius.c:2414
 msgid ""
 "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr ""
 "Εμφάνιση του 0.0 όταν ο αριθμός κινητής υποδιαστολής είναι μικρότερος από "
 "10^-x (0=να μην στρογγυλοποιείται ποτέ)"
 
-#: ../src/funclib.c:6846 ../src/gnome-genius.c:2413
+#: ../src/funclib.c:7015 ../src/gnome-genius.c:2437
 msgid "Only chop numbers when another number is greater than 10^-x"
 msgstr ""
 "Να στρογγυλοποιούνται οι αριθμοί μόνο όταν ένας άλλος αριθμός είναι "
 "μεγαλύτερος από 10^-x"
 
-#: ../src/funclib.c:6847
+#: ../src/funclib.c:7016
 msgid "Maximum digits to display"
 msgstr "Μέγιστα αριθμός ψηφίων που θα εμφανίζονται"
 
-#: ../src/funclib.c:6848
+#: ../src/funclib.c:7017
 msgid "Maximum errors to display"
 msgstr "Μέγιστος αριθμός σφαλμάτων που θα εμφανίζονται"
 
-#: ../src/funclib.c:6849
+#: ../src/funclib.c:7018
 msgid "Output style: normal, latex, mathml or troff"
 msgstr "Τεχνοτροπία εξόδου: κανονική, latex, mathml ή troff"
 
-#: ../src/funclib.c:6850
+#: ../src/funclib.c:7019
 msgid "Integer output base"
 msgstr "Βάση εξόδου ακεραίων"
 
-#: ../src/funclib.c:6851
+#: ../src/funclib.c:7020
 msgid "If true, mixed fractions are printed"
 msgstr "Αν είναι αληθές, εμφανίζονται μικτά κλάσματα"
 
-#: ../src/funclib.c:6852
+#: ../src/funclib.c:7021
 msgid "Print full expressions, even if more than a line"
 msgstr ""
 "Εμφάνιση πλήρων εκφράσεων, ακόμα κι αν είναι περισσότερες από μία γραμμή"
 
-#: ../src/funclib.c:6853
+#: ../src/funclib.c:7022
 msgid "Convert all results to floats before printing"
 msgstr ""
 "Μετατροπή όλων των αποτελεσμάτων σε αριθμούς κινητής υποδιαστολής πριν την "
 "εμφάνιση"
 
-#: ../src/funclib.c:6854
+#: ../src/funclib.c:7023
 msgid "Use scientific notation"
 msgstr "Χρήση επιστημονικής σημειογραφίας"
 
-#: ../src/funclib.c:6856
+#: ../src/funclib.c:7025
 msgid ""
 "Number of extra Miller-Rabin tests to run on a number before declaring it a "
 "prime in IsPrime"
@@ -2672,235 +2674,236 @@ msgstr ""
 "Αριθμός των πρόσθετων δοκιμών Μίλερ-Ράμπιν που εκτελούνται σε έναν αριθμό "
 "πριν τη δήλωση ότι είναι πρώτος στο IsPrime"
 
-#: ../src/funclib.c:6862
+#: ../src/funclib.c:7031
 msgid "Expands a matrix just like we do on unquoted matrix input"
 msgstr ""
 "Επεκτείνει έναν πίνακα ακριβώς όπως κάνουμε στην είσοδο πίνακα χωρίς "
 "εισαγωγικά"
 
-#: ../src/funclib.c:6863
+#: ../src/funclib.c:7032
 msgid "Gets the rows of a matrix as a vertical vector"
 msgstr "Λήψη των γραμμών ενός πίνακα ως κάθετο διάνυσμα"
 
-#: ../src/funclib.c:6864
+#: ../src/funclib.c:7033
 msgid "Gets the columns of a matrix as a horizontal vector"
 msgstr "Λήψη των στηλών ενός πίνακα ως οριζόντιο διάνυσμα"
 
-#: ../src/funclib.c:6865
+#: ../src/funclib.c:7034
 msgid "Gets the diagonal entries of a matrix as a column vector"
 msgstr "Λήψη των διαγώνιων καταχωρίσεων ενός πίνακα ως διάνυσμα στήλης"
 
-#: ../src/funclib.c:6866
+#: ../src/funclib.c:7035
 msgid "Count the number of zero columns in a matrix"
 msgstr "Μέτρηση του αριθμού των μηδενικών στηλών σε έναν πίνακα"
 
-#: ../src/funclib.c:6867
+#: ../src/funclib.c:7036
 msgid "Removes any all-zero columns of M"
 msgstr "Αφαιρεί κάθε στήλη πλήρως μηδενική του Μ"
 
-#: ../src/funclib.c:6868
-#| msgid "Count the number of zero columns in a matrix"
+#: ../src/funclib.c:7037
 msgid "Return a vector with the indices of the nonzero columns in a matrix"
 msgstr ""
 "Επιστρέφει ένα διάνυσμα με τους δείκτες των μη-μηδενικών στηλών σε έναν "
 "πίνακα"
 
-#: ../src/funclib.c:6869
+#: ../src/funclib.c:7038
 msgid "Return a vector with the indices of the nonzero elements in a vector"
 msgstr ""
 "Επιστρέφει ένα διάνυσμα με τους δείκτες των μη-μηδενικών στοιχείων σε ένα "
 "διάνυσμα"
 
-#: ../src/funclib.c:6871
+#: ../src/funclib.c:7040
 msgid "Calculates the conjugate"
 msgstr "Υπολογίζει τον συζυγή"
 
-#: ../src/funclib.c:6876
+#: ../src/funclib.c:7045
 msgid "Calculates the sine function"
 msgstr "Υπολογίζει τη συνάρτηση του ημιτόνου"
 
-#: ../src/funclib.c:6879
+#: ../src/funclib.c:7048
 msgid "Calculates the cosine function"
 msgstr "Υπολογίζει τη συνάρτηση του συνημιτόνου"
 
-#: ../src/funclib.c:6882
+#: ../src/funclib.c:7051
 msgid "Calculates the hyperbolic sine function"
 msgstr "Υπολογίζει την συνάρτηση υπερβολικού ημιτόνου"
 
-#: ../src/funclib.c:6885
+#: ../src/funclib.c:7054
 msgid "Calculates the hyperbolic cosine function"
 msgstr "Υπολογίζει την συνάρτηση υπερβολικού συνημιτόνου"
 
-#: ../src/funclib.c:6888
+#: ../src/funclib.c:7057
 msgid "Calculates the tan function"
 msgstr "Υπολογίζει τη συνάρτηση της εφαπτομένης"
 
-#: ../src/funclib.c:6891
+#: ../src/funclib.c:7060
 msgid "Calculates the arctan function"
 msgstr "Υπολογίζει τη συνάρτηση τόξου εφαπτομένης"
 
-#: ../src/funclib.c:6896
+#: ../src/funclib.c:7065
 msgid "Calculates the sinc function, that is sin(x)/x"
 msgstr "Υπολογίζει τη συνάρτηση πληθάριθμου συνημιτόνου, δηλαδή sin(x)/x"
 
-#: ../src/funclib.c:6900
+#: ../src/funclib.c:7069
 msgid "Calculates the arctan2 function (arctan(y/x) if x>0)"
 msgstr "Υπολογίζει τη συνάρτηση τόξου εφαπτομένης 2 (arctan(y/x) αν είναι x>0)"
 
-#: ../src/funclib.c:6904
+#: ../src/funclib.c:7073
 msgid "The number pi"
 msgstr "Ο αριθμός π"
 
-#: ../src/funclib.c:6906
+#: ../src/funclib.c:7075
 msgid "The natural number e"
 msgstr "Ο φυσικός αριθμός e"
 
-#: ../src/funclib.c:6908
+#: ../src/funclib.c:7077
 msgid "The Golden Ratio"
 msgstr "Ο χρυσός λόγος"
 
-#: ../src/funclib.c:6910
+#: ../src/funclib.c:7079
 msgid "Free fall acceleration"
 msgstr "Επιτάχυνση ελεύθερης πτώσης"
 
-#: ../src/funclib.c:6913
+#: ../src/funclib.c:7082
 msgid "Euler's Constant gamma"
 msgstr "Η σταθερά γάμα του Όιλερ"
 
-#: ../src/funclib.c:6917
+#: ../src/funclib.c:7086
 msgid "Catalan's Constant (0.915...)"
 msgstr "Σταθερά του Καταλάν (0.915...)"
 
-#. FUNC (ErrorFunction, 1, "x", "functions", N_("The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt (only real values implemented)"));
-#. ErrorFunction_function = f;
-#. ALIAS (erf, 1, ErrorFunction);
-#: ../src/funclib.c:6922
+#: ../src/funclib.c:7088
+#| msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
+msgid "The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt"
+msgstr "Η συνάρτηση σφάλματος, 2/sqrt(2) * int_0^x e^(-t^2) dt"
+
+#: ../src/funclib.c:7091
 msgid "The Riemann zeta function (only real values implemented)"
 msgstr "Η συνάρτηση ζήτα του Ρίμαν (εφαρμόζεται μόνο για πραγματικές τιμές)"
 
-#: ../src/funclib.c:6926
+#: ../src/funclib.c:7095
 msgid "The Gamma function (only real values implemented)"
 msgstr "Η συνάρτηση γάμα (εφαρμόζεται μόνο για πραγματικές τιμές)"
 
-#: ../src/funclib.c:6931
+#: ../src/funclib.c:7100
 msgid "The Bessel function of first kind of order 0"
 msgstr "Η συνάρτηση Μπεσέλ πρώτου είδους τάξης 0"
 
-#: ../src/funclib.c:6934
+#: ../src/funclib.c:7103
 msgid "The Bessel function of first kind of order 1"
 msgstr "Η συνάρτηση Μπεσέλ πρώτου είδους τάξης 1"
 
-#: ../src/funclib.c:6937
+#: ../src/funclib.c:7106
 msgid "The Bessel function of first kind of order n"
 msgstr "Η συνάρτηση Μπεσέλ πρώτου είδους τάξης n"
 
-#: ../src/funclib.c:6940
+#: ../src/funclib.c:7109
 msgid "The Bessel function of second kind of order 0"
 msgstr "Η συνάρτηση Μπεσέλ δεύτερου είδους τάξης 0"
 
-#: ../src/funclib.c:6943
+#: ../src/funclib.c:7112
 msgid "The Bessel function of second kind of order 1"
 msgstr "Η συνάρτηση Μπεσέλ δεύτερου είδους τάξης 1"
 
-#: ../src/funclib.c:6946
+#: ../src/funclib.c:7115
 msgid "The Bessel function of second kind of integer order n"
 msgstr "Η συνάρτηση Μπεσέλ δεύτερου είδους ακεραίου τάξης n"
 
-#: ../src/funclib.c:6949
+#: ../src/funclib.c:7118
 msgid "The square root"
 msgstr "Τετραγωνική ρίζα"
 
-#: ../src/funclib.c:6953
+#: ../src/funclib.c:7122
 msgid "The exponential function"
 msgstr "Η εκθετική συνάρτηση"
 
-#: ../src/funclib.c:6956
+#: ../src/funclib.c:7125
 msgid "The natural logarithm"
 msgstr "Ο φυσικός λογάριθμος"
 
-#: ../src/funclib.c:6959
+#: ../src/funclib.c:7128
 msgid "Logarithm of x base 2"
 msgstr "Λογάριθμος του x με βάση το 2"
 
-#: ../src/funclib.c:6964
+#: ../src/funclib.c:7133
 msgid "Logarithm of x base 10"
 msgstr "Λογάριθμος του x με βάση το 10"
 
-#: ../src/funclib.c:6967
+#: ../src/funclib.c:7136
 msgid "Round a number"
 msgstr "Στρογυλλοποίηση αριθμού"
 
-#: ../src/funclib.c:6971
+#: ../src/funclib.c:7140
 msgid "Get the highest integer less than or equal to n"
 msgstr "Λήψη του μεγαλύτερου ακεραίου μικρότερου ή ίσου με το n"
 
-#: ../src/funclib.c:6975
+#: ../src/funclib.c:7144
 msgid "Get the lowest integer more than or equal to n"
 msgstr "Λήψη του μικρότερου ακεραίου μεγαλύτερου ή ίσου με το n"
 
-#: ../src/funclib.c:6979
+#: ../src/funclib.c:7148
 msgid "Truncate number to an integer (return the integer part)"
 msgstr "Περικοπή αριθμού σε ακέραιο (επιστροφή του ακέραιου μέρους)"
 
-#: ../src/funclib.c:6984
+#: ../src/funclib.c:7153
 msgid "Make number a float"
 msgstr "Κάνει έναν αριθμό κινητής υποδιαστολής"
 
-#: ../src/funclib.c:6987
+#: ../src/funclib.c:7156
 msgid "Get the numerator of a rational number"
 msgstr "Λήψη του αριθμητή ενός ρητού αριθμού"
 
-#: ../src/funclib.c:6989
+#: ../src/funclib.c:7158
 msgid "Get the denominator of a rational number"
 msgstr "Λήψη του παρανομαστή ενός ρητού αριθμού"
 
-#: ../src/funclib.c:6992
+#: ../src/funclib.c:7161
 msgid "Greatest common divisor"
 msgstr "Μεγαλύτερος κοινός διαιρέτης"
 
-#: ../src/funclib.c:6994
+#: ../src/funclib.c:7163
 msgid "Least common multiplier"
 msgstr "Ελάχιστο κοινό πολλαπλάσιο"
 
-#: ../src/funclib.c:6996
+#: ../src/funclib.c:7165
 msgid "Check a number for being a perfect square"
 msgstr "Ελέγχει έναν αριθμό αν είναι τέλειο τετράγωνο"
 
-#: ../src/funclib.c:6997
+#: ../src/funclib.c:7166
 msgid "Check a number for being any perfect power (a^b)"
 msgstr "Ελέγχει έναν αριθμό αν είναι οποιαδήποτε τέλεια δύναμη (a^b)"
 
-#: ../src/funclib.c:6998
+#: ../src/funclib.c:7167
 msgid "Return the nth prime (up to a limit)"
 msgstr "Επιστρέφει τον nστό πρώτο (μέχρι ένα όριο)"
 
-#: ../src/funclib.c:7000
+#: ../src/funclib.c:7169
 msgid "Tests if an integer is even"
 msgstr "Έλεγχος αν ο ακέραιος είναι άρτιος"
 
-#: ../src/funclib.c:7001
+#: ../src/funclib.c:7170
 msgid "Tests if an integer is odd"
 msgstr "Έλεγχος αν ο ακέραιος είναι περιττός"
 
-#: ../src/funclib.c:7003
+#: ../src/funclib.c:7172
 msgid "Returns the least prime greater than n (if n is positive)"
 msgstr ""
 "Επιστρέφει τον ελάχιστο πρώτο που είναι μεγαλύτερος από n (αν ο n είναι "
 "θετικός)"
 
-#: ../src/funclib.c:7004
+#: ../src/funclib.c:7173
 msgid "Returns the nth Lucas number"
 msgstr "Επιστρέφει τον nστο αριθμό Λούκας"
 
-#: ../src/funclib.c:7005
+#: ../src/funclib.c:7174
 msgid "Returns inverse of n mod m"
 msgstr "Επιστρέφει τον αντίστροφο του n mod m"
 
-#: ../src/funclib.c:7006
+#: ../src/funclib.c:7175
 msgid "Checks divisibility (if m divides n)"
 msgstr "Ελέγχει τη διαιρετότητα (αν ο m διαιρεί τον n)"
 
-#: ../src/funclib.c:7007
+#: ../src/funclib.c:7176
 msgid ""
 "Return n/d but only if d divides n else returns garbage (this is faster than "
 "writing n/d)"
@@ -2908,7 +2911,7 @@ msgstr ""
 "Επιστροφή n/d αλλά μόνο αν το d διαιρεί το n, αλλιώς επιστρέφει λάθος (αυτό "
 "είναι πιο γρήγορο από το γράψιμο n/d)"
 
-#: ../src/funclib.c:7008
+#: ../src/funclib.c:7177
 msgid ""
 "Tests primality of integers, for numbers greater than 25*10^9 false positive "
 "is with low probability depending on IsPrimeMillerRabinReps"
@@ -2917,11 +2920,11 @@ msgstr ""
 "ψευδώς θετικά αποτελέσματα είναι με χαμηλή πιθανότητα ανάλογα με το "
 "IsPrimeMillerRabinReps"
 
-#: ../src/funclib.c:7009
+#: ../src/funclib.c:7178
 msgid "Run the strong pseudoprime test base b on n"
 msgstr "Εκτέλεση της ισχυρής δοκιμής ψευδοπρώτου με βάση b στο n"
 
-#: ../src/funclib.c:7010
+#: ../src/funclib.c:7179
 msgid ""
 "Use the Miller-Rabin primality test on n, reps number of times.  The "
 "probability of false positive is (1/4)^reps"
@@ -2929,7 +2932,7 @@ msgstr ""
 "Χρήση της δοκιμής πρώτων αριθμών Μίλερ-Ρόμπιν στο n, reps αριθμό φορών. Η "
 "πιθανότητα ψευδούς θετικού αποτελέσματος είναι (1/4)^reps"
 
-#: ../src/funclib.c:7011
+#: ../src/funclib.c:7180
 msgid ""
 "Use the Miller-Rabin primality test on n with enough bases that assuming the "
 "Generalized Reimann Hypothesis the result is deterministic"
@@ -2938,27 +2941,27 @@ msgstr ""
 "θεωρώντας τη γενικευμένη υπόθεση Ράιμαν ότι το αποτέλεσμα είναι "
 "προσδιοριστικό"
 
-#: ../src/funclib.c:7012
+#: ../src/funclib.c:7181
 msgid "Return factorization of a number as a matrix"
 msgstr "Επιστροφή παραγοντοποίησης ενός αριθμού ως ενός πίνακα"
 
-#: ../src/funclib.c:7014
+#: ../src/funclib.c:7183
 msgid "Returns the maximum of arguments or matrix"
 msgstr "Επιστρέφει το μέγιστο των ορισμάτων ή πίνακα"
 
-#: ../src/funclib.c:7017
+#: ../src/funclib.c:7186
 msgid "Returns the minimum of arguments or matrix"
 msgstr "Επιστρέφει το ελάχιστο των ορισμάτων ή πίνακα"
 
-#: ../src/funclib.c:7021
+#: ../src/funclib.c:7190
 msgid "Division w/o remainder, equivalent to floor(a/b)"
 msgstr "Διαίρεση χωρίς υπόλοιπο, ισοδύναμο με floor(a/b)"
 
-#: ../src/funclib.c:7023
+#: ../src/funclib.c:7192
 msgid "Calculate the Jacobi symbol (a/b) (b should be odd)"
 msgstr "Υπολογισμός του συμβόλου Jacobi (a/b) (το b πρέπει να είναι περιττός)"
 
-#: ../src/funclib.c:7025
+#: ../src/funclib.c:7194
 msgid ""
 "Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) "
 "when a odd, or (a/2)=0 when a even"
@@ -2966,72 +2969,72 @@ msgstr ""
 "Υπολογίζει το σύμβόλο Jacobi (a/b) με την επέκταση Kronecker (a/2)=(2/a) "
 "όταν είναι περιττός, ή (a/2)=0 όταν είναι άρτιος"
 
-#: ../src/funclib.c:7027
+#: ../src/funclib.c:7196
 msgid "Calculate the Legendre symbol (a/p)"
 msgstr "Υπολογίζει το σύμβολο Λεζάντρ (a/p)"
 
-#: ../src/funclib.c:7030
+#: ../src/funclib.c:7199
 msgid "Get the real part of a complex number"
 msgstr "Λήψη του πραγματικού μέρους μιγαδικού αριθμού"
 
-#: ../src/funclib.c:7033
+#: ../src/funclib.c:7202
 msgid "Get the imaginary part of a complex number"
 msgstr "Λήψη του φανταστικού μέρους μιγαδικού αριθμού"
 
-#: ../src/funclib.c:7037
+#: ../src/funclib.c:7206
 msgid "Make an identity matrix of a given size"
 msgstr "Δημιουργία ενός ταυτοτικού πίνακα δεδομένου μεγέθους"
 
-#: ../src/funclib.c:7040
+#: ../src/funclib.c:7209
 msgid "Make an matrix of all zeros (or a row vector)"
 msgstr "Δημιουργία ενός πίνακα όλων των μηδενικών (ή ενός διανύσματος γραμμής)"
 
-#: ../src/funclib.c:7042
+#: ../src/funclib.c:7211
 msgid "Make an matrix of all ones (or a row vector)"
 msgstr "Δημιουργία ενός πίνακα όλων των μονάδων (ή ενός διανύσματος γραμμής)"
 
-#: ../src/funclib.c:7045
+#: ../src/funclib.c:7214
 msgid "Get the number of rows of a matrix"
 msgstr "Λήψη του αριθμού των γραμμών ενός πίνακα"
 
-#: ../src/funclib.c:7046
+#: ../src/funclib.c:7215
 msgid "Get the number of columns of a matrix"
 msgstr "Λήψη του αριθμού των στηλών ενός πίνακα"
 
-#: ../src/funclib.c:7047
+#: ../src/funclib.c:7216
 msgid "Is a matrix square"
 msgstr "Επιβεβαιώστε ότι είναι ένας τετραγωνικός πίνακας"
 
-#: ../src/funclib.c:7048
+#: ../src/funclib.c:7217
 msgid "Is argument a horizontal or a vertical vector"
 msgstr ""
 "Επιβεβαιώστε ότι είναι όρισμα ενός οριζόντιου ή κατακόρυφου διανύσματος"
 
-#: ../src/funclib.c:7049
+#: ../src/funclib.c:7218
 msgid "Is a matrix upper triangular"
 msgstr "Επιβεβαιώστε ότι είναι άνω τριγωνικός πίνακας"
 
-#: ../src/funclib.c:7050
+#: ../src/funclib.c:7219
 msgid "Is a matrix lower triangular"
 msgstr "Επιβεβαιώστε ότι είναι κάτω τριγωνικός πίνακας"
 
-#: ../src/funclib.c:7051
+#: ../src/funclib.c:7220
 msgid "Is a matrix diagonal"
 msgstr "Επιβεβαιώστε ότι είναι ένας διαγώνιος πίνακας"
 
-#: ../src/funclib.c:7052
+#: ../src/funclib.c:7221
 msgid "Get the number of elements of a matrix"
 msgstr "Λήψη του αριθμού των στοιχείων ενός πίνακα"
 
-#: ../src/funclib.c:7054
+#: ../src/funclib.c:7223
 msgid "Get the row echelon form of a matrix"
 msgstr "Λήψη της κλιμακωτής μορφής γραμμής ενός πίνακα"
 
-#: ../src/funclib.c:7058
+#: ../src/funclib.c:7227
 msgid "Get the reduced row echelon form of a matrix"
 msgstr "Λήψη της ανηγμένης κλιμακωτής μορφής κατά γραμμές ενός πίνακα"
 
-#: ../src/funclib.c:7062
+#: ../src/funclib.c:7231
 msgid ""
 "Solve linear system Mx=V, return solution V if there is a unique solution, "
 "null otherwise.  Extra two reference parameters can optionally be used to "
@@ -3041,11 +3044,11 @@ msgstr ""
 "μοναδική λύση, αλλιώς κενό. Μπορεί να χρησιμοποιηθούν δύο πρόσθετες "
 "παράμετροι αναφοράς για τη λήψη των ανηγμένων M και V."
 
-#: ../src/funclib.c:7065
+#: ../src/funclib.c:7234
 msgid "Get the determinant of a matrix"
 msgstr "Λήψη της ορίζουσας ενός πίνακα"
 
-#: ../src/funclib.c:7068
+#: ../src/funclib.c:7237
 msgid ""
 "Return pivot columns of a matrix, that is columns which have a leading 1 in "
 "rref form, also returns the row where they occur"
@@ -3053,60 +3056,60 @@ msgstr ""
 "Επιστρέφει τις οδηγούσες στήλες ενός πίνακα, δηλαδή τις στήλες που έχουν "
 "αρχικά 1 στη μορφή rref, επίσης επιστρέφει τη γραμμή όπου συμβαίνει"
 
-#: ../src/funclib.c:7070
+#: ../src/funclib.c:7239
 msgid "Get the nullspace of a matrix"
 msgstr "Λήψη του μηδενικού χώρου ενός πίνακα"
 
-#: ../src/funclib.c:7072
+#: ../src/funclib.c:7241
 msgid "Make new matrix of given size from old one"
 msgstr "Δημιουργία νέου πίνακα δεδομένου μεγέθους από έναν παλιό"
 
-#: ../src/funclib.c:7073
+#: ../src/funclib.c:7242
 msgid "Return the index complement of a vector of indexes"
 msgstr "Επιστρέφει το συμπλήρωμα δείκτη ενός διανύσματος δεικτών"
 
-#: ../src/funclib.c:7074
+#: ../src/funclib.c:7243
 msgid "Get the Hermitian product of two vectors"
 msgstr "Λήψη του ερμιτιανού γινομένου των δύο διανυσμάτων"
 
-#: ../src/funclib.c:7077
+#: ../src/funclib.c:7246
 msgid "Check if a matrix is a matrix of numbers"
 msgstr "Ελέγχει αν ένας πίνακας είναι πίνακας αριθμών"
 
-#: ../src/funclib.c:7078
+#: ../src/funclib.c:7247
 msgid "Check if a matrix is an integer (non-complex) matrix"
 msgstr "Ελέγχει αν ένας πίνακας είναι ένας ακέραιος (μη μιγαδικός) πίνακας"
 
-#: ../src/funclib.c:7079
+#: ../src/funclib.c:7248
 msgid "Check if a matrix is a rational (non-complex) matrix"
 msgstr "Ελέγχει αν ένας πίνακας είναι ένας ρητός (μη μιγαδικός) πίνακας"
 
-#: ../src/funclib.c:7080
+#: ../src/funclib.c:7249
 msgid "Check if a matrix is a real (non-complex) matrix"
 msgstr "Ελέγχει αν ένας πίνακας είναι ένας πραγματικός (μη μιγαδικός) πίνακας"
 
-#: ../src/funclib.c:7081
+#: ../src/funclib.c:7250
 msgid "Check if a matrix is positive, that is if each element is positive"
 msgstr ""
 "Ελέγχει αν ένας πίνακας είναι θετικός, δηλαδή αν κάθε στοιχείο είναι θετικό"
 
-#: ../src/funclib.c:7082
+#: ../src/funclib.c:7251
 msgid ""
 "Check if a matrix is nonnegative, that is if each element is nonnegative"
 msgstr ""
 "Ελέγχει αν ένας πίνακας είναι μη αρνητικός, δηλαδή αν κάθε στοιχείο είναι μη "
 "αρνητικό"
 
-#: ../src/funclib.c:7084
+#: ../src/funclib.c:7253
 msgid "Check if a number or a matrix is all zeros"
 msgstr "Ελέγχει αν ένας αριθμός ή πίνακας είναι όλος μηδενικά"
 
-#: ../src/funclib.c:7085
+#: ../src/funclib.c:7254
 msgid "Check if a number or a matrix is 1 or identity respectively"
 msgstr ""
 "Ελέγχει αν ένας αριθμός ή ένας πίνακας είναι 1 ή αντίστοιχης ταυτότητας"
 
-#: ../src/funclib.c:7087
+#: ../src/funclib.c:7256
 msgid ""
 "Returns true if the element x is in the set X (where X is a vector "
 "pretending to be a set)"
@@ -3114,11 +3117,11 @@ msgstr ""
 "Επιστρέφει αληθές αν το στοιχείο x είναι στο σύνολο Χ (όπου Χ είναι ένα "
 "διάνυσμα που προσποιείται ότι είναι σύνολο)"
 
-#: ../src/funclib.c:7088
+#: ../src/funclib.c:7257
 msgid "Returns true if X is a subset of Y"
 msgstr "Επιστρέφει αληθές αν το Χ είναι ένα υποσύνολο του Υ"
 
-#: ../src/funclib.c:7089
+#: ../src/funclib.c:7258
 msgid ""
 "Returns a set theoretic difference X-Y (X and Y are vectors pretending to be "
 "sets)"
@@ -3126,7 +3129,7 @@ msgstr ""
 "Επιστρέφει τη θεωρητική διαφορά συνόλων των Χ και Υ (Χ και Υ είναι "
 "διανύσματα που προσποιούνται ότι είναι σύνολα)"
 
-#: ../src/funclib.c:7090
+#: ../src/funclib.c:7259
 msgid ""
 "Returns a set theoretic intersection of X and Y (X and Y are vectors "
 "pretending to be sets)"
@@ -3134,128 +3137,128 @@ msgstr ""
 "Επιστρέφει τη θεωρητική τομή συνόλων των Χ και Υ (Χ και Υ είναι διανύσματα "
 "που προσποιούνται ότι είναι σύνολα)"
 
-#: ../src/funclib.c:7092
+#: ../src/funclib.c:7261
 msgid "Check if argument is a null"
 msgstr "Ελέγχει αν το όρισμα είναι κενό"
 
-#: ../src/funclib.c:7093
+#: ../src/funclib.c:7262
 msgid "Check if argument is a number"
 msgstr "Ελέγχει αν το όρισμα είναι αριθμός"
 
-#: ../src/funclib.c:7094
+#: ../src/funclib.c:7263
 msgid "Check if argument is a boolean (and not a number)"
 msgstr "Ελέγχει αν το όρισμα είναι λογική τιμή (και όχι αριθμός)"
 
-#: ../src/funclib.c:7095
+#: ../src/funclib.c:7264
 msgid "Check if argument is a text string"
 msgstr "Ελέγχει αν το όρισμα είναι μια συμβολοσειρά κειμένου"
 
-#: ../src/funclib.c:7096
+#: ../src/funclib.c:7265
 msgid "Check if argument is a matrix"
 msgstr "Ελέγχει αν το όρισμα είναι πίνακας"
 
-#: ../src/funclib.c:7097
+#: ../src/funclib.c:7266
 msgid "Check if argument is a function"
 msgstr "Ελέγχει αν το όρισμα είναι συνάρτηση"
 
-#: ../src/funclib.c:7098
+#: ../src/funclib.c:7267
 msgid "Check if argument is a function or an identifier"
 msgstr "Ελέγχει αν το όρισμα είναι συνάρτηση ή ένας ταυτοποιητής"
 
-#: ../src/funclib.c:7099
+#: ../src/funclib.c:7268
 msgid "Check if argument is a function reference"
 msgstr "Ελέγχει αν το όρισμα είναι συνάρτηση αναφοράς"
 
-#: ../src/funclib.c:7101
+#: ../src/funclib.c:7270
 msgid "Check if argument is a complex (non-real) number"
 msgstr "Ελέγχει αν το όρισμα είναι μιγαδικός (μη πραγματικός) αριθμός"
 
-#: ../src/funclib.c:7102
+#: ../src/funclib.c:7271
 msgid "Check if argument is a real number"
 msgstr "Ελέγχει αν το όρισμα είναι πραγματικός αριθμός"
 
-#: ../src/funclib.c:7103
+#: ../src/funclib.c:7272
 msgid "Check if argument is an integer (non-complex)"
 msgstr "Ελέγχει αν το όρισμα είναι ένας ακέραιος (μη μιγαδικός)"
 
-#: ../src/funclib.c:7104
+#: ../src/funclib.c:7273
 msgid "Check if argument is a positive real integer"
 msgstr "Ελέγχει αν το όρισμα είναι θετικός πραγματικός ακέραιος"
 
-#: ../src/funclib.c:7106
+#: ../src/funclib.c:7275
 msgid "Check if argument is a non-negative real integer"
 msgstr "Ελέγχει αν το όρισμα είναι μη αρνητικός πραγματικός ακέραιος"
 
-#: ../src/funclib.c:7107
+#: ../src/funclib.c:7276
 msgid "Check if argument is a possibly complex integer"
 msgstr "Ελέγχει αν το όρισμα είναι πιθανόν μιγαδικός ακέραιος"
 
-#: ../src/funclib.c:7109
+#: ../src/funclib.c:7278
 msgid "Check if argument is a rational number (non-complex)"
 msgstr "Ελέγχει αν το όρισμα είναι ένας ρητός αριθμός (μη μιγαδικός)"
 
-#: ../src/funclib.c:7110
+#: ../src/funclib.c:7279
 msgid "Check if argument is a possibly complex rational number"
 msgstr "Ελέγχει αν το όρισμα είναι πιθανόν μιγαδικός ρητός ακέραιος"
 
-#: ../src/funclib.c:7111
+#: ../src/funclib.c:7280
 msgid "Check if argument is a floating point number (non-complex)"
 msgstr ""
 "Ελέγχει αν το όρισμα είναι ένας αριθμός κινητής υποδιαστολής (μη μιγαδικός)"
 
-#: ../src/funclib.c:7113
+#: ../src/funclib.c:7282
 msgid "Add two polynomials (vectors)"
 msgstr "Πρόσθεση δύο πολυωνύμων (διανύσματα)"
 
-#: ../src/funclib.c:7114
+#: ../src/funclib.c:7283
 msgid "Subtract two polynomials (as vectors)"
 msgstr "Αφαίρεση δύο πολυωνύμων (ως διανύσματα)"
 
-#: ../src/funclib.c:7115
+#: ../src/funclib.c:7284
 msgid "Multiply two polynomials (as vectors)"
 msgstr "Πολλαπλασιασμός δύο πολυωνύμων (ως διανύσματα)"
 
-#: ../src/funclib.c:7116
+#: ../src/funclib.c:7285
 msgid "Divide polynomial p by q, return the remainder in r"
 msgstr "Διαίρεση πολυωνύμου p με το q, επιστροφή του υπολοίπου στο r"
 
-#: ../src/funclib.c:7117
+#: ../src/funclib.c:7286
 msgid "Take polynomial (as vector) derivative"
 msgstr "Λήψη παραγώγου πολυωνύμου (ως διανύσματος)"
 
-#: ../src/funclib.c:7118
+#: ../src/funclib.c:7287
 msgid "Take second polynomial (as vector) derivative"
 msgstr "Λήψη δεύτερης παραγώγου πολυωνύμου (ως διανύσματος)"
 
-#: ../src/funclib.c:7119
+#: ../src/funclib.c:7288
 msgid "Trim zeros from a polynomial (as vector)"
 msgstr "Περικοπή μηδενικών από ένα πολυώνυμο (ως διανύσματος)"
 
-#: ../src/funclib.c:7120
+#: ../src/funclib.c:7289
 msgid "Check if a vector is usable as a polynomial"
 msgstr "Ελέγχει αν ένα διάνυσμα μπορεί να χρησιμοποιηθεί ως πολυώνυμο"
 
-#: ../src/funclib.c:7121
+#: ../src/funclib.c:7290
 msgid "Make string out of a polynomial (as vector)"
 msgstr "Δημιουργία συμβολοσειράς από ένα πολυώνυμο (ως διάνυσμα)"
 
-#: ../src/funclib.c:7122
+#: ../src/funclib.c:7291
 msgid "Make function out of a polynomial (as vector)"
 msgstr "Δημιουργία συνάρτησης από ένα πολυώνυμο (ως διάνυσμα)"
 
-#: ../src/funclib.c:7124
+#: ../src/funclib.c:7293
 msgid "Find roots of a quadratic polynomial (given as vector of coefficients)"
 msgstr ""
 "Εύρεση ριζών ενός δευτεροβάθμιου πολυωνύμου (που δίνεται ως διάνυσμα "
 "συντελεστών)"
 
-#: ../src/funclib.c:7126
+#: ../src/funclib.c:7295
 msgid "Get all combinations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
 "Λήψη όλων των συνδυασμών των k αριθμών από το 1 έως το n ως ένα διάνυσμα "
 "διανυσμάτων"
 
-#: ../src/funclib.c:7127
+#: ../src/funclib.c:7296
 msgid ""
 "Get combination that would come after v in call to combinations, first "
 "combination should be [1:k]."
@@ -3263,25 +3266,25 @@ msgstr ""
 "Λήψη συνδυασμού που θα έλθει μετά το v στην κλήση για συνδυασμούς, πρώτος "
 "συνδυασμός πρέπει να είναι [1:k]."
 
-#: ../src/funclib.c:7128
+#: ../src/funclib.c:7297
 msgid "Get all permutations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
 "Λήψη όλων των μεταθέσεων των k αριθμών από το 1 έως το n ως ένα διάνυσμα "
 "διανυσμάτων"
 
-#: ../src/funclib.c:7130
+#: ../src/funclib.c:7299
 msgid "Calculate combinations (binomial coefficient)"
 msgstr "Υπολογίζει τους συνδυασμούς (διωνυμικός συντελεστής)"
 
-#: ../src/funclib.c:7133
+#: ../src/funclib.c:7302
 msgid "Convert a string to a vector of ASCII values"
 msgstr "Μετατρέπει μια συμβολοσειρά σε διάνυσμα τιμών ASCII"
 
-#: ../src/funclib.c:7134
+#: ../src/funclib.c:7303
 msgid "Convert a vector of ASCII values to a string"
 msgstr "Μετατρέπει ένα διάνυσμα τιμών ASCII σε συμβολοσειρά"
 
-#: ../src/funclib.c:7136
+#: ../src/funclib.c:7305
 msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters"
@@ -3289,7 +3292,7 @@ msgstr ""
 "Μετατρέπει μια συμβολοσειρά σε διάνυσμα τιμών αλφαβήτου με βάση το 0 (θέσεις "
 "στη συμβολοσειρά αλφαβήτου), -1 για άγνωστα γράμματα"
 
-#: ../src/funclib.c:7137
+#: ../src/funclib.c:7306
 msgid ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string"
@@ -3297,7 +3300,7 @@ msgstr ""
 "Μετατρέπει ένα διάνυσμα τιμών αλφαβήτου με βάση το 0 (θέσεις στη "
 "συμβολοσειρά αλφαβήτου) σε συμβολοσειρά"
 
-#: ../src/funclib.c:7139
+#: ../src/funclib.c:7308
 msgid ""
 "Protect a variable from being modified.  It will be treated as a system "
 "defined variable from now on.  Protected parameters can still be modified."
@@ -3306,7 +3309,7 @@ msgstr ""
 "ορισμένη μεταβλητή του συστήματος από δω και πέρα. Οι προστατευμένες "
 "παράμετροι μπορούν ακόμα να τροποποιηθούν."
 
-#: ../src/funclib.c:7140
+#: ../src/funclib.c:7309
 msgid ""
 "Unprotect a variable from being modified.  It will be treated as a user "
 "defined variable from now on."
@@ -3314,7 +3317,7 @@ msgstr ""
 "Αποπροστασία μιας μεταβλητής από τροποποίηση. Θα αντιμετωπίζεται ως μια "
 "ορισμένη μεταβλητή χρήστη από δω και πέρα."
 
-#: ../src/funclib.c:7141
+#: ../src/funclib.c:7310
 msgid ""
 "Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
 "\""
@@ -3322,21 +3325,21 @@ msgstr ""
 "Ορισμός σημαιών για μια συνάρτηση, προς το παρόν \"PropagateMod\" και "
 "\"NoModuloArguments\""
 
-#: ../src/funclib.c:7142
+#: ../src/funclib.c:7311
 msgid "Get current modulo from the context outside the function"
 msgstr "Λήψη τρέχοντος modulo από το περιεχόμενο έξω από τη συνάρτηση"
 
-#: ../src/funclib.c:7143
+#: ../src/funclib.c:7312
 msgid "Check if a variable or function is defined"
 msgstr "Ελέγχει αν μια μεταβλητή ή συνάρτηση είναι ορισμένη"
 
-#: ../src/funclib.c:7144
+#: ../src/funclib.c:7313
 msgid "Undefine a variable (including all locals and globals of the same name)"
 msgstr ""
 "Αποορισμός μιας μεταβλητής (συμπεριλαμβανομένων όλων των τοπικών και γενικών "
 "του ίδιου ονόματος)"
 
-#: ../src/funclib.c:7146
+#: ../src/funclib.c:7315
 msgid ""
 "Undefine all unprotected (user defined) global variables and parameters.  "
 "Does not reset or change protected (system) parameters."
@@ -3345,7 +3348,7 @@ msgstr ""
 "μεταβλητών και παραμέτρων. Δεν επαναφέρει ή δεν αλλάζει τις προστατευμένες "
 "(του συστήματος) παραμέτρους."
 
-#: ../src/funclib.c:7147
+#: ../src/funclib.c:7316
 msgid ""
 "Mark all currently defined variables as protected.  They will be treated as "
 "system defined variables from now on."
@@ -3353,28 +3356,28 @@ msgstr ""
 "Σημείωση όλων των προς το παρόν ορισμένων μεταβλητών ως προστατευμένες. Θα "
 "αντιμετωπιστούν ως ορισμένες μεταβλητές του συστήματος από δω και πέρα."
 
-#: ../src/funclib.c:7148
+#: ../src/funclib.c:7317
 msgid ""
 "Return a vector of all global unprotected (user defined) variable names."
 msgstr ""
 "Επιστρέφει ένα διάνυσμα όλων των καθολικών απροστάτευτων ονομάτων μεταβλητών "
 "(που ορίστηκαν από τον χρήστη)."
 
-#: ../src/funclib.c:7150
+#: ../src/funclib.c:7319
 msgid "Parse a string (but do not execute)"
 msgstr "Ανάλυση συμβολοσειράς (αλλά όχι εκτέλεση)"
 
-#: ../src/funclib.c:7151
+#: ../src/funclib.c:7320
 msgid "Parse and evaluate a string"
 msgstr "Ανάλυση και εκτίμηση μιας συμβολοσειράς"
 
-#: ../src/funclib.c:7153
+#: ../src/funclib.c:7322
 msgid "Ask a question and return a string.  Optionally pass in a default."
 msgstr ""
 "Υποβολή ερώτησης και επιστροφή συμβολοσειράς. Προαιρετικό πέρασμα σε μια "
 "προεπιλογή."
 
-#: ../src/funclib.c:7154
+#: ../src/funclib.c:7323
 msgid ""
 "Ask a question and present a list of buttons.  Returns the 1-based index of "
 "the button pressed (or null on failure)."
@@ -3382,7 +3385,7 @@ msgstr ""
 "Υποβολή ερώτησης και παρουσίαση μιας λίστας κουμπιών. Επιστρέφει τον δείκτη "
 "με βάση το 1 του πατημένου κουμπιού (ή κενό σε αποτυχία)."
 
-#: ../src/funclib.c:7156
+#: ../src/funclib.c:7325
 msgid ""
 "Integration of f by Composite Simpson's Rule on the interval [a,b] with n "
 "subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be "
@@ -3422,7 +3425,7 @@ msgstr "%s: ο αριθμός ορίσματος %d είναι μη αρνητι
 msgid "%s: argument number %d not a positive integer"
 msgstr "%s: ο αριθμός ορίσματος %d δεν είναι θετικός ακέραιος"
 
-#: ../src/funclibhelper.cP:125 ../src/graphing.c:3261
+#: ../src/funclibhelper.cP:125 ../src/graphing.c:3359
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: ο αριθμός ορίσματος %d δεν είναι αριθμός"
@@ -3496,8 +3499,8 @@ msgstr "Προτεινόμενο: %s\n"
 msgid "Out of range!\n"
 msgstr "Εκτός περιοχής!\n"
 
-#: ../src/genius.c:345 ../src/genius.lang.h:2 ../src/gnome-genius.c:833
-#: ../src/gnome-genius.c:878
+#: ../src/genius.c:345 ../src/genius.lang.h:2 ../src/gnome-genius.c:846
+#: ../src/gnome-genius.c:891
 msgid "Genius"
 msgstr "Genius"
 
@@ -3605,7 +3608,7 @@ msgstr ""
 "Για βοήθεια πληκτρολογήστε `manual' ή `help'.%s\n"
 "\n"
 
-#: ../src/genius.c:604 ../src/gnome-genius.c:5233
+#: ../src/genius.c:604 ../src/gnome-genius.c:5368
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -3649,347 +3652,352 @@ msgstr "Εντολές"
 msgid "Keywords"
 msgstr "Λέξεις κλειδιά"
 
-#: ../src/gnome-genius.c:259
+#: ../src/gnome-genius.c:263
 msgid "_File"
 msgstr "_Αρχείο"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:260
+#: ../src/gnome-genius.c:264
 msgid "_Edit"
 msgstr "_Επεξεργασία"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:261
+#: ../src/gnome-genius.c:265
 msgid "_Calculator"
 msgstr "Αριθ_μομηχανή"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:262
+#: ../src/gnome-genius.c:266
 msgid "P_lugins"
 msgstr "Πρόσ_θετα"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:263
+#: ../src/gnome-genius.c:267
+msgid "E_xamples"
+msgstr "Πα_ραδείγματα"
+
+#. name, stock id, label
+#: ../src/gnome-genius.c:268
 msgid "_Programs"
 msgstr "_Προγράμματα"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:264
+#: ../src/gnome-genius.c:269
 msgid "_Settings"
 msgstr "_Ρυθμίσεις"
 
 #. name, stock id, label
-#: ../src/gnome-genius.c:265
+#: ../src/gnome-genius.c:270
 msgid "_Help"
 msgstr "_Βοήθεια"
 
 #. name, stock id, label
 #. name, stock id
-#: ../src/gnome-genius.c:267
+#: ../src/gnome-genius.c:272
 msgid "_New Program"
 msgstr "_Νέο Πρόγραμμα"
 
 #. label, accelerator
-#: ../src/gnome-genius.c:268 ../src/gnome-genius.c:272
+#: ../src/gnome-genius.c:273 ../src/gnome-genius.c:277
 msgid "Create new program tab"
 msgstr "Δημιουργία νέας καρτέλας προγράμματος"
 
-#: ../src/gnome-genius.c:271
+#: ../src/gnome-genius.c:276
 msgid "New"
 msgstr "Δημιουργία"
 
 #. name, stock id
-#: ../src/gnome-genius.c:275
+#: ../src/gnome-genius.c:280
 msgid "_Open..."
 msgstr "Άν_οιγμα..."
 
 #. label, accelerator
-#: ../src/gnome-genius.c:276 ../src/gnome-genius.c:280
+#: ../src/gnome-genius.c:281 ../src/gnome-genius.c:285
 msgid "Open a file"
 msgstr "Άνοιγμα αρχείου"
 
-#: ../src/gnome-genius.c:279
+#: ../src/gnome-genius.c:284
 msgid "Open"
 msgstr "Άνοιγμα"
 
-#: ../src/gnome-genius.c:282
+#: ../src/gnome-genius.c:287
 msgid "Open R_ecent"
 msgstr "Άνοιγμα _πρόσφατου"
 
 #. name, stock id, label
 #. name, stock id
-#: ../src/gnome-genius.c:284
+#: ../src/gnome-genius.c:289
 msgid "_Save"
 msgstr "_Αποθήκευση"
 
 #. label, accelerator
-#: ../src/gnome-genius.c:285
+#: ../src/gnome-genius.c:290
 msgid "Save current file"
 msgstr "Αποθήκευση τρέχοντος αρχείου"
 
-#: ../src/gnome-genius.c:288
+#: ../src/gnome-genius.c:293
 msgid "Save All _Unsaved"
 msgstr "Αποθήκευση όλων των α_ναποθήκευτων"
 
-#: ../src/gnome-genius.c:289
+#: ../src/gnome-genius.c:294
 msgid "Save all unsaved programs"
 msgstr "Αποθήκευση όλων των αναποθήκευτων προγραμμάτων"
 
-#: ../src/gnome-genius.c:292
+#: ../src/gnome-genius.c:297
 msgid "Save _As..."
 msgstr "Αποθήκευση _ως..."
 
-#: ../src/gnome-genius.c:293
+#: ../src/gnome-genius.c:298
 msgid "Save to a file"
 msgstr "Αποθήκευση σε αρχείο"
 
-#: ../src/gnome-genius.c:296
+#: ../src/gnome-genius.c:301
 msgid "_Reload from Disk"
 msgstr "Επα_ναφόρτωση από τον δίσκο"
 
-#: ../src/gnome-genius.c:297
+#: ../src/gnome-genius.c:302
 msgid "Reload the selected program from disk"
 msgstr "Επαναφόρτωση του επιλεγμένου προγράμματος από τον δίσκο"
 
-#: ../src/gnome-genius.c:300
+#: ../src/gnome-genius.c:305
 msgid "_Close"
 msgstr "_Κλείσιμο"
 
-#: ../src/gnome-genius.c:301
+#: ../src/gnome-genius.c:306
 msgid "Close the current file"
 msgstr "Κλείσιμο του τρέχοντος αρχείου"
 
-#: ../src/gnome-genius.c:304
+#: ../src/gnome-genius.c:309
 msgid "_Load and Run..."
 msgstr "_Φόρτωση και εκτέλεση..."
 
-#: ../src/gnome-genius.c:305
+#: ../src/gnome-genius.c:310
 msgid "Load and execute a file in genius"
 msgstr "Φόρτωση και εκτέλεση ενός αρχείου στο genius"
 
-#: ../src/gnome-genius.c:308
+#: ../src/gnome-genius.c:313
 msgid "Save Console Ou_tput..."
 msgstr "Αποθήκευση ε_ξόδου κονσόλας..."
 
-#: ../src/gnome-genius.c:309
+#: ../src/gnome-genius.c:314
 msgid ""
 "Save what is visible on the console (including scrollback) to a text file"
 msgstr ""
 "Αποθήκευση οτιδήποτε είναι ορατό στην κονσόλα (συμπεριλαμβανόμενης της "
 "οπισθοκύλισης) σε αρχείο κειμένου"
 
-#: ../src/gnome-genius.c:312
+#: ../src/gnome-genius.c:317
 msgid "_Quit"
 msgstr "Έ_ξοδος"
 
-#: ../src/gnome-genius.c:313
+#: ../src/gnome-genius.c:318
 msgid "Quit"
 msgstr "Έξοδος"
 
-#: ../src/gnome-genius.c:317
+#: ../src/gnome-genius.c:322
 msgid "_Undo"
 msgstr "_Αναίρεση"
 
-#: ../src/gnome-genius.c:318
+#: ../src/gnome-genius.c:323
 msgid "Undo the last action"
 msgstr "Αναίρεση της τελευταίας ενέργειας"
 
-#: ../src/gnome-genius.c:321
+#: ../src/gnome-genius.c:326
 msgid "_Redo"
 msgstr "Α_κύρωση αναίρεσης"
 
-#: ../src/gnome-genius.c:322
+#: ../src/gnome-genius.c:327
 msgid "Redo the undone action"
 msgstr "Ακύρωση της αναιρεμένης ενέργειας"
 
-#: ../src/gnome-genius.c:326
+#: ../src/gnome-genius.c:331
 msgid "Cu_t"
 msgstr "Απο_κοπή"
 
-#: ../src/gnome-genius.c:327
+#: ../src/gnome-genius.c:332
 msgid "Cut the selection"
 msgstr "Αποκοπή της επιλογής"
 
-#: ../src/gnome-genius.c:330
+#: ../src/gnome-genius.c:335
 msgid "_Copy"
 msgstr "Α_ντιγραφή"
 
-#: ../src/gnome-genius.c:331
+#: ../src/gnome-genius.c:336
 msgid "Copy the selection"
 msgstr "Αντιγραφή της επιλογής"
 
-#: ../src/gnome-genius.c:334
+#: ../src/gnome-genius.c:339
 msgid "_Paste"
 msgstr "Ε_πικόλληση"
 
-#: ../src/gnome-genius.c:335
+#: ../src/gnome-genius.c:340
 msgid "Paste the clipboard"
 msgstr "Επικόλληση του προχείρου"
 
-#: ../src/gnome-genius.c:338
+#: ../src/gnome-genius.c:343
 msgid "Copy Answer As Plain Te_xt"
 msgstr "Αντιγραφή απάντησης ως απλού κει_μένου"
 
-#: ../src/gnome-genius.c:339
+#: ../src/gnome-genius.c:344
 msgid "Copy last answer into the clipboard in plain text"
 msgstr "Αντιγραφή τελευταίας απάντησης στο πρόχειρο σε απλό κείμενο"
 
-#: ../src/gnome-genius.c:342
+#: ../src/gnome-genius.c:347
 msgid "Copy Answer As _LaTeX"
 msgstr "Αντιγραφή απάντησης ως _LaTeX"
 
-#: ../src/gnome-genius.c:343
+#: ../src/gnome-genius.c:348
 msgid "Copy last answer into the clipboard as LaTeX"
 msgstr "Αντιγραφή τελευταίας απάντησης στο πρόχειρο ως LaTeX"
 
-#: ../src/gnome-genius.c:346
+#: ../src/gnome-genius.c:351
 msgid "Copy Answer As _MathML"
 msgstr "Αντιγραφή απάντησης ως _MathML"
 
-#: ../src/gnome-genius.c:347
+#: ../src/gnome-genius.c:352
 msgid "Copy last answer into the clipboard as MathML"
 msgstr "Αντιγραφή τελευταίας απάντησης στο πρόχειρο ως MathML"
 
-#: ../src/gnome-genius.c:350
+#: ../src/gnome-genius.c:355
 msgid "Copy Answer As T_roff"
 msgstr "Αντιγραφή απάντησης ως T_roff"
 
-#: ../src/gnome-genius.c:351
+#: ../src/gnome-genius.c:356
 msgid "Copy last answer into the clipboard as Troff eqn"
 msgstr "Αντιγραφή τελευταίας απάντησης στο πρόχειρο ως Troff eqn"
 
-#: ../src/gnome-genius.c:354
+#: ../src/gnome-genius.c:359
 msgid "_Run"
 msgstr "_Εκτέλεση"
 
-#: ../src/gnome-genius.c:355
+#: ../src/gnome-genius.c:360
 msgid "Run current program"
 msgstr "Εκτέλεση τρέχοντος προγράμματος"
 
-#: ../src/gnome-genius.c:358
+#: ../src/gnome-genius.c:363
 msgid "_Interrupt"
 msgstr "_Διακοπή"
 
-#: ../src/gnome-genius.c:359
+#: ../src/gnome-genius.c:364
 msgid "Interrupt current calculation"
 msgstr "Διακοπή τρέχοντος υπολογισμού"
 
-#: ../src/gnome-genius.c:362
+#: ../src/gnome-genius.c:367
 msgid "Show _Full Answer"
 msgstr "Εμφάνιση _πλήρους απάντησης"
 
-#: ../src/gnome-genius.c:363
+#: ../src/gnome-genius.c:368
 msgid "Show the full text of last answer"
 msgstr "Εμφάνιση του πλήρους κειμένου της τελευταίας απάντησης"
 
-#: ../src/gnome-genius.c:366
+#: ../src/gnome-genius.c:371
 msgid "Show User _Variables"
 msgstr "Εμφάνιση _μεταβλητών χρήστη"
 
-#: ../src/gnome-genius.c:367
+#: ../src/gnome-genius.c:372
 msgid "Show the current value of all user variables"
 msgstr "Εμφάνιση της τρέχουσας τιμής όλων των μεταβλητών χρήστη"
 
-#: ../src/gnome-genius.c:370
+#: ../src/gnome-genius.c:375
 msgid "_Monitor a Variable"
 msgstr "_Παρακολούθηση μιας μεταβλητής"
 
-#: ../src/gnome-genius.c:371
+#: ../src/gnome-genius.c:376
 msgid "Monitor a variable continuously"
 msgstr "Παρακολούθηση μιας μεταβλητής συνεχώς"
 
-#: ../src/gnome-genius.c:374
+#: ../src/gnome-genius.c:379
 msgid "_Plot..."
 msgstr "_Γραφικές παραστάσεις..."
 
-#: ../src/gnome-genius.c:375 ../src/gnome-genius.c:379
+#: ../src/gnome-genius.c:380 ../src/gnome-genius.c:384
 msgid "Plot functions, vector fields, surfaces, etc..."
 msgstr ""
 "Συναρτήσεις γραφικών παραστάσεων, διανυσματικά πεδία, επιφάνειες, κλπ..."
 
-#: ../src/gnome-genius.c:378 ../src/gnome-genius.c:573 ../src/graphing.c:6989
+#: ../src/gnome-genius.c:383 ../src/gnome-genius.c:586 ../src/graphing.c:7228
 msgid "_Plot"
 msgstr "_Γραφική παράσταση"
 
-#: ../src/gnome-genius.c:382
+#: ../src/gnome-genius.c:387
 msgid "_Next Tab"
 msgstr "_Επόμενη καρτέλα"
 
-#: ../src/gnome-genius.c:383
+#: ../src/gnome-genius.c:388
 msgid "Go to next tab"
 msgstr "Μετάβαση στην επόμενη καρτέλα"
 
-#: ../src/gnome-genius.c:386
+#: ../src/gnome-genius.c:391
 msgid "_Previous Tab"
 msgstr "_Προηγούμενη καρτέλα"
 
-#: ../src/gnome-genius.c:387
+#: ../src/gnome-genius.c:392
 msgid "Go to previous tab"
 msgstr "Μετάβαση στην προηγούμενη καρτέλα"
 
-#: ../src/gnome-genius.c:390
+#: ../src/gnome-genius.c:395
 msgid "_Console"
 msgstr "_Κονσόλα"
 
-#: ../src/gnome-genius.c:391
+#: ../src/gnome-genius.c:396
 msgid "Go to the console tab"
 msgstr "Μετάβαση στην καρτέλα κονσόλας"
 
-#: ../src/gnome-genius.c:394
+#: ../src/gnome-genius.c:399
 msgid "_Preferences"
 msgstr "_Προτιμήσεις"
 
-#: ../src/gnome-genius.c:395
+#: ../src/gnome-genius.c:400
 msgid "Configure Genius"
 msgstr "Ρύθμιση του Genius"
 
-#: ../src/gnome-genius.c:398
+#: ../src/gnome-genius.c:403
 msgid "_Contents"
 msgstr "_Περιεχόμενα"
 
 #  bogus value
-#: ../src/gnome-genius.c:399
+#: ../src/gnome-genius.c:404
 msgid "View the Genius manual"
 msgstr "Προβολή του εγχειριδίου του Genius"
 
-#: ../src/gnome-genius.c:402
+#: ../src/gnome-genius.c:407
 msgid "_Help on Function"
 msgstr "_Βοήθεια για τη συνάρτηση"
 
-#: ../src/gnome-genius.c:403
+#: ../src/gnome-genius.c:408
 msgid "Help on a function or a command"
 msgstr "Βοήθεια για μια συνάρτηση ή εντολή"
 
-#: ../src/gnome-genius.c:406
+#: ../src/gnome-genius.c:411
 msgid "_Warranty"
 msgstr "_Εγγύηση"
 
-#: ../src/gnome-genius.c:407
+#: ../src/gnome-genius.c:412
 msgid "Display warranty information"
 msgstr "Εμφάνιση πληροφοριών εγγύησης"
 
-#: ../src/gnome-genius.c:410
+#: ../src/gnome-genius.c:415
 msgid "_About"
 msgstr "_Περί"
 
-#: ../src/gnome-genius.c:411
+#: ../src/gnome-genius.c:416
 msgid "About Genius"
 msgstr "Περί του Genius"
 
-#: ../src/gnome-genius.c:943
+#: ../src/gnome-genius.c:956
 msgid "Help on Function"
 msgstr "Βοήθεια για τη συνάρτηση"
 
-#: ../src/gnome-genius.c:961
+#: ../src/gnome-genius.c:974
 msgid "Function or command name:"
 msgstr "Όνομα συνάρτησης ή εντολής:"
 
-#: ../src/gnome-genius.c:1019
+#: ../src/gnome-genius.c:1032
 #, c-format
 msgid "<b>Help on %s not found</b>"
 msgstr "<b>Δεν βρέθηκε βοήθεια για το %s</b>"
 
-#: ../src/gnome-genius.c:1023
+#: ../src/gnome-genius.c:1036
 #, c-format
 msgid ""
 "<b>Help on %s not found</b>\n"
@@ -4000,64 +4008,64 @@ msgstr ""
 "\n"
 "Ίσως εννοούσατε %s."
 
-#: ../src/gnome-genius.c:1078
+#: ../src/gnome-genius.c:1092
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: ../src/gnome-genius.c:1080
+#: ../src/gnome-genius.c:1094
 msgid "Information"
 msgstr "Πληροφορίες"
 
-#: ../src/gnome-genius.c:1310
+#: ../src/gnome-genius.c:1324
 msgid "User Variable Listing"
 msgstr "Λίστα μεταβλητών χρήστη"
 
-#: ../src/gnome-genius.c:1418
+#: ../src/gnome-genius.c:1432
 #, c-format
 msgid "%s undefined"
 msgstr "απροσδιόριστο %s"
 
 #. printed before a global variable
-#: ../src/gnome-genius.c:1453
+#: ../src/gnome-genius.c:1467
 msgid "(global) "
 msgstr "(καθολική) "
 
 #. printed before local variable in certain
 #. * context
-#: ../src/gnome-genius.c:1457
+#: ../src/gnome-genius.c:1471
 #, c-format
 msgid "(context %d) "
 msgstr "(περιεχόμενο %d) "
 
-#: ../src/gnome-genius.c:1479
+#: ../src/gnome-genius.c:1493
 #, c-format
 msgid "%s not a user variable"
 msgstr "το %s δεν είναι μεταβλητή χρήστη"
 
-#: ../src/gnome-genius.c:1513
+#: ../src/gnome-genius.c:1527
 #, c-format
 msgid "Monitoring: %s"
 msgstr "Παρακολούθηση: %s"
 
-#: ../src/gnome-genius.c:1561
+#: ../src/gnome-genius.c:1575
 msgid "Update continuously"
 msgstr "Συνεχής ενημέρωση"
 
-#: ../src/gnome-genius.c:1592
+#: ../src/gnome-genius.c:1606
 msgid "Monitor a Variable"
 msgstr "Παρακολούθηση μιας μεταβλητής"
 
-#: ../src/gnome-genius.c:1609
+#: ../src/gnome-genius.c:1623
 msgid "Variable name:"
 msgstr "Όνομα μεταβλητής:"
 
 #. error
 #. always textbox
-#: ../src/gnome-genius.c:1665
+#: ../src/gnome-genius.c:1679
 msgid "Full Answer"
 msgstr "Πλήρης απάντηση"
 
-#: ../src/gnome-genius.c:1681
+#: ../src/gnome-genius.c:1696
 #, c-format
 msgid ""
 "\n"
@@ -4066,13 +4074,13 @@ msgstr ""
 "\n"
 "Πάρα πολλά σφάλματα! (ακολούθησαν %d)"
 
-#: ../src/gnome-genius.c:1696
+#: ../src/gnome-genius.c:1712
 #, c-format
 msgid "\\e[01;31mToo many errors! (%d followed)\\e[0m\n"
 msgstr "\\e[01;31mΠάρα πολλά σφάλματα! (ακολούθησαν %d)\\e[0m\n"
 
 #  new fname
-#: ../src/gnome-genius.c:1835
+#: ../src/gnome-genius.c:1860
 #, c-format
 msgid ""
 "<b>Cannot display help</b>\n"
@@ -4083,11 +4091,11 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/gnome-genius.c:1911
+#: ../src/gnome-genius.c:1936
 msgid "Nils Barth (initial implementation of parts of the GEL library)"
 msgstr "Nils Barth (αρχική υλοποίηση τμημάτων της βιβλιοθήκης GEL)"
 
-#: ../src/gnome-genius.c:1912
+#: ../src/gnome-genius.c:1937
 msgid "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"
 msgstr "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"
 
@@ -4095,7 +4103,7 @@ msgstr "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: ../src/gnome-genius.c:1926
+#: ../src/gnome-genius.c:1951
 msgid "translator-credits"
 msgstr ""
 "Ελληνική μεταφραστική ομάδα GNOME\n"
@@ -4103,17 +4111,17 @@ msgstr ""
 " Μαυρίδου Μαρία <mavridou@gmail.com>\n"
 "Για περισσότερες λεπτομέρειες δείτε: http://gnome.gr"
 
-#: ../src/gnome-genius.c:1974
+#: ../src/gnome-genius.c:1999
 msgid "Genius Mathematical Tool"
 msgstr "Εργαλείο μαθηματικών Genius"
 
-#: ../src/gnome-genius.c:1978
+#: ../src/gnome-genius.c:2003
 msgid "The Gnome calculator style edition of the Genius Mathematical Tool."
 msgstr ""
 "Η έκδοση τεχνοτροπίας αριθμομηχανής του Gnome του εργαλείου μαθηματικών του "
 "Genius."
 
-#: ../src/gnome-genius.c:2168
+#: ../src/gnome-genius.c:2192
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -4121,56 +4129,56 @@ msgstr ""
 "Το Genius εκτελεί κάτι και επιπλέον υπάρχουν αναποθήκευτα προγράμματα.\n"
 "Είσαστε σίγουρος ότι επιθυμείτε να φύγετε;"
 
-#: ../src/gnome-genius.c:2176
+#: ../src/gnome-genius.c:2200
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr ""
 "Υπάρχουν αναποθήκευτα προγράμματα, είσαστε σίγουρος ότι επιθυμείτε να φύγετε;"
 
-#: ../src/gnome-genius.c:2183
+#: ../src/gnome-genius.c:2207
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr "Το Genius εκτελεί κάτι, σίγουρα θέλετε να φύγετε;"
 
-#: ../src/gnome-genius.c:2190
+#: ../src/gnome-genius.c:2214
 msgid "Are you sure you wish to quit?"
 msgstr "Σίγουρα θέλετε να φύγετε από το πρόγραμμα;"
 
-#: ../src/gnome-genius.c:2304
+#: ../src/gnome-genius.c:2328
 msgid "Genius Setup"
 msgstr "Εγκατάσταση Genius"
 
-#: ../src/gnome-genius.c:2322
+#: ../src/gnome-genius.c:2346
 msgid "Output"
 msgstr "Έξοδος"
 
-#: ../src/gnome-genius.c:2325
+#: ../src/gnome-genius.c:2349
 msgid "Number/Expression output options"
 msgstr "Επιλογές εξόδου αριθμού/έκφρασης"
 
-#: ../src/gnome-genius.c:2335
+#: ../src/gnome-genius.c:2359
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Μέγιστα ψηφία στην έξοδο (0=απεριόριστο)"
 
-#: ../src/gnome-genius.c:2355
+#: ../src/gnome-genius.c:2379
 msgid "Results as floats"
 msgstr "Αποτελέσματα ως αριθμοί κινητής υποδιαστολής"
 
-#: ../src/gnome-genius.c:2363
+#: ../src/gnome-genius.c:2387
 msgid "Floats in scientific notation"
 msgstr "Αριθμοί κινητής υποδιαστολής σε επιστημονική σημειογραφία"
 
-#: ../src/gnome-genius.c:2371
+#: ../src/gnome-genius.c:2395
 msgid "Always print full expressions"
 msgstr "Να εμφανίζονται πάντα πλήρεις εκφράσεις"
 
-#: ../src/gnome-genius.c:2379
+#: ../src/gnome-genius.c:2403
 msgid "Use mixed fractions"
 msgstr "Χρήση μικτών κλασμάτων"
 
-#: ../src/gnome-genius.c:2432
+#: ../src/gnome-genius.c:2456
 msgid "Remember output settings across sessions"
 msgstr "Απομνημόνευση ρυθμίσεων εξόδου σε όλες τις συνεδρίες"
 
-#: ../src/gnome-genius.c:2442
+#: ../src/gnome-genius.c:2466
 msgid ""
 "Should the output settings in the \"Number/Expression output options\" frame "
 "be remembered for next session.  Does not apply to the \"Error/Info output "
@@ -4180,27 +4188,27 @@ msgstr ""
 "έκφρασης\" να απομνημονεύονται για την επόμενη συνεδρία. Δεν εφαρμόζεται στο "
 "πλαίσιο \"Επιλογές εξόδου σφάλματος/πληροφοριών\"."
 
-#: ../src/gnome-genius.c:2447
+#: ../src/gnome-genius.c:2471
 msgid "Error/Info output options"
 msgstr "Επιλογές εξόδου σφάλματος/πληροφοριών"
 
-#: ../src/gnome-genius.c:2455
+#: ../src/gnome-genius.c:2479
 msgid "Display errors in a dialog"
 msgstr "Εμφάνιση σφαλμάτων σε διάλογο"
 
-#: ../src/gnome-genius.c:2463
+#: ../src/gnome-genius.c:2487
 msgid "Display information messages in a dialog"
 msgstr "Εμφάνιση μηνυμάτων πληροφοριών σε έναν διάλογο"
 
-#: ../src/gnome-genius.c:2474
+#: ../src/gnome-genius.c:2498
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Μέγιστα σφάλματα για εμφάνιση (0=απεριόριστα)"
 
-#: ../src/gnome-genius.c:2498
+#: ../src/gnome-genius.c:2522
 msgid "Precision"
 msgstr "Ακρίβεια"
 
-#: ../src/gnome-genius.c:2508
+#: ../src/gnome-genius.c:2532
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -4210,52 +4218,52 @@ msgstr ""
 "αμέσως για όλους τους αριθμούς, μόνο νέοι αριθμοί υπολογίζονται\n"
 "και νέες μεταβλητές θα επηρεαστούν."
 
-#: ../src/gnome-genius.c:2517
+#: ../src/gnome-genius.c:2541
 msgid "Floating point precision (bits)"
 msgstr "Ακρίβεια κινητής υποδιαστολής (δυαδικά ψηφία)"
 
-#: ../src/gnome-genius.c:2536
+#: ../src/gnome-genius.c:2560
 msgid "Remember precision setting across sessions"
 msgstr "Απομνημόνευση ρύθμισης ακρίβειας σε όλες τις συνεδρίες"
 
-#: ../src/gnome-genius.c:2545
+#: ../src/gnome-genius.c:2569
 msgid "Should the precision setting be remembered for next session."
 msgstr ""
 "Αν θα πρέπει η ρύθμιση ακρίβειας να απομνημονεύεται για την επόμενη συνεδρία."
 
-#: ../src/gnome-genius.c:2553
+#: ../src/gnome-genius.c:2577
 msgid "Terminal"
 msgstr "Τερματικό"
 
-#: ../src/gnome-genius.c:2555
+#: ../src/gnome-genius.c:2579
 msgid "Terminal options"
 msgstr "Επιλογές τερματικού"
 
-#: ../src/gnome-genius.c:2564
+#: ../src/gnome-genius.c:2588
 msgid "Scrollback lines"
 msgstr "Γραμμές οπισθοκύλισης"
 
-#: ../src/gnome-genius.c:2587
+#: ../src/gnome-genius.c:2611
 msgid "Font:"
 msgstr "Γραμματοσειρά:"
 
-#: ../src/gnome-genius.c:2598
+#: ../src/gnome-genius.c:2622
 msgid "Black on white"
 msgstr "Μαύρο σε λευκό"
 
-#: ../src/gnome-genius.c:2606
+#: ../src/gnome-genius.c:2630
 msgid "Blinking cursor"
 msgstr "Δρομέας που αναβοσβήνει"
 
-#: ../src/gnome-genius.c:2619
+#: ../src/gnome-genius.c:2643
 msgid "Memory"
 msgstr "Μνήμη"
 
-#: ../src/gnome-genius.c:2622
+#: ../src/gnome-genius.c:2646
 msgid "Limits"
 msgstr "Όρια"
 
-#: ../src/gnome-genius.c:2629
+#: ../src/gnome-genius.c:2653
 msgid ""
 "When the limit is reached you will be asked if\n"
 "you wish to interrupt the calculation or continue.\n"
@@ -4265,11 +4273,11 @@ msgstr ""
 "επιθυμείτε να διακόψετε τον υπολογισμό ή να συνεχίσετε.\n"
 "Ορισμός σε 0 απενεργοποιεί το όριο."
 
-#: ../src/gnome-genius.c:2638
+#: ../src/gnome-genius.c:2662
 msgid "Maximum number of nodes to allocate"
 msgstr "Μέγιστος αριθμός κόμβων για κατανομή"
 
-#: ../src/gnome-genius.c:2678
+#: ../src/gnome-genius.c:2702
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -4279,69 +4287,77 @@ msgstr ""
 "\n"
 "Παρακαλούμε δοκιμάστε πάλι αργότερα ή διακόψτε την τρέχουσα λειτουργία."
 
-#: ../src/gnome-genius.c:2706
+#: ../src/gnome-genius.c:2745
 msgid "GEL files"
 msgstr "Αρχεία GEL"
 
-#: ../src/gnome-genius.c:2711 ../src/graphing.c:1193
+#: ../src/gnome-genius.c:2750 ../src/graphing.c:1241
 msgid "All files"
 msgstr "Όλα τα αρχεία"
 
-#: ../src/gnome-genius.c:2735 ../src/gnome-genius.c:3639
+#: ../src/gnome-genius.c:2774 ../src/gnome-genius.c:3793
 msgid "Cannot open file!"
 msgstr "Αδύνατο το άνοιγμα του αρχείου!"
 
-#: ../src/gnome-genius.c:2745 ../src/gnome-genius.c:4162
+#: ../src/gnome-genius.c:2784 ../src/gnome-genius.c:4279
 msgid "Output from "
 msgstr "Έξοδος από "
 
-#: ../src/gnome-genius.c:2761 ../src/gnome-genius.c:4234
+#: ../src/gnome-genius.c:2801 ../src/gnome-genius.c:4351
 msgid "End"
 msgstr "Τέλος"
 
-#: ../src/gnome-genius.c:2780
+#: ../src/gnome-genius.c:2820
 msgid "Load and Run"
 msgstr "Φόρτωση και εκτέλεση"
 
-#: ../src/gnome-genius.c:2784
+#: ../src/gnome-genius.c:2824
 msgid "_Load"
 msgstr "_Φόρτωση"
 
-#: ../src/gnome-genius.c:3309
+#: ../src/gnome-genius.c:3373
 msgid "Cannot open file"
 msgstr "Αδυναμία ανοίγματος αρχείου"
 
 #. context
-#: ../src/gnome-genius.c:3344 ../src/gnome-genius.c:4840
+#: ../src/gnome-genius.c:3408 ../src/gnome-genius.c:4970
 #, c-format
 msgid "Line: %d"
 msgstr "Γραμμή: %d"
 
-#: ../src/gnome-genius.c:3533
+#: ../src/gnome-genius.c:3540
+msgid ""
+"The program you are closing is unsaved, are you sure you wish to close it "
+"without saving?"
+msgstr ""
+"Το πρόγραμμα που κλείνετε δεν έχει αποθηκευτεί, είσαστε βέβαιοι ότι θέλετε "
+"να το κλείσετε χωρίς αποθήκευση;"
+
+#: ../src/gnome-genius.c:3672
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Program_%d.gel"
 
-#: ../src/gnome-genius.c:3544
+#: ../src/gnome-genius.c:3683
 #, c-format
 msgid "Program %d"
 msgstr "Πρόγραμμα %d"
 
-#: ../src/gnome-genius.c:3573
+#: ../src/gnome-genius.c:3721
 #, c-format
 msgid "Cannot open %s"
 msgstr "Αδύνατο το άνοιγμα του %s"
 
-#: ../src/gnome-genius.c:3661
+#: ../src/gnome-genius.c:3815
 msgid "Open..."
 msgstr "Άνοιγμα..."
 
-#: ../src/gnome-genius.c:3746
+#: ../src/gnome-genius.c:3900
 msgid "Program is read only"
 msgstr "Το πρόγραμμα είναι μόνο για ανάγνωση"
 
 #  new fname
-#: ../src/gnome-genius.c:3751 ../src/gnome-genius.c:3793
+#: ../src/gnome-genius.c:3905 ../src/gnome-genius.c:3945
 #, c-format
 msgid ""
 "<b>Cannot save file %s</b>\n"
@@ -4351,16 +4367,16 @@ msgstr ""
 "Λεπτομέρειες: %s"
 
 #  new fname
-#: ../src/gnome-genius.c:3757 ../src/gnome-genius.c:3800
+#: ../src/gnome-genius.c:3911 ../src/gnome-genius.c:3952
 #, c-format
 msgid "<b>Cannot save file %s</b>"
 msgstr "<b>Αδύνατη η αποθήκευση αρχείου %s</b>"
 
-#: ../src/gnome-genius.c:3810
+#: ../src/gnome-genius.c:3962
 msgid "Save new programs by \"Save As..\" first!"
 msgstr "Αποθήκευση νέων προγραμμάτων με \"Αποθήκευση ως..\" πρώτα!"
 
-#: ../src/gnome-genius.c:3816
+#: ../src/gnome-genius.c:3968
 msgid ""
 "Some read-only programs are modified.  Use \"Save As..\" to save them to a "
 "new location."
@@ -4369,7 +4385,7 @@ msgstr ""
 "\"Αποθήκευση ως...\" για να τα αποθηκεύσετε σε μια νέα τοποθεσία."
 
 #  new fname
-#: ../src/gnome-genius.c:3856 ../src/gnome-genius.c:3992
+#: ../src/gnome-genius.c:4008 ../src/gnome-genius.c:4144
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -4379,27 +4395,19 @@ msgstr ""
 "Λεπτομέρειες: %s"
 
 #  new fname
-#: ../src/gnome-genius.c:3861 ../src/gnome-genius.c:3997
+#: ../src/gnome-genius.c:4013 ../src/gnome-genius.c:4149
 msgid "<b>Cannot save file</b>"
 msgstr "<b>Αδύνατη η αποθήκευση αρχείου</b>"
 
-#: ../src/gnome-genius.c:3896
+#: ../src/gnome-genius.c:4048
 msgid "Save As..."
 msgstr "Αποθήκευση ως..."
 
-#: ../src/gnome-genius.c:4030
+#: ../src/gnome-genius.c:4182
 msgid "Save Console Output..."
 msgstr "Αποθήκευση εξόδου κονσόλας..."
 
-#: ../src/gnome-genius.c:4100
-msgid ""
-"The program you are closing is unsaved, are you sure you wish to close it "
-"without saving?"
-msgstr ""
-"Το πρόγραμμα που κλείνετε δεν έχει αποθηκευτεί, είσαστε βέβαιοι ότι θέλετε "
-"να το κλείσετε χωρίς αποθήκευση;"
-
-#: ../src/gnome-genius.c:4119
+#: ../src/gnome-genius.c:4236
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -4410,12 +4418,12 @@ msgstr ""
 "Δημιουργία ενός νέου προγράμματος, ή επιλογή μιας υπάρχουσας καρτέλας στο "
 "σημειωματάριο."
 
-#: ../src/gnome-genius.c:4149
+#: ../src/gnome-genius.c:4266
 #, c-format
 msgid "Cannot open pipe: %s"
 msgstr "Αδύνατο το άνοιγμα διοχέτευσης: %s"
 
-#: ../src/gnome-genius.c:4178
+#: ../src/gnome-genius.c:4295
 msgid ""
 "<b>Cannot execute program</b>\n"
 "\n"
@@ -4425,7 +4433,7 @@ msgstr ""
 "\n"
 "Αδύνατη η διακλάδωση."
 
-#: ../src/gnome-genius.c:4251
+#: ../src/gnome-genius.c:4368
 msgid ""
 "<b>Error executing program</b>\n"
 "\n"
@@ -4437,12 +4445,12 @@ msgstr ""
 "Υπήρξε ένα σφάλμα κατά την εγγραφή του\n"
 "προγράμματος στη μηχανή."
 
-#: ../src/gnome-genius.c:4276
+#: ../src/gnome-genius.c:4393
 #, c-format
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: ../src/gnome-genius.c:4508
+#: ../src/gnome-genius.c:4625
 msgid "Memory (node number) limit has been reached, interrupt the computation?"
 msgstr "Φτάσατε στο όριο μνήμης (αριθμός κόμβου), να διακοπεί ο υπολογισμός;"
 
@@ -4451,17 +4459,17 @@ msgstr "Φτάσατε στο όριο μνήμης (αριθμός κόμβου
 #. textbox_title
 #. bind_response
 #. wrap
-#: ../src/gnome-genius.c:4588
+#: ../src/gnome-genius.c:4715
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Αδύνατη η εκτέλεση genius-readline-helper-fifo!\n"
 
-#: ../src/gnome-genius.c:4655
+#: ../src/gnome-genius.c:4783
 msgid "Readline helper died, weird.  Trying to recover, things may be odd."
 msgstr ""
 "Ο βοηθός Readline πέθανε, περίεργο. Δοκιμάστε την ανάκτηση του, τα πράγματα "
 "μπορεί να είναι παράξενα."
 
-#: ../src/gnome-genius.c:4861
+#: ../src/gnome-genius.c:4991
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -4469,22 +4477,22 @@ msgstr ""
 "\n"
 "Σημείωση: μεταγλωττισμένο χωρίς GtkSourceView (καλύτερος επεξεργαστής πηγής)"
 
-#: ../src/gnome-genius.c:4953
+#: ../src/gnome-genius.c:5084
 msgid "GNOME Genius"
 msgstr "GNOME Genius"
 
 #. parent
-#: ../src/gnome-genius.c:5003
+#: ../src/gnome-genius.c:5134
 msgid "Cannot find the library file, genius installation may be incorrect"
 msgstr ""
 "Αδύνατη η εύρεση του αρχείου βιβλιοθήκης, η εγκατάσταση του genius μπορεί να "
 "είναι εσφαλμένη"
 
-#: ../src/gnome-genius.c:5083
+#: ../src/gnome-genius.c:5215
 msgid "Console"
 msgstr "Κονσόλα"
 
-#: ../src/gnome-genius.c:5167
+#: ../src/gnome-genius.c:5263
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -4509,101 +4517,109 @@ msgstr "Μαθηματικό εργαλείο Genius"
 msgid "Genius Mathematical Tool and Calculator"
 msgstr "Μαθηματικό εργαλείο Genius και αριθμομηχανή"
 
-#: ../src/graphing.c:606
+#: ../src/gnome-genius.desktop.in.h:3
+msgid ""
+"Mathematics;Matrix;Vector;Linear Algebra;Calculus;Plot;Plotting;Graph;"
+"Graphing;Function;Number Theory;"
+msgstr ""
+"Μαθηματικά;Πίνακας;Διάνυσμα;Γραμμική άλγεβρα;Λογισμός;Γραφική "
+"παράσταση;Σχεδίαση;Γράφημα;Δημιουργία γραφήματος;Συνάρτηση;Θεωρία αριθμών;"
+
+#: ../src/graphing.c:610
 msgid "Rotate"
 msgstr "Περιστροφή"
 
-#: ../src/graphing.c:625 ../src/graphing.c:654
+#: ../src/graphing.c:629 ../src/graphing.c:658
 #, c-format
 msgid "Rotate about %s axis: "
 msgstr "Περιστροφή γύρω από τον άξονα %s: "
 
-#: ../src/graphing.c:683
+#: ../src/graphing.c:687
 msgid "Rotate about dependent axis: "
 msgstr "Περιστροφή γύρω από εξαρτημένο άξονα: "
 
-#: ../src/graphing.c:791
+#: ../src/graphing.c:834
 msgid "Print"
 msgstr "Εκτύπωση"
 
-#: ../src/graphing.c:808
+#: ../src/graphing.c:851
 msgid "Print command: "
 msgstr "Εκτύπωση εντολής: "
 
-#: ../src/graphing.c:838
+#: ../src/graphing.c:881
 msgid "Cannot open temporary file, cannot print."
 msgstr "Αδύνατο το άνοιγμα προσωρινού αρχείου, αδύνατη η εκτύπωση."
 
-#: ../src/graphing.c:865
+#: ../src/graphing.c:910
 msgid "Printing failed"
 msgstr "Αποτυχία εκτύπωσης"
 
-#: ../src/graphing.c:878
+#: ../src/graphing.c:923
 #, c-format
 msgid "Printing failed: %s"
 msgstr "Αποτυχία εκτύπωσης: %s"
 
-#: ../src/graphing.c:951 ../src/graphing.c:1090
+#: ../src/graphing.c:997 ../src/graphing.c:1138
 msgid "File already exists.  Overwrite it?"
 msgstr "Το αρχείο υπάρχει ήδη. Να αντικατασταθεί;"
 
-#: ../src/graphing.c:1049 ../src/graphing.c:1105 ../src/graphing.c:1122
+#: ../src/graphing.c:1097 ../src/graphing.c:1153 ../src/graphing.c:1170
 msgid "Export failed"
 msgstr "Αποτυχία εξαγωγής"
 
-#: ../src/graphing.c:1147
+#: ../src/graphing.c:1195
 msgid "Export encapsulated postscript"
 msgstr "Εξαγωγή έγκλειστου postscript"
 
-#: ../src/graphing.c:1149
+#: ../src/graphing.c:1197
 msgid "Export postscript"
 msgstr "Εξαγωγή postscript"
 
-#: ../src/graphing.c:1151
+#: ../src/graphing.c:1199
 msgid "Export PDF"
 msgstr "Εξαγωγή PDF"
 
-#: ../src/graphing.c:1153
+#: ../src/graphing.c:1201
 msgid "Export PNG"
 msgstr "Εξαγωγή PNG"
 
-#: ../src/graphing.c:1160
+#: ../src/graphing.c:1208
 msgid "Missing ps2pdf command, perhaps ghostscript is not installed."
 msgstr "Λείπει η εντολή ps2pdf, ίσως το ghostscript δεν είναι εγκατεστημένο."
 
-#: ../src/graphing.c:1175
+#: ../src/graphing.c:1223
 msgid "EPS files"
 msgstr "Αρχεία EPS"
 
-#: ../src/graphing.c:1179
+#: ../src/graphing.c:1227
 msgid "PS files"
 msgstr "Αρχεία PS"
 
-#: ../src/graphing.c:1183
+#: ../src/graphing.c:1231
 msgid "PDF files"
 msgstr "Αρχεία PDF"
 
-#: ../src/graphing.c:1187
+#: ../src/graphing.c:1235
 msgid "PNG files"
 msgstr "Αρχεία PNG"
 
-#: ../src/graphing.c:1202
+#: ../src/graphing.c:1250
 msgid "Generate preview in EPS file (with ps2epsi)"
 msgstr "Δημιουργία προεπισκόπησης σε αρχείο EPS (με ps2epsi)"
 
-#: ../src/graphing.c:1879
+#: ../src/graphing.c:1934
 msgid "Solver"
 msgstr "Επίλυση"
 
-#: ../src/graphing.c:1884
+#: ../src/graphing.c:1939
 msgid "Clea_r solutions"
 msgstr "Κα_θαρισμός λύσεων"
 
-#: ../src/graphing.c:1886
+#: ../src/graphing.c:1941
 msgid "_Plot solution"
 msgstr "Λύση _γραφικής παράστασης"
 
-#: ../src/graphing.c:1907
+#: ../src/graphing.c:1962
 msgid ""
 "Clicking on the graph window now will draw a solution according to the "
 "parameters set below, starting at the point clicked.  To be able to zoom by "
@@ -4613,144 +4629,156 @@ msgstr ""
 "παραμέτρους που ορίζονται παρακάτω, ξεκινώντας από το πατημένο σημείο. Για "
 "να μπορείτε να εστιάσετε με το ποντίκι ξανά, κλείστε αυτό το παράθυρο."
 
-#: ../src/graphing.c:1929
+#: ../src/graphing.c:1984
 msgid "X increment:"
 msgstr "Αύξηση Χ:"
 
-#: ../src/graphing.c:1951
+#: ../src/graphing.c:2006
 msgid "T increment:"
 msgstr "Αύξηση Τ:"
 
-#: ../src/graphing.c:1955
+#: ../src/graphing.c:2010
 msgid "T interval length:"
 msgstr "Μήκος διαστήματος Τ:"
 
-#: ../src/graphing.c:1969
+#: ../src/graphing.c:2024
 msgid "Point x:"
 msgstr "Σημείο x:"
 
-#: ../src/graphing.c:1974
+#: ../src/graphing.c:2029
 msgid "y:"
 msgstr "y:"
 
-#: ../src/graphing.c:2080
+#: ../src/graphing.c:2137
 msgid "Plot"
 msgstr "Γραφική παράσταση"
 
-#: ../src/graphing.c:2115
+#: ../src/graphing.c:2172
 msgid "_Graph"
 msgstr "_Γράφημα"
 
-#: ../src/graphing.c:2119
+#: ../src/graphing.c:2176
 msgid "_Print..."
 msgstr "_Εκτύπωση..."
 
-#: ../src/graphing.c:2125
+#: ../src/graphing.c:2182
 msgid "_Export postscript..."
 msgstr "Ε_ξαγωγή postscript..."
 
-#: ../src/graphing.c:2131
+#: ../src/graphing.c:2188
 msgid "E_xport encapsulated postscript..."
 msgstr "Ε_ξαγωγή έγκλειστου postscript..."
 
-#: ../src/graphing.c:2138
+#: ../src/graphing.c:2195
 msgid "Export P_DF..."
 msgstr "Εξαγωγή P_DF..."
 
-#: ../src/graphing.c:2147
+#: ../src/graphing.c:2204
 msgid "Export P_NG..."
 msgstr "Εξαγωγή P_NG..."
 
-#: ../src/graphing.c:2159
+#: ../src/graphing.c:2216
 msgid "_Zoom"
 msgstr "_Εστίαση"
 
-#: ../src/graphing.c:2163
+#: ../src/graphing.c:2220
 msgid "Zoom _out"
 msgstr "Σμίκρυ_νση"
 
-#: ../src/graphing.c:2170
+#: ../src/graphing.c:2227
 msgid "Zoom _in"
 msgstr "Μεγέ_θυνση"
 
-#: ../src/graphing.c:2177
+#: ../src/graphing.c:2234
 msgid "_Fit dependent axis"
 msgstr "_Προσαρμογή εξαρτημένου άξονα"
 
-#: ../src/graphing.c:2184
+#: ../src/graphing.c:2241
 msgid "_Reset to original zoom"
 msgstr "Ε_παναφορά στην αρχική εστίαση"
 
-#: ../src/graphing.c:2197
+#: ../src/graphing.c:2254
 msgid "_View"
 msgstr "_Προβολή"
 
-#: ../src/graphing.c:2202
+#: ../src/graphing.c:2259
 msgid "_Reset angles"
 msgstr "Ε_παναφορά γωνιών"
 
-#: ../src/graphing.c:2207
+#: ../src/graphing.c:2264
 msgid "_Top view"
 msgstr "Ά_νω όψη"
 
-#: ../src/graphing.c:2212
+#: ../src/graphing.c:2269
 msgid "R_otate axis..."
 msgstr "Πε_ριστροφή άξονα..."
 
-#: ../src/graphing.c:2222
+#: ../src/graphing.c:2274
+msgid "Start rotate _animation..."
+msgstr "Έναρξη περιστροφής της _κίνησης..."
+
+#: ../src/graphing.c:2279
+msgid "Stop rotate a_nimation..."
+msgstr "Παύση περιστροφής της _κίνησης..."
+
+#: ../src/graphing.c:2289
 msgid "_Solver"
 msgstr "Επί_λυση"
 
-#: ../src/graphing.c:2227
+#: ../src/graphing.c:2294
 msgid "_Solver..."
 msgstr "_Επίλυση..."
 
-#: ../src/graphing.c:2232
+#: ../src/graphing.c:2299
 msgid "_Clear solutions"
 msgstr "Κα_θαρισμός λύσεων"
 
-#: ../src/graphing.c:3250
+#: ../src/graphing.c:2330
+msgid "Errors during plotting (possibly harmless), see the console."
+msgstr "Σφάλματα κατά τη σχεδίαση (πιθανόν αβλαβή), δείτε την κονσόλα."
+
+#: ../src/graphing.c:3348
 #, c-format
 msgid "Function"
 msgstr "Συνάρτηση"
 
-#: ../src/graphing.c:3252
+#: ../src/graphing.c:3350
 #, c-format
 msgid "Function #%d"
 msgstr "Συνάρτηση #%d"
 
-#: ../src/graphing.c:3274
+#: ../src/graphing.c:3372
 msgid "Graph limits not given as a 4-vector"
 msgstr "Τα όρια του γραφήματος δεν δίνονται ως 4διάστατο διάνυσμα"
 
-#: ../src/graphing.c:3280 ../src/graphing.c:3291 ../src/graphing.c:3302
-#: ../src/graphing.c:3313 ../src/graphing.c:3356 ../src/graphing.c:3367
-#: ../src/graphing.c:3465 ../src/graphing.c:3476 ../src/graphing.c:3487
-#: ../src/graphing.c:3498 ../src/graphing.c:3509 ../src/graphing.c:3520
+#: ../src/graphing.c:3378 ../src/graphing.c:3389 ../src/graphing.c:3400
+#: ../src/graphing.c:3411 ../src/graphing.c:3454 ../src/graphing.c:3465
+#: ../src/graphing.c:3563 ../src/graphing.c:3574 ../src/graphing.c:3585
+#: ../src/graphing.c:3596 ../src/graphing.c:3607 ../src/graphing.c:3618
 msgid "Graph limits not given as numbers"
 msgstr "Τα όρια του γραφήματος δεν δίνονται ως αριθμοί"
 
-#: ../src/graphing.c:3350
+#: ../src/graphing.c:3448
 msgid "Graph limits not given as a 2-vector"
 msgstr "Τα όρια του γραφήματος δεν δίνονται ως 2διάστατο διάνυσμα"
 
-#: ../src/graphing.c:3459
+#: ../src/graphing.c:3557
 msgid "Graph limits not given as a 6-vector"
 msgstr "Τα όρια του γραφήματος δεν δίνονται ως 6διάστατο διάνυσμα"
 
-#: ../src/graphing.c:3593 ../src/graphing.c:3611 ../src/graphing.c:3625
+#: ../src/graphing.c:3691 ../src/graphing.c:3709 ../src/graphing.c:3723
 msgid "Ticks must be between 2 and 200"
 msgstr "Οι υποδιαιρέσεις πρέπει να είναι μεταξύ 2 και 200"
 
-#: ../src/graphing.c:3602 ../src/graphing.c:3616
+#: ../src/graphing.c:3700 ../src/graphing.c:3714
 msgid "Ticks not given as numbers"
 msgstr "Οι υποδιαιρέσεις δεν δόθηκαν ως αριθμοί"
 
-#: ../src/graphing.c:3630
+#: ../src/graphing.c:3728
 msgid "Ticks not given as a number or a 2-vector"
 msgstr "Οι υποδιαιρέσεις δεν δόθηκαν ως αριθμός ή 2σδιάστο διάνυσμα"
 
-#: ../src/graphing.c:5149
+#: ../src/graphing.c:5388
 #, c-format
 msgid ""
 "Type in function name or expression involving the %s and %s variables (or "
@@ -4761,28 +4789,28 @@ msgstr ""
 "μεταβλητές του %s (ή τη μεταβλητή %s που θα είναι %s=%s+i%s) που δίνει την "
 "κλίση στο σημείο (%s,%s)."
 
-#: ../src/graphing.c:5174 ../src/graphing.c:5181 ../src/graphing.c:5345
-#: ../src/graphing.c:5352
+#: ../src/graphing.c:5413 ../src/graphing.c:5420 ../src/graphing.c:5584
+#: ../src/graphing.c:5591
 #, c-format
 msgid "%s from:"
 msgstr "%s από:"
 
-#: ../src/graphing.c:5188 ../src/graphing.c:5195
+#: ../src/graphing.c:5427 ../src/graphing.c:5434
 #, c-format
 msgid "%s increment:"
 msgstr "Αύξηση %s:"
 
-#: ../src/graphing.c:5202
+#: ../src/graphing.c:5441
 #, c-format
 msgid "%s interval length:"
 msgstr "Μήκος διαστήματος %s:"
 
-#: ../src/graphing.c:5209
+#: ../src/graphing.c:5448
 #, c-format
 msgid "Point %s:"
 msgstr "Σημείο %s:"
 
-#: ../src/graphing.c:5222
+#: ../src/graphing.c:5461
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s and %s variables (or "
@@ -4794,7 +4822,7 @@ msgstr ""
 "το d%s/d%s και το d%s/d%s του αυτόνομου συστήματος που θα σχεδιαστεί στο "
 "σημείο (%s,%s)."
 
-#: ../src/graphing.c:5258
+#: ../src/graphing.c:5497
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4803,7 +4831,7 @@ msgstr ""
 "Πληκτρολογήστε τα ονόματα της συνάρτησης ή τις εκφράσεις που περιέχουν τη "
 "μεταβλητή %s στα πλαίσια κάτω από το γράφημά τους"
 
-#: ../src/graphing.c:5275
+#: ../src/graphing.c:5514
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4819,12 +4847,12 @@ msgstr ""
 "δίνοντας το %s και το %s ως το πραγματικό και φανταστικό μέρος του μιγαδικού "
 "αριθμού."
 
-#: ../src/graphing.c:5316
+#: ../src/graphing.c:5555
 #, c-format
 msgid "Parameter %s from:"
 msgstr "Παράμετροι %s από:"
 
-#: ../src/graphing.c:5330
+#: ../src/graphing.c:5569
 #, c-format
 msgid ""
 "Type a function name or an expression involving the %s and %s variables (or "
@@ -4836,99 +4864,99 @@ msgstr ""
 "παρακάτω πλαίσια για να πάρετε το γράφημά τους. Οι συναρτήσεις με ένα όρισμα "
 "μόνο θα περάσουν έναν μιγαδικό αριθμό."
 
-#: ../src/graphing.c:5396 ../src/graphing.c:5515
+#: ../src/graphing.c:5635 ../src/graphing.c:5754
 msgid "Change variable names"
 msgstr "Αλλαγή ονομάτων μεταβλητής"
 
-#: ../src/graphing.c:5412 ../src/graphing.c:5531
+#: ../src/graphing.c:5651 ../src/graphing.c:5770
 msgid "Some values were illegal"
 msgstr "Κάποιες τιμές ήταν απαράδεκτες"
 
-#: ../src/graphing.c:5416 ../src/graphing.c:5535
+#: ../src/graphing.c:5655 ../src/graphing.c:5774
 msgid "independent variable (x):"
 msgstr "ανεξάρτητη μεταβλητή (x):"
 
-#: ../src/graphing.c:5426
+#: ../src/graphing.c:5665
 msgid "dependent variable (y):"
 msgstr "ανεξάρτητη μεταβλητή (y):"
 
-#: ../src/graphing.c:5436
+#: ../src/graphing.c:5675
 msgid "complex variable (z = x+iy):"
 msgstr "μιγαδική μεταβλητή (z = x+iy):"
 
-#: ../src/graphing.c:5446
+#: ../src/graphing.c:5685
 msgid "parameter variable (t):"
 msgstr "μεταβλητή παράμετρος (t):"
 
-#: ../src/graphing.c:5545
+#: ../src/graphing.c:5784
 msgid "independent variable (y):"
 msgstr "ανεξάρτητη μεταβλητή (y):"
 
-#: ../src/graphing.c:5555
+#: ../src/graphing.c:5794
 msgid "independent complex variable (z = x+iy):"
 msgstr "ανεξάρτητη μιγαδική μεταβλητή (z = x+iy):"
 
-#: ../src/graphing.c:5719
+#: ../src/graphing.c:5958
 msgid "_Functions / Expressions"
 msgstr "_Συναρτήσεις / Εκφράσεις"
 
-#: ../src/graphing.c:5751
+#: ../src/graphing.c:5990
 msgid "or"
 msgstr "ή"
 
 #. t range
-#: ../src/graphing.c:5766
+#: ../src/graphing.c:6005
 msgid "Parameter t from:"
 msgstr "Παράμετρος t από:"
 
-#: ../src/graphing.c:5770 ../src/graphing.c:5917 ../src/graphing.c:5930
-#: ../src/graphing.c:6040 ../src/graphing.c:6052 ../src/graphing.c:6063
+#: ../src/graphing.c:6009 ../src/graphing.c:6156 ../src/graphing.c:6169
+#: ../src/graphing.c:6279 ../src/graphing.c:6291 ../src/graphing.c:6302
 msgid "to:"
 msgstr "προς:"
 
-#: ../src/graphing.c:5774
+#: ../src/graphing.c:6013
 msgid "by:"
 msgstr "από:"
 
-#: ../src/graphing.c:5781
+#: ../src/graphing.c:6020
 msgid "Pa_rametric"
 msgstr "Πα_ραμετρικά"
 
 #. # of ticks
-#: ../src/graphing.c:5808 ../src/graphing.c:5860
+#: ../src/graphing.c:6047 ../src/graphing.c:6099
 msgid "Vertical ticks:"
 msgstr "Κάθετες υποδιαιρέσεις:"
 
 #. # of ticks
-#: ../src/graphing.c:5812 ../src/graphing.c:5864
+#: ../src/graphing.c:6051 ../src/graphing.c:6103
 msgid "Horizontal ticks:"
 msgstr "Οριζόντιες υποδιαιρέσεις:"
 
-#: ../src/graphing.c:5817
+#: ../src/graphing.c:6056
 msgid "Sl_ope field"
 msgstr "Πεδίο κ_λίσης"
 
 #. Normalize the arrow length?
-#: ../src/graphing.c:5851
+#: ../src/graphing.c:6090
 msgid "_Normalize arrow length (do not show size)"
 msgstr "_Κανονικοποίηση μήκους βέλους (να μην εμφανίζεται το μέγεθος)"
 
-#: ../src/graphing.c:5869
+#: ../src/graphing.c:6108
 msgid "_Vector field"
 msgstr "_Διανυσματικό πεδίο"
 
 #. draw legend?
-#: ../src/graphing.c:5879 ../src/graphing.c:6009
+#: ../src/graphing.c:6118 ../src/graphing.c:6248
 msgid "_Draw legend"
 msgstr "_Σχεδίαση υπομνήματος"
 
 #. draw axis labels?
-#: ../src/graphing.c:5888
+#: ../src/graphing.c:6127
 msgid "Draw axis labels"
 msgstr "Σχεδίαση ετικετών άξονα"
 
 #. change varnames
-#: ../src/graphing.c:5897 ../src/graphing.c:6019
+#: ../src/graphing.c:6136 ../src/graphing.c:6258
 msgid "Change variable names..."
 msgstr "Αλλαγή ονομάτων μεταβλητής..."
 
@@ -4936,192 +4964,207 @@ msgstr "Αλλαγή ονομάτων μεταβλητής..."
 #.
 #. * Plot window frame
 #.
-#: ../src/graphing.c:5905 ../src/graphing.c:6028
+#: ../src/graphing.c:6144 ../src/graphing.c:6267
 msgid "Plot Window"
 msgstr "Παράθυρο γραφικής παράστασης"
 
 #.
 #. * X range
 #.
-#: ../src/graphing.c:5914 ../src/graphing.c:6037
+#: ../src/graphing.c:6153 ../src/graphing.c:6276
 msgid "X from:"
 msgstr "Χ από:"
 
 #.
 #. * Y range
 #.
-#: ../src/graphing.c:5927 ../src/graphing.c:6049
+#: ../src/graphing.c:6166 ../src/graphing.c:6288
 msgid "Y from:"
 msgstr "Υ από:"
 
 #. fit dependent axis?
-#: ../src/graphing.c:5938 ../src/graphing.c:6071
+#: ../src/graphing.c:6177 ../src/graphing.c:6310
 msgid "Fit dependent axis"
 msgstr "Προσαρμογή εξαρτημένου άξονα"
 
-#: ../src/graphing.c:5982
+#: ../src/graphing.c:6221
 msgid "Function / Expression"
 msgstr "Συναρτήσεις / Εκφράσεις"
 
 #.
 #. * Z range
 #.
-#: ../src/graphing.c:6061
+#: ../src/graphing.c:6300
 msgid "Dependent axis from:"
 msgstr "Εξαρτημένος άξονας από:"
 
-#: ../src/graphing.c:6092
+#: ../src/graphing.c:6331
 msgid "Function _line plot"
 msgstr "Γραφική παράσταση _γραμμής συνάρτησης"
 
-#: ../src/graphing.c:6096
+#: ../src/graphing.c:6335
 msgid "_Surface plot"
 msgstr "Γραφική παράσταση _επιφάνειας"
 
-#: ../src/graphing.c:6314 ../src/graphing.c:6500 ../src/graphing.c:6627
-#: ../src/graphing.c:6756 ../src/graphing.c:6861
+#: ../src/graphing.c:6549 ../src/graphing.c:6735 ../src/graphing.c:6862
+#: ../src/graphing.c:6991 ../src/graphing.c:7096
 msgid "No functions to plot or no functions could be parsed"
 msgstr ""
 "Δεν υπάρχουν συναρτήσεις για σχεδιογράφηση ή δεν υπάρχουν συναρτήσεις που "
 "μπορούν να αναλυθούν"
 
-#: ../src/graphing.c:6347 ../src/graphing.c:6353 ../src/graphing.c:6523
-#: ../src/graphing.c:6529 ../src/graphing.c:6634 ../src/graphing.c:6657
-#: ../src/graphing.c:6663 ../src/graphing.c:6779 ../src/graphing.c:6785
-#: ../src/graphing.c:6884 ../src/graphing.c:6890
+#: ../src/graphing.c:6582 ../src/graphing.c:6588 ../src/graphing.c:6758
+#: ../src/graphing.c:6764 ../src/graphing.c:6869 ../src/graphing.c:6892
+#: ../src/graphing.c:6898 ../src/graphing.c:7014 ../src/graphing.c:7020
+#: ../src/graphing.c:7119 ../src/graphing.c:7125
 #, c-format
 msgid "Invalid %s range"
 msgstr "Άκυρη πεδίο τιμών του %s"
 
-#: ../src/graphing.c:6359
+#: ../src/graphing.c:6594
 msgid "Invalid dependent range"
 msgstr "Άκυρο εξαρτημένο πεδίο τιμών"
 
-#: ../src/graphing.c:6621
+#: ../src/graphing.c:6856
 #, c-format
 msgid "Only specify %s and %s, or %s, not all at once."
 msgstr "Ορίστε μόνο το %s και το %s, ή το %s, όχι όλα μονομιάς."
 
-#: ../src/graphing.c:6984
+#: ../src/graphing.c:7223
 msgid "Create Plot"
 msgstr "Δημιουργία γραφικής παράστασης"
 
-#: ../src/graphing.c:7025 ../src/graphing.c:7195 ../src/graphing.c:7226
-#: ../src/graphing.c:7247 ../src/graphing.c:7287 ../src/graphing.c:7311
-#: ../src/graphing.c:7423 ../src/graphing.c:7547 ../src/graphing.c:7684
-#: ../src/graphing.c:7841 ../src/graphing.c:7988 ../src/graphing.c:8301
-#: ../src/graphing.c:8672 ../src/graphing.c:8904 ../src/graphing.c:8993
-#: ../src/graphing.c:9103 ../src/graphing.c:9133 ../src/graphing.c:9194
-#: ../src/graphing.c:9220 ../src/graphing.c:9247 ../src/graphing.c:9338
-#: ../src/graphing.c:9411 ../src/graphing.c:9436 ../src/graphing.c:9474
-#: ../src/graphing.c:9522
+#: ../src/graphing.c:7264 ../src/graphing.c:7434 ../src/graphing.c:7465
+#: ../src/graphing.c:7486 ../src/graphing.c:7526 ../src/graphing.c:7550
+#: ../src/graphing.c:7662 ../src/graphing.c:7786 ../src/graphing.c:7923
+#: ../src/graphing.c:8080 ../src/graphing.c:8227 ../src/graphing.c:8250
+#: ../src/graphing.c:8732 ../src/graphing.c:9013 ../src/graphing.c:9232
+#: ../src/graphing.c:9471 ../src/graphing.c:9798 ../src/graphing.c:10030
+#: ../src/graphing.c:10119 ../src/graphing.c:10232 ../src/graphing.c:10263
+#: ../src/graphing.c:10292 ../src/graphing.c:10318 ../src/graphing.c:10345
+#: ../src/graphing.c:10436 ../src/graphing.c:10509 ../src/graphing.c:10534
+#: ../src/graphing.c:10567 ../src/graphing.c:10615
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr "%s: η σχεδίαση σε εξέλιξη, αδύνατη η κλήση του %s"
 
-#: ../src/graphing.c:7033 ../src/graphing.c:7566
+#: ../src/graphing.c:7272 ../src/graphing.c:7805
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: το όρισμα δεν είναι συνάρτηση"
 
-#: ../src/graphing.c:7043
+#: ../src/graphing.c:7282
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: υποστηρίζεται μόνο μία συνάρτηση"
 
-#: ../src/graphing.c:7066
+#: ../src/graphing.c:7305
 msgid "Graph limits not given as a 4-vector or a 6-vector"
 msgstr "Τα όρια του γραφήματος δεν δίνονται ως 4διάστατο ή 6διάστατο διάνυσμα"
 
-#: ../src/graphing.c:7122 ../src/graphing.c:7376 ../src/graphing.c:7493
-#: ../src/graphing.c:7629 ../src/graphing.c:7778 ../src/graphing.c:7933
-#: ../src/graphing.c:8773
+#: ../src/graphing.c:7361 ../src/graphing.c:7615 ../src/graphing.c:7732
+#: ../src/graphing.c:7868 ../src/graphing.c:8017 ../src/graphing.c:8172
+#: ../src/graphing.c:9899
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: άκυρο πεδίο τιμών Χ"
 
-#: ../src/graphing.c:7127 ../src/graphing.c:7381 ../src/graphing.c:7498
-#: ../src/graphing.c:7634 ../src/graphing.c:7783 ../src/graphing.c:7938
-#: ../src/graphing.c:8778
+#: ../src/graphing.c:7366 ../src/graphing.c:7620 ../src/graphing.c:7737
+#: ../src/graphing.c:7873 ../src/graphing.c:8022 ../src/graphing.c:8177
+#: ../src/graphing.c:9904
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: άκυρη πεδίο τιμών Υ"
 
-#: ../src/graphing.c:7132 ../src/graphing.c:8783
+#: ../src/graphing.c:7371 ../src/graphing.c:9909
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: άκυρη πεδίο τιμών Ζ"
 
-#: ../src/graphing.c:7205
+#: ../src/graphing.c:7444
 #, c-format
 msgid "%s: dx must be positive"
 msgstr "%s: το dx πρέπει να είναι θετικό"
 
-#: ../src/graphing.c:7212 ../src/graphing.c:7231
+#: ../src/graphing.c:7451 ../src/graphing.c:7470
 #, c-format
 msgid "%s: Slope field not active"
 msgstr "%s: το πεδίο κλίσης δεν είναι ενεργό"
 
-#: ../src/graphing.c:7258
+#: ../src/graphing.c:7497
 #, c-format
 msgid "%s: dt must be positive"
 msgstr "%s: το dt πρέπει να είναι θετικός"
 
-#: ../src/graphing.c:7264
+#: ../src/graphing.c:7503
 #, c-format
 msgid "%s: tlen must be positive"
 msgstr "%s: το tlen πρέπει να είναι θετικό"
 
-#: ../src/graphing.c:7272 ../src/graphing.c:7293
+#: ../src/graphing.c:7511 ../src/graphing.c:7532
 #, c-format
 msgid "%s: Vector field not active"
 msgstr "%s: Το διανυσματικό πεδίο δεν είναι ενεργό"
 
-#: ../src/graphing.c:7318 ../src/graphing.c:7848
+#: ../src/graphing.c:7557 ../src/graphing.c:8087
 #, c-format
 msgid "%s: First argument must be a function"
 msgstr "%s: Το πρώτο όρισμα πρέπει να είναι συνάρτηση"
 
-#: ../src/graphing.c:7434 ../src/graphing.c:7692
+#: ../src/graphing.c:7673 ../src/graphing.c:7931
 #, c-format
 msgid "%s: First two arguments must be functions"
 msgstr "%s: Τα δύο πρώτα ορίσματα πρέπει να είναι συναρτήσεις"
 
-#: ../src/graphing.c:7561
+#: ../src/graphing.c:7800
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: υποστηρίζονται μόνο μέχρι 10 συναρτήσεις"
 
-#: ../src/graphing.c:7587
+#: ../src/graphing.c:7826
 msgid "Graph limits not given as a 2-vector or a 4-vector"
 msgstr "Τα όρια του γραφήματος δεν δίνονται ως 2διάστατο ή 4διάστατο διάνυσμα"
 
-#: ../src/graphing.c:7788 ../src/graphing.c:7943
+#: ../src/graphing.c:8027 ../src/graphing.c:8182
 #, c-format
 msgid "%s: invalid T range"
 msgstr "%s: άκυρη πεδίο τιμών Τ"
 
-#: ../src/graphing.c:8115 ../src/graphing.c:8169
+#: ../src/graphing.c:8445 ../src/graphing.c:8499
 #, c-format
+#| msgid ""
+#| "%s: Line should be given as a real, n by 2 matrix with columns for x and "
+#| "y, n>=2"
 msgid ""
-"%s: Line should be given as a real, n by 2 matrix with columns for x and y, "
-"n>=2"
+"%s: Points should be given as a real, n by 2 matrix with columns for x and "
+"y, n>=%d"
 msgstr ""
-"%s: Η γραμμή πρέπει να δοθεί ως ένας πραγματικός, n επί 2 πίνακας με στήλες "
-"για x και y, n>=2"
+"%s: Τα σημεία πρέπει να δοθούν ως ένας πραγματικός, n επί 2 πίνακας με "
+"στήλες για x και y, n>=%d"
 
-#: ../src/graphing.c:8220
+#: ../src/graphing.c:8537 ../src/graphing.c:8600
+#, c-format
+#| msgid ""
+#| "%s: Line should be given as a real, n by 2 matrix with columns for x and "
+#| "y, n>=2"
+msgid ""
+"%s: Points should be given as a real, n by 3 matrix with columns for x, y "
+"and z, n>=%d"
+msgstr ""
+"%s: Τα σημεία πρέπει να δοθούν ως ένας πραγματικός, n επί 3 πίνακας με "
+"στήλες για x, y και z, n>=%d"
+
+#: ../src/graphing.c:8651
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: Δεν ορίστηκε χρώμα"
 
-#: ../src/graphing.c:8225 ../src/graphing.c:8232
+#: ../src/graphing.c:8656 ../src/graphing.c:8663
 #, c-format
-#| msgid "Cannot open plugin '%s'!"
 msgid "%s: Cannot parse color '%s'"
 msgstr "%s: Αδυναμία ανάλυσης χρώματος '%s'"
 
-#: ../src/graphing.c:8246
+#: ../src/graphing.c:8677
 #, c-format
 msgid ""
 "%s: A vector giving color should be a 3-vector of real numbers between 0 and "
@@ -5130,7 +5173,7 @@ msgstr ""
 "%s: Ένα διάνυσμα που δίνει χρώμα πρέπει να είναι ένα 3διάστατο διάνυσμα των "
 "πραγματικών αριθμών μεταξύ 0 και 1"
 
-#: ../src/graphing.c:8262
+#: ../src/graphing.c:8693
 #, c-format
 msgid ""
 "%s: Warning: Values for red, green, or blue out of range (0 to 1), I will "
@@ -5139,7 +5182,7 @@ msgstr ""
 "%s: Προειδοποίηση: Τιμές για κόκκινο, πράσινο, ή μπλε εκτός εμβέλειας (0 έως "
 "1), θα αποσπαστούν σε αυτό το μεσοδιάστημα"
 
-#: ../src/graphing.c:8278
+#: ../src/graphing.c:8709
 #, c-format
 msgid ""
 "%s: Color must be a string or a three-vector of rgb values (between 0 and 1)"
@@ -5147,49 +5190,56 @@ msgstr ""
 "%s: Το χρώμα πρέπει να είναι μια συμβολοσειρα ή ένα 3διάστατο διάνυσμα τιμών "
 "rgb (μεταξύ 0 και 1)"
 
-#: ../src/graphing.c:8316
+#: ../src/graphing.c:8751 ../src/graphing.c:9032 ../src/graphing.c:9253
+#: ../src/graphing.c:9492
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: Εσφαλμένος αριθμός ορισμάτων"
 
-#: ../src/graphing.c:8384
+#: ../src/graphing.c:8819 ../src/graphing.c:9086 ../src/graphing.c:9319
+#: ../src/graphing.c:9552
 #, c-format
 msgid "%s: No thickness specified"
 msgstr "%s: Δεν ορίστηκε πάχος"
 
-#: ../src/graphing.c:8407
+#: ../src/graphing.c:8842 ../src/graphing.c:9109 ../src/graphing.c:9344
+#: ../src/graphing.c:9577
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: Δεν ορίστηκε παράθυρο"
 
-#: ../src/graphing.c:8455 ../src/graphing.c:8480
+#: ../src/graphing.c:8890 ../src/graphing.c:8915
 #, c-format
 msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
 msgstr ""
 "%s: η τεχνοτροπία βέλους πρέπει να είναι \"origin\" (αρχής), \"end"
 "\" (τέλους), \"both\" (και τα δύο), ή \"none\" (καμία)"
 
-#: ../src/graphing.c:8490
+#: ../src/graphing.c:8925 ../src/graphing.c:9153 ../src/graphing.c:9396
+#: ../src/graphing.c:9629
 #, c-format
 msgid "%s: No legend specified"
 msgstr "%s: Δεν ορίστηκε υπόμνημα"
 
-#: ../src/graphing.c:8504
+#: ../src/graphing.c:8939 ../src/graphing.c:9167 ../src/graphing.c:9411
+#: ../src/graphing.c:9644
 #, c-format
 msgid "%s: Legend must be a string"
 msgstr "%s: Το υπόμνημα πρέπει να είναι συμβολοσειρά"
 
-#: ../src/graphing.c:8513
+#: ../src/graphing.c:8948 ../src/graphing.c:9176 ../src/graphing.c:9421
+#: ../src/graphing.c:9654
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: Άγνωστος τεχνοτροπία"
 
-#: ../src/graphing.c:8520
+#: ../src/graphing.c:8955 ../src/graphing.c:9183 ../src/graphing.c:9429
+#: ../src/graphing.c:9662
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: Εσφαλμένη παράμετρος"
 
-#: ../src/graphing.c:8589 ../src/graphing.c:8652
+#: ../src/graphing.c:9715 ../src/graphing.c:9778
 #, c-format
 msgid ""
 "%s: Surface should be given as a real, n by 3 matrix with columns for x, y, "
@@ -5198,93 +5248,93 @@ msgstr ""
 "%s: Η επιφάνεια πρέπει να δοθεί ως πραγματικός πίνακας n επί 3 με στήλες για "
 "x, y, z, όπου n>=3"
 
-#: ../src/graphing.c:8680
+#: ../src/graphing.c:9806
 #, c-format
 msgid "%s: argument not a matrix of data"
 msgstr "%s: το όρισμα δεν είναι πίνακας δεδομένων"
 
-#: ../src/graphing.c:8864
+#: ../src/graphing.c:9990
 #, c-format
 msgid "%s: Surface grid data should be given as a real matrix "
 msgstr ""
 "%s: Τα δεδομένα πλέγματος επιφάνειας πρέπει να δίνονται ως πραγματικός "
 "πίνακας"
 
-#: ../src/graphing.c:8910
+#: ../src/graphing.c:10036
 #, c-format
 msgid "%s: first argument not a matrix of data"
 msgstr "%s: το πρώτο όρισμα δεν είναι πίνακας δεδομένων"
 
-#: ../src/graphing.c:8917
+#: ../src/graphing.c:10043
 #, c-format
 msgid "%s: second argument not a 4 or 6 element vector of limits"
 msgstr "%s: το δεύτερο όρισμα δεν είναι διάνυσμα ορίων 4 ή 6 στοιχείων"
 
-#: ../src/graphing.c:8934
+#: ../src/graphing.c:10060
 #, c-format
 msgid "%s: too many arguments or last argument not a string label"
 msgstr ""
 "%s: υπερβολικά ορίσματα ή το τελευταίο όρισμα δεν είναι ετικέτα συμβολοσειράς"
 
-#: ../src/graphing.c:9000
+#: ../src/graphing.c:10126
 #, c-format
 msgid "%s: first argument not a nonempty string"
 msgstr "%s: το πρώτο όρισμα δεν είναι μια μη κενή συμβολοσειρά"
 
-#: ../src/graphing.c:9008
+#: ../src/graphing.c:10134
 #, c-format
 msgid "%s: type not specified and filename has no extension"
 msgstr "%s: δεν ορίστηκε τύπος και το όνομα αρχείου δεν έχει καμιά επέκταση"
 
-#: ../src/graphing.c:9017
+#: ../src/graphing.c:10143
 #, c-format
 msgid "%s: second argument not a nonempty string"
 msgstr "%s: το δεύτερο όρισμα δεν είναι μια μη κενή συμβολοσειρά"
 
-#: ../src/graphing.c:9029
+#: ../src/graphing.c:10155
 #, c-format
 msgid "%s: plot canvas not active, cannot export"
 msgstr "%s: η σχεδιογράφηση καμβά δεν είναι ενεργή, αδύνατη η εξαγωγή"
 
-#: ../src/graphing.c:9038 ../src/graphing.c:9055 ../src/graphing.c:9076
+#: ../src/graphing.c:10164 ../src/graphing.c:10181 ../src/graphing.c:10204
 #, c-format
 msgid "%s: export failed"
 msgstr "%s: αποτυχία εξαγωγής"
 
-#: ../src/graphing.c:9088
+#: ../src/graphing.c:10217
 #, c-format
 msgid "%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."
 msgstr ""
 "%s: άγνωστος τύπος αρχείου, μπορεί να είναι \"png\", \"eps\", ή \"ps\"."
 
-#: ../src/graphing.c:9254
+#: ../src/graphing.c:10352
 msgid "Variable names not given in a 4-vector"
 msgstr "Δεν δόθηκαν ονόματα μεταβλητών σε 4διάστατο διάνυσμα"
 
-#: ../src/graphing.c:9264 ../src/graphing.c:9273 ../src/graphing.c:9282
-#: ../src/graphing.c:9291 ../src/graphing.c:9355 ../src/graphing.c:9364
-#: ../src/graphing.c:9373
+#: ../src/graphing.c:10362 ../src/graphing.c:10371 ../src/graphing.c:10380
+#: ../src/graphing.c:10389 ../src/graphing.c:10453 ../src/graphing.c:10462
+#: ../src/graphing.c:10471
 msgid "Variable names should be strings"
 msgstr "Τα ονομάτων μεταβλητών πρέπει να είναι συμβολοσειρές"
 
-#: ../src/graphing.c:9298 ../src/graphing.c:9379
+#: ../src/graphing.c:10396 ../src/graphing.c:10477
 msgid "Variable names must be valid identifiers"
 msgstr "Τα ονόματα μεταβλητών πρέπει να είναι έγκυροι ταυτοποιητές"
 
-#: ../src/graphing.c:9307 ../src/graphing.c:9385
+#: ../src/graphing.c:10405 ../src/graphing.c:10483
 msgid "Variable names must be mutually distinct"
 msgstr "Τα ονόματα μεταβλητών πρέπει να είναι αμοιβαία διακριτά"
 
-#: ../src/graphing.c:9345
+#: ../src/graphing.c:10443
 msgid "Variable names not given in a 3-vector"
 msgstr "Δεν δόθηκαν ονόματα μεταβλητών σε 3διάστατο διάνυσμα"
 
-#: ../src/graphing.c:9557
+#: ../src/graphing.c:10650
 msgid "Plotting"
 msgstr "Σχεδιογράφηση"
 
 #. internal
-#: ../src/graphing.c:9559
+#: ../src/graphing.c:10652
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -5292,7 +5342,7 @@ msgstr ""
 "Γραφική παράσταση μιας συνάρτησης με μια γραμμή. Πρώτα έρχονται οι "
 "συναρτήσεις (μέχρι 10), έπειτα προαιρετικά τα όρια ως x1,x2,y1,y2"
 
-#: ../src/graphing.c:9560
+#: ../src/graphing.c:10653
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
@@ -5302,7 +5352,7 @@ msgstr ""
 "οι συναρτήσεις για x και y, έπειτα προαιρετικά τα όρια t ως t1,t2,tinc, "
 "έπειτα προαιρετικά τα όρια ως x1,x2,y1,y2"
 
-#: ../src/graphing.c:9561
+#: ../src/graphing.c:10654
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
@@ -5312,7 +5362,7 @@ msgstr ""
 "Πρώτα έρχονται οι συναρτήσεις για x και y, έπειτα προαιρετικά τα όρια t ως "
 "t1,t2,tinc, έπειτα προαιρετικά τα όρια ως x1,x2,y1,y2"
 
-#: ../src/graphing.c:9563
+#: ../src/graphing.c:10656
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
@@ -5320,7 +5370,7 @@ msgstr ""
 "Σχεδίαση πεδίου κλίσης. Πρώτα έρχεται η συνάρτηση dy/dx με όρους των x και y "
 "(ή ενός μιγαδικού z), έπειτα προαιρετικά τα όρια ως x1,x2,y1,y2"
 
-#: ../src/graphing.c:9564
+#: ../src/graphing.c:10657
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
@@ -5328,18 +5378,18 @@ msgstr ""
 "Σχεδίαση διανυσματικού πεδίου. Πρώτα έρχονται οι συναρτήσεις dx/dt και dy/dt "
 "με όρους των x και y, έπειτα προαιρετικά τα όρια ως x1,x2,y1,y2"
 
-#: ../src/graphing.c:9566
+#: ../src/graphing.c:10659
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr ""
 "Σχεδίαση μιας λύσης για ένα πεδίο κλίσης που ξεκινά στο x,y και χρήση του dx "
 "ως αύξηση"
 
-#: ../src/graphing.c:9567
+#: ../src/graphing.c:10660
 msgid "Clear all the slopefield solutions"
 msgstr "Καθαρισμός όλων των λύσεων πεδίου κλίσης"
 
-#: ../src/graphing.c:9569
+#: ../src/graphing.c:10662
 msgid ""
 "Draw a solution for a vector field starting at x,y, using dt as increment "
 "for tlen units"
@@ -5347,11 +5397,11 @@ msgstr ""
 "Σχεδίαση μιας λύσης για ένα διανυσματικό πεδίο που ξεκινά στο x,y και χρήση "
 "του dt ως αύξηση για τις μονάδες tlen"
 
-#: ../src/graphing.c:9570
+#: ../src/graphing.c:10663
 msgid "Clear all the vectorfield solutions"
 msgstr "Καθαρισμός όλων των λύσεων διανυσματικού πεδίου"
 
-#: ../src/graphing.c:9573
+#: ../src/graphing.c:10666
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -5360,7 +5410,14 @@ msgstr ""
 "έναν μιγαδικό αριθμό. Πρώτα έρχεται η συνάρτηση, έπειτα προαιρετικά τα όρια "
 "ως x1,x2,y1,y2,z1,z2"
 
-#: ../src/graphing.c:9575
+#: ../src/graphing.c:10668
+#| msgid "Show the line plot window and clear out functions"
+msgid "Show the surface (3d) plot window and clear out functions"
+msgstr ""
+"Εμφάνιση του παραθύρου (3Δ) της επιφανειακής γραφικής παράστασης και "
+"καθαρισμός των συναρτήσεων"
+
+#: ../src/graphing.c:10670
 msgid ""
 "Plot surface data given as n by 3 matrix (n>=3) of data with each row being "
 "x,y,z.  Optionally can pass a label string and limits.  If no limits passed, "
@@ -5371,7 +5428,7 @@ msgstr ""
 "συμβολοσειρά ετικέτας και όρια. Αν δεν περαστούν όρια, τα όρια υπολογίζονται "
 "από τα δεδομένα."
 
-#: ../src/graphing.c:9576
+#: ../src/graphing.c:10671
 msgid ""
 "Plot surface data given as a matrix (where rows are the x coordinate and "
 "columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or "
@@ -5382,29 +5439,72 @@ msgstr ""
 "όρια δίνονται ως [x1,x2,y1,y2] ή προαιρετικά ως [x1,x2,y1,y2,z1,z2] και "
 "προαιρετικά μια συμβολοσειρά για την ετικέτα."
 
-#: ../src/graphing.c:9578
+#: ../src/graphing.c:10672
+#| msgid ""
+#| "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
+#| "matrix for a longer line"
+msgid ""
+"Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  x1,y1,z1,x2,"
+"y2,z2 can be replaced by a n by 3 matrix for a longer line"
+msgstr ""
+"Σχεδίαση μιας γραμμής από x1,y1,z1 προς x2,y2,z2 στην επιφανειακή γραφική "
+"παράσταση (3Δ). Τα x1,y1,z1,x2,y2,z2 μπορούν να αντικατασταθούν από έναν "
+"πίνακα n επί 3 για μια μεγαλύτερη γραμμή"
+
+#: ../src/graphing.c:10673
+#| msgid ""
+#| "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
+#| "matrix for a longer line"
+msgid ""
+"Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a "
+"n by 3 matrix for more points."
+msgstr ""
+"Σχεδίαση ενός σημείου στα x,y,z στην επιφανειακή γραφική παράσταση (3Δ). Τα "
+"x,y,z μπορούν να αντικατασταθούν από έναν πίνακα n επί 3 για περισσότερα "
+"σημεία."
+
+#: ../src/graphing.c:10675
 msgid "Show the line plot window and clear out functions"
 msgstr ""
 "Εμφάνιση του παραθύρου γραμμής γραφικής παράστασης και καθαρισμός των "
 "συναρτήσεων"
 
-#: ../src/graphing.c:9579
+#: ../src/graphing.c:10676
+#| msgid ""
+#| "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
+#| "matrix for a longer line"
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
-"matrix for a longer line"
+"matrix for a longer line."
 msgstr ""
-"Σχεδίαση μιας γραμμής από x1,y1 to x2,y2.  x1,y1,x2,y2 μπορούν να "
-"αντικατασταθούν από έναν πίνακα n επί 2 για μια μεγαλύτερη γραμμή"
+"Σχεδίαση μιας γραμμής από x1,y1 μέχρι x2,y2. Τα x1,y1,x2,y2 μπορούν να "
+"αντικατασταθούν από έναν πίνακα n επί 2 για μια μεγαλύτερη γραμμή."
 
-#: ../src/graphing.c:9581
+#: ../src/graphing.c:10677
+#| msgid ""
+#| "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
+#| "matrix for a longer line"
+msgid ""
+"Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points."
+msgstr ""
+"Σχεδίαση ενός σημείου στο x,y. Τα x,y μπορούν να αντικατασταθούν από έναν "
+"πίνακα n επί 2 για περισσότερα σημεία."
+
+#: ../src/graphing.c:10679
 msgid "Freeze the plot canvas, that is, inhibit drawing"
 msgstr "Πάγωμα του καμβά σχεδίασης, δηλαδή, αναστολή σχεδίου"
 
-#: ../src/graphing.c:9582
+#: ../src/graphing.c:10680
 msgid "Thaw the plot canvas and redraw the plot immediately"
 msgstr "Ξεπάγωμα του καμβά σχεδίασης και άμεσος επανασχεδιασμός"
 
-#: ../src/graphing.c:9585
+#: ../src/graphing.c:10681
+msgid "Raise the plot window, and create the window if necessary"
+msgstr ""
+"Ανύψωση του παραθύρου γραφικής παράστασης και δημιουργία του παραθύρου αν "
+"είναι απαραίτητο."
+
+#: ../src/graphing.c:10684
 msgid ""
 "Export the current contents of the plot canvas to a file.  The file type is "
 "given by the string type, which can be \"png\", \"eps\", or \"ps\"."
@@ -5413,18 +5513,18 @@ msgstr ""
 "αρχείου δίνεται από έναν τύπο συμβολοσειράς, που μπορεί να είναι \"png\", "
 "\"eps\", or \"ps\"."
 
-#: ../src/graphing.c:9587
+#: ../src/graphing.c:10686
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr ""
 "Αριθμός των υποδιαιρέσεων πεδίου κλίσης ως ένα διάνυσμα [κάθετο, οριζόντιο]."
 
-#: ../src/graphing.c:9588
+#: ../src/graphing.c:10687
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
 msgstr ""
 "Αριθμός των υποδιαιρέσεων διανυσματικού πεδίου ως ένα διάνυσμα [κάθετο, "
 "οριζόντιο]."
 
-#: ../src/graphing.c:9589
+#: ../src/graphing.c:10688
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
@@ -5433,7 +5533,7 @@ msgstr ""
 "συναρτήσεις γραφικής παράστασης. Πρέπει να είναι ένα 4διάστατο διάνυσμα "
 "συμβολοσειρών ή ταυτοποιητών [x,y,z,t]."
 
-#: ../src/graphing.c:9590
+#: ../src/graphing.c:10689
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
@@ -5443,7 +5543,7 @@ msgstr ""
 "συμβολοσειρές ή ταυτοποιητές [x,y,z] (όπου z=x+iy και όχι ο εξαρτημένος "
 "άξονας)."
 
-#: ../src/graphing.c:9592
+#: ../src/graphing.c:10691
 msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
@@ -5451,25 +5551,25 @@ msgstr ""
 "Κανονικοποίηση διανυσματικών πεδίων αν είναι αληθές. Δηλαδή, να εμφανίζεται "
 "μόνο η κατεύθυνση και όχι το μέγεθος."
 
-#: ../src/graphing.c:9593
+#: ../src/graphing.c:10692
 msgid "If to draw legends or not on line plots."
 msgstr "Αν θα σχεδιαστούν υπομνήματα ή όχι σε γραφικές παραστάσεις γραμμής."
 
-#: ../src/graphing.c:9594
+#: ../src/graphing.c:10693
 msgid "If to draw axis labels on line plots."
 msgstr "Αν θα σχεδιαστούν ετικέτες άξονα σε γραφικές παραστάσεις γραμμής."
 
-#: ../src/graphing.c:9596
+#: ../src/graphing.c:10695
 msgid "If to draw legends or not on surface plots."
 msgstr "Αν θα σχεδιαστούν υπομνήματα ή όχι σε γραφικές παραστάσεις επιφάνειας."
 
-#: ../src/graphing.c:9598
+#: ../src/graphing.c:10697
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr ""
 "Παράθυρο σχεδίασης γραμμής (όρια) ως ένα 4διάστατο διάνυσμα της μορφής [x1,"
 "x2,y1,y2]"
 
-#: ../src/graphing.c:9599
+#: ../src/graphing.c:10698
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
@@ -5554,8 +5654,8 @@ msgstr "Αδύνατη η εκτέλεση παραγοντικών αρνητι
 msgid "Can't do binomials of rationals or floats!"
 msgstr "Αδύνατη η εκτέλεση διωνύμου ρητών ή αριθμών κινητής υποδιαστολής!"
 
-#: ../src/mpwrap.c:2091 ../src/mpwrap.c:2159 ../src/mpwrap.c:4298
-#: ../src/mpwrap.c:4319
+#: ../src/mpwrap.c:2091 ../src/mpwrap.c:2159 ../src/mpwrap.c:4301
+#: ../src/mpwrap.c:4322
 #, c-format
 msgid "%s: Bad types for mod power"
 msgstr "%s: Εσφαλμένοι τύποι για τη δύναμη mod"
@@ -5577,104 +5677,104 @@ msgstr "Το πεδίο τιμών για τυχαίο ακέραιο πρέπε
 msgid "Can't get numerator of floating types"
 msgstr "Αδύνατη η λήψη αριθμητή τύπων κινητής υποδιαστολής"
 
-#: ../src/mpwrap.c:3487 ../src/mpwrap.c:5011 ../src/mpwrap.c:5033
+#: ../src/mpwrap.c:3490 ../src/mpwrap.c:5014 ../src/mpwrap.c:5036
 msgid "Can't compare complex numbers"
 msgstr "Αδύνατη η σύγκριση μιγαδικών αριθμών"
 
-#: ../src/mpwrap.c:3974
+#: ../src/mpwrap.c:3977
 msgid "Can't modulo complex numbers"
 msgstr "Αδύνατο το ισοϋπόλοιπο μιγαδικών αριθμών"
 
-#: ../src/mpwrap.c:3997
+#: ../src/mpwrap.c:4000
 #, c-format
 msgid "Inverse of %s modulo %s not found!"
 msgstr "Δεν βρέθηκε το αντίστροφο του %s ισοϋπόλοιπο %s!"
 
-#: ../src/mpwrap.c:4006
+#: ../src/mpwrap.c:4009
 msgid "Can't do modulo invert on complex numbers"
 msgstr "Αδύνατη η αντιστροφή ισοϋπόλοιπου σε μιγαδικούς αριθμούς"
 
-#: ../src/mpwrap.c:4023
+#: ../src/mpwrap.c:4026
 msgid "Can't GCD complex numbers"
 msgstr "Αδύνατος ο ΜΚΔ μιγαδικών αριθμών"
 
-#: ../src/mpwrap.c:4052
+#: ../src/mpwrap.c:4055
 msgid "Can't LCM complex numbers"
 msgstr "Αδύνατο το ΕΚΠ μιγαδικών αριθμών"
 
-#: ../src/mpwrap.c:4069
+#: ../src/mpwrap.c:4072
 msgid "Can't get Jacobi symbols of complex numbers"
 msgstr "Αδύνατη η λήψη συμβόλων Jacobi των μιγαδικών αριθμών"
 
-#: ../src/mpwrap.c:4085
+#: ../src/mpwrap.c:4088
 msgid "Can't get Legendre symbols complex numbers"
 msgstr "Αδύνατη η λήψη συμβόλων Λεζάντρ μιγαδικών αριθμών"
 
-#: ../src/mpwrap.c:4101
+#: ../src/mpwrap.c:4104
 msgid "Can't get Jacobi symbol with Kronecker extension for complex numbers"
 msgstr ""
 "Αδύνατη η λήψη συμβόλου Jacobi με επέκταση Kronecker για μιγαδικούς αριθμούς"
 
-#: ../src/mpwrap.c:4117
+#: ../src/mpwrap.c:4120
 msgid "Can't get Lucas number for complex numbers"
 msgstr "Αδύνατη η λήψη αριθμού Λούκας για μιγαδικούς αριθμούς"
 
-#: ../src/mpwrap.c:4133
+#: ../src/mpwrap.c:4136
 msgid "Can't get next prime for complex numbers"
 msgstr "Αδύνατη η λήψη του επόμενου πρώτου για μιγαδικούς αριθμούς"
 
-#: ../src/mpwrap.c:4143 ../src/mpwrap.c:4155 ../src/mpwrap.c:4167
-#: ../src/mpwrap.c:4179
+#: ../src/mpwrap.c:4146 ../src/mpwrap.c:4158 ../src/mpwrap.c:4170
+#: ../src/mpwrap.c:4182
 #, c-format
 msgid "%s: can't work on complex numbers"
 msgstr "%s: δεν μπορεί να δουλέψει σε μιγαδικούς αριθμούς"
 
-#: ../src/mpwrap.c:4408 ../src/mpwrap.c:4486 ../src/mpwrap.c:4551
+#: ../src/mpwrap.c:4411 ../src/mpwrap.c:4489 ../src/mpwrap.c:4554
 #, c-format
 msgid "%s: can't take logarithm of 0"
 msgstr "%s: αδύνατη η λήψη λογαρίθμου του 0"
 
-#: ../src/mpwrap.c:4880
+#: ../src/mpwrap.c:4883
 msgid "arctan2 not defined for complex numbers"
 msgstr "το arctan2 δεν ορίζεται για μιγαδικούς αριθμούς"
 
-#: ../src/mpwrap.c:4928
+#: ../src/mpwrap.c:4931
 msgid "Can't make random integer out of a complex number"
 msgstr "Αδύνατη η δημιουργία τυχαίου ακεραίου από έναν μιγαδικό αριθμό"
 
-#: ../src/mpwrap.c:5090 ../src/mpwrap.c:5107
+#: ../src/mpwrap.c:5093 ../src/mpwrap.c:5110
 msgid "Can't make factorials of complex numbers"
 msgstr "Αδύνατη η δημιουργία παραγοντικών από μιγαδικούς αριθμούς"
 
-#: ../src/mpwrap.c:5124
+#: ../src/mpwrap.c:5127
 msgid "Can't make binomials of complex numbers"
 msgstr "Αδύνατη η δημιουργία διωνύμων από μιγαδικούς αριθμούς"
 
-#: ../src/mpwrap.c:5503 ../src/mpwrap.c:5514 ../src/mpwrap.c:5525
+#: ../src/mpwrap.c:5506 ../src/mpwrap.c:5517 ../src/mpwrap.c:5528
 msgid "Can't determine type of a complex number"
 msgstr "Αδύνατος ο προσδιορισμός τύπου μιγαδικού αριθμού"
 
-#: ../src/mpwrap.c:5619 ../src/mpwrap.c:5642
+#: ../src/mpwrap.c:5622 ../src/mpwrap.c:5645
 msgid "Can't convert complex number into integer"
 msgstr "Αδύνατη η μετατροπή μιγαδικού αριθμού σε ακέραιο"
 
-#: ../src/mpwrap.c:5625 ../src/mpwrap.c:5648
+#: ../src/mpwrap.c:5628 ../src/mpwrap.c:5651
 msgid "Can't convert real number to integer"
 msgstr "Αδύνατη η μετατροπή πραγματικού αριθμού σε ακέραιο"
 
-#: ../src/mpwrap.c:5629 ../src/mpwrap.c:5652
+#: ../src/mpwrap.c:5632 ../src/mpwrap.c:5655
 msgid "Integer too large for this operation"
 msgstr "Ο ακέραιος είναι υπερβολικά μεγάλος για αυτήν την πράξη"
 
-#: ../src/mpwrap.c:5665
+#: ../src/mpwrap.c:5668
 msgid "Can't convert complex number into a double"
 msgstr "Αδύνατη η μετατροπή μιγαδικού αριθμού σε διπλό"
 
-#: ../src/mpwrap.c:5674
+#: ../src/mpwrap.c:5677
 msgid "Can't convert real number to double"
 msgstr "Αδύνατη η μετατροπή πραγματικού αριθμού σε διπλό"
 
-#: ../src/mpwrap.c:5680 ../src/mpwrap.c:5695
+#: ../src/mpwrap.c:5683 ../src/mpwrap.c:5698
 msgid "Number too large for this operation"
 msgstr "Ο αριθμός είναι υπερβολικά μεγάλος για αυτήν την πράξη"
 
