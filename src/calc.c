@@ -1553,7 +1553,8 @@ pretty_print_value_normal (GelOutput *gelo, GelETree *n)
 
 	/* FIXME: what about mixed_fractions, what about rational
 	   complex values, etc... */
-	if ( ! mpw_is_complex (n->val.value) &&
+	if ( ! gel_calcstate.results_as_floats &&
+	     ! mpw_is_complex (n->val.value) &&
 	    mpw_is_rational (n->val.value)) {
 		int lend, lenn, lenw;
 		mpw_t num, den, whole;
