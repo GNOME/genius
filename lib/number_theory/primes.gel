@@ -106,7 +106,8 @@ MersennePrimeExponents = [2
 37156667
 42643801
 43112609
-57885161];
+57885161
+74207281];
 
 # See http://www.mersenne.org
 SetHelp("IsMersennePrimeExponent","number_theory","Test if Mp is a Mersenne prime using a table");
@@ -121,10 +122,10 @@ function IsMersennePrimeExponent(p) = (
 		return true;
 
 	# http://www.mersenne.org / GIMPS doublechecked everything up
-	# to 33,560,269 (on Feb 26, 2015)
-	if p < 33560269 then
+	# to 34,969,871 (on Jan 20, 2016)
+	if p < 34969871 then
 		return false;
 
-	error("IsMersennePrimeExponent: Number too large (known values up to: " + 33560269 + ")");
+	error("IsMersennePrimeExponent: Number too large (known values up to: " + 34969871 + ")");
 	bailout
 );
