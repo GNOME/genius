@@ -23,7 +23,8 @@ function deg2rad(x) = (
 	(x*pi)/180
 );
 
-#FIXME: these may not deal well with zero values.
+#FIXME: these may not deal well with zero values. (should treat 0 correctly now)
+#FIXME: these should be further double checked
 
 SetHelp("asin","trigonometry","The arcsin (inverse sin) function");
 function asin(x) = (
@@ -31,8 +32,15 @@ function asin(x) = (
 		return ApplyOverMatrix(x,asin)
 	else if(not IsValue(x)) then
 		(error("asin: argument not a value");bailout);
-	if (x==1) then pi/2 else if (x==-1) then -pi/2
-            else atan(x/sqrt(1-x^2))
+
+	if x==1 then
+		pi/2
+	else if x==-1 then
+		-pi/2
+	else if IsReal(x) and -1 < x < 1 then
+		atan(x/sqrt(1-x^2))
+	else
+		(-1i)*ln(1i*x+sqrt(abs(1-x^2))*exp((1i/2)*Arg(1-x^2)))
 );
 arcsin = asin
 SetHelpAlias ("asin", "arcsin");
@@ -43,7 +51,10 @@ function asinh(x) = (
 		return ApplyOverMatrix(x,asinh)
 	else if(not IsValue(x)) then
 		(error("asinh: argument not a value");bailout);
-	ln(x+sqrt((x^2)+1))
+	if IsReal(x) then
+		ln(x+sqrt((x^2)+1))
+	else
+		ln(x+sqrt(abs(1+x^2))*exp((1i/2)*Arg(1+x^2)))
 );
 arcsinh = asinh
 SetHelpAlias ("asinh", "arcsinh");
@@ -54,8 +65,15 @@ function acos(x) = (
 		return ApplyOverMatrix(x,acos)
 	else if(not IsValue(x)) then
 		(error("acos: argument not a value");bailout);
-        if (x==0) then pi/2 
-           else atan(sqrt(1-x^2)/x)+(if x>0 then 0 else pi)
+
+	if x==1 then
+		0
+	else if x==-1 then
+		pi
+	else if IsReal(x) and -1 < x < 1 then
+		atan(sqrt(1-x^2)/x)+(if x>0 then 0 else pi)
+	else
+		(-1i)*ln(1i*x+1i*sqrt(abs(1-x^2))*exp((1i/2)*Arg(1-x^2)))
 );
 arccos = acos
 SetHelpAlias ("acos", "arccos");
@@ -66,7 +84,10 @@ function acosh(x) = (
 		return ApplyOverMatrix(x,acosh)
 	else if(not IsValue(x)) then
 		(error("acosh: argument not a value");bailout);
-	ln(x+sqrt((x^2)-1))
+	if IsReal(x) and -1 <= x <= 1 then
+		ln(x+sqrt((x^2)-1))
+	else
+		ln(x+sqrt(abs(x^2-1))*exp((1i/2)*Arg(x^2-1)))
 );
 arccosh = acosh
 SetHelpAlias ("acosh", "arccosh");
@@ -95,7 +116,12 @@ function acot(x) = (
 		return ApplyOverMatrix(x,acot)
 	else if(not IsValue(x)) then
 		(error("acot: argument not a value");bailout);
-	atan(1/x)
+
+	#atan(1/x)
+	if IsReal(x) then
+		Re(ln((x+1i)/(x-1i))/2i)
+	else
+		ln((x+1i)/(x-1i))/2i
 );
 arccot = acot
 SetHelpAlias ("acot", "arccot");
@@ -106,7 +132,8 @@ function acoth(x) = (
 		return ApplyOverMatrix(x,acoth)
 	else if(not IsValue(x)) then
 		(error("acoth: argument not a value");bailout);
-	atanh(1/x)
+	#atanh(1/x)
+	ln((x+1)/(x-1))/2
 );
 arccoth = acoth
 SetHelpAlias ("acoth", "arccoth");

@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2014 Jiri (George) Lebl
+ * Copyright (C) 2003-2016 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -2345,6 +2345,8 @@ static void
 clear_graph (void)
 {
 	int i;
+
+	stop_rotate_anim_cb (NULL, NULL);
 
 	gtk_widget_hide (errors_label_box);
 

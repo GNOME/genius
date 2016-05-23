@@ -3095,7 +3095,7 @@ max_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 			 */
 			return gel_stealnode (a[0]);
 		} else {
-			gel_errorout (_("%s: Input not a number of matrix of numbers."),
+			gel_errorout (_("%s: Input not a number or a matrix of numbers."),
 				      "max");
 			return NULL;
 		}
