@@ -1,3 +1,20 @@
+Thu Jun 09 16:56:00 2016  Jiri (George) Lebl <jirka@5z.com>
+
+	* help/C/genius.xml, lib/combinatorics/factorial.gel:
+	  Apply patch from Anders Jonsson to fix Subfactorial (definition
+	  wrong).  Also, let Subfactorial, Factorial, DoubleFactorial
+	  take a matrix and apply function on matrix.
+
+	* lib/functions/elementary.gel: fix acos
+	
+	* src/geniustests.txt, src/longtest.gel: Add a few tests including
+	  test for some inverse trig functions
+
+	* src/eval.c, src/funclib.c, src/gnome-genius.c, src/mpwrap.c,
+	  help/C/genius.xml, lib/equation_solving/newton.gel,
+	  lib/misc/misc.gel, lib/combinatorics/recursive_sequences.gel:
+	  Some string fixes also from Anders Jonsson
+
 Mon May 23 16:20:17 2016  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/graphing.c: fix segfault when rotate animation is running and a

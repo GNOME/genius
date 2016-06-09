@@ -6874,7 +6874,7 @@ divided to make all pivots 1.</para>
          <term><anchor id="gel-function-GaloisMatrix"/>GaloisMatrix</term>
          <listitem>
           <synopsis>GaloisMatrix (combining_rule)</synopsis>
-          <para>Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1)).</para>
+          <para>Galois matrix given a linear combining rule (a_1*x_1+...+a_n*x_n=x_(n+1)).</para>
          </listitem>
         </varlistentry>
 
@@ -7049,7 +7049,7 @@ do (
          <term><anchor id="gel-function-Subfactorial"/>Subfactorial</term>
          <listitem>
           <synopsis>Subfactorial (n)</synopsis>
-          <para>Subfactorial: n! times sum_{k=1}^n (-1)^k/k!.</para>
+          <para>Subfactorial: n! times sum_{k=0}^n (-1)^k/k!.</para>
          </listitem>
         </varlistentry>
 
@@ -8004,7 +8004,7 @@ and has period <userinput>b-a</userinput>.</para>
          <term><anchor id="gel-function-HalleysMethod"/>HalleysMethod</term>
          <listitem>
           <synopsis>HalleysMethod (f,df,ddf,guess,epsilon,maxn)</synopsis>
-	  <para>Find zeros using Halleys's method.  <varname>f</varname> is
+	  <para>Find zeros using Halley's method.  <varname>f</varname> is
 		  the function, <varname>df</varname> is the derivative of
 		  <varname>f</varname>, and <varname>ddf</varname> is the second derivative of
 		  <varname>f</varname>.  <varname>guess</varname> is the initial

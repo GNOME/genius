@@ -3501,10 +3501,13 @@ gel_similar_possible_ids (const char *id)
 		const char *id = li->data;
 
 		if (li->next == NULL &&
-		    li != similar)
-			g_string_append (sim, _("' or '"));
-		else if (li != similar)
+		    li != similar) {
+			g_string_append (sim, "' ");
+			g_string_append (sim, _("or"));
+			g_string_append (sim, " '");
+		} else if (li != similar) {
 			g_string_append (sim, "', '");
+		}
 
 		g_string_append (sim, id);
 

@@ -41,7 +41,23 @@ function randtest2() = (
     true
 );
 
+function invtest() = (
+	retval = true;
+	epsilon = 0.0001;
+	for n in `[[`sin,`asin],[`sec,`asec],[`cos,`acos],[`csc,`acsc],[`sinh,`asinh],[`sech,`asech],[`cosh,`acosh],[`csch,`acsch]] do (
+		for x in [0.1,0.2,0.4,10,-10,3i,1+1i] do (
+			y = n@(1) call ( n@(2) call (x) );
+			if (not IsValue (y)) or abs(x-y) > epsilon then (
+				error ("Bad inverse on " + n + " at " + x + "!");
+				retval = false
+			)
+		)
+	);
+	retval
+);
+
 function derivtest() = (
+	retval = true;
 	epsilon = 0.0001;
 	for n in [`asin,`asinh,`acos,`acosh,`acsc,`acsch,`asec,`asech,`atan,`atanh,`acot,`acoth,`sin,`sinh,`cos,`cosh,`csc,`csch,`sec,`sech,`tan,`tanh,`cot,`coth,`sqrt,`ln,`log2,`log10,`exp,`cis] do (
 		d = SymbolicDerivative(n);
@@ -49,7 +65,7 @@ function derivtest() = (
 			y = (d call (x)) - NDerivative (n,x);
 			if (not IsValue (y)) or abs(y) > epsilon then (
 				error ("Bad derivative on " + n + " at " + x + "!");
-				return false
+				retval = false
 			)
 		)
 	);
@@ -59,10 +75,10 @@ function derivtest() = (
 		y = (d call (x)) - NDerivative (f,x);
 		if (not IsValue (y)) or abs(y) > epsilon then (
 			error ("Bad derivative on 5th atan deriv at " + x + "!");
-			return false
+			retval = false
 		)
 	);
-	true
+	retval
 );
 
 function roottestcube() = (
@@ -196,6 +212,9 @@ function LongTest() = (
 
 	#random test 2
 	if not randtest2() then (error("error on random test 2");errors = errors + 1);
+
+	#inverses test
+	if not invtest() then (error("error on inv test");errors = errors + 1);
 
 	#derivative test
 	if not derivtest() then (error("error on deriv test");errors = errors + 1);

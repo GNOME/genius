@@ -4085,7 +4085,7 @@ mpw_legendre(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 		mpwl_legendre(rop->r,op1->r,op2->r);
 	} else {
 		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
-		gel_errorout (_("Can't get Legendre symbols complex numbers"));
+		gel_errorout (_("Can't get Legendre symbols of complex numbers"));
 	}
 }
 void

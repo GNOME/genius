@@ -1,14 +1,16 @@
 ## Some combinatorial functions
 
 # Subfactorial
-# Subfactorial(n)=n! times \sum_{k=1}^n (-1)^k/k!
+# Subfactorial(n)=n! times \sum_{k=0}^n (-1)^k/k!
 # This is the number of permutations of n objects that leaves none of the
 # objects unchanged.
-SetHelp("Subfactorial","combinatorics","Subfactorial: n! times sum_{k=1}^n (-1)^k/k!");
+SetHelp("Subfactorial","combinatorics","Subfactorial: n! times sum_{k=0}^n (-1)^k/k!");
 function Subfactorial(n) = (
-	if not IsNonNegativeInteger(n) then
+	if(IsMatrix(n)) then
+		return ApplyOverMatrix(n,Subfactorial)
+	else if not IsNonNegativeInteger(n) then
 		(error("Subfactorial: argument not an integer >= 0");bailout);
-	(n!) * sum k=1 to n do ((-1)^k)/(k!)
+	(n!) * sum k=0 to n do ((-1)^k)/(k!)
 )
 
 SetHelp("Catalan","combinatorics","Get nth Catalan number");
@@ -24,7 +26,9 @@ function Catalan(n) = (
 ## Defined by n! = n(n-1)(n-2)...
 SetHelp("Factorial","combinatorics","Factorial: n(n-1)(n-2)...");
 function Factorial(n) = (
-	if not IsNonNegativeInteger(n) then
+	if(IsMatrix(n)) then
+		return ApplyOverMatrix(n,Factorial)
+	else if not IsNonNegativeInteger(n) then
 		(error("Factorial: argument not an integer >= 0");bailout);
 	n!
 )
@@ -33,7 +37,9 @@ function Factorial(n) = (
 ## Defined by n!! = n(n-2)(n-4)...
 SetHelp("DoubleFactorial","combinatorics","Double factorial: n(n-2)(n-4)...");
 function DoubleFactorial(n) = (
-	if not IsNonNegativeInteger(n) then
+	if(IsMatrix(n)) then
+		return ApplyOverMatrix(n,DoubleFactorial)
+	else if not IsNonNegativeInteger(n) then
 		(error("DoubleFactorial: argument not an integer >= 0");bailout);
 	n!!
 )

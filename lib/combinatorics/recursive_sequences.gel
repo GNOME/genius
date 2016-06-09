@@ -5,7 +5,7 @@
 # Galois Matrix
 # Given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1)),
 # gives the Galois stepping matrix
-SetHelp ("GaloisMatrix", "combinatorics", "Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))")
+SetHelp ("GaloisMatrix", "combinatorics", "Galois matrix given a linear combining rule (a_1*x_1+...+a_n*x_n=x_(n+1))")
 function GaloisMatrix(combining_rule) = (
  [[0;I(columns(combining_rule)-1)],combining_rule.']
 )

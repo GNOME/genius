@@ -2000,7 +2000,7 @@ aboutcb(GtkWidget * widget, gpointer data)
 			      "version", VERSION,
 			      "copyright", _(GENIUS_COPYRIGHT_STRING),
 			      "comments",
-			      _("The Gnome calculator style edition of "
+			      _("The GNOME calculator style edition of "
 				"the Genius Mathematical Tool."),
 			      "authors", authors,
 			      "documenters", documenters,
@@ -3960,13 +3960,13 @@ save_all_cb (GtkWidget *w)
 
 	if (there_are_unsaved) {
 		genius_display_error (NULL, _("Save new programs by "
-					      "\"Save As..\" first!"));
+					      "\"Save As...\" first!"));
 	}
 
 	if (there_are_readonly_modified) {
 		genius_display_error (NULL,
 				      _("Some read-only programs are "
-					"modified.  Use \"Save As..\" "
+					"modified.  Use \"Save As...\" "
 					"to save them to "
 					"a new location."));
 	}
