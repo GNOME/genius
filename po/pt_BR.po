@@ -7,23 +7,23 @@
 # Carlos Eduardo Moreira dos Santos <cems@cemshost.com.br>, 2008.
 # Rodrigo Luiz Marques Flores <mail@rodrigoflores.org>, 2009.
 # Enrico Nicoletto <liverig@gmail.com>, 2013, 2016.
-# Rafael Fontenelle <rffontenelle@gmail.com>, 2013, 2014, 2015.
-#
+# Rafael Fontenelle <rafaelff@gnome.org>, 2013, 2014, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: genius\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=genius&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-05-23 21:20+0000\n"
-"PO-Revision-Date: 2016-05-30 18:16-0300\n"
-"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=genius&"
+"keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2016-06-09 22:00+0000\n"
+"PO-Revision-Date: 2016-06-25 20:35-0200\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Project-Style: gnome\n"
 
 #: ../lib/library-strings.c:1
 msgid "Compose two functions"
@@ -38,9 +38,12 @@ msgstr ""
 "retornando x se n == 0"
 
 #: ../lib/library-strings.c:3
+#| msgid ""
+#| "Print a table of values for f(n) for numbers from from vector v, or if v "
+#| "is a number for integers from 1 to v"
 msgid ""
-"Print a table of values for f(n) for numbers from from vector v, or if v is "
-"a number for integers from 1 to v"
+"Print a table of values for f(n) for numbers from vector v, or if v is a "
+"number for integers from 1 to v"
 msgstr ""
 "Exibe uma tabela de valores para f(n) de números do vetor v ou se v é um "
 "número para inteiros de 1 a v"
@@ -118,7 +121,7 @@ msgstr ""
 msgid "Tolerance for InfiniteSum and InfiniteProduct"
 msgstr "Tolerância para InfiniteSum e InfiniteProduct"
 
-#: ../lib/library-strings.c:19 ../src/eval.c:6703
+#: ../lib/library-strings.c:19 ../src/eval.c:6706
 msgid "Absolute value"
 msgstr "Valor absoluto"
 
@@ -271,7 +274,7 @@ msgid ""
 "vector if possible, null otherwise"
 msgstr ""
 "Tenta a fatoração de Fermat de n para (t-s)*(t+s), retorna t e s como um "
-"vetor, se possível. Caso contrário: nulo (null)."
+"vetor, se possível. Caso contrário: nulo (null)"
 
 #: ../lib/library-strings.c:52
 msgid "Find the first primitive element in F_q (q must be a prime)"
@@ -845,11 +848,13 @@ msgid "Calculate the Frobenius number for a coin problem"
 msgstr "Calcula o número de Frobenius para um problema de moeda"
 
 #: ../lib/library-strings.c:170
+#| msgid ""
+#| "Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))"
 msgid ""
-"Galois matrix given a linear combining rule (a_1*x_+...+a_n*x_n=x_(n+1))"
+"Galois matrix given a linear combining rule (a_1*x_1+...+a_n*x_n=x_(n+1))"
 msgstr ""
-"Matriz de Galois dada por uma regra de combinação linear (a_1*x_+..."
-"+a_n*x_n=x_(n+1))"
+"Matriz de Galois dada por uma regra de combinação linear "
+"(a_1*x_1+...+a_n*x_n=x_(n+1))"
 
 #: ../lib/library-strings.c:171
 msgid "Use greedy algorithm to find c, for c . v = n.  (v must be sorted)"
@@ -894,8 +899,9 @@ msgid "Stirling number of the second kind"
 msgstr "Número de Stirling do segundo tipo"
 
 #: ../lib/library-strings.c:180
-msgid "Subfactorial: n! times sum_{k=1}^n (-1)^k/k!"
-msgstr "Subfatorial: n! vezes sum_{k=1}^n (-1)^k/k!"
+#| msgid "Subfactorial: n! times sum_{k=1}^n (-1)^k/k!"
+msgid "Subfactorial: n! times sum_{k=0}^n (-1)^k/k!"
+msgstr "Subfatorial: n! vezes sum_{k=0}^n (-1)^k/k!"
 
 #: ../lib/library-strings.c:181
 msgid "Calculate the nth triangular number"
@@ -1263,18 +1269,26 @@ msgstr ""
 "de até N interações. f(a) e f(b) devem ter sinais opostos."
 
 #: ../lib/library-strings.c:240
+#| msgid ""
+#| "Attempt to find a zero of a functionf with derivative df and second "
+#| "derivative ddf using Halleys's method, returning after two successive "
+#| "values are within epsilon or after maxn tries (then returns null)"
 msgid ""
 "Attempt to find a zero of a functionf with derivative df and second "
-"derivative ddf using Halleys's method, returning after two successive values "
+"derivative ddf using Halley's method, returning after two successive values "
 "are within epsilon or after maxn tries (then returns null)"
 msgstr ""
 "Tenta encontrar um zero de uma função f com derivada df e segunda derivada "
-"ddf usando o método de Halley, retornando após dois valores sucessivos "
+"ddf usando o Método de Halley, retornando após dois valores sucessivos "
 "estarem em épsilon ou após maxn tentativas (então retorna nulo)"
 
 #: ../lib/library-strings.c:241
+#| msgid ""
+#| "Attempt to find a zero of a functionf with derivative df using Newton's "
+#| "method, returning after two successive values are within epsilon or after "
+#| "maxn tries (then returns null)"
 msgid ""
-"Attempt to find a zero of a functionf with derivative df using Newton's "
+"Attempt to find a zero of a function f with derivative df using Newton's "
 "method, returning after two successive values are within epsilon or after "
 "maxn tries (then returns null)"
 msgstr ""
@@ -1429,7 +1443,7 @@ msgstr "Tentando definir um apelido para um apelido"
 msgid "Bad identifier for function node!"
 msgstr "Identificador inválido para o nó da função!"
 
-#: ../src/calc.c:1025 ../src/eval.c:7211 ../src/eval.c:7418
+#: ../src/calc.c:1025 ../src/eval.c:7214 ../src/eval.c:7421
 msgid "Unexpected operator!"
 msgstr "Operador inesperado!"
 
@@ -1452,7 +1466,7 @@ msgstr "Tipo de função inesperada!"
 msgid "NULL tree!"
 msgstr "Árvore NULA!"
 
-#: ../src/calc.c:1511 ../src/eval.c:7717
+#: ../src/calc.c:1511 ../src/eval.c:7720
 msgid "Unexpected node!"
 msgstr "Nó inesperado!"
 
@@ -1733,15 +1747,15 @@ msgstr ""
 msgid "Function creation with wrong number of arguments"
 msgstr "Criação de função com número errado de argumentos"
 
-#: ../src/eval.c:3483 ../src/eval.c:4911
+#: ../src/eval.c:3483 ../src/eval.c:4914
 msgid "Unevaluatable function type encountered!"
 msgstr "Encontrado um tipo de função não avaliável!"
 
-#: ../src/eval.c:3505
-msgid "' or '"
-msgstr "' ou '"
+#: ../src/eval.c:3506 ../src/graphing.c:5992
+msgid "or"
+msgstr "ou"
 
-#: ../src/eval.c:3541
+#: ../src/eval.c:3544
 msgid ""
 "Variable 'i' used uninitialized.  Perhaps you meant to write '1i' for the "
 "imaginary number (square root of -1)."
@@ -1749,18 +1763,18 @@ msgstr ""
 "Variável 'i' usada sem ser inicializada. Talvez você queira escrever '1i' "
 "para o número imaginário (raiz quadrada de -1)."
 
-#: ../src/eval.c:3547 ../src/eval.c:3580 ../src/eval.c:7535
+#: ../src/eval.c:3550 ../src/eval.c:3583 ../src/eval.c:7538
 #, c-format
 msgid "Variable '%s' used uninitialized, perhaps you meant %s."
 msgstr ""
 "Variável \"%s\" usada sem ser inicializada, talvez você quisesse dizer %s."
 
-#: ../src/eval.c:3554 ../src/eval.c:3587 ../src/eval.c:4643 ../src/eval.c:7542
+#: ../src/eval.c:3557 ../src/eval.c:3590 ../src/eval.c:4646 ../src/eval.c:7545
 #, c-format
 msgid "Variable '%s' used uninitialized"
 msgstr "Variável \"%s\" usada sem ser inicializada"
 
-#: ../src/eval.c:3595 ../src/eval.c:4689
+#: ../src/eval.c:3598 ../src/eval.c:4692
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -1769,48 +1783,48 @@ msgstr ""
 "Chamada de \"%s\" com o número errado de argumentos!\n"
 "(deveria(m) ser %d)"
 
-#: ../src/eval.c:3598
+#: ../src/eval.c:3601
 #, c-format
 msgid "Trying to dereference '%s' which is not a reference!\n"
 msgstr "Tentando desreferenciar \"%s\", mas isto não é uma referência!\n"
 
-#: ../src/eval.c:3603
+#: ../src/eval.c:3606
 msgid "NULL reference encountered!"
 msgstr "Encontrada uma referência NULL!"
 
-#: ../src/eval.c:3731
+#: ../src/eval.c:3734
 msgid "Cannot compare matrices"
 msgstr "Não é possível comparar matrizes"
 
-#: ../src/eval.c:3773
+#: ../src/eval.c:3776
 msgid "Primitives must get numeric/matrix/string arguments"
 msgstr "Primitivas devem receber argumentos numéricos/matrizes/strings"
 
-#: ../src/eval.c:3864
+#: ../src/eval.c:3867
 msgid "Bad argument to modular operation"
 msgstr "Argumento inválido para operação modular"
 
-#: ../src/eval.c:4617
+#: ../src/eval.c:4620
 #, c-format
 msgid "Function '%s' used uninitialized, perhaps you meant %s."
 msgstr ""
 "Função \"%s\" usada sem ser inicializada, talvez você quisesse dizer %s."
 
-#: ../src/eval.c:4624
+#: ../src/eval.c:4627
 #, c-format
 msgid "Function '%s' used uninitialized"
 msgstr "Função \"%s\" usada sem ser inicializada"
 
-#: ../src/eval.c:4652
+#: ../src/eval.c:4655
 #, c-format
 msgid "Can't dereference '%s'!"
 msgstr "Não é possível desreferenciar \"%s\"!"
 
-#: ../src/eval.c:4660
+#: ../src/eval.c:4663
 msgid "Can't call a non-function!"
 msgstr "Não é possível chamar algo que não é uma função!"
 
-#: ../src/eval.c:4694
+#: ../src/eval.c:4697
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -1819,274 +1833,274 @@ msgstr ""
 "Chamada de \"%s\" com o número errado de argumentos!\n"
 "(deveria ser maior que %d)"
 
-#: ../src/eval.c:4733
+#: ../src/eval.c:4736
 #, c-format
 msgid "Referencing an undefined variable %s!"
 msgstr "Referenciando uma variável %s indefinida!"
 
-#: ../src/eval.c:4887
+#: ../src/eval.c:4890
 msgid "Reference function with arguments encountered!"
 msgstr "Encontrada função de referência com argumentos!"
 
-#: ../src/eval.c:4892
+#: ../src/eval.c:4895
 msgid "Unnamed reference function encountered!"
 msgstr "Encontrada função de referência sem nome!"
 
-#: ../src/eval.c:5016
+#: ../src/eval.c:5019
 msgid "Bad type for 'for/sum/prod' loop!"
 msgstr "Tipo inválido para laço \"for/sum/prod\"!"
 
-#: ../src/eval.c:5021
+#: ../src/eval.c:5024
 msgid "'for/sum/prod' loop increment can't be 0"
 msgstr "O incremento para laços \"for/sum/prod\" não pode ser 0"
 
-#: ../src/eval.c:5147
+#: ../src/eval.c:5150
 msgid "Bad type for 'for in' loop!"
 msgstr "Tipo inválido para o laço \"for in\"!"
 
-#: ../src/eval.c:5312 ../src/eval.c:5345
+#: ../src/eval.c:5315 ../src/eval.c:5348
 msgid "Continue or break outside a loop, assuming \"return null\""
 msgstr "Continue ou break fora de um laço, assumindo \"return null\""
 
-#: ../src/eval.c:5406
+#: ../src/eval.c:5409
 msgid "Wrong argument type as matrix index"
 msgstr "Tipo de argumento errado como índice da matriz"
 
-#: ../src/eval.c:5416
+#: ../src/eval.c:5419
 msgid "Matrix index too large"
 msgstr "Índice da matriz grande demais"
 
-#: ../src/eval.c:5419
+#: ../src/eval.c:5422
 msgid "Matrix index less than 1"
 msgstr "Índice da matriz menor que 1"
 
-#: ../src/eval.c:5442 ../src/eval.c:5457
+#: ../src/eval.c:5445 ../src/eval.c:5460
 msgid "Matrix index out of range"
 msgstr "Índice da matriz fora dos limites"
 
-#: ../src/eval.c:5506 ../src/eval.c:5574 ../src/eval.c:5732 ../src/eval.c:5773
-#: ../src/eval.c:5896 ../src/eval.c:5936 ../src/eval.c:6373
+#: ../src/eval.c:5509 ../src/eval.c:5577 ../src/eval.c:5735 ../src/eval.c:5776
+#: ../src/eval.c:5899 ../src/eval.c:5939 ../src/eval.c:6376
 #, c-format
 msgid "Trying to set a protected id '%s'"
 msgstr "Tentando definir um id \"%s\" protegido"
 
-#: ../src/eval.c:5531 ../src/eval.c:5569
+#: ../src/eval.c:5534 ../src/eval.c:5572
 msgid "Indexed Lvalue not user function"
 msgstr "O Lvalue indexado não é uma função do usuário"
 
-#: ../src/eval.c:5553 ../src/eval.c:5757 ../src/eval.c:5920
+#: ../src/eval.c:5556 ../src/eval.c:5760 ../src/eval.c:5923
 msgid "Dereference of non-identifier!"
 msgstr "Desreferência de algo que não é um identificador!"
 
-#: ../src/eval.c:5559 ../src/eval.c:5763 ../src/eval.c:5926
+#: ../src/eval.c:5562 ../src/eval.c:5766 ../src/eval.c:5929
 msgid "Dereference of undefined variable!"
 msgstr "Desreferência de uma variável indefinida!"
 
-#: ../src/eval.c:5563 ../src/eval.c:5767 ../src/eval.c:5930
+#: ../src/eval.c:5566 ../src/eval.c:5770 ../src/eval.c:5933
 msgid "Dereference of non-reference!"
 msgstr "Desreferência de algo que não é uma referência!"
 
-#: ../src/eval.c:5591
+#: ../src/eval.c:5594
 msgid "Indexed Lvalue not an identifier or a dereference"
 msgstr "O Lvalue indexado não é um identificador ou uma desreferência"
 
-#: ../src/eval.c:5645 ../src/eval.c:5700 ../src/eval.c:5877 ../src/eval.c:6042
-#: ../src/eval.c:6079 ../src/eval.c:6124 ../src/eval.c:6527 ../src/eval.c:6652
+#: ../src/eval.c:5648 ../src/eval.c:5703 ../src/eval.c:5880 ../src/eval.c:6045
+#: ../src/eval.c:6082 ../src/eval.c:6127 ../src/eval.c:6530 ../src/eval.c:6655
 msgid "Matrix index not an integer or a vector"
 msgstr "O índice da matriz não é um inteiro ou um vetor"
 
-#: ../src/eval.c:5689 ../src/eval.c:5831 ../src/eval.c:5840
+#: ../src/eval.c:5692 ../src/eval.c:5834 ../src/eval.c:5843
 msgid "Wrong matrix dimensions when setting"
 msgstr "Dimensão incorreta de matriz ao definir"
 
-#: ../src/eval.c:5720 ../src/eval.c:5972 ../src/eval.c:6340 ../src/eval.c:6347
+#: ../src/eval.c:5723 ../src/eval.c:5975 ../src/eval.c:6343 ../src/eval.c:6350
 msgid "Lvalue not an identifier/dereference/matrix location!"
 msgstr ""
 "O Lvalue não é uma localização de um(a) identificador/desreferência/matriz!"
 
-#: ../src/eval.c:5744 ../src/eval.c:5785
+#: ../src/eval.c:5747 ../src/eval.c:5788
 msgid "Referencing an undefined variable!"
 msgstr "Referenciando uma variável indefinida!"
 
-#: ../src/eval.c:5891
+#: ../src/eval.c:5894
 #, c-format
 msgid ""
 "Increment/Swapwith does not work on parameters (trying to increment '%s')"
 msgstr ""
 "Incremento/troca por não funciona com parâmetros (tentando incrementar '%s')"
 
-#: ../src/eval.c:5960
+#: ../src/eval.c:5963
 msgid "Increment not a value!"
 msgstr "O incremento não é um valor!"
 
-#: ../src/eval.c:5984
+#: ../src/eval.c:5987
 #, c-format
 msgid "Trying to increment non-value id '%s'"
 msgstr "Tentando definir um id \"%s\" sem valor"
 
-#: ../src/eval.c:6145 ../src/eval.c:6154
+#: ../src/eval.c:6148 ../src/eval.c:6157
 msgid "Can only swap user variables"
 msgstr "Só é possível trocar as variáveis de usuário"
 
-#: ../src/eval.c:6194 ../src/eval.c:6229 ../src/eval.c:6260 ../src/eval.c:6276
-#: ../src/eval.c:6294 ../src/eval.c:6310
+#: ../src/eval.c:6197 ../src/eval.c:6232 ../src/eval.c:6263 ../src/eval.c:6279
+#: ../src/eval.c:6297 ../src/eval.c:6313
 msgid "Cannot swap matrix regions"
 msgstr "Não é possível trocar as regiões de matrizes"
 
-#: ../src/eval.c:6368
+#: ../src/eval.c:6371
 msgid "Parameters can only be created in the global context"
 msgstr "Parâmetros só podem ser criados no contexto global"
 
-#: ../src/eval.c:6474 ../src/eval.c:6519 ../src/eval.c:6610
+#: ../src/eval.c:6477 ../src/eval.c:6522 ../src/eval.c:6613
 msgid "Index works only on matrices"
 msgstr "O índice funciona apenas em matrizes"
 
-#: ../src/eval.c:6507
+#: ../src/eval.c:6510
 msgid "Vector index not an integer or a vector"
 msgstr "O índice do vetor não é um inteiro ou um vetor"
 
-#: ../src/eval.c:6675
+#: ../src/eval.c:6678
 msgid "number"
 msgstr "número"
 
-#: ../src/eval.c:6676
+#: ../src/eval.c:6679
 msgid "matrix"
 msgstr "matriz"
 
-#: ../src/eval.c:6677
+#: ../src/eval.c:6680
 msgid "string"
 msgstr "string"
 
-#: ../src/eval.c:6678
+#: ../src/eval.c:6681
 msgid "function"
 msgstr "função"
 
-#: ../src/eval.c:6679
+#: ../src/eval.c:6682
 msgid "identifier"
 msgstr "identificador"
 
-#: ../src/eval.c:6680
+#: ../src/eval.c:6683
 msgid "polynomial"
 msgstr "polinômio"
 
-#: ../src/eval.c:6681
+#: ../src/eval.c:6684
 msgid "boolean"
 msgstr "booleano"
 
-#: ../src/eval.c:6704
+#: ../src/eval.c:6707
 msgid "Addition"
 msgstr "Adição"
 
-#: ../src/eval.c:6705
+#: ../src/eval.c:6708
 msgid "Element by element addition"
 msgstr "Adição de elemento por elemento"
 
-#: ../src/eval.c:6706
+#: ../src/eval.c:6709
 msgid "Subtraction"
 msgstr "Subtração"
 
-#: ../src/eval.c:6707
+#: ../src/eval.c:6710
 msgid "Element by element subtraction"
 msgstr "Subtração de elemento por elemento"
 
-#: ../src/eval.c:6708
+#: ../src/eval.c:6711
 msgid "Multiplication"
 msgstr "Multiplicação"
 
-#: ../src/eval.c:6709
+#: ../src/eval.c:6712
 msgid "Element by element multiplication"
 msgstr "Multiplicação de elemento por elemento"
 
-#: ../src/eval.c:6710
+#: ../src/eval.c:6713
 msgid "Division"
 msgstr "Divisão"
 
-#: ../src/eval.c:6711
+#: ../src/eval.c:6714
 msgid "Element by element division"
 msgstr "Divisão de elemento por elemento"
 
-#: ../src/eval.c:6712
+#: ../src/eval.c:6715
 msgid "Back division"
 msgstr "Retro-divisão"
 
-#: ../src/eval.c:6713
+#: ../src/eval.c:6716
 msgid "Element by element back division"
 msgstr "Retro-divisão de elemento por elemento"
 
-#: ../src/eval.c:6714
+#: ../src/eval.c:6717
 msgid "Modulo"
 msgstr "Módulo"
 
-#: ../src/eval.c:6715
+#: ../src/eval.c:6718
 msgid "Element by element modulo"
 msgstr "Módulo elemento por elemento"
 
-#: ../src/eval.c:6716
+#: ../src/eval.c:6719
 msgid "Negation"
 msgstr "Negação"
 
-#: ../src/eval.c:6717
+#: ../src/eval.c:6720
 msgid "Power"
 msgstr "Potenciação"
 
-#: ../src/eval.c:6718
+#: ../src/eval.c:6721
 msgid "Element by element power"
 msgstr "Potenciação de elemento por elemento"
 
-#: ../src/eval.c:6719
+#: ../src/eval.c:6722
 msgid "Factorial"
 msgstr "Fatorial"
 
-#: ../src/eval.c:6720
+#: ../src/eval.c:6723
 msgid "Double factorial"
 msgstr "Fatorial duplo"
 
-#: ../src/eval.c:6721
+#: ../src/eval.c:6724
 msgid "Transpose"
 msgstr "Transposição"
 
-#: ../src/eval.c:6722
+#: ../src/eval.c:6725
 msgid "ConjugateTranspose"
 msgstr "Transposição conjugada"
 
-#: ../src/eval.c:6723
+#: ../src/eval.c:6726
 msgid "Comparison (<=>)"
 msgstr "Comparação (<=>)"
 
-#: ../src/eval.c:6724
+#: ../src/eval.c:6727
 msgid "XOR"
 msgstr "XOU"
 
-#: ../src/eval.c:6725
+#: ../src/eval.c:6728
 msgid "NOT"
 msgstr "NÃO"
 
-#: ../src/eval.c:6745
+#: ../src/eval.c:6748
 #, c-format
 msgid "Bad types for '%s'"
 msgstr "Tipos inválidos para \"%s\""
 
-#: ../src/eval.c:6756
+#: ../src/eval.c:6759
 #, c-format
 msgid "%s not defined on <%s> and <%s>"
 msgstr "%s não definida para <%s> e <%s>"
 
-#: ../src/eval.c:6775
+#: ../src/eval.c:6778
 #, c-format
 msgid "Bad type for '%s'"
 msgstr "Tipo inválido para \"%s\""
 
-#: ../src/eval.c:6785
+#: ../src/eval.c:6788
 #, c-format
 msgid "%s not defined on <%s>"
 msgstr "%s não definida em <%s>"
 
-#: ../src/eval.c:6805 ../src/eval.c:6822
+#: ../src/eval.c:6808 ../src/eval.c:6825
 msgid "Vector building only works on numbers"
 msgstr "Construção de vetor funciona apenas com números"
 
 #. FIXME: perhaps we should just return null like octave?
-#: ../src/eval.c:6815
+#: ../src/eval.c:6818
 msgid "Impossible arguments to vector building operator"
 msgstr "Argumento impossível para o operador de construção de vetor"
 
@@ -2269,8 +2283,9 @@ msgstr "%s: Entrada não é um número ou uma matriz de números."
 
 #: ../src/funclib.c:3194
 #, c-format
-msgid "%s: Input not a number of matrix of numbers."
-msgstr "%s: Entrada não é um número de uma matriz de números."
+#| msgid "%s: Input not a number or a matrix of numbers."
+msgid "%s: Input not a number or matrix of numbers."
+msgstr "%s: Entrada não é um número ou uma matriz de números."
 
 #: ../src/funclib.c:3432 ../src/funclib.c:3490 ../src/funclib.c:5028
 #: ../src/funclib.c:5322 ../src/graphing.c:10152
@@ -2984,7 +2999,7 @@ msgid ""
 "rref form, also returns the row where they occur"
 msgstr ""
 "Devolve as colunas pivô de uma matriz, que são colunas que iniciadas por 1 "
-"na forma rref. Também retorna a linha em que elas ocorrem."
+"na forma rref. Também retorna a linha em que elas ocorrem"
 
 #: ../src/funclib.c:7239
 msgid "Get the nullspace of a matrix"
@@ -3830,7 +3845,7 @@ msgstr "Traçar gráfico..."
 
 #: ../src/gnome-genius.c:380 ../src/gnome-genius.c:384
 msgid "Plot functions, vector fields, surfaces, etc..."
-msgstr "Traça o gráfico de funções, campos vetoriais"
+msgstr "Traça o gráfico de funções, campos vetoriais, superfícies etc..."
 
 #: ../src/gnome-genius.c:383 ../src/gnome-genius.c:586 ../src/graphing.c:7230
 msgid "_Plot"
@@ -4035,9 +4050,10 @@ msgid "Genius Mathematical Tool"
 msgstr "Ferramenta matemática Genius"
 
 #: ../src/gnome-genius.c:2003
-msgid "The Gnome calculator style edition of the Genius Mathematical Tool."
+#| msgid "The Gnome calculator style edition of the Genius Mathematical Tool."
+msgid "The GNOME calculator style edition of the Genius Mathematical Tool."
 msgstr ""
-"A edição ao estilo da calculadora do Gnome da Ferramenta Matemática Genius."
+"A edição ao estilo da calculadora do GNOME da Ferramenta Matemática Genius."
 
 #: ../src/gnome-genius.c:2192
 msgid ""
@@ -4287,12 +4303,16 @@ msgid "<b>Cannot save file %s</b>"
 msgstr "<b>Não foi possível salvar o arquivo %s</b>"
 
 #: ../src/gnome-genius.c:3962
-msgid "Save new programs by \"Save As..\" first!"
-msgstr "Salvar novos programas pelo \"Salvar Como..\" primeiro!"
+#| msgid "Save new programs by \"Save As..\" first!"
+msgid "Save new programs by \"Save As...\" first!"
+msgstr "Salvar novos programas pelo \"Salvar Como...\" primeiro!"
 
 #: ../src/gnome-genius.c:3968
+#| msgid ""
+#| "Some read-only programs are modified.  Use \"Save As..\" to save them to "
+#| "a new location."
 msgid ""
-"Some read-only programs are modified.  Use \"Save As..\" to save them to a "
+"Some read-only programs are modified.  Use \"Save As...\" to save them to a "
 "new location."
 msgstr ""
 "Alguns programas somente leitura estão modificados.  Utilize \"Salvar Como..."
@@ -4809,10 +4829,6 @@ msgstr "variável complexa independente (z = x+iy):"
 #: ../src/graphing.c:5960
 msgid "_Functions / Expressions"
 msgstr "_Funções / expressões"
-
-#: ../src/graphing.c:5992
-msgid "or"
-msgstr "ou"
 
 #. t range
 #: ../src/graphing.c:6007
@@ -5591,7 +5607,8 @@ msgid "Can't get Jacobi symbols of complex numbers"
 msgstr "Não é possível obter símbolos de Jacobi de números complexos"
 
 #: ../src/mpwrap.c:4088
-msgid "Can't get Legendre symbols complex numbers"
+#| msgid "Can't get Legendre symbols complex numbers"
+msgid "Can't get Legendre symbols of complex numbers"
 msgstr "Não é possível obter símbolos de Legendre de números complexos"
 
 #: ../src/mpwrap.c:4104
@@ -5744,6 +5761,12 @@ msgstr ""
 #: ../src/util.c:93 ../src/util.c:112
 msgid "Stack underflow!"
 msgstr "Esvaziamento de pilha (stack underflow)!"
+
+#~ msgid "' or '"
+#~ msgstr "' ou '"
+
+#~ msgid "%s: Input not a number of matrix of numbers."
+#~ msgstr "%s: Entrada não é um número de uma matriz de números."
 
 #~ msgid "%s: Color must be a string"
 #~ msgstr "%s: Cor deve ser uma string"
