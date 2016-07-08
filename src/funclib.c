@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2015 Jiri (George) Lebl
+ * Copyright (C) 1997-2016 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -1349,6 +1349,8 @@ StripZeroColumns_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if (cnt == w) {
 		g_slist_free (cols);
 		return gel_copynode (a[0]);
+	} else if (cnt == 0) {
+		return gel_makenum_null ();
 	}
 
 	nm = gel_matrix_new ();
