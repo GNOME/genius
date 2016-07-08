@@ -189,7 +189,7 @@ function SmithNormalFormField(A) =
   ref (ref (A).').'
 )
 
-SetHelp("SmithNormalFormInteger", "linear_algebra", "Smith Normal Form for square integer matrices (not its characteristic)")
+SetHelp("SmithNormalFormInteger", "linear_algebra", "Smith Normal Form for square integer matrices")
 function SmithNormalFormInteger(M) =
 (
 	if not IsMatrix (M) or not IsMatrixInteger(M) or not IsMatrixSquare(M) then
@@ -300,7 +300,7 @@ CharPoly = CharacteristicPolynomial
 SetHelp ("CharacteristicPolynomialFunction", "linear_algebra", "Get the characteristic polynomial as a function")
 function CharacteristicPolynomialFunction(M) = PolyToFunction (CharacteristicPolynomial (M))
 
-SetHelp ("DeterminantalDivisorsInteger", "linear_algebra", "Get the determinantal divisors of an integer matrix (not its characteristic)")
+SetHelp ("DeterminantalDivisorsInteger", "linear_algebra", "Get the determinantal divisors of an integer matrix")
 function DeterminantalDivisorsInteger(M) = (
 	if not IsMatrix (M) or not IsMatrixInteger(M) or not IsMatrixSquare(M) then
 		(error ("DeterminantalDivisorsInteger: M must be a square integer matrix");bailout);
@@ -317,7 +317,7 @@ function DeterminantalDivisorsInteger(M) = (
 	v
 )
 
-SetHelp("InvariantFactorsInteger", "linear_algebra", "Get the invariant factors of a square integer matrix (not its characteristic)")
+SetHelp("InvariantFactorsInteger", "linear_algebra", "Get the invariant factors of a square integer matrix")
 function InvariantFactorsInteger(M) =
 (
 	if not IsMatrix (M) or not IsMatrixInteger(M) or not IsMatrixSquare(M) then

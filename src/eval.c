@@ -6148,10 +6148,16 @@ do_swapwithop (GelETree *l, GelETree *r)
 			gel_errorout (_("Can only swap user variables"));
 			return;
 		}
+		if G_UNLIKELY (lf->type != GEL_VARIABLE_FUNC) {
+			gel_errorout (_("Can only swap user variables"));
+			return;
+		}
 		if (r->type == GEL_IDENTIFIER_NODE ||
 		    r->op.oper == GEL_E_DEREFERENCE) {
 			GelEFunc *rf = get_functoset (r);
 			GelETree *tmp;
+			if G_UNLIKELY (rf == NULL)
+				return;
 
 			if G_UNLIKELY (rf->type != GEL_VARIABLE_FUNC) {
 				gel_errorout (_("Can only swap user variables"));

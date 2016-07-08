@@ -17,7 +17,7 @@ function NewtonsMethod(f,df,guess,epsilon,maxn) = (
 	null
 )
 
-SetHelp("HalleysMethod","equation_solving","Attempt to find a zero of a functionf with derivative df and second derivative ddf using Halley's method, returning after two successive values are within epsilon or after maxn tries (then returns null)")
+SetHelp("HalleysMethod","equation_solving","Attempt to find a zero of a function f with derivative df and second derivative ddf using Halley's method, returning after two successive values are within epsilon or after maxn tries (then returns null)")
 function HalleysMethod(f,df,ddf,guess,epsilon,maxn) = (
 	guess := float(guess);
 	for n=1 to maxn do (

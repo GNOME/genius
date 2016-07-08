@@ -7179,7 +7179,7 @@ gel_funclib_addall(void)
 	FUNC (IsPrime, 1, "n", "number_theory", N_("Tests primality of integers, for numbers greater than 25*10^9 false positive is with low probability depending on IsPrimeMillerRabinReps"));
 	FUNC (StrongPseudoprimeTest, 2, "n,b", "number_theory", N_("Run the strong pseudoprime test base b on n"));
 	FUNC (MillerRabinTest, 2, "n,reps", "number_theory", N_("Use the Miller-Rabin primality test on n, reps number of times.  The probability of false positive is (1/4)^reps"));
-	FUNC (MillerRabinTestSure, 1, "n", "number_theory", N_("Use the Miller-Rabin primality test on n with enough bases that assuming the Generalized Reimann Hypothesis the result is deterministic"));
+	FUNC (MillerRabinTestSure, 1, "n", "number_theory", N_("Use the Miller-Rabin primality test on n with enough bases that assuming the Generalized Riemann Hypothesis the result is deterministic"));
 	FUNC (Factorize, 1, "n", "number_theory", N_("Return factorization of a number as a matrix"));
 
 	VFUNC (max, 2, "a,args", "numeric", N_("Returns the maximum of arguments or matrix"));
