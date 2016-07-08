@@ -200,7 +200,7 @@
 
     <para>
 	    Generally, when some feature of the language (function, operator, etc...)
-	    is new is some version past 1.0.5, it is mentioned, but
+	    is new in some version past 1.0.5, it is mentioned, but
 	    below 1.0.5 you would have to look at the NEWS file.
     </para>
 
@@ -212,7 +212,7 @@
 
     <sect1 id="genius-to-start">
       <title>To Start &app;</title>
-      <para>You can start <application>&app;</application> in the following ways:
+      <para>You can start &app; in the following ways:
       </para> 
       <variablelist>
         <varlistentry>
@@ -313,7 +313,7 @@ while a long calculation is running, or to debug a certain program.
 		   programs or demos.  If you open the menu, it will load the
 		   example into a new program, which you can run, edit, modify,
 		   and save.  These programs should be well documented
-		   and generally demonstrate some either feature of &app;
+		   and generally demonstrate either some feature of &app;
 		   or some mathematical concept.
 	   </para>
 	   <para>
@@ -377,7 +377,7 @@ while a long calculation is running, or to debug a certain program.
       <para>
 	      To evaluate an expression, type it into the <guilabel>Console</guilabel> work area and press enter.
 	      Expressions are written in a
-language called GEL.  The most simple GEL expression just looks like
+language called GEL.  The most simple GEL expressions just looks like
 mathematics.  For example
 <screen><prompt>genius> </prompt><userinput>30*70 + 67^3.0 + ln(7) * (88.8/100)</userinput>
 </screen>
@@ -420,7 +420,7 @@ do <userinput>cd directory</userinput> as in the UNIX command shell.
       <title>To Create a New Program </title> 
       <para>
 	      If you wish to enter several more complicated commands, or perhaps write a complicated
-	      function using the <link linkend="genius-gel">GEL</link> language.  You can create a new
+	      function using the <link linkend="genius-gel">GEL</link> language, you can create a new
 	     program.
       </para>
       <para>
@@ -799,7 +799,7 @@ to get three quarters. Rationals also accept mixed fraction notation. So in orde
         </para>
 
         <para>
-The next type if number is floating point. These are entered in a similar fashion to C notation. You can use <literal>E</literal>, <literal>e</literal> or <literal>@</literal> as the exponent delimiter. Note that using the exponent delimiter gives a float even if there is no decimal point in the number. Examples:
+The next type of number is floating point. These are entered in a similar fashion to C notation. You can use <literal>E</literal>, <literal>e</literal> or <literal>@</literal> as the exponent delimiter. Note that using the exponent delimiter gives a float even if there is no decimal point in the number. Examples:
 <programlisting>1.315
 7.887e77
 7.887e-77
@@ -815,7 +815,7 @@ The next type if number is floating point. These are entered in a similar fashio
         </para>
 
         <para>
-The final type of number in gel is the complex numbers. You can enter a complex number as a sum of real and imaginary parts. To add an imaginary part, append an <literal>i</literal>.  Here are examples of entering complex numbers:
+The final type of number in GEL is the complex numbers. You can enter a complex number as a sum of real and imaginary parts. To add an imaginary part, append an <literal>i</literal>.  Here are examples of entering complex numbers:
 <programlisting>1+2i
 8.01i
 77*e^(1.3i)
@@ -1179,10 +1179,10 @@ the code if it is executed too often as there is one more operator involved.
       <title>Comments</title>
       <para>
 	      GEL is similar to other scripting languages in that <literal>#</literal> denotes
-	      a comments, that is text that is not meant to be evaluated.  Everything beyond the
+	      a comment, that is text that is not meant to be evaluated.  Everything beyond the
 	      pound sign till the end of line will just be ignored.  For example,
 <programlisting># This is just a comment
-# every line in a comment must have its own pond sign
+# every line in a comment must have its own pound sign
 # in the next line we set x to the value 123
 x=123;
 </programlisting>
@@ -1250,7 +1250,7 @@ genius> 2*2 mod 7
       <title>List of GEL Operators</title>
 
       <para>
-	      Everything in gel is really just an expression.  Expressions are stringed together with
+	      Everything in GEL is really just an expression.  Expressions are stringed together with
 	      different operators.  As we have seen, even the separator is simply a binary operator
 	      in GEL.  Here is a list of the operators in GEL. 
       </para>
@@ -1614,8 +1614,8 @@ returns 3.
          <listitem>
            <para>
              Logical or.
-	     Returns true if both
-	     <varname>a</varname> or <varname>b</varname> are true,
+	     Returns true if either
+	     <varname>a</varname> or <varname>b</varname> is true,
 	     else returns false.  If given numbers, nonzero numbers
 	     are treated as true.
            </para>
@@ -1948,7 +1948,7 @@ until <expression1> do <expression2>
 do <expression2> while <expression1>
 do <expression2> until <expression1>]]></programlisting>
 
-	These are similar to other languages.  However, as in gel it is simply an expression that must have some return value, these
+	These are similar to other languages.  However, as in GEL it is simply an expression that must have some return value, these
 	constructs will simply return the result of the last iteration or <literal>NULL</literal> if no iteration was done.  In the boolean expression, <literal>=</literal> is translated into <literal>==</literal> just as for the <literal>if</literal> statement.
         </para>
       </sect2>
@@ -1971,7 +1971,7 @@ Loop with identifier being set to all values from <literal>&lt;from&gt;</literal
 		iteration.  This way 
 <programlisting>for x = 0 to 1 by 0.1 do print(x)
 </programlisting>
-does the expected even though adding 0.1 ten times becomes just slightly more 1.0 due to the way that floating point numbers
+does the expected even though adding 0.1 ten times becomes just slightly more than 1.0 due to the way that floating point numbers
 are stored in base 2 (there is no 0.1, the actual number stored is just ever so slightly bigger).  This is not perfect but it handles
 the majority of the cases.  If you want to avoid dealing with this issue, use actual rational numbers for example:
 <programlisting>for x = 0 to 1 by 1/10 do print(x)
@@ -4132,7 +4132,7 @@ value then <function>Sign</function> returns the direction or 0.
 </screen>
            </para>
 	   <para>Note that you should be careful and notice that floating point
-		   numbers are stored an binary and so may not be what you
+		   numbers are stored in binary and so may not be what you
 		   expect.  For example <userinput>ceil(420/4.2)</userinput>
 		   returns 101 instead of the expected 100.  This is because
 		   4.2 is actually very slightly less than 4.2.  Use rational
@@ -4441,7 +4441,7 @@ number is specified) of the given size returned.  For example,
 	  then it returns <userinput>sign(y) * (pi - atan(|y/x|)</userinput>.
 	  When <userinput>x=0</userinput> it returns <userinput>sign(y) *
 	  pi/2</userinput>.  <userinput>atan2(0,0)</userinput> returns 0
-	  rather then failing.
+	  rather than failing.
 	  </para>
           <para>
 	    See
@@ -4908,7 +4908,7 @@ precalculated and returned in the second column.</para>
          <term><anchor id="gel-function-IsPerfectPower"/>IsPerfectPower</term>
          <listitem>
           <synopsis>IsPerfectPower (n)</synopsis>
-          <para>Check an integer is any perfect power, a<superscript>b</superscript>.</para>
+          <para>Check an integer for being any perfect power, a<superscript>b</superscript>.</para>
          </listitem>
         </varlistentry>
 
@@ -5316,9 +5316,10 @@ If <varname>q</varname> is not prime results are bogus.</para>
           <para>Aliases: <function>GCD</function></para>
           <para>
 	    Greatest common divisor of integers.  You can enter as many
-	    integers in the argument list, or you can give a vector or a matrix
-	    of integers.  If you give more than one matrix of the same
-	    size then GCD is done element by element.
+	    integers as you want in the argument list, or you can give
+	    a vector or a matrix of integers.  If you give more than
+	    one matrix of the same size then GCD is done element by
+	    element.
 	  </para>
           <para>
 	    See
@@ -5336,9 +5337,9 @@ If <varname>q</varname> is not prime results are bogus.</para>
           <para>Aliases: <function>LCM</function></para>
           <para>
 	    Least common multiplier of integers.  You can enter as many
-	    integers in the argument list, or you can give a vector or a matrix
-	    of integers.  If you give more than one matrix of the same size
-	    then LCM is done element by element.
+	    integers as you want in the argument list, or you can give a 
+	    vector or a matrix of integers.  If you give more than one
+	    matrix of the same size then LCM is done element by element.    
 	  </para>
           <para>
 	    See
@@ -5538,7 +5539,7 @@ If <varname>q</varname> is not prime results are bogus.</para>
          <term><anchor id="gel-function-IsMatrixInteger"/>IsMatrixInteger</term>
          <listitem>
           <synopsis>IsMatrixInteger (M)</synopsis>
-          <para>Check if a matrix is a matrix of an integers (non-complex).</para>
+          <para>Check if a matrix is a matrix of integers (non-complex).</para>
          </listitem>
         </varlistentry>
 
@@ -6377,7 +6378,7 @@ determinant.
           <para>
 		  Get the LU decomposition of <varname>A</varname>, that is
 		  find a lower triangular matrix and upper triangular
-		  matrix whose product is <varname>A</varname>
+		  matrix whose product is <varname>A</varname>.
 	    Store the result in the <varname>L</varname> and
 	    <varname>U</varname>, which should be references.  It returns <constant>true</constant>
 	    if successful.
@@ -6937,7 +6938,7 @@ divided to make all pivots 1.</para>
         <varlistentry>
          <term><anchor id="gel-function-GreedyAlgorithm"/>GreedyAlgorithm</term>
          <listitem>
-          <synopsis>FrobeniusNumber (n,v)</synopsis>
+          <synopsis>GreedyAlgorithm (n,v)</synopsis>
           <para>
 	    Find the vector <varname>c</varname> of non-negative integers
 	    such that taking the dot product with <varname>v</varname> is
@@ -7016,7 +7017,7 @@ function is useful if you have many combinations to go through and you don't
 want to waste memory to store them all.
 	  </para>
 	  <para>
-	    For example with Combination you would normally write a loop like:
+	    For example with Combinations you would normally write a loop like:
           <screen><userinput>for n in Combinations (4,6) do (
   SomeFunction (n)
 );</userinput>
@@ -7140,7 +7141,7 @@ do (
          <listitem>
           <synopsis>nPr (n,r)</synopsis>
           <para>Calculate the number of permutations of size
-	   <varname>r</varname>of numbers from 1 to <varname>n</varname>.</para>
+	   <varname>r</varname> of numbers from 1 to <varname>n</varname>.</para>
           <para>
 	    See
 	    <ulink url="http://mathworld.wolfram.com/Permutation.html">Mathworld</ulink> or
@@ -8994,8 +8995,8 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 		  functions is called, but it is not always raised if it
 		  happens to be below other windows.  So this function is
 		  good to call in scripts where the plot window might have 
-		  been created before, and by now hidden behind the console
-		  or other windows.
+		  been created before, and by now is hidden behind the
+		  console or other windows.
           </para>
 	  <para>Version 1.0.19 onwards.</para>
          </listitem>
@@ -9053,7 +9054,7 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 	  </para>
           <para>
 	    Examples:
-          <screen><prompt>genius></prompt> <userinput>Slopefield(`(x,y)=sin(x-y),-5,5,-5,5)</userinput>
+          <screen><prompt>genius></prompt> <userinput>SlopefieldPlot(`(x,y)=sin(x-y),-5,5,-5,5)</userinput>
 </screen>
           </para>
          </listitem>
@@ -9174,7 +9175,7 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 	    Examples:
           <screen><prompt>genius></prompt> <userinput>SurfacePlotDataGrid([1,2;3,4],[0,1,0,1])</userinput>
 <prompt>genius></prompt> <userinput>SurfacePlotDataGrid(data,[-1,1,-1,1],"My data")</userinput>
-<prompt>genius></prompt> <userinput>d:=null; for i=1 to 20 do for j=1 to 10 d@(i,j) = (0.1*i-1)^2-(0.1*j)^2;</userinput>
+<prompt>genius></prompt> <userinput>d:=null; for i=1 to 20 do for j=1 to 10 do d@(i,j) = (0.1*i-1)^2-(0.1*j)^2;</userinput>
 <prompt>genius></prompt> <userinput>SurfacePlotDataGrid(d,[-1,1,0,1],"half a saddle")</userinput>
 </screen>
           </para>
@@ -9632,7 +9633,7 @@ As an example, you can set the maximum number of digits in a result to 12 by typ
 <literal>"troff"</literal> and it will affect how matrices (and perhaps other
 stuff) is printed, useful for pasting into documents.  Normal style is the
 default human readable printing style of &app;.  The other styles are for
-typsetting in LaTeX, MathML (XML), or in Troff.</para>
+typesetting in LaTeX, MathML (XML), or in Troff.</para>
 	  </listitem>
 	</varlistentry>
       </variablelist> 
