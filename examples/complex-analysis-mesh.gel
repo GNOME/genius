@@ -1,0 +1,113 @@
+# Category: Complex Analysis
+# Name: Visualizing complex mappings, point mesh
+#
+# Shows where either a rectangular or a circular mesh of points is mapped
+# under a complex mapping.  It is also possible to just show the boundary
+# points.  Source points in blue, target in red.
+#
+
+#The function to plot
+function f(z) = z+(1+0.5i);
+#function f(z) = 2*z;
+#function f(z) = 1i*z;
+#function f(z) = (3+1i)*z;
+#function f(z) = (3+1i)*z+(1+0.5i);
+#function f(z) = 0.2*(z-5)*(z+5);
+#function f(z) = 0.2*z^2;
+#function f(z) = 0.1*(z-10)^2*z;
+#function f(z) = exp(z);
+#function f(z) = z^2+1i*z+0.1*sin(z^2);
+
+#approximately square grid
+LinePlotWindow = [-13,13,-10,10];
+
+#shape = "circle";
+shape = "rectangle";
+
+# if to plot only outline of the rectangle or the circle
+only_outline = false;
+
+
+#the rectangle we transform
+plot_range = [-3,3,-2,2];
+plot_stepx = 0.125;
+plot_stepy = 0.125;
+
+#the circle we transform
+plot_circle_rad = 3; #center is 0
+plot_steptheta = 0.05;
+plot_stepr = 0.1;
+# The theta step corresponds to the theta step on the outside of the circle.
+
+
+
+#in outline mode make steps 1/4 the size
+if only_outline then (
+	plot_stepx = plot_stepx/4;
+	plot_stepy = plot_stepy/4;
+	plot_steptheta = plot_steptheta/4;
+);
+
+
+
+LinePlotDrawLegends = false;
+LinePlotClear();
+PlotWindowPresent(); # Make sure the window is raised
+
+points_from = null;
+points_to = null;
+
+if shape == "rectangle" then (
+	if only_outline then (
+		for x = plot_range@(1) to plot_range@(2) by plot_stepx do (
+			y = plot_range@(3);
+			w = f(x+1i*y);
+			points_from = [points_from;[x,y]];
+			points_to = [points_to;[Re(w),Im(w)]];
+			y = plot_range@(4);
+			w = f(x+1i*y);
+			points_from = [points_from;[x,y]];
+			points_to = [points_to;[Re(w),Im(w)]]
+		);
+		for y = plot_range@(3)+plot_stepy to plot_range@(4)-plot_stepy by plot_stepy do (
+			x = plot_range@(1);
+			w = f(x+1i*y);
+			points_from = [points_from;[x,y]];
+			points_to = [points_to;[Re(w),Im(w)]];
+			x = plot_range@(2);
+			w = f(x+1i*y);
+			points_from = [points_from;[x,y]];
+			points_to = [points_to;[Re(w),Im(w)]]
+		)
+	) else (
+		for x = plot_range@(1) to plot_range@(2) by plot_stepx do (
+			for y = plot_range@(3) to plot_range@(4) by plot_stepy do (
+				w = f(x+1i*y);
+				points_from = [points_from;[x,y]];
+				points_to = [points_to;[Re(w),Im(w)]]
+			)
+		)
+	)
+) else if shape == "circle" then (
+	if only_outline then (
+		for theta = 0 to 2*pi by plot_steptheta do (
+			z = plot_circle_rad*exp(1i*theta);
+			w = f(z);
+			points_from = [points_from;[Re(z),Im(z)]];
+			points_to = [points_to;[Re(w),Im(w)]]
+		)
+	) else (
+		for r = 0 to plot_circle_rad by plot_stepr do (
+			t = r/plot_circle_rad;
+			for theta = 0 to 2*pi by plot_steptheta*(1/(t+0.000001)) do (
+				z = r*exp(1i*theta);
+				w = f(z);
+				points_from = [points_from;[Re(z),Im(z)]];
+				points_to = [points_to;[Re(w),Im(w)]]
+			)
+		)
+	)
+);
+
+LinePlotDrawPoints(points_from,"color","blue");
+LinePlotDrawPoints(points_to,"color","red");

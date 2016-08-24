@@ -22,7 +22,9 @@ example_DATA = \
 	rsa.gel \
 	easy-matrix-examples.gel \
 	peano.gel \
-	vibrating-drumhead-modes.gel
+	vibrating-drumhead-modes.gel \
+	complex-analysis-wandering-ball.gel \
+	complex-analysis-mesh.gel
 
 EXTRA_DIST = \
 	$(example_DATA)

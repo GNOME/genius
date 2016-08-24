@@ -8443,16 +8443,24 @@ get_line_numbers (GelETree *a, double **x, double **y, int *len,
 
 	m = a->mat.matrix;
 
-	if G_UNLIKELY ( ! gel_is_matrix_value_only_real (m)) {
+	if G_UNLIKELY ( ! gel_is_matrix_value_only (m)) {
 		gel_errorout (_("%s: Points should be given as a real, n by 2 matrix "
-				"with columns for x and y, n>=%d"),
+				"with columns for x and y, n>=%d, or as a complex "
+				"valued n by 1 matrix"),
 			      funcname, minn);
 		return FALSE;
 	}
 
 	if (gel_matrixw_width (m) == 2 &&
 	    gel_matrixw_height (m) >= minn) {
+		if G_UNLIKELY ( ! gel_is_matrix_value_only_real (m)) {
+			gel_errorout (_("%s: If points are given as an n by 2 matrix, then this matrix must be real"),
+				      funcname);
+			return FALSE;
+		}
+
 		*len = gel_matrixw_height (m);
+
 
 		*x = g_new (double, *len);
 		*y = g_new (double, *len);
@@ -8465,6 +8473,24 @@ get_line_numbers (GelETree *a, double **x, double **y, int *len,
 			(*y)[i] = yy = mpw_get_double (t->val.value);
 			UPDATE_MINMAX
 		}
+	} else if (gel_matrixw_width (m) == 1 &&
+		   gel_matrixw_height (m) >= minn) {
+		*len = gel_matrixw_height (m);
+
+
+		*x = g_new (double, *len);
+		*y = g_new (double, *len);
+
+		for (i = 0; i < *len; i++) {
+			double xx, yy;
+			GelETree *t = gel_matrixw_index (m, 0, i);
+			mpw_get_complex_double (t->val.value, &xx, &yy);
+			(*x)[i] = xx;
+			(*y)[i] = yy;
+			UPDATE_MINMAX
+		}
+		/*
+		 * This was undocumented and conflicts with using complex numbers
 	} else if (gel_matrixw_width (m) == 1 &&
 		   gel_matrixw_height (m) % 2 == 0 &&
 		   gel_matrixw_height (m) >= 2*minn) {
@@ -8497,9 +8523,11 @@ get_line_numbers (GelETree *a, double **x, double **y, int *len,
 			(*y)[i] = yy = mpw_get_double (t->val.value);
 			UPDATE_MINMAX
 		}
+		*/
 	} else {
 		gel_errorout (_("%s: Points should be given as a real, n by 2 matrix "
-				"with columns for x and y, n>=%d"),
+				"with columns for x and y, n>=%d, or as a complex "
+				"valued n by 1 matrix"),
 			      funcname, minn);
 		return FALSE;
 	}
