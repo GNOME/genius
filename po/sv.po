@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-26 17:56+0000\n"
-"PO-Revision-Date: 2016-08-01 12:06+0200\n"
+"POT-Creation-Date: 2016-08-24 22:59+0000\n"
+"PO-Revision-Date: 2016-09-05 22:21+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -2270,7 +2270,7 @@ msgid "%s: Input not a number or matrix of numbers."
 msgstr "%s: indata inte ett tal eller en matris av tal."
 
 #: ../src/funclib.c:3434 ../src/funclib.c:3492 ../src/funclib.c:5030
-#: ../src/funclib.c:5324 ../src/graphing.c:10152
+#: ../src/funclib.c:5324 ../src/graphing.c:10180
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: för många argument"
@@ -4926,12 +4926,12 @@ msgstr "Skapa graf"
 #: ../src/graphing.c:7488 ../src/graphing.c:7528 ../src/graphing.c:7552
 #: ../src/graphing.c:7664 ../src/graphing.c:7788 ../src/graphing.c:7925
 #: ../src/graphing.c:8082 ../src/graphing.c:8229 ../src/graphing.c:8252
-#: ../src/graphing.c:8734 ../src/graphing.c:9015 ../src/graphing.c:9234
-#: ../src/graphing.c:9473 ../src/graphing.c:9800 ../src/graphing.c:10032
-#: ../src/graphing.c:10121 ../src/graphing.c:10234 ../src/graphing.c:10265
-#: ../src/graphing.c:10294 ../src/graphing.c:10320 ../src/graphing.c:10349
-#: ../src/graphing.c:10442 ../src/graphing.c:10531 ../src/graphing.c:10556
-#: ../src/graphing.c:10589 ../src/graphing.c:10637
+#: ../src/graphing.c:8762 ../src/graphing.c:9043 ../src/graphing.c:9262
+#: ../src/graphing.c:9501 ../src/graphing.c:9828 ../src/graphing.c:10060
+#: ../src/graphing.c:10149 ../src/graphing.c:10262 ../src/graphing.c:10293
+#: ../src/graphing.c:10322 ../src/graphing.c:10348 ../src/graphing.c:10377
+#: ../src/graphing.c:10470 ../src/graphing.c:10559 ../src/graphing.c:10584
+#: ../src/graphing.c:10617 ../src/graphing.c:10665
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr "%s: Grafritning pågår, kan inte anropa %s"
@@ -4952,19 +4952,19 @@ msgstr "Grafgränserna är inte angivna som en 4-vektor eller en 6-vektor"
 
 #: ../src/graphing.c:7363 ../src/graphing.c:7617 ../src/graphing.c:7734
 #: ../src/graphing.c:7870 ../src/graphing.c:8019 ../src/graphing.c:8174
-#: ../src/graphing.c:9901
+#: ../src/graphing.c:9929
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: ogiltigt X-intervall"
 
 #: ../src/graphing.c:7368 ../src/graphing.c:7622 ../src/graphing.c:7739
 #: ../src/graphing.c:7875 ../src/graphing.c:8024 ../src/graphing.c:8179
-#: ../src/graphing.c:9906
+#: ../src/graphing.c:9934
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: ogiltigt Y-intervall"
 
-#: ../src/graphing.c:7373 ../src/graphing.c:9911
+#: ../src/graphing.c:7373 ../src/graphing.c:9939
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: ogiltigt Z-intervall"
@@ -5018,15 +5018,23 @@ msgstr "Grafgränserna är inte angivna som en 2-vektor eller en 4-vektor"
 msgid "%s: invalid T range"
 msgstr "%s: ogiltigt T-intervall"
 
-#: ../src/graphing.c:8447 ../src/graphing.c:8501
+#: ../src/graphing.c:8447 ../src/graphing.c:8528
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 2 matrix with columns for x and "
-"y, n>=%d"
+"y, n>=%d, or as a complex valued n by 1 matrix"
 msgstr ""
-"%s: Punkter ska anges som en reell n×2-matris med kolumner för x och y, n>=%d"
+"%s: Punkter ska anges som en reell n×2-matris med kolumner för x och y, n>="
+"%d, eller som en komplexvärd n×1-matris"
 
-#: ../src/graphing.c:8539 ../src/graphing.c:8602
+#: ../src/graphing.c:8457
+#, c-format
+msgid ""
+"%s: If points are given as an n by 2 matrix, then this matrix must be real"
+msgstr ""
+"%s: Om punkter anges som en n×2-matris så måste denna matris vara reell"
+
+#: ../src/graphing.c:8567 ../src/graphing.c:8630
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 3 matrix with columns for x, y "
@@ -5035,17 +5043,17 @@ msgstr ""
 "%s: Punkter ska anges som en reell n×3-matris med kolumner för x, y och z, "
 "n>=%d"
 
-#: ../src/graphing.c:8653
+#: ../src/graphing.c:8681
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: Ingen färg angiven"
 
-#: ../src/graphing.c:8658 ../src/graphing.c:8665
+#: ../src/graphing.c:8686 ../src/graphing.c:8693
 #, c-format
 msgid "%s: Cannot parse color '%s'"
 msgstr "%s: Kan inte tolka färgen ”%s”"
 
-#: ../src/graphing.c:8679
+#: ../src/graphing.c:8707
 #, c-format
 msgid ""
 "%s: A vector giving color should be a 3-vector of real numbers between 0 and "
@@ -5054,7 +5062,7 @@ msgstr ""
 "%s: En vektor som anger färg ska vara en 3-vektor av reella tal mellan 0 och "
 "1"
 
-#: ../src/graphing.c:8695
+#: ../src/graphing.c:8723
 #, c-format
 msgid ""
 "%s: Warning: Values for red, green, or blue out of range (0 to 1), I will "
@@ -5063,7 +5071,7 @@ msgstr ""
 "%s: Varning: Värden för röd, grön eller blå utanför område (0 till 1), jag "
 "kommer beskära dem till detta intervall"
 
-#: ../src/graphing.c:8711
+#: ../src/graphing.c:8739
 #, c-format
 msgid ""
 "%s: Color must be a string or a three-vector of rgb values (between 0 and 1)"
@@ -5071,54 +5079,54 @@ msgstr ""
 "%s: Färg måste vara en sträng eller en 3-vektor av rgb-värden (mellan 0 och "
 "1)"
 
-#: ../src/graphing.c:8753 ../src/graphing.c:9034 ../src/graphing.c:9255
-#: ../src/graphing.c:9494
+#: ../src/graphing.c:8781 ../src/graphing.c:9062 ../src/graphing.c:9283
+#: ../src/graphing.c:9522
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: Fel antal argument"
 
-#: ../src/graphing.c:8821 ../src/graphing.c:9088 ../src/graphing.c:9321
-#: ../src/graphing.c:9554
+#: ../src/graphing.c:8849 ../src/graphing.c:9116 ../src/graphing.c:9349
+#: ../src/graphing.c:9582
 #, c-format
 msgid "%s: No thickness specified"
 msgstr "%s: Ingen tjocklek angiven"
 
-#: ../src/graphing.c:8844 ../src/graphing.c:9111 ../src/graphing.c:9346
-#: ../src/graphing.c:9579
+#: ../src/graphing.c:8872 ../src/graphing.c:9139 ../src/graphing.c:9374
+#: ../src/graphing.c:9607
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: Inget fönster angivet"
 
-#: ../src/graphing.c:8892 ../src/graphing.c:8917
+#: ../src/graphing.c:8920 ../src/graphing.c:8945
 #, c-format
 msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
 msgstr "%s: pilstil ska vara ”origin”, ”end”, ”both”, eller ”none”"
 
-#: ../src/graphing.c:8927 ../src/graphing.c:9155 ../src/graphing.c:9398
-#: ../src/graphing.c:9631
+#: ../src/graphing.c:8955 ../src/graphing.c:9183 ../src/graphing.c:9426
+#: ../src/graphing.c:9659
 #, c-format
 msgid "%s: No legend specified"
 msgstr "%s: Ingen förklaring angiven"
 
-#: ../src/graphing.c:8941 ../src/graphing.c:9169 ../src/graphing.c:9413
-#: ../src/graphing.c:9646
+#: ../src/graphing.c:8969 ../src/graphing.c:9197 ../src/graphing.c:9441
+#: ../src/graphing.c:9674
 #, c-format
 msgid "%s: Legend must be a string"
 msgstr "%s: Förklaring måste vara en sträng"
 
-#: ../src/graphing.c:8950 ../src/graphing.c:9178 ../src/graphing.c:9423
-#: ../src/graphing.c:9656
+#: ../src/graphing.c:8978 ../src/graphing.c:9206 ../src/graphing.c:9451
+#: ../src/graphing.c:9684
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: Okänd stil"
 
-#: ../src/graphing.c:8957 ../src/graphing.c:9185 ../src/graphing.c:9431
-#: ../src/graphing.c:9664
+#: ../src/graphing.c:8985 ../src/graphing.c:9213 ../src/graphing.c:9459
+#: ../src/graphing.c:9692
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: Felaktig parameter"
 
-#: ../src/graphing.c:9717 ../src/graphing.c:9780
+#: ../src/graphing.c:9745 ../src/graphing.c:9808
 #, c-format
 msgid ""
 "%s: Surface should be given as a real, n by 3 matrix with columns for x, y, "
@@ -5126,89 +5134,89 @@ msgid ""
 msgstr ""
 "%s: Yta ska anges som en reell n×3-matris med kolumner för x, y, z, där n>=3"
 
-#: ../src/graphing.c:9808
+#: ../src/graphing.c:9836
 #, c-format
 msgid "%s: argument not a matrix of data"
 msgstr "%s: argumentet är inte en matris med data"
 
-#: ../src/graphing.c:9992
+#: ../src/graphing.c:10020
 #, c-format
 msgid "%s: Surface grid data should be given as a real matrix "
 msgstr "%s: Ytrutnätsdata ska anges som en reell matris "
 
-#: ../src/graphing.c:10038
+#: ../src/graphing.c:10066
 #, c-format
 msgid "%s: first argument not a matrix of data"
 msgstr "%s: första argumentet är inte en matris med data"
 
-#: ../src/graphing.c:10045
+#: ../src/graphing.c:10073
 #, c-format
 msgid "%s: second argument not a 4 or 6 element vector of limits"
 msgstr "%s: andra argumentet är inte en 4- eller 6-elementvektor med gränser"
 
-#: ../src/graphing.c:10062
+#: ../src/graphing.c:10090
 #, c-format
 msgid "%s: too many arguments or last argument not a string label"
 msgstr "%s: för många argument eller sista argumentet inte en strängetikett"
 
-#: ../src/graphing.c:10128
+#: ../src/graphing.c:10156
 #, c-format
 msgid "%s: first argument not a nonempty string"
 msgstr "%s: första argumentet inte en icke-tom sträng"
 
-#: ../src/graphing.c:10136
+#: ../src/graphing.c:10164
 #, c-format
 msgid "%s: type not specified and filename has no extension"
 msgstr "%s: typ ej angiven och filnamn har ingen filändelse"
 
-#: ../src/graphing.c:10145
+#: ../src/graphing.c:10173
 #, c-format
 msgid "%s: second argument not a nonempty string"
 msgstr "%s: andra argumentet är inte en icke-tom sträng"
 
-#: ../src/graphing.c:10157
+#: ../src/graphing.c:10185
 #, c-format
 msgid "%s: plot canvas not active, cannot export"
 msgstr "%s: rityta för graf inte aktiv, kan inte exportera"
 
-#: ../src/graphing.c:10166 ../src/graphing.c:10183 ../src/graphing.c:10206
+#: ../src/graphing.c:10194 ../src/graphing.c:10211 ../src/graphing.c:10234
 #, c-format
 msgid "%s: export failed"
 msgstr "%s: export misslyckades"
 
-#: ../src/graphing.c:10219
+#: ../src/graphing.c:10247
 #, c-format
 msgid "%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."
 msgstr "%s: okänd filtyp, kan vara \"png\", \"eps\" eller \"ps\"."
 
-#: ../src/graphing.c:10356
+#: ../src/graphing.c:10384
 msgid "Variable names not given in a 4-vector"
 msgstr "Variabelnamn är inte angivna i en 4-vektor"
 
-#: ../src/graphing.c:10366 ../src/graphing.c:10375 ../src/graphing.c:10384
-#: ../src/graphing.c:10393 ../src/graphing.c:10459 ../src/graphing.c:10468
-#: ../src/graphing.c:10477
+#: ../src/graphing.c:10394 ../src/graphing.c:10403 ../src/graphing.c:10412
+#: ../src/graphing.c:10421 ../src/graphing.c:10487 ../src/graphing.c:10496
+#: ../src/graphing.c:10505
 msgid "Variable names should be strings"
 msgstr "Variabelnamn ska vara strängar"
 
-#: ../src/graphing.c:10400 ../src/graphing.c:10483
+#: ../src/graphing.c:10428 ../src/graphing.c:10511
 msgid "Variable names must be valid identifiers"
 msgstr "Variabelnamn måste vara giltiga identifierare"
 
-#: ../src/graphing.c:10409 ../src/graphing.c:10489
+#: ../src/graphing.c:10437 ../src/graphing.c:10517
 msgid "Variable names must be mutually distinct"
 msgstr "Variabelnamn måste vara ömsesidigt distinkta"
 
-#: ../src/graphing.c:10449
+#: ../src/graphing.c:10477
 msgid "Variable names not given in a 3-vector"
 msgstr "Variabelnamn är inte angivna i en 3-vektor"
 
-#: ../src/graphing.c:10672
+#: ../src/graphing.c:10700
 msgid "Plotting"
 msgstr "Grafritning"
 
 #. internal
-#: ../src/graphing.c:10674
+#: ../src/graphing.c:10702
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -5216,7 +5224,7 @@ msgstr ""
 "Rita en funktion med en linjegraf. Först kommer funktionerna (upp till 10) "
 "och sedan valfritt gränserna som x1,x2,y1,y2"
 
-#: ../src/graphing.c:10675
+#: ../src/graphing.c:10703
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
@@ -5226,7 +5234,7 @@ msgstr ""
 "x och y och sedan valfritt t-gränserna som t1,t2,tinc, sedan valfritt "
 "gränserna som x1,x2,y1,y2"
 
-#: ../src/graphing.c:10676
+#: ../src/graphing.c:10704
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
@@ -5236,7 +5244,7 @@ msgstr ""
 "funktionen som returnerar x+iy sedan valfritt t-gränserna som t1,t2,tinc, "
 "sedan valfritt gränserna som x1,x2,y1,y2"
 
-#: ../src/graphing.c:10678
+#: ../src/graphing.c:10706
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
@@ -5244,7 +5252,7 @@ msgstr ""
 "Rita ett riktningsfält. Först kommer funktionen dy/dx uttryckt i x och y "
 "(eller ett komplext z) och sedan valfritt gränserna som x1,x2,y1,y2"
 
-#: ../src/graphing.c:10679
+#: ../src/graphing.c:10707
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
@@ -5252,18 +5260,18 @@ msgstr ""
 "Rita ett vektorfält. Först kommer funktionerna dx/dt och dy/dt uttryckt i x "
 "och y och sedan valfritt gränserna som x1,x2,y1,y2"
 
-#: ../src/graphing.c:10681
+#: ../src/graphing.c:10709
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr ""
 "Rita ut en lösning för ett riktningsfält med start vid x,y och med dx som "
 "inkrement"
 
-#: ../src/graphing.c:10682
+#: ../src/graphing.c:10710
 msgid "Clear all the slopefield solutions"
 msgstr "Rensa alla riktningsfältslösningar"
 
-#: ../src/graphing.c:10684
+#: ../src/graphing.c:10712
 msgid ""
 "Draw a solution for a vector field starting at x,y, using dt as increment "
 "for tlen units"
@@ -5271,11 +5279,11 @@ msgstr ""
 "Rita ut en lösning för ett vektorfält med start vid x,y och med dt som "
 "inkrement för tlen-enheter"
 
-#: ../src/graphing.c:10685
+#: ../src/graphing.c:10713
 msgid "Clear all the vectorfield solutions"
 msgstr "Rensa alla vektorfältslösningar"
 
-#: ../src/graphing.c:10688
+#: ../src/graphing.c:10716
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -5283,11 +5291,11 @@ msgstr ""
 "Rita en funktion som tar antingen två värden eller ett komplext värde. Först "
 "kommer funktionen, sedan valfritt gränserna som x1,x2,y1,y2,z1,z2"
 
-#: ../src/graphing.c:10690
+#: ../src/graphing.c:10718
 msgid "Show the surface (3d) plot window and clear out functions"
 msgstr "Visa det (3-dimensionella) ytgrafsfönstret och rensa funktioner"
 
-#: ../src/graphing.c:10692
+#: ../src/graphing.c:10720
 msgid ""
 "Plot surface data given as n by 3 matrix (n>=3) of data with each row being "
 "x,y,z.  Optionally can pass a label string and limits.  If no limits passed, "
@@ -5297,7 +5305,7 @@ msgstr ""
 "z.  Valfritt kan en etikettsträng och gränser skickas med.  Om inga gränser "
 "skickas räknas gränser ut från data."
 
-#: ../src/graphing.c:10693
+#: ../src/graphing.c:10721
 msgid ""
 "Plot surface data given as a matrix (where rows are the x coordinate and "
 "columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or "
@@ -5307,7 +5315,7 @@ msgstr ""
 "kolumnerna är y-koordinaten), gränserna anges som [x1,x2,y1,y2] eller "
 "valfritt [x1,x2,y1,y2,z1,z2], och valfritt en sträng för etiketten."
 
-#: ../src/graphing.c:10694
+#: ../src/graphing.c:10722
 msgid ""
 "Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  x1,y1,z1,x2,"
 "y2,z2 can be replaced by a n by 3 matrix for a longer line"
@@ -5316,7 +5324,7 @@ msgstr ""
 "ytgrafen.  x1,y1,z1,x2,y2,z2 kan ersättas med en n×3-matris för en längre "
 "linje"
 
-#: ../src/graphing.c:10695
+#: ../src/graphing.c:10723
 msgid ""
 "Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a "
 "n by 3 matrix for more points."
@@ -5324,11 +5332,11 @@ msgstr ""
 "Rita ut en punkt på x,y,z i den (3-dimensionella) ytgrafen.  x,y,z kan "
 "ersättas med en n×3-matris för fler punkter."
 
-#: ../src/graphing.c:10697
+#: ../src/graphing.c:10725
 msgid "Show the line plot window and clear out functions"
 msgstr "Visa linjegrafsfönstret och rensa funktioner"
 
-#: ../src/graphing.c:10698
+#: ../src/graphing.c:10726
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line."
@@ -5336,26 +5344,26 @@ msgstr ""
 "Rita ut en linje från x1,y1 till x2,y2.  x1,y1,x2,y2 kan ersättas med en n×2-"
 "matris för en längre linje."
 
-#: ../src/graphing.c:10699
+#: ../src/graphing.c:10727
 msgid ""
 "Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points."
 msgstr ""
 "Rita ut en punkt på x,y.  x,y kan ersättas med en n×2-matris för fler "
 "punkter."
 
-#: ../src/graphing.c:10701
+#: ../src/graphing.c:10729
 msgid "Freeze the plot canvas, that is, inhibit drawing"
 msgstr "Frys grafens rityta, det vill säga förhindra ritande"
 
-#: ../src/graphing.c:10702
+#: ../src/graphing.c:10730
 msgid "Thaw the plot canvas and redraw the plot immediately"
 msgstr "Töa upp grafens rityta och rita om grafen omedelbart"
 
-#: ../src/graphing.c:10703
+#: ../src/graphing.c:10731
 msgid "Raise the plot window, and create the window if necessary"
 msgstr "Höj graffönstret, och skapa fönstret om nödvändigt"
 
-#: ../src/graphing.c:10706
+#: ../src/graphing.c:10734
 msgid ""
 "Export the current contents of the plot canvas to a file.  The file type is "
 "given by the string type, which can be \"png\", \"eps\", or \"ps\"."
@@ -5363,17 +5371,17 @@ msgstr ""
 "Exportera de aktuella innehållen för grafens rityta till en fil. Filtypen "
 "anges av strängtypen, som kan vara \"png\", \"eps\" eller \"ps\"."
 
-#: ../src/graphing.c:10708
+#: ../src/graphing.c:10736
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr ""
 "Antal skalstreck för riktningsfält som en vektor [vertikalt, horisontellt]."
 
-#: ../src/graphing.c:10709
+#: ../src/graphing.c:10737
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
 msgstr ""
 "Antal skalstreck för vektorfält som en vektor [vertikalt, horisontellt]."
 
-#: ../src/graphing.c:10710
+#: ../src/graphing.c:10738
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
@@ -5381,7 +5389,7 @@ msgstr ""
 "Standardnamn som används av alla 2D-graffunktioner. Ska vara en 4-vektor av "
 "strängar eller identifierare [x,y,z,t]."
 
-#: ../src/graphing.c:10711
+#: ../src/graphing.c:10739
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
@@ -5389,7 +5397,7 @@ msgstr ""
 "Standardnamn använt av ytgrafsfunktioner. Ska vara en 3-vektor av strängar "
 "eller identifierare [x,y,z] (där z=x+iy och inte den beroende axeln)."
 
-#: ../src/graphing.c:10713
+#: ../src/graphing.c:10741
 msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
@@ -5397,23 +5405,23 @@ msgstr ""
 "Normalisera vektorfält om sant. Det vill säga, visa endast riktning och inte "
 "magnitud."
 
-#: ../src/graphing.c:10714
+#: ../src/graphing.c:10742
 msgid "If to draw legends or not on line plots."
 msgstr "Huruvida förklaringar ska ritas ut för linjegrafer."
 
-#: ../src/graphing.c:10715
+#: ../src/graphing.c:10743
 msgid "If to draw axis labels on line plots."
 msgstr "Huruvida axeletiketter ska ritas ut för linjegrafer."
 
-#: ../src/graphing.c:10717
+#: ../src/graphing.c:10745
 msgid "If to draw legends or not on surface plots."
 msgstr "Huruvida förklaringar ska ritas ut för ytgrafer."
 
-#: ../src/graphing.c:10719
+#: ../src/graphing.c:10747
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr "Linjegrafsfönster (gränser) som en 4-vektor på formen [x1,x2,y1,y2]"
 
-#: ../src/graphing.c:10720
+#: ../src/graphing.c:10748
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
