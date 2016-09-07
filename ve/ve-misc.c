@@ -302,12 +302,26 @@ ve_strftime (struct tm *the_tm, const char *format)
 	char str[1024];
 	char *loc_format = ve_locale_from_utf8 (format);
 
+	/* ignore the format-nonliteral warning here to allow compilation
+	 * with warnings as errors */
+#ifdef __GNUC__
+#if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 5)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+#endif
+#endif
 	if (strftime (str, sizeof (str)-1, loc_format, the_tm) == 0) {
 		/* according to docs, if the string does not fit, the
 		 * contents of str are undefined, thus just use
 		 * ??? */
 		strcpy (str, "???");
 	}
+#ifdef __GNUC__
+#if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 5)
+#pragma GCC diagnostic pop
+#endif
+#endif
+
 	str [sizeof (str)-1] = '\0'; /* just for sanity */
 	g_free (loc_format);
 
