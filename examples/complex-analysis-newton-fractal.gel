@@ -1,0 +1,61 @@
+# Category: Complex Analysis
+# Name: Newton Fractal
+#
+# Draw the basins of attraction of running the Newton algortihm
+# with different starting point for computing the third root.
+# The three roots are drawn in three different colors
+#
+
+iterations = 10;
+
+LinePlotWindow = [-2,2,-2,2];
+
+LinePlotDrawLegends = false;
+PlotWindowPresent(); # Make sure the window is raised
+
+points1 = null;
+points2 = null;
+points3 = null;
+
+k1 = 1;
+k2 = 1;
+k3 = 1;
+
+function DrawThePlot () = (
+  PlotCanvasFreeze ();
+  LinePlotClear ();
+  LinePlotDrawPoints (points1, "color", "blue", "thickness", 3);
+  LinePlotDrawPoints (points2, "color", "red", "thickness", 3);
+  LinePlotDrawPoints (points3, "color", "green", "thickness", 3);
+  PlotCanvasThaw ();
+);
+
+for x = -2.0 to 2.0 by 0.02 do (
+  for y = -2.0 to 2.0 by 0.02 do (
+    c = z = x+1i*y;
+    for m=0 to iterations do (
+      z = z-(z^3-1)/(2*z^2);
+      if |z-1| < 0.5 then (
+        points1@(k1,) = [Re(c),Im(c)];
+        increment k1;
+        break
+      ) else if |z-(-0.5+0.866025403784i)| < 0.5 then (
+        points2@(k2,) = [Re(c),Im(c)];
+        increment k2;
+        break
+      ) else if |z-(-0.5-0.866025403784i)| < 0.5 then (
+        points3@(k3,) = [Re(c),Im(c)];
+        increment k3;
+        break
+      )
+    );
+
+    # every 1000 point display intermediate picture
+    if (k1+k2+k3) % 1000 == 0 then (
+      DisplayVariables(`k1,`k2,`k3);
+      DrawThePlot()
+    )
+  )
+);
+
+DrawThePlot();

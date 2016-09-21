@@ -3540,13 +3540,8 @@ void
 mpw_abs_sq (mpw_ptr rop,mpw_ptr op)
 {
 	if (MPW_IS_REAL (op)) {
-		if(mpwl_sgn(op->r)<0)
-			mpw_neg(rop,op);
-		else
-			mpw_set(rop,op);
-
 		/* have to actually square now */
-		mpw_mul (rop, rop, rop);
+		mpw_mul (rop, op, op);
 	} else {
 		MpwRealNum t = {{NULL}};
 
