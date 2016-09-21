@@ -3,8 +3,8 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
   <!ENTITY app "<application>Genius Mathematics Tool</application>">
   <!ENTITY appname "Genius">
-  <!ENTITY appversion "1.0.21">
-  <!ENTITY date "August 2016">
+  <!ENTITY appversion "1.0.22">
+  <!ENTITY date "September 2016">
 
   <!ENTITY legal SYSTEM "legal.xml">
 
@@ -8781,6 +8781,34 @@ and has period <userinput>b-a</userinput>.</para>
         </varlistentry>
 
         <varlistentry>
+         <term><anchor id="gel-function-LinePlotCParametric"/>LinePlotCParametric</term>
+         <listitem>
+          <synopsis>LinePlotCParametric (func,...)</synopsis>
+          <synopsis>LinePlotCParametric (func,t1,t2,tinc)</synopsis>
+          <synopsis>LinePlotCParametric (func,t1,t2,tinc,x1,x2,y1,y2)</synopsis>
+          <para>
+	    Plot a parametric complex valued function with a line.  First comes
+the function that returns <computeroutput>x+iy</computeroutput>,
+then optionally the <varname>t</varname> limits as <userinput>t1,t2,tinc</userinput>, then
+optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
+          </para>
+	  <para>
+	    If limits are not
+	    specified, then the currently set limits apply
+	    (See <link linkend="gel-function-LinePlotWindow"><function>LinePlotWindow</function></link>).
+	    If instead the string "fit" is given for the x and y limits, then the limits are the maximum extent of
+	    the graph
+          </para>
+          <para>
+	    The parameter
+	    <link linkend="gel-function-LinePlotDrawLegends"><function>LinePlotDrawLegends</function></link>
+	    controls the drawing of the legend.
+	  </para>
+         </listitem>
+        </varlistentry>
+
+
+        <varlistentry>
          <term><anchor id="gel-function-LinePlotDrawLine"/>LinePlotDrawLine</term>
          <listitem>
           <synopsis>LinePlotDrawLine (x1,y1,x2,y2,...)</synopsis>
@@ -8927,6 +8955,24 @@ and has period <userinput>b-a</userinput>.</para>
         </varlistentry>
 
         <varlistentry>
+         <term><anchor id="gel-function-LinePlotMouseLocation"/>LinePlotMouseLocation</term>
+         <listitem>
+          <synopsis>LinePlotMouseLocation ()</synopsis>
+          <para>
+	    Returns a row vector of a point on the line plot corresponding to
+	    the current mouse location.  If the line plot is not visible,
+	    then prints and error and returns <constant>null</constant>.
+	    In this case you should run
+	    <link linkend="gel-function-LinePlot"><function>LinePlot</function></link> or
+	    <link linkend="gel-function-LinePlotClear"><function>LinePlotClear</function></link>
+	    to put the graphing window into the line plot mode.
+	    See also
+	    <link linkend="gel-function-LinePlotWaitForClick"><function>LinePlotWaitForClick</function></link>.
+          </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term><anchor id="gel-function-LinePlotParametric"/>LinePlotParametric</term>
          <listitem>
           <synopsis>LinePlotParametric (xfunc,yfunc,...)</synopsis>
@@ -8955,29 +9001,19 @@ limits as <userinput>x1,x2,y1,y2</userinput>.
         </varlistentry>
 
         <varlistentry>
-         <term><anchor id="gel-function-LinePlotCParametric"/>LinePlotCParametric</term>
+         <term><anchor id="gel-function-LinePlotWaitForClick"/>LinePlotWaitForClick</term>
          <listitem>
-          <synopsis>LinePlotCParametric (func,...)</synopsis>
-          <synopsis>LinePlotCParametric (func,t1,t2,tinc)</synopsis>
-          <synopsis>LinePlotCParametric (func,t1,t2,tinc,x1,x2,y1,y2)</synopsis>
+          <synopsis>LinePlotWaitForClick ()</synopsis>
           <para>
-	    Plot a parametric complex valued function with a line.  First comes
-the function that returns <computeroutput>x+iy</computeroutput>,
-then optionally the <varname>t</varname> limits as <userinput>t1,t2,tinc</userinput>, then
-optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
+	    If in line plot mode, waits for a click on the line plot window
+	    and returns the location of the click as a row vector.
+	    If the window is closed
+	    the function returns immediately with <constant>null</constant>.
+	    If the window is not in line plot mode, it is put in it and shown
+	    if not shown.
+	    See also
+	    <link linkend="gel-function-LinePlotMouseLocation"><function>LinePlotMouseLocation</function></link>.
           </para>
-	  <para>
-	    If limits are not
-	    specified, then the currently set limits apply
-	    (See <link linkend="gel-function-LinePlotWindow"><function>LinePlotWindow</function></link>).
-	    If instead the string "fit" is given for the x and y limits, then the limits are the maximum extent of
-	    the graph
-          </para>
-          <para>
-	    The parameter
-	    <link linkend="gel-function-LinePlotDrawLegends"><function>LinePlotDrawLegends</function></link>
-	    controls the drawing of the legend.
-	  </para>
          </listitem>
         </varlistentry>
 

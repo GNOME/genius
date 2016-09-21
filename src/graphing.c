@@ -1574,6 +1574,10 @@ static gdouble dozoom_xmax;
 static gdouble dozoom_ymax;
 static gboolean dozoom_just_click;
 
+static gboolean wait_for_click = FALSE;
+static gdouble click_x = 0.0;
+static gdouble click_y = 0.0;
+
 static gboolean
 dozoom_idle (gpointer data)
 {
@@ -1673,6 +1677,19 @@ plot_select_region (GtkPlotCanvas *canvas,
 		ymax = ymin;
 		ymin = tmp;
 	}
+
+	if (wait_for_click) {
+		double x, y;
+		len = plotx2 - plotx1;
+		x = plotx1 + len * xmin;
+		len = ploty2 - ploty1;
+		y = ploty1 + len * ymin;
+		click_x = x;
+		click_y = y;
+		wait_for_click = FALSE;
+		return;
+	}
+
 
 	if (plot_in_progress == 0 &&
 	    line_plot != NULL &&
@@ -8329,6 +8346,85 @@ PlotWindowPresent_op (GelCtx *ctx, GelETree * * a, int *exception)
 	return gel_makenum_null ();
 }
 
+static GelETree *
+LinePlotWaitForClick_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	GelETree *n;
+	GelMatrixW *m;
+
+	ensure_window (FALSE /* do_window_present */);
+
+	if (plot_mode != MODE_LINEPLOT &&
+	    plot_mode != MODE_LINEPLOT_PARAMETRIC &&
+	    plot_mode != MODE_LINEPLOT_SLOPEFIELD &&
+	    plot_mode != MODE_LINEPLOT_VECTORFIELD) {
+		plot_mode = MODE_LINEPLOT;
+		clear_graph ();
+	}
+
+	if (line_plot == NULL) {
+		add_line_plot ();
+		plot_setup_axis ();
+	}
+
+	wait_for_click = TRUE;
+
+	while (wait_for_click) {
+		while (gtk_events_pending ())
+			gtk_main_iteration ();
+		if (gel_interrupted) {
+			wait_for_click = FALSE;
+			return NULL;
+		}
+		if (line_plot == NULL) {
+			wait_for_click = FALSE;
+			return gel_makenum_null ();
+		}
+	}
+
+	/*make us a new empty node*/
+	GEL_GET_NEW_NODE (n);
+	n->type = GEL_MATRIX_NODE;
+	m = n->mat.matrix = gel_matrixw_new ();
+	n->mat.quoted = FALSE;
+	gel_matrixw_set_size (m, 2, 1);
+
+	gel_matrixw_set_index (m, 0, 0) = gel_makenum_d (click_x);
+	gel_matrixw_set_index (m, 1, 0) = gel_makenum_d (click_y);
+
+	return n;
+}
+
+static GelETree *
+LinePlotMouseLocation_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	if (line_plot != NULL) {
+		GelETree *n;
+		GelMatrixW *m;
+		int xx, yy;
+		double x, y;
+
+		gtk_widget_get_pointer (GTK_WIDGET (line_plot), &xx, &yy);
+		gtk_plot_get_point (GTK_PLOT (line_plot), xx, yy, &x, &y);
+
+		/*make us a new empty node*/
+		GEL_GET_NEW_NODE (n);
+		n->type = GEL_MATRIX_NODE;
+		m = n->mat.matrix = gel_matrixw_new ();
+		n->mat.quoted = FALSE;
+		gel_matrixw_set_size (m, 2, 1);
+
+		gel_matrixw_set_index (m, 0, 0) = gel_makenum_d (x);
+		gel_matrixw_set_index (m, 1, 0) = gel_makenum_d (y);
+
+		return n;
+	} else {
+		gel_errorout (_("%s: Not in line plot mode.  Perhaps run LinePlot or LinePlotClear first."),
+			      "LinePlotMouseLocation");
+		return gel_makenum_null ();
+	}
+}
+
 void
 gel_plot_canvas_thaw_completely (void)
 {
@@ -10730,6 +10826,8 @@ gel_add_graph_functions (void)
 	FUNC (PlotCanvasThaw, 0, "", "plotting", N_("Thaw the plot canvas and redraw the plot immediately"));
 	FUNC (PlotWindowPresent, 0, "", "plotting", N_("Raise the plot window, and create the window if necessary"));
 
+	FUNC (LinePlotWaitForClick, 0, "", "plotting", N_("Wait for a click on the line plot window, return the location."));
+	FUNC (LinePlotMouseLocation, 0, "", "plotting", N_("Return current mouse location on the line plot window."));
 
 	VFUNC (ExportPlot, 2, "filename,type", "plotting", N_("Export the current contents of the plot canvas to a file.  The file type is given by the string type, which can be \"png\", \"eps\", or \"ps\"."));
 

@@ -1,0 +1,58 @@
+# Category: Complex Analysis
+# Name: Defining the Mandelbrot set
+#
+# Show the first 20 iterations of f(z) = z^2+c starting at 0 and using
+# the current mouse point as c.  If the iterations go out of |z| < 2,
+# then draw a red dot, otherwise draw a green dot.  Eventually the Mandelbrot
+# set should be in green and outside of it in red.
+
+LinePlotWindow = [-2,2,-2,2];
+
+mandelset = null;
+notmandelset = null;
+
+LinePlotDrawLegends = false;
+LinePlotClear();
+PlotWindowPresent ();
+
+circle = null;
+for t = 0.0 to 2*pi by 0.1 do (
+  circle = [circle;2*exp(1i*t)]
+);
+
+iterations = 20;
+
+lastc = null;
+
+while true do (
+  p = LinePlotMouseLocation ();
+  
+  if IsNull(p) then break;
+  
+  c = p@(1) + 1i*p@(2);
+
+  if c != lastc then (
+    lastc = c;
+    
+    points = zeros(2,1);
+    for n = 2 to iterations do (
+      points@(n) = (points@(n-1))^2+c;
+      if |points@(n)| > 100 then break 
+    );
+    
+    if |points@(n)| < 2.0 then
+      mandelset = [mandelset;c]
+    else
+      notmandelset = [notmandelset;c];
+   
+    PlotCanvasFreeze ();
+    LinePlotClear();
+    LinePlotDrawLine(circle, "thickness", 1, "color", "black");
+    LinePlotDrawPoints(mandelset, "thickness", 3, "color", "green");
+    LinePlotDrawPoints(notmandelset, "thickness", 3, "color", "red");
+    LinePlotDrawLine(points, "thickness", 2, "color", "gray");
+    LinePlotDrawPoints(points, "thickness", 6, "color", "blue");
+    PlotCanvasThaw ();
+  );
+  wait(0.000001);
+)

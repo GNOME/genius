@@ -2,6 +2,8 @@
 # Name: Visualizing complex mappings, wandering ball
 #
 # Shows a bouncing wandering ball and its image under a complex map.
+# If the mouse is within the plot window, then the mouse location is
+# used for the ball location.
 # Source is in blue and the target is in red.
 #
 
@@ -11,11 +13,17 @@
 #function f(z) = 1i*z;
 #function f(z) = (3+1i)*z;
 #function f(z) = (3+1i)*z+(1+0.5i);
-function f(z) = 0.2*(z-5)*(z+5);
 #function f(z) = 0.2*z^2;
+#function f(z) = 0.01*z^3;
+function f(z) = 0.2*(z-5)*(z+5);
+#function f(z) = 0.01*z^2*(z-5)
+#function f(z) = 25/z;
+#function f(z) = 25/conj(z);
 #function f(z) = 0.1*(z-10)^2*z;
 #function f(z) = exp(z);
-#function f(z) = z^2+1i*z+0.1*sin(z^2);
+
+#for this one you probably want to increase the precision, see "mult" below
+#function f(z) = 0.05*(z^2+1i*z+0.1*sin(z^2));
 
 LinePlotDrawLegends = false;
 PlotWindowPresent(); # Make sure the window is raised
@@ -36,8 +44,8 @@ step = 0.05;
 
 # precision multiplier.  Increasing this number increases the
 # number of points
-mult=1;
-#mult = 3;
+#mult=1;
+mult = 3;
 #mult = 10;
 
 
@@ -48,8 +56,22 @@ line2pts = ApplyOverMatrix((0:(30*mult))',`(k)=1i*radius*(2.0*k/(30*mult)-1));
 
 dir = exp(1i*rand()*2*pi);
 pt = 0;
+lastp = null;
 
 while true do (
+	p = LinePlotMouseLocation ();
+	if IsNull(p) then break;
+	
+
+	# if mouse within window, use that
+	if confine_window@(1) <= p@(1) <= confine_window@(2) and
+	   confine_window@(3) <= p@(2) <= confine_window@(4) then (
+		pt = p@(1) + 1i*p@(2);
+		# if at the same point, then just try again;
+		if pt == lastp then (wait(0.0001);continue);
+		lastp = pt
+	);
+
 	PlotCanvasFreeze ();
 	LinePlotClear ();
 
@@ -68,10 +90,9 @@ while true do (
 	points = ApplyOverMatrix(points,f);
 	LinePlotDrawLine(points,"color","red");
 
-
-
 	PlotCanvasThaw ();
 
+	# Now wander around
 
 	pt = pt+step*dir;
 
