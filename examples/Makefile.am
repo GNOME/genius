@@ -27,7 +27,8 @@ example_DATA = \
 	complex-analysis-mandelbrot-define.gel \
 	complex-analysis-wandering-ball.gel \
 	complex-analysis-mesh.gel \
-	riemann-integral.gel
+	riemann-integral.gel \
+	riemann-integral-darboux.gel
 
 EXTRA_DIST = \
 	$(example_DATA)

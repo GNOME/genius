@@ -1,0 +1,139 @@
+# Category: Analysis
+# Name: Riemann integral via Darboux sums
+#
+# Plot a function and then by clicking add points to the partition.
+# Genius will try to compute the min and max of each interval and compute
+# the Darboux sums.  Alternatively it can be put into a mode where new
+# partition points are picked automatically.
+#
+
+function f(x) = x^2+sin(5*x);
+#function f(x) = x^2;
+#function f(x) = 2*x*(1-x);
+#function f(x) = sqrt(x)*sin(27*x);
+#function f(x) = x;
+#function f(x) = if x < 0.5 then -1.0 else 1.0;
+
+limits = [0.0,1.0];
+
+# pick points randomly rather than by clicking
+pickpointsrandomly = false;
+
+# wait for a moment after every iteration when picking points
+# randomly
+waitafteriteration = true;
+
+
+
+
+PlotWindowPresent(); # Make sure the window is raised
+
+partition = limits;
+
+# this will start out with a uniform partition
+#partition = limits@(1) : 0.05 : limits@(2);
+
+# thousand points seems to get good results for moderately
+# complicated functions
+theintegral = CompositeSimpsonsRule(f, limits@(1), limits@(2), 1000);
+
+fgraph = null;
+for x = limits@(1) to limits@(2) by (limits@(2)-limits@(1))/500 do
+  fgraph = [fgraph;[x,f(x)]];
+
+length = limits@(2)-limits@(1);
+
+# This is not a nice way to do it, but it works reasonably well for simple examples
+function findminmax (x0,x1) = (
+  if (x1-x0)/length < 0.1 then
+    n=100
+  else
+    n=1000;
+  minmax = [f(x0),f(x0)];
+  for x = x0 to x1 by (x1-x0)/n do (
+     fx = f(x);
+     if fx < minmax@(1) then
+       minmax@(1) = fx
+     else if fx > minmax@(2) then
+       minmax@(2) = fx
+  );
+  minmax
+);
+
+while true do (
+  PlotCanvasFreeze ();
+  LinePlotClear ();
+  
+  thesum1 = 0.0;
+  thesum2 = 0.0;
+  largestdeltax = 0.0;
+  for n=1 to elements(partition)-1 do (
+    x0 = partition@(n);
+    x1 = partition@(n+1);
+    deltax = x1-x0;
+    if deltax > largestdeltax then largestdeltax = deltax;
+    
+    minmax = findminmax(x0,x1);
+    
+    f1 = minmax@(1);
+    f2 = minmax@(2);
+    thesum1 = thesum1 + f1*deltax;
+    thesum2 = thesum2 + f2*deltax;
+    if f2 > 0 then (
+      LinePlotDrawLine([x0,0;x0,f2;x1,f2;x1,0],
+                       "color", "orange",
+                       "filled");
+      LinePlotDrawLine([x0,0;x0,f2;x1,f2;x1,0],
+                       "color", "black",
+                       "thickness", 1);
+      LinePlotDrawLine([x0,0;x0,f1;x1,f1;x1,0],
+                       "color", "lightgreen",
+                       "filled");
+      LinePlotDrawLine([x0,0;x0,f1;x1,f1;x1,0],
+                       "color", "black",
+                       "thickness", 1)
+    ) else (
+      LinePlotDrawLine([x0,0;x0,f1;x1,f1;x1,0],
+                       "color", "orange",
+                       "filled");
+      LinePlotDrawLine([x0,0;x0,f1;x1,f1;x1,0],
+                       "color", "black",
+                       "thickness", 1);
+      LinePlotDrawLine([x0,0;x0,f2;x1,f2;x1,0],
+                       "color", "lightgreen",
+                       "filled");
+      LinePlotDrawLine([x0,0;x0,f2;x1,f2;x1,0],
+                       "color", "black",
+                       "thickness", 1)
+    )
+  );
+  
+  LinePlotDrawLine(fgraph,
+                   "window", "fit",
+                   "color", "blue",
+                   "thickness", 2,
+                   "legend", "f(x)");
+    
+  PlotCanvasThaw();
+  
+  print ("The lower Darboux sum = " + thesum1 +
+         "\nThe upper Darboux sum = " + thesum2 +
+         "\nNumber of subintervals = " + (elements(partition)-1) + 
+         "\nLargest delta x = " + largestdeltax +
+         "\nThe actual integral (approximately using Simpsons's rule) = " + theintegral +
+         "\n");
+
+  if pickpointsrandomly then (
+    x = rand()*(limits@(2)-limits@(1)) + limits@(1);
+    # Need to wait otherwise it's too fast
+    if waitafteriteration then wait(0.3)
+  ) else (
+    p = LinePlotWaitForClick ();
+    if IsNull(p) then break;
+    x = p@(1)
+  );
+  
+  if not IsIn(x,partition) and limits@(1) < x < limits@(2) then (
+    partition = SortVector([partition,x])
+  )
+);
