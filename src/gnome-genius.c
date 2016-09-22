@@ -4225,8 +4225,8 @@ close_callback (GtkWidget *menu_item, gpointer data)
 	close_program (p);
 }
 
-static void
-run_program (GtkWidget *menu_item, gpointer data)
+static gboolean
+run_program_idle (gpointer data)
 {
 	const char *vname;
 	const char *name;
@@ -4372,6 +4372,13 @@ run_program (GtkWidget *menu_item, gpointer data)
 		}
 	}
 
+	return FALSE;
+}
+
+static void
+run_program (GtkWidget *menu_item, gpointer data)
+{
+	g_idle_add (run_program_idle, NULL);
 }
 
 static gboolean
