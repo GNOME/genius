@@ -51,5 +51,5 @@ function the_color(x0) = [phi(x0), #red
 
 # Draw characteristics
 for x0=xstart to xend by xstep do (
-  LinePlotDrawLine([x0,0,x0+g(phi(x0))*tend,tend], "color", the_color (x0))
+  LinePlotDrawLine([x0,0;x0+g(phi(x0))*tend,tend], "color", the_color (x0))
 )

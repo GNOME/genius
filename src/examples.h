@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2014 Jiri (George) Lebl
+ * Copyright (C) 1997-2016 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -28,7 +28,13 @@ typedef struct _GelExample {
 	char *file;
 } GelExample;
 
+typedef struct _GelExampleCategory {
+	char *name;
+	GSList *examples;
+} GelExampleCategory;
+
 void gel_read_example_list(void);
 extern GSList *gel_example_list;
+extern GSList *gel_example_categories_list;
 
 #endif /* EXAMPLES_H__ */

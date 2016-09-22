@@ -13,10 +13,10 @@ function lf(x) = df(a)*(x-a)+f(a);
 function DoGraph(x) = (
   PlotCanvasFreeze();
   LinePlot(f,lf,[-0.5,5,-0.1,2]);
-  LinePlotDrawLine([x,0,x,min(f(x),lf(x))],"color","orange");
-  LinePlotDrawLine([x,min(f(x),lf(x)),x,max(f(x),lf(x))],"color","red");
-  LinePlotDrawLine([-0.5,f(x),5,f(x)],"color","black","thickness",1);
-  LinePlotDrawLine([-0.5,lf(x),5,lf(x)],"color","purple","thickness",1);
+  LinePlotDrawLine(x,0,x,min(f(x),lf(x)),"color","orange");
+  LinePlotDrawLine(x,min(f(x),lf(x)),x,max(f(x),lf(x)),"color","red");
+  LinePlotDrawLine(-0.5,f(x),5,f(x),"color","black","thickness",1);
+  LinePlotDrawLine(-0.5,lf(x),5,lf(x),"color","purple","thickness",1);
   PlotCanvasThaw();
   print("at x=" + x + "  error = |" + lf(x) + " - " + f(x) + "| = " + |lf(x)-f(x)|);
 );

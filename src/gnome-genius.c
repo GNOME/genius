@@ -4236,12 +4236,12 @@ run_program_idle (gpointer data)
 				      _("<b>No program selected.</b>\n\n"
 					"Create a new program, or select an "
 					"existing tab in the notebook."));
-		return;
+		return FALSE;
 	}
 	buffer = selected_program->buffer;
 	/* sanity */
 	if (buffer == NULL)
-		return;
+		return FALSE;
 	name = selected_program->name;
 	vname = selected_program->vname;
 	if (vname == NULL)
@@ -4249,7 +4249,7 @@ run_program_idle (gpointer data)
 
 	if (gel_calc_running) {
 		executing_warning ();
-		return;
+		return FALSE;
 	} else {
 		GtkTextIter iter, iter_end;
 		char *prog;
@@ -4267,7 +4267,7 @@ run_program_idle (gpointer data)
 				 g_strerror (errno));
 			genius_display_error (NULL, err);
 			g_free (err);
-			return;
+			return FALSE;
 		}
 
 		gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
@@ -4294,7 +4294,7 @@ run_program_idle (gpointer data)
 			genius_display_error (NULL,
 					      _("<b>Cannot execute program</b>\n\n"
 						"Cannot fork."));
-			return;
+			return FALSE;
 		}
 
 		if (pid == 0) {
@@ -5401,32 +5401,42 @@ main (int argc, char *argv[])
 	/* Read examples now */
 	gel_read_example_list ();
 	if (gel_example_list != NULL) {
-		GSList *li;
-		int i;
+		GSList *li, *l;
 		GtkWidget *menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (gtk_ui_manager_get_widget (genius_ui, "/MenuBar/ExamplesMenu")));
 
-		for (i = 0, li = gel_example_list;
+		for (li = gel_example_categories_list;
 		     li != NULL;
-		     li = li->next, i++) {
+		     li = li->next) {
+			GtkWidget *submenu;
 			GtkWidget *item;
-			GelExample *exam = li->data;
-			char *s;
+			GelExampleCategory *cat = li->data;
 
-			s = g_strconcat (exam->category, ": ", exam->name, NULL);
-			item = gtk_menu_item_new_with_label (s);
-			g_free (s);
-
-			g_signal_connect (item, "select",
-					  G_CALLBACK (simple_menu_item_select_cb), 
-					  exam->name);
-			g_signal_connect (item, "deselect",
-					  G_CALLBACK (simple_menu_item_deselect_cb), 
-					  exam->name);
-			gtk_widget_show (item);
-			g_signal_connect (G_OBJECT (item), "activate",
-					  G_CALLBACK (open_example_cb), exam);
+			item = gtk_menu_item_new_with_label (cat->name);
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-			example_count ++;
+
+			submenu = gtk_menu_new ();
+			gtk_menu_item_set_submenu (GTK_MENU_ITEM (item),
+						   submenu);
+			gtk_widget_show (GTK_WIDGET (item));
+			gtk_widget_show (GTK_WIDGET (submenu));
+
+			for (l = cat->examples; l != NULL; l = l->next) {
+				GelExample *exam = l->data;
+
+				item = gtk_menu_item_new_with_label (exam->name);
+
+				g_signal_connect (item, "select",
+						  G_CALLBACK (simple_menu_item_select_cb), 
+						  exam->name);
+				g_signal_connect (item, "deselect",
+						  G_CALLBACK (simple_menu_item_deselect_cb), 
+						  exam->name);
+				gtk_widget_show (item);
+				g_signal_connect (G_OBJECT (item), "activate",
+						  G_CALLBACK (open_example_cb), exam);
+				gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
+				example_count ++;
+			}
 		}
 	}
 	/* if no exampleials, hide the menu */

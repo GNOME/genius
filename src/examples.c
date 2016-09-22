@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2014 Jiri (George) Lebl
+ * Copyright (C) 1997-2016 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -52,6 +52,40 @@
 #include "binreloc.h"
 
 GSList *gel_example_list = NULL;
+GSList *gel_example_categories_list = NULL;
+
+
+static GelExampleCategory *
+gel_get_example_category (const char *name)
+{
+	GSList *li;
+	static int k = 0;
+	static GelExampleCategory *last = NULL;
+	GelExampleCategory *cat;
+
+	if (last != NULL && strcmp(last->name, name) == 0) {
+		return last;
+	}
+
+	for (li = gel_example_categories_list; li != NULL; li = li->next) {
+		cat = li->data;
+		if (strcmp (cat->name, name) == 0) {
+			last = cat;
+			return cat;
+		}
+	}
+
+	cat = g_new (GelExampleCategory, 1);
+	cat->name = g_strdup (name);
+	cat->examples = NULL;
+
+	gel_example_categories_list =
+		g_slist_prepend (gel_example_categories_list, cat);
+
+	last = cat;
+
+	return cat;
+}
 
 static GelExample *
 gel_readexample (const char *dir_name, const char *file_name)
@@ -115,15 +149,6 @@ gel_readexample (const char *dir_name, const char *file_name)
 }
 
 static void
-free_example(GelExample *exam)
-{
-	g_free (exam->category);
-	g_free (exam->name);
-	g_free (exam->file);
-	g_free (exam);
-}
-
-static void
 read_examples_from_dir (const char *dir_name)
 {
 	DIR *dir;
@@ -146,7 +171,12 @@ read_examples_from_dir (const char *dir_name)
 			continue;
 		exam = gel_readexample (dir_name, dent->d_name);
 		if (exam != NULL) {
-			gel_example_list = g_slist_prepend (gel_example_list, exam);
+			GelExampleCategory *cat;
+
+			gel_example_list = g_slist_prepend (gel_example_list,
+							    exam);
+			cat = gel_get_example_category (exam->category);
+			cat->examples = g_slist_prepend (cat->examples, exam);
 		}
 	}
 	closedir (dir);
@@ -161,17 +191,25 @@ compare_examples (GelExample *a, GelExample *b)
 	return strcmp (a->name, b->name);
 }
 
+static int
+compare_examples_byname (GelExample *a, GelExample *b)
+{
+	return strcmp (a->name, b->name);
+}
+
+static int
+compare_example_categories (GelExampleCategory *a, GelExampleCategory *b)
+{
+	return strcmp (a->name, b->name);
+}
+
 void
 gel_read_example_list (void)
 {
+	GSList *li;
 	char *dir_name;
 	char *datadir;
 
-	/*free the previous list*/
-	g_slist_foreach (gel_example_list, (GFunc)free_example, NULL);
-	g_slist_free (gel_example_list);
-	gel_example_list = NULL;
-	
 	datadir = gbr_find_data_dir (DATADIR);
 	dir_name = g_build_filename (datadir, "genius", "examples", NULL);
 	g_free (datadir);
@@ -183,7 +221,17 @@ gel_read_example_list (void)
 	read_examples_from_dir (dir_name);
 	g_free (dir_name);
 
-	/* FIXME: should do more */
 	gel_example_list = g_slist_sort (gel_example_list,
 					 (GCompareFunc)compare_examples);
+
+	gel_example_categories_list =
+		g_slist_sort (gel_example_categories_list,
+			      (GCompareFunc)compare_example_categories);
+
+	for (li = gel_example_categories_list; li != NULL; li = li->next) {
+		GelExampleCategory *cat = li->data;
+		cat->examples =
+			g_slist_sort (cat->examples,
+				      (GCompareFunc)compare_examples_byname);
+	}
 }
