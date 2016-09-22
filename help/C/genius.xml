@@ -8833,6 +8833,10 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 	    the color, the thickness, the window
 	    as 4-vector, type of arrow, or the legend.  (Arrow and window are from version 1.0.6 onwards.)
     	  </para>
+	  <para>
+	    If the line is to be treated as a filled polygon, filled with the given color, you
+	    can specify the argument <userinput>"filled"</userinput>.  Since version 1.0.22 onwards.
+	  </para>
     	  <para>
 	    The color should be either a string indicating the common English word for the color
 	    that GTK will recognize such as 
@@ -8869,6 +8873,7 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 <prompt>genius></prompt> <userinput>LinePlotDrawLine([0,0;1,1],"arrow","end")</userinput>
 <prompt>genius></prompt> <userinput>LinePlotDrawLine(RungeKuttaFull(`(x,y)=y,0,3,100),"color","blue","legend","The Solution")</userinput>
 <prompt>genius></prompt> <userinput>for r=0.0 to 1.0 by 0.1 do LinePlotDrawLine([0,0;1,r],"color",[r,(1-r),0.5],"window",[0,1,0,1])</userinput>
+<prompt>genius></prompt> <userinput>LinePlotDrawLine([0,0;10,0;10,10;0,10],"filled","color","green")</userinput>
 </screen>
           </para>
 	  <para>

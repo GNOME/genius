@@ -3810,7 +3810,7 @@ parametric_get_value (double *x, double *y, double t)
 
 static GtkPlotData *
 draw_line (double *x, double *y, int len, int thickness, GdkColor *color,
-	   char *legend)
+	   char *legend, gboolean filled)
 {
 	GtkPlotData *data;
 
@@ -3835,7 +3835,10 @@ draw_line (double *x, double *y, int len, int thickness, GdkColor *color,
 					   GDK_JOIN_ROUND,
 					   thickness, color);
 
+	gtk_plot_data_fill_area (data, filled);
+
 	gtk_widget_show (GTK_WIDGET (data));
+
 
 	gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 	gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
@@ -4156,7 +4159,11 @@ slopefield_draw_solution (double x, double y, double dx, gboolean is_gui)
 	/* Adjust ends */
 	/*clip_line_ends (xx, yy, len);*/
 
-	data = draw_line (xx, yy, len, 2 /* thickness */, &color, NULL /*legend*/);
+	data = draw_line (xx, yy, len,
+			  2 /* thickness */,
+			  &color,
+			  NULL /* legend */,
+			  FALSE /* filled */);
 	solutions_list = g_slist_prepend (solutions_list,
 					  data);
 	g_signal_connect (G_OBJECT (data), "destroy",
@@ -4252,7 +4259,11 @@ vectorfield_draw_solution (double x, double y, double dt, double tlen, gboolean 
 
 	len = i;
 
-	data = draw_line (xx, yy, len, 2 /* thickness */, &color, NULL /*legend*/);
+	data = draw_line (xx, yy, len,
+			  2 /* thickness */,
+			  &color,
+			  NULL /* legend */,
+			  FALSE /* filled */);
 	solutions_list = g_slist_prepend (solutions_list,
 					  data);
 	g_signal_connect (G_OBJECT (data), "destroy",
@@ -8767,7 +8778,8 @@ draw_arrowhead (double xx1, double yy1, double xx2, double yy2,
 			    ym - cos(angle)* /*aw*/5* thickness / 2.0,
 			    & (ax[2]), & (ay[2]));
 
-	draw_line (ax, ay, 3, thickness, color, NULL /*legend*/);
+	draw_line (ax, ay, 3, thickness, color, NULL /* legend */,
+		   FALSE /* filled */);
 } 
 
 static gboolean
@@ -8850,6 +8862,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 	int thickness;
 	gboolean arrow_origin = FALSE;
 	gboolean arrow_end = FALSE;
+	gboolean filled = FALSE;
 	int i;
 	gboolean update = FALSE;
 	char *legend = NULL;
@@ -8914,6 +8927,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 			static GelToken *bothid = NULL;
 			static GelToken *noneid = NULL;
 			static GelToken *legendid = NULL;
+			static GelToken *filledid = NULL;
 
 			if (colorid == NULL) {
 				colorid = d_intern ("color");
@@ -8926,6 +8940,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 				bothid = d_intern ("both");
 				noneid = d_intern ("none");
 				legendid = d_intern ("legend");
+				filledid = d_intern ("filled");
 			}
 
 			if (a[i]->type == GEL_STRING_NODE)
@@ -9070,8 +9085,12 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 					return NULL;
 				}
 				i++;
+			} else if (id == filledid) {
+				filled = TRUE;
 			} else {
-				gel_errorout (_("%s: Unknown style"), "LinePlotDrawLine");
+				gel_errorout (_("%s: Unknown style: %s"),
+					      "LinePlotDrawLine",
+					      id->token);
 				g_free (legend);
 				g_free (x);
 				g_free (y);
@@ -9106,7 +9125,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 		plot_axis ();
 	}
 
-	draw_line (x, y, len, thickness, &color, legend);
+	draw_line (x, y, len, thickness, &color, legend, filled);
 
 	if (arrow_end && len > 1)
 		draw_arrowhead (x[len-2], y[len-2],
