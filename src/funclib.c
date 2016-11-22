@@ -7087,7 +7087,7 @@ gel_funclib_addall(void)
 	FUNC (CatalanConstant, 0, "", "constants",
 	      N_("Catalan's Constant (0.915...)"));
 
-	FUNC (ErrorFunction, 1, "x", "functions", N_("The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt"));
+	FUNC (ErrorFunction, 1, "x", "functions", N_("The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"));
 	ErrorFunction_function = f;
 	ALIAS (erf, 1, ErrorFunction);
 	FUNC (RiemannZeta, 1, "x", "functions", N_("The Riemann zeta function (only real values implemented)"));
