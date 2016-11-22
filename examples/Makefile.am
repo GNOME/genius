@@ -23,6 +23,7 @@ example_DATA = \
 	easy-matrix-examples.gel \
 	peano.gel \
 	vibrating-drumhead-modes.gel \
+	complex-analysis-newton-fractal.gel \
 	complex-analysis-mandelbrot-set.gel \
 	complex-analysis-mandelbrot-define.gel \
 	complex-analysis-wandering-ball.gel \
