@@ -3,7 +3,9 @@
 #
 # Shows a bouncing wandering ball and its image under a complex map.
 # If the mouse is within the plot window, then the mouse location is
-# used for the ball location.
+# used for the ball location.  The ball has a cross inside it, but
+# this can be changed into an angle by setting draw_angle to true
+# below.
 # Source is in blue and the target is in red.
 #
 
@@ -40,6 +42,11 @@ radius = 0.3;
 #step = 0.025;
 step = 0.01;
 
+#draw angle instead of cross in the ball
+draw_angle = false;
+
+angle1 = 0.05*pi;
+angle2 = 0.3*pi;
 
 # precision multiplier.  Increasing this number increases the
 # number of points
@@ -49,9 +56,42 @@ mult = 3;
 
 
 circlepts = ApplyOverMatrix((0:(80*mult))',`(k)=radius*exp(k*1i*2*pi/(80*mult)));
+
+#cross are vertical and horizontal line
 line1pts = ApplyOverMatrix((0:(30*mult))',`(k)=radius*(2.0*k/(30*mult)-1));
 line2pts = ApplyOverMatrix((0:(30*mult))',`(k)=1i*radius*(2.0*k/(30*mult)-1));
 
+# angle has radius 3 times that of the ball
+line1anglepts = ApplyOverMatrix((0:(50*mult))',`(k)=(radius*3*k/(30*mult))*exp(1i*angle1));
+line2anglepts = ApplyOverMatrix((0:(50*mult))',`(k)=(radius*3*k/(30*mult))*exp(1i*angle2));
+
+
+
+function draw_ball(pt) = (
+	PlotCanvasFreeze ();
+	LinePlotClear ();
+
+	points1 = pt + circlepts;
+	if draw_angle then (
+		points2 = pt + line1anglepts;
+		points3 = pt + line2anglepts;
+	) else (
+		points2 = pt + line1pts;
+		points3 = pt + line2pts;
+	);
+	LinePlotDrawLine (points1, "color", "blue");
+	LinePlotDrawLine (points2, "color", "blue");
+	LinePlotDrawLine (points3, "color", "blue");
+
+	LinePlotDrawLine (ApplyOverMatrix (points1, f),
+	                  "color", "red");
+	LinePlotDrawLine (ApplyOverMatrix (points2, f),
+	                  "color", "red");
+	LinePlotDrawLine (ApplyOverMatrix (points3, f),
+	                  "color", "red");
+
+	PlotCanvasThaw ();
+);
 
 dir = exp(1i*rand()*2*pi);
 pt = 0;
@@ -71,25 +111,7 @@ while true do (
 		lastp = pt
 	);
 
-	PlotCanvasFreeze ();
-	LinePlotClear ();
-
-	points = pt + circlepts;
-	LinePlotDrawLine(points,"color","blue");
-	points = ApplyOverMatrix(points,f);
-	LinePlotDrawLine(points,"color","red");
-
-	points = pt + line1pts;
-	LinePlotDrawLine(points,"color","blue");
-	points = ApplyOverMatrix(points,f);
-	LinePlotDrawLine(points,"color","red");
-
-	points = pt + line2pts;
-	LinePlotDrawLine(points,"color","blue");
-	points = ApplyOverMatrix(points,f);
-	LinePlotDrawLine(points,"color","red");
-
-	PlotCanvasThaw ();
+	draw_ball(pt);
 
 	# Now wander around
 
