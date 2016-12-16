@@ -4,7 +4,7 @@
 # Draw the Mandelbrot set
 #
 
-iterations = 10;
+iterations = 30;
 
 LinePlotWindow = [-2,2,-2,2];
 
@@ -29,13 +29,13 @@ for x = -2.0 to 2.0 by 0.02 do (
       z = z^2+c;
       if |z| >= 2.0 then break
     );
-    if m == iterations then (
+    if m == iterations then
       points = [points;c];
-      increment k;
-      # every 100 point display intermediate picture
-      if k % 100 == 0 then
-        DrawThePlot()
-    )
+    
+    increment k;
+    # every 500's point display intermediate picture
+    if k % 500 == 0 then
+      DrawThePlot()
   )
 );
 

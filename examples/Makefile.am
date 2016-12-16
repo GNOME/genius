@@ -28,6 +28,7 @@ example_DATA = \
 	complex-analysis-mandelbrot-define.gel \
 	complex-analysis-wandering-ball.gel \
 	complex-analysis-mesh.gel \
+	complex-analysis-argument-principle.gel \
 	riemann-integral.gel \
 	riemann-integral-darboux.gel
 

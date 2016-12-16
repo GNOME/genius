@@ -1,0 +1,103 @@
+# Category: Complex Analysis
+# Name: Finding roots via argument principle
+#
+# Shows a bouncing wandering ball and prints the number of roots minus poles of
+# a function within the ball to the console.  When roots detected the ball
+# turns green, for poles, it turns red. If the mouse is within the plot window
+# then the ball will be over the mouse.
+
+
+#The function to try, (must be able to take symbolic derivative, otherwise 
+#set df below!)
+
+function f(z) = (z-5i-5)^3*(z+5i-10)/(z+5i+5);
+#function f(z) = (z-4+1i)*(z-3)*(z-5i);
+#function f(z) = sin(2*z)*(z-5i+5)*(z+5);
+#function f(z) = sin(pi*z);
+
+df = SymbolicDerivative(f);
+
+LinePlotDrawLegends = false;
+PlotWindowPresent(); # Make sure the window is raised
+LinePlotClear(); # make sure we are in the line plot mode
+
+#approximately square grid
+LinePlotWindow = [-13,13,-10,10];
+
+#confine possibly to a smaller window.
+#You can also zoom out during the animation.
+#confine_window = [-8,8,-7,7];
+confine_window = LinePlotWindow;
+
+#the circle
+radius = 3;
+step = 0.1;
+
+circlepts = ApplyOverMatrix((0:(120))',`(k)=radius*exp(k*1i*2*pi/(120)));
+
+function draw_ball(pt,N) = (
+	PlotCanvasFreeze ();
+	LinePlotClear ();
+
+	LinePlotDrawLine (pt + circlepts, "color",
+	                  if N>0 then "green" else if N<0 then "red" else "blue");
+
+	PlotCanvasThaw ();
+);
+
+dir = exp(1i*rand()*2*pi);
+pt = 0;
+lastp = null;
+
+function NumberOfZeros(pt) = (
+  N = (1/(2*pi))*CompositeSimpsonsRule(`(t)=(
+    #f'(z)/f(z)
+    ( df(pt+radius*exp(1i*t)) / f(pt+radius*exp(1i*t)) ) *
+    # dz/i
+    radius*exp(1i*t)
+  ),0,2*pi,20);
+  return round(Re(N));
+);
+
+while true do (
+	p = LinePlotMouseLocation ();
+	if IsNull(p) then break;
+	
+	# if mouse within window, use that
+	if confine_window@(1) <= p@(1) <= confine_window@(2) and
+	   confine_window@(3) <= p@(2) <= confine_window@(4) then (
+		pt = p@(1) + 1i*p@(2);
+		# if at the same point, then just try again;
+		if pt == lastp then (wait(0.0001);continue);
+		lastp = pt
+	);
+
+	N = NumberOfZeros(pt);
+	draw_ball(pt,N);
+	print ("Zeros-Poles within ball: " + N + "  ... may be nonsense if zero/pole on circle");
+
+	# Now wander around
+
+	pt = pt+step*dir;
+
+	if (Re(pt) < confine_window@(1)+radius) then (
+		pt = (confine_window@(1)+radius) + 1i*Im(pt);
+		dir = -1i*conj(1i*dir)
+	);
+	if (Re(pt) > confine_window@(2)-radius) then (
+		pt = (confine_window@(2)-radius) + 1i*Im(pt);
+		dir = -1i*conj(1i*dir)
+	);
+	if (Im(pt) < confine_window@(3)+radius) then (
+		pt = Re(pt) + 1i*(confine_window@(3)+radius);
+		dir = conj(dir)
+	);
+	if (Im(pt) > confine_window@(4)-radius) then (
+		pt = Re(pt) + 1i*(confine_window@(4)-radius);
+		dir = conj(dir)
+	);
+
+	dir = dir*exp(1i*(rand()*0.2-0.1));
+
+	wait(0.0001)
+);
