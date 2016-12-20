@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2014 Jiri (George) Lebl
+ * Copyright (C) 1997-2016 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -601,7 +601,7 @@ gel_matrixw_incr_element (GelMatrixW *m, int x, int y, mpw_ptr by)
 #endif
 
 	if (m->tr)
-		internal_make_private (m, MAX(m->regh, y+1), MAX(m->regw, x+1),
+		internal_make_private (m, MAX(m->regw, y+1), MAX(m->regh, x+1),
 				       TRUE /* kill_type_caches */);
 	else
 		internal_make_private (m, MAX(m->regw, x+1), MAX(m->regh, y+1),
@@ -628,29 +628,25 @@ void
 gel_matrixw_set_velement (GelMatrixW *m, int i, gpointer data)
 {
 	GelETree *t;
-	int x, y;
+	int x, y, w, h;
 
 	g_return_if_fail (m != NULL);
 	g_return_if_fail (i >= 0);
 
+	w = gel_matrixw_width (m);
+	h = gel_matrixw_height (m);
+
+	if (h == 1) {
+		x = i;
+		y = 0;
+	} else {
+		x = i % w;
+		y = i / w;
+	}
 	if (m->tr) {
-		if (m->regw == 1) {
-			x = 0;
-			y = i;
-		} else {
-			x = i % m->regh;
-			y = i / m->regh;
-		}
-		internal_make_private (m, MAX(m->regh, y+1), MAX(m->regw, x+1),
+		internal_make_private (m, MAX(m->regw, y+1), MAX(m->regh, x+1),
 				       TRUE /* kill_type_caches */);
 	} else {
-		if (m->regh == 1) {
-			x = i;
-			y = 0;
-		} else {
-			x = i % m->regw;
-			y = i / m->regw;
-		}
 		internal_make_private (m, MAX(m->regw, x+1), MAX(m->regh, y+1),
 				       TRUE /* kill_type_caches */);
 	}
@@ -666,30 +662,26 @@ void
 gel_matrixw_incr_velement (GelMatrixW *m, int i, mpw_ptr by)
 {
 	GelETree *t;
-	int x, y;
+	int x, y, w, h;
 
 	g_return_if_fail (m != NULL);
 	g_return_if_fail (i >= 0);
 
+	w = gel_matrixw_width (m);
+	h = gel_matrixw_height (m);
+
+	if (h == 1) {
+		x = i;
+		y = 0;
+	} else {
+		x = i % w;
+		y = i / w;
+	}
 	if (m->tr) {
-		if (m->regw == 1) {
-			x = 0;
-			y = i;
-		} else {
-			x = i % m->regh;
-			y = i / m->regh;
-		}
-		internal_make_private (m, MAX(m->regh, y+1), MAX(m->regw, x+1),
+		internal_make_private (m, MAX(m->regw, x+1), MAX(m->regh, y+1),
 				       TRUE /* kill_type_caches */);
 	} else {
-		if (m->regh == 1) {
-			x = i;
-			y = 0;
-		} else {
-			x = i % m->regw;
-			y = i / m->regw;
-		}
-		internal_make_private (m, MAX(m->regw, x+1), MAX(m->regh, y+1),
+		internal_make_private (m, MAX(m->regw, y+1), MAX(m->regh, x+1),
 				       TRUE /* kill_type_caches */);
 	}
 	gel_matrixw_set_at_least_size (m, x+1, y+1);
@@ -1279,8 +1271,8 @@ gel_matrixw_set_vregion (GelMatrixW *m, GelMatrixW *src, int *desti, int len)
 				x = desti[i];
 				y = 0;
 			} else {
-				x = desti[i] / m->regw;
-				y = desti[i] % m->regw;
+				x = desti[i] % m->regw;
+				y = desti[i] / m->regw;
 			}
 			t = gel_matrix_index (m->m, x, y);
 
@@ -1302,49 +1294,77 @@ gel_matrixw_set_vregion (GelMatrixW *m, GelMatrixW *src, int *desti, int len)
 void
 gel_matrixw_set_vregion_etree (GelMatrixW *m, GelETree *src, int *desti, int len)
 {
+	int srcelts;
+	int max;
+
 	g_return_if_fail (m != NULL);
 	g_return_if_fail (src != NULL);
 	g_return_if_fail (desti != NULL);
 	g_return_if_fail (len > 0);
-
 #ifdef MATRIX_DEBUG
 	/*debug*/printf ("%s\n", G_GNUC_PRETTY_FUNCTION);
 #endif
 
-	if (m->tr) {
-		int max = getmax (desti, len);
-		int minw = (max / m->regh) + 1;
-		int i;
+	max = getmax (desti, len);
 
-		internal_make_private (m, MAX (minw, m->regw), m->regh,
-				       TRUE /* kill_type_caches */);
-		ensure_at_least_size (m, minw, m->regh);
+	if (m->tr) {
+		int i;
+		if (m->regw == 1) {
+			internal_make_private (m, m->regw, MAX (max+1, m->regh),
+					       TRUE /* kill_type_caches */);
+			ensure_at_least_size (m, m->regw, max+1);
+		} else {
+			int minw = (max / m->regh) + 1;
+			internal_make_private (m, MAX (minw, m->regw), m->regh,
+					       TRUE /* kill_type_caches */);
+			ensure_at_least_size (m, minw, m->regh);
+		}
 		/* assume that's what ensure/make_us_a_copy does */
 		g_assert (m->regx == NULL && m->regy == NULL);
 
 		for (i = 0; i < len; i++) {
-			int x = desti[i] / m->regw;
-			int y = desti[i] % m->regw;
-			GelETree *t = gel_matrix_index (m->m, x, y);
+			int x, y;
+			GelETree *t;
+			if (m->regw == 1) {
+				x = 0;
+				y = desti[i];
+			} else {
+				x = desti[i] / m->regh;
+				y = desti[i] % m->regh;
+			}
+			t = gel_matrix_index (m->m, x, y);
+
 			gel_matrix_index (m->m, x, y) = gel_copynode (src);
+
 			if (t != NULL)
 				gel_freetree (t);
 		}
 	} else {
-		int max = getmax (desti, len);
-		int minh = (max / m->regw) + 1;
 		int i;
-
-		internal_make_private (m, m->regw, MAX (minh, m->regh),
-				       TRUE /* kill_type_caches */);
-		ensure_at_least_size (m, m->regw, minh);
+		if (m->regh == 1) {
+			internal_make_private (m, MAX (max+1, m->regw), m->regh,
+					       TRUE /* kill_type_caches */);
+			ensure_at_least_size (m, max+1, m->regh);
+		} else {
+			int minh = (max / m->regw) + 1;
+			internal_make_private (m, m->regw, MAX (minh, m->regh),
+					       TRUE /* kill_type_caches */);
+			ensure_at_least_size (m, m->regw, minh);
+		}
 		/* assume that's what ensure/make_us_a_copy does */
 		g_assert (m->regx == NULL && m->regy == NULL);
 
 		for (i = 0; i < len; i++) {
-			int x = desti[i] % m->regw;
-			int y = desti[i] / m->regw;
-			GelETree *t = gel_matrix_index (m->m, x, y);
+			int x, y;
+			GelETree *t;
+			if (m->regh == 1) {
+				x = desti[i];
+				y = 0;
+			} else {
+				x = desti[i] % m->regw;
+				y = desti[i] / m->regw;
+			}
+			t = gel_matrix_index (m->m, x, y);
 			gel_matrix_index (m->m, x, y) = gel_copynode (src);
 			if (t != NULL)
 				gel_freetree (t);

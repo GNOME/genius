@@ -6,6 +6,7 @@ example_DATA = \
 	eulers-method-exp-run.gel \
 	eulers-method-graphs-exp.gel \
 	explicit-fdm-heat.gel \
+	explicit-fdm-heat-line.gel \
 	laplace-fdm.gel \
 	linapprox.gel \
 	lorenz.gel \
