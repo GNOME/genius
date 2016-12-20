@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-22 09:23-0500\n"
+"POT-Creation-Date: 2016-12-20 15:20-0600\n"
 "PO-Revision-Date: 2016-05-23 17:46-0500\n"
 "Last-Translator: Jiri Lebl <jirka@5z.com>\n"
 "Language-Team: Esperanto <gnome-eo-list@gnome.org>\n"
@@ -1539,7 +1539,7 @@ msgstr ""
 msgid "Unevaluatable function type encountered!"
 msgstr ""
 
-#: ../src/eval.c:3506 ../src/graphing.c:6009
+#: ../src/eval.c:3506 ../src/graphing.c:6020
 msgid "or"
 msgstr "aŭ"
 
@@ -1552,7 +1552,7 @@ msgstr ""
 #: ../src/eval.c:3550 ../src/eval.c:3583 ../src/eval.c:7544
 #, c-format
 msgid "Variable '%s' used uninitialized, perhaps you meant %s."
-msgstr ""
+msgstr "Variablo '%s' uzita sen difino, eble vi celis %s."
 
 #: ../src/eval.c:3557 ../src/eval.c:3590 ../src/eval.c:4646 ../src/eval.c:7551
 #, c-format
@@ -2033,18 +2033,13 @@ msgstr ""
 msgid "%s: Cannot compare complex numbers"
 msgstr "%s: Ne povas kompari kompleksaj nombroj"
 
-#: ../src/funclib.c:3100
+#: ../src/funclib.c:3100 ../src/funclib.c:3196
 #, c-format
 msgid "%s: Input not a number or a matrix of numbers."
 msgstr "%s: enigo ne estas nombro aŭ matrico de nombroj"
 
-#: ../src/funclib.c:3196
-#, fuzzy, c-format
-msgid "%s: Input not a number or matrix of numbers."
-msgstr "%s: %d-a argumento ne estas nombro aŭ matrico"
-
 #: ../src/funclib.c:3434 ../src/funclib.c:3492 ../src/funclib.c:5030
-#: ../src/funclib.c:5324 ../src/graphing.c:10276
+#: ../src/funclib.c:5324 ../src/graphing.c:10295
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: tro da argumentoj"
@@ -2468,7 +2463,7 @@ msgid "Catalan's Constant (0.915...)"
 msgstr "Konstanto de Cataln (0.915...)"
 
 #: ../src/funclib.c:7090
-msgid "The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt"
+msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
 msgstr ""
 
 #: ../src/funclib.c:7093
@@ -3204,7 +3199,7 @@ msgstr ""
 "Por helpo tajpu `manual' aŭ `help'.%s\n"
 "\n"
 
-#: ../src/genius.c:604 ../src/gnome-genius.c:5375
+#: ../src/genius.c:604 ../src/gnome-genius.c:5392
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -3510,7 +3505,7 @@ msgstr "_Grafei..."
 msgid "Plot functions, vector fields, surfaces, etc..."
 msgstr "Grafei funkcojn, vektorajn kampojn, surfacojn, ktp..."
 
-#: ../src/gnome-genius.c:383 ../src/gnome-genius.c:586 ../src/graphing.c:7247
+#: ../src/gnome-genius.c:383 ../src/gnome-genius.c:586 ../src/graphing.c:7258
 msgid "_Plot"
 msgstr "_Grafei"
 
@@ -3893,7 +3888,7 @@ msgid "Cannot open file"
 msgstr "Ne eblas malfermi dosieron"
 
 #. context
-#: ../src/gnome-genius.c:3408 ../src/gnome-genius.c:4977
+#: ../src/gnome-genius.c:3408 ../src/gnome-genius.c:4994
 #, c-format
 msgid "Line: %d"
 msgstr "Linio: %d"
@@ -4017,34 +4012,34 @@ msgstr ""
 #. textbox_title
 #. bind_response
 #. wrap
-#: ../src/gnome-genius.c:4722
+#: ../src/gnome-genius.c:4746
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr ""
 
-#: ../src/gnome-genius.c:4790
+#: ../src/gnome-genius.c:4807
 msgid "Readline helper died, weird.  Trying to recover, things may be odd."
 msgstr ""
 
-#: ../src/gnome-genius.c:4998
+#: ../src/gnome-genius.c:5015
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
 msgstr ""
 
-#: ../src/gnome-genius.c:5091
+#: ../src/gnome-genius.c:5108
 msgid "GNOME Genius"
 msgstr "GNOME Genius"
 
 #. parent
-#: ../src/gnome-genius.c:5141
+#: ../src/gnome-genius.c:5158
 msgid "Cannot find the library file, genius installation may be incorrect"
 msgstr ""
 
-#: ../src/gnome-genius.c:5222
+#: ../src/gnome-genius.c:5239
 msgid "Console"
 msgstr "Konzolo"
 
-#: ../src/gnome-genius.c:5270
+#: ../src/gnome-genius.c:5287
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -4325,7 +4320,7 @@ msgstr "Markoj ne estas donita kiel nombroj"
 msgid "Ticks not given as a number or a 2-vector"
 msgstr "Markoj ne estas donita kiel nombroj aŭ 2-vektoro"
 
-#: ../src/graphing.c:5407
+#: ../src/graphing.c:5418
 #, c-format
 msgid ""
 "Type in function name or expression involving the %s and %s variables (or "
@@ -4333,28 +4328,28 @@ msgid ""
 "(%s,%s)."
 msgstr ""
 
-#: ../src/graphing.c:5432 ../src/graphing.c:5439 ../src/graphing.c:5603
-#: ../src/graphing.c:5610
+#: ../src/graphing.c:5443 ../src/graphing.c:5450 ../src/graphing.c:5614
+#: ../src/graphing.c:5621
 #, c-format
 msgid "%s from:"
 msgstr "%s de:"
 
-#: ../src/graphing.c:5446 ../src/graphing.c:5453
+#: ../src/graphing.c:5457 ../src/graphing.c:5464
 #, c-format
 msgid "%s increment:"
 msgstr "%s pliigo:"
 
-#: ../src/graphing.c:5460
+#: ../src/graphing.c:5471
 #, c-format
 msgid "%s interval length:"
 msgstr ""
 
-#: ../src/graphing.c:5467
+#: ../src/graphing.c:5478
 #, c-format
 msgid "Point %s:"
 msgstr "Punkto %s:"
 
-#: ../src/graphing.c:5480
+#: ../src/graphing.c:5491
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s and %s variables (or "
@@ -4362,14 +4357,14 @@ msgid ""
 "of the autonomous system to be plotted at the point (%s,%s)."
 msgstr ""
 
-#: ../src/graphing.c:5516
+#: ../src/graphing.c:5527
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
 "below to graph them"
 msgstr ""
 
-#: ../src/graphing.c:5533
+#: ../src/graphing.c:5544
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4379,12 +4374,12 @@ msgid ""
 "number."
 msgstr ""
 
-#: ../src/graphing.c:5574
+#: ../src/graphing.c:5585
 #, c-format
 msgid "Parameter %s from:"
 msgstr "Parametro %s de:"
 
-#: ../src/graphing.c:5588
+#: ../src/graphing.c:5599
 #, c-format
 msgid ""
 "Type a function name or an expression involving the %s and %s variables (or "
@@ -4392,95 +4387,95 @@ msgid ""
 "Functions with one argument only will be passed a complex number."
 msgstr ""
 
-#: ../src/graphing.c:5654 ../src/graphing.c:5773
+#: ../src/graphing.c:5665 ../src/graphing.c:5784
 msgid "Change variable names"
 msgstr "Ŝanĝi nomojn de variabloj"
 
-#: ../src/graphing.c:5670 ../src/graphing.c:5789
+#: ../src/graphing.c:5681 ../src/graphing.c:5800
 msgid "Some values were illegal"
 msgstr "Kelkaj valoroj estis nevalidaj"
 
-#: ../src/graphing.c:5674 ../src/graphing.c:5793
+#: ../src/graphing.c:5685 ../src/graphing.c:5804
 msgid "independent variable (x):"
 msgstr "sendependa variablo (x):"
 
-#: ../src/graphing.c:5684
+#: ../src/graphing.c:5695
 msgid "dependent variable (y):"
 msgstr "dependa variablo (y):"
 
-#: ../src/graphing.c:5694
+#: ../src/graphing.c:5705
 msgid "complex variable (z = x+iy):"
 msgstr "kompleksa variablo (z = x+iy):"
 
-#: ../src/graphing.c:5704
+#: ../src/graphing.c:5715
 msgid "parameter variable (t):"
 msgstr "parametra variablo (t):"
 
-#: ../src/graphing.c:5803
+#: ../src/graphing.c:5814
 msgid "independent variable (y):"
 msgstr "sendependa variablo (y):"
 
-#: ../src/graphing.c:5813
+#: ../src/graphing.c:5824
 msgid "independent complex variable (z = x+iy):"
 msgstr "sendependa kompleksa variablo (z = x+iy):"
 
-#: ../src/graphing.c:5977
+#: ../src/graphing.c:5988
 msgid "_Functions / Expressions"
 msgstr "Funkcioj / _Esprimoj"
 
 #. t range
-#: ../src/graphing.c:6024
+#: ../src/graphing.c:6035
 msgid "Parameter t from:"
 msgstr "Parametro t de:"
 
-#: ../src/graphing.c:6028 ../src/graphing.c:6175 ../src/graphing.c:6188
-#: ../src/graphing.c:6298 ../src/graphing.c:6310 ../src/graphing.c:6321
+#: ../src/graphing.c:6039 ../src/graphing.c:6186 ../src/graphing.c:6199
+#: ../src/graphing.c:6309 ../src/graphing.c:6321 ../src/graphing.c:6332
 msgid "to:"
 msgstr "al:"
 
-#: ../src/graphing.c:6032
+#: ../src/graphing.c:6043
 msgid "by:"
 msgstr "pliigo:"
 
-#: ../src/graphing.c:6039
+#: ../src/graphing.c:6050
 msgid "Pa_rametric"
 msgstr "Pa_rametra"
 
 #. # of ticks
-#: ../src/graphing.c:6066 ../src/graphing.c:6118
+#: ../src/graphing.c:6077 ../src/graphing.c:6129
 msgid "Vertical ticks:"
 msgstr "Vertikalaj markoj:"
 
 #. # of ticks
-#: ../src/graphing.c:6070 ../src/graphing.c:6122
+#: ../src/graphing.c:6081 ../src/graphing.c:6133
 msgid "Horizontal ticks:"
 msgstr "Horizontalaj markoj:"
 
-#: ../src/graphing.c:6075
+#: ../src/graphing.c:6086
 msgid "Sl_ope field"
 msgstr ""
 
 #. Normalize the arrow length?
-#: ../src/graphing.c:6109
+#: ../src/graphing.c:6120
 msgid "_Normalize arrow length (do not show size)"
 msgstr ""
 
-#: ../src/graphing.c:6127
+#: ../src/graphing.c:6138
 msgid "_Vector field"
 msgstr "_Vektora kampo"
 
 #. draw legend?
-#: ../src/graphing.c:6137 ../src/graphing.c:6267
+#: ../src/graphing.c:6148 ../src/graphing.c:6278
 msgid "_Draw legend"
 msgstr "_Desegni klarigeto"
 
 #. draw axis labels?
-#: ../src/graphing.c:6146
+#: ../src/graphing.c:6157
 msgid "Draw axis labels"
 msgstr "Desegni etikedo de aksoj"
 
 #. change varnames
-#: ../src/graphing.c:6155 ../src/graphing.c:6277
+#: ../src/graphing.c:6166 ../src/graphing.c:6288
 msgid "Change variable names..."
 msgstr "Ŝanĝi nomojn de variabloj..."
 
@@ -4488,533 +4483,537 @@ msgstr "Ŝanĝi nomojn de variabloj..."
 #.
 #. * Plot window frame
 #.
-#: ../src/graphing.c:6163 ../src/graphing.c:6286
+#: ../src/graphing.c:6174 ../src/graphing.c:6297
 msgid "Plot Window"
 msgstr "Fenestro de grafeo"
 
 #.
 #. * X range
 #.
-#: ../src/graphing.c:6172 ../src/graphing.c:6295
+#: ../src/graphing.c:6183 ../src/graphing.c:6306
 msgid "X from:"
 msgstr "X de:"
 
 #.
 #. * Y range
 #.
-#: ../src/graphing.c:6185 ../src/graphing.c:6307
+#: ../src/graphing.c:6196 ../src/graphing.c:6318
 msgid "Y from:"
 msgstr "Y de:"
 
 #. fit dependent axis?
-#: ../src/graphing.c:6196 ../src/graphing.c:6329
+#: ../src/graphing.c:6207 ../src/graphing.c:6340
 msgid "Fit dependent axis"
 msgstr "Taŭgi dependan akson"
 
-#: ../src/graphing.c:6240
+#: ../src/graphing.c:6251
 msgid "Function / Expression"
 msgstr "Funkcio / Esprimo"
 
 #.
 #. * Z range
 #.
-#: ../src/graphing.c:6319
+#: ../src/graphing.c:6330
 msgid "Dependent axis from:"
 msgstr "Dependa akso de:"
 
-#: ../src/graphing.c:6350
+#: ../src/graphing.c:6361
 msgid "Function _line plot"
 msgstr ""
 
-#: ../src/graphing.c:6354
+#: ../src/graphing.c:6365
 msgid "_Surface plot"
 msgstr ""
 
-#: ../src/graphing.c:6568 ../src/graphing.c:6754 ../src/graphing.c:6881
-#: ../src/graphing.c:7010 ../src/graphing.c:7115
+#: ../src/graphing.c:6579 ../src/graphing.c:6765 ../src/graphing.c:6892
+#: ../src/graphing.c:7021 ../src/graphing.c:7126
 msgid "No functions to plot or no functions could be parsed"
 msgstr "Neniu funkcio por grafei aŭ ne povas legi neniun funkcion"
 
-#: ../src/graphing.c:6601 ../src/graphing.c:6607 ../src/graphing.c:6777
-#: ../src/graphing.c:6783 ../src/graphing.c:6888 ../src/graphing.c:6911
-#: ../src/graphing.c:6917 ../src/graphing.c:7033 ../src/graphing.c:7039
-#: ../src/graphing.c:7138 ../src/graphing.c:7144
+#: ../src/graphing.c:6612 ../src/graphing.c:6618 ../src/graphing.c:6788
+#: ../src/graphing.c:6794 ../src/graphing.c:6899 ../src/graphing.c:6922
+#: ../src/graphing.c:6928 ../src/graphing.c:7044 ../src/graphing.c:7050
+#: ../src/graphing.c:7149 ../src/graphing.c:7155
 #, c-format
 msgid "Invalid %s range"
 msgstr "Nevalida %s amplekso"
 
-#: ../src/graphing.c:6613
+#: ../src/graphing.c:6624
 msgid "Invalid dependent range"
 msgstr "Nevalida dependa amplekso"
 
-#: ../src/graphing.c:6875
+#: ../src/graphing.c:6886
 #, c-format
 msgid "Only specify %s and %s, or %s, not all at once."
 msgstr "Specifu nur %s kaj %s, aŭ %s, ne ĉiuj kune."
 
-#: ../src/graphing.c:7242
+#: ../src/graphing.c:7253
 msgid "Create Plot"
 msgstr "Krei grafeo"
 
-#: ../src/graphing.c:7283 ../src/graphing.c:7453 ../src/graphing.c:7484
-#: ../src/graphing.c:7505 ../src/graphing.c:7545 ../src/graphing.c:7569
-#: ../src/graphing.c:7681 ../src/graphing.c:7805 ../src/graphing.c:7942
-#: ../src/graphing.c:8099 ../src/graphing.c:8246 ../src/graphing.c:8269
-#: ../src/graphing.c:8858 ../src/graphing.c:9139 ../src/graphing.c:9358
-#: ../src/graphing.c:9597 ../src/graphing.c:9924 ../src/graphing.c:10156
-#: ../src/graphing.c:10245 ../src/graphing.c:10358 ../src/graphing.c:10389
-#: ../src/graphing.c:10418 ../src/graphing.c:10444 ../src/graphing.c:10473
-#: ../src/graphing.c:10566 ../src/graphing.c:10655 ../src/graphing.c:10680
-#: ../src/graphing.c:10713 ../src/graphing.c:10761
+#: ../src/graphing.c:7294 ../src/graphing.c:7464 ../src/graphing.c:7495
+#: ../src/graphing.c:7516 ../src/graphing.c:7556 ../src/graphing.c:7580
+#: ../src/graphing.c:7692 ../src/graphing.c:7816 ../src/graphing.c:7953
+#: ../src/graphing.c:8110 ../src/graphing.c:8257 ../src/graphing.c:8280
+#: ../src/graphing.c:8871 ../src/graphing.c:9158 ../src/graphing.c:9377
+#: ../src/graphing.c:9616 ../src/graphing.c:9943 ../src/graphing.c:10175
+#: ../src/graphing.c:10264 ../src/graphing.c:10377 ../src/graphing.c:10408
+#: ../src/graphing.c:10437 ../src/graphing.c:10463 ../src/graphing.c:10492
+#: ../src/graphing.c:10585 ../src/graphing.c:10674 ../src/graphing.c:10699
+#: ../src/graphing.c:10732 ../src/graphing.c:10780
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr ""
 
-#: ../src/graphing.c:7291 ../src/graphing.c:7824
+#: ../src/graphing.c:7302 ../src/graphing.c:7835
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: argumento ne estas funkcio"
 
-#: ../src/graphing.c:7301
+#: ../src/graphing.c:7312
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: nur unu funkcio estas subtenanta"
 
-#: ../src/graphing.c:7324
+#: ../src/graphing.c:7335
 msgid "Graph limits not given as a 4-vector or a 6-vector"
 msgstr "Grafeaj limoj ne estas 4-vektoro aŭ 6-vektoro"
 
-#: ../src/graphing.c:7380 ../src/graphing.c:7634 ../src/graphing.c:7751
-#: ../src/graphing.c:7887 ../src/graphing.c:8036 ../src/graphing.c:8191
-#: ../src/graphing.c:10025
+#: ../src/graphing.c:7391 ../src/graphing.c:7645 ../src/graphing.c:7762
+#: ../src/graphing.c:7898 ../src/graphing.c:8047 ../src/graphing.c:8202
+#: ../src/graphing.c:10044
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: nevalida amplekso de X"
 
-#: ../src/graphing.c:7385 ../src/graphing.c:7639 ../src/graphing.c:7756
-#: ../src/graphing.c:7892 ../src/graphing.c:8041 ../src/graphing.c:8196
-#: ../src/graphing.c:10030
+#: ../src/graphing.c:7396 ../src/graphing.c:7650 ../src/graphing.c:7767
+#: ../src/graphing.c:7903 ../src/graphing.c:8052 ../src/graphing.c:8207
+#: ../src/graphing.c:10049
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: nevalida amplekso de Y"
 
-#: ../src/graphing.c:7390 ../src/graphing.c:10035
+#: ../src/graphing.c:7401 ../src/graphing.c:10054
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: nevalida amplekso de Z"
 
-#: ../src/graphing.c:7463
+#: ../src/graphing.c:7474
 #, c-format
 msgid "%s: dx must be positive"
 msgstr "%s: dx devas esti positiva"
 
-#: ../src/graphing.c:7470 ../src/graphing.c:7489
+#: ../src/graphing.c:7481 ../src/graphing.c:7500
 #, c-format
 msgid "%s: Slope field not active"
 msgstr ""
 
-#: ../src/graphing.c:7516
+#: ../src/graphing.c:7527
 #, c-format
 msgid "%s: dt must be positive"
 msgstr "%s: dt devas esti positiva"
 
-#: ../src/graphing.c:7522
+#: ../src/graphing.c:7533
 #, c-format
 msgid "%s: tlen must be positive"
 msgstr "%s: tlen devas esti positiva"
 
-#: ../src/graphing.c:7530 ../src/graphing.c:7551
+#: ../src/graphing.c:7541 ../src/graphing.c:7562
 #, c-format
 msgid "%s: Vector field not active"
 msgstr ""
 
-#: ../src/graphing.c:7576 ../src/graphing.c:8106
+#: ../src/graphing.c:7587 ../src/graphing.c:8117
 #, c-format
 msgid "%s: First argument must be a function"
 msgstr ""
 
-#: ../src/graphing.c:7692 ../src/graphing.c:7950
+#: ../src/graphing.c:7703 ../src/graphing.c:7961
 #, c-format
 msgid "%s: First two arguments must be functions"
 msgstr ""
 
-#: ../src/graphing.c:7819
+#: ../src/graphing.c:7830
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr ""
 
-#: ../src/graphing.c:7845
+#: ../src/graphing.c:7856
 msgid "Graph limits not given as a 2-vector or a 4-vector"
 msgstr ""
 
-#: ../src/graphing.c:8046 ../src/graphing.c:8201
+#: ../src/graphing.c:8057 ../src/graphing.c:8212
 #, c-format
 msgid "%s: invalid T range"
 msgstr "%s: nevalida amplekso de T"
 
-#: ../src/graphing.c:8422
+#: ../src/graphing.c:8433
 #, c-format
 msgid ""
 "%s: Not in line plot mode.  Perhaps run LinePlot or LinePlotClear first."
 msgstr ""
 
-#: ../src/graphing.c:8543 ../src/graphing.c:8624
+#: ../src/graphing.c:8554 ../src/graphing.c:8635
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 2 matrix with columns for x and "
 "y, n>=%d, or as a complex valued n by 1 matrix"
 msgstr ""
 
-#: ../src/graphing.c:8553
+#: ../src/graphing.c:8564
 #, c-format
 msgid ""
 "%s: If points are given as an n by 2 matrix, then this matrix must be real"
 msgstr ""
 
-#: ../src/graphing.c:8663 ../src/graphing.c:8726
+#: ../src/graphing.c:8674 ../src/graphing.c:8737
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 3 matrix with columns for x, y "
 "and z, n>=%d"
 msgstr ""
 
-#: ../src/graphing.c:8777
+#: ../src/graphing.c:8789
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: Koloro ne specifita"
 
-#: ../src/graphing.c:8782 ../src/graphing.c:8789
+#: ../src/graphing.c:8794 ../src/graphing.c:8801
 #, c-format
 msgid "%s: Cannot parse color '%s'"
 msgstr ""
 
-#: ../src/graphing.c:8803
+#: ../src/graphing.c:8815
 #, c-format
 msgid ""
 "%s: A vector giving color should be a 3-vector of real numbers between 0 and "
 "1"
 msgstr ""
 
-#: ../src/graphing.c:8819
+#: ../src/graphing.c:8831
 #, c-format
 msgid ""
 "%s: Warning: Values for red, green, or blue out of range (0 to 1), I will "
 "clip them to this interval"
 msgstr ""
 
-#: ../src/graphing.c:8835
+#: ../src/graphing.c:8847
 #, c-format
 msgid ""
 "%s: Color must be a string or a three-vector of rgb values (between 0 and 1)"
 msgstr ""
 
-#: ../src/graphing.c:8877 ../src/graphing.c:9158 ../src/graphing.c:9379
-#: ../src/graphing.c:9618
+#: ../src/graphing.c:8890 ../src/graphing.c:9177 ../src/graphing.c:9398
+#: ../src/graphing.c:9637
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: Malĝusta nombro de argumentoj"
 
-#: ../src/graphing.c:8945 ../src/graphing.c:9212 ../src/graphing.c:9445
-#: ../src/graphing.c:9678
+#: ../src/graphing.c:8960 ../src/graphing.c:9231 ../src/graphing.c:9464
+#: ../src/graphing.c:9697
 #, c-format
 msgid "%s: No thickness specified"
 msgstr ""
 
-#: ../src/graphing.c:8968 ../src/graphing.c:9235 ../src/graphing.c:9470
-#: ../src/graphing.c:9703
+#: ../src/graphing.c:8983 ../src/graphing.c:9254 ../src/graphing.c:9489
+#: ../src/graphing.c:9722
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: Fenestro ne specifita"
 
-#: ../src/graphing.c:9016 ../src/graphing.c:9041
+#: ../src/graphing.c:9031 ../src/graphing.c:9056
 #, c-format
 msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
 msgstr ""
 
-#: ../src/graphing.c:9051 ../src/graphing.c:9279 ../src/graphing.c:9522
-#: ../src/graphing.c:9755
+#: ../src/graphing.c:9066 ../src/graphing.c:9298 ../src/graphing.c:9541
+#: ../src/graphing.c:9774
 #, c-format
 msgid "%s: No legend specified"
-msgstr ""
+msgstr "%s: Klarigeto ne specifita"
 
-#: ../src/graphing.c:9065 ../src/graphing.c:9293 ../src/graphing.c:9537
-#: ../src/graphing.c:9770
+#: ../src/graphing.c:9080 ../src/graphing.c:9312 ../src/graphing.c:9556
+#: ../src/graphing.c:9789
 #, c-format
 msgid "%s: Legend must be a string"
-msgstr ""
+msgstr "%s: Klarigeto devas esti ĉeno"
 
-#: ../src/graphing.c:9074 ../src/graphing.c:9302 ../src/graphing.c:9547
-#: ../src/graphing.c:9780
+#: ../src/graphing.c:9091
 #, c-format
-msgid "%s: Unknown style"
-msgstr "%s: Nekonata stilo"
+msgid "%s: Unknown style: %s"
+msgstr "%s: Nekonata stilo: %s"
 
-#: ../src/graphing.c:9081 ../src/graphing.c:9309 ../src/graphing.c:9555
-#: ../src/graphing.c:9788
+#: ../src/graphing.c:9100 ../src/graphing.c:9328 ../src/graphing.c:9574
+#: ../src/graphing.c:9807
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: Malbona parametro"
 
-#: ../src/graphing.c:9841 ../src/graphing.c:9904
+#: ../src/graphing.c:9321 ../src/graphing.c:9566 ../src/graphing.c:9799
+#, c-format
+msgid "%s: Unknown style"
+msgstr "%s: Nekonata stilo"
+
+#: ../src/graphing.c:9860 ../src/graphing.c:9923
 #, c-format
 msgid ""
 "%s: Surface should be given as a real, n by 3 matrix with columns for x, y, "
 "z, where n>=3"
 msgstr ""
 
-#: ../src/graphing.c:9932
+#: ../src/graphing.c:9951
 #, c-format
 msgid "%s: argument not a matrix of data"
 msgstr "%s: argumento ne estas matrico de dataoj"
 
-#: ../src/graphing.c:10116
+#: ../src/graphing.c:10135
 #, c-format
 msgid "%s: Surface grid data should be given as a real matrix "
 msgstr ""
 
-#: ../src/graphing.c:10162
+#: ../src/graphing.c:10181
 #, c-format
 msgid "%s: first argument not a matrix of data"
 msgstr "%s: unua argumento ne estas matrico de dataoj"
 
-#: ../src/graphing.c:10169
+#: ../src/graphing.c:10188
 #, c-format
 msgid "%s: second argument not a 4 or 6 element vector of limits"
 msgstr ""
 
-#: ../src/graphing.c:10186
+#: ../src/graphing.c:10205
 #, c-format
 msgid "%s: too many arguments or last argument not a string label"
 msgstr ""
 
-#: ../src/graphing.c:10252
+#: ../src/graphing.c:10271
 #, c-format
 msgid "%s: first argument not a nonempty string"
 msgstr ""
 
-#: ../src/graphing.c:10260
+#: ../src/graphing.c:10279
 #, c-format
 msgid "%s: type not specified and filename has no extension"
 msgstr ""
 
-#: ../src/graphing.c:10269
+#: ../src/graphing.c:10288
 #, c-format
 msgid "%s: second argument not a nonempty string"
 msgstr ""
 
-#: ../src/graphing.c:10281
+#: ../src/graphing.c:10300
 #, c-format
 msgid "%s: plot canvas not active, cannot export"
 msgstr ""
 
-#: ../src/graphing.c:10290 ../src/graphing.c:10307 ../src/graphing.c:10330
+#: ../src/graphing.c:10309 ../src/graphing.c:10326 ../src/graphing.c:10349
 #, c-format
 msgid "%s: export failed"
 msgstr ""
 
-#: ../src/graphing.c:10343
+#: ../src/graphing.c:10362
 #, c-format
 msgid "%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."
 msgstr ""
 
-#: ../src/graphing.c:10480
+#: ../src/graphing.c:10499
 msgid "Variable names not given in a 4-vector"
 msgstr ""
 
-#: ../src/graphing.c:10490 ../src/graphing.c:10499 ../src/graphing.c:10508
-#: ../src/graphing.c:10517 ../src/graphing.c:10583 ../src/graphing.c:10592
-#: ../src/graphing.c:10601
+#: ../src/graphing.c:10509 ../src/graphing.c:10518 ../src/graphing.c:10527
+#: ../src/graphing.c:10536 ../src/graphing.c:10602 ../src/graphing.c:10611
+#: ../src/graphing.c:10620
 msgid "Variable names should be strings"
 msgstr ""
 
-#: ../src/graphing.c:10524 ../src/graphing.c:10607
+#: ../src/graphing.c:10543 ../src/graphing.c:10626
 msgid "Variable names must be valid identifiers"
 msgstr ""
 
-#: ../src/graphing.c:10533 ../src/graphing.c:10613
+#: ../src/graphing.c:10552 ../src/graphing.c:10632
 msgid "Variable names must be mutually distinct"
 msgstr ""
 
-#: ../src/graphing.c:10573
+#: ../src/graphing.c:10592
 msgid "Variable names not given in a 3-vector"
 msgstr ""
 
-#: ../src/graphing.c:10796
+#: ../src/graphing.c:10815
 msgid "Plotting"
 msgstr ""
 
 #. internal
-#: ../src/graphing.c:10798
+#: ../src/graphing.c:10817
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
 msgstr ""
 
-#: ../src/graphing.c:10799
+#: ../src/graphing.c:10818
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
 "x1,x2,y1,y2"
 msgstr ""
 
-#: ../src/graphing.c:10800
+#: ../src/graphing.c:10819
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
 "optionally the limits as x1,x2,y1,y2"
 msgstr ""
 
-#: ../src/graphing.c:10802
+#: ../src/graphing.c:10821
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
 msgstr ""
 
-#: ../src/graphing.c:10803
+#: ../src/graphing.c:10822
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
 msgstr ""
 
-#: ../src/graphing.c:10805
+#: ../src/graphing.c:10824
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr ""
 
-#: ../src/graphing.c:10806
+#: ../src/graphing.c:10825
 msgid "Clear all the slopefield solutions"
 msgstr ""
 
-#: ../src/graphing.c:10808
+#: ../src/graphing.c:10827
 msgid ""
 "Draw a solution for a vector field starting at x,y, using dt as increment "
 "for tlen units"
 msgstr ""
 
-#: ../src/graphing.c:10809
+#: ../src/graphing.c:10828
 msgid "Clear all the vectorfield solutions"
 msgstr ""
 
-#: ../src/graphing.c:10812
+#: ../src/graphing.c:10831
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
 msgstr ""
 
-#: ../src/graphing.c:10814
+#: ../src/graphing.c:10833
 msgid "Show the surface (3d) plot window and clear out functions"
 msgstr ""
 
-#: ../src/graphing.c:10816
+#: ../src/graphing.c:10835
 msgid ""
 "Plot surface data given as n by 3 matrix (n>=3) of data with each row being "
 "x,y,z.  Optionally can pass a label string and limits.  If no limits passed, "
 "limits computed from data."
 msgstr ""
 
-#: ../src/graphing.c:10817
+#: ../src/graphing.c:10836
 msgid ""
 "Plot surface data given as a matrix (where rows are the x coordinate and "
 "columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or "
 "optionally [x1,x2,y1,y2,z1,z2], and optionally a string for the label."
 msgstr ""
 
-#: ../src/graphing.c:10818
+#: ../src/graphing.c:10837
 msgid ""
 "Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  x1,y1,z1,x2,"
 "y2,z2 can be replaced by a n by 3 matrix for a longer line"
 msgstr ""
 
-#: ../src/graphing.c:10819
+#: ../src/graphing.c:10838
 msgid ""
 "Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a "
 "n by 3 matrix for more points."
 msgstr ""
 
-#: ../src/graphing.c:10821
+#: ../src/graphing.c:10840
 msgid "Show the line plot window and clear out functions"
 msgstr ""
 
-#: ../src/graphing.c:10822
+#: ../src/graphing.c:10841
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line."
 msgstr ""
 
-#: ../src/graphing.c:10823
+#: ../src/graphing.c:10842
 msgid ""
 "Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points."
 msgstr ""
 
-#: ../src/graphing.c:10825
+#: ../src/graphing.c:10844
 msgid "Freeze the plot canvas, that is, inhibit drawing"
 msgstr ""
 
-#: ../src/graphing.c:10826
+#: ../src/graphing.c:10845
 msgid "Thaw the plot canvas and redraw the plot immediately"
 msgstr ""
 
-#: ../src/graphing.c:10827
+#: ../src/graphing.c:10846
 msgid "Raise the plot window, and create the window if necessary"
 msgstr ""
 
-#: ../src/graphing.c:10829
+#: ../src/graphing.c:10848
 msgid "Wait for a click on the line plot window, return the location."
 msgstr ""
 
-#: ../src/graphing.c:10830
+#: ../src/graphing.c:10849
 msgid "Return current mouse location on the line plot window."
 msgstr ""
 
-#: ../src/graphing.c:10832
+#: ../src/graphing.c:10851
 msgid ""
 "Export the current contents of the plot canvas to a file.  The file type is "
 "given by the string type, which can be \"png\", \"eps\", or \"ps\"."
 msgstr ""
 
-#: ../src/graphing.c:10834
+#: ../src/graphing.c:10853
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr ""
 
-#: ../src/graphing.c:10835
+#: ../src/graphing.c:10854
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
 msgstr ""
 
-#: ../src/graphing.c:10836
+#: ../src/graphing.c:10855
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
 msgstr ""
 
-#: ../src/graphing.c:10837
+#: ../src/graphing.c:10856
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
 msgstr ""
 
-#: ../src/graphing.c:10839
+#: ../src/graphing.c:10858
 msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
 msgstr ""
 
-#: ../src/graphing.c:10840
+#: ../src/graphing.c:10859
 msgid "If to draw legends or not on line plots."
 msgstr ""
 
-#: ../src/graphing.c:10841
+#: ../src/graphing.c:10860
 msgid "If to draw axis labels on line plots."
 msgstr ""
 
-#: ../src/graphing.c:10843
+#: ../src/graphing.c:10862
 msgid "If to draw legends or not on surface plots."
 msgstr ""
 
-#: ../src/graphing.c:10845
+#: ../src/graphing.c:10864
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr ""
 
-#: ../src/graphing.c:10846
+#: ../src/graphing.c:10865
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
@@ -5024,7 +5023,7 @@ msgstr ""
 msgid "Determinant of a non-square matrix is undefined"
 msgstr ""
 
-#: ../src/matrixw.c:622 ../src/matrixw.c:708
+#: ../src/matrixw.c:622 ../src/matrixw.c:700
 msgid "Trying to increment a nonvalue"
 msgstr ""
 
@@ -5234,7 +5233,7 @@ msgstr ""
 #: ../src/symbolic.c:676
 #, c-format
 msgid "%s: '%s' not a function of one variable"
-msgstr ""
+msgstr "%s: '%s' ne estas funkcio de unu variablo"
 
 #: ../src/symbolic.c:709
 #, c-format
@@ -5283,7 +5282,11 @@ msgstr ""
 
 #: ../src/util.c:93 ../src/util.c:112
 msgid "Stack underflow!"
-msgstr ""
+msgstr "Stakmaltroo!"
+
+#, fuzzy
+#~ msgid "%s: Input not a number or matrix of numbers."
+#~ msgstr "%s: %d-a argumento ne estas nombro aŭ matrico"
 
 #~ msgid "' or '"
 #~ msgstr "' aŭ '"
