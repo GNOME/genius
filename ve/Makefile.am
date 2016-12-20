@@ -1,7 +1,7 @@
 ## Process this file with automake to produce makefile.in
 SUBDIRS=.
 
-INCLUDES = \
+AM_CPPFLAGS = \
  	-I.					\
 	-I..					\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \

@@ -8,7 +8,7 @@ plugin_includedir = $(includedir)/genius
 
 AM_YFLAGS = -d -t
 
-INCLUDES = \
+AM_CPPFLAGS = \
         -DGNOMELOCALEDIR=\""$(prefix)/$(DATADIRNAME)/locale"\"	\
 	-DG_LOG_DOMAIN=\"Genius\"				\
 	-DDATADIR=\""$(datadir)"\"				\

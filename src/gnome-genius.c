@@ -4663,6 +4663,30 @@ open_plugin_cb (GtkWidget *w, GelPlugin * plug)
 	gel_open_plugin (plug);
 }
 
+static pid_t
+my_fork_command (VteTerminal *terminal, char **argv)
+{
+	gboolean ret;
+	GPid child_pid;
+
+	ret = vte_terminal_fork_command_full (terminal,
+					      VTE_PTY_DEFAULT,
+					      NULL,
+					      argv,
+					      NULL,
+					      (GSpawnFlags)(G_SPAWN_CHILD_INHERITS_STDIN | G_SPAWN_SEARCH_PATH), 
+					      NULL,
+					      NULL,
+					      &child_pid,
+					      NULL);
+
+	if (ret)
+		return (pid_t) child_pid;
+	else
+		return -1;
+
+}
+
 static void
 fork_a_helper (void)
 {
@@ -4737,14 +4761,7 @@ fork_a_helper (void)
 
 	argv[3] = NULL;
 
-	helper_pid = vte_terminal_fork_command (VTE_TERMINAL (term),
-						foo,
-						argv,
-						NULL /* envv */,
-						NULL /* directory */,
-						FALSE /* lastlog */,
-						FALSE /* utmp */,
-						FALSE /* wtmp */);
+	helper_pid = my_fork_command (VTE_TERMINAL (term), argv);
 
 	g_free (libexecdir);
 	g_free (foo);
@@ -5046,15 +5063,15 @@ update_term_geometry (void)
 	GdkGeometry hints;
 	int char_width;
 	int char_height;
-	int xpad, ypad;
+	GtkBorder *border = NULL;
 
 	char_width = vte_terminal_get_char_width (VTE_TERMINAL (term));
 	char_height = vte_terminal_get_char_height (VTE_TERMINAL (term));
-  
-	vte_terminal_get_padding (VTE_TERMINAL (term), &xpad, &ypad);
 
-	hints.base_width = xpad;
-	hints.base_height = ypad;
+	gtk_widget_style_get (GTK_WIDGET (term), "inner-border", &border, NULL);
+	hints.base_width = border->left + border->right;
+	hints.base_height = border->top + border->bottom;
+	gtk_border_free (border);
 
 #define MIN_WIDTH_CHARS 10
 #define MIN_HEIGHT_CHARS 4

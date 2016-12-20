@@ -2,6 +2,8 @@ AC_INIT([genius], [1.0.21])
 AC_CONFIG_SRCDIR([src/calc.c])
 AM_INIT_AUTOMAKE([dist-xz])
 
+AC_CONFIG_MACRO_DIRS([m4])
+
 AM_CONFIG_HEADER(config.h)
 
 dnl make sure we keep ACLOCAL_FLAGS around for maintainer builds to work
@@ -13,7 +15,7 @@ AC_PROG_INTLTOOL([0.21])
 
 dnl ================= Requirements ================================================
 
-VTE_REQUIRED=0.17.1
+VTE_REQUIRED=0.26.0
 GTK_REQUIRED=2.18.0
 GLIB_REQUIRED=2.12.0
 GTKSOURCEVIEW_REQUIRED=0.3.0
