@@ -1,3 +1,33 @@
+Changes to 1.0.22
+
+* Add a line plot version of the heat equation FDM animation example,
+  and improve the surface plot version
+* Add argument principle example
+* Add two Mandelbrot set examples and a Newton's fractal example
+* Add examples for visualizing complex mappings
+* Add example vizualizations for Riemann and Darboux sums
+* Split the examples into submenus as there is now too many of them
+* Add "filled" property to lines to allow drawing filled polygons
+* Add LinePlotWaitForClick and LinePlotMouseLocation functions for interactive
+  programs (used for some of the above new examples)
+* LinePlotDrawPoints and LinePlotDrawLine accept a column vector of
+  complex nubmers.
+* Fix setting of elements in transposed matrices (vectors)
+* Fix doc string to ErrorFunction (Thanks to Ask Hjorth Larsen)
+* Fix bad behavour upon double hitting "Run"
+* Fix vte deprecations, require 0.26 now
+* Fix some strings and fixes to documentation (thanks to Anders Johnsson)
+* Fix segfault when trying to swap a protected id with swapwith
+* Fix StripZeroColumns behavior on a zero matrix
+* Fix Subfactorial (Anders Johnsson), and let Subfactorial, Factorial,
+  DoubleFactorial apply over matrix.
+* Fix some inverse trig functions with complex arguments.
+* Other minor fixes including some crashes
+* Translation updates (FIXME)
+
+* During making of these changes the author (Jiri) was partially supported by
+  NSF grant DMS 1362337 and the Oklahoma State University
+
 Changes to 1.0.21
 
 * Add vibrating drumhead modes example, heat equation with explicit FDM,
