@@ -844,7 +844,7 @@ gel_ask_buttons (const char *query, GSList *buttonlist)
 
 	d = gtk_dialog_new_with_buttons
 		(_("Genius"),
-		 GTK_WINDOW (genius_window) /* parent */,
+		 NULL /*GTK_WINDOW (genius_window)*/ /* parent */,
 		 0 /* flags */,
 		 NULL);
 
@@ -889,7 +889,7 @@ gel_ask_string (const char *query, const char *def)
 
 	d = gtk_dialog_new_with_buttons
 		(_("Genius"),
-		 GTK_WINDOW (genius_window) /* parent */,
+		 NULL /*GTK_WINDOW (genius_window)*/ /* parent */,
 		 0 /* flags */,
 		 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 		 GTK_STOCK_OK, GTK_RESPONSE_OK,
