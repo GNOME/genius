@@ -15,6 +15,9 @@ if the_answer == 1 then (
 ) else if the_answer == 2 then (
     SurfacePlotDrawLegends = false;
 
+    # use standard variable names (in case they got reset)
+    SurfacePlotVariableNames = ["x","y","z"];
+
     for t=1 to 100 by 0.1 do (
         SurfacePlot(`(x,y)=cos(t)*sin(x-y),[-5,5,-2,2,-1,1])
     )

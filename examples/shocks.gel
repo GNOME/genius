@@ -4,6 +4,10 @@
 # We are looking at characteristics (looking for shocks)
 # for the equation u_t + g(u) u_x = 0, with initial condition
 # u(x,0) = phi(x)
+# 
+# At the end of this example, there is also commented out code
+# for plotting a surface of the solution, though that does not
+# deal well with shocks.
 
 # this is for flux u*(2-u)
 #function g(u) = 2-2*u;
@@ -52,4 +56,18 @@ function the_color(x0) = [phi(x0), #red
 # Draw characteristics
 for x0=xstart to xend by xstep do (
   LinePlotDrawLine([x0,0;x0+g(phi(x0))*tend,tend], "color", the_color (x0))
-)
+);
+
+# Draw the solution set as a surface graph.  If there are shocks, the
+# graph will be unpredictable.  Use for standard parameters something
+# like tend=0.99.  Also good to change xstart and xend to someting like
+# -1 and 1.5 for a nicer picture
+#
+#SurfacePlotVariableNames = ["x","t","u"];
+#data = null;
+#for x0=xstart to xend by xstep do (
+#  for t=0 to tend by tend/10.0 do (
+#    data = [data;[x0+g(phi(x0))*t,t,phi(x0)]];
+#  )
+#);
+#SurfacePlotData(data);

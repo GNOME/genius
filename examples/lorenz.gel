@@ -25,6 +25,9 @@ SurfacePlotDrawLegends = false;
 # manually
 SurfacePlotClear ();
 PlotWindowPresent(); # Make sure the window is raised
+#
+# use standard variable names (in case they got reset)
+SurfacePlotVariableNames = ["x","y","z"];
 
 # Note that we are picking out just the x coordinates
 SurfacePlotDrawLine (pt@(,2:4), "color", "blue", "window", "fit");

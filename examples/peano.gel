@@ -26,6 +26,9 @@ for r=0 to 0.25 by 0.02 do (
 SurfacePlotDrawLegends = false; # don't draw the legend
 PlotWindowPresent(); # Make sure the window is raised
 
+# use standard variable names (in case they got reset)
+SurfacePlotVariableNames = ["x","y","z"];
+
 # Plot the data
 SurfacePlotData(data);
 
