@@ -228,8 +228,10 @@ static void
 gtk_plot_dt_real_clear(GtkPlotDT *data)
 {
   if (!data) return;
-  if (data->nodes) g_free(data->nodes); data->nodes= NULL;
-  if (data->tmp_nodes) g_free(data->tmp_nodes); data->tmp_nodes= NULL;
+  if (data->nodes) g_free(data->nodes);
+  data->nodes= NULL;
+  if (data->tmp_nodes) g_free(data->tmp_nodes);
+  data->tmp_nodes= NULL;
   data->node_cnt= data->node_max= data->node_0= 0;
 
   gtk_plot_dt_clear_triangles(data);

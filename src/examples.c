@@ -59,7 +59,6 @@ static GelExampleCategory *
 gel_get_example_category (const char *name)
 {
 	GSList *li;
-	static int k = 0;
 	static GelExampleCategory *last = NULL;
 	GelExampleCategory *cat;
 

@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2014 Jiri (George) Lebl
+ * Copyright (C) 1997-2016 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -109,6 +109,7 @@ static GHashTable *gel_bodyhash = NULL;
 
 /*from lexer.l*/
 int my_yyinput(void);
+int my_yy_flush_buffer(void);
 
 static int
 function_sort (gconstpointer data1, gconstpointer data2)
@@ -3326,6 +3327,7 @@ gel_parseexp (const char *str, FILE *infile, gboolean exec_commands,
 
 	if(str) {
 		int l = strlen(str);
+
 		errno = 0;
 		if G_UNLIKELY (pipe(gel_lex_fd) != 0) {
 			gel_errorout (_("ERROR: 'pipe' failed: %s"),
@@ -3365,8 +3367,8 @@ gel_parseexp (const char *str, FILE *infile, gboolean exec_commands,
 		;*/
 	
 	if(str) {
-		while(my_yyinput()!=EOF)
-			;
+		my_yy_flush_buffer ();
+
 		close(gel_lex_fd[0]);
 		fflush(infile);
 		gel_lexer_close(infile);

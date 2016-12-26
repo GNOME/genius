@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2011 Jiri (George) Lebl
+ * Copyright (C) 1997-2016 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -489,6 +489,8 @@ local		{ DO_RET; return LOCAL; }
 
 int my_yyinput(void);
 int my_yyinput(void) { return input(); }
+void my_yy_flush_buffer(void);
+void my_yy_flush_buffer(void) { YY_FLUSH_BUFFER; }
 
 /* avoid unused warnings, kind of bogus */
 /* Apparently this no worky, so don't do it */

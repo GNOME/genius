@@ -228,6 +228,19 @@ function LongTest() = (
 	# polynomial division
 	if not polydivtest() then (error("error on poly div test");errors = errors + 1);
 
+	# test evaluation of strings in the middle of file load
+	if Evaluate ("6^7") != 279936 then (
+		error("error on Evaluate test 1");
+		increment errors
+	);
+
+	# test evaluation of strings in the middle of file load
+	Evaluate ("function gugu(x) = x^2");
+	if gugu(5) != 25 then (
+		error("error on Evaluate test 2");
+		increment errors
+	);
+
 	# We print instead of return since we normally use load to run this
 	# and load doesn't output the return value
 	if errors > 0 then

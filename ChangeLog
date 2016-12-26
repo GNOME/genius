@@ -1,3 +1,15 @@
+Mon Dec 26 12:17:41 2016  Jiri (George) Lebl <jirka@5z.com>
+
+	* configure.ac, NEWS: prepare for 1.0.22
+
+	* src/calc.c, src/lexer.l: appears that flex changed its behavior
+	  leading to infinite loops on parse.  Fix.
+
+	* gtkextra/gtkplotdt.c: fix warnings
+
+	* src/longtest.gel: test Evaluate from inside loaded files (from
+	  inside the string evaluate that's done in geniustest.pl
+
 Fri Dec 23 00:43:15 2016  Jiri (George) Lebl <jirka@5z.com>
 
 	* examples/*.gel: reset variable names for surfaces.  For shocks also
