@@ -12,7 +12,7 @@ Kai Willadsen
 
     <kaiw@itee.uq.edu.au>
 
-   Copyright © 1997-2014 Jiř (George) Lebl
+   Copyright © 1997-2016 Jiř (George) Lebl
 
    Copyright © 2004 Kai Willadsen
 
@@ -238,7 +238,7 @@ Chapter 1. Introduction
    capabilities that require the graphical user interface.
 
    Generally, when some feature of the language (function,
-   operator, etc...) is new is some version past 1.0.5, it is
+   operator, etc...) is new in some version past 1.0.5, it is
    mentioned, but below 1.0.5 you would have to look at the NEWS
    file.
      __________________________________________________________
@@ -311,7 +311,7 @@ Chapter 2. Getting Started
           demos. If you open the menu, it will load the example
           into a new program, which you can run, edit, modify, and
           save. These programs should be well documented and
-          generally demonstrate some either feature of Genius
+          generally demonstrate either some feature of Genius
           Mathematics Tool or some mathematical concept.
 
           The Programs menu lists the currently open programs and
@@ -353,7 +353,7 @@ Chapter 3. Basic Usage
 
    To evaluate an expression, type it into the Console work area
    and press enter. Expressions are written in a language called
-   GEL. The most simple GEL expression just looks like
+   GEL. The most simple GEL expressions just looks like
    mathematics. For example
 genius> 30*70 + 67^3.0 + ln(7) * (88.8/100)
 
@@ -390,8 +390,8 @@ genius> load path/to/program.gel
 3.2. To Create a New Program
 
    If you wish to enter several more complicated commands, or
-   perhaps write a complicated function using the GEL language.
-   You can create a new program.
+   perhaps write a complicated function using the GEL language,
+   you can create a new program.
 
    To start writing a new program, choose File->New Program. A new
    tab will appear in the work area. You can write a GEL program
@@ -661,7 +661,7 @@ Chapter 5. GEL Basics
    write:
 1 3/10
 
-   The next type if number is floating point. These are entered in
+   The next type of number is floating point. These are entered in
    a similar fashion to C notation. You can use E, e or @ as the
    exponent delimiter. Note that using the exponent delimiter
    gives a float even if there is no decimal point in the number.
@@ -680,7 +680,7 @@ Chapter 5. GEL Basics
    always a floating point number and thus Genius does not print
    the .0.
 
-   The final type of number in gel is the complex numbers. You can
+   The final type of number in GEL is the complex numbers. You can
    enter a complex number as a sum of real and imaginary parts. To
    add an imaginary part, append an i. Here are examples of
    entering complex numbers:
@@ -688,16 +688,16 @@ Chapter 5. GEL Basics
 8.01i
 77*e^(1.3i)
 
-Important
+   Important
 
-          When entering imaginary numbers, a number must be in front of
-          the i. If you use i by itself, Genius will interpret this as
-          referring to the variable i. If you need to refer to i by
-          itself, use 1i instead.
+   When entering imaginary numbers, a number must be in front of
+   the i. If you use i by itself, Genius will interpret this as
+   referring to the variable i. If you need to refer to i by
+   itself, use 1i instead.
 
-          In order to use mixed fraction notation with imaginary numbers
-          you must have the mixed fraction in parentheses. (i.e., (1
-          2/5)i)
+   In order to use mixed fraction notation with imaginary numbers
+   you must have the mixed fraction in parentheses. (i.e., (1
+   2/5)i)
      __________________________________________________________
 
 5.1.2. Booleans
@@ -803,16 +803,16 @@ genius> e
    Tip Using Tab completion
 
 
-       You can use Tab completion to get Genius to complete variable
-       names for you. Try typing the first few letters of the name and
-       pressing Tab.
+   You can use Tab completion to get Genius to complete variable
+   names for you. Try typing the first few letters of the name and
+   pressing Tab.
 
    Important Variable names are case sensitive
 
 
-             The names of variables are case sensitive. That means that
-             variables named hello, HELLO and Hello are all different
-             variables.
+   The names of variables are case sensitive. That means that
+   variables named hello, HELLO and Hello are all different
+   variables.
      __________________________________________________________
 
 5.2.1. Setting Variables
@@ -885,16 +885,16 @@ gcd(921,317)
    Tip Using Tab completion
 
 
-       You can use Tab completion to get Genius to complete function
-       names for you. Try typing the first few letters of the name and
-       pressing Tab.
+   You can use Tab completion to get Genius to complete function
+   names for you. Try typing the first few letters of the name and
+   pressing Tab.
 
-  Important Function names are case sensitive
+   Important Function names are case sensitive
 
 
-            The names of functions are case sensitive. That means that
-            functions named dosomething, DOSOMETHING and DoSomething are
-            all different functions.
+   The names of functions are case sensitive. That means that
+   functions named dosomething, DOSOMETHING and DoSomething are
+   all different functions.
      __________________________________________________________
 
 5.3.1. Defining Functions
@@ -979,9 +979,9 @@ LinePlot(sin^2)
 
    Warning
 
-           Not all functions can be used in this way. For example, when
-           you use a binary operation the functions must take the same
-           number of arguments.
+   Not all functions can be used in this way. For example, when
+   you use a binary operation the functions must take the same
+   number of arguments.
      __________________________________________________________
 
 5.4. Separator
@@ -1022,11 +1022,11 @@ LinePlot(sin^2)
 5.5. Comments
 
    GEL is similar to other scripting languages in that # denotes a
-   comments, that is text that is not meant to be evaluated.
+   comment, that is text that is not meant to be evaluated.
    Everything beyond the pound sign till the end of line will just
    be ignored. For example,
 # This is just a comment
-# every line in a comment must have its own pond sign
+# every line in a comment must have its own pound sign
 # in the next line we set x to the value 123
 x=123;
      __________________________________________________________
@@ -1087,7 +1087,7 @@ genius> 2*2 mod 7
 
 5.7. List of GEL Operators
 
-   Everything in gel is really just an expression. Expressions are
+   Everything in GEL is really just an expression. Expressions are
    stringed together with different operators. As we have seen,
    even the separator is simply a binary operator in GEL. Here is
    a list of the operators in GEL.
@@ -1226,7 +1226,7 @@ genius> 2*2 mod 7
           treated as true.
 
    a or b
-          Logical or. Returns true if both a or b are true, else
+          Logical or. Returns true if either a or b is true, else
           returns false. If given numbers, nonzero numbers are
           treated as true.
 
@@ -1348,29 +1348,29 @@ genius> 1:2:9
 
    Note
 
-        The @() operator makes the : operator most useful. With this
-        you can specify regions of a matrix. So that a@(2:4,6) is the
-        rows 2,3,4 of the column 6. Or a@(,1:2) will get you the first
-        two columns of a matrix. You can also assign to the @()
-        operator, as long as the right value is a matrix that matches
-        the region in size, or if it is any other type of value.
+   The @() operator makes the : operator most useful. With this
+   you can specify regions of a matrix. So that a@(2:4,6) is the
+   rows 2,3,4 of the column 6. Or a@(,1:2) will get you the first
+   two columns of a matrix. You can also assign to the @()
+   operator, as long as the right value is a matrix that matches
+   the region in size, or if it is any other type of value.
 
    Note
 
-        The comparison operators (except for the <=> operator, which
-        behaves normally), are not strictly binary operators, they can
-        in fact be grouped in the normal mathematical way, e.g.:
-        (1<x<=y<5) is a legal boolean expression and means just what it
-        should, that is (1<x and x≤y and y<5)
+   The comparison operators (except for the <=> operator, which
+   behaves normally), are not strictly binary operators, they can
+   in fact be grouped in the normal mathematical way, e.g.:
+   (1<x<=y<5) is a legal boolean expression and means just what it
+   should, that is (1<x and x≤y and y<5)
 
    Note
 
-        The unitary minus operates in a different fashion depending on
-        where it appears. If it appears before a number it binds very
-        closely, if it appears in front of an expression it binds less
-        than the power and factorial operators. So for example -1^k is
-        really (-1)^k, but -foo(1)^k is really -(foo(1)^k). So be
-        careful how you use it and if in doubt, add parentheses.
+   The unitary minus operates in a different fashion depending on
+   where it appears. If it appears before a number it binds very
+   closely, if it appears in front of an expression it binds less
+   than the power and factorial operators. So for example -1^k is
+   really (-1)^k, but -foo(1)^k is really -(foo(1)^k). So be
+   careful how you use it and if in doubt, add parentheses.
      __________________________________________________________
 
 Chapter 6. Programming with GEL
@@ -1407,7 +1407,7 @@ until <expression1> do <expression2>
 do <expression2> while <expression1>
 do <expression2> until <expression1>
 
-   These are similar to other languages. However, as in gel it is
+   These are similar to other languages. However, as in GEL it is
    simply an expression that must have some return value, these
    constructs will simply return the result of the last iteration
    or NULL if no iteration was done. In the boolean expression, =
@@ -1440,11 +1440,12 @@ for i = 1 to 20 by 2 do print(i)
 for x = 0 to 1 by 0.1 do print(x)
 
    does the expected even though adding 0.1 ten times becomes just
-   slightly more 1.0 due to the way that floating point numbers
-   are stored in base 2 (there is no 0.1, the actual number stored
-   is just ever so slightly bigger). This is not perfect but it
-   handles the majority of the cases. If you want to avoid dealing
-   with this issue, use actual rational numbers for example:
+   slightly more than 1.0 due to the way that floating point
+   numbers are stored in base 2 (there is no 0.1, the actual
+   number stored is just ever so slightly bigger). This is not
+   perfect but it handles the majority of the cases. If you want
+   to avoid dealing with this issue, use actual rational numbers
+   for example:
 for x = 0 to 1 by 1/10 do print(x)
 
    This check is done only from version 1.0.16 onwards, so
@@ -2029,9 +2030,9 @@ b = [ a,  10
 
    Note
 
-        Be careful about using returns for expressions inside the [ ]
-        brackets, as they have a slightly different meaning there. You
-        will start a new row.
+   Be careful about using returns for expressions inside the [ ]
+   brackets, as they have a slightly different meaning there. You
+   will start a new row.
      __________________________________________________________
 
 8.2. Conjugate Transpose and Transpose Operator
@@ -2949,7 +2950,7 @@ CatalanConstant
           to be the series where terms are (-1^k)/((2*k+1)^2),
           where k ranges from 0 to infinity.
 
-          See Wikipedia, or Mathworld for more information.
+          See Wikipedia or Mathworld for more information.
 
    EulerConstant
 
@@ -3193,7 +3194,7 @@ genius> ceil(-1.1)
 = -1
 
           Note that you should be careful and notice that floating
-          point numbers are stored an binary and so may not be
+          point numbers are stored in binary and so may not be
           what you expect. For example ceil(420/4.2) returns 101
           instead of the expected 100. This is because 4.2 is
           actually very slightly less than 4.2. Use rational
@@ -3328,7 +3329,7 @@ genius> sqrt(4) mod 7
 genius> 2*2 mod 7
 = 4
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    trunc
 
@@ -3448,7 +3449,7 @@ atan2 (y, x)
           Calculates the arctan2 function. If x>0 then it returns
           atan(y/x). If x<0 then it returns sign(y) * (pi -
           atan(|y/x|). When x=0 it returns sign(y) * pi/2.
-          atan2(0,0) returns 0 rather then failing.
+          atan2(0,0) returns 0 rather than failing.
 
           See Wikipedia or Mathworld for more information.
 
@@ -3458,7 +3459,7 @@ cos (x)
 
           Calculates the cosine function.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    cosh
 
@@ -3466,7 +3467,7 @@ cosh (x)
 
           Calculates the hyperbolic cosine function.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    cot
 
@@ -3474,7 +3475,7 @@ cot (x)
 
           The cotangent function.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    coth
 
@@ -3482,7 +3483,7 @@ coth (x)
 
           The hyperbolic cotangent function.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    csc
 
@@ -3490,7 +3491,7 @@ csc (x)
 
           The cosecant function.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    csch
 
@@ -3498,7 +3499,7 @@ csch (x)
 
           The hyperbolic cosecant function.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    sec
 
@@ -3506,7 +3507,7 @@ sec (x)
 
           The secant function.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    sech
 
@@ -3514,7 +3515,7 @@ sech (x)
 
           The hyperbolic secant function.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    sin
 
@@ -3522,7 +3523,7 @@ sin (x)
 
           Calculates the sine function.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    sinh
 
@@ -3530,7 +3531,7 @@ sinh (x)
 
           Calculates the hyperbolic sine function.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    tan
 
@@ -3538,7 +3539,7 @@ tan (x)
 
           Calculates the tan function.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    tanh
 
@@ -3546,7 +3547,7 @@ tanh (x)
 
           The hyperbolic tangent function.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
      __________________________________________________________
 
 11.7. Number Theory
@@ -3558,7 +3559,8 @@ AreRelativelyPrime (a,b)
           Are the real integers a and b relatively prime? Returns
           true or false.
 
-          See Planetmath or Mathworld for more information.
+          See Wikipedia or Planetmath or Mathworld for more
+          information.
 
    BernoulliNumber
 
@@ -3612,7 +3614,7 @@ DiscreteLog (n,b,q)
           of order q, where q is a prime, using the
           Silver-Pohlig-Hellman algorithm.
 
-          See Wikipedia or Planetmath or Mathworld for more
+          See Wikipedia, Planetmath, or Mathworld for more
           information.
 
    Divides
@@ -3628,7 +3630,7 @@ EulerPhi (n)
           Compute the Euler phi function for n, that is the number
           of integers between 1 and n relatively prime to n.
 
-          See Wikipedia or Planetmath or Mathworld for more
+          See Wikipedia, Planetmath, or Mathworld for more
           information.
 
    ExactDivision
@@ -3755,7 +3757,7 @@ IsOdd (n)
 
 IsPerfectPower (n)
 
-          Check an integer is any perfect power, a^b.
+          Check an integer for being any perfect power, a^b.
 
    IsPerfectSquare
 
@@ -3858,7 +3860,7 @@ LucasLehmer (p)
           test. See also MersennePrimeExponents and
           IsMersennePrimeExponent.
 
-          See Wikipedia or Planetmath or Mathworld for more
+          See Wikipedia, Planetmath, or Mathworld for more
           information.
 
    LucasNumber
@@ -3867,7 +3869,7 @@ LucasNumber (n)
 
           Returns the nth Lucas number.
 
-          See Wikipedia or Planetmath or Mathworld for more
+          See Wikipedia, Planetmath, or Mathworld for more
           information.
 
    MaximalPrimePowerFactors
@@ -3907,7 +3909,7 @@ MillerRabinTestSure (n)
           bases that assuming the Generalized Riemann Hypothesis
           the result is deterministic.
 
-          See Wikipedia or Planetmath or Mathworld for more
+          See Wikipedia, Planetmath, or Mathworld for more
           information.
 
    ModInvert
@@ -3951,7 +3953,7 @@ PadicValuation (n,p)
           Returns the p-adic valuation (number of trailing zeros
           in base p).
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    PowerMod
 
@@ -3978,7 +3980,7 @@ PrimeFactors (n)
 
           Return all prime factors of a number as a vector.
 
-          See Mathworld for more information.
+          See Wikipedia or Mathworld for more information.
 
    PseudoprimeTest
 
@@ -4023,7 +4025,8 @@ StrongPseudoprimeTest (n,b)
 
           Run the strong pseudoprime test base b on n.
 
-          See Planetmath or Mathworld for more information.
+          See Wikipedia, Planetmath, or Mathworld for more
+          information.
 
    gcd
 
@@ -4032,12 +4035,13 @@ gcd (a,args...)
           Aliases: GCD
 
           Greatest common divisor of integers. You can enter as
-          many integers in the argument list, or you can give a
-          vector or a matrix of integers. If you give more than
-          one matrix of the same size then GCD is done element by
-          element.
+          many integers as you want in the argument list, or you
+          can give a vector or a matrix of integers. If you give
+          more than one matrix of the same size then GCD is done
+          element by element.
 
-          See Planetmath or Mathworld for more information.
+          See Wikipedia, Planetmath, or Mathworld for more
+          information.
 
    lcm
 
@@ -4046,12 +4050,13 @@ lcm (a,args...)
           Aliases: LCM
 
           Least common multiplier of integers. You can enter as
-          many integers in the argument list, or you can give a
-          vector or a matrix of integers. If you give more than
-          one matrix of the same size then LCM is done element by
-          element.
+          many integers as you want in the argument list, or you
+          can give a vector or a matrix of integers. If you give
+          more than one matrix of the same size then LCM is done
+          element by element.
 
-          See Planetmath or Mathworld for more information.
+          See Wikipedia, Planetmath, or Mathworld for more
+          information.
      __________________________________________________________
 
 11.8. Matrix Manipulation
@@ -4123,9 +4128,12 @@ DotProduct (u,v)
 
           Get the dot product of two vectors. The vectors must be
           of the same size. No conjugates are taken so this is a
-          bilinear form even if working over the complex numbers.
+          bilinear form even if working over the complex numbers;
+          This is the bilinear scalar product not the sesquilinear
+          scalar product. See HermitianProduct for the standard
+          sesquilinear inner product.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    ExpandMatrix
 
@@ -4147,7 +4155,7 @@ HermitianProduct (u,v)
           must be of the same size. This is a sesquilinear form
           using the identity matrix.
 
-          See Mathworld for more information.
+          See Wikipedia or Mathworld for more information.
 
    I
 
@@ -4158,7 +4166,7 @@ I (n)
           Return an identity matrix of a given size, that is n by
           n. If n is zero, returns null.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    IndexComplement
 
@@ -4198,8 +4206,7 @@ IsLowerTriangular (M)
 
 IsMatrixInteger (M)
 
-          Check if a matrix is a matrix of an integers
-          (non-complex).
+          Check if a matrix is a matrix of integers (non-complex).
 
    IsMatrixNonnegative
 
@@ -4518,7 +4525,7 @@ CharacteristicPolynomial (M)
           eigenvalues of M. See also
           CharacteristicPolynomialFunction.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    CharacteristicPolynomialFunction
 
@@ -4529,7 +4536,7 @@ CharacteristicPolynomialFunction (M)
           polynomial are the eigenvalues of M. See also
           CharacteristicPolynomial.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    ColumnSpace
 
@@ -4539,6 +4546,8 @@ ColumnSpace (M)
           is, return a matrix whose columns are the basis for the
           column space of M. That is the space spanned by the
           columns of M.
+
+          See Wikipedia for more information.
 
    CommutationMatrix
 
@@ -4562,7 +4571,7 @@ ConjugateTranspose (M)
           Conjugate transpose of a matrix (adjoint). This is the
           same as the ' operator.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    Convolution
 
@@ -4585,12 +4594,13 @@ CrossProduct (v,w)
 
           CrossProduct of two vectors in R^3 as a column vector.
 
+          See Wikipedia for more information.
+
    DeterminantalDivisorsInteger
 
 DeterminantalDivisorsInteger (M)
 
-          Get the determinantal divisors of an integer matrix (not
-          its characteristic).
+          Get the determinantal divisors of an integer matrix.
 
    DirectSum
 
@@ -4598,11 +4608,15 @@ DirectSum (M,N...)
 
           Direct sum of matrices.
 
+          See Wikipedia for more information.
+
    DirectSumMatrixVector
 
 DirectSumMatrixVector (v)
 
           Direct sum of a vector of matrices.
+
+          See Wikipedia for more information.
 
    Eigenvalues
 
@@ -4615,7 +4629,7 @@ Eigenvalues (M)
           triangular matrices (for which the eigenvalues are on
           the diagonal).
 
-          See Wikipedia or Planetmath or Mathworld for more
+          See Wikipedia, Planetmath, or Mathworld for more
           information.
 
    Eigenvectors
@@ -4630,7 +4644,7 @@ Eigenvectors (M, &eigenvalues, &multiplicities)
           also the eigenvalues and their algebraic multiplicities.
           Currently only works for matrices of size up to 2 by 2.
 
-          See Wikipedia or Planetmath or Mathworld for more
+          See Wikipedia, Planetmath, or Mathworld for more
           information.
 
    GramSchmidt
@@ -4644,13 +4658,18 @@ GramSchmidt (v,B...)
           can be a matrix giving a sesquilinear form. The vectors
           will be made orthonormal with respect to B.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    HankelMatrix
 
 HankelMatrix (c,r)
 
-          Hankel matrix.
+          Hankel matrix, a matrix whose skew-diagonals are
+          constant. c is the first row and r is the last column.
+          It is assumed that both arguments are vectors and the
+          last element of c is the same as the first element of r.
+
+          See Wikipedia for more information.
 
    HilbertMatrix
 
@@ -4658,13 +4677,15 @@ HilbertMatrix (n)
 
           Hilbert matrix of order n.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    Image
 
 Image (T)
 
           Get the image (columnspace) of a linear transform.
+
+          See Wikipedia for more information.
 
    InfNorm
 
@@ -4677,8 +4698,7 @@ InfNorm (v)
 
 InvariantFactorsInteger (M)
 
-          Get the invariant factors of a square integer matrix
-          (not its characteristic).
+          Get the invariant factors of a square integer matrix.
 
    InverseHilbertMatrix
 
@@ -4686,7 +4706,7 @@ InverseHilbertMatrix (n)
 
           Inverse Hilbert matrix of order n.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    IsHermitian
 
@@ -4695,7 +4715,7 @@ IsHermitian (M)
           Is a matrix Hermitian. That is, is it equal to its
           conjugate transpose.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    IsInSubspace
 
@@ -4743,7 +4763,8 @@ IsPositiveDefinite (M)
           check the Hermitian part of the matrix M as follows:
           IsPositiveDefinite(M+M').
 
-          See Planetmath or Mathworld for more information.
+          See Wikipedia, Planetmath, or Mathworld for more
+          information.
 
    IsPositiveSemidefinite
 
@@ -4822,7 +4843,7 @@ LUDecomposition (A, L, U)
 
           Get the LU decomposition of A, that is find a lower
           triangular matrix and upper triangular matrix whose
-          product is A Store the result in the L and U, which
+          product is A. Store the result in the L and U, which
           should be references. It returns true if successful. For
           example suppose that A is a square matrix, then after
           running:
@@ -5043,7 +5064,7 @@ SmithNormalFormField (A)
 SmithNormalFormInteger (M)
 
           Return the Smith normal form for square integer matrices
-          over integers (not its characteristic).
+          over integers.
 
           See Wikipedia for more information.
 
@@ -5251,11 +5272,11 @@ FrobeniusNumber (v,arg...)
 GaloisMatrix (combining_rule)
 
           Galois matrix given a linear combining rule
-          (a_1*x_+...+a_n*x_n=x_(n+1)).
+          (a_1*x_1+...+a_n*x_n=x_(n+1)).
 
    GreedyAlgorithm
 
-FrobeniusNumber (n,v)
+GreedyAlgorithm (n,v)
 
           Find the vector c of non-negative integers such that
           taking the dot product with v is equal to n. If not
@@ -5304,7 +5325,7 @@ Multinomial (v,arg...)
           Multinomial(a,b) is the same thing as Binomial(a+b,a) or
           Binomial(a+b,b).
 
-          See Planetmath, Mathworld, or Wikipedia for more
+          See Wikipedia, Planetmath, or Mathworld for more
           information.
 
    NextCombination
@@ -5317,7 +5338,7 @@ NextCombination (v,n)
           through and you don't want to waste memory to store them
           all.
 
-          For example with Combination you would normally write a
+          For example with Combinations you would normally write a
           loop like:
 
 for n in Combinations (4,6) do (
@@ -5387,7 +5408,7 @@ StirlingNumberSecond (n,m)
 
 Subfactorial (n)
 
-          Subfactorial: n! times sum_{k=1}^n (-1)^k/k!.
+          Subfactorial: n! times sum_{k=0}^n (-1)^k/k!.
 
    Triangular
 
@@ -5412,8 +5433,8 @@ nCr (n,r)
 
 nPr (n,r)
 
-          Calculate the number of permutations of size rof numbers
-          from 1 to n.
+          Calculate the number of permutations of size r of
+          numbers from 1 to n.
 
           See Mathworld or Wikipedia for more information.
      __________________________________________________________
@@ -5446,6 +5467,8 @@ Derivative (f,x0)
 
           Attempt to calculate derivative by trying first
           symbolically and then numerically.
+
+          See Wikipedia for more information.
 
    EvenPeriodicExtension
 
@@ -5542,6 +5565,8 @@ NumericalDerivative (f,x0)
           Aliases: NDerivative
 
           Attempt to calculate numerical derivative.
+
+          See Wikipedia for more information.
 
    NumericalFourierSeriesCoefficients
 
@@ -5820,7 +5845,7 @@ ErrorFunction (x)
 
           The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    FejerKernel
 
@@ -6021,7 +6046,7 @@ EulersMethod (f,x0,y0,x1,n)
           size for the second argument and should return a vector
           of the same size.
 
-          See Mathworld, or Wikipedia for more information.
+          See Mathworld or Wikipedia for more information.
 
    EulersMethodFull
 
@@ -6065,7 +6090,7 @@ genius> LinePlotDrawLine(firstline,"color","blue","legend","First");
 genius> LinePlotDrawPoints(secondline,"color","red","thickness",3,"legen
 d","Second");
 
-          See Mathworld, or Wikipedia for more information.
+          See Mathworld or Wikipedia for more information.
 
           Version 1.0.10 onwards.
 
@@ -6124,7 +6149,7 @@ FindRootSecant (f,a,b,TOL,N)
 
 HalleysMethod (f,df,ddf,guess,epsilon,maxn)
 
-          Find zeros using Halleys's method. f is the function, df
+          Find zeros using Halley's method. f is the function, df
           is the derivative of f, and ddf is the second derivative
           of f. guess is the initial guess. The function returns
           after two successive values are within epsilon of each
@@ -6213,7 +6238,7 @@ RungeKutta (f,x0,y0,x1,n)
           size for the second argument and should return a vector
           of the same size.
 
-          See Mathworld, or Wikipedia for more information.
+          See Mathworld or Wikipedia for more information.
 
    RungeKuttaFull
 
@@ -6255,7 +6280,7 @@ genius> LinePlotDrawLine(firstline,"color","blue","legend","First");
 genius> LinePlotDrawPoints(secondline,"color","red","thickness",3,"legen
 d","Second");
 
-          See Mathworld, or Wikipedia for more information.
+          See Mathworld or Wikipedia for more information.
 
           Version 1.0.10 onwards.
      __________________________________________________________
@@ -6564,6 +6589,8 @@ genius> SymbolicDerivative(sin)
 genius> SymbolicDerivative(`(x)=7*x^2)
 = (`(x)=(7*(2*x)))
 
+          See Wikipedia for more information.
+
    SymbolicDerivativeTry
 
 SymbolicDerivativeTry (f)
@@ -6572,12 +6599,16 @@ SymbolicDerivativeTry (f)
           where f is a function of one variable, returns null if
           unsuccessful but is silent. (See SymbolicDerivative)
 
+          See Wikipedia for more information.
+
    SymbolicNthDerivative
 
 SymbolicNthDerivative (f,n)
 
           Attempt to symbolically differentiate a function n
           times. (See SymbolicDerivative)
+
+          See Wikipedia for more information.
 
    SymbolicNthDerivativeTry
 
@@ -6586,6 +6617,8 @@ SymbolicNthDerivativeTry (f,n)
           Attempt to symbolically differentiate a function n times
           quietly and return null on failure (See
           SymbolicNthDerivative)
+
+          See Wikipedia for more information.
 
    SymbolicTaylorApproximationFunction
 
@@ -6657,6 +6690,27 @@ LinePlotClear ()
           Show the line plot window and clear out functions and
           any other lines that were drawn.
 
+   LinePlotCParametric
+
+LinePlotCParametric (func,...)
+
+LinePlotCParametric (func,t1,t2,tinc)
+
+LinePlotCParametric (func,t1,t2,tinc,x1,x2,y1,y2)
+
+          Plot a parametric complex valued function with a line.
+          First comes the function that returns x+iy, then
+          optionally the t limits as t1,t2,tinc, then optionally
+          the limits as x1,x2,y1,y2.
+
+          If limits are not specified, then the currently set
+          limits apply (See LinePlotWindow). If instead the string
+          "fit" is given for the x and y limits, then the limits
+          are the maximum extent of the graph
+
+          The parameter LinePlotDrawLegends controls the drawing
+          of the legend.
+
    LinePlotDrawLine
 
 LinePlotDrawLine (x1,y1,x2,y2,...)
@@ -6665,6 +6719,9 @@ LinePlotDrawLine (v,...)
 
           Draw a line from x1,y1 to x2,y2. x1,y1, x2,y2 can be
           replaced by an n by 2 matrix for a longer polyline.
+          Alternatively the vector v may be a column vector of
+          complex numbers, that is an n by 1 matrix and each
+          complex number is then considered a point in the plane.
 
           Extra parameters can be added to specify line color,
           thickness, arrows, the plotting window, or legend. You
@@ -6673,6 +6730,10 @@ LinePlotDrawLine (v,...)
           it specify the color, the thickness, the window as
           4-vector, type of arrow, or the legend. (Arrow and
           window are from version 1.0.6 onwards.)
+
+          If the line is to be treated as a filled polygon, filled
+          with the given color, you can specify the argument
+          "filled". Since version 1.0.22 onwards.
 
           The color should be either a string indicating the
           common English word for the color that GTK will
@@ -6706,6 +6767,15 @@ genius> LinePlotDrawLine(RungeKuttaFull(`(x,y)=y,0,3,100),"color","blue"
 ,"legend","The Solution")
 genius> for r=0.0 to 1.0 by 0.1 do LinePlotDrawLine([0,0;1,r],"color",[r
 ,(1-r),0.5],"window",[0,1,0,1])
+genius> LinePlotDrawLine([0,0;10,0;10,10;0,10],"filled","color","green")
+
+          Unlike many other functions that do not care if they
+          take a column or a row vector, if specifying points as a
+          vector of complex values, due to possible ambiguities,
+          it must always be given as a column vector.
+
+          Specifying v as a column vector of complex numbers is
+          implemented from version 1.0.22 and onwards.
 
    LinePlotDrawPoints
 
@@ -6715,9 +6785,12 @@ LinePlotDrawPoints (v,...)
 
           Draw a point at x,y. The input can be an n by 2 matrix
           for n different points. This function has essentially
-          the same input as LinePlotDrawLine.
+          the same input as LinePlotDrawLine. Alternatively the
+          vector v may be a column vector of complex numbers, that
+          is an n by 1 matrix and each complex number is then
+          considered a point in the plane.
 
-          Extra parameters can be added to specify line color,
+          Extra parameters can be added to specify color,
           thickness, the plotting window, or legend. You can do
           this by adding an argument string "color", "thickness",
           "window", or "legend", and after it specify the color,
@@ -6749,8 +6822,31 @@ genius> LinePlotDrawPoints(0,0,"color","blue","thickness",3)
 genius> LinePlotDrawPoints([0,0;1,-1;-1,-1])
 genius> LinePlotDrawPoints(RungeKuttaFull(`(x,y)=y,0,3,100),"color","blu
 e","legend","The Solution")
+genius> LinePlotDrawPoints([1;1+1i;1i;0],"thickness",5)
+genius> LinePlotDrawPoints(ApplyOverMatrix((0:6)',`(k)=exp(k*2*pi*1i/7))
+,"thickness",3,"legend","The 7th roots of unity")
 
-          Available from version 1.0.18 onwards.
+          Unlike many other functions that do not care if they
+          take a column or a row vector, if specifying points as a
+          vector of complex values, due to possible ambiguities,
+          it must always be given as a column vector. Therefore,
+          notice in the last example the transpose of the vector
+          0:6 to make it into a column vector.
+
+          Available from version 1.0.18 onwards. Specifying v as a
+          column vector of complex numbers is implemented from
+          version 1.0.22 and onwards.
+
+   LinePlotMouseLocation
+
+LinePlotMouseLocation ()
+
+          Returns a row vector of a point on the line plot
+          corresponding to the current mouse location. If the line
+          plot is not visible, then prints an error and returns
+          null. In this case you should run LinePlot or
+          LinePlotClear to put the graphing window into the line
+          plot mode. See also LinePlotWaitForClick.
 
    LinePlotParametric
 
@@ -6776,26 +6872,16 @@ LinePlotParametric (xfunc,yfunc,t1,t2,tinc,"fit")
           The parameter LinePlotDrawLegends controls the drawing
           of the legend.
 
-   LinePlotCParametric
+   LinePlotWaitForClick
 
-LinePlotCParametric (func,...)
+LinePlotWaitForClick ()
 
-LinePlotCParametric (func,t1,t2,tinc)
-
-LinePlotCParametric (func,t1,t2,tinc,x1,x2,y1,y2)
-
-          Plot a parametric complex valued function with a line.
-          First comes the function that returns x+iy, then
-          optionally the t limits as t1,t2,tinc, then optionally
-          the limits as x1,x2,y1,y2.
-
-          If limits are not specified, then the currently set
-          limits apply (See LinePlotWindow). If instead the string
-          "fit" is given for the x and y limits, then the limits
-          are the maximum extent of the graph
-
-          The parameter LinePlotDrawLegends controls the drawing
-          of the legend.
+          If in line plot mode, waits for a click on the line plot
+          window and returns the location of the click as a row
+          vector. If the window is closed the function returns
+          immediately with null. If the window is not in line plot
+          mode, it is put in it and shown if not shown. See also
+          LinePlotMouseLocation.
 
    PlotCanvasFreeze
 
@@ -6834,8 +6920,8 @@ PlotWindowPresent ()
           the plotting functions is called, but it is not always
           raised if it happens to be below other windows. So this
           function is good to call in scripts where the plot
-          window might have been created before, and by now hidden
-          behind the console or other windows.
+          window might have been created before, and by now is
+          hidden behind the console or other windows.
 
           Version 1.0.19 onwards.
 
@@ -6876,7 +6962,7 @@ SlopefieldPlot (func,x1,x2,y1,y2)
 
           Examples:
 
-genius> Slopefield(`(x,y)=sin(x-y),-5,5,-5,5)
+genius> SlopefieldPlot(`(x,y)=sin(x-y),-5,5,-5,5)
 
    SurfacePlot
 
@@ -6985,8 +7071,8 @@ SurfacePlotDataGrid (data,[x1,x2,y1,y2,z1,z2],label)
 
 genius> SurfacePlotDataGrid([1,2;3,4],[0,1,0,1])
 genius> SurfacePlotDataGrid(data,[-1,1,-1,1],"My data")
-genius> d:=null; for i=1 to 20 do for j=1 to 10 d@(i,j) = (0.1*i-1)^2-(0
-.1*j)^2;
+genius> d:=null; for i=1 to 20 do for j=1 to 10 do d@(i,j) = (0.1*i-1)^2
+-(0.1*j)^2;
 genius> SurfacePlotDataGrid(d,[-1,1,0,1],"half a saddle")
 
           Version 1.0.16 onwards.
@@ -7214,18 +7300,18 @@ Chapter 13. Settings
    provided by the calculator in addition to the ones provided by
    the standard library. These control how the calculator behaves.
 
- Note Changing Settings with GEL
+   Note Changing Settings with GEL
 
 
-         Many of the settings in Genius are simply global variables, and
-         can be evaluated and assigned to in the same way as normal
-         variables. See Section 5.2 about evaluating and assigning to
-         variables, and Section 11.3 for a list of settings that can be
-         modified in this way.
+   Many of the settings in Genius are simply global variables, and
+   can be evaluated and assigned to in the same way as normal
+   variables. See Section 5.2 about evaluating and assigning to
+   variables, and Section 11.3 for a list of settings that can be
+   modified in this way.
 
-         As an example, you can set the maximum number of digits in a
-         result to 12 by typing:
-      MaxDigits = 12
+   As an example, you can set the maximum number of digits in a
+   result to 12 by typing:
+MaxDigits = 12
      __________________________________________________________
 
 13.1. Output
@@ -7303,7 +7389,7 @@ Chapter 13. Settings
           stuff) is printed, useful for pasting into documents.
           Normal style is the default human readable printing
           style of Genius Mathematics Tool. The other styles are
-          for typsetting in LaTeX, MathML (XML), or in Troff.
+          for typesetting in LaTeX, MathML (XML), or in Troff.
      __________________________________________________________
 
 13.2. Precision
