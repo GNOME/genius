@@ -3,7 +3,6 @@ SUBDIRS=.
 
 AM_CPPFLAGS = \
 	-I$(srcdir)						\
-	-I$(includedir)						\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/ve					\
 	-I$(top_srcdir)/gtkextra				\
@@ -13,6 +12,8 @@ AM_CPPFLAGS = \
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\"		\
 	$(WARN_CFLAGS)						\
 	$(GENIUS_CFLAGS)
+
+#	-I$(includedir)
 
 AM_CFLAGS = $(PGO_CFLAGS)
 

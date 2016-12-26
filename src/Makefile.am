@@ -21,7 +21,6 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)					\
 	-I$(top_builddir)/ve					\
 	-I$(top_builddir)/gtkextra				\
-	-I$(includedir)						\
 	$(WARN_CFLAGS)						\
 	$(BINRELOC_CFLAGS)					\
 	$(GMP_INCLUDEDIR)					\
