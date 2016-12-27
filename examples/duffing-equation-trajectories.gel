@@ -1,0 +1,58 @@
+# Category: Chaos
+# Name: Duffing's equation trajectories
+#
+# Draws Duffing equation trajectories showing a small change
+# in initial conditions means large error after some time. 
+#
+
+# The Duffing equation (converted to an ODE system)
+# x_1' = x_2, x_2' = -0.05x_2 - x_1^3 + 8cos(t)
+function duf(x,y) = [y@(2),-0.05*y@(2)-(y@(1))^3+8*cos(x)];
+
+LinePlotDrawLegends = false;
+PlotWindowPresent(); # Make sure the window is raised
+LinePlotWindow = [-4,4,-6,6];
+LinePlotClear ();
+
+pointblue = [2.0,2.95];
+pointred = [2.0,3.05];
+
+ttinterval = 0.1;
+
+for tt = 0 to 50 by ttinterval do (
+  PlotCanvasFreeze ();
+  
+  # Draw a piece of the trajectory starting at pointblue
+  # and t going from tt to going tt+ttinterval
+  pt = RungeKuttaFull(duf,tt,pointblue,tt+ttinterval,20);
+  
+  #last point is going to be the next starting point
+  pointblue = pt@(rows(pt),2);
+  
+  #flatten the matrix
+  pt = ExpandMatrix(pt);
+  
+  # draw the line
+  LinePlotDrawLine(pt@(,[2,3]),"color","blue");
+
+  # Draw a piece of the red trajectory, similar to the above
+  pt = RungeKuttaFull(duf,tt,pointred,tt+ttinterval,20);
+  pointred = pt@(rows(pt),2);
+  pt = ExpandMatrix(pt);
+  LinePlotDrawLine(pt@(,[2,3]),"color","red");
+
+  PlotCanvasThaw();
+  
+  wait(0.03)
+);
+
+# If you only want to draw the trajectories, comment out the above 
+# loop and just run
+#
+#pt = RungeKuttaFull(duf,0,pointblue,18,1000);
+#pt = ExpandMatrix(pt);
+#LinePlotDrawLine(pt@(,[2,3]),"color","blue");
+#
+#pt = RungeKuttaFull(duf,0,pointred,18,1000);
+#pt = ExpandMatrix(pt);
+#LinePlotDrawLine(pt@(,[2,3]),"color","red");

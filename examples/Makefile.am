@@ -16,6 +16,7 @@ example_DATA = \
 	sierpinski.gel \
 	standing-waves.gel \
 	strange-attractor.gel \
+	duffing-equation-trajectories.gel \
 	taylor-exp.gel \
 	taylor-sin.gel \
 	fourier-series-animation.gel \

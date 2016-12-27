@@ -6,9 +6,9 @@
 #
 
 # The Duffing equation (converted to an ODE system)
-# x_1' = x_2, x_2' = -0.05x_2 - x_1^3 + 7.5cos(t)
+# x_1' = x_2, x_2' = -0.05x_2 - x_1^3 + 8cos(t)
 #
-function duf(t,x) = [x@(2),-0.05*x@(2)-(x@(1))^3+7.5*cos(t)];
+function duf(t,x) = [x@(2),-0.05*x@(2)-(x@(1))^3+8*cos(t)];
 
 # Strobe period
 strobe = 2*pi;
