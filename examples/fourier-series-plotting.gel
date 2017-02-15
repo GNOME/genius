@@ -33,7 +33,7 @@ a = c@(1);
 b = c@(2);
 
 for n=1 to N do (
-  #wait(1); if you want to slow the anumation
+  #wait(1); #if you want to slow the animation
   fs = FourierSeriesFunction (a@(1:n), b@(1:n), 1);
   print("Plotting up to the " + n + "th harmonic...");
   LinePlot(PeriodicExtension(f,-1,1), fs);
