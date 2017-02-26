@@ -1,17 +1,17 @@
 # Serbian translation of genius
-# Courtesy of Prevod.org team (http://prevod.org/) -- 2003—2016.
+# Courtesy of Prevod.org team (http://prevod.org/) -- 2003—2017.
 # This file is distributed under the same license as the genius package.
 # Translators:
 # Данило Шеган <dsegan@gmx.net>
-# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2015—2016.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2015—2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: genius\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-24 22:59+0000\n"
-"PO-Revision-Date: 2016-08-31 21:16+0200\n"
+"POT-Creation-Date: 2016-12-20 02:07+0000\n"
+"PO-Revision-Date: 2017-02-25 19:27+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
-"Language-Team: српски <gnome-sr@googlegroups.org>\n"
+"Language-Team: Serbian <(nothing)>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1557,7 +1557,7 @@ msgstr "„%s“ је надимак за „%s“\n"
 
 #: ../src/calc.c:2855
 msgid "Parameter: "
-msgstr "Параметар:"
+msgstr "Параметар: "
 
 #: ../src/calc.c:2882
 msgid "Aliases:"
@@ -1711,7 +1711,7 @@ msgstr "Стварање функције са погрешним бројем �
 msgid "Unevaluatable function type encountered!"
 msgstr "Наишао сам на неизрачунљиву врсту функције!"
 
-#: ../src/eval.c:3506 ../src/graphing.c:5992
+#: ../src/eval.c:3506 ../src/graphing.c:6020
 msgid "or"
 msgstr "или"
 
@@ -1883,8 +1883,7 @@ msgstr "Упућује на недефинисану променљиву!"
 #, c-format
 msgid ""
 "Increment/Swapwith does not work on parameters (trying to increment '%s')"
-msgstr ""
-"Повећање/Размени_са не ради над параметрима (покушавам да повећам „%s“)"
+msgstr "Повећање/Размени_са не ради над параметрима (покушавам да повећам „%s“)"
 
 #: ../src/eval.c:5963
 msgid "Increment not a value!"
@@ -2217,9 +2216,9 @@ msgid "%s: argument must be an integer"
 msgstr "%s: аргумент мора бити цео број"
 
 #: ../src/funclib.c:2887 ../src/funclib.c:4764 ../src/funclib.c:4793
-#: ../src/funclib.c:5045 ../src/mpwrap.c:3793 ../src/mpwrap.c:3812
-#: ../src/mpwrap.c:3869 ../src/mpwrap.c:3898 ../src/mpwrap.c:3915
-#: ../src/mpwrap.c:3964
+#: ../src/funclib.c:5045 ../src/mpwrap.c:3788 ../src/mpwrap.c:3807
+#: ../src/mpwrap.c:3864 ../src/mpwrap.c:3893 ../src/mpwrap.c:3910
+#: ../src/mpwrap.c:3959
 msgid "Division by zero!"
 msgstr "Дељење нулом!"
 
@@ -2233,18 +2232,13 @@ msgstr "%s: аргумент матрице мора бити једино вр�
 msgid "%s: Cannot compare complex numbers"
 msgstr "%s: Не могу да поредим комплексне бројеве"
 
-#: ../src/funclib.c:3100
+#: ../src/funclib.c:3100 ../src/funclib.c:3196
 #, c-format
 msgid "%s: Input not a number or a matrix of numbers."
 msgstr "%s: Улаз није број или матрица бројева."
 
-#: ../src/funclib.c:3196
-#, c-format
-msgid "%s: Input not a number or matrix of numbers."
-msgstr "%s: Улаз није број или матрица бројева."
-
 #: ../src/funclib.c:3434 ../src/funclib.c:3492 ../src/funclib.c:5030
-#: ../src/funclib.c:5324 ../src/graphing.c:10180
+#: ../src/funclib.c:5324 ../src/graphing.c:10295
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: превише аргумената"
@@ -2679,8 +2673,9 @@ msgid "Catalan's Constant (0.915...)"
 msgstr "Каталанова константа (0.915...)"
 
 #: ../src/funclib.c:7090
-msgid "The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt"
-msgstr "Функција грешке, 2/sqrt(2) * int_0^x e^(-t^2) dt"
+#| msgid "The error function, 2/sqrt(2) * int_0^x e^(-t^2) dt"
+msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
+msgstr "Функција грешке, 2//sqrt(pi) * int_0^x e^(-t^2) dt"
 
 #: ../src/funclib.c:7093
 msgid "The Riemann zeta function (only real values implemented)"
@@ -3309,7 +3304,7 @@ msgstr "%s: %d. аргумент није ненегативан број"
 msgid "%s: argument number %d not a positive integer"
 msgstr "%s: %d. аргумент није позитиван цео број"
 
-#: ../src/funclibhelper.cP:125 ../src/graphing.c:3361
+#: ../src/funclibhelper.cP:125 ../src/graphing.c:3378
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: %d. аргумент није број"
@@ -3486,7 +3481,7 @@ msgstr ""
 "За помоћ укуцајте „manual“ или „help“.%s\n"
 "\n"
 
-#: ../src/genius.c:604 ../src/gnome-genius.c:5368
+#: ../src/genius.c:604 ../src/gnome-genius.c:5392
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -3792,7 +3787,7 @@ msgstr "_Нацртај..."
 msgid "Plot functions, vector fields, surfaces, etc..."
 msgstr "Нацртајте функције, поља вектора, површине, итд..."
 
-#: ../src/gnome-genius.c:383 ../src/gnome-genius.c:586 ../src/graphing.c:7230
+#: ../src/gnome-genius.c:383 ../src/gnome-genius.c:586 ../src/graphing.c:7258
 msgid "_Plot"
 msgstr "_Нацртај"
 
@@ -3904,7 +3899,7 @@ msgstr "„%s“ није дефинисана"
 #. printed before a global variable
 #: ../src/gnome-genius.c:1467
 msgid "(global) "
-msgstr "(општа)"
+msgstr "(општа) "
 
 #. printed before local variable in certain
 #. * context
@@ -4142,8 +4137,8 @@ msgid ""
 "you wish to interrupt the calculation or continue.\n"
 "Setting to 0 disables the limit."
 msgstr ""
-"Када се достигне ограничење бићете упитани да ли желите да прекинете "
-"израчунавање или да наставите.\n"
+"Када се достигне ограничење бићете упитани да ли\n"
+"желите да прекинете израчунавање или да наставите.\n"
 "0 искључује ограничење."
 
 #: ../src/gnome-genius.c:2662
@@ -4193,7 +4188,7 @@ msgid "Cannot open file"
 msgstr "Не могу да отворим датотеку"
 
 #. context
-#: ../src/gnome-genius.c:3408 ../src/gnome-genius.c:4970
+#: ../src/gnome-genius.c:3408 ../src/gnome-genius.c:4994
 #, c-format
 msgid "Line: %d"
 msgstr "Ред: %d"
@@ -4204,7 +4199,7 @@ msgid ""
 "without saving?"
 msgstr ""
 "Програм који затварате није сачуван, да ли сигурно желите да га затворите "
-"без чувања? "
+"без чувања?"
 
 #: ../src/gnome-genius.c:3672
 #, c-format
@@ -4313,12 +4308,12 @@ msgstr ""
 "Дошло је до грешке приликом писања\n"
 "програма у погон."
 
-#: ../src/gnome-genius.c:4393
+#: ../src/gnome-genius.c:4400
 #, c-format
 msgid "Genius %s"
 msgstr "Геније %s"
 
-#: ../src/gnome-genius.c:4625
+#: ../src/gnome-genius.c:4632
 msgid "Memory (node number) limit has been reached, interrupt the computation?"
 msgstr "Ограничење меморије (број чвора) је достигнуто, да прекинем прорачун?"
 
@@ -4327,17 +4322,17 @@ msgstr "Ограничење меморије (број чвора) је дос�
 #. textbox_title
 #. bind_response
 #. wrap
-#: ../src/gnome-genius.c:4715
+#: ../src/gnome-genius.c:4746
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Не могу да извршим „genius-readline-helper-fifo“!\n"
 
-#: ../src/gnome-genius.c:4783
+#: ../src/gnome-genius.c:4807
 msgid "Readline helper died, weird.  Trying to recover, things may be odd."
 msgstr ""
 "Помоћник читања реда се урушио, чудно је то.  Покушавам да опоравим, ствари "
 "могу изгледати уврнуто."
 
-#: ../src/gnome-genius.c:4991
+#: ../src/gnome-genius.c:5015
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -4345,21 +4340,21 @@ msgstr ""
 "\n"
 "Белешка: Преведено без Прегледа Гтк извора (бољи уређивач извора)"
 
-#: ../src/gnome-genius.c:5084
+#: ../src/gnome-genius.c:5108
 msgid "GNOME Genius"
 msgstr "Гномов Геније"
 
 #. parent
-#: ../src/gnome-genius.c:5134
+#: ../src/gnome-genius.c:5158
 msgid "Cannot find the library file, genius installation may be incorrect"
 msgstr ""
 "Не могу да нађем датотеку библиотеке, инсталација Генија може бити неисправна"
 
-#: ../src/gnome-genius.c:5215
+#: ../src/gnome-genius.c:5239
 msgid "Console"
 msgstr "Конзола"
 
-#: ../src/gnome-genius.c:5263
+#: ../src/gnome-genius.c:5287
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -4474,19 +4469,19 @@ msgstr "ПНГ датотеке"
 msgid "Generate preview in EPS file (with ps2epsi)"
 msgstr "Направи претпреглед у ЕПС датотеци (са „ps2epsi“)"
 
-#: ../src/graphing.c:1934
+#: ../src/graphing.c:1951
 msgid "Solver"
 msgstr "Решавач"
 
-#: ../src/graphing.c:1939
+#: ../src/graphing.c:1956
 msgid "Clea_r solutions"
 msgstr "_Очисти решења"
 
-#: ../src/graphing.c:1941
+#: ../src/graphing.c:1958
 msgid "_Plot solution"
 msgstr "_Нацртај решење"
 
-#: ../src/graphing.c:1962
+#: ../src/graphing.c:1979
 msgid ""
 "Clicking on the graph window now will draw a solution according to the "
 "parameters set below, starting at the point clicked.  To be able to zoom by "
@@ -4496,156 +4491,156 @@ msgstr ""
 "параметрима, почевши од притиснуте тачке.  Да бисте могли опет да увеличате "
 "мишем, затворите овај прозор."
 
-#: ../src/graphing.c:1984
+#: ../src/graphing.c:2001
 msgid "X increment:"
 msgstr "X увећање:"
 
-#: ../src/graphing.c:2006
+#: ../src/graphing.c:2023
 msgid "T increment:"
 msgstr "Т увећање:"
 
-#: ../src/graphing.c:2010
+#: ../src/graphing.c:2027
 msgid "T interval length:"
 msgstr "Трајање Т периода:"
 
-#: ../src/graphing.c:2024
+#: ../src/graphing.c:2041
 msgid "Point x:"
 msgstr "Тачка x:"
 
-#: ../src/graphing.c:2029
+#: ../src/graphing.c:2046
 msgid "y:"
 msgstr "y:"
 
-#: ../src/graphing.c:2137
+#: ../src/graphing.c:2154
 msgid "Plot"
 msgstr "Исцртавање"
 
-#: ../src/graphing.c:2172
+#: ../src/graphing.c:2189
 msgid "_Graph"
 msgstr "_График"
 
-#: ../src/graphing.c:2176
+#: ../src/graphing.c:2193
 msgid "_Print..."
 msgstr "_Штампај..."
 
-#: ../src/graphing.c:2182
+#: ../src/graphing.c:2199
 msgid "_Export postscript..."
-msgstr "Извези _постскрипт"
+msgstr "Извези _постскрипт..."
 
-#: ../src/graphing.c:2188
+#: ../src/graphing.c:2205
 msgid "E_xport encapsulated postscript..."
-msgstr "Извези _угнеждени постскрипт"
+msgstr "Извези _угнеждени постскрипт..."
 
-#: ../src/graphing.c:2195
+#: ../src/graphing.c:2212
 msgid "Export P_DF..."
 msgstr "Извези П_ДФ..."
 
-#: ../src/graphing.c:2204
+#: ../src/graphing.c:2221
 msgid "Export P_NG..."
 msgstr "Извези П_НГ..."
 
-#: ../src/graphing.c:2216
+#: ../src/graphing.c:2233
 msgid "_Zoom"
 msgstr "_Увеличање"
 
-#: ../src/graphing.c:2220
+#: ../src/graphing.c:2237
 msgid "Zoom _out"
 msgstr "У_мањи"
 
-#: ../src/graphing.c:2227
+#: ../src/graphing.c:2244
 msgid "Zoom _in"
 msgstr "У_већај"
 
-#: ../src/graphing.c:2234
+#: ../src/graphing.c:2251
 msgid "_Fit dependent axis"
 msgstr "_Испуни усправну осу"
 
-#: ../src/graphing.c:2241
+#: ../src/graphing.c:2258
 msgid "_Reset to original zoom"
 msgstr "_Врати на првобитно увеличање"
 
-#: ../src/graphing.c:2254
+#: ../src/graphing.c:2271
 msgid "_View"
 msgstr "_Преглед"
 
-#: ../src/graphing.c:2259
+#: ../src/graphing.c:2276
 msgid "_Reset angles"
 msgstr "_Поништи окретање"
 
-#: ../src/graphing.c:2264
+#: ../src/graphing.c:2281
 msgid "_Top view"
 msgstr "_Поглед одозго"
 
-#: ../src/graphing.c:2269
+#: ../src/graphing.c:2286
 msgid "R_otate axis..."
 msgstr "_Заокрени осу..."
 
-#: ../src/graphing.c:2274
+#: ../src/graphing.c:2291
 msgid "Start rotate _animation..."
 msgstr "_Покрени анимацију окретања..."
 
-#: ../src/graphing.c:2279
+#: ../src/graphing.c:2296
 msgid "Stop rotate a_nimation..."
 msgstr "_Заустави анимацију окретања..."
 
-#: ../src/graphing.c:2289
+#: ../src/graphing.c:2306
 msgid "_Solver"
 msgstr "_Решавач"
 
-#: ../src/graphing.c:2294
+#: ../src/graphing.c:2311
 msgid "_Solver..."
 msgstr "_Решавач..."
 
-#: ../src/graphing.c:2299
+#: ../src/graphing.c:2316
 msgid "_Clear solutions"
 msgstr "_Очисти решења"
 
-#: ../src/graphing.c:2330
+#: ../src/graphing.c:2347
 msgid "Errors during plotting (possibly harmless), see the console."
 msgstr "Грешке приликом исцртавања (вероватно безопасне), видите конзолу."
 
-#: ../src/graphing.c:3350
+#: ../src/graphing.c:3367
 #, c-format
 msgid "Function"
 msgstr "Функција"
 
-#: ../src/graphing.c:3352
+#: ../src/graphing.c:3369
 #, c-format
 msgid "Function #%d"
 msgstr "Функција #%d"
 
-#: ../src/graphing.c:3374
+#: ../src/graphing.c:3391
 msgid "Graph limits not given as a 4-vector"
 msgstr "Ограничења графика нису дата као вектор 4 компоненте"
 
-#: ../src/graphing.c:3380 ../src/graphing.c:3391 ../src/graphing.c:3402
-#: ../src/graphing.c:3413 ../src/graphing.c:3456 ../src/graphing.c:3467
-#: ../src/graphing.c:3565 ../src/graphing.c:3576 ../src/graphing.c:3587
-#: ../src/graphing.c:3598 ../src/graphing.c:3609 ../src/graphing.c:3620
+#: ../src/graphing.c:3397 ../src/graphing.c:3408 ../src/graphing.c:3419
+#: ../src/graphing.c:3430 ../src/graphing.c:3473 ../src/graphing.c:3484
+#: ../src/graphing.c:3582 ../src/graphing.c:3593 ../src/graphing.c:3604
+#: ../src/graphing.c:3615 ../src/graphing.c:3626 ../src/graphing.c:3637
 msgid "Graph limits not given as numbers"
 msgstr "Ограничења графика нису наведена као бројеви"
 
-#: ../src/graphing.c:3450
+#: ../src/graphing.c:3467
 msgid "Graph limits not given as a 2-vector"
 msgstr "Ограничења графика нису дата као вектор 2 компоненте"
 
-#: ../src/graphing.c:3559
+#: ../src/graphing.c:3576
 msgid "Graph limits not given as a 6-vector"
 msgstr "Ограничења графика нису дата као вектор 6 компоненте"
 
-#: ../src/graphing.c:3693 ../src/graphing.c:3711 ../src/graphing.c:3725
+#: ../src/graphing.c:3710 ../src/graphing.c:3728 ../src/graphing.c:3742
 msgid "Ticks must be between 2 and 200"
 msgstr "Цртице морају бити између 2 и 200"
 
-#: ../src/graphing.c:3702 ../src/graphing.c:3716
+#: ../src/graphing.c:3719 ../src/graphing.c:3733
 msgid "Ticks not given as numbers"
 msgstr "Цртице нису дате као бројеви"
 
-#: ../src/graphing.c:3730
+#: ../src/graphing.c:3747
 msgid "Ticks not given as a number or a 2-vector"
 msgstr "Цртице нису дате као број или вектор 2 елемента"
 
-#: ../src/graphing.c:5390
+#: ../src/graphing.c:5418
 #, c-format
 msgid ""
 "Type in function name or expression involving the %s and %s variables (or "
@@ -4655,28 +4650,28 @@ msgstr ""
 "Укуцајте називе функција или изразе који користе променљиве %s и %s (или "
 "променљиву %s која ће бити %s=%s+i%s) који даје нагиб у тачки (%s,%s)."
 
-#: ../src/graphing.c:5415 ../src/graphing.c:5422 ../src/graphing.c:5586
-#: ../src/graphing.c:5593
+#: ../src/graphing.c:5443 ../src/graphing.c:5450 ../src/graphing.c:5614
+#: ../src/graphing.c:5621
 #, c-format
 msgid "%s from:"
 msgstr "%s од:"
 
-#: ../src/graphing.c:5429 ../src/graphing.c:5436
+#: ../src/graphing.c:5457 ../src/graphing.c:5464
 #, c-format
 msgid "%s increment:"
 msgstr "%s увећање:"
 
-#: ../src/graphing.c:5443
+#: ../src/graphing.c:5471
 #, c-format
 msgid "%s interval length:"
 msgstr "Трајање %s периода:"
 
-#: ../src/graphing.c:5450
+#: ../src/graphing.c:5478
 #, c-format
 msgid "Point %s:"
 msgstr "Тачка %s:"
 
-#: ../src/graphing.c:5463
+#: ../src/graphing.c:5491
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s and %s variables (or "
@@ -4687,16 +4682,16 @@ msgstr ""
 "променљиву %s која ће бити %s=%s+i%s) који даје d%s/d%s и d%s/d%s "
 "самосталног система који ће бити нацртан у тачки (%s,%s)."
 
-#: ../src/graphing.c:5499
+#: ../src/graphing.c:5527
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
 "below to graph them"
 msgstr ""
 "Укуцајте називе функција или изразе који користе променљиву %s у поља испод "
-"да их исцртате."
+"да их исцртате"
 
-#: ../src/graphing.c:5516
+#: ../src/graphing.c:5544
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4710,12 +4705,12 @@ msgstr ""
 "или попуните поље %s= дајући %s и %s као реални и имагинарни део комплексног "
 "броја."
 
-#: ../src/graphing.c:5557
+#: ../src/graphing.c:5585
 #, c-format
 msgid "Parameter %s from:"
 msgstr "Параметар %s од:"
 
-#: ../src/graphing.c:5571
+#: ../src/graphing.c:5599
 #, c-format
 msgid ""
 "Type a function name or an expression involving the %s and %s variables (or "
@@ -4726,95 +4721,95 @@ msgstr ""
 "променљиву %s која ће бити %s=%s+i%s) у пољима испод да их исцртате.  "
 "Функцијама са једним аргументом биће прослеђен само комплексни број."
 
-#: ../src/graphing.c:5637 ../src/graphing.c:5756
+#: ../src/graphing.c:5665 ../src/graphing.c:5784
 msgid "Change variable names"
 msgstr "Промените називе променљивих"
 
-#: ../src/graphing.c:5653 ../src/graphing.c:5772
+#: ../src/graphing.c:5681 ../src/graphing.c:5800
 msgid "Some values were illegal"
 msgstr "Неке вредности нису допуштене"
 
-#: ../src/graphing.c:5657 ../src/graphing.c:5776
+#: ../src/graphing.c:5685 ../src/graphing.c:5804
 msgid "independent variable (x):"
 msgstr "независна променљива (x):"
 
-#: ../src/graphing.c:5667
+#: ../src/graphing.c:5695
 msgid "dependent variable (y):"
 msgstr "зависна променљива (y):"
 
-#: ../src/graphing.c:5677
+#: ../src/graphing.c:5705
 msgid "complex variable (z = x+iy):"
 msgstr "комплексна променљива (z = x+iy):"
 
-#: ../src/graphing.c:5687
+#: ../src/graphing.c:5715
 msgid "parameter variable (t):"
 msgstr "параметарска променљива (t):"
 
-#: ../src/graphing.c:5786
+#: ../src/graphing.c:5814
 msgid "independent variable (y):"
 msgstr "независна променљива (у):"
 
-#: ../src/graphing.c:5796
+#: ../src/graphing.c:5824
 msgid "independent complex variable (z = x+iy):"
 msgstr "независна комплексна променљива (z = x+iy):"
 
-#: ../src/graphing.c:5960
+#: ../src/graphing.c:5988
 msgid "_Functions / Expressions"
 msgstr "_Функције / Изрази"
 
 #. t range
-#: ../src/graphing.c:6007
+#: ../src/graphing.c:6035
 msgid "Parameter t from:"
 msgstr "Параметар t од:"
 
-#: ../src/graphing.c:6011 ../src/graphing.c:6158 ../src/graphing.c:6171
-#: ../src/graphing.c:6281 ../src/graphing.c:6293 ../src/graphing.c:6304
+#: ../src/graphing.c:6039 ../src/graphing.c:6186 ../src/graphing.c:6199
+#: ../src/graphing.c:6309 ../src/graphing.c:6321 ../src/graphing.c:6332
 msgid "to:"
 msgstr "до:"
 
-#: ../src/graphing.c:6015
+#: ../src/graphing.c:6043
 msgid "by:"
 msgstr "са:"
 
-#: ../src/graphing.c:6022
+#: ../src/graphing.c:6050
 msgid "Pa_rametric"
 msgstr "_Параметарска једначина"
 
 #. # of ticks
-#: ../src/graphing.c:6049 ../src/graphing.c:6101
+#: ../src/graphing.c:6077 ../src/graphing.c:6129
 msgid "Vertical ticks:"
 msgstr "Број цртица усправно:"
 
 #. # of ticks
-#: ../src/graphing.c:6053 ../src/graphing.c:6105
+#: ../src/graphing.c:6081 ../src/graphing.c:6133
 msgid "Horizontal ticks:"
 msgstr "Број цртица водоравно:"
 
-#: ../src/graphing.c:6058
+#: ../src/graphing.c:6086
 msgid "Sl_ope field"
 msgstr "Поље _нагиба"
 
 #. Normalize the arrow length?
-#: ../src/graphing.c:6092
+#: ../src/graphing.c:6120
 msgid "_Normalize arrow length (do not show size)"
 msgstr "_Нормализуј дужину стрелице (не приказуј величину)"
 
-#: ../src/graphing.c:6110
+#: ../src/graphing.c:6138
 msgid "_Vector field"
 msgstr "Поље _вектора"
 
 #. draw legend?
-#: ../src/graphing.c:6120 ../src/graphing.c:6250
+#: ../src/graphing.c:6148 ../src/graphing.c:6278
 msgid "_Draw legend"
 msgstr "_Испиши легенду"
 
 #. draw axis labels?
-#: ../src/graphing.c:6129
+#: ../src/graphing.c:6157
 msgid "Draw axis labels"
 msgstr "Испиши натписе оса"
 
 #. change varnames
-#: ../src/graphing.c:6138 ../src/graphing.c:6260
+#: ../src/graphing.c:6166 ../src/graphing.c:6288
 msgid "Change variable names..."
 msgstr "Промени називе променљивих..."
 
@@ -4822,175 +4817,180 @@ msgstr "Промени називе променљивих..."
 #.
 #. * Plot window frame
 #.
-#: ../src/graphing.c:6146 ../src/graphing.c:6269
+#: ../src/graphing.c:6174 ../src/graphing.c:6297
 msgid "Plot Window"
 msgstr "Прозор за цртање"
 
 #.
 #. * X range
 #.
-#: ../src/graphing.c:6155 ../src/graphing.c:6278
+#: ../src/graphing.c:6183 ../src/graphing.c:6306
 msgid "X from:"
 msgstr "X од:"
 
 #.
 #. * Y range
 #.
-#: ../src/graphing.c:6168 ../src/graphing.c:6290
+#: ../src/graphing.c:6196 ../src/graphing.c:6318
 msgid "Y from:"
 msgstr "Y од:"
 
 #. fit dependent axis?
-#: ../src/graphing.c:6179 ../src/graphing.c:6312
+#: ../src/graphing.c:6207 ../src/graphing.c:6340
 msgid "Fit dependent axis"
 msgstr "Испуни усправну осу"
 
-#: ../src/graphing.c:6223
+#: ../src/graphing.c:6251
 msgid "Function / Expression"
 msgstr "Функције / Изрази"
 
 #.
 #. * Z range
 #.
-#: ../src/graphing.c:6302
+#: ../src/graphing.c:6330
 msgid "Dependent axis from:"
 msgstr "Усправна оса од:"
 
-#: ../src/graphing.c:6333
+#: ../src/graphing.c:6361
 msgid "Function _line plot"
 msgstr "_Линијске функције"
 
-#: ../src/graphing.c:6337
+#: ../src/graphing.c:6365
 msgid "_Surface plot"
 msgstr "_Површина"
 
-#: ../src/graphing.c:6551 ../src/graphing.c:6737 ../src/graphing.c:6864
-#: ../src/graphing.c:6993 ../src/graphing.c:7098
+#: ../src/graphing.c:6579 ../src/graphing.c:6765 ../src/graphing.c:6892
+#: ../src/graphing.c:7021 ../src/graphing.c:7126
 msgid "No functions to plot or no functions could be parsed"
 msgstr "Нема функција за цртање или ниједна функција не може бити обрађена"
 
-#: ../src/graphing.c:6584 ../src/graphing.c:6590 ../src/graphing.c:6760
-#: ../src/graphing.c:6766 ../src/graphing.c:6871 ../src/graphing.c:6894
-#: ../src/graphing.c:6900 ../src/graphing.c:7016 ../src/graphing.c:7022
-#: ../src/graphing.c:7121 ../src/graphing.c:7127
+#: ../src/graphing.c:6612 ../src/graphing.c:6618 ../src/graphing.c:6788
+#: ../src/graphing.c:6794 ../src/graphing.c:6899 ../src/graphing.c:6922
+#: ../src/graphing.c:6928 ../src/graphing.c:7044 ../src/graphing.c:7050
+#: ../src/graphing.c:7149 ../src/graphing.c:7155
 #, c-format
 msgid "Invalid %s range"
 msgstr "Неисправан %s опсег"
 
-#: ../src/graphing.c:6596
+#: ../src/graphing.c:6624
 msgid "Invalid dependent range"
 msgstr "Неисправан зависни опсег"
 
-#: ../src/graphing.c:6858
+#: ../src/graphing.c:6886
 #, c-format
 msgid "Only specify %s and %s, or %s, not all at once."
 msgstr "Наведите само %s и %s, или %s, а не све одједном."
 
-#: ../src/graphing.c:7225
+#: ../src/graphing.c:7253
 msgid "Create Plot"
 msgstr "Направите график"
 
-#: ../src/graphing.c:7266 ../src/graphing.c:7436 ../src/graphing.c:7467
-#: ../src/graphing.c:7488 ../src/graphing.c:7528 ../src/graphing.c:7552
-#: ../src/graphing.c:7664 ../src/graphing.c:7788 ../src/graphing.c:7925
-#: ../src/graphing.c:8082 ../src/graphing.c:8229 ../src/graphing.c:8252
-#: ../src/graphing.c:8762 ../src/graphing.c:9043 ../src/graphing.c:9262
-#: ../src/graphing.c:9501 ../src/graphing.c:9828 ../src/graphing.c:10060
-#: ../src/graphing.c:10149 ../src/graphing.c:10262 ../src/graphing.c:10293
-#: ../src/graphing.c:10322 ../src/graphing.c:10348 ../src/graphing.c:10377
-#: ../src/graphing.c:10470 ../src/graphing.c:10559 ../src/graphing.c:10584
-#: ../src/graphing.c:10617 ../src/graphing.c:10665
+#: ../src/graphing.c:7294 ../src/graphing.c:7464 ../src/graphing.c:7495
+#: ../src/graphing.c:7516 ../src/graphing.c:7556 ../src/graphing.c:7580
+#: ../src/graphing.c:7692 ../src/graphing.c:7816 ../src/graphing.c:7953
+#: ../src/graphing.c:8110 ../src/graphing.c:8257 ../src/graphing.c:8280
+#: ../src/graphing.c:8871 ../src/graphing.c:9158 ../src/graphing.c:9377
+#: ../src/graphing.c:9616 ../src/graphing.c:9943 ../src/graphing.c:10175
+#: ../src/graphing.c:10264 ../src/graphing.c:10377 ../src/graphing.c:10408
+#: ../src/graphing.c:10437 ../src/graphing.c:10463 ../src/graphing.c:10492
+#: ../src/graphing.c:10585 ../src/graphing.c:10674 ../src/graphing.c:10699
+#: ../src/graphing.c:10732 ../src/graphing.c:10780
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr "%s: Исцртавање је у току, не могу позвати „%s“"
 
-#: ../src/graphing.c:7274 ../src/graphing.c:7807
+#: ../src/graphing.c:7302 ../src/graphing.c:7835
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: аргумент није функција"
 
-#: ../src/graphing.c:7284
+#: ../src/graphing.c:7312
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: подржана је само једна функција"
 
-#: ../src/graphing.c:7307
+#: ../src/graphing.c:7335
 msgid "Graph limits not given as a 4-vector or a 6-vector"
 msgstr "Ограничења графика нису дата као вектор 4 или 6 компоненте"
 
-#: ../src/graphing.c:7363 ../src/graphing.c:7617 ../src/graphing.c:7734
-#: ../src/graphing.c:7870 ../src/graphing.c:8019 ../src/graphing.c:8174
-#: ../src/graphing.c:9929
+#: ../src/graphing.c:7391 ../src/graphing.c:7645 ../src/graphing.c:7762
+#: ../src/graphing.c:7898 ../src/graphing.c:8047 ../src/graphing.c:8202
+#: ../src/graphing.c:10044
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: неисправан X опсег"
 
-#: ../src/graphing.c:7368 ../src/graphing.c:7622 ../src/graphing.c:7739
-#: ../src/graphing.c:7875 ../src/graphing.c:8024 ../src/graphing.c:8179
-#: ../src/graphing.c:9934
+#: ../src/graphing.c:7396 ../src/graphing.c:7650 ../src/graphing.c:7767
+#: ../src/graphing.c:7903 ../src/graphing.c:8052 ../src/graphing.c:8207
+#: ../src/graphing.c:10049
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: неисправан Y опсег"
 
-#: ../src/graphing.c:7373 ../src/graphing.c:9939
+#: ../src/graphing.c:7401 ../src/graphing.c:10054
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: неисправан Z опсег"
 
-#: ../src/graphing.c:7446
+#: ../src/graphing.c:7474
 #, c-format
 msgid "%s: dx must be positive"
 msgstr "%s: „dx“ мора бити позитивно"
 
-#: ../src/graphing.c:7453 ../src/graphing.c:7472
+#: ../src/graphing.c:7481 ../src/graphing.c:7500
 #, c-format
 msgid "%s: Slope field not active"
 msgstr "%s: Поље нагиба није радно"
 
-#: ../src/graphing.c:7499
+#: ../src/graphing.c:7527
 #, c-format
 msgid "%s: dt must be positive"
 msgstr "%s: „dt“ мора бити позитивно"
 
-#: ../src/graphing.c:7505
+#: ../src/graphing.c:7533
 #, c-format
 msgid "%s: tlen must be positive"
 msgstr "%s: „tlen“ мора бити позитивно"
 
-#: ../src/graphing.c:7513 ../src/graphing.c:7534
+#: ../src/graphing.c:7541 ../src/graphing.c:7562
 #, c-format
 msgid "%s: Vector field not active"
 msgstr "%s: Поље вектора није радно"
 
-#: ../src/graphing.c:7559 ../src/graphing.c:8089
+#: ../src/graphing.c:7587 ../src/graphing.c:8117
 #, c-format
 msgid "%s: First argument must be a function"
 msgstr "%s: Први аргумент мора бити функција"
 
-#: ../src/graphing.c:7675 ../src/graphing.c:7933
+#: ../src/graphing.c:7703 ../src/graphing.c:7961
 #, c-format
 msgid "%s: First two arguments must be functions"
 msgstr "%s: Прва два аргумента морају бити функције"
 
-#: ../src/graphing.c:7802
+#: ../src/graphing.c:7830
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: подржано је само до 10 функција"
 
-#: ../src/graphing.c:7828
+#: ../src/graphing.c:7856
 msgid "Graph limits not given as a 2-vector or a 4-vector"
 msgstr "Ограничења графика нису дата као вектор 2 или 4 компоненте"
 
-#: ../src/graphing.c:8029 ../src/graphing.c:8184
+#: ../src/graphing.c:8057 ../src/graphing.c:8212
 #, c-format
 msgid "%s: invalid T range"
 msgstr "%s: неисправан Т опсег"
 
-#: ../src/graphing.c:8447 ../src/graphing.c:8528
+#: ../src/graphing.c:8433
 #, c-format
-#| msgid ""
-#| "%s: Points should be given as a real, n by 2 matrix with columns for x "
-#| "and y, n>=%d"
+msgid ""
+"%s: Not in line plot mode.  Perhaps run LinePlot or LinePlotClear first."
+msgstr ""
+"%s: Није у режиму цртања линије.  Можда прво да покренете „LinePlot“ или "
+"„LinePlotClear“."
+
+#: ../src/graphing.c:8554 ../src/graphing.c:8635
+#, c-format
 msgid ""
 "%s: Points should be given as a real, n by 2 matrix with columns for x and "
 "y, n>=%d, or as a complex valued n by 1 matrix"
@@ -4998,14 +4998,14 @@ msgstr ""
 "%s: Тачке требају бити дате као реална, n са 2 матрица са колонама за x и y, "
 "n>=%d, или као комплексно вредносна n са 1 матрица"
 
-#: ../src/graphing.c:8457
+#: ../src/graphing.c:8564
 #, c-format
 msgid ""
 "%s: If points are given as an n by 2 matrix, then this matrix must be real"
 msgstr ""
 "%s: Ако су тачке дате као матрица n са 2, онда ова матрица мора бити реална"
 
-#: ../src/graphing.c:8567 ../src/graphing.c:8630
+#: ../src/graphing.c:8674 ../src/graphing.c:8737
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 3 matrix with columns for x, y "
@@ -5014,17 +5014,17 @@ msgstr ""
 "%s: Тачке требају бити дате као реална, n са 3 матрица са колонама за x, y и "
 "z, n>=%d"
 
-#: ../src/graphing.c:8681
+#: ../src/graphing.c:8789
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: Није наведена боја"
 
-#: ../src/graphing.c:8686 ../src/graphing.c:8693
+#: ../src/graphing.c:8794 ../src/graphing.c:8801
 #, c-format
 msgid "%s: Cannot parse color '%s'"
 msgstr "%s: Не могу да обрадим боју „%s“"
 
-#: ../src/graphing.c:8707
+#: ../src/graphing.c:8815
 #, c-format
 msgid ""
 "%s: A vector giving color should be a 3-vector of real numbers between 0 and "
@@ -5033,7 +5033,7 @@ msgstr ""
 "%s: Вектор који даје боју треба да буде вектор 3 компоненте реалних бројева "
 "између 0 и 1"
 
-#: ../src/graphing.c:8723
+#: ../src/graphing.c:8831
 #, c-format
 msgid ""
 "%s: Warning: Values for red, green, or blue out of range (0 to 1), I will "
@@ -5042,62 +5042,67 @@ msgstr ""
 "%s: Упозорење: Вредности за црвену, зелену, или плаву су ван опсега (од 0 до "
 "1), опсећи ћу их на овај период"
 
-#: ../src/graphing.c:8739
+#: ../src/graphing.c:8847
 #, c-format
 msgid ""
 "%s: Color must be a string or a three-vector of rgb values (between 0 and 1)"
 msgstr "%s: Боја мора бити ниска или тро-вектор цзп вредности (између 0 и 1)"
 
-#: ../src/graphing.c:8781 ../src/graphing.c:9062 ../src/graphing.c:9283
-#: ../src/graphing.c:9522
+#: ../src/graphing.c:8890 ../src/graphing.c:9177 ../src/graphing.c:9398
+#: ../src/graphing.c:9637
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: Погрешан број аргумената"
 
-#: ../src/graphing.c:8849 ../src/graphing.c:9116 ../src/graphing.c:9349
-#: ../src/graphing.c:9582
+#: ../src/graphing.c:8960 ../src/graphing.c:9231 ../src/graphing.c:9464
+#: ../src/graphing.c:9697
 #, c-format
 msgid "%s: No thickness specified"
 msgstr "%s: Није наведен број цртица"
 
-#: ../src/graphing.c:8872 ../src/graphing.c:9139 ../src/graphing.c:9374
-#: ../src/graphing.c:9607
+#: ../src/graphing.c:8983 ../src/graphing.c:9254 ../src/graphing.c:9489
+#: ../src/graphing.c:9722
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: Није наведен прозор"
 
-#: ../src/graphing.c:8920 ../src/graphing.c:8945
+#: ../src/graphing.c:9031 ../src/graphing.c:9056
 #, c-format
 msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
 msgstr ""
 "%s: стил стрелице треба да буде „origin“ (почетак), „end“ (крај), "
 "„both“ (оба), или „none“ (ништа)"
 
-#: ../src/graphing.c:8955 ../src/graphing.c:9183 ../src/graphing.c:9426
-#: ../src/graphing.c:9659
+#: ../src/graphing.c:9066 ../src/graphing.c:9298 ../src/graphing.c:9541
+#: ../src/graphing.c:9774
 #, c-format
 msgid "%s: No legend specified"
 msgstr "%s: Није наведена легенда"
 
-#: ../src/graphing.c:8969 ../src/graphing.c:9197 ../src/graphing.c:9441
-#: ../src/graphing.c:9674
+#: ../src/graphing.c:9080 ../src/graphing.c:9312 ../src/graphing.c:9556
+#: ../src/graphing.c:9789
 #, c-format
 msgid "%s: Legend must be a string"
 msgstr "%s: Легенда мора бити ниска"
 
-#: ../src/graphing.c:8978 ../src/graphing.c:9206 ../src/graphing.c:9451
-#: ../src/graphing.c:9684
+#: ../src/graphing.c:9091
 #, c-format
-msgid "%s: Unknown style"
-msgstr "%s: Непознат стил"
+#| msgid "%s: Unknown style"
+msgid "%s: Unknown style: %s"
+msgstr "%s: Непознат стил: %s"
 
-#: ../src/graphing.c:8985 ../src/graphing.c:9213 ../src/graphing.c:9459
-#: ../src/graphing.c:9692
+#: ../src/graphing.c:9100 ../src/graphing.c:9328 ../src/graphing.c:9574
+#: ../src/graphing.c:9807
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: Лош параметар"
 
-#: ../src/graphing.c:9745 ../src/graphing.c:9808
+#: ../src/graphing.c:9321 ../src/graphing.c:9566 ../src/graphing.c:9799
+#, c-format
+msgid "%s: Unknown style"
+msgstr "%s: Непознат стил"
+
+#: ../src/graphing.c:9860 ../src/graphing.c:9923
 #, c-format
 msgid ""
 "%s: Surface should be given as a real, n by 3 matrix with columns for x, y, "
@@ -5106,89 +5111,89 @@ msgstr ""
 "%s: Површина треба бити дата као реална, n са 3 матрица са колонама за x, y "
 "и z, где је n>=3"
 
-#: ../src/graphing.c:9836
+#: ../src/graphing.c:9951
 #, c-format
 msgid "%s: argument not a matrix of data"
 msgstr "%s: аргумент није матрица података"
 
-#: ../src/graphing.c:10020
+#: ../src/graphing.c:10135
 #, c-format
 msgid "%s: Surface grid data should be given as a real matrix "
-msgstr "%s: Подаци мреже површине требају бити дати као реална матрица"
+msgstr "%s: Подаци мреже површине требају бити дати као реална матрица "
 
-#: ../src/graphing.c:10066
+#: ../src/graphing.c:10181
 #, c-format
 msgid "%s: first argument not a matrix of data"
 msgstr "%s: први аргумент није матрица података"
 
-#: ../src/graphing.c:10073
+#: ../src/graphing.c:10188
 #, c-format
 msgid "%s: second argument not a 4 or 6 element vector of limits"
 msgstr "%s: други аргумент није вектор ограничења са 4 или 6 елемента"
 
-#: ../src/graphing.c:10090
+#: ../src/graphing.c:10205
 #, c-format
 msgid "%s: too many arguments or last argument not a string label"
 msgstr "%s: превише аргумената или последњи аргумент није натпис ниске"
 
-#: ../src/graphing.c:10156
+#: ../src/graphing.c:10271
 #, c-format
 msgid "%s: first argument not a nonempty string"
 msgstr "%s: први аргумент није непразна ниска"
 
-#: ../src/graphing.c:10164
+#: ../src/graphing.c:10279
 #, c-format
 msgid "%s: type not specified and filename has no extension"
 msgstr "%s: врста није наведена и назив датотеке нема проширење"
 
-#: ../src/graphing.c:10173
+#: ../src/graphing.c:10288
 #, c-format
 msgid "%s: second argument not a nonempty string"
 msgstr "%s: други аргумент није непразна ниска"
 
-#: ../src/graphing.c:10185
+#: ../src/graphing.c:10300
 #, c-format
 msgid "%s: plot canvas not active, cannot export"
 msgstr "%s: платно нацрта није радно, не могу да извезем"
 
-#: ../src/graphing.c:10194 ../src/graphing.c:10211 ../src/graphing.c:10234
+#: ../src/graphing.c:10309 ../src/graphing.c:10326 ../src/graphing.c:10349
 #, c-format
 msgid "%s: export failed"
 msgstr "%s: извоз није успео"
 
-#: ../src/graphing.c:10247
+#: ../src/graphing.c:10362
 #, c-format
 msgid "%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."
 msgstr "%s: непозната врста датотеке, може бити „png“, „eps“, или „ps“."
 
-#: ../src/graphing.c:10384
+#: ../src/graphing.c:10499
 msgid "Variable names not given in a 4-vector"
 msgstr "Називи променљивих нису дати као вектор 4 компоненте"
 
-#: ../src/graphing.c:10394 ../src/graphing.c:10403 ../src/graphing.c:10412
-#: ../src/graphing.c:10421 ../src/graphing.c:10487 ../src/graphing.c:10496
-#: ../src/graphing.c:10505
+#: ../src/graphing.c:10509 ../src/graphing.c:10518 ../src/graphing.c:10527
+#: ../src/graphing.c:10536 ../src/graphing.c:10602 ../src/graphing.c:10611
+#: ../src/graphing.c:10620
 msgid "Variable names should be strings"
 msgstr "Називи променљивих требају бити ниске"
 
-#: ../src/graphing.c:10428 ../src/graphing.c:10511
+#: ../src/graphing.c:10543 ../src/graphing.c:10626
 msgid "Variable names must be valid identifiers"
 msgstr "Називи про,емљивих морају бити исправни одредници"
 
-#: ../src/graphing.c:10437 ../src/graphing.c:10517
+#: ../src/graphing.c:10552 ../src/graphing.c:10632
 msgid "Variable names must be mutually distinct"
 msgstr "Називи променљивих морају бити међусобно различити"
 
-#: ../src/graphing.c:10477
+#: ../src/graphing.c:10592
 msgid "Variable names not given in a 3-vector"
 msgstr "Називи променљивих нису дати као вектор 3 компоненте"
 
-#: ../src/graphing.c:10700
+#: ../src/graphing.c:10815
 msgid "Plotting"
 msgstr "Цртање"
 
 #. internal
-#: ../src/graphing.c:10702
+#: ../src/graphing.c:10817
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -5196,7 +5201,7 @@ msgstr ""
 "Исцртава функцију помоћу линије. Прво долазе функције (до 10), а затим по "
 "жељи и ограничења x1,x2,y1,y2"
 
-#: ../src/graphing.c:10703
+#: ../src/graphing.c:10818
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
@@ -5205,7 +5210,7 @@ msgstr ""
 "Исцртава параметарску функцију правом.  Прво иду функције за x и y затим "
 "изборно t ограничења као t1,t2,tinc, затим изборно ограничења као x1,x2,y1,y2"
 
-#: ../src/graphing.c:10704
+#: ../src/graphing.c:10819
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
@@ -5215,7 +5220,7 @@ msgstr ""
 "функција која даје x+iy затим изборно t ограничења као t1,t2,tinc, затим "
 "изборно ограничења као x1,x2,y1,y2"
 
-#: ../src/graphing.c:10706
+#: ../src/graphing.c:10821
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
@@ -5223,7 +5228,7 @@ msgstr ""
 "Исцртава поље нагиба.  Прво иду функције dy/dx по x и y (или комплексног z) "
 "затим изборно ограничења као x1,x2,y1,y2"
 
-#: ../src/graphing.c:10707
+#: ../src/graphing.c:10822
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
@@ -5231,17 +5236,17 @@ msgstr ""
 "Исцртава поље вектора.  Прво иду функције dy/dx по x и y (или комплексног z) "
 "затим изборно ограничења као x1,x2,y1,y2"
 
-#: ../src/graphing.c:10709
+#: ../src/graphing.c:10824
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr ""
 "Исцртава решење за поље нагиба почевши од x,y, користећи dx као увећање"
 
-#: ../src/graphing.c:10710
+#: ../src/graphing.c:10825
 msgid "Clear all the slopefield solutions"
 msgstr "Очистите сва решења поља нагиба"
 
-#: ../src/graphing.c:10712
+#: ../src/graphing.c:10827
 msgid ""
 "Draw a solution for a vector field starting at x,y, using dt as increment "
 "for tlen units"
@@ -5249,11 +5254,11 @@ msgstr ""
 "Исцртава решење за поље вектора почевши од x,y, користећи dt као увећање за "
 "tlen јединица"
 
-#: ../src/graphing.c:10713
+#: ../src/graphing.c:10828
 msgid "Clear all the vectorfield solutions"
 msgstr "Очистите сва решења поља вектора"
 
-#: ../src/graphing.c:10716
+#: ../src/graphing.c:10831
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -5261,11 +5266,11 @@ msgstr ""
 "Исцртава функцију површине која прихвата или два аргумента или комплексни "
 "број.  Прво иде функција а затим по избору ограничења као x1,x2,y1,y2,z1,z2"
 
-#: ../src/graphing.c:10718
+#: ../src/graphing.c:10833
 msgid "Show the surface (3d) plot window and clear out functions"
 msgstr "Приказује прозор исцртавања (3d) површине и брише функције"
 
-#: ../src/graphing.c:10720
+#: ../src/graphing.c:10835
 msgid ""
 "Plot surface data given as n by 3 matrix (n>=3) of data with each row being "
 "x,y,z.  Optionally can pass a label string and limits.  If no limits passed, "
@@ -5275,7 +5280,7 @@ msgstr ""
 "врстом која је x,y,z.  По избору може проследити ниску натписа и граница.  "
 "Ако нису прослеђене границе, исте се израчунавају из података."
 
-#: ../src/graphing.c:10721
+#: ../src/graphing.c:10836
 msgid ""
 "Plot surface data given as a matrix (where rows are the x coordinate and "
 "columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or "
@@ -5285,7 +5290,7 @@ msgstr ""
 "y координате), границе су дате као [x1,x2,y1,y2] или по избору [x1,x2,y1,y2,"
 "z1,z2], и по избору ниска за натпис."
 
-#: ../src/graphing.c:10722
+#: ../src/graphing.c:10837
 msgid ""
 "Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  x1,y1,z1,x2,"
 "y2,z2 can be replaced by a n by 3 matrix for a longer line"
@@ -5293,7 +5298,7 @@ msgstr ""
 "Црта линију од x1,y1,z1 до x2,y2,z2 на графику (3d) површине.  x1,y1,z1,x2,"
 "y2,z2 могу бити замењени n са 3 матрицом за дуже линије"
 
-#: ../src/graphing.c:10723
+#: ../src/graphing.c:10838
 msgid ""
 "Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a "
 "n by 3 matrix for more points."
@@ -5301,11 +5306,11 @@ msgstr ""
 "Црта тачку x,y,z на графику (3d) површине.  x,y,z могу бити замењени n са 3 "
 "матрицом за више тачака."
 
-#: ../src/graphing.c:10725
+#: ../src/graphing.c:10840
 msgid "Show the line plot window and clear out functions"
 msgstr "Приказује прозор исцртавања линије и брише функције"
 
-#: ../src/graphing.c:10726
+#: ../src/graphing.c:10841
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line."
@@ -5313,25 +5318,33 @@ msgstr ""
 "Црта линију од x1,y1 до x2,y2.  x1,y1,x2,y2 могу бити замењени n са 2 "
 "матрицом за дуже линије."
 
-#: ../src/graphing.c:10727
+#: ../src/graphing.c:10842
 msgid ""
 "Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points."
 msgstr ""
 "Црта тачку x,y.  x,y могу бити замењени n са 2 матрицом за више тачака."
 
-#: ../src/graphing.c:10729
+#: ../src/graphing.c:10844
 msgid "Freeze the plot canvas, that is, inhibit drawing"
 msgstr "Замрзава платно за цртање, управо тако, не допушта цртање"
 
-#: ../src/graphing.c:10730
+#: ../src/graphing.c:10845
 msgid "Thaw the plot canvas and redraw the plot immediately"
 msgstr "Отапа платно за цртање и одмах поново исцртава нацрт"
 
-#: ../src/graphing.c:10731
+#: ../src/graphing.c:10846
 msgid "Raise the plot window, and create the window if necessary"
 msgstr "Издиже прозор за цртање, и ствара прозор ако је потребно"
 
-#: ../src/graphing.c:10734
+#: ../src/graphing.c:10848
+msgid "Wait for a click on the line plot window, return the location."
+msgstr "Чека на клик са прозора цртања линије, враћа место."
+
+#: ../src/graphing.c:10849
+msgid "Return current mouse location on the line plot window."
+msgstr "Враћа тренутно место миша на прозору цртања линије."
+
+#: ../src/graphing.c:10851
 msgid ""
 "Export the current contents of the plot canvas to a file.  The file type is "
 "given by the string type, which can be \"png\", \"eps\", or \"ps\"."
@@ -5339,15 +5352,15 @@ msgstr ""
 "Извози текући садржај платна за цртање у датотеку.  Врста датотеке је дата "
 "врстом ниске, која може бити „png“, „eps“, или „ps“."
 
-#: ../src/graphing.c:10736
+#: ../src/graphing.c:10853
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
-msgstr "Број цртица у пољу нагиба као вектор [усправно,водоравно]"
+msgstr "Број цртица у пољу нагиба као вектор [усправно,водоравно]."
 
-#: ../src/graphing.c:10737
+#: ../src/graphing.c:10854
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
-msgstr "Број цртица у пољу вектора као вектор [усправно,водоравно]"
+msgstr "Број цртица у пољу вектора као вектор [усправно,водоравно]."
 
-#: ../src/graphing.c:10738
+#: ../src/graphing.c:10855
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
@@ -5355,7 +5368,7 @@ msgstr ""
 "Основни називи које користе све функције 2Д цртања.  Треба бити 4 вектор "
 "ниски или одредника [x,y,z,t]."
 
-#: ../src/graphing.c:10739
+#: ../src/graphing.c:10856
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
@@ -5363,7 +5376,7 @@ msgstr ""
 "Основни називи које користе функције цртања површине.  Треба бити 3 вектор "
 "ниски или одредника [x,y,z] (где је z=x+iy а не усправна оса)."
 
-#: ../src/graphing.c:10741
+#: ../src/graphing.c:10858
 msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
@@ -5371,25 +5384,25 @@ msgstr ""
 "Нормализује поља вектора ако је тачно.  Управо тако, приказује само правац а "
 "не магнитуду."
 
-#: ../src/graphing.c:10742
+#: ../src/graphing.c:10859
 msgid "If to draw legends or not on line plots."
 msgstr "Да ли да исцртава легенде или не на нацртима линије."
 
-#: ../src/graphing.c:10743
+#: ../src/graphing.c:10860
 msgid "If to draw axis labels on line plots."
 msgstr "Да ли да исцртава натписе оса на нацртима линије."
 
-#: ../src/graphing.c:10745
+#: ../src/graphing.c:10862
 msgid "If to draw legends or not on surface plots."
 msgstr "Да ли да исцртава легенде или не на нацртима површине."
 
-#: ../src/graphing.c:10747
+#: ../src/graphing.c:10864
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr ""
-"Прозор исцртавања линије (границе) као вектор 4 компоненте облика [x1,x2,y1,"
-"y2]"
+"Прозор исцртавања линије (границе) као вектор 4 компоненте облика "
+"[x1,x2,y1,y2]"
 
-#: ../src/graphing.c:10748
+#: ../src/graphing.c:10865
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
@@ -5476,8 +5489,8 @@ msgstr "Не могу да израчунам факторијел негати�
 msgid "Can't do binomials of rationals or floats!"
 msgstr "Не могу да израчунам биноме рационалних или реалних бројева!"
 
-#: ../src/mpwrap.c:2091 ../src/mpwrap.c:2159 ../src/mpwrap.c:4301
-#: ../src/mpwrap.c:4322
+#: ../src/mpwrap.c:2091 ../src/mpwrap.c:2159 ../src/mpwrap.c:4296
+#: ../src/mpwrap.c:4317
 #, c-format
 msgid "%s: Bad types for mod power"
 msgstr "%s: Лоше врсте за степен остатка"
@@ -5499,105 +5512,105 @@ msgstr "Опсег за цео случајан број мора бити по�
 msgid "Can't get numerator of floating types"
 msgstr "Не могу да нађем бројилац за врсте реалних бројева"
 
-#: ../src/mpwrap.c:3490 ../src/mpwrap.c:5014 ../src/mpwrap.c:5036
+#: ../src/mpwrap.c:3490 ../src/mpwrap.c:5009 ../src/mpwrap.c:5031
 msgid "Can't compare complex numbers"
 msgstr "Не могу да поредим комплексне бројеве"
 
-#: ../src/mpwrap.c:3977
+#: ../src/mpwrap.c:3972
 msgid "Can't modulo complex numbers"
 msgstr "Не могу да нађем остатак комплексних бројева"
 
-#: ../src/mpwrap.c:4000
+#: ../src/mpwrap.c:3995
 #, c-format
 msgid "Inverse of %s modulo %s not found!"
 msgstr "Нисам нашао инверзну вредност од %s остатка %s!"
 
-#: ../src/mpwrap.c:4009
+#: ../src/mpwrap.c:4004
 msgid "Can't do modulo invert on complex numbers"
 msgstr "Не могу да вршим извртање остатка са комплексним бројевима"
 
-#: ../src/mpwrap.c:4026
+#: ../src/mpwrap.c:4021
 msgid "Can't GCD complex numbers"
 msgstr "Не могу да нађем НЗД за комплексне бројеве"
 
-#: ../src/mpwrap.c:4055
+#: ../src/mpwrap.c:4050
 msgid "Can't LCM complex numbers"
 msgstr "Не могу да нађем НЗС за комплексне бројеве"
 
-#: ../src/mpwrap.c:4072
+#: ../src/mpwrap.c:4067
 msgid "Can't get Jacobi symbols of complex numbers"
 msgstr "Не могу да одредим Јакобијеве симболе комплексних бројева"
 
-#: ../src/mpwrap.c:4088
+#: ../src/mpwrap.c:4083
 msgid "Can't get Legendre symbols of complex numbers"
 msgstr "Не могу да одредим Лежандрове симболе комплексних бројева"
 
-#: ../src/mpwrap.c:4104
+#: ../src/mpwrap.c:4099
 msgid "Can't get Jacobi symbol with Kronecker extension for complex numbers"
 msgstr ""
 "Не могу да одредим Јакобијеве вредности са Кронекеровим проширењем за "
 "комплексне бројеве"
 
-#: ../src/mpwrap.c:4120
+#: ../src/mpwrap.c:4115
 msgid "Can't get Lucas number for complex numbers"
 msgstr "Не могу да одредим Лукасов број за комплексне бројеве"
 
-#: ../src/mpwrap.c:4136
+#: ../src/mpwrap.c:4131
 msgid "Can't get next prime for complex numbers"
 msgstr "Не могу да одредим следећи прост број за комплексне бројеве"
 
-#: ../src/mpwrap.c:4146 ../src/mpwrap.c:4158 ../src/mpwrap.c:4170
-#: ../src/mpwrap.c:4182
+#: ../src/mpwrap.c:4141 ../src/mpwrap.c:4153 ../src/mpwrap.c:4165
+#: ../src/mpwrap.c:4177
 #, c-format
 msgid "%s: can't work on complex numbers"
-msgstr "%s: не могу да радим са комплексним бројевима."
+msgstr "%s: не могу да радим са комплексним бројевима"
 
-#: ../src/mpwrap.c:4411 ../src/mpwrap.c:4489 ../src/mpwrap.c:4554
+#: ../src/mpwrap.c:4406 ../src/mpwrap.c:4484 ../src/mpwrap.c:4549
 #, c-format
 msgid "%s: can't take logarithm of 0"
 msgstr "%s: не могу да израчунам логаритам од 0"
 
-#: ../src/mpwrap.c:4883
+#: ../src/mpwrap.c:4878
 msgid "arctan2 not defined for complex numbers"
 msgstr "„arctan2“ није дефинисан за комплексне бројеве"
 
-#: ../src/mpwrap.c:4931
+#: ../src/mpwrap.c:4926
 msgid "Can't make random integer out of a complex number"
 msgstr "Не могу да добијем случајан цео број из комплексног броја"
 
-#: ../src/mpwrap.c:5093 ../src/mpwrap.c:5110
+#: ../src/mpwrap.c:5088 ../src/mpwrap.c:5105
 msgid "Can't make factorials of complex numbers"
 msgstr "Не могу да одредим факторијеле комплексних бројева"
 
-#: ../src/mpwrap.c:5127
+#: ../src/mpwrap.c:5122
 msgid "Can't make binomials of complex numbers"
 msgstr "Не могу да одредим биноме комплексних бројева"
 
-#: ../src/mpwrap.c:5506 ../src/mpwrap.c:5517 ../src/mpwrap.c:5528
+#: ../src/mpwrap.c:5501 ../src/mpwrap.c:5512 ../src/mpwrap.c:5523
 msgid "Can't determine type of a complex number"
 msgstr "Не могу да одредим врсту комплексног броја"
 
-#: ../src/mpwrap.c:5622 ../src/mpwrap.c:5645
+#: ../src/mpwrap.c:5617 ../src/mpwrap.c:5640
 msgid "Can't convert complex number into integer"
 msgstr "Не могу да претворим комплексан број у цео број"
 
-#: ../src/mpwrap.c:5628 ../src/mpwrap.c:5651
+#: ../src/mpwrap.c:5623 ../src/mpwrap.c:5646
 msgid "Can't convert real number to integer"
 msgstr "Не могу да претворим реалан број у цео број"
 
-#: ../src/mpwrap.c:5632 ../src/mpwrap.c:5655
+#: ../src/mpwrap.c:5627 ../src/mpwrap.c:5650
 msgid "Integer too large for this operation"
 msgstr "Цео број је превелик за ову операцију"
 
-#: ../src/mpwrap.c:5668
+#: ../src/mpwrap.c:5663
 msgid "Can't convert complex number into a double"
 msgstr "Не могу да претворим комплексан број у двоструки"
 
-#: ../src/mpwrap.c:5677
+#: ../src/mpwrap.c:5672
 msgid "Can't convert real number to double"
 msgstr "Не могу да претворим реалан број у двоструку тачност"
 
-#: ../src/mpwrap.c:5683 ../src/mpwrap.c:5698
+#: ../src/mpwrap.c:5678 ../src/mpwrap.c:5693
 msgid "Number too large for this operation"
 msgstr "Број је превелик за ову операцију"
 
@@ -5678,6 +5691,9 @@ msgstr ""
 #: ../src/util.c:93 ../src/util.c:112
 msgid "Stack underflow!"
 msgstr "Поткорачење спремника!"
+
+#~ msgid "%s: Input not a number or matrix of numbers."
+#~ msgstr "%s: Улаз није број или матрица бројева."
 
 #~ msgid "' or '"
 #~ msgstr "' или '"
