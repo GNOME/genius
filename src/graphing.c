@@ -10183,7 +10183,7 @@ SurfacePlotDataGrid_op (GelCtx *ctx, GelETree * * a, int *exception)
 	}
 
 	if (a[1]->type != GEL_MATRIX_NODE &&
-	    (gel_matrixw_elements (a[1]->mat.matrix) != 6 ||
+	    (gel_matrixw_elements (a[1]->mat.matrix) != 6 &&
 	     gel_matrixw_elements (a[1]->mat.matrix) != 4)) {
 		gel_errorout (_("%s: second argument not a 4 or 6 element vector of limits"), "SurfacePlotDataGrid");
 		return NULL;
