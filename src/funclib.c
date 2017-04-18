@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2016 Jiri (George) Lebl
+ * Copyright (C) 1997-2017 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -140,6 +140,8 @@ static GelETree *
 version_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
 	int v,b,c;
+	GelETree *n;
+	GelMatrix *m;
 
 	if (sscanf (VERSION, "%d.%d.%d", &v, &b, &c) != 3) {
 		if (sscanf (VERSION, "%d.%d", &v, &b) == 2) {
@@ -155,9 +157,6 @@ version_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 			return NULL;
 		}
 	}
-
-	GelETree *n;
-	GelMatrix *m;
 
 	m = gel_matrix_new ();
 	gel_matrix_set_size (m, 3, 1, FALSE /* padding */);
@@ -2670,7 +2669,6 @@ gcd2_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 static GelETree *
 gcd_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
-	GelETree *gcd;
 	int i;
 
 	if (a[1] == NULL) {
@@ -2712,31 +2710,33 @@ gcd_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	/* FIXME: optimize value only case */
 
-	/* kind of a quick hack follows */
-	gcd = a[0];
-	for (i = 1; a[i] != NULL; i++) {
-		/* at least ONE iteration will be run */
-		GelETree *argv[2] = { gcd, a[i] };
-		GelETree *res;
-		res = gcd2_op (ctx, argv, exception);
-		if (res == NULL) {
+	{
+		GelETree *gcd;
+		/* kind of a quick hack follows */
+		gcd = a[0];
+		for (i = 1; a[i] != NULL; i++) {
+			/* at least ONE iteration will be run */
+			GelETree *argv[2] = { gcd, a[i] };
+			GelETree *res;
+			res = gcd2_op (ctx, argv, exception);
+			if (res == NULL) {
+				if (gcd != a[0])
+					gel_freetree (gcd);
+				return NULL;
+			}
 			if (gcd != a[0])
 				gel_freetree (gcd);
-			return NULL;
+			gcd = res;
 		}
-		if (gcd != a[0])
-			gel_freetree (gcd);
-		gcd = res;
+		if (gcd == a[0]) {
+			mpw_t tmp;
+			mpw_init (tmp);
+			mpw_abs (tmp, a[0]->val.value);
+			return gel_makenum_use (tmp);
+		} else {
+			return gcd;
+		}
 	}
-	if (gcd == a[0]) {
-		mpw_t tmp;
-		mpw_init (tmp);
-		mpw_abs (tmp, a[0]->val.value);
-		return gel_makenum_use (tmp);
-	} else {
-		return gcd;
-	}
-
 }
 
 /*lcm function*/
@@ -2770,7 +2770,6 @@ lcm2_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 static GelETree *
 lcm_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
-	GelETree *lcm;
 	int i;
 
 	if (a[1] == NULL) {
@@ -2812,29 +2811,32 @@ lcm_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	/* FIXME: optimize value only case */
 
-	/* kind of a quick hack follows */
-	lcm = a[0];
-	for (i = 1; a[i] != NULL; i++) {
-		/* at least ONE iteration will be run */
-		GelETree *argv[2] = { lcm, a[i] };
-		GelETree *res;
-		res = lcm2_op (ctx, argv, exception);
-		if (res == NULL) {
+	{
+		GelETree *lcm;
+		/* kind of a quick hack follows */
+		lcm = a[0];
+		for (i = 1; a[i] != NULL; i++) {
+			/* at least ONE iteration will be run */
+			GelETree *argv[2] = { lcm, a[i] };
+			GelETree *res;
+			res = lcm2_op (ctx, argv, exception);
+			if (res == NULL) {
+				if (lcm != a[0])
+					gel_freetree (lcm);
+				return NULL;
+			}
 			if (lcm != a[0])
 				gel_freetree (lcm);
-			return NULL;
+			lcm = res;
 		}
-		if (lcm != a[0])
-			gel_freetree (lcm);
-		lcm = res;
-	}
-	if (lcm == a[0]) {
-		mpw_t tmp;
-		mpw_init (tmp);
-		mpw_abs (tmp, a[0]->val.value);
-		return gel_makenum_use (tmp);
-	} else {
-		return lcm;
+		if (lcm == a[0]) {
+			mpw_t tmp;
+			mpw_init (tmp);
+			mpw_abs (tmp, a[0]->val.value);
+			return gel_makenum_use (tmp);
+		} else {
+			return lcm;
+		}
 	}
 }
 
@@ -4673,7 +4675,7 @@ MillerRabinTestSure_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 static GelETree *
 Factorize_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 {
-	mpz_ptr num;
+	mpz_ptr numz;
 	GArray *fact;
 	GelETree *n;
 	GelMatrixW *mn;
@@ -4687,9 +4689,9 @@ Factorize_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	if G_UNLIKELY ( ! check_argument_integer (a, 0, "Factorize"))
 		return NULL;
 
-	num = mpw_peek_real_mpz (a[0]->val.value);
+	numz = mpw_peek_real_mpz (a[0]->val.value);
 
-	fact = mympz_pollard_rho_factorize (num);
+	fact = mympz_pollard_rho_factorize (numz);
 
 	/* error or interrupt or whatnot */
 	if G_UNLIKELY (fact == NULL) {
@@ -4838,7 +4840,7 @@ poly_cut_zeros(GelMatrixW *m)
 }
 
 static gboolean
-check_poly(GelETree * *a, int args, char *func, gboolean complain)
+check_poly(GelETree * *a, int args, const char *func, gboolean complain)
 {
 	int i,j;
 
@@ -5308,7 +5310,7 @@ PolyToString_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	GString *gs;
 	gboolean any = FALSE;
 	GelMatrixW *m;
-	char *var;
+	const char *var;
 	GelOutput *gelo;
 	char *r;
 	

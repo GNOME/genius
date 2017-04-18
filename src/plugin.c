@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2014 Jiri (George) Lebl
+ * Copyright (C) 1997-2017 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -162,7 +162,7 @@ open_get_info (GelPlugin *plug)
 	if(!(inf=g_hash_table_lookup(info,mod))) {
 		gpointer f;
 		gboolean ret;
-		GelPluginInfo *(*init_func)(void);
+		GelPluginInfo *(*the_init_func)(void);
 		
 		ret = g_module_symbol (mod, "init_func", &f);
 		
@@ -172,8 +172,8 @@ open_get_info (GelPlugin *plug)
 			return NULL;
 		}
 
-		init_func = f;
-		inf = (*init_func)();
+		the_init_func = f;
+		inf = (*the_init_func)();
 
 		if (inf == NULL) {
 			gel_errorout (_("Can't initialize plugin!"));

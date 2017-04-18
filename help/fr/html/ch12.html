@@ -1,0 +1,60 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapitre 12. Exemple de programmes en GEL</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manuel de Genius"><link rel="up" href="index.html" title="Manuel de Genius"><link rel="prev" href="ch11s20.html" title="Tracé de graphiques"><link rel="next" href="ch13.html" title="Chapitre 13. Paramètres"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapitre 12. Exemple de programmes en GEL</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s20.html">Précédent</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch13.html">Suivant</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="genius-gel-example-programs"></a>Chapitre 12. Exemple de programmes en GEL</h1></div></div></div><p>Voici une fonction qui calcule des factorielles : </p><pre class="programlisting">function f(x) = if x &lt;= 1 then 1 else (f(x-1)*x)
+</pre><p>Avec des indentations, cela devient : </p><pre class="programlisting">function f(x) = (
+  if x &lt;= 1 then
+    1
+  else
+    (f(x-1)*x)
+)
+</pre><p>C'est un portage direct de la fonction factorielle de la page de manuel de <span class="application">bc</span>. La syntaxe semble similaire à celle de <span class="application">bc</span> mais différente par le fait que dans GEL, la dernière expression est celle qui est renvoyée. En utilisant la fonction <code class="literal">return</code> à la place, cela donnerait : </p><pre class="programlisting">function f(x) = (
+  if (x &lt;= 1) then return (1);
+  return (f(x-1) * x)
+)
+</pre><p>La façon, de loin la plus facile, de définir une fonction factorielle serait d'utiliser la boucle de produit de la manière suivante. Ce n'est pas seulement la plus courte et la plus rapide mais aussi probablement la version la plus lisible. </p><pre class="programlisting">function f(x) = prod k=1 to x do k
+</pre><p>
+Here is a larger example, this basically redefines the internal
+<a class="link" href="ch11s09.html#gel-function-ref"><code class="function">ref</code></a> function to calculate the row echelon form of a
+matrix.  The function <code class="function">ref</code> is built in and much faster,
+but this example demonstrates some of the more complex features of GEL.
+</p><pre class="programlisting"># Calculate the row-echelon form of a matrix
+function MyOwnREF(m) = (
+  if not IsMatrix(m) or not IsValueOnly(m) then
+    (error("MyOwnREF: argument not a value only matrix");bailout);
+  s := min(rows(m), columns(m));
+  i := 1;
+  d := 1;
+  while d &lt;= s and i &lt;= columns(m) do (
+
+    # This just makes the anchor element non-zero if at
+    # all possible
+    if m@(d,i) == 0 then (
+      j := d+1;
+      while j &lt;= rows(m) do (
+        if m@(j,i) == 0 then
+          (j=j+1;continue);
+        a := m@(j,);
+        m@(j,) := m@(d,);
+        m@(d,) := a;
+        j := j+1;
+        break
+      )
+    );
+    if m@(d,i) == 0 then
+      (i:=i+1;continue);
+    
+    # Here comes the actual zeroing of all but the anchor
+    # element rows
+    j := d+1;
+    while j &lt;= rows(m)) do (
+      if m@(j,i) != 0 then (
+        m@(j,) := m@(j,)-(m@(j,i)/m@(d,i))*m@(d,)
+      );
+      j := j+1
+    );
+    m@(d,) := m@(d,) * (1/m@(d,i));
+    d := d+1;
+    i := i+1
+  );
+  m
+)
+</pre><p>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch11s20.html">Précédent</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch13.html">Suivant</a></td></tr><tr><td width="40%" align="left" valign="top">Tracé de graphiques </td><td width="20%" align="center"><a accesskey="h" href="index.html">Sommaire</a></td><td width="40%" align="right" valign="top"> Chapitre 13. Paramètres</td></tr></table></div></body></html>

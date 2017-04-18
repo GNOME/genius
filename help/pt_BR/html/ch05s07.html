@@ -1,0 +1,247 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>List of GEL Operators</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manual do Genius"><link rel="up" href="ch05.html" title="Capítulo 5. GEL Basics"><link rel="prev" href="ch05s06.html" title="Modular Evaluation"><link rel="next" href="ch06.html" title="Capítulo 6. Programming with GEL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">List of GEL Operators</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05s06.html">Anterior</a> </td><th width="60%" align="center">Capítulo 5. GEL Basics</th><td width="20%" align="right"> <a accesskey="n" href="ch06.html">Próxima</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-operator-list"></a>List of GEL Operators</h2></div></div></div><p>
+	      Everything in GEL is really just an expression.  Expressions are stringed together with
+	      different operators.  As we have seen, even the separator is simply a binary operator
+	      in GEL.  Here is a list of the operators in GEL. 
+      </p><div class="variablelist"><dl class="variablelist"><dt><span class="term"><strong class="userinput"><code>a;b</code></strong></span></dt><dd><p>
+             The separator, just evaluates both
+	     <code class="varname">a</code> and
+	     <code class="varname">b</code>,
+	     but returns only the result of
+	     <code class="varname">b</code>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a=b</code></strong></span></dt><dd><p>
+	     The assignment operator.  This assigns <code class="varname">b</code> to
+<code class="varname">a</code> (<code class="varname">a</code> must be a valid <a class="link" href="ch06s09.html" title="Lvalues">lvalue</a>) (note however that this operator
+may be translated to <code class="literal">==</code> if used in a place where boolean
+expression is expected)
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a:=b</code></strong></span></dt><dd><p>
+	     The assignment operator.  Assigns <code class="varname">b</code> to
+<code class="varname">a</code> (<code class="varname">a</code> must be a valid <a class="link" href="ch06s09.html" title="Lvalues">lvalue</a>).  This is
+different from <code class="literal">=</code> because it never gets translated to a
+<code class="literal">==</code>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>|a|</code></strong></span></dt><dd><p>
+		   Absolute value.
+		   In case the expression is a complex number the result will be the modulus
+(distance from the origin).  For example:
+<strong class="userinput"><code>|3 * e^(1i*pi)|</code></strong>
+returns 3.
+	  </p><p>
+	    See
+	    <a class="ulink" href="http://mathworld.wolfram.com/AbsoluteValue.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><strong class="userinput"><code>a^b</code></strong></span></dt><dd><p>
+             Exponentiation, raises <code class="varname">a</code> to the <code class="varname">b</code>th power.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a.^b</code></strong></span></dt><dd><p>
+	     Element by element exponentiation.  Raise each element of a matrix
+	     <code class="varname">a</code> to the <code class="varname">b</code>th power.  Or if
+	     <code class="varname">b</code> is a matrix of the same size as
+	     <code class="varname">a</code>, then do the operation element by element.
+	     If <code class="varname">a</code> is a number and <code class="varname">b</code> is a
+	     matrix then it creates matrix of the same size as
+	     <code class="varname">b</code> with <code class="varname">a</code> raised to all the
+	     different powers in <code class="varname">b</code>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a+b</code></strong></span></dt><dd><p>
+             Addition.  Adds two numbers, matrices, functions or strings.  If
+	     you add a string to anything the result will just be a string.  If one is
+	     a square matrix and the other a number, then the number is multiplied by
+	     the identity matrix.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a-b</code></strong></span></dt><dd><p>
+             Subtraction.  Subtract two numbers, matrices or functions.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a*b</code></strong></span></dt><dd><p>
+             Multiplication.  This is the normal matrix multiplication.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a.*b</code></strong></span></dt><dd><p>
+	     Element by element multiplication if <code class="varname">a</code> and
+	     <code class="varname">b</code> are matrices.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a/b</code></strong></span></dt><dd><p>
+		   Division.  When <code class="varname">a</code> and <code class="varname">b</code> are just numbers
+		   this is the normal division.  When they are matrices, then this is
+		   equivalent to <strong class="userinput"><code>a*b^-1</code></strong>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a./b</code></strong></span></dt><dd><p>
+		   Element by element division.  Same as <strong class="userinput"><code>a/b</code></strong> for
+		   numbers, but operates element by element on matrices.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a\b</code></strong></span></dt><dd><p>
+             Back division.  That is this is the same as <strong class="userinput"><code>b/a</code></strong>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a.\b</code></strong></span></dt><dd><p>
+             Element by element back division.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a%b</code></strong></span></dt><dd><p>
+	     The mod operator.  This does not turn on the <a class="link" href="ch05s06.html" title="Modular Evaluation">modular mode</a>, but
+	     just returns the remainder of <strong class="userinput"><code>a/b</code></strong>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a.%b</code></strong></span></dt><dd><p>
+             Element by element the mod operator.  Returns the remainder
+	     after element by element integer <strong class="userinput"><code>a./b</code></strong>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a mod b</code></strong></span></dt><dd><p>
+             Modular evaluation operator.  The expression <code class="varname">a</code>
+	     is evaluated modulo <code class="varname">b</code>.  See <a class="xref" href="ch05s06.html" title="Modular Evaluation">“Modular Evaluation”</a>.
+	     Some functions and operators behave differently modulo an integer.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a!</code></strong></span></dt><dd><p>
+             Factorial operator.  This is like
+	     <strong class="userinput"><code>1*...*(n-2)*(n-1)*n</code></strong>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a!!</code></strong></span></dt><dd><p>
+             Double factorial operator.  This is like
+	     <strong class="userinput"><code>1*...*(n-4)*(n-2)*n</code></strong>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a==b</code></strong></span></dt><dd><p>
+	     Equality operator.
+	     Returns <code class="constant">true</code> or <code class="constant">false</code>
+	     depending on <code class="varname">a</code> and <code class="varname">b</code> being equal or not.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a!=b</code></strong></span></dt><dd><p>
+             Inequality operator,
+	     returns <code class="constant">true</code> if <code class="varname">a</code> does not
+	     equal <code class="varname">b</code> else returns <code class="constant">false</code>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a&lt;&gt;b</code></strong></span></dt><dd><p>
+             Alternative inequality operator,
+	     returns <code class="constant">true</code> if <code class="varname">a</code> does not
+	     equal <code class="varname">b</code> else returns <code class="constant">false</code>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a&lt;=b</code></strong></span></dt><dd><p>
+             Less than or equal operator,
+	     returns <code class="constant">true</code> if <code class="varname">a</code> is
+	     less than or equal to 
+	     <code class="varname">b</code> else returns <code class="constant">false</code>.
+	     These can be chained as in <strong class="userinput"><code>a &lt;= b &lt;= c</code></strong> (can
+	     also be combined with the less than operator).
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a&gt;=b</code></strong></span></dt><dd><p>
+             Greater than or equal operator,
+	     returns <code class="constant">true</code> if <code class="varname">a</code> is
+	     greater than or equal to 
+	     <code class="varname">b</code> else returns <code class="constant">false</code>.
+	     These can be chained as in <strong class="userinput"><code>a &gt;= b &gt;= c</code></strong>
+	     (can also be combine with the greater than operator).
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a&lt;b</code></strong></span></dt><dd><p>
+             Less than operator,
+	     returns <code class="constant">true</code> if <code class="varname">a</code> is
+	     less than 
+	     <code class="varname">b</code> else returns <code class="constant">false</code>.
+	     These can be chained as in <strong class="userinput"><code>a &lt; b &lt; c</code></strong>
+	     (can also be combine with the less than or equal to operator).
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a&gt;b</code></strong></span></dt><dd><p>
+             Greater than operator,
+	     returns <code class="constant">true</code> if <code class="varname">a</code> is
+	     greater than 
+	     <code class="varname">b</code> else returns <code class="constant">false</code>.
+	     These can be chained as in <strong class="userinput"><code>a &gt; b &gt; c</code></strong>
+	     (can also be combine with the greater than or equal to operator).
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a&lt;=&gt;b</code></strong></span></dt><dd><p>
+	     Comparison operator.  If <code class="varname">a</code> is equal to
+	     <code class="varname">b</code> it returns 0, if <code class="varname">a</code> is less
+	     than <code class="varname">b</code> it returns -1 and if
+	     <code class="varname">a</code> is greater than <code class="varname">b</code> it
+	     returns 1.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a and b</code></strong></span></dt><dd><p>
+		   Logical and.  Returns true if both
+		   <code class="varname">a</code> and <code class="varname">b</code> are true,
+		   else returns false.  If given numbers, nonzero numbers
+		   are treated as true.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a or b</code></strong></span></dt><dd><p>
+             Logical or.
+	     Returns true if either
+	     <code class="varname">a</code> or <code class="varname">b</code> is true,
+	     else returns false.  If given numbers, nonzero numbers
+	     are treated as true.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a xor b</code></strong></span></dt><dd><p>
+             Logical xor.
+	     Returns true exactly one of
+	     <code class="varname">a</code> or <code class="varname">b</code> is true,
+	     else returns false.  If given numbers, nonzero numbers
+	     are treated as true.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>not a</code></strong></span></dt><dd><p>
+		   Logical not.  Returns the logical negation of <code class="varname">a</code>
+           </p></dd><dt><span class="term"><strong class="userinput"><code>-a</code></strong></span></dt><dd><p>
+             Negation operator.  Returns the negative of a number or a matrix (works element-wise on a matrix).
+           </p></dd><dt><span class="term"><strong class="userinput"><code>&amp;a</code></strong></span></dt><dd><p>
+             Variable referencing (to pass a reference to a variable).
+	     See <a class="xref" href="ch06s08.html" title="References">“References”</a>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>*a</code></strong></span></dt><dd><p>
+             Variable dereferencing (to access a referenced variable).
+	     See <a class="xref" href="ch06s08.html" title="References">“References”</a>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a'</code></strong></span></dt><dd><p>
+		   Matrix conjugate transpose.  That is, rows and columns get swapped and we take complex conjugate of all entries.  That is
+		   if the i,j element of <code class="varname">a</code> is x+iy, then the j,i element of <strong class="userinput"><code>a'</code></strong> is x-iy.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a.'</code></strong></span></dt><dd><p>
+             Matrix transpose, does not conjugate the entries.  That is, 
+	     the i,j element of <code class="varname">a</code>  becomes the j,i element of <strong class="userinput"><code>a.'</code></strong>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a@(b,c)</code></strong></span></dt><dd><p>
+	     Get element of a matrix in row <code class="varname">b</code> and column
+	     <code class="varname">c</code>.   If <code class="varname">b</code>,
+	     <code class="varname">c</code> are vectors, then this gets the corresponding
+	     rows columns or submatrices.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a@(b,)</code></strong></span></dt><dd><p>
+             Get row of a matrix (or multiple rows if <code class="varname">b</code> is a vector).
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a@(b,:)</code></strong></span></dt><dd><p>
+             Same as above.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a@(,c)</code></strong></span></dt><dd><p>
+	     Get column of a matrix (or columns if <code class="varname">c</code> is a
+	     vector).
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a@(:,c)</code></strong></span></dt><dd><p>
+             Same as above.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a@(b)</code></strong></span></dt><dd><p>
+             Get an element from a matrix treating it as a vector.  This will
+	     traverse the matrix row-wise.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a:b</code></strong></span></dt><dd><p>
+             Build a vector from <code class="varname">a</code> to <code class="varname">b</code> (or specify a row, column region for the <code class="literal">@</code> operator).  For example to get rows 2 to 4 of matrix <code class="varname">A</code> we could do
+	     </p><pre class="programlisting">A@(2:4,)
+	     </pre><p>
+	     as <strong class="userinput"><code>2:4</code></strong> will return a vector
+	     <strong class="userinput"><code>[2,3,4]</code></strong>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a:b:c</code></strong></span></dt><dd><p>
+	     Build a vector from <code class="varname">a</code> to <code class="varname">c</code>
+	     with <code class="varname">b</code> as a step.  That is for example
+	     </p><pre class="programlisting">genius&gt; 1:2:9
+=
+`[1, 3, 5, 7, 9]
+</pre><p>
+           </p><p>
+	     When the numbers involved are floating point numbers, for example
+	     <strong class="userinput"><code>1.0:0.4:3.0</code></strong>, the output is what is expected
+	     even though adding 0.4 to 1.0 five times is actually just slightly
+	     more than 3.0 due to the way that floating point numbers are
+	     stored in base 2 (there is no 0.4, the actual number stored is
+	     just ever so slightly bigger).  The way this is handled is the
+	     same as in the for, sum, and prod loops.  If the end is within
+	     <strong class="userinput"><code>2^-20</code></strong> times the step size of the endpoint,
+	     the endpoint is used and we assume there were roundoff errors.
+	     This is not perfect, but it handles the majority of the cases.
+	     This check is done only from version 1.0.18 onwards, so execution
+	     of your code may differ on older versions.  If you want to avoid
+	     dealing with this issue, use actual rational numbers, possibly
+	     using the <code class="function">float</code> if you wish to get floating
+	     point numbers in the end.  For example
+	     <strong class="userinput"><code>1:2/5:3</code></strong> does the right thing and
+	     <strong class="userinput"><code>float(1:2/5:3)</code></strong> even gives you floating
+	     point numbers and is ever so slightly more precise than
+	     <strong class="userinput"><code>1.0:0.4:3.0</code></strong>.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>(a)i</code></strong></span></dt><dd><p>
+	     Make a imaginary number (multiply <code class="varname">a</code> by the
+	     imaginary).  Note that normally the number <code class="varname">i</code> is
+	     written as <strong class="userinput"><code>1i</code></strong>.  So the above is equal to
+	     </p><pre class="programlisting">(a)*1i
+	     </pre><p>
+           </p></dd><dt><span class="term"><strong class="userinput"><code>`a</code></strong></span></dt><dd><p>
+             Quote an identifier so that it doesn't get evaluated.  Or
+	     quote a matrix so that it doesn't get expanded.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>a swapwith b</code></strong></span></dt><dd><p>
+		   Swap value of <code class="varname">a</code> with the value
+		   of <code class="varname">b</code>.  Currently does not operate
+		   on ranges of matrix elements.
+		   It returns <code class="constant">null</code>.
+		   Available from version 1.0.13.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>increment a</code></strong></span></dt><dd><p>
+		   Increment the variable <code class="varname">a</code> by 1.  If
+		   <code class="varname">a</code> is a matrix, then increment each element.
+		   This is equivalent to <strong class="userinput"><code>a=a+1</code></strong>, but 
+		   it is somewhat faster.  It returns <code class="constant">null</code>.
+		   Available from version 1.0.13.
+           </p></dd><dt><span class="term"><strong class="userinput"><code>increment a by b</code></strong></span></dt><dd><p>
+		   Increment the variable <code class="varname">a</code> by <code class="varname">b</code>.  If
+		   <code class="varname">a</code> is a matrix, then increment each element.
+		   This is equivalent to <strong class="userinput"><code>a=a+b</code></strong>, but 
+		   it is somewhat faster.  It returns <code class="constant">null</code>.
+		   Available from version 1.0.13.
+           </p></dd></dl></div><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Nota</h3><p>
+The @() operator makes the : operator most useful.  With this you can specify regions of a matrix.  So that a@(2:4,6) is the rows 2,3,4 of the column 6. Or a@(,1:2) will get you the first two columns of a matrix. You can also assign to the @() operator, as long as the right value is a matrix that matches the region in size, or if it is any other type of value.
+</p></div><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Nota</h3><p>
+The comparison operators (except for the &lt;=&gt; operator, which behaves normally), are not strictly binary operators, they can in fact be grouped in the normal mathematical way, e.g.: (1&lt;x&lt;=y&lt;5) is a legal boolean expression and means just what it should, that is (1&lt;x and x≤y and y&lt;5)
+</p></div><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Nota</h3><p>
+The unitary minus operates in a different fashion depending on where it
+appears.  If it appears before a number it binds very closely, if it appears in
+front of an expression it binds less than the power and factorial operators.
+So for example <strong class="userinput"><code>-1^k</code></strong> is really <strong class="userinput"><code>(-1)^k</code></strong>,
+but <strong class="userinput"><code>-foo(1)^k</code></strong> is really <strong class="userinput"><code>-(foo(1)^k)</code></strong>.  So
+be careful how you use it and if in doubt, add parentheses.
+</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05s06.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="ch05.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="ch06.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Modular Evaluation </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Capítulo 6. Programming with GEL</td></tr></table></div></body></html>

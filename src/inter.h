@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2002 Jiri (George) Lebl
+ * Copyright (C) 1997-2017 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -26,7 +26,7 @@ void init_inter(void);
 GelETree * get_p_expression(void);
 void start_cb_p_expression(void (*get_func)(GelETree *), FILE *torlfp);
 void stop_cb_p_expression(void);
-void get_cb_p_expression(char *s, FILE *torlfp);
+void get_cb_p_expression(const char *s, FILE *torlfp);
 
 
 

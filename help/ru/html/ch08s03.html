@@ -1,0 +1,32 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Линейная алгебра</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Руководство пользователя Genius"><link rel="up" href="ch08.html" title="Глава 8. Матрицы в GEL"><link rel="prev" href="ch08s02.html" title="Conjugate Transpose and Transpose Operator"><link rel="next" href="ch09.html" title="Глава 9. Многочлены в GEL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Линейная алгебра</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch08s02.html">Пред.</a> </td><th width="60%" align="center">Глава 8. Матрицы в GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch09.html">След.</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-matrix-linalg"></a>Линейная алгебра</h2></div></div></div><p>
+	Genius implements many useful linear algebra and matrix manipulation
+routines.  See the <a class="link" href="ch11s09.html" title="Линейная алгебра">Linear Algebra</a> and
+<a class="link" href="ch11s08.html" title="Операции с матрицами">Matrix Manipulation</a>
+sections of the GEL function listing.
+      </p><p>
+	The linear algebra routines implemented in GEL do not currently come
+from a well tested numerical package, and thus should not be used for critical
+numerical computation.  On the other hand, Genius implements very well many
+linear algebra operations with rational and integer coefficients.  These are
+inherently exact and in fact will give you much better results than common
+double precision routines for linear algebra.
+      </p><p>
+	For example, it is pointless to compute the rank and nullspace of a
+floating point matrix since for all practical purposes, we need to consider the
+matrix as having some slight errors.  You are likely to get a different result
+than you expect.  The problem is that under a small perturbation every matrix
+is of full rank and invertible.  If the matrix however is of rational numbers,
+then the rank and nullspace are always exact.
+      </p><p>
+	In general when Genius computes the basis of a certain vectorspace
+	(for example with the <a class="link" href="ch11s09.html#gel-function-NullSpace"><code class="function">NullSpace</code></a>) it will give the basis as
+a matrix, in which the columns are the vectors of the basis.  That is, when
+Genius talks of a linear subspace it means a matrix whose column space is
+the given linear subspace.
+      </p><p>
+	It should be noted that Genius can remember certain properties of a
+matrix.  For example, it will remember that a matrix is in row reduced form.
+If many calls are made to functions that internally use row reduced form of
+the matrix, we can just row reduce the matrix beforehand once.  Successive
+calls to <a class="link" href="ch11s09.html#gel-function-rref"><code class="function">rref</code></a> will be very fast.
+      </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch08s02.html">Пред.</a> </td><td width="20%" align="center"><a accesskey="u" href="ch08.html">Наверх</a></td><td width="40%" align="right"> <a accesskey="n" href="ch09.html">След.</a></td></tr><tr><td width="40%" align="left" valign="top">Conjugate Transpose and Transpose Operator </td><td width="20%" align="center"><a accesskey="h" href="index.html">Начало</a></td><td width="40%" align="right" valign="top"> Глава 9. Многочлены в GEL</td></tr></table></div></body></html>

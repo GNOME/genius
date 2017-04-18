@@ -1,0 +1,42 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Renvoi de fonction</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manuel de Genius"><link rel="up" href="ch07.html" title="Chapitre 7. Programmation avancée avec GEL"><link rel="prev" href="ch07s02.html" title="Syntaxe de haut-niveau"><link rel="next" href="ch07s04.html" title="Variables locales vraies"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Renvoi de fonction</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s02.html">Précédent</a> </td><th width="60%" align="center">Chapitre 7. Programmation avancée avec GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s04.html">Suivant</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-returning-functions"></a>Renvoi de fonction</h2></div></div></div><p>Il est possible de renvoyer des fonctions en tant que donnée. De cette manière, vous pouvez écrire une fonction qui construit des fonctions dans un but précis en fonction de certains paramètres. Le point délicat est de savoir quelles variables sont visibles par la fonction construite. La façon dont cela fonctionne dans GEL est que, lorsqu'une fonction renvoie une autre fonction, tous les identifiants qui étaient référencés dans le corps de la fonction mère, et qui deviendraient hors de portée, sont en fait ajoutés dans un dictionnaire privé de la fonction renvoyée. Ainsi la fonction voit toutes les variables qui étaient à sa portée au moment où elle a été définie. Par exemple, nous pouvons définir ainsi une fonction qui renvoie une fonction qui ajoute 5 à son argument : </p><pre class="programlisting">function f() = (
+  k = 5;
+  `(x) = (x+k)
+)
+</pre><p> Notez que la fonction ajoute <code class="varname">k</code> à <code class="varname">x</code>. Vous pouvez l'utiliser ainsi. </p><pre class="programlisting">g = f();
+g(5)
+</pre><p> et <strong class="userinput"><code>g(5)</code></strong> doit renvoyer 10.</p><p>Une chose à noter est que la valeur de <code class="varname">k</code> utilisée est celle qui est en cours lorsque la fonction <code class="function">f</code> a terminé son exécution. Par exemple : </p><pre class="programlisting">function f() = (
+  k := 5;
+  function r(x) = (x+k);
+  k := 10;
+  r
+)
+</pre><p> renvoie une fonction qui ajoute 10 à son argument plutôt que 5. La raison est que le dictionnaire supplémentaire est créé uniquement lorsque le contexte dans lequel la fonction a été définie, se termine, c'est-à-dire lorsque la fonction <code class="function">f</code> renvoie. C'est cohérent avec la manière dont on s'attend à ce que la fonction <code class="function">r</code> fonctionne à l'intérieur de la fonction <code class="function">f</code> d'après les règles sur la portée des variables dans GEL. Les seules variables ajoutées au dictionnaire supplémentaire sont celles qui sont présentes dans le contexte qui se termine et n'existe plus. Les variables utilisées dans la fonction, qui sont toujours dans des contextes valides, fonctionnent comme d'habitude, en utilisant la valeur actuelle de la variable. La seule différence, c'est pour les variables et les fonctions globales. Tous les identifiants qui référencent des variables globales au moment de la définition de la fonction ne sont pas ajoutés au dictionnaire privé. C'est pour éviter beaucoup de travail non nécessaire lors du renvoi de fonctions et cela ne pose que rarement problème. Par exemple, supposons que vous supprimiez le « k= 5 » de la fonction <code class="function">f</code> et qu'au niveau supérieur vous définissiez <code class="varname">k</code> à 5 par exemple. Alors lorsque vous exécutez <code class="function">f</code>, la fonction <code class="function">r</code> ne met pas <code class="varname">k</code> dans le dictionnaire privé parce qu'il était global (au niveau supérieur) au moment de la définition de <code class="function">r</code>.</p><p>Parfois il est préférable d'avoir un meilleur contrôle sur la façon dont les variables sont copiées dans le dictionnaire privé. Depuis la version 1.0.7, vous pouvez spécifier quelles variables sont copiées dans le dictionnaire privée en mettant des crochets carrés supplémentaires après les arguments contenant la liste des variables qui seront copiées, séparées par des virgules. Si vous faites cela alors les variables sont copiées dans le dictionnaire privé au moment de la définition de la fonction et le dictionnaire privé n'est pas modifié ensuite. Par exemple, </p><pre class="programlisting">function f() = (
+  k := 5;
+  function r(x) [k] = (x+k);
+  k := 10;
+  r
+)
+</pre><p> renvoie une fonction qui, lorsqu'elle est appelée, ajoute 5 à ses arguments. La copie locale de <code class="varname">k</code> a été créée lorsque la fonction a été définie.</p><p>
+	  When you want the function to not have any private dictionary
+	  then put empty square brackets after the argument list.  Then
+	  no private dictionary will be created at all.  Doing this is
+	  good to increase efficiency when a private dictionary is not
+	  needed or when you want the function to lookup all variables
+	  as it sees them when called.  For example suppose you want
+	  the function returned from <code class="function">f</code> to see
+	  the value of <code class="varname">k</code> from the toplevel despite
+	  there being a local variable of the same name during definition.
+	  So the code
+</p><pre class="programlisting">function f() = (
+  k := 5;
+  function r(x) [] = (x+k);
+  r
+);
+k := 10;
+g = f();
+g(10)
+</pre><p>
+	  will return 20 and not 15, which would happen if
+	  <code class="varname">k</code> with a value of 5 was added to the private
+	  dictionary.
+	</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s02.html">Précédent</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Niveau supérieur</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s04.html">Suivant</a></td></tr><tr><td width="40%" align="left" valign="top">Syntaxe de haut-niveau </td><td width="20%" align="center"><a accesskey="h" href="index.html">Sommaire</a></td><td width="40%" align="right" valign="top"> Variables locales vraies</td></tr></table></div></body></html>

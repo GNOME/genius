@@ -1,4 +1,6 @@
-AC_INIT([genius], [1.0.22])
+AC_INIT([genius], [1.0.23])
+#AX_IS_RELEASE([git-directory])
+AX_IS_RELEASE([always])
 AC_CONFIG_SRCDIR([src/calc.c])
 AM_INIT_AUTOMAKE([dist-xz])
 
@@ -40,7 +42,7 @@ AC_PROG_YACC
 
 AM_BINRELOC
 
-GNOME_COMPILE_WARNINGS
+AX_COMPILER_FLAGS([WARN_CFLAGS],[WARN_LDFLAGS])
 
 dnl ================= Translation Stuff ==============================================
 
@@ -245,17 +247,17 @@ if test -z "$GTK_UPDATE_ICON_CACHE"; then
     AC_MSG_ERROR([Could not find gtk-update-icon-cache])
 fi
 
-dnl scrollkeeper checks 
-AC_ARG_ENABLE([scrollkeeper],
-	[AC_HELP_STRING([--disable-scrollkeeper],
-		[do not make updates to the scrollkeeper database])],,
-		enable_scrollkeeper=yes)
-AM_CONDITIONAL([ENABLE_SK],[test "$enable_scrollkeeper" = "yes"])
-
-AC_PATH_PROG(SCROLLKEEPER_CONFIG, scrollkeeper-config,no)
-if test x$SCROLLKEEPER_CONFIG = xno; then
-  AC_MSG_ERROR(Couldn't find scrollkeeper-config. Please install the scrollkeeper package)
-fi
+#dnl scrollkeeper checks 
+#AC_ARG_ENABLE([scrollkeeper],
+#	[AC_HELP_STRING([--disable-scrollkeeper],
+#		[do not make updates to the scrollkeeper database])],,
+#		enable_scrollkeeper=yes)
+#AM_CONDITIONAL([ENABLE_SK],[test "$enable_scrollkeeper" = "yes"])
+#
+#AC_PATH_PROG(SCROLLKEEPER_CONFIG, scrollkeeper-config,no)
+#if test x$SCROLLKEEPER_CONFIG = xno; then
+#  AC_MSG_ERROR(Couldn't find scrollkeeper-config. Please install the scrollkeeper package)
+#fi
 
 dnl mime checks
 AC_ARG_ENABLE(update-mimedb,
@@ -263,8 +265,6 @@ AC_ARG_ENABLE(update-mimedb,
 		[do not update mime database after installation]),,
 		enable_update_mimedb=yes)
 AM_CONDITIONAL(ENABLE_UPDATE_MIMEDB, test x$enable_update_mimedb = xyes)
-
-GNOME_DOC_INIT
 
 AC_OUTPUT([
 genius.spec

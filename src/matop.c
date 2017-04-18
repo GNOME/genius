@@ -444,8 +444,9 @@ gel_value_matrix_gauss (GelCtx *ctx,
 			/* kind of a hack */
 			int bestj = h;
 			mpw_t best_abs_sq;
-			mpw_init (best_abs_sq);
 			GelETree *bestpiv = NULL;
+
+			mpw_init (best_abs_sq);
 			for (j = d; j < h; j++) {
 				GelETree *t = gel_matrixw_get_index(m,i,j);
 				if (t != NULL &&

@@ -1,0 +1,45 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Using Variables</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manual do Genius"><link rel="up" href="ch05.html" title="Capítulo 5. GEL Basics"><link rel="prev" href="ch05.html" title="Capítulo 5. GEL Basics"><link rel="next" href="ch05s03.html" title="Using Functions"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Using Variables</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05.html">Anterior</a> </td><th width="60%" align="center">Capítulo 5. GEL Basics</th><td width="20%" align="right"> <a accesskey="n" href="ch05s03.html">Próxima</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-variables"></a>Using Variables</h2></div></div></div><p>
+Syntax:
+</p><pre class="programlisting">VariableName
+</pre><p>
+Example:
+</p><pre class="screen"><code class="prompt">genius&gt; </code><strong class="userinput"><code>e</code></strong>
+= 2.71828182846
+</pre><p>
+      </p><p>
+To evaluate a variable by itself, just enter the name of the variable. This will return the value of the variable. You can use a variable anywhere you would normally use a number or string. In addition, variables are necessary when defining functions that take arguments (see <a class="xref" href="ch05s03.html#genius-gel-functions-defining" title="Defining Functions">“Defining Functions”</a>).
+      </p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Using Tab completion</h3><p>
+You can use Tab completion to get Genius to complete variable names for you. Try typing the first few letters of the name and pressing <strong class="userinput"><code>Tab</code></strong>.
+        </p></div><div class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Variable names are case sensitive</h3><p>
+The names of variables are case sensitive. That means that variables named <code class="varname">hello</code>, <code class="varname">HELLO</code> and <code class="varname">Hello</code> are all different variables.
+        </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-variables-setting"></a>Setting Variables</h3></div></div></div><p>
+Syntax:
+</p><pre class="programlisting">&lt;identifier&gt; = &lt;value&gt;
+&lt;identifier&gt; := &lt;value&gt;
+</pre><p>
+Example:
+</p><pre class="programlisting">x = 3
+x := 3
+</pre><p>
+        </p><p>
+To assign a value to a variable, use the <code class="literal">=</code> or <code class="literal">:=</code> operators. These operators set the value of the variable and return the value you set, so you can do things like
+</p><pre class="programlisting">a = b = 5
+</pre><p>
+This will set <code class="varname">b</code> to 5 and then also set <code class="varname">a</code> to 5.
+        </p><p>
+The <code class="literal">=</code> and <code class="literal">:=</code> operators can both be used to set variables. The difference between them is that the <code class="literal">:=</code> operator always acts as an assignment operator, whereas the <code class="literal">=</code> operator may be interpreted as testing for equality when used in a context where a Boolean expression is expected.
+       </p><p>
+	  For more information about the scope of variables, that is when are what variables visible, see <a class="xref" href="ch06s05.html" title="Global Variables and Scope of Variables">“Global Variables and Scope of Variables”</a>.
+	</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-variables-built-in"></a>Built-in Variables</h3></div></div></div><p>
+GEL has a number of built-in ‘variables’, such as
+<code class="varname">e</code>, <code class="varname">pi</code> or <code class="varname">GoldenRatio</code>.  These are widely used constants with a preset value, and
+they cannot be assigned new values.
+There are a number of other built-in variables.
+See <a class="xref" href="ch11s04.html" title="Constantes">“Constantes”</a> for a full list.  Note that <code class="varname">i</code> is not by default
+the square root of negative one (the imaginary number), and is undefined to allow its use as a counter.  If you wish to write the imaginary number you need to
+use <strong class="userinput"><code>1i</code></strong>.
+        </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-previous-result"></a>Previous Result Variable</h3></div></div></div><p>
+The <code class="varname">Ans</code> and <code class="varname">ans</code> variables can be used to get the result of the last expression. For example, if you had performed some calculation, to add 389 to the result you could do:
+</p><pre class="programlisting">Ans+389
+</pre><p>
+        </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="ch05.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="ch05s03.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Capítulo 5. GEL Basics </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Using Functions</td></tr></table></div></body></html>

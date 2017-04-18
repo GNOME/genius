@@ -1,0 +1,27 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Lvalues (linke Werte)</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Genius-Handbuch"><link rel="up" href="ch06.html" title="Kapitel 6. Programmierung mit GEL"><link rel="prev" href="ch06s08.html" title="Referenzen"><link rel="next" href="ch07.html" title="Kapitel 7. Fortgeschrittene Programmierung mit GEL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Lvalues (linke Werte)</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s08.html">Zurück</a> </td><th width="60%" align="center">Kapitel 6. Programmierung mit GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07.html">Weiter</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-lvalues"></a>Lvalues (linke Werte)</h2></div></div></div><p>
+	An lvalue is the left hand side of an assignment. In other words, an
+	lvalue is what you assign something to.  Valid lvalues are:
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term"><strong class="userinput"><code>a</code></strong></span></dt><dd><p>
+	Identifier.  Here we would be setting the variable of name
+	<code class="varname">a</code>.
+      </p></dd><dt><span class="term"><strong class="userinput"><code>*a</code></strong></span></dt><dd><p>
+	Dereference of an identifier.  This will set whatever variable
+	<code class="varname">a</code> points to.
+      </p></dd><dt><span class="term"><strong class="userinput"><code>a@(&lt;region&gt;)</code></strong></span></dt><dd><p>
+	A region of a matrix.  Here the region is specified normally as with
+	the regular @() operator, and can be a single entry, or an entire
+	region of the matrix.
+      </p></dd></dl></div><p>
+      </p><p>
+Examples:
+</p><pre class="programlisting">a:=4
+*tmp := 89
+a@(1,1) := 5
+a@(4:8,3) := [1,2,3,4,5]'
+</pre><p>
+Note that both <code class="literal">:=</code> and <code class="literal">=</code> can be used
+interchangeably.  Except if the assignment appears in a condition.
+It is thus always safer to just use
+<code class="literal">:=</code> when you mean assignment, and <code class="literal">==</code>
+when you mean comparison.
+      </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s08.html">Zurück</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Nach oben</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07.html">Weiter</a></td></tr><tr><td width="40%" align="left" valign="top">Referenzen </td><td width="20%" align="center"><a accesskey="h" href="index.html">Zum Anfang</a></td><td width="40%" align="right" valign="top"> Kapitel 7. Fortgeschrittene Programmierung mit GEL</td></tr></table></div></body></html>

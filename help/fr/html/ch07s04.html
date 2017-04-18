@@ -1,0 +1,40 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Variables locales vraies</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manuel de Genius"><link rel="up" href="ch07.html" title="Chapitre 7. Programmation avancée avec GEL"><link rel="prev" href="ch07s03.html" title="Renvoi de fonction"><link rel="next" href="ch07s05.html" title="Procédure de démarrage de GEL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Variables locales vraies</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s03.html">Précédent</a> </td><th width="60%" align="center">Chapitre 7. Programmation avancée avec GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s05.html">Suivant</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-true-local-variables"></a>Variables locales vraies</h2></div></div></div><p>Lors de la transmission de fonctions dans d'autres fonctions, la portée normale des variables peut être indésirable. Par exemple : </p><pre class="programlisting">k := 10;
+function r(x) = (x+k);
+function f(g,x) = (
+  k := 5;
+  g(x)
+);
+f(r,1)
+</pre><p> vous souhaitez probablement que la fonction <code class="function">r</code> lorsqu'elle est transmise à <code class="function">g</code> dans <code class="function">f</code>, puisse voir <code class="varname">k</code> comme 10 plutôt que 5 afin que le code renvoie 11 et pas 6. Cependant, tel que c'est écrit, la fonction lorsqu'elle est exécutée voit la variable <code class="varname">k</code> qui est égale à 5. Il y a deux façons de résoudre cela. L'une est que la fonction <code class="function">r</code> obtienne <code class="varname">k</code> dans un dictionnaire privé en utilisant la notation crochet carré de la section <a class="link" href="ch07s03.html" title="Renvoi de fonction">Renvoi de fonctions</a>.</p><p>
+	But there is another solution.  Since version 1.0.7 there are
+	true local variables.  These are variables that are visible only
+	from the current context and not from any called functions.
+	We could define <code class="varname">k</code> as a local variable in the
+	function <code class="function">f</code>.  To do this add a
+	<span class="command"><strong>local</strong></span> statement as the first statement in the
+	function (it must always be the first statement in the function).
+	You can also make any arguments be local variables as well.
+	That is,
+</p><pre class="programlisting">function f(g,x) = (
+  local g,x,k;
+  k := 5;
+  g(x)
+);
+</pre><p>
+	Then the code will work as expected and prints out 11.
+	Note that the <span class="command"><strong>local</strong></span> statement initializes
+	all the referenced variables (except for function arguments) to
+	a <code class="constant">null</code>.
+      </p><p>
+	If all variables are to be created as locals you can just pass an
+	asterisk instead of a list of variables.  In this case the variables
+	will not be initialized until they are actually set of course.
+	So the following definition of <code class="function">f</code>
+	will also work:
+</p><pre class="programlisting">function f(g,x) = (
+  local *;
+  k := 5;
+  g(x)
+);
+</pre><p>
+      </p><p>C'est une bonne pratique que toutes les fonctions qui prennent d'autres fonctions comme argument, utilisent des variables locales. De cette manière, la fonction transmise ne voit pas les détails de l'implémentation et n'est pas perturbée.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s03.html">Précédent</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Niveau supérieur</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s05.html">Suivant</a></td></tr><tr><td width="40%" align="left" valign="top">Renvoi de fonction </td><td width="20%" align="center"><a accesskey="h" href="index.html">Sommaire</a></td><td width="40%" align="right" valign="top"> Procédure de démarrage de GEL</td></tr></table></div></body></html>

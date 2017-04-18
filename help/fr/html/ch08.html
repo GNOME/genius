@@ -1,0 +1,46 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapitre 8. Matrices en GEL</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manuel de Genius"><link rel="up" href="index.html" title="Manuel de Genius"><link rel="prev" href="ch07s06.html" title="Chargement de programmes"><link rel="next" href="ch08s02.html" title="Opérateur de transposition conjuguée et de transposition"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapitre 8. Matrices en GEL</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s06.html">Précédent</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch08s02.html">Suivant</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="genius-gel-matrices"></a>Chapitre 8. Matrices en GEL</h1></div></div></div><div class="toc"><p><b>Table des matières</b></p><dl class="toc"><dt><span class="sect1"><a href="ch08.html#genius-gel-matrix-support">Saisie de matrices</a></span></dt><dt><span class="sect1"><a href="ch08s02.html">Opérateur de transposition conjuguée et de transposition</a></span></dt><dt><span class="sect1"><a href="ch08s03.html">Algèbre linéaire</a></span></dt></dl></div><p>
+      Genius has support for vectors and matrices and possesses a sizable library of
+      matrix manipulation and linear algebra functions.
+    </p><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-matrix-support"></a>Saisie de matrices</h2></div></div></div><p>
+To enter matrices, you can use one of the following two syntaxes. You can either enter
+the matrix on one line, separating values by commas and rows by semicolons.  Or you
+can enter each row on one line, separating
+values by commas.
+You can also just combine the two methods.
+So to enter a 3x3 matrix
+of numbers 1-9 you could do
+</p><pre class="programlisting">[1,2,3;4,5,6;7,8,9]
+</pre><p>
+or
+</p><pre class="programlisting">[1, 2, 3
+ 4, 5, 6
+ 7, 8, 9]
+</pre><p>
+Do not use both ';' and return at once on the same line though.
+      </p><p>
+You can also use the matrix expansion functionality to enter matrices.
+For example you can do:
+</p><pre class="programlisting">a = [ 1, 2, 3
+      4, 5, 6
+      7, 8, 9]
+b = [ a,  10
+      11, 12]
+</pre><p>
+and you should get
+</p><pre class="programlisting">[1,   2,  3, 10
+ 4,   5,  6, 10
+ 7,   8,  9, 10
+ 11, 11, 11, 12]
+</pre><p>
+similarly you can build matrices out of vectors and other stuff like that.
+      </p><p>Notez que les éléments non spécifiés sont initialisés à 0, donc </p><pre class="programlisting">[1, 2, 3
+ 4, 5
+ 6]
+</pre><p> donne au final </p><pre class="programlisting">
+[1, 2, 3
+ 4, 5, 0
+ 6, 0, 0]
+</pre><p>
+	When matrices are evaluated, they are evaluated and traversed row-wise.  This is just
+	like the <code class="literal">M@(j)</code> operator, which traverses the matrix row-wise.
+      </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>Faites attention lorsque vous utilisez des retours à la ligne à l'intérieur des crochets <code class="literal">[ ]</code> car ils ont une signification légèrement différente dans ce cas. Vous commencez une nouvelle ligne.</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s06.html">Précédent</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch08s02.html">Suivant</a></td></tr><tr><td width="40%" align="left" valign="top">Chargement de programmes </td><td width="20%" align="center"><a accesskey="h" href="index.html">Sommaire</a></td><td width="40%" align="right" valign="top"> Opérateur de transposition conjuguée et de transposition</td></tr></table></div></body></html>

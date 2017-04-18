@@ -46,7 +46,7 @@ gel_decode_string (const char *s)
 	} else if (s[0] == '=') {
 		gsize len;
 		char *p = (char *)g_base64_decode (&(s[1]), &len);
-		if (p == NULL || len < 0) /* error was probably logged by now */
+		if (p == NULL) /* error was probably logged by now */
 			return NULL;
 		p = g_realloc (p, len+1);
 		p[len] = '\0';

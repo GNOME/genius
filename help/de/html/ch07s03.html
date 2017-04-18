@@ -1,0 +1,102 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Funktionen als Rückgabe</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Genius-Handbuch"><link rel="up" href="ch07.html" title="Kapitel 7. Fortgeschrittene Programmierung mit GEL"><link rel="prev" href="ch07s02.html" title="Übergeordnete Syntax"><link rel="next" href="ch07s04.html" title="Echte lokale Variablen"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Funktionen als Rückgabe</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s02.html">Zurück</a> </td><th width="60%" align="center">Kapitel 7. Fortgeschrittene Programmierung mit GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s04.html">Weiter</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-returning-functions"></a>Funktionen als Rückgabe</h2></div></div></div><p>
+	  It is possible to return functions as value.  This way you can
+	  build functions that construct special purpose functions according
+	  to some parameters.  The tricky bit is what variables does the
+	  function see.  The way this works in GEL is that when a function
+	  returns another function, all identifiers referenced in the
+	  function body that went out of scope
+	  are prepended a private dictionary of the returned
+	  function.  So the function will see all variables that were in
+	  scope
+	  when it was defined.  For example, we define a function that
+	  returns a function that adds 5 to its argument.
+</p><pre class="programlisting">function f() = (
+  k = 5;
+  `(x) = (x+k)
+)
+</pre><p>
+	  Notice that the function adds <code class="varname">k</code> to
+	  <code class="varname">x</code>.  You could use this as follows.
+</p><pre class="programlisting">g = f();
+g(5)
+</pre><p>
+	  And <strong class="userinput"><code>g(5)</code></strong> should return 10.
+        </p><p>
+	  One thing to note is that the value of <code class="varname">k</code>
+	  that is used is the one that's in effect when the
+	  <code class="function">f</code> returns.  For example:
+</p><pre class="programlisting">function f() = (
+  k := 5;
+  function r(x) = (x+k);
+  k := 10;
+  r
+)
+</pre><p>
+	  will return a function that adds 10 to its argument rather than
+	  5.  This is because the extra dictionary is created only when
+	  the context
+	  in which the function was defined ends, which is when the function
+	  <code class="function">f</code> returns.  This is consistent with how you
+	  would expect the function <code class="function">r</code> to work inside
+	  the function <code class="function">f</code> according to the rules of
+	  scope of variables in GEL.  Only those variables are added to the
+	  extra dictionary that are in the context that just ended and
+	  no longer exists.  Variables
+	  used in the function that are in still valid contexts will work
+	  as usual, using the current value of the variable.
+	  The only difference is with global variables and functions.
+	  All identifiers that referenced global variables at time of
+	  the function definition are not added to the private dictionary.
+	  This is to avoid much unnecessary work when returning functions
+	  and would rarely be a problem.  For example, suppose that you
+	  delete the "k=5" from the function <code class="function">f</code>,
+	  and at the top level you define <code class="varname">k</code> to be
+	  say 5.  Then when you run <code class="function">f</code>, the function
+	  <code class="function">r</code> will not put <code class="varname">k</code> into
+	  the private dictionary because it was global (toplevel)
+	  at the time of definition of <code class="function">r</code>.
+	</p><p>
+	  Sometimes it is better to have more control over how variables
+	  are copied into the private dictionary.  Since version 1.0.7,
+	  you can specify which
+	  variables are copied into the private dictionary by putting
+	  extra square brackets after the arguments with the list of
+	  variables to be copied separated by commas.
+	  If you do this, then variables are
+	  copied into the private dictionary at time of the function
+	  definition, and the private dictionary is not touched afterwards.
+	  For example
+</p><pre class="programlisting">function f() = (
+  k := 5;
+  function r(x) [k] = (x+k);
+  k := 10;
+  r
+)
+</pre><p>
+	  will return a function that when called will add 5 to its
+	  argument.  The local copy of <code class="varname">k</code> was created
+	  when the function was defined.
+	</p><p>
+	  When you want the function to not have any private dictionary
+	  then put empty square brackets after the argument list.  Then
+	  no private dictionary will be created at all.  Doing this is
+	  good to increase efficiency when a private dictionary is not
+	  needed or when you want the function to lookup all variables
+	  as it sees them when called.  For example suppose you want
+	  the function returned from <code class="function">f</code> to see
+	  the value of <code class="varname">k</code> from the toplevel despite
+	  there being a local variable of the same name during definition.
+	  So the code
+</p><pre class="programlisting">function f() = (
+  k := 5;
+  function r(x) [] = (x+k);
+  r
+);
+k := 10;
+g = f();
+g(10)
+</pre><p>
+	  will return 20 and not 15, which would happen if
+	  <code class="varname">k</code> with a value of 5 was added to the private
+	  dictionary.
+	</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s02.html">Zurück</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Nach oben</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s04.html">Weiter</a></td></tr><tr><td width="40%" align="left" valign="top">Übergeordnete Syntax </td><td width="20%" align="center"><a accesskey="h" href="index.html">Zum Anfang</a></td><td width="40%" align="right" valign="top"> Echte lokale Variablen</td></tr></table></div></body></html>

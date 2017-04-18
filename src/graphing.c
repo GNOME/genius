@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2016 Jiri (George) Lebl
+ * Copyright (C) 2003-2017 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -2097,6 +2097,7 @@ plot_canvas_key_press_event (GtkWidget *widget, GdkEventKey *event, gpointer use
 			gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
 		}
 		break;
+	default: break;
 	}
 
 	return FALSE; 
@@ -4790,7 +4791,7 @@ plot_functions (gboolean do_window_present,
 		gboolean from_gui,
 		gboolean fit)
 {
-	char *colors[] = {
+	const char *colors[] = {
 		"darkblue",
 		"darkgreen",
 		"darkred",
@@ -10643,14 +10644,14 @@ set_SurfacePlotVariableNames (GelETree * a)
 	set_surface_labels ();
 
 	if (surface_plot != NULL) {
-		GtkPlotAxis *a;
+		GtkPlotAxis *axis;
 
-		a = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_BOTTOM);
-		gtk_plot_axis_set_title (a, sp_x_name);
-		a = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_LEFT);
-		gtk_plot_axis_set_title (a, sp_y_name);
-		a = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_TOP);
-		gtk_plot_axis_set_title (a, "");
+		axis = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_BOTTOM);
+		gtk_plot_axis_set_title (axis, sp_x_name);
+		axis = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_LEFT);
+		gtk_plot_axis_set_title (axis, sp_y_name);
+		axis = gtk_plot_get_axis (GTK_PLOT (surface_plot), GTK_PLOT_AXIS_TOP);
+		gtk_plot_axis_set_title (axis, "");
 
 		if (plot_canvas != NULL) {
 			gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));

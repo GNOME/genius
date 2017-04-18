@@ -1,3 +1,19 @@
+Tue Apr 18 17:43:13 2017  Jiri (George) Lebl <jirka@5z.com>
+
+	* autogen.sh, configure.ac, Makefile.am: Remove gnome-common
+	  dependency, and kill the documentation nonsense
+
+	* help/*: completely revamp how this is done, making it a lot simpler
+	  (and simpler minded).  Help is now HTML and displayed in a browser
+	  therefore it actually always works regardless of desktop and the
+	  current brokenness of yelp (meaning links now really do work)
+
+	* src/gnome-genius.c: the help is now HTML so use that
+
+	* src/*.c: fix a few warnings
+
+	* help/cs/cs.po: fix broken xml tag
+
 Tue Apr 18 12:44:38 2017  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/graphing.c: fix error checking on SurfacePlotDataGrid, thanks

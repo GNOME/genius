@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2014 Jiri (George) Lebl
+ * Copyright (C) 1997-2017 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -270,8 +270,8 @@ branches (int op)
 		case GEL_E_SWAPWITH: return 2;
 		case GEL_E_INCREMENT: return 1;
 		case GEL_E_INCREMENT_BY: return 2;
+		default: return 0;
 	}
-	return 0;
 }
 
 void
@@ -1807,28 +1807,28 @@ op_two_nodes (GelCtx *ctx, GelETree *ll, GelETree *rr, int oper,
 		   (ll->type == GEL_VALUE_NODE || ll->type == GEL_BOOL_NODE)) {
 		gboolean lt = gel_isnodetrue (ll, NULL);
 		gboolean rt = gel_isnodetrue (rr, NULL);
-		gboolean res;
+		gboolean resbool;
 		gboolean got_res = FALSE;
 
 		switch (oper) {
 		case GEL_E_PLUS:
 		case GEL_E_ELTPLUS:
-			res = lt || rt;
+			resbool = lt || rt;
 			got_res = TRUE;
 			break;
 		case GEL_E_MINUS:
 		case GEL_E_ELTMINUS:
-			res = lt || ! rt;
+			resbool = lt || ! rt;
 			got_res = TRUE;
 			break;
 		case GEL_E_MUL:
 		case GEL_E_ELTMUL:
-			res = lt && rt;
+			resbool = lt && rt;
 			got_res = TRUE;
 			break;
 		default: 
 			got_res = FALSE;
-			res = FALSE;
+			resbool = FALSE;
 			break;
 		}
 		if G_UNLIKELY ( ! got_res ||
@@ -1843,7 +1843,7 @@ op_two_nodes (GelCtx *ctx, GelETree *ll, GelETree *rr, int oper,
 			gel_error_num = GEL_NO_ERROR;
 			return n;
 		}
-		return gel_makenum_bool (res);
+		return gel_makenum_bool (resbool);
 	} else {
 		/*this is the less common case so we can get around with a
 		  wierd thing, we'll just make a new fake node and pretend
@@ -3498,7 +3498,7 @@ gel_similar_possible_ids (const char *id)
 	sim = g_string_new ("'");
 
 	for (li = similar; li != NULL; li = li->next) {
-		const char *id = li->data;
+		const char *lid = li->data;
 
 		if (li->next == NULL &&
 		    li != similar) {
@@ -3509,7 +3509,7 @@ gel_similar_possible_ids (const char *id)
 			g_string_append (sim, "', '");
 		}
 
-		g_string_append (sim, id);
+		g_string_append (sim, lid);
 
 		li->data = NULL; /* paranoia */
 	}
@@ -6155,7 +6155,6 @@ do_swapwithop (GelETree *l, GelETree *r)
 		if (r->type == GEL_IDENTIFIER_NODE ||
 		    r->op.oper == GEL_E_DEREFERENCE) {
 			GelEFunc *rf = get_functoset (r);
-			GelETree *tmp;
 			if G_UNLIKELY (rf == NULL)
 				return;
 
@@ -6175,7 +6174,7 @@ do_swapwithop (GelETree *l, GelETree *r)
 			if (index1->type == GEL_VALUE_NODE &&
 			    index2->type == GEL_VALUE_NODE) {
 				int x, y;
-				GelETree *t, *tmp;
+				GelETree *t;
 
 				x = iter_get_matrix_index_num (index2, INT_MAX);
 				if G_UNLIKELY (x < 0)
@@ -6209,7 +6208,7 @@ do_swapwithop (GelETree *l, GelETree *r)
 
 			if (index->type == GEL_VALUE_NODE) {
 				int i, x, y;
-				GelETree *t, *tmp;
+				GelETree *t;
 
 				i = iter_get_matrix_index_num (index, INT_MAX);
 				if G_UNLIKELY (i < 0)
@@ -7800,7 +7799,6 @@ gel_eval_etree (GelCtx *ctx, GelETree *etree)
 	level++;
 
 	if G_UNLIKELY (!iter_eval_etree(ctx)) {
-		gpointer data;
 		/*an exception happened*/
 		ctx->current = NULL;
 		gel_freetree (ctx->res);

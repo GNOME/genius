@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2016 Jiri (George) Lebl
+ * Copyright (C) 1997-2017 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -536,7 +536,7 @@ gel_get_file_info (char **file, int *line)
 }
 
 static void
-append_anal_binaryoper(GelOutput *gelo, char *p, GelETree *n)
+append_anal_binaryoper(GelOutput *gelo, const char *p, GelETree *n)
 {
 	gboolean extra_param1 = FALSE;
 	gboolean extra_param2 = FALSE;
@@ -582,7 +582,7 @@ append_binaryoper(GelOutput *gelo, const char *p, GelETree *n)
 }
 
 static void
-append_unaryoper(GelOutput *gelo, char *p, GelETree *n)
+append_unaryoper(GelOutput *gelo, const char *p, GelETree *n)
 {
 	GelETree *l;
 	GEL_GET_L (n, l);
@@ -1339,7 +1339,6 @@ append_func (GelOutput *gelo, GelEFunc *f)
 		if (f->local_all) {
 			gel_output_string(gelo,"local *;");
 		} else if (f->local_idents != NULL) {
-			GSList *li;
 			gel_output_string(gelo,"local ");
 			for (li = f->local_idents; li != NULL; li = li->next) {
 				GelToken *tok = li->data;
@@ -1350,7 +1349,6 @@ append_func (GelOutput *gelo, GelEFunc *f)
 			gel_output_string(gelo,";");
 		}
 		if (f->extra_dict != NULL) {
-			GSList *li;
 			for (li = f->extra_dict; li != NULL; li = li->next) {
 				GelEFunc *ff = li->data;
 				gel_output_string (gelo, ff->id->token);

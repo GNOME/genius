@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2009 Jiri (George) Lebl
+ * Copyright (C) 1997-2017 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -379,10 +379,10 @@ factor_using_pollard_rho (GArray *fact, mpz_t n, int a_int)
     {
 S2:
       if (gel_evalnode_hook != NULL) {
-	      static int i = 0;
-	      if G_UNLIKELY ((i++ & GEL_RUN_HOOK_EVERY_MASK) == GEL_RUN_HOOK_EVERY_MASK) {
+	      static int ii = 0;
+	      if G_UNLIKELY ((ii++ & GEL_RUN_HOOK_EVERY_MASK) == GEL_RUN_HOOK_EVERY_MASK) {
 		      (*gel_evalnode_hook)();
-		      i = 0;
+		      ii = 0;
 	      }
       }
       if G_UNLIKELY (gel_interrupted) {

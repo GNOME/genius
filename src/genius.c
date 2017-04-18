@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2013 Jiri (George) Lebl
+ * Copyright (C) 1997-2017 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -568,11 +568,11 @@ main(int argc, char *argv[])
 			gel_load_compiled_file (NULL, "../lib/lib.cgel", FALSE);
 		} else {
 			char *datadir = gbr_find_data_dir (DATADIR);
-			char *file = g_build_filename (datadir,
-						       "genius",
-						       "gel",
-						       "lib.cgel",
-						       NULL);
+			file = g_build_filename (datadir,
+						 "genius",
+						 "gel",
+						 "lib.cgel",
+						 NULL);
 			if (access (file, F_OK) != 0) {
 				g_free (file);
 				file = g_build_filename (DATADIR,

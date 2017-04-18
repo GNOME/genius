@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2014 Jiri (George) Lebl
+ * Copyright (C) 1997-2017 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -117,7 +117,7 @@ int gel_calc_running = 0;
 
 static GtkWidget *setupdialog = NULL;
 static GtkWidget *term = NULL;
-static GtkWidget *notebook = NULL;
+static GtkWidget *genius_notebook = NULL;
 static GString *errors = NULL;
 static GString *infos = NULL;
 static GtkRecentManager *recent_manager;
@@ -191,7 +191,7 @@ terminal_palette_black_on_white[TERMINAL_PALETTE_SIZE] =
 };
 
 static GtkTargetEntry drag_types[] = {
-	{ "text/uri-list", 0, TARGET_URI_LIST },
+	{ (char *)"text/uri-list", 0, TARGET_URI_LIST },
 };
 
 static gint n_drag_types = sizeof (drag_types) / sizeof (drag_types [0]);
@@ -576,14 +576,14 @@ simple_menu_item_deselect_cb (GtkMenuItem *item, gpointer data)
 } 
 
 static const struct {
-	char *stock_id;
-	char *icon;
+	const char *stock_id;
+	const char *icon;
 } stock_icons [] = {
 	{ "genius-stock-plot", "genius-stock-plot" }
 };
 
 static const GtkStockItem stock_items [] = {
-	{ "genius-stock-plot", N_("_Plot"), 0, 0, GETTEXT_PACKAGE },
+	{ (char *)"genius-stock-plot", (char *)N_("_Plot"), 0, 0, (char *)GETTEXT_PACKAGE },
 };
 
 static void
@@ -669,8 +669,8 @@ recent_add (const char *uri)
 {
 	GtkRecentData *data;
 
-        static gchar *groups[2] = {
-                "gnome-genius",
+        static char *groups[2] = {
+                (char *)"gnome-genius",
                 NULL
         };
 
@@ -678,8 +678,8 @@ recent_add (const char *uri)
 
         data->display_name = NULL;
         data->description = NULL;
-        data->mime_type = "text/x-genius";
-        data->app_name = (gchar *) g_get_application_name ();
+        data->mime_type = (char *)"text/x-genius";
+        data->app_name = (char *) g_get_application_name ();
         data->app_exec = g_strconcat (g_get_prgname (), " %u", NULL);
         data->groups = groups;
         data->is_private = FALSE;
@@ -1014,7 +1014,6 @@ run_help_dlg_again:
 		char *txt = g_strstrip (g_strdup (gtk_entry_get_text (GTK_ENTRY (e))));
 		GelHelp *help = gel_get_help (txt, FALSE /* insert */);
 		gboolean found = FALSE;
-		int i;
 
 		for (i = 0; genius_toplevels[i] != NULL; i++) {
 			if (strcmp (txt, genius_toplevels[i]) == 0) {
@@ -1720,12 +1719,12 @@ printout_error_num_and_reset(GtkWidget *parent)
 static char *
 resolve_file (const char *file)
 {
-	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
+	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (genius_notebook));
 	int i;
 
 	for (i = 0; i < n; i++) {
 		GtkWidget *w = gtk_notebook_get_nth_page
-			(GTK_NOTEBOOK (notebook), i);
+			(GTK_NOTEBOOK (genius_notebook), i);
 		Program *p = g_object_get_data (G_OBJECT (w), "program");
 		if (p == NULL) /* console */
 			continue;
@@ -1818,20 +1817,91 @@ gel_printout_infos (void)
 	gel_printout_infos_parent (genius_window);
 }
 
+static char *
+get_help_lang (void)
+{
+	const char * const* langs;
+	int i;
+
+	langs = g_get_language_names ();
+	for (i = 0; langs[i] != NULL; i++) {
+		char *file;
+		file = g_build_filename (genius_datadir,
+					 "genius",
+					 "help",
+					 langs[i],
+					 "html",
+					 "index.html",
+					 NULL);
+		if (access (file, F_OK) == 0) {
+			g_free (file);
+			return g_strdup (langs[i]);
+		}
+		g_free (file);
+	}
+	return g_strdup("C");
+}
+
 static void
 actually_open_help (const char *id)
 {
 	GError *error = NULL;
 	char *str;
+	char *lang;
 
+#if 0
 	if (id != NULL) {
 		str = g_strdup_printf ("ghelp:genius?%s", id);
 	} else {
 		str = g_strdup ("ghelp:genius");
 	}
+#endif
+
+	lang = get_help_lang ();
+
+	str = g_strdup_printf ("file://%s/genius/help/%s/html/index.html",
+			       genius_datadir, lang);
+
+	if (id != NULL) {
+		char buf[256];
+		gboolean found = FALSE;
+		char *command = g_strdup_printf ("fgrep -l 'name=\"%s\"' '%s'/genius/help/%s/html/*.html",
+						 id,
+						 genius_datadir,
+						 lang);
+		FILE *fp = popen (command, "r");
+		if (fp != NULL) {
+			if (fgets (buf,(int)sizeof(buf),fp) != NULL) {
+				char *p = strchr (buf, '\n');
+				if (p != NULL) *p = '\0';
+				g_free(str);
+				str = g_strdup_printf ("file://%s#%s", buf, id);
+				found = TRUE;
+
+			}
+			fclose (fp);
+		}
+		if ( ! found) {
+			char *warn = g_strdup_printf (_("<b>Help on %s not found</b>"), id);
+			display_warning (NULL /* parent */, warn);
+			g_free (warn);
+		}
+	}
 
 	gtk_show_uri (NULL, str, GDK_CURRENT_TIME, &error);
 
+	if (error != NULL) {
+		char *err = g_strdup_printf
+			(_("<b>Cannot display help</b>\n\n%s"),
+			 error->message);
+		genius_display_error (NULL /* parent */, err);
+		g_free (err);
+		g_error_free (error);
+	}
+
+	g_free (str);
+
+#if 0
 	if G_UNLIKELY (error != NULL) {
 		char *gnomehelp = NULL;
 		if (g_error_matches (error, G_IO_ERROR,
@@ -1865,8 +1935,7 @@ actually_open_help (const char *id)
 		g_error_free (error);
 	}
 
-	g_free (str);
-
+#endif
 }
 
 void
@@ -1931,7 +2000,7 @@ geniusinfo(const char *s)
 static void
 aboutcb(GtkWidget * widget, gpointer data)
 {
-	static char *authors[] = {
+	static const char *authors[] = {
 		"Jiří (George) Lebl, Ph.D. <jirka@5z.com>",
 		N_("Nils Barth (initial implementation of parts of the GEL library)"),
 		N_("Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"),
@@ -1948,12 +2017,12 @@ aboutcb(GtkWidget * widget, gpointer data)
 	 * which will give them credit in the About box.
 	 * E.g. "Fulano de Tal <fulano@detal.com>"
 	 */
-	char *new_credits = N_("translator-credits");
+	const char *new_credits = N_("translator-credits");
 	GdkPixbuf *logo;
 	char *file;
 
 	/* hack for old translations */
-	char *old_hack = "translator_credits-PLEASE_ADD_YOURSELF_HERE";
+	const char *old_hack = "translator_credits-PLEASE_ADD_YOURSELF_HERE";
 
 	/* Force translation */
 	authors[1] = _(authors[1]);
@@ -2166,12 +2235,12 @@ genius_ask_question (GtkWidget *parent, const char *question)
 static gboolean
 any_changed (void)
 {
-	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
+	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (genius_notebook));
 	int i;
 
 	for (i = 1; i < n; i++) {
 		GtkWidget *w = gtk_notebook_get_nth_page
-			(GTK_NOTEBOOK (notebook), i);
+			(GTK_NOTEBOOK (genius_notebook), i);
 		Program *p = g_object_get_data (G_OBJECT (w), "program");
 		if (p == NULL) /* console */
 			continue;
@@ -2723,11 +2792,11 @@ warranty_call (GtkWidget *widget, gpointer data)
 static int
 get_console_pagenum (void)
 {
-	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
+	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (genius_notebook));
 	int i;
 	for (i = 0; i < n; i++) {
 		GtkWidget *w = gtk_notebook_get_nth_page
-			(GTK_NOTEBOOK (notebook), i);
+			(GTK_NOTEBOOK (genius_notebook), i);
 		Program *p = g_object_get_data (G_OBJECT (w), "program");
 		if (p == NULL) /* console */
 			return i;
@@ -2788,7 +2857,7 @@ really_load_cb (GtkFileChooser *fs, int response, gpointer data)
 	vte_terminal_feed (VTE_TERMINAL (term), s, -1);
 	vte_terminal_feed (VTE_TERMINAL (term),
 			   "\e[0m (((\r\n", -1);
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook),
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (genius_notebook),
 				       get_console_pagenum ());
 
 	gel_calc_running ++;
@@ -2851,7 +2920,7 @@ static guint ur_idle_id = 0;
 static gboolean
 setup_undo_redo_idle (gpointer data)
 {
-	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (genius_notebook));
 	GtkWidget *w;
 	Program *p;
 
@@ -2860,7 +2929,7 @@ setup_undo_redo_idle (gpointer data)
 	if (page < 0)
 		return FALSE;
 
-	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), page);
+	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
 	p = g_object_get_data (G_OBJECT (w), "program");
 
 	if (p == NULL) {
@@ -2892,14 +2961,14 @@ setup_undo_redo (void)
 static void
 undo_callback (GtkWidget *menu_item, gpointer data)
 {
-	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (genius_notebook));
 	GtkWidget *w;
 	Program *p;
 
 	if (page < 0)
 		return;
 
-	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), page);
+	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
 	p = g_object_get_data (G_OBJECT (w), "program");
 
 	if (p == NULL) {
@@ -2916,14 +2985,14 @@ undo_callback (GtkWidget *menu_item, gpointer data)
 static void
 redo_callback (GtkWidget *menu_item, gpointer data)
 {
-	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (genius_notebook));
 	GtkWidget *w;
 	Program *p;
 	
 	if (page < 0)
 		return;
 
-	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), page);
+	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
 	p = g_object_get_data (G_OBJECT (w), "program");
 
 	if (p == NULL) {
@@ -2941,14 +3010,14 @@ redo_callback (GtkWidget *menu_item, gpointer data)
 static void
 cut_callback (GtkWidget *menu_item, gpointer data)
 {
-	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (genius_notebook));
 	GtkWidget *w;
 	Program *p;
 
 	if (page < 0)
 		return;
 
-	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), page);
+	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
 	p = g_object_get_data (G_OBJECT (w), "program");
 
 	if (p == NULL) {
@@ -2966,14 +3035,14 @@ cut_callback (GtkWidget *menu_item, gpointer data)
 static void
 copy_callback (GtkWidget *menu_item, gpointer data)
 {
-	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (genius_notebook));
 	GtkWidget *w;
 	Program *p;
 
 	if (page < 0)
 		return;
 
-	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), page);
+	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
 	p = g_object_get_data (G_OBJECT (w), "program");
 
 	if (p == NULL) {
@@ -2988,14 +3057,14 @@ copy_callback (GtkWidget *menu_item, gpointer data)
 static void
 paste_callback (GtkWidget *menu_item, gpointer data)
 {
-	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (genius_notebook));
 	GtkWidget *w;
 	Program *p;
 
 	if (page < 0)
 		return;
 
-	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), page);
+	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
 	p = g_object_get_data (G_OBJECT (w), "program");
 
 	if (p == NULL) {
@@ -3031,10 +3100,10 @@ copy_answer (void)
 {
 	GtkClipboard *cb;
 	GtkTargetEntry targets[] = {
-		{"UTF8_STRING", 0, 0},
-		{"COMPOUND_TEXT", 0, 0},
-		{"TEXT", 0, 0},
-		{"STRING", 0, 0},
+		{(char *)"UTF8_STRING", 0, 0},
+		{(char *)"COMPOUND_TEXT", 0, 0},
+		{(char *)"TEXT", 0, 0},
+		{(char *)"STRING", 0, 0},
 	};
 	/* perhaps a bit ugly */
 	GelOutput *out = gel_output_new ();
@@ -3187,13 +3256,13 @@ setup_label (Program *p)
 static void
 next_tab (GtkWidget *menu_item, gpointer data)
 {
-	gtk_notebook_next_page (GTK_NOTEBOOK (notebook));
+	gtk_notebook_next_page (GTK_NOTEBOOK (genius_notebook));
 }
 
 static void
 prev_tab (GtkWidget *menu_item, gpointer data)
 {
-	gtk_notebook_prev_page (GTK_NOTEBOOK (notebook));
+	gtk_notebook_prev_page (GTK_NOTEBOOK (genius_notebook));
 }
 
 static void
@@ -3205,14 +3274,14 @@ prog_menu_activated (GtkWidget *item, gpointer data)
 	if (w == NULL)
 		num = get_console_pagenum ();
 	else
-		num = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), w);
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), num);
+		num = gtk_notebook_page_num (GTK_NOTEBOOK (genius_notebook), w);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (genius_notebook), num);
 }
 
 static void
 build_program_menu (void)
 {
-	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
+	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (genius_notebook));
 	int i;
 	GtkWidget *menu;
 
@@ -3226,7 +3295,7 @@ build_program_menu (void)
 	for (i = 0; i < n; i++) {
 		GtkWidget *item;
 		GtkWidget *w = gtk_notebook_get_nth_page
-			(GTK_NOTEBOOK (notebook), i);
+			(GTK_NOTEBOOK (genius_notebook), i);
 		Program *p = g_object_get_data (G_OBJECT (w), "program");
 		if (p == NULL) /* console */
 			continue;
@@ -3489,11 +3558,11 @@ file_is_writable (const char *fname)
 static int
 get_program_pagenum (Program *p)
 {
-	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
+	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (genius_notebook));
 	int i;
 	for (i = 0; i < n; i++) {
 		GtkWidget *w = gtk_notebook_get_nth_page
-			(GTK_NOTEBOOK (notebook), i);
+			(GTK_NOTEBOOK (genius_notebook), i);
 		Program *pp = g_object_get_data (G_OBJECT (w), "program");
 		if (p == pp)
 			return i;
@@ -3546,7 +3615,7 @@ close_program (Program *p)
 	page = get_program_pagenum (p);
 
 	if (page >= 0) /* sanity */
-		gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), page);
+		gtk_notebook_remove_page (GTK_NOTEBOOK (genius_notebook), page);
 	whack_program (p);
 
 	build_program_menu ();
@@ -3752,14 +3821,14 @@ new_program (const char *filename, gboolean example)
 	gtk_widget_show_all (b);
 
 	gtk_misc_set_alignment (GTK_MISC (p->mlabel), 0.0, 0.5);
-	gtk_notebook_append_page_menu (GTK_NOTEBOOK (notebook), sw,
+	gtk_notebook_append_page_menu (GTK_NOTEBOOK (genius_notebook), sw,
 				       b, p->mlabel);
 
-	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (notebook),
+	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (genius_notebook),
 					  sw,
 					  TRUE);
 
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), -1);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (genius_notebook), -1);
 
 	g_signal_connect (G_OBJECT (buffer), "changed",
 			  G_CALLBACK (changed_cb), sw);
@@ -3917,9 +3986,9 @@ save_callback (GtkWidget *w)
 }
 
 static void
-save_all_cb (GtkWidget *w)
+save_all_cb (GtkWidget *ww)
 {
-	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
+	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (genius_notebook));
 	int i;
 	GError *error = NULL;
 	gboolean there_are_unsaved = FALSE;
@@ -3927,7 +3996,7 @@ save_all_cb (GtkWidget *w)
 
 	for (i = 0; i < n; i++) {
 		GtkWidget *w = gtk_notebook_get_nth_page
-			(GTK_NOTEBOOK (notebook), i);
+			(GTK_NOTEBOOK (genius_notebook), i);
 		Program *p = g_object_get_data (G_OBJECT (w), "program");
 		if (p == NULL) /* console */
 			continue;
@@ -4216,8 +4285,8 @@ close_callback (GtkWidget *menu_item, gpointer data)
 {
 	GtkWidget *w;
 	Program *p;
-	int current = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
-	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), current);
+	int current = gtk_notebook_get_current_page (GTK_NOTEBOOK (genius_notebook));
+	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), current);
 	p = g_object_get_data (G_OBJECT (w), "program");
 	if (p == NULL) /* if the console */
 		return;
@@ -4282,7 +4351,7 @@ run_program_idle (gpointer data)
 		vte_terminal_feed (VTE_TERMINAL (term), vname, -1);
 		vte_terminal_feed (VTE_TERMINAL (term),
 				   "\e[0m (((\r\n", -1);
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), get_console_pagenum ());
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (genius_notebook), get_console_pagenum ());
 
 		/* run this in a fork so that we don't block on very
 		   long input */
@@ -4298,8 +4367,8 @@ run_program_idle (gpointer data)
 		}
 
 		if (pid == 0) {
-			int status = 0;
 			int len = strlen (prog);
+			status = 0;
 			close (p[0]);
 			if (write (p[1], prog, len) < len) {
 				status = 1;
@@ -4909,7 +4978,7 @@ setup_rl_fifos (void)
 static void
 selection_changed (void)
 {
-	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (genius_notebook));
 	if (page == 0) {
 		gboolean can_copy =
 			vte_terminal_get_has_selection (VTE_TERMINAL (term));
@@ -5179,14 +5248,14 @@ main (int argc, char *argv[])
 	recent_manager = gtk_recent_manager_get_default ();
 	
 	/* create our notebook and setup toplevel window */
-	notebook = gtk_notebook_new ();
-	/* g_object_set (G_OBJECT (notebook), "tab-vborder", 0, NULL);*/
-	gtk_container_set_border_width (GTK_CONTAINER (notebook), 5);
-	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
-	gtk_notebook_popup_enable (GTK_NOTEBOOK (notebook));
+	genius_notebook = gtk_notebook_new ();
+	/* g_object_set (G_OBJECT (genius_notebook), "tab-vborder", 0, NULL);*/
+	gtk_container_set_border_width (GTK_CONTAINER (genius_notebook), 5);
+	gtk_notebook_set_scrollable (GTK_NOTEBOOK (genius_notebook), TRUE);
+	gtk_notebook_popup_enable (GTK_NOTEBOOK (genius_notebook));
 
         /*set up the top level window*/
-	create_main_window (notebook);
+	create_main_window (genius_notebook);
 
 	/* Drag and drop support */
 	gtk_drag_dest_set (GTK_WIDGET (genius_window),
@@ -5201,7 +5270,7 @@ main (int argc, char *argv[])
 			  NULL);
 
 	/* setup the notebook */
-	g_signal_connect (G_OBJECT (notebook), "switch_page",
+	g_signal_connect (G_OBJECT (genius_notebook), "switch_page",
 			  G_CALLBACK (switch_page), NULL);
 
 	/*the main box to put everything in*/
@@ -5234,10 +5303,10 @@ main (int argc, char *argv[])
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 	
 	/*set up the main window*/
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook),
+	gtk_notebook_append_page (GTK_NOTEBOOK (genius_notebook),
 				  hbox,
 				  gtk_label_new (_("Console")));
-	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (notebook),
+	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (genius_notebook),
 					  hbox,
 					  TRUE);
 	/* FIXME:

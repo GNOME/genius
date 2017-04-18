@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2015 Jiri (George) Lebl
+ * Copyright (C) 1997-2017 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -597,6 +597,8 @@ mpwl_make_type (MpwRealNum *op, int type)
 				sizeof (__mpfr_struct));
 		}
 		break;
+	default:
+		break;
 	}
 }
 
@@ -681,8 +683,8 @@ mpwl_sgn(MpwRealNum *op)
 	case MPW_FLOAT: return mpfr_sgn(op->data.fval);
 	case MPW_RATIONAL: return mpq_sgn(op->data.rval);
 	case MPW_INTEGER: return mpz_sgn(op->data.ival);
+	default: return 0;
 	}
-	return 0;
 }
 
 static inline int
@@ -692,8 +694,8 @@ mpwl_zero_p (MpwRealNum *op) /* PURE!*/
 	case MPW_FLOAT: return mpfr_zero_p (op->data.fval);
 	case MPW_RATIONAL: return mpq_sgn(op->data.rval) == 0;
 	case MPW_INTEGER: return mpz_sgn(op->data.ival) == 0;
+	default: return 0;
 	}
-	return 0;
 }
 
 static long
@@ -725,6 +727,8 @@ mpwl_eql (MpwRealNum *op1, MpwRealNum *op2)
 			return mpq_equal (op1->data.rval,op2->data.rval);
 		case MPW_INTEGER:
 			return (mpz_cmp (op1->data.ival,op2->data.ival) == 0);
+		default:
+			break;
 		}
 	} else {
 		switch (MPWL_MAX_TYPE (op1, op2)) {
@@ -754,6 +758,8 @@ mpwl_eql (MpwRealNum *op1, MpwRealNum *op2)
 		case MPW_INTEGER:
 			return mpz_cmp(op1->data.ival,op2->data.ival);
 			*/
+		default:
+			break;
 		}
 	}
 	return r;
@@ -772,6 +778,8 @@ mpwl_cmp(MpwRealNum *op1, MpwRealNum *op2)
 			return mpq_cmp(op1->data.rval,op2->data.rval);
 		case MPW_INTEGER:
 			return mpz_cmp(op1->data.ival,op2->data.ival);
+		default:
+			break;
 		}
 	} else {
 		switch (MPWL_MAX_TYPE (op1, op2)) {
@@ -801,6 +809,8 @@ mpwl_cmp(MpwRealNum *op1, MpwRealNum *op2)
 		case MPW_INTEGER:
 			return mpz_cmp(op1->data.ival,op2->data.ival);
 			*/
+		default:
+			break;
 		}
 	}
 	return r;
@@ -813,8 +823,8 @@ mpwl_cmp_ui(MpwRealNum *op, unsigned long int i)
 	case MPW_FLOAT: return mpfr_cmp_ui(op->data.fval,i);
 	case MPW_RATIONAL: return mpq_cmp_ui(op->data.rval,i,1);
 	case MPW_INTEGER: return mpz_cmp_ui(op->data.ival,i);
+	default: return 0;
 	}
-	return 0;
 }
 
 static void
@@ -830,6 +840,7 @@ mpwl_set_d(MpwRealNum *rop,double d)
 		mpwl_init_type(rop,MPW_FLOAT);
 		mpfr_set_d (rop->data.fval, d, GMP_RNDN);
 		break;
+	default: break;
 	}
 }
 
@@ -846,6 +857,7 @@ mpwl_set_si(MpwRealNum *rop,signed long int i)
 	case MPW_INTEGER:
 		mpz_set_si(rop->data.ival,i);
 		return;
+	default: break;
 	}
 	mpwl_init_type (rop, MPW_INTEGER);
 	mpz_set_si (rop->data.ival,i);
@@ -866,6 +878,7 @@ mpwl_set_ui(MpwRealNum *rop,unsigned long int i)
 	case MPW_INTEGER:
 		mpz_set_ui(rop->data.ival,i);
 		break;
+	default: break;
 	}
 }
 
@@ -898,6 +911,7 @@ mpwl_set(MpwRealNum *rop,MpwRealNum *op)
 		case MPW_INTEGER:
 			mpz_set(rop->data.ival,op->data.ival);
 			break;
+		default: break;
 		}
 	} else {
 		mpwl_clear(rop);
@@ -932,6 +946,7 @@ mpwl_add(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		case MPW_INTEGER:
 			mpz_add(rop->data.ival,op1->data.ival,op2->data.ival);
 			break;
+		default: break;
 		}
 		return;
 	}
@@ -956,6 +971,7 @@ mpwl_add(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 				mpfr_add_z (rp->data.fval, op1->data.fval,
 					    op2->data.ival, GMP_RNDN);
 				break;
+			default: break;
 			}
 		} else /* op2 is MPW_FLOAT */ {
 			switch(op1->type) {
@@ -967,6 +983,7 @@ mpwl_add(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 				mpfr_add_z (rp->data.fval, op2->data.fval,
 					    op1->data.ival, GMP_RNDN);
 				break;
+			default: break;
 			}
 		}
 		break;
@@ -987,6 +1004,7 @@ mpwl_add(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		mpz_add (rp->data.ival, op1->data.ival, op2->data.ival);
 		break;
 		*/
+	default: break;
 	}
 
 	if (rp != rop)
@@ -1021,6 +1039,7 @@ mpwl_add_ui(MpwRealNum *rop,MpwRealNum *op,unsigned long i)
 	case MPW_INTEGER:
 		mpz_add_ui(rop->data.ival,op->data.ival,i);
 		break;
+	default: break;
 	}
 }
 
@@ -1050,6 +1069,7 @@ mpwl_sub(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		case MPW_INTEGER:
 			mpz_sub(rop->data.ival,op1->data.ival,op2->data.ival);
 			break;
+		default: break;
 		}
 		return;
 	}
@@ -1074,6 +1094,7 @@ mpwl_sub(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 				mpfr_sub_z (rp->data.fval, op1->data.fval,
 					    op2->data.ival, GMP_RNDN);
 				break;
+			default: break;
 			}
 		} else /* op2 is MPW_FLOAT */ {
 			switch(op1->type) {
@@ -1085,6 +1106,7 @@ mpwl_sub(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 				mpfr_sub_z (rp->data.fval, op2->data.fval,
 					    op1->data.ival, GMP_RNDN);
 				break;
+			default: break;
 			}
 			mpfr_neg (rp->data.fval, rp->data.fval, GMP_RNDN);
 		}
@@ -1106,6 +1128,7 @@ mpwl_sub(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		mpz_sub (rp->data.ival, op1->data.ival, op2->data.ival);
 		break;
 		*/
+	default: break;
 	}
 
 	if (rop != rp)
@@ -1142,6 +1165,7 @@ mpwl_sub_ui(MpwRealNum *rop,MpwRealNum *op,unsigned long i)
 	case MPW_INTEGER:
 		mpz_sub_ui(rop->data.ival,op->data.ival,i);
 		break;
+	default: break;
 	}
 }
 
@@ -1175,6 +1199,7 @@ mpwl_ui_sub(MpwRealNum *rop, unsigned long i, MpwRealNum *op)
 		mpz_sub_ui(rop->data.ival,op->data.ival,i);
 		mpz_neg(rop->data.ival,rop->data.ival);
 		break;
+	default: break;
 	}
 }
 
@@ -1204,6 +1229,7 @@ mpwl_mul(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		case MPW_INTEGER:
 			mpz_mul(rop->data.ival,op1->data.ival,op2->data.ival);
 			break;
+		default: break;
 		}
 		return;
 	}
@@ -1228,6 +1254,7 @@ mpwl_mul(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 				mpfr_mul_z (rp->data.fval, op1->data.fval,
 					    op2->data.ival, GMP_RNDN);
 				break;
+			default: break;
 			}
 		} else /* op2 is MPW_FLOAT */ {
 			switch(op1->type) {
@@ -1239,6 +1266,7 @@ mpwl_mul(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 				mpfr_mul_z (rp->data.fval, op2->data.fval,
 					    op1->data.ival, GMP_RNDN);
 				break;
+			default: break;
 			}
 		}
 		break;
@@ -1259,6 +1287,7 @@ mpwl_mul(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		mpz_mul (rp->data.ival, op1->data.ival, op2->data.ival);
 		break;
 		*/
+	default: break;
 	}
 
 	if (rop != rp)
@@ -1284,6 +1313,7 @@ mpwl_mul_ui(MpwRealNum *rop,MpwRealNum *op,unsigned long int i)
 	case MPW_INTEGER:
 		mpz_mul_ui(rop->data.ival,op->data.ival,i);
 		break;
+	default: break;
 	}
 }
 
@@ -1314,7 +1344,7 @@ mpwl_div(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 			mpq_div(rop->data.rval,op1->data.rval,op2->data.rval);
 			mpwl_make_int(rop);
 			break;
-		default: ;
+		default: break;
 		}
 		return;
 	}
@@ -1354,6 +1384,7 @@ mpwl_div(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 		mpz_set (mpq_denref (r.data.rval), op2->data.ival);
 		mpwl_make_int (&r);
 		break;
+	default: break;
 	}
 
 	mpwl_move (rop, &r);
@@ -1396,6 +1427,7 @@ mpwl_div_ui(MpwRealNum *rop,MpwRealNum *op,unsigned long int i)
 			mpwl_make_int (rop);
 		}
 		break;
+	default: break;
 	}
 }
 
@@ -1435,6 +1467,7 @@ mpwl_ui_div(MpwRealNum *rop,unsigned long int i,MpwRealNum *op)
 			mpwl_make_int (rop);
 		}
 		break;
+	default: break;
 	}
 }
 
@@ -1671,6 +1704,7 @@ mpwl_neg(MpwRealNum *rop,MpwRealNum *op)
 	case MPW_INTEGER:
 		mpz_neg(rop->data.ival,op->data.ival);
 		break;
+	default: break;
 	}
 }
 
@@ -1951,6 +1985,7 @@ mpwl_pow_ui(MpwRealNum *rop,MpwRealNum *op1,unsigned int e, gboolean reverse)
 		if(reverse)
 			mpfr_ui_div (r.data.fval, 1, r.data.fval, GMP_RNDN);
 		break;
+	default: break;
 	}
 	mpwl_move(rop,&r);
 }
@@ -2011,6 +2046,7 @@ mpwl_pow_z(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 				mpfr_ui_div (r.data.fval, 1, r.data.fval,
 					     GMP_RNDN);
 			break;
+		default: break;
 		}
 		mpwl_move(rop,&r);
 	} else {
@@ -2072,6 +2108,7 @@ mpwl_pow (MpwRealNum *rop, MpwRealNum *op1, MpwRealNum *op2)
 	case MPW_FLOAT: return mpwl_pow_f(rop,op1,op2);
 	case MPW_RATIONAL: return mpwl_pow_q(rop,op1,op2);
 	case MPW_INTEGER: mpwl_pow_z(rop,op1,op2); break;
+	default: break;
 	}
 	return FALSE;
 }
@@ -2123,8 +2160,9 @@ mpwl_powm (MpwRealNum *rop,
 			if G_UNLIKELY ( ! mpz_invert (r.data.ival,
 						      r.data.ival,
 						      mod->data.ival)) {
-				char *n1 = mpwl_getstring_for_error (&r);
-				char *n2 = mpwl_getstring_for_error (mod);
+				char *n1, *n2;
+				n1 = mpwl_getstring_for_error (&r);
+				n2 = mpwl_getstring_for_error (mod);
 				gel_errorout (_("Can't invert %s modulo %s "
 					       "in %s"),
 					      n1, n2, "powm");
@@ -2140,6 +2178,7 @@ mpwl_powm (MpwRealNum *rop,
 	case MPW_RATIONAL:
 		g_assert_not_reached ();
 		break;
+	default: break;
 	}
 
 	mpwl_move (rop, &r);
@@ -2493,6 +2532,7 @@ mpwl_make_int(MpwRealNum *rop)
 				rop->type = MPW_INTEGER;
 			}
 			break;
+		default: break;
 	}
 
 }
@@ -3111,7 +3151,7 @@ str_getstring_f (mpfr_ptr num,
 		/* approximately the exponent base 10 */
 		e = mpfr_get_exp (num) / 3.32192809489;
 		if (e < -chop) {
-			char *sign = "";
+			const char *sign = "";
 			if (mpfr_sgn (num) < 0)
 				sign = "-";
 			if (scientific_notation)
@@ -3186,6 +3226,7 @@ mpwl_getstring(MpwRealNum * num, int max_digits,
 				       scientific_notation,
 				       postfix,
 				       chop);
+	default: break;
 	}
 	/*something bad happened*/
 	return NULL;

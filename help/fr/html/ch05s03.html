@@ -1,0 +1,47 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Utilisation des fonctions</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manuel de Genius"><link rel="up" href="ch05.html" title="Chapitre 5. Fondamentaux GEL"><link rel="prev" href="ch05s02.html" title="Utilisation des variables"><link rel="next" href="ch05s04.html" title="Séparateur"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Utilisation des fonctions</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05s02.html">Précédent</a> </td><th width="60%" align="center">Chapitre 5. Fondamentaux GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch05s04.html">Suivant</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-functions"></a>Utilisation des fonctions</h2></div></div></div><p>Syntaxe : </p><pre class="programlisting">NomDeLaFonction(argument1, argument2, ...)
+</pre><p> Exemple : </p><pre class="programlisting">Factorial(5)
+cos(2*pi)
+gcd(921,317)
+</pre><p> Pour évaluer une fonction, saisissez le nom de la fonction, suivi par les arguments de la fonction (s'il y en a) entre parenthèses. Cela renvoie le résultat de l'application de la fonction avec ses arguments. Le nombre d'arguments de la fonction peut, bien sûr, être différent pour chaque fonction.</p><p>
+	      There are many built-in functions, such as <a class="link" href="ch11s06.html#gel-function-sin"><code class="function">sin</code></a>, <a class="link" href="ch11s06.html#gel-function-cos"><code class="function">cos</code></a> and <a class="link" href="ch11s06.html#gel-function-tan"><code class="function">tan</code></a>. You can use the <a class="link" href="ch11.html#gel-command-help"><code class="function">help</code></a> built-in command to get a list of available functions, or see <a class="xref" href="ch11.html" title="Chapitre 11. Liste des fonctions GEL">Chapitre 11, <i>Liste des fonctions GEL</i></a> for a full listing.
+      </p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Utilisation de la complétion à l'aide de la touche Tab</h3><p>Vous pouvez utiliser la fonction de complétion à l'aide de la touche Tab pour que Genius complète les noms de fonction pour vous. Essayez de saisir les quelques premières lettres du nom et appuyez sur <strong class="userinput"><code>Tab</code></strong>.</p></div><div class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Noms de fonction sensibles à la casse</h3><p>Les noms des fonctions sont sensibles à la casse. Cela signifie que les fonctions appelées <code class="function">fairecela</code>, <code class="function">FAIRECELA</code> et <code class="function">Fairecela</code> sont toutes différentes.</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-functions-defining"></a>Définition de fonctions</h3></div></div></div><p>Syntaxe : </p><pre class="programlisting">function &lt;identifier&gt;(&lt;comma separated arguments&gt;) = &lt;function body&gt;
+&lt;identifier&gt; = (`() = &lt;function body&gt;)
+</pre><p> Le caractère accent grave <code class="literal">`</code> indique une fonction anonyme. En l'apposant à un nom de variable, en réalité vous définissez une fonction.</p><p>
+A function takes zero or more comma separated arguments, and returns the result of the function body. Defining your own functions is primarily a matter of convenience; one possible use is to have sets of functions defined in GEL files that Genius can load in order to make them available.
+Example:
+</p><pre class="programlisting">function addup(a,b,c) = a+b+c
+</pre><p>
+then <strong class="userinput"><code>addup(1,4,9)</code></strong> yields 14
+        </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-functions-variable-argument-lists"></a>Liste d'arguments variable</h3></div></div></div><p>Si vous ajoutez <code class="literal">...</code> après le dernier nom d'argument dans la déclaration de fonction alors Genius permet la transmission d'un nombre quelconque d'arguments à la place de cet argument. Si aucun argument n'est transmis alors cet argument est défini à <code class="constant">null</code>. Sinon, c'est un vecteur ligne contenant tous les arguments. Par exemple, </p><pre class="programlisting">function f(a,b...) = b
+</pre><p> alors <strong class="userinput"><code>f(1,2,3)</code></strong> donne <code class="computeroutput">[2,3]</code> tandis que <strong class="userinput"><code>f(1)</code></strong> donne <code class="constant">null</code>.</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-functions-passing-functions"></a>Une fonction comme argument d'une autre fonction</h3></div></div></div><p>Dans Genius, il est possible de transmettre une fonction comme argument d'une autre fonction. Cela peut être fait en utilisant soit des « nœuds de fonction », soit des fonctions anonymes.</p><p>Si vous ne saisissez pas les parenthèses après un nom de fonction, la fonction est renvoyée sous la forme d'un « nœud de fonction », au lieu d'être évaluée. Le nœud de fonction peut ensuite être transmis à une autre fonction. Par exemple : </p><pre class="programlisting">function f(a,b) = a(b)+1;
+function b(x) = x*x;
+f(b,2)
+</pre><p>
+To pass functions that are not defined,
+you can use an anonymous function (see <a class="xref" href="ch05s03.html#genius-gel-functions-defining" title="Définition de fonctions">la section intitulée « Définition de fonctions »</a>).  That is, you want to pass a function without giving it a name.
+Syntax:
+</p><pre class="programlisting">function(&lt;comma separated arguments&gt;) = &lt;function body&gt;
+`(&lt;comma separated arguments&gt;) = &lt;function body&gt;
+</pre><p>
+Example:
+</p><pre class="programlisting">function f(a,b) = a(b)+1;
+f(`(x) = x*x,2)
+</pre><p>
+This will return 5.
+        </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-functions-operations"></a>Opérations sur les fonctions</h3></div></div></div><p>
+	      Some functions allow arithmetic operations, and some single argument functions such as <a class="link" href="ch11s05.html#gel-function-exp"><code class="function">exp</code></a> or <a class="link" href="ch11s05.html#gel-function-ln"><code class="function">ln</code></a>, to operate on the function. For example,
+</p><pre class="programlisting">exp(sin*cos+4)
+</pre><p>
+will return a function that takes <code class="varname">x</code> and returns <strong class="userinput"><code>exp(sin(x)*cos(x)+4)</code></strong>.  It is functionally equivalent
+to typing
+</p><pre class="programlisting">`(x) = exp(sin(x)*cos(x)+4)
+</pre><p>
+
+This operation can be useful when quickly defining functions. For example to create a function called <code class="varname">f</code>
+to perform the above operation, you can just type:
+</p><pre class="programlisting">f = exp(sin*cos+4)
+</pre><p>
+It can also be used in plotting. For example, to plot sin squared you can enter:
+</p><pre class="programlisting">LinePlot(sin^2)
+</pre><p>
+      </p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Avertissement</h3><p>Toutes les fonctions ne peuvent pas être utilisées de cette façon. Par exemple, lorsque vous utilisez une opération binaire, les fonctions doivent prendre le même nombre d'arguments.</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05s02.html">Précédent</a> </td><td width="20%" align="center"><a accesskey="u" href="ch05.html">Niveau supérieur</a></td><td width="40%" align="right"> <a accesskey="n" href="ch05s04.html">Suivant</a></td></tr><tr><td width="40%" align="left" valign="top">Utilisation des variables </td><td width="20%" align="center"><a accesskey="h" href="index.html">Sommaire</a></td><td width="40%" align="right" valign="top"> Séparateur</td></tr></table></div></body></html>

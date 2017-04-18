@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2011 Jiri (George) Lebl
+ * Copyright (C) 1997-2017 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -58,7 +58,7 @@ GelETree *
 get_p_expression(void)
 {
 	GString *gs;
-	char *prompt = "genius> ";
+	const char *prompt = "genius> ";
 	
 	gel_interrupted = FALSE;
 	
@@ -162,12 +162,12 @@ write_all_state_to_rl(FILE *fp)
 }
 
 void
-get_cb_p_expression(char *s, FILE *torlfp)
+get_cb_p_expression(const char *s, FILE *torlfp)
 {
 	int finished;
 	GelETree *ret;
-	/*             "genius> "*/
-	char *prompt = "      > ";
+	/*                   "genius> "*/
+	const char *prompt = "      > ";
 	toplevelokg = old_toplevelokg;
 
 	if(gel_interrupted) {

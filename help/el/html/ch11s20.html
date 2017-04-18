@@ -1,0 +1,236 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Γραφική παράσταση</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Εγχειρίδιο Genius"><link rel="up" href="ch11.html" title="Κεφάλαιο 11. Κατάλογος συναρτήσεων της GEL"><link rel="prev" href="ch11s19.html" title="Συμβολικές πράξεις"><link rel="next" href="ch12.html" title="Κεφάλαιο 12. Παράδειγμα προγραμμάτων στην GEL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Γραφική παράσταση</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s19.html">Προηγ</a> </td><th width="60%" align="center">Κεφάλαιο 11. Κατάλογος συναρτήσεων της GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch12.html">Επόμενο</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-function-list-plotting"></a>Γραφική παράσταση</h2></div></div></div><div class="variablelist"><dl class="variablelist"><dt><span class="term"><a name="gel-function-ExportPlot"></a>ExportPlot</span></dt><dd><pre class="synopsis">ExportPlot (file,type)</pre><pre class="synopsis">ExportPlot (file)</pre><p>Εξάγει τα περιεχόμενα του παραθύρου γραφικής παράστασης σε αρχείο. Ο τύπος είναι μια συμβολοσειρά που καθορίζει τον τύπο αρχείου για χρήση, "png", "eps", ή "ps". Αν ο τύπος δεν ορίζεται, τότε παίρνεται η επέκταση, οπότε η επέκταση πρέπει να είναι ".png", ".eps", ή ".ps".</p><p>Σημειώστε ότι τα αρχεία αντικαθίστανται χωρίς ερώτηση.</p><p>Σε πετυχημένη εξαγωγή, επιστρέφεται αληθές. Αλλιώς, εκτυπώνεται σφάλμα και εγείρεται εξαίρεση.</p><p>Παραδείγματα: </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>ExportPlot("file.png")</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>ExportPlot("/directory/file","eps")</code></strong>
+</pre><p>Version 1.0.16 onwards.</p></dd><dt><span class="term"><a name="gel-function-LinePlot"></a>LinePlot</span></dt><dd><pre class="synopsis">LinePlot (func1,func2,func3,...)</pre><pre class="synopsis">LinePlot (func1,func2,func3,x1,x2)</pre><pre class="synopsis">LinePlot (func1,func2,func3,x1,x2,y1,y2)</pre><pre class="synopsis">LinePlot (func1,func2,func3,[x1,x2])</pre><pre class="synopsis">LinePlot (func1,func2,func3,[x1,x2,y1,y2])</pre><p>Σχεδιάστε μια συνάρτηση (ή αρκετές συναρτήσεις) με μια γραμμή. Πρώτα (μέχρι 10) ορίσματα είναι συναρτήσεις, έπειτα μπορείτε προαιρετικά να ορίσετε τα όρια του παραθύρου σχεδίασης ως <code class="varname">x1</code>, <code class="varname">x2</code>, <code class="varname">y1</code>, <code class="varname">y2</code>. Αν τα όρια δεν ορίζονται, τότε εφαρμόζονται τα τρέχοντα ορισμένα όρια (Δείτε <a class="link" href="ch11s03.html#gel-function-LinePlotWindow"><code class="function">LinePlotWindow</code></a>) Αν τα όρια y δεν ορίζονται, τότε οι συναρτήσεις υπολογίζονται και έπειτα χρησιμοποιούνται τα μέγιστα και ελάχιστα.</p><p>Η παράμετρος <a class="link" href="ch11s03.html#gel-function-LinePlotDrawLegends"><code class="function">LinePlotDrawLegends</code></a> ελέγχει τη σχεδίαση του υπομνήματος.</p><p>Παραδείγματα: </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlot(sin,cos)</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlot(`(x)=x^2,-1,1,0,1)</code></strong>
+</pre></dd><dt><span class="term"><a name="gel-function-LinePlotClear"></a>LinePlotClear</span></dt><dd><pre class="synopsis">LinePlotClear ()</pre><p>Εμφανίζει το παράθυρο σχεδίασης γραμμής και καθαρίζει τις συναρτήσεις και οποιαδήποτε άλλη γραμμή σχεδιάστηκε.</p></dd><dt><span class="term"><a name="gel-function-LinePlotCParametric"></a>LinePlotCParametric</span></dt><dd><pre class="synopsis">LinePlotCParametric (func,...)</pre><pre class="synopsis">LinePlotCParametric (func,t1,t2,tinc)</pre><pre class="synopsis">LinePlotCParametric (func,t1,t2,tinc,x1,x2,y1,y2)</pre><p>Σχεδιάζει μια παραμετρική μιγαδική συνάρτηση με μια γραμμή. Πρώτα έρχεται η συνάρτηση που επιστρέφει <code class="computeroutput">x+iy</code>, έπειτα προαιρετικά τα όρια <code class="varname">t</code> ως <strong class="userinput"><code>t1,t2,tinc</code></strong>, στη συνέχεια προαιρετικά τα όρια ως <strong class="userinput"><code>x1,x2,y1,y2</code></strong>.</p><p>Αν τα όρια δεν καθορίζονται, τότε εφαρμόζονται τα τρέχοντα όρια (Δείτε <a class="link" href="ch11s03.html#gel-function-LinePlotWindow"><code class="function">LinePlotWindow</code></a>). Αν δίνεται η συμβολοσειρά "fit" για τα όρια x και y, τότε τα όρια είναι η μέγιστη έκταση του γραφήματος.</p><p>Η παράμετρος <a class="link" href="ch11s03.html#gel-function-LinePlotDrawLegends"><code class="function">LinePlotDrawLegends</code></a> ελέγχει τη σχεδίαση του υπομνήματος.</p></dd><dt><span class="term"><a name="gel-function-LinePlotDrawLine"></a>LinePlotDrawLine</span></dt><dd><pre class="synopsis">LinePlotDrawLine (x1,y1,x2,y2,...)</pre><pre class="synopsis">LinePlotDrawLine (v,...)</pre><p>
+	    Draw a line from <code class="varname">x1</code>,<code class="varname">y1</code> to
+	    <code class="varname">x2</code>,<code class="varname">y2</code>.
+	    <code class="varname">x1</code>,<code class="varname">y1</code>,
+	    <code class="varname">x2</code>,<code class="varname">y2</code> can be replaced by an
+	    <code class="varname">n</code> by 2 matrix for a longer polyline.
+	    Alternatively the vector <code class="varname">v</code> may be a column vector of complex numbers,
+	    that is an <code class="varname">n</code> by 1 matrix and each complex number is then
+	    considered a point in the plane.
+          </p><p>
+	    Extra parameters can be added to specify line color, thickness,
+	    arrows, the plotting window, or legend.
+	    You can do this by adding an argument string <strong class="userinput"><code>"color"</code></strong>, 
+	    <strong class="userinput"><code>"thickness"</code></strong>,
+	    <strong class="userinput"><code>"window"</code></strong>, 
+	    <strong class="userinput"><code>"arrow"</code></strong>, or <strong class="userinput"><code>"legend"</code></strong>, and after it specify
+	    the color, the thickness, the window
+	    as 4-vector, type of arrow, or the legend.  (Arrow and window are from version 1.0.6 onwards.)
+    	  </p><p>
+	    If the line is to be treated as a filled polygon, filled with the given color, you
+	    can specify the argument <strong class="userinput"><code>"filled"</code></strong>.  Since version 1.0.22 onwards.
+	  </p><p>
+	    The color should be either a string indicating the common English word for the color
+	    that GTK will recognize such as 
+            <strong class="userinput"><code>"red"</code></strong>, <strong class="userinput"><code>"blue"</code></strong>, <strong class="userinput"><code>"yellow"</code></strong>, etc...
+	    Alternatively the color can be specified in RGB format as
+	    <strong class="userinput"><code>"#rgb"</code></strong>, <strong class="userinput"><code>"#rrggbb"</code></strong>, or
+	    <strong class="userinput"><code>"#rrrrggggbbbb"</code></strong>, where the r, g, or b are hex digits of the red, green, and blue
+	    components of the color.  Finally, since version 1.0.18, the color
+	    can also be specified as a real vector specifying the red green and
+	    blue components where the components are between 0 and 1, e.g. <strong class="userinput"><code>[1.0,0.5,0.1]</code></strong>.
+    	  </p><p>Το παράθυρο πρέπει να δίνεται ως συνήθως σαν <strong class="userinput"><code>[x1,x2,y1,y2]</code></strong>, ή εναλλακτικά μπορεί να δοθεί ως μια συμβολοσειρά <strong class="userinput"><code>"fit"</code></strong> οπότε, η περιοχή x θα οριστεί ακριβώς και η περιοχή y θα οριστεί με περιγράμματα πέντε τοις εκατό γύρω από τη γραμμή.</p><p>Η προδιαγραφή του βέλους πρέπει να είναι <strong class="userinput"><code>"origin"</code></strong>, <strong class="userinput"><code>"end"</code></strong>, <strong class="userinput"><code>"both"</code></strong>, ή <strong class="userinput"><code>"none"</code></strong>.</p><p>Στο τέλος, το υπόμνημα πρέπει να είναι μια συμβολοσειρά που μπορεί να χρησιμοποιηθεί ως υπόμνημα στο γράφημα. Δηλαδή, αν εκτυπωθούν τα υπομνήματα.</p><p>
+	  Examples:
+          </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawLine(0,0,1,1,"color","blue","thickness",3)</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawLine([0,0;1,-1;-1,-1])</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawLine([0,0;1,1],"arrow","end")</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawLine(RungeKuttaFull(`(x,y)=y,0,3,100),"color","blue","legend","The Solution")</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>for r=0.0 to 1.0 by 0.1 do LinePlotDrawLine([0,0;1,r],"color",[r,(1-r),0.5],"window",[0,1,0,1])</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawLine([0,0;10,0;10,10;0,10],"filled","color","green")</code></strong>
+</pre><p>
+          </p><p>
+		  Unlike many other functions that do not care if they take a
+		  column or a row vector, if specifying points as a vector of
+		  complex values, due to possible ambiguities, it must always
+		  be given as a column vector.
+	  </p><p>
+		  Specifying <code class="varname">v</code> as a column vector of complex numbers is
+		  implemented from version 1.0.22 and onwards.
+	  </p></dd><dt><span class="term"><a name="gel-function-LinePlotDrawPoints"></a>LinePlotDrawPoints</span></dt><dd><pre class="synopsis">LinePlotDrawPoints (x,y,...)</pre><pre class="synopsis">LinePlotDrawPoints (v,...)</pre><p>
+		  Draw a point at <code class="varname">x</code>,<code class="varname">y</code>.
+		  The input can be an <code class="varname">n</code> by 2 matrix
+		  for <code class="varname">n</code> different points.  This function has essentially the same
+		  input as <a class="link" href="ch11s20.html#gel-function-LinePlotDrawLine">LinePlotDrawLine</a>.
+		  Alternatively the vector <code class="varname">v</code> may be a column vector of complex numbers,
+		  that is an <code class="varname">n</code> by 1 matrix and each complex number is then
+		  considered a point in the plane.
+          </p><p>
+	    Extra parameters can be added to specify color, thickness,
+	    the plotting window, or legend.
+	    You can do this by adding an argument string <strong class="userinput"><code>"color"</code></strong>, 
+	    <strong class="userinput"><code>"thickness"</code></strong>,
+	    <strong class="userinput"><code>"window"</code></strong>, 
+	    or <strong class="userinput"><code>"legend"</code></strong>, and after it specify
+	    the color, the thickness, the window
+	    as 4-vector, or the legend.
+    	  </p><p>
+	    The color should be either a string indicating the common English word for the color
+	    that GTK will recognize such as 
+            <strong class="userinput"><code>"red"</code></strong>, <strong class="userinput"><code>"blue"</code></strong>, <strong class="userinput"><code>"yellow"</code></strong>, etc...
+	    Alternatively the color can be specified in RGB format as
+	    <strong class="userinput"><code>"#rgb"</code></strong>, <strong class="userinput"><code>"#rrggbb"</code></strong>, or
+	    <strong class="userinput"><code>"#rrrrggggbbbb"</code></strong>, where the r, g, or b are hex digits of the red, green, and blue
+	    components of the color.  Finally the color can also be specified as a real vector specifying the red green
+	    and blue components where the components are between 0 and 1.
+    	  </p><p>Το παράθυρο πρέπει να δίνεται ως συνήθως σαν <strong class="userinput"><code>[x1,x2,y1,y2]</code></strong>, ή εναλλακτικά μπορεί να δοθεί ως μια συμβολοσειρά <strong class="userinput"><code>"fit"</code></strong> οπότε, η περιοχή x θα οριστεί ακριβώς και η περιοχή y θα οριστεί με περιγράμματα πέντε τοις εκατό γύρω από τη γραμμή.</p><p>Στο τέλος, το υπόμνημα πρέπει να είναι μια συμβολοσειρά που μπορεί να χρησιμοποιηθεί ως υπόμνημα στο γράφημα. Δηλαδή, αν εκτυπωθούν τα υπομνήματα.</p><p>
+	  Examples:
+          </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawPoints(0,0,"color","blue","thickness",3)</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawPoints([0,0;1,-1;-1,-1])</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawPoints(RungeKuttaFull(`(x,y)=y,0,3,100),"color","blue","legend","The Solution")</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawPoints([1;1+1i;1i;0],"thickness",5)</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawPoints(ApplyOverMatrix((0:6)',`(k)=exp(k*2*pi*1i/7)),"thickness",3,"legend","The 7th roots of unity")</code></strong>
+</pre><p>
+          </p><p>
+		  Unlike many other functions that do not care if they take a
+		  column or a row vector, if specifying points as a vector of
+		  complex values, due to possible ambiguities, it must always
+		  be given as a column vector.  Therefore, notice in the
+		  last example the transpose of the vector <strong class="userinput"><code>0:6</code></strong>
+		  to make it into a column vector.
+	  </p><p>
+		  Available from version 1.0.18 onwards.  Specifying
+		  <code class="varname">v</code> as a column vector of complex numbers is
+		  implemented from version 1.0.22 and onwards.
+	  </p></dd><dt><span class="term"><a name="gel-function-LinePlotMouseLocation"></a>LinePlotMouseLocation</span></dt><dd><pre class="synopsis">LinePlotMouseLocation ()</pre><p>
+	    Returns a row vector of a point on the line plot corresponding to
+	    the current mouse location.  If the line plot is not visible,
+	    then prints an error and returns <code class="constant">null</code>.
+	    In this case you should run
+	    <a class="link" href="ch11s20.html#gel-function-LinePlot"><code class="function">LinePlot</code></a> or
+	    <a class="link" href="ch11s20.html#gel-function-LinePlotClear"><code class="function">LinePlotClear</code></a>
+	    to put the graphing window into the line plot mode.
+	    See also
+	    <a class="link" href="ch11s20.html#gel-function-LinePlotWaitForClick"><code class="function">LinePlotWaitForClick</code></a>.
+          </p></dd><dt><span class="term"><a name="gel-function-LinePlotParametric"></a>LinePlotParametric</span></dt><dd><pre class="synopsis">LinePlotParametric (xfunc,yfunc,...)</pre><pre class="synopsis">LinePlotParametric (xfunc,yfunc,t1,t2,tinc)</pre><pre class="synopsis">LinePlotParametric (xfunc,yfunc,t1,t2,tinc,x1,x2,y1,y2)</pre><pre class="synopsis">LinePlotParametric (xfunc,yfunc,t1,t2,tinc,[x1,x2,y1,y2])</pre><pre class="synopsis">LinePlotParametric (xfunc,yfunc,t1,t2,tinc,"fit")</pre><p>Σχεδιάζει μια παραμετρική συνάρτηση με μια γραμμή. Πρώτα έρχονται οι συναρτήσεις για <code class="varname">x</code> και <code class="varname">y</code>, έπειτα προαιρετικά τα όρια του <code class="varname">t</code> ως <strong class="userinput"><code>t1,t2,tinc</code></strong>, έπειτα προαιρετικά τα όρια ως <strong class="userinput"><code>x1,x2,y1,y2</code></strong>.</p><p>Αν δεν ορίζονται τα όρια x και y, τότε εφαρμόζονται τα τρέχοντα όρια (Δείτε <a class="link" href="ch11s03.html#gel-function-LinePlotWindow"><code class="function">LinePlotWindow</code></a>). Αν δίνεται η συμβολοσειρά "fit" για τα όρια x και y, τότε τα όρια είναι η μέγιστη έκταση του γραφήματος.</p><p>Η παράμετρος <a class="link" href="ch11s03.html#gel-function-LinePlotDrawLegends"><code class="function">LinePlotDrawLegends</code></a> ελέγχει τη σχεδίαση του υπομνήματος.</p></dd><dt><span class="term"><a name="gel-function-LinePlotWaitForClick"></a>LinePlotWaitForClick</span></dt><dd><pre class="synopsis">LinePlotWaitForClick ()</pre><p>
+	    If in line plot mode, waits for a click on the line plot window
+	    and returns the location of the click as a row vector.
+	    If the window is closed
+	    the function returns immediately with <code class="constant">null</code>.
+	    If the window is not in line plot mode, it is put in it and shown
+	    if not shown.
+	    See also
+	    <a class="link" href="ch11s20.html#gel-function-LinePlotMouseLocation"><code class="function">LinePlotMouseLocation</code></a>.
+          </p></dd><dt><span class="term"><a name="gel-function-PlotCanvasFreeze"></a>PlotCanvasFreeze</span></dt><dd><pre class="synopsis">PlotCanvasFreeze ()</pre><p>Προσωρινό πάγωμα σχεδίασης του καμβά. Χρήσιμο αν χρειάζεστε να σχεδιάσετε μια ομάδα στοιχείων και θέλετε να καθυστερήσετε τη σχεδίαση όλων για να αποφύγετε τρεμόσβησμα σε μια κίνηση. Αφού έχουν σχεδιαστεί όλα θα πρέπει να καλέσετε <a class="link" href="ch11s20.html#gel-function-PlotCanvasThaw"><code class="function">PlotCanvasThaw</code></a>.</p><p>Ο καμβάς ξεπαγώνει πάντα μετά το τέλος οποιασδήποτε εκτέλεσης, έτσι δεν θα παραμείνει ποτέ παγωμένος. Τη στιγμή που μια νέα γραμμή εντολών εμφανίζεται για παράδειγμα, ο καμβάς σχεδίασης ξεπαγώνει αυτόματα. Σημειώστε επίσης ότι οι κλήσεις για πάγωμα και ξεπάγωμα μπορούν με ασφάλεια να εντεθούν.</p><p>Version 1.0.18 onwards.</p></dd><dt><span class="term"><a name="gel-function-PlotCanvasThaw"></a>PlotCanvasThaw</span></dt><dd><pre class="synopsis">PlotCanvasThaw ()</pre><p>
+		  Thaw the plot canvas frozen by
+		  <a class="link" href="ch11s20.html#gel-function-PlotCanvasFreeze"><code class="function">PlotCanvasFreeze</code></a>
+		  and redraw the canvas immediately.  The canvas is also always thawed after end of execution
+		  of any program.
+          </p><p>Version 1.0.18 onwards.</p></dd><dt><span class="term"><a name="gel-function-PlotWindowPresent"></a>PlotWindowPresent</span></dt><dd><pre class="synopsis">PlotWindowPresent ()</pre><p>
+		  Show and raise the plot window, creating it if necessary.
+		  Normally the window is created when one of the plotting
+		  functions is called, but it is not always raised if it
+		  happens to be below other windows.  So this function is
+		  good to call in scripts where the plot window might have 
+		  been created before, and by now is hidden behind the
+		  console or other windows.
+          </p><p>Version 1.0.19 onwards.</p></dd><dt><span class="term"><a name="gel-function-SlopefieldClearSolutions"></a>SlopefieldClearSolutions</span></dt><dd><pre class="synopsis">SlopefieldClearSolutions ()</pre><p>Καθαρίζει τις σχεδιασμένες λύσεις από τη συνάρτηση <a class="link" href="ch11s20.html#gel-function-SlopefieldDrawSolution"><code class="function">SlopefieldDrawSolution</code></a>.</p></dd><dt><span class="term"><a name="gel-function-SlopefieldDrawSolution"></a>SlopefieldDrawSolution</span></dt><dd><pre class="synopsis">SlopefieldDrawSolution (x, y, dx)</pre><p>Όταν μια γραφική παράσταση πεδίου κλίσης είναι ενεργή, σχεδιάστε μια λύση με την καθορισμένη αρχική συνθήκη. Η τυπική μέθοδος Ρούνγκε-Κούτα χρησιμοποιείται με αύξηση <code class="varname">dx</code>. Οι λύσεις μένουν στο γράφημα μέχρι να εμφανιστεί μια διαφορετική γραφική παράσταση ή μέχρι να καλέσετε <a class="link" href="ch11s20.html#gel-function-SlopefieldClearSolutions"><code class="function">SlopefieldClearSolutions</code></a>. Μπορείτε επίσης να χρησιμοποιήσετε τη γραφική διεπαφή για να σχεδιάσετε λύσεις και να ορίσετε αρχικές συνθήκες με το ποντίκι.</p></dd><dt><span class="term"><a name="gel-function-SlopefieldPlot"></a>SlopefieldPlot</span></dt><dd><pre class="synopsis">SlopefieldPlot (func)</pre><pre class="synopsis">SlopefieldPlot (func,x1,x2,y1,y2)</pre><p>Σχεδιάστε ένα πεδίο κλίσης. Η συνάρτηση <code class="varname">func</code> πρέπει να πάρει δύο πραγματικούς αριθμούς <code class="varname">x</code> και <code class="varname">y</code>, ή έναν απλό μιγαδικό αριθμό. Προαιρετικά, μπορείτε να ορίσετε τα όρια του παραθύρου σχεδίασης ως <code class="varname">x1</code>, <code class="varname">x2</code>, <code class="varname">y1</code>, <code class="varname">y2</code>. Αν τα όρια δεν καθορίζονται, τότε τα τρέχοντα ορισμένα όρια εφαρμόζονται (Δείτε <a class="link" href="ch11s03.html#gel-function-LinePlotWindow"><code class="function">LinePlotWindow</code></a>).</p><p>Η παράμετρος <a class="link" href="ch11s03.html#gel-function-LinePlotDrawLegends"><code class="function">LinePlotDrawLegends</code></a> ελέγχει τη σχεδίαση του υπομνήματος.</p><p>
+	    Examples:
+          </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>SlopefieldPlot(`(x,y)=sin(x-y),-5,5,-5,5)</code></strong>
+</pre><p>
+          </p></dd><dt><span class="term"><a name="gel-function-SurfacePlot"></a>SurfacePlot</span></dt><dd><pre class="synopsis">SurfacePlot (func)</pre><pre class="synopsis">SurfacePlot (func,x1,x2,y1,y2,z1,z2)</pre><pre class="synopsis">SurfacePlot (func,x1,x2,y1,y2)</pre><pre class="synopsis">SurfacePlot (func,[x1,x2,y1,y2,z1,z2])</pre><pre class="synopsis">SurfacePlot (func,[x1,x2,y1,y2])</pre><p>Σχεδιάστε μια συνάρτηση επιφάνειας που παίρνει είτε δύο ορίσματα ή έναν μιγαδικό αριθμό. Πρώτα έρχεται η συνάρτηση, έπειτα προαιρετικά τα όρια ως <code class="varname">x1</code>, <code class="varname">x2</code>, <code class="varname">y1</code>, <code class="varname">y2</code>, <code class="varname">z1</code>, <code class="varname">z2</code>. Αν τα όρια δεν καθορίζονται, τότε εφαρμόζονται τα τρέχοντα ορισμένα όρια (Δείτε <a class="link" href="ch11s03.html#gel-function-SurfacePlotWindow"><code class="function">SurfacePlotWindow</code></a>). Η Genius μπορεί να σχεδιάσει μόνο μια μοναδική συνάρτηση επιφάνειας τη φορά.</p><p>Αν τα όρια Z δεν καθορίζονται, τότε χρησιμοποιούνται τα μέγιστα και ελάχιστα της συνάρτησης.</p><p>Παραδείγματα: </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>SurfacePlot(|sin|,-1,1,-1,1,0,1.5)</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>SurfacePlot(`(x,y)=x^2+y,-1,1,-1,1,-2,2)</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>SurfacePlot(`(z)=|z|^2,-1,1,-1,1,0,2)</code></strong>
+</pre></dd><dt><span class="term"><a name="gel-function-SurfacePlotClear"></a>SurfacePlotClear</span></dt><dd><pre class="synopsis">SurfacePlotClear ()</pre><p>
+            Show the surface plot window and clear out functions and any other
+            lines that were drawn.
+          </p><p>
+	    Available in version 1.0.19 and onwards.
+          </p></dd><dt><span class="term"><a name="gel-function-SurfacePlotData"></a>SurfacePlotData</span></dt><dd><pre class="synopsis">SurfacePlotData (data)</pre><pre class="synopsis">SurfacePlotData (data,label)</pre><pre class="synopsis">SurfacePlotData (data,x1,x2,y1,y2,z1,z2)</pre><pre class="synopsis">SurfacePlotData (data,label,x1,x2,y1,y2,z1,z2)</pre><pre class="synopsis">SurfacePlotData (data,[x1,x2,y1,y2,z1,z2])</pre><pre class="synopsis">SurfacePlotData (data,label,[x1,x2,y1,y2,z1,z2])</pre><p>
+		  Plot a surface from data.  The data is an n by 3 matrix whose
+		  rows are the x, y and z coordinates.  The data can also be
+		  simply a vector whose length is a multiple of 3 and so
+		  contains the triples of x, y, z.  The data should contain at
+		  least 3 points.
+	  </p><p>Προαιρετικά μπορούμε να δώσουμε την ετικέτα και επίσης τα όρια. Αν δεν δίνονται τα όρια, υπολογίζονται από τα δεδομένα, το <a class="link" href="ch11s03.html#gel-function-SurfacePlotWindow"><code class="function">SurfacePlotWindow</code></a> δεν χρησιμοποιείται, αν θέλετε να το χρησιμοποιήσετε, περάστε το ρητά. Αν δεν δίνεται η ετικέτα, τότε χρησιμοποιείται η κενή ετικέτα.</p><p>Παραδείγματα: </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>SurfacePlotData([0,0,0;1,0,1;0,1,1;1,1,3])</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>SurfacePlotData(data,"My data")</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>SurfacePlotData(data,-1,1,-1,1,0,10)</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>SurfacePlotData(data,SurfacePlotWindow)</code></strong>
+</pre><p>Ιδού ένα παράδειγμα πώς να σχεδιάσετε σε πολικές συντεταγμένες, ιδιαίτερα πώς να σχεδιάσετε τη συνάρτηση <strong class="userinput"><code>-r^2 * theta</code></strong>: </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>d:=null; for r=0 to 1 by 0.1 do for theta=0 to 2*pi by pi/5 do d=[d;[r*cos(theta),r*sin(theta),-r^2*theta]];</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>SurfacePlotData(d)</code></strong>
+</pre><p>Version 1.0.16 onwards.</p></dd><dt><span class="term"><a name="gel-function-SurfacePlotDataGrid"></a>SurfacePlotDataGrid</span></dt><dd><pre class="synopsis">SurfacePlotDataGrid (data,[x1,x2,y1,y2])</pre><pre class="synopsis">SurfacePlotDataGrid (data,[x1,x2,y1,y2,z1,z2])</pre><pre class="synopsis">SurfacePlotDataGrid (data,[x1,x2,y1,y2],label)</pre><pre class="synopsis">SurfacePlotDataGrid (data,[x1,x2,y1,y2,z1,z2],label)</pre><p>Σχεδιάστε μια επιφάνεια από κανονικά δεδομένα ορθογωνίου. Τα δεδομένα δίνεται σε έναν πίνακα n επί m, όπου οι γραμμές είναι η συντεταγμένη x και οι στήλες είναι η συντεταγμένη y. Η συντεταγμένη x διαιρείται σε ίσα n-1 υποδιαστήματα και η συντεταγμένη y διαιρείται σε ίσα m-1 υποδιαστήματα. Τα όρια <code class="varname">x1</code> και <code class="varname">x2</code> δίνουν το διάστημα στον άξονα x που χρησιμοποιούμε, ενώ τα όρια <code class="varname">y1</code> και <code class="varname">y2</code> δίνουν το διάστημα στον άξονα y που χρησιμοποιούμε. Αν τα όρια <code class="varname">z1</code> και <code class="varname">z2</code> δεν δίνονται, υπολογίζονται από τα δεδομένα (για να είναι οι ακραίες τιμές από τα δεδομένα).</p><p>Προαιρετικά, μπορούμε να δώσουμε την ετικέτα. Αν η ετικέτα δεν δίνεται, τότε χρησιμοποιείται η κενή ετικέτα.</p><p>
+	    Examples:
+          </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>SurfacePlotDataGrid([1,2;3,4],[0,1,0,1])</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>SurfacePlotDataGrid(data,[-1,1,-1,1],"My data")</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>d:=null; for i=1 to 20 do for j=1 to 10 do d@(i,j) = (0.1*i-1)^2-(0.1*j)^2;</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>SurfacePlotDataGrid(d,[-1,1,0,1],"half a saddle")</code></strong>
+</pre><p>
+          </p><p>Version 1.0.16 onwards.</p></dd><dt><span class="term"><a name="gel-function-SurfacePlotDrawLine"></a>SurfacePlotDrawLine</span></dt><dd><pre class="synopsis">SurfacePlotDrawLine (x1,y1,z1,x2,y2,z2,...)</pre><pre class="synopsis">SurfacePlotDrawLine (v,...)</pre><p>
+	    Draw a line from <code class="varname">x1</code>,<code class="varname">y1</code>,<code class="varname">z1</code> to
+	    <code class="varname">x2</code>,<code class="varname">y2</code>,<code class="varname">z2</code>.
+	    <code class="varname">x1</code>,<code class="varname">y1</code>,<code class="varname">z1</code>,
+	    <code class="varname">x2</code>,<code class="varname">y2</code>,<code class="varname">z2</code> can be replaced by an
+	    <code class="varname">n</code> by 3 matrix for a longer polyline.
+          </p><p>
+	    Extra parameters can be added to specify line color, thickness,
+	    arrows, the plotting window, or legend.
+	    You can do this by adding an argument string <strong class="userinput"><code>"color"</code></strong>, 
+	    <strong class="userinput"><code>"thickness"</code></strong>,
+	    <strong class="userinput"><code>"window"</code></strong>,
+	    or <strong class="userinput"><code>"legend"</code></strong>, and after it specify
+	    the color, the thickness, the window
+	    as 6-vector, or the legend.
+    	  </p><p>
+	    The color should be either a string indicating the common English word for the color
+	    that GTK will recognize such as 
+            <strong class="userinput"><code>"red"</code></strong>, <strong class="userinput"><code>"blue"</code></strong>, <strong class="userinput"><code>"yellow"</code></strong>, etc...
+	    Alternatively the color can be specified in RGB format as
+	    <strong class="userinput"><code>"#rgb"</code></strong>, <strong class="userinput"><code>"#rrggbb"</code></strong>, or
+	    <strong class="userinput"><code>"#rrrrggggbbbb"</code></strong>, where the r, g, or b are hex digits of the red, green, and blue
+	    components of the color.  Finally, since version 1.0.18, the color
+	    can also be specified as a real vector specifying the red green and
+	    blue components where the components are between 0 and 1, e.g. <strong class="userinput"><code>[1.0,0.5,0.1]</code></strong>.
+    	  </p><p>
+	    The window should be given as usual as <strong class="userinput"><code>[x1,x2,y1,y2,z1,z2]</code></strong>, or
+	    alternatively can be given as a string
+	    <strong class="userinput"><code>"fit"</code></strong> in which case,
+	    the x range will be set precisely and the y range will be set with
+	    five percent borders around the line.
+    	  </p><p>Στο τέλος, το υπόμνημα πρέπει να είναι μια συμβολοσειρά που μπορεί να χρησιμοποιηθεί ως υπόμνημα στο γράφημα. Δηλαδή, αν εκτυπωθούν τα υπομνήματα.</p><p>
+	  Examples:
+          </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>SurfacePlotDrawLine(0,0,0,1,1,1,"color","blue","thickness",3)</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>SurfacePlotDrawLine([0,0,0;1,-1,2;-1,-1,-3])</code></strong>
+</pre><p>
+          </p><p>
+		  Available from version 1.0.19 onwards.
+	  </p></dd><dt><span class="term"><a name="gel-function-SurfacePlotDrawPoints"></a>SurfacePlotDrawPoints</span></dt><dd><pre class="synopsis">SurfacePlotDrawPoints (x,y,z,...)</pre><pre class="synopsis">SurfacePlotDrawPoints (v,...)</pre><p>
+		  Draw a point at <code class="varname">x</code>,<code class="varname">y</code>,<code class="varname">z</code>.
+		  The input can be an <code class="varname">n</code> by 3 matrix
+		  for <code class="varname">n</code> different points.  This function has essentially the same
+		  input as <a class="link" href="ch11s20.html#gel-function-SurfacePlotDrawLine">SurfacePlotDrawLine</a>.
+          </p><p>
+	    Extra parameters can be added to specify line color, thickness,
+	    the plotting window, or legend.
+	    You can do this by adding an argument string <strong class="userinput"><code>"color"</code></strong>, 
+	    <strong class="userinput"><code>"thickness"</code></strong>,
+	    <strong class="userinput"><code>"window"</code></strong>, 
+	    or <strong class="userinput"><code>"legend"</code></strong>, and after it specify
+	    the color, the thickness, the window
+	    as 6-vector, or the legend.
+    	  </p><p>
+	    The color should be either a string indicating the common English word for the color
+	    that GTK will recognize such as 
+            <strong class="userinput"><code>"red"</code></strong>, <strong class="userinput"><code>"blue"</code></strong>, <strong class="userinput"><code>"yellow"</code></strong>, etc...
+	    Alternatively the color can be specified in RGB format as
+	    <strong class="userinput"><code>"#rgb"</code></strong>, <strong class="userinput"><code>"#rrggbb"</code></strong>, or
+	    <strong class="userinput"><code>"#rrrrggggbbbb"</code></strong>, where the r, g, or b are hex digits of the red, green, and blue
+	    components of the color.  Finally the color can also be specified as a real vector specifying the red green
+	    and blue components where the components are between 0 and 1.
+    	  </p><p>
+	    The window should be given as usual as <strong class="userinput"><code>[x1,x2,y1,y2,z1,z2]</code></strong>, or
+	    alternatively can be given as a string
+	    <strong class="userinput"><code>"fit"</code></strong> in which case,
+	    the x range will be set precisely and the y range will be set with
+	    five percent borders around the line.
+    	  </p><p>Στο τέλος, το υπόμνημα πρέπει να είναι μια συμβολοσειρά που μπορεί να χρησιμοποιηθεί ως υπόμνημα στο γράφημα. Δηλαδή, αν εκτυπωθούν τα υπομνήματα.</p><p>
+	  Examples:
+          </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>SurfacePlotDrawPoints(0,0,0,"color","blue","thickness",3)</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>SurfacePlotDrawPoints([0,0,0;1,-1,2;-1,-1,1])</code></strong>
+</pre><p>
+          </p><p>
+		  Available from version 1.0.19 onwards.
+	  </p></dd><dt><span class="term"><a name="gel-function-VectorfieldClearSolutions"></a>VectorfieldClearSolutions</span></dt><dd><pre class="synopsis">VectorfieldClearSolutions ()</pre><p>Καθαρίζει τις σχεδιασμένες λύσεις από τη συνάρτηση <a class="link" href="ch11s20.html#gel-function-VectorfieldDrawSolution"><code class="function">VectorfieldDrawSolution</code></a>.</p><p>Version 1.0.6 onwards.</p></dd><dt><span class="term"><a name="gel-function-VectorfieldDrawSolution"></a>VectorfieldDrawSolution</span></dt><dd><pre class="synopsis">VectorfieldDrawSolution (x, y, dt, tlen)</pre><p>Όταν ένα πεδίο διανύσματος είναι ενεργό, σχεδιάστε μια λύση με την καθορισμένη αρχική συνθήκη. Η τυπική μέθοδος Ρούνγκε-Κούτα χρησιμοποιείται με αύξηση <code class="varname">dt</code> για ένα διάστημα μήκους <code class="varname">tlen</code>.. Οι λύσεις μένουν στο γράφημα μέχρι να εμφανιστεί μια διαφορετική γραφική παράσταση ή μέχρι να καλέσετε <a class="link" href="ch11s20.html#gel-function-VectorfieldClearSolutions"><code class="function">VectorfieldClearSolutions</code></a>. Μπορείτε επίσης να χρησιμοποιήσετε τη γραφική διεπαφή για να σχεδιάσετε λύσεις και να ορίσετε αρχικές συνθήκες με το ποντίκι.</p><p>Version 1.0.6 onwards.</p></dd><dt><span class="term"><a name="gel-function-VectorfieldPlot"></a>VectorfieldPlot</span></dt><dd><pre class="synopsis">VectorfieldPlot (funcx, funcy)</pre><pre class="synopsis">VectorfieldPlot (funcx, funcy, x1, x2, y1, y2)</pre><p>Σχεδιάστε ένα δισδιάστατο διανυσματικό πεδίο. Η συνάρτηση <code class="varname">funcx</code> πρέπει να είναι η dx/dt του διανυσματικού πεδίου και η συνάρτηση <code class="varname">funcy</code> πρέπει να είναι η dy/dt του διανυσματικού πεδίου. Οι συναρτήσεις πρέπει να παίρνουν δύο πραγματικούς αριθμούς <code class="varname">x</code> και <code class="varname">y</code>, ή έναν μοναδικό μιγαδικό αριθμό. Όταν η παράμετρος <a class="link" href="ch11s03.html#gel-function-VectorfieldNormalized"><code class="function">VectorfieldNormalized</code></a> είναι <code class="constant">true</code>, τότε το μέγεθος των διανυσμάτων είναι κανονικοποιημένο. Δηλαδή, εμφανίζεται μόνο η κατεύθυνση και όχι το μέγεθος.</p><p>Προαιρετικά, μπορείτε να ορίσετε τα όρια του παραθύρου σχεδίασης ως <code class="varname">x1</code>, <code class="varname">x2</code>, <code class="varname">y1</code>, <code class="varname">y2</code>. Αν δεν καθορίζονται τα όρια, τότε εφαρμόζονται τα τρέχοντα όρια (Δείτε <a class="link" href="ch11s03.html#gel-function-LinePlotWindow"><code class="function">LinePlotWindow</code></a>).</p><p>Η παράμετρος <a class="link" href="ch11s03.html#gel-function-LinePlotDrawLegends"><code class="function">LinePlotDrawLegends</code></a> ελέγχει τη σχεδίαση του υπομνήματος.</p><p>Παραδείγματα: </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>VectorfieldPlot(`(x,y)=x^2-y, `(x,y)=y^2-x, -1, 1, -1, 1)</code></strong>
+</pre></dd></dl></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch11s19.html">Προηγ</a> </td><td width="20%" align="center"><a accesskey="u" href="ch11.html">Πάνω</a></td><td width="40%" align="right"> <a accesskey="n" href="ch12.html">Επόμενο</a></td></tr><tr><td width="40%" align="left" valign="top">Συμβολικές πράξεις </td><td width="20%" align="center"><a accesskey="h" href="index.html">Αρχή</a></td><td width="40%" align="right" valign="top"> Κεφάλαιο 12. Παράδειγμα προγραμμάτων στην GEL</td></tr></table></div></body></html>

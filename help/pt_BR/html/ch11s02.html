@@ -1,0 +1,101 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Básico</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manual do Genius"><link rel="up" href="ch11.html" title="Capítulo 11. List of GEL functions"><link rel="prev" href="ch11.html" title="Capítulo 11. List of GEL functions"><link rel="next" href="ch11s03.html" title="Parâmetros"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Básico</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11.html">Anterior</a> </td><th width="60%" align="center">Capítulo 11. List of GEL functions</th><td width="20%" align="right"> <a accesskey="n" href="ch11s03.html">Próxima</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-function-list-basic"></a>Básico</h2></div></div></div><div class="variablelist"><dl class="variablelist"><dt><span class="term"><a name="gel-function-AskButtons"></a>AskButtons</span></dt><dd><pre class="synopsis">AskButtons (query)</pre><pre class="synopsis">AskButtons (query, button1, ...)</pre><p>Asks a question and presents a list of buttons to the user (or
+a menu of options in text mode).  Returns the 1-based index of the button
+pressed.  That is, returns 1 if the first button was pressed, 2 if the second
+button was pressed, and so on.  If the user closes the window (or simply hits
+enter in text mode), then <code class="constant">null</code> is returned.  The execution
+of the program is blocked until the user responds.</p><p>Version 1.0.10 onwards.</p></dd><dt><span class="term"><a name="gel-function-AskString"></a>AskString</span></dt><dd><pre class="synopsis">AskString (query)</pre><pre class="synopsis">AskString (query, default)</pre><p>Asks a question and lets the user enter a string, which
+it then returns.  If the user cancels or closes the window, then
+<code class="constant">null</code> is returned.  The execution of the program
+is blocked until the user responds.  If <code class="varname">default</code> is given, then it is pre-typed in for the user to just press enter on (version 1.0.6 onwards).</p></dd><dt><span class="term"><a name="gel-function-Compose"></a>Compose</span></dt><dd><pre class="synopsis">Compose (f,g)</pre><p>Compose two functions and return a function that is the composition of <code class="function">f</code> and <code class="function">g</code>.</p></dd><dt><span class="term"><a name="gel-function-ComposePower"></a>ComposePower</span></dt><dd><pre class="synopsis">ComposePower (f,n,x)</pre><p>Compose and execute a function with itself <code class="varname">n</code> times, passing <code class="varname">x</code> as argument.  Returning <code class="varname">x</code> if
+<code class="varname">n</code> equals 0.
+		Example:
+          </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>function f(x) = x^2 ;</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>ComposePower (f,3,7)</code></strong>
+= 5764801
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>f(f(f(7)))</code></strong>
+= 5764801
+</pre><p>
+	  </p></dd><dt><span class="term"><a name="gel-function-Evaluate"></a>Evaluate</span></dt><dd><pre class="synopsis">Evaluate (str)</pre><p>Parses and evaluates a string.</p></dd><dt><span class="term"><a name="gel-function-GetCurrentModulo"></a>GetCurrentModulo</span></dt><dd><pre class="synopsis">GetCurrentModulo</pre><p>Get current modulo from the context outside the function.  That is, if outside of
+the function was executed in modulo (using <code class="literal">mod</code>) then this returns what
+this modulo was.  Normally the body of the function called is not executed in modular arithmetic,
+and this builtin function makes it possible to make GEL functions aware of modular arithmetic.</p></dd><dt><span class="term"><a name="gel-function-Identity"></a>Identity</span></dt><dd><pre class="synopsis">Identity (x)</pre><p>Identity function, returns its argument.  It is equivalent to <strong class="userinput"><code>function Identity(x)=x</code></strong>.</p></dd><dt><span class="term"><a name="gel-function-IntegerFromBoolean"></a>IntegerFromBoolean</span></dt><dd><pre class="synopsis">IntegerFromBoolean (bval)</pre><p>
+	    Make integer (0 for <code class="constant">false</code> or 1 for
+	    <code class="constant">true</code>) from a boolean value.
+	    <code class="varname">bval</code> can also be a number in which case a
+	    non-zero value will be interpreted as <code class="constant">true</code> and
+	    zero will be interpreted as <code class="constant">false</code>.
+	  </p></dd><dt><span class="term"><a name="gel-function-IsBoolean"></a>IsBoolean</span></dt><dd><pre class="synopsis">IsBoolean (arg)</pre><p>Check if argument is a boolean (and not a number).</p></dd><dt><span class="term"><a name="gel-function-IsDefined"></a>IsDefined</span></dt><dd><pre class="synopsis">IsDefined (id)</pre><p>Check if an id is defined.  You should pass a string or
+	   and identifier.  If you pass a matrix, each entry will be
+	   evaluated separately and the matrix should contain strings
+	   or identifiers.</p></dd><dt><span class="term"><a name="gel-function-IsFunction"></a>IsFunction</span></dt><dd><pre class="synopsis">IsFunction (arg)</pre><p>Check if argument is a function.</p></dd><dt><span class="term"><a name="gel-function-IsFunctionOrIdentifier"></a>IsFunctionOrIdentifier</span></dt><dd><pre class="synopsis">IsFunctionOrIdentifier (arg)</pre><p>Check if argument is a function or an identifier.</p></dd><dt><span class="term"><a name="gel-function-IsFunctionRef"></a>IsFunctionRef</span></dt><dd><pre class="synopsis">IsFunctionRef (arg)</pre><p>Check if argument is a function reference.  This includes variable
+references.</p></dd><dt><span class="term"><a name="gel-function-IsMatrix"></a>IsMatrix</span></dt><dd><pre class="synopsis">IsMatrix (arg)</pre><p>Check if argument is a matrix.  Even though <code class="constant">null</code> is
+sometimes considered an empty matrix, the function <code class="function">IsMatrix</code> does
+not consider <code class="constant">null</code> a matrix.</p></dd><dt><span class="term"><a name="gel-function-IsNull"></a>IsNull</span></dt><dd><pre class="synopsis">IsNull (arg)</pre><p>Check if argument is a <code class="constant">null</code>.</p></dd><dt><span class="term"><a name="gel-function-IsString"></a>IsString</span></dt><dd><pre class="synopsis">IsString (arg)</pre><p>Check if argument is a text string.</p></dd><dt><span class="term"><a name="gel-function-IsValue"></a>IsValue</span></dt><dd><pre class="synopsis">IsValue (arg)</pre><p>Check if argument is a number.</p></dd><dt><span class="term"><a name="gel-function-Parse"></a>Parse</span></dt><dd><pre class="synopsis">Parse (str)</pre><p>Parses but does not evaluate a string.  Note that certain
+	    pre-computation is done during the parsing stage.</p></dd><dt><span class="term"><a name="gel-function-SetFunctionFlags"></a>SetFunctionFlags</span></dt><dd><pre class="synopsis">SetFunctionFlags (id,flags...)</pre><p>Set flags for a function, currently <code class="literal">"PropagateMod"</code> and <code class="literal">"NoModuloArguments"</code>.
+If <code class="literal">"PropagateMod"</code> is set, then the body of the function is evaluated in modular arithmetic when the function
+is called inside a block that was evaluated using modular arithmetic (using <code class="literal">mod</code>).  If
+<code class="literal">"NoModuloArguments"</code>, then the arguments of the function are never evaluated using modular arithmetic.
+ </p></dd><dt><span class="term"><a name="gel-function-SetHelp"></a>SetHelp</span></dt><dd><pre class="synopsis">SetHelp (id,category,desc)</pre><p>Set the category and help description line for a function.</p></dd><dt><span class="term"><a name="gel-function-SetHelpAlias"></a>SetHelpAlias</span></dt><dd><pre class="synopsis">SetHelpAlias (id,alias)</pre><p>Sets up a help alias.</p></dd><dt><span class="term"><a name="gel-function-chdir"></a>chdir</span></dt><dd><pre class="synopsis">chdir (dir)</pre><p>Changes current directory, same as the <span class="command"><strong>cd</strong></span>.</p></dd><dt><span class="term"><a name="gel-function-CurrentTime"></a>CurrentTime</span></dt><dd><pre class="synopsis">CurrentTime</pre><p>Returns the current UNIX time with microsecond precision as a floating point number.  That is, returns the number of seconds since January 1st 1970.</p><p>Version 1.0.15 onwards.</p></dd><dt><span class="term"><a name="gel-function-display"></a>display</span></dt><dd><pre class="synopsis">display (str,expr)</pre><p>Display a string and an expression with a colon to separate them.</p></dd><dt><span class="term"><a name="gel-function-DisplayVariables"></a>DisplayVariables</span></dt><dd><pre class="synopsis">DisplayVariables (var1,var2,...)</pre><p>Display set of variables.  The variables can be given as
+		  strings or identifiers.  For example:
+	    </p><pre class="programlisting">DisplayVariables(`x,`y,`z)
+	    </pre><p>
+	  </p><p>
+		  If called without arguments (must supply empty argument list) as
+	    </p><pre class="programlisting">DisplayVariables()
+	    </pre><p>
+	    then all variables are printed including a stacktrace similar to
+	    <span class="guilabel">Show user variables</span> in the graphical version.
+	  </p><p>Version 1.0.18 onwards.</p></dd><dt><span class="term"><a name="gel-function-error"></a>error</span></dt><dd><pre class="synopsis">error (str)</pre><p>Prints a string to the error stream (onto the console).</p></dd><dt><span class="term"><a name="gel-function-exit"></a>exit</span></dt><dd><pre class="synopsis">exit</pre><p>Aliases: <code class="function">quit</code></p><p>Exits the program.</p></dd><dt><span class="term"><a name="gel-function-false"></a>false</span></dt><dd><pre class="synopsis">false</pre><p>Aliases: <code class="function">False</code> <code class="function">FALSE</code></p><p>The <code class="constant">false</code> boolean value.</p></dd><dt><span class="term"><a name="gel-function-manual"></a>manual</span></dt><dd><pre class="synopsis">manual</pre><p>Displays the user manual.</p></dd><dt><span class="term"><a name="gel-function-print"></a>print</span></dt><dd><pre class="synopsis">print (str)</pre><p>Prints an expression and then print a newline.  The argument <code class="varname">str</code> can be any expression.  It is
+made into a string before being printed.</p></dd><dt><span class="term"><a name="gel-function-printn"></a>printn</span></dt><dd><pre class="synopsis">printn (str)</pre><p>Prints an expression without a trailing newline.  The argument <code class="varname">str</code> can be any expression.  It is
+made into a string before being printed.</p></dd><dt><span class="term"><a name="gel-function-PrintTable"></a>PrintTable</span></dt><dd><pre class="synopsis">PrintTable (f,v)</pre><p>Print a table of values for a function.  The values are in the 
+		  vector <code class="varname">v</code>.  You can use the vector
+		  building notation as follows:
+      		  </p><pre class="programlisting">PrintTable (f,[0:10])
+	    </pre><p>
+	    If <code class="varname">v</code> is a positive integer, then the table of
+	    integers from 1 up to and including v will be used.
+	  </p><p>Version 1.0.18 onwards.</p></dd><dt><span class="term"><a name="gel-function-protect"></a>protect</span></dt><dd><pre class="synopsis">protect (id)</pre><p>Protect a variable from being modified.  This is used on the internal GEL functions to
+avoid them being accidentally overridden.</p></dd><dt><span class="term"><a name="gel-function-ProtectAll"></a>ProtectAll</span></dt><dd><pre class="synopsis">ProtectAll ()</pre><p>Protect all currently defined variables, parameters and
+functions from being modified.  This is used on the internal GEL functions to
+avoid them being accidentally overridden.  Normally <span class="application">Genius Mathematics Tool</span> considers
+unprotected variables as user defined.</p><p>Version 1.0.7 onwards.</p></dd><dt><span class="term"><a name="gel-function-set"></a>set</span></dt><dd><pre class="synopsis">set (id,val)</pre><p>Set a global variable.  The <code class="varname">id</code>
+            can be either a string or a quoted identifier.
+	    For example:
+	    </p><pre class="programlisting">set(`x,1)
+	    </pre><p>
+	    will set the global variable <code class="varname">x</code> to the value 1.
+	  </p><p>The function returns the <code class="varname">val</code>, to be
+	  usable in chaining.</p></dd><dt><span class="term"><a name="gel-function-SetElement"></a>SetElement</span></dt><dd><pre class="synopsis">SetElement (id,row,col,val)</pre><p>Set an element of a global variable which is a matrix.
+		  The <code class="varname">id</code>
+            can be either a string or a quoted identifier.
+	    For example:
+	    </p><pre class="programlisting">SetElement(`x,2,3,1)
+	    </pre><p>
+	    will set the second row third column element of the global variable <code class="varname">x</code> to the value 1.  If no global variable of the name exists, or if it is set to something that's not a matrix, a new zero matrix of appropriate size will be created.
+	  </p><p>The <code class="varname">row</code> and <code class="varname">col</code> can also be ranges, and the semantics are the same as for regular setting of the elements with an equals sign.
+	  </p><p>The function returns the <code class="varname">val</code>, to be
+	  usable in chaining.</p><p>Available from 1.0.18 onwards.</p></dd><dt><span class="term"><a name="gel-function-SetVElement"></a>SetVElement</span></dt><dd><pre class="synopsis">SetElement (id,elt,val)</pre><p>Set an element of a global variable which is a vector.
+		  The <code class="varname">id</code>
+            can be either a string or a quoted identifier.
+	    For example:
+	    </p><pre class="programlisting">SetElement(`x,2,1)
+	    </pre><p>
+	    will set the second element of the global vector variable <code class="varname">x</code> to the value 1.  If no global variable of the name exists, or if it is set to something that's not a vector (matrix), a new zero row vector of appropriate size will be created.
+	  </p><p>The <code class="varname">elt</code> can also be a range, and the semantics are the same as for regular setting of the elements with an equals sign.
+	  </p><p>The function returns the <code class="varname">val</code>, to be
+	  usable in chaining.</p><p>Available from 1.0.18 onwards.</p></dd><dt><span class="term"><a name="gel-function-string"></a>string</span></dt><dd><pre class="synopsis">string (s)</pre><p>Make a string.  This will make a string out of any argument.</p></dd><dt><span class="term"><a name="gel-function-true"></a>true</span></dt><dd><pre class="synopsis">true</pre><p>Aliases: <code class="function">True</code> <code class="function">TRUE</code></p><p>The <code class="constant">true</code> boolean value.</p></dd><dt><span class="term"><a name="gel-function-undefine"></a>undefine</span></dt><dd><pre class="synopsis">undefine (id)</pre><p>Alias: <code class="function">Undefine</code></p><p>Undefine a variable.  This includes locals and globals,
+	    every value on all context levels is wiped.  This function
+	    should really not be used on local variables.  A vector of
+	    identifiers can also be passed to undefine several variables.
+          </p></dd><dt><span class="term"><a name="gel-function-UndefineAll"></a>UndefineAll</span></dt><dd><pre class="synopsis">UndefineAll ()</pre><p>Undefine all unprotected global variables
+	    (including functions and parameters).  Normally <span class="application">Genius Mathematics Tool</span>
+	    considers protected variables as system defined functions
+	    and variables.  Note that <code class="function">UndefineAll</code>
+	    only removes the global definition of symbols not local ones,
+	    so that it may be run from inside other functions safely.
+	  </p><p>Version 1.0.7 onwards.</p></dd><dt><span class="term"><a name="gel-function-unprotect"></a>unprotect</span></dt><dd><pre class="synopsis">unprotect (id)</pre><p>Unprotect a variable from being modified.</p></dd><dt><span class="term"><a name="gel-function-UserVariables"></a>UserVariables</span></dt><dd><pre class="synopsis">UserVariables ()</pre><p>Return a vector of identifiers of
+	    user defined (unprotected) global variables.</p><p>Version 1.0.7 onwards.</p></dd><dt><span class="term"><a name="gel-function-wait"></a>wait</span></dt><dd><pre class="synopsis">wait (secs)</pre><p>Waits a specified number of seconds.  <code class="varname">secs</code>
+must be non-negative.  Zero is accepted and nothing happens in this case,
+except possibly user interface events are processed.</p><p>Since version 1.0.18, <code class="varname">secs</code> can be a noninteger number, so
+		  <strong class="userinput"><code>wait(0.1)</code></strong> will wait for one tenth of a second.</p></dd><dt><span class="term"><a name="gel-function-version"></a>version</span></dt><dd><pre class="synopsis">version</pre><p>Returns the version of Genius as a horizontal 3-vector with
+	  major version first, then minor version and finally the patch level.</p></dd><dt><span class="term"><a name="gel-function-warranty"></a>warranty</span></dt><dd><pre class="synopsis">warranty</pre><p>Gives the warranty information.</p></dd></dl></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch11.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="ch11.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="ch11s03.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Capítulo 11. List of GEL functions </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Parâmetros</td></tr></table></div></body></html>

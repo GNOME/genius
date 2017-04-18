@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2016 Jiri (George) Lebl
+ * Copyright (C) 1997-2017 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -1294,7 +1294,6 @@ gel_matrixw_set_vregion (GelMatrixW *m, GelMatrixW *src, int *desti, int len)
 void
 gel_matrixw_set_vregion_etree (GelMatrixW *m, GelETree *src, int *desti, int len)
 {
-	int srcelts;
 	int max;
 
 	g_return_if_fail (m != NULL);

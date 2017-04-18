@@ -1,3 +1,5 @@
+ACLOCAL_AMFLAGS = -I m4 --install
+
 SUBDIRS = ve gtkextra src pixmaps examples lib po help
 
 mimeinfodir = $(datadir)/mime-info
@@ -34,14 +36,13 @@ EXTRA_DIST = \
 	genius.mime \
 	genius.keys \
 	genius.applications \
-	gnome-doc-utils.make	\
 	intltool-extract.in	\
 	intltool-merge.in	\
 	intltool-update.in	\
-	INSTALL.MacOSX
+	INSTALL.MacOSX		\
+	m4/NOTES
 
 DISTCLEANFILES = \
-	gnome-doc-utils.make	\
 	intltool-extract	\
 	intltool-merge		\
 	intltool-update

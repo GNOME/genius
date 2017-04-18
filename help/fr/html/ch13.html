@@ -1,0 +1,47 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapitre 13. Paramètres</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manuel de Genius"><link rel="up" href="index.html" title="Manuel de Genius"><link rel="prev" href="ch12.html" title="Chapitre 12. Exemple de programmes en GEL"><link rel="next" href="ch13s02.html" title="Précision"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapitre 13. Paramètres</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12.html">Précédent</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch13s02.html">Suivant</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="genius-prefs"></a>Chapitre 13. Paramètres</h1></div></div></div><div class="toc"><p><b>Table des matières</b></p><dl class="toc"><dt><span class="sect1"><a href="ch13.html#genius-prefs-output">Sortie</a></span></dt><dt><span class="sect1"><a href="ch13s02.html">Précision</a></span></dt><dt><span class="sect1"><a href="ch13s03.html">Terminal</a></span></dt><dt><span class="sect1"><a href="ch13s04.html">Mémoire</a></span></dt></dl></div><p>Pour configurer l'<span class="application">Outil de maths Genius</span>, choisissez <span class="guimenu">Paramètres</span> → <span class="guimenuitem">Préférences</span>. Il y a plusieurs paramètres de base fournis par le calculateur en plus de ceux fournis par la bibliothèque standard. Ils contrôlent le comportement du calculateur.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Modifications des paramètres avec GEL</h3><p>Beaucoup de paramètres dans Genius ne sont simplement que des variables globales qui peuvent être évaluées et auxquelles on peut attribuer des valeurs de la même manière que pour des variables normales. Consultez <a class="xref" href="ch05s02.html" title="Utilisation des variables">la section intitulée « Utilisation des variables »</a> à propos de l'évaluation et <a class="xref" href="ch11s03.html" title="Paramètres">la section intitulée « Paramètres »</a> pour une liste des réglages qui peuvent être modifiés de cette façon.</p><p>Par exemple, vous pouvez paramétrer le nombre maximum de chiffres pour l'affichage d'un résultat à 12 en saisissant : </p><pre class="programlisting">MaxDigits = 12
+</pre></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-prefs-output"></a>Sortie</h2></div></div></div><div class="variablelist"><dl class="variablelist"><dt><span class="term"> 
+	    <span class="guilabel">Nombre maximum de chiffres à afficher</span>
+      </span></dt><dd><p>The maximum digits in a result (<a class="link" href="ch11s03.html#gel-function-MaxDigits"><code class="function">MaxDigits</code></a>)</p></dd><dt><span class="term"> 
+	    <span class="guilabel">Résultats en nombres flottants</span>
+      </span></dt><dd><p>If the results should be always printed as floats (<a class="link" href="ch11s03.html#gel-function-ResultsAsFloats"><code class="function">ResultsAsFloats</code></a>)</p></dd><dt><span class="term"> 
+	    <span class="guilabel">Nombres flottants en notation scientifique</span>
+      </span></dt><dd><p>If floats should be in scientific notation (<a class="link" href="ch11s03.html#gel-function-ScientificNotation"><code class="function">ScientificNotation</code></a>)</p></dd><dt><span class="term"> 
+	    <span class="guilabel">Toujours afficher les expressions complètes</span>
+      </span></dt><dd><p>Should we print out full expressions for non-numeric return values (longer than a line) (<a class="link" href="ch11s03.html#gel-function-FullExpressions"><code class="function">FullExpressions</code></a>)</p></dd><dt><span class="term"> 
+	    <span class="guilabel">Utiliser les fractions mixtes</span>
+      </span></dt><dd><p>If fractions should be printed as mixed fractions such as "1 1/3" rather than "4/3". (<a class="link" href="ch11s03.html#gel-function-MixedFractions"><code class="function">MixedFractions</code></a>)</p></dd><dt><span class="term"> 
+	    <span class="guilabel">Afficher 0.0 lorsqu'un nombre flottant est inférieur à 10^-x (0=ne jamais arrondir)</span>
+      </span></dt><dd><p>How to chop output.  But only when other numbers nearby are large.
+	   See the documentation of the parameter
+          <a class="link" href="ch11s03.html#gel-function-OutputChopExponent"><code class="function">OutputChopExponent</code></a>. </p></dd><dt><span class="term"> 
+            <span class="guilabel">Arrondir les nombres uniquement si un autre nombre est plus grand que 10^-x</span>
+      </span></dt><dd><p>When to chop output.  This is set by the parameter <a class="link" href="ch11s03.html#gel-function-OutputChopWhenExponent"><code class="function">OutputChopWhenExponent</code></a>.
+	   See the documentation of the parameter
+          <a class="link" href="ch11s03.html#gel-function-OutputChopExponent"><code class="function">OutputChopExponent</code></a>. </p></dd><dt><span class="term"> 
+	    <span class="guilabel">Se souvenir des paramètres de sortie d'une session à l'autre</span>
+      </span></dt><dd><p>Si les réglages concernant la sortie dans le cadre <span class="guilabel">Options pour la sortie des nombres/expressions</span> doivent être conservés pour la session suivante. Ne s'applique pas au cadre <span class="guilabel">Options pour la sortie erreurs/information</span>.</p><p>Si ce n'est pas coché, les réglages précédemment enregistrés ou ceux par défaut sont utilisés à chaque lancement de Genius. Notez que les paramètres sont enregistrés à la fin de la session donc si vous souhaitez modifier la valeur par défaut, cochez cette case, redémarrez Genius puis décochez-la à nouveau.</p></dd><dt><span class="term"> 
+	    <span class="guilabel">Afficher les erreurs dans une boîte de dialogue</span>
+      </span></dt><dd><p>If set the errors will be displayed in a separate dialog, if
+	unset the errors will be printed on the console.</p></dd><dt><span class="term"> 
+	    <span class="guilabel">Afficher les messages d'informations dans une boîte de dialogue</span>
+      </span></dt><dd><p>If set the information messages will be displayed in a separate
+	dialog, if unset the information messages will be printed on the
+	console.</p></dd><dt><span class="term"> 
+	    <span class="guilabel">Nombre maximum d'erreurs à afficher</span>
+      </span></dt><dd><p>
+	  The maximum number of errors to return on one evaluation
+	  (<a class="link" href="ch11s03.html#gel-function-MaxErrors"><code class="function">MaxErrors</code></a>).  If you set this to 0 then
+	  all errors are always returned.  Usually if some loop causes
+	  many errors, then it is unlikely that you will be able to make
+	  sense out of more than a few of these, so seeing a long list
+	  of errors is usually not helpful.
+	  </p></dd></dl></div><p>En plus de ces préférences, il existe d'autres préférences qui ne peuvent être modifiées qu'en les paramétrant dans l'espace de la console. Pour celles qui peuvent affecter la sortie, consultez <a class="xref" href="ch11s03.html" title="Paramètres">la section intitulée « Paramètres »</a>.</p><div class="variablelist"><dl class="variablelist"><dt><span class="term"> 
+	    <code class="function">IntegerOutputBase</code>
+      </span></dt><dd><p>La base utilisée pour afficher les entiers.</p></dd><dt><span class="term"> 
+	    <code class="function">OutputStyle</code>
+      </span></dt><dd><p>A string, can be <code class="literal">"normal"</code>,
+<code class="literal">"latex"</code>, <code class="literal">"mathml"</code> or
+<code class="literal">"troff"</code> and it will affect how matrices (and perhaps other
+stuff) is printed, useful for pasting into documents.  Normal style is the
+default human readable printing style of <span class="application">Genius Mathematics Tool</span>.  The other styles are for
+typesetting in LaTeX, MathML (XML), or in Troff.</p></dd></dl></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12.html">Précédent</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch13s02.html">Suivant</a></td></tr><tr><td width="40%" align="left" valign="top">Chapitre 12. Exemple de programmes en GEL </td><td width="20%" align="center"><a accesskey="h" href="index.html">Sommaire</a></td><td width="40%" align="right" valign="top"> Précision</td></tr></table></div></body></html>
