@@ -24,6 +24,7 @@ example_DATA = \
 	rsa.gel \
 	easy-matrix-examples.gel \
 	peano.gel \
+	peano-restrictions.gel \
 	vibrating-drumhead-modes.gel \
 	complex-analysis-newton-fractal.gel \
 	complex-analysis-mandelbrot-set.gel \

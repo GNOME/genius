@@ -1,0 +1,35 @@
+# Category: Calculus
+# Name: Peano surface (restrictions to lines)
+#
+# The Peano surface is the graph of the function.
+#
+# z = (y-x^2)(2x^2-y)
+#
+# The function giving the surface has a strict maximum on every line through
+# the origin, but the origin is not an extremum of the function.
+#
+# In this example we draw the graphs of the restrictions to lines through
+# the origin so that the maxima can be more clearly seen
+#
+# Note that the second derivative test fails on the line y=0, even though
+# along that line the function still has a maximum.
+#
+# The properties of the function can be easily seen from the factorization
+# and seeing the regions where each factor is positive or negative.
+#
+# If you play around with the vertical axis limits below you can see the
+# maxima better
+
+function f(x,y) = (y-x^2)*(2*x^2-y);
+
+LinePlotWindow = [-1,1,-0.1,0.1];
+#LinePlotWindow = [-1,1,-0.01,0.01];
+#LinePlotWindow = [-1,1,-0.001,0.001];
+#LinePlotWindow = [-1,1,-0.0001,0.0001];
+
+
+LinePlotDrawLegends = false;
+
+for theta=0.0 to 20*pi by 0.01 do (
+	LinePlot(`(t)=f(cos(theta)*t,sin(theta)*t))
+);
