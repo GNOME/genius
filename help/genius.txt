@@ -1161,11 +1161,12 @@ genius> 2*2 mod 7
 
    a%b
           The mod operator. This does not turn on the modular
-          mode, but just returns the remainder of a/b.
+          mode, but just returns the remainder of integer division
+          a/b.
 
    a.%b
-          Element by element the mod operator. Returns the
-          remainder after element by element integer a./b.
+          Element by element mod operator. Returns the remainder
+          after element by element integer division a./b.
 
    a mod b
           Modular evaluation operator. The expression a is
@@ -1200,20 +1201,20 @@ genius> 2*2 mod 7
    a>=b
           Greater than or equal operator, returns true if a is
           greater than or equal to b else returns false. These can
-          be chained as in a >= b >= c (can also be combine with
-          the greater than operator).
+          be chained as in a >= b >= c (and they can also be
+          combined with the greater than operator).
 
    a<b
           Less than operator, returns true if a is less than b
           else returns false. These can be chained as in a < b < c
-          (can also be combine with the less than or equal to
-          operator).
+          (they can also be combined with the less than or equal
+          to operator).
 
    a>b
           Greater than operator, returns true if a is greater than
           b else returns false. These can be chained as in a > b >
-          c (can also be combine with the greater than or equal to
-          operator).
+          c (they can also be combined with the greater than or
+          equal to operator).
 
    a<=>b
           Comparison operator. If a is equal to b it returns 0, if
@@ -1236,7 +1237,7 @@ genius> 2*2 mod 7
           numbers are treated as true.
 
    not a
-          Logical not. Returns the logical negation of a
+          Logical not. Returns the logical negation of a.
 
    -a
           Negation operator. Returns the negative of a number or a
@@ -1262,7 +1263,7 @@ genius> 2*2 mod 7
 
    a@(b,c)
           Get element of a matrix in row b and column c. If b, c
-          are vectors, then this gets the corresponding rows
+          are vectors, then this gets the corresponding rows,
           columns or submatrices.
 
    a@(b,)
@@ -1319,9 +1320,9 @@ genius> 1:2:9
           precise than 1.0:0.4:3.0.
 
    (a)i
-          Make a imaginary number (multiply a by the imaginary).
-          Note that normally the number i is written as 1i. So the
-          above is equal to
+          Make a into an imaginary number (multiply a by the
+          imaginary). Normally the imaginary number i is written
+          as 1i. So the above is equal to
 
 (a)*1i
 
@@ -1761,10 +1762,32 @@ function f(M) = (
    top level versus when they are inside parentheses or inside
    functions. On the top level, enter acts the same as if you
    press return on the command line. Therefore think of programs
-   as just sequence of lines as if were entered on the command
-   line. In particular, you do not need to enter the separator at
-   the end of the line (unless it is of course part of several
-   statements inside parentheses).
+   as just a sequence of lines as if they were entered on the
+   command line. In particular, you do not need to enter the
+   separator at the end of the line (unless it is of course part
+   of several statements inside parentheses). When a statement
+   does not end with a separator on the top level, the result is
+   printed after being executed.
+
+   For example,
+function f(x)=x^2
+f(3)
+
+   will print first the result of setting a function (a
+   representation of the function, in this case (`(x)=(x^2))) and
+   then the expected 9. To avoid this, enter a separator after the
+   function definition.
+function f(x)=x^2;
+f(3)
+
+   If you need to put a separator into your function then you have
+   to surround with parenthesis. For example:
+function f(x)=(
+  y=1;
+  for j=1 to x do
+    y = y+j;
+  y^2
+);
 
    The following code will produce an error when entered on the
    top level of a program, while it will work just fine in a
@@ -3764,8 +3787,8 @@ IsPerfectPower (n)
 IsPerfectSquare (n)
 
           Check an integer for being a perfect square of an
-          integer. The number must be a real integer. Negative
-          integers are of course never perfect squares of real
+          integer. The number must be an integer. Negative
+          integers are of course never perfect squares of
           integers.
 
    IsPrime
@@ -4098,7 +4121,7 @@ CompoundMatrix (k,A)
 CountZeroColumns (M)
 
           Count the number of zero columns in a matrix. For
-          example once your column reduce a matrix you can use
+          example, once you column-reduce a matrix, you can use
           this to find the nullity. See cref and Nullity.
 
    DeleteColumn
@@ -6065,7 +6088,7 @@ EulersMethodFull (f,x0,y0,x1,n)
 
           Use classical Euler's method to numerically solve
           y'=f(x,y) for initial x0, y0 going to x1 with n
-          increments, returns a 2 by n+1 matrix with the x and y
+          increments, returns an n+1 by 2 matrix with the x and y
           values. Unless you explicitly want to use Euler's
           method, you should really think about using
           RungeKuttaFull for solving ODE. Suitable for plugging
@@ -6220,7 +6243,8 @@ QuadraticFormula (p)
           corresponds to the vector [1,2,3]. Returns a column
           vector of the two solutions.
 
-          See Planetmath or Mathworld for more information.
+          See Planetmath, or Mathworld, or Wikipedia for more
+          information.
 
    QuarticFormula
 
@@ -6257,9 +6281,9 @@ RungeKuttaFull (f,x0,y0,x1,n)
 
           Use classical non-adaptive fourth order Runge-Kutta
           method to numerically solve y'=f(x,y) for initial x0, y0
-          going to x1 with n increments, returns a 2 by n+1 matrix
-          with the x and y values. Suitable for plugging into
-          LinePlotDrawLine or LinePlotDrawPoints.
+          going to x1 with n increments, returns an n+1 by 2
+          matrix with the x and y values. Suitable for plugging
+          into LinePlotDrawLine or LinePlotDrawPoints.
 
           Example:
 
@@ -6304,9 +6328,10 @@ Average (m)
 
           Aliases: average Mean mean
 
-          Calculate average of an entire matrix.
+          Calculate average (the arithmetic mean) of an entire
+          matrix.
 
-          See Mathworld for more information.
+          See Wikipedia or Mathworld for more information.
 
    GaussDistribution
 
@@ -6315,7 +6340,7 @@ GaussDistribution (x,sigma)
           Integral of the GaussFunction from 0 to x (area under
           the normal curve).
 
-          See Mathworld for more information.
+          See Wikipedia or Mathworld for more information.
 
    GaussFunction
 
@@ -6324,7 +6349,7 @@ GaussFunction (x,sigma)
           The normalized Gauss distribution function (the normal
           curve).
 
-          See Mathworld for more information.
+          See Wikipedia or Mathworld for more information.
 
    Median
 
@@ -6334,7 +6359,7 @@ Median (m)
 
           Calculate median of an entire matrix.
 
-          See Mathworld for more information.
+          See Wikipedia or Mathworld for more information.
 
    PopulationStandardDeviation
 
@@ -6351,9 +6376,10 @@ RowAverage (m)
 
           Aliases: RowMean
 
-          Calculate average of each row in a matrix.
+          Calculate average of each row in a matrix. That is,
+          compute the arithmetic mean.
 
-          See Mathworld for more information.
+          See Wikipedia or Mathworld for more information.
 
    RowMedian
 
@@ -6362,7 +6388,7 @@ RowMedian (m)
           Calculate median of each row in a matrix and return a
           column vector of the medians.
 
-          See Mathworld for more information.
+          See Wikipedia or Mathworld for more information.
 
    RowPopulationStandardDeviation
 
@@ -6560,28 +6586,60 @@ MacaulayRep (c,d)
 
 ASCIIToString (vec)
 
-          Convert a vector of ASCII values to a string.
+          Convert a vector of ASCII values to a string. See also
+          StringToASCII.
+
+          Example:
+
+genius> ASCIIToString([97,98,99])
+= "abc"
+
+          See Wikipedia for more information.
 
    AlphabetToString
 
 AlphabetToString (vec,alphabet)
 
           Convert a vector of 0-based alphabet values (positions
-          in the alphabet string) to a string.
+          in the alphabet string) to a string. A null vector
+          results in an empty string. See also StringToAlphabet.
+
+          Examples:
+
+genius> AlphabetToString([1,2,3,0,0],"abcd")
+= "bcdaa"
+genius> AlphabetToString(null,"abcd")
+= ""
 
    StringToASCII
 
 StringToASCII (str)
 
-          Convert a string to a vector of ASCII values.
+          Convert a string to a (row) vector of ASCII values. See
+          also ASCIIToString.
+
+          Example:
+
+genius> StringToASCII("abc")
+= [97, 98, 99]
+
+          See Wikipedia for more information.
 
    StringToAlphabet
 
 StringToAlphabet (str,alphabet)
 
-          Convert a string to a vector of 0-based alphabet values
-          (positions in the alphabet string), -1's for unknown
-          letters.
+          Convert a string to a (row) vector of 0-based alphabet
+          values (positions in the alphabet string), -1's for
+          unknown letters. An empty string results in a null. See
+          also AlphabetToString.
+
+          Examples:
+
+genius> StringToAlphabet("cca","abcd")
+= [2, 2, 0]
+genius> StringToAlphabet("ccag","abcd")
+= [2, 2, 0, -1]
      __________________________________________________________
 
 11.19. Symbolic Operations
@@ -6774,8 +6832,8 @@ LinePlotDrawLine (v,...)
 genius> LinePlotDrawLine(0,0,1,1,"color","blue","thickness",3)
 genius> LinePlotDrawLine([0,0;1,-1;-1,-1])
 genius> LinePlotDrawLine([0,0;1,1],"arrow","end")
-genius> LinePlotDrawLine(RungeKuttaFull(`(x,y)=y,0,3,100),"color","blue"
-,"legend","The Solution")
+genius> LinePlotDrawLine(RungeKuttaFull(`(x,y)=y,0,0.001,10,100),"color"
+,"blue","legend","The Solution")
 genius> for r=0.0 to 1.0 by 0.1 do LinePlotDrawLine([0,0;1,r],"color",[r
 ,(1-r),0.5],"window",[0,1,0,1])
 genius> LinePlotDrawLine([0,0;10,0;10,10;0,10],"filled","color","green")
@@ -6831,8 +6889,8 @@ LinePlotDrawPoints (v,...)
 
 genius> LinePlotDrawPoints(0,0,"color","blue","thickness",3)
 genius> LinePlotDrawPoints([0,0;1,-1;-1,-1])
-genius> LinePlotDrawPoints(RungeKuttaFull(`(x,y)=y,0,3,100),"color","blu
-e","legend","The Solution")
+genius> LinePlotDrawPoints(RungeKuttaFull(`(x,y)=y,0,0.001,10,100),"colo
+r","blue","legend","The Solution")
 genius> LinePlotDrawPoints([1;1+1i;1i;0],"thickness",5)
 genius> LinePlotDrawPoints(ApplyOverMatrix((0:6)',`(k)=exp(k*2*pi*1i/7))
 ,"thickness",3,"legend","The 7th roots of unity")
@@ -7099,11 +7157,10 @@ SurfacePlotDrawLine (v,...)
           longer polyline.
 
           Extra parameters can be added to specify line color,
-          thickness, arrows, the plotting window, or legend. You
-          can do this by adding an argument string "color",
-          "thickness", "window", or "legend", and after it specify
-          the color, the thickness, the window as 6-vector, or the
-          legend.
+          thickness, the plotting window, or legend. You can do
+          this by adding an argument string "color", "thickness",
+          "window", or "legend", and after it specify the color,
+          the thickness, the window as 6-vector, or the legend.
 
           The color should be either a string indicating the
           common English word for the color that GTK will
