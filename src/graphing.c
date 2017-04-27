@@ -9581,7 +9581,8 @@ SurfacePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 		}
 	}
 
-	if (plot_mode != MODE_SURFACE) {
+	if (plot_mode != MODE_SURFACE ||
+	    surface_plot == NULL) {
 		plot_mode = MODE_SURFACE;
 		plot_surface_functions (TRUE /* do_window_present */,
 					surfaceplot_fit_dependent_axis_cb /*fit*/);
@@ -9649,7 +9650,7 @@ SurfacePlotDrawPoints_op (GelCtx *ctx, GelETree * * a, int *exception)
 		y[0] = y1;
 		z = g_new (double, 1);
 		z[0] = z1;
-		nextarg = 6;
+		nextarg = 3;
 
 		minx = x1;
 		maxx = x1;
@@ -9814,7 +9815,8 @@ SurfacePlotDrawPoints_op (GelCtx *ctx, GelETree * * a, int *exception)
 		}
 	}
 
-	if (plot_mode != MODE_SURFACE) {
+	if (plot_mode != MODE_SURFACE ||
+	    surface_plot == NULL) {
 		plot_mode = MODE_SURFACE;
 		plot_surface_functions (TRUE /* do_window_present */,
 					surfaceplot_fit_dependent_axis_cb /*fit*/);

@@ -1435,7 +1435,8 @@ returns 3.
            <para>
 	     The mod operator.  This does not turn on the <link
 	     linkend='genius-gel-modular-evaluation'>modular mode</link>, but
-	     just returns the remainder of <userinput>a/b</userinput>.
+             just returns the remainder of integer division
+             <userinput>a/b</userinput>.
            </para>
          </listitem>
         </varlistentry>
@@ -1445,8 +1446,9 @@ returns 3.
          <term><userinput>a.%b</userinput></term>
          <listitem>
            <para>
-             Element by element the mod operator.  Returns the remainder
-	     after element by element integer <userinput>a./b</userinput>.
+             Element by element mod operator.  Returns the remainder
+	     after element by element integer division
+	     <userinput>a./b</userinput>.
            </para>
          </listitem>
         </varlistentry>
@@ -1547,7 +1549,7 @@ returns 3.
 	     greater than or equal to 
 	     <varname>b</varname> else returns <constant>false</constant>.
 	     These can be chained as in <userinput>a &gt;= b &gt;= c</userinput>
-	     (can also be combine with the greater than operator).
+	     (and they can also be combined with the greater than operator).
            </para>
          </listitem>
         </varlistentry>
@@ -1561,7 +1563,7 @@ returns 3.
 	     less than 
 	     <varname>b</varname> else returns <constant>false</constant>.
 	     These can be chained as in <userinput>a &lt; b &lt; c</userinput>
-	     (can also be combine with the less than or equal to operator).
+	     (they can also be combined with the less than or equal to operator).
            </para>
          </listitem>
         </varlistentry>
@@ -1576,7 +1578,7 @@ returns 3.
 	     greater than 
 	     <varname>b</varname> else returns <constant>false</constant>.
 	     These can be chained as in <userinput>a &gt; b &gt; c</userinput>
-	     (can also be combine with the greater than or equal to operator).
+	     (they can also be combined with the greater than or equal to operator).
            </para>
          </listitem>
         </varlistentry>
@@ -1641,7 +1643,7 @@ returns 3.
          <term><userinput>not a</userinput></term>
          <listitem>
            <para>
-		   Logical not.  Returns the logical negation of <varname>a</varname>
+		   Logical not.  Returns the logical negation of <varname>a</varname>.
            </para>
          </listitem>
         </varlistentry>
@@ -1708,7 +1710,7 @@ returns 3.
 	     Get element of a matrix in row <varname>b</varname> and column
 	     <varname>c</varname>.   If <varname>b</varname>,
 	     <varname>c</varname> are vectors, then this gets the corresponding
-	     rows columns or submatrices.
+	     rows, columns or submatrices.
            </para>
          </listitem>
         </varlistentry>
@@ -1820,8 +1822,8 @@ returns 3.
          <term><userinput>(a)i</userinput></term>
          <listitem>
            <para>
-	     Make a imaginary number (multiply <varname>a</varname> by the
-	     imaginary).  Note that normally the number <varname>i</varname> is
+	     Make <varname>a</varname> into an imaginary number (multiply <varname>a</varname> by the
+	     imaginary).  Normally the imaginary number <varname>i</varname> is
 	     written as <userinput>1i</userinput>.  So the above is equal to
 	     <programlisting>(a)*1i
 	     </programlisting>
@@ -2089,7 +2091,7 @@ for conditional evaluation works here as well. For example, <literal>1 or a=1</l
         <title>Global Variables and Scope of Variables</title>
 	<para>
 	  GEL is a
-	  <ulink url="http://en.wikipedia.org/wiki/Scope_%28programming%29">
+	  <ulink url="https://en.wikipedia.org/wiki/Scope_%28programming%29">
 	  dynamically scoped language</ulink>.  We will explain what this
 	  means below.  That is, normal variables and functions are dynamically
 	  scoped.  The exception are 
@@ -2386,10 +2388,33 @@ could use the following code.
 	the top level versus when they are inside parentheses or
 	inside functions.  On the top level, enter acts the same as if
 	you press return on the command line.  Therefore think of programs
-	as just sequence of lines as if were entered on the command line.
+	as just a sequence of lines as if they were entered on the command line.
 	In particular, you do not need to enter the separator at the end of the
 	line (unless it is of course part of several statements inside
-	parentheses).
+	parentheses).  When a statement does not end with a separator on the
+	top level, the result is printed after being executed.
+      </para>
+      <para>
+	For example,
+	<programlisting>function f(x)=x^2
+f(3)
+</programlisting>
+	will print first the result of setting a function (a representation of
+	the function, in this case <computeroutput>(`(x)=(x^2))</computeroutput>)
+	and then the expected 9.  To avoid this, enter a separator
+	after the function definition.
+	<programlisting>function f(x)=x^2;
+f(3)
+</programlisting>
+	If you need to put a separator into your function then you have to surround with
+	parenthesis.  For example:
+<programlisting>function f(x)=(
+  y=1;
+  for j=1 to x do
+    y = y+j;
+  y^2
+);
+</programlisting>
       </para>
       <para>
 	The following code will produce an error when entered on the top
@@ -3815,7 +3840,7 @@ vectorfield plot.  (See <link linkend="gel-function-VectorfieldPlot"><function>V
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Catalan%27s_constant">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Catalan%27s_constant">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/CatalansConstant.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -3832,7 +3857,7 @@ vectorfield plot.  (See <link linkend="gel-function-VectorfieldPlot"><function>V
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Euler-Mascheroni_constant">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Euler-Mascheroni_constant">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/MascheroniConstant">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/Euler-MascheroniConstant.html">Mathworld</ulink> for more information.
 	  </para>
@@ -3846,7 +3871,7 @@ vectorfield plot.  (See <link linkend="gel-function-VectorfieldPlot"><function>V
           <para>The Golden Ratio.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Golden_ratio">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Golden_ratio">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/GoldenRatio">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/GoldenRatio.html">Mathworld</ulink> for more information.
 	  </para>
@@ -3862,7 +3887,7 @@ vectorfield plot.  (See <link linkend="gel-function-VectorfieldPlot"><function>V
 	  	  round and uniform.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Standard_gravity">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Standard_gravity">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -3880,7 +3905,7 @@ vectorfield plot.  (See <link linkend="gel-function-VectorfieldPlot"><function>V
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/E_(mathematical_constant)">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/E_(mathematical_constant)">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/E">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/e.html">Mathworld</ulink> for more information.
 	  </para>
@@ -3897,7 +3922,7 @@ vectorfield plot.  (See <link linkend="gel-function-VectorfieldPlot"><function>V
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Pi">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Pi">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/Pi">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/Pi.html">Mathworld</ulink> for more information.
 	  </para>
@@ -3923,7 +3948,7 @@ vectorfield plot.  (See <link linkend="gel-function-VectorfieldPlot"><function>V
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Absolute_value">Wikipedia</ulink>,
+	    <ulink url="https://en.wikipedia.org/wiki/Absolute_value">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/AbsoluteValue">Planetmath (absolute value)</ulink>,
 	    <ulink url="http://planetmath.org/ModulusOfComplexNumber">Planetmath (modulus)</ulink>,
 	    <ulink url="http://mathworld.wolfram.com/AbsoluteValue.html">Mathworld (absolute value)</ulink> or
@@ -3950,7 +3975,7 @@ for more information.
 all its elements are conjugated.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Complex_conjugate">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Complex_conjugate">Wikipedia</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -3962,7 +3987,7 @@ all its elements are conjugated.</para>
           <para>Get the denominator of a rational number.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Denominator">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Denominator">Wikipedia</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -3974,7 +3999,7 @@ all its elements are conjugated.</para>
           <para>Return the fractional part of a number.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Fractional_part">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Fractional_part">Wikipedia</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -3987,7 +4012,7 @@ all its elements are conjugated.</para>
           <para>Get the imaginary part of a complex number.  For example <userinput>Re(3+4i)</userinput> yields 4.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Imaginary_part">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Imaginary_part">Wikipedia</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -4087,7 +4112,7 @@ we accept the convention that 0 is not a natural number.</para>
           <para>Get the numerator of a rational number.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Numerator">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Numerator">Wikipedia</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -4100,7 +4125,7 @@ we accept the convention that 0 is not a natural number.</para>
 	  <para>Get the real part of a complex number.  For example <userinput>Re(3+4i)</userinput> yields 3.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Real_part">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Real_part">Wikipedia</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -4154,7 +4179,7 @@ value then <function>Sign</function> returns the direction or 0.
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Exponential_function">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Exponential_function">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/LogarithmFunction">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/ExponentialFunction.html">Mathworld</ulink> for more information.
 	  </para>
@@ -4185,7 +4210,7 @@ value then <function>Sign</function> returns the direction or 0.
           <para>The natural logarithm, the logarithm to base <varname>e</varname>.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Natural_logarithm">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Natural_logarithm">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/LogarithmFunction">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/NaturalLogarithm.html">Mathworld</ulink> for more information.
 	  </para>
@@ -4415,7 +4440,7 @@ number is specified) of the given size returned.  For example,
           <para>Calculates the arctan (inverse tan) function.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Arctangent">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Arctangent">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/InverseTangent.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -4445,7 +4470,7 @@ number is specified) of the given size returned.  For example,
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Atan2">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Atan2">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/InverseTangent.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -4458,7 +4483,7 @@ number is specified) of the given size returned.  For example,
           <para>Calculates the cosine function.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> for more information.
 	  </para>
          </listitem>
@@ -4484,7 +4509,7 @@ number is specified) of the given size returned.  For example,
           <para>The cotangent function.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> for more information.
 	  </para>
          </listitem>
@@ -4510,7 +4535,7 @@ number is specified) of the given size returned.  For example,
           <para>The cosecant function.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> for more information.
 	  </para>
          </listitem>
@@ -4536,7 +4561,7 @@ number is specified) of the given size returned.  For example,
           <para>The secant function.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> for more information.
 	  </para>
          </listitem>
@@ -4562,7 +4587,7 @@ number is specified) of the given size returned.  For example,
           <para>Calculates the sine function.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> for more information.
 	  </para>
          </listitem>
@@ -4588,7 +4613,7 @@ number is specified) of the given size returned.  For example,
           <para>Calculates the tan function.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> for more information.
 	  </para>
          </listitem>
@@ -4637,7 +4662,7 @@ number is specified) of the given size returned.  For example,
           <para>Return the <varname>n</varname>th Bernoulli number.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Bernoulli_number">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Bernoulli_number">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/BernoulliNumber.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -4654,7 +4679,7 @@ number is specified) of the given size returned.  For example,
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Chinese_remainder_theorem">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Chinese_remainder_theorem">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/ChineseRemainderTheorem">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/ChineseRemainderTheorem.html">Mathworld</ulink> for more information.
 	  </para>
@@ -4696,7 +4721,7 @@ number is specified) of the given size returned.  For example,
 	    is a prime, using the Silver-Pohlig-Hellman algorithm.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Discrete_logarithm">Wikipedia</ulink>,
+	    <ulink url="https://en.wikipedia.org/wiki/Discrete_logarithm">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/DiscreteLogarithm">Planetmath</ulink>, or
 	    <ulink url="http://mathworld.wolfram.com/DiscreteLogarithm.html">Mathworld</ulink> for more information.
 	  </para>
@@ -4722,7 +4747,7 @@ number is specified) of the given size returned.  For example,
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Euler_phi">Wikipedia</ulink>,
+	    <ulink url="https://en.wikipedia.org/wiki/Euler_phi">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/EulerPhifunction">Planetmath</ulink>, or
 	    <ulink url="http://mathworld.wolfram.com/TotientFunction.html">Mathworld</ulink> for more information.
 	  </para>
@@ -4759,7 +4784,7 @@ number is specified) of the given size returned.  For example,
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Factorization">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Factorization">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -4800,7 +4825,7 @@ number is specified) of the given size returned.  For example,
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Fermat_factorization">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Fermat_factorization">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -4873,7 +4898,7 @@ precalculated and returned in the second column.</para>
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Mersenne_prime">Wikipedia</ulink>,
+	    <ulink url="https://en.wikipedia.org/wiki/Mersenne_prime">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/MersenneNumbers">Planetmath</ulink>,
 	    <ulink url="http://mathworld.wolfram.com/MersennePrime.html">Mathworld</ulink> or 
 	    <ulink url="http://www.mersenne.org/">GIMPS</ulink>
@@ -4918,8 +4943,8 @@ precalculated and returned in the second column.</para>
           <synopsis>IsPerfectSquare (n)</synopsis>
           <para>
 	    Check an integer for being a perfect square of an integer.  The number must
-	    be a real integer.  Negative integers are of course never perfect
-	    squares of real integers.
+	    be an integer.  Negative integers are of course never perfect
+	    squares of integers.
 	  </para>
          </listitem>
         </varlistentry>
@@ -5044,7 +5069,7 @@ If <varname>q</varname> is not prime results are bogus.</para>
           </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Lucas%E2%80%93Lehmer_primality_test">Wikipedia</ulink>,
+	    <ulink url="https://en.wikipedia.org/wiki/Lucas%E2%80%93Lehmer_primality_test">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/LucasLhemer">Planetmath</ulink>, or
 	    <ulink url="http://mathworld.wolfram.com/Lucas-LehmerTest.html">Mathworld</ulink> for more information.
 	  </para>
@@ -5058,7 +5083,7 @@ If <varname>q</varname> is not prime results are bogus.</para>
           <para>Returns the <varname>n</varname>th Lucas number.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Lucas_number">Wikipedia</ulink>,
+	    <ulink url="https://en.wikipedia.org/wiki/Lucas_number">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/LucasNumbers">Planetmath</ulink>, or
 	    <ulink url="http://mathworld.wolfram.com/LucasNumber.html">Mathworld</ulink> for more information.
 	  </para>
@@ -5089,7 +5114,7 @@ If <varname>q</varname> is not prime results are bogus.</para>
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Mersenne_prime">Wikipedia</ulink>,
+	    <ulink url="https://en.wikipedia.org/wiki/Mersenne_prime">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/MersenneNumbers">Planetmath</ulink>,
 	    <ulink url="http://mathworld.wolfram.com/MersennePrime.html">Mathworld</ulink> or 
 	    <ulink url="http://www.mersenne.org/">GIMPS</ulink>
@@ -5113,7 +5138,7 @@ If <varname>q</varname> is not prime results are bogus.</para>
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/MillerRabinPrimeTest">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html">Mathworld</ulink> for more information.
 	  </para>
@@ -5131,7 +5156,7 @@ If <varname>q</varname> is not prime results are bogus.</para>
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test">Wikipedia</ulink>,
+	    <ulink url="https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/MillerRabinPrimeTest">Planetmath</ulink>, or
 	    <ulink url="http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html">Mathworld</ulink> for more information.
 	  </para>
@@ -5401,8 +5426,8 @@ If <varname>q</varname> is not prime results are bogus.</para>
          <listitem>
           <synopsis>CountZeroColumns (M)</synopsis>
           <para>
-	   Count the number of zero columns in a matrix.  For example
-	   once your column reduce a matrix you can use this to find
+	   Count the number of zero columns in a matrix.  For example,
+	   once you column-reduce a matrix, you can use this to find
 	   the nullity.  See <link linkend="gel-function-cref"><function>cref</function></link>
 	   and <link linkend="gel-function-Nullity"><function>Nullity</function></link>.
           </para>
@@ -5432,7 +5457,7 @@ If <varname>q</varname> is not prime results are bogus.</para>
           <para>Gets the diagonal entries of a matrix as a column vector.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Diagonal_of_a_matrix#Matrices">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Diagonal_of_a_matrix#Matrices">Wikipedia</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -5509,7 +5534,7 @@ If <varname>q</varname> is not prime results are bogus.</para>
           <para>Is a matrix diagonal.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Diagonal_matrix">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Diagonal_matrix">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/DiagonalMatrix">Planetmath</ulink> for more information.
 	  </para>
          </listitem>
@@ -5551,7 +5576,7 @@ If <varname>q</varname> is not prime results are bogus.</para>
 	  Do not confuse positive matrices with positive semi-definite matrices.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Positive_matrix">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Positive_matrix">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -5565,7 +5590,7 @@ positive (and hence real).  In particular, no element is 0.  Do not confuse
 positive matrices with positive definite matrices.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Positive_matrix">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Positive_matrix">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -5659,7 +5684,7 @@ functions make this check.  Values can be any number including complex numbers.<
 		  <userinput>MakeDiagonal(1,2,3)</userinput>.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Diagonal_matrix">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Diagonal_matrix">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/DiagonalMatrix">Planetmath</ulink> for more information.
           </para>
          </listitem>
@@ -6079,7 +6104,7 @@ result as a vector and not added together.</para>
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Eigenvalue">Wikipedia</ulink>,
+	    <ulink url="https://en.wikipedia.org/wiki/Eigenvalue">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/Eigenvalue">Planetmath</ulink>, or
 	    <ulink url="http://mathworld.wolfram.com/Eigenvalue.html">Mathworld</ulink> for more information.
           </para>
@@ -6098,7 +6123,7 @@ the eigenvalues and their algebraic multiplicities.
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Eigenvector">Wikipedia</ulink>,
+	    <ulink url="https://en.wikipedia.org/wiki/Eigenvector">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/Eigenvector">Planetmath</ulink>, or
 	    <ulink url="http://mathworld.wolfram.com/Eigenvector.html">Mathworld</ulink> for more information.
           </para>
@@ -6362,7 +6387,7 @@ determinant.
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Kronecker_product">Wikipedia</ulink>, 
+	    <ulink url="https://en.wikipedia.org/wiki/Kronecker_product">Wikipedia</ulink>, 
 	    <ulink url="http://planetmath.org/KroneckerProduct">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/KroneckerProduct.html">Mathworld</ulink> for more information.
           </para>
@@ -6405,7 +6430,7 @@ determinant.
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</ulink>,
+	    <ulink url="https://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/LUDecomposition">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/LUDecomposition.html">Mathworld</ulink> for more information.
 	  </para>
@@ -6519,7 +6544,7 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/QR_decomposition">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/QR_decomposition">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/QRDecomposition">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/QRDecomposition.html">Mathworld</ulink> for more information.
 	  </para>
@@ -6644,7 +6669,7 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
           <para>Returns the Smith normal form of a matrix over fields (will end up with 1's on the diagonal).</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Smith_normal_form">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Smith_normal_form">Wikipedia</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -6656,7 +6681,7 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
           <para>Return the Smith normal form for square integer matrices over integers.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Smith_normal_form">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Smith_normal_form">Wikipedia</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -6679,7 +6704,7 @@ conjugated and the nonconjugated version is used for the first row to give a
 Hermitian matrix (if the first element is real of course).</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Toeplitz_matrix">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Toeplitz_matrix">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/ToeplitzMatrix">Planetmath</ulink> for more information.
           </para>
          </listitem>
@@ -6693,7 +6718,7 @@ Hermitian matrix (if the first element is real of course).</para>
           <para>Calculate the trace of a matrix.  That is the sum of the diagonal elements.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Trace_(linear_algebra)">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Trace_(linear_algebra)">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/Trace">Planetmath</ulink> for more information.
           </para>
          </listitem>
@@ -6707,7 +6732,7 @@ Hermitian matrix (if the first element is real of course).</para>
           <userinput>.'</userinput> operator.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Transpose">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Transpose">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/Transpose">Planetmath</ulink> for more information.
           </para>
          </listitem>
@@ -6721,7 +6746,7 @@ Hermitian matrix (if the first element is real of course).</para>
           <para>Return the Vandermonde matrix.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Vandermonde_matrix">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Vandermonde_matrix">Wikipedia</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -6788,7 +6813,7 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
           <para>Get the determinant of a matrix.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Determinant">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Determinant">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/Determinant2">Planetmath</ulink> for more information.
           </para>
          </listitem>
@@ -6804,7 +6829,7 @@ elimination but not backaddition to <varname>M</varname>.  The pivot rows are
 divided to make all pivots 1.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Row_echelon_form">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Row_echelon_form">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/RowEchelonForm">Planetmath</ulink> for more information.
           </para>
          </listitem>
@@ -6818,7 +6843,7 @@ divided to make all pivots 1.</para>
           <para>Get the reduced row echelon form of a matrix.  That is, apply gaussian elimination together with backaddition to <varname>M</varname>.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Reduced_row_echelon_form">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Reduced_row_echelon_form">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/ReducedRowEchelonForm">Planetmath</ulink> for more information.
           </para>
          </listitem>
@@ -6851,7 +6876,7 @@ divided to make all pivots 1.</para>
 </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Combination">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Combination">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -6906,7 +6931,7 @@ divided to make all pivots 1.</para>
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Fibonacci_number">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Fibonacci_number">Wikipedia</ulink> or
 	    <ulink url="http://planetmath.org/FibonacciSequence">Planetmath</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FibonacciNumber.html">Mathworld</ulink> for more information.
 	  </para>
@@ -7017,7 +7042,7 @@ divided to make all pivots 1.</para>
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Multinomial_theorem">Wikipedia</ulink>,
+	    <ulink url="https://en.wikipedia.org/wiki/Multinomial_theorem">Wikipedia</ulink>,
 	    <ulink url="http://planetmath.org/MultinomialTheorem">Planetmath</ulink>, or
 	    <ulink url="http://mathworld.wolfram.com/MultinomialCoefficient.html">Mathworld</ulink> for more information.
 	  </para>
@@ -7049,7 +7074,7 @@ do (
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Combination">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Combination">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -7077,7 +7102,7 @@ do (
           <para>
 	    See
 	    <ulink url="http://mathworld.wolfram.com/Permutation.html">Mathworld</ulink> or
-	    <ulink url="http://en.wikipedia.org/wiki/Permutation">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Permutation">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -7166,7 +7191,7 @@ do (
           <para>
 	    See
 	    <ulink url="http://mathworld.wolfram.com/Permutation.html">Mathworld</ulink> or
-	    <ulink url="http://en.wikipedia.org/wiki/Permutation">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Permutation">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -7246,7 +7271,7 @@ the term <userinput>cos(x*(n-1)*pi/L)</userinput>, while
 or <varname>b</varname> can be <constant>null</constant>.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FourierSeries.html">Mathworld</ulink> for more information.
           </para>
          </listitem>
@@ -7352,7 +7377,7 @@ computed by numerical integration using
 <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FourierSeries.html">Mathworld</ulink> for more information.
           </para>
 	  <para>Version 1.0.7 onwards.</para>
@@ -7372,7 +7397,7 @@ computed by numerical integration using
 <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FourierSeries.html">Mathworld</ulink> for more information.
           </para>
 	  <para>Version 1.0.7 onwards.</para>
@@ -7397,7 +7422,7 @@ the constant coefficient!  That is, <userinput>a@(n)</userinput> refers to
 the term <userinput>cos(x*(n-1)*pi/L)</userinput>.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FourierCosineSeries.html">Mathworld</ulink> for more information.
           </para>
 	  <para>Version 1.0.7 onwards.</para>
@@ -7418,7 +7443,7 @@ computed by numerical integration using
 <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FourierCosineSeries.html">Mathworld</ulink> for more information.
           </para>
 	  <para>Version 1.0.7 onwards.</para>
@@ -7440,7 +7465,7 @@ computed by numerical integration using
 <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FourierSineSeries.html">Mathworld</ulink> for more information.
           </para>
 	  <para>Version 1.0.7 onwards.</para>
@@ -7461,7 +7486,7 @@ computed by numerical integration using
 <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
+	    <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FourierSineSeries.html">Mathworld</ulink> for more information.
           </para>
 	  <para>Version 1.0.7 onwards.</para>
@@ -7598,7 +7623,7 @@ and has period <userinput>b-a</userinput>.</para>
           <para>Bessel function of the first kind of order 0.  Only implemented for real numbers.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
 	  </para>
 	  <para>Version 1.0.16 onwards.</para>
          </listitem>
@@ -7611,7 +7636,7 @@ and has period <userinput>b-a</userinput>.</para>
           <para>Bessel function of the first kind of order 1.  Only implemented for real numbers.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
 	  </para>
 	  <para>Version 1.0.16 onwards.</para>
          </listitem>
@@ -7624,7 +7649,7 @@ and has period <userinput>b-a</userinput>.</para>
 	  <para>Bessel function of the first kind of order <varname>n</varname>.  Only implemented for real numbers.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
 	  </para>
 	  <para>Version 1.0.16 onwards.</para>
          </listitem>
@@ -7637,7 +7662,7 @@ and has period <userinput>b-a</userinput>.</para>
           <para>Bessel function of the second kind of order 0.  Only implemented for real numbers.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
 	  </para>
 	  <para>Version 1.0.16 onwards.</para>
          </listitem>
@@ -7650,7 +7675,7 @@ and has period <userinput>b-a</userinput>.</para>
           <para>Bessel function of the second kind of order 1.  Only implemented for real numbers.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
 	  </para>
 	  <para>Version 1.0.16 onwards.</para>
          </listitem>
@@ -7663,7 +7688,7 @@ and has period <userinput>b-a</userinput>.</para>
 	  <para>Bessel function of the second kind of order <varname>n</varname>.  Only implemented for real numbers.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
 	  </para>
 	  <para>Version 1.0.16 onwards.</para>
          </listitem>
@@ -7721,7 +7746,7 @@ and has period <userinput>b-a</userinput>.</para>
           <para>
 	    See
 	    <ulink url="http://planetmath.org/GammaFunction">Planetmath</ulink> or
-	    <ulink url="http://en.wikipedia.org/wiki/Gamma_function">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Gamma_function">Wikipedia</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -7749,7 +7774,7 @@ and has period <userinput>b-a</userinput>.</para>
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Lambert_W_function">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Lambert_W_function">Wikipedia</ulink> for more information.
 	  </para>
 	  <para>Version 1.0.18 onwards.</para>
          </listitem>
@@ -7769,7 +7794,7 @@ and has period <userinput>b-a</userinput>.</para>
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Lambert_W_function">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Lambert_W_function">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -7872,7 +7897,7 @@ and has period <userinput>b-a</userinput>.</para>
           <para>
 	    See
 	    <ulink url="http://planetmath.org/RiemannZetaFunction">Planetmath</ulink> or
-	    <ulink url="http://en.wikipedia.org/wiki/Riemann_zeta_function">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Riemann_zeta_function">Wikipedia</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -7884,7 +7909,7 @@ and has period <userinput>b-a</userinput>.</para>
           <para>The unit step function is 0 for x&lt;0, 1 otherwise.  This is the integral of the Dirac Delta function.  Also called the Heaviside function.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Unit_step">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Unit_step">Wikipedia</ulink> for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -7925,7 +7950,7 @@ and has period <userinput>b-a</userinput>.</para>
 		  If you want the normalized function call <userinput>sinc(pi*x)</userinput>.</para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Sinc">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Sinc">Wikipedia</ulink> for more information.
 	  </para>
 	  <para>Version 1.0.16 onwards.</para>
          </listitem>
@@ -7955,7 +7980,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    See
 	    <ulink url="http://planetmath.org/CubicFormula">Planetmath</ulink>,
 	    <ulink url="http://mathworld.wolfram.com/CubicFormula.html">Mathworld</ulink>, or
-	    <ulink url="http://en.wikipedia.org/wiki/Cubic_equation">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Cubic_equation">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -7984,7 +8009,7 @@ and has period <userinput>b-a</userinput>.</para>
           <para>
 	    See
 	    <ulink url="http://mathworld.wolfram.com/EulerForwardMethod.html">Mathworld</ulink> or
-	    <ulink url="http://en.wikipedia.org/wiki/Eulers_method">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Eulers_method">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -7997,7 +8022,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    Use classical Euler's method to numerically solve y'=f(x,y) for
 	    initial <varname>x0</varname>, <varname>y0</varname> going to
 	    <varname>x1</varname> with <varname>n</varname> increments,
-	    returns a 2 by <userinput>n+1</userinput> matrix with the
+	    returns an <userinput>n+1</userinput> by 2 matrix with the
 	    <varname>x</varname> and <varname>y</varname> values.
 	    Unless you explicitly want to use Euler's method, you should really
 	    think about using
@@ -8040,7 +8065,7 @@ and has period <userinput>b-a</userinput>.</para>
           <para>
 	    See
 	    <ulink url="http://mathworld.wolfram.com/EulerForwardMethod.html">Mathworld</ulink> or
-	    <ulink url="http://en.wikipedia.org/wiki/Eulers_method">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Eulers_method">Wikipedia</ulink> for more information.
 	  </para>
 	  <para>Version 1.0.10 onwards.</para>
          </listitem>
@@ -8113,7 +8138,7 @@ and has period <userinput>b-a</userinput>.</para>
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Halley%27s_method">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Halley%27s_method">Wikipedia</ulink> for more information.
 	  </para>
 	  <para>Version 1.0.18 onwards.</para>
          </listitem>
@@ -8139,7 +8164,7 @@ and has period <userinput>b-a</userinput>.</para>
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Newtons_method">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Newtons_method">Wikipedia</ulink> for more information.
 	  </para>
 	  <para>Version 1.0.18 onwards.</para>
          </listitem>
@@ -8181,8 +8206,9 @@ and has period <userinput>b-a</userinput>.</para>
 	  </para>
           <para>
 	    See
-	    <ulink url="http://planetmath.org/QuadraticFormula">Planetmath</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/QuadraticFormula.html">Mathworld</ulink> for more information.
+	    <ulink url="http://planetmath.org/QuadraticFormula">Planetmath</ulink>, or
+	    <ulink url="http://mathworld.wolfram.com/QuadraticFormula.html">Mathworld</ulink>, or
+	    <ulink url="https://en.wikipedia.org/wiki/Quadratic_formula">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -8203,7 +8229,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    See
 	    <ulink url="http://planetmath.org/QuarticFormula">Planetmath</ulink>,
 	    <ulink url="http://mathworld.wolfram.com/QuarticEquation.html">Mathworld</ulink>, or
-	    <ulink url="http://en.wikipedia.org/wiki/Quartic_equation">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Quartic_equation">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -8229,7 +8255,7 @@ and has period <userinput>b-a</userinput>.</para>
           <para>
 	    See
 	    <ulink url="http://mathworld.wolfram.com/Runge-KuttaMethod.html">Mathworld</ulink> or
-	    <ulink url="http://en.wikipedia.org/wiki/Runge-Kutta_methods">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Runge-Kutta_methods">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -8244,7 +8270,7 @@ and has period <userinput>b-a</userinput>.</para>
 	    y'=f(x,y) for initial <varname>x0</varname>, <varname>y0</varname>
 	    going to <varname>x1</varname> with <varname>n</varname>
 	    increments,
-	    returns a 2 by <userinput>n+1</userinput> matrix with the
+	    returns an <userinput>n+1</userinput> by 2 matrix with the
 	    <varname>x</varname> and <varname>y</varname> values.  Suitable
 	    for plugging into 
 	    <link linkend="gel-function-LinePlotDrawLine">LinePlotDrawLine</link> or
@@ -8282,7 +8308,7 @@ and has period <userinput>b-a</userinput>.</para>
           <para>
 	    See
 	    <ulink url="http://mathworld.wolfram.com/Runge-KuttaMethod.html">Mathworld</ulink> or
-	    <ulink url="http://en.wikipedia.org/wiki/Runge-Kutta_methods">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Runge-Kutta_methods">Wikipedia</ulink> for more information.
 	  </para>
 	  <para>Version 1.0.10 onwards.</para>
          </listitem>
@@ -8300,9 +8326,10 @@ and has period <userinput>b-a</userinput>.</para>
          <listitem>
           <synopsis>Average (m)</synopsis>
           <para>Aliases: <function>average</function> <function>Mean</function> <function>mean</function></para>
-          <para>Calculate average of an entire matrix.</para>
+          <para>Calculate average (the arithmetic mean) of an entire matrix.</para>
           <para>
 	    See
+	    <ulink url="https://en.wikipedia.org/wiki/Mean">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/ArithmeticMean.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -8315,6 +8342,7 @@ and has period <userinput>b-a</userinput>.</para>
 	  <para>Integral of the GaussFunction from 0 to <varname>x</varname> (area under the normal curve).</para>
           <para>
 	    See
+	    <ulink url="https://en.wikipedia.org/wiki/Normal_distribution">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/NormalDistribution.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -8327,6 +8355,7 @@ and has period <userinput>b-a</userinput>.</para>
           <para>The normalized Gauss distribution function (the normal curve).</para>
           <para>
 	    See
+	    <ulink url="https://en.wikipedia.org/wiki/Normal_distribution">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/NormalDistribution.html">Mathworld</ulink> for more information.
 	  </para>
 
@@ -8341,6 +8370,7 @@ and has period <userinput>b-a</userinput>.</para>
           <para>Calculate median of an entire matrix.</para>
           <para>
 	    See
+	    <ulink url="https://en.wikipedia.org/wiki/Median">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/StatisticalMedian.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -8360,9 +8390,11 @@ and has period <userinput>b-a</userinput>.</para>
          <listitem>
           <synopsis>RowAverage (m)</synopsis>
           <para>Aliases: <function>RowMean</function></para>
-          <para>Calculate average of each row in a matrix.</para>
+	  <para>Calculate average of each row in a matrix.  That is, compute the
+	  arithmetic mean.</para>
           <para>
 	    See
+	    <ulink url="https://en.wikipedia.org/wiki/Mean">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/ArithmeticMean.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -8376,6 +8408,7 @@ and has period <userinput>b-a</userinput>.</para>
 	  vector of the medians.</para>
           <para>
 	    See
+	    <ulink url="https://en.wikipedia.org/wiki/Median">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/StatisticalMedian.html">Mathworld</ulink> for more information.
 	  </para>
          </listitem>
@@ -8473,7 +8506,7 @@ and has period <userinput>b-a</userinput>.</para>
 	  </para>
           <para>
 	    See
-	    <ulink url="http://en.wikipedia.org/wiki/Newtons_method">Wikipedia</ulink> for more information.
+	    <ulink url="https://en.wikipedia.org/wiki/Newtons_method">Wikipedia</ulink> for more information.
 	  </para>
          </listitem>
         </varlistentry>
@@ -8622,7 +8655,20 @@ and has period <userinput>b-a</userinput>.</para>
          <term><anchor id="gel-function-ASCIIToString"/>ASCIIToString</term>
          <listitem>
           <synopsis>ASCIIToString (vec)</synopsis>
-          <para>Convert a vector of ASCII values to a string.</para>
+          <para>Convert a vector of ASCII values to a string.
+		  See also
+		  <link linkend="gel-function-StringToASCII"><function>StringToASCII</function></link>.
+          </para>
+          <para>
+	    Example:
+          <screen><prompt>genius></prompt> <userinput>ASCIIToString([97,98,99])</userinput>
+= "abc"
+</screen>
+          </para>
+          <para>
+	    See
+	    <ulink url="https://en.wikipedia.org/wiki/ASCII">Wikipedia</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -8630,7 +8676,18 @@ and has period <userinput>b-a</userinput>.</para>
          <term><anchor id="gel-function-AlphabetToString"/>AlphabetToString</term>
          <listitem>
           <synopsis>AlphabetToString (vec,alphabet)</synopsis>
-          <para>Convert a vector of 0-based alphabet values (positions in the alphabet string) to a string.</para>
+	  <para>Convert a vector of 0-based alphabet values (positions in the alphabet string) to a string.  A <constant>null</constant> vector results in an empty string.
+		  See also
+		  <link linkend="gel-function-StringToAlphabet"><function>StringToAlphabet</function></link>.
+          </para>
+          <para>
+	    Examples:
+          <screen><prompt>genius></prompt> <userinput>AlphabetToString([1,2,3,0,0],"abcd")</userinput>
+= "bcdaa"
+<prompt>genius></prompt> <userinput>AlphabetToString(null,"abcd")</userinput>
+= ""
+</screen>
+          </para>
          </listitem>
         </varlistentry>
 
@@ -8638,7 +8695,20 @@ and has period <userinput>b-a</userinput>.</para>
          <term><anchor id="gel-function-StringToASCII"/>StringToASCII</term>
          <listitem>
           <synopsis>StringToASCII (str)</synopsis>
-          <para>Convert a string to a vector of ASCII values.</para>
+	  <para>Convert a string to a (row) vector of ASCII values.
+		  See also
+		  <link linkend="gel-function-ASCIIToString"><function>ASCIIToString</function></link>.
+          </para>
+          <para>
+	    Example:
+          <screen><prompt>genius></prompt> <userinput>StringToASCII("abc")</userinput>
+= [97, 98, 99]
+</screen>
+          </para>
+          <para>
+	    See
+	    <ulink url="https://en.wikipedia.org/wiki/ASCII">Wikipedia</ulink> for more information.
+          </para>
          </listitem>
         </varlistentry>
 
@@ -8646,7 +8716,20 @@ and has period <userinput>b-a</userinput>.</para>
          <term><anchor id="gel-function-StringToAlphabet"/>StringToAlphabet</term>
          <listitem>
           <synopsis>StringToAlphabet (str,alphabet)</synopsis>
-          <para>Convert a string to a vector of 0-based alphabet values (positions in the alphabet string), -1's for unknown letters.</para>
+	  <para>Convert a string to a (row) vector of 0-based alphabet values
+		  (positions in the alphabet string), -1's for unknown letters.
+		  An empty string results in a <constant>null</constant>.
+		  See also
+		  <link linkend="gel-function-AlphabetToString"><function>AlphabetToString</function></link>.
+          </para>
+          <para>
+	    Examples:
+          <screen><prompt>genius></prompt> <userinput>StringToAlphabet("cca","abcd")</userinput>
+= [2, 2, 0]
+          <screen><prompt>genius></prompt> <userinput>StringToAlphabet("ccag","abcd")</userinput>
+= [2, 2, 0, -1]
+</screen>
+          </para>
          </listitem>
         </varlistentry>
 
@@ -8897,7 +8980,7 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
           <screen><prompt>genius></prompt> <userinput>LinePlotDrawLine(0,0,1,1,"color","blue","thickness",3)</userinput>
 <prompt>genius></prompt> <userinput>LinePlotDrawLine([0,0;1,-1;-1,-1])</userinput>
 <prompt>genius></prompt> <userinput>LinePlotDrawLine([0,0;1,1],"arrow","end")</userinput>
-<prompt>genius></prompt> <userinput>LinePlotDrawLine(RungeKuttaFull(`(x,y)=y,0,3,100),"color","blue","legend","The Solution")</userinput>
+<prompt>genius></prompt> <userinput>LinePlotDrawLine(RungeKuttaFull(`(x,y)=y,0,0.001,10,100),"color","blue","legend","The Solution")</userinput>
 <prompt>genius></prompt> <userinput>for r=0.0 to 1.0 by 0.1 do LinePlotDrawLine([0,0;1,r],"color",[r,(1-r),0.5],"window",[0,1,0,1])</userinput>
 <prompt>genius></prompt> <userinput>LinePlotDrawLine([0,0;10,0;10,10;0,10],"filled","color","green")</userinput>
 </screen>
@@ -8964,7 +9047,7 @@ optionally the limits as <userinput>x1,x2,y1,y2</userinput>.
 	  Examples:
           <screen><prompt>genius></prompt> <userinput>LinePlotDrawPoints(0,0,"color","blue","thickness",3)</userinput>
 <prompt>genius></prompt> <userinput>LinePlotDrawPoints([0,0;1,-1;-1,-1])</userinput>
-<prompt>genius></prompt> <userinput>LinePlotDrawPoints(RungeKuttaFull(`(x,y)=y,0,3,100),"color","blue","legend","The Solution")</userinput>
+<prompt>genius></prompt> <userinput>LinePlotDrawPoints(RungeKuttaFull(`(x,y)=y,0,0.001,10,100),"color","blue","legend","The Solution")</userinput>
 <prompt>genius></prompt> <userinput>LinePlotDrawPoints([1;1+1i;1i;0],"thickness",5)</userinput>
 <prompt>genius></prompt> <userinput>LinePlotDrawPoints(ApplyOverMatrix((0:6)',`(k)=exp(k*2*pi*1i/7)),"thickness",3,"legend","The 7th roots of unity")</userinput>
 </screen>
@@ -9292,7 +9375,7 @@ limits as <userinput>x1,x2,y1,y2</userinput>.
           </para>
           <para>
 	    Extra parameters can be added to specify line color, thickness,
-	    arrows, the plotting window, or legend.
+	    the plotting window, or legend.
 	    You can do this by adding an argument string <userinput>"color"</userinput>, 
 	    <userinput>"thickness"</userinput>,
 	    <userinput>"window"</userinput>,
