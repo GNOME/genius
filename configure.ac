@@ -190,52 +190,54 @@ dnl ******************************
 dnl More compiler warnings
 dnl ******************************
 
-AC_ARG_ENABLE(more-warnings,
-[  --enable-more-warnings  Maximum compiler warnings],
-set_more_warnings="$enableval",[
-if test -f $srcdir/.git/config; then
-	is_cvs_version=true
-	set_more_warnings=yes
-else
-	set_more_warnings=no
-fi
-])
-warning_flags=
-realsave_CFLAGS="$CFLAGS"
-AC_MSG_CHECKING(for more warnings)
-if test "$GCC" = "yes" -a "$set_more_warnings" != "no"; then
-	AC_MSG_RESULT(yes)
-	warning_flags="-Wall -Wchar-subscripts -Wmissing-declarations -Wmissing-prototypes -Wnested-externs -Wpointer-arith"
-	CFLAGS="$warning_flags $CFLAGS"
+dnl Warnings done above
 
-	for option in -Wno-sign-compare; do
-		SAVE_CFLAGS="$CFLAGS"
-		CFLAGS="$CFLAGS $option"
-		AC_MSG_CHECKING([whether gcc understands $option])
-		AC_TRY_COMPILE([], [],
-			has_option=yes,
-			has_option=no,)
-		CFLAGS="$SAVE_CFLAGS"
-		AC_MSG_RESULT($has_option)
-		if test $has_option = yes; then
-		  warning_flags="$warning_flags $option"
-		fi
-		unset has_option
-		unset SAVE_CFLAGS
-	done
-	unset option
-else
-	AC_MSG_RESULT(no)
-fi
-CFLAGS="$realsave_CFLAGS"
-EXTRA_WARNING_CFLAGS="$warning_flags"
+#AC_ARG_ENABLE(more-warnings,
+#[  --enable-more-warnings  Maximum compiler warnings],
+#set_more_warnings="$enableval",[
+#if test -f $srcdir/.git/config; then
+#	is_cvs_version=true
+#	set_more_warnings=yes
+#else
+#	set_more_warnings=no
+#fi
+#])
+#warning_flags=
+#realsave_CFLAGS="$CFLAGS"
+#AC_MSG_CHECKING(for more warnings)
+#if test "$GCC" = "yes" -a "$set_more_warnings" != "no"; then
+#	AC_MSG_RESULT(yes)
+#	warning_flags="-Wall -Wchar-subscripts -Wmissing-declarations -Wmissing-prototypes -Wnested-externs -Wpointer-arith"
+#	CFLAGS="$warning_flags $CFLAGS"
+#
+#	for option in -Wno-sign-compare; do
+#		SAVE_CFLAGS="$CFLAGS"
+#		CFLAGS="$CFLAGS $option"
+#		AC_MSG_CHECKING([whether gcc understands $option])
+#		AC_TRY_COMPILE([], [],
+#			has_option=yes,
+#			has_option=no,)
+#		CFLAGS="$SAVE_CFLAGS"
+#		AC_MSG_RESULT($has_option)
+#		if test $has_option = yes; then
+#		  warning_flags="$warning_flags $option"
+#		fi
+#		unset has_option
+#		unset SAVE_CFLAGS
+#	done
+#	unset option
+#else
+#	AC_MSG_RESULT(no)
+#fi
+#CFLAGS="$realsave_CFLAGS"
+#EXTRA_WARNING_CFLAGS="$warning_flags"
 #	-DG_DISABLE_DEPRECATED \
 #	-DGDK_PIXBUF_DISABLE_DEPRECATED \
 #	-DGDK_DISABLE_DEPRECATED \
 #	-DGTK_DISABLE_DEPRECATED \
 #	-DGNOME_DISABLE_DEPRECATED \
-
-AC_SUBST(EXTRA_WARNING_CFLAGS)
+#
+#AC_SUBST(EXTRA_WARNING_CFLAGS)
 
 dnl wordexp check, we use glob otherwise but that's not perfect
 dnl warn the user, we do this on the end so that the user notices
@@ -305,6 +307,4 @@ Configuration:
 	Compiler:		     ${CC} 
 	GNOME frontend:		     ${use_gnome}
 	Using GtkSourceView:	     ${use_gtksourceview}
-
-	Extra Compiler Warnings:     ${EXTRA_WARNING_CFLAGS}
 "
