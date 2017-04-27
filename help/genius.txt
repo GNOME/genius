@@ -1231,9 +1231,9 @@ genius> 2*2 mod 7
           treated as true.
 
    a xor b
-          Logical xor. Returns true exactly one of a or b is true,
-          else returns false. If given numbers, nonzero numbers
-          are treated as true.
+          Logical xor. Returns true if exactly one of a or b is
+          true, else returns false. If given numbers, nonzero
+          numbers are treated as true.
 
    not a
           Logical not. Returns the logical negation of a
@@ -5217,6 +5217,8 @@ Combinations (k,n)
           Get all combinations of k numbers from 1 to n as a
           vector of vectors. (See also NextCombination)
 
+          See Wikipedia for more information.
+
    DoubleFactorial
 
 DoubleFactorial (n)
@@ -5259,13 +5261,13 @@ Fibonacci (x)
 FrobeniusNumber (v,arg...)
 
           Calculate the Frobenius number. That is calculate
-          smallest number that cannot be given as a non-negative
+          largest number that cannot be given as a non-negative
           integer linear combination of a given vector of
           non-negative integers. The vector can be given as
           separate numbers or a single vector. All the numbers
           given should have GCD of 1.
 
-          See Mathworld for more information.
+          See Wikipedia or Mathworld for more information.
 
    GaloisMatrix
 
@@ -5284,7 +5286,7 @@ GreedyAlgorithm (n,v)
           increasing order and should consist of non-negative
           integers.
 
-          See Mathworld for more information.
+          See Wikipedia or Mathworld for more information.
 
    HarmonicNumber
 
@@ -5293,6 +5295,10 @@ HarmonicNumber (n,r)
           Aliases: HarmonicH
 
           Harmonic Number, the nth harmonic number of order r.
+          That is, it is the sum of 1/k^r for k from 1 to n.
+          Equivalent to sum k = 1 to n do 1/k^r.
+
+          See Wikipedia for more information.
 
    Hofstadter
 
@@ -5300,6 +5306,9 @@ Hofstadter (n)
 
           Hofstadter's function q(n) defined by q(1)=1, q(2)=1,
           q(n)=q(n-q(n-1))+q(n-q(n-2)).
+
+          See Wikipedia for more information. The sequence is
+          A005185 in OEIS.
 
    LinearRecursiveSequence
 
@@ -5353,6 +5362,8 @@ do (
 ) while not IsNull(n:=NextCombination(n,6));
 
           See also Combinations.
+
+          See Wikipedia for more information.
 
    Pascal
 
@@ -5910,7 +5921,7 @@ MoebiusDiskMapping (a,z)
 
           Moebius mapping of the disk to itself mapping a to 0.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    MoebiusMapping
 
@@ -5919,7 +5930,7 @@ MoebiusMapping (z,z2,z3,z4)
           Moebius mapping using the cross ratio taking z2,z3,z4 to
           1,0, and infinity respectively.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    MoebiusMappingInftyToInfty
 
@@ -5928,7 +5939,7 @@ MoebiusMappingInftyToInfty (z,z2,z3)
           Moebius mapping using the cross ratio taking infinity to
           infinity and z2,z3 to 1 and 0 respectively.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    MoebiusMappingInftyToOne
 
@@ -5937,7 +5948,7 @@ MoebiusMappingInftyToOne (z,z3,z4)
           Moebius mapping using the cross ratio taking infinity to
           1 and z3,z4 to 0 and infinity respectively.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    MoebiusMappingInftyToZero
 
@@ -5946,7 +5957,7 @@ MoebiusMappingInftyToZero (z,z2,z4)
           Moebius mapping using the cross ratio taking infinity to
           0 and z2,z4 to 1 and infinity respectively.
 
-          See Planetmath for more information.
+          See Wikipedia or Planetmath for more information.
 
    PoissonKernel
 
