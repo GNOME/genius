@@ -131,6 +131,36 @@ gel_printout_infos (void)
 	errors_printed = 0;
 }
 
+static char *
+get_help_index (const char *datadir)
+{
+	const char * const* langs;
+	int i;
+
+	langs = g_get_language_names ();
+	for (i = 0; langs[i] != NULL; i++) {
+		char *file;
+		file = g_build_filename (datadir,
+					 "genius",
+					 "help",
+					 langs[i],
+					 "html",
+					 "index.html",
+					 NULL);
+		if (access (file, F_OK) == 0) {
+			return file;
+		}
+		g_free (file);
+	}
+	return g_build_filename (datadir,
+				 "genius",
+				 "help",
+				 "C",
+				 "html",
+				 "index.html",
+				 NULL);
+}
+
 void
 gel_call_help (const char *function)
 {
@@ -143,16 +173,13 @@ gel_call_help (const char *function)
 		return;
 	}
 
-	/*fp = fopen ("../doc/genius.txt", "r");
-	if G_LIKELY (fp == NULL)*/
-
 	str = gbr_find_data_dir (DATADIR);
-	file = g_build_filename (str, "genius", "genius.txt", NULL);
+	file = get_help_index (str);
 	g_free (str);
 
 	if G_UNLIKELY (access (file, R_OK) != 0) {
 		g_free (file);
-		file = g_build_filename (DATADIR, "genius", "genius.txt", NULL);
+		file = get_help_index (DATADIR);
 		if G_UNLIKELY (access (file, R_OK) != 0) {
 			puterror (_("Cannot locate the manual"));
 			g_free (file);
@@ -160,9 +187,11 @@ gel_call_help (const char *function)
 		}
 	}
 
-	str = g_find_program_in_path ("less");
+	str = g_find_program_in_path ("lynx");
 	if (str == NULL)
-		str = g_find_program_in_path ("more");
+		str = g_find_program_in_path ("links");
+	if (str == NULL)
+		str = g_find_program_in_path ("w3m");
 
 	if G_LIKELY (str != NULL) {
 		char *argv[3];
@@ -173,27 +202,16 @@ gel_call_help (const char *function)
 		g_spawn_sync  (NULL /* wd */,
 			       argv,
 			       NULL /* envp */,
-			       0 /* flags */,
+			       G_SPAWN_CHILD_INHERITS_STDIN /* flags */,
 			       NULL /* child_setup */,
 			       NULL /* user_data */,
 			       NULL /*stdout*/,
 			       NULL /*stderr*/,
 			       NULL /* status */,
 			       NULL /* error */);
+
 	} else {
-		/* No less or more, hence just type out the
-		 * manual */
-		FILE *fp;
-
-		fp = fopen (file, "r");
-		if G_LIKELY (fp != NULL) {
-			char buf[256];
-			while (fgets (buf, sizeof(buf), fp) != NULL) {
-				g_print ("%s\n", buf);
-			}
-
-			fclose (fp);
-		}
+		puterror (_("Cannot run lynx/links/w3m to show the manual"));
 	}
 	g_free (file);
 }
