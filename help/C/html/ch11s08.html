@@ -1,11 +1,11 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Matrix Manipulation</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Genius Manual"><link rel="up" href="ch11.html" title="Chapter 11. List of GEL functions"><link rel="prev" href="ch11s07.html" title="Number Theory"><link rel="next" href="ch11s09.html" title="Linear Algebra"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Matrix Manipulation</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s07.html">Prev</a> </td><th width="60%" align="center">Chapter 11. List of GEL functions</th><td width="20%" align="right"> <a accesskey="n" href="ch11s09.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-function-list-matrix"></a>Matrix Manipulation</h2></div></div></div><div class="variablelist"><dl class="variablelist"><dt><span class="term"><a name="gel-function-ApplyOverMatrix"></a>ApplyOverMatrix</span></dt><dd><pre class="synopsis">ApplyOverMatrix (a,func)</pre><p>Apply a function over all entries of a matrix and return a matrix of the results.</p></dd><dt><span class="term"><a name="gel-function-ApplyOverMatrix2"></a>ApplyOverMatrix2</span></dt><dd><pre class="synopsis">ApplyOverMatrix2 (a,b,func)</pre><p>Apply a function over all entries of 2 matrices (or 1 value and 1 matrix) and return a matrix of the results.</p></dd><dt><span class="term"><a name="gel-function-ColumnsOf"></a>ColumnsOf</span></dt><dd><pre class="synopsis">ColumnsOf (M)</pre><p>Gets the columns of a matrix as a horizontal vector.</p></dd><dt><span class="term"><a name="gel-function-ComplementSubmatrix"></a>ComplementSubmatrix</span></dt><dd><pre class="synopsis">ComplementSubmatrix (m,r,c)</pre><p>Remove column(s) and row(s) from a matrix.</p></dd><dt><span class="term"><a name="gel-function-CompoundMatrix"></a>CompoundMatrix</span></dt><dd><pre class="synopsis">CompoundMatrix (k,A)</pre><p>Calculate the kth compound matrix of A.</p></dd><dt><span class="term"><a name="gel-function-CountZeroColumns"></a>CountZeroColumns</span></dt><dd><pre class="synopsis">CountZeroColumns (M)</pre><p>
-	   Count the number of zero columns in a matrix.  For example
-	   once your column reduce a matrix you can use this to find
+	   Count the number of zero columns in a matrix.  For example,
+	   once you column-reduce a matrix, you can use this to find
 	   the nullity.  See <a class="link" href="ch11s09.html#gel-function-cref"><code class="function">cref</code></a>
 	   and <a class="link" href="ch11s09.html#gel-function-Nullity"><code class="function">Nullity</code></a>.
           </p></dd><dt><span class="term"><a name="gel-function-DeleteColumn"></a>DeleteColumn</span></dt><dd><pre class="synopsis">DeleteColumn (M,col)</pre><p>Delete a column of a matrix.</p></dd><dt><span class="term"><a name="gel-function-DeleteRow"></a>DeleteRow</span></dt><dd><pre class="synopsis">DeleteRow (M,row)</pre><p>Delete a row of a matrix.</p></dd><dt><span class="term"><a name="gel-function-DiagonalOf"></a>DiagonalOf</span></dt><dd><pre class="synopsis">DiagonalOf (M)</pre><p>Gets the diagonal entries of a matrix as a column vector.</p><p>
 	    See
-	    <a class="ulink" href="http://en.wikipedia.org/wiki/Diagonal_of_a_matrix#Matrices" target="_top">Wikipedia</a> for more information.
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Diagonal_of_a_matrix#Matrices" target="_top">Wikipedia</a> for more information.
           </p></dd><dt><span class="term"><a name="gel-function-DotProduct"></a>DotProduct</span></dt><dd><pre class="synopsis">DotProduct (u,v)</pre><p>Get the dot product of two vectors.  The vectors must be of the
 		  same size.  No conjugates are taken so this is a bilinear form even if working over the complex numbers; This is the bilinear scalar product not the sesquilinear scalar product.  See <a class="link" href="ch11s08.html#gel-function-HermitianProduct">HermitianProduct</a> for the standard sesquilinear inner product.</p><p>
 	    See
@@ -28,7 +28,7 @@
 <strong class="userinput"><code>5</code></strong>, we return <strong class="userinput"><code>[1,4,5]</code></strong>.  If
 <code class="varname">msize</code> is 0, we always return <code class="constant">null</code>.</p></dd><dt><span class="term"><a name="gel-function-IsDiagonal"></a>IsDiagonal</span></dt><dd><pre class="synopsis">IsDiagonal (M)</pre><p>Is a matrix diagonal.</p><p>
 	    See
-	    <a class="ulink" href="http://en.wikipedia.org/wiki/Diagonal_matrix" target="_top">Wikipedia</a> or
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Diagonal_matrix" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/DiagonalMatrix" target="_top">Planetmath</a> for more information.
 	  </p></dd><dt><span class="term"><a name="gel-function-IsIdentity"></a>IsIdentity</span></dt><dd><pre class="synopsis">IsIdentity (x)</pre><p>Check if a matrix is the identity matrix.  Automatically returns <code class="constant">false</code>
 	    if the matrix is not square.  Also works on numbers, in which
@@ -37,12 +37,12 @@
 	    no error is generated and <code class="constant">false</code> is returned.</p></dd><dt><span class="term"><a name="gel-function-IsLowerTriangular"></a>IsLowerTriangular</span></dt><dd><pre class="synopsis">IsLowerTriangular (M)</pre><p>Is a matrix lower triangular. That is, are all the entries above the diagonal zero.</p></dd><dt><span class="term"><a name="gel-function-IsMatrixInteger"></a>IsMatrixInteger</span></dt><dd><pre class="synopsis">IsMatrixInteger (M)</pre><p>Check if a matrix is a matrix of integers (non-complex).</p></dd><dt><span class="term"><a name="gel-function-IsMatrixNonnegative"></a>IsMatrixNonnegative</span></dt><dd><pre class="synopsis">IsMatrixNonnegative (M)</pre><p>Check if a matrix is non-negative, that is if each element is non-negative.
 	  Do not confuse positive matrices with positive semi-definite matrices.</p><p>
 	    See
-	    <a class="ulink" href="http://en.wikipedia.org/wiki/Positive_matrix" target="_top">Wikipedia</a> for more information.
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Positive_matrix" target="_top">Wikipedia</a> for more information.
 	  </p></dd><dt><span class="term"><a name="gel-function-IsMatrixPositive"></a>IsMatrixPositive</span></dt><dd><pre class="synopsis">IsMatrixPositive (M)</pre><p>Check if a matrix is positive, that is if each element is
 positive (and hence real).  In particular, no element is 0.  Do not confuse
 positive matrices with positive definite matrices.</p><p>
 	    See
-	    <a class="ulink" href="http://en.wikipedia.org/wiki/Positive_matrix" target="_top">Wikipedia</a> for more information.
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Positive_matrix" target="_top">Wikipedia</a> for more information.
 	  </p></dd><dt><span class="term"><a name="gel-function-IsMatrixRational"></a>IsMatrixRational</span></dt><dd><pre class="synopsis">IsMatrixRational (M)</pre><p>Check if a matrix is a matrix of rational (non-complex)
 numbers.</p></dd><dt><span class="term"><a name="gel-function-IsMatrixReal"></a>IsMatrixReal</span></dt><dd><pre class="synopsis">IsMatrixReal (M)</pre><p>Check if a matrix is a matrix of real (non-complex) numbers.</p></dd><dt><span class="term"><a name="gel-function-IsMatrixSquare"></a>IsMatrixSquare</span></dt><dd><pre class="synopsis">IsMatrixSquare (M)</pre><p>
 	    Check if a matrix is square, that is its width is equal to
@@ -62,7 +62,7 @@ functions make this check.  Values can be any number including complex numbers.<
 		  <strong class="userinput"><code>MakeDiagonal([1,2,3])</code></strong> is the same as
 		  <strong class="userinput"><code>MakeDiagonal(1,2,3)</code></strong>.</p><p>
 	    See
-	    <a class="ulink" href="http://en.wikipedia.org/wiki/Diagonal_matrix" target="_top">Wikipedia</a> or
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Diagonal_matrix" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/DiagonalMatrix" target="_top">Planetmath</a> for more information.
           </p></dd><dt><span class="term"><a name="gel-function-MakeVector"></a>MakeVector</span></dt><dd><pre class="synopsis">MakeVector (A)</pre><p>Make column vector out of matrix by putting columns above
 		  each other.  Returns <code class="constant">null</code> when given <code class="constant">null</code>.</p></dd><dt><span class="term"><a name="gel-function-MatrixProduct"></a>MatrixProduct</span></dt><dd><pre class="synopsis">MatrixProduct (A)</pre><p>

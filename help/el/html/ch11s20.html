@@ -38,7 +38,7 @@
           </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawLine(0,0,1,1,"color","blue","thickness",3)</code></strong>
 <code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawLine([0,0;1,-1;-1,-1])</code></strong>
 <code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawLine([0,0;1,1],"arrow","end")</code></strong>
-<code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawLine(RungeKuttaFull(`(x,y)=y,0,3,100),"color","blue","legend","The Solution")</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawLine(RungeKuttaFull(`(x,y)=y,0,0.001,10,100),"color","blue","legend","The Solution")</code></strong>
 <code class="prompt">genius&gt;</code> <strong class="userinput"><code>for r=0.0 to 1.0 by 0.1 do LinePlotDrawLine([0,0;1,r],"color",[r,(1-r),0.5],"window",[0,1,0,1])</code></strong>
 <code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawLine([0,0;10,0;10,10;0,10],"filled","color","green")</code></strong>
 </pre><p>
@@ -80,7 +80,7 @@
 	  Examples:
           </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawPoints(0,0,"color","blue","thickness",3)</code></strong>
 <code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawPoints([0,0;1,-1;-1,-1])</code></strong>
-<code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawPoints(RungeKuttaFull(`(x,y)=y,0,3,100),"color","blue","legend","The Solution")</code></strong>
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawPoints(RungeKuttaFull(`(x,y)=y,0,0.001,10,100),"color","blue","legend","The Solution")</code></strong>
 <code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawPoints([1;1+1i;1i;0],"thickness",5)</code></strong>
 <code class="prompt">genius&gt;</code> <strong class="userinput"><code>LinePlotDrawPoints(ApplyOverMatrix((0:6)',`(k)=exp(k*2*pi*1i/7)),"thickness",3,"legend","The 7th roots of unity")</code></strong>
 </pre><p>
@@ -166,7 +166,7 @@
 	    <code class="varname">n</code> by 3 matrix for a longer polyline.
           </p><p>
 	    Extra parameters can be added to specify line color, thickness,
-	    arrows, the plotting window, or legend.
+	    the plotting window, or legend.
 	    You can do this by adding an argument string <strong class="userinput"><code>"color"</code></strong>, 
 	    <strong class="userinput"><code>"thickness"</code></strong>,
 	    <strong class="userinput"><code>"window"</code></strong>,

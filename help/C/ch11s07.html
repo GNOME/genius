@@ -1,0 +1,284 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Number Theory</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Genius Manual"><link rel="up" href="ch11.html" title="Chapter 11. List of GEL functions"><link rel="prev" href="ch11s06.html" title="Trigonometry"><link rel="next" href="ch11s08.html" title="Matrix Manipulation"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Number Theory</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s06.html">Prev</a> </td><th width="60%" align="center">Chapter 11. List of GEL functions</th><td width="20%" align="right"> <a accesskey="n" href="ch11s08.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-function-list-number-theory"></a>Number Theory</h2></div></div></div><div class="variablelist"><dl class="variablelist"><dt><span class="term"><a name="gel-function-AreRelativelyPrime"></a>AreRelativelyPrime</span></dt><dd><pre class="synopsis">AreRelativelyPrime (a,b)</pre><p>
+	    Are the real integers <code class="varname">a</code> and <code class="varname">b</code> relatively prime?
+	    Returns <code class="constant">true</code> or <code class="constant">false</code>.
+	  </p><p>
+	    See
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Coprime_integers" target="_top">Wikipedia</a> or
+	    <a class="ulink" href="http://planetmath.org/RelativelyPrime" target="_top">Planetmath</a> or
+	    <a class="ulink" href="http://mathworld.wolfram.com/RelativelyPrime.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-BernoulliNumber"></a>BernoulliNumber</span></dt><dd><pre class="synopsis">BernoulliNumber (n)</pre><p>Return the <code class="varname">n</code>th Bernoulli number.</p><p>
+	    See
+	    <a class="ulink" href="http://en.wikipedia.org/wiki/Bernoulli_number" target="_top">Wikipedia</a> or
+	    <a class="ulink" href="http://mathworld.wolfram.com/BernoulliNumber.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-ChineseRemainder"></a>ChineseRemainder</span></dt><dd><pre class="synopsis">ChineseRemainder (a,m)</pre><p>Aliases: <code class="function">CRT</code></p><p>Find the <code class="varname">x</code> that solves the system given by
+		the vector <code class="varname">a</code> and modulo the elements of
+		<code class="varname">m</code>, using the Chinese Remainder Theorem.
+	  </p><p>
+	    See
+	    <a class="ulink" href="http://en.wikipedia.org/wiki/Chinese_remainder_theorem" target="_top">Wikipedia</a> or
+	    <a class="ulink" href="http://planetmath.org/ChineseRemainderTheorem" target="_top">Planetmath</a> or
+	    <a class="ulink" href="http://mathworld.wolfram.com/ChineseRemainderTheorem.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-CombineFactorizations"></a>CombineFactorizations</span></dt><dd><pre class="synopsis">CombineFactorizations (a,b)</pre><p>Given two factorizations, give the factorization of the
+		product.</p><p>See <a class="link" href="ch11s07.html#gel-function-Factorize">Factorize</a>.</p></dd><dt><span class="term"><a name="gel-function-ConvertFromBase"></a>ConvertFromBase</span></dt><dd><pre class="synopsis">ConvertFromBase (v,b)</pre><p>Convert a vector of values indicating powers of b to a number.</p></dd><dt><span class="term"><a name="gel-function-ConvertToBase"></a>ConvertToBase</span></dt><dd><pre class="synopsis">ConvertToBase (n,b)</pre><p>Convert a number to a vector of powers for elements in base <code class="varname">b</code>.</p></dd><dt><span class="term"><a name="gel-function-DiscreteLog"></a>DiscreteLog</span></dt><dd><pre class="synopsis">DiscreteLog (n,b,q)</pre><p>Find discrete log of <code class="varname">n</code> base <code class="varname">b</code> in
+	    F<sub>q</sub>, the finite field of order <code class="varname">q</code>, where <code class="varname">q</code>
+	    is a prime, using the Silver-Pohlig-Hellman algorithm.</p><p>
+	    See
+	    <a class="ulink" href="http://en.wikipedia.org/wiki/Discrete_logarithm" target="_top">Wikipedia</a>,
+	    <a class="ulink" href="http://planetmath.org/DiscreteLogarithm" target="_top">Planetmath</a>, or
+	    <a class="ulink" href="http://mathworld.wolfram.com/DiscreteLogarithm.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-Divides"></a>Divides</span></dt><dd><pre class="synopsis">Divides (m,n)</pre><p>Checks divisibility (if <code class="varname">m</code> divides <code class="varname">n</code>).</p></dd><dt><span class="term"><a name="gel-function-EulerPhi"></a>EulerPhi</span></dt><dd><pre class="synopsis">EulerPhi (n)</pre><p>
+	    Compute the Euler phi function for <code class="varname">n</code>, that is
+	    the number of integers between 1 and <code class="varname">n</code>
+	    relatively prime to <code class="varname">n</code>.
+	  </p><p>
+	    See
+	    <a class="ulink" href="http://en.wikipedia.org/wiki/Euler_phi" target="_top">Wikipedia</a>,
+	    <a class="ulink" href="http://planetmath.org/EulerPhifunction" target="_top">Planetmath</a>, or
+	    <a class="ulink" href="http://mathworld.wolfram.com/TotientFunction.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-ExactDivision"></a>ExactDivision</span></dt><dd><pre class="synopsis">ExactDivision (n,d)</pre><p>
+	    Return <strong class="userinput"><code>n/d</code></strong> but only if <code class="varname">d</code>
+	    divides <code class="varname">n</code>.  If <code class="varname">d</code>
+	    does not divide <code class="varname">n</code> then this function returns
+	    garbage.  This is a lot faster for very large numbers
+	    than the operation <strong class="userinput"><code>n/d</code></strong>, but of course only
+	    useful if you know that the division is exact.
+	  </p></dd><dt><span class="term"><a name="gel-function-Factorize"></a>Factorize</span></dt><dd><pre class="synopsis">Factorize (n)</pre><p>
+	    Return factorization of a number as a matrix.  The first
+	    row is the primes in the factorization (including 1) and the
+	    second row are the powers.  So for example:
+	    </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>Factorize(11*11*13)</code></strong>
+=
+[1      11      13
+ 1      2       1]</pre><p>
+	  </p><p>
+	    See
+	    <a class="ulink" href="http://en.wikipedia.org/wiki/Factorization" target="_top">Wikipedia</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-Factors"></a>Factors</span></dt><dd><pre class="synopsis">Factors (n)</pre><p>
+	    Return all factors of <code class="varname">n</code> in a vector.  This
+	    includes all the non-prime factors as well.  It includes 1 and the
+	    number itself.  So for example to print all the perfect numbers
+	    (those that are sums of their factors) up to the number 1000 you
+	    could do (this is of course very inefficient)
+	    </p><pre class="programlisting">for n=1 to 1000 do (
+    if MatrixSum (Factors(n)) == 2*n then
+        print(n)
+)
+</pre><p>
+	  </p></dd><dt><span class="term"><a name="gel-function-FermatFactorization"></a>FermatFactorization</span></dt><dd><pre class="synopsis">FermatFactorization (n,tries)</pre><p>
+	    Attempt Fermat factorization of <code class="varname">n</code> into
+	    <strong class="userinput"><code>(t-s)*(t+s)</code></strong>, returns <code class="varname">t</code>
+	    and <code class="varname">s</code> as a vector if possible, <code class="constant">null</code> otherwise.
+	    <code class="varname">tries</code> specifies the number of tries before
+	    giving up.
+	  </p><p>
+	    This is a fairly good factorization if your number is the product
+	    of two factors that are very close to each other.
+	  </p><p>
+	    See
+	    <a class="ulink" href="http://en.wikipedia.org/wiki/Fermat_factorization" target="_top">Wikipedia</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-FindPrimitiveElementMod"></a>FindPrimitiveElementMod</span></dt><dd><pre class="synopsis">FindPrimitiveElementMod (q)</pre><p>Find the first primitive element in F<sub>q</sub>, the finite
+group of order <code class="varname">q</code>.  Of course <code class="varname">q</code> must be a prime.</p></dd><dt><span class="term"><a name="gel-function-FindRandomPrimitiveElementMod"></a>FindRandomPrimitiveElementMod</span></dt><dd><pre class="synopsis">FindRandomPrimitiveElementMod (q)</pre><p>Find a random primitive element in F<sub>q</sub>, the finite
+group of order <code class="varname">q</code> (q must be a prime).</p></dd><dt><span class="term"><a name="gel-function-IndexCalculus"></a>IndexCalculus</span></dt><dd><pre class="synopsis">IndexCalculus (n,b,q,S)</pre><p>Compute discrete log base <code class="varname">b</code> of n in F<sub>q</sub>, the finite
+group of order <code class="varname">q</code> (<code class="varname">q</code> a prime), using the
+factor base <code class="varname">S</code>.  <code class="varname">S</code> should be a column of
+primes possibly with second column precalculated by
+<a class="link" href="ch11s07.html#gel-function-IndexCalculusPrecalculation"><code class="function">IndexCalculusPrecalculation</code></a>.</p></dd><dt><span class="term"><a name="gel-function-IndexCalculusPrecalculation"></a>IndexCalculusPrecalculation</span></dt><dd><pre class="synopsis">IndexCalculusPrecalculation (b,q,S)</pre><p>Run the precalculation step of
+		  <a class="link" href="ch11s07.html#gel-function-IndexCalculus"><code class="function">IndexCalculus</code></a> for logarithms base <code class="varname">b</code> in
+F<sub>q</sub>, the finite group of order <code class="varname">q</code>
+(<code class="varname">q</code> a prime), for the factor base <code class="varname">S</code> (where
+<code class="varname">S</code> is a column vector of primes).  The logs will be
+precalculated and returned in the second column.</p></dd><dt><span class="term"><a name="gel-function-IsEven"></a>IsEven</span></dt><dd><pre class="synopsis">IsEven (n)</pre><p>Tests if an integer is even.</p></dd><dt><span class="term"><a name="gel-function-IsMersennePrimeExponent"></a>IsMersennePrimeExponent</span></dt><dd><pre class="synopsis">IsMersennePrimeExponent (p)</pre><p>
+	    Tests if a positive integer <code class="varname">p</code> is a
+	    Mersenne prime exponent.  That is if 
+            2<sup>p</sup>-1 is a prime.  It does this
+	    by looking it up in a table of known values, which is relatively
+	    short.
+	    See also
+	    <a class="link" href="ch11s07.html#gel-function-MersennePrimeExponents">MersennePrimeExponents</a>
+	    and
+	    <a class="link" href="ch11s07.html#gel-function-LucasLehmer">LucasLehmer</a>.
+	  </p><p>
+	    See
+	    <a class="ulink" href="http://en.wikipedia.org/wiki/Mersenne_prime" target="_top">Wikipedia</a>,
+	    <a class="ulink" href="http://planetmath.org/MersenneNumbers" target="_top">Planetmath</a>,
+	    <a class="ulink" href="http://mathworld.wolfram.com/MersennePrime.html" target="_top">Mathworld</a> or 
+	    <a class="ulink" href="http://www.mersenne.org/" target="_top">GIMPS</a>
+ for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-IsNthPower"></a>IsNthPower</span></dt><dd><pre class="synopsis">IsNthPower (m,n)</pre><p>
+	    Tests if a rational number <code class="varname">m</code> is a perfect
+	    <code class="varname">n</code>th power.  See also
+	    <a class="link" href="ch11s07.html#gel-function-IsPerfectPower">IsPerfectPower</a>
+	    and
+	    <a class="link" href="ch11s07.html#gel-function-IsPerfectSquare">IsPerfectSquare</a>.
+	  </p></dd><dt><span class="term"><a name="gel-function-IsOdd"></a>IsOdd</span></dt><dd><pre class="synopsis">IsOdd (n)</pre><p>Tests if an integer is odd.</p></dd><dt><span class="term"><a name="gel-function-IsPerfectPower"></a>IsPerfectPower</span></dt><dd><pre class="synopsis">IsPerfectPower (n)</pre><p>Check an integer for being any perfect power, a<sup>b</sup>.</p></dd><dt><span class="term"><a name="gel-function-IsPerfectSquare"></a>IsPerfectSquare</span></dt><dd><pre class="synopsis">IsPerfectSquare (n)</pre><p>
+	    Check an integer for being a perfect square of an integer.  The number must
+	    be a real integer.  Negative integers are of course never perfect
+	    squares of real integers.
+	  </p></dd><dt><span class="term"><a name="gel-function-IsPrime"></a>IsPrime</span></dt><dd><pre class="synopsis">IsPrime (n)</pre><p>
+	    Tests primality of integers, for numbers less than 2.5e10 the
+	    answer is deterministic (if Riemann hypothesis is true).  For
+	    numbers larger, the probability of a false positive
+	    depends on
+	    <a class="link" href="ch11s03.html#gel-function-IsPrimeMillerRabinReps">
+	    <code class="function">IsPrimeMillerRabinReps</code></a>.  That
+	    is the probability of false positive is 1/4 to the power
+	    <code class="function">IsPrimeMillerRabinReps</code>.  The default
+	    value of 22 yields a probability of about 5.7e-14.
+	  </p><p>
+	    If <code class="constant">false</code> is returned, you can be sure that
+	    the number is a composite.  If you want to be absolutely sure
+	    that you have a prime you can use 
+	    <a class="link" href="ch11s07.html#gel-function-MillerRabinTestSure">
+	    <code class="function">MillerRabinTestSure</code></a> but it may take
+	    a lot longer.
+	  </p><p>
+	    See
+	    <a class="ulink" href="http://planetmath.org/PrimeNumber" target="_top">Planetmath</a> or
+	    <a class="ulink" href="http://mathworld.wolfram.com/PrimeNumber.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-IsPrimitiveMod"></a>IsPrimitiveMod</span></dt><dd><pre class="synopsis">IsPrimitiveMod (g,q)</pre><p>Check if <code class="varname">g</code> is primitive in F<sub>q</sub>, the finite
+group of order <code class="varname">q</code>, where <code class="varname">q</code> is a prime.  If <code class="varname">q</code> is not prime results are bogus.</p></dd><dt><span class="term"><a name="gel-function-IsPrimitiveModWithPrimeFactors"></a>IsPrimitiveModWithPrimeFactors</span></dt><dd><pre class="synopsis">IsPrimitiveModWithPrimeFactors (g,q,f)</pre><p>Check if <code class="varname">g</code> is primitive in F<sub>q</sub>, the finite
+group of order <code class="varname">q</code>, where <code class="varname">q</code> is a prime and
+<code class="varname">f</code> is a vector of prime factors of <code class="varname">q</code>-1.
+If <code class="varname">q</code> is not prime results are bogus.</p></dd><dt><span class="term"><a name="gel-function-IsPseudoprime"></a>IsPseudoprime</span></dt><dd><pre class="synopsis">IsPseudoprime (n,b)</pre><p>If <code class="varname">n</code> is a pseudoprime base <code class="varname">b</code> but not a prime,
+		  that is if <strong class="userinput"><code>b^(n-1) == 1 mod n</code></strong>.  This calls the <a class="link" href="ch11s07.html#gel-function-PseudoprimeTest"><code class="function">PseudoprimeTest</code></a></p></dd><dt><span class="term"><a name="gel-function-IsStrongPseudoprime"></a>IsStrongPseudoprime</span></dt><dd><pre class="synopsis">IsStrongPseudoprime (n,b)</pre><p>Test if <code class="varname">n</code> is a strong pseudoprime to base <code class="varname">b</code> but not a prime.</p></dd><dt><span class="term"><a name="gel-function-Jacobi"></a>Jacobi</span></dt><dd><pre class="synopsis">Jacobi (a,b)</pre><p>Aliases: <code class="function">JacobiSymbol</code></p><p>Calculate the Jacobi symbol (a/b) (b should be odd).</p></dd><dt><span class="term"><a name="gel-function-JacobiKronecker"></a>JacobiKronecker</span></dt><dd><pre class="synopsis">JacobiKronecker (a,b)</pre><p>Aliases: <code class="function">JacobiKroneckerSymbol</code></p><p>Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) when a odd, or (a/2)=0 when a even.</p></dd><dt><span class="term"><a name="gel-function-LeastAbsoluteResidue"></a>LeastAbsoluteResidue</span></dt><dd><pre class="synopsis">LeastAbsoluteResidue (a,n)</pre><p>Return the residue of <code class="varname">a</code> mod <code class="varname">n</code> with the least absolute value (in the interval -n/2 to n/2).</p></dd><dt><span class="term"><a name="gel-function-Legendre"></a>Legendre</span></dt><dd><pre class="synopsis">Legendre (a,p)</pre><p>Aliases: <code class="function">LegendreSymbol</code></p><p>Calculate the Legendre symbol (a/p).</p><p>
+	    See
+	    <a class="ulink" href="http://planetmath.org/LegendreSymbol" target="_top">Planetmath</a> or
+	    <a class="ulink" href="http://mathworld.wolfram.com/LegendreSymbol.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-LucasLehmer"></a>LucasLehmer</span></dt><dd><pre class="synopsis">LucasLehmer (p)</pre><p>Test if 2<sup>p</sup>-1 is a Mersenne prime using the Lucas-Lehmer test.
+	    See also
+	    <a class="link" href="ch11s07.html#gel-function-MersennePrimeExponents">MersennePrimeExponents</a>
+	    and
+	    <a class="link" href="ch11s07.html#gel-function-IsMersennePrimeExponent">IsMersennePrimeExponent</a>.
+          </p><p>
+	    See
+	    <a class="ulink" href="http://en.wikipedia.org/wiki/Lucas%E2%80%93Lehmer_primality_test" target="_top">Wikipedia</a>,
+	    <a class="ulink" href="http://planetmath.org/LucasLhemer" target="_top">Planetmath</a>, or
+	    <a class="ulink" href="http://mathworld.wolfram.com/Lucas-LehmerTest.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-LucasNumber"></a>LucasNumber</span></dt><dd><pre class="synopsis">LucasNumber (n)</pre><p>Returns the <code class="varname">n</code>th Lucas number.</p><p>
+	    See
+	    <a class="ulink" href="http://en.wikipedia.org/wiki/Lucas_number" target="_top">Wikipedia</a>,
+	    <a class="ulink" href="http://planetmath.org/LucasNumbers" target="_top">Planetmath</a>, or
+	    <a class="ulink" href="http://mathworld.wolfram.com/LucasNumber.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-MaximalPrimePowerFactors"></a>MaximalPrimePowerFactors</span></dt><dd><pre class="synopsis">MaximalPrimePowerFactors (n)</pre><p>Return all maximal prime power factors of a number.</p></dd><dt><span class="term"><a name="gel-function-MersennePrimeExponents"></a>MersennePrimeExponents</span></dt><dd><pre class="synopsis">MersennePrimeExponents</pre><p>
+	    A vector of known Mersenne prime exponents, that is
+	    a list of positive integers
+	    <code class="varname">p</code> such that
+            2<sup>p</sup>-1 is a prime.
+	    See also
+	    <a class="link" href="ch11s07.html#gel-function-IsMersennePrimeExponent">IsMersennePrimeExponent</a>
+	    and
+	    <a class="link" href="ch11s07.html#gel-function-LucasLehmer">LucasLehmer</a>.
+	  </p><p>
+	    See
+	    <a class="ulink" href="http://en.wikipedia.org/wiki/Mersenne_prime" target="_top">Wikipedia</a>,
+	    <a class="ulink" href="http://planetmath.org/MersenneNumbers" target="_top">Planetmath</a>,
+	    <a class="ulink" href="http://mathworld.wolfram.com/MersennePrime.html" target="_top">Mathworld</a> or 
+	    <a class="ulink" href="http://www.mersenne.org/" target="_top">GIMPS</a>
+ for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-MillerRabinTest"></a>MillerRabinTest</span></dt><dd><pre class="synopsis">MillerRabinTest (n,reps)</pre><p>
+	    Use the Miller-Rabin primality test on <code class="varname">n</code>,
+	    <code class="varname">reps</code> number of times.  The probability of false
+	    positive is <strong class="userinput"><code>(1/4)^reps</code></strong>.  It is probably
+	    usually better to use
+	    <a class="link" href="ch11s07.html#gel-function-IsPrime">
+	    <code class="function">IsPrime</code></a> since that is faster and
+	    better on smaller integers.
+	  </p><p>
+	    See
+	    <a class="ulink" href="http://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test" target="_top">Wikipedia</a> or
+	    <a class="ulink" href="http://planetmath.org/MillerRabinPrimeTest" target="_top">Planetmath</a> or
+	    <a class="ulink" href="http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-MillerRabinTestSure"></a>MillerRabinTestSure</span></dt><dd><pre class="synopsis">MillerRabinTestSure (n)</pre><p>
+	    Use the Miller-Rabin primality test on <code class="varname">n</code> with
+	    enough bases that assuming the Generalized Riemann Hypothesis the
+	    result is deterministic.
+	  </p><p>
+	    See
+	    <a class="ulink" href="http://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test" target="_top">Wikipedia</a>,
+	    <a class="ulink" href="http://planetmath.org/MillerRabinPrimeTest" target="_top">Planetmath</a>, or
+	    <a class="ulink" href="http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-ModInvert"></a>ModInvert</span></dt><dd><pre class="synopsis">ModInvert (n,m)</pre><p>Returns inverse of n mod m.</p><p>
+	    See
+	    <a class="ulink" href="http://mathworld.wolfram.com/ModularInverse.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-MoebiusMu"></a>MoebiusMu</span></dt><dd><pre class="synopsis">MoebiusMu (n)</pre><p>
+	    Return the Moebius mu function evaluated in <code class="varname">n</code>.
+	    That is, it returns 0 if <code class="varname">n</code> is not a product
+	    of distinct primes and <strong class="userinput"><code>(-1)^k</code></strong> if it is
+	    a product of <code class="varname">k</code> distinct primes.
+	  </p><p>
+	    See
+	    <a class="ulink" href="http://planetmath.org/MoebiusFunction" target="_top">Planetmath</a> or
+	    <a class="ulink" href="http://mathworld.wolfram.com/MoebiusFunction.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-NextPrime"></a>NextPrime</span></dt><dd><pre class="synopsis">NextPrime (n)</pre><p>
+	    Returns the least prime greater than <code class="varname">n</code>.
+	    Negatives of primes are considered prime and so to get the
+	    previous prime you can use <strong class="userinput"><code>-NextPrime(-n)</code></strong>.
+	  </p><p>
+	    This function uses the GMPs <code class="function">mpz_nextprime</code>,
+	    which in turn uses the probabilistic Miller-Rabin test
+	    (See also <a class="link" href="ch11s07.html#gel-function-MillerRabinTest"><code class="function">MillerRabinTest</code></a>).
+	    The probability
+	    of false positive is not tunable, but is low enough
+	    for all practical purposes.
+	  </p><p>
+	    See
+	    <a class="ulink" href="http://planetmath.org/PrimeNumber" target="_top">Planetmath</a> or
+	    <a class="ulink" href="http://mathworld.wolfram.com/PrimeNumber.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-PadicValuation"></a>PadicValuation</span></dt><dd><pre class="synopsis">PadicValuation (n,p)</pre><p>Returns the p-adic valuation (number of trailing zeros in base <code class="varname">p</code>).</p><p>
+	    See
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/P-adic_order" target="_top">Wikipedia</a> or
+	    <a class="ulink" href="http://planetmath.org/PAdicValuation" target="_top">Planetmath</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-PowerMod"></a>PowerMod</span></dt><dd><pre class="synopsis">PowerMod (a,b,m)</pre><p>
+	    Compute <strong class="userinput"><code>a^b mod m</code></strong>.  The
+	    <code class="varname">b</code>'s power of <code class="varname">a</code> modulo
+	    <code class="varname">m</code>.  It is not necessary to use this function
+	    as it is automatically used in modulo mode.  Hence
+	    <strong class="userinput"><code>a^b mod m</code></strong> is just as fast.
+          </p></dd><dt><span class="term"><a name="gel-function-Prime"></a>Prime</span></dt><dd><pre class="synopsis">Prime (n)</pre><p>Aliases: <code class="function">prime</code></p><p>Return the <code class="varname">n</code>th prime (up to a limit).</p><p>
+	    See
+	    <a class="ulink" href="http://planetmath.org/PrimeNumber" target="_top">Planetmath</a> or
+	    <a class="ulink" href="http://mathworld.wolfram.com/PrimeNumber.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-PrimeFactors"></a>PrimeFactors</span></dt><dd><pre class="synopsis">PrimeFactors (n)</pre><p>Return all prime factors of a number as a vector.</p><p>
+	    See
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Prime_factor" target="_top">Wikipedia</a> or
+	    <a class="ulink" href="http://mathworld.wolfram.com/PrimeFactor.html" target="_top">Mathworld</a> for more information.
+          </p></dd><dt><span class="term"><a name="gel-function-PseudoprimeTest"></a>PseudoprimeTest</span></dt><dd><pre class="synopsis">PseudoprimeTest (n,b)</pre><p>Pseudoprime test, returns <code class="constant">true</code> if and only if
+		<strong class="userinput"><code>b^(n-1) == 1  mod n</code></strong></p><p>
+	    See
+	    <a class="ulink" href="http://planetmath.org/Pseudoprime" target="_top">Planetmath</a> or
+	    <a class="ulink" href="http://mathworld.wolfram.com/Pseudoprime.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-RemoveFactor"></a>RemoveFactor</span></dt><dd><pre class="synopsis">RemoveFactor (n,m)</pre><p>Removes all instances of the factor <code class="varname">m</code> from the number <code class="varname">n</code>.  That is divides by the largest power of <code class="varname">m</code>, that divides <code class="varname">n</code>.</p><p>
+	    See
+	    <a class="ulink" href="http://planetmath.org/Divisibility" target="_top">Planetmath</a> or
+	    <a class="ulink" href="http://mathworld.wolfram.com/Factor.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-SilverPohligHellmanWithFactorization"></a>SilverPohligHellmanWithFactorization</span></dt><dd><pre class="synopsis">SilverPohligHellmanWithFactorization (n,b,q,f)</pre><p>Find discrete log of <code class="varname">n</code> base <code class="varname">b</code> in F<sub>q</sub>, the finite group of order <code class="varname">q</code>, where <code class="varname">q</code> is a prime using the Silver-Pohlig-Hellman algorithm, given <code class="varname">f</code> being the factorization of <code class="varname">q</code>-1.</p></dd><dt><span class="term"><a name="gel-function-SqrtModPrime"></a>SqrtModPrime</span></dt><dd><pre class="synopsis">SqrtModPrime (n,p)</pre><p>Find square root of <code class="varname">n</code> modulo <code class="varname">p</code> (where <code class="varname">p</code> is a prime).  Null is returned if not a quadratic residue.</p><p>
+	    See
+	    <a class="ulink" href="http://planetmath.org/QuadraticResidue" target="_top">Planetmath</a> or
+	    <a class="ulink" href="http://mathworld.wolfram.com/QuadraticResidue.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-StrongPseudoprimeTest"></a>StrongPseudoprimeTest</span></dt><dd><pre class="synopsis">StrongPseudoprimeTest (n,b)</pre><p>Run the strong pseudoprime test base <code class="varname">b</code> on <code class="varname">n</code>.</p><p>
+	    See
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Strong_pseudoprime" target="_top">Wikipedia</a>,
+	    <a class="ulink" href="http://planetmath.org/StrongPseudoprime" target="_top">Planetmath</a>, or
+	    <a class="ulink" href="http://mathworld.wolfram.com/StrongPseudoprime.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-gcd"></a>gcd</span></dt><dd><pre class="synopsis">gcd (a,args...)</pre><p>Aliases: <code class="function">GCD</code></p><p>
+	    Greatest common divisor of integers.  You can enter as many
+	    integers as you want in the argument list, or you can give
+	    a vector or a matrix of integers.  If you give more than
+	    one matrix of the same size then GCD is done element by
+	    element.
+	  </p><p>
+	    See
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Greatest_common_divisor" target="_top">Wikipedia</a>,
+	    <a class="ulink" href="http://planetmath.org/GreatestCommonDivisor" target="_top">Planetmath</a>, or
+	    <a class="ulink" href="http://mathworld.wolfram.com/GreatestCommonDivisor.html" target="_top">Mathworld</a> for more information.
+	  </p></dd><dt><span class="term"><a name="gel-function-lcm"></a>lcm</span></dt><dd><pre class="synopsis">lcm (a,args...)</pre><p>Aliases: <code class="function">LCM</code></p><p>
+	    Least common multiplier of integers.  You can enter as many
+	    integers as you want in the argument list, or you can give a 
+	    vector or a matrix of integers.  If you give more than one
+	    matrix of the same size then LCM is done element by element.    
+	  </p><p>
+	    See
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Least_common_multiple" target="_top">Wikipedia</a>,
+	    <a class="ulink" href="http://planetmath.org/LeastCommonMultiple" target="_top">Planetmath</a>, or
+	    <a class="ulink" href="http://mathworld.wolfram.com/LeastCommonMultiple.html" target="_top">Mathworld</a> for more information.
+	  </p></dd></dl></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch11s06.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch11.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch11s08.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Trigonometry </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Matrix Manipulation</td></tr></table></div></body></html>

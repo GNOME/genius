@@ -3,10 +3,32 @@
 	the top level versus when they are inside parentheses or
 	inside functions.  On the top level, enter acts the same as if
 	you press return on the command line.  Therefore think of programs
-	as just sequence of lines as if were entered on the command line.
+	as just a sequence of lines as if they were entered on the command line.
 	In particular, you do not need to enter the separator at the end of the
 	line (unless it is of course part of several statements inside
-	parentheses).
+	parentheses).  When a statement does not end with a separator on the
+	top level, the result is printed after being executed.
+      </p><p>
+	For example,
+	</p><pre class="programlisting">function f(x)=x^2
+f(3)
+</pre><p>
+	will print first the result of setting a function (a representation of
+	the function, in this case <code class="computeroutput">(`(x)=(x^2))</code>)
+	and then the expected 9.  To avoid this, enter a separator
+	after the function definition.
+	</p><pre class="programlisting">function f(x)=x^2;
+f(3)
+</pre><p>
+	If you need to put a separator into your function then you have to surround with
+	parenthesis.  For example:
+</p><pre class="programlisting">function f(x)=(
+  y=1;
+  for j=1 to x do
+    y = y+j;
+  y^2
+);
+</pre><p>
       </p><p>Ο παρακάτω κώδικας θα παράξει ένα σφάλμα όταν εισαχθεί στο ανώτατο επίπεδο ενός προγράμματος, ενώ θα δουλέψει θαυμάσια σε μια συνάρτηση. </p><pre class="programlisting">if Something() then
   DoSomething()
 else

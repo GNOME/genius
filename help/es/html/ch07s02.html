@@ -1,4 +1,35 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Sintaxis de nivel superior</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manual de Genius"><link rel="up" href="ch07.html" title="Capítulo 7. Programación avanzada con GEL"><link rel="prev" href="ch07.html" title="Capítulo 7. Programación avanzada con GEL"><link rel="next" href="ch07s03.html" title="Devolver funciones"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Sintaxis de nivel superior</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07.html">Anterior</a> </td><th width="60%" align="center">Capítulo 7. Programación avanzada con GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s03.html">Siguiente</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-toplevel-syntax"></a>Sintaxis de nivel superior</h2></div></div></div><p>Cuando se indroduce una sentencia en el nivel más alto, la sintaxis es distinta a la que se utiliza cuando se introduce entre paréntesis o dentro de una función. En el nivel más alto la tecla «Intro» tiene el mismo efecto que al pulsarla en la línea de comandos. Piense en un programa como una secuencia de líneas introducidas en la línea de comandos. En particular, no necesita introducir el separador al final de la línea (salvo que sea parte de varias sentencias dentro de paréntesis).</p><p>El siguiente código, aunque funcione bien en la función, puede producir un error al introducirlo en el nivel más alto de un programa. </p><pre class="programlisting">if Algo() then
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Sintaxis de nivel superior</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manual de Genius"><link rel="up" href="ch07.html" title="Capítulo 7. Programación avanzada con GEL"><link rel="prev" href="ch07.html" title="Capítulo 7. Programación avanzada con GEL"><link rel="next" href="ch07s03.html" title="Devolver funciones"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Sintaxis de nivel superior</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07.html">Anterior</a> </td><th width="60%" align="center">Capítulo 7. Programación avanzada con GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s03.html">Siguiente</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-toplevel-syntax"></a>Sintaxis de nivel superior</h2></div></div></div><p>
+	The syntax is slightly different if you enter statements on
+	the top level versus when they are inside parentheses or
+	inside functions.  On the top level, enter acts the same as if
+	you press return on the command line.  Therefore think of programs
+	as just a sequence of lines as if they were entered on the command line.
+	In particular, you do not need to enter the separator at the end of the
+	line (unless it is of course part of several statements inside
+	parentheses).  When a statement does not end with a separator on the
+	top level, the result is printed after being executed.
+      </p><p>
+	For example,
+	</p><pre class="programlisting">function f(x)=x^2
+f(3)
+</pre><p>
+	will print first the result of setting a function (a representation of
+	the function, in this case <code class="computeroutput">(`(x)=(x^2))</code>)
+	and then the expected 9.  To avoid this, enter a separator
+	after the function definition.
+	</p><pre class="programlisting">function f(x)=x^2;
+f(3)
+</pre><p>
+	If you need to put a separator into your function then you have to surround with
+	parenthesis.  For example:
+</p><pre class="programlisting">function f(x)=(
+  y=1;
+  for j=1 to x do
+    y = y+j;
+  y^2
+);
+</pre><p>
+      </p><p>El siguiente código, aunque funcione bien en la función, puede producir un error al introducirlo en el nivel más alto de un programa. </p><pre class="programlisting">if Algo() then
   HacerAlgo()
 else
   HacerOtraCosa()

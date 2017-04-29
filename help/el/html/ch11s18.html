@@ -1,1 +1,45 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Διάφορα</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Εγχειρίδιο Genius"><link rel="up" href="ch11.html" title="Κεφάλαιο 11. Κατάλογος συναρτήσεων της GEL"><link rel="prev" href="ch11s17.html" title="Αντιμεταθετική άλγεβρα"><link rel="next" href="ch11s19.html" title="Συμβολικές πράξεις"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Διάφορα</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s17.html">Προηγ</a> </td><th width="60%" align="center">Κεφάλαιο 11. Κατάλογος συναρτήσεων της GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch11s19.html">Επόμενο</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-function-list-miscellaneous"></a>Διάφορα</h2></div></div></div><div class="variablelist"><dl class="variablelist"><dt><span class="term"><a name="gel-function-ASCIIToString"></a>ASCIIToString</span></dt><dd><pre class="synopsis">ASCIIToString (vec)</pre><p>Μετατρέπει ένα διάνυσμα τιμών ASCII σε συμβολοσειρά.</p></dd><dt><span class="term"><a name="gel-function-AlphabetToString"></a>AlphabetToString</span></dt><dd><pre class="synopsis">AlphabetToString (vec,alphabet)</pre><p>Μετατρέπει ένα διάνυσμα τιμών αλφαβήτου με βάση το 0 (θέσεις στη συμβολοσειρά αλφαβήτου) σε συμβολοσειρά.</p></dd><dt><span class="term"><a name="gel-function-StringToASCII"></a>StringToASCII</span></dt><dd><pre class="synopsis">StringToASCII (str)</pre><p>Μετατρέπει μια συμβολοσειρά σε διάνυσμα τιμών ASCII.</p></dd><dt><span class="term"><a name="gel-function-StringToAlphabet"></a>StringToAlphabet</span></dt><dd><pre class="synopsis">StringToAlphabet (str,alphabet)</pre><p>Μετατρέπει μια συμβολοσειρά σε διάνυσμα τιμών αλφαβήτου με βάση το 0 (θέσεις στη συμβολοσειρά αλφαβήτου), -1 για άγνωστα γράμματα.</p></dd></dl></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch11s17.html">Προηγ</a> </td><td width="20%" align="center"><a accesskey="u" href="ch11.html">Πάνω</a></td><td width="40%" align="right"> <a accesskey="n" href="ch11s19.html">Επόμενο</a></td></tr><tr><td width="40%" align="left" valign="top">Αντιμεταθετική άλγεβρα </td><td width="20%" align="center"><a accesskey="h" href="index.html">Αρχή</a></td><td width="40%" align="right" valign="top"> Συμβολικές πράξεις</td></tr></table></div></body></html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Διάφορα</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Εγχειρίδιο Genius"><link rel="up" href="ch11.html" title="Κεφάλαιο 11. Κατάλογος συναρτήσεων της GEL"><link rel="prev" href="ch11s17.html" title="Αντιμεταθετική άλγεβρα"><link rel="next" href="ch11s19.html" title="Συμβολικές πράξεις"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Διάφορα</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s17.html">Προηγ</a> </td><th width="60%" align="center">Κεφάλαιο 11. Κατάλογος συναρτήσεων της GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch11s19.html">Επόμενο</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-function-list-miscellaneous"></a>Διάφορα</h2></div></div></div><div class="variablelist"><dl class="variablelist"><dt><span class="term"><a name="gel-function-ASCIIToString"></a>ASCIIToString</span></dt><dd><pre class="synopsis">ASCIIToString (vec)</pre><p>Convert a vector of ASCII values to a string.
+		  See also
+		  <a class="link" href="ch11s18.html#gel-function-StringToASCII"><code class="function">StringToASCII</code></a>.
+          </p><p>
+	    Example:
+          </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>ASCIIToString([97,98,99])</code></strong>
+= "abc"
+</pre><p>
+          </p><p>
+	    See
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/ASCII" target="_top">Wikipedia</a> for more information.
+          </p></dd><dt><span class="term"><a name="gel-function-AlphabetToString"></a>AlphabetToString</span></dt><dd><pre class="synopsis">AlphabetToString (vec,alphabet)</pre><p>Convert a vector of 0-based alphabet values (positions in the alphabet string) to a string.  A <code class="constant">null</code> vector results in an empty string.
+		  See also
+		  <a class="link" href="ch11s18.html#gel-function-StringToAlphabet"><code class="function">StringToAlphabet</code></a>.
+          </p><p>
+	    Examples:
+          </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>AlphabetToString([1,2,3,0,0],"abcd")</code></strong>
+= "bcdaa"
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>AlphabetToString(null,"abcd")</code></strong>
+= ""
+</pre><p>
+          </p></dd><dt><span class="term"><a name="gel-function-StringToASCII"></a>StringToASCII</span></dt><dd><pre class="synopsis">StringToASCII (str)</pre><p>Convert a string to a (row) vector of ASCII values.
+		  See also
+		  <a class="link" href="ch11s18.html#gel-function-ASCIIToString"><code class="function">ASCIIToString</code></a>.
+          </p><p>
+	    Example:
+          </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>StringToASCII("abc")</code></strong>
+= [97, 98, 99]
+</pre><p>
+          </p><p>
+	    See
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/ASCII" target="_top">Wikipedia</a> for more information.
+          </p></dd><dt><span class="term"><a name="gel-function-StringToAlphabet"></a>StringToAlphabet</span></dt><dd><pre class="synopsis">StringToAlphabet (str,alphabet)</pre><p>Convert a string to a (row) vector of 0-based alphabet values
+		  (positions in the alphabet string), -1's for unknown letters.
+		  An empty string results in a <code class="constant">null</code>.
+		  See also
+		  <a class="link" href="ch11s18.html#gel-function-AlphabetToString"><code class="function">AlphabetToString</code></a>.
+          </p><p>
+	    Examples:
+          </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>StringToAlphabet("cca","abcd")</code></strong>
+= [2, 2, 0]
+<code class="prompt">genius&gt;</code> <strong class="userinput"><code>StringToAlphabet("ccag","abcd")</code></strong>
+= [2, 2, 0, -1]
+</pre><p>
+          </p></dd></dl></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch11s17.html">Προηγ</a> </td><td width="20%" align="center"><a accesskey="u" href="ch11.html">Πάνω</a></td><td width="40%" align="right"> <a accesskey="n" href="ch11s19.html">Επόμενο</a></td></tr><tr><td width="40%" align="left" valign="top">Αντιμεταθετική άλγεβρα </td><td width="20%" align="center"><a accesskey="h" href="index.html">Αρχή</a></td><td width="40%" align="right" valign="top"> Συμβολικές πράξεις</td></tr></table></div></body></html>

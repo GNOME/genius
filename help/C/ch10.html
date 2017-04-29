@@ -1,0 +1,41 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 10. Set Theory in GEL</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Genius Manual"><link rel="up" href="index.html" title="Genius Manual"><link rel="prev" href="ch09.html" title="Chapter 9. Polynomials in GEL"><link rel="next" href="ch11.html" title="Chapter 11. List of GEL functions"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 10. Set Theory in GEL</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch09.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch11.html">Next</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="genius-gel-settheory"></a>Chapter 10. Set Theory in GEL</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="sect1"><a href="ch10.html#genius-gel-sets-using">Using Sets</a></span></dt></dl></div><p>
+      Genius has some basic set theoretic functionality built in.  Currently a set is
+      just a vector (or a matrix).  Every distinct object is treated as a different element.
+    </p><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-sets-using"></a>Using Sets</h2></div></div></div><p>
+	Just like vectors, objects
+      in sets can include numbers, strings, <code class="constant">null</code>, matrices and vectors.  It is
+      planned in the future to have a dedicated type for sets, rather than using vectors.
+      Note that floating point numbers are distinct from integers, even if they appear the same.
+      That is, Genius will treat <code class="constant">0</code> and <code class="constant">0.0</code>
+      as two distinct elements.  The <code class="constant">null</code> is treated as an empty set.
+    </p><p>
+	To build a set out of a vector, use the 
+	<a class="link" href="ch11s16.html#gel-function-MakeSet"><code class="function">MakeSet</code></a> function.
+	Currently, it will just return a new vector where every element is unique.
+</p><pre class="screen"><code class="prompt">genius&gt; </code><strong class="userinput"><code>MakeSet([1,2,2,3])</code></strong>
+= [1, 2, 3]
+</pre><p>
+</p><p>
+	Similarly there are functions 
+	<a class="link" href="ch11s16.html#gel-function-Union"><code class="function">Union</code></a>,
+	<a class="link" href="ch11s16.html#gel-function-Intersection"><code class="function">Intersection</code></a>,
+	<a class="link" href="ch11s16.html#gel-function-SetMinus"><code class="function">SetMinus</code></a>, which
+	are rather self explanatory.  For example:
+</p><pre class="screen"><code class="prompt">genius&gt; </code><strong class="userinput"><code>Union([1,2,3], [1,2,4])</code></strong>
+= [1, 2, 4, 3]
+</pre><p>
+	Note that no order is guaranteed for the return values.  If you wish to sort the vector you
+should use the
+	<a class="link" href="ch11s08.html#gel-function-SortVector"><code class="function">SortVector</code></a> function.
+	</p><p>
+	  For testing membership, there are functions
+	<a class="link" href="ch11s16.html#gel-function-IsIn"><code class="function">IsIn</code></a> and
+	<a class="link" href="ch11s16.html#gel-function-IsSubset"><code class="function">IsSubset</code></a>,
+	which return a boolean value.  For example:
+</p><pre class="screen"><code class="prompt">genius&gt; </code><strong class="userinput"><code>IsIn (1, [0,1,2])</code></strong>
+= true
+</pre><p>
+	The input <strong class="userinput"><code>IsIn(x,X)</code></strong> is of course equivalent to
+	<strong class="userinput"><code>IsSubset([x],X)</code></strong>.  Note that since the empty set is a subset
+	of every set, <strong class="userinput"><code>IsSubset(null,X)</code></strong> is always true.
+	</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch09.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch11.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter 9. Polynomials in GEL </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Chapter 11. List of GEL functions</td></tr></table></div></body></html>

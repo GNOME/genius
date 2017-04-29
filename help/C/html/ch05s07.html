@@ -63,10 +63,12 @@ returns 3.
              Element by element back division.
            </p></dd><dt><span class="term"><strong class="userinput"><code>a%b</code></strong></span></dt><dd><p>
 	     The mod operator.  This does not turn on the <a class="link" href="ch05s06.html" title="Modular Evaluation">modular mode</a>, but
-	     just returns the remainder of <strong class="userinput"><code>a/b</code></strong>.
+             just returns the remainder of integer division
+             <strong class="userinput"><code>a/b</code></strong>.
            </p></dd><dt><span class="term"><strong class="userinput"><code>a.%b</code></strong></span></dt><dd><p>
-             Element by element the mod operator.  Returns the remainder
-	     after element by element integer <strong class="userinput"><code>a./b</code></strong>.
+             Element by element mod operator.  Returns the remainder
+	     after element by element integer division
+	     <strong class="userinput"><code>a./b</code></strong>.
            </p></dd><dt><span class="term"><strong class="userinput"><code>a mod b</code></strong></span></dt><dd><p>
              Modular evaluation operator.  The expression <code class="varname">a</code>
 	     is evaluated modulo <code class="varname">b</code>.  See <a class="xref" href="ch05s06.html" title="Modular Evaluation">the section called “Modular Evaluation”</a>.
@@ -102,21 +104,21 @@ returns 3.
 	     greater than or equal to 
 	     <code class="varname">b</code> else returns <code class="constant">false</code>.
 	     These can be chained as in <strong class="userinput"><code>a &gt;= b &gt;= c</code></strong>
-	     (can also be combine with the greater than operator).
+	     (and they can also be combined with the greater than operator).
            </p></dd><dt><span class="term"><strong class="userinput"><code>a&lt;b</code></strong></span></dt><dd><p>
              Less than operator,
 	     returns <code class="constant">true</code> if <code class="varname">a</code> is
 	     less than 
 	     <code class="varname">b</code> else returns <code class="constant">false</code>.
 	     These can be chained as in <strong class="userinput"><code>a &lt; b &lt; c</code></strong>
-	     (can also be combine with the less than or equal to operator).
+	     (they can also be combined with the less than or equal to operator).
            </p></dd><dt><span class="term"><strong class="userinput"><code>a&gt;b</code></strong></span></dt><dd><p>
              Greater than operator,
 	     returns <code class="constant">true</code> if <code class="varname">a</code> is
 	     greater than 
 	     <code class="varname">b</code> else returns <code class="constant">false</code>.
 	     These can be chained as in <strong class="userinput"><code>a &gt; b &gt; c</code></strong>
-	     (can also be combine with the greater than or equal to operator).
+	     (they can also be combined with the greater than or equal to operator).
            </p></dd><dt><span class="term"><strong class="userinput"><code>a&lt;=&gt;b</code></strong></span></dt><dd><p>
 	     Comparison operator.  If <code class="varname">a</code> is equal to
 	     <code class="varname">b</code> it returns 0, if <code class="varname">a</code> is less
@@ -136,12 +138,12 @@ returns 3.
 	     are treated as true.
            </p></dd><dt><span class="term"><strong class="userinput"><code>a xor b</code></strong></span></dt><dd><p>
              Logical xor.
-	     Returns true exactly one of
+	     Returns true if exactly one of
 	     <code class="varname">a</code> or <code class="varname">b</code> is true,
 	     else returns false.  If given numbers, nonzero numbers
 	     are treated as true.
            </p></dd><dt><span class="term"><strong class="userinput"><code>not a</code></strong></span></dt><dd><p>
-		   Logical not.  Returns the logical negation of <code class="varname">a</code>
+		   Logical not.  Returns the logical negation of <code class="varname">a</code>.
            </p></dd><dt><span class="term"><strong class="userinput"><code>-a</code></strong></span></dt><dd><p>
              Negation operator.  Returns the negative of a number or a matrix (works element-wise on a matrix).
            </p></dd><dt><span class="term"><strong class="userinput"><code>&amp;a</code></strong></span></dt><dd><p>
@@ -160,7 +162,7 @@ returns 3.
 	     Get element of a matrix in row <code class="varname">b</code> and column
 	     <code class="varname">c</code>.   If <code class="varname">b</code>,
 	     <code class="varname">c</code> are vectors, then this gets the corresponding
-	     rows columns or submatrices.
+	     rows, columns or submatrices.
            </p></dd><dt><span class="term"><strong class="userinput"><code>a@(b,)</code></strong></span></dt><dd><p>
              Get row of a matrix (or multiple rows if <code class="varname">b</code> is a vector).
            </p></dd><dt><span class="term"><strong class="userinput"><code>a@(b,:)</code></strong></span></dt><dd><p>
@@ -207,8 +209,8 @@ returns 3.
 	     point numbers and is ever so slightly more precise than
 	     <strong class="userinput"><code>1.0:0.4:3.0</code></strong>.
            </p></dd><dt><span class="term"><strong class="userinput"><code>(a)i</code></strong></span></dt><dd><p>
-	     Make a imaginary number (multiply <code class="varname">a</code> by the
-	     imaginary).  Note that normally the number <code class="varname">i</code> is
+	     Make <code class="varname">a</code> into an imaginary number (multiply <code class="varname">a</code> by the
+	     imaginary).  Normally the imaginary number <code class="varname">i</code> is
 	     written as <strong class="userinput"><code>1i</code></strong>.  So the above is equal to
 	     </p><pre class="programlisting">(a)*1i
 	     </pre><p>
