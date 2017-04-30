@@ -6,22 +6,23 @@
 # Fábio Nogueira <deb-user-ba@ubuntu.com>, 2008.
 # Carlos Eduardo Moreira dos Santos <cems@cemshost.com.br>, 2008.
 # Rodrigo Luiz Marques Flores <mail@rodrigoflores.org>, 2009.
-# Enrico Nicoletto <liverig@gmail.com>, 2013, 2016.
 # Rafael Fontenelle <rafaelff@gnome.org>, 2013-2017.
+# Enrico Nicoletto <liverig@gmail.com>, 2013, 2016, 2017.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: genius\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-18 22:46+0000\n"
-"PO-Revision-Date: 2017-04-18 20:28-0200\n"
-"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"POT-Creation-Date: 2017-04-27 02:12+0000\n"
+"PO-Revision-Date: 2017-04-30 16:59-0300\n"
+"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Virtaal 1.0.0-beta1\n"
+"X-Generator: Poedit 1.8.12\n"
 "X-Project-Style: gnome\n"
 
 #: ../lib/library-strings.c:1
@@ -1641,7 +1642,6 @@ msgid "ERROR: %s before '%s'"
 msgstr "ERRO: %s antes de “%s”"
 
 #: ../src/calc.h:32
-#| msgid "Copyright (C) 1997-2016 Jiří (George) Lebl"
 msgid "Copyright (C) 1997-2017 Jiří (George) Lebl"
 msgstr "Copyright (C) 1997-2017 Jiří (George) Lebl"
 
@@ -2259,7 +2259,7 @@ msgid "%s: Input not a number or a matrix of numbers."
 msgstr "%s: Entrada não é um número ou uma matriz de números."
 
 #: ../src/funclib.c:3436 ../src/funclib.c:3494 ../src/funclib.c:5032
-#: ../src/funclib.c:5326 ../src/graphing.c:10296
+#: ../src/funclib.c:5326 ../src/graphing.c:10298
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: argumentos demais"
@@ -3395,37 +3395,41 @@ msgstr "linha %d: %s\n"
 msgid "Too many errors! (%d followed)\n"
 msgstr "Erros demais! (%d seguidos)\n"
 
-#: ../src/genius.c:157
+#: ../src/genius.c:184
 msgid "Cannot locate the manual"
 msgstr "Não é possível localizar o manual"
 
-#: ../src/genius.c:222
+#: ../src/genius.c:214
+msgid "Cannot run lynx/links/w3m to show the manual"
+msgstr "Não foi possível executar o lynx/links/w3m para mostrar o manual"
+
+#: ../src/genius.c:240
 #, c-format
 msgid "Suggested: %s\n"
 msgstr "Sugerido: %s\n"
 
-#: ../src/genius.c:268
+#: ../src/genius.c:286
 #, c-format
 msgid "Out of range!\n"
 msgstr "Fora dos limites!\n"
 
-#: ../src/genius.c:345 ../src/genius.lang.h:2 ../src/gnome-genius.c:846
+#: ../src/genius.c:363 ../src/genius.lang.h:2 ../src/gnome-genius.c:846
 #: ../src/gnome-genius.c:891
 msgid "Genius"
 msgstr "Genius"
 
-#: ../src/genius.c:378 ../src/genius.c:387 ../src/genius.c:394
-#: ../src/genius.c:403
+#: ../src/genius.c:396 ../src/genius.c:405 ../src/genius.c:412
+#: ../src/genius.c:421
 #, c-format
 msgid "%s should be between %d and %d, using %d"
 msgstr "%s deveria estar entre %d e %d, usando %d"
 
-#: ../src/genius.c:422 ../src/genius.c:431
+#: ../src/genius.c:440 ../src/genius.c:449
 #, c-format
 msgid "%s should be greater then or equal to %d, using %d"
 msgstr "%s deveria ser maior ou igual a %d, usando %d"
 
-#: ../src/genius.c:479
+#: ../src/genius.c:497
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -3434,7 +3438,7 @@ msgstr ""
 "Genius %s\n"
 "%s%s\n"
 
-#: ../src/genius.c:490
+#: ../src/genius.c:508
 #, c-format
 msgid ""
 "Genius %s usage:\n"
@@ -3488,7 +3492,7 @@ msgstr ""
 "\t--exec=expr       \tExecuta uma expressão\n"
 "\n"
 
-#: ../src/genius.c:520
+#: ../src/genius.c:538
 #, c-format
 msgid ""
 "Can't specify both an expression and files to execute on the command line"
@@ -3496,7 +3500,7 @@ msgstr ""
 "Não é possível especificar uma expressão e arquivos para executar ao mesmo "
 "tempo na linha de comando"
 
-#: ../src/genius.c:531
+#: ../src/genius.c:549
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -3513,7 +3517,7 @@ msgstr ""
 "Para ajuda, digite \"manual\" ou \"help\".%s\n"
 "\n"
 
-#: ../src/genius.c:604 ../src/gnome-genius.c:5461
+#: ../src/genius.c:622 ../src/gnome-genius.c:5461
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -3521,7 +3525,7 @@ msgstr ""
 "A única coisa que interfere no meu aprendizado é minha educação.  -- Albert "
 "Einstein"
 
-#: ../src/genius.c:625 ../src/genius.c:696
+#: ../src/genius.c:643 ../src/genius.c:714
 msgid "Can't open file"
 msgstr "Não é possível abrir o arquivo"
 
@@ -4931,11 +4935,11 @@ msgstr "Criar Traço"
 #: ../src/graphing.c:7693 ../src/graphing.c:7817 ../src/graphing.c:7954
 #: ../src/graphing.c:8111 ../src/graphing.c:8258 ../src/graphing.c:8281
 #: ../src/graphing.c:8872 ../src/graphing.c:9159 ../src/graphing.c:9378
-#: ../src/graphing.c:9617 ../src/graphing.c:9944 ../src/graphing.c:10176
-#: ../src/graphing.c:10265 ../src/graphing.c:10378 ../src/graphing.c:10409
-#: ../src/graphing.c:10438 ../src/graphing.c:10464 ../src/graphing.c:10493
-#: ../src/graphing.c:10586 ../src/graphing.c:10675 ../src/graphing.c:10700
-#: ../src/graphing.c:10733 ../src/graphing.c:10781
+#: ../src/graphing.c:9618 ../src/graphing.c:9946 ../src/graphing.c:10178
+#: ../src/graphing.c:10267 ../src/graphing.c:10380 ../src/graphing.c:10411
+#: ../src/graphing.c:10440 ../src/graphing.c:10466 ../src/graphing.c:10495
+#: ../src/graphing.c:10588 ../src/graphing.c:10677 ../src/graphing.c:10702
+#: ../src/graphing.c:10735 ../src/graphing.c:10783
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr "%s: Traço do gráfico em progresso, não é possível chamar %s"
@@ -4958,19 +4962,19 @@ msgstr ""
 
 #: ../src/graphing.c:7392 ../src/graphing.c:7646 ../src/graphing.c:7763
 #: ../src/graphing.c:7899 ../src/graphing.c:8048 ../src/graphing.c:8203
-#: ../src/graphing.c:10045
+#: ../src/graphing.c:10047
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: domínio de X inválido"
 
 #: ../src/graphing.c:7397 ../src/graphing.c:7651 ../src/graphing.c:7768
 #: ../src/graphing.c:7904 ../src/graphing.c:8053 ../src/graphing.c:8208
-#: ../src/graphing.c:10050
+#: ../src/graphing.c:10052
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: domínio de Y inválido"
 
-#: ../src/graphing.c:7402 ../src/graphing.c:10055
+#: ../src/graphing.c:7402 ../src/graphing.c:10057
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: domínio de Z inválido"
@@ -5095,19 +5099,19 @@ msgstr ""
 "%s: A cor deve ser uma string ou um vetor triplo de valores rgb (entre 0 e 1)"
 
 #: ../src/graphing.c:8891 ../src/graphing.c:9178 ../src/graphing.c:9399
-#: ../src/graphing.c:9638
+#: ../src/graphing.c:9639
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: Número errado de argumentos"
 
 #: ../src/graphing.c:8961 ../src/graphing.c:9232 ../src/graphing.c:9465
-#: ../src/graphing.c:9698
+#: ../src/graphing.c:9699
 #, c-format
 msgid "%s: No thickness specified"
 msgstr "%s: Sem largura especificada"
 
 #: ../src/graphing.c:8984 ../src/graphing.c:9255 ../src/graphing.c:9490
-#: ../src/graphing.c:9723
+#: ../src/graphing.c:9724
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: Nenhuma janela especificada"
@@ -5118,13 +5122,13 @@ msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
 msgstr "%s: estilo de seta deve ser “origem”, “fim”, “ambos”, ou “nenhum”"
 
 #: ../src/graphing.c:9067 ../src/graphing.c:9299 ../src/graphing.c:9542
-#: ../src/graphing.c:9775
+#: ../src/graphing.c:9776
 #, c-format
 msgid "%s: No legend specified"
 msgstr "%s: Nenhuma legenda foi especificada"
 
 #: ../src/graphing.c:9081 ../src/graphing.c:9313 ../src/graphing.c:9557
-#: ../src/graphing.c:9790
+#: ../src/graphing.c:9791
 #, c-format
 msgid "%s: Legend must be a string"
 msgstr "%s: A legenda deve ser uma string"
@@ -5135,17 +5139,17 @@ msgid "%s: Unknown style: %s"
 msgstr "%s: Estilo desconhecido: %s"
 
 #: ../src/graphing.c:9101 ../src/graphing.c:9329 ../src/graphing.c:9575
-#: ../src/graphing.c:9808
+#: ../src/graphing.c:9809
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: Parâmetro inválido"
 
-#: ../src/graphing.c:9322 ../src/graphing.c:9567 ../src/graphing.c:9800
+#: ../src/graphing.c:9322 ../src/graphing.c:9567 ../src/graphing.c:9801
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: Estilo desconhecido"
 
-#: ../src/graphing.c:9861 ../src/graphing.c:9924
+#: ../src/graphing.c:9863 ../src/graphing.c:9926
 #, c-format
 msgid ""
 "%s: Surface should be given as a real, n by 3 matrix with columns for x, y, "
@@ -5154,92 +5158,92 @@ msgstr ""
 "%s: A superfície deve ser dada como um número real, matriz n por 3 com "
 "colunas para x,y e z onde n>=3"
 
-#: ../src/graphing.c:9952
+#: ../src/graphing.c:9954
 #, c-format
 msgid "%s: argument not a matrix of data"
 msgstr "%s: o argumento não é uma matriz de dados"
 
-#: ../src/graphing.c:10136
+#: ../src/graphing.c:10138
 #, c-format
 msgid "%s: Surface grid data should be given as a real matrix "
 msgstr ""
 "%s: Os dados da grade de superfície devem ser fornecidos como uma matriz de "
 "números reais "
 
-#: ../src/graphing.c:10182
+#: ../src/graphing.c:10184
 #, c-format
 msgid "%s: first argument not a matrix of data"
 msgstr "%s: o primeiro argumento não é uma matriz de dados"
 
-#: ../src/graphing.c:10189
+#: ../src/graphing.c:10191
 #, c-format
 msgid "%s: second argument not a 4 or 6 element vector of limits"
 msgstr "%s: o segundo argumento não é um vetor de limite de 4 ou 6 elementos"
 
-#: ../src/graphing.c:10206
+#: ../src/graphing.c:10208
 #, c-format
 msgid "%s: too many arguments or last argument not a string label"
 msgstr ""
 "%s: há muitos argumentos ou o último argumento não é um rótulo de string"
 
-#: ../src/graphing.c:10272
+#: ../src/graphing.c:10274
 #, c-format
 msgid "%s: first argument not a nonempty string"
 msgstr "%s: o primeiro argumento não é uma string completa"
 
-#: ../src/graphing.c:10280
+#: ../src/graphing.c:10282
 #, c-format
 msgid "%s: type not specified and filename has no extension"
 msgstr "%s: tipo não especificado e nome de arquivo sem nenhuma extensão"
 
-#: ../src/graphing.c:10289
+#: ../src/graphing.c:10291
 #, c-format
 msgid "%s: second argument not a nonempty string"
 msgstr "%s: o segundo argumento não é uma string completa"
 
-#: ../src/graphing.c:10301
+#: ../src/graphing.c:10303
 #, c-format
 msgid "%s: plot canvas not active, cannot export"
 msgstr "%s: tela do gráfico não está ativa, não é possível exportar"
 
-#: ../src/graphing.c:10310 ../src/graphing.c:10327 ../src/graphing.c:10350
+#: ../src/graphing.c:10312 ../src/graphing.c:10329 ../src/graphing.c:10352
 #, c-format
 msgid "%s: export failed"
 msgstr "%s: ocorreu falha ao exportar"
 
-#: ../src/graphing.c:10363
+#: ../src/graphing.c:10365
 #, c-format
 msgid "%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."
 msgstr "%s: tipo de arquivo desconhecido, pode ser “png”, “eps”, ou “ps”."
 
-#: ../src/graphing.c:10500
+#: ../src/graphing.c:10502
 msgid "Variable names not given in a 4-vector"
 msgstr "Nomes de variáveis não fornecidos em um vetor quádruplo"
 
-#: ../src/graphing.c:10510 ../src/graphing.c:10519 ../src/graphing.c:10528
-#: ../src/graphing.c:10537 ../src/graphing.c:10603 ../src/graphing.c:10612
-#: ../src/graphing.c:10621
+#: ../src/graphing.c:10512 ../src/graphing.c:10521 ../src/graphing.c:10530
+#: ../src/graphing.c:10539 ../src/graphing.c:10605 ../src/graphing.c:10614
+#: ../src/graphing.c:10623
 msgid "Variable names should be strings"
 msgstr "Nomes de variáveis devem ser do tipo string"
 
-#: ../src/graphing.c:10544 ../src/graphing.c:10627
+#: ../src/graphing.c:10546 ../src/graphing.c:10629
 msgid "Variable names must be valid identifiers"
 msgstr "Nomes de variáveis devem ser identificadores válidos"
 
-#: ../src/graphing.c:10553 ../src/graphing.c:10633
+#: ../src/graphing.c:10555 ../src/graphing.c:10635
 msgid "Variable names must be mutually distinct"
 msgstr "Nomes de variáveis devem ser mutualmente distintos"
 
-#: ../src/graphing.c:10593
+#: ../src/graphing.c:10595
 msgid "Variable names not given in a 3-vector"
 msgstr "Nomes de variáveis não fornecidos em um vetor triplo"
 
-#: ../src/graphing.c:10816
+#: ../src/graphing.c:10818
 msgid "Plotting"
 msgstr "Plotagem"
 
 #. internal
-#: ../src/graphing.c:10818
+#: ../src/graphing.c:10820
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -5247,7 +5251,7 @@ msgstr ""
 "Traça uma função com uma linha. Primeiro vêm as funções (até 10) e então, "
 "opcionalmente, limites como x1,x2,y1,y2"
 
-#: ../src/graphing.c:10819
+#: ../src/graphing.c:10821
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
@@ -5257,7 +5261,7 @@ msgstr ""
 "y e então opcionalmente os limites de t como t1,t2,tinc, então "
 "opcionalmente  limites como x1,x2,y1,y2"
 
-#: ../src/graphing.c:10820
+#: ../src/graphing.c:10822
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
@@ -5267,7 +5271,7 @@ msgstr ""
 "vêm as funções que retornam x+iy depois opcionalmente os limites de t como "
 "t1,t2,tinc, então opcionalmente os limites como x1,x2,y1,y2"
 
-#: ../src/graphing.c:10822
+#: ../src/graphing.c:10824
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
@@ -5275,7 +5279,7 @@ msgstr ""
 "Desenha um campo de inclinação. Primeiro vêm as funções dy/dx em termos de x "
 "e y (ou um complexo z) então, opcionalmente, os limites como x1,x2,y1,y2"
 
-#: ../src/graphing.c:10823
+#: ../src/graphing.c:10825
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
@@ -5283,18 +5287,18 @@ msgstr ""
 "Desenha um campo vetorial.  Primeiro vêm as funções dx/dt e dy/dt em termos "
 "de x e y então, opcionalmente, os limites x1,x2,y1,y2"
 
-#: ../src/graphing.c:10825
+#: ../src/graphing.c:10827
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr ""
 "Desenha uma solução para um capo de inclinação iniciando em x,y e usando dx "
 "como incremento"
 
-#: ../src/graphing.c:10826
+#: ../src/graphing.c:10828
 msgid "Clear all the slopefield solutions"
 msgstr "Apaga todas as soluções de campo de inclinação"
 
-#: ../src/graphing.c:10828
+#: ../src/graphing.c:10830
 msgid ""
 "Draw a solution for a vector field starting at x,y, using dt as increment "
 "for tlen units"
@@ -5302,11 +5306,11 @@ msgstr ""
 "Desenha uma solução para um campo vetorial começando em x,y, usando dt como "
 "incremento para unidades de tlen"
 
-#: ../src/graphing.c:10829
+#: ../src/graphing.c:10831
 msgid "Clear all the vectorfield solutions"
 msgstr "Apaga todas as soluções de campo vetorial"
 
-#: ../src/graphing.c:10832
+#: ../src/graphing.c:10834
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -5315,11 +5319,11 @@ msgstr ""
 "complexo. Primeiro vem a função e então, opcionalmente, limites como x1,x2,"
 "y1,y2,z1,z2"
 
-#: ../src/graphing.c:10834
+#: ../src/graphing.c:10836
 msgid "Show the surface (3d) plot window and clear out functions"
 msgstr "Mostra a janela de gráfico de superfície (3d) e limpa as funções"
 
-#: ../src/graphing.c:10836
+#: ../src/graphing.c:10838
 msgid ""
 "Plot surface data given as n by 3 matrix (n>=3) of data with each row being "
 "x,y,z.  Optionally can pass a label string and limits.  If no limits passed, "
@@ -5330,7 +5334,7 @@ msgstr ""
 "de string e limites. Se nenhum limite for passado, os limites são calculados "
 "a partir dos dados."
 
-#: ../src/graphing.c:10837
+#: ../src/graphing.c:10839
 msgid ""
 "Plot surface data given as a matrix (where rows are the x coordinate and "
 "columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or "
@@ -5341,7 +5345,7 @@ msgstr ""
 "são dados por [x1,x2,y1,y2] ou opcionalmente [x1,x2,y1,y2,z1,z2] e ainda de "
 "forma opcional uma string para o rótulo."
 
-#: ../src/graphing.c:10838
+#: ../src/graphing.c:10840
 msgid ""
 "Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  x1,y1,z1,x2,"
 "y2,z2 can be replaced by a n by 3 matrix for a longer line"
@@ -5350,7 +5354,7 @@ msgstr ""
 "y1,z1,x2,y2,z2 podem ser substituídos por uma matriz n por 3 para uma linha "
 "maior"
 
-#: ../src/graphing.c:10839
+#: ../src/graphing.c:10841
 msgid ""
 "Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a "
 "n by 3 matrix for more points."
@@ -5358,11 +5362,11 @@ msgstr ""
 "Desenha um ponto de x,y,z no gráfico de superfície (3d).  x,y,z podem ser "
 "substituídos por uma matriz n por 3 para mais pontos."
 
-#: ../src/graphing.c:10841
+#: ../src/graphing.c:10843
 msgid "Show the line plot window and clear out functions"
 msgstr "Mostra a janela de gráfico de linha e limpa as funções"
 
-#: ../src/graphing.c:10842
+#: ../src/graphing.c:10844
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line."
@@ -5370,38 +5374,38 @@ msgstr ""
 "Desenha uma linha de x1,y1 a x2,y2. x1,y1,x2,y2 podem ser substituídos por "
 "uma matriz n por 2 para uma linha maior."
 
-#: ../src/graphing.c:10843
+#: ../src/graphing.c:10845
 msgid ""
 "Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points."
 msgstr ""
 "Desenha um ponto de x,y.  x,y podem ser substituídos por uma matriz n por 2 "
 "para mais pontos."
 
-#: ../src/graphing.c:10845
+#: ../src/graphing.c:10847
 msgid "Freeze the plot canvas, that is, inhibit drawing"
 msgstr "Congela a tela de tracejamento de gráficos, isso é, inibe desenho"
 
-#: ../src/graphing.c:10846
+#: ../src/graphing.c:10848
 msgid "Thaw the plot canvas and redraw the plot immediately"
 msgstr ""
 "Degela a tela de tracejamento de gráficas e redesenha os gráficos "
 "imediatamente"
 
-#: ../src/graphing.c:10847
+#: ../src/graphing.c:10849
 msgid "Raise the plot window, and create the window if necessary"
 msgstr "Aumentar a janela de tracejamento e criar a janela, se necessário"
 
-#: ../src/graphing.c:10849
+#: ../src/graphing.c:10851
 msgid "Wait for a click on the line plot window, return the location."
 msgstr ""
 "Espera por um clique em uma janela de gráfico de linha, retorna a "
 "localização."
 
-#: ../src/graphing.c:10850
+#: ../src/graphing.c:10852
 msgid "Return current mouse location on the line plot window."
 msgstr "Retorna a localização atual do mouse na janela de gráfico de linha."
 
-#: ../src/graphing.c:10852
+#: ../src/graphing.c:10854
 msgid ""
 "Export the current contents of the plot canvas to a file.  The file type is "
 "given by the string type, which can be \"png\", \"eps\", or \"ps\"."
@@ -5410,17 +5414,17 @@ msgstr ""
 "arquivo a ser usado é dado pelo tipo de string fornecido, que pode ser  "
 "“png”, “eps”, ou “ps”."
 
-#: ../src/graphing.c:10854
+#: ../src/graphing.c:10856
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr ""
 "Número de escalas de campo de inclinação como um vetor [vertical,horizontal]."
 
-#: ../src/graphing.c:10855
+#: ../src/graphing.c:10857
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
 msgstr ""
 "Número de escalas de campo de vetor como um vetor [vertical,horizontal]."
 
-#: ../src/graphing.c:10856
+#: ../src/graphing.c:10858
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
@@ -5428,7 +5432,7 @@ msgstr ""
 "Os nomes usados por padrão por todas as funções de gráficos bidimensionais "
 "(2D). Deve ser um vetor quádruplo de strings ou identificadores [x,y,z,t]."
 
-#: ../src/graphing.c:10857
+#: ../src/graphing.c:10859
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
@@ -5437,7 +5441,7 @@ msgstr ""
 "ser um vetor triplo de strings ou identificadores [x,y,z] (onde z=x+iy e não "
 "no eixo dependente)."
 
-#: ../src/graphing.c:10859
+#: ../src/graphing.c:10861
 msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
@@ -5445,25 +5449,25 @@ msgstr ""
 "Normaliza campos vetoriais se true. Isto é, apenas mostra a direção e não a "
 "magnitude."
 
-#: ../src/graphing.c:10860
+#: ../src/graphing.c:10862
 msgid "If to draw legends or not on line plots."
 msgstr "Se desenha legendas ou não em gráficos de linhas."
 
-#: ../src/graphing.c:10861
+#: ../src/graphing.c:10863
 msgid "If to draw axis labels on line plots."
 msgstr "Se desenha legendas de eixos em gráficos de linhas."
 
-#: ../src/graphing.c:10863
+#: ../src/graphing.c:10865
 msgid "If to draw legends or not on surface plots."
 msgstr "Se desenha legendas, ou não, na superfície dos gráficos."
 
-#: ../src/graphing.c:10865
+#: ../src/graphing.c:10867
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr ""
 "Janela de gráfico de linha (limites) como um vetor quádruplo da forma [x1,x2,"
 "y1,y2]"
 
-#: ../src/graphing.c:10866
+#: ../src/graphing.c:10868
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
