@@ -91,7 +91,7 @@ manualhtml${lang}figures_DATA = \$(THE_${lang}FIGURES)
 EOF
 done
 
-EXTRAFILES=`echo genius.txt $EXTRAFILES | sed 's/ / \\\\\n  /g'`
+EXTRAFILES=`echo make-makefile-am.sh update-po.sh update-xml-to-txt-html.sh genius.txt $EXTRAFILES | sed 's/ / \\\\\n  /g'`
 cat >> Makefile.am <<EOF
 
 #########################################################

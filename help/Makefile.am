@@ -734,7 +734,10 @@ manual_DATA = genius.txt
 # Aaaaand here's all the files ...
 
 
-EXTRA_DIST = genius.txt \
+EXTRA_DIST = make-makefile-am.sh \
+  update-po.sh \
+  update-xml-to-txt-html.sh \
+  genius.txt \
   C/html/ch01.html \
   C/html/ch02.html \
   C/html/ch02s02.html \
