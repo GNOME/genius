@@ -7,7 +7,7 @@
 # Matthias Warkus <mawa@iname.com>, 1999.
 # Andre Klapper <ak-47@gmx.net>, 2008.
 # Hendrik Richter <hendrikr@gnome.org>, 2008.
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2011.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2011, 2017.
 # Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>, 2010.
 # Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009-2011.
 # Wolfgang Stöggl <c72578@yahoo.de>, 2011-2012, 2014-2015, 2017.
@@ -16,15 +16,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-18 22:46+0000\n"
-"PO-Revision-Date: 2017-04-21 15:34+0200\n"
-"Last-Translator: Wolfgang Stoeggl <c72578@yahoo.de>\n"
+"POT-Creation-Date: 2017-09-14 19:48+0000\n"
+"PO-Revision-Date: 2017-10-02 10:45+0200\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.0.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../lib/library-strings.c:1
@@ -2324,7 +2324,7 @@ msgid "%s: Input not a number or a matrix of numbers."
 msgstr "%s: Eingabe ist keine Zahl oder Zahlenmatrix."
 
 #: ../src/funclib.c:3436 ../src/funclib.c:3494 ../src/funclib.c:5032
-#: ../src/funclib.c:5326 ../src/graphing.c:10296
+#: ../src/funclib.c:5326 ../src/graphing.c:10298
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: zu viele Argumente"
@@ -3475,37 +3475,42 @@ msgstr "Zeile %d: %s\n"
 msgid "Too many errors! (%d followed)\n"
 msgstr "Zu viele Fehler! (%d folgen)\n"
 
-#: ../src/genius.c:157
+#: ../src/genius.c:184
 msgid "Cannot locate the manual"
 msgstr "Das Handbuch kann nicht gefunden werden"
 
-#: ../src/genius.c:222
+#: ../src/genius.c:214
+msgid "Cannot run lynx/links/w3m to show the manual"
+msgstr ""
+"lynx/links/w3m können nicht ausgeführt werden, um das Handbuch anzuzeigen"
+
+#: ../src/genius.c:240
 #, c-format
 msgid "Suggested: %s\n"
 msgstr "Empfohlen: %s\n"
 
-#: ../src/genius.c:268
+#: ../src/genius.c:286
 #, c-format
 msgid "Out of range!\n"
 msgstr "Außerhalb des Bereichs!\n"
 
-#: ../src/genius.c:345 ../src/genius.lang.h:2 ../src/gnome-genius.c:846
+#: ../src/genius.c:363 ../src/genius.lang.h:2 ../src/gnome-genius.c:846
 #: ../src/gnome-genius.c:891
 msgid "Genius"
 msgstr "Genius"
 
-#: ../src/genius.c:378 ../src/genius.c:387 ../src/genius.c:394
-#: ../src/genius.c:403
+#: ../src/genius.c:396 ../src/genius.c:405 ../src/genius.c:412
+#: ../src/genius.c:421
 #, c-format
 msgid "%s should be between %d and %d, using %d"
 msgstr "%s sollte zwischen %d und %d liegen, unter Verwendung von %d"
 
-#: ../src/genius.c:422 ../src/genius.c:431
+#: ../src/genius.c:440 ../src/genius.c:449
 #, c-format
 msgid "%s should be greater then or equal to %d, using %d"
 msgstr "%s sollte größer oder gleich %d sein, unter Verwendung von %d"
 
-#: ../src/genius.c:479
+#: ../src/genius.c:497
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -3514,7 +3519,7 @@ msgstr ""
 "Genius %s\n"
 "%s%s\n"
 
-#: ../src/genius.c:490
+#: ../src/genius.c:508
 #, c-format
 msgid ""
 "Genius %s usage:\n"
@@ -3572,7 +3577,7 @@ msgstr ""
 "\t--exec=ausdruck       \tEinen Ausdruck ausführen\n"
 "\n"
 
-#: ../src/genius.c:520
+#: ../src/genius.c:538
 #, c-format
 msgid ""
 "Can't specify both an expression and files to execute on the command line"
@@ -3580,7 +3585,7 @@ msgstr ""
 "Es können nicht zugleich ein Ausdruck und Dateien zur Ausführung auf der "
 "Befehlszeile angegeben werden"
 
-#: ../src/genius.c:531
+#: ../src/genius.c:549
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -3599,7 +3604,7 @@ msgstr ""
 
 # Kennt jemand dieses Zitat im Originaltext?
 # Ich habe nichts finden können, und schließe daraus, das er es in Englisch gesagt haben muss.
-#: ../src/genius.c:604 ../src/gnome-genius.c:5461
+#: ../src/genius.c:622 ../src/gnome-genius.c:5461
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -3607,7 +3612,7 @@ msgstr ""
 "»The only thing that interferes with my learning is my education.«  -- "
 "Albert Einstein"
 
-#: ../src/genius.c:625 ../src/genius.c:696
+#: ../src/genius.c:643 ../src/genius.c:714
 msgid "Can't open file"
 msgstr "Datei kann nicht geöffnet werden"
 
@@ -3791,7 +3796,7 @@ msgstr "_Rückgängig"
 
 #: ../src/gnome-genius.c:323
 msgid "Undo the last action"
-msgstr "Macht die letzte Aktion rückgängig."
+msgstr "Die letzte Aktion rückgängig machen"
 
 #: ../src/gnome-genius.c:326
 msgid "_Redo"
@@ -3823,7 +3828,7 @@ msgstr "_Einfügen"
 
 #: ../src/gnome-genius.c:340
 msgid "Paste the clipboard"
-msgstr "Fügt den Inhalt der Zwischenablage ein."
+msgstr "Den Inhalt der Zwischenablage einfügen"
 
 #: ../src/gnome-genius.c:343
 msgid "Copy Answer As Plain Te_xt"
@@ -4017,7 +4022,7 @@ msgstr "%s undefiniert"
 #. printed before a global variable
 #: ../src/gnome-genius.c:1466
 msgid "(global) "
-msgstr "(global)"
+msgstr "(global) "
 
 #. printed before local variable in certain
 #. * context
@@ -4220,7 +4225,7 @@ msgstr "Genauigkeitseinstellungen für folgende Sitzungen merken"
 
 #: ../src/gnome-genius.c:2638
 msgid "Should the precision setting be remembered for next session."
-msgstr "Genauigkeitseinstellungen für folgende Sitzungen merken"
+msgstr "Genauigkeitseinstellungen für folgende Sitzungen merken."
 
 #: ../src/gnome-genius.c:2646
 msgid "Terminal"
@@ -4365,7 +4370,7 @@ msgstr "<b>Datei %s kann nicht gespeichert werden</b>"
 
 #: ../src/gnome-genius.c:4031
 msgid "Save new programs by \"Save As...\" first!"
-msgstr "Speichern Sie neue Programme zunächst mit »Speichern unter …«."
+msgstr "Speichern Sie neue Programme zunächst mit »Speichern unter …«!"
 
 #: ../src/gnome-genius.c:4037
 msgid ""
@@ -5031,11 +5036,11 @@ msgstr "Darstellung erstellen"
 #: ../src/graphing.c:7693 ../src/graphing.c:7817 ../src/graphing.c:7954
 #: ../src/graphing.c:8111 ../src/graphing.c:8258 ../src/graphing.c:8281
 #: ../src/graphing.c:8872 ../src/graphing.c:9159 ../src/graphing.c:9378
-#: ../src/graphing.c:9617 ../src/graphing.c:9944 ../src/graphing.c:10176
-#: ../src/graphing.c:10265 ../src/graphing.c:10378 ../src/graphing.c:10409
-#: ../src/graphing.c:10438 ../src/graphing.c:10464 ../src/graphing.c:10493
-#: ../src/graphing.c:10586 ../src/graphing.c:10675 ../src/graphing.c:10700
-#: ../src/graphing.c:10733 ../src/graphing.c:10781
+#: ../src/graphing.c:9618 ../src/graphing.c:9946 ../src/graphing.c:10178
+#: ../src/graphing.c:10267 ../src/graphing.c:10380 ../src/graphing.c:10411
+#: ../src/graphing.c:10440 ../src/graphing.c:10466 ../src/graphing.c:10495
+#: ../src/graphing.c:10588 ../src/graphing.c:10677 ../src/graphing.c:10702
+#: ../src/graphing.c:10735 ../src/graphing.c:10783
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr "%s: Darstellung läuft, %s kann nicht aufgerufen werden"
@@ -5058,19 +5063,19 @@ msgstr ""
 
 #: ../src/graphing.c:7392 ../src/graphing.c:7646 ../src/graphing.c:7763
 #: ../src/graphing.c:7899 ../src/graphing.c:8048 ../src/graphing.c:8203
-#: ../src/graphing.c:10045
+#: ../src/graphing.c:10047
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: ungültiger X-Bereich"
 
 #: ../src/graphing.c:7397 ../src/graphing.c:7651 ../src/graphing.c:7768
 #: ../src/graphing.c:7904 ../src/graphing.c:8053 ../src/graphing.c:8208
-#: ../src/graphing.c:10050
+#: ../src/graphing.c:10052
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: ungültiger Y-Bereich"
 
-#: ../src/graphing.c:7402 ../src/graphing.c:10055
+#: ../src/graphing.c:7402 ../src/graphing.c:10057
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: ungültiger Z-Bereich"
@@ -5197,19 +5202,19 @@ msgstr ""
 "RGB-Werten (zwischen 0 und 1) sein"
 
 #: ../src/graphing.c:8891 ../src/graphing.c:9178 ../src/graphing.c:9399
-#: ../src/graphing.c:9638
+#: ../src/graphing.c:9639
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: Falsche Anzahl Argumente"
 
 #: ../src/graphing.c:8961 ../src/graphing.c:9232 ../src/graphing.c:9465
-#: ../src/graphing.c:9698
+#: ../src/graphing.c:9699
 #, c-format
 msgid "%s: No thickness specified"
 msgstr "%s: Keine Dicke angegeben"
 
 #: ../src/graphing.c:8984 ../src/graphing.c:9255 ../src/graphing.c:9490
-#: ../src/graphing.c:9723
+#: ../src/graphing.c:9724
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: Kein Fenster angegeben"
@@ -5222,13 +5227,13 @@ msgstr ""
 "»both« (beides) oder »none« (keiner) sein."
 
 #: ../src/graphing.c:9067 ../src/graphing.c:9299 ../src/graphing.c:9542
-#: ../src/graphing.c:9775
+#: ../src/graphing.c:9776
 #, c-format
 msgid "%s: No legend specified"
 msgstr "%s: Keine Legende angegeben"
 
 #: ../src/graphing.c:9081 ../src/graphing.c:9313 ../src/graphing.c:9557
-#: ../src/graphing.c:9790
+#: ../src/graphing.c:9791
 #, c-format
 msgid "%s: Legend must be a string"
 msgstr "%s: Legende muss eine Zeichenkette sein"
@@ -5239,17 +5244,17 @@ msgid "%s: Unknown style: %s"
 msgstr "%s: Unbekannter Stil: %s"
 
 #: ../src/graphing.c:9101 ../src/graphing.c:9329 ../src/graphing.c:9575
-#: ../src/graphing.c:9808
+#: ../src/graphing.c:9809
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: Falscher Parameter"
 
-#: ../src/graphing.c:9322 ../src/graphing.c:9567 ../src/graphing.c:9800
+#: ../src/graphing.c:9322 ../src/graphing.c:9567 ../src/graphing.c:9801
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: Unbekannter Stil"
 
-#: ../src/graphing.c:9861 ../src/graphing.c:9924
+#: ../src/graphing.c:9863 ../src/graphing.c:9926
 #, c-format
 msgid ""
 "%s: Surface should be given as a real, n by 3 matrix with columns for x, y, "
@@ -5258,93 +5263,93 @@ msgstr ""
 "%s: Oberfläche sollte als reelle n mal 3 Matrix mit Spalten für x, y, z "
 "angegeben werden, n>=3"
 
-#: ../src/graphing.c:9952
+#: ../src/graphing.c:9954
 #, c-format
 msgid "%s: argument not a matrix of data"
 msgstr "%s: Argument ist keine Datenmatrix"
 
-#: ../src/graphing.c:10136
+#: ../src/graphing.c:10138
 #, c-format
 msgid "%s: Surface grid data should be given as a real matrix "
 msgstr ""
 "%s: Daten für Oberflächengitter sollten als reelle Matrix angegeben werden "
 
-#: ../src/graphing.c:10182
+#: ../src/graphing.c:10184
 #, c-format
 msgid "%s: first argument not a matrix of data"
 msgstr "%s: Erstes Argument ist keine Datenmatrix"
 
-#: ../src/graphing.c:10189
+#: ../src/graphing.c:10191
 #, c-format
 msgid "%s: second argument not a 4 or 6 element vector of limits"
 msgstr ""
 "%s: Zweites Argument ist kein Vektor mit Begrenzungen von 4 oder 6 Elementen"
 
-#: ../src/graphing.c:10206
+#: ../src/graphing.c:10208
 #, c-format
 msgid "%s: too many arguments or last argument not a string label"
 msgstr ""
 "%s: Zu viele Argumente oder das letzte Argument ist keine Beschriftungs-"
 "Zeichenkette"
 
-#: ../src/graphing.c:10272
+#: ../src/graphing.c:10274
 #, c-format
 msgid "%s: first argument not a nonempty string"
 msgstr "%s: Erstes Argument ist keine nichtleere Zeichenkette"
 
-#: ../src/graphing.c:10280
+#: ../src/graphing.c:10282
 #, c-format
 msgid "%s: type not specified and filename has no extension"
 msgstr "%s: Typ nicht angegeben und Dateiname ohne Erweiterung"
 
-#: ../src/graphing.c:10289
+#: ../src/graphing.c:10291
 #, c-format
 msgid "%s: second argument not a nonempty string"
 msgstr "%s: Zweites Argument ist keine nichtleere Zeichenkette"
 
-#: ../src/graphing.c:10301
+#: ../src/graphing.c:10303
 #, c-format
 msgid "%s: plot canvas not active, cannot export"
 msgstr "%s: Canvas-Darstellung nicht aktiv, Export nicht möglich"
 
-#: ../src/graphing.c:10310 ../src/graphing.c:10327 ../src/graphing.c:10350
+#: ../src/graphing.c:10312 ../src/graphing.c:10329 ../src/graphing.c:10352
 #, c-format
 msgid "%s: export failed"
 msgstr "%s: Exportieren gescheitert"
 
-#: ../src/graphing.c:10363
+#: ../src/graphing.c:10365
 #, c-format
 msgid "%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."
 msgstr "%s: unbekannter Dateityp, kann »png«, »eps«, oder »ps« sein."
 
-#: ../src/graphing.c:10500
+#: ../src/graphing.c:10502
 msgid "Variable names not given in a 4-vector"
 msgstr "Variablennamen sind nicht als vierdimensionaler Vektor gegeben"
 
-#: ../src/graphing.c:10510 ../src/graphing.c:10519 ../src/graphing.c:10528
-#: ../src/graphing.c:10537 ../src/graphing.c:10603 ../src/graphing.c:10612
-#: ../src/graphing.c:10621
+#: ../src/graphing.c:10512 ../src/graphing.c:10521 ../src/graphing.c:10530
+#: ../src/graphing.c:10539 ../src/graphing.c:10605 ../src/graphing.c:10614
+#: ../src/graphing.c:10623
 msgid "Variable names should be strings"
 msgstr "Variablennamen sollten Zeichenketten sein"
 
-#: ../src/graphing.c:10544 ../src/graphing.c:10627
+#: ../src/graphing.c:10546 ../src/graphing.c:10629
 msgid "Variable names must be valid identifiers"
 msgstr "Variablennamen müssen gültige Bezeichner sein"
 
-#: ../src/graphing.c:10553 ../src/graphing.c:10633
+#: ../src/graphing.c:10555 ../src/graphing.c:10635
 msgid "Variable names must be mutually distinct"
 msgstr "Variablennamen müssen voneinander zu unterscheiden sein"
 
-#: ../src/graphing.c:10593
+#: ../src/graphing.c:10595
 msgid "Variable names not given in a 3-vector"
 msgstr "Variablennamen sind nicht als dreidimensionaler Vektor gegeben"
 
-#: ../src/graphing.c:10816
+#: ../src/graphing.c:10818
 msgid "Plotting"
 msgstr "Darstellung läuft"
 
 #. internal
-#: ../src/graphing.c:10818
+#: ../src/graphing.c:10820
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -5352,7 +5357,7 @@ msgstr ""
 "Eine Funktion als Linie darstellen. Zuerst kommen (bis zu 10) Funktionen und "
 "dann optional die Begrenzungen als x1,x2,y1,y2"
 
-#: ../src/graphing.c:10819
+#: ../src/graphing.c:10821
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
@@ -5362,7 +5367,7 @@ msgstr ""
 "Funktionen x und y und dann optional die t Begrenzungen als t1,t2,tinc, und "
 "dann optional die Begrenzungen x1,x2,y1,y2"
 
-#: ../src/graphing.c:10820
+#: ../src/graphing.c:10822
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
@@ -5372,7 +5377,7 @@ msgstr ""
 "die Funktion, die x+iy zurück gibt und dann optional die t Begrenzungen als "
 "t1,t2,tinc, und dann optional die Begrenzungen x1,x2,y1,y2"
 
-#: ../src/graphing.c:10822
+#: ../src/graphing.c:10824
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
@@ -5381,7 +5386,7 @@ msgstr ""
 "und y (oder die komplexe Variable z), und dann optional die Begrenzungen als "
 "x1,x2,y1,y2"
 
-#: ../src/graphing.c:10823
+#: ../src/graphing.c:10825
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
@@ -5389,18 +5394,18 @@ msgstr ""
 "Ein Vektorfeld zeichnen. Zuerst kommen die Funktionen dx/dt und dy/dt in "
 "Bezug auf x und y, und dann optional die Begrenzungen als x1,x2,y1,y2"
 
-#: ../src/graphing.c:10825
+#: ../src/graphing.c:10827
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr ""
 "Eine Lösung für ein Richtungsfeld beginnend bei (x,y) mit dx als "
 "Schrittweite zeichnen"
 
-#: ../src/graphing.c:10826
+#: ../src/graphing.c:10828
 msgid "Clear all the slopefield solutions"
 msgstr "Alle Lösungen zu Richtungsfeldern löschen"
 
-#: ../src/graphing.c:10828
+#: ../src/graphing.c:10830
 msgid ""
 "Draw a solution for a vector field starting at x,y, using dt as increment "
 "for tlen units"
@@ -5408,11 +5413,11 @@ msgstr ""
 "Eine Lösung für ein Vektorfeld beginnend bei (x,y) mit dt als Schrittweite "
 "für tlen Einheiten zeichnen"
 
-#: ../src/graphing.c:10829
+#: ../src/graphing.c:10831
 msgid "Clear all the vectorfield solutions"
 msgstr "Alle Lösungen zu Vektorfeldern löschen"
 
-#: ../src/graphing.c:10832
+#: ../src/graphing.c:10834
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -5421,11 +5426,11 @@ msgstr ""
 "komplexe Zahl akzeptiert. Zuerst kommt die Funktion und dann optional die "
 "Grenzen mit x1,x2,y1,y2,z1,z2"
 
-#: ../src/graphing.c:10834
+#: ../src/graphing.c:10836
 msgid "Show the surface (3d) plot window and clear out functions"
 msgstr "Das 3D-Darstellungsfenster zeigen und alle Funktionen löschen"
 
-#: ../src/graphing.c:10836
+#: ../src/graphing.c:10838
 msgid ""
 "Plot surface data given as n by 3 matrix (n>=3) of data with each row being "
 "x,y,z.  Optionally can pass a label string and limits.  If no limits passed, "
@@ -5436,7 +5441,7 @@ msgstr ""
 "Grenzen übergeben werden. Ohne Angabe von Grenzen werden diese aus den Daten "
 "berechnet."
 
-#: ../src/graphing.c:10837
+#: ../src/graphing.c:10839
 msgid ""
 "Plot surface data given as a matrix (where rows are the x coordinate and "
 "columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or "
@@ -5447,7 +5452,7 @@ msgstr ""
 "[x1,x2,y1,y2] oder optional als [x1,x2,y1,y2,z1,z2] angegeben. Ein Text für "
 "die Legende kann ebenfalls optional angegeben werden."
 
-#: ../src/graphing.c:10838
+#: ../src/graphing.c:10840
 msgid ""
 "Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  x1,y1,z1,x2,"
 "y2,z2 can be replaced by a n by 3 matrix for a longer line"
@@ -5456,7 +5461,7 @@ msgstr ""
 "x1,y1,z1,x2,y2,z2 können für eine längere Linie durch eine (n,3)-Matrix "
 "ersetzt werden."
 
-#: ../src/graphing.c:10839
+#: ../src/graphing.c:10841
 msgid ""
 "Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a "
 "n by 3 matrix for more points."
@@ -5464,11 +5469,11 @@ msgstr ""
 "Einen Punkt bei x,y,z in der 3D-Darstellung zeichnen.  x,y,z können durch "
 "eine (n,3)-Matrix für mehr Punkte ersetzt werden."
 
-#: ../src/graphing.c:10841
+#: ../src/graphing.c:10843
 msgid "Show the line plot window and clear out functions"
 msgstr "Das Kurvenfenster zeigen und alle Funktionen löschen"
 
-#: ../src/graphing.c:10842
+#: ../src/graphing.c:10844
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line."
@@ -5476,36 +5481,36 @@ msgstr ""
 "Eine Linie von (x1,y1) nach (x2,y2) zeichnen.  x1,y1,x2,y2 können für eine "
 "längere Linie durch eine (n,2)-Matrix ersetzt werden."
 
-#: ../src/graphing.c:10843
+#: ../src/graphing.c:10845
 msgid ""
 "Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points."
 msgstr ""
 "Einen Punkt bei x,y zeichnen.  x,y können durch eine (n,2)-Matrix für mehr "
 "Punkte ersetzt werden."
 
-#: ../src/graphing.c:10845
+#: ../src/graphing.c:10847
 msgid "Freeze the plot canvas, that is, inhibit drawing"
 msgstr "Canvas-Darstellung einfrieren; dies verhindert das Zeichnen"
 
-#: ../src/graphing.c:10846
+#: ../src/graphing.c:10848
 msgid "Thaw the plot canvas and redraw the plot immediately"
 msgstr "Darstellung wieder auftauen und sofort neu zeichnen"
 
-#: ../src/graphing.c:10847
+#: ../src/graphing.c:10849
 msgid "Raise the plot window, and create the window if necessary"
 msgstr ""
 "Darstellungsfenster bereitstellen und das Fenster, falls erforderlich, "
 "anlegen"
 
-#: ../src/graphing.c:10849
+#: ../src/graphing.c:10851
 msgid "Wait for a click on the line plot window, return the location."
 msgstr "Auf Klick im Kurvenfenster warten und die Position zurückgeben."
 
-#: ../src/graphing.c:10850
+#: ../src/graphing.c:10852
 msgid "Return current mouse location on the line plot window."
 msgstr "Aktuelle Mausposition an das Kurvenfenster zurückgeben."
 
-#: ../src/graphing.c:10852
+#: ../src/graphing.c:10854
 msgid ""
 "Export the current contents of the plot canvas to a file.  The file type is "
 "given by the string type, which can be \"png\", \"eps\", or \"ps\"."
@@ -5514,16 +5519,16 @@ msgstr ""
 "Dateityp wird anhand der Erweiterung angegeben, welche »png«, »eps«, oder "
 "»ps« sein kann."
 
-#: ../src/graphing.c:10854
+#: ../src/graphing.c:10856
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr "Anzahl der Richtungsfeld-Ticks als Vektor [vertical,horizontal]."
 
 # Evtl. Markierungen statt Ticks
-#: ../src/graphing.c:10855
+#: ../src/graphing.c:10857
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
 msgstr "Anzahl der Vektorfeld-Ticks als Vektor [vertical,horizontal]."
 
-#: ../src/graphing.c:10856
+#: ../src/graphing.c:10858
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
@@ -5531,7 +5536,7 @@ msgstr ""
 "Vorgegebene Namen für alle 2D-Darstellungsfunktionen.  Es sollte ein Vektor "
 "mit 4 Komponenten aus Zeichenketten oder Bezeichnern [x,y,z,t].sein."
 
-#: ../src/graphing.c:10857
+#: ../src/graphing.c:10859
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
@@ -5539,34 +5544,34 @@ msgstr ""
 "Vorgegebene Namen für alle 2D-Darstellungsfunktionen. Es sollte ein Vektor "
 "mit 3 Komponenten aus Zeichenketten oder Bezeichnern [x,y,z] sein."
 
-#: ../src/graphing.c:10859
+#: ../src/graphing.c:10861
 msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
 msgstr ""
 "Legt fest, ob Vektorfelder normalisiert werden. Das bedeutet, dass nur die "
-"Richtung und nicht der Betrag dargestellt wird"
+"Richtung und nicht der Betrag dargestellt wird."
 
-#: ../src/graphing.c:10860
+#: ../src/graphing.c:10862
 msgid "If to draw legends or not on line plots."
 msgstr "Legt fest, ob eine Legende für Kurvendarstellungen angezeigt wird."
 
-#: ../src/graphing.c:10861
+#: ../src/graphing.c:10863
 msgid "If to draw axis labels on line plots."
 msgstr ""
 "Legt fest, ob Achsenbeschriftungen bei Kurvendarstellungen angezeigt werden."
 
-#: ../src/graphing.c:10863
+#: ../src/graphing.c:10865
 msgid "If to draw legends or not on surface plots."
 msgstr "Legt fest, ob eine Legende für Kurvendarstellungen angezeigt wird."
 
-#: ../src/graphing.c:10865
+#: ../src/graphing.c:10867
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr ""
 "Fenster zur Kurvendarstellung (Begrenzung) als ein 4-dimensionaler Vektor "
 "der Form [x1,x2,y1,y2]"
 
-#: ../src/graphing.c:10866
+#: ../src/graphing.c:10868
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
@@ -5755,7 +5760,7 @@ msgstr "Fakultäten von komplexen Zahlen können nicht berechnet werden"
 
 #: ../src/mpwrap.c:5163
 msgid "Can't make binomials of complex numbers"
-msgstr "Binomialkoeffizienten können keine komplexen Zahlen sein!"
+msgstr "Binomialkoeffizienten können keine komplexen Zahlen sein"
 
 #: ../src/mpwrap.c:5542 ../src/mpwrap.c:5553 ../src/mpwrap.c:5564
 msgid "Can't determine type of a complex number"
@@ -5869,90 +5874,3 @@ msgstr ""
 #: ../src/util.c:93 ../src/util.c:112
 msgid "Stack underflow!"
 msgstr "Stackunterlauf!"
-
-#~ msgid "' or '"
-#~ msgstr "' oder '"
-
-#~ msgid "Find root of a function using the bisection method"
-#~ msgstr "Die Nullstelle einer Funktion mit dem Bisektionsverfahren suchen"
-
-#~ msgid "Find root of a function using the method of false position"
-#~ msgstr "Die Nullstelle einer Funktion mit dem Regula-falsi-Verfahren suchen"
-
-#~ msgid "Find root of a function using the secant method"
-#~ msgstr "Die Nullstelle einer Funktion mit dem Sekantenverfahren suchen"
-
-#~ msgid "%s: Color must be a string"
-#~ msgstr "%s: Farbe muss eine Zeichenkette sein"
-
-#~ msgid "(memory buffer)"
-#~ msgstr "(Speicherpuffer)"
-
-#~ msgid "Cannot load user interface"
-#~ msgstr "Benutzeroberfläche konnte nicht geladen werden"
-
-#~ msgid ""
-#~ "An error occurred while loading user interface element %s%s from file "
-#~ "%s.  Possibly the glade interface description was corrupted.  %s cannot "
-#~ "continue and will exit now.  You should check your installation of %s or "
-#~ "reinstall %s."
-#~ msgstr ""
-#~ "Ein Fehler trat beim Laden des Benutzeroberflächenelements %s%s aus Datei "
-#~ "%s auf. Möglicherweise ist die glade-Oberfächenbeschreibung beschädigt. "
-#~ "%s kann nicht fortgesetzt werden und wird jetzt beendet. Sie sollten Ihre "
-#~ "Installation von %s prüfen oder %s erneut installieren."
-
-#~ msgid ""
-#~ "Glade file is on crack! Make sure the correct file is installed!\n"
-#~ "file: %s widget: %s"
-#~ msgstr ""
-#~ "Die Glade-Datei ist verrückt! Stellen Sie sicher, dass die richtige Datei "
-#~ "installiert ist!\n"
-#~ "Datei: %s Widget: %s"
-
-#~ msgid ""
-#~ "An error occurred while loading the user interface element %s%s from file "
-#~ "%s. CList type widget should have %d column. Possibly the glade interface "
-#~ "description was corrupted. %s cannot continue and will exit now. You "
-#~ "should check your installation of %s or reinstall %s."
-#~ msgid_plural ""
-#~ "An error occurred while loading the user interface element %s%s from file "
-#~ "%s. CList type widget should have %d columns. Possibly the glade "
-#~ "interface description was corrupted. %s cannot continue and will exit "
-#~ "now. You should check your installation of %s or reinstall %s."
-#~ msgstr[0] ""
-#~ "Ein Fehler trat beim Laden des Benutzeroberflächenelements %s%s aus Datei "
-#~ "%s auf. Das Widget »CList type« sollte %d Spalte haben. Möglicherweise "
-#~ "ist die glade-Oberfächenbeschreibung beschädigt. %s kann nicht "
-#~ "fortgesetzt werden und wird jetzt beendet. Sie sollten Ihre Installation "
-#~ "von %s prüfen oder %s erneut installieren."
-#~ msgstr[1] ""
-#~ "Ein Fehler trat beim Laden des Benutzeroberflächenelements %s%s aus Datei "
-#~ "%s auf. Das Widget »CList type« sollte %d Spalten haben. Möglicherweise "
-#~ "ist die glade-Oberfächenbeschreibung beschädigt. %s kann nicht "
-#~ "fortgesetzt werden und wird jetzt beendet. Sie sollten Ihre Installation "
-#~ "von %s prüfen oder %s erneut installieren."
-
-#~ msgid ""
-#~ "Glade file is on crack! Make sure the correct file is installed!\n"
-#~ "file: %s widget: %s expected clist columns: %d"
-#~ msgstr ""
-#~ "Die Glade-Datei ist verrückt! Stellen Sie sicher, dass die richtige Datei "
-#~ "installiert ist!\n"
-#~ "Datei: %s Widget: %s erwartete clist-Spalten: %d"
-
-#~ msgid ""
-#~ "An error occurred while loading the user interface from file %s.  "
-#~ "Possibly the glade interface description was not found.  %s cannot "
-#~ "continue and will exit now.  You should check your installation of %s or "
-#~ "reinstall %s."
-#~ msgstr ""
-#~ "Ein Fehler trat beim Laden der Benutzeroberfläche aus Datei %s auf. "
-#~ "Möglicherweise wurde die Glade-Oberfächenbeschreibung nicht gefunden. %s "
-#~ "kann nicht fortgesetzt werden und wird jetzt beendet. Sie sollten Ihre "
-#~ "Installation von %s prüfen oder %s erneut installieren."
-
-#~ msgid "No interface could be loaded. This is BAD! (file: %s)"
-#~ msgstr ""
-#~ "Es konnte keine Benutzeroberfläche geladen werden. Dies ist sehr "
-#~ "schlecht! (Datei: %s)"
