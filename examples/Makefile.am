@@ -35,7 +35,8 @@ example_DATA = \
 	riemann-integral.gel \
 	riemann-integral-darboux.gel \
 	plot-ode-runge-kutta.gel \
-	plot-ode-trajectory-runge-kutta.gel
+	plot-ode-trajectory-runge-kutta.gel \
+	plane-curves.gel
 
 EXTRA_DIST = \
 	$(example_DATA)

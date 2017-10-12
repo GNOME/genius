@@ -1,0 +1,83 @@
+# Category: Algebraic Geometry
+# Name: Plot plane curves
+#
+# Plot plane curves using a very simple algorithm, just go through a region as
+# a grid and notice sign changes, and put a point at the sign changes.  Not
+# very efficient, but it does the job.
+
+# The cusp
+function f(x,y) = x^3-y^2;
+range = [-0.5,2.0,-2.0,2.0];
+
+# Folium of Descartes
+#function f(x,y) = x^3+y^3-3*x*y; 
+#range = [-2.0,2.0,-2.0,2.0];
+
+# elliptic curve 1
+#function f(x,y) = x^3-2*x-y^2; 
+#range = [-2.0,3.0,-3.0,3.0];
+
+# elliptic curve 2
+#function f(x,y) = x^3-2*x-y^2+2; 
+#range = [-2.0,3.0,-3.0,3.0];
+
+# hyperbola
+#function f(x,y) = x^2-y^2-0.5; 
+#range = [-2.0,2.0,-2.0,2.0];
+
+# egg
+#function f(x,y) = x^2+y^2*(1+0.4*x)-1; 
+#range = [-2.0,2.0,-2.0,2.0];
+
+# hyperbola
+#function f(x,y) = x^2-y^2-0.5; 
+#range = [-2.0,2.0,-2.0,2.0];
+
+# heart
+#function f(x,y) = (x^2+y^2-1)^3-x^2*y^3; 
+#range = [-2.0,2.0,-1.5,1.8];
+
+# number of steps in each direction
+steps = 300;
+
+# compute the steps
+xstep = float(range@(2)-range@(1))/steps;
+ystep = float(range@(4)-range@(3))/steps;
+
+
+# prepare the canvas
+LinePlotWindow = range;
+LinePlotDrawLegends = false;
+
+LinePlotClear();
+PlotWindowPresent(); # Make sure the window is raised
+
+points = null;
+for xx = range@(1) to range@(2) by xstep do (
+  lastf = f(xx,range@(3));
+  for yy = range@(3)+ystep to range@(4) by ystep do (
+    newf = f(xx,yy);
+    if newf*lastf <= 0 then (
+      if (newf != lastf) then (
+        pr = |newf| / |newf-lastf|;
+        points = [points;[xx,yy-ystep*pr]]
+      ) else (
+        points = [points;[xx,yy];[xx,yy-ystep]]
+      )
+    );
+    rightf = f(xx+xstep,yy);
+    if newf*rightf <= 0 then (
+      if (newf != rightf) then (
+        pr = |newf| / |newf-rightf|;
+        points = [points;[xx+xstep*pr,yy]];
+      ) else (
+        points = [points;[xx,yy];[xx+xstep,yy]];
+      )
+    );
+    lastf = newf
+  );
+  LinePlotDrawPoints(points,"color","blue");
+  points = null
+);
+
+LinePlotDrawPoints(points,"color","blue");
