@@ -33,7 +33,9 @@ example_DATA = \
 	complex-analysis-mesh.gel \
 	complex-analysis-argument-principle.gel \
 	riemann-integral.gel \
-	riemann-integral-darboux.gel
+	riemann-integral-darboux.gel \
+	plot-ode-runge-kutta.gel \
+	plot-ode-trajectory-runge-kutta.gel
 
 EXTRA_DIST = \
 	$(example_DATA)

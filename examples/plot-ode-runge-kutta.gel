@@ -1,0 +1,61 @@
+# Category: Differential Equations
+# Name: Numerically plotting solutions of ODE
+#
+# Draw solutions of ODE.  We plot first order systems, and give two examples
+# that are converted second order equations: The Duffing equation of chaos
+# fame, and the Van der Pol oscillator.  Then we also include the Predator-Prey
+# system.  To plot these, uncomment the correct lines below, or write your own
+# function sys giving the system, t_range is the range, init_cond is the
+# initial condition, and number_of_points is the number of points to compute
+# and plot.
+
+# The Duffing equation
+# x'' = -0.5x' - x^3 + 8cos(t)
+# Converted to first order ODE system 
+# x_1' = x_2, x_2' = -0.05x_2 - x_1^3 + 8cos(t)
+function sys(t,x) = [x@(2), -0.05*x@(2)-(x@(1))^3+8*cos(t)];
+t_range = [0,20];
+number_of_points = 1000;
+init_cond = [2,3];
+
+# The Van der Pol oscillator
+# x'' = (1-x^2)x' - x
+# Converted to first order ODE system 
+# x_1' = x_2, x_2' = (1-x_1^2)x_2 - x_1
+#function sys(t,x) = [x@(2), (1-x@(1)^2)*x@(2)-x@(1)];
+#t_range = [0,30];
+#number_of_points = 500;
+#init_cond = [0.2,0];
+
+# The Predator-Prey (Lotka-Volterra)
+# x_1' = (0.4 - 0.01 x_2)x_1,  x_2' = (0.003 x_1 - 0.3) x_2
+#function sys(t,x) = [(0.4-0.01*x@(2))*x@(1), (0.003*x@(1)-0.3)*x@(2)]
+#t_range = [0,50];
+#number_of_points = 500;
+#init_cond = [20,50];
+
+LinePlotDrawLegends = true;
+PlotWindowPresent(); # Make sure the window is raised
+LinePlotClear ();
+
+# Compute the points
+pt = RungeKuttaFull(sys,t_range@(1),init_cond,t_range@(2),number_of_points);
+
+# Flatten the matrix
+pt = ExpandMatrix(pt);
+
+# Get the mins and the maxes
+min_val = min(pt@(,[2,3]));
+max_val = max(pt@(,[2,3]));
+
+#Add 5% padding to top and bottom
+LinePlotWindow = [t_range, min_val-(max_val-min_val)*0.05, max_val+(max_val-min_val)*0.05];
+
+# Draw the x_1
+LinePlotDrawLine(pt@(,[1,2]),"color","blue","legend","x_1(t)");
+
+# Draw the x_2
+LinePlotDrawLine(pt@(,[1,3]),"color","red","legend","x_2(t)");
+
+
+
