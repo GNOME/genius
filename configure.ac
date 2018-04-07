@@ -17,7 +17,6 @@ AC_PROG_INTLTOOL([0.21])
 
 dnl ================= Requirements ================================================
 
-VTE_REQUIRED=0.26.0
 GTK_REQUIRED=2.18.0
 GLIB_REQUIRED=2.12.0
 GTKSOURCEVIEW_REQUIRED=0.3.0
@@ -104,6 +103,9 @@ AC_CHECK_LIB(mpfr, mpfr_j0, [],
 #AC_SUBST(GCONF_CONFIG_SOURCE)
 #AC_SUBST(INSTALL_GCONF_CONFIG_SOURCE)
 
+AC_CONFIG_SUBDIRS(vte)
+
+
 AC_ARG_ENABLE(gtksourceview,
 [  --disable-gtksourceview Do not use GtkSourceView library even if detected],
 use_gtksourceview="$enableval",use_gtksourceview=yes)
@@ -122,7 +124,7 @@ PKG_CHECK_MODULES(GLIB, glib-2.0 >= $GLIB_REQUIRED)
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
-GENIUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED gio-2.0 >= $GIO_REQUIRED vte >= $VTE_REQUIRED"
+GENIUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED gio-2.0 >= $GIO_REQUIRED"
 
 if test "x$use_gnome" = "xyes" ; then
   echo " 
@@ -153,7 +155,6 @@ Note:
 
   VICIOUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED"
   VICIOUS_UI_LIBS="libviciousui.a"
-  GTKEXTRA_LIBS="libgtkextra-genius.a"
   
   GNOME_GENIUS="gnome-genius\$(EXEEXT)"
   GENIUS_READLINE_HELPER_FIFO="genius-readline-helper-fifo\$(EXEEXT)"
@@ -163,7 +164,6 @@ else
   use_gtksourceview=no
   VICIOUS_MODULES="glib-2.0 >= $GLIB_REQUIRED gmodule-2.0 >= $GLIB_REQUIRED"
   VICIOUS_UI_LIBS=
-  GTKEXTRA_LIBS=
   GENIUS_CFLAGS="$GENIUS_NOGUI_CFLAGS"
   GENIUS_LIBS="$GENIUS_NOGUI_LIBS"
   GNOME_GENIUS=
@@ -172,7 +172,6 @@ else
 fi
 
 AC_SUBST(VICIOUS_UI_LIBS)
-AC_SUBST(GTKEXTRA_LIBS)
 AC_SUBST(GENIUS_CFLAGS)
 AC_SUBST(GENIUS_LIBS)
 AC_SUBST(GSV_CFLAGS)

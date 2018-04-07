@@ -1,6 +1,6 @@
 ACLOCAL_AMFLAGS = -I m4 --install
 
-SUBDIRS = ve gtkextra src pixmaps examples lib po help
+SUBDIRS = ve vte gtkextra src pixmaps examples lib po help
 
 mimeinfodir = $(datadir)/mime-info
 mimeinfo_DATA = genius.keys genius.mime

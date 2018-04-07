@@ -95,6 +95,7 @@ gnome_genius_SOURCES = 	\
 gnome_genius_LDADD = \
 	$(top_builddir)/ve/libviciousui.a	\
 	$(top_builddir)/gtkextra/libgtkextra-genius.a	\
+	$(top_builddir)/vte/libvte.a	\
 	-lm					\
 	@GMP_LIB@				\
 	-lmpfr					\
