@@ -24,7 +24,8 @@
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
-#include <vte/vte.h>
+
+#include "vte.h"
 
 #include <string.h>
 #include <unistd.h>
@@ -592,7 +593,7 @@ stock_init (void)
 	GtkIconFactory *factory;
 	GtkIconSource *source;
 	static gboolean stock_initialized = FALSE;
-	int i;
+	guint i;
 
 	if (stock_initialized)
 		return;
@@ -4739,7 +4740,7 @@ my_fork_command (VteTerminal *terminal, char **argv)
 	GPid child_pid;
 
 	ret = vte_terminal_fork_command_full (terminal,
-					      VTE_PTY_DEFAULT,
+					      VTE_PTY_DEFAULT | VTE_PTY_NO_LASTLOG | VTE_PTY_NO_UTMP | VTE_PTY_NO_WTMP | VTE_PTY_NO_HELPER,
 					      NULL,
 					      argv,
 					      NULL,

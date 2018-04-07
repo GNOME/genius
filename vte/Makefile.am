@@ -1,17 +1,13 @@
 ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS}
 
-SUBDIRS = src termcaps po perf
+SUBDIRS = src termcaps
 
 EXTRA_DIST = \
 	MAINTAINERS \
 	HACKING \
-	autogen.sh \
 	ChangeLog.pre-git
 
 DISTCLEANFILES =
-
-pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = vte$(VTE_PC_VERSION).pc
 
 DISTCHECK_CONFIGURE_FLAGS = \
 	--enable-gtk-doc \
@@ -37,15 +33,3 @@ MAINTAINERCLEANFILES = \
 		$(srcdir)/xmldocs.make \
 		$(srcdir)/gtk-doc.make \
 		`find "$(srcdir)" -type f -name Makefile.in -print`
-
-# Build ChangeLog from GIT  history
-ChangeLog:
-	$(AM_V_GEN) if test -d $(top_srcdir)/.git; then \
-		GIT_DIR="$(top_srcdir)/.git" git log --stat > $@; \
-	fi
-
-dist: ChangeLog
-
-.PHONY: ChangeLog
-
--include $(top_srcdir)/git.mk

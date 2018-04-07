@@ -371,7 +371,7 @@ gp_push_matrix(gboolean quoted)
 			gel_freetree(tree);
 			break;
 		} else if(tree->type==GEL_MATRIX_ROW_NODE) {
-			if(tree->row.nargs>cols)
+			if((int)tree->row.nargs > cols)
 				cols = tree->row.nargs;
 			rowl = g_slist_prepend(rowl,tree->row.args);
 			tree->row.args = NULL;

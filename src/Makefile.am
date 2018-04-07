@@ -18,10 +18,13 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/ve					\
 	-I$(top_srcdir)/gtkextra				\
+	-I$(top_srcdir)/vte/src					\
 	-I$(top_builddir)					\
 	-I$(top_builddir)/ve					\
 	-I$(top_builddir)/gtkextra				\
+	-I$(top_builddir)/vte/src				\
 	$(WARN_CFLAGS)						\
+	$(VTE_CFLAGS)						\
 	$(BINRELOC_CFLAGS)					\
 	$(GMP_INCLUDEDIR)					\
 	$(GENIUS_CFLAGS)					\
@@ -95,13 +98,14 @@ gnome_genius_SOURCES = 	\
 gnome_genius_LDADD = \
 	$(top_builddir)/ve/libviciousui.a	\
 	$(top_builddir)/gtkextra/libgtkextra-genius.a	\
-	$(top_builddir)/vte/libvte.a	\
+	$(top_builddir)/vte/src/libvte.a	\
 	-lm					\
 	@GMP_LIB@				\
 	-lmpfr					\
 	@LEXLIB@				\
 	$(INTLLIBS)				\
 	$(GENIUS_LIBS)				\
+	$(VTE_LIBS)				\
 	$(GENIUS_NOGUI_LIBS)			\
 	$(GSV_LIBS)				\
 	@READLINE_LIB@				\

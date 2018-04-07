@@ -251,7 +251,7 @@ static void
 append_factor (GArray *fact, mpz_srcptr num)
 {
 	GelFactor f;
-	int i;
+	guint i;
 	/* FIXME: implement faster search, this is sorted */
 	/* We start at 1 since the 0 entry is always -1 or 1 */
 	for (i = 1; i < fact->len; i++) {
@@ -533,7 +533,7 @@ mympz_pollard_rho_factorize (mpz_srcptr t)
 void
 mympz_factorization_free (GArray *fact)
 {
-	int i;
+	guint i;
 	for (i = 0; i < fact->len; i++) {
 		mpz_clear (g_array_index (fact, GelFactor, i).num);
 	}

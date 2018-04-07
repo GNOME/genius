@@ -4679,7 +4679,7 @@ Factorize_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	GArray *fact;
 	GelETree *n;
 	GelMatrixW *mn;
-	int i;
+	guint i;
 
 	if (a[0]->type == GEL_MATRIX_NODE)
 		return gel_apply_func_to_matrix (ctx, a[0],

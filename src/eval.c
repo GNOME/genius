@@ -1116,7 +1116,7 @@ expand_col (GelMatrix *dest, GelMatrix *src, int si, int di, int w)
 				gel_matrix_index (dest, di+x, i) =
 					gel_copynode (gel_matrix_index (dest, di+xx, i));
 				xx++;
-				if (xx >= et->row.nargs)
+				if (xx >= (int)et->row.nargs)
 					xx = 0;
 			}
 			freenode (et);
@@ -1146,7 +1146,7 @@ get_cols (GelMatrix *m, int *colwidths, gboolean *just_denull)
 					maxcol = 1;
 			} else if (et->type != GEL_NULL_NODE) {
 				/* Must be GEL_MATRIX_ROW_NODE then */
-				if (et->row.nargs > maxcol)
+				if ((int)et->row.nargs > maxcol)
 					maxcol = et->row.nargs;
 			}
 		}
@@ -8975,7 +8975,7 @@ static long _gel_tree_num = 0;
 void
 _gel_make_free_trees (void)
 {
-	int i;
+	guint i;
 	char *p;
 
 	if G_UNLIKELY (_gel_max_nodes_check &&
@@ -9002,7 +9002,7 @@ _gel_make_free_trees (void)
 static void
 _gel_make_free_evl (void)
 {
-	int i;
+	guint i;
 	char *p;
 
 	p = g_malloc ((GEL_CHUNK_SIZE / ALIGNED_SIZE (GelEvalLoop)) *
@@ -9019,7 +9019,7 @@ _gel_make_free_evl (void)
 static void
 _gel_make_free_evf (void)
 {
-	int i;
+	guint i;
 	char *p;
 
 	p = g_malloc ((GEL_CHUNK_SIZE / ALIGNED_SIZE (GelEvalFor)) *
@@ -9036,7 +9036,7 @@ _gel_make_free_evf (void)
 static void
 _gel_make_free_evfi (void)
 {
-	int i;
+	guint i;
 	char *p;
 
 	p = g_malloc ((GEL_CHUNK_SIZE / ALIGNED_SIZE (GelEvalForIn)) *

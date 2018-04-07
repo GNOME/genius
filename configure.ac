@@ -17,8 +17,9 @@ AC_PROG_INTLTOOL([0.21])
 
 dnl ================= Requirements ================================================
 
-GTK_REQUIRED=2.18.0
-GLIB_REQUIRED=2.12.0
+GTK_REQUIRED=2.20.0
+GLIB_REQUIRED=2.26.0
+PANGO_REQUIRED=1.22.0
 GTKSOURCEVIEW_REQUIRED=0.3.0
 GTKSOURCEVIEW2_REQUIRED=2.0.2
 GIO_REQUIRED=2.16.0
@@ -102,9 +103,6 @@ AC_CHECK_LIB(mpfr, mpfr_j0, [],
 #
 #AC_SUBST(GCONF_CONFIG_SOURCE)
 #AC_SUBST(INSTALL_GCONF_CONFIG_SOURCE)
-
-AC_CONFIG_SUBDIRS(vte)
-
 
 AC_ARG_ENABLE(gtksourceview,
 [  --disable-gtksourceview Do not use GtkSourceView library even if detected],
@@ -267,6 +265,115 @@ AC_ARG_ENABLE(update-mimedb,
 		enable_update_mimedb=yes)
 AM_CONDITIONAL(ENABLE_UPDATE_MIMEDB, test x$enable_update_mimedb = xyes)
 
+
+####
+# VTE STUFF, this is all temporary pending a port to gtk 3.0 in the star trek future
+
+AC_PATH_PROG([GLIB_MKENUMS],[glib-mkenums])
+AC_DEFINE_UNQUOTED(VTE_DEFAULT_EMULATION,"xterm",[The default terminal type to be emulated.])
+VTE_DEFAULT_EMULATION="xterm"
+AC_SUBST(VTE_DEFAULT_EMULATION)
+
+# Check for headers.
+AC_CHECK_HEADERS(sys/select.h sys/syslimits.h sys/termios.h sys/un.h sys/wait.h stropts.h termios.h wchar.h)
+AC_HEADER_TIOCGWINSZ
+
+# Check for PTY handling functions.
+AC_CHECK_FUNCS([cfmakeraw fork setsid setpgid getpgid getpt grantpt unlockpt ptsname ptsname_r tcgetattr tcsetattr])
+
+# Pull in the right libraries for various functions which might not be
+# bundled into an exploded libc.
+AC_CHECK_FUNC(socket,[have_socket=1],AC_CHECK_LIB(socket,socket,[have_socket=1; LIBS="$LIBS -lsocket"]))
+AC_CHECK_FUNC(socketpair,[have_socketpair=1],AC_CHECK_LIB(socket,socketpair,[have_socketpair=1; LIBS="$LIBS -lsocket"]))
+AC_CHECK_FUNC(recvmsg,[have_recvmsg=1],AC_CHECK_LIB(socket,recvmsg,[have_recvmsg=1; LIBS="$LIBS -lsocket -lnsl"]))
+if test x$have_socket = x1 ; then
+	AC_DEFINE(HAVE_SOCKET,1,[Define if you have the socket function.])
+fi
+if test x$have_socketpair = x1 ; then
+	AC_DEFINE(HAVE_SOCKETPAIR,1,[Define if you have the socketpair function.])
+fi
+if test x$have_recvmsg = x1 ; then
+	AC_DEFINE(HAVE_RECVMSG,1,[Define if you have the recvmsg function.])
+fi
+AC_CHECK_FUNC(floor,,AC_CHECK_LIB(m,floor,LIBS=["$LIBS -lm"]))
+AC_CHECK_FUNCS([ceil floor])
+
+# Look for tgetent
+
+AC_CHECK_FUNC([tgetent],[vte_cv_termcap_lib=libc],
+  [AC_CHECK_LIB([ncurses],[tgetent],[vte_cv_termcap_lib=libncurses],
+    [AC_CHECK_LIB([tinfo],[tgetent],[vte_cv_termcap_lib=libtinfo],
+      [AC_CHECK_LIB([curses],[tgetent],[vte_cv_termcap_lib=libcurses],
+        [AC_CHECK_LIB([termcap],[tgetent],[vte_cv_termcap_lib=libtermcap],
+          [vte_cv_termcap_lib=])])])])])
+
+case "$vte_cv_termcap_lib" in
+  libc)       # FIXME: which headers to include here?
+              ;;
+  libncurses) # We need ncurses.h and term.h, or ncurses/curses.h and ncurses/term.h
+              AC_CHECK_HEADERS([ncurses.h term.h],[],
+                [AC_CHECK_HEADERS([ncurses/curses.h ncurses/term.h],[],
+                  [AC_MSG_ERROR([ncurses headers not found])])])
+              LIBS="-lncurses $LIBS"
+              ;;
+  libtinfo)   # Need ncurses/curses.h and ncurses/term.h
+              AC_CHECK_HEADERS([ncurses.h term.h],[],
+                [AC_CHECK_HEADERS([ncurses/curses.h ncurses/term.h],[],
+                  [AC_MSG_ERROR([ncurses headers not found])])])
+              LIBS="-ltinfo $LIBS"
+              ;;
+  libcurses)  # Need curses.h and term.h
+              AC_CHECK_HEADERS([curses.h term.h],[],
+                [AC_MSG_ERROR([curses headers not found])],
+                [[#ifdef HAVE_CURSES_H
+                  #include <curses.h>
+                  #endif]])
+              LIBS="-lcurses $LIBS"
+              ;;
+  libtermcap) # Need termcap.h
+              AC_CHECK_HEADERS([termcap.h],[],
+                [AC_MSG_ERROR([termcap headers not found])])
+              LIBS="-ltermcap $LIBS"
+              ;;
+  *)          AC_MSG_ERROR([tgetent not found in any library]) ;;
+esac
+
+# Search for the required modules.
+
+# We have a direct dependency on X11 on gdk-x11, see bug #613525
+AC_MSG_CHECKING([for GDK target])
+GDK_TARGET="$($PKG_CONFIG --variable target gdk-2.0)"
+AC_MSG_RESULT([$GDK_TARGET])
+case "$GDK_TARGET" in
+  x11) PLATFORM_PKGS="x11 cairo-xlib" ;;
+  *) PLATFORM_PKGS="" ;;
+esac
+
+VTE_PKGS="glib-2.0 >= $GLIB_REQUIRED gobject-2.0 pango >= $PANGO_REQUIRED gtk+-2.0 >= $GTK_REQUIRED gobject-2.0 gio-2.0 gio-unix-2.0 $PLATFORM_PKGS"
+PKG_CHECK_MODULES([VTE],[$VTE_PKGS])
+AC_SUBST([VTE_PKGS])
+
+wcs_funcs_includes="
+#ifdef HAVE_STRING_H
+# if !STDC_HEADERS && HAVE_MEMORY_H
+#  include <memory.h>
+# endif
+# include <string.h>
+#else
+# ifdef HAVE_STRINGS_H
+#  include <strings.h>
+# endif
+#endif
+#ifdef HAVE_WCHAR_H
+# include <wchar.h>
+#endif
+"
+
+AC_CHECK_TYPES(wint_t, AC_DEFINE(HAVE_WINT_T, , [Defined when the wint_t type is supported]), ,$wcs_funcs_includes)
+
+
+########
+
 AC_OUTPUT([
 genius.spec
 Makefile
@@ -284,6 +391,9 @@ lib/statistics/Makefile
 lib/symbolic/Makefile
 lib/commutative_algebra/Makefile
 ve/Makefile
+vte/Makefile
+vte/src/Makefile
+vte/termcaps/Makefile
 gtkextra/Makefile
 examples/Makefile
 pixmaps/Makefile

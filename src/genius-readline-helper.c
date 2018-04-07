@@ -256,7 +256,7 @@ main(int argc, char *argv[])
 				int len = strlen(p);
 				if (write(outfd,"LINE",4) < 4)
 					printf ("write failed in readline-helper");
-				if (write(outfd,(gpointer)&len,sizeof(int)) < sizeof (int))
+				if (write(outfd,(gpointer)&len,sizeof(int)) < (int)sizeof (int))
 					printf ("write failed in readline-helper");
 				if(len>0) {
 					if (write(outfd,p,len) < len) {

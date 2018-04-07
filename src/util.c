@@ -193,7 +193,10 @@ gel_escape_string(char *s)
 		case '"':
 		case '\\': 
 			*(p++) = '\\';
-		default: ; *(p++)=*(s++);
+			*(p++)=*(s++);
+			break;
+		default:
+			*(p++)=*(s++);
 			 break;
 		}
 	}

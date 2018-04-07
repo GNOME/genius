@@ -1569,7 +1569,7 @@ pretty_print_value_normal (GelOutput *gelo, GelETree *n)
 
 		z = mpw_peek_real_mpz (den);
 		if (z == NULL ||
-		    mpz_sizeinbase (z, gel_calcstate.integer_output_base) - 1
+		    (int)mpz_sizeinbase (z, gel_calcstate.integer_output_base) - 1
 		      > gel_calcstate.max_digits) {
 			mpw_clear (den);
 			mpw_clear (num);
@@ -1596,7 +1596,7 @@ pretty_print_value_normal (GelOutput *gelo, GelETree *n)
 
 			z = mpw_peek_real_mpz (whole);
 			if (z == NULL ||
-			    mpz_sizeinbase (z, gel_calcstate.integer_output_base) - 1
+			    (int)mpz_sizeinbase (z, gel_calcstate.integer_output_base) - 1
 			    > gel_calcstate.max_digits) {
 				mpw_clear (den);
 				mpw_clear (num);
@@ -1620,7 +1620,7 @@ pretty_print_value_normal (GelOutput *gelo, GelETree *n)
 
 		z = mpw_peek_real_mpz (num);
 		if (z == NULL ||
-		    mpz_sizeinbase (z, gel_calcstate.integer_output_base) - 1
+		    (int)mpz_sizeinbase (z, gel_calcstate.integer_output_base) - 1
 		      > gel_calcstate.max_digits) {
 			mpw_clear (den);
 			mpw_clear (num);
@@ -3100,7 +3100,7 @@ get_wordlist (const char *lst)
 		gel_errorout (_("Can't expand '%s'"), lst);
 		return NULL;
 	}
-	for (i = 0; i < we.we_wordc; i++) {
+	for (i = 0; i < (int)we.we_wordc; i++) {
 		list = g_slist_prepend (list, g_strdup (we.we_wordv[i]));
 	}
 	wordfree (&we);

@@ -32,7 +32,7 @@ AM_CFLAGS = $(PGO_CFLAGS)
 #  AC_SUBST(VICIOUS_GNOME_LIBS)
 
 noinst_LIBRARIES = \
-	@GTKEXTRA_LIBS@
+	libgtkextra-genius.a
 
 EXTRA_LIBRARIES = \
 	libgtkextra-genius.a

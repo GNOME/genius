@@ -147,7 +147,7 @@ static MpwRealNum *free_reals = NULL;
 static void
 _gel_make_free_reals (void)
 {
-	int i;
+	guint i;
 	char *p;
 
 	p = g_malloc ((GEL_CHUNK_SIZE / ALIGNED_SIZE (MpwRealNum)) *
@@ -2977,7 +2977,7 @@ str_getstring_z (mpz_ptr num, int max_digits,int scientific_notation,
 		g_free(p);
 		p = p2;
 	}
-	if(max_digits>0 && max_digits<strlen(p)) {
+	if(max_digits > 0 && max_digits < (int)strlen(p)) {
 		mpfr_init(fr);
 		mpfr_set_z(fr,num, GMP_RNDN);
 		p2=str_getstring_f(fr,max_digits,scientific_notation,postfix,
