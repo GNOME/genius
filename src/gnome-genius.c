@@ -2383,7 +2383,7 @@ setup_calc(GtkWidget *widget, gpointer data)
 	}
 
 	cancelstate = curstate;
-	g_free (tmpsetup.font);
+	g_free (cancelsetup.font);
 	cancelsetup = genius_setup;
 	if (genius_setup.font)
 		cancelsetup.font = g_strdup (genius_setup.font);
