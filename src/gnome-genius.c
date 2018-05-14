@@ -134,7 +134,7 @@ static GList *prog_menu_items = NULL;
 static char *genius_datadir = NULL;
 static char *genius_datadir_sourceview = NULL;
 
-static gboolean genius_in_dev_dir = FALSE;
+gboolean genius_in_dev_dir = FALSE;
 
 static gboolean genius_do_not_use_binreloc = FALSE;
 

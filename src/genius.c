@@ -94,7 +94,7 @@ extern int parenth_depth;
 
 static int use_readline = TRUE;
 
-static gboolean genius_in_dev_dir = FALSE;
+gboolean genius_in_dev_dir = FALSE;
 
 static int errors_printed = 0;
 static long total_errors_printed = 0;

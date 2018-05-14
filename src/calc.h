@@ -237,4 +237,6 @@ extern GelOutput *gel_main_out;
 
 extern gboolean gel_got_eof;
 
+extern gboolean genius_in_dev_dir;
+
 #endif /* CALC_H_ */

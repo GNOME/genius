@@ -95,8 +95,9 @@ libvte_a_CPPFLAGS = \
  	-DDATADIR='"$(datadir)"' \
 	-DLIBEXECDIR='"$(libexecdir)"' \
 	-DLOCALEDIR='"$(localedir)"' \
-	-DTERMCAPDIR='"$(datadir)/genius"' \
 	-DVTE_COMPILATION \
+	-I$(top_srcdir)/src \
+	-I$(top_builddir)/src \
 	$(AM_CPPFLAGS)
 
 libvte_a_CFLAGS = $(VTE_CFLAGS) $(AM_CFLAGS)

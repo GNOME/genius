@@ -59,6 +59,10 @@
 #include "vteregex.h"
 #include "vtetc.h"
 
+#include "binreloc.h"
+#include "calc.h"
+
+
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
 #endif
@@ -8272,14 +8276,46 @@ vte_terminal_set_termcap(VteTerminal *terminal, const char *path,
 	char *wpath;
 
 	if (path == NULL) {
-		wpath = g_build_filename(TERMCAPDIR,
-					 terminal->pvt->emulation ?
-					 terminal->pvt->emulation :
-					 vte_terminal_get_default_emulation(terminal),
-					 NULL);
-		if (g_stat(wpath, &st) != 0) {
-			g_free(wpath);
-			wpath = g_strdup("/etc/termcap");
+		char *datadir = gbr_find_data_dir (DATADIR);
+		char *origpath;
+		wpath = g_build_filename (datadir,
+					  "genius",
+					  terminal->pvt->emulation ?
+					  terminal->pvt->emulation :
+					  vte_terminal_get_default_emulation(terminal),
+					  NULL);
+		origpath = g_strdup(wpath);
+		if (access (wpath, F_OK) != 0) {
+			g_free (wpath);
+			wpath = g_build_filename (datadir,
+						  "genius",
+						  "xterm",
+						  NULL);
+		}
+		if (access (wpath, F_OK) != 0) {
+			g_free (wpath);
+			wpath = g_build_filename (DATADIR,
+						  "genius",
+						  "xterm",
+						  NULL);
+		}
+
+		/* hmmm, maybe we're in the build directory, one more attempt */
+		if (genius_in_dev_dir && access(wpath, F_OK) != 0) {
+			wpath = g_build_filename ("..",
+						  "vte",
+						  "termcaps",
+						  "xterm",
+						  NULL);
+		}
+
+		/* if we still can't find it, reset path to our preferred place
+		 * so that we report that in the error */
+		if (access (wpath, F_OK) != 0) {
+			g_free (wpath);
+			wpath = origpath;
+		} else {
+			g_free(origpath);
 		}
 		path = g_intern_string (wpath);
 		g_free(wpath);
@@ -8303,7 +8339,7 @@ vte_terminal_set_termcap(VteTerminal *terminal, const char *path,
 	_vte_debug_print(VTE_DEBUG_MISC, "\n");
 	if (terminal->pvt->termcap == NULL) {
 		_vte_terminal_inline_error_message(terminal,
-				"Failed to load terminal capabilities from '%s'",
+				"BROKEN GENIUS INSTALL!\nFailed to load terminal capabilities from '%s'",
 				terminal->pvt->termcap_path);
 	}
 	if (reset) {
