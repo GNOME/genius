@@ -21,6 +21,9 @@ ttinterval = 0.1;
 
 for tt = 0 to 50 by ttinterval do (
   PlotCanvasFreeze ();
+
+  # Uncomment this to just draw the latest short segment
+  #LinePlotClear();
   
   # Draw a piece of the trajectory starting at pointblue
   # and t going from tt to going tt+ttinterval
