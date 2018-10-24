@@ -80,6 +80,7 @@ char *fake = N_("Delete a row of a matrix");
 char *fake = N_("Get the dot product of two vectors (no conjugates)");
 char *fake = N_("Zero out entries above the diagonal");
 char *fake = N_("Make diagonal matrix from a vector");
+char *fake = N_("Make column vector out of matrix by putting rows after each other");
 char *fake = N_("Make column vector out of matrix by putting columns above each other");
 char *fake = N_("Calculate the product of all elements in a matrix");
 char *fake = N_("Calculate the sum of all elements in a matrix");

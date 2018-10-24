@@ -340,12 +340,31 @@ function CompoundMatrix(k,A) = (
 
 SetHelp("MakeVector", "matrix", "Make column vector out of matrix by putting columns above each other")
 function MakeVector(A) = (
-	if IsNull(A) then return null
+	if IsNull(A) then
+		return null
 	else if not IsMatrix(A) then
-		(error("MakeVector: arguments not a matrix");bailout);
+		(error("MakeVector: argument not a matrix");bailout)
+	else if columns(A) == 1 then
+		return A;
 	r = null;
 	for k=1 to columns(A) do (
 		r = [r;A@(,k)]
+	);
+	r
+)
+SetHelpAlias("MakeVector", "MakeColumnVector")
+MakeColumnVector = MakeVector
+
+SetHelp("MakeRowVector", "matrix", "Make column vector out of matrix by putting rows after each other")
+function MakeRowVector(A) = (
+	if IsNull(A) then return null
+	else if not IsMatrix(A) then
+		(error("MakeRowVector: argument not a matrix");bailout)
+	else if rows(A) == 1 then
+		return A;
+	r = null;
+	for k=1 to rows(A) do (
+		r = [r,A@(k,)]
 	);
 	r
 )

@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2017 Jiri (George) Lebl
+ * Copyright (C) 1997-2018 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -2541,6 +2541,7 @@ exp_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 			return NULL;
 		}
 		if G_UNLIKELY (_internal_exp_function == NULL) {
+			/* FIXME: this really is not good*/
 			_internal_exp_function = d_makeufunc(d_intern("<internal>exp"),
 							     gel_parseexp
 							     ("s = float(x^0); "
@@ -3706,6 +3707,55 @@ SetMatrixSize_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 	} else {
 		gel_matrixw_set_size (n->mat.matrix, h, w);
 	}
+	return n;
+}
+
+static GelETree *
+AppendElement_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
+{
+	GelETree *n;
+	GelMatrixW *m;
+	int eltnum;
+
+	if G_UNLIKELY ( ! check_argument_vector_or_null (a, 0, "AppendElement"))
+		return NULL;
+
+	/*
+	 * Evil optimization to avoid copying the node from the argument
+	 */
+	n = gel_stealnode (a[0]);
+	if (n->type == GEL_NULL_NODE) {
+		n->type = GEL_MATRIX_NODE;
+		n->mat.matrix = m = gel_matrixw_new();
+		n->mat.quoted = FALSE;
+		gel_matrixw_set_size (m, 1, 1);
+
+		eltnum = 0;
+
+		/* trivially rref */
+		m->rref = 1;
+
+		m->cached_value_only = 1;
+		m->value_only = 1;
+		m->cached_value_only_real = 1;
+		m->value_only_real = 1;
+		m->cached_value_only_rational = 1;
+		m->value_only_rational = 1;
+		m->cached_value_only_integer = 1;
+		m->value_only_integer = 1;
+		m->cached_value_or_bool_only = 1;
+		m->value_or_bool_only = 1;
+	} else {
+		m = n->mat.matrix;
+		eltnum = gel_matrixw_elements(m);
+	}
+
+	gel_matrixw_set_velement (m,
+				  eltnum,
+				  /*
+				   * Evil optimization to avoid copying the node from the argument
+				   */
+				  gel_stealnode(a[1]));
 	return n;
 }
 
@@ -7215,13 +7265,15 @@ gel_funclib_addall(void)
 	VFUNC (ones, 2, "rows,columns", "matrix", N_("Make an matrix of all ones (or a row vector)"));
 	f->no_mod_all_args = 1;
 
+	FUNC (AppendElement, 2, "v,e", "matrix", N_("Append an element to a vector (treating 1x1 matrix as a row vector)"));
+
 	FUNC (rows, 1, "M", "matrix", N_("Get the number of rows of a matrix"));
 	FUNC (columns, 1, "M", "matrix", N_("Get the number of columns of a matrix"));
 	FUNC (IsMatrixSquare, 1, "M", "matrix", N_("Is a matrix square"));
 	FUNC (IsVector, 1, "v", "matrix", N_("Is argument a horizontal or a vertical vector"));
-	FUNC (IsUpperTriangular, 1, "v", "matrix", N_("Is a matrix upper triangular"));
-	FUNC (IsLowerTriangular, 1, "v", "matrix", N_("Is a matrix lower triangular"));
-	FUNC (IsDiagonal, 1, "v", "matrix", N_("Is a matrix diagonal"));
+	FUNC (IsUpperTriangular, 1, "M", "matrix", N_("Is a matrix upper triangular"));
+	FUNC (IsLowerTriangular, 1, "M", "matrix", N_("Is a matrix lower triangular"));
+	FUNC (IsDiagonal, 1, "M", "matrix", N_("Is a matrix diagonal"));
 	FUNC (elements, 1, "M", "matrix", N_("Get the number of elements of a matrix"));
 
 	FUNC (ref, 1, "M", "linear_algebra", N_("Get the row echelon form of a matrix"));
@@ -7289,7 +7341,7 @@ gel_funclib_addall(void)
 	VFUNC (DividePoly, 3, "p,q,r", "polynomial", N_("Divide polynomial p by q, return the remainder in r"));
 	FUNC (PolyDerivative, 1, "p", "polynomial", N_("Take polynomial (as vector) derivative"));
 	FUNC (Poly2ndDerivative, 1, "p", "polynomial", N_("Take second polynomial (as vector) derivative"));
-	FUNC (TrimPoly, 1, "p", "polynomial", N_("Trim zeros from a polynomial (as vector)"));
+	FUNC (TrimPoly, 1, "p", "polynomial", N_("Trim zeros from a vector pretending to be a polynomial, that is trim trailing zero elements"));
 	FUNC (IsPoly, 1, "p", "polynomial", N_("Check if a vector is usable as a polynomial"));
 	VFUNC (PolyToString, 2, "p,var", "polynomial", N_("Make string out of a polynomial (as vector)"));
 	FUNC (PolyToFunction, 1, "p", "polynomial", N_("Make function out of a polynomial (as vector)"));

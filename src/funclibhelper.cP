@@ -183,6 +183,19 @@ check_argument_matrix_or_null (GelETree **a, int argnum, const char *funcname)
 }
 
 static inline gboolean
+check_argument_vector_or_null (GelETree **a, int argnum, const char *funcname)
+{
+	if G_UNLIKELY (! (a[argnum]->type == GEL_NULL_NODE ||
+			  (a[argnum]->type == GEL_MATRIX_NODE &&
+			   (gel_matrixw_width (a[argnum]->mat.matrix) == 1 ||
+			    gel_matrixw_height (a[argnum]->mat.matrix) == 1)))) {
+		gel_errorout (_("%s: argument number %d not a vector or null node"), funcname, argnum+1);
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static inline gboolean
 check_argument_value_only_matrix (GelETree **a, int argnum, const char *funcname)
 {
 	if G_UNLIKELY (a[argnum]->type != GEL_MATRIX_NODE ||

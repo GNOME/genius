@@ -6,7 +6,7 @@ SetHelp ("Union", "sets", "Returns a set theoretic union of X and Y (X and Y are
 function Union(X,Y) =
   (
    for x in X do
-    if not IsIn(x,Y) then Y=[Y,x];
+    if not IsIn(x,Y) then Y@(elements(Y)+1)=x;
    Y
   )
 
@@ -15,6 +15,6 @@ function MakeSet(X) =
   (
    S = null;
    for x in X do
-    if not IsIn(x,S) then S=[S,x];
+    if not IsIn(x,S) then S@(elements(S)+1)=x;
    S
   )
