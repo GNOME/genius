@@ -345,7 +345,9 @@ function MakeVector(A) = (
 	else if not IsMatrix(A) then
 		(error("MakeVector: argument not a matrix");bailout)
 	else if columns(A) == 1 then
-		return A;
+		return A
+	else if rows(A) == 1 then
+		return A.';
 	r = null;
 	for k=1 to columns(A) do (
 		r = [r;A@(,k)]
@@ -361,7 +363,9 @@ function MakeRowVector(A) = (
 	else if not IsMatrix(A) then
 		(error("MakeRowVector: argument not a matrix");bailout)
 	else if rows(A) == 1 then
-		return A;
+		return A
+	else if columns(A) == 1 then
+		return A.';
 	r = null;
 	for k=1 to rows(A) do (
 		r = [r,A@(k,)]
