@@ -1,5 +1,4 @@
-Genius Calculator
-=================
+# Genius Calculator
 
 Genius calculator is a general purpose calculator and mathematics tool
 with many features.
@@ -7,7 +6,7 @@ with many features.
 For a manual read help/genius.txt (or see the manual in the gnome
 help browser).
 
-****************************************************************************
+
 
 Requirements:
 	- lex (tested under flex)
