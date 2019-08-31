@@ -37,10 +37,7 @@ George <jirka@5z.com>
 ## Useful links
 
 - Homepage: <https://www.jirka.org/genius.html>
-
 - Report issues: <https://gitlab.gnome.org/GNOME/genius/issues/>
-
 - Donate: <https://www.gnome.org/friends/>
-
 - Translate: <https://wiki.gnome.org/TranslationProject>
 
