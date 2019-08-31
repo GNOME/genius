@@ -7,16 +7,18 @@ For a manual read [help/genius.txt](help/genius.txt) (or see the manual in the g
 help browser).
 
 Requirements:
-  - lex (tested under flex)
-  - yacc (tested under bison -y)
-  - gmp (relatively new one required)
-  - mpfr (relatively new one)
-  - glib 2.12
+
+- lex (tested under flex)
+- yacc (tested under bison -y)
+- gmp (relatively new one required)
+- mpfr (relatively new one)
+- glib 2.12
 
 And for the GNOME frontend you need:
-  - gtk+ 2.18
-  - vte
-  - gtksourceview or gtksourceview2 (optional but recommended)
+
+- gtk+ 2.18
+- vte
+- gtksourceview or gtksourceview2 (optional but recommended)
 
 If you want to compile without the GNOME frontend, try the `--disable-gnome`
 argument to the ./configure script.  You will miss out on the GUI stuff
@@ -40,4 +42,3 @@ George <jirka@5z.com>
 - Report issues: <https://gitlab.gnome.org/GNOME/genius/issues/>
 - Donate: <https://www.gnome.org/friends/>
 - Translate: <https://wiki.gnome.org/TranslationProject>
-
