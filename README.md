@@ -34,7 +34,7 @@ seems very unlikely at this time.
 
 George <jirka@5z.com>
 
-<a href='https://flathub.org/apps/details/org.gnome.Genius'><img width='240' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-i-en.png'/></a>
+[![Flatpak](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Flathub-badge-en.svg/240px-Flathub-badge-en.svg.png)](https://flathub.org/apps/details/org.gnome.Genius)
 
 ## Useful links
 
