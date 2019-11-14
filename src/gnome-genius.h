@@ -38,7 +38,7 @@ extern GtkWidget *genius_window;
 extern int gel_calc_running;
 extern long total_errors;
 
-void genius_interrupt_calc (void);
+void genius_interrupt_calc (GSimpleAction *a, GVariant *param, gpointer data);
 
 void genius_setup_window_cursor (GtkWidget *win, GdkCursorType type);
 void genius_unsetup_window_cursor (GtkWidget *win);

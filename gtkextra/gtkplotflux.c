@@ -39,7 +39,7 @@
 
 static void gtk_plot_flux_class_init 	(GtkPlotFluxClass *klass);
 static void gtk_plot_flux_init 		(GtkPlotFlux *data);
-static void gtk_plot_flux_destroy 	(GtkObject *data);
+static void gtk_plot_flux_destroy 	(GtkWidget *data);
 static void gtk_plot_flux_get_property  (GObject      *object,
                                          guint        prop_id,
                                          GValue       *value,
@@ -108,13 +108,13 @@ gtk_plot_flux_get_type (void)
 static void
 gtk_plot_flux_class_init (GtkPlotFluxClass *klass)
 {
-  GtkObjectClass *object_class;
+  GtkWidgetClass *object_class;
   GtkPlotDataClass *data_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
   parent_class = g_type_class_ref (gtk_plot_data_get_type ());
 
-  object_class = (GtkObjectClass *) klass;
+  object_class = (GtkWidgetClass *) klass;
   data_class = (GtkPlotDataClass *) klass;
 
   gobject_class->set_property = gtk_plot_flux_set_property;
@@ -274,14 +274,10 @@ gtk_plot_flux_class_init (GtkPlotFluxClass *klass)
 static void
 gtk_plot_flux_init (GtkPlotFlux *dataset)
 {
-  GdkColor black, white;
-  GdkColormap *colormap;
+  GdkRGBA black;
   GtkPlotArray *dim;
 
-  colormap = gdk_colormap_get_system();
-
-  gdk_color_black(colormap, &black);
-  gdk_color_white(colormap, &white);
+  gdk_rgba_parse(&black, "black");
 
   GTK_PLOT_DATA(dataset)->symbol.symbol_style = GTK_PLOT_SYMBOL_EMPTY;
   GTK_PLOT_DATA(dataset)->symbol.color = black;
@@ -437,7 +433,7 @@ gtk_plot_flux_new ()
 }
 
 static void
-gtk_plot_flux_destroy(GtkObject *object)
+gtk_plot_flux_destroy(GtkWidget *object)
 {
   GtkPlotFlux *flux = GTK_PLOT_FLUX(object);
 
@@ -446,8 +442,8 @@ gtk_plot_flux_destroy(GtkObject *object)
   if(flux->labels_suffix) g_free(flux->labels_suffix);
   flux->labels_suffix = NULL;
 
-  if (GTK_OBJECT_CLASS (parent_class)->destroy)
-    (*GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+  if (GTK_WIDGET_CLASS (parent_class)->destroy)
+    (*GTK_WIDGET_CLASS (parent_class)->destroy) (object);
 }
 
 static void

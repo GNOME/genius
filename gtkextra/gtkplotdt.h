@@ -89,7 +89,7 @@ typedef gint (*GtkPlotDTprogressbarFunc) (double progress);
  */
 struct _GtkPlotDT
 {
-  GtkObject object;
+  GtkWidget object;
 
   gboolean quadrilateral;
   gboolean subsampling;
@@ -108,7 +108,7 @@ struct _GtkPlotDT
 
 struct _GtkPlotDTClass
 {
-  GtkObjectClass parent_class;
+  GtkWidgetClass parent_class;
 
   gboolean	(* add_node)			(GtkPlotDT *data,
 						 GtkPlotDTnode node);
@@ -119,7 +119,7 @@ struct _GtkPlotDTClass
 };
 
 GType   	gtk_plot_dt_get_type               	(void);
-GtkObject*	gtk_plot_dt_new 			(gint num);
+GtkWidget*	gtk_plot_dt_new 			(gint num);
 void		gtk_plot_dt_set_quadrilateral		(GtkPlotDT *dt, 
 							 gboolean set);
 void		gtk_plot_dt_set_subsampling		(GtkPlotDT *dt, 

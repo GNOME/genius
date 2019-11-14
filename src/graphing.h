@@ -25,7 +25,7 @@
 /* only doable in gui mode */
 void gel_add_graph_functions (void);
 
-void genius_plot_dialog (void);
+void genius_plot_dialog (GSimpleAction *a, GVariant *param, gpointer data);
 
 void gel_plot_canvas_thaw_completely (void);
 

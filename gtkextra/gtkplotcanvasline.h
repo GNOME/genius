@@ -74,13 +74,13 @@ GType 		gtk_plot_canvas_line_get_type	(void);
 GtkPlotCanvasChild * 
 		gtk_plot_canvas_line_new	(GtkPlotLineStyle style,
                          			 gfloat width,
-                         			 const GdkColor *color,
+                         			 const GdkRGBA *color,
                          			 GtkPlotCanvasArrow arrow_mask);
 void 		gtk_plot_canvas_line_set_attributes
 						(GtkPlotCanvasLine *line,
                                     		 GtkPlotLineStyle style,
                                     		 gfloat width,
-                                    		 const GdkColor *color);
+                                    		 const GdkRGBA *color);
 void 		gtk_plot_canvas_line_set_arrow	(GtkPlotCanvasLine *line,
                                			 GtkPlotSymbolStyle style,
                                			 gfloat width, gfloat length,

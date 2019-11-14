@@ -271,7 +271,7 @@ gtk_plot_polar_real_paint (GtkWidget *widget)
 
       tick_direction.x = 1.;
       tick_direction.y = 0.;
-      plot->left->origin.x = (gfloat)width*plot->left_align;
+      plot->left->origin.x = width*plot->left_align;
       plot->left->origin.y = height;
       gtk_plot_polar_draw_axis(GTK_PLOT_POLAR(plot), plot->left, tick_direction);
       gtk_plot_polar_draw_labels(GTK_PLOT_POLAR(plot), plot->left, tick_direction);
@@ -287,7 +287,7 @@ gtk_plot_polar_real_paint (GtkWidget *widget)
       plot->left->direction.x = 1;
       plot->left->direction.y = 0;
       plot->left->origin.x = 0;
-      plot->left->origin.y = (gfloat)height*plot->left_align;
+      plot->left->origin.y = height*plot->left_align;
       gtk_plot_polar_draw_axis(GTK_PLOT_POLAR(plot), plot->left, tick_direction);
       gtk_plot_polar_draw_labels(GTK_PLOT_POLAR(plot), plot->left, tick_direction);
       plot->left->direction.x = 0;
@@ -304,7 +304,7 @@ gtk_plot_polar_real_paint (GtkWidget *widget)
   dataset = plot->data_sets;
   while(dataset)
    {
-     GTK_PLOT_DATA_CLASS(GTK_OBJECT_GET_CLASS(GTK_OBJECT(dataset->data)))->draw_data(GTK_PLOT_DATA(dataset->data));
+     GTK_PLOT_DATA_CLASS(GTK_WIDGET_GET_CLASS(GTK_WIDGET(dataset->data)))->draw_data(GTK_PLOT_DATA(dataset->data));
      dataset = dataset->next;
    }
 
@@ -316,7 +316,7 @@ gtk_plot_polar_real_paint (GtkWidget *widget)
      text = text->next;
    }
 
-  GTK_PLOT_CLASS(GTK_OBJECT_GET_CLASS(GTK_OBJECT(plot)))->draw_legends(widget);
+  GTK_PLOT_CLASS(GTK_WIDGET_GET_CLASS(GTK_WIDGET(plot)))->draw_legends(widget);
 
   gtk_plot_pc_grestore(plot->pc);
 }
@@ -331,7 +331,7 @@ gtk_plot_polar_real_paint (GtkWidget *widget)
  * Return value:
  */
 GtkWidget*
-gtk_plot_polar_new (GdkDrawable *drawable)
+gtk_plot_polar_new (cairo_surface_t *drawable)
 {
   GtkWidget* plot;
 
@@ -353,7 +353,7 @@ gtk_plot_polar_new (GdkDrawable *drawable)
  * Return value:
  */
 GtkWidget*
-gtk_plot_polar_new_with_size (GdkDrawable *drawable, gdouble width, gdouble height)
+gtk_plot_polar_new_with_size (cairo_surface_t *drawable, gdouble width, gdouble height)
 {
   GtkWidget *plot; 
 
@@ -372,7 +372,7 @@ gtk_plot_polar_new_with_size (GdkDrawable *drawable, gdouble width, gdouble heig
  *
  */
 void
-gtk_plot_polar_construct(GtkPlotPolar *plot, GdkDrawable *drawable)
+gtk_plot_polar_construct(GtkPlotPolar *plot, cairo_surface_t *drawable)
 {
   GTK_PLOT(plot)->drawable = drawable;
 }
@@ -387,7 +387,7 @@ gtk_plot_polar_construct(GtkPlotPolar *plot, GdkDrawable *drawable)
  *
  */
 void
-gtk_plot_polar_construct_with_size(GtkPlotPolar *plot, GdkDrawable *drawable, gdouble width, gdouble height)
+gtk_plot_polar_construct_with_size(GtkPlotPolar *plot, cairo_surface_t *drawable, gdouble width, gdouble height)
 {
   GTK_PLOT(plot)->drawable = drawable;
   gtk_plot_resize (GTK_PLOT(plot), width, height);
@@ -695,7 +695,7 @@ gtk_plot_polar_draw_labels(GtkPlotPolar *polar,
       }
       else
       {
-        g_signal_emit_by_name(GTK_OBJECT(axis), "tick_label", 
+        g_signal_emit_by_name(axis, "tick_label",
                                 &x_tick, label, &veto);
         if(!veto)
           gtk_plot_axis_parse_label(axis, x_tick, axis->label_precision, axis->label_style, label);
@@ -811,7 +811,7 @@ gtk_plot_polar_draw_circle(GtkPlotPolar *polar)
       }
       else
       {
-        g_signal_emit_by_name(GTK_OBJECT(axis), "tick_label", 
+        g_signal_emit_by_name(axis, "tick_label",
                                 &x_tick, label, &veto);
         if(!veto)
           gtk_plot_axis_parse_label(axis, x_tick, axis->label_precision, axis->label_style, label);
@@ -1004,8 +1004,8 @@ gtk_plot_polar_rotate(GtkPlotPolar *polar, gdouble angle)
 {
   polar->rotation = angle;
 
-  g_signal_emit_by_name(GTK_OBJECT(polar), "update", TRUE);
-  g_signal_emit_by_name(GTK_OBJECT(polar), "changed");
+  g_signal_emit_by_name(polar, "update", TRUE);
+  g_signal_emit_by_name(polar, "changed");
 }
 
 /**

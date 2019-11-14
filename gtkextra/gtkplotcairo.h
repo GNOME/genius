@@ -68,8 +68,8 @@ extern "C" {
     };
 
     GType    gtk_plot_cairo_get_type			(void);
-    GtkObject *gtk_plot_cairo_new (cairo_t *cairo);
-    GtkObject *gtk_plot_cairo_new_with_drawable (GdkDrawable *drawable);
+    GtkWidget *gtk_plot_cairo_new (cairo_t *cairo);
+    GtkWidget *gtk_plot_cairo_new_with_drawable (cairo_surface_t *drawable);
     void gtk_plot_cairo_construct(GtkPlotCairo *pc,
                                   cairo_t *cairo,
                                   PangoContext *context);

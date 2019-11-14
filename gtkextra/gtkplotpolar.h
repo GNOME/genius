@@ -65,13 +65,13 @@ struct _GtkPlotPolarClass
 /* PlotPolar */
 
 GType		gtk_plot_polar_get_type		(void);
-GtkWidget*	gtk_plot_polar_new		(GdkDrawable *drawable);
-GtkWidget*	gtk_plot_polar_new_with_size	(GdkDrawable *drawable,
+GtkWidget*	gtk_plot_polar_new		(cairo_surface_t *drawable);
+GtkWidget*	gtk_plot_polar_new_with_size	(cairo_surface_t *drawable,
                                                  gdouble width, gdouble height);
 void		gtk_plot_polar_construct	(GtkPlotPolar *plot,
-						 GdkDrawable *drawable);
+						 cairo_surface_t *drawable);
 void		gtk_plot_polar_construct_with_size (GtkPlotPolar *plot,
-						    GdkDrawable *drawable,
+						    cairo_surface_t *drawable,
 						    gdouble width, 
 						    gdouble height);
 

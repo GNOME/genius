@@ -26,7 +26,6 @@
 #include "gtkplot.h"
 #include "gtkplotcanvas.h"
 #include "gtkplotcanvasline.h"
-#include "gtkplotgdk.h"
 #include "gtkplotps.h"
 
 /**
@@ -56,7 +55,8 @@ enum{
 
 static void gtk_plot_canvas_line_init		(GtkPlotCanvasLine *line);
 static void gtk_plot_canvas_line_class_init	(GtkPlotCanvasChildClass *klass);
-static void gtk_plot_canvas_line_draw_selection (GtkPlotCanvas *canvas,
+static void gtk_plot_canvas_line_draw_selection (cairo_t *cr,
+						 GtkPlotCanvas *canvas,
 						 GtkPlotCanvasChild *child,
 					 	 GtkAllocation area);
 static void gtk_plot_canvas_line_draw 		(GtkPlotCanvas *canvas,
@@ -110,7 +110,7 @@ gtk_plot_canvas_line_get_type (void)
 GtkPlotCanvasChild*
 gtk_plot_canvas_line_new (GtkPlotLineStyle style,
                           gfloat width,
-                          const GdkColor *color,
+                          const GdkRGBA *color,
                           GtkPlotCanvasArrow arrow_mask)
 {
   GtkPlotCanvasLine *line;
@@ -127,7 +127,7 @@ gtk_plot_canvas_line_new (GtkPlotLineStyle style,
 static void
 gtk_plot_canvas_line_init (GtkPlotCanvasLine *line)
 {
-  gdk_color_black(gdk_colormap_get_system(), &line->line.color);
+  gdk_rgba_parse(&line->line.color, "black");
                                                     
   line->line.line_style = GTK_PLOT_LINE_SOLID;                            
   line->line.line_width = 0;                            
@@ -447,88 +447,76 @@ gtk_plot_canvas_line_draw 		(GtkPlotCanvas *canvas,
 }
 
 static void 
-gtk_plot_canvas_line_draw_selection 	(GtkPlotCanvas *canvas,
+gtk_plot_canvas_line_draw_selection 	(cairo_t *cr, GtkPlotCanvas *canvas,
 					 GtkPlotCanvasChild *child,
 					 GtkAllocation area)
 {
   GtkPlotCanvasLine *line = GTK_PLOT_CANVAS_LINE(child);
-  GdkGC *xor_gc = NULL;
-  GdkGCValues values;
   gint x1, y1;
   gint x2, y2;
   gint dx, dy;
+  const double dashes[] = { 5., 5. };
 
   dx = canvas->pointer_x - canvas->drag_x;
   dy = canvas->pointer_y - canvas->drag_y;
-  
-  gdk_gc_get_values(gtk_widget_get_style(GTK_WIDGET(canvas))->fg_gc[0], &values);
-  values.function = GDK_INVERT;
-  values.foreground = gtk_widget_get_style(GTK_WIDGET(canvas))->white;
-  values.subwindow_mode = GDK_INCLUDE_INFERIORS;
-  xor_gc = gdk_gc_new_with_values(gtk_widget_get_window(GTK_WIDGET(canvas)),
-                                  &values,
-                                  GDK_GC_FOREGROUND |
-                                  GDK_GC_FUNCTION |
-                                  GDK_GC_SUBWINDOW);
 
   gtk_plot_canvas_get_pixel(canvas, line->x1, line->y1, &x1, &y1);
   gtk_plot_canvas_get_pixel(canvas, line->x2, line->y2, &x2, &y2);
 
+  cairo_set_source_rgb(cr, 0, 0, 0);
+
   if(line->pos == GTK_PLOT_CANVAS_TOP_LEFT){ 
-    gdk_draw_rectangle(gtk_widget_get_window(GTK_WIDGET(canvas)), 
-			xor_gc, TRUE,
-                        x2 - DEFAULT_MARKER_SIZE / 2, 
-                        y2 - DEFAULT_MARKER_SIZE / 2,
-                        DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
+    cairo_rectangle(cr, x2 - DEFAULT_MARKER_SIZE / 2,
+                    y2 - DEFAULT_MARKER_SIZE / 2,
+                    DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
+    cairo_fill(cr);
 
-    gdk_draw_rectangle(gtk_widget_get_window(GTK_WIDGET(canvas)), 
-		       xor_gc, TRUE,
-                       x1 + dx - DEFAULT_MARKER_SIZE / 2, 
-                       y1 + dy - DEFAULT_MARKER_SIZE / 2,
-                       DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
+    cairo_rectangle(cr, x1 + dx - DEFAULT_MARKER_SIZE / 2,
+                    y1 + dy - DEFAULT_MARKER_SIZE / 2,
+                    DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
+    cairo_fill(cr);
 
-    gdk_gc_set_line_attributes(xor_gc, 1, 1, 0, 0);
-    gdk_draw_line(gtk_widget_get_window(GTK_WIDGET(canvas)), 
-			xor_gc, x2, y2, x1 + dx, y1 + dy);
+    cairo_set_line_width(cr, 1);
+    cairo_set_dash(cr, dashes, 2, 0);
+    cairo_move_to(cr, x2, y2);
+    cairo_line_to(cr, x1 + dx, y1 + dy);
+    cairo_stroke(cr);
  
   } else if(line->pos == GTK_PLOT_CANVAS_BOTTOM_RIGHT){ 
-    gdk_draw_rectangle(gtk_widget_get_window(GTK_WIDGET(canvas)), 
-		       xor_gc, TRUE,
-                       x1 - DEFAULT_MARKER_SIZE / 2, 
-                       y1 - DEFAULT_MARKER_SIZE / 2,
-                       DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
+    cairo_rectangle(cr, x1 - DEFAULT_MARKER_SIZE / 2,
+                    y1 - DEFAULT_MARKER_SIZE / 2,
+                    DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
+    cairo_fill(cr);
 
-    gdk_draw_rectangle(gtk_widget_get_window(GTK_WIDGET(canvas)), 
-		       xor_gc, TRUE,
-                       x2 + dx - DEFAULT_MARKER_SIZE / 2, 
-                       y2 + dy - DEFAULT_MARKER_SIZE / 2,
-                       DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
+    cairo_rectangle(cr, x2 + dx - DEFAULT_MARKER_SIZE / 2,
+                    y2 + dy - DEFAULT_MARKER_SIZE / 2,
+                    DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
+    cairo_fill(cr);
 
-    gdk_gc_set_line_attributes(xor_gc, 1, 1, 0, 0);
-    gdk_draw_line(gtk_widget_get_window(GTK_WIDGET(canvas)), 
-			xor_gc, x1, y1, x2 + dx, y2 + dy);
+    cairo_set_line_width(cr, 1);
+    cairo_set_dash(cr, dashes, 2, 0);
+    cairo_move_to(cr, x1, y1);
+    cairo_line_to(cr, x2 + dx, y2 + dy);
+    cairo_stroke(cr);
  
   } else { 
     
-    gdk_draw_rectangle(gtk_widget_get_window(GTK_WIDGET(canvas)),
-		        xor_gc, TRUE,
-                       x1 + dx - DEFAULT_MARKER_SIZE / 2, 
-                       y1 + dy - DEFAULT_MARKER_SIZE / 2,
-                       DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
+    cairo_rectangle(cr, x1 + dx - DEFAULT_MARKER_SIZE / 2,
+                    y1 + dy - DEFAULT_MARKER_SIZE / 2,
+                    DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
+    cairo_fill(cr);
 
-    gdk_draw_rectangle(gtk_widget_get_window(GTK_WIDGET(canvas)), 
-		       xor_gc, TRUE,
-                       x2 + dx - DEFAULT_MARKER_SIZE / 2, 
-                       y2 + dy - DEFAULT_MARKER_SIZE / 2,
-                       DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
+    cairo_rectangle(cr, x2 + dx - DEFAULT_MARKER_SIZE / 2,
+                    y2 + dy - DEFAULT_MARKER_SIZE / 2,
+                    DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
+    cairo_fill(cr);
 
-    gdk_gc_set_line_attributes(xor_gc, 1, 1, 0, 0);
-    gdk_draw_line(gtk_widget_get_window(GTK_WIDGET(canvas)), xor_gc, 
-                 x1 + dx, y1 + dy, x2 + dx, y2 + dy);
+    cairo_set_line_width(cr, 1);
+    cairo_set_dash(cr, dashes, 2, 0);
+    cairo_move_to(cr, x1 + dx, y1 + dy);
+    cairo_line_to(cr, x2 + dx, y2 + dy);
+    cairo_stroke(cr);
   }
-  
-
-  if(xor_gc) gdk_gc_unref(xor_gc);
 }
 
 static GtkPlotCanvasPos 
@@ -615,7 +603,7 @@ gtk_plot_canvas_line_resize             (GtkPlotCanvas *canvas,
   line->x2 = x2;
   line->y2 = y2;
                                                                                 
-  GTK_PLOT_CANVAS_CHILD_CLASS(GTK_OBJECT_GET_CLASS(GTK_OBJECT(child)))->size_allocate(canvas, child);
+  GTK_PLOT_CANVAS_CHILD_CLASS(GTK_WIDGET_GET_CLASS(GTK_WIDGET(child)))->size_allocate(canvas, child);
   gtk_plot_canvas_paint(canvas);
   gtk_plot_canvas_refresh(canvas);
 }
@@ -648,7 +636,7 @@ gtk_plot_canvas_line_button_release     (GtkPlotCanvas *canvas,
   child->rx2 = line->x2;
   child->ry2 = line->y2;
 
-  GTK_PLOT_CANVAS_CHILD_CLASS(GTK_OBJECT_GET_CLASS(GTK_OBJECT(child)))->size_allocate(canvas, child);
+  GTK_PLOT_CANVAS_CHILD_CLASS(GTK_WIDGET_GET_CLASS(GTK_WIDGET(child)))->size_allocate(canvas, child);
   gtk_plot_canvas_paint(canvas);
   gtk_plot_canvas_refresh(canvas);
 }
@@ -666,7 +654,7 @@ void
 gtk_plot_canvas_line_set_attributes(GtkPlotCanvasLine *line,
                                     GtkPlotLineStyle style,
                                     gfloat width,
-                                    const GdkColor *color)
+                                    const GdkRGBA *color)
 {
   if(color) line->line.color = *color;
   line->line.line_width = width;

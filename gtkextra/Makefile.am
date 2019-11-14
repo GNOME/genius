@@ -60,7 +60,6 @@ public_h_sources =	\
 	gtkplotdata.h		\
 	gtkplotdt.h		\
 	gtkplotflux.h		\
-	gtkplotgdk.h		\
 	gtkplotcairo.h		\
 	gtkplotpc.h		\
 	gtkplotpixmap.h		\
@@ -94,7 +93,6 @@ libgtkextra_genius_a_SOURCES =	\
 	gtkplotdata.c		\
 	gtkplotdt.c		\
 	gtkplotflux.c		\
-	gtkplotgdk.c		\
 	gtkplotcairo.c		\
 	gtkplotpc.c		\
 	gtkplotpixmap.c		\

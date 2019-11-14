@@ -46,8 +46,8 @@ struct _GtkPlotCanvasPixmap
 {
   GtkPlotCanvasChild parent;
 
-  GdkPixmap *pixmap;
-  GdkBitmap *mask;
+  cairo_surface_t *pixmap;
+  cairo_pattern_t *mask;
 };
 
 struct _GtkPlotCanvasPixmapClass
@@ -57,7 +57,7 @@ struct _GtkPlotCanvasPixmapClass
 
 GType 		gtk_plot_canvas_pixmap_get_type	(void);
 GtkPlotCanvasChild * 
-		gtk_plot_canvas_pixmap_new(GdkPixmap *_pixmap, GdkBitmap *mask);
+		gtk_plot_canvas_pixmap_new(cairo_surface_t *_pixmap, cairo_pattern_t *mask);
 
 #ifdef __cplusplus
 }

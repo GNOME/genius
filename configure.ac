@@ -17,11 +17,10 @@ AC_PROG_INTLTOOL([0.21])
 
 dnl ================= Requirements ================================================
 
-GTK_REQUIRED=2.20.0
-GLIB_REQUIRED=2.26.0
+GTK_REQUIRED=3.21.4
+GLIB_REQUIRED=2.41.1
 PANGO_REQUIRED=1.22.0
-GTKSOURCEVIEW_REQUIRED=0.3.0
-GTKSOURCEVIEW2_REQUIRED=2.0.2
+GTKSOURCEVIEW4_REQUIRED=3.99.7
 GIO_REQUIRED=2.16.0
 
 dnl ===============================================================================
@@ -122,7 +121,7 @@ PKG_CHECK_MODULES(GLIB, glib-2.0 >= $GLIB_REQUIRED)
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
-GENIUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED gio-2.0 >= $GIO_REQUIRED"
+GENIUS_MODULES="amtk-5 gtk+-3.0 >= $GTK_REQUIRED gio-2.0 >= $GIO_REQUIRED"
 
 if test "x$use_gnome" = "xyes" ; then
   echo " 
@@ -133,17 +132,10 @@ Note:
   PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES)
 
   if test "x$use_gtksourceview" = "xyes" ; then
-    PKG_CHECK_MODULES(GSV, gtksourceview-2.0 >= $GTKSOURCEVIEW2_REQUIRED, have_gtksourceview2=yes, have_gtksourceview2=no)
+    PKG_CHECK_MODULES(GSV, gtksourceview-4 >= $GTKSOURCEVIEW4_REQUIRED, have_gtksourceview4=yes, have_gtksourceview4=no)
 
-    if test "x$have_gtksourceview2" != "xyes"; then
-      PKG_CHECK_MODULES(GSV, gtksourceview-1.0 >= $GTKSOURCEVIEW_REQUIRED, have_gtksourceview=yes, have_gtksourceview=no)
-    fi
-
-    if test "x$have_gtksourceview2" = "xyes"; then
-      AC_DEFINE(HAVE_GTKSOURCEVIEW,[1],[have gtksourceview])
-      AC_DEFINE(HAVE_GTKSOURCEVIEW2,[1],[have gtksourceview2])
-    elif test "x$have_gtksourceview" = "xyes"; then
-      AC_DEFINE(HAVE_GTKSOURCEVIEW,[1],[have gtksourceview])
+    if test "x$have_gtksourceview4" = "xyes"; then
+      AC_DEFINE(HAVE_GTKSOURCEVIEW,[1],[have gtksourceview4])
     else
       use_gtksourceview=no
     fi
@@ -151,7 +143,7 @@ Note:
     PKG_CHECK_MODULES(GENIUS, $GENIUS_MODULES)
   fi
 
-  VICIOUS_MODULES="gtk+-2.0 >= $GTK_REQUIRED"
+  VICIOUS_MODULES="gtk+-3.0 >= $GTK_REQUIRED"
   VICIOUS_UI_LIBS="libviciousui.a"
   
   GNOME_GENIUS="gnome-genius\$(EXEEXT)"
@@ -342,14 +334,14 @@ esac
 
 # We have a direct dependency on X11 on gdk-x11, see bug #613525
 AC_MSG_CHECKING([for GDK target])
-GDK_TARGET="$($PKG_CONFIG --variable target gdk-2.0)"
+GDK_TARGET="$($PKG_CONFIG --variable target gdk-3.0)"
 AC_MSG_RESULT([$GDK_TARGET])
 case "$GDK_TARGET" in
   x11) PLATFORM_PKGS="x11 cairo-xlib" ;;
   *) PLATFORM_PKGS="" ;;
 esac
 
-VTE_PKGS="glib-2.0 >= $GLIB_REQUIRED gobject-2.0 pango >= $PANGO_REQUIRED gtk+-2.0 >= $GTK_REQUIRED gobject-2.0 gio-2.0 gio-unix-2.0 $PLATFORM_PKGS"
+VTE_PKGS="vte-2.91"
 PKG_CHECK_MODULES([VTE],[$VTE_PKGS])
 AC_SUBST([VTE_PKGS])
 
@@ -391,9 +383,6 @@ lib/statistics/Makefile
 lib/symbolic/Makefile
 lib/commutative_algebra/Makefile
 ve/Makefile
-vte/Makefile
-vte/src/Makefile
-vte/termcaps/Makefile
 gtkextra/Makefile
 examples/Makefile
 pixmaps/Makefile

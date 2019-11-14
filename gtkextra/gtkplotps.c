@@ -51,7 +51,7 @@
 
 static void gtk_plot_ps_class_init 		(GtkPlotPSClass *klass);
 static void gtk_plot_ps_init 			(GtkPlotPS *ps);
-static void gtk_plot_ps_destroy 		(GtkObject *object);
+static void gtk_plot_ps_destroy 		(GtkWidget *object);
 /*********************************************************************/
 /* Postscript specific functions */
 static gboolean psinit				(GtkPlotPC *pc); 
@@ -64,7 +64,7 @@ static void psclip				(GtkPlotPC *pc,
 						 const GdkRectangle *area);
 static void psclipmask				(GtkPlotPC *pc,
 						 gdouble x, gdouble y,
-						 const GdkBitmap *mask);
+						 cairo_pattern_t *mask);
 static void psdrawlines				(GtkPlotPC *pc,
 						 GtkPlotPoint *points, 
 						 gint numpoints);
@@ -90,17 +90,17 @@ static void psdrawellipse			(GtkPlotPC *pc,
 						 gdouble x, gdouble y, 
 						 gdouble width, gdouble height); 
 static void pssetcolor				(GtkPlotPC *pc, 
-						 const GdkColor *color); 
+						 const GdkRGBA *color);
 static void pssetlineattr			(GtkPlotPC *pc, 
-                                                 gfloat line_width,
-                                                 GdkLineStyle line_style,
-                                                 GdkCapStyle cap_style,
-                                                 GdkJoinStyle join_style);
+                                                 gdouble line_width,
+                                                 guint line_style,
+                                                 cairo_line_cap_t cap_style,
+                                                 cairo_line_join_t join_style);
 static void psdrawstring			(GtkPlotPC *pc,
              					 gint x, gint y,
                                                  gint angle,
-                                                 const GdkColor *fg,
-                                                 const GdkColor *bg,
+                                                 const GdkRGBA *fg,
+                                                 const GdkRGBA *bg,
                                                  gboolean transparent,
                                                  gint border,
                                                  gint border_space,
@@ -118,8 +118,8 @@ static void pssetdash				(GtkPlotPC *pc,
 						 gdouble *values,
 						 gint num_values);
 static void psdrawpixmap                        (GtkPlotPC *pc,
-                                                 GdkPixmap *pixmap,
-                                                 GdkBitmap *mask,
+                                                 cairo_surface_t *pixmap,
+                                                 cairo_pattern_t *mask,
                                                  gint xsrc, gint ysrc,
                                                  gint xdest, gint ydest,
                                                  gint width, gint height,
@@ -164,12 +164,12 @@ gtk_plot_ps_init (GtkPlotPS *ps)
 static void
 gtk_plot_ps_class_init (GtkPlotPSClass *klass)
 {
-  GtkObjectClass *object_class;
+  GtkWidgetClass *object_class;
   GtkPlotPCClass *pc_class;
 
   parent_class = g_type_class_ref (gtk_plot_pc_get_type ());
 
-  object_class = (GtkObjectClass *) klass;
+  object_class = (GtkWidgetClass *) klass;
   pc_class = (GtkPlotPCClass *) klass;
 
   pc_class->init = psinit;
@@ -197,7 +197,7 @@ gtk_plot_ps_class_init (GtkPlotPSClass *klass)
 }
 
 static void
-gtk_plot_ps_destroy(GtkObject *object)
+gtk_plot_ps_destroy(GtkWidget *object)
 {
   GtkPlotPS *ps;
 
@@ -223,7 +223,7 @@ gtk_plot_ps_destroy(GtkObject *object)
  *
  * Return value: a new GtkObject.
  */
-GtkObject *
+GtkWidget *
 gtk_plot_ps_new                         (const gchar *psname,
                                          gint orientation,
                                          gint epsflag,
@@ -231,7 +231,7 @@ gtk_plot_ps_new                         (const gchar *psname,
                                          gdouble scalex,
 					 gdouble scaley)
 {
-  GtkObject *object;
+  GtkWidget *object;
   GtkPlotPS *ps;
 
   object = g_object_new(gtk_plot_ps_get_type(), NULL);
@@ -309,7 +309,7 @@ gtk_plot_ps_construct                   (GtkPlotPS *ps,
  *
  * Return value: a new GtkObject.
  */
-GtkObject *
+GtkWidget *
 gtk_plot_ps_new_with_size                       (const gchar *psname,
                                                  gint orientation,
                                                  gint epsflag,
@@ -317,7 +317,7 @@ gtk_plot_ps_new_with_size                       (const gchar *psname,
                                                  gdouble width, gdouble height,
 						 gdouble scalex, gdouble scaley)
 {
-  GtkObject *object;
+  GtkWidget *object;
   GtkPlotPS *ps;
 
   object = g_object_new(gtk_plot_ps_get_type(), NULL);
@@ -425,10 +425,10 @@ static void pssetviewport			(GtkPlotPC *pc,
 }
 
 static void pssetlineattr			(GtkPlotPC *pc, 
-                                                 gfloat line_width,
-                                                 GdkLineStyle line_style,
-                                                 GdkCapStyle cap_style,
-                                                 GdkJoinStyle join_style)
+                                                 gdouble line_width,
+                                                 guint line_style,
+                                                 cairo_line_cap_t cap_style,
+                                                 cairo_line_join_t join_style)
 {
     FILE *psout = GTK_PLOT_PS(pc)->psfile;
 
@@ -701,14 +701,14 @@ static void ps_reencode_font(FILE *file, char *fontname)
             "definefont pop\n", fontname, fontname);
 }
 
-static void pssetcolor(GtkPlotPC *pc, const GdkColor *color)
+static void pssetcolor(GtkPlotPC *pc, const GdkRGBA *color)
 {
     FILE *psout = GTK_PLOT_PS(pc)->psfile;
 
     fprintf(psout, "%g %g %g setrgbcolor\n",
-	    (gdouble) color->red / 65535.0,
-	    (gdouble) color->green / 65535.0,
-	    (gdouble) color->blue / 65535.0);
+	    (gdouble) color->red,
+	    (gdouble) color->green,
+	    (gdouble) color->blue);
 }
 
 static void
@@ -893,8 +893,8 @@ static void
 psdrawstring	(GtkPlotPC *pc,
              	 gint x, gint y,
                  gint angle,
-                 const GdkColor *fg,
-                 const GdkColor *bg,
+                 const GdkRGBA *fg,
+                 const GdkRGBA *bg,
                  gboolean transparent,
                  gint border,
                  gint border_space,
@@ -1285,7 +1285,7 @@ psgrestore(GtkPlotPC *pc)
 }
 
 static void
-psclipmask(GtkPlotPC *pc, gdouble x, gdouble y, const GdkBitmap *mask)
+psclipmask(GtkPlotPC *pc, gdouble x, gdouble y, cairo_pattern_t *mask)
 {
   FILE *psout = GTK_PLOT_PS(pc)->psfile;
   gint width, height;
@@ -1293,21 +1293,29 @@ psclipmask(GtkPlotPC *pc, gdouble x, gdouble y, const GdkBitmap *mask)
   gint npoints = 0;
   gint i;
   GtkPlotVector *points;
-  GdkImage *image;
+  cairo_surface_t *surface;
+  unsigned char *rawdata;
+  guint32 *pixel;
+  int stride;
 
   if(!mask){ 
     fprintf(psout,"grestore\n");
     return;
   }
 
-  gdk_window_get_size((GdkWindow *)mask, &width, &height);
-  image = gdk_image_get((GdkWindow *)mask, 0, 0, width, height);
+  cairo_pattern_get_surface(mask, &surface);
+  cairo_surface_flush(surface);
+  width = cairo_image_surface_get_width(surface);
+  height = cairo_image_surface_get_height(surface);
+  stride = cairo_image_surface_get_stride(surface);
+  rawdata = cairo_image_surface_get_data(surface);
 
   points = (GtkPlotVector *)g_malloc(width*height*sizeof(GtkPlotVector));
 
   for(px = 0; px < width; px++){
     for(py = 0; py < height; py++){
-      if(gdk_image_get_pixel(image, px, py)){
+      pixel = (guint32 *) (rawdata + py * stride);
+      if(pixel[px] > 0){
         points[npoints].x = px; 
         points[npoints].y = py; 
         npoints++;
@@ -1317,7 +1325,8 @@ psclipmask(GtkPlotPC *pc, gdouble x, gdouble y, const GdkBitmap *mask)
   }
   for(py = points[npoints-1].y; py < height; py++){
     for(px = width - 1; px >= 0; px--){
-      if(gdk_image_get_pixel(image, px, py)){
+      pixel = (guint32 *) (rawdata + py * stride);
+      if(pixel[px] > 0){
         points[npoints].x = px; 
         points[npoints].y = py; 
         npoints++;
@@ -1327,7 +1336,8 @@ psclipmask(GtkPlotPC *pc, gdouble x, gdouble y, const GdkBitmap *mask)
   }
   for(px = points[npoints-1].x; px >= 0; px--){
     for(py = height - 1; py >= 0; py--){
-      if(gdk_image_get_pixel(image, px, py)){
+      pixel = (guint32 *) (rawdata + py * stride);
+      if(pixel[px] > 0){
         points[npoints].x = px; 
         points[npoints].y = py; 
         npoints++;
@@ -1337,7 +1347,8 @@ psclipmask(GtkPlotPC *pc, gdouble x, gdouble y, const GdkBitmap *mask)
   }
   for(py = points[npoints-1].y; py >= 0; py--){
     for(px = 0; px < width; px++){
-      if(gdk_image_get_pixel(image, px, py)){
+      pixel = (guint32 *) (rawdata + py * stride);
+      if(pixel[px] > 0){
         points[npoints].x = px; 
         points[npoints].y = py; 
         npoints++;
@@ -1358,7 +1369,6 @@ psclipmask(GtkPlotPC *pc, gdouble x, gdouble y, const GdkBitmap *mask)
   fprintf(psout,"clip\n");
 
   g_free(points);
-  gdk_image_destroy(image);
 }
 
 static void
@@ -1379,26 +1389,20 @@ psclip(GtkPlotPC *pc, const GdkRectangle *clip)
 
 static void 
 psdrawpixmap  (GtkPlotPC *pc,
-               GdkPixmap *pixmap,
-               GdkBitmap *mask,
+               cairo_surface_t *pixmap,
+               cairo_pattern_t *mask,
                gint xsrc, gint ysrc,
                gint xdest, gint ydest,
                gint width, gint height,
                gdouble scale_x, gdouble scale_y)
 {
   FILE *psout = GTK_PLOT_PS(pc)->psfile;
-  GdkColormap *colormap;
-
-  colormap = gdk_colormap_get_system ();
 
   fprintf(psout, "gsave\n");
   if(pixmap){
-    GdkImage *image;
+    unsigned char *rawdata;
+    int stride;
     gint x, y;
-
-    image = gdk_image_get(pixmap,
-                          xsrc, ysrc,
-                          width, height);
 
     if(mask) gtk_plot_pc_clip_mask(pc, xdest, ydest, mask);
 
@@ -1409,14 +1413,20 @@ psdrawpixmap  (GtkPlotPC *pc,
     fprintf(psout, "{ currentfile scanline readhexstring pop } false 3\n");
     fprintf(psout, "colorimage\n");
 
+    cairo_surface_flush(pixmap);
+    rawdata = cairo_image_surface_get_data(pixmap);
+    stride = cairo_image_surface_get_stride(pixmap);
 
     for(y = 0; y < height; y++){
       for(x = 0; x < width; x++){
         GdkColor color;
+        guint32 *pixel;
         gchar string[7];
 
-        color.pixel = gdk_image_get_pixel(image, x, y);
-	gdk_colormap_query_color(colormap, color.pixel, &color);
+        pixel = (guint32 *) (rawdata + y * stride);
+        color.red = pixel[x] >> 8;
+        color.green = pixel[x];
+        color.blue = pixel[x] << 8;
         color_to_hex(color, string);
         fprintf(psout,"%s",string);
         if(fmod(x + 1, 13) == 0) fprintf(psout, "\n");
@@ -1424,7 +1434,6 @@ psdrawpixmap  (GtkPlotPC *pc,
       fprintf(psout,"\n");
     }
 
-    gdk_image_destroy(image);
     if(mask) gtk_plot_pc_clip_mask(pc, xdest, ydest, NULL);
   }
 

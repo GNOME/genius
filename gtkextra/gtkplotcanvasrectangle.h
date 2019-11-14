@@ -52,7 +52,7 @@ struct _GtkPlotCanvasRectangle
   GtkPlotBorderStyle border;
                                                                                 
   gint shadow_width;
-  GdkColor bg;
+  GdkRGBA bg;
 };
 
 struct _GtkPlotCanvasRectangleClass
@@ -64,16 +64,16 @@ GType 		gtk_plot_canvas_rectangle_get_type	(void);
 GtkPlotCanvasChild * 
 		gtk_plot_canvas_rectangle_new	(GtkPlotLineStyle style,
                               			 gfloat width,
-                     			         const GdkColor *fg,
-                       			         const GdkColor *bg,
+                     			         const GdkRGBA *fg,
+                       			         const GdkRGBA *bg,
                        			         GtkPlotBorderStyle border,
                              			 gboolean fill);
 void 		gtk_plot_canvas_rectangle_set_attributes(
 					  	 GtkPlotCanvasRectangle *rectangle,
                                          	 GtkPlotLineStyle style,
                                          	 gfloat width,
-                                         	 const GdkColor *fg,
-                                         	 const GdkColor *bg,
+                                         	 const GdkRGBA *fg,
+                                         	 const GdkRGBA *bg,
                                          	 GtkPlotBorderStyle border,
                                          	 gboolean fill);
 
