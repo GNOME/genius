@@ -77,7 +77,7 @@ char *
 gel_encode_string (const char *s)
 {
 	if (ve_string_empty (s)) {
-		return g_strdup ("");
+		return g_strdup ("=");
 	} else if (is_ok_ascii (s)) {
 		return g_strdup (s);
 	} else {
