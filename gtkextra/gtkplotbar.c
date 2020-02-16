@@ -175,14 +175,11 @@ gtk_plot_bar_get_property (GObject      *object,
 static void
 gtk_plot_bar_init (GtkPlotBar *dataset)
 {
-  GdkColor black, white;
-  GdkColormap *colormap;
+  GdkRGBA black, white;
   GtkPlotArray *dim;
 
-  colormap = gdk_colormap_get_system();
-
-  gdk_color_black(colormap, &black);
-  gdk_color_white(colormap, &white);
+  gdk_rgba_parse(&black, "black");
+  gdk_rgba_parse(&white, "white");
 
   GTK_PLOT_DATA(dataset)->symbol.symbol_style = GTK_PLOT_SYMBOL_FILLED;
   GTK_PLOT_DATA(dataset)->symbol.color = white;

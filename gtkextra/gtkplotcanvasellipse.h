@@ -49,7 +49,7 @@ struct _GtkPlotCanvasEllipse
   GtkPlotLine line;
 
   gboolean filled;
-  GdkColor bg;
+  GdkRGBA bg;
 };
 
 struct _GtkPlotCanvasEllipseClass
@@ -61,15 +61,15 @@ GType 	gtk_plot_canvas_ellipse_get_type	(void);
 GtkPlotCanvasChild * 
 		gtk_plot_canvas_ellipse_new	(GtkPlotLineStyle style,
                               			 gfloat width,
-                     			         const GdkColor *fg,
-                       			         const GdkColor *bg,
+                     			         const GdkRGBA *fg,
+                       			         const GdkRGBA *bg,
                              			 gboolean fill);
 void 		gtk_plot_canvas_ellipse_set_attributes(
 						 GtkPlotCanvasEllipse *ellipse,
                                          	 GtkPlotLineStyle style,
                                          	 gdouble width,
-                                         	 const GdkColor *fg,
-                                         	 const GdkColor *bg,
+                                         	 const GdkRGBA *fg,
+                                         	 const GdkRGBA *bg,
                                          	 gboolean fill);
 
 #ifdef __cplusplus

@@ -62,7 +62,6 @@
 #include <gtkextra/gtkplotflux.h>
 /* #include <gtkextra/gtkplotsegment.h> */
 #include <gtkextra/gtkplotpixmap.h>
-#include <gtkextra/gtkplotgdk.h>
 #include <gtkextra/gtkplotpc.h>
 #include <gtkextra/gtkplotprint.h>
 #include <gtkextra/gtkplotps.h>

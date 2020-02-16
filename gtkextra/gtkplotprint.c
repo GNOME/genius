@@ -105,7 +105,7 @@ gtk_plot_export_ps                              (GtkPlot *plot,
 
   plot->pc = pc;
   plot->magnification = m;
-  gtk_object_destroy(GTK_OBJECT(ps));
+  gtk_widget_destroy(GTK_WIDGET(ps));
   recalc_pixels(plot); 
 
   return TRUE;
@@ -173,7 +173,7 @@ gtk_plot_export_ps_with_size                    (GtkPlot *plot,
   plot->pc = pc;
   plot->magnification = m;
   recalc_pixels(plot); 
-  gtk_object_destroy(GTK_OBJECT(ps));
+  gtk_widget_destroy(GTK_WIDGET(ps));
 
   return TRUE;
 }
@@ -201,7 +201,7 @@ gtk_plot_canvas_export_ps                       (GtkPlotCanvas *canvas,
   GtkPlotPS *ps;
   gdouble scalex, scaley;
   gdouble m;
-  GdkPixmap *pixmap;
+  cairo_surface_t *pixmap;
 
   m = canvas->magnification;
 
@@ -234,7 +234,7 @@ gtk_plot_canvas_export_ps                       (GtkPlotCanvas *canvas,
   canvas->pixmap = pixmap;
   canvas->pc = pc;
 
-  gtk_object_destroy(GTK_OBJECT(ps));
+  gtk_widget_destroy(GTK_WIDGET(ps));
 
   return TRUE;
 }
@@ -266,7 +266,7 @@ gtk_plot_canvas_export_ps_with_size             (GtkPlotCanvas *canvas,
   GtkPlotPS *ps;
   gdouble scalex, scaley;
   gdouble m;
-  GdkPixmap *pixmap;
+  cairo_surface_t *pixmap;
 
   m = canvas->magnification;
 
@@ -302,7 +302,7 @@ gtk_plot_canvas_export_ps_with_size             (GtkPlotCanvas *canvas,
   canvas->pixmap = pixmap;
   canvas->pc = pc;
 
-  gtk_object_destroy(GTK_OBJECT(ps));
+  gtk_widget_destroy(GTK_WIDGET(ps));
 
   return TRUE;
 }
@@ -353,7 +353,7 @@ gboolean
 gtk_plot_canvas_export_cairo                    (GtkPlotCanvas *canvas,
 						 cairo_t *cairo)
 {
-  GdkPixmap *pixmap;
+  cairo_surface_t *pixmap;
   GtkPlotPC *pc, *new_pc;
   gdouble m;
 

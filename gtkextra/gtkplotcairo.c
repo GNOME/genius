@@ -55,14 +55,14 @@ static void gtk_plot_cairo_clip                       (GtkPlotPC *pc,
 static void gtk_plot_cairo_clip_mask                  (GtkPlotPC *pc,
                                                        gdouble x,
                                                        gdouble y,
-                                                       const GdkBitmap *mask);
+                                                       cairo_pattern_t *mask);
 static void gtk_plot_cairo_set_color                   (GtkPlotPC *pc,
-                                                        const GdkColor *color);
+                                                        const GdkRGBA *color);
 static void gtk_plot_cairo_set_lineattr           (GtkPlotPC *pc,
-                                                   gfloat line_width,
-                                                   GdkLineStyle line_style,
-                                                   GdkCapStyle cap_style,
-                                                   GdkJoinStyle join_style);
+                                                   gdouble line_width,
+                                                   guint line_style,
+                                                   cairo_line_cap_t cap_style,
+                                                   cairo_line_join_t join_style);
 static void gtk_plot_cairo_set_dash                    (GtkPlotPC *pc,
                                                         gdouble offset_,
                                                         gdouble *values,
@@ -99,8 +99,8 @@ static void gtk_plot_cairo_set_font                    (GtkPlotPC *pc,
 static void gtk_plot_cairo_draw_string                (GtkPlotPC *pc,
                                                        gint x, gint y,
                                                        gint angle,
-                                                       const GdkColor *fg,
-                                                       const GdkColor *bg,
+                                                       const GdkRGBA *fg,
+                                                       const GdkRGBA *bg,
                                                        gboolean transparent,
                                                        gint border,
                                                        gint border_space,
@@ -111,8 +111,8 @@ static void gtk_plot_cairo_draw_string                (GtkPlotPC *pc,
                                                        GtkJustification just,
                                                        const gchar *text);
 static void gtk_plot_cairo_draw_pixmap                (GtkPlotPC *pc,
-                                                      GdkPixmap *pixmap,
-                                                      GdkBitmap *mask,
+                                                      cairo_surface_t *pixmap,
+                                                      cairo_pattern_t *mask,
                                                       gint xsrc, gint ysrc,
                                                       gint xdest, gint ydest,
                                                       gint width, gint height,
@@ -226,10 +226,10 @@ gtk_plot_cairo_class_init (GtkPlotCairoClass *klass)
  *
  * Return value:
  */
-GtkObject *
+GtkWidget *
 gtk_plot_cairo_new (cairo_t *cairo)
 {
-  GtkObject *object;
+  GtkWidget *object;
 
   object = g_object_new(gtk_plot_cairo_get_type(), NULL);
   gtk_plot_cairo_construct(GTK_PLOT_CAIRO(object), cairo, NULL);
@@ -246,14 +246,14 @@ gtk_plot_cairo_new (cairo_t *cairo)
  *
  * Return value:
  */
-GtkObject *
-gtk_plot_cairo_new_with_drawable (GdkDrawable *drawable)
+GtkWidget *
+gtk_plot_cairo_new_with_drawable (cairo_surface_t *drawable)
 {
-  GtkObject *object;
+  GtkWidget *object;
   cairo_t *cairo = NULL;
 
   object = g_object_new(gtk_plot_cairo_get_type(), NULL);
-  if(drawable) cairo = gdk_cairo_create(drawable);
+  if(drawable) cairo = cairo_create(drawable);
   gtk_plot_cairo_construct(GTK_PLOT_CAIRO(object), cairo, NULL);
   GTK_PLOT_CAIRO(object)->destroy_cairo = TRUE;
 
@@ -386,7 +386,7 @@ static void
 gtk_plot_cairo_clip_mask                              (GtkPlotPC *pc,
                                                        gdouble x,
                                                        gdouble y,
-                                                       const GdkBitmap *mask)
+                                                       cairo_pattern_t *mask)
 {
   /* TBD: Currently no support for clip mask */
   return;
@@ -394,16 +394,12 @@ gtk_plot_cairo_clip_mask                              (GtkPlotPC *pc,
 
 static void 
 gtk_plot_cairo_set_color                               (GtkPlotPC *pc,
-                                                        const GdkColor *color)
+                                                        const GdkRGBA *color)
 {
   cairo_t *cairo = GTK_PLOT_CAIRO(pc)->cairo; /* Shortcut */
   if (!cairo)
     return;
-  cairo_set_source_rgba(cairo,
-                        1.0/65535 * color->red,
-                        1.0/65535 * color->green,
-                        1.0/65535 * color->blue,
-                        1.0);  // TBD fix alpha
+  gdk_cairo_set_source_rgba(cairo, color);
 }
 
 static void 
@@ -434,16 +430,16 @@ gtk_plot_cairo_set_dash                               (GtkPlotPC *pc,
 }
 
 static void gtk_plot_cairo_set_lineattr           (GtkPlotPC *pc,
-                                                   gfloat line_width,
-                                                   GdkLineStyle line_style,
-                                                   GdkCapStyle cap_style,
-                                                   GdkJoinStyle join_style)
+                                                   gdouble line_width,
+                                                   guint line_style,
+                                                   cairo_line_cap_t cap_style,
+                                                   cairo_line_join_t join_style)
 {
   cairo_t *cairo = GTK_PLOT_CAIRO(pc)->cairo; /* Shortcut */
 
   if (!cairo)
     return;
-  if (line_style == GDK_LINE_SOLID)
+  if (line_style == 0)
       cairo_set_dash(cairo,
                      NULL, 0, 0);
 
@@ -452,10 +448,7 @@ static void gtk_plot_cairo_set_lineattr           (GtkPlotPC *pc,
   cairo_set_line_width(cairo,
                        line_width);
 
-  if(cap_style == GDK_CAP_NOT_LAST || cap_style == GDK_CAP_PROJECTING) 
-    cairo_set_line_cap(cairo, CAIRO_LINE_CAP_SQUARE);
-  if(cap_style == GDK_CAP_BUTT) cairo_set_line_cap(cairo, CAIRO_LINE_CAP_BUTT);
-  if(cap_style == GDK_CAP_ROUND) cairo_set_line_cap(cairo, CAIRO_LINE_CAP_ROUND);
+  cairo_set_line_cap(cairo, cap_style);
 
   cairo_set_line_join(cairo,
                      (cairo_line_join_t)join_style);
@@ -653,8 +646,8 @@ static void
 gtk_plot_cairo_draw_string                        (GtkPlotPC *pc,
                                                    gint tx, gint ty,
                                                    gint angle,
-                                                   const GdkColor *fg,
-                                                   const GdkColor *bg,
+                                                   const GdkRGBA *fg,
+                                                   const GdkRGBA *bg,
                                                    gboolean transparent,
                                                    gint border,
                                                    gint border_space,
@@ -687,8 +680,8 @@ gtk_plot_cairo_draw_string                        (GtkPlotPC *pc,
   gchar num[4];
   PangoRectangle rect;
   PangoLayout *layout = NULL;
-  GdkColor real_fg = *fg;
-  GdkColor real_bg = *bg;
+  GdkRGBA real_fg = *fg;
+  GdkRGBA real_bg = *bg;
   gint sign_x = 1, sign_y = 0;
   gint old_tx = tx, old_ty = ty;
 
@@ -1095,8 +1088,8 @@ gtk_plot_cairo_draw_string                        (GtkPlotPC *pc,
 }
 
 static void gtk_plot_cairo_draw_pixmap                (GtkPlotPC *pc,
-                                                      GdkPixmap *pixmap,
-                                                      GdkBitmap *mask,
+                                                      cairo_surface_t *pixmap,
+                                                      cairo_pattern_t *mask,
                                                       gint xsrc, gint ysrc,
                                                       gint xdest, gint ydest,
                                                       gint width, gint height,
@@ -1114,7 +1107,7 @@ static void gtk_plot_cairo_draw_pixmap                (GtkPlotPC *pc,
   image_surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, (width-xsrc)*scale_x, (height-ysrc)*scale_y);
   cr = cairo_create(image_surface);
   cairo_scale(cr,scale_x,scale_y);
-  gdk_cairo_set_source_pixmap(cr,pixmap,xsrc,ysrc);
+  cairo_set_source_surface(cr, pixmap, xsrc, ysrc);
   cairo_paint(cr);
   cairo_destroy(cr);
 
@@ -1131,7 +1124,7 @@ static void gtk_plot_cairo_draw_pixmap                (GtkPlotPC *pc,
     cr = cairo_create(mask_surface);
     cairo_set_source_rgb(cr,0,0,0);
     cairo_scale(cr,scale_x,scale_y);
-    gdk_cairo_set_source_pixmap(cr,pixmap,xsrc,ysrc);
+    cairo_set_source_surface(cr, pixmap, xsrc, ysrc);
     cairo_mask_surface(cr,mask_surface,0,0);
     cairo_fill(cr);
     cairo_destroy(cr);

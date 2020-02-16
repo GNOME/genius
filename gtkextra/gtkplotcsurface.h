@@ -97,19 +97,19 @@ GtkPlotProjection	gtk_plot_csurface_projection 	(GtkPlotCSurface *csurface);
 void            gtk_plot_csurface_set_levels_attributes (GtkPlotCSurface *dataset,
                                                          GtkPlotLineStyle style,
                                                          gfloat width,
-                                                         const GdkColor *color);
+                                                         const GdkRGBA *color);
 void            gtk_plot_csurface_set_sublevels_attributes (GtkPlotCSurface *dataset,
                                                          GtkPlotLineStyle style,
                                                          gfloat width,
-                                                         const GdkColor *color);
+                                                         const GdkRGBA *color);
 void            gtk_plot_csurface_get_levels_attributes (GtkPlotCSurface *dataset,
                                                          GtkPlotLineStyle *style,
                                                          gfloat *width,
-                                                         GdkColor *color);
+                                                         GdkRGBA *color);
 void            gtk_plot_csurface_get_sublevels_attributes (GtkPlotCSurface *dataset,
                                                          GtkPlotLineStyle *style,
                                                          gfloat *width,
-                                                         GdkColor *color);
+                                                         GdkRGBA *color);
 
 #ifdef __cplusplus
 }

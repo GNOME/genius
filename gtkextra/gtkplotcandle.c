@@ -47,26 +47,28 @@ gint roundint (gdouble x);
 
 static GtkPlotDataClass *parent_class = NULL;
 
-GtkType
+GType
 gtk_plot_candle_get_type (void)
 {
-  static GtkType data_type = 0;
+  static GType data_type = 0;
 
   if (!data_type)
     {
-      GtkTypeInfo data_info =
+      GTypeInfo data_info =
       {
-	"GtkPlotCandle",
-	sizeof (GtkPlotCandle),
 	sizeof (GtkPlotCandleClass),
-	(GtkClassInitFunc) gtk_plot_candle_class_init,
-	(GtkObjectInitFunc) gtk_plot_candle_init,
-	/* reserved 1*/ NULL,
-        /* reserved 2 */ NULL,
-        (GtkClassInitFunc) NULL,
+	NULL,
+	NULL,
+	(GClassInitFunc) gtk_plot_candle_class_init,
+	NULL,
+	NULL,
+	sizeof (GtkPlotCandle),
+	0,
+	(GInstanceInitFunc) gtk_plot_candle_init,
       };
 
-      data_type = gtk_type_unique (gtk_plot_data_get_type(), &data_info);
+      data_type = g_type_register_static (gtk_plot_data_get_type (),
+                                          "GtkPlotCandle", &data_info, 0);
     }
   return data_type;
 }
@@ -76,7 +78,7 @@ gtk_plot_candle_class_init (GtkPlotCandleClass *klass)
 {
   GtkPlotDataClass *data_class;
 
-  parent_class = gtk_type_class (gtk_plot_data_get_type ());
+  parent_class = g_type_class_peek (gtk_plot_data_get_type ());
 
   data_class = (GtkPlotDataClass *) klass;
 
@@ -91,14 +93,11 @@ gtk_plot_candle_class_init (GtkPlotCandleClass *klass)
 static void
 gtk_plot_candle_init (GtkPlotCandle *dataset)
 {
-  GdkColor black, white;
-  GdkColormap *colormap;
+  GdkRGBA black, white;
   GtkPlotArray *dim;
 
-  colormap = gdk_colormap_get_system();
-
-  gdk_color_black(colormap, &black);
-  gdk_color_white(colormap, &white);
+  gdk_rgba_parse(&black, "black");
+  gdk_rgba_parse(&white, "white");
 
   GTK_PLOT_DATA(dataset)->symbol.symbol_style = GTK_PLOT_SYMBOL_FILLED;
   GTK_PLOT_DATA(dataset)->symbol.color = white;
@@ -128,7 +127,7 @@ gtk_plot_candle_new (void)
 {
   GtkWidget *widget;
 
-  widget = gtk_type_new (gtk_plot_candle_get_type ());
+  widget = g_object_new (gtk_plot_candle_get_type (), NULL);
 
   return (widget);
 }
@@ -221,19 +220,21 @@ gtk_plot_candle_draw_legend(GtkPlotData *data, gint x, gint y)
 {
   GtkPlot *plot = NULL;
   GtkPlotText legend;
+  GtkAllocation allocation;
   GdkRectangle area;
   gint lascent, ldescent, lheight, lwidth;
   gdouble m;
 
   g_return_if_fail(data->plot != NULL);
   g_return_if_fail(GTK_IS_PLOT(data->plot));
-  if(!GTK_WIDGET_REALIZED(data->plot)) return;
+  if(!gtk_widget_get_realized(GTK_WIDGET(data->plot))) return;
 
   plot = data->plot;
-  area.x = GTK_WIDGET(plot)->allocation.x;
-  area.y = GTK_WIDGET(plot)->allocation.y;
-  area.width = GTK_WIDGET(plot)->allocation.width;
-  area.height = GTK_WIDGET(plot)->allocation.height;
+  gtk_widget_get_allocation(GTK_WIDGET(plot), &allocation);
+  area.x = allocation.x;
+  area.y = allocation.y;
+  area.width = allocation.width;
+  area.height = allocation.height;
 
   m = plot->magnification;
   legend = plot->legends_attr;

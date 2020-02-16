@@ -30,22 +30,29 @@
 void
 ve_entry_set_red (GtkWidget *w, gboolean state)
 {
+	GtkCssProvider *provider;
+	GtkStyleContext *ctxt;
+	static gboolean css_installed = FALSE;
+	const gchar *css = ".red { color: red; }";
+
+	if (!css_installed) {
+	        provider = gtk_css_provider_new ();
+	        gtk_css_provider_load_from_data (provider, css, -1, NULL);
+	        gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
+	                                                   GTK_STYLE_PROVIDER (provider),
+	                                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	        g_object_unref (provider);
+	        css_installed = TRUE;
+	}
+
+	ctxt = gtk_widget_get_style_context (w);
+
 	if (state) {
-		GtkStyle *ns;
-		GdkColor red = { 0, 65535, 0, 0 };
-
-		ns = gtk_style_copy (gtk_widget_get_style (w));
-		g_object_ref (G_OBJECT (ns));
-
-		ns->fg[GTK_STATE_NORMAL] = red;
-		ns->text[GTK_STATE_NORMAL] = red;
-
-		gtk_widget_set_style (w, ns);
-		g_object_unref (G_OBJECT (ns));
+	        gtk_style_context_add_class (ctxt, "red");
 
 		gtk_widget_queue_draw (w);
 	} else {
-		gtk_widget_set_style (w, NULL);
+		gtk_style_context_remove_class (ctxt, "red");
 	}
 }
 
@@ -62,7 +69,6 @@ ve_hig_dialog_new (GtkWindow      *parent,
 {
 	GtkWidget *dialog;
 	GtkWidget *dialog_vbox;
-	GtkWidget *dialog_action_area;
 	GtkWidget *hbox;
 	GtkWidget *vbox;
 	GtkWidget *label;
@@ -88,7 +94,6 @@ ve_hig_dialog_new (GtkWindow      *parent,
 
 	dialog = gtk_dialog_new ();
 	
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
 	gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
 	gtk_window_set_title (GTK_WINDOW (dialog), "");
@@ -96,19 +101,19 @@ ve_hig_dialog_new (GtkWindow      *parent,
 	dialog_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	gtk_box_set_spacing (GTK_BOX (dialog_vbox), 12);
 
-	hbox = gtk_hbox_new (FALSE, 12);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_box_pack_start (GTK_BOX (dialog_vbox), hbox, FALSE, FALSE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 5);
 	gtk_widget_show (hbox);
 
 	if (type == GTK_MESSAGE_ERROR) {
-		image = gtk_image_new_from_stock ("gtk-dialog-error", GTK_ICON_SIZE_DIALOG);
+		image = gtk_image_new_from_icon_name ("dialog-error", GTK_ICON_SIZE_DIALOG);
 	} else if (type == GTK_MESSAGE_QUESTION) {
-		image = gtk_image_new_from_stock ("gtk-dialog-question", GTK_ICON_SIZE_DIALOG);
+		image = gtk_image_new_from_icon_name ("dialog-question", GTK_ICON_SIZE_DIALOG);
 	} else if (type == GTK_MESSAGE_INFO) {
-		image = gtk_image_new_from_stock ("gtk-dialog-info", GTK_ICON_SIZE_DIALOG);
+		image = gtk_image_new_from_icon_name ("dialog-information", GTK_ICON_SIZE_DIALOG);
 	} else if (type == GTK_MESSAGE_WARNING) {
-		image = gtk_image_new_from_stock ("gtk-dialog-warning", GTK_ICON_SIZE_DIALOG);
+		image = gtk_image_new_from_icon_name ("dialog-warning", GTK_ICON_SIZE_DIALOG);
 	} else {
 		image = NULL;
 		g_assert_not_reached ();
@@ -116,7 +121,7 @@ ve_hig_dialog_new (GtkWindow      *parent,
 	gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
 	gtk_widget_show (image);
 
-	vbox = gtk_vbox_new (FALSE, 6);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, TRUE, 0);
 	gtk_widget_show (vbox);
 	
@@ -126,7 +131,7 @@ ve_hig_dialog_new (GtkWindow      *parent,
 	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
 	gtk_widget_show (label);
 	g_free (title);
 	
@@ -137,13 +142,10 @@ ve_hig_dialog_new (GtkWindow      *parent,
 			gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 		gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 		gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-		gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+		gtk_label_set_xalign (GTK_LABEL (label), 0);
 		gtk_widget_show (label);
 	}
 	
-	dialog_action_area = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area), GTK_BUTTONBOX_END);
-
 	switch (buttons) 
   	{		
 		case GTK_BUTTONS_NONE:
@@ -151,7 +153,7 @@ ve_hig_dialog_new (GtkWindow      *parent,
 
 		case GTK_BUTTONS_OK:
 		
-			button = gtk_button_new_from_stock (GTK_STOCK_OK);
+			button = gtk_button_new_with_mnemonic (_("_OK"));
 			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
 			gtk_widget_set_can_default (button, TRUE);
 			gtk_widget_show (button);
@@ -162,7 +164,7 @@ ve_hig_dialog_new (GtkWindow      *parent,
 
 		case GTK_BUTTONS_CLOSE:
 		
-			button = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
+			button = gtk_button_new_with_mnemonic (_("_Close"));
 			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_CLOSE);
 			gtk_widget_set_can_default (button, TRUE);
 			gtk_widget_show (button);
@@ -173,7 +175,7 @@ ve_hig_dialog_new (GtkWindow      *parent,
 
 		case GTK_BUTTONS_CANCEL:
 		
-			button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+			button = gtk_button_new_with_mnemonic (_("_Cancel"));
 			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_CANCEL);
 			gtk_widget_set_can_default (button, TRUE);
 			gtk_widget_show (button);
@@ -184,12 +186,12 @@ ve_hig_dialog_new (GtkWindow      *parent,
 
 		case GTK_BUTTONS_YES_NO:
 		
-			button = gtk_button_new_from_stock (GTK_STOCK_NO);
+			button = gtk_button_new_with_mnemonic (_("_No"));
 			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_NO);
 			gtk_widget_set_can_default (button, TRUE);
 			gtk_widget_show (button);
 
-			button = gtk_button_new_from_stock (GTK_STOCK_YES);
+			button = gtk_button_new_with_mnemonic (_("_Yes"));
 			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_YES);
 			gtk_widget_set_can_default (button, TRUE);
 			gtk_widget_show (button);
@@ -201,12 +203,12 @@ ve_hig_dialog_new (GtkWindow      *parent,
 		
 		case GTK_BUTTONS_OK_CANCEL:
 	
-			button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+			button = gtk_button_new_with_mnemonic (_("_Cancel"));
   			gtk_widget_show (button);
   			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_CANCEL);
 			gtk_widget_set_can_default (button, TRUE);
 
-		  	button = gtk_button_new_from_stock (GTK_STOCK_OK);
+			button = gtk_button_new_with_mnemonic (_("_OK"));
   			gtk_widget_show (button);
   			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
 			gtk_widget_set_can_default (button, TRUE);
@@ -337,9 +339,7 @@ ve_dialog_run_nonmodal (GtkDialog *dialog)
   
   ri.loop = g_main_loop_new (NULL, FALSE);
 
-  GDK_THREADS_LEAVE ();  
   g_main_loop_run (ri.loop);
-  GDK_THREADS_ENTER ();  
 
   g_main_loop_unref (ri.loop);
 

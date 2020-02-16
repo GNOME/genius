@@ -26,7 +26,6 @@
 #include "gtkplot.h"
 #include "gtkplotcanvas.h"
 #include "gtkplotcanvastext.h"
-#include "gtkplotgdk.h"
 #include "gtkplotps.h"
 
 /**
@@ -46,7 +45,7 @@ enum {
 };
 
 static void gtk_plot_canvas_text_init		(GtkPlotCanvasText *text);
-static void gtk_plot_canvas_text_destroy	(GtkObject *object);
+static void gtk_plot_canvas_text_destroy	(GtkWidget *object);
 static void gtk_plot_canvas_text_class_init(GtkPlotCanvasChildClass *klass);
 static void gtk_plot_canvas_text_draw 		(GtkPlotCanvas *canvas,
 						 GtkPlotCanvasChild *child);
@@ -100,7 +99,7 @@ gtk_plot_canvas_text_get_type (void)
  */
 GtkPlotCanvasChild*
 gtk_plot_canvas_text_new (const gchar *font, gint height, gint angle,
-                          const GdkColor *fg, const GdkColor *bg,
+                          const GdkRGBA *fg, const GdkRGBA *bg,
                           gboolean transparent,
                           GtkJustification justification,
                           const gchar *real_text)
@@ -147,8 +146,8 @@ gtk_plot_canvas_text_init (GtkPlotCanvasText *text)
   text_attr = &text->text;
 
   text_attr->angle = 0;
-  gdk_color_black(gdk_colormap_get_system(), &text_attr->fg);
-  gdk_color_white(gdk_colormap_get_system(), &text_attr->bg);
+  gdk_rgba_parse(&text_attr->fg, "black");
+  gdk_rgba_parse(&text_attr->bg, "white");
   text_attr->justification = GTK_JUSTIFY_LEFT;
   text_attr->transparent = TRUE;
   text_attr->border = 0;
@@ -163,7 +162,7 @@ gtk_plot_canvas_text_init (GtkPlotCanvasText *text)
 static void
 gtk_plot_canvas_text_class_init (GtkPlotCanvasChildClass *klass)
 {
-  GtkObjectClass *object_class = (GtkObjectClass *)klass;
+  GtkWidgetClass *object_class = (GtkWidgetClass *)klass;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
   parent_class = g_type_class_ref (gtk_plot_canvas_child_get_type ());
@@ -226,7 +225,7 @@ gtk_plot_canvas_text_set_property (GObject      *object,
 
 
 static void
-gtk_plot_canvas_text_destroy (GtkObject *object)
+gtk_plot_canvas_text_destroy (GtkWidget *object)
 {
   GtkPlotCanvasText *text = GTK_PLOT_CANVAS_TEXT(object);
 
@@ -319,7 +318,7 @@ gtk_plot_canvas_text_size_allocate(GtkPlotCanvas *canvas, GtkPlotCanvasChild *ch
 void
 gtk_plot_canvas_text_set_attributes(GtkPlotCanvasText *text,
 			  const gchar *font, gint height, gint angle,
-                          const GdkColor *fg, const GdkColor *bg,
+                          const GdkRGBA *fg, const GdkRGBA *bg,
                           gboolean transparent,
                           GtkJustification justification,
                           const gchar *real_text)

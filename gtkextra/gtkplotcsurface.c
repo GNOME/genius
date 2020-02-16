@@ -66,7 +66,7 @@ typedef struct
 
 static void gtk_plot_csurface_class_init 	(GtkPlotCSurfaceClass *klass);
 static void gtk_plot_csurface_init 		(GtkPlotCSurface *data);
-static void gtk_plot_csurface_destroy 		(GtkObject *object);
+static void gtk_plot_csurface_destroy 		(GtkWidget *object);
 static void gtk_plot_csurface_get_property         (GObject      *object,
                                                  guint            prop_id,
                                                  GValue          *value,
@@ -90,8 +90,8 @@ static void gtk_plot_csurface_draw_lines	(GtkPlotData *data);
 static void gtk_plot_csurface_draw_polygons 	(GtkPlotSurface *surface);
 static void gtk_plot_csurface_real_draw_polygons (GtkPlotSurface *surface,
 						 GtkPlotProjection p);
-static void gtk_plot_csurface_lighting 		(GdkColor *a, 
-						 GdkColor *b, 
+static void gtk_plot_csurface_lighting 		(GdkRGBA *a,
+						 GdkRGBA *b,
 						 gdouble normal,
 						 gdouble ambient);
 static void clear_polygons			(GtkPlotCSurface *surface);
@@ -145,14 +145,14 @@ gtk_plot_csurface_get_type (void)
 static void
 gtk_plot_csurface_class_init (GtkPlotCSurfaceClass *klass)
 {
-  GtkObjectClass *object_class;
+  GtkWidgetClass *object_class;
   GtkPlotDataClass *data_class;
   GtkPlotSurfaceClass *surface_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
   parent_class = g_type_class_ref (gtk_plot_surface_get_type ());
 
-  object_class = (GtkObjectClass *) klass;
+  object_class = (GtkWidgetClass *) klass;
   data_class = (GtkPlotDataClass *) klass;
   surface_class = (GtkPlotSurfaceClass *) klass;
 
@@ -303,7 +303,7 @@ gtk_plot_csurface_set_property (GObject      *object,
         data->levels_line.line_width = g_value_get_double(value);
         break;
       case ARG_LEVELS_COLOR:
-        data->levels_line.color = *((GdkColor *)g_value_get_pointer(value));
+        data->levels_line.color = *((GdkRGBA *)g_value_get_pointer(value));
         break;
       case ARG_SUBLEVELS_STYLE:
         data->sublevels_line.line_style = g_value_get_int(value);
@@ -312,7 +312,7 @@ gtk_plot_csurface_set_property (GObject      *object,
         data->sublevels_line.line_width = g_value_get_double(value);
         break;
       case ARG_SUBLEVELS_COLOR:
-        data->sublevels_line.color = *((GdkColor *)g_value_get_pointer(value));
+        data->sublevels_line.color = *((GdkRGBA *)g_value_get_pointer(value));
         break;
     }
 }
@@ -362,7 +362,7 @@ gtk_plot_csurface_get_property (GObject      *object,
 static void
 update_data (GtkPlotData *data)
 {
-  GTK_PLOT_SURFACE_CLASS(GTK_OBJECT_GET_CLASS(GTK_OBJECT(data)))->build_polygons(GTK_PLOT_SURFACE(data));
+  GTK_PLOT_SURFACE_CLASS(GTK_WIDGET_GET_CLASS(GTK_WIDGET(data)))->build_polygons(GTK_PLOT_SURFACE(data));
   data->redraw_pending = TRUE;
 }
 
@@ -397,7 +397,7 @@ gtk_plot_csurface_init (GtkPlotCSurface *dataset)
 }
 
 static void 
-gtk_plot_csurface_destroy 		(GtkObject *object)
+gtk_plot_csurface_destroy 		(GtkWidget *object)
 {
   GtkPlotCSurface *surface;
 
@@ -405,7 +405,7 @@ gtk_plot_csurface_destroy 		(GtkObject *object)
 
   clear_polygons(surface);
 
-  GTK_OBJECT_CLASS(parent_class)->destroy(object);
+  GTK_WIDGET_CLASS(parent_class)->destroy(object);
 }
 
 GtkWidget*
@@ -641,7 +641,7 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
   GtkPlotCSurface *csurface = GTK_PLOT_CSURFACE(data);
   GtkPlot *plot = GTK_PLOT(data->plot);
   GtkPlotPoint *contour = NULL;
-  GdkColor color;
+  GdkRGBA color;
   //gboolean closed;
   gint n1;
   GList *list, *lines = NULL;
@@ -984,8 +984,8 @@ gtk_plot_csurface_real_draw_polygons (GtkPlotSurface *surface, GtkPlotProjection
   GtkPlotPoint t[4];
   GtkPlotDTtriangle *triangle;
   GtkPlotVector points[3], side[3], light, normal;
-  GdkColor color;
-  GdkColor real_color;
+  GdkRGBA color;
+  GdkRGBA real_color;
   gdouble factor, norm;
   GList *list;
 
@@ -1680,7 +1680,7 @@ gtk_plot_csurface_draw_legend(GtkPlotData *data, gint x, gint y)
 }
 
 static void
-gtk_plot_csurface_lighting (GdkColor *a, GdkColor *b, 
+gtk_plot_csurface_lighting (GdkRGBA *a, GdkRGBA *b,
                            gdouble normal, gdouble ambient)
 {
   gdouble red, green, blue;
@@ -1771,10 +1771,6 @@ hsv_to_rgb (gdouble  h, gdouble  s, gdouble  v,
           break;
       }
     }
-
-  *r *= 65535.;
-  *g *= 65535.;
-  *b *= 65535.;
 }
 
 static void
@@ -1782,10 +1778,6 @@ rgb_to_hsv (gdouble  r, gdouble  g, gdouble  b,
             gdouble *h, gdouble *s, gdouble *v)
 {
   double max, min, delta;
-
-  r /= 65535.;
-  g /= 65535.;
-  b /= 65535.;
 
   max = r;
   if (g > max)
@@ -1898,7 +1890,7 @@ void
 gtk_plot_csurface_set_levels_attributes (GtkPlotCSurface *dataset,
                                         GtkPlotLineStyle style,
                                         gfloat width,
-                                        const GdkColor *color)
+                                        const GdkRGBA *color)
 {
   dataset->levels_line.line_style = style;
   dataset->levels_line.line_width = width;
@@ -1918,7 +1910,7 @@ void
 gtk_plot_csurface_set_sublevels_attributes (GtkPlotCSurface *dataset,
                                         GtkPlotLineStyle style,
                                         gfloat width,
-                                        const GdkColor *color)
+                                        const GdkRGBA *color)
 {
   dataset->sublevels_line.line_style = style;
   dataset->sublevels_line.line_width = width;
@@ -1938,7 +1930,7 @@ void
 gtk_plot_csurface_get_levels_attributes (GtkPlotCSurface *dataset,
                                         GtkPlotLineStyle *style,
                                         gfloat *width,
-                                        GdkColor *color)
+                                        GdkRGBA *color)
 {
   *style = dataset->levels_line.line_style;
   *width = dataset->levels_line.line_width;
@@ -1958,7 +1950,7 @@ void
 gtk_plot_csurface_get_sublevels_attributes (GtkPlotCSurface *dataset,
                                            GtkPlotLineStyle *style,
                                            gfloat *width,
-                                           GdkColor *color)
+                                           GdkRGBA *color)
 {
   *style = dataset->sublevels_line.line_style;
   *width = dataset->sublevels_line.line_width;

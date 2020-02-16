@@ -69,14 +69,14 @@ struct _GtkPlotPSClass
 };
 
 GType      gtk_plot_ps_get_type                        (void);
-GtkObject *gtk_plot_ps_new                             (const gchar *psname,
+GtkWidget *gtk_plot_ps_new                             (const gchar *psname,
                                                         gint orientation,
                                                         gint epsflag,
                                                         gint page_size,
 							gdouble scalex,
 							gdouble scaley);
 
-GtkObject *gtk_plot_ps_new_with_size                   (const gchar *psname,
+GtkWidget *gtk_plot_ps_new_with_size                   (const gchar *psname,
                                                         gint orientation,
                                                         gint epsflag,
                                                         gint units,

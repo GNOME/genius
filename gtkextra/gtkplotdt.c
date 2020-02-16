@@ -42,7 +42,7 @@ typedef struct {
 
 static void 	gtk_plot_dt_class_init 		(GtkPlotDTClass *klass);
 static void 	gtk_plot_dt_init 		(GtkPlotDT *data);
-static void 	gtk_plot_dt_destroy		(GtkObject *object);
+static void 	gtk_plot_dt_destroy		(GtkWidget *object);
 static gboolean	gtk_plot_dt_real_add_node	(GtkPlotDT *dt,
 						 GtkPlotDTnode node);
 static GtkPlotDTnode *gtk_plot_dt_real_get_node	(GtkPlotDT *dt,
@@ -52,7 +52,7 @@ static void	gtk_plot_dt_real_clear		(GtkPlotDT *dt);
 static gboolean	gtk_plot_dt_triangulate_tryquad	(GtkPlotDT *dt);
 static void 	gtk_plot_dt_clear_triangles	(GtkPlotDT *data);
 
-static GtkObjectClass *parent_class = NULL;
+static GtkWidgetClass *parent_class = NULL;
 
 
 GType
@@ -63,7 +63,7 @@ gtk_plot_dt_get_type (void)
   if (!data_type)
     {
       data_type = g_type_register_static_simple (
-		gtk_object_get_type(),
+		gtk_widget_get_type(),
 		"GtkPlotDT",
 		sizeof (GtkPlotDTClass),
 		(GClassInitFunc) gtk_plot_dt_class_init,
@@ -77,12 +77,12 @@ gtk_plot_dt_get_type (void)
 static void
 gtk_plot_dt_class_init (GtkPlotDTClass *klass)
 {
-  GtkObjectClass *object_class;
+  GtkWidgetClass *object_class;
   GtkPlotDTClass *dt_class;
 
-  parent_class = g_type_class_ref (gtk_object_get_type ());
+  parent_class = g_type_class_ref (gtk_widget_get_type ());
 
-  object_class = (GtkObjectClass *) klass;
+  object_class = (GtkWidgetClass *) klass;
   dt_class = (GtkPlotDTClass *) klass;
 
   object_class->destroy = gtk_plot_dt_destroy;
@@ -131,10 +131,10 @@ gtk_plot_dt_expand(GtkPlotDT *data, gint num)
  *
  * Return value:
  */
-GtkObject*
+GtkWidget*
 gtk_plot_dt_new (gint num)
 {
-  GtkObject *object;
+  GtkWidget *object;
 
   object = g_object_new (gtk_plot_dt_get_type (), NULL);
 
@@ -160,7 +160,7 @@ gtk_plot_dt_init (GtkPlotDT *data)
 }
 
 static void 
-gtk_plot_dt_destroy(GtkObject *object)
+gtk_plot_dt_destroy(GtkWidget *object)
 {
   GtkPlotDT *data;
 
@@ -180,7 +180,7 @@ gtk_plot_dt_destroy(GtkObject *object)
 void 
 gtk_plot_dt_clear(GtkPlotDT *data)
 {
-  GTK_PLOT_DT_CLASS(GTK_OBJECT_GET_CLASS(GTK_OBJECT(data)))->clear(data);
+  GTK_PLOT_DT_CLASS(GTK_WIDGET_GET_CLASS(GTK_WIDGET(data)))->clear(data);
 }
 
 /**
@@ -194,7 +194,7 @@ gtk_plot_dt_clear(GtkPlotDT *data)
 gboolean 
 gtk_plot_dt_add_node(GtkPlotDT *data, GtkPlotDTnode node)
 {
-  return(GTK_PLOT_DT_CLASS(GTK_OBJECT_GET_CLASS(GTK_OBJECT(data)))->add_node(data, node));
+  return(GTK_PLOT_DT_CLASS(GTK_WIDGET_GET_CLASS(GTK_WIDGET(data)))->add_node(data, node));
 }
 
 /**
@@ -207,7 +207,7 @@ gtk_plot_dt_add_node(GtkPlotDT *data, GtkPlotDTnode node)
 GtkPlotDTnode * 
 gtk_plot_dt_get_node(GtkPlotDT *data, gint idx)
 {
-  return(GTK_PLOT_DT_CLASS(GTK_OBJECT_GET_CLASS(GTK_OBJECT(data)))->get_node(data, idx));
+  return(GTK_PLOT_DT_CLASS(GTK_WIDGET_GET_CLASS(GTK_WIDGET(data)))->get_node(data, idx));
 }
 
 /**
@@ -221,7 +221,7 @@ gtk_plot_dt_get_node(GtkPlotDT *data, gint idx)
 gboolean 
 gtk_plot_dt_triangulate(GtkPlotDT *data)
 {
-  return(GTK_PLOT_DT_CLASS(GTK_OBJECT_GET_CLASS(GTK_OBJECT(data)))->triangulate(data));
+  return(GTK_PLOT_DT_CLASS(GTK_WIDGET_GET_CLASS(GTK_WIDGET(data)))->triangulate(data));
 }
 
 static void 

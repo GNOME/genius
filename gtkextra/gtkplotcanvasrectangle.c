@@ -33,7 +33,6 @@
 #include "gtkplot.h"
 #include "gtkplotcanvas.h"
 #include "gtkplotcanvasrectangle.h"
-#include "gtkplotgdk.h"
 #include "gtkplotps.h"
 
 #define P_(string) string
@@ -139,7 +138,7 @@ gtk_plot_canvas_rectangle_set_property (GObject      *object,
       rectangle->shadow_width = g_value_get_int(value);
       break;
     case ARG_BG:
-      rectangle->bg = *((GdkColor *)g_value_get_pointer(value));
+      rectangle->bg = *((GdkRGBA *)g_value_get_pointer(value));
       break;
   }
 }
@@ -147,8 +146,8 @@ gtk_plot_canvas_rectangle_set_property (GObject      *object,
 GtkPlotCanvasChild*
 gtk_plot_canvas_rectangle_new (GtkPlotLineStyle style,
                           gfloat width,
-                          const GdkColor *fg,
-                          const GdkColor *bg,
+                          const GdkRGBA *fg,
+                          const GdkRGBA *bg,
 			  GtkPlotBorderStyle border,
                           gboolean fill)
 {
@@ -168,8 +167,8 @@ gtk_plot_canvas_rectangle_new (GtkPlotLineStyle style,
 static void
 gtk_plot_canvas_rectangle_init (GtkPlotCanvasRectangle *rectangle)
 {
-  gdk_color_black(gdk_colormap_get_system(), &rectangle->line.color);
-  gdk_color_white(gdk_colormap_get_system(), &rectangle->bg);
+  gdk_rgba_parse(&rectangle->line.color, "black");
+  gdk_rgba_parse(&rectangle->bg, "white");
 
   rectangle->line.line_style = GTK_PLOT_LINE_SOLID;
   rectangle->line.line_width = 0;
@@ -328,8 +327,8 @@ void
 gtk_plot_canvas_rectangle_set_attributes(GtkPlotCanvasRectangle *rectangle,
                                     	 GtkPlotLineStyle style,
                                      	 gfloat width,
-                                         const GdkColor *fg,
-                                         const GdkColor *bg,
+                                         const GdkRGBA *fg,
+                                         const GdkRGBA *bg,
                                          GtkPlotBorderStyle border,
 					 gboolean fill)
 {

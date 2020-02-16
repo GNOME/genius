@@ -44,8 +44,8 @@ struct _GtkPlotPixmap
 {
   GtkPlotData data;
  
-  GdkPixmap *pixmap;
-  GdkBitmap *mask;
+  cairo_surface_t *pixmap;
+  cairo_pattern_t *mask;
 };
 
 struct _GtkPlotPixmapClass
@@ -55,15 +55,15 @@ struct _GtkPlotPixmapClass
 
 
 GType		gtk_plot_pixmap_get_type	(void);
-GtkWidget*	gtk_plot_pixmap_new		(GdkPixmap *pixmap,
-						 GdkBitmap *mask);
+GtkWidget*	gtk_plot_pixmap_new		(cairo_surface_t *pixmap,
+						 cairo_pattern_t *mask);
 
 void		gtk_plot_pixmap_construct	(GtkPlotPixmap *data, 
-					         GdkPixmap *pixmap,
-					         GdkBitmap *mask);
+					         cairo_surface_t *pixmap,
+					         cairo_pattern_t *mask);
 
-GdkPixmap*	gtk_plot_pixmap_get_pixmap  	(GtkPlotPixmap *pixmap);
-GdkBitmap*	gtk_plot_pixmap_get_mask    	(GtkPlotPixmap *pixmap);
+cairo_surface_t*	gtk_plot_pixmap_get_pixmap  	(GtkPlotPixmap *pixmap);
+cairo_pattern_t*	gtk_plot_pixmap_get_mask    	(GtkPlotPixmap *pixmap);
 
 #ifdef __cplusplus
 }

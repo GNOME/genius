@@ -26,7 +26,6 @@
 #include "gtkplot.h"
 #include "gtkplotcanvas.h"
 #include "gtkplotcanvasellipse.h"
-#include "gtkplotgdk.h"
 #include "gtkplotps.h"
 
 /**
@@ -51,7 +50,8 @@ static void gtk_plot_canvas_ellipse_init	(GtkPlotCanvasEllipse *ellipse);
 static void gtk_plot_canvas_ellipse_class_init  (GtkPlotCanvasChildClass *klass);
 static void gtk_plot_canvas_ellipse_draw 	(GtkPlotCanvas *canvas,
 						 GtkPlotCanvasChild *child);
-static void gtk_plot_canvas_ellipse_select	(GtkPlotCanvas *canvas, 
+static void gtk_plot_canvas_ellipse_select	(cairo_t *cr,
+						 GtkPlotCanvas *canvas,
 						 GtkPlotCanvasChild *child, 
 						 GtkAllocation area);
 static void gtk_plot_canvas_ellipse_move	(GtkPlotCanvas *canvas,
@@ -96,8 +96,8 @@ gtk_plot_canvas_ellipse_get_type (void)
 GtkPlotCanvasChild*
 gtk_plot_canvas_ellipse_new (GtkPlotLineStyle style,
                           gfloat width,
-                          const GdkColor *fg,
-                          const GdkColor *bg,
+                          const GdkRGBA *fg,
+                          const GdkRGBA *bg,
                           gboolean fill)
 {
   GtkPlotCanvasEllipse *ellipse;
@@ -115,8 +115,8 @@ gtk_plot_canvas_ellipse_new (GtkPlotLineStyle style,
 static void
 gtk_plot_canvas_ellipse_init (GtkPlotCanvasEllipse *ellipse)
 {
-  gdk_color_black(gdk_colormap_get_system(), &ellipse->line.color);
-  gdk_color_white(gdk_colormap_get_system(), &ellipse->bg);
+  gdk_rgba_parse(&ellipse->line.color, "black");
+  gdk_rgba_parse(&ellipse->bg, "white");
 
   ellipse->line.line_style = GTK_PLOT_LINE_SOLID;
   ellipse->line.line_width = 0;
@@ -215,7 +215,7 @@ gtk_plot_canvas_ellipse_set_property (GObject      *object,
       ellipse->filled = g_value_get_boolean(value);
       break;
     case ARG_BG:
-      ellipse->bg = *((GdkColor *)g_value_get_pointer(value));
+      ellipse->bg = *((GdkRGBA *)g_value_get_pointer(value));
       break;
   }
 }
@@ -245,60 +245,47 @@ gtk_plot_canvas_ellipse_draw 		(GtkPlotCanvas *canvas,
 }
 
 static void
-draw_marker(GtkPlotCanvas *canvas, GdkGC *gc, gint x, gint y)
+draw_marker(GtkPlotCanvas *canvas, cairo_t *cr, gint x, gint y)
 {
-  GdkDrawable *darea;
-                                                                                
-  darea = gtk_widget_get_window(GTK_WIDGET(canvas));
-                                                                                
-  gdk_draw_rectangle(darea, gc, TRUE,
-                     x - DEFAULT_MARKER_SIZE / 2, y - DEFAULT_MARKER_SIZE / 2,
-                     DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
+  cairo_rectangle(cr,
+                  x - DEFAULT_MARKER_SIZE / 2, y - DEFAULT_MARKER_SIZE / 2,
+                  DEFAULT_MARKER_SIZE + 1, DEFAULT_MARKER_SIZE + 1);
+  cairo_fill(cr);
 }
 
 static void
-gtk_plot_canvas_ellipse_select(GtkPlotCanvas *canvas, GtkPlotCanvasChild *child, GtkAllocation area)
+gtk_plot_canvas_ellipse_select(cairo_t *cr, GtkPlotCanvas *canvas, GtkPlotCanvasChild *child, GtkAllocation area)
 {
-  GdkGC *xor_gc = NULL;
-  GdkGCValues values;
-  
-  gdk_gc_get_values(gtk_widget_get_style(GTK_WIDGET(canvas))->fg_gc[0], &values);
-  values.function = GDK_INVERT;
-  values.foreground = gtk_widget_get_style(GTK_WIDGET(canvas))->white;
-  values.subwindow_mode = GDK_INCLUDE_INFERIORS;
-  xor_gc = gdk_gc_new_with_values(gtk_widget_get_window(GTK_WIDGET(canvas)),
-                                  &values,
-                                  GDK_GC_FOREGROUND |
-                                  GDK_GC_FUNCTION |
-                                  GDK_GC_SUBWINDOW);
+  const double dashes[] = { 5., 5. };
 
-  gdk_draw_rectangle (gtk_widget_get_window(GTK_WIDGET(canvas)),
-                      xor_gc,
-                      FALSE,
-                      area.x, area.y,
-                      area.width, area.height);
-  draw_marker(canvas, xor_gc, area.x, area.y);
-  draw_marker(canvas, xor_gc, area.x, area.y + area.height);
-  draw_marker(canvas, xor_gc, area.x + area.width, area.y);
-  draw_marker(canvas, xor_gc, area.x + area.width, area.y + area.height);
+  cairo_set_source_rgb(cr, 0, 0, 0);
+
+  cairo_rectangle(cr, area.x, area.y, area.width, area.height);
+  cairo_stroke(cr);
+  draw_marker(canvas, cr, area.x, area.y);
+  draw_marker(canvas, cr, area.x, area.y + area.height);
+  draw_marker(canvas, cr, area.x + area.width, area.y);
+  draw_marker(canvas, cr, area.x + area.width, area.y + area.height);
   if(area.height > DEFAULT_MARKER_SIZE * 2){
-    draw_marker(canvas, xor_gc, area.x, area.y + area.height / 2);
-    draw_marker(canvas, xor_gc, area.x + area.width,
+    draw_marker(canvas, cr, area.x, area.y + area.height / 2);
+    draw_marker(canvas, cr, area.x + area.width,
                                 area.y + area.height / 2);
   }
   if(area.width > DEFAULT_MARKER_SIZE * 2){
-    draw_marker(canvas, xor_gc, area.x + area.width / 2, area.y);
-    draw_marker(canvas, xor_gc, area.x + area.width / 2,
+    draw_marker(canvas, cr, area.x + area.width / 2, area.y);
+    draw_marker(canvas, cr, area.x + area.width / 2,
                                 area.y + area.height);
   }
 
-  gdk_gc_set_line_attributes(xor_gc, 1, 1, 0, 0);
-  gdk_draw_arc (gtk_widget_get_window(GTK_WIDGET(canvas)), xor_gc,
-                FALSE,
-                roundint(area.x), roundint(area.y),
-                roundint(area.width), roundint(area.height), 0, 25000);
-
-  if(xor_gc) gdk_gc_unref(xor_gc);
+  cairo_set_line_width(cr, 1);
+  cairo_set_dash(cr, dashes, 2, 0);
+  cairo_save(cr);
+  cairo_translate(cr, roundint (area.x) + roundint (area.width) / 2,
+                  roundint (area.y) + roundint (area.height) / 2);
+  cairo_scale(cr, roundint (area.width) / 2, roundint (area.height) / 2);
+  cairo_arc(cr, 0, 0, 1, 0, 2 * M_PI);
+  cairo_restore(cr);
+  cairo_stroke(cr);
 }
 
 
@@ -334,8 +321,8 @@ void
 gtk_plot_canvas_ellipse_set_attributes	(GtkPlotCanvasEllipse *ellipse,
                                     	 GtkPlotLineStyle style,
 					 gdouble width,
-                                         const GdkColor *fg,
-                                         const GdkColor *bg,
+                                         const GdkRGBA *fg,
+                                         const GdkRGBA *bg,
                                          gboolean fill)
 {
   if(fg) ellipse->line.color = *fg;

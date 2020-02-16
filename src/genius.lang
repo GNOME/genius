@@ -1,67 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE language SYSTEM "language.dtd">
-<language _name="Genius" version="1.0" _section="Scripts" mimetypes="text/x-genius">
-	
-	<escape-char>\</escape-char>
+<language id="genius" _name="Genius" version="2.0" _section="Script">
 
-	<string _name = "String" style = "String" end-at-line-end = "TRUE">
-		<start-regex>&quot;</start-regex>
-		<end-regex>&quot;</end-regex>
-	</string>
+<metadata>
+  <property name="mimetypes">text/x-genius</property>
+  <property name="globs">*.gel</property>
+</metadata>
 
-	<line-comment _name = "Line Comment" style= "Comment">
-		<start-regex>#</start-regex>
-	</line-comment>
+<styles>
+  <style id="escaped-character" name="Escaped Character" map-to="def:special-char"/>
+  <style id="comment" name="Line Comment" map-to="def:comment"/>
+  <style id="keyword" name="Keyword" map-to="def:keyword"/>
+  <style id="command" name="Command" map-to="def:function"/>
+  <style id="string" name="String" map-to="def:string"/>
+</styles>
 
-	<pattern-item _name = "Base-N Integers" style = "Base-N Integer">
-		<regex>\b(([1-3][0-9]|[1-9])\\[0-9a-zA-Z]+|0x[0-9a-fA-F]+|0[0-7]+)\b</regex>
-	</pattern-item>
+<definitions>
+  <context id="genius">
+    <include>
+      <context id="string" end-at-line-end="true" style-ref="string">
+        <start>"</start>
+        <end>"</end>
+        <include>
+          <context id="escape" style-ref="escaped-character">
+            <match>\\</match>
+          </context>
+        </include>
+      </context>
 
-	<pattern-item _name = "Decimal Integers" style = "Decimal">
-		<regex>\b([1-9][0-9]*|0)\b</regex>
-	</pattern-item>
+      <context id="comment" style-ref="comment">
+        <start>#</start>
+        <end>$</end>
+      </context>
 
-	<pattern-item _name = "Floats" style = "Floating Point">
-		<regex>\b([0-9]*\.[0-9]+[eE@][-+]?[0-9]+|[0-9]+[eE@][-+]?[0-9]+|[0-9]*\.[0-9]+)\b</regex>
-	</pattern-item>
+      <context ref="def:decimal"/>
+      <context ref="def:float"/>
 
-	<keyword-list _name = "Commands" style = "Others" case-sensitive="TRUE"
-		beginning-regex = "^">
-		<keyword>load</keyword>
-		<keyword>plugin</keyword>
-		<keyword>cd</keyword>
-		<keyword>ls</keyword>
-		<keyword>pwd</keyword>
-		<keyword>help</keyword>
-	</keyword-list>
+      <context id="command" style-ref="command">
+        <prefix>^</prefix>
+	<keyword>load</keyword>
+	<keyword>plugin</keyword>
+	<keyword>cd</keyword>
+	<keyword>ls</keyword>
+	<keyword>pwd</keyword>
+	<keyword>help</keyword>
+      </context>
 
-	<keyword-list _name = "Keywords" style = "Keyword" case-sensitive="TRUE">
-		<keyword>not</keyword>
-		<keyword>and</keyword>
-		<keyword>xor</keyword>
-		<keyword>or</keyword>
-		<keyword>while</keyword>
-		<keyword>until</keyword>
-		<keyword>for</keyword>
-		<keyword>sum</keyword>
-		<keyword>prod</keyword>
-		<keyword>do</keyword>
-		<keyword>to</keyword>
-		<keyword>by</keyword>
-		<keyword>in</keyword>
-		<keyword>if</keyword>
-		<keyword>then</keyword>
-		<keyword>else</keyword>
-		<keyword>function</keyword>
-		<keyword>parameter</keyword>
-		<keyword>call</keyword>
-		<keyword>return</keyword>
-		<keyword>bailout</keyword>
-		<keyword>exception</keyword>
-		<keyword>continue</keyword>
-		<keyword>break</keyword>
-		<keyword>mod</keyword>
-		<keyword>null</keyword>
-	</keyword-list>
-
+      <context id="keyword" style-ref="keyword">
+	<keyword>not</keyword>
+	<keyword>and</keyword>
+	<keyword>xor</keyword>
+	<keyword>or</keyword>
+	<keyword>while</keyword>
+	<keyword>until</keyword>
+	<keyword>for</keyword>
+	<keyword>sum</keyword>
+	<keyword>prod</keyword>
+	<keyword>do</keyword>
+	<keyword>to</keyword>
+	<keyword>by</keyword>
+	<keyword>in</keyword>
+	<keyword>if</keyword>
+	<keyword>then</keyword>
+	<keyword>else</keyword>
+	<keyword>function</keyword>
+	<keyword>parameter</keyword>
+	<keyword>call</keyword>
+	<keyword>return</keyword>
+	<keyword>bailout</keyword>
+	<keyword>exception</keyword>
+	<keyword>continue</keyword>
+	<keyword>break</keyword>
+	<keyword>mod</keyword>
+	<keyword>null</keyword>
+      </context>
+    </include>
+  </context>
+</definitions>
 </language>
