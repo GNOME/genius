@@ -35,14 +35,13 @@
 #include "gtkplotdata.h"
 #include "gtkplotcanvas.h"
 #include "gtkplotcanvasplot.h"
-#include "gtkplotgdk.h"
 #include "gtkplotps.h"
 
 #define DEFAULT_MARKER_SIZE 6
 
 static void gtk_plot_canvas_plot_init		(GtkPlotCanvasPlot *plot);
 static void gtk_plot_canvas_plot_class_init(GtkPlotCanvasChildClass *klass);
-static void gtk_plot_canvas_plot_destroy	(GtkObject *object);
+static void gtk_plot_canvas_plot_destroy	(GtkWidget *object);
 static void gtk_plot_canvas_plot_draw 		(GtkPlotCanvas *canvas,
 						 GtkPlotCanvasChild *child);
 static void gtk_plot_canvas_plot_move		(GtkPlotCanvas *canvas,
@@ -126,7 +125,7 @@ gtk_plot_canvas_plot_init (GtkPlotCanvasPlot *plot)
 static void
 gtk_plot_canvas_plot_class_init (GtkPlotCanvasChildClass *klass)
 {
-  GtkObjectClass *object_class = (GtkObjectClass *)klass;
+  GtkWidgetClass *object_class = (GtkWidgetClass *)klass;
 
   parent_class = g_type_class_ref (gtk_plot_canvas_child_get_type ());
 
@@ -143,13 +142,9 @@ gtk_plot_canvas_plot_class_init (GtkPlotCanvasChildClass *klass)
 }
 
 static void
-gtk_plot_canvas_plot_destroy(GtkObject *object)
+gtk_plot_canvas_plot_destroy(GtkWidget *object)
 {
-  GtkWidget *widget = GTK_WIDGET(GTK_PLOT_CANVAS_PLOT(object)->plot);
-  if (widget != NULL) {
-	  widget->parent = NULL;
-	  g_object_unref(widget);
-  }
+  gtk_widget_destroy(object);
 }
 
 static void 
@@ -226,7 +221,7 @@ gtk_plot_canvas_plot_resize	(GtkPlotCanvas *canvas,
   if(!plot) return;
 
   gtk_plot_move_resize(plot, x1, y1, fabs(x2-x1), fabs(y2-y1));
-  GTK_PLOT_CANVAS_CHILD_CLASS(GTK_OBJECT_GET_CLASS(GTK_OBJECT(child)))->size_allocate(canvas, child);
+  GTK_PLOT_CANVAS_CHILD_CLASS(GTK_WIDGET_GET_CLASS(GTK_WIDGET(child)))->size_allocate(canvas, child);
   gtk_plot_canvas_paint(canvas);
   gtk_plot_canvas_refresh(canvas);
 }
@@ -368,7 +363,7 @@ gtk_plot_canvas_plot_button_release	(GtkPlotCanvas *canvas,
       child->drag_area = canvas->drag_area;
       gtk_plot_move_resize(plot, 
   		           x1, y1, fabs(x2-x1), fabs(y2-y1));
-      GTK_PLOT_CANVAS_CHILD_CLASS(GTK_OBJECT_GET_CLASS(GTK_OBJECT(child)))->size_allocate(canvas, child);
+      GTK_PLOT_CANVAS_CHILD_CLASS(GTK_WIDGET_GET_CLASS(GTK_WIDGET(child)))->size_allocate(canvas, child);
       break;
   }
   gtk_plot_canvas_paint(canvas);
@@ -402,7 +397,7 @@ gtk_plot_canvas_plot_size_allocate	(GtkPlotCanvas *canvas,
       allocation.height = canvas->pixmap_height;
       gtk_widget_set_allocation(GTK_WIDGET(plot), &allocation);
 
-      if(!GTK_WIDGET(plot)->parent) 
+      if(!gtk_widget_get_parent(GTK_WIDGET(plot)))
         gtk_widget_set_parent(GTK_WIDGET(plot), GTK_WIDGET(canvas));
 
       gtk_plot_move_resize(plot, child->rx1, child->ry1, 

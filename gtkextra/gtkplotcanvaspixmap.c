@@ -26,7 +26,6 @@
 #include "gtkplot.h"
 #include "gtkplotcanvas.h"
 #include "gtkplotcanvaspixmap.h"
-#include "gtkplotgdk.h"
 #include "gtkplotps.h"
 
 /**
@@ -46,7 +45,7 @@ enum {
 
 static void gtk_plot_canvas_pixmap_init	(GtkPlotCanvasPixmap *pixmap);
 static void gtk_plot_canvas_pixmap_class_init(GtkPlotCanvasChildClass *klass);
-static void gtk_plot_canvas_pixmap_destroy	(GtkObject *object);
+static void gtk_plot_canvas_pixmap_destroy	(GtkWidget *object);
 static void gtk_plot_canvas_pixmap_draw 	(GtkPlotCanvas *canvas,
 						 GtkPlotCanvasChild *child);
 static void gtk_plot_canvas_pixmap_move	(GtkPlotCanvas *canvas,
@@ -96,7 +95,7 @@ gtk_plot_canvas_pixmap_get_type (void)
  * Return value:
  */
 GtkPlotCanvasChild*
-gtk_plot_canvas_pixmap_new (GdkPixmap *_pixmap, GdkBitmap *mask)
+gtk_plot_canvas_pixmap_new (cairo_surface_t *_pixmap, cairo_pattern_t *mask)
 {
   GtkPlotCanvasPixmap *pixmap;
                                                                                 
@@ -105,8 +104,8 @@ gtk_plot_canvas_pixmap_new (GdkPixmap *_pixmap, GdkBitmap *mask)
   pixmap->pixmap = _pixmap;
   pixmap->mask = mask;
 
-  if(_pixmap) gdk_pixmap_ref(_pixmap);
-  if(mask) gdk_bitmap_ref(mask);
+  if(_pixmap) cairo_surface_reference(_pixmap);
+  if(mask) cairo_pattern_reference(mask);
                                                                                 
   return GTK_PLOT_CANVAS_CHILD (pixmap);
 }
@@ -119,12 +118,12 @@ gtk_plot_canvas_pixmap_init (GtkPlotCanvasPixmap *pixmap)
 }
 
 static void
-gtk_plot_canvas_pixmap_destroy(GtkObject *object)
+gtk_plot_canvas_pixmap_destroy(GtkWidget *object)
 {
   GtkPlotCanvasPixmap *pixmap = GTK_PLOT_CANVAS_PIXMAP(object);
 
-  if(pixmap->pixmap) gdk_pixmap_unref(pixmap->pixmap);
-  if(pixmap->mask) gdk_bitmap_unref(pixmap->mask);
+  if(pixmap->pixmap) cairo_surface_destroy(pixmap->pixmap);
+  if(pixmap->mask) cairo_pattern_destroy(pixmap->mask);
   pixmap->pixmap = NULL;
   pixmap->mask = NULL;
 }
@@ -132,7 +131,7 @@ gtk_plot_canvas_pixmap_destroy(GtkObject *object)
 static void
 gtk_plot_canvas_pixmap_class_init (GtkPlotCanvasChildClass *klass)
 {
-  GtkObjectClass *object_class = (GtkObjectClass *)klass;
+  GtkWidgetClass *object_class = (GtkWidgetClass *)klass;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
   parent_class = g_type_class_ref (gtk_plot_canvas_child_get_type ());
@@ -188,14 +187,14 @@ gtk_plot_canvas_pixmap_set_property (GObject      *object,
                                                                                 
   switch(prop_id){
     case ARG_PIXMAP:
-      if(pixmap->pixmap) gdk_pixmap_unref(pixmap->pixmap);
-      pixmap->pixmap = (GdkPixmap *)g_value_get_pointer(value);
-      if(pixmap->pixmap) gdk_pixmap_ref(pixmap->pixmap);
+      if(pixmap->pixmap) cairo_surface_destroy(pixmap->pixmap);
+      pixmap->pixmap = (cairo_surface_t *)g_value_get_pointer(value);
+      if(pixmap->pixmap) cairo_surface_reference(pixmap->pixmap);
       break;
     case ARG_MASK:
-      if(pixmap->mask) gdk_bitmap_unref(pixmap->mask);
-      pixmap->mask = (GdkBitmap *)g_value_get_pointer(value);
-      if(pixmap->mask) gdk_bitmap_ref(pixmap->mask);
+      if(pixmap->mask) cairo_pattern_destroy(pixmap->mask);
+      pixmap->mask = (cairo_pattern_t *)g_value_get_pointer(value);
+      if(pixmap->mask) cairo_pattern_reference(pixmap->mask);
       break;
   }
 }
@@ -212,7 +211,8 @@ gtk_plot_canvas_pixmap_draw 		(GtkPlotCanvas *canvas,
     gdouble scale_x, scale_y;
     gint width, height;
 
-    gdk_window_get_size(pixmap->pixmap, &width, &height);
+    width = cairo_image_surface_get_width(pixmap->pixmap);
+    height = cairo_image_surface_get_height(pixmap->pixmap);
     scale_x = (gdouble)child->allocation.width / (gdouble)width;
     scale_y = (gdouble)child->allocation.height / (gdouble)height;
 
@@ -225,11 +225,10 @@ gtk_plot_canvas_pixmap_draw 		(GtkPlotCanvas *canvas,
                             scale_x, scale_y);
 
   } else {
-    GdkColormap *colormap = gdk_colormap_get_system();
-    GdkColor black, white;
+    GdkRGBA black, white;
 
-    gdk_color_black(colormap, &black);
-    gdk_color_white(colormap, &white);
+    gdk_rgba_parse(&black, "black");
+    gdk_rgba_parse(&white, "white");
                                                                           
     gtk_plot_pc_set_color(canvas->pc, &white);
     gtk_plot_pc_draw_rectangle(canvas->pc, TRUE,

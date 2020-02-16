@@ -448,46 +448,6 @@ gtk_psfont_get_by_name(const gchar *name)
 }
 
 /**
- * gtk_psfont_get_by_gdkfont:
- * @font: a #GtkPSFont 
- * @height: font height
- * 
- * Get #GdkFOnt by PS Font.
- *  
- * Returns: a #GdkFont pointer.
- */
-GdkFont *
-gtk_psfont_get_gdkfont(GtkPSFont *font, gint height)
-{
-  PangoFontDescription *font_desc;
-  GdkFont *gdkfont;
-
-  g_return_val_if_fail (font != NULL, NULL);
-
-  if (height <= 0) height = 1;
-
-  font_desc = gtk_psfont_get_font_description(font, height);
-  gdkfont = font_desc ? gdk_font_from_description(font_desc) : NULL;
-  if (font_desc)
-    pango_font_description_free(font_desc);
-
-  if (!gdkfont) {
-    font_desc = gtk_psfont_get_font_description(find_psfont(default_font), height);
-    gdkfont = font_desc ? gdk_font_from_description(font_desc) : NULL;
-    if (font_desc)
-      pango_font_description_free(font_desc);
-
-    if (gdkfont)
-      g_message ("Pango font %s %i (PS font %s) not found, using %s instead.",
-		 font->pango_description, height, font->fontname, default_font);
-    else
-      g_warning ("Error, couldn't locate default font. Shouldn't happen.");
-  }
-
-  return gdkfont;
-}
-
-/**
  * gtk_psfont_get_font_description:
  * @font: a #GtkPSFont 
  * @height: font height
@@ -793,51 +753,3 @@ gtk_psfont_get_families(GList **families, gint *num_families)
   *families = psfont_families;
   *num_families = numf;
 }
-
-/* get the width, ascent and descent of a character. */
-
-/**
- * gtk_psfont_get_char_size:
- * @psfont: a #GtkPSFont
- * @font: a #GdkFont
- * @latin_font: a #GdkFont
- * @wc: a #GdkWchar
- * @width: font width
- * @ascent: font ascent
- * @descent: font  descent
- * 
- * Get font character size. 
- */
-void
-gtk_psfont_get_char_size(GtkPSFont *psfont,
-                         GdkFont *font,
-                         GdkFont *latin_font,
-                         GdkWChar wc,
-                         gint *width,
-                         gint *ascent,
-                         gint *descent)
-{
-  GdkFont *dfont;
-  gint w, a, d, w0;
-
-  if (psfont->i18n_latinfamily && psfont->vertical && (0 > wc || wc > 0x7f)) {
-    /* vertical-writing CJK postscript fonts. */
-    w = (font->ascent + font->descent);
-    w0 = gdk_char_width_wc(font, wc);
-    d = w0 * font->descent / w;
-    a = w0 - d;
-  } else {
-    if (psfont->i18n_latinfamily && 0 <= wc && wc <= 0x7f)
-      dfont = latin_font;
-    else
-      dfont = font;
-    w = gdk_char_width_wc(dfont, wc);
-    a = dfont->ascent;
-    d = dfont->descent;
-  }
-
-  if (width != NULL) *width = w;
-  if (ascent != NULL) *ascent = a;
-  if (descent != NULL) *descent = d;
-}
-

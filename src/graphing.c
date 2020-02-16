@@ -421,14 +421,6 @@ init_var_names (void)
 	sp_z_name = g_strdup ("z");
 }
 
-static void
-color_alloc (GdkColor *color)
-{
-	GdkColormap *colormap = gdk_colormap_get_system();
-	gdk_colormap_alloc_color (colormap, color, FALSE /* writable */, TRUE /* best_match */);
-	/* errors? */
-}
-
 /* FIXME: This seems like a rather ugly hack, am I missing something about
  * spinboxes or are they really this stupid */
 static void
@@ -610,19 +602,17 @@ rotate_cb (GtkWidget *item, gpointer data)
 		(_("Rotate") /* title */,
 		 GTK_WINDOW (graph_window) /* parent */,
 		 GTK_DIALOG_MODAL /* flags */,
-		 GTK_STOCK_CLOSE,
+		 _("_Close"),
 		 GTK_RESPONSE_CLOSE,
 		 NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (req),
 					 GTK_RESPONSE_CLOSE);
 
-	gtk_dialog_set_has_separator (GTK_DIALOG (req), FALSE);
-
 	sg = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
 	/* X dir */
 
-	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    hbox, TRUE, TRUE, 0);
 
@@ -637,21 +627,23 @@ rotate_cb (GtkWidget *item, gpointer data)
 	b = gtk_button_new ();
 	gtk_box_pack_start (GTK_BOX (hbox), b, FALSE, FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (b),
-			   gtk_arrow_new (GTK_ARROW_LEFT, GTK_SHADOW_NONE));
+	                   gtk_image_new_from_icon_name ("pan-start-symbolic",
+	                                                 GTK_ICON_SIZE_BUTTON));
 	g_signal_connect (G_OBJECT (b), "clicked",
 			  G_CALLBACK (rotate_x_cb),
 			  GINT_TO_POINTER (360-10));
 	b = gtk_button_new ();
 	gtk_box_pack_start (GTK_BOX (hbox), b, FALSE, FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (b),
-			   gtk_arrow_new (GTK_ARROW_RIGHT, GTK_SHADOW_NONE));
+			   gtk_image_new_from_icon_name ("pan-end-symbolic",
+	                                                 GTK_ICON_SIZE_BUTTON));
 	g_signal_connect (G_OBJECT (b), "clicked",
 			  G_CALLBACK (rotate_x_cb),
 			  GINT_TO_POINTER (10));
 
 	/* Y dir */
 
-	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    hbox, TRUE, TRUE, 0);
 
@@ -666,21 +658,23 @@ rotate_cb (GtkWidget *item, gpointer data)
 	b = gtk_button_new ();
 	gtk_box_pack_start (GTK_BOX (hbox), b, FALSE, FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (b),
-			   gtk_arrow_new (GTK_ARROW_LEFT, GTK_SHADOW_NONE));
+	                   gtk_image_new_from_icon_name ("pan-start-symbolic",
+	                                                 GTK_ICON_SIZE_BUTTON));
 	g_signal_connect (G_OBJECT (b), "clicked",
 			  G_CALLBACK (rotate_y_cb),
 			  GINT_TO_POINTER (360-10));
 	b = gtk_button_new ();
 	gtk_box_pack_start (GTK_BOX (hbox), b, FALSE, FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (b),
-			   gtk_arrow_new (GTK_ARROW_RIGHT, GTK_SHADOW_NONE));
+	                   gtk_image_new_from_icon_name ("pan-end-symbolic",
+	                                                 GTK_ICON_SIZE_BUTTON));
 	g_signal_connect (G_OBJECT (b), "clicked",
 			  G_CALLBACK (rotate_y_cb),
 			  GINT_TO_POINTER (10));
 
 	/* Z dir */
 
-	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    hbox, TRUE, TRUE, 0);
 
@@ -691,14 +685,16 @@ rotate_cb (GtkWidget *item, gpointer data)
 	b = gtk_button_new ();
 	gtk_box_pack_start (GTK_BOX (hbox), b, FALSE, FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (b),
-			   gtk_arrow_new (GTK_ARROW_LEFT, GTK_SHADOW_NONE));
+	                   gtk_image_new_from_icon_name ("pan-start-symbolic",
+	                                                 GTK_ICON_SIZE_BUTTON));
 	g_signal_connect (G_OBJECT (b), "clicked",
 			  G_CALLBACK (rotate_z_cb),
 			  GINT_TO_POINTER (360-10));
 	b = gtk_button_new ();
 	gtk_box_pack_start (GTK_BOX (hbox), b, FALSE, FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (b),
-			   gtk_arrow_new (GTK_ARROW_RIGHT, GTK_SHADOW_NONE));
+	                   gtk_image_new_from_icon_name ("pan-end-symbolic",
+	                                                 GTK_ICON_SIZE_BUTTON));
 	g_signal_connect (G_OBJECT (b), "clicked",
 			  G_CALLBACK (rotate_z_cb),
 			  GINT_TO_POINTER (10));
@@ -834,17 +830,15 @@ plot_print_cb (void)
 		(_("Print") /* title */,
 		 GTK_WINDOW (graph_window) /* parent */,
 		 GTK_DIALOG_MODAL /* flags */,
-		 GTK_STOCK_CANCEL,
+		 _("_Cancel"),
 		 GTK_RESPONSE_CANCEL,
-		 GTK_STOCK_PRINT,
+		 _("_Print"),
 		 GTK_RESPONSE_OK,
 		 NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (req),
 					 GTK_RESPONSE_OK);
 
-	gtk_dialog_set_has_separator (GTK_DIALOG (req), FALSE);
-
-	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (req))),
 			    hbox, TRUE, TRUE, 0);
 
@@ -1153,12 +1147,10 @@ really_export_png_cb (GtkFileChooser *fs, int response, gpointer data)
 		genius_display_error (graph_window, _("Export failed"));
 		return;
 	}
-	pix = gdk_pixbuf_get_from_drawable
-		(NULL /* dest */,
-		 GTK_PLOT_CANVAS (plot_canvas)->pixmap,
-		 NULL /* cmap */,
+
+	pix = gdk_pixbuf_get_from_surface
+		(GTK_PLOT_CANVAS (plot_canvas)->pixmap,
 		 0 /* src x */, 0 /* src y */,
-		 0 /* dest x */, 0 /* dest y */,
 		 GTK_PLOT_CANVAS (plot_canvas)->pixmap_width,
 		 GTK_PLOT_CANVAS (plot_canvas)->pixmap_height);
 
@@ -1212,8 +1204,8 @@ do_export_cb (int export_type)
 	fs = gtk_file_chooser_dialog_new (title,
 					  GTK_WINDOW (graph_window),
 					  GTK_FILE_CHOOSER_ACTION_SAVE,
-					  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					  GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					  _("_Cancel"), GTK_RESPONSE_CANCEL,
+					  _("_Save"), GTK_RESPONSE_OK,
 					  NULL);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (fs), TRUE);
 
@@ -1951,7 +1943,7 @@ solver_cb (GtkWidget *item, gpointer data)
 		(_("Solver") /* title */,
 		 GTK_WINDOW (graph_window) /* parent */,
 		 0 /* flags */,
-		 GTK_STOCK_CLOSE,
+		 _("_Close"),
 		 GTK_RESPONSE_CLOSE,
 		 _("Clea_r solutions"),
 		 RESPONSE_CLEAR,
@@ -1969,9 +1961,7 @@ solver_cb (GtkWidget *item, gpointer data)
 	gtk_dialog_set_default_response (GTK_DIALOG (solver_dialog),
 					 RESPONSE_PLOT);
 
-	gtk_dialog_set_has_separator (GTK_DIALOG (solver_dialog), FALSE);
-
-	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (solver_dialog))),
 			    box, TRUE, TRUE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
@@ -2067,13 +2057,13 @@ static gboolean
 plot_canvas_key_press_event (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
 	switch (event->keyval) {
-	case GDK_Up:
+	case GDK_KEY_Up:
 		lineplot_move_graph (0.0, 0.1);
 		break;
-	case GDK_Down:
+	case GDK_KEY_Down:
 		lineplot_move_graph (0.0, -0.1);
 		break;
-	case GDK_Left:
+	case GDK_KEY_Left:
 		lineplot_move_graph (-0.1, 0.0);
 
 		if (plot_mode == MODE_SURFACE &&
@@ -2085,7 +2075,7 @@ plot_canvas_key_press_event (GtkWidget *widget, GdkEventKey *event, gpointer use
 			gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
 		}
 		break;
-	case GDK_Right:
+	case GDK_KEY_Right:
 		lineplot_move_graph (0.1, 0.0);
 
 		if (plot_mode == MODE_SURFACE &&
@@ -2122,16 +2112,16 @@ ensure_window (gboolean do_window_present)
 		accel_group = gtk_accel_group_new ();
 
 		gtk_accel_map_add_entry ("<Genius-Plot>/Zoom/Zoom out",
-					 GDK_minus,
+					 GDK_KEY_minus,
 					 GDK_CONTROL_MASK);
 		gtk_accel_map_add_entry ("<Genius-Plot>/Zoom/Zoom in",
-					 GDK_plus,
+					 GDK_KEY_plus,
 					 GDK_CONTROL_MASK);
 		gtk_accel_map_add_entry ("<Genius-Plot>/Zoom/Fit dependent axis",
-					 GDK_f,
+					 GDK_KEY_f,
 					 GDK_CONTROL_MASK);
 		gtk_accel_map_add_entry ("<Genius-Plot>/Zoom/Reset to original zoom",
-					 GDK_r,
+					 GDK_KEY_r,
 					 GDK_CONTROL_MASK);
 		first_time = FALSE;
 	}
@@ -2155,9 +2145,9 @@ ensure_window (gboolean do_window_present)
 		(_("Plot") /* title */,
 		 NULL /*GTK_WINDOW (genius_window)*/ /* parent */,
 		 0 /* flags */,
-		 GTK_STOCK_STOP,
+		 _("_Stop"),
 		 RESPONSE_STOP,
-		 GTK_STOCK_CLOSE,
+		 _("_Close"),
 		 GTK_RESPONSE_CLOSE,
 		 NULL);
 	gtk_window_set_type_hint (GTK_WINDOW (graph_window),
@@ -2338,10 +2328,10 @@ ensure_window (gboolean do_window_present)
 			    GTK_WIDGET (plot_canvas), TRUE, TRUE, 0);
 	gtk_widget_show (plot_canvas);
 
-	errors_label_box = gtk_hbox_new (FALSE, GENIUS_PAD);
+	errors_label_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, GENIUS_PAD);
 	gtk_box_pack_start
 		(GTK_BOX (errors_label_box),
-		 GTK_WIDGET (gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_SMALL_TOOLBAR)),
+		 GTK_WIDGET (gtk_image_new_from_icon_name ("dialog-warning", GTK_ICON_SIZE_SMALL_TOOLBAR)),
 		 FALSE, FALSE, 0);
 	gtk_box_pack_start
 		(GTK_BOX (errors_label_box),
@@ -2490,7 +2480,7 @@ plot_setup_axis (void)
 	int xprec, yprec, xstyle, ystyle;
 	double xtick, ytick;
 	GtkPlotAxis *axis;
-	GdkColor gray;
+	GdkRGBA gray;
 	int xfontheight, yfontheight;
 
 	get_ticks (plotx1, plotx2, &xtick, &xprec, &xstyle, &xfontheight);
@@ -2513,8 +2503,7 @@ plot_setup_axis (void)
 				    TRUE /* vmajor */,
 				    FALSE /* vminor */);
 
-	gdk_color_parse ("gray75", &gray);
-	color_alloc (&gray);
+	gdk_rgba_parse (&gray, "gray75");
 
 	gtk_plot_x0line_set_attributes (GTK_PLOT (line_plot),
 					GTK_PLOT_LINE_SOLID,
@@ -3810,7 +3799,7 @@ parametric_get_value (double *x, double *y, double t)
 }
 
 static GtkPlotData *
-draw_line (double *x, double *y, int len, int thickness, GdkColor *color,
+draw_line (double *x, double *y, int len, int thickness, GdkRGBA *color,
 	   char *legend, gboolean filled)
 {
 	GtkPlotData *data;
@@ -3828,12 +3817,10 @@ draw_line (double *x, double *y, int len, int thickness, GdkColor *color,
 		gtk_plot_data_set_legend (data,
 					  legend);
 
-	color_alloc (color); 
-
 	gtk_plot_data_set_line_attributes (data,
 					   GTK_PLOT_LINE_SOLID,
-					   GDK_CAP_ROUND, 
-					   GDK_JOIN_ROUND,
+					   CAIRO_LINE_CAP_ROUND,
+					   CAIRO_LINE_JOIN_ROUND,
 					   thickness, color);
 
 	gtk_plot_data_fill_area (data, filled);
@@ -3848,7 +3835,7 @@ draw_line (double *x, double *y, int len, int thickness, GdkColor *color,
 }
 
 static GtkPlotData *
-draw_points (double *x, double *y, int len, int thickness, GdkColor *color,
+draw_points (double *x, double *y, int len, int thickness, GdkRGBA *color,
 	     char *legend)
 {
 	GtkPlotData *data;
@@ -3866,12 +3853,10 @@ draw_points (double *x, double *y, int len, int thickness, GdkColor *color,
 		gtk_plot_data_set_legend (data,
 					  legend);
 
-	color_alloc (color); 
-
 	gtk_plot_data_set_line_attributes (data,
 					   GTK_PLOT_LINE_SOLID,
-					   GDK_CAP_ROUND, 
-					   GDK_JOIN_ROUND,
+					   CAIRO_LINE_CAP_ROUND,
+					   CAIRO_LINE_JOIN_ROUND,
 					   thickness, color);
 
 	gtk_plot_data_set_connector (data, GTK_PLOT_CONNECT_NONE);
@@ -3886,7 +3871,7 @@ draw_points (double *x, double *y, int len, int thickness, GdkColor *color,
 
 static GtkPlotData *
 draw_surface_line (double *x, double *y, double *z,
-		   int len, int thickness, GdkColor *color, char *legend)
+		   int len, int thickness, GdkRGBA *color, char *legend)
 {
 	GtkPlotData *data;
 
@@ -3908,12 +3893,10 @@ draw_surface_line (double *x, double *y, double *z,
 		gtk_plot_data_set_legend (data,
 					  legend);
 
-	color_alloc (color); 
-
 	gtk_plot_data_set_line_attributes (data,
 					   GTK_PLOT_LINE_SOLID,
-					   GDK_CAP_ROUND, 
-					   GDK_JOIN_ROUND,
+					   CAIRO_LINE_CAP_ROUND,
+					   CAIRO_LINE_JOIN_ROUND,
 					   thickness, color);
 
 	gtk_widget_show (GTK_WIDGET (data));
@@ -3926,7 +3909,7 @@ draw_surface_line (double *x, double *y, double *z,
 
 static GtkPlotData *
 draw_surface_points (double *x, double *y, double *z,
-		     int len, int thickness, GdkColor *color, char *legend)
+		     int len, int thickness, GdkRGBA *color, char *legend)
 {
 	GtkPlotData *data;
 
@@ -3948,12 +3931,10 @@ draw_surface_points (double *x, double *y, double *z,
 		gtk_plot_data_set_legend (data,
 					  legend);
 
-	color_alloc (color); 
-
 	gtk_plot_data_set_line_attributes (data,
 					   GTK_PLOT_LINE_SOLID,
-					   GDK_CAP_ROUND, 
-					   GDK_JOIN_ROUND,
+					   CAIRO_LINE_CAP_ROUND,
+					   CAIRO_LINE_JOIN_ROUND,
 					   thickness, color);
 
 	gtk_plot_data_set_connector (data, GTK_PLOT_CONNECT_NONE);
@@ -4029,7 +4010,7 @@ slopefield_draw_solution (double x, double y, double dx, gboolean is_gui)
 	double cx, cy;
 	int len1, len2, len;
 	int i;
-	GdkColor color;
+	GdkRGBA color;
 	GQueue points1 = G_QUEUE_INIT;
 	GSList *points2 = NULL;
 	GList *li;
@@ -4044,7 +4025,7 @@ slopefield_draw_solution (double x, double y, double dx, gboolean is_gui)
 	gel_calc_running ++;
 	plot_window_setup ();
 
-	gdk_color_parse ("red", &color);
+	gdk_rgba_parse (&color, "red");
 
 	fudgey = (ploty2-ploty1)/100;
 
@@ -4185,7 +4166,7 @@ vectorfield_draw_solution (double x, double y, double dt, double tlen, gboolean 
 	double cx, cy, t;
 	int len;
 	int i;
-	GdkColor color;
+	GdkRGBA color;
 	GtkPlotData *data;
 	gboolean ex;
 
@@ -4199,7 +4180,7 @@ vectorfield_draw_solution (double x, double y, double dt, double tlen, gboolean 
 	gel_calc_running ++;
 	plot_window_setup ();
 
-	gdk_color_parse ("red", &color);
+	gdk_rgba_parse (&color, "red");
 
 	len = (int)(tlen / dt) + 2;
 	xx = g_new0 (double, len);
@@ -4287,7 +4268,7 @@ replot_fields (void)
 	if (slopefield_func != NULL) {
 		get_slopefield_points ();
 		if (plot_points_num > 0) {
-			GdkColor color;
+			GdkRGBA color;
 
 			if (slopefield_data == NULL) {
 				char *label, *tmp;
@@ -4295,13 +4276,12 @@ replot_fields (void)
 				slopefield_data = GTK_PLOT_DATA(gtk_plot_flux_new());
 				gtk_plot_add_data (GTK_PLOT (line_plot),
 						   slopefield_data);
-				gdk_color_parse ("blue", &color);
-				color_alloc (&color);
+				gdk_rgba_parse (&color, "blue");
 				gtk_plot_data_set_line_attributes
 					(slopefield_data,
 					 GTK_PLOT_LINE_NONE,
-					 GDK_CAP_ROUND, 
-					 GDK_JOIN_ROUND,
+					 CAIRO_LINE_CAP_ROUND,
+					 CAIRO_LINE_JOIN_ROUND,
 					 1 /* thickness */,
 					 &color);
 				gtk_plot_data_set_symbol (slopefield_data,
@@ -4353,7 +4333,7 @@ replot_fields (void)
 	if (vectorfield_func_x != NULL && vectorfield_func_y != NULL) {
 		get_vectorfield_points ();
 		if (plot_points_num > 0) {
-			GdkColor color;
+			GdkRGBA color;
 
 			if (vectorfield_data == NULL) {
 				char *l1, *l2, *tmp;
@@ -4361,13 +4341,12 @@ replot_fields (void)
 				vectorfield_data = GTK_PLOT_DATA(gtk_plot_flux_new());
 				gtk_plot_add_data (GTK_PLOT (line_plot),
 						   vectorfield_data);
-				gdk_color_parse ("blue", &color);
-				color_alloc (&color);
+				gdk_rgba_parse (&color, "blue");
 				gtk_plot_data_set_line_attributes
 					(vectorfield_data,
 					 GTK_PLOT_LINE_NONE,
-					 GDK_CAP_ROUND, 
-					 GDK_JOIN_ROUND,
+					 CAIRO_LINE_CAP_ROUND,
+					 CAIRO_LINE_JOIN_ROUND,
 					 1 /* thickess */,
 					 &color);
 				gtk_plot_data_set_symbol (vectorfield_data,
@@ -4854,7 +4833,7 @@ plot_functions (gboolean do_window_present,
 	color_i = 0;
 
 	for (i = 0; i < MAXFUNC && plot_func[i] != NULL; i++) {
-		GdkColor color;
+		GdkRGBA color;
 		char *label;
 
 		line_data[i] = GTK_PLOT_DATA (gtk_plot_data_new ());
@@ -4863,12 +4842,11 @@ plot_functions (gboolean do_window_present,
 
 		gtk_widget_show (GTK_WIDGET (line_data[i]));
 
-		gdk_color_parse (colors[color_i++], &color);
-		color_alloc (&color);
+		gdk_rgba_parse (&color, colors[color_i++]);
 		gtk_plot_data_set_line_attributes (line_data[i],
 						   GTK_PLOT_LINE_SOLID,
-						   GDK_CAP_ROUND, 
-						   GDK_JOIN_ROUND,
+						   CAIRO_LINE_CAP_ROUND,
+						   CAIRO_LINE_JOIN_ROUND,
 						   2, &color);
 
 		label = label_func (i, plot_func[i],
@@ -4901,7 +4879,7 @@ plot_functions (gboolean do_window_present,
 
 	if ((parametric_func_x != NULL && parametric_func_y != NULL) ||
 	    (parametric_func_z != NULL)) {
-		GdkColor color;
+		GdkRGBA color;
 		char *label;
 		int len;
 		double *x, *y;
@@ -4942,12 +4920,11 @@ plot_functions (gboolean do_window_present,
 
 		gtk_widget_show (GTK_WIDGET (parametric_data));
 
-		gdk_color_parse (colors[color_i++], &color);
-		color_alloc (&color);
+		gdk_rgba_parse (&color, colors[color_i++]);
 		gtk_plot_data_set_line_attributes (parametric_data,
 						   GTK_PLOT_LINE_SOLID,
-						   GDK_CAP_ROUND, 
-						   GDK_JOIN_ROUND,
+						   CAIRO_LINE_CAP_ROUND,
+						   CAIRO_LINE_JOIN_ROUND,
 						   2, &color);
 
 		if (parametric_name != NULL) {
@@ -5219,7 +5196,7 @@ create_range_spinboxes (const char *title, GtkWidget **titlew,
 	GtkWidget *b, *w;
 	GtkAdjustment *adj;
 
-	b = gtk_hbox_new (FALSE, GENIUS_PAD);
+	b = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, GENIUS_PAD);
 	w = gtk_label_new(title);
 	if (titlew != NULL) {
 		*titlew = w;
@@ -5322,7 +5299,7 @@ create_int_spinbox (const char *title, int *val, int min, int max)
 	GtkWidget *b, *w;
 	GtkAdjustment *adj;
 
-	b = gtk_hbox_new (FALSE, GENIUS_PAD);
+	b = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, GENIUS_PAD);
 	w = gtk_label_new(title);
 	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
 	adj = (GtkAdjustment *)gtk_adjustment_new (*val,
@@ -5355,7 +5332,7 @@ create_expression_box (const char *label,
 	GtkWidget *b;
 	GtkWidget *l;
 
-	b = gtk_hbox_new (FALSE, GENIUS_PAD);
+	b = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, GENIUS_PAD);
 
 	l = gtk_label_new (label);
 	if (labelw != NULL) {
@@ -5386,7 +5363,7 @@ create_simple_expression_box (const char *label,
 	GtkWidget *b;
 	GtkWidget *l;
 
-	b = gtk_hbox_new (FALSE, GENIUS_PAD);
+	b = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, GENIUS_PAD);
 
 	l = gtk_label_new (label);
 	if (labelw != NULL)
@@ -5666,16 +5643,14 @@ change_lineplot_varnames (GtkWidget *button, gpointer data)
 		(_("Change variable names") /* title */,
 		 GTK_WINDOW (graph_window) /* parent */,
 		 GTK_DIALOG_MODAL /* flags */,
-		 GTK_STOCK_OK,
+		 _("_OK"),
 		 GTK_RESPONSE_OK,
-		 GTK_STOCK_CANCEL,
+		 _("_Cancel"),
 		 GTK_RESPONSE_CANCEL,
 		 NULL);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (req),
 					 GTK_RESPONSE_OK);
-
-	gtk_dialog_set_has_separator (GTK_DIALOG (req), FALSE);
 
 	sg = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
@@ -5685,7 +5660,7 @@ change_lineplot_varnames (GtkWidget *button, gpointer data)
 
 	b = create_simple_expression_box (_("independent variable (x):"),
 					  &l, &xe);
-	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (l), 0.0);
 	gtk_size_group_add_widget (sg, l);
 	gtk_entry_set_text (GTK_ENTRY (xe), lp_x_name);
 	g_signal_connect (G_OBJECT (xe), "activate",
@@ -5695,7 +5670,7 @@ change_lineplot_varnames (GtkWidget *button, gpointer data)
 
 	b = create_simple_expression_box (_("dependent variable (y):"),
 					  &l, &ye);
-	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (l), 0.0);
 	gtk_size_group_add_widget (sg, l);
 	gtk_entry_set_text (GTK_ENTRY (ye), lp_y_name);
 	g_signal_connect (G_OBJECT (ye), "activate",
@@ -5705,7 +5680,7 @@ change_lineplot_varnames (GtkWidget *button, gpointer data)
 
 	b = create_simple_expression_box (_("complex variable (z = x+iy):"),
 					  &l, &ze);
-	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (l), 0.0);
 	gtk_size_group_add_widget (sg, l);
 	gtk_entry_set_text (GTK_ENTRY (ze), lp_z_name);
 	g_signal_connect (G_OBJECT (ze), "activate",
@@ -5715,7 +5690,7 @@ change_lineplot_varnames (GtkWidget *button, gpointer data)
 
 	b = create_simple_expression_box (_("parameter variable (t):"),
 					  &l, &te);
-	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (l), 0.0);
 	gtk_size_group_add_widget (sg, l);
 	gtk_entry_set_text (GTK_ENTRY (te), lp_t_name);
 	g_signal_connect (G_OBJECT (te), "activate",
@@ -5785,16 +5760,14 @@ change_surface_varnames (GtkWidget *button, gpointer data)
 		(_("Change variable names") /* title */,
 		 GTK_WINDOW (graph_window) /* parent */,
 		 GTK_DIALOG_MODAL /* flags */,
-		 GTK_STOCK_OK,
+		 _("_OK"),
 		 GTK_RESPONSE_OK,
-		 GTK_STOCK_CANCEL,
+		 _("_Cancel"),
 		 GTK_RESPONSE_CANCEL,
 		 NULL);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (req),
 					 GTK_RESPONSE_OK);
-
-	gtk_dialog_set_has_separator (GTK_DIALOG (req), FALSE);
 
 	sg = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
@@ -5804,7 +5777,7 @@ change_surface_varnames (GtkWidget *button, gpointer data)
 
 	b = create_simple_expression_box (_("independent variable (x):"),
 					  &l, &xe);
-	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (l), 0.0);
 	gtk_size_group_add_widget (sg, l);
 	gtk_entry_set_text (GTK_ENTRY (xe), sp_x_name);
 	g_signal_connect (G_OBJECT (xe), "activate",
@@ -5814,7 +5787,7 @@ change_surface_varnames (GtkWidget *button, gpointer data)
 
 	b = create_simple_expression_box (_("independent variable (y):"),
 					  &l, &ye);
-	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (l), 0.0);
 	gtk_size_group_add_widget (sg, l);
 	gtk_entry_set_text (GTK_ENTRY (ye), sp_y_name);
 	g_signal_connect (G_OBJECT (ye), "activate",
@@ -5824,7 +5797,7 @@ change_surface_varnames (GtkWidget *button, gpointer data)
 
 	b = create_simple_expression_box (_("independent complex variable (z = x+iy):"),
 					  &l, &ze);
-	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (l), 0.0);
 	gtk_size_group_add_widget (sg, l);
 	gtk_entry_set_text (GTK_ENTRY (ze), sp_z_name);
 	g_signal_connect (G_OBJECT (ze), "activate",
@@ -5931,11 +5904,13 @@ create_lineplot_box (void)
 {
 	GtkWidget *mainbox, *frame;
 	GtkWidget *box, *hbox, *b, *fb, *w;
+	GdkMonitor *monitor;
+	GdkRectangle geom;
 	int i;
 
 	init_var_names ();
 
-	mainbox = gtk_vbox_new (FALSE, GENIUS_PAD);
+	mainbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (mainbox), GENIUS_PAD);
 
 	function_notebook = gtk_notebook_new ();
@@ -5944,11 +5919,12 @@ create_lineplot_box (void)
 	/*
 	 * Line plot entries
 	 */
-	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	lineplot_info_label = gtk_label_new ("");
-	gtk_misc_set_alignment (GTK_MISC (lineplot_info_label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (lineplot_info_label), 0.0);
 	gtk_label_set_line_wrap (GTK_LABEL (lineplot_info_label), TRUE);
+	gtk_label_set_max_width_chars (GTK_LABEL (lineplot_info_label), 30);
 	gtk_widget_set_size_request (lineplot_info_label, 610, -1);
 	gtk_box_pack_start (GTK_BOX (box), lineplot_info_label, FALSE, FALSE, 0);
 	g_signal_connect (G_OBJECT (lineplot_info_label),
@@ -5958,7 +5934,9 @@ create_lineplot_box (void)
 
 	fb = box;
 
-	if (gdk_screen_height () < 800) {
+	monitor = gdk_display_get_primary_monitor (gdk_display_get_default ());
+	gdk_monitor_get_geometry (monitor, &geom);
+	if (geom.height < 800) {
 		w = gtk_scrolled_window_new (NULL, NULL);
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (w),
 						GTK_POLICY_NEVER,
@@ -5968,7 +5946,7 @@ create_lineplot_box (void)
 		b = gtk_viewport_new (NULL, NULL);
 		gtk_container_add (GTK_CONTAINER (w), b);
 
-		fb = gtk_vbox_new (FALSE, GENIUS_PAD);
+		fb = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
 		gtk_container_set_border_width (GTK_CONTAINER (fb), GENIUS_PAD);
 
 		gtk_container_add (GTK_CONTAINER (b), fb);
@@ -5992,11 +5970,12 @@ create_lineplot_box (void)
 	 * Parametric plot entries
 	 */
 
-	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	parametric_info_label = gtk_label_new ("");
-	gtk_misc_set_alignment (GTK_MISC (parametric_info_label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (parametric_info_label), 0.0);
 	gtk_label_set_line_wrap (GTK_LABEL (parametric_info_label), TRUE);
+	gtk_label_set_max_width_chars (GTK_LABEL (parametric_info_label), 30);
 	gtk_widget_set_size_request (parametric_info_label, 610, -1);
 	gtk_box_pack_start (GTK_BOX (box), parametric_info_label, FALSE, FALSE, 0);
 	g_signal_connect (G_OBJECT (parametric_info_label),
@@ -6019,7 +5998,7 @@ create_lineplot_box (void)
 	gtk_box_pack_start (GTK_BOX (box), b, FALSE, FALSE, 0);
 
 	w = gtk_label_new (_("or"));
-	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (w), 0.0);
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 
 	/* z */
@@ -6054,12 +6033,13 @@ create_lineplot_box (void)
 	 * Slopefield
 	 */
 
-	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 
 	slopefield_info_label = gtk_label_new ("");
-	gtk_misc_set_alignment (GTK_MISC (slopefield_info_label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (slopefield_info_label), 0.0);
 	gtk_label_set_line_wrap (GTK_LABEL (slopefield_info_label), TRUE);
+	gtk_label_set_max_width_chars (GTK_LABEL (slopefield_info_label), 30);
 	gtk_widget_set_size_request (slopefield_info_label, 610, -1);
 	gtk_box_pack_start (GTK_BOX (box), slopefield_info_label, FALSE, FALSE, 0);
 	g_signal_connect (G_OBJECT (slopefield_info_label),
@@ -6090,12 +6070,13 @@ create_lineplot_box (void)
 	 * Vectorfield
 	 */
 
-	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	vectorfield_info_label = gtk_label_new ("");
 
-	gtk_misc_set_alignment (GTK_MISC (vectorfield_info_label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (vectorfield_info_label), 0.0);
 	gtk_label_set_line_wrap (GTK_LABEL (vectorfield_info_label), TRUE);
+	gtk_label_set_max_width_chars (GTK_LABEL (vectorfield_info_label), 30);
 	gtk_widget_set_size_request (vectorfield_info_label, 610, -1);
 	gtk_box_pack_start (GTK_BOX (box), vectorfield_info_label, FALSE, FALSE, 0);
 	g_signal_connect (G_OBJECT (vectorfield_info_label),
@@ -6142,7 +6123,7 @@ create_lineplot_box (void)
 	 * Below notebook
 	 */
 
-	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (mainbox), hbox, FALSE, FALSE, 0);
 
 	/* draw legend? */
@@ -6174,7 +6155,7 @@ create_lineplot_box (void)
 	/* plot window */
 	frame = gtk_frame_new (_("Plot Window"));
 	gtk_box_pack_start (GTK_BOX (mainbox), frame, FALSE, FALSE, 0);
-	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	gtk_container_add (GTK_CONTAINER (frame), box);
 
@@ -6246,22 +6227,24 @@ create_surface_box (void)
 
 	init_var_names ();
 
-	mainbox = gtk_vbox_new (FALSE, GENIUS_PAD);
+	mainbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (mainbox), GENIUS_PAD);
 	
 	frame = gtk_frame_new (_("Function / Expression"));
 	gtk_box_pack_start (GTK_BOX (mainbox), frame, FALSE, FALSE, 0);
-	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	gtk_container_add (GTK_CONTAINER (frame), box);
 	surface_info_label = gtk_label_new ("");
-	gtk_misc_set_alignment (GTK_MISC (surface_info_label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (surface_info_label), 0.0);
+	gtk_label_set_line_wrap (GTK_LABEL (surface_info_label), TRUE);
+	gtk_label_set_max_width_chars (GTK_LABEL (surface_info_label), 30);
 	gtk_widget_set_size_request (surface_info_label, 610, -1);
 	gtk_label_set_line_wrap (GTK_LABEL (surface_info_label), TRUE);
 
 	gtk_box_pack_start (GTK_BOX (box), surface_info_label, FALSE, FALSE, 0);
 
-	b = gtk_hbox_new (FALSE, GENIUS_PAD);
+	b = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (box), b, FALSE, FALSE, 0);
 
 	surface_entry = gtk_entry_new ();
@@ -6272,7 +6255,7 @@ create_surface_box (void)
 	surface_entry_status = gtk_image_new ();
 	gtk_box_pack_start (GTK_BOX (b), surface_entry_status, FALSE, FALSE, 0);
 
-	hbox = gtk_hbox_new (FALSE, GENIUS_PAD);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, GENIUS_PAD);
 	gtk_box_pack_start (GTK_BOX (mainbox), hbox, FALSE, FALSE, 0);
 
 	/* draw legend? */
@@ -6297,7 +6280,7 @@ create_surface_box (void)
 
 	frame = gtk_frame_new (_("Plot Window"));
 	gtk_box_pack_start (GTK_BOX (mainbox), frame, FALSE, FALSE, 0);
-	box = gtk_vbox_new (FALSE, GENIUS_PAD);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (box), GENIUS_PAD);
 	gtk_container_add (GTK_CONTAINER (frame), box);
 
@@ -6510,14 +6493,14 @@ get_func_from_entry (GtkWidget *entry, GtkWidget *status,
 	const char *str = gtk_entry_get_text (GTK_ENTRY (entry));
 	f = function_from_expression (str, var, ex);
 	if (f != NULL) {
-		gtk_image_set_from_stock
+		gtk_image_set_from_icon_name
 			(GTK_IMAGE (status),
-			 GTK_STOCK_YES,
+			 "gtk-yes",
 			 GTK_ICON_SIZE_MENU);
 	} else if (*ex) {
-		gtk_image_set_from_stock
+		gtk_image_set_from_icon_name
 			(GTK_IMAGE (status),
-			 GTK_STOCK_DIALOG_WARNING,
+			 "dialog-warning",
 			 GTK_ICON_SIZE_MENU);
 		f = NULL;
 	} else {
@@ -6540,14 +6523,14 @@ get_func_from_entry2 (GtkWidget *entry, GtkWidget *status,
 	const char *str = gtk_entry_get_text (GTK_ENTRY (entry));
 	f = function_from_expression2 (str, xname, yname, zname, ex);
 	if (f != NULL) {
-		gtk_image_set_from_stock
+		gtk_image_set_from_icon_name
 			(GTK_IMAGE (status),
-			 GTK_STOCK_YES,
+			 "gtk-yes",
 			 GTK_ICON_SIZE_MENU);
 	} else if (*ex) {
-		gtk_image_set_from_stock
+		gtk_image_set_from_icon_name
 			(GTK_IMAGE (status),
-			 GTK_STOCK_DIALOG_WARNING,
+			 "dialog-warning",
 			 GTK_ICON_SIZE_MENU);
 		f = NULL;
 	} else {
@@ -7241,7 +7224,7 @@ plot_dialog_response (GtkWidget *w, int response, gpointer data)
 }
 
 void
-genius_plot_dialog (void)
+genius_plot_dialog (GSimpleAction *action, GVariant *param, gpointer data)
 {
 	GtkWidget *insides;
 
@@ -7254,7 +7237,7 @@ genius_plot_dialog (void)
 		(_("Create Plot") /* title */,
 		 NULL /*GTK_WINDOW (genius_window)*/ /* parent */,
 		 0 /* flags */,
-		 GTK_STOCK_CLOSE,
+		 _("_Close"),
 		 GTK_RESPONSE_CLOSE,
 		 _("_Plot"),
 		 RESPONSE_PLOT,
@@ -7264,7 +7247,6 @@ genius_plot_dialog (void)
 	gtk_dialog_set_default_response (GTK_DIALOG (plot_dialog),
 					 RESPONSE_PLOT);
 
-	gtk_dialog_set_has_separator (GTK_DIALOG (plot_dialog), FALSE);
 	g_signal_connect (G_OBJECT (plot_dialog),
 			  "destroy",
 			  G_CALLBACK (gtk_widget_destroyed),
@@ -8411,12 +8393,17 @@ static GelETree *
 LinePlotMouseLocation_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	if (line_plot != NULL) {
+		GdkSeat *s;
 		GelETree *n;
 		GelMatrixW *m;
 		int xx, yy;
 		double x, y;
 
-		gtk_widget_get_pointer (GTK_WIDGET (line_plot), &xx, &yy);
+	        s = gdk_display_get_default_seat (gdk_display_get_default ());
+	        gdk_window_get_device_position (gtk_widget_get_window
+	                                        (GTK_WIDGET (line_plot)),
+	                                        gdk_seat_get_pointer (s),
+	                                        &xx, &yy, NULL);
 		gtk_plot_get_point (GTK_PLOT (line_plot), xx, yy, &x, &y);
 
 		/*make us a new empty node*/
@@ -8747,7 +8734,7 @@ get_surface_line_numbers (GelETree *a,
 
 static void
 draw_arrowhead (double xx1, double yy1, double xx2, double yy2,
-		int thickness, GdkColor *color)
+		int thickness, GdkRGBA *color)
 {
 	double x1, x2, y1, y2, xm, ym;
 	double *ax, *ay;
@@ -8784,21 +8771,21 @@ draw_arrowhead (double xx1, double yy1, double xx2, double yy2,
 } 
 
 static gboolean
-get_color (GelETree *a, GdkColor *c, const char *funcname)
+get_color (GelETree *a, GdkRGBA *c, const char *funcname)
 {
 	if (a == NULL) {
 		gel_errorout (_("%s: No color specified"),
 			      funcname);
 		return FALSE;
 	} else if (a->type == GEL_STRING_NODE) {
-		if ( ! gdk_color_parse (a->str.str, c)) {
+		if ( ! gdk_rgba_parse (c, a->str.str)) {
 			gel_errorout (_("%s: Cannot parse color '%s'"),
 				      funcname, a->str.str);
 			return FALSE;
 		}
 		return TRUE;
 	} else if (a->type == GEL_IDENTIFIER_NODE) {
-		if ( ! gdk_color_parse (a->id.id->token, c)) {
+		if ( ! gdk_rgba_parse (c, a->id.id->token)) {
 			gel_errorout (_("%s: Cannot parse color '%s'"),
 				      funcname, a->id.id->token);
 			return FALSE;
@@ -8837,9 +8824,10 @@ get_color (GelETree *a, GdkColor *c, const char *funcname)
 		g = MAX(MIN(g,1.0),0.0);
 		b = MAX(MIN(b,1.0),0.0);
 
-		c->red = MAX(MIN(r*65535,65535),0);
-		c->green = MAX(MIN(g*65535,65535),0);
-		c->blue = MAX(MIN(b*65535,65535),0);
+		c->red = r;
+		c->green = g;
+		c->blue = b;
+		c->alpha = 1.0;
 
 		return TRUE;
 	}
@@ -8859,7 +8847,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 	int nextarg;
 	double *x, *y;
 	double minx = 0, miny = 0, maxx = 0, maxy = 0;
-	GdkColor color;
+	GdkRGBA color;
 	int thickness;
 	gboolean arrow_origin = FALSE;
 	gboolean arrow_end = FALSE;
@@ -8911,7 +8899,7 @@ LinePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 		maxy = MAX(y1,y2);
 	}
 
-	gdk_color_parse ("black", &color);
+	gdk_rgba_parse (&color, "black");
 	thickness = 2;
 
 	for (i = nextarg; a[i] != NULL; i++) {
@@ -9149,7 +9137,7 @@ LinePlotDrawPoints_op (GelCtx *ctx, GelETree * * a, int *exception)
 	int nextarg;
 	double *x, *y;
 	double minx = 0, miny = 0, maxx = 0, maxy = 0;
-	GdkColor color;
+	GdkRGBA color;
 	int thickness;
 	int i;
 	gboolean update = FALSE;
@@ -9194,7 +9182,7 @@ LinePlotDrawPoints_op (GelCtx *ctx, GelETree * * a, int *exception)
 		maxy = y1;
 	}
 
-	gdk_color_parse ("black", &color);
+	gdk_rgba_parse (&color, "black");
 	thickness = 2;
 
 	for (i = nextarg; a[i] != NULL; i++) {
@@ -9368,7 +9356,7 @@ SurfacePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 	int nextarg;
 	double *x, *y, *z;
 	double minx = 0, miny = 0, maxx = 0, maxy = 0, minz = 0, maxz = 0;
-	GdkColor color;
+	GdkRGBA color;
 	int thickness;
 	int i;
 	gboolean update = FALSE;
@@ -9426,7 +9414,7 @@ SurfacePlotDrawLine_op (GelCtx *ctx, GelETree * * a, int *exception)
 		maxz = MAX(z1,z2);
 	}
 
-	gdk_color_parse ("black", &color);
+	gdk_rgba_parse (&color, "black");
 	thickness = 2;
 
 	for (i = nextarg; a[i] != NULL; i++) {
@@ -9608,7 +9596,7 @@ SurfacePlotDrawPoints_op (GelCtx *ctx, GelETree * * a, int *exception)
 	int nextarg;
 	double *x, *y, *z;
 	double minx = 0, miny = 0, maxx = 0, maxy = 0, minz = 0, maxz = 0;
-	GdkColor color;
+	GdkRGBA color;
 	int thickness;
 	int i;
 	gboolean update = FALSE;
@@ -9660,7 +9648,7 @@ SurfacePlotDrawPoints_op (GelCtx *ctx, GelETree * * a, int *exception)
 		maxz = z1;
 	}
 
-	gdk_color_parse ("black", &color);
+	gdk_rgba_parse (&color, "black");
 	thickness = 2;
 
 	for (i = nextarg; a[i] != NULL; i++) {
@@ -10313,12 +10301,9 @@ ExportPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 			return NULL;
 		}
 
-		pix = gdk_pixbuf_get_from_drawable
-			(NULL /* dest */,
-			 GTK_PLOT_CANVAS (plot_canvas)->pixmap,
-			 NULL /* cmap */,
+		pix = gdk_pixbuf_get_from_surface
+			(GTK_PLOT_CANVAS (plot_canvas)->pixmap,
 			 0 /* src x */, 0 /* src y */,
-			 0 /* dest x */, 0 /* dest y */,
 			 GTK_PLOT_CANVAS (plot_canvas)->pixmap_width,
 			 GTK_PLOT_CANVAS (plot_canvas)->pixmap_height);
 

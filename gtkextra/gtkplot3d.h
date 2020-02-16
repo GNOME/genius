@@ -85,9 +85,9 @@ struct _GtkPlot3D
   gboolean yz_visible;
   gboolean zx_visible;
 
-  GdkColor color_xy;
-  GdkColor color_yz;
-  GdkColor color_zx;
+  GdkRGBA color_xy;
+  GdkRGBA color_yz;
+  GdkRGBA color_zx;
 
   GtkPlotLine frame;
   GtkPlotLine corner;
@@ -117,13 +117,13 @@ struct _GtkPlot3DClass
 /* Plot3D */
 
 GType		gtk_plot3d_get_type		(void);
-GtkWidget*	gtk_plot3d_new			(GdkDrawable *drawable);
-GtkWidget*	gtk_plot3d_new_with_size	(GdkDrawable *drawable,
+GtkWidget*	gtk_plot3d_new			(cairo_surface_t *drawable);
+GtkWidget*	gtk_plot3d_new_with_size	(cairo_surface_t *drawable,
                                                  gdouble width, gdouble height);
 void		gtk_plot3d_construct		(GtkPlot3D *plot,
-						 GdkDrawable *drawable);
+						 cairo_surface_t *drawable);
 void		gtk_plot3d_construct_with_size	(GtkPlot3D *plot,
-						 GdkDrawable *drawable,
+						 cairo_surface_t *drawable,
                                                  gdouble width, gdouble height);
 void		gtk_plot3d_autoscale		(GtkPlot3D *plot);
 /* rotations around global axes */
@@ -172,7 +172,7 @@ gdouble 	gtk_plot3d_get_zfactor		(GtkPlot3D *plot);
 /* Planes */
 void		gtk_plot3d_plane_set_color	(GtkPlot3D *plot,
 						 GtkPlotPlane plane,
-						 const GdkColor *color);
+						 const GdkRGBA *color);
 void		gtk_plot3d_plane_set_visible	(GtkPlot3D *plot,
 						 GtkPlotPlane plane,
 						 gboolean visible);
@@ -185,19 +185,19 @@ gboolean	gtk_plot3d_corner_visible	(GtkPlot3D *plot);
 
 void            gtk_plot3d_corner_set_attributes(GtkPlot3D *plot,
                                                  GtkPlotLineStyle style,                                                         gfloat width,
-                                                 const GdkColor *color);
+                                                 const GdkRGBA *color);
 void            gtk_plot3d_corner_get_attributes(GtkPlot3D *plot,
                                                  GtkPlotLineStyle *style,
                                                  gfloat *width,
-                                                 GdkColor *color);
+                                                 GdkRGBA *color);
 void            gtk_plot3d_frame_set_attributes	(GtkPlot3D *plot,
                                                  GtkPlotLineStyle style,
                                                  gfloat width,
-                                                 const GdkColor *color);
+                                                 const GdkRGBA *color);
 void            gtk_plot3d_frame_get_attributes	(GtkPlot3D *plot,
                                                  GtkPlotLineStyle *style,
                                                  gfloat *width,
-                                                 GdkColor *color);
+                                                 GdkRGBA *color);
 
 
 /* Axes */
@@ -265,19 +265,19 @@ void            gtk_plot3d_minor_grids_visible        (GtkPlot3D *plot,
 						       gboolean *z);
 void            gtk_plot3d_major_zgrid_set_attributes  (GtkPlot3D *plot,
                                                        GtkPlotLineStyle style,                                                         gfloat width,
-                                                       const GdkColor *color);
+                                                       const GdkRGBA *color);
 void            gtk_plot3d_major_zgrid_get_attributes  (GtkPlot3D *plot,
                                                        GtkPlotLineStyle *style,
                                                        gfloat *width,
-                                                       GdkColor *color);
+                                                       GdkRGBA *color);
 void            gtk_plot3d_minor_zgrid_set_attributes  (GtkPlot3D *plot,
                                                        GtkPlotLineStyle style,
                                                        gfloat width,
-                                                       const GdkColor *color);
+                                                       const GdkRGBA *color);
 void            gtk_plot3d_minor_zgrid_get_attributes  (GtkPlot3D *plot,
                                                        GtkPlotLineStyle *style,
                                                        gfloat *width,
-                                                       GdkColor *color);
+                                                       GdkRGBA *color);
 
 
 

@@ -63,10 +63,10 @@ struct _GtkPlotSurface
 {
   GtkPlotData data;
 
-  GdkColor color;
-  GdkColor shadow;
-  GdkColor grid_foreground;
-  GdkColor grid_background;
+  GdkRGBA color;
+  GdkRGBA shadow;
+  GdkRGBA grid_foreground;
+  GdkRGBA grid_background;
 
   gboolean use_height_gradient;
   gboolean use_amplitud;
@@ -108,13 +108,13 @@ void		gtk_plot_surface_construct_function (GtkPlotSurface *surface,
 				 		    GtkPlotFunc3D function);
 
 void		gtk_plot_surface_set_color	(GtkPlotSurface *data,
-						 GdkColor *color);
+						 GdkRGBA *color);
 void		gtk_plot_surface_set_shadow	(GtkPlotSurface *data,
-						 GdkColor *color);
+						 GdkRGBA *color);
 void		gtk_plot_surface_set_grid_foreground	(GtkPlotSurface *data,
-						 	 GdkColor *foreground);
+						 	 GdkRGBA *foreground);
 void		gtk_plot_surface_set_grid_background	(GtkPlotSurface *data,
-						 	 GdkColor *background);
+						 	 GdkRGBA *background);
 void		gtk_plot_surface_set_grid_visible	(GtkPlotSurface *data,
 						 	 gboolean visible);
 gboolean	gtk_plot_surface_get_grid_visible	(GtkPlotSurface *data);

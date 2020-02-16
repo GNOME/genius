@@ -117,7 +117,7 @@ typedef struct _GtkPlotCanvasChildClass	GtkPlotCanvasChildClass;
  */
 struct _GtkPlotCanvasChild
 {
-  GtkObject object;
+  GtkWidget object;
 
   GtkPlotCanvas *parent;
 
@@ -136,10 +136,10 @@ struct _GtkPlotCanvasChild
 
 struct _GtkPlotCanvasChildClass
 {
-  GtkObjectClass parent_class;
+  GtkWidgetClass parent_class;
 
   void (*draw) (GtkPlotCanvas *canvas, GtkPlotCanvasChild *child);
-  void (*draw_selection) (GtkPlotCanvas *canvas, GtkPlotCanvasChild *child, GtkAllocation allocation);
+  void (*draw_selection) (cairo_t *cr, GtkPlotCanvas *canvas, GtkPlotCanvasChild *child, GtkAllocation allocation);
   void (*size_allocate) (GtkPlotCanvas *canvas, GtkPlotCanvasChild *child);
   void (*move) (GtkPlotCanvas *canvas, GtkPlotCanvasChild *child,
 	        gdouble x, gdouble y);
@@ -180,9 +180,9 @@ struct _GtkPlotCanvas
 
   GtkPlotCanvasAction action;
 
-  GdkPixmap *pixmap;
+  cairo_surface_t *pixmap;
 
-  GdkColor background;
+  GdkRGBA background;
   gboolean transparent;
 
   gdouble active_x, active_y;
@@ -250,7 +250,7 @@ void		gtk_plot_canvas_grid_set_step	(GtkPlotCanvas *canvas,
 void		gtk_plot_canvas_grid_set_attributes(GtkPlotCanvas *canvas,
                          			 GtkPlotLineStyle style,
                          			 gint width,
-                         			 const GdkColor *color);
+                         			 const GdkRGBA *color);
 void		gtk_plot_canvas_cancel_action	(GtkPlotCanvas *plot_canvas);
 void		gtk_plot_canvas_unselect	(GtkPlotCanvas *plot_canvas);
 
@@ -264,7 +264,7 @@ void 		gtk_plot_canvas_set_transparent (GtkPlotCanvas *canvas,
 						 gboolean transparent);
 gboolean 	gtk_plot_canvas_transparent 	(GtkPlotCanvas *canvas);
 void		gtk_plot_canvas_set_background  (GtkPlotCanvas *canvas,
-						 const GdkColor *bg_color);
+						 const GdkRGBA *bg_color);
 void            gtk_plot_canvas_get_pixel       (GtkPlotCanvas *canvas,
                                                  gdouble px, gdouble py,
                                                  gint *x, gint *y);

@@ -59,8 +59,8 @@ GtkPlotCanvasChild *
 		gtk_plot_canvas_text_new 	(const gchar *font, 
 						 gint height, 
 						 gint angle,
-                          			 const GdkColor *fg, 
-						 const GdkColor *bg,
+                          			 const GdkRGBA *fg,
+						 const GdkRGBA *bg,
                           			 gboolean transparent,
                           			 GtkJustification justification,
                           			 const gchar *real_text);
@@ -70,8 +70,8 @@ void 		gtk_plot_canvas_text_set_attributes
                           			 const gchar *font, 
 						 gint height, 
 						 gint angle,
-                          			 const GdkColor *fg, 
-						 const GdkColor *bg,
+                          			 const GdkRGBA *fg,
+						 const GdkRGBA *bg,
                           			 gboolean transparent,
                           			 GtkJustification justification,
                           			 const gchar *real_text);
