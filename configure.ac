@@ -15,6 +15,8 @@ AM_MAINTAINER_MODE
 
 AC_PROG_INTLTOOL([0.21])
 
+PKG_PROG_PKG_CONFIG
+
 dnl ================= Requirements ================================================
 
 GTK_REQUIRED=2.20.0
@@ -64,8 +66,8 @@ AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
 
 dnl Check for termcap
 AC_CHECK_LIB(termcap, tgetent,[TERMCAP_LIB="-ltermcap"],
-	     [AC_CHECK_LIB(ncurses, tgetent,
-                           [TERMCAP_LIB="-lncurses"
+	     [PKG_CHECK_MODULES(NCURSES, ncurses,
+                           [TERMCAP_LIB="$NCURSES_LIBS"
                             AC_DEFINE(USE_NCURSES,[1], [Use ncurses library])
                             AC_CHECK_HEADER(ncurses/curses.h, [
 					    AC_DEFINE(INC_NCURSES,[1],[ncurses include])])], [
