@@ -262,6 +262,7 @@ AM_CONDITIONAL(ENABLE_UPDATE_MIMEDB, test x$enable_update_mimedb = xyes)
 
 ####
 # VTE STUFF, this is all temporary pending a port to gtk 3.0 in the star trek future
+# FIXME: OK this happened, so things ought to be properly "whacked" (removed)
 
 AC_PATH_PROG([GLIB_MKENUMS],[glib-mkenums])
 AC_DEFINE_UNQUOTED(VTE_DEFAULT_EMULATION,"xterm",[The default terminal type to be emulated.])
