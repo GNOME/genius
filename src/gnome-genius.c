@@ -1817,6 +1817,7 @@ aboutcb (GSimpleAction *action, GVariant *param, gpointer data)
 		"Jiří (George) Lebl, Ph.D. <jirka@5z.com>",
 		N_("Nils Barth (initial implementation of parts of the GEL library)"),
 		N_("Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"),
+		N_("Yavor Doganov <yavor@gnu.org> (Port to GTK+3)"),
 		NULL
 	};
 	static const char *documenters[] = {

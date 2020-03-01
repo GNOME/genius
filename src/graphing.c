@@ -1972,6 +1972,7 @@ solver_cb (GtkWidget *item, gpointer data)
 			     "To be able to zoom by mouse again, close this "
 			     "window."));
 	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
+	gtk_label_set_max_width_chars (GTK_LABEL (w), 30);
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 
 	if (plot_mode == MODE_LINEPLOT_SLOPEFIELD) {
