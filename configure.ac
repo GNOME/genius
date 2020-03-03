@@ -1,4 +1,4 @@
-AC_INIT([genius], [1.0.24])
+AC_INIT([genius], [1.0.25])
 #AX_IS_RELEASE([git-directory])
 AX_IS_RELEASE([always])
 AC_CONFIG_SRCDIR([src/calc.c])
