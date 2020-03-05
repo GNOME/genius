@@ -51,7 +51,7 @@ GETTEXT_PACKAGE=genius
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",[gettext package name])
 AC_SUBST(GETTEXT_PACKAGE)
 
-ALL_LINGUAS="ar az bs ca cs da de dz el en_CA en_GB eo es eu fr ga gl hi hr hu id it ja ko lv mk ml nb ne nl oc pa pt_BR pt ro ru rw sl sq sr@latin sr sv zh_CN zh_TW"
+ALL_LINGUAS="ar az bs ca cs da de dz el en_CA en_GB eo es eu fi fr ga gl hi hr hu id it ja ko lv mk ml nb ne nl oc pa pt_BR pt ro ru rw sl sq sr@latin sr sv zh_CN zh_TW"
 AM_GLIB_GNU_GETTEXT
 
 dnl ===============================================================================
