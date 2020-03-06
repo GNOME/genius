@@ -1551,7 +1551,8 @@ or:
     <sect1 id="genius-gel-references">
       <title>Αναφορές</title>
       <para>Μπορεί να είναι απαραίτητο για μερικές συναρτήσεις να επιστραφούν περισσότερες από μία τιμές. Αυτό μπορεί να επιτευχθεί επιστρέφοντας ένα διάνυσμα τιμών, αλλά πολλές φορές, είναι βολικό να χρησιμοποιήσετε το πέρασμα μιας αναφοράς σε μια μεταβλητή. Περνάτε μια αναφορά σε μια μεταβλητή σε μια συνάρτηση και η συνάρτηση θα ορίσει τη μεταβλητή για σας χρησιμοποιώντας μια αποαναφορά. Δεν πρέπει να χρησιμοποιείτε αναφορές μόνο για αυτόν το σκοπό, αλλά αυτή είναι η κύρια χρήση τους.</para>
-      <para>Όταν χρησιμοποιείτε συναρτήσεις που επιστρέφουν τιμές μέσα από αναφορές στη λίστα ορισμάτων, περάστε απλά το όνομα της μεταβλητής με ένα  (A x v: </para>
+      <para>Όταν χρησιμοποιείτε συναρτήσεις που επιστρέφουν τιμές μέσα από αναφορές στη λίστα ορισμάτων, περάστε απλά το όνομα της μεταβλητής με ένα &amp; (εμπορικό και). Για παράδειγμα, ο παρακάτω κώδικας θα υπολογίσει μια ιδιοτιμή ενός πίνακα <varname>A</varname> με αρχική πρόβλεψη ιδιοδιανύσματος <varname>x</varname> και αποθήκευση της υπολογισμένου ιδιοδιανύσματος στη μεταβλητή με όνομα <varname>v</varname>: <programlisting><![CDATA[RayleighQuotientIteration (A,x,0.001,100,&v)
+]]></programlisting></para>
       <para>Οι λεπτομέρειες του πώς δουλεύουν οι αναφορές και η σύνταξη είναι παρόμοιες με τη γλώσσα C. Ο τελεστής <literal>&amp;</literal> αναφέρεται σε μια μεταβλητή και το <literal>*</literal> αποαναφέρει μια μεταβλητή. Αμφότεροι μπορούν να εφαρμοστούν μόνο σε ένα αναγνωριστικό, έτσι το <literal>**a</literal> δεν είναι επιτρεπτή παράσταση στο GEL.</para>
       <para>Οι αναφορές εξηγούνται καλύτερα με ένα παράδειγμα: <programlisting><![CDATA[a=1;
 b=&a;
@@ -4098,6 +4099,16 @@ for more information.
       <title>Διαχείριση πινάκων</title>
       <variablelist>
         <varlistentry>
+         <term><anchor id="gel-function-AppendElement"/>AppendElement</term>
+         <listitem>
+          <synopsis>AppendElement (v,elt)</synopsis>
+	  <para>Append an element to a vector and return the vector.  No expansion is done.  Normally
+		  a row vector is built if starting from <constant>null</constant> or a 1-by-1 matrix,
+		  but if given a column vector it will properly build a column vector.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term><anchor id="gel-function-ApplyOverMatrix"/>ApplyOverMatrix</term>
          <listitem>
           <synopsis>ApplyOverMatrix (a,func)</synopsis>
@@ -4379,7 +4390,20 @@ for more information.
          <term><anchor id="gel-function-MakeVector"/>MakeVector</term>
          <listitem>
           <synopsis>MakeVector (A)</synopsis>
-          <para>Δημιουργεί ένα διάνυσμα στήλης από έναν πίνακα βάζοντας στήλες τις μεν πάνω από τις άλλες. Επιστρέφει <constant>null</constant> όταν δίνεται <constant>null</constant>.</para>
+          <para>Alias: <function>MakeColumnVector</function></para>
+          <para>Make column vector out of matrix by putting columns above
+		  each other.  Returns <constant>null</constant> when given <constant>null</constant>.
+		  Can be used to ensure a vector is a column vector.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-MakeRowVector"/>MakeRowVector</term>
+         <listitem>
+          <synopsis>MakeRowVector (A)</synopsis>
+	  <para>Make row vector out of matrix by putting rows one after another.
+		  Returns <constant>null</constant> when given <constant>null</constant>.
+	          Can be used to ensure a vector is a row vector.</para>
          </listitem>
         </varlistentry>
 

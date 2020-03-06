@@ -4387,6 +4387,16 @@ precalculated and returned in the second column.</para>
       <title>Manipulation de matrices</title>
       <variablelist>
         <varlistentry>
+         <term><anchor id="gel-function-AppendElement"/>AppendElement</term>
+         <listitem>
+          <synopsis>AppendElement (v,elt)</synopsis>
+	  <para>Append an element to a vector and return the vector.  No expansion is done.  Normally
+		  a row vector is built if starting from <constant>null</constant> or a 1-by-1 matrix,
+		  but if given a column vector it will properly build a column vector.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term><anchor id="gel-function-ApplyOverMatrix"/>ApplyOverMatrix</term>
          <listitem>
           <synopsis>ApplyOverMatrix (a,fonc)</synopsis>
@@ -4671,7 +4681,20 @@ precalculated and returned in the second column.</para>
          <term><anchor id="gel-function-MakeVector"/>MakeVector</term>
          <listitem>
           <synopsis>MakeVector (A)</synopsis>
-          <para>Construit un vecteur colonne à partir d'une matrice en mettant les colonnes les unes au dessus des autres. Renvoie <constant>null</constant> si <constant>null</constant> est fourni.</para>
+          <para>Alias: <function>MakeColumnVector</function></para>
+          <para>Make column vector out of matrix by putting columns above
+		  each other.  Returns <constant>null</constant> when given <constant>null</constant>.
+		  Can be used to ensure a vector is a column vector.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-MakeRowVector"/>MakeRowVector</term>
+         <listitem>
+          <synopsis>MakeRowVector (A)</synopsis>
+	  <para>Make row vector out of matrix by putting rows one after another.
+		  Returns <constant>null</constant> when given <constant>null</constant>.
+	          Can be used to ensure a vector is a row vector.</para>
          </listitem>
         </varlistentry>
 

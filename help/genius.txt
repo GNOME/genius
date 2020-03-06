@@ -4084,6 +4084,15 @@ lcm (a,args...)
 
 11.8. Matrix Manipulation
 
+   AppendElement
+
+AppendElement (v,elt)
+
+          Append an element to a vector and return the vector. No
+          expansion is done. Normally a row vector is built if
+          starting from null or a 1-by-1 matrix, but if given a
+          column vector it will properly build a column vector.
+
    ApplyOverMatrix
 
 ApplyOverMatrix (a,func)
@@ -4331,8 +4340,19 @@ MakeDiagonal (v,arg...)
 
 MakeVector (A)
 
+          Alias: MakeColumnVector
+
           Make column vector out of matrix by putting columns
-          above each other. Returns null when given null.
+          above each other. Returns null when given null. Can be
+          used to ensure a vector is a column vector.
+
+   MakeRowVector
+
+MakeRowVector (A)
+
+          Make row vector out of matrix by putting rows one after
+          another. Returns null when given null. Can be used to
+          ensure a vector is a row vector.
 
    MatrixProduct
 

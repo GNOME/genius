@@ -5380,6 +5380,16 @@ If <varname>q</varname> is not prime results are bogus.</para>
       <title>Manipulação de matrizes</title>
       <variablelist>
         <varlistentry>
+         <term><anchor id="gel-function-AppendElement"/>AppendElement</term>
+         <listitem>
+          <synopsis>AppendElement (v,elt)</synopsis>
+	  <para>Append an element to a vector and return the vector.  No expansion is done.  Normally
+		  a row vector is built if starting from <constant>null</constant> or a 1-by-1 matrix,
+		  but if given a column vector it will properly build a column vector.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term><anchor id="gel-function-ApplyOverMatrix"/>ApplyOverMatrix</term>
          <listitem>
           <synopsis>ApplyOverMatrix (a,func)</synopsis>
@@ -5692,8 +5702,20 @@ functions make this check.  Values can be any number including complex numbers.<
          <term><anchor id="gel-function-MakeVector"/>MakeVector</term>
          <listitem>
           <synopsis>MakeVector (A)</synopsis>
+          <para>Alias: <function>MakeColumnVector</function></para>
           <para>Make column vector out of matrix by putting columns above
-		  each other.  Returns <constant>null</constant> when given <constant>null</constant>.</para>
+		  each other.  Returns <constant>null</constant> when given <constant>null</constant>.
+		  Can be used to ensure a vector is a column vector.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-MakeRowVector"/>MakeRowVector</term>
+         <listitem>
+          <synopsis>MakeRowVector (A)</synopsis>
+	  <para>Make row vector out of matrix by putting rows one after another.
+		  Returns <constant>null</constant> when given <constant>null</constant>.
+	          Can be used to ensure a vector is a row vector.</para>
          </listitem>
         </varlistentry>
 

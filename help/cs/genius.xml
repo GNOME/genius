@@ -3360,6 +3360,14 @@ f(2)
       <title>Práce s maticemi</title>
       <variablelist>
         <varlistentry>
+         <term><anchor id="gel-function-AppendElement"/>AppendElement</term>
+         <listitem>
+          <synopsis>AppendElement (v,prvek)</synopsis>
+	  <para>Přidá prvek do vektoru a vrátí vektor. Neprovádí se žádné rozšíření. Když začínáte z <constant>null</constant> nebo matice 1 krát 1, vytvoří se normálně řádkový vektor, ale když je předán sloupcový vektor, bude správně použit jako sloupcový vektor.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term><anchor id="gel-function-ApplyOverMatrix"/>ApplyOverMatrix</term>
          <listitem>
           <synopsis>ApplyOverMatrix (a,fce)</synopsis>
@@ -3606,7 +3614,16 @@ f(2)
          <term><anchor id="gel-function-MakeVector"/>MakeVector</term>
          <listitem>
           <synopsis>MakeVector (A)</synopsis>
-          <para>Vytvořit sloupcový vektor z matice poskládáním sloupců na sebe. Pokud je předáno <constant>null</constant>, vrátí <constant>null</constant>.</para>
+          <para>Alternativní název: <function>MakeColumnVector</function></para>
+          <para>Vytvořit sloupcový vektor z matice poskládáním sloupců na sebe. Pokud je předáno <constant>null</constant>, vrátí <constant>null</constant>. Můžete si tím zajistit, že vektor bude opravdu sloupcový vektor.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-MakeRowVector"/>MakeRowVector</term>
+         <listitem>
+          <synopsis>MakeRowVector (A)</synopsis>
+	  <para>Vytvořit řádkový vektor z matice poskládáním řádků za sebe. Pokud je předáno <constant>null</constant>, vrátí <constant>null</constant>. Můžete si tím zajistit, že vektor bude skutečně řádkový vektor.</para>
          </listitem>
         </varlistentry>
 

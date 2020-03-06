@@ -782,11 +782,7 @@ genius&gt; 2*2 mod 7
         <varlistentry>
          <term><userinput>a%b</userinput></term>
          <listitem>
-           <para>
-	     The mod operator.  This does not turn on the <link linkend="genius-gel-modular-evaluation">modular mode</link>, but
-             just returns the remainder of integer division
-             <userinput>a/b</userinput>.
-           </para>
+           <para>El operador mod. No activa el <link linkend="genius-gel-modular-evaluation">modo modular</link> sino que simplemente devuelve el resto de la división de enteros <userinput>a/b</userinput>.</para>
          </listitem>
         </varlistentry>
 
@@ -794,11 +790,7 @@ genius&gt; 2*2 mod 7
         <varlistentry>
          <term><userinput>a.%b</userinput></term>
          <listitem>
-           <para>
-             Element by element mod operator.  Returns the remainder
-	     after element by element integer division
-	     <userinput>a./b</userinput>.
-           </para>
+           <para>Operador mod elemento por elemento. Devuelve el resto despues de la división de enteros de elemento por elemento <userinput>a./b</userinput> .</para>
          </listitem>
         </varlistentry>
 
@@ -862,28 +854,14 @@ genius&gt; 2*2 mod 7
         <varlistentry>
          <term><userinput>a&gt;=b</userinput></term>
          <listitem>
-           <para>
-             Greater than or equal operator,
-	     returns <constant>true</constant> if <varname>a</varname> is
-	     greater than or equal to 
-	     <varname>b</varname> else returns <constant>false</constant>.
-	     These can be chained as in <userinput>a &gt;= b &gt;= c</userinput>
-	     (and they can also be combined with the greater than operator).
-           </para>
+           <para>El operador mayor o igual que, devuelve <constant>true</constant> si <varname>a</varname> es mayor o igual que <varname>b</varname>, si no, devuelve <constant>false</constant>. Esto se puede concatenar como <userinput>a &gt;= b &gt;= c</userinput> (también se puede combinar con el operador mayor que).</para>
          </listitem>
         </varlistentry>
 
         <varlistentry>
          <term><userinput>a&lt;b</userinput></term>
          <listitem>
-           <para>
-             Less than operator,
-	     returns <constant>true</constant> if <varname>a</varname> is
-	     less than 
-	     <varname>b</varname> else returns <constant>false</constant>.
-	     These can be chained as in <userinput>a &lt; b &lt; c</userinput>
-	     (they can also be combined with the less than or equal to operator).
-           </para>
+           <para>Operador menor que, devuelve <constant>true</constant> si <varname>a</varname> es menor o igual que <varname>b</varname>, si no, devuelve <constant>false</constant>. Esto se puede concatenar como <userinput>a &lt; b &lt; c</userinput> (también se puede combinar con el operador menor o igual que).</para>
          </listitem>
         </varlistentry>
 
@@ -891,14 +869,7 @@ genius&gt; 2*2 mod 7
         <varlistentry>
          <term><userinput>a&gt;b</userinput></term>
          <listitem>
-           <para>
-             Greater than operator,
-	     returns <constant>true</constant> if <varname>a</varname> is
-	     greater than 
-	     <varname>b</varname> else returns <constant>false</constant>.
-	     These can be chained as in <userinput>a &gt; b &gt; c</userinput>
-	     (they can also be combined with the greater than or equal to operator).
-           </para>
+           <para>Operador mayor que, devuelve <constant>true</constant> si <varname>a</varname> es mayor o igual que <varname>b</varname>, si no, devuelve <constant>false</constant>. Esto se puede concatenar como <userinput>a &gt; b &gt; c</userinput> (también se puede combinar con el operador mayor o igual que).</para>
          </listitem>
         </varlistentry>
 
@@ -930,13 +901,7 @@ genius&gt; 2*2 mod 7
         <varlistentry>
          <term><userinput>a xor b</userinput></term>
          <listitem>
-           <para>
-             Logical xor.
-	     Returns true if exactly one of
-	     <varname>a</varname> or <varname>b</varname> is true,
-	     else returns false.  If given numbers, nonzero numbers
-	     are treated as true.
-           </para>
+           <para>X-OR lógico. Devuelve cierto si <varname>a</varname> o <varname>b</varname> son ciertos; si no, devuelve falso. Si se dan números, los números distintos de cero se consideran como «verdadero».</para>
          </listitem>
         </varlistentry>
 
@@ -944,9 +909,7 @@ genius&gt; 2*2 mod 7
         <varlistentry>
          <term><userinput>not a</userinput></term>
          <listitem>
-           <para>
-		   Logical not.  Returns the logical negation of <varname>a</varname>.
-           </para>
+           <para>NOT lógico. Devuelve la negación lógica de <varname>a</varname></para>
          </listitem>
         </varlistentry>
 
@@ -994,12 +957,7 @@ genius&gt; 2*2 mod 7
         <varlistentry>
          <term><userinput>a@(b,c)</userinput></term>
          <listitem>
-           <para>
-	     Get element of a matrix in row <varname>b</varname> and column
-	     <varname>c</varname>.   If <varname>b</varname>,
-	     <varname>c</varname> are vectors, then this gets the corresponding
-	     rows, columns or submatrices.
-           </para>
+           <para>Devuelve el elemento de una matriz en la fila <varname>b</varname> y columna <varname>c</varname>. Si <varname>b</varname>, <varname>c</varname> son vectores, devuelve las correspondientes filas, columnas o submatrices.</para>
          </listitem>
         </varlistentry>
 
@@ -1068,13 +1026,8 @@ genius&gt; 2*2 mod 7
         <varlistentry>
          <term><userinput>(a)i</userinput></term>
          <listitem>
-           <para>
-	     Make <varname>a</varname> into an imaginary number (multiply <varname>a</varname> by the
-	     imaginary).  Normally the imaginary number <varname>i</varname> is
-	     written as <userinput>1i</userinput>.  So the above is equal to
-	     <programlisting>(a)*1i
-	     </programlisting>
-           </para>
+           <para>Convierte <varname>a</varname> en un número imaginario (multiplicando <varname>a</varname> por el imaginario). Tenga en cuenta que normalmente el número<varname>i</varname> se escribe <userinput>1i</userinput>. De modo que lo descrito arriba es equivalente a <programlisting>(a)*1i
+	     </programlisting></para>
          </listitem>
         </varlistentry>
 
@@ -1207,15 +1160,7 @@ if a==b then c
 
       <sect1 id="genius-gel-variables-global">
         <title>Variables globales y ámbito de variables</title>
-	<para>
-	  GEL is a
-	  <ulink url="https://en.wikipedia.org/wiki/Scope_%28programming%29">
-	  dynamically scoped language</ulink>.  We will explain what this
-	  means below.  That is, normal variables and functions are dynamically
-	  scoped.  The exception are 
-	  <link linkend="genius-gel-parameters">parameter variables</link>,
-	  which are always global.
-	</para>
+	<para>GEL es un <ulink url="https://en.wikipedia.org/wiki/Scope_%28programming%29"> lenguaje con ámbitos dinámicos</ulink>. Esto se explicará más adelante. Esto significa que a las variables ordinarias y a las funciones se les asigna un ámbito de manera dinámica. La única excepción son las <link linkend="genius-gel-parameters">variables de parámetros</link>, que siempre son globales.</para>
 	<para>Al igual que la mayoría de los lenguajes de programación, GEL tiene diferentes tipos de variables. Normalmente, cuando se define una variable en una función ésta es visible desde esa función y desde todas las funciones que se llamen (todos los contextos superiores). Por ejemplo, suponga que una función <function>f</function> define una variable <varname>a</varname> y luego llama a otra función <function>g</function>. Entonces, la función <function>g</function> puede hacer referencia a la variable <varname>a</varname>. Pero, una vez que la ejecución de <function>f</function> concluye, la variable <varname>a</varname> sale del ámbito. Por ejemplo, el siguiente código imprime el número 5. No se puede llamar a la función <function>g</function> desde el nivel más alto (fuera de <function>f</function>, dado que <varname>a</varname> no se habrá definido).</para>
         <para>Si define una variable dentro de una función, ésta anulará toda variable definida al llamar a funciones. Por ejemplo, si modifica el código anterior y escribe: <programlisting>function f() = (a:=5; g());
 function g() = print(a);
@@ -1331,39 +1276,18 @@ a@(4:8,3) := [1,2,3,4,5]'
 
     <sect1 id="genius-gel-toplevel-syntax">
       <title>Sintaxis de nivel superior</title>
-      <para>
-	The syntax is slightly different if you enter statements on
-	the top level versus when they are inside parentheses or
-	inside functions.  On the top level, enter acts the same as if
-	you press return on the command line.  Therefore think of programs
-	as just a sequence of lines as if they were entered on the command line.
-	In particular, you do not need to enter the separator at the end of the
-	line (unless it is of course part of several statements inside
-	parentheses).  When a statement does not end with a separator on the
-	top level, the result is printed after being executed.
-      </para>
-      <para>
-	For example,
-	<programlisting>function f(x)=x^2
+      <para>Cuando se indroduce una sentencia en el nivel más alto, la sintaxis es distinta a la que se utiliza cuando se introduce entre paréntesis o dentro de una función. En el nivel más alto la tecla «Intro» tiene el mismo efecto que al pulsarla en la línea de comandos. Piense en un programa como una secuencia de líneas introducidas en la línea de comandos. En particular, no necesita introducir el separador al final de la línea (salvo que sea parte de varias sentencias dentro de paréntesis).Cuando una sentencia no termina con un seaparador en su nivel más alto, el resultado se mostrará después de su ejecución.</para>
+      <para>Por ejemplo, <programlisting>function f(x)=x^2
 f(3)
-</programlisting>
-	will print first the result of setting a function (a representation of
-	the function, in this case <computeroutput>(`(x)=(x^2))</computeroutput>)
-	and then the expected 9.  To avoid this, enter a separator
-	after the function definition.
-	<programlisting>function f(x)=x^2;
+</programlisting> imprimirá primero el resultado de las configuraciones una función (una representación de la función, en este caso <computeroutput>(`(x)=(x^2))</computeroutput>) y entonces el esperado 9. Para impedir esto, introduzca un separador después de la definición de la función. <programlisting>function f(x)=x^2;
 f(3)
-</programlisting>
-	If you need to put a separator into your function then you have to surround with
-	parenthesis.  For example:
-<programlisting>function f(x)=(
+</programlisting> Si necesita poner un separador dentro de su función debe de ir entre paréntesis. Por ejemplo: <programlisting>function f(x)=(
   y=1;
   for j=1 to x do
     y = y+j;
   y^2
 );
-</programlisting>
-      </para>
+</programlisting></para>
       <para>El siguiente código, aunque funcione bien en la función, puede producir un error al introducirlo en el nivel más alto de un programa. <programlisting>if Algo() then
   HacerAlgo()
 else
@@ -2345,11 +2269,7 @@ f(2)
          <listitem>
           <synopsis>CatalanConstant</synopsis>
           <para>Constante de Catalan, aproximadamente 0,915... Se define para las series donde los términos son <userinput>(-1^k)/((2*k+1)^2)</userinput>, donde <varname>k</varname> tiene un rango desde 0 a infinito.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Catalan%27s_constant">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/CatalansConstant.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Catalan%27s_constant">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/CatalansConstant.html">la enciclopedia matemática Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2359,12 +2279,7 @@ f(2)
           <synopsis>EulerConstant</synopsis>
           <para>Alias: <function>gamma</function></para>
           <para>Constante gamma de Euler. También llamada constante de Euler-Mascheroni.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Euler-Mascheroni_constant">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/MascheroniConstant">Planetmath</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/Euler-MascheroniConstant.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Euler-Mascheroni_constant">Wikipedia</ulink> o <ulink url="http://planetmath.org/MascheroniConstant">Planetmath</ulink> o <ulink url="http://mathworld.wolfram.com/Euler-MascheroniConstant.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2373,12 +2288,7 @@ f(2)
          <listitem>
           <synopsis>GoldenRatio</synopsis>
           <para>El número áureo.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Golden_ratio">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/GoldenRatio">Planetmath</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/GoldenRatio.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Golden_ratio">Wikipedia</ulink> o <ulink url="http://planetmath.org/GoldenRatio">Planetmath</ulink> o <ulink url="http://mathworld.wolfram.com/GoldenRatio.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2387,10 +2297,7 @@ f(2)
          <listitem>
           <synopsis>Gravedad</synopsis>
 	  <para>La aceleración en caída libre al nivel del mar en metros por segundos al cuadrado. Es la constante de gravedad estandarizada y su valor es 9.80665. La gravedad en un desfiladero de un bosque es diferente debido principalmente a la diferencia de altitud y al hecho de que la Tierra no es perfectamente redonda ni uniforme.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Standard_gravity">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Standard_gravity">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2399,12 +2306,7 @@ f(2)
          <listitem>
           <synopsis>e</synopsis>
           <para>La base del logaritmo natural. <userinput>e^x</userinput> es la función exponencial <link linkend="gel-function-exp"><function>exp</function></link>. Su valor es aproximadamente 2.71828182846... Este número se llama número de Euler, aúnque hay varios números que se llaman también Euler. Un ejemplo es la constante gamma: <link linkend="gel-function-EulerConstant"><function>Constante de Euler</function></link>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/E_(mathematical_constant)">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/E">Planetmath</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/e.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/E_(mathematical_constant)">Wikipedia</ulink> o <ulink url="http://planetmath.org/E">Planetmath</ulink> o <ulink url="http://mathworld.wolfram.com/e.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2413,12 +2315,7 @@ f(2)
          <listitem>
           <synopsis>pi</synopsis>
           <para>El número pi, que es la relación de la circunferencia de un círculo con su diámetro. Esto es aproximadamente 3,14159265359...</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Pi">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/Pi">Planetmath</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/Pi.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Pi">Wikipedia</ulink> o <ulink url="http://planetmath.org/Pi">Planetmath</ulink> o <ulink url="http://mathworld.wolfram.com/Pi.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2434,15 +2331,7 @@ f(2)
           <synopsis>AbsoluteValue (x)</synopsis>
           <para>Alias: <function>abs</function></para>
           <para>Valor absoluto de un número y, si <varname>x</varname> es un valor complejo, el módulo de <varname>x</varname>. Es decir, es la distancia entre <varname>x</varname> y el origen. Esto es equivalente a <userinput>|x|</userinput>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Absolute_value">Wikipedia</ulink>,
-	    <ulink url="http://planetmath.org/AbsoluteValue">Planetmath (absolute value)</ulink>,
-	    <ulink url="http://planetmath.org/ModulusOfComplexNumber">Planetmath (modulus)</ulink>,
-	    <ulink url="http://mathworld.wolfram.com/AbsoluteValue.html">Mathworld (absolute value)</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/ComplexModulus.html">Mathworld (complex modulus)</ulink>
-for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Absolute_value">Wikipedia</ulink>, <ulink url="http://planetmath.org/AbsoluteValue">Planetmath (valor absoluto)</ulink>, <ulink url="http://planetmath.org/ModulusOfComplexNumber">Planetmath (módulo)</ulink>, <ulink url="http://mathworld.wolfram.com/AbsoluteValue.html">Mathworld (valor absoluto)</ulink> o <ulink url="http://mathworld.wolfram.com/ComplexModulus.html">Mathworld (módulo complejo)</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2460,10 +2349,7 @@ for more information.
           <synopsis>ComplexConjugate (z)</synopsis>
           <para>Alias: <function>conj</function><function>Conj</function></para>
           <para>Calcula el conjugado complejo del número complejo <varname>z</varname>. Si <varname>z</varname> es un vector o una matriz, se conjugan todos sus elementos.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Complex_conjugate">Wikipedia</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Complex_conjugate">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2472,10 +2358,7 @@ for more information.
          <listitem>
           <synopsis>Denominator (x)</synopsis>
           <para>Obtener el denominador de un número racional.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Denominator">Wikipedia</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Denominator">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2484,10 +2367,7 @@ for more information.
          <listitem>
           <synopsis>FractionalPart (x)</synopsis>
           <para>Devolver la parte fraccional de un número.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Fractional_part">Wikipedia</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Fractional_part">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2497,10 +2377,7 @@ for more information.
           <synopsis>Im (z)</synopsis>
           <para>Alias: <function>ImaginaryPart</function></para>
           <para>Obtener la parte imaginaria de un número complejo. Por ejemplo <userinput>Re(3+4i)</userinput> yields 4.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Imaginary_part">Wikipedia</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Imaginary_part">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2591,10 +2468,7 @@ for more information.
          <listitem>
           <synopsis>Numerator (x)</synopsis>
           <para>Obtener el numerador de un número racional.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Numerator">Wikipedia</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Numerator">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2604,10 +2478,7 @@ for more information.
           <synopsis>Re (z)</synopsis>
           <para>Alias: <function>RealPart</function></para>
 	  <para>Obtiene la parte real de un número complejo. Por ejemplo <userinput>Re(3+4i)</userinput> devuelve 3.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Real_part">Wikipedia</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Real_part">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2639,12 +2510,7 @@ for more information.
          <listitem>
           <synopsis>exp (x)</synopsis>
           <para>La función exponencial. Esto es la función <userinput>e^x</userinput> donde <varname>e</varname> es la <link linkend="gel-function-e">base del logaritmo natural</link>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Exponential_function">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/LogarithmFunction">Planetmath</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/ExponentialFunction.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Exponential_function">Wikipedia</ulink> o <ulink url="http://planetmath.org/LogarithmFunction">Planetmath</ulink> o <ulink url="http://mathworld.wolfram.com/ExponentialFunction.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2670,12 +2536,7 @@ for more information.
          <listitem>
           <synopsis>ln (x)</synopsis>
           <para>El logaritmo natural, logaritmo en base <varname>e</varname>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Natural_logarithm">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/LogarithmFunction">Planetmath</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/NaturalLogarithm.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Natural_logarithm">Wikipedia</ulink> o <ulink url="http://planetmath.org/LogarithmFunction">Planetmath</ulink> o <ulink url="http://mathworld.wolfram.com/NaturalLogarithm.html">Mathworld</ulink> para más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2887,11 +2748,7 @@ for more information.
           <synopsis>atan (x)</synopsis>
           <para>Alias: <function>arctan</function></para>
           <para>Calcula la función «arctan» (inversa de «tan»).</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Arctangent">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/InverseTangent.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Arctangent">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/InverseTangent.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2911,11 +2768,7 @@ for more information.
           <para>Alias: <function>arctan2</function></para>
           <para>Calcula la función «arctan2». Si <userinput>x&gt;0</userinput>, entonces devuelve <userinput>atan(y/x)</userinput>. Si <userinput>x&lt;0</userinput>, entonces devuelve <userinput>sign(y) * (pi - atan(|y/x|)</userinput>. Cuando <userinput>x=0</userinput> devuelve <userinput>sign(y) *
 	  pi/2</userinput>. <userinput>atan2(0,0)</userinput> devuelve 0 en lugar de fallar.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Atan2">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/InverseTangent.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Atan2">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/InverseTangent.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2924,11 +2777,7 @@ for more information.
          <listitem>
           <synopsis>cos (x)</synopsis>
           <para>Calcula la función coseno.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> o <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2946,11 +2795,7 @@ for more information.
          <listitem>
           <synopsis>cot (x)</synopsis>
           <para>La función cotangente.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> o <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2968,11 +2813,7 @@ for more information.
          <listitem>
           <synopsis>csc (x)</synopsis>
           <para>La función cosecante.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> o <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -2990,11 +2831,7 @@ for more information.
          <listitem>
           <synopsis>sec (x)</synopsis>
           <para>La función secante.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> o <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3012,11 +2849,7 @@ for more information.
          <listitem>
           <synopsis>sin (x)</synopsis>
           <para>Calcula la función seno.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> o <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3034,11 +2867,7 @@ for more information.
          <listitem>
           <synopsis>tan (x)</synopsis>
           <para>Calcula la función tangente.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Trigonometric_functions">Wikipedia</ulink> o <ulink url="http://planetmath.org/DefinitionsInTrigonometry">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3071,11 +2900,7 @@ for more information.
          <listitem>
           <synopsis>BernoulliNumber (n)</synopsis>
           <para>Devolver el <varname>n</varname>-ésimo número de Bernoulli.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Bernoulli_number">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/BernoulliNumber.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Bernoulli_number">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/BernoulliNumber.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3085,12 +2910,7 @@ for more information.
           <synopsis>ChineseRemainder (a,m)</synopsis>
           <para>Alias: <function>CRT</function></para>
 	  <para>Encontrar la <varname>x</varname> que resuelve el sistema dado por el vector <varname>a</varname> y el módulo de los elementos de <varname>m</varname>, utilizando el «teorema chino del resto».</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Chinese_remainder_theorem">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/ChineseRemainderTheorem">Planetmath</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/ChineseRemainderTheorem.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Chinese_remainder_theorem">Wikipedia</ulink> o <ulink url="http://planetmath.org/ChineseRemainderTheorem">Planetmath</ulink> o <ulink url="http://mathworld.wolfram.com/ChineseRemainderTheorem.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3124,12 +2944,7 @@ for more information.
          <listitem>
           <synopsis>DiscreteLog (n,b,q)</synopsis>
           <para>Encontrar el logaritmo discreto de <varname>n</varname> en base <varname>b</varname> en F<subscript>q</subscript>, el campo finito de orden <varname>q</varname>, donde <varname>q</varname> es primo, utilizando el algoritmo de Silver-Pohlig-Hellman.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Discrete_logarithm">Wikipedia</ulink>,
-	    <ulink url="http://planetmath.org/DiscreteLogarithm">Planetmath</ulink>, or
-	    <ulink url="http://mathworld.wolfram.com/DiscreteLogarithm.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Discrete_logarithm">Wikipedia</ulink>, <ulink url="http://planetmath.org/DiscreteLogarithm">Planetmath</ulink>, o <ulink url="http://mathworld.wolfram.com/DiscreteLogarithm.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3146,12 +2961,7 @@ for more information.
          <listitem>
           <synopsis>EulerPhi (n)</synopsis>
           <para>Calcular la función phi de Euler para <varname>n</varname>, que es el número de enteros entre 1 y <varname>n</varname> primo relativo con <varname>n</varname>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Euler_phi">Wikipedia</ulink>,
-	    <ulink url="http://planetmath.org/EulerPhifunction">Planetmath</ulink>, or
-	    <ulink url="http://mathworld.wolfram.com/TotientFunction.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Euler_phi">Wikipedia</ulink>, <ulink url="http://planetmath.org/EulerPhifunction">Planetmath</ulink>, o <ulink url="http://mathworld.wolfram.com/TotientFunction.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3171,10 +2981,7 @@ for more information.
 =
 [1      11      13
  1      2       1]</screen></para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Factorization">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Factorization">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3196,10 +3003,7 @@ for more information.
           <synopsis>FermatFactorization (n,tries)</synopsis>
           <para>Probar la factorización de Fermat de <varname>n</varname> en <userinput>(t-s)*(t+s)</userinput>, devuelve <varname>t</varname> y <varname>s</varname> como un vector si es posible, <constant>null</constant> de otra manera <varname>tries</varname> especifica el número de intentos antes de abandonar </para>
           <para>Es una buena factorización si su número es el producto de dos factores que están muy cerca.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Fermat_factorization">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Fermat_factorization">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3248,14 +3052,7 @@ for more information.
          <listitem>
           <synopsis>IsMersennePrimeExponent (p)</synopsis>
           <para>Comprueba si un entero positivo <varname>p</varname> es un exponente primo de Mersenne. Esto es si 2<superscript>p</superscript>-1 es un primo. Esto lo hace mirando en una tabla de valores conocidos que es relativamente corta. Vea también <link linkend="gel-function-MersennePrimeExponents">MersennePrimeExponents</link> y <link linkend="gel-function-LucasLehmer">LucasLehmer</link>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Mersenne_prime">Wikipedia</ulink>,
-	    <ulink url="http://planetmath.org/MersenneNumbers">Planetmath</ulink>,
-	    <ulink url="http://mathworld.wolfram.com/MersennePrime.html">Mathworld</ulink> or 
-	    <ulink url="http://www.mersenne.org/">GIMPS</ulink>
- for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Mersenne_prime">Wikipedia</ulink>, <ulink url="http://planetmath.org/MersenneNumbers">Planetmath</ulink>, <ulink url="http://mathworld.wolfram.com/MersennePrime.html">Mathworld</ulink> o <ulink url="http://www.mersenne.org/">GIMPS</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3287,11 +3084,7 @@ for more information.
          <term><anchor id="gel-function-IsPerfectSquare"/>IsPerfectSquare</term>
          <listitem>
           <synopsis>IsPerfectSquare (n)</synopsis>
-          <para>
-	    Check an integer for being a perfect square of an integer.  The number must
-	    be an integer.  Negative integers are of course never perfect
-	    squares of integers.
-	  </para>
+          <para>Comprobar si un entero es un cuadrado perfecto de un entero. El número será un entero real. Los enteros negativos, por supuesto, no son perfectos cuadrados de enteros reales.</para>
          </listitem>
         </varlistentry>
 
@@ -3378,12 +3171,7 @@ for more information.
          <listitem>
           <synopsis>LucasLehmer (p)</synopsis>
           <para>Compruebe si 2<superscript>p</superscript>-1 es un primo de Mersenne utilizando la prueba de Lucas-Lehmer. Consulte también <link linkend="gel-function-MersennePrimeExponents">MersennePrimeExponents</link> y <link linkend="gel-function-IsMersennePrimeExponent">IsMersennePrimeExponent</link>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Lucas%E2%80%93Lehmer_primality_test">Wikipedia</ulink>,
-	    <ulink url="http://planetmath.org/LucasLhemer">Planetmath</ulink>, or
-	    <ulink url="http://mathworld.wolfram.com/Lucas-LehmerTest.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Lucas%E2%80%93Lehmer_primality_test">Wikipedia</ulink>, <ulink url="http://planetmath.org/LucasLhemer">Planetmath</ulink>, o <ulink url="http://mathworld.wolfram.com/Lucas-LehmerTest.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3392,12 +3180,7 @@ for more information.
          <listitem>
           <synopsis>LucasNumber (n)</synopsis>
           <para>Devuelve el <varname>n</varname>-ésimo número de Lucas.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Lucas_number">Wikipedia</ulink>,
-	    <ulink url="http://planetmath.org/LucasNumbers">Planetmath</ulink>, or
-	    <ulink url="http://mathworld.wolfram.com/LucasNumber.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Lucas_number">Wikipedia</ulink>, <ulink url="http://planetmath.org/LucasNumbers">Planetmath</ulink>, o <ulink url="http://mathworld.wolfram.com/LucasNumber.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3414,14 +3197,7 @@ for more information.
          <listitem>
           <synopsis>MersennePrimeExponents</synopsis>
           <para>Un vector de Mersenne de exponentes primos conocidos, esto es una lista de enteros positivos <varname>p</varname> tal que 2<superscript>p</superscript>-1 es un primo. Consulte también <link linkend="gel-function-IsMersennePrimeExponent">IsMersennePrimeExponent</link> y <link linkend="gel-function-LucasLehmer">LucasLehmer</link>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Mersenne_prime">Wikipedia</ulink>,
-	    <ulink url="http://planetmath.org/MersenneNumbers">Planetmath</ulink>,
-	    <ulink url="http://mathworld.wolfram.com/MersennePrime.html">Mathworld</ulink> or 
-	    <ulink url="http://www.mersenne.org/">GIMPS</ulink>
- for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Mersenne_prime">Wikipedia</ulink>, <ulink url="http://planetmath.org/MersenneNumbers">Planetmath</ulink>, <ulink url="http://mathworld.wolfram.com/MersennePrime.html">Mathworld</ulink> o <ulink url="http://www.mersenne.org/">GIMPS</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3430,12 +3206,7 @@ for more information.
          <listitem>
           <synopsis>MillerRabinTest (n,reps)</synopsis>
           <para>Utiliza la prueba de números primarios Miller-Rabin de <varname>n</varname>, <varname>reps</varname> número de veces. La probabilidad de falso positivo es <userinput>(1/4)^reps</userinput>. Probablemente es mejor usar <link linkend="gel-function-IsPrime"><function>IsPrime</function></link> ya que es más rápido y mejor sobre enteros más pequeños.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/MillerRabinPrimeTest">Planetmath</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test">Wikipedia</ulink> o <ulink url="http://planetmath.org/MillerRabinPrimeTest">Planetmath</ulink> o <ulink url="http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3444,12 +3215,7 @@ for more information.
          <listitem>
           <synopsis>MillerRabinTestSure (n)</synopsis>
           <para>Utiliza la prueba Miller-Rabin de números primos de <varname>n</varname> con las bases suficientes que asuman la hipótesis generalizada de Reimann, el resultado es determinista.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test">Wikipedia</ulink>,
-	    <ulink url="http://planetmath.org/MillerRabinPrimeTest">Planetmath</ulink>, or
-	    <ulink url="http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test">Wikipedia</ulink>, <ulink url="http://planetmath.org/MillerRabinPrimeTest">Planetmath</ulink>, o <ulink url="http://mathworld.wolfram.com/Rabin-MillerStrongPseudoprimeTest.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3588,6 +3354,14 @@ for more information.
       <title>Manipulación de matrices</title>
       <variablelist>
         <varlistentry>
+         <term><anchor id="gel-function-AppendElement"/>AppendElement</term>
+         <listitem>
+          <synopsis>AppendElement (v,elt)</synopsis>
+	  <para>Añadir un elemento a un vector y devolver el vector. No se realiza la expansión. Normalmente un vector de fila se construye empezando por <constant>null</constant> o por una matriz de 1x1, pero si se da un vector columna construirá correctamente un vector de este tipo.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term><anchor id="gel-function-ApplyOverMatrix"/>ApplyOverMatrix</term>
          <listitem>
           <synopsis>ApplyOverMatrix (a,func)</synopsis>
@@ -3631,12 +3405,7 @@ for more information.
          <term><anchor id="gel-function-CountZeroColumns"/>CountZeroColumns</term>
          <listitem>
           <synopsis>CountZeroColumns (M)</synopsis>
-          <para>
-	   Count the number of zero columns in a matrix.  For example,
-	   once you column-reduce a matrix, you can use this to find
-	   the nullity.  See <link linkend="gel-function-cref"><function>cref</function></link>
-	   and <link linkend="gel-function-Nullity"><function>Nullity</function></link>.
-          </para>
+          <para>Contar el número de cero columnas en una matriz. Por ejemplo una vez que su columna reduce una matriz puede usar esto para encontrar la nulidad. Consulte <link linkend="gel-function-cref"><function>cref</function></link> y <link linkend="gel-function-Nullity"><function>Nullity</function></link>.</para>
          </listitem>
         </varlistentry>
 
@@ -3661,10 +3430,7 @@ for more information.
          <listitem>
           <synopsis>DiagonalOf (M)</synopsis>
           <para>Obtener las entradas diagonales de una matriz como un vector columna.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Diagonal_of_a_matrix#Matrices">Wikipedia</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Diagonal_of_a_matrix#Matrices">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3718,11 +3484,7 @@ for more information.
          <listitem>
           <synopsis>IsDiagonal (M)</synopsis>
           <para>Es una matriz diagonal.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Diagonal_matrix">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/DiagonalMatrix">Planetmath</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Diagonal_matrix">Wikipedia</ulink> o <ulink url="http://planetmath.org/DiagonalMatrix">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3755,10 +3517,7 @@ for more information.
          <listitem>
           <synopsis>IsMatrixNonnegative (M)</synopsis>
           <para>Comprobar si una matriz no es negativa, es decir, si cada elemento no es negativo. No confunda matrices positivas con matrices semidefinidas positivas.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Positive_matrix">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Positive_matrix">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3767,10 +3526,7 @@ for more information.
          <listitem>
           <synopsis>IsMatrixPositive (M)</synopsis>
 	  <para>Comprobar si una matriz es positiva, es decir, si cada elemento es positivo (y por lo tanto real). Individualmente, ningún elemento es 0. No confunda matrices positivas con matrices definidas positivas.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Positive_matrix">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Positive_matrix">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3844,11 +3600,7 @@ for more information.
           <synopsis>MakeDiagonal (v,arg...)</synopsis>
           <para>Alias: <function>diag</function></para>
 	  <para>Hacer una matriz diagonal desde un vector. Alternativamente puede pasarle los valores como argumentos para la diagonal. Así <userinput>MakeDiagonal([1,2,3])</userinput> es lo mismo que <userinput>MakeDiagonal(1,2,3)</userinput>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Diagonal_matrix">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/DiagonalMatrix">Planetmath</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Diagonal_matrix">Wikipedia</ulink> o <ulink url="http://planetmath.org/DiagonalMatrix">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -3856,7 +3608,16 @@ for more information.
          <term><anchor id="gel-function-MakeVector"/>MakeVector</term>
          <listitem>
           <synopsis>MakeVector (A)</synopsis>
-          <para>Hacer un vector columna fuera de la matriz colocando columnas una encima de la otra. Devuelve <constant>null</constant> cuando se introduce <constant>null</constant>.</para>
+          <para>Alias: <function>MakeColumnVector</function></para>
+          <para>Hacer un vector columna fuera de la matriz colocando columnas una encima de la otra. Devuelve <constant>null</constant> cuando se introduce <constant>null</constant>. Se puede usar para asegurarse de que un vector es un vector columna.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-MakeRowVector"/>MakeRowVector</term>
+         <listitem>
+          <synopsis>MakeRowVector (A)</synopsis>
+	  <para>Hacer un vector fila fuera de la matriz colocando columnas una después de la otra. Devuelve <constant>null</constant> cuando se introduce <constant>null</constant>. Se puede usar para asegurarse de que un vector es un vector fila.</para>
          </listitem>
         </varlistentry>
 
@@ -4190,12 +3951,7 @@ something(r)</userinput>.</para>
           <synopsis>Eigenvalues (M)</synopsis>
           <para>Alias: <function>eig</function></para>
           <para>Obtener los valores propios de una matriz cuadrada. En la actualidad solo funciona con matrices de tamaño 4 por 4 como máximo, o para matrices triangulares (cuyo valores propios están en la diagonal).</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Eigenvalue">Wikipedia</ulink>,
-	    <ulink url="http://planetmath.org/Eigenvalue">Planetmath</ulink>, or
-	    <ulink url="http://mathworld.wolfram.com/Eigenvalue.html">Mathworld</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Eigenvalue">Wikipedia</ulink>, <ulink url="http://planetmath.org/Eigenvalue">Planetmath</ulink>, o <ulink url="http://mathworld.wolfram.com/Eigenvalue.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4206,12 +3962,7 @@ something(r)</userinput>.</para>
           <synopsis>Eigenvectors (M, &amp;eigenvalues)</synopsis>
           <synopsis>Eigenvectors (M, &amp;eigenvalues, &amp;multiplicities)</synopsis>
 	  <para>Obtener los autovectores de una matriz cuadrada. Opcionalmente, obtener los autovalores y su multiplicidad algebraica. Actualmente funciona sólo para matrices de hasta 2x2.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Eigenvector">Wikipedia</ulink>,
-	    <ulink url="http://planetmath.org/Eigenvector">Planetmath</ulink>, or
-	    <ulink url="http://mathworld.wolfram.com/Eigenvector.html">Mathworld</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Eigenvector">Wikipedia</ulink>, <ulink url="http://planetmath.org/Eigenvector">Planetmath</ulink>, o <ulink url="http://mathworld.wolfram.com/Eigenvector.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4381,12 +4132,7 @@ something(r)</userinput>.</para>
           <synopsis>KroneckerProduct (M, N)</synopsis>
           <para>Alias: <function>TensorProduct</function></para>
 	  <para>Calcula el producto de Kronecker (producto tensorial en base estándar) de dos matrices.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Kronecker_product">Wikipedia</ulink>, 
-	    <ulink url="http://planetmath.org/KroneckerProduct">Planetmath</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/KroneckerProduct.html">Mathworld</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Kronecker_product">Wikipedia</ulink>, <ulink url="http://planetmath.org/KroneckerProduct">Planetmath</ulink> o <ulink url="http://mathworld.wolfram.com/KroneckerProduct.html">Mathworld</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.18 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -4400,12 +4146,7 @@ something(r)</userinput>.</para>
 </screen> tendrá la matriz inferior guardada en una variable llamada <varname>L</varname> y la matriz superior en una variable llamada  <varname>U</varname>.</para>
 	  <para>Esto es la descomposición de LU de una matriz también conocido como Crout y/o reducción de Cholesky. (ISBN 0-201-11577-8 pp.99-103) La matriz triangular superior cuenta con una diagonal de valores 1 (uno). Esto no es el método de Doolittle en las que los unos de la diagonal están sobre la matriz inferior.</para>
 	  <para>No todas las matrices tienen la descomposición de LU, por ejemplo <userinput>[0,1;1,0]</userinput> no lo hace y esta función devuelve <constant>false</constant> en este caso, y establece <varname>L</varname> y <varname>U</varname> a <constant>null</constant>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</ulink>,
-	    <ulink url="http://planetmath.org/LUDecomposition">Planetmath</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/LUDecomposition.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</ulink>, <ulink url="http://planetmath.org/LUDecomposition">Planetmath</ulink> o <ulink url="http://mathworld.wolfram.com/LUDecomposition.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4484,12 +4225,7 @@ something(r)</userinput>.</para>
           <synopsis>QRDecomposition (A, Q)</synopsis>
           <para>Obtener la descomposición QR de una matriz cuadrada <varname>A</varname>, devuelve la matriz triangular superior <varname>R</varname> y establece <varname>Q</varname> a la matriz ortogonal (unitaria). <varname>Q</varname> será una referencia o <constant>null</constant> si no quiere que se devuelva ningún valor. Por ejemplo: <screen><prompt>genius&gt;</prompt> <userinput>R = QRDecomposition(A,&amp;Q)</userinput>
 </screen> tendrá la matriz triangular superior guardada en una variable llamada <varname>R</varname> y la matriz ortogonal (unitaria) guardada en <varname>Q</varname>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/QR_decomposition">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/QRDecomposition">Planetmath</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/QRDecomposition.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/QR_decomposition">Wikipedia</ulink> o <ulink url="http://planetmath.org/QRDecomposition">Planetmath</ulink> o <ulink url="http://mathworld.wolfram.com/QRDecomposition.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4591,10 +4327,7 @@ something(r)</userinput>.</para>
          <listitem>
           <synopsis>SmithNormalFormField (A)</synopsis>
           <para>Devuelve la forma normal de Smith de una matriz sobre los campos (terminará con unos en la diagonal).</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Smith_normal_form">Wikipedia</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Smith_normal_form">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4603,10 +4336,7 @@ something(r)</userinput>.</para>
          <listitem>
           <synopsis>SmithNormalFormInteger (M)</synopsis>
           <para>Devuelve la forma normal de Smith para matrices cuadradas sobre enteros.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Smith_normal_form">Wikipedia</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Smith_normal_form">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4623,11 +4353,7 @@ something(r)</userinput>.</para>
          <listitem>
           <synopsis>ToeplitzMatrix (c, r...)</synopsis>
 	  <para>Devuelve la matriz de Toeplitz que se construye con la primera columna «c» y (opcionalmente) la primera fila «r». Si sólo se da la columna «c», entonces esta es conjugada y la versión no conjugada la utiliza la primera fila para dar una matriz Hermitiana (si el primer elemento es real).</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Toeplitz_matrix">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/ToeplitzMatrix">Planetmath</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Toeplitz_matrix">Wikipedia</ulink> o <ulink url="http://planetmath.org/ToeplitzMatrix">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4637,11 +4363,7 @@ something(r)</userinput>.</para>
           <synopsis>Trace (M)</synopsis>
           <para>Alias: <function>trace</function></para>
           <para>Calcular la traza de una matriz. Esto es la suma de sus elementos diagonales.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Trace_(linear_algebra)">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/Trace">Planetmath</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Trace_(linear_algebra)">Wikipedia</ulink> o <ulink url="http://planetmath.org/Trace">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4650,11 +4372,7 @@ something(r)</userinput>.</para>
          <listitem>
           <synopsis>Transpose (M)</synopsis>
           <para>Traspuesta de una matriz. Es lo mismo que el operador  <userinput>.'</userinput>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Transpose">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/Transpose">Planetmath</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Transpose">Wikipedia</ulink> o <ulink url="http://planetmath.org/Transpose">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4664,10 +4382,7 @@ something(r)</userinput>.</para>
           <synopsis>VandermondeMatrix (v)</synopsis>
           <para>Alias: <function>vander</function></para>
           <para>Devuelve la matriz de Vandermonde.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Vandermonde_matrix">Wikipedia</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Vandermonde_matrix">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4727,11 +4442,7 @@ something(r)</userinput>.</para>
           <synopsis>det (M)</synopsis>
           <para>Alias: <function>Determinant</function></para>
           <para>Obtener el determinante de una matriz.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Determinant">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/Determinant2">Planetmath</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Determinant">Wikipedia</ulink> o <ulink url="http://planetmath.org/Determinant2">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4741,11 +4452,7 @@ something(r)</userinput>.</para>
           <synopsis>ref (M)</synopsis>
           <para>Alias: <function>REF</function><function>RowEchelonForm</function></para>
 	  <para>Obtener la matriz escalonada por fila. Es decir, aplicar la eliminación gausiana pero no hacer la reducción a <varname>M</varname>. Las filas pivote están divididas para que todos los pivotes sean 1.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Row_echelon_form">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/RowEchelonForm">Planetmath</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Row_echelon_form">Wikipedia</ulink> o <ulink url="http://planetmath.org/RowEchelonForm">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4755,11 +4462,7 @@ something(r)</userinput>.</para>
           <synopsis>rref (M)</synopsis>
           <para>Alias: <function>RREF</function><function>ReducedRowEchelonForm</function></para>
           <para>Obtener la matriz escalonada reducida por filas. Es decir, aplicar la eliminación gausiana junto con la reducción a <varname>M</varname>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Reduced_row_echelon_form">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/ReducedRowEchelonForm">Planetmath</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Reduced_row_echelon_form">Wikipedia</ulink> o <ulink url="http://planetmath.org/ReducedRowEchelonForm">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4783,10 +4486,7 @@ something(r)</userinput>.</para>
          <listitem>
           <synopsis>Combinations (k,n)</synopsis>
           <para>Obtener todas las combinaciones de «k» números desde 1 a «n» como un vector de vectores. (Consulte <link linkend="gel-function-NextCombination">NextCombination</link>)</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Combination">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Denominator">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4823,12 +4523,7 @@ something(r)</userinput>.</para>
           <synopsis>Fibonacci (x)</synopsis>
           <para>Alias: <function>fib</function></para>
           <para>Calcular el <varname>n</varname>-ésimo número de Fibonacci. El número se define recursivamente por <userinput>Fibonacci(n) = Fibonacci(n-1) + Fibonacci(n-2)</userinput> y <userinput>Fibonacci(1) = Fibonacci(2) = 1</userinput>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Fibonacci_number">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/FibonacciSequence">Planetmath</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/FibonacciNumber.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Fibonacci_number">Wikipedia</ulink> o <ulink url="http://planetmath.org/FibonacciSequence">Planetmath</ulink> o <ulink url="http://mathworld.wolfram.com/FibonacciNumber.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4836,18 +4531,8 @@ something(r)</userinput>.</para>
          <term><anchor id="gel-function-FrobeniusNumber"/>FrobeniusNumber</term>
          <listitem>
           <synopsis>FrobeniusNumber (v,arg...)</synopsis>
-          <para>
-	    Calculate the Frobenius number.  That is calculate largest
-	    number that cannot be given as a non-negative integer linear
-	    combination of a given vector of non-negative integers.
-	    The vector can be given as separate numbers or a single vector.
-	    All the numbers given should have GCD of 1.
-	  </para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Coin_problem">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/FrobeniusNumber.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Calcular el número de Frobenius. Calcular en número más grande que no se puede dar como una combinación de entero lineal no negativo de un vector dado de enteros no negativos. El vector se puede dar como números separados o un simple vector. Todos los números tendrán un máximo común divisor de enteros «GCD» de 1.</para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Bernoulli_number">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/BernoulliNumber.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4864,11 +4549,7 @@ something(r)</userinput>.</para>
          <listitem>
           <synopsis>GreedyAlgorithm (n,v)</synopsis>
           <para>Buscar el vector <varname>c</varname> de enteros no negativos de tal manera que al realizar el producto escalar con <varname>v</varname> es igual a n. Si no es posible, se devuelve <constant>null</constant>. <varname>v</varname> estará ordenada de forma incremental y estará constituida de enteros no negativos.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Greedy_algorithm">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/GreedyAlgorithm.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Prime_factor">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/PrimeFactor.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4877,13 +4558,8 @@ something(r)</userinput>.</para>
          <listitem>
           <synopsis>HarmonicNumber (n,r)</synopsis>
           <para>Alias: <function>HarmonicH</function></para>
-	  <para>Harmonic Number, the <varname>n</varname>th harmonic number of order <varname>r</varname>.
-	        That is, it is the sum of <userinput>1/k^r</userinput> for <varname>k</varname>
-		from 1 to n.  Equivalent to <userinput>sum k = 1 to n do 1/k^r</userinput>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Harmonic_number">Wikipedia</ulink> for more information.
-	  </para>
+	  <para>Número Armónico, el <varname>n</varname>-ésimo número armónico de orden <varname>r</varname>. Esto es, el sumatorio de <userinput>1/k^r</userinput> para <varname>k</varname> desde 1 a n. Equivalente a <userinput>sum k = 1 to n do 1/k^r</userinput>.</para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Hankel_matrix">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4892,11 +4568,7 @@ something(r)</userinput>.</para>
          <listitem>
           <synopsis>Hofstadter (n)</synopsis>
           <para>Función q(n) de Hofstadter definida por q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-q(n-2)).</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Hofstadter_sequence">Wikipedia</ulink> for more information.
-	    The sequence is <ulink url="https://oeis.org/A005185">A005185 in OEIS</ulink>.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Row_and_column_spaces">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4915,12 +4587,7 @@ something(r)</userinput>.</para>
           <para>Calcular los coeficientes multinomiales. Toma un vector de <varname>k</varname> enteros no negativos y calcula el coeficiente multinomial. Esto corresponde al coeficiente en el polinomio homogéneo en <varname>k</varname> variables con las correspondientes potencias.</para>
 	  <para>La fórmula para <userinput>Multinomial(a,b,c)</userinput> se puede escribir como: <programlisting>(a+b+c)! / (a!b!c!)
 </programlisting>. En otras palabras, si sólo hay dos elementos, entonces <userinput>Multinomial(a,b)</userinput> es lo mismo que <userinput>Binomial(a+b,a)</userinput> o <userinput>Binomial(a+b,b)</userinput>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Multinomial_theorem">Wikipedia</ulink>,
-	    <ulink url="http://planetmath.org/MultinomialTheorem">Planetmath</ulink>, or
-	    <ulink url="http://mathworld.wolfram.com/MultinomialCoefficient.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Multinomial_theorem">Wikipedia</ulink>, <ulink url="http://planetmath.org/MultinomialTheorem">Planetmath</ulink>, o <ulink url="http://mathworld.wolfram.com/MultinomialCoefficient.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4937,10 +4604,7 @@ do (
   AlgunaFuncion (n)
 ) while not IsNull(n:=NextCombination(n,6));</userinput>
 </screen> Consulte también <link linkend="gel-function-Combinations">Combinations</link>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Combination">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Denominator">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -4958,11 +4622,7 @@ do (
          <listitem>
           <synopsis>Permutations (k,n)</synopsis>
           <para>Obtener todas las permutaciones de <varname>k</varname> números desde el 1 al <varname>n</varname> como un vector de vectores.</para>
-          <para>
-	    See
-	    <ulink url="http://mathworld.wolfram.com/Permutation.html">Mathworld</ulink> or
-	    <ulink url="https://en.wikipedia.org/wiki/Permutation">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte <ulink url="http://mathworld.wolfram.com/Permutation.html">Mathworld</ulink> o la <ulink url="https://en.wikipedia.org/wiki/Permutation">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5028,11 +4688,7 @@ do (
          <listitem>
           <synopsis>nPr (n,r)</synopsis>
           <para>Calcular el número de permutaciones de tamaño <varname>r</varname> de números desde el 1 al <varname>n</varname>.</para>
-          <para>
-	    See
-	    <ulink url="http://mathworld.wolfram.com/Permutation.html">Mathworld</ulink> or
-	    <ulink url="https://en.wikipedia.org/wiki/Permutation">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte <ulink url="http://mathworld.wolfram.com/Permutation.html">Mathworld</ulink> o la <ulink url="https://en.wikipedia.org/wiki/Permutation">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5084,11 +4740,7 @@ do (
          <listitem>
           <synopsis>FourierSeriesFunction (a,b,L)</synopsis>
 	  <para>Devuelve una función que es una serie de Fourier con coeficientes devueltos por los vectores <varname>a</varname> (senos) y <varname>b</varname> (cosenos). Tenga en cuenta que <userinput>a@(1)</userinput> es el coeficiente constante. Es decir, <userinput>a@(n)</userinput> se refiere al término <userinput>cos(x*(n-1)*pi/L)</userinput>, mientras que <userinput>b@(n)</userinput> se refiere al término <userinput>sin(x*n*pi/L)</userinput>. Tanto <varname>a</varname> o <varname>b</varname> puede ser <constant>null</constant>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/FourierSeries.html">Mathworld</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/FourierSeries.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5179,11 +4831,7 @@ do (
          <listitem>
           <synopsis>NumericalFourierSeriesCoefficients (f,L,N)</synopsis>
 	  <para>Devuelve un vector de vectores <userinput>[a,b]</userinput> donde <varname>a</varname> son los coeficientes cosenos y <varname>b</varname> son los coeficientes senos de la serie de Fourier de <function>f</function> con medio periodo <varname>L</varname> (esto se define en <userinput>[-L,L]</userinput> y extendido periódicamente) con coeficientes hasta <varname>N</varname>-ésimo harmónico calculado numéricamente. Los coeficientes se calculan por la integración numérica al usar <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/FourierSeries.html">Mathworld</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/FourierSeries.html">Mathworld</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.7 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5193,11 +4841,7 @@ do (
          <listitem>
           <synopsis>NumericalFourierSeriesFunction (f,L,N)</synopsis>
 	  <para>Devuelve una función que es la serie de Fourier de <function>f</function> con medio periodo <varname>L</varname> (esto se define en <userinput>[-L,L]</userinput> y extendido periódicamente) con coeficientes hasta <varname>N</varname>-ésimo harmónico calculado numéricamente. Esto es, la serie trigonométrica real compuesta de senos y cosenos. Los coeficientes se calculan por la integración numérica al utilizar <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/FourierSeries.html">Mathworld</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/FourierSeries.html">Mathworld</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.7 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5207,11 +4851,7 @@ do (
          <listitem>
           <synopsis>NumericalFourierCosineSeriesCoefficients (f,L,N)</synopsis>
 	  <para>Devuelve un vector de coeficientes de coseno de la serie de Fourier de <function>f</function> con medio periodo <varname>L</varname>. Es decir, se toma <function>f</function> definida en <userinput>[0,L]</userinput> toma la extensión periódica par y calcula la serie de Fourier, que sólo tiene cosenos como términos. La serie se calcula hasta la <varname>N</varname>-ésima harmónica. Los coeficientes se calculan por la integración numérica al utilizar <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>. Tenga en cuenta que <userinput>a@(1)</userinput> es el coeficiente constante. Es decir, <userinput>a@(n)</userinput> se refiere a el término <userinput>cos(x*(n-1)*pi/L)</userinput>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/FourierCosineSeries.html">Mathworld</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/FourierCosineSeries.html">Mathworld</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.7 en adelante.</para>
 	  </listitem>
         </varlistentry>
@@ -5221,11 +4861,7 @@ do (
          <listitem>
           <synopsis>NumericalFourierCosineSeriesFunction (f,L,N)</synopsis>
 	  <para>Devuelve una función que es el coseno de la serie de Fourier de <function>f</function> con medio periodo <varname>L</varname>. Es decir, se toma <function>f</function> definida en <userinput>[0,L]</userinput> toma la extensión periódica par y calcula la serie de Fourier, que sólo tiene coseno como términos. La serie se calcula hasta la <varname>N</varname>-ésima harmónica. Los coeficientes se calculan por la integración numérica al utilizar <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/FourierCosineSeries.html">Mathworld</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/FourierCosineSeries.html">Mathworld</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.7 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5235,11 +4871,7 @@ do (
          <listitem>
           <synopsis>NumericalFourierSineSeriesCoefficients (f,L,N)</synopsis>
 	  <para>Devuelve un vector de coeficientes de senos de la serie de Fourier de <function>f</function> con medio periodo <varname>L</varname>. Es decir, se toma <function>f</function> definido en <userinput>[0,L]</userinput> toma la extensión periódica impar y calcula la serie de Fourier, que sólo tiene senos como términos. La serie se calcula hasta el <varname>N</varname>-ésimo harmónico. Los coeficientes se calculan por la integración numérica al utilizar <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/FourierSineSeries.html">Mathworld</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/FourierSineSeries.html">Mathworld</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.7 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5249,11 +4881,7 @@ do (
          <listitem>
           <synopsis>NumericalFourierSineSeriesFunction (f,L,N)</synopsis>
 	  <para>Devuelve una función que es el seno de la serie de Fourier de <function>f</function> con medio periodo <varname>L</varname>. Es decir, se toma <function>f</function> definida en <userinput>[0,L]</userinput> toma la extensión periódica impar y calcula ls series de Fourier, que sólo tiene seno como términos. La serie se calcula hasta la <varname>N</varname>-ésima harmónica. Los coeficientes se calculan por la integración numérica al utilizar <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/FourierSineSeries.html">Mathworld</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/FourierSineSeries.html">Mathworld</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.7 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5370,10 +4998,7 @@ do (
          <listitem>
           <synopsis>BesselJ0 (x)</synopsis>
           <para>Función de Bessel de primer tipo de orden 0. Implementada solo para números reales.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.16 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5383,10 +5008,7 @@ do (
          <listitem>
           <synopsis>BesselJ1 (x)</synopsis>
           <para>Función de Bessel de primer tipo de orden 1. Implementada solo para números reales.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.16 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5396,10 +5018,7 @@ do (
          <listitem>
           <synopsis>BesselJn (n,x)</synopsis>
 	  <para>Función de Bessel de primer tipo de orden <varname>n</varname>. Implementada solo para números reales.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.16 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5409,10 +5028,7 @@ do (
          <listitem>
           <synopsis>BesselY0 (x)</synopsis>
           <para>Función de Bessel de segundo tipo de orden 0. Implementada solo para números reales.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.16 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5422,10 +5038,7 @@ do (
          <listitem>
           <synopsis>BesselY1 (x)</synopsis>
           <para>Función de Bessel de segunto tipo de orden 1. Implementada solo para números reales.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.16 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5435,10 +5048,7 @@ do (
          <listitem>
           <synopsis>BesselYn (n,x)</synopsis>
 	  <para>Función de Bessel de segundo tipo de orden <varname>n</varname>. Implementada solo para números reales.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Bessel_functions">Wikipedia</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.16 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5484,11 +5094,7 @@ do (
           <synopsis>GammaFunction (x)</synopsis>
           <para>Alias: <function>Gamma</function></para>
           <para>La función «Gamma». Actualmente sólo implementada para valores reales.</para>
-          <para>
-	    See
-	    <ulink url="http://planetmath.org/GammaFunction">Planetmath</ulink> or
-	    <ulink url="https://en.wikipedia.org/wiki/Gamma_function">Wikipedia</ulink> for more information.
-          </para>
+          <para>Consulte <ulink url="http://planetmath.org/GammaFunction">Planetmath</ulink> o <ulink url="https://en.wikipedia.org/wiki/Gamma_function">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5505,10 +5111,7 @@ do (
          <listitem>
           <synopsis>LambertW (x)</synopsis>
 	  <para>La rama principal de la función de Lambert W calculada sólo para los valores reales más grandes o iguales que <userinput>-1/e</userinput>. Es decir, que la función <function>LambertW</function> es la inversa de la expresión <userinput>x*e^x</userinput>. Incluso para una variable real <varname>x</varname> esta expresión no es uno a uno y por lo tanto tiene dos ramas más <userinput>[-1/e,0)</userinput>. Consulte <link linkend="gel-function-LambertWm1"><function>LambertWm1</function></link> para otras ramas reales.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Lambert_W_function">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Lambert_W_function">Wikipedia</ulink> para más información.</para>
 	  <para>Desde la versión 1.0.18 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5518,10 +5121,7 @@ do (
          <listitem>
           <synopsis>LambertWm1 (x)</synopsis>
 	  <para>La rama menos uno «-1» de la función de Lambert W calculada sólo para valores reales más grandes o igual a <userinput>-1/e</userinput> y menor que 0. Es decir, <function>LambertWm1</function> es la segunda rama de la inversa de <userinput>x*e^x</userinput>. Consulte <link linkend="gel-function-LambertW"><function>LambertW</function></link> para la rama principal.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Lambert_W_function">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Lambert_W_function">Wikipedia</ulink> para más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5538,11 +5138,7 @@ do (
          <listitem>
           <synopsis>MoebiusDiskMapping (a,z)</synopsis>
           <para>Mapa de Moebius del disco a sí mismo mapeando a 0.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/M%C3%B6bius_transformation">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/MobiusTransformation">Planetmath</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Transpose">Wikipedia</ulink> o <ulink url="http://planetmath.org/Transpose">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5551,11 +5147,7 @@ do (
          <listitem>
           <synopsis>MoebiusMapping (z,z2,z3,z4)</synopsis>
           <para>Mapa de Moebius usando el radio cruzado z2,z3,z4 a 1,0 e infinito respectivamente.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/M%C3%B6bius_transformation">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/MobiusTransformation">Planetmath</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Transpose">Wikipedia</ulink> o <ulink url="http://planetmath.org/Transpose">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5564,11 +5156,7 @@ do (
          <listitem>
           <synopsis>MoebiusMappingInftyToInfty (z,z2,z3)</synopsis>
           <para>Mapa de Moebius usando el radio cruzado tomando infinito a infinito y z2,z3 a 1 y 0 respectivamente.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/M%C3%B6bius_transformation">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/MobiusTransformation">Planetmath</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Transpose">Wikipedia</ulink> o <ulink url="http://planetmath.org/Transpose">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5577,11 +5165,7 @@ do (
          <listitem>
           <synopsis>MoebiusMappingInftyToOne (z,z3,z4)</synopsis>
           <para>Mapa de Moebius usando la relación cruzada tomando de infinito a 1 y z3,z4 a 0 e infinito respectivamente.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/M%C3%B6bius_transformation">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/MobiusTransformation">Planetmath</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Transpose">Wikipedia</ulink> o <ulink url="http://planetmath.org/Transpose">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5590,11 +5174,7 @@ do (
          <listitem>
           <synopsis>MoebiusMappingInftyToZero (z,z2,z4)</synopsis>
           <para>Mapa de Moebius usando la relación cruzada tomando de infinito a 0 y z2,z4 a 1 e infinito respectivamente.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/M%C3%B6bius_transformation">Wikipedia</ulink> or
-	    <ulink url="http://planetmath.org/MobiusTransformation">Planetmath</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Transpose">Wikipedia</ulink> o <ulink url="http://planetmath.org/Transpose">Planetmath</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5620,11 +5200,7 @@ do (
           <synopsis>RiemannZeta (x)</synopsis>
           <para>Alias: <function>zeta</function></para>
           <para>La función «zeta de Riemann». Actualmente sólo implementada para valores reales.</para>
-          <para>
-	    See
-	    <ulink url="http://planetmath.org/RiemannZetaFunction">Planetmath</ulink> or
-	    <ulink url="https://en.wikipedia.org/wiki/Riemann_zeta_function">Wikipedia</ulink> for more information.
-          </para>
+          <para>Consulte <ulink url="http://planetmath.org/RiemannZetaFunction">Planetmath</ulink> o <ulink url="https://en.wikipedia.org/wiki/Riemann_zeta_function">Wikipedia</ulink> para más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5633,10 +5209,7 @@ do (
          <listitem>
           <synopsis>UnitStep (x)</synopsis>
           <para>La función escalón unitario es 0 para x&lt;0, 1 si no. Es la integral de la función delta de Dirac. También llamada función de Heaviside.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Unit_step">Wikipedia</ulink> for more information.
-          </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Unit_step">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5669,10 +5242,7 @@ do (
          <listitem>
           <synopsis>sinc (x)</synopsis>
 	  <para>Calcular la función sinc no normalizada, esto es <userinput>sin(x)/x</userinput>. Si quiere normalizar la función utilice <userinput>sinc(pi*x)</userinput>.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Sinc">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Denominator">Wikipedia</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.16 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5689,12 +5259,7 @@ do (
          <listitem>
           <synopsis>CubicFormula (p)</synopsis>
           <para>Calcular las raíces de un polinomio cúbico (de grado 3) utilizando la fórmula cúbica. El polinomio se dará como un vector de coeficientes. Esto es <userinput>4*x^3 + 2*x + 1</userinput> que corresponde al vector <userinput>[1,2,0,4]</userinput>. Devuelve un vector columna de tres soluciones. La primera solución siempre es la real como un cúbico siempre tiene una solución real.</para>
-          <para>
-	    See
-	    <ulink url="http://planetmath.org/CubicFormula">Planetmath</ulink>,
-	    <ulink url="http://mathworld.wolfram.com/CubicFormula.html">Mathworld</ulink>, or
-	    <ulink url="https://en.wikipedia.org/wiki/Cubic_equation">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte <ulink url="http://planetmath.org/CubicFormula">Planetmath</ulink>, <ulink url="http://mathworld.wolfram.com/CubicFormula.html">Mathworld</ulink>, o <ulink url="https://en.wikipedia.org/wiki/Cubic_equation">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5704,11 +5269,7 @@ do (
           <synopsis>EulersMethod (f,x0,y0,x1,n)</synopsis>
           <para>Utilizar el método clásico de Euler para resolver numéricamente y'=f(x,y) de forma inicial <varname>x0</varname>, <varname>y0</varname> pasan a <varname>x1</varname> con <varname>n</varname> incrementos, devuelve <varname>y</varname> junto con <varname>x1</varname>. Excepto que especifique explícitamente que quiere utilizar el método clásico de Euler, piense en utilizar <link linkend="gel-function-RungeKutta">RungeKutta</link> para resolver ODE.</para>
 	  <para>Los sistemas se pueden resolver teniendo a <varname>y</varname> como un vector (columna) en cualquier parte. Es decir, <varname>y0</varname> puede ser un vector en cuyo caso <varname>f</varname> será un número <varname>x</varname> y un vector del mismo tamaño para el segundo argumento y devolverá un vector del mismo tamaño.</para>
-          <para>
-	    See
-	    <ulink url="http://mathworld.wolfram.com/EulerForwardMethod.html">Mathworld</ulink> or
-	    <ulink url="https://en.wikipedia.org/wiki/Eulers_method">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte <ulink url="http://mathworld.wolfram.com/EulerForwardMethod.html">Mathworld</ulink> o <ulink url="https://en.wikipedia.org/wiki/Eulers_method">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5716,21 +5277,7 @@ do (
          <term><anchor id="gel-function-EulersMethodFull"/>EulersMethodFull</term>
          <listitem>
           <synopsis>EulersMethodFull (f,x0,y0,x1,n)</synopsis>
-          <para>
-	    Use classical Euler's method to numerically solve y'=f(x,y) for
-	    initial <varname>x0</varname>, <varname>y0</varname> going to
-	    <varname>x1</varname> with <varname>n</varname> increments,
-	    returns an <userinput>n+1</userinput> by 2 matrix with the
-	    <varname>x</varname> and <varname>y</varname> values.
-	    Unless you explicitly want to use Euler's method, you should really
-	    think about using
-	    <link linkend="gel-function-RungeKuttaFull">RungeKuttaFull</link>
-	    for solving ODE.
-	    Suitable
-	    for plugging into 
-	    <link linkend="gel-function-LinePlotDrawLine">LinePlotDrawLine</link> or
-	    <link linkend="gel-function-LinePlotDrawPoints">LinePlotDrawPoints</link>.
-	  </para>
+          <para>Utilizar el método clásico de Euler para resolver numéricamente y'=f(x,y) de forma inicial <varname>x0</varname>, <varname>y0</varname> pasan a <varname>x1</varname> con <varname>n</varname> incrementos, devuelve una matriz de 2 por <userinput>n+1</userinput> con los valores <varname>x</varname> e <varname>y</varname>.Excepto que quiera utilizar explícitamente el método clásico de Euler, utilice mejor <link linkend="gel-function-RungeKuttaFull">RungeKuttaFull</link> para resolver ODE. Adecuado para enlazar con <link linkend="gel-function-LinePlotDrawLine">LinePlotDrawLine</link> o <link linkend="gel-function-LinePlotDrawPoints">LinePlotDrawPoints</link>.</para>
 	  <para>Ejemplo: <screen><prompt>genius&gt;</prompt> <userinput>LinePlotClear();</userinput>
 <prompt>genius&gt;</prompt> <userinput>line = EulersMethodFull(`(x,y)=y,0,1.0,3.0,50);</userinput>
 <prompt>genius&gt;</prompt> <userinput>LinePlotDrawLine(line,"window","fit","color","blue","legend","Exponential growth");</userinput>
@@ -5745,11 +5292,7 @@ do (
 <prompt>genius&gt;</prompt> <userinput>LinePlotDrawLine(firstline,"color","blue","legend","First");</userinput>
 <prompt>genius&gt;</prompt> <userinput>LinePlotDrawPoints(secondline,"color","red","thickness",3,"legend","Second");</userinput>
 </screen></para>
-          <para>
-	    See
-	    <ulink url="http://mathworld.wolfram.com/EulerForwardMethod.html">Mathworld</ulink> or
-	    <ulink url="https://en.wikipedia.org/wiki/Eulers_method">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte <ulink url="http://mathworld.wolfram.com/EulerForwardMethod.html">Mathworld</ulink> o <ulink url="https://en.wikipedia.org/wiki/Eulers_method">Wikipedia</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.10 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5794,10 +5337,7 @@ do (
 	  <para>Consulte también <link linkend="gel-function-NewtonsMethod"><function>NewtonsMethod</function></link> y <link linkend="gel-function-SymbolicDerivative"><function>SymbolicDerivative</function></link>.</para>
 	  <para>Ejemplo para encontrar la raíz cuadrada de 10: <screen><prompt>genius&gt;</prompt> <userinput>HalleysMethod(`(x)=x^2-10,`(x)=2*x,`(x)=2,3,10^-10,100)</userinput>
 </screen></para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Halley%27s_method">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Halley%27s_method">Wikipedia</ulink> para más información.</para>
 	  <para>Desde la versión 1.0.18 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5810,10 +5350,7 @@ do (
 	  <para>Consulte también <link linkend="gel-function-NewtonsMethodPoly"><function>NewtonsMethodPoly</function></link> y <link linkend="gel-function-SymbolicDerivative"><function>SymbolicDerivative</function></link>.</para>
 	  <para>Ejemplo para encontrar la raíz cuadrade de 10: <screen><prompt>genius&gt;</prompt> <userinput>NewtonsMethod(`(x)=x^2-10,`(x)=2*x,3,10^-10,100)</userinput>
 </screen></para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Newtons_method">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Newtons_method">Wikipedia</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.18 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5832,12 +5369,7 @@ do (
          <listitem>
           <synopsis>QuadraticFormula (p)</synopsis>
           <para>Calcular las raíces de una polinomio cuadrático (de grado 2) utilizando la fórmula cuadrática. El polinomio será un vector de coeficientes. Es es <userinput>3*x^2 + 2*x + 1</userinput> que corresponde con el vector <userinput>[1,2,3]</userinput>. Devuelve un vector columna de las dos soluciones.</para>
-          <para>
-	    See
-	    <ulink url="http://planetmath.org/QuadraticFormula">Planetmath</ulink>, or
-	    <ulink url="http://mathworld.wolfram.com/QuadraticFormula.html">Mathworld</ulink>, or
-	    <ulink url="https://en.wikipedia.org/wiki/Quadratic_formula">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte <ulink url="http://planetmath.org/QuarticFormula">Planetmath</ulink>, <ulink url="http://mathworld.wolfram.com/QuarticEquation.html">Mathworld</ulink>, o <ulink url="https://en.wikipedia.org/wiki/Quartic_equation">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5846,12 +5378,7 @@ do (
          <listitem>
           <synopsis>QuarticFormula (p)</synopsis>
           <para>Calcular las raíces de un polinomio cuadrático (de grado 4) utilizando la fórmula cuadrática. El polinomio será un vector de coeficientes. Esto es <userinput>5*x^4 + 2*x + 1</userinput> que corresponde con el vector <userinput>[1,2,0,0,5]</userinput>. Devuelve un vector columna de las cuatro soluciones.</para>
-          <para>
-	    See
-	    <ulink url="http://planetmath.org/QuarticFormula">Planetmath</ulink>,
-	    <ulink url="http://mathworld.wolfram.com/QuarticEquation.html">Mathworld</ulink>, or
-	    <ulink url="https://en.wikipedia.org/wiki/Quartic_equation">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte <ulink url="http://planetmath.org/QuarticFormula">Planetmath</ulink>, <ulink url="http://mathworld.wolfram.com/QuarticEquation.html">Mathworld</ulink>, o <ulink url="https://en.wikipedia.org/wiki/Quartic_equation">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5861,11 +5388,7 @@ do (
           <synopsis>RungeKutta (f,x0,y0,x1,n)</synopsis>
           <para>Utilizar el método clásico no adaptativo de cuarto orden Runge-Kutta para resolver numéricamente y'=f(x,y) que de forma inicial <varname>x0</varname>, <varname>y0</varname> tienden a <varname>x1</varname> con <varname>n</varname> incrementos, devuelve <varname>y</varname> en <varname>x1</varname>.</para>
 	  <para>Los sistemas se pueden resolver teniendo a <varname>y</varname> como un vector (columna) en cualquier parte. Es decir, <varname>y0</varname> puede ser un vector en cuyo caso <varname>f</varname> será un número <varname>x</varname> y un vector del mismo tamaño para el segundo argumento y devolverá un vector del mismo tamaño.</para>
-          <para>
-	    See
-	    <ulink url="http://mathworld.wolfram.com/Runge-KuttaMethod.html">Mathworld</ulink> or
-	    <ulink url="https://en.wikipedia.org/wiki/Runge-Kutta_methods">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte <ulink url="http://mathworld.wolfram.com/Runge-KuttaMethod.html">Mathworld</ulink> o <ulink url="https://en.wikipedia.org/wiki/Runge-Kutta_methods">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5873,18 +5396,7 @@ do (
          <term><anchor id="gel-function-RungeKuttaFull"/>RungeKuttaFull</term>
          <listitem>
           <synopsis>RungeKuttaFull (f,x0,y0,x1,n)</synopsis>
-          <para>
-	    Use classical non-adaptive fourth order Runge-Kutta method to
-	    numerically solve
-	    y'=f(x,y) for initial <varname>x0</varname>, <varname>y0</varname>
-	    going to <varname>x1</varname> with <varname>n</varname>
-	    increments,
-	    returns an <userinput>n+1</userinput> by 2 matrix with the
-	    <varname>x</varname> and <varname>y</varname> values.  Suitable
-	    for plugging into 
-	    <link linkend="gel-function-LinePlotDrawLine">LinePlotDrawLine</link> or
-	    <link linkend="gel-function-LinePlotDrawPoints">LinePlotDrawPoints</link>.
-	  </para>
+          <para>Utilizar el método clásico no adaptativo de cuarto orden Runge-Kutta para resolver numéricamente y'=f(x,y) que de forma inicial <varname>x0</varname>, <varname>y0</varname> tienden a <varname>x1</varname> con <varname>n</varname> incrementos, devuelve una matriz de 2 por <userinput>n+1</userinput> con los valores <varname>x</varname> e <varname>y</varname>. Adecuado para enlazar con <link linkend="gel-function-LinePlotDrawLine">LinePlotDrawLine</link> o <link linkend="gel-function-LinePlotDrawPoints">LinePlotDrawPoints</link>.</para>
 	  <para>Example: <screen><prompt>genius&gt;</prompt> <userinput>LinePlotClear();</userinput>
 <prompt>genius&gt;</prompt> <userinput>line = RungeKuttaFull(`(x,y)=y,0,1.0,3.0,50);</userinput>
 <prompt>genius&gt;</prompt> <userinput>LinePlotDrawLine(line,"window","fit","color","blue","legend","Exponential growth");</userinput>
@@ -5899,11 +5411,7 @@ do (
 <prompt>genius&gt;</prompt> <userinput>LinePlotDrawLine(firstline,"color","blue","legend","First");</userinput>
 <prompt>genius&gt;</prompt> <userinput>LinePlotDrawPoints(secondline,"color","red","thickness",3,"legend","Second");</userinput>
 </screen></para>
-          <para>
-	    See
-	    <ulink url="http://mathworld.wolfram.com/Runge-KuttaMethod.html">Mathworld</ulink> or
-	    <ulink url="https://en.wikipedia.org/wiki/Runge-Kutta_methods">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte <ulink url="http://mathworld.wolfram.com/Runge-KuttaMethod.html">Mathworld</ulink> o <ulink url="https://en.wikipedia.org/wiki/Runge-Kutta_methods">Wikipedia</ulink> para obtener más información.</para>
 	  <para>Desde la versión 1.0.10 en adelante.</para>
          </listitem>
         </varlistentry>
@@ -5920,12 +5428,8 @@ do (
          <listitem>
           <synopsis>Average (m)</synopsis>
           <para>Alias: <function>average</function><function>Mean</function><function>mean</function></para>
-          <para>Calculate average (the arithmetic mean) of an entire matrix.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Mean">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/ArithmeticMean.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Calcular la media aritmética de una matriz entera.</para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Atan2">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/InverseTangent.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5934,11 +5438,7 @@ do (
          <listitem>
           <synopsis>GaussDistribution (x,sigma)</synopsis>
 	  <para>Integral de la función de Gauss desde 0 a <varname>x</varname> (área debajo de la curva normal).</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Normal_distribution">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/NormalDistribution.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Prime_factor">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/PrimeFactor.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5947,11 +5447,7 @@ do (
          <listitem>
           <synopsis>GaussFunction (x,sigma)</synopsis>
           <para>La función de distribución Gausiana normalizada (la curva normal).</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Normal_distribution">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/NormalDistribution.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Prime_factor">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/PrimeFactor.html">Mathworld</ulink> para obtener más información.</para>
 
          </listitem>
         </varlistentry>
@@ -5962,11 +5458,7 @@ do (
           <synopsis>Median (m)</synopsis>
           <para>Alias: <function>median</function></para>
           <para>Calcular la mediana de una matriz entera.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Median">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/StatisticalMedian.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Atan2">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/InverseTangent.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5984,13 +5476,8 @@ do (
          <listitem>
           <synopsis>RowAverage (m)</synopsis>
           <para>Alias: <function>RowMean</function></para>
-	  <para>Calculate average of each row in a matrix.  That is, compute the
-	  arithmetic mean.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Mean">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/ArithmeticMean.html">Mathworld</ulink> for more information.
-	  </para>
+	  <para>Calcular la media de cada fila de una matriz. Es decir, calcula la media aritmética.</para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Atan2">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/InverseTangent.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -5999,11 +5486,7 @@ do (
          <listitem>
           <synopsis>RowMedian (m)</synopsis>
           <para>Calcular la mediana de cada fila en una matriz y devolver una vector columna de las medianas.</para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Median">Wikipedia</ulink> or
-	    <ulink url="http://mathworld.wolfram.com/StatisticalMedian.html">Mathworld</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Atan2">Wikipedia</ulink> o <ulink url="http://mathworld.wolfram.com/InverseTangent.html">Mathworld</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -6081,10 +5564,7 @@ do (
 	  <para>Consulte también <link linkend="gel-function-NewtonsMethod"><function>NewtonsMethod</function></link>.</para>
 	  <para>Ejemplo para encontrar la raíz cuadrada de 10: <screen><prompt>genius&gt;</prompt> <userinput>NewtonsMethodPoly([-10,0,1],3,10^-10,100)</userinput>
 </screen></para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/Newtons_method">Wikipedia</ulink> for more information.
-	  </para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Newtons_method">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -6232,20 +5712,11 @@ do (
          <term><anchor id="gel-function-ASCIIToString"/>ASCIIToString</term>
          <listitem>
           <synopsis>ASCIIToString (vec)</synopsis>
-          <para>Convert a vector of ASCII values to a string.
-		  See also
-		  <link linkend="gel-function-StringToASCII"><function>StringToASCII</function></link>.
-          </para>
-          <para>
-	    Example:
-          <screen><prompt>genius&gt;</prompt> <userinput>ASCIIToString([97,98,99])</userinput>
+          <para>Convierte un vector de valores ASCII en una cadena. Consulte <link linkend="gel-function-StringToASCII"><function>StringToASCII</function></link> para más información.</para>
+          <para>Ejemplo: <screen><prompt>genius&gt;</prompt> <userinput>ASCIIToString([97,98,99])</userinput>
 = "abc"
-</screen>
-          </para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/ASCII">Wikipedia</ulink> for more information.
-          </para>
+</screen></para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Denominator">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -6253,18 +5724,12 @@ do (
          <term><anchor id="gel-function-AlphabetToString"/>AlphabetToString</term>
          <listitem>
           <synopsis>AlphabetToString (vec,alfabeto)</synopsis>
-	  <para>Convert a vector of 0-based alphabet values (positions in the alphabet string) to a string.  A <constant>null</constant> vector results in an empty string.
-		  See also
-		  <link linkend="gel-function-StringToAlphabet"><function>StringToAlphabet</function></link>.
-          </para>
-          <para>
-	    Examples:
-          <screen><prompt>genius&gt;</prompt> <userinput>AlphabetToString([1,2,3,0,0],"abcd")</userinput>
+	  <para>Convertir un vector de valores alfanuméricos en base 0 (posiciones alfanuméricas de la cadena) a una cadena. Un <constant>null</constant> vector da como resultado una cadena vacía. Consulte mas información en <link linkend="gel-function-StringToAlphabet"><function>StringToAlphabet</function></link>.</para>
+          <para>Ejemplos: <screen><prompt>genius&gt;</prompt> <userinput>AlphabetToString([1,2,3,0,0],"abcd")</userinput>
 = "bcdaa"
 <prompt>genius&gt;</prompt> <userinput>AlphabetToString(null,"abcd")</userinput>
 = ""
-</screen>
-          </para>
+</screen></para>
          </listitem>
         </varlistentry>
 
@@ -6272,20 +5737,11 @@ do (
          <term><anchor id="gel-function-StringToASCII"/>StringToASCII</term>
          <listitem>
           <synopsis>StringToASCII (cad)</synopsis>
-	  <para>Convert a string to a (row) vector of ASCII values.
-		  See also
-		  <link linkend="gel-function-ASCIIToString"><function>ASCIIToString</function></link>.
-          </para>
-          <para>
-	    Example:
-          <screen><prompt>genius&gt;</prompt> <userinput>StringToASCII("abc")</userinput>
+	  <para>Convertir una cadena a un vector (fila) de valores ASCII. Consulte también <link linkend="gel-function-ASCIIToString"><function>ASCIIToString</function></link>.</para>
+          <para>Ejemplo: <screen><prompt>genius&gt;</prompt> <userinput>StringToASCII("abc")</userinput>
 = [97, 98, 99]
-</screen>
-          </para>
-          <para>
-	    See
-	    <ulink url="https://en.wikipedia.org/wiki/ASCII">Wikipedia</ulink> for more information.
-          </para>
+</screen></para>
+          <para>Consulte la <ulink url="https://en.wikipedia.org/wiki/Denominator">Wikipedia</ulink> para obtener más información.</para>
          </listitem>
         </varlistentry>
 
@@ -6293,20 +5749,12 @@ do (
          <term><anchor id="gel-function-StringToAlphabet"/>StringToAlphabet</term>
          <listitem>
           <synopsis>StringToAlphabet (str,alfabeto)</synopsis>
-	  <para>Convert a string to a (row) vector of 0-based alphabet values
-		  (positions in the alphabet string), -1's for unknown letters.
-		  An empty string results in a <constant>null</constant>.
-		  See also
-		  <link linkend="gel-function-AlphabetToString"><function>AlphabetToString</function></link>.
-          </para>
-          <para>
-	    Examples:
-          <screen><prompt>genius&gt;</prompt> <userinput>StringToAlphabet("cca","abcd")</userinput>
+	  <para>Convierte una cadena a un (fila) vector de valores alfabeticos en base 0 (posiciones en la cadena alfabetica), siendo  -1 para caracteres desconocidos. Una cadena vacía será el resultado de una constante <constant>null</constant>. Consulte para más información en <link linkend="gel-function-AlphabetToString"><function>AlphabetToString</function></link>.</para>
+          <para>Ejemplos: <screen><prompt>genius&gt;</prompt> <userinput>StringToAlphabet("cca","abcd")</userinput>
 = [2, 2, 0]
 <prompt>genius&gt;</prompt> <userinput>StringToAlphabet("ccag","abcd")</userinput>
 = [2, 2, 0, -1]
-</screen>
-          </para>
+</screen></para>
          </listitem>
         </varlistentry>
 
@@ -6434,16 +5882,13 @@ do (
     	  <para>Los valores de entrada de la ventana deben ser del tipo <userinput>[x1,x2,y1,y2]</userinput>, o bien, pueden ser una cadena <userinput>«ajuste»</userinput>, en cualquier caso, el rango de x se establecerá con precisión y el rango y se puede ajustar con cinco por ciento alrededor del borde de la línea.</para>
     	  <para>La especificación para la flecha debería ser <userinput>«origen»</userinput>, <userinput>«fin»</userinput>, <userinput>«ambos»</userinput>, o <userinput>«ninguno»</userinput>.</para>
     	  <para>Finalmente, la leyenda debería ser una cadena que se pueda utilizar como leyenda en un gráfico. Es decir, si se imprimen las leyendas.</para>
-	  <para>
-	  Examples:
-          <screen><prompt>genius&gt;</prompt> <userinput>LinePlotDrawLine(0,0,1,1,"color","blue","thickness",3)</userinput>
+	  <para>Ejemplos: <screen><prompt>genius&gt;</prompt> <userinput>LinePlotDrawLine(0,0,1,1,"color","blue","thickness",3)</userinput>
 <prompt>genius&gt;</prompt> <userinput>LinePlotDrawLine([0,0;1,-1;-1,-1])</userinput>
 <prompt>genius&gt;</prompt> <userinput>LinePlotDrawLine([0,0;1,1],"arrow","end")</userinput>
 <prompt>genius&gt;</prompt> <userinput>LinePlotDrawLine(RungeKuttaFull(`(x,y)=y,0,0.001,10,100),"color","blue","legend","The Solution")</userinput>
 <prompt>genius&gt;</prompt> <userinput>for r=0.0 to 1.0 by 0.1 do LinePlotDrawLine([0,0;1,r],"color",[r,(1-r),0.5],"window",[0,1,0,1])</userinput>
 <prompt>genius&gt;</prompt> <userinput>LinePlotDrawLine([0,0;10,0;10,10;0,10],"filled","color","green")</userinput>
-</screen>
-          </para>
+</screen></para>
 	  <para>A diferencia de muchas otras funciones que no les importa si toman una columna o un vector fila, si se especifican puntos como un vector de valores complejos, debido a las posibles ambigüedades, es preferible que sea un vector columna.</para>
 	  <para>La especificación de <varname>v</varname> como un vector columna de números complejos, se implementa desde la versión 1.0.22 en adelante.</para>
          </listitem>
@@ -6459,15 +5904,12 @@ do (
     	  <para>La denominación del color debe ser una cadena que identifique al color según el diccionario inglés que GTK reconocerá como <userinput>«red»</userinput>, <userinput>«blue»</userinput>, <userinput>«yellow»</userinput>, etc... De forma alternativa el color se puede especificar en formato RGB como por ejemplo <userinput>«#rgb»</userinput>, <userinput>«#rrggbb»</userinput>, o <userinput>«#rrrrggggbbbb»</userinput>, donde r, g, o b son dígitos hexadecimales de los colores rojo, verde y azul (red, green, blue) . Finalmente los colores se pueden especificar como vectores siendo el rojo, verde y azul componentes con valores que solo pueden ser 0 o 1.</para>
     	  <para>Los valores de entrada de la ventana deben ser del tipo <userinput>[x1,x2,y1,y2]</userinput>, o bien, pueden ser una cadena <userinput>«ajuste»</userinput>, en cualquier caso, el rango de x se establecerá con precisión y el rango y se puede ajustar con cinco por ciento alrededor del borde de la línea.</para>
     	  <para>Finalmente, la leyenda debería ser una cadena que se pueda utilizar como leyenda en un gráfico. Es decir, si se imprimen las leyendas.</para>
-	  <para>
-	  Examples:
-          <screen><prompt>genius&gt;</prompt> <userinput>LinePlotDrawPoints(0,0,"color","blue","thickness",3)</userinput>
+	  <para>Ejemplos: <screen><prompt>genius&gt;</prompt> <userinput>LinePlotDrawPoints(0,0,"color","blue","thickness",3)</userinput>
 <prompt>genius&gt;</prompt> <userinput>LinePlotDrawPoints([0,0;1,-1;-1,-1])</userinput>
 <prompt>genius&gt;</prompt> <userinput>LinePlotDrawPoints(RungeKuttaFull(`(x,y)=y,0,0.001,10,100),"color","blue","legend","The Solution")</userinput>
 <prompt>genius&gt;</prompt> <userinput>LinePlotDrawPoints([1;1+1i;1i;0],"thickness",5)</userinput>
 <prompt>genius&gt;</prompt> <userinput>LinePlotDrawPoints(ApplyOverMatrix((0:6)',`(k)=exp(k*2*pi*1i/7)),"thickness",3,"legend","The 7th roots of unity")</userinput>
-</screen>
-          </para>
+</screen></para>
 	  <para>A diferencia de muchas otras funciones que no les importa si toman una columna o un vector fila, si se especifica los puntos como un vector de valores complejos, debido a las posibles ambigüedades, siempre debe ser suministrado como un vector columna. Por lo tanto, la notificación en el último ejemplo la transpuesta del vector <userinput>0:6</userinput> para convertirlo en un vector columna.</para>
 	  <para>Disponible desde la versión 1.0.18 en adelante. La especificación de <varname>v</varname> como un vector columna de números complejos, se implementa desde la versión 1.0.22 en adelante.</para>
          </listitem>
