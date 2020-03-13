@@ -22,7 +22,6 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/ve					\
 	-I$(top_builddir)/gtkextra				\
 	$(WARN_CFLAGS)						\
-	$(VTE_CFLAGS)						\
 	$(BINRELOC_CFLAGS)					\
 	$(GMP_INCLUDEDIR)					\
 	$(GENIUS_CFLAGS)					\
@@ -102,7 +101,6 @@ gnome_genius_LDADD = \
 	@LEXLIB@				\
 	$(INTLLIBS)				\
 	$(GENIUS_LIBS)				\
-	$(VTE_LIBS)				\
 	$(GENIUS_NOGUI_LIBS)			\
 	$(GSV_LIBS)				\
 	@READLINE_LIB@				\
