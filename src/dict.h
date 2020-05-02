@@ -60,7 +60,7 @@ GelEFunc *d_copyfunc(GelEFunc *o);
 GelEFunc * d_makerealfunc(GelEFunc *o,GelToken *id, gboolean use);
 
 /*make real func and replace o with it, without changing o's context or id*/
-/*if use is set, we USE the original function, NULLing approriately*/
+/*if use is set, we USE the original function, NULLing appropriately*/
 void d_setrealfunc(GelEFunc *n,GelEFunc *fake, gboolean use);
 
 void d_initcontext(void);
@@ -111,17 +111,17 @@ void d_replacefunc (GelEFunc *old, GelEFunc *_new);
 /*push a new dictionary onto the context stack*/
 gboolean d_addcontext (GelEFunc *func);
 
-/*gimme the last dictinary and pop the context stack*/
+/*gimme the last dictionary and pop the context stack*/
 void d_popcontext(void);
 
-/*gimme the current dictinary*/
+/*gimme the current dictionary*/
 GSList * d_getcontext (void) G_GNUC_PURE;
 
 /* this is a list of lists of the context stack,
  * Also it is a pointer to the current context frame */
 GelContextFrame * d_get_all_contexts (void) G_GNUC_PURE;
 
-/*gimme the current global dictinary*/
+/*gimme the current global dictionary*/
 GSList * d_getcontext_global (void) G_GNUC_PURE;
 GSList * d_find_similar_globals (const char *id);
 

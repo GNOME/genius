@@ -344,7 +344,7 @@ static void mpwl_dblfac (MpwRealNum *rop, MpwRealNum *op);
 
 static gboolean mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2);
 
-/*power to an unsigned long and optionaly invert the answer*/
+/*power to an unsigned long and optionally invert the answer*/
 static void mpwl_pow_ui(MpwRealNum *rop,MpwRealNum *op1,unsigned int e,
 			gboolean reverse);
 
@@ -1947,7 +1947,7 @@ mpwl_pow_q(MpwRealNum *rop,MpwRealNum *op1,MpwRealNum *op2)
 	return FALSE;
 }
 
-/*power to an unsigned long and optionaly invert the answer*/
+/*power to an unsigned long and optionally invert the answer*/
 static void
 mpwl_pow_ui(MpwRealNum *rop,MpwRealNum *op1,unsigned int e, gboolean reverse)
 {
