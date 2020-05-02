@@ -6198,7 +6198,7 @@ create_lineplot_box (void)
 
 
 
-	/* set labels correclty */
+	/* set labels correctly */
 	set_lineplot_labels ();
 
 	g_signal_connect (G_OBJECT (function_notebook), "switch_page",
@@ -6330,7 +6330,7 @@ create_surface_box (void)
 			  G_CALLBACK (surface_fit_cb_cb), NULL);
 	surface_fit_cb_cb (w);
 
-	/* set labels correclty */
+	/* set labels correctly */
 	set_surface_labels ();
 
 	return mainbox;

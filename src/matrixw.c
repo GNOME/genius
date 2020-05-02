@@ -554,7 +554,7 @@ gel_matrixw_set_at_least_size (GelMatrixW *m, int width, int height)
 	}
 
 	if (width > m->regw || height > m->regh) {
-		/* FIXME: this may be a bit inefficent */
+		/* FIXME: this may be a bit inefficient */
 		gel_matrixw_make_private (m, TRUE /* kill_type_caches */);
 		make_us_a_copy (m, MAX (width, m->regw),MAX (height, m->regh));
 		ensure_at_least_size (m, width, height);

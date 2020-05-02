@@ -47,7 +47,7 @@ struct _GelMatrixW {
 	guint16 cached_value_or_bool_only:1;
 	guint16 value_or_bool_only:1;
 
-	/* If definately in rref form */
+	/* If definitely in rref form */
 	guint16 rref:1;
 };
 

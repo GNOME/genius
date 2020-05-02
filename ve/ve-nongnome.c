@@ -1,4 +1,4 @@
-/* GNOME dependant routines without use of gnome libs
+/* GNOME dependent routines without use of gnome libs
  *
  * (c) 2000 Eazel, Inc.
  * (c) 2001,2002 George Lebl
