@@ -61,7 +61,7 @@ char *		gel_output_snarf_string		(GelOutput *gelo);
 const char *	gel_output_peek_string		(GelOutput *gelo);
 void		gel_output_clear_string		(GelOutput *gelo);
 
-/* set the internal gstring to the given one, usefull if you want
+/* set the internal gstring to the given one, useful if you want
    to print into your own gstring.  Just make sure to set it to
    null before the object is destroyed */
 void		gel_output_set_gstring		(GelOutput *gelo,

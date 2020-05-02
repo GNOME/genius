@@ -4658,7 +4658,7 @@ gtk_plot_data_draw_star(GtkPlotData *data, gdouble x, gdouble y, gdouble size)
                         x-s2, y+s2, x+s2, y-s2);
 }
 
-  /* FIXME: if connecter none, draw points, so perhaps bad naming */
+  /* FIXME: if connector none, draw points, so perhaps bad naming */
 static void
 gtk_plot_data_connect_points(GtkPlotData *dataset, gint npoints)
 {

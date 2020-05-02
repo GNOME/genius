@@ -251,7 +251,7 @@ d_makerealfunc(GelEFunc *o,GelToken *id, gboolean use)
 }
 
 /*make real func and replace n with it, without changing n's context or id*/
-/*if use is set, we USE the original function, NULLing approriately*/
+/*if use is set, we USE the original function, NULLing appropriately*/
 void
 d_setrealfunc(GelEFunc *n,GelEFunc *fake, gboolean use)
 {
@@ -428,7 +428,7 @@ d_lookup_local(GelToken *id) /* PURE! no side effects*/
 	/*the first one must be the lowest context*/
 	func = id->refs->data;
 	
-	/*not in currect context and we only want the currect context ones*/
+	/*not in current context and we only want the current context ones*/
 	if (func->context < context.top)
 		return NULL;
 
@@ -872,7 +872,7 @@ d_popcontext (void)
 	}
 }
 
-/*gimme the current dictinary*/
+/*gimme the current dictionary*/
 GSList *
 d_getcontext (void)/* PURE! no side effects*/
 {
@@ -893,7 +893,7 @@ d_get_all_contexts (void)/* PURE! no side effects*/
 		return context.stack;
 }
 
-/*gimme the current global dictinary*/
+/*gimme the current global dictionary*/
 GSList *
 d_getcontext_global (void)/* PURE! no side effects*/
 {

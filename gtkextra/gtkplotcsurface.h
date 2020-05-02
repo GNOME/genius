@@ -66,7 +66,7 @@ struct _GtkPlotCSurface
 
   /* all fields below this line are for 2d contours */
   
-  GList *levels;           /* polygons corrsponding to each contour level */
+  GList *levels;           /* polygons corresponding to each contour level */
   GList *bg_triangles;     /* background triangles, drawn before the contour
                               levels, that are not cut by any contour line */
 

@@ -1621,7 +1621,7 @@ e_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	return gel_makenum (e_cache);
 }
 
-/* Free fall accelleration */
+/* Free fall acceleration */
 static GelETree *
 Gravity_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 {

@@ -1,4 +1,4 @@
-/* GNOME dependant routines
+/* GNOME dependent routines
  *
  * (c) 2000 Eazel, Inc.
  * (c) 2001,2002 George Lebl
