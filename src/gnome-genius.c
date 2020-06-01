@@ -101,6 +101,8 @@ const GelHookFunc _gel_tree_limit_hook = tree_limit_hit;
 extern int parenth_depth;
 extern const char *genius_toplevels[];
 
+static GtkApplication *genius_app = NULL;
+
 GtkWidget *genius_window = NULL;
 GtkWidget *genius_window_statusbar = NULL;
 GtkWidget *example_menu;
@@ -4629,7 +4631,7 @@ genius_got_etree (GelETree *e)
 		gel_output_full_string (gel_main_out, "\n");
 		gel_output_flush (gel_main_out);
 		gel_got_eof = FALSE;
-		gtk_main_quit();
+		g_application_quit (G_APPLICATION (genius_app));
 	}
 }
 
@@ -5346,7 +5348,6 @@ startup (GApplication *app, gpointer data)
 int
 main (int argc, char *argv[])
 {
-	GtkApplication *app;
 	int status;
 
 	arg0 = g_strdup (argv[0]);
@@ -5360,19 +5361,20 @@ main (int argc, char *argv[])
 	gtk_source_init ();
 #endif
 
-	app = gtk_application_new ("org.gnome.genius",
-	                           G_APPLICATION_HANDLES_OPEN);
-	g_signal_connect (app, "startup", G_CALLBACK (startup), NULL);
-	g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
-	g_signal_connect (app, "open",
+	genius_app = gtk_application_new ("org.gnome.genius",
+					  G_APPLICATION_HANDLES_OPEN);
+	g_signal_connect (genius_app, "startup", G_CALLBACK (startup), NULL);
+	g_signal_connect (genius_app, "activate", G_CALLBACK (activate), NULL);
+	g_signal_connect (genius_app, "open",
 	                  G_CALLBACK (loadup_files_from_cmdline), NULL);
-	status = g_application_run (G_APPLICATION (app), argc, argv);
+	status = g_application_run (G_APPLICATION (genius_app), argc, argv);
 
 	amtk_finalize ();
 #ifdef HAVE_GTKSOURCEVIEW
 	gtk_source_finalize ();
 #endif
-	g_object_unref (app);
+	g_object_unref (genius_app);
+	genius_app = NULL;
 	g_clear_object (&info_store);
 
 	/*
