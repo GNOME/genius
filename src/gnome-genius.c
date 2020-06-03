@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2018 Jiri (George) Lebl
+ * Copyright (C) 1997-2020 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -1911,7 +1911,7 @@ set_properties (void)
 		/* FIXME: errors */
 		return;
 
-	name = g_build_filename (home, ".gnome2", "genius", NULL);
+	name = g_build_filename (home, ".genius", "config-gui", NULL);
 	cfg = ve_config_new (name);
 	g_free (name);
 
@@ -2183,6 +2183,10 @@ setup_response (GtkWidget *widget, gint resp, gpointer data)
 		if (resp == GTK_RESPONSE_OK ||
 		    resp == GTK_RESPONSE_CANCEL)
 			gtk_widget_destroy (widget);
+
+		/* save properties to file on OK */
+		if (resp == GTK_RESPONSE_OK)
+			set_properties ();
 	}
 }
 
@@ -4271,12 +4275,22 @@ get_properties (void)
 	const char *home = g_get_home_dir ();
 	char *name;
 	VeConfig *cfg;
+	gboolean old_props = FALSE;
 
 	if (home == NULL)
 		/* FIXME: error? */
 		return;
 
-	name = g_build_filename (home, ".gnome2", "genius", NULL);
+	name = g_build_filename (home, ".genius", "config-gui", NULL);
+	if (access (name, F_OK) != 0) {
+		g_free (name);
+		name = g_build_filename (home, ".gnome2", "genius", NULL);
+		if (access (name, F_OK) != 0) {
+			g_free (name);
+			return;
+		}
+		old_props = TRUE;
+	}
 	cfg = ve_config_new (name);
 	g_free (name);
 
@@ -4373,6 +4387,10 @@ get_properties (void)
 	genius_setup.precision_remember = ve_config_get_bool (cfg, buf);
 
 	ve_config_destroy (cfg);
+
+	if (old_props) {
+		set_properties ();
+	}
 }
 
 static void
@@ -4970,6 +4988,26 @@ activate (GApplication *app, gpointer data)
 				      _("Cannot find the library file, genius installation may be incorrect"));
 	}
 
+	/* ensure the directory, if it is a file, no worries not saving the properties is not fatal */
+	file = g_build_filename (g_get_home_dir (), ".genius", NULL);
+	if (access (file, F_OK) != 0) {
+		mkdir (file, 0755);
+	} else {
+		DIR *dir;
+
+		dir = opendir (file);
+		if (dir == NULL) {
+			genius_display_error (NULL /* parent */,
+					      _("A file .genius in the home directory exists, "
+						"but it should be a directory. "
+						"Genius will not be able to save preferences."));
+		} else {
+			closedir (dir);
+		}
+	}
+	g_free (file);
+
+
 	/*read parameters */
 	get_properties ();
 
@@ -5349,6 +5387,7 @@ int
 main (int argc, char *argv[])
 {
 	int status;
+	char *name;
 
 	arg0 = g_strdup (argv[0]);
 
@@ -5388,6 +5427,12 @@ main (int argc, char *argv[])
 
 	unlink (fromrlfifo);
 	unlink (torlfifo);
+
+	/* remove old preferences to avoid confusion, by now things should be set in the new file */
+	name = g_build_filename (g_get_home_dir (), ".gnome2", "genius", NULL);
+	if (access (name, F_OK) == 0)
+		unlink (name);
+	g_free (name);
 
 	return status;
 }

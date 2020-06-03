@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2017 Jiri (George) Lebl
+ * Copyright (C) 1997-2020 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -34,6 +34,8 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <locale.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include "calc.h"
 #include "eval.h"
@@ -538,6 +540,13 @@ main(int argc, char *argv[])
 		g_printerr (_("Can't specify both an expression and files to execute on the command line"));
 		exit (1);
 	}
+
+	/* ensure the directory, if it is a file, no worries not saving the properties is not fatal at all */
+	file = g_build_filename (g_get_home_dir (), ".genius", NULL);
+	if (access (file, F_OK) != 0) {
+		mkdir (file, 0755);
+	}
+	g_free (file);
 
 	gel_read_plugin_list();
 

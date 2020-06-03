@@ -244,7 +244,7 @@ gel_save_plugins (void)
 
 	if (genius_is_gui)
 		path = g_build_filename (g_get_home_dir (),
-					 ".gnome2", "genius", NULL);
+					 ".genius", "config-gui", NULL);
 	else
 		path = g_build_filename (g_get_home_dir (),
 					 ".genius", "config-cmdline", NULL);
@@ -295,10 +295,15 @@ gel_restore_plugins (void)
 	if (gel_plugin_list == NULL)
 		return;
 
-	if (genius_is_gui)
+	if (genius_is_gui) {
 		path = g_build_filename (g_get_home_dir (),
-					 ".gnome2", "genius", NULL);
-	else
+					 ".genius", "config-gui", NULL);
+		if (access (path, F_OK) != 0) {
+			g_free (path);
+			path = g_build_filename (g_get_home_dir (),
+						 ".gnome2", "genius", NULL);
+		}
+	} else
 		path = g_build_filename (g_get_home_dir (),
 					 ".genius", "config-cmdline", NULL);
 	cfg = ve_config_get (path);
