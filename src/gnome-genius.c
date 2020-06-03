@@ -2647,14 +2647,17 @@ add_filters (GtkFileChooser *fs)
 
 }
 
+static GtkFileChooserNative *load_fs = NULL;
+
 static void
-really_load_cb (GtkFileChooser *fs, int response, gpointer data)
+load_response_cb (GtkFileChooser *fs, int response, gpointer data)
 {
 	const char *s;
 	char *str;
 
-	if (response != GTK_RESPONSE_OK) {
-		gtk_widget_destroy (GTK_WIDGET (fs));
+	load_fs = NULL;
+
+	if (response != GTK_RESPONSE_ACCEPT) {
 		return;
 	}
 
@@ -2668,8 +2671,6 @@ really_load_cb (GtkFileChooser *fs, int response, gpointer data)
 
 	g_free (last_dir);
 	last_dir = gtk_file_chooser_get_current_folder (fs);
-
-	gtk_widget_destroy (GTK_WIDGET (fs));
 
 	str = g_strdup_printf ("\r\n\e[0m%s\e[0;32m", 
 			       _("Output from "));
@@ -2701,38 +2702,33 @@ really_load_cb (GtkFileChooser *fs, int response, gpointer data)
 static void
 load_cb (GSimpleAction *action, GVariant *param, gpointer data)
 {
-	static GtkWidget *fs = NULL;
-	
-	if (fs != NULL) {
-		gtk_window_present (GTK_WINDOW (fs));
+	if (load_fs != NULL) {
+		gtk_window_present (GTK_WINDOW (load_fs));
 		return;
 	}
 
-	fs = gtk_file_chooser_dialog_new (_("Load and Run"),
-					  GTK_WINDOW (genius_window),
-					  GTK_FILE_CHOOSER_ACTION_OPEN,
-					  _("_Cancel"), GTK_RESPONSE_CANCEL,
-					  _("_Load"), GTK_RESPONSE_OK,
-					  NULL);
+	load_fs = gtk_file_chooser_native_new (_("Load and Run"),
+					       GTK_WINDOW (genius_window),
+					       GTK_FILE_CHOOSER_ACTION_OPEN,
+					       _("_Load"),
+					       _("_Cancel"));
 
-	add_filters (GTK_FILE_CHOOSER (fs));
+	add_filters (GTK_FILE_CHOOSER (load_fs));
 
-	g_signal_connect (G_OBJECT (fs), "destroy",
-			  G_CALLBACK (gtk_widget_destroyed), &fs);
-	g_signal_connect (G_OBJECT (fs), "response",
-			  G_CALLBACK (really_load_cb), NULL);
+	g_signal_connect (G_OBJECT (load_fs), "response",
+			  G_CALLBACK (load_response_cb), NULL);
 
 	if (last_dir != NULL) {
 		gtk_file_chooser_set_current_folder
-			(GTK_FILE_CHOOSER (fs), last_dir);
+			(GTK_FILE_CHOOSER (load_fs), last_dir);
 	} else {
 		char *s = g_get_current_dir ();
 		gtk_file_chooser_set_current_folder
-			(GTK_FILE_CHOOSER (fs), s);
+			(GTK_FILE_CHOOSER (load_fs), s);
 		g_free (s);
 	}
 
-	gtk_widget_show (fs);
+	gtk_native_dialog_show (GTK_NATIVE_DIALOG (load_fs));
 }
 
 #ifdef HAVE_GTKSOURCEVIEW
@@ -3623,12 +3619,16 @@ new_callback (GSimpleAction *action, GVariant *param, gpointer data)
 	new_program (NULL, FALSE);
 }
 
+static GtkFileChooserNative *open_fs = NULL;
+
 static void
-really_open_cb (GtkFileChooser *fs, int response, gpointer data)
+open_response_cb (GtkFileChooser *fs, int response, gpointer data)
 {
 	const char *s;
-	if (response != GTK_RESPONSE_OK) {
-		gtk_widget_destroy (GTK_WIDGET (fs));
+
+	open_fs = NULL;
+
+	if (response != GTK_RESPONSE_ACCEPT) {
 		return;
 	}
 
@@ -3644,46 +3644,41 @@ really_open_cb (GtkFileChooser *fs, int response, gpointer data)
 	last_dir = gtk_file_chooser_get_current_folder (fs);
 
 	new_program (s, FALSE);
-
-	gtk_widget_destroy (GTK_WIDGET (fs));
 }
 
 static void
 open_callback (GSimpleAction *action, GVariant *param, gpointer data)
 {
-	static GtkWidget *fs = NULL;
-	
-	if (fs != NULL) {
-		gtk_window_present (GTK_WINDOW (fs));
+	if (open_fs != NULL) {
+		/* FIXME: fake window present */
+		gtk_native_dialog_hide (GTK_NATIVE_DIALOG (open_fs));
+		gtk_native_dialog_show (GTK_NATIVE_DIALOG (open_fs));
 		return;
 	}
 
-	fs = gtk_file_chooser_dialog_new (_("Open..."),
-					  GTK_WINDOW (genius_window),
-					  GTK_FILE_CHOOSER_ACTION_OPEN,
-					  _("_Cancel"), GTK_RESPONSE_CANCEL,
-					  _("_Open"), GTK_RESPONSE_OK,
-					  NULL);
-	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (fs), FALSE);
+	open_fs = gtk_file_chooser_native_new (_("Open..."),
+					       GTK_WINDOW (genius_window),
+					       GTK_FILE_CHOOSER_ACTION_OPEN,
+					       _("_Open"),
+					       _("_Cancel"));
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (open_fs), FALSE);
 
-	add_filters (GTK_FILE_CHOOSER (fs));
+	add_filters (GTK_FILE_CHOOSER (open_fs));
 
-	g_signal_connect (G_OBJECT (fs), "destroy",
-			  G_CALLBACK (gtk_widget_destroyed), &fs);
-	g_signal_connect (G_OBJECT (fs), "response",
-			  G_CALLBACK (really_open_cb), NULL);
+	g_signal_connect (G_OBJECT (open_fs), "response",
+			  G_CALLBACK (open_response_cb), NULL);
 
 	if (last_dir != NULL) {
 		gtk_file_chooser_set_current_folder
-			(GTK_FILE_CHOOSER (fs), last_dir);
+			(GTK_FILE_CHOOSER (open_fs), last_dir);
 	} else {
 		char *s = g_get_current_dir ();
 		gtk_file_chooser_set_current_folder
-			(GTK_FILE_CHOOSER (fs), s);
+			(GTK_FILE_CHOOSER (open_fs), s);
 		g_free (s);
 	}
 
-	gtk_widget_show (fs);
+	gtk_native_dialog_show (GTK_NATIVE_DIALOG (open_fs));
 }
 
 static gboolean
@@ -3816,14 +3811,18 @@ save_all_cb (GSimpleAction *action, GVariant *param, gpointer data)
 	}
 }
 
+static GtkFileChooserNative *save_fs = NULL;
+
 static void
-really_save_as_cb (GtkFileChooser *fs, int response, gpointer data)
+save_as_response_cb (GtkFileChooser *fs, int response, gpointer data)
 {
 	char *s;
 	char *base;
 	GError *error = NULL;
-	if (response != GTK_RESPONSE_OK) {
-		gtk_widget_destroy (GTK_WIDGET (fs));
+
+	save_fs = NULL;
+
+	if (response != GTK_RESPONSE_ACCEPT) {
 		/* FIXME: don't want to deal with modality issues right now */
 		gtk_widget_set_sensitive (genius_window, TRUE);
 		return;
@@ -3865,7 +3864,6 @@ really_save_as_cb (GtkFileChooser *fs, int response, gpointer data)
 	g_free (last_dir);
 	last_dir = gtk_file_chooser_get_current_folder (fs);
 
-	gtk_widget_destroy (GTK_WIDGET (fs));
 	/* FIXME: don't want to deal with modality issues right now */
 	gtk_widget_set_sensitive (genius_window, TRUE);
 
@@ -3875,57 +3873,54 @@ really_save_as_cb (GtkFileChooser *fs, int response, gpointer data)
 static void
 save_as_callback (GSimpleAction *action, GVariant *param, gpointer data)
 {
-	static GtkWidget *fs = NULL;
-
 	/* sanity */
 	if (selected_program == NULL)
 		return;
 	
-	if (fs != NULL) {
-		gtk_window_present (GTK_WINDOW (fs));
+	if (save_fs != NULL) {
+		/* FIXME: fake window present */
+		gtk_native_dialog_hide (GTK_NATIVE_DIALOG (save_fs));
+		gtk_native_dialog_show (GTK_NATIVE_DIALOG (save_fs));
 		return;
 	}
 
 	/* FIXME: don't want to deal with modality issues right now */
 	gtk_widget_set_sensitive (genius_window, FALSE);
 
-	fs = gtk_file_chooser_dialog_new (_("Save As..."),
-					  GTK_WINDOW (genius_window),
-					  GTK_FILE_CHOOSER_ACTION_SAVE,
-					  _("_Cancel"), GTK_RESPONSE_CANCEL,
-					  _("_Save"), GTK_RESPONSE_OK,
-					  NULL);
-	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (fs), FALSE);
-	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (fs),
+	save_fs = gtk_file_chooser_native_new (_("Save As..."),
+					       GTK_WINDOW (genius_window),
+					       GTK_FILE_CHOOSER_ACTION_SAVE,
+					       _("_Save"),
+					       _("_Cancel"));
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (save_fs), FALSE);
+	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (save_fs),
 							TRUE);
 
-	add_filters (GTK_FILE_CHOOSER (fs));
+	add_filters (GTK_FILE_CHOOSER (save_fs));
 
-	g_signal_connect (G_OBJECT (fs), "destroy",
-			  G_CALLBACK (gtk_widget_destroyed), &fs);
-	g_signal_connect (G_OBJECT (fs), "response",
-			  G_CALLBACK (really_save_as_cb), NULL);
+	g_signal_connect (G_OBJECT (save_fs), "response",
+			  G_CALLBACK (save_as_response_cb), NULL);
 
 	if (last_dir != NULL) {
 		gtk_file_chooser_set_current_folder
-			(GTK_FILE_CHOOSER (fs), last_dir);
+			(GTK_FILE_CHOOSER (save_fs), last_dir);
 	} else {
 		char *s = g_get_current_dir ();
 		gtk_file_chooser_set_current_folder
-			(GTK_FILE_CHOOSER (fs), s);
+			(GTK_FILE_CHOOSER (save_fs), s);
 		g_free (s);
 	}
 	if (selected_program->real_file) {
 		gtk_file_chooser_set_uri
-			(GTK_FILE_CHOOSER (fs), selected_program->name);
+			(GTK_FILE_CHOOSER (save_fs), selected_program->name);
 	} else {
 		char *bn = g_path_get_basename (selected_program->name);
 		gtk_file_chooser_set_current_name
-			(GTK_FILE_CHOOSER (fs), bn);
+			(GTK_FILE_CHOOSER (save_fs), bn);
 		g_free (bn);
 	}
 
-	gtk_widget_show (fs);
+	gtk_native_dialog_show (GTK_NATIVE_DIALOG (save_fs));
 }
 
 /* vte_terminal_get_text_range is totally and utterly a broken API.  There is
@@ -3939,8 +3934,10 @@ always_selected (VteTerminal *terminal, glong column, glong row, gpointer data)
 	return TRUE;
 }
 
+static GtkFileChooserNative *save_console_fs = NULL;
+
 static void
-really_save_console_cb (GtkFileChooser *fs, int response, gpointer data)
+save_console_response_cb (GtkFileChooser *fs, int response, gpointer data)
 {
 	char *s;
 	char *base;
@@ -3949,10 +3946,9 @@ really_save_console_cb (GtkFileChooser *fs, int response, gpointer data)
 	int sz;
 	GError *error = NULL;
 
-	if (response != GTK_RESPONSE_OK) {
-		gtk_widget_destroy (GTK_WIDGET (fs));
-		/* FIXME: don't want to deal with modality issues right now */
-		gtk_widget_set_sensitive (genius_window, TRUE);
+	save_console_fs = NULL;
+
+	if (response != GTK_RESPONSE_ACCEPT) {
 		return;
 	}
 
@@ -4003,55 +3999,45 @@ really_save_console_cb (GtkFileChooser *fs, int response, gpointer data)
 	g_free (last_dir);
 	last_dir = gtk_file_chooser_get_current_folder (fs);
 
-	gtk_widget_destroy (GTK_WIDGET (fs));
-	/* FIXME: don't want to deal with modality issues right now */
-	gtk_widget_set_sensitive (genius_window, TRUE);
-
 	g_free (s);
 }
 
 static void
 save_console_cb (GSimpleAction *action, GVariant *param, gpointer data)
 {
-	static GtkWidget *fs = NULL;
-
-	if (fs != NULL) {
-		gtk_window_present (GTK_WINDOW (fs));
+	if (save_console_fs != NULL) {
+		/* FIXME: fake window present */
+		gtk_native_dialog_hide (GTK_NATIVE_DIALOG (save_console_fs));
+		gtk_native_dialog_show (GTK_NATIVE_DIALOG (save_console_fs));
 		return;
 	}
 
-	/* FIXME: don't want to deal with modality issues right now */
-	gtk_widget_set_sensitive (genius_window, FALSE);
-
-	fs = gtk_file_chooser_dialog_new (_("Save Console Output..."),
-					  GTK_WINDOW (genius_window),
-					  GTK_FILE_CHOOSER_ACTION_SAVE,
-					  _("_Cancel"), GTK_RESPONSE_CANCEL,
-					  _("_Save"), GTK_RESPONSE_OK,
-					  NULL);
-	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (fs), FALSE);
-	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (fs),
+	save_console_fs = gtk_file_chooser_native_new (_("Save Console Output..."),
+						       GTK_WINDOW (genius_window),
+						       GTK_FILE_CHOOSER_ACTION_SAVE,
+						       _("_Save"),
+						       _("_Cancel"));
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (save_console_fs), FALSE);
+	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (save_console_fs),
 							TRUE);
 
-	g_signal_connect (G_OBJECT (fs), "destroy",
-			  G_CALLBACK (gtk_widget_destroyed), &fs);
-	g_signal_connect (G_OBJECT (fs), "response",
-			  G_CALLBACK (really_save_console_cb), NULL);
+	g_signal_connect (G_OBJECT (save_console_fs), "response",
+			  G_CALLBACK (save_console_response_cb), NULL);
 
 	if (last_dir != NULL) {
 		gtk_file_chooser_set_current_folder
-			(GTK_FILE_CHOOSER (fs), last_dir);
+			(GTK_FILE_CHOOSER (save_console_fs), last_dir);
 	} else {
 		char *s = g_get_current_dir ();
 		gtk_file_chooser_set_current_folder
-			(GTK_FILE_CHOOSER (fs), s);
+			(GTK_FILE_CHOOSER (save_console_fs), s);
 		g_free (s);
 	}
 
 	gtk_file_chooser_set_current_name
-		(GTK_FILE_CHOOSER (fs), "Genius-Console-Output.txt");
+		(GTK_FILE_CHOOSER (save_console_fs), "Genius-Console-Output.txt");
 
-	gtk_widget_show (fs);
+	gtk_native_dialog_show (GTK_NATIVE_DIALOG (save_console_fs));
 }
 
 
