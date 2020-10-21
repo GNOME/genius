@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
-"POT-Creation-Date: 2020-08-12 07:01+0000\n"
-"PO-Revision-Date: 2020-09-26 19:46+0300\n"
+"POT-Creation-Date: 2020-09-26 16:48+0000\n"
+"PO-Revision-Date: 2020-10-21 19:39+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -603,9 +603,9 @@ msgid ""
 "Is a matrix (or number) invertible (Integer matrix is invertible if and only "
 "if it is invertible over the integers)"
 msgstr ""
-"Чи може бути обернено матрицю (або число) (Цілочисельна матриця може бути"
-" обернена, якщо і лише якщо існує цілочисельна матриця, яка є оберненою до"
-" початкової)"
+"Чи може бути обернено матрицю (або число) (Цілочисельна матриця може бути "
+"обернена, якщо і лише якщо існує цілочисельна матриця, яка є оберненою до "
+"початкової)"
 
 #: ../lib/library-strings.c:125
 msgid "Is a matrix (or number) invertible over a field"
@@ -727,8 +727,8 @@ msgid ""
 "Return a function that evaluates two vectors with respect to the "
 "sesquilinear form given by A"
 msgstr ""
-"Повертає функцію, яка обчислює два вектори відносно напівбілінійної форми,"
-" яку задано A"
+"Повертає функцію, яка обчислює два вектори відносно напівбілінійної форми, "
+"яку задано A"
 
 #: ../lib/library-strings.c:153
 msgid "Smith Normal Form for fields (will end up with 1's on the diagonal)"
@@ -809,8 +809,8 @@ msgstr "Обчислити число Фробеніуса для задачі �
 msgid ""
 "Galois matrix given a linear combining rule (a_1*x_1+...+a_n*x_n=x_(n+1))"
 msgstr ""
-"Матриця Галуа за заданим правилом лінійних комбінацій"
-" (a_1*x_1+...+a_n*x_n=x_(n+1))"
+"Матриця Галуа за заданим правилом лінійних комбінацій (a_1*x_1+..."
+"+a_n*x_n=x_(n+1))"
 
 #: ../lib/library-strings.c:172
 msgid "Use greedy algorithm to find c, for c . v = n.  (v must be sorted)"
@@ -825,9 +825,8 @@ msgid ""
 "Hofstadter's function q(n) defined by q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-"
 "q(n-2))"
 msgstr ""
-"Функція Гофштадтера q(n), яка визначається співвідношеннями q(1)=1, q(2)=1,"
-" q(n)=q(n-q(n-1))+q(n-"
-"q(n-2))"
+"Функція Гофштадтера q(n), яка визначається співвідношеннями q(1)=1, q(2)=1, "
+"q(n)=q(n-q(n-1))+q(n-q(n-2))"
 
 #: ../lib/library-strings.c:175
 msgid "Compute linear recursive sequence using Galois stepping"
@@ -4144,6 +4143,8 @@ msgstr "Genius %s"
 #: ../src/gnome-genius.c:4481
 msgid "Memory (node number) limit has been reached, interrupt the computation?"
 msgstr ""
+"Перевищено обмеження на об'єм пам'яті (кількість вузлів), перервати"
+" обчислення?"
 
 #. error
 #. always textbox
@@ -4180,6 +4181,8 @@ msgid ""
 "A file .genius in the home directory exists, but it should be a directory. "
 "Genius will not be able to save preferences."
 msgstr ""
+"У домашньому каталозі вже існує файл .genius, але там має бути такий каталог."
+" Genius не зможе зберегти параметри."
 
 #: ../src/gnome-genius.c:5076
 msgid "Console"
@@ -4328,6 +4331,10 @@ msgid ""
 "parameters set below, starting at the point clicked.  To be able to zoom by "
 "mouse again, close this window."
 msgstr ""
+"Зараз клацання на вікні графіка призведе до малювання розв'язку, відповідно"
+" до параметрів, які встановлено нижче, починаючи із точки, де було здійснено"
+" клацання. Щоб мати змогу знову масштабувати зображення за допомогою миші,"
+" закрийте це вікно."
 
 #: ../src/graphing.c:1992
 msgid "X increment:"
@@ -4493,6 +4500,8 @@ msgid ""
 "the %s variable which will be %s=%s+i%s) that gives the slope at the point "
 "(%s,%s)."
 msgstr ""
+"Введіть назву функції або виразу, який включатиме змінні %s і %s (або змінну "
+"%s, яка дорівнюватиме %s=%s+i%s), яка дає нахил у точці (%s,%s)."
 
 #: ../src/graphing.c:5422 ../src/graphing.c:5429 ../src/graphing.c:5593
 #: ../src/graphing.c:5600
@@ -4522,6 +4531,9 @@ msgid ""
 "the %s variable which will be %s=%s+i%s) that give the d%s/d%s and d%s/d%s "
 "of the autonomous system to be plotted at the point (%s,%s)."
 msgstr ""
+"Введіть назви функції або вираз, що містять змінні %s і %s (або змінну %s,"
+" яка дорівнюватиме %s=%s+i%s), які даватимуть d%s/d%s і d%s/d%s автономної"
+" системи для малювання у точці (%s,%s)."
 
 #: ../src/graphing.c:5506
 #, c-format
@@ -4529,6 +4541,8 @@ msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
 "below to graph them"
 msgstr ""
+"Введіть назви функцій або вираз, що містить змінну %s, у полях нижче, щоб"
+" накреслити їх"
 
 #: ../src/graphing.c:5523
 #, c-format
@@ -4827,12 +4841,16 @@ msgid ""
 "%s: Points should be given as a real, n by 2 matrix with columns for x and "
 "y, n>=%d, or as a complex valued n by 1 matrix"
 msgstr ""
+"%s: точки має бути задано у формі дійсного числа, матриці n на 2 зі"
+" стовпчиками для x і y, n>=%d, або комплекснозначну матрицю n на 1"
 
 #: ../src/graphing.c:8553
 #, c-format
 msgid ""
 "%s: If points are given as an n by 2 matrix, then this matrix must be real"
 msgstr ""
+"%s: якщо точки задано як матрицю n на 2, ця матриця має складатися із дійсних"
+" значень"
 
 #: ../src/graphing.c:8663 ../src/graphing.c:8726
 #, c-format
@@ -4840,6 +4858,8 @@ msgid ""
 "%s: Points should be given as a real, n by 3 matrix with columns for x, y "
 "and z, n>=%d"
 msgstr ""
+"%s: точки має бути задано у формі дійсного числа, матриці n на 3 зі"
+" стовпчиками для x, y та z, n>=%d"
 
 #: ../src/graphing.c:8778
 #, c-format
@@ -4857,6 +4877,9 @@ msgid ""
 "%s: A vector giving color should be a 3-vector of real numbers between 0 and "
 "1"
 msgstr ""
+"%s: вектор, який задає кольори має бути 3-компонентним вектором з дійсних"
+" чисел від 0 до "
+"1"
 
 #: ../src/graphing.c:8820
 #, c-format
@@ -5023,6 +5046,8 @@ msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
 msgstr ""
+"Накреслити функцію лінією. Першими має бути вказано функції (до 10), потім"
+" можна вказати межі області у форматі x1,x2,y1,y2"
 
 #: ../src/graphing.c:10807
 msgid ""
