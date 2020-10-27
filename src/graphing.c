@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2017 Jiri (George) Lebl
+ * Copyright (C) 2003-2020 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -157,13 +157,21 @@ static char *sp_z_name = NULL;
 
 static GSList *solutions_list = NULL;
 
-static double spinx1 = -10;
-static double spinx2 = 10;
-static double spiny1 = -10;
-static double spiny2 = 10;
-static double spint1 = 0.0;
-static double spint2 = 1.0;
-static double spintinc = 0.01;
+static GtkWidget *spinx1_entry = NULL;
+static const char *spinx1_default = "-10";
+static GtkWidget *spinx2_entry = NULL;
+static const char *spinx2_default = "10";
+static GtkWidget *spiny1_entry = NULL;
+static const char *spiny1_default = "-10";
+static GtkWidget *spiny2_entry = NULL;
+static const char *spiny2_default = "10";
+
+static GtkWidget *spint1_entry = NULL;
+static const char *spint1_default = "0.0";
+static GtkWidget *spint2_entry = NULL;
+static const char *spint2_default = "1.0";
+static GtkWidget *spintinc_entry = NULL;
+static const char *spintinc_default = "0.01";
 
 static int spinSVtick = 20;
 static int spinSHtick = 20;
@@ -254,12 +262,18 @@ static GtkPlotData *surface_data = NULL;
 
 static GtkWidget *surface_entry = NULL;
 static GtkWidget *surface_entry_status = NULL;
-static double surf_spinx1 = -10;
-static double surf_spinx2 = 10;
-static double surf_spiny1 = -10;
-static double surf_spiny2 = 10;
-static double surf_spinz1 = -10;
-static double surf_spinz2 = 10;
+static GtkWidget *surf_spinx1_entry = NULL;
+static const char *surf_spinx1_default = "-10";
+static GtkWidget *surf_spinx2_entry = NULL;
+static const char *surf_spinx2_default = "10";
+static GtkWidget *surf_spiny1_entry = NULL;
+static const char *surf_spiny1_default = "-10";
+static GtkWidget *surf_spiny2_entry = NULL;
+static const char *surf_spiny2_default = "10";
+static GtkWidget *surf_spinz1_entry = NULL;
+static const char *surf_spinz1_default = "-10";
+static GtkWidget *surf_spinz2_entry = NULL;
+static const char *surf_spinz2_default = "10";
 
 static double surf_defx1 = -10;
 static double surf_defx2 = 10;
@@ -5297,6 +5311,84 @@ create_range_spinboxes (const char *title, GtkWidget **titlew,
 }
 
 static GtkWidget *
+create_range_boxes (const char *title, GtkWidget **titlew,
+		    const char *def1, GtkWidget **w1,
+		    const char *totitle, GtkWidget **totitlew,
+		    const char *def2, GtkWidget **w2,
+		    const char *bytitle,
+		    const char *defby, GtkWidget **wb,
+		    GCallback activate_callback)
+{
+	GtkWidget *b, *w;
+
+	b = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, GENIUS_PAD);
+	w = gtk_label_new(title);
+	if (titlew != NULL) {
+		*titlew = w;
+		g_signal_connect (G_OBJECT (w),
+				  "destroy",
+				  G_CALLBACK (gtk_widget_destroyed),
+				  titlew);
+	}
+	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	w = gtk_entry_new ();
+	if (w1 != NULL) {
+		*w1 = w;
+		g_signal_connect (G_OBJECT (w),
+				  "destroy",
+				  G_CALLBACK (gtk_widget_destroyed),
+				  w1);
+	}
+	gtk_entry_set_text (GTK_ENTRY (w), def1);
+	g_signal_connect (G_OBJECT (w), "activate",
+			  G_CALLBACK (activate_callback), NULL);
+	gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+
+	if (totitle != NULL) {
+		w = gtk_label_new (totitle);
+		if (totitlew != NULL) {
+			*totitlew = w;
+			g_signal_connect (G_OBJECT (w),
+					  "destroy",
+					  G_CALLBACK (gtk_widget_destroyed),
+					  totitlew);
+		}
+		gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+		w = gtk_entry_new ();
+		if (w2 != NULL) {
+			*w2 = w;
+			g_signal_connect (G_OBJECT (w),
+					  "destroy",
+					  G_CALLBACK (gtk_widget_destroyed),
+					  w2);
+		}
+		gtk_entry_set_text (GTK_ENTRY (w), def2);
+		g_signal_connect (G_OBJECT (w), "activate",
+				  G_CALLBACK (activate_callback), NULL);
+		gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	}
+
+	if (bytitle != NULL) {
+		w = gtk_label_new (bytitle);
+		gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+		w = gtk_entry_new ();
+		if (wb != NULL) {
+			*wb = w;
+			g_signal_connect (G_OBJECT (w),
+					  "destroy",
+					  G_CALLBACK (gtk_widget_destroyed),
+					  wb);
+		}
+		gtk_entry_set_text (GTK_ENTRY (w), defby);
+		g_signal_connect (G_OBJECT (w), "activate",
+				  G_CALLBACK (activate_callback), NULL);
+		gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	}
+
+	return b;
+}
+
+static GtkWidget *
 create_int_spinbox (const char *title, int *val, int min, int max)
 {
 	GtkWidget *b, *w;
@@ -6015,17 +6107,13 @@ create_lineplot_box (void)
 	gtk_box_pack_start (GTK_BOX (box), gtk_label_new (""), FALSE, FALSE, 0);
 
 	/* t range */
-	b = create_range_spinboxes (_("Parameter t from:"), 
-				    &parametric_trange_label,
-				    &spint1, NULL,
-				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    _("to:"),
-				    NULL,
-				    &spint2, NULL,
-				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    _("by:"), &spintinc, NULL,
-				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    entry_activate);
+	b = create_range_boxes (_("Parameter t from:"), &parametric_trange_label,
+				spint1_default, &spint1_entry,
+				_("to:"), NULL,
+				spint2_default, &spint2_entry,
+				_("by:"),
+				spintinc_default, &spintinc_entry,
+				entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (function_notebook),
@@ -6165,26 +6253,24 @@ create_lineplot_box (void)
 	/*
 	 * X range
 	 */
-	b = create_range_spinboxes (_("X from:"), &lineplot_x_range_label,
-				    &spinx1, NULL,
-				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    _("to:"), NULL, &spinx2, NULL,
-				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    NULL, NULL, NULL, 0, 0, 0,
-				    entry_activate);
+	b = create_range_boxes (_("X from:"), &lineplot_x_range_label,
+				spinx1_default, &spinx1_entry,
+				_("to:"), NULL,
+				spinx2_default, &spinx2_entry,
+				NULL, NULL, NULL,
+				entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 	lineplot_depx_axis_buttons = b;
 
 	/*
 	 * Y range
 	 */
-	b = create_range_spinboxes (_("Y from:"), &lineplot_y_range_label,
-				    &spiny1, NULL,
-				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    _("to:"), NULL, &spiny2, NULL,
-				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    NULL, NULL, NULL, 0, 0, 0,
-				    entry_activate);
+	b = create_range_boxes (_("Y from:"), &lineplot_y_range_label,
+				spiny1_default, &spiny1_entry,
+				_("to:"), NULL,
+				spiny2_default, &spiny2_entry,
+				NULL, NULL, NULL,
+				entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 	lineplot_dep_axis_buttons = b;
 
@@ -6290,36 +6376,34 @@ create_surface_box (void)
 	/*
 	 * X range
 	 */
-	b = create_range_spinboxes (_("X from:"), &surface_x_range_label,
-				    &surf_spinx1, NULL,
-				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    _("to:"), NULL, &surf_spinx2, NULL,
-				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    NULL, NULL, NULL, 0, 0, 0,
-				    entry_activate);
+	b = create_range_boxes (_("X from:"), &surface_x_range_label,
+				surf_spinx1_default, &surf_spinx1_entry,
+				_("to:"), NULL,
+				surf_spinx2_default, &surf_spinx2_entry,
+				NULL, NULL, NULL,
+				entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 
 	/*
 	 * Y range
 	 */
-	b = create_range_spinboxes (_("Y from:"), &surface_y_range_label,
-				    &surf_spiny1, NULL,
-				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    _("to:"), NULL, &surf_spiny2, NULL,
-				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    NULL, NULL, NULL, 0, 0, 0,
-				    entry_activate);
+	b = create_range_boxes (_("Y from:"), &surface_y_range_label,
+				surf_spiny1_default, &surf_spiny1_entry,
+				_("to:"), NULL,
+				surf_spiny2_default, &surf_spiny2_entry,
+				NULL, NULL, NULL,
+				entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 
 	/*
 	 * Z range
 	 */
-	b = create_range_spinboxes (_("Dependent axis from:"), NULL, &surf_spinz1, NULL,
-				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    _("to:"), NULL, &surf_spinz2, NULL,
-				    -G_MAXDOUBLE, G_MAXDOUBLE, 1,
-				    NULL, NULL, NULL, 0, 0, 0,
-				    entry_activate);
+	b = create_range_boxes (_("Dependent axis from:"), NULL,
+				surf_spinz1_default, &surf_spinz1_entry,
+				_("to:"), NULL,
+				surf_spinz2_default, &surf_spinz2_entry,
+				NULL, NULL, NULL,
+				entry_activate);
 	gtk_box_pack_start (GTK_BOX(box), b, FALSE, FALSE, 0);
 	surfaceplot_dep_axis_buttons = b;
 
@@ -6487,6 +6571,71 @@ function_from_expression2 (const char *e,
 	return f;
 }
 
+static gboolean
+get_number_from_entry (GtkWidget *entry, GtkWidget *win, double *num)
+{
+	GelETree *t;
+	double d;
+	char *str = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+	if (ve_string_empty (str)) {
+		genius_display_error (win, _("Empty value as range value"));
+		if (str != NULL) g_free (str); 
+		return FALSE;
+	}
+
+	if (gel_calc_running) {
+		genius_display_error (win, _("Genius is executing something already"));
+		g_free (str);
+		return FALSE;
+	}
+
+	gel_calc_running++;
+	gel_execinit ();
+	t = gel_parseexp (str, NULL, FALSE, FALSE, NULL, NULL);
+	g_free (str);
+	if (t == NULL) {
+		gel_calc_running--;
+		genius_display_error (win, _("Cannot parse range value"));
+		return FALSE;
+	}
+
+	t = gel_runexp (t);
+	gel_calc_running--;
+
+	/* FIXME: handle errors? ! */
+	if G_UNLIKELY (gel_error_num != 0)
+		gel_error_num = 0;
+
+	if (t == NULL) {
+		genius_display_error (win, _("Cannot execute range value"));
+		return FALSE;
+	}
+
+	if (t->type != GEL_VALUE_NODE) {
+		genius_display_error (win, _("Range value not a value"));
+		gel_freetree(t);
+		return FALSE;
+	}
+
+	if (t->type != GEL_VALUE_NODE) {
+		genius_display_error (win, _("Range value not a value"));
+		gel_freetree(t);
+		return FALSE;
+	}
+
+	d = mpw_get_double (t->val.value);
+	gel_freetree (t);
+	if G_UNLIKELY (gel_error_num != 0) {
+		genius_display_error (win, _("Cannot convert range value to a reasonable real number"));
+		gel_error_num = 0;
+		return FALSE;
+	}
+
+	*num = d;
+	
+	return TRUE;
+}
+
 
 static GelEFunc *
 get_func_from_entry (GtkWidget *entry, GtkWidget *status,
@@ -6570,12 +6719,14 @@ surface_from_dialog (void)
 
 	surfaceplot_draw_legends = surfaceplot_draw_legends_cb;
 
-	x1 = surf_spinx1;
-	x2 = surf_spinx2;
-	y1 = surf_spiny1;
-	y2 = surf_spiny2;
-	z1 = surf_spinz1;
-	z2 = surf_spinz2;
+	if ( ! get_number_from_entry (surf_spinx1_entry, plot_dialog, &x1) ||
+	     ! get_number_from_entry (surf_spinx2_entry, plot_dialog, &x2) ||
+	     ! get_number_from_entry (surf_spiny1_entry, plot_dialog, &y1) ||
+	     ! get_number_from_entry (surf_spiny2_entry, plot_dialog, &y2) ||
+	     ! get_number_from_entry (surf_spinz1_entry, plot_dialog, &z1) ||
+	     ! get_number_from_entry (surf_spinz2_entry, plot_dialog, &z2) ) {
+		goto whack_copied_funcs;
+	}
 
 	if (x1 > x2) {
 		double s = x1;
@@ -6754,10 +6905,12 @@ plot_from_dialog_lineplot (void)
 		goto whack_copied_funcs;
 	}
 
-	x1 = spinx1;
-	x2 = spinx2;
-	y1 = spiny1;
-	y2 = spiny2;
+	if ( ! get_number_from_entry (spinx1_entry, plot_dialog, &x1) ||
+	     ! get_number_from_entry (spinx2_entry, plot_dialog, &x2) ||
+	     ! get_number_from_entry (spiny1_entry, plot_dialog, &y1) ||
+	     ! get_number_from_entry (spiny2_entry, plot_dialog, &y2) ) {
+		goto whack_copied_funcs;
+	}
 
 	if (x1 > x2) {
 		double s = x1;
@@ -6881,17 +7034,12 @@ plot_from_dialog_parametric (void)
 		goto whack_copied_funcs;
 	}
 
-	if (spint1 >= spint2 ||
-	    spintinc <= 0.0) {
-		error_to_print = g_strdup_printf (_("Invalid %s range"),
-						  lp_t_name);
+	if ( ! get_number_from_entry (spinx1_entry, plot_dialog, &x1) ||
+	     ! get_number_from_entry (spinx2_entry, plot_dialog, &x2) ||
+	     ! get_number_from_entry (spiny1_entry, plot_dialog, &y1) ||
+	     ! get_number_from_entry (spiny2_entry, plot_dialog, &y2) ) {
 		goto whack_copied_funcs;
 	}
-
-	x1 = spinx1;
-	x2 = spinx2;
-	y1 = spiny1;
-	y2 = spiny2;
 
 	if (x1 > x2) {
 		double s = x1;
@@ -6917,14 +7065,25 @@ plot_from_dialog_parametric (void)
 		goto whack_copied_funcs;
 	}
 
+	if ( ! get_number_from_entry (spint1_entry, plot_dialog, &plott1) ||
+	     ! get_number_from_entry (spint2_entry, plot_dialog, &plott2) ||
+	     ! get_number_from_entry (spintinc_entry, plot_dialog, &plottinc) ) {
+		goto whack_copied_funcs;
+	}
+
 	reset_plotx1 = plotx1 = x1;
 	reset_plotx2 = plotx2 = x2;
 	reset_ploty1 = ploty1 = y1;
 	reset_ploty2 = ploty2 = y2;
 
-	plott1 = spint1;
-	plott2 = spint2;
-	plottinc = spintinc;
+
+	if (plott1 >= plott2 ||
+	    plottinc <= 0.0) {
+		error_to_print = g_strdup_printf (_("Invalid %s range"),
+						  lp_t_name);
+		goto whack_copied_funcs;
+	}
+
 
 	line_plot_clear_funcs ();
 
@@ -7010,10 +7169,12 @@ plot_from_dialog_slopefield (void)
 		goto whack_copied_funcs;
 	}
 
-	x1 = spinx1;
-	x2 = spinx2;
-	y1 = spiny1;
-	y2 = spiny2;
+	if ( ! get_number_from_entry (spinx1_entry, plot_dialog, &x1) ||
+	     ! get_number_from_entry (spinx2_entry, plot_dialog, &x2) ||
+	     ! get_number_from_entry (spiny1_entry, plot_dialog, &y1) ||
+	     ! get_number_from_entry (spiny2_entry, plot_dialog, &y2) ) {
+		goto whack_copied_funcs;
+	}
 
 	if (x1 > x2) {
 		double s = x1;
@@ -7115,10 +7276,12 @@ plot_from_dialog_vectorfield (void)
 		goto whack_copied_funcs;
 	}
 
-	x1 = spinx1;
-	x2 = spinx2;
-	y1 = spiny1;
-	y2 = spiny2;
+	if ( ! get_number_from_entry (spinx1_entry, plot_dialog, &x1) ||
+	     ! get_number_from_entry (spinx2_entry, plot_dialog, &x2) ||
+	     ! get_number_from_entry (spiny1_entry, plot_dialog, &y1) ||
+	     ! get_number_from_entry (spiny2_entry, plot_dialog, &y2) ) {
+		goto whack_copied_funcs;
+	}
 
 	if (x1 > x2) {
 		double s = x1;

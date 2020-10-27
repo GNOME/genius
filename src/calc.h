@@ -92,7 +92,7 @@ void	gel_print_func (GelOutput *gelo,
 
 /* Note that infile must be gel_lexer_open'ed */
 /*this is the function to be mostly called outsied of calc.c
-  evaluate the xpression string and give back a string with the
+  evaluate the expression string and give back a string with the
   result, expression is in str or if str is NULL then in infd,
   pretty will use pretty_print_etree*/
 void gel_evalexp (const char *str /* string to evaluate */,
