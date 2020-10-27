@@ -4825,6 +4825,8 @@ plot_functions (gboolean do_window_present,
 
 	plot_maxy = - G_MAXDOUBLE/2;
 	plot_miny = G_MAXDOUBLE/2;
+	plot_maxx = - G_MAXDOUBLE/2;
+	plot_minx = G_MAXDOUBLE/2;
 
 	init_plot_ctx ();
 
