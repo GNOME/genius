@@ -1049,7 +1049,11 @@ gtk_plot_dt_compare_nodes_xy_wise(gconstpointer a, gconstpointer b)
       return  1; break;
     case  0:
       return  0; break;
+    default:
+      break;
     }
+    break;
+  default:
     break;
   }
   

@@ -329,8 +329,8 @@ gtk_plot_canvas_plot_button_release	(GtkPlotCanvas *canvas,
                            fx, fy,
                            &px, &py);
 
-        if(abs(new_x - px) <= DEFAULT_MARKER_SIZE &&
-           abs(new_y - py) <= DEFAULT_MARKER_SIZE){
+        if(fabs(new_x - px) <= DEFAULT_MARKER_SIZE &&
+           fabs(new_y - py) <= DEFAULT_MARKER_SIZE){
              cplot->marker->point = i;
              cplot->datapoint = i;
              gtk_plot_canvas_get_position(canvas, px, py,
@@ -674,7 +674,7 @@ gtk_plot_canvas_plot_button_press(GtkPlotCanvas *canvas,
                                 &fx, &fy, &fz, &fa, &fdx, &fdy, &fdz, &fda,
                                 &label, &error);
         gtk_plot_get_pixel(GTK_PLOT(plot), fx, fy, &xi, &yi);
-        if(abs(xi-x) <= 20 && abs(yi-y) <= 20){
+        if(fabs(xi-x) <= 20 && fabs(yi-y) <= 20){
 
           if(canvas->active_item == child && 
              GTK_PLOT_CANVAS_PLOT(child)->pos == GTK_PLOT_CANVAS_PLOT_IN_MARKER &&
@@ -725,8 +725,8 @@ gtk_plot_canvas_plot_button_press(GtkPlotCanvas *canvas,
                                   &fx, &fy, &fz, &fa, &fdx, &fdy, &fdz, &fda,
                                   &label, &error);
           gtk_plot_get_pixel(GTK_PLOT(plot), fx, fy, &xi, &yi);
-          if(abs(xi-x) <= DEFAULT_MARKER_SIZE &&
-             abs(yi-y) <= DEFAULT_MARKER_SIZE){
+          if(fabs(xi-x) <= DEFAULT_MARKER_SIZE &&
+             fabs(yi-y) <= DEFAULT_MARKER_SIZE){
 
             if(canvas->active_item == child && 
                GTK_PLOT_CANVAS_PLOT(child)->pos == GTK_PLOT_CANVAS_PLOT_IN_DATA &&

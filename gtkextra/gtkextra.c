@@ -98,7 +98,7 @@ _gtkextra_signal_emit(GObject *object, guint signal_id, ...)
 
   g_signal_query(signal_id, &query);
 
-  for (i = 0; i < query.n_params; i++)
+  for (i = 0; i < (int)query.n_params; i++)
     {
       gboolean static_scope = query.param_types[i]&~G_SIGNAL_TYPE_STATIC_SCOPE;
       g_value_init(instance_and_params + i + 1, query.param_types[i]);

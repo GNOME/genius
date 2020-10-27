@@ -113,6 +113,8 @@ gtk_plot_canvas_rectangle_get_property (GObject      *object,
     case ARG_BG:
       g_value_set_pointer(value, &rectangle->bg); 
       break;
+    default:
+      break;
   }
 }
 
@@ -139,6 +141,8 @@ gtk_plot_canvas_rectangle_set_property (GObject      *object,
       break;
     case ARG_BG:
       rectangle->bg = *((GdkRGBA *)g_value_get_pointer(value));
+      break;
+    default:
       break;
   }
 }

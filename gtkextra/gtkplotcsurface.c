@@ -314,6 +314,8 @@ gtk_plot_csurface_set_property (GObject      *object,
       case ARG_SUBLEVELS_COLOR:
         data->sublevels_line.color = *((GdkRGBA *)g_value_get_pointer(value));
         break;
+      default:
+	break;
     }
 }
 
@@ -700,7 +702,11 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
         ntotal += 2;
         aux = aux->next;
       }
-      last = aux->next;
+
+      if (aux)
+	      last = aux->next;
+      else
+	      last = NULL;
 
       if(nlines == 0){ polygons = last; continue; }
 
@@ -900,24 +906,24 @@ gtk_plot_csurface_draw_lines(GtkPlotData *data)
         if(nxp > 0){
           gint j;
           for(j = 0; j < nxp; j++){
-            GtkPlotContourX aux = xp[j];
-            x = aux.type;
+            GtkPlotContourX auxx = xp[j];
+            x = auxx.type;
 
             if(x == 1){ 
-              if(p1->x >= aux.bb->x && p1->x <= aux.bb->x+aux.bb->width && p1->y >= aux.bb->y && p1->y <= aux.bb->y+aux.bb->height){
-                line[0] = aux.x1;
+              if(p1->x >= auxx.bb->x && p1->x <= auxx.bb->x+auxx.bb->width && p1->y >= auxx.bb->y && p1->y <= auxx.bb->y+auxx.bb->height){
+                line[0] = auxx.x1;
                 n = 1;
               } else {
                 if(n == 0) line[n++] = *p1;
-                line[n++] = aux.x1;
+                line[n++] = auxx.x1;
                 gtk_plot_pc_draw_lines(plot->pc, line, n); 
                 n = 0;
               }
             } else { /* x == 2 */
               if(n == 0) line[n++] = *p1;
-              line[n++] = aux.x1;
+              line[n++] = auxx.x1;
               gtk_plot_pc_draw_lines(plot->pc, line, n); 
-              line[0] = aux.x2;
+              line[0] = auxx.x2;
               n = 1;
             }
           }
@@ -1769,6 +1775,8 @@ hsv_to_rgb (gdouble  h, gdouble  s, gdouble  v,
           *g = w;
           *b = q;
           break;
+	default:
+	  break;
       }
     }
 }

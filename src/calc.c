@@ -62,7 +62,7 @@ extern int gel_first_tok;
 extern gboolean gel_lex_init;
 
 extern char *yytext;
-extern int yydebug;
+/* extern int yydebug; */
 
 extern const char *genius_toplevels[];
 
@@ -1157,10 +1157,10 @@ appendmatrix_mathml (GelOutput *gelo, GelMatrixW *m, gboolean nice)
 			gel_output_string (gelo, "\n");
 	}
 	
-	if (nice)
+	/*if (nice)
 		gel_output_string (gelo, "</matrix>");
-	else
-		gel_output_string (gelo, "</matrix>");
+	else*/
+	gel_output_string (gelo, "</matrix>");
 }
 
 static void
@@ -3152,8 +3152,8 @@ do_exec_commands (const char *dirprefix)
 			if G_UNLIKELY (gel_interrupted)
 				break;
 		}
-		g_slist_foreach (list, (GFunc)g_free, NULL);
-		g_slist_free (list);
+		g_slist_free_full (list, g_free);
+		list = NULL;
 		ret = TRUE;
 		break;
 	case GEL_CHANGEDIR:
@@ -3163,8 +3163,8 @@ do_exec_commands (const char *dirprefix)
 		for (li = list; li != NULL; li = li->next) {
 			our_chdir (dirprefix, li->data);
 		}
-		g_slist_foreach (list, (GFunc)g_free, NULL);
-		g_slist_free (list);
+		g_slist_free_full (list, g_free);
+		list = NULL;
 		ret = TRUE;
 		break;
 	case GEL_LOADPLUGIN:
@@ -3261,8 +3261,8 @@ do_exec_commands (const char *dirprefix)
 			}
 		}
 
-		g_slist_foreach (list, (GFunc)g_free, NULL);
-		g_slist_free (list);
+		g_slist_free_full (list, g_free);
+		list = NULL;
 		ret = TRUE;
 		break;
 	case GEL_PWD:
@@ -3511,14 +3511,15 @@ gel_evalexp_parsed (GelETree *parsed,
 	} else if(ret->type == GEL_OPERATOR_NODE &&
 		ret->op.oper == GEL_E_REFERENCE) {
 		GelETree *t = ret->op.args;
-		if(!t) {
+		if (t != NULL) {
 			GelEFunc *rf = d_lookup_global(t->id.id);
 			if(rf)
 				d_addfunc(d_makereffunc(d_intern("Ans"),rf));
 			else
 				d_addfunc(d_makevfunc(d_intern("Ans"),gel_makenum_ui(0)));
-		} else
+		} else {
 				d_addfunc(d_makevfunc(d_intern("Ans"),gel_makenum_ui(0)));
+		}
 		gel_freetree(ret);
 	} else
 		d_addfunc(d_makevfunc(d_intern("Ans"),ret));
@@ -3539,10 +3540,10 @@ gel_evalexp (const char *str,
 }
 
 /*just to make the compiler happy*/
-void yyerror(char *s);
+void yyerror(const char *s);
 
 void
-yyerror (char *s)
+yyerror (const char *s)
 {
 	char *p;
 	

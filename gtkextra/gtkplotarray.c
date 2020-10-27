@@ -219,6 +219,8 @@ gtk_plot_array_set_property (GObject      *object,
       case PROP_DATA:
         data->data = *((GtkPlotArrayArg *)g_value_get_pointer(value));
         break;
+      default:
+	break;
     }
 }
 

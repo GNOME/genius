@@ -130,8 +130,6 @@ static gboolean gtk_plot_canvas_draw            (GtkWidget *widget,
                                                  cairo_t *cr);
 static void gtk_plot_canvas_create_pixmap       (GtkWidget *widget, 
                                                  gint width, gint height);
-static void gtk_plot_canvas_child_draw		(GtkPlotCanvas *canvas,
-						 GtkPlotCanvasChild *child);
 static void gtk_plot_canvas_child_draw_selection(cairo_t *cr,
 						 GtkPlotCanvas *canvas,
 						 GtkPlotCanvasChild *child,
@@ -432,6 +430,8 @@ gtk_plot_canvas_child_get_property (GObject      *object,
     case ARG_CHILD_SELECTION_MODE:
       g_value_set_int(value, child->mode);
       break;
+    default:
+      break;
   }
 }
 
@@ -476,6 +476,8 @@ gtk_plot_canvas_child_set_property (GObject      *object,
       break;
     case ARG_CHILD_SELECTION_MODE:
       child->mode = g_value_get_int(value); 
+      break;
+    default:
       break;
   }
 }
@@ -817,6 +819,8 @@ gtk_plot_canvas_get_property (GObject      *object,
     case ARG_CANVAS_TRANSPARENT:
       g_value_set_boolean(value, canvas->transparent);
       break;
+    default:
+      break;
   }
 }
 
@@ -857,6 +861,8 @@ gtk_plot_canvas_set_property (GObject      *object,
       break;
     case ARG_CANVAS_TRANSPARENT:
       canvas->transparent = g_value_get_boolean(value);
+      break;
+    default:
       break;
   }
 }
@@ -2508,6 +2514,7 @@ gtk_plot_canvas_set_line_attributes(GtkPlotCanvas *canvas, GtkPlotLine line)
         gtk_plot_pc_set_lineattr(canvas->pc, line.line_width,
                                 1, 0, 0);
         gtk_plot_pc_set_dash(canvas->pc, 0, dash, 2);
+	break;
    case GTK_PLOT_LINE_DOT_DASH:
         gtk_plot_pc_set_lineattr(canvas->pc, line.line_width,
                                 1, 0, 0);

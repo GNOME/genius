@@ -146,8 +146,8 @@ typedef enum {
 	GEL_NULL_NODE=0,
 	GEL_VALUE_NODE,
 	GEL_MATRIX_NODE,
-	GEL_SET_NODE, /* FIXME: Note implemented */
-	GEL_POLYNOMIAL_NODE, /* FIXME: Note implemented */
+	GEL_SET_NODE, /* FIXME: Not implemented */
+	GEL_POLYNOMIAL_NODE, /* FIXME: Not implemented */
 	GEL_OPERATOR_NODE,
 	GEL_IDENTIFIER_NODE,
 	GEL_STRING_NODE,

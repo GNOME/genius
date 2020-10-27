@@ -149,6 +149,8 @@ gtk_plot_pixmap_get_property (GObject      *object,
     case ARG_MASK:
       g_value_set_pointer(value, pixmap->mask);
       break;
+    default:
+      break;
   }
 }
                                                                                 
@@ -170,6 +172,8 @@ gtk_plot_pixmap_set_property (GObject      *object,
       if(pixmap->mask) cairo_pattern_destroy(pixmap->mask);
       pixmap->mask = (cairo_pattern_t *)g_value_get_pointer(value);
       if(pixmap->mask) cairo_pattern_reference(pixmap->mask);
+      break;
+    default:
       break;
   }
 }

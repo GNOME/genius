@@ -145,6 +145,8 @@ gtk_plot_bar_set_property (GObject      *object,
       case ARG_ORIENTATION:
         data->orientation  = g_value_get_enum(value);
         break;
+      default:
+	break;
     }
 }
 
@@ -280,6 +282,8 @@ gtk_plot_bar_draw_symbol(GtkPlotData *dataset,
         if(dataset->show_xerrbars)
           gtk_plot_get_pixel(plot, y + dy, x, &ex, &ey);
         break;
+      default:
+	break;
     }
     x1 = MIN(px, px0);
     y1 = MIN(py, py0);

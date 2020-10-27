@@ -197,6 +197,8 @@ gtk_plot_canvas_text_get_property (GObject      *object,
     case ARG_TEXT:
       g_value_set_pointer(value, &text->text);
       break;
+    default:
+      break;
   }
 }
 
@@ -219,6 +221,8 @@ gtk_plot_canvas_text_set_property (GObject      *object,
       text->text = *aux_text;
       if(aux_text->text) text->text.text = g_strdup(aux_text->text);
       if(aux_text->font) text->text.font = g_strdup(aux_text->font);
+      break;
+    default:
       break;
   }
 }

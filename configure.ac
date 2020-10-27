@@ -45,6 +45,9 @@ AM_BINRELOC
 
 AX_COMPILER_FLAGS([WARN_CFLAGS],[WARN_LDFLAGS])
 
+dnl remove stupid warning
+WARN_CFLAGS=`echo $WARN_CFLAGS | sed 's/ -Wswitch-enum / /'`
+
 dnl ================= Translation Stuff ==============================================
 
 GETTEXT_PACKAGE=genius

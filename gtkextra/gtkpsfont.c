@@ -332,7 +332,7 @@ gtk_psfont_init(void)
   psfont_families = NULL;
   numf = 0;
 
-  for(i = 0; i < NUM_FONTS; i++){
+  for(i = 0; i < (int)NUM_FONTS; i++){
     new_family = TRUE;
     for(j = 0; j < numf; j++){
        if(strcmp(font_data[i].family, (gchar *)g_list_nth_data(psfont_families, j)) == 0)
@@ -666,7 +666,7 @@ find_psfont(const gchar *name)
   }
 
   if(fontdata == NULL) {
-    for(i = 0; i < NUM_FONTS; i++){
+    for(i = 0; i < (int)NUM_FONTS; i++){
       if(strcmp(name, font_data[i].fontname) == 0) {
 	fontdata = &font_data[i];
 	break;
@@ -719,7 +719,7 @@ gtk_psfont_get_by_family(const gchar *family_name, gboolean italic, gboolean bol
   }
 
   if(fontdata == NULL) {
-    for(i = 0; i < NUM_FONTS; i++){
+    for(i = 0; i < (int)NUM_FONTS; i++){
       if(strcmp(family_name, font_data[i].family) == 0) {
 	return_data = &font_data[i];
 	if(font_data[i].italic == italic && font_data[i].bold == bold){

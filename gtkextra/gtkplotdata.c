@@ -1992,6 +1992,8 @@ gtk_plot_data_set_property (GObject      *object,
         if(!data->gradient) return;
         data->gradient->ticks.break_position = g_value_get_double(value);
         break;
+      default:
+	break;
     }
 }
 
@@ -2690,7 +2692,7 @@ gtk_plot_data_real_real_draw   (GtkPlotData *dataset,
   array_labels = gtk_plot_data_get_labels(dataset, &n);
   a_scale = gtk_plot_data_get_a_scale(dataset);
   y_array = gtk_plot_data_dimension_get_array(dataset, "y");
-  y_scale = y_array->scale;
+  if (y_array) y_scale = y_array->scale;
   z_array = gtk_plot_data_dimension_get_array(dataset, "z");
   if(z_array) z_scale = z_array->scale;
 
@@ -3075,11 +3077,11 @@ draw_gradient_vertical(GtkPlotData *data, gdouble px, gdouble py)
 
   } else {
 
+    gint ncolors = 0;
 
     legend.x = (gdouble)(area.x + x) / (gdouble)area.width;
 
     ry = y;
-    gint ncolors = 0;
     for(level = nlevels-1; level >= 0; level--){
 /*     
       gdouble val;
@@ -3199,6 +3201,8 @@ draw_gradient_vertical(GtkPlotData *data, gdouble px, gdouble py)
         legend.justification = GTK_JUSTIFY_CENTER;
         gtk_plot_draw_text(plot, legend);
         break;
+      default:
+	break;
     }
   }
 }
@@ -3541,6 +3545,8 @@ draw_gradient_horizontal(GtkPlotData *data, gdouble px, gdouble py)
         legend.justification = GTK_JUSTIFY_CENTER;
         gtk_plot_draw_text(plot, legend);
         break;
+      default:
+	break;
     }
   }
 }
@@ -3752,6 +3758,8 @@ gtk_plot_data_set_gradient_size(GtkPlotData *data, gint size)
       case GTK_PLOT_AXIS_BOTTOM:
         gradient_height += theight + roundint(data->gradient->labels_offset * m);
         break;
+      default:
+	break;
     }
   }
 
@@ -3889,6 +3897,8 @@ gtk_plot_data_get_gradient_size(GtkPlotData *data, gint *width, gint *height)
         gradient_width = MAX(gradient_width, twidth + roundint(data->gradient->labels_offset * 3 * m));
         gradient_height += theight + roundint(data->gradient->labels_offset * m);
         break;
+      default:
+	break;
     }
   }
 
@@ -6416,8 +6426,8 @@ gtk_plot_data_get_gradient_colors (GtkPlotData *data,
                                    GdkRGBA *min,
                                    GdkRGBA *max)
 {
-  min = &data->color_min;
-  max = &data->color_max;
+  *min = data->color_min;
+  *max = data->color_max;
 }
 
 /**
@@ -6435,7 +6445,7 @@ gtk_plot_data_set_gradient_nth_color (GtkPlotData *data,
 {
   if(!data->gradient_custom) return;
 
-  if(level > data->gradient->ticks.nticks) return;
+  if((int)level > data->gradient->ticks.nticks) return;
   data->gradient_colors[level] = *color;
   g_signal_emit(data, data_signals[GRADIENT_COLORS_CHANGED], 0);
 }
@@ -6453,7 +6463,7 @@ const GdkRGBA *
 gtk_plot_data_get_gradient_nth_color (GtkPlotData *data,
                                       guint level)
 {
-  if(level > data->gradient->ticks.nticks) return NULL;
+  if((int)level > data->gradient->ticks.nticks) return NULL;
   return &data->gradient_colors[level];
 }
 
@@ -6488,8 +6498,8 @@ gtk_plot_data_get_gradient_outer_colors (GtkPlotData *data,
                                          GdkRGBA *min,
                                          GdkRGBA *max)
 {
-  min = &data->color_lt_min;
-  max = &data->color_gt_max;
+  *min = data->color_lt_min;
+  *max = data->color_gt_max;
 }
 
 /**
@@ -6710,6 +6720,8 @@ hsv_to_rgb (gdouble  h, gdouble  s, gdouble  v,
           *g = w;
           *b = q;
           break;
+	default:
+	  break;
       }
     }
 }
@@ -6938,7 +6950,7 @@ gtk_plot_data_add_marker(GtkPlotData *data, guint point)
   GList *list = NULL;
 */
 
-  if(point >= data->num_points) return FALSE;
+  if((int)point >= data->num_points) return FALSE;
 
 /*
   list = data->markers;

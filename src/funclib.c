@@ -3398,7 +3398,7 @@ I_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 		gel_matrixw_set_size (m, size, size);
 
 		for (i = 0; i < size; i++)
-			gel_matrixw_set_index (m, i, i) =
+			gel_matrixw_set_indexii (m, i) =
 				gel_makenum_ui(1);
 		/* This is in row reduced form, duh! */
 		m->rref = 1;
@@ -4760,8 +4760,8 @@ Factorize_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 		mpw_t num;
 		mpw_init (num);
 		mpw_set_mpz_use (num, f.num);
-		gel_matrixw_set_index (mn, i, 0) = gel_makenum_use (num);
-		gel_matrixw_set_index (mn, i, 1) = gel_makenum_ui (f.exp);
+		gel_matrixw_set_index (mn, (int)i, 0) = gel_makenum_use (num);
+		gel_matrixw_set_index (mn, (int)i, 1) = gel_makenum_ui (f.exp);
 	}
 
 	g_array_free (fact, TRUE /*free segment */);
@@ -6627,8 +6627,7 @@ AskButtons_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	i = 1;
 	while (a != NULL && a[i] != NULL) {
 		if G_UNLIKELY ( ! check_argument_string (a, i, "AskButtons")) {
-			g_slist_foreach (buttons, (GFunc)g_free, NULL);
-			g_slist_free (buttons);
+			g_slist_free_full (buttons, g_free);
 			return NULL;
 		}
 		buttons = g_slist_append (buttons, g_strdup (a[i]->str.str));
@@ -6637,8 +6636,7 @@ AskButtons_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 
 	ret = gel_ask_buttons (a[0]->str.str, buttons);
 
-	g_slist_foreach (buttons, (GFunc)g_free, NULL);
-	g_slist_free (buttons);
+	g_slist_free_full (buttons, g_free);
 	
 	if (ret < 0)
 		return gel_makenum_null ();

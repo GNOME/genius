@@ -3506,7 +3506,7 @@ make_matrix_from_limits (void)
 	n->mat.quoted = FALSE;
 	gel_matrixw_set_size (m, 4, 1);
 
-	gel_matrixw_set_index (m, 0, 0) = gel_makenum_d (defx1);
+	gel_matrixw_set_indexii (m, 0) = gel_makenum_d (defx1);
 	gel_matrixw_set_index (m, 1, 0) = gel_makenum_d (defx2);
 	gel_matrixw_set_index (m, 2, 0) = gel_makenum_d (defy1);
 	gel_matrixw_set_index (m, 3, 0) = gel_makenum_d (defy2);
@@ -3528,7 +3528,7 @@ make_matrix_from_lp_varnames (void)
 
 	init_var_names ();
 
-	gel_matrixw_set_index (m, 0, 0) = gel_makenum_string (lp_x_name);
+	gel_matrixw_set_indexii (m, 0) = gel_makenum_string (lp_x_name);
 	gel_matrixw_set_index (m, 1, 0) = gel_makenum_string (lp_y_name);
 	gel_matrixw_set_index (m, 2, 0) = gel_makenum_string (lp_z_name);
 	gel_matrixw_set_index (m, 3, 0) = gel_makenum_string (lp_t_name);
@@ -3550,7 +3550,7 @@ make_matrix_from_sp_varnames (void)
 
 	init_var_names ();
 
-	gel_matrixw_set_index (m, 0, 0) = gel_makenum_string (sp_x_name);
+	gel_matrixw_set_indexii (m, 0) = gel_makenum_string (sp_x_name);
 	gel_matrixw_set_index (m, 1, 0) = gel_makenum_string (sp_y_name);
 	gel_matrixw_set_index (m, 2, 0) = gel_makenum_string (sp_z_name);
 
@@ -3676,7 +3676,7 @@ make_matrix_from_limits_surf (void)
 	n->mat.quoted = FALSE;
 	gel_matrixw_set_size (m, 6, 1);
 
-	gel_matrixw_set_index (m, 0, 0) = gel_makenum_d (surf_defx1);
+	gel_matrixw_set_indexii (m, 0) = gel_makenum_d (surf_defx1);
 	gel_matrixw_set_index (m, 1, 0) = gel_makenum_d (surf_defx2);
 	gel_matrixw_set_index (m, 2, 0) = gel_makenum_d (surf_defy1);
 	gel_matrixw_set_index (m, 3, 0) = gel_makenum_d (surf_defy2);
@@ -3752,7 +3752,7 @@ make_matrix_from_ticks (int v, int h)
 	n->mat.quoted = FALSE;
 	gel_matrixw_set_size (m, 2, 1);
 
-	gel_matrixw_set_index (m, 0, 0) = gel_makenum_si (v);
+	gel_matrixw_set_indexii (m, 0) = gel_makenum_si (v);
 	gel_matrixw_set_index (m, 1, 0) = gel_makenum_si (h);
 
 	return n;
@@ -8386,7 +8386,7 @@ LinePlotWaitForClick_op (GelCtx *ctx, GelETree * * a, int *exception)
 	n->mat.quoted = FALSE;
 	gel_matrixw_set_size (m, 2, 1);
 
-	gel_matrixw_set_index (m, 0, 0) = gel_makenum_d (click_x);
+	gel_matrixw_set_indexii (m, 0) = gel_makenum_d (click_x);
 	gel_matrixw_set_index (m, 1, 0) = gel_makenum_d (click_y);
 
 	return n;
@@ -8416,7 +8416,7 @@ LinePlotMouseLocation_op (GelCtx *ctx, GelETree * * a, int *exception)
 		n->mat.quoted = FALSE;
 		gel_matrixw_set_size (m, 2, 1);
 
-		gel_matrixw_set_index (m, 0, 0) = gel_makenum_d (x);
+		gel_matrixw_set_indexii (m, 0) = gel_makenum_d (x);
 		gel_matrixw_set_index (m, 1, 0) = gel_makenum_d (y);
 
 		return n;

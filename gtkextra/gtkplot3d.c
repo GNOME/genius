@@ -1436,7 +1436,7 @@ gtk_plot3d_real_paint (GtkWidget *widget)
   gint width, height;
   gint xoffset, yoffset;
   gint origin;
-  gdouble pz;
+  gdouble px, py, pz;
   GtkPlotVector e[8], o, v[8];
   GtkPlotVector vx, vy, vz;
   gint i;
@@ -1695,7 +1695,6 @@ gtk_plot3d_real_paint (GtkWidget *widget)
 
   if(plot->corner_visible){
     gdouble px0, py0, pz0;
-    gdouble px, py, pz;
     gint corner;
     gint end[3];
     
@@ -1893,6 +1892,8 @@ gtk_plot3d_draw_grids(GtkPlot3D *plot, GtkPlotAxis *axis, GtkPlotVector delta)
       major_grid = GTK_PLOT(plot)->top->major_grid;
       minor_grid = GTK_PLOT(plot)->top->minor_grid;
       break;
+    default:
+      break;
   }
 
   if(axis->show_minor_grid)
@@ -2060,6 +2061,8 @@ gtk_plot3d_draw_labels(GtkPlot3D *plot,
            break;
     case 270:
            break;
+    default:
+	   break;
   }
 
   tick = axis->labels_attr;
@@ -2894,7 +2897,8 @@ gtk_plot3d_show_labels     (GtkPlot3D *plot,
 
   axis = gtk_plot3d_get_side(plot, side);
 
-  axis->label_mask = label_mask;
+  if (axis != NULL)
+	  axis->label_mask = label_mask;
 }
 
 /**
@@ -2912,7 +2916,8 @@ gtk_plot3d_show_title     (GtkPlot3D *plot,
 
   axis = gtk_plot3d_get_side(plot, side);
 
-  axis->title_visible = TRUE;
+  if (axis != NULL)
+	  axis->title_visible = TRUE;
 }
 
 /**
@@ -2930,7 +2935,8 @@ gtk_plot3d_hide_title     (GtkPlot3D *plot,
 
   axis = gtk_plot3d_get_side(plot, side);
 
-  axis->title_visible = FALSE;
+  if (axis != NULL)
+	  axis->title_visible = FALSE;
 }
 
 
@@ -2951,7 +2957,8 @@ gtk_plot3d_show_major_ticks (GtkPlot3D *plot,
 
   axis = gtk_plot3d_get_side(plot, side);
 
-  axis->major_mask = ticks_mask;
+  if (axis != NULL)
+	  axis->major_mask = ticks_mask;
 }
 
 /**
@@ -2971,7 +2978,8 @@ gtk_plot3d_show_minor_ticks(GtkPlot3D *plot,
 
   axis = gtk_plot3d_get_side(plot, side);
 
-  axis->minor_mask = ticks_mask;
+  if (axis != NULL)
+	  axis->minor_mask = ticks_mask;
 }
 
 /**
@@ -2993,9 +3001,10 @@ gtk_plot3d_set_ticks        (GtkPlot3D *plot,
 
   axis = gtk_plot3d_get_axis(plot, direction);
 
-  axis->ticks.step = major_step;
-
-  axis->ticks.nminor = nminor;
+  if (axis != NULL) {
+	  axis->ticks.step = major_step;
+	  axis->ticks.nminor = nminor;
+  }
 }
 
 /**
@@ -3015,7 +3024,8 @@ gtk_plot3d_set_major_ticks  (GtkPlot3D *plot,
 
   axis = gtk_plot3d_get_axis(plot, direction);
 
-  axis->ticks.step = major_step;
+  if (axis != NULL)
+	  axis->ticks.step = major_step;
 }
 
 /**
@@ -3035,7 +3045,8 @@ gtk_plot3d_set_minor_ticks  (GtkPlot3D *plot,
 
   axis = gtk_plot3d_get_axis(plot, direction);
 
-  axis->ticks.nminor = nminor;
+  if (axis != NULL)
+	  axis->ticks.nminor = nminor;
 }
 
 /**
@@ -3055,7 +3066,8 @@ gtk_plot3d_set_ticks_length  (GtkPlot3D *plot,
 
   axis = gtk_plot3d_get_axis(plot, direction);
 
-  axis->ticks_length = length;
+  if (axis != NULL)
+	  axis->ticks_length = length;
 }
 
 /**
@@ -3075,7 +3087,8 @@ gtk_plot3d_set_ticks_width   (GtkPlot3D *plot,
 
   axis = gtk_plot3d_get_axis(plot, direction);
 
-  axis->ticks_width = width;
+  if (axis != NULL)
+	  axis->ticks_width = width;
 }
 
 /**
@@ -3097,8 +3110,10 @@ gtk_plot3d_show_ticks        (GtkPlot3D *plot,
 
   axis = gtk_plot3d_get_side(plot, side);
 
-  axis->major_mask = major_mask;
-  axis->minor_mask = minor_mask;
+  if (axis != NULL) {
+	  axis->major_mask = major_mask;
+	  axis->minor_mask = minor_mask;
+  }
 }
 
 /**
@@ -3534,9 +3549,12 @@ gtk_plot3d_set_scale       (GtkPlot3D *plot,
                             GtkPlotOrientation axis,
                             GtkPlotScale scale)
 {
-  GtkPlotAxis *ax;
-  ax = gtk_plot3d_get_axis(plot, axis);
-  ax->ticks.scale = scale;
+	GtkPlotAxis *ax;
+	ax = gtk_plot3d_get_axis(plot, axis);
+
+	if (ax != NULL) {
+		ax->ticks.scale = scale;
+	}
 }
 
 /**
@@ -3553,7 +3571,10 @@ GtkPlotScale
 gtk_plot3d_get_scale       (GtkPlot3D *plot,
                             GtkPlotOrientation axis)
 {
-  GtkPlotAxis *ax;
-  ax = gtk_plot3d_get_axis(plot, axis);
-  return(ax->ticks.scale);
+	GtkPlotAxis *ax;
+	ax = gtk_plot3d_get_axis(plot, axis);
+	if G_LIKELY (ax != NULL)
+		return ax->ticks.scale;
+	else 
+		return GTK_PLOT_SCALE_LINEAR;
 }

@@ -135,6 +135,8 @@ gtk_plot_box_set_property (GObject      *object,
       case ARG_ORIENTATION:
         data->orientation  = g_value_get_enum(value);
         break;
+      default:
+	break;
     }
 }
 
@@ -260,7 +262,7 @@ gtk_plot_box_draw_symbol(GtkPlotData *dataset,
             gtk_plot_get_pixel(plot, x, y, &px0, &py0);
             gtk_plot_get_pixel(plot, x, z, &px1, &py1);
             width = roundint(dataset->symbol.size * m);
-            height = abs(py1 - py0);
+            height = fabs(py1 - py0);
 
             gtk_plot_get_pixel(plot, x, z + dy, &eu_x, &eu_y);
             gtk_plot_get_pixel(plot, x, y - dy, &ed_x, &ed_y);
@@ -324,6 +326,9 @@ gtk_plot_box_draw_symbol(GtkPlotData *dataset,
             gtk_plot_pc_draw_lines(plot->pc, errbar, 2);
 
             break;
+
+	  default:
+	    break;
         }
       }
 
@@ -346,6 +351,8 @@ gtk_plot_box_draw_symbol(GtkPlotData *dataset,
           height = roundint(dataset->symbol.size * m);
           y1 = py0 - height / 2;
           break;
+	default:
+	  break;
       }
 
       if(dataset->symbol.symbol_style == GTK_PLOT_SYMBOL_OPAQUE){
@@ -374,6 +381,8 @@ gtk_plot_box_draw_symbol(GtkPlotData *dataset,
         case GTK_ORIENTATION_HORIZONTAL:    
           gtk_plot_pc_draw_line(plot->pc, px, py-height/2, px, py+height/2); 
           break;
+	default:
+	  break;
       }
 
     }  

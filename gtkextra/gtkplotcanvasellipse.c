@@ -196,6 +196,8 @@ gtk_plot_canvas_ellipse_get_property (GObject      *object,
     case ARG_BG:
       g_value_set_pointer(value, &ellipse->bg);
       break;
+    default:
+      break;
   }
 }
                                                                                 
@@ -216,6 +218,8 @@ gtk_plot_canvas_ellipse_set_property (GObject      *object,
       break;
     case ARG_BG:
       ellipse->bg = *((GdkRGBA *)g_value_get_pointer(value));
+      break;
+    default:
       break;
   }
 }

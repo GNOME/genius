@@ -327,6 +327,8 @@ gtk_plot_canvas_line_set_property (GObject      *object,
     case ARG_ARROW_STYLE:
       line->arrow_style = g_value_get_int(value);
       break;
+    default:
+      break;
   }
 }
 
@@ -368,6 +370,8 @@ gtk_plot_canvas_line_get_property (GObject      *object,
       break;
     case ARG_ARROW_STYLE:
       g_value_set_int(value, line->arrow_style);
+      break;
+    default:
       break;
   }
 }
@@ -419,6 +423,8 @@ gtk_plot_canvas_line_draw 		(GtkPlotCanvas *canvas,
          break;
        case GTK_PLOT_SYMBOL_FILLED:
          gtk_plot_pc_draw_polygon (canvas->pc, TRUE, arrow, 3);
+       default:
+	 break;
      }
   }
   if(line->arrow_mask & GTK_PLOT_CANVAS_ARROW_ORIGIN){
@@ -442,6 +448,8 @@ gtk_plot_canvas_line_draw 		(GtkPlotCanvas *canvas,
          break;
        case GTK_PLOT_SYMBOL_FILLED:
          gtk_plot_pc_draw_polygon (canvas->pc, TRUE, arrow, 3);
+       default:
+	 break;
      }
   }
 }

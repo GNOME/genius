@@ -208,6 +208,8 @@ gtk_plot_polar_set_property (GObject      *object,
     case ARG_ROTATION:
       plot->rotation = g_value_get_double(value);
       break;
+    default:
+      break;
   }
 }
 
@@ -671,6 +673,8 @@ gtk_plot_polar_draw_labels(GtkPlotPolar *polar,
            break;
     case 270:
            break;
+    default:
+	   break;
   }
 
   if(axis->direction.x == 0)

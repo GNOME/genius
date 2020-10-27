@@ -28,11 +28,6 @@
 #include "calc.h"
 #include "matrix.h"
 
-/*implement the inline functions*/
-#undef G_INLINE_FUNC
-#undef G_CAN_INLINE
-#define	G_INLINE_FUNC extern
-#define	G_CAN_INLINE 1
 #include "matrixw.h"
 
 /* #define MATRIX_DEBUG 1 */
@@ -101,7 +96,7 @@ getmax (const int *reg, int len)
 }
 
 /* This should be streamlined */
-static inline gboolean
+static gboolean
 has_duplicates (const int *reg, int l)
 {
 	int i, ii;
@@ -1081,7 +1076,7 @@ gel_matrixw_diagonalof (GelMatrixW *source)
 	gel_matrix_set_size (mm, 1, len, FALSE /* padding */);
 
 	for (i = 0; i < len; i++) {
-		GelETree *n = gel_matrixw_get_index (source, i, i);
+		GelETree *n = gel_matrixw_get_indexii (source, i);
 		if (n != NULL)
 			n = gel_copynode (n);
 
@@ -1371,15 +1366,12 @@ gel_matrixw_set_vregion_etree (GelMatrixW *m, GelETree *src, int *desti, int len
 	}
 }
 
-#ifndef G_CAN_INLINE
 GelETree *
 gel_matrixw_index(GelMatrixW *m, int x, int y) {
 	GelETree *t = gel_matrixw_get_index (m, x, y);
 	return t?t:the_zero;
 }
-#endif
 
-#ifndef G_CAN_INLINE
 GelETree *
 gel_matrixw_vindex(GelMatrixW *m, int i) {
 	GelETree *t;
@@ -1393,10 +1385,8 @@ gel_matrixw_vindex(GelMatrixW *m, int i) {
 		t = gel_matrixw_index (m, i % w, i / w);
 	return t ? t : the_zero;
 }
-#endif
 
-#ifndef G_CAN_INLINE
-G_INLINE_FUNC GelETree *
+GelETree *
 gel_matrixw_get_vindex(GelMatrixW *m, int i) {
 	int w = gel_matrixw_width(m);
 	/* Avoid dividing things */
@@ -1407,4 +1397,3 @@ gel_matrixw_get_vindex(GelMatrixW *m, int i) {
 	else
 		return gel_matrixw_get_index (m, i % w, i / w);
 }
-#endif

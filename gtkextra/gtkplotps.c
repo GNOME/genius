@@ -125,7 +125,7 @@ static void psdrawpixmap                        (GtkPlotPC *pc,
                                                  gint width, gint height,
                                                  gdouble sx, gdouble sy);
 
-static void ps_reencode_font			(FILE *file, char *fontname);
+static void ps_reencode_font			(FILE *file, const char *fontname);
 static void color_to_hex                        (GdkColor color,
                                                  gchar string[7]);
 
@@ -681,7 +681,7 @@ psinit						(GtkPlotPC *pc)
     return TRUE;
 }
 
-static void ps_reencode_font(FILE *file, char *fontname)
+static void ps_reencode_font(FILE *file, const char *fontname)
 {
   /* Don't reencode the Symbol font, as it doesn't work in latin1 encoding.
    * Instead, just define Symbol-latin1 to be the same as Symbol. */

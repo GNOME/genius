@@ -409,9 +409,9 @@ gtk_plot_cairo_set_dash                               (GtkPlotPC *pc,
                                                        gint num_values)
 {
   cairo_t *cairo = GTK_PLOT_CAIRO(pc)->cairo; /* Shortcut */
+  gchar list[] = {'\0','\1','\2','\3','\4','\5','\6','\7'};
   if (!cairo)
     return;
-  gchar list[] = {'\0','\1','\2','\3','\4','\5','\6','\7'};
   double dash[1000];
   gint i;
 
@@ -781,6 +781,8 @@ gtk_plot_cairo_draw_string                        (GtkPlotPC *pc,
         case 270:
             tx -= descent;
             break;
+	default:
+	    break;
       }
       old_tx = tx;
       old_ty = ty;
@@ -808,6 +810,8 @@ gtk_plot_cairo_draw_string                        (GtkPlotPC *pc,
             old_tx -= descent;
             old_ty -= height;
             break;
+	default:
+	    break;
       }
       break;
     case GTK_JUSTIFY_CENTER:
@@ -837,6 +841,8 @@ gtk_plot_cairo_draw_string                        (GtkPlotPC *pc,
             old_tx -= descent;
             old_ty -= height / 2.;
             break;
+	default:
+	    break;
       }
   }
 
@@ -1096,12 +1102,13 @@ static void gtk_plot_cairo_draw_pixmap                (GtkPlotPC *pc,
                                                       gdouble scale_x, 
                                                       gdouble scale_y)
 {
-  if (!GTK_PLOT_CAIRO(pc)->cairo)
-    return;
-
   cairo_surface_t *image_surface = NULL;
   cairo_surface_t *mask_surface = NULL;
   cairo_t *cr;
+
+  if (!GTK_PLOT_CAIRO(pc)->cairo)
+    return;
+
 /* TODO: USE MASK */
 
   image_surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, (width-xsrc)*scale_x, (height-ysrc)*scale_y);

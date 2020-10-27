@@ -40,7 +40,7 @@ extern gboolean gel_return_ret; /*should the lexer return on \n*/
 
 /* prototype for yylex */
 int yylex(void);
-void yyerror(char *);
+void yyerror(const char *);
 
 %}
 

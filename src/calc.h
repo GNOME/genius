@@ -73,7 +73,7 @@ typedef struct {
 } GelCalcState;
 
 /*so we can use and set the yyparse function for parse errors*/
-int yyparse(void);
+/* int yyparse(void); */
 
 /*make a string representation of an expression*/
 void	gel_print_etree		(GelOutput *gelo,

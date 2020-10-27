@@ -404,6 +404,8 @@ gtk_plot_surface_set_property (GObject      *object,
       case ARG_MESH_COLOR:
         data->mesh_line.color = *((GdkRGBA *)g_value_get_pointer(value));
         break;
+      default:
+	break;
     }
 }
 
@@ -1024,7 +1026,7 @@ gtk_plot_surface_draw_legend(GtkPlotData *data, gint x, gint y)
                / (gdouble)area.width;
     legend.y = (gdouble)(area.y + y + lascent) / (gdouble)area.height;
   
-    if(data->legend && data->legend != '\0') gtk_plot_draw_text(plot, legend);
+    if(data->legend && data->legend[0] != '\0') gtk_plot_draw_text(plot, legend);
   
     y += 2*lheight;
   } else 
@@ -1123,6 +1125,8 @@ hsv_to_rgb (gdouble  h, gdouble  s, gdouble  v,
           *g = w;
           *b = q;
           break;
+	default:
+	  break;
       }
     }
 }

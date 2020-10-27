@@ -111,8 +111,7 @@ gel_read_plugin_list (void)
 	char *datadir;
 
 	/*free the previous list*/
-	g_slist_foreach (gel_plugin_list, (GFunc)free_plugin, NULL);
-	g_slist_free (gel_plugin_list);
+	g_slist_free_full (gel_plugin_list, (GDestroyNotify)free_plugin);
 	gel_plugin_list = NULL;
 	
 	datadir = gbr_find_data_dir (DATADIR);

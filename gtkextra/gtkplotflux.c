@@ -368,6 +368,8 @@ gtk_plot_flux_set_property (GObject      *object,
       case ARG_LABEL_SUFFIX:
         gtk_plot_flux_set_labels_suffix(data, g_value_get_string(value));
         break;
+      default:
+	break;
     }
 }
 
@@ -423,7 +425,7 @@ gtk_plot_flux_get_property (GObject      *object,
 }
 
 GtkWidget*
-gtk_plot_flux_new ()
+gtk_plot_flux_new (void)
 {
   GtkWidget *widget;
 
@@ -740,6 +742,9 @@ gtk_plot_flux_draw_arrow(GtkPlotFlux *flux, gdouble x1, gdouble y1, gdouble x2, 
       break;
     case GTK_PLOT_SYMBOL_FILLED:
       gtk_plot_pc_draw_polygon (plot->pc, TRUE, arrow, 3);
+      break;
+    default:
+      break;
   }
 }
 

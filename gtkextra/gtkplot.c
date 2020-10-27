@@ -2005,6 +2005,8 @@ gtk_plot_set_property (GObject      *object,
     case ARG_LEGENDS_TRANSPARENT:
       plot->legends_attr.transparent = g_value_get_boolean(value);
       break;
+    default:
+      break;
   }
 }
 
@@ -2278,6 +2280,8 @@ gtk_plot_axis_set_property (GObject      *object,
         gtk_plot_axis_set_tick_labels(axis, GTK_PLOT_ARRAY(g_value_get_object(value)));
       else
         gtk_plot_axis_set_tick_labels(axis, NULL);
+      break;
+    default:
       break;
   }
 }
@@ -2813,6 +2817,8 @@ gtk_plot_axis_construct(GtkPlotAxis *axis, GtkPlotOrientation orientation)
      axis->title.text = g_strdup("Z Title");
      axis->title.angle = 0;
      break;
+   default:
+     break;
   }
 }
 
@@ -3241,6 +3247,8 @@ gtk_plot_draw_labels(GtkPlot *plot,
            break;
     case 270:
            break;
+    default:
+	   break;
   }
 
   if(axis->ticks.values) {
@@ -3686,6 +3694,8 @@ gtk_plot_ticks_inverse(GtkPlotAxis *axis, gdouble x)
             point = exp(point); 
         }
         break;
+      default:
+	break;
     }
     return point;
 }
@@ -4018,7 +4028,7 @@ gtk_plot_text_get_size(const gchar *text, gint angle,
        case 'b':
 	   if(lastchar){
              const gchar *aux2 = lastchar;
-             gint i = g_utf8_next_char(aux) - aux2;
+             i = g_utf8_next_char(aux) - aux2;
              pango_layout_set_text(layout, lastchar, i);
              pango_layout_get_extents(layout, NULL, &rect);
              x -= PANGO_PIXELS(rect.width);
@@ -4059,7 +4069,7 @@ gtk_plot_text_get_size(const gchar *text, gint angle,
        default:
            if(aux && *aux != '\0' && *aux !='\n'){
              const gchar *aux2 = aux;
-             gint i = g_utf8_next_char(aux) - aux2;
+             i = g_utf8_next_char(aux) - aux2;
              pango_layout_set_font_description(layout, font);
              pango_layout_set_text(layout, aux, i);
              pango_layout_get_extents(layout, NULL, &rect);
@@ -4072,7 +4082,7 @@ gtk_plot_text_get_size(const gchar *text, gint angle,
    } else {
      if(aux && *aux != '\0' && *aux != '\n'){
        const gchar *aux2 = aux;
-       gint i = g_utf8_next_char(aux) - aux2;
+       i = g_utf8_next_char(aux) - aux2;
        pango_layout_set_font_description(layout, font);
        pango_layout_set_text(layout, aux, i);
        pango_layout_get_extents(layout, NULL, &rect);
@@ -4146,6 +4156,8 @@ gtk_plot_text_get_area(const gchar *text, gint angle, GtkJustification just,
         case 270:
             *x -= descent;
             break;
+	default:
+	    break;
       }
       break;
     case GTK_JUSTIFY_RIGHT:
@@ -4164,6 +4176,8 @@ gtk_plot_text_get_area(const gchar *text, gint angle, GtkJustification just,
             *y -= *height;
             *x -= descent; 
             break;
+	default:
+	    break;
       }
       break;
     case GTK_JUSTIFY_CENTER:
@@ -4185,6 +4199,8 @@ gtk_plot_text_get_area(const gchar *text, gint angle, GtkJustification just,
             *x -= descent;
             *y -= *height / 2.;
             break;
+	default:
+	    break;
       }
   }
 
@@ -5257,6 +5273,8 @@ gtk_plot_get_axis (GtkPlot *plot, GtkPlotAxisPos axis)
     case GTK_PLOT_AXIS_BOTTOM:
          aux = plot->bottom;
          break;
+    default:
+	 break;
   }
   return aux; 
 }
@@ -6497,7 +6515,7 @@ printf("%f %f\n",max/ticks->step,ceil(max/ticks->step));
   if(scale == GTK_PLOT_SCALE_LOG10){
     min = ticks->min;
     max = ticks->max;
-    if(max <= 0.0f) ticks->max = max = 1.E-11;
+    if(max <= (double)0.0f) ticks->max = max = 1.E-11;
     if(max <= 0) ticks->max = max = fabs(max);
     if(min <= 0) ticks->min = min = max / 100.;
     min = floor(log10(min));
@@ -6551,6 +6569,8 @@ printf("%f %f\n",max/ticks->step,ceil(max/ticks->step));
         case GTK_PLOT_SCALE_LOG10:
             tick = tick_step * pow(10., n*major_step); 
             break;
+	default:
+	    break;
      }
      /* FIXME: hard bailout limit in case something is totally off
       * to avoid locking up */
@@ -6588,6 +6608,8 @@ printf("%f %f\n",max/ticks->step,ceil(max/ticks->step));
           tick_step = major[nmajor-1].value;
         tick = tick_step;
         break;
+      default:
+	break;
     }
     for(i = 0; i < ticks->nminor; i++){
      switch(scale){
@@ -6602,6 +6624,8 @@ printf("%f %f\n",max/ticks->step,ceil(max/ticks->step));
 	     * tick += tick_step; */
             tick = tick_step + i * tick_step;
             break;
+	default:
+	    break;
      }   
      if(tick >= absmin-major_step*1.E-2 && tick <= absmax+major_step*1.E-2){
         n++;

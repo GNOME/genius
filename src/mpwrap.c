@@ -286,14 +286,14 @@ static void mpwl_make_type(MpwRealNum *op,int type);
 /*make new type and clear the old one*/
 static void mpwl_make_same_type(MpwRealNum *op1,MpwRealNum *op2);
 
-static inline void mpwl_clear(MpwRealNum *op);
+static void mpwl_clear(MpwRealNum *op);
 
-static inline void mpwl_init_type(MpwRealNum *op,int type);
+static void mpwl_init_type(MpwRealNum *op,int type);
 
-static inline void mpwl_free(MpwRealNum *op);
+static void mpwl_free(MpwRealNum *op);
 
-static inline int mpwl_sgn (MpwRealNum *op) G_GNUC_PURE;
-static inline int mpwl_zero_p (MpwRealNum *op) G_GNUC_PURE;
+static int mpwl_sgn (MpwRealNum *op) G_GNUC_PURE;
+static int mpwl_zero_p (MpwRealNum *op) G_GNUC_PURE;
 
 static long mpwl_get_exp(MpwRealNum *op);
 
@@ -614,7 +614,7 @@ mpwl_make_same_type(MpwRealNum *op1,MpwRealNum *op2)
 		mpwl_make_type(op1,op2->type);
 }
 
-static inline void
+static void
 mpwl_clear (MpwRealNum *op)
 {
 	if G_UNLIKELY (op == NULL)
@@ -636,7 +636,7 @@ mpwl_clear (MpwRealNum *op)
 	}
 }
 
-static inline void
+static void
 mpwl_init_type(MpwRealNum *op,int type)
 {
 	if G_UNLIKELY (op == NULL)
@@ -660,7 +660,7 @@ mpwl_init_type(MpwRealNum *op,int type)
 	}
 }
 
-static inline void
+static void
 mpwl_free(MpwRealNum *op)
 {
 	if G_UNLIKELY (op == NULL)
@@ -687,7 +687,7 @@ mpwl_sgn(MpwRealNum *op)
 	}
 }
 
-static inline int
+static int
 mpwl_zero_p (MpwRealNum *op) /* PURE!*/
 {
 	switch(op->type) {
@@ -2442,7 +2442,7 @@ mpwl_catalan_constant (MpwRealNum *rop)
 static gmp_randstate_t rand_state;
 static gboolean rand_state_inited = FALSE;
 
-static inline void
+static void
 init_randstate (void)
 {
 	if G_UNLIKELY ( ! rand_state_inited) {
@@ -2514,7 +2514,7 @@ mpwl_randint (MpwRealNum *rop, MpwRealNum *op)
 	mpz_urandomm (rop->data.ival, rand_state, op->data.ival);
 }
 
-static inline void
+static void
 mpwl_make_int(MpwRealNum *rop)
 {
 	switch(rop->type) {
@@ -2888,7 +2888,7 @@ str_format_float (char *p,
 
 	if(((e-1)<min_exp || (e-1)>max_exp) || scientific_notation) {
 		if (e != 0)
-			p = g_realloc (p, len+2+((int)log10(abs(e))+2)+1);
+			p = g_realloc (p, len+2+((int)log10(e > 0 ? e : -e)+2)+1);
 		else
 			p = g_realloc (p, len + 4);
 			
@@ -4041,29 +4041,29 @@ mpw_invert (mpw_ptr rop, mpw_ptr op1, mpw_ptr mod)
 			}
 		}
 	} else {
-		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
+		gel_error_num = GEL_NUMERICAL_MPW_ERROR;
 		gel_errorout (_("Can't do modulo invert on complex numbers"));
 	}
 }
 
 void
-mpw_gcd(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
+mpw_gcd (mpw_ptr rop, mpw_ptr op1, mpw_ptr op2)
 {
 	if G_LIKELY (MPW_IS_REAL (op1) && MPW_IS_REAL (op2)) {
-		MAKE_REAL(rop);
-		if (rop != op1 && rop != op1) {
+		MAKE_REAL (rop);
+		if (rop != op1 && rop != op2) {
 			MAKE_EMPTY (rop->r, MPW_INTEGER);
 		} else {
 			MAKE_COPY (rop->r);
 		}
-		mpwl_gcd(rop->r,op1->r,op2->r);
+		mpwl_gcd (rop->r, op1->r, op2->r);
 	} else {
-		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
+		gel_error_num = GEL_NUMERICAL_MPW_ERROR;
 		gel_errorout (_("Can't GCD complex numbers"));
 	}
 }
 void
-mpw_lcm (mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
+mpw_lcm (mpw_ptr rop, mpw_ptr op1, mpw_ptr op2)
 {
 	if G_LIKELY (MPW_IS_REAL (op1) && MPW_IS_REAL (op2)) {
 		MpwRealNum gcd = {{NULL}};
@@ -4076,7 +4076,7 @@ mpw_lcm (mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 		}
 
 		MAKE_REAL(rop);
-		if (rop != op1 && rop != op1) {
+		if (rop != op1 && rop != op2) {
 			MAKE_EMPTY (rop->r, MPW_INTEGER);
 		} else {
 			MAKE_COPY (rop->r);
@@ -4087,59 +4087,62 @@ mpw_lcm (mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 		if (mpwl_sgn (rop->r) < 0)
 			mpwl_neg (rop->r, rop->r);
 	} else {
-		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
+		gel_error_num = GEL_NUMERICAL_MPW_ERROR;
 		gel_errorout (_("Can't LCM complex numbers"));
 	}
 }
 
 void
-mpw_jacobi(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
+mpw_jacobi (mpw_ptr rop, mpw_ptr op1, mpw_ptr op2)
 {
 	if G_LIKELY (MPW_IS_REAL (op1) && MPW_IS_REAL (op2)) {
 		MAKE_REAL(rop);
-		if (rop != op1 && rop != op1) {
+		if (rop != op1 && rop != op2) {
 			MAKE_EMPTY (rop->r, MPW_INTEGER);
 		} else {
 			MAKE_COPY (rop->r);
 		}
 		mpwl_jacobi(rop->r,op1->r,op2->r);
 	} else {
-		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
+		gel_error_num = GEL_NUMERICAL_MPW_ERROR;
 		gel_errorout (_("Can't get Jacobi symbols of complex numbers"));
 	}
 }
+
 void
 mpw_legendre(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
 {
 	if G_LIKELY (MPW_IS_REAL (op1) && MPW_IS_REAL (op2)) {
 		MAKE_REAL(rop);
-		if (rop != op1 && rop != op1) {
+		if (rop != op1 && rop != op2) {
 			MAKE_EMPTY (rop->r, MPW_INTEGER);
 		} else {
 			MAKE_COPY (rop->r);
 		}
 		mpwl_legendre(rop->r,op1->r,op2->r);
 	} else {
-		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
+		gel_error_num = GEL_NUMERICAL_MPW_ERROR;
 		gel_errorout (_("Can't get Legendre symbols of complex numbers"));
 	}
 }
+
 void
-mpw_kronecker(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
+mpw_kronecker (mpw_ptr rop, mpw_ptr op1, mpw_ptr op2)
 {
 	if G_LIKELY (MPW_IS_REAL (op1) && MPW_IS_REAL (op2)) {
 		MAKE_REAL(rop);
-		if (rop != op1 && rop != op1) {
+		if (rop != op1 && rop != op2) {
 			MAKE_EMPTY (rop->r, MPW_INTEGER);
 		} else {
 			MAKE_COPY (rop->r);
 		}
 		mpwl_kronecker(rop->r,op1->r,op2->r);
 	} else {
-		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
+		gel_error_num = GEL_NUMERICAL_MPW_ERROR;
 		gel_errorout (_("Can't get Jacobi symbol with Kronecker extension for complex numbers"));
 	}
 }
+
 void
 mpw_lucnum (mpw_ptr rop, mpw_ptr op)
 {
@@ -4329,7 +4332,7 @@ backup_mpw_pow:
 }
 
 void
-mpw_powm(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2, mpw_ptr mod)
+mpw_powm (mpw_ptr rop, mpw_ptr op1, mpw_ptr op2, mpw_ptr mod)
 {
 	if G_UNLIKELY (MPW_IS_COMPLEX (op1) ||
 		       MPW_IS_COMPLEX (op2) ||
@@ -4341,7 +4344,7 @@ mpw_powm(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2, mpw_ptr mod)
 	}
 
 	MAKE_REAL (rop);
-	if (rop != op1 && rop != op1 && rop != mod) {
+	if (rop != op1 && rop != op2 && rop != mod) {
 		MAKE_EMPTY (rop->r, MPW_INTEGER);
 	} else {
 		MAKE_COPY (rop->r);
@@ -4904,18 +4907,18 @@ mpw_arctan(mpw_ptr rop,mpw_ptr op)
 }
 
 void
-mpw_arctan2(mpw_ptr rop,mpw_ptr op1, mpw_ptr op2)
+mpw_arctan2 (mpw_ptr rop, mpw_ptr op1, mpw_ptr op2)
 {
 	if G_LIKELY (MPW_IS_REAL (op1) && MPW_IS_REAL (op2)) {
-		MAKE_REAL(rop);
-		if (rop != op1 && rop != op1) {
+		MAKE_REAL (rop);
+		if (rop != op1 && rop != op2) {
 			MAKE_EMPTY (rop->r, MPW_INTEGER);
 		} else {
 			MAKE_COPY (rop->r);
 		}
-		mpwl_arctan2(rop->r,op1->r,op2->r);
+		mpwl_arctan2 (rop->r, op1->r, op2->r);
 	} else {
-		gel_error_num=GEL_NUMERICAL_MPW_ERROR;
+		gel_error_num = GEL_NUMERICAL_MPW_ERROR;
 		gel_errorout (_("arctan2 not defined for complex numbers"));
 	}
 }

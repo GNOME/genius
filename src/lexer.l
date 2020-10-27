@@ -46,9 +46,9 @@ static GSList *matrix_entry_stack = NULL;
 /* Ugly warning avoiding */
 #define yywrap() 1
 #define YY_SKIP_YYWRAP
-#ifdef FLEX_SCANNER
+/*#ifdef FLEX_SCANNER
 int yylex(void);
-#endif
+#endif*/
 
 #define NO_RET {gel_return_ret = FALSE;}
 #define DO_RET { \

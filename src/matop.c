@@ -415,7 +415,7 @@ gel_value_matrix_gauss (GelCtx *ctx,
 		if (w > h) {
 			ret = FALSE;
 		} else {
-			GelETree *t = gel_matrixw_get_index(m,w-1,w-1);
+			GelETree *t = gel_matrixw_get_indexii(m,w-1);
 			if (t == NULL ||
 			    mpw_zero_p (t->val.value))
 				ret = FALSE;
@@ -695,7 +695,7 @@ gel_value_matrix_det (GelCtx *ctx, mpw_t rop, GelMatrixW *m)
 	if (m->rref) {
 		mpw_set_ui (rop, 1);
 		for (i = 0; i < w; i++) {
-			GelETree *t = gel_matrixw_get_index (m, i, i);
+			GelETree *t = gel_matrixw_get_indexii (m, i);
 			if (t == NULL ||
 			    mpw_zero_p (t->val.value)) {
 				mpw_set_ui (rop, 0);
@@ -731,7 +731,7 @@ gel_value_matrix_det (GelCtx *ctx, mpw_t rop, GelMatrixW *m)
 		mpw_mul(rop,tmp,gel_matrixw_index(mm,0,0)->val.value);
 		mpw_clear(tmp);
 		for (i = 1; i < w; i++) {
-			GelETree *t = gel_matrixw_get_index(mm,i,i);
+			GelETree *t = gel_matrixw_get_indexii(mm,i);
 			if (t == NULL) {
 				gel_matrixw_free(mm);
 				mpw_set_ui(rop,0);

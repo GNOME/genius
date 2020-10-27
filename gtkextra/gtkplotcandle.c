@@ -168,7 +168,7 @@ gtk_plot_candle_draw_symbol(GtkPlotData *dataset,
        x1 = px - width;
        y1 = MIN(py, pz);
        filled = z < y;
-       height = abs(py - pz);
+       height = fabs(py - pz);
 
        gtk_plot_get_pixel(plot, x, dy, &ex, &ey);
        gtk_plot_get_pixel(plot, x, dz, &ex, &ez);

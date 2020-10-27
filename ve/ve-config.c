@@ -116,8 +116,7 @@ destroy_section (VeSection *section)
 	g_free (section->name);
 	section->name = NULL;
 
-	g_list_foreach (section->lines, (GFunc) destroy_line, NULL);
-	g_list_free (section->lines);
+	g_list_free_full (section->lines, (GDestroyNotify) destroy_line);
 	section->lines = NULL;
 
 	g_free (section);
@@ -433,8 +432,8 @@ ve_config_new (const char *file)
 {
 	VeConfig *config;
 
-	g_return_val_if_fail (file != NULL, NULL);
-       
+	g_assert (file != NULL);
+
 	config = g_new0 (VeConfig, 1);
 
 	config->file = g_strdup (file);
@@ -475,8 +474,7 @@ config_clear (VeConfig *config)
 
 	destroy_section (config->root);
 
-	g_list_foreach (config->sections, (GFunc) destroy_section, NULL);
-	g_list_free (config->sections);
+	g_list_free_full (config->sections, (GDestroyNotify) destroy_section);
 	config->sections = NULL;
 
 	g_hash_table_destroy (config->line_ht);
