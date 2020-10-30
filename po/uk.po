@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
-"POT-Creation-Date: 2020-10-27 23:14+0000\n"
-"PO-Revision-Date: 2020-10-28 18:25+0200\n"
+"POT-Creation-Date: 2020-10-28 16:26+0000\n"
+"PO-Revision-Date: 2020-10-30 08:56+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -935,11 +935,11 @@ msgstr ""
 
 #: ../lib/library-strings.c:196
 msgid "Integration by midpoint rule"
-msgstr ""
+msgstr "Інтегрування за правилом середньої точки"
 
 #: ../lib/library-strings.c:197
 msgid "Attempt to calculate numerical derivative"
-msgstr ""
+msgstr "Спробувати обчислити похідну"
 
 #: ../lib/library-strings.c:198
 msgid ""
@@ -985,7 +985,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:205
 msgid "Attempt to calculate numerical left derivative"
-msgstr ""
+msgstr "Спробувати обчислити ліву похідну"
 
 #: ../lib/library-strings.c:206
 msgid "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N"
@@ -993,21 +993,23 @@ msgstr ""
 
 #: ../lib/library-strings.c:207
 msgid "Attempt to calculate numerical right derivative"
-msgstr ""
+msgstr "Спробувати обчислити праву похідну"
 
 #: ../lib/library-strings.c:208
 msgid ""
 "Return a function which is the odd periodic extension of f defined on the "
 "interval [0,L]"
 msgstr ""
+"Повертає функцію, яка непарним періодичним продовженням функції f, яку"
+" визначено на відрізку [0,L]"
 
 #: ../lib/library-strings.c:209
 msgid "Compute one-sided derivative using five point formula"
-msgstr ""
+msgstr "Обчислити однобічну похідну за допомогою п'ятиточкової формули"
 
 #: ../lib/library-strings.c:210
 msgid "Compute one-sided derivative using three-point formula"
-msgstr ""
+msgstr "Обчислити однобічну похідну за допомогою триточкової формули"
 
 #: ../lib/library-strings.c:211
 msgid ""
@@ -1017,41 +1019,43 @@ msgstr ""
 
 #: ../lib/library-strings.c:212
 msgid "Calculate the right limit of a real-valued function at x0"
-msgstr ""
+msgstr "Обчислити границю праворуч дійснозначноїд функції у точці x0"
 
 #: ../lib/library-strings.c:213
 msgid "Compute two-sided derivative using five-point formula"
-msgstr ""
+msgstr "Обчислити двобічну похідну за допомогою п'ятиточкової формули"
 
 #: ../lib/library-strings.c:214
 msgid "Compute two-sided derivative using three-point formula"
-msgstr ""
+msgstr "Обчислити двобічну похідну за допомогою триточкової формули"
 
 #: ../lib/library-strings.c:215
 msgid "argument (angle) of complex number"
-msgstr ""
+msgstr "аргумент комплексного числа"
 
 #: ../lib/library-strings.c:216
 msgid "Dirichlet kernel of order n"
-msgstr ""
+msgstr "Ядро Діріхле порядку n"
 
 #: ../lib/library-strings.c:217
 msgid "Returns 1 if and only if all elements are zero"
-msgstr ""
+msgstr "Повертає 1, лише якщо усі елементи є нульовими"
 
 #: ../lib/library-strings.c:218
 msgid "Fejer kernel of order n"
-msgstr ""
+msgstr "Ядро Феєра порядку n"
 
 #: ../lib/library-strings.c:219
 msgid "Returns 1 if and only if all elements are equal"
-msgstr ""
+msgstr "Повертає 1, лише якщо усі елементи є рівними"
 
 #: ../lib/library-strings.c:220
 msgid ""
 "Principal branch of the Lambert W function for real values greater than or "
 "equal to -1/e"
 msgstr ""
+"Головна гілка W-функції Ламберта для дійсних значень, які рівні або"
+" перевищують -1/e"
 
 #: ../lib/library-strings.c:221
 msgid ""
@@ -1061,7 +1065,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:222
 msgid "Find the first value where f(x)=0"
-msgstr ""
+msgstr "Знайти перше значення, де f(x)=0"
 
 #: ../lib/library-strings.c:223
 msgid "Moebius mapping of the disk to itself mapping a to 0"
@@ -3079,8 +3083,8 @@ msgid ""
 "Ask a question and present a list of buttons.  Returns the 1-based index of "
 "the button pressed (or null on failure)."
 msgstr ""
-"Поставити питання і надати список кнопок. Повертає індекс із відліком від 1"
-" натиснутої кнопки (або null, якщо сталася помилка)."
+"Поставити питання і надати список кнопок. Повертає індекс із відліком від 1 "
+"натиснутої кнопки (або null, якщо сталася помилка)."
 
 #: ../src/funclib.c:7379
 msgid ""
@@ -4712,31 +4716,26 @@ msgid "Empty value as range value"
 msgstr "Порожнє значення як значення діапазону"
 
 #: ../src/graphing.c:6587
-#| msgid "Genius is executing something, are you sure you wish to quit?"
 msgid "Genius is executing something already"
 msgstr "Genius вже виконує якесь завдання."
 
 #: ../src/graphing.c:6598
-#| msgid "Cannot open file"
 msgid "Cannot parse range value"
 msgstr "Не вдалося обробити значення діапазону"
 
 #: ../src/graphing.c:6610
-#| msgid "Cannot locate the manual"
 msgid "Cannot execute range value"
 msgstr "Не вдалося виконати значення діапазону"
 
 #: ../src/graphing.c:6615 ../src/graphing.c:6621
-#| msgid "The false boolean value"
 msgid "Range value not a value"
 msgstr "Значення діапазону не є значенням"
 
 #: ../src/graphing.c:6629
-#| msgid "Can't convert real number to double"
 msgid "Cannot convert range value to a reasonable real number"
 msgstr ""
-"Не вдалося перетворити значення діапазону на придатне до використання дійсне"
-" число"
+"Не вдалося перетворити значення діапазону на придатне до використання дійсне "
+"число"
 
 #: ../src/graphing.c:6715 ../src/graphing.c:6903 ../src/graphing.c:7032
 #: ../src/graphing.c:7167 ../src/graphing.c:7274
@@ -5087,9 +5086,9 @@ msgid ""
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
 "x1,x2,y1,y2"
 msgstr ""
-"Накреслити параметричну функцію лінією. Першими має бути вказано функції для"
-" x та y, а потім, необов'язково, межі за t як t1,t2,t_приріст, потім "
-"можна вказати межі області у форматі x1,x2,y1,y2"
+"Накреслити параметричну функцію лінією. Першими має бути вказано функції для "
+"x та y, а потім, необов'язково, межі за t як t1,t2,t_приріст, потім можна "
+"вказати межі області у форматі x1,x2,y1,y2"
 
 #: ../src/graphing.c:10973
 msgid ""
@@ -5179,8 +5178,8 @@ msgstr ""
 msgid ""
 "Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points."
 msgstr ""
-"Намалювати точку у x,y. x,y можна замінити матрицею n на 2 для отримання"
-" набору точок."
+"Намалювати точку у x,y. x,y можна замінити матрицею n на 2 для отримання "
+"набору точок."
 
 #: ../src/graphing.c:10998
 msgid "Freeze the plot canvas, that is, inhibit drawing"
