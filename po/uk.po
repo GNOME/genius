@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
-"POT-Creation-Date: 2020-10-28 16:26+0000\n"
-"PO-Revision-Date: 2020-10-30 08:56+0200\n"
+"POT-Creation-Date: 2020-10-30 06:59+0000\n"
+"PO-Revision-Date: 2020-11-08 17:08+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -677,7 +677,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:141
 msgid "Get the QR decomposition of A, returns R and Q can be a reference"
-msgstr ""
+msgstr "Отримати розклад QR матриці A, повертає R і Q може бути посиланням"
 
 #: ../lib/library-strings.c:142
 msgid "Get the rank of a matrix"
@@ -685,7 +685,7 @@ msgstr "Отримати ранг матриці"
 
 #: ../lib/library-strings.c:143
 msgid "Return the Rayleigh quotient of a matrix and a vector"
-msgstr ""
+msgstr "Повернути коефіцієнт Релея матриці і вектора"
 
 #: ../lib/library-strings.c:144
 msgid ""
@@ -696,6 +696,8 @@ msgstr ""
 #: ../lib/library-strings.c:145
 msgid "Rosser matrix, a classic symmetric eigenvalue test problem"
 msgstr ""
+"Матриця Рессера, класична тестова задача для обчислення власних значень"
+" симетричної матриці"
 
 #: ../lib/library-strings.c:146
 msgid "Rotation around origin in R^2"
@@ -732,7 +734,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:153
 msgid "Smith Normal Form for fields (will end up with 1's on the diagonal)"
-msgstr ""
+msgstr "Нормальна форма Сміта для полів (завершується одиницями на діагоналі)"
 
 #: ../lib/library-strings.c:154
 msgid "Smith Normal Form for square integer matrices"
@@ -743,6 +745,8 @@ msgid ""
 "Return the Toeplitz matrix constructed given the first column c and "
 "(optionally) the first row r."
 msgstr ""
+"Повернути матрицю Тепліца, побудовану за заданим першим стовпчиком c і"
+" (необов'язково) першим рядком r."
 
 #: ../lib/library-strings.c:156
 msgid "Calculate the trace of a matrix"
@@ -815,6 +819,8 @@ msgstr ""
 #: ../lib/library-strings.c:172
 msgid "Use greedy algorithm to find c, for c . v = n.  (v must be sorted)"
 msgstr ""
+"Використовувати «жадібний» алгоритм пошуку c для c . v = n.  (v має бути"
+" упорядковано)"
 
 #: ../lib/library-strings.c:173
 msgid "Harmonic Number, the nth harmonic number of order r"
@@ -830,7 +836,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:175
 msgid "Compute linear recursive sequence using Galois stepping"
-msgstr ""
+msgstr "Обчислити лінійну рекурсивну послідовність за допомогою кроків Галуа"
 
 #: ../lib/library-strings.c:176
 msgid "Calculate multinomial coefficients"
@@ -876,12 +882,16 @@ msgid ""
 "Attempt to calculate derivative by trying first symbolically and then "
 "numerically"
 msgstr ""
+"Спробувати обчислити похідну спочатку символічно, а потім обчислювальними"
+" методами"
 
 #: ../lib/library-strings.c:186
 msgid ""
 "Return a function which is the even periodic extension of f defined on the "
 "interval [0,L]"
 msgstr ""
+"Повертає функцію, яка є парним періодичним продовженням функції f, яку "
+"визначено на відрізку [0,L]"
 
 #: ../lib/library-strings.c:187
 msgid ""
@@ -889,6 +899,9 @@ msgid ""
 "the vectors a (sines) and b (cosines).  Note that a@(1) is the constant "
 "coefficient!"
 msgstr ""
+"Повернути функцію, до якої збігається ряд Фур'є із коефіцієнтами, які"
+" задаються векторами a (синуси) і b (косинуси). Зауважте, що a@(1) є сталим"
+" коефіцієнтом!"
 
 #: ../lib/library-strings.c:188
 msgid "Try to calculate an infinite product for a single parameter function"
@@ -900,38 +913,48 @@ msgid ""
 "Try to calculate an infinite product for a double parameter function with "
 "func(arg,n)"
 msgstr ""
+"Спробувати обчислити нескінченний добуток для функції двох параметрів,"
+" заданої як func(arg,n)"
 
 #: ../lib/library-strings.c:190
 msgid "Try to calculate an infinite sum for a single parameter function"
-msgstr ""
+msgstr "Спробувати обчислити нескінченну суму для однопараметричної функції"
 
 #: ../lib/library-strings.c:191
 msgid ""
 "Try to calculate an infinite sum for a double parameter function with "
 "func(arg,n)"
 msgstr ""
+"Спробувати обчислити нескінченну суму для функції двох параметрів, заданої як"
+" func(arg,n)"
 
 #: ../lib/library-strings.c:192
 msgid ""
 "Try and see if a real-valued function is continuous at x0 by calculating the "
 "limit there"
 msgstr ""
+"Перевірити, чи є дійснозначна функція неперервною у x0 шляхом обчислення"
+" границь"
 
 #: ../lib/library-strings.c:193
 msgid ""
 "Test for differentiability by approximating the left and right limits and "
 "comparing"
 msgstr ""
+"Перевірити диференційованість наближенням границь ліворуч і праворуч і"
+" порівнянням отриманих значень"
 
 #: ../lib/library-strings.c:194
 msgid "Calculate the left limit of a real-valued function at x0"
-msgstr ""
+msgstr "Обчислити границю ліворуч дійснозначної функції у точці x0"
 
 #: ../lib/library-strings.c:195
 msgid ""
 "Calculate the limit of a real-valued function at x0.  Tries to calculate "
 "both left and right limits."
 msgstr ""
+"Обчислити границю дійснозначної функції у точці x0. Намагається обчислити"
+" границі ліворуч і праворуч."
 
 #: ../lib/library-strings.c:196
 msgid "Integration by midpoint rule"
@@ -946,42 +969,56 @@ msgid ""
 "Numerically compute the coefficients for a cosine Fourier series for a "
 "function on [0,L] up to the Nth coefficient."
 msgstr ""
+"Обчислити коефіцієнти розкладу Фур'є за косинусами для функції на [0,L], аж"
+" до N-го коефіцієнта."
 
 #: ../lib/library-strings.c:199
 msgid ""
 "Return a function which is the Fourier cosine series of f on [0,L] with "
 "coefficients up to N computed numerically"
 msgstr ""
+"Повернути функцію, яка є розкладом за косинусами Фур'є функції f на [0,L] із"
+" коефіцієнтами, аж до N, обчисленими за допомогою числових методів"
 
 #: ../lib/library-strings.c:200
 msgid ""
 "Numerically compute the coefficients for a Fourier series with half-period L "
 "up to the Nth coefficient."
 msgstr ""
+"Обчислити коефіцієнти розкладу Фур'є для функції із пів періодом L, аж до"
+" N-го коефіцієнта."
 
 #: ../lib/library-strings.c:201
 msgid ""
 "Return a function which is the Fourier series of f with half-period L with "
 "coefficients up to N computed numerically"
 msgstr ""
+"Повернути функцію, яка є розкладом Фур'є функції f із пів періодом L із"
+" коефіцієнтами, аж до N, обчисленими за допомогою числових методів"
 
 #: ../lib/library-strings.c:202
 msgid ""
 "Numerically compute the coefficients for a sine Fourier series for a "
 "function on [0,L] up to the Nth coefficient."
 msgstr ""
+"Обчислити коефіцієнти розкладу Фур'є за синусами для функції на [0,L], аж до"
+" N-го коефіцієнта."
 
 #: ../lib/library-strings.c:203
 msgid ""
 "Return a function which is the Fourier sine series of f on [0,L] with "
 "coefficients up to N computed numerically"
 msgstr ""
+"Повернути функцію, яка є розкладом за синусами Фур'є функції f на [0,L] із"
+" коефіцієнтами, аж до N, обчисленими за допомогою числових методів"
 
 #: ../lib/library-strings.c:204
 msgid ""
 "Integration by rule set in NumericalIntegralFunction of f from a to b using "
 "NumericalIntegralSteps steps"
 msgstr ""
+"Інтегрування за встановленим у NumericalIntegralFunction правилом функції f"
+" від a до b з використанням кроків NumericalIntegralSteps"
 
 #: ../lib/library-strings.c:205
 msgid "Attempt to calculate numerical left derivative"
@@ -989,7 +1026,7 @@ msgstr "Спробувати обчислити ліву похідну"
 
 #: ../lib/library-strings.c:206
 msgid "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N"
-msgstr ""
+msgstr "Спробувати обчислити границю f(step_fun(i)) при i від 1 до N"
 
 #: ../lib/library-strings.c:207
 msgid "Attempt to calculate numerical right derivative"
@@ -1000,8 +1037,8 @@ msgid ""
 "Return a function which is the odd periodic extension of f defined on the "
 "interval [0,L]"
 msgstr ""
-"Повертає функцію, яка непарним періодичним продовженням функції f, яку"
-" визначено на відрізку [0,L]"
+"Повертає функцію, яка є непарним періодичним продовженням функції f, яку "
+"визначено на відрізку [0,L]"
 
 #: ../lib/library-strings.c:209
 msgid "Compute one-sided derivative using five point formula"
@@ -1016,10 +1053,12 @@ msgid ""
 "Return a function which is the periodic extension of f defined on the "
 "interval [a,b]"
 msgstr ""
+"Повертає функцію, яка періодичним продовженням функції f, яку "
+"визначено на відрізку [a,b]"
 
 #: ../lib/library-strings.c:212
 msgid "Calculate the right limit of a real-valued function at x0"
-msgstr "Обчислити границю праворуч дійснозначноїд функції у точці x0"
+msgstr "Обчислити границю праворуч дійснозначної функції у точці x0"
 
 #: ../lib/library-strings.c:213
 msgid "Compute two-sided derivative using five-point formula"
@@ -1054,14 +1093,15 @@ msgid ""
 "Principal branch of the Lambert W function for real values greater than or "
 "equal to -1/e"
 msgstr ""
-"Головна гілка W-функції Ламберта для дійсних значень, які рівні або"
-" перевищують -1/e"
+"Головна гілка W-функції Ламберта для дійсних значень, які рівні або "
+"перевищують -1/e"
 
 #: ../lib/library-strings.c:221
 msgid ""
 "The minus-one branch of the Lambert W function for real values between -1/e "
 "and 0"
 msgstr ""
+"Гілка «мінус один» функції Ламберта W для дійсних значень від -1/e до 0"
 
 #: ../lib/library-strings.c:222
 msgid "Find the first value where f(x)=0"
@@ -1069,7 +1109,7 @@ msgstr "Знайти перше значення, де f(x)=0"
 
 #: ../lib/library-strings.c:223
 msgid "Moebius mapping of the disk to itself mapping a to 0"
-msgstr ""
+msgstr "Відображення Мебіуса диска на диск із відображенням a у 0"
 
 #: ../lib/library-strings.c:224
 msgid ""
@@ -1103,21 +1143,23 @@ msgstr ""
 
 #: ../lib/library-strings.c:229
 msgid "Poisson kernel on D(0,R) (not normalized to 1)"
-msgstr ""
+msgstr "Ядро Пуассона на D(0,R) (не нормалізоване до 1)"
 
 #: ../lib/library-strings.c:230
 msgid ""
 "The unit step function = 0 for x<0, 1 otherwise.  This is the integral of "
 "the Dirac Delta function."
 msgstr ""
+"Одиночна сходинкова функція = 0 при x<0, 1 у інших точках. Це інтеграл"
+" делька-функції Дірака."
 
 #: ../lib/library-strings.c:231
 msgid "The cis function, that is cos(x)+i*sin(x)"
-msgstr ""
+msgstr "Функція cis, яка дорівнює cos(x)+i*sin(x)"
 
 #: ../lib/library-strings.c:232
 msgid "Convert degrees to radians"
-msgstr ""
+msgstr "Перетворити значення у градусах у радіани"
 
 #: ../lib/library-strings.c:233
 msgid "Convert radians to degrees"
@@ -1132,12 +1174,18 @@ msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns y at x1"
 msgstr ""
+"Використатися класичний метод Ойлера для отримання числового розв'язку"
+" рівняння y'=f(x,y) для початкових умов x0,y0 при переході до x1 за n кроків,"
+" повертає y у x1"
 
 #: ../lib/library-strings.c:236
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns an n+1 by 2 matrix of values"
 msgstr ""
+"Використатися класичний метод Ойлера для отримання числового розв'язку"
+" рівняння y'=f(x,y) для початкових умов x0,y0 при переході до x1 за n кроків,"
+" повертає матрицю значень n+1 на 2"
 
 #: ../lib/library-strings.c:237
 msgid ""
