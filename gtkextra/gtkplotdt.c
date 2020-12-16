@@ -40,8 +40,8 @@ typedef struct {
   GtkPlotDTtriangle *t;
 } GtkPlotDTedge;
 
-static void 	gtk_plot_dt_class_init 		(GtkPlotDTClass *klass);
-static void 	gtk_plot_dt_init 		(GtkPlotDT *data);
+static void 	gtk_plot_dt_class_init 		(GtkPlotDTClass *klass, gpointer unused);
+static void 	gtk_plot_dt_init 		(GtkPlotDT *data, gpointer unused);
 static void 	gtk_plot_dt_destroy		(GtkWidget *object);
 static gboolean	gtk_plot_dt_real_add_node	(GtkPlotDT *dt,
 						 GtkPlotDTnode node);
@@ -75,7 +75,7 @@ gtk_plot_dt_get_type (void)
 }
 
 static void
-gtk_plot_dt_class_init (GtkPlotDTClass *klass)
+gtk_plot_dt_class_init (GtkPlotDTClass *klass, gpointer unused)
 {
   GtkWidgetClass *object_class;
   GtkPlotDTClass *dt_class;
@@ -144,7 +144,7 @@ gtk_plot_dt_new (gint num)
 }
 
 static void
-gtk_plot_dt_init (GtkPlotDT *data)
+gtk_plot_dt_init (GtkPlotDT *data, gpointer unused)
 {
   data->quadrilateral= TRUE;
   data->subsampling= FALSE;
@@ -571,7 +571,7 @@ edges_equal(GtkPlotDTedge *e1, GtkPlotDTedge *e2)
 static void
 gtk_plot_dt_triangulate_insert_node(GtkPlotDT *data, GtkPlotDTnode *node)
 {
-  gint j,k,l, delinquentes;
+  gint j, k, l, m, n, delinquentes;
   GtkPlotDTtriangle *t = NULL;
   gdouble err, min;
   GList *list = NULL, *doomed = NULL, *last = NULL, *new = NULL, *aux = NULL;
@@ -675,7 +675,6 @@ gtk_plot_dt_triangulate_insert_node(GtkPlotDT *data, GtkPlotDTnode *node)
 	if (edges_equal(&edges[j], &edges[k])) l++;
       /* only one occurence of an edge indicates outline edge! */
       if (l==1){ 
-        GtkPlotDTtriangle *t;
 	t = gtk_plot_dt_add_triangle(data,node->id,edges[j].a,edges[j].b);
         if(t) new = g_list_append(new, t);
       }
@@ -686,10 +685,10 @@ gtk_plot_dt_triangulate_insert_node(GtkPlotDT *data, GtkPlotDTnode *node)
     /* Find neighbours */
     list = new;
     while(list){
-      GtkPlotDTtriangle *t = (GtkPlotDTtriangle *)list->data;
       GtkPlotDTedge t_edges[3];
-      gint l, m, n;
       gboolean found = FALSE;
+
+      t = (GtkPlotDTtriangle *)list->data;
       t_edges[0].a = t->a;
       t_edges[0].b = t->b;
       t_edges[1].a = t->b;
@@ -701,6 +700,7 @@ gtk_plot_dt_triangulate_insert_node(GtkPlotDT *data, GtkPlotDTnode *node)
       while(aux){
         GtkPlotDTedge nn[3];
         GtkPlotDTtriangle *doomed_t = (GtkPlotDTtriangle *)aux->data;
+
         /* for each doomed triangles I have 3 neighbours */
         for(l = 0; l < 3; l++){
           GtkPlotDTtriangle *doomed_nn = doomed_t->nn[l];
@@ -771,8 +771,9 @@ gtk_plot_dt_triangulate_insert_node(GtkPlotDT *data, GtkPlotDTnode *node)
    */
   if(doomed){
     for (list = doomed; list; list = list->next){
-      GtkPlotDTtriangle *t = (GtkPlotDTtriangle *)list->data;
       gint i;
+
+      t = (GtkPlotDTtriangle *)list->data;
       if(t->nn[0]){
         for(i = 0; i < 3; i++)
           if(t->nn[0]->nn[i] == t) t->nn[0]->nn[i] = NULL;
@@ -1174,14 +1175,24 @@ gtk_plot_dt_triangulate_tryquad(GtkPlotDT *data)
 	t2 = gtk_plot_dt_add_triangle(data,-1-m,x1y0->id,x1y1->id);
 	t3 = gtk_plot_dt_add_triangle(data,-1-m,x1y1->id,x0y1->id);
 	t4 = gtk_plot_dt_add_triangle(data,-1-m,x0y1->id,x0y0->id);
-        t1->nn[0] = t4;
-        t1->nn[1] = t2;
-        t2->nn[0] = t1;
-        t2->nn[1] = t3;
-        t3->nn[0] = t2;
-        t3->nn[1] = t4;
-        t4->nn[0] = t3;
-        t4->nn[1] = t1;
+
+	/* possibly never null, but avoids warnings */
+        if (t1) {
+		t1->nn[0] = t4;
+		t1->nn[1] = t2;
+	}
+	if (t2) {
+		t2->nn[0] = t1;
+		t2->nn[1] = t3;
+	}
+	if (t3) {
+		t3->nn[0] = t2;
+		t3->nn[1] = t4;
+	}
+	if (t4) {
+		t4->nn[0] = t3;
+		t4->nn[1] = t1;
+	}
         find_neighbor(data, t1, x0y0->id, x1y0->id);
         find_neighbor(data, t2, x1y0->id, x1y1->id);
         find_neighbor(data, t3, x1y1->id, x0y1->id);

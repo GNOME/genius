@@ -39,8 +39,8 @@
 
 #define P_(string) string
 
-static void gtk_plot_surface_class_init 	(GtkPlotSurfaceClass *klass);
-static void gtk_plot_surface_init 		(GtkPlotSurface *data);
+static void gtk_plot_surface_class_init 	(GtkPlotSurfaceClass *klass, gpointer unused);
+static void gtk_plot_surface_init 		(GtkPlotSurface *data, gpointer unused);
 static void gtk_plot_surface_destroy 		(GtkWidget *object);
 static void gtk_plot_surface_get_property         (GObject      *object,
                                                  guint            prop_id,
@@ -140,7 +140,7 @@ gtk_plot_surface_get_type (void)
 }
 
 static void
-gtk_plot_surface_class_init (GtkPlotSurfaceClass *klass)
+gtk_plot_surface_class_init (GtkPlotSurfaceClass *klass, gpointer unused)
 {
   GtkWidgetClass *object_class;
   GtkPlotDataClass *data_class;
@@ -583,7 +583,7 @@ gtk_plot_surface_add_to_plot (GtkPlotData *data, GtkPlot *plot)
 }
 
 static void
-gtk_plot_surface_init (GtkPlotSurface *dataset)
+gtk_plot_surface_init (GtkPlotSurface *dataset, gpointer unused)
 {
   GdkRGBA color;
   GtkPlotArray *dim;
@@ -940,7 +940,7 @@ gtk_plot_surface_get_legend_size(GtkPlotData *data, gint *width, gint *height)
   if(data->legend && data->legend[0] != '\0')
     legend.text = data->legend;
   else
-    legend.text = "X";
+    legend.text = (char *)"X";
 
   *height = 0;
   *width = roundint(16*m);
@@ -989,7 +989,7 @@ gtk_plot_surface_draw_legend(GtkPlotData *data, gint x, gint y)
   if(data->legend && data->legend[0] != '\0')
     legend.text = data->legend;
   else
-    legend.text = "X";
+    legend.text = (char *)"X";
 
   gtk_plot_text_get_size(legend.text, legend.angle, legend.font,
                          roundint(legend.height * m), 

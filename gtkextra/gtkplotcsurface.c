@@ -64,8 +64,8 @@ typedef struct
   gint type;             /* one or two intersection points */ 
 } GtkPlotContourX;
 
-static void gtk_plot_csurface_class_init 	(GtkPlotCSurfaceClass *klass);
-static void gtk_plot_csurface_init 		(GtkPlotCSurface *data);
+static void gtk_plot_csurface_class_init 	(GtkPlotCSurfaceClass *klass, gpointer unused);
+static void gtk_plot_csurface_init 		(GtkPlotCSurface *data, gpointer unused);
 static void gtk_plot_csurface_destroy 		(GtkWidget *object);
 static void gtk_plot_csurface_get_property         (GObject      *object,
                                                  guint            prop_id,
@@ -143,7 +143,7 @@ gtk_plot_csurface_get_type (void)
 }
 
 static void
-gtk_plot_csurface_class_init (GtkPlotCSurfaceClass *klass)
+gtk_plot_csurface_class_init (GtkPlotCSurfaceClass *klass, gpointer unused)
 {
   GtkWidgetClass *object_class;
   GtkPlotDataClass *data_class;
@@ -369,7 +369,7 @@ update_data (GtkPlotData *data)
 }
 
 static void
-gtk_plot_csurface_init (GtkPlotCSurface *dataset)
+gtk_plot_csurface_init (GtkPlotCSurface *dataset, gpointer unused)
 {
   GtkPlotArray *dim;
 
@@ -1623,7 +1623,7 @@ gtk_plot_csurface_get_legend_size(GtkPlotData *data, gint *width, gint *height)
   if(data->legend)
     legend.text = data->legend;
   else
-    legend.text = "X";
+    legend.text = (char *)"X";
 
   *height = 0;
   *width = roundint(12 * m);
@@ -1665,7 +1665,7 @@ gtk_plot_csurface_draw_legend(GtkPlotData *data, gint x, gint y)
   if(data->legend)
     legend.text = data->legend;
   else
-    legend.text = "X";
+    legend.text = (char *)"X";
 
   gtk_plot_text_get_size(legend.text, legend.angle, legend.font,
                          roundint(legend.height * m), 

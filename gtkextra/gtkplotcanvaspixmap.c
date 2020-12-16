@@ -43,8 +43,8 @@ enum {
   ARG_MASK,
 };
 
-static void gtk_plot_canvas_pixmap_init	(GtkPlotCanvasPixmap *pixmap);
-static void gtk_plot_canvas_pixmap_class_init(GtkPlotCanvasChildClass *klass);
+static void gtk_plot_canvas_pixmap_init	(GtkPlotCanvasPixmap *pixmap, gpointer unused);
+static void gtk_plot_canvas_pixmap_class_init(GtkPlotCanvasChildClass *klass, gpointer unused);
 static void gtk_plot_canvas_pixmap_destroy	(GtkWidget *object);
 static void gtk_plot_canvas_pixmap_draw 	(GtkPlotCanvas *canvas,
 						 GtkPlotCanvasChild *child);
@@ -111,7 +111,7 @@ gtk_plot_canvas_pixmap_new (cairo_surface_t *_pixmap, cairo_pattern_t *mask)
 }
 
 static void
-gtk_plot_canvas_pixmap_init (GtkPlotCanvasPixmap *pixmap)
+gtk_plot_canvas_pixmap_init (GtkPlotCanvasPixmap *pixmap, gpointer unused)
 {
   pixmap->pixmap = NULL;
   pixmap->mask = NULL;
@@ -129,7 +129,7 @@ gtk_plot_canvas_pixmap_destroy(GtkWidget *object)
 }
 
 static void
-gtk_plot_canvas_pixmap_class_init (GtkPlotCanvasChildClass *klass)
+gtk_plot_canvas_pixmap_class_init (GtkPlotCanvasChildClass *klass, gpointer unused)
 {
   GtkWidgetClass *object_class = (GtkWidgetClass *)klass;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);

@@ -104,8 +104,8 @@ enum
   PROP_ZY_TITLE_VISIBLE,
 };
 
-static void gtk_plot3d_class_init 		(GtkPlot3DClass *klass);
-static void gtk_plot3d_init 			(GtkPlot3D *plot);
+static void gtk_plot3d_class_init 		(GtkPlot3DClass *klass, gpointer unused);
+static void gtk_plot3d_init 			(GtkPlot3D *plot, gpointer unused);
 static void gtk_plot3d_destroy 			(GtkWidget *object);
 static void gtk_plot3d_set_property             (GObject *object,
 			                         guint prop_id,
@@ -163,7 +163,7 @@ gtk_plot3d_get_type (void)
 }
 
 static void
-gtk_plot3d_class_init (GtkPlot3DClass *klass)
+gtk_plot3d_class_init (GtkPlot3DClass *klass, gpointer unused)
 {
   GtkWidgetClass *object_class;
   GtkPlotClass *plot_class;
@@ -801,7 +801,7 @@ gtk_plot3d_class_init (GtkPlot3DClass *klass)
 
 
 static void
-gtk_plot3d_init (GtkPlot3D *plot)
+gtk_plot3d_init (GtkPlot3D *plot, gpointer unused)
 {
   GdkRGBA color, black, white;
   gint i;

@@ -181,8 +181,8 @@ void gtk_plot_parse_label	        (GtkPlotAxis *axis,
                                          gchar *label);
 
 
-static void gtk_plot_class_init 		(GtkPlotClass *klass);
-static void gtk_plot_init 			(GtkPlot *plot);
+static void gtk_plot_class_init 		(GtkPlotClass *klass, gpointer unused);
+static void gtk_plot_init 			(GtkPlot *plot, gpointer unused);
 static void gtk_plot_set_property             	(GObject *object,
                                                  guint            prop_id,
                                                  const GValue          *value,
@@ -191,8 +191,8 @@ static void gtk_plot_get_property             	(GObject *object,
                                                  guint            prop_id,
                                                  GValue          *value,
                                                  GParamSpec      *pspec);
-static void gtk_plot_axis_class_init 		(GtkPlotAxisClass *klass);
-static void gtk_plot_axis_init 			(GtkPlotAxis *axis);
+static void gtk_plot_axis_class_init 		(GtkPlotAxisClass *klass, gpointer unused);
+static void gtk_plot_axis_init 			(GtkPlotAxis *axis, gpointer unused);
 static void gtk_plot_axis_set_property          (GObject *object,
                                                  guint            prop_id,
                                                  const GValue          *value,
@@ -262,7 +262,7 @@ gtk_plot_get_type (void)
 }
 
 static void
-gtk_plot_class_init (GtkPlotClass *klass)
+gtk_plot_class_init (GtkPlotClass *klass, gpointer unused)
 {
   GObjectClass *object_class;
   GtkWidgetClass *widget_class;
@@ -1015,7 +1015,7 @@ gtk_plot_axis_get_type (void)
 
 
 static void
-gtk_plot_axis_class_init (GtkPlotAxisClass *klass)
+gtk_plot_axis_class_init (GtkPlotAxisClass *klass, gpointer unused)
 {
   GtkWidgetClass *object_class;
   GtkPlotAxisClass *axis_class;
@@ -1593,7 +1593,7 @@ axis_changed(GtkPlotAxis *axis, GtkPlot *plot)
 }
 
 static void
-gtk_plot_init (GtkPlot *plot)
+gtk_plot_init (GtkPlot *plot, gpointer unused)
 {
   GdkRGBA black, white;
 
@@ -2043,7 +2043,7 @@ gtk_plot_real_set_pc(GtkPlot *plot, GtkPlotPC *pc)
 }
 
 static void
-gtk_plot_axis_init (GtkPlotAxis *axis)
+gtk_plot_axis_init (GtkPlotAxis *axis, gpointer unused)
 {
   GdkRGBA black, white;
 

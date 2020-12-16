@@ -77,8 +77,8 @@ enum {
   ARG_CHILD_SELECTION_MODE,
 };
 
-static void gtk_plot_canvas_class_init 		(GtkPlotCanvasClass *klass);
-static void gtk_plot_canvas_init 		(GtkPlotCanvas *plot_canvas);
+static void gtk_plot_canvas_class_init 		(GtkPlotCanvasClass *klass, gpointer unused);
+static void gtk_plot_canvas_init 		(GtkPlotCanvas *plot_canvas, gpointer unused);
 static void gtk_plot_canvas_set_property        (GObject *object,
                                                  guint            prop_id,
                                                  const GValue          *value,
@@ -87,8 +87,8 @@ static void gtk_plot_canvas_get_property        (GObject *object,
                                                  guint            prop_id,
                                                  GValue          *value,
                                                  GParamSpec      *pspec);
-static void gtk_plot_canvas_child_class_init 	(GtkPlotCanvasChildClass *klass);
-static void gtk_plot_canvas_child_init 		(GtkPlotCanvasChild *child);
+static void gtk_plot_canvas_child_class_init 	(GtkPlotCanvasChildClass *klass, gpointer unused);
+static void gtk_plot_canvas_child_init 		(GtkPlotCanvasChild *child, gpointer unused);
 static void gtk_plot_canvas_child_set_property  (GObject *object,
                                                  guint            prop_id,
                                                  const GValue          *value,
@@ -227,7 +227,7 @@ gtk_plot_canvas_child_get_type (void)
 }
 
 static void
-gtk_plot_canvas_child_class_init (GtkPlotCanvasChildClass *klass)
+gtk_plot_canvas_child_class_init (GtkPlotCanvasChildClass *klass, gpointer unused)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
@@ -483,7 +483,7 @@ gtk_plot_canvas_child_set_property (GObject      *object,
 }
 
 static void
-gtk_plot_canvas_child_init(GtkPlotCanvasChild *child)
+gtk_plot_canvas_child_init(GtkPlotCanvasChild *child, gpointer unused)
 {
   child->flags = GTK_PLOT_CANVAS_CAN_MOVE | 
                  GTK_PLOT_CANVAS_CAN_RESIZE;
@@ -497,7 +497,7 @@ gtk_plot_canvas_child_init(GtkPlotCanvasChild *child)
 }
 
 static void
-gtk_plot_canvas_class_init (GtkPlotCanvasClass *klass)
+gtk_plot_canvas_class_init (GtkPlotCanvasClass *klass, gpointer unused)
 {
   GtkWidgetClass *object_class;
   GtkWidgetClass *widget_class;
@@ -868,7 +868,7 @@ gtk_plot_canvas_set_property (GObject      *object,
 }
 
 static void
-gtk_plot_canvas_init (GtkPlotCanvas *plot_canvas)
+gtk_plot_canvas_init (GtkPlotCanvas *plot_canvas, gpointer unused)
 {
   GtkWidget *widget;
   GdkRGBA color, black, white;
@@ -1163,6 +1163,12 @@ gtk_plot_canvas_paint (GtkPlotCanvas *canvas)
   gtk_plot_pc_leave(canvas->pc);
 }
 
+static void
+queue_draw_callback(GtkWidget *widget, gpointer data)
+{
+  gtk_widget_queue_draw(widget);
+}
+
 /**
  * gtk_plot_canvas_refresh:
  * @canvas: a #GtkPlotCanvas.
@@ -1178,7 +1184,7 @@ gtk_plot_canvas_refresh(GtkPlotCanvas *canvas)
   gtk_widget_queue_draw(GTK_WIDGET(canvas));
 
   gtk_container_foreach(GTK_CONTAINER(canvas),
-                        (GtkCallback) gtk_widget_queue_draw, NULL);
+                        queue_draw_callback, NULL);
 }
 
 static void
@@ -1351,6 +1357,7 @@ gtk_plot_canvas_motion (GtkWidget *widget, GdkEventMotion *event)
                     new_x = MIN(x, pivot_x);
                     new_width = abs(x - pivot_x);
                }
+	       /* FALLTHRU */
             case GTK_PLOT_CANVAS_TOP:
                if(canvas->active_item && canvas->active_item->flags & GTK_PLOT_CANVAS_CAN_RESIZE){
                     new_y = MIN(y, pivot_y);
@@ -1368,6 +1375,7 @@ gtk_plot_canvas_motion (GtkWidget *widget, GdkEventMotion *event)
                     new_x = MIN(x, pivot_x);
                     new_width = abs(x - pivot_x);
                }
+	       /* FALLTHRU */
             case GTK_PLOT_CANVAS_BOTTOM:
                if(canvas->active_item && canvas->active_item->flags & GTK_PLOT_CANVAS_CAN_RESIZE){
                     new_y = MIN(y, pivot_y);

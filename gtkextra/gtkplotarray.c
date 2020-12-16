@@ -30,8 +30,8 @@
 
 #define P_(string) string
 
-static void gtk_plot_array_class_init 	(GtkPlotArrayClass *klass);
-static void gtk_plot_array_init 	(GtkPlotArray *array);
+static void gtk_plot_array_class_init 	(GtkPlotArrayClass *klass, gpointer unused);
+static void gtk_plot_array_init 	(GtkPlotArray *array, gpointer unused);
 static void gtk_plot_array_finalize 	(GObject *object);
 static void gtk_plot_array_set_property (GObject *object,
                                          guint            prop_id,
@@ -41,8 +41,8 @@ static void gtk_plot_array_get_property (GObject *object,
                                          guint            prop_id,
                                          GValue    *value,
                                          GParamSpec      *pspec);
-static void gtk_plot_array_list_class_init (GtkPlotArrayListClass *klass);
-static void gtk_plot_array_list_init 	(GtkPlotArrayList *array_list);
+static void gtk_plot_array_list_class_init (GtkPlotArrayListClass *klass, gpointer unnused);
+static void gtk_plot_array_list_init 	(GtkPlotArrayList *array_list, gpointer unnused);
 static void gtk_plot_array_list_finalize (GObject *object);
 
 static GObjectClass *array_parent_class = NULL;
@@ -92,7 +92,7 @@ gtk_plot_array_get_type (void)
 }
 
 static void
-gtk_plot_array_class_init (GtkPlotArrayClass *klass)
+gtk_plot_array_class_init (GtkPlotArrayClass *klass, gpointer unused)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 
@@ -273,7 +273,7 @@ gtk_plot_array_get_property (GObject      *object,
 }
 
 static void
-gtk_plot_array_init (GtkPlotArray *array)
+gtk_plot_array_init (GtkPlotArray *array, gpointer unused)
 {
   array->name = NULL;
   array->label = NULL;
@@ -543,7 +543,7 @@ gtk_plot_array_list_get_type (void)
 }
 
 static void
-gtk_plot_array_list_class_init (GtkPlotArrayListClass *klass)
+gtk_plot_array_list_class_init (GtkPlotArrayListClass *klass, gpointer unused)
 {
   GObjectClass *gobject_class;
 
@@ -556,7 +556,7 @@ gtk_plot_array_list_class_init (GtkPlotArrayListClass *klass)
 
 
 static void
-gtk_plot_array_list_init (GtkPlotArrayList *array_list)
+gtk_plot_array_list_init (GtkPlotArrayList *array_list, gpointer unnused)
 {
   array_list->arrays = NULL;
 }

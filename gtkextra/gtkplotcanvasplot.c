@@ -39,8 +39,8 @@
 
 #define DEFAULT_MARKER_SIZE 6
 
-static void gtk_plot_canvas_plot_init		(GtkPlotCanvasPlot *plot);
-static void gtk_plot_canvas_plot_class_init(GtkPlotCanvasChildClass *klass);
+static void gtk_plot_canvas_plot_init		(GtkPlotCanvasPlot *plot, gpointer unused);
+static void gtk_plot_canvas_plot_class_init(GtkPlotCanvasChildClass *klass, gpointer unused);
 static void gtk_plot_canvas_plot_destroy	(GtkWidget *object);
 static void gtk_plot_canvas_plot_draw 		(GtkPlotCanvas *canvas,
 						 GtkPlotCanvasChild *child);
@@ -111,7 +111,7 @@ gtk_plot_canvas_plot_new (GtkPlot *plot)
 }
 
 static void
-gtk_plot_canvas_plot_init (GtkPlotCanvasPlot *plot)
+gtk_plot_canvas_plot_init (GtkPlotCanvasPlot *plot, gpointer unused)
 {
   plot->plot = NULL;
   plot->pos = GTK_PLOT_CANVAS_PLOT_IN_PLOT;
@@ -123,7 +123,7 @@ gtk_plot_canvas_plot_init (GtkPlotCanvasPlot *plot)
 }
 
 static void
-gtk_plot_canvas_plot_class_init (GtkPlotCanvasChildClass *klass)
+gtk_plot_canvas_plot_class_init (GtkPlotCanvasChildClass *klass, gpointer unused)
 {
   GtkWidgetClass *object_class = (GtkWidgetClass *)klass;
 

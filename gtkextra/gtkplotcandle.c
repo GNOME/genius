@@ -28,8 +28,8 @@
 #include "gtkplotcandle.h"
 #include "gtkpsfont.h"
 
-static void gtk_plot_candle_class_init 	(GtkPlotCandleClass *klass);
-static void gtk_plot_candle_init 	(GtkPlotCandle *data);
+static void gtk_plot_candle_class_init 	(GtkPlotCandleClass *klass, gpointer unused);
+static void gtk_plot_candle_init 	(GtkPlotCandle *data, gpointer unused);
 static void gtk_plot_candle_draw_legend	(GtkPlotData *data, 
 					 gint x, gint y);
 static void gtk_plot_candle_draw_symbol	(GtkPlotData *data,
@@ -74,7 +74,7 @@ gtk_plot_candle_get_type (void)
 }
 
 static void
-gtk_plot_candle_class_init (GtkPlotCandleClass *klass)
+gtk_plot_candle_class_init (GtkPlotCandleClass *klass, gpointer unused)
 {
   GtkPlotDataClass *data_class;
 
@@ -91,7 +91,7 @@ gtk_plot_candle_class_init (GtkPlotCandleClass *klass)
 
 
 static void
-gtk_plot_candle_init (GtkPlotCandle *dataset)
+gtk_plot_candle_init (GtkPlotCandle *dataset, gpointer unused)
 {
   GdkRGBA black, white;
   GtkPlotArray *dim;
@@ -242,7 +242,7 @@ gtk_plot_candle_draw_legend(GtkPlotData *data, gint x, gint y)
   if(data->legend)
     legend.text = data->legend;
   else
-    legend.text = "";
+    legend.text = (char *)"";
 
   gtk_plot_text_get_size(legend.text, legend.angle, legend.font,
                          roundint(legend.height * m), 

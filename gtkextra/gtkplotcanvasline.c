@@ -53,8 +53,8 @@ enum{
   ARG_ARROW_STYLE
 };
 
-static void gtk_plot_canvas_line_init		(GtkPlotCanvasLine *line);
-static void gtk_plot_canvas_line_class_init	(GtkPlotCanvasChildClass *klass);
+static void gtk_plot_canvas_line_init		(GtkPlotCanvasLine *line, gpointer unused);
+static void gtk_plot_canvas_line_class_init	(GtkPlotCanvasChildClass *klass, gpointer unused);
 static void gtk_plot_canvas_line_draw_selection (cairo_t *cr,
 						 GtkPlotCanvas *canvas,
 						 GtkPlotCanvasChild *child,
@@ -125,7 +125,7 @@ gtk_plot_canvas_line_new (GtkPlotLineStyle style,
 }
 
 static void
-gtk_plot_canvas_line_init (GtkPlotCanvasLine *line)
+gtk_plot_canvas_line_init (GtkPlotCanvasLine *line, gpointer unused)
 {
   gdk_rgba_parse(&line->line.color, "black");
                                                     
@@ -140,7 +140,7 @@ gtk_plot_canvas_line_init (GtkPlotCanvasLine *line)
 }
 
 static void
-gtk_plot_canvas_line_class_init (GtkPlotCanvasChildClass *klass)
+gtk_plot_canvas_line_class_init (GtkPlotCanvasChildClass *klass, gpointer unused)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 

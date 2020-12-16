@@ -200,7 +200,7 @@ static char *default_console_font = NULL;
 pid_t helper_pid = -1;
 
 static FILE *torlfp = NULL;
-static int fromrl;
+static int fromrl = -1;
 
 static char *torlfifo = NULL;
 static char *fromrlfifo = NULL;
@@ -4658,7 +4658,10 @@ get_new_line (GIOChannel *source, GIOCondition condition, gpointer data)
 		vte_terminal_feed (VTE_TERMINAL (term), str, -1);
 		g_free (str);
 		close (fromrl);
+		fromrl = -1;
 		fclose (torlfp);
+		torlfp = NULL;
+
 		fork_helper_setup_comm ();
 		start_cb_p_expression (genius_got_etree, torlfp);
 		return FALSE;
@@ -5387,8 +5390,12 @@ main (int argc, char *argv[])
 	gtk_source_init ();
 #endif
 
+	/* I sort of doubt we can do the uniqueness thing sanely right now,
+	 * there is too much global stuff happening to sanely run two
+	 * windows from one process */
 	genius_app = gtk_application_new ("org.gnome.genius",
-					  G_APPLICATION_HANDLES_OPEN);
+					  G_APPLICATION_HANDLES_OPEN |
+					  G_APPLICATION_NON_UNIQUE);
 	g_signal_connect (genius_app, "startup", G_CALLBACK (startup), NULL);
 	g_signal_connect (genius_app, "activate", G_CALLBACK (activate), NULL);
 	g_signal_connect (genius_app, "open",
@@ -5403,23 +5410,30 @@ main (int argc, char *argv[])
 	genius_app = NULL;
 	g_clear_object (&info_store);
 
-	/*
-	 * Save properties and plugins
-	 */
-	set_properties ();
-	gel_save_plugins ();
+	/* if we actually started up */
+	if (genius_datadir != NULL) {
+		/*
+		 * Save properties and plugins
+		 */
+		set_properties ();
+		gel_save_plugins ();
 
-	close (fromrl);
-	fclose (torlfp);
+		if (fromrl >= 0)
+			close (fromrl);
+		if (torlfp != NULL)
+			fclose (torlfp);
 
-	unlink (fromrlfifo);
-	unlink (torlfifo);
+		if (fromrlfifo != NULL)
+			unlink (fromrlfifo);
+		if (torlfifo != NULL)
+			unlink (torlfifo);
 
-	/* remove old preferences to avoid confusion, by now things should be set in the new file */
-	name = g_build_filename (g_get_home_dir (), ".gnome2", "genius", NULL);
-	if (access (name, F_OK) == 0)
-		unlink (name);
-	g_free (name);
+		/* remove old preferences to avoid confusion, by now things should be set in the new file */
+		name = g_build_filename (g_get_home_dir (), ".gnome2", "genius", NULL);
+		if (access (name, F_OK) == 0)
+			unlink (name);
+		g_free (name);
+	}
 
 	return status;
 }

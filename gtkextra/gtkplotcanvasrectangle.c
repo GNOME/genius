@@ -47,8 +47,8 @@ enum {
 };
 
 
-static void gtk_plot_canvas_rectangle_init	(GtkPlotCanvasRectangle *rectangle);
-static void gtk_plot_canvas_rectangle_class_init(GtkPlotCanvasChildClass *klass);
+static void gtk_plot_canvas_rectangle_init	(GtkPlotCanvasRectangle *rectangle, gpointer unused);
+static void gtk_plot_canvas_rectangle_class_init(GtkPlotCanvasChildClass *klass, gpointer unused);
 static void gtk_plot_canvas_rectangle_draw 	(GtkPlotCanvas *canvas,
 						 GtkPlotCanvasChild *child);
 static void gtk_plot_canvas_rectangle_move	(GtkPlotCanvas *canvas,
@@ -169,7 +169,7 @@ gtk_plot_canvas_rectangle_new (GtkPlotLineStyle style,
 }
 
 static void
-gtk_plot_canvas_rectangle_init (GtkPlotCanvasRectangle *rectangle)
+gtk_plot_canvas_rectangle_init (GtkPlotCanvasRectangle *rectangle, gpointer unused)
 {
   gdk_rgba_parse(&rectangle->line.color, "black");
   gdk_rgba_parse(&rectangle->bg, "white");
@@ -182,7 +182,7 @@ gtk_plot_canvas_rectangle_init (GtkPlotCanvasRectangle *rectangle)
 }
 
 static void
-gtk_plot_canvas_rectangle_class_init (GtkPlotCanvasChildClass *klass)
+gtk_plot_canvas_rectangle_class_init (GtkPlotCanvasChildClass *klass, gpointer unused)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 

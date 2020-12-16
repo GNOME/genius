@@ -44,9 +44,9 @@ enum {
   ARG_TEXT,
 };
 
-static void gtk_plot_canvas_text_init		(GtkPlotCanvasText *text);
+static void gtk_plot_canvas_text_init		(GtkPlotCanvasText *text, gpointer unused);
 static void gtk_plot_canvas_text_destroy	(GtkWidget *object);
-static void gtk_plot_canvas_text_class_init(GtkPlotCanvasChildClass *klass);
+static void gtk_plot_canvas_text_class_init(GtkPlotCanvasChildClass *klass, gpointer unused);
 static void gtk_plot_canvas_text_draw 		(GtkPlotCanvas *canvas,
 						 GtkPlotCanvasChild *child);
 static void gtk_plot_canvas_text_size_allocate	(GtkPlotCanvas *canvas,
@@ -139,7 +139,7 @@ gtk_plot_canvas_text_new (const gchar *font, gint height, gint angle,
 }
 
 static void
-gtk_plot_canvas_text_init (GtkPlotCanvasText *text)
+gtk_plot_canvas_text_init (GtkPlotCanvasText *text, gpointer unused)
 {
   GtkPlotText *text_attr;
 
@@ -160,7 +160,7 @@ gtk_plot_canvas_text_init (GtkPlotCanvasText *text)
 }
 
 static void
-gtk_plot_canvas_text_class_init (GtkPlotCanvasChildClass *klass)
+gtk_plot_canvas_text_class_init (GtkPlotCanvasChildClass *klass, gpointer unused)
 {
   GtkWidgetClass *object_class = (GtkWidgetClass *)klass;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);

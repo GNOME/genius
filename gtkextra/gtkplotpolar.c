@@ -42,8 +42,8 @@
 #define PI 3.14159265358979323846
 #endif
 
-static void gtk_plot_polar_class_init 		(GtkPlotPolarClass *klass);
-static void gtk_plot_polar_init 		(GtkPlotPolar *plot);
+static void gtk_plot_polar_class_init 		(GtkPlotPolarClass *klass, gpointer unused);
+static void gtk_plot_polar_init 		(GtkPlotPolar *plot, gpointer unused);
 static void gtk_plot_polar_get_property		(GObject      *object,
                                                  guint            prop_id,
                                                  GValue          *value,
@@ -101,7 +101,7 @@ gtk_plot_polar_get_type (void)
 }
 
 static void
-gtk_plot_polar_class_init (GtkPlotPolarClass *klass)
+gtk_plot_polar_class_init (GtkPlotPolarClass *klass, gpointer unused)
 {
   GObjectClass *gobject_class;
   GtkPlotClass *plot_class;
@@ -134,7 +134,7 @@ gtk_plot_polar_class_init (GtkPlotPolarClass *klass)
 
 
 static void
-gtk_plot_polar_init (GtkPlotPolar *plot)
+gtk_plot_polar_init (GtkPlotPolar *plot, gpointer unused)
 {
   GTK_PLOT(plot)->legends_attr.transparent = FALSE;
 

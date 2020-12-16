@@ -37,8 +37,8 @@
 #include "gtkpsfont.h"
 #include "gtkplotcanvas.h"
 
-static void gtk_plot_pc_class_init                 (GtkPlotPCClass *klass);
-static void gtk_plot_pc_real_init                  (GtkPlotPC *pc);
+static void gtk_plot_pc_class_init                 (GtkPlotPCClass *klass, gpointer unused);
+static void gtk_plot_pc_real_init                  (GtkPlotPC *pc, gpointer unused);
 
 static GtkWidgetClass *parent_class = NULL;
 
@@ -63,13 +63,13 @@ gtk_plot_pc_get_type (void)
 }
 
 static void
-gtk_plot_pc_class_init (GtkPlotPCClass *klass)
+gtk_plot_pc_class_init (GtkPlotPCClass *klass, gpointer unused)
 {
   parent_class = g_type_class_ref (gtk_widget_get_type ());
 }
 
 static void
-gtk_plot_pc_real_init (GtkPlotPC *pc)
+gtk_plot_pc_real_init (GtkPlotPC *pc, gpointer unused)
 {
   gdk_rgba_parse(&pc->color, "black");
 

@@ -45,6 +45,11 @@
 #define FONTCACHE_SIZE 17
 #define NUM_X11_FONTS 2
 
+
+#if defined __GNUC__ && 7 <= __GNUC__
+# pragma GCC diagnostic push
+# pragma GCC diagnostic ignored "-Wdiscarded-qualifiers"
+#endif
 static GtkPSFont font_data[] =
 {
   { "Times-Roman",
@@ -293,6 +298,9 @@ static GtkPSFont font_data[] =
     FALSE, FALSE
   },
 };
+#if defined __GNUC__ && 7 <= __GNUC__
+# pragma GCC diagnostic pop
+#endif
 
 
 #define NUM_FONTS (sizeof(font_data)/sizeof(GtkPSFont))

@@ -3,8 +3,8 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
   <!ENTITY app "<application>Genius Mathematics Tool</application>">
   <!ENTITY appname "Genius">
-  <!ENTITY appversion "1.0.22">
-  <!ENTITY date "September 2016">
+  <!ENTITY appversion "1.0.26">
+  <!ENTITY date "December 2020">
 
   <!ENTITY legal SYSTEM "legal.xml">
 
@@ -37,7 +37,7 @@
     <title>&appname; Manual</title>       
 
     <copyright>
-      <year>1997-2016</year>
+      <year>1997-2020</year>
       <holder>Ji&#345;&#237; (George) Lebl</holder>
     </copyright>
     <copyright>
@@ -171,31 +171,34 @@
     <title>Introduction</title> 
     <para>
 	The &app; application is a general calculator for use as a desktop
-	calculator, an educational tool in mathematics, and is useful even for
-	research.  The language used in &app; is designed to be
+        calculator, an educational tool in mathematics and other STEM fields,
+	and has found use in research.  The language used in &app; is designed to be
 	&lsquo;mathematical&rsquo; in the sense that it should be &lsquo;what
-	you mean is what you get&rsquo;.  Of course that is not an
+	you mean is what you get&rsquo;.  Of course, that is not an
 	entirely attainable goal.  &app; features rationals, arbitrary
 	precision integers and multiple precision floats using the GMP library.
 	It handles complex numbers using cartesian notation.  It has good
 	vector and matrix manipulation and can handle basic linear algebra.
-	The programming language allows user defined functions, variables and
-	modification of parameters.
+	The programming language allows user defined functions, variables, and
+	parameters.
     </para> 
 
     <para>
 	&app; comes in two versions.  One version is the graphical GNOME
 	version, which features an IDE style interface and the ability 
-	to plot functions of one or two variables.
-	The command line version does not require GNOME, but of course
-	does not implement any feature that requires the graphical interface.
+	to plot functions of one or two variables.  Parametric plots of curves
+	are also supported.  It can plot slope fields,
+	vector fields and draw their solutions.  The plots can be exported
+	to several formats.
+	The command line version does not require GNOME, but
+	does not implement any feature that requires the graphical interface,
+	such as plotting
     </para> 
 
     <para>
-	    Parts of this manual describe the graphical version of the calculator,
-	but the language is of course the same.  The command line only version
-	lacks the graphing capabilities and all other capabilities that require
-	the graphical user interface.
+	    Parts of this manual describe the graphical version of the calculator.
+	    The language that both versions use is the same, it is simply the
+	    graphical features such as plotting that are unique to the GUI version.
     </para>
 
     <para>
@@ -531,7 +534,8 @@ See <xref linkend="lineplot-fig"/>.
 	parse the input it will signify this with a warning icon on the right of the text
 	input box where the error occurred, as well as giving you an error dialog.
 	You can change the ranges of the dependent and independent variables in the bottom
-	part of the dialog.
+	part of the dialog.  In the boxes for the ranges, simple expressions are allowed,
+	such as <userinput>2*pi</userinput> or <userinput>10^3</userinput>.
 	The <varname>y</varname> (dependent) range can be set automatically by turning on the <guilabel>Fit dependent axis</guilabel>
 	checkbox.
 	The names of the variables can also be changed.
@@ -1206,13 +1210,13 @@ will be too large), while
 everything modulo 6 to begin with.
       </para>
       <para>
-You can calculate the inverses of numbers mod some integer by just using
-rational numbers (of course the inverse has to exist).
+	      The inverses of numbers mod some integer are computed by writing them as
+rational numbers (as long as the desired inverse exists, of course).
 Examples:
 <programlisting>10^-1 mod 101
 1/10 mod 101</programlisting>
-You can also do modular evaluation with matrices including taking inverses,
-powers and dividing.
+Modular evaluation also works with matrices including taking inverses,
+powers, and dividing.
 Example:
 <programlisting>A = [1,2;3,4]
 B = A^-1 mod 5
@@ -2390,7 +2394,7 @@ could use the following code.
 	you press return on the command line.  Therefore think of programs
 	as just a sequence of lines as if they were entered on the command line.
 	In particular, you do not need to enter the separator at the end of the
-	line (unless it is of course part of several statements inside
+	line (unless it is part of several statements inside
 	parentheses).  When a statement does not end with a separator on the
 	top level, the result is printed after being executed.
       </para>
@@ -2599,7 +2603,7 @@ f(r,1)
       <para>
 	If all variables are to be created as locals you can just pass an
 	asterisk instead of a list of variables.  In this case the variables
-	will not be initialized until they are actually set of course.
+	will not be initialized until they are actually set.
 	So the following definition of <function>f</function>
 	will also work:
 <programlisting>function f(g,x) = (
@@ -2905,7 +2909,7 @@ should use the
 <screen><prompt>genius> </prompt><userinput>IsIn (1, [0,1,2])</userinput>
 = true
 </screen>
-	The input <userinput>IsIn(x,X)</userinput> is of course equivalent to
+	The input <userinput>IsIn(x,X)</userinput> is equivalent to
 	<userinput>IsSubset([x],X)</userinput>.  Note that since the empty set is a subset
 	of every set, <userinput>IsSubset(null,X)</userinput> is always true.
 	</para>
@@ -4763,7 +4767,7 @@ number is specified) of the given size returned.  For example,
 	    divides <varname>n</varname>.  If <varname>d</varname>
 	    does not divide <varname>n</varname> then this function returns
 	    garbage.  This is a lot faster for very large numbers
-	    than the operation <userinput>n/d</userinput>, but of course only
+	    than the operation <userinput>n/d</userinput>, but it is only
 	    useful if you know that the division is exact.
 	  </para>
          </listitem>
@@ -4796,9 +4800,9 @@ number is specified) of the given size returned.  For example,
           <para>
 	    Return all factors of <varname>n</varname> in a vector.  This
 	    includes all the non-prime factors as well.  It includes 1 and the
-	    number itself.  So for example to print all the perfect numbers
+	    number itself.  So to print all the perfect numbers
 	    (those that are sums of their factors) up to the number 1000 you
-	    could do (this is of course very inefficient)
+	    could do (this is clearly very inefficient)
 	    <programlisting>for n=1 to 1000 do (
     if MatrixSum (Factors(n)) == 2*n then
         print(n)
@@ -4943,7 +4947,7 @@ precalculated and returned in the second column.</para>
           <synopsis>IsPerfectSquare (n)</synopsis>
           <para>
 	    Check an integer for being a perfect square of an integer.  The number must
-	    be an integer.  Negative integers are of course never perfect
+	    be an integer.  Negative integers are never perfect
 	    squares of integers.
 	  </para>
          </listitem>
@@ -6723,7 +6727,7 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
 	  <para>Return the Toeplitz matrix constructed given the first column c
 and (optionally) the first row r.  If only the column c is given then it is
 conjugated and the nonconjugated version is used for the first row to give a
-Hermitian matrix (if the first element is real of course).</para>
+Hermitian matrix (if the first element is real).</para>
           <para>
 	    See
 	    <ulink url="https://en.wikipedia.org/wiki/Toeplitz_matrix">Wikipedia</ulink> or

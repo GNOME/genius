@@ -40,8 +40,8 @@
 
 #define P_(string) string
 
-static void gtk_plot_bar_class_init 	(GtkPlotBarClass *klass);
-static void gtk_plot_bar_init 		(GtkPlotBar *data);
+static void gtk_plot_bar_class_init 	(GtkPlotBarClass *klass, gpointer unused);
+static void gtk_plot_bar_init 		(GtkPlotBar *data, gpointer unused);
 static void gtk_plot_bar_set_property   (GObject *object,
                                          guint prop_id,
                                          const GValue *value,
@@ -93,7 +93,7 @@ gtk_plot_bar_get_type (void)
 }
 
 static void
-gtk_plot_bar_class_init (GtkPlotBarClass *klass)
+gtk_plot_bar_class_init (GtkPlotBarClass *klass, gpointer unused)
 {
   GtkPlotDataClass *data_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
@@ -175,7 +175,7 @@ gtk_plot_bar_get_property (GObject      *object,
 }
 
 static void
-gtk_plot_bar_init (GtkPlotBar *dataset)
+gtk_plot_bar_init (GtkPlotBar *dataset, gpointer unused)
 {
   GdkRGBA black, white;
   GtkPlotArray *dim;
@@ -362,7 +362,7 @@ gtk_plot_bar_draw_legend(GtkPlotData *data, gint x, gint y)
   if(data->legend)
     legend.text = data->legend;
   else
-    legend.text = "";
+    legend.text = (char *)"";
 
   gtk_plot_text_get_size(legend.text, legend.angle, legend.font,
                          roundint(legend.height * m), 

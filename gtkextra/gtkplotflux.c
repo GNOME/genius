@@ -37,8 +37,8 @@
 
 #define P_(string) string
 
-static void gtk_plot_flux_class_init 	(GtkPlotFluxClass *klass);
-static void gtk_plot_flux_init 		(GtkPlotFlux *data);
+static void gtk_plot_flux_class_init 	(GtkPlotFluxClass *klass, gpointer unused);
+static void gtk_plot_flux_init 		(GtkPlotFlux *data, gpointer unused);
 static void gtk_plot_flux_destroy 	(GtkWidget *data);
 static void gtk_plot_flux_get_property  (GObject      *object,
                                          guint        prop_id,
@@ -106,7 +106,7 @@ gtk_plot_flux_get_type (void)
 }
 
 static void
-gtk_plot_flux_class_init (GtkPlotFluxClass *klass)
+gtk_plot_flux_class_init (GtkPlotFluxClass *klass, gpointer unused)
 {
   GtkWidgetClass *object_class;
   GtkPlotDataClass *data_class;
@@ -272,7 +272,7 @@ gtk_plot_flux_class_init (GtkPlotFluxClass *klass)
 
 
 static void
-gtk_plot_flux_init (GtkPlotFlux *dataset)
+gtk_plot_flux_init (GtkPlotFlux *dataset, gpointer unused)
 {
   GdkRGBA black;
   GtkPlotArray *dim;
@@ -546,7 +546,7 @@ gtk_plot_flux_get_legend_size(GtkPlotData *data, gint *width, gint *height)
   if(data->legend)
     legend.text = data->legend;
   else
-    legend.text = "";
+    legend.text = (char *)"";
 
   *width = *height = 0;
   if(data->show_legend)
@@ -614,7 +614,7 @@ gtk_plot_flux_draw_legend(GtkPlotData *data, gint x, gint y)
   if(data->legend)
     legend.text = data->legend;
   else
-    legend.text = "";
+    legend.text = (char *)"";
 
   gtk_plot_text_get_size(legend.text, legend.angle, legend.font,
                          roundint(legend.height * m), 

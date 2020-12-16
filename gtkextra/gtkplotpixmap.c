@@ -45,8 +45,8 @@ enum {
   ARG_MASK,
 };
                                                                                 
-static void gtk_plot_pixmap_class_init 		(GtkPlotPixmapClass *klass);
-static void gtk_plot_pixmap_init 		(GtkPlotPixmap *data);
+static void gtk_plot_pixmap_class_init 		(GtkPlotPixmapClass *klass, gpointer unused);
+static void gtk_plot_pixmap_init 		(GtkPlotPixmap *data, gpointer unused);
 static void gtk_plot_pixmap_destroy             (GtkWidget *object);
 static void gtk_plot_pixmap_draw_symbol		(GtkPlotData *data,
                                                  gdouble x, 
@@ -98,7 +98,7 @@ gtk_plot_pixmap_get_type (void)
 }
 
 static void
-gtk_plot_pixmap_class_init (GtkPlotPixmapClass *klass)
+gtk_plot_pixmap_class_init (GtkPlotPixmapClass *klass, gpointer unused)
 {
   GtkWidgetClass *object_class;
   GtkPlotDataClass *data_class;
@@ -179,7 +179,7 @@ gtk_plot_pixmap_set_property (GObject      *object,
 }
 
 static void
-gtk_plot_pixmap_init (GtkPlotPixmap *dataset)
+gtk_plot_pixmap_init (GtkPlotPixmap *dataset, gpointer unused)
 {
   dataset->pixmap = NULL;
 }
@@ -331,7 +331,7 @@ gtk_plot_pixmap_draw_legend(GtkPlotData *data, gint x, gint y)
   if(data->legend)
     legend.text = data->legend;
   else
-    legend.text = "";
+    legend.text = (char *)"";
 
   legend.x = (gdouble)(area.x + x);
   legend.y = (gdouble)(area.y + y);
@@ -390,7 +390,7 @@ gtk_plot_pixmap_get_legend_size(GtkPlotData *data, gint *width, gint *height)
   if(data->legend)
     legend.text = data->legend;
   else
-    legend.text = "";
+    legend.text = (char *)"";
 
   pwidth = cairo_image_surface_get_width(pixmap->pixmap);
   pheight = cairo_image_surface_get_height(pixmap->pixmap);

@@ -42,8 +42,8 @@
 
 static gchar DEFAULT_FONT[] = "Helvetica";
 
-static void gtk_plot_data_class_init 		(GtkPlotDataClass *klass);
-static void gtk_plot_data_init 			(GtkPlotData *data);
+static void gtk_plot_data_class_init 		(GtkPlotDataClass *klass, gpointer unused);
+static void gtk_plot_data_init 			(GtkPlotData *data, gpointer unused);
 static void gtk_plot_data_destroy		(GtkWidget *object);
 static void gtk_plot_data_get_property         (GObject      *object,
                                                  guint            prop_id,
@@ -302,7 +302,7 @@ gtk_plot_data_get_type (void)
 }
 
 static void
-gtk_plot_data_class_init (GtkPlotDataClass *klass)
+gtk_plot_data_class_init (GtkPlotDataClass *klass, gpointer unused)
 {
   GtkWidgetClass *object_class;
   GtkPlotDataClass *data_class;
@@ -1492,7 +1492,7 @@ gtk_plot_data_class_init (GtkPlotDataClass *klass)
 }
 
 static void
-gtk_plot_data_init (GtkPlotData *dataset)
+gtk_plot_data_init (GtkPlotData *dataset, gpointer unused)
 {
   GdkRGBA black, white, color;
 
@@ -1538,7 +1538,7 @@ gtk_plot_data_init (GtkPlotData *dataset)
   dataset->gradient_title_pos = GTK_PLOT_AXIS_RIGHT;
   dataset->gradient_x = .6;
   dataset->gradient_y = .05;
-  dataset->gradient->orientation = GTK_ORIENTATION_VERTICAL;
+  dataset->gradient->orientation = GTK_PLOT_AXIS_Y;
   dataset->gradient->label_mask = GTK_PLOT_LABEL_OUT;
   dataset->gradient->labels_attr.fg = black;
   dataset->gradient->labels_attr.bg = white;
@@ -2787,7 +2787,7 @@ gtk_plot_data_draw_legend(GtkPlotData *data, gint x, gint y)
   if(data->legend)
     legend.text = data->legend;
   else
-    legend.text = "";
+    legend.text = (char *)"";
 
   gtk_plot_pc_gsave(plot->pc);
 
@@ -2859,7 +2859,7 @@ gtk_plot_data_draw_gradient(GtkPlotData *data)
 
   gtk_plot_pc_gsave(data->plot->pc);
 
-  if(data->gradient->orientation == GTK_ORIENTATION_VERTICAL)
+  if(data->gradient->orientation == GTK_PLOT_AXIS_Y)
     draw_gradient_vertical(data, data->gradient_x, data->gradient_y);
   else
     draw_gradient_horizontal(data, data->gradient_x, data->gradient_y);
@@ -3388,10 +3388,11 @@ draw_gradient_horizontal(GtkPlotData *data, gdouble px, gdouble py)
   }
 
   if(!data->gradient_custom){
-    gint ncolors = (nmajor-1)*line_width;
     gint cx;
     gdouble h;
     gint l;
+
+    ncolors = (nmajor-1)*line_width;
 
     cx = x;
     gtk_plot_pc_set_lineattr(plot->pc, 0, 0, 0, 0);
@@ -3570,7 +3571,7 @@ gtk_plot_data_get_legend_size(GtkPlotData *data, gint *width, gint *height)
   if(data->legend)
     legend.text = data->legend;
   else
-    legend.text = "";
+    legend.text = (char *)"";
 
   *height = 0;
   *width = roundint(12 * m);
@@ -3720,7 +3721,7 @@ gtk_plot_data_set_gradient_size(GtkPlotData *data, gint size)
                          &twidth, &theight,
                          &tascent, &tdescent);
 
-  if(data->gradient->orientation == GTK_ORIENTATION_VERTICAL){
+  if(data->gradient->orientation == GTK_PLOT_AXIS_Y){
     gradient_height = 2*roundint(data->gradient_border_offset * m);
     gradient_height += lheight;
 
@@ -3763,7 +3764,7 @@ gtk_plot_data_set_gradient_size(GtkPlotData *data, gint size)
     }
   }
 
-  if(data->gradient->orientation == GTK_ORIENTATION_VERTICAL){
+  if(data->gradient->orientation == GTK_PLOT_AXIS_Y){
     data->gradient_line_height = roundint((gdouble) (size - gradient_height) / (gdouble) (nlevels - 1) / m);
   } else {
     data->gradient_line_width = roundint((gdouble) (size - gradient_width) / (gdouble) (nlevels - 1) / m);
@@ -3853,7 +3854,7 @@ gtk_plot_data_get_gradient_size(GtkPlotData *data, gint *width, gint *height)
     if(!data->gradient->ticks.values[n].minor) nmajor++;
   }
 
-  if(data->gradient->orientation == GTK_ORIENTATION_VERTICAL){
+  if(data->gradient->orientation == GTK_PLOT_AXIS_Y){
     line_height = MAX(lheight, roundint(data->gradient_line_height * m));
     gradient_height = (nmajor - 1) * line_height;
     gradient_height += 2*roundint(data->gradient_border_offset * m);
@@ -4076,6 +4077,7 @@ gtk_plot_data_draw_symbol_private (GtkPlotData *data,
                           x,
                           MAX(py0,y));
             break;
+     default: break;
   }
 
 /*

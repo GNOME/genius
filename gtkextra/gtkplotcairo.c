@@ -41,8 +41,8 @@
 #include "gtkplotcanvas.h"
 #include <pango/pango.h>
 
-static void gtk_plot_cairo_init                       (GtkPlotCairo *pc);
-static void gtk_plot_cairo_class_init                 (GtkPlotCairoClass *klass);
+static void gtk_plot_cairo_init                       (GtkPlotCairo *pc, gpointer unused);
+static void gtk_plot_cairo_class_init                 (GtkPlotCairoClass *klass, gpointer unused);
 static void gtk_plot_cairo_finalize                   (GObject *object);
 static gboolean gtk_plot_cairo_real_init              (GtkPlotPC *pc);
 static void gtk_plot_cairo_set_viewport               (GtkPlotPC *pc,
@@ -144,7 +144,7 @@ gtk_plot_cairo_get_type (void)
 }
 
 static void
-gtk_plot_cairo_init (GtkPlotCairo *pc)
+gtk_plot_cairo_init (GtkPlotCairo *pc, gpointer unused)
 {
   pc->cairo = NULL;
   /*
@@ -183,7 +183,7 @@ gtk_plot_cairo_init (GtkPlotCairo *pc)
 
 
 static void
-gtk_plot_cairo_class_init (GtkPlotCairoClass *klass)
+gtk_plot_cairo_class_init (GtkPlotCairoClass *klass, gpointer unused)
 {
   GObjectClass *gobject_class;
   GtkPlotPCClass *pc_class;
@@ -410,10 +410,11 @@ gtk_plot_cairo_set_dash                               (GtkPlotPC *pc,
 {
   cairo_t *cairo = GTK_PLOT_CAIRO(pc)->cairo; /* Shortcut */
   gchar list[] = {'\0','\1','\2','\3','\4','\5','\6','\7'};
-  if (!cairo)
-    return;
   double dash[1000];
   gint i;
+
+  if (!cairo)
+    return;
 
   if(num_values == 0){
     return;
@@ -1005,7 +1006,7 @@ gtk_plot_cairo_draw_string                        (GtkPlotPC *pc,
        case 'b':
            if (lastchar) {
              const gchar *aux2 = lastchar;
-             gint i = aux2 - g_utf8_prev_char(lastchar);
+             i = aux2 - g_utf8_prev_char(lastchar);
              pango_layout_set_text(layout, lastchar, i);
              pango_layout_get_extents(layout, NULL, &rect);
              x -= sign_x*PANGO_PIXELS(rect.width);
@@ -1079,6 +1080,7 @@ gtk_plot_cairo_draw_string                        (GtkPlotPC *pc,
                          old_tx + width + border_space,
                          old_ty - border_space + shadow_width,
                          shadow_width, height + 2 * border_space);
+      /* FALLTHRU */
     case GTK_PLOT_BORDER_LINE:
       gtk_plot_pc_draw_rectangle(pc,
                          FALSE,

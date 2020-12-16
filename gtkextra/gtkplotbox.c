@@ -39,8 +39,8 @@
 
 #define P_(string) string
 
-static void gtk_plot_box_class_init 	(GtkPlotBoxClass *klass);
-static void gtk_plot_box_init 		(GtkPlotBox *data);
+static void gtk_plot_box_class_init 	(GtkPlotBoxClass *klass, gpointer unused);
+static void gtk_plot_box_init 		(GtkPlotBox *data, gpointer unused);
 static void gtk_plot_box_set_property   (GObject *object,
                                          guint prop_id,
                                          const GValue *value,
@@ -91,7 +91,7 @@ gtk_plot_box_get_type (void)
 }
 
 static void
-gtk_plot_box_class_init (GtkPlotBoxClass *klass)
+gtk_plot_box_class_init (GtkPlotBoxClass *klass, gpointer unused)
 {
   GtkPlotDataClass *data_class;
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
@@ -163,7 +163,7 @@ gtk_plot_box_get_property (GObject      *object,
 
 
 static void
-gtk_plot_box_init (GtkPlotBox *dataset)
+gtk_plot_box_init (GtkPlotBox *dataset, gpointer unused)
 {
   GdkRGBA black, white;
 
@@ -418,7 +418,7 @@ gtk_plot_box_draw_legend(GtkPlotData *data, gint x, gint y)
   if(data->legend)
     legend.text = data->legend;
   else
-    legend.text = "";
+    legend.text = (char *)"";
 
   gtk_plot_text_get_size(legend.text, legend.angle, legend.font,
                          roundint(legend.height * m), 

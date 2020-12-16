@@ -46,8 +46,8 @@ enum {
   ARG_BG
 };
 
-static void gtk_plot_canvas_ellipse_init	(GtkPlotCanvasEllipse *ellipse);
-static void gtk_plot_canvas_ellipse_class_init  (GtkPlotCanvasChildClass *klass);
+static void gtk_plot_canvas_ellipse_init	(GtkPlotCanvasEllipse *ellipse, gpointer unused);
+static void gtk_plot_canvas_ellipse_class_init  (GtkPlotCanvasChildClass *klass, gpointer unused);
 static void gtk_plot_canvas_ellipse_draw 	(GtkPlotCanvas *canvas,
 						 GtkPlotCanvasChild *child);
 static void gtk_plot_canvas_ellipse_select	(cairo_t *cr,
@@ -113,7 +113,7 @@ gtk_plot_canvas_ellipse_new (GtkPlotLineStyle style,
 }
 
 static void
-gtk_plot_canvas_ellipse_init (GtkPlotCanvasEllipse *ellipse)
+gtk_plot_canvas_ellipse_init (GtkPlotCanvasEllipse *ellipse, gpointer unused)
 {
   gdk_rgba_parse(&ellipse->line.color, "black");
   gdk_rgba_parse(&ellipse->bg, "white");
@@ -124,7 +124,7 @@ gtk_plot_canvas_ellipse_init (GtkPlotCanvasEllipse *ellipse)
 }
 
 static void
-gtk_plot_canvas_ellipse_class_init (GtkPlotCanvasChildClass *klass)
+gtk_plot_canvas_ellipse_class_init (GtkPlotCanvasChildClass *klass, gpointer unused)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 

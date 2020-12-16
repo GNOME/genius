@@ -49,8 +49,8 @@
 #include "gtkplotps.h"
 
 
-static void gtk_plot_ps_class_init 		(GtkPlotPSClass *klass);
-static void gtk_plot_ps_init 			(GtkPlotPS *ps);
+static void gtk_plot_ps_class_init 		(GtkPlotPSClass *klass, gpointer unused);
+static void gtk_plot_ps_init 			(GtkPlotPS *ps, gpointer unused);
 static void gtk_plot_ps_destroy 		(GtkWidget *object);
 /*********************************************************************/
 /* Postscript specific functions */
@@ -153,7 +153,7 @@ gtk_plot_ps_get_type (void)
 }
 
 static void
-gtk_plot_ps_init (GtkPlotPS *ps)
+gtk_plot_ps_init (GtkPlotPS *ps, gpointer unused)
 {
   ps->psname = NULL;
   ps->gsaved = FALSE;
@@ -162,7 +162,7 @@ gtk_plot_ps_init (GtkPlotPS *ps)
 
 
 static void
-gtk_plot_ps_class_init (GtkPlotPSClass *klass)
+gtk_plot_ps_class_init (GtkPlotPSClass *klass, gpointer unused)
 {
   GtkWidgetClass *object_class;
   GtkPlotPCClass *pc_class;
@@ -433,7 +433,7 @@ static void pssetlineattr			(GtkPlotPC *pc,
     FILE *psout = GTK_PLOT_PS(pc)->psfile;
 
     fprintf(psout, "%g slw\n", line_width);
-    fprintf(psout, "%d slc\n", abs(cap_style - 1));
+    fprintf(psout, "%d slc\n", abs(((int)cap_style) - 1));
     fprintf(psout, "%d slj\n", join_style);
 
     if(line_style == 0)
@@ -840,7 +840,7 @@ psoutputstring (GtkPlotPC *pc,
     gint code;  /* 0..neither 1..latin 2..i18n */
     gchar wcs[2];
     while (*p) {
-      code = (*p >= 0 && *p <= 0x7f) ? 1 : 2;
+      code = (*p >= 0) ? 1 : 2;
       if (curcode && curcode != code)
 	fprintf(out, "%c %s\n", end[curcode], addstring);
       if (curcode != code) {
@@ -967,6 +967,7 @@ psdrawstring	(GtkPlotPC *pc,
                          tx + width + border_space, 
                          ty - border_space + shadow_width, 
                          shadow_width, height + 2 * border_space);
+      /* FALLTHRU */
     case GTK_PLOT_BORDER_LINE: 
       psdrawrectangle(pc,
                          FALSE, 

@@ -130,7 +130,7 @@ _gtkextra_signal_emit(GObject *object, guint signal_id, ...)
   *result = g_value_get_boolean(&ret);    
   g_value_unset (&ret);
 
-  for (i = 0; i < query.n_params; i++)
+  for (i = 0; i < (int)query.n_params; i++)
     g_value_unset (instance_and_params + 1 + i);
   g_value_unset (instance_and_params + 0);
 
