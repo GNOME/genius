@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
-"POT-Creation-Date: 2020-10-30 06:59+0000\n"
-"PO-Revision-Date: 2020-11-08 17:08+0200\n"
+"POT-Creation-Date: 2020-11-08 15:10+0000\n"
+"PO-Revision-Date: 2020-12-16 23:43+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -251,6 +251,8 @@ msgid ""
 "Find discrete log of n base b in F_q where q is a prime using the Silver-"
 "Pohlig-Hellman algorithm"
 msgstr ""
+"Знайти дискретний логарифм n за основою b у F_q, де q — просте, за допомогою"
+" алгоритму Сілвера-Поліґа-Геллмана"
 
 #: ../lib/library-strings.c:49
 msgid ""
@@ -269,6 +271,9 @@ msgid ""
 "Attempt Fermat factorization of n into (t-s)*(t+s), returns t and s as a "
 "vector if possible, null otherwise"
 msgstr ""
+"Спробувати виконати факторизацію Ферма для n за формулою (t-s)*(t+s);"
+" повертає t і s як вектор, якщо факторизація можлива, і null, якщо"
+" факторизація неможлива"
 
 #: ../lib/library-strings.c:52
 msgid "Find the first primitive element in F_q (q must be a prime)"
@@ -399,7 +404,7 @@ msgstr "Вилучити стовпчики і рядки з матриці"
 
 #: ../lib/library-strings.c:77
 msgid "Calculate the kth compound matrix of A"
-msgstr ""
+msgstr "Обчислити k-ту складену матрицю A"
 
 #: ../lib/library-strings.c:78
 msgid "Delete a column of a matrix"
@@ -696,8 +701,8 @@ msgstr ""
 #: ../lib/library-strings.c:145
 msgid "Rosser matrix, a classic symmetric eigenvalue test problem"
 msgstr ""
-"Матриця Рессера, класична тестова задача для обчислення власних значень"
-" симетричної матриці"
+"Матриця Рессера, класична тестова задача для обчислення власних значень "
+"симетричної матриці"
 
 #: ../lib/library-strings.c:146
 msgid "Rotation around origin in R^2"
@@ -745,8 +750,8 @@ msgid ""
 "Return the Toeplitz matrix constructed given the first column c and "
 "(optionally) the first row r."
 msgstr ""
-"Повернути матрицю Тепліца, побудовану за заданим першим стовпчиком c і"
-" (необов'язково) першим рядком r."
+"Повернути матрицю Тепліца, побудовану за заданим першим стовпчиком c і "
+"(необов'язково) першим рядком r."
 
 #: ../lib/library-strings.c:156
 msgid "Calculate the trace of a matrix"
@@ -819,8 +824,8 @@ msgstr ""
 #: ../lib/library-strings.c:172
 msgid "Use greedy algorithm to find c, for c . v = n.  (v must be sorted)"
 msgstr ""
-"Використовувати «жадібний» алгоритм пошуку c для c . v = n.  (v має бути"
-" упорядковано)"
+"Використовувати «жадібний» алгоритм пошуку c для c . v = n.  (v має бути "
+"упорядковано)"
 
 #: ../lib/library-strings.c:173
 msgid "Harmonic Number, the nth harmonic number of order r"
@@ -882,8 +887,8 @@ msgid ""
 "Attempt to calculate derivative by trying first symbolically and then "
 "numerically"
 msgstr ""
-"Спробувати обчислити похідну спочатку символічно, а потім обчислювальними"
-" методами"
+"Спробувати обчислити похідну спочатку символічно, а потім обчислювальними "
+"методами"
 
 #: ../lib/library-strings.c:186
 msgid ""
@@ -899,9 +904,9 @@ msgid ""
 "the vectors a (sines) and b (cosines).  Note that a@(1) is the constant "
 "coefficient!"
 msgstr ""
-"Повернути функцію, до якої збігається ряд Фур'є із коефіцієнтами, які"
-" задаються векторами a (синуси) і b (косинуси). Зауважте, що a@(1) є сталим"
-" коефіцієнтом!"
+"Повернути функцію, до якої збігається ряд Фур'є із коефіцієнтами, які "
+"задаються векторами a (синуси) і b (косинуси). Зауважте, що a@(1) є сталим "
+"коефіцієнтом!"
 
 #: ../lib/library-strings.c:188
 msgid "Try to calculate an infinite product for a single parameter function"
@@ -913,8 +918,8 @@ msgid ""
 "Try to calculate an infinite product for a double parameter function with "
 "func(arg,n)"
 msgstr ""
-"Спробувати обчислити нескінченний добуток для функції двох параметрів,"
-" заданої як func(arg,n)"
+"Спробувати обчислити нескінченний добуток для функції двох параметрів, "
+"заданої як func(arg,n)"
 
 #: ../lib/library-strings.c:190
 msgid "Try to calculate an infinite sum for a single parameter function"
@@ -925,24 +930,24 @@ msgid ""
 "Try to calculate an infinite sum for a double parameter function with "
 "func(arg,n)"
 msgstr ""
-"Спробувати обчислити нескінченну суму для функції двох параметрів, заданої як"
-" func(arg,n)"
+"Спробувати обчислити нескінченну суму для функції двох параметрів, заданої "
+"як func(arg,n)"
 
 #: ../lib/library-strings.c:192
 msgid ""
 "Try and see if a real-valued function is continuous at x0 by calculating the "
 "limit there"
 msgstr ""
-"Перевірити, чи є дійснозначна функція неперервною у x0 шляхом обчислення"
-" границь"
+"Перевірити, чи є дійснозначна функція неперервною у x0 шляхом обчислення "
+"границь"
 
 #: ../lib/library-strings.c:193
 msgid ""
 "Test for differentiability by approximating the left and right limits and "
 "comparing"
 msgstr ""
-"Перевірити диференційованість наближенням границь ліворуч і праворуч і"
-" порівнянням отриманих значень"
+"Перевірити диференційованість наближенням границь ліворуч і праворуч і "
+"порівнянням отриманих значень"
 
 #: ../lib/library-strings.c:194
 msgid "Calculate the left limit of a real-valued function at x0"
@@ -953,8 +958,8 @@ msgid ""
 "Calculate the limit of a real-valued function at x0.  Tries to calculate "
 "both left and right limits."
 msgstr ""
-"Обчислити границю дійснозначної функції у точці x0. Намагається обчислити"
-" границі ліворуч і праворуч."
+"Обчислити границю дійснозначної функції у точці x0. Намагається обчислити "
+"границі ліворуч і праворуч."
 
 #: ../lib/library-strings.c:196
 msgid "Integration by midpoint rule"
@@ -969,56 +974,56 @@ msgid ""
 "Numerically compute the coefficients for a cosine Fourier series for a "
 "function on [0,L] up to the Nth coefficient."
 msgstr ""
-"Обчислити коефіцієнти розкладу Фур'є за косинусами для функції на [0,L], аж"
-" до N-го коефіцієнта."
+"Обчислити коефіцієнти розкладу Фур'є за косинусами для функції на [0,L], аж "
+"до N-го коефіцієнта."
 
 #: ../lib/library-strings.c:199
 msgid ""
 "Return a function which is the Fourier cosine series of f on [0,L] with "
 "coefficients up to N computed numerically"
 msgstr ""
-"Повернути функцію, яка є розкладом за косинусами Фур'є функції f на [0,L] із"
-" коефіцієнтами, аж до N, обчисленими за допомогою числових методів"
+"Повернути функцію, яка є розкладом за косинусами Фур'є функції f на [0,L] із "
+"коефіцієнтами, аж до N, обчисленими за допомогою числових методів"
 
 #: ../lib/library-strings.c:200
 msgid ""
 "Numerically compute the coefficients for a Fourier series with half-period L "
 "up to the Nth coefficient."
 msgstr ""
-"Обчислити коефіцієнти розкладу Фур'є для функції із пів періодом L, аж до"
-" N-го коефіцієнта."
+"Обчислити коефіцієнти розкладу Фур'є для функції із пів періодом L, аж до N-"
+"го коефіцієнта."
 
 #: ../lib/library-strings.c:201
 msgid ""
 "Return a function which is the Fourier series of f with half-period L with "
 "coefficients up to N computed numerically"
 msgstr ""
-"Повернути функцію, яка є розкладом Фур'є функції f із пів періодом L із"
-" коефіцієнтами, аж до N, обчисленими за допомогою числових методів"
+"Повернути функцію, яка є розкладом Фур'є функції f із пів періодом L із "
+"коефіцієнтами, аж до N, обчисленими за допомогою числових методів"
 
 #: ../lib/library-strings.c:202
 msgid ""
 "Numerically compute the coefficients for a sine Fourier series for a "
 "function on [0,L] up to the Nth coefficient."
 msgstr ""
-"Обчислити коефіцієнти розкладу Фур'є за синусами для функції на [0,L], аж до"
-" N-го коефіцієнта."
+"Обчислити коефіцієнти розкладу Фур'є за синусами для функції на [0,L], аж до "
+"N-го коефіцієнта."
 
 #: ../lib/library-strings.c:203
 msgid ""
 "Return a function which is the Fourier sine series of f on [0,L] with "
 "coefficients up to N computed numerically"
 msgstr ""
-"Повернути функцію, яка є розкладом за синусами Фур'є функції f на [0,L] із"
-" коефіцієнтами, аж до N, обчисленими за допомогою числових методів"
+"Повернути функцію, яка є розкладом за синусами Фур'є функції f на [0,L] із "
+"коефіцієнтами, аж до N, обчисленими за допомогою числових методів"
 
 #: ../lib/library-strings.c:204
 msgid ""
 "Integration by rule set in NumericalIntegralFunction of f from a to b using "
 "NumericalIntegralSteps steps"
 msgstr ""
-"Інтегрування за встановленим у NumericalIntegralFunction правилом функції f"
-" від a до b з використанням кроків NumericalIntegralSteps"
+"Інтегрування за встановленим у NumericalIntegralFunction правилом функції f "
+"від a до b з використанням кроків NumericalIntegralSteps"
 
 #: ../lib/library-strings.c:205
 msgid "Attempt to calculate numerical left derivative"
@@ -1053,8 +1058,8 @@ msgid ""
 "Return a function which is the periodic extension of f defined on the "
 "interval [a,b]"
 msgstr ""
-"Повертає функцію, яка періодичним продовженням функції f, яку "
-"визначено на відрізку [a,b]"
+"Повертає функцію, яка періодичним продовженням функції f, яку визначено на "
+"відрізку [a,b]"
 
 #: ../lib/library-strings.c:212
 msgid "Calculate the right limit of a real-valued function at x0"
@@ -1150,8 +1155,8 @@ msgid ""
 "The unit step function = 0 for x<0, 1 otherwise.  This is the integral of "
 "the Dirac Delta function."
 msgstr ""
-"Одиночна сходинкова функція = 0 при x<0, 1 у інших точках. Це інтеграл"
-" делька-функції Дірака."
+"Одиночна сходинкова функція = 0 при x<0, 1 у інших точках. Це інтеграл "
+"делька-функції Дірака."
 
 #: ../lib/library-strings.c:231
 msgid "The cis function, that is cos(x)+i*sin(x)"
@@ -1174,18 +1179,18 @@ msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns y at x1"
 msgstr ""
-"Використатися класичний метод Ойлера для отримання числового розв'язку"
-" рівняння y'=f(x,y) для початкових умов x0,y0 при переході до x1 за n кроків,"
-" повертає y у x1"
+"Використатися класичний метод Ойлера для отримання числового розв'язку "
+"рівняння y'=f(x,y) для початкових умов x0,y0 при переході до x1 за n кроків, "
+"повертає y у x1"
 
 #: ../lib/library-strings.c:236
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns an n+1 by 2 matrix of values"
 msgstr ""
-"Використатися класичний метод Ойлера для отримання числового розв'язку"
-" рівняння y'=f(x,y) для початкових умов x0,y0 при переході до x1 за n кроків,"
-" повертає матрицю значень n+1 на 2"
+"Використатися класичний метод Ойлера для отримання числового розв'язку "
+"рівняння y'=f(x,y) для початкових умов x0,y0 при переході до x1 за n кроків, "
+"повертає матрицю значень n+1 на 2"
 
 #: ../lib/library-strings.c:237
 msgid ""
@@ -1316,27 +1321,29 @@ msgstr ""
 
 #: ../lib/library-strings.c:261
 msgid "The c_<d> operator from Green's proof of Macaulay's Theorem"
-msgstr ""
+msgstr "Оператор c_<d> із доведення Ґріна теореми Маколея"
 
 #: ../lib/library-strings.c:262
 msgid "Return the dth Macaulay representation of a positive integer c"
-msgstr ""
+msgstr "Повернути d-те представлення Маколея додатного цілого c"
 
 #: ../lib/library-strings.c:263
 msgid "Attempt to symbolically differentiate a function n times"
-msgstr ""
+msgstr "Спробувати символічно диференціювати функцію n разів"
 
 #: ../lib/library-strings.c:264
 msgid ""
 "Attempt to symbolically differentiate a function n times quietly and return "
 "null on failure"
 msgstr ""
+"Спробувати символічно диференціювати функцію n разів без повідомлень —"
+" повернути null, якщо станеться помилка"
 
 #: ../lib/library-strings.c:265
 msgid ""
 "Attempt to construct the Taylor approximation function around x0 to the nth "
 "degree."
-msgstr ""
+msgstr "Спробувати побудувати розклад Тейлора в околі x0 до n-го порядку."
 
 #: ../src/calc.c:215
 msgid "Uncategorized"
@@ -1344,11 +1351,11 @@ msgstr "Без категорій"
 
 #: ../src/calc.c:397
 msgid "Trying to set an alias for an alias"
-msgstr ""
+msgstr "Спроба встановити альтернативну назву для альтернативної назви"
 
 #: ../src/calc.c:976
 msgid "Bad identifier for function node!"
-msgstr ""
+msgstr "Помилковий ідентифікатор для вузла функції!"
 
 #: ../src/calc.c:1026 ../src/eval.c:7233 ../src/eval.c:7440
 msgid "Unexpected operator!"
@@ -1551,6 +1558,8 @@ msgstr "ПОМИЛКА: ймовірно, пошкоджено стек!"
 msgid ""
 "ERROR: 'local' in a wrong place, can only be first statement in a function!"
 msgstr ""
+"ПОМИЛКА: «local» не там, де слід — цей вираз може бути лише першою"
+" інструкцією у функції!"
 
 #: ../src/calc.c:3449
 msgid "ERROR: Can't execute more things at once!"
@@ -1582,38 +1591,45 @@ msgstr "Помилковий запис ієрархії під час деко�
 #: ../src/eval.c:1562 ../src/eval.c:1619 ../src/eval.c:1634
 msgid "Cannot compare non value or bool only matrices"
 msgstr ""
+"Не можна порівнювати нечислові матриці або матриці, які складаються лише з"
+" булевих значень"
 
 #. also on rationals but as integers
 #: ../src/eval.c:1690 ../src/eval.c:1736
 msgid "Modulo arithmetic only works on integers"
-msgstr ""
+msgstr "Арифметику з лишками визначено лише для цілих чисел"
 
 #: ../src/eval.c:1942
 msgid ""
 "Can't add/subtract a scalar to non-square matrix (A + x is defined as A + "
 "x*I)"
 msgstr ""
+"Не можна додавати або віднімати число від неквадратної матриці (A + x"
+" визначено як A + "
+"x*I)"
 
 #: ../src/eval.c:2038
 msgid "Can't add/subtract two matrices of different sizes"
-msgstr ""
+msgstr "Не можна додавати або віднімати дві матриці різних розмірів"
 
 #: ../src/eval.c:2040
 msgid ""
 "Can't do element by element operations on two matrices of different sizes"
 msgstr ""
+"Не можна виконувати поелементні дії між двома матрицями різних розмірів"
 
 #: ../src/eval.c:2106
 msgid "Can't multiply matrices of wrong sizes"
-msgstr ""
+msgstr "Не можна множити матриці невідповідних розмірів"
 
 #: ../src/eval.c:2157
 msgid "Powers are defined on (square matrix)^(integer) only"
-msgstr ""
+msgstr "Степені визначено лише для виразів (квадратна матриця)^(ціле число)"
 
 #: ../src/eval.c:2163
 msgid "Powers on matrices in modulo mode are defined on integer matrices only"
 msgstr ""
+"Степені матриць у режимі лишків визначено лише для цілочисельних матриць"
 
 #: ../src/eval.c:2171
 msgid "Exponent too large"
@@ -1629,25 +1645,26 @@ msgstr "Не можна ділити матриці різних розмірі�
 
 #: ../src/eval.c:2361
 msgid "Can't divide by a non-square matrix"
-msgstr ""
+msgstr "Не можна ділити на неквадратну матрицю"
 
 #: ../src/eval.c:2779 ../src/eval.c:2806 ../src/eval.c:2827 ../src/eval.c:2851
 #: ../src/eval.c:2899
 msgid "Operations on functions with variable argument list not supported"
-msgstr ""
+msgstr "Підтримки дій з функціями зі змінним списком аргументів не передбачено"
 
 #: ../src/eval.c:2784
 msgid ""
 "Operations on functions with different number of arguments not supported"
 msgstr ""
+"Підтримки дій з функціями із різною кількістю аргументів не передбачено"
 
 #: ../src/eval.c:2904
 msgid "Function creation with wrong number of arguments"
-msgstr ""
+msgstr "Створення функції із помилковою кількістю аргументів"
 
 #: ../src/eval.c:3486 ../src/eval.c:4924
 msgid "Unevaluatable function type encountered!"
-msgstr ""
+msgstr "Виявлено непридатний до обчислення тип функції!"
 
 #: ../src/eval.c:3509 ../src/graphing.c:6095
 msgid "or"
@@ -1658,16 +1675,19 @@ msgid ""
 "Variable 'i' used uninitialized.  Perhaps you meant to write '1i' for the "
 "imaginary number (square root of -1)."
 msgstr ""
+"Змінну «i» використано без ініціалізації. Ймовірно, ви хотіли написати «1i»,"
+" щоб вказати уявну одиницю (один із коренів з -1)."
 
 #: ../src/eval.c:3553 ../src/eval.c:3586 ../src/eval.c:7557
 #, c-format
 msgid "Variable '%s' used uninitialized, perhaps you meant %s."
 msgstr ""
+"Змінну «%s» використано без ініціалізації. Ймовірно, ви хотіли написати %s."
 
 #: ../src/eval.c:3560 ../src/eval.c:3593 ../src/eval.c:4656 ../src/eval.c:7564
 #, c-format
 msgid "Variable '%s' used uninitialized"
-msgstr ""
+msgstr "Змінну «%s» використано без ініціалізації"
 
 #: ../src/eval.c:3601 ../src/eval.c:4702
 #, c-format
@@ -1675,46 +1695,49 @@ msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
 "(should be %d)"
 msgstr ""
+"Виклик «%s» із помилковою кількістю аргументів!\n"
+"(їх мало бути %d)"
 
 #: ../src/eval.c:3604
 #, c-format
 msgid "Trying to dereference '%s' which is not a reference!\n"
-msgstr ""
+msgstr "Спроба розіменування «%s», який не є посиланням!\n"
 
 #: ../src/eval.c:3609
 msgid "NULL reference encountered!"
-msgstr ""
+msgstr "Виявлено посилання на NULL!"
 
 #: ../src/eval.c:3737
 msgid "Cannot compare matrices"
-msgstr ""
+msgstr "Не можна порівнювати матриці"
 
 #: ../src/eval.c:3779
 msgid "Primitives must get numeric/matrix/string arguments"
-msgstr ""
+msgstr "Примітиви мають приймати числові, матричні або рядкові аргументи"
 
 #: ../src/eval.c:3870
 msgid "Bad argument to modular operation"
-msgstr ""
+msgstr "Помилковий аргумент дії за модулем"
 
 #: ../src/eval.c:4630
 #, c-format
 msgid "Function '%s' used uninitialized, perhaps you meant %s."
 msgstr ""
+"Функцію «%s» використано без ініціалізації. Ймовірно, ви хотіли написати %s."
 
 #: ../src/eval.c:4637
 #, c-format
 msgid "Function '%s' used uninitialized"
-msgstr ""
+msgstr "Функцію «%s» використано без ініціалізації"
 
 #: ../src/eval.c:4665
 #, c-format
 msgid "Can't dereference '%s'!"
-msgstr ""
+msgstr "Не можна розіменовувати «%s»!"
 
 #: ../src/eval.c:4673
 msgid "Can't call a non-function!"
-msgstr ""
+msgstr "Не можна викликати те, що не є функцією!"
 
 #: ../src/eval.c:4707
 #, c-format
@@ -1722,130 +1745,133 @@ msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
 "(should be greater than %d)"
 msgstr ""
+"Виклик «%s» із помилковою кількістю аргументів!\n"
+"(їх мало бути більше за %d)"
 
 #: ../src/eval.c:4746
 #, c-format
 msgid "Referencing an undefined variable %s!"
-msgstr ""
+msgstr "Посилання на невизначену змінну %s!"
 
 #: ../src/eval.c:4900
 msgid "Reference function with arguments encountered!"
-msgstr ""
+msgstr "Виявлено еталонну функцію із аргументами!"
 
 #: ../src/eval.c:4905
 msgid "Unnamed reference function encountered!"
-msgstr ""
+msgstr "Виявлено еталонну функцію без назви!"
 
 #: ../src/eval.c:5029
 msgid "Bad type for 'for/sum/prod' loop!"
-msgstr ""
+msgstr "Помилковий тип для циклу «for/sum/prod»!"
 
 #: ../src/eval.c:5034
 msgid "'for/sum/prod' loop increment can't be 0"
-msgstr ""
+msgstr "Крок у циклі «for/sum/prod» не може бути рівним 0"
 
 #: ../src/eval.c:5160
 msgid "Bad type for 'for in' loop!"
-msgstr ""
+msgstr "Помилковий тип для циклу «for in»!"
 
 #: ../src/eval.c:5328 ../src/eval.c:5361
 msgid "Continue or break outside a loop, assuming \"return null\""
 msgstr ""
+"Continue або break поза межами циклу. Припускаємо інструкцію «return null»"
 
 #: ../src/eval.c:5422
 msgid "Wrong argument type as matrix index"
-msgstr ""
+msgstr "Помилковий тип аргументу як індекс у матриці"
 
 #: ../src/eval.c:5432
 msgid "Matrix index too large"
-msgstr ""
+msgstr "Надто великий індекс у матриці"
 
 #: ../src/eval.c:5435
 msgid "Matrix index less than 1"
-msgstr ""
+msgstr "Індекс, менший за 1, у матриці"
 
 #: ../src/eval.c:5458 ../src/eval.c:5473
 msgid "Matrix index out of range"
-msgstr ""
+msgstr "Індекс у матриці поза припустимим діапазоном"
 
 #: ../src/eval.c:5522 ../src/eval.c:5590 ../src/eval.c:5748 ../src/eval.c:5789
 #: ../src/eval.c:5912 ../src/eval.c:5952 ../src/eval.c:6394
 #, c-format
 msgid "Trying to set a protected id '%s'"
-msgstr ""
+msgstr "Спроба встановити захищений ідентифікатор «%s»"
 
 #: ../src/eval.c:5547 ../src/eval.c:5585
 msgid "Indexed Lvalue not user function"
-msgstr ""
+msgstr "Індексоване Lvalue не є функцією користувача"
 
 #: ../src/eval.c:5569 ../src/eval.c:5773 ../src/eval.c:5936
 msgid "Dereference of non-identifier!"
-msgstr ""
+msgstr "Розіменування того, що не є ідентифікатором!"
 
 #: ../src/eval.c:5575 ../src/eval.c:5779 ../src/eval.c:5942
 msgid "Dereference of undefined variable!"
-msgstr ""
+msgstr "Розіменування невизначеної змінної!"
 
 #: ../src/eval.c:5579 ../src/eval.c:5783 ../src/eval.c:5946
 msgid "Dereference of non-reference!"
-msgstr ""
+msgstr "Розіменування того, що не є посиланням!"
 
 #: ../src/eval.c:5607
 msgid "Indexed Lvalue not an identifier or a dereference"
-msgstr ""
+msgstr "Індексоване Lvalue не є ідентифікатором або розіменуванням"
 
 #: ../src/eval.c:5661 ../src/eval.c:5716 ../src/eval.c:5893 ../src/eval.c:6058
 #: ../src/eval.c:6095 ../src/eval.c:6140 ../src/eval.c:6548 ../src/eval.c:6673
 msgid "Matrix index not an integer or a vector"
-msgstr ""
+msgstr "Індекс у матриці не є цілим числом або вектором"
 
 #: ../src/eval.c:5705 ../src/eval.c:5847 ../src/eval.c:5856
 msgid "Wrong matrix dimensions when setting"
-msgstr ""
+msgstr "Помилкові розмірності матриці при встановленні значення"
 
 #: ../src/eval.c:5736 ../src/eval.c:5988 ../src/eval.c:6361 ../src/eval.c:6368
 msgid "Lvalue not an identifier/dereference/matrix location!"
-msgstr ""
+msgstr "Lvalue не є місцем ідентифікатора, розіменування або матриці!"
 
 #: ../src/eval.c:5760 ../src/eval.c:5801
 msgid "Referencing an undefined variable!"
-msgstr ""
+msgstr "Посилання на невизначену змінну!"
 
 #: ../src/eval.c:5907
 #, c-format
 msgid ""
 "Increment/Swapwith does not work on parameters (trying to increment '%s')"
-msgstr ""
+msgstr "Increment/Swapwith не працюють для параметрів (спроба збільшити «%s»)"
 
 #: ../src/eval.c:5976
 msgid "Increment not a value!"
-msgstr ""
+msgstr "Крок не є значенням!"
 
 #: ../src/eval.c:6000
 #, c-format
 msgid "Trying to increment non-value id '%s'"
-msgstr ""
+msgstr "Спроба збільшити ідентифікатор «%s», який не є значенням"
 
 #: ../src/eval.c:6161 ../src/eval.c:6165 ../src/eval.c:6175
 msgid "Can only swap user variables"
-msgstr ""
+msgstr "Міняти місцями можна лише змінні користувача"
 
 #: ../src/eval.c:6215 ../src/eval.c:6250 ../src/eval.c:6281 ../src/eval.c:6297
 #: ../src/eval.c:6315 ../src/eval.c:6331
 msgid "Cannot swap matrix regions"
-msgstr ""
+msgstr "Не можна міняти місцями області матриць"
 
 #: ../src/eval.c:6389
 msgid "Parameters can only be created in the global context"
-msgstr ""
+msgstr "Параметри можна створювати лише у загальному контексті"
 
 #: ../src/eval.c:6495 ../src/eval.c:6540 ../src/eval.c:6631
 msgid "Index works only on matrices"
-msgstr ""
+msgstr "Індекс працює лише для матриць"
 
 #: ../src/eval.c:6528
 msgid "Vector index not an integer or a vector"
-msgstr ""
+msgstr "Індекс у векторі не є цілим числом або вектором"
 
 #: ../src/eval.c:6697
 msgid "number"
@@ -1966,36 +1992,36 @@ msgstr "НІ"
 #: ../src/eval.c:6767
 #, c-format
 msgid "Bad types for '%s'"
-msgstr ""
+msgstr "Помилкові типи для «%s»"
 
 #: ../src/eval.c:6778
 #, c-format
 msgid "%s not defined on <%s> and <%s>"
-msgstr ""
+msgstr "%s не визначено для <%s> і <%s>"
 
 #: ../src/eval.c:6797
 #, c-format
 msgid "Bad type for '%s'"
-msgstr ""
+msgstr "Помилковий тип для «%s»"
 
 #: ../src/eval.c:6807
 #, c-format
 msgid "%s not defined on <%s>"
-msgstr ""
+msgstr "%s не визначено для <%s>"
 
 #: ../src/eval.c:6827 ../src/eval.c:6844
 msgid "Vector building only works on numbers"
-msgstr ""
+msgstr "Побудова вектора працює лише для чисел"
 
 #. FIXME: perhaps we should just return null like octave?
 #: ../src/eval.c:6837
 msgid "Impossible arguments to vector building operator"
-msgstr ""
+msgstr "Неможливі аргументи для дії з побудову вектора"
 
 #: ../src/funclib.c:124
 #, c-format
 msgid "%s: argument too large"
-msgstr ""
+msgstr "%s: надто великий аргумент"
 
 #: ../src/funclib.c:153
 #, c-format
@@ -2021,34 +2047,54 @@ msgid ""
 "    You should have received a copy of the GNU General Public License\n"
 "    along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
 msgstr ""
+"Genius %s\n"
+"%s\n"
+"\n"
+"Ця програма є вільним програмним забезпеченням; ви можете поширювати її \n"
+"і/або змінювати її за умов дотримання GNU General Public License у тому \n"
+"вигляді, у якому її оприлюднено Free Software Foundation; версії 3 цієї \n"
+"ліцензії, або (за потреби) будь-якої пізнішої версії.\n"
+"\n"
+"Ця програма поширюється у сподіванні, що вона буде корисною, але БЕЗ БУДЬ-\n"
+"ЯКИХ ГАРАНТІЙ; навіть без очевидної гарантії КОМЕРЦІЙНОЇ ЦІННОСТІ або \n"
+"ПРИДАТНОСТІ ДЛЯ ЯКОЇСЬ МЕТИ.  Докладніше про це ви можете дізнатися з \n"
+"GNU General Public License.\n"
+"Разом з цією програмою ви маєте отримати копію GNU General Public License. \n"
+"Якщо ви її не отримали, зверніться за адресою <http://www.gnu.org/licenses/>, "
+"щоб дізнатися про подальші дії.\n"
 
 #: ../src/funclib.c:273
 #, c-format
 msgid "%s: trying to undefine a protected id!"
-msgstr ""
+msgstr "%s: спроба скасувати визначення захищеного ідентифікатора!"
 
 #: ../src/funclib.c:546 ../src/funclib.c:584 ../src/funclib.c:646
 #, c-format
 msgid "%s: trying to set a protected id!"
-msgstr ""
+msgstr "%s: спроба встановлення захищеного ідентифікатора!"
 
 #. FIXME: fix this, this should just work too
 #: ../src/funclib.c:552 ../src/funclib.c:590 ../src/funclib.c:652
 #, c-format
 msgid "%s: trying to set a parameter, use the equals sign"
 msgstr ""
+"%s: спроба встановлення значення параметра, скористайтеся знаком рівності"
 
 #: ../src/funclib.c:704 ../src/gnome-genius.c:994
 msgid ""
 "Global variables:\n"
 "\n"
 msgstr ""
+"Загальні змінні:\n"
+"\n"
 
 #: ../src/funclib.c:727 ../src/gnome-genius.c:1027
 msgid ""
 "\n"
 "Function call stack:\n"
 msgstr ""
+"\n"
+"Стек викликів функцій:\n"
 
 #: ../src/funclib.c:729 ../src/funclib.c:769 ../src/gnome-genius.c:1029
 #: ../src/gnome-genius.c:1086
@@ -2056,49 +2102,54 @@ msgid ""
 "(depth of context in parentheses)\n"
 "\n"
 msgstr ""
+"(глибина контексту у дужках)\n"
+"\n"
 
 #: ../src/funclib.c:767 ../src/gnome-genius.c:1084
 msgid ""
 "\n"
 "Local variables:\n"
 msgstr ""
+"\n"
+"Локальні змінні:\n"
 
 #: ../src/funclib.c:798
 #, c-format
 msgid "%s: Argument number %d not a string or identifier"
-msgstr ""
+msgstr "%s: аргумент із номером %d не є рядком або ідентифікатором"
 
 #: ../src/funclib.c:807
 #, c-format
 msgid "%s undefined\n"
-msgstr ""
+msgstr "%s не визначено\n"
 
 #: ../src/funclib.c:830 ../src/funclib.c:923
 #, c-format
 msgid "%s: Too many arguments, should be at most %d"
-msgstr ""
+msgstr "%s: забагато аргументів; має бути не більше %d"
 
 #: ../src/funclib.c:1071
 msgid "Cannot apply function to two differently sized matrices"
-msgstr ""
+msgstr "Не можна застосовувати функцію до двох матриць різних розмірів"
 
 #: ../src/funclib.c:1761 ../src/funclib.c:1798 ../src/funclib.c:1835
 #: ../src/funclib.c:1872 ../src/funclib.c:1914 ../src/funclib.c:1951
 #: ../src/funclib.c:1993 ../src/funclib.c:2040
 #, c-format
 msgid "%s: Not implemented (yet) for complex values"
-msgstr ""
+msgstr "%s: (ще) не реалізовано для комплексних значень"
 
 #: ../src/funclib.c:1956 ../src/funclib.c:1998 ../src/funclib.c:2045
 #, c-format
 msgid ""
 "%s: Bessel functions of second kind not defined for nonpositive real numbers"
 msgstr ""
+"%s: функції Бесселя другого роду не визначено для недодатних дійсних чисел"
 
 #: ../src/funclib.c:2498
 #, c-format
 msgid "%s: square root for composite moduli is not yet implemented"
-msgstr ""
+msgstr "%s: квадратний корінь для складених модулів ще не реалізовано"
 
 #: ../src/funclib.c:2506
 #, c-format
@@ -2108,17 +2159,17 @@ msgstr ""
 #: ../src/funclib.c:2539
 #, c-format
 msgid "%s: matrix argument is not square"
-msgstr ""
+msgstr "%s: аргумент-матриця не є квадратною"
 
 #: ../src/funclib.c:2680 ../src/funclib.c:2781
 #, c-format
 msgid "%s: matrix argument must be integer only"
-msgstr ""
+msgstr "%s: аргумент-матриця має складатися лише з цілих елементів"
 
 #: ../src/funclib.c:2702 ../src/funclib.c:2803
 #, c-format
 msgid "%s: argument must be an integer"
-msgstr ""
+msgstr "%s: аргумент має бути цілим числом"
 
 #: ../src/funclib.c:2890 ../src/funclib.c:4816 ../src/funclib.c:4845
 #: ../src/funclib.c:5097 ../src/mpwrap.c:3829 ../src/mpwrap.c:3848
@@ -2130,117 +2181,118 @@ msgstr "Ділення на нуль!"
 #: ../src/funclib.c:3072 ../src/funclib.c:3169
 #, c-format
 msgid "%s: matrix argument must be value only"
-msgstr ""
+msgstr "%s: аргумент-матриця має бути лише значенням"
 
 #: ../src/funclib.c:3093 ../src/funclib.c:3190
 #, c-format
 msgid "%s: Cannot compare complex numbers"
-msgstr ""
+msgstr "%s: не можна порівнювати комплексні числа"
 
 #: ../src/funclib.c:3103 ../src/funclib.c:3199
 #, c-format
 msgid "%s: Input not a number or a matrix of numbers."
-msgstr ""
+msgstr "%s: вхідні дані не є числом або матрицею з чисел."
 
 #: ../src/funclib.c:3437 ../src/funclib.c:3495 ../src/funclib.c:5082
 #: ../src/funclib.c:5376 ../src/graphing.c:10452
 #, c-format
 msgid "%s: too many arguments"
-msgstr ""
+msgstr "%s: забагато аргументів"
 
 #: ../src/funclib.c:3794
 #, c-format
 msgid "%s: vector argument not value only"
-msgstr ""
+msgstr "%s: аргумент-вектор не є лише значенням"
 
 #: ../src/funclib.c:3805 ../src/funclib.c:3844
 #, c-format
 msgid "%s: argument can't be negative or 0"
-msgstr ""
+msgstr "%s: аргумент не може бути від'ємним або рівним 0"
 
 #: ../src/funclib.c:3813 ../src/funclib.c:3849
 #, c-format
 msgid "%s: vector argument has too large entries"
-msgstr ""
+msgstr "%s: аргумент-вектор містить забагато елементів"
 
 #: ../src/funclib.c:3891
 #, c-format
 msgid "%s: arguments must be vectors of equal size"
-msgstr ""
+msgstr "%s: аргументами мають бути вектори однієї розмірності"
 
 #: ../src/funclib.c:4383 ../src/funclib.c:4389
 #, c-format
 msgid "%s: %s not a reference"
-msgstr ""
+msgstr "%s: %s не є посиланням"
 
 #: ../src/funclib.c:4428
 #, c-format
 msgid "%s: matrices not of the same height"
-msgstr ""
+msgstr "%s: висота матриць не є однаковою"
 
 #: ../src/funclib.c:4433 ../src/funclib.c:5076
 msgid "third argument"
-msgstr ""
+msgstr "третій аргумент"
 
 #: ../src/funclib.c:4438
 msgid "fourth argument"
-msgstr ""
+msgstr "четвертий аргумент"
 
 #: ../src/funclib.c:4713
 #, c-format
 msgid "%s: argument must be greater than 2"
-msgstr ""
+msgstr "%s: аргумент має бути більшим за 2"
 
 #: ../src/funclib.c:4901
 #, c-format
 msgid "%s: arguments not horizontal vectors"
-msgstr ""
+msgstr "%s: аргументи не є горизонтальними векторами"
 
 #: ../src/funclib.c:4910
 #, c-format
 msgid "%s: arguments not numeric only vectors"
-msgstr ""
+msgstr "%s: аргументи не є векторами, які складаються лише з чисел"
 
 #: ../src/funclib.c:5294
 #, c-format
 msgid "%s: argument 1 must be a quadratic polynomial"
-msgstr ""
+msgstr "%s: аргумент 1 має бути квадратним тричленом"
 
 #: ../src/funclib.c:5605 ../src/funclib.c:5694 ../src/funclib.c:5955
 #: ../src/funclib.c:5962 ../src/funclib.c:6017 ../src/funclib.c:6024
 #: ../src/funclib.c:6095 ../src/funclib.c:6109
 #, c-format
 msgid "%s: value out of range"
-msgstr ""
+msgstr "%s: значення поза припустимим діапазоном"
 
 #: ../src/funclib.c:6318
 #, c-format
 msgid "%s: undefined function"
-msgstr ""
+msgstr "%s: невизначена функція"
 
 #: ../src/funclib.c:6324
 #, c-format
 msgid "%s: flags argument must be a string"
-msgstr ""
+msgstr "%s: аргумент прапорців має бути рядком"
 
 #: ../src/funclib.c:6452 ../src/symbolic.c:734
 #, c-format
 msgid "%s: argument not a function of one variable"
-msgstr ""
+msgstr "%s: аргумент не є функцією однієї змінної"
 
 #: ../src/funclib.c:6662 ../src/funclib.c:6697 ../src/funclib.c:6942
 #, c-format
 msgid "%s: argument should be between %d and %d"
-msgstr ""
+msgstr "%s: аргумент має належати діапазону від %d до %d"
 
 #: ../src/funclib.c:6850
 msgid "OutputStyle must be one of normal, troff, latex or mathml"
 msgstr ""
+"OutputStyle має бути одним із таких значень: normal, troff, latex або mathml"
 
 #: ../src/funclib.c:6890
 #, c-format
 msgid "%s: argument should be larger or equal to 0"
-msgstr ""
+msgstr "%s: аргумент має бути більшим або рівним за 0"
 
 #: ../src/funclib.c:7003
 msgid "Basic"
@@ -2365,43 +2417,44 @@ msgstr "Час Unix у секундах у форматі числа із рух
 
 #: ../src/funclib.c:7041
 msgid "Make integer (0 or 1) from a boolean value"
-msgstr ""
+msgstr "Створити ціле число (0 або 1) з булевого значення"
 
 #: ../src/funclib.c:7043
 msgid "Prints an expression"
-msgstr ""
+msgstr "Друкує вираз"
 
 #: ../src/funclib.c:7044
 msgid "Changes current directory"
-msgstr ""
+msgstr "Змінює поточний каталог"
 
 #: ../src/funclib.c:7045
 msgid "Prints an expression without a trailing newline"
-msgstr ""
+msgstr "Друкує вираз без завершального символу нового рядка"
 
 #: ../src/funclib.c:7046
 msgid "Display a string and an expression"
-msgstr ""
+msgstr "Показати рядок і вираз"
 
 #: ../src/funclib.c:7047
 msgid "Set a global variable"
-msgstr ""
+msgstr "Встановити значення загальної змінної"
 
 #: ../src/funclib.c:7048
 msgid "Set an element in a global variable which is a matrix"
-msgstr ""
+msgstr "Встановити значення елемента у загальній змінній, яка є матрицею"
 
 #: ../src/funclib.c:7049
 msgid "Set an element in a global variable which is a vector"
-msgstr ""
+msgstr "Встановити значення елемента у загальній змінній, яка є вектором"
 
 #: ../src/funclib.c:7050
 msgid "Display values of variables, or all if called without arguments"
 msgstr ""
+"Показати значення змінної або усіх змінних, якщо викликано без аргументів"
 
 #: ../src/funclib.c:7052
 msgid "Set the category and help description line for a function"
-msgstr ""
+msgstr "Встановити категорію і рядок опису у довідці для функції"
 
 #: ../src/funclib.c:7053
 msgid "Sets up a help alias"
@@ -2409,7 +2462,7 @@ msgstr ""
 
 #: ../src/funclib.c:7055
 msgid "Identity function, returns its argument"
-msgstr ""
+msgstr "Функція-тотожність, повертає свій аргумент"
 
 #: ../src/funclib.c:7057
 msgid ""
@@ -2425,7 +2478,7 @@ msgstr ""
 
 #: ../src/funclib.c:7062 ../src/gnome-genius.c:2416
 msgid "Floating point precision"
-msgstr ""
+msgstr "Точність обчислень із рухомою крапкою"
 
 #: ../src/funclib.c:7064 ../src/gnome-genius.c:2305
 msgid ""
@@ -2438,35 +2491,37 @@ msgstr ""
 
 #: ../src/funclib.c:7068
 msgid "Maximum digits to display"
-msgstr ""
+msgstr "Максимальна кількість показаних цифр"
 
 #: ../src/funclib.c:7069
 msgid "Maximum errors to display"
-msgstr ""
+msgstr "Максимальні похибки, які слід показувати"
 
 #: ../src/funclib.c:7070
 msgid "Output style: normal, latex, mathml or troff"
-msgstr ""
+msgstr "Стиль виведення даних: normal, latex, mathml або troff"
 
 #: ../src/funclib.c:7071
 msgid "Integer output base"
-msgstr ""
+msgstr "Основа числення для виведення цілих чисел"
 
 #: ../src/funclib.c:7072
 msgid "If true, mixed fractions are printed"
-msgstr ""
+msgstr "Якщо true, виводитимуться мішані дроби"
 
 #: ../src/funclib.c:7073
 msgid "Print full expressions, even if more than a line"
 msgstr ""
+"Виводити вирази повністю, навіть якщо вони складаються із декількох рядків"
 
 #: ../src/funclib.c:7074
 msgid "Convert all results to floats before printing"
 msgstr ""
+"Перетворити усі результати на числа із рухомою крапкою перед виведенням"
 
 #: ../src/funclib.c:7075
 msgid "Use scientific notation"
-msgstr ""
+msgstr "Використовувати інженерний запис"
 
 #: ../src/funclib.c:7077
 msgid ""
@@ -2480,23 +2535,23 @@ msgstr ""
 
 #: ../src/funclib.c:7084
 msgid "Gets the rows of a matrix as a vertical vector"
-msgstr ""
+msgstr "Отримує рядки матриці як вертикальний вектор"
 
 #: ../src/funclib.c:7085
 msgid "Gets the columns of a matrix as a horizontal vector"
-msgstr ""
+msgstr "Отримує стовпчики матриці як горизонтальний вектор"
 
 #: ../src/funclib.c:7086
 msgid "Gets the diagonal entries of a matrix as a column vector"
-msgstr ""
+msgstr "Отримує діагональні елементи матриці як вектор-стовпчик"
 
 #: ../src/funclib.c:7087
 msgid "Count the number of zero columns in a matrix"
-msgstr ""
+msgstr "Обчислити кількість нульових стовпчиків у матриці"
 
 #: ../src/funclib.c:7088
 msgid "Removes any all-zero columns of M"
-msgstr ""
+msgstr "Вилучає усі нульові стовпчики з M"
 
 #: ../src/funclib.c:7089
 msgid "Return a vector with the indices of the nonzero columns in a matrix"
@@ -2508,147 +2563,147 @@ msgstr ""
 
 #: ../src/funclib.c:7092
 msgid "Calculates the conjugate"
-msgstr ""
+msgstr "Обчислює спряження"
 
 #: ../src/funclib.c:7097
 msgid "Calculates the sine function"
-msgstr ""
+msgstr "Обчислює синус"
 
 #: ../src/funclib.c:7100
 msgid "Calculates the cosine function"
-msgstr ""
+msgstr "Обчислює косинус"
 
 #: ../src/funclib.c:7103
 msgid "Calculates the hyperbolic sine function"
-msgstr ""
+msgstr "Обчислює гіперболічний синус"
 
 #: ../src/funclib.c:7106
 msgid "Calculates the hyperbolic cosine function"
-msgstr ""
+msgstr "Обчислює гіперболічний косинус"
 
 #: ../src/funclib.c:7109
 msgid "Calculates the tan function"
-msgstr ""
+msgstr "Обчислює тангенс"
 
 #: ../src/funclib.c:7112
 msgid "Calculates the arctan function"
-msgstr ""
+msgstr "Обчислює арктангенс"
 
 #: ../src/funclib.c:7117
 msgid "Calculates the sinc function, that is sin(x)/x"
-msgstr ""
+msgstr "Обчислює значення функції sinc, тобто sin(x)/x"
 
 #: ../src/funclib.c:7121
 msgid "Calculates the arctan2 function (arctan(y/x) if x>0)"
-msgstr ""
+msgstr "Обчислює arctan2 (arctan(y/x), якщо x>0)"
 
 #: ../src/funclib.c:7125
 msgid "The number pi"
-msgstr ""
+msgstr "Число π"
 
 #: ../src/funclib.c:7127
 msgid "The natural number e"
-msgstr ""
+msgstr "Основа натурального логарифма e"
 
 #: ../src/funclib.c:7129
 msgid "The Golden Ratio"
-msgstr ""
+msgstr "«Золота» пропорція"
 
 #: ../src/funclib.c:7131
 msgid "Free fall acceleration"
-msgstr ""
+msgstr "Прискорення вільного падіння"
 
 #: ../src/funclib.c:7134
 msgid "Euler's Constant gamma"
-msgstr ""
+msgstr "Стала Ойлера γ"
 
 #: ../src/funclib.c:7138
 msgid "Catalan's Constant (0.915...)"
-msgstr ""
+msgstr "Стала Каталана (0,915...)"
 
 #: ../src/funclib.c:7140
 msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
-msgstr ""
+msgstr "Функція помилки, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
 
 #: ../src/funclib.c:7143
 msgid "The Riemann zeta function (only real values implemented)"
-msgstr ""
+msgstr "Дзета-функція Рімана (реалізовано лише для дійсних значень)"
 
 #: ../src/funclib.c:7147
 msgid "The Gamma function (only real values implemented)"
-msgstr ""
+msgstr "Гамма-функція (реалізовано лише для дійсних значень)"
 
 #: ../src/funclib.c:7152
 msgid "The Bessel function of first kind of order 0"
-msgstr ""
+msgstr "Функція Бесселя першого роду порядку 0"
 
 #: ../src/funclib.c:7155
 msgid "The Bessel function of first kind of order 1"
-msgstr ""
+msgstr "Функція Бесселя першого роду порядку 1"
 
 #: ../src/funclib.c:7158
 msgid "The Bessel function of first kind of order n"
-msgstr ""
+msgstr "Функція Бесселя першого роду порядку n"
 
 #: ../src/funclib.c:7161
 msgid "The Bessel function of second kind of order 0"
-msgstr ""
+msgstr "Функція Бесселя другого роду порядку 0"
 
 #: ../src/funclib.c:7164
 msgid "The Bessel function of second kind of order 1"
-msgstr ""
+msgstr "Функція Бесселя другого роду порядку 1"
 
 #: ../src/funclib.c:7167
 msgid "The Bessel function of second kind of integer order n"
-msgstr ""
+msgstr "Функція Бесселя другого роду цілого порядку n"
 
 #: ../src/funclib.c:7170
 msgid "The square root"
-msgstr ""
+msgstr "Квадратний корінь"
 
 #: ../src/funclib.c:7174
 msgid "The exponential function"
-msgstr ""
+msgstr "Експонента"
 
 #: ../src/funclib.c:7177
 msgid "The natural logarithm"
-msgstr ""
+msgstr "Натуральний логарифм"
 
 #: ../src/funclib.c:7180
 msgid "Logarithm of x base 2"
-msgstr ""
+msgstr "Логарифм x за основою 2"
 
 #: ../src/funclib.c:7185
 msgid "Logarithm of x base 10"
-msgstr ""
+msgstr "Логарифм x за основою 10"
 
 #: ../src/funclib.c:7188
 msgid "Round a number"
-msgstr ""
+msgstr "Округлення числа"
 
 #: ../src/funclib.c:7192
 msgid "Get the highest integer less than or equal to n"
-msgstr ""
+msgstr "Найбільше ціле число, яке є меншим або рівним n"
 
 #: ../src/funclib.c:7196
 msgid "Get the lowest integer more than or equal to n"
-msgstr ""
+msgstr "Найменше ціле число, яке є більшим або рівним n"
 
 #: ../src/funclib.c:7200
 msgid "Truncate number to an integer (return the integer part)"
-msgstr ""
+msgstr "Обрізати число до цілого (повертає цілу частину числа)"
 
 #: ../src/funclib.c:7205
 msgid "Make number a float"
-msgstr ""
+msgstr "Перетворити число на число з рухомою крапкою"
 
 #: ../src/funclib.c:7208
 msgid "Get the numerator of a rational number"
-msgstr ""
+msgstr "Чисельник раціонального дробу"
 
 #: ../src/funclib.c:7210
 msgid "Get the denominator of a rational number"
-msgstr ""
+msgstr "Знаменник раціонального дробу"
 
 #: ../src/funclib.c:7213
 msgid "Greatest common divisor"
@@ -2656,35 +2711,35 @@ msgstr "Найбільший спільний дільник"
 
 #: ../src/funclib.c:7215
 msgid "Least common multiplier"
-msgstr ""
+msgstr "Найменше спільне кратне"
 
 #: ../src/funclib.c:7217
 msgid "Check a number for being a perfect square"
-msgstr ""
+msgstr "Перевірити число на те, чи є воно повним квадратом"
 
 #: ../src/funclib.c:7218
 msgid "Check a number for being any perfect power (a^b)"
-msgstr ""
+msgstr "Перевірити число на те, чи є воно цілим степенем (a^b)"
 
 #: ../src/funclib.c:7219
 msgid "Return the nth prime (up to a limit)"
-msgstr ""
+msgstr "Повернути n-те просте число (до певної межі)"
 
 #: ../src/funclib.c:7221
 msgid "Tests if an integer is even"
-msgstr ""
+msgstr "Перевірити, чи є ціле число парним"
 
 #: ../src/funclib.c:7222
 msgid "Tests if an integer is odd"
-msgstr ""
+msgstr "Перевірити, чи є ціле число непарним"
 
 #: ../src/funclib.c:7224
 msgid "Returns the least prime greater than n (if n is positive)"
-msgstr ""
+msgstr "Повертає найменше просте число, яке є більшим за n (якщо n є додатним)"
 
 #: ../src/funclib.c:7225
 msgid "Returns the nth Lucas number"
-msgstr ""
+msgstr "Повертає n-те число Люка"
 
 #: ../src/funclib.c:7226
 msgid "Returns inverse of n mod m"
@@ -2736,7 +2791,7 @@ msgstr "Повертає мінімальний з аргументів або �
 
 #: ../src/funclib.c:7242
 msgid "Division w/o remainder, equivalent to floor(a/b)"
-msgstr ""
+msgstr "Ділення без остачі, еквівалент floor(a/b)"
 
 #: ../src/funclib.c:7244
 msgid "Calculate the Jacobi symbol (a/b) (b should be odd)"
@@ -2895,7 +2950,7 @@ msgstr ""
 
 #: ../src/funclib.c:7311
 msgid "Returns true if X is a subset of Y"
-msgstr ""
+msgstr "Повертає true, якщо X є підмножиною Y"
 
 #: ../src/funclib.c:7312
 msgid ""
@@ -5239,15 +5294,16 @@ msgstr ""
 
 #: ../src/graphing.c:11000
 msgid "Raise the plot window, and create the window if necessary"
-msgstr ""
+msgstr "Підняти вікно креслення і створити вікно, якщо потрібно"
 
 #: ../src/graphing.c:11002
 msgid "Wait for a click on the line plot window, return the location."
 msgstr ""
+"Зачекати на клацання у вікні лінійного графіка, повернути місце вказівника."
 
 #: ../src/graphing.c:11003
 msgid "Return current mouse location on the line plot window."
-msgstr ""
+msgstr "Повернути поточне місце вказівника у вікні лінійного графіка."
 
 #: ../src/graphing.c:11005
 msgid ""
@@ -5304,6 +5360,8 @@ msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
 msgstr ""
+"Вікно креслення поверхні (межі) як вектор з 6 компонентів у формі"
+" [x1,x2,y1,y2,z1,z2]"
 
 #: ../src/matop.c:690
 msgid "Determinant of a non-square matrix is undefined"
