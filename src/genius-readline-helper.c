@@ -191,8 +191,7 @@ main(int argc, char *argv[])
 			int i;
 			GQueue queue = G_QUEUE_INIT;
 			if(plugins) {
-				g_list_foreach(plugins,(GFunc)g_free,NULL);
-				g_list_free(plugins);
+				g_list_free_full (plugins, g_free);
 				plugins = NULL;
 			}
 			for(i=0;i<count;i++) {
@@ -208,8 +207,7 @@ main(int argc, char *argv[])
 			int i;
 			GQueue queue = G_QUEUE_INIT;
 			if(functions) {
-				g_list_foreach(functions,(GFunc)g_free,NULL);
-				g_list_free(functions);
+				g_list_free_full (functions, g_free);
 				functions = NULL;
 			}
 			for(i=0;i<count;i++) {
