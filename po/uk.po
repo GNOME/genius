@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
 "POT-Creation-Date: 2020-11-08 15:10+0000\n"
-"PO-Revision-Date: 2020-12-16 23:43+0200\n"
+"PO-Revision-Date: 2020-12-17 10:20+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -310,12 +310,16 @@ msgid ""
 "Check if g is primitive in F_q, where q is a prime.  If q is not prime "
 "results are bogus."
 msgstr ""
+"Перевірити, чи є g примітивом у F_q, де q є простим. Якщо q не є простим,"
+" результати будуть помилковими."
 
 #: ../lib/library-strings.c:59
 msgid ""
 "Check if g is primitive in F_q, where q is a prime and f is a vector of "
 "prime factors of q-1.  If q is not prime results are bogus."
 msgstr ""
+"Перевірити, чи є g примітивом у F_q, де q є простим, а f є вектором простих"
+" множників q-1. Якщо q не є простим, результати будуть помилковими."
 
 #: ../lib/library-strings.c:60
 msgid ""
@@ -327,12 +331,15 @@ msgstr ""
 #: ../lib/library-strings.c:61
 msgid "Test if n is a strong pseudoprime to base b but not a prime"
 msgstr ""
+"Перевірити, чи є n сильним псевдопростим за основою b, але не є простим"
 
 #: ../lib/library-strings.c:62
 msgid ""
 "Return the residue of a mod n with the least absolute value (in the interval "
 "-n/2 to n/2)"
 msgstr ""
+"Повернути лишок a mod n із найменшим значенням за модулем (у інтервалі від"
+" –n/2 до n/2)"
 
 #: ../lib/library-strings.c:63
 msgid "Test if Mp is a Mersenne prime using the Lucas-Lehmer test"
@@ -379,24 +386,31 @@ msgid ""
 "Find discrete log of n base b in F_q where q is a prime using the Silver-"
 "Pohlig-Hellman algorithm, given f being the factorization of q-1"
 msgstr ""
+"Знайти дискретний логарифм n за основою b у F_q, де q — просте, за допомогою"
+" алгоритму Сілвера-Поліґа-Геллмана, якщо f є розкладом на множники q–1"
 
 #: ../lib/library-strings.c:73
 msgid ""
 "Find square root of n mod p (a prime). Null is returned if not a quadratic "
 "residue."
 msgstr ""
+"Знайти квадратний корінь n mod p (просте). Повертає null, якщо не є"
+" квадратичним лишком."
 
 #: ../lib/library-strings.c:74
 msgid ""
 "Apply a function over all entries of a matrix and return a matrix of the "
 "results"
 msgstr ""
+"Застосувати функцію до усіх елементів матриці і повернути матрицю результатів"
 
 #: ../lib/library-strings.c:75
 msgid ""
 "Apply a function over all entries of 2 matrices (or 1 value and 1 matrix) "
 "and return a matrix of the results"
 msgstr ""
+"Застосувати функцію до усіх елементів 2 матриць (або одного значення і однієї"
+" матриці) і повернути матрицю результатів"
 
 #: ../lib/library-strings.c:76
 msgid "Remove column(s) and row(s) from a matrix"
@@ -520,6 +534,8 @@ msgid ""
 "Return the commutation matrix K(m,n) which is the unique m*n by m*n matrix "
 "such that K(m,n) * MakeVector(A) = MakeVector(A.') for all m by n matrices A."
 msgstr ""
+"Повертає комутаційну матрицю K(m,n), яка є однозначною матрицею m*n на m*n,"
+" такою, що K(m,n) * MakeVector(A) = MakeVector(A.') для усіх матриць A m на n."
 
 #: ../lib/library-strings.c:105
 msgid "Companion matrix of a polynomial (as vector)"
@@ -570,6 +586,8 @@ msgid ""
 "Apply the Gram-Schmidt process (to the columns) with respect to inner "
 "product given by B (if not given use Hermitian product)"
 msgstr ""
+"Застосувати процес Ґрама-Шмідта (до стовпчиків) з використанням скалярного"
+" добутку, який задається B (якщо не задано використання ермітового добутку)"
 
 #: ../lib/library-strings.c:116
 msgid "Hankel matrix"
@@ -653,6 +671,8 @@ msgid ""
 "Get the LU decomposition of A and store the result in the L and U which "
 "should be references.  If not possible returns false."
 msgstr ""
+"Отримати LU-розклад A і зберегти результат у L і U, які мають бути"
+" посиланнями. Якщо це неможливо, повертає false."
 
 #: ../lib/library-strings.c:135
 msgid "Get the i-j minor of a matrix"
@@ -660,11 +680,11 @@ msgstr "Отримати i-j-мінор матриці"
 
 #: ../lib/library-strings.c:136
 msgid "Return the columns that are not the pivot columns of a matrix"
-msgstr ""
+msgstr "Повертає стовпчики, які не є розв'язуючими стовпчиками матриці"
 
 #: ../lib/library-strings.c:137
 msgid "Get the p Norm (or 2 Norm if no p is supplied) of a vector"
-msgstr ""
+msgstr "Отримати p-норму (або норму для p=2, якщо p не задано) вектора"
 
 #: ../lib/library-strings.c:138
 msgid "Get the nullity of a matrix"
@@ -679,6 +699,8 @@ msgid ""
 "Projection of vector v onto subspace W given a sesquilinear form B (if not "
 "given use Hermitian product)"
 msgstr ""
+"Проєкція вектора v на підпростір W, заданий напівбілінійною формою B (якщо не"
+" задано використання ермітового добутку)"
 
 #: ../lib/library-strings.c:141
 msgid "Get the QR decomposition of A, returns R and Q can be a reference"
@@ -1121,30 +1143,38 @@ msgid ""
 "Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity "
 "respectively"
 msgstr ""
+"Відображення Мебіуса з використанням ангармонічного відношення, яке"
+" переводить z2,z3,z4 у 1,0, та нескінченність, відповідно"
 
 #: ../lib/library-strings.c:225
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 "
 "to 1 and 0 respectively"
 msgstr ""
+"Відображення Мебіуса з використанням ангармонічного відношення, яке"
+" переводить нескінченність у нескінченність, а z2,z3 у 1 та 0, відповідно"
 
 #: ../lib/library-strings.c:226
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 "
 "and infinity respectively"
 msgstr ""
+"Відображення Мебіуса з використанням ангармонічного відношення, яке"
+" переводить нескінченність в 1, а z3, z4 у 0 і нескінченність, відповідно"
 
 #: ../lib/library-strings.c:227
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 "
 "and infinity respectively"
 msgstr ""
+"Відображення Мебіуса з використанням ангармонічного відношення, яке"
+" переводить нескінченність в 0, а z2, z4 у 1 і нескінченність, відповідно"
 
 #: ../lib/library-strings.c:228
 msgid ""
 "Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is "
 "2pi)"
-msgstr ""
+msgstr "Ядро Пуассона на D(0,1) (не нормалізоване до 1, тобто з інтегралом 2π)"
 
 #: ../lib/library-strings.c:229
 msgid "Poisson kernel on D(0,R) (not normalized to 1)"
@@ -1243,6 +1273,10 @@ msgid ""
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
 "at x1"
 msgstr ""
+"Використатися класичний неадаптивний метод Рунґе-Кутти четвертого порядку для"
+" отримання числового розв'язку "
+"рівняння y'=f(x,y) для початкових умов x0,y0 при переході до x1 за n кроків, "
+"повертає y у x1"
 
 #: ../lib/library-strings.c:246
 msgid ""
