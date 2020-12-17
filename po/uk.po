@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
 "POT-Creation-Date: 2020-11-08 15:10+0000\n"
-"PO-Revision-Date: 2020-12-17 10:20+0200\n"
+"PO-Revision-Date: 2020-12-17 15:54+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1250,6 +1250,10 @@ msgid ""
 "derivative ddf using Halley's method, returning after two successive values "
 "are within epsilon or after maxn tries (then returns null)"
 msgstr ""
+"Спробувати знайти нуль функції f із похідною df і другою похідною ddf за"
+" допомогою методу Галлея, повертає значення, якщо два послідовних значення"
+" відрізняються не більше, ніж на epsilon, або після maxn спроб (у цьому"
+" випадку повертає null)"
 
 #: ../lib/library-strings.c:242
 msgid ""
@@ -1257,6 +1261,9 @@ msgid ""
 "method, returning after two successive values are within epsilon or after "
 "maxn tries (then returns null)"
 msgstr ""
+"Спробувати знайти нуль функції f із похідною df за допомогою методу Ньютона,"
+" повертає значення, якщо два послідовних значення відрізняються не більше,"
+" ніж на epsilon, або після maxn спроб (у цьому випадку повертає null)"
 
 #: ../lib/library-strings.c:243
 msgid "Find roots of a polynomial (given as vector of coefficients)"
@@ -1284,6 +1291,10 @@ msgid ""
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an n"
 "+1 by 2 matrix of values"
 msgstr ""
+"Використатися класичний неадаптивний метод Рунґе-Кутти четвертого порядку для"
+" отримання числового розв'язку "
+"рівняння y'=f(x,y) для початкових умов x0,y0 при переході до x1 за n кроків, "
+"повертає матрицю n+1 на 2 зі значень"
 
 #: ../lib/library-strings.c:247
 msgid "Calculate average of an entire matrix"
@@ -1304,31 +1315,35 @@ msgstr "Обчислити медіану усієї матриці"
 
 #: ../lib/library-strings.c:251
 msgid "Calculate the population standard deviation of a whole matrix"
-msgstr ""
+msgstr "Обчислити стандартне відхилення вибірки за усією матрицю"
 
 #: ../lib/library-strings.c:252
 msgid "Calculate average of each row in a matrix"
-msgstr ""
+msgstr "Обчислити середнє за кожним рядком у матриці"
 
 #: ../lib/library-strings.c:253
 msgid "Calculate median of each row in a matrix"
-msgstr ""
+msgstr "Обчислити медіану кожного рядка у матриці"
 
 #: ../lib/library-strings.c:254
 msgid ""
 "Calculate the population standard deviations of rows of a matrix and return "
 "a vertical vector"
 msgstr ""
+"Обчислити стандартні відхилення вибірки за рядками матриці і повернути"
+" вертикальний вектор"
 
 #: ../lib/library-strings.c:255
 msgid ""
 "Calculate the standard deviations of rows of a matrix and return a vertical "
 "vector"
 msgstr ""
+"Обчислити стандартні відхилення за рядками матриці і повернути вертикальний"
+" вектор"
 
 #: ../lib/library-strings.c:256
 msgid "Calculate the standard deviation of a whole matrix"
-msgstr ""
+msgstr "Обчислити стандартне відхилення за усією матрицю"
 
 #: ../lib/library-strings.c:257
 msgid ""
@@ -1336,22 +1351,29 @@ msgid ""
 "after two successive values are within epsilon or after maxn tries (then "
 "returns null)"
 msgstr ""
+"Спробувати знайти корінь полінома за допомогою методу Ньютона, повертає"
+" значення, якщо два послідовних значення відрізняються не більше, ніж на"
+" epsilon, або після maxn спроб (у цьому випадку повертає null)"
 
 #: ../lib/library-strings.c:258
 msgid "Returns a set where every element of X appears only once"
-msgstr ""
+msgstr "Повертає набір, у якому кожен елемент X з'являється лише раз"
 
 #: ../lib/library-strings.c:259
 msgid ""
 "Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
 "be sets)"
 msgstr ""
+"Повертає набір теоретичного об'єднання X і Y (X і Y вектори, які претендують"
+" на те, щоб бути множинами)"
 
 #: ../lib/library-strings.c:260
 msgid ""
 "For a Hilbert function that is c for degree d, given the Macaulay bound for "
 "the Hilbert function of degree d+1 (The c^<d> operator from Green's proof)"
 msgstr ""
+"Для функції Гільберта, яка дорівнює c для порядку d, за заданою межею Маколея"
+" для функцією Гільберта порядку d+1 (оператор c^<d> з доведення Ґріна)"
 
 #: ../lib/library-strings.c:261
 msgid "The c_<d> operator from Green's proof of Macaulay's Theorem"
@@ -2188,7 +2210,7 @@ msgstr "%s: квадратний корінь для складених моду
 #: ../src/funclib.c:2506
 #, c-format
 msgid "%s: Cannot find square root function for prime moduli"
-msgstr ""
+msgstr "%s: неможливо знайти функцію квадратного кореня для простих модулів"
 
 #: ../src/funclib.c:2539
 #, c-format
@@ -2492,7 +2514,7 @@ msgstr "Встановити категорію і рядок опису у до
 
 #: ../src/funclib.c:7053
 msgid "Sets up a help alias"
-msgstr ""
+msgstr "Встановлює альтернативу довідки"
 
 #: ../src/funclib.c:7055
 msgid "Identity function, returns its argument"
@@ -2503,12 +2525,16 @@ msgid ""
 "Generate random float between 0 and 1, or if size given generate vector or "
 "matrix of random floats"
 msgstr ""
+"Створити випадкове число із рухомою крапкою від 0 до 1 або, якщо задано"
+" розмір, створити вектор або матрицю випадкових чисел із рухомою крапкою"
 
 #: ../src/funclib.c:7059
 msgid ""
 "Generate random integer between 0 and max-1 inclusive, or if size given "
 "generate vector or matrix of random integers"
 msgstr ""
+"Створити випадкове ціле число від 0 до max–1, включно, або, якщо задано"
+" розмір, створити вектор або матрицю випадкових цілих чисел"
 
 #: ../src/funclib.c:7062 ../src/gnome-genius.c:2416
 msgid "Floating point precision"
@@ -2518,10 +2544,12 @@ msgstr "Точність обчислень із рухомою крапкою"
 msgid ""
 "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr ""
+"Показати 0.0, якщо число із рухомою крапкою є меншим за 10^–x (0=ніколи не"
+" обрізати)"
 
 #: ../src/funclib.c:7067 ../src/gnome-genius.c:2328
 msgid "Only chop numbers when another number is greater than 10^-x"
-msgstr ""
+msgstr "Обрізати числа, лише якщо інше число є більшим за 10^–x"
 
 #: ../src/funclib.c:7068
 msgid "Maximum digits to display"
@@ -2562,10 +2590,14 @@ msgid ""
 "Number of extra Miller-Rabin tests to run on a number before declaring it a "
 "prime in IsPrime"
 msgstr ""
+"Кількість перевірок Міллера-Ребіна, які слід виконати над числом, перш ніж"
+" оголосити його простим в IsPrime"
 
 #: ../src/funclib.c:7083
 msgid "Expands a matrix just like we do on unquoted matrix input"
 msgstr ""
+"Розгортає матрицю, подібно до виконання дій, які ми виконуємо для вхідних"
+" даних матриці без лапок"
 
 #: ../src/funclib.c:7084
 msgid "Gets the rows of a matrix as a vertical vector"
@@ -2589,11 +2621,11 @@ msgstr "Вилучає усі нульові стовпчики з M"
 
 #: ../src/funclib.c:7089
 msgid "Return a vector with the indices of the nonzero columns in a matrix"
-msgstr ""
+msgstr "Повертає вектор із індексами ненульових стовпчиків у матриці"
 
 #: ../src/funclib.c:7090
 msgid "Return a vector with the indices of the nonzero elements in a vector"
-msgstr ""
+msgstr "Повертає вектор із індексами ненульових елементів у векторі"
 
 #: ../src/funclib.c:7092
 msgid "Calculates the conjugate"
@@ -2777,7 +2809,7 @@ msgstr "Повертає n-те число Люка"
 
 #: ../src/funclib.c:7226
 msgid "Returns inverse of n mod m"
-msgstr ""
+msgstr "Повертає обернене значення n mod m"
 
 #: ../src/funclib.c:7227
 msgid "Checks divisibility (if m divides n)"
@@ -2788,28 +2820,37 @@ msgid ""
 "Return n/d but only if d divides n else returns garbage (this is faster than "
 "writing n/d)"
 msgstr ""
+"Повертає n/d, але лише якщо d є дільником n, інакше повертає сміття (це"
+" швидше, ніж записування n/d)"
 
 #: ../src/funclib.c:7229
 msgid ""
 "Tests primality of integers, for numbers greater than 25*10^9 false positive "
 "is with low probability depending on IsPrimeMillerRabinReps"
 msgstr ""
+"Перевіряє, чи є простими цілі числа, для чисел, які перевищують 25*10^9."
+" Ймовірність можливості помилки залежить IsPrimeMillerRabinReps"
 
 #: ../src/funclib.c:7230
 msgid "Run the strong pseudoprime test base b on n"
-msgstr ""
+msgstr "Виконати сильну перевірку на псевдопростоту за основою b для n"
 
 #: ../src/funclib.c:7231
 msgid ""
 "Use the Miller-Rabin primality test on n, reps number of times.  The "
 "probability of false positive is (1/4)^reps"
 msgstr ""
+"Скористатися перевіркою на простоту Міллера-Ребіна для n, виконаною reps"
+" разів. Ймовірність помилки дорівнює (1/4)^reps"
 
 #: ../src/funclib.c:7232
 msgid ""
 "Use the Miller-Rabin primality test on n with enough bases that assuming the "
 "Generalized Riemann Hypothesis the result is deterministic"
 msgstr ""
+"Скористатися перевіркою простоти Міллера-Ребіна для n із достатніми основами,"
+" у припущенні правильності узагальненої гіпотези Рімана. Результат є"
+" детерміністичним."
 
 #: ../src/funclib.c:7233
 msgid "Return factorization of a number as a matrix"
@@ -2836,6 +2877,8 @@ msgid ""
 "Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) "
 "when a odd, or (a/2)=0 when a even"
 msgstr ""
+"Обчислити символ Якобі (a/b) із розширенням Кронекера (a/2)=(2/a), якщо a"
+" непарне, або (a/2)=0, якщо a парне"
 
 #: ../src/funclib.c:7248
 msgid "Calculate the Legendre symbol (a/p)"
@@ -2921,6 +2964,8 @@ msgid ""
 "Return pivot columns of a matrix, that is columns which have a leading 1 in "
 "rref form, also returns the row where they occur"
 msgstr ""
+"Повернути розв'язувальні стовпчики матриці, тобто стовпчики, які починаються"
+" з 1 у формі rref, також повертає рядок, у якому їх виявлено"
 
 #: ../src/funclib.c:7293
 msgid "Get the nullspace of a matrix"
@@ -2932,7 +2977,7 @@ msgstr "Створити нову матрицю заданого розміру
 
 #: ../src/funclib.c:7296
 msgid "Return the index complement of a vector of indexes"
-msgstr ""
+msgstr "Повертає доповнення індексів вектора індексів"
 
 #: ../src/funclib.c:7297
 msgid "Get the Hermitian product of two vectors"
@@ -2981,6 +3026,8 @@ msgid ""
 "Returns true if the element x is in the set X (where X is a vector "
 "pretending to be a set)"
 msgstr ""
+"Повертає true, якщо елемент x належить множині X (де X є вектором, який"
+" обробляється як множина)"
 
 #: ../src/funclib.c:7311
 msgid "Returns true if X is a subset of Y"
@@ -2991,12 +3038,16 @@ msgid ""
 "Returns a set theoretic difference X-Y (X and Y are vectors pretending to be "
 "sets)"
 msgstr ""
+"Повертає набір теоретичної різниці X–Y (X і Y вектори, які претендують на те,"
+" щоб бути множинами)"
 
 #: ../src/funclib.c:7313
 msgid ""
 "Returns a set theoretic intersection of X and Y (X and Y are vectors "
 "pretending to be sets)"
 msgstr ""
+"Повертає набір теоретичного перетину X і Y (X і Y вектори, які претендують на"
+" те, щоб бути множинами)"
 
 #: ../src/funclib.c:7315
 msgid "Check if argument is a null"
@@ -3095,6 +3146,8 @@ msgid ""
 "Trim zeros from a vector pretending to be a polynomial, that is trim "
 "trailing zero elements"
 msgstr ""
+"Обрізати нулі з вектора, який обробляється як поліном, тобто обрізати"
+" хвостові нульові елементи"
 
 #: ../src/funclib.c:7343
 msgid "Check if a vector is usable as a polynomial"
@@ -3115,17 +3168,19 @@ msgstr ""
 
 #: ../src/funclib.c:7349
 msgid "Get all combinations of k numbers from 1 to n as a vector of vectors"
-msgstr ""
+msgstr "Отримати усі комбінації k числе від 1 до n як вектор векторів"
 
 #: ../src/funclib.c:7350
 msgid ""
 "Get combination that would come after v in call to combinations, first "
 "combination should be [1:k]."
 msgstr ""
+"Отримати комбінацію, яка йде після v у виклику комбінацій, першою комбінацією"
+" має бути [1:k]."
 
 #: ../src/funclib.c:7351
 msgid "Get all permutations of k numbers from 1 to n as a vector of vectors"
-msgstr ""
+msgstr "Отримати усі перестановки k чисел від 1 до n як вектор векторів"
 
 #: ../src/funclib.c:7353
 msgid "Calculate combinations (binomial coefficient)"
@@ -3144,6 +3199,8 @@ msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters"
 msgstr ""
+"Перетворити рядок на вектор абеткових значень з відліком від 0 (позиції у"
+" рядку абетки), –1 для невідомих літер"
 
 #: ../src/funclib.c:7360
 msgid ""
