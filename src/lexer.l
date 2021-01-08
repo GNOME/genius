@@ -375,6 +375,10 @@ local		{ DO_RET; return LOCAL; }
 [1-9][0-9]*i?[ ][1-9][0-9]*i?[/][1-9][0-9]*i?	{
 			mpw_init(yylval.val);
 			mpw_set_str(yylval.val,yytext,10);
+			if G_UNLIKELY (gel_error_num == GEL_NUMERICAL_MPW_ERROR) {
+				gel_error_num = GEL_NO_ERROR;
+				REJECT;
+			}
 			DO_RET;
 			return NUMBER;
 		}
@@ -382,6 +386,10 @@ local		{ DO_RET; return LOCAL; }
 [0-9]+i		{
 			mpw_init(yylval.val);
 			mpw_set_str_complex_int(yylval.val,yytext,10);
+			if G_UNLIKELY (gel_error_num == GEL_NUMERICAL_MPW_ERROR) {
+				gel_error_num = GEL_NO_ERROR;
+				REJECT;
+			}
 			DO_RET;
 			return NUMBER;
 		}
@@ -398,6 +406,10 @@ local		{ DO_RET; return LOCAL; }
 			mpw_init(yylval.val);
 			mpw_set_str_complex(yylval.val,s,10);
 			g_free(s);
+			if G_UNLIKELY (gel_error_num == GEL_NUMERICAL_MPW_ERROR) {
+				gel_error_num = GEL_NO_ERROR;
+				REJECT;
+			}
 			DO_RET;
 			return NUMBER;
 		}
@@ -414,6 +426,10 @@ local		{ DO_RET; return LOCAL; }
 			mpw_init(yylval.val);
 			mpw_set_str_float(yylval.val,s,10);
 			g_free(s);
+			if G_UNLIKELY (gel_error_num == GEL_NUMERICAL_MPW_ERROR) {
+				gel_error_num = GEL_NO_ERROR;
+				REJECT;
+			}
 			DO_RET;
 			return NUMBER;
 		}
@@ -429,6 +445,10 @@ local		{ DO_RET; return LOCAL; }
 			mpw_init(yylval.val);
 			mpw_set_str_int(yylval.val,s,base);
 			g_free(s);
+			if G_UNLIKELY (gel_error_num == GEL_NUMERICAL_MPW_ERROR) {
+				gel_error_num = GEL_NO_ERROR;
+				REJECT;
+			}
 			DO_RET;
 			return NUMBER;
 		}
@@ -438,6 +458,10 @@ local		{ DO_RET; return LOCAL; }
 [0-9]+		{
 			mpw_init(yylval.val);
 			mpw_set_str_int(yylval.val,yytext,0);
+			if G_UNLIKELY (gel_error_num == GEL_NUMERICAL_MPW_ERROR) {
+				gel_error_num = GEL_NO_ERROR;
+				REJECT;
+			}
 			DO_RET;
 			return NUMBER;
 		}

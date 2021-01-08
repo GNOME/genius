@@ -253,6 +253,11 @@ gel_decompile_node(char **ptrptr)
 		if G_UNLIKELY (!p) return NULL;
 		mpw_init(tmp);
 		mpw_set_str(tmp,p,10);
+		if G_UNLIKELY (gel_error_num == GEL_NUMERICAL_MPW_ERROR) {
+			gel_errorout (_("Bad value record when decompiling"));
+			gel_error_num = GEL_NO_ERROR;
+			mpw_set_ui(tmp,0);
+		}
 		return gel_makenum_use(tmp);
 	case GEL_MATRIX_NODE:
 		p = strtok_r(NULL,";", ptrptr);

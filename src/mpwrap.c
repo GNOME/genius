@@ -2757,7 +2757,10 @@ mpwl_set_str_int(MpwRealNum *rop,const char *s,int base)
 		mpwl_clear(rop);
 		mpwl_init_type(rop,MPW_INTEGER);
 	}
-	mpz_set_str(rop->data.ival,s,base);
+	if G_UNLIKELY (mpz_set_str(rop->data.ival,s,base) < 0) {
+		gel_errorout (_("Invalid integer format"));
+		gel_error_num = GEL_NUMERICAL_MPW_ERROR;
+	}
 }
 
 
