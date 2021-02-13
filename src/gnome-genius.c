@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2020 Jiri (George) Lebl
+ * Copyright (C) 1997-2021 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -141,7 +141,8 @@ GeniusSetup genius_setup = {
 	NULL /* font */,
 	FALSE /* black on white */,
 	FALSE /* output_remember */,
-	FALSE /* precision_remember */
+	FALSE /* precision_remember */,
+	NULL /* editor_color_scheme */
 };
 
 typedef struct {
@@ -1955,6 +1956,8 @@ set_properties (void)
 		ve_config_set_int (cfg, "properties/float_prec",
 				   curstate.float_prec);
 	}
+	ve_config_set_string (cfg, "properties/editor_color_scheme",
+			      ve_sure_string (genius_setup.editor_color_scheme));
 	
 	ve_config_save (cfg, FALSE /* force */);
 
@@ -2136,6 +2139,16 @@ static GeniusSetup tmpsetup={0};
 static GelCalcState cancelstate={0};
 static GeniusSetup cancelsetup={0};
 
+#define COPY_SETUP(to,from) { \
+	g_free (to.font);							\
+	g_free (to.editor_color_scheme);					\
+	to = from;								\
+	if (from.font)								\
+		to.font = g_strdup (from.font);					\
+	if (from.editor_color_scheme)						\
+		to.editor_color_scheme = g_strdup (from.editor_color_scheme);	\
+}
+
 static void
 setup_response (GtkWidget *widget, gint resp, gpointer data)
 {
@@ -2150,16 +2163,10 @@ setup_response (GtkWidget *widget, gint resp, gpointer data)
 	    resp == GTK_RESPONSE_OK ||
 	    resp == GTK_RESPONSE_APPLY) {
 		if (resp == GTK_RESPONSE_CANCEL) {
-			g_free (genius_setup.font);
-			genius_setup = cancelsetup;
-			if (cancelsetup.font)
-				genius_setup.font = g_strdup (cancelsetup.font);
+			COPY_SETUP(genius_setup,cancelsetup);
 			curstate = cancelstate;
 		} else {
-			g_free (genius_setup.font);
-			genius_setup = tmpsetup;
-			if (tmpsetup.font)
-				genius_setup.font = g_strdup (tmpsetup.font);
+			COPY_SETUP(genius_setup,tmpsetup);
 			curstate = tmpstate;
 		}
 
@@ -2179,6 +2186,7 @@ setup_response (GtkWidget *widget, gint resp, gpointer data)
 			 VTE_CURSOR_BLINK_SYSTEM :
 			 VTE_CURSOR_BLINK_OFF);
 
+		/* FIXME: if editor_color_scheme is added to dialog, it needs to be set here */
 
 		if (resp == GTK_RESPONSE_OK ||
 		    resp == GTK_RESPONSE_CANCEL)
@@ -2205,16 +2213,10 @@ setup_calc (GSimpleAction *action, GVariant *param, gpointer data)
 	}
 
 	cancelstate = curstate;
-	g_free (cancelsetup.font);
-	cancelsetup = genius_setup;
-	if (genius_setup.font)
-		cancelsetup.font = g_strdup (genius_setup.font);
+	COPY_SETUP(cancelsetup,genius_setup);
 	
 	tmpstate = curstate;
-	g_free (tmpsetup.font);
-	tmpsetup = genius_setup;
-	if (genius_setup.font)
-		tmpsetup.font = g_strdup (genius_setup.font);
+	COPY_SETUP(tmpsetup,genius_setup);
 	
 	setupdialog = gtk_dialog_new_with_buttons
 		(_("Genius Setup"),
@@ -2755,11 +2757,11 @@ setup_undo_redo_idle (gpointer data)
 	        enable_action ("redo", FALSE);
 	} else {
 	        enable_action ("undo",
-					  gtk_source_buffer_can_undo
-					  (GTK_SOURCE_BUFFER (p->buffer)));
+			       gtk_source_buffer_can_undo
+			       (GTK_SOURCE_BUFFER (p->buffer)));
 	        enable_action ("redo",
-					  gtk_source_buffer_can_redo
-					  (GTK_SOURCE_BUFFER (p->buffer)));
+			       gtk_source_buffer_can_redo
+			       (GTK_SOURCE_BUFFER (p->buffer)));
 	}
 
 	return FALSE;
@@ -3458,6 +3460,8 @@ new_program (const char *filename, gboolean example)
 #ifdef HAVE_GTKSOURCEVIEW
 	GtkSourceLanguage *lang;
 	GtkSourceLanguageManager *lm;
+	GtkSourceStyleSchemeManager *manager;
+	GtkSourceStyleScheme *style;
 #endif
 
 	sw = gtk_scrolled_window_new (NULL, NULL);
@@ -3480,6 +3484,20 @@ new_program (const char *filename, gboolean example)
 		gtk_source_buffer_set_highlight_syntax (GTK_SOURCE_BUFFER (buffer), TRUE);
 		gtk_source_buffer_set_language
 			(GTK_SOURCE_BUFFER (buffer), lang);
+	}
+
+	/* kate seems usable on various themes.  Perhaps this should be settable */
+	manager = gtk_source_style_scheme_manager_get_default ();
+	style = NULL;
+	if ( ! ve_string_empty (genius_setup.editor_color_scheme))
+		style = gtk_source_style_scheme_manager_get_scheme (manager,
+								    genius_setup.editor_color_scheme);
+	/* "kate" is the default */
+	if (style == NULL)
+		style = gtk_source_style_scheme_manager_get_scheme (manager, "kate");
+	if (style != NULL) {
+		gtk_source_buffer_set_style_scheme (GTK_SOURCE_BUFFER (buffer),
+						    style);
 	}
 
 	g_signal_connect (G_OBJECT (buffer), "notify::can-undo",
@@ -4371,6 +4389,10 @@ get_properties (void)
 	g_snprintf(buf,256,"properties/precision_remember=%s",
 		   genius_setup.precision_remember?"true":"false");
 	genius_setup.precision_remember = ve_config_get_bool (cfg, buf);
+
+	g_snprintf (buf, 256, "properties/editor_color_scheme=%s",
+		    ve_sure_string (genius_setup.editor_color_scheme));
+	genius_setup.editor_color_scheme = ve_config_get_string (cfg, buf);
 
 	ve_config_destroy (cfg);
 

@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2004-2014 Jiri (George) Lebl
+ * Copyright (C) 2004-2021 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -31,6 +31,7 @@ typedef struct {
 	gboolean black_on_white;
 	gboolean output_remember; /* remember output settings */
 	gboolean precision_remember; /* remember precision setting */
+	char *editor_color_scheme;
 } GeniusSetup;
 
 extern GeniusSetup genius_setup;
