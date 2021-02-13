@@ -1,24 +1,24 @@
 # Swedish messages for genius.
-# Copyright © 1999, 2003, 2004, 2009, 2012, 2016, 2017, 2019, 2020 Free Software Foundation, Inc.
+# Copyright © 1999-2021 Free Software Foundation, Inc.
 # Tomas Ögren <stric@ing.umu.se>, 1999.
 # Christian Rose <menthos@menthos.com>, 2003, 2004.
 # Jan Morén <jan.moren@lucs.lu.se>, 2004.
 # Daniel Nylander <po@danielnylander.se>, 2009, 2012.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2017, 2019, 2020.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2017, 2019, 2020, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: genius\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
-"POT-Creation-Date: 2020-10-27 23:14+0000\n"
-"PO-Revision-Date: 2020-11-14 10:26+0100\n"
+"POT-Creation-Date: 2021-01-08 01:21+0000\n"
+"PO-Revision-Date: 2021-01-08 22:18+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: ../lib/library-strings.c:1
 msgid "Compose two functions"
@@ -1659,7 +1659,11 @@ msgstr "FEL: %s före ”%s”"
 msgid "Copyright (C) 1997-2020 Jiří (George) Lebl"
 msgstr "Copyright © 1997-2020 Jiří (George) Lebl"
 
-#: ../src/compil.c:545 ../src/compil.c:554
+#: ../src/compil.c:257
+msgid "Bad value record when decompiling"
+msgstr "Felaktig värdepost under dekompilering"
+
+#: ../src/compil.c:550 ../src/compil.c:559
 msgid "Bad tree record when decompiling"
 msgstr "Felaktig trädpost under dekompilering"
 
@@ -1739,7 +1743,7 @@ msgstr "Skapar funktion med fel antal argument"
 msgid "Unevaluatable function type encountered!"
 msgstr "Inte evaluerbar funktionstyp påträffad!"
 
-#: ../src/eval.c:3509 ../src/graphing.c:6095
+#: ../src/eval.c:3509 ../src/graphing.c:5979
 msgid "or"
 msgstr "eller"
 
@@ -2247,9 +2251,9 @@ msgid "%s: argument must be an integer"
 msgstr "%s: argumentet måste vara ett heltal"
 
 #: ../src/funclib.c:2890 ../src/funclib.c:4816 ../src/funclib.c:4845
-#: ../src/funclib.c:5097 ../src/mpwrap.c:3829 ../src/mpwrap.c:3848
-#: ../src/mpwrap.c:3905 ../src/mpwrap.c:3934 ../src/mpwrap.c:3951
-#: ../src/mpwrap.c:4000
+#: ../src/funclib.c:5097 ../src/mpwrap.c:3832 ../src/mpwrap.c:3851
+#: ../src/mpwrap.c:3908 ../src/mpwrap.c:3937 ../src/mpwrap.c:3954
+#: ../src/mpwrap.c:4003
 msgid "Division by zero!"
 msgstr "Division med noll!"
 
@@ -2269,7 +2273,7 @@ msgid "%s: Input not a number or a matrix of numbers."
 msgstr "%s: indata inte ett tal eller en matris av tal."
 
 #: ../src/funclib.c:3437 ../src/funclib.c:3495 ../src/funclib.c:5082
-#: ../src/funclib.c:5376 ../src/graphing.c:10452
+#: ../src/funclib.c:5376 ../src/graphing.c:10336
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: för många argument"
@@ -3353,7 +3357,7 @@ msgstr "%s: argument nummer %d är inte ett icke-negativt tal"
 msgid "%s: argument number %d not a positive integer"
 msgstr "%s: argument nummer %d är inte ett positivt heltal"
 
-#: ../src/funclibhelper.cP:125 ../src/graphing.c:3383
+#: ../src/funclibhelper.cP:125 ../src/graphing.c:3385
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: argument nummer %d är inte ett tal"
@@ -3537,7 +3541,7 @@ msgstr ""
 "Skriv ”manual” eller ”help” för hjälp.%s\n"
 "\n"
 
-#: ../src/genius.c:631 ../src/gnome-genius.c:5234
+#: ../src/genius.c:631 ../src/gnome-genius.c:5238
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -3569,7 +3573,7 @@ msgid "Open a file"
 msgstr "Öppna en fil"
 
 #: ../src/gnome-genius.c:266 ../src/gnome-genius.c:3893
-#: ../src/gnome-genius.c:4018 ../src/graphing.c:1222
+#: ../src/gnome-genius.c:4018 ../src/graphing.c:1225
 msgid "_Save"
 msgstr "_Spara"
 
@@ -3611,8 +3615,8 @@ msgstr "Läs om det valda programmet från disk"
 #. parent
 #. flags
 #: ../src/gnome-genius.c:274 ../src/gnome-genius.c:1144
-#: ../src/gnome-genius.c:1349 ../src/graphing.c:619 ../src/graphing.c:1960
-#: ../src/graphing.c:2165 ../src/graphing.c:7406 ../ve/ve-miscui.c:167
+#: ../src/gnome-genius.c:1349 ../src/graphing.c:622 ../src/graphing.c:1976
+#: ../src/graphing.c:2167 ../src/graphing.c:7290 ../ve/ve-miscui.c:167
 msgid "_Close"
 msgstr "S_täng"
 
@@ -3876,7 +3880,7 @@ msgstr "Ny"
 msgid "Open"
 msgstr "Öppna"
 
-#: ../src/gnome-genius.c:548 ../src/graphing.c:7408
+#: ../src/gnome-genius.c:548 ../src/graphing.c:7292
 msgid "_Plot"
 msgstr "_Graf"
 
@@ -3889,8 +3893,8 @@ msgstr "_Graf"
 #: ../src/gnome-genius.c:707 ../src/gnome-genius.c:771
 #: ../src/gnome-genius.c:1424 ../src/gnome-genius.c:2225
 #: ../src/gnome-genius.c:2714 ../src/gnome-genius.c:3663
-#: ../src/gnome-genius.c:3894 ../src/gnome-genius.c:4019 ../src/graphing.c:847
-#: ../src/graphing.c:1221 ../src/graphing.c:5743 ../src/graphing.c:5860
+#: ../src/gnome-genius.c:3894 ../src/gnome-genius.c:4019 ../src/graphing.c:850
+#: ../src/graphing.c:1224 ../src/graphing.c:5627 ../src/graphing.c:5744
 #: ../ve/ve-miscui.c:178 ../ve/ve-miscui.c:206
 msgid "_Cancel"
 msgstr "A_vbryt"
@@ -3902,7 +3906,7 @@ msgstr "A_vbryt"
 #. flags
 #: ../src/gnome-genius.c:708 ../src/gnome-genius.c:772
 #: ../src/gnome-genius.c:914 ../src/gnome-genius.c:1425
-#: ../src/gnome-genius.c:2226 ../src/graphing.c:5741 ../src/graphing.c:5858
+#: ../src/gnome-genius.c:2226 ../src/graphing.c:5625 ../src/graphing.c:5742
 #: ../ve/ve-miscui.c:156 ../ve/ve-miscui.c:211
 msgid "_OK"
 msgstr "_OK"
@@ -4224,7 +4228,7 @@ msgstr ""
 msgid "GEL files"
 msgstr "GEL-filer"
 
-#: ../src/gnome-genius.c:2641 ../src/graphing.c:1247
+#: ../src/gnome-genius.c:2641 ../src/graphing.c:1250
 msgid "All files"
 msgstr "Alla filer"
 
@@ -4253,7 +4257,7 @@ msgid "Cannot open file"
 msgstr "Kan inte öppna fil"
 
 #. context
-#: ../src/gnome-genius.c:3301 ../src/gnome-genius.c:4820
+#: ../src/gnome-genius.c:3301 ../src/gnome-genius.c:4824
 #, c-format
 msgid "Line: %d"
 msgstr "Rad: %d"
@@ -4391,17 +4395,17 @@ msgstr "Gräns för minne (nodnummer) har uppnåtts, avbryt beräkningen?"
 #. textbox_title
 #. bind_response
 #. wrap
-#: ../src/gnome-genius.c:4595
+#: ../src/gnome-genius.c:4596
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Kan inte köra genius-readline-helper-fifo!\n"
 
-#: ../src/gnome-genius.c:4656
+#: ../src/gnome-genius.c:4657
 msgid "Readline helper died, weird.  Trying to recover, things may be odd."
 msgstr ""
 "Readline-hjälpare dog, märkligt. Försöker komma tillbaka, saker kan vara "
 "udda."
 
-#: ../src/gnome-genius.c:4841
+#: ../src/gnome-genius.c:4845
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -4410,13 +4414,13 @@ msgstr ""
 "Obs: Kompilerad utan GtkSourceView (bättre källkodsredigerare)"
 
 #. parent
-#: ../src/gnome-genius.c:4974
+#: ../src/gnome-genius.c:4978
 msgid "Cannot find the library file, genius installation may be incorrect"
 msgstr ""
 "Kan inte hitta biblioteksfilen, genius är kanske inte korrekt installerat"
 
 #. parent
-#: ../src/gnome-genius.c:4987
+#: ../src/gnome-genius.c:4991
 msgid ""
 "A file .genius in the home directory exists, but it should be a directory. "
 "Genius will not be able to save preferences."
@@ -4424,11 +4428,11 @@ msgstr ""
 "En fil med namnet .genius finns i hemkatalogen, men det borde vara en "
 "katalog. Genius kommer inte kunna spara inställningar."
 
-#: ../src/gnome-genius.c:5076
+#: ../src/gnome-genius.c:5080
 msgid "Console"
 msgstr "Konsol"
 
-#: ../src/gnome-genius.c:5127
+#: ../src/gnome-genius.c:5131
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -4445,7 +4449,7 @@ msgstr ""
 "Skriv ”%smanual%s” eller ”%shelp%s” för hjälp.%s\n"
 "\n"
 
-#: ../src/gnome-genius.c:5351
+#: ../src/gnome-genius.c:5355
 msgid "GNOME Genius"
 msgstr "GNOME Genius"
 
@@ -4465,105 +4469,105 @@ msgstr ""
 "Matematik;Matris;Vektor;Linjär algebra;Infinitesimalkalkyl;Plott;Plottning;"
 "Graf;Grafritning;Funktion;Talteori;"
 
-#: ../src/graphing.c:616
+#: ../src/graphing.c:619
 msgid "Rotate"
 msgstr "Rotera"
 
-#: ../src/graphing.c:633 ../src/graphing.c:664
+#: ../src/graphing.c:636 ../src/graphing.c:667
 #, c-format
 msgid "Rotate about %s axis: "
 msgstr "Rotera kring %s-axel: "
 
-#: ../src/graphing.c:695
+#: ../src/graphing.c:698
 msgid "Rotate about dependent axis: "
 msgstr "Rotera kring beroende axel: "
 
-#: ../src/graphing.c:844
+#: ../src/graphing.c:847
 msgid "Print"
 msgstr "Skriv ut"
 
-#: ../src/graphing.c:849
+#: ../src/graphing.c:852
 msgid "_Print"
 msgstr "S_kriv ut"
 
-#: ../src/graphing.c:859
+#: ../src/graphing.c:862
 msgid "Print command: "
 msgstr "Utskriftskommando: "
 
-#: ../src/graphing.c:889
+#: ../src/graphing.c:892
 msgid "Cannot open temporary file, cannot print."
 msgstr "Kan inte öppna temporärfil, kan inte skriva ut."
 
-#: ../src/graphing.c:918
+#: ../src/graphing.c:921
 msgid "Printing failed"
 msgstr "Utskrift misslyckades"
 
-#: ../src/graphing.c:931
+#: ../src/graphing.c:934
 #, c-format
 msgid "Printing failed: %s"
 msgstr "Utskrift misslyckades: %s"
 
-#: ../src/graphing.c:1005 ../src/graphing.c:1146
+#: ../src/graphing.c:1008 ../src/graphing.c:1149
 msgid "File already exists.  Overwrite it?"
 msgstr "Filen finns redan. Skriva över den?"
 
-#: ../src/graphing.c:1105 ../src/graphing.c:1161 ../src/graphing.c:1176
+#: ../src/graphing.c:1108 ../src/graphing.c:1164 ../src/graphing.c:1179
 msgid "Export failed"
 msgstr "Export misslyckades"
 
-#: ../src/graphing.c:1201
+#: ../src/graphing.c:1204
 msgid "Export encapsulated postscript"
 msgstr "Exportera inbäddad postscript"
 
-#: ../src/graphing.c:1203
+#: ../src/graphing.c:1206
 msgid "Export postscript"
 msgstr "Exportera postscript"
 
-#: ../src/graphing.c:1205
+#: ../src/graphing.c:1208
 msgid "Export PDF"
 msgstr "Exportera PDF"
 
-#: ../src/graphing.c:1207
+#: ../src/graphing.c:1210
 msgid "Export PNG"
 msgstr "Exportera PNG"
 
-#: ../src/graphing.c:1214
+#: ../src/graphing.c:1217
 msgid "Missing ps2pdf command, perhaps ghostscript is not installed."
 msgstr "Saknar ps2pdf-kommando, kanske är inte ghostscript installerat."
 
-#: ../src/graphing.c:1229
+#: ../src/graphing.c:1232
 msgid "EPS files"
 msgstr "EPS-filer"
 
-#: ../src/graphing.c:1233
+#: ../src/graphing.c:1236
 msgid "PS files"
 msgstr "PS-filer"
 
-#: ../src/graphing.c:1237
+#: ../src/graphing.c:1240
 msgid "PDF files"
 msgstr "PDF-filer"
 
-#: ../src/graphing.c:1241
+#: ../src/graphing.c:1244
 msgid "PNG files"
 msgstr "PNG-filer"
 
-#: ../src/graphing.c:1256
+#: ../src/graphing.c:1259
 msgid "Generate preview in EPS file (with ps2epsi)"
 msgstr "Generera förhandsgranskning i EPS-fil (med ps2epsi)"
 
-#: ../src/graphing.c:1957
+#: ../src/graphing.c:1973
 msgid "Solver"
 msgstr "Lösare"
 
-#: ../src/graphing.c:1962
+#: ../src/graphing.c:1978
 msgid "Clea_r solutions"
 msgstr "_Rensa lösningar"
 
-#: ../src/graphing.c:1964
+#: ../src/graphing.c:1980
 msgid "_Plot solution"
 msgstr "R_ita lösning"
 
-#: ../src/graphing.c:1983
+#: ../src/graphing.c:1999
 msgid ""
 "Clicking on the graph window now will draw a solution according to the "
 "parameters set below, starting at the point clicked.  To be able to zoom by "
@@ -4573,27 +4577,27 @@ msgstr ""
 "inställda nedan, med början på den klickade punkten. Stäng detta fönster för "
 "att kunna zooma med musen igen."
 
-#: ../src/graphing.c:2006
+#: ../src/graphing.c:2015
 msgid "X increment:"
 msgstr "X-inkrement:"
 
-#: ../src/graphing.c:2028
+#: ../src/graphing.c:2032
 msgid "T increment:"
 msgstr "T-inkrement:"
 
-#: ../src/graphing.c:2032
+#: ../src/graphing.c:2034
 msgid "T interval length:"
 msgstr "T-intervallängd:"
 
-#: ../src/graphing.c:2046
+#: ../src/graphing.c:2052
 msgid "Point x:"
 msgstr "Punkt x:"
 
-#: ../src/graphing.c:2051
+#: ../src/graphing.c:2054
 msgid "y:"
 msgstr "y:"
 
-#: ../src/graphing.c:2160
+#: ../src/graphing.c:2162
 msgid "Plot"
 msgstr "Graf"
 
@@ -4601,136 +4605,136 @@ msgstr "Graf"
 #. GTK_WINDOW (genius_window)
 #. parent
 #. flags
-#: ../src/graphing.c:2163
+#: ../src/graphing.c:2165
 msgid "_Stop"
 msgstr "_Stoppa"
 
-#: ../src/graphing.c:2195
+#: ../src/graphing.c:2197
 msgid "_Graph"
 msgstr "_Graf"
 
-#: ../src/graphing.c:2199
+#: ../src/graphing.c:2201
 msgid "_Print..."
 msgstr "_Skriv ut…"
 
-#: ../src/graphing.c:2205
+#: ../src/graphing.c:2207
 msgid "_Export postscript..."
 msgstr "_Exportera postscript…"
 
-#: ../src/graphing.c:2211
+#: ../src/graphing.c:2213
 msgid "E_xport encapsulated postscript..."
 msgstr "E_xportera inbäddad postscript…"
 
-#: ../src/graphing.c:2218
+#: ../src/graphing.c:2220
 msgid "Export P_DF..."
 msgstr "Exportera P_DF…"
 
-#: ../src/graphing.c:2227
+#: ../src/graphing.c:2229
 msgid "Export P_NG..."
 msgstr "Exportera P_NG…"
 
-#: ../src/graphing.c:2239
+#: ../src/graphing.c:2241
 msgid "_Zoom"
 msgstr "_Zooma"
 
-#: ../src/graphing.c:2243
+#: ../src/graphing.c:2245
 msgid "Zoom _out"
 msgstr "Zooma _ut"
 
-#: ../src/graphing.c:2250
+#: ../src/graphing.c:2252
 msgid "Zoom _in"
 msgstr "Zooma _in"
 
-#: ../src/graphing.c:2257
+#: ../src/graphing.c:2259
 msgid "_Fit dependent axis"
 msgstr "_Passa till beroende axel"
 
-#: ../src/graphing.c:2264
+#: ../src/graphing.c:2266
 msgid "_Reset to original zoom"
 msgstr "Åte_rställ till ursprunglig zoomning"
 
-#: ../src/graphing.c:2277
+#: ../src/graphing.c:2279
 msgid "_View"
 msgstr "_Visa"
 
-#: ../src/graphing.c:2282
+#: ../src/graphing.c:2284
 msgid "_Reset angles"
 msgstr "_Återställ vinklar"
 
-#: ../src/graphing.c:2287
+#: ../src/graphing.c:2289
 msgid "_Top view"
 msgstr "_Vy ovanifrån"
 
-#: ../src/graphing.c:2292
+#: ../src/graphing.c:2294
 msgid "R_otate axis..."
 msgstr "R_otera axel…"
 
-#: ../src/graphing.c:2297
+#: ../src/graphing.c:2299
 msgid "Start rotate _animation..."
 msgstr "Börja rotera _animering…"
 
-#: ../src/graphing.c:2302
+#: ../src/graphing.c:2304
 msgid "Stop rotate a_nimation..."
 msgstr "Sluta rotera _animering…"
 
-#: ../src/graphing.c:2312
+#: ../src/graphing.c:2314
 msgid "_Solver"
 msgstr "Lö_sare"
 
-#: ../src/graphing.c:2317
+#: ../src/graphing.c:2319
 msgid "_Solver..."
 msgstr "Lö_sare…"
 
-#: ../src/graphing.c:2322
+#: ../src/graphing.c:2324
 msgid "_Clear solutions"
 msgstr "_Rensa lösningar"
 
-#: ../src/graphing.c:2353
+#: ../src/graphing.c:2355
 msgid "Errors during plotting (possibly harmless), see the console."
 msgstr "Fel under grafritning (möjligen ofarligt), se konsolen."
 
-#: ../src/graphing.c:3372
+#: ../src/graphing.c:3374
 #, c-format
 msgid "Function"
 msgstr "Funktion"
 
-#: ../src/graphing.c:3374
+#: ../src/graphing.c:3376
 #, c-format
 msgid "Function #%d"
 msgstr "Funktion nr %d"
 
-#: ../src/graphing.c:3396
+#: ../src/graphing.c:3398
 msgid "Graph limits not given as a 4-vector"
 msgstr "Grafgränserna är inte angivna som en 4-vektor"
 
-#: ../src/graphing.c:3402 ../src/graphing.c:3413 ../src/graphing.c:3424
-#: ../src/graphing.c:3435 ../src/graphing.c:3478 ../src/graphing.c:3489
-#: ../src/graphing.c:3587 ../src/graphing.c:3598 ../src/graphing.c:3609
-#: ../src/graphing.c:3620 ../src/graphing.c:3631 ../src/graphing.c:3642
+#: ../src/graphing.c:3404 ../src/graphing.c:3415 ../src/graphing.c:3426
+#: ../src/graphing.c:3437 ../src/graphing.c:3480 ../src/graphing.c:3491
+#: ../src/graphing.c:3589 ../src/graphing.c:3600 ../src/graphing.c:3611
+#: ../src/graphing.c:3622 ../src/graphing.c:3633 ../src/graphing.c:3644
 msgid "Graph limits not given as numbers"
 msgstr "Grafgränserna är inte angivna som tal"
 
-#: ../src/graphing.c:3472
+#: ../src/graphing.c:3474
 msgid "Graph limits not given as a 2-vector"
 msgstr "Grafgränserna är inte angivna som en 2-vektor"
 
-#: ../src/graphing.c:3581
+#: ../src/graphing.c:3583
 msgid "Graph limits not given as a 6-vector"
 msgstr "Grafgränserna är inte angivna som en 6-vektor"
 
-#: ../src/graphing.c:3715 ../src/graphing.c:3733 ../src/graphing.c:3747
+#: ../src/graphing.c:3717 ../src/graphing.c:3735 ../src/graphing.c:3749
 msgid "Ticks must be between 2 and 200"
 msgstr "Skalstreck måste vara mellan 2 och 200"
 
-#: ../src/graphing.c:3724 ../src/graphing.c:3738
+#: ../src/graphing.c:3726 ../src/graphing.c:3740
 msgid "Ticks not given as numbers"
 msgstr "Skalstreck inte angivna som tal"
 
-#: ../src/graphing.c:3752
+#: ../src/graphing.c:3754
 msgid "Ticks not given as a number or a 2-vector"
 msgstr "Skalstreck är inte angivna som ett tal eller en 2-vektor"
 
-#: ../src/graphing.c:5491
+#: ../src/graphing.c:5375
 #, c-format
 msgid ""
 "Type in function name or expression involving the %s and %s variables (or "
@@ -4740,28 +4744,28 @@ msgstr ""
 "Skriv ett funktionsnamn eller uttryck med variablerna %s och %s ( eller "
 "variabeln %s, som blir %s=%s+i%s) som ger riktningen i punkten (%s,%s)."
 
-#: ../src/graphing.c:5516 ../src/graphing.c:5523 ../src/graphing.c:5687
-#: ../src/graphing.c:5694
+#: ../src/graphing.c:5400 ../src/graphing.c:5407 ../src/graphing.c:5571
+#: ../src/graphing.c:5578
 #, c-format
 msgid "%s from:"
 msgstr "%s från:"
 
-#: ../src/graphing.c:5530 ../src/graphing.c:5537
+#: ../src/graphing.c:5414 ../src/graphing.c:5421
 #, c-format
 msgid "%s increment:"
 msgstr "%s-inkrement:"
 
-#: ../src/graphing.c:5544
+#: ../src/graphing.c:5428
 #, c-format
 msgid "%s interval length:"
 msgstr "%s-intervallängd:"
 
-#: ../src/graphing.c:5551
+#: ../src/graphing.c:5435
 #, c-format
 msgid "Point %s:"
 msgstr "Punkt %s:"
 
-#: ../src/graphing.c:5564
+#: ../src/graphing.c:5448
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s and %s variables (or "
@@ -4772,7 +4776,7 @@ msgstr ""
 "variabeln %s, som blir %s=%s+i%s) som ger d%s/d%s och d%s/d%s för det "
 "autonoma systemet som ska ritas vid punkten (%s,%s)."
 
-#: ../src/graphing.c:5600
+#: ../src/graphing.c:5484
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4781,7 +4785,7 @@ msgstr ""
 "Skriv funktionsnamn eller uttryck med %s-variabeln i fälten nedan för att "
 "rita dem"
 
-#: ../src/graphing.c:5617
+#: ../src/graphing.c:5501
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4795,12 +4799,12 @@ msgstr ""
 "ge koordinaterna %s och %s separat, eller alternativt kan du fylla i fältet "
 "%s= med %s och %s som real- och imaginärdelen av ett komplext tal."
 
-#: ../src/graphing.c:5658
+#: ../src/graphing.c:5542
 #, c-format
 msgid "Parameter %s from:"
 msgstr "Parameter %s från:"
 
-#: ../src/graphing.c:5672
+#: ../src/graphing.c:5556
 #, c-format
 msgid ""
 "Type a function name or an expression involving the %s and %s variables (or "
@@ -4811,95 +4815,95 @@ msgstr ""
 "( eller variabeln %s, som blir %s=%s+i%s) i fälten nedan för att rita dem. "
 "Funktioner med endast ett argument kommer ges ett komplext tal."
 
-#: ../src/graphing.c:5738 ../src/graphing.c:5855
+#: ../src/graphing.c:5622 ../src/graphing.c:5739
 msgid "Change variable names"
 msgstr "Ändra variabelnamn"
 
-#: ../src/graphing.c:5752 ../src/graphing.c:5869
+#: ../src/graphing.c:5636 ../src/graphing.c:5753
 msgid "Some values were illegal"
 msgstr "Några värden var ogiltiga"
 
-#: ../src/graphing.c:5756 ../src/graphing.c:5873
+#: ../src/graphing.c:5640 ../src/graphing.c:5757
 msgid "independent variable (x):"
 msgstr "oberoende variabel (x):"
 
-#: ../src/graphing.c:5766
+#: ../src/graphing.c:5650
 msgid "dependent variable (y):"
 msgstr "beroende variabel (y):"
 
-#: ../src/graphing.c:5776
+#: ../src/graphing.c:5660
 msgid "complex variable (z = x+iy):"
 msgstr "komplex variabel (z = x+iy):"
 
-#: ../src/graphing.c:5786
+#: ../src/graphing.c:5670
 msgid "parameter variable (t):"
 msgstr "parametervariabel (t):"
 
-#: ../src/graphing.c:5883
+#: ../src/graphing.c:5767
 msgid "independent variable (y):"
 msgstr "oberoende variabel (y):"
 
-#: ../src/graphing.c:5893
+#: ../src/graphing.c:5777
 msgid "independent complex variable (z = x+iy):"
 msgstr "oberoende komplex variabel (z = x+iy):"
 
-#: ../src/graphing.c:6062
+#: ../src/graphing.c:5946
 msgid "_Functions / Expressions"
 msgstr "_Funktioner / Uttryck"
 
 #. t range
-#: ../src/graphing.c:6110
+#: ../src/graphing.c:5994
 msgid "Parameter t from:"
 msgstr "Parameter t från:"
 
-#: ../src/graphing.c:6112 ../src/graphing.c:6258 ../src/graphing.c:6270
-#: ../src/graphing.c:6381 ../src/graphing.c:6392 ../src/graphing.c:6403
+#: ../src/graphing.c:5996 ../src/graphing.c:6142 ../src/graphing.c:6154
+#: ../src/graphing.c:6265 ../src/graphing.c:6276 ../src/graphing.c:6287
 msgid "to:"
 msgstr "till:"
 
-#: ../src/graphing.c:6114
+#: ../src/graphing.c:5998
 msgid "by:"
 msgstr "ökning:"
 
-#: ../src/graphing.c:6121
+#: ../src/graphing.c:6005
 msgid "Pa_rametric"
 msgstr "Pa_rametrisk"
 
 #. # of ticks
-#: ../src/graphing.c:6149 ../src/graphing.c:6202
+#: ../src/graphing.c:6033 ../src/graphing.c:6086
 msgid "Vertical ticks:"
 msgstr "Vertikala skalstreck:"
 
 #. # of ticks
-#: ../src/graphing.c:6153 ../src/graphing.c:6206
+#: ../src/graphing.c:6037 ../src/graphing.c:6090
 msgid "Horizontal ticks:"
 msgstr "Horisontella skalstreck:"
 
-#: ../src/graphing.c:6158
+#: ../src/graphing.c:6042
 msgid "Sl_ope field"
 msgstr "R_iktningsfält"
 
 #. Normalize the arrow length?
-#: ../src/graphing.c:6193
+#: ../src/graphing.c:6077
 msgid "_Normalize arrow length (do not show size)"
 msgstr "_Normalisera pillängd (visa inte storlek)"
 
-#: ../src/graphing.c:6211
+#: ../src/graphing.c:6095
 msgid "_Vector field"
 msgstr "_Vektorfält"
 
 #. draw legend?
-#: ../src/graphing.c:6221 ../src/graphing.c:6351
+#: ../src/graphing.c:6105 ../src/graphing.c:6235
 msgid "_Draw legend"
 msgstr "_Rita ut förklaring"
 
 #. draw axis labels?
-#: ../src/graphing.c:6230
+#: ../src/graphing.c:6114
 msgid "Draw axis labels"
 msgstr "Rita axeletiketter"
 
 #. change varnames
-#: ../src/graphing.c:6239 ../src/graphing.c:6361
+#: ../src/graphing.c:6123 ../src/graphing.c:6245
 msgid "Change variable names..."
 msgstr "Ändra variabelnamn…"
 
@@ -4907,202 +4911,202 @@ msgstr "Ändra variabelnamn…"
 #.
 #. * Plot window frame
 #.
-#: ../src/graphing.c:6247 ../src/graphing.c:6370
+#: ../src/graphing.c:6131 ../src/graphing.c:6254
 msgid "Plot Window"
 msgstr "Graffönster"
 
 #.
 #. * X range
 #.
-#: ../src/graphing.c:6256 ../src/graphing.c:6379
+#: ../src/graphing.c:6140 ../src/graphing.c:6263
 msgid "X from:"
 msgstr "X från:"
 
 #.
 #. * Y range
 #.
-#: ../src/graphing.c:6268 ../src/graphing.c:6390
+#: ../src/graphing.c:6152 ../src/graphing.c:6274
 msgid "Y from:"
 msgstr "Y från:"
 
 #. fit dependent axis?
-#: ../src/graphing.c:6278 ../src/graphing.c:6411
+#: ../src/graphing.c:6162 ../src/graphing.c:6295
 msgid "Fit dependent axis"
 msgstr "Passa till beroende axel"
 
-#: ../src/graphing.c:6322
+#: ../src/graphing.c:6206
 msgid "Function / Expression"
 msgstr "Funktion / Uttryck"
 
 #.
 #. * Z range
 #.
-#: ../src/graphing.c:6401
+#: ../src/graphing.c:6285
 msgid "Dependent axis from:"
 msgstr "Beroende axel från:"
 
-#: ../src/graphing.c:6432
+#: ../src/graphing.c:6316
 msgid "Function _line plot"
 msgstr "_Linjegraf för funktion"
 
-#: ../src/graphing.c:6436
+#: ../src/graphing.c:6320
 msgid "_Surface plot"
 msgstr "_Ytgraf"
 
-#: ../src/graphing.c:6581
+#: ../src/graphing.c:6465
 msgid "Empty value as range value"
 msgstr "Tomt värde som intervallvärde"
 
-#: ../src/graphing.c:6587
+#: ../src/graphing.c:6471
 msgid "Genius is executing something already"
 msgstr "Genius kör redan något"
 
-#: ../src/graphing.c:6598
+#: ../src/graphing.c:6482
 msgid "Cannot parse range value"
 msgstr "Kan inte tolka intervallvärde"
 
-#: ../src/graphing.c:6610
+#: ../src/graphing.c:6494
 msgid "Cannot execute range value"
 msgstr "Kan inte exekvera intervallvärde"
 
-#: ../src/graphing.c:6615 ../src/graphing.c:6621
+#: ../src/graphing.c:6499 ../src/graphing.c:6505
 msgid "Range value not a value"
 msgstr "Intervallvärdet är inte ett värde"
 
-#: ../src/graphing.c:6629
+#: ../src/graphing.c:6513
 msgid "Cannot convert range value to a reasonable real number"
 msgstr "Kan inte konvertera intervallvärdet till ett rimligt reellt tal"
 
-#: ../src/graphing.c:6715 ../src/graphing.c:6903 ../src/graphing.c:7032
-#: ../src/graphing.c:7167 ../src/graphing.c:7274
+#: ../src/graphing.c:6599 ../src/graphing.c:6787 ../src/graphing.c:6916
+#: ../src/graphing.c:7051 ../src/graphing.c:7158
 msgid "No functions to plot or no functions could be parsed"
 msgstr "Inga funktioner att rita, eller inga funktioner kunde tolkas"
 
-#: ../src/graphing.c:6750 ../src/graphing.c:6756 ../src/graphing.c:6928
-#: ../src/graphing.c:6934 ../src/graphing.c:7057 ../src/graphing.c:7063
-#: ../src/graphing.c:7082 ../src/graphing.c:7192 ../src/graphing.c:7198
-#: ../src/graphing.c:7299 ../src/graphing.c:7305
+#: ../src/graphing.c:6634 ../src/graphing.c:6640 ../src/graphing.c:6812
+#: ../src/graphing.c:6818 ../src/graphing.c:6941 ../src/graphing.c:6947
+#: ../src/graphing.c:6966 ../src/graphing.c:7076 ../src/graphing.c:7082
+#: ../src/graphing.c:7183 ../src/graphing.c:7189
 #, c-format
 msgid "Invalid %s range"
 msgstr "Ogiltigt %s-intervall"
 
-#: ../src/graphing.c:6762
+#: ../src/graphing.c:6646
 msgid "Invalid dependent range"
 msgstr "Ogiltigt beroende intervall"
 
-#: ../src/graphing.c:7026
+#: ../src/graphing.c:6910
 #, c-format
 msgid "Only specify %s and %s, or %s, not all at once."
 msgstr "Ange bara %s och %s, eller %s, inte alla på en gång."
 
-#: ../src/graphing.c:7403
+#: ../src/graphing.c:7287
 msgid "Create Plot"
 msgstr "Skapa graf"
 
-#: ../src/graphing.c:7443 ../src/graphing.c:7613 ../src/graphing.c:7644
-#: ../src/graphing.c:7665 ../src/graphing.c:7705 ../src/graphing.c:7729
-#: ../src/graphing.c:7841 ../src/graphing.c:7965 ../src/graphing.c:8102
-#: ../src/graphing.c:8259 ../src/graphing.c:8406 ../src/graphing.c:8429
-#: ../src/graphing.c:9026 ../src/graphing.c:9313 ../src/graphing.c:9532
-#: ../src/graphing.c:9772 ../src/graphing.c:10100 ../src/graphing.c:10332
-#: ../src/graphing.c:10421 ../src/graphing.c:10531 ../src/graphing.c:10562
-#: ../src/graphing.c:10591 ../src/graphing.c:10617 ../src/graphing.c:10646
-#: ../src/graphing.c:10739 ../src/graphing.c:10828 ../src/graphing.c:10853
-#: ../src/graphing.c:10886 ../src/graphing.c:10934
+#: ../src/graphing.c:7327 ../src/graphing.c:7497 ../src/graphing.c:7528
+#: ../src/graphing.c:7549 ../src/graphing.c:7589 ../src/graphing.c:7613
+#: ../src/graphing.c:7725 ../src/graphing.c:7849 ../src/graphing.c:7986
+#: ../src/graphing.c:8143 ../src/graphing.c:8290 ../src/graphing.c:8313
+#: ../src/graphing.c:8910 ../src/graphing.c:9197 ../src/graphing.c:9416
+#: ../src/graphing.c:9656 ../src/graphing.c:9984 ../src/graphing.c:10216
+#: ../src/graphing.c:10305 ../src/graphing.c:10415 ../src/graphing.c:10446
+#: ../src/graphing.c:10475 ../src/graphing.c:10501 ../src/graphing.c:10530
+#: ../src/graphing.c:10623 ../src/graphing.c:10712 ../src/graphing.c:10737
+#: ../src/graphing.c:10770 ../src/graphing.c:10818
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr "%s: Grafritning pågår, kan inte anropa %s"
 
-#: ../src/graphing.c:7451 ../src/graphing.c:7984
+#: ../src/graphing.c:7335 ../src/graphing.c:7868
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: argumentet är inte en funktion"
 
-#: ../src/graphing.c:7461
+#: ../src/graphing.c:7345
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: endast en funktion stöds"
 
-#: ../src/graphing.c:7484
+#: ../src/graphing.c:7368
 msgid "Graph limits not given as a 4-vector or a 6-vector"
 msgstr "Grafgränserna är inte angivna som en 4-vektor eller en 6-vektor"
 
-#: ../src/graphing.c:7540 ../src/graphing.c:7794 ../src/graphing.c:7911
-#: ../src/graphing.c:8047 ../src/graphing.c:8196 ../src/graphing.c:8351
-#: ../src/graphing.c:10201
+#: ../src/graphing.c:7424 ../src/graphing.c:7678 ../src/graphing.c:7795
+#: ../src/graphing.c:7931 ../src/graphing.c:8080 ../src/graphing.c:8235
+#: ../src/graphing.c:10085
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: ogiltigt X-intervall"
 
-#: ../src/graphing.c:7545 ../src/graphing.c:7799 ../src/graphing.c:7916
-#: ../src/graphing.c:8052 ../src/graphing.c:8201 ../src/graphing.c:8356
-#: ../src/graphing.c:10206
+#: ../src/graphing.c:7429 ../src/graphing.c:7683 ../src/graphing.c:7800
+#: ../src/graphing.c:7936 ../src/graphing.c:8085 ../src/graphing.c:8240
+#: ../src/graphing.c:10090
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: ogiltigt Y-intervall"
 
-#: ../src/graphing.c:7550 ../src/graphing.c:10211
+#: ../src/graphing.c:7434 ../src/graphing.c:10095
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: ogiltigt Z-intervall"
 
-#: ../src/graphing.c:7623
+#: ../src/graphing.c:7507
 #, c-format
 msgid "%s: dx must be positive"
 msgstr "%s: dx måste vara positiv"
 
-#: ../src/graphing.c:7630 ../src/graphing.c:7649
+#: ../src/graphing.c:7514 ../src/graphing.c:7533
 #, c-format
 msgid "%s: Slope field not active"
 msgstr "%s: Riktningsfält ej aktivt"
 
-#: ../src/graphing.c:7676
+#: ../src/graphing.c:7560
 #, c-format
 msgid "%s: dt must be positive"
 msgstr "%s: dt måste vara positiv"
 
-#: ../src/graphing.c:7682
+#: ../src/graphing.c:7566
 #, c-format
 msgid "%s: tlen must be positive"
 msgstr "%s: tlen måste vara positiv"
 
-#: ../src/graphing.c:7690 ../src/graphing.c:7711
+#: ../src/graphing.c:7574 ../src/graphing.c:7595
 #, c-format
 msgid "%s: Vector field not active"
 msgstr "%s: Vektorfält ej aktivt"
 
-#: ../src/graphing.c:7736 ../src/graphing.c:8266
+#: ../src/graphing.c:7620 ../src/graphing.c:8150
 #, c-format
 msgid "%s: First argument must be a function"
 msgstr "%s: första argumentet måste vara en funktion"
 
-#: ../src/graphing.c:7852 ../src/graphing.c:8110
+#: ../src/graphing.c:7736 ../src/graphing.c:7994
 #, c-format
 msgid "%s: First two arguments must be functions"
 msgstr "%s: första två argumenten måste vara funktioner"
 
-#: ../src/graphing.c:7979
+#: ../src/graphing.c:7863
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: endast upp till 10 funktioner stöds"
 
-#: ../src/graphing.c:8005
+#: ../src/graphing.c:7889
 msgid "Graph limits not given as a 2-vector or a 4-vector"
 msgstr "Grafgränserna är inte angivna som en 2-vektor eller en 4-vektor"
 
-#: ../src/graphing.c:8206 ../src/graphing.c:8361
+#: ../src/graphing.c:8090 ../src/graphing.c:8245
 #, c-format
 msgid "%s: invalid T range"
 msgstr "%s: ogiltigt T-intervall"
 
-#: ../src/graphing.c:8587
+#: ../src/graphing.c:8471
 #, c-format
 msgid ""
 "%s: Not in line plot mode.  Perhaps run LinePlot or LinePlotClear first."
 msgstr ""
 "%s: Inte i linegrafsläge. Kör kanske LinePlot eller LinePlotClear först."
 
-#: ../src/graphing.c:8708 ../src/graphing.c:8789
+#: ../src/graphing.c:8592 ../src/graphing.c:8673
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 2 matrix with columns for x and "
@@ -5111,14 +5115,14 @@ msgstr ""
 "%s: Punkter ska anges som en reell n×2-matris med kolumner för x och y, n>="
 "%d, eller som en komplexvärd n×1-matris"
 
-#: ../src/graphing.c:8718
+#: ../src/graphing.c:8602
 #, c-format
 msgid ""
 "%s: If points are given as an n by 2 matrix, then this matrix must be real"
 msgstr ""
 "%s: Om punkter anges som en n×2-matris så måste denna matris vara reell"
 
-#: ../src/graphing.c:8828 ../src/graphing.c:8891
+#: ../src/graphing.c:8712 ../src/graphing.c:8775
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 3 matrix with columns for x, y "
@@ -5127,17 +5131,17 @@ msgstr ""
 "%s: Punkter ska anges som en reell n×3-matris med kolumner för x, y och z, "
 "n>=%d"
 
-#: ../src/graphing.c:8943
+#: ../src/graphing.c:8827
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: Ingen färg angiven"
 
-#: ../src/graphing.c:8948 ../src/graphing.c:8955
+#: ../src/graphing.c:8832 ../src/graphing.c:8839
 #, c-format
 msgid "%s: Cannot parse color '%s'"
 msgstr "%s: Kan inte tolka färgen ”%s”"
 
-#: ../src/graphing.c:8969
+#: ../src/graphing.c:8853
 #, c-format
 msgid ""
 "%s: A vector giving color should be a 3-vector of real numbers between 0 and "
@@ -5146,7 +5150,7 @@ msgstr ""
 "%s: En vektor som anger färg ska vara en 3-vektor av reella tal mellan 0 och "
 "1"
 
-#: ../src/graphing.c:8985
+#: ../src/graphing.c:8869
 #, c-format
 msgid ""
 "%s: Warning: Values for red, green, or blue out of range (0 to 1), I will "
@@ -5155,7 +5159,7 @@ msgstr ""
 "%s: Varning: Värden för röd, grön eller blå utanför område (0 till 1), jag "
 "kommer beskära dem till detta intervall"
 
-#: ../src/graphing.c:9002
+#: ../src/graphing.c:8886
 #, c-format
 msgid ""
 "%s: Color must be a string or a three-vector of rgb values (between 0 and 1)"
@@ -5163,58 +5167,58 @@ msgstr ""
 "%s: Färg måste vara en sträng eller en 3-vektor av rgb-värden (mellan 0 och "
 "1)"
 
-#: ../src/graphing.c:9045 ../src/graphing.c:9332 ../src/graphing.c:9553
-#: ../src/graphing.c:9793
+#: ../src/graphing.c:8929 ../src/graphing.c:9216 ../src/graphing.c:9437
+#: ../src/graphing.c:9677
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: Fel antal argument"
 
-#: ../src/graphing.c:9115 ../src/graphing.c:9386 ../src/graphing.c:9619
-#: ../src/graphing.c:9853
+#: ../src/graphing.c:8999 ../src/graphing.c:9270 ../src/graphing.c:9503
+#: ../src/graphing.c:9737
 #, c-format
 msgid "%s: No thickness specified"
 msgstr "%s: Ingen tjocklek angiven"
 
-#: ../src/graphing.c:9138 ../src/graphing.c:9409 ../src/graphing.c:9644
-#: ../src/graphing.c:9878
+#: ../src/graphing.c:9022 ../src/graphing.c:9293 ../src/graphing.c:9528
+#: ../src/graphing.c:9762
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: Inget fönster angivet"
 
-#: ../src/graphing.c:9186 ../src/graphing.c:9211
+#: ../src/graphing.c:9070 ../src/graphing.c:9095
 #, c-format
 msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
 msgstr "%s: pilstil ska vara ”origin”, ”end”, ”both”, eller ”none”"
 
-#: ../src/graphing.c:9221 ../src/graphing.c:9453 ../src/graphing.c:9696
-#: ../src/graphing.c:9930
+#: ../src/graphing.c:9105 ../src/graphing.c:9337 ../src/graphing.c:9580
+#: ../src/graphing.c:9814
 #, c-format
 msgid "%s: No legend specified"
 msgstr "%s: Ingen förklaring angiven"
 
-#: ../src/graphing.c:9235 ../src/graphing.c:9467 ../src/graphing.c:9711
-#: ../src/graphing.c:9945
+#: ../src/graphing.c:9119 ../src/graphing.c:9351 ../src/graphing.c:9595
+#: ../src/graphing.c:9829
 #, c-format
 msgid "%s: Legend must be a string"
 msgstr "%s: Förklaring måste vara en sträng"
 
-#: ../src/graphing.c:9246
+#: ../src/graphing.c:9130
 #, c-format
 msgid "%s: Unknown style: %s"
 msgstr "%s: Okänd stil: %s"
 
-#: ../src/graphing.c:9255 ../src/graphing.c:9483 ../src/graphing.c:9729
-#: ../src/graphing.c:9963
+#: ../src/graphing.c:9139 ../src/graphing.c:9367 ../src/graphing.c:9613
+#: ../src/graphing.c:9847
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: Felaktig parameter"
 
-#: ../src/graphing.c:9476 ../src/graphing.c:9721 ../src/graphing.c:9955
+#: ../src/graphing.c:9360 ../src/graphing.c:9605 ../src/graphing.c:9839
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: Okänd stil"
 
-#: ../src/graphing.c:10017 ../src/graphing.c:10080
+#: ../src/graphing.c:9901 ../src/graphing.c:9964
 #, c-format
 msgid ""
 "%s: Surface should be given as a real, n by 3 matrix with columns for x, y, "
@@ -5222,89 +5226,89 @@ msgid ""
 msgstr ""
 "%s: Yta ska anges som en reell n×3-matris med kolumner för x, y, z, där n>=3"
 
-#: ../src/graphing.c:10108
+#: ../src/graphing.c:9992
 #, c-format
 msgid "%s: argument not a matrix of data"
 msgstr "%s: argumentet är inte en matris med data"
 
-#: ../src/graphing.c:10292
+#: ../src/graphing.c:10176
 #, c-format
 msgid "%s: Surface grid data should be given as a real matrix "
 msgstr "%s: Ytrutnätsdata ska anges som en reell matris "
 
-#: ../src/graphing.c:10338
+#: ../src/graphing.c:10222
 #, c-format
 msgid "%s: first argument not a matrix of data"
 msgstr "%s: första argumentet är inte en matris med data"
 
-#: ../src/graphing.c:10345
+#: ../src/graphing.c:10229
 #, c-format
 msgid "%s: second argument not a 4 or 6 element vector of limits"
 msgstr "%s: andra argumentet är inte en 4- eller 6-elementvektor med gränser"
 
-#: ../src/graphing.c:10362
+#: ../src/graphing.c:10246
 #, c-format
 msgid "%s: too many arguments or last argument not a string label"
 msgstr "%s: för många argument eller sista argumentet inte en strängetikett"
 
-#: ../src/graphing.c:10428
+#: ../src/graphing.c:10312
 #, c-format
 msgid "%s: first argument not a nonempty string"
 msgstr "%s: första argumentet inte en icke-tom sträng"
 
-#: ../src/graphing.c:10436
+#: ../src/graphing.c:10320
 #, c-format
 msgid "%s: type not specified and filename has no extension"
 msgstr "%s: typ ej angiven och filnamn har ingen filändelse"
 
-#: ../src/graphing.c:10445
+#: ../src/graphing.c:10329
 #, c-format
 msgid "%s: second argument not a nonempty string"
 msgstr "%s: andra argumentet är inte en icke-tom sträng"
 
-#: ../src/graphing.c:10457
+#: ../src/graphing.c:10341
 #, c-format
 msgid "%s: plot canvas not active, cannot export"
 msgstr "%s: rityta för graf inte aktiv, kan inte exportera"
 
-#: ../src/graphing.c:10466 ../src/graphing.c:10480 ../src/graphing.c:10503
+#: ../src/graphing.c:10350 ../src/graphing.c:10364 ../src/graphing.c:10387
 #, c-format
 msgid "%s: export failed"
 msgstr "%s: export misslyckades"
 
-#: ../src/graphing.c:10516
+#: ../src/graphing.c:10400
 #, c-format
 msgid "%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."
 msgstr "%s: okänd filtyp, kan vara \"png\", \"eps\" eller \"ps\"."
 
-#: ../src/graphing.c:10653
+#: ../src/graphing.c:10537
 msgid "Variable names not given in a 4-vector"
 msgstr "Variabelnamn är inte angivna i en 4-vektor"
 
-#: ../src/graphing.c:10663 ../src/graphing.c:10672 ../src/graphing.c:10681
-#: ../src/graphing.c:10690 ../src/graphing.c:10756 ../src/graphing.c:10765
-#: ../src/graphing.c:10774
+#: ../src/graphing.c:10547 ../src/graphing.c:10556 ../src/graphing.c:10565
+#: ../src/graphing.c:10574 ../src/graphing.c:10640 ../src/graphing.c:10649
+#: ../src/graphing.c:10658
 msgid "Variable names should be strings"
 msgstr "Variabelnamn ska vara strängar"
 
-#: ../src/graphing.c:10697 ../src/graphing.c:10780
+#: ../src/graphing.c:10581 ../src/graphing.c:10664
 msgid "Variable names must be valid identifiers"
 msgstr "Variabelnamn måste vara giltiga identifierare"
 
-#: ../src/graphing.c:10706 ../src/graphing.c:10786
+#: ../src/graphing.c:10590 ../src/graphing.c:10670
 msgid "Variable names must be mutually distinct"
 msgstr "Variabelnamn måste vara ömsesidigt distinkta"
 
-#: ../src/graphing.c:10746
+#: ../src/graphing.c:10630
 msgid "Variable names not given in a 3-vector"
 msgstr "Variabelnamn är inte angivna i en 3-vektor"
 
-#: ../src/graphing.c:10969
+#: ../src/graphing.c:10853
 msgid "Plotting"
 msgstr "Grafritning"
 
 #. internal
-#: ../src/graphing.c:10971
+#: ../src/graphing.c:10855
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -5312,7 +5316,7 @@ msgstr ""
 "Rita en funktion med en linjegraf. Först kommer funktionerna (upp till 10) "
 "och sedan valfritt gränserna som x1,x2,y1,y2"
 
-#: ../src/graphing.c:10972
+#: ../src/graphing.c:10856
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
@@ -5322,7 +5326,7 @@ msgstr ""
 "x och y och sedan valfritt t-gränserna som t1,t2,tinc, sedan valfritt "
 "gränserna som x1,x2,y1,y2"
 
-#: ../src/graphing.c:10973
+#: ../src/graphing.c:10857
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
@@ -5332,7 +5336,7 @@ msgstr ""
 "funktionen som returnerar x+iy sedan valfritt t-gränserna som t1,t2,tinc, "
 "sedan valfritt gränserna som x1,x2,y1,y2"
 
-#: ../src/graphing.c:10975
+#: ../src/graphing.c:10859
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
@@ -5340,7 +5344,7 @@ msgstr ""
 "Rita ett riktningsfält. Först kommer funktionen dy/dx uttryckt i x och y "
 "(eller ett komplext z) och sedan valfritt gränserna som x1,x2,y1,y2"
 
-#: ../src/graphing.c:10976
+#: ../src/graphing.c:10860
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
@@ -5348,18 +5352,18 @@ msgstr ""
 "Rita ett vektorfält. Först kommer funktionerna dx/dt och dy/dt uttryckt i x "
 "och y och sedan valfritt gränserna som x1,x2,y1,y2"
 
-#: ../src/graphing.c:10978
+#: ../src/graphing.c:10862
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr ""
 "Rita ut en lösning för ett riktningsfält med start vid x,y och med dx som "
 "inkrement"
 
-#: ../src/graphing.c:10979
+#: ../src/graphing.c:10863
 msgid "Clear all the slopefield solutions"
 msgstr "Rensa alla riktningsfältslösningar"
 
-#: ../src/graphing.c:10981
+#: ../src/graphing.c:10865
 msgid ""
 "Draw a solution for a vector field starting at x,y, using dt as increment "
 "for tlen units"
@@ -5367,11 +5371,11 @@ msgstr ""
 "Rita ut en lösning för ett vektorfält med start vid x,y och med dt som "
 "inkrement för tlen-enheter"
 
-#: ../src/graphing.c:10982
+#: ../src/graphing.c:10866
 msgid "Clear all the vectorfield solutions"
 msgstr "Rensa alla vektorfältslösningar"
 
-#: ../src/graphing.c:10985
+#: ../src/graphing.c:10869
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -5379,11 +5383,11 @@ msgstr ""
 "Rita en funktion som tar antingen två värden eller ett komplext värde. Först "
 "kommer funktionen, sedan valfritt gränserna som x1,x2,y1,y2,z1,z2"
 
-#: ../src/graphing.c:10987
+#: ../src/graphing.c:10871
 msgid "Show the surface (3d) plot window and clear out functions"
 msgstr "Visa det (3-dimensionella) ytgrafsfönstret och rensa funktioner"
 
-#: ../src/graphing.c:10989
+#: ../src/graphing.c:10873
 msgid ""
 "Plot surface data given as n by 3 matrix (n>=3) of data with each row being "
 "x,y,z.  Optionally can pass a label string and limits.  If no limits passed, "
@@ -5393,7 +5397,7 @@ msgstr ""
 "z.  Valfritt kan en etikettsträng och gränser skickas med.  Om inga gränser "
 "skickas räknas gränser ut från data."
 
-#: ../src/graphing.c:10990
+#: ../src/graphing.c:10874
 msgid ""
 "Plot surface data given as a matrix (where rows are the x coordinate and "
 "columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or "
@@ -5403,7 +5407,7 @@ msgstr ""
 "kolumnerna är y-koordinaten), gränserna anges som [x1,x2,y1,y2] eller "
 "valfritt [x1,x2,y1,y2,z1,z2], och valfritt en sträng för etiketten."
 
-#: ../src/graphing.c:10991
+#: ../src/graphing.c:10875
 msgid ""
 "Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  x1,y1,z1,x2,"
 "y2,z2 can be replaced by a n by 3 matrix for a longer line"
@@ -5412,7 +5416,7 @@ msgstr ""
 "ytgrafen.  x1,y1,z1,x2,y2,z2 kan ersättas med en n×3-matris för en längre "
 "linje"
 
-#: ../src/graphing.c:10992
+#: ../src/graphing.c:10876
 msgid ""
 "Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a "
 "n by 3 matrix for more points."
@@ -5420,11 +5424,11 @@ msgstr ""
 "Rita ut en punkt på x,y,z i den (3-dimensionella) ytgrafen.  x,y,z kan "
 "ersättas med en n×3-matris för fler punkter."
 
-#: ../src/graphing.c:10994
+#: ../src/graphing.c:10878
 msgid "Show the line plot window and clear out functions"
 msgstr "Visa linjegrafsfönstret och rensa funktioner"
 
-#: ../src/graphing.c:10995
+#: ../src/graphing.c:10879
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line."
@@ -5432,34 +5436,34 @@ msgstr ""
 "Rita ut en linje från x1,y1 till x2,y2.  x1,y1,x2,y2 kan ersättas med en n×2-"
 "matris för en längre linje."
 
-#: ../src/graphing.c:10996
+#: ../src/graphing.c:10880
 msgid ""
 "Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points."
 msgstr ""
 "Rita ut en punkt på x,y.  x,y kan ersättas med en n×2-matris för fler "
 "punkter."
 
-#: ../src/graphing.c:10998
+#: ../src/graphing.c:10882
 msgid "Freeze the plot canvas, that is, inhibit drawing"
 msgstr "Frys grafens rityta, det vill säga förhindra ritande"
 
-#: ../src/graphing.c:10999
+#: ../src/graphing.c:10883
 msgid "Thaw the plot canvas and redraw the plot immediately"
 msgstr "Töa upp grafens rityta och rita om grafen omedelbart"
 
-#: ../src/graphing.c:11000
+#: ../src/graphing.c:10884
 msgid "Raise the plot window, and create the window if necessary"
 msgstr "Höj graffönstret, och skapa fönstret om nödvändigt"
 
-#: ../src/graphing.c:11002
+#: ../src/graphing.c:10886
 msgid "Wait for a click on the line plot window, return the location."
 msgstr "Vänta på ett klick på linjegrafsfönstret, returnera platsen."
 
-#: ../src/graphing.c:11003
+#: ../src/graphing.c:10887
 msgid "Return current mouse location on the line plot window."
 msgstr "Returnera aktuell plats för musen i linjegrafsfönstret."
 
-#: ../src/graphing.c:11005
+#: ../src/graphing.c:10889
 msgid ""
 "Export the current contents of the plot canvas to a file.  The file type is "
 "given by the string type, which can be \"png\", \"eps\", or \"ps\"."
@@ -5467,17 +5471,17 @@ msgstr ""
 "Exportera de aktuella innehållen för grafens rityta till en fil. Filtypen "
 "anges av strängtypen, som kan vara \"png\", \"eps\" eller \"ps\"."
 
-#: ../src/graphing.c:11007
+#: ../src/graphing.c:10891
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr ""
 "Antal skalstreck för riktningsfält som en vektor [vertikalt, horisontellt]."
 
-#: ../src/graphing.c:11008
+#: ../src/graphing.c:10892
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
 msgstr ""
 "Antal skalstreck för vektorfält som en vektor [vertikalt, horisontellt]."
 
-#: ../src/graphing.c:11009
+#: ../src/graphing.c:10893
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
@@ -5485,7 +5489,7 @@ msgstr ""
 "Standardnamn som används av alla 2D-graffunktioner. Ska vara en 4-vektor av "
 "strängar eller identifierare [x,y,z,t]."
 
-#: ../src/graphing.c:11010
+#: ../src/graphing.c:10894
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
@@ -5493,7 +5497,7 @@ msgstr ""
 "Standardnamn använt av ytgrafsfunktioner. Ska vara en 3-vektor av strängar "
 "eller identifierare [x,y,z] (där z=x+iy och inte den beroende axeln)."
 
-#: ../src/graphing.c:11012
+#: ../src/graphing.c:10896
 msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
@@ -5501,23 +5505,23 @@ msgstr ""
 "Normalisera vektorfält om sant. Det vill säga, visa endast riktning och inte "
 "magnitud."
 
-#: ../src/graphing.c:11013
+#: ../src/graphing.c:10897
 msgid "If to draw legends or not on line plots."
 msgstr "Huruvida förklaringar ska ritas ut för linjegrafer."
 
-#: ../src/graphing.c:11014
+#: ../src/graphing.c:10898
 msgid "If to draw axis labels on line plots."
 msgstr "Huruvida axeletiketter ska ritas ut för linjegrafer."
 
-#: ../src/graphing.c:11016
+#: ../src/graphing.c:10900
 msgid "If to draw legends or not on surface plots."
 msgstr "Huruvida förklaringar ska ritas ut för ytgrafer."
 
-#: ../src/graphing.c:11018
+#: ../src/graphing.c:10902
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr "Linjegrafsfönster (gränser) som en 4-vektor på formen [x1,x2,y1,y2]"
 
-#: ../src/graphing.c:11019
+#: ../src/graphing.c:10903
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
@@ -5601,8 +5605,8 @@ msgstr "Kan inte beräkna fakulteter av negativa tal!"
 msgid "Can't do binomials of rationals or floats!"
 msgstr "Kan inte göra binom av rationella tal eller flyttal!"
 
-#: ../src/mpwrap.c:2128 ../src/mpwrap.c:2198 ../src/mpwrap.c:4340
-#: ../src/mpwrap.c:4361
+#: ../src/mpwrap.c:2128 ../src/mpwrap.c:2198 ../src/mpwrap.c:4343
+#: ../src/mpwrap.c:4364
 #, c-format
 msgid "%s: Bad types for mod power"
 msgstr "%s: Felaktiga typer för mod-exponent"
@@ -5624,106 +5628,110 @@ msgstr "Intervall för slumpheltal måste vara positivt"
 msgid "Can't get numerator of floating types"
 msgstr "Kan inte få täljare för flyttyper"
 
-#: ../src/mpwrap.c:3531 ../src/mpwrap.c:5053 ../src/mpwrap.c:5075
+#: ../src/mpwrap.c:2761
+msgid "Invalid integer format"
+msgstr "Ogiltigt heltalsformat"
+
+#: ../src/mpwrap.c:3534 ../src/mpwrap.c:5056 ../src/mpwrap.c:5078
 msgid "Can't compare complex numbers"
 msgstr "Kan inte jämföra komplexa tal"
 
-#: ../src/mpwrap.c:4013
+#: ../src/mpwrap.c:4016
 msgid "Can't modulo complex numbers"
 msgstr "Kan inte räkna modulo på komplexa tal"
 
-#: ../src/mpwrap.c:4036
+#: ../src/mpwrap.c:4039
 #, c-format
 msgid "Inverse of %s modulo %s not found!"
 msgstr "Inversen av %s modulo %s hittades inte!"
 
-#: ../src/mpwrap.c:4045
+#: ../src/mpwrap.c:4048
 msgid "Can't do modulo invert on complex numbers"
 msgstr "Kan inte moduloinvertera på komplexa tal"
 
 # Största Gemensamma Delare = Greatest Common Divisor
-#: ../src/mpwrap.c:4062
+#: ../src/mpwrap.c:4065
 msgid "Can't GCD complex numbers"
 msgstr "Kan inte räkna SGD (GCD) på komplexa tal"
 
 # Minsta Gemensamma Multipel = Least Common Multiple
-#: ../src/mpwrap.c:4091
+#: ../src/mpwrap.c:4094
 msgid "Can't LCM complex numbers"
 msgstr "Kan inte räkna MGM (LCM) på komplexa tal"
 
-#: ../src/mpwrap.c:4108
+#: ../src/mpwrap.c:4111
 msgid "Can't get Jacobi symbols of complex numbers"
 msgstr "Kan inte få reda på Jacobi-symboler för komplexa tal"
 
-#: ../src/mpwrap.c:4125
+#: ../src/mpwrap.c:4128
 msgid "Can't get Legendre symbols of complex numbers"
 msgstr "Kan inte få reda på Legendre-symboler för komplexa tal"
 
-#: ../src/mpwrap.c:4142
+#: ../src/mpwrap.c:4145
 msgid "Can't get Jacobi symbol with Kronecker extension for complex numbers"
 msgstr ""
 "Kan inte få reda på Jacobi-symbol med Kronecker-tillägg för komplexa tal"
 
-#: ../src/mpwrap.c:4159
+#: ../src/mpwrap.c:4162
 msgid "Can't get Lucas number for complex numbers"
 msgstr "Kan inte få reda på Lucas-tal för komplexa tal"
 
-#: ../src/mpwrap.c:4175
+#: ../src/mpwrap.c:4178
 msgid "Can't get next prime for complex numbers"
 msgstr "Kan inte få reda på nästa primtal för komplexa tal"
 
-#: ../src/mpwrap.c:4185 ../src/mpwrap.c:4197 ../src/mpwrap.c:4209
-#: ../src/mpwrap.c:4221
+#: ../src/mpwrap.c:4188 ../src/mpwrap.c:4200 ../src/mpwrap.c:4212
+#: ../src/mpwrap.c:4224
 #, c-format
 msgid "%s: can't work on complex numbers"
 msgstr "%s: kan inte arbeta med komplexa tal"
 
-#: ../src/mpwrap.c:4450 ../src/mpwrap.c:4528 ../src/mpwrap.c:4593
+#: ../src/mpwrap.c:4453 ../src/mpwrap.c:4531 ../src/mpwrap.c:4596
 #, c-format
 msgid "%s: can't take logarithm of 0"
 msgstr "%s: kan inte logaritmera 0"
 
-#: ../src/mpwrap.c:4922
+#: ../src/mpwrap.c:4925
 msgid "arctan2 not defined for complex numbers"
 msgstr "arctan2 inte definierad för komplexa tal"
 
-#: ../src/mpwrap.c:4970
+#: ../src/mpwrap.c:4973
 msgid "Can't make random integer out of a complex number"
 msgstr "Kan inte skapa slumpheltal utav ett komplext tal"
 
-#: ../src/mpwrap.c:5132 ../src/mpwrap.c:5149
+#: ../src/mpwrap.c:5135 ../src/mpwrap.c:5152
 msgid "Can't make factorials of complex numbers"
 msgstr "Kan inte skapa fakultet av komplexa tal"
 
-#: ../src/mpwrap.c:5166
+#: ../src/mpwrap.c:5169
 msgid "Can't make binomials of complex numbers"
 msgstr "Kan inte skapa binom av komplexa tal"
 
-#: ../src/mpwrap.c:5545 ../src/mpwrap.c:5556 ../src/mpwrap.c:5567
+#: ../src/mpwrap.c:5548 ../src/mpwrap.c:5559 ../src/mpwrap.c:5570
 msgid "Can't determine type of a complex number"
 msgstr "Kan inte bestämma typen på komplexa tal"
 
-#: ../src/mpwrap.c:5661 ../src/mpwrap.c:5684
+#: ../src/mpwrap.c:5664 ../src/mpwrap.c:5687
 msgid "Can't convert complex number into integer"
 msgstr "Kan inte konvertera komplexa tal till heltal"
 
-#: ../src/mpwrap.c:5667 ../src/mpwrap.c:5690
+#: ../src/mpwrap.c:5670 ../src/mpwrap.c:5693
 msgid "Can't convert real number to integer"
 msgstr "Kan inte konvertera reella tal till heltal"
 
-#: ../src/mpwrap.c:5671 ../src/mpwrap.c:5694
+#: ../src/mpwrap.c:5674 ../src/mpwrap.c:5697
 msgid "Integer too large for this operation"
 msgstr "Heltal för stort för denna operation"
 
-#: ../src/mpwrap.c:5707
+#: ../src/mpwrap.c:5710
 msgid "Can't convert complex number into a double"
 msgstr "Kan inte konvertera komplext tal till dubbelprecisionsflyttal"
 
-#: ../src/mpwrap.c:5716
+#: ../src/mpwrap.c:5719
 msgid "Can't convert real number to double"
 msgstr "Kan inte konvertera reellt tal till dubbelprecision"
 
-#: ../src/mpwrap.c:5722 ../src/mpwrap.c:5737
+#: ../src/mpwrap.c:5725 ../src/mpwrap.c:5740
 msgid "Number too large for this operation"
 msgstr "Talet för stort för denna operation"
 
@@ -5813,542 +5821,3 @@ msgstr "_Nej"
 #: ../ve/ve-miscui.c:194
 msgid "_Yes"
 msgstr "_Ja"
-
-#~ msgid "Scripts"
-#~ msgstr "Skript"
-
-#~ msgid "String"
-#~ msgstr "Sträng"
-
-#~ msgid "Line Comment"
-#~ msgstr "Radkommentar"
-
-#~ msgid "Base-N Integers"
-#~ msgstr "Heltal i bas N"
-
-# Heltal i basen 10 tolkar jag det som
-#~ msgid "Decimal Integers"
-#~ msgstr "Decimala heltal"
-
-#~ msgid "Floats"
-#~ msgstr "Flyttal"
-
-#~ msgid "Commands"
-#~ msgstr "Kommandon"
-
-#~ msgid "Keywords"
-#~ msgstr "Nyckelord"
-
-#~ msgid "Trim zeros from a polynomial (as vector)"
-#~ msgstr "Ta bort nollor från ett polynom (som vektor)"
-
-#~ msgid "%s: Input not a number or matrix of numbers."
-#~ msgstr "%s: indata inte ett tal eller en matris av tal."
-
-# TODO: warn that quotation sign not translatable
-# Strängen använder ' i alla icke översättningsvara delar
-#~ msgid "' or '"
-#~ msgstr "' eller '"
-
-# TODO: what??
-# should be 'number or matrix of numbers'?
-#~ msgid "%s: Input not a number of matrix of numbers."
-#~ msgstr "%s: Indata inte ett tal eller matris av tal."
-
-#~ msgid "%s: Color must be a string"
-#~ msgstr "%s: Färg måste vara en sträng"
-
-#~ msgid "Generate random float"
-#~ msgstr "Generera slumpflyttal"
-
-#~ msgid "Generate random integer"
-#~ msgstr "Generera slumpheltal"
-
-#~ msgid "Protect a variable from being modified"
-#~ msgstr "Skydda en variabel från att ändras"
-
-#~ msgid "Unprotect a variable from being modified"
-#~ msgstr "Oskydda en variabel från att ändras"
-
-#~ msgid "Rotate X: "
-#~ msgstr "Rotera X: "
-
-#~ msgid "Rotate Y: "
-#~ msgstr "Rotera Y: "
-
-#~ msgid "Rotate Z: "
-#~ msgstr "Rotera Z: "
-
-#~ msgid "Z from:"
-#~ msgstr "Z från:"
-
-#~ msgid "Invalid Y range"
-#~ msgstr "Ogiltigt Y-intervall"
-
-#~ msgid "Invalid Z range"
-#~ msgstr "Ogiltigt Z-intervall"
-
-#~ msgid "%s: argument 2 must be less than or equal to argument 3"
-#~ msgstr "%s: argument 2 måste vara mindre än eller lika argument 3"
-
-#~ msgid "Plot a function"
-#~ msgstr "Rita en funktion"
-
-#~ msgid "Interrupt"
-#~ msgstr "Avbryt"
-
-#~ msgid "Run"
-#~ msgstr "Kör"
-
-#~ msgid "Open a GEL file for running"
-#~ msgstr "Öppna en GEL-fil för körning"
-
-#~ msgid "Exit genius"
-#~ msgstr "Avsluta genius"
-
-#~ msgid ""
-#~ "The Gnome calculator style edition of the genius calculator.  For license/"
-#~ "warranty details, type 'warranty' into the console."
-#~ msgstr ""
-#~ "Gnome-miniräknarstilen på genius-miniräknaren. Skriv \"warranty\" på "
-#~ "konsolen för garantidetaljer."
-
-#~ msgid "%s: First argument must be functions"
-#~ msgstr "%s: Första argumentet måste vara funktioner"
-
-#~ msgid "(memory buffer)"
-#~ msgstr "(minnesbuffert)"
-
-#~ msgid "Cannot load user interface"
-#~ msgstr "Kan inte läsa in användargränssnittet"
-
-#~ msgid "Euler's Constant gamma good up to about precision of 9516 digits"
-#~ msgstr "Eulers konstant gamma, god för en precision upp till 9516 siffror"
-
-#~ msgid "_Manual"
-#~ msgstr "_Manual"
-
-#~ msgid "Display the manual"
-#~ msgstr "Visa manualen"
-
-#~ msgid ""
-#~ "\n"
-#~ "Note: Compiled without MPFR (some operations may be slow) see www.mpfr.org"
-#~ msgstr ""
-#~ "\n"
-#~ "Obs: Kompilerad utan MPFR (en del operationer kan vara långsamma) se www."
-#~ "mpfr.org"
-
-#~ msgid "Number too large to compute exponential!"
-#~ msgstr "Talet för stort för att beräkna exponential!"
-
-#~ msgid "translator_credits-PLEASE_ADD_YOURSELF_HERE"
-#~ msgstr ""
-#~ "Christian Rose\n"
-#~ "Tomas Ögren\n"
-#~ "Skicka synpunkter på översättningen till sv@li.org"
-
-#~ msgid "GENIUS Calculator"
-#~ msgstr "Miniräknaren GENIUS"
-
-#~ msgid "GENIUS Calculator Setup"
-#~ msgstr "Miniräknarkonfiguration för GENIUS"
-
-#~ msgid ""
-#~ "\\e[0;32mGenius %s\\e[0m\n"
-#~ "%s\n"
-#~ "This is free software with ABSOLUTELY NO WARRANTY.\n"
-#~ "For license details type `\\e[01;36mwarranty\\e[0m'.\n"
-#~ "For help type '\\e[01;36mmanual\\e[0m' or '\\e[01;36mhelp\\e[0m'.%s\n"
-#~ "\n"
-#~ msgstr ""
-#~ "\\e[0;32mGenius %s\\e[0m\n"
-#~ "%s\n"
-#~ "Detta är fri programvara utan NÅGON SOM HELST GARANTI.\n"
-#~ "Skriv \"\\e[01;36mwarranty\\e[0m\" för licensdetaljer.\n"
-#~ "Skriv \"\\e[01;36mmanual\\e[0m\" eller\n"
-#~ "\"\\e[01;36mhelp\\e[0m\" för hjälp.%s\n"
-#~ "\n"
-
-#~ msgid "Genius Line Plot"
-#~ msgstr "Genius-linjeplott"
-
-#~ msgid "perfect_square: can't work on non-integers!"
-#~ msgstr "perfect_square: kan inte arbeta med icke-heltal!"
-
-#~ msgid "perfect_power: can't work on non-integers!"
-#~ msgstr "perfect_power: kan inte arbeta med icke-heltal!"
-
-#~ msgid "even_p: can't work on non-integers!"
-#~ msgstr "even_p: kan inte arbeta med icke-heltal!"
-
-#~ msgid "odd_p: can't work on non-integers!"
-#~ msgstr "odd_p: kan inte arbeta med icke-heltal!"
-
-#~ msgid "powm: Bad types for mod power"
-#~ msgstr "powm: Felaktiga typer för mod-exponent"
-
-#~ msgid "No modulo inverse found!"
-#~ msgstr "Ingen moduloinvers hittades!"
-
-#~ msgid "perfect_square: can't work on complex numbers"
-#~ msgstr "perfect_square: kan inte arbeta med komplexa tal"
-
-#~ msgid "perfect_power: can't work on complex numbers"
-#~ msgstr "perfect_power: kan inte arbeta med komplexa tal"
-
-#~ msgid "even_p: can't work on complex numbers"
-#~ msgstr "even_p: kan inte arbeta med komplexa tal"
-
-#~ msgid "odd_p: can't work on complex numbers"
-#~ msgstr "odd_p: kan inte arbeta med komplexa tal"
-
-#~ msgid "ln: can't take logarithm of 0"
-#~ msgstr "ln: kan inte logaritmera 0"
-
-#~ msgid "log2: can't take logarithm of 0"
-#~ msgstr "log2: kan inte logaritmera 0"
-
-#~ msgid "log10: can't take logarithm of 0"
-#~ msgstr "log10: kan inte logaritmera 0"
-
-#~ msgid "IndexComplement: vector argument not value only"
-#~ msgstr "IndexComplement: vektorargumentet är inte endast värden"
-
-#~ msgid "IndexComplement: vector argument has too large entries"
-#~ msgstr "IndexComplement: vektorargumentet har för stora poster"
-
-#~ msgid "LinePlot: argument not a number"
-#~ msgstr "LinePlot: argumentet inte ett tal"
-
-#~ msgid "LinePlot: argument not a function"
-#~ msgstr "LinePlot: argumentet är inte en funktion"
-
-#~ msgid "%s: third argument not a reference"
-#~ msgstr "%s: tredje argumentet är ingen referens"
-
-#~ msgid "%s: fourth argument not a reference"
-#~ msgstr "%s: fjärde argumentet är ingen referens"
-
-#~ msgid "ERROR: "
-#~ msgstr "FEL: "
-
-#~ msgid "chdir: argument must be string!"
-#~ msgstr "chdir: argumentet måste vara en sträng!"
-
-#~ msgid "set: first argument must be an identifier or string!"
-#~ msgstr "set: första argumentet måste vara en identifierare eller sträng!"
-
-#~ msgid "set: trying to set a protected id!"
-#~ msgstr "set: försöker ställa in ett skyddat id!"
-
-#~ msgid "rand: Too many arguments, should be at most two"
-#~ msgstr "rand: För många argument, får vara max två"
-
-#~ msgid "randint: Too many arguments, should be at most two"
-#~ msgstr "randint: För många argument, får vara max två"
-
-#~ msgid "exp: matrix argument is not square"
-#~ msgstr "exp: matrisargumentet är inte kvadratiskt"
-
-#~ msgid "gcd: matrix argument must be integer only"
-#~ msgstr "gcd: matrisargumentet får endast vara heltal"
-
-#~ msgid "gcd: argument must be an integer"
-#~ msgstr "gcd: argumentet måste vara ett heltal"
-
-#~ msgid "lcm: arguments must be numbers"
-#~ msgstr "lcm: argumenten måste vara tal"
-
-#~ msgid "lcm: matrix argument must be integer only"
-#~ msgstr "lcm: matrisargument får endast vara heltal"
-
-#~ msgid "lcm: argument must be an integer"
-#~ msgstr "lcm: argumentet måste vara ett heltal"
-
-#~ msgid "Jacobi: arguments must be numbers"
-#~ msgstr "Jacobi: argumenten måste vara tal"
-
-#~ msgid "JacobiKronecker: arguments must be numbers"
-#~ msgstr "JacobiKronecker: argumenten måste vara tal"
-
-#~ msgid "Legendre: arguments must be numbers"
-#~ msgstr "Legendre: argumenten måste vara tal"
-
-#~ msgid "IsPerfectSquare: argument must be a number"
-#~ msgstr "IsPerfectSquare: argumentet måste vara ett tal"
-
-#~ msgid "IsPerfectPower: argument must be a number"
-#~ msgstr "IsPerfectPower: argumentet måste vara ett tal"
-
-#~ msgid "IsEven: argument must be a number"
-#~ msgstr "IsEven: argumentet måste vara ett tal"
-
-#~ msgid "IsOdd: argument must be a number"
-#~ msgstr "IsOdd: argumentet måste vara ett tal"
-
-#~ msgid "max: arguments must be numbers"
-#~ msgstr "max: argumenten måste vara tal"
-
-#~ msgid "max: matrix argument must be value only"
-#~ msgstr "max: matrisargumentet måste vara endast värde"
-
-#~ msgid "min: arguments must be numbers"
-#~ msgstr "min: argumenten måste vara tal"
-
-#~ msgid "min: matrix argument must be value only"
-#~ msgstr "min: matrisargumentet måste vara endast värde"
-
-#~ msgid "I: argument not an integer"
-#~ msgstr "I: argumentet är inte ett heltal"
-
-#~ msgid "zeros: arguments not an integers"
-#~ msgstr "zeros: argumenten är inte heltal"
-
-#~ msgid "zeros: too many arguments"
-#~ msgstr "zeros: för många argument"
-
-#~ msgid "ones: arguments not an integers"
-#~ msgstr "ones: argumenten är inte heltal"
-
-#~ msgid "ones: too many arguments"
-#~ msgstr "ones: för många argument"
-
-#~ msgid "IndexComplement: wrong argument type"
-#~ msgstr "IndexComplement: fel argumenttyp"
-
-#~ msgid "det: argument not a value only matrix"
-#~ msgstr "det: argumentet är inte en matris med endast värden"
-
-#~ msgid "ref: argument not a value only matrix"
-#~ msgstr "ref: argumentet är inte en matris med endast värden"
-
-#~ msgid "rref: argument not a value only matrix"
-#~ msgstr "rref: argumentet är inte en matris med endast värden"
-
-#~ msgid "SolveLinearSystem: argument(s) not a value only matrix"
-#~ msgstr ""
-#~ "SolveLinearSystem: argumentet/argumenten är inte en matris med endast "
-#~ "värden"
-
-#~ msgid "SolveLinearSystem: third argument not a reference"
-#~ msgstr "SolveLinearSystem: tredje argumentet är ingen referens"
-
-#~ msgid "SolveLinearSystem: fourth argument not a reference"
-#~ msgstr "SolveLinearSystem: fjärde argumentet är ingen referens"
-
-#~ msgid "Prime: argument not an integer"
-#~ msgstr "Prime: argumentet är inte ett heltal"
-
-#~ msgid "NextPrime: argument not an integer"
-#~ msgstr "NextPrime: argumentet är inte ett heltal"
-
-#~ msgid "LucasNumber: argument not an integer"
-#~ msgstr "LucasNumber: argumentet är inte ett heltal"
-
-#~ msgid "MillerRabinTestSure: argument must be greater then 2"
-#~ msgstr "MillerRabinTestSure: argumentet måste vara större än 2"
-
-#~ msgid "ModInvert: argument not an integer"
-#~ msgstr "ModInvert: argumentet är inte ett heltal"
-
-#~ msgid "PolyToString: 2nd argument not a string"
-#~ msgstr "PolyToString: andra argumentet är inte en sträng"
-
-#~ msgid "PolyToString: too many arguments"
-#~ msgstr "PolyToString: för många argument"
-
-#~ msgid "StringToASCII: argument must be a string"
-#~ msgstr "StringToASCII: argumentet måste vara en sträng"
-
-#~ msgid "ASCIIToString: argument must be a matrix"
-#~ msgstr "ASCIIToString: argumentet måste vara en matris"
-
-#~ msgid "ASCIIToString: value out of range"
-#~ msgstr "ASCIIToString: värdet utanför området"
-
-#~ msgid "AlphabetToString: argument must be a matrix and a string"
-#~ msgstr "AlphabetToString: argument måste vara en matris och en sträng"
-
-#~ msgid "AlphabetToString: value out of range"
-#~ msgstr "AlphabetToString: värdet utanför området"
-
-#~ msgid ""
-#~ "SetHelp: arguments must be strings (function name, category, help text)"
-#~ msgstr ""
-#~ "SetHelp: argument måste vara strängar (funktionsnamn, kategori, hjälptext)"
-
-#~ msgid "SetHelpAlias: arguments must be strings (function name, alias)"
-#~ msgstr "SetHelpAlias: argument måste vara strängar (funktionsnamn, alias)"
-
-#~ msgid "Combinations: arguments not an integers"
-#~ msgstr "Combinations: argumenten är inte heltal"
-
-#~ msgid "Combinations: arguments out of range"
-#~ msgstr "Combinations: argumenten är utanför området"
-
-#~ msgid "Permutations: arguments not an integers"
-#~ msgstr "Permutations: argumenten är inte heltal"
-
-#~ msgid "Permutations: arguments out of range"
-#~ msgstr "Permutations: argumenten är utanför området"
-
-#~ msgid "protect: argument must be a string"
-#~ msgstr "protect: argumentet måste vara en sträng"
-
-#~ msgid "unprotect: argument must be a string"
-#~ msgstr "unprotect: argumentet måste vara en sträng"
-
-#~ msgid "SetFunctionFlags: argument must be a string"
-#~ msgstr "SetFunctionFlags: argumentet måste vara en sträng"
-
-#~ msgid "SetFunctionFlags: undefined function"
-#~ msgstr "SetFunctionFlags: odefinierad funktion"
-
-#~ msgid "SetFunctionFlags: flags argument must be a string"
-#~ msgstr "SetFunctionFlags: flags-argumentet måste vara en sträng"
-
-#~ msgid "FloatPrecision: argument not an integer"
-#~ msgstr "FloatPrecision: argumentet är inte ett heltal"
-
-#~ msgid "FloatPrecision: argument should be between 60 and 16384"
-#~ msgstr "FloatPrecision: argumentet måste vara mellan 60 och 16384"
-
-#~ msgid "MaxDigits: argument not an integer"
-#~ msgstr "MaxDigits: argumentet är inte ett heltal"
-
-#~ msgid "MaxDigits: argument should be between 0 and 256"
-#~ msgstr "MaxDigits: argumentet måste vara mellan 0 och 256"
-
-#~ msgid "ResultsAsFloats: argument not a value"
-#~ msgstr "ResultsAsFloats: argumentet är inte ett värde"
-
-#~ msgid "ScientificNotation: argument not a value"
-#~ msgstr "ScientificNotation: argumentet är inte ett värde"
-
-#~ msgid "FullExpressions: argument not a value"
-#~ msgstr "FullExpressions: argumentet är inte ett värde"
-
-#~ msgid "OutputStyle: argument not a string"
-#~ msgstr "OutputStyle: argumentet är inte en sträng"
-
-#~ msgid "MaxErrors: argument not an integer"
-#~ msgstr "MaxErrors: argumentet är inte ett heltal"
-
-#~ msgid "MaxErrors: argument should be larger or equal to 0"
-#~ msgstr "MaxErrors: argumentet måste vara större än eller lika med 0"
-
-#~ msgid "MixedFractions: argument not a value"
-#~ msgstr "MixedFractions: argumentet är inte ett värde"
-
-#~ msgid "IntegerOutputBase: argument not an integer"
-#~ msgstr "IntegerOutputBase: argumentet är inte ett heltal"
-
-#~ msgid "IntegerOutputBase: argument should be between 2 and 36"
-#~ msgstr "IntegerOutputBase: argumentet måste vara mellan 2 och 36"
-
-#~ msgid "IsPrimeMillerRabinReps: must be a positive integer"
-#~ msgstr "IsPrimeMillerRabinReps: måste vara ett positivt heltal"
-
-#~ msgid "%s: argument must be a matrix and a string"
-#~ msgstr "%s: argument måste vara en matris och en sträng"
-
-#~ msgid "%s: arguments must be strings (function name, category, help text)"
-#~ msgstr ""
-#~ "%s: argument måste vara strängar (funktionsnamn, kategori, hjälptext)"
-
-#~ msgid "%s: arguments must be strings (function name, alias)"
-#~ msgstr "%s: argument måste vara strängar (funktionsnamn, alias)"
-
-#~ msgid "%s: arguments not an integers"
-#~ msgstr "%s: argumenten är inte heltal"
-
-#~ msgid "%s: argument must be a number"
-#~ msgstr "%s: argumentet måste vara ett tal"
-
-#~ msgid "%s: argument not an integer"
-#~ msgstr "%s: argumentet är inte ett heltal"
-
-#~ msgid "zeros: arguments not integers"
-#~ msgstr "zeros: argumenten är inte heltal"
-
-#~ msgid "%s: arguments not integers"
-#~ msgstr "%s: argumenten är inte heltal"
-
-#~ msgid "ones: arguments not integers"
-#~ msgstr "ones: argumenten är inte heltal"
-
-#~ msgid "%s: wrong argument type"
-#~ msgstr "%s: fel argumenttyp"
-
-#~ msgid "%s: arguments must be strings"
-#~ msgstr "%s: argumenten måste vara strängar"
-
-#~ msgid "Integers"
-#~ msgstr "Heltal"
-
-#~ msgid "Integer"
-#~ msgstr "Heltal"
-
-#~ msgid "Command"
-#~ msgstr "Kommando"
-
-#~ msgid "Keyword"
-#~ msgstr "Nyckelord"
-
-#~ msgid "Comment"
-#~ msgstr "Kommentar"
-
-#~ msgid "Comments"
-#~ msgstr "Kommentarer"
-
-#~ msgid "Copy last answer into the clipboard as Troff equation"
-#~ msgstr "Kopiera senaste svaret till urklipp som Troff-ekvation"
-
-#~ msgid "%s: first argument must be an identifier or string!"
-#~ msgstr "%s: första argumentet måste vara en identifierare eller sträng!"
-
-#~ msgid "Alias:"
-#~ msgstr "Alias:"
-
-#~ msgid "Alias"
-#~ msgstr "Alias"
-
-#~ msgid "Description:"
-#~ msgstr "Beskrivning:"
-
-#~ msgid "Description"
-#~ msgstr "Beskrivning"
-
-#~ msgid "_Plugins"
-#~ msgstr "_Insticksmoduler"
-
-#~ msgid "Calculator"
-#~ msgstr "Miniräknare"
-
-#~ msgid "Matrix 'to' index less then 'from' index"
-#~ msgstr "Matrisens 'till' index är mindre än 'från' index"
-
-#~ msgid "Can't set a region to a region of a different size"
-#~ msgstr "Kan inte sätta en region till en region av annan storlek"
-
-#~ msgid "Extraneous return value!"
-#~ msgstr "Överflödigt retur-värde!"
-
-#~ msgid "Unnamed reference function encountered"
-#~ msgstr "Inte namngiven referensfunktion påträffad"
-
-#~ msgid "Variable '%s' used unitialized"
-#~ msgstr "Variabel '%s' använd oinitierad"
-
-#~ msgid "Logical and can only operate on numeric/string data"
-#~ msgstr "Logisk och kan endast användas på numerisk/sträng-data"
-
-#~ msgid "Called 'continue' outside of a loop"
-#~ msgstr "Anropade 'continue' utanför loop"
-
-#~ msgid "Called 'break' outside of a loop"
-#~ msgstr "Anropade 'break' utanför loop"
-
-#~ msgid "Could not evaluate predicate into a numeric boolean value!"
-#~ msgstr "Kunde inte evaluera predikatet till ett numeriskt boolean-värde!"
