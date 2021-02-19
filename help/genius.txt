@@ -12,7 +12,7 @@ Kai Willadsen
 
     <kaiw@itee.uq.edu.au>
 
-   Copyright © 1997-2016 Jiř (George) Lebl
+   Copyright © 1997-2020 Jiř (George) Lebl
 
    Copyright © 2004 Kai Willadsen
 
@@ -214,28 +214,30 @@ Chapter 1. Introduction
 
    The Genius Mathematics Tool application is a general calculator
    for use as a desktop calculator, an educational tool in
-   mathematics, and is useful even for research. The language used
-   in Genius Mathematics Tool is designed to be ‘mathematical’ in
-   the sense that it should be ‘what you mean is what you get’. Of
-   course that is not an entirely attainable goal. Genius
-   Mathematics Tool features rationals, arbitrary precision
-   integers and multiple precision floats using the GMP library.
-   It handles complex numbers using cartesian notation. It has
-   good vector and matrix manipulation and can handle basic linear
-   algebra. The programming language allows user defined
-   functions, variables and modification of parameters.
+   mathematics and other STEM fields, and has found use in
+   research. The language used in Genius Mathematics Tool is
+   designed to be ‘mathematical’ in the sense that it should be
+   ‘what you mean is what you get’. Of course, that is not an
+   entirely attainable goal. Genius Mathematics Tool features
+   rationals, arbitrary precision integers and multiple precision
+   floats using the GMP library. It handles complex numbers using
+   cartesian notation. It has good vector and matrix manipulation
+   and can handle basic linear algebra. The programming language
+   allows user defined functions, variables, and parameters.
 
    Genius Mathematics Tool comes in two versions. One version is
    the graphical GNOME version, which features an IDE style
    interface and the ability to plot functions of one or two
-   variables. The command line version does not require GNOME, but
-   of course does not implement any feature that requires the
-   graphical interface.
+   variables. Parametric plots of curves are also supported. It
+   can plot slope fields, vector fields and draw their solutions.
+   The plots can be exported to several formats. The command line
+   version does not require GNOME, but does not implement any
+   feature that requires the graphical interface, such as plotting
 
    Parts of this manual describe the graphical version of the
-   calculator, but the language is of course the same. The command
-   line only version lacks the graphing capabilities and all other
-   capabilities that require the graphical user interface.
+   calculator. The language that both versions use is the same, it
+   is simply the graphical features such as plotting that are
+   unique to the GUI version.
 
    Generally, when some feature of the language (function,
    operator, etc...) is new in some version past 1.0.5, it is
@@ -472,10 +474,12 @@ Chapter 4. Plotting
    of the text input box where the error occurred, as well as
    giving you an error dialog. You can change the ranges of the
    dependent and independent variables in the bottom part of the
-   dialog. The y (dependent) range can be set automatically by
-   turning on the Fit dependent axis checkbox. The names of the
-   variables can also be changed. Pressing the Plot button
-   produces the graph shown in Figure 4-2.
+   dialog. In the boxes for the ranges, simple expressions are
+   allowed, such as 2*pi or 10^3. The y (dependent) range can be
+   set automatically by turning on the Fit dependent axis
+   checkbox. The names of the variables can also be changed.
+   Pressing the Plot button produces the graph shown in Figure
+   4-2.
 
    The variables can be renamed by clicking the Change variable
    names... button, which is useful if you wish to print or save
@@ -1046,14 +1050,14 @@ x=123;
    while the second expression evaluates everything modulo 6 to
    begin with.
 
-   You can calculate the inverses of numbers mod some integer by
-   just using rational numbers (of course the inverse has to
-   exist). Examples:
+   The inverses of numbers mod some integer are computed by
+   writing them as rational numbers (as long as the desired
+   inverse exists, of course). Examples:
 10^-1 mod 101
 1/10 mod 101
 
-   You can also do modular evaluation with matrices including
-   taking inverses, powers and dividing. Example:
+   Modular evaluation also works with matrices including taking
+   inverses, powers, and dividing. Example:
 A = [1,2;3,4]
 B = A^-1 mod 5
 A*B mod 5
@@ -1764,10 +1768,10 @@ function f(M) = (
    press return on the command line. Therefore think of programs
    as just a sequence of lines as if they were entered on the
    command line. In particular, you do not need to enter the
-   separator at the end of the line (unless it is of course part
-   of several statements inside parentheses). When a statement
-   does not end with a separator on the top level, the result is
-   printed after being executed.
+   separator at the end of the line (unless it is part of several
+   statements inside parentheses). When a statement does not end
+   with a separator on the top level, the result is printed after
+   being executed.
 
    For example,
 function f(x)=x^2
@@ -1944,8 +1948,8 @@ function f(g,x) = (
 
    If all variables are to be created as locals you can just pass
    an asterisk instead of a list of variables. In this case the
-   variables will not be initialized until they are actually set
-   of course. So the following definition of f will also work:
+   variables will not be initialized until they are actually set.
+   So the following definition of f will also work:
 function f(g,x) = (
   local *;
   k := 5;
@@ -2193,9 +2197,9 @@ genius> Union([1,2,3], [1,2,4])
 genius> IsIn (1, [0,1,2])
 = true
 
-   The input IsIn(x,X) is of course equivalent to IsSubset([x],X).
-   Note that since the empty set is a subset of every set,
-   IsSubset(null,X) is always true.
+   The input IsIn(x,X) is equivalent to IsSubset([x],X). Note that
+   since the empty set is a subset of every set, IsSubset(null,X)
+   is always true.
      __________________________________________________________
 
 Chapter 11. List of GEL functions
@@ -3663,8 +3667,8 @@ ExactDivision (n,d)
           Return n/d but only if d divides n. If d does not divide
           n then this function returns garbage. This is a lot
           faster for very large numbers than the operation n/d,
-          but of course only useful if you know that the division
-          is exact.
+          but it is only useful if you know that the division is
+          exact.
 
    Factorize
 
@@ -3687,10 +3691,9 @@ Factors (n)
 
           Return all factors of n in a vector. This includes all
           the non-prime factors as well. It includes 1 and the
-          number itself. So for example to print all the perfect
-          numbers (those that are sums of their factors) up to the
-          number 1000 you could do (this is of course very
-          inefficient)
+          number itself. So to print all the perfect numbers
+          (those that are sums of their factors) up to the number
+          1000 you could do (this is clearly very inefficient)
 
 for n=1 to 1000 do (
     if MatrixSum (Factors(n)) == 2*n then
@@ -3788,8 +3791,7 @@ IsPerfectSquare (n)
 
           Check an integer for being a perfect square of an
           integer. The number must be an integer. Negative
-          integers are of course never perfect squares of
-          integers.
+          integers are never perfect squares of integers.
 
    IsPrime
 
@@ -5128,8 +5130,7 @@ ToeplitzMatrix (c, r...)
           column c and (optionally) the first row r. If only the
           column c is given then it is conjugated and the
           nonconjugated version is used for the first row to give
-          a Hermitian matrix (if the first element is real of
-          course).
+          a Hermitian matrix (if the first element is real).
 
           See Wikipedia or Planetmath for more information.
 

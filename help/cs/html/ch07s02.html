@@ -1,20 +1,54 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Syntaxe v nejvyšší úrovni</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Příručka k aplikaci Genius"><link rel="up" href="ch07.html" title="Kapitola 7. Pokročilé programování v jazyce GEL"><link rel="prev" href="ch07.html" title="Kapitola 7. Pokročilé programování v jazyce GEL"><link rel="next" href="ch07s03.html" title="Vracení funkcí"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Syntaxe v nejvyšší úrovni</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07.html">Předcházející</a> </td><th width="60%" align="center">Kapitola 7. Pokročilé programování v jazyce GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s03.html">Další</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-toplevel-syntax"></a>Syntaxe v nejvyšší úrovni</h2></div></div></div><p>Syntaxe se lehce liší, když zadáváte příkazy v nejvyšší úrovni a když jsou uvnitř závorek nebo uvnitř funkce. Na nejvyšší úrovni zadání funguje stejně, jako když zmáčknete Enter na příkazovém řádku. Proto uvažujte o programu, jako o sekvenci řádků, které byste zadávali na příkazovém řádku. Především nepotřebujete zadávat oddělovač na konci řádku (ledaže se jedná o část několika příkazů v závorkách). Když výraz nekončí na nejvyšší úrovni oddělovačem, bude výsledek vypsán až po spuštění.</p><p>Například, </p><pre class="programlisting">function f(x)=x^2
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Syntaxe v nejvyšší úrovni</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Příručka k aplikaci Genius"><link rel="up" href="ch07.html" title="Chapter 7. Pokročilé programování v jazyce GEL"><link rel="prev" href="ch07.html" title="Chapter 7. Pokročilé programování v jazyce GEL"><link rel="next" href="ch07s03.html" title="Vracení funkcí"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Syntaxe v nejvyšší úrovni</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07.html">Prev</a> </td><th width="60%" align="center">Chapter 7. Pokročilé programování v jazyce GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s03.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-toplevel-syntax"></a>Syntaxe v nejvyšší úrovni</h2></div></div></div><p lang="en">
+	The syntax is slightly different if you enter statements on
+	the top level versus when they are inside parentheses or
+	inside functions.  On the top level, enter acts the same as if
+	you press return on the command line.  Therefore think of programs
+	as just a sequence of lines as if they were entered on the command line.
+	In particular, you do not need to enter the separator at the end of the
+	line (unless it is part of several statements inside
+	parentheses).  When a statement does not end with a separator on the
+	top level, the result is printed after being executed.
+      </p><p lang="en">
+	For example,
+	</p><pre lang="en" class="programlisting">function f(x)=x^2
 f(3)
-</pre><p> vypíše se jako první výsledek nastavení funkce (tj. reprezentaci funkce, v tomto případě <code class="computeroutput">(`(x)=(x^2))</code>) a teprve pak očekávané číslo 9. Abyste tomu předešli, zadejte za definici funkce oddělovače. </p><pre class="programlisting">function f(x)=x^2;
+</pre><p lang="en">
+	will print first the result of setting a function (a representation of
+	the function, in this case <code class="computeroutput">(`(x)=(x^2))</code>)
+	and then the expected 9.  To avoid this, enter a separator
+	after the function definition.
+	</p><pre lang="en" class="programlisting">function f(x)=x^2;
 f(3)
-</pre><p> Když potřebujete oddělovač použít přímo ve své funkci, musíte ji uzavřít do závorek. Například: </p><pre class="programlisting">function f(x)=(
+</pre><p lang="en">
+	If you need to put a separator into your function then you have to surround with
+	parenthesis.  For example:
+</p><pre lang="en" class="programlisting">function f(x)=(
   y=1;
   for j=1 to x do
     y = y+j;
   y^2
 );
-</pre><p>Následující kód skončí chybou, pokud jej zadáte v nejvyšší úrovni programu, zatímco ve funkci bude pracovat bez problémů. </p><pre class="programlisting">if Neco() then
-  UdelatNeco()
+</pre><p lang="en">
+      </p><p lang="en">
+	The following code will produce an error when entered on the top
+	level of a program, while it will work just fine in a function.
+</p><pre lang="en" class="programlisting">if Something() then
+  DoSomething()
 else
-  UdelatNecoJineho()
-</pre><p>Problémem je, že po té, co <span class="application">matematický nástroj Genius</span> uvidí konec řádku po druhém řádku, usoudí, že příkaz už je celý a provede jej. Po té, co je provádění dokončeno, bude <span class="application">matematický nástroj Genius</span> pokračovat na následujícím řádku, uvidí <code class="literal">else</code>, a vyvolá chybu zpracování. Řešením je použít závorek. <span class="application">Matematický nástroj Genius</span> nebude spokojen, dokud nenalezne všechny závorky uzavřené. </p><pre class="programlisting">if Neco() then (
-  UdelatNeco()
+  DoSomethingElse()
+</pre><p lang="en">
+      </p><p lang="en">
+	The problem is that after <span class="application">Genius Mathematics Tool</span> sees the end of line after the
+	second line, it will decide that we have whole statement and
+	it will execute it.  After the execution is done, <span class="application">Genius Mathematics Tool</span> will
+	go on to the next
+	line, it will see <code class="literal">else</code>, and it will produce
+	a parsing error.  To fix this, use parentheses.  <span class="application">Genius Mathematics Tool</span> will not
+	be satisfied until it has found that all parentheses are closed.
+</p><pre lang="en" class="programlisting">if Something() then (
+  DoSomething()
 ) else (
-  UdelatNecoJineho()
+  DoSomethingElse()
 )
-</pre></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07.html">Předcházející</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Nahoru</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s03.html">Další</a></td></tr><tr><td width="40%" align="left" valign="top">Kapitola 7. Pokročilé programování v jazyce GEL </td><td width="20%" align="center"><a accesskey="h" href="index.html">Domů</a></td><td width="40%" align="right" valign="top"> Vracení funkcí</td></tr></table></div></body></html>
+</pre><p lang="en">
+      </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter 7. Pokročilé programování v jazyce GEL </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Vracení funkcí</td></tr></table></div></body></html>

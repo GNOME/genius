@@ -1,15 +1,15 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Операторы сравнения</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Руководство пользователя Genius"><link rel="up" href="ch06.html" title="Глава 6. Программирование в GEL"><link rel="prev" href="ch06s03.html" title="Суммы и произведения"><link rel="next" href="ch06s05.html" title="Глобальные переменные и область видимости переменных"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Операторы сравнения</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s03.html">Пред.</a> </td><th width="60%" align="center">Глава 6. Программирование в GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch06s05.html">След.</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-comparison-operators"></a>Операторы сравнения</h2></div></div></div><p>В GEL поддерживаются следующие стандартные операторы сравнения, имеющие очевидное значение: <code class="literal">==</code>, <code class="literal">&gt;=</code>, <code class="literal">&lt;=</code>, <code class="literal">!=</code>, <code class="literal">&lt;&gt;</code>, <code class="literal">&lt;</code>, <code class="literal">&gt;</code>. Они возвращают <code class="constant">true</code> или <code class="constant">false</code>. Операторы <code class="literal">!=</code> и <code class="literal">&lt;&gt;</code> эквивалентны и означают «не равно». GEL также поддерживает оператор <code class="literal">&lt;=&gt;</code>, который возвращает -1, если левая сторона меньше, 0 при равенстве обеих сторон и 1, если левая сторона больше.</p><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Операторы сравнения</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Руководство пользователя Genius"><link rel="up" href="ch06.html" title="Chapter 6. Программирование в GEL"><link rel="prev" href="ch06s03.html" title="Суммы и произведения"><link rel="next" href="ch06s05.html" title="Глобальные переменные и область видимости переменных"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Операторы сравнения</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s03.html">Prev</a> </td><th width="60%" align="center">Chapter 6. Программирование в GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch06s05.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-comparison-operators"></a>Операторы сравнения</h2></div></div></div><p>В GEL поддерживаются следующие стандартные операторы сравнения, имеющие очевидное значение: <code class="literal">==</code>, <code class="literal">&gt;=</code>, <code class="literal">&lt;=</code>, <code class="literal">!=</code>, <code class="literal">&lt;&gt;</code>, <code class="literal">&lt;</code>, <code class="literal">&gt;</code>. Они возвращают <code class="constant">true</code> или <code class="constant">false</code>. Операторы <code class="literal">!=</code> и <code class="literal">&lt;&gt;</code> эквивалентны и означают «не равно». GEL также поддерживает оператор <code class="literal">&lt;=&gt;</code>, который возвращает -1, если левая сторона меньше, 0 при равенстве обеих сторон и 1, если левая сторона больше.</p><p lang="en">
 	Normally <code class="literal">=</code> is translated to <code class="literal">==</code> if
 	it happens to be somewhere where GEL is expecting a condition such as
 	in the if condition.  For example
-	</p><pre class="programlisting">if a=b then c
+	</p><pre lang="en" class="programlisting">if a=b then c
 if a==b then c
-</pre><p>
+</pre><p lang="en">
 	are the same thing in GEL.  However you should really use
 	<code class="literal">==</code> or <code class="literal">:=</code> when you want to compare
 	or assign respectively if you want your code to be easy to read and
 	to avoid mistakes.
-      </p><p>
+      </p><p lang="en">
 	All the comparison operators (except for the
 	<code class="literal">&lt;=&gt;</code> operator, which
 	behaves normally), are not strictly binary operators, they can in fact
@@ -17,11 +17,11 @@ if a==b then c
 	(<code class="literal">1&lt;x&lt;=y&lt;5</code>) is
 	a legal boolean expression and means just what it should, that is
 	(1&lt;x and x≤y and y&lt;5)
-      </p><p>
+      </p><p lang="en">
 	To build up logical expressions use the words <code class="literal">not</code>,
 	<code class="literal">and</code>, <code class="literal">or</code>, <code class="literal">xor</code>.
 	The operators <code class="literal">or</code> and <code class="literal">and</code> are
 special beasts as they evaluate their arguments one by one, so the usual trick
 for conditional evaluation works here as well. For example, <code class="literal">1 or a=1</code> will not set
 <code class="literal">a=1</code> since the first argument was true.
-      </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s03.html">Пред.</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Наверх</a></td><td width="40%" align="right"> <a accesskey="n" href="ch06s05.html">След.</a></td></tr><tr><td width="40%" align="left" valign="top">Суммы и произведения </td><td width="20%" align="center"><a accesskey="h" href="index.html">Начало</a></td><td width="40%" align="right" valign="top"> Глобальные переменные и область видимости переменных</td></tr></table></div></body></html>
+      </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s03.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch06s05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Суммы и произведения </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Глобальные переменные и область видимости переменных</td></tr></table></div></body></html>

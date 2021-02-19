@@ -1,161 +1,161 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Lineare Algebra</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Genius-Handbuch"><link rel="up" href="ch11.html" title="Kapitel 11. Liste der GEL-Funktionen"><link rel="prev" href="ch11s08.html" title="Matrixoperationen"><link rel="next" href="ch11s10.html" title="Kombinatorik"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Lineare Algebra</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s08.html">Zurück</a> </td><th width="60%" align="center">Kapitel 11. Liste der GEL-Funktionen</th><td width="20%" align="right"> <a accesskey="n" href="ch11s10.html">Weiter</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-function-list-linear-algebra"></a>Lineare Algebra</h2></div></div></div><div class="variablelist"><dl class="variablelist"><dt><span class="term"><a name="gel-function-AuxiliaryUnitMatrix"></a>AuxiliaryUnitMatrix</span></dt><dd><pre class="synopsis">AuxiliaryUnitMatrix (n)</pre><p>Get the auxiliary unit matrix of size <code class="varname">n</code>.  This is a square matrix with that is all zero except the
-superdiagonal being all ones.  It is the Jordan block matrix of one zero eigenvalue.</p><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Lineare Algebra</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Genius-Handbuch"><link rel="up" href="ch11.html" title="Chapter 11. Liste der GEL-Funktionen"><link rel="prev" href="ch11s08.html" title="Matrixoperationen"><link rel="next" href="ch11s10.html" title="Kombinatorik"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Lineare Algebra</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s08.html">Prev</a> </td><th width="60%" align="center">Chapter 11. Liste der GEL-Funktionen</th><td width="20%" align="right"> <a accesskey="n" href="ch11s10.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-function-list-linear-algebra"></a>Lineare Algebra</h2></div></div></div><div class="variablelist"><dl class="variablelist"><dt><span lang="en" class="term"><a name="gel-function-AuxiliaryUnitMatrix"></a>AuxiliaryUnitMatrix</span></dt><dd><pre class="synopsis">AuxiliaryUnitMatrix (n)</pre><p lang="en">Get the auxiliary unit matrix of size <code class="varname">n</code>.  This is a square matrix with that is all zero except the
+superdiagonal being all ones.  It is the Jordan block matrix of one zero eigenvalue.</p><p lang="en">
 	    See
 	    <a class="ulink" href="http://planetmath.org/JordanCanonicalFormTheorem" target="_top">Planetmath</a> or
 	    <a class="ulink" href="http://mathworld.wolfram.com/JordanBlock.html" target="_top">Mathworld</a> for more information on Jordan Canonical Form.
-          </p></dd><dt><span class="term"><a name="gel-function-BilinearForm"></a>BilinearForm</span></dt><dd><pre class="synopsis">BilinearForm (v,A,w)</pre><p>Evaluate (v,w) with respect to the bilinear form given by the matrix A.</p></dd><dt><span class="term"><a name="gel-function-BilinearFormFunction"></a>BilinearFormFunction</span></dt><dd><pre class="synopsis">BilinearFormFunction (A)</pre><p>Return a function that evaluates two vectors with respect to the bilinear form given by A.</p></dd><dt><span class="term"><a name="gel-function-CharacteristicPolynomial"></a>CharacteristicPolynomial</span></dt><dd><pre class="synopsis">CharacteristicPolynomial (M)</pre><p>Aliases: <code class="function">CharPoly</code></p><p>Get the characteristic polynomial as a vector.  That is, return
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-BilinearForm"></a>BilinearForm</span></dt><dd><pre class="synopsis">BilinearForm (v,A,w)</pre><p lang="en">Evaluate (v,w) with respect to the bilinear form given by the matrix A.</p></dd><dt><span lang="en" class="term"><a name="gel-function-BilinearFormFunction"></a>BilinearFormFunction</span></dt><dd><pre class="synopsis">BilinearFormFunction (A)</pre><p lang="en">Return a function that evaluates two vectors with respect to the bilinear form given by A.</p></dd><dt><span lang="en" class="term"><a name="gel-function-CharacteristicPolynomial"></a>CharacteristicPolynomial</span></dt><dd><pre class="synopsis">CharacteristicPolynomial (M)</pre><p lang="en">Aliases: <code class="function">CharPoly</code></p><p lang="en">Get the characteristic polynomial as a vector.  That is, return
 the coefficients of the polynomial starting with the constant term.  This is
 the polynomial defined by <strong class="userinput"><code>det(M-xI)</code></strong>.  The roots of this
 polynomial are the eigenvalues of <code class="varname">M</code>.
 See also <a class="link" href="ch11s09.html#gel-function-CharacteristicPolynomialFunction">CharacteristicPolynomialFunction</a>.
-</p><p>
+</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Characteristic_polynomial" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/CharacteristicEquation" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-CharacteristicPolynomialFunction"></a>CharacteristicPolynomialFunction</span></dt><dd><pre class="synopsis">CharacteristicPolynomialFunction (M)</pre><p>Get the characteristic polynomial as a function.  This is
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-CharacteristicPolynomialFunction"></a>CharacteristicPolynomialFunction</span></dt><dd><pre class="synopsis">CharacteristicPolynomialFunction (M)</pre><p lang="en">Get the characteristic polynomial as a function.  This is
 the polynomial defined by <strong class="userinput"><code>det(M-xI)</code></strong>.  The roots of this
 polynomial are the eigenvalues of <code class="varname">M</code>.
 See also <a class="link" href="ch11s09.html#gel-function-CharacteristicPolynomial">CharacteristicPolynomial</a>.
-</p><p>
+</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Characteristic_polynomial" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/CharacteristicEquation" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-ColumnSpace"></a>ColumnSpace</span></dt><dd><pre class="synopsis">ColumnSpace (M)</pre><p>Get a basis matrix for the columnspace of a matrix.  That is,
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-ColumnSpace"></a>ColumnSpace</span></dt><dd><pre class="synopsis">ColumnSpace (M)</pre><p lang="en">Get a basis matrix for the columnspace of a matrix.  That is,
 return a matrix whose columns are the basis for the column space of
 <code class="varname">M</code>.  That is the space spanned by the columns of
-<code class="varname">M</code>.</p><p>
+<code class="varname">M</code>.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Row_and_column_spaces" target="_top">Wikipedia</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-CommutationMatrix"></a>CommutationMatrix</span></dt><dd><pre class="synopsis">CommutationMatrix (m, n)</pre><p>Return the commutation matrix <strong class="userinput"><code>K(m,n)</code></strong>, which is the unique <strong class="userinput"><code>m*n</code></strong> by
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-CommutationMatrix"></a>CommutationMatrix</span></dt><dd><pre class="synopsis">CommutationMatrix (m, n)</pre><p lang="en">Return the commutation matrix <strong class="userinput"><code>K(m,n)</code></strong>, which is the unique <strong class="userinput"><code>m*n</code></strong> by
 		  <strong class="userinput"><code>m*n</code></strong> matrix such that <strong class="userinput"><code>K(m,n) * MakeVector(A) = MakeVector(A.')</code></strong> for all <code class="varname">m</code> by <code class="varname">n</code>
-		  matrices <code class="varname">A</code>.</p></dd><dt><span class="term"><a name="gel-function-CompanionMatrix"></a>CompanionMatrix</span></dt><dd><pre class="synopsis">CompanionMatrix (p)</pre><p>Companion matrix of a polynomial (as vector).</p></dd><dt><span class="term"><a name="gel-function-ConjugateTranspose"></a>ConjugateTranspose</span></dt><dd><pre class="synopsis">ConjugateTranspose (M)</pre><p>Conjugate transpose of a matrix (adjoint).  This is the
-	  same as the <strong class="userinput"><code>'</code></strong> operator.</p><p>
+		  matrices <code class="varname">A</code>.</p></dd><dt><span lang="en" class="term"><a name="gel-function-CompanionMatrix"></a>CompanionMatrix</span></dt><dd><pre class="synopsis">CompanionMatrix (p)</pre><p lang="en">Companion matrix of a polynomial (as vector).</p></dd><dt><span lang="en" class="term"><a name="gel-function-ConjugateTranspose"></a>ConjugateTranspose</span></dt><dd><pre class="synopsis">ConjugateTranspose (M)</pre><p lang="en">Conjugate transpose of a matrix (adjoint).  This is the
+	  same as the <strong class="userinput"><code>'</code></strong> operator.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Conjugate_transpose" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/ConjugateTranspose" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-Convolution"></a>Convolution</span></dt><dd><pre class="synopsis">Convolution (a,b)</pre><p>Aliases: <code class="function">convol</code></p><p>Calculate convolution of two horizontal vectors.</p></dd><dt><span class="term"><a name="gel-function-ConvolutionVector"></a>ConvolutionVector</span></dt><dd><pre class="synopsis">ConvolutionVector (a,b)</pre><p>Calculate convolution of two horizontal vectors.  Return
-result as a vector and not added together.</p></dd><dt><span class="term"><a name="gel-function-CrossProduct"></a>CrossProduct</span></dt><dd><pre class="synopsis">CrossProduct (v,w)</pre><p>CrossProduct of two vectors in R<sup>3</sup> as
-		  a column vector.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-Convolution"></a>Convolution</span></dt><dd><pre class="synopsis">Convolution (a,b)</pre><p lang="en">Aliases: <code class="function">convol</code></p><p lang="en">Calculate convolution of two horizontal vectors.</p></dd><dt><span lang="en" class="term"><a name="gel-function-ConvolutionVector"></a>ConvolutionVector</span></dt><dd><pre class="synopsis">ConvolutionVector (a,b)</pre><p lang="en">Calculate convolution of two horizontal vectors.  Return
+result as a vector and not added together.</p></dd><dt><span lang="en" class="term"><a name="gel-function-CrossProduct"></a>CrossProduct</span></dt><dd><pre class="synopsis">CrossProduct (v,w)</pre><p lang="en">CrossProduct of two vectors in R<sup>3</sup> as
+		  a column vector.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Cross_product" target="_top">Wikipedia</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-DeterminantalDivisorsInteger"></a>DeterminantalDivisorsInteger</span></dt><dd><pre class="synopsis">DeterminantalDivisorsInteger (M)</pre><p>Get the determinantal divisors of an integer matrix.</p></dd><dt><span class="term"><a name="gel-function-DirectSum"></a>DirectSum</span></dt><dd><pre class="synopsis">DirectSum (M,N...)</pre><p>Direct sum of matrices.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-DeterminantalDivisorsInteger"></a>DeterminantalDivisorsInteger</span></dt><dd><pre class="synopsis">DeterminantalDivisorsInteger (M)</pre><p lang="en">Get the determinantal divisors of an integer matrix.</p></dd><dt><span lang="en" class="term"><a name="gel-function-DirectSum"></a>DirectSum</span></dt><dd><pre class="synopsis">DirectSum (M,N...)</pre><p lang="en">Direct sum of matrices.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Matrix_addition#directsum" target="_top">Wikipedia</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-DirectSumMatrixVector"></a>DirectSumMatrixVector</span></dt><dd><pre class="synopsis">DirectSumMatrixVector (v)</pre><p>Direct sum of a vector of matrices.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-DirectSumMatrixVector"></a>DirectSumMatrixVector</span></dt><dd><pre class="synopsis">DirectSumMatrixVector (v)</pre><p lang="en">Direct sum of a vector of matrices.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Matrix_addition#directsum" target="_top">Wikipedia</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-Eigenvalues"></a>Eigenvalues</span></dt><dd><pre class="synopsis">Eigenvalues (M)</pre><p>Aliases: <code class="function">eig</code></p><p>Get the eigenvalues of a square matrix.
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-Eigenvalues"></a>Eigenvalues</span></dt><dd><pre class="synopsis">Eigenvalues (M)</pre><p lang="en">Aliases: <code class="function">eig</code></p><p lang="en">Get the eigenvalues of a square matrix.
 	    Currently only works for matrices of size up to 4 by 4, or for
 	    triangular matrices (for which the eigenvalues are on the
             diagonal).
-	  </p><p>
+	  </p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Eigenvalue" target="_top">Wikipedia</a>,
 	    <a class="ulink" href="http://planetmath.org/Eigenvalue" target="_top">Planetmath</a>, or
 	    <a class="ulink" href="http://mathworld.wolfram.com/Eigenvalue.html" target="_top">Mathworld</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-Eigenvectors"></a>Eigenvectors</span></dt><dd><pre class="synopsis">Eigenvectors (M)</pre><pre class="synopsis">Eigenvectors (M, &amp;eigenvalues)</pre><pre class="synopsis">Eigenvectors (M, &amp;eigenvalues, &amp;multiplicities)</pre><p>Get the eigenvectors of a square matrix.  Optionally get also
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-Eigenvectors"></a>Eigenvectors</span></dt><dd><pre class="synopsis">Eigenvectors (M)</pre><pre class="synopsis">Eigenvectors (M, &amp;eigenvalues)</pre><pre class="synopsis">Eigenvectors (M, &amp;eigenvalues, &amp;multiplicities)</pre><p lang="en">Get the eigenvectors of a square matrix.  Optionally get also
 the eigenvalues and their algebraic multiplicities.
 	    Currently only works for matrices of size up to 2 by 2.
-	  </p><p>
+	  </p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Eigenvector" target="_top">Wikipedia</a>,
 	    <a class="ulink" href="http://planetmath.org/Eigenvector" target="_top">Planetmath</a>, or
 	    <a class="ulink" href="http://mathworld.wolfram.com/Eigenvector.html" target="_top">Mathworld</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-GramSchmidt"></a>GramSchmidt</span></dt><dd><pre class="synopsis">GramSchmidt (v,B...)</pre><p>Apply the Gram-Schmidt process (to the columns) with respect to
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-GramSchmidt"></a>GramSchmidt</span></dt><dd><pre class="synopsis">GramSchmidt (v,B...)</pre><p lang="en">Apply the Gram-Schmidt process (to the columns) with respect to
 inner product given by <code class="varname">B</code>.  If <code class="varname">B</code> is not
 given then the standard Hermitian product is used.  <code class="varname">B</code> can
 either be a sesquilinear function of two arguments or it can be a matrix giving
 a sesquilinear form.  The vectors will be made orthonormal with respect to
-<code class="varname">B</code>.</p><p>
+<code class="varname">B</code>.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/GramSchmidtOrthogonalization" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-HankelMatrix"></a>HankelMatrix</span></dt><dd><pre class="synopsis">HankelMatrix (c,r)</pre><p>Hankel matrix, a matrix whose skew-diagonals are constant.  <code class="varname">c</code> is the first row and <code class="varname">r</code> is the
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-HankelMatrix"></a>HankelMatrix</span></dt><dd><pre class="synopsis">HankelMatrix (c,r)</pre><p lang="en">Hankel matrix, a matrix whose skew-diagonals are constant.  <code class="varname">c</code> is the first row and <code class="varname">r</code> is the
 		  last column.  It is assumed that both arguments are vectors and the last element of <code class="varname">c</code> is the same
-		  as the first element of <code class="varname">r</code>.</p><p>
+		  as the first element of <code class="varname">r</code>.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Hankel_matrix" target="_top">Wikipedia</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-HilbertMatrix"></a>HilbertMatrix</span></dt><dd><pre class="synopsis">HilbertMatrix (n)</pre><p>Hilbert matrix of order <code class="varname">n</code>.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-HilbertMatrix"></a>HilbertMatrix</span></dt><dd><pre class="synopsis">HilbertMatrix (n)</pre><p lang="en">Hilbert matrix of order <code class="varname">n</code>.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Hilbert_matrix" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/HilbertMatrix" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-Image"></a>Image</span></dt><dd><pre class="synopsis">Image (T)</pre><p>Get the image (columnspace) of a linear transform.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-Image"></a>Image</span></dt><dd><pre class="synopsis">Image (T)</pre><p lang="en">Get the image (columnspace) of a linear transform.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Row_and_column_spaces" target="_top">Wikipedia</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-InfNorm"></a>InfNorm</span></dt><dd><pre class="synopsis">InfNorm (v)</pre><p>Get the Inf Norm of a vector, sometimes called the sup norm or the max norm.</p></dd><dt><span class="term"><a name="gel-function-InvariantFactorsInteger"></a>InvariantFactorsInteger</span></dt><dd><pre class="synopsis">InvariantFactorsInteger (M)</pre><p>Get the invariant factors of a square integer matrix.</p></dd><dt><span class="term"><a name="gel-function-InverseHilbertMatrix"></a>InverseHilbertMatrix</span></dt><dd><pre class="synopsis">InverseHilbertMatrix (n)</pre><p>Inverse Hilbert matrix of order <code class="varname">n</code>.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-InfNorm"></a>InfNorm</span></dt><dd><pre class="synopsis">InfNorm (v)</pre><p lang="en">Get the Inf Norm of a vector, sometimes called the sup norm or the max norm.</p></dd><dt><span lang="en" class="term"><a name="gel-function-InvariantFactorsInteger"></a>InvariantFactorsInteger</span></dt><dd><pre class="synopsis">InvariantFactorsInteger (M)</pre><p lang="en">Get the invariant factors of a square integer matrix.</p></dd><dt><span lang="en" class="term"><a name="gel-function-InverseHilbertMatrix"></a>InverseHilbertMatrix</span></dt><dd><pre class="synopsis">InverseHilbertMatrix (n)</pre><p lang="en">Inverse Hilbert matrix of order <code class="varname">n</code>.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Hilbert_matrix" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/HilbertMatrix" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-IsHermitian"></a>IsHermitian</span></dt><dd><pre class="synopsis">IsHermitian (M)</pre><p>Is a matrix Hermitian.  That is, is it equal to its conjugate transpose.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-IsHermitian"></a>IsHermitian</span></dt><dd><pre class="synopsis">IsHermitian (M)</pre><p lang="en">Is a matrix Hermitian.  That is, is it equal to its conjugate transpose.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Hermitian_matrix" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/HermitianMatrix" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-IsInSubspace"></a>IsInSubspace</span></dt><dd><pre class="synopsis">IsInSubspace (v,W)</pre><p>Test if a vector is in a subspace.</p></dd><dt><span class="term"><a name="gel-function-IsInvertible"></a>IsInvertible</span></dt><dd><pre class="synopsis">IsInvertible (n)</pre><p>Is a matrix (or number) invertible (Integer matrix is invertible if and only if it is invertible over the integers).</p></dd><dt><span class="term"><a name="gel-function-IsInvertibleField"></a>IsInvertibleField</span></dt><dd><pre class="synopsis">IsInvertibleField (n)</pre><p>Is a matrix (or number) invertible over a field.</p></dd><dt><span class="term"><a name="gel-function-IsNormal"></a>IsNormal</span></dt><dd><pre class="synopsis">IsNormal (M)</pre><p>Is <code class="varname">M</code> a normal matrix.  That is,
-	  does <strong class="userinput"><code>M*M' == M'*M</code></strong>.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-IsInSubspace"></a>IsInSubspace</span></dt><dd><pre class="synopsis">IsInSubspace (v,W)</pre><p lang="en">Test if a vector is in a subspace.</p></dd><dt><span lang="en" class="term"><a name="gel-function-IsInvertible"></a>IsInvertible</span></dt><dd><pre class="synopsis">IsInvertible (n)</pre><p lang="en">Is a matrix (or number) invertible (Integer matrix is invertible if and only if it is invertible over the integers).</p></dd><dt><span lang="en" class="term"><a name="gel-function-IsInvertibleField"></a>IsInvertibleField</span></dt><dd><pre class="synopsis">IsInvertibleField (n)</pre><p lang="en">Is a matrix (or number) invertible over a field.</p></dd><dt><span lang="en" class="term"><a name="gel-function-IsNormal"></a>IsNormal</span></dt><dd><pre class="synopsis">IsNormal (M)</pre><p lang="en">Is <code class="varname">M</code> a normal matrix.  That is,
+	  does <strong class="userinput"><code>M*M' == M'*M</code></strong>.</p><p lang="en">
 	    See
 	    <a class="ulink" href="http://planetmath.org/NormalMatrix" target="_top">Planetmath</a> or
 	    <a class="ulink" href="http://mathworld.wolfram.com/NormalMatrix.html" target="_top">Mathworld</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-IsPositiveDefinite"></a>IsPositiveDefinite</span></dt><dd><pre class="synopsis">IsPositiveDefinite (M)</pre><p>Is <code class="varname">M</code> a Hermitian positive definite matrix.  That is if
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-IsPositiveDefinite"></a>IsPositiveDefinite</span></dt><dd><pre class="synopsis">IsPositiveDefinite (M)</pre><p lang="en">Is <code class="varname">M</code> a Hermitian positive definite matrix.  That is if
 <strong class="userinput"><code>HermitianProduct(M*v,v)</code></strong> is always strictly positive for
 any vector <code class="varname">v</code>.
 <code class="varname">M</code> must be square and Hermitian to be positive definite.
 The check that is performed is that every principal submatrix has a non-negative
 determinant.
-(See <a class="link" href="ch11s08.html#gel-function-HermitianProduct">HermitianProduct</a>)</p><p>
+(See <a class="link" href="ch11s08.html#gel-function-HermitianProduct">HermitianProduct</a>)</p><p lang="en">
 	    Note that some authors (for example Mathworld) do not require that
 	    <code class="varname">M</code> be Hermitian, and then the condition is
 	    on the real part of the inner product, but we do not take this
 	    view.  If you wish to perform this check, just check the
 	    Hermitian part of the matrix <code class="varname">M</code> as follows:
 	    <strong class="userinput"><code>IsPositiveDefinite(M+M')</code></strong>.
-	  </p><p>
+	  </p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Positive-definite_matrix" target="_top">Wikipedia</a>,
 	    <a class="ulink" href="http://planetmath.org/PositiveDefinite" target="_top">Planetmath</a>, or
 	    <a class="ulink" href="http://mathworld.wolfram.com/PositiveDefiniteMatrix.html" target="_top">Mathworld</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-IsPositiveSemidefinite"></a>IsPositiveSemidefinite</span></dt><dd><pre class="synopsis">IsPositiveSemidefinite (M)</pre><p>Is <code class="varname">M</code> a Hermitian positive semidefinite matrix.  That is if
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-IsPositiveSemidefinite"></a>IsPositiveSemidefinite</span></dt><dd><pre class="synopsis">IsPositiveSemidefinite (M)</pre><p lang="en">Is <code class="varname">M</code> a Hermitian positive semidefinite matrix.  That is if
 <strong class="userinput"><code>HermitianProduct(M*v,v)</code></strong> is always non-negative for
 any vector <code class="varname">v</code>.
 <code class="varname">M</code> must be square and Hermitian to be positive semidefinite.
 The check that is performed is that every principal submatrix has a non-negative
 determinant.
-(See <a class="link" href="ch11s08.html#gel-function-HermitianProduct">HermitianProduct</a>)</p><p>
+(See <a class="link" href="ch11s08.html#gel-function-HermitianProduct">HermitianProduct</a>)</p><p lang="en">
 	    Note that some authors do not require that
 	    <code class="varname">M</code> be Hermitian, and then the condition is
 	    on the real part of the inner product, but we do not take this
 	    view.  If you wish to perform this check, just check the
 	    Hermitian part of the matrix <code class="varname">M</code> as follows:
 	    <strong class="userinput"><code>IsPositiveSemidefinite(M+M')</code></strong>.
-	  </p><p>
+	  </p><p lang="en">
 	    See
 	    <a class="ulink" href="http://planetmath.org/PositiveSemidefinite" target="_top">Planetmath</a> or
 	    <a class="ulink" href="http://mathworld.wolfram.com/PositiveSemidefiniteMatrix.html" target="_top">Mathworld</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-IsSkewHermitian"></a>IsSkewHermitian</span></dt><dd><pre class="synopsis">IsSkewHermitian (M)</pre><p>Is a matrix skew-Hermitian.  That is, is the conjugate transpose equal to negative of the matrix.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-IsSkewHermitian"></a>IsSkewHermitian</span></dt><dd><pre class="synopsis">IsSkewHermitian (M)</pre><p lang="en">Is a matrix skew-Hermitian.  That is, is the conjugate transpose equal to negative of the matrix.</p><p lang="en">
 	    See
 	    <a class="ulink" href="http://planetmath.org/SkewHermitianMatrix" target="_top">Planetmath</a> for more information.
-	  </p></dd><dt><span class="term"><a name="gel-function-IsUnitary"></a>IsUnitary</span></dt><dd><pre class="synopsis">IsUnitary (M)</pre><p>Is a matrix unitary?  That is, does
+	  </p></dd><dt><span lang="en" class="term"><a name="gel-function-IsUnitary"></a>IsUnitary</span></dt><dd><pre class="synopsis">IsUnitary (M)</pre><p lang="en">Is a matrix unitary?  That is, does
 	  <strong class="userinput"><code>M'*M</code></strong> and <strong class="userinput"><code>M*M'</code></strong>
-	  equal the identity.</p><p>
+	  equal the identity.</p><p lang="en">
 	    See
 	    <a class="ulink" href="http://planetmath.org/UnitaryTransformation" target="_top">Planetmath</a> or
 	    <a class="ulink" href="http://mathworld.wolfram.com/UnitaryMatrix.html" target="_top">Mathworld</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-JordanBlock"></a>JordanBlock</span></dt><dd><pre class="synopsis">JordanBlock (n,lambda)</pre><p>Aliases: <code class="function">J</code></p><p>Get the Jordan block corresponding to the eigenvalue
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-JordanBlock"></a>JordanBlock</span></dt><dd><pre class="synopsis">JordanBlock (n,lambda)</pre><p lang="en">Aliases: <code class="function">J</code></p><p lang="en">Get the Jordan block corresponding to the eigenvalue
 	  <code class="varname">lambda</code> with multiplicity <code class="varname">n</code>.
-	  </p><p>
+	  </p><p lang="en">
 	    See
 	    <a class="ulink" href="http://planetmath.org/JordanCanonicalFormTheorem" target="_top">Planetmath</a> or
 	    <a class="ulink" href="http://mathworld.wolfram.com/JordanBlock.html" target="_top">Mathworld</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-Kernel"></a>Kernel</span></dt><dd><pre class="synopsis">Kernel (T)</pre><p>Get the kernel (nullspace) of a linear transform.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-Kernel"></a>Kernel</span></dt><dd><pre class="synopsis">Kernel (T)</pre><p lang="en">Get the kernel (nullspace) of a linear transform.</p><p lang="en">
 	  (See <a class="link" href="ch11s09.html#gel-function-NullSpace">NullSpace</a>)
-	  </p></dd><dt><span class="term"><a name="gel-function-KroneckerProduct"></a>KroneckerProduct</span></dt><dd><pre class="synopsis">KroneckerProduct (M, N)</pre><p>Aliases: <code class="function">TensorProduct</code></p><p>
+	  </p></dd><dt><span lang="en" class="term"><a name="gel-function-KroneckerProduct"></a>KroneckerProduct</span></dt><dd><pre lang="en" class="synopsis">KroneckerProduct (M, N)</pre><p lang="en">Aliases: <code class="function">TensorProduct</code></p><p lang="en">
 		  Compute the Kronecker product (tensor product in standard basis)
 		  of two matrices.
-	  </p><p>
+	  </p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Kronecker_product" target="_top">Wikipedia</a>, 
 	    <a class="ulink" href="http://planetmath.org/KroneckerProduct" target="_top">Planetmath</a> or
 	    <a class="ulink" href="http://mathworld.wolfram.com/KroneckerProduct.html" target="_top">Mathworld</a> for more information.
-          </p><p>Version 1.0.18 onwards.</p></dd><dt><span class="term"><a name="gel-function-LUDecomposition"></a>LUDecomposition</span></dt><dd><pre class="synopsis">LUDecomposition (A, L, U)</pre><p>
+          </p><p lang="en">Version 1.0.18 onwards.</p></dd><dt><span lang="en" class="term"><a name="gel-function-LUDecomposition"></a>LUDecomposition</span></dt><dd><pre class="synopsis">LUDecomposition (A, L, U)</pre><p lang="en">
 		  Get the LU decomposition of <code class="varname">A</code>, that is
 		  find a lower triangular matrix and upper triangular
 		  matrix whose product is <code class="varname">A</code>.
@@ -163,68 +163,68 @@ determinant.
 	    <code class="varname">U</code>, which should be references.  It returns <code class="constant">true</code>
 	    if successful.
 	    For example suppose that A is a square matrix, then after running:
-	    </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>LUDecomposition(A,&amp;L,&amp;U)</code></strong>
-</pre><p>
+	    </p><pre lang="en" class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>LUDecomposition(A,&amp;L,&amp;U)</code></strong>
+</pre><p lang="en">
 	    You will have the lower matrix stored in a variable called
 	    <code class="varname">L</code> and the upper matrix in a variable called
 	    <code class="varname">U</code>.
-	  </p><p>
+	  </p><p lang="en">
 	    This is the LU decomposition of a matrix aka Crout and/or Cholesky
 	    reduction.
 	    (ISBN 0-201-11577-8 pp.99-103)
 	    The upper triangular matrix features a diagonal
 	    of values 1 (one).  This is not Doolittle's Method, which features
 	    the 1's diagonal on the lower matrix. 
-	  </p><p>
+	  </p><p lang="en">
 	    Not all matrices have LU decompositions, for example
 	    <strong class="userinput"><code>[0,1;1,0]</code></strong> does not and this function returns
 	    <code class="constant">false</code> in this case and sets <code class="varname">L</code>
 	    and <code class="varname">U</code> to <code class="constant">null</code>.
-	  </p><p>
+	  </p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/LU_decomposition" target="_top">Wikipedia</a>,
 	    <a class="ulink" href="http://planetmath.org/LUDecomposition" target="_top">Planetmath</a> or
 	    <a class="ulink" href="http://mathworld.wolfram.com/LUDecomposition.html" target="_top">Mathworld</a> for more information.
-	  </p></dd><dt><span class="term"><a name="gel-function-Minor"></a>Minor</span></dt><dd><pre class="synopsis">Minor (M,i,j)</pre><p>Get the <code class="varname">i</code>-<code class="varname">j</code> minor of a matrix.</p><p>
+	  </p></dd><dt><span lang="en" class="term"><a name="gel-function-Minor"></a>Minor</span></dt><dd><pre class="synopsis">Minor (M,i,j)</pre><p lang="en">Get the <code class="varname">i</code>-<code class="varname">j</code> minor of a matrix.</p><p lang="en">
 	    See
 	    <a class="ulink" href="http://planetmath.org/Minor" target="_top">Planetmath</a> for more information.
-	  </p></dd><dt><span class="term"><a name="gel-function-NonPivotColumns"></a>NonPivotColumns</span></dt><dd><pre class="synopsis">NonPivotColumns (M)</pre><p>Return the columns that are not the pivot columns of a matrix.</p></dd><dt><span class="term"><a name="gel-function-Norm"></a>Norm</span></dt><dd><pre class="synopsis">Norm (v,p...)</pre><p>Aliases: <code class="function">norm</code></p><p>Get the p Norm (or 2 Norm if no p is supplied) of a vector.</p></dd><dt><span class="term"><a name="gel-function-NullSpace"></a>NullSpace</span></dt><dd><pre class="synopsis">NullSpace (T)</pre><p>Get the nullspace of a matrix.  That is the kernel of the
+	  </p></dd><dt><span lang="en" class="term"><a name="gel-function-NonPivotColumns"></a>NonPivotColumns</span></dt><dd><pre class="synopsis">NonPivotColumns (M)</pre><p lang="en">Return the columns that are not the pivot columns of a matrix.</p></dd><dt><span lang="en" class="term"><a name="gel-function-Norm"></a>Norm</span></dt><dd><pre class="synopsis">Norm (v,p...)</pre><p lang="en">Aliases: <code class="function">norm</code></p><p lang="en">Get the p Norm (or 2 Norm if no p is supplied) of a vector.</p></dd><dt><span lang="en" class="term"><a name="gel-function-NullSpace"></a>NullSpace</span></dt><dd><pre class="synopsis">NullSpace (T)</pre><p lang="en">Get the nullspace of a matrix.  That is the kernel of the
 	  linear mapping that the matrix represents.  This is returned
 	  as a matrix whose column space is the nullspace of
-	  <code class="varname">T</code>.</p><p>
+	  <code class="varname">T</code>.</p><p lang="en">
 	    See
 	    <a class="ulink" href="http://planetmath.org/Nullspace" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-Nullity"></a>Nullity</span></dt><dd><pre class="synopsis">Nullity (M)</pre><p>Aliases: <code class="function">nullity</code></p><p>Get the nullity of a matrix.  That is, return the dimension of
-the nullspace; the dimension of the kernel of <code class="varname">M</code>.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-Nullity"></a>Nullity</span></dt><dd><pre class="synopsis">Nullity (M)</pre><p lang="en">Aliases: <code class="function">nullity</code></p><p lang="en">Get the nullity of a matrix.  That is, return the dimension of
+the nullspace; the dimension of the kernel of <code class="varname">M</code>.</p><p lang="en">
 	    See
 	    <a class="ulink" href="http://planetmath.org/Nullity" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-OrthogonalComplement"></a>OrthogonalComplement</span></dt><dd><pre class="synopsis">OrthogonalComplement (M)</pre><p>Get the orthogonal complement of the columnspace.</p></dd><dt><span class="term"><a name="gel-function-PivotColumns"></a>PivotColumns</span></dt><dd><pre class="synopsis">PivotColumns (M)</pre><p>Return pivot columns of a matrix, that is columns that have a leading 1 in row reduced form.  Also returns the row where they occur.</p></dd><dt><span class="term"><a name="gel-function-Projection"></a>Projection</span></dt><dd><pre class="synopsis">Projection (v,W,B...)</pre><p>Projection of vector <code class="varname">v</code> onto subspace
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-OrthogonalComplement"></a>OrthogonalComplement</span></dt><dd><pre class="synopsis">OrthogonalComplement (M)</pre><p lang="en">Get the orthogonal complement of the columnspace.</p></dd><dt><span lang="en" class="term"><a name="gel-function-PivotColumns"></a>PivotColumns</span></dt><dd><pre class="synopsis">PivotColumns (M)</pre><p lang="en">Return pivot columns of a matrix, that is columns that have a leading 1 in row reduced form.  Also returns the row where they occur.</p></dd><dt><span lang="en" class="term"><a name="gel-function-Projection"></a>Projection</span></dt><dd><pre class="synopsis">Projection (v,W,B...)</pre><p lang="en">Projection of vector <code class="varname">v</code> onto subspace
 <code class="varname">W</code> with respect to inner product given by
 <code class="varname">B</code>.  If <code class="varname">B</code> is not given then the standard
 Hermitian product is used.  <code class="varname">B</code> can either be a sesquilinear
 function of two arguments or it can be a matrix giving a sesquilinear form.
-	  </p></dd><dt><span class="term"><a name="gel-function-QRDecomposition"></a>QRDecomposition</span></dt><dd><pre class="synopsis">QRDecomposition (A, Q)</pre><p>
+	  </p></dd><dt><span lang="en" class="term"><a name="gel-function-QRDecomposition"></a>QRDecomposition</span></dt><dd><pre class="synopsis">QRDecomposition (A, Q)</pre><p lang="en">
 	    Get the QR decomposition of a square matrix <code class="varname">A</code>,
 	    returns the upper triangular matrix <code class="varname">R</code>
 	    and sets <code class="varname">Q</code> to the orthogonal (unitary) matrix.
 	    <code class="varname">Q</code> should be a reference or <code class="constant">null</code> if you don't
 	    want any return.
 	    For example:
-	    </p><pre class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>R = QRDecomposition(A,&amp;Q)</code></strong>
-</pre><p>
+	    </p><pre lang="en" class="screen"><code class="prompt">genius&gt;</code> <strong class="userinput"><code>R = QRDecomposition(A,&amp;Q)</code></strong>
+</pre><p lang="en">
 	    You will have the upper triangular matrix stored in
 	    a variable called
 	    <code class="varname">R</code> and the orthogonal (unitary) matrix stored in
 	    <code class="varname">Q</code>.
-	  </p><p>
+	  </p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/QR_decomposition" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/QRDecomposition" target="_top">Planetmath</a> or
 	    <a class="ulink" href="http://mathworld.wolfram.com/QRDecomposition.html" target="_top">Mathworld</a> for more information.
-	  </p></dd><dt><span class="term"><a name="gel-function-RayleighQuotient"></a>RayleighQuotient</span></dt><dd><pre class="synopsis">RayleighQuotient (A,x)</pre><p>Return the Rayleigh quotient (also called the Rayleigh-Ritz quotient or ratio) of a matrix and a vector.</p><p>
+	  </p></dd><dt><span lang="en" class="term"><a name="gel-function-RayleighQuotient"></a>RayleighQuotient</span></dt><dd><pre class="synopsis">RayleighQuotient (A,x)</pre><p lang="en">Return the Rayleigh quotient (also called the Rayleigh-Ritz quotient or ratio) of a matrix and a vector.</p><p lang="en">
 	    See
 	    <a class="ulink" href="http://planetmath.org/RayleighQuotient" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-RayleighQuotientIteration"></a>RayleighQuotientIteration</span></dt><dd><pre class="synopsis">RayleighQuotientIteration (A,x,epsilon,maxiter,vecref)</pre><p>Find eigenvalues of <code class="varname">A</code> using the Rayleigh
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-RayleighQuotientIteration"></a>RayleighQuotientIteration</span></dt><dd><pre class="synopsis">RayleighQuotientIteration (A,x,epsilon,maxiter,vecref)</pre><p lang="en">Find eigenvalues of <code class="varname">A</code> using the Rayleigh
 	        quotient iteration method.  <code class="varname">x</code> is a guess
 		at a eigenvector and could be random.  It should have 
 	        nonzero imaginary part if it will have any chance at finding
@@ -233,53 +233,53 @@ function of two arguments or it can be a matrix giving a sesquilinear form.
 		if we cannot get within an error of <code class="varname">epsilon</code>.
 		<code class="varname">vecref</code> should either be <code class="constant">null</code> or a reference
 		to a variable where the eigenvector should be stored.
-		</p><p>
+		</p><p lang="en">
 	    See
 	    <a class="ulink" href="http://planetmath.org/RayleighQuotient" target="_top">Planetmath</a> for more information on Rayleigh quotient.
-          </p></dd><dt><span class="term"><a name="gel-function-Rank"></a>Rank</span></dt><dd><pre class="synopsis">Rank (M)</pre><p>Aliases: <code class="function">rank</code></p><p>Get the rank of a matrix.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-Rank"></a>Rank</span></dt><dd><pre class="synopsis">Rank (M)</pre><p lang="en">Aliases: <code class="function">rank</code></p><p lang="en">Get the rank of a matrix.</p><p lang="en">
 	    See
 	    <a class="ulink" href="http://planetmath.org/SylvestersLaw" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-RosserMatrix"></a>RosserMatrix</span></dt><dd><pre class="synopsis">RosserMatrix ()</pre><p>Returns the Rosser matrix, which is a classic symmetric eigenvalue test problem.</p></dd><dt><span class="term"><a name="gel-function-Rotation2D"></a>Rotation2D</span></dt><dd><pre class="synopsis">Rotation2D (angle)</pre><p>Aliases: <code class="function">RotationMatrix</code></p><p>Return the matrix corresponding to rotation around origin in R<sup>2</sup>.</p></dd><dt><span class="term"><a name="gel-function-Rotation3DX"></a>Rotation3DX</span></dt><dd><pre class="synopsis">Rotation3DX (angle)</pre><p>Return the matrix corresponding to rotation around origin in R<sup>3</sup> about the x-axis.</p></dd><dt><span class="term"><a name="gel-function-Rotation3DY"></a>Rotation3DY</span></dt><dd><pre class="synopsis">Rotation3DY (angle)</pre><p>Return the matrix corresponding to rotation around origin in R<sup>3</sup> about the y-axis.</p></dd><dt><span class="term"><a name="gel-function-Rotation3DZ"></a>Rotation3DZ</span></dt><dd><pre class="synopsis">Rotation3DZ (angle)</pre><p>Return the matrix corresponding to rotation around origin in R<sup>3</sup> about the z-axis.</p></dd><dt><span class="term"><a name="gel-function-RowSpace"></a>RowSpace</span></dt><dd><pre class="synopsis">RowSpace (M)</pre><p>Get a basis matrix for the rowspace of a matrix.</p></dd><dt><span class="term"><a name="gel-function-SesquilinearForm"></a>SesquilinearForm</span></dt><dd><pre class="synopsis">SesquilinearForm (v,A,w)</pre><p>Evaluate (v,w) with respect to the sesquilinear form given by the matrix A.</p></dd><dt><span class="term"><a name="gel-function-SesquilinearFormFunction"></a>SesquilinearFormFunction</span></dt><dd><pre class="synopsis">SesquilinearFormFunction (A)</pre><p>Return a function that evaluates two vectors with respect to the sesquilinear form given by A.</p></dd><dt><span class="term"><a name="gel-function-SmithNormalFormField"></a>SmithNormalFormField</span></dt><dd><pre class="synopsis">SmithNormalFormField (A)</pre><p>Returns the Smith normal form of a matrix over fields (will end up with 1's on the diagonal).</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-RosserMatrix"></a>RosserMatrix</span></dt><dd><pre class="synopsis">RosserMatrix ()</pre><p lang="en">Returns the Rosser matrix, which is a classic symmetric eigenvalue test problem.</p></dd><dt><span lang="en" class="term"><a name="gel-function-Rotation2D"></a>Rotation2D</span></dt><dd><pre class="synopsis">Rotation2D (angle)</pre><p lang="en">Aliases: <code class="function">RotationMatrix</code></p><p lang="en">Return the matrix corresponding to rotation around origin in R<sup>2</sup>.</p></dd><dt><span lang="en" class="term"><a name="gel-function-Rotation3DX"></a>Rotation3DX</span></dt><dd><pre class="synopsis">Rotation3DX (angle)</pre><p lang="en">Return the matrix corresponding to rotation around origin in R<sup>3</sup> about the x-axis.</p></dd><dt><span lang="en" class="term"><a name="gel-function-Rotation3DY"></a>Rotation3DY</span></dt><dd><pre class="synopsis">Rotation3DY (angle)</pre><p lang="en">Return the matrix corresponding to rotation around origin in R<sup>3</sup> about the y-axis.</p></dd><dt><span lang="en" class="term"><a name="gel-function-Rotation3DZ"></a>Rotation3DZ</span></dt><dd><pre class="synopsis">Rotation3DZ (angle)</pre><p lang="en">Return the matrix corresponding to rotation around origin in R<sup>3</sup> about the z-axis.</p></dd><dt><span lang="en" class="term"><a name="gel-function-RowSpace"></a>RowSpace</span></dt><dd><pre class="synopsis">RowSpace (M)</pre><p lang="en">Get a basis matrix for the rowspace of a matrix.</p></dd><dt><span lang="en" class="term"><a name="gel-function-SesquilinearForm"></a>SesquilinearForm</span></dt><dd><pre class="synopsis">SesquilinearForm (v,A,w)</pre><p lang="en">Evaluate (v,w) with respect to the sesquilinear form given by the matrix A.</p></dd><dt><span lang="en" class="term"><a name="gel-function-SesquilinearFormFunction"></a>SesquilinearFormFunction</span></dt><dd><pre class="synopsis">SesquilinearFormFunction (A)</pre><p lang="en">Return a function that evaluates two vectors with respect to the sesquilinear form given by A.</p></dd><dt><span lang="en" class="term"><a name="gel-function-SmithNormalFormField"></a>SmithNormalFormField</span></dt><dd><pre class="synopsis">SmithNormalFormField (A)</pre><p lang="en">Returns the Smith normal form of a matrix over fields (will end up with 1's on the diagonal).</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Smith_normal_form" target="_top">Wikipedia</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-SmithNormalFormInteger"></a>SmithNormalFormInteger</span></dt><dd><pre class="synopsis">SmithNormalFormInteger (M)</pre><p>Return the Smith normal form for square integer matrices over integers.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-SmithNormalFormInteger"></a>SmithNormalFormInteger</span></dt><dd><pre class="synopsis">SmithNormalFormInteger (M)</pre><p lang="en">Return the Smith normal form for square integer matrices over integers.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Smith_normal_form" target="_top">Wikipedia</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-SolveLinearSystem"></a>SolveLinearSystem</span></dt><dd><pre class="synopsis">SolveLinearSystem (M,V,args...)</pre><p>Solve linear system Mx=V, return solution V if there is a unique solution, <code class="constant">null</code> otherwise.  Extra two reference parameters can optionally be used to get the reduced M and V.</p></dd><dt><span class="term"><a name="gel-function-ToeplitzMatrix"></a>ToeplitzMatrix</span></dt><dd><pre class="synopsis">ToeplitzMatrix (c, r...)</pre><p>Return the Toeplitz matrix constructed given the first column c
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-SolveLinearSystem"></a>SolveLinearSystem</span></dt><dd><pre class="synopsis">SolveLinearSystem (M,V,args...)</pre><p lang="en">Solve linear system Mx=V, return solution V if there is a unique solution, <code class="constant">null</code> otherwise.  Extra two reference parameters can optionally be used to get the reduced M and V.</p></dd><dt><span lang="en" class="term"><a name="gel-function-ToeplitzMatrix"></a>ToeplitzMatrix</span></dt><dd><pre class="synopsis">ToeplitzMatrix (c, r...)</pre><p lang="en">Return the Toeplitz matrix constructed given the first column c
 and (optionally) the first row r.  If only the column c is given then it is
 conjugated and the nonconjugated version is used for the first row to give a
-Hermitian matrix (if the first element is real of course).</p><p>
+Hermitian matrix (if the first element is real).</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Toeplitz_matrix" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/ToeplitzMatrix" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-Trace"></a>Trace</span></dt><dd><pre class="synopsis">Trace (M)</pre><p>Aliases: <code class="function">trace</code></p><p>Calculate the trace of a matrix.  That is the sum of the diagonal elements.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-Trace"></a>Trace</span></dt><dd><pre class="synopsis">Trace (M)</pre><p lang="en">Aliases: <code class="function">trace</code></p><p lang="en">Calculate the trace of a matrix.  That is the sum of the diagonal elements.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Trace_(linear_algebra)" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/Trace" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-Transpose"></a>Transpose</span></dt><dd><pre class="synopsis">Transpose (M)</pre><p>Transpose of a matrix.  This is the same as the
-          <strong class="userinput"><code>.'</code></strong> operator.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-Transpose"></a>Transpose</span></dt><dd><pre class="synopsis">Transpose (M)</pre><p lang="en">Transpose of a matrix.  This is the same as the
+          <strong class="userinput"><code>.'</code></strong> operator.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Transpose" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/Transpose" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-VandermondeMatrix"></a>VandermondeMatrix</span></dt><dd><pre class="synopsis">VandermondeMatrix (v)</pre><p>Aliases: <code class="function">vander</code></p><p>Return the Vandermonde matrix.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-VandermondeMatrix"></a>VandermondeMatrix</span></dt><dd><pre class="synopsis">VandermondeMatrix (v)</pre><p lang="en">Aliases: <code class="function">vander</code></p><p lang="en">Return the Vandermonde matrix.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Vandermonde_matrix" target="_top">Wikipedia</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-VectorAngle"></a>VectorAngle</span></dt><dd><pre class="synopsis">VectorAngle (v,w,B...)</pre><p>The angle of two vectors with respect to inner product given by
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-VectorAngle"></a>VectorAngle</span></dt><dd><pre class="synopsis">VectorAngle (v,w,B...)</pre><p lang="en">The angle of two vectors with respect to inner product given by
 <code class="varname">B</code>.  If <code class="varname">B</code> is not given then the standard
 Hermitian product is used.  <code class="varname">B</code> can either be a sesquilinear
 function of two arguments or it can be a matrix giving a sesquilinear form.
-</p></dd><dt><span class="term"><a name="gel-function-VectorSpaceDirectSum"></a>VectorSpaceDirectSum</span></dt><dd><pre class="synopsis">VectorSpaceDirectSum (M,N)</pre><p>The direct sum of the vector spaces M and N.</p></dd><dt><span class="term"><a name="gel-function-VectorSubspaceIntersection"></a>VectorSubspaceIntersection</span></dt><dd><pre class="synopsis">VectorSubspaceIntersection (M,N)</pre><p>Intersection of the subspaces given by M and N.</p></dd><dt><span class="term"><a name="gel-function-VectorSubspaceSum"></a>VectorSubspaceSum</span></dt><dd><pre class="synopsis">VectorSubspaceSum (M,N)</pre><p>The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}.</p></dd><dt><span class="term"><a name="gel-function-adj"></a>adj</span></dt><dd><pre class="synopsis">adj (m)</pre><p>Aliases: <code class="function">Adjugate</code></p><p>Get the classical adjoint (adjugate) of a matrix.</p></dd><dt><span class="term"><a name="gel-function-cref"></a>cref</span></dt><dd><pre class="synopsis">cref (M)</pre><p>Aliases: <code class="function">CREF</code> <code class="function">ColumnReducedEchelonForm</code></p><p>Compute the Column Reduced Echelon Form.</p></dd><dt><span class="term"><a name="gel-function-det"></a>det</span></dt><dd><pre class="synopsis">det (M)</pre><p>Aliases: <code class="function">Determinant</code></p><p>Get the determinant of a matrix.</p><p>
+</p></dd><dt><span lang="en" class="term"><a name="gel-function-VectorSpaceDirectSum"></a>VectorSpaceDirectSum</span></dt><dd><pre class="synopsis">VectorSpaceDirectSum (M,N)</pre><p lang="en">The direct sum of the vector spaces M and N.</p></dd><dt><span lang="en" class="term"><a name="gel-function-VectorSubspaceIntersection"></a>VectorSubspaceIntersection</span></dt><dd><pre class="synopsis">VectorSubspaceIntersection (M,N)</pre><p lang="en">Intersection of the subspaces given by M and N.</p></dd><dt><span lang="en" class="term"><a name="gel-function-VectorSubspaceSum"></a>VectorSubspaceSum</span></dt><dd><pre class="synopsis">VectorSubspaceSum (M,N)</pre><p lang="en">The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}.</p></dd><dt><span lang="en" class="term"><a name="gel-function-adj"></a>adj</span></dt><dd><pre class="synopsis">adj (m)</pre><p lang="en">Aliases: <code class="function">Adjugate</code></p><p lang="en">Get the classical adjoint (adjugate) of a matrix.</p></dd><dt><span lang="en" class="term"><a name="gel-function-cref"></a>cref</span></dt><dd><pre class="synopsis">cref (M)</pre><p lang="en">Aliases: <code class="function">CREF</code> <code class="function">ColumnReducedEchelonForm</code></p><p lang="en">Compute the Column Reduced Echelon Form.</p></dd><dt><span lang="en" class="term"><a name="gel-function-det"></a>det</span></dt><dd><pre class="synopsis">det (M)</pre><p lang="en">Aliases: <code class="function">Determinant</code></p><p lang="en">Get the determinant of a matrix.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Determinant" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/Determinant2" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-ref"></a>ref</span></dt><dd><pre class="synopsis">ref (M)</pre><p>Aliases: <code class="function">REF</code> <code class="function">RowEchelonForm</code></p><p>Get the row echelon form of a matrix.  That is, apply gaussian
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-ref"></a>ref</span></dt><dd><pre class="synopsis">ref (M)</pre><p lang="en">Aliases: <code class="function">REF</code> <code class="function">RowEchelonForm</code></p><p lang="en">Get the row echelon form of a matrix.  That is, apply gaussian
 elimination but not backaddition to <code class="varname">M</code>.  The pivot rows are
-divided to make all pivots 1.</p><p>
+divided to make all pivots 1.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Row_echelon_form" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/RowEchelonForm" target="_top">Planetmath</a> for more information.
-          </p></dd><dt><span class="term"><a name="gel-function-rref"></a>rref</span></dt><dd><pre class="synopsis">rref (M)</pre><p>Aliases: <code class="function">RREF</code> <code class="function">ReducedRowEchelonForm</code></p><p>Get the reduced row echelon form of a matrix.  That is, apply gaussian elimination together with backaddition to <code class="varname">M</code>.</p><p>
+          </p></dd><dt><span lang="en" class="term"><a name="gel-function-rref"></a>rref</span></dt><dd><pre class="synopsis">rref (M)</pre><p lang="en">Aliases: <code class="function">RREF</code> <code class="function">ReducedRowEchelonForm</code></p><p lang="en">Get the reduced row echelon form of a matrix.  That is, apply gaussian elimination together with backaddition to <code class="varname">M</code>.</p><p lang="en">
 	    See
 	    <a class="ulink" href="https://en.wikipedia.org/wiki/Reduced_row_echelon_form" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://planetmath.org/ReducedRowEchelonForm" target="_top">Planetmath</a> for more information.
-          </p></dd></dl></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch11s08.html">Zurück</a> </td><td width="20%" align="center"><a accesskey="u" href="ch11.html">Nach oben</a></td><td width="40%" align="right"> <a accesskey="n" href="ch11s10.html">Weiter</a></td></tr><tr><td width="40%" align="left" valign="top">Matrixoperationen </td><td width="20%" align="center"><a accesskey="h" href="index.html">Zum Anfang</a></td><td width="40%" align="right" valign="top"> Kombinatorik</td></tr></table></div></body></html>
+          </p></dd></dl></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch11s08.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch11.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch11s10.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Matrixoperationen </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Kombinatorik</td></tr></table></div></body></html>

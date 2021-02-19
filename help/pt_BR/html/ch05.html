@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Capítulo 5. GEL Basics</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manual do Genius"><link rel="up" href="index.html" title="Manual do Genius"><link rel="prev" href="ch04s05.html" title="Surface Plots"><link rel="next" href="ch05s02.html" title="Using Variables"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Capítulo 5. GEL Basics</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s05.html">Anterior</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch05s02.html">Próxima</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="genius-gel"></a>Capítulo 5. GEL Basics</h1></div></div></div><div class="toc"><p><b>Índice</b></p><dl class="toc"><dt><span class="sect1"><a href="ch05.html#genius-gel-values">Values</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05.html#genius-gel-values-numbers">Números</a></span></dt><dt><span class="sect2"><a href="ch05.html#genius-gel-values-booleans">Booleanos</a></span></dt><dt><span class="sect2"><a href="ch05.html#genius-gel-values-strings">Strings</a></span></dt><dt><span class="sect2"><a href="ch05.html#genius-gel-values-null">Null</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05s02.html">Using Variables</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05s02.html#genius-gel-variables-setting">Setting Variables</a></span></dt><dt><span class="sect2"><a href="ch05s02.html#genius-gel-variables-built-in">Built-in Variables</a></span></dt><dt><span class="sect2"><a href="ch05s02.html#genius-gel-previous-result">Previous Result Variable</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05s03.html">Using Functions</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-defining">Defining Functions</a></span></dt><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-variable-argument-lists">Variable Argument Lists</a></span></dt><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-passing-functions">Passing Functions to Functions</a></span></dt><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-operations">Operations on Functions</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05s04.html">Separator</a></span></dt><dt><span class="sect1"><a href="ch05s05.html">Comments</a></span></dt><dt><span class="sect1"><a href="ch05s06.html">Modular Evaluation</a></span></dt><dt><span class="sect1"><a href="ch05s07.html">List of GEL Operators</a></span></dt></dl></div><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 5. GEL Basics</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Manual do Genius"><link rel="up" href="index.html" title="Manual do Genius"><link rel="prev" href="ch04s05.html" title="Surface Plots"><link rel="next" href="ch05s02.html" title="Using Variables"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 5. GEL Basics</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s05.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch05s02.html">Next</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="genius-gel"></a>Chapter 5. GEL Basics</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="sect1"><a href="ch05.html#genius-gel-values">Values</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05.html#genius-gel-values-numbers">Números</a></span></dt><dt><span class="sect2"><a href="ch05.html#genius-gel-values-booleans">Booleanos</a></span></dt><dt><span class="sect2"><a href="ch05.html#genius-gel-values-strings">Strings</a></span></dt><dt><span class="sect2"><a href="ch05.html#genius-gel-values-null">Null</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05s02.html">Using Variables</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05s02.html#genius-gel-variables-setting">Setting Variables</a></span></dt><dt><span class="sect2"><a href="ch05s02.html#genius-gel-variables-built-in">Built-in Variables</a></span></dt><dt><span class="sect2"><a href="ch05s02.html#genius-gel-previous-result">Previous Result Variable</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05s03.html">Using Functions</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-defining">Defining Functions</a></span></dt><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-variable-argument-lists">Variable Argument Lists</a></span></dt><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-passing-functions">Passing Functions to Functions</a></span></dt><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-operations">Operations on Functions</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05s04.html">Separator</a></span></dt><dt><span class="sect1"><a href="ch05s05.html">Comments</a></span></dt><dt><span class="sect1"><a href="ch05s06.html">Modular Evaluation</a></span></dt><dt><span class="sect1"><a href="ch05s07.html">List of GEL Operators</a></span></dt></dl></div><p lang="en">
 	  GEL stands for Genius Extension Language.    It is the language you use
 	  to write programs in Genius. A program in GEL is simply an
 	  expression that evaluates to a number, a matrix, or another object
@@ -7,104 +7,104 @@
 	  powerful theoretical research tool.  The syntax is meant to
 	  have as shallow of a learning curve as possible, especially for use
 	  as a calculator.
-	</p><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-values"></a>Values</h2></div></div></div><p>
+	</p><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-values"></a>Values</h2></div></div></div><p lang="en">
 	      Values in GEL can be <a class="link" href="ch05.html#genius-gel-values-numbers" title="Números">numbers</a>, <a class="link" href="ch05.html#genius-gel-values-booleans" title="Booleanos">Booleans</a>, or <a class="link" href="ch05.html#genius-gel-values-strings" title="Strings">strings</a>.   GEL also treats 
-<a class="link" href="ch08.html" title="Capítulo 8. Matrices in GEL">matrices</a> as values.
+<a class="link" href="ch08.html" title="Chapter 8. Matrices in GEL">matrices</a> as values.
 	      Values can be used in calculations, assigned to variables and returned from functions, among other uses.
-      </p><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-numbers"></a>Números</h3></div></div></div><p>
+      </p><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-numbers"></a>Números</h3></div></div></div><p lang="en">
 Integers are the first type of number in GEL. Integers are written in the normal way.
-</p><pre class="programlisting">1234
-</pre><p>
+</p><pre lang="en" class="programlisting">1234
+</pre><p lang="en">
 Hexadecimal and octal numbers can be written using C notation. For example:
-</p><pre class="programlisting">0x123ABC
+</p><pre lang="en" class="programlisting">0x123ABC
 01234
-</pre><p>
+</pre><p lang="en">
 Or you can type numbers in an arbitrary base using <code class="literal">&lt;base&gt;\&lt;number&gt;</code>. Digits higher than 10 use letters in a similar way to hexadecimal. For example, a number in base 23 could be written:
-</p><pre class="programlisting">23\1234ABCD
-</pre><p>
-        </p><p>
+</p><pre lang="en" class="programlisting">23\1234ABCD
+</pre><p lang="en">
+        </p><p lang="en">
 The second type of GEL number is rationals. Rationals are simply achieved by dividing two integers. So one could write:
-</p><pre class="programlisting">3/4
-</pre><p>
+</p><pre lang="en" class="programlisting">3/4
+</pre><p lang="en">
 to get three quarters. Rationals also accept mixed fraction notation. So in order to get one and three tenths you could write:
-</p><pre class="programlisting">1 3/10
-</pre><p>
-        </p><p>
+</p><pre lang="en" class="programlisting">1 3/10
+</pre><p lang="en">
+        </p><p lang="en">
 The next type of number is floating point. These are entered in a similar fashion to C notation. You can use <code class="literal">E</code>, <code class="literal">e</code> or <code class="literal">@</code> as the exponent delimiter. Note that using the exponent delimiter gives a float even if there is no decimal point in the number. Examples:
-</p><pre class="programlisting">1.315
+</p><pre lang="en" class="programlisting">1.315
 7.887e77
 7.887e-77
 .3
 0.3
 77e5
-</pre><p>
+</pre><p lang="en">
 	When Genius prints a floating point number it will always append a
 	<code class="computeroutput">.0</code> even if the number is whole.  This is to indicate that
 	floating point numbers are taken as imprecise quantities.  When a number is written in the
 	scientific notation, it is always a floating point number and thus Genius does not
 	print the <code class="computeroutput">.0</code>.
-        </p><p>
+        </p><p lang="en">
 The final type of number in GEL is the complex numbers. You can enter a complex number as a sum of real and imaginary parts. To add an imaginary part, append an <code class="literal">i</code>.  Here are examples of entering complex numbers:
-</p><pre class="programlisting">1+2i
+</p><pre lang="en" class="programlisting">1+2i
 8.01i
 77*e^(1.3i)
-</pre><p>
-        </p><div class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Importante</h3><p>
+</pre><p lang="en">
+        </p><div class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Important</h3><p lang="en">
 When entering imaginary numbers, a number must be in front of the <code class="literal">i</code>. If you use <code class="literal">i</code> by itself, Genius will interpret this as referring to the variable <code class="varname">i</code>. If you need to refer to <code class="literal">i</code> by itself, use <code class="literal">1i</code> instead.
-          </p><p>
+          </p><p lang="en">
 In order to use mixed fraction notation with imaginary numbers you must have the mixed fraction in parentheses. (i.e., <strong class="userinput"><code>(1 2/5)i</code></strong>)
-          </p></div></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-booleans"></a>Booleanos</h3></div></div></div><p>
+          </p></div></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-booleans"></a>Booleanos</h3></div></div></div><p lang="en">
 Genius also supports native Boolean values. The two Boolean constants are
 defined as <code class="constant">true</code> and <code class="constant">false</code>; these
 identifiers can be used like any other variable. You can also use the
 identifiers <code class="constant">True</code>, <code class="constant">TRUE</code>,
 <code class="constant">False</code> and <code class="constant">FALSE</code> as aliases for the
 above.
-        </p><p>
+        </p><p lang="en">
 At any place where a Boolean expression is expected, you can use a Boolean
 value or any expression that produces either a number or a Boolean. If
 Genius needs to evaluate a number as a Boolean it will interpret
 0 as <code class="constant">false</code> and any other number as
 <code class="constant">true</code>.
-         </p><p>
+         </p><p lang="en">
 In addition, you can do arithmetic with Boolean values. For example:
-</p><pre class="programlisting">( (1 + true) - false ) * true
-</pre><p>
+</p><pre lang="en" class="programlisting">( (1 + true) - false ) * true
+</pre><p lang="en">
 is the same as:
-</p><pre class="programlisting">( (true or true) or not false ) and true
-</pre><p>
+</p><pre lang="en" class="programlisting">( (true or true) or not false ) and true
+</pre><p lang="en">
 Only addition, subtraction and multiplication are supported. If you mix numbers with Booleans in an expression then the numbers are converted to Booleans as described above. This means that, for example:
-</p><pre class="programlisting">1 == true
-</pre><p>
+</p><pre lang="en" class="programlisting">1 == true
+</pre><p lang="en">
 always evaluates to <code class="constant">true</code> since 1 will be converted to <code class="constant">true</code> before being compared to <code class="constant">true</code>.
-        </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-strings"></a>Strings</h3></div></div></div><p>
+        </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-strings"></a>Strings</h3></div></div></div><p lang="en">
 Like numbers and Booleans, strings in GEL can be stored as values inside variables and passed to functions. You can also concatenate a string with another value using the plus operator. For example:
-</p><pre class="programlisting">a=2+3;"The result is: "+a
-</pre><p>
+</p><pre lang="en" class="programlisting">a=2+3;"The result is: "+a
+</pre><p lang="en">
 will create the string:
-</p><pre class="programlisting">The result is: 5
-</pre><p>
+</p><pre lang="en" class="programlisting">The result is: 5
+</pre><p lang="en">
 You can also use C-like escape sequences such as <code class="literal">\n</code>,<code class="literal">\t</code>,<code class="literal">\b</code>,<code class="literal">\a</code> and <code class="literal">\r</code>. To get a <code class="literal">\</code> or <code class="literal">"</code> into the string you can quote it with a <code class="literal">\</code>. For example:
-</p><pre class="programlisting">"Slash: \\ Quotes: \" Tabs: \t1\t2\t3"
-</pre><p>
+</p><pre lang="en" class="programlisting">"Slash: \\ Quotes: \" Tabs: \t1\t2\t3"
+</pre><p lang="en">
 will make a string:
-</p><pre class="programlisting">Slash: \ Quotes: " Tabs: 	1	2	3
-</pre><p>
+</p><pre lang="en" class="programlisting">Slash: \ Quotes: " Tabs: 	1	2	3
+</pre><p lang="en">
 Do note however that when a string is returned from a function, escapes are
 quoted, so that the output can be used as input.  If you wish to print the
 string as it is (without escapes), use the 
 <a class="link" href="ch11s02.html#gel-function-print"><code class="function">print</code></a>
 or
 <a class="link" href="ch11s02.html#gel-function-printn"><code class="function">printn</code></a> functions.
-        </p><p>
+        </p><p lang="en">
 		In addition, you can use the library function <a class="link" href="ch11s02.html#gel-function-string"><code class="function">string</code></a> to convert anything to a string. For example:
-</p><pre class="programlisting">string(22)
-</pre><p>
+</p><pre lang="en" class="programlisting">string(22)
+</pre><p lang="en">
 will return
-</p><pre class="programlisting">"22"
-</pre><p>
+</p><pre lang="en" class="programlisting">"22"
+</pre><p lang="en">
 Strings can also be compared with <code class="literal">==</code> (equal), <code class="literal">!=</code> (not equal) and <code class="literal">&lt;=&gt;</code> (comparison) operators
-        </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-null"></a>Null</h3></div></div></div><p>
+        </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-null"></a>Null</h3></div></div></div><p lang="en">
 There is a special value called
 <code class="constant">null</code>. No operations can be performed on
 it, and nothing is printed when it is returned. Therefore,
@@ -114,13 +114,13 @@ type <code class="literal">.</code>, the constant <code class="constant">null</c
 By nothing we mean that if you end an expression with
 a separator <code class="literal">;</code>, it is equivalent to ending it with a
 separator followed by a <code class="constant">null</code>.
-        </p><p>
+        </p><p lang="en">
 Example:
-</p><pre class="programlisting">x=5;.
+</p><pre lang="en" class="programlisting">x=5;.
 x=5;
-</pre><p>
-        </p><p>
+</pre><p lang="en">
+        </p><p lang="en">
 Some functions return <code class="constant">null</code> when no value can be returned
 or an error happened.  Also <code class="constant">null</code> is used as an empty vector
 or matrix, or an empty reference.
-</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s05.html">Anterior</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch05s02.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Surface Plots </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Using Variables</td></tr></table></div></body></html>
+</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s05.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch05s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Surface Plots </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Using Variables</td></tr></table></div></body></html>

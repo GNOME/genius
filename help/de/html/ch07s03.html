@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Funktionen als Rückgabe</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Genius-Handbuch"><link rel="up" href="ch07.html" title="Kapitel 7. Fortgeschrittene Programmierung mit GEL"><link rel="prev" href="ch07s02.html" title="Übergeordnete Syntax"><link rel="next" href="ch07s04.html" title="Echte lokale Variablen"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Funktionen als Rückgabe</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s02.html">Zurück</a> </td><th width="60%" align="center">Kapitel 7. Fortgeschrittene Programmierung mit GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s04.html">Weiter</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-returning-functions"></a>Funktionen als Rückgabe</h2></div></div></div><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Funktionen als Rückgabe</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Genius-Handbuch"><link rel="up" href="ch07.html" title="Chapter 7. Fortgeschrittene Programmierung mit GEL"><link rel="prev" href="ch07s02.html" title="Übergeordnete Syntax"><link rel="next" href="ch07s04.html" title="Echte lokale Variablen"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Funktionen als Rückgabe</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s02.html">Prev</a> </td><th width="60%" align="center">Chapter 7. Fortgeschrittene Programmierung mit GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s04.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-returning-functions"></a>Funktionen als Rückgabe</h2></div></div></div><p lang="en">
 	  It is possible to return functions as value.  This way you can
 	  build functions that construct special purpose functions according
 	  to some parameters.  The tricky bit is what variables does the
@@ -10,28 +10,28 @@
 	  scope
 	  when it was defined.  For example, we define a function that
 	  returns a function that adds 5 to its argument.
-</p><pre class="programlisting">function f() = (
+</p><pre lang="en" class="programlisting">function f() = (
   k = 5;
   `(x) = (x+k)
 )
-</pre><p>
+</pre><p lang="en">
 	  Notice that the function adds <code class="varname">k</code> to
 	  <code class="varname">x</code>.  You could use this as follows.
-</p><pre class="programlisting">g = f();
+</p><pre lang="en" class="programlisting">g = f();
 g(5)
-</pre><p>
+</pre><p lang="en">
 	  And <strong class="userinput"><code>g(5)</code></strong> should return 10.
-        </p><p>
+        </p><p lang="en">
 	  One thing to note is that the value of <code class="varname">k</code>
 	  that is used is the one that's in effect when the
 	  <code class="function">f</code> returns.  For example:
-</p><pre class="programlisting">function f() = (
+</p><pre lang="en" class="programlisting">function f() = (
   k := 5;
   function r(x) = (x+k);
   k := 10;
   r
 )
-</pre><p>
+</pre><p lang="en">
 	  will return a function that adds 10 to its argument rather than
 	  5.  This is because the extra dictionary is created only when
 	  the context
@@ -55,7 +55,7 @@ g(5)
 	  <code class="function">r</code> will not put <code class="varname">k</code> into
 	  the private dictionary because it was global (toplevel)
 	  at the time of definition of <code class="function">r</code>.
-	</p><p>
+	</p><p lang="en">
 	  Sometimes it is better to have more control over how variables
 	  are copied into the private dictionary.  Since version 1.0.7,
 	  you can specify which
@@ -66,17 +66,17 @@ g(5)
 	  copied into the private dictionary at time of the function
 	  definition, and the private dictionary is not touched afterwards.
 	  For example
-</p><pre class="programlisting">function f() = (
+</p><pre lang="en" class="programlisting">function f() = (
   k := 5;
   function r(x) [k] = (x+k);
   k := 10;
   r
 )
-</pre><p>
+</pre><p lang="en">
 	  will return a function that when called will add 5 to its
 	  argument.  The local copy of <code class="varname">k</code> was created
 	  when the function was defined.
-	</p><p>
+	</p><p lang="en">
 	  When you want the function to not have any private dictionary
 	  then put empty square brackets after the argument list.  Then
 	  no private dictionary will be created at all.  Doing this is
@@ -87,7 +87,7 @@ g(5)
 	  the value of <code class="varname">k</code> from the toplevel despite
 	  there being a local variable of the same name during definition.
 	  So the code
-</p><pre class="programlisting">function f() = (
+</p><pre lang="en" class="programlisting">function f() = (
   k := 5;
   function r(x) [] = (x+k);
   r
@@ -95,8 +95,8 @@ g(5)
 k := 10;
 g = f();
 g(10)
-</pre><p>
+</pre><p lang="en">
 	  will return 20 and not 15, which would happen if
 	  <code class="varname">k</code> with a value of 5 was added to the private
 	  dictionary.
-	</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s02.html">Zurück</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Nach oben</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s04.html">Weiter</a></td></tr><tr><td width="40%" align="left" valign="top">Übergeordnete Syntax </td><td width="20%" align="center"><a accesskey="h" href="index.html">Zum Anfang</a></td><td width="40%" align="right" valign="top"> Echte lokale Variablen</td></tr></table></div></body></html>
+	</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s02.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Übergeordnete Syntax </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Echte lokale Variablen</td></tr></table></div></body></html>

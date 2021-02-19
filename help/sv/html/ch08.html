@@ -1,21 +1,45 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Kapitel 8. Matriser i GEL</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Handbok för Genius"><link rel="up" href="index.html" title="Handbok för Genius"><link rel="prev" href="ch07s06.html" title="Läsa in program"><link rel="next" href="ch08s02.html" title="Konjugattransponat och transponatoperator"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Kapitel 8. Matriser i GEL</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s06.html">Föregående</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch08s02.html">Nästa</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="genius-gel-matrices"></a>Kapitel 8. Matriser i GEL</h1></div></div></div><div class="toc"><p><b>Innehållsförteckning</b></p><dl class="toc"><dt><span class="sect1"><a href="ch08.html#genius-gel-matrix-support">Mata in matriser</a></span></dt><dt><span class="sect1"><a href="ch08s02.html">Konjugattransponat och transponatoperator</a></span></dt><dt><span class="sect1"><a href="ch08s03.html">Linjär algebra</a></span></dt></dl></div><p>Genius har stöd för vektorer och matriser och innehåller ett stort bibliotek med funktioner för matrismanipulation och linjär algebra.</p><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-matrix-support"></a>Mata in matriser</h2></div></div></div><p>För att mata in matriser kan du använda en av följande två syntaxer. Du kan antingen mata in matrisen på en rad, där värden skiljs åt av kommatecken och rader av semikolon. Annars kan du mata in varje rad på en rad, där värden separeras av kommatecken. Du kan också kombinera de två metoderna. För att mata in en 3x3-matris med talen 1-9 skulle du kunna göra </p><pre class="programlisting">[1,2,3;4,5,6;7,8,9]
-</pre><p> eller </p><pre class="programlisting">[1, 2, 3
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 8. Matriser i GEL</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Handbok för Genius"><link rel="up" href="index.html" title="Handbok för Genius"><link rel="prev" href="ch07s06.html" title="Läsa in program"><link rel="next" href="ch08s02.html" title="Konjugattransponat och transponatoperator"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 8. Matriser i GEL</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s06.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch08s02.html">Next</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="genius-gel-matrices"></a>Chapter 8. Matriser i GEL</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="sect1"><a href="ch08.html#genius-gel-matrix-support">Mata in matriser</a></span></dt><dt><span class="sect1"><a href="ch08s02.html">Konjugattransponat och transponatoperator</a></span></dt><dt><span class="sect1"><a href="ch08s03.html">Linjär algebra</a></span></dt></dl></div><p>Genius har stöd för vektorer och matriser och innehåller ett stort bibliotek med funktioner för matrismanipulation och linjär algebra.</p><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-matrix-support"></a>Mata in matriser</h2></div></div></div><p lang="en">
+To enter matrices, you can use one of the following two syntaxes. You can either enter
+the matrix on one line, separating values by commas and rows by semicolons.  Or you
+can enter each row on one line, separating
+values by commas.
+You can also just combine the two methods.
+So to enter a 3x3 matrix
+of numbers 1-9 you could do
+</p><pre lang="en" class="programlisting">[1,2,3;4,5,6;7,8,9]
+</pre><p lang="en">
+or
+</p><pre lang="en" class="programlisting">[1, 2, 3
  4, 5, 6
  7, 8, 9]
-</pre><p> Använd dock inte både ”;” och direkt returnering på samma rad.</p><p>Du kan också använda matrisexpansionsfunktionen för att mata in matriser. Till exempel kan du göra: </p><pre class="programlisting">a = [ 1, 2, 3
+</pre><p lang="en">
+Do not use both ';' and return at once on the same line though.
+      </p><p lang="en">
+You can also use the matrix expansion functionality to enter matrices.
+For example you can do:
+</p><pre lang="en" class="programlisting">a = [ 1, 2, 3
       4, 5, 6
       7, 8, 9]
 b = [ a,  10
       11, 12]
-</pre><p> och då få </p><pre class="programlisting">[1,   2,  3, 10
+</pre><p lang="en">
+and you should get
+</p><pre lang="en" class="programlisting">[1,   2,  3, 10
  4,   5,  6, 10
  7,   8,  9, 10
  11, 11, 11, 12]
-</pre><p> på liknande sätt kan du bygga matriser från vektorer och andra sådana saker.</p><p>En annan sak att tänka på är att ej angivna fläckar initieras till 0, så </p><pre class="programlisting">[1, 2, 3
+</pre><p lang="en">
+similarly you can build matrices out of vectors and other stuff like that.
+      </p><p lang="en">
+Another thing is that non-specified spots are initialized to 0, so
+</p><pre lang="en" class="programlisting">[1, 2, 3
  4, 5
  6]
-</pre><p> kommer att bli </p><pre class="programlisting">
+</pre><p lang="en">
+will end up being
+</p><pre lang="en" class="programlisting">
 [1, 2, 3
  4, 5, 0
  6, 0, 0]
-</pre><p>Då matriser evalueras så evalueras och traverseras de radvis. Detta är precis som <code class="literal">M@(j)</code>-operatorn som traverserar matrisen radvis.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Notera</h3><p>Var försiktig med returnering av uttryck inuti <code class="literal">[ ]</code>-parenteserna, eftersom det har en något annorlunda betydelse där. Du kommer att starta en ny rad.</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s06.html">Föregående</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch08s02.html">Nästa</a></td></tr><tr><td width="40%" align="left" valign="top">Läsa in program </td><td width="20%" align="center"><a accesskey="h" href="index.html">Hem</a></td><td width="40%" align="right" valign="top"> Konjugattransponat och transponatoperator</td></tr></table></div></body></html>
+</pre><p lang="en">
+      </p><p>Då matriser evalueras så evalueras och traverseras de radvis. Detta är precis som <code class="literal">M@(j)</code>-operatorn som traverserar matrisen radvis.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>Var försiktig med returnering av uttryck inuti <code class="literal">[ ]</code>-parenteserna, eftersom det har en något annorlunda betydelse där. Du kommer att starta en ny rad.</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s06.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch08s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Läsa in program </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Konjugattransponat och transponatoperator</td></tr></table></div></body></html>

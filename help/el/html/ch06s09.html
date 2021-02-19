@@ -1,13 +1,27 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Lvalues (αριστερές τιμές)</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Εγχειρίδιο Genius"><link rel="up" href="ch06.html" title="Κεφάλαιο 6. Προγραμματισμός με GEL"><link rel="prev" href="ch06s08.html" title="Αναφορές"><link rel="next" href="ch07.html" title="Κεφάλαιο 7. Προχωρημένος προγραμματισμός με GEL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Lvalues (αριστερές τιμές)</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s08.html">Προηγ</a> </td><th width="60%" align="center">Κεφάλαιο 6. Προγραμματισμός με GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07.html">Επόμενο</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-lvalues"></a>Lvalues (αριστερές τιμές)</h2></div></div></div><p>Μια lvalue είναι το αριστερό μέλος μιας ανάθεσης. Με άλλα λόγια, μια lvalue είναι αυτό που αναθέτετε σε κάτι. Έγκυρες lvalues είναι: </p><div class="variablelist"><dl class="variablelist"><dt><span class="term"><strong class="userinput"><code>a</code></strong></span></dt><dd><p>Αναγνωριστικό. Εδώ μπορεί να οριστεί η μεταβλητή του ονόματος <code class="varname">a</code>.</p></dd><dt><span class="term"><strong class="userinput"><code>*a</code></strong></span></dt><dd><p>Αποαναφορά ενός αναγνωριστικού. Αυτό θα ορίσει οποιαδήποτε μεταβλητή δείχνει στο <code class="varname">a</code>.</p></dd><dt><span class="term"><strong class="userinput"><code>a@(&lt;region&gt;)</code></strong></span></dt><dd><p>Μια περιοχή ενός πίνακα. Εδώ η περιοχή ορίζεται κανονικά όπως στην περίπτωση του κανονικού τελεστή @() και μπορεί να είναι μια μοναδική καταχώριση, ή μια πλήρης περιοχή του πίνακα.</p></dd></dl></div><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Lvalues (αριστερές τιμές)</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Εγχειρίδιο Genius"><link rel="up" href="ch06.html" title="Chapter 6. Προγραμματισμός με GEL"><link rel="prev" href="ch06s08.html" title="Αναφορές"><link rel="next" href="ch07.html" title="Chapter 7. Προχωρημένος προγραμματισμός με GEL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Lvalues (αριστερές τιμές)</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s08.html">Prev</a> </td><th width="60%" align="center">Chapter 6. Προγραμματισμός με GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-lvalues"></a>Lvalues (αριστερές τιμές)</h2></div></div></div><p lang="en">
+	An lvalue is the left hand side of an assignment. In other words, an
+	lvalue is what you assign something to.  Valid lvalues are:
+</p><div class="variablelist"><dl class="variablelist"><dt><span lang="en" class="term"><strong class="userinput"><code>a</code></strong></span></dt><dd><p lang="en">
+	Identifier.  Here we would be setting the variable of name
+	<code class="varname">a</code>.
+      </p></dd><dt><span lang="en" class="term"><strong class="userinput"><code>*a</code></strong></span></dt><dd><p lang="en">
+	Dereference of an identifier.  This will set whatever variable
+	<code class="varname">a</code> points to.
+      </p></dd><dt><span lang="en" class="term"><strong class="userinput"><code>a@(&lt;region&gt;)</code></strong></span></dt><dd><p lang="en">
+	A region of a matrix.  Here the region is specified normally as with
+	the regular @() operator, and can be a single entry, or an entire
+	region of the matrix.
+      </p></dd></dl></div><p lang="en">
+      </p><p lang="en">
 Examples:
-</p><pre class="programlisting">a:=4
+</p><pre lang="en" class="programlisting">a:=4
 *tmp := 89
 a@(1,1) := 5
 a@(4:8,3) := [1,2,3,4,5]'
-</pre><p>
+</pre><p lang="en">
 Note that both <code class="literal">:=</code> and <code class="literal">=</code> can be used
 interchangeably.  Except if the assignment appears in a condition.
 It is thus always safer to just use
 <code class="literal">:=</code> when you mean assignment, and <code class="literal">==</code>
 when you mean comparison.
-      </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s08.html">Προηγ</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Πάνω</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07.html">Επόμενο</a></td></tr><tr><td width="40%" align="left" valign="top">Αναφορές </td><td width="20%" align="center"><a accesskey="h" href="index.html">Αρχή</a></td><td width="40%" align="right" valign="top"> Κεφάλαιο 7. Προχωρημένος προγραμματισμός με GEL</td></tr></table></div></body></html>
+      </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s08.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Αναφορές </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Chapter 7. Προχωρημένος προγραμματισμός με GEL</td></tr></table></div></body></html>

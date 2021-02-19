@@ -1,21 +1,45 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Capítulo 8. Matrices en GEL</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manual de Genius"><link rel="up" href="index.html" title="Manual de Genius"><link rel="prev" href="ch07s06.html" title="Cargar programas"><link rel="next" href="ch08s02.html" title="Conjugada de la traspuesta y operador de trasposición"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Capítulo 8. Matrices en GEL</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s06.html">Anterior</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch08s02.html">Siguiente</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="genius-gel-matrices"></a>Capítulo 8. Matrices en GEL</h1></div></div></div><div class="toc"><p><b>Tabla de contenidos</b></p><dl class="toc"><dt><span class="sect1"><a href="ch08.html#genius-gel-matrix-support">Introducir matrices</a></span></dt><dt><span class="sect1"><a href="ch08s02.html">Conjugada de la traspuesta y operador de trasposición</a></span></dt><dt><span class="sect1"><a href="ch08s03.html">Álgebra lineal</a></span></dt></dl></div><p>Genius tiene soporte para vectores y matrices y una biblioteca dimensionable para manipulación de matrices y funciones de álgebra lineal.</p><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-matrix-support"></a>Introducir matrices</h2></div></div></div><p>Para introducir matrices, puede utilizar cualquiera de las dos sintaxis que siguen. Puede introducir la matriz en una línea, separando los valores con comas y las filas con un punto y coma. También puede introducir cada fila en una línea, separando los valores con comas. También puede combinar los dos métodos. Para introducir una matriz de 3x3 con los números 1 a 9 podría hacer lo siguiente: </p><pre class="programlisting">[1,2,3;4,5,6;7,8,9]
-</pre><p> o </p><pre class="programlisting">[1, 2, 3
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 8. Matrices en GEL</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Manual de Genius"><link rel="up" href="index.html" title="Manual de Genius"><link rel="prev" href="ch07s06.html" title="Cargar programas"><link rel="next" href="ch08s02.html" title="Conjugada de la traspuesta y operador de trasposición"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 8. Matrices en GEL</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s06.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch08s02.html">Next</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="genius-gel-matrices"></a>Chapter 8. Matrices en GEL</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="sect1"><a href="ch08.html#genius-gel-matrix-support">Introducir matrices</a></span></dt><dt><span class="sect1"><a href="ch08s02.html">Conjugada de la traspuesta y operador de trasposición</a></span></dt><dt><span class="sect1"><a href="ch08s03.html">Álgebra lineal</a></span></dt></dl></div><p>Genius tiene soporte para vectores y matrices y una biblioteca dimensionable para manipulación de matrices y funciones de álgebra lineal.</p><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-matrix-support"></a>Introducir matrices</h2></div></div></div><p lang="en">
+To enter matrices, you can use one of the following two syntaxes. You can either enter
+the matrix on one line, separating values by commas and rows by semicolons.  Or you
+can enter each row on one line, separating
+values by commas.
+You can also just combine the two methods.
+So to enter a 3x3 matrix
+of numbers 1-9 you could do
+</p><pre lang="en" class="programlisting">[1,2,3;4,5,6;7,8,9]
+</pre><p lang="en">
+or
+</p><pre lang="en" class="programlisting">[1, 2, 3
  4, 5, 6
  7, 8, 9]
-</pre><p> No utilice «;» y «return» en la misma línea.</p><p>También puede utilizar la funcionalidad de expandir matrices para introducir una matriz. Por ejemplo puede hacer lo siguiente: </p><pre class="programlisting">a = [ 1, 2, 3
+</pre><p lang="en">
+Do not use both ';' and return at once on the same line though.
+      </p><p lang="en">
+You can also use the matrix expansion functionality to enter matrices.
+For example you can do:
+</p><pre lang="en" class="programlisting">a = [ 1, 2, 3
       4, 5, 6
       7, 8, 9]
 b = [ a,  10
       11, 12]
-</pre><p> y obtendrá </p><pre class="programlisting">[1,   2,  3, 10
+</pre><p lang="en">
+and you should get
+</p><pre lang="en" class="programlisting">[1,   2,  3, 10
  4,   5,  6, 10
  7,   8,  9, 10
  11, 11, 11, 12]
-</pre><p> Puede construir matrices con vectores y cosas parecidas de manera similar.</p><p>Otra cosa es que se los puntos no especificados se inicialicen a 0, por lo que </p><pre class="programlisting">[1, 2, 3
+</pre><p lang="en">
+similarly you can build matrices out of vectors and other stuff like that.
+      </p><p lang="en">
+Another thing is that non-specified spots are initialized to 0, so
+</p><pre lang="en" class="programlisting">[1, 2, 3
  4, 5
  6]
-</pre><p> será </p><pre class="programlisting">
+</pre><p lang="en">
+will end up being
+</p><pre lang="en" class="programlisting">
 [1, 2, 3
  4, 5, 0
  6, 0, 0]
-</pre><p>Cuando las matrices se evalúan y se recorre fila por fila, justo como el operador <code class="literal">M@(j)</code> que recorre la matriz renglón por renglón.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Nota</h3><p>Tenga cuidado al utilizar «return» en expresiones dentro de corchetes <code class="literal">[ ]</code>, ya que tiene un significado ligeramente distinto en ese contexto. Comenzará una fila nueva.</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s06.html">Anterior</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch08s02.html">Siguiente</a></td></tr><tr><td width="40%" align="left" valign="top">Cargar programas </td><td width="20%" align="center"><a accesskey="h" href="index.html">Inicio</a></td><td width="40%" align="right" valign="top"> Conjugada de la traspuesta y operador de trasposición</td></tr></table></div></body></html>
+</pre><p lang="en">
+      </p><p>Cuando las matrices se evalúan y se recorre fila por fila, justo como el operador <code class="literal">M@(j)</code> que recorre la matriz renglón por renglón.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>Tenga cuidado al utilizar «return» en expresiones dentro de corchetes <code class="literal">[ ]</code>, ya que tiene un significado ligeramente distinto en ese contexto. Comenzará una fila nueva.</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s06.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch08s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Cargar programas </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Conjugada de la traspuesta y operador de trasposición</td></tr></table></div></body></html>

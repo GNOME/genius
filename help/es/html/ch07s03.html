@@ -1,22 +1,93 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Devolver funciones</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manual de Genius"><link rel="up" href="ch07.html" title="Capítulo 7. Programación avanzada con GEL"><link rel="prev" href="ch07s02.html" title="Sintaxis de nivel superior"><link rel="next" href="ch07s04.html" title="Variables locales verdaderas"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Devolver funciones</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s02.html">Anterior</a> </td><th width="60%" align="center">Capítulo 7. Programación avanzada con GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s04.html">Siguiente</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-returning-functions"></a>Devolver funciones</h2></div></div></div><p>Es posible devolver funciones como un valor. De esta manera puede construir funciones que construyan otras funciones con propósitos específicos de acuerdo a ciertos parámetros. La parte complicada es determinar qué variables ve la función. La manera en que esto funciona en GEL es la siguiente: cuando una función devuelve otra función, todos los identificadores que referencia el cuerpo de la función que sale del ámbito son antepuestos al diccionario privado de la función devuelta. Por lo tanto, la función verá todas las variables que estaban en el ámbito cuando fue definida. Por ejemplo, la siguiente función devuelve una función que agrega 5 al valor de su argumento: </p><pre class="programlisting">function f() = (
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Devolver funciones</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Manual de Genius"><link rel="up" href="ch07.html" title="Chapter 7. Programación avanzada con GEL"><link rel="prev" href="ch07s02.html" title="Sintaxis de nivel superior"><link rel="next" href="ch07s04.html" title="Variables locales verdaderas"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Devolver funciones</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s02.html">Prev</a> </td><th width="60%" align="center">Chapter 7. Programación avanzada con GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s04.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-returning-functions"></a>Devolver funciones</h2></div></div></div><p lang="en">
+	  It is possible to return functions as value.  This way you can
+	  build functions that construct special purpose functions according
+	  to some parameters.  The tricky bit is what variables does the
+	  function see.  The way this works in GEL is that when a function
+	  returns another function, all identifiers referenced in the
+	  function body that went out of scope
+	  are prepended a private dictionary of the returned
+	  function.  So the function will see all variables that were in
+	  scope
+	  when it was defined.  For example, we define a function that
+	  returns a function that adds 5 to its argument.
+</p><pre lang="en" class="programlisting">function f() = (
   k = 5;
   `(x) = (x+k)
 )
-</pre><p> Tenga en cuenta que la función agrega <code class="varname">k</code> a <code class="varname">x</code>. Podría utilizar esto como sigue: </p><pre class="programlisting">g = f();
+</pre><p lang="en">
+	  Notice that the function adds <code class="varname">k</code> to
+	  <code class="varname">x</code>.  You could use this as follows.
+</p><pre lang="en" class="programlisting">g = f();
 g(5)
-</pre><p> And <strong class="userinput"><code>g(5)</code></strong> devuelve el valor 10.</p><p>Algo que conviene tener en cuenta es que el valor de <code class="varname">k</code> que se utiliza es el que se encuentra activo mientras <code class="function">f</code> devuelve su valor. Por ejemplo: </p><pre class="programlisting">function f() = (
+</pre><p lang="en">
+	  And <strong class="userinput"><code>g(5)</code></strong> should return 10.
+        </p><p lang="en">
+	  One thing to note is that the value of <code class="varname">k</code>
+	  that is used is the one that's in effect when the
+	  <code class="function">f</code> returns.  For example:
+</p><pre lang="en" class="programlisting">function f() = (
   k := 5;
   function r(x) = (x+k);
   k := 10;
   r
 )
-</pre><p> devolverá una función que añade 10 a su argumento, en lugar de 5. Esto es porque el diccionario adicional se crea sólo cuando el contexto en el que la función se define termina, que es cuando la función <code class="function">f</code> devuelve su valor. Esto es consistente con cómo que esperaría que la función <code class="function">r</code> actuara dentro de la función <code class="function">f</code> según las reglas sobre el ámbito de variables en GEL. Al diccionario adicional sólo se añaden las variables que se utilizaron en contextos que recién terminan y que ya no existen. Las variables que se utilizan en la función que están en contextos que se mantienen válidos funcionan de manera usual, utilizan el valor actual de la variable. La única diferencia es entre las variables globales y las funciones. Todos los identificadores que hacen referencia a variables globales al momento de definir la función no se agregan al diccionario privado. Esto es para evitar trabajo innecesario al devolver una función y rara vez será un problema. Por ejemplo, suponga que borra «k=5» de la función <code class="function">f</code> y que, en el nivel más alto, define <code class="varname">k</code> como 5, por ejemplo. Cuado ejecute la función <code class="function">f</code>, la función <code class="function">r</code> no añadirá <code class="varname">k</code> al diccionario privado pues ésta es una variable global (del nivel más alto) en el momento en que se definió <code class="varname">r</code>.</p><p>Algunas veces es mejor tener más control sobre cómo las variables se copian al diccionario privado. Desde la versión 1.0.7 puede especificar qué variables se copian al diccionario privado colocando corchetes adicionales después de los argumentos con la lista de variables que se desean copiar separadas con comas. Si hace esto, las variables se copiarán al diccionario privado en el momento que se define la función, y no se tocará el diccionario privado después de esto. Por ejemplo, </p><pre class="programlisting">function f() = (
+</pre><p lang="en">
+	  will return a function that adds 10 to its argument rather than
+	  5.  This is because the extra dictionary is created only when
+	  the context
+	  in which the function was defined ends, which is when the function
+	  <code class="function">f</code> returns.  This is consistent with how you
+	  would expect the function <code class="function">r</code> to work inside
+	  the function <code class="function">f</code> according to the rules of
+	  scope of variables in GEL.  Only those variables are added to the
+	  extra dictionary that are in the context that just ended and
+	  no longer exists.  Variables
+	  used in the function that are in still valid contexts will work
+	  as usual, using the current value of the variable.
+	  The only difference is with global variables and functions.
+	  All identifiers that referenced global variables at time of
+	  the function definition are not added to the private dictionary.
+	  This is to avoid much unnecessary work when returning functions
+	  and would rarely be a problem.  For example, suppose that you
+	  delete the "k=5" from the function <code class="function">f</code>,
+	  and at the top level you define <code class="varname">k</code> to be
+	  say 5.  Then when you run <code class="function">f</code>, the function
+	  <code class="function">r</code> will not put <code class="varname">k</code> into
+	  the private dictionary because it was global (toplevel)
+	  at the time of definition of <code class="function">r</code>.
+	</p><p lang="en">
+	  Sometimes it is better to have more control over how variables
+	  are copied into the private dictionary.  Since version 1.0.7,
+	  you can specify which
+	  variables are copied into the private dictionary by putting
+	  extra square brackets after the arguments with the list of
+	  variables to be copied separated by commas.
+	  If you do this, then variables are
+	  copied into the private dictionary at time of the function
+	  definition, and the private dictionary is not touched afterwards.
+	  For example
+</p><pre lang="en" class="programlisting">function f() = (
   k := 5;
   function r(x) [k] = (x+k);
   k := 10;
   r
 )
-</pre><p> devuelve una función que cuando se llama añade 5 a su argumento. La copia local de <code class="varname">k</code> se crea cuando la función se define.</p><p>Cuando quiera que la función no tenga un diccionario privado escriba un par de corchetes vacíos después de la lista de argumentos. Con esto no se creará ningún diccionario privado. Hacer esto es útil para incrementar la eficiencia cuando no se necesita un diccionario privado o cuando quiere que la función busque todas las variables cuando las ve al momento que se la llama. Por ejemplo, suponga que quiere que la función que devuelve <code class="function">f</code> ve el valor de <code class="varname">k</code> del nivel más alto sin importar que hay una variable con el mismo nombre al momento de la definición. El código </p><pre class="programlisting">function f() = (
+</pre><p lang="en">
+	  will return a function that when called will add 5 to its
+	  argument.  The local copy of <code class="varname">k</code> was created
+	  when the function was defined.
+	</p><p lang="en">
+	  When you want the function to not have any private dictionary
+	  then put empty square brackets after the argument list.  Then
+	  no private dictionary will be created at all.  Doing this is
+	  good to increase efficiency when a private dictionary is not
+	  needed or when you want the function to lookup all variables
+	  as it sees them when called.  For example suppose you want
+	  the function returned from <code class="function">f</code> to see
+	  the value of <code class="varname">k</code> from the toplevel despite
+	  there being a local variable of the same name during definition.
+	  So the code
+</p><pre lang="en" class="programlisting">function f() = (
   k := 5;
   function r(x) [] = (x+k);
   r
@@ -24,4 +95,8 @@ g(5)
 k := 10;
 g = f();
 g(10)
-</pre><p> devuelve 20 y no 15, lo que podría suceder si se hubiese añadido <code class="varname">k</code> con valor 5 al diccionario privado.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s02.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Subir</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s04.html">Siguiente</a></td></tr><tr><td width="40%" align="left" valign="top">Sintaxis de nivel superior </td><td width="20%" align="center"><a accesskey="h" href="index.html">Inicio</a></td><td width="40%" align="right" valign="top"> Variables locales verdaderas</td></tr></table></div></body></html>
+</pre><p lang="en">
+	  will return 20 and not 15, which would happen if
+	  <code class="varname">k</code> with a value of 5 was added to the private
+	  dictionary.
+	</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s02.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Sintaxis de nivel superior </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Variables locales verdaderas</td></tr></table></div></body></html>

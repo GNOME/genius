@@ -1,8 +1,44 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Variables globales y ámbito de variables</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manual de Genius"><link rel="up" href="ch06.html" title="Capítulo 6. Programar con GEL"><link rel="prev" href="ch06s04.html" title="Operadores de comparación"><link rel="next" href="ch06s06.html" title="Variables de parámetros"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Variables globales y ámbito de variables</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s04.html">Anterior</a> </td><th width="60%" align="center">Capítulo 6. Programar con GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch06s06.html">Siguiente</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-variables-global"></a>Variables globales y ámbito de variables</h2></div></div></div><p>GEL es un <a class="ulink" href="https://en.wikipedia.org/wiki/Scope_%28programming%29" target="_top"> lenguaje con ámbitos dinámicos</a>. Esto se explicará más adelante. Esto significa que a las variables ordinarias y a las funciones se les asigna un ámbito de manera dinámica. La única excepción son las <a class="link" href="ch06s06.html" title="Variables de parámetros">variables de parámetros</a>, que siempre son globales.</p><p>Al igual que la mayoría de los lenguajes de programación, GEL tiene diferentes tipos de variables. Normalmente, cuando se define una variable en una función ésta es visible desde esa función y desde todas las funciones que se llamen (todos los contextos superiores). Por ejemplo, suponga que una función <code class="function">f</code> define una variable <code class="varname">a</code> y luego llama a otra función <code class="function">g</code>. Entonces, la función <code class="function">g</code> puede hacer referencia a la variable <code class="varname">a</code>. Pero, una vez que la ejecución de <code class="function">f</code> concluye, la variable <code class="varname">a</code> sale del ámbito. Por ejemplo, el siguiente código imprime el número 5. No se puede llamar a la función <code class="function">g</code> desde el nivel más alto (fuera de <code class="function">f</code>, dado que <code class="varname">a</code> no se habrá definido).</p><p>Si define una variable dentro de una función, ésta anulará toda variable definida al llamar a funciones. Por ejemplo, si modifica el código anterior y escribe: </p><pre class="programlisting">function f() = (a:=5; g());
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Variables globales y ámbito de variables</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Manual de Genius"><link rel="up" href="ch06.html" title="Chapter 6. Programar con GEL"><link rel="prev" href="ch06s04.html" title="Operadores de comparación"><link rel="next" href="ch06s06.html" title="Variables de parámetros"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Variables globales y ámbito de variables</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s04.html">Prev</a> </td><th width="60%" align="center">Chapter 6. Programar con GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch06s06.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-variables-global"></a>Variables globales y ámbito de variables</h2></div></div></div><p>GEL es un <a class="ulink" href="https://en.wikipedia.org/wiki/Scope_%28programming%29" target="_top"> lenguaje con ámbitos dinámicos</a>. Esto se explicará más adelante. Esto significa que a las variables ordinarias y a las funciones se les asigna un ámbito de manera dinámica. La única excepción son las <a class="link" href="ch06s06.html" title="Variables de parámetros">variables de parámetros</a>, que siempre son globales.</p><p lang="en">
+	  Like most programming languages, GEL has different types
+	  of variables.  Normally when a variable is defined in a function,
+	  it is visible from that function and from all functions that are
+	  called (all higher contexts).  For example, suppose a function
+	  <code class="function">f</code> defines a variable <code class="varname">a</code>
+	  and then calls function <code class="function">g</code>.  Then
+	  function <code class="function">g</code> can reference
+	  <code class="varname">a</code>.  But once <code class="function">f</code> returns,
+	  the variable <code class="varname">a</code> goes out of scope.
+	  For example, the following code will print out 5.
+	  The function <code class="function">g</code> cannot be called on the
+	  top level (outside <code class="function">f</code> as <code class="varname">a</code>
+	  will not be defined).
+</p><pre lang="en" class="programlisting">function f() = (a:=5; g());
+function g() = print(a);
+f();
+</pre><p lang="en">
+        </p><p lang="en">
+	  If you define a variable inside a function it will override
+	  any variables defined in calling functions.  For example,
+	  we modify the above code and write:
+</p><pre lang="en" class="programlisting">function f() = (a:=5; g());
 function g() = print(a);
 a:=10;
 f();
-</pre><p> Este código aún imprime 5. Pero si llama a la función <code class="function">g</code> fuera de <code class="function">f</code>, entonces se imprimirá 10. Observe que al definir <code class="varname">a</code> como 5 dentro de <code class="function">f</code> no cambia el valor de <code class="varname">a</code> al nivel superior (global), por lo que si verifica el valor de <code class="varname">a</code> es aún 10.</p><p>Los argumentos de funciones son exactamente como variables definidas dentro de la función, salvo que éstas se inicializan con el valor que se introduce en la función. Además de esto, se les trata como a cualquier otra variable definida dentro de la función.</p><p>Las funciones se tratan exactamente como variables. Por lo tanto, puede redefinir funciones. Normalmente, (en el nivel superior) no puede redefinir variables y funciones protegidas. Pero localmente si lo puede hacer. Considere la siguiente sesión: </p><pre class="screen"><code class="prompt">genius&gt; </code><strong class="userinput"><code>function f(x) = sin(x)^2</code></strong>
+</pre><p lang="en">
+	  This code will still print out 5.  But if you call
+	  <code class="function">g</code> outside of <code class="function">f</code> then
+	  you will get a printout of 10.  Note that
+	  setting <code class="varname">a</code>
+	  to 5 inside <code class="function">f</code> does not change
+	  the value of <code class="varname">a</code> at the top (global) level,
+	  so if you now check the value of <code class="varname">a</code> it will
+	  still be 10.
+        </p><p>Los argumentos de funciones son exactamente como variables definidas dentro de la función, salvo que éstas se inicializan con el valor que se introduce en la función. Además de esto, se les trata como a cualquier otra variable definida dentro de la función.</p><p lang="en">
+	  Functions are treated exactly like variables.  Hence you can
+	  locally redefine functions.  Normally (on the top level) you
+	  cannot redefine protected variables and functions.  But locally
+	  you can do this.  Consider the following session:
+</p><pre lang="en" class="screen"><code class="prompt">genius&gt; </code><strong class="userinput"><code>function f(x) = sin(x)^2</code></strong>
 = (`(x)=(sin(x)^2))
 <code class="prompt">genius&gt; </code><strong class="userinput"><code>function f(x) = sin(x)^2</code></strong>
 = (`(x)=(sin(x)^2))
@@ -10,9 +46,26 @@ f();
 = (`(x)=((sin:=(`(x)=(x^10)));f(x)))
 <code class="prompt">genius&gt; </code><strong class="userinput"><code>g(10)</code></strong>
 = 1e20
-</pre><p>Las funciones definidas en el nivel superior se consideran globales. Éstas son visibles desde cualquier parte. Como se dijo, la función <code class="function">f</code> no cambiará el valor de <code class="varname">a</code> a 5. </p><pre class="programlisting">a=6;
+</pre><p lang="en">
+	</p><p lang="en">
+	  Functions and variables defined at the top level are
+	  considered global.  They are visible from anywhere.  As we
+	  said the following function <code class="function">f</code>
+	  will not change the value of <code class="varname">a</code> to 5.
+</p><pre lang="en" class="programlisting">a=6;
 function f() = (a:=5);
 f();
-</pre><p> Sin embargo, en algunas ocasiones es necesario fijar una variable global dentro de una función. Cuando este comportamiento es necesario, utilice la función <a class="link" href="ch11s02.html#gel-function-set"><code class="function">set</code></a>. Si introduce una cadena o un identificador entrecomillado a esta función, ésta fija la variable globalmente (al nivel superior). Por ejemplo, podría utilizar </p><pre class="programlisting">set(`a,3)
-</pre><p> o </p><pre class="programlisting">set("a",3)
-</pre><p> para fijar el valor 3 en la variable <code class="varname">a</code>.</p><p>La función <code class="function">set</code> siempre fija el nivel superior global. No existe alguna manera de definir una variable local en alguna función desde alguna subrutina. Si se necesita hacer esto, debe utilizar ...</p><p>Consulte también las funciones <a class="link" href="ch11s02.html#gel-function-SetElement"><code class="function">SetElement</code></a> y <a class="link" href="ch11s02.html#gel-function-SetVElement"><code class="function">SetVElement</code></a>.</p><p>Para recapitular en un lenguaje más técnico: Genius opera con diferentes contextos numerados. El nivel más alto es el contexto 0 (cero). Siempre que se introduce una función , el contexto aumenta, y cuando la función devuelve su resultado el contexto disminuye. Siempre se puede ver una función o una variable desde los contextos mayores. Cuando una variable se define en un contexto menor, al fijar esta variable se crea una nueva variable local en el contexto actual y esta variable sera visible desde los contextos mayores.</p><p>También existen variables locales, que sólo pueden ser vistas desde el contexto actual. Cuando se devuelven funciones por un valor se pueden referenciar variables que no son visibles desde un contexto mas alto y esto puede ser problemático. Consulte las secciones <a class="link" href="ch07s04.html" title="Variables locales verdaderas">Variables locales verdaderas</a> y <a class="link" href="ch07s03.html" title="Devolver funciones">Devolver funciones</a>.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s04.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Subir</a></td><td width="40%" align="right"> <a accesskey="n" href="ch06s06.html">Siguiente</a></td></tr><tr><td width="40%" align="left" valign="top">Operadores de comparación </td><td width="20%" align="center"><a accesskey="h" href="index.html">Inicio</a></td><td width="40%" align="right" valign="top"> Variables de parámetros</td></tr></table></div></body></html>
+</pre><p lang="en">
+	  Sometimes, however, it is necessary to set
+a global variable from inside a function.  When this behavior is needed,
+use the
+<a class="link" href="ch11s02.html#gel-function-set"><code class="function">set</code></a> function. Passing a string or a quoted identifier to
+this function sets the variable globally (on the top level).
+For example, to set
+<code class="varname">a</code> to the value 3 you could call:
+</p><pre lang="en" class="programlisting">set(`a,3)
+</pre><p lang="en">
+or:
+</p><pre lang="en" class="programlisting">set("a",3)
+</pre><p lang="en">
+        </p><p>La función <code class="function">set</code> siempre fija el nivel superior global. No existe alguna manera de definir una variable local en alguna función desde alguna subrutina. Si se necesita hacer esto, debe utilizar ...</p><p>Consulte también las funciones <a class="link" href="ch11s02.html#gel-function-SetElement"><code class="function">SetElement</code></a> y <a class="link" href="ch11s02.html#gel-function-SetVElement"><code class="function">SetVElement</code></a>.</p><p>Para recapitular en un lenguaje más técnico: Genius opera con diferentes contextos numerados. El nivel más alto es el contexto 0 (cero). Siempre que se introduce una función , el contexto aumenta, y cuando la función devuelve su resultado el contexto disminuye. Siempre se puede ver una función o una variable desde los contextos mayores. Cuando una variable se define en un contexto menor, al fijar esta variable se crea una nueva variable local en el contexto actual y esta variable sera visible desde los contextos mayores.</p><p>También existen variables locales, que sólo pueden ser vistas desde el contexto actual. Cuando se devuelven funciones por un valor se pueden referenciar variables que no son visibles desde un contexto mas alto y esto puede ser problemático. Consulte las secciones <a class="link" href="ch07s04.html" title="Variables locales verdaderas">Variables locales verdaderas</a> y <a class="link" href="ch07s03.html" title="Devolver funciones">Devolver funciones</a>.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s04.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch06s06.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Operadores de comparación </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Variables de parámetros</td></tr></table></div></body></html>

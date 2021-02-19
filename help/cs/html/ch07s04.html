@@ -1,18 +1,54 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Skutečně lokální proměnné</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Příručka k aplikaci Genius"><link rel="up" href="ch07.html" title="Kapitola 7. Pokročilé programování v jazyce GEL"><link rel="prev" href="ch07s03.html" title="Vracení funkcí"><link rel="next" href="ch07s05.html" title="Spouštěcí procedura GEL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Skutečně lokální proměnné</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s03.html">Předcházející</a> </td><th width="60%" align="center">Kapitola 7. Pokročilé programování v jazyce GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s05.html">Další</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-true-local-variables"></a>Skutečně lokální proměnné</h2></div></div></div><p>Když předáváte funkce do jiných funkcí, může být normální rozsah působnosti proměnných nežádoucí. Například u </p><pre class="programlisting">k := 10;
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Skutečně lokální proměnné</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Příručka k aplikaci Genius"><link rel="up" href="ch07.html" title="Chapter 7. Pokročilé programování v jazyce GEL"><link rel="prev" href="ch07s03.html" title="Vracení funkcí"><link rel="next" href="ch07s05.html" title="Spouštěcí procedura GEL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Skutečně lokální proměnné</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s03.html">Prev</a> </td><th width="60%" align="center">Chapter 7. Pokročilé programování v jazyce GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s05.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-true-local-variables"></a>Skutečně lokální proměnné</h2></div></div></div><p lang="en">
+	When passing functions into other functions, the normal scoping of
+	variables might be undesired.  For example:
+</p><pre lang="en" class="programlisting">k := 10;
 function r(x) = (x+k);
 function f(g,x) = (
   k := 5;
   g(x)
 );
 f(r,1)
-</pre><p> budete pravděpodobně chtít, aby funkce <code class="function">r</code> při předání jako <code class="function">g</code> do <code class="function">f</code> viděla v proměnné <code class="varname">k</code> hodnotu 10 a ne 5, a kód tak vracel 11 a ne 6. Ale tak, jak je to napsáno, funkce při spuštění bude vidět <code class="varname">k</code> rovno 5. Existují dva způsoby, jak to vyřešit. Jeden je přimět funkci <code class="function">r</code>, aby dostala <code class="varname">k</code> v privátním slovníku pomocí notace s hranatými závorkami, jak je ukázáno v kapitole <a class="link" href="ch07s03.html" title="Vracení funkcí">Vracení funkcí</a>.</p><p>Je zde ale i jiné řešení. Od verze 1.0.7 jsou k dispozici skutečně lokální proměnné. Jde o proměnné, které jsou viditelné pouze z aktuálního kontextu a ne z jakékoliv volané funkce. Mohli bychom definovat <code class="varname">k</code> jako lokální proměnnou ve funkci <code class="function">f</code>. Uděláte to tak, že přidáte příkaz <span class="command"><strong>local</strong></span> jako první příkaz ve funkci (musí to být vždy první příkaz ve funkci). Lokální proměnnou můžete udělat také z kteréhokoliv argumentu. Pak to bude takto </p><pre class="programlisting">function f(g,x) = (
+</pre><p lang="en">
+	you probably want the function <code class="function">r</code>
+	when passed as <code class="function">g</code> into <code class="function">f</code>
+	to see <code class="varname">k</code> as 10 rather than 5, so that
+	the code returns 11 and not 6.  However, as written, the function
+	when executed will see the <code class="varname">k</code> that is
+	equal to 5.  There are two ways to solve this.  One would be
+	to have <code class="function">r</code> get <code class="varname">k</code> in a
+	private dictionary using the square bracket notation section
+	<a class="link" href="ch07s03.html" title="Vracení funkcí">Returning
+	Functions</a>.
+      </p><p lang="en">
+	But there is another solution.  Since version 1.0.7 there are
+	true local variables.  These are variables that are visible only
+	from the current context and not from any called functions.
+	We could define <code class="varname">k</code> as a local variable in the
+	function <code class="function">f</code>.  To do this add a
+	<span class="command"><strong>local</strong></span> statement as the first statement in the
+	function (it must always be the first statement in the function).
+	You can also make any arguments be local variables as well.
+	That is,
+</p><pre lang="en" class="programlisting">function f(g,x) = (
   local g,x,k;
   k := 5;
   g(x)
 );
-</pre><p> a kód bude pracovat jak očekáváte a vypisovat 11. Upozorňujeme, že příkaz <span class="command"><strong>local</strong></span> inicializuje všechny odkazované proměnné (vyjma argumentů funkce) na <code class="constant">null</code>.</p><p>Pokud mají být jako lokální vytvořeny všechny proměnné, můžete místo seznamu proměnných prostě předat hvězdičku. V takovém případě nebudou proměnné inicializovány, dokud opravdu nejsou nastaveny. Takto bude i následující definice <code class="function">f</code> pracovat: </p><pre class="programlisting">function f(g,x) = (
+</pre><p lang="en">
+	Then the code will work as expected and prints out 11.
+	Note that the <span class="command"><strong>local</strong></span> statement initializes
+	all the referenced variables (except for function arguments) to
+	a <code class="constant">null</code>.
+      </p><p lang="en">
+	If all variables are to be created as locals you can just pass an
+	asterisk instead of a list of variables.  In this case the variables
+	will not be initialized until they are actually set.
+	So the following definition of <code class="function">f</code>
+	will also work:
+</p><pre lang="en" class="programlisting">function f(g,x) = (
   local *;
   k := 5;
   g(x)
 );
-</pre><p>Je dobrým zvykem, aby všechny funkce, které přebírají jiné funkce jako argumenty, používaly lokální proměnné. Je to způsob, jak zabránit, aby předávaná funkce neviděla implementační podrobnosti a nemátlo ji to.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s03.html">Předcházející</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Nahoru</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s05.html">Další</a></td></tr><tr><td width="40%" align="left" valign="top">Vracení funkcí </td><td width="20%" align="center"><a accesskey="h" href="index.html">Domů</a></td><td width="40%" align="right" valign="top"> Spouštěcí procedura GEL</td></tr></table></div></body></html>
+</pre><p lang="en">
+      </p><p>Je dobrým zvykem, aby všechny funkce, které přebírají jiné funkce jako argumenty, používaly lokální proměnné. Je to způsob, jak zabránit, aby předávaná funkce neviděla implementační podrobnosti a nemátlo ji to.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s03.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Vracení funkcí </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Spouštěcí procedura GEL</td></tr></table></div></body></html>

@@ -1,22 +1,93 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Vracení funkcí</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Příručka k aplikaci Genius"><link rel="up" href="ch07.html" title="Kapitola 7. Pokročilé programování v jazyce GEL"><link rel="prev" href="ch07s02.html" title="Syntaxe v nejvyšší úrovni"><link rel="next" href="ch07s04.html" title="Skutečně lokální proměnné"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Vracení funkcí</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s02.html">Předcházející</a> </td><th width="60%" align="center">Kapitola 7. Pokročilé programování v jazyce GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s04.html">Další</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-returning-functions"></a>Vracení funkcí</h2></div></div></div><p>Existuje možnost, jak vracet funkce jako hodnoty. Tímto způsobem můžete vytvářet funkce, které konstruují funkce pro speciální účely podle určitých parametrů. Trochu trik je, jak udělat proměnné, aby je funkce viděla. Způsob, který funguje v jazyce GEL je, že když funkce vrací jinou funkci, tak všechny identifikátory odkazované v těle funkce, které jdou mimo rozsah působnosti, mají předřazen privátní slovník vracené funkce. Takže funkce bude vidět všechny proměnné, které byly v rozsahu působnosti, když byla definována. Například nadefinujeme funkci, která vrací funkci, která přičítá 5 ke svému argumentu. </p><pre class="programlisting">function f() = (
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Vracení funkcí</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Příručka k aplikaci Genius"><link rel="up" href="ch07.html" title="Chapter 7. Pokročilé programování v jazyce GEL"><link rel="prev" href="ch07s02.html" title="Syntaxe v nejvyšší úrovni"><link rel="next" href="ch07s04.html" title="Skutečně lokální proměnné"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Vracení funkcí</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s02.html">Prev</a> </td><th width="60%" align="center">Chapter 7. Pokročilé programování v jazyce GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s04.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-returning-functions"></a>Vracení funkcí</h2></div></div></div><p lang="en">
+	  It is possible to return functions as value.  This way you can
+	  build functions that construct special purpose functions according
+	  to some parameters.  The tricky bit is what variables does the
+	  function see.  The way this works in GEL is that when a function
+	  returns another function, all identifiers referenced in the
+	  function body that went out of scope
+	  are prepended a private dictionary of the returned
+	  function.  So the function will see all variables that were in
+	  scope
+	  when it was defined.  For example, we define a function that
+	  returns a function that adds 5 to its argument.
+</p><pre lang="en" class="programlisting">function f() = (
   k = 5;
   `(x) = (x+k)
 )
-</pre><p> Všimněte si, že funkce přičítá <code class="varname">k</code> k <code class="varname">x</code>. Použili byste ji následovně: </p><pre class="programlisting">g = f();
+</pre><p lang="en">
+	  Notice that the function adds <code class="varname">k</code> to
+	  <code class="varname">x</code>.  You could use this as follows.
+</p><pre lang="en" class="programlisting">g = f();
 g(5)
-</pre><p> A <strong class="userinput"><code>g(5)</code></strong> by mělo vrátit 10.</p><p>Jedna věc, kterou je potřeba si uvědomit, je, že hodnota <code class="varname">k</code>, která je použita, je ve skutečnosti ta ve chvíli, kdy se vrací funkce <code class="function">f</code>. Například </p><pre class="programlisting">function f() = (
+</pre><p lang="en">
+	  And <strong class="userinput"><code>g(5)</code></strong> should return 10.
+        </p><p lang="en">
+	  One thing to note is that the value of <code class="varname">k</code>
+	  that is used is the one that's in effect when the
+	  <code class="function">f</code> returns.  For example:
+</p><pre lang="en" class="programlisting">function f() = (
   k := 5;
   function r(x) = (x+k);
   k := 10;
   r
 )
-</pre><p> bude vracet funkci, která ke svému argumentu přičítá 10 a ne 5. To proto, že je vytvořen dodatečný slovník, jen když kontext, ve kterém končí definice funkce, je ten jako když se funkce <code class="function">f</code> vrací. Což je konzistentní s tím, jak byste očekávali, že bude funkce <code class="function">r</code> pracovat uvnitř funkce <code class="function">f</code> podle pravidel o rozsahu působnosti proměnných v jazyce GEL. Do dodatečného slovníku jsou přidány jen ty proměnné, které jsou v kontextu, který právě končí a nadále již neexistuje. Proměnné použité ve funkci, které jsou ve stále platném kontextu, budou pracovat obvykle s použitím aktuální hodnoty proměnné. Jediný rozdíl je v globálních proměnných a funkcích. Všechny identifikátory, které odkazovaly na globální proměnné ve chvíli, kdy definice funkce není přidána do privátního slovníku. To je kvůli tomu, aby se zabránilo nepotřebné práci, když se vrací funkce a zřídka by byly problémem. Například předpokládejme, že vymažete z funkce <code class="function">f</code> výraz „n=5“ a v nejvyšší úrovni definujete <code class="varname">k</code>, které bude řekněme 5. Když pak spustíte funkci <code class="function">f</code>, funkce <code class="function">r</code> nebude proměnnou <code class="varname">k</code> vkládat do privátního slovníku, protože je v době definice <code class="function">r</code> globální (v nejvyšší úrovni).</p><p>Někdy je lepší mít větší kontrolu na tím, jak jsou proměnné kopírovány do privátního slovníku. Od verze 1.0.7 můžete určovat, které proměnné jsou kopírovány do privátního slovníku tak, že za argumenty vložíte dodatečné hranaté závorky  se seznamem proměnných oddělených čárkou, které se mají kopírovat. Pokud tak učiníte, proměnné jsou zkopírovány do privátního slovníku v okamžiku definice funkce a dodatečně se již slovník nemění. Například </p><pre class="programlisting">function f() = (
+</pre><p lang="en">
+	  will return a function that adds 10 to its argument rather than
+	  5.  This is because the extra dictionary is created only when
+	  the context
+	  in which the function was defined ends, which is when the function
+	  <code class="function">f</code> returns.  This is consistent with how you
+	  would expect the function <code class="function">r</code> to work inside
+	  the function <code class="function">f</code> according to the rules of
+	  scope of variables in GEL.  Only those variables are added to the
+	  extra dictionary that are in the context that just ended and
+	  no longer exists.  Variables
+	  used in the function that are in still valid contexts will work
+	  as usual, using the current value of the variable.
+	  The only difference is with global variables and functions.
+	  All identifiers that referenced global variables at time of
+	  the function definition are not added to the private dictionary.
+	  This is to avoid much unnecessary work when returning functions
+	  and would rarely be a problem.  For example, suppose that you
+	  delete the "k=5" from the function <code class="function">f</code>,
+	  and at the top level you define <code class="varname">k</code> to be
+	  say 5.  Then when you run <code class="function">f</code>, the function
+	  <code class="function">r</code> will not put <code class="varname">k</code> into
+	  the private dictionary because it was global (toplevel)
+	  at the time of definition of <code class="function">r</code>.
+	</p><p lang="en">
+	  Sometimes it is better to have more control over how variables
+	  are copied into the private dictionary.  Since version 1.0.7,
+	  you can specify which
+	  variables are copied into the private dictionary by putting
+	  extra square brackets after the arguments with the list of
+	  variables to be copied separated by commas.
+	  If you do this, then variables are
+	  copied into the private dictionary at time of the function
+	  definition, and the private dictionary is not touched afterwards.
+	  For example
+</p><pre lang="en" class="programlisting">function f() = (
   k := 5;
   function r(x) [k] = (x+k);
   k := 10;
   r
 )
-</pre><p> bude vracet funkci, která při zavolání přičte 5 ke svému argumentu. Lokální kopie <code class="varname">k</code> byla vytvořena ve chvíli, kdy byla funkce definována.</p><p>Když chcete, aby funkce neměla žádný privátní slovník, tak vložte za seznam argumentů prázdné hranaté závorky. V takovém případě nebude vytvořen vůbec žádný privátní slovník. To je dobré pro zvýšení efektivity v situacích, kdy žádný privátní slovník není zapotřebí nebo když chcete, aby funkce hledala všechny proměnné takové, jaké jsou v okamžiku volání. Například předpokládejme že chcete, aby funkce vracená funkcí <code class="function">f</code> viděla hodnotu <code class="varname">n</code> z nejvyšší úrovně, přestože existuje lokální proměnná stejného jména během definování. Potom kód </p><pre class="programlisting">function f() = (
+</pre><p lang="en">
+	  will return a function that when called will add 5 to its
+	  argument.  The local copy of <code class="varname">k</code> was created
+	  when the function was defined.
+	</p><p lang="en">
+	  When you want the function to not have any private dictionary
+	  then put empty square brackets after the argument list.  Then
+	  no private dictionary will be created at all.  Doing this is
+	  good to increase efficiency when a private dictionary is not
+	  needed or when you want the function to lookup all variables
+	  as it sees them when called.  For example suppose you want
+	  the function returned from <code class="function">f</code> to see
+	  the value of <code class="varname">k</code> from the toplevel despite
+	  there being a local variable of the same name during definition.
+	  So the code
+</p><pre lang="en" class="programlisting">function f() = (
   k := 5;
   function r(x) [] = (x+k);
   r
@@ -24,4 +95,8 @@ g(5)
 k := 10;
 g = f();
 g(10)
-</pre><p> bude vrace 20 a ne 15, což by nastalo v případě, že <code class="varname">n</code> s hodnotou 5 bylo přidáno do privátního slovníku.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s02.html">Předcházející</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Nahoru</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s04.html">Další</a></td></tr><tr><td width="40%" align="left" valign="top">Syntaxe v nejvyšší úrovni </td><td width="20%" align="center"><a accesskey="h" href="index.html">Domů</a></td><td width="40%" align="right" valign="top"> Skutečně lokální proměnné</td></tr></table></div></body></html>
+</pre><p lang="en">
+	  will return 20 and not 15, which would happen if
+	  <code class="varname">k</code> with a value of 5 was added to the private
+	  dictionary.
+	</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s02.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Syntaxe v nejvyšší úrovni </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Skutečně lokální proměnné</td></tr></table></div></body></html>

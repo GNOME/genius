@@ -1,35 +1,35 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Глава 12. Примеры программ на GEL</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Руководство пользователя Genius"><link rel="up" href="index.html" title="Руководство пользователя Genius"><link rel="prev" href="ch11s20.html" title="Построение графиков"><link rel="next" href="ch13.html" title="Глава 13. Настройки"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Глава 12. Примеры программ на GEL</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s20.html">Пред.</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch13.html">След.</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="genius-gel-example-programs"></a>Глава 12. Примеры программ на GEL</h1></div></div></div><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 12. Примеры программ на GEL</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Руководство пользователя Genius"><link rel="up" href="index.html" title="Руководство пользователя Genius"><link rel="prev" href="ch11s20.html" title="Построение графиков"><link rel="next" href="ch13.html" title="Chapter 13. Настройки"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 12. Примеры программ на GEL</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s20.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch13.html">Next</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="genius-gel-example-programs"></a>Chapter 12. Примеры программ на GEL</h1></div></div></div><p lang="en">
 Here is a function that calculates factorials:
-</p><pre class="programlisting">function f(x) = if x &lt;= 1 then 1 else (f(x-1)*x)
-</pre><p>
-    </p><p>
+</p><pre lang="en" class="programlisting">function f(x) = if x &lt;= 1 then 1 else (f(x-1)*x)
+</pre><p lang="en">
+    </p><p lang="en">
 With indentation it becomes:
-</p><pre class="programlisting">function f(x) = (
+</p><pre lang="en" class="programlisting">function f(x) = (
   if x &lt;= 1 then
     1
   else
     (f(x-1)*x)
 )
-</pre><p>
-    </p><p>
+</pre><p lang="en">
+    </p><p lang="en">
 This is a direct port of the factorial function from the <span class="application">bc</span> manpage. The syntax seems similar to <span class="application">bc</span>, but different in that in GEL, the last expression is the one that is returned. Using the <code class="literal">return</code> function instead, it would be:
-</p><pre class="programlisting">function f(x) = (
+</p><pre lang="en" class="programlisting">function f(x) = (
   if (x &lt;= 1) then return (1);
   return (f(x-1) * x)
 )
-</pre><p>
-    </p><p>
+</pre><p lang="en">
+    </p><p lang="en">
 By far the easiest way to define a factorial function would be using
 the product loop as follows.  This is not only the shortest and fastest,
 but also probably the most readable version.
-</p><pre class="programlisting">function f(x) = prod k=1 to x do k
-</pre><p>
-    </p><p>
+</p><pre lang="en" class="programlisting">function f(x) = prod k=1 to x do k
+</pre><p lang="en">
+    </p><p lang="en">
 Here is a larger example, this basically redefines the internal
 <a class="link" href="ch11s09.html#gel-function-ref"><code class="function">ref</code></a> function to calculate the row echelon form of a
 matrix.  The function <code class="function">ref</code> is built in and much faster,
 but this example demonstrates some of the more complex features of GEL.
-</p><pre class="programlisting"># Calculate the row-echelon form of a matrix
+</p><pre lang="en" class="programlisting"># Calculate the row-echelon form of a matrix
 function MyOwnREF(m) = (
   if not IsMatrix(m) or not IsValueOnly(m) then
     (error("MyOwnREF: argument not a value only matrix");bailout);
@@ -70,5 +70,5 @@ function MyOwnREF(m) = (
   );
   m
 )
-</pre><p>
-    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch11s20.html">Пред.</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch13.html">След.</a></td></tr><tr><td width="40%" align="left" valign="top">Построение графиков </td><td width="20%" align="center"><a accesskey="h" href="index.html">Начало</a></td><td width="40%" align="right" valign="top"> Глава 13. Настройки</td></tr></table></div></body></html>
+</pre><p lang="en">
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch11s20.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch13.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Построение графиков </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Chapter 13. Настройки</td></tr></table></div></body></html>

@@ -1,18 +1,54 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Verkligt lokala variabler</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Handbok för Genius"><link rel="up" href="ch07.html" title="Kapitel 7. Avancerad programmering med GEL"><link rel="prev" href="ch07s03.html" title="Returnera funktioner"><link rel="next" href="ch07s05.html" title="Uppstartsprocedur för GEL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Verkligt lokala variabler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s03.html">Föregående</a> </td><th width="60%" align="center">Kapitel 7. Avancerad programmering med GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s05.html">Nästa</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-true-local-variables"></a>Verkligt lokala variabler</h2></div></div></div><p>Då funktioner skickas till andra funktioner kan den vanliga variabelräckvidden vara oönskad. Till exempel: </p><pre class="programlisting">k := 10;
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Verkligt lokala variabler</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Handbok för Genius"><link rel="up" href="ch07.html" title="Chapter 7. Avancerad programmering med GEL"><link rel="prev" href="ch07s03.html" title="Returnera funktioner"><link rel="next" href="ch07s05.html" title="Uppstartsprocedur för GEL"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Verkligt lokala variabler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s03.html">Prev</a> </td><th width="60%" align="center">Chapter 7. Avancerad programmering med GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s05.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-true-local-variables"></a>Verkligt lokala variabler</h2></div></div></div><p lang="en">
+	When passing functions into other functions, the normal scoping of
+	variables might be undesired.  For example:
+</p><pre lang="en" class="programlisting">k := 10;
 function r(x) = (x+k);
 function f(g,x) = (
   k := 5;
   g(x)
 );
 f(r,1)
-</pre><p> du vill antagligen att funktionen <code class="function">r</code> då den skickas som <code class="function">g</code> till <code class="function">f</code> ska se <code class="varname">k</code> som 10 snarare än 5, så att koden returnerar 11 och inte 6. Som det är skrivet kommer dock funktionen då den exekveras se det <code class="varname">k</code> som är lika med 5. Det finns två sätt att lösa detta. En skulle vara att låta <code class="function">r</code> få <code class="varname">k</code> i en privat ordbok genom hakparentesnotationen i avsnittet <a class="link" href="ch07s03.html" title="Returnera funktioner">Returnera funktioner</a>.</p><p>Men det finns en annan lösning. Sedan version 1.0.7 finns det verkligt lokala variabler. Dessa är variabler som är synliga endast från aktuell kontext och inte från några anropade funktioner. Vi kan definiera <code class="varname">k</code> som en lokal variabel i funktionen <code class="function">f</code>. För att göra detta lägg till ett <span class="command"><strong>local</strong></span>-uttryck som det första uttrycket i funktionen (det måste alltid vara det första uttrycket i funktionen). Du kan också göra argument till lokala variabler. Det vill säga, </p><pre class="programlisting">function f(g,x) = (
+</pre><p lang="en">
+	you probably want the function <code class="function">r</code>
+	when passed as <code class="function">g</code> into <code class="function">f</code>
+	to see <code class="varname">k</code> as 10 rather than 5, so that
+	the code returns 11 and not 6.  However, as written, the function
+	when executed will see the <code class="varname">k</code> that is
+	equal to 5.  There are two ways to solve this.  One would be
+	to have <code class="function">r</code> get <code class="varname">k</code> in a
+	private dictionary using the square bracket notation section
+	<a class="link" href="ch07s03.html" title="Returnera funktioner">Returning
+	Functions</a>.
+      </p><p lang="en">
+	But there is another solution.  Since version 1.0.7 there are
+	true local variables.  These are variables that are visible only
+	from the current context and not from any called functions.
+	We could define <code class="varname">k</code> as a local variable in the
+	function <code class="function">f</code>.  To do this add a
+	<span class="command"><strong>local</strong></span> statement as the first statement in the
+	function (it must always be the first statement in the function).
+	You can also make any arguments be local variables as well.
+	That is,
+</p><pre lang="en" class="programlisting">function f(g,x) = (
   local g,x,k;
   k := 5;
   g(x)
 );
-</pre><p> Då kommer koden fungera som förväntat och skriver ut 11. Observera att <span class="command"><strong>local</strong></span>-uttrycket initierar alla de refererade variablerna (förutom funktionsargument) till ett <code class="constant">null</code>.</p><p>Om alla variabler ska skapas som lokala kan du helt enkelt skicka en asterisk istället för en variabellista. I detta fall kommer variablerna förstås inte initieras förrän de faktiskt ställs in. Så följande definition av <code class="function">f</code> kommer också att fungera: </p><pre class="programlisting">function f(g,x) = (
+</pre><p lang="en">
+	Then the code will work as expected and prints out 11.
+	Note that the <span class="command"><strong>local</strong></span> statement initializes
+	all the referenced variables (except for function arguments) to
+	a <code class="constant">null</code>.
+      </p><p lang="en">
+	If all variables are to be created as locals you can just pass an
+	asterisk instead of a list of variables.  In this case the variables
+	will not be initialized until they are actually set.
+	So the following definition of <code class="function">f</code>
+	will also work:
+</p><pre lang="en" class="programlisting">function f(g,x) = (
   local *;
   k := 5;
   g(x)
 );
-</pre><p>Det är god sed att alla funktioner som tar andra funktioner som argument använder lokala variabler. På detta sätt ser den skickade funktionen inte implementationsdetaljer och blir förvirrad.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s03.html">Föregående</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Upp</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s05.html">Nästa</a></td></tr><tr><td width="40%" align="left" valign="top">Returnera funktioner </td><td width="20%" align="center"><a accesskey="h" href="index.html">Hem</a></td><td width="40%" align="right" valign="top"> Uppstartsprocedur för GEL</td></tr></table></div></body></html>
+</pre><p lang="en">
+      </p><p>Det är god sed att alla funktioner som tar andra funktioner som argument använder lokala variabler. På detta sätt ser den skickade funktionen inte implementationsdetaljer och blir förvirrad.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s03.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Returnera funktioner </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Uppstartsprocedur för GEL</td></tr></table></div></body></html>

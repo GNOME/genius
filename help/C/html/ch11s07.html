@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Number Theory</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Genius Manual"><link rel="up" href="ch11.html" title="Chapter 11. List of GEL functions"><link rel="prev" href="ch11s06.html" title="Trigonometry"><link rel="next" href="ch11s08.html" title="Matrix Manipulation"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Number Theory</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s06.html">Prev</a> </td><th width="60%" align="center">Chapter 11. List of GEL functions</th><td width="20%" align="right"> <a accesskey="n" href="ch11s08.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-function-list-number-theory"></a>Number Theory</h2></div></div></div><div class="variablelist"><dl class="variablelist"><dt><span class="term"><a name="gel-function-AreRelativelyPrime"></a>AreRelativelyPrime</span></dt><dd><pre class="synopsis">AreRelativelyPrime (a,b)</pre><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Number Theory</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Genius Manual"><link rel="up" href="ch11.html" title="Chapter 11. List of GEL functions"><link rel="prev" href="ch11s06.html" title="Trigonometry"><link rel="next" href="ch11s08.html" title="Matrix Manipulation"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Number Theory</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s06.html">Prev</a> </td><th width="60%" align="center">Chapter 11. List of GEL functions</th><td width="20%" align="right"> <a accesskey="n" href="ch11s08.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-function-list-number-theory"></a>Number Theory</h2></div></div></div><div class="variablelist"><dl class="variablelist"><dt><span class="term"><a name="gel-function-AreRelativelyPrime"></a>AreRelativelyPrime</span></dt><dd><pre class="synopsis">AreRelativelyPrime (a,b)</pre><p>
 	    Are the real integers <code class="varname">a</code> and <code class="varname">b</code> relatively prime?
 	    Returns <code class="constant">true</code> or <code class="constant">false</code>.
 	  </p><p>
@@ -40,7 +40,7 @@
 	    divides <code class="varname">n</code>.  If <code class="varname">d</code>
 	    does not divide <code class="varname">n</code> then this function returns
 	    garbage.  This is a lot faster for very large numbers
-	    than the operation <strong class="userinput"><code>n/d</code></strong>, but of course only
+	    than the operation <strong class="userinput"><code>n/d</code></strong>, but it is only
 	    useful if you know that the division is exact.
 	  </p></dd><dt><span class="term"><a name="gel-function-Factorize"></a>Factorize</span></dt><dd><pre class="synopsis">Factorize (n)</pre><p>
 	    Return factorization of a number as a matrix.  The first
@@ -56,9 +56,9 @@
 	  </p></dd><dt><span class="term"><a name="gel-function-Factors"></a>Factors</span></dt><dd><pre class="synopsis">Factors (n)</pre><p>
 	    Return all factors of <code class="varname">n</code> in a vector.  This
 	    includes all the non-prime factors as well.  It includes 1 and the
-	    number itself.  So for example to print all the perfect numbers
+	    number itself.  So to print all the perfect numbers
 	    (those that are sums of their factors) up to the number 1000 you
-	    could do (this is of course very inefficient)
+	    could do (this is clearly very inefficient)
 	    </p><pre class="programlisting">for n=1 to 1000 do (
     if MatrixSum (Factors(n)) == 2*n then
         print(n)
@@ -112,7 +112,7 @@ precalculated and returned in the second column.</p></dd><dt><span class="term">
 	    <a class="link" href="ch11s07.html#gel-function-IsPerfectSquare">IsPerfectSquare</a>.
 	  </p></dd><dt><span class="term"><a name="gel-function-IsOdd"></a>IsOdd</span></dt><dd><pre class="synopsis">IsOdd (n)</pre><p>Tests if an integer is odd.</p></dd><dt><span class="term"><a name="gel-function-IsPerfectPower"></a>IsPerfectPower</span></dt><dd><pre class="synopsis">IsPerfectPower (n)</pre><p>Check an integer for being any perfect power, a<sup>b</sup>.</p></dd><dt><span class="term"><a name="gel-function-IsPerfectSquare"></a>IsPerfectSquare</span></dt><dd><pre class="synopsis">IsPerfectSquare (n)</pre><p>
 	    Check an integer for being a perfect square of an integer.  The number must
-	    be an integer.  Negative integers are of course never perfect
+	    be an integer.  Negative integers are never perfect
 	    squares of integers.
 	  </p></dd><dt><span class="term"><a name="gel-function-IsPrime"></a>IsPrime</span></dt><dd><pre class="synopsis">IsPrime (n)</pre><p>
 	    Tests primality of integers, for numbers less than 2.5e10 the

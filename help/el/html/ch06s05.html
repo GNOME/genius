@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Καθολικές μεταβλητές και εμβέλεια μεταβλητών</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Εγχειρίδιο Genius"><link rel="up" href="ch06.html" title="Κεφάλαιο 6. Προγραμματισμός με GEL"><link rel="prev" href="ch06s04.html" title="Τελεστές σύγκρισης"><link rel="next" href="ch06s06.html" title="Μεταβλητές παραμέτρων"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Καθολικές μεταβλητές και εμβέλεια μεταβλητών</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s04.html">Προηγ</a> </td><th width="60%" align="center">Κεφάλαιο 6. Προγραμματισμός με GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch06s06.html">Επόμενο</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-variables-global"></a>Καθολικές μεταβλητές και εμβέλεια μεταβλητών</h2></div></div></div><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Καθολικές μεταβλητές και εμβέλεια μεταβλητών</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Εγχειρίδιο Genius"><link rel="up" href="ch06.html" title="Chapter 6. Προγραμματισμός με GEL"><link rel="prev" href="ch06s04.html" title="Τελεστές σύγκρισης"><link rel="next" href="ch06s06.html" title="Μεταβλητές παραμέτρων"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Καθολικές μεταβλητές και εμβέλεια μεταβλητών</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s04.html">Prev</a> </td><th width="60%" align="center">Chapter 6. Προγραμματισμός με GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch06s06.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-variables-global"></a>Καθολικές μεταβλητές και εμβέλεια μεταβλητών</h2></div></div></div><p lang="en">
 	  GEL is a
 	  <a class="ulink" href="https://en.wikipedia.org/wiki/Scope_%28programming%29" target="_top">
 	  dynamically scoped language</a>.  We will explain what this
@@ -6,14 +6,47 @@
 	  scoped.  The exception are 
 	  <a class="link" href="ch06s06.html" title="Μεταβλητές παραμέτρων">parameter variables</a>,
 	  which are always global.
-	</p><p>Όπως οι περισσότερες γλώσσες προγραμματισμού, η GEL έχει διαφορετικούς τύπους μεταβλητών. Κανονικά, όταν μια μεταβλητή ορίζεται σε μια συνάρτηση, είναι ορατή από αυτή τη συνάρτηση και από όλες τις συναρτήσεις που καλούνται (όλες με υψηλότερα περιεχόμενα). Για παράδειγμα, ας υποθέσουμε ότι μια συνάρτηση <code class="function">f</code> ορίζει μια μεταβλητή <code class="varname">a</code> και έπειτα καλεί τη συνάρτηση <code class="function">g</code>. Τότε η συνάρτηση <code class="function">g</code> μπορεί να αναφέρει την <code class="varname">a</code>. Αλλά μόλις η <code class="function">f</code> επιστρέφει, η μεταβλητή <code class="varname">a</code> βγαίνει εκτός εμβέλειας. Για παράδειγμα, ο παρακάτω κώδικας θα εμφανίσει 5. Η συνάρτηση <code class="function">g</code> δεν μπορεί να κληθεί στο ανώτατο επίπεδο (έξω από τη <code class="function">f</code> ως <code class="varname">a</code> δεν θα οριστεί). </p><pre class="programlisting">function f() = (a:=5; g());
+	</p><p lang="en">
+	  Like most programming languages, GEL has different types
+	  of variables.  Normally when a variable is defined in a function,
+	  it is visible from that function and from all functions that are
+	  called (all higher contexts).  For example, suppose a function
+	  <code class="function">f</code> defines a variable <code class="varname">a</code>
+	  and then calls function <code class="function">g</code>.  Then
+	  function <code class="function">g</code> can reference
+	  <code class="varname">a</code>.  But once <code class="function">f</code> returns,
+	  the variable <code class="varname">a</code> goes out of scope.
+	  For example, the following code will print out 5.
+	  The function <code class="function">g</code> cannot be called on the
+	  top level (outside <code class="function">f</code> as <code class="varname">a</code>
+	  will not be defined).
+</p><pre lang="en" class="programlisting">function f() = (a:=5; g());
 function g() = print(a);
 f();
-</pre><p>Αν ορίσετε μια μεταβλητή μέσα σε μια συνάρτηση θα επικαλύψει οποιεσδήποτε μεταβλητές ορίστηκαν στις συναρτήσεις κλήσης. Για παράδειγμα, τροποποιούμε τον παραπάνω κώδικα και γράφουμε: </p><pre class="programlisting">function f() = (a:=5; g());
+</pre><p lang="en">
+        </p><p lang="en">
+	  If you define a variable inside a function it will override
+	  any variables defined in calling functions.  For example,
+	  we modify the above code and write:
+</p><pre lang="en" class="programlisting">function f() = (a:=5; g());
 function g() = print(a);
 a:=10;
 f();
-</pre><p> Αυτός ο κώδικας θα εμφανίσει ακόμα 5. Αλλά αν καλέσετε την <code class="function">g</code> έξω από την <code class="function">f</code>, τότε θα πάρετε ένα αποτέλεσμα 10. Σημειώστε ότι, ο ορισμός μιας <code class="varname">a</code> σε 5 μέσα σε μια <code class="function">f</code> δεν αλλάζει την τιμή της <code class="varname">a</code> στο ανώτατο (καθολικό) επίπεδο, έτσι αν τώρα ελέγξετε την τιμή της <code class="varname">a</code> θα είναι ακόμα 10.</p><p>Τα ορίσματα συναρτήσεων είναι ακριβώς όπως οι μεταβλητές που ορίστηκαν μέσα στη συνάρτηση, εκτός από το ότι είναι αρχικοποιημένες με την τιμή που περάστηκε στη συνάρτηση. Πέρα από αυτό το σημείο, αντιμετωπίζονται ακριβώς όπως όλες οι άλλες μεταβλητές που ορίστηκαν μέσα στη συνάρτηση.</p><p>Οι συναρτήσεις αντιμετωπίζονται ακριβώς όπως οι μεταβλητές. Συνεπώς, μπορείτε τοπικά να επανορίσετε τις συναρτήσεις. Κανονικά, (στο ανώτατο επίπεδο) δεν μπορείτε να επανορίσετε προστατευμένες μεταβλητές και συναρτήσεις. Αλλά τοπικά μπορείτε να το κάνετε. Θεωρείστε την ακόλουθη συνεδρία: </p><pre class="screen"><code class="prompt">genius&gt; </code><strong class="userinput"><code>function f(x) = sin(x)^2</code></strong>
+</pre><p lang="en">
+	  This code will still print out 5.  But if you call
+	  <code class="function">g</code> outside of <code class="function">f</code> then
+	  you will get a printout of 10.  Note that
+	  setting <code class="varname">a</code>
+	  to 5 inside <code class="function">f</code> does not change
+	  the value of <code class="varname">a</code> at the top (global) level,
+	  so if you now check the value of <code class="varname">a</code> it will
+	  still be 10.
+        </p><p>Τα ορίσματα συναρτήσεων είναι ακριβώς όπως οι μεταβλητές που ορίστηκαν μέσα στη συνάρτηση, εκτός από το ότι είναι αρχικοποιημένες με την τιμή που περάστηκε στη συνάρτηση. Πέρα από αυτό το σημείο, αντιμετωπίζονται ακριβώς όπως όλες οι άλλες μεταβλητές που ορίστηκαν μέσα στη συνάρτηση.</p><p lang="en">
+	  Functions are treated exactly like variables.  Hence you can
+	  locally redefine functions.  Normally (on the top level) you
+	  cannot redefine protected variables and functions.  But locally
+	  you can do this.  Consider the following session:
+</p><pre lang="en" class="screen"><code class="prompt">genius&gt; </code><strong class="userinput"><code>function f(x) = sin(x)^2</code></strong>
 = (`(x)=(sin(x)^2))
 <code class="prompt">genius&gt; </code><strong class="userinput"><code>function f(x) = sin(x)^2</code></strong>
 = (`(x)=(sin(x)^2))
@@ -21,15 +54,16 @@ f();
 = (`(x)=((sin:=(`(x)=(x^10)));f(x)))
 <code class="prompt">genius&gt; </code><strong class="userinput"><code>g(10)</code></strong>
 = 1e20
-</pre><p>
+</pre><p lang="en">
+	</p><p lang="en">
 	  Functions and variables defined at the top level are
 	  considered global.  They are visible from anywhere.  As we
 	  said the following function <code class="function">f</code>
 	  will not change the value of <code class="varname">a</code> to 5.
-</p><pre class="programlisting">a=6;
+</p><pre lang="en" class="programlisting">a=6;
 function f() = (a:=5);
 f();
-</pre><p>
+</pre><p lang="en">
 	  Sometimes, however, it is necessary to set
 a global variable from inside a function.  When this behavior is needed,
 use the
@@ -37,13 +71,13 @@ use the
 this function sets the variable globally (on the top level).
 For example, to set
 <code class="varname">a</code> to the value 3 you could call:
-</p><pre class="programlisting">set(`a,3)
-</pre><p>
+</p><pre lang="en" class="programlisting">set(`a,3)
+</pre><p lang="en">
 or:
-</p><pre class="programlisting">set("a",3)
-</pre><p>
-        </p><p>Η συνάρτηση <code class="function">set</code> ορίζει πάντα την καθολική ανωτάτου επιπέδου. Δεν υπάρχει τρόπος να οριστεί μια τοπική μεταβλητή σε κάποια συνάρτηση από μια υπορουτίνα. Αν αυτό απαιτείται, πρέπει να χρησιμοποιηθεί το πέρασμα με αναφορά.</p><p>
+</p><pre lang="en" class="programlisting">set("a",3)
+</pre><p lang="en">
+        </p><p>Η συνάρτηση <code class="function">set</code> ορίζει πάντα την καθολική ανωτάτου επιπέδου. Δεν υπάρχει τρόπος να οριστεί μια τοπική μεταβλητή σε κάποια συνάρτηση από μια υπορουτίνα. Αν αυτό απαιτείται, πρέπει να χρησιμοποιηθεί το πέρασμα με αναφορά.</p><p lang="en">
 		See also the
 		<a class="link" href="ch11s02.html#gel-function-SetElement"><code class="function">SetElement</code></a> and
 		<a class="link" href="ch11s02.html#gel-function-SetVElement"><code class="function">SetVElement</code></a> functions.
-	</p><p>Για να ανακεφαλαιώσουμε σε μια πιο τεχνική γλώσσα: Η Genius λειτουργεί με διαφορετικά αριθμημένα περιεχόμενα. Το ανώτατο επίπεδο είναι το περιεχόμενο 0 (μηδέν). Όποτε μια συνάρτηση εισέρχεται, το περιεχόμενο αυξάνεται και όταν η συνάρτηση επιστρέφει το περιεχόμενο μειώνεται. Μια συνάρτηση ή μια μεταβλητή είναι πάντα ορατή από όλα τα περιεχόμενα με υψηλότερη αρίθμηση. Όταν μια μεταβλητή ορίζεται σε ένα περιεχόμενο χαμηλότερης αρίθμησης, τότε ο ορισμός αυτής της μεταβλητής επιδρά στη δημιουργία μιας νέας τοπικής μεταβλητής με τον τρέχοντα αριθμό περιεχομένου και αυτή η μεταβλητή θα είναι τώρα ορατή από όλα τα περιεχόμενα με υψηλότερη αρίθμηση.</p><p>Υπάρχουν επίσης αληθινές τοπικές μεταβλητές, που δεν φαίνονται από οπουδήποτε εκτός από το τρέχον περιεχόμενο. Επίσης όταν επιστρέφονται συναρτήσεις με τιμή μπορεί να αναφέρονται σε μεταβλητές μη ορατές από υψηλότερο περιεχόμενο και αυτό μπορεί να είναι ένα πρόβλημα. Δείτε τις ενότητες <a class="link" href="ch07s04.html" title="Αληθείς τοπικές μεταβλητές">Αληθείς τοπικές μεταβλητές</a> και <a class="link" href="ch07s03.html" title="Επιστροφή συναρτήσεων">Επιστροφή συναρτήσεων</a>.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s04.html">Προηγ</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Πάνω</a></td><td width="40%" align="right"> <a accesskey="n" href="ch06s06.html">Επόμενο</a></td></tr><tr><td width="40%" align="left" valign="top">Τελεστές σύγκρισης </td><td width="20%" align="center"><a accesskey="h" href="index.html">Αρχή</a></td><td width="40%" align="right" valign="top"> Μεταβλητές παραμέτρων</td></tr></table></div></body></html>
+	</p><p>Για να ανακεφαλαιώσουμε σε μια πιο τεχνική γλώσσα: Η Genius λειτουργεί με διαφορετικά αριθμημένα περιεχόμενα. Το ανώτατο επίπεδο είναι το περιεχόμενο 0 (μηδέν). Όποτε μια συνάρτηση εισέρχεται, το περιεχόμενο αυξάνεται και όταν η συνάρτηση επιστρέφει το περιεχόμενο μειώνεται. Μια συνάρτηση ή μια μεταβλητή είναι πάντα ορατή από όλα τα περιεχόμενα με υψηλότερη αρίθμηση. Όταν μια μεταβλητή ορίζεται σε ένα περιεχόμενο χαμηλότερης αρίθμησης, τότε ο ορισμός αυτής της μεταβλητής επιδρά στη δημιουργία μιας νέας τοπικής μεταβλητής με τον τρέχοντα αριθμό περιεχομένου και αυτή η μεταβλητή θα είναι τώρα ορατή από όλα τα περιεχόμενα με υψηλότερη αρίθμηση.</p><p>Υπάρχουν επίσης αληθινές τοπικές μεταβλητές, που δεν φαίνονται από οπουδήποτε εκτός από το τρέχον περιεχόμενο. Επίσης όταν επιστρέφονται συναρτήσεις με τιμή μπορεί να αναφέρονται σε μεταβλητές μη ορατές από υψηλότερο περιεχόμενο και αυτό μπορεί να είναι ένα πρόβλημα. Δείτε τις ενότητες <a class="link" href="ch07s04.html" title="Αληθείς τοπικές μεταβλητές">Αληθείς τοπικές μεταβλητές</a> και <a class="link" href="ch07s03.html" title="Επιστροφή συναρτήσεων">Επιστροφή συναρτήσεων</a>.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s04.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch06s06.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Τελεστές σύγκρισης </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Μεταβλητές παραμέτρων</td></tr></table></div></body></html>

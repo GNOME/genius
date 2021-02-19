@@ -1,54 +1,54 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Schleifen</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Genius-Handbuch"><link rel="up" href="ch06.html" title="Kapitel 6. Programmierung mit GEL"><link rel="prev" href="ch06.html" title="Kapitel 6. Programmierung mit GEL"><link rel="next" href="ch06s03.html" title="Summen und Produkte"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Schleifen</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06.html">Zurück</a> </td><th width="60%" align="center">Kapitel 6. Programmierung mit GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch06s03.html">Weiter</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-loops"></a>Schleifen</h2></div></div></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-loops-while"></a>While-Schleifen</h3></div></div></div><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Schleifen</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Genius-Handbuch"><link rel="up" href="ch06.html" title="Chapter 6. Programmierung mit GEL"><link rel="prev" href="ch06.html" title="Chapter 6. Programmierung mit GEL"><link rel="next" href="ch06s03.html" title="Summen und Produkte"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Schleifen</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06.html">Prev</a> </td><th width="60%" align="center">Chapter 6. Programmierung mit GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch06s03.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-loops"></a>Schleifen</h2></div></div></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-loops-while"></a>While-Schleifen</h3></div></div></div><p lang="en">
 Syntax:
-</p><pre class="programlisting">while &lt;expression1&gt; do &lt;expression2&gt;
+</p><pre lang="en" class="programlisting">while &lt;expression1&gt; do &lt;expression2&gt;
 until &lt;expression1&gt; do &lt;expression2&gt;
 do &lt;expression2&gt; while &lt;expression1&gt;
-do &lt;expression2&gt; until &lt;expression1&gt;</pre><p>
+do &lt;expression2&gt; until &lt;expression1&gt;</pre><p lang="en">
 
 	These are similar to other languages.  However, as in GEL it is simply an expression that must have some return value, these
 	constructs will simply return the result of the last iteration or <code class="literal">NULL</code> if no iteration was done.  In the boolean expression, <code class="literal">=</code> is translated into <code class="literal">==</code> just as for the <code class="literal">if</code> statement.
-        </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-loops-for"></a>For-Schleifen</h3></div></div></div><p>
+        </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-loops-for"></a>For-Schleifen</h3></div></div></div><p lang="en">
 Syntax:
-</p><pre class="programlisting">for &lt;identifier&gt; = &lt;from&gt; to &lt;to&gt; do &lt;body&gt;
-for &lt;identifier&gt; = &lt;from&gt; to &lt;to&gt; by &lt;increment&gt; do &lt;body&gt;</pre><p>
+</p><pre lang="en" class="programlisting">for &lt;identifier&gt; = &lt;from&gt; to &lt;to&gt; do &lt;body&gt;
+for &lt;identifier&gt; = &lt;from&gt; to &lt;to&gt; by &lt;increment&gt; do &lt;body&gt;</pre><p lang="en">
 
 Loop with identifier being set to all values from <code class="literal">&lt;from&gt;</code> to <code class="literal">&lt;to&gt;</code>, optionally using an increment other than 1. These are faster, nicer and more compact than the normal loops such as above, but less flexible. The identifier must be an identifier and can't be a dereference. The value of identifier is the last value of identifier, or <code class="literal">&lt;from&gt;</code> if body was never evaluated. The variable is guaranteed to be initialized after a loop, so you can safely use it.  Also the <code class="literal">&lt;from&gt;</code>, <code class="literal">&lt;to&gt;</code> and <code class="literal">&lt;increment&gt;</code> must be non complex values. The <code class="literal">&lt;to&gt;</code> is not guaranteed to be hit, but will never be overshot, for example the following prints out odd numbers from 1 to 19:
-</p><pre class="programlisting">for i = 1 to 20 by 2 do print(i)
-</pre><p>
-        </p><p>
+</p><pre lang="en" class="programlisting">for i = 1 to 20 by 2 do print(i)
+</pre><p lang="en">
+        </p><p lang="en">
 		When one of the values is a floating point number, then the
 		final check is done to within 2^-20 of the step size.  That is,
 		even if we overshoot by 2^-20 times the "by" above, we still execute the last
 		iteration.  This way 
-</p><pre class="programlisting">for x = 0 to 1 by 0.1 do print(x)
-</pre><p>
+</p><pre lang="en" class="programlisting">for x = 0 to 1 by 0.1 do print(x)
+</pre><p lang="en">
 does the expected even though adding 0.1 ten times becomes just slightly more than 1.0 due to the way that floating point numbers
 are stored in base 2 (there is no 0.1, the actual number stored is just ever so slightly bigger).  This is not perfect but it handles
 the majority of the cases.  If you want to avoid dealing with this issue, use actual rational numbers for example:
-</p><pre class="programlisting">for x = 0 to 1 by 1/10 do print(x)
-</pre><p>
+</p><pre lang="en" class="programlisting">for x = 0 to 1 by 1/10 do print(x)
+</pre><p lang="en">
 		This check is done only from version 1.0.16 onwards, so execution of your code may differ on older versions.
-	</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-loops-foreach"></a>Foreach-Schleifen</h3></div></div></div><p>
+	</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-loops-foreach"></a>Foreach-Schleifen</h3></div></div></div><p lang="en">
 Syntax:
-</p><pre class="programlisting">for &lt;identifier&gt; in &lt;matrix&gt; do &lt;body&gt;</pre><p>
+</p><pre lang="en" class="programlisting">for &lt;identifier&gt; in &lt;matrix&gt; do &lt;body&gt;</pre><p lang="en">
 
 			For each element in the matrix, going row by row from left to right we execute the body
 		       with the identifier set to the current element. To
 print numbers 1,2,3 and 4 in this order you could do:
-</p><pre class="programlisting">for n in [1,2:3,4] do print(n)
-</pre><p>
+</p><pre lang="en" class="programlisting">for n in [1,2:3,4] do print(n)
+</pre><p lang="en">
 If you wish to run through the rows and columns of a matrix, you can use
 the RowsOf and ColumnsOf functions, which return a vector of the rows or
 columns of the matrix.  So,
-</p><pre class="programlisting">for n in RowsOf ([1,2:3,4]) do print(n)
-</pre><p>
+</p><pre lang="en" class="programlisting">for n in RowsOf ([1,2:3,4]) do print(n)
+</pre><p lang="en">
 will print out [1,2] and then [3,4].
-        </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-loops-break-continue"></a>Break and Continue</h3></div></div></div><p>
+        </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-loops-break-continue"></a>Break and Continue</h3></div></div></div><p lang="en">
 You can also use the <code class="literal">break</code> and <code class="literal">continue</code> commands in loops. The continue <code class="literal">continue</code> command will restart the current loop at its next iteration, while the <code class="literal">break</code> command exits the current loop.
-</p><pre class="programlisting">while(&lt;expression1&gt;) do (
+</p><pre lang="en" class="programlisting">while(&lt;expression1&gt;) do (
   if(&lt;expression2&gt;) break
   else if(&lt;expression3&gt;) continue;
   &lt;expression4&gt;
 )
-</pre><p>
-        </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06.html">Zurück</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Nach oben</a></td><td width="40%" align="right"> <a accesskey="n" href="ch06s03.html">Weiter</a></td></tr><tr><td width="40%" align="left" valign="top">Kapitel 6. Programmierung mit GEL </td><td width="20%" align="center"><a accesskey="h" href="index.html">Zum Anfang</a></td><td width="40%" align="right" valign="top"> Summen und Produkte</td></tr></table></div></body></html>
+</pre><p lang="en">
+        </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch06s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter 6. Programmierung mit GEL </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Summen und Produkte</td></tr></table></div></body></html>

@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Глава 5. Основы GEL</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Руководство пользователя Genius"><link rel="up" href="index.html" title="Руководство пользователя Genius"><link rel="prev" href="ch04s05.html" title="Графики поверхностей"><link rel="next" href="ch05s02.html" title="Использование переменных"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Глава 5. Основы GEL</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s05.html">Пред.</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch05s02.html">След.</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="genius-gel"></a>Глава 5. Основы GEL</h1></div></div></div><div class="toc"><p><b>Содержание</b></p><dl class="toc"><dt><span class="sect1"><a href="ch05.html#genius-gel-values">Значения</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05.html#genius-gel-values-numbers">Числа</a></span></dt><dt><span class="sect2"><a href="ch05.html#genius-gel-values-booleans">Логические значения</a></span></dt><dt><span class="sect2"><a href="ch05.html#genius-gel-values-strings">Строки</a></span></dt><dt><span class="sect2"><a href="ch05.html#genius-gel-values-null">Null</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05s02.html">Использование переменных</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05s02.html#genius-gel-variables-setting">Присваивание значения переменным</a></span></dt><dt><span class="sect2"><a href="ch05s02.html#genius-gel-variables-built-in">Встроенные переменные</a></span></dt><dt><span class="sect2"><a href="ch05s02.html#genius-gel-previous-result">Переменные с результатом предыдущего вычисления</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05s03.html">Использование функций</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-defining">Определение функций</a></span></dt><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-variable-argument-lists">Variable Argument Lists</a></span></dt><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-passing-functions">Passing Functions to Functions</a></span></dt><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-operations">Операции с функциями</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05s04.html">Разделитель</a></span></dt><dt><span class="sect1"><a href="ch05s05.html">Comments</a></span></dt><dt><span class="sect1"><a href="ch05s06.html">Modular Evaluation</a></span></dt><dt><span class="sect1"><a href="ch05s07.html">Список операторов GEL</a></span></dt></dl></div><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Chapter 5. Основы GEL</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Руководство пользователя Genius"><link rel="up" href="index.html" title="Руководство пользователя Genius"><link rel="prev" href="ch04s05.html" title="Графики поверхностей"><link rel="next" href="ch05s02.html" title="Использование переменных"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 5. Основы GEL</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s05.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch05s02.html">Next</a></td></tr></table><hr></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="genius-gel"></a>Chapter 5. Основы GEL</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="sect1"><a href="ch05.html#genius-gel-values">Значения</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05.html#genius-gel-values-numbers">Числа</a></span></dt><dt><span class="sect2"><a href="ch05.html#genius-gel-values-booleans">Логические значения</a></span></dt><dt><span class="sect2"><a href="ch05.html#genius-gel-values-strings">Строки</a></span></dt><dt><span class="sect2"><a href="ch05.html#genius-gel-values-null">Null</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05s02.html">Использование переменных</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05s02.html#genius-gel-variables-setting">Присваивание значения переменным</a></span></dt><dt><span class="sect2"><a href="ch05s02.html#genius-gel-variables-built-in">Встроенные переменные</a></span></dt><dt><span class="sect2"><a href="ch05s02.html#genius-gel-previous-result">Переменные с результатом предыдущего вычисления</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05s03.html">Использование функций</a></span></dt><dd><dl><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-defining">Определение функций</a></span></dt><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-variable-argument-lists">Variable Argument Lists</a></span></dt><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-passing-functions">Passing Functions to Functions</a></span></dt><dt><span class="sect2"><a href="ch05s03.html#genius-gel-functions-operations">Операции с функциями</a></span></dt></dl></dd><dt><span class="sect1"><a href="ch05s04.html">Разделитель</a></span></dt><dt><span class="sect1"><a href="ch05s05.html">Comments</a></span></dt><dt><span class="sect1"><a href="ch05s06.html">Modular Evaluation</a></span></dt><dt><span class="sect1"><a href="ch05s07.html">Список операторов GEL</a></span></dt></dl></div><p lang="en">
 	  GEL stands for Genius Extension Language.    It is the language you use
 	  to write programs in Genius. A program in GEL is simply an
 	  expression that evaluates to a number, a matrix, or another object
@@ -7,67 +7,87 @@
 	  powerful theoretical research tool.  The syntax is meant to
 	  have as shallow of a learning curve as possible, especially for use
 	  as a calculator.
-	</p><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-values"></a>Значения</h2></div></div></div><p>
+	</p><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-values"></a>Значения</h2></div></div></div><p lang="en">
 	      Values in GEL can be <a class="link" href="ch05.html#genius-gel-values-numbers" title="Числа">numbers</a>, <a class="link" href="ch05.html#genius-gel-values-booleans" title="Логические значения">Booleans</a>, or <a class="link" href="ch05.html#genius-gel-values-strings" title="Строки">strings</a>.   GEL also treats 
-<a class="link" href="ch08.html" title="Глава 8. Матрицы в GEL">matrices</a> as values.
+<a class="link" href="ch08.html" title="Chapter 8. Матрицы в GEL">matrices</a> as values.
 	      Values can be used in calculations, assigned to variables and returned from functions, among other uses.
-      </p><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-numbers"></a>Числа</h3></div></div></div><p>Целые числа — первый тип чисел в GEL. Целые числа записываются общепринятым способом. </p><pre class="programlisting">1234
-</pre><p> Шестнадцатиричные и восьмиричные числа можно записать, используя нотацию языка C. Например: </p><pre class="programlisting">0x123ABC
+      </p><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-numbers"></a>Числа</h3></div></div></div><p lang="en">
+Integers are the first type of number in GEL. Integers are written in the normal way.
+</p><pre lang="en" class="programlisting">1234
+</pre><p lang="en">
+Hexadecimal and octal numbers can be written using C notation. For example:
+</p><pre lang="en" class="programlisting">0x123ABC
 01234
-</pre><p> Можно также набрать числа в произвольной системе счисления, используя запись <code class="literal">&lt;основание&gt;\&lt;число&gt;</code>. Для цифр больше 10 используются буквы, как и в шестнадцатиричном счислении. Например, число по основанию 23 может быть записано в виде: </p><pre class="programlisting">23\1234ABCD
-</pre><p>Второй тип чисел в GEL — это рациональные числа. Они получаются делением двух целых чисел. Поэтому можно написать: </p><pre class="programlisting">3/4
-</pre><p> чтобы обозначить три четвёртых. Рациональные числа также можно записывать в виде смешанных дробей. Чтобы указать одну целую три десятых, можно написать: </p><pre class="programlisting">1 3/10
-</pre><p>
+</pre><p lang="en">
+Or you can type numbers in an arbitrary base using <code class="literal">&lt;base&gt;\&lt;number&gt;</code>. Digits higher than 10 use letters in a similar way to hexadecimal. For example, a number in base 23 could be written:
+</p><pre lang="en" class="programlisting">23\1234ABCD
+</pre><p lang="en">
+        </p><p lang="en">
+The second type of GEL number is rationals. Rationals are simply achieved by dividing two integers. So one could write:
+</p><pre lang="en" class="programlisting">3/4
+</pre><p lang="en">
+to get three quarters. Rationals also accept mixed fraction notation. So in order to get one and three tenths you could write:
+</p><pre lang="en" class="programlisting">1 3/10
+</pre><p lang="en">
+        </p><p lang="en">
 The next type of number is floating point. These are entered in a similar fashion to C notation. You can use <code class="literal">E</code>, <code class="literal">e</code> or <code class="literal">@</code> as the exponent delimiter. Note that using the exponent delimiter gives a float even if there is no decimal point in the number. Examples:
-</p><pre class="programlisting">1.315
+</p><pre lang="en" class="programlisting">1.315
 7.887e77
 7.887e-77
 .3
 0.3
 77e5
-</pre><p>
+</pre><p lang="en">
 	When Genius prints a floating point number it will always append a
 	<code class="computeroutput">.0</code> even if the number is whole.  This is to indicate that
 	floating point numbers are taken as imprecise quantities.  When a number is written in the
 	scientific notation, it is always a floating point number and thus Genius does not
 	print the <code class="computeroutput">.0</code>.
-        </p><p>
+        </p><p lang="en">
 The final type of number in GEL is the complex numbers. You can enter a complex number as a sum of real and imaginary parts. To add an imaginary part, append an <code class="literal">i</code>.  Here are examples of entering complex numbers:
-</p><pre class="programlisting">1+2i
+</p><pre lang="en" class="programlisting">1+2i
 8.01i
 77*e^(1.3i)
-</pre><p>
-        </p><div class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Важно</h3><p>При вводе мнимых чисел перед символом <code class="literal">i</code> должно стоять число. Если использовать символ <code class="literal">i</code> сам по себе, Genius интерпретирует его как ссылку на переменную <code class="varname">i</code>. Если нужно указать саму мнимую единицу <code class="literal">i</code>, используйте вместо неё <code class="literal">1i</code>.</p><p>Чтобы использовать смешанные дроби в мнимых числах, нужно взять смешанную дробь в круглые скобки: (например, <strong class="userinput"><code>(1 2/5)i</code></strong>)</p></div></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-booleans"></a>Логические значения</h3></div></div></div><p>Genius также поддерживает логические значения. Определены две логические константы: <code class="constant">true</code> и <code class="constant">false</code>; их можно использовать, как и любую переменную. В качестве псевдонимов к ним можно также использовать <code class="constant">True</code>, <code class="constant">TRUE</code>, <code class="constant">False</code> и <code class="constant">FALSE</code>.</p><p>Там, где требуется логическое выражение, можно использовать логическое значение или любое выражение, дающее в результате число или логическое значение. Если Genius нужно использовать число как логическое значение, он будет интерпретировать 0 как <code class="constant">false</code> и любое другое число как <code class="constant">true</code>.</p><p>Кроме того, с логическими значениями можно выполнять арифметические операции. Например: </p><pre class="programlisting">( (1 + true) - false ) * true
-</pre><p> это то же самое, что и: </p><pre class="programlisting">( (true or true) or not false ) and true
-</pre><p> Поддерживаются только сложение, вычитание и умножение. Если вы используете в выражении смесь чисел с логическими значениями, то числа преобразовываются в логические значения, как описано выше. То есть, результатом выражения: </p><pre class="programlisting">1 == true
-</pre><p> всегда будет <code class="constant">true</code>, так как 1 преобразовывается в <code class="constant">true</code> перед сравнением с <code class="constant">true</code>.</p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-strings"></a>Строки</h3></div></div></div><p>
+</pre><p lang="en">
+        </p><div class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Important</h3><p>При вводе мнимых чисел перед символом <code class="literal">i</code> должно стоять число. Если использовать символ <code class="literal">i</code> сам по себе, Genius интерпретирует его как ссылку на переменную <code class="varname">i</code>. Если нужно указать саму мнимую единицу <code class="literal">i</code>, используйте вместо неё <code class="literal">1i</code>.</p><p>Чтобы использовать смешанные дроби в мнимых числах, нужно взять смешанную дробь в круглые скобки: (например, <strong class="userinput"><code>(1 2/5)i</code></strong>)</p></div></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-booleans"></a>Логические значения</h3></div></div></div><p>Genius также поддерживает логические значения. Определены две логические константы: <code class="constant">true</code> и <code class="constant">false</code>; их можно использовать, как и любую переменную. В качестве псевдонимов к ним можно также использовать <code class="constant">True</code>, <code class="constant">TRUE</code>, <code class="constant">False</code> и <code class="constant">FALSE</code>.</p><p>Там, где требуется логическое выражение, можно использовать логическое значение или любое выражение, дающее в результате число или логическое значение. Если Genius нужно использовать число как логическое значение, он будет интерпретировать 0 как <code class="constant">false</code> и любое другое число как <code class="constant">true</code>.</p><p lang="en">
+In addition, you can do arithmetic with Boolean values. For example:
+</p><pre lang="en" class="programlisting">( (1 + true) - false ) * true
+</pre><p lang="en">
+is the same as:
+</p><pre lang="en" class="programlisting">( (true or true) or not false ) and true
+</pre><p lang="en">
+Only addition, subtraction and multiplication are supported. If you mix numbers with Booleans in an expression then the numbers are converted to Booleans as described above. This means that, for example:
+</p><pre lang="en" class="programlisting">1 == true
+</pre><p lang="en">
+always evaluates to <code class="constant">true</code> since 1 will be converted to <code class="constant">true</code> before being compared to <code class="constant">true</code>.
+        </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-strings"></a>Строки</h3></div></div></div><p lang="en">
 Like numbers and Booleans, strings in GEL can be stored as values inside variables and passed to functions. You can also concatenate a string with another value using the plus operator. For example:
-</p><pre class="programlisting">a=2+3;"Результат равен: "+a
-</pre><p>
+</p><pre lang="en" class="programlisting">a=2+3;"The result is: "+a
+</pre><p lang="en">
 will create the string:
-</p><pre class="programlisting">Результат равен: 5
-</pre><p>
+</p><pre lang="en" class="programlisting">The result is: 5
+</pre><p lang="en">
 You can also use C-like escape sequences such as <code class="literal">\n</code>,<code class="literal">\t</code>,<code class="literal">\b</code>,<code class="literal">\a</code> and <code class="literal">\r</code>. To get a <code class="literal">\</code> or <code class="literal">"</code> into the string you can quote it with a <code class="literal">\</code>. For example:
-</p><pre class="programlisting">"Косая черта: \\ Кавычки: \" Табуляция: \t1\t2\t3"
-</pre><p>
+</p><pre lang="en" class="programlisting">"Slash: \\ Quotes: \" Tabs: \t1\t2\t3"
+</pre><p lang="en">
 will make a string:
-</p><pre class="programlisting">Косая черта: \ Кавычки: " Табуляция: 	1	2	3
-</pre><p>
+</p><pre lang="en" class="programlisting">Slash: \ Quotes: " Tabs: 	1	2	3
+</pre><p lang="en">
 Do note however that when a string is returned from a function, escapes are
 quoted, so that the output can be used as input.  If you wish to print the
 string as it is (without escapes), use the 
 <a class="link" href="ch11s02.html#gel-function-print"><code class="function">print</code></a>
 or
 <a class="link" href="ch11s02.html#gel-function-printn"><code class="function">printn</code></a> functions.
-        </p><p>
+        </p><p lang="en">
 		In addition, you can use the library function <a class="link" href="ch11s02.html#gel-function-string"><code class="function">string</code></a> to convert anything to a string. For example:
-</p><pre class="programlisting">string(22)
-</pre><p>
+</p><pre lang="en" class="programlisting">string(22)
+</pre><p lang="en">
 will return
-</p><pre class="programlisting">"22"
-</pre><p>
+</p><pre lang="en" class="programlisting">"22"
+</pre><p lang="en">
 Strings can also be compared with <code class="literal">==</code> (equal), <code class="literal">!=</code> (not equal) and <code class="literal">&lt;=&gt;</code> (comparison) operators
-        </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-null"></a>Null</h3></div></div></div><p>
+        </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="genius-gel-values-null"></a>Null</h3></div></div></div><p lang="en">
 There is a special value called
 <code class="constant">null</code>. No operations can be performed on
 it, and nothing is printed when it is returned. Therefore,
@@ -77,6 +97,9 @@ type <code class="literal">.</code>, the constant <code class="constant">null</c
 By nothing we mean that if you end an expression with
 a separator <code class="literal">;</code>, it is equivalent to ending it with a
 separator followed by a <code class="constant">null</code>.
-        </p><p>Пример: </p><pre class="programlisting">x=5;.
+        </p><p lang="en">
+Example:
+</p><pre lang="en" class="programlisting">x=5;.
 x=5;
-</pre><p>Некоторые функции возвращают <code class="constant">null</code>, если невозможно вернуть значение или произошла ошибка. Также <code class="constant">null</code> используется как пустой вектор или матрица, или пустая ссылка.</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s05.html">Пред.</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch05s02.html">След.</a></td></tr><tr><td width="40%" align="left" valign="top">Графики поверхностей </td><td width="20%" align="center"><a accesskey="h" href="index.html">Начало</a></td><td width="40%" align="right" valign="top"> Использование переменных</td></tr></table></div></body></html>
+</pre><p lang="en">
+        </p><p>Некоторые функции возвращают <code class="constant">null</code>, если невозможно вернуть значение или произошла ошибка. Также <code class="constant">null</code> используется как пустой вектор или матрица, или пустая ссылка.</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s05.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch05s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Графики поверхностей </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Использование переменных</td></tr></table></div></body></html>

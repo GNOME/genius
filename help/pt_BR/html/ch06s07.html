@@ -1,11 +1,11 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Returning</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Manual do Genius"><link rel="up" href="ch06.html" title="Capítulo 6. Programming with GEL"><link rel="prev" href="ch06s06.html" title="Parameter variables"><link rel="next" href="ch06s08.html" title="References"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Returning</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s06.html">Anterior</a> </td><th width="60%" align="center">Capítulo 6. Programming with GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch06s08.html">Próxima</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-returning"></a>Returning</h2></div></div></div><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Returning</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Manual do Genius"><link rel="up" href="ch06.html" title="Chapter 6. Programming with GEL"><link rel="prev" href="ch06s06.html" title="Parameter variables"><link rel="next" href="ch06s08.html" title="References"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Returning</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s06.html">Prev</a> </td><th width="60%" align="center">Chapter 6. Programming with GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch06s08.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-returning"></a>Returning</h2></div></div></div><p lang="en">
 	  Normally a function is one or several expressions separated by a
 semicolon, and the value of the last expression is returned.  This is fine for
 simple functions, but
 sometimes you do not want a function to return the last thing calculated. You may, for example, want to return from a middle of a function. In this case, you can use the <code class="literal">return</code> keyword. <code class="literal">return</code> takes one argument, which is the value to be returned.
-      </p><p>
+      </p><p lang="en">
 Example:
-</p><pre class="programlisting">function f(x) = (
+</p><pre lang="en" class="programlisting">function f(x) = (
   y=1;
   while true do (
     if x&gt;50 then return y;
@@ -13,5 +13,5 @@ Example:
     x=x+1
   )
 )
-</pre><p>
-      </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s06.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="ch06s08.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Parameter variables </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> References</td></tr></table></div></body></html>
+</pre><p lang="en">
+      </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s06.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch06s08.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Parameter variables </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> References</td></tr></table></div></body></html>

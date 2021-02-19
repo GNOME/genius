@@ -1,11 +1,44 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Globala variabler och räckvidd för variabler</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Handbok för Genius"><link rel="up" href="ch06.html" title="Kapitel 6. Programmering med GEL"><link rel="prev" href="ch06s04.html" title="Jämförelseoperatorer"><link rel="next" href="ch06s06.html" title="Parametervariabler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Globala variabler och räckvidd för variabler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s04.html">Föregående</a> </td><th width="60%" align="center">Kapitel 6. Programmering med GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch06s06.html">Nästa</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-variables-global"></a>Globala variabler och räckvidd för variabler</h2></div></div></div><p>GEL är ett <a class="ulink" href="https://en.wikipedia.org/wiki/Scope_%28programming%29" target="_top"> språk med dynamisk räckvidd</a>. Vi kommer att förklara vad detta betyder nedan. Det betyder att normala variabler och funktioner har dynamisk räckvidd. Undantaget är <a class="link" href="ch06s06.html" title="Parametervariabler">parametervariabler</a> som alltid är globala.</p><p>Som de flesta programmeringsspråk har GEL olika typer av variabler. Normalt då en variabel är definierad i en funktion är den synlig från den funktionen och från alla funktioner som anropas (alla högre kontexter). Till exempel, anta att en funktion <code class="function">f</code> definierar en variabel <code class="varname">a</code> och sedan anropar funktionen <code class="function">g</code>. Då kan funktion <code class="function">g</code> referera till <code class="varname">a</code>. Men då <code class="function">f</code> returnerar, går variabeln <code class="varname">a</code> utom räckvidd. Till exempel kommer den följande koden att skriva ut 5. Funktionen <code class="function">g</code> kan inte anropas på toppnivån (utanför <code class="function">f</code> eftersom <code class="varname">a</code> inte kommer vara definierad). </p><pre class="programlisting">function f() = (a:=5; g());
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Globala variabler och räckvidd för variabler</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Handbok för Genius"><link rel="up" href="ch06.html" title="Chapter 6. Programmering med GEL"><link rel="prev" href="ch06s04.html" title="Jämförelseoperatorer"><link rel="next" href="ch06s06.html" title="Parametervariabler"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Globala variabler och räckvidd för variabler</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s04.html">Prev</a> </td><th width="60%" align="center">Chapter 6. Programmering med GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch06s06.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-variables-global"></a>Globala variabler och räckvidd för variabler</h2></div></div></div><p>GEL är ett <a class="ulink" href="https://en.wikipedia.org/wiki/Scope_%28programming%29" target="_top"> språk med dynamisk räckvidd</a>. Vi kommer att förklara vad detta betyder nedan. Det betyder att normala variabler och funktioner har dynamisk räckvidd. Undantaget är <a class="link" href="ch06s06.html" title="Parametervariabler">parametervariabler</a> som alltid är globala.</p><p lang="en">
+	  Like most programming languages, GEL has different types
+	  of variables.  Normally when a variable is defined in a function,
+	  it is visible from that function and from all functions that are
+	  called (all higher contexts).  For example, suppose a function
+	  <code class="function">f</code> defines a variable <code class="varname">a</code>
+	  and then calls function <code class="function">g</code>.  Then
+	  function <code class="function">g</code> can reference
+	  <code class="varname">a</code>.  But once <code class="function">f</code> returns,
+	  the variable <code class="varname">a</code> goes out of scope.
+	  For example, the following code will print out 5.
+	  The function <code class="function">g</code> cannot be called on the
+	  top level (outside <code class="function">f</code> as <code class="varname">a</code>
+	  will not be defined).
+</p><pre lang="en" class="programlisting">function f() = (a:=5; g());
 function g() = print(a);
 f();
-</pre><p>Om du definierar en variabel inuti en funktion kommer den åsidosätta variabler definierade i anropande funktioner. Som ett exempel modifierar vi koden ovan och skriver: </p><pre class="programlisting">function f() = (a:=5; g());
+</pre><p lang="en">
+        </p><p lang="en">
+	  If you define a variable inside a function it will override
+	  any variables defined in calling functions.  For example,
+	  we modify the above code and write:
+</p><pre lang="en" class="programlisting">function f() = (a:=5; g());
 function g() = print(a);
 a:=10;
 f();
-</pre><p> Denna kod kommer fortfarande skriva ut 5. Men om du anropar <code class="function">g</code> utanför <code class="function">f</code> kommer du få utskriften 10. Observera att ställa in <code class="varname">a</code> till 5 inuti <code class="function">f</code> ändrar inte värdet på <code class="varname">a</code> på toppnivån (globalt), så om du nu kontrollerar värdet på <code class="varname">a</code> kommer det fortfarande vara 10.</p><p>Funktionsargument är exakt som variabler definierade i funktionen, förutom att de initieras med värdet som skickats till funktionen. Förutom denna punkt behandlas de precis som alla andra variabler som definieras i funktionen.</p><p>Funktioner behandlas precis som variabler. Därmed kan du definiera om funktioner lokalt. Normalt (på toppnivån) kan du inte definiera om skyddade variabler och funktioner. Lokalt kan du dock göra detta. Anta följande session: </p><pre class="screen"><code class="prompt">genius&gt; </code><strong class="userinput"><code>function f(x) = sin(x)^2</code></strong>
+</pre><p lang="en">
+	  This code will still print out 5.  But if you call
+	  <code class="function">g</code> outside of <code class="function">f</code> then
+	  you will get a printout of 10.  Note that
+	  setting <code class="varname">a</code>
+	  to 5 inside <code class="function">f</code> does not change
+	  the value of <code class="varname">a</code> at the top (global) level,
+	  so if you now check the value of <code class="varname">a</code> it will
+	  still be 10.
+        </p><p>Funktionsargument är exakt som variabler definierade i funktionen, förutom att de initieras med värdet som skickats till funktionen. Förutom denna punkt behandlas de precis som alla andra variabler som definieras i funktionen.</p><p lang="en">
+	  Functions are treated exactly like variables.  Hence you can
+	  locally redefine functions.  Normally (on the top level) you
+	  cannot redefine protected variables and functions.  But locally
+	  you can do this.  Consider the following session:
+</p><pre lang="en" class="screen"><code class="prompt">genius&gt; </code><strong class="userinput"><code>function f(x) = sin(x)^2</code></strong>
 = (`(x)=(sin(x)^2))
 <code class="prompt">genius&gt; </code><strong class="userinput"><code>function f(x) = sin(x)^2</code></strong>
 = (`(x)=(sin(x)^2))
@@ -13,9 +46,26 @@ f();
 = (`(x)=((sin:=(`(x)=(x^10)));f(x)))
 <code class="prompt">genius&gt; </code><strong class="userinput"><code>g(10)</code></strong>
 = 1e20
-</pre><p>Funktioner och variabler definierade på toppnivån anses vara globala. De är synliga överallt. Som vi sa kommer den följande funktionen <code class="function">f</code> inte ändra värdet på <code class="varname">a</code> till 5. </p><pre class="programlisting">a=6;
+</pre><p lang="en">
+	</p><p lang="en">
+	  Functions and variables defined at the top level are
+	  considered global.  They are visible from anywhere.  As we
+	  said the following function <code class="function">f</code>
+	  will not change the value of <code class="varname">a</code> to 5.
+</p><pre lang="en" class="programlisting">a=6;
 function f() = (a:=5);
 f();
-</pre><p> Ibland är det dock nödvändigt att ställa in en global variabel inifrån en funktion. Då detta beteende behövs, använd funktionen <a class="link" href="ch11s02.html#gel-function-set"><code class="function">set</code></a>. Att skicka en sträng eller en citerad identifierare till denna funktion ställer in variabeln globalt (på toppnivån). För att till exempel ställa in <code class="varname">a</code> till värdet 3 kan du anropa: </p><pre class="programlisting">set(`a,3)
-</pre><p> eller: </p><pre class="programlisting">set("a",3)
-</pre><p>Funktionen <code class="function">set</code> ställer alltid in toppnivåglobalen. Det finns inget sätt att ställa in en lokal variabel i någon funktion från en subrutin. Om detta krävs måste du använda referensöverföring.</p><p>Se även funktionerna <a class="link" href="ch11s02.html#gel-function-SetElement"><code class="function">SetElement</code></a> och <a class="link" href="ch11s02.html#gel-function-SetVElement"><code class="function">SetVElement</code></a>.</p><p>För att upprepa med mer tekniskt språk: Genius arbetar med olika numrerade kontexter. Toppnivån är kontext 0 (noll). Närhelst vi går in i en funktion höjs kontexten, och då funktionen returnerar sänks kontexten. En funktion eller en variabel är alltid synlig från alla kontexter med högre siffra. Då en variabel definierades i ett lägre kontextnummer, så har inställandet av denna variabel effekten att det skapar en ny lokal variabel i det aktuella kontextnumret och denna variabel kommer nu vara synlig från alla högre kontextnummer.</p><p>Det finns också verkligt lokala variabler som inte ses från någon annan plats än den aktuella kontexten. Vid returnering av funktioner efter värde kan det referera till variabler som ej är synliga från högre kontexter och detta kan vara ett problem. Se avsnitten <a class="link" href="ch07s04.html" title="Verkligt lokala variabler">Verkligt lokala variabler</a> och <a class="link" href="ch07s03.html" title="Returnera funktioner">Returnera funktioner</a>.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s04.html">Föregående</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Upp</a></td><td width="40%" align="right"> <a accesskey="n" href="ch06s06.html">Nästa</a></td></tr><tr><td width="40%" align="left" valign="top">Jämförelseoperatorer </td><td width="20%" align="center"><a accesskey="h" href="index.html">Hem</a></td><td width="40%" align="right" valign="top"> Parametervariabler</td></tr></table></div></body></html>
+</pre><p lang="en">
+	  Sometimes, however, it is necessary to set
+a global variable from inside a function.  When this behavior is needed,
+use the
+<a class="link" href="ch11s02.html#gel-function-set"><code class="function">set</code></a> function. Passing a string or a quoted identifier to
+this function sets the variable globally (on the top level).
+For example, to set
+<code class="varname">a</code> to the value 3 you could call:
+</p><pre lang="en" class="programlisting">set(`a,3)
+</pre><p lang="en">
+or:
+</p><pre lang="en" class="programlisting">set("a",3)
+</pre><p lang="en">
+        </p><p>Funktionen <code class="function">set</code> ställer alltid in toppnivåglobalen. Det finns inget sätt att ställa in en lokal variabel i någon funktion från en subrutin. Om detta krävs måste du använda referensöverföring.</p><p>Se även funktionerna <a class="link" href="ch11s02.html#gel-function-SetElement"><code class="function">SetElement</code></a> och <a class="link" href="ch11s02.html#gel-function-SetVElement"><code class="function">SetVElement</code></a>.</p><p>För att upprepa med mer tekniskt språk: Genius arbetar med olika numrerade kontexter. Toppnivån är kontext 0 (noll). Närhelst vi går in i en funktion höjs kontexten, och då funktionen returnerar sänks kontexten. En funktion eller en variabel är alltid synlig från alla kontexter med högre siffra. Då en variabel definierades i ett lägre kontextnummer, så har inställandet av denna variabel effekten att det skapar en ny lokal variabel i det aktuella kontextnumret och denna variabel kommer nu vara synlig från alla högre kontextnummer.</p><p>Det finns också verkligt lokala variabler som inte ses från någon annan plats än den aktuella kontexten. Vid returnering av funktioner efter värde kan det referera till variabler som ej är synliga från högre kontexter och detta kan vara ett problem. Se avsnitten <a class="link" href="ch07s04.html" title="Verkligt lokala variabler">Verkligt lokala variabler</a> och <a class="link" href="ch07s03.html" title="Returnera funktioner">Returnera funktioner</a>.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s04.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch06s06.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Jämförelseoperatorer </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Parametervariabler</td></tr></table></div></body></html>
