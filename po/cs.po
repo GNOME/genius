@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-18 15:34-0800\n"
+"POT-Creation-Date: 2021-10-13 00:50-0500\n"
 "PO-Revision-Date: 2018-11-01 21:12+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
@@ -2050,7 +2050,7 @@ msgstr "%s: příliš velký parametr"
 msgid "Cannot parse version string: %s"
 msgstr "Nerozumím řetězci verze: %s"
 
-#: ../src/funclib.c:179 ../src/gnome-genius.c:1868
+#: ../src/funclib.c:179 ../src/gnome-genius.c:2014
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -2102,7 +2102,7 @@ msgstr "%s: pokus o nastavení chráněné id!"
 msgid "%s: trying to set a parameter, use the equals sign"
 msgstr "%s: pokus o nastavení parametru, použijte rovnítko"
 
-#: ../src/funclib.c:704 ../src/gnome-genius.c:995
+#: ../src/funclib.c:704 ../src/gnome-genius.c:1141
 msgid ""
 "Global variables:\n"
 "\n"
@@ -2110,7 +2110,7 @@ msgstr ""
 "Globální proměnné:\n"
 "\n"
 
-#: ../src/funclib.c:727 ../src/gnome-genius.c:1028
+#: ../src/funclib.c:727 ../src/gnome-genius.c:1174
 msgid ""
 "\n"
 "Function call stack:\n"
@@ -2118,8 +2118,8 @@ msgstr ""
 "\n"
 "Zásobník volání funkcí:\n"
 
-#: ../src/funclib.c:729 ../src/funclib.c:769 ../src/gnome-genius.c:1030
-#: ../src/gnome-genius.c:1087
+#: ../src/funclib.c:729 ../src/funclib.c:769 ../src/gnome-genius.c:1176
+#: ../src/gnome-genius.c:1233
 msgid ""
 "(depth of context in parentheses)\n"
 "\n"
@@ -2127,7 +2127,7 @@ msgstr ""
 "(hloubka kontextu v závorce)\n"
 "\n"
 
-#: ../src/funclib.c:767 ../src/gnome-genius.c:1085
+#: ../src/funclib.c:767 ../src/gnome-genius.c:1231
 msgid ""
 "\n"
 "Local variables:\n"
@@ -2501,18 +2501,18 @@ msgstr ""
 "Generovat náhodné celé číslo v rozmezí 0 až max-1 včetně nebo, pokud je "
 "zadána velikost, vektor nebo matici náhodných celých čísel"
 
-#: ../src/funclib.c:7062 ../src/gnome-genius.c:2418
+#: ../src/funclib.c:7062 ../src/gnome-genius.c:2573
 msgid "Floating point precision"
 msgstr "Přesnost čísel s plovoucí desetinnou čárkou"
 
-#: ../src/funclib.c:7064 ../src/gnome-genius.c:2307
+#: ../src/funclib.c:7064 ../src/gnome-genius.c:2462
 msgid ""
 "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr ""
 "Tisknout 0.0 když číslo s plovoucí řádkou je menší než 10^-x (0=nikdy "
 "nesekat)"
 
-#: ../src/funclib.c:7067 ../src/gnome-genius.c:2330
+#: ../src/funclib.c:7067 ../src/gnome-genius.c:2485
 msgid "Only chop numbers when another number is greater than 10^-x"
 msgstr "Sekat čísla jen když jiné číslo je vetší než 10^-x"
 
@@ -3368,8 +3368,8 @@ msgstr "Doporučeno: %s\n"
 msgid "Out of range!\n"
 msgstr "Mimo rozsah!\n"
 
-#: ../src/genius.c:365 ../src/genius.lang.h:2 ../src/gnome-genius.c:664
-#: ../src/gnome-genius.c:705
+#: ../src/genius.c:365 ../src/genius.lang.h:2 ../src/gnome-genius.c:810
+#: ../src/gnome-genius.c:851
 msgid "Genius"
 msgstr "Genius"
 
@@ -3470,7 +3470,7 @@ msgstr ""
 "Pro nápovědu napište „manual“ nebo „help“.%s\n"
 "\n"
 
-#: ../src/genius.c:631 ../src/gnome-genius.c:5260
+#: ../src/genius.c:631 ../src/gnome-genius.c:5437
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -3485,52 +3485,56 @@ msgstr "Nelze otevřít soubor"
 msgid "Script"
 msgstr "Skript"
 
-#: ../src/gnome-genius.c:263
+#: ../src/gnome-genius.c:377
 msgid "_New Program"
 msgstr "_Nový program"
 
-#: ../src/gnome-genius.c:264
+#: ../src/gnome-genius.c:378
 msgid "Create new program tab"
 msgstr "Vytvořit novou kartu programu"
 
-#: ../src/gnome-genius.c:265
+#: ../src/gnome-genius.c:380
 msgid "_Open..."
 msgstr "_Otevřít…"
 
-#: ../src/gnome-genius.c:266
+#: ../src/gnome-genius.c:381
 msgid "Open a file"
 msgstr "Otevřít soubor"
 
-#: ../src/gnome-genius.c:267 ../src/gnome-genius.c:3911
-#: ../src/gnome-genius.c:4036 ../src/graphing.c:1225
+#: ../src/gnome-genius.c:383
+msgid "Open R_ecent"
+msgstr "Otevřít n_edávné"
+
+#: ../src/gnome-genius.c:386 ../src/gnome-genius.c:4081
+#: ../src/gnome-genius.c:4206 ../src/graphing.c:1225
 msgid "_Save"
 msgstr "_Uložit"
 
-#: ../src/gnome-genius.c:268
+#: ../src/gnome-genius.c:387
 msgid "Save current file"
 msgstr "Uložit aktuální soubor"
 
-#: ../src/gnome-genius.c:269
+#: ../src/gnome-genius.c:389
 msgid "Save All _Unsaved"
 msgstr "Uložit neu_ložené"
 
-#: ../src/gnome-genius.c:270
+#: ../src/gnome-genius.c:390
 msgid "Save all unsaved programs"
 msgstr "Uložit všechny neuložené programy"
 
-#: ../src/gnome-genius.c:271
+#: ../src/gnome-genius.c:392
 msgid "Save _As..."
 msgstr "Uložit _jako…"
 
-#: ../src/gnome-genius.c:272
+#: ../src/gnome-genius.c:393
 msgid "Save to a file"
 msgstr "Uložit do souboru"
 
-#: ../src/gnome-genius.c:273
+#: ../src/gnome-genius.c:395
 msgid "_Reload from Disk"
 msgstr "Znovu načíst z _disku"
 
-#: ../src/gnome-genius.c:274
+#: ../src/gnome-genius.c:396
 msgid "Reload the selected program from disk"
 msgstr "Znovu načíst vybraný program z disku"
 
@@ -3543,274 +3547,282 @@ msgstr "Znovu načíst vybraný program z disku"
 #. GTK_WINDOW (genius_window)
 #. parent
 #. flags
-#: ../src/gnome-genius.c:275 ../src/gnome-genius.c:1145
-#: ../src/gnome-genius.c:1350 ../src/graphing.c:622 ../src/graphing.c:1976
+#: ../src/gnome-genius.c:398 ../src/gnome-genius.c:1291
+#: ../src/gnome-genius.c:1496 ../src/graphing.c:622 ../src/graphing.c:1976
 #: ../src/graphing.c:2167 ../src/graphing.c:7290 ../ve/ve-miscui.c:167
 msgid "_Close"
 msgstr "_Zavřít"
 
-#: ../src/gnome-genius.c:276
+#: ../src/gnome-genius.c:399
 msgid "Close the current file"
 msgstr "Zavřít aktuální soubor"
 
-#: ../src/gnome-genius.c:277
+#: ../src/gnome-genius.c:402
 msgid "_Load and Run..."
 msgstr "Načíst a _spustit…"
 
-#: ../src/gnome-genius.c:278
+#: ../src/gnome-genius.c:403
 msgid "Load and execute a file in genius"
 msgstr "Načíst a spustit soubor v geniovi"
 
-#: ../src/gnome-genius.c:279
+#: ../src/gnome-genius.c:406
 msgid "Save Console Ou_tput..."
 msgstr "Uložit výstup na _konzolu…"
 
-#: ../src/gnome-genius.c:280
+#: ../src/gnome-genius.c:407
 msgid ""
 "Save what is visible on the console (including scrollback) to a text file"
 msgstr "Uložit, co je na konzole (včetně paměti řádků), do textového souboru"
 
-#: ../src/gnome-genius.c:282
+#: ../src/gnome-genius.c:411
 msgid "_Quit"
 msgstr "U_končit"
 
-#: ../src/gnome-genius.c:283
+#: ../src/gnome-genius.c:412 ../src/gnome-genius.c:702
 msgid "Quit"
 msgstr "Ukončit"
 
-#: ../src/gnome-genius.c:289
+#: ../src/gnome-genius.c:420
 msgid "_Undo"
 msgstr "_Zpět"
 
-#: ../src/gnome-genius.c:290
+#: ../src/gnome-genius.c:421
 msgid "Undo the last action"
 msgstr "Vrátit poslední akci"
 
-#: ../src/gnome-genius.c:291
+#: ../src/gnome-genius.c:423
 msgid "_Redo"
 msgstr "Zn_ovu"
 
-#: ../src/gnome-genius.c:292
+#: ../src/gnome-genius.c:424
 msgid "Redo the undone action"
 msgstr "Znovu udělát vrácenou akci"
 
-#: ../src/gnome-genius.c:294
+#: ../src/gnome-genius.c:428
 msgid "Cu_t"
 msgstr "_Vyjmout"
 
-#: ../src/gnome-genius.c:295
+#: ../src/gnome-genius.c:429
 msgid "Cut the selection"
 msgstr "Vyjmout výběr"
 
-#: ../src/gnome-genius.c:296
+#: ../src/gnome-genius.c:431
 msgid "_Copy"
 msgstr "_Kopírovat"
 
-#: ../src/gnome-genius.c:297
+#: ../src/gnome-genius.c:432
 msgid "Copy the selection"
 msgstr "Kopírovat výběr"
 
-#: ../src/gnome-genius.c:298
+#: ../src/gnome-genius.c:434
 msgid "_Paste"
 msgstr "V_ložit"
 
-#: ../src/gnome-genius.c:299
+#: ../src/gnome-genius.c:435
 msgid "Paste the clipboard"
 msgstr "Vložit výběr"
 
-#: ../src/gnome-genius.c:300
+#: ../src/gnome-genius.c:438
 msgid "Copy Answer As Plain Te_xt"
 msgstr "Zkopírovat odpověď jako prostý te_xt"
 
-#: ../src/gnome-genius.c:301
+#: ../src/gnome-genius.c:439
 msgid "Copy last answer into the clipboard in plain text"
 msgstr "Zkopírovat poslední odpověď do schránky jako prostý text"
 
-#: ../src/gnome-genius.c:302
+#: ../src/gnome-genius.c:441
 msgid "Copy Answer As _LaTeX"
 msgstr "Zkopírovat odpověď jako _LaTeX"
 
-#: ../src/gnome-genius.c:303
+#: ../src/gnome-genius.c:442
 msgid "Copy last answer into the clipboard as LaTeX"
 msgstr "Zkopírovat poslední odpověď do schránky jako LaTeX"
 
-#: ../src/gnome-genius.c:304
+#: ../src/gnome-genius.c:444
 msgid "Copy Answer As _MathML"
 msgstr "Zkopírovat odpověď jako _MathML"
 
-#: ../src/gnome-genius.c:305
+#: ../src/gnome-genius.c:445
 msgid "Copy last answer into the clipboard as MathML"
 msgstr "Zkopírovat poslední odpověď do schránky jako MathML"
 
-#: ../src/gnome-genius.c:306
+#: ../src/gnome-genius.c:447
 msgid "Copy Answer As T_roff"
 msgstr "Zkopírovat odpověď jako T_roff"
 
-#: ../src/gnome-genius.c:307
+#: ../src/gnome-genius.c:448
 msgid "Copy last answer into the clipboard as Troff eqn"
 msgstr "Zkopírovat poslední odpověď do schránky jako Troff eqn"
 
-#: ../src/gnome-genius.c:312
+#: ../src/gnome-genius.c:454
 msgid "_Run"
 msgstr "_Spustit"
 
-#: ../src/gnome-genius.c:313
+#: ../src/gnome-genius.c:455
 msgid "Run current program"
 msgstr "Spustit aktuální program"
 
-#: ../src/gnome-genius.c:314
+#: ../src/gnome-genius.c:457
 msgid "_Interrupt"
 msgstr "_Přerušit"
 
-#: ../src/gnome-genius.c:315
+#: ../src/gnome-genius.c:458
 msgid "Interrupt current calculation"
 msgstr "Přerušení aktuální výpočet"
 
-#: ../src/gnome-genius.c:316
+#: ../src/gnome-genius.c:461
 msgid "Show _Full Answer"
 msgstr "Ukázat _celou odpověď"
 
-#: ../src/gnome-genius.c:317
+#: ../src/gnome-genius.c:462
 msgid "Show the full text of last answer"
 msgstr "Ukázat celý text poslední odpovědi"
 
-#: ../src/gnome-genius.c:318
+#: ../src/gnome-genius.c:464
 msgid "Show User _Variables"
 msgstr "_Ukázat uživatelské proměnné"
 
-#: ../src/gnome-genius.c:319
+#: ../src/gnome-genius.c:465
 msgid "Show the current value of all user variables"
 msgstr "Ukázat hodnoty všech uživatelských proměnných"
 
-#: ../src/gnome-genius.c:320
+#: ../src/gnome-genius.c:467
 msgid "_Monitor a Variable"
 msgstr "Sledovat pro_měnnou"
 
-#: ../src/gnome-genius.c:321
+#: ../src/gnome-genius.c:468
 msgid "Monitor a variable continuously"
 msgstr "Průběžně sledovat proměnnou"
 
-#: ../src/gnome-genius.c:322
+#: ../src/gnome-genius.c:471
 msgid "_Plot..."
 msgstr "_Vykreslit…"
 
-#: ../src/gnome-genius.c:323
+#: ../src/gnome-genius.c:472
 msgid "Plot functions, vector fields, surfaces, etc..."
 msgstr "Vykreslit funkce, vektorové pole, povrchy, atd…"
 
-#: ../src/gnome-genius.c:328
+#: ../src/gnome-genius.c:478
 msgid "_Next Tab"
 msgstr "_Další strana"
 
-#: ../src/gnome-genius.c:329
+#: ../src/gnome-genius.c:479
 msgid "Go to next tab"
 msgstr "Jdi na další stranu"
 
-#: ../src/gnome-genius.c:330
+#: ../src/gnome-genius.c:481
 msgid "_Previous Tab"
 msgstr "_Předchozí strana"
 
-#: ../src/gnome-genius.c:331
+#: ../src/gnome-genius.c:482
 msgid "Go to previous tab"
 msgstr "Jdi na předchozí stranu"
 
-#: ../src/gnome-genius.c:332
+#: ../src/gnome-genius.c:485
 msgid "_Console"
 msgstr "_Konzola"
 
-#: ../src/gnome-genius.c:333
+#: ../src/gnome-genius.c:486
 msgid "Go to the console tab"
 msgstr "Jdi na stránku konzoly"
 
-#: ../src/gnome-genius.c:338
+#: ../src/gnome-genius.c:492
 msgid "_Preferences"
 msgstr "_Nastavení"
 
-#: ../src/gnome-genius.c:339
+#: ../src/gnome-genius.c:493
 msgid "Configure Genius"
 msgstr "Nastavit Genius"
 
-#: ../src/gnome-genius.c:344
+#: ../src/gnome-genius.c:499
 msgid "_Contents"
 msgstr "_Obsah"
 
-#: ../src/gnome-genius.c:345
+#: ../src/gnome-genius.c:500
 msgid "View the Genius manual"
 msgstr "Zobrazí uživatelský manuál Geniusu"
 
-#: ../src/gnome-genius.c:346
+#: ../src/gnome-genius.c:502
 msgid "_Help on Function"
 msgstr "_Nápověda o funkci"
 
-#: ../src/gnome-genius.c:347
+#: ../src/gnome-genius.c:503
 msgid "Help on a function or a command"
 msgstr "Nápověda o funkci nebo příkazu"
 
-#: ../src/gnome-genius.c:348
+#: ../src/gnome-genius.c:505
 msgid "_Warranty"
 msgstr "_Záruka"
 
-#: ../src/gnome-genius.c:349
+#: ../src/gnome-genius.c:506
 msgid "Display warranty information"
 msgstr "Zobrazit informace o záruce"
 
-#: ../src/gnome-genius.c:350
+#: ../src/gnome-genius.c:509
 msgid "_About"
 msgstr "O _aplikaci"
 
-#: ../src/gnome-genius.c:351
+#: ../src/gnome-genius.c:510
 msgid "About Genius"
 msgstr "O Genius"
 
-#: ../src/gnome-genius.c:471
+#: ../src/gnome-genius.c:606
 msgid "_File"
 msgstr "_Soubor"
 
-#: ../src/gnome-genius.c:474
-msgid "Open R_ecent"
-msgstr "Otevřít n_edávné"
-
-#: ../src/gnome-genius.c:488
+#: ../src/gnome-genius.c:617
 msgid "_Edit"
 msgstr "_Upravit"
 
-#: ../src/gnome-genius.c:500
+#: ../src/gnome-genius.c:622
 msgid "_Calculator"
 msgstr "_Kalkulátor"
 
-#: ../src/gnome-genius.c:509
+#: ../src/gnome-genius.c:627
 msgid "E_xamples"
 msgstr "_Příklady"
 
-#: ../src/gnome-genius.c:512
+#: ../src/gnome-genius.c:630
 msgid "P_lugins"
 msgstr "Zásuvné _moduly"
 
-#: ../src/gnome-genius.c:515
+#: ../src/gnome-genius.c:633
 msgid "_Programs"
 msgstr "_Programy"
 
-#: ../src/gnome-genius.c:522
+#: ../src/gnome-genius.c:638
 msgid "_Settings"
 msgstr "_Nastavení"
 
 #. parent
 #. flags
-#: ../src/gnome-genius.c:528 ../src/gnome-genius.c:2225
+#: ../src/gnome-genius.c:643 ../src/gnome-genius.c:2380
 msgid "_Help"
 msgstr "_Nápověda"
 
-#: ../src/gnome-genius.c:543
+#: ../src/gnome-genius.c:654
+msgid "Interrupt"
+msgstr "Přerušit"
+
+#: ../src/gnome-genius.c:662
+msgid "Run"
+msgstr "Spustit"
+
+#: ../src/gnome-genius.c:670
 msgid "New"
 msgstr "Nový"
 
-#: ../src/gnome-genius.c:546
+#: ../src/gnome-genius.c:678
 msgid "Open"
 msgstr "Otevřít"
 
-#: ../src/gnome-genius.c:549 ../src/graphing.c:7292
-msgid "_Plot"
-msgstr "_Vykreslit"
+#: ../src/gnome-genius.c:686
+msgid "Save"
+msgstr "Uložit"
+
+#: ../src/gnome-genius.c:694 ../src/graphing.c:2162
+msgid "Plot"
+msgstr "Vykreslit"
 
 #. GTK_WINDOW (genius_window)
 #. parent
@@ -3818,10 +3830,10 @@ msgstr "_Vykreslit"
 #. title
 #. parent
 #. flags
-#: ../src/gnome-genius.c:708 ../src/gnome-genius.c:772
-#: ../src/gnome-genius.c:1425 ../src/gnome-genius.c:2227
-#: ../src/gnome-genius.c:2716 ../src/gnome-genius.c:3681
-#: ../src/gnome-genius.c:3912 ../src/gnome-genius.c:4037 ../src/graphing.c:850
+#: ../src/gnome-genius.c:854 ../src/gnome-genius.c:918
+#: ../src/gnome-genius.c:1571 ../src/gnome-genius.c:2382
+#: ../src/gnome-genius.c:2883 ../src/gnome-genius.c:3850
+#: ../src/gnome-genius.c:4082 ../src/gnome-genius.c:4207 ../src/graphing.c:850
 #: ../src/graphing.c:1224 ../src/graphing.c:5627 ../src/graphing.c:5744
 #: ../ve/ve-miscui.c:178 ../ve/ve-miscui.c:206
 msgid "_Cancel"
@@ -3832,27 +3844,27 @@ msgstr "_Zrušit"
 #. title
 #. parent
 #. flags
-#: ../src/gnome-genius.c:709 ../src/gnome-genius.c:773
-#: ../src/gnome-genius.c:915 ../src/gnome-genius.c:1426
-#: ../src/gnome-genius.c:2228 ../src/graphing.c:5625 ../src/graphing.c:5742
+#: ../src/gnome-genius.c:855 ../src/gnome-genius.c:919
+#: ../src/gnome-genius.c:1061 ../src/gnome-genius.c:1572
+#: ../src/gnome-genius.c:2383 ../src/graphing.c:5625 ../src/graphing.c:5742
 #: ../ve/ve-miscui.c:156 ../ve/ve-miscui.c:211
 msgid "_OK"
 msgstr "_Budiž"
 
-#: ../src/gnome-genius.c:769
+#: ../src/gnome-genius.c:915
 msgid "Help on Function"
 msgstr "Nápověda o funkci"
 
-#: ../src/gnome-genius.c:785
+#: ../src/gnome-genius.c:931
 msgid "Function or command name:"
 msgstr "Název funkce nebo příkazu:"
 
-#: ../src/gnome-genius.c:842 ../src/gnome-genius.c:1701
+#: ../src/gnome-genius.c:988 ../src/gnome-genius.c:1847
 #, c-format
 msgid "<b>Help on %s not found</b>"
 msgstr "<b>Nápověda pro %s nenalezena</b>"
 
-#: ../src/gnome-genius.c:846
+#: ../src/gnome-genius.c:992
 #, c-format
 msgid ""
 "<b>Help on %s not found</b>\n"
@@ -3863,70 +3875,70 @@ msgstr ""
 "\n"
 "Možná jste mysleli %s."
 
-#: ../src/gnome-genius.c:905
+#: ../src/gnome-genius.c:1051
 msgid "Error"
 msgstr "Chyba"
 
-#: ../src/gnome-genius.c:907
+#: ../src/gnome-genius.c:1053
 msgid "Information"
 msgstr "Informace"
 
-#: ../src/gnome-genius.c:1141
+#: ../src/gnome-genius.c:1287
 msgid "User Variable Listing"
 msgstr "Seznam uživatelských proměnných"
 
 #. parent
 #. flags
-#: ../src/gnome-genius.c:1144
+#: ../src/gnome-genius.c:1290
 msgid "_Refresh"
 msgstr "_Obnovit"
 
-#: ../src/gnome-genius.c:1250
+#: ../src/gnome-genius.c:1396
 #, c-format
 msgid "%s undefined"
 msgstr "%s nedefinovaná"
 
 #. printed before a global variable
-#: ../src/gnome-genius.c:1285
+#: ../src/gnome-genius.c:1431
 msgid "(global) "
 msgstr "(globální) "
 
 #. printed before local variable in certain
 #. * context
-#: ../src/gnome-genius.c:1289
+#: ../src/gnome-genius.c:1435
 #, c-format
 msgid "(context %d) "
 msgstr "(kontext %d) "
 
-#: ../src/gnome-genius.c:1311
+#: ../src/gnome-genius.c:1457
 #, c-format
 msgid "%s not a user variable"
 msgstr "%s není uživatelská proměnná"
 
-#: ../src/gnome-genius.c:1345
+#: ../src/gnome-genius.c:1491
 #, c-format
 msgid "Monitoring: %s"
 msgstr "Sleduje se: %s"
 
-#: ../src/gnome-genius.c:1391
+#: ../src/gnome-genius.c:1537
 msgid "Update continuously"
 msgstr "Aktualizovat průběžně"
 
-#: ../src/gnome-genius.c:1422
+#: ../src/gnome-genius.c:1568
 msgid "Monitor a Variable"
 msgstr "Sledovat proměnnou"
 
-#: ../src/gnome-genius.c:1438
+#: ../src/gnome-genius.c:1584
 msgid "Variable name:"
 msgstr "Název proměnné"
 
 #. error
 #. always textbox
-#: ../src/gnome-genius.c:1494
+#: ../src/gnome-genius.c:1640
 msgid "Full Answer"
 msgstr "Celá odpověď"
 
-#: ../src/gnome-genius.c:1511
+#: ../src/gnome-genius.c:1657
 #, c-format
 msgid ""
 "\n"
@@ -3935,12 +3947,12 @@ msgstr ""
 "\n"
 "Příliš mnoho chyb! (dalších %d)"
 
-#: ../src/gnome-genius.c:1527
+#: ../src/gnome-genius.c:1673
 #, c-format
 msgid "e[01;31mToo many errors! (%d followed)e[0m\n"
 msgstr "e[01;31mPříliš mnoho chyb! (dalších %d)e[0m\n"
 
-#: ../src/gnome-genius.c:1711 ../src/gnome-genius.c:1746
+#: ../src/gnome-genius.c:1857 ../src/gnome-genius.c:1892
 #, c-format
 msgid ""
 "<b>Cannot display help</b>\n"
@@ -3950,16 +3962,16 @@ msgstr ""
 "<b>Nelze zobrazit nápovědu</b>\n"
 "Detaily: %s"
 
-#: ../src/gnome-genius.c:1821
+#: ../src/gnome-genius.c:1967
 msgid "Nils Barth (initial implementation of parts of the GEL library)"
 msgstr "Nils Barth (původní implementace částí knihovny GEL)"
 
-#: ../src/gnome-genius.c:1822
+#: ../src/gnome-genius.c:1968
 msgid "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"
 msgstr ""
 "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - widgety vykreslování)"
 
-#: ../src/gnome-genius.c:1823
+#: ../src/gnome-genius.c:1969
 msgid "Yavor Doganov <yavor@gnu.org> (Port to GTK3)"
 msgstr "Yavor Doganov <yavor@gnu.org> (Port na GTK3)"
 
@@ -3967,22 +3979,22 @@ msgstr "Yavor Doganov <yavor@gnu.org> (Port na GTK3)"
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: ../src/gnome-genius.c:1837
+#: ../src/gnome-genius.c:1983
 msgid "translator-credits"
 msgstr ""
 "Jiří Lebl <jirka@5z.com>\n"
 "Miloslav Trmač <mitr@volny.cz>\n"
 "Marek Černocký <marek@manet.cz>"
 
-#: ../src/gnome-genius.c:1885
+#: ../src/gnome-genius.c:2031
 msgid "Genius Mathematical Tool"
 msgstr "Matematický nástroj Genius"
 
-#: ../src/gnome-genius.c:1889
+#: ../src/gnome-genius.c:2035
 msgid "The GNOME calculator style edition of the Genius Mathematical Tool."
 msgstr "Vydání matematického nástroje Genius ve stylu kalkulátoru GNOME."
 
-#: ../src/gnome-genius.c:2080
+#: ../src/gnome-genius.c:2226
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -3990,59 +4002,59 @@ msgstr ""
 "Genius něco dělá a navíc máte neuložené programy.\n"
 "Jste si jisti, že chcete skončit?"
 
-#: ../src/gnome-genius.c:2088
+#: ../src/gnome-genius.c:2234
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr "Máte neuložené programy, opravdu chcete skončit?"
 
-#: ../src/gnome-genius.c:2095
+#: ../src/gnome-genius.c:2241
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr "Aplikace Genius něco provádí, opravdu chcete skončit?"
 
-#: ../src/gnome-genius.c:2102
+#: ../src/gnome-genius.c:2248
 msgid "Are you sure you wish to quit?"
 msgstr "Opravdu chcete skončit?"
 
-#: ../src/gnome-genius.c:2222
+#: ../src/gnome-genius.c:2377
 msgid "Genius Setup"
 msgstr "Nastavení Genius"
 
-#: ../src/gnome-genius.c:2226
+#: ../src/gnome-genius.c:2381
 msgid "_Apply"
 msgstr "_Použít"
 
-#: ../src/gnome-genius.c:2239
+#: ../src/gnome-genius.c:2394
 msgid "Output"
 msgstr "Výstup"
 
-#: ../src/gnome-genius.c:2242
+#: ../src/gnome-genius.c:2397
 msgid "Number/Expression output options"
 msgstr "Možnosti výstupu čísel/výrazů"
 
-#: ../src/gnome-genius.c:2252
+#: ../src/gnome-genius.c:2407
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Maximum číslic na výstupu (0=neomezeně)"
 
-#: ../src/gnome-genius.c:2272
+#: ../src/gnome-genius.c:2427
 msgid "Results as floats"
 msgstr "Výsledky jako čísla s plovoucí desetinnou čárkou"
 
-#: ../src/gnome-genius.c:2280
+#: ../src/gnome-genius.c:2435
 msgid "Floats in scientific notation"
 msgstr "Čísla s plovoucí desetinnou čárkou ve vědecké notaci"
 
-#: ../src/gnome-genius.c:2288
+#: ../src/gnome-genius.c:2443
 msgid "Always print full expressions"
 msgstr "Vždy vypisovat celé výrazy"
 
-#: ../src/gnome-genius.c:2296
+#: ../src/gnome-genius.c:2451
 msgid "Use mixed fractions"
 msgstr "Vypisovat smíšené zlomky"
 
-#: ../src/gnome-genius.c:2349
+#: ../src/gnome-genius.c:2504
 msgid "Remember output settings across sessions"
 msgstr "Pamatovat nastavení výstupu pro další sezení"
 
-#: ../src/gnome-genius.c:2359
+#: ../src/gnome-genius.c:2514
 msgid ""
 "Should the output settings in the \"Number/Expression output options\" frame "
 "be remembered for next session.  Does not apply to the \"Error/Info output "
@@ -4052,27 +4064,27 @@ msgstr ""
 "zapamantovány pro příští sezení? Neplatí pro rámeček „Možnosti výstupu chyb/"
 "informací.“"
 
-#: ../src/gnome-genius.c:2364
+#: ../src/gnome-genius.c:2519
 msgid "Error/Info output options"
 msgstr "Možnosti výstupu chyb/informací"
 
-#: ../src/gnome-genius.c:2372
+#: ../src/gnome-genius.c:2527
 msgid "Display errors in a dialog"
 msgstr "Zobrazovat chyby v dialogu"
 
-#: ../src/gnome-genius.c:2380
+#: ../src/gnome-genius.c:2535
 msgid "Display information messages in a dialog"
 msgstr "Zobrazovat informativní zprávy v dialogu"
 
-#: ../src/gnome-genius.c:2391
+#: ../src/gnome-genius.c:2546
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Maximum zobrazovaných chyb (0=neomezeně)"
 
-#: ../src/gnome-genius.c:2415
+#: ../src/gnome-genius.c:2570
 msgid "Precision"
 msgstr "Přesnost"
 
-#: ../src/gnome-genius.c:2425
+#: ../src/gnome-genius.c:2580
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -4082,51 +4094,51 @@ msgstr ""
 "nemusí projevit pro všechna čísla okamžitě, má vliv jen\n"
 "na nově vypočtená čísla a nové proměnné."
 
-#: ../src/gnome-genius.c:2434
+#: ../src/gnome-genius.c:2589
 msgid "Floating point precision (bits)"
 msgstr "Přesnost operací s plovoucí desetinnou čárkou (bitů)"
 
-#: ../src/gnome-genius.c:2453
+#: ../src/gnome-genius.c:2608
 msgid "Remember precision setting across sessions"
 msgstr "Pamatovat nastavení přesnosti pro další sezení"
 
-#: ../src/gnome-genius.c:2462
+#: ../src/gnome-genius.c:2617
 msgid "Should the precision setting be remembered for next session."
 msgstr "Mělo by být nastavení přesnosti zapamatováno pro příští sezení."
 
-#: ../src/gnome-genius.c:2470
+#: ../src/gnome-genius.c:2625
 msgid "Terminal"
 msgstr "Terminál"
 
-#: ../src/gnome-genius.c:2472
+#: ../src/gnome-genius.c:2627
 msgid "Terminal options"
 msgstr "Možnosti terminálu"
 
-#: ../src/gnome-genius.c:2481
+#: ../src/gnome-genius.c:2636
 msgid "Scrollback lines"
 msgstr "Paměť řádků"
 
-#: ../src/gnome-genius.c:2504
+#: ../src/gnome-genius.c:2659
 msgid "Font:"
 msgstr "Písmo:"
 
-#: ../src/gnome-genius.c:2515
+#: ../src/gnome-genius.c:2670
 msgid "Black on white"
 msgstr "Černé na bílém"
 
-#: ../src/gnome-genius.c:2523
+#: ../src/gnome-genius.c:2678
 msgid "Blinking cursor"
 msgstr "Blikající kurzor"
 
-#: ../src/gnome-genius.c:2536
+#: ../src/gnome-genius.c:2691
 msgid "Memory"
 msgstr "Paměť"
 
-#: ../src/gnome-genius.c:2539
+#: ../src/gnome-genius.c:2694
 msgid "Limits"
 msgstr "Omezení"
 
-#: ../src/gnome-genius.c:2546
+#: ../src/gnome-genius.c:2701
 msgid ""
 "When the limit is reached you will be asked if\n"
 "you wish to interrupt the calculation or continue.\n"
@@ -4136,11 +4148,11 @@ msgstr ""
 "chcete pokračovat ve výpočtu, nebo jej přerušit.\n"
 "Nastavení 0 ruší limit."
 
-#: ../src/gnome-genius.c:2555
+#: ../src/gnome-genius.c:2710
 msgid "Maximum number of nodes to allocate"
 msgstr "Maximum alokovaných uzlů"
 
-#: ../src/gnome-genius.c:2595
+#: ../src/gnome-genius.c:2762
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -4150,45 +4162,45 @@ msgstr ""
 "\n"
 "Zkuste to prosím později nebo přerušte aktuální operaci."
 
-#: ../src/gnome-genius.c:2638
+#: ../src/gnome-genius.c:2805
 msgid "GEL files"
 msgstr "Soubory GEL"
 
-#: ../src/gnome-genius.c:2643 ../src/graphing.c:1250
+#: ../src/gnome-genius.c:2810 ../src/graphing.c:1250
 msgid "All files"
 msgstr "Všechny soubory"
 
-#: ../src/gnome-genius.c:2670 ../src/gnome-genius.c:3657
+#: ../src/gnome-genius.c:2837 ../src/gnome-genius.c:3826
 msgid "Cannot open file!"
 msgstr "Nelze otevřít soubor!"
 
-#: ../src/gnome-genius.c:2678 ../src/gnome-genius.c:4127
+#: ../src/gnome-genius.c:2845 ../src/gnome-genius.c:4297
 msgid "Output from "
 msgstr "Výstup programu "
 
-#: ../src/gnome-genius.c:2695 ../src/gnome-genius.c:4199
+#: ../src/gnome-genius.c:2862 ../src/gnome-genius.c:4369
 msgid "End"
 msgstr "Konec"
 
-#: ../src/gnome-genius.c:2712
+#: ../src/gnome-genius.c:2879
 msgid "Load and Run"
 msgstr "Načíst a spustit"
 
-#: ../src/gnome-genius.c:2715
+#: ../src/gnome-genius.c:2882
 msgid "_Load"
 msgstr "_Načíst"
 
-#: ../src/gnome-genius.c:3268
+#: ../src/gnome-genius.c:3435
 msgid "Cannot open file"
 msgstr "Nelze otevřít soubor"
 
 #. context
-#: ../src/gnome-genius.c:3303 ../src/gnome-genius.c:4846
+#: ../src/gnome-genius.c:3470 ../src/gnome-genius.c:5023
 #, c-format
 msgid "Line: %d"
 msgstr "Řádek: %d"
 
-#: ../src/gnome-genius.c:3427
+#: ../src/gnome-genius.c:3596
 msgid ""
 "The program you are closing is unsaved, are you sure you wish to close it "
 "without saving?"
@@ -4196,34 +4208,34 @@ msgstr ""
 "Program, který zavíráte, není uložen. Jste si jisti, že jej chcete zavřít "
 "bez uložení?"
 
-#: ../src/gnome-genius.c:3538
+#: ../src/gnome-genius.c:3707
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Program_%d.gel"
 
-#: ../src/gnome-genius.c:3549
+#: ../src/gnome-genius.c:3718
 #, c-format
 msgid "Program %d"
 msgstr "Program %d"
 
-#: ../src/gnome-genius.c:3587
+#: ../src/gnome-genius.c:3756
 #, c-format
 msgid "Cannot open %s"
 msgstr "Nelze otevřít %s"
 
-#: ../src/gnome-genius.c:3677
+#: ../src/gnome-genius.c:3846
 msgid "Open..."
 msgstr "Otevřít…"
 
-#: ../src/gnome-genius.c:3680
+#: ../src/gnome-genius.c:3849
 msgid "_Open"
 msgstr "_Otevřít"
 
-#: ../src/gnome-genius.c:3757
+#: ../src/gnome-genius.c:3927
 msgid "Program is read only"
 msgstr "Program lze jen číst"
 
-#: ../src/gnome-genius.c:3762 ../src/gnome-genius.c:3802
+#: ../src/gnome-genius.c:3932 ../src/gnome-genius.c:3972
 #, c-format
 msgid ""
 "<b>Cannot save file %s</b>\n"
@@ -4232,16 +4244,16 @@ msgstr ""
 "<b>Nelze uložit soubor %s</b>\n"
 "Podrobnosti: %s"
 
-#: ../src/gnome-genius.c:3768 ../src/gnome-genius.c:3809
+#: ../src/gnome-genius.c:3938 ../src/gnome-genius.c:3979
 #, c-format
 msgid "<b>Cannot save file %s</b>"
 msgstr "<b>Nelze uložit soubor %s</b>"
 
-#: ../src/gnome-genius.c:3819
+#: ../src/gnome-genius.c:3989
 msgid "Save new programs by \"Save As...\" first!"
 msgstr "Uložte nové programy pomocí „Uložit jako…“!"
 
-#: ../src/gnome-genius.c:3825
+#: ../src/gnome-genius.c:3995
 msgid ""
 "Some read-only programs are modified.  Use \"Save As...\" to save them to a "
 "new location."
@@ -4249,7 +4261,7 @@ msgstr ""
 "Některé upravené programy není dovoleno zapsat. Použijte „Uložit jako…“ k "
 "uložení na nové místo"
 
-#: ../src/gnome-genius.c:3869 ../src/gnome-genius.c:4002
+#: ../src/gnome-genius.c:4039 ../src/gnome-genius.c:4172
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -4258,19 +4270,19 @@ msgstr ""
 "<b>Nelze uložit soubor</b>\n"
 "Podrobnosti: %s"
 
-#: ../src/gnome-genius.c:3874 ../src/gnome-genius.c:4007
+#: ../src/gnome-genius.c:4044 ../src/gnome-genius.c:4177
 msgid "<b>Cannot save file</b>"
 msgstr "<b>Nelze uložit soubor</b>"
 
-#: ../src/gnome-genius.c:3908
+#: ../src/gnome-genius.c:4078
 msgid "Save As..."
 msgstr "Uložit jako…"
 
-#: ../src/gnome-genius.c:4033
+#: ../src/gnome-genius.c:4203
 msgid "Save Console Output..."
 msgstr "Uložit výstup na konzolu…"
 
-#: ../src/gnome-genius.c:4084
+#: ../src/gnome-genius.c:4254
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -4280,12 +4292,12 @@ msgstr ""
 "\n"
 "Vytvořte nový program nebo vyberte existující kartu."
 
-#: ../src/gnome-genius.c:4114
+#: ../src/gnome-genius.c:4284
 #, c-format
 msgid "Cannot open pipe: %s"
 msgstr "Nelze otevřít rouru: %s"
 
-#: ../src/gnome-genius.c:4143
+#: ../src/gnome-genius.c:4313
 msgid ""
 "<b>Cannot execute program</b>\n"
 "\n"
@@ -4295,7 +4307,7 @@ msgstr ""
 "\n"
 "Nelze rozvětvit."
 
-#: ../src/gnome-genius.c:4216
+#: ../src/gnome-genius.c:4386
 msgid ""
 "<b>Error executing program</b>\n"
 "\n"
@@ -4307,12 +4319,12 @@ msgstr ""
 "Nastala chyba při posílání programu\n"
 "do výkonného jádra."
 
-#: ../src/gnome-genius.c:4252
+#: ../src/gnome-genius.c:4424
 #, c-format
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: ../src/gnome-genius.c:4503
+#: ../src/gnome-genius.c:4675
 msgid "Memory (node number) limit has been reached, interrupt the computation?"
 msgstr "Limit pameti (počtu uzlů) byl dosažen, přerušit výpočet?"
 
@@ -4321,17 +4333,17 @@ msgstr "Limit pameti (počtu uzlů) byl dosažen, přerušit výpočet?"
 #. textbox_title
 #. bind_response
 #. wrap
-#: ../src/gnome-genius.c:4618
+#: ../src/gnome-genius.c:4790
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Nelze spustit genius-readline-helper-fifo!\n"
 
-#: ../src/gnome-genius.c:4679
+#: ../src/gnome-genius.c:4851
 msgid "Readline helper died, weird.  Trying to recover, things may be odd."
 msgstr ""
 "Z podivných příčin zkolaboval řádkový pomocník.  Zkouší se jeho obnovení, "
 "ale nemusí se to podařit."
 
-#: ../src/gnome-genius.c:4867
+#: ../src/gnome-genius.c:5044
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -4340,13 +4352,13 @@ msgstr ""
 "Poznámka: Přeloženo bez GtkSourceView (lepší editor zdrojových kódů)"
 
 #. parent
-#: ../src/gnome-genius.c:5000
+#: ../src/gnome-genius.c:5177
 msgid "Cannot find the library file, genius installation may be incorrect"
 msgstr ""
 "Nelze najít soubor knihovny, instalace kalkulátoru genius asi není v pořádku"
 
 #. parent
-#: ../src/gnome-genius.c:5013
+#: ../src/gnome-genius.c:5190
 msgid ""
 "A file .genius in the home directory exists, but it should be a directory. "
 "Genius will not be able to save preferences."
@@ -4354,11 +4366,11 @@ msgstr ""
 "Soubor .genius v domácím adresáři existuje, ale má to být adresář. Genius "
 "nebude moci zapsat nastavení."
 
-#: ../src/gnome-genius.c:5102
+#: ../src/gnome-genius.c:5279
 msgid "Console"
 msgstr "Konzola"
 
-#: ../src/gnome-genius.c:5153
+#: ../src/gnome-genius.c:5330
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -4375,7 +4387,7 @@ msgstr ""
 "Pro nápovědu napište „%smanual%s“ nebo „%shelp%s“.%s\n"
 "\n"
 
-#: ../src/gnome-genius.c:5377
+#: ../src/gnome-genius.c:5515
 msgid "GNOME Genius"
 msgstr "GNOME Genius"
 
@@ -4521,10 +4533,6 @@ msgstr "Bod x:"
 #: ../src/graphing.c:2054
 msgid "y:"
 msgstr "y:"
-
-#: ../src/graphing.c:2162
-msgid "Plot"
-msgstr "Vykreslit"
 
 #. title
 #. GTK_WINDOW (genius_window)
@@ -4930,6 +4938,10 @@ msgstr "Zadejte jen %s a %s, nebo %s, ne vše najednou."
 #: ../src/graphing.c:7287
 msgid "Create Plot"
 msgstr "Vytvoření grafu"
+
+#: ../src/graphing.c:7292
+msgid "_Plot"
+msgstr "_Vykreslit"
 
 #: ../src/graphing.c:7327 ../src/graphing.c:7497 ../src/graphing.c:7528
 #: ../src/graphing.c:7549 ../src/graphing.c:7589 ../src/graphing.c:7613
