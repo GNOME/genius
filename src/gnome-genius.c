@@ -63,6 +63,9 @@
 
 #include "gnome-genius.h"
 
+/* if we want icons on menus, right now it seems to me it looks better without */
+/*#define ICONS_ON_MENUS 1*/
+
 /*Globals:*/
 
 const gboolean genius_is_gui = TRUE;
@@ -268,6 +271,7 @@ static void fork_helper_setup_comm (void);
 static void new_program (const char *filename,
 			 gboolean example);
 
+/* right now we're ignoring the icon, see ICONS_ON_MENUS */
 typedef struct {
 	const char *path;
 	const char *icon;
@@ -300,8 +304,10 @@ create_menu (const GeniusMenuItem entries[])
 {
 	GtkWidget *menu;
 	GtkWidget *item;
+#ifdef ICONS_ON_MENUS
 	GtkWidget *image;
 	GtkWidget *box;
+#endif
 	GtkWidget *label;
 	guint acckey;
 	GdkModifierType accmods;
@@ -317,12 +323,14 @@ create_menu (const GeniusMenuItem entries[])
 			g_hash_table_insert (genius_menu_items,
 					     g_strdup (entries[i].path),
 					     item);
+#ifdef ICONS_ON_MENUS
 			box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 			if (entries[i].icon != NULL) {
 				image = gtk_image_new_from_icon_name (entries[i].icon,
 								      GTK_ICON_SIZE_MENU);
 				gtk_container_add (GTK_CONTAINER (box), image);
 			}
+#endif
 
 			label = gtk_accel_label_new (_(entries[i].name));
 
@@ -344,9 +352,13 @@ create_menu (const GeniusMenuItem entries[])
 				}
 			}
 
+#ifdef ICONS_ON_MENUS
 			gtk_box_pack_end (GTK_BOX (box), label, TRUE, TRUE, 0);
 
 			gtk_container_add (GTK_CONTAINER (item), box);
+#else
+			gtk_container_add (GTK_CONTAINER (item), label);
+#endif
 
 			if (entries[i].callback != NULL) {
 				g_signal_connect (G_OBJECT (item), "activate",
@@ -372,6 +384,8 @@ create_menu (const GeniusMenuItem entries[])
 
 	return menu;
 }
+
+/* right now we're ignoring the icon, see ICONS_ON_MENUS */
 
 static const GeniusMenuItem file_entries[] = {
         { "app.new", "document-new", N_("_New Program"),
