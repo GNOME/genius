@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2020 Jiri (George) Lebl
+ * Copyright (C) 2003-2021 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -7274,7 +7274,7 @@ plot_dialog_response (GtkWidget *w, int response, gpointer data)
 }
 
 void
-genius_plot_dialog (GSimpleAction *action, GVariant *param, gpointer data)
+genius_plot_dialog (void)
 {
 	GtkWidget *insides;
 

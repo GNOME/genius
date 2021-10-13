@@ -21,8 +21,6 @@
 
 #include "config.h"
 
-#include <amtk/amtk.h>
-
 #include <vte/vte.h>
 
 #include <string.h>
@@ -104,10 +102,13 @@ extern const char *genius_toplevels[];
 static GtkApplication *genius_app = NULL;
 
 GtkWidget *genius_window = NULL;
+static GtkAccelGroup *genius_accel_group = NULL;
 GtkWidget *genius_window_statusbar = NULL;
-GtkWidget *example_menu;
-GtkWidget *plugin_menu;
-GtkWidget *prog_menu;
+static GtkWidget *example_menu;
+static GtkWidget *plugin_menu;
+static GtkWidget *prog_menu;
+
+static GHashTable *genius_menu_items = NULL;
 
 int gel_calc_running = 0;
 
@@ -117,6 +118,14 @@ static GtkWidget *genius_notebook = NULL;
 static GString *errors = NULL;
 static GString *infos = NULL;
 static GtkRecentManager *recent_manager;
+
+static GtkToolItem *interrupt_tb_button = NULL;
+static GtkToolItem *run_tb_button = NULL;
+static GtkToolItem *new_tb_button = NULL;
+static GtkToolItem *open_tb_button = NULL;
+static GtkToolItem *save_tb_button = NULL;
+static GtkToolItem *plot_tb_button = NULL;
+static GtkToolItem *quit_tb_button = NULL;
 
 static char *clipboard_str = NULL;
 
@@ -208,45 +217,47 @@ static char *fromrlfifo = NULL;
 
 static char *arg0 = NULL;
 
-static void new_callback (GSimpleAction *a, GVariant *param, gpointer data);
-static void open_callback (GSimpleAction *a, GVariant *param, gpointer data);
-static void save_callback (GSimpleAction *a, GVariant *param, gpointer data);
-static void save_all_cb (GSimpleAction *a, GVariant *param, gpointer data);
-static void save_console_cb (GSimpleAction *a, GVariant *param, gpointer data);
-static void save_as_callback (GSimpleAction *a, GVariant *param, gpointer data);
-static void close_callback (GSimpleAction *a, GVariant *param, gpointer data);
-static void load_cb (GSimpleAction *a, GVariant *param, gpointer data);
-static void reload_cb (GSimpleAction *a, GVariant *param, gpointer data);
-static void quitapp (GSimpleAction *a, GVariant *param, gpointer data);
+static void new_callback (GtkWidget *w, gpointer data);
+static void open_callback (GtkWidget *w, gpointer data);
+static void save_callback (GtkWidget *w, gpointer data);
+static void save_all_cb (GtkWidget *w, gpointer data);
+static void save_console_cb (GtkWidget *w, gpointer data);
+static void save_as_callback (GtkWidget *w, gpointer data);
+static void close_callback (GtkWidget *w, gpointer data);
+static void load_cb (GtkWidget *w, gpointer data);
+static void reload_cb (GtkWidget *w, gpointer data);
+static void quitapp (GtkWidget *w, gpointer data);
 #ifdef HAVE_GTKSOURCEVIEW
 static void setup_undo_redo (void);
-static void undo_callback (GSimpleAction *a, GVariant *param, gpointer data);
-static void redo_callback (GSimpleAction *a, GVariant *param, gpointer data);
+static void undo_callback (GtkWidget *w, gpointer data);
+static void redo_callback (GtkWidget *w, gpointer data);
 #endif
-static void cut_callback (GSimpleAction *a, GVariant *param, gpointer data);
-static void copy_callback (GSimpleAction *a, GVariant *param, gpointer data);
-static void paste_callback (GSimpleAction *a, GVariant *param, gpointer data);
+static void cut_callback (GtkWidget *w, gpointer data);
+static void copy_callback (GtkWidget *w, gpointer data);
+static void paste_callback (GtkWidget *w, gpointer data);
 static void clear_cb (GtkClipboard *clipboard, gpointer owner);
 static void copy_cb (GtkClipboard *clipboard, GtkSelectionData *data,
 		     guint info, gpointer owner);
 static void copy_answer (void);
-static void copy_as_plain (GSimpleAction *a, GVariant *param, gpointer data);
-static void copy_as_latex (GSimpleAction *a, GVariant *param, gpointer data);
-static void copy_as_troff (GSimpleAction *a, GVariant *param, gpointer data);
-static void copy_as_mathml (GSimpleAction *a, GVariant *param, gpointer data);
-static void next_tab (GSimpleAction *a, GVariant *param, gpointer data);
-static void prev_tab (GSimpleAction *a, GVariant *param, gpointer data);
-static void show_console (GSimpleAction *a, GVariant *param, gpointer data);
+static void copy_as_plain (GtkWidget *w, gpointer data);
+static void copy_as_latex (GtkWidget *w, gpointer data);
+static void copy_as_troff (GtkWidget *w, gpointer data);
+static void copy_as_mathml (GtkWidget *w, gpointer data);
+static void next_tab (GtkWidget *w, gpointer data);
+static void prev_tab (GtkWidget *w, gpointer data);
+static void show_console (GtkWidget *w, gpointer data);
 static void prog_menu_activated (GtkWidget *item, gpointer data);
-static void setup_calc (GSimpleAction *a, GVariant *param, gpointer data);
-static void run_program (GSimpleAction *a, GVariant *param, gpointer data);
-static void show_user_vars (GSimpleAction *a, GVariant *param, gpointer data);
-static void monitor_user_var (GSimpleAction *a, GVariant *param, gpointer data);
-static void full_answer (GSimpleAction *a, GVariant *param, gpointer data);
-static void warranty_call (GSimpleAction *a, GVariant *param, gpointer data);
-static void aboutcb (GSimpleAction *a, GVariant *param, gpointer data);
-static void help_cb (GSimpleAction *a, GVariant *param, gpointer data);
-static void help_on_function (GSimpleAction *a, GVariant *param, gpointer data);
+static void setup_calc (GtkWidget *w, gpointer data);
+static void run_program (GtkWidget *w, gpointer data);
+static void genius_interrupt_calc_cb (GtkWidget *w, gpointer data);
+static void genius_plot_dialog_cb (GtkWidget *w, gpointer data);
+static void show_user_vars (GtkWidget *w, gpointer data);
+static void monitor_user_var (GtkWidget *w, gpointer data);
+static void full_answer (GtkWidget *w, gpointer data);
+static void warranty_call (GtkWidget *w, gpointer data);
+static void aboutcb (GtkWidget *w, gpointer data);
+static void help_cb (GtkWidget *w, gpointer data);
+static void help_on_function (GtkWidget *w, gpointer data);
 static void executing_warning (void);
 static void display_warning (GtkWidget *parent, const char *warn);
 
@@ -257,100 +268,14 @@ static void fork_helper_setup_comm (void);
 static void new_program (const char *filename,
 			 gboolean example);
 
-static AmtkActionInfoStore *info_store = NULL;
-
-static const AmtkActionInfoEntry file_entries[] = {
-        { "app.new", "document-new", N_("_New Program"),
-          "<Control>n", N_("Create new program tab") },
-        { "app.open", "document-open", N_("_Open..."),
-          "<Control>o", N_("Open a file") },
-        { "app.save", "document-save", N_("_Save"),
-          "<Control>s", N_("Save current file") },
-        { "app.save-all", "document-save", N_("Save All _Unsaved"),
-          NULL, N_("Save all unsaved programs") },
-        { "app.save-as", "document-save", N_("Save _As..."),
-          "<Shift><Control>s", N_("Save to a file") },
-        { "app.reload", "document-revert", N_("_Reload from Disk"),
-          NULL, N_("Reload the selected program from disk") },
-        { "app.close", "window-close", N_("_Close"),
-          "<Control>w", N_("Close the current file") },
-        { "app.load-run", "document-open", N_("_Load and Run..."),
-          NULL, N_("Load and execute a file in genius") },
-        { "app.save-console", "document-save", N_("Save Console Ou_tput..."),
-          NULL, N_("Save what is visible on the console "
-                   "(including scrollback) to a text file") },
-        { "app.quit", "application-exit", N_("_Quit"),
-          "<Control>q", N_("Quit") },
-        { NULL }
-};
-
-static const AmtkActionInfoEntry edit_entries[] = {
-#ifdef HAVE_GTKSOURCEVIEW
-        { "app.undo", "edit-undo",  N_("_Undo"),
-          "<Control>z", N_("Undo the last action") },
-        { "app.redo", "edit-redo", N_("_Redo"),
-          "<Shift><Control>z", N_("Redo the undone action") },
-#endif
-        { "app.cut", "edit-cut", N_("Cu_t"),
-          "<Control>x", N_("Cut the selection") },
-        { "app.copy", "edit-copy", N_("_Copy"),
-          "<Control>c", N_("Copy the selection") },
-        { "app.paste", "edit-paste", N_("_Paste"),
-          "<Control>v", N_("Paste the clipboard") },
-        { "app.copy-plain", "edit-copy", N_("Copy Answer As Plain Te_xt"),
-          NULL, N_("Copy last answer into the clipboard in plain text") },
-        { "app.copy-latex", "edit-copy", N_("Copy Answer As _LaTeX"),
-          NULL, N_("Copy last answer into the clipboard as LaTeX") },
-        { "app.copy-mathml", "edit-copy", N_("Copy Answer As _MathML"),
-          NULL, N_("Copy last answer into the clipboard as MathML") },
-        { "app.copy-troff", "edit-copy", N_("Copy Answer As T_roff"),
-          NULL, N_("Copy last answer into the clipboard as Troff eqn") },
-        { NULL }
-};
-
-static const AmtkActionInfoEntry calc_entries[] = {
-        { "app.run", "system-run", N_("_Run"),
-          "<Control>r", N_("Run current program") },
-        { "app.stop", "process-stop", N_("_Interrupt"),
-          "<Control>i", N_("Interrupt current calculation") },
-        { "app.answer", "dialog-information", N_("Show _Full Answer"),
-          NULL, N_("Show the full text of last answer") },
-        { "app.vars", "dialog-information", N_("Show User _Variables"),
-          NULL, N_("Show the current value of all user variables") },
-        { "app.monitor", "dialog-information", N_("_Monitor a Variable"),
-          NULL, N_("Monitor a variable continuously") },
-        { "app.plot", "genius-stock-plot", N_("_Plot..."),
-          NULL, N_("Plot functions, vector fields, surfaces, etc...") },
-        { NULL }
-};
-
-static const AmtkActionInfoEntry prog_entries[] = {
-        { "app.next", "go-next", N_("_Next Tab"),
-          "<Control>Page_Down", N_("Go to next tab") },
-        { "app.previous", "go-previous", N_("_Previous Tab"),
-          "<Control>Page_Up", N_("Go to previous tab") },
-        { "app.console", NULL, N_("_Console"),
-          NULL, N_("Go to the console tab") },
-        { NULL }
-};
-
-static const AmtkActionInfoEntry pref_entries[] = {
-        { "app.prefs", "preferences-system", N_("_Preferences"),
-          NULL, N_("Configure Genius") },
-        { NULL }
-};
-
-static const AmtkActionInfoEntry help_entries[] = {
-        { "app.help", "help-browser", N_("_Contents"),
-          "F1", N_("View the Genius manual") },
-        { "app.help-func", "help-browser", N_("_Help on Function"),
-          NULL, N_("Help on a function or a command") },
-        { "app.warranty", "help-browser", N_("_Warranty"),
-          NULL, N_("Display warranty information") },
-        { "app.about", "help-about", N_("_About"),
-          NULL, N_("About Genius") },
-        { NULL }
-};
+typedef struct {
+	const char *path;
+	const char *icon;
+	const char *name;
+	const char *acc;
+	const char *tooltip;
+	void (*callback)(GtkWidget *, gpointer);
+} GeniusMenuItem;
 
 static void
 simple_menu_item_select_cb (GtkMenuItem *item, gpointer data)
@@ -369,17 +294,231 @@ simple_menu_item_deselect_cb (GtkMenuItem *item, gpointer data)
 	gtk_statusbar_pop (GTK_STATUSBAR (genius_window_statusbar), 0 /* context */);
 } 
 
-static void
-enable_action (const gchar *name, gboolean enabled)
+
+static GtkWidget *
+create_menu (const GeniusMenuItem entries[])
 {
-	static GApplication *app = NULL;
-	GAction *action;
+	GtkWidget *menu;
+	GtkWidget *item;
+	GtkWidget *image;
+	GtkWidget *box;
+	GtkWidget *label;
+	guint acckey;
+	GdkModifierType accmods;
+	int i;
 
-	if (!app)
-	        app = g_application_get_default ();
+	menu = gtk_menu_new();
+	
+	for (i = 0; entries[i].path != NULL; i++) {
+		if (strcmp (entries[i].path, "-") == 0) {
+			item = gtk_separator_menu_item_new ();
+		} else {
+			item = gtk_menu_item_new ();
+			g_hash_table_insert (genius_menu_items,
+					     g_strdup (entries[i].path),
+					     item);
+			box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+			if (entries[i].icon != NULL) {
+				image = gtk_image_new_from_icon_name (entries[i].icon,
+								      GTK_ICON_SIZE_MENU);
+				gtk_container_add (GTK_CONTAINER (box), image);
+			}
 
-	action = g_action_map_lookup_action (G_ACTION_MAP (app), name);
-	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), enabled);
+			label = gtk_accel_label_new (_(entries[i].name));
+
+			gtk_label_set_use_underline (GTK_LABEL (label), TRUE);
+			gtk_label_set_xalign (GTK_LABEL (label), 0.0);
+
+			if (entries[i].acc != NULL) {
+				gtk_accelerator_parse (entries[i].acc,
+						       &acckey,
+						       &accmods);
+				if (acckey != 0) {
+					gtk_widget_add_accelerator (item,
+								    "activate",
+								    genius_accel_group,
+								    acckey,
+								    accmods,
+								    GTK_ACCEL_VISIBLE);
+					gtk_accel_label_set_accel_widget (GTK_ACCEL_LABEL (label), item);
+				}
+			}
+
+			gtk_box_pack_end (GTK_BOX (box), label, TRUE, TRUE, 0);
+
+			gtk_container_add (GTK_CONTAINER (item), box);
+
+			if (entries[i].callback != NULL) {
+				g_signal_connect (G_OBJECT (item), "activate",
+						  G_CALLBACK (entries[i].callback),
+						  NULL);
+			}
+			if (entries[i].tooltip) {
+				g_signal_connect (item, "select",
+						  G_CALLBACK (simple_menu_item_select_cb), 
+						  _(entries[i].tooltip));
+				g_signal_connect (item, "deselect",
+						  G_CALLBACK (simple_menu_item_deselect_cb),
+						  NULL);
+			}
+		}
+
+		gtk_widget_show_all (item);
+
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	}
+
+	gtk_widget_show(menu);
+
+	return menu;
+}
+
+static const GeniusMenuItem file_entries[] = {
+        { "app.new", "document-new", N_("_New Program"),
+          "<Control>n", N_("Create new program tab"),
+          new_callback },
+        { "app.open", "document-open", N_("_Open..."),
+          "<Control>o", N_("Open a file"),
+          open_callback },
+        { "app.open-recent", "document-open", N_("Open R_ecent"),
+          NULL, NULL,
+          NULL },
+        { "app.save", "document-save", N_("_Save"),
+          "<Control>s", N_("Save current file"),
+          save_callback },
+        { "app.save-all", "document-save", N_("Save All _Unsaved"),
+          NULL, N_("Save all unsaved programs"),
+	  save_all_cb },
+        { "app.save-as", "document-save", N_("Save _As..."),
+          "<Shift><Control>s", N_("Save to a file"),
+	  save_as_callback },
+        { "app.reload", "document-revert", N_("_Reload from Disk"),
+          NULL, N_("Reload the selected program from disk"),
+	  reload_cb },
+        { "app.close", "window-close", N_("_Close"),
+          "<Control>w", N_("Close the current file"),
+	  close_callback },
+	{ "-" },
+        { "app.load-run", "document-open", N_("_Load and Run..."),
+          NULL, N_("Load and execute a file in genius"),
+	  load_cb },
+	{ "-" },
+        { "app.save-console", "document-save", N_("Save Console Ou_tput..."),
+          NULL, N_("Save what is visible on the console "
+                   "(including scrollback) to a text file"),
+	  save_console_cb },
+	{ "-" },
+        { "app.quit", "application-exit", N_("_Quit"),
+          "<Control>q", N_("Quit"),
+	  quitapp },
+        { NULL }
+};
+
+
+static const GeniusMenuItem edit_entries[] = {
+#ifdef HAVE_GTKSOURCEVIEW
+        { "app.undo", "edit-undo",  N_("_Undo"),
+          "<Control>z", N_("Undo the last action"),
+	  undo_callback },
+        { "app.redo", "edit-redo", N_("_Redo"),
+          "<Shift><Control>z", N_("Redo the undone action"),
+	  redo_callback },
+	{ "-" },
+#endif
+        { "app.cut", "edit-cut", N_("Cu_t"),
+          "<Control>x", N_("Cut the selection"),
+	  cut_callback },
+        { "app.copy", "edit-copy", N_("_Copy"),
+          "<Control>c", N_("Copy the selection"),
+	  copy_callback },
+        { "app.paste", "edit-paste", N_("_Paste"),
+          "<Control>v", N_("Paste the clipboard"),
+	  paste_callback },
+	{ "-" },
+        { "app.copy-plain", "edit-copy", N_("Copy Answer As Plain Te_xt"),
+          NULL, N_("Copy last answer into the clipboard in plain text"),
+	  copy_as_plain },
+        { "app.copy-latex", "edit-copy", N_("Copy Answer As _LaTeX"),
+          NULL, N_("Copy last answer into the clipboard as LaTeX"),
+	  copy_as_latex },
+        { "app.copy-mathml", "edit-copy", N_("Copy Answer As _MathML"),
+          NULL, N_("Copy last answer into the clipboard as MathML"),
+	  copy_as_mathml },
+        { "app.copy-troff", "edit-copy", N_("Copy Answer As T_roff"),
+          NULL, N_("Copy last answer into the clipboard as Troff eqn"),
+	  copy_as_troff },
+        { NULL }
+};
+
+static const GeniusMenuItem calc_entries[] = {
+        { "app.run", "system-run", N_("_Run"),
+          "<Control>r", N_("Run current program"),
+	  run_program },
+        { "app.stop", "process-stop", N_("_Interrupt"),
+          "<Control>i", N_("Interrupt current calculation"),
+	  genius_interrupt_calc_cb },
+	{ "-" },
+        { "app.answer", "dialog-information", N_("Show _Full Answer"),
+          NULL, N_("Show the full text of last answer"),
+	  full_answer },
+        { "app.vars", "dialog-information", N_("Show User _Variables"),
+          NULL, N_("Show the current value of all user variables"),
+	  show_user_vars },
+        { "app.monitor", "dialog-information", N_("_Monitor a Variable"),
+          NULL, N_("Monitor a variable continuously"),
+	  monitor_user_var },
+	{ "-" },
+        { "app.plot", "genius-stock-plot", N_("_Plot..."),
+          NULL, N_("Plot functions, vector fields, surfaces, etc..."),
+	  genius_plot_dialog_cb },
+        { NULL }
+};
+
+static const GeniusMenuItem prog_entries[] = {
+        { "app.next", "go-next", N_("_Next Tab"),
+          "<Control>Page_Down", N_("Go to next tab"),
+	  next_tab },
+        { "app.previous", "go-previous", N_("_Previous Tab"),
+          "<Control>Page_Up", N_("Go to previous tab"),
+	  prev_tab },
+	{ "-" },
+        { "app.console", NULL, N_("_Console"),
+          NULL, N_("Go to the console tab"),
+	  show_console },
+        { NULL }
+};
+
+static const GeniusMenuItem pref_entries[] = {
+        { "app.prefs", "preferences-system", N_("_Preferences"),
+          NULL, N_("Configure Genius"),
+	  setup_calc },
+        { NULL }
+};
+
+static const GeniusMenuItem help_entries[] = {
+        { "app.help", "help-browser", N_("_Contents"),
+          "F1", N_("View the Genius manual"),
+	  help_cb },
+        { "app.help-func", "help-browser", N_("_Help on Function"),
+          NULL, N_("Help on a function or a command"),
+	  help_on_function },
+        { "app.warranty", "help-browser", N_("_Warranty"),
+          NULL, N_("Display warranty information"),
+	  warranty_call },
+	{ "-" },
+        { "app.about", "help-about", N_("_About"),
+          NULL, N_("About Genius"),
+	  aboutcb },
+        { NULL }
+};
+
+static void
+enable_menuitem (const gchar *name, gboolean enabled)
+{
+	GtkWidget *item = g_hash_table_lookup (genius_menu_items, name);
+	g_return_if_fail (item != NULL);
+
+	gtk_widget_set_sensitive (item, enabled);
 }
 
 static GtkWidget *
@@ -453,57 +592,36 @@ recent_add (const char *uri)
 static void
 add_main_window_contents (GtkWidget *window, GtkWidget *notebook)
 {
-	AmtkFactory *factory;
-	AmtkApplicationWindow *win;
 	GtkWidget *box1, *recent_menu;
 	GtkWidget *menubar;
 	GtkWidget *toolbar;
 	GtkWidget *menu;
 	GtkWidget *submenu;
 	GtkWidget *item;
-	GtkToolItem *button;
-	gint order = 0;
-
-	factory = amtk_factory_new_with_default_application ();
+	GtkToolItem *titem;
+	GtkWidget *image;
 
 	menubar = gtk_menu_bar_new ();
 
 	menu = gtk_menu_item_new_with_mnemonic (_("_File"));
-	submenu = amtk_factory_create_simple_menu (factory, file_entries, -1);
+	submenu = create_menu (file_entries);
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu), submenu);
-	item = gtk_menu_item_new_with_mnemonic (_("Open R_ecent"));
+	item = g_hash_table_lookup (genius_menu_items, "app.open-recent");
+	g_assert (item != NULL);
 	recent_menu  = recent_create_menu ();
 	g_signal_connect (G_OBJECT (recent_menu), "item-activated",
 			  G_CALLBACK (file_open_recent), NULL);
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), recent_menu);
-	gtk_menu_shell_insert (GTK_MENU_SHELL (submenu), item, 2);
-	item = gtk_separator_menu_item_new ();
-	gtk_menu_shell_insert (GTK_MENU_SHELL (submenu), item, 8);
-	item = gtk_separator_menu_item_new ();
-	gtk_menu_shell_insert (GTK_MENU_SHELL (submenu), item, 10);
-	item = gtk_separator_menu_item_new ();
-	gtk_menu_shell_insert (GTK_MENU_SHELL (submenu), item, 12);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), menu);
 
 	menu = gtk_menu_item_new_with_mnemonic (_("_Edit"));
-	submenu = amtk_factory_create_simple_menu (factory, edit_entries, -1);
+	submenu = create_menu (edit_entries);
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu), submenu);
-#ifdef HAVE_GTKSOURCEVIEW
-	order = 3;
-	item = gtk_separator_menu_item_new ();
-	gtk_menu_shell_insert (GTK_MENU_SHELL (submenu), item, order - 1);
-#endif
-	item = gtk_separator_menu_item_new ();
-	gtk_menu_shell_insert (GTK_MENU_SHELL (submenu), item, order + 3);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), menu);
 
 	menu = gtk_menu_item_new_with_mnemonic (_("_Calculator"));
-	submenu = amtk_factory_create_simple_menu (factory, calc_entries, -1);
+	submenu = create_menu (calc_entries);
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu), submenu);
-	item = gtk_separator_menu_item_new ();
-	gtk_menu_shell_insert (GTK_MENU_SHELL (submenu), item, 2);
-	item = gtk_separator_menu_item_new ();
-	gtk_menu_shell_insert (GTK_MENU_SHELL (submenu), item, 6);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), menu);
 
 	example_menu = gtk_menu_item_new_with_mnemonic (_("E_xamples"));
@@ -513,52 +631,82 @@ add_main_window_contents (GtkWidget *window, GtkWidget *notebook)
 	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), plugin_menu);
 
 	prog_menu = gtk_menu_item_new_with_mnemonic (_("_Programs"));
-	submenu = amtk_factory_create_simple_menu (factory, prog_entries, -1);
+	submenu = create_menu (prog_entries);
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (prog_menu), submenu);
-	item = gtk_separator_menu_item_new ();
-	gtk_menu_shell_insert (GTK_MENU_SHELL (submenu), item, 2);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), prog_menu);
 
 	menu = gtk_menu_item_new_with_mnemonic (_("_Settings"));
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu),
-	                           amtk_factory_create_simple_menu
-	                           (factory, pref_entries, -1));
+	submenu = create_menu (pref_entries);
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu), submenu);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), menu);
 
 	menu = gtk_menu_item_new_with_mnemonic (_("_Help"));
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu),
-	                           amtk_factory_create_simple_menu
-	                           (factory, help_entries, -1));
+	submenu = create_menu (help_entries);
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu), submenu);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menubar), menu);
 
 	toolbar = gtk_toolbar_new ();
 	gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_BOTH);
-	gtk_toolbar_insert (GTK_TOOLBAR (toolbar),
-	                    amtk_factory_create_tool_button
-	                    (factory, "app.stop"), -1);
-	gtk_toolbar_insert (GTK_TOOLBAR (toolbar),
-	                    amtk_factory_create_tool_button
-	                    (factory, "app.run"), -1);
-	button = amtk_factory_create_tool_button (factory, "app.new");
-	gtk_tool_button_set_label (GTK_TOOL_BUTTON (button), _("New"));
-	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), button, -1);
-	button = amtk_factory_create_tool_button (factory, "app.open");
-	gtk_tool_button_set_label (GTK_TOOL_BUTTON (button), _("Open"));
-	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), button, -1);
-	button = amtk_factory_create_tool_button (factory, "app.plot");
-	gtk_tool_button_set_label (GTK_TOOL_BUTTON (button), _("_Plot"));
-	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), button, -1);
-	gtk_toolbar_insert (GTK_TOOLBAR (toolbar),
-	                    amtk_factory_create_tool_button
-	                    (factory, "app.quit"), -1);
+
+	image = gtk_image_new_from_icon_name ("process-stop",
+					      GTK_ICON_SIZE_SMALL_TOOLBAR);
+	interrupt_tb_button = titem =
+		gtk_tool_button_new (image, _("Interrupt"));
+	g_signal_connect (G_OBJECT (titem), "clicked",
+			  G_CALLBACK (genius_interrupt_calc_cb), NULL);
+	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), titem, -1);
+
+	image = gtk_image_new_from_icon_name ("system-run",
+					      GTK_ICON_SIZE_SMALL_TOOLBAR);
+	run_tb_button = titem =
+		gtk_tool_button_new (image, _("Run"));
+	g_signal_connect (G_OBJECT (titem), "clicked",
+			  G_CALLBACK (run_program), NULL);
+	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), titem, -1);
+
+	image = gtk_image_new_from_icon_name ("document-new",
+					      GTK_ICON_SIZE_SMALL_TOOLBAR);
+	new_tb_button = titem =
+		gtk_tool_button_new (image, _("New"));
+	g_signal_connect (G_OBJECT (titem), "clicked",
+			  G_CALLBACK (new_callback), NULL);
+	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), titem, -1);
+
+	image = gtk_image_new_from_icon_name ("document-open",
+					      GTK_ICON_SIZE_SMALL_TOOLBAR);
+	open_tb_button = titem =
+		gtk_tool_button_new (image, _("Open"));
+	g_signal_connect (G_OBJECT (titem), "clicked",
+			  G_CALLBACK (open_callback), NULL);
+	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), titem, -1);
+
+	image = gtk_image_new_from_icon_name ("document-save",
+					      GTK_ICON_SIZE_SMALL_TOOLBAR);
+	save_tb_button = titem =
+		gtk_tool_button_new (image, _("Save"));
+	g_signal_connect (G_OBJECT (titem), "clicked",
+			  G_CALLBACK (save_callback), NULL);
+	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), titem, -1);
+
+	image = gtk_image_new_from_icon_name ("genius-stock-plot",
+					      GTK_ICON_SIZE_SMALL_TOOLBAR);
+	plot_tb_button = titem =
+		gtk_tool_button_new (image, _("Plot"));
+	g_signal_connect (G_OBJECT (titem), "clicked",
+			  G_CALLBACK (genius_plot_dialog_cb), NULL);
+	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), titem, -1);
+
+	image = gtk_image_new_from_icon_name ("application-exit",
+					      GTK_ICON_SIZE_SMALL_TOOLBAR);
+	quit_tb_button = titem =
+		gtk_tool_button_new (image, _("Quit"));
+	g_signal_connect (G_OBJECT (titem), "clicked",
+			  G_CALLBACK (quitapp), NULL);
+	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), titem, -1);
+
+	gtk_widget_show_all (toolbar);
 
 	genius_window_statusbar = gtk_statusbar_new ();
-	win = amtk_application_window_get_from_gtk_application_window
-	        (GTK_APPLICATION_WINDOW (window));
-	amtk_application_window_set_statusbar (win, GTK_STATUSBAR
-	                                       (genius_window_statusbar));
-	amtk_application_window_connect_menu_to_statusbar (win, GTK_MENU_SHELL
-	                                                   (menubar));
 
 	gtk_container_set_border_width (GTK_CONTAINER (window), 0);
 
@@ -576,8 +724,6 @@ add_main_window_contents (GtkWidget *window, GtkWidget *notebook)
 	gtk_box_pack_start (GTK_BOX (box1), notebook, TRUE, TRUE, 0);
 
 	gtk_box_pack_start (GTK_BOX (box1), genius_window_statusbar, FALSE, TRUE, 0);
-	g_object_unref (factory);
-	amtk_action_info_store_check_all_used (info_store);
 }
 
 
@@ -746,13 +892,13 @@ gel_ask_string (const char *query, const char *def)
 }
 
 static void
-help_cb (GSimpleAction *action, GVariant *param, gpointer data)
+help_cb (GtkWidget *w, gpointer data)
 {
 	actually_open_help (NULL /* id */);
 }
 
 static void
-help_on_function (GSimpleAction *action, GVariant *param, gpointer data)
+help_on_function (GtkWidget *w, gpointer data)
 {
 	GtkWidget *d;
 	GtkWidget *e;
@@ -1123,7 +1269,7 @@ var_box_response (GtkWidget *widget, gint resp, gpointer data)
 
 
 static void
-show_user_vars (GSimpleAction *action, GVariant *param, gpointer data)
+show_user_vars (GtkWidget *w, gpointer data)
 {
 	static GtkWidget *var_box = NULL;
 	GtkWidget *sw;
@@ -1411,7 +1557,7 @@ run_monitor (const char *var)
 }
 
 static void
-monitor_user_var (GSimpleAction *action, GVariant *param, gpointer data)
+monitor_user_var (GtkWidget *w, gpointer data)
 {
 	GtkWidget *d;
 	GtkWidget *e;
@@ -1458,7 +1604,7 @@ monitor_user_var (GSimpleAction *action, GVariant *param, gpointer data)
 }
 
 static void
-full_answer (GSimpleAction *action, GVariant *param, gpointer data)
+full_answer (GtkWidget *w, gpointer data)
 {
 	GelOutput *out;
 	const char *s;
@@ -1814,7 +1960,7 @@ geniusinfo(const char *s)
 
 /*about box*/
 static void
-aboutcb (GSimpleAction *action, GVariant *param, gpointer data)
+aboutcb (GtkWidget *w, gpointer data)
 {
 	static const char *authors[] = {
 		"Jiří (George) Lebl, Ph.D. <jirka@5z.com>",
@@ -2071,8 +2217,8 @@ any_changed (void)
 }
 
 /* quit */
-static void
-quitapp (GSimpleAction *action, GVariant *param, gpointer data)
+static gboolean
+quitapp_ask (void)
 {
 	if (any_changed ()) {
 		if (gel_calc_running) {
@@ -2081,13 +2227,13 @@ quitapp (GSimpleAction *action, GVariant *param, gpointer data)
 						      "and furthermore there are "
 						      "unsaved programs.\nAre "
 						      "you sure you wish to quit?")))
-				return;
+				return FALSE;
 			gel_interrupted = TRUE;
 		} else {
 			if ( ! genius_ask_question (NULL,
 						    _("There are unsaved programs, "
 						      "are you sure you wish to quit?")))
-				return;
+				return FALSE;
 		}
 	} else {
 		if (gel_calc_running) {
@@ -2095,17 +2241,26 @@ quitapp (GSimpleAction *action, GVariant *param, gpointer data)
 						    _("Genius is executing something, "
 						      "are you sure you wish to "
 						      "quit?")))
-				return;
+				return FALSE;
 			gel_interrupted = TRUE;
 		} else {
 			if ( ! genius_ask_question (NULL,
 						    _("Are you sure you wish "
 						      "to quit?")))
-				return;
+				return FALSE;
 		}
 	}
 
-	g_application_quit (G_APPLICATION (data));
+	g_application_quit (G_APPLICATION (genius_app));
+
+	return TRUE;
+}
+
+/* quit */
+static void
+quitapp (GtkWidget *w, gpointer data)
+{
+	quitapp_ask ();
 }
 
 /*exact answer callback*/
@@ -2199,7 +2354,7 @@ setup_response (GtkWidget *widget, gint resp, gpointer data)
 }
 
 static void
-setup_calc (GSimpleAction *action, GVariant *param, gpointer data)
+setup_calc (GtkWidget *ww, gpointer data)
 {
 	GtkWidget *mainbox,*frame;
 	GtkWidget *box;
@@ -2580,12 +2735,24 @@ setup_calc (GSimpleAction *action, GVariant *param, gpointer data)
 }
 
 void
-genius_interrupt_calc (GSimpleAction *action, GVariant *param, gpointer data)
+genius_interrupt_calc (void)
 {
 	gel_interrupted = TRUE;
 	if ( ! gel_calc_running) {
 		vte_terminal_feed_child (VTE_TERMINAL (term), "\n", 1);
 	}
+}
+
+static void
+genius_interrupt_calc_cb (GtkWidget *w, gpointer data)
+{
+	genius_interrupt_calc ();
+}
+
+static void
+genius_plot_dialog_cb (GtkWidget *w, gpointer data)
+{
+	genius_plot_dialog ();
 }
 
 static void
@@ -2598,7 +2765,7 @@ executing_warning (void)
 }
 
 static void
-warranty_call (GSimpleAction *action, GVariant *param, gpointer data)
+warranty_call (GtkWidget *w, gpointer data)
 {
 	if (gel_calc_running) {
 		executing_warning ();
@@ -2702,7 +2869,7 @@ load_response_cb (GtkFileChooser *fs, int response, gpointer data)
 }
 
 static void
-load_cb (GSimpleAction *action, GVariant *param, gpointer data)
+load_cb (GtkWidget *w, gpointer data)
 {
 	if (load_fs != NULL) {
 		gtk_window_present (GTK_WINDOW (load_fs));
@@ -2753,15 +2920,15 @@ setup_undo_redo_idle (gpointer data)
 	p = g_object_get_data (G_OBJECT (w), "program");
 
 	if (p == NULL) {
-	        enable_action ("undo", FALSE);
-	        enable_action ("redo", FALSE);
+	        enable_menuitem ("app.undo", FALSE);
+	        enable_menuitem ("app.redo", FALSE);
 	} else {
-	        enable_action ("undo",
-			       gtk_source_buffer_can_undo
-			       (GTK_SOURCE_BUFFER (p->buffer)));
-	        enable_action ("redo",
-			       gtk_source_buffer_can_redo
-			       (GTK_SOURCE_BUFFER (p->buffer)));
+	        enable_menuitem ("app.undo",
+				 gtk_source_buffer_can_undo
+				 (GTK_SOURCE_BUFFER (p->buffer)));
+	        enable_menuitem ("app.redo",
+				 gtk_source_buffer_can_redo
+				 (GTK_SOURCE_BUFFER (p->buffer)));
 	}
 
 	return FALSE;
@@ -2777,17 +2944,17 @@ setup_undo_redo (void)
 
 
 static void
-undo_callback (GSimpleAction *action, GVariant *param, gpointer data)
+undo_callback (GtkWidget *w, gpointer data)
 {
 	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (genius_notebook));
-	GtkWidget *w;
+	GtkWidget *pg;
 	Program *p;
 
 	if (page < 0)
 		return;
 
-	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
-	p = g_object_get_data (G_OBJECT (w), "program");
+	pg = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
+	p = g_object_get_data (G_OBJECT (pg), "program");
 
 	if (p == NULL) {
 		/* undo from a terminal? what are you talking about */
@@ -2801,17 +2968,17 @@ undo_callback (GSimpleAction *action, GVariant *param, gpointer data)
 }
 
 static void
-redo_callback (GSimpleAction *action, GVariant *param, gpointer data)
+redo_callback (GtkWidget *w, gpointer data)
 {
 	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (genius_notebook));
-	GtkWidget *w;
+	GtkWidget *pg;
 	Program *p;
 	
 	if (page < 0)
 		return;
 
-	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
-	p = g_object_get_data (G_OBJECT (w), "program");
+	pg = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
+	p = g_object_get_data (G_OBJECT (pg), "program");
 
 	if (p == NULL) {
 		/* redo from a terminal? what are you talking about */
@@ -2826,17 +2993,17 @@ redo_callback (GSimpleAction *action, GVariant *param, gpointer data)
 #endif
 
 static void
-cut_callback (GSimpleAction *action, GVariant *param, gpointer data)
+cut_callback (GtkWidget *w, gpointer data)
 {
 	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (genius_notebook));
-	GtkWidget *w;
+	GtkWidget *pg;
 	Program *p;
 
 	if (page < 0)
 		return;
 
-	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
-	p = g_object_get_data (G_OBJECT (w), "program");
+	pg = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
+	p = g_object_get_data (G_OBJECT (pg), "program");
 
 	if (p == NULL) {
 		/* cut from a terminal? what are you talking about */
@@ -2851,17 +3018,17 @@ cut_callback (GSimpleAction *action, GVariant *param, gpointer data)
 
 
 static void
-copy_callback (GSimpleAction *action, GVariant *param, gpointer data)
+copy_callback (GtkWidget *wparam, gpointer data)
 {
 	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (genius_notebook));
-	GtkWidget *w;
+	GtkWidget *pg;
 	Program *p;
 
 	if (page < 0)
 		return;
 
-	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
-	p = g_object_get_data (G_OBJECT (w), "program");
+	pg = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
+	p = g_object_get_data (G_OBJECT (pg), "program");
 
 	if (p == NULL) {
 	        vte_terminal_copy_clipboard_format (VTE_TERMINAL (term),
@@ -2874,17 +3041,17 @@ copy_callback (GSimpleAction *action, GVariant *param, gpointer data)
 }
 
 static void
-paste_callback (GSimpleAction *action, GVariant *param, gpointer data)
+paste_callback (GtkWidget *wparam, gpointer data)
 {
 	int page = gtk_notebook_get_current_page (GTK_NOTEBOOK (genius_notebook));
-	GtkWidget *w;
+	GtkWidget *pg;
 	Program *p;
 
 	if (page < 0)
 		return;
 
-	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
-	p = g_object_get_data (G_OBJECT (w), "program");
+	pg = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), page);
+	p = g_object_get_data (G_OBJECT (pg), "program");
 
 	if (p == NULL) {
 		vte_terminal_paste_clipboard (VTE_TERMINAL (term));
@@ -2961,7 +3128,7 @@ copy_answer (void)
 
 
 static void
-copy_as_plain (GSimpleAction *action, GVariant *param, gpointer data)
+copy_as_plain (GtkWidget *w, gpointer data)
 {
 	if (gel_calc_running) {
 		executing_warning ();
@@ -2980,7 +3147,7 @@ copy_as_plain (GSimpleAction *action, GVariant *param, gpointer data)
 }
 
 static void
-copy_as_latex (GSimpleAction *action, GVariant *param, gpointer data)
+copy_as_latex (GtkWidget *w, gpointer data)
 {
 	if (gel_calc_running) {
 		executing_warning ();
@@ -2999,7 +3166,7 @@ copy_as_latex (GSimpleAction *action, GVariant *param, gpointer data)
 }
 
 static void
-copy_as_troff (GSimpleAction *action, GVariant *param, gpointer data)
+copy_as_troff (GtkWidget *w, gpointer data)
 {
 	if (gel_calc_running) {
 		executing_warning ();
@@ -3018,7 +3185,7 @@ copy_as_troff (GSimpleAction *action, GVariant *param, gpointer data)
 }
 
 static void
-copy_as_mathml (GSimpleAction *action, GVariant *param, gpointer data)
+copy_as_mathml (GtkWidget *w, gpointer data)
 {
 	if (gel_calc_running) {
 		executing_warning ();
@@ -3073,19 +3240,19 @@ setup_label (Program *p)
 }
 
 static void
-next_tab (GSimpleAction *action, GVariant *param, gpointer data)
+next_tab (GtkWidget *w, gpointer data)
 {
 	gtk_notebook_next_page (GTK_NOTEBOOK (genius_notebook));
 }
 
 static void
-prev_tab (GSimpleAction *action, GVariant *param, gpointer data)
+prev_tab (GtkWidget *w, gpointer data)
 {
 	gtk_notebook_prev_page (GTK_NOTEBOOK (genius_notebook));
 }
 
 static void
-show_console (GSimpleAction *action, GVariant *param, gpointer data)
+show_console (GtkWidget *w, gpointer data)
 {
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (genius_notebook),
 	                               get_console_pagenum ());
@@ -3236,7 +3403,7 @@ get_contents_vfs (const char *filename)
 }
 
 static void
-reload_cb (GSimpleAction *action, GVariant *param, gpointer data)
+reload_cb (GtkWidget *w, gpointer data)
 {
 	GtkTextIter iter, iter_end;
 	char *contents;
@@ -3402,10 +3569,12 @@ whack_program (Program *p)
 	if (selected_program == p) {
 		p->selected = FALSE;
 		selected_program = NULL;
-		enable_action ("reload", FALSE);
-		enable_action ("save", FALSE);
-		enable_action ("save-as", FALSE);
-		enable_action ("run", FALSE);
+		enable_menuitem ("app.reload", FALSE);
+		enable_menuitem ("app.save", FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (save_tb_button), FALSE);
+		enable_menuitem ("app.save-as", FALSE);
+		enable_menuitem ("app.run", FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (run_tb_button), FALSE);
 	}
 	g_free (p->name);
 	g_free (p->vname);
@@ -3632,7 +3801,7 @@ new_program (const char *filename, gboolean example)
 }
 
 static void
-new_callback (GSimpleAction *action, GVariant *param, gpointer data)
+new_callback (GtkWidget *w, gpointer data)
 {
 	new_program (NULL, FALSE);
 }
@@ -3665,7 +3834,7 @@ open_response_cb (GtkFileChooser *fs, int response, gpointer data)
 }
 
 static void
-open_callback (GSimpleAction *action, GVariant *param, gpointer data)
+open_callback (GtkWidget *w, gpointer data)
 {
 	if (open_fs != NULL) {
 		/* FIXME: fake window present */
@@ -3735,8 +3904,9 @@ save_program (Program *p, const char *new_fname, GError **error)
 	p->changed = FALSE;
 
 	if (selected_program == p) {
-	        enable_action ("reload", TRUE);
-	        enable_action ("save", TRUE);
+	        enable_menuitem ("app.reload", TRUE);
+	        enable_menuitem ("app.save", TRUE);
+		gtk_widget_set_sensitive (GTK_WIDGET (save_tb_button), TRUE);
 	}
 
 	setup_label (p);
@@ -3745,7 +3915,7 @@ save_program (Program *p, const char *new_fname, GError **error)
 }
 
 static void
-save_callback (GSimpleAction *action, GVariant *param, gpointer data)
+save_callback (GtkWidget *w, gpointer data)
 {
 	GError *error = NULL;
 
@@ -3774,7 +3944,7 @@ save_callback (GSimpleAction *action, GVariant *param, gpointer data)
 }
 
 static void
-save_all_cb (GSimpleAction *action, GVariant *param, gpointer data)
+save_all_cb (GtkWidget *w, gpointer data)
 {
 	int n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (genius_notebook));
 	int i;
@@ -3783,9 +3953,9 @@ save_all_cb (GSimpleAction *action, GVariant *param, gpointer data)
 	gboolean there_are_readonly_modified = FALSE;
 
 	for (i = 0; i < n; i++) {
-		GtkWidget *w = gtk_notebook_get_nth_page
+		GtkWidget *page = gtk_notebook_get_nth_page
 			(GTK_NOTEBOOK (genius_notebook), i);
-		Program *p = g_object_get_data (G_OBJECT (w), "program");
+		Program *p = g_object_get_data (G_OBJECT (page), "program");
 		if (p == NULL) /* console */
 			continue;
 
@@ -3889,7 +4059,7 @@ save_as_response_cb (GtkFileChooser *fs, int response, gpointer data)
 }
 
 static void
-save_as_callback (GSimpleAction *action, GVariant *param, gpointer data)
+save_as_callback (GtkWidget *w, gpointer data)
 {
 	/* sanity */
 	if (selected_program == NULL)
@@ -4021,7 +4191,7 @@ save_console_response_cb (GtkFileChooser *fs, int response, gpointer data)
 }
 
 static void
-save_console_cb (GSimpleAction *action, GVariant *param, gpointer data)
+save_console_cb (GtkWidget *w, gpointer data)
 {
 	if (save_console_fs != NULL) {
 		/* FIXME: fake window present */
@@ -4060,13 +4230,13 @@ save_console_cb (GSimpleAction *action, GVariant *param, gpointer data)
 
 
 static void
-close_callback (GSimpleAction *action, GVariant *param, gpointer data)
+close_callback (GtkWidget *w, gpointer data)
 {
-	GtkWidget *w;
+	GtkWidget *page;
 	Program *p;
 	int current = gtk_notebook_get_current_page (GTK_NOTEBOOK (genius_notebook));
-	w = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), current);
-	p = g_object_get_data (G_OBJECT (w), "program");
+	page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (genius_notebook), current);
+	p = g_object_get_data (G_OBJECT (page), "program");
 	if (p == NULL) /* if the console */
 		return;
 
@@ -4224,7 +4394,7 @@ run_program_idle (gpointer data)
 }
 
 static void
-run_program (GSimpleAction *action, GVariant *param, gpointer data)
+run_program (GtkWidget *w, gpointer data)
 {
 	g_idle_add (run_program_idle, NULL);
 }
@@ -4232,10 +4402,7 @@ run_program (GSimpleAction *action, GVariant *param, gpointer data)
 static gboolean
 delete_event (GtkWidget *w, GdkEventAny *e, gpointer data)
 {
-	GActionMap *map = G_ACTION_MAP (data);
-
-	g_action_activate (g_action_map_lookup_action (map, "quit"), NULL);
-	return TRUE;
+	return ! quitapp_ask ();
 }
 
 static void
@@ -4248,6 +4415,11 @@ create_main_window (GtkWidget *notebook, GApplication *app)
 	int height;
 
 	genius_window = gtk_application_window_new (GTK_APPLICATION (app));
+
+	genius_accel_group = gtk_accel_group_new ();
+	gtk_window_add_accel_group (GTK_WINDOW (genius_window), genius_accel_group);
+
+	genius_menu_items = g_hash_table_new (g_str_hash, g_str_equal);
 
 	s = g_strdup_printf (_("Genius %s"), VERSION);
 	gtk_window_set_title (GTK_WINDOW (genius_window), s);
@@ -4269,7 +4441,7 @@ create_main_window (GtkWidget *notebook, GApplication *app)
 	gtk_window_set_default_size (GTK_WINDOW (genius_window), width, height);
 
         g_signal_connect (G_OBJECT (genius_window), "delete_event",
-        		  G_CALLBACK (delete_event), app);
+        		  G_CALLBACK (delete_event), NULL);
 }
 
 static void
@@ -4516,7 +4688,7 @@ catch_interrupts (GtkWidget *w, GdkEvent *e)
 	    e->key.keyval == GDK_KEY_c &&
 #endif
 	    e->key.state & GDK_CONTROL_MASK) {
-		genius_interrupt_calc (NULL, NULL, NULL);
+		genius_interrupt_calc ();
 		return TRUE;
 	}
 	return FALSE;
@@ -4788,7 +4960,7 @@ selection_changed (void)
 	if (page == 0) {
 		gboolean can_copy =
 			vte_terminal_get_has_selection (VTE_TERMINAL (term));
-		enable_action ("copy", can_copy);
+		enable_menuitem ("app.copy", can_copy);
 	}
 }
 
@@ -4803,16 +4975,18 @@ switch_page (GtkNotebook *notebook, gpointer page, guint page_num)
 
 	if (p == NULL) {
 		/* console */
-		enable_action ("close", FALSE);
+		enable_menuitem ("app.close", FALSE);
 		if (selected_program == NULL) {
-		        enable_action ("run", FALSE);
-		        enable_action ("reload", FALSE);
-		        enable_action ("save", FALSE);
-		        enable_action ("save-as", FALSE);
+		        enable_menuitem ("app.run", FALSE);
+			gtk_widget_set_sensitive (GTK_WIDGET (run_tb_button), FALSE);
+		        enable_menuitem ("app.reload", FALSE);
+		        enable_menuitem ("app.save", FALSE);
+			gtk_widget_set_sensitive (GTK_WIDGET (save_tb_button), FALSE);
+		        enable_menuitem ("app.save-as", FALSE);
 		}
 		/* selection changed updates the copy item sensitivity */
 		selection_changed ();
-		enable_action ("cut", FALSE);
+		enable_menuitem ("app.cut", FALSE);
 #ifdef HAVE_GTKSOURCEVIEW
 		setup_undo_redo ();
 #endif
@@ -4822,11 +4996,12 @@ switch_page (GtkNotebook *notebook, gpointer page, guint page_num)
 		char *s;
 
 		/* something else */
-		enable_action ("cut", TRUE);
-		enable_action ("copy", TRUE);
-		enable_action ("close", TRUE);
-		enable_action ("run", TRUE);
-		enable_action ("save-as", TRUE);
+		enable_menuitem ("app.cut", TRUE);
+		enable_menuitem ("app.copy", TRUE);
+		enable_menuitem ("app.close", TRUE);
+		enable_menuitem ("app.run", TRUE);
+		gtk_widget_set_sensitive (GTK_WIDGET (run_tb_button), TRUE);
+		enable_menuitem ("app.save-as", TRUE);
 
 		if (selected_program != NULL) {
 			selected_program->selected = FALSE;
@@ -4838,8 +5013,10 @@ switch_page (GtkNotebook *notebook, gpointer page, guint page_num)
 
 		setup_label (selected_program);
 
-		enable_action ("reload", selected_program->real_file);
-		enable_action ("save", selected_program->real_file);
+		enable_menuitem ("app.reload", selected_program->real_file);
+		enable_menuitem ("app.save", selected_program->real_file);
+		gtk_widget_set_sensitive (GTK_WIDGET (save_tb_button),
+					  selected_program->real_file);
 
 		gtk_statusbar_pop (GTK_STATUSBAR (genius_window_statusbar),
 				   0 /* context */);
@@ -5196,8 +5373,8 @@ activate (GApplication *app, gpointer data)
 					  G_CALLBACK (simple_menu_item_select_cb), 
 					  plug->description);
 			g_signal_connect (item, "deselect",
-					  G_CALLBACK (simple_menu_item_deselect_cb), 
-					  plug->description);
+					  G_CALLBACK (simple_menu_item_deselect_cb),
+					  NULL);
 			gtk_widget_show (item);
 			g_signal_connect (G_OBJECT (item), "activate",
 					  G_CALLBACK (open_plugin_cb), plug);
@@ -5315,7 +5492,7 @@ activate (GApplication *app, gpointer data)
 						  exam->name);
 				g_signal_connect (item, "deselect",
 						  G_CALLBACK (simple_menu_item_deselect_cb), 
-						  exam->name);
+						  NULL);
 				gtk_widget_show (item);
 				g_signal_connect (G_OBJECT (item), "activate",
 						  G_CALLBACK (open_example_cb), exam);
@@ -5335,64 +5512,7 @@ activate (GApplication *app, gpointer data)
 static void
 startup (GApplication *app, gpointer data)
 {
-	const GActionEntry entries[] = {
-	        { "new", new_callback },
-	        { "open", open_callback },
-	        { "save", save_callback },
-	        { "save-all", save_all_cb },
-	        { "save-as", save_as_callback },
-	        { "reload", reload_cb },
-	        { "close", close_callback },
-	        { "load-run", load_cb },
-	        { "save-console", save_console_cb },
-	        { "quit", quitapp },
-#ifdef HAVE_GTKSOURCEVIEW
-	        { "undo", undo_callback },
-	        { "redo", redo_callback },
-#endif
-	        { "cut", cut_callback },
-	        { "copy", copy_callback },
-	        { "paste", paste_callback },
-	        { "copy-plain", copy_as_plain },
-	        { "copy-latex", copy_as_latex },
-	        { "copy-mathml", copy_as_mathml },
-	        { "copy-troff", copy_as_troff },
-	        { "run", run_program },
-	        { "stop", genius_interrupt_calc },
-	        { "answer", full_answer },
-	        { "vars", show_user_vars },
-	        { "monitor", monitor_user_var },
-	        { "plot", genius_plot_dialog },
-	        { "next", next_tab },
-	        { "previous", prev_tab },
-	        { "console", show_console },
-	        { "prefs", setup_calc },
-	        { "help", help_cb },
-	        { "help-func", help_on_function },
-	        { "warranty", warranty_call },
-	        { "about", aboutcb },
-	        { NULL }
-	};
-
 	g_set_application_name (_("GNOME Genius"));
-
-	g_assert (info_store == NULL);
-	info_store = amtk_action_info_store_new ();
-
-	amtk_action_info_store_add_entries (info_store, file_entries,
-	                                    -1, GETTEXT_PACKAGE);
-	amtk_action_info_store_add_entries (info_store, edit_entries,
-	                                    -1, GETTEXT_PACKAGE);
-	amtk_action_info_store_add_entries (info_store, calc_entries,
-	                                    -1, GETTEXT_PACKAGE);
-	amtk_action_info_store_add_entries (info_store, prog_entries,
-	                                    -1, GETTEXT_PACKAGE);
-	amtk_action_info_store_add_entries (info_store, pref_entries,
-	                                    -1, GETTEXT_PACKAGE);
-	amtk_action_info_store_add_entries (info_store, help_entries,
-	                                    -1, GETTEXT_PACKAGE);
-	amtk_action_map_add_action_entries_check_dups (G_ACTION_MAP (app),
-	                                               entries, -1, app);
 }
 
 int
@@ -5407,7 +5527,6 @@ main (int argc, char *argv[])
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	amtk_init ();
 #ifdef HAVE_GTKSOURCEVIEW
 	gtk_source_init ();
 #endif
@@ -5424,13 +5543,11 @@ main (int argc, char *argv[])
 	                  G_CALLBACK (loadup_files_from_cmdline), NULL);
 	status = g_application_run (G_APPLICATION (genius_app), argc, argv);
 
-	amtk_finalize ();
 #ifdef HAVE_GTKSOURCEVIEW
 	gtk_source_finalize ();
 #endif
 	g_object_unref (genius_app);
 	genius_app = NULL;
-	g_clear_object (&info_store);
 
 	/* if we actually started up */
 	if (genius_datadir != NULL) {

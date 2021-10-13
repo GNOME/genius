@@ -1,4 +1,4 @@
-AC_INIT([genius], [1.0.26])
+AC_INIT([genius], [1.0.27])
 #AX_IS_RELEASE([git-directory])
 AX_IS_RELEASE([always])
 AC_CONFIG_SRCDIR([src/calc.c])
@@ -126,7 +126,7 @@ PKG_CHECK_MODULES(GLIB, glib-2.0 >= $GLIB_REQUIRED)
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
-GENIUS_MODULES="amtk-5 gtk+-3.0 >= $GTK_REQUIRED gio-2.0 >= $GIO_REQUIRED vte-2.91 >= $VTE_REQUIRED"
+GENIUS_MODULES="gtk+-3.0 >= $GTK_REQUIRED gio-2.0 >= $GIO_REQUIRED vte-2.91 >= $VTE_REQUIRED"
 
 if test "x$use_gnome" = "xyes" ; then
   echo " 

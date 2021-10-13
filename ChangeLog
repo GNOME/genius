@@ -1,3 +1,13 @@
+Wed Oct 13 00:39:40 2021  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/gnome-genius.[ch]. src/graphing.[ch]: Remove use of amtk and
+	  actually simplify the code in the process.  Also fix an inadvertant
+	  API break for plugins (though there are no extant plugins as
+	  far as I know).  Add Save toolbar item, fix window delete to act
+	  like the quit button
+
+	* configure.ac: remove amtk, raise version
+
 Thu Feb 18 17:20:08 2021  Jiri (George) Lebl <jirka@5z.com>
 
 	* Release 1.0.26
