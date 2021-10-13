@@ -176,6 +176,9 @@ enum {
 	TARGET_URI_LIST = 100
 };
 
+/* kate seems usable on various themes so we default to it */
+#define DEFAULT_COLOR_SCHEME "kate"
+
 #define TERMINAL_PALETTE_SIZE 16
 const GdkRGBA
 terminal_palette_black_on_white[TERMINAL_PALETTE_SIZE] =
@@ -2297,8 +2300,15 @@ optioncb (GtkWidget * widget, int *data)
 static void
 fontsetcb (GtkFontButton *fb, char **font)
 {
-	g_free(*font);
+	if (*font) g_free(*font);
 	*font = gtk_font_chooser_get_font (GTK_FONT_CHOOSER (fb));
+}
+
+static void
+scheme_changed_cb (GtkComboBoxText *cb, char **scheme)
+{
+	if (*scheme) g_free(*scheme);
+	*scheme = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cb));
 }
 
 
@@ -2355,7 +2365,33 @@ setup_response (GtkWidget *widget, gint resp, gpointer data)
 			 VTE_CURSOR_BLINK_SYSTEM :
 			 VTE_CURSOR_BLINK_OFF);
 
-		/* FIXME: if editor_color_scheme is added to dialog, it needs to be set here */
+#ifdef HAVE_GTKSOURCEVIEW
+		{
+			GtkSourceStyleSchemeManager *manager;
+			GtkSourceStyleScheme *style;
+			int i, n;
+
+			manager = gtk_source_style_scheme_manager_get_default ();
+			style = NULL;
+			if ( ! ve_string_empty (genius_setup.editor_color_scheme))
+				style = gtk_source_style_scheme_manager_get_scheme (manager,
+										    genius_setup.editor_color_scheme);
+			/* "kate" is the default */
+			if (style == NULL)
+				style = gtk_source_style_scheme_manager_get_scheme (manager, DEFAULT_COLOR_SCHEME);
+
+			n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (genius_notebook));
+			for (i = 0; i < n; i++) {
+				GtkWidget *page = gtk_notebook_get_nth_page
+					(GTK_NOTEBOOK (genius_notebook), i);
+				Program *p = g_object_get_data (G_OBJECT (page), "program");
+				if (p != NULL && p->buffer != NULL && style != NULL) {
+					gtk_source_buffer_set_style_scheme (GTK_SOURCE_BUFFER (p->buffer),
+									    style);
+				}
+			}
+		}
+#endif
 
 		if (resp == GTK_RESPONSE_OK ||
 		    resp == GTK_RESPONSE_CANCEL)
@@ -2400,6 +2436,10 @@ setup_calc (GtkWidget *ww, gpointer data)
 	notebookw = gtk_notebook_new ();
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (setupdialog))),
 			    notebookw, TRUE, TRUE, 0);
+
+	/*
+	 * Output tab
+	 */
 	
 	mainbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
 	gtk_container_set_border_width(GTK_CONTAINER(mainbox), GENIUS_PAD);
@@ -2576,6 +2616,9 @@ setup_calc (GtkWidget *ww, gpointer data)
 	g_signal_connect (G_OBJECT (adj), "value_changed",
 			  G_CALLBACK (intspincb),&tmpstate.max_errors);
 
+	/*
+	 * Precision tab
+	 */
 
 	mainbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
 	gtk_container_set_border_width(GTK_CONTAINER(mainbox), GENIUS_PAD);
@@ -2631,6 +2674,9 @@ setup_calc (GtkWidget *ww, gpointer data)
 				     _("Should the precision setting "
 				       "be remembered for next session."));
 
+	/*
+	 * Terminal tab
+	 */
 
 	mainbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
 	gtk_container_set_border_width(GTK_CONTAINER(mainbox), GENIUS_PAD);
@@ -2676,7 +2722,7 @@ setup_calc (GtkWidget *ww, gpointer data)
         w = gtk_font_button_new_with_font (ve_string_empty (tmpsetup.font) ?
 					   default_console_font :
 					   genius_setup.font);
-        gtk_box_pack_start (GTK_BOX (b), w, TRUE, TRUE, 0);
+        gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
         g_signal_connect (G_OBJECT (w), "font_set",
 			  G_CALLBACK (fontsetcb),
 			  &tmpsetup.font);
@@ -2697,6 +2743,67 @@ setup_calc (GtkWidget *ww, gpointer data)
 			  G_CALLBACK (optioncb),
 			  (gpointer)&tmpsetup.blinking_cursor);
 
+#ifdef HAVE_GTKSOURCEVIEW
+	/*
+	 * Editor tab
+	 */
+
+	mainbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
+	gtk_container_set_border_width(GTK_CONTAINER(mainbox), GENIUS_PAD);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebookw),
+				  mainbox,
+				  gtk_label_new(_("Editor")));
+	
+	frame=gtk_frame_new(_("Editor options"));
+	gtk_box_pack_start(GTK_BOX(mainbox),frame,FALSE,FALSE,0);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
+	gtk_container_set_border_width(GTK_CONTAINER(box), GENIUS_PAD);
+	gtk_container_add(GTK_CONTAINER(frame),box);
+	
+	b = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, GENIUS_PAD);
+	gtk_box_pack_start(GTK_BOX(box),b,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(b),
+		   gtk_label_new(_("Color scheme")),
+		   FALSE,FALSE,0);
+
+	{
+		const char * const * schemes;
+		int i;
+		int active = -1;
+		GtkSourceStyleSchemeManager *manager = gtk_source_style_scheme_manager_get_default ();
+
+		schemes = gtk_source_style_scheme_manager_get_scheme_ids (manager);
+
+		w = gtk_combo_box_text_new ();
+
+		for (i = 0; schemes != NULL && schemes[i] != NULL; i++) {
+			gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(w), NULL, schemes[i]);
+			if (strcmp (ve_sure_string (tmpsetup.editor_color_scheme), schemes[i]) == 0 ||
+			    (ve_string_empty (tmpsetup.editor_color_scheme) &&
+			     strcmp (schemes[i], DEFAULT_COLOR_SCHEME)== 0)) {
+				active = i;
+			}
+		}
+		if (active < 0) {
+			/* This should not happen */
+			gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT(w), NULL, ve_sure_string(tmpsetup.editor_color_scheme));
+			active = i;
+		}
+
+		gtk_combo_box_set_active (GTK_COMBO_BOX (w), active);
+
+		g_signal_connect (G_OBJECT (w), "changed",
+				  G_CALLBACK (scheme_changed_cb),
+				  &tmpsetup.editor_color_scheme);
+        	
+		gtk_box_pack_start (GTK_BOX (b), w, FALSE, FALSE, 0);
+	}
+
+#endif
+
+	/*
+	 * Memory tab
+	 */
 
 	mainbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, GENIUS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (mainbox), GENIUS_PAD);
@@ -3669,7 +3776,6 @@ new_program (const char *filename, gboolean example)
 			(GTK_SOURCE_BUFFER (buffer), lang);
 	}
 
-	/* kate seems usable on various themes.  Perhaps this should be settable */
 	manager = gtk_source_style_scheme_manager_get_default ();
 	style = NULL;
 	if ( ! ve_string_empty (genius_setup.editor_color_scheme))
@@ -3677,7 +3783,7 @@ new_program (const char *filename, gboolean example)
 								    genius_setup.editor_color_scheme);
 	/* "kate" is the default */
 	if (style == NULL)
-		style = gtk_source_style_scheme_manager_get_scheme (manager, "kate");
+		style = gtk_source_style_scheme_manager_get_scheme (manager, DEFAULT_COLOR_SCHEME);
 	if (style != NULL) {
 		gtk_source_buffer_set_style_scheme (GTK_SOURCE_BUFFER (buffer),
 						    style);
