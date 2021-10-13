@@ -816,6 +816,7 @@ replacenode(GelETree *to, GelETree *from)
 {
 	GelETree *next = to->any.next;
 	freetree_full(to,TRUE,FALSE);
+	g_assert(from != NULL);
 	memcpy(to,from,sizeof(GelETree));
 
 #ifdef MEM_DEBUG_FRIENDLY
