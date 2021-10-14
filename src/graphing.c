@@ -348,6 +348,7 @@ static void slopefield_draw_solution (double x, double y, double dx, gboolean is
 static void vectorfield_draw_solution (double x, double y, double dt, double tlen, gboolean is_gui);
 
 static void set_lineplot_labels (void);
+static void set_solver_labels (void);
 static void set_surface_labels (void);
 
 static gboolean get_number_from_entry (GtkWidget *entry, GtkWidget *win, double *num);
@@ -2062,7 +2063,7 @@ solver_cb (GtkWidget *item, gpointer data)
 	g_free (def1);
 	g_free (def2);
 
-	set_lineplot_labels ();
+	set_solver_labels ();
 
 	gtk_widget_show_all (solver_dialog);
 }
@@ -5373,45 +5374,131 @@ static void
 set_lineplot_labels (void)
 {
 	char *s;
+	int i;
 
-	if (slopefield_info_label != NULL) {
-		s = g_strdup_printf (_("Type in function name or expression involving "
-				       "the %s and %s variables (or the %s variable which will be %s=%s+i%s) "
-				       "that gives the slope "
-				       "at the point (%s,%s)."),
-				     lp_x_name,
-				     lp_y_name,
-				     lp_z_name,
-				     lp_z_name,
-				     lp_x_name,
-				     lp_y_name,
-				     lp_x_name,
-				     lp_y_name);
-		gtk_label_set_text (GTK_LABEL (slopefield_info_label), s);
-		g_free (s);
-	}
+	if (plot_dialog == NULL)
+		return;
 
-	if (slopefield_der_label != NULL) {
-		s = g_strdup_printf ("d%s/d%s=",
-				     lp_y_name,
-				     lp_x_name);
-		gtk_label_set_text (GTK_LABEL (slopefield_der_label), s);
-		g_free (s);
-	}
+	s = g_strdup_printf (_("Type in function name or expression involving "
+			       "the %s and %s variables (or the %s variable which will be %s=%s+i%s) "
+			       "that gives the slope "
+			       "at the point (%s,%s)."),
+			     lp_x_name,
+			     lp_y_name,
+			     lp_z_name,
+			     lp_z_name,
+			     lp_x_name,
+			     lp_y_name,
+			     lp_x_name,
+			     lp_y_name);
+	gtk_label_set_text (GTK_LABEL (slopefield_info_label), s);
+	g_free (s);
 
-	if (lineplot_x_range_label != NULL) {
-		s = g_strdup_printf (_("%s from:"),
-				     lp_x_name);
-		gtk_label_set_text (GTK_LABEL (lineplot_x_range_label), s);
-		g_free (s);
-	}
+	s = g_strdup_printf ("d%s/d%s=",
+			     lp_y_name,
+			     lp_x_name);
+	gtk_label_set_text (GTK_LABEL (slopefield_der_label), s);
+	g_free (s);
 
-	if (lineplot_y_range_label != NULL) {
-		s = g_strdup_printf (_("%s from:"),
-				     lp_y_name);
-		gtk_label_set_text (GTK_LABEL (lineplot_y_range_label), s);
-		g_free (s);
+	s = g_strdup_printf (_("%s from:"),
+			     lp_x_name);
+	gtk_label_set_text (GTK_LABEL (lineplot_x_range_label), s);
+	g_free (s);
+
+	s = g_strdup_printf (_("%s from:"),
+			     lp_y_name);
+	gtk_label_set_text (GTK_LABEL (lineplot_y_range_label), s);
+	g_free (s);
+
+	s = g_strdup_printf (_("Type in function names or expressions involving "
+			       "the %s and %s variables (or the %s variable which will be %s=%s+i%s) "
+			       "that give the d%s/d%s and d%s/d%s of the autonomous system to be plotted "
+			       "at the point (%s,%s)."),
+			     lp_x_name,
+			     lp_y_name,
+			     lp_z_name,
+			     lp_z_name,
+			     lp_x_name,
+			     lp_y_name,
+			     lp_x_name,
+			     lp_t_name,
+			     lp_y_name,
+			     lp_t_name,
+			     lp_x_name,
+			     lp_y_name);
+	gtk_label_set_text (GTK_LABEL (vectorfield_info_label), s);
+	g_free (s);
+
+	s = g_strdup_printf ("d%s/d%s=",
+			     lp_x_name,
+			     lp_t_name);
+	gtk_label_set_text (GTK_LABEL (vectorfield_xder_label), s);
+	g_free (s);
+
+	s = g_strdup_printf ("d%s/d%s=",
+			     lp_y_name,
+			     lp_t_name);
+	gtk_label_set_text (GTK_LABEL (vectorfield_yder_label), s);
+	g_free (s);
+
+	s = g_strdup_printf (_("Type in function names or expressions involving "
+			       "the %s variable in the boxes below to graph "
+			       "them"), lp_x_name);
+	gtk_label_set_text (GTK_LABEL (lineplot_info_label), s);
+	g_free (s);
+
+	s = g_strdup_printf ("%s=", lp_y_name);
+	for (i = 0; i < MAXFUNC; i++) {
+		gtk_label_set_text (GTK_LABEL (plot_y_labels[i]), s);
 	}
+	g_free (s);
+
+	s = g_strdup_printf (_("Type in function names or expressions involving "
+			       "the %s variable in the boxes below to graph "
+			       "them.  Either fill in both boxes with %s= and %s= "
+			       "in front of them giving the %s and %s coordinates "
+			       "separately, or alternatively fill in the %s= box "
+			       "giving %s and %s as the real and imaginary part of "
+			       "a complex number."),
+			     lp_t_name,
+			     lp_x_name,
+			     lp_y_name,
+			     lp_x_name,
+			     lp_y_name,
+			     lp_z_name,
+			     lp_x_name,
+			     lp_y_name);
+	gtk_label_set_text (GTK_LABEL (parametric_info_label), s);
+	g_free (s);
+
+	s = g_strdup_printf ("%s=",
+			     lp_x_name);
+	gtk_label_set_text (GTK_LABEL (parametric_x_label), s);
+	g_free (s);
+
+	s = g_strdup_printf ("%s=",
+			     lp_y_name);
+	gtk_label_set_text (GTK_LABEL (parametric_y_label), s);
+	g_free (s);
+
+	s = g_strdup_printf ("%s=",
+			     lp_z_name);
+	gtk_label_set_text (GTK_LABEL (parametric_z_label), s);
+	g_free (s);
+
+	s = g_strdup_printf (_("Parameter %s from:"),
+			     lp_t_name);
+	gtk_label_set_text (GTK_LABEL (parametric_trange_label), s);
+	g_free (s);
+}
+
+static void
+set_solver_labels (void)
+{
+	char *s;
+
+	if (solver_dialog == NULL)
+		return;
 
 	if (solver_xinc_label != NULL) {
 		s = g_strdup_printf (_("%s increment:"),
@@ -5447,106 +5534,6 @@ set_lineplot_labels (void)
 		gtk_label_set_text (GTK_LABEL (solver_y_pt_label), s);
 		g_free (s);
 	}
-	if (vectorfield_info_label != NULL) {
-		s = g_strdup_printf (_("Type in function names or expressions involving "
-				       "the %s and %s variables (or the %s variable which will be %s=%s+i%s) "
-				       "that give the d%s/d%s and d%s/d%s of the autonomous system to be plotted "
-				       "at the point (%s,%s)."),
-				     lp_x_name,
-				     lp_y_name,
-				     lp_z_name,
-				     lp_z_name,
-				     lp_x_name,
-				     lp_y_name,
-				     lp_x_name,
-				     lp_t_name,
-				     lp_y_name,
-				     lp_t_name,
-				     lp_x_name,
-				     lp_y_name);
-		gtk_label_set_text (GTK_LABEL (vectorfield_info_label), s);
-		g_free (s);
-	}
-
-	if (vectorfield_xder_label != NULL) {
-		s = g_strdup_printf ("d%s/d%s=",
-				     lp_x_name,
-				     lp_t_name);
-		gtk_label_set_text (GTK_LABEL (vectorfield_xder_label), s);
-		g_free (s);
-	}
-	if (vectorfield_yder_label != NULL) {
-		s = g_strdup_printf ("d%s/d%s=",
-				     lp_y_name,
-				     lp_t_name);
-		gtk_label_set_text (GTK_LABEL (vectorfield_yder_label), s);
-		g_free (s);
-	}
-
-	if (lineplot_info_label != NULL) {
-		s = g_strdup_printf (_("Type in function names or expressions involving "
-				       "the %s variable in the boxes below to graph "
-				       "them"), lp_x_name);
-		gtk_label_set_text (GTK_LABEL (lineplot_info_label), s);
-		g_free (s);
-	}
-
-	if (plot_y_labels[0] != NULL) {
-		int i;
-		s = g_strdup_printf ("%s=", lp_y_name);
-		for (i = 0; i < MAXFUNC; i++) {
-			gtk_label_set_text (GTK_LABEL (plot_y_labels[i]), s);
-		}
-		g_free (s);
-	}
-
-	if (parametric_info_label != NULL) {
-		s = g_strdup_printf (_("Type in function names or expressions involving "
-				       "the %s variable in the boxes below to graph "
-				       "them.  Either fill in both boxes with %s= and %s= "
-				       "in front of them giving the %s and %s coordinates "
-				       "separately, or alternatively fill in the %s= box "
-				       "giving %s and %s as the real and imaginary part of "
-				       "a complex number."),
-				     lp_t_name,
-				     lp_x_name,
-				     lp_y_name,
-				     lp_x_name,
-				     lp_y_name,
-				     lp_z_name,
-				     lp_x_name,
-				     lp_y_name);
-		gtk_label_set_text (GTK_LABEL (parametric_info_label), s);
-		g_free (s);
-	}
-
-	if (parametric_x_label != NULL) {
-		s = g_strdup_printf ("%s=",
-				     lp_x_name);
-		gtk_label_set_text (GTK_LABEL (parametric_x_label), s);
-		g_free (s);
-	}
-
-	if (parametric_y_label != NULL) {
-		s = g_strdup_printf ("%s=",
-				     lp_y_name);
-		gtk_label_set_text (GTK_LABEL (parametric_y_label), s);
-		g_free (s);
-	}
-
-	if (parametric_z_label != NULL) {
-		s = g_strdup_printf ("%s=",
-				     lp_z_name);
-		gtk_label_set_text (GTK_LABEL (parametric_z_label), s);
-		g_free (s);
-	}
-
-	if (parametric_trange_label != NULL) {
-		s = g_strdup_printf (_("Parameter %s from:"),
-				     lp_t_name);
-		gtk_label_set_text (GTK_LABEL (parametric_trange_label), s);
-		g_free (s);
-	}
 }
 
 static void
@@ -5554,35 +5541,32 @@ set_surface_labels (void)
 {
 	char *s;
 
-	if (surface_info_label != NULL) {
-		s = g_strdup_printf
-			(_("Type a function name or an expression involving "
-			   "the %s and %s variables (or the %s variable which will be %s=%s+i%s) "
-			   "in the boxes below to graph them.  Functions with one argument only "
-			   "will be passed a complex number."),
-			 sp_x_name,
-			 sp_y_name,
-			 sp_z_name,
-			 sp_z_name,
-			 sp_x_name,
-			 sp_y_name);
-		gtk_label_set_text (GTK_LABEL (surface_info_label), s);
-		g_free (s);
-	}
+	if (plot_dialog == NULL)
+		return;
 
-	if (surface_x_range_label != NULL) {
-		s = g_strdup_printf (_("%s from:"),
-				     sp_x_name);
-		gtk_label_set_text (GTK_LABEL (surface_x_range_label), s);
-		g_free (s);
-	}
+	s = g_strdup_printf
+		(_("Type a function name or an expression involving "
+		   "the %s and %s variables (or the %s variable which will be %s=%s+i%s) "
+		   "in the boxes below to graph them.  Functions with one argument only "
+		   "will be passed a complex number."),
+		 sp_x_name,
+		 sp_y_name,
+		 sp_z_name,
+		 sp_z_name,
+		 sp_x_name,
+		 sp_y_name);
+	gtk_label_set_text (GTK_LABEL (surface_info_label), s);
+	g_free (s);
 
-	if (surface_y_range_label != NULL) {
-		s = g_strdup_printf (_("%s from:"),
-				     sp_y_name);
-		gtk_label_set_text (GTK_LABEL (surface_y_range_label), s);
-		g_free (s);
-	}
+	s = g_strdup_printf (_("%s from:"),
+			     sp_x_name);
+	gtk_label_set_text (GTK_LABEL (surface_x_range_label), s);
+	g_free (s);
+
+	s = g_strdup_printf (_("%s from:"),
+			     sp_y_name);
+	gtk_label_set_text (GTK_LABEL (surface_y_range_label), s);
+	g_free (s);
 }
 
 static char *
@@ -5725,6 +5709,7 @@ run_dialog_again:
 	gtk_widget_destroy (req);
 
 	set_lineplot_labels ();
+	set_solver_labels ();
 }
 
 static void
@@ -8500,14 +8485,22 @@ gel_plot_canvas_thaw_completely (void)
 	if (plot_canvas_freeze_count > 0) {
 		plot_canvas_freeze_count = 0;
 		if (plot_canvas != NULL /* sanity */) {
+			plot_in_progress ++;
+			gel_calc_running ++;
 			gtk_plot_canvas_thaw (GTK_PLOT_CANVAS (plot_canvas));
 			gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 			gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+			plot_in_progress --;
+			gel_calc_running --;
+
 			/* a hook will get called eventually, no need to call it now,
 			 * this only gets called once we're about to be idle and get out of
 			 * computation */
 		}
 	}
+	
+	/*always do setup */
+	plot_window_setup ();
 }
 
 static gboolean
@@ -10621,6 +10614,7 @@ set_LinePlotVariableNames (GelETree * a)
 	lp_t_name = g_strdup (st);
 
 	set_lineplot_labels ();
+	set_solver_labels ();
 
 	return make_matrix_from_lp_varnames ();
 }

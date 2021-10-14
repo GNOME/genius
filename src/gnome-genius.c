@@ -3334,8 +3334,8 @@ setup_label (Program *p)
 	g_assert (p != NULL);
 
 	if (p->selected) {
-		pre = "<b>";
-		post = "</b>";
+		pre = "<big>";
+		post = "</big>";
 	}
 
 	if (p->real_file &&
@@ -4782,10 +4782,17 @@ check_events (void)
 		gtk_main_iteration ();
 }
 
+static gboolean
+finished_exec_idle (gpointer data)
+{
+	gel_plot_canvas_thaw_completely ();
+	return FALSE;
+}
+
 static void
 finished_toplevel_exec (void)
 {
-	gel_plot_canvas_thaw_completely ();
+	g_idle_add (finished_exec_idle, NULL);
 }
 
 static void
