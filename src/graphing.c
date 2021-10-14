@@ -338,6 +338,9 @@ static void recompute_functions (gboolean fitting);
 /* surfaces */
 static void plot_surface_functions (gboolean do_window_present, gboolean fit_function);
 
+static void plot_freeze (void);
+static void plot_thaw (void);
+
 /* replot the slope/vector fields after zoom or other axis changing event */
 static void replot_fields (void);
 
@@ -476,7 +479,7 @@ plot_window_setup (void)
 			genius_unsetup_window_cursor (plot_canvas);
 
 		gtk_dialog_set_response_sensitive (GTK_DIALOG (graph_window),
-						   RESPONSE_STOP, plot_in_progress);
+						   RESPONSE_STOP, plot_in_progress || gel_calc_running);
 		gtk_widget_set_sensitive (plot_zoomout_item, ! plot_in_progress);
 		gtk_widget_set_sensitive (plot_zoomin_item, ! plot_in_progress);
 
@@ -818,7 +821,7 @@ graph_window_response (GtkWidget *w, int response, gpointer data)
 		} else {
 			gtk_widget_destroy (graph_window);
 		}
-	} else if (response == RESPONSE_STOP && plot_in_progress > 0) {
+	} else if (response == RESPONSE_STOP && (plot_in_progress > 0 || gel_calc_running > 0)) {
 		gel_interrupted = TRUE;
 	}
 }
@@ -5002,15 +5005,15 @@ plot_functions (gboolean do_window_present,
 		gtk_plot_canvas_thaw (GTK_PLOT_CANVAS (plot_canvas));
 		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 		gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
-
-		if (gel_evalnode_hook != NULL)
-			(*gel_evalnode_hook)();
 	}
 
 	gtk_plot_thaw (GTK_PLOT (line_plot));
 	plot_in_progress --;
 	gel_calc_running --;
 	plot_window_setup ();
+
+	if (gel_evalnode_hook != NULL)
+		(*gel_evalnode_hook)();
 }
 
 static void
@@ -8349,9 +8352,8 @@ SurfacePlotClear_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 static int plot_canvas_freeze_count = 0;
 
-static GelETree *
-PlotCanvasFreeze_op (GelCtx *ctx, GelETree * * a, int *exception)
-{
+static void
+plot_freeze (void) {
 	if (plot_canvas_freeze_count == 0) {
 		if (plot_canvas != NULL /* sanity */)
 			gtk_plot_canvas_freeze (GTK_PLOT_CANVAS (plot_canvas));
@@ -8359,25 +8361,43 @@ PlotCanvasFreeze_op (GelCtx *ctx, GelETree * * a, int *exception)
 
 	plot_canvas_freeze_count ++;
 
-	return gel_makenum_null ();
 }
 
 static GelETree *
-PlotCanvasThaw_op (GelCtx *ctx, GelETree * * a, int *exception)
+PlotCanvasFreeze_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	plot_freeze ();
+
+	return gel_makenum_null ();
+}
+
+static void
+plot_thaw (void)
 {
 	if (plot_canvas_freeze_count > 0) {
 		plot_canvas_freeze_count --;
 		if (plot_canvas_freeze_count == 0) {
 			if (plot_canvas != NULL /* sanity */) {
+				plot_in_progress ++;
+				gel_calc_running ++;
 				gtk_plot_canvas_thaw (GTK_PLOT_CANVAS (plot_canvas));
 				gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 				gtk_widget_queue_draw (GTK_WIDGET (plot_canvas));
+				plot_in_progress --;
+				gel_calc_running --;
+				plot_window_setup ();
 
 				if (gel_evalnode_hook != NULL)
 					(*gel_evalnode_hook)();
 			}
 		}
 	}
+}
+
+static GelETree *
+PlotCanvasThaw_op (GelCtx *ctx, GelETree * * a, int *exception)
+{
+	plot_thaw ();
 
 	return gel_makenum_null ();
 }

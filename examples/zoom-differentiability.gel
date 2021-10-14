@@ -1,0 +1,23 @@
+# Category: Calculus
+# Name: Differentiability of a function of two variables
+
+the_answer = AskButtons("Zoom into a...", "nondifferentiable function", "differentiable function");
+
+PlotWindowPresent(); # Make sure the window is raised
+
+SurfacePlotDrawLegends = false;
+
+# use standard variable names (in case they got reset)
+SurfacePlotVariableNames = ["x","y","z"];
+
+if the_answer == 1 then (
+     for n=1 to 100 do (
+        SurfacePlot(`(x,y)=if x!=0.0 or y!=0.0 then (y^3)/(x^2+y^2)+0.2*x^2-0.3*y^2 else 0.0,(0.95^n)*[-5,5,-5,5,-5,5]);
+        wait(0.02);
+    )
+) else if the_answer == 2 then (
+    for n=1 to 100 do (
+        SurfacePlot(`(x,y)=0.4*x+0.3*y+0.2*x^2-0.3*y^2,(0.95^n)*[-5,5,-5,5,-5,5]);
+        wait(0.02);
+    )
+)
