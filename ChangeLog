@@ -1,3 +1,9 @@
+Thu Oct 14 17:04:17 2021  Jiri (George) Lebl <jirka@5z.com>
+
+	* src/graphing.c: surface plots got recomputed twice, so only compute
+	  once and setup in the same way as when plotting data, except
+	  recomputing the data on zoom.
+
 Thu Oct 14 01:12:53 2021  Jiri (George) Lebl <jirka@5z.com>
 
 	* src/gnome-genius.c: Fix unsetting the stop button on script end,

@@ -337,6 +337,7 @@ static void recompute_functions (gboolean fitting);
 
 /* surfaces */
 static void plot_surface_functions (gboolean do_window_present, gboolean fit_function);
+static void recompute_surface_function (gboolean fitting);
 
 static void plot_freeze (void);
 static void plot_thaw (void);
@@ -2641,18 +2642,6 @@ surface_setup_axis (void)
 	gtk_plot_axis_thaw (z);
 }
 
-/* FIXME: perhaps should be smarter ? */
-static void
-surface_setup_steps (void)
-{
-	gtk_plot3d_set_xrange (GTK_PLOT3D (surface_plot), surfacex1, surfacex2);
-	gtk_plot3d_set_yrange (GTK_PLOT3D (surface_plot), surfacey1, surfacey2);
-	if (surface_data != NULL) {
-		gtk_plot_surface_set_xstep (GTK_PLOT_SURFACE (surface_data), (surfacex2-surfacex1)/30);
-		gtk_plot_surface_set_ystep (GTK_PLOT_SURFACE (surface_data), (surfacey2-surfacey1)/30);
-	}
-}
-
 static void
 surface_setup_gradient (void)
 {
@@ -2714,8 +2703,8 @@ plot_axis (void)
 		plot_miny = G_MAXDOUBLE/2;
 		plot_maxz = - G_MAXDOUBLE/2;
 		plot_minz = G_MAXDOUBLE/2;
+		recompute_surface_function (FALSE /* fit */);
 		surface_setup_axis ();
-		surface_setup_steps ();
 		if (surface_data != NULL)
 			gtk_plot_surface_build_mesh (GTK_PLOT_SURFACE (surface_data));
 		surface_setup_gradient ();
@@ -3121,12 +3110,16 @@ call_xy_or_z_function (GelEFunc *f, double x, double y, gboolean *ex)
 }
 
 
+/*
 static double
 surface_func_data (GtkPlot *plot, GtkPlotData *data, double x, double y, gboolean *error)
+*/
+static double
+surface_func_data (double x, double y, gboolean *error)
 {
 	static int hookrun = 0;
 	gboolean ex = FALSE;
-	double z, size;
+	double z;
 
 	if (error != NULL)
 		*error = FALSE;
@@ -3149,12 +3142,14 @@ surface_func_data (GtkPlot *plot, GtkPlotData *data, double x, double y, gboolea
 			plot_minz = z;
 	}
 
+	/*
 	size = surfacez1 - surfacez2;
 
 	if (z > (surfacez2+size*0.2) || z < (surfacez1-size*0.2)) {
 		if (error != NULL)
 			*error = TRUE;
 	}
+	*/
 
 
 	if G_UNLIKELY (hookrun++ >= 10) {
@@ -4787,6 +4782,72 @@ recompute_functions (gboolean fitting)
 }
 
 static void
+recompute_surface_function (gboolean fitting)
+{
+	gboolean error = FALSE;
+	double x, y;
+	int i, j, n;
+
+	/* only if plotting a function do we need to reset the min/max */
+	plot_maxz = - G_MAXDOUBLE/2;
+	plot_minz = G_MAXDOUBLE/2;
+
+	if (surface_data_x != NULL) g_free (surface_data_x);
+	if (surface_data_y != NULL) g_free (surface_data_y);
+	if (surface_data_z != NULL) g_free (surface_data_z);
+	surface_data_x = (double *)g_malloc((30*30 + 1) * sizeof(double));
+	surface_data_y = (double *)g_malloc((30*30 + 1) * sizeof(double));
+	surface_data_z = (double *)g_malloc((30*30 + 1) * sizeof(double));
+
+	/* FIXME: 30 should be configurable! */
+	n = 0;
+	for (j = 0; j < 30; j++) {
+		if (j < 29)
+			y = surfacey1 + (j*(surfacey2-surfacey1))/30.0;
+		else
+			y = surfacey2;
+		for (i = 0; i < 30; i++) {
+			if (i < 29)
+				x = surfacex1 + (i*(surfacex2-surfacex1))/30.0;
+			else
+				x = surfacex2;
+
+			surface_data_x[n] = x;
+			surface_data_y[n] = y;
+			surface_data_z[n] = surface_func_data (x, y, &error);
+			n++;
+		}
+	}
+
+	surface_data_len = n;
+
+	if (fitting) {
+		double size = plot_maxz - plot_minz;
+		if (size <= 0)
+			size = 1.0;
+		surfacez1 = plot_minz - size * 0.05;
+		surfacez2 = plot_maxz + size * 0.05;
+		
+		/* sanity */
+		if (surfacez2 <= surfacez1)
+			surfacez2 = surfacez1 + 0.1;
+
+		/* sanity */
+		if (surfacez1 < -(G_MAXDOUBLE/2))
+			surfacez1 = -(G_MAXDOUBLE/2);
+		if (surfacez2 > (G_MAXDOUBLE/2))
+			surfacez2 = (G_MAXDOUBLE/2);
+	}
+
+	if (surface_data != NULL) {
+		gtk_plot_data_set_x (GTK_PLOT_DATA (surface_data), surface_data_x);
+		gtk_plot_data_set_y (GTK_PLOT_DATA (surface_data), surface_data_y);
+		gtk_plot_data_set_z (GTK_PLOT_DATA (surface_data), surface_data_z);
+		gtk_plot_data_set_numpoints (GTK_PLOT_DATA (surface_data), surface_data_len);
+	}
+}
+
+static void
 plot_functions (gboolean do_window_present,
 		gboolean from_gui,
 		gboolean fit)
@@ -5044,11 +5105,6 @@ plot_surface_functions (gboolean do_window_present, gboolean fit_function)
 	if (surfacez2 == surfacez1)
 		surfacez2 = surfacez1 + MINPLOT;
 
-	/* only if plotting a function do we need to reset the min/max */
-	if (surface_func != NULL) {
-		plot_maxz = - G_MAXDOUBLE/2;
-		plot_minz = G_MAXDOUBLE/2;
-	}
 
 	gtk_plot3d_reset_angles (GTK_PLOT3D (surface_plot));
 	gtk_plot3d_rotate_x (GTK_PLOT3D (surface_plot), 60.0);
@@ -5060,62 +5116,12 @@ plot_surface_functions (gboolean do_window_present, gboolean fit_function)
 		(*gel_evalnode_hook)();
 
 	if (surface_func != NULL) {
-		char *label;
+		recompute_surface_function (fit_function);
+	}
 
-		surface_data = GTK_PLOT_DATA
-			(gtk_plot_surface_new_function (surface_func_data));
-		gtk_plot_surface_use_amplitud (GTK_PLOT_SURFACE (surface_data), FALSE);
-		gtk_plot_surface_use_height_gradient (GTK_PLOT_SURFACE (surface_data), TRUE);
-		gtk_plot_surface_set_mesh_visible (GTK_PLOT_SURFACE (surface_data), TRUE);
-		if (surfaceplot_draw_legends) {
-			gtk_plot_data_gradient_set_visible (GTK_PLOT_DATA (surface_data), TRUE);
-			gtk_plot_data_show_legend (GTK_PLOT_DATA (surface_data));
-		} else {
-			gtk_plot_data_gradient_set_visible (GTK_PLOT_DATA (surface_data), FALSE);
-			gtk_plot_data_hide_legend (GTK_PLOT_DATA (surface_data));
-		}
-		gtk_plot_data_move_gradient (GTK_PLOT_DATA (surface_data),
-					     0.93, 0.15);
-		gtk_plot_axis_hide_title (GTK_PLOT_DATA (surface_data)->gradient);
-
-		gtk_plot_add_data (GTK_PLOT (surface_plot),
-				   surface_data);
-
-		surface_setup_steps ();
-
-		gtk_plot_surface_build_mesh (GTK_PLOT_SURFACE (surface_data));
-		/* plot_minz and plot_maxz are set in build_mesh
-		 * calling the function */
-
-		if (fit_function) {
-			double size = plot_maxz - plot_minz;
-			if (size <= 0)
-				size = 1.0;
-			surfacez1 = plot_minz - size * 0.05;
-			surfacez2 = plot_maxz + size * 0.05;
-			
-			/* sanity */
-			if (surfacez2 <= surfacez1)
-				surfacez2 = surfacez1 + 0.1;
-
-			/* sanity */
-			if (surfacez1 < -(G_MAXDOUBLE/2))
-				surfacez1 = -(G_MAXDOUBLE/2);
-			if (surfacez2 > (G_MAXDOUBLE/2))
-				surfacez2 = (G_MAXDOUBLE/2);
-		}
-
-		surface_setup_gradient ();
-
-		gtk_widget_show (GTK_WIDGET (surface_data));
-
-		label = label_func (-1, surface_func, /* FIXME: correct variable */ "...", surface_func_name);
-		gtk_plot_data_set_legend (surface_data, label);
-		g_free (label);
-	} else if (surface_data_x != NULL &&
-		   surface_data_y != NULL &&
-		   surface_data_z != NULL) {
-
+	if (surface_data_x != NULL &&
+	    surface_data_y != NULL &&
+	    surface_data_z != NULL) {
 		surface_data = GTK_PLOT_DATA (gtk_plot_surface_new ());
 		gtk_plot_surface_use_amplitud (GTK_PLOT_SURFACE (surface_data), FALSE);
 		gtk_plot_surface_use_height_gradient (GTK_PLOT_SURFACE (surface_data), TRUE);
@@ -5146,10 +5152,16 @@ plot_surface_functions (gboolean do_window_present, gboolean fit_function)
 		surface_setup_gradient ();
 
 		gtk_widget_show (GTK_WIDGET (surface_data));
+	}
 
-		if (surface_func_name)
+	if (surface_data != NULL) {
+		if (surface_func != NULL) {
+			char *label = label_func (-1, surface_func, /* FIXME: correct variable */ "...", surface_func_name);
+			gtk_plot_data_set_legend (surface_data, label);
+			g_free (label);
+		} else if (surface_func_name) {
 			gtk_plot_data_set_legend (surface_data, surface_func_name);
-		else
+		} else
 			gtk_plot_data_set_legend (surface_data, "");
 	}
 
@@ -5166,7 +5178,6 @@ plot_surface_functions (gboolean do_window_present, gboolean fit_function)
 		else
 			gtk_plot_hide_legends (GTK_PLOT (surface_plot));
 	}
-
 
 	/* could be whacked by closing the window or some such */
 	if (plot_canvas != NULL) {
@@ -6665,6 +6676,12 @@ surface_from_dialog (void)
 		g_free (surface_data_z);
 		surface_data_z = NULL;
 	}
+	/* just in case */
+	if (surface_data != NULL) {
+		gtk_plot_data_set_x (GTK_PLOT_DATA (surface_data), NULL);
+		gtk_plot_data_set_y (GTK_PLOT_DATA (surface_data), NULL);
+		gtk_plot_data_set_z (GTK_PLOT_DATA (surface_data), NULL);
+	}
 
 	/* setup name when the functions don't have their own name */
 	if (surface_func->id == NULL)
@@ -7444,6 +7461,12 @@ SurfacePlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 	if (surface_data_z != NULL) {
 		g_free (surface_data_z);
 		surface_data_z = NULL;
+	}
+	/* just in case */
+	if (surface_data != NULL) {
+		gtk_plot_data_set_x (GTK_PLOT_DATA (surface_data), NULL);
+		gtk_plot_data_set_y (GTK_PLOT_DATA (surface_data), NULL);
+		gtk_plot_data_set_z (GTK_PLOT_DATA (surface_data), NULL);
 	}
 
 	reset_surfacex1 = surfacex1 = x1;
@@ -8323,6 +8346,11 @@ SurfacePlotClear_op (GelCtx *ctx, GelETree * * a, int *exception)
 	if (surface_data_z != NULL) {
 		g_free (surface_data_z);
 		surface_data_z = NULL;
+	}
+	if (surface_data != NULL) {
+		gtk_plot_data_set_x (GTK_PLOT_DATA (surface_data), NULL);
+		gtk_plot_data_set_y (GTK_PLOT_DATA (surface_data), NULL);
+		gtk_plot_data_set_z (GTK_PLOT_DATA (surface_data), NULL);
 	}
 
 	plot_mode = MODE_SURFACE;
