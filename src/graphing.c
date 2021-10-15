@@ -2091,10 +2091,15 @@ plot_canvas_key_press_event (GtkWidget *widget, GdkEventKey *event, gpointer use
 		if (plot_mode == MODE_SURFACE &&
 		    surface_plot != NULL &&
 		    plot_in_progress == 0) {
+			plot_in_progress++;
 			gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 360-10);
 
 			gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 			gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+
+			while (gtk_events_pending ())
+				gtk_main_iteration ();
+			plot_in_progress--;
 		}
 		break;
 	case GDK_KEY_Right:
@@ -2103,10 +2108,15 @@ plot_canvas_key_press_event (GtkWidget *widget, GdkEventKey *event, gpointer use
 		if (plot_mode == MODE_SURFACE &&
 		    surface_plot != NULL &&
 		    plot_in_progress == 0) {
+			plot_in_progress++;
 			gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 10);
 
 			gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
 			gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+
+			while (gtk_events_pending ())
+				gtk_main_iteration ();
+			plot_in_progress--;
 		}
 		break;
 	default: break;
@@ -5141,10 +5151,6 @@ plot_surface_functions (gboolean do_window_present, gboolean fit_function)
 		gtk_plot_data_set_y (GTK_PLOT_DATA (surface_data), surface_data_y);
 		gtk_plot_data_set_z (GTK_PLOT_DATA (surface_data), surface_data_z);
 		gtk_plot_data_set_numpoints (GTK_PLOT_DATA (surface_data), surface_data_len);
-		gtk_plot_surface_build_mesh (GTK_PLOT_SURFACE (surface_data));
-
-		gtk_plot_surface_recalc_nodes (GTK_PLOT_SURFACE (surface_data));
-
 
 		gtk_plot_add_data (GTK_PLOT (surface_plot),
 				   surface_data);
@@ -5170,6 +5176,11 @@ plot_surface_functions (gboolean do_window_present, gboolean fit_function)
 	/* FIXME: this doesn't work (crashes) must fix in GtkExtra
 	gtk_plot3d_autoscale (GTK_PLOT3D (surface_plot));
 	*/
+
+	if (surface_data != NULL) {
+		gtk_plot_surface_build_mesh (GTK_PLOT_SURFACE (surface_data));
+	}
+
 
 	/* could be whacked by closing the window or some such */
 	if (surface_plot != NULL) {
