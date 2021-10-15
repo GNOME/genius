@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
-"POT-Creation-Date: 2021-10-13 05:40+0000\n"
-"PO-Revision-Date: 2021-10-13 09:10-0300\n"
+"POT-Creation-Date: 2021-10-13 22:47+0000\n"
+"PO-Revision-Date: 2021-10-15 19:42-0300\n"
 "Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
 "Language-Team: Português <ciampix at libero dot it>\n"
 "Language: pt\n"
@@ -120,7 +120,7 @@ msgstr ""
 msgid "Tolerance for InfiniteSum and InfiniteProduct"
 msgstr "Tolerância para InfiniteSum e InfiniteProduct"
 
-#: ../lib/library-strings.c:19 ../src/eval.c:6725
+#: ../lib/library-strings.c:19 ../src/eval.c:6726
 msgid "Absolute value"
 msgstr "Valor absoluto"
 
@@ -1427,7 +1427,7 @@ msgstr "Tentando definir um apelido para um apelido"
 msgid "Bad identifier for function node!"
 msgstr "Identificador inválido para o nó da função!"
 
-#: ../src/calc.c:1026 ../src/eval.c:7233 ../src/eval.c:7440
+#: ../src/calc.c:1026 ../src/eval.c:7234 ../src/eval.c:7441
 msgid "Unexpected operator!"
 msgstr "Operador inesperado!"
 
@@ -1450,7 +1450,7 @@ msgstr "Tipo de função inesperada!"
 msgid "NULL tree!"
 msgstr "Árvore NULA!"
 
-#: ../src/calc.c:1510 ../src/eval.c:7739
+#: ../src/calc.c:1510 ../src/eval.c:7740
 msgid "Unexpected node!"
 msgstr "Nó inesperado!"
 
@@ -1659,16 +1659,16 @@ msgstr "Valor de gravação inválido ao descompilar"
 msgid "Bad tree record when decompiling"
 msgstr "Registro de árvore inválido ao descompilar"
 
-#: ../src/eval.c:1562 ../src/eval.c:1619 ../src/eval.c:1634
+#: ../src/eval.c:1563 ../src/eval.c:1620 ../src/eval.c:1635
 msgid "Cannot compare non value or bool only matrices"
 msgstr "Não é possível comparar tipos sem valor ou booleanos, apenas matrizes"
 
 #. also on rationals but as integers
-#: ../src/eval.c:1690 ../src/eval.c:1736
+#: ../src/eval.c:1691 ../src/eval.c:1737
 msgid "Modulo arithmetic only works on integers"
 msgstr "Aritmética de módulo funciona apenas com inteiros"
 
-#: ../src/eval.c:1942
+#: ../src/eval.c:1943
 msgid ""
 "Can't add/subtract a scalar to non-square matrix (A + x is defined as A + "
 "x*I)"
@@ -1676,74 +1676,74 @@ msgstr ""
 "Não é possível adicionar/subtrair uma matriz escalar com uma matriz que não "
 "seja quadrada (A + x é definida por A + x*i)"
 
-#: ../src/eval.c:2038
+#: ../src/eval.c:2039
 msgid "Can't add/subtract two matrices of different sizes"
 msgstr "Não é possível adicionar/subtrair duas matrizes de tamanhos diferentes"
 
-#: ../src/eval.c:2040
+#: ../src/eval.c:2041
 msgid ""
 "Can't do element by element operations on two matrices of different sizes"
 msgstr ""
 "Não é possível fazer operações elemento por elemento em duas matrizes de "
 "tamanhos diferentes"
 
-#: ../src/eval.c:2106
+#: ../src/eval.c:2107
 msgid "Can't multiply matrices of wrong sizes"
 msgstr "Não é possível multiplicar matrizes de tamanhos errados"
 
-#: ../src/eval.c:2157
+#: ../src/eval.c:2158
 msgid "Powers are defined on (square matrix)^(integer) only"
 msgstr "Potenciações são definidas apenas para (matriz quadrada)^(inteiro)"
 
-#: ../src/eval.c:2163
+#: ../src/eval.c:2164
 msgid "Powers on matrices in modulo mode are defined on integer matrices only"
 msgstr ""
 "Potenciações em matrizes em módulo são definidas apenas para matrizes "
 "inteiras"
 
-#: ../src/eval.c:2171
+#: ../src/eval.c:2172
 msgid "Exponent too large"
 msgstr "Expoente grande demais"
 
-#: ../src/eval.c:2198 ../src/eval.c:2313 ../src/eval.c:2379
+#: ../src/eval.c:2199 ../src/eval.c:2314 ../src/eval.c:2380
 msgid "Matrix appears singular and can't be inverted"
 msgstr "A matriz parece ser singular e não pode ser invertida"
 
-#: ../src/eval.c:2290
+#: ../src/eval.c:2291
 msgid "Can't divide matrices of different sizes or non-square matrices"
 msgstr ""
 "Não é possível dividir matrizes de tamanhos diferentes ou matrizes não "
 "quadradas"
 
-#: ../src/eval.c:2361
+#: ../src/eval.c:2362
 msgid "Can't divide by a non-square matrix"
 msgstr "Não é possível dividir por uma matriz não quadrada"
 
-#: ../src/eval.c:2779 ../src/eval.c:2806 ../src/eval.c:2827 ../src/eval.c:2851
-#: ../src/eval.c:2899
+#: ../src/eval.c:2780 ../src/eval.c:2807 ../src/eval.c:2828 ../src/eval.c:2852
+#: ../src/eval.c:2900
 msgid "Operations on functions with variable argument list not supported"
 msgstr ""
 "Operações em funções com lista de argumentos variável não são suportadas"
 
-#: ../src/eval.c:2784
+#: ../src/eval.c:2785
 msgid ""
 "Operations on functions with different number of arguments not supported"
 msgstr ""
 "Operações em funções com número diferente de argumentos não são suportadas"
 
-#: ../src/eval.c:2904
+#: ../src/eval.c:2905
 msgid "Function creation with wrong number of arguments"
 msgstr "Criação de função com número errado de argumentos"
 
-#: ../src/eval.c:3486 ../src/eval.c:4924
+#: ../src/eval.c:3487 ../src/eval.c:4925
 msgid "Unevaluatable function type encountered!"
 msgstr "Encontrado um tipo de função não avaliável!"
 
-#: ../src/eval.c:3509 ../src/graphing.c:5979
+#: ../src/eval.c:3510 ../src/graphing.c:5979
 msgid "or"
 msgstr "ou"
 
-#: ../src/eval.c:3547
+#: ../src/eval.c:3548
 msgid ""
 "Variable 'i' used uninitialized.  Perhaps you meant to write '1i' for the "
 "imaginary number (square root of -1)."
@@ -1751,18 +1751,18 @@ msgstr ""
 "Variável 'i' usada sem ser inicializada. Talvez você queira escrever '1i' "
 "para o número imaginário (raiz quadrada de -1)."
 
-#: ../src/eval.c:3553 ../src/eval.c:3586 ../src/eval.c:7557
+#: ../src/eval.c:3554 ../src/eval.c:3587 ../src/eval.c:7558
 #, c-format
 msgid "Variable '%s' used uninitialized, perhaps you meant %s."
 msgstr ""
 "Variável “%s” usada sem ser inicializada, talvez você quisesse dizer %s."
 
-#: ../src/eval.c:3560 ../src/eval.c:3593 ../src/eval.c:4656 ../src/eval.c:7564
+#: ../src/eval.c:3561 ../src/eval.c:3594 ../src/eval.c:4657 ../src/eval.c:7565
 #, c-format
 msgid "Variable '%s' used uninitialized"
 msgstr "Variável “%s” usada sem ser inicializada"
 
-#: ../src/eval.c:3601 ../src/eval.c:4702
+#: ../src/eval.c:3602 ../src/eval.c:4703
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -1771,47 +1771,47 @@ msgstr ""
 "Chamada de \"%s\" com o número errado de argumentos!\n"
 "(deveria(m) ser %d)"
 
-#: ../src/eval.c:3604
+#: ../src/eval.c:3605
 #, c-format
 msgid "Trying to dereference '%s' which is not a reference!\n"
 msgstr "Tentando desreferenciar “%s”, mas isto não é uma referência!\n"
 
-#: ../src/eval.c:3609
+#: ../src/eval.c:3610
 msgid "NULL reference encountered!"
 msgstr "Encontrada uma referência NULL!"
 
-#: ../src/eval.c:3737
+#: ../src/eval.c:3738
 msgid "Cannot compare matrices"
 msgstr "Não é possível comparar matrizes"
 
-#: ../src/eval.c:3779
+#: ../src/eval.c:3780
 msgid "Primitives must get numeric/matrix/string arguments"
 msgstr "Primitivas devem receber argumentos numéricos/matrizes/strings"
 
-#: ../src/eval.c:3870
+#: ../src/eval.c:3871
 msgid "Bad argument to modular operation"
 msgstr "Argumento inválido para operação modular"
 
-#: ../src/eval.c:4630
+#: ../src/eval.c:4631
 #, c-format
 msgid "Function '%s' used uninitialized, perhaps you meant %s."
 msgstr "Função “%s” usada sem ser inicializada, talvez você quisesse dizer %s."
 
-#: ../src/eval.c:4637
+#: ../src/eval.c:4638
 #, c-format
 msgid "Function '%s' used uninitialized"
 msgstr "Função “%s” usada sem ser inicializada"
 
-#: ../src/eval.c:4665
+#: ../src/eval.c:4666
 #, c-format
 msgid "Can't dereference '%s'!"
 msgstr "Não é possível desreferenciar “%s”!"
 
-#: ../src/eval.c:4673
+#: ../src/eval.c:4674
 msgid "Can't call a non-function!"
 msgstr "Não é possível chamar algo que não é uma função!"
 
-#: ../src/eval.c:4707
+#: ../src/eval.c:4708
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -1820,274 +1820,274 @@ msgstr ""
 "Chamada de \"%s\" com o número errado de argumentos!\n"
 "(deveria ser maior que %d)"
 
-#: ../src/eval.c:4746
+#: ../src/eval.c:4747
 #, c-format
 msgid "Referencing an undefined variable %s!"
 msgstr "Referenciando uma variável %s indefinida!"
 
-#: ../src/eval.c:4900
+#: ../src/eval.c:4901
 msgid "Reference function with arguments encountered!"
 msgstr "Encontrada função de referência com argumentos!"
 
-#: ../src/eval.c:4905
+#: ../src/eval.c:4906
 msgid "Unnamed reference function encountered!"
 msgstr "Encontrada função de referência sem nome!"
 
-#: ../src/eval.c:5029
+#: ../src/eval.c:5030
 msgid "Bad type for 'for/sum/prod' loop!"
 msgstr "Tipo inválido para laço “for/sum/prod”!"
 
-#: ../src/eval.c:5034
+#: ../src/eval.c:5035
 msgid "'for/sum/prod' loop increment can't be 0"
 msgstr "O incremento para laços “for/sum/prod” não pode ser 0"
 
-#: ../src/eval.c:5160
+#: ../src/eval.c:5161
 msgid "Bad type for 'for in' loop!"
 msgstr "Tipo inválido para o laço “for in”!"
 
-#: ../src/eval.c:5328 ../src/eval.c:5361
+#: ../src/eval.c:5329 ../src/eval.c:5362
 msgid "Continue or break outside a loop, assuming \"return null\""
 msgstr "Continue ou break fora de um laço, assumindo “return null”"
 
-#: ../src/eval.c:5422
+#: ../src/eval.c:5423
 msgid "Wrong argument type as matrix index"
 msgstr "Tipo de argumento errado como índice da matriz"
 
-#: ../src/eval.c:5432
+#: ../src/eval.c:5433
 msgid "Matrix index too large"
 msgstr "Índice da matriz grande demais"
 
-#: ../src/eval.c:5435
+#: ../src/eval.c:5436
 msgid "Matrix index less than 1"
 msgstr "Índice da matriz menor que 1"
 
-#: ../src/eval.c:5458 ../src/eval.c:5473
+#: ../src/eval.c:5459 ../src/eval.c:5474
 msgid "Matrix index out of range"
 msgstr "Índice da matriz fora dos limites"
 
-#: ../src/eval.c:5522 ../src/eval.c:5590 ../src/eval.c:5748 ../src/eval.c:5789
-#: ../src/eval.c:5912 ../src/eval.c:5952 ../src/eval.c:6394
+#: ../src/eval.c:5523 ../src/eval.c:5591 ../src/eval.c:5749 ../src/eval.c:5790
+#: ../src/eval.c:5913 ../src/eval.c:5953 ../src/eval.c:6395
 #, c-format
 msgid "Trying to set a protected id '%s'"
 msgstr "Tentando definir um id “%s” protegido"
 
-#: ../src/eval.c:5547 ../src/eval.c:5585
+#: ../src/eval.c:5548 ../src/eval.c:5586
 msgid "Indexed Lvalue not user function"
 msgstr "O Lvalue indexado não é uma função do usuário"
 
-#: ../src/eval.c:5569 ../src/eval.c:5773 ../src/eval.c:5936
+#: ../src/eval.c:5570 ../src/eval.c:5774 ../src/eval.c:5937
 msgid "Dereference of non-identifier!"
 msgstr "Desreferência de algo que não é um identificador!"
 
-#: ../src/eval.c:5575 ../src/eval.c:5779 ../src/eval.c:5942
+#: ../src/eval.c:5576 ../src/eval.c:5780 ../src/eval.c:5943
 msgid "Dereference of undefined variable!"
 msgstr "Desreferência de uma variável indefinida!"
 
-#: ../src/eval.c:5579 ../src/eval.c:5783 ../src/eval.c:5946
+#: ../src/eval.c:5580 ../src/eval.c:5784 ../src/eval.c:5947
 msgid "Dereference of non-reference!"
 msgstr "Desreferência de algo que não é uma referência!"
 
-#: ../src/eval.c:5607
+#: ../src/eval.c:5608
 msgid "Indexed Lvalue not an identifier or a dereference"
 msgstr "O Lvalue indexado não é um identificador ou uma desreferência"
 
-#: ../src/eval.c:5661 ../src/eval.c:5716 ../src/eval.c:5893 ../src/eval.c:6058
-#: ../src/eval.c:6095 ../src/eval.c:6140 ../src/eval.c:6548 ../src/eval.c:6673
+#: ../src/eval.c:5662 ../src/eval.c:5717 ../src/eval.c:5894 ../src/eval.c:6059
+#: ../src/eval.c:6096 ../src/eval.c:6141 ../src/eval.c:6549 ../src/eval.c:6674
 msgid "Matrix index not an integer or a vector"
 msgstr "O índice da matriz não é um inteiro ou um vetor"
 
-#: ../src/eval.c:5705 ../src/eval.c:5847 ../src/eval.c:5856
+#: ../src/eval.c:5706 ../src/eval.c:5848 ../src/eval.c:5857
 msgid "Wrong matrix dimensions when setting"
 msgstr "Dimensão incorreta de matriz ao definir"
 
-#: ../src/eval.c:5736 ../src/eval.c:5988 ../src/eval.c:6361 ../src/eval.c:6368
+#: ../src/eval.c:5737 ../src/eval.c:5989 ../src/eval.c:6362 ../src/eval.c:6369
 msgid "Lvalue not an identifier/dereference/matrix location!"
 msgstr ""
 "O Lvalue não é uma localização de um(a) identificador/desreferência/matriz!"
 
-#: ../src/eval.c:5760 ../src/eval.c:5801
+#: ../src/eval.c:5761 ../src/eval.c:5802
 msgid "Referencing an undefined variable!"
 msgstr "Referenciando uma variável indefinida!"
 
-#: ../src/eval.c:5907
+#: ../src/eval.c:5908
 #, c-format
 msgid ""
 "Increment/Swapwith does not work on parameters (trying to increment '%s')"
 msgstr ""
 "Incremento/troca por não funciona com parâmetros (tentando incrementar “%s”)"
 
-#: ../src/eval.c:5976
+#: ../src/eval.c:5977
 msgid "Increment not a value!"
 msgstr "O incremento não é um valor!"
 
-#: ../src/eval.c:6000
+#: ../src/eval.c:6001
 #, c-format
 msgid "Trying to increment non-value id '%s'"
 msgstr "Tentando definir um id “%s” sem valor"
 
-#: ../src/eval.c:6161 ../src/eval.c:6165 ../src/eval.c:6175
+#: ../src/eval.c:6162 ../src/eval.c:6166 ../src/eval.c:6176
 msgid "Can only swap user variables"
 msgstr "Só é possível trocar as variáveis de usuário"
 
-#: ../src/eval.c:6215 ../src/eval.c:6250 ../src/eval.c:6281 ../src/eval.c:6297
-#: ../src/eval.c:6315 ../src/eval.c:6331
+#: ../src/eval.c:6216 ../src/eval.c:6251 ../src/eval.c:6282 ../src/eval.c:6298
+#: ../src/eval.c:6316 ../src/eval.c:6332
 msgid "Cannot swap matrix regions"
 msgstr "Não é possível trocar as regiões de matrizes"
 
-#: ../src/eval.c:6389
+#: ../src/eval.c:6390
 msgid "Parameters can only be created in the global context"
 msgstr "Parâmetros só podem ser criados no contexto global"
 
-#: ../src/eval.c:6495 ../src/eval.c:6540 ../src/eval.c:6631
+#: ../src/eval.c:6496 ../src/eval.c:6541 ../src/eval.c:6632
 msgid "Index works only on matrices"
 msgstr "O índice funciona apenas em matrizes"
 
-#: ../src/eval.c:6528
+#: ../src/eval.c:6529
 msgid "Vector index not an integer or a vector"
 msgstr "O índice do vetor não é um inteiro ou um vetor"
 
-#: ../src/eval.c:6697
+#: ../src/eval.c:6698
 msgid "number"
 msgstr "número"
 
-#: ../src/eval.c:6698
+#: ../src/eval.c:6699
 msgid "matrix"
 msgstr "matriz"
 
-#: ../src/eval.c:6699
+#: ../src/eval.c:6700
 msgid "string"
 msgstr "string"
 
-#: ../src/eval.c:6700
+#: ../src/eval.c:6701
 msgid "function"
 msgstr "função"
 
-#: ../src/eval.c:6701
+#: ../src/eval.c:6702
 msgid "identifier"
 msgstr "identificador"
 
-#: ../src/eval.c:6702
+#: ../src/eval.c:6703
 msgid "polynomial"
 msgstr "polinômio"
 
-#: ../src/eval.c:6703
+#: ../src/eval.c:6704
 msgid "boolean"
 msgstr "booleano"
 
-#: ../src/eval.c:6726
+#: ../src/eval.c:6727
 msgid "Addition"
 msgstr "Adição"
 
-#: ../src/eval.c:6727
+#: ../src/eval.c:6728
 msgid "Element by element addition"
 msgstr "Adição de elemento por elemento"
 
-#: ../src/eval.c:6728
+#: ../src/eval.c:6729
 msgid "Subtraction"
 msgstr "Subtração"
 
-#: ../src/eval.c:6729
+#: ../src/eval.c:6730
 msgid "Element by element subtraction"
 msgstr "Subtração de elemento por elemento"
 
-#: ../src/eval.c:6730
+#: ../src/eval.c:6731
 msgid "Multiplication"
 msgstr "Multiplicação"
 
-#: ../src/eval.c:6731
+#: ../src/eval.c:6732
 msgid "Element by element multiplication"
 msgstr "Multiplicação de elemento por elemento"
 
-#: ../src/eval.c:6732
+#: ../src/eval.c:6733
 msgid "Division"
 msgstr "Divisão"
 
-#: ../src/eval.c:6733
+#: ../src/eval.c:6734
 msgid "Element by element division"
 msgstr "Divisão de elemento por elemento"
 
-#: ../src/eval.c:6734
+#: ../src/eval.c:6735
 msgid "Back division"
 msgstr "Retro-divisão"
 
-#: ../src/eval.c:6735
+#: ../src/eval.c:6736
 msgid "Element by element back division"
 msgstr "Retro-divisão de elemento por elemento"
 
-#: ../src/eval.c:6736
+#: ../src/eval.c:6737
 msgid "Modulo"
 msgstr "Módulo"
 
-#: ../src/eval.c:6737
+#: ../src/eval.c:6738
 msgid "Element by element modulo"
 msgstr "Módulo elemento por elemento"
 
-#: ../src/eval.c:6738
+#: ../src/eval.c:6739
 msgid "Negation"
 msgstr "Negação"
 
-#: ../src/eval.c:6739
+#: ../src/eval.c:6740
 msgid "Power"
 msgstr "Potenciação"
 
-#: ../src/eval.c:6740
+#: ../src/eval.c:6741
 msgid "Element by element power"
 msgstr "Potenciação de elemento por elemento"
 
-#: ../src/eval.c:6741
+#: ../src/eval.c:6742
 msgid "Factorial"
 msgstr "Fatorial"
 
-#: ../src/eval.c:6742
+#: ../src/eval.c:6743
 msgid "Double factorial"
 msgstr "Fatorial duplo"
 
-#: ../src/eval.c:6743
+#: ../src/eval.c:6744
 msgid "Transpose"
 msgstr "Transposição"
 
-#: ../src/eval.c:6744
+#: ../src/eval.c:6745
 msgid "ConjugateTranspose"
 msgstr "Transposição conjugada"
 
-#: ../src/eval.c:6745
+#: ../src/eval.c:6746
 msgid "Comparison (<=>)"
 msgstr "Comparação (<=>)"
 
-#: ../src/eval.c:6746
+#: ../src/eval.c:6747
 msgid "XOR"
 msgstr "XOU"
 
-#: ../src/eval.c:6747
+#: ../src/eval.c:6748
 msgid "NOT"
 msgstr "NÃO"
 
-#: ../src/eval.c:6767
+#: ../src/eval.c:6768
 #, c-format
 msgid "Bad types for '%s'"
 msgstr "Tipos inválidos para “%s”"
 
-#: ../src/eval.c:6778
+#: ../src/eval.c:6779
 #, c-format
 msgid "%s not defined on <%s> and <%s>"
 msgstr "%s não definida para <%s> e <%s>"
 
-#: ../src/eval.c:6797
+#: ../src/eval.c:6798
 #, c-format
 msgid "Bad type for '%s'"
 msgstr "Tipo inválido para “%s”"
 
-#: ../src/eval.c:6807
+#: ../src/eval.c:6808
 #, c-format
 msgid "%s not defined on <%s>"
 msgstr "%s não definida em <%s>"
 
-#: ../src/eval.c:6827 ../src/eval.c:6844
+#: ../src/eval.c:6828 ../src/eval.c:6845
 msgid "Vector building only works on numbers"
 msgstr "Construção de vetor funciona apenas com números"
 
 #. FIXME: perhaps we should just return null like octave?
-#: ../src/eval.c:6837
+#: ../src/eval.c:6838
 msgid "Impossible arguments to vector building operator"
 msgstr "Argumento impossível para o operador de construção de vetor"
 
@@ -2101,7 +2101,7 @@ msgstr "%s: o argumento é grande demais"
 msgid "Cannot parse version string: %s"
 msgstr "Não é possível analisar a string de versão: %s"
 
-#: ../src/funclib.c:179 ../src/gnome-genius.c:2014
+#: ../src/funclib.c:179 ../src/gnome-genius.c:2031
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -2153,7 +2153,7 @@ msgstr "%s: tentando definir uma id protegida!"
 msgid "%s: trying to set a parameter, use the equals sign"
 msgstr "%s: tentando definir um parâmetro, use o sinal de igualdade"
 
-#: ../src/funclib.c:704 ../src/gnome-genius.c:1141
+#: ../src/funclib.c:704 ../src/gnome-genius.c:1158
 msgid ""
 "Global variables:\n"
 "\n"
@@ -2161,7 +2161,7 @@ msgstr ""
 "Variáveis globais:\n"
 "\n"
 
-#: ../src/funclib.c:727 ../src/gnome-genius.c:1174
+#: ../src/funclib.c:727 ../src/gnome-genius.c:1191
 msgid ""
 "\n"
 "Function call stack:\n"
@@ -2169,8 +2169,8 @@ msgstr ""
 "\n"
 "Pilha de chamadas de função:\n"
 
-#: ../src/funclib.c:729 ../src/funclib.c:769 ../src/gnome-genius.c:1176
-#: ../src/gnome-genius.c:1233
+#: ../src/funclib.c:729 ../src/funclib.c:769 ../src/gnome-genius.c:1193
+#: ../src/gnome-genius.c:1250
 msgid ""
 "(depth of context in parentheses)\n"
 "\n"
@@ -2178,7 +2178,7 @@ msgstr ""
 "(profundidade do contexto entre parênteses)\n"
 "\n"
 
-#: ../src/funclib.c:767 ../src/gnome-genius.c:1231
+#: ../src/funclib.c:767 ../src/gnome-genius.c:1248
 msgid ""
 "\n"
 "Local variables:\n"
@@ -2553,18 +2553,18 @@ msgstr ""
 "Gera número real aleatório entre 0 e inclusive max-1, ou se o tamanho "
 "fornecido gerar um vetor ou matriz de números inteiros aleatórios"
 
-#: ../src/funclib.c:7062 ../src/gnome-genius.c:2573
+#: ../src/funclib.c:7062 ../src/gnome-genius.c:2630
 msgid "Floating point precision"
 msgstr "Precisão de ponto flutuante"
 
-#: ../src/funclib.c:7064 ../src/gnome-genius.c:2462
+#: ../src/funclib.c:7064 ../src/gnome-genius.c:2516
 msgid ""
 "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr ""
 "Exibir 0.0 quando o número de ponto flutuante for menor que 10^-x (0=nunca "
 "arredondar)"
 
-#: ../src/funclib.c:7067 ../src/gnome-genius.c:2485
+#: ../src/funclib.c:7067 ../src/gnome-genius.c:2539
 msgid "Only chop numbers when another number is greater than 10^-x"
 msgstr "Só arredondar números quando outro número for maior que 10^-x"
 
@@ -3437,8 +3437,8 @@ msgstr "Sugerido: %s\n"
 msgid "Out of range!\n"
 msgstr "Fora dos limites!\n"
 
-#: ../src/genius.c:365 ../src/genius.lang.h:2 ../src/gnome-genius.c:810
-#: ../src/gnome-genius.c:851
+#: ../src/genius.c:365 ../src/genius.lang.h:2 ../src/gnome-genius.c:827
+#: ../src/gnome-genius.c:868
 msgid "Genius"
 msgstr "Genius"
 
@@ -3541,7 +3541,7 @@ msgstr ""
 "Para ajuda, digite \"manual\" ou \"help\".%s\n"
 "\n"
 
-#: ../src/genius.c:631 ../src/gnome-genius.c:5437
+#: ../src/genius.c:631 ../src/gnome-genius.c:5557
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -3557,56 +3557,56 @@ msgstr "Não é possível abrir o arquivo"
 msgid "Script"
 msgstr "Script"
 
-#: ../src/gnome-genius.c:377
+#: ../src/gnome-genius.c:394
 msgid "_New Program"
 msgstr "_Novo programa"
 
-#: ../src/gnome-genius.c:378
+#: ../src/gnome-genius.c:395
 msgid "Create new program tab"
 msgstr "Cria a aba de um novo programa"
 
-#: ../src/gnome-genius.c:380
+#: ../src/gnome-genius.c:397
 msgid "_Open..."
 msgstr "_Abrir…"
 
-#: ../src/gnome-genius.c:381
+#: ../src/gnome-genius.c:398
 msgid "Open a file"
 msgstr "Abre um arquivo"
 
-#: ../src/gnome-genius.c:383
+#: ../src/gnome-genius.c:400
 msgid "Open R_ecent"
 msgstr "Abrir r_ecente"
 
-#: ../src/gnome-genius.c:386 ../src/gnome-genius.c:4081
-#: ../src/gnome-genius.c:4206 ../src/graphing.c:1225
+#: ../src/gnome-genius.c:403 ../src/gnome-genius.c:4201
+#: ../src/gnome-genius.c:4326 ../src/graphing.c:1225
 msgid "_Save"
 msgstr "_Salvar"
 
-#: ../src/gnome-genius.c:387
+#: ../src/gnome-genius.c:404
 msgid "Save current file"
 msgstr "Salva o arquivo atual"
 
-#: ../src/gnome-genius.c:389
+#: ../src/gnome-genius.c:406
 msgid "Save All _Unsaved"
 msgstr "Salvar todos os _não salvos"
 
-#: ../src/gnome-genius.c:390
+#: ../src/gnome-genius.c:407
 msgid "Save all unsaved programs"
 msgstr "Salvar todos os programas não salvos"
 
-#: ../src/gnome-genius.c:392
+#: ../src/gnome-genius.c:409
 msgid "Save _As..."
 msgstr "Salvar _como…"
 
-#: ../src/gnome-genius.c:393
+#: ../src/gnome-genius.c:410
 msgid "Save to a file"
 msgstr "Salvar em um arquivo"
 
-#: ../src/gnome-genius.c:395
+#: ../src/gnome-genius.c:412
 msgid "_Reload from Disk"
 msgstr "_Recarregar do disco"
 
-#: ../src/gnome-genius.c:396
+#: ../src/gnome-genius.c:413
 msgid "Reload the selected program from disk"
 msgstr "Recarrega o programa selecionado a partir do disco"
 
@@ -3619,281 +3619,281 @@ msgstr "Recarrega o programa selecionado a partir do disco"
 #. GTK_WINDOW (genius_window)
 #. parent
 #. flags
-#: ../src/gnome-genius.c:398 ../src/gnome-genius.c:1291
-#: ../src/gnome-genius.c:1496 ../src/graphing.c:622 ../src/graphing.c:1976
+#: ../src/gnome-genius.c:415 ../src/gnome-genius.c:1308
+#: ../src/gnome-genius.c:1513 ../src/graphing.c:622 ../src/graphing.c:1976
 #: ../src/graphing.c:2167 ../src/graphing.c:7290 ../ve/ve-miscui.c:167
 msgid "_Close"
 msgstr "_Fechar"
 
-#: ../src/gnome-genius.c:399
+#: ../src/gnome-genius.c:416
 msgid "Close the current file"
 msgstr "Fecha o arquivo atual"
 
-#: ../src/gnome-genius.c:402
+#: ../src/gnome-genius.c:419
 msgid "_Load and Run..."
 msgstr "_Carregar e executar…"
 
-#: ../src/gnome-genius.c:403
+#: ../src/gnome-genius.c:420
 msgid "Load and execute a file in genius"
 msgstr "Carrega e executa um arquivo no genius"
 
-#: ../src/gnome-genius.c:406
+#: ../src/gnome-genius.c:423
 msgid "Save Console Ou_tput..."
 msgstr "Salvar saída do con_sole…"
 
-#: ../src/gnome-genius.c:407
+#: ../src/gnome-genius.c:424
 msgid ""
 "Save what is visible on the console (including scrollback) to a text file"
 msgstr ""
 "Salvar o que é visível no console (incluindo histórico) para um arquivo texto"
 
-#: ../src/gnome-genius.c:411
+#: ../src/gnome-genius.c:428
 msgid "_Quit"
 msgstr "_Sair"
 
-#: ../src/gnome-genius.c:412 ../src/gnome-genius.c:702
+#: ../src/gnome-genius.c:429 ../src/gnome-genius.c:719
 msgid "Quit"
 msgstr "Sair"
 
-#: ../src/gnome-genius.c:420
+#: ../src/gnome-genius.c:437
 msgid "_Undo"
 msgstr "_Desfazer"
 
-#: ../src/gnome-genius.c:421
+#: ../src/gnome-genius.c:438
 msgid "Undo the last action"
 msgstr "Desfaz a última ação"
 
-#: ../src/gnome-genius.c:423
+#: ../src/gnome-genius.c:440
 msgid "_Redo"
 msgstr "_Refazer"
 
-#: ../src/gnome-genius.c:424
+#: ../src/gnome-genius.c:441
 msgid "Redo the undone action"
 msgstr "Refaz a ação desfeita"
 
-#: ../src/gnome-genius.c:428
+#: ../src/gnome-genius.c:445
 msgid "Cu_t"
 msgstr "Re_cortar"
 
-#: ../src/gnome-genius.c:429
+#: ../src/gnome-genius.c:446
 msgid "Cut the selection"
 msgstr "Recorta a seleção"
 
-#: ../src/gnome-genius.c:431
+#: ../src/gnome-genius.c:448
 msgid "_Copy"
 msgstr "Cop_iar"
 
-#: ../src/gnome-genius.c:432
+#: ../src/gnome-genius.c:449
 msgid "Copy the selection"
 msgstr "Copia a seleção"
 
-#: ../src/gnome-genius.c:434
+#: ../src/gnome-genius.c:451
 msgid "_Paste"
 msgstr "C_olar"
 
-#: ../src/gnome-genius.c:435
+#: ../src/gnome-genius.c:452
 msgid "Paste the clipboard"
 msgstr "Cola a área de transferência"
 
-#: ../src/gnome-genius.c:438
+#: ../src/gnome-genius.c:455
 msgid "Copy Answer As Plain Te_xt"
 msgstr "Copiar Resposta como _Texto Puro"
 
-#: ../src/gnome-genius.c:439
+#: ../src/gnome-genius.c:456
 msgid "Copy last answer into the clipboard in plain text"
 msgstr "Copia a última resposta para a área de transferência em texto plano"
 
-#: ../src/gnome-genius.c:441
+#: ../src/gnome-genius.c:458
 msgid "Copy Answer As _LaTeX"
 msgstr "Copiar Resposta como _LaTeX"
 
-#: ../src/gnome-genius.c:442
+#: ../src/gnome-genius.c:459
 msgid "Copy last answer into the clipboard as LaTeX"
 msgstr "Copia a última resposta para a área de transferência como LaTeX"
 
-#: ../src/gnome-genius.c:444
+#: ../src/gnome-genius.c:461
 msgid "Copy Answer As _MathML"
 msgstr "Copiar Resposta como _MathML"
 
-#: ../src/gnome-genius.c:445
+#: ../src/gnome-genius.c:462
 msgid "Copy last answer into the clipboard as MathML"
 msgstr "Copia a última resposta para a área de transferência como MathML"
 
-#: ../src/gnome-genius.c:447
+#: ../src/gnome-genius.c:464
 msgid "Copy Answer As T_roff"
 msgstr "Copiar Resposta como T_roff"
 
-#: ../src/gnome-genius.c:448
+#: ../src/gnome-genius.c:465
 msgid "Copy last answer into the clipboard as Troff eqn"
 msgstr "Copia a última saída para a área de transferência como equação Troff"
 
-#: ../src/gnome-genius.c:454
+#: ../src/gnome-genius.c:471
 msgid "_Run"
 msgstr "E_xecutar"
 
-#: ../src/gnome-genius.c:455
+#: ../src/gnome-genius.c:472
 msgid "Run current program"
 msgstr "Executa o programa atual"
 
-#: ../src/gnome-genius.c:457
+#: ../src/gnome-genius.c:474
 msgid "_Interrupt"
 msgstr "_Interromper"
 
-#: ../src/gnome-genius.c:458
+#: ../src/gnome-genius.c:475
 msgid "Interrupt current calculation"
 msgstr "Interrompe o cálculo atual"
 
-#: ../src/gnome-genius.c:461
+#: ../src/gnome-genius.c:478
 msgid "Show _Full Answer"
 msgstr "Mostrar R_esposta Completa"
 
-#: ../src/gnome-genius.c:462
+#: ../src/gnome-genius.c:479
 msgid "Show the full text of last answer"
 msgstr "Mostrar o texto completo da última resposta"
 
-#: ../src/gnome-genius.c:464
+#: ../src/gnome-genius.c:481
 msgid "Show User _Variables"
 msgstr "Mostrar _variáveis do usuário"
 
-#: ../src/gnome-genius.c:465
+#: ../src/gnome-genius.c:482
 msgid "Show the current value of all user variables"
 msgstr "Mostrar o valor atual de todas as variáveis de usuário"
 
-#: ../src/gnome-genius.c:467
+#: ../src/gnome-genius.c:484
 msgid "_Monitor a Variable"
 msgstr "_Monitorar uma variável"
 
-#: ../src/gnome-genius.c:468
+#: ../src/gnome-genius.c:485
 msgid "Monitor a variable continuously"
 msgstr "Monitora uma variável continuamente"
 
-#: ../src/gnome-genius.c:471
+#: ../src/gnome-genius.c:488
 msgid "_Plot..."
 msgstr "_Traçar gráfico…"
 
-#: ../src/gnome-genius.c:472
+#: ../src/gnome-genius.c:489
 msgid "Plot functions, vector fields, surfaces, etc..."
 msgstr "Traça o gráfico de funções, campos vetoriais, superfícies etc…"
 
-#: ../src/gnome-genius.c:478
+#: ../src/gnome-genius.c:495
 msgid "_Next Tab"
 msgstr "Próxima a_ba"
 
-#: ../src/gnome-genius.c:479
+#: ../src/gnome-genius.c:496
 msgid "Go to next tab"
 msgstr "Ir à próxima aba"
 
-#: ../src/gnome-genius.c:481
+#: ../src/gnome-genius.c:498
 msgid "_Previous Tab"
 msgstr "Aba An_terior"
 
-#: ../src/gnome-genius.c:482
+#: ../src/gnome-genius.c:499
 msgid "Go to previous tab"
 msgstr "Ir à aba anterior"
 
-#: ../src/gnome-genius.c:485
+#: ../src/gnome-genius.c:502
 msgid "_Console"
 msgstr "_Console"
 
-#: ../src/gnome-genius.c:486
+#: ../src/gnome-genius.c:503
 msgid "Go to the console tab"
 msgstr "Ir para a aba do console"
 
-#: ../src/gnome-genius.c:492
+#: ../src/gnome-genius.c:509
 msgid "_Preferences"
 msgstr "_Preferências"
 
-#: ../src/gnome-genius.c:493
+#: ../src/gnome-genius.c:510
 msgid "Configure Genius"
 msgstr "Configurar o Genius"
 
-#: ../src/gnome-genius.c:499
+#: ../src/gnome-genius.c:516
 msgid "_Contents"
 msgstr "S_umário"
 
-#: ../src/gnome-genius.c:500
+#: ../src/gnome-genius.c:517
 msgid "View the Genius manual"
 msgstr "Ver o manual do Genius"
 
-#: ../src/gnome-genius.c:502
+#: ../src/gnome-genius.c:519
 msgid "_Help on Function"
 msgstr "Aj_uda sobre a Função"
 
-#: ../src/gnome-genius.c:503
+#: ../src/gnome-genius.c:520
 msgid "Help on a function or a command"
 msgstr "Ajuda sobre uma função ou comando"
 
-#: ../src/gnome-genius.c:505
+#: ../src/gnome-genius.c:522
 msgid "_Warranty"
 msgstr "_Garantia"
 
-#: ../src/gnome-genius.c:506
+#: ../src/gnome-genius.c:523
 msgid "Display warranty information"
 msgstr "Exibe informações de garantia"
 
-#: ../src/gnome-genius.c:509
+#: ../src/gnome-genius.c:526
 msgid "_About"
 msgstr "_Sobre"
 
-#: ../src/gnome-genius.c:510
+#: ../src/gnome-genius.c:527
 msgid "About Genius"
 msgstr "Sobre o Genius"
 
-#: ../src/gnome-genius.c:606
+#: ../src/gnome-genius.c:623
 msgid "_File"
 msgstr "_Arquivo"
 
-#: ../src/gnome-genius.c:617
+#: ../src/gnome-genius.c:634
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../src/gnome-genius.c:622
+#: ../src/gnome-genius.c:639
 msgid "_Calculator"
 msgstr "_Calculadora"
 
-#: ../src/gnome-genius.c:627
+#: ../src/gnome-genius.c:644
 msgid "E_xamples"
 msgstr "E_xemplos"
 
-#: ../src/gnome-genius.c:630
+#: ../src/gnome-genius.c:647
 msgid "P_lugins"
 msgstr "P_lugins"
 
-#: ../src/gnome-genius.c:633
+#: ../src/gnome-genius.c:650
 msgid "_Programs"
 msgstr "_Programas"
 
-#: ../src/gnome-genius.c:638
+#: ../src/gnome-genius.c:655
 msgid "_Settings"
 msgstr "Pre_ferências"
 
 #. parent
 #. flags
-#: ../src/gnome-genius.c:643 ../src/gnome-genius.c:2380
+#: ../src/gnome-genius.c:660 ../src/gnome-genius.c:2430
 msgid "_Help"
 msgstr "A_juda"
 
-#: ../src/gnome-genius.c:654
+#: ../src/gnome-genius.c:671
 msgid "Interrupt"
 msgstr "Interromper"
 
-#: ../src/gnome-genius.c:662
+#: ../src/gnome-genius.c:679
 msgid "Run"
 msgstr "Executar"
 
-#: ../src/gnome-genius.c:670
+#: ../src/gnome-genius.c:687
 msgid "New"
 msgstr "Novo"
 
-#: ../src/gnome-genius.c:678
+#: ../src/gnome-genius.c:695
 msgid "Open"
 msgstr "Abrir"
 
-#: ../src/gnome-genius.c:686
+#: ../src/gnome-genius.c:703
 msgid "Save"
 msgstr "Salvar"
 
-#: ../src/gnome-genius.c:694 ../src/graphing.c:2162
+#: ../src/gnome-genius.c:711 ../src/graphing.c:2162
 msgid "Plot"
 msgstr "Traçar"
 
@@ -3903,10 +3903,10 @@ msgstr "Traçar"
 #. title
 #. parent
 #. flags
-#: ../src/gnome-genius.c:854 ../src/gnome-genius.c:918
-#: ../src/gnome-genius.c:1571 ../src/gnome-genius.c:2382
-#: ../src/gnome-genius.c:2883 ../src/gnome-genius.c:3850
-#: ../src/gnome-genius.c:4082 ../src/gnome-genius.c:4207 ../src/graphing.c:850
+#: ../src/gnome-genius.c:871 ../src/gnome-genius.c:935
+#: ../src/gnome-genius.c:1588 ../src/gnome-genius.c:2432
+#: ../src/gnome-genius.c:3004 ../src/gnome-genius.c:3970
+#: ../src/gnome-genius.c:4202 ../src/gnome-genius.c:4327 ../src/graphing.c:850
 #: ../src/graphing.c:1224 ../src/graphing.c:5627 ../src/graphing.c:5744
 #: ../ve/ve-miscui.c:178 ../ve/ve-miscui.c:206
 msgid "_Cancel"
@@ -3917,27 +3917,27 @@ msgstr "_Cancelar"
 #. title
 #. parent
 #. flags
-#: ../src/gnome-genius.c:855 ../src/gnome-genius.c:919
-#: ../src/gnome-genius.c:1061 ../src/gnome-genius.c:1572
-#: ../src/gnome-genius.c:2383 ../src/graphing.c:5625 ../src/graphing.c:5742
+#: ../src/gnome-genius.c:872 ../src/gnome-genius.c:936
+#: ../src/gnome-genius.c:1078 ../src/gnome-genius.c:1589
+#: ../src/gnome-genius.c:2433 ../src/graphing.c:5625 ../src/graphing.c:5742
 #: ../ve/ve-miscui.c:156 ../ve/ve-miscui.c:211
 msgid "_OK"
 msgstr "_OK"
 
-#: ../src/gnome-genius.c:915
+#: ../src/gnome-genius.c:932
 msgid "Help on Function"
 msgstr "Ajuda sobre a Função"
 
-#: ../src/gnome-genius.c:931
+#: ../src/gnome-genius.c:948
 msgid "Function or command name:"
 msgstr "Função ou nome de comando:"
 
-#: ../src/gnome-genius.c:988 ../src/gnome-genius.c:1847
+#: ../src/gnome-genius.c:1005 ../src/gnome-genius.c:1864
 #, c-format
 msgid "<b>Help on %s not found</b>"
 msgstr "<b>Ajuda sobre %s não encontrada</b>"
 
-#: ../src/gnome-genius.c:992
+#: ../src/gnome-genius.c:1009
 #, c-format
 msgid ""
 "<b>Help on %s not found</b>\n"
@@ -3948,70 +3948,70 @@ msgstr ""
 "\n"
 "Talvez você quis dizer %s."
 
-#: ../src/gnome-genius.c:1051
+#: ../src/gnome-genius.c:1068
 msgid "Error"
 msgstr "Erro"
 
-#: ../src/gnome-genius.c:1053
+#: ../src/gnome-genius.c:1070
 msgid "Information"
 msgstr "Informação"
 
-#: ../src/gnome-genius.c:1287
+#: ../src/gnome-genius.c:1304
 msgid "User Variable Listing"
 msgstr "Listagem de variáveis de usuário"
 
 #. parent
 #. flags
-#: ../src/gnome-genius.c:1290
+#: ../src/gnome-genius.c:1307
 msgid "_Refresh"
 msgstr "_Atualizar"
 
-#: ../src/gnome-genius.c:1396
+#: ../src/gnome-genius.c:1413
 #, c-format
 msgid "%s undefined"
 msgstr "%s indefinida"
 
 #. printed before a global variable
-#: ../src/gnome-genius.c:1431
+#: ../src/gnome-genius.c:1448
 msgid "(global) "
 msgstr "(global) "
 
 #. printed before local variable in certain
 #. * context
-#: ../src/gnome-genius.c:1435
+#: ../src/gnome-genius.c:1452
 #, c-format
 msgid "(context %d) "
 msgstr "(contexto %d) "
 
-#: ../src/gnome-genius.c:1457
+#: ../src/gnome-genius.c:1474
 #, c-format
 msgid "%s not a user variable"
 msgstr "%s não é uma função de uma variável"
 
-#: ../src/gnome-genius.c:1491
+#: ../src/gnome-genius.c:1508
 #, c-format
 msgid "Monitoring: %s"
 msgstr "Monitorando: %s"
 
-#: ../src/gnome-genius.c:1537
+#: ../src/gnome-genius.c:1554
 msgid "Update continuously"
 msgstr "Atualização contínua"
 
-#: ../src/gnome-genius.c:1568
+#: ../src/gnome-genius.c:1585
 msgid "Monitor a Variable"
 msgstr "Monitorar uma variável"
 
-#: ../src/gnome-genius.c:1584
+#: ../src/gnome-genius.c:1601
 msgid "Variable name:"
 msgstr "Nome da variável:"
 
 #. error
 #. always textbox
-#: ../src/gnome-genius.c:1640
+#: ../src/gnome-genius.c:1657
 msgid "Full Answer"
 msgstr "Resposta completa"
 
-#: ../src/gnome-genius.c:1657
+#: ../src/gnome-genius.c:1674
 #, c-format
 msgid ""
 "\n"
@@ -4020,12 +4020,12 @@ msgstr ""
 "\n"
 "Erros demais! (%d seguidos)"
 
-#: ../src/gnome-genius.c:1673
+#: ../src/gnome-genius.c:1690
 #, c-format
 msgid "e[01;31mToo many errors! (%d followed)e[0m\n"
 msgstr "e[01;31mErros demais! (%d seguidos)e[0m\n"
 
-#: ../src/gnome-genius.c:1857 ../src/gnome-genius.c:1892
+#: ../src/gnome-genius.c:1874 ../src/gnome-genius.c:1909
 #, c-format
 msgid ""
 "<b>Cannot display help</b>\n"
@@ -4036,17 +4036,17 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/gnome-genius.c:1967
+#: ../src/gnome-genius.c:1984
 msgid "Nils Barth (initial implementation of parts of the GEL library)"
 msgstr "Nils Barth (implementação inicial de partes da biblioteca GEL)"
 
-#: ../src/gnome-genius.c:1968
+#: ../src/gnome-genius.c:1985
 msgid "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"
 msgstr ""
 "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - fábrica de widgets de "
 "gráfico)"
 
-#: ../src/gnome-genius.c:1969
+#: ../src/gnome-genius.c:1986
 msgid "Yavor Doganov <yavor@gnu.org> (Port to GTK3)"
 msgstr "Yavor Doganov <yavor@gnu.org> (Porte para GTK3)"
 
@@ -4054,7 +4054,7 @@ msgstr "Yavor Doganov <yavor@gnu.org> (Porte para GTK3)"
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: ../src/gnome-genius.c:1983
+#: ../src/gnome-genius.c:2000
 msgid "translator-credits"
 msgstr ""
 "Andrius da Costa Ribas <andriusmao@gmail.com>\n"
@@ -4065,16 +4065,16 @@ msgstr ""
 "Raphael Higino <In memoriam>\n"
 "Rodrigo Luiz Marques Flores <mail@rodrigoflores.org>"
 
-#: ../src/gnome-genius.c:2031
+#: ../src/gnome-genius.c:2048
 msgid "Genius Mathematical Tool"
 msgstr "Ferramenta matemática Genius"
 
-#: ../src/gnome-genius.c:2035
+#: ../src/gnome-genius.c:2052
 msgid "The GNOME calculator style edition of the Genius Mathematical Tool."
 msgstr ""
 "A edição ao estilo da calculadora do GNOME da Ferramenta Matemática Genius."
 
-#: ../src/gnome-genius.c:2226
+#: ../src/gnome-genius.c:2243
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -4082,59 +4082,59 @@ msgstr ""
 "O Genius está executando algo e, além disso, há programas não salvos.\n"
 "Você tem certeza que deseja sair?"
 
-#: ../src/gnome-genius.c:2234
+#: ../src/gnome-genius.c:2251
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr "Há programas não salvos, você tem certeza que deseja sair?"
 
-#: ../src/gnome-genius.c:2241
+#: ../src/gnome-genius.c:2258
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr "O Genius está executando algo, você tem certeza que deseja sair?"
 
-#: ../src/gnome-genius.c:2248
+#: ../src/gnome-genius.c:2265
 msgid "Are you sure you wish to quit?"
 msgstr "Você tem certeza que deseja sair?"
 
-#: ../src/gnome-genius.c:2377
+#: ../src/gnome-genius.c:2427
 msgid "Genius Setup"
 msgstr "Configuração do Genius"
 
-#: ../src/gnome-genius.c:2381
+#: ../src/gnome-genius.c:2431
 msgid "_Apply"
 msgstr "_Aplicar"
 
-#: ../src/gnome-genius.c:2394
+#: ../src/gnome-genius.c:2448
 msgid "Output"
 msgstr "Saída"
 
-#: ../src/gnome-genius.c:2397
+#: ../src/gnome-genius.c:2451
 msgid "Number/Expression output options"
 msgstr "Opções de saída de números/expressões"
 
-#: ../src/gnome-genius.c:2407
+#: ../src/gnome-genius.c:2461
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Máximo de dígitos para mostrar (0=ilimitado)"
 
-#: ../src/gnome-genius.c:2427
+#: ../src/gnome-genius.c:2481
 msgid "Results as floats"
 msgstr "Resultados como números reais"
 
-#: ../src/gnome-genius.c:2435
+#: ../src/gnome-genius.c:2489
 msgid "Floats in scientific notation"
 msgstr "Resultados em notação científica"
 
-#: ../src/gnome-genius.c:2443
+#: ../src/gnome-genius.c:2497
 msgid "Always print full expressions"
 msgstr "Sempre mostrar expressões completas"
 
-#: ../src/gnome-genius.c:2451
+#: ../src/gnome-genius.c:2505
 msgid "Use mixed fractions"
 msgstr "Usa frações mistas"
 
-#: ../src/gnome-genius.c:2504
+#: ../src/gnome-genius.c:2558
 msgid "Remember output settings across sessions"
 msgstr "Lembrar a saída de configurações entre sessões"
 
-#: ../src/gnome-genius.c:2514
+#: ../src/gnome-genius.c:2568
 msgid ""
 "Should the output settings in the \"Number/Expression output options\" frame "
 "be remembered for next session.  Does not apply to the \"Error/Info output "
@@ -4144,27 +4144,27 @@ msgstr ""
 "número/expressão” para a próxima sessão. Não se aplica ao quadro “Opções de "
 "saída de erros/inform.”."
 
-#: ../src/gnome-genius.c:2519
+#: ../src/gnome-genius.c:2573
 msgid "Error/Info output options"
 msgstr "Opções de saída de erros/inform."
 
-#: ../src/gnome-genius.c:2527
+#: ../src/gnome-genius.c:2581
 msgid "Display errors in a dialog"
 msgstr "Exibir erros em uma caixa de diálogo"
 
-#: ../src/gnome-genius.c:2535
+#: ../src/gnome-genius.c:2589
 msgid "Display information messages in a dialog"
 msgstr "Exibir mensagens de informação em uma caixa de diálogo"
 
-#: ../src/gnome-genius.c:2546
+#: ../src/gnome-genius.c:2600
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Máximo de erros para exibir (0=ilimitado)"
 
-#: ../src/gnome-genius.c:2570
+#: ../src/gnome-genius.c:2627
 msgid "Precision"
 msgstr "Precisão"
 
-#: ../src/gnome-genius.c:2580
+#: ../src/gnome-genius.c:2637
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -4174,51 +4174,64 @@ msgstr ""
 "para todos os números imediatamente, somente números\n"
 "calculados e novas variáveis serão afetadas."
 
-#: ../src/gnome-genius.c:2589
+#: ../src/gnome-genius.c:2646
 msgid "Floating point precision (bits)"
 msgstr "Precisão de ponto flutuante (bits)"
 
-#: ../src/gnome-genius.c:2608
+#: ../src/gnome-genius.c:2665
 msgid "Remember precision setting across sessions"
 msgstr "Lembrar as configurações de precisão entre sessões"
 
-#: ../src/gnome-genius.c:2617
+#: ../src/gnome-genius.c:2674
 msgid "Should the precision setting be remembered for next session."
 msgstr "A configuração de precisão deve ser lembrada para a próxima sessão."
 
-#: ../src/gnome-genius.c:2625
+#: ../src/gnome-genius.c:2685
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ../src/gnome-genius.c:2627
+#: ../src/gnome-genius.c:2687
 msgid "Terminal options"
 msgstr "Opções de terminal"
 
-#: ../src/gnome-genius.c:2636
+#: ../src/gnome-genius.c:2696
 msgid "Scrollback lines"
 msgstr "Rolar linha para trás"
 
-#: ../src/gnome-genius.c:2659
+#: ../src/gnome-genius.c:2719
 msgid "Font:"
 msgstr "Fonte:"
 
-#: ../src/gnome-genius.c:2670
+#: ../src/gnome-genius.c:2730
 msgid "Black on white"
 msgstr "Preto em branco"
 
-#: ../src/gnome-genius.c:2678
+#: ../src/gnome-genius.c:2738
 msgid "Blinking cursor"
 msgstr "Cursor piscante"
 
-#: ../src/gnome-genius.c:2691
+#: ../src/gnome-genius.c:2755
+#| msgid "_Edit"
+msgid "Editor"
+msgstr "Editor"
+
+#: ../src/gnome-genius.c:2757
+msgid "Editor options"
+msgstr "Opções do editor"
+
+#: ../src/gnome-genius.c:2766
+msgid "Color scheme"
+msgstr "Esquema de cores"
+
+#: ../src/gnome-genius.c:2812
 msgid "Memory"
 msgstr "Memória"
 
-#: ../src/gnome-genius.c:2694
+#: ../src/gnome-genius.c:2815
 msgid "Limits"
 msgstr "Limites"
 
-#: ../src/gnome-genius.c:2701
+#: ../src/gnome-genius.c:2822
 msgid ""
 "When the limit is reached you will be asked if\n"
 "you wish to interrupt the calculation or continue.\n"
@@ -4228,11 +4241,11 @@ msgstr ""
 "se deseja interromper o cálculo ou continuar.\n"
 "Definir como 0 desabilita o limite."
 
-#: ../src/gnome-genius.c:2710
+#: ../src/gnome-genius.c:2831
 msgid "Maximum number of nodes to allocate"
 msgstr "Número máximo de nós para alocar"
 
-#: ../src/gnome-genius.c:2762
+#: ../src/gnome-genius.c:2883
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -4242,45 +4255,45 @@ msgstr ""
 "\n"
 "Por favor, tente novamente mais tarde ou interrompa a operação atual."
 
-#: ../src/gnome-genius.c:2805
+#: ../src/gnome-genius.c:2926
 msgid "GEL files"
 msgstr "Arquivos GEL"
 
-#: ../src/gnome-genius.c:2810 ../src/graphing.c:1250
+#: ../src/gnome-genius.c:2931 ../src/graphing.c:1250
 msgid "All files"
 msgstr "Todos os arquivos"
 
-#: ../src/gnome-genius.c:2837 ../src/gnome-genius.c:3826
+#: ../src/gnome-genius.c:2958 ../src/gnome-genius.c:3946
 msgid "Cannot open file!"
 msgstr "Não é possível abrir o arquivo!"
 
-#: ../src/gnome-genius.c:2845 ../src/gnome-genius.c:4297
+#: ../src/gnome-genius.c:2966 ../src/gnome-genius.c:4417
 msgid "Output from "
 msgstr "Saída de "
 
-#: ../src/gnome-genius.c:2862 ../src/gnome-genius.c:4369
+#: ../src/gnome-genius.c:2983 ../src/gnome-genius.c:4489
 msgid "End"
 msgstr "Fim"
 
-#: ../src/gnome-genius.c:2879
+#: ../src/gnome-genius.c:3000
 msgid "Load and Run"
 msgstr "Carrega e executa"
 
-#: ../src/gnome-genius.c:2882
+#: ../src/gnome-genius.c:3003
 msgid "_Load"
 msgstr "_Carregar"
 
-#: ../src/gnome-genius.c:3435
+#: ../src/gnome-genius.c:3556
 msgid "Cannot open file"
 msgstr "Não é possível abrir o arquivo"
 
 #. context
-#: ../src/gnome-genius.c:3470 ../src/gnome-genius.c:5023
+#: ../src/gnome-genius.c:3591 ../src/gnome-genius.c:5143
 #, c-format
 msgid "Line: %d"
 msgstr "Linha: %d"
 
-#: ../src/gnome-genius.c:3596
+#: ../src/gnome-genius.c:3717
 msgid ""
 "The program you are closing is unsaved, are you sure you wish to close it "
 "without saving?"
@@ -4288,34 +4301,34 @@ msgstr ""
 "O programa que você está fechando não foi salvo, tem certeza que deseja "
 "fechá-lo sem salvar?"
 
-#: ../src/gnome-genius.c:3707
+#: ../src/gnome-genius.c:3827
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Programa_%d.gel"
 
-#: ../src/gnome-genius.c:3718
+#: ../src/gnome-genius.c:3838
 #, c-format
 msgid "Program %d"
 msgstr "Programa %d"
 
-#: ../src/gnome-genius.c:3756
+#: ../src/gnome-genius.c:3876
 #, c-format
 msgid "Cannot open %s"
 msgstr "Não é possível abrir %s"
 
-#: ../src/gnome-genius.c:3846
+#: ../src/gnome-genius.c:3966
 msgid "Open..."
 msgstr "Abrir…"
 
-#: ../src/gnome-genius.c:3849
+#: ../src/gnome-genius.c:3969
 msgid "_Open"
 msgstr "_Abrir"
 
-#: ../src/gnome-genius.c:3927
+#: ../src/gnome-genius.c:4047
 msgid "Program is read only"
 msgstr "Programa é somente leitura"
 
-#: ../src/gnome-genius.c:3932 ../src/gnome-genius.c:3972
+#: ../src/gnome-genius.c:4052 ../src/gnome-genius.c:4092
 #, c-format
 msgid ""
 "<b>Cannot save file %s</b>\n"
@@ -4324,16 +4337,16 @@ msgstr ""
 "<b>Não foi possível salvar o arquivo %s</b>\n"
 "Detalhes: %s"
 
-#: ../src/gnome-genius.c:3938 ../src/gnome-genius.c:3979
+#: ../src/gnome-genius.c:4058 ../src/gnome-genius.c:4099
 #, c-format
 msgid "<b>Cannot save file %s</b>"
 msgstr "<b>Não foi possível salvar o arquivo %s</b>"
 
-#: ../src/gnome-genius.c:3989
+#: ../src/gnome-genius.c:4109
 msgid "Save new programs by \"Save As...\" first!"
 msgstr "Salvar novos programas pelo “Salvar Como…” primeiro!"
 
-#: ../src/gnome-genius.c:3995
+#: ../src/gnome-genius.c:4115
 msgid ""
 "Some read-only programs are modified.  Use \"Save As...\" to save them to a "
 "new location."
@@ -4341,7 +4354,7 @@ msgstr ""
 "Alguns programas somente leitura estão modificados.  Utilize “Salvar Como…” "
 "para salvá-los em um novo lugar."
 
-#: ../src/gnome-genius.c:4039 ../src/gnome-genius.c:4172
+#: ../src/gnome-genius.c:4159 ../src/gnome-genius.c:4292
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -4350,19 +4363,19 @@ msgstr ""
 "<b>Não é possível salvar o arquivo</b>\n"
 "Detalhes: %s"
 
-#: ../src/gnome-genius.c:4044 ../src/gnome-genius.c:4177
+#: ../src/gnome-genius.c:4164 ../src/gnome-genius.c:4297
 msgid "<b>Cannot save file</b>"
 msgstr "<b>Não foi possível salvar o arquivo</b>"
 
-#: ../src/gnome-genius.c:4078
+#: ../src/gnome-genius.c:4198
 msgid "Save As..."
 msgstr "Salvar como…"
 
-#: ../src/gnome-genius.c:4203
+#: ../src/gnome-genius.c:4323
 msgid "Save Console Output..."
 msgstr "Salvar saída do console…"
 
-#: ../src/gnome-genius.c:4254
+#: ../src/gnome-genius.c:4374
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -4372,12 +4385,12 @@ msgstr ""
 "\n"
 "Crie um novo programa ou selecione uma aba existente."
 
-#: ../src/gnome-genius.c:4284
+#: ../src/gnome-genius.c:4404
 #, c-format
 msgid "Cannot open pipe: %s"
 msgstr "Não é possível abrir tubo: %s"
 
-#: ../src/gnome-genius.c:4313
+#: ../src/gnome-genius.c:4433
 msgid ""
 "<b>Cannot execute program</b>\n"
 "\n"
@@ -4388,7 +4401,7 @@ msgstr ""
 "Não é possível bifurcar."
 
 # Qual a tradução de engine?
-#: ../src/gnome-genius.c:4386
+#: ../src/gnome-genius.c:4506
 msgid ""
 "<b>Error executing program</b>\n"
 "\n"
@@ -4400,12 +4413,12 @@ msgstr ""
 "Houve um erro ao gravar o programa\n"
 "no mecanismo."
 
-#: ../src/gnome-genius.c:4424
+#: ../src/gnome-genius.c:4544
 #, c-format
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: ../src/gnome-genius.c:4675
+#: ../src/gnome-genius.c:4795
 msgid "Memory (node number) limit has been reached, interrupt the computation?"
 msgstr "Limite de memória (número do nó) foi alcançado, interromper o cálculo?"
 
@@ -4414,17 +4427,17 @@ msgstr "Limite de memória (número do nó) foi alcançado, interromper o cálcu
 #. textbox_title
 #. bind_response
 #. wrap
-#: ../src/gnome-genius.c:4790
+#: ../src/gnome-genius.c:4910
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Não é possível executar genius-readline-helper-fifo!\n"
 
-#: ../src/gnome-genius.c:4851
+#: ../src/gnome-genius.c:4971
 msgid "Readline helper died, weird.  Trying to recover, things may be odd."
 msgstr ""
 "Readline helper morreu, estranho.  Tentando recuperar, as coisas podem ficar "
 "estranhas."
 
-#: ../src/gnome-genius.c:5044
+#: ../src/gnome-genius.c:5164
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -4433,14 +4446,14 @@ msgstr ""
 "Nota: Compilado sem GtkSourceView (um editor de código fonte melhor)"
 
 #. parent
-#: ../src/gnome-genius.c:5177
+#: ../src/gnome-genius.c:5297
 msgid "Cannot find the library file, genius installation may be incorrect"
 msgstr ""
 "Não foi possível achar o arquivo de biblioteca, instalação do genius deve "
 "estar incorreta"
 
 #. parent
-#: ../src/gnome-genius.c:5190
+#: ../src/gnome-genius.c:5310
 msgid ""
 "A file .genius in the home directory exists, but it should be a directory. "
 "Genius will not be able to save preferences."
@@ -4448,11 +4461,11 @@ msgstr ""
 "Existe a pasta .genius no diretório home, mas isso deveria ser um diretório "
 "também. Genius não poderá salvar as preferencias."
 
-#: ../src/gnome-genius.c:5279
+#: ../src/gnome-genius.c:5399
 msgid "Console"
 msgstr "Console"
 
-#: ../src/gnome-genius.c:5330
+#: ../src/gnome-genius.c:5450
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -4469,7 +4482,7 @@ msgstr ""
 "Para ajuda digite \"%smanual%s\" ou \"%shelp%s\".%s\n"
 "\n"
 
-#: ../src/gnome-genius.c:5515
+#: ../src/gnome-genius.c:5635
 msgid "GNOME Genius"
 msgstr "GNOME Genius"
 
@@ -5870,234 +5883,3 @@ msgstr "_Não"
 #: ../ve/ve-miscui.c:194
 msgid "_Yes"
 msgstr "_Sim"
-
-#~ msgid "String"
-#~ msgstr "String"
-
-#~ msgid "Line Comment"
-#~ msgstr "Comentário de linha"
-
-#~ msgid "Base-N Integers"
-#~ msgstr "Inteiros base-N"
-
-#~ msgid "Decimal Integers"
-#~ msgstr "Inteiros decimais"
-
-#~ msgid "Floats"
-#~ msgstr "Números reais"
-
-#~ msgid "Commands"
-#~ msgstr "Comandos"
-
-#~ msgid "Keywords"
-#~ msgstr "Palavras-chave"
-
-#~ msgid "Trim zeros from a polynomial (as vector)"
-#~ msgstr "Retira os zeros de um polinômio (como vetor)"
-
-#~ msgid "%s: Input not a number or matrix of numbers."
-#~ msgstr "%s: Entrada não é um número ou uma matriz de números."
-
-#~ msgid "' or '"
-#~ msgstr "' ou '"
-
-#~ msgid "%s: Input not a number of matrix of numbers."
-#~ msgstr "%s: Entrada não é um número de uma matriz de números."
-
-#~ msgid "%s: Color must be a string"
-#~ msgstr "%s: Cor deve ser uma string"
-
-#~ msgid "Find root of a function using the bisection method"
-#~ msgstr "Encontra a raiz de uma função usando o método da bisecção"
-
-#~ msgid "Find root of a function using the method of false position"
-#~ msgstr "Encontra a raiz de uma função usando o método da posição falsa"
-
-#~ msgid "Find root of a function using the secant method"
-#~ msgstr "Encontra a raiz de uma função usando o método secante"
-
-#~ msgid "Generate random float"
-#~ msgstr "Gera um número real aleatório"
-
-#~ msgid "Generate random integer"
-#~ msgstr "Gera um número inteiro aleatório"
-
-#~ msgid "Genius manual not found.  Perhaps the installation is not correct."
-#~ msgstr ""
-#~ "Manual do Genius não encontrado.  Talvez a instalação foi feita "
-#~ "corretamente."
-
-#~ msgid "Command 'xdg-open' is not found.  Cannot open help."
-#~ msgstr "Comando 'xdg-open' não encontrado.  Não foi possível abrir ajuda."
-
-#~ msgid "Rotate X: "
-#~ msgstr "Girar X: "
-
-#~ msgid "Rotate Y: "
-#~ msgstr "Girar Y: "
-
-#~ msgid "Rotate Z: "
-#~ msgstr "Girar Z: "
-
-#~ msgid "Z from:"
-#~ msgstr "Z de:"
-
-#~ msgid "Invalid Y range"
-#~ msgstr "Domínio de Y inválido"
-
-#~ msgid "Invalid Z range"
-#~ msgstr "Domínio de Z inválido"
-
-#~ msgid "%s: argument 2 must be less than or equal to argument 3"
-#~ msgstr "%s: o argumento 2 deveria ser menor ou igual ao argumento 3"
-
-#~ msgid "Protect a variable from being modified"
-#~ msgstr "Protege uma variável contra modificações"
-
-#~ msgid "Unprotect a variable from being modified"
-#~ msgstr "Desprotege uma variável contra modificações"
-
-#~ msgid "Open a GEL file for running"
-#~ msgstr "Abre um arquivo GEL para execução"
-
-#~ msgid "Exit genius"
-#~ msgstr "Sai do Genius"
-
-#~ msgid ""
-#~ "The Gnome calculator style edition of the genius calculator.  For license/"
-#~ "warranty details, type 'warranty' into the console."
-#~ msgstr ""
-#~ "A edição ao estilo da calculadora do Gnome da calculadora genius. Para "
-#~ "detalhes de licensa/garantia, digite 'garantia' no console."
-
-#~ msgid "(memory buffer)"
-#~ msgstr "(buffer de memória)"
-
-#~ msgid "Cannot load user interface"
-#~ msgstr "Não é possível carregar a interface de usuário"
-
-#~ msgid ""
-#~ "An error occurred while loading user interface element %s%s from file "
-#~ "%s.  Possibly the glade interface description was corrupted.  %s cannot "
-#~ "continue and will exit now.  You should check your installation of %s or "
-#~ "reinstall %s."
-#~ msgstr ""
-#~ "Ocorreu um erro enquanto carregava o elemento da interface do usuário %s"
-#~ "%s do arquivo %s. Possivelmente a descrição da interface glade foi "
-#~ "corrompida. %s não pode continuare terminará agora. Verifique a sua "
-#~ "instalação de %s ou reinstale %s."
-
-#~ msgid ""
-#~ "Glade file is on crack! Make sure the correct file is installed!\n"
-#~ "file: %s widget: %s"
-#~ msgstr ""
-#~ "O arquivo Glade está quebrado! Certifique-se de que o arquivo correto "
-#~ "esteja instalado!\n"
-#~ "arquivo: %s widget: %s"
-
-#~ msgid ""
-#~ "An error occurred while loading the user interface element %s%s from file "
-#~ "%s. CList type widget should have %d column. Possibly the glade interface "
-#~ "description was corrupted. %s cannot continue and will exit now. You "
-#~ "should check your installation of %s or reinstall %s."
-#~ msgid_plural ""
-#~ "An error occurred while loading the user interface element %s%s from file "
-#~ "%s. CList type widget should have %d columns. Possibly the glade "
-#~ "interface description was corrupted. %s cannot continue and will exit "
-#~ "now. You should check your installation of %s or reinstall %s."
-#~ msgstr[0] ""
-#~ "Ocorreu um erro enquanto carregava o elemento da interface do usuário %s"
-#~ "%s do arquivo %s. O widget do tipo Clist deve ter a coluna %d. "
-#~ "Possivelmente a descrição da interface glade foi corrompida. %s não pode "
-#~ "continuar e terminará agora. Verifique a sua instalação de %s ou "
-#~ "reinstale %s."
-#~ msgstr[1] ""
-#~ "Ocorreu um erro enquanto carregava o elemento da interface do usuário %s"
-#~ "%s do arquivo %s. O widget do tipo Clist deve ter as colunas %d. "
-#~ "Possivelmente a descrição da interface glade foi corrompida. %s não pode "
-#~ "continuar e terminará agora. Verifique a sua instalação de %s ou "
-#~ "reinstale %s."
-
-#~ msgid ""
-#~ "Glade file is on crack! Make sure the correct file is installed!\n"
-#~ "file: %s widget: %s expected clist columns: %d"
-#~ msgstr ""
-#~ "O arquivo Glade está quebrado! Certifique-se de que o arquivo correto "
-#~ "esteja instalado!\n"
-#~ "arquivo: %s widget: %s colunas de clist esperadas: %d"
-
-#~ msgid ""
-#~ "An error occurred while loading the user interface from file %s.  "
-#~ "Possibly the glade interface description was not found.  %s cannot "
-#~ "continue and will exit now.  You should check your installation of %s or "
-#~ "reinstall %s."
-#~ msgstr ""
-#~ "Ocorreu um erro enquanto carregava a interface do usuário do arquivo %s. "
-#~ "Possivelmente a interface glade não foi encontrada. %s não pode continuar "
-#~ "e terminará agora. Verifique a sua instalação de %s ou reinstale %s."
-
-#~ msgid "No interface could be loaded. This is BAD! (file: %s)"
-#~ msgstr "Nenhuma interface pôde ser carregada. Isto é RUIM! (arquivo: %s)"
-
-#~ msgid "Too many alias levels for a locale; may indicate a loop"
-#~ msgstr "Muitos níveis de alias para uma localidade; pode indicar um loop"
-
-#~ msgid "Euler's Constant gamma good up to about precision of 9516 digits"
-#~ msgstr ""
-#~ "O gama da Constante de Euler é bom até aproximadamente a precisão de 9516 "
-#~ "dígitos"
-
-#~ msgid ""
-#~ "Return n/d but only if d divides n else returns garbage (this is faster "
-#~ "then writing n/d)"
-#~ msgstr ""
-#~ "Devolve n/d, mas apenas se d divide n, senão retorna lixo (isso é mais "
-#~ "rápido que escrever n/d)"
-
-#~ msgid "_Manual"
-#~ msgstr "_Manual"
-
-#~ msgid "Display the manual"
-#~ msgstr "Exibe o manual"
-
-#~ msgid "Check if argument is a gaussian integer"
-#~ msgstr "Verifica se um argumento é um inteiro gaussiano"
-
-#~ msgid "Pseudoprime test, true if b^(n-1) == 1 (mod n)"
-#~ msgstr "Teste pseudoprimo, true se b^(n-1) == 1 (mod n)"
-
-#~ msgid ""
-#~ "Is a matrix (or number) invertible (Integer matrix is invertible if it's "
-#~ "invertible over the integers)"
-#~ msgstr ""
-#~ "É uma matriz (ou número) inversível (Uma matriz inteira é inversível se "
-#~ "ela é inversível sobre os inteiros)"
-
-#~ msgid "Integration by Composite Simpson's Rule"
-#~ msgstr "Integração pela Regra Composta de Simpson"
-
-#~ msgid "Returns 1 if all elements are zero"
-#~ msgstr "Devolve 1 se todos os elementos forem zero"
-
-#~ msgid "Returns 1 if all elements are equal"
-#~ msgstr "Devolve 1 se todos os elementos forem iguais"
-
-#~ msgid ""
-#~ "\n"
-#~ "Note: Compiled without MPFR (some operations may be slow) see www.mpfr.org"
-#~ msgstr ""
-#~ "\n"
-#~ "Nota: Compilado sem MPFR (algumas operações podem ficar lentas) veja www."
-#~ "mpfr.org"
-
-#~ msgid "Number too large to compute exponential!"
-#~ msgstr "O número é grande demais para calcular a exponencial!"
-
-#~ msgid "translator_credits-PLEASE_ADD_YOURSELF_HERE"
-#~ msgstr "Raphael Higino <raphaelh@uai.com.br>"
-
-#~ msgid "Genius Line Plot"
-#~ msgstr "Gráfico de Retas do Genius"
-
-#~ msgid "_Fit Y Axis"
-#~ msgstr "A_justar ao Eixo Y"
