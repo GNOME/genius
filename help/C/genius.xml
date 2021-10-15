@@ -3,8 +3,8 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
   <!ENTITY app "<application>Genius Mathematics Tool</application>">
   <!ENTITY appname "Genius">
-  <!ENTITY appversion "1.0.26">
-  <!ENTITY date "December 2020">
+  <!ENTITY appversion "1.0.27">
+  <!ENTITY date "October 2021">
 
   <!ENTITY legal SYSTEM "legal.xml">
 
@@ -37,7 +37,7 @@
     <title>&appname; Manual</title>       
 
     <copyright>
-      <year>1997-2020</year>
+      <year>1997-2021</year>
       <holder>Ji&#345;&#237; (George) Lebl</holder>
     </copyright>
     <copyright>
@@ -66,7 +66,7 @@
 		<surname>Lebl</surname> 
 		<affiliation> 
 	  		<orgname>Oklahoma State University</orgname> 
-	  		<address> <email>jirka@5z.com</email> </address> 
+	  		<address> <email>jiri.lebl@gmail.com</email> </address> 
 		</affiliation> 
       </author> 
       <author> 
@@ -133,7 +133,7 @@
 		<date>August 2004</date> 
 		<revdescription> 
 	  		<para role="author">Jiri (George) Lebl
-	    	<email>jirka@5z.com</email>
+	    	<email>jiri.lebl@gmail.com</email>
 	  		</para>
 		</revdescription> 
       </revision> 
@@ -146,7 +146,7 @@
 		<date>&date;</date> 
 		<revdescription> 
 	  		<para role="author">Jiri (George) Lebl
-	    	<email>jirka@5z.com</email>
+	    	<email>jiri.lebl@gmail.com</email>
 	  		</para>
 		</revdescription> 
       </revision> 
@@ -160,7 +160,7 @@
 	      application or this manual, please visit the
 	      <ulink url="http://www.jirka.org/genius.html" type="http">Genius
 		      Web page</ulink>
-	      or email me at <email>jirka@5z.com</email>.
+	      or email me at <email>jiri.lebl@gmail.com</email>.
       </para>
 <!-- Translators may also add here feedback address for translations -->
     </legalnotice> 
@@ -424,7 +424,7 @@ do <userinput>cd directory</userinput> as in the UNIX command shell.
       <para>
 	      If you wish to enter several more complicated commands, or perhaps write a complicated
 	      function using the <link linkend="genius-gel">GEL</link> language, you can create a new
-	     program.
+	     program; really just a file with many commands.
       </para>
       <para>
 To start writing a new program, choose
@@ -500,10 +500,11 @@ in a separate tab.  This is equivalent to the <command>load</command> command.
     <sect1 id="genius-line-plots">
       <title>Line Plots</title>
       <para>
-	To graph real valued functions of one variable open the <guilabel>Create Plot</guilabel>
+	To graph real-valued functions of one variable, open the <guilabel>Create Plot</guilabel>
 	window.  You can also use the
         <link linkend="gel-function-LinePlot"><function>LinePlot</function></link> function
-	on the command line (see its documentation).
+	on the command line (see its documentation).  And by the words line plot, we mean plots in the plane,
+	as opposed to surface plots, which are in three dimensions.
       </para>
       <para>
 	Once you click the <guilabel>Plot</guilabel> button, a window opens up with some notebooks in it.
@@ -1168,14 +1169,15 @@ this should be second nature. However genius can let you pretend it is a
 terminator to some degree.  If a <literal>;</literal> is found at the end of a parenthesis or a block,
 genius will append a null to it as if you would have written
 <userinput>;null</userinput>.
-This is useful in case you do not want to return a value from say a loop,
-or if you handle the return differently. Note that it will slightly slow down
-the code if it is executed too often as there is one more operator involved.
+This is useful in case you do not want to return a value from a loop,
+or if you handle the return differently.
       </para>
       <para>
-	      If you are typing expressions in a program you do not have to add a semicolon.  In this case
-	      genius will simply print the return value whenever it executes the expression.  However, do note that if you are defining a
-	      function, the body of the function is a single expression.
+	      If you are typing expressions in a program file you do not have to add a semicolon.  In this case
+	      genius will simply print the return value whenever it executes the expression.  This is the same
+	      as when typing on the command line.  However, do note that if you are defining a
+	      function, the body of the function is a single expression.  Usually, therefore, if a function body is
+	      long, you will need to enclose it in parentheses.
       </para>
     </sect1>
 
