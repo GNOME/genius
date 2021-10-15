@@ -4805,19 +4805,19 @@ recompute_surface_function (gboolean fitting)
 	if (surface_data_x != NULL) g_free (surface_data_x);
 	if (surface_data_y != NULL) g_free (surface_data_y);
 	if (surface_data_z != NULL) g_free (surface_data_z);
-	surface_data_x = (double *)g_malloc((30*30 + 1) * sizeof(double));
-	surface_data_y = (double *)g_malloc((30*30 + 1) * sizeof(double));
-	surface_data_z = (double *)g_malloc((30*30 + 1) * sizeof(double));
+	surface_data_x = (double *)g_malloc((31*31 + 1) * sizeof(double));
+	surface_data_y = (double *)g_malloc((31*31 + 1) * sizeof(double));
+	surface_data_z = (double *)g_malloc((31*31 + 1) * sizeof(double));
 
 	/* FIXME: 30 should be configurable! */
 	n = 0;
-	for (j = 0; j < 30; j++) {
-		if (j < 29)
+	for (j = 0; j <= 30; j++) {
+		if (j < 30)
 			y = surfacey1 + (j*(surfacey2-surfacey1))/30.0;
 		else
 			y = surfacey2;
-		for (i = 0; i < 30; i++) {
-			if (i < 29)
+		for (i = 0; i <= 30; i++) {
+			if (i < 30)
 				x = surfacex1 + (i*(surfacex2-surfacex1))/30.0;
 			else
 				x = surfacex2;
