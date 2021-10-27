@@ -20,18 +20,21 @@ xmlto html genius.xml
 
 #echo docbook2pdf genius.xml
 #docbook2pdf genius.xml
-echo dblatex genius.xml
-dblatex genius.xml
+#echo dblatex genius.xml
+
+echo
+echo
+echo
+echo
+echo FIXME: dblatex seems broken, we should fix this to build a pdf version again
+echo
+echo
+echo
+echo
+
+#dblatex genius.xml
 #echo docbook2ps genius.xml
+
 #docbook2ps genius.xml
 #echo ps2pdf genius.ps genius.pdf
 #ps2pdf genius.ps genius.pdf
-
-#echo scp *.html zinc.5z.com:/home/www/html/jirka/genius-documentation/
-#scp *.html zinc.5z.com:/home/www/html/jirka/genius-documentation/
-
-#echo scp figures/*.png zinc.5z.com:/home/www/html/jirka/genius-documentation/figures/
-#scp figures/*.png zinc.5z.com:/home/www/html/jirka/genius-documentation/figures/
-
-#echo scp genius.pdf zinc.5z.com:/home/www/html/jirka/genius-reference.pdf
-#scp genius.pdf zinc.5z.com:/home/www/html/jirka/genius-reference.pdf

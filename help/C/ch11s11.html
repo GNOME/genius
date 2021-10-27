@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Calculus</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Genius Manual"><link rel="up" href="ch11.html" title="Chapter 11. List of GEL functions"><link rel="prev" href="ch11s10.html" title="Combinatorics"><link rel="next" href="ch11s12.html" title="Functions"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Calculus</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s10.html">Prev</a> </td><th width="60%" align="center">Chapter 11. List of GEL functions</th><td width="20%" align="right"> <a accesskey="n" href="ch11s12.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-function-list-calculus"></a>Calculus</h2></div></div></div><div class="variablelist"><dl class="variablelist"><dt><span class="term"><a name="gel-function-CompositeSimpsonsRule"></a>CompositeSimpsonsRule</span></dt><dd><pre class="synopsis">CompositeSimpsonsRule (f,a,b,n)</pre><p>Integration of f by Composite Simpson's Rule on the interval [a,b] with n subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be even.</p><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Calculus</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Genius Manual"><link rel="up" href="ch11.html" title="Chapter 11. List of GEL functions"><link rel="prev" href="ch11s10.html" title="Combinatorics"><link rel="next" href="ch11s12.html" title="Functions"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Calculus</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s10.html">Prev</a> </td><th width="60%" align="center">Chapter 11. List of GEL functions</th><td width="20%" align="right"> <a accesskey="n" href="ch11s12.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-function-list-calculus"></a>Calculus</h2></div></div></div><div class="variablelist"><dl class="variablelist"><dt><span class="term"><a name="gel-function-CompositeSimpsonsRule"></a>CompositeSimpsonsRule</span></dt><dd><pre class="synopsis">CompositeSimpsonsRule (f,a,b,n)</pre><p>Integration of f by Composite Simpson's Rule on the interval [a,b] with n subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be even.</p><p>
 	    See
 	    <a class="ulink" href="http://planetmath.org/SimpsonsRule" target="_top">Planetmath</a> for more information.
           </p></dd><dt><span class="term"><a name="gel-function-CompositeSimpsonsRuleTolerance"></a>CompositeSimpsonsRuleTolerance</span></dt><dd><pre class="synopsis">CompositeSimpsonsRuleTolerance (f,a,b,FourthDerivativeBound,Tolerance)</pre><p>Integration of f by Composite Simpson's Rule on the interval [a,b] with the number of steps calculated by the fourth derivative bound and the desired tolerance.</p><p>
@@ -25,7 +25,7 @@ the term <strong class="userinput"><code>cos(x*(n-1)*pi/L)</code></strong>, whil
 <strong class="userinput"><code>sin(x*n*pi/L)</code></strong>.  Either <code class="varname">a</code>
 or <code class="varname">b</code> can be <code class="constant">null</code>.</p><p>
 	    See
-	    <a class="ulink" href="http://en.wikipedia.org/wiki/Fourier_series" target="_top">Wikipedia</a> or
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Fourier_series" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://mathworld.wolfram.com/FourierSeries.html" target="_top">Mathworld</a> for more information.
           </p></dd><dt><span class="term"><a name="gel-function-InfiniteProduct"></a>InfiniteProduct</span></dt><dd><pre class="synopsis">InfiniteProduct (func,start,inc)</pre><p>Try to calculate an infinite product for a single parameter function.</p></dd><dt><span class="term"><a name="gel-function-InfiniteProduct2"></a>InfiniteProduct2</span></dt><dd><pre class="synopsis">InfiniteProduct2 (func,arg,start,inc)</pre><p>Try to calculate an infinite product for a double parameter function with func(arg,n).</p></dd><dt><span class="term"><a name="gel-function-InfiniteSum"></a>InfiniteSum</span></dt><dd><pre class="synopsis">InfiniteSum (func,start,inc)</pre><p>Try to calculate an infinite sum for a single parameter function.</p></dd><dt><span class="term"><a name="gel-function-InfiniteSum2"></a>InfiniteSum2</span></dt><dd><pre class="synopsis">InfiniteSum2 (func,arg,start,inc)</pre><p>Try to calculate an infinite sum for a double parameter function with func(arg,n).</p></dd><dt><span class="term"><a name="gel-function-IsContinuous"></a>IsContinuous</span></dt><dd><pre class="synopsis">IsContinuous (f,x0)</pre><p>Try and see if a real-valued function is continuous at x0 by calculating the limit there.</p></dd><dt><span class="term"><a name="gel-function-IsDifferentiable"></a>IsDifferentiable</span></dt><dd><pre class="synopsis">IsDifferentiable (f,x0)</pre><p>Test for differentiability by approximating the left and right limits and comparing.</p></dd><dt><span class="term"><a name="gel-function-LeftLimit"></a>LeftLimit</span></dt><dd><pre class="synopsis">LeftLimit (f,x0)</pre><p>Calculate the left limit of a real-valued function at x0.</p></dd><dt><span class="term"><a name="gel-function-Limit"></a>Limit</span></dt><dd><pre class="synopsis">Limit (f,x0)</pre><p>Calculate the limit of a real-valued function at x0.  Tries to calculate both left and right limits.</p></dd><dt><span class="term"><a name="gel-function-MidpointRule"></a>MidpointRule</span></dt><dd><pre class="synopsis">MidpointRule (f,a,b,n)</pre><p>Integration by midpoint rule.</p></dd><dt><span class="term"><a name="gel-function-NumericalDerivative"></a>NumericalDerivative</span></dt><dd><pre class="synopsis">NumericalDerivative (f,x0)</pre><p>Aliases: <code class="function">NDerivative</code></p><p>Attempt to calculate numerical derivative.</p><p>
 	    See
@@ -40,7 +40,7 @@ up to <code class="varname">N</code>th harmonic computed numerically.  The coeff
 computed by numerical integration using
 <a class="link" href="ch11s11.html#gel-function-NumericalIntegral"><code class="function">NumericalIntegral</code></a>.</p><p>
 	    See
-	    <a class="ulink" href="http://en.wikipedia.org/wiki/Fourier_series" target="_top">Wikipedia</a> or
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Fourier_series" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://mathworld.wolfram.com/FourierSeries.html" target="_top">Mathworld</a> for more information.
           </p><p>Version 1.0.7 onwards.</p></dd><dt><span class="term"><a name="gel-function-NumericalFourierSeriesFunction"></a>NumericalFourierSeriesFunction</span></dt><dd><pre class="synopsis">NumericalFourierSeriesFunction (f,L,N)</pre><p>Return a function that is the Fourier series of
 <code class="function">f</code> with half-period <code class="varname">L</code> (that is defined
@@ -50,7 +50,7 @@ trigonometric real series composed of sines and cosines.  The coefficients are
 computed by numerical integration using
 <a class="link" href="ch11s11.html#gel-function-NumericalIntegral"><code class="function">NumericalIntegral</code></a>.</p><p>
 	    See
-	    <a class="ulink" href="http://en.wikipedia.org/wiki/Fourier_series" target="_top">Wikipedia</a> or
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Fourier_series" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://mathworld.wolfram.com/FourierSeries.html" target="_top">Mathworld</a> for more information.
           </p><p>Version 1.0.7 onwards.</p></dd><dt><span class="term"><a name="gel-function-NumericalFourierCosineSeriesCoefficients"></a>NumericalFourierCosineSeriesCoefficients</span></dt><dd><pre class="synopsis">NumericalFourierCosineSeriesCoefficients (f,L,N)</pre><p>Return a vector of coefficients of 
 the cosine Fourier series of
@@ -65,7 +65,7 @@ Note that <strong class="userinput"><code>a@(1)</code></strong> is
 the constant coefficient!  That is, <strong class="userinput"><code>a@(n)</code></strong> refers to
 the term <strong class="userinput"><code>cos(x*(n-1)*pi/L)</code></strong>.</p><p>
 	    See
-	    <a class="ulink" href="http://en.wikipedia.org/wiki/Fourier_series" target="_top">Wikipedia</a> or
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Fourier_series" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://mathworld.wolfram.com/FourierCosineSeries.html" target="_top">Mathworld</a> for more information.
           </p><p>Version 1.0.7 onwards.</p></dd><dt><span class="term"><a name="gel-function-NumericalFourierCosineSeriesFunction"></a>NumericalFourierCosineSeriesFunction</span></dt><dd><pre class="synopsis">NumericalFourierCosineSeriesFunction (f,L,N)</pre><p>Return a function that is the cosine Fourier series of
 <code class="function">f</code> with half-period <code class="varname">L</code>.  That is,
@@ -76,7 +76,7 @@ only has cosine terms.  The series is computed up to the
 computed by numerical integration using
 <a class="link" href="ch11s11.html#gel-function-NumericalIntegral"><code class="function">NumericalIntegral</code></a>.</p><p>
 	    See
-	    <a class="ulink" href="http://en.wikipedia.org/wiki/Fourier_series" target="_top">Wikipedia</a> or
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Fourier_series" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://mathworld.wolfram.com/FourierCosineSeries.html" target="_top">Mathworld</a> for more information.
           </p><p>Version 1.0.7 onwards.</p></dd><dt><span class="term"><a name="gel-function-NumericalFourierSineSeriesCoefficients"></a>NumericalFourierSineSeriesCoefficients</span></dt><dd><pre class="synopsis">NumericalFourierSineSeriesCoefficients (f,L,N)</pre><p>Return a vector of coefficients of 
 the sine Fourier series of
@@ -88,7 +88,7 @@ only has sine terms.  The series is computed up to the
 computed by numerical integration using
 <a class="link" href="ch11s11.html#gel-function-NumericalIntegral"><code class="function">NumericalIntegral</code></a>.</p><p>
 	    See
-	    <a class="ulink" href="http://en.wikipedia.org/wiki/Fourier_series" target="_top">Wikipedia</a> or
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Fourier_series" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://mathworld.wolfram.com/FourierSineSeries.html" target="_top">Mathworld</a> for more information.
           </p><p>Version 1.0.7 onwards.</p></dd><dt><span class="term"><a name="gel-function-NumericalFourierSineSeriesFunction"></a>NumericalFourierSineSeriesFunction</span></dt><dd><pre class="synopsis">NumericalFourierSineSeriesFunction (f,L,N)</pre><p>Return a function that is the sine Fourier series of
 <code class="function">f</code> with half-period <code class="varname">L</code>.  That is,
@@ -99,7 +99,7 @@ only has sine terms.  The series is computed up to the
 computed by numerical integration using
 <a class="link" href="ch11s11.html#gel-function-NumericalIntegral"><code class="function">NumericalIntegral</code></a>.</p><p>
 	    See
-	    <a class="ulink" href="http://en.wikipedia.org/wiki/Fourier_series" target="_top">Wikipedia</a> or
+	    <a class="ulink" href="https://en.wikipedia.org/wiki/Fourier_series" target="_top">Wikipedia</a> or
 	    <a class="ulink" href="http://mathworld.wolfram.com/FourierSineSeries.html" target="_top">Mathworld</a> for more information.
           </p><p>Version 1.0.7 onwards.</p></dd><dt><span class="term"><a name="gel-function-NumericalIntegral"></a>NumericalIntegral</span></dt><dd><pre class="synopsis">NumericalIntegral (f,a,b)</pre><p>Integration by rule set in NumericalIntegralFunction of f from a to b using NumericalIntegralSteps steps.</p></dd><dt><span class="term"><a name="gel-function-NumericalLeftDerivative"></a>NumericalLeftDerivative</span></dt><dd><pre class="synopsis">NumericalLeftDerivative (f,x0)</pre><p>Attempt to calculate numerical left derivative.</p></dd><dt><span class="term"><a name="gel-function-NumericalLimitAtInfinity"></a>NumericalLimitAtInfinity</span></dt><dd><pre class="synopsis">NumericalLimitAtInfinity (_f,step_fun,tolerance,successive_for_success,N)</pre><p>Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N.</p></dd><dt><span class="term"><a name="gel-function-NumericalRightDerivative"></a>NumericalRightDerivative</span></dt><dd><pre class="synopsis">NumericalRightDerivative (f,x0)</pre><p>Attempt to calculate numerical right derivative.</p></dd><dt><span class="term"><a name="gel-function-OddPeriodicExtension"></a>OddPeriodicExtension</span></dt><dd><pre class="synopsis">OddPeriodicExtension (f,L)</pre><p>Return a function that is the odd periodic extension of
 <code class="function">f</code> with half period <code class="varname">L</code>.  That
