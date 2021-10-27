@@ -9,4 +9,21 @@ Suppose you type the following:
 </p><pre lang="en" class="programlisting">3 ; 5
 </pre><p lang="en">
 This expression will yield 5.
-      </p><p>Esto requiere poner algunos paréntesis para evitar ambigüedades, especialmente si el carácter <code class="literal">;</code> no es la primitiva más prioritaria. Esto difiere ligeramente de otros lenguajes de programación donde el carácter <code class="literal">;</code> es un finalizador de sentencias. En GEL es un operador binario. Si está familiarizado con Pascal esto debería ser natural para usted. Sin embargo, Genius le permite simular que es un terminador si el carácter <code class="literal">;</code> se encuentra detrás de un paréntesis o un bloque, Genius añadirá automáticamente un nodo nulo como si hubiese escrito <strong class="userinput"><code>;null</code></strong>. Esto es útil en caso de que no quiera devolver ningún valor o si gestiona el retorno de un modo diferente. Tenga en cuenta que es ralentiza ligeramente el código si se ejecuta demasiado frecuentemente ya que se toma como un operador más.</p><p>Si escribe expresiones en un programa no tiene que añadir un punto y coma. En este caso Genius muestra el resultado de la expresión cuando se ejecuta. Sin embargo, si define una función, el cuerpo de la función es una sola expresión.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05s03.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch05.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch05s05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Usar funciones </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Comentarios</td></tr></table></div></body></html>
+      </p><p lang="en">
+This will require some parenthesizing to make it unambiguous sometimes,
+especially if the <code class="literal">;</code> is not the top most primitive. This slightly differs from
+other programming languages where the <code class="literal">;</code> is a terminator of statements, whereas
+in GEL it’s actually a binary operator. If you are familiar with pascal
+this should be second nature. However genius can let you pretend it is a
+terminator to some degree.  If a <code class="literal">;</code> is found at the end of a parenthesis or a block,
+genius will append a null to it as if you would have written
+<strong class="userinput"><code>;null</code></strong>.
+This is useful in case you do not want to return a value from a loop,
+or if you handle the return differently.
+      </p><p lang="en">
+	      If you are typing expressions in a program file you do not have to add a semicolon.  In this case
+	      genius will simply print the return value whenever it executes the expression.  This is the same
+	      as when typing on the command line.  However, do note that if you are defining a
+	      function, the body of the function is a single expression.  Usually, therefore, if a function body is
+	      long, you will need to enclose it in parentheses.
+      </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05s03.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch05.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch05s05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Usar funciones </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Comentarios</td></tr></table></div></body></html>

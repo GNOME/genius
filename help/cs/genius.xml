@@ -2,8 +2,8 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 <!ENTITY app "<application>Genius Mathematics Tool</application>">
 <!ENTITY appname "Genius">
-<!ENTITY appversion "1.0.26">
-<!ENTITY date "December 2020">
+<!ENTITY appversion "1.0.27">
+<!ENTITY date "October 2021">
 <!ENTITY legal SYSTEM "legal.xml">
 <!ENTITY manrevision "0.2">
 <!ENTITY lt "&#60;">
@@ -29,7 +29,7 @@
     <title>Příručka k aplikaci Genius</title>       
 
     <copyright lang="en">
-      <year>1997-2020</year>
+      <year>1997-2021</year>
       <holder>Jiří (George) Lebl</holder>
     </copyright>
     <copyright lang="en">
@@ -113,7 +113,7 @@
 		<surname>Lebl</surname> 
 		<affiliation> 
 	  		<orgname>Oklahoma State University</orgname> 
-	  		<address> <email>jirka@5z.com</email> </address> 
+	  		<address> <email>jiri.lebl@gmail.com</email> </address> 
 		</affiliation> 
       </author> 
       <author lang="en"> 
@@ -180,7 +180,7 @@
 		<date>August 2004</date> 
 		<revdescription> 
 	  		<para role="author">Jiri (George) Lebl
-	    	<email>jirka@5z.com</email>
+	    	<email>jiri.lebl@gmail.com</email>
 	  		</para>
 		</revdescription> 
       </revision> 
@@ -190,19 +190,25 @@
     <revhistory>
       <revision lang="en"> 
 		<revnumber>0.2</revnumber> 
-		<date>December 2020</date> 
+		<date>October 2021</date> 
 		<revdescription> 
 	  		<para role="author" lang="en">Jiri (George) Lebl
-	    	<email>jirka@5z.com</email>
+	    	<email>jiri.lebl@gmail.com</email>
 	  		</para>
 		</revdescription> 
       </revision> 
     </revhistory>
-    <releaseinfo lang="en">This manual describes version 1.0.26 of Genius.
+    <releaseinfo lang="en">This manual describes version 1.0.27 of Genius.
     </releaseinfo> 
     <legalnotice> 
       <title>Ohlasy</title> 
-      <para>Pokud chcete oznámit chybu nebo navrhnout vylepšení vztahující se k aplikaci <application>matematický nástroj Genius</application> nebo této příručce, navštivte prosím <ulink url="http://www.jirka.org/genius.html" type="http">webovou stránku aplikace Genius</ulink> nebo napište autorovi na e-mail <email>jirka@5z.com</email>.</para>
+      <para lang="en">
+	      To report a bug or make a suggestion regarding the <application>Genius Mathematics Tool</application>
+	      application or this manual, please visit the
+	      <ulink url="http://www.jirka.org/genius.html" type="http">Genius
+		      Web page</ulink>
+	      or email me at <email>jiri.lebl@gmail.com</email>.
+      </para>
 <!-- Translators may also add here feedback address for translations -->
     </legalnotice> 
   </bookinfo> 
@@ -383,7 +389,11 @@ do <userinput>cd directory</userinput> as in the UNIX command shell.
 
     <sect1 id="genius-usage-create-program"> 
       <title>Jak vytvořit nový program</title> 
-      <para>Když si přejete zadat několik komplikovaných příkazů nebo napsat složitou funkci pomocí jazyka <link linkend="genius-gel">GEL</link>, můžete vytvořit nový program.</para>
+      <para lang="en">
+	      If you wish to enter several more complicated commands, or perhaps write a complicated
+	      function using the <link linkend="genius-gel">GEL</link> language, you can create a new
+	     program; really just a file with many commands.
+      </para>
       <para>Když chcete začít psát nový program, zvolte <menuchoice><guimenu>Soubor</guimenu><guimenuitem>Nový program</guimenuitem></menuchoice> a v pracovní oblasti se objeví nová karta. V té můžete nový program v jazyce <link linkend="genius-gel">GEL</link> psát. Až jej dopíšete, můžete jej spustit pomocí <menuchoice><guimenu>Kalkulátor</guimenu><guimenuitem>Spustit</guimenuitem></menuchoice> (nebo tlačítkem <guilabel>Spustit</guilabel> na nástrojové liště). Tím se váš program provede a na kartě <guilabel>Konzola</guilabel> zobrazí výstup. Ve výsledku je to stejné, jako byste vzali text celého programu a napsali jej do konzoly. Jediný rozdíl je v tom, že vstup je proveden nezávisle na konzole, zatímco výstup jde na konzolu. <menuchoice><guimenu>Kalkulátor</guimenu><guimenuitem>Spustit</guimenuitem></menuchoice> vždy spustí aktuálně vybraný program, i když jste zrovna na kartě <guilabel>Konzola</guilabel>. Aktuálně vybraný program má svoji kartu označenou tučným písmem a vybere se tak, že na kartu prostě kliknete.</para>
       <para>Abyste napsaný program uložili, zvolte <menuchoice><guimenu>Soubor</guimenu> <guimenuitem>Uložit jako…</guimenuitem></menuchoice> Podobně, jako v jiných aplikacích, můžete zvolit <menuchoice><guimenu>Soubor</guimenu> <guimenuitem>Uložit</guimenuitem></menuchoice> pro uložení programu, který již má přidělený název souboru. V případě, že máte otevřených hodně programů, které upravujete, a přejete si je uložit, můžete zvolit také <menuchoice><guimenu>Soubor</guimenu><guimenuitem>Uložit neuložené</guimenuitem></menuchoice>.</para>
       <para>Programy, ve kterých jsou neuložené změny, mají vedle svého názvu souboru „[+]“. Díky tomu můžete rychle poznat, jestli se soubor na disku a otevřený v kartě odlišují. Programy, které zatím nemají přidělený název souboru, jsou stále považovány za neuložené a „[+]“ se u nich nevypisuje.</para>
@@ -406,7 +416,13 @@ do <userinput>cd directory</userinput> as in the UNIX command shell.
 
     <sect1 id="genius-line-plots">
       <title>Čárové grafy</title>
-      <para>Pro vykreslení grafu reálně vyjadřujícího funkce jedné proměnné otevřete okno <guilabel>Vytvoření grafu</guilabel>. Můžete také použít funkci <link linkend="gel-function-LinePlot"><function>LinePlot</function></link> z příkazového řádku (viz její dokumentace).</para>
+      <para lang="en">
+	To graph real-valued functions of one variable, open the <guilabel>Create Plot</guilabel>
+	window.  You can also use the
+        <link linkend="gel-function-LinePlot"><function>LinePlot</function></link> function
+	on the command line (see its documentation).  And by the words line plot, we mean plots in the plane,
+	as opposed to surface plots, which are in three dimensions.
+      </para>
       <para>Když kliknete na tlačítko <guilabel>Vykreslit</guilabel>, otevře se okno s několika kartami. Musíte být na kartě <guilabel>Čárový graf funkce</guilabel> a v ní na kartě <guilabel>Funkce/výrazy</guilabel>. Viz <xref linkend="lineplot-fig"/>.</para>
 
       <figure id="lineplot-fig"> 
@@ -874,8 +890,25 @@ Suppose you type the following:
 </programlisting>
 This expression will yield 5.
       </para>
-      <para>Občas to vyžaduje použití závorek, aby se předešlo nejednoznačnostem, zvláště když <literal>;</literal> není nejvyšším primitivem. Liší se to trochu od jiných programovacích jazyků, kde <literal>;</literal> je zakončovacím symbolem příkazů, zatímco v jazyce GEL je to v současnosti binární operátor. Pokud jste zběhlí v jazyce Pascal, mělo by to pro vás být přirozené. Nicméně Genius může do určité míry předstírat, že se jedná o zakončovací symbol. Když se <literal>;</literal> nachází na konci závorek nebo bloku, Genius za něj připojí prázdný uzel podobně, jako byste napsali <userinput>;null</userinput>. To je užitečné v případě, kdy chcete vrátit hodnotu, řekněme ze smyčky, nebo když pracujete s návratovými hodnotami odděleně. Upozorňujeme, že to mírně zpomaluje provádění kódu, pokud je spouštěn často, protože je v něm navíc další operátor.</para>
-      <para>Když v programu píšete výraz, nemusíte za něj přidávat středník. V takovém případě bude Genius prostě vypisovat vrácenou hodnotu, kdykoliv se výraz vyhodnotí. Nicméně vezměte na vědomí, že když definujete funkci, je celé tělo funkce jediný výraz.</para>
+      <para lang="en">
+This will require some parenthesizing to make it unambiguous sometimes,
+especially if the <literal>;</literal> is not the top most primitive. This slightly differs from
+other programming languages where the <literal>;</literal> is a terminator of statements, whereas
+in GEL it’s actually a binary operator. If you are familiar with pascal
+this should be second nature. However genius can let you pretend it is a
+terminator to some degree.  If a <literal>;</literal> is found at the end of a parenthesis or a block,
+genius will append a null to it as if you would have written
+<userinput>;null</userinput>.
+This is useful in case you do not want to return a value from a loop,
+or if you handle the return differently.
+      </para>
+      <para lang="en">
+	      If you are typing expressions in a program file you do not have to add a semicolon.  In this case
+	      genius will simply print the return value whenever it executes the expression.  This is the same
+	      as when typing on the command line.  However, do note that if you are defining a
+	      function, the body of the function is a single expression.  Usually, therefore, if a function body is
+	      long, you will need to enclose it in parentheses.
+      </para>
     </sect1>
 
     <sect1 id="genius-gel-comments">

@@ -2,8 +2,8 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 <!ENTITY app "<application>Genius Mathematics Tool</application>">
 <!ENTITY appname "Genius">
-<!ENTITY appversion "1.0.26">
-<!ENTITY date "December 2020">
+<!ENTITY appversion "1.0.27">
+<!ENTITY date "October 2021">
 <!ENTITY legal SYSTEM "legal.xml">
 <!ENTITY manrevision "0.2">
 <!ENTITY lt "&#60;">
@@ -29,7 +29,7 @@
     <title>Handbok för Genius</title>       
 
     <copyright lang="en">
-      <year>1997-2020</year>
+      <year>1997-2021</year>
       <holder>Jiří (George) Lebl</holder>
     </copyright>
     <copyright lang="en">
@@ -113,7 +113,7 @@
 		<surname>Lebl</surname> 
 		<affiliation> 
 	  		<orgname>Oklahoma State University</orgname> 
-	  		<address> <email>jirka@5z.com</email> </address> 
+	  		<address> <email>jiri.lebl@gmail.com</email> </address> 
 		</affiliation> 
       </author> 
       <author lang="en"> 
@@ -180,7 +180,7 @@
 		<date>August 2004</date> 
 		<revdescription> 
 	  		<para role="author">Jiri (George) Lebl
-	    	<email>jirka@5z.com</email>
+	    	<email>jiri.lebl@gmail.com</email>
 	  		</para>
 		</revdescription> 
       </revision> 
@@ -190,18 +190,25 @@
     <revhistory>
       <revision lang="en"> 
 		<revnumber>0.2</revnumber> 
-		<date>December 2020</date> 
+		<date>October 2021</date> 
 		<revdescription> 
 	  		<para role="author" lang="en">Jiri (George) Lebl
-	    	<email>jirka@5z.com</email>
+	    	<email>jiri.lebl@gmail.com</email>
 	  		</para>
 		</revdescription> 
       </revision> 
     </revhistory>
-    <releaseinfo>Denna handbok beskriver version 1.0.26 av Genius.</releaseinfo> 
+    <releaseinfo lang="en">This manual describes version 1.0.27 of Genius.
+    </releaseinfo> 
     <legalnotice> 
       <title>Återkoppling</title> 
-      <para>För att rapportera ett fel eller komma med ett förslag för programmet <application>Genius matematikverktyg</application> eller denna handbok, besök <ulink url="http://www.jirka.org/genius.html" type="http">webbsidan för Genius</ulink> eller skicka mig ett e-postmeddelande på <email>jirka@5z.com</email>.</para>
+      <para lang="en">
+	      To report a bug or make a suggestion regarding the <application>Genius Mathematics Tool</application>
+	      application or this manual, please visit the
+	      <ulink url="http://www.jirka.org/genius.html" type="http">Genius
+		      Web page</ulink>
+	      or email me at <email>jiri.lebl@gmail.com</email>.
+      </para>
 <!-- Translators may also add here feedback address for translations -->
     </legalnotice> 
   </bookinfo> 
@@ -356,7 +363,11 @@ do <userinput>cd directory</userinput> as in the UNIX command shell.
 
     <sect1 id="genius-usage-create-program"> 
       <title>För att skapa ett nytt program</title> 
-      <para>Om du vill mata in flera mer komplicerade kommandon, eller kanske skriva en komplicerad funktion med <link linkend="genius-gel">GEL</link>-språket så kan du skapa ett nytt program.</para>
+      <para lang="en">
+	      If you wish to enter several more complicated commands, or perhaps write a complicated
+	      function using the <link linkend="genius-gel">GEL</link> language, you can create a new
+	     program; really just a file with many commands.
+      </para>
       <para>För att börja skriva ett nytt program, välj <menuchoice><guimenu>Arkiv</guimenu><guimenuitem>Nytt program</guimenuitem></menuchoice>. En ny flik kommer att dyka upp i arbetsytan. Du kan skriva ett <link linkend="genius-gel">GEL</link>-program i denna arbetsyta. Då du har skrivit ditt program kan du köra det genom <menuchoice><guimenu>Miniräknare</guimenu><guimenuitem>Kör</guimenuitem></menuchoice> (eller verktygsfältsknappen <guilabel>Kör</guilabel>). Detta kommer exekvera ditt program och kommer visa all utmatning i <guilabel>Konsol</guilabel>-fliken. Att exekvera ett program är ekvivalent med att ta texten i programmet och skriva in den i konsolen. Den enda skillnaden är att denna inmatning görs oberoende från konsolen och att bara utmatningen går till konsolen. <menuchoice><guimenu>Miniräknare</guimenu><guimenuitem>Kör</guimenuitem></menuchoice> kommer alltid att köra det aktuellt valda programmet även om du är i <guilabel>Konsol</guilabel>-fliken. Det aktuellt valda programmet har sin flik i fet stil. Klicka på ett programs flik för att välja det.</para>
       <para>För att spara programmet du just skrivit, välj <menuchoice><guimenu>Arkiv</guimenu><guimenuitem>Spara som…</guimenuitem></menuchoice>. Liknande i andra program kan du välja <menuchoice><guimenu>Arkiv</guimenu><guimenuitem>Spara</guimenuitem></menuchoice> för att spara ett program som redan har ett associerat filnamn. Om du har många öppnade program som du har redigerat och vill spara kan du också välja <menuchoice><guimenu>Arkiv</guimenu><guimenuitem>Spara allt osparat</guimenuitem></menuchoice>.</para>
       <para>Program som har osparade ändringar kommer ha ett ”[+]” intill sitt filnamn. På detta sätt kan du se om filen på disk och den aktuellt öppnade fliken skiljer sig åt vad gäller innehåll. Program som inte ännu fått ett filnamn associerat med sig anses alltid vara osparade och inget ”[+]” skrivs ut.</para>
@@ -379,7 +390,13 @@ do <userinput>cd directory</userinput> as in the UNIX command shell.
 
     <sect1 id="genius-line-plots">
       <title>Linjegrafer</title>
-      <para>För att rita ut reellvärda funktioner i en variabel öppna fönstret <guilabel>Skapa graf</guilabel>. Du kan också använda <link linkend="gel-function-LinePlot"><function>LinePlot</function></link>-funktionen på kommandoraden (se dess dokumentation).</para>
+      <para lang="en">
+	To graph real-valued functions of one variable, open the <guilabel>Create Plot</guilabel>
+	window.  You can also use the
+        <link linkend="gel-function-LinePlot"><function>LinePlot</function></link> function
+	on the command line (see its documentation).  And by the words line plot, we mean plots in the plane,
+	as opposed to surface plots, which are in three dimensions.
+      </para>
       <para>Då du klickar på <guilabel>Graf</guilabel>-knappen öppnas ett fönster med några flikhäften. Du kommer att vilja vara i fliken <guilabel>Linjegraf för funktion</guilabel> och inuti detta vill du vara i fliken <guilabel>Funktioner / Uttryck</guilabel>. Se <xref linkend="lineplot-fig"/>.</para>
 
       <figure id="lineplot-fig"> 
@@ -833,8 +850,25 @@ Suppose you type the following:
 </programlisting>
 This expression will yield 5.
       </para>
-      <para>Detta kommer ibland att kräva parenteser för att göra det otvetydigt, särskilt om <literal>;</literal> inte är den översta primitiven. Detta skiljer sig något från andra programmeringsspråk där <literal>;</literal> terminerar uttryck, medan den i GEL faktiskt är en binär operator. Om du är bekant med pascal faller detta sig naturligt. Genius kan dock låta dig låtsas att den är en terminator i någon utsträckning. Om en <literal>;</literal> hittas i slutet på en parentes eller ett block kommer genius att lägga till ett null efter den som om du hade skrivit <userinput>;null</userinput>. Detta är användbart ifall du inte vill returnera ett värde från exempelvis en slinga, eller om du vill hantera returvärdet på annat sätt. Observera att detta kommer sakta ner koden något om det anropas för ofta eftersom det är en till operator inblandad.</para>
-      <para>Om du skriver uttryck i ett program måste du inte lägga till ett semikolon. I detta fall kommer genius helt enkelt att skriva ut returvärdet närhelst det exekverar uttrycket. Observera dock att om du definierar en funktion så är kroppen av funktionen ett enda uttryck.</para>
+      <para lang="en">
+This will require some parenthesizing to make it unambiguous sometimes,
+especially if the <literal>;</literal> is not the top most primitive. This slightly differs from
+other programming languages where the <literal>;</literal> is a terminator of statements, whereas
+in GEL it’s actually a binary operator. If you are familiar with pascal
+this should be second nature. However genius can let you pretend it is a
+terminator to some degree.  If a <literal>;</literal> is found at the end of a parenthesis or a block,
+genius will append a null to it as if you would have written
+<userinput>;null</userinput>.
+This is useful in case you do not want to return a value from a loop,
+or if you handle the return differently.
+      </para>
+      <para lang="en">
+	      If you are typing expressions in a program file you do not have to add a semicolon.  In this case
+	      genius will simply print the return value whenever it executes the expression.  This is the same
+	      as when typing on the command line.  However, do note that if you are defining a
+	      function, the body of the function is a single expression.  Usually, therefore, if a function body is
+	      long, you will need to enclose it in parentheses.
+      </para>
     </sect1>
 
     <sect1 id="genius-gel-comments">

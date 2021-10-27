@@ -4,7 +4,7 @@ Jiř Lebl
 
    Oklahoma State University
 
-    <jirka@5z.com>
+    <jiri.lebl@gmail.com>
 
 Kai Willadsen
 
@@ -12,7 +12,7 @@ Kai Willadsen
 
     <kaiw@itee.uq.edu.au>
 
-   Copyright © 1997-2020 Jiř (George) Lebl
+   Copyright © 1997-2021 Jiř (George) Lebl
 
    Copyright © 2004 Kai Willadsen
 
@@ -76,7 +76,7 @@ Kai Willadsen
 
    To report a bug or make a suggestion regarding the Genius
    Mathematics Tool application or this manual, please visit the
-   Genius Web page or email me at <jirka@5z.com>.
+   Genius Web page or email me at <jiri.lebl@gmail.com>.
      __________________________________________________________
 
    Table of Contents
@@ -393,7 +393,8 @@ genius> load path/to/program.gel
 
    If you wish to enter several more complicated commands, or
    perhaps write a complicated function using the GEL language,
-   you can create a new program.
+   you can create a new program; really just a file with many
+   commands.
 
    To start writing a new program, choose File->New Program. A new
    tab will appear in the work area. You can write a GEL program
@@ -453,9 +454,11 @@ Chapter 4. Plotting
 
 4.1. Line Plots
 
-   To graph real valued functions of one variable open the Create
+   To graph real-valued functions of one variable, open the Create
    Plot window. You can also use the LinePlot function on the
-   command line (see its documentation).
+   command line (see its documentation). And by the words line
+   plot, we mean plots in the plane, as opposed to surface plots,
+   which are in three dimensions.
 
    Once you click the Plot button, a window opens up with some
    notebooks in it. You want to be in the Function line plot
@@ -1011,16 +1014,16 @@ LinePlot(sin^2)
    pretend it is a terminator to some degree. If a ; is found at
    the end of a parenthesis or a block, genius will append a null
    to it as if you would have written ;null. This is useful in
-   case you do not want to return a value from say a loop, or if
-   you handle the return differently. Note that it will slightly
-   slow down the code if it is executed too often as there is one
-   more operator involved.
+   case you do not want to return a value from a loop, or if you
+   handle the return differently.
 
-   If you are typing expressions in a program you do not have to
-   add a semicolon. In this case genius will simply print the
-   return value whenever it executes the expression. However, do
-   note that if you are defining a function, the body of the
-   function is a single expression.
+   If you are typing expressions in a program file you do not have
+   to add a semicolon. In this case genius will simply print the
+   return value whenever it executes the expression. This is the
+   same as when typing on the command line. However, do note that
+   if you are defining a function, the body of the function is a
+   single expression. Usually, therefore, if a function body is
+   long, you will need to enclose it in parentheses.
      __________________________________________________________
 
 5.5. Comments
