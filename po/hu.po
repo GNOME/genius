@@ -1,15 +1,15 @@
 # Hungarian translation for genius.
-# Copyright (C) 2016, 2018, 2020 Free Software Foundation, Inc.
+# Copyright (C) 2016, 2018, 2020, 2022 Free Software Foundation, Inc.
 # This file is distributed under the same license as the genius package.
 #
-# Balázs Úr <ur.balazs at fsf dot hu>, 2016, 2020.
-# Balázs Meskó <mesko.balazs at fsf dot hu>, 2018, 2020.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2016, 2020, 2022.
+# Balázs Meskó <mesko.balazs at fsf dot hu>, 2018, 2020, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: genius.master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-06 08:18-0600\n"
-"PO-Revision-Date: 2020-03-05 00:48+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
+"POT-Creation-Date: 2021-10-13 22:47+0000\n"
+"PO-Revision-Date: 2022-03-14 00:29+0100\n"
 "Last-Translator: Balázs Meskó <mesko.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 19.04.3\n"
+"X-Generator: Lokalize 19.12.3\n"
 
 #: ../lib/library-strings.c:1
 msgid "Compose two functions"
@@ -116,7 +116,7 @@ msgstr ""
 msgid "Tolerance for InfiniteSum and InfiniteProduct"
 msgstr "Az InfiniteSum és az InfiniteProduct toleranciája"
 
-#: ../lib/library-strings.c:19 ../src/eval.c:6711
+#: ../lib/library-strings.c:19 ../src/eval.c:6726
 msgid "Absolute value"
 msgstr "Abszolút érték"
 
@@ -730,34 +730,37 @@ msgstr "Rosser mátrix, egy klasszikus szimmetrikus sajátérték teszt problém
 
 #: ../lib/library-strings.c:146
 msgid "Rotation around origin in R^2"
-msgstr ""
+msgstr "Origó körüli forgatás az R^2-en"
 
 #: ../lib/library-strings.c:147
 msgid "Rotation around origin in R^3 about the x-axis"
-msgstr ""
+msgstr "Origó körüli forgatás az R^3-ön az x-tengely körül"
 
 #: ../lib/library-strings.c:148
 msgid "Rotation around origin in R^3 about the y-axis"
-msgstr ""
+msgstr "Origó körüli forgatás az R^3-ön az y-tengely körül"
 
 #: ../lib/library-strings.c:149
 msgid "Rotation around origin in R^3 about the z-axis"
-msgstr ""
+msgstr "Origó körüli forgatás az R^3-ön a z-tengely körül"
 
 #: ../lib/library-strings.c:150
 msgid "Get a basis matrix for the rowspace of a matrix"
-msgstr ""
+msgstr "Bázismátrix kinyerése egy mátrix sorteréhez"
 
 #: ../lib/library-strings.c:151
 msgid ""
 "Evaluate (v,w) with respect to the sesquilinear form given by the matrix A"
 msgstr ""
+"A (v,w) kiértékelése az A mátrix által megadott sesquilineáris forma alapján"
 
 #: ../lib/library-strings.c:152
 msgid ""
 "Return a function that evaluates two vectors with respect to the "
 "sesquilinear form given by A"
 msgstr ""
+"Visszaad egy függvényt, amely kiértékel két vektort az A által megadott "
+"sesquilineáris forma alapján"
 
 #: ../lib/library-strings.c:153
 msgid "Smith Normal Form for fields (will end up with 1's on the diagonal)"
@@ -775,7 +778,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:156
 msgid "Calculate the trace of a matrix"
-msgstr ""
+msgstr "Egy mátrix nyomának kiszámítása"
 
 #: ../lib/library-strings.c:157
 msgid "Transpose of a matrix"
@@ -787,28 +790,29 @@ msgstr "A Vandermonde mátrix visszaadása"
 
 #: ../lib/library-strings.c:159
 msgid "The angle of two vectors, given an inner product"
-msgstr ""
+msgstr "Két vektor szöge a belső szorzat alapján"
 
 #: ../lib/library-strings.c:160
 msgid "The direct sum of the vector spaces M and N"
-msgstr ""
+msgstr "Az M és N vektorterek direktösszege"
 
 #: ../lib/library-strings.c:161
 msgid "Intersection of the subspaces given by M and N"
-msgstr ""
+msgstr "Az M és N által megadott alterek metszete"
 
 #: ../lib/library-strings.c:162
 msgid ""
 "The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}"
-msgstr ""
+msgstr "Az M és N vektorterek összege, azaz {w | w=m+n, m ∈ M, n ∈ N}"
 
 #: ../lib/library-strings.c:163
 msgid "Get the classical adjoint (adjugate) of a matrix"
-msgstr ""
+msgstr "Egy mátrix klasszikus adjugáltjának kinyerése"
 
 #: ../lib/library-strings.c:164
+#, fuzzy
 msgid "Compute the Column Reduced Echelon Form"
-msgstr ""
+msgstr "A redukált lépcsős alak kiszámítása"
 
 #: ../lib/library-strings.c:165
 msgid "Get nth Catalan number"
@@ -838,6 +842,8 @@ msgstr "A Frobenius szám kiszámítása a pénzérme problémához"
 msgid ""
 "Galois matrix given a linear combining rule (a_1*x_1+...+a_n*x_n=x_(n+1))"
 msgstr ""
+"A lináris kombinációs szabály által megadott Galois-mátrix (a_1*x_1+…"
+"+a_n*x_n=x_(n+1))"
 
 #: ../lib/library-strings.c:172
 msgid "Use greedy algorithm to find c, for c . v = n.  (v must be sorted)"
@@ -863,7 +869,7 @@ msgstr ""
 
 #: ../lib/library-strings.c:176
 msgid "Calculate multinomial coefficients"
-msgstr ""
+msgstr "Multinomiális együtthatók kiszámítása"
 
 #: ../lib/library-strings.c:177
 msgid "Get the Pascal's triangle as a matrix"
@@ -1324,7 +1330,7 @@ msgstr "Álnév beállítási kísérlete egy másik álnévhez"
 msgid "Bad identifier for function node!"
 msgstr "Hibás azonosító a függvény csomóponthoz."
 
-#: ../src/calc.c:1026 ../src/eval.c:7219 ../src/eval.c:7426
+#: ../src/calc.c:1026 ../src/eval.c:7234 ../src/eval.c:7441
 msgid "Unexpected operator!"
 msgstr "Váratlan operátor!"
 
@@ -1347,7 +1353,7 @@ msgstr "Váratlan függvény típus!"
 msgid "NULL tree!"
 msgstr "NULL fa!"
 
-#: ../src/calc.c:1510 ../src/eval.c:7725
+#: ../src/calc.c:1510 ../src/eval.c:7740
 msgid "Unexpected node!"
 msgstr "Váratlan csomópont!"
 
@@ -1527,439 +1533,443 @@ msgstr ""
 msgid "ERROR: Can't execute more things at once!"
 msgstr ""
 
-#: ../src/calc.c:3555
+#: ../src/calc.c:3556
 #, c-format
 msgid "ERROR: %s before newline"
 msgstr ""
 
-#: ../src/calc.c:3557
+#: ../src/calc.c:3558
 #, c-format
 msgid "ERROR: %s at end of input"
 msgstr ""
 
-#: ../src/calc.c:3564
+#: ../src/calc.c:3565
 #, c-format
 msgid "ERROR: %s before '%s'"
 msgstr ""
 
 #: ../src/calc.h:32
-msgid "Copyright (C) 1997-2020 Jiří (George) Lebl"
+msgid "Copyright (C) 1997-2021 Jiří (George) Lebl"
 msgstr ""
 
-#: ../src/compil.c:545 ../src/compil.c:554
+#: ../src/compil.c:257
+msgid "Bad value record when decompiling"
+msgstr ""
+
+#: ../src/compil.c:550 ../src/compil.c:559
 msgid "Bad tree record when decompiling"
 msgstr ""
 
-#: ../src/eval.c:1561 ../src/eval.c:1618 ../src/eval.c:1633
+#: ../src/eval.c:1563 ../src/eval.c:1620 ../src/eval.c:1635
 msgid "Cannot compare non value or bool only matrices"
 msgstr ""
 
 #. also on rationals but as integers
-#: ../src/eval.c:1689 ../src/eval.c:1735
+#: ../src/eval.c:1691 ../src/eval.c:1737
 msgid "Modulo arithmetic only works on integers"
 msgstr ""
 
-#: ../src/eval.c:1941
+#: ../src/eval.c:1943
 msgid ""
 "Can't add/subtract a scalar to non-square matrix (A + x is defined as A + "
 "x*I)"
 msgstr ""
 
-#: ../src/eval.c:2037
+#: ../src/eval.c:2039
 msgid "Can't add/subtract two matrices of different sizes"
 msgstr ""
 
-#: ../src/eval.c:2039
+#: ../src/eval.c:2041
 msgid ""
 "Can't do element by element operations on two matrices of different sizes"
 msgstr ""
 
-#: ../src/eval.c:2105
+#: ../src/eval.c:2107
 msgid "Can't multiply matrices of wrong sizes"
 msgstr ""
 
-#: ../src/eval.c:2156
+#: ../src/eval.c:2158
 msgid "Powers are defined on (square matrix)^(integer) only"
 msgstr ""
 
-#: ../src/eval.c:2162
+#: ../src/eval.c:2164
 msgid "Powers on matrices in modulo mode are defined on integer matrices only"
 msgstr ""
 
-#: ../src/eval.c:2170
+#: ../src/eval.c:2172
 msgid "Exponent too large"
 msgstr ""
 
-#: ../src/eval.c:2197 ../src/eval.c:2312 ../src/eval.c:2378
+#: ../src/eval.c:2199 ../src/eval.c:2314 ../src/eval.c:2380
 msgid "Matrix appears singular and can't be inverted"
 msgstr ""
 
-#: ../src/eval.c:2289
+#: ../src/eval.c:2291
 msgid "Can't divide matrices of different sizes or non-square matrices"
 msgstr ""
 
-#: ../src/eval.c:2360
+#: ../src/eval.c:2362
 msgid "Can't divide by a non-square matrix"
 msgstr ""
 
-#: ../src/eval.c:2776 ../src/eval.c:2803 ../src/eval.c:2824 ../src/eval.c:2848
-#: ../src/eval.c:2896
+#: ../src/eval.c:2780 ../src/eval.c:2807 ../src/eval.c:2828 ../src/eval.c:2852
+#: ../src/eval.c:2900
 msgid "Operations on functions with variable argument list not supported"
 msgstr ""
 
-#: ../src/eval.c:2781
+#: ../src/eval.c:2785
 msgid ""
 "Operations on functions with different number of arguments not supported"
 msgstr ""
 
-#: ../src/eval.c:2901
+#: ../src/eval.c:2905
 msgid "Function creation with wrong number of arguments"
 msgstr ""
 
-#: ../src/eval.c:3483 ../src/eval.c:4914
+#: ../src/eval.c:3487 ../src/eval.c:4925
 msgid "Unevaluatable function type encountered!"
 msgstr ""
 
-#: ../src/eval.c:3506 ../src/graphing.c:6001
+#: ../src/eval.c:3510 ../src/graphing.c:5979
 msgid "or"
 msgstr ""
 
-#: ../src/eval.c:3544
+#: ../src/eval.c:3548
 msgid ""
 "Variable 'i' used uninitialized.  Perhaps you meant to write '1i' for the "
 "imaginary number (square root of -1)."
 msgstr ""
 
-#: ../src/eval.c:3550 ../src/eval.c:3583 ../src/eval.c:7543
+#: ../src/eval.c:3554 ../src/eval.c:3587 ../src/eval.c:7558
 #, c-format
 msgid "Variable '%s' used uninitialized, perhaps you meant %s."
 msgstr ""
 
-#: ../src/eval.c:3557 ../src/eval.c:3590 ../src/eval.c:4646 ../src/eval.c:7550
+#: ../src/eval.c:3561 ../src/eval.c:3594 ../src/eval.c:4657 ../src/eval.c:7565
 #, c-format
 msgid "Variable '%s' used uninitialized"
 msgstr ""
 
-#: ../src/eval.c:3598 ../src/eval.c:4692
+#: ../src/eval.c:3602 ../src/eval.c:4703
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
 "(should be %d)"
 msgstr ""
 
-#: ../src/eval.c:3601
+#: ../src/eval.c:3605
 #, c-format
 msgid "Trying to dereference '%s' which is not a reference!\n"
 msgstr ""
 
-#: ../src/eval.c:3606
+#: ../src/eval.c:3610
 msgid "NULL reference encountered!"
 msgstr ""
 
-#: ../src/eval.c:3734
+#: ../src/eval.c:3738
 msgid "Cannot compare matrices"
 msgstr ""
 
-#: ../src/eval.c:3776
+#: ../src/eval.c:3780
 msgid "Primitives must get numeric/matrix/string arguments"
 msgstr ""
 
-#: ../src/eval.c:3867
+#: ../src/eval.c:3871
 msgid "Bad argument to modular operation"
 msgstr ""
 
-#: ../src/eval.c:4620
+#: ../src/eval.c:4631
 #, c-format
 msgid "Function '%s' used uninitialized, perhaps you meant %s."
 msgstr ""
 
-#: ../src/eval.c:4627
+#: ../src/eval.c:4638
 #, c-format
 msgid "Function '%s' used uninitialized"
 msgstr ""
 
-#: ../src/eval.c:4655
+#: ../src/eval.c:4666
 #, c-format
 msgid "Can't dereference '%s'!"
 msgstr ""
 
-#: ../src/eval.c:4663
+#: ../src/eval.c:4674
 msgid "Can't call a non-function!"
 msgstr ""
 
-#: ../src/eval.c:4697
+#: ../src/eval.c:4708
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
 "(should be greater than %d)"
 msgstr ""
 
-#: ../src/eval.c:4736
+#: ../src/eval.c:4747
 #, c-format
 msgid "Referencing an undefined variable %s!"
 msgstr ""
 
-#: ../src/eval.c:4890
+#: ../src/eval.c:4901
 msgid "Reference function with arguments encountered!"
 msgstr ""
 
-#: ../src/eval.c:4895
+#: ../src/eval.c:4906
 msgid "Unnamed reference function encountered!"
 msgstr ""
 
-#: ../src/eval.c:5019
+#: ../src/eval.c:5030
 msgid "Bad type for 'for/sum/prod' loop!"
 msgstr ""
 
-#: ../src/eval.c:5024
+#: ../src/eval.c:5035
 msgid "'for/sum/prod' loop increment can't be 0"
 msgstr ""
 
-#: ../src/eval.c:5150
+#: ../src/eval.c:5161
 msgid "Bad type for 'for in' loop!"
 msgstr ""
 
-#: ../src/eval.c:5315 ../src/eval.c:5348
+#: ../src/eval.c:5329 ../src/eval.c:5362
 msgid "Continue or break outside a loop, assuming \"return null\""
 msgstr ""
 
-#: ../src/eval.c:5409
+#: ../src/eval.c:5423
 msgid "Wrong argument type as matrix index"
 msgstr ""
 
-#: ../src/eval.c:5419
+#: ../src/eval.c:5433
 msgid "Matrix index too large"
 msgstr ""
 
-#: ../src/eval.c:5422
+#: ../src/eval.c:5436
 msgid "Matrix index less than 1"
 msgstr ""
 
-#: ../src/eval.c:5445 ../src/eval.c:5460
+#: ../src/eval.c:5459 ../src/eval.c:5474
 msgid "Matrix index out of range"
 msgstr ""
 
-#: ../src/eval.c:5509 ../src/eval.c:5577 ../src/eval.c:5735 ../src/eval.c:5776
-#: ../src/eval.c:5899 ../src/eval.c:5939 ../src/eval.c:6381
+#: ../src/eval.c:5523 ../src/eval.c:5591 ../src/eval.c:5749 ../src/eval.c:5790
+#: ../src/eval.c:5913 ../src/eval.c:5953 ../src/eval.c:6395
 #, c-format
 msgid "Trying to set a protected id '%s'"
 msgstr ""
 
-#: ../src/eval.c:5534 ../src/eval.c:5572
+#: ../src/eval.c:5548 ../src/eval.c:5586
 msgid "Indexed Lvalue not user function"
 msgstr ""
 
-#: ../src/eval.c:5556 ../src/eval.c:5760 ../src/eval.c:5923
+#: ../src/eval.c:5570 ../src/eval.c:5774 ../src/eval.c:5937
 msgid "Dereference of non-identifier!"
 msgstr ""
 
-#: ../src/eval.c:5562 ../src/eval.c:5766 ../src/eval.c:5929
+#: ../src/eval.c:5576 ../src/eval.c:5780 ../src/eval.c:5943
 msgid "Dereference of undefined variable!"
 msgstr ""
 
-#: ../src/eval.c:5566 ../src/eval.c:5770 ../src/eval.c:5933
+#: ../src/eval.c:5580 ../src/eval.c:5784 ../src/eval.c:5947
 msgid "Dereference of non-reference!"
 msgstr ""
 
-#: ../src/eval.c:5594
+#: ../src/eval.c:5608
 msgid "Indexed Lvalue not an identifier or a dereference"
 msgstr ""
 
-#: ../src/eval.c:5648 ../src/eval.c:5703 ../src/eval.c:5880 ../src/eval.c:6045
-#: ../src/eval.c:6082 ../src/eval.c:6127 ../src/eval.c:6535 ../src/eval.c:6660
+#: ../src/eval.c:5662 ../src/eval.c:5717 ../src/eval.c:5894 ../src/eval.c:6059
+#: ../src/eval.c:6096 ../src/eval.c:6141 ../src/eval.c:6549 ../src/eval.c:6674
 msgid "Matrix index not an integer or a vector"
 msgstr ""
 
-#: ../src/eval.c:5692 ../src/eval.c:5834 ../src/eval.c:5843
+#: ../src/eval.c:5706 ../src/eval.c:5848 ../src/eval.c:5857
 msgid "Wrong matrix dimensions when setting"
 msgstr ""
 
-#: ../src/eval.c:5723 ../src/eval.c:5975 ../src/eval.c:6348 ../src/eval.c:6355
+#: ../src/eval.c:5737 ../src/eval.c:5989 ../src/eval.c:6362 ../src/eval.c:6369
 msgid "Lvalue not an identifier/dereference/matrix location!"
 msgstr ""
 
-#: ../src/eval.c:5747 ../src/eval.c:5788
+#: ../src/eval.c:5761 ../src/eval.c:5802
 msgid "Referencing an undefined variable!"
 msgstr ""
 
-#: ../src/eval.c:5894
+#: ../src/eval.c:5908
 #, c-format
 msgid ""
 "Increment/Swapwith does not work on parameters (trying to increment '%s')"
 msgstr ""
 
-#: ../src/eval.c:5963
+#: ../src/eval.c:5977
 msgid "Increment not a value!"
 msgstr "A növekmény nem érték."
 
-#: ../src/eval.c:5987
+#: ../src/eval.c:6001
 #, c-format
 msgid "Trying to increment non-value id '%s'"
 msgstr ""
 
-#: ../src/eval.c:6148 ../src/eval.c:6152 ../src/eval.c:6162
+#: ../src/eval.c:6162 ../src/eval.c:6166 ../src/eval.c:6176
 msgid "Can only swap user variables"
 msgstr "Csak felhasználói változók cserélhetők fel"
 
-#: ../src/eval.c:6202 ../src/eval.c:6237 ../src/eval.c:6268 ../src/eval.c:6284
-#: ../src/eval.c:6302 ../src/eval.c:6318
+#: ../src/eval.c:6216 ../src/eval.c:6251 ../src/eval.c:6282 ../src/eval.c:6298
+#: ../src/eval.c:6316 ../src/eval.c:6332
 msgid "Cannot swap matrix regions"
 msgstr "A mátrixrégiók nem cserélhetők fel"
 
-#: ../src/eval.c:6376
+#: ../src/eval.c:6390
 msgid "Parameters can only be created in the global context"
 msgstr "Paraméterek csak a globális környezetben hozhatók létre"
 
-#: ../src/eval.c:6482 ../src/eval.c:6527 ../src/eval.c:6618
+#: ../src/eval.c:6496 ../src/eval.c:6541 ../src/eval.c:6632
 msgid "Index works only on matrices"
 msgstr "Az index csak mátrixokon működik"
 
-#: ../src/eval.c:6515
+#: ../src/eval.c:6529
 msgid "Vector index not an integer or a vector"
 msgstr "A vektorindex nem egész vagy vektor"
 
-#: ../src/eval.c:6683
+#: ../src/eval.c:6698
 msgid "number"
 msgstr "szám"
 
-#: ../src/eval.c:6684
+#: ../src/eval.c:6699
 msgid "matrix"
 msgstr "mátrix"
 
-#: ../src/eval.c:6685
+#: ../src/eval.c:6700
 msgid "string"
 msgstr "karakterlánc"
 
-#: ../src/eval.c:6686
+#: ../src/eval.c:6701
 msgid "function"
 msgstr "függvény"
 
-#: ../src/eval.c:6687
+#: ../src/eval.c:6702
 msgid "identifier"
 msgstr "azonosító"
 
-#: ../src/eval.c:6688
+#: ../src/eval.c:6703
 msgid "polynomial"
 msgstr "polinom"
 
-#: ../src/eval.c:6689
+#: ../src/eval.c:6704
 msgid "boolean"
 msgstr "logikai"
 
-#: ../src/eval.c:6712
+#: ../src/eval.c:6727
 msgid "Addition"
 msgstr "Összeadás"
 
-#: ../src/eval.c:6713
+#: ../src/eval.c:6728
 msgid "Element by element addition"
 msgstr "Elemenkénti összeadás"
 
-#: ../src/eval.c:6714
+#: ../src/eval.c:6729
 msgid "Subtraction"
 msgstr "Kivonás"
 
-#: ../src/eval.c:6715
+#: ../src/eval.c:6730
 msgid "Element by element subtraction"
 msgstr "Elemenkénti kivonás"
 
-#: ../src/eval.c:6716
+#: ../src/eval.c:6731
 msgid "Multiplication"
 msgstr "Szorzás"
 
-#: ../src/eval.c:6717
+#: ../src/eval.c:6732
 msgid "Element by element multiplication"
 msgstr "Elemenkénti szorzás"
 
-#: ../src/eval.c:6718
+#: ../src/eval.c:6733
 msgid "Division"
 msgstr "Osztás"
 
-#: ../src/eval.c:6719
+#: ../src/eval.c:6734
 msgid "Element by element division"
 msgstr "Elemenkénti osztás"
 
-#: ../src/eval.c:6720
+#: ../src/eval.c:6735
 msgid "Back division"
 msgstr "Visszafelé osztás"
 
-#: ../src/eval.c:6721
+#: ../src/eval.c:6736
 msgid "Element by element back division"
 msgstr "Elemenkénti visszafelé osztás"
 
-#: ../src/eval.c:6722
+#: ../src/eval.c:6737
 msgid "Modulo"
 msgstr "Modulo"
 
-#: ../src/eval.c:6723
+#: ../src/eval.c:6738
 msgid "Element by element modulo"
 msgstr "Elemenkénti modulo"
 
-#: ../src/eval.c:6724
+#: ../src/eval.c:6739
 msgid "Negation"
 msgstr "Negálás"
 
-#: ../src/eval.c:6725
+#: ../src/eval.c:6740
 msgid "Power"
 msgstr "Hatványozás"
 
-#: ../src/eval.c:6726
+#: ../src/eval.c:6741
 msgid "Element by element power"
 msgstr "Elemenkénti hatványozás"
 
-#: ../src/eval.c:6727
+#: ../src/eval.c:6742
 msgid "Factorial"
 msgstr "Faktoriális"
 
-#: ../src/eval.c:6728
+#: ../src/eval.c:6743
 msgid "Double factorial"
 msgstr "Kettős faktoriális"
 
-#: ../src/eval.c:6729
+#: ../src/eval.c:6744
 msgid "Transpose"
 msgstr "Transzponálás"
 
-#: ../src/eval.c:6730
+#: ../src/eval.c:6745
 msgid "ConjugateTranspose"
 msgstr "Konjugált transzponálás"
 
-#: ../src/eval.c:6731
+#: ../src/eval.c:6746
 msgid "Comparison (<=>)"
 msgstr "Összehasonlítás (<=>)"
 
-#: ../src/eval.c:6732
+#: ../src/eval.c:6747
 msgid "XOR"
 msgstr "Kizáró VAGY"
 
-#: ../src/eval.c:6733
+#: ../src/eval.c:6748
 msgid "NOT"
 msgstr "Logikai NEM"
 
-#: ../src/eval.c:6753
+#: ../src/eval.c:6768
 #, c-format
 msgid "Bad types for '%s'"
 msgstr "Hibás típus ehhez: „%s”"
 
-#: ../src/eval.c:6764
+#: ../src/eval.c:6779
 #, c-format
 msgid "%s not defined on <%s> and <%s>"
 msgstr "%s nincs definiálva <%s> és <%s> felett"
 
-#: ../src/eval.c:6783
+#: ../src/eval.c:6798
 #, c-format
 msgid "Bad type for '%s'"
 msgstr "Hibás típus ehhez: „%s”"
 
-#: ../src/eval.c:6793
+#: ../src/eval.c:6808
 #, c-format
 msgid "%s not defined on <%s>"
 msgstr "%s nincs definiálva <%s> felett"
 
-#: ../src/eval.c:6813 ../src/eval.c:6830
+#: ../src/eval.c:6828 ../src/eval.c:6845
 msgid "Vector building only works on numbers"
 msgstr "A vektorépítés csak számokon működik"
 
 #. FIXME: perhaps we should just return null like octave?
-#: ../src/eval.c:6823
+#: ../src/eval.c:6838
 msgid "Impossible arguments to vector building operator"
 msgstr "Lehetetlen argumentumok a vektorépítési operátornál"
 
@@ -1973,7 +1983,7 @@ msgstr "%s: az argumentum túl nagy"
 msgid "Cannot parse version string: %s"
 msgstr "A verzió karakterlánc nem dolgozható fel: %s"
 
-#: ../src/funclib.c:179 ../src/gnome-genius.c:1865
+#: ../src/funclib.c:179 ../src/gnome-genius.c:2031
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -2028,7 +2038,7 @@ msgstr "%s: védett azonosítót próbál beállítani!"
 msgid "%s: trying to set a parameter, use the equals sign"
 msgstr "%s: a paraméter beállításához használja az egyenlőség jelet"
 
-#: ../src/funclib.c:704 ../src/gnome-genius.c:992
+#: ../src/funclib.c:704 ../src/gnome-genius.c:1158
 msgid ""
 "Global variables:\n"
 "\n"
@@ -2036,7 +2046,7 @@ msgstr ""
 "Globális változók:\n"
 "\n"
 
-#: ../src/funclib.c:727 ../src/gnome-genius.c:1025
+#: ../src/funclib.c:727 ../src/gnome-genius.c:1191
 msgid ""
 "\n"
 "Function call stack:\n"
@@ -2044,8 +2054,8 @@ msgstr ""
 "\n"
 "Függvényhívási verem:\n"
 
-#: ../src/funclib.c:729 ../src/funclib.c:769 ../src/gnome-genius.c:1027
-#: ../src/gnome-genius.c:1084
+#: ../src/funclib.c:729 ../src/funclib.c:769 ../src/gnome-genius.c:1193
+#: ../src/gnome-genius.c:1250
 msgid ""
 "(depth of context in parentheses)\n"
 "\n"
@@ -2053,7 +2063,7 @@ msgstr ""
 "(környezet mélysége zárójelekben)\n"
 "\n"
 
-#: ../src/funclib.c:767 ../src/gnome-genius.c:1082
+#: ../src/funclib.c:767 ../src/gnome-genius.c:1248
 msgid ""
 "\n"
 "Local variables:\n"
@@ -2120,9 +2130,9 @@ msgid "%s: argument must be an integer"
 msgstr "%s: az argumentumnak egésznek kell lennie"
 
 #: ../src/funclib.c:2890 ../src/funclib.c:4816 ../src/funclib.c:4845
-#: ../src/funclib.c:5097 ../src/mpwrap.c:3829 ../src/mpwrap.c:3848
-#: ../src/mpwrap.c:3905 ../src/mpwrap.c:3934 ../src/mpwrap.c:3951
-#: ../src/mpwrap.c:4000
+#: ../src/funclib.c:5097 ../src/mpwrap.c:3832 ../src/mpwrap.c:3851
+#: ../src/mpwrap.c:3908 ../src/mpwrap.c:3937 ../src/mpwrap.c:3954
+#: ../src/mpwrap.c:4003
 msgid "Division by zero!"
 msgstr "Nullával osztás!"
 
@@ -2142,7 +2152,7 @@ msgid "%s: Input not a number or a matrix of numbers."
 msgstr "%s: A bemenet nem szám, vagy számokat tartalmazó mátrix."
 
 #: ../src/funclib.c:3437 ../src/funclib.c:3495 ../src/funclib.c:5082
-#: ../src/funclib.c:5376 ../src/graphing.c:10287
+#: ../src/funclib.c:5376 ../src/graphing.c:10336
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: túl sok argumentum"
@@ -2227,195 +2237,195 @@ msgstr "%s: a jelző argumentumnak karakterláncnak kell lennie"
 msgid "%s: argument not a function of one variable"
 msgstr "%s: az argumentum nem egy változó függvénye"
 
-#: ../src/funclib.c:6664 ../src/funclib.c:6699 ../src/funclib.c:6944
+#: ../src/funclib.c:6662 ../src/funclib.c:6697 ../src/funclib.c:6942
 #, c-format
 msgid "%s: argument should be between %d and %d"
 msgstr "%s: az argumentum %d és %d közé kell essen"
 
-#: ../src/funclib.c:6852
+#: ../src/funclib.c:6850
 msgid "OutputStyle must be one of normal, troff, latex or mathml"
 msgstr ""
 "A kimeneti stílus a következők egyike kell legyen: normal, troff, latex vagy "
 "mathml"
 
-#: ../src/funclib.c:6892
+#: ../src/funclib.c:6890
 #, c-format
 msgid "%s: argument should be larger or equal to 0"
 msgstr "%s: az argumentum nagyobb vagy egyenlő kell legyen mint 0"
 
-#: ../src/funclib.c:7005
+#: ../src/funclib.c:7003
 msgid "Basic"
 msgstr "Alapvető"
 
 #. internal
-#: ../src/funclib.c:7006
+#: ../src/funclib.c:7004
 msgid "Parameters"
 msgstr "Paraméterek"
 
 #. internal
-#: ../src/funclib.c:7007
+#: ../src/funclib.c:7005
 msgid "Constants"
 msgstr "Konstansok"
 
 #. internal
-#: ../src/funclib.c:7008
+#: ../src/funclib.c:7006
 msgid "Numeric"
 msgstr "Számok"
 
 #. internal
-#: ../src/funclib.c:7009
+#: ../src/funclib.c:7007
 msgid "Trigonometry"
 msgstr "Trigonometria"
 
 #. internal
-#: ../src/funclib.c:7010
+#: ../src/funclib.c:7008
 msgid "Number Theory"
 msgstr "Számelmélet"
 
 #. internal
-#: ../src/funclib.c:7011
+#: ../src/funclib.c:7009
 msgid "Matrix Manipulation"
 msgstr "Mátrixmanipuláció"
 
 #. internal
-#: ../src/funclib.c:7012
+#: ../src/funclib.c:7010
 msgid "Linear Algebra"
 msgstr "Lineáris algebra"
 
 #. internal
-#: ../src/funclib.c:7013
+#: ../src/funclib.c:7011
 msgid "Combinatorics"
 msgstr "Kombinatorika"
 
 #. internal
-#: ../src/funclib.c:7014
+#: ../src/funclib.c:7012
 msgid "Calculus"
 msgstr "Kalkulus"
 
 #. internal
-#: ../src/funclib.c:7015
+#: ../src/funclib.c:7013
 msgid "Functions"
 msgstr "Függvények"
 
 #. internal
-#: ../src/funclib.c:7016
+#: ../src/funclib.c:7014
 msgid "Equation Solving"
 msgstr "Egyenletmegoldás"
 
 #. internal
-#: ../src/funclib.c:7017
+#: ../src/funclib.c:7015
 msgid "Statistics"
 msgstr "Statisztika"
 
 #. internal
-#: ../src/funclib.c:7018
+#: ../src/funclib.c:7016
 msgid "Polynomials"
 msgstr "Polinomok"
 
 #. internal
-#: ../src/funclib.c:7019
+#: ../src/funclib.c:7017
 msgid "Set Theory"
 msgstr "Halmazelmélet"
 
 #. internal
-#: ../src/funclib.c:7020
+#: ../src/funclib.c:7018
 msgid "Commutative Algebra"
 msgstr "Kommutatív algebra"
 
 #. internal
-#: ../src/funclib.c:7021
+#: ../src/funclib.c:7019
 msgid "Miscellaneous"
 msgstr "Egyebek"
 
 #. internal
-#: ../src/funclib.c:7023
+#: ../src/funclib.c:7021
 msgid "Displays the user manual"
 msgstr "Megjeleníti a felhasználói kézikönyvet"
 
-#: ../src/funclib.c:7024
+#: ../src/funclib.c:7022
 msgid "Gives the warranty information"
 msgstr "Kiírja a garanciális információkat"
 
-#: ../src/funclib.c:7025
+#: ../src/funclib.c:7023
 msgid "Return version as a 3-vector"
 msgstr "3 elemű vektorként visszaadja a verziószámot"
 
-#: ../src/funclib.c:7026
+#: ../src/funclib.c:7024
 msgid "Exits the program"
 msgstr "Kilép a programból"
 
-#: ../src/funclib.c:7028
+#: ../src/funclib.c:7026
 msgid "Prints a string to the error stream"
 msgstr "Kiírja a karakterláncot a hibacsatornára"
 
-#: ../src/funclib.c:7029
+#: ../src/funclib.c:7027
 msgid "Waits a specified number of seconds"
 msgstr "Kivárja a megadott számú másodpercet"
 
-#: ../src/funclib.c:7030
+#: ../src/funclib.c:7028
 msgid "The true boolean value"
 msgstr "Az igaz logikai érték"
 
-#: ../src/funclib.c:7032
+#: ../src/funclib.c:7030
 msgid "The false boolean value"
 msgstr "A hamis logikai érték"
 
-#: ../src/funclib.c:7035
+#: ../src/funclib.c:7033
 msgid "Unix time in seconds as a floating point number"
 msgstr "Unix idő másodpercekben, lebegőpontos számként"
 
-#: ../src/funclib.c:7043
+#: ../src/funclib.c:7041
 msgid "Make integer (0 or 1) from a boolean value"
 msgstr "Egész (0 vagy 1) készítése egy logikai értékből"
 
-#: ../src/funclib.c:7045
+#: ../src/funclib.c:7043
 msgid "Prints an expression"
 msgstr "Kiír egy kifejezést"
 
-#: ../src/funclib.c:7046
+#: ../src/funclib.c:7044
 msgid "Changes current directory"
 msgstr "Módosítja a jelenlegi könyvtárat"
 
-#: ../src/funclib.c:7047
+#: ../src/funclib.c:7045
 msgid "Prints an expression without a trailing newline"
 msgstr "Kiír egy kifejezést a záró újsor nélkül"
 
-#: ../src/funclib.c:7048
+#: ../src/funclib.c:7046
 msgid "Display a string and an expression"
 msgstr "Megjelenít egy karakterláncot és egy kifejezést"
 
-#: ../src/funclib.c:7049
+#: ../src/funclib.c:7047
 msgid "Set a global variable"
 msgstr "Beállít egy globális változót"
 
-#: ../src/funclib.c:7050
+#: ../src/funclib.c:7048
 msgid "Set an element in a global variable which is a matrix"
 msgstr "Beállít egy elemet egy globális változóban, ami egy mátrix"
 
-#: ../src/funclib.c:7051
+#: ../src/funclib.c:7049
 msgid "Set an element in a global variable which is a vector"
 msgstr "Beállít egy elemet egy globális változóban, ami egy vektor"
 
-#: ../src/funclib.c:7052
+#: ../src/funclib.c:7050
 msgid "Display values of variables, or all if called without arguments"
 msgstr ""
 "Megjeleníti a változók értékét, vagy az összeset, ha argumentumok nélkül "
 "lett meghívva"
 
-#: ../src/funclib.c:7054
+#: ../src/funclib.c:7052
 msgid "Set the category and help description line for a function"
 msgstr ""
 "Egy függvény kategóriájának és a súgóban megjelenő leírási sorának megadása"
 
-#: ../src/funclib.c:7055
+#: ../src/funclib.c:7053
 msgid "Sets up a help alias"
 msgstr "Beállít egy súgó álnevet"
 
-#: ../src/funclib.c:7057
+#: ../src/funclib.c:7055
 msgid "Identity function, returns its argument"
 msgstr "Identitás függvény, visszaadja az argumentumát"
 
-#: ../src/funclib.c:7059
+#: ../src/funclib.c:7057
 msgid ""
 "Generate random float between 0 and 1, or if size given generate vector or "
 "matrix of random floats"
@@ -2424,7 +2434,7 @@ msgstr ""
 "is megadott, akkor véletlenszerű lebegőpontos számok vektorának vagy "
 "mátrixának előállítása"
 
-#: ../src/funclib.c:7061
+#: ../src/funclib.c:7059
 msgid ""
 "Generate random integer between 0 and max-1 inclusive, or if size given "
 "generate vector or matrix of random integers"
@@ -2433,53 +2443,53 @@ msgstr ""
 "a méret is megadott, akkor véletlenszerű egészek vektorának vagy mátrixának "
 "előállítása"
 
-#: ../src/funclib.c:7064 ../src/gnome-genius.c:2410
+#: ../src/funclib.c:7062 ../src/gnome-genius.c:2630
 msgid "Floating point precision"
 msgstr "Lebegőpontos pontosság"
 
-#: ../src/funclib.c:7066 ../src/gnome-genius.c:2299
+#: ../src/funclib.c:7064 ../src/gnome-genius.c:2516
 msgid ""
 "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr ""
 "0.0 megjelenítése, ha a lebegőpontos szám kisebb mint 10^-x (0=sosem vág)"
 
-#: ../src/funclib.c:7069 ../src/gnome-genius.c:2322
+#: ../src/funclib.c:7067 ../src/gnome-genius.c:2539
 msgid "Only chop numbers when another number is greater than 10^-x"
 msgstr "Csak akkor vágja le a számokat, ha egy másik szám nagyobb mint 10^-x"
 
-#: ../src/funclib.c:7070
+#: ../src/funclib.c:7068
 msgid "Maximum digits to display"
 msgstr "Maximálisan megjelenítendő számjegyek"
 
-#: ../src/funclib.c:7071
+#: ../src/funclib.c:7069
 msgid "Maximum errors to display"
 msgstr "Maximálisan megjelenítendő hibák"
 
-#: ../src/funclib.c:7072
+#: ../src/funclib.c:7070
 msgid "Output style: normal, latex, mathml or troff"
 msgstr "Kimeneti stílus: normal, latex, mathml vagy troff"
 
-#: ../src/funclib.c:7073
+#: ../src/funclib.c:7071
 msgid "Integer output base"
 msgstr "Egész kimeneti alap"
 
-#: ../src/funclib.c:7074
+#: ../src/funclib.c:7072
 msgid "If true, mixed fractions are printed"
 msgstr "Ha igaz, akkor vegyes törtek lesznek kiírva"
 
-#: ../src/funclib.c:7075
+#: ../src/funclib.c:7073
 msgid "Print full expressions, even if more than a line"
 msgstr "Teljes kifejezések kiírása, akkor is, ha hosszabb mint egy sor"
 
-#: ../src/funclib.c:7076
+#: ../src/funclib.c:7074
 msgid "Convert all results to floats before printing"
 msgstr "Az összes eredmény visszaalakítása lebegőpontossá kiírás előtt"
 
-#: ../src/funclib.c:7077
+#: ../src/funclib.c:7075
 msgid "Use scientific notation"
 msgstr "Tudományos jelölés használata"
 
-#: ../src/funclib.c:7079
+#: ../src/funclib.c:7077
 msgid ""
 "Number of extra Miller-Rabin tests to run on a number before declaring it a "
 "prime in IsPrime"
@@ -2487,350 +2497,350 @@ msgstr ""
 "A további futtatandó Miller–Rabin-tesztek száma, mielőtt prímnek lesz "
 "tekintve a száma az IsPrime függvényben"
 
-#: ../src/funclib.c:7085
+#: ../src/funclib.c:7083
 msgid "Expands a matrix just like we do on unquoted matrix input"
 msgstr ""
 
-#: ../src/funclib.c:7086
+#: ../src/funclib.c:7084
 msgid "Gets the rows of a matrix as a vertical vector"
 msgstr ""
 
-#: ../src/funclib.c:7087
+#: ../src/funclib.c:7085
 msgid "Gets the columns of a matrix as a horizontal vector"
 msgstr ""
 
-#: ../src/funclib.c:7088
+#: ../src/funclib.c:7086
 msgid "Gets the diagonal entries of a matrix as a column vector"
 msgstr ""
 
-#: ../src/funclib.c:7089
+#: ../src/funclib.c:7087
 msgid "Count the number of zero columns in a matrix"
 msgstr ""
 
-#: ../src/funclib.c:7090
+#: ../src/funclib.c:7088
 msgid "Removes any all-zero columns of M"
 msgstr ""
 
-#: ../src/funclib.c:7091
+#: ../src/funclib.c:7089
 msgid "Return a vector with the indices of the nonzero columns in a matrix"
 msgstr ""
 
-#: ../src/funclib.c:7092
+#: ../src/funclib.c:7090
 msgid "Return a vector with the indices of the nonzero elements in a vector"
 msgstr ""
 
-#: ../src/funclib.c:7094
+#: ../src/funclib.c:7092
 msgid "Calculates the conjugate"
 msgstr ""
 
-#: ../src/funclib.c:7099
+#: ../src/funclib.c:7097
 msgid "Calculates the sine function"
 msgstr ""
 
-#: ../src/funclib.c:7102
+#: ../src/funclib.c:7100
 msgid "Calculates the cosine function"
 msgstr ""
 
-#: ../src/funclib.c:7105
+#: ../src/funclib.c:7103
 msgid "Calculates the hyperbolic sine function"
 msgstr ""
 
-#: ../src/funclib.c:7108
+#: ../src/funclib.c:7106
 msgid "Calculates the hyperbolic cosine function"
 msgstr ""
 
-#: ../src/funclib.c:7111
+#: ../src/funclib.c:7109
 msgid "Calculates the tan function"
 msgstr ""
 
-#: ../src/funclib.c:7114
+#: ../src/funclib.c:7112
 msgid "Calculates the arctan function"
 msgstr ""
 
-#: ../src/funclib.c:7119
+#: ../src/funclib.c:7117
 msgid "Calculates the sinc function, that is sin(x)/x"
 msgstr ""
 
-#: ../src/funclib.c:7123
+#: ../src/funclib.c:7121
 msgid "Calculates the arctan2 function (arctan(y/x) if x>0)"
 msgstr ""
 
-#: ../src/funclib.c:7127
+#: ../src/funclib.c:7125
 msgid "The number pi"
 msgstr "A pí szám"
 
-#: ../src/funclib.c:7129
+#: ../src/funclib.c:7127
 msgid "The natural number e"
 msgstr "Az Euler-féle szám"
 
-#: ../src/funclib.c:7131
+#: ../src/funclib.c:7129
 msgid "The Golden Ratio"
 msgstr "Aranymetszés"
 
-#: ../src/funclib.c:7133
+#: ../src/funclib.c:7131
 msgid "Free fall acceleration"
 msgstr "Szabadesési gyorsulás"
 
-#: ../src/funclib.c:7136
+#: ../src/funclib.c:7134
 msgid "Euler's Constant gamma"
 msgstr "Euler–Mascheroni-állandó"
 
-#: ../src/funclib.c:7140
+#: ../src/funclib.c:7138
 msgid "Catalan's Constant (0.915...)"
 msgstr "Catalan-állandó (0.915…)"
 
-#: ../src/funclib.c:7142
+#: ../src/funclib.c:7140
 msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
 msgstr "A hibafüggvény, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
 
-#: ../src/funclib.c:7145
+#: ../src/funclib.c:7143
 msgid "The Riemann zeta function (only real values implemented)"
 msgstr ""
 
-#: ../src/funclib.c:7149
+#: ../src/funclib.c:7147
 msgid "The Gamma function (only real values implemented)"
 msgstr ""
 
-#: ../src/funclib.c:7154
+#: ../src/funclib.c:7152
 msgid "The Bessel function of first kind of order 0"
 msgstr ""
 
-#: ../src/funclib.c:7157
+#: ../src/funclib.c:7155
 msgid "The Bessel function of first kind of order 1"
 msgstr ""
 
-#: ../src/funclib.c:7160
+#: ../src/funclib.c:7158
 msgid "The Bessel function of first kind of order n"
 msgstr ""
 
-#: ../src/funclib.c:7163
+#: ../src/funclib.c:7161
 msgid "The Bessel function of second kind of order 0"
 msgstr ""
 
-#: ../src/funclib.c:7166
+#: ../src/funclib.c:7164
 msgid "The Bessel function of second kind of order 1"
 msgstr ""
 
-#: ../src/funclib.c:7169
+#: ../src/funclib.c:7167
 msgid "The Bessel function of second kind of integer order n"
 msgstr ""
 
-#: ../src/funclib.c:7172
+#: ../src/funclib.c:7170
 msgid "The square root"
 msgstr "A négyzetgyök"
 
-#: ../src/funclib.c:7176
+#: ../src/funclib.c:7174
 msgid "The exponential function"
 msgstr "Az exponenciális függvény"
 
-#: ../src/funclib.c:7179
+#: ../src/funclib.c:7177
 msgid "The natural logarithm"
 msgstr "A természetes alapú logaritmus"
 
-#: ../src/funclib.c:7182
+#: ../src/funclib.c:7180
 msgid "Logarithm of x base 2"
 msgstr "Az x 2-es alapú logaritmusa"
 
-#: ../src/funclib.c:7187
+#: ../src/funclib.c:7185
 msgid "Logarithm of x base 10"
 msgstr "Az x 10-es alapú logaritmusa"
 
-#: ../src/funclib.c:7190
+#: ../src/funclib.c:7188
 msgid "Round a number"
 msgstr "Szám kerekítése"
 
-#: ../src/funclib.c:7194
+#: ../src/funclib.c:7192
 msgid "Get the highest integer less than or equal to n"
 msgstr ""
 
-#: ../src/funclib.c:7198
+#: ../src/funclib.c:7196
 msgid "Get the lowest integer more than or equal to n"
 msgstr ""
 
-#: ../src/funclib.c:7202
+#: ../src/funclib.c:7200
 msgid "Truncate number to an integer (return the integer part)"
 msgstr ""
 
-#: ../src/funclib.c:7207
+#: ../src/funclib.c:7205
 msgid "Make number a float"
 msgstr ""
 
-#: ../src/funclib.c:7210
+#: ../src/funclib.c:7208
 msgid "Get the numerator of a rational number"
 msgstr ""
 
-#: ../src/funclib.c:7212
+#: ../src/funclib.c:7210
 msgid "Get the denominator of a rational number"
 msgstr ""
 
-#: ../src/funclib.c:7215
+#: ../src/funclib.c:7213
 msgid "Greatest common divisor"
 msgstr "Legnagyobb közös osztó"
 
-#: ../src/funclib.c:7217
+#: ../src/funclib.c:7215
 msgid "Least common multiplier"
 msgstr "Legkisebb közös többszörös"
 
-#: ../src/funclib.c:7219
+#: ../src/funclib.c:7217
 msgid "Check a number for being a perfect square"
 msgstr "Ellenőrzés, hogy a szám teljes négyzet-e"
 
-#: ../src/funclib.c:7220
+#: ../src/funclib.c:7218
 msgid "Check a number for being any perfect power (a^b)"
 msgstr "Ellenőrzés, hogy a szám teljes hatvány-e (a^b)"
 
-#: ../src/funclib.c:7221
+#: ../src/funclib.c:7219
 msgid "Return the nth prime (up to a limit)"
 msgstr "Az n-edik prím visszaadása (egy korlátig)"
 
-#: ../src/funclib.c:7223
+#: ../src/funclib.c:7221
 msgid "Tests if an integer is even"
 msgstr "Ellenőrzés, hogy a szám páros-e"
 
-#: ../src/funclib.c:7224
+#: ../src/funclib.c:7222
 msgid "Tests if an integer is odd"
 msgstr "Ellenőrzés, hogy a szám páratlan-e"
 
-#: ../src/funclib.c:7226
+#: ../src/funclib.c:7224
 msgid "Returns the least prime greater than n (if n is positive)"
 msgstr "Visszaadja a legkisebb prímet, amely nagyobb mint az n (ha n pozitív)"
 
-#: ../src/funclib.c:7227
+#: ../src/funclib.c:7225
 msgid "Returns the nth Lucas number"
 msgstr "Visszaadja az n-edik Lucas-számot"
 
-#: ../src/funclib.c:7228
+#: ../src/funclib.c:7226
 msgid "Returns inverse of n mod m"
 msgstr "Visszaadja az n mod m inverzét"
 
-#: ../src/funclib.c:7229
+#: ../src/funclib.c:7227
 msgid "Checks divisibility (if m divides n)"
 msgstr "Oszthatóságot (n osztható-e m-mel) ellenőriz"
 
-#: ../src/funclib.c:7230
+#: ../src/funclib.c:7228
 msgid ""
 "Return n/d but only if d divides n else returns garbage (this is faster than "
 "writing n/d)"
 msgstr ""
 
-#: ../src/funclib.c:7231
+#: ../src/funclib.c:7229
 msgid ""
 "Tests primality of integers, for numbers greater than 25*10^9 false positive "
 "is with low probability depending on IsPrimeMillerRabinReps"
 msgstr ""
 
-#: ../src/funclib.c:7232
+#: ../src/funclib.c:7230
 msgid "Run the strong pseudoprime test base b on n"
 msgstr ""
 
-#: ../src/funclib.c:7233
+#: ../src/funclib.c:7231
 msgid ""
 "Use the Miller-Rabin primality test on n, reps number of times.  The "
 "probability of false positive is (1/4)^reps"
 msgstr ""
 
-#: ../src/funclib.c:7234
+#: ../src/funclib.c:7232
 msgid ""
 "Use the Miller-Rabin primality test on n with enough bases that assuming the "
 "Generalized Riemann Hypothesis the result is deterministic"
 msgstr ""
 
-#: ../src/funclib.c:7235
+#: ../src/funclib.c:7233
 msgid "Return factorization of a number as a matrix"
 msgstr ""
 
-#: ../src/funclib.c:7237
+#: ../src/funclib.c:7235
 msgid "Returns the maximum of arguments or matrix"
 msgstr ""
 
-#: ../src/funclib.c:7240
+#: ../src/funclib.c:7238
 msgid "Returns the minimum of arguments or matrix"
 msgstr ""
 
-#: ../src/funclib.c:7244
+#: ../src/funclib.c:7242
 msgid "Division w/o remainder, equivalent to floor(a/b)"
 msgstr ""
 
-#: ../src/funclib.c:7246
+#: ../src/funclib.c:7244
 msgid "Calculate the Jacobi symbol (a/b) (b should be odd)"
 msgstr ""
 
-#: ../src/funclib.c:7248
+#: ../src/funclib.c:7246
 msgid ""
 "Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) "
 "when a odd, or (a/2)=0 when a even"
 msgstr ""
 
-#: ../src/funclib.c:7250
+#: ../src/funclib.c:7248
 msgid "Calculate the Legendre symbol (a/p)"
 msgstr "A Legendre-szimbólum (a/p) kiszámítása"
 
-#: ../src/funclib.c:7253
+#: ../src/funclib.c:7251
 msgid "Get the real part of a complex number"
 msgstr "Egy komplex szám valós részének lekérése"
 
-#: ../src/funclib.c:7256
+#: ../src/funclib.c:7254
 msgid "Get the imaginary part of a complex number"
 msgstr "Egy komplex szám imaginárius részének lekérése"
 
-#: ../src/funclib.c:7260
+#: ../src/funclib.c:7258
 msgid "Make an identity matrix of a given size"
 msgstr "Egy megadott méretű egységmátrix készítése"
 
-#: ../src/funclib.c:7263
+#: ../src/funclib.c:7261
 msgid "Make an matrix of all zeros (or a row vector)"
 msgstr "Egy csupa nullákból álló mátrix (vagy sorvektor) készítése"
 
-#: ../src/funclib.c:7265
+#: ../src/funclib.c:7263
 msgid "Make an matrix of all ones (or a row vector)"
 msgstr "Egy csupa egyesekből álló mátrix (vagy sorvektor) készítése"
 
-#: ../src/funclib.c:7268
+#: ../src/funclib.c:7266
 msgid "Append an element to a vector (treating 1x1 matrix as a row vector)"
 msgstr ""
 "Egy elem hozzáfűzése egy vektorhoz (az 1×1-es mátrixot sorvektorként kezeli)"
 
-#: ../src/funclib.c:7270
+#: ../src/funclib.c:7268
 msgid "Get the number of rows of a matrix"
 msgstr "Egy mátrix sorai számának lekérése"
 
-#: ../src/funclib.c:7271
+#: ../src/funclib.c:7269
 msgid "Get the number of columns of a matrix"
 msgstr "Egy mátrix oszlopai számának lekérése"
 
-#: ../src/funclib.c:7272
+#: ../src/funclib.c:7270
 msgid "Is a matrix square"
 msgstr "Négyzetes-e a mátrix"
 
-#: ../src/funclib.c:7273
+#: ../src/funclib.c:7271
 msgid "Is argument a horizontal or a vertical vector"
 msgstr "Az argumentum sor- vagy oszlopvektor-e"
 
-#: ../src/funclib.c:7274
+#: ../src/funclib.c:7272
 msgid "Is a matrix upper triangular"
 msgstr "Felső háromszög mátrix-e"
 
-#: ../src/funclib.c:7275
+#: ../src/funclib.c:7273
 msgid "Is a matrix lower triangular"
 msgstr "Alsó háromszög mátrix-e"
 
-#: ../src/funclib.c:7276
+#: ../src/funclib.c:7274
 msgid "Is a matrix diagonal"
 msgstr "Átlós-e a mátrix"
 
-#: ../src/funclib.c:7277
+#: ../src/funclib.c:7275
 msgid "Get the number of elements of a matrix"
 msgstr "Egy mátrix elemei számának lekérése"
 
-#: ../src/funclib.c:7279
+#: ../src/funclib.c:7277
 msgid "Get the row echelon form of a matrix"
 msgstr "Egy mátrix lépcsős alakjának lekérése"
 
-#: ../src/funclib.c:7283
+#: ../src/funclib.c:7281
 msgid "Get the reduced row echelon form of a matrix"
 msgstr "Egy mátrix redukált lépcsős alakjának lekérése"
 
-#: ../src/funclib.c:7287
+#: ../src/funclib.c:7285
 msgid ""
 "Solve linear system Mx=V, return solution V if there is a unique solution, "
 "null otherwise.  Extra two reference parameters can optionally be used to "
@@ -2840,68 +2850,68 @@ msgstr ""
 "egyedi megoldás, egyébként null visszaadása. A további kettő "
 "referenciaparaméter a redukált M és V megkapására használható."
 
-#: ../src/funclib.c:7290
+#: ../src/funclib.c:7288
 msgid "Get the determinant of a matrix"
 msgstr "Egy mátrix determinánsának lekérése"
 
-#: ../src/funclib.c:7293
+#: ../src/funclib.c:7291
 msgid ""
 "Return pivot columns of a matrix, that is columns which have a leading 1 in "
 "rref form, also returns the row where they occur"
 msgstr ""
 
-#: ../src/funclib.c:7295
+#: ../src/funclib.c:7293
 msgid "Get the nullspace of a matrix"
 msgstr "Egy mátrix nullterének lekérése"
 
-#: ../src/funclib.c:7297
+#: ../src/funclib.c:7295
 msgid "Make new matrix of given size from old one"
 msgstr ""
 
-#: ../src/funclib.c:7298
+#: ../src/funclib.c:7296
 msgid "Return the index complement of a vector of indexes"
 msgstr "Egy indexvektor index komplemensének visszaadása"
 
-#: ../src/funclib.c:7299
+#: ../src/funclib.c:7297
 msgid "Get the Hermitian product of two vectors"
 msgstr "Két vektor Hermite-féle belső szorzatának lekérése"
 
-#: ../src/funclib.c:7302
+#: ../src/funclib.c:7300
 msgid "Check if a matrix is a matrix of numbers"
 msgstr "Ellenőrzés, hogy a mátrix számok mátrixa-e"
 
-#: ../src/funclib.c:7303
+#: ../src/funclib.c:7301
 msgid "Check if a matrix is an integer (non-complex) matrix"
 msgstr "Ellenőrzés, hogy a mátrix egy (nem komplex) egész mátrix"
 
-#: ../src/funclib.c:7304
+#: ../src/funclib.c:7302
 msgid "Check if a matrix is a rational (non-complex) matrix"
 msgstr "Ellenőrzés, hogy a mátrix egy (nem komplex) racionális mátrix"
 
-#: ../src/funclib.c:7305
+#: ../src/funclib.c:7303
 msgid "Check if a matrix is a real (non-complex) matrix"
 msgstr "Ellenőrzés, hogy a mátrix egy (nem komplex) valós mátrix"
 
-#: ../src/funclib.c:7306
+#: ../src/funclib.c:7304
 msgid "Check if a matrix is positive, that is if each element is positive"
 msgstr "Ellenőrzés, hogy a mátrix pozitív-e, azaz hogy minden eleme pozitív-e"
 
-#: ../src/funclib.c:7307
+#: ../src/funclib.c:7305
 msgid ""
 "Check if a matrix is nonnegative, that is if each element is nonnegative"
 msgstr ""
 "Ellenőrzés, hogy a mátrix nemnegatív-e, azaz hogy minden eleme nemnegatív-e"
 
-#: ../src/funclib.c:7309
+#: ../src/funclib.c:7307
 msgid "Check if a number or a matrix is all zeros"
 msgstr "Ellenőrzés, hogy a mátrix csupa zérus-e"
 
-#: ../src/funclib.c:7310
+#: ../src/funclib.c:7308
 msgid "Check if a number or a matrix is 1 or identity respectively"
 msgstr ""
 "Ellenőrzés, hogy egy szám értéke 1, vagy hogy egy mátrix identitásmátrix-e"
 
-#: ../src/funclib.c:7312
+#: ../src/funclib.c:7310
 msgid ""
 "Returns true if the element x is in the set X (where X is a vector "
 "pretending to be a set)"
@@ -2909,11 +2919,11 @@ msgstr ""
 "Igazat ad vissza, ha az x elem az X halmazban van (ahol az X egy halmazként "
 "kezelt vektor)"
 
-#: ../src/funclib.c:7313
+#: ../src/funclib.c:7311
 msgid "Returns true if X is a subset of Y"
 msgstr "Igazat ad vissza, ha az X az Y részhalmaza"
 
-#: ../src/funclib.c:7314
+#: ../src/funclib.c:7312
 msgid ""
 "Returns a set theoretic difference X-Y (X and Y are vectors pretending to be "
 "sets)"
@@ -2921,7 +2931,7 @@ msgstr ""
 "Visszaadja az X-Y halmazelméleti különbséget (ahol az X és Y halmazként "
 "kezelt vektor)"
 
-#: ../src/funclib.c:7315
+#: ../src/funclib.c:7313
 msgid ""
 "Returns a set theoretic intersection of X and Y (X and Y are vectors "
 "pretending to be sets)"
@@ -2929,224 +2939,224 @@ msgstr ""
 "Visszaadja az X és Y halmazelméleti metszetét (ahol az X és Y halmazként "
 "kezelt vektor)"
 
-#: ../src/funclib.c:7317
+#: ../src/funclib.c:7315
 msgid "Check if argument is a null"
 msgstr "Ellenőrzés, hogy az argumentum null-e"
 
-#: ../src/funclib.c:7318
+#: ../src/funclib.c:7316
 msgid "Check if argument is a number"
 msgstr "Ellenőrzés, hogy az argumentum szám-e"
 
-#: ../src/funclib.c:7319
+#: ../src/funclib.c:7317
 msgid "Check if argument is a boolean (and not a number)"
 msgstr "Ellenőrzés, hogy az argumentum logikai-e (és nem szám)"
 
-#: ../src/funclib.c:7320
+#: ../src/funclib.c:7318
 msgid "Check if argument is a text string"
 msgstr "Ellenőrzés, hogy az argumentum karakterlánc-e"
 
-#: ../src/funclib.c:7321
+#: ../src/funclib.c:7319
 msgid "Check if argument is a matrix"
 msgstr "Ellenőrzés, hogy az argumentum mátrix-e"
 
-#: ../src/funclib.c:7322
+#: ../src/funclib.c:7320
 msgid "Check if argument is a function"
 msgstr "Ellenőrzés, hogy az argumentum függvény-e"
 
-#: ../src/funclib.c:7323
+#: ../src/funclib.c:7321
 msgid "Check if argument is a function or an identifier"
 msgstr "Ellenőrzés, hogy az argumentum függvény vagy azonosító-e"
 
-#: ../src/funclib.c:7324
+#: ../src/funclib.c:7322
 msgid "Check if argument is a function reference"
 msgstr "Ellenőrzés, hogy az argumentum függvényreferencia-e"
 
-#: ../src/funclib.c:7326
+#: ../src/funclib.c:7324
 msgid "Check if argument is a complex (non-real) number"
 msgstr "Ellenőrzés, hogy az argumentum komplex (nem valós) szám-e"
 
-#: ../src/funclib.c:7327
+#: ../src/funclib.c:7325
 msgid "Check if argument is a real number"
 msgstr "Ellenőrzés, hogy az argumentum valós szám-e"
 
-#: ../src/funclib.c:7328
+#: ../src/funclib.c:7326
 msgid "Check if argument is an integer (non-complex)"
 msgstr "Ellenőrzés, hogy az argumentum egész-e (nem komplex)"
 
-#: ../src/funclib.c:7329
+#: ../src/funclib.c:7327
 msgid "Check if argument is a positive real integer"
 msgstr "Ellenőrzés, hogy az argumentum pozitív egész-e"
 
-#: ../src/funclib.c:7331
+#: ../src/funclib.c:7329
 msgid "Check if argument is a non-negative real integer"
 msgstr "Ellenőrzés, hogy az argumentum nemnegatív egész-e"
 
-#: ../src/funclib.c:7332
+#: ../src/funclib.c:7330
 msgid "Check if argument is a possibly complex integer"
 msgstr "Ellenőrzés, hogy az argumentum talán komplex egész-e"
 
-#: ../src/funclib.c:7334
+#: ../src/funclib.c:7332
 msgid "Check if argument is a rational number (non-complex)"
 msgstr "Ellenőrzés, hogy az argumentum racionális szám-e (nem komplex)"
 
-#: ../src/funclib.c:7335
+#: ../src/funclib.c:7333
 msgid "Check if argument is a possibly complex rational number"
 msgstr "Ellenőrzés, hogy az argumentum talán komplex racionális szám-e"
 
-#: ../src/funclib.c:7336
+#: ../src/funclib.c:7334
 msgid "Check if argument is a floating point number (non-complex)"
 msgstr "Ellenőrzés, hogy az argumentum lebegőpontos szám-e (nem komplex)"
 
-#: ../src/funclib.c:7338
+#: ../src/funclib.c:7336
 msgid "Add two polynomials (vectors)"
 msgstr "Két polinom (vektorok) összeadása"
 
-#: ../src/funclib.c:7339
+#: ../src/funclib.c:7337
 msgid "Subtract two polynomials (as vectors)"
 msgstr "Két polinom kivonása (vektorként)"
 
-#: ../src/funclib.c:7340
+#: ../src/funclib.c:7338
 msgid "Multiply two polynomials (as vectors)"
 msgstr "Két polinom szorzása (vektorként)"
 
-#: ../src/funclib.c:7341
+#: ../src/funclib.c:7339
 msgid "Divide polynomial p by q, return the remainder in r"
 msgstr ""
 
-#: ../src/funclib.c:7342
+#: ../src/funclib.c:7340
 msgid "Take polynomial (as vector) derivative"
 msgstr ""
 
-#: ../src/funclib.c:7343
+#: ../src/funclib.c:7341
 msgid "Take second polynomial (as vector) derivative"
 msgstr ""
 
-#: ../src/funclib.c:7344
+#: ../src/funclib.c:7342
 msgid ""
 "Trim zeros from a vector pretending to be a polynomial, that is trim "
 "trailing zero elements"
 msgstr ""
 
-#: ../src/funclib.c:7345
+#: ../src/funclib.c:7343
 msgid "Check if a vector is usable as a polynomial"
 msgstr ""
 
-#: ../src/funclib.c:7346
+#: ../src/funclib.c:7344
 msgid "Make string out of a polynomial (as vector)"
 msgstr ""
 
-#: ../src/funclib.c:7347
+#: ../src/funclib.c:7345
 msgid "Make function out of a polynomial (as vector)"
 msgstr ""
 
-#: ../src/funclib.c:7349
+#: ../src/funclib.c:7347
 msgid "Find roots of a quadratic polynomial (given as vector of coefficients)"
 msgstr ""
 
-#: ../src/funclib.c:7351
+#: ../src/funclib.c:7349
 msgid "Get all combinations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
 
-#: ../src/funclib.c:7352
+#: ../src/funclib.c:7350
 msgid ""
 "Get combination that would come after v in call to combinations, first "
 "combination should be [1:k]."
 msgstr ""
 
-#: ../src/funclib.c:7353
+#: ../src/funclib.c:7351
 msgid "Get all permutations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
 
-#: ../src/funclib.c:7355
+#: ../src/funclib.c:7353
 msgid "Calculate combinations (binomial coefficient)"
 msgstr ""
 
-#: ../src/funclib.c:7358
+#: ../src/funclib.c:7356
 msgid "Convert a string to a vector of ASCII values"
 msgstr ""
 
-#: ../src/funclib.c:7359
+#: ../src/funclib.c:7357
 msgid "Convert a vector of ASCII values to a string"
 msgstr ""
 
-#: ../src/funclib.c:7361
+#: ../src/funclib.c:7359
 msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters"
 msgstr ""
 
-#: ../src/funclib.c:7362
+#: ../src/funclib.c:7360
 msgid ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string"
 msgstr ""
 
-#: ../src/funclib.c:7364
+#: ../src/funclib.c:7362
 msgid ""
 "Protect a variable from being modified.  It will be treated as a system "
 "defined variable from now on.  Protected parameters can still be modified."
 msgstr ""
 
-#: ../src/funclib.c:7365
+#: ../src/funclib.c:7363
 msgid ""
 "Unprotect a variable from being modified.  It will be treated as a user "
 "defined variable from now on."
 msgstr ""
 
-#: ../src/funclib.c:7366
+#: ../src/funclib.c:7364
 msgid ""
 "Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
 "\""
 msgstr ""
 
-#: ../src/funclib.c:7367
+#: ../src/funclib.c:7365
 msgid "Get current modulo from the context outside the function"
 msgstr ""
 
-#: ../src/funclib.c:7368
+#: ../src/funclib.c:7366
 msgid "Check if a variable or function is defined"
 msgstr ""
 
-#: ../src/funclib.c:7369
+#: ../src/funclib.c:7367
 msgid "Undefine a variable (including all locals and globals of the same name)"
 msgstr ""
 
-#: ../src/funclib.c:7371
+#: ../src/funclib.c:7369
 msgid ""
 "Undefine all unprotected (user defined) global variables and parameters.  "
 "Does not reset or change protected (system) parameters."
 msgstr ""
 
-#: ../src/funclib.c:7372
+#: ../src/funclib.c:7370
 msgid ""
 "Mark all currently defined variables as protected.  They will be treated as "
 "system defined variables from now on."
 msgstr ""
 
-#: ../src/funclib.c:7373
+#: ../src/funclib.c:7371
 msgid ""
 "Return a vector of all global unprotected (user defined) variable names."
 msgstr ""
 
-#: ../src/funclib.c:7375
+#: ../src/funclib.c:7373
 msgid "Parse a string (but do not execute)"
 msgstr ""
 
-#: ../src/funclib.c:7376
+#: ../src/funclib.c:7374
 msgid "Parse and evaluate a string"
 msgstr ""
 
-#: ../src/funclib.c:7378
+#: ../src/funclib.c:7376
 msgid "Ask a question and return a string.  Optionally pass in a default."
 msgstr ""
 
-#: ../src/funclib.c:7379
+#: ../src/funclib.c:7377
 msgid ""
 "Ask a question and present a list of buttons.  Returns the 1-based index of "
 "the button pressed (or null on failure)."
 msgstr ""
 
-#: ../src/funclib.c:7381
+#: ../src/funclib.c:7379
 msgid ""
 "Integration of f by Composite Simpson's Rule on the interval [a,b] with n "
 "subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be "
@@ -3183,7 +3193,7 @@ msgstr "%s: a(z) %d. argumentum nem nemnegatív szám"
 msgid "%s: argument number %d not a positive integer"
 msgstr "%s: a(z) %d. argumentum nem pozitív egész"
 
-#: ../src/funclibhelper.cP:125 ../src/graphing.c:3369
+#: ../src/funclibhelper.cP:125 ../src/graphing.c:3385
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: a(z) %d. argumentum nem szám"
@@ -3238,53 +3248,53 @@ msgstr "%s: a(z) %d. argumentum nem karakterlánc"
 msgid "%s: argument number %d not a function or identifier"
 msgstr "%s: a(z) %d. argumentum nem függvény vagy azonosító"
 
-#: ../src/genius.c:111
+#: ../src/genius.c:113
 #, c-format
 msgid "line %d: %s\n"
 msgstr "%d. sor: %s\n"
 
-#: ../src/genius.c:129
+#: ../src/genius.c:131
 #, c-format
 msgid "Too many errors! (%d followed)\n"
 msgstr "Túl sok hiba! (%d követte)\n"
 
-#: ../src/genius.c:184
+#: ../src/genius.c:186
 msgid "Cannot locate the manual"
 msgstr "A kézikönyv nem található!"
 
-#: ../src/genius.c:214
+#: ../src/genius.c:216
 msgid "Cannot run lynx/links/w3m to show the manual"
 msgstr "Nem futtatható a lynx/links/w3m a kézikönyv megjelenítéséhez"
 
-#: ../src/genius.c:240
+#: ../src/genius.c:242
 #, c-format
 msgid "Suggested: %s\n"
 msgstr "Javasolt: %s\n"
 
-#: ../src/genius.c:286
+#: ../src/genius.c:288
 #, c-format
 msgid "Out of range!\n"
 msgstr "Tartományon kívül!\n"
 
-#: ../src/genius.c:363 ../src/genius.lang.h:2 ../src/gnome-genius.c:661
-#: ../src/gnome-genius.c:702
+#: ../src/genius.c:365 ../src/genius.lang.h:2 ../src/gnome-genius.c:827
+#: ../src/gnome-genius.c:868
 msgid "Genius"
 msgstr "Genius"
 
-#: ../src/genius.c:396 ../src/genius.c:405 ../src/genius.c:412
-#: ../src/genius.c:421
+#: ../src/genius.c:398 ../src/genius.c:407 ../src/genius.c:414
+#: ../src/genius.c:423
 #, c-format
 msgid "%s should be between %d and %d, using %d"
 msgstr "a(z) %s argumentumnak %d és %d közé kell essen, %d használata"
 
-#: ../src/genius.c:440 ../src/genius.c:449
+#: ../src/genius.c:442 ../src/genius.c:451
 #, c-format
 msgid "%s should be greater then or equal to %d, using %d"
 msgstr ""
 "a(z) %s argumentumnak nagyobb vagy egyenlőnek kell lennie mint %d, %d "
 "használata"
 
-#: ../src/genius.c:497
+#: ../src/genius.c:499
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -3293,7 +3303,7 @@ msgstr ""
 "Genius %s\n"
 "%s%s\n"
 
-#: ../src/genius.c:508
+#: ../src/genius.c:510
 #, c-format
 msgid ""
 "Genius %s usage:\n"
@@ -3348,7 +3358,7 @@ msgstr ""
 "\t--exec=kifejezés  \tEgy kifejezés végrehajtása\n"
 "\n"
 
-#: ../src/genius.c:538
+#: ../src/genius.c:540
 #, c-format
 msgid ""
 "Can't specify both an expression and files to execute on the command line"
@@ -3356,7 +3366,7 @@ msgstr ""
 "Egyszerre nem adhat meg kifejezést és fájlokat is a parancssori "
 "végrehajtáskor"
 
-#: ../src/genius.c:549
+#: ../src/genius.c:558
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -3373,7 +3383,7 @@ msgstr ""
 "A súgóhoz írja be: „manual” vagy „help”.%s\n"
 "\n"
 
-#: ../src/genius.c:622 ../src/gnome-genius.c:5208
+#: ../src/genius.c:631 ../src/gnome-genius.c:5557
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -3381,7 +3391,7 @@ msgstr ""
 "Az egyetlen dolog, ami hátráltatja a tanulásomat az az, ahogyan tanítanak. – "
 "Albert Einstein"
 
-#: ../src/genius.c:643 ../src/genius.c:714
+#: ../src/genius.c:652 ../src/genius.c:723
 msgid "Can't open file"
 msgstr "A fájl nem nyitható meg"
 
@@ -3389,52 +3399,56 @@ msgstr "A fájl nem nyitható meg"
 msgid "Script"
 msgstr "Parancsfájl"
 
-#: ../src/gnome-genius.c:260
+#: ../src/gnome-genius.c:394
 msgid "_New Program"
 msgstr "Ú_j program"
 
-#: ../src/gnome-genius.c:261
+#: ../src/gnome-genius.c:395
 msgid "Create new program tab"
 msgstr "Új programlap létrehozása"
 
-#: ../src/gnome-genius.c:262
+#: ../src/gnome-genius.c:397
 msgid "_Open..."
 msgstr "_Megnyitás…"
 
-#: ../src/gnome-genius.c:263
+#: ../src/gnome-genius.c:398
 msgid "Open a file"
 msgstr "Fájl megnyitása"
 
-#: ../src/gnome-genius.c:264 ../src/gnome-genius.c:3890
-#: ../src/gnome-genius.c:4024 ../src/graphing.c:1208
+#: ../src/gnome-genius.c:400
+msgid "Open R_ecent"
+msgstr "_Nemrég használt megnyitása"
+
+#: ../src/gnome-genius.c:403 ../src/gnome-genius.c:4201
+#: ../src/gnome-genius.c:4326 ../src/graphing.c:1225
 msgid "_Save"
 msgstr "M_entés"
 
-#: ../src/gnome-genius.c:265
+#: ../src/gnome-genius.c:404
 msgid "Save current file"
 msgstr "Jelenlegi fájl mentése"
 
-#: ../src/gnome-genius.c:266
+#: ../src/gnome-genius.c:406
 msgid "Save All _Unsaved"
 msgstr "Összes nem _mentett mentése"
 
-#: ../src/gnome-genius.c:267
+#: ../src/gnome-genius.c:407
 msgid "Save all unsaved programs"
 msgstr "Összes nem mentett program mentése"
 
-#: ../src/gnome-genius.c:268
+#: ../src/gnome-genius.c:409
 msgid "Save _As..."
 msgstr "Men_tés másként…"
 
-#: ../src/gnome-genius.c:269
+#: ../src/gnome-genius.c:410
 msgid "Save to a file"
 msgstr "Mentés fájlba"
 
-#: ../src/gnome-genius.c:270
+#: ../src/gnome-genius.c:412
 msgid "_Reload from Disk"
 msgstr "Úr_ratöltés a lemezről"
 
-#: ../src/gnome-genius.c:271
+#: ../src/gnome-genius.c:413
 msgid "Reload the selected program from disk"
 msgstr "A kiválasztott program újratöltése a lemezről"
 
@@ -3447,275 +3461,289 @@ msgstr "A kiválasztott program újratöltése a lemezről"
 #. GTK_WINDOW (genius_window)
 #. parent
 #. flags
-#: ../src/gnome-genius.c:272 ../src/gnome-genius.c:1142
-#: ../src/gnome-genius.c:1347 ../src/graphing.c:605 ../src/graphing.c:1946
-#: ../src/graphing.c:2151 ../src/graphing.c:7241 ../ve/ve-miscui.c:167
+#: ../src/gnome-genius.c:415 ../src/gnome-genius.c:1308
+#: ../src/gnome-genius.c:1513 ../src/graphing.c:622 ../src/graphing.c:1976
+#: ../src/graphing.c:2167 ../src/graphing.c:7290 ../ve/ve-miscui.c:167
 msgid "_Close"
 msgstr "_Bezárás"
 
-#: ../src/gnome-genius.c:273
+#: ../src/gnome-genius.c:416
 msgid "Close the current file"
 msgstr "A jelenlegi fájl bezárása"
 
-#: ../src/gnome-genius.c:274
+#: ../src/gnome-genius.c:419
 msgid "_Load and Run..."
 msgstr "Be_töltés és futtatás…"
 
-#: ../src/gnome-genius.c:275
+#: ../src/gnome-genius.c:420
 msgid "Load and execute a file in genius"
 msgstr "A fájl betöltése és futtatása a geniusban"
 
-#: ../src/gnome-genius.c:276
+#: ../src/gnome-genius.c:423
 msgid "Save Console Ou_tput..."
 msgstr "_Konzolkimenet mentése…"
 
-#: ../src/gnome-genius.c:277
+#: ../src/gnome-genius.c:424
 msgid ""
 "Save what is visible on the console (including scrollback) to a text file"
 msgstr ""
 "A konzolban láthatók mentése (visszagörgetéssel együtt) egy szöveges fájlba"
 
-#: ../src/gnome-genius.c:279
+#: ../src/gnome-genius.c:428
 msgid "_Quit"
 msgstr "_Kilépés"
 
-#: ../src/gnome-genius.c:280
+#: ../src/gnome-genius.c:429 ../src/gnome-genius.c:719
 msgid "Quit"
 msgstr "Kilépés"
 
-#: ../src/gnome-genius.c:286
+#: ../src/gnome-genius.c:437
 msgid "_Undo"
 msgstr "_Visszavonás"
 
-#: ../src/gnome-genius.c:287
+#: ../src/gnome-genius.c:438
 msgid "Undo the last action"
 msgstr "Az utolsó művelet visszavonása"
 
-#: ../src/gnome-genius.c:288
+#: ../src/gnome-genius.c:440
 msgid "_Redo"
 msgstr "Új_ra"
 
-#: ../src/gnome-genius.c:289
+#: ../src/gnome-genius.c:441
 msgid "Redo the undone action"
 msgstr "Az utolsó művelet ismétlése"
 
-#: ../src/gnome-genius.c:291
+#: ../src/gnome-genius.c:445
 msgid "Cu_t"
 msgstr "_Kivágás"
 
-#: ../src/gnome-genius.c:292
+#: ../src/gnome-genius.c:446
 msgid "Cut the selection"
 msgstr "A kijelölés kivágása"
 
-#: ../src/gnome-genius.c:293
+#: ../src/gnome-genius.c:448
 msgid "_Copy"
 msgstr "_Másolás"
 
-#: ../src/gnome-genius.c:294
+#: ../src/gnome-genius.c:449
 msgid "Copy the selection"
 msgstr "A kijelölés másolása"
 
-#: ../src/gnome-genius.c:295
+#: ../src/gnome-genius.c:451
 msgid "_Paste"
 msgstr "_Beillesztés"
 
-#: ../src/gnome-genius.c:296
+#: ../src/gnome-genius.c:452
 msgid "Paste the clipboard"
 msgstr "A vágólap beillesztése"
 
-#: ../src/gnome-genius.c:297
+#: ../src/gnome-genius.c:455
 msgid "Copy Answer As Plain Te_xt"
 msgstr "Válasz másolása _egyszerű szövegként"
 
-#: ../src/gnome-genius.c:298
+#: ../src/gnome-genius.c:456
 msgid "Copy last answer into the clipboard in plain text"
 msgstr "A legutóbbi válasz másolása a vágólapra egyszerű szövegként"
 
-#: ../src/gnome-genius.c:299
+#: ../src/gnome-genius.c:458
 msgid "Copy Answer As _LaTeX"
 msgstr "Válasz másolása _LaTeX-ként"
 
-#: ../src/gnome-genius.c:300
+#: ../src/gnome-genius.c:459
 msgid "Copy last answer into the clipboard as LaTeX"
 msgstr "A legutóbbi válasz másolása a vágólapra LaTeX-ként"
 
-#: ../src/gnome-genius.c:301
+#: ../src/gnome-genius.c:461
 msgid "Copy Answer As _MathML"
 msgstr "Válasz másolása _MathML-ként"
 
-#: ../src/gnome-genius.c:302
+#: ../src/gnome-genius.c:462
 msgid "Copy last answer into the clipboard as MathML"
 msgstr "A legutóbbi válasz másolása a vágólapra MathML-ként"
 
-#: ../src/gnome-genius.c:303
+#: ../src/gnome-genius.c:464
 msgid "Copy Answer As T_roff"
 msgstr "Válasz másolása _Troffként"
 
-#: ../src/gnome-genius.c:304
+#: ../src/gnome-genius.c:465
 msgid "Copy last answer into the clipboard as Troff eqn"
 msgstr "A legutóbbi válasz másolása a vágólapra Troff egyenletként"
 
-#: ../src/gnome-genius.c:309
+#: ../src/gnome-genius.c:471
 msgid "_Run"
 msgstr "_Futtatás"
 
-#: ../src/gnome-genius.c:310
+#: ../src/gnome-genius.c:472
 msgid "Run current program"
 msgstr "Jelenlegi program futtatása"
 
-#: ../src/gnome-genius.c:311
+#: ../src/gnome-genius.c:474
 msgid "_Interrupt"
 msgstr "_Megszakítás"
 
-#: ../src/gnome-genius.c:312
+#: ../src/gnome-genius.c:475
 msgid "Interrupt current calculation"
 msgstr "A jelenlegi számítás megszakítása"
 
-#: ../src/gnome-genius.c:313
+#: ../src/gnome-genius.c:478
 msgid "Show _Full Answer"
 msgstr "_Teljes válasz megjelenítése"
 
-#: ../src/gnome-genius.c:314
+#: ../src/gnome-genius.c:479
 msgid "Show the full text of last answer"
 msgstr "A legutóbbi válasz teljes szövegének megjelenítése"
 
-#: ../src/gnome-genius.c:315
+#: ../src/gnome-genius.c:481
 msgid "Show User _Variables"
 msgstr "Felhasználói _változók megjelenítése"
 
-#: ../src/gnome-genius.c:316
+#: ../src/gnome-genius.c:482
 msgid "Show the current value of all user variables"
 msgstr "Az összes felhasználói változó megjelenítése"
 
-#: ../src/gnome-genius.c:317
+#: ../src/gnome-genius.c:484
 msgid "_Monitor a Variable"
 msgstr "Változó _figyelése"
 
-#: ../src/gnome-genius.c:318
+#: ../src/gnome-genius.c:485
 msgid "Monitor a variable continuously"
 msgstr "Egy változó folyamatos figyelése"
 
-#: ../src/gnome-genius.c:319
+#: ../src/gnome-genius.c:488
 msgid "_Plot..."
 msgstr "_Grafikonkészítés…"
 
-#: ../src/gnome-genius.c:320
+#: ../src/gnome-genius.c:489
 msgid "Plot functions, vector fields, surfaces, etc..."
 msgstr "Függvények, vektormezők, felületek, stb. kirajzolása…"
 
-#: ../src/gnome-genius.c:325
+#: ../src/gnome-genius.c:495
 msgid "_Next Tab"
 msgstr "_Következő lap"
 
-#: ../src/gnome-genius.c:326
+#: ../src/gnome-genius.c:496
 msgid "Go to next tab"
 msgstr "Ugrás a következő lapra"
 
-#: ../src/gnome-genius.c:327
+#: ../src/gnome-genius.c:498
 msgid "_Previous Tab"
 msgstr "_Előző lap"
 
-#: ../src/gnome-genius.c:328
+#: ../src/gnome-genius.c:499
 msgid "Go to previous tab"
 msgstr "Ugrás az előző lapra"
 
-#: ../src/gnome-genius.c:329
+#: ../src/gnome-genius.c:502
 msgid "_Console"
 msgstr "_Konzol"
 
-#: ../src/gnome-genius.c:330
+#: ../src/gnome-genius.c:503
 msgid "Go to the console tab"
 msgstr "Ugrás a konzol lapra"
 
-#: ../src/gnome-genius.c:335
+#: ../src/gnome-genius.c:509
 msgid "_Preferences"
 msgstr "_Beállítások"
 
-#: ../src/gnome-genius.c:336
+#: ../src/gnome-genius.c:510
 msgid "Configure Genius"
 msgstr "A Genius beállításai"
 
-#: ../src/gnome-genius.c:341
+#: ../src/gnome-genius.c:516
 msgid "_Contents"
 msgstr "_Tartalom"
 
-#: ../src/gnome-genius.c:342
+#: ../src/gnome-genius.c:517
 msgid "View the Genius manual"
 msgstr "A Genius kézikönyvének megtekintése"
 
-#: ../src/gnome-genius.c:343
+#: ../src/gnome-genius.c:519
 msgid "_Help on Function"
 msgstr "_Súgó egy függvényhez"
 
-#: ../src/gnome-genius.c:344
+#: ../src/gnome-genius.c:520
 msgid "Help on a function or a command"
 msgstr "Súgó egy függvényhez vagy parancshoz"
 
-#: ../src/gnome-genius.c:345
+#: ../src/gnome-genius.c:522
 msgid "_Warranty"
 msgstr "_Garancia"
 
-#: ../src/gnome-genius.c:346
+#: ../src/gnome-genius.c:523
 msgid "Display warranty information"
 msgstr "Garanciális információk kiírása"
 
-#: ../src/gnome-genius.c:347
+#: ../src/gnome-genius.c:526
 msgid "_About"
 msgstr "_Névjegy"
 
-#: ../src/gnome-genius.c:348
+#: ../src/gnome-genius.c:527
 msgid "About Genius"
 msgstr "A Genius névjegye"
 
-#: ../src/gnome-genius.c:468
+#: ../src/gnome-genius.c:623
 msgid "_File"
 msgstr "_Fájl"
 
-#: ../src/gnome-genius.c:471
-msgid "Open R_ecent"
-msgstr "_Nemrég használt megnyitása"
-
-#: ../src/gnome-genius.c:485
+#: ../src/gnome-genius.c:634
 msgid "_Edit"
 msgstr "Sz_erkesztés"
 
-#: ../src/gnome-genius.c:497
+#: ../src/gnome-genius.c:639
 msgid "_Calculator"
 msgstr "Szá_mológép"
 
-#: ../src/gnome-genius.c:506
+#: ../src/gnome-genius.c:644
 msgid "E_xamples"
 msgstr "Pé_ldák"
 
-#: ../src/gnome-genius.c:509
+#: ../src/gnome-genius.c:647
 msgid "P_lugins"
 msgstr "Bő_vítmények"
 
-#: ../src/gnome-genius.c:512
+#: ../src/gnome-genius.c:650
 msgid "_Programs"
 msgstr "_Programok"
 
-#: ../src/gnome-genius.c:519
+#: ../src/gnome-genius.c:655
 msgid "_Settings"
 msgstr "_Beállítások"
 
 #. parent
 #. flags
-#: ../src/gnome-genius.c:525 ../src/gnome-genius.c:2217
+#: ../src/gnome-genius.c:660 ../src/gnome-genius.c:2430
 msgid "_Help"
 msgstr "_Súgó"
 
-#: ../src/gnome-genius.c:540
+#: ../src/gnome-genius.c:671
+#, fuzzy
+#| msgid "_Interrupt"
+msgid "Interrupt"
+msgstr "_Megszakítás"
+
+#: ../src/gnome-genius.c:679
+#, fuzzy
+#| msgid "_Run"
+msgid "Run"
+msgstr "_Futtatás"
+
+#: ../src/gnome-genius.c:687
 msgid "New"
 msgstr "Új"
 
-#: ../src/gnome-genius.c:543
+#: ../src/gnome-genius.c:695
 msgid "Open"
 msgstr "Megnyitás"
 
-#: ../src/gnome-genius.c:546 ../src/graphing.c:7243
-msgid "_Plot"
-msgstr "_Grafikonkészítés"
+#: ../src/gnome-genius.c:703
+#, fuzzy
+#| msgid "_Save"
+msgid "Save"
+msgstr "M_entés"
+
+#: ../src/gnome-genius.c:711 ../src/graphing.c:2162
+msgid "Plot"
+msgstr "Grafikonkészítés"
 
 #. GTK_WINDOW (genius_window)
 #. parent
@@ -3723,11 +3751,11 @@ msgstr "_Grafikonkészítés"
 #. title
 #. parent
 #. flags
-#: ../src/gnome-genius.c:705 ../src/gnome-genius.c:769
-#: ../src/gnome-genius.c:1422 ../src/gnome-genius.c:2219
-#: ../src/gnome-genius.c:2708 ../src/gnome-genius.c:3658
-#: ../src/gnome-genius.c:3889 ../src/gnome-genius.c:4023 ../src/graphing.c:833
-#: ../src/graphing.c:1207 ../src/graphing.c:5649 ../src/graphing.c:5766
+#: ../src/gnome-genius.c:871 ../src/gnome-genius.c:935
+#: ../src/gnome-genius.c:1588 ../src/gnome-genius.c:2432
+#: ../src/gnome-genius.c:3004 ../src/gnome-genius.c:3970
+#: ../src/gnome-genius.c:4202 ../src/gnome-genius.c:4327 ../src/graphing.c:850
+#: ../src/graphing.c:1224 ../src/graphing.c:5627 ../src/graphing.c:5744
 #: ../ve/ve-miscui.c:178 ../ve/ve-miscui.c:206
 msgid "_Cancel"
 msgstr "Mé_gse"
@@ -3737,27 +3765,27 @@ msgstr "Mé_gse"
 #. title
 #. parent
 #. flags
-#: ../src/gnome-genius.c:706 ../src/gnome-genius.c:770
-#: ../src/gnome-genius.c:912 ../src/gnome-genius.c:1423
-#: ../src/gnome-genius.c:2220 ../src/graphing.c:5647 ../src/graphing.c:5764
+#: ../src/gnome-genius.c:872 ../src/gnome-genius.c:936
+#: ../src/gnome-genius.c:1078 ../src/gnome-genius.c:1589
+#: ../src/gnome-genius.c:2433 ../src/graphing.c:5625 ../src/graphing.c:5742
 #: ../ve/ve-miscui.c:156 ../ve/ve-miscui.c:211
 msgid "_OK"
 msgstr "_OK"
 
-#: ../src/gnome-genius.c:766
+#: ../src/gnome-genius.c:932
 msgid "Help on Function"
 msgstr "Súgó egy függvényhez"
 
-#: ../src/gnome-genius.c:782
+#: ../src/gnome-genius.c:948
 msgid "Function or command name:"
 msgstr "Függvény vagy parancs neve:"
 
-#: ../src/gnome-genius.c:839 ../src/gnome-genius.c:1698
+#: ../src/gnome-genius.c:1005 ../src/gnome-genius.c:1864
 #, c-format
 msgid "<b>Help on %s not found</b>"
 msgstr "<b>A(z) %s súgója nem található</b>"
 
-#: ../src/gnome-genius.c:843
+#: ../src/gnome-genius.c:1009
 #, c-format
 msgid ""
 "<b>Help on %s not found</b>\n"
@@ -3768,70 +3796,70 @@ msgstr ""
 "\n"
 "Talán erre gondolt: %s."
 
-#: ../src/gnome-genius.c:902
+#: ../src/gnome-genius.c:1068
 msgid "Error"
 msgstr "Hiba"
 
-#: ../src/gnome-genius.c:904
+#: ../src/gnome-genius.c:1070
 msgid "Information"
 msgstr "Információ"
 
-#: ../src/gnome-genius.c:1138
+#: ../src/gnome-genius.c:1304
 msgid "User Variable Listing"
 msgstr "Felhasználói változók felsorolása"
 
 #. parent
 #. flags
-#: ../src/gnome-genius.c:1141
+#: ../src/gnome-genius.c:1307
 msgid "_Refresh"
 msgstr "_Frissítés"
 
-#: ../src/gnome-genius.c:1247
+#: ../src/gnome-genius.c:1413
 #, c-format
 msgid "%s undefined"
 msgstr "a(z) %s nem definiált"
 
 #. printed before a global variable
-#: ../src/gnome-genius.c:1282
+#: ../src/gnome-genius.c:1448
 msgid "(global) "
 msgstr "(globális) "
 
 #. printed before local variable in certain
 #. * context
-#: ../src/gnome-genius.c:1286
+#: ../src/gnome-genius.c:1452
 #, c-format
 msgid "(context %d) "
 msgstr "(%d. környezet) "
 
-#: ../src/gnome-genius.c:1308
+#: ../src/gnome-genius.c:1474
 #, c-format
 msgid "%s not a user variable"
 msgstr "a(z) %s nem felhasználói változó"
 
-#: ../src/gnome-genius.c:1342
+#: ../src/gnome-genius.c:1508
 #, c-format
 msgid "Monitoring: %s"
 msgstr "Figyelés: %s"
 
-#: ../src/gnome-genius.c:1388
+#: ../src/gnome-genius.c:1554
 msgid "Update continuously"
 msgstr "Folyamatos frissítés"
 
-#: ../src/gnome-genius.c:1419
+#: ../src/gnome-genius.c:1585
 msgid "Monitor a Variable"
 msgstr "Változó figyelése"
 
-#: ../src/gnome-genius.c:1435
+#: ../src/gnome-genius.c:1601
 msgid "Variable name:"
 msgstr "Változónév:"
 
 #. error
 #. always textbox
-#: ../src/gnome-genius.c:1491
+#: ../src/gnome-genius.c:1657
 msgid "Full Answer"
 msgstr "Teljes válasz"
 
-#: ../src/gnome-genius.c:1508
+#: ../src/gnome-genius.c:1674
 #, c-format
 msgid ""
 "\n"
@@ -3840,12 +3868,12 @@ msgstr ""
 "\n"
 "Túl sok hiba! (%d követte)"
 
-#: ../src/gnome-genius.c:1524
+#: ../src/gnome-genius.c:1690
 #, c-format
 msgid "e[01;31mToo many errors! (%d followed)e[0m\n"
 msgstr "e[01;31mTúl sok hiba! (%d követte)e[0m\n"
 
-#: ../src/gnome-genius.c:1708 ../src/gnome-genius.c:1743
+#: ../src/gnome-genius.c:1874 ../src/gnome-genius.c:1909
 #, c-format
 msgid ""
 "<b>Cannot display help</b>\n"
@@ -3856,17 +3884,17 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/gnome-genius.c:1818
+#: ../src/gnome-genius.c:1984
 msgid "Nils Barth (initial implementation of parts of the GEL library)"
 msgstr "Nils Barth (a GEL programkönyvtár részeinek kezdeti megvalósítása)"
 
-#: ../src/gnome-genius.c:1819
+#: ../src/gnome-genius.c:1985
 msgid "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"
 msgstr ""
 "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra – grafikonkészítési "
 "felületi elemek)"
 
-#: ../src/gnome-genius.c:1820
+#: ../src/gnome-genius.c:1986
 #, fuzzy
 msgid "Yavor Doganov <yavor@gnu.org> (Port to GTK3)"
 msgstr "Yavor Doganov <yavor@gnu.org> (GTK+3 portolás)"
@@ -3875,20 +3903,20 @@ msgstr "Yavor Doganov <yavor@gnu.org> (GTK+3 portolás)"
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: ../src/gnome-genius.c:1834
+#: ../src/gnome-genius.c:2000
 msgid "translator-credits"
 msgstr "Meskó Balázs <mesko dot balazs at fsf dot hu>"
 
-#: ../src/gnome-genius.c:1882
+#: ../src/gnome-genius.c:2048
 msgid "Genius Mathematical Tool"
 msgstr "Genius matematikai eszköz"
 
-#: ../src/gnome-genius.c:1886
+#: ../src/gnome-genius.c:2052
 msgid "The GNOME calculator style edition of the Genius Mathematical Tool."
 msgstr ""
 "A Genius matematikai eszköz GNOME Számológéphez hasonló stílusú kiadása."
 
-#: ../src/gnome-genius.c:2075
+#: ../src/gnome-genius.c:2243
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -3896,59 +3924,59 @@ msgstr ""
 "A Genius valamit futtat, valamint nem mentett programok is vannak.\n"
 "Biztosan ki szeretne lépni?"
 
-#: ../src/gnome-genius.c:2083
+#: ../src/gnome-genius.c:2251
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr "Nem mentett programok vannak. Biztosan ki szeretne lépni?"
 
-#: ../src/gnome-genius.c:2090
+#: ../src/gnome-genius.c:2258
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr "A Genius valamit futtat. Biztosan ki szeretne lépni?"
 
-#: ../src/gnome-genius.c:2097
+#: ../src/gnome-genius.c:2265
 msgid "Are you sure you wish to quit?"
 msgstr "Biztosan ki szeretne lépni?"
 
-#: ../src/gnome-genius.c:2214
+#: ../src/gnome-genius.c:2427
 msgid "Genius Setup"
 msgstr "Genius beállítások"
 
-#: ../src/gnome-genius.c:2218
+#: ../src/gnome-genius.c:2431
 msgid "_Apply"
 msgstr "_Alkalmaz"
 
-#: ../src/gnome-genius.c:2231
+#: ../src/gnome-genius.c:2448
 msgid "Output"
 msgstr "Kimenet"
 
-#: ../src/gnome-genius.c:2234
+#: ../src/gnome-genius.c:2451
 msgid "Number/Expression output options"
 msgstr "Szám/kifejezés kimeneti beállításai"
 
-#: ../src/gnome-genius.c:2244
+#: ../src/gnome-genius.c:2461
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Legfeljebb kiírandó számjegyek száma (0=korlátlan)"
 
-#: ../src/gnome-genius.c:2264
+#: ../src/gnome-genius.c:2481
 msgid "Results as floats"
 msgstr "Eredmények lebegőpontosként"
 
-#: ../src/gnome-genius.c:2272
+#: ../src/gnome-genius.c:2489
 msgid "Floats in scientific notation"
 msgstr "Lebegőpontosak tudományos jelöléssel"
 
-#: ../src/gnome-genius.c:2280
+#: ../src/gnome-genius.c:2497
 msgid "Always print full expressions"
 msgstr "Mindig írja ki a teljes kifejezéseket"
 
-#: ../src/gnome-genius.c:2288
+#: ../src/gnome-genius.c:2505
 msgid "Use mixed fractions"
 msgstr "Vegyes törtek használata"
 
-#: ../src/gnome-genius.c:2341
+#: ../src/gnome-genius.c:2558
 msgid "Remember output settings across sessions"
 msgstr "A kimeneti beállítások megjegyzése a munkamenetek között"
 
-#: ../src/gnome-genius.c:2351
+#: ../src/gnome-genius.c:2568
 msgid ""
 "Should the output settings in the \"Number/Expression output options\" frame "
 "be remembered for next session.  Does not apply to the \"Error/Info output "
@@ -3958,27 +3986,27 @@ msgstr ""
 "beállításokat a következő munkamenetre. Nem vonatkozik a „Hiba/információ "
 "kimeneti beállításai” szakaszra."
 
-#: ../src/gnome-genius.c:2356
+#: ../src/gnome-genius.c:2573
 msgid "Error/Info output options"
 msgstr "Hiba/információ kimeneti beállításai"
 
-#: ../src/gnome-genius.c:2364
+#: ../src/gnome-genius.c:2581
 msgid "Display errors in a dialog"
 msgstr "Hibák megjelenítése párbeszédablakban"
 
-#: ../src/gnome-genius.c:2372
+#: ../src/gnome-genius.c:2589
 msgid "Display information messages in a dialog"
 msgstr "Információs üzenetek megjelenítése párbeszédablakban"
 
-#: ../src/gnome-genius.c:2383
+#: ../src/gnome-genius.c:2600
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Legfeljebb megjelenítendő hibák száma (0=korlátlan)"
 
-#: ../src/gnome-genius.c:2407
+#: ../src/gnome-genius.c:2627
 msgid "Precision"
 msgstr "Pontosság"
 
-#: ../src/gnome-genius.c:2417
+#: ../src/gnome-genius.c:2637
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -3988,51 +4016,67 @@ msgstr ""
 "minden szám esetén azonnal érvényesül, csak az újonnan\n"
 "kiszámolt és új változókat fogja érinteni."
 
-#: ../src/gnome-genius.c:2426
+#: ../src/gnome-genius.c:2646
 msgid "Floating point precision (bits)"
 msgstr "Lebegőpontos pontosság (bitek)"
 
-#: ../src/gnome-genius.c:2445
+#: ../src/gnome-genius.c:2665
 msgid "Remember precision setting across sessions"
 msgstr "A pontosság megjegyzése a munkamenetek között"
 
-#: ../src/gnome-genius.c:2454
+#: ../src/gnome-genius.c:2674
 msgid "Should the precision setting be remembered for next session."
 msgstr "Megjegyezze-e a pontossági beállításokat a következő munkamenetre is."
 
-#: ../src/gnome-genius.c:2462
+#: ../src/gnome-genius.c:2685
 msgid "Terminal"
 msgstr "Terminál"
 
-#: ../src/gnome-genius.c:2464
+#: ../src/gnome-genius.c:2687
 msgid "Terminal options"
 msgstr "Terminálbeállítások"
 
-#: ../src/gnome-genius.c:2473
+#: ../src/gnome-genius.c:2696
 msgid "Scrollback lines"
 msgstr "Visszagörgetési sorok"
 
-#: ../src/gnome-genius.c:2496
+#: ../src/gnome-genius.c:2719
 msgid "Font:"
 msgstr "Betűkészlet:"
 
-#: ../src/gnome-genius.c:2507
+#: ../src/gnome-genius.c:2730
 msgid "Black on white"
 msgstr "Fekete a fehéren"
 
-#: ../src/gnome-genius.c:2515
+#: ../src/gnome-genius.c:2738
 msgid "Blinking cursor"
 msgstr "Villogó kurzor"
 
-#: ../src/gnome-genius.c:2528
+#: ../src/gnome-genius.c:2755
+#, fuzzy
+#| msgid "_Edit"
+msgid "Editor"
+msgstr "Sz_erkesztés"
+
+#: ../src/gnome-genius.c:2757
+#, fuzzy
+#| msgid "Terminal options"
+msgid "Editor options"
+msgstr "Terminálbeállítások"
+
+#: ../src/gnome-genius.c:2766
+msgid "Color scheme"
+msgstr ""
+
+#: ../src/gnome-genius.c:2812
 msgid "Memory"
 msgstr "Memória"
 
-#: ../src/gnome-genius.c:2531
+#: ../src/gnome-genius.c:2815
 msgid "Limits"
 msgstr "Korlátok"
 
-#: ../src/gnome-genius.c:2538
+#: ../src/gnome-genius.c:2822
 msgid ""
 "When the limit is reached you will be asked if\n"
 "you wish to interrupt the calculation or continue.\n"
@@ -4042,11 +4086,11 @@ msgstr ""
 "hogy megszakítja-e a számítást, vagy folytatja.\n"
 "A 0-ra állítás letiltja a korlátot."
 
-#: ../src/gnome-genius.c:2547
+#: ../src/gnome-genius.c:2831
 msgid "Maximum number of nodes to allocate"
 msgstr "A kiosztandó csomópontok legnagyobb száma"
 
-#: ../src/gnome-genius.c:2587
+#: ../src/gnome-genius.c:2883
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -4056,79 +4100,79 @@ msgstr ""
 "\n"
 "Próbálja újra később, vagy szakítsa meg a jelenlegi műveletet."
 
-#: ../src/gnome-genius.c:2630
+#: ../src/gnome-genius.c:2926
 msgid "GEL files"
 msgstr "GEL-fájlok"
 
-#: ../src/gnome-genius.c:2635 ../src/graphing.c:1233
+#: ../src/gnome-genius.c:2931 ../src/graphing.c:1250
 msgid "All files"
 msgstr "Minden fájl"
 
-#: ../src/gnome-genius.c:2659 ../src/gnome-genius.c:3633
+#: ../src/gnome-genius.c:2958 ../src/gnome-genius.c:3946
 msgid "Cannot open file!"
 msgstr "A fájl nem nyitható meg."
 
-#: ../src/gnome-genius.c:2669 ../src/gnome-genius.c:4117
+#: ../src/gnome-genius.c:2966 ../src/gnome-genius.c:4417
 msgid "Output from "
 msgstr "Kimenet innen: "
 
-#: ../src/gnome-genius.c:2686 ../src/gnome-genius.c:4189
+#: ../src/gnome-genius.c:2983 ../src/gnome-genius.c:4489
 msgid "End"
 msgstr "Leállítás"
 
-#: ../src/gnome-genius.c:2705
+#: ../src/gnome-genius.c:3000
 msgid "Load and Run"
 msgstr "Betöltés és futtatás"
 
-#: ../src/gnome-genius.c:2709
+#: ../src/gnome-genius.c:3003
 msgid "_Load"
 msgstr "_Betöltés"
 
-#: ../src/gnome-genius.c:3264
+#: ../src/gnome-genius.c:3556
 msgid "Cannot open file"
 msgstr "A fájl nem nyitható meg"
 
 #. context
-#: ../src/gnome-genius.c:3299 ../src/gnome-genius.c:4814
+#: ../src/gnome-genius.c:3591 ../src/gnome-genius.c:5143
 #, c-format
 msgid "Line: %d"
 msgstr "%d. sor"
 
-#: ../src/gnome-genius.c:3423
+#: ../src/gnome-genius.c:3717
 msgid ""
 "The program you are closing is unsaved, are you sure you wish to close it "
 "without saving?"
 msgstr ""
 "A bezárandó program nincs mentve. Biztosan be szeretné zárni mentés nélkül?"
 
-#: ../src/gnome-genius.c:3518
+#: ../src/gnome-genius.c:3827
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Program_%d.gel"
 
-#: ../src/gnome-genius.c:3529
+#: ../src/gnome-genius.c:3838
 #, c-format
 msgid "Program %d"
 msgstr "%d. program"
 
-#: ../src/gnome-genius.c:3567
+#: ../src/gnome-genius.c:3876
 #, c-format
 msgid "Cannot open %s"
 msgstr "A(z) %s nem nyitható meg"
 
-#: ../src/gnome-genius.c:3655
+#: ../src/gnome-genius.c:3966
 msgid "Open..."
 msgstr "Megnyitás…"
 
-#: ../src/gnome-genius.c:3659
+#: ../src/gnome-genius.c:3969
 msgid "_Open"
 msgstr "_Megnyitás"
 
-#: ../src/gnome-genius.c:3738
+#: ../src/gnome-genius.c:4047
 msgid "Program is read only"
 msgstr "A program csak olvasható"
 
-#: ../src/gnome-genius.c:3743 ../src/gnome-genius.c:3783
+#: ../src/gnome-genius.c:4052 ../src/gnome-genius.c:4092
 #, c-format
 msgid ""
 "<b>Cannot save file %s</b>\n"
@@ -4137,16 +4181,16 @@ msgstr ""
 "<b>A(z) %s fájl nem menthető</b>\n"
 "Részletek: %s"
 
-#: ../src/gnome-genius.c:3749 ../src/gnome-genius.c:3790
+#: ../src/gnome-genius.c:4058 ../src/gnome-genius.c:4099
 #, c-format
 msgid "<b>Cannot save file %s</b>"
 msgstr "<b>A(z) %s fájl nem menthető</b>"
 
-#: ../src/gnome-genius.c:3800
+#: ../src/gnome-genius.c:4109
 msgid "Save new programs by \"Save As...\" first!"
 msgstr "Az új programokat először mentse a „Mentés másként…” funkcióval."
 
-#: ../src/gnome-genius.c:3806
+#: ../src/gnome-genius.c:4115
 msgid ""
 "Some read-only programs are modified.  Use \"Save As...\" to save them to a "
 "new location."
@@ -4154,7 +4198,7 @@ msgstr ""
 "Néhány írásvédett program megváltozott. Használja a „Mentés másként…” "
 "lehetőséget, hogy új helyre mentse őket."
 
-#: ../src/gnome-genius.c:3846 ../src/gnome-genius.c:3982
+#: ../src/gnome-genius.c:4159 ../src/gnome-genius.c:4292
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -4163,19 +4207,19 @@ msgstr ""
 "<b>A fájl nem menthető</b>\n"
 "Részletek: %s"
 
-#: ../src/gnome-genius.c:3851 ../src/gnome-genius.c:3987
+#: ../src/gnome-genius.c:4164 ../src/gnome-genius.c:4297
 msgid "<b>Cannot save file</b>"
 msgstr "<b>A fájl nem menthető</b>"
 
-#: ../src/gnome-genius.c:3886
+#: ../src/gnome-genius.c:4198
 msgid "Save As..."
 msgstr "Mentés másként…"
 
-#: ../src/gnome-genius.c:4020
+#: ../src/gnome-genius.c:4323
 msgid "Save Console Output..."
 msgstr "Konzolkimenet mentése…"
 
-#: ../src/gnome-genius.c:4074
+#: ../src/gnome-genius.c:4374
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -4185,12 +4229,12 @@ msgstr ""
 "\n"
 "Hozzon létre új programot, vagy válasszon egy lapot a munkafüzetben."
 
-#: ../src/gnome-genius.c:4104
+#: ../src/gnome-genius.c:4404
 #, c-format
 msgid "Cannot open pipe: %s"
 msgstr "A csővezeték nem nyitható meg: %s"
 
-#: ../src/gnome-genius.c:4133
+#: ../src/gnome-genius.c:4433
 msgid ""
 "<b>Cannot execute program</b>\n"
 "\n"
@@ -4200,7 +4244,7 @@ msgstr ""
 "\n"
 "Nem lehet elágaztatni."
 
-#: ../src/gnome-genius.c:4206
+#: ../src/gnome-genius.c:4506
 msgid ""
 "<b>Error executing program</b>\n"
 "\n"
@@ -4212,12 +4256,12 @@ msgstr ""
 "Hiba történt a programnak a motorba\n"
 "való írásakor."
 
-#: ../src/gnome-genius.c:4242
+#: ../src/gnome-genius.c:4544
 #, c-format
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: ../src/gnome-genius.c:4475
+#: ../src/gnome-genius.c:4795
 msgid "Memory (node number) limit has been reached, interrupt the computation?"
 msgstr "A memóriakorlát (csomópontszám) elérve, megszakítja a számítást?"
 
@@ -4226,17 +4270,17 @@ msgstr "A memóriakorlát (csomópontszám) elérve, megszakítja a számítást
 #. textbox_title
 #. bind_response
 #. wrap
-#: ../src/gnome-genius.c:4589
+#: ../src/gnome-genius.c:4910
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "A genius-readline-helper-fifo nem hajtható végre.\n"
 
-#: ../src/gnome-genius.c:4650
+#: ../src/gnome-genius.c:4971
 msgid "Readline helper died, weird.  Trying to recover, things may be odd."
 msgstr ""
 "A readline segítő elhalt, furcsa. A helyreállítás megkísérlése, a dolgok "
 "furák lehetnek."
 
-#: ../src/gnome-genius.c:4835
+#: ../src/gnome-genius.c:5164
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -4245,17 +4289,24 @@ msgstr ""
 "Megjegyzés: GtkSourceView (jobb forráskód-szerkesztő) nélkül fordítva"
 
 #. parent
-#: ../src/gnome-genius.c:4968
+#: ../src/gnome-genius.c:5297
 msgid "Cannot find the library file, genius installation may be incorrect"
 msgstr ""
 "A programkönyvtárfájl nem található, a genius telepítés lehet, hogy nem "
 "helyes"
 
-#: ../src/gnome-genius.c:5050
+#. parent
+#: ../src/gnome-genius.c:5310
+msgid ""
+"A file .genius in the home directory exists, but it should be a directory. "
+"Genius will not be able to save preferences."
+msgstr ""
+
+#: ../src/gnome-genius.c:5399
 msgid "Console"
 msgstr "Konzol"
 
-#: ../src/gnome-genius.c:5101
+#: ../src/gnome-genius.c:5450
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -4272,7 +4323,7 @@ msgstr ""
 "A súgóhoz írja be: „%smanual%s” vagy „%shelp%s”.%s\n"
 "\n"
 
-#: ../src/gnome-genius.c:5325
+#: ../src/gnome-genius.c:5635
 msgid "GNOME Genius"
 msgstr "GNOME Genius"
 
@@ -4292,105 +4343,105 @@ msgstr ""
 "Matematika;Mátrix;Vektor;Lineáris algebra;Kalkulus;Grafikon;Grafikonkészítés;"
 "Függvény;Számelmélet;"
 
-#: ../src/graphing.c:602
+#: ../src/graphing.c:619
 msgid "Rotate"
 msgstr "Forgatás"
 
-#: ../src/graphing.c:619 ../src/graphing.c:650
+#: ../src/graphing.c:636 ../src/graphing.c:667
 #, c-format
 msgid "Rotate about %s axis: "
 msgstr "Forgatás a(z) %s tengely körül: "
 
-#: ../src/graphing.c:681
+#: ../src/graphing.c:698
 msgid "Rotate about dependent axis: "
 msgstr "Forgatás a függő tengely körül:"
 
-#: ../src/graphing.c:830
+#: ../src/graphing.c:847
 msgid "Print"
 msgstr "Nyomtatás"
 
-#: ../src/graphing.c:835
+#: ../src/graphing.c:852
 msgid "_Print"
 msgstr "_Nyomtatás"
 
-#: ../src/graphing.c:845
+#: ../src/graphing.c:862
 msgid "Print command: "
 msgstr "Nyomtatási parancs: "
 
-#: ../src/graphing.c:875
+#: ../src/graphing.c:892
 msgid "Cannot open temporary file, cannot print."
 msgstr "Az ideiglenes fájl nem nyitható meg, nem lehet nyomtatni."
 
-#: ../src/graphing.c:904
+#: ../src/graphing.c:921
 msgid "Printing failed"
 msgstr "Nyomtatás sikertelen"
 
-#: ../src/graphing.c:917
+#: ../src/graphing.c:934
 #, c-format
 msgid "Printing failed: %s"
 msgstr "Nyomtatás sikertelen: %s"
 
-#: ../src/graphing.c:991 ../src/graphing.c:1132
+#: ../src/graphing.c:1008 ../src/graphing.c:1149
 msgid "File already exists.  Overwrite it?"
 msgstr "A fájl már létezik. Felülírja?"
 
-#: ../src/graphing.c:1091 ../src/graphing.c:1147 ../src/graphing.c:1162
+#: ../src/graphing.c:1108 ../src/graphing.c:1164 ../src/graphing.c:1179
 msgid "Export failed"
 msgstr "Exportálás sikertelen"
 
-#: ../src/graphing.c:1187
+#: ../src/graphing.c:1204
 msgid "Export encapsulated postscript"
 msgstr "Beágyazott PostScript exportálása"
 
-#: ../src/graphing.c:1189
+#: ../src/graphing.c:1206
 msgid "Export postscript"
 msgstr "PostScript exportálása"
 
-#: ../src/graphing.c:1191
+#: ../src/graphing.c:1208
 msgid "Export PDF"
 msgstr "PDF exportálása"
 
-#: ../src/graphing.c:1193
+#: ../src/graphing.c:1210
 msgid "Export PNG"
 msgstr "PNG exportálása"
 
-#: ../src/graphing.c:1200
+#: ../src/graphing.c:1217
 msgid "Missing ps2pdf command, perhaps ghostscript is not installed."
 msgstr "A ps2pdf parancs hiányzik, lehet hogy a ghostscript nincs telepítve."
 
-#: ../src/graphing.c:1215
+#: ../src/graphing.c:1232
 msgid "EPS files"
 msgstr "EPS-fájlok"
 
-#: ../src/graphing.c:1219
+#: ../src/graphing.c:1236
 msgid "PS files"
 msgstr "PS-fájlok"
 
-#: ../src/graphing.c:1223
+#: ../src/graphing.c:1240
 msgid "PDF files"
 msgstr "PDF-fájlok"
 
-#: ../src/graphing.c:1227
+#: ../src/graphing.c:1244
 msgid "PNG files"
 msgstr "PNG-fájlok"
 
-#: ../src/graphing.c:1242
+#: ../src/graphing.c:1259
 msgid "Generate preview in EPS file (with ps2epsi)"
 msgstr "Előnézet előállítása EPS-fájlban (ps2epsi használatával)"
 
-#: ../src/graphing.c:1943
+#: ../src/graphing.c:1973
 msgid "Solver"
 msgstr "Megoldó"
 
-#: ../src/graphing.c:1948
+#: ../src/graphing.c:1978
 msgid "Clea_r solutions"
 msgstr "Megoldások tö_rlése"
 
-#: ../src/graphing.c:1950
+#: ../src/graphing.c:1980
 msgid "_Plot solution"
 msgstr "_Megoldás kirajzolása"
 
-#: ../src/graphing.c:1969
+#: ../src/graphing.c:1999
 msgid ""
 "Clicking on the graph window now will draw a solution according to the "
 "parameters set below, starting at the point clicked.  To be able to zoom by "
@@ -4400,165 +4451,161 @@ msgstr ""
 "beállított paraméterek szerint, a rákattintott ponttól kezdve. Hogy újra "
 "nagyíthasson az egérrel, zárja be az ablakot."
 
-#: ../src/graphing.c:1992
+#: ../src/graphing.c:2015
 msgid "X increment:"
 msgstr "X növekmény:"
 
-#: ../src/graphing.c:2014
+#: ../src/graphing.c:2032
 msgid "T increment:"
 msgstr "T növekmény:"
 
-#: ../src/graphing.c:2018
+#: ../src/graphing.c:2034
 msgid "T interval length:"
 msgstr "T intervallumhossz:"
 
-#: ../src/graphing.c:2032
+#: ../src/graphing.c:2052
 msgid "Point x:"
 msgstr "X pont:"
 
-#: ../src/graphing.c:2037
+#: ../src/graphing.c:2054
 msgid "y:"
 msgstr "y:"
-
-#: ../src/graphing.c:2146
-msgid "Plot"
-msgstr "Grafikonkészítés"
 
 #. title
 #. GTK_WINDOW (genius_window)
 #. parent
 #. flags
-#: ../src/graphing.c:2149
+#: ../src/graphing.c:2165
 msgid "_Stop"
 msgstr "_Leállítás"
 
-#: ../src/graphing.c:2181
+#: ../src/graphing.c:2197
 msgid "_Graph"
 msgstr "_Grafikon"
 
-#: ../src/graphing.c:2185
+#: ../src/graphing.c:2201
 msgid "_Print..."
 msgstr "N_yomtatás…"
 
-#: ../src/graphing.c:2191
+#: ../src/graphing.c:2207
 msgid "_Export postscript..."
 msgstr "PostScript _exportálása…"
 
-#: ../src/graphing.c:2197
+#: ../src/graphing.c:2213
 msgid "E_xport encapsulated postscript..."
 msgstr "Beágyazott PostScript e_xportálása…"
 
-#: ../src/graphing.c:2204
+#: ../src/graphing.c:2220
 msgid "Export P_DF..."
 msgstr "P_DF exportálása…"
 
-#: ../src/graphing.c:2213
+#: ../src/graphing.c:2229
 msgid "Export P_NG..."
 msgstr "P_NG exportálása…"
 
-#: ../src/graphing.c:2225
+#: ../src/graphing.c:2241
 msgid "_Zoom"
 msgstr "_Nagyítás"
 
-#: ../src/graphing.c:2229
+#: ../src/graphing.c:2245
 msgid "Zoom _out"
 msgstr "_Kicsinyítés"
 
-#: ../src/graphing.c:2236
+#: ../src/graphing.c:2252
 msgid "Zoom _in"
 msgstr "_Nagyítás"
 
-#: ../src/graphing.c:2243
+#: ../src/graphing.c:2259
 msgid "_Fit dependent axis"
 msgstr "_Illesztés a függő tengelyre"
 
-#: ../src/graphing.c:2250
+#: ../src/graphing.c:2266
 msgid "_Reset to original zoom"
 msgstr "_Visszaállítás az eredeti nagyításra"
 
-#: ../src/graphing.c:2263
+#: ../src/graphing.c:2279
 msgid "_View"
 msgstr "_Nézet"
 
-#: ../src/graphing.c:2268
+#: ../src/graphing.c:2284
 msgid "_Reset angles"
 msgstr "Szögek _visszaállítása"
 
-#: ../src/graphing.c:2273
+#: ../src/graphing.c:2289
 msgid "_Top view"
 msgstr "_Felülnézet"
 
-#: ../src/graphing.c:2278
+#: ../src/graphing.c:2294
 msgid "R_otate axis..."
 msgstr "Tengely _forgatása…"
 
-#: ../src/graphing.c:2283
+#: ../src/graphing.c:2299
 msgid "Start rotate _animation..."
 msgstr "Forgatási animáció _indítása…"
 
-#: ../src/graphing.c:2288
+#: ../src/graphing.c:2304
 msgid "Stop rotate a_nimation..."
 msgstr "Forgatási animáció _leállítása…"
 
-#: ../src/graphing.c:2298
+#: ../src/graphing.c:2314
 msgid "_Solver"
 msgstr "_Megoldó"
 
-#: ../src/graphing.c:2303
+#: ../src/graphing.c:2319
 msgid "_Solver..."
 msgstr "_Megoldó…"
 
-#: ../src/graphing.c:2308
+#: ../src/graphing.c:2324
 msgid "_Clear solutions"
 msgstr "Megoldások _törlése"
 
-#: ../src/graphing.c:2339
+#: ../src/graphing.c:2355
 msgid "Errors during plotting (possibly harmless), see the console."
 msgstr ""
 "Hiba a grafikonkészítés során (valószínűleg ártalmatlan), lásd a konzolt."
 
-#: ../src/graphing.c:3358
+#: ../src/graphing.c:3374
 #, c-format
 msgid "Function"
 msgstr "Függvény"
 
-#: ../src/graphing.c:3360
+#: ../src/graphing.c:3376
 #, c-format
 msgid "Function #%d"
 msgstr "%d. függvény"
 
-#: ../src/graphing.c:3382
+#: ../src/graphing.c:3398
 msgid "Graph limits not given as a 4-vector"
 msgstr "A grafikonkorlátok nem 4 elemű vektorként lettek megadva"
 
-#: ../src/graphing.c:3388 ../src/graphing.c:3399 ../src/graphing.c:3410
-#: ../src/graphing.c:3421 ../src/graphing.c:3464 ../src/graphing.c:3475
-#: ../src/graphing.c:3573 ../src/graphing.c:3584 ../src/graphing.c:3595
-#: ../src/graphing.c:3606 ../src/graphing.c:3617 ../src/graphing.c:3628
+#: ../src/graphing.c:3404 ../src/graphing.c:3415 ../src/graphing.c:3426
+#: ../src/graphing.c:3437 ../src/graphing.c:3480 ../src/graphing.c:3491
+#: ../src/graphing.c:3589 ../src/graphing.c:3600 ../src/graphing.c:3611
+#: ../src/graphing.c:3622 ../src/graphing.c:3633 ../src/graphing.c:3644
 msgid "Graph limits not given as numbers"
 msgstr "A grafikonkorlátok nem számként lettek megadva"
 
-#: ../src/graphing.c:3458
+#: ../src/graphing.c:3474
 msgid "Graph limits not given as a 2-vector"
 msgstr "A grafikonkorlátok nem 2 elemű vektorként lettek megadva"
 
-#: ../src/graphing.c:3567
+#: ../src/graphing.c:3583
 msgid "Graph limits not given as a 6-vector"
 msgstr "A grafikonkorlátok nem 6 elemű vektorként lettek megadva"
 
-#: ../src/graphing.c:3701 ../src/graphing.c:3719 ../src/graphing.c:3733
+#: ../src/graphing.c:3717 ../src/graphing.c:3735 ../src/graphing.c:3749
 msgid "Ticks must be between 2 and 200"
 msgstr "A beosztásoknak 2 és 200 között kell lenniük"
 
-#: ../src/graphing.c:3710 ../src/graphing.c:3724
+#: ../src/graphing.c:3726 ../src/graphing.c:3740
 msgid "Ticks not given as numbers"
 msgstr "A beosztások nem számként lettek megadva"
 
-#: ../src/graphing.c:3738
+#: ../src/graphing.c:3754
 msgid "Ticks not given as a number or a 2-vector"
 msgstr "A beosztások nem számként, vagy 2 elemű vektorként lettek megadva"
 
-#: ../src/graphing.c:5397
+#: ../src/graphing.c:5375
 #, c-format
 msgid ""
 "Type in function name or expression involving the %s and %s variables (or "
@@ -4566,28 +4613,28 @@ msgid ""
 "(%s,%s)."
 msgstr ""
 
-#: ../src/graphing.c:5422 ../src/graphing.c:5429 ../src/graphing.c:5593
-#: ../src/graphing.c:5600
+#: ../src/graphing.c:5400 ../src/graphing.c:5407 ../src/graphing.c:5571
+#: ../src/graphing.c:5578
 #, c-format
 msgid "%s from:"
 msgstr "%s innen:"
 
-#: ../src/graphing.c:5436 ../src/graphing.c:5443
+#: ../src/graphing.c:5414 ../src/graphing.c:5421
 #, c-format
 msgid "%s increment:"
 msgstr "%s növekmény:"
 
-#: ../src/graphing.c:5450
+#: ../src/graphing.c:5428
 #, c-format
 msgid "%s interval length:"
 msgstr "%s intervallumhossz:"
 
-#: ../src/graphing.c:5457
+#: ../src/graphing.c:5435
 #, c-format
 msgid "Point %s:"
 msgstr "%s pont:"
 
-#: ../src/graphing.c:5470
+#: ../src/graphing.c:5448
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s and %s variables (or "
@@ -4599,7 +4646,7 @@ msgstr ""
 "lesz), amelyek megadják a(z) (%11$s,%12$s) pontnál kirajzolandó autonóm "
 "rendszer d%7$s/d%8$s és d%9$s/d%10$s értékeit."
 
-#: ../src/graphing.c:5506
+#: ../src/graphing.c:5484
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4608,7 +4655,7 @@ msgstr ""
 "A grafikonkészítéshez írjon be olyan függvényneveket vagy kifejezéseket a "
 "lenti dobozokba, amelyek a(z) %s változót tartalmazzák"
 
-#: ../src/graphing.c:5523
+#: ../src/graphing.c:5501
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4623,12 +4670,12 @@ msgstr ""
 "koordinátákat, vagy töltse ki a(z) %s= mezőt, amely megadva %s és %s "
 "értékét, mint egy komplex szám valós és imaginárius részét."
 
-#: ../src/graphing.c:5564
+#: ../src/graphing.c:5542
 #, c-format
 msgid "Parameter %s from:"
 msgstr "%s paraméter innen:"
 
-#: ../src/graphing.c:5578
+#: ../src/graphing.c:5556
 #, c-format
 msgid ""
 "Type a function name or an expression involving the %s and %s variables (or "
@@ -4640,95 +4687,95 @@ msgstr ""
 "amely %s=%s+i%s lesz). Az egyetlen argumentummal rendelkező függvényeknek "
 "komplex számként lesz átadva."
 
-#: ../src/graphing.c:5644 ../src/graphing.c:5761
+#: ../src/graphing.c:5622 ../src/graphing.c:5739
 msgid "Change variable names"
 msgstr "Változónevek módosítása"
 
-#: ../src/graphing.c:5658 ../src/graphing.c:5775
+#: ../src/graphing.c:5636 ../src/graphing.c:5753
 msgid "Some values were illegal"
 msgstr "Egyes értékek tiltottak voltak"
 
-#: ../src/graphing.c:5662 ../src/graphing.c:5779
+#: ../src/graphing.c:5640 ../src/graphing.c:5757
 msgid "independent variable (x):"
 msgstr "független változó (x):"
 
-#: ../src/graphing.c:5672
+#: ../src/graphing.c:5650
 msgid "dependent variable (y):"
 msgstr "függő változó (y):"
 
-#: ../src/graphing.c:5682
+#: ../src/graphing.c:5660
 msgid "complex variable (z = x+iy):"
 msgstr "komplex változó (z = x+iy):"
 
-#: ../src/graphing.c:5692
+#: ../src/graphing.c:5670
 msgid "parameter variable (t):"
 msgstr "paraméterváltozó (t):"
 
-#: ../src/graphing.c:5789
+#: ../src/graphing.c:5767
 msgid "independent variable (y):"
 msgstr "független változó (y):"
 
-#: ../src/graphing.c:5799
+#: ../src/graphing.c:5777
 msgid "independent complex variable (z = x+iy):"
 msgstr "független komplex változó (z = x+iy):"
 
-#: ../src/graphing.c:5968
+#: ../src/graphing.c:5946
 msgid "_Functions / Expressions"
 msgstr "_Függvények / kifejezések"
 
 #. t range
-#: ../src/graphing.c:6016
+#: ../src/graphing.c:5994
 msgid "Parameter t from:"
 msgstr "t változó innen:"
 
-#: ../src/graphing.c:6020 ../src/graphing.c:6169 ../src/graphing.c:6182
-#: ../src/graphing.c:6294 ../src/graphing.c:6306 ../src/graphing.c:6317
+#: ../src/graphing.c:5996 ../src/graphing.c:6142 ../src/graphing.c:6154
+#: ../src/graphing.c:6265 ../src/graphing.c:6276 ../src/graphing.c:6287
 msgid "to:"
 msgstr "ide:"
 
-#: ../src/graphing.c:6024
+#: ../src/graphing.c:5998
 msgid "by:"
 msgstr "ekként:"
 
-#: ../src/graphing.c:6031
+#: ../src/graphing.c:6005
 msgid "Pa_rametric"
 msgstr "Pa_rametrikus"
 
 #. # of ticks
-#: ../src/graphing.c:6059 ../src/graphing.c:6112
+#: ../src/graphing.c:6033 ../src/graphing.c:6086
 msgid "Vertical ticks:"
 msgstr "Függőleges beosztások:"
 
 #. # of ticks
-#: ../src/graphing.c:6063 ../src/graphing.c:6116
+#: ../src/graphing.c:6037 ../src/graphing.c:6090
 msgid "Horizontal ticks:"
 msgstr "Vízszintes beosztások:"
 
-#: ../src/graphing.c:6068
+#: ../src/graphing.c:6042
 msgid "Sl_ope field"
 msgstr "_Iránymező"
 
 #. Normalize the arrow length?
-#: ../src/graphing.c:6103
+#: ../src/graphing.c:6077
 msgid "_Normalize arrow length (do not show size)"
 msgstr "Nyílhossz _normalizálása (ne mutassa a méretet)"
 
-#: ../src/graphing.c:6121
+#: ../src/graphing.c:6095
 msgid "_Vector field"
 msgstr "_Vektormező"
 
 #. draw legend?
-#: ../src/graphing.c:6131 ../src/graphing.c:6263
+#: ../src/graphing.c:6105 ../src/graphing.c:6235
 msgid "_Draw legend"
 msgstr "Jelmagyarázat _rajzolása"
 
 #. draw axis labels?
-#: ../src/graphing.c:6140
+#: ../src/graphing.c:6114
 msgid "Draw axis labels"
 msgstr "Tengelycímkék rajzolása"
 
 #. change varnames
-#: ../src/graphing.c:6149 ../src/graphing.c:6273
+#: ../src/graphing.c:6123 ../src/graphing.c:6245
 msgid "Change variable names..."
 msgstr "Változónevek módosítása…"
 
@@ -4736,541 +4783,579 @@ msgstr "Változónevek módosítása…"
 #.
 #. * Plot window frame
 #.
-#: ../src/graphing.c:6157 ../src/graphing.c:6282
+#: ../src/graphing.c:6131 ../src/graphing.c:6254
 msgid "Plot Window"
 msgstr "Grafikonablak"
 
 #.
 #. * X range
 #.
-#: ../src/graphing.c:6166 ../src/graphing.c:6291
+#: ../src/graphing.c:6140 ../src/graphing.c:6263
 msgid "X from:"
 msgstr "X innen:"
 
 #.
 #. * Y range
 #.
-#: ../src/graphing.c:6179 ../src/graphing.c:6303
+#: ../src/graphing.c:6152 ../src/graphing.c:6274
 msgid "Y from:"
 msgstr "Y innen:"
 
 #. fit dependent axis?
-#: ../src/graphing.c:6190 ../src/graphing.c:6325
+#: ../src/graphing.c:6162 ../src/graphing.c:6295
 msgid "Fit dependent axis"
 msgstr "Illesztés a függő tengelyre"
 
-#: ../src/graphing.c:6234
+#: ../src/graphing.c:6206
 msgid "Function / Expression"
 msgstr "Függvény / kifejezés"
 
 #.
 #. * Z range
 #.
-#: ../src/graphing.c:6315
+#: ../src/graphing.c:6285
 msgid "Dependent axis from:"
 msgstr "Függő tengely innen:"
 
-#: ../src/graphing.c:6346
+#: ../src/graphing.c:6316
 msgid "Function _line plot"
 msgstr "Függvény _vonaldiagramja"
 
-#: ../src/graphing.c:6350
+#: ../src/graphing.c:6320
 msgid "_Surface plot"
 msgstr "_Felületdiagram"
 
-#: ../src/graphing.c:6564 ../src/graphing.c:6750 ../src/graphing.c:6877
-#: ../src/graphing.c:7006 ../src/graphing.c:7111
+#: ../src/graphing.c:6465
+msgid "Empty value as range value"
+msgstr ""
+
+#: ../src/graphing.c:6471
+#, fuzzy
+#| msgid "Genius is executing something, are you sure you wish to quit?"
+msgid "Genius is executing something already"
+msgstr "A Genius valamit futtat. Biztosan ki szeretne lépni?"
+
+#: ../src/graphing.c:6482
+#, fuzzy
+#| msgid "Cannot open file"
+msgid "Cannot parse range value"
+msgstr "A fájl nem nyitható meg"
+
+#: ../src/graphing.c:6494
+#, fuzzy
+#| msgid "Cannot locate the manual"
+msgid "Cannot execute range value"
+msgstr "A kézikönyv nem található!"
+
+#: ../src/graphing.c:6499 ../src/graphing.c:6505
+#, fuzzy
+#| msgid "Increment not a value!"
+msgid "Range value not a value"
+msgstr "A növekmény nem érték."
+
+#: ../src/graphing.c:6513
+#, fuzzy
+#| msgid "Can't convert real number to double"
+msgid "Cannot convert range value to a reasonable real number"
+msgstr "A valós szám nem alakítható dupla pontosságú számmá"
+
+#: ../src/graphing.c:6599 ../src/graphing.c:6787 ../src/graphing.c:6916
+#: ../src/graphing.c:7051 ../src/graphing.c:7158
 msgid "No functions to plot or no functions could be parsed"
 msgstr ""
 "Nincsenek megjelenítendő függvények, vagy a függvények nem értelmezhetők"
 
-#: ../src/graphing.c:6597 ../src/graphing.c:6603 ../src/graphing.c:6773
-#: ../src/graphing.c:6779 ../src/graphing.c:6884 ../src/graphing.c:6907
-#: ../src/graphing.c:6913 ../src/graphing.c:7029 ../src/graphing.c:7035
-#: ../src/graphing.c:7134 ../src/graphing.c:7140
+#: ../src/graphing.c:6634 ../src/graphing.c:6640 ../src/graphing.c:6812
+#: ../src/graphing.c:6818 ../src/graphing.c:6941 ../src/graphing.c:6947
+#: ../src/graphing.c:6966 ../src/graphing.c:7076 ../src/graphing.c:7082
+#: ../src/graphing.c:7183 ../src/graphing.c:7189
 #, c-format
 msgid "Invalid %s range"
 msgstr "Érvénytelen %s tartomány"
 
-#: ../src/graphing.c:6609
+#: ../src/graphing.c:6646
 msgid "Invalid dependent range"
 msgstr "Érvénytelen függő tartomány"
 
-#: ../src/graphing.c:6871
+#: ../src/graphing.c:6910
 #, c-format
 msgid "Only specify %s and %s, or %s, not all at once."
 msgstr "Csak a(z) %s és %s értékét adja meg, vagy a(z) %s értékét, ne mindet."
 
-#: ../src/graphing.c:7238
+#: ../src/graphing.c:7287
 msgid "Create Plot"
 msgstr "Grafikon létrehozása"
 
-#: ../src/graphing.c:7278 ../src/graphing.c:7448 ../src/graphing.c:7479
-#: ../src/graphing.c:7500 ../src/graphing.c:7540 ../src/graphing.c:7564
-#: ../src/graphing.c:7676 ../src/graphing.c:7800 ../src/graphing.c:7937
-#: ../src/graphing.c:8094 ../src/graphing.c:8241 ../src/graphing.c:8264
-#: ../src/graphing.c:8861 ../src/graphing.c:9148 ../src/graphing.c:9367
-#: ../src/graphing.c:9607 ../src/graphing.c:9935 ../src/graphing.c:10167
-#: ../src/graphing.c:10256 ../src/graphing.c:10366 ../src/graphing.c:10397
-#: ../src/graphing.c:10426 ../src/graphing.c:10452 ../src/graphing.c:10481
-#: ../src/graphing.c:10574 ../src/graphing.c:10663 ../src/graphing.c:10688
-#: ../src/graphing.c:10721 ../src/graphing.c:10769
+#: ../src/graphing.c:7292
+msgid "_Plot"
+msgstr "_Grafikonkészítés"
+
+#: ../src/graphing.c:7327 ../src/graphing.c:7497 ../src/graphing.c:7528
+#: ../src/graphing.c:7549 ../src/graphing.c:7589 ../src/graphing.c:7613
+#: ../src/graphing.c:7725 ../src/graphing.c:7849 ../src/graphing.c:7986
+#: ../src/graphing.c:8143 ../src/graphing.c:8290 ../src/graphing.c:8313
+#: ../src/graphing.c:8910 ../src/graphing.c:9197 ../src/graphing.c:9416
+#: ../src/graphing.c:9656 ../src/graphing.c:9984 ../src/graphing.c:10216
+#: ../src/graphing.c:10305 ../src/graphing.c:10415 ../src/graphing.c:10446
+#: ../src/graphing.c:10475 ../src/graphing.c:10501 ../src/graphing.c:10530
+#: ../src/graphing.c:10623 ../src/graphing.c:10712 ../src/graphing.c:10737
+#: ../src/graphing.c:10770 ../src/graphing.c:10818
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr "%s: grafikonkészítés folyamatban, a(z) %s nem hívható meg"
 
-#: ../src/graphing.c:7286 ../src/graphing.c:7819
+#: ../src/graphing.c:7335 ../src/graphing.c:7868
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: az argumentum nem függvény"
 
-#: ../src/graphing.c:7296
+#: ../src/graphing.c:7345
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: csak egy függvény támogatott"
 
-#: ../src/graphing.c:7319
+#: ../src/graphing.c:7368
 msgid "Graph limits not given as a 4-vector or a 6-vector"
 msgstr ""
 
-#: ../src/graphing.c:7375 ../src/graphing.c:7629 ../src/graphing.c:7746
-#: ../src/graphing.c:7882 ../src/graphing.c:8031 ../src/graphing.c:8186
-#: ../src/graphing.c:10036
+#: ../src/graphing.c:7424 ../src/graphing.c:7678 ../src/graphing.c:7795
+#: ../src/graphing.c:7931 ../src/graphing.c:8080 ../src/graphing.c:8235
+#: ../src/graphing.c:10085
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: érvénytelen X tartomány"
 
-#: ../src/graphing.c:7380 ../src/graphing.c:7634 ../src/graphing.c:7751
-#: ../src/graphing.c:7887 ../src/graphing.c:8036 ../src/graphing.c:8191
-#: ../src/graphing.c:10041
+#: ../src/graphing.c:7429 ../src/graphing.c:7683 ../src/graphing.c:7800
+#: ../src/graphing.c:7936 ../src/graphing.c:8085 ../src/graphing.c:8240
+#: ../src/graphing.c:10090
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: érvénytelen Y tartomány"
 
-#: ../src/graphing.c:7385 ../src/graphing.c:10046
+#: ../src/graphing.c:7434 ../src/graphing.c:10095
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: érvénytelen Z tartomány"
 
-#: ../src/graphing.c:7458
+#: ../src/graphing.c:7507
 #, c-format
 msgid "%s: dx must be positive"
 msgstr "%s: a dx értékének pozitívnak kell lennie"
 
-#: ../src/graphing.c:7465 ../src/graphing.c:7484
+#: ../src/graphing.c:7514 ../src/graphing.c:7533
 #, c-format
 msgid "%s: Slope field not active"
 msgstr "%s: az iránymező nem aktív"
 
-#: ../src/graphing.c:7511
+#: ../src/graphing.c:7560
 #, c-format
 msgid "%s: dt must be positive"
 msgstr "%s: a dt értékének pozitívnak kell lennie"
 
-#: ../src/graphing.c:7517
+#: ../src/graphing.c:7566
 #, c-format
 msgid "%s: tlen must be positive"
 msgstr "%s: a tlen értékének pozitívnak kell lennie"
 
-#: ../src/graphing.c:7525 ../src/graphing.c:7546
+#: ../src/graphing.c:7574 ../src/graphing.c:7595
 #, c-format
 msgid "%s: Vector field not active"
 msgstr "%s: a vektormező nem aktív"
 
-#: ../src/graphing.c:7571 ../src/graphing.c:8101
+#: ../src/graphing.c:7620 ../src/graphing.c:8150
 #, c-format
 msgid "%s: First argument must be a function"
 msgstr "%s: az első argumentumnak függvénynek kell lennie"
 
-#: ../src/graphing.c:7687 ../src/graphing.c:7945
+#: ../src/graphing.c:7736 ../src/graphing.c:7994
 #, c-format
 msgid "%s: First two arguments must be functions"
 msgstr "%s: az első két argumentumnak függvénynek kell lennie"
 
-#: ../src/graphing.c:7814
+#: ../src/graphing.c:7863
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: legfeljebb 10 függvény támogatott"
 
-#: ../src/graphing.c:7840
+#: ../src/graphing.c:7889
 msgid "Graph limits not given as a 2-vector or a 4-vector"
 msgstr ""
 
-#: ../src/graphing.c:8041 ../src/graphing.c:8196
+#: ../src/graphing.c:8090 ../src/graphing.c:8245
 #, c-format
 msgid "%s: invalid T range"
 msgstr "%s: érvénytelen T tartomány"
 
-#: ../src/graphing.c:8422
+#: ../src/graphing.c:8471
 #, c-format
 msgid ""
 "%s: Not in line plot mode.  Perhaps run LinePlot or LinePlotClear first."
 msgstr ""
 
-#: ../src/graphing.c:8543 ../src/graphing.c:8624
+#: ../src/graphing.c:8592 ../src/graphing.c:8673
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 2 matrix with columns for x and "
 "y, n>=%d, or as a complex valued n by 1 matrix"
 msgstr ""
 
-#: ../src/graphing.c:8553
+#: ../src/graphing.c:8602
 #, c-format
 msgid ""
 "%s: If points are given as an n by 2 matrix, then this matrix must be real"
 msgstr ""
 
-#: ../src/graphing.c:8663 ../src/graphing.c:8726
+#: ../src/graphing.c:8712 ../src/graphing.c:8775
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 3 matrix with columns for x, y "
 "and z, n>=%d"
 msgstr ""
 
-#: ../src/graphing.c:8778
+#: ../src/graphing.c:8827
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: nincs szín megadva"
 
-#: ../src/graphing.c:8783 ../src/graphing.c:8790
+#: ../src/graphing.c:8832 ../src/graphing.c:8839
 #, c-format
 msgid "%s: Cannot parse color '%s'"
 msgstr "%s: a(z) „%s” szín nem értelmezhető"
 
-#: ../src/graphing.c:8804
+#: ../src/graphing.c:8853
 #, c-format
 msgid ""
 "%s: A vector giving color should be a 3-vector of real numbers between 0 and "
 "1"
 msgstr ""
 
-#: ../src/graphing.c:8820
+#: ../src/graphing.c:8869
 #, c-format
 msgid ""
 "%s: Warning: Values for red, green, or blue out of range (0 to 1), I will "
 "clip them to this interval"
 msgstr ""
 
-#: ../src/graphing.c:8837
+#: ../src/graphing.c:8886
 #, c-format
 msgid ""
 "%s: Color must be a string or a three-vector of rgb values (between 0 and 1)"
 msgstr ""
 
-#: ../src/graphing.c:8880 ../src/graphing.c:9167 ../src/graphing.c:9388
-#: ../src/graphing.c:9628
+#: ../src/graphing.c:8929 ../src/graphing.c:9216 ../src/graphing.c:9437
+#: ../src/graphing.c:9677
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: hibás számú argumentum"
 
-#: ../src/graphing.c:8950 ../src/graphing.c:9221 ../src/graphing.c:9454
-#: ../src/graphing.c:9688
+#: ../src/graphing.c:8999 ../src/graphing.c:9270 ../src/graphing.c:9503
+#: ../src/graphing.c:9737
 #, c-format
 msgid "%s: No thickness specified"
 msgstr "%s: nincs vastagság megadva"
 
-#: ../src/graphing.c:8973 ../src/graphing.c:9244 ../src/graphing.c:9479
-#: ../src/graphing.c:9713
+#: ../src/graphing.c:9022 ../src/graphing.c:9293 ../src/graphing.c:9528
+#: ../src/graphing.c:9762
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: nincs ablak megadva"
 
-#: ../src/graphing.c:9021 ../src/graphing.c:9046
+#: ../src/graphing.c:9070 ../src/graphing.c:9095
 #, c-format
 msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
 msgstr ""
 "%s: a nyílstílus a következők egyike lehet: „origin”, „end”, „both” vagy "
 "„none”"
 
-#: ../src/graphing.c:9056 ../src/graphing.c:9288 ../src/graphing.c:9531
-#: ../src/graphing.c:9765
+#: ../src/graphing.c:9105 ../src/graphing.c:9337 ../src/graphing.c:9580
+#: ../src/graphing.c:9814
 #, c-format
 msgid "%s: No legend specified"
 msgstr "%s: nincs jelmagyarázat megadva"
 
-#: ../src/graphing.c:9070 ../src/graphing.c:9302 ../src/graphing.c:9546
-#: ../src/graphing.c:9780
+#: ../src/graphing.c:9119 ../src/graphing.c:9351 ../src/graphing.c:9595
+#: ../src/graphing.c:9829
 #, c-format
 msgid "%s: Legend must be a string"
 msgstr "%s: a jelmagyarázatnak szövegnek kell lennie"
 
-#: ../src/graphing.c:9081
+#: ../src/graphing.c:9130
 #, c-format
 msgid "%s: Unknown style: %s"
 msgstr "%s: ismeretlen stílus: %s"
 
-#: ../src/graphing.c:9090 ../src/graphing.c:9318 ../src/graphing.c:9564
-#: ../src/graphing.c:9798
+#: ../src/graphing.c:9139 ../src/graphing.c:9367 ../src/graphing.c:9613
+#: ../src/graphing.c:9847
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: hibás paraméter"
 
-#: ../src/graphing.c:9311 ../src/graphing.c:9556 ../src/graphing.c:9790
+#: ../src/graphing.c:9360 ../src/graphing.c:9605 ../src/graphing.c:9839
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: ismeretlen stílus"
 
-#: ../src/graphing.c:9852 ../src/graphing.c:9915
+#: ../src/graphing.c:9901 ../src/graphing.c:9964
 #, c-format
 msgid ""
 "%s: Surface should be given as a real, n by 3 matrix with columns for x, y, "
 "z, where n>=3"
 msgstr ""
 
-#: ../src/graphing.c:9943
+#: ../src/graphing.c:9992
 #, c-format
 msgid "%s: argument not a matrix of data"
 msgstr "%s: az argumentum nem adatmátrix"
 
-#: ../src/graphing.c:10127
+#: ../src/graphing.c:10176
 #, c-format
 msgid "%s: Surface grid data should be given as a real matrix "
 msgstr "%s: a felületrácsadatokat valós mátrixként kell megadni "
 
-#: ../src/graphing.c:10173
+#: ../src/graphing.c:10222
 #, c-format
 msgid "%s: first argument not a matrix of data"
 msgstr "%s: az első argumentum nem adatmátrix"
 
-#: ../src/graphing.c:10180
+#: ../src/graphing.c:10229
 #, c-format
 msgid "%s: second argument not a 4 or 6 element vector of limits"
 msgstr "%s: a második argumentum nem 4 vagy 6 elemű korlátvektor"
 
-#: ../src/graphing.c:10197
+#: ../src/graphing.c:10246
 #, c-format
 msgid "%s: too many arguments or last argument not a string label"
 msgstr ""
 "%s: túl sok argumentum, vagy az utolsó argumentum nem karakterlánccímke"
 
-#: ../src/graphing.c:10263
+#: ../src/graphing.c:10312
 #, c-format
 msgid "%s: first argument not a nonempty string"
 msgstr "%s: az első argumentum nem nem-üres karakterlánc"
 
-#: ../src/graphing.c:10271
+#: ../src/graphing.c:10320
 #, c-format
 msgid "%s: type not specified and filename has no extension"
 msgstr "%s: a típus nincs megadva, és a fájlnévnek nincs kiterjesztése"
 
-#: ../src/graphing.c:10280
+#: ../src/graphing.c:10329
 #, c-format
 msgid "%s: second argument not a nonempty string"
 msgstr "%s: a második argumentum nem nem-üres karakterlánc"
 
-#: ../src/graphing.c:10292
+#: ../src/graphing.c:10341
 #, c-format
 msgid "%s: plot canvas not active, cannot export"
 msgstr "%s: a grafikonvászon nem aktív, nem exportálható"
 
-#: ../src/graphing.c:10301 ../src/graphing.c:10315 ../src/graphing.c:10338
+#: ../src/graphing.c:10350 ../src/graphing.c:10364 ../src/graphing.c:10387
 #, c-format
 msgid "%s: export failed"
 msgstr "%s: exportálás sikertelen"
 
-#: ../src/graphing.c:10351
+#: ../src/graphing.c:10400
 #, c-format
 msgid "%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."
 msgstr "%s: ismeretlen fájltípus, „png”, „eps” vagy „ps” lehet."
 
-#: ../src/graphing.c:10488
+#: ../src/graphing.c:10537
 msgid "Variable names not given in a 4-vector"
 msgstr "A váltózónevek nem 4 elemű vektorként lettek megadva"
 
-#: ../src/graphing.c:10498 ../src/graphing.c:10507 ../src/graphing.c:10516
-#: ../src/graphing.c:10525 ../src/graphing.c:10591 ../src/graphing.c:10600
-#: ../src/graphing.c:10609
+#: ../src/graphing.c:10547 ../src/graphing.c:10556 ../src/graphing.c:10565
+#: ../src/graphing.c:10574 ../src/graphing.c:10640 ../src/graphing.c:10649
+#: ../src/graphing.c:10658
 msgid "Variable names should be strings"
 msgstr "A változóneveknek karakterláncoknak kell lenniük"
 
-#: ../src/graphing.c:10532 ../src/graphing.c:10615
+#: ../src/graphing.c:10581 ../src/graphing.c:10664
 msgid "Variable names must be valid identifiers"
 msgstr "A változóneveknek érvényes azonosítóknak kell lenniük"
 
-#: ../src/graphing.c:10541 ../src/graphing.c:10621
+#: ../src/graphing.c:10590 ../src/graphing.c:10670
 msgid "Variable names must be mutually distinct"
 msgstr "A változóneveknek különbözőknek kell lenniük"
 
-#: ../src/graphing.c:10581
+#: ../src/graphing.c:10630
 msgid "Variable names not given in a 3-vector"
 msgstr "A váltózónevek nem 3 elemű vektorként lettek megadva"
 
-#: ../src/graphing.c:10804
+#: ../src/graphing.c:10853
 msgid "Plotting"
 msgstr "Grafikonrajzolás"
 
 #. internal
-#: ../src/graphing.c:10806
+#: ../src/graphing.c:10855
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
 msgstr ""
 
-#: ../src/graphing.c:10807
+#: ../src/graphing.c:10856
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
 "x1,x2,y1,y2"
 msgstr ""
 
-#: ../src/graphing.c:10808
+#: ../src/graphing.c:10857
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
 "optionally the limits as x1,x2,y1,y2"
 msgstr ""
 
-#: ../src/graphing.c:10810
+#: ../src/graphing.c:10859
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
 msgstr ""
 
-#: ../src/graphing.c:10811
+#: ../src/graphing.c:10860
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
 msgstr ""
 
-#: ../src/graphing.c:10813
+#: ../src/graphing.c:10862
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr ""
 
-#: ../src/graphing.c:10814
+#: ../src/graphing.c:10863
 msgid "Clear all the slopefield solutions"
 msgstr ""
 
-#: ../src/graphing.c:10816
+#: ../src/graphing.c:10865
 msgid ""
 "Draw a solution for a vector field starting at x,y, using dt as increment "
 "for tlen units"
 msgstr ""
 
-#: ../src/graphing.c:10817
+#: ../src/graphing.c:10866
 msgid "Clear all the vectorfield solutions"
 msgstr ""
 
-#: ../src/graphing.c:10820
+#: ../src/graphing.c:10869
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
 msgstr ""
 
-#: ../src/graphing.c:10822
+#: ../src/graphing.c:10871
 msgid "Show the surface (3d) plot window and clear out functions"
 msgstr ""
 
-#: ../src/graphing.c:10824
+#: ../src/graphing.c:10873
 msgid ""
 "Plot surface data given as n by 3 matrix (n>=3) of data with each row being "
 "x,y,z.  Optionally can pass a label string and limits.  If no limits passed, "
 "limits computed from data."
 msgstr ""
 
-#: ../src/graphing.c:10825
+#: ../src/graphing.c:10874
 msgid ""
 "Plot surface data given as a matrix (where rows are the x coordinate and "
 "columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or "
 "optionally [x1,x2,y1,y2,z1,z2], and optionally a string for the label."
 msgstr ""
 
-#: ../src/graphing.c:10826
+#: ../src/graphing.c:10875
 msgid ""
 "Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  x1,y1,z1,x2,"
 "y2,z2 can be replaced by a n by 3 matrix for a longer line"
 msgstr ""
 
-#: ../src/graphing.c:10827
+#: ../src/graphing.c:10876
 msgid ""
 "Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a "
 "n by 3 matrix for more points."
 msgstr ""
 
-#: ../src/graphing.c:10829
+#: ../src/graphing.c:10878
 msgid "Show the line plot window and clear out functions"
 msgstr ""
 
-#: ../src/graphing.c:10830
+#: ../src/graphing.c:10879
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line."
 msgstr ""
 
-#: ../src/graphing.c:10831
+#: ../src/graphing.c:10880
 msgid ""
 "Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points."
 msgstr ""
 
-#: ../src/graphing.c:10833
+#: ../src/graphing.c:10882
 msgid "Freeze the plot canvas, that is, inhibit drawing"
 msgstr ""
 
-#: ../src/graphing.c:10834
+#: ../src/graphing.c:10883
 msgid "Thaw the plot canvas and redraw the plot immediately"
 msgstr ""
 
-#: ../src/graphing.c:10835
+#: ../src/graphing.c:10884
 msgid "Raise the plot window, and create the window if necessary"
 msgstr ""
 
-#: ../src/graphing.c:10837
+#: ../src/graphing.c:10886
 msgid "Wait for a click on the line plot window, return the location."
 msgstr ""
 
-#: ../src/graphing.c:10838
+#: ../src/graphing.c:10887
 msgid "Return current mouse location on the line plot window."
 msgstr ""
 
-#: ../src/graphing.c:10840
+#: ../src/graphing.c:10889
 msgid ""
 "Export the current contents of the plot canvas to a file.  The file type is "
 "given by the string type, which can be \"png\", \"eps\", or \"ps\"."
 msgstr ""
 
-#: ../src/graphing.c:10842
+#: ../src/graphing.c:10891
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr ""
 
-#: ../src/graphing.c:10843
+#: ../src/graphing.c:10892
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
 msgstr ""
 
-#: ../src/graphing.c:10844
+#: ../src/graphing.c:10893
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
 msgstr ""
 
-#: ../src/graphing.c:10845
+#: ../src/graphing.c:10894
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
 msgstr ""
 
-#: ../src/graphing.c:10847
+#: ../src/graphing.c:10896
 msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
 msgstr ""
 
-#: ../src/graphing.c:10848
+#: ../src/graphing.c:10897
 msgid "If to draw legends or not on line plots."
 msgstr ""
 
-#: ../src/graphing.c:10849
+#: ../src/graphing.c:10898
 msgid "If to draw axis labels on line plots."
 msgstr ""
 
-#: ../src/graphing.c:10851
+#: ../src/graphing.c:10900
 msgid "If to draw legends or not on surface plots."
 msgstr ""
 
-#: ../src/graphing.c:10853
+#: ../src/graphing.c:10902
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr ""
 
-#: ../src/graphing.c:10854
+#: ../src/graphing.c:10903
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
@@ -5280,7 +5365,7 @@ msgstr ""
 msgid "Determinant of a non-square matrix is undefined"
 msgstr ""
 
-#: ../src/matrixw.c:622 ../src/matrixw.c:700
+#: ../src/matrixw.c:617 ../src/matrixw.c:695
 msgid "Trying to increment a nonvalue"
 msgstr ""
 
@@ -5351,8 +5436,8 @@ msgstr ""
 msgid "Can't do binomials of rationals or floats!"
 msgstr ""
 
-#: ../src/mpwrap.c:2128 ../src/mpwrap.c:2198 ../src/mpwrap.c:4337
-#: ../src/mpwrap.c:4358
+#: ../src/mpwrap.c:2128 ../src/mpwrap.c:2198 ../src/mpwrap.c:4343
+#: ../src/mpwrap.c:4364
 #, c-format
 msgid "%s: Bad types for mod power"
 msgstr "%s: hibás típusok modulo hatványhoz"
@@ -5374,104 +5459,108 @@ msgstr "A véletlenszerű egész tartományának pozitívnak kell lennie"
 msgid "Can't get numerator of floating types"
 msgstr "Lebegőpontos típusokra nem kérhető számláló"
 
-#: ../src/mpwrap.c:3531 ../src/mpwrap.c:5050 ../src/mpwrap.c:5072
+#: ../src/mpwrap.c:2761
+msgid "Invalid integer format"
+msgstr ""
+
+#: ../src/mpwrap.c:3534 ../src/mpwrap.c:5056 ../src/mpwrap.c:5078
 msgid "Can't compare complex numbers"
 msgstr "Komplex számok nem hasonlíthatók össze"
 
-#: ../src/mpwrap.c:4013
+#: ../src/mpwrap.c:4016
 msgid "Can't modulo complex numbers"
 msgstr "Komplex számokra nem kérhető modulo"
 
-#: ../src/mpwrap.c:4036
+#: ../src/mpwrap.c:4039
 #, c-format
 msgid "Inverse of %s modulo %s not found!"
 msgstr "A(z) %s modulo %s inverze nem található."
 
-#: ../src/mpwrap.c:4045
+#: ../src/mpwrap.c:4048
 msgid "Can't do modulo invert on complex numbers"
 msgstr "Komplex számokat nem lehet modulo invertálni"
 
-#: ../src/mpwrap.c:4062
+#: ../src/mpwrap.c:4065
 msgid "Can't GCD complex numbers"
 msgstr "Komplex számokra nem kérhető GCD"
 
-#: ../src/mpwrap.c:4091
+#: ../src/mpwrap.c:4094
 msgid "Can't LCM complex numbers"
 msgstr "Komplex számokra nem kérhető LCM"
 
-#: ../src/mpwrap.c:4108
+#: ../src/mpwrap.c:4111
 msgid "Can't get Jacobi symbols of complex numbers"
 msgstr "Komplex számokra nem kérhetők Jacobi-szimbólumok"
 
-#: ../src/mpwrap.c:4124
+#: ../src/mpwrap.c:4128
 msgid "Can't get Legendre symbols of complex numbers"
 msgstr "Komplex számokra nem kérhetők Legendre-szimbólumok"
 
-#: ../src/mpwrap.c:4140
+#: ../src/mpwrap.c:4145
 msgid "Can't get Jacobi symbol with Kronecker extension for complex numbers"
 msgstr ""
 "Komplex számokra nem kérhető a Jacobi-szimbólum Kronecker-kiterjesztéssel"
 
-#: ../src/mpwrap.c:4156
+#: ../src/mpwrap.c:4162
 msgid "Can't get Lucas number for complex numbers"
 msgstr "Komplex számokra nem kérhető a Lucas-szám"
 
-#: ../src/mpwrap.c:4172
+#: ../src/mpwrap.c:4178
 msgid "Can't get next prime for complex numbers"
 msgstr "Komplex számokra nem kérhető a következő prímszám"
 
-#: ../src/mpwrap.c:4182 ../src/mpwrap.c:4194 ../src/mpwrap.c:4206
-#: ../src/mpwrap.c:4218
+#: ../src/mpwrap.c:4188 ../src/mpwrap.c:4200 ../src/mpwrap.c:4212
+#: ../src/mpwrap.c:4224
 #, c-format
 msgid "%s: can't work on complex numbers"
 msgstr "%s: komplex számokon nem működik"
 
-#: ../src/mpwrap.c:4447 ../src/mpwrap.c:4525 ../src/mpwrap.c:4590
+#: ../src/mpwrap.c:4453 ../src/mpwrap.c:4531 ../src/mpwrap.c:4596
 #, c-format
 msgid "%s: can't take logarithm of 0"
 msgstr "%s: a 0 logaritmusa nem értelmezett"
 
-#: ../src/mpwrap.c:4919
+#: ../src/mpwrap.c:4925
 msgid "arctan2 not defined for complex numbers"
 msgstr "Az arctan2 komplex számokra nem értelmezett"
 
-#: ../src/mpwrap.c:4967
+#: ../src/mpwrap.c:4973
 msgid "Can't make random integer out of a complex number"
 msgstr "Komplex számokból nem lehet véletlenszerű egészeket készíteni"
 
-#: ../src/mpwrap.c:5129 ../src/mpwrap.c:5146
+#: ../src/mpwrap.c:5135 ../src/mpwrap.c:5152
 msgid "Can't make factorials of complex numbers"
 msgstr "Komplex számokból nem lehet faktoriálisokat készíteni"
 
-#: ../src/mpwrap.c:5163
+#: ../src/mpwrap.c:5169
 msgid "Can't make binomials of complex numbers"
 msgstr "Komplex számokból nem lehet binomiális együtthatókat készíteni"
 
-#: ../src/mpwrap.c:5542 ../src/mpwrap.c:5553 ../src/mpwrap.c:5564
+#: ../src/mpwrap.c:5548 ../src/mpwrap.c:5559 ../src/mpwrap.c:5570
 msgid "Can't determine type of a complex number"
 msgstr "A komplex szám típusa nem határozható meg"
 
-#: ../src/mpwrap.c:5658 ../src/mpwrap.c:5681
+#: ../src/mpwrap.c:5664 ../src/mpwrap.c:5687
 msgid "Can't convert complex number into integer"
 msgstr "A komplex szám nem alakítható egésszé"
 
-#: ../src/mpwrap.c:5664 ../src/mpwrap.c:5687
+#: ../src/mpwrap.c:5670 ../src/mpwrap.c:5693
 msgid "Can't convert real number to integer"
 msgstr "A valós szám nem alakítható egésszé"
 
-#: ../src/mpwrap.c:5668 ../src/mpwrap.c:5691
+#: ../src/mpwrap.c:5674 ../src/mpwrap.c:5697
 msgid "Integer too large for this operation"
 msgstr "Az egész szám túl nagy ehhez a művelethez"
 
-#: ../src/mpwrap.c:5704
+#: ../src/mpwrap.c:5710
 msgid "Can't convert complex number into a double"
 msgstr "A komplex szám nem alakítható dupla pontosságú számmá"
 
-#: ../src/mpwrap.c:5713
+#: ../src/mpwrap.c:5719
 msgid "Can't convert real number to double"
 msgstr "A valós szám nem alakítható dupla pontosságú számmá"
 
-#: ../src/mpwrap.c:5719 ../src/mpwrap.c:5734
+#: ../src/mpwrap.c:5725 ../src/mpwrap.c:5740
 msgid "Number too large for this operation"
 msgstr "A szám túl nagy ehhez a művelethez"
 
@@ -5479,11 +5568,11 @@ msgstr "A szám túl nagy ehhez a művelethez"
 msgid "ERROR: local statement not the first statement in function definition"
 msgstr "HIBA: a helyi utasítás nem az első utasítás a függvénydefinícióban"
 
-#: ../src/plugin.c:155
+#: ../src/plugin.c:154
 msgid "Can't open plugin!"
 msgstr "A bővítmény nem nyitható meg."
 
-#: ../src/plugin.c:171 ../src/plugin.c:179
+#: ../src/plugin.c:170 ../src/plugin.c:178
 msgid "Can't initialize plugin!"
 msgstr "A bővítmény nem készíthető elő."
 
