@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2021 Jiri (George) Lebl
+ * Copyright (C) 2003-2023 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -2175,7 +2175,7 @@ ensure_window (gboolean do_window_present)
 
 	graph_window = gtk_dialog_new_with_buttons
 		(_("Plot") /* title */,
-		 NULL /*GTK_WINDOW (genius_window)*/ /* parent */,
+		 GTK_WINDOW (genius_window) /* parent */,
 		 0 /* flags */,
 		 _("_Stop"),
 		 RESPONSE_STOP,
@@ -7301,7 +7301,7 @@ genius_plot_dialog (void)
 
 	plot_dialog = gtk_dialog_new_with_buttons
 		(_("Create Plot") /* title */,
-		 NULL /*GTK_WINDOW (genius_window)*/ /* parent */,
+		 GTK_WINDOW (genius_window) /* parent */,
 		 0 /* flags */,
 		 _("_Close"),
 		 GTK_RESPONSE_CLOSE,
@@ -10026,7 +10026,7 @@ get_surface_data (GelETree *a, double **x, double **y, double **z, int *len,
 static GelETree *
 SurfacePlotData_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
-	double x1, x2, y1, y2, z1, z2;
+	double x1 = 0, x2 = 0, y1 = 0, y2 = 0, z1 = 0, z2 = 0;
 	double *x,*y,*z;
 	char *name = NULL;
 	int len;

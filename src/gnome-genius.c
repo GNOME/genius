@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2021 Jiri (George) Lebl
+ * Copyright (C) 1997-2023 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -1858,7 +1858,7 @@ actually_open_help (const char *id)
 				found = TRUE;
 
 			}
-			fclose (fp);
+			pclose (fp);
 		}
 		if ( ! found) {
 			char *warn = g_strdup_printf (_("<b>Help on %s not found</b>"), id);
