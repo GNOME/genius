@@ -4,6 +4,14 @@
 # You can play around with different 
 # differential equations, the equation is dy/dx = g(x,y)
 function g(x,y)=y;
+
+# x0, y0 are the initial conditions xend is where we end
+# (should be bigger than x0)
+x0=0;
+y0=1;
+xend=4;
+
+# the "window" [xbegin,xend,ybegin,yend]
 LinePlotWindow=[-0.2,4,0,e^4+0.2];
 
 LinePlotDrawLegends=false;
@@ -20,7 +28,7 @@ x0=0;
 y0=1;
 
 xx=[x0];yy=[y0];
-for j=2 to (4/h)+1 do (
+for j=2 to (xend/h)+1 do (
   xx@(j) = xx@(j-1)+h;
   yy@(j) = yy@(j-1)+g(xx@(j-1),yy@(j-1))*h;
 );
@@ -29,7 +37,7 @@ PlotWindowPresent(); # Make sure the window is raised
 AskButtons("Step size h = 1","Next");
 
 h=(1/2);
-for j=2 to (4/h)+1 do (
+for j=2 to (xend/h)+1 do (
   xx@(j) = xx@(j-1)+h;
   yy@(j) = yy@(j-1)+g(xx@(j-1),yy@(j-1))*h
 );
@@ -38,7 +46,7 @@ PlotWindowPresent(); # Make sure the window is raised
 AskButtons("h = 0.5 = 1/2","Next");
 
 h=(1/4);
-for j=2 to (4/h)+1 do (
+for j=2 to (xend/h)+1 do (
   xx@(j) = xx@(j-1)+h;
   yy@(j) = yy@(j-1)+g(xx@(j-1),yy@(j-1))*h
 );
@@ -47,7 +55,7 @@ PlotWindowPresent(); # Make sure the window is raised
 AskButtons("h = 0.25 = 1/4","Next");
 
 h=(1/8);
-for j=2 to (4/h)+1 do (
+for j=2 to (xend/h)+1 do (
   xx@(j) = xx@(j-1)+h;
   yy@(j) = yy@(j-1)+g(xx@(j-1),yy@(j-1))*h
 );
@@ -56,7 +64,7 @@ PlotWindowPresent(); # Make sure the window is raised
 AskButtons("h = 0.125 = 1/8","Next");
 
 h=(1/16);
-for j=2 to (4/h)+1 do (
+for j=2 to (xend/h)+1 do (
   xx@(j) = xx@(j-1)+h;
   yy@(j) = yy@(j-1)+g(xx@(j-1),yy@(j-1))*h
 );
@@ -65,7 +73,7 @@ PlotWindowPresent(); # Make sure the window is raised
 AskButtons("h = 0.0625 = 1/16","Next");
 
 h=(1/32);
-for j=2 to (4/h)+1 do (
+for j=2 to (xend/h)+1 do (
   xx@(j) = xx@(j-1)+h;
   yy@(j) = yy@(j-1)+g(xx@(j-1),yy@(j-1))*h
 );
@@ -73,11 +81,9 @@ LinePlotDrawLine ([xx',yy'],"color","blue");
 PlotWindowPresent(); # Make sure the window is raised
 AskButtons("h=0.03125=1/32","Next");
 
-# The real solution
-for j=2 to (4/h)+1 do (
-  xx@(j) = xx@(j-1)+h;
-  yy@(j) = e^(xx@(j))
-);
-LinePlotDrawLine ([xx',yy'],"color","red");
+# The real solution (not really, using Runge-Kutta,
+# but should be close for all purposes
+line = RungeKuttaFull(`(x,y)=g(x,y),x0,y0,xend,100);
+LinePlotDrawLine(line,"color","red");
 PlotWindowPresent(); # Make sure the window is raised
 AskButtons("The real solution","End");
