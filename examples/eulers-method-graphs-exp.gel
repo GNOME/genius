@@ -27,7 +27,7 @@ h=1;
 x0=0;
 y0=1;
 
-xx=[x0];yy=[y0];
+xx=[float(x0)];yy=[float(y0)];
 for j=2 to (xend/h)+1 do (
   xx@(j) = xx@(j-1)+h;
   yy@(j) = yy@(j-1)+g(xx@(j-1),yy@(j-1))*h;
