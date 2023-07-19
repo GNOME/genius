@@ -717,8 +717,11 @@ psdrawpoint(GtkPlotPC *pc, gdouble x, gdouble y)
   FILE *psout = GTK_PLOT_PS(pc)->psfile;
 
   fprintf(psout, "n\n");
-  fprintf(psout, "%g %g m\n", x, y);
-  fprintf(psout, "%g %g l\n", x, y);
+  /* A zero length line is ignored, draw a circle */
+  /* fprintf(psout, "%g %g m\n", x, y);
+  fprintf(psout, "%g %g l\n", x, y); */
+  fprintf(psout, "%g %g currentlinewidth 2 div 0 360 a cp\n", x, y);
+  fprintf(psout, "f\n");
   fprintf(psout, "s\n");
 }
 
