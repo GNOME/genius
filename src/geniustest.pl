@@ -1,14 +1,22 @@
 #!/usr/bin/perl
-open(TESTS,"geniustests.txt") || die "can't open the geniustests.txt file";
 
-$errors = 0;
-$errorinputs = "";
-$tests = 0;
-$options = "";
+use warnings;
+use strict;
 
-$i = 0;
+open(my $tests_fh, "<", "geniustests.txt")
+	|| die "can't open the geniustests.txt file";
 
-while(<TESTS>) {
+my $i = 0;
+my $errors = 0;
+my $errorinputs = "";
+my $tests = 0;
+my $options = "";
+
+while(<$tests_fh>) {
+
+	my $command;
+	my $shd;
+
 	if(/^OPTIONS[ 	]+(.*)$/) {
 		$options = $1;
 		next;
@@ -28,10 +36,10 @@ while(<TESTS>) {
 	#something weird happens and the following modifies $1 and $2
 	#as well, I guess those can only be used from the last regexp
 	$command =~ s/'/'\\''/g;
-	open(GENIUS,"./genius --exec='$command' $options |") ||
-		die "can't open pipe!";
+	open(my $genius_fh, "-|" ,"./genius --exec='$command' $options") ||
+		die "can't open the genius process pipe!";
 
-	if($rep=<GENIUS>) {
+	if(my $rep=<$genius_fh>) {
 		chomp $shd;
 		chomp $rep;
 
@@ -53,7 +61,7 @@ while(<TESTS>) {
 		}
 	}
 	print "\n";
-	close(GENIUS);
+	close($genius_fh);
 	system("mv gmon.out gmon${i}.out") if(-e "gmon.out");
 	$i++;
 }
