@@ -11,25 +11,27 @@ my $errorinputs = "";
 my $tests = 0;
 my $options = "";
 
-while(<$tests_fh>) {
+while (my $line = <$tests_fh>) {
 
-	my $command;
-	my $shd;
+	next unless $line =~ /
+		^
+		\s*						# in case there happens to be whitespace
+		([^\t]+)			# expression or keyword
+		(?:\t+|$)			# either the tab separator, or that's it
+		(.*?)					# expected result or keyword complement
+		\s*						# minus the whitespace if any
+		$
+		/x;
 
-	if(/^OPTIONS[ 	]+(.*)$/) {
-		$options = $1;
-		next;
-	} elsif(/^([^	]+)	+([^	]+)$/) {
-		$tests++;
-		$command = $1;
-		$shd=$2;
-	} elsif(/^([^	]+)$/) {
-		$tests++;
-		$command = $1;
-		$shd="";
-	} else {
+	if ($1 eq "OPTIONS") {
+		$options = $2;
 		next;
 	}
+
+	my $command = $1;
+	my $shd = $2 // "";
+
+	$tests++;
 
 	print "$command\n";
 	$command =~ s/'/'\\''/g;
@@ -37,7 +39,6 @@ while(<$tests_fh>) {
 		die "can't open the genius process pipe!";
 
 	if(my $rep=<$genius_fh>) {
-		chomp $shd;
 		chomp $rep;
 
 		print " (should be)=$shd\n";
@@ -48,7 +49,6 @@ while(<$tests_fh>) {
 			$errorinputs = $errorinputs . "\n$command";
 		}
 	} else {
-		chomp $shd;
 		print " (should be)=$shd\n";
 		print " (reported)=\n";
 		if($shd ne "") {
