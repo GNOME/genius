@@ -11,6 +11,17 @@ my $errorinputs = "";
 my $tests = 0;
 my $options = "";
 
+my $colours = -t STDOUT;
+
+sub cprintf {
+	my ($n, $m) = @_;
+	if ($colours) {
+		printf "\e[01;%im%s\e[0m\n", $n, $m;
+		return;
+	}
+	printf "%s\n", $m;
+}
+
 while (my $line = <$tests_fh>) {
 
 	next unless $line =~ /
@@ -29,35 +40,35 @@ while (my $line = <$tests_fh>) {
 	}
 
 	my $command = $1;
-	my $shd = $2 // "";
+	my $expected = $2 // "";
 
 	$tests++;
 
-	print "$command\n";
+	cprintf 34, $command;
 	$command =~ s/'/'\\''/g;
+
 	open(my $genius_fh, "-|" ,"./genius --exec='$command' $options") ||
 		die "can't open the genius process pipe!";
 
-	if(my $rep=<$genius_fh>) {
-		chomp $rep;
+	my $result = "ERROR!";
+	my $cc = 31; # colour code
+	my $returned = <$genius_fh> // "";
+	chomp $returned;
 
-		print " (should be)=$shd\n";
-		print " (reported)=$rep\n";
-		if($rep ne $shd) {
-			print "\e[01;31mERROR!\e[0m\n";
-			$errors++;
-			$errorinputs = $errorinputs . "\n$command";
-		}
+	if ($returned ne $expected) {
+		$errors++;
+		$errorinputs = $errorinputs . "\n$command";
+		$result = "ERROR! NO OUTPUT" if $returned eq "";
 	} else {
-		print " (should be)=$shd\n";
-		print " (reported)=\n";
-		if($shd ne "") {
-			print "\e[01;31mERROR! NO OUTPUT\e[0m\n";
-			$errors++;
-			$errorinputs = $errorinputs . "\n$command";
-		}
+		$result = "OK";
+		$cc = 32;
 	}
+
+	cprintf 33, "expected: $expected";
+	cprintf 33, "returned: $returned";
+	cprintf $cc, $result;
 	print "\n";
+
 	close($genius_fh);
 }
 
