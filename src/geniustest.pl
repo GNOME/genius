@@ -6,7 +6,6 @@ use strict;
 open(my $tests_fh, "<", "geniustests.txt")
 	|| die "can't open the geniustests.txt file";
 
-my $i = 0;
 my $errors = 0;
 my $errorinputs = "";
 my $tests = 0;
@@ -32,9 +31,7 @@ while(<$tests_fh>) {
 		next;
 	}
 
-	print "$1\n";
-	#something weird happens and the following modifies $1 and $2
-	#as well, I guess those can only be used from the last regexp
+	print "$command\n";
 	$command =~ s/'/'\\''/g;
 	open(my $genius_fh, "-|" ,"./genius --exec='$command' $options") ||
 		die "can't open the genius process pipe!";
@@ -62,8 +59,6 @@ while(<$tests_fh>) {
 	}
 	print "\n";
 	close($genius_fh);
-	system("mv gmon.out gmon${i}.out") if(-e "gmon.out");
-	$i++;
 }
 
 print "tests: $tests, errors: $errors\n";
