@@ -8,8 +8,8 @@
 msgid ""
 msgstr "Project-Id-Version: genius.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
-"POT-Creation-Date: 2022-09-05 08:13+0000\n"
-"PO-Revision-Date: 2023-04-06 10:00+0100\n"
+"POT-Creation-Date: 2023-04-06 08:28+0000\n"
+"PO-Revision-Date: 2023-08-20 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -1142,8 +1142,8 @@ msgstr "Erabili laugarren mailako Runge-Kutta metodo klasiko ez-moldagarria zenb
 #: ../lib/library-strings.c:246
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
-"solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an n"
-"+1 by 2 matrix of values"
+"solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an "
+"n+1 by 2 matrix of values"
 msgstr "Erabili laugarren mailako Runge-Kutta metodo klasiko ez-moldagarria zenbakiz ebazteko y'=f(x,y) hasierako x0 baliorako,y0 balioa x1-era joanez n gehikuntzekin, eta balioen n+1 bider 2 matrize bat itzulita"
 
 #: ../lib/library-strings.c:247
@@ -1713,7 +1713,7 @@ msgstr "Definitu gabeko aldagai bat erreferentziatzen."
 #, c-format
 msgid ""
 "Increment/Swapwith does not work on parameters (trying to increment '%s')"
-msgstr ""
+msgstr "Gehikuntzak/Trukatzeak ez du funtzionatzen parametroetan ('%s' gehitzen saiatzen)"
 
 #: ../src/eval.c:5977
 msgid "Increment not a value!"
@@ -2986,8 +2986,8 @@ msgstr "Kendu babesa aldagai bat aldatu ahal izan dadin.  Erabiltzaileak definit
 
 #: ../src/funclib.c:7364
 msgid ""
-"Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
-"\""
+"Set flags for a function, currently \"PropagateMod\" and "
+"\"NoModuloArguments\""
 msgstr "Ezarri markak funtzio batentzat, uneko honetan \"PropagateMod\" eta \"NoModuloArguments\""
 
 #: ../src/funclib.c:7365
@@ -3000,7 +3000,7 @@ msgstr "Egiaztatu aldagai edo funtzio bat definituta dagoen"
 
 #: ../src/funclib.c:7367
 msgid "Undefine a variable (including all locals and globals of the same name)"
-msgstr "Desdefinitu aldagai bat (izen bereko lokal eta global guztiak)"
+msgstr "Kendu definizioa aldagai bati (izen bereko lokal eta global guztiak)"
 
 #: ../src/funclib.c:7369
 msgid ""
@@ -3325,10 +3325,6 @@ msgstr "Birkargatu hautatutako programa diskotik"
 #. parent
 #. flags
 #. title
-#. parent
-#. flags
-#. title
-#. GTK_WINDOW (genius_window)
 #. parent
 #. flags
 #: ../src/gnome-genius.c:415 ../src/gnome-genius.c:1308
@@ -4300,7 +4296,6 @@ msgid "y:"
 msgstr "y:"
 
 #. title
-#. GTK_WINDOW (genius_window)
 #. parent
 #. flags
 #: ../src/graphing.c:2180
@@ -4452,7 +4447,7 @@ msgid ""
 "Type in function names or expressions involving the %s and %s variables (or "
 "the %s variable which will be %s=%s+i%s) that give the d%s/d%s and d%s/d%s "
 "of the autonomous system to be plotted at the point (%s,%s)."
-msgstr ""
+msgstr "Idatzi %s eta %s aldagaiekin (edo %s=%s+i%s izango den %s aldagaiarekin) lotuta dauden funtzio-izenak edo adierazpenak, sistema autonomoaren d%s/d%s and d%s/d%s eman dezaten eta (%s,%s) puntuan trazatu daitezen."
 
 #: ../src/graphing.c:5466
 #, c-format
@@ -4469,7 +4464,7 @@ msgid ""
 "them giving the %s and %s coordinates separately, or alternatively fill in "
 "the %s= box giving %s and %s as the real and imaginary part of a complex "
 "number."
-msgstr ""
+msgstr "Idatzi %s aldagaia erabiltzen duen funtzioaren izena edo adierazpena beheko koadroan, haien grafikoa sortzeko.  Bete bi koadroak %s= eta %s= balioekin, aurretik %s eta %s koordenatuak bakoitza bere aldetik emanda, edoo bestela, bete %s= koadroa %s eta %s zenbaki konplexu baten zati irudikari erreal gisa emanda."
 
 #: ../src/graphing.c:5511
 #, c-format
@@ -4798,7 +4793,7 @@ msgstr "%s: Ez dago marrazteko moduan. Agian LinePlot edo LinePlotClear exekutat
 msgid ""
 "%s: Points should be given as a real, n by 2 matrix with columns for x and "
 "y, n>=%d, or as a complex valued n by 1 matrix"
-msgstr ""
+msgstr "%s: Puntuak zenbaki erreal gisa eman beharko lirateke, x eta y zutabeak dituen n x 2 matrize gisa, non n>=%d, edo balio konplexua duen n x 1 matrize gisa."
 
 #: ../src/graphing.c:8654
 #, c-format
@@ -5049,26 +5044,26 @@ msgid ""
 "Plot surface data given as n by 3 matrix (n>=3) of data with each row being "
 "x,y,z.  Optionally can pass a label string and limits.  If no limits passed, "
 "limits computed from data."
-msgstr ""
+msgstr "Trazatu datuen n x 3 matrize (n>=3) gisa eman den gainazala, errenkada bakoitza x,y,z delarik. Aukeran, etiketa-kate bat eta bere mugak pasatu daitezke. Ez bada mugarik pasatzen, datuetatik abiatuta kalkulatuko dira."
 
 #: ../src/graphing.c:10927
 msgid ""
 "Plot surface data given as a matrix (where rows are the x coordinate and "
 "columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or "
 "optionally [x1,x2,y1,y2,z1,z2], and optionally a string for the label."
-msgstr ""
+msgstr "Trazatu datuen matrize gisa eman den gainazala (non errenkadak X koordenatua diren eta zutabeak Y koordenatua),  mugak [x1,x2,y1,y2] ematen dira edo, aukeran, [x1,x2,y1,y2,z1,z2] gisa eta, aukeran, kate bat etiketarako."
 
 #: ../src/graphing.c:10928
 msgid ""
 "Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  x1,y1,z1,x2,"
 "y2,z2 can be replaced by a n by 3 matrix for a longer line"
-msgstr ""
+msgstr "Marraztu marra bat x1,y1,z1 puntutik x2,y2,z3 puntura gainal-trazuan (3d).  x1,y1z1,,x2,y2,z3 balioen ordez, n x 3 matrize bat erabili daiteke marra luzeagoa egiteko."
 
 #: ../src/graphing.c:10929
 msgid ""
 "Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a "
 "n by 3 matrix for more points."
-msgstr ""
+msgstr "Marraztu puntu bat x,y,z matrize-trazuan (3d).  x,y,z balioen ordez, n x 3 matrize bat erabili daiteke puntu gehiago egiteko."
 
 #: ../src/graphing.c:10931
 msgid "Show the line plot window and clear out functions"
@@ -5113,23 +5108,23 @@ msgstr "Esportatu trazu-oihaleko uneko edukiak fitxategi batera. Fitxategi mota 
 
 #: ../src/graphing.c:10944
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
-msgstr ""
+msgstr "Malda-eremuen marken kopurua, bektore gisa [bertikala,horizontala]."
 
 #: ../src/graphing.c:10945
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
-msgstr ""
+msgstr "Bektore-eremuen marken kopurua, bektore gisa [bertikala,horizontala]."
 
 #: ../src/graphing.c:10946
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
-msgstr ""
+msgstr "2D trazu-funtzio guztiek erabilitako izen lehenetsiak. Kateen edo identifikatzaileen 4. mailako bektorea izan behar du [x,y,z,t]."
 
 #: ../src/graphing.c:10947
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
-msgstr ""
+msgstr "Gainazalen trazu-funtzio guztiek erabilitako izen lehenetsiak. Kateen edo identifikatzaileen 3. mailako bektorea izan behar du [x,y,z], non z=x+iy den eta ez mendeko ardatza)."
 
 #: ../src/graphing.c:10949
 msgid ""
