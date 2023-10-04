@@ -6343,16 +6343,25 @@ function_from_expression (const char *e, const char *var, gboolean *ex)
 		return NULL;
 
 	ce = g_strstrip (g_strdup (e));
-	if (is_identifier (ce) && strcmp (ce, var) != 0) {
+	if (is_identifier (ce) &&
+	    strcmp (ce, var) != 0) {
 		f = d_lookup_global (d_intern (ce));
-		g_free (ce);
-		if (f != NULL) {
+		if (f != NULL && f->nargs > 0) {
+			/* Is a function, so just pass that along */
+			g_free (ce);
 			f = d_copyfunc (f);
 			f->context = -1;
+			return f;
+		} else if (f != NULL) {
+			/* this is a constant, just evaluate it
+			 * as any other expression */
+			f = NULL;
 		} else {
+			/* can't find it, throw exception */
+			g_free (ce);
 			*ex = TRUE;
+			return NULL;
 		}
-		return f;
 	}
 
 	value = gel_parseexp (ce,
@@ -6404,14 +6413,22 @@ function_from_expression2 (const char *e,
 	    strcmp (ce, yname) != 0 &&
 	    strcmp (ce, zname) != 0) {
 		f = d_lookup_global (d_intern (ce));
-		g_free (ce);
-		if (f != NULL) {
+		if (f != NULL && f->nargs > 0) {
+			/* Is a function, so just pass that along */
+			g_free (ce);
 			f = d_copyfunc (f);
 			f->context = -1;
+			return f;
+		} else if (f != NULL) {
+			/* this is a constant, just evaluate it
+			 * as any other expression */
+			f = NULL;
 		} else {
+			/* can't find it, throw exception */
+			g_free (ce);
 			*ex = TRUE;
+			return NULL;
 		}
-		return f;
 	}
 
 	value = gel_parseexp (ce,
