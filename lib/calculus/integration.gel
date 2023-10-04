@@ -38,7 +38,6 @@ function CompositeSimpsonsRuleTolerance(f,a,b,FourthDerivativeBound,Tolerance) =
 	CompositeSimpsonsRule (f, a, b, n)
 )
 
-# FIXME: reference, though this is really stupid
 SetHelp ("MidpointRule", "calculus", "Integration by midpoint rule")
 function MidpointRule(f,a,b,n) =
 (
@@ -58,10 +57,68 @@ function MidpointRule(f,a,b,n) =
   (s*len)/n
 )
 
+SetHelp ("TrapezoidRule", "calculus", "Integration by trapezoid rule")
+function TrapezoidRule(f,a,b,n) =
+(
+  local *;
+  if(not IsFunction(f)) then
+	(error("TrapezoidRule: argument 1 must be a function");bailout)
+  else if(not IsReal(a) or not IsReal(b)) then
+	(error("TrapezoidRule: arguments 2, 3 must be real values");bailout)
+  else if(not IsInteger(n)) then
+	(error("TrapezoidRule: argument 4 must be an integer");bailout);
+  ## check bounds
+  if(a>b) then (error("TrapezoidRule: argument 2 must be less than or equal to argument 3");bailout)
+  else if(n<= 0) then (error("TrapezoidRule: argument 4 must be positive");bailout);
+
+  len = float(b-a);
+  s = sum i=1 to (n-1) do float(2*f(a+(len*i)/n));
+  s = s+f(a)+f(b);
+  (s*len)/(2*n)
+)
+
+SetHelp ("LeftHandRule", "calculus", "Integration by left hand rule")
+function LeftHandRule(f,a,b,n) =
+(
+  local *;
+  if(not IsFunction(f)) then
+	(error("LeftHandRule: argument 1 must be a function");bailout)
+  else if(not IsReal(a) or not IsReal(b)) then
+	(error("LeftHandRule: arguments 2, 3 must be real values");bailout)
+  else if(not IsInteger(n)) then
+	(error("LeftHandRule: argument 4 must be an integer");bailout);
+  ## check bounds
+  if(a>b) then (error("LeftHandRule: argument 2 must be less than or equal to argument 3");bailout)
+  else if(n<= 0) then (error("LeftHandRule: argument 4 must be positive");bailout);
+
+  len = float(b-a);
+  s = sum i=0 to (n-1) do float(f(a+(len*i)/n));
+  (s*len)/n
+)
+
+SetHelp ("RightHandRule", "calculus", "Integration by right hand rule")
+function RightHandRule(f,a,b,n) =
+(
+  local *;
+  if(not IsFunction(f)) then
+	(error("RightHandRule: argument 1 must be a function");bailout)
+  else if(not IsReal(a) or not IsReal(b)) then
+	(error("RightHandRule: arguments 2, 3 must be real values");bailout)
+  else if(not IsInteger(n)) then
+	(error("RightHandRule: argument 4 must be an integer");bailout);
+  ## check bounds
+  if(a>b) then (error("RightHandRule: argument 2 must be less than or equal to argument 3");bailout)
+  else if(n<= 0) then (error("RightHandRule: argument 4 must be positive");bailout);
+
+  len = float(b-a);
+  s = sum i=1 to n do float(f(a+(len*i)/n));
+  (s*len)/n
+)
+
 SetHelp ("NumericalIntegralSteps", "parameters", "Steps to perform in NumericalIntegral")
 parameter NumericalIntegralSteps = 1000
 
-SetHelp ("NumericalIntegralFunction", "parameters", "The function used for numerical integration in NumericalIntegral")
+SetHelp ("NumericalIntegralFunction", "parameters", "The function used for numerical integration in NumericalIntegral (by default CompositeSimpsonsRule)")
 parameter NumericalIntegralFunction = `CompositeSimpsonsRule
 
 SetHelp ("NumericalIntegral", "calculus", "Integration by rule set in NumericalIntegralFunction of f from a to b using NumericalIntegralSteps steps")

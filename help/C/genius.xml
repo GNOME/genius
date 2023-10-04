@@ -7354,6 +7354,14 @@ or <varname>b</varname> can be <constant>null</constant>.</para>
         </varlistentry>
 
         <varlistentry>
+         <term><anchor id="gel-function-LeftHandRule"/>LeftHandRule</term>
+         <listitem>
+          <synopsis>LeftHandRule (f,a,b,n)</synopsis>
+          <para>Integration by left hand rule on the interval [a,b] with n subintervals.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term><anchor id="gel-function-LeftLimit"/>LeftLimit</term>
          <listitem>
           <synopsis>LeftLimit (f,x0)</synopsis>
@@ -7373,7 +7381,7 @@ or <varname>b</varname> can be <constant>null</constant>.</para>
          <term><anchor id="gel-function-MidpointRule"/>MidpointRule</term>
          <listitem>
           <synopsis>MidpointRule (f,a,b,n)</synopsis>
-          <para>Integration by midpoint rule.</para>
+          <para>Integration by midpoint rule on the interval [a,b] with n subintervals.</para>
          </listitem>
         </varlistentry>
 
@@ -7525,7 +7533,8 @@ computed by numerical integration using
          <term><anchor id="gel-function-NumericalIntegral"/>NumericalIntegral</term>
          <listitem>
           <synopsis>NumericalIntegral (f,a,b)</synopsis>
-          <para>Integration by rule set in NumericalIntegralFunction of f from a to b using NumericalIntegralSteps steps.</para>
+	  <para>Integration by rule set in NumericalIntegralFunction of f from a to b using NumericalIntegralSteps steps.
+By default NumericalIntegralFunction is the CompositeSimpsonsRule.</para>
          </listitem>
         </varlistentry>
 
@@ -7606,10 +7615,26 @@ and has period <userinput>b-a</userinput>.</para>
         </varlistentry>
 
         <varlistentry>
+         <term><anchor id="gel-function-RightHandRule"/>RightHandRule</term>
+         <listitem>
+          <synopsis>RightHandRule (f,a,b,n)</synopsis>
+          <para>Integration by right hand rule on the interval [a,b] with n subintervals.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term><anchor id="gel-function-RightLimit"/>RightLimit</term>
          <listitem>
           <synopsis>RightLimit (f,x0)</synopsis>
           <para>Calculate the right limit of a real-valued function at x0.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-TrapezoidRule"/>TrapezoidRule</term>
+         <listitem>
+          <synopsis>TrapezoidRule (f,a,b,n)</synopsis>
+          <para>Integration by trapezoid rule on the interval [a,b] with n subintervals.</para>
          </listitem>
         </varlistentry>
 
