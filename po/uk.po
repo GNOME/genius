@@ -2,20 +2,21 @@
 # Copyright (C) 2020 genius's COPYRIGHT HOLDER
 # This file is distributed under the same license as the genius package.
 #
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
-"POT-Creation-Date: 2021-10-13 22:47+0000\n"
-"PO-Revision-Date: 2021-10-14 18:42+0300\n"
+"POT-Creation-Date: 2023-10-04 04:24+0000\n"
+"PO-Revision-Date: 2023-10-05 20:04+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Lokalize 20.12.0\n"
 
 #: ../lib/library-strings.c:1
@@ -92,9 +93,14 @@ msgid "Tolerance of the GaussDistribution function"
 msgstr "Припустиме відхилення для функції GaussDistribution"
 
 #: ../lib/library-strings.c:14
-msgid "The function used for numerical integration in NumericalIntegral"
+#| msgid "The function used for numerical integration in NumericalIntegral"
+msgid ""
+"The function used for numerical integration in NumericalIntegral (by default "
+"CompositeSimpsonsRule)"
 msgstr ""
 "Функція, яку буде використано для числового інтегрування у NumericalIntegral"
+" (типово "
+"CompositeSimpsonsRule)"
 
 #: ../lib/library-strings.c:15
 msgid "Steps to perform in NumericalIntegral"
@@ -759,7 +765,8 @@ msgstr "Отримати базову матрицю для простору р�
 #: ../lib/library-strings.c:151
 msgid ""
 "Evaluate (v,w) with respect to the sesquilinear form given by the matrix A"
-msgstr "Обчислити (v,w) відносно напівбілінійної форми, яку заданою матрицею A"
+msgstr ""
+"Обчислити (v,w) відносно напівбілінійної форми, яку заданою матрицею A"
 
 #: ../lib/library-strings.c:152
 msgid ""
@@ -985,10 +992,15 @@ msgstr ""
 "порівнянням отриманих значень"
 
 #: ../lib/library-strings.c:194
+#| msgid "Integration by midpoint rule"
+msgid "Integration by left hand rule"
+msgstr "Інтегрування за правилом лівої точки"
+
+#: ../lib/library-strings.c:195
 msgid "Calculate the left limit of a real-valued function at x0"
 msgstr "Обчислити границю ліворуч дійснозначної функції у точці x0"
 
-#: ../lib/library-strings.c:195
+#: ../lib/library-strings.c:196
 msgid ""
 "Calculate the limit of a real-valued function at x0.  Tries to calculate "
 "both left and right limits."
@@ -996,15 +1008,15 @@ msgstr ""
 "Обчислити границю дійснозначної функції у точці x0. Намагається обчислити "
 "границі ліворуч і праворуч."
 
-#: ../lib/library-strings.c:196
+#: ../lib/library-strings.c:197
 msgid "Integration by midpoint rule"
 msgstr "Інтегрування за правилом середньої точки"
 
-#: ../lib/library-strings.c:197
+#: ../lib/library-strings.c:198
 msgid "Attempt to calculate numerical derivative"
 msgstr "Спробувати обчислити похідну"
 
-#: ../lib/library-strings.c:198
+#: ../lib/library-strings.c:199
 msgid ""
 "Numerically compute the coefficients for a cosine Fourier series for a "
 "function on [0,L] up to the Nth coefficient."
@@ -1012,7 +1024,7 @@ msgstr ""
 "Обчислити коефіцієнти розкладу Фур'є за косинусами для функції на [0,L], аж "
 "до N-го коефіцієнта."
 
-#: ../lib/library-strings.c:199
+#: ../lib/library-strings.c:200
 msgid ""
 "Return a function which is the Fourier cosine series of f on [0,L] with "
 "coefficients up to N computed numerically"
@@ -1020,7 +1032,7 @@ msgstr ""
 "Повернути функцію, яка є розкладом за косинусами Фур'є функції f на [0,L] із "
 "коефіцієнтами, аж до N, обчисленими за допомогою числових методів"
 
-#: ../lib/library-strings.c:200
+#: ../lib/library-strings.c:201
 msgid ""
 "Numerically compute the coefficients for a Fourier series with half-period L "
 "up to the Nth coefficient."
@@ -1028,7 +1040,7 @@ msgstr ""
 "Обчислити коефіцієнти розкладу Фур'є для функції із пів періодом L, аж до N-"
 "го коефіцієнта."
 
-#: ../lib/library-strings.c:201
+#: ../lib/library-strings.c:202
 msgid ""
 "Return a function which is the Fourier series of f with half-period L with "
 "coefficients up to N computed numerically"
@@ -1036,7 +1048,7 @@ msgstr ""
 "Повернути функцію, яка є розкладом Фур'є функції f із пів періодом L із "
 "коефіцієнтами, аж до N, обчисленими за допомогою числових методів"
 
-#: ../lib/library-strings.c:202
+#: ../lib/library-strings.c:203
 msgid ""
 "Numerically compute the coefficients for a sine Fourier series for a "
 "function on [0,L] up to the Nth coefficient."
@@ -1044,7 +1056,7 @@ msgstr ""
 "Обчислити коефіцієнти розкладу Фур'є за синусами для функції на [0,L], аж до "
 "N-го коефіцієнта."
 
-#: ../lib/library-strings.c:203
+#: ../lib/library-strings.c:204
 msgid ""
 "Return a function which is the Fourier sine series of f on [0,L] with "
 "coefficients up to N computed numerically"
@@ -1052,7 +1064,7 @@ msgstr ""
 "Повернути функцію, яка є розкладом за синусами Фур'є функції f на [0,L] із "
 "коефіцієнтами, аж до N, обчисленими за допомогою числових методів"
 
-#: ../lib/library-strings.c:204
+#: ../lib/library-strings.c:205
 msgid ""
 "Integration by rule set in NumericalIntegralFunction of f from a to b using "
 "NumericalIntegralSteps steps"
@@ -1060,19 +1072,19 @@ msgstr ""
 "Інтегрування за встановленим у NumericalIntegralFunction правилом функції f "
 "від a до b з використанням кроків NumericalIntegralSteps"
 
-#: ../lib/library-strings.c:205
+#: ../lib/library-strings.c:206
 msgid "Attempt to calculate numerical left derivative"
 msgstr "Спробувати обчислити ліву похідну"
 
-#: ../lib/library-strings.c:206
+#: ../lib/library-strings.c:207
 msgid "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N"
 msgstr "Спробувати обчислити границю f(step_fun(i)) при i від 1 до N"
 
-#: ../lib/library-strings.c:207
+#: ../lib/library-strings.c:208
 msgid "Attempt to calculate numerical right derivative"
 msgstr "Спробувати обчислити праву похідну"
 
-#: ../lib/library-strings.c:208
+#: ../lib/library-strings.c:209
 msgid ""
 "Return a function which is the odd periodic extension of f defined on the "
 "interval [0,L]"
@@ -1080,15 +1092,15 @@ msgstr ""
 "Повертає функцію, яка є непарним періодичним продовженням функції f, яку "
 "визначено на відрізку [0,L]"
 
-#: ../lib/library-strings.c:209
+#: ../lib/library-strings.c:210
 msgid "Compute one-sided derivative using five point formula"
 msgstr "Обчислити однобічну похідну за допомогою п'ятиточкової формули"
 
-#: ../lib/library-strings.c:210
+#: ../lib/library-strings.c:211
 msgid "Compute one-sided derivative using three-point formula"
 msgstr "Обчислити однобічну похідну за допомогою триточкової формули"
 
-#: ../lib/library-strings.c:211
+#: ../lib/library-strings.c:212
 msgid ""
 "Return a function which is the periodic extension of f defined on the "
 "interval [a,b]"
@@ -1096,39 +1108,49 @@ msgstr ""
 "Повертає функцію, яка періодичним продовженням функції f, яку визначено на "
 "відрізку [a,b]"
 
-#: ../lib/library-strings.c:212
+#: ../lib/library-strings.c:213
+#| msgid "Integration by midpoint rule"
+msgid "Integration by right hand rule"
+msgstr "Інтегрування за правилом правої точки"
+
+#: ../lib/library-strings.c:214
 msgid "Calculate the right limit of a real-valued function at x0"
 msgstr "Обчислити границю праворуч дійснозначної функції у точці x0"
 
-#: ../lib/library-strings.c:213
+#: ../lib/library-strings.c:215
+#| msgid "Integration by midpoint rule"
+msgid "Integration by trapezoid rule"
+msgstr "Інтегрування за правилом трапецій"
+
+#: ../lib/library-strings.c:216
 msgid "Compute two-sided derivative using five-point formula"
 msgstr "Обчислити двобічну похідну за допомогою п'ятиточкової формули"
 
-#: ../lib/library-strings.c:214
+#: ../lib/library-strings.c:217
 msgid "Compute two-sided derivative using three-point formula"
 msgstr "Обчислити двобічну похідну за допомогою триточкової формули"
 
-#: ../lib/library-strings.c:215
+#: ../lib/library-strings.c:218
 msgid "argument (angle) of complex number"
 msgstr "аргумент комплексного числа"
 
-#: ../lib/library-strings.c:216
+#: ../lib/library-strings.c:219
 msgid "Dirichlet kernel of order n"
 msgstr "Ядро Діріхле порядку n"
 
-#: ../lib/library-strings.c:217
+#: ../lib/library-strings.c:220
 msgid "Returns 1 if and only if all elements are zero"
 msgstr "Повертає 1, лише якщо усі елементи є нульовими"
 
-#: ../lib/library-strings.c:218
+#: ../lib/library-strings.c:221
 msgid "Fejer kernel of order n"
 msgstr "Ядро Феєра порядку n"
 
-#: ../lib/library-strings.c:219
+#: ../lib/library-strings.c:222
 msgid "Returns 1 if and only if all elements are equal"
 msgstr "Повертає 1, лише якщо усі елементи є рівними"
 
-#: ../lib/library-strings.c:220
+#: ../lib/library-strings.c:223
 msgid ""
 "Principal branch of the Lambert W function for real values greater than or "
 "equal to -1/e"
@@ -1136,22 +1158,22 @@ msgstr ""
 "Головна гілка W-функції Ламберта для дійсних значень, які рівні або "
 "перевищують -1/e"
 
-#: ../lib/library-strings.c:221
+#: ../lib/library-strings.c:224
 msgid ""
 "The minus-one branch of the Lambert W function for real values between -1/e "
 "and 0"
 msgstr ""
 "Гілка «мінус один» функції Ламберта W для дійсних значень від -1/e до 0"
 
-#: ../lib/library-strings.c:222
+#: ../lib/library-strings.c:225
 msgid "Find the first value where f(x)=0"
 msgstr "Знайти перше значення, де f(x)=0"
 
-#: ../lib/library-strings.c:223
+#: ../lib/library-strings.c:226
 msgid "Moebius mapping of the disk to itself mapping a to 0"
 msgstr "Відображення Мебіуса диска на диск із відображенням a у 0"
 
-#: ../lib/library-strings.c:224
+#: ../lib/library-strings.c:227
 msgid ""
 "Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity "
 "respectively"
@@ -1159,7 +1181,7 @@ msgstr ""
 "Відображення Мебіуса з використанням ангармонічного відношення, яке "
 "переводить z2,z3,z4 у 1,0, та нескінченність, відповідно"
 
-#: ../lib/library-strings.c:225
+#: ../lib/library-strings.c:228
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 "
 "to 1 and 0 respectively"
@@ -1167,7 +1189,7 @@ msgstr ""
 "Відображення Мебіуса з використанням ангармонічного відношення, яке "
 "переводить нескінченність у нескінченність, а z2,z3 у 1 та 0, відповідно"
 
-#: ../lib/library-strings.c:226
+#: ../lib/library-strings.c:229
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 "
 "and infinity respectively"
@@ -1175,7 +1197,7 @@ msgstr ""
 "Відображення Мебіуса з використанням ангармонічного відношення, яке "
 "переводить нескінченність в 1, а z3, z4 у 0 і нескінченність, відповідно"
 
-#: ../lib/library-strings.c:227
+#: ../lib/library-strings.c:230
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 "
 "and infinity respectively"
@@ -1183,17 +1205,18 @@ msgstr ""
 "Відображення Мебіуса з використанням ангармонічного відношення, яке "
 "переводить нескінченність в 0, а z2, z4 у 1 і нескінченність, відповідно"
 
-#: ../lib/library-strings.c:228
+#: ../lib/library-strings.c:231
 msgid ""
 "Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is "
 "2pi)"
-msgstr "Ядро Пуассона на D(0,1) (не нормалізоване до 1, тобто з інтегралом 2π)"
+msgstr ""
+"Ядро Пуассона на D(0,1) (не нормалізоване до 1, тобто з інтегралом 2π)"
 
-#: ../lib/library-strings.c:229
+#: ../lib/library-strings.c:232
 msgid "Poisson kernel on D(0,R) (not normalized to 1)"
 msgstr "Ядро Пуассона на D(0,R) (не нормалізоване до 1)"
 
-#: ../lib/library-strings.c:230
+#: ../lib/library-strings.c:233
 msgid ""
 "The unit step function = 0 for x<0, 1 otherwise.  This is the integral of "
 "the Dirac Delta function."
@@ -1201,23 +1224,23 @@ msgstr ""
 "Одиночна сходинкова функція = 0 при x<0, 1 у інших точках. Це інтеграл "
 "делька-функції Дірака."
 
-#: ../lib/library-strings.c:231
+#: ../lib/library-strings.c:234
 msgid "The cis function, that is cos(x)+i*sin(x)"
 msgstr "Функція cis, яка дорівнює cos(x)+i*sin(x)"
 
-#: ../lib/library-strings.c:232
+#: ../lib/library-strings.c:235
 msgid "Convert degrees to radians"
 msgstr "Перетворити значення у градусах у радіани"
 
-#: ../lib/library-strings.c:233
+#: ../lib/library-strings.c:236
 msgid "Convert radians to degrees"
 msgstr "Перетворити радіани на градуси"
 
-#: ../lib/library-strings.c:234
+#: ../lib/library-strings.c:237
 msgid "Find roots of a cubic polynomial (given as vector of coefficients)"
 msgstr "Знайти корені кубічного полінома (за заданими вектором коефіцієнтів)"
 
-#: ../lib/library-strings.c:235
+#: ../lib/library-strings.c:238
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns y at x1"
@@ -1226,7 +1249,7 @@ msgstr ""
 "рівняння y'=f(x,y) для початкових умов x0,y0 при переході до x1 за n кроків, "
 "повертає y у x1"
 
-#: ../lib/library-strings.c:236
+#: ../lib/library-strings.c:239
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns an n+1 by 2 matrix of values"
@@ -1235,7 +1258,7 @@ msgstr ""
 "рівняння y'=f(x,y) для початкових умов x0,y0 при переході до x1 за n кроків, "
 "повертає матрицю значень n+1 на 2"
 
-#: ../lib/library-strings.c:237
+#: ../lib/library-strings.c:240
 msgid ""
 "Find root of a function using the bisection method to within TOL tolerance "
 "in up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1243,7 +1266,7 @@ msgstr ""
 "Знайти корінь функції за допомогою методу бісекції у межах допуску TOL за не "
 "більше, ніж N ітерацій. f(a) і f(b) мають бути різних знаків."
 
-#: ../lib/library-strings.c:238
+#: ../lib/library-strings.c:241
 msgid ""
 "Find root of a function using the method of false position to within TOL "
 "tolerance in up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1252,11 +1275,11 @@ msgstr ""
 "допуску TOL за не більше, ніж N ітерацій. f(a) і f(b) мають бути різних "
 "знаків."
 
-#: ../lib/library-strings.c:239
+#: ../lib/library-strings.c:242
 msgid "Find root of a function using the Muller's method"
 msgstr "Знайти корінь функції за допомогою методу Мюллера"
 
-#: ../lib/library-strings.c:240
+#: ../lib/library-strings.c:243
 msgid ""
 "Find root of a function using the secant method to within TOL tolerance in "
 "up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1264,7 +1287,7 @@ msgstr ""
 "Знайти корінь функції за допомогою методу хорд у межах допуску TOL за не "
 "більше, ніж N ітерацій. f(a) і f(b) мають бути різних знаків."
 
-#: ../lib/library-strings.c:241
+#: ../lib/library-strings.c:244
 msgid ""
 "Attempt to find a zero of a function f with derivative df and second "
 "derivative ddf using Halley's method, returning after two successive values "
@@ -1275,7 +1298,7 @@ msgstr ""
 "відрізняються не більше, ніж на epsilon, або після maxn спроб (у цьому "
 "випадку повертає null)"
 
-#: ../lib/library-strings.c:242
+#: ../lib/library-strings.c:245
 msgid ""
 "Attempt to find a zero of a function f with derivative df using Newton's "
 "method, returning after two successive values are within epsilon or after "
@@ -1285,16 +1308,16 @@ msgstr ""
 "повертає значення, якщо два послідовних значення відрізняються не більше, "
 "ніж на epsilon, або після maxn спроб (у цьому випадку повертає null)"
 
-#: ../lib/library-strings.c:243
+#: ../lib/library-strings.c:246
 msgid "Find roots of a polynomial (given as vector of coefficients)"
 msgstr "Знайти корені полінома (за заданими вектором коефіцієнтів)"
 
-#: ../lib/library-strings.c:244
+#: ../lib/library-strings.c:247
 msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
 msgstr ""
 "Знайти корені полінома четвертого степеня (за заданими вектором коефіцієнтів)"
 
-#: ../lib/library-strings.c:245
+#: ../lib/library-strings.c:248
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
@@ -1304,46 +1327,47 @@ msgstr ""
 "для отримання числового розв'язку рівняння y'=f(x,y) для початкових умов x0,"
 "y0 при переході до x1 за n кроків, повертає y у x1"
 
-#: ../lib/library-strings.c:246
+#: ../lib/library-strings.c:249
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
-"solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an n"
-"+1 by 2 matrix of values"
+"solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an "
+"n+1 by 2 matrix of values"
 msgstr ""
 "Використатися класичний неадаптивний метод Рунґе-Кутти четвертого порядку "
 "для отримання числового розв'язку рівняння y'=f(x,y) для початкових умов x0,"
 "y0 при переході до x1 за n кроків, повертає матрицю n+1 на 2 зі значень"
 
-#: ../lib/library-strings.c:247
+#: ../lib/library-strings.c:250
 msgid "Calculate average of an entire matrix"
 msgstr "Обчислити середнє значення за усіма елементами матриці"
 
-#: ../lib/library-strings.c:248
-msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
+#: ../lib/library-strings.c:251
+msgid ""
+"Integral of the GaussFunction from 0 to x (area under the normal curve)"
 msgstr ""
 "Інтеграл функції Гауса від 0 до x (площа під кривою нормального розподілу)"
 
-#: ../lib/library-strings.c:249
+#: ../lib/library-strings.c:252
 msgid "The normalized Gauss distribution function (the normal curve)"
 msgstr "Нормалізована функція розподілу Гауса (нормальна крива)"
 
-#: ../lib/library-strings.c:250
+#: ../lib/library-strings.c:253
 msgid "Calculate median of an entire matrix"
 msgstr "Обчислити медіану усієї матриці"
 
-#: ../lib/library-strings.c:251
+#: ../lib/library-strings.c:254
 msgid "Calculate the population standard deviation of a whole matrix"
 msgstr "Обчислити стандартне відхилення вибірки за усією матрицю"
 
-#: ../lib/library-strings.c:252
+#: ../lib/library-strings.c:255
 msgid "Calculate average of each row in a matrix"
 msgstr "Обчислити середнє за кожним рядком у матриці"
 
-#: ../lib/library-strings.c:253
+#: ../lib/library-strings.c:256
 msgid "Calculate median of each row in a matrix"
 msgstr "Обчислити медіану кожного рядка у матриці"
 
-#: ../lib/library-strings.c:254
+#: ../lib/library-strings.c:257
 msgid ""
 "Calculate the population standard deviations of rows of a matrix and return "
 "a vertical vector"
@@ -1351,7 +1375,7 @@ msgstr ""
 "Обчислити стандартні відхилення вибірки за рядками матриці і повернути "
 "вертикальний вектор"
 
-#: ../lib/library-strings.c:255
+#: ../lib/library-strings.c:258
 msgid ""
 "Calculate the standard deviations of rows of a matrix and return a vertical "
 "vector"
@@ -1359,11 +1383,11 @@ msgstr ""
 "Обчислити стандартні відхилення за рядками матриці і повернути вертикальний "
 "вектор"
 
-#: ../lib/library-strings.c:256
+#: ../lib/library-strings.c:259
 msgid "Calculate the standard deviation of a whole matrix"
 msgstr "Обчислити стандартне відхилення за усією матрицю"
 
-#: ../lib/library-strings.c:257
+#: ../lib/library-strings.c:260
 msgid ""
 "Attempt to find a root of a polynomial using Newton's method, returning "
 "after two successive values are within epsilon or after maxn tries (then "
@@ -1373,11 +1397,11 @@ msgstr ""
 "значення, якщо два послідовних значення відрізняються не більше, ніж на "
 "epsilon, або після maxn спроб (у цьому випадку повертає null)"
 
-#: ../lib/library-strings.c:258
+#: ../lib/library-strings.c:261
 msgid "Returns a set where every element of X appears only once"
 msgstr "Повертає набір, у якому кожен елемент X з'являється лише раз"
 
-#: ../lib/library-strings.c:259
+#: ../lib/library-strings.c:262
 msgid ""
 "Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
 "be sets)"
@@ -1385,7 +1409,7 @@ msgstr ""
 "Повертає набір теоретичного об'єднання X і Y (X і Y вектори, які претендують "
 "на те, щоб бути множинами)"
 
-#: ../lib/library-strings.c:260
+#: ../lib/library-strings.c:263
 msgid ""
 "For a Hilbert function that is c for degree d, given the Macaulay bound for "
 "the Hilbert function of degree d+1 (The c^<d> operator from Green's proof)"
@@ -1393,19 +1417,19 @@ msgstr ""
 "Для функції Гільберта, яка дорівнює c для порядку d, за заданою межею "
 "Маколея для функцією Гільберта порядку d+1 (оператор c^<d> з доведення Ґріна)"
 
-#: ../lib/library-strings.c:261
+#: ../lib/library-strings.c:264
 msgid "The c_<d> operator from Green's proof of Macaulay's Theorem"
 msgstr "Оператор c_<d> із доведення Ґріна теореми Маколея"
 
-#: ../lib/library-strings.c:262
+#: ../lib/library-strings.c:265
 msgid "Return the dth Macaulay representation of a positive integer c"
 msgstr "Повернути d-те представлення Маколея додатного цілого c"
 
-#: ../lib/library-strings.c:263
+#: ../lib/library-strings.c:266
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "Спробувати символічно диференціювати функцію n разів"
 
-#: ../lib/library-strings.c:264
+#: ../lib/library-strings.c:267
 msgid ""
 "Attempt to symbolically differentiate a function n times quietly and return "
 "null on failure"
@@ -1413,7 +1437,7 @@ msgstr ""
 "Спробувати символічно диференціювати функцію n разів без повідомлень — "
 "повернути null, якщо станеться помилка"
 
-#: ../lib/library-strings.c:265
+#: ../lib/library-strings.c:268
 msgid ""
 "Attempt to construct the Taylor approximation function around x0 to the nth "
 "degree."
@@ -1727,7 +1751,8 @@ msgstr "Не можна ділити на неквадратну матрицю"
 #: ../src/eval.c:2780 ../src/eval.c:2807 ../src/eval.c:2828 ../src/eval.c:2852
 #: ../src/eval.c:2900
 msgid "Operations on functions with variable argument list not supported"
-msgstr "Підтримки дій з функціями зі змінним списком аргументів не передбачено"
+msgstr ""
+"Підтримки дій з функціями зі змінним списком аргументів не передбачено"
 
 #: ../src/eval.c:2785
 msgid ""
@@ -1743,7 +1768,7 @@ msgstr "Створення функції із помилковою кількі
 msgid "Unevaluatable function type encountered!"
 msgstr "Виявлено непридатний до обчислення тип функції!"
 
-#: ../src/eval.c:3510 ../src/graphing.c:5979
+#: ../src/eval.c:3510 ../src/graphing.c:5989
 msgid "or"
 msgstr "або"
 
@@ -2271,7 +2296,7 @@ msgid "%s: Input not a number or a matrix of numbers."
 msgstr "%s: вхідні дані не є числом або матрицею з чисел."
 
 #: ../src/funclib.c:3437 ../src/funclib.c:3495 ../src/funclib.c:5082
-#: ../src/funclib.c:5376 ../src/graphing.c:10336
+#: ../src/funclib.c:5376 ../src/graphing.c:10405
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: забагато аргументів"
@@ -2822,7 +2847,8 @@ msgstr "Перевірити, чи є ціле число непарним"
 
 #: ../src/funclib.c:7224
 msgid "Returns the least prime greater than n (if n is positive)"
-msgstr "Повертає найменше просте число, яке є більшим за n (якщо n є додатним)"
+msgstr ""
+"Повертає найменше просте число, яке є більшим за n (якщо n є додатним)"
 
 #: ../src/funclib.c:7225
 msgid "Returns the nth Lucas number"
@@ -3013,7 +3039,8 @@ msgstr "Перевірити, чи складається матриця з чи
 
 #: ../src/funclib.c:7301
 msgid "Check if a matrix is an integer (non-complex) matrix"
-msgstr "Перевірити, чи складається матриця лише з цілих (не комплексних) чисел"
+msgstr ""
+"Перевірити, чи складається матриця лише з цілих (не комплексних) чисел"
 
 #: ../src/funclib.c:7302
 msgid "Check if a matrix is a rational (non-complex) matrix"
@@ -3253,8 +3280,8 @@ msgstr ""
 
 #: ../src/funclib.c:7364
 msgid ""
-"Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
-"\""
+"Set flags for a function, currently \"PropagateMod\" and "
+"\"NoModuloArguments\""
 msgstr ""
 "Встановити прапорці для функції, у поточному стані, «PropagateMod» і "
 "«NoModuloArguments»"
@@ -3268,7 +3295,8 @@ msgid "Check if a variable or function is defined"
 msgstr "Перевірити, чи визначено змінну або функцію"
 
 #: ../src/funclib.c:7367
-msgid "Undefine a variable (including all locals and globals of the same name)"
+msgid ""
+"Undefine a variable (including all locals and globals of the same name)"
 msgstr ""
 "Скасувати визначення змінної (включно із усіма локальними і загальними "
 "змінними і тією самою назвою)"
@@ -3358,7 +3386,7 @@ msgstr "%s: аргумент %d не є невід'ємним числом"
 msgid "%s: argument number %d not a positive integer"
 msgstr "%s: аргумент %d не є додатним числом"
 
-#: ../src/funclibhelper.cP:125 ../src/graphing.c:3385
+#: ../src/funclibhelper.cP:125 ../src/graphing.c:3394
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: аргумент %d не є числом"
@@ -3547,7 +3575,7 @@ msgstr ""
 "Щоб ознайомитися з довідкою, введіть «manual» або «help».%s\n"
 "\n"
 
-#: ../src/genius.c:631 ../src/gnome-genius.c:5557
+#: ../src/genius.c:631 ../src/gnome-genius.c:5564
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -3583,7 +3611,7 @@ msgid "Open R_ecent"
 msgstr "Відкрити _нещодавні"
 
 #: ../src/gnome-genius.c:403 ../src/gnome-genius.c:4201
-#: ../src/gnome-genius.c:4326 ../src/graphing.c:1225
+#: ../src/gnome-genius.c:4326 ../src/graphing.c:1230
 msgid "_Save"
 msgstr "З_берегти"
 
@@ -3620,13 +3648,9 @@ msgstr "Перезавантажити позначену програму з д
 #. title
 #. parent
 #. flags
-#. title
-#. GTK_WINDOW (genius_window)
-#. parent
-#. flags
 #: ../src/gnome-genius.c:415 ../src/gnome-genius.c:1308
-#: ../src/gnome-genius.c:1513 ../src/graphing.c:622 ../src/graphing.c:1976
-#: ../src/graphing.c:2167 ../src/graphing.c:7290 ../ve/ve-miscui.c:167
+#: ../src/gnome-genius.c:1513 ../src/graphing.c:627 ../src/graphing.c:1981
+#: ../src/graphing.c:2182 ../src/graphing.c:7323 ../ve/ve-miscui.c:167
 msgid "_Close"
 msgstr "З_акрити"
 
@@ -3707,7 +3731,8 @@ msgstr "Копіювати відповідь як зви_чайний текс�
 
 #: ../src/gnome-genius.c:456
 msgid "Copy last answer into the clipboard in plain text"
-msgstr "Копіювати останню відповідь до буфера обміну даними як звичайний текст"
+msgstr ""
+"Копіювати останню відповідь до буфера обміну даними як звичайний текст"
 
 #: ../src/gnome-genius.c:458
 msgid "Copy Answer As _LaTeX"
@@ -3899,7 +3924,7 @@ msgstr "Відкрити"
 msgid "Save"
 msgstr "Зберегти"
 
-#: ../src/gnome-genius.c:711 ../src/graphing.c:2162
+#: ../src/gnome-genius.c:711 ../src/graphing.c:2177
 msgid "Plot"
 msgstr "Креслення"
 
@@ -3912,8 +3937,8 @@ msgstr "Креслення"
 #: ../src/gnome-genius.c:871 ../src/gnome-genius.c:935
 #: ../src/gnome-genius.c:1588 ../src/gnome-genius.c:2432
 #: ../src/gnome-genius.c:3004 ../src/gnome-genius.c:3970
-#: ../src/gnome-genius.c:4202 ../src/gnome-genius.c:4327 ../src/graphing.c:850
-#: ../src/graphing.c:1224 ../src/graphing.c:5627 ../src/graphing.c:5744
+#: ../src/gnome-genius.c:4202 ../src/gnome-genius.c:4327 ../src/graphing.c:855
+#: ../src/graphing.c:1229 ../src/graphing.c:5636 ../src/graphing.c:5754
 #: ../ve/ve-miscui.c:178 ../ve/ve-miscui.c:206
 msgid "_Cancel"
 msgstr "_Скасувати"
@@ -3925,7 +3950,7 @@ msgstr "_Скасувати"
 #. flags
 #: ../src/gnome-genius.c:872 ../src/gnome-genius.c:936
 #: ../src/gnome-genius.c:1078 ../src/gnome-genius.c:1589
-#: ../src/gnome-genius.c:2433 ../src/graphing.c:5625 ../src/graphing.c:5742
+#: ../src/gnome-genius.c:2433 ../src/graphing.c:5634 ../src/graphing.c:5752
 #: ../ve/ve-miscui.c:156 ../ve/ve-miscui.c:211
 msgid "_OK"
 msgstr "_Гаразд"
@@ -4208,19 +4233,16 @@ msgid "Blinking cursor"
 msgstr "Миготливий курсор"
 
 #: ../src/gnome-genius.c:2755
-#| msgid "_Edit"
 msgid "Editor"
 msgstr "Редактор"
 
 #: ../src/gnome-genius.c:2757
-#| msgid "Terminal options"
 msgid "Editor options"
 msgstr "Параметри редактора"
 
 #: ../src/gnome-genius.c:2766
 msgid "Color scheme"
-msgstr ""
-"Схема кольорів"
+msgstr "Схема кольорів"
 
 #: ../src/gnome-genius.c:2812
 msgid "Memory"
@@ -4258,7 +4280,7 @@ msgstr ""
 msgid "GEL files"
 msgstr "файли GEL"
 
-#: ../src/gnome-genius.c:2931 ../src/graphing.c:1250
+#: ../src/gnome-genius.c:2931 ../src/graphing.c:1255
 msgid "All files"
 msgstr "усі файли"
 
@@ -4287,7 +4309,7 @@ msgid "Cannot open file"
 msgstr "Не вдалося відкрити файл"
 
 #. context
-#: ../src/gnome-genius.c:3591 ../src/gnome-genius.c:5143
+#: ../src/gnome-genius.c:3591 ../src/gnome-genius.c:5150
 #, c-format
 msgid "Line: %d"
 msgstr "Рядок: %d"
@@ -4417,8 +4439,9 @@ msgstr ""
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: ../src/gnome-genius.c:4795
-msgid "Memory (node number) limit has been reached, interrupt the computation?"
+#: ../src/gnome-genius.c:4802
+msgid ""
+"Memory (node number) limit has been reached, interrupt the computation?"
 msgstr ""
 "Перевищено обмеження на об'єм пам'яті (кількість вузлів), перервати "
 "обчислення?"
@@ -4428,17 +4451,17 @@ msgstr ""
 #. textbox_title
 #. bind_response
 #. wrap
-#: ../src/gnome-genius.c:4910
+#: ../src/gnome-genius.c:4917
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Не вдалося виконати genius-readline-helper-fifo!\n"
 
-#: ../src/gnome-genius.c:4971
+#: ../src/gnome-genius.c:4978
 msgid "Readline helper died, weird.  Trying to recover, things may be odd."
 msgstr ""
 "Допоміжний засіб Readline несподівано завершив роботу. Спробуємо відновити "
 "дані — результат може бути неочікуваним."
 
-#: ../src/gnome-genius.c:5164
+#: ../src/gnome-genius.c:5171
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -4447,13 +4470,13 @@ msgstr ""
 "Зауваження: зібрано без GtkSourceView (кращого редактора коду)"
 
 #. parent
-#: ../src/gnome-genius.c:5297
+#: ../src/gnome-genius.c:5304
 msgid "Cannot find the library file, genius installation may be incorrect"
 msgstr ""
 "Не вдалося знайти файл бібліотеки. Ймовірно, genius встановлено неправильно"
 
 #. parent
-#: ../src/gnome-genius.c:5310
+#: ../src/gnome-genius.c:5317
 msgid ""
 "A file .genius in the home directory exists, but it should be a directory. "
 "Genius will not be able to save preferences."
@@ -4461,11 +4484,11 @@ msgstr ""
 "У домашньому каталозі вже існує файл .genius, але там має бути такий "
 "каталог. Genius не зможе зберегти параметри."
 
-#: ../src/gnome-genius.c:5399
+#: ../src/gnome-genius.c:5406
 msgid "Console"
 msgstr "Консоль"
 
-#: ../src/gnome-genius.c:5450
+#: ../src/gnome-genius.c:5457
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -4482,7 +4505,7 @@ msgstr ""
 "Щоб отримати довідку, віддайте команду «%smanual%s» або «%shelp%s».%s\n"
 "\n"
 
-#: ../src/gnome-genius.c:5635
+#: ../src/gnome-genius.c:5642
 msgid "GNOME Genius"
 msgstr "GNOME Genius"
 
@@ -4503,106 +4526,106 @@ msgstr ""
 "Graphing;Function;Number Theory;математика;матриця;вектор;лінійна алгебра;"
 "аналіз;креслення;графік;функція;теорія чисел;"
 
-#: ../src/graphing.c:619
+#: ../src/graphing.c:624
 msgid "Rotate"
 msgstr "Обертати"
 
-#: ../src/graphing.c:636 ../src/graphing.c:667
+#: ../src/graphing.c:641 ../src/graphing.c:672
 #, c-format
 msgid "Rotate about %s axis: "
 msgstr "Обертання навколо вісі %s: "
 
-#: ../src/graphing.c:698
+#: ../src/graphing.c:703
 msgid "Rotate about dependent axis: "
 msgstr "Обертання навколо залежної вісі: "
 
-#: ../src/graphing.c:847
+#: ../src/graphing.c:852
 msgid "Print"
 msgstr "Надрукувати"
 
-#: ../src/graphing.c:852
+#: ../src/graphing.c:857
 msgid "_Print"
 msgstr "_Надрукувати"
 
-#: ../src/graphing.c:862
+#: ../src/graphing.c:867
 msgid "Print command: "
 msgstr "Команда друку: "
 
-#: ../src/graphing.c:892
+#: ../src/graphing.c:897
 msgid "Cannot open temporary file, cannot print."
 msgstr "Не вдалося відкрити тимчасовий файл. Друк неможливий."
 
-#: ../src/graphing.c:921
+#: ../src/graphing.c:926
 msgid "Printing failed"
 msgstr "Не вдалось надрукувати"
 
-#: ../src/graphing.c:934
+#: ../src/graphing.c:939
 #, c-format
 msgid "Printing failed: %s"
 msgstr "Помилка друку: %s"
 
-#: ../src/graphing.c:1008 ../src/graphing.c:1149
+#: ../src/graphing.c:1013 ../src/graphing.c:1154
 msgid "File already exists.  Overwrite it?"
 msgstr "Файл вже існує. Перезаписати його?"
 
-#: ../src/graphing.c:1108 ../src/graphing.c:1164 ../src/graphing.c:1179
+#: ../src/graphing.c:1113 ../src/graphing.c:1169 ../src/graphing.c:1184
 msgid "Export failed"
 msgstr "Не вдалося експортувати"
 
-#: ../src/graphing.c:1204
+#: ../src/graphing.c:1209
 msgid "Export encapsulated postscript"
 msgstr "Експортування до інкапсульованого PostScript"
 
-#: ../src/graphing.c:1206
+#: ../src/graphing.c:1211
 msgid "Export postscript"
 msgstr "Експортування до PostScript"
 
-#: ../src/graphing.c:1208
+#: ../src/graphing.c:1213
 msgid "Export PDF"
 msgstr "Експортувати до PDF"
 
-#: ../src/graphing.c:1210
+#: ../src/graphing.c:1215
 msgid "Export PNG"
 msgstr "Експортування до PNG"
 
-#: ../src/graphing.c:1217
+#: ../src/graphing.c:1222
 msgid "Missing ps2pdf command, perhaps ghostscript is not installed."
 msgstr "Не знайдено програми ps2pdf. Ймовірно, не встановлено ghostscript."
 
-#: ../src/graphing.c:1232
+#: ../src/graphing.c:1237
 msgid "EPS files"
 msgstr "файли EPS"
 
-#: ../src/graphing.c:1236
+#: ../src/graphing.c:1241
 msgid "PS files"
 msgstr "файли PS"
 
-#: ../src/graphing.c:1240
+#: ../src/graphing.c:1245
 msgid "PDF files"
 msgstr "файли PDF"
 
-#: ../src/graphing.c:1244
+#: ../src/graphing.c:1249
 msgid "PNG files"
 msgstr "файли PNG"
 
-#: ../src/graphing.c:1259
+#: ../src/graphing.c:1264
 msgid "Generate preview in EPS file (with ps2epsi)"
 msgstr ""
 "Створити зображення попереднього перегляду у файлі EPS (за допомогою ps2epsi)"
 
-#: ../src/graphing.c:1973
+#: ../src/graphing.c:1978
 msgid "Solver"
 msgstr "Розв'язувач"
 
-#: ../src/graphing.c:1978
+#: ../src/graphing.c:1983
 msgid "Clea_r solutions"
 msgstr "Споро_жнити розв'язки"
 
-#: ../src/graphing.c:1980
+#: ../src/graphing.c:1985
 msgid "_Plot solution"
 msgstr "_Накреслити розв'язок"
 
-#: ../src/graphing.c:1999
+#: ../src/graphing.c:2004
 msgid ""
 "Clicking on the graph window now will draw a solution according to the "
 "parameters set below, starting at the point clicked.  To be able to zoom by "
@@ -4613,160 +4636,159 @@ msgstr ""
 "клацання. Щоб мати змогу знову масштабувати зображення за допомогою миші, "
 "закрийте це вікно."
 
-#: ../src/graphing.c:2015
+#: ../src/graphing.c:2020
 msgid "X increment:"
 msgstr "Приріст за X:"
 
-#: ../src/graphing.c:2032
+#: ../src/graphing.c:2037
 msgid "T increment:"
 msgstr "Приріст за T:"
 
-#: ../src/graphing.c:2034
+#: ../src/graphing.c:2039
 msgid "T interval length:"
 msgstr "Довжина інтервалу T:"
 
-#: ../src/graphing.c:2052
+#: ../src/graphing.c:2057
 msgid "Point x:"
 msgstr "Точка x:"
 
-#: ../src/graphing.c:2054
+#: ../src/graphing.c:2059
 msgid "y:"
 msgstr "y:"
 
 #. title
-#. GTK_WINDOW (genius_window)
 #. parent
 #. flags
-#: ../src/graphing.c:2165
+#: ../src/graphing.c:2180
 msgid "_Stop"
 msgstr "З_упинити"
 
-#: ../src/graphing.c:2197
+#: ../src/graphing.c:2212
 msgid "_Graph"
 msgstr "_Графік"
 
-#: ../src/graphing.c:2201
+#: ../src/graphing.c:2216
 msgid "_Print..."
 msgstr "Д_рук…"
 
-#: ../src/graphing.c:2207
+#: ../src/graphing.c:2222
 msgid "_Export postscript..."
 msgstr "_Експортувати до PostScript…"
 
-#: ../src/graphing.c:2213
+#: ../src/graphing.c:2228
 msgid "E_xport encapsulated postscript..."
 msgstr "Е_кспортувати до інкапсульованого PostScript…"
 
-#: ../src/graphing.c:2220
+#: ../src/graphing.c:2235
 msgid "Export P_DF..."
 msgstr "Експ_ортувати до PDF…"
 
-#: ../src/graphing.c:2229
+#: ../src/graphing.c:2244
 msgid "Export P_NG..."
 msgstr "Експорт_увати до PNG…"
 
-#: ../src/graphing.c:2241
+#: ../src/graphing.c:2256
 msgid "_Zoom"
 msgstr "_Масштаб"
 
-#: ../src/graphing.c:2245
+#: ../src/graphing.c:2260
 msgid "Zoom _out"
 msgstr "З_меншити"
 
-#: ../src/graphing.c:2252
+#: ../src/graphing.c:2267
 msgid "Zoom _in"
 msgstr "З_більшити"
 
-#: ../src/graphing.c:2259
+#: ../src/graphing.c:2274
 msgid "_Fit dependent axis"
 msgstr "З_а залежною віссю"
 
-#: ../src/graphing.c:2266
+#: ../src/graphing.c:2281
 msgid "_Reset to original zoom"
 msgstr "Від_новити початковий масштаб"
 
-#: ../src/graphing.c:2279
+#: ../src/graphing.c:2294
 msgid "_View"
 msgstr "П_ерегляд"
 
-#: ../src/graphing.c:2284
+#: ../src/graphing.c:2299
 msgid "_Reset angles"
 msgstr "С_кинути кути"
 
-#: ../src/graphing.c:2289
+#: ../src/graphing.c:2304
 msgid "_Top view"
 msgstr "Вид з_гори"
 
-#: ../src/graphing.c:2294
+#: ../src/graphing.c:2309
 msgid "R_otate axis..."
 msgstr "О_бертати вісь…"
 
-#: ../src/graphing.c:2299
+#: ../src/graphing.c:2314
 msgid "Start rotate _animation..."
 msgstr "Почати _анімацію обертання…"
 
-#: ../src/graphing.c:2304
+#: ../src/graphing.c:2319
 msgid "Stop rotate a_nimation..."
 msgstr "Зав_ершити анімацію обертання…"
 
-#: ../src/graphing.c:2314
+#: ../src/graphing.c:2329
 msgid "_Solver"
 msgstr "_Розв'язувач"
 
-#: ../src/graphing.c:2319
+#: ../src/graphing.c:2334
 msgid "_Solver..."
 msgstr "_Розв'язувач…"
 
-#: ../src/graphing.c:2324
+#: ../src/graphing.c:2339
 msgid "_Clear solutions"
 msgstr "Сп_орожнити розв'язки"
 
-#: ../src/graphing.c:2355
+#: ../src/graphing.c:2370
 msgid "Errors during plotting (possibly harmless), see the console."
 msgstr "Помилка під час креслення (можливо, не варті уваги), див. консоль."
 
-#: ../src/graphing.c:3374
+#: ../src/graphing.c:3383
 #, c-format
 msgid "Function"
 msgstr "Функція"
 
-#: ../src/graphing.c:3376
+#: ../src/graphing.c:3385
 #, c-format
 msgid "Function #%d"
 msgstr "Функція %d"
 
-#: ../src/graphing.c:3398
+#: ../src/graphing.c:3407
 msgid "Graph limits not given as a 4-vector"
 msgstr "Межі графіка на задано у формі вектора з 4 компонентів"
 
-#: ../src/graphing.c:3404 ../src/graphing.c:3415 ../src/graphing.c:3426
-#: ../src/graphing.c:3437 ../src/graphing.c:3480 ../src/graphing.c:3491
-#: ../src/graphing.c:3589 ../src/graphing.c:3600 ../src/graphing.c:3611
-#: ../src/graphing.c:3622 ../src/graphing.c:3633 ../src/graphing.c:3644
+#: ../src/graphing.c:3413 ../src/graphing.c:3424 ../src/graphing.c:3435
+#: ../src/graphing.c:3446 ../src/graphing.c:3489 ../src/graphing.c:3500
+#: ../src/graphing.c:3598 ../src/graphing.c:3609 ../src/graphing.c:3620
+#: ../src/graphing.c:3631 ../src/graphing.c:3642 ../src/graphing.c:3653
 msgid "Graph limits not given as numbers"
 msgstr "Межі графіка не задано як числа"
 
-#: ../src/graphing.c:3474
+#: ../src/graphing.c:3483
 msgid "Graph limits not given as a 2-vector"
 msgstr "Межі графіка на задано у формі вектора з 2 компонентів"
 
-#: ../src/graphing.c:3583
+#: ../src/graphing.c:3592
 msgid "Graph limits not given as a 6-vector"
 msgstr "Межі графіка на задано у формі вектора з 6 компонентів"
 
-#: ../src/graphing.c:3717 ../src/graphing.c:3735 ../src/graphing.c:3749
+#: ../src/graphing.c:3726 ../src/graphing.c:3744 ../src/graphing.c:3758
 msgid "Ticks must be between 2 and 200"
 msgstr "Кількість поділок має бути значенням від 2 до 200"
 
-#: ../src/graphing.c:3726 ../src/graphing.c:3740
+#: ../src/graphing.c:3735 ../src/graphing.c:3749
 msgid "Ticks not given as numbers"
 msgstr "Поділки не задано як числа"
 
-#: ../src/graphing.c:3754
+#: ../src/graphing.c:3763
 msgid "Ticks not given as a number or a 2-vector"
 msgstr "Поділки не задано як число або вектор з 2 компонентів"
 
-#: ../src/graphing.c:5375
+#: ../src/graphing.c:5404
 #, c-format
 msgid ""
 "Type in function name or expression involving the %s and %s variables (or "
@@ -4776,28 +4798,13 @@ msgstr ""
 "Введіть назву функції або виразу, який включатиме змінні %s і %s (або змінну "
 "%s, яка дорівнюватиме %s=%s+i%s), яка дає нахил у точці (%s,%s)."
 
-#: ../src/graphing.c:5400 ../src/graphing.c:5407 ../src/graphing.c:5571
-#: ../src/graphing.c:5578
+#: ../src/graphing.c:5425 ../src/graphing.c:5430 ../src/graphing.c:5583
+#: ../src/graphing.c:5588
 #, c-format
 msgid "%s from:"
 msgstr "Початок %s:"
 
-#: ../src/graphing.c:5414 ../src/graphing.c:5421
-#, c-format
-msgid "%s increment:"
-msgstr "Крок %s:"
-
-#: ../src/graphing.c:5428
-#, c-format
-msgid "%s interval length:"
-msgstr "Довжина інтервалу %s:"
-
 #: ../src/graphing.c:5435
-#, c-format
-msgid "Point %s:"
-msgstr "Точка %s:"
-
-#: ../src/graphing.c:5448
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s and %s variables (or "
@@ -4808,7 +4815,7 @@ msgstr ""
 "яка дорівнюватиме %s=%s+i%s), які даватимуть d%s/d%s і d%s/d%s автономної "
 "системи для малювання у точці (%s,%s)."
 
-#: ../src/graphing.c:5484
+#: ../src/graphing.c:5466
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4817,7 +4824,7 @@ msgstr ""
 "Введіть назви функцій або вираз, що містить змінну %s, у полях нижче, щоб "
 "накреслити їх"
 
-#: ../src/graphing.c:5501
+#: ../src/graphing.c:5478
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4831,12 +4838,27 @@ msgstr ""
 "надавши координати %s і %s окремо, або заповніть поле %s=, надавши %s і %s "
 "як дійсну і уявну частини комплексного числа."
 
-#: ../src/graphing.c:5542
+#: ../src/graphing.c:5511
 #, c-format
 msgid "Parameter %s from:"
 msgstr "Початок для параметра %s:"
 
-#: ../src/graphing.c:5556
+#: ../src/graphing.c:5526 ../src/graphing.c:5533
+#, c-format
+msgid "%s increment:"
+msgstr "Крок %s:"
+
+#: ../src/graphing.c:5540
+#, c-format
+msgid "%s interval length:"
+msgstr "Довжина інтервалу %s:"
+
+#: ../src/graphing.c:5547
+#, c-format
+msgid "Point %s:"
+msgstr "Точка %s:"
+
+#: ../src/graphing.c:5570
 #, c-format
 msgid ""
 "Type a function name or an expression involving the %s and %s variables (or "
@@ -4847,95 +4869,95 @@ msgstr ""
 "дорівнюватиме %s=%s+i%s) до наведених нижче полів, щоб програма накреслила "
 "графік. Функціям із одним аргументом буде передано лише комплексне число."
 
-#: ../src/graphing.c:5622 ../src/graphing.c:5739
+#: ../src/graphing.c:5631 ../src/graphing.c:5749
 msgid "Change variable names"
 msgstr "Зміна назв змінних"
 
-#: ../src/graphing.c:5636 ../src/graphing.c:5753
+#: ../src/graphing.c:5645 ../src/graphing.c:5763
 msgid "Some values were illegal"
 msgstr "Деякі зі значень є некоректними"
 
-#: ../src/graphing.c:5640 ../src/graphing.c:5757
+#: ../src/graphing.c:5649 ../src/graphing.c:5767
 msgid "independent variable (x):"
 msgstr "незалежна змінна (x):"
 
-#: ../src/graphing.c:5650
+#: ../src/graphing.c:5659
 msgid "dependent variable (y):"
 msgstr "залежна змінна (y):"
 
-#: ../src/graphing.c:5660
+#: ../src/graphing.c:5669
 msgid "complex variable (z = x+iy):"
 msgstr "комплексна змінна (z = x+iy):"
 
-#: ../src/graphing.c:5670
+#: ../src/graphing.c:5679
 msgid "parameter variable (t):"
 msgstr "параметрична змінна (t):"
 
-#: ../src/graphing.c:5767
+#: ../src/graphing.c:5777
 msgid "independent variable (y):"
 msgstr "незалежна змінна (y):"
 
-#: ../src/graphing.c:5777
+#: ../src/graphing.c:5787
 msgid "independent complex variable (z = x+iy):"
 msgstr "незалежна комплексна змінна (z = x+iy):"
 
-#: ../src/graphing.c:5946
+#: ../src/graphing.c:5956
 msgid "_Functions / Expressions"
 msgstr "_Функції / Вирази"
 
 #. t range
-#: ../src/graphing.c:5994
+#: ../src/graphing.c:6004
 msgid "Parameter t from:"
 msgstr "Початок для параметра t:"
 
-#: ../src/graphing.c:5996 ../src/graphing.c:6142 ../src/graphing.c:6154
-#: ../src/graphing.c:6265 ../src/graphing.c:6276 ../src/graphing.c:6287
+#: ../src/graphing.c:6006 ../src/graphing.c:6152 ../src/graphing.c:6164
+#: ../src/graphing.c:6275 ../src/graphing.c:6286 ../src/graphing.c:6297
 msgid "to:"
 msgstr "до:"
 
-#: ../src/graphing.c:5998
+#: ../src/graphing.c:6008
 msgid "by:"
 msgstr "по:"
 
-#: ../src/graphing.c:6005
+#: ../src/graphing.c:6015
 msgid "Pa_rametric"
 msgstr "П_араметрична"
 
 #. # of ticks
-#: ../src/graphing.c:6033 ../src/graphing.c:6086
+#: ../src/graphing.c:6043 ../src/graphing.c:6096
 msgid "Vertical ticks:"
 msgstr "Вертикальні поділки:"
 
 #. # of ticks
-#: ../src/graphing.c:6037 ../src/graphing.c:6090
+#: ../src/graphing.c:6047 ../src/graphing.c:6100
 msgid "Horizontal ticks:"
 msgstr "Горизонтальні поділки:"
 
-#: ../src/graphing.c:6042
+#: ../src/graphing.c:6052
 msgid "Sl_ope field"
 msgstr "Поле _напрямків"
 
 #. Normalize the arrow length?
-#: ../src/graphing.c:6077
+#: ../src/graphing.c:6087
 msgid "_Normalize arrow length (do not show size)"
 msgstr "_Нормалізувати довжину стрілки (не показувати розмір)"
 
-#: ../src/graphing.c:6095
+#: ../src/graphing.c:6105
 msgid "_Vector field"
 msgstr "_Векторне поле"
 
 #. draw legend?
-#: ../src/graphing.c:6105 ../src/graphing.c:6235
+#: ../src/graphing.c:6115 ../src/graphing.c:6245
 msgid "_Draw legend"
 msgstr "_Умовні позначення"
 
 #. draw axis labels?
-#: ../src/graphing.c:6114
+#: ../src/graphing.c:6124
 msgid "Draw axis labels"
 msgstr "Малювати мітки осей"
 
 #. change varnames
-#: ../src/graphing.c:6123 ../src/graphing.c:6245
+#: ../src/graphing.c:6133 ../src/graphing.c:6255
 msgid "Change variable names..."
 msgstr "Змінити назви змінних…"
 
@@ -4943,201 +4965,201 @@ msgstr "Змінити назви змінних…"
 #.
 #. * Plot window frame
 #.
-#: ../src/graphing.c:6131 ../src/graphing.c:6254
+#: ../src/graphing.c:6141 ../src/graphing.c:6264
 msgid "Plot Window"
 msgstr "Вікно креслення"
 
 #.
 #. * X range
 #.
-#: ../src/graphing.c:6140 ../src/graphing.c:6263
+#: ../src/graphing.c:6150 ../src/graphing.c:6273
 msgid "X from:"
 msgstr "X від:"
 
 #.
 #. * Y range
 #.
-#: ../src/graphing.c:6152 ../src/graphing.c:6274
+#: ../src/graphing.c:6162 ../src/graphing.c:6284
 msgid "Y from:"
 msgstr "Y від:"
 
 #. fit dependent axis?
-#: ../src/graphing.c:6162 ../src/graphing.c:6295
+#: ../src/graphing.c:6172 ../src/graphing.c:6305
 msgid "Fit dependent axis"
 msgstr "Масштабування за залежною віссю"
 
-#: ../src/graphing.c:6206
+#: ../src/graphing.c:6216
 msgid "Function / Expression"
 msgstr "Функція / Вираз"
 
 #.
 #. * Z range
 #.
-#: ../src/graphing.c:6285
+#: ../src/graphing.c:6295
 msgid "Dependent axis from:"
 msgstr "Початок залежної вісі:"
 
-#: ../src/graphing.c:6316
+#: ../src/graphing.c:6326
 msgid "Function _line plot"
 msgstr "Креслення _лінії функції"
 
-#: ../src/graphing.c:6320
+#: ../src/graphing.c:6330
 msgid "_Surface plot"
 msgstr "Креслення _поверхні"
 
-#: ../src/graphing.c:6465
+#: ../src/graphing.c:6492
 msgid "Empty value as range value"
 msgstr "Порожнє значення як значення діапазону"
 
-#: ../src/graphing.c:6471
+#: ../src/graphing.c:6498
 msgid "Genius is executing something already"
 msgstr "Genius вже виконує якесь завдання."
 
-#: ../src/graphing.c:6482
+#: ../src/graphing.c:6509
 msgid "Cannot parse range value"
 msgstr "Не вдалося обробити значення діапазону"
 
-#: ../src/graphing.c:6494
+#: ../src/graphing.c:6521
 msgid "Cannot execute range value"
 msgstr "Не вдалося виконати значення діапазону"
 
-#: ../src/graphing.c:6499 ../src/graphing.c:6505
+#: ../src/graphing.c:6526 ../src/graphing.c:6532
 msgid "Range value not a value"
 msgstr "Значення діапазону не є значенням"
 
-#: ../src/graphing.c:6513
+#: ../src/graphing.c:6540
 msgid "Cannot convert range value to a reasonable real number"
 msgstr ""
 "Не вдалося перетворити значення діапазону на придатне до використання дійсне "
 "число"
 
-#: ../src/graphing.c:6599 ../src/graphing.c:6787 ../src/graphing.c:6916
-#: ../src/graphing.c:7051 ../src/graphing.c:7158
+#: ../src/graphing.c:6626 ../src/graphing.c:6820 ../src/graphing.c:6949
+#: ../src/graphing.c:7084 ../src/graphing.c:7191
 msgid "No functions to plot or no functions could be parsed"
 msgstr "Немає функцій для креслення або не вдалося обробити функції"
 
-#: ../src/graphing.c:6634 ../src/graphing.c:6640 ../src/graphing.c:6812
-#: ../src/graphing.c:6818 ../src/graphing.c:6941 ../src/graphing.c:6947
-#: ../src/graphing.c:6966 ../src/graphing.c:7076 ../src/graphing.c:7082
-#: ../src/graphing.c:7183 ../src/graphing.c:7189
+#: ../src/graphing.c:6661 ../src/graphing.c:6667 ../src/graphing.c:6845
+#: ../src/graphing.c:6851 ../src/graphing.c:6974 ../src/graphing.c:6980
+#: ../src/graphing.c:6999 ../src/graphing.c:7109 ../src/graphing.c:7115
+#: ../src/graphing.c:7216 ../src/graphing.c:7222
 #, c-format
 msgid "Invalid %s range"
 msgstr "Некоректний діапазон %s"
 
-#: ../src/graphing.c:6646
+#: ../src/graphing.c:6673
 msgid "Invalid dependent range"
 msgstr "Некоректний діапазон залежної змінної"
 
-#: ../src/graphing.c:6910
+#: ../src/graphing.c:6943
 #, c-format
 msgid "Only specify %s and %s, or %s, not all at once."
 msgstr "Можна задати лише %s і %s або %s, але не усі одразу."
 
-#: ../src/graphing.c:7287
+#: ../src/graphing.c:7320
 msgid "Create Plot"
 msgstr "Створити креслення"
 
-#: ../src/graphing.c:7292
+#: ../src/graphing.c:7325
 msgid "_Plot"
 msgstr "_Креслення"
 
-#: ../src/graphing.c:7327 ../src/graphing.c:7497 ../src/graphing.c:7528
-#: ../src/graphing.c:7549 ../src/graphing.c:7589 ../src/graphing.c:7613
-#: ../src/graphing.c:7725 ../src/graphing.c:7849 ../src/graphing.c:7986
-#: ../src/graphing.c:8143 ../src/graphing.c:8290 ../src/graphing.c:8313
-#: ../src/graphing.c:8910 ../src/graphing.c:9197 ../src/graphing.c:9416
-#: ../src/graphing.c:9656 ../src/graphing.c:9984 ../src/graphing.c:10216
-#: ../src/graphing.c:10305 ../src/graphing.c:10415 ../src/graphing.c:10446
-#: ../src/graphing.c:10475 ../src/graphing.c:10501 ../src/graphing.c:10530
-#: ../src/graphing.c:10623 ../src/graphing.c:10712 ../src/graphing.c:10737
-#: ../src/graphing.c:10770 ../src/graphing.c:10818
+#: ../src/graphing.c:7360 ../src/graphing.c:7536 ../src/graphing.c:7567
+#: ../src/graphing.c:7588 ../src/graphing.c:7628 ../src/graphing.c:7652
+#: ../src/graphing.c:7764 ../src/graphing.c:7888 ../src/graphing.c:8025
+#: ../src/graphing.c:8182 ../src/graphing.c:8329 ../src/graphing.c:8352
+#: ../src/graphing.c:8979 ../src/graphing.c:9266 ../src/graphing.c:9485
+#: ../src/graphing.c:9725 ../src/graphing.c:10053 ../src/graphing.c:10285
+#: ../src/graphing.c:10374 ../src/graphing.c:10484 ../src/graphing.c:10515
+#: ../src/graphing.c:10544 ../src/graphing.c:10570 ../src/graphing.c:10599
+#: ../src/graphing.c:10693 ../src/graphing.c:10782 ../src/graphing.c:10807
+#: ../src/graphing.c:10840 ../src/graphing.c:10888
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr "%s: виконуємо побудову креслення, не можна викликати %s"
 
-#: ../src/graphing.c:7335 ../src/graphing.c:7868
+#: ../src/graphing.c:7368 ../src/graphing.c:7907
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: аргумент не є функцією"
 
-#: ../src/graphing.c:7345
+#: ../src/graphing.c:7378
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: передбачено підтримку лише однієї функції"
 
-#: ../src/graphing.c:7368
+#: ../src/graphing.c:7401
 msgid "Graph limits not given as a 4-vector or a 6-vector"
 msgstr "Межі графіка не задано у формі вектора з 4 або 6 компонентів"
 
-#: ../src/graphing.c:7424 ../src/graphing.c:7678 ../src/graphing.c:7795
-#: ../src/graphing.c:7931 ../src/graphing.c:8080 ../src/graphing.c:8235
-#: ../src/graphing.c:10085
+#: ../src/graphing.c:7457 ../src/graphing.c:7717 ../src/graphing.c:7834
+#: ../src/graphing.c:7970 ../src/graphing.c:8119 ../src/graphing.c:8274
+#: ../src/graphing.c:10154
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: некоректний діапазон за X"
 
-#: ../src/graphing.c:7429 ../src/graphing.c:7683 ../src/graphing.c:7800
-#: ../src/graphing.c:7936 ../src/graphing.c:8085 ../src/graphing.c:8240
-#: ../src/graphing.c:10090
+#: ../src/graphing.c:7462 ../src/graphing.c:7722 ../src/graphing.c:7839
+#: ../src/graphing.c:7975 ../src/graphing.c:8124 ../src/graphing.c:8279
+#: ../src/graphing.c:10159
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: некоректний діапазон за Y"
 
-#: ../src/graphing.c:7434 ../src/graphing.c:10095
+#: ../src/graphing.c:7467 ../src/graphing.c:10164
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: некоректний діапазон за Z"
 
-#: ../src/graphing.c:7507
+#: ../src/graphing.c:7546
 #, c-format
 msgid "%s: dx must be positive"
 msgstr "%s: dx має бути додатним"
 
-#: ../src/graphing.c:7514 ../src/graphing.c:7533
+#: ../src/graphing.c:7553 ../src/graphing.c:7572
 #, c-format
 msgid "%s: Slope field not active"
 msgstr "%s: поле напрямків не є активним"
 
-#: ../src/graphing.c:7560
+#: ../src/graphing.c:7599
 #, c-format
 msgid "%s: dt must be positive"
 msgstr "%s: dt має бути додатним"
 
-#: ../src/graphing.c:7566
+#: ../src/graphing.c:7605
 #, c-format
 msgid "%s: tlen must be positive"
 msgstr "%s: tlen має бути додатним"
 
-#: ../src/graphing.c:7574 ../src/graphing.c:7595
+#: ../src/graphing.c:7613 ../src/graphing.c:7634
 #, c-format
 msgid "%s: Vector field not active"
 msgstr "%s: векторне поле не є активним"
 
-#: ../src/graphing.c:7620 ../src/graphing.c:8150
+#: ../src/graphing.c:7659 ../src/graphing.c:8189
 #, c-format
 msgid "%s: First argument must be a function"
 msgstr "%s: перший аргумент має бути функцією"
 
-#: ../src/graphing.c:7736 ../src/graphing.c:7994
+#: ../src/graphing.c:7775 ../src/graphing.c:8033
 #, c-format
 msgid "%s: First two arguments must be functions"
 msgstr "%s: перші два аргументи мають бути функціями"
 
-#: ../src/graphing.c:7863
+#: ../src/graphing.c:7902
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: передбачено підтримку не більше ніж 10 функцій"
 
-#: ../src/graphing.c:7889
+#: ../src/graphing.c:7928
 msgid "Graph limits not given as a 2-vector or a 4-vector"
 msgstr "Межі графіка не задано у формі вектора з 2 або 4 компонентів"
 
-#: ../src/graphing.c:8090 ../src/graphing.c:8245
+#: ../src/graphing.c:8129 ../src/graphing.c:8284
 #, c-format
 msgid "%s: invalid T range"
 msgstr "%s: некоректний діапазон T"
 
-#: ../src/graphing.c:8471
+#: ../src/graphing.c:8532
 #, c-format
 msgid ""
 "%s: Not in line plot mode.  Perhaps run LinePlot or LinePlotClear first."
@@ -5145,7 +5167,7 @@ msgstr ""
 "%s: не у режимі креслення. Ймовірно, спочатку слід віддати команду LinePlot "
 "або LinePlotClear."
 
-#: ../src/graphing.c:8592 ../src/graphing.c:8673
+#: ../src/graphing.c:8661 ../src/graphing.c:8742
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 2 matrix with columns for x and "
@@ -5154,7 +5176,7 @@ msgstr ""
 "%s: точки має бути задано у формі дійсного числа, матриці n на 2 зі "
 "стовпчиками для x і y, n>=%d, або комплекснозначну матрицю n на 1"
 
-#: ../src/graphing.c:8602
+#: ../src/graphing.c:8671
 #, c-format
 msgid ""
 "%s: If points are given as an n by 2 matrix, then this matrix must be real"
@@ -5162,7 +5184,7 @@ msgstr ""
 "%s: якщо точки задано як матрицю n на 2, ця матриця має складатися із "
 "дійсних значень"
 
-#: ../src/graphing.c:8712 ../src/graphing.c:8775
+#: ../src/graphing.c:8781 ../src/graphing.c:8844
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 3 matrix with columns for x, y "
@@ -5171,17 +5193,17 @@ msgstr ""
 "%s: точки має бути задано у формі дійсного числа, матриці n на 3 зі "
 "стовпчиками для x, y та z, n>=%d"
 
-#: ../src/graphing.c:8827
+#: ../src/graphing.c:8896
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: не вказано колір"
 
-#: ../src/graphing.c:8832 ../src/graphing.c:8839
+#: ../src/graphing.c:8901 ../src/graphing.c:8908
 #, c-format
 msgid "%s: Cannot parse color '%s'"
 msgstr "%s: не вдалося обробити колір «%s»"
 
-#: ../src/graphing.c:8853
+#: ../src/graphing.c:8922
 #, c-format
 msgid ""
 "%s: A vector giving color should be a 3-vector of real numbers between 0 and "
@@ -5190,7 +5212,7 @@ msgstr ""
 "%s: вектор, який задає кольори має бути 3-компонентним вектором з дійсних "
 "чисел від 0 до 1"
 
-#: ../src/graphing.c:8869
+#: ../src/graphing.c:8938
 #, c-format
 msgid ""
 "%s: Warning: Values for red, green, or blue out of range (0 to 1), I will "
@@ -5199,7 +5221,7 @@ msgstr ""
 "%s: попередження: значення для червоного, зеленого або синього перебувають "
 "поза допустимими межами (від 0 до 1), їх буде обрізано до допустимих"
 
-#: ../src/graphing.c:8886
+#: ../src/graphing.c:8955
 #, c-format
 msgid ""
 "%s: Color must be a string or a three-vector of rgb values (between 0 and 1)"
@@ -5207,59 +5229,59 @@ msgstr ""
 "%s: колір має бути рядком або вектором з трьох компонентів для значень rgb "
 "(від 0 до 1)"
 
-#: ../src/graphing.c:8929 ../src/graphing.c:9216 ../src/graphing.c:9437
-#: ../src/graphing.c:9677
+#: ../src/graphing.c:8998 ../src/graphing.c:9285 ../src/graphing.c:9506
+#: ../src/graphing.c:9746
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: помилкова кількість аргументів"
 
-#: ../src/graphing.c:8999 ../src/graphing.c:9270 ../src/graphing.c:9503
-#: ../src/graphing.c:9737
+#: ../src/graphing.c:9068 ../src/graphing.c:9339 ../src/graphing.c:9572
+#: ../src/graphing.c:9806
 #, c-format
 msgid "%s: No thickness specified"
 msgstr "%s: не вказано товщини"
 
-#: ../src/graphing.c:9022 ../src/graphing.c:9293 ../src/graphing.c:9528
-#: ../src/graphing.c:9762
+#: ../src/graphing.c:9091 ../src/graphing.c:9362 ../src/graphing.c:9597
+#: ../src/graphing.c:9831
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: не вказано вікна"
 
-#: ../src/graphing.c:9070 ../src/graphing.c:9095
+#: ../src/graphing.c:9139 ../src/graphing.c:9164
 #, c-format
 msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
 msgstr ""
 "%s: стилем стрілки має бути значення «origin», «end», «both» або «none»"
 
-#: ../src/graphing.c:9105 ../src/graphing.c:9337 ../src/graphing.c:9580
-#: ../src/graphing.c:9814
+#: ../src/graphing.c:9174 ../src/graphing.c:9406 ../src/graphing.c:9649
+#: ../src/graphing.c:9883
 #, c-format
 msgid "%s: No legend specified"
 msgstr "%s: не вказано панелі умовних позначень"
 
-#: ../src/graphing.c:9119 ../src/graphing.c:9351 ../src/graphing.c:9595
-#: ../src/graphing.c:9829
+#: ../src/graphing.c:9188 ../src/graphing.c:9420 ../src/graphing.c:9664
+#: ../src/graphing.c:9898
 #, c-format
 msgid "%s: Legend must be a string"
 msgstr "%s: запис панелі умовних позначень має бути рядком"
 
-#: ../src/graphing.c:9130
+#: ../src/graphing.c:9199
 #, c-format
 msgid "%s: Unknown style: %s"
 msgstr "%s: невідомий стиль: %s"
 
-#: ../src/graphing.c:9139 ../src/graphing.c:9367 ../src/graphing.c:9613
-#: ../src/graphing.c:9847
+#: ../src/graphing.c:9208 ../src/graphing.c:9436 ../src/graphing.c:9682
+#: ../src/graphing.c:9916
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: помилковий параметр"
 
-#: ../src/graphing.c:9360 ../src/graphing.c:9605 ../src/graphing.c:9839
+#: ../src/graphing.c:9429 ../src/graphing.c:9674 ../src/graphing.c:9908
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: невідомий стиль"
 
-#: ../src/graphing.c:9901 ../src/graphing.c:9964
+#: ../src/graphing.c:9970 ../src/graphing.c:10033
 #, c-format
 msgid ""
 "%s: Surface should be given as a real, n by 3 matrix with columns for x, y, "
@@ -5268,89 +5290,89 @@ msgstr ""
 "%s: поверхню має бути задано як матрицю n на 3 дійсних значень із "
 "стовпчиками x, y, z, де n>=3"
 
-#: ../src/graphing.c:9992
+#: ../src/graphing.c:10061
 #, c-format
 msgid "%s: argument not a matrix of data"
 msgstr "%s: аргумент не є матрицею даних"
 
-#: ../src/graphing.c:10176
+#: ../src/graphing.c:10245
 #, c-format
 msgid "%s: Surface grid data should be given as a real matrix "
 msgstr "%s: дані сітки поверхні має бути задано як матрицю з дійсних значень"
 
-#: ../src/graphing.c:10222
+#: ../src/graphing.c:10291
 #, c-format
 msgid "%s: first argument not a matrix of data"
 msgstr "%s: першим аргументом не є матриця даних"
 
-#: ../src/graphing.c:10229
+#: ../src/graphing.c:10298
 #, c-format
 msgid "%s: second argument not a 4 or 6 element vector of limits"
 msgstr "%s: другим аргументом не є вектор обмежень із 4 або 6 елементів"
 
-#: ../src/graphing.c:10246
+#: ../src/graphing.c:10315
 #, c-format
 msgid "%s: too many arguments or last argument not a string label"
 msgstr "%s: забагато аргументів або останній аргумент не є рядком мітки"
 
-#: ../src/graphing.c:10312
+#: ../src/graphing.c:10381
 #, c-format
 msgid "%s: first argument not a nonempty string"
 msgstr "%s: перший аргумент не є непорожнім рядком"
 
-#: ../src/graphing.c:10320
+#: ../src/graphing.c:10389
 #, c-format
 msgid "%s: type not specified and filename has no extension"
 msgstr "%s: не вказано тип, а назва файла не містить суфікса"
 
-#: ../src/graphing.c:10329
+#: ../src/graphing.c:10398
 #, c-format
 msgid "%s: second argument not a nonempty string"
 msgstr "%s: другий аргумент не є непорожнім рядком"
 
-#: ../src/graphing.c:10341
+#: ../src/graphing.c:10410
 #, c-format
 msgid "%s: plot canvas not active, cannot export"
 msgstr "%s: полотно креслення не є активним — експорт неможливий"
 
-#: ../src/graphing.c:10350 ../src/graphing.c:10364 ../src/graphing.c:10387
+#: ../src/graphing.c:10419 ../src/graphing.c:10433 ../src/graphing.c:10456
 #, c-format
 msgid "%s: export failed"
 msgstr "%s: помилка під час експортування"
 
-#: ../src/graphing.c:10400
+#: ../src/graphing.c:10469
 #, c-format
 msgid "%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."
 msgstr "%s: невідомий тип файла, типом може бути «png», «eps» або «ps»."
 
-#: ../src/graphing.c:10537
+#: ../src/graphing.c:10606
 msgid "Variable names not given in a 4-vector"
 msgstr "Не задано назви змінних у форматі 4-х компонентного вектора"
 
-#: ../src/graphing.c:10547 ../src/graphing.c:10556 ../src/graphing.c:10565
-#: ../src/graphing.c:10574 ../src/graphing.c:10640 ../src/graphing.c:10649
-#: ../src/graphing.c:10658
+#: ../src/graphing.c:10616 ../src/graphing.c:10625 ../src/graphing.c:10634
+#: ../src/graphing.c:10643 ../src/graphing.c:10710 ../src/graphing.c:10719
+#: ../src/graphing.c:10728
 msgid "Variable names should be strings"
 msgstr "Назвами змінних мають бути рядки"
 
-#: ../src/graphing.c:10581 ../src/graphing.c:10664
+#: ../src/graphing.c:10650 ../src/graphing.c:10734
 msgid "Variable names must be valid identifiers"
 msgstr "Назви змінних мають бути коректними ідентифікаторами"
 
-#: ../src/graphing.c:10590 ../src/graphing.c:10670
+#: ../src/graphing.c:10659 ../src/graphing.c:10740
 msgid "Variable names must be mutually distinct"
 msgstr "Назви змінних мають бути взаємно розрізнюваними"
 
-#: ../src/graphing.c:10630
+#: ../src/graphing.c:10700
 msgid "Variable names not given in a 3-vector"
 msgstr "Не задано назви змінних у форматі 3-х компонентного вектора"
 
-#: ../src/graphing.c:10853
+#: ../src/graphing.c:10923
 msgid "Plotting"
 msgstr "Креслення"
 
 #. internal
-#: ../src/graphing.c:10855
+#: ../src/graphing.c:10925
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -5358,7 +5380,7 @@ msgstr ""
 "Накреслити функцію лінією. Першими має бути вказано функції (до 10), потім "
 "можна вказати межі області у форматі x1,x2,y1,y2"
 
-#: ../src/graphing.c:10856
+#: ../src/graphing.c:10926
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
@@ -5368,7 +5390,7 @@ msgstr ""
 "x та y, а потім, необов'язково, межі за t як t1,t2,t_приріст, потім можна "
 "вказати межі області у форматі x1,x2,y1,y2"
 
-#: ../src/graphing.c:10857
+#: ../src/graphing.c:10927
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
@@ -5378,7 +5400,7 @@ msgstr ""
 "вказано функцію, яка повертає x+iy, а потім, необов'язково, межі за t як t1,"
 "t2,t_приріст, потім можна вказати межі області у форматі x1,x2,y1,y2"
 
-#: ../src/graphing.c:10859
+#: ../src/graphing.c:10929
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
@@ -5386,7 +5408,7 @@ msgstr ""
 "Намалювати поле нахилу. Першою є функція dy/dx у термінах x і y (або "
 "комплексного z), потім, необов'язково, межі у форматі x1,x2,y1,y2"
 
-#: ../src/graphing.c:10860
+#: ../src/graphing.c:10930
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
@@ -5394,18 +5416,18 @@ msgstr ""
 "Намалювати векторне поле. Першими є функції dx/dt і dy/dt у термінах x і y, "
 "а потім, необов'язково, межі у форматі x1,x2,y1,y2"
 
-#: ../src/graphing.c:10862
+#: ../src/graphing.c:10932
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr ""
 "Намалювати розв'язок для поля нахилу, починаючи з x,y із використанням кроку "
 "dx"
 
-#: ../src/graphing.c:10863
+#: ../src/graphing.c:10933
 msgid "Clear all the slopefield solutions"
 msgstr "Вилучити усі розв'язки полів напрямків"
 
-#: ../src/graphing.c:10865
+#: ../src/graphing.c:10935
 msgid ""
 "Draw a solution for a vector field starting at x,y, using dt as increment "
 "for tlen units"
@@ -5413,11 +5435,11 @@ msgstr ""
 "Намалювати розв'язок для векторного поля, починаючи з x, y із використанням "
 "кроку dt для одиниць tlen"
 
-#: ../src/graphing.c:10866
+#: ../src/graphing.c:10936
 msgid "Clear all the vectorfield solutions"
 msgstr "Вилучити усі розв'язки векторних полів"
 
-#: ../src/graphing.c:10869
+#: ../src/graphing.c:10939
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -5426,11 +5448,11 @@ msgstr ""
 "комплексне число. Першою має бути функція, а потім, необов'язково, межі у "
 "форматі x1,x2,y1,y2,z1,z2"
 
-#: ../src/graphing.c:10871
+#: ../src/graphing.c:10941
 msgid "Show the surface (3d) plot window and clear out functions"
 msgstr "Показати вікно креслення поверхні (просторове) і вилучити усі функції"
 
-#: ../src/graphing.c:10873
+#: ../src/graphing.c:10943
 msgid ""
 "Plot surface data given as n by 3 matrix (n>=3) of data with each row being "
 "x,y,z.  Optionally can pass a label string and limits.  If no limits passed, "
@@ -5440,7 +5462,7 @@ msgstr ""
 "рядок складається з x,y,z. Додатково можна передати рядок мітки і межі. Якщо "
 "межі не передано, межі буде обчислено з даних."
 
-#: ../src/graphing.c:10874
+#: ../src/graphing.c:10944
 msgid ""
 "Plot surface data given as a matrix (where rows are the x coordinate and "
 "columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or "
@@ -5451,7 +5473,7 @@ msgstr ""
 "необов'язково, як [x1,x2,y1,y2,z1,z2]. Також, необов'язково, можна задати "
 "рядок для мітки."
 
-#: ../src/graphing.c:10875
+#: ../src/graphing.c:10945
 msgid ""
 "Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  x1,y1,z1,x2,"
 "y2,z2 can be replaced by a n by 3 matrix for a longer line"
@@ -5459,7 +5481,7 @@ msgstr ""
 "Намалювати лінію з x1,y1,z1 до x2,y2,z2 на кресленні (просторової) поверхні. "
 "x1,y1,z1,x2,y2,z2 можна замінити матрицею n на 3 для отримання довшої лінії"
 
-#: ../src/graphing.c:10876
+#: ../src/graphing.c:10946
 msgid ""
 "Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a "
 "n by 3 matrix for more points."
@@ -5467,11 +5489,11 @@ msgstr ""
 "Намалювати точку у x,y,z на кресленні (просторової) поверхні. x,y,z можна "
 "замінити матрицею n на 3 для отримання набору точок."
 
-#: ../src/graphing.c:10878
+#: ../src/graphing.c:10948
 msgid "Show the line plot window and clear out functions"
 msgstr "Показати вікно креслення лінії і вилучити усі функції"
 
-#: ../src/graphing.c:10879
+#: ../src/graphing.c:10949
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line."
@@ -5479,35 +5501,35 @@ msgstr ""
 "Намалювати лінію з x,y1 до x2,y2. x1,y1,x2,y2 можна замінити матрицею n на 2 "
 "для отримання довшої лінії."
 
-#: ../src/graphing.c:10880
+#: ../src/graphing.c:10950
 msgid ""
 "Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points."
 msgstr ""
 "Намалювати точку у x,y. x,y можна замінити матрицею n на 2 для отримання "
 "набору точок."
 
-#: ../src/graphing.c:10882
+#: ../src/graphing.c:10952
 msgid "Freeze the plot canvas, that is, inhibit drawing"
 msgstr "Заморозити полотно, тобто успадкувати креслення"
 
-#: ../src/graphing.c:10883
+#: ../src/graphing.c:10953
 msgid "Thaw the plot canvas and redraw the plot immediately"
 msgstr "Розморозити полотно креслення і негайно перемалювати креслення"
 
-#: ../src/graphing.c:10884
+#: ../src/graphing.c:10954
 msgid "Raise the plot window, and create the window if necessary"
 msgstr "Підняти вікно креслення і створити вікно, якщо потрібно"
 
-#: ../src/graphing.c:10886
+#: ../src/graphing.c:10956
 msgid "Wait for a click on the line plot window, return the location."
 msgstr ""
 "Зачекати на клацання у вікні лінійного графіка, повернути місце вказівника."
 
-#: ../src/graphing.c:10887
+#: ../src/graphing.c:10957
 msgid "Return current mouse location on the line plot window."
 msgstr "Повернути поточне місце вказівника у вікні лінійного графіка."
 
-#: ../src/graphing.c:10889
+#: ../src/graphing.c:10959
 msgid ""
 "Export the current contents of the plot canvas to a file.  The file type is "
 "given by the string type, which can be \"png\", \"eps\", or \"ps\"."
@@ -5515,17 +5537,17 @@ msgstr ""
 "Експортувати поточний вміст полотна креслення до файла. Тип файла задається "
 "рядком, який може мати значення «png», «eps» або «ps»."
 
-#: ../src/graphing.c:10891
+#: ../src/graphing.c:10961
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr ""
 "Кількість позначок у полі нахилу як вектор [вертикальних,горизонтальних]."
 
-#: ../src/graphing.c:10892
+#: ../src/graphing.c:10962
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
 msgstr ""
 "Кількість позначок векторного поля як вектор [вертикальних,горизонтальних]."
 
-#: ../src/graphing.c:10893
+#: ../src/graphing.c:10963
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
@@ -5534,7 +5556,7 @@ msgstr ""
 "кресленнях. Має бути вектором з 4 значень рядків або ідентифікаторів [x,y,z,"
 "t]."
 
-#: ../src/graphing.c:10894
+#: ../src/graphing.c:10964
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
@@ -5543,7 +5565,7 @@ msgstr ""
 "кресленнях. Має бути вектором з 3 значень рядків або ідентифікаторів [x,y,z] "
 "(де z=x+iy, а не вісь залежної змінної)."
 
-#: ../src/graphing.c:10896
+#: ../src/graphing.c:10966
 msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
@@ -5551,24 +5573,24 @@ msgstr ""
 "Нормалізувати векторні поля, якщо true. Тобто, малювати лише напрямки, без "
 "врахування довжини."
 
-#: ../src/graphing.c:10897
+#: ../src/graphing.c:10967
 msgid "If to draw legends or not on line plots."
 msgstr "Чи слід малювати панель умовних позначень для креслень ліній."
 
-#: ../src/graphing.c:10898
+#: ../src/graphing.c:10968
 msgid "If to draw axis labels on line plots."
 msgstr "Чи слід малювати мітки осей для графіків ліній."
 
-#: ../src/graphing.c:10900
+#: ../src/graphing.c:10970
 msgid "If to draw legends or not on surface plots."
 msgstr "Чи слід малювати панель умовних позначень для креслень поверхонь."
 
-#: ../src/graphing.c:10902
+#: ../src/graphing.c:10972
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr ""
 "Вікно креслення лінії (межі) як вектор з 4 компонентів у формі [x1,x2,y1,y2]"
 
-#: ../src/graphing.c:10903
+#: ../src/graphing.c:10973
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
@@ -5690,7 +5712,8 @@ msgstr "Неможливо порівняти комплексні числа"
 
 #: ../src/mpwrap.c:4016
 msgid "Can't modulo complex numbers"
-msgstr "Неможливо обчислити результат ділення за модулем для комплексних чисел"
+msgstr ""
+"Неможливо обчислити результат ділення за модулем для комплексних чисел"
 
 #: ../src/mpwrap.c:4039
 #, c-format
@@ -5793,7 +5816,8 @@ msgstr "Число є надто великим для цієї операції
 
 #: ../src/parseutil.c:57
 msgid "ERROR: local statement not the first statement in function definition"
-msgstr "ПОМИЛКА: інструкція local не є першою інструкцією у визначенні функції"
+msgstr ""
+"ПОМИЛКА: інструкція local не є першою інструкцією у визначенні функції"
 
 #: ../src/plugin.c:154
 msgid "Can't open plugin!"
