@@ -9,9 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
-"POT-Creation-Date: 2021-02-13 06:42+0000\n"
-"PO-Revision-Date: 2021-05-05 13:50+0200\n"
-"Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
+"POT-Creation-Date: 2022-09-05 08:13+0000\n"
+"PO-Revision-Date: 2023-08-01 17:10+0300\n"
+"Last-Translator: Florentina Mușat <florentina [dot] musat [dot] 28 [at] "
+"gmail [dot] com>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);;\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.3.2\n"
 "X-Project-Style: gnome\n"
 
 #: ../lib/library-strings.c:1
@@ -117,7 +118,7 @@ msgstr ""
 msgid "Tolerance for InfiniteSum and InfiniteProduct"
 msgstr "Toleranța pentru SumăInfinit și ProdusInfinit"
 
-#: ../lib/library-strings.c:19 ../src/eval.c:6725
+#: ../lib/library-strings.c:19 ../src/eval.c:6726
 msgid "Absolute value"
 msgstr "Valoarea în modul"
 
@@ -1302,8 +1303,8 @@ msgstr ""
 #: ../lib/library-strings.c:246
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
-"solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an n"
-"+1 by 2 matrix of values"
+"solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an "
+"n+1 by 2 matrix of values"
 msgstr ""
 "Utilizează metoda Runge-Kutta non-adaptivă clasică de ordinul patru pentru a "
 "rezolva numeric y'=f(x,y) pentru x0,yo inițiale mergând până la x1 cu n "
@@ -1428,7 +1429,7 @@ msgstr "Se încearcă setarea unui alias pentru un alias"
 msgid "Bad identifier for function node!"
 msgstr "Identificator greșit pentru nodul funcției!"
 
-#: ../src/calc.c:1026 ../src/eval.c:7233 ../src/eval.c:7440
+#: ../src/calc.c:1026 ../src/eval.c:7234 ../src/eval.c:7441
 msgid "Unexpected operator!"
 msgstr "Operator neașteptat!"
 
@@ -1451,7 +1452,7 @@ msgstr "Tip de funcție neașteptat!"
 msgid "NULL tree!"
 msgstr "Arborele NULL!"
 
-#: ../src/calc.c:1510 ../src/eval.c:7739
+#: ../src/calc.c:1510 ../src/eval.c:7740
 msgid "Unexpected node!"
 msgstr "Nod neașteptat!"
 
@@ -1660,16 +1661,16 @@ msgstr "Înregistrare de valori greșită la decompilare"
 msgid "Bad tree record when decompiling"
 msgstr "Înregistrare de arbori greșită la decompilare"
 
-#: ../src/eval.c:1562 ../src/eval.c:1619 ../src/eval.c:1634
+#: ../src/eval.c:1563 ../src/eval.c:1620 ../src/eval.c:1635
 msgid "Cannot compare non value or bool only matrices"
 msgstr "Nu se poate compara matricele non-valoare sau doar logice"
 
 #. also on rationals but as integers
-#: ../src/eval.c:1690 ../src/eval.c:1736
+#: ../src/eval.c:1691 ../src/eval.c:1737
 msgid "Modulo arithmetic only works on integers"
 msgstr "Modulo aritmetic funcționează numai pe numere întregi"
 
-#: ../src/eval.c:1942
+#: ../src/eval.c:1943
 msgid ""
 "Can't add/subtract a scalar to non-square matrix (A + x is defined as A + "
 "x*I)"
@@ -1677,68 +1678,68 @@ msgstr ""
 "Nu se poate adăuga/scădea un scalar la o matrice ne-pătratică (A + x este "
 "definită ca A + x*I)"
 
-#: ../src/eval.c:2038
+#: ../src/eval.c:2039
 msgid "Can't add/subtract two matrices of different sizes"
 msgstr "Nu se pot adăuga/scădea două matrice de dimensiuni diferite"
 
-#: ../src/eval.c:2040
+#: ../src/eval.c:2041
 msgid ""
 "Can't do element by element operations on two matrices of different sizes"
 msgstr ""
 "Nu se pot efectua operații element cu element pe două matrice de dimensiuni "
 "diferite"
 
-#: ../src/eval.c:2106
+#: ../src/eval.c:2107
 msgid "Can't multiply matrices of wrong sizes"
 msgstr "Nu se pot multiplica matricele de dimensiuni greșite"
 
-#: ../src/eval.c:2157
+#: ../src/eval.c:2158
 msgid "Powers are defined on (square matrix)^(integer) only"
 msgstr "Puterile sunt definite numai pe (matrice pătratică)^(întreg)"
 
-#: ../src/eval.c:2163
+#: ../src/eval.c:2164
 msgid "Powers on matrices in modulo mode are defined on integer matrices only"
 msgstr "Puterile pe matrici în modul modulo definite numai pe matrici întregi"
 
-#: ../src/eval.c:2171
+#: ../src/eval.c:2172
 msgid "Exponent too large"
 msgstr "Exponent prea mare"
 
-#: ../src/eval.c:2198 ../src/eval.c:2313 ../src/eval.c:2379
+#: ../src/eval.c:2199 ../src/eval.c:2314 ../src/eval.c:2380
 msgid "Matrix appears singular and can't be inverted"
 msgstr "Matricea pare singulară și nu poate fi inversată"
 
-#: ../src/eval.c:2290
+#: ../src/eval.c:2291
 msgid "Can't divide matrices of different sizes or non-square matrices"
 msgstr "Nu se pot divide matrici de dimensiuni diferite sau ne-pătratice"
 
-#: ../src/eval.c:2361
+#: ../src/eval.c:2362
 msgid "Can't divide by a non-square matrix"
 msgstr "Nu se poate divide printr-o matrice pătratică"
 
-#: ../src/eval.c:2779 ../src/eval.c:2806 ../src/eval.c:2827 ../src/eval.c:2851
-#: ../src/eval.c:2899
+#: ../src/eval.c:2780 ../src/eval.c:2807 ../src/eval.c:2828 ../src/eval.c:2852
+#: ../src/eval.c:2900
 msgid "Operations on functions with variable argument list not supported"
 msgstr "Operații pe funcții cu listă variabilă de argumente nu sunt suportate"
 
-#: ../src/eval.c:2784
+#: ../src/eval.c:2785
 msgid ""
 "Operations on functions with different number of arguments not supported"
 msgstr "Operații pe funcții cu număr diferit de argumente nu sunt suportate"
 
-#: ../src/eval.c:2904
+#: ../src/eval.c:2905
 msgid "Function creation with wrong number of arguments"
 msgstr "Creare de funcție cu număr greșit de argumente"
 
-#: ../src/eval.c:3486 ../src/eval.c:4924
+#: ../src/eval.c:3487 ../src/eval.c:4925
 msgid "Unevaluatable function type encountered!"
 msgstr "S-a întâlnit un tip de funcție inevaluabilă!"
 
-#: ../src/eval.c:3509 ../src/graphing.c:5979
+#: ../src/eval.c:3510 ../src/graphing.c:5989
 msgid "or"
 msgstr "sau"
 
-#: ../src/eval.c:3547
+#: ../src/eval.c:3548
 msgid ""
 "Variable 'i' used uninitialized.  Perhaps you meant to write '1i' for the "
 "imaginary number (square root of -1)."
@@ -1746,17 +1747,17 @@ msgstr ""
 "Variabila „i” a fost folosită fără inițializare.  Probabil doreați să "
 "scrieți  „li” pentru numărul imaginar (rădăcină pătrată din -1)."
 
-#: ../src/eval.c:3553 ../src/eval.c:3586 ../src/eval.c:7557
+#: ../src/eval.c:3554 ../src/eval.c:3587 ../src/eval.c:7558
 #, c-format
 msgid "Variable '%s' used uninitialized, perhaps you meant %s."
 msgstr "Variabila „%s” folosită neinițializată, probabil vă refereați la %s."
 
-#: ../src/eval.c:3560 ../src/eval.c:3593 ../src/eval.c:4656 ../src/eval.c:7564
+#: ../src/eval.c:3561 ../src/eval.c:3594 ../src/eval.c:4657 ../src/eval.c:7565
 #, c-format
 msgid "Variable '%s' used uninitialized"
 msgstr "Variabila „%s” folosită neinițializată"
 
-#: ../src/eval.c:3601 ../src/eval.c:4702
+#: ../src/eval.c:3602 ../src/eval.c:4703
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -1765,48 +1766,48 @@ msgstr ""
 "Apelul lui „%s” cu număr greșit de argumente!\n"
 "(ar trebui să fie %d)"
 
-#: ../src/eval.c:3604
+#: ../src/eval.c:3605
 #, c-format
 msgid "Trying to dereference '%s' which is not a reference!\n"
 msgstr "Se încearcă dereferențierea „%s” care nu este o referință!\\n\n"
 
-#: ../src/eval.c:3609
+#: ../src/eval.c:3610
 msgid "NULL reference encountered!"
 msgstr "Referință către NULL întâlnită!"
 
-#: ../src/eval.c:3737
+#: ../src/eval.c:3738
 msgid "Cannot compare matrices"
 msgstr "Nu se pot compara matricele"
 
-#: ../src/eval.c:3779
+#: ../src/eval.c:3780
 msgid "Primitives must get numeric/matrix/string arguments"
 msgstr "Primitivele trebuie să primească ca argumente numere/matrici/șiruri"
 
-#: ../src/eval.c:3870
+#: ../src/eval.c:3871
 msgid "Bad argument to modular operation"
 msgstr "Argument greșit pentru operație modulară"
 
-#: ../src/eval.c:4630
+#: ../src/eval.c:4631
 #, c-format
 msgid "Function '%s' used uninitialized, perhaps you meant %s."
 msgstr ""
 "Funcția „%s” este folosită neinițializată, probabil vă refereați la %s."
 
-#: ../src/eval.c:4637
+#: ../src/eval.c:4638
 #, c-format
 msgid "Function '%s' used uninitialized"
 msgstr "Funcția „%s” folosită neinițializată"
 
-#: ../src/eval.c:4665
+#: ../src/eval.c:4666
 #, c-format
 msgid "Can't dereference '%s'!"
 msgstr "Nu se poate dereferenția „%s”!"
 
-#: ../src/eval.c:4673
+#: ../src/eval.c:4674
 msgid "Can't call a non-function!"
 msgstr "Nu se poate apela o non-funcție!"
 
-#: ../src/eval.c:4707
+#: ../src/eval.c:4708
 #, c-format
 msgid ""
 "Call of '%s' with the wrong number of arguments!\n"
@@ -1815,96 +1816,96 @@ msgstr ""
 "Apelul lui „%s” cu număr greșit de argumente!\\n\n"
 "(ar trebui să fie mai mare ca %d)"
 
-#: ../src/eval.c:4746
+#: ../src/eval.c:4747
 #, c-format
 msgid "Referencing an undefined variable %s!"
 msgstr "Se referențiază o variabilă %s nedefinită!"
 
-#: ../src/eval.c:4900
+#: ../src/eval.c:4901
 msgid "Reference function with arguments encountered!"
 msgstr "O funcție de tip referință cu argumente a fost întâlnită!"
 
-#: ../src/eval.c:4905
+#: ../src/eval.c:4906
 msgid "Unnamed reference function encountered!"
 msgstr "O funcție referință nedenumită a fost întâlnită!"
 
-#: ../src/eval.c:5029
+#: ../src/eval.c:5030
 msgid "Bad type for 'for/sum/prod' loop!"
 msgstr "Tip greșit pentru bucla „pentru/sumă/produs”!"
 
-#: ../src/eval.c:5034
+#: ../src/eval.c:5035
 msgid "'for/sum/prod' loop increment can't be 0"
 msgstr "Repetarea buclei „pentru/sumă/prod” nu poate fi 0"
 
-#: ../src/eval.c:5160
+#: ../src/eval.c:5161
 msgid "Bad type for 'for in' loop!"
 msgstr "Tip greșit pentru bucla „pentru în”!"
 
-#: ../src/eval.c:5328 ../src/eval.c:5361
+#: ../src/eval.c:5329 ../src/eval.c:5362
 msgid "Continue or break outside a loop, assuming \"return null\""
 msgstr ""
 "Continuă sau întrerupe în afara unei bucle, presupunând \"return null\""
 
-#: ../src/eval.c:5422
+#: ../src/eval.c:5423
 msgid "Wrong argument type as matrix index"
 msgstr "Tip de argument greșit ca index de matrice"
 
-#: ../src/eval.c:5432
+#: ../src/eval.c:5433
 msgid "Matrix index too large"
 msgstr "Indexul matricii prea mare"
 
-#: ../src/eval.c:5435
+#: ../src/eval.c:5436
 msgid "Matrix index less than 1"
 msgstr "Indexul matricii mai mic decat 1"
 
-#: ../src/eval.c:5458 ../src/eval.c:5473
+#: ../src/eval.c:5459 ../src/eval.c:5474
 msgid "Matrix index out of range"
 msgstr "Indexul matricei este în afara intervalului"
 
-#: ../src/eval.c:5522 ../src/eval.c:5590 ../src/eval.c:5748 ../src/eval.c:5789
-#: ../src/eval.c:5912 ../src/eval.c:5952 ../src/eval.c:6394
+#: ../src/eval.c:5523 ../src/eval.c:5591 ../src/eval.c:5749 ../src/eval.c:5790
+#: ../src/eval.c:5913 ../src/eval.c:5953 ../src/eval.c:6395
 #, c-format
 msgid "Trying to set a protected id '%s'"
 msgstr "Se încearc setarea unui id protejat „%s”"
 
-#: ../src/eval.c:5547 ../src/eval.c:5585
+#: ../src/eval.c:5548 ../src/eval.c:5586
 msgid "Indexed Lvalue not user function"
 msgstr "ValoriL indexate nu sunt funcții de utilizator"
 
-#: ../src/eval.c:5569 ../src/eval.c:5773 ../src/eval.c:5936
+#: ../src/eval.c:5570 ../src/eval.c:5774 ../src/eval.c:5937
 msgid "Dereference of non-identifier!"
 msgstr "Dereferențierea non-identificatorilor!"
 
-#: ../src/eval.c:5575 ../src/eval.c:5779 ../src/eval.c:5942
+#: ../src/eval.c:5576 ../src/eval.c:5780 ../src/eval.c:5943
 msgid "Dereference of undefined variable!"
 msgstr "Dereferențierea variabilei nedefinite!"
 
-#: ../src/eval.c:5579 ../src/eval.c:5783 ../src/eval.c:5946
+#: ../src/eval.c:5580 ../src/eval.c:5784 ../src/eval.c:5947
 msgid "Dereference of non-reference!"
 msgstr "Dereferențierea non-referinței!"
 
-#: ../src/eval.c:5607
+#: ../src/eval.c:5608
 msgid "Indexed Lvalue not an identifier or a dereference"
 msgstr "ValoareL indexată nu este un identificator sau o dereferință"
 
-#: ../src/eval.c:5661 ../src/eval.c:5716 ../src/eval.c:5893 ../src/eval.c:6058
-#: ../src/eval.c:6095 ../src/eval.c:6140 ../src/eval.c:6548 ../src/eval.c:6673
+#: ../src/eval.c:5662 ../src/eval.c:5717 ../src/eval.c:5894 ../src/eval.c:6059
+#: ../src/eval.c:6096 ../src/eval.c:6141 ../src/eval.c:6549 ../src/eval.c:6674
 msgid "Matrix index not an integer or a vector"
 msgstr "Indexul matricii nu este un număr întreg sau un vector"
 
-#: ../src/eval.c:5705 ../src/eval.c:5847 ../src/eval.c:5856
+#: ../src/eval.c:5706 ../src/eval.c:5848 ../src/eval.c:5857
 msgid "Wrong matrix dimensions when setting"
 msgstr "Dimensiuni greșite ale matricii la setare"
 
-#: ../src/eval.c:5736 ../src/eval.c:5988 ../src/eval.c:6361 ../src/eval.c:6368
+#: ../src/eval.c:5737 ../src/eval.c:5989 ../src/eval.c:6362 ../src/eval.c:6369
 msgid "Lvalue not an identifier/dereference/matrix location!"
 msgstr "ValoareL nu este o locație de identificator/dereferință/matrice!"
 
-#: ../src/eval.c:5760 ../src/eval.c:5801
+#: ../src/eval.c:5761 ../src/eval.c:5802
 msgid "Referencing an undefined variable!"
 msgstr "Se referențiază o variabilă nedefinită!"
 
-#: ../src/eval.c:5907
+#: ../src/eval.c:5908
 #, c-format
 msgid ""
 "Increment/Swapwith does not work on parameters (trying to increment '%s')"
@@ -1912,178 +1913,178 @@ msgstr ""
 "Incrementarea/Comutăcu nu funcționează pe parametri (se încearcă să se "
 "incrementeze „%s”)"
 
-#: ../src/eval.c:5976
+#: ../src/eval.c:5977
 msgid "Increment not a value!"
 msgstr "Incrementul nu este o valoare!"
 
-#: ../src/eval.c:6000
+#: ../src/eval.c:6001
 #, c-format
 msgid "Trying to increment non-value id '%s'"
 msgstr "Se încearcă să se incrementeze id-ul ne-valoare „%s”"
 
-#: ../src/eval.c:6161 ../src/eval.c:6165 ../src/eval.c:6175
+#: ../src/eval.c:6162 ../src/eval.c:6166 ../src/eval.c:6176
 msgid "Can only swap user variables"
 msgstr "Se pot interschimba doar variabilele utilizatorului"
 
-#: ../src/eval.c:6215 ../src/eval.c:6250 ../src/eval.c:6281 ../src/eval.c:6297
-#: ../src/eval.c:6315 ../src/eval.c:6331
+#: ../src/eval.c:6216 ../src/eval.c:6251 ../src/eval.c:6282 ../src/eval.c:6298
+#: ../src/eval.c:6316 ../src/eval.c:6332
 msgid "Cannot swap matrix regions"
 msgstr "Nu se pot interschimba regiunile matricei"
 
-#: ../src/eval.c:6389
+#: ../src/eval.c:6390
 msgid "Parameters can only be created in the global context"
 msgstr "Parametrii pot fi creați numai în context global"
 
-#: ../src/eval.c:6495 ../src/eval.c:6540 ../src/eval.c:6631
+#: ../src/eval.c:6496 ../src/eval.c:6541 ../src/eval.c:6632
 msgid "Index works only on matrices"
 msgstr "Indexul funcționează doar pe matrice"
 
-#: ../src/eval.c:6528
+#: ../src/eval.c:6529
 msgid "Vector index not an integer or a vector"
 msgstr "Indexul vectorului nu este un număr întreg sau un vector"
 
-#: ../src/eval.c:6697
+#: ../src/eval.c:6698
 msgid "number"
 msgstr "număr"
 
-#: ../src/eval.c:6698
+#: ../src/eval.c:6699
 msgid "matrix"
 msgstr "matrice"
 
-#: ../src/eval.c:6699
+#: ../src/eval.c:6700
 msgid "string"
 msgstr "șir"
 
-#: ../src/eval.c:6700
+#: ../src/eval.c:6701
 msgid "function"
 msgstr "funcție"
 
-#: ../src/eval.c:6701
+#: ../src/eval.c:6702
 msgid "identifier"
 msgstr "identificator"
 
-#: ../src/eval.c:6702
+#: ../src/eval.c:6703
 msgid "polynomial"
 msgstr "polinom"
 
-#: ../src/eval.c:6703
+#: ../src/eval.c:6704
 msgid "boolean"
 msgstr "boolean"
 
-#: ../src/eval.c:6726
+#: ../src/eval.c:6727
 msgid "Addition"
 msgstr "Adunare"
 
-#: ../src/eval.c:6727
+#: ../src/eval.c:6728
 msgid "Element by element addition"
 msgstr "Adunare element cu element"
 
-#: ../src/eval.c:6728
+#: ../src/eval.c:6729
 msgid "Subtraction"
 msgstr "Scădere"
 
-#: ../src/eval.c:6729
+#: ../src/eval.c:6730
 msgid "Element by element subtraction"
 msgstr "Scădere element cu element"
 
-#: ../src/eval.c:6730
+#: ../src/eval.c:6731
 msgid "Multiplication"
 msgstr "Înmulțire"
 
-#: ../src/eval.c:6731
+#: ../src/eval.c:6732
 msgid "Element by element multiplication"
 msgstr "Înmulțire element cu element"
 
-#: ../src/eval.c:6732
+#: ../src/eval.c:6733
 msgid "Division"
 msgstr "Împărțire"
 
-#: ../src/eval.c:6733
+#: ../src/eval.c:6734
 msgid "Element by element division"
 msgstr "Împărțire element cu element"
 
-#: ../src/eval.c:6734
+#: ../src/eval.c:6735
 msgid "Back division"
 msgstr "Împărțire înapoi"
 
-#: ../src/eval.c:6735
+#: ../src/eval.c:6736
 msgid "Element by element back division"
 msgstr "Împărțire înapoi element cu element"
 
-#: ../src/eval.c:6736
+#: ../src/eval.c:6737
 msgid "Modulo"
 msgstr "Modulo"
 
-#: ../src/eval.c:6737
+#: ../src/eval.c:6738
 msgid "Element by element modulo"
 msgstr "Modulo element cu element"
 
-#: ../src/eval.c:6738
+#: ../src/eval.c:6739
 msgid "Negation"
 msgstr "Negație"
 
-#: ../src/eval.c:6739
+#: ../src/eval.c:6740
 msgid "Power"
 msgstr "Putere"
 
-#: ../src/eval.c:6740
+#: ../src/eval.c:6741
 msgid "Element by element power"
 msgstr "Putere element cu element"
 
-#: ../src/eval.c:6741
+#: ../src/eval.c:6742
 msgid "Factorial"
 msgstr "Factorial"
 
-#: ../src/eval.c:6742
+#: ../src/eval.c:6743
 msgid "Double factorial"
 msgstr "Dublu factorial"
 
-#: ../src/eval.c:6743
+#: ../src/eval.c:6744
 msgid "Transpose"
 msgstr "Transpusă"
 
-#: ../src/eval.c:6744
+#: ../src/eval.c:6745
 msgid "ConjugateTranspose"
 msgstr "TranspusăConjugată"
 
-#: ../src/eval.c:6745
+#: ../src/eval.c:6746
 msgid "Comparison (<=>)"
 msgstr "Comparație (<=>)"
 
-#: ../src/eval.c:6746
+#: ../src/eval.c:6747
 msgid "XOR"
 msgstr "XOR"
 
-#: ../src/eval.c:6747
+#: ../src/eval.c:6748
 msgid "NOT"
 msgstr "NOT"
 
-#: ../src/eval.c:6767
+#: ../src/eval.c:6768
 #, c-format
 msgid "Bad types for '%s'"
 msgstr "Tipuri greșite pentru „%s”"
 
-#: ../src/eval.c:6778
+#: ../src/eval.c:6779
 #, c-format
 msgid "%s not defined on <%s> and <%s>"
 msgstr "%s nu este definit pe <%s> și <%s>"
 
-#: ../src/eval.c:6797
+#: ../src/eval.c:6798
 #, c-format
 msgid "Bad type for '%s'"
 msgstr "Tip greșit pentru „%s”"
 
-#: ../src/eval.c:6807
+#: ../src/eval.c:6808
 #, c-format
 msgid "%s not defined on <%s>"
 msgstr "%s nu este definit pe <%s>"
 
-#: ../src/eval.c:6827 ../src/eval.c:6844
+#: ../src/eval.c:6828 ../src/eval.c:6845
 msgid "Vector building only works on numbers"
 msgstr "Construirea vectorilor funcționează numai pe numere"
 
 #. FIXME: perhaps we should just return null like octave?
-#: ../src/eval.c:6837
+#: ../src/eval.c:6838
 msgid "Impossible arguments to vector building operator"
 msgstr "Argument imposibile pentru operatorul de construire a vectorilor"
 
@@ -2097,7 +2098,7 @@ msgstr "%s: argument prea mare"
 msgid "Cannot parse version string: %s"
 msgstr "Nu se poate analiza șirul versiunilor: %s"
 
-#: ../src/funclib.c:179 ../src/gnome-genius.c:1868
+#: ../src/funclib.c:179 ../src/gnome-genius.c:2031
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -2148,7 +2149,7 @@ msgstr "%s: se încearcă configurarea unui id protejat!"
 msgid "%s: trying to set a parameter, use the equals sign"
 msgstr "%s: se încearcă configurarea unui parametru, folosiți semnul egal"
 
-#: ../src/funclib.c:704 ../src/gnome-genius.c:995
+#: ../src/funclib.c:704 ../src/gnome-genius.c:1158
 msgid ""
 "Global variables:\n"
 "\n"
@@ -2156,7 +2157,7 @@ msgstr ""
 "Variabile globale:\n"
 "\n"
 
-#: ../src/funclib.c:727 ../src/gnome-genius.c:1028
+#: ../src/funclib.c:727 ../src/gnome-genius.c:1191
 msgid ""
 "\n"
 "Function call stack:\n"
@@ -2166,8 +2167,8 @@ msgstr ""
 "Stiva apelurilor funcțiilor:\n"
 "\n"
 
-#: ../src/funclib.c:729 ../src/funclib.c:769 ../src/gnome-genius.c:1030
-#: ../src/gnome-genius.c:1087
+#: ../src/funclib.c:729 ../src/funclib.c:769 ../src/gnome-genius.c:1193
+#: ../src/gnome-genius.c:1250
 msgid ""
 "(depth of context in parentheses)\n"
 "\n"
@@ -2175,7 +2176,7 @@ msgstr ""
 "(profunzimea contextului din paranteze)\n"
 "\n"
 
-#: ../src/funclib.c:767 ../src/gnome-genius.c:1085
+#: ../src/funclib.c:767 ../src/gnome-genius.c:1248
 msgid ""
 "\n"
 "Local variables:\n"
@@ -2265,7 +2266,7 @@ msgid "%s: Input not a number or a matrix of numbers."
 msgstr "%s: Intrarea nu este un număr sau o matrice de numere."
 
 #: ../src/funclib.c:3437 ../src/funclib.c:3495 ../src/funclib.c:5082
-#: ../src/funclib.c:5376 ../src/graphing.c:10336
+#: ../src/funclib.c:5376 ../src/graphing.c:10388
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: prea multe argumente"
@@ -2552,18 +2553,18 @@ msgstr ""
 "dimensiunea este dată, generează un vector sau o matrice de întregi la "
 "întâmplare"
 
-#: ../src/funclib.c:7062 ../src/gnome-genius.c:2418
+#: ../src/funclib.c:7062 ../src/gnome-genius.c:2630
 msgid "Floating point precision"
 msgstr "Virgulă mobilă de precizie"
 
-#: ../src/funclib.c:7064 ../src/gnome-genius.c:2307
+#: ../src/funclib.c:7064 ../src/gnome-genius.c:2516
 msgid ""
 "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr ""
 "Afișează 0,0 când numărul cu virgulă mobilă este mai mic de 10^-x "
 "(0=niciodată chop)"
 
-#: ../src/funclib.c:7067 ../src/gnome-genius.c:2330
+#: ../src/funclib.c:7067 ../src/gnome-genius.c:2539
 msgid "Only chop numbers when another number is greater than 10^-x"
 msgstr "Numai numere chop când alt număr e mai mare ca 10^-x"
 
@@ -3245,8 +3246,8 @@ msgstr ""
 
 #: ../src/funclib.c:7364
 msgid ""
-"Set flags for a function, currently \"PropagateMod\" and \"NoModuloArguments"
-"\""
+"Set flags for a function, currently \"PropagateMod\" and "
+"\"NoModuloArguments\""
 msgstr ""
 "Configurează indicatoare pentru o funcție, momentat „ModPropagare” și "
 "„FărăArgumenteModulo”"
@@ -3349,7 +3350,7 @@ msgstr "%s: argumentul cu numărul %d nu este un număr nenegativ"
 msgid "%s: argument number %d not a positive integer"
 msgstr "%s: numărul argument %d nu e întreg pozitiv"
 
-#: ../src/funclibhelper.cP:125 ../src/graphing.c:3385
+#: ../src/funclibhelper.cP:125 ../src/graphing.c:3394
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: numărul argumentului %d nu e un număr"
@@ -3432,8 +3433,8 @@ msgstr "Sugerate: %s\\n\n"
 msgid "Out of range!\n"
 msgstr "Depășește limita!\\n\n"
 
-#: ../src/genius.c:365 ../src/genius.lang.h:2 ../src/gnome-genius.c:664
-#: ../src/gnome-genius.c:705
+#: ../src/genius.c:365 ../src/genius.lang.h:2 ../src/gnome-genius.c:827
+#: ../src/gnome-genius.c:868
 msgid "Genius"
 msgstr "Geniu"
 
@@ -3537,7 +3538,7 @@ msgstr ""
 "Pentru ajutor, tastați „manual” sau „help”.%s\n"
 "\n"
 
-#: ../src/genius.c:631 ../src/gnome-genius.c:5260
+#: ../src/genius.c:631 ../src/gnome-genius.c:5564
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
@@ -3553,52 +3554,56 @@ msgstr "Nu se poate deschide fișierul"
 msgid "Script"
 msgstr "Script"
 
-#: ../src/gnome-genius.c:263
+#: ../src/gnome-genius.c:394
 msgid "_New Program"
 msgstr "Program _nou"
 
-#: ../src/gnome-genius.c:264
+#: ../src/gnome-genius.c:395
 msgid "Create new program tab"
 msgstr "Creează o nouă filă de program"
 
-#: ../src/gnome-genius.c:265
+#: ../src/gnome-genius.c:397
 msgid "_Open..."
 msgstr "_Deschide..."
 
-#: ../src/gnome-genius.c:266
+#: ../src/gnome-genius.c:398
 msgid "Open a file"
 msgstr "Deschide un fișier"
 
-#: ../src/gnome-genius.c:267 ../src/gnome-genius.c:3911
-#: ../src/gnome-genius.c:4036 ../src/graphing.c:1225
+#: ../src/gnome-genius.c:400
+msgid "Open R_ecent"
+msgstr "Deschide r_ecente"
+
+#: ../src/gnome-genius.c:403 ../src/gnome-genius.c:4201
+#: ../src/gnome-genius.c:4326 ../src/graphing.c:1230
 msgid "_Save"
 msgstr "_Salvează"
 
-#: ../src/gnome-genius.c:268
+#: ../src/gnome-genius.c:404
 msgid "Save current file"
 msgstr "Salvează fișierul curent"
 
-#: ../src/gnome-genius.c:269
+#: ../src/gnome-genius.c:406
 msgid "Save All _Unsaved"
 msgstr "Salvează toate _nesalvate"
 
-#: ../src/gnome-genius.c:270
+#: ../src/gnome-genius.c:407
 msgid "Save all unsaved programs"
 msgstr "Salvează toate programele nesalvate"
 
-#: ../src/gnome-genius.c:271
+#: ../src/gnome-genius.c:409
 msgid "Save _As..."
 msgstr "Salvează c_a..."
 
-#: ../src/gnome-genius.c:272
+#: ../src/gnome-genius.c:410
 msgid "Save to a file"
 msgstr "Salvează într-un fișier"
 
-#: ../src/gnome-genius.c:273
+#: ../src/gnome-genius.c:412
 msgid "_Reload from Disk"
 msgstr "_Reîncarcă de pe disc"
 
-#: ../src/gnome-genius.c:274
+#: ../src/gnome-genius.c:413
 msgid "Reload the selected program from disk"
 msgstr "Reîncarcă programul selectat de pe disc"
 
@@ -3611,276 +3616,284 @@ msgstr "Reîncarcă programul selectat de pe disc"
 #. GTK_WINDOW (genius_window)
 #. parent
 #. flags
-#: ../src/gnome-genius.c:275 ../src/gnome-genius.c:1145
-#: ../src/gnome-genius.c:1350 ../src/graphing.c:622 ../src/graphing.c:1976
-#: ../src/graphing.c:2167 ../src/graphing.c:7290 ../ve/ve-miscui.c:167
+#: ../src/gnome-genius.c:415 ../src/gnome-genius.c:1308
+#: ../src/gnome-genius.c:1513 ../src/graphing.c:627 ../src/graphing.c:1981
+#: ../src/graphing.c:2182 ../src/graphing.c:7306 ../ve/ve-miscui.c:167
 msgid "_Close"
 msgstr "În_chide"
 
-#: ../src/gnome-genius.c:276
+#: ../src/gnome-genius.c:416
 msgid "Close the current file"
 msgstr "Închide fișierul curent"
 
-#: ../src/gnome-genius.c:277
+#: ../src/gnome-genius.c:419
 msgid "_Load and Run..."
 msgstr "Încarcă și ru_lează..."
 
-#: ../src/gnome-genius.c:278
+#: ../src/gnome-genius.c:420
 msgid "Load and execute a file in genius"
 msgstr "Încarcă și rulează un fișier în geniu"
 
-#: ../src/gnome-genius.c:279
+#: ../src/gnome-genius.c:423
 msgid "Save Console Ou_tput..."
 msgstr "Salvează afișările din consolă..."
 
-#: ../src/gnome-genius.c:280
+#: ../src/gnome-genius.c:424
 msgid ""
 "Save what is visible on the console (including scrollback) to a text file"
 msgstr ""
 "Salvează tot ce este vizibil în consolă (incluzând derularea înapoi) într-un "
 "fișier text"
 
-#: ../src/gnome-genius.c:282
+#: ../src/gnome-genius.c:428
 msgid "_Quit"
 msgstr "_Ieși"
 
-#: ../src/gnome-genius.c:283
+#: ../src/gnome-genius.c:429 ../src/gnome-genius.c:719
 msgid "Quit"
 msgstr "Iese"
 
-#: ../src/gnome-genius.c:289
+#: ../src/gnome-genius.c:437
 msgid "_Undo"
 msgstr "An_ulează"
 
-#: ../src/gnome-genius.c:290
+#: ../src/gnome-genius.c:438
 msgid "Undo the last action"
 msgstr "Anulează ultima acțiune"
 
-#: ../src/gnome-genius.c:291
+#: ../src/gnome-genius.c:440
 msgid "_Redo"
 msgstr "_Refă"
 
-#: ../src/gnome-genius.c:292
+#: ../src/gnome-genius.c:441
 msgid "Redo the undone action"
 msgstr "Reface acțiunea anulată"
 
-#: ../src/gnome-genius.c:294
+#: ../src/gnome-genius.c:445
 msgid "Cu_t"
 msgstr "_Taie"
 
-#: ../src/gnome-genius.c:295
+#: ../src/gnome-genius.c:446
 msgid "Cut the selection"
 msgstr "Taie selecția"
 
-#: ../src/gnome-genius.c:296
+#: ../src/gnome-genius.c:448
 msgid "_Copy"
 msgstr "_Copiază"
 
-#: ../src/gnome-genius.c:297
+#: ../src/gnome-genius.c:449
 msgid "Copy the selection"
 msgstr "Copiază selecția"
 
-#: ../src/gnome-genius.c:298
+#: ../src/gnome-genius.c:451
 msgid "_Paste"
 msgstr "_Lipește"
 
-#: ../src/gnome-genius.c:299
+#: ../src/gnome-genius.c:452
 msgid "Paste the clipboard"
 msgstr "Lipește clipboardul"
 
-#: ../src/gnome-genius.c:300
+#: ../src/gnome-genius.c:455
 msgid "Copy Answer As Plain Te_xt"
 msgstr "Copiază răspunsul ca simplu te_xt"
 
-#: ../src/gnome-genius.c:301
+#: ../src/gnome-genius.c:456
 msgid "Copy last answer into the clipboard in plain text"
 msgstr "Copiază ultimul răspuns în clipboard ca simplu text"
 
-#: ../src/gnome-genius.c:302
+#: ../src/gnome-genius.c:458
 msgid "Copy Answer As _LaTeX"
 msgstr "Copiază răspunsul ca _LaTeX"
 
-#: ../src/gnome-genius.c:303
+#: ../src/gnome-genius.c:459
 msgid "Copy last answer into the clipboard as LaTeX"
 msgstr "Copiază ultimul răspuns în clipboard ca LaTeX"
 
-#: ../src/gnome-genius.c:304
+#: ../src/gnome-genius.c:461
 msgid "Copy Answer As _MathML"
 msgstr "Copiază răspunsul ca _MateML"
 
-#: ../src/gnome-genius.c:305
+#: ../src/gnome-genius.c:462
 msgid "Copy last answer into the clipboard as MathML"
 msgstr "Copiază ultimul răspuns în clipboard ca MateML"
 
-#: ../src/gnome-genius.c:306
+#: ../src/gnome-genius.c:464
 msgid "Copy Answer As T_roff"
 msgstr "Copiază răspunsul ca T_roff"
 
-#: ../src/gnome-genius.c:307
+#: ../src/gnome-genius.c:465
 msgid "Copy last answer into the clipboard as Troff eqn"
 msgstr "Copiază ultimul răspuns în clipboard ca Troff eqn"
 
-#: ../src/gnome-genius.c:312
+#: ../src/gnome-genius.c:471
 msgid "_Run"
 msgstr "_Rulează"
 
-#: ../src/gnome-genius.c:313
+#: ../src/gnome-genius.c:472
 msgid "Run current program"
 msgstr "Rulează programul curent"
 
-#: ../src/gnome-genius.c:314
+#: ../src/gnome-genius.c:474
 msgid "_Interrupt"
 msgstr "_Întrerupe"
 
-#: ../src/gnome-genius.c:315
+#: ../src/gnome-genius.c:475
 msgid "Interrupt current calculation"
 msgstr "Întrerupe calculul curent"
 
-#: ../src/gnome-genius.c:316
+#: ../src/gnome-genius.c:478
 msgid "Show _Full Answer"
 msgstr "Arată răspunsul întreg"
 
-#: ../src/gnome-genius.c:317
+#: ../src/gnome-genius.c:479
 msgid "Show the full text of last answer"
 msgstr "Arată întregul text al ultimului răspuns"
 
-#: ../src/gnome-genius.c:318
+#: ../src/gnome-genius.c:481
 msgid "Show User _Variables"
 msgstr "Arată _variabilele userului"
 
-#: ../src/gnome-genius.c:319
+#: ../src/gnome-genius.c:482
 msgid "Show the current value of all user variables"
 msgstr "Arată valorile curente ale tuturor variabilelor userului"
 
-#: ../src/gnome-genius.c:320
+#: ../src/gnome-genius.c:484
 msgid "_Monitor a Variable"
 msgstr "_Monitorizează o variabilă"
 
-#: ../src/gnome-genius.c:321
+#: ../src/gnome-genius.c:485
 msgid "Monitor a variable continuously"
 msgstr "Monitorizează o variabilă în continuu"
 
-#: ../src/gnome-genius.c:322
+#: ../src/gnome-genius.c:488
 msgid "_Plot..."
 msgstr "_Plănuiește..."
 
-#: ../src/gnome-genius.c:323
+#: ../src/gnome-genius.c:489
 msgid "Plot functions, vector fields, surfaces, etc..."
 msgstr "Plănuiește funcții, câmpuri vectoriale, suprafețe, etc..."
 
-#: ../src/gnome-genius.c:328
+#: ../src/gnome-genius.c:495
 msgid "_Next Tab"
 msgstr "Fila următoare"
 
-#: ../src/gnome-genius.c:329
+#: ../src/gnome-genius.c:496
 msgid "Go to next tab"
 msgstr "Mergi la fila următoare"
 
-#: ../src/gnome-genius.c:330
+#: ../src/gnome-genius.c:498
 msgid "_Previous Tab"
 msgstr "Fila anterioară"
 
-#: ../src/gnome-genius.c:331
+#: ../src/gnome-genius.c:499
 msgid "Go to previous tab"
 msgstr "Mergi la fila anterioară"
 
-#: ../src/gnome-genius.c:332
+#: ../src/gnome-genius.c:502
 msgid "_Console"
 msgstr "_Consolă"
 
-#: ../src/gnome-genius.c:333
+#: ../src/gnome-genius.c:503
 msgid "Go to the console tab"
 msgstr "Mergi la fila consolă"
 
-#: ../src/gnome-genius.c:338
+#: ../src/gnome-genius.c:509
 msgid "_Preferences"
 msgstr "_Preferințe"
 
-#: ../src/gnome-genius.c:339
+#: ../src/gnome-genius.c:510
 msgid "Configure Genius"
 msgstr "Configurează Geniu"
 
-#: ../src/gnome-genius.c:344
+#: ../src/gnome-genius.c:516
 msgid "_Contents"
 msgstr "_Conținut"
 
-#: ../src/gnome-genius.c:345
+#: ../src/gnome-genius.c:517
 msgid "View the Genius manual"
 msgstr "Vizualizează manualul pentru Geniu"
 
-#: ../src/gnome-genius.c:346
+#: ../src/gnome-genius.c:519
 msgid "_Help on Function"
 msgstr "_Ajutor pentru funcție"
 
-#: ../src/gnome-genius.c:347
+#: ../src/gnome-genius.c:520
 msgid "Help on a function or a command"
 msgstr "Ajutor pentru o funcție sau o comandă"
 
-#: ../src/gnome-genius.c:348
+#: ../src/gnome-genius.c:522
 msgid "_Warranty"
 msgstr "_Garanție"
 
-#: ../src/gnome-genius.c:349
+#: ../src/gnome-genius.c:523
 msgid "Display warranty information"
 msgstr "Afișează informația despre garanție"
 
-#: ../src/gnome-genius.c:350
+#: ../src/gnome-genius.c:526
 msgid "_About"
 msgstr "_Despre"
 
-#: ../src/gnome-genius.c:351
+#: ../src/gnome-genius.c:527
 msgid "About Genius"
 msgstr "Despre Geniu"
 
-#: ../src/gnome-genius.c:471
+#: ../src/gnome-genius.c:623
 msgid "_File"
 msgstr "_Fișier"
 
-#: ../src/gnome-genius.c:474
-msgid "Open R_ecent"
-msgstr "Deschide r_ecente"
-
-#: ../src/gnome-genius.c:488
+#: ../src/gnome-genius.c:634
 msgid "_Edit"
 msgstr "_Editare"
 
-#: ../src/gnome-genius.c:500
+#: ../src/gnome-genius.c:639
 msgid "_Calculator"
 msgstr "_Calculator"
 
-#: ../src/gnome-genius.c:509
+#: ../src/gnome-genius.c:644
 msgid "E_xamples"
 msgstr "E_xemple"
 
-#: ../src/gnome-genius.c:512
+#: ../src/gnome-genius.c:647
 msgid "P_lugins"
 msgstr "Modu_le"
 
-#: ../src/gnome-genius.c:515
+#: ../src/gnome-genius.c:650
 msgid "_Programs"
 msgstr "_Programe"
 
-#: ../src/gnome-genius.c:522
+#: ../src/gnome-genius.c:655
 msgid "_Settings"
 msgstr "_Configurări"
 
 #. parent
 #. flags
-#: ../src/gnome-genius.c:528 ../src/gnome-genius.c:2225
+#: ../src/gnome-genius.c:660 ../src/gnome-genius.c:2430
 msgid "_Help"
 msgstr "_Ajutor"
 
-#: ../src/gnome-genius.c:543
+#: ../src/gnome-genius.c:671
+msgid "Interrupt"
+msgstr "Întrerupe"
+
+#: ../src/gnome-genius.c:679
+msgid "Run"
+msgstr "Rulează"
+
+#: ../src/gnome-genius.c:687
 msgid "New"
 msgstr "Nou"
 
-#: ../src/gnome-genius.c:546
+#: ../src/gnome-genius.c:695
 msgid "Open"
 msgstr "Deschide"
 
-#: ../src/gnome-genius.c:549 ../src/graphing.c:7292
-msgid "_Plot"
-msgstr "_Plănuiește"
+#: ../src/gnome-genius.c:703
+msgid "Save"
+msgstr "Salvează"
+
+#: ../src/gnome-genius.c:711 ../src/graphing.c:2177
+msgid "Plot"
+msgstr "Plan"
 
 #. GTK_WINDOW (genius_window)
 #. parent
@@ -3888,11 +3901,11 @@ msgstr "_Plănuiește"
 #. title
 #. parent
 #. flags
-#: ../src/gnome-genius.c:708 ../src/gnome-genius.c:772
-#: ../src/gnome-genius.c:1425 ../src/gnome-genius.c:2227
-#: ../src/gnome-genius.c:2716 ../src/gnome-genius.c:3681
-#: ../src/gnome-genius.c:3912 ../src/gnome-genius.c:4037 ../src/graphing.c:850
-#: ../src/graphing.c:1224 ../src/graphing.c:5627 ../src/graphing.c:5744
+#: ../src/gnome-genius.c:871 ../src/gnome-genius.c:935
+#: ../src/gnome-genius.c:1588 ../src/gnome-genius.c:2432
+#: ../src/gnome-genius.c:3004 ../src/gnome-genius.c:3970
+#: ../src/gnome-genius.c:4202 ../src/gnome-genius.c:4327 ../src/graphing.c:855
+#: ../src/graphing.c:1229 ../src/graphing.c:5636 ../src/graphing.c:5754
 #: ../ve/ve-miscui.c:178 ../ve/ve-miscui.c:206
 msgid "_Cancel"
 msgstr "_Anulează"
@@ -3902,27 +3915,27 @@ msgstr "_Anulează"
 #. title
 #. parent
 #. flags
-#: ../src/gnome-genius.c:709 ../src/gnome-genius.c:773
-#: ../src/gnome-genius.c:915 ../src/gnome-genius.c:1426
-#: ../src/gnome-genius.c:2228 ../src/graphing.c:5625 ../src/graphing.c:5742
+#: ../src/gnome-genius.c:872 ../src/gnome-genius.c:936
+#: ../src/gnome-genius.c:1078 ../src/gnome-genius.c:1589
+#: ../src/gnome-genius.c:2433 ../src/graphing.c:5634 ../src/graphing.c:5752
 #: ../ve/ve-miscui.c:156 ../ve/ve-miscui.c:211
 msgid "_OK"
 msgstr "_OK"
 
-#: ../src/gnome-genius.c:769
+#: ../src/gnome-genius.c:932
 msgid "Help on Function"
 msgstr "Ajutor pentru o funcție"
 
-#: ../src/gnome-genius.c:785
+#: ../src/gnome-genius.c:948
 msgid "Function or command name:"
 msgstr "Numele funcției sau comenzii:"
 
-#: ../src/gnome-genius.c:842 ../src/gnome-genius.c:1701
+#: ../src/gnome-genius.c:1005 ../src/gnome-genius.c:1864
 #, c-format
 msgid "<b>Help on %s not found</b>"
 msgstr "<b>Nu s-a găsit ajutor pentru %s</b>"
 
-#: ../src/gnome-genius.c:846
+#: ../src/gnome-genius.c:1009
 #, c-format
 msgid ""
 "<b>Help on %s not found</b>\n"
@@ -3933,70 +3946,70 @@ msgstr ""
 "\n"
 "Poate vă refereați %s."
 
-#: ../src/gnome-genius.c:905
+#: ../src/gnome-genius.c:1068
 msgid "Error"
 msgstr "Eroare"
 
-#: ../src/gnome-genius.c:907
+#: ../src/gnome-genius.c:1070
 msgid "Information"
 msgstr "Informații"
 
-#: ../src/gnome-genius.c:1141
+#: ../src/gnome-genius.c:1304
 msgid "User Variable Listing"
 msgstr "Lista variabilelor userului"
 
 #. parent
 #. flags
-#: ../src/gnome-genius.c:1144
+#: ../src/gnome-genius.c:1307
 msgid "_Refresh"
 msgstr "_Reîmprospătează"
 
-#: ../src/gnome-genius.c:1250
+#: ../src/gnome-genius.c:1413
 #, c-format
 msgid "%s undefined"
 msgstr "%s nedefinit"
 
 #. printed before a global variable
-#: ../src/gnome-genius.c:1285
+#: ../src/gnome-genius.c:1448
 msgid "(global) "
 msgstr "(global) "
 
 #. printed before local variable in certain
 #. * context
-#: ../src/gnome-genius.c:1289
+#: ../src/gnome-genius.c:1452
 #, c-format
 msgid "(context %d) "
 msgstr "(context %d) "
 
-#: ../src/gnome-genius.c:1311
+#: ../src/gnome-genius.c:1474
 #, c-format
 msgid "%s not a user variable"
 msgstr "%s nu este o variabilă de user"
 
-#: ../src/gnome-genius.c:1345
+#: ../src/gnome-genius.c:1508
 #, c-format
 msgid "Monitoring: %s"
 msgstr "E monitorizată: %s"
 
-#: ../src/gnome-genius.c:1391
+#: ../src/gnome-genius.c:1554
 msgid "Update continuously"
 msgstr "Actualizare continuă"
 
-#: ../src/gnome-genius.c:1422
+#: ../src/gnome-genius.c:1585
 msgid "Monitor a Variable"
 msgstr "Monitorizează o variabilă"
 
-#: ../src/gnome-genius.c:1438
+#: ../src/gnome-genius.c:1601
 msgid "Variable name:"
 msgstr "Numele variabilei:"
 
 #. error
 #. always textbox
-#: ../src/gnome-genius.c:1494
+#: ../src/gnome-genius.c:1657
 msgid "Full Answer"
 msgstr "Răspunsul întreg"
 
-#: ../src/gnome-genius.c:1511
+#: ../src/gnome-genius.c:1674
 #, c-format
 msgid ""
 "\n"
@@ -4005,12 +4018,12 @@ msgstr ""
 "\n"
 "Prea multe erori! (%d urmat)"
 
-#: ../src/gnome-genius.c:1527
+#: ../src/gnome-genius.c:1690
 #, c-format
 msgid "e[01;31mToo many errors! (%d followed)e[0m\n"
 msgstr "e[01;31mPrea multe erori! (%d urmărit)e[0m\n"
 
-#: ../src/gnome-genius.c:1711 ../src/gnome-genius.c:1746
+#: ../src/gnome-genius.c:1874 ../src/gnome-genius.c:1909
 #, c-format
 msgid ""
 "<b>Cannot display help</b>\n"
@@ -4021,15 +4034,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/gnome-genius.c:1821
+#: ../src/gnome-genius.c:1984
 msgid "Nils Barth (initial implementation of parts of the GEL library)"
 msgstr "Nils Barth (implementarea inițială a unor părți din librăria GEL)"
 
-#: ../src/gnome-genius.c:1822
+#: ../src/gnome-genius.c:1985
 msgid "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"
 msgstr "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"
 
-#: ../src/gnome-genius.c:1823
+#: ../src/gnome-genius.c:1986
 msgid "Yavor Doganov <yavor@gnu.org> (Port to GTK3)"
 msgstr "Yavor Doganov <yavor@gnu.org> (Port la GTK3)"
 
@@ -4037,22 +4050,22 @@ msgstr "Yavor Doganov <yavor@gnu.org> (Port la GTK3)"
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: ../src/gnome-genius.c:1837
+#: ../src/gnome-genius.c:2000
 msgid "translator-credits"
 msgstr ""
 "Tudor Vioreanu <tudor_dude93@yahoo.com>\n"
 "Florentina Mușat <florentina [dot] musat [dot] 28 [at] gmail [dot] com>, "
-"2020-2021"
+"2020-2021, 2023"
 
-#: ../src/gnome-genius.c:1885
+#: ../src/gnome-genius.c:2048
 msgid "Genius Mathematical Tool"
 msgstr "Geniu - Instrument matematic"
 
-#: ../src/gnome-genius.c:1889
+#: ../src/gnome-genius.c:2052
 msgid "The GNOME calculator style edition of the Genius Mathematical Tool."
 msgstr "Ediția în stil calculator GNOME a uneltei matematice Genius."
 
-#: ../src/gnome-genius.c:2080
+#: ../src/gnome-genius.c:2243
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -4060,59 +4073,59 @@ msgstr ""
 "Geniu execută ceva, și mai sunt și programe nesalvate.\\n\n"
 "Sigur doriți să ieșiți?"
 
-#: ../src/gnome-genius.c:2088
+#: ../src/gnome-genius.c:2251
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr "Există programe nesalvate, sigur doriți să ieșiți??"
 
-#: ../src/gnome-genius.c:2095
+#: ../src/gnome-genius.c:2258
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr "Geniu execută ceva, sigur doriți să ieșiți??"
 
-#: ../src/gnome-genius.c:2102
+#: ../src/gnome-genius.c:2265
 msgid "Are you sure you wish to quit?"
 msgstr "Sigur doriți să ieșiți?"
 
-#: ../src/gnome-genius.c:2222
+#: ../src/gnome-genius.c:2427
 msgid "Genius Setup"
 msgstr "Configurare Geniu"
 
-#: ../src/gnome-genius.c:2226
+#: ../src/gnome-genius.c:2431
 msgid "_Apply"
 msgstr "_Aplică"
 
-#: ../src/gnome-genius.c:2239
+#: ../src/gnome-genius.c:2448
 msgid "Output"
 msgstr "Ieșire"
 
-#: ../src/gnome-genius.c:2242
+#: ../src/gnome-genius.c:2451
 msgid "Number/Expression output options"
 msgstr "Opțiuni de ieșire pentru numere/expresii"
 
-#: ../src/gnome-genius.c:2252
+#: ../src/gnome-genius.c:2461
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Numărul maxim de cifre de afișat (0=nelimitat)"
 
-#: ../src/gnome-genius.c:2272
+#: ../src/gnome-genius.c:2481
 msgid "Results as floats"
 msgstr "Rezultatele ca numere cu virgulă mobilă"
 
-#: ../src/gnome-genius.c:2280
+#: ../src/gnome-genius.c:2489
 msgid "Floats in scientific notation"
 msgstr "Numere cu virgulă mobilă în notare științifică"
 
-#: ../src/gnome-genius.c:2288
+#: ../src/gnome-genius.c:2497
 msgid "Always print full expressions"
 msgstr "Tipărește expresiile întregi întotdeauna"
 
-#: ../src/gnome-genius.c:2296
+#: ../src/gnome-genius.c:2505
 msgid "Use mixed fractions"
 msgstr "Folosește fracții mixte"
 
-#: ../src/gnome-genius.c:2349
+#: ../src/gnome-genius.c:2558
 msgid "Remember output settings across sessions"
 msgstr "Reține configurările pentru ieșire între sesiuni"
 
-#: ../src/gnome-genius.c:2359
+#: ../src/gnome-genius.c:2568
 msgid ""
 "Should the output settings in the \"Number/Expression output options\" frame "
 "be remembered for next session.  Does not apply to the \"Error/Info output "
@@ -4122,27 +4135,27 @@ msgstr ""
 "numere/expresii” să fie reținute pentru sesiunea următoare.  Nu se aplică la "
 "cadrul „Opțiuni pentru ieșire de eroare/informații”."
 
-#: ../src/gnome-genius.c:2364
+#: ../src/gnome-genius.c:2573
 msgid "Error/Info output options"
 msgstr "Opțiuni pentru ieșire de erori/informații"
 
-#: ../src/gnome-genius.c:2372
+#: ../src/gnome-genius.c:2581
 msgid "Display errors in a dialog"
 msgstr "Afișează erori într-un dialog"
 
-#: ../src/gnome-genius.c:2380
+#: ../src/gnome-genius.c:2589
 msgid "Display information messages in a dialog"
 msgstr "Afișează mesaje de informații într-un dialog"
 
-#: ../src/gnome-genius.c:2391
+#: ../src/gnome-genius.c:2600
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Numărul maxim de erori de afișat (0=nelimitat)"
 
-#: ../src/gnome-genius.c:2415
+#: ../src/gnome-genius.c:2627
 msgid "Precision"
 msgstr "Precizie"
 
-#: ../src/gnome-genius.c:2425
+#: ../src/gnome-genius.c:2637
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -4152,51 +4165,63 @@ msgstr ""
 "efect pentru toate numerele imediat, numai numerele noi\\n\n"
 "calculate și variabilele noi vor fi afectate."
 
-#: ../src/gnome-genius.c:2434
+#: ../src/gnome-genius.c:2646
 msgid "Floating point precision (bits)"
 msgstr "Precizia virgulei mobile (biți)"
 
-#: ../src/gnome-genius.c:2453
+#: ../src/gnome-genius.c:2665
 msgid "Remember precision setting across sessions"
 msgstr "Reține configurarea preciziei între sesiuni"
 
-#: ../src/gnome-genius.c:2462
+#: ../src/gnome-genius.c:2674
 msgid "Should the precision setting be remembered for next session."
 msgstr "Ar trebui să fie reținută setarea preciziei pentru sesiunea următoare."
 
-#: ../src/gnome-genius.c:2470
+#: ../src/gnome-genius.c:2685
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ../src/gnome-genius.c:2472
+#: ../src/gnome-genius.c:2687
 msgid "Terminal options"
 msgstr "Opțiuni terminal"
 
-#: ../src/gnome-genius.c:2481
+#: ../src/gnome-genius.c:2696
 msgid "Scrollback lines"
 msgstr "Linii de scroll înapoi"
 
-#: ../src/gnome-genius.c:2504
+#: ../src/gnome-genius.c:2719
 msgid "Font:"
 msgstr "Font:"
 
-#: ../src/gnome-genius.c:2515
+#: ../src/gnome-genius.c:2730
 msgid "Black on white"
 msgstr "Negru pe alb"
 
-#: ../src/gnome-genius.c:2523
+#: ../src/gnome-genius.c:2738
 msgid "Blinking cursor"
 msgstr "Cursor ce clipește"
 
-#: ../src/gnome-genius.c:2536
+#: ../src/gnome-genius.c:2755
+msgid "Editor"
+msgstr "Editor"
+
+#: ../src/gnome-genius.c:2757
+msgid "Editor options"
+msgstr "Opțiuni editor"
+
+#: ../src/gnome-genius.c:2766
+msgid "Color scheme"
+msgstr "Schemă de culori"
+
+#: ../src/gnome-genius.c:2812
 msgid "Memory"
 msgstr "Memorie"
 
-#: ../src/gnome-genius.c:2539
+#: ../src/gnome-genius.c:2815
 msgid "Limits"
 msgstr "Limite"
 
-#: ../src/gnome-genius.c:2546
+#: ../src/gnome-genius.c:2822
 msgid ""
 "When the limit is reached you will be asked if\n"
 "you wish to interrupt the calculation or continue.\n"
@@ -4206,11 +4231,11 @@ msgstr ""
 "doriți să întrerupeți calculul sau să continuați.\\n\n"
 "Setând pe 0 va dezactiva limita."
 
-#: ../src/gnome-genius.c:2555
+#: ../src/gnome-genius.c:2831
 msgid "Maximum number of nodes to allocate"
 msgstr "Numărul maxim de noduri de alocat"
 
-#: ../src/gnome-genius.c:2595
+#: ../src/gnome-genius.c:2883
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -4220,45 +4245,45 @@ msgstr ""
 "\n"
 "Încercați din nou mai târziu sau întrerupeți operațiunea curentă."
 
-#: ../src/gnome-genius.c:2638
+#: ../src/gnome-genius.c:2926
 msgid "GEL files"
 msgstr "Fișiere GEL"
 
-#: ../src/gnome-genius.c:2643 ../src/graphing.c:1250
+#: ../src/gnome-genius.c:2931 ../src/graphing.c:1255
 msgid "All files"
 msgstr "Toate fișierele"
 
-#: ../src/gnome-genius.c:2670 ../src/gnome-genius.c:3657
+#: ../src/gnome-genius.c:2958 ../src/gnome-genius.c:3946
 msgid "Cannot open file!"
 msgstr "Nu se poate deschide fișierul!"
 
-#: ../src/gnome-genius.c:2678 ../src/gnome-genius.c:4127
+#: ../src/gnome-genius.c:2966 ../src/gnome-genius.c:4417
 msgid "Output from "
 msgstr "Ieșire din "
 
-#: ../src/gnome-genius.c:2695 ../src/gnome-genius.c:4199
+#: ../src/gnome-genius.c:2983 ../src/gnome-genius.c:4489
 msgid "End"
 msgstr "Sfârșit"
 
-#: ../src/gnome-genius.c:2712
+#: ../src/gnome-genius.c:3000
 msgid "Load and Run"
 msgstr "Încarcă și rulează"
 
-#: ../src/gnome-genius.c:2715
+#: ../src/gnome-genius.c:3003
 msgid "_Load"
 msgstr "Încarcă"
 
-#: ../src/gnome-genius.c:3268
+#: ../src/gnome-genius.c:3556
 msgid "Cannot open file"
 msgstr "Nu se poate deschide fișierul"
 
 #. context
-#: ../src/gnome-genius.c:3303 ../src/gnome-genius.c:4846
+#: ../src/gnome-genius.c:3591 ../src/gnome-genius.c:5150
 #, c-format
 msgid "Line: %d"
 msgstr "Linia: %d"
 
-#: ../src/gnome-genius.c:3427
+#: ../src/gnome-genius.c:3717
 msgid ""
 "The program you are closing is unsaved, are you sure you wish to close it "
 "without saving?"
@@ -4266,34 +4291,34 @@ msgstr ""
 "Programul pe care îl închideți este nesalvat, sigur doriți să îl închideți "
 "fără să salvați?"
 
-#: ../src/gnome-genius.c:3538
+#: ../src/gnome-genius.c:3827
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Program_%d.gel"
 
-#: ../src/gnome-genius.c:3549
+#: ../src/gnome-genius.c:3838
 #, c-format
 msgid "Program %d"
 msgstr "Program %d"
 
-#: ../src/gnome-genius.c:3587
+#: ../src/gnome-genius.c:3876
 #, c-format
 msgid "Cannot open %s"
 msgstr "Nu se poate deschide %s"
 
-#: ../src/gnome-genius.c:3677
+#: ../src/gnome-genius.c:3966
 msgid "Open..."
 msgstr "Deschide..."
 
-#: ../src/gnome-genius.c:3680
+#: ../src/gnome-genius.c:3969
 msgid "_Open"
 msgstr "_Deschide"
 
-#: ../src/gnome-genius.c:3757
+#: ../src/gnome-genius.c:4047
 msgid "Program is read only"
 msgstr "Programul este strict citire"
 
-#: ../src/gnome-genius.c:3762 ../src/gnome-genius.c:3802
+#: ../src/gnome-genius.c:4052 ../src/gnome-genius.c:4092
 #, c-format
 msgid ""
 "<b>Cannot save file %s</b>\n"
@@ -4302,16 +4327,16 @@ msgstr ""
 "<b>Nu se poate salva fișierul %s</b>\n"
 "Detalii: %s"
 
-#: ../src/gnome-genius.c:3768 ../src/gnome-genius.c:3809
+#: ../src/gnome-genius.c:4058 ../src/gnome-genius.c:4099
 #, c-format
 msgid "<b>Cannot save file %s</b>"
 msgstr "<b>Nu se poate salva fișierul %s</b>"
 
-#: ../src/gnome-genius.c:3819
+#: ../src/gnome-genius.c:4109
 msgid "Save new programs by \"Save As...\" first!"
 msgstr "Salvează programe noi prin „Salvează ca...” mai întâi!"
 
-#: ../src/gnome-genius.c:3825
+#: ../src/gnome-genius.c:4115
 msgid ""
 "Some read-only programs are modified.  Use \"Save As...\" to save them to a "
 "new location."
@@ -4319,7 +4344,7 @@ msgstr ""
 "Unele programe protejate la scriere sunt modificate.  Utilizați „Salvează "
 "ca...” pentru a le salva la o locație nouă."
 
-#: ../src/gnome-genius.c:3869 ../src/gnome-genius.c:4002
+#: ../src/gnome-genius.c:4159 ../src/gnome-genius.c:4292
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -4328,19 +4353,19 @@ msgstr ""
 "<b>Fișierul nu poate fi salvat</b>\n"
 "Detlii: %s"
 
-#: ../src/gnome-genius.c:3874 ../src/gnome-genius.c:4007
+#: ../src/gnome-genius.c:4164 ../src/gnome-genius.c:4297
 msgid "<b>Cannot save file</b>"
 msgstr "<b>Nu se poate salva fișierul</b>"
 
-#: ../src/gnome-genius.c:3908
+#: ../src/gnome-genius.c:4198
 msgid "Save As..."
 msgstr "Salvează ca..."
 
-#: ../src/gnome-genius.c:4033
+#: ../src/gnome-genius.c:4323
 msgid "Save Console Output..."
 msgstr "Salvează afișările din consolă..."
 
-#: ../src/gnome-genius.c:4084
+#: ../src/gnome-genius.c:4374
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -4350,12 +4375,12 @@ msgstr ""
 "\n"
 "Creați un program nou, sau selectați o filă existentă din caietul de notițe."
 
-#: ../src/gnome-genius.c:4114
+#: ../src/gnome-genius.c:4404
 #, c-format
 msgid "Cannot open pipe: %s"
 msgstr "Nu se poate deschide conducta: %s"
 
-#: ../src/gnome-genius.c:4143
+#: ../src/gnome-genius.c:4433
 msgid ""
 "<b>Cannot execute program</b>\n"
 "\n"
@@ -4365,7 +4390,7 @@ msgstr ""
 "\n"
 "Nu se poate bifurca."
 
-#: ../src/gnome-genius.c:4216
+#: ../src/gnome-genius.c:4506
 msgid ""
 "<b>Error executing program</b>\n"
 "\n"
@@ -4376,12 +4401,12 @@ msgstr ""
 "\n"
 "A apărut o eroare în timp ce se scria programul în motor."
 
-#: ../src/gnome-genius.c:4252
+#: ../src/gnome-genius.c:4544
 #, c-format
 msgid "Genius %s"
 msgstr "Geniu %s"
 
-#: ../src/gnome-genius.c:4503
+#: ../src/gnome-genius.c:4802
 msgid "Memory (node number) limit has been reached, interrupt the computation?"
 msgstr ""
 "Limita de memorie (numărul de noduri) a fost atinsă, întrerupeți calculul?"
@@ -4391,17 +4416,17 @@ msgstr ""
 #. textbox_title
 #. bind_response
 #. wrap
-#: ../src/gnome-genius.c:4618
+#: ../src/gnome-genius.c:4917
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Nu se poate executa genius-readline-helper-fifo!\\n\n"
 
-#: ../src/gnome-genius.c:4679
+#: ../src/gnome-genius.c:4978
 msgid "Readline helper died, weird.  Trying to recover, things may be odd."
 msgstr ""
 "Ajutorul readline a murit, ciudat.  Se încearcă revenirea, lucrurile ar "
 "putea fi ciudate."
 
-#: ../src/gnome-genius.c:4867
+#: ../src/gnome-genius.c:5171
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -4410,13 +4435,13 @@ msgstr ""
 "Notă: Compilat fără GtkSourceView (editor de surse mai bun)"
 
 #. parent
-#: ../src/gnome-genius.c:5000
+#: ../src/gnome-genius.c:5304
 msgid "Cannot find the library file, genius installation may be incorrect"
 msgstr ""
 "Nu se poate găsi fișierul librăria, instalarea geniu ar putea fi incorectă"
 
 #. parent
-#: ../src/gnome-genius.c:5013
+#: ../src/gnome-genius.c:5317
 msgid ""
 "A file .genius in the home directory exists, but it should be a directory. "
 "Genius will not be able to save preferences."
@@ -4424,11 +4449,11 @@ msgstr ""
 "Un fișier .geniu în directorul personal există, dar ar trebui să fie un "
 "director. Genius nu va putea să salveze preferințele."
 
-#: ../src/gnome-genius.c:5102
+#: ../src/gnome-genius.c:5406
 msgid "Console"
 msgstr "Consolă"
 
-#: ../src/gnome-genius.c:5153
+#: ../src/gnome-genius.c:5457
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -4445,7 +4470,7 @@ msgstr ""
 "Pentru ajutor, tastați „%smanual%s” sau „%shelp%s”.%s\n"
 "\n"
 
-#: ../src/gnome-genius.c:5377
+#: ../src/gnome-genius.c:5642
 msgid "GNOME Genius"
 msgstr "GNOME Geniu"
 
@@ -4466,105 +4491,105 @@ msgstr ""
 "Graphing;Function;Number Theory;Matematică;Matrice;Algebră liniară;Analiză "
 "matematică;Plotare;Grafice;Funcție;Teoria numerelor;"
 
-#: ../src/graphing.c:619
+#: ../src/graphing.c:624
 msgid "Rotate"
 msgstr "Rotește"
 
-#: ../src/graphing.c:636 ../src/graphing.c:667
+#: ../src/graphing.c:641 ../src/graphing.c:672
 #, c-format
 msgid "Rotate about %s axis: "
 msgstr "Rotește după axa %s: "
 
-#: ../src/graphing.c:698
+#: ../src/graphing.c:703
 msgid "Rotate about dependent axis: "
 msgstr "Rotește după axa dependentă: "
 
-#: ../src/graphing.c:847
+#: ../src/graphing.c:852
 msgid "Print"
 msgstr "Tipărește"
 
-#: ../src/graphing.c:852
+#: ../src/graphing.c:857
 msgid "_Print"
 msgstr "_Tipărește"
 
-#: ../src/graphing.c:862
+#: ../src/graphing.c:867
 msgid "Print command: "
 msgstr "Comanda de tipărire: "
 
-#: ../src/graphing.c:892
+#: ../src/graphing.c:897
 msgid "Cannot open temporary file, cannot print."
 msgstr "Nu se poate deschide fișierul temporar, nu se poate tipări."
 
-#: ../src/graphing.c:921
+#: ../src/graphing.c:926
 msgid "Printing failed"
 msgstr "Tipărirea a eșuat"
 
-#: ../src/graphing.c:934
+#: ../src/graphing.c:939
 #, c-format
 msgid "Printing failed: %s"
 msgstr "Tipărirea a eșuat: %s"
 
-#: ../src/graphing.c:1008 ../src/graphing.c:1149
+#: ../src/graphing.c:1013 ../src/graphing.c:1154
 msgid "File already exists.  Overwrite it?"
 msgstr "Fișierul deja există.   Suprascrieți?"
 
-#: ../src/graphing.c:1108 ../src/graphing.c:1164 ../src/graphing.c:1179
+#: ../src/graphing.c:1113 ../src/graphing.c:1169 ../src/graphing.c:1184
 msgid "Export failed"
 msgstr "Exportarea a eșuat"
 
-#: ../src/graphing.c:1204
+#: ../src/graphing.c:1209
 msgid "Export encapsulated postscript"
 msgstr "Exportă postscript encapsulat"
 
-#: ../src/graphing.c:1206
+#: ../src/graphing.c:1211
 msgid "Export postscript"
 msgstr "Exportă postscript"
 
-#: ../src/graphing.c:1208
+#: ../src/graphing.c:1213
 msgid "Export PDF"
 msgstr "Exportă PDF"
 
-#: ../src/graphing.c:1210
+#: ../src/graphing.c:1215
 msgid "Export PNG"
 msgstr "Exportă PNG"
 
-#: ../src/graphing.c:1217
+#: ../src/graphing.c:1222
 msgid "Missing ps2pdf command, perhaps ghostscript is not installed."
 msgstr "Lipsește comanda ps2pdf, poate că ghostscript nu este instalat."
 
-#: ../src/graphing.c:1232
+#: ../src/graphing.c:1237
 msgid "EPS files"
 msgstr "Fișiere EPS"
 
-#: ../src/graphing.c:1236
+#: ../src/graphing.c:1241
 msgid "PS files"
 msgstr "Fișiere PS"
 
-#: ../src/graphing.c:1240
+#: ../src/graphing.c:1245
 msgid "PDF files"
 msgstr "Fișiere PDF"
 
-#: ../src/graphing.c:1244
+#: ../src/graphing.c:1249
 msgid "PNG files"
 msgstr "Fișiere PNG"
 
-#: ../src/graphing.c:1259
+#: ../src/graphing.c:1264
 msgid "Generate preview in EPS file (with ps2epsi)"
 msgstr "Generează previzualizare în fișierul EPS (cu ps2epsi)"
 
-#: ../src/graphing.c:1973
+#: ../src/graphing.c:1978
 msgid "Solver"
 msgstr "Rezolvitor"
 
-#: ../src/graphing.c:1978
+#: ../src/graphing.c:1983
 msgid "Clea_r solutions"
 msgstr "Elibe_rează soluții"
 
-#: ../src/graphing.c:1980
+#: ../src/graphing.c:1985
 msgid "_Plot solution"
 msgstr "Soluție _plan"
 
-#: ../src/graphing.c:1999
+#: ../src/graphing.c:2004
 msgid ""
 "Clicking on the graph window now will draw a solution according to the "
 "parameters set below, starting at the point clicked.  To be able to zoom by "
@@ -4574,164 +4599,160 @@ msgstr ""
 "parametrilor setați mai jos, începând din punctul unde s-a dat clic.  Pentru "
 "a putea face zoom din mouse din nou, închideți această fereastră."
 
-#: ../src/graphing.c:2015
+#: ../src/graphing.c:2020
 msgid "X increment:"
 msgstr "X incrementare:"
 
-#: ../src/graphing.c:2032
+#: ../src/graphing.c:2037
 msgid "T increment:"
 msgstr "T incrementare:"
 
-#: ../src/graphing.c:2034
+#: ../src/graphing.c:2039
 msgid "T interval length:"
 msgstr "Lungime interval T:"
 
-#: ../src/graphing.c:2052
+#: ../src/graphing.c:2057
 msgid "Point x:"
 msgstr "Punct x:"
 
-#: ../src/graphing.c:2054
+#: ../src/graphing.c:2059
 msgid "y:"
 msgstr "y:"
-
-#: ../src/graphing.c:2162
-msgid "Plot"
-msgstr "Plan"
 
 #. title
 #. GTK_WINDOW (genius_window)
 #. parent
 #. flags
-#: ../src/graphing.c:2165
+#: ../src/graphing.c:2180
 msgid "_Stop"
 msgstr "_Oprește"
 
-#: ../src/graphing.c:2197
+#: ../src/graphing.c:2212
 msgid "_Graph"
 msgstr "_Grafic"
 
-#: ../src/graphing.c:2201
+#: ../src/graphing.c:2216
 msgid "_Print..."
 msgstr "Ti_părește..."
 
-#: ../src/graphing.c:2207
+#: ../src/graphing.c:2222
 msgid "_Export postscript..."
 msgstr "_Exportă postscriptul..."
 
-#: ../src/graphing.c:2213
+#: ../src/graphing.c:2228
 msgid "E_xport encapsulated postscript..."
 msgstr "E_xportă postscript încapsulat..."
 
-#: ../src/graphing.c:2220
+#: ../src/graphing.c:2235
 msgid "Export P_DF..."
 msgstr "Exportă P_DF..."
 
-#: ../src/graphing.c:2229
+#: ../src/graphing.c:2244
 msgid "Export P_NG..."
 msgstr "Exportă P_NG..."
 
-#: ../src/graphing.c:2241
+#: ../src/graphing.c:2256
 msgid "_Zoom"
 msgstr "_Zoom"
 
-#: ../src/graphing.c:2245
+#: ../src/graphing.c:2260
 msgid "Zoom _out"
 msgstr "Zoom _out"
 
-#: ../src/graphing.c:2252
+#: ../src/graphing.c:2267
 msgid "Zoom _in"
 msgstr "Zoom _in"
 
-#: ../src/graphing.c:2259
+#: ../src/graphing.c:2274
 msgid "_Fit dependent axis"
 msgstr "_Potrivește axa dependentă"
 
-#: ../src/graphing.c:2266
+#: ../src/graphing.c:2281
 msgid "_Reset to original zoom"
 msgstr "_Resetează la zoom original"
 
-#: ../src/graphing.c:2279
+#: ../src/graphing.c:2294
 msgid "_View"
 msgstr "_Vizualizare"
 
-#: ../src/graphing.c:2284
+#: ../src/graphing.c:2299
 msgid "_Reset angles"
 msgstr "_Resetează unghiuri"
 
-#: ../src/graphing.c:2289
+#: ../src/graphing.c:2304
 msgid "_Top view"
 msgstr "_Vedere vârf"
 
-#: ../src/graphing.c:2294
+#: ../src/graphing.c:2309
 msgid "R_otate axis..."
 msgstr "R_otește axa..."
 
-#: ../src/graphing.c:2299
+#: ../src/graphing.c:2314
 msgid "Start rotate _animation..."
 msgstr "Începe _animația de rotire..."
 
-#: ../src/graphing.c:2304
+#: ../src/graphing.c:2319
 msgid "Stop rotate a_nimation..."
 msgstr "Oprește a_nimația de rotire..."
 
-#: ../src/graphing.c:2314
+#: ../src/graphing.c:2329
 msgid "_Solver"
 msgstr "Rezolvitor"
 
-#: ../src/graphing.c:2319
+#: ../src/graphing.c:2334
 msgid "_Solver..."
 msgstr "Rezolvitor..."
 
-#: ../src/graphing.c:2324
+#: ../src/graphing.c:2339
 msgid "_Clear solutions"
 msgstr "Eliberează soluții"
 
-#: ../src/graphing.c:2355
+#: ../src/graphing.c:2370
 msgid "Errors during plotting (possibly harmless), see the console."
 msgstr "Erori în timpul plotării (posibil inofensive), consultați consola."
 
-#: ../src/graphing.c:3374
+#: ../src/graphing.c:3383
 #, c-format
 msgid "Function"
 msgstr "Funcție"
 
-#: ../src/graphing.c:3376
+#: ../src/graphing.c:3385
 #, c-format
 msgid "Function #%d"
 msgstr "Funcție #%d"
 
-#: ../src/graphing.c:3398
+#: ../src/graphing.c:3407
 msgid "Graph limits not given as a 4-vector"
 msgstr "Limitele graficului nu sunt date ca un 4-vector"
 
-#: ../src/graphing.c:3404 ../src/graphing.c:3415 ../src/graphing.c:3426
-#: ../src/graphing.c:3437 ../src/graphing.c:3480 ../src/graphing.c:3491
-#: ../src/graphing.c:3589 ../src/graphing.c:3600 ../src/graphing.c:3611
-#: ../src/graphing.c:3622 ../src/graphing.c:3633 ../src/graphing.c:3644
+#: ../src/graphing.c:3413 ../src/graphing.c:3424 ../src/graphing.c:3435
+#: ../src/graphing.c:3446 ../src/graphing.c:3489 ../src/graphing.c:3500
+#: ../src/graphing.c:3598 ../src/graphing.c:3609 ../src/graphing.c:3620
+#: ../src/graphing.c:3631 ../src/graphing.c:3642 ../src/graphing.c:3653
 msgid "Graph limits not given as numbers"
 msgstr "Limitele graficului nu sunt date ca numere"
 
-#: ../src/graphing.c:3474
+#: ../src/graphing.c:3483
 msgid "Graph limits not given as a 2-vector"
 msgstr "Limitele graficului nu sunt date ca un vector-2"
 
-#: ../src/graphing.c:3583
+#: ../src/graphing.c:3592
 msgid "Graph limits not given as a 6-vector"
 msgstr "Limitele graficului nu sunt date ca un 6-vector"
 
-#: ../src/graphing.c:3717 ../src/graphing.c:3735 ../src/graphing.c:3749
+#: ../src/graphing.c:3726 ../src/graphing.c:3744 ../src/graphing.c:3758
 msgid "Ticks must be between 2 and 200"
 msgstr "Bătăile trebuie să fie între 2 și 200"
 
-#: ../src/graphing.c:3726 ../src/graphing.c:3740
+#: ../src/graphing.c:3735 ../src/graphing.c:3749
 msgid "Ticks not given as numbers"
 msgstr "Bătăile nu sunt date ca numere"
 
-#: ../src/graphing.c:3754
+#: ../src/graphing.c:3763
 msgid "Ticks not given as a number or a 2-vector"
 msgstr "Bătăile nu sunt date ca un număr sau un 2-vector"
 
-#: ../src/graphing.c:5375
+#: ../src/graphing.c:5404
 #, c-format
 msgid ""
 "Type in function name or expression involving the %s and %s variables (or "
@@ -4741,28 +4762,13 @@ msgstr ""
 "Scrieți numele sau expresiile funcțiilor privind variabilele %s și %s (sau "
 "variabila %s care va fi %s=%s+i%s) asta dă pantă la punctul (%s,%s)."
 
-#: ../src/graphing.c:5400 ../src/graphing.c:5407 ../src/graphing.c:5571
-#: ../src/graphing.c:5578
+#: ../src/graphing.c:5425 ../src/graphing.c:5430 ../src/graphing.c:5583
+#: ../src/graphing.c:5588
 #, c-format
 msgid "%s from:"
 msgstr "%s de la:"
 
-#: ../src/graphing.c:5414 ../src/graphing.c:5421
-#, c-format
-msgid "%s increment:"
-msgstr "%s incrementare:"
-
-#: ../src/graphing.c:5428
-#, c-format
-msgid "%s interval length:"
-msgstr "Lungime de interval %s:"
-
 #: ../src/graphing.c:5435
-#, c-format
-msgid "Point %s:"
-msgstr "Punct %s:"
-
-#: ../src/graphing.c:5448
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s and %s variables (or "
@@ -4773,7 +4779,7 @@ msgstr ""
 "variabila %s care va fi %s=%s+i%s) care dau d%s/d%s și d%s/d%s ale "
 "sistemului autonom de plănuit în punctul (%s,%s)."
 
-#: ../src/graphing.c:5484
+#: ../src/graphing.c:5466
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4782,7 +4788,7 @@ msgstr ""
 "Scrieți numele sau expresia funcției ce privește variabila %s în căsuța de "
 "dedesubt pentru a le marca în grafic"
 
-#: ../src/graphing.c:5501
+#: ../src/graphing.c:5478
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4797,12 +4803,27 @@ msgstr ""
 "completați căsuța %s= punând %s și %s ca partea reală și partea imaginară a "
 "unui număr complex."
 
-#: ../src/graphing.c:5542
+#: ../src/graphing.c:5511
 #, c-format
 msgid "Parameter %s from:"
 msgstr "Parametrul %s de la:"
 
-#: ../src/graphing.c:5556
+#: ../src/graphing.c:5526 ../src/graphing.c:5533
+#, c-format
+msgid "%s increment:"
+msgstr "%s incrementare:"
+
+#: ../src/graphing.c:5540
+#, c-format
+msgid "%s interval length:"
+msgstr "Lungime de interval %s:"
+
+#: ../src/graphing.c:5547
+#, c-format
+msgid "Point %s:"
+msgstr "Punct %s:"
+
+#: ../src/graphing.c:5570
 #, c-format
 msgid ""
 "Type a function name or an expression involving the %s and %s variables (or "
@@ -4813,95 +4834,95 @@ msgstr ""
 "variabila %s care va fi %s=%s+i%s) în căsuțele de mai jos pentru a le marca "
 "în grafic.  Funcțiilor cu un singur argument li se va da un număr complex."
 
-#: ../src/graphing.c:5622 ../src/graphing.c:5739
+#: ../src/graphing.c:5631 ../src/graphing.c:5749
 msgid "Change variable names"
 msgstr "Schimbă numele variabilelor"
 
-#: ../src/graphing.c:5636 ../src/graphing.c:5753
+#: ../src/graphing.c:5645 ../src/graphing.c:5763
 msgid "Some values were illegal"
 msgstr "Unele valori sunt interzise"
 
-#: ../src/graphing.c:5640 ../src/graphing.c:5757
+#: ../src/graphing.c:5649 ../src/graphing.c:5767
 msgid "independent variable (x):"
 msgstr "variabila independentă (x):"
 
-#: ../src/graphing.c:5650
+#: ../src/graphing.c:5659
 msgid "dependent variable (y):"
 msgstr "variabila dependentă (y):"
 
-#: ../src/graphing.c:5660
+#: ../src/graphing.c:5669
 msgid "complex variable (z = x+iy):"
 msgstr "variabila complexă (z = x+iy):"
 
-#: ../src/graphing.c:5670
+#: ../src/graphing.c:5679
 msgid "parameter variable (t):"
 msgstr "variabila parametru (t):"
 
-#: ../src/graphing.c:5767
+#: ../src/graphing.c:5777
 msgid "independent variable (y):"
 msgstr "variabila independentă (y):"
 
-#: ../src/graphing.c:5777
+#: ../src/graphing.c:5787
 msgid "independent complex variable (z = x+iy):"
 msgstr "variabila complexă independentă (z = x+iy):"
 
-#: ../src/graphing.c:5946
+#: ../src/graphing.c:5956
 msgid "_Functions / Expressions"
 msgstr "_Funcții / Expresii"
 
 #. t range
-#: ../src/graphing.c:5994
+#: ../src/graphing.c:6004
 msgid "Parameter t from:"
 msgstr "Parametrul t de la:"
 
-#: ../src/graphing.c:5996 ../src/graphing.c:6142 ../src/graphing.c:6154
-#: ../src/graphing.c:6265 ../src/graphing.c:6276 ../src/graphing.c:6287
+#: ../src/graphing.c:6006 ../src/graphing.c:6152 ../src/graphing.c:6164
+#: ../src/graphing.c:6275 ../src/graphing.c:6286 ../src/graphing.c:6297
 msgid "to:"
 msgstr "la:"
 
-#: ../src/graphing.c:5998
+#: ../src/graphing.c:6008
 msgid "by:"
 msgstr "de:"
 
-#: ../src/graphing.c:6005
+#: ../src/graphing.c:6015
 msgid "Pa_rametric"
 msgstr "Pa_rametric"
 
 #. # of ticks
-#: ../src/graphing.c:6033 ../src/graphing.c:6086
+#: ../src/graphing.c:6043 ../src/graphing.c:6096
 msgid "Vertical ticks:"
 msgstr "Bătăi verticale:"
 
 #. # of ticks
-#: ../src/graphing.c:6037 ../src/graphing.c:6090
+#: ../src/graphing.c:6047 ../src/graphing.c:6100
 msgid "Horizontal ticks:"
 msgstr "Bătăi orizontale:"
 
-#: ../src/graphing.c:6042
+#: ../src/graphing.c:6052
 msgid "Sl_ope field"
 msgstr "Câmp în pantă"
 
 #. Normalize the arrow length?
-#: ../src/graphing.c:6077
+#: ../src/graphing.c:6087
 msgid "_Normalize arrow length (do not show size)"
 msgstr "_Normalizează lungimea săgeții (nu arată lungimea)"
 
-#: ../src/graphing.c:6095
+#: ../src/graphing.c:6105
 msgid "_Vector field"
 msgstr "Câmp _vectorial"
 
 #. draw legend?
-#: ../src/graphing.c:6105 ../src/graphing.c:6235
+#: ../src/graphing.c:6115 ../src/graphing.c:6245
 msgid "_Draw legend"
 msgstr "_Desenează legenda"
 
 #. draw axis labels?
-#: ../src/graphing.c:6114
+#: ../src/graphing.c:6124
 msgid "Draw axis labels"
 msgstr "Desenează etichetele axei"
 
 #. change varnames
-#: ../src/graphing.c:6123 ../src/graphing.c:6245
+#: ../src/graphing.c:6133 ../src/graphing.c:6255
 msgid "Change variable names..."
 msgstr "Schimbă numele variabilelor..."
 
@@ -4909,196 +4930,200 @@ msgstr "Schimbă numele variabilelor..."
 #.
 #. * Plot window frame
 #.
-#: ../src/graphing.c:6131 ../src/graphing.c:6254
+#: ../src/graphing.c:6141 ../src/graphing.c:6264
 msgid "Plot Window"
 msgstr "Fereastra de plănuire"
 
 #.
 #. * X range
 #.
-#: ../src/graphing.c:6140 ../src/graphing.c:6263
+#: ../src/graphing.c:6150 ../src/graphing.c:6273
 msgid "X from:"
 msgstr "X de la:"
 
 #.
 #. * Y range
 #.
-#: ../src/graphing.c:6152 ../src/graphing.c:6274
+#: ../src/graphing.c:6162 ../src/graphing.c:6284
 msgid "Y from:"
 msgstr "Y de la:"
 
 #. fit dependent axis?
-#: ../src/graphing.c:6162 ../src/graphing.c:6295
+#: ../src/graphing.c:6172 ../src/graphing.c:6305
 msgid "Fit dependent axis"
 msgstr "Potrivește axa dependentă"
 
-#: ../src/graphing.c:6206
+#: ../src/graphing.c:6216
 msgid "Function / Expression"
 msgstr "Funcție / Expresie"
 
 #.
 #. * Z range
 #.
-#: ../src/graphing.c:6285
+#: ../src/graphing.c:6295
 msgid "Dependent axis from:"
 msgstr "Axa dependentă de la:"
 
-#: ../src/graphing.c:6316
+#: ../src/graphing.c:6326
 msgid "Function _line plot"
 msgstr "Plănuirea _liniei funcției"
 
-#: ../src/graphing.c:6320
+#: ../src/graphing.c:6330
 msgid "_Surface plot"
 msgstr "Plănuirea _suprafeței"
 
-#: ../src/graphing.c:6465
+#: ../src/graphing.c:6475
 msgid "Empty value as range value"
 msgstr "Valoare vidă ca valoare de interval"
 
-#: ../src/graphing.c:6471
+#: ../src/graphing.c:6481
 msgid "Genius is executing something already"
 msgstr "Genius execută deja ceva"
 
-#: ../src/graphing.c:6482
+#: ../src/graphing.c:6492
 msgid "Cannot parse range value"
 msgstr "Nu se poate parsa valoarea intervalului"
 
-#: ../src/graphing.c:6494
+#: ../src/graphing.c:6504
 msgid "Cannot execute range value"
 msgstr "Nu se poate executa valoarea intervalului"
 
-#: ../src/graphing.c:6499 ../src/graphing.c:6505
+#: ../src/graphing.c:6509 ../src/graphing.c:6515
 msgid "Range value not a value"
 msgstr "Valoarea intervalului nu este o valoare"
 
-#: ../src/graphing.c:6513
+#: ../src/graphing.c:6523
 msgid "Cannot convert range value to a reasonable real number"
 msgstr ""
 "Nu se poate converti valoarea intervalului într-un număr real rezonabil"
 
-#: ../src/graphing.c:6599 ../src/graphing.c:6787 ../src/graphing.c:6916
-#: ../src/graphing.c:7051 ../src/graphing.c:7158
+#: ../src/graphing.c:6609 ../src/graphing.c:6803 ../src/graphing.c:6932
+#: ../src/graphing.c:7067 ../src/graphing.c:7174
 msgid "No functions to plot or no functions could be parsed"
 msgstr "Nicio funcție de plănuit sau nicio funcție nu a putut fi analizată"
 
-#: ../src/graphing.c:6634 ../src/graphing.c:6640 ../src/graphing.c:6812
-#: ../src/graphing.c:6818 ../src/graphing.c:6941 ../src/graphing.c:6947
-#: ../src/graphing.c:6966 ../src/graphing.c:7076 ../src/graphing.c:7082
-#: ../src/graphing.c:7183 ../src/graphing.c:7189
+#: ../src/graphing.c:6644 ../src/graphing.c:6650 ../src/graphing.c:6828
+#: ../src/graphing.c:6834 ../src/graphing.c:6957 ../src/graphing.c:6963
+#: ../src/graphing.c:6982 ../src/graphing.c:7092 ../src/graphing.c:7098
+#: ../src/graphing.c:7199 ../src/graphing.c:7205
 #, c-format
 msgid "Invalid %s range"
 msgstr "Interval %s nevalid"
 
-#: ../src/graphing.c:6646
+#: ../src/graphing.c:6656
 msgid "Invalid dependent range"
 msgstr "Interval dependent nevalid"
 
-#: ../src/graphing.c:6910
+#: ../src/graphing.c:6926
 #, c-format
 msgid "Only specify %s and %s, or %s, not all at once."
 msgstr "Specifică doar %s și %s, sau %s, nu toate în același timp."
 
-#: ../src/graphing.c:7287
+#: ../src/graphing.c:7303
 msgid "Create Plot"
 msgstr "Creează plan"
 
-#: ../src/graphing.c:7327 ../src/graphing.c:7497 ../src/graphing.c:7528
-#: ../src/graphing.c:7549 ../src/graphing.c:7589 ../src/graphing.c:7613
-#: ../src/graphing.c:7725 ../src/graphing.c:7849 ../src/graphing.c:7986
-#: ../src/graphing.c:8143 ../src/graphing.c:8290 ../src/graphing.c:8313
-#: ../src/graphing.c:8910 ../src/graphing.c:9197 ../src/graphing.c:9416
-#: ../src/graphing.c:9656 ../src/graphing.c:9984 ../src/graphing.c:10216
-#: ../src/graphing.c:10305 ../src/graphing.c:10415 ../src/graphing.c:10446
-#: ../src/graphing.c:10475 ../src/graphing.c:10501 ../src/graphing.c:10530
-#: ../src/graphing.c:10623 ../src/graphing.c:10712 ../src/graphing.c:10737
-#: ../src/graphing.c:10770 ../src/graphing.c:10818
+#: ../src/graphing.c:7308
+msgid "_Plot"
+msgstr "_Plănuiește"
+
+#: ../src/graphing.c:7343 ../src/graphing.c:7519 ../src/graphing.c:7550
+#: ../src/graphing.c:7571 ../src/graphing.c:7611 ../src/graphing.c:7635
+#: ../src/graphing.c:7747 ../src/graphing.c:7871 ../src/graphing.c:8008
+#: ../src/graphing.c:8165 ../src/graphing.c:8312 ../src/graphing.c:8335
+#: ../src/graphing.c:8962 ../src/graphing.c:9249 ../src/graphing.c:9468
+#: ../src/graphing.c:9708 ../src/graphing.c:10036 ../src/graphing.c:10268
+#: ../src/graphing.c:10357 ../src/graphing.c:10467 ../src/graphing.c:10498
+#: ../src/graphing.c:10527 ../src/graphing.c:10553 ../src/graphing.c:10582
+#: ../src/graphing.c:10676 ../src/graphing.c:10765 ../src/graphing.c:10790
+#: ../src/graphing.c:10823 ../src/graphing.c:10871
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr "%s: Plănuire în decurs, nu se poate apela %s"
 
-#: ../src/graphing.c:7335 ../src/graphing.c:7868
+#: ../src/graphing.c:7351 ../src/graphing.c:7890
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: argument nu o funcție"
 
-#: ../src/graphing.c:7345
+#: ../src/graphing.c:7361
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: numai o funcție suportată"
 
-#: ../src/graphing.c:7368
+#: ../src/graphing.c:7384
 msgid "Graph limits not given as a 4-vector or a 6-vector"
 msgstr "Limitele graficului nu sunt date ca un vector-4 sau un vector-6"
 
-#: ../src/graphing.c:7424 ../src/graphing.c:7678 ../src/graphing.c:7795
-#: ../src/graphing.c:7931 ../src/graphing.c:8080 ../src/graphing.c:8235
-#: ../src/graphing.c:10085
+#: ../src/graphing.c:7440 ../src/graphing.c:7700 ../src/graphing.c:7817
+#: ../src/graphing.c:7953 ../src/graphing.c:8102 ../src/graphing.c:8257
+#: ../src/graphing.c:10137
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: interval X nevalid"
 
-#: ../src/graphing.c:7429 ../src/graphing.c:7683 ../src/graphing.c:7800
-#: ../src/graphing.c:7936 ../src/graphing.c:8085 ../src/graphing.c:8240
-#: ../src/graphing.c:10090
+#: ../src/graphing.c:7445 ../src/graphing.c:7705 ../src/graphing.c:7822
+#: ../src/graphing.c:7958 ../src/graphing.c:8107 ../src/graphing.c:8262
+#: ../src/graphing.c:10142
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: interval Y nevalid"
 
-#: ../src/graphing.c:7434 ../src/graphing.c:10095
+#: ../src/graphing.c:7450 ../src/graphing.c:10147
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: interval Z nevalid"
 
-#: ../src/graphing.c:7507
+#: ../src/graphing.c:7529
 #, c-format
 msgid "%s: dx must be positive"
 msgstr "%s: dx trebuie să fie pozitiv"
 
-#: ../src/graphing.c:7514 ../src/graphing.c:7533
+#: ../src/graphing.c:7536 ../src/graphing.c:7555
 #, c-format
 msgid "%s: Slope field not active"
 msgstr "%s: Câmpul pantă nu e activ"
 
-#: ../src/graphing.c:7560
+#: ../src/graphing.c:7582
 #, c-format
 msgid "%s: dt must be positive"
 msgstr "%s: dt trebuie să fie pozitiv"
 
-#: ../src/graphing.c:7566
+#: ../src/graphing.c:7588
 #, c-format
 msgid "%s: tlen must be positive"
 msgstr "%s: tlen trebuie să fie pozitiv"
 
-#: ../src/graphing.c:7574 ../src/graphing.c:7595
+#: ../src/graphing.c:7596 ../src/graphing.c:7617
 #, c-format
 msgid "%s: Vector field not active"
 msgstr "%s: Câmpul vectorial nu e activ"
 
-#: ../src/graphing.c:7620 ../src/graphing.c:8150
+#: ../src/graphing.c:7642 ../src/graphing.c:8172
 #, c-format
 msgid "%s: First argument must be a function"
 msgstr "%s: Primul argument trebuie să fie o funcție"
 
-#: ../src/graphing.c:7736 ../src/graphing.c:7994
+#: ../src/graphing.c:7758 ../src/graphing.c:8016
 #, c-format
 msgid "%s: First two arguments must be functions"
 msgstr "%s: Primele două argumente trebuie să fie funcții"
 
-#: ../src/graphing.c:7863
+#: ../src/graphing.c:7885
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: numai până la 10 funcții suportate"
 
-#: ../src/graphing.c:7889
+#: ../src/graphing.c:7911
 msgid "Graph limits not given as a 2-vector or a 4-vector"
 msgstr "Limitele graficului nu sunt date ca un vector-2 sau un vector-4"
 
-#: ../src/graphing.c:8090 ../src/graphing.c:8245
+#: ../src/graphing.c:8112 ../src/graphing.c:8267
 #, c-format
 msgid "%s: invalid T range"
 msgstr "%s: interval T nevalid"
 
-#: ../src/graphing.c:8471
+#: ../src/graphing.c:8515
 #, c-format
 msgid ""
 "%s: Not in line plot mode.  Perhaps run LinePlot or LinePlotClear first."
@@ -5106,7 +5131,7 @@ msgstr ""
 "%s: Nu este în modul plot linie.  Poate rulați LinePlot sau LinePlotClear "
 "mai întâi."
 
-#: ../src/graphing.c:8592 ../src/graphing.c:8673
+#: ../src/graphing.c:8644 ../src/graphing.c:8725
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 2 matrix with columns for x and "
@@ -5115,7 +5140,7 @@ msgstr ""
 "%s: Punctele ar trebui să fie date ca o matrice n pe 2, reală, cu coloane "
 "pentru x și y, n>=%d, sau ca un complex evaluat ca o matrice n pe 1"
 
-#: ../src/graphing.c:8602
+#: ../src/graphing.c:8654
 #, c-format
 msgid ""
 "%s: If points are given as an n by 2 matrix, then this matrix must be real"
@@ -5123,7 +5148,7 @@ msgstr ""
 "%s: Dacă punctele sunt date ca o matrice de n pe 2, atunci această matrice "
 "trebuie să fie reală"
 
-#: ../src/graphing.c:8712 ../src/graphing.c:8775
+#: ../src/graphing.c:8764 ../src/graphing.c:8827
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 3 matrix with columns for x, y "
@@ -5132,17 +5157,17 @@ msgstr ""
 "%s: Punctele ar trebui să fie date ca o matrice n pe 3, reală, cu coloane "
 "pentru x, y și z, n>=%d"
 
-#: ../src/graphing.c:8827
+#: ../src/graphing.c:8879
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: Nicio culoare specificată"
 
-#: ../src/graphing.c:8832 ../src/graphing.c:8839
+#: ../src/graphing.c:8884 ../src/graphing.c:8891
 #, c-format
 msgid "%s: Cannot parse color '%s'"
 msgstr "%s: Nu se poate parsa culoarea „%s”"
 
-#: ../src/graphing.c:8853
+#: ../src/graphing.c:8905
 #, c-format
 msgid ""
 "%s: A vector giving color should be a 3-vector of real numbers between 0 and "
@@ -5151,7 +5176,7 @@ msgstr ""
 "%s: Un vector care dă culoare ar trebuie să fie un vector-3 de numere reale "
 "între 0 și 1"
 
-#: ../src/graphing.c:8869
+#: ../src/graphing.c:8921
 #, c-format
 msgid ""
 "%s: Warning: Values for red, green, or blue out of range (0 to 1), I will "
@@ -5160,7 +5185,7 @@ msgstr ""
 "%s: Avertisment: Valorile pentru roșu, verde, sau albastru în afara "
 "intervalului (0 la 1), le voi tăia la acest interval"
 
-#: ../src/graphing.c:8886
+#: ../src/graphing.c:8938
 #, c-format
 msgid ""
 "%s: Color must be a string or a three-vector of rgb values (between 0 and 1)"
@@ -5168,60 +5193,60 @@ msgstr ""
 "%s: Culoarea trebuie să fie un șir sau un vector-trei de valori rgb (între 0 "
 "și 1)"
 
-#: ../src/graphing.c:8929 ../src/graphing.c:9216 ../src/graphing.c:9437
-#: ../src/graphing.c:9677
+#: ../src/graphing.c:8981 ../src/graphing.c:9268 ../src/graphing.c:9489
+#: ../src/graphing.c:9729
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: Număr greșit de argumente"
 
-#: ../src/graphing.c:8999 ../src/graphing.c:9270 ../src/graphing.c:9503
-#: ../src/graphing.c:9737
+#: ../src/graphing.c:9051 ../src/graphing.c:9322 ../src/graphing.c:9555
+#: ../src/graphing.c:9789
 #, c-format
 msgid "%s: No thickness specified"
 msgstr "%s: Nicio grosime specificată"
 
-#: ../src/graphing.c:9022 ../src/graphing.c:9293 ../src/graphing.c:9528
-#: ../src/graphing.c:9762
+#: ../src/graphing.c:9074 ../src/graphing.c:9345 ../src/graphing.c:9580
+#: ../src/graphing.c:9814
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: Nicio fereastră specificată"
 
-#: ../src/graphing.c:9070 ../src/graphing.c:9095
+#: ../src/graphing.c:9122 ../src/graphing.c:9147
 #, c-format
 msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
 msgstr ""
 "%s: stilul săgeții ar trebui să fie „origine”, „sfârșit”, „ambele”, sau "
 "„niciunul”"
 
-#: ../src/graphing.c:9105 ../src/graphing.c:9337 ../src/graphing.c:9580
-#: ../src/graphing.c:9814
+#: ../src/graphing.c:9157 ../src/graphing.c:9389 ../src/graphing.c:9632
+#: ../src/graphing.c:9866
 #, c-format
 msgid "%s: No legend specified"
 msgstr "%s: Nicio legendă specificată"
 
-#: ../src/graphing.c:9119 ../src/graphing.c:9351 ../src/graphing.c:9595
-#: ../src/graphing.c:9829
+#: ../src/graphing.c:9171 ../src/graphing.c:9403 ../src/graphing.c:9647
+#: ../src/graphing.c:9881
 #, c-format
 msgid "%s: Legend must be a string"
 msgstr "%s: Legenda trebuie să fie un șir"
 
-#: ../src/graphing.c:9130
+#: ../src/graphing.c:9182
 #, c-format
 msgid "%s: Unknown style: %s"
 msgstr "%s: Stil necunoscut: %s"
 
-#: ../src/graphing.c:9139 ../src/graphing.c:9367 ../src/graphing.c:9613
-#: ../src/graphing.c:9847
+#: ../src/graphing.c:9191 ../src/graphing.c:9419 ../src/graphing.c:9665
+#: ../src/graphing.c:9899
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: Parametru greșit"
 
-#: ../src/graphing.c:9360 ../src/graphing.c:9605 ../src/graphing.c:9839
+#: ../src/graphing.c:9412 ../src/graphing.c:9657 ../src/graphing.c:9891
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: Stil necunoscut"
 
-#: ../src/graphing.c:9901 ../src/graphing.c:9964
+#: ../src/graphing.c:9953 ../src/graphing.c:10016
 #, c-format
 msgid ""
 "%s: Surface should be given as a real, n by 3 matrix with columns for x, y, "
@@ -5230,91 +5255,91 @@ msgstr ""
 "%s: Suprafața ar trebui să fie dacă ca o matrice n pe 3, reală, cu coloanele "
 "pentru x, y, z, unde n>=3"
 
-#: ../src/graphing.c:9992
+#: ../src/graphing.c:10044
 #, c-format
 msgid "%s: argument not a matrix of data"
 msgstr "%s: argumentul nu este o matrice de date"
 
-#: ../src/graphing.c:10176
+#: ../src/graphing.c:10228
 #, c-format
 msgid "%s: Surface grid data should be given as a real matrix "
 msgstr "%s: Datele grilei de suprafață ar trebui date ca o matrice reală "
 
-#: ../src/graphing.c:10222
+#: ../src/graphing.c:10274
 #, c-format
 msgid "%s: first argument not a matrix of data"
 msgstr "%s: primul argument nu este o matrice de date"
 
-#: ../src/graphing.c:10229
+#: ../src/graphing.c:10281
 #, c-format
 msgid "%s: second argument not a 4 or 6 element vector of limits"
 msgstr "%s: al doilea argument nu este un vector de limite de 4 sau 6"
 
-#: ../src/graphing.c:10246
+#: ../src/graphing.c:10298
 #, c-format
 msgid "%s: too many arguments or last argument not a string label"
 msgstr ""
 "%s: prea multe argumente sau ultimul argument nu este o etichetă de șir"
 
-#: ../src/graphing.c:10312
+#: ../src/graphing.c:10364
 #, c-format
 msgid "%s: first argument not a nonempty string"
 msgstr "%s: primul argument nu este un șir ne-gol"
 
-#: ../src/graphing.c:10320
+#: ../src/graphing.c:10372
 #, c-format
 msgid "%s: type not specified and filename has no extension"
 msgstr ""
 "%s: tipul nu este specificat și numele fișierului nu are nicio extensie"
 
-#: ../src/graphing.c:10329
+#: ../src/graphing.c:10381
 #, c-format
 msgid "%s: second argument not a nonempty string"
 msgstr "%s: al doilea argument nu este un șir ne-gol"
 
-#: ../src/graphing.c:10341
+#: ../src/graphing.c:10393
 #, c-format
 msgid "%s: plot canvas not active, cannot export"
 msgstr "%s: canavaua plotului nu este activă, nu se poate exporta"
 
-#: ../src/graphing.c:10350 ../src/graphing.c:10364 ../src/graphing.c:10387
+#: ../src/graphing.c:10402 ../src/graphing.c:10416 ../src/graphing.c:10439
 #, c-format
 msgid "%s: export failed"
 msgstr "%s: exportarea a eșuat"
 
-#: ../src/graphing.c:10400
+#: ../src/graphing.c:10452
 #, c-format
 msgid "%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."
 msgstr "%s: tip de fișier necunoscut, poate fi „png”, „eps” sau „ps”."
 
-#: ../src/graphing.c:10537
+#: ../src/graphing.c:10589
 msgid "Variable names not given in a 4-vector"
 msgstr "Numele variabilelor nu sunt date într-un 4-vector"
 
-#: ../src/graphing.c:10547 ../src/graphing.c:10556 ../src/graphing.c:10565
-#: ../src/graphing.c:10574 ../src/graphing.c:10640 ../src/graphing.c:10649
-#: ../src/graphing.c:10658
+#: ../src/graphing.c:10599 ../src/graphing.c:10608 ../src/graphing.c:10617
+#: ../src/graphing.c:10626 ../src/graphing.c:10693 ../src/graphing.c:10702
+#: ../src/graphing.c:10711
 msgid "Variable names should be strings"
 msgstr "Numele variabilelor ar trebui să fie șiruri"
 
-#: ../src/graphing.c:10581 ../src/graphing.c:10664
+#: ../src/graphing.c:10633 ../src/graphing.c:10717
 msgid "Variable names must be valid identifiers"
 msgstr "Numele\t variabilelor trebuie să fie identificatori valizi"
 
-#: ../src/graphing.c:10590 ../src/graphing.c:10670
+#: ../src/graphing.c:10642 ../src/graphing.c:10723
 msgid "Variable names must be mutually distinct"
 msgstr "Numele variabilelor trebuie să fie distincte reciproc"
 
-#: ../src/graphing.c:10630
+#: ../src/graphing.c:10683
 msgid "Variable names not given in a 3-vector"
 msgstr "Numele variabilelor nu sunt date într-un 3-vector"
 
-#: ../src/graphing.c:10853
+#: ../src/graphing.c:10906
 msgid "Plotting"
 msgstr "Se plănuiește"
 
 #. internal
-#: ../src/graphing.c:10855
+#: ../src/graphing.c:10908
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -5322,7 +5347,7 @@ msgstr ""
 "Plănuiește o funcție cu o linie.  Mai întâi vin funcțiile (până în 10) și "
 "apoi opțional limitele ca x1,x2,y1,y2"
 
-#: ../src/graphing.c:10856
+#: ../src/graphing.c:10909
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
@@ -5332,7 +5357,7 @@ msgstr ""
 "apoi opțional t limite ca t1,t2,tinc, și apoi opțional limitele ca x1,x2,y1,"
 "y2"
 
-#: ../src/graphing.c:10857
+#: ../src/graphing.c:10910
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
@@ -5342,7 +5367,7 @@ msgstr ""
 "vine funcția care returnează x+iy și apoi opțional t limite ca t1,t2,tinc, "
 "și apoi opțional limitele ca x1,x2,y1,y2"
 
-#: ../src/graphing.c:10859
+#: ../src/graphing.c:10912
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
@@ -5350,7 +5375,7 @@ msgstr ""
 "Desenează un câmp în pantă.  Mai întâi vine funcția dy/dx în termeni de x și "
 "y (sau un număr complex z) și apoi opțional limitele ca x1,x2,y1,y2"
 
-#: ../src/graphing.c:10860
+#: ../src/graphing.c:10913
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
@@ -5358,18 +5383,18 @@ msgstr ""
 "Desenează un câmp vectorial.  Mai întâi vin funcțiile dx/dt și dy/dt în "
 "termeni de x și y și apoi opțional limitele ca x1,x2,y1,y2"
 
-#: ../src/graphing.c:10862
+#: ../src/graphing.c:10915
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr ""
 "Desenează o soluție pentru un câmp în pantă începând de la x,y și folosind "
 "dx ca increment"
 
-#: ../src/graphing.c:10863
+#: ../src/graphing.c:10916
 msgid "Clear all the slopefield solutions"
 msgstr "Eliberează toate soluțiile pentru pante"
 
-#: ../src/graphing.c:10865
+#: ../src/graphing.c:10918
 msgid ""
 "Draw a solution for a vector field starting at x,y, using dt as increment "
 "for tlen units"
@@ -5377,11 +5402,11 @@ msgstr ""
 "Desenează o soluție pentru un câmp vectorial începând de la x,y și folosind "
 "dt ca increment pentru tlen unități"
 
-#: ../src/graphing.c:10866
+#: ../src/graphing.c:10919
 msgid "Clear all the vectorfield solutions"
 msgstr "Eliberează toate soluțiile pentru câmpuri vectoriale"
 
-#: ../src/graphing.c:10869
+#: ../src/graphing.c:10922
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -5390,11 +5415,11 @@ msgstr ""
 "complex.  Mai întâi vine funcția și apoi opțional limitele ca x1,x2,y1,y2,z1,"
 "z2"
 
-#: ../src/graphing.c:10871
+#: ../src/graphing.c:10924
 msgid "Show the surface (3d) plot window and clear out functions"
 msgstr "Arată fereastra de plot de suprafață (3d) și curăță funcțiile"
 
-#: ../src/graphing.c:10873
+#: ../src/graphing.c:10926
 msgid ""
 "Plot surface data given as n by 3 matrix (n>=3) of data with each row being "
 "x,y,z.  Optionally can pass a label string and limits.  If no limits passed, "
@@ -5404,7 +5429,7 @@ msgstr ""
 "fiecare rând fiind x,y,z.  Opțional poate trece un șir de etichete și "
 "limite.  Dacă nu sunt trecute limite, limitele sunt calculate de la date."
 
-#: ../src/graphing.c:10874
+#: ../src/graphing.c:10927
 msgid ""
 "Plot surface data given as a matrix (where rows are the x coordinate and "
 "columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or "
@@ -5414,7 +5439,7 @@ msgstr ""
 "x și coloanele sunt coordonata y), limitele sunt date ca [x1,x2,y1,y2] sau "
 "opțional [x1,x2,y1,y2,z1,z2], și opțional un șir pentru etichetă."
 
-#: ../src/graphing.c:10875
+#: ../src/graphing.c:10928
 msgid ""
 "Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  x1,y1,z1,x2,"
 "y2,z2 can be replaced by a n by 3 matrix for a longer line"
@@ -5423,7 +5448,7 @@ msgstr ""
 "x1,y1,z1,x2,y2,z2 pot fi înlocuite de o matrice de n pe 3 pentru o linie mai "
 "lungă"
 
-#: ../src/graphing.c:10876
+#: ../src/graphing.c:10929
 msgid ""
 "Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a "
 "n by 3 matrix for more points."
@@ -5431,11 +5456,11 @@ msgstr ""
 "Desenează un punct la x,y,z pe plotul de suprafață (3d).  x,y,z pot fi "
 "înlocuite de o matrice de n pe 3 pentru mai multe puncte."
 
-#: ../src/graphing.c:10878
+#: ../src/graphing.c:10931
 msgid "Show the line plot window and clear out functions"
 msgstr "Arată fereastra pentru plănuirea liniei și eliberează toate funcțiile"
 
-#: ../src/graphing.c:10879
+#: ../src/graphing.c:10932
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line."
@@ -5443,35 +5468,35 @@ msgstr ""
 "Desenează o linie de la x1,y1 la x2,y2.  x1,y1,x2,y2 pot fi înlocuite de o "
 "matrice de n pe 2 pentru o linie mai lungă."
 
-#: ../src/graphing.c:10880
+#: ../src/graphing.c:10933
 msgid ""
 "Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points."
 msgstr ""
 "Desenează un punct la x,y.  x,y pot fi înlocuite de o matrice de n pe 2 "
 "pentru mai multe puncte."
 
-#: ../src/graphing.c:10882
+#: ../src/graphing.c:10935
 msgid "Freeze the plot canvas, that is, inhibit drawing"
 msgstr "Îngheață canavaua plotului, adică, inhibează desenarea"
 
-#: ../src/graphing.c:10883
+#: ../src/graphing.c:10936
 msgid "Thaw the plot canvas and redraw the plot immediately"
 msgstr "Topește canavaua plotului și redesenează plotul imediat"
 
-#: ../src/graphing.c:10884
+#: ../src/graphing.c:10937
 msgid "Raise the plot window, and create the window if necessary"
 msgstr "Ridică fereastra plotului, și creează fereastra dacă este necesar"
 
-#: ../src/graphing.c:10886
+#: ../src/graphing.c:10939
 msgid "Wait for a click on the line plot window, return the location."
 msgstr ""
 "Așteaptă pentru un clic pe fereastra plotului liniei, întoarce locația."
 
-#: ../src/graphing.c:10887
+#: ../src/graphing.c:10940
 msgid "Return current mouse location on the line plot window."
 msgstr "Întoarce locația mausului curentă pe fereastra plotului liniei."
 
-#: ../src/graphing.c:10889
+#: ../src/graphing.c:10942
 msgid ""
 "Export the current contents of the plot canvas to a file.  The file type is "
 "given by the string type, which can be \"png\", \"eps\", or \"ps\"."
@@ -5479,15 +5504,15 @@ msgstr ""
 "Exportă conținutul curent al canavalei plotului la un fișier.  Tipul de "
 "fișier este dat de tipul șirului, care poate fi „png”, „eps” sau „ps”."
 
-#: ../src/graphing.c:10891
+#: ../src/graphing.c:10944
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr "Numărul de bătăi în pante ca un vector [vertical,orizontal]."
 
-#: ../src/graphing.c:10892
+#: ../src/graphing.c:10945
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
 msgstr "Numărul de bătăi de câmpuri vectoriale [vertical,orizontal]."
 
-#: ../src/graphing.c:10893
+#: ../src/graphing.c:10946
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
@@ -5495,7 +5520,7 @@ msgstr ""
 "Nume implicite folosite de toate plănuirele de funcții D2.  Ar trebui să fie "
 "un 4 vector de șiruri sau identificatori [x,y,z,t]."
 
-#: ../src/graphing.c:10894
+#: ../src/graphing.c:10947
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
@@ -5504,7 +5529,7 @@ msgstr ""
 "fie un vector 3 de șiruri sau identificatori [x,y,z] (unde z=x+iy și nu axa "
 "dependentă)"
 
-#: ../src/graphing.c:10896
+#: ../src/graphing.c:10949
 msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
@@ -5512,24 +5537,24 @@ msgstr ""
 "Normalizează câmpurile vectoriale dacă sunt adevărate.  Adică arată numai "
 "direcția și nu magnitudinea."
 
-#: ../src/graphing.c:10897
+#: ../src/graphing.c:10950
 msgid "If to draw legends or not on line plots."
 msgstr "Dacă să deseneze legende sau nu pe planurile de linii."
 
-#: ../src/graphing.c:10898
+#: ../src/graphing.c:10951
 msgid "If to draw axis labels on line plots."
 msgstr "Dacă să se deseneze etichetele axelor pe ploturile de linie."
 
-#: ../src/graphing.c:10900
+#: ../src/graphing.c:10953
 msgid "If to draw legends or not on surface plots."
 msgstr "Dacă să se deseneze sau nu legende pe ploturile de suprafață."
 
-#: ../src/graphing.c:10902
+#: ../src/graphing.c:10955
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr ""
 "Fereastra plănuirii de linii (limite) ca un 4-vector de forma [x1,x2,y1,y2]"
 
-#: ../src/graphing.c:10903
+#: ../src/graphing.c:10956
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
@@ -5807,8 +5832,8 @@ msgid ""
 "For my next trick I will add a function named TestPluginFunction\n"
 "\n"
 msgstr ""
-"Pentru următorul meu truc voi adăuga o funcție numită FuncțiaTestareModul"
-"\\n\n"
+"Pentru următorul meu truc voi adăuga o funcție numită "
+"FuncțiaTestareModul\\n\n"
 "\\n\n"
 
 #: ../src/testplugin.c:41
