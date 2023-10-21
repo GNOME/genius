@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
-"POT-Creation-Date: 2022-09-05 08:13+0000\n"
-"PO-Revision-Date: 2023-08-01 17:10+0300\n"
+"POT-Creation-Date: 2023-10-19 17:12+0000\n"
+"PO-Revision-Date: 2023-10-21 14:33+0300\n"
 "Last-Translator: Florentina Mușat <florentina [dot] musat [dot] 28 [at] "
 "gmail [dot] com>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);;\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4\n"
 "X-Project-Style: gnome\n"
 
 #: ../lib/library-strings.c:1
@@ -95,8 +95,12 @@ msgid "Tolerance of the GaussDistribution function"
 msgstr "Toleranța pentru funcția GaussDistribution"
 
 #: ../lib/library-strings.c:14
-msgid "The function used for numerical integration in NumericalIntegral"
-msgstr "Funcția utilizată pentru integrarea numerică în NumericalIntegral"
+msgid ""
+"The function used for numerical integration in NumericalIntegral (by default "
+"CompositeSimpsonsRule)"
+msgstr ""
+"Funcția utilizată pentru integrarea numerică în NumericalIntegral (implicit "
+"CompositeSimpsonsRule)"
 
 #: ../lib/library-strings.c:15
 msgid "Steps to perform in NumericalIntegral"
@@ -980,10 +984,14 @@ msgstr ""
 "dreapta și comparând"
 
 #: ../lib/library-strings.c:194
+msgid "Integration by left hand rule"
+msgstr "Integrarea prin regula mâinii stângi"
+
+#: ../lib/library-strings.c:195
 msgid "Calculate the left limit of a real-valued function at x0"
 msgstr "Calculează limita la stânga a unei funcții cu valoare reală la x0"
 
-#: ../lib/library-strings.c:195
+#: ../lib/library-strings.c:196
 msgid ""
 "Calculate the limit of a real-valued function at x0.  Tries to calculate "
 "both left and right limits."
@@ -991,15 +999,15 @@ msgstr ""
 "Calculează limita unei funcții cu valoare reală la x0. Încearcă să calculeze "
 "atât limita la stânga cât și la dreapta."
 
-#: ../lib/library-strings.c:196
+#: ../lib/library-strings.c:197
 msgid "Integration by midpoint rule"
 msgstr "Integrarea prin punctul de mijloc"
 
-#: ../lib/library-strings.c:197
+#: ../lib/library-strings.c:198
 msgid "Attempt to calculate numerical derivative"
 msgstr "Încearcă să calculeze derivatul numeric"
 
-#: ../lib/library-strings.c:198
+#: ../lib/library-strings.c:199
 msgid ""
 "Numerically compute the coefficients for a cosine Fourier series for a "
 "function on [0,L] up to the Nth coefficient."
@@ -1007,7 +1015,7 @@ msgstr ""
 "Calculează numeric coeficienții pentru o serie Fourier cosinus pentru o "
 "funcție pe [0,L] până la al N-lea coeficient."
 
-#: ../lib/library-strings.c:199
+#: ../lib/library-strings.c:200
 msgid ""
 "Return a function which is the Fourier cosine series of f on [0,L] with "
 "coefficients up to N computed numerically"
@@ -1015,7 +1023,7 @@ msgstr ""
 "Returnează o funcție care este seria cosinus Fourier de f pe [0,L] cu "
 "coeficienții calculați numeric până la N"
 
-#: ../lib/library-strings.c:200
+#: ../lib/library-strings.c:201
 msgid ""
 "Numerically compute the coefficients for a Fourier series with half-period L "
 "up to the Nth coefficient."
@@ -1023,7 +1031,7 @@ msgstr ""
 "Calculează numeric coeficienții pentru o serie Fourier cu jumătate de "
 "perioadă L până la al N-lea coeficient."
 
-#: ../lib/library-strings.c:201
+#: ../lib/library-strings.c:202
 msgid ""
 "Return a function which is the Fourier series of f with half-period L with "
 "coefficients up to N computed numerically"
@@ -1031,7 +1039,7 @@ msgstr ""
 "Returnează o funcție care este seria Fourier de f cu jumătate de perioadă L "
 "cu coeficienții calculați numeric până la N"
 
-#: ../lib/library-strings.c:202
+#: ../lib/library-strings.c:203
 msgid ""
 "Numerically compute the coefficients for a sine Fourier series for a "
 "function on [0,L] up to the Nth coefficient."
@@ -1039,7 +1047,7 @@ msgstr ""
 "Calculează numeric coeficienții pentru o serie Fourier sinus pentru o "
 "funcție pe [0,L] până la al N-lea coeficient."
 
-#: ../lib/library-strings.c:203
+#: ../lib/library-strings.c:204
 msgid ""
 "Return a function which is the Fourier sine series of f on [0,L] with "
 "coefficients up to N computed numerically"
@@ -1047,7 +1055,7 @@ msgstr ""
 "Returnează o funcție care este seria Fourier sinus de f pe [0,L] cu "
 "coeficienții calculați numeric până la N"
 
-#: ../lib/library-strings.c:204
+#: ../lib/library-strings.c:205
 msgid ""
 "Integration by rule set in NumericalIntegralFunction of f from a to b using "
 "NumericalIntegralSteps steps"
@@ -1055,19 +1063,19 @@ msgstr ""
 "Integrarea după regula stabilită în FuncțiaIntegralăNumerică de f de la a la "
 "b folosind pașii PașiIntegralăNumerică"
 
-#: ../lib/library-strings.c:205
+#: ../lib/library-strings.c:206
 msgid "Attempt to calculate numerical left derivative"
 msgstr "Încearcă să calculeze derivatul de stânga numeric"
 
-#: ../lib/library-strings.c:206
+#: ../lib/library-strings.c:207
 msgid "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N"
 msgstr "Încearcă să calculeze limită din f(step_fun(i) cu i de la 1 la N"
 
-#: ../lib/library-strings.c:207
+#: ../lib/library-strings.c:208
 msgid "Attempt to calculate numerical right derivative"
 msgstr "Încearcă să calculeze derivatul de dreapta numeric"
 
-#: ../lib/library-strings.c:208
+#: ../lib/library-strings.c:209
 msgid ""
 "Return a function which is the odd periodic extension of f defined on the "
 "interval [0,L]"
@@ -1075,17 +1083,17 @@ msgstr ""
 "Returnează o funcție ce este extensia periodică impară a lui f definită pe "
 "intervalul [0,L]"
 
-#: ../lib/library-strings.c:209
+#: ../lib/library-strings.c:210
 msgid "Compute one-sided derivative using five point formula"
 msgstr ""
 "Calculează derivatele de o singură parte folosind formula cu cinci puncte"
 
-#: ../lib/library-strings.c:210
+#: ../lib/library-strings.c:211
 msgid "Compute one-sided derivative using three-point formula"
 msgstr ""
 "Calculează derivatele de o singură parte folosind formula cu trei puncte"
 
-#: ../lib/library-strings.c:211
+#: ../lib/library-strings.c:212
 msgid ""
 "Return a function which is the periodic extension of f defined on the "
 "interval [a,b]"
@@ -1093,39 +1101,47 @@ msgstr ""
 "Returnează o funcție ce este în extensia periodică a f definită pe "
 "intervalul [a,b]"
 
-#: ../lib/library-strings.c:212
+#: ../lib/library-strings.c:213
+msgid "Integration by right hand rule"
+msgstr "Integrarea prin regula mâinii drepte"
+
+#: ../lib/library-strings.c:214
 msgid "Calculate the right limit of a real-valued function at x0"
 msgstr "Calculează limita la dreapta a unei funcții cu valoare reală la x0"
 
-#: ../lib/library-strings.c:213
+#: ../lib/library-strings.c:215
+msgid "Integration by trapezoid rule"
+msgstr "Integrarea prin regula trapezoidală"
+
+#: ../lib/library-strings.c:216
 msgid "Compute two-sided derivative using five-point formula"
 msgstr "Calculează derivatele de două părți folosind formula cu cinci puncte"
 
-#: ../lib/library-strings.c:214
+#: ../lib/library-strings.c:217
 msgid "Compute two-sided derivative using three-point formula"
 msgstr "Calculează derivatele de două părți folosind formula cu trei puncte"
 
-#: ../lib/library-strings.c:215
+#: ../lib/library-strings.c:218
 msgid "argument (angle) of complex number"
 msgstr "argument (unghi) al unui număr complex"
 
-#: ../lib/library-strings.c:216
+#: ../lib/library-strings.c:219
 msgid "Dirichlet kernel of order n"
 msgstr "Nucleu Dirichlet de ordin n"
 
-#: ../lib/library-strings.c:217
+#: ../lib/library-strings.c:220
 msgid "Returns 1 if and only if all elements are zero"
 msgstr "Întoarce 1 dacă și numai dacă toate elementele sunt zero"
 
-#: ../lib/library-strings.c:218
+#: ../lib/library-strings.c:221
 msgid "Fejer kernel of order n"
 msgstr "Nucleu Fejer de ordin n"
 
-#: ../lib/library-strings.c:219
+#: ../lib/library-strings.c:222
 msgid "Returns 1 if and only if all elements are equal"
 msgstr "Întoarce 1 dacă și numai dacă toate elementele sunt egale"
 
-#: ../lib/library-strings.c:220
+#: ../lib/library-strings.c:223
 msgid ""
 "Principal branch of the Lambert W function for real values greater than or "
 "equal to -1/e"
@@ -1133,22 +1149,22 @@ msgstr ""
 "Ramura principală a funcției Lambert W pentru valorile reale mai mari sau "
 "egale cu -1/e"
 
-#: ../lib/library-strings.c:221
+#: ../lib/library-strings.c:224
 msgid ""
 "The minus-one branch of the Lambert W function for real values between -1/e "
 "and 0"
 msgstr ""
 "Ramura minus-unu a funcției Lambert W pentru valorile reale între -1/e și 0"
 
-#: ../lib/library-strings.c:222
+#: ../lib/library-strings.c:225
 msgid "Find the first value where f(x)=0"
 msgstr "Găsește prima valoare unde f(x)=0"
 
-#: ../lib/library-strings.c:223
+#: ../lib/library-strings.c:226
 msgid "Moebius mapping of the disk to itself mapping a to 0"
 msgstr "Cartografierea Moebius a discului la el însuși cartografiind a la 0"
 
-#: ../lib/library-strings.c:224
+#: ../lib/library-strings.c:227
 msgid ""
 "Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity "
 "respectively"
@@ -1156,7 +1172,7 @@ msgstr ""
 "Cartografierea Moebius folosind raportul cruce z2,z3,z4 la 1,0, și respectiv "
 "infinit"
 
-#: ../lib/library-strings.c:225
+#: ../lib/library-strings.c:228
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 "
 "to 1 and 0 respectively"
@@ -1164,7 +1180,7 @@ msgstr ""
 "Mapare Moebius utilizând raportul încrucișat luând infinitatea la infinitate "
 "și z2,z3 la 1 și 0 respectiv"
 
-#: ../lib/library-strings.c:226
+#: ../lib/library-strings.c:229
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 "
 "and infinity respectively"
@@ -1172,7 +1188,7 @@ msgstr ""
 "Maparea Moebius utilizând raportul încrucișat luând infinitatea la 1 și z3,"
 "z4 la 0 și infinitate respectiv"
 
-#: ../lib/library-strings.c:227
+#: ../lib/library-strings.c:230
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 "
 "and infinity respectively"
@@ -1180,18 +1196,18 @@ msgstr ""
 "Maparea Moebius utilizând raportul încrucișat luând infinitatea la 0 și z2,"
 "z4 la 1 și infinitate respectiv"
 
-#: ../lib/library-strings.c:228
+#: ../lib/library-strings.c:231
 msgid ""
 "Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is "
 "2pi)"
 msgstr ""
 "Nucleu Poisson pe D(0,1) (nenormalizat la 1, adică partea întreagă este 2pi)"
 
-#: ../lib/library-strings.c:229
+#: ../lib/library-strings.c:232
 msgid "Poisson kernel on D(0,R) (not normalized to 1)"
 msgstr "Nucleu Poisson pe D(0,R) (nenormalizat la 1)"
 
-#: ../lib/library-strings.c:230
+#: ../lib/library-strings.c:233
 msgid ""
 "The unit step function = 0 for x<0, 1 otherwise.  This is the integral of "
 "the Dirac Delta function."
@@ -1199,24 +1215,24 @@ msgstr ""
 "Funcția pas unitar = 0 pentru x<0, 1 altfel.  Aceasta este partea întreagă a "
 "funcției Delta Dirac."
 
-#: ../lib/library-strings.c:231
+#: ../lib/library-strings.c:234
 msgid "The cis function, that is cos(x)+i*sin(x)"
 msgstr "Funcția cis, care este cos(x)+i*sin(x)"
 
-#: ../lib/library-strings.c:232
+#: ../lib/library-strings.c:235
 msgid "Convert degrees to radians"
 msgstr "Convertește grade în radiani"
 
-#: ../lib/library-strings.c:233
+#: ../lib/library-strings.c:236
 msgid "Convert radians to degrees"
 msgstr "Convertește radiani în grade"
 
-#: ../lib/library-strings.c:234
+#: ../lib/library-strings.c:237
 msgid "Find roots of a cubic polynomial (given as vector of coefficients)"
 msgstr ""
 "Găsește rădăcinile unui polinom cubic (dat ca un vector de coeficienți)"
 
-#: ../lib/library-strings.c:235
+#: ../lib/library-strings.c:238
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns y at x1"
@@ -1224,7 +1240,7 @@ msgstr ""
 "Utilizează metoda clasică a lui Euler pentru a rezolva numeric y'=f(x,y) "
 "pentru x0,y0 inițiale până la x1 cu n incrementări, returnează y la x1"
 
-#: ../lib/library-strings.c:236
+#: ../lib/library-strings.c:239
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns an n+1 by 2 matrix of values"
@@ -1233,7 +1249,7 @@ msgstr ""
 "pentru x0,y0 inițiale până la x1 cu n incrementări, returnează un n+1 după 2 "
 "matrici de valori"
 
-#: ../lib/library-strings.c:237
+#: ../lib/library-strings.c:240
 msgid ""
 "Find root of a function using the bisection method to within TOL tolerance "
 "in up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1241,7 +1257,7 @@ msgstr ""
 "Găsește rădăcina unei funcții utilizând metoda de bisecare până la toleranța "
 "TOL până la N iterații.  f(a) și f(b) trebuie să aibă semne opuse."
 
-#: ../lib/library-strings.c:238
+#: ../lib/library-strings.c:241
 msgid ""
 "Find root of a function using the method of false position to within TOL "
 "tolerance in up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1249,11 +1265,11 @@ msgstr ""
 "Găsește rădăcina unei funcții utilizând metoda poziției false până la "
 "toleranța TOL până la N iterații.  f(a) și f(b) trebuie să aibă semne opuse."
 
-#: ../lib/library-strings.c:239
+#: ../lib/library-strings.c:242
 msgid "Find root of a function using the Muller's method"
 msgstr "Găsește rădăcina unei funcții folosind metoda lui Muller"
 
-#: ../lib/library-strings.c:240
+#: ../lib/library-strings.c:243
 msgid ""
 "Find root of a function using the secant method to within TOL tolerance in "
 "up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1261,7 +1277,7 @@ msgstr ""
 "Găsește rădăcina unei funcții utilizând metoda secantei până la toleranța "
 "TOL până la N iterații.  f(a) și f(b) trebuie să aibă semne opuse."
 
-#: ../lib/library-strings.c:241
+#: ../lib/library-strings.c:244
 msgid ""
 "Attempt to find a zero of a function f with derivative df and second "
 "derivative ddf using Halley's method, returning after two successive values "
@@ -1271,7 +1287,7 @@ msgstr ""
 "derivată ddf utilizând metoda lui Halley, întorcând după ce două valori "
 "succesive sunt între epsilon sau după maxn încercări (apoi întoarce null)."
 
-#: ../lib/library-strings.c:242
+#: ../lib/library-strings.c:245
 msgid ""
 "Attempt to find a zero of a function f with derivative df using Newton's "
 "method, returning after two successive values are within epsilon or after "
@@ -1281,16 +1297,16 @@ msgstr ""
 "metoda lui Newton, întorcând după ce două valori succesive sunt între "
 "epsilon sau după maxn încercări (apoi întoarce null)."
 
-#: ../lib/library-strings.c:243
+#: ../lib/library-strings.c:246
 msgid "Find roots of a polynomial (given as vector of coefficients)"
 msgstr "Găsește rădăcinile unui polinom (dat ca un vector de coeficienți)"
 
-#: ../lib/library-strings.c:244
+#: ../lib/library-strings.c:247
 msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
 msgstr ""
 "Găsește rădăcinile unui polinomial quartic (dat ca vector de coeficienți)"
 
-#: ../lib/library-strings.c:245
+#: ../lib/library-strings.c:248
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
@@ -1300,7 +1316,7 @@ msgstr ""
 "rezolva numeric y'=f(x,y) pentru x0,y0 inițiale mergând până la x1 cu n "
 "incrementări, returnează y la x1"
 
-#: ../lib/library-strings.c:246
+#: ../lib/library-strings.c:249
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an "
@@ -1310,35 +1326,35 @@ msgstr ""
 "rezolva numeric y'=f(x,y) pentru x0,yo inițiale mergând până la x1 cu n "
 "incrementări, returnează un n+1 după 2 matrici de valori"
 
-#: ../lib/library-strings.c:247
+#: ../lib/library-strings.c:250
 msgid "Calculate average of an entire matrix"
 msgstr "Calculează media unei matrici întregi"
 
-#: ../lib/library-strings.c:248
+#: ../lib/library-strings.c:251
 msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 msgstr "Integrala FuncțieiGauss de la 0 la x (aria de sub curba normală)"
 
-#: ../lib/library-strings.c:249
+#: ../lib/library-strings.c:252
 msgid "The normalized Gauss distribution function (the normal curve)"
 msgstr "Funcția de distribuție Gauss normalizată (curba normală)"
 
-#: ../lib/library-strings.c:250
+#: ../lib/library-strings.c:253
 msgid "Calculate median of an entire matrix"
 msgstr "Calculează mediana unei întregi matrici"
 
-#: ../lib/library-strings.c:251
+#: ../lib/library-strings.c:254
 msgid "Calculate the population standard deviation of a whole matrix"
 msgstr "Calculează deviația standard a populației a unei matrici"
 
-#: ../lib/library-strings.c:252
+#: ../lib/library-strings.c:255
 msgid "Calculate average of each row in a matrix"
 msgstr "Calculează media fiecărei linii într-o matrice"
 
-#: ../lib/library-strings.c:253
+#: ../lib/library-strings.c:256
 msgid "Calculate median of each row in a matrix"
 msgstr "Calculează mediana fiecărei linii într-o matrice"
 
-#: ../lib/library-strings.c:254
+#: ../lib/library-strings.c:257
 msgid ""
 "Calculate the population standard deviations of rows of a matrix and return "
 "a vertical vector"
@@ -1346,7 +1362,7 @@ msgstr ""
 "Calculează deviația standard a populației liniilor unei matrici și "
 "returnează un vector vertical"
 
-#: ../lib/library-strings.c:255
+#: ../lib/library-strings.c:258
 msgid ""
 "Calculate the standard deviations of rows of a matrix and return a vertical "
 "vector"
@@ -1354,11 +1370,11 @@ msgstr ""
 "Calculează deviația standard a liniilor unei matrici și returnează un vector "
 "vertical"
 
-#: ../lib/library-strings.c:256
+#: ../lib/library-strings.c:259
 msgid "Calculate the standard deviation of a whole matrix"
 msgstr "Calculează deviația standard a întregii matrici"
 
-#: ../lib/library-strings.c:257
+#: ../lib/library-strings.c:260
 msgid ""
 "Attempt to find a root of a polynomial using Newton's method, returning "
 "after two successive values are within epsilon or after maxn tries (then "
@@ -1368,11 +1384,11 @@ msgstr ""
 "Newton, întorcând după ce două valori succesive sunt între epsilon sau după "
 "maxn încercări (apoi întoarce null)"
 
-#: ../lib/library-strings.c:258
+#: ../lib/library-strings.c:261
 msgid "Returns a set where every element of X appears only once"
 msgstr "Returnează un set unde fiecare element din X apare o singură dată"
 
-#: ../lib/library-strings.c:259
+#: ../lib/library-strings.c:262
 msgid ""
 "Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
 "be sets)"
@@ -1380,7 +1396,7 @@ msgstr ""
 "Returnează o uniune teoretică a seturilor X și Y (X și Y sunt vectori luați "
 "drept seturi)"
 
-#: ../lib/library-strings.c:260
+#: ../lib/library-strings.c:263
 msgid ""
 "For a Hilbert function that is c for degree d, given the Macaulay bound for "
 "the Hilbert function of degree d+1 (The c^<d> operator from Green's proof)"
@@ -1389,19 +1405,19 @@ msgstr ""
 "Macaulay pentru funcția Hilbert de gradul d+1 (Operatorul c^<d>de la "
 "verificarea lui Green)"
 
-#: ../lib/library-strings.c:261
+#: ../lib/library-strings.c:264
 msgid "The c_<d> operator from Green's proof of Macaulay's Theorem"
 msgstr "Operatorul c^<d> de la verificarea lui Green a teoremei Macaulay"
 
-#: ../lib/library-strings.c:262
+#: ../lib/library-strings.c:265
 msgid "Return the dth Macaulay representation of a positive integer c"
 msgstr "Întoarce a d-a reprezentare Macaulay a unui întreg pozitiv c"
 
-#: ../lib/library-strings.c:263
+#: ../lib/library-strings.c:266
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "Încearcă să diferențieze simbolic o funcție de n ori"
 
-#: ../lib/library-strings.c:264
+#: ../lib/library-strings.c:267
 msgid ""
 "Attempt to symbolically differentiate a function n times quietly and return "
 "null on failure"
@@ -1409,7 +1425,7 @@ msgstr ""
 "Încearcă să diferențieze simbolic o funcție de n ori încet și returnează "
 "null în caz de eșuare"
 
-#: ../lib/library-strings.c:265
+#: ../lib/library-strings.c:268
 msgid ""
 "Attempt to construct the Taylor approximation function around x0 to the nth "
 "degree."
@@ -2266,7 +2282,7 @@ msgid "%s: Input not a number or a matrix of numbers."
 msgstr "%s: Intrarea nu este un număr sau o matrice de numere."
 
 #: ../src/funclib.c:3437 ../src/funclib.c:3495 ../src/funclib.c:5082
-#: ../src/funclib.c:5376 ../src/graphing.c:10388
+#: ../src/funclib.c:5376 ../src/graphing.c:10405
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: prea multe argumente"
@@ -3612,13 +3628,9 @@ msgstr "Reîncarcă programul selectat de pe disc"
 #. title
 #. parent
 #. flags
-#. title
-#. GTK_WINDOW (genius_window)
-#. parent
-#. flags
 #: ../src/gnome-genius.c:415 ../src/gnome-genius.c:1308
 #: ../src/gnome-genius.c:1513 ../src/graphing.c:627 ../src/graphing.c:1981
-#: ../src/graphing.c:2182 ../src/graphing.c:7306 ../ve/ve-miscui.c:167
+#: ../src/graphing.c:2182 ../src/graphing.c:7323 ../ve/ve-miscui.c:167
 msgid "_Close"
 msgstr "În_chide"
 
@@ -4620,7 +4632,6 @@ msgid "y:"
 msgstr "y:"
 
 #. title
-#. GTK_WINDOW (genius_window)
 #. parent
 #. flags
 #: ../src/graphing.c:2180
@@ -4972,158 +4983,158 @@ msgstr "Plănuirea _liniei funcției"
 msgid "_Surface plot"
 msgstr "Plănuirea _suprafeței"
 
-#: ../src/graphing.c:6475
+#: ../src/graphing.c:6492
 msgid "Empty value as range value"
 msgstr "Valoare vidă ca valoare de interval"
 
-#: ../src/graphing.c:6481
+#: ../src/graphing.c:6498
 msgid "Genius is executing something already"
 msgstr "Genius execută deja ceva"
 
-#: ../src/graphing.c:6492
+#: ../src/graphing.c:6509
 msgid "Cannot parse range value"
 msgstr "Nu se poate parsa valoarea intervalului"
 
-#: ../src/graphing.c:6504
+#: ../src/graphing.c:6521
 msgid "Cannot execute range value"
 msgstr "Nu se poate executa valoarea intervalului"
 
-#: ../src/graphing.c:6509 ../src/graphing.c:6515
+#: ../src/graphing.c:6526 ../src/graphing.c:6532
 msgid "Range value not a value"
 msgstr "Valoarea intervalului nu este o valoare"
 
-#: ../src/graphing.c:6523
+#: ../src/graphing.c:6540
 msgid "Cannot convert range value to a reasonable real number"
 msgstr ""
 "Nu se poate converti valoarea intervalului într-un număr real rezonabil"
 
-#: ../src/graphing.c:6609 ../src/graphing.c:6803 ../src/graphing.c:6932
-#: ../src/graphing.c:7067 ../src/graphing.c:7174
+#: ../src/graphing.c:6626 ../src/graphing.c:6820 ../src/graphing.c:6949
+#: ../src/graphing.c:7084 ../src/graphing.c:7191
 msgid "No functions to plot or no functions could be parsed"
 msgstr "Nicio funcție de plănuit sau nicio funcție nu a putut fi analizată"
 
-#: ../src/graphing.c:6644 ../src/graphing.c:6650 ../src/graphing.c:6828
-#: ../src/graphing.c:6834 ../src/graphing.c:6957 ../src/graphing.c:6963
-#: ../src/graphing.c:6982 ../src/graphing.c:7092 ../src/graphing.c:7098
-#: ../src/graphing.c:7199 ../src/graphing.c:7205
+#: ../src/graphing.c:6661 ../src/graphing.c:6667 ../src/graphing.c:6845
+#: ../src/graphing.c:6851 ../src/graphing.c:6974 ../src/graphing.c:6980
+#: ../src/graphing.c:6999 ../src/graphing.c:7109 ../src/graphing.c:7115
+#: ../src/graphing.c:7216 ../src/graphing.c:7222
 #, c-format
 msgid "Invalid %s range"
 msgstr "Interval %s nevalid"
 
-#: ../src/graphing.c:6656
+#: ../src/graphing.c:6673
 msgid "Invalid dependent range"
 msgstr "Interval dependent nevalid"
 
-#: ../src/graphing.c:6926
+#: ../src/graphing.c:6943
 #, c-format
 msgid "Only specify %s and %s, or %s, not all at once."
 msgstr "Specifică doar %s și %s, sau %s, nu toate în același timp."
 
-#: ../src/graphing.c:7303
+#: ../src/graphing.c:7320
 msgid "Create Plot"
 msgstr "Creează plan"
 
-#: ../src/graphing.c:7308
+#: ../src/graphing.c:7325
 msgid "_Plot"
 msgstr "_Plănuiește"
 
-#: ../src/graphing.c:7343 ../src/graphing.c:7519 ../src/graphing.c:7550
-#: ../src/graphing.c:7571 ../src/graphing.c:7611 ../src/graphing.c:7635
-#: ../src/graphing.c:7747 ../src/graphing.c:7871 ../src/graphing.c:8008
-#: ../src/graphing.c:8165 ../src/graphing.c:8312 ../src/graphing.c:8335
-#: ../src/graphing.c:8962 ../src/graphing.c:9249 ../src/graphing.c:9468
-#: ../src/graphing.c:9708 ../src/graphing.c:10036 ../src/graphing.c:10268
-#: ../src/graphing.c:10357 ../src/graphing.c:10467 ../src/graphing.c:10498
-#: ../src/graphing.c:10527 ../src/graphing.c:10553 ../src/graphing.c:10582
-#: ../src/graphing.c:10676 ../src/graphing.c:10765 ../src/graphing.c:10790
-#: ../src/graphing.c:10823 ../src/graphing.c:10871
+#: ../src/graphing.c:7360 ../src/graphing.c:7536 ../src/graphing.c:7567
+#: ../src/graphing.c:7588 ../src/graphing.c:7628 ../src/graphing.c:7652
+#: ../src/graphing.c:7764 ../src/graphing.c:7888 ../src/graphing.c:8025
+#: ../src/graphing.c:8182 ../src/graphing.c:8329 ../src/graphing.c:8352
+#: ../src/graphing.c:8979 ../src/graphing.c:9266 ../src/graphing.c:9485
+#: ../src/graphing.c:9725 ../src/graphing.c:10053 ../src/graphing.c:10285
+#: ../src/graphing.c:10374 ../src/graphing.c:10484 ../src/graphing.c:10515
+#: ../src/graphing.c:10544 ../src/graphing.c:10570 ../src/graphing.c:10599
+#: ../src/graphing.c:10693 ../src/graphing.c:10782 ../src/graphing.c:10807
+#: ../src/graphing.c:10840 ../src/graphing.c:10888
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr "%s: Plănuire în decurs, nu se poate apela %s"
 
-#: ../src/graphing.c:7351 ../src/graphing.c:7890
+#: ../src/graphing.c:7368 ../src/graphing.c:7907
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: argument nu o funcție"
 
-#: ../src/graphing.c:7361
+#: ../src/graphing.c:7378
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: numai o funcție suportată"
 
-#: ../src/graphing.c:7384
+#: ../src/graphing.c:7401
 msgid "Graph limits not given as a 4-vector or a 6-vector"
 msgstr "Limitele graficului nu sunt date ca un vector-4 sau un vector-6"
 
-#: ../src/graphing.c:7440 ../src/graphing.c:7700 ../src/graphing.c:7817
-#: ../src/graphing.c:7953 ../src/graphing.c:8102 ../src/graphing.c:8257
-#: ../src/graphing.c:10137
+#: ../src/graphing.c:7457 ../src/graphing.c:7717 ../src/graphing.c:7834
+#: ../src/graphing.c:7970 ../src/graphing.c:8119 ../src/graphing.c:8274
+#: ../src/graphing.c:10154
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: interval X nevalid"
 
-#: ../src/graphing.c:7445 ../src/graphing.c:7705 ../src/graphing.c:7822
-#: ../src/graphing.c:7958 ../src/graphing.c:8107 ../src/graphing.c:8262
-#: ../src/graphing.c:10142
+#: ../src/graphing.c:7462 ../src/graphing.c:7722 ../src/graphing.c:7839
+#: ../src/graphing.c:7975 ../src/graphing.c:8124 ../src/graphing.c:8279
+#: ../src/graphing.c:10159
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: interval Y nevalid"
 
-#: ../src/graphing.c:7450 ../src/graphing.c:10147
+#: ../src/graphing.c:7467 ../src/graphing.c:10164
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: interval Z nevalid"
 
-#: ../src/graphing.c:7529
+#: ../src/graphing.c:7546
 #, c-format
 msgid "%s: dx must be positive"
 msgstr "%s: dx trebuie să fie pozitiv"
 
-#: ../src/graphing.c:7536 ../src/graphing.c:7555
+#: ../src/graphing.c:7553 ../src/graphing.c:7572
 #, c-format
 msgid "%s: Slope field not active"
 msgstr "%s: Câmpul pantă nu e activ"
 
-#: ../src/graphing.c:7582
+#: ../src/graphing.c:7599
 #, c-format
 msgid "%s: dt must be positive"
 msgstr "%s: dt trebuie să fie pozitiv"
 
-#: ../src/graphing.c:7588
+#: ../src/graphing.c:7605
 #, c-format
 msgid "%s: tlen must be positive"
 msgstr "%s: tlen trebuie să fie pozitiv"
 
-#: ../src/graphing.c:7596 ../src/graphing.c:7617
+#: ../src/graphing.c:7613 ../src/graphing.c:7634
 #, c-format
 msgid "%s: Vector field not active"
 msgstr "%s: Câmpul vectorial nu e activ"
 
-#: ../src/graphing.c:7642 ../src/graphing.c:8172
+#: ../src/graphing.c:7659 ../src/graphing.c:8189
 #, c-format
 msgid "%s: First argument must be a function"
 msgstr "%s: Primul argument trebuie să fie o funcție"
 
-#: ../src/graphing.c:7758 ../src/graphing.c:8016
+#: ../src/graphing.c:7775 ../src/graphing.c:8033
 #, c-format
 msgid "%s: First two arguments must be functions"
 msgstr "%s: Primele două argumente trebuie să fie funcții"
 
-#: ../src/graphing.c:7885
+#: ../src/graphing.c:7902
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: numai până la 10 funcții suportate"
 
-#: ../src/graphing.c:7911
+#: ../src/graphing.c:7928
 msgid "Graph limits not given as a 2-vector or a 4-vector"
 msgstr "Limitele graficului nu sunt date ca un vector-2 sau un vector-4"
 
-#: ../src/graphing.c:8112 ../src/graphing.c:8267
+#: ../src/graphing.c:8129 ../src/graphing.c:8284
 #, c-format
 msgid "%s: invalid T range"
 msgstr "%s: interval T nevalid"
 
-#: ../src/graphing.c:8515
+#: ../src/graphing.c:8532
 #, c-format
 msgid ""
 "%s: Not in line plot mode.  Perhaps run LinePlot or LinePlotClear first."
@@ -5131,7 +5142,7 @@ msgstr ""
 "%s: Nu este în modul plot linie.  Poate rulați LinePlot sau LinePlotClear "
 "mai întâi."
 
-#: ../src/graphing.c:8644 ../src/graphing.c:8725
+#: ../src/graphing.c:8661 ../src/graphing.c:8742
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 2 matrix with columns for x and "
@@ -5140,7 +5151,7 @@ msgstr ""
 "%s: Punctele ar trebui să fie date ca o matrice n pe 2, reală, cu coloane "
 "pentru x și y, n>=%d, sau ca un complex evaluat ca o matrice n pe 1"
 
-#: ../src/graphing.c:8654
+#: ../src/graphing.c:8671
 #, c-format
 msgid ""
 "%s: If points are given as an n by 2 matrix, then this matrix must be real"
@@ -5148,7 +5159,7 @@ msgstr ""
 "%s: Dacă punctele sunt date ca o matrice de n pe 2, atunci această matrice "
 "trebuie să fie reală"
 
-#: ../src/graphing.c:8764 ../src/graphing.c:8827
+#: ../src/graphing.c:8781 ../src/graphing.c:8844
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 3 matrix with columns for x, y "
@@ -5157,17 +5168,17 @@ msgstr ""
 "%s: Punctele ar trebui să fie date ca o matrice n pe 3, reală, cu coloane "
 "pentru x, y și z, n>=%d"
 
-#: ../src/graphing.c:8879
+#: ../src/graphing.c:8896
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: Nicio culoare specificată"
 
-#: ../src/graphing.c:8884 ../src/graphing.c:8891
+#: ../src/graphing.c:8901 ../src/graphing.c:8908
 #, c-format
 msgid "%s: Cannot parse color '%s'"
 msgstr "%s: Nu se poate parsa culoarea „%s”"
 
-#: ../src/graphing.c:8905
+#: ../src/graphing.c:8922
 #, c-format
 msgid ""
 "%s: A vector giving color should be a 3-vector of real numbers between 0 and "
@@ -5176,7 +5187,7 @@ msgstr ""
 "%s: Un vector care dă culoare ar trebuie să fie un vector-3 de numere reale "
 "între 0 și 1"
 
-#: ../src/graphing.c:8921
+#: ../src/graphing.c:8938
 #, c-format
 msgid ""
 "%s: Warning: Values for red, green, or blue out of range (0 to 1), I will "
@@ -5185,7 +5196,7 @@ msgstr ""
 "%s: Avertisment: Valorile pentru roșu, verde, sau albastru în afara "
 "intervalului (0 la 1), le voi tăia la acest interval"
 
-#: ../src/graphing.c:8938
+#: ../src/graphing.c:8955
 #, c-format
 msgid ""
 "%s: Color must be a string or a three-vector of rgb values (between 0 and 1)"
@@ -5193,60 +5204,60 @@ msgstr ""
 "%s: Culoarea trebuie să fie un șir sau un vector-trei de valori rgb (între 0 "
 "și 1)"
 
-#: ../src/graphing.c:8981 ../src/graphing.c:9268 ../src/graphing.c:9489
-#: ../src/graphing.c:9729
+#: ../src/graphing.c:8998 ../src/graphing.c:9285 ../src/graphing.c:9506
+#: ../src/graphing.c:9746
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: Număr greșit de argumente"
 
-#: ../src/graphing.c:9051 ../src/graphing.c:9322 ../src/graphing.c:9555
-#: ../src/graphing.c:9789
+#: ../src/graphing.c:9068 ../src/graphing.c:9339 ../src/graphing.c:9572
+#: ../src/graphing.c:9806
 #, c-format
 msgid "%s: No thickness specified"
 msgstr "%s: Nicio grosime specificată"
 
-#: ../src/graphing.c:9074 ../src/graphing.c:9345 ../src/graphing.c:9580
-#: ../src/graphing.c:9814
+#: ../src/graphing.c:9091 ../src/graphing.c:9362 ../src/graphing.c:9597
+#: ../src/graphing.c:9831
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: Nicio fereastră specificată"
 
-#: ../src/graphing.c:9122 ../src/graphing.c:9147
+#: ../src/graphing.c:9139 ../src/graphing.c:9164
 #, c-format
 msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
 msgstr ""
 "%s: stilul săgeții ar trebui să fie „origine”, „sfârșit”, „ambele”, sau "
 "„niciunul”"
 
-#: ../src/graphing.c:9157 ../src/graphing.c:9389 ../src/graphing.c:9632
-#: ../src/graphing.c:9866
+#: ../src/graphing.c:9174 ../src/graphing.c:9406 ../src/graphing.c:9649
+#: ../src/graphing.c:9883
 #, c-format
 msgid "%s: No legend specified"
 msgstr "%s: Nicio legendă specificată"
 
-#: ../src/graphing.c:9171 ../src/graphing.c:9403 ../src/graphing.c:9647
-#: ../src/graphing.c:9881
+#: ../src/graphing.c:9188 ../src/graphing.c:9420 ../src/graphing.c:9664
+#: ../src/graphing.c:9898
 #, c-format
 msgid "%s: Legend must be a string"
 msgstr "%s: Legenda trebuie să fie un șir"
 
-#: ../src/graphing.c:9182
+#: ../src/graphing.c:9199
 #, c-format
 msgid "%s: Unknown style: %s"
 msgstr "%s: Stil necunoscut: %s"
 
-#: ../src/graphing.c:9191 ../src/graphing.c:9419 ../src/graphing.c:9665
-#: ../src/graphing.c:9899
+#: ../src/graphing.c:9208 ../src/graphing.c:9436 ../src/graphing.c:9682
+#: ../src/graphing.c:9916
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: Parametru greșit"
 
-#: ../src/graphing.c:9412 ../src/graphing.c:9657 ../src/graphing.c:9891
+#: ../src/graphing.c:9429 ../src/graphing.c:9674 ../src/graphing.c:9908
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: Stil necunoscut"
 
-#: ../src/graphing.c:9953 ../src/graphing.c:10016
+#: ../src/graphing.c:9970 ../src/graphing.c:10033
 #, c-format
 msgid ""
 "%s: Surface should be given as a real, n by 3 matrix with columns for x, y, "
@@ -5255,91 +5266,91 @@ msgstr ""
 "%s: Suprafața ar trebui să fie dacă ca o matrice n pe 3, reală, cu coloanele "
 "pentru x, y, z, unde n>=3"
 
-#: ../src/graphing.c:10044
+#: ../src/graphing.c:10061
 #, c-format
 msgid "%s: argument not a matrix of data"
 msgstr "%s: argumentul nu este o matrice de date"
 
-#: ../src/graphing.c:10228
+#: ../src/graphing.c:10245
 #, c-format
 msgid "%s: Surface grid data should be given as a real matrix "
 msgstr "%s: Datele grilei de suprafață ar trebui date ca o matrice reală "
 
-#: ../src/graphing.c:10274
+#: ../src/graphing.c:10291
 #, c-format
 msgid "%s: first argument not a matrix of data"
 msgstr "%s: primul argument nu este o matrice de date"
 
-#: ../src/graphing.c:10281
+#: ../src/graphing.c:10298
 #, c-format
 msgid "%s: second argument not a 4 or 6 element vector of limits"
 msgstr "%s: al doilea argument nu este un vector de limite de 4 sau 6"
 
-#: ../src/graphing.c:10298
+#: ../src/graphing.c:10315
 #, c-format
 msgid "%s: too many arguments or last argument not a string label"
 msgstr ""
 "%s: prea multe argumente sau ultimul argument nu este o etichetă de șir"
 
-#: ../src/graphing.c:10364
+#: ../src/graphing.c:10381
 #, c-format
 msgid "%s: first argument not a nonempty string"
 msgstr "%s: primul argument nu este un șir ne-gol"
 
-#: ../src/graphing.c:10372
+#: ../src/graphing.c:10389
 #, c-format
 msgid "%s: type not specified and filename has no extension"
 msgstr ""
 "%s: tipul nu este specificat și numele fișierului nu are nicio extensie"
 
-#: ../src/graphing.c:10381
+#: ../src/graphing.c:10398
 #, c-format
 msgid "%s: second argument not a nonempty string"
 msgstr "%s: al doilea argument nu este un șir ne-gol"
 
-#: ../src/graphing.c:10393
+#: ../src/graphing.c:10410
 #, c-format
 msgid "%s: plot canvas not active, cannot export"
 msgstr "%s: canavaua plotului nu este activă, nu se poate exporta"
 
-#: ../src/graphing.c:10402 ../src/graphing.c:10416 ../src/graphing.c:10439
+#: ../src/graphing.c:10419 ../src/graphing.c:10433 ../src/graphing.c:10456
 #, c-format
 msgid "%s: export failed"
 msgstr "%s: exportarea a eșuat"
 
-#: ../src/graphing.c:10452
+#: ../src/graphing.c:10469
 #, c-format
 msgid "%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."
 msgstr "%s: tip de fișier necunoscut, poate fi „png”, „eps” sau „ps”."
 
-#: ../src/graphing.c:10589
+#: ../src/graphing.c:10606
 msgid "Variable names not given in a 4-vector"
 msgstr "Numele variabilelor nu sunt date într-un 4-vector"
 
-#: ../src/graphing.c:10599 ../src/graphing.c:10608 ../src/graphing.c:10617
-#: ../src/graphing.c:10626 ../src/graphing.c:10693 ../src/graphing.c:10702
-#: ../src/graphing.c:10711
+#: ../src/graphing.c:10616 ../src/graphing.c:10625 ../src/graphing.c:10634
+#: ../src/graphing.c:10643 ../src/graphing.c:10710 ../src/graphing.c:10719
+#: ../src/graphing.c:10728
 msgid "Variable names should be strings"
 msgstr "Numele variabilelor ar trebui să fie șiruri"
 
-#: ../src/graphing.c:10633 ../src/graphing.c:10717
+#: ../src/graphing.c:10650 ../src/graphing.c:10734
 msgid "Variable names must be valid identifiers"
 msgstr "Numele\t variabilelor trebuie să fie identificatori valizi"
 
-#: ../src/graphing.c:10642 ../src/graphing.c:10723
+#: ../src/graphing.c:10659 ../src/graphing.c:10740
 msgid "Variable names must be mutually distinct"
 msgstr "Numele variabilelor trebuie să fie distincte reciproc"
 
-#: ../src/graphing.c:10683
+#: ../src/graphing.c:10700
 msgid "Variable names not given in a 3-vector"
 msgstr "Numele variabilelor nu sunt date într-un 3-vector"
 
-#: ../src/graphing.c:10906
+#: ../src/graphing.c:10923
 msgid "Plotting"
 msgstr "Se plănuiește"
 
 #. internal
-#: ../src/graphing.c:10908
+#: ../src/graphing.c:10925
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -5347,7 +5358,7 @@ msgstr ""
 "Plănuiește o funcție cu o linie.  Mai întâi vin funcțiile (până în 10) și "
 "apoi opțional limitele ca x1,x2,y1,y2"
 
-#: ../src/graphing.c:10909
+#: ../src/graphing.c:10926
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
@@ -5357,7 +5368,7 @@ msgstr ""
 "apoi opțional t limite ca t1,t2,tinc, și apoi opțional limitele ca x1,x2,y1,"
 "y2"
 
-#: ../src/graphing.c:10910
+#: ../src/graphing.c:10927
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
@@ -5367,7 +5378,7 @@ msgstr ""
 "vine funcția care returnează x+iy și apoi opțional t limite ca t1,t2,tinc, "
 "și apoi opțional limitele ca x1,x2,y1,y2"
 
-#: ../src/graphing.c:10912
+#: ../src/graphing.c:10929
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
@@ -5375,7 +5386,7 @@ msgstr ""
 "Desenează un câmp în pantă.  Mai întâi vine funcția dy/dx în termeni de x și "
 "y (sau un număr complex z) și apoi opțional limitele ca x1,x2,y1,y2"
 
-#: ../src/graphing.c:10913
+#: ../src/graphing.c:10930
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
@@ -5383,18 +5394,18 @@ msgstr ""
 "Desenează un câmp vectorial.  Mai întâi vin funcțiile dx/dt și dy/dt în "
 "termeni de x și y și apoi opțional limitele ca x1,x2,y1,y2"
 
-#: ../src/graphing.c:10915
+#: ../src/graphing.c:10932
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr ""
 "Desenează o soluție pentru un câmp în pantă începând de la x,y și folosind "
 "dx ca increment"
 
-#: ../src/graphing.c:10916
+#: ../src/graphing.c:10933
 msgid "Clear all the slopefield solutions"
 msgstr "Eliberează toate soluțiile pentru pante"
 
-#: ../src/graphing.c:10918
+#: ../src/graphing.c:10935
 msgid ""
 "Draw a solution for a vector field starting at x,y, using dt as increment "
 "for tlen units"
@@ -5402,11 +5413,11 @@ msgstr ""
 "Desenează o soluție pentru un câmp vectorial începând de la x,y și folosind "
 "dt ca increment pentru tlen unități"
 
-#: ../src/graphing.c:10919
+#: ../src/graphing.c:10936
 msgid "Clear all the vectorfield solutions"
 msgstr "Eliberează toate soluțiile pentru câmpuri vectoriale"
 
-#: ../src/graphing.c:10922
+#: ../src/graphing.c:10939
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -5415,11 +5426,11 @@ msgstr ""
 "complex.  Mai întâi vine funcția și apoi opțional limitele ca x1,x2,y1,y2,z1,"
 "z2"
 
-#: ../src/graphing.c:10924
+#: ../src/graphing.c:10941
 msgid "Show the surface (3d) plot window and clear out functions"
 msgstr "Arată fereastra de plot de suprafață (3d) și curăță funcțiile"
 
-#: ../src/graphing.c:10926
+#: ../src/graphing.c:10943
 msgid ""
 "Plot surface data given as n by 3 matrix (n>=3) of data with each row being "
 "x,y,z.  Optionally can pass a label string and limits.  If no limits passed, "
@@ -5429,7 +5440,7 @@ msgstr ""
 "fiecare rând fiind x,y,z.  Opțional poate trece un șir de etichete și "
 "limite.  Dacă nu sunt trecute limite, limitele sunt calculate de la date."
 
-#: ../src/graphing.c:10927
+#: ../src/graphing.c:10944
 msgid ""
 "Plot surface data given as a matrix (where rows are the x coordinate and "
 "columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or "
@@ -5439,7 +5450,7 @@ msgstr ""
 "x și coloanele sunt coordonata y), limitele sunt date ca [x1,x2,y1,y2] sau "
 "opțional [x1,x2,y1,y2,z1,z2], și opțional un șir pentru etichetă."
 
-#: ../src/graphing.c:10928
+#: ../src/graphing.c:10945
 msgid ""
 "Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  x1,y1,z1,x2,"
 "y2,z2 can be replaced by a n by 3 matrix for a longer line"
@@ -5448,7 +5459,7 @@ msgstr ""
 "x1,y1,z1,x2,y2,z2 pot fi înlocuite de o matrice de n pe 3 pentru o linie mai "
 "lungă"
 
-#: ../src/graphing.c:10929
+#: ../src/graphing.c:10946
 msgid ""
 "Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a "
 "n by 3 matrix for more points."
@@ -5456,11 +5467,11 @@ msgstr ""
 "Desenează un punct la x,y,z pe plotul de suprafață (3d).  x,y,z pot fi "
 "înlocuite de o matrice de n pe 3 pentru mai multe puncte."
 
-#: ../src/graphing.c:10931
+#: ../src/graphing.c:10948
 msgid "Show the line plot window and clear out functions"
 msgstr "Arată fereastra pentru plănuirea liniei și eliberează toate funcțiile"
 
-#: ../src/graphing.c:10932
+#: ../src/graphing.c:10949
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line."
@@ -5468,35 +5479,35 @@ msgstr ""
 "Desenează o linie de la x1,y1 la x2,y2.  x1,y1,x2,y2 pot fi înlocuite de o "
 "matrice de n pe 2 pentru o linie mai lungă."
 
-#: ../src/graphing.c:10933
+#: ../src/graphing.c:10950
 msgid ""
 "Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points."
 msgstr ""
 "Desenează un punct la x,y.  x,y pot fi înlocuite de o matrice de n pe 2 "
 "pentru mai multe puncte."
 
-#: ../src/graphing.c:10935
+#: ../src/graphing.c:10952
 msgid "Freeze the plot canvas, that is, inhibit drawing"
 msgstr "Îngheață canavaua plotului, adică, inhibează desenarea"
 
-#: ../src/graphing.c:10936
+#: ../src/graphing.c:10953
 msgid "Thaw the plot canvas and redraw the plot immediately"
 msgstr "Topește canavaua plotului și redesenează plotul imediat"
 
-#: ../src/graphing.c:10937
+#: ../src/graphing.c:10954
 msgid "Raise the plot window, and create the window if necessary"
 msgstr "Ridică fereastra plotului, și creează fereastra dacă este necesar"
 
-#: ../src/graphing.c:10939
+#: ../src/graphing.c:10956
 msgid "Wait for a click on the line plot window, return the location."
 msgstr ""
 "Așteaptă pentru un clic pe fereastra plotului liniei, întoarce locația."
 
-#: ../src/graphing.c:10940
+#: ../src/graphing.c:10957
 msgid "Return current mouse location on the line plot window."
 msgstr "Întoarce locația mausului curentă pe fereastra plotului liniei."
 
-#: ../src/graphing.c:10942
+#: ../src/graphing.c:10959
 msgid ""
 "Export the current contents of the plot canvas to a file.  The file type is "
 "given by the string type, which can be \"png\", \"eps\", or \"ps\"."
@@ -5504,15 +5515,15 @@ msgstr ""
 "Exportă conținutul curent al canavalei plotului la un fișier.  Tipul de "
 "fișier este dat de tipul șirului, care poate fi „png”, „eps” sau „ps”."
 
-#: ../src/graphing.c:10944
+#: ../src/graphing.c:10961
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr "Numărul de bătăi în pante ca un vector [vertical,orizontal]."
 
-#: ../src/graphing.c:10945
+#: ../src/graphing.c:10962
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
 msgstr "Numărul de bătăi de câmpuri vectoriale [vertical,orizontal]."
 
-#: ../src/graphing.c:10946
+#: ../src/graphing.c:10963
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
@@ -5520,7 +5531,7 @@ msgstr ""
 "Nume implicite folosite de toate plănuirele de funcții D2.  Ar trebui să fie "
 "un 4 vector de șiruri sau identificatori [x,y,z,t]."
 
-#: ../src/graphing.c:10947
+#: ../src/graphing.c:10964
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
@@ -5529,7 +5540,7 @@ msgstr ""
 "fie un vector 3 de șiruri sau identificatori [x,y,z] (unde z=x+iy și nu axa "
 "dependentă)"
 
-#: ../src/graphing.c:10949
+#: ../src/graphing.c:10966
 msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
@@ -5537,24 +5548,24 @@ msgstr ""
 "Normalizează câmpurile vectoriale dacă sunt adevărate.  Adică arată numai "
 "direcția și nu magnitudinea."
 
-#: ../src/graphing.c:10950
+#: ../src/graphing.c:10967
 msgid "If to draw legends or not on line plots."
 msgstr "Dacă să deseneze legende sau nu pe planurile de linii."
 
-#: ../src/graphing.c:10951
+#: ../src/graphing.c:10968
 msgid "If to draw axis labels on line plots."
 msgstr "Dacă să se deseneze etichetele axelor pe ploturile de linie."
 
-#: ../src/graphing.c:10953
+#: ../src/graphing.c:10970
 msgid "If to draw legends or not on surface plots."
 msgstr "Dacă să se deseneze sau nu legende pe ploturile de suprafață."
 
-#: ../src/graphing.c:10955
+#: ../src/graphing.c:10972
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr ""
 "Fereastra plănuirii de linii (limite) ca un 4-vector de forma [x1,x2,y1,y2]"
 
-#: ../src/graphing.c:10956
+#: ../src/graphing.c:10973
 msgid ""
 "Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
 "z2]"
