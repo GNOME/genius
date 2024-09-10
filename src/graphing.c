@@ -3079,6 +3079,12 @@ call_xy_or_z_function (GelEFunc *f, double x, double y, gboolean *ex)
 	GelETree *func_ret = NULL;
 	double z;
 
+	if G_UNLIKELY (f == NULL) {
+		if (ex != NULL)
+			*ex = TRUE;
+		return 0.0;
+	}
+
 	/* complex function */
 	if (f->nargs == 1) {
 		mpw_set_d_complex (plot_arg->val.value, x, y);
@@ -3134,7 +3140,7 @@ surface_func_data (double x, double y, gboolean *error)
 	if (error != NULL)
 		*error = FALSE;
 
-	if G_UNLIKELY (gel_interrupted) {
+	if G_UNLIKELY (gel_interrupted || surface_func == NULL) {
 		if (error != NULL)
 			*error = TRUE;
 		return 0.0;
