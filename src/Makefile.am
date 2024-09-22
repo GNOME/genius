@@ -217,7 +217,14 @@ Desktop_DATA = $(Desktop_in_files:.desktop.in=.desktop)
 
 @INTLTOOL_DESKTOP_RULE@
 
-DISTCLEANFILES = $(Desktop_DATA) test.plugin
+Metainfodir = $(datadir)/metainfo
+Metainfo_in_files = \
+	@GNOME_GENIUS_METAINFO_IN@
+Metainfo_DATA = $(Metainfo_in_files:.xml.in=.xml)
+
+@INTLTOOL_XML_RULE@
+
+DISTCLEANFILES = $(Desktop_DATA) $(Metainfo_DATA) test.plugin
 
 EXTRA_DIST = \
 	geniustest.pl \
@@ -230,6 +237,9 @@ EXTRA_DIST = \
 	gnome-genius.desktop.in \
 	$(Desktop_in_files) \
 	$(Desktop_DATA) \
+	gnome-genius.metainfo.xml.in \
+	$(Metainfo_in_files) \
+	$(Metainfo_DATA) \
 	test.plugin.in \
 	genius.lang
 
