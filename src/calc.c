@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2018 Jiri (George) Lebl
+ * Copyright (C) 1997-2025 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -415,7 +415,7 @@ gel_add_help_link (const char *func, const char *link)
 	GelHelp *help;
 
 	help = gel_get_help (func, TRUE /* insert */);
-	g_free (help->help_html);
+	g_free (help->help_link);
 	help->help_link = g_strdup (link);
 }
 
@@ -1278,7 +1278,7 @@ appendpolynomial (GelOutput *gelo, GelETree *n)
 			index[j] = 0;
 			j++;
 			if (j >= n->poly.vars)
-				break;
+				return;
 		}
 		index[j]++;
 	}
@@ -1625,6 +1625,7 @@ pretty_print_value_normal (GelOutput *gelo, GelETree *n)
 			mpw_clear (den);
 			mpw_clear (num);
 			mpw_clear (whole);
+			g_free (wholes);
 			goto just_print_a_number;
 		}
 

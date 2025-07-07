@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2014 Jiri (George) Lebl
+ * Copyright (C) 1997-2025 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -210,9 +210,7 @@ gel_compile_tree(GelETree *t)
 	
 	gel_compile_node(t,gs);
 	
-	s = gs->str;
-	g_string_free(gs,FALSE);
-	return s;
+	return g_string_free(gs,FALSE);
 }
 
 static GelETree *
@@ -443,6 +441,7 @@ gel_decompile_node(char **ptrptr)
 			if G_UNLIKELY (!p) {
 				g_slist_free (oli);
 				g_slist_free (local_idents);
+				g_slist_free (subst_dict);
 				return NULL;
 			}
 			oli = g_slist_append(oli,d_intern(p));
@@ -452,6 +451,7 @@ gel_decompile_node(char **ptrptr)
 		if G_UNLIKELY (!n) {
 			g_slist_free (oli);
 			g_slist_free (local_idents);
+			g_slist_free (subst_dict);
 			return NULL;
 		}
 

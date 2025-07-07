@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2020 Jiri (George) Lebl
+ * Copyright (C) 1997-2025 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -212,6 +212,8 @@ gel_call_help (const char *function)
 			       NULL /* status */,
 			       NULL /* error */);
 
+		g_free(str);
+
 	} else {
 		puterror (_("Cannot run lynx/links/w3m to show the manual"));
 	}
@@ -274,6 +276,7 @@ reread_buttons:
 			if (sscanf (s, "%d", &ret) != 1) {
 				ret = -1;
 			}
+			free (s);
 		}
 	} else {
 		char buf[256];
@@ -464,13 +467,13 @@ main(int argc, char *argv[])
 			sscanf (argv[++i],"%d",&val);
 			curstate.integer_output_base = val;
 		} else if(sscanf(argv[i],"--chop=%d",&val)==1) {
-			curstate.integer_output_base = val;
+			curstate.chop = val;
 		} else if (strcmp (argv[i], "--chop")==0 && i+1 < argc) {
 			val = 20;
 			sscanf (argv[++i],"%d",&val);
 			curstate.chop = val;
 		} else if(sscanf(argv[i],"--chopwhen=%d",&val)==1) {
-			curstate.integer_output_base = val;
+			curstate.chop_when = val;
 		} else if (strcmp (argv[i], "--chopwhen")==0 && i+1 < argc) {
 			val = 10;
 			sscanf (argv[++i],"%d",&val);
@@ -493,7 +496,7 @@ main(int argc, char *argv[])
 			be_quiet = FALSE;
 		else if (strncmp (argv[i], "--exec=", strlen ("--exec=")) == 0) {
 			exec = g_strdup ((argv[i])+strlen("--exec="));
-		} else if (strcmp (argv[i], "--exec") && i+1 < argc) {
+		} else if (strcmp (argv[i], "--exec") == 0 && i+1 < argc) {
 			exec = g_strdup (argv[++i]);
 		} else if (strcmp (argv[i], "--version") == 0) {
 			g_print (_("Genius %s\n"

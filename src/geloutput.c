@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2007 Jiri (George) Lebl
+ * Copyright (C) 1997-2025 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -252,8 +252,7 @@ gel_output_snarf_string (GelOutput *gelo)
 	    *(gelo->outs->str) == '\0')
 		return NULL;
 
-	r = gelo->outs->str;
-	g_string_free (gelo->outs, FALSE);
+	r = g_string_free (gelo->outs, FALSE);
 	gelo->outs = NULL;
 
 	return r;
