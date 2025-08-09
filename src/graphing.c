@@ -2076,6 +2076,28 @@ clear_solutions_cb (GtkWidget *item, gpointer data)
 }
 
 static gboolean
+dorotate_idle (gpointer data)
+{
+	int angle = GPOINTER_TO_INT (data);
+
+	if (plot_mode == MODE_SURFACE &&
+	    surface_plot != NULL &&
+	    plot_in_progress == 0) {
+		plot_in_progress++;
+		gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), angle);
+
+		gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
+		gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
+
+		while (gtk_events_pending ())
+			gtk_main_iteration ();
+		plot_in_progress--;
+	}
+
+	return FALSE;
+}
+
+static gboolean
 plot_canvas_key_press_event (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
 	switch (event->keyval) {
@@ -2088,36 +2110,12 @@ plot_canvas_key_press_event (GtkWidget *widget, GdkEventKey *event, gpointer use
 	case GDK_KEY_Left:
 		lineplot_move_graph (-0.1, 0.0);
 
-		if (plot_mode == MODE_SURFACE &&
-		    surface_plot != NULL &&
-		    plot_in_progress == 0) {
-			plot_in_progress++;
-			gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 360-10);
-
-			gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
-			gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
-
-			while (gtk_events_pending ())
-				gtk_main_iteration ();
-			plot_in_progress--;
-		}
+		g_idle_add (dorotate_idle, GINT_TO_POINTER(360-10));
 		break;
 	case GDK_KEY_Right:
 		lineplot_move_graph (0.1, 0.0);
 
-		if (plot_mode == MODE_SURFACE &&
-		    surface_plot != NULL &&
-		    plot_in_progress == 0) {
-			plot_in_progress++;
-			gtk_plot3d_rotate_z (GTK_PLOT3D (surface_plot), 10);
-
-			gtk_plot_canvas_paint (GTK_PLOT_CANVAS (plot_canvas));
-			gtk_plot_canvas_refresh (GTK_PLOT_CANVAS (plot_canvas));
-
-			while (gtk_events_pending ())
-				gtk_main_iteration ();
-			plot_in_progress--;
-		}
+		g_idle_add (dorotate_idle, GINT_TO_POINTER(10));
 		break;
 	default: break;
 	}
@@ -8819,11 +8817,11 @@ get_surface_line_numbers (GelETree *a,
 
 		for (i = 0; i < *len; i++) {
 			double xx, yy, zz;
-			GelETree *t = gel_matrixw_index (m, 0, 2*i);
+			GelETree *t = gel_matrixw_index (m, 0, 3*i);
 			(*x)[i] = xx = mpw_get_double (t->val.value);
-			t = gel_matrixw_index (m, 0, (2*i) + 1);
+			t = gel_matrixw_index (m, 0, (3*i) + 1);
 			(*y)[i] = yy = mpw_get_double (t->val.value);
-			t = gel_matrixw_index (m, 0, (2*i) + 2);
+			t = gel_matrixw_index (m, 0, (3*i) + 2);
 			(*z)[i] = zz = mpw_get_double (t->val.value);
 			UPDATE_MINMAX
 		}
@@ -8838,11 +8836,11 @@ get_surface_line_numbers (GelETree *a,
 
 		for (i = 0; i < *len; i++) {
 			double xx, yy, zz;
-			GelETree *t = gel_matrixw_index (m, 2*i, 0);
+			GelETree *t = gel_matrixw_index (m, 3*i, 0);
 			(*x)[i] = xx = mpw_get_double (t->val.value);
-			t = gel_matrixw_index (m, (2*i) + 1, 0);
+			t = gel_matrixw_index (m, (3*i) + 1, 0);
 			(*y)[i] = yy = mpw_get_double (t->val.value);
-			t = gel_matrixw_index (m, (2*i) + 2, 0);
+			t = gel_matrixw_index (m, (3*i) + 2, 0);
 			(*z)[i] = zz = mpw_get_double (t->val.value);
 			UPDATE_MINMAX
 		}

@@ -204,7 +204,6 @@ char *
 gel_compile_tree(GelETree *t)
 {
 	GString *gs;
-	char *s;
 	
 	gs = g_string_new("T");
 	
