@@ -37,7 +37,10 @@ example_DATA = \
 	plot-ode-runge-kutta.gel \
 	plot-ode-trajectory-runge-kutta.gel \
 	plane-curves.gel \
-	zoom-differentiability.gel
+	zoom-differentiability.gel \
+	midpoint-rule-doubling.gel \
+	left-hand-rule-doubling.gel \
+	trapezoidal-rule-doubling.gel
 
 EXTRA_DIST = \
 	$(example_DATA)

@@ -1,0 +1,89 @@
+# Category: Calculus
+# Name: Midpoint rule
+#
+# Compute the Midpoint rule and keep doubling the number of intervals
+# for a few iterations.  Draw the rectangles and show the error.
+#
+
+function f(x) = x^2+sin(5*x);
+#function f(x) = x^2;
+#function f(x) = 2*x*(1-x);
+#function f(x) = sqrt(x)*sin(27*x);
+#function f(x) = x;
+#function f(x) = if x < 0.5 then -1.0 else 1.0;
+
+limits = [0.0,1.0];
+
+# starting N
+Ninit = 1;
+
+# number of doublings
+Ndoublings = 7;
+
+# length of pause in seconds
+pauselen = 3;
+
+
+
+# thousand points seems to get good results for moderately
+# complicated functions
+theintegral = CompositeSimpsonsRule(f, limits@(1), limits@(2), 1000);
+
+PlotWindowPresent(); # Make sure the window is raised
+
+N = Ninit;
+
+intervallen = limits@(2)-limits@(1);
+
+fgraph = null;
+for x = limits@(1) to limits@(2) by (limits@(2)-limits@(1))/500 do
+  fgraph = [fgraph;[x,f(x)]];
+
+n=0;
+while true do (
+  deltax = intervallen/N;
+
+  PlotCanvasFreeze ();
+  LinePlotClear ();
+
+  therule = 0.0;
+  for k=1 to N do (
+    x0 = limits@(1) + ((k-1)/N);
+    x1 = limits@(1) + ((k)/N);
+    c = (x0+x1)/2;
+    
+    fc = f(c);
+    therule = therule + fc*deltax;
+    
+    LinePlotDrawLine([x0,0;x0,fc;x1,fc;x1,0],
+                     "color", "lightgreen",
+                     "filled");
+    LinePlotDrawLine([x0,0;x0,fc;x1,fc;x1,0],
+                     "color", "green",
+                     "thickness", 2);
+    LinePlotDrawLine([c,0;c,fc],
+                     "color", "red",
+                     "thickness", 1)
+  );
+  
+  LinePlotDrawLine(fgraph,
+                   "window", "fit",
+                   "color", "blue",
+                   "thickness", 2,
+                   "legend", "f(x)");
+    
+  PlotCanvasThaw();
+
+  print ("\nN = " + N + 
+         "\nMidpoint rule = " + therule +
+         "\ndelta x = " + deltax +
+         "\nThe actual integral (approximately using Simpsons's rule) = " + theintegral + 
+         "\nError = " + |therule - theintegral| + 
+         "\n");
+
+  n = n+1;
+  if n > Ndoublings then break;
+  
+  N = N*2;
+  wait(pauselen)
+);
