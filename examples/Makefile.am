@@ -39,7 +39,7 @@ example_DATA = \
 	plane-curves.gel \
 	zoom-differentiability.gel \
 	midpoint-rule-doubling.gel \
-	left-hand-rule-doubling.gel \
+	lefthand-rule-doubling.gel \
 	trapezoidal-rule-doubling.gel
 
 EXTRA_DIST = \
