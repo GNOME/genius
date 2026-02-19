@@ -39,9 +39,15 @@ function CompositeSimpsonsRuleTolerance(f,a,b,FourthDerivativeBound,Tolerance) =
 )
 
 SetHelp ("MidpointRule", "calculus", "Integration by midpoint rule")
-function MidpointRule(f,a,b,n) =
+function MidpointRule(f,a,b,n...) =
 (
   local *;
+  if IsNull(n) then
+    n = NumericalIntegralSteps
+  else if elements(n) > 1 then
+    (error("MidpointRule: no nore than 4 arguments");bailout)
+  else
+    n = n@(1);
   if(not IsFunction(f)) then
 	(error("MidpointRule: argument 1 must be a function");bailout)
   else if(not IsReal(a) or not IsReal(b)) then
@@ -58,9 +64,15 @@ function MidpointRule(f,a,b,n) =
 )
 
 SetHelp ("TrapezoidRule", "calculus", "Integration by trapezoid rule")
-function TrapezoidRule(f,a,b,n) =
+function TrapezoidRule(f,a,b,n...) =
 (
   local *;
+  if IsNull(n) then
+    n = NumericalIntegralSteps
+  else if elements(n) > 1 then
+    (error("Trapezoid: no nore than 4 arguments");bailout)
+  else
+    n = n@(1);
   if(not IsFunction(f)) then
 	(error("TrapezoidRule: argument 1 must be a function");bailout)
   else if(not IsReal(a) or not IsReal(b)) then
@@ -78,9 +90,15 @@ function TrapezoidRule(f,a,b,n) =
 )
 
 SetHelp ("LeftHandRule", "calculus", "Integration by left hand rule")
-function LeftHandRule(f,a,b,n) =
+function LeftHandRule(f,a,b,n...) =
 (
   local *;
+  if IsNull(n) then
+    n = NumericalIntegralSteps
+  else if elements(n) > 1 then
+    (error("LeftHandRule: no nore than 4 arguments");bailout)
+  else
+    n = n@(1);
   if(not IsFunction(f)) then
 	(error("LeftHandRule: argument 1 must be a function");bailout)
   else if(not IsReal(a) or not IsReal(b)) then
@@ -100,6 +118,12 @@ SetHelp ("RightHandRule", "calculus", "Integration by right hand rule")
 function RightHandRule(f,a,b,n) =
 (
   local *;
+  if IsNull(n) then
+    n = NumericalIntegralSteps
+  else if elements(n) > 1 then
+    (error("RightHandRule: no nore than 4 arguments");bailout)
+  else
+    n = n@(1);
   if(not IsFunction(f)) then
 	(error("RightHandRule: argument 1 must be a function");bailout)
   else if(not IsReal(a) or not IsReal(b)) then
@@ -115,18 +139,39 @@ function RightHandRule(f,a,b,n) =
   (s*len)/n
 )
 
-SetHelp("GaussKronrodRule", "calculus", "Return the result of a single GaussKronrodRule (K15, G7), if reference to error variable is given returns error estimate");
-function GaussKronrodRule(func, a, b, error...) = (
+SetHelp("GaussKronrodRule", "calculus", "Return the result of a single GaussKronrodRule (K15, G7), returns a vector with the estimate and the error estimate");
+function GaussKronrodRule(f, a, b) = (
   local *;
-    
+
+  # see https://www.advanpix.com/2011/11/07/gauss-kronrod-quadrature-nodes-weights/  
   # nodes on [-1,1], only half (they are symmetric)
-  x = [ 0.991455371120813, 0.949107912342759, 0.864864423359769, 0.741531185599394, 0.586087235467691, 0.405845151377397, 0.207784955007898, 0.000000000000000 ];
+  x = [ 0.9914553711208126392068546975263285,
+        0.9491079123427585245261896840478513,
+        0.8648644233597690727897127886409262,
+        0.7415311855993944398638647732807884,
+        0.5860872354676911302941448382587296,
+        0.4058451513773971669066064120769615,
+        0.2077849550078984676006894037732449 ];
 
   # Gauss weights
-  wg = [ 0.0, 0.129484966168870, 0.0, 0.279705391489277, 0.0, 0.381830050505119, 0.0, 0.417959183673469 ];
+  wg = [ 0.0,
+         0.1294849661688696932706114326790820,
+         0.0,
+         0.2797053914892766679014677714237796,
+         0.0,
+         0.3818300505051189449503697754889751,
+         0.0,
+         0.4179591836734693877551020408163265 ];
 
   # Kronrod weights
-  wk = [ 0.022935322010529, 0.063092092629979, 0.104790010322250, 0.140653259715525, 0.169004726639267, 0.190350578064785, 0.204432940075298, 0.209482141084728 ];
+  wk = [ 0.02293532201052922496373200805896959,
+         0.06309209262997855329070066318920429,
+         0.1047900103222501838398763225415180,
+         0.1406532597155259187451895905102379,
+         0.1690047266392679028265834265985503,
+         0.1903505780647854099132564024210137,
+         0.2044329400752988924141619992346491,
+         0.2094821410847278280129991748917143 ];
 
   c = (a+b)/2.0;
   h = (b-a)/2.0;
@@ -134,60 +179,52 @@ function GaussKronrodRule(func, a, b, error...) = (
   gauss = 0.0;
   kronrod = 0.0;
   
-  fc = func(c);
+  fc = f(c);
   
   gauss = gauss + wg@(8)*fc*h;
   kronrod = kronrod + wk@(8)*fc*h;
 
   for n=1 to 7 do (
-    fs = func(c-h*x@(n))+func(c+h*x@(n));
+    fs = f(c-h*x@(n))+f(c+h*x@(n));
     
     gauss = gauss + wg@(n)*fs*h;
     kronrod = kronrod + wk@(n)*fs*h;
   );
   
-  if not IsNull(error) and IsFunctionRef(error@(1)) then (
-    r = error@(1);
-    *r = |gauss-kronrod|
-  );
-  
-  kronrod
+  [kronrod, |gauss-kronrod|]
 );
 
-SetHelp("AdaptiveGaussKronrodRule", "calculus", "Use adaptive GaussKronrod rule until error estimate is less than AdaptiveGaussKronrodRuleAbsoluteTolerance and AdaptiveGaussKronrodRuleRelativeTolerance up to AdaptiveGaussKronrodRuleMaxIterations times, if unsuccessful returns null");
-function AdaptiveGaussKronrodRule(func, a, b) = (
-  local res,partlist,res1,res2iters,totalerr,aa,bb,c,x;
+SetHelp("AdaptiveGaussKronrod", "calculus", "Use adaptive composite Gauss-Kronrod (K15, G7) rule until error estimate is less than AdaptiveGaussKronrodAbsoluteTolerance and AdaptiveGaussKronrodRelativeTolerance up to AdaptiveGaussKronrodMaxIterations times, if unsuccessful returns null");
+function AdaptiveGaussKronrod(f, a, b) = (
+  local *;
 
-  # these can't be local otherwise the rule won't see them
-  agkr_err = 0.0;
-  agkr_err1 = 0.0;
-  agkr_err2 = 0.0;
+  if(not IsFunction(f)) then
+	(error("AdaptiveGaussKronrod: argument 1 must be a function");bailout)
+  else if(not IsReal(a) or not IsReal(b)) then
+	(error("AdaptiveGaussKronrod: arguments 2, 3 must be real values");bailout)
+  else if (a>b) then (error("AdaptiveGaussKronrod: argument 2 must be less than or equal to argument 3");bailout);
 
-  res = GaussKronrodRule (func, a, b, &agkr_err);
-  partlist = [a,b,res,agkr_err];
+  r = GaussKronrodRule (f, a, b);
+  partlist = [a,b,r@(1),r@(2)];
 
-  print(res);
-  print(agkr_err);
+  res = r@(1);
 
   iters = 0;
   while true do (
     totalerr = sum x in partlist@(,4) do x;
-    print("111");
-    print(iters);
-    print(totalerr);
-    print(max(AdaptiveGaussKronrodRuleAbsoluteTolerance, AdaptiveGaussKronrodRuleRelativeTolerance*res));
-    print("222");
-    print(partlist);
 
-    if (totalerr <= max(AdaptiveGaussKronrodRuleAbsoluteTolerance, AdaptiveGaussKronrodRuleRelativeTolerance*res)) then
+    if (totalerr <= max(AdaptiveGaussKronrodAbsoluteTolerance, AdaptiveGaussKronrodRelativeTolerance*res)) then
       return res;
 
-    if iters > AdaptiveGaussKronrodRuleMaxIterations then
-      return null;
+    if iters > AdaptiveGaussKronrodMaxIterations then (
+      error("AdaptiveGaussKronrod: Maximum iterations reached without reaching desired error tolerance");
+      return null
+    );
 
     maxerr = 0.0;
     maxpart = 1;
     # FIXME: this is not optimized at all
+    # search for the worst interval to split
     for n = 1 to rows(partlist) do (
       if maxerr < partlist@(n,4) then (
         maxpart = n;
@@ -199,13 +236,13 @@ function AdaptiveGaussKronrodRule(func, a, b) = (
     bb = partlist@(maxpart,2);
     c = (aa+bb)/2.0;
 
-    res1 = GaussKronrodRule (func, aa, c, &agkr_err1);
-    res2 = GaussKronrodRule (func, c, bb, &agkr_err2);
+    r = GaussKronrodRule (f, aa, c);
     partlist@(maxpart,2) = c;
-    partlist@(maxpart,3) = res1;
-    partlist@(maxpart,4) = agkr_err1;
+    partlist@(maxpart,3) = r@(1);
+    partlist@(maxpart,4) = r@(2);
 
-    partlist = [partlist;[c,bb,res2,agkr_err2]];
+    r = GaussKronrodRule (f, c, bb);
+    partlist = [partlist;[c,bb,r@(1),r@(2)]];
 
     res = sum x in partlist@(,3) do x;
 
@@ -213,24 +250,24 @@ function AdaptiveGaussKronrodRule(func, a, b) = (
   )
 );
 
-SetHelp ("AdaptiveGaussKronrodRuleAbsoluteTolerance", "parameters", "Tolerance for AdaptiveGaussKronrodRuleAbsoluteTolerance");
-parameter AdaptiveGaussKronrodRuleAbsoluteTolerance = 1e-15;
+SetHelp ("AdaptiveGaussKronrodAbsoluteTolerance", "parameters", "Tolerance for AdaptiveGaussKronrodAbsoluteTolerance");
+parameter AdaptiveGaussKronrodAbsoluteTolerance = 1e-12;
 
-SetHelp ("AdaptiveGaussKronrodRuleRelativeTolerance", "parameters", "Tolerance for AdaptiveGaussKronrodRuleRelativeTolerance");
-parameter AdaptiveGaussKronrodRuleRelativeTolerance = 1e-15;
+SetHelp ("AdaptiveGaussKronrodRelativeTolerance", "parameters", "Tolerance for AdaptiveGaussKronrodRelativeTolerance");
+parameter AdaptiveGaussKronrodRelativeTolerance = 1e-12;
 
-SetHelp ("AdaptiveGaussKronrodRuleMaxIterations", "parameters", "Maximum number of iterations to Tolerance to perform in NumericalIntegral")
-parameter AdaptiveGaussKronrodRuleMaxIterations = 10000;
+SetHelp ("AdaptiveGaussKronrodMaxIterations", "parameters", "Maximum number of iterations to Tolerance to perform in NumericalIntegral")
+parameter AdaptiveGaussKronrodMaxIterations = 10000;
 
 
 SetHelp ("NumericalIntegralSteps", "parameters", "Steps to perform in NumericalIntegral")
-parameter NumericalIntegralSteps = 1000
+parameter NumericalIntegralSteps = 1000;
 
-SetHelp ("NumericalIntegralFunction", "parameters", "The function used for numerical integration in NumericalIntegral (by default CompositeSimpsonsRule)")
-parameter NumericalIntegralFunction = `CompositeSimpsonsRule
+SetHelp ("NumericalIntegralFunction", "parameters", "The function used for numerical integration in NumericalIntegral (by default AdaptiveGaussKronrod)")
+parameter NumericalIntegralFunction = `AdaptiveGaussKronrod;
 
-SetHelp ("NumericalIntegral", "calculus", "Integration by rule set in NumericalIntegralFunction of f from a to b using NumericalIntegralSteps steps")
+SetHelp ("NumericalIntegral", "calculus", "Integration by rule set in NumericalIntegralFunction of f from a to b")
 function NumericalIntegral(f,a,b) = (
 	local *;
-	NumericalIntegralFunction call (f,a,b,NumericalIntegralSteps)
-)
+	NumericalIntegralFunction call (f,a,b)
+);

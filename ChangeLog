@@ -1,3 +1,22 @@
+Thu Feb 19 02:23:09 2026  Jiri (George) Lebl <jirka@5z.com>
+
+        * lib/calculus/integration.gel: Implement the Adaptive Gauss-Kronrod
+	  G7 K15 rule and use it as the default NumericalIntegral function.
+
+        * lib/calculus/integration.gel: Make the steps n argument optional in
+	  the various midpoint, left/right hand, trapezoidal rules,
+	  and use NumericalIntegralSteps as default value.
+
+        * src/funclib.c: as above for the CompositeSimpsonsRule
+
+	* src/calc.h: update the copyright string
+
+	* src/geniustests.txt: add some tests.
+
+	* help/C/genius.xml: document the new functions.
+
+	* rename examples/trapezoid-rule-doubling.gel for consistency.
+
 Wed Feb 18 14:52:08 2026  Jiri (George) Lebl <jiri.lebl@gmail.com>
 
 	* examples/left-hand|midpoint|trapezoidal-rule-doubling.gel: Add

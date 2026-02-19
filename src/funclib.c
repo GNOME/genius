@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2018 Jiri (George) Lebl
+ * Copyright (C) 1997-2026 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -4483,7 +4483,7 @@ SolveLinearSystem_op(GelCtx *ctx, GelETree * * a, gboolean *exception)
 				}
 			}
 			w = gel_matrixw_width (RV);
-			regx = g_new(int, w);
+			regx = g_new(int, (guint)w);
 			for (i = 0; i < w; i++)
 				regx[i] = i;
 			regy = g_new(int, r);
@@ -6412,23 +6412,63 @@ CompositeSimpsonsRule_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	GelETree *ret = NULL;
 	gboolean do_neg = FALSE;
 
+	if G_UNLIKELY (a[3] != NULL && a[4] != NULL) {
+		gel_errorout (_("%s: Too many arguments, should be at most %d"),
+				"CompositeSimpsonsRule", 4);
+		return NULL;
+	}
+
 	if G_UNLIKELY ( ! check_argument_function_or_identifier (a, 0, "CompositeSimpsonsRule") ||
 			! check_argument_real_number (a, 1, "CompositeSimpsonsRule") ||
 			! check_argument_real_number (a, 2, "CompositeSimpsonsRule") ||
-			! check_argument_positive_integer (a, 3, "CompositeSimpsonsRule"))
+			(a[3] != NULL && ! check_argument_positive_integer (a, 3, "CompositeSimpsonsRule")))
 		return NULL;
 
 	ia = a[1]->val.value;
 	ib = a[2]->val.value;
-	in = a[3]->val.value;
-	if (mpw_odd_p (in))
-		mpw_add_ui (in, in, 1);
 
-	n = mpw_get_long (in);
-	if G_UNLIKELY (gel_error_num) {
-		gel_error_num = 0;
-		return NULL;
+	if (a[3] != NULL) {
+		in = a[3]->val.value;
+
+		n = mpw_get_long (in);
+		if G_UNLIKELY (gel_error_num) {
+			gel_error_num = 0;
+			return NULL;
+		}
+	} else {
+		static GelToken *NumericalIntegralSteps_id = NULL;
+		GelEFunc *NumericalIntegralSteps;
+
+		if G_UNLIKELY (NumericalIntegralSteps_id == NULL)
+			NumericalIntegralSteps_id = d_intern ("NumericalIntegralSteps");
+		NumericalIntegralSteps = d_lookup_only_global (NumericalIntegralSteps_id);
+		if G_UNLIKELY (NumericalIntegralSteps == NULL) {
+			gel_errorout (_("%s: Cannot find NumericalIntegralSteps parameter, using 1000"), "CompositeSimpsonsRule");
+			n = 1000;
+		} else {
+			GelETree *r = gel_funccall (ctx, NumericalIntegralSteps, NULL, 0);
+			if G_UNLIKELY (r == NULL ||
+				       r->type != GEL_VALUE_NODE ||
+				       mpw_is_complex(r->val.value) ||
+				       ! mpw_is_integer (r->val.value)) {
+				gel_errorout (_("%s: Cannot read NumericalIntegralSteps parameter or it is not an integer, using 1000"), "CompositeSimpsonsRule");
+				n = 1000;
+			} else {
+				n = mpw_get_long (r->val.value);
+				if G_UNLIKELY (gel_error_num) {
+					gel_error_num = 0;
+					gel_errorout (_("%s: Cannot read NumericalIntegralSteps parameter or it is not an integer, using 1000"), "CompositeSimpsonsRule");
+					n = 1000;
+				}
+			}
+			if (r != NULL) {
+				gel_freetree (r);
+			}
+		}
 	}
+
+	if (n%2 != 0)
+		n++;
 
 	if (mpw_cmp (ia, ib) == 0) {
 		return gel_makenum_ui (0);
@@ -6465,7 +6505,7 @@ CompositeSimpsonsRule_op (GelCtx *ctx, GelETree * * a, gboolean *exception)
 	h=(b-a)/n;       # Subdivision interval
 	*/
 	mpw_sub (h, ib, ia);
-	mpw_div (h, h, in);
+	mpw_div_ui (h, h, n);
 	mpw_make_float (h);
 
 	/*
@@ -7376,7 +7416,7 @@ gel_funclib_addall(void)
 	VFUNC (AskString, 2, "query,...", "basic", N_("Ask a question and return a string.  Optionally pass in a default."));
 	VFUNC (AskButtons, 3, "query,button1,...", "basic", N_("Ask a question and present a list of buttons.  Returns the 1-based index of the button pressed (or null on failure)."));
 
-	FUNC (CompositeSimpsonsRule, 4, "f,a,b,n", "calculus", N_("Integration of f by Composite Simpson's Rule on the interval [a,b] with n subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be even"));
+	VFUNC (CompositeSimpsonsRule, 4, "f,a,b,n", "calculus", N_("Integration of f by Composite Simpson's Rule on the interval [a,b] with n subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be even, n is optional"));
 	f->no_mod_all_args = 1;
 
 	/*temporary until well done internal functions are done*/

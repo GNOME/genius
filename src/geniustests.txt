@@ -1064,6 +1064,10 @@ NumericalIntegral(`(x)=x^3,0,1)					0.25
 NumericalIntegral(`(x)=x^3,-1,1)+1				1.0
 NumericalIntegral(`(x)=GaussFunction(x,10),-100,100)		1.0
 floor(NumericalIntegral(`(x)=GaussFunction(x,10),-10,10)*100)	68
+CompositeSimpsonsRule(`(x)=x^3,0,1,1000)			0.25
+CompositeSimpsonsRule(`(x)=x^3,-1,1,1000)+1			1.0
+CompositeSimpsonsRule(`(x)=GaussFunction(x,10),-100,100,1000)	1.0
+floor(CompositeSimpsonsRule(`(x)=GaussFunction(x,10),-10,10,1000)*100)	68
 NumericalLimitAtInfinity (atan,`(n)=2^n,10^(-20),10,10000)	1.57079632679
 LeftLimit (UnitStep,0)						0
 RightLimit (UnitStep,0)						1
@@ -1337,6 +1341,10 @@ AppendElement(null,null)					[(null)]
 AppendElement([1,2,3],null)					[1,2,3,(null)]
 AppendElement(1,1)						AppendElement(1,1)
 string(55)							"55"
+|AdaptiveGaussKronrod(`(x)=2*x*cos(x^2),0,10)-(sin(10^2)-sin(0^2))| < 1e-12	true
+|AdaptiveGaussKronrod(sin,0,pi)-2.0| < 1e-12			true
+|AdaptiveGaussKronrod(sin,-pi,pi)| < 1e-12			true
+|AdaptiveGaussKronrod(exp,0,1)-(exp(1)-exp(0))| < 1e-12		true
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
 load "testprec.gel"						true

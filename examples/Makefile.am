@@ -40,7 +40,7 @@ example_DATA = \
 	zoom-differentiability.gel \
 	midpoint-rule-doubling.gel \
 	lefthand-rule-doubling.gel \
-	trapezoidal-rule-doubling.gel
+	trapezoid-rule-doubling.gel
 
 EXTRA_DIST = \
 	$(example_DATA)
