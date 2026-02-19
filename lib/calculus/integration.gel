@@ -115,6 +115,114 @@ function RightHandRule(f,a,b,n) =
   (s*len)/n
 )
 
+SetHelp("GaussKronrodRule", "calculus", "Return the result of a single GaussKronrodRule (K15, G7), if reference to error variable is given returns error estimate");
+function GaussKronrodRule(func, a, b, error...) = (
+  local *;
+    
+  # nodes on [-1,1], only half (they are symmetric)
+  x = [ 0.991455371120813, 0.949107912342759, 0.864864423359769, 0.741531185599394, 0.586087235467691, 0.405845151377397, 0.207784955007898, 0.000000000000000 ];
+
+  # Gauss weights
+  wg = [ 0.0, 0.129484966168870, 0.0, 0.279705391489277, 0.0, 0.381830050505119, 0.0, 0.417959183673469 ];
+
+  # Kronrod weights
+  wk = [ 0.022935322010529, 0.063092092629979, 0.104790010322250, 0.140653259715525, 0.169004726639267, 0.190350578064785, 0.204432940075298, 0.209482141084728 ];
+
+  c = (a+b)/2.0;
+  h = (b-a)/2.0;
+    
+  gauss = 0.0;
+  kronrod = 0.0;
+  
+  fc = func(c);
+  
+  gauss = gauss + wg@(8)*fc*h;
+  kronrod = kronrod + wk@(8)*fc*h;
+
+  for n=1 to 7 do (
+    fs = func(c-h*x@(n))+func(c+h*x@(n));
+    
+    gauss = gauss + wg@(n)*fs*h;
+    kronrod = kronrod + wk@(n)*fs*h;
+  );
+  
+  if not IsNull(error) and IsFunctionRef(error@(1)) then (
+    r = error@(1);
+    *r = |gauss-kronrod|
+  );
+  
+  kronrod
+);
+
+SetHelp("AdaptiveGaussKronrodRule", "calculus", "Use adaptive GaussKronrod rule until error estimate is less than AdaptiveGaussKronrodRuleAbsoluteTolerance and AdaptiveGaussKronrodRuleRelativeTolerance up to AdaptiveGaussKronrodRuleMaxIterations times, if unsuccessful returns null");
+function AdaptiveGaussKronrodRule(func, a, b) = (
+  local res,partlist,res1,res2iters,totalerr,aa,bb,c,x;
+
+  # these can't be local otherwise the rule won't see them
+  agkr_err = 0.0;
+  agkr_err1 = 0.0;
+  agkr_err2 = 0.0;
+
+  res = GaussKronrodRule (func, a, b, &agkr_err);
+  partlist = [a,b,res,agkr_err];
+
+  print(res);
+  print(agkr_err);
+
+  iters = 0;
+  while true do (
+    totalerr = sum x in partlist@(,4) do x;
+    print("111");
+    print(iters);
+    print(totalerr);
+    print(max(AdaptiveGaussKronrodRuleAbsoluteTolerance, AdaptiveGaussKronrodRuleRelativeTolerance*res));
+    print("222");
+    print(partlist);
+
+    if (totalerr <= max(AdaptiveGaussKronrodRuleAbsoluteTolerance, AdaptiveGaussKronrodRuleRelativeTolerance*res)) then
+      return res;
+
+    if iters > AdaptiveGaussKronrodRuleMaxIterations then
+      return null;
+
+    maxerr = 0.0;
+    maxpart = 1;
+    # FIXME: this is not optimized at all
+    for n = 1 to rows(partlist) do (
+      if maxerr < partlist@(n,4) then (
+        maxpart = n;
+        maxerr = partlist@(n,4)
+      )
+    );
+
+    aa = partlist@(maxpart,1);
+    bb = partlist@(maxpart,2);
+    c = (aa+bb)/2.0;
+
+    res1 = GaussKronrodRule (func, aa, c, &agkr_err1);
+    res2 = GaussKronrodRule (func, c, bb, &agkr_err2);
+    partlist@(maxpart,2) = c;
+    partlist@(maxpart,3) = res1;
+    partlist@(maxpart,4) = agkr_err1;
+
+    partlist = [partlist;[c,bb,res2,agkr_err2]];
+
+    res = sum x in partlist@(,3) do x;
+
+    increment iters
+  )
+);
+
+SetHelp ("AdaptiveGaussKronrodRuleAbsoluteTolerance", "parameters", "Tolerance for AdaptiveGaussKronrodRuleAbsoluteTolerance");
+parameter AdaptiveGaussKronrodRuleAbsoluteTolerance = 1e-15;
+
+SetHelp ("AdaptiveGaussKronrodRuleRelativeTolerance", "parameters", "Tolerance for AdaptiveGaussKronrodRuleRelativeTolerance");
+parameter AdaptiveGaussKronrodRuleRelativeTolerance = 1e-15;
+
+SetHelp ("AdaptiveGaussKronrodRuleMaxIterations", "parameters", "Maximum number of iterations to Tolerance to perform in NumericalIntegral")
+parameter AdaptiveGaussKronrodRuleMaxIterations = 10000;
+
+
 SetHelp ("NumericalIntegralSteps", "parameters", "Steps to perform in NumericalIntegral")
 parameter NumericalIntegralSteps = 1000
 
