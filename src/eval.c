@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2018 Jiri (George) Lebl
+ * Copyright (C) 1997-2026 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -8171,66 +8171,6 @@ gel_replace_exp (GelETree *n)
 		    n->func.func->type == GEL_VARIABLE_FUNC) &&
 		   n->func.func->data.user != NULL) {
 		gel_replace_exp (n->func.func->data.user);
-	}
-}
-
-/* Fixup number negation */
-void
-gel_fixup_num_neg (GelETree *n)
-{
-	if (n == NULL)
-		return;
-
-	if (n->type == GEL_SPACER_NODE) {
-		gel_fixup_num_neg (n->sp.arg);
-	} else if(n->type == GEL_OPERATOR_NODE) {
-		/* replace -1^2 with something like (-1)^2, only
-		 * for numbers.  If you typed parenthesis as in
-		 * -(1)^2, there would be a spacer node present
-		 * so the below would not happen */
-		if (n->op.oper == GEL_E_NEG &&
-		    n->op.args->type == GEL_OPERATOR_NODE &&
-		    (n->op.args->op.oper == GEL_E_EXP ||
-		     n->op.args->op.oper == GEL_E_ELTEXP) &&
-		    n->op.args->op.args->type == GEL_VALUE_NODE) {
-			GelETree *t = n->op.args;
-			n->op.args = NULL;
-			replacenode (n, t);
-			mpw_neg (n->op.args->val.value,
-				 n->op.args->val.value);
-			gel_fixup_num_neg (n->op.args->any.next);
-		} else {
-			GelETree *args = n->op.args;
-			while (args != NULL) {
-				gel_fixup_num_neg (args);
-				args = args->any.next;
-			}
-		}
-	} else if (n->type == GEL_MATRIX_NODE &&
-		   n->mat.matrix != NULL &&
-		   ! gel_is_matrix_value_only (n->mat.matrix)) {
-		int i,j;
-		int w,h;
-		w = gel_matrixw_width (n->mat.matrix);
-		h = gel_matrixw_height (n->mat.matrix);
-		gel_matrixw_make_private (n->mat.matrix, TRUE /* kill_type_caches */);
-		for(j = 0; j < h; j++) {
-			for (i = 0; i < w; i++) {
-				GelETree *t = gel_matrixw_get_index
-					(n->mat.matrix, i, j);
-				if (t != NULL)
-					gel_fixup_num_neg (t);
-			}
-		}
-	} else if (n->type == GEL_SET_NODE ) {
-		GelETree *ali;
-		for(ali = n->set.items; ali != NULL; ali = ali->any.next)
-			gel_fixup_num_neg (ali);
-	} else if (n->type == GEL_FUNCTION_NODE &&
-		   (n->func.func->type == GEL_USER_FUNC ||
-		    n->func.func->type == GEL_VARIABLE_FUNC) &&
-		   n->func.func->data.user != NULL) {
-		gel_fixup_num_neg (n->func.func->data.user);
 	}
 }
 

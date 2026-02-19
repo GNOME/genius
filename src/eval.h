@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2017 Jiri (George) Lebl
+ * Copyright (C) 1997-2026 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -122,7 +122,6 @@ gboolean gel_get_local_node (GelETree *n, gboolean first_arg,
 
 void gel_replace_equals (GelETree *n, gboolean in_expression);
 void gel_replace_exp (GelETree *n);
-void gel_fixup_num_neg (GelETree *n);
 /* careful precalculation */
 void gel_try_to_do_precalc (GelETree *n);
 /* aggressive precalculation/simplification */

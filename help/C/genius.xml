@@ -3,8 +3,8 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
   <!ENTITY app "<application>Genius Mathematics Tool</application>">
   <!ENTITY appname "Genius">
-  <!ENTITY appversion "1.0.27">
-  <!ENTITY date "October 2021">
+  <!ENTITY appversion "1.0.28">
+  <!ENTITY date "February 2026">
 
   <!ENTITY legal SYSTEM "legal.xml">
 
@@ -1904,12 +1904,11 @@ The comparison operators (except for the &lt;=&gt; operator, which behaves norma
 
 <note>
 <para>
-The unitary minus operates in a different fashion depending on where it
-appears.  If it appears before a number it binds very closely, if it appears in
-front of an expression it binds less than the power and factorial operators.
-So for example <userinput>-1^k</userinput> is really <userinput>(-1)^k</userinput>,
-but <userinput>-foo(1)^k</userinput> is really <userinput>-(foo(1)^k)</userinput>.  So
-be careful how you use it and if in doubt, add parentheses.
+Note that the unary minus operator binds less closely than the exponential, so
+<userinput>-1^k</userinput> is really <userinput>-(1)^k</userinput>.  If you want
+<userinput>(-1)^k</userinput> you need the parentheses.  Older versions of genius used
+to parse <userinput>-1^k</userinput> specially, but this was not reasonable and was removed in
+1.0.28.  So if in doubt, add parentheses.
 </para>
 </note>
     </sect1>
@@ -3882,7 +3881,7 @@ vectorfield plot.  (See <link linkend="gel-function-VectorfieldPlot"><function>V
          <listitem>
           <synopsis>CatalanConstant</synopsis>
           <para>
-	    Catalan's Constant, approximately 0.915...  It is defined to be the series where terms are <userinput>(-1^k)/((2*k+1)^2)</userinput>, where <varname>k</varname> ranges from 0 to infinity.
+	    Catalan's Constant, approximately 0.915...  It is defined to be the series where terms are <userinput>((-1))^k)/((2*k+1)^2)</userinput>, where <varname>k</varname> ranges from 0 to infinity.
 	  </para>
           <para>
 	    See

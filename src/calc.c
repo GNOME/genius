@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2025 Jiri (George) Lebl
+ * Copyright (C) 1997-2026 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -3430,7 +3430,6 @@ gel_parseexp (const char *str, FILE *infile, gboolean exec_commands,
 	}
 	gel_replace_equals (gel_parsestack->data, FALSE /* in_expression */);
 	gel_replace_exp (gel_parsestack->data);
-	gel_fixup_num_neg (gel_parsestack->data);
 	gel_parsestack->data = gel_gather_comparisons (gel_parsestack->data);
 	gel_try_to_do_precalc (gel_parsestack->data);
 	

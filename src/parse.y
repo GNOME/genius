@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2011 Jiri (George) Lebl
+ * Copyright (C) 1997-2026 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -193,7 +193,17 @@ expr:		expr SEPAR expr		{ PUSH_ACT(GEL_E_SEPAR); }
 	|	expr DOUBLEFACT		{ PUSH_ACT(GEL_E_DBLFACT); }
 	|	expr '\''		{ PUSH_ACT(GEL_E_CONJUGATE_TRANSPOSE); }
 	|	expr TRANSPOSE		{ PUSH_ACT(GEL_E_TRANSPOSE); }
-	|	'-' expr %prec UMINUS	{ PUSH_ACT(GEL_E_NEG); }
+	|	'-' expr %prec UMINUS	{
+				GelETree *t = NULL;
+				if (gel_parsestack != NULL)
+					t = gel_parsestack->data;
+				/* no need to wait till evaluation */
+				if (t->type == GEL_VALUE_NODE) {
+					mpw_neg(t->val.value,t->val.value);
+				} else {
+					PUSH_ACT(GEL_E_NEG);
+				}
+					}
 	|	'+' expr %prec UPLUS
 	| 	expr '^' expr		{ PUSH_ACT(GEL_E_EXP); }
 	| 	expr ELTELTEXP expr	{ PUSH_ACT(GEL_E_ELTEXP); }
