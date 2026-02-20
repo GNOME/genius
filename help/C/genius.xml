@@ -3495,6 +3495,7 @@ except possibly user interface events are processed.</para>
 	  <link linkend="gel-function-AdaptiveGaussKronrod"><function>AdaptiveGaussKronrod</function></link> function which is the default algorithm for
 	  <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.  The algorithm runs until the error
 	  is less than the maximum of the absolute tolerance and the relative tolerance times the integral approximation.</para>
+	  <para>Version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -3506,6 +3507,7 @@ except possibly user interface events are processed.</para>
 	  <link linkend="gel-function-AdaptiveGaussKronrod"><function>AdaptiveGaussKronrod</function></link> function which is the default algorithm for
 	  <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.  After this limit is reached, an error is printed
 	  and null is returned.</para>
+	  <para>Version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -3517,6 +3519,7 @@ except possibly user interface events are processed.</para>
 	  <link linkend="gel-function-AdaptiveGaussKronrod"><function>AdaptiveGaussKronrod</function></link> function which is the default algorithm for
 	  <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.  The algorithm runs until the error
 	  is less than the maximum of the absolute tolerance and the relative tolerance times the integral approximation.</para>
+	  <para>Version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -3700,6 +3703,7 @@ except possibly user interface events are processed.</para>
 	  <para>By default it is the <link linkend="gel-function-AdaptiveGaussKronrod"><function>AdaptiveGaussKronrod</function></link> which implements an adaptive
 	  algorithm based on the Gauss-Kronrod G7 K15 rule.
 	  The function should take three arguments, the function, and the left and right limits of integration.</para>
+	  <para>Since version 1.0.28 onwards, the function does not take the 4th parameter with the number of steps.</para>
          </listitem>
         </varlistentry>
 
@@ -7287,6 +7291,7 @@ do (
 	    See
 	    <ulink url="https://en.wikipedia.org/wiki/Gauss–Kronrod_quadrature_formula">Wikipedia</ulink> for more information.
           </para>
+	  <para>Version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7294,12 +7299,34 @@ do (
          <term><anchor id="gel-function-CompositeSimpsonsRule"/>CompositeSimpsonsRule</term>
          <listitem>
           <synopsis>CompositeSimpsonsRule (f,a,b,n)</synopsis>
-	  <para>Integration of <varname>f</varname> by Composite Simpson's Rule on the interval [a,b] with <varname>n</varname> subintervals with error of max(f'''')*h^4*(b-a)/180, note that <varname>n</varname> should be even.</para>
-	  <para>The <varname>n</varname> argument is optional.  If it is not given the value of <varname>NumericalIntegralSteps</varname> is used, which is by default 1000.</para>
+	  <para>Integration of <varname>f</varname> by Composite 1/3 Simpson's Rule
+	  on the interval [a,b] with <varname>n</varname> subintervals with error of
+	  max(f'''')*h^4*(b-a)/180, note that <varname>n</varname> should be even.
+	  If the given <varname>n</varname> is odd, then 1 is added to make it even.</para>
+	  <para>It is the 1/3 variant of the rule that is used, that is, if the x0,x1,x2,...,xn
+	  are the points, then the rule is ((b-a)/n) * (f(x0) + 4*f(x1) + 2*f(x2) + ... + 4*f(x(n-1)) + f(xn)).</para>
+	  <para>The <varname>n</varname> argument is optional.  If it is not given
+	  the value of <varname>NumericalIntegralSteps</varname> is used, which is by default 1000.</para>
           <para>
-	    See
-	    <ulink url="http://planetmath.org/SimpsonsRule">Planetmath</ulink> for more information.
+	    See <ulink url="https://en.wikipedia.org/wiki/Simpson%27s_rule">Wikipedia</ulink> or
+		  <ulink url="http://planetmath.org/SimpsonsRule">Planetmath</ulink>
+		  for more information.
           </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term><anchor id="gel-function-CompositeSimpsonsRuleData"/>CompositeSimpsonsRuleData</term>
+         <listitem>
+          <synopsis>CompositeSimpsonsRule (f,len)</synopsis>
+	  <para>Integration using Composite Simpson's rule of a function given by a vector of values <varname>f</varname> given at equal subintervals.  The integration interval is taken to be of length <varname>len</varname>, that is,
+	  if the interval is [a,b], then <varname>len</varname> should be b-a.  The vector <varname>f</varname> should have at least 3 values (representing 2 subintervals).  Normally the 1/3 rule is used.  If there is an odd number of subintervals, the 3/8 rule is used on the last 3 subintervals.</para>
+          <para>
+	    See <ulink url="https://en.wikipedia.org/wiki/Simpson%27s_rule">Wikipedia</ulink> or
+		  <ulink url="http://planetmath.org/SimpsonsRule">Planetmath</ulink>
+		  for more information.
+          </para>
+	  <para>Version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7307,10 +7334,11 @@ do (
          <term><anchor id="gel-function-CompositeSimpsonsRuleTolerance"/>CompositeSimpsonsRuleTolerance</term>
          <listitem>
           <synopsis>CompositeSimpsonsRuleTolerance (f,a,b,FourthDerivativeBound,Tolerance)</synopsis>
-          <para>Integration of f by Composite Simpson's Rule on the interval [a,b] with the number of steps calculated by the fourth derivative bound and the desired tolerance.</para>
+	  <para>Integration of f by Composite 1/3 Simpson's Rule on the interval [a,b] with the number of steps calculated by the fourth derivative bound and the desired tolerance.</para>
           <para>
-	    See
-	    <ulink url="http://planetmath.org/SimpsonsRule">Planetmath</ulink> for more information.
+	    See <ulink url="https://en.wikipedia.org/wiki/Simpson%27s_rule">Wikipedia</ulink> or
+		  <ulink url="http://planetmath.org/SimpsonsRule">Planetmath</ulink>
+		  for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -7380,6 +7408,7 @@ or <varname>b</varname> can be <constant>null</constant>.</para>
 	    See
 	    <ulink url="https://en.wikipedia.org/wiki/Gauss–Kronrod_quadrature_formula">Wikipedia</ulink> for more information.
           </para>
+	  <para>Version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7437,6 +7466,7 @@ or <varname>b</varname> can be <constant>null</constant>.</para>
           <synopsis>LeftHandRule (f,a,b,n)</synopsis>
           <para>Integration by left hand rule on the interval [a,b] with n subintervals.</para>
 	  <para>The <varname>n</varname> argument is optional.  If it is not given the value of <varname>NumericalIntegralSteps</varname> is used, which is by default 1000.</para>
+	  <para>Version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7462,6 +7492,7 @@ or <varname>b</varname> can be <constant>null</constant>.</para>
           <synopsis>MidpointRule (f,a,b,n)</synopsis>
           <para>Integration by midpoint rule on the interval [a,b] with n subintervals.</para>
 	  <para>The <varname>n</varname> argument is optional.  If it is not given the value of <varname>NumericalIntegralSteps</varname> is used, which is by default 1000.</para>
+	  <para>The <varname>n</varname> is optional for version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7618,6 +7649,7 @@ computed by numerical integration using
 	  which implements an adaptive algorithm based on the
 	  Gauss-Kronrod G7 K15 rule.  It is possible that <constant>null</constant> is returned if the algorithm cannot find
           an approximation within tolerance in a tunable maximum number of iterations.</para>
+	  <para>Gauss-Kronrod is the default algorithm since version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7703,6 +7735,7 @@ and has period <userinput>b-a</userinput>.</para>
           <synopsis>RightHandRule (f,a,b,n)</synopsis>
           <para>Integration by right hand rule on the interval [a,b] with n subintervals.</para>
 	  <para>The <varname>n</varname> argument is optional.  If it is not given the value of <varname>NumericalIntegralSteps</varname> is used, which is by default 1000.</para>
+	  <para>Version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -7720,6 +7753,7 @@ and has period <userinput>b-a</userinput>.</para>
           <synopsis>TrapezoidRule (f,a,b,n)</synopsis>
 	  <para>Integration by trapezoid rule on the interval [a,b] with <varname>n</varname> subintervals.</para>
 	  <para>The <varname>n</varname> argument is optional.  If it is not given the value of <varname>NumericalIntegralSteps</varname> is used, which is by default 1000.</para>
+	  <para>Version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 

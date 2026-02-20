@@ -38,6 +38,38 @@ function CompositeSimpsonsRuleTolerance(f,a,b,FourthDerivativeBound,Tolerance) =
 	CompositeSimpsonsRule (f, a, b, n)
 )
 
+SetHelp ("CompositeSimpsonsRuleData", "calculus", "Integration by Composite Simpson's Rule of function given as a vector of values on equally spaced subintervals over an interval of length len, data f should have 3 or more values")
+function CompositeSimpsonsRuleData(f,len) =
+(
+	local *;
+
+	if(not IsVector(f) or elements(f) < 3 or not IsValueOnly(f)) then
+		(error("CompositeSimpsonsRuleData: argument 1 must be a vector of size at least 3");bailout)
+	else if(not IsReal(len) or len <= 0.0) then
+		(error("CompositeSimpsonsRuleData: arguments 2 must be a positive real");bailout);
+
+	k = ko = elements(f);
+	if IsEven(k) then (
+		ko = k-3;
+	);
+	deltax = len/(k-1);
+	if ko > 1 then (
+		s = (deltax/3) * (
+		 	(f@(1) + f@(ko)) +
+		 	(sum j=2 to ko-1 by 2 do 4*f@(j)) +
+		 	(sum j=3 to ko-2 by 2 do 2*f@(j))
+			)
+	) else (
+		s = 0
+	);
+
+	if ko != k then (
+		s = s + (3*deltax/8) * ( f@(ko) + 3*f@(ko+1) + 3*f@(ko+2) + f@(ko+3) )
+	);
+
+	s
+)
+
 SetHelp ("MidpointRule", "calculus", "Integration by midpoint rule")
 function MidpointRule(f,a,b,n...) =
 (
@@ -139,7 +171,7 @@ function RightHandRule(f,a,b,n) =
   (s*len)/n
 )
 
-SetHelp("GaussKronrodRule", "calculus", "Return the result of a single GaussKronrodRule (K15, G7), returns a vector with the estimate and the error estimate");
+SetHelp("GaussKronrodRule", "calculus", "Return the result of a single GaussKronrodRule (K15, G7), returns a vector with the estimate and the error estimate")
 function GaussKronrodRule(f, a, b) = (
   local *;
 
@@ -192,9 +224,9 @@ function GaussKronrodRule(f, a, b) = (
   );
   
   [kronrod, |gauss-kronrod|]
-);
+)
 
-SetHelp("AdaptiveGaussKronrod", "calculus", "Use adaptive composite Gauss-Kronrod (K15, G7) rule until error estimate is less than AdaptiveGaussKronrodAbsoluteTolerance and AdaptiveGaussKronrodRelativeTolerance up to AdaptiveGaussKronrodMaxIterations times, if unsuccessful returns null");
+SetHelp("AdaptiveGaussKronrod", "calculus", "Use adaptive composite Gauss-Kronrod (K15, G7) rule until error estimate is less than AdaptiveGaussKronrodAbsoluteTolerance and AdaptiveGaussKronrodRelativeTolerance times the value up to AdaptiveGaussKronrodMaxIterations times, if unsuccessful returns null")
 function AdaptiveGaussKronrod(f, a, b) = (
   local *;
 
@@ -248,26 +280,26 @@ function AdaptiveGaussKronrod(f, a, b) = (
 
     increment iters
   )
-);
+)
 
-SetHelp ("AdaptiveGaussKronrodAbsoluteTolerance", "parameters", "Tolerance for AdaptiveGaussKronrodAbsoluteTolerance");
-parameter AdaptiveGaussKronrodAbsoluteTolerance = 1e-12;
+SetHelp ("AdaptiveGaussKronrodAbsoluteTolerance", "parameters", "Absolute tolerance for AdaptiveGaussKronrod, error should be less than this")
+parameter AdaptiveGaussKronrodAbsoluteTolerance = 1e-12
 
-SetHelp ("AdaptiveGaussKronrodRelativeTolerance", "parameters", "Tolerance for AdaptiveGaussKronrodRelativeTolerance");
-parameter AdaptiveGaussKronrodRelativeTolerance = 1e-12;
+SetHelp ("AdaptiveGaussKronrodRelativeTolerance", "parameters", "Relative tolerance for AdaptiveGaussKronrod, error should be less than this times the estimated value")
+parameter AdaptiveGaussKronrodRelativeTolerance = 1e-12
 
-SetHelp ("AdaptiveGaussKronrodMaxIterations", "parameters", "Maximum number of iterations to Tolerance to perform in NumericalIntegral")
-parameter AdaptiveGaussKronrodMaxIterations = 10000;
+SetHelp ("AdaptiveGaussKronrodMaxIterations", "parameters", "Maximum number of iterations to perform in AdaptiveGaussKronrod")
+parameter AdaptiveGaussKronrodMaxIterations = 10000
 
 
-SetHelp ("NumericalIntegralSteps", "parameters", "Steps to perform in NumericalIntegral")
-parameter NumericalIntegralSteps = 1000;
+SetHelp ("NumericalIntegralSteps", "parameters", "Default number of steps to perform in MidpointRule, TrapezoidRule, LeftHandRule, RightHandRule, and CompositeSimpsonsRule")
+parameter NumericalIntegralSteps = 1000
 
 SetHelp ("NumericalIntegralFunction", "parameters", "The function used for numerical integration in NumericalIntegral (by default AdaptiveGaussKronrod)")
-parameter NumericalIntegralFunction = `AdaptiveGaussKronrod;
+parameter NumericalIntegralFunction = `AdaptiveGaussKronrod
 
 SetHelp ("NumericalIntegral", "calculus", "Integration by rule set in NumericalIntegralFunction of f from a to b")
 function NumericalIntegral(f,a,b) = (
 	local *;
 	NumericalIntegralFunction call (f,a,b)
-);
+)
