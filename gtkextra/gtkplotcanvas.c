@@ -2017,7 +2017,8 @@ gtk_plot_canvas_create_pixmap(GtkWidget *widget, gint width, gint height)
   GtkPlotCanvas *canvas;
   GdkWindow *window;
   gint pixmap_width, pixmap_height;
-  int scale;
+  gint scale;
+  gdouble sx, sy;
 
   canvas = GTK_PLOT_CANVAS(widget);
   window = gtk_widget_get_window(widget);
@@ -2025,19 +2026,20 @@ gtk_plot_canvas_create_pixmap(GtkWidget *widget, gint width, gint height)
   if (!canvas->pixmap){
     canvas->pixmap = gdk_window_create_similar_image_surface(window,
                                                              CAIRO_FORMAT_RGB24,
-                                                             width,
-                                                             height,
+                                                             width*scale,
+                                                             height*scale,
                                                              scale);
   }else{
     pixmap_width = cairo_image_surface_get_width(canvas->pixmap);
     pixmap_height = cairo_image_surface_get_height(canvas->pixmap);
-    if(width != pixmap_width || height != pixmap_height){
+    cairo_surface_get_device_scale(canvas->pixmap, &sx, &sy);
+    if(width*scale != pixmap_width || height*scale != pixmap_height || (int)(sx+0.5) != scale){
         cairo_surface_destroy(canvas->pixmap);
         canvas->pixmap
           = gdk_window_create_similar_image_surface(window,
                                                     CAIRO_FORMAT_RGB24,
-                                                    width,
-                                                    height,
+                                                    width*scale,
+                                                    height*scale,
                                                     scale);
     }
   }

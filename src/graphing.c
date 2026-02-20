@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 2003-2023 Jiri (George) Lebl
+ * Copyright (C) 2003-2026 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -1129,6 +1129,7 @@ really_export_png_cb (GtkFileChooser *fs, int response, gpointer data)
 	char *s;
 	char *base;
 	GdkPixbuf *pix;
+	int pixmap_width, pixmap_height;
 
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (GTK_WIDGET (fs));
@@ -1170,11 +1171,14 @@ really_export_png_cb (GtkFileChooser *fs, int response, gpointer data)
 		return;
 	}
 
+	pixmap_width = cairo_image_surface_get_width(GTK_PLOT_CANVAS(plot_canvas)->pixmap);
+	pixmap_height = cairo_image_surface_get_height(GTK_PLOT_CANVAS(plot_canvas)->pixmap);
+
 	pix = gdk_pixbuf_get_from_surface
 		(GTK_PLOT_CANVAS (plot_canvas)->pixmap,
 		 0 /* src x */, 0 /* src y */,
-		 GTK_PLOT_CANVAS (plot_canvas)->pixmap_width,
-		 GTK_PLOT_CANVAS (plot_canvas)->pixmap_height);
+		 pixmap_width,
+		 pixmap_height);
 
 	if (pix == NULL ||
 	    ! gdk_pixbuf_save (pix, s, "png", NULL /* error */, NULL)) {
@@ -1196,6 +1200,7 @@ do_export_cb (int export_type)
 	GtkFileFilter *filter_ps;
 	GtkFileFilter *filter_all;
 	const char *title;
+	const char *def_filename;
 
 	if (fs != NULL) {
 		gtk_window_present (GTK_WINDOW (fs));
@@ -1205,17 +1210,23 @@ do_export_cb (int export_type)
 	/* FIXME: don't want to deal with modality issues right now */
 	gtk_widget_set_sensitive (graph_window, FALSE);
 
-	if (export_type == EXPORT_EPS)
+	if (export_type == EXPORT_EPS) {
 		title = _("Export encapsulated postscript");
-	else if (export_type == EXPORT_PS)
+		def_filename = "plot.eps";
+	} else if (export_type == EXPORT_PS) {
 		title = _("Export postscript");
-	else if (export_type == EXPORT_PDF)
+		def_filename = "plot.ps";
+	} else if (export_type == EXPORT_PDF) {
 		title = _("Export PDF");
-	else if (export_type == EXPORT_PNG)
+		def_filename = "plot.pdf";
+	} else if (export_type == EXPORT_PNG) {
 		title = _("Export PNG");
-	else
+		def_filename = "plot.png";
+	} else {
 		/* should never happen */
 		title = "Export ???";
+		def_filename = "plot";
+	}
 
 	if (export_type == EXPORT_PDF &&
 	    ! ve_is_prog_in_path ("ps2pdf")) {
@@ -1290,6 +1301,9 @@ do_export_cb (int export_type)
 			(GTK_FILE_CHOOSER (fs), s);
 		g_free (s);
 	}
+
+	gtk_file_chooser_set_current_name
+		(GTK_FILE_CHOOSER (fs), def_filename);
 
 	gtk_widget_show (fs);
 }
@@ -10373,6 +10387,7 @@ ExportPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 {
 	char *file;
 	char *type;
+	int pixmap_width, pixmap_height;
 
 	if G_UNLIKELY (plot_in_progress != 0) {
 		gel_errorout (_("%s: Plotting in progress, cannot call %s"),
@@ -10424,11 +10439,13 @@ ExportPlot_op (GelCtx *ctx, GelETree * * a, int *exception)
 			return NULL;
 		}
 
+		pixmap_width = cairo_image_surface_get_width(GTK_PLOT_CANVAS(plot_canvas)->pixmap);
+		pixmap_height = cairo_image_surface_get_height(GTK_PLOT_CANVAS(plot_canvas)->pixmap);
 		pix = gdk_pixbuf_get_from_surface
 			(GTK_PLOT_CANVAS (plot_canvas)->pixmap,
 			 0 /* src x */, 0 /* src y */,
-			 GTK_PLOT_CANVAS (plot_canvas)->pixmap_width,
-			 GTK_PLOT_CANVAS (plot_canvas)->pixmap_height);
+			 pixmap_width,
+			 pixmap_height);
 
 		if (pix == NULL ||
 		    ! gdk_pixbuf_save (pix, file, "png", NULL /* error */, NULL)) {
