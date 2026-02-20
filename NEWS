@@ -1,8 +1,8 @@
 Changes to 1.0.28
 
 * Implement an adaptive Gauss-Kronrod integration and make it default
-  for NumericalIntegral.  Adds functions AdaptiveGaussKronrod and
-  GaussKronrodRule, and related parameters.
+  for NumericalIntegral.  Adds functions AdaptiveGaussKronrod,
+  AdaptiveGaussKronrodWithTolerance, GaussKronrodRule, and related parameters.
 * SYNTAX: Don't special case parsing -<number>^n it will be parsed now
   as -(<number>^n) as it should be.  So -1^2 is now -1 as is only reasonable.
   Not sure what originally possesed me to parse it as it did, but it recently
