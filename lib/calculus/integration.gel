@@ -226,15 +226,17 @@ function GaussKronrodRule(f, a, b) = (
   [kronrod, |gauss-kronrod|]
 )
 
-SetHelp("AdaptiveGaussKronrod", "calculus", "Use adaptive composite Gauss-Kronrod (K15, G7) rule until error estimate is less than AdaptiveGaussKronrodAbsoluteTolerance and AdaptiveGaussKronrodRelativeTolerance times the value up to AdaptiveGaussKronrodMaxIterations times, if unsuccessful returns null")
-function AdaptiveGaussKronrod(f, a, b) = (
+SetHelp("AdaptiveGaussKronrodWithTolerance", "calculus", "Use adaptive composite Gauss-Kronrod (K15, G7) rule until error estimate is less than abstol and reltol times the value up to AdaptiveGaussKronrodMaxIterations times, if unsuccessful returns null")
+function AdaptiveGaussKronrodWithTolerance(f, a, b, abstol, reltol) = (
   local *;
 
   if(not IsFunction(f)) then
-	(error("AdaptiveGaussKronrod: argument 1 must be a function");bailout)
+	(error("AdaptiveGaussKronrodWithTolerance: argument 1 must be a function");bailout)
   else if(not IsReal(a) or not IsReal(b)) then
-	(error("AdaptiveGaussKronrod: arguments 2, 3 must be real values");bailout)
-  else if (a>b) then (error("AdaptiveGaussKronrod: argument 2 must be less than or equal to argument 3");bailout);
+	(error("AdaptiveGaussKronrodWithTolerance: arguments 2, 3 must be real values");bailout)
+  else if(not IsReal(abstol) or not IsReal(reltol)) then
+	(error("AdaptiveGaussKronrodWithTolerance: arguments 4, 5 must be real values");bailout)
+  else if (a>b) then (error("AdaptiveGaussKronrodWithTolerance: argument 2 must be less than or equal to argument 3");bailout);
 
   r = GaussKronrodRule (f, a, b);
   partlist = [a,b,r@(1),r@(2)];
@@ -245,7 +247,7 @@ function AdaptiveGaussKronrod(f, a, b) = (
   while true do (
     totalerr = sum x in partlist@(,4) do x;
 
-    if (totalerr <= max(AdaptiveGaussKronrodAbsoluteTolerance, AdaptiveGaussKronrodRelativeTolerance*res)) then
+    if (totalerr <= max(abstol, reltol*res)) then
       return res;
 
     if iters > AdaptiveGaussKronrodMaxIterations then (
@@ -280,6 +282,11 @@ function AdaptiveGaussKronrod(f, a, b) = (
 
     increment iters
   )
+)
+
+SetHelp("AdaptiveGaussKronrod", "calculus", "Use adaptive composite Gauss-Kronrod (K15, G7) rule until error estimate is less than AdaptiveGaussKronrodAbsoluteTolerance and AdaptiveGaussKronrodRelativeTolerance times the value up to AdaptiveGaussKronrodMaxIterations times, if unsuccessful returns null")
+function AdaptiveGaussKronrod(f, a, b) = (
+  AdaptiveGaussKronrodWithTolerance(f, a, b, AdaptiveGaussKronrodAbsoluteTolerance, AdaptiveGaussKronrodRelativeTolerance)
 )
 
 SetHelp ("AdaptiveGaussKronrodAbsoluteTolerance", "parameters", "Absolute tolerance for AdaptiveGaussKronrod, error should be less than this")

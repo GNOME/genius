@@ -7296,6 +7296,27 @@ do (
         </varlistentry>
 
         <varlistentry>
+         <term><anchor id="gel-function-AdaptiveGaussKronrodWithTolerance"/>AdaptiveGaussKronrodWithTolerance</term>
+         <listitem>
+          <synopsis>AdaptiveGaussKronrod (f,a,b,abstol,reltol)</synopsis>
+	  <para>Find the integral of <function>f</function> over the interval [a,b] using an adaptive algorithm using Gauss-Kronrod rule G7 K15.
+	  It will subdivide adaptively until the relative error is less than <varname>abstol</varname>
+	  or the absolute error is within <varname>reltol</varname>.
+	  The subinterval with the largest error is subdivided into two until we get a small enough error or until we hit
+	  <link linkend="gel-function-AdaptiveGaussKronrodMaxIterations"><function>AdaptiveGaussKronrodMaxIterations</function></link> iterations.</para>
+  	  <para>
+		  If an estimate within the given range is not achieved within the iteration limit, then <constant>null</constant> is returned and error is
+		  printed.</para>
+	  <para>This function is useful if different precision than the defaults is needed and one does not want to change global parameters.  For example, if less precision is needed and speed is paramount.  Otherwise just use <link linkend="gel-function-AdaptiveGaussKronrod"><function>AdaptiveGaussKronrod</function></link> or <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link></para>
+          <para>
+	    See
+	    <ulink url="https://en.wikipedia.org/wiki/Gauss–Kronrod_quadrature_formula">Wikipedia</ulink> for more information.
+          </para>
+	  <para>Version 1.0.28 onwards.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term><anchor id="gel-function-CompositeSimpsonsRule"/>CompositeSimpsonsRule</term>
          <listitem>
           <synopsis>CompositeSimpsonsRule (f,a,b,n)</synopsis>

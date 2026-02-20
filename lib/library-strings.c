@@ -185,6 +185,7 @@ char *fake = N_("Subfactorial: n! times sum_{k=0}^n (-1)^k/k!");
 char *fake = N_("Calculate the nth triangular number");
 char *fake = N_("Calculate permutations");
 char *fake = N_("Use adaptive composite Gauss-Kronrod (K15, G7) rule until error estimate is less than AdaptiveGaussKronrodAbsoluteTolerance and AdaptiveGaussKronrodRelativeTolerance times the value up to AdaptiveGaussKronrodMaxIterations times, if unsuccessful returns null");
+char *fake = N_("Use adaptive composite Gauss-Kronrod (K15, G7) rule until error estimate is less than abstol and reltol times the value up to AdaptiveGaussKronrodMaxIterations times, if unsuccessful returns null");
 char *fake = N_("Integration by Composite Simpson's Rule of function given as a vector of values on equally spaced subintervals over an interval of length len, data f should have 3 or more values");
 char *fake = N_("Integration of f by Composite Simpson's Rule on the interval [a,b] with the number of steps calculated by the fourth derivative bound and the desired tolerance");
 char *fake = N_("Attempt to calculate derivative by trying first symbolically and then numerically");
