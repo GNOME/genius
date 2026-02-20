@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
-"POT-Creation-Date: 2026-02-19 08:27+0000\n"
-"PO-Revision-Date: 2026-02-19 13:32+0200\n"
+"POT-Creation-Date: 2026-02-20 10:52+0000\n"
+"PO-Revision-Date: 2026-02-20 18:45+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -44,19 +44,26 @@ msgid "Make a string"
 msgstr "Створити рядок"
 
 #: ../lib/library-strings.c:5
-msgid "Tolerance for AdaptiveGaussKronrodAbsoluteTolerance"
-msgstr "Допуск для AdaptiveGaussKronrodAbsoluteTolerance"
+#| msgid "Tolerance for AdaptiveGaussKronrodAbsoluteTolerance"
+msgid ""
+"Absolute tolerance for AdaptiveGaussKronrod, error should be less than this"
+msgstr ""
+"Абсолютний допуск для AdaptiveGaussKronrod, похибка має бути меншою за це"
+" значення"
 
 #: ../lib/library-strings.c:6
-#| msgid "Steps to perform in NumericalIntegral"
-msgid ""
-"Maximum number of iterations to Tolerance to perform in NumericalIntegral"
-msgstr ""
-"Максимальна кількість ітерацій для досягнення Точності у NumericalIntegral"
+#| msgid ""
+#| "Maximum number of iterations to Tolerance to perform in NumericalIntegral"
+msgid "Maximum number of iterations to perform in AdaptiveGaussKronrod"
+msgstr "Максимальна кількість ітерацій для виконання у AdaptiveGaussKronrod"
 
 #: ../lib/library-strings.c:7
-msgid "Tolerance for AdaptiveGaussKronrodRelativeTolerance"
-msgstr "Допуск для AdaptiveGaussKronrodRelativeTolerance"
+msgid ""
+"Relative tolerance for AdaptiveGaussKronrod, error should be less than this "
+"times the estimated value"
+msgstr ""
+"Відносна похибка для AdaptiveGaussKronrod, помилка має бути меншою у цю"
+" кількість разів за оцінюване значення"
 
 #: ../lib/library-strings.c:8
 msgid "Tolerance of the Chop function"
@@ -108,9 +115,6 @@ msgid "Tolerance of the GaussDistribution function"
 msgstr "Припустиме відхилення для функції GaussDistribution"
 
 #: ../lib/library-strings.c:17
-#| msgid ""
-#| "The function used for numerical integration in NumericalIntegral (by "
-#| "default CompositeSimpsonsRule)"
 msgid ""
 "The function used for numerical integration in NumericalIntegral (by default "
 "AdaptiveGaussKronrod)"
@@ -119,8 +123,12 @@ msgstr ""
 "(типово AdaptiveGaussKronrod)"
 
 #: ../lib/library-strings.c:18
-msgid "Steps to perform in NumericalIntegral"
-msgstr "Кількість кроків у NumericalIntegral"
+msgid ""
+"Default number of steps to perform in MidpointRule, TrapezoidRule, "
+"LeftHandRule, RightHandRule, and CompositeSimpsonsRule"
+msgstr ""
+"Типова кількість кроків, які слід виконати у MidpointRule, TrapezoidRule, "
+"LeftHandRule, RightHandRule і CompositeSimpsonsRule"
 
 #: ../lib/library-strings.c:19
 msgid "How many iterations to try for InfiniteSum and InfiniteProduct"
@@ -931,19 +939,34 @@ msgid "Calculate permutations"
 msgstr "Обчислити кількість перестановок"
 
 #: ../lib/library-strings.c:187
+#| msgid ""
+#| "Use adaptive composite Gauss-Kronrod (K15, G7) rule until error estimate "
+#| "is less than AdaptiveGaussKronrodAbsoluteTolerance and "
+#| "AdaptiveGaussKronrodRelativeTolerance up to "
+#| "AdaptiveGaussKronrodMaxIterations times, if unsuccessful returns null"
 msgid ""
 "Use adaptive composite Gauss-Kronrod (K15, G7) rule until error estimate is "
 "less than AdaptiveGaussKronrodAbsoluteTolerance and "
-"AdaptiveGaussKronrodRelativeTolerance up to "
+"AdaptiveGaussKronrodRelativeTolerance times the value up to "
 "AdaptiveGaussKronrodMaxIterations times, if unsuccessful returns null"
 msgstr ""
-"Застосувати адаптивне складене правило Гауса-Кронрода (K15, G7), доки оцінка"
-" похибки не стане меншою за AdaptiveGaussKronrodAbsoluteTolerance і"
-" AdaptiveGaussKronrodRelativeTolerance, аж до кількості кроків"
-" AdaptiveGaussKronrodMaxIterations; якщо результату не вдасться досягти,"
-" повертає null"
+"Застосувати адаптивне складене правило Гауса-Кронрода (K15, G7), доки оцінка "
+"похибки не стане меншою за AdaptiveGaussKronrodAbsoluteTolerance і "
+"AdaptiveGaussKronrodRelativeTolerance від значення, аж до кількості кроків "
+"AdaptiveGaussKronrodMaxIterations; якщо результату не вдасться досягти, "
+"повертає null"
 
 #: ../lib/library-strings.c:188
+msgid ""
+"Integration by Composite Simpson's Rule of function given as a vector of "
+"values on equally spaced subintervals over an interval of length len, data f "
+"should have 3 or more values"
+msgstr ""
+"Інтегрування за складеним правилом Сімпсона функції, яку задано вектором"
+" значень з рівномірним розбиттям на підінтервали на інтервалі довжини len,"
+" дані f мають складатися з принаймні 3 значень"
+
+#: ../lib/library-strings.c:189
 msgid ""
 "Integration of f by Composite Simpson's Rule on the interval [a,b] with the "
 "number of steps calculated by the fourth derivative bound and the desired "
@@ -953,7 +976,7 @@ msgstr ""
 "кількістю кроків, яка обчислюється за обмеженням на четверту похідну, і "
 "бажаним допуском"
 
-#: ../lib/library-strings.c:189
+#: ../lib/library-strings.c:190
 msgid ""
 "Attempt to calculate derivative by trying first symbolically and then "
 "numerically"
@@ -961,7 +984,7 @@ msgstr ""
 "Спробувати обчислити похідну спочатку символічно, а потім обчислювальними "
 "методами"
 
-#: ../lib/library-strings.c:190
+#: ../lib/library-strings.c:191
 msgid ""
 "Return a function which is the even periodic extension of f defined on the "
 "interval [0,L]"
@@ -969,7 +992,7 @@ msgstr ""
 "Повертає функцію, яка є парним періодичним продовженням функції f, яку "
 "визначено на відрізку [0,L]"
 
-#: ../lib/library-strings.c:191
+#: ../lib/library-strings.c:192
 msgid ""
 "Return a function which is a Fourier series with the coefficients given by "
 "the vectors a (sines) and b (cosines).  Note that a@(1) is the constant "
@@ -979,20 +1002,20 @@ msgstr ""
 "задаються векторами a (синуси) і b (косинуси). Зауважте, що a@(1) є сталим "
 "коефіцієнтом!"
 
-#: ../lib/library-strings.c:192
+#: ../lib/library-strings.c:193
 msgid ""
 "Return the result of a single GaussKronrodRule (K15, G7), returns a vector "
 "with the estimate and the error estimate"
 msgstr ""
-"Повертає результат одноразового застосування GaussKronrodRule (K15, G7),"
-" результатом є вектор із оцінкою та оцінка похибки"
+"Повертає результат одноразового застосування GaussKronrodRule (K15, G7), "
+"результатом є вектор із оцінкою та оцінка похибки"
 
-#: ../lib/library-strings.c:193
+#: ../lib/library-strings.c:194
 msgid "Try to calculate an infinite product for a single parameter function"
 msgstr ""
 "Спробувати обчислити нескінченний добуток для однопараметричної функції"
 
-#: ../lib/library-strings.c:194
+#: ../lib/library-strings.c:195
 msgid ""
 "Try to calculate an infinite product for a double parameter function with "
 "func(arg,n)"
@@ -1000,11 +1023,11 @@ msgstr ""
 "Спробувати обчислити нескінченний добуток для функції двох параметрів, "
 "заданої як func(arg,n)"
 
-#: ../lib/library-strings.c:195
+#: ../lib/library-strings.c:196
 msgid "Try to calculate an infinite sum for a single parameter function"
 msgstr "Спробувати обчислити нескінченну суму для однопараметричної функції"
 
-#: ../lib/library-strings.c:196
+#: ../lib/library-strings.c:197
 msgid ""
 "Try to calculate an infinite sum for a double parameter function with "
 "func(arg,n)"
@@ -1012,7 +1035,7 @@ msgstr ""
 "Спробувати обчислити нескінченну суму для функції двох параметрів, заданої "
 "як func(arg,n)"
 
-#: ../lib/library-strings.c:197
+#: ../lib/library-strings.c:198
 msgid ""
 "Try and see if a real-valued function is continuous at x0 by calculating the "
 "limit there"
@@ -1020,7 +1043,7 @@ msgstr ""
 "Перевірити, чи є дійснозначна функція неперервною у x0 шляхом обчислення "
 "границь"
 
-#: ../lib/library-strings.c:198
+#: ../lib/library-strings.c:199
 msgid ""
 "Test for differentiability by approximating the left and right limits and "
 "comparing"
@@ -1028,15 +1051,15 @@ msgstr ""
 "Перевірити диференційованість наближенням границь ліворуч і праворуч і "
 "порівнянням отриманих значень"
 
-#: ../lib/library-strings.c:199
+#: ../lib/library-strings.c:200
 msgid "Integration by left hand rule"
 msgstr "Інтегрування за правилом лівої точки"
 
-#: ../lib/library-strings.c:200
+#: ../lib/library-strings.c:201
 msgid "Calculate the left limit of a real-valued function at x0"
 msgstr "Обчислити границю ліворуч дійснозначної функції у точці x0"
 
-#: ../lib/library-strings.c:201
+#: ../lib/library-strings.c:202
 msgid ""
 "Calculate the limit of a real-valued function at x0.  Tries to calculate "
 "both left and right limits."
@@ -1044,15 +1067,15 @@ msgstr ""
 "Обчислити границю дійснозначної функції у точці x0. Намагається обчислити "
 "границі ліворуч і праворуч."
 
-#: ../lib/library-strings.c:202
+#: ../lib/library-strings.c:203
 msgid "Integration by midpoint rule"
 msgstr "Інтегрування за правилом середньої точки"
 
-#: ../lib/library-strings.c:203
+#: ../lib/library-strings.c:204
 msgid "Attempt to calculate numerical derivative"
 msgstr "Спробувати обчислити похідну"
 
-#: ../lib/library-strings.c:204
+#: ../lib/library-strings.c:205
 msgid ""
 "Numerically compute the coefficients for a cosine Fourier series for a "
 "function on [0,L] up to the Nth coefficient."
@@ -1060,7 +1083,7 @@ msgstr ""
 "Обчислити коефіцієнти розкладу Фур'є за косинусами для функції на [0,L], аж "
 "до N-го коефіцієнта."
 
-#: ../lib/library-strings.c:205
+#: ../lib/library-strings.c:206
 msgid ""
 "Return a function which is the Fourier cosine series of f on [0,L] with "
 "coefficients up to N computed numerically"
@@ -1068,7 +1091,7 @@ msgstr ""
 "Повернути функцію, яка є розкладом за косинусами Фур'є функції f на [0,L] із "
 "коефіцієнтами, аж до N, обчисленими за допомогою числових методів"
 
-#: ../lib/library-strings.c:206
+#: ../lib/library-strings.c:207
 msgid ""
 "Numerically compute the coefficients for a Fourier series with half-period L "
 "up to the Nth coefficient."
@@ -1076,7 +1099,7 @@ msgstr ""
 "Обчислити коефіцієнти розкладу Фур'є для функції із пів періодом L, аж до N-"
 "го коефіцієнта."
 
-#: ../lib/library-strings.c:207
+#: ../lib/library-strings.c:208
 msgid ""
 "Return a function which is the Fourier series of f with half-period L with "
 "coefficients up to N computed numerically"
@@ -1084,7 +1107,7 @@ msgstr ""
 "Повернути функцію, яка є розкладом Фур'є функції f із пів періодом L із "
 "коефіцієнтами, аж до N, обчисленими за допомогою числових методів"
 
-#: ../lib/library-strings.c:208
+#: ../lib/library-strings.c:209
 msgid ""
 "Numerically compute the coefficients for a sine Fourier series for a "
 "function on [0,L] up to the Nth coefficient."
@@ -1092,7 +1115,7 @@ msgstr ""
 "Обчислити коефіцієнти розкладу Фур'є за синусами для функції на [0,L], аж до "
 "N-го коефіцієнта."
 
-#: ../lib/library-strings.c:209
+#: ../lib/library-strings.c:210
 msgid ""
 "Return a function which is the Fourier sine series of f on [0,L] with "
 "coefficients up to N computed numerically"
@@ -1100,28 +1123,25 @@ msgstr ""
 "Повернути функцію, яка є розкладом за синусами Фур'є функції f на [0,L] із "
 "коефіцієнтами, аж до N, обчисленими за допомогою числових методів"
 
-#: ../lib/library-strings.c:210
-#| msgid ""
-#| "Integration by rule set in NumericalIntegralFunction of f from a to b "
-#| "using NumericalIntegralSteps steps"
+#: ../lib/library-strings.c:211
 msgid "Integration by rule set in NumericalIntegralFunction of f from a to b"
 msgstr ""
 "Інтегрування за встановленим у NumericalIntegralFunction правилом функції f "
 "від a до b"
 
-#: ../lib/library-strings.c:211
+#: ../lib/library-strings.c:212
 msgid "Attempt to calculate numerical left derivative"
 msgstr "Спробувати обчислити ліву похідну"
 
-#: ../lib/library-strings.c:212
+#: ../lib/library-strings.c:213
 msgid "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N"
 msgstr "Спробувати обчислити границю f(step_fun(i)) при i від 1 до N"
 
-#: ../lib/library-strings.c:213
+#: ../lib/library-strings.c:214
 msgid "Attempt to calculate numerical right derivative"
 msgstr "Спробувати обчислити праву похідну"
 
-#: ../lib/library-strings.c:214
+#: ../lib/library-strings.c:215
 msgid ""
 "Return a function which is the odd periodic extension of f defined on the "
 "interval [0,L]"
@@ -1129,15 +1149,15 @@ msgstr ""
 "Повертає функцію, яка є непарним періодичним продовженням функції f, яку "
 "визначено на відрізку [0,L]"
 
-#: ../lib/library-strings.c:215
+#: ../lib/library-strings.c:216
 msgid "Compute one-sided derivative using five point formula"
 msgstr "Обчислити однобічну похідну за допомогою п'ятиточкової формули"
 
-#: ../lib/library-strings.c:216
+#: ../lib/library-strings.c:217
 msgid "Compute one-sided derivative using three-point formula"
 msgstr "Обчислити однобічну похідну за допомогою триточкової формули"
 
-#: ../lib/library-strings.c:217
+#: ../lib/library-strings.c:218
 msgid ""
 "Return a function which is the periodic extension of f defined on the "
 "interval [a,b]"
@@ -1145,47 +1165,47 @@ msgstr ""
 "Повертає функцію, яка періодичним продовженням функції f, яку визначено на "
 "відрізку [a,b]"
 
-#: ../lib/library-strings.c:218
+#: ../lib/library-strings.c:219
 msgid "Integration by right hand rule"
 msgstr "Інтегрування за правилом правої точки"
 
-#: ../lib/library-strings.c:219
+#: ../lib/library-strings.c:220
 msgid "Calculate the right limit of a real-valued function at x0"
 msgstr "Обчислити границю праворуч дійснозначної функції у точці x0"
 
-#: ../lib/library-strings.c:220
+#: ../lib/library-strings.c:221
 msgid "Integration by trapezoid rule"
 msgstr "Інтегрування за правилом трапецій"
 
-#: ../lib/library-strings.c:221
+#: ../lib/library-strings.c:222
 msgid "Compute two-sided derivative using five-point formula"
 msgstr "Обчислити двобічну похідну за допомогою п'ятиточкової формули"
 
-#: ../lib/library-strings.c:222
+#: ../lib/library-strings.c:223
 msgid "Compute two-sided derivative using three-point formula"
 msgstr "Обчислити двобічну похідну за допомогою триточкової формули"
 
-#: ../lib/library-strings.c:223
+#: ../lib/library-strings.c:224
 msgid "argument (angle) of complex number"
 msgstr "аргумент комплексного числа"
 
-#: ../lib/library-strings.c:224
+#: ../lib/library-strings.c:225
 msgid "Dirichlet kernel of order n"
 msgstr "Ядро Діріхле порядку n"
 
-#: ../lib/library-strings.c:225
+#: ../lib/library-strings.c:226
 msgid "Returns 1 if and only if all elements are zero"
 msgstr "Повертає 1, лише якщо усі елементи є нульовими"
 
-#: ../lib/library-strings.c:226
+#: ../lib/library-strings.c:227
 msgid "Fejer kernel of order n"
 msgstr "Ядро Феєра порядку n"
 
-#: ../lib/library-strings.c:227
+#: ../lib/library-strings.c:228
 msgid "Returns 1 if and only if all elements are equal"
 msgstr "Повертає 1, лише якщо усі елементи є рівними"
 
-#: ../lib/library-strings.c:228
+#: ../lib/library-strings.c:229
 msgid ""
 "Principal branch of the Lambert W function for real values greater than or "
 "equal to -1/e"
@@ -1193,22 +1213,22 @@ msgstr ""
 "Головна гілка W-функції Ламберта для дійсних значень, які рівні або "
 "перевищують -1/e"
 
-#: ../lib/library-strings.c:229
+#: ../lib/library-strings.c:230
 msgid ""
 "The minus-one branch of the Lambert W function for real values between -1/e "
 "and 0"
 msgstr ""
 "Гілка «мінус один» функції Ламберта W для дійсних значень від -1/e до 0"
 
-#: ../lib/library-strings.c:230
+#: ../lib/library-strings.c:231
 msgid "Find the first value where f(x)=0"
 msgstr "Знайти перше значення, де f(x)=0"
 
-#: ../lib/library-strings.c:231
+#: ../lib/library-strings.c:232
 msgid "Moebius mapping of the disk to itself mapping a to 0"
 msgstr "Відображення Мебіуса диска на диск із відображенням a у 0"
 
-#: ../lib/library-strings.c:232
+#: ../lib/library-strings.c:233
 msgid ""
 "Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity "
 "respectively"
@@ -1216,7 +1236,7 @@ msgstr ""
 "Відображення Мебіуса з використанням ангармонічного відношення, яке "
 "переводить z2,z3,z4 у 1,0, та нескінченність, відповідно"
 
-#: ../lib/library-strings.c:233
+#: ../lib/library-strings.c:234
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 "
 "to 1 and 0 respectively"
@@ -1224,7 +1244,7 @@ msgstr ""
 "Відображення Мебіуса з використанням ангармонічного відношення, яке "
 "переводить нескінченність у нескінченність, а z2,z3 у 1 та 0, відповідно"
 
-#: ../lib/library-strings.c:234
+#: ../lib/library-strings.c:235
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 "
 "and infinity respectively"
@@ -1232,7 +1252,7 @@ msgstr ""
 "Відображення Мебіуса з використанням ангармонічного відношення, яке "
 "переводить нескінченність в 1, а z3, z4 у 0 і нескінченність, відповідно"
 
-#: ../lib/library-strings.c:235
+#: ../lib/library-strings.c:236
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 "
 "and infinity respectively"
@@ -1240,18 +1260,18 @@ msgstr ""
 "Відображення Мебіуса з використанням ангармонічного відношення, яке "
 "переводить нескінченність в 0, а z2, z4 у 1 і нескінченність, відповідно"
 
-#: ../lib/library-strings.c:236
+#: ../lib/library-strings.c:237
 msgid ""
 "Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is "
 "2pi)"
 msgstr ""
 "Ядро Пуассона на D(0,1) (не нормалізоване до 1, тобто з інтегралом 2π)"
 
-#: ../lib/library-strings.c:237
+#: ../lib/library-strings.c:238
 msgid "Poisson kernel on D(0,R) (not normalized to 1)"
 msgstr "Ядро Пуассона на D(0,R) (не нормалізоване до 1)"
 
-#: ../lib/library-strings.c:238
+#: ../lib/library-strings.c:239
 msgid ""
 "The unit step function = 0 for x<0, 1 otherwise.  This is the integral of "
 "the Dirac Delta function."
@@ -1259,23 +1279,23 @@ msgstr ""
 "Одиночна сходинкова функція = 0 при x<0, 1 у інших точках. Це інтеграл "
 "делька-функції Дірака."
 
-#: ../lib/library-strings.c:239
+#: ../lib/library-strings.c:240
 msgid "The cis function, that is cos(x)+i*sin(x)"
 msgstr "Функція cis, яка дорівнює cos(x)+i*sin(x)"
 
-#: ../lib/library-strings.c:240
+#: ../lib/library-strings.c:241
 msgid "Convert degrees to radians"
 msgstr "Перетворити значення у градусах у радіани"
 
-#: ../lib/library-strings.c:241
+#: ../lib/library-strings.c:242
 msgid "Convert radians to degrees"
 msgstr "Перетворити радіани на градуси"
 
-#: ../lib/library-strings.c:242
+#: ../lib/library-strings.c:243
 msgid "Find roots of a cubic polynomial (given as vector of coefficients)"
 msgstr "Знайти корені кубічного полінома (за заданими вектором коефіцієнтів)"
 
-#: ../lib/library-strings.c:243
+#: ../lib/library-strings.c:244
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial "
 "x0,y0 going to x1 with n increments, returns y at x1"
@@ -1284,7 +1304,7 @@ msgstr ""
 "рівняння y'=f(x,y) для початкових умов x0,y0 при переході до x1 за n кроків, "
 "повертає y у x1"
 
-#: ../lib/library-strings.c:244
+#: ../lib/library-strings.c:245
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial "
 "x0,y0 going to x1 with n increments, returns an n+1 by 2 matrix of values"
@@ -1293,7 +1313,7 @@ msgstr ""
 "рівняння y'=f(x,y) для початкових умов x0,y0 при переході до x1 за n кроків, "
 "повертає матрицю значень n+1 на 2"
 
-#: ../lib/library-strings.c:245
+#: ../lib/library-strings.c:246
 msgid ""
 "Find root of a function using the bisection method to within TOL tolerance "
 "in up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1301,7 +1321,7 @@ msgstr ""
 "Знайти корінь функції за допомогою методу бісекції у межах допуску TOL за не "
 "більше, ніж N ітерацій. f(a) і f(b) мають бути різних знаків."
 
-#: ../lib/library-strings.c:246
+#: ../lib/library-strings.c:247
 msgid ""
 "Find root of a function using the method of false position to within TOL "
 "tolerance in up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1310,11 +1330,11 @@ msgstr ""
 "допуску TOL за не більше, ніж N ітерацій. f(a) і f(b) мають бути різних "
 "знаків."
 
-#: ../lib/library-strings.c:247
+#: ../lib/library-strings.c:248
 msgid "Find root of a function using the Muller's method"
 msgstr "Знайти корінь функції за допомогою методу Мюллера"
 
-#: ../lib/library-strings.c:248
+#: ../lib/library-strings.c:249
 msgid ""
 "Find root of a function using the secant method to within TOL tolerance in "
 "up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1322,7 +1342,7 @@ msgstr ""
 "Знайти корінь функції за допомогою методу хорд у межах допуску TOL за не "
 "більше, ніж N ітерацій. f(a) і f(b) мають бути різних знаків."
 
-#: ../lib/library-strings.c:249
+#: ../lib/library-strings.c:250
 msgid ""
 "Attempt to find a zero of a function f with derivative df and second "
 "derivative ddf using Halley's method, returning after two successive values "
@@ -1333,7 +1353,7 @@ msgstr ""
 "відрізняються не більше, ніж на epsilon, або після maxn спроб (у цьому "
 "випадку повертає null)"
 
-#: ../lib/library-strings.c:250
+#: ../lib/library-strings.c:251
 msgid ""
 "Attempt to find a zero of a function f with derivative df using Newton's "
 "method, returning after two successive values are within epsilon or after "
@@ -1343,16 +1363,16 @@ msgstr ""
 "повертає значення, якщо два послідовних значення відрізняються не більше, "
 "ніж на epsilon, або після maxn спроб (у цьому випадку повертає null)"
 
-#: ../lib/library-strings.c:251
+#: ../lib/library-strings.c:252
 msgid "Find roots of a polynomial (given as vector of coefficients)"
 msgstr "Знайти корені полінома (за заданими вектором коефіцієнтів)"
 
-#: ../lib/library-strings.c:252
+#: ../lib/library-strings.c:253
 msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
 msgstr ""
 "Знайти корені полінома четвертого степеня (за заданими вектором коефіцієнтів)"
 
-#: ../lib/library-strings.c:253
+#: ../lib/library-strings.c:254
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
@@ -1362,7 +1382,7 @@ msgstr ""
 "для отримання числового розв'язку рівняння y'=f(x,y) для початкових умов "
 "x0,y0 при переході до x1 за n кроків, повертає y у x1"
 
-#: ../lib/library-strings.c:254
+#: ../lib/library-strings.c:255
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an "
@@ -1372,37 +1392,37 @@ msgstr ""
 "для отримання числового розв'язку рівняння y'=f(x,y) для початкових умов "
 "x0,y0 при переході до x1 за n кроків, повертає матрицю n+1 на 2 зі значень"
 
-#: ../lib/library-strings.c:255
+#: ../lib/library-strings.c:256
 msgid "Calculate average of an entire matrix"
 msgstr "Обчислити середнє значення за усіма елементами матриці"
 
-#: ../lib/library-strings.c:256
+#: ../lib/library-strings.c:257
 msgid ""
 "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 msgstr ""
 "Інтеграл функції Гауса від 0 до x (площа під кривою нормального розподілу)"
 
-#: ../lib/library-strings.c:257
+#: ../lib/library-strings.c:258
 msgid "The normalized Gauss distribution function (the normal curve)"
 msgstr "Нормалізована функція розподілу Гауса (нормальна крива)"
 
-#: ../lib/library-strings.c:258
+#: ../lib/library-strings.c:259
 msgid "Calculate median of an entire matrix"
 msgstr "Обчислити медіану усієї матриці"
 
-#: ../lib/library-strings.c:259
+#: ../lib/library-strings.c:260
 msgid "Calculate the population standard deviation of a whole matrix"
 msgstr "Обчислити стандартне відхилення вибірки за усією матрицю"
 
-#: ../lib/library-strings.c:260
+#: ../lib/library-strings.c:261
 msgid "Calculate average of each row in a matrix"
 msgstr "Обчислити середнє за кожним рядком у матриці"
 
-#: ../lib/library-strings.c:261
+#: ../lib/library-strings.c:262
 msgid "Calculate median of each row in a matrix"
 msgstr "Обчислити медіану кожного рядка у матриці"
 
-#: ../lib/library-strings.c:262
+#: ../lib/library-strings.c:263
 msgid ""
 "Calculate the population standard deviations of rows of a matrix and return "
 "a vertical vector"
@@ -1410,7 +1430,7 @@ msgstr ""
 "Обчислити стандартні відхилення вибірки за рядками матриці і повернути "
 "вертикальний вектор"
 
-#: ../lib/library-strings.c:263
+#: ../lib/library-strings.c:264
 msgid ""
 "Calculate the standard deviations of rows of a matrix and return a vertical "
 "vector"
@@ -1418,11 +1438,11 @@ msgstr ""
 "Обчислити стандартні відхилення за рядками матриці і повернути вертикальний "
 "вектор"
 
-#: ../lib/library-strings.c:264
+#: ../lib/library-strings.c:265
 msgid "Calculate the standard deviation of a whole matrix"
 msgstr "Обчислити стандартне відхилення за усією матрицю"
 
-#: ../lib/library-strings.c:265
+#: ../lib/library-strings.c:266
 msgid ""
 "Attempt to find a root of a polynomial using Newton's method, returning "
 "after two successive values are within epsilon or after maxn tries (then "
@@ -1432,11 +1452,11 @@ msgstr ""
 "значення, якщо два послідовних значення відрізняються не більше, ніж на "
 "epsilon, або після maxn спроб (у цьому випадку повертає null)"
 
-#: ../lib/library-strings.c:266
+#: ../lib/library-strings.c:267
 msgid "Returns a set where every element of X appears only once"
 msgstr "Повертає набір, у якому кожен елемент X з'являється лише раз"
 
-#: ../lib/library-strings.c:267
+#: ../lib/library-strings.c:268
 msgid ""
 "Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
 "be sets)"
@@ -1444,7 +1464,7 @@ msgstr ""
 "Повертає набір теоретичного об'єднання X і Y (X і Y вектори, які претендують "
 "на те, щоб бути множинами)"
 
-#: ../lib/library-strings.c:268
+#: ../lib/library-strings.c:269
 msgid ""
 "For a Hilbert function that is c for degree d, given the Macaulay bound for "
 "the Hilbert function of degree d+1 (The c^<d> operator from Green's proof)"
@@ -1452,19 +1472,19 @@ msgstr ""
 "Для функції Гільберта, яка дорівнює c для порядку d, за заданою межею "
 "Маколея для функцією Гільберта порядку d+1 (оператор c^<d> з доведення Ґріна)"
 
-#: ../lib/library-strings.c:269
+#: ../lib/library-strings.c:270
 msgid "The c_<d> operator from Green's proof of Macaulay's Theorem"
 msgstr "Оператор c_<d> із доведення Ґріна теореми Маколея"
 
-#: ../lib/library-strings.c:270
+#: ../lib/library-strings.c:271
 msgid "Return the dth Macaulay representation of a positive integer c"
 msgstr "Повернути d-те представлення Маколея додатного цілого c"
 
-#: ../lib/library-strings.c:271
+#: ../lib/library-strings.c:272
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "Спробувати символічно диференціювати функцію n разів"
 
-#: ../lib/library-strings.c:272
+#: ../lib/library-strings.c:273
 msgid ""
 "Attempt to symbolically differentiate a function n times quietly and return "
 "null on failure"
@@ -1472,7 +1492,7 @@ msgstr ""
 "Спробувати символічно диференціювати функцію n разів без повідомлень — "
 "повернути null, якщо станеться помилка"
 
-#: ../lib/library-strings.c:273
+#: ../lib/library-strings.c:274
 msgid ""
 "Attempt to construct the Taylor approximation function around x0 to the nth "
 "degree."
@@ -1694,27 +1714,26 @@ msgstr ""
 "ПОМИЛКА: «local» не там, де слід — цей вираз може бути лише першою "
 "інструкцією у функції!"
 
-#: ../src/calc.c:3450
+#: ../src/calc.c:3449
 msgid "ERROR: Can't execute more things at once!"
 msgstr "ПОМИЛКА: не можна виконувати декілька речей одночасно!"
 
-#: ../src/calc.c:3557
+#: ../src/calc.c:3556
 #, c-format
 msgid "ERROR: %s before newline"
 msgstr "ПОМИЛКА: %s до символу нового рядка"
 
-#: ../src/calc.c:3559
+#: ../src/calc.c:3558
 #, c-format
 msgid "ERROR: %s at end of input"
 msgstr "ПОМИЛКА: %s наприкінці вхідних даних"
 
-#: ../src/calc.c:3566
+#: ../src/calc.c:3565
 #, c-format
 msgid "ERROR: %s before '%s'"
 msgstr "ПОМИЛКА: %s перед «%s»"
 
 #: ../src/calc.h:32
-#| msgid "Copyright (C) 1997-2021 Jiří (George) Lebl"
 msgid "Copyright (C) 1997-2026 Jiří (George) Lebl"
 msgstr "© Jiří (George) Lebl, 1997–2026"
 
@@ -2416,8 +2435,8 @@ msgstr "%s: аргумент прапорців має бути рядком"
 #, c-format
 msgid "%s: Cannot find NumericalIntegralSteps parameter, using 1000"
 msgstr ""
-"%s: не вдалося знайти параметр NumericalIntegralSteps, використовуємо"
-" значення 1000"
+"%s: не вдалося знайти параметр NumericalIntegralSteps, використовуємо "
+"значення 1000"
 
 #: ../src/funclib.c:6454 ../src/funclib.c:6460
 #, c-format
@@ -2425,8 +2444,8 @@ msgid ""
 "%s: Cannot read NumericalIntegralSteps parameter or it is not an integer, "
 "using 1000"
 msgstr ""
-"%s: не вдалося прочитати параметр NumericalIntegralSteps або параметр не є"
-" цілим числом, використовуємо значення 1000"
+"%s: не вдалося прочитати параметр NumericalIntegralSteps або параметр не є "
+"цілим числом, використовуємо значення 1000"
 
 #: ../src/funclib.c:6492 ../src/symbolic.c:734
 #, c-format
@@ -3399,10 +3418,6 @@ msgstr ""
 "натиснутої кнопки (або null, якщо сталася помилка)."
 
 #: ../src/funclib.c:7419
-#| msgid ""
-#| "Integration of f by Composite Simpson's Rule on the interval [a,b] with n "
-#| "subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should "
-#| "be even"
 msgid ""
 "Integration of f by Composite Simpson's Rule on the interval [a,b] with n "
 "subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be "
@@ -5956,3 +5971,9 @@ msgstr "_Ні"
 #: ../ve/ve-miscui.c:194
 msgid "_Yes"
 msgstr "_Так"
+
+#~ msgid "Tolerance for AdaptiveGaussKronrodRelativeTolerance"
+#~ msgstr "Допуск для AdaptiveGaussKronrodRelativeTolerance"
+
+#~ msgid "Steps to perform in NumericalIntegral"
+#~ msgstr "Кількість кроків у NumericalIntegral"
