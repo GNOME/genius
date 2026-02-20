@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: genius master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
-"POT-Creation-Date: 2026-02-19 11:33+0000\n"
-"PO-Revision-Date: 2026-02-19 21:44+0100\n"
+"POT-Creation-Date: 2026-02-20 00:11+0000\n"
+"PO-Revision-Date: 2026-02-20 11:51+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -49,18 +49,22 @@ msgid "Make a string"
 msgstr "Ustvari niz"
 
 #: ../lib/library-strings.c:5
-msgid "Tolerance for AdaptiveGaussKronrodAbsoluteTolerance"
-msgstr "Toleranca za AdaptiveGaussKronrodAbsoluteTolerance"
+msgid ""
+"Absolute tolerance for AdaptiveGaussKronrod, error should be less than this"
+msgstr ""
+"Absolutna oleranca za AdaptiveGaussKronrod, napaka mora biti manjša od te"
 
 #: ../lib/library-strings.c:6
-msgid ""
-"Maximum number of iterations to Tolerance to perform in NumericalIntegral"
-msgstr ""
-"Največje število iteracij do Tolerance za izvajanje v NumericalIntegral"
+msgid "Maximum number of iterations to perform in AdaptiveGaussKronrod"
+msgstr "Največje število iteracij za izvajanje v AdaptiveGaussKronrod"
 
 #: ../lib/library-strings.c:7
-msgid "Tolerance for AdaptiveGaussKronrodRelativeTolerance"
-msgstr "Toleranca za AdaptiveGaussKronrodRelativeTolerance"
+msgid ""
+"Relative tolerance for AdaptiveGaussKronrod, error should be less than this "
+"times the estimated value"
+msgstr ""
+"Relativna toleranca za AdaptiveGaussKronrod, napaka naj bo manjša od tega, "
+"pomnoženega z ocenjeno vrednostjo"
 
 #: ../lib/library-strings.c:8
 msgid "Tolerance of the Chop function"
@@ -120,8 +124,12 @@ msgstr ""
 "(privzeto je AdaptiveGaussKronrod)"
 
 #: ../lib/library-strings.c:18
-msgid "Steps to perform in NumericalIntegral"
-msgstr "Koraki za izračun numeričnega integrala (NumericalIntegral)"
+msgid ""
+"Default number of steps to perform in MidpointRule, TrapezoidRule, "
+"LeftHandRule, RightHandRule, and CompositeSimpsonsRule"
+msgstr ""
+"Privzeto število korakov za izvedbo v MidpointRule, TrapezRule, "
+"LeftHandRule, RightHandRule in CompositeSimpsonsRule"
 
 #: ../lib/library-strings.c:19
 msgid "How many iterations to try for InfiniteSum and InfiniteProduct"
@@ -930,15 +938,25 @@ msgstr "Izračunaj permutacije"
 msgid ""
 "Use adaptive composite Gauss-Kronrod (K15, G7) rule until error estimate is "
 "less than AdaptiveGaussKronrodAbsoluteTolerance and "
-"AdaptiveGaussKronrodRelativeTolerance up to "
+"AdaptiveGaussKronrodRelativeTolerance times the value up to "
 "AdaptiveGaussKronrodMaxIterations times, if unsuccessful returns null"
 msgstr ""
 "Uporabi adaptivno kompozitno pravilo Gauss-Kronrod (K15, G7), dokler ocena "
 "napake ni manjša od AdaptiveGaussKronrodAbsoluteTolerance in "
 "AdaptiveGaussKronrodRelativeTolerance vse do "
-"AdaptiveGaussKronrodMaxIterations-krat; če ni uspešno, vrne nič"
+"AdaptiveGaussKronrodMaxIterations-krat; če ni uspešno, vrne null."
 
 #: ../lib/library-strings.c:188
+msgid ""
+"Integration by Composite Simpson's Rule of function given as a vector of "
+"values on equally spaced subintervals over an interval of length len, data f "
+"should have 3 or more values"
+msgstr ""
+"Integracija po kompozitnem Simpsonovem pravilu funkcije, podana kot vektor "
+"vrednosti na enakomerno razporejenih podintervalih nad intervalom dolžine "
+"len, podatki f bi morali imeti 3 ali več vrednosti"
+
+#: ../lib/library-strings.c:189
 msgid ""
 "Integration of f by Composite Simpson's Rule on the interval [a,b] with the "
 "number of steps calculated by the fourth derivative bound and the desired "
@@ -948,13 +966,13 @@ msgstr ""
 "korakov, ki ga dobimo iz izračunane meje četrtega odvoda in znotraj "
 "dovoljenega odstopanja."
 
-#: ../lib/library-strings.c:189
+#: ../lib/library-strings.c:190
 msgid ""
 "Attempt to calculate derivative by trying first symbolically and then "
 "numerically"
 msgstr "Poskusi izračunati odvoda; naprej simbolno in nato numerično"
 
-#: ../lib/library-strings.c:190
+#: ../lib/library-strings.c:191
 msgid ""
 "Return a function which is the even periodic extension of f defined on the "
 "interval [0,L]"
@@ -962,7 +980,7 @@ msgstr ""
 "Vrni funkcijo, ki je soda periodična razširitev f, definiran na intervalu [0,"
 "L]"
 
-#: ../lib/library-strings.c:191
+#: ../lib/library-strings.c:192
 msgid ""
 "Return a function which is a Fourier series with the coefficients given by "
 "the vectors a (sines) and b (cosines).  Note that a@(1) is the constant "
@@ -971,7 +989,7 @@ msgstr ""
 "Vrni funkcijo, ki je Fourierjeva vrsta s koeficienti podanimi z vektorji a "
 "(sinusi) in b (kosinusi). Vektor a@(1) je konstantni koeficient!"
 
-#: ../lib/library-strings.c:192
+#: ../lib/library-strings.c:193
 msgid ""
 "Return the result of a single GaussKronrodRule (K15, G7), returns a vector "
 "with the estimate and the error estimate"
@@ -979,11 +997,11 @@ msgstr ""
 "Če vrnemo rezultat enega samega GaussKronrodRule (K15, G7), vrnemo vektor z "
 "oceno in oceno napake"
 
-#: ../lib/library-strings.c:193
+#: ../lib/library-strings.c:194
 msgid "Try to calculate an infinite product for a single parameter function"
 msgstr "Poskusi izračunati neskončni produkt za funkcijo z enim parametrom"
 
-#: ../lib/library-strings.c:194
+#: ../lib/library-strings.c:195
 msgid ""
 "Try to calculate an infinite product for a double parameter function with "
 "func(arg,n)"
@@ -991,11 +1009,11 @@ msgstr ""
 "Poskusi izračunati neskončni produkt za funkcijo z dvojnim parametrom s "
 "func(arg,n)"
 
-#: ../lib/library-strings.c:195
+#: ../lib/library-strings.c:196
 msgid "Try to calculate an infinite sum for a single parameter function"
 msgstr "Poskusi izračunati neskončno vsoto za funkcijo z dvojnim parametrom"
 
-#: ../lib/library-strings.c:196
+#: ../lib/library-strings.c:197
 msgid ""
 "Try to calculate an infinite sum for a double parameter function with "
 "func(arg,n)"
@@ -1004,7 +1022,7 @@ msgstr ""
 "n)Poskusi izračunati neskončno vsoto za funkcijo z dvojnim parametrom s "
 "func(arg,n)"
 
-#: ../lib/library-strings.c:197
+#: ../lib/library-strings.c:198
 msgid ""
 "Try and see if a real-valued function is continuous at x0 by calculating the "
 "limit there"
@@ -1012,7 +1030,7 @@ msgstr ""
 "Poskusi ali je funkcija realnih vrednosti zvezna v točki x0 z izračunom "
 "limite te točke"
 
-#: ../lib/library-strings.c:198
+#: ../lib/library-strings.c:199
 msgid ""
 "Test for differentiability by approximating the left and right limits and "
 "comparing"
@@ -1020,15 +1038,15 @@ msgstr ""
 "Preizkusi odvedljivost funkcije z oceno in primerjavo levih in desnih limit "
 "funkcije"
 
-#: ../lib/library-strings.c:199
+#: ../lib/library-strings.c:200
 msgid "Integration by left hand rule"
 msgstr "Integriranje z uporabo pravila leve strani"
 
-#: ../lib/library-strings.c:200
+#: ../lib/library-strings.c:201
 msgid "Calculate the left limit of a real-valued function at x0"
 msgstr "Izračunaj levo limito funkcije z realnimi vrednostmi v točki x0"
 
-#: ../lib/library-strings.c:201
+#: ../lib/library-strings.c:202
 msgid ""
 "Calculate the limit of a real-valued function at x0.  Tries to calculate "
 "both left and right limits."
@@ -1036,15 +1054,15 @@ msgstr ""
 "Izračunaj limito funkcije z realnimi vrednostmi v točki x0. Poskusi "
 "izračunati tako levo kot desno limito."
 
-#: ../lib/library-strings.c:202
+#: ../lib/library-strings.c:203
 msgid "Integration by midpoint rule"
 msgstr "Združevanje z uporabo pravila srednje točke"
 
-#: ../lib/library-strings.c:203
+#: ../lib/library-strings.c:204
 msgid "Attempt to calculate numerical derivative"
 msgstr "Poskusi izračunati numerični odvod"
 
-#: ../lib/library-strings.c:204
+#: ../lib/library-strings.c:205
 msgid ""
 "Numerically compute the coefficients for a cosine Fourier series for a "
 "function on [0,L] up to the Nth coefficient."
@@ -1052,7 +1070,7 @@ msgstr ""
 "Numerično izračunaj koeficiente Fouirerjeve kosinuse vrste za funkcijo na [0,"
 "L] do N-tega koeficienta."
 
-#: ../lib/library-strings.c:205
+#: ../lib/library-strings.c:206
 msgid ""
 "Return a function which is the Fourier cosine series of f on [0,L] with "
 "coefficients up to N computed numerically"
@@ -1060,7 +1078,7 @@ msgstr ""
 "Vrni funkcijo, ki je Fourierjeva kosinusna vrsta f na [0,L] z numerično "
 "izračunanimi koeficienti do vrednosti N"
 
-#: ../lib/library-strings.c:206
+#: ../lib/library-strings.c:207
 msgid ""
 "Numerically compute the coefficients for a Fourier series with half-period L "
 "up to the Nth coefficient."
@@ -1068,7 +1086,7 @@ msgstr ""
 "Numerično izračunaj koeficiente Fourierjeve vrste s pol-periodo L do N-tega "
 "koeficienta."
 
-#: ../lib/library-strings.c:207
+#: ../lib/library-strings.c:208
 msgid ""
 "Return a function which is the Fourier series of f with half-period L with "
 "coefficients up to N computed numerically"
@@ -1076,7 +1094,7 @@ msgstr ""
 "Vrni funkcijo, ki je Fourierjeva vrsta f s pol-periodo L z numerično "
 "izračunanimi koeficienti do vrednosti N"
 
-#: ../lib/library-strings.c:208
+#: ../lib/library-strings.c:209
 msgid ""
 "Numerically compute the coefficients for a sine Fourier series for a "
 "function on [0,L] up to the Nth coefficient."
@@ -1084,7 +1102,7 @@ msgstr ""
 "Numerično izračunaj koeficiente sinusne Fourierjeve vrste za funkcijo na [0, "
 "L] do N-tega koeficienta."
 
-#: ../lib/library-strings.c:209
+#: ../lib/library-strings.c:210
 msgid ""
 "Return a function which is the Fourier sine series of f on [0,L] with "
 "coefficients up to N computed numerically"
@@ -1092,24 +1110,24 @@ msgstr ""
 "Vrni funkcijo, ki je Fourierjeva sinusna vrsta f na [0, L] z numerično "
 "izračunanimi koeficienti do vrednosti N."
 
-#: ../lib/library-strings.c:210
+#: ../lib/library-strings.c:211
 msgid "Integration by rule set in NumericalIntegralFunction of f from a to b"
 msgstr ""
 "Integriranje po naboru pravil v NumericalIntegralFunction od f, od a do b"
 
-#: ../lib/library-strings.c:211
+#: ../lib/library-strings.c:212
 msgid "Attempt to calculate numerical left derivative"
 msgstr "Poskusi izračunati levi numerični odvod"
 
-#: ../lib/library-strings.c:212
+#: ../lib/library-strings.c:213
 msgid "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N"
 msgstr "Poskusi izračunati limito funkcije f(step_fun(i)), ko gre i od 1 do N"
 
-#: ../lib/library-strings.c:213
+#: ../lib/library-strings.c:214
 msgid "Attempt to calculate numerical right derivative"
 msgstr "Poskusi izračunati desni numerični odvod"
 
-#: ../lib/library-strings.c:214
+#: ../lib/library-strings.c:215
 msgid ""
 "Return a function which is the odd periodic extension of f defined on the "
 "interval [0,L]"
@@ -1117,83 +1135,83 @@ msgstr ""
 "Vrni funkcijo, ki je liha periodična razširitev f definiran na intervalu [0, "
 "L]"
 
-#: ../lib/library-strings.c:215
+#: ../lib/library-strings.c:216
 msgid "Compute one-sided derivative using five point formula"
 msgstr "Izračunaj enostranski odvod skozi pet točk"
 
-#: ../lib/library-strings.c:216
+#: ../lib/library-strings.c:217
 msgid "Compute one-sided derivative using three-point formula"
 msgstr "Izračunaj enostranski odvod skozi tri točke"
 
-#: ../lib/library-strings.c:217
+#: ../lib/library-strings.c:218
 msgid ""
 "Return a function which is the periodic extension of f defined on the "
 "interval [a,b]"
 msgstr ""
 "Vrni funkcijo, ki je periodična razširitev f, definiranega na intervalu [a,b]"
 
-#: ../lib/library-strings.c:218
+#: ../lib/library-strings.c:219
 msgid "Integration by right hand rule"
 msgstr "Integriranje z uporabo pravila desne strani"
 
-#: ../lib/library-strings.c:219
+#: ../lib/library-strings.c:220
 msgid "Calculate the right limit of a real-valued function at x0"
 msgstr "Izračunaj desno limito funkcije realne vrednosti pri x0"
 
-#: ../lib/library-strings.c:220
+#: ../lib/library-strings.c:221
 msgid "Integration by trapezoid rule"
 msgstr "Integriranje s trapeznim pravilom"
 
-#: ../lib/library-strings.c:221
+#: ../lib/library-strings.c:222
 msgid "Compute two-sided derivative using five-point formula"
 msgstr "Izračunaj dvostranski odvod skozi pet točk"
 
-#: ../lib/library-strings.c:222
+#: ../lib/library-strings.c:223
 msgid "Compute two-sided derivative using three-point formula"
 msgstr "Izračunaj dvostranski odvod z uporabo formule treh točk"
 
-#: ../lib/library-strings.c:223
+#: ../lib/library-strings.c:224
 msgid "argument (angle) of complex number"
 msgstr "argument (kot) kompleksnega števila"
 
-#: ../lib/library-strings.c:224
+#: ../lib/library-strings.c:225
 msgid "Dirichlet kernel of order n"
 msgstr "Dirichletovo jedro reda n"
 
-#: ../lib/library-strings.c:225
+#: ../lib/library-strings.c:226
 msgid "Returns 1 if and only if all elements are zero"
 msgstr "Vrne 1, če so vsi predmeti vrednosti 0"
 
-#: ../lib/library-strings.c:226
+#: ../lib/library-strings.c:227
 msgid "Fejer kernel of order n"
 msgstr "Fejerjevo jedro reda n"
 
-#: ../lib/library-strings.c:227
+#: ../lib/library-strings.c:228
 msgid "Returns 1 if and only if all elements are equal"
 msgstr "Vrne vrednost 1, če so vsi predmeti enaki"
 
-#: ../lib/library-strings.c:228
+#: ../lib/library-strings.c:229
 msgid ""
 "Principal branch of the Lambert W function for real values greater than or "
 "equal to -1/e"
 msgstr ""
 "Glavna veja Lambertove funkcije W za realne vrednosti, večje ali enake -1/e"
 
-#: ../lib/library-strings.c:229
+#: ../lib/library-strings.c:230
 msgid ""
 "The minus-one branch of the Lambert W function for real values between -1/e "
 "and 0"
 msgstr "Minus-ena veja Lambertove funkcije W za realne vrednosti med -1/e in 0"
 
-#: ../lib/library-strings.c:230
+#: ../lib/library-strings.c:231
 msgid "Find the first value where f(x)=0"
 msgstr "Poišči prvo vrednost, kjer je f(x)=0"
 
-#: ../lib/library-strings.c:231
+#: ../lib/library-strings.c:232
 msgid "Moebius mapping of the disk to itself mapping a to 0"
 msgstr "Möbiusova preslikava diska nase, ki a preslika v 0 "
 
-#: ../lib/library-strings.c:232
+#: ../lib/library-strings.c:233
 msgid ""
 "Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity "
 "respectively"
@@ -1201,7 +1219,7 @@ msgstr ""
 "Möbiusova preslikava z uporabo dvorazmerja, ki z2, z3, z4 preslika v 1,0 in "
 "neskončno"
 
-#: ../lib/library-strings.c:233
+#: ../lib/library-strings.c:234
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 "
 "to 1 and 0 respectively"
@@ -1209,7 +1227,7 @@ msgstr ""
 "Möbiusova preslikava z uporabo  dvorazmerja, ki neskončno preslika v "
 "neskončno in z2, z3 v 1 in 0"
 
-#: ../lib/library-strings.c:234
+#: ../lib/library-strings.c:235
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 "
 "and infinity respectively"
@@ -1218,7 +1236,7 @@ msgstr ""
 "z4 v 0 in neskončno "
 
 # mapping - preslikava
-#: ../lib/library-strings.c:235
+#: ../lib/library-strings.c:236
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 "
 "and infinity respectively"
@@ -1226,7 +1244,7 @@ msgstr ""
 "Möbiusova preslikava z uporabo dvorazmerja, ki neskončno preslika v 0 in z2, "
 "z4 v 1 in neskončno "
 
-#: ../lib/library-strings.c:236
+#: ../lib/library-strings.c:237
 msgid ""
 "Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is "
 "2pi)"
@@ -1234,11 +1252,11 @@ msgstr ""
 "Poisonnovo jedro na D(0,1) (točka ni normalizirana na 1, integral tega je "
 "2pi)"
 
-#: ../lib/library-strings.c:237
+#: ../lib/library-strings.c:238
 msgid "Poisson kernel on D(0,R) (not normalized to 1)"
 msgstr "Poissonovo jedro na D(0,R) (točka ni normalizirana na 1)"
 
-#: ../lib/library-strings.c:238
+#: ../lib/library-strings.c:239
 msgid ""
 "The unit step function = 0 for x<0, 1 otherwise.  This is the integral of "
 "the Dirac Delta function."
@@ -1246,23 +1264,23 @@ msgstr ""
 "Enotska koračna funkcija = 0 za x<0, 1 sicer. To je integral Diracove "
 "funkcije delta. "
 
-#: ../lib/library-strings.c:239
+#: ../lib/library-strings.c:240
 msgid "The cis function, that is cos(x)+i*sin(x)"
 msgstr "Funkcija cis, oziroma cos(x)+i*sin(x)"
 
-#: ../lib/library-strings.c:240
+#: ../lib/library-strings.c:241
 msgid "Convert degrees to radians"
 msgstr "Pretvori stopinje v radiane"
 
-#: ../lib/library-strings.c:241
+#: ../lib/library-strings.c:242
 msgid "Convert radians to degrees"
 msgstr "Pretvori radiane v stopinje"
 
-#: ../lib/library-strings.c:242
+#: ../lib/library-strings.c:243
 msgid "Find roots of a cubic polynomial (given as vector of coefficients)"
 msgstr "Poišči ničle kubičnega polinoma (podanega kot vektor koeficientov)"
 
-#: ../lib/library-strings.c:243
+#: ../lib/library-strings.c:244
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns y at x1"
@@ -1270,7 +1288,7 @@ msgstr ""
 "Uporabi Eulerjevo metodo za numerično razrešitev y'=f(x,y) za začetna x0, y0 "
 "do x1 z n koraki povečav in vrni  y pri x1"
 
-#: ../lib/library-strings.c:244
+#: ../lib/library-strings.c:245
 msgid ""
 "Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
 "y0 going to x1 with n increments, returns an n+1 by 2 matrix of values"
@@ -1278,7 +1296,7 @@ msgstr ""
 "Uporabi Eulerjevo metodo za numerično razrešitev y'=f(x,y) za začetna x0, y0 "
 "do x1 z n koraki povečav in vrni matriko n+1x2 matriko vrednosti"
 
-#: ../lib/library-strings.c:245
+#: ../lib/library-strings.c:246
 msgid ""
 "Find root of a function using the bisection method to within TOL tolerance "
 "in up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1286,7 +1304,7 @@ msgstr ""
 "Poišči ničlo funkcije z uporabo metode bisekcije znotraj odstopanja TOL v do "
 "N iteracijah. Vrednosti f(a) in f(b) morata imeti različna predznaka."
 
-#: ../lib/library-strings.c:246
+#: ../lib/library-strings.c:247
 msgid ""
 "Find root of a function using the method of false position to within TOL "
 "tolerance in up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1295,11 +1313,11 @@ msgstr ""
 "TOL v do N iteracijah. Vrednosti f(a) in f(b) morata imeti različna "
 "predznaka."
 
-#: ../lib/library-strings.c:247
+#: ../lib/library-strings.c:248
 msgid "Find root of a function using the Muller's method"
 msgstr "Poišči ničlo funkcije z uporabo Mullerjeve metode"
 
-#: ../lib/library-strings.c:248
+#: ../lib/library-strings.c:249
 msgid ""
 "Find root of a function using the secant method to within TOL tolerance in "
 "up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1307,7 +1325,7 @@ msgstr ""
 "Poišči ničlo funkcije z uporabo metode sekante znotraj odstopanja TOL v do N "
 "iteracijah. Vrednosti f(a) in f(b) morata imeti različna predznaka."
 
-#: ../lib/library-strings.c:249
+#: ../lib/library-strings.c:250
 msgid ""
 "Attempt to find a zero of a function f with derivative df and second "
 "derivative ddf using Halley's method, returning after two successive values "
@@ -1317,7 +1335,7 @@ msgstr ""
 "uporabo Halleyjeve metode, ki vrne rezultat, ko sta dve zaporedni vrednosti "
 "znotraj epsilona ali po največjem številu poskusov (nato vrne nič)"
 
-#: ../lib/library-strings.c:250
+#: ../lib/library-strings.c:251
 msgid ""
 "Attempt to find a zero of a function f with derivative df using Newton's "
 "method, returning after two successive values are within epsilon or after "
@@ -1328,15 +1346,15 @@ msgstr ""
 "kot epsilon ali po največjem številu poskusov (v tem primeru vrne prazno "
 "vrednost)"
 
-#: ../lib/library-strings.c:251
+#: ../lib/library-strings.c:252
 msgid "Find roots of a polynomial (given as vector of coefficients)"
 msgstr "Poišči ničle polinoma (podanega kot vektor koeficientov)"
 
-#: ../lib/library-strings.c:252
+#: ../lib/library-strings.c:253
 msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
 msgstr "Poišči ničle polnima četrtega reda (podan kot vektor koeficientov)"
 
-#: ../lib/library-strings.c:253
+#: ../lib/library-strings.c:254
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
@@ -1346,7 +1364,7 @@ msgstr ""
 "numerično reševanje enačbe y'=f(x,y) za začetna x0,y0 na intervalu [x0, x1] "
 "z n podintervali in vrni vrednost y pri x1"
 
-#: ../lib/library-strings.c:254
+#: ../lib/library-strings.c:255
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an n"
@@ -1356,37 +1374,37 @@ msgstr ""
 "numerično reševanje enačbe y'=f(x,y) za začetna x0,y0 na intervalu [x0, x1] "
 "z n podintervali in vrni matriko vrednosti reda n+1 x 2"
 
-#: ../lib/library-strings.c:255
+#: ../lib/library-strings.c:256
 msgid "Calculate average of an entire matrix"
 msgstr "Izračun povprečja celotne matrike"
 
-#: ../lib/library-strings.c:256
+#: ../lib/library-strings.c:257
 msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 msgstr ""
 "Integral Gaussove funkcije v območju od 0 do x (področje pod normalno "
 "krivuljo)"
 
-#: ../lib/library-strings.c:257
+#: ../lib/library-strings.c:258
 msgid "The normalized Gauss distribution function (the normal curve)"
 msgstr "Normalizirana Gaussova funkcija distribucije (normalna krivulja)"
 
-#: ../lib/library-strings.c:258
+#: ../lib/library-strings.c:259
 msgid "Calculate median of an entire matrix"
 msgstr "Izračun mediane celotne matrike"
 
-#: ../lib/library-strings.c:259
+#: ../lib/library-strings.c:260
 msgid "Calculate the population standard deviation of a whole matrix"
 msgstr "Izračun standardnega odklona populacije celotne matrike"
 
-#: ../lib/library-strings.c:260
+#: ../lib/library-strings.c:261
 msgid "Calculate average of each row in a matrix"
 msgstr "Izračun povprečja vsake vrstice v matriki"
 
-#: ../lib/library-strings.c:261
+#: ../lib/library-strings.c:262
 msgid "Calculate median of each row in a matrix"
 msgstr "Izračun mediane vsake vrstice v matriki"
 
-#: ../lib/library-strings.c:262
+#: ../lib/library-strings.c:263
 msgid ""
 "Calculate the population standard deviations of rows of a matrix and return "
 "a vertical vector"
@@ -1394,17 +1412,17 @@ msgstr ""
 "Izračunaj standardne odklone populacije vrstic matrike in vrni navpični "
 "vektor"
 
-#: ../lib/library-strings.c:263
+#: ../lib/library-strings.c:264
 msgid ""
 "Calculate the standard deviations of rows of a matrix and return a vertical "
 "vector"
 msgstr "Izračunaj standardne odklone vrstic matrike in vrni navpični vektor"
 
-#: ../lib/library-strings.c:264
+#: ../lib/library-strings.c:265
 msgid "Calculate the standard deviation of a whole matrix"
 msgstr "Izračunaj standardni odklon celotne matrike"
 
-#: ../lib/library-strings.c:265
+#: ../lib/library-strings.c:266
 msgid ""
 "Attempt to find a root of a polynomial using Newton's method, returning "
 "after two successive values are within epsilon or after maxn tries (then "
@@ -1414,11 +1432,11 @@ msgstr ""
 "rezultat, ko se dve zaporedni vrednosti razlikujeta za manj kot epsilon ali "
 "po največjem številu poskusov (v tem primeru vrne prazno vrednost)"
 
-#: ../lib/library-strings.c:266
+#: ../lib/library-strings.c:267
 msgid "Returns a set where every element of X appears only once"
 msgstr "Vrne set podatkov, kjer se vsak predmet X pojavi le enkrat"
 
-#: ../lib/library-strings.c:267
+#: ../lib/library-strings.c:268
 msgid ""
 "Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
 "be sets)"
@@ -1426,7 +1444,7 @@ msgstr ""
 "Vrni teoretično unijo množic X in Y (X in Y sta vektorja, opredeljena kot "
 "množici)"
 
-#: ../lib/library-strings.c:268
+#: ../lib/library-strings.c:269
 msgid ""
 "For a Hilbert function that is c for degree d, given the Macaulay bound for "
 "the Hilbert function of degree d+1 (The c^<d> operator from Green's proof)"
@@ -1434,19 +1452,19 @@ msgstr ""
 "Za Hilbertovo funkcijo, ki je c za stopnjo d, pri dani Macaulayjevi zgornji "
 "meji za Hilbertovo funkcijo stopnje d+1 (operator c^<d> iz Greenovega dokaza)"
 
-#: ../lib/library-strings.c:269
+#: ../lib/library-strings.c:270
 msgid "The c_<d> operator from Green's proof of Macaulay's Theorem"
 msgstr "Operator c_<d> Greenovega dokaza Macaulayjevega izreka"
 
-#: ../lib/library-strings.c:270
+#: ../lib/library-strings.c:271
 msgid "Return the dth Macaulay representation of a positive integer c"
 msgstr "Vrni d-to Macaulayjevo predstavitev pozitivnega celega števila c"
 
-#: ../lib/library-strings.c:271
+#: ../lib/library-strings.c:272
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "Poskusi simbolno odvajati funkcije n-krat"
 
-#: ../lib/library-strings.c:272
+#: ../lib/library-strings.c:273
 msgid ""
 "Attempt to symbolically differentiate a function n times quietly and return "
 "null on failure"
@@ -1454,7 +1472,7 @@ msgstr ""
 "Poskusi simbolno odvajati funkcijo n-krat tiho in vrani prazno vrednost ob "
 "neuspešnem odvodu"
 
-#: ../lib/library-strings.c:273
+#: ../lib/library-strings.c:274
 msgid ""
 "Attempt to construct the Taylor approximation function around x0 to the nth "
 "degree."
@@ -1674,21 +1692,21 @@ msgstr ""
 "NAPAKA: možnost 'local' je na napačnem mestu, saj je lahko le prva izjava v "
 "funkciji!"
 
-#: ../src/calc.c:3450
+#: ../src/calc.c:3449
 msgid "ERROR: Can't execute more things at once!"
 msgstr "NAPAKA: ni mogoče izvesti več stvari hkrati!"
 
-#: ../src/calc.c:3557
+#: ../src/calc.c:3556
 #, c-format
 msgid "ERROR: %s before newline"
 msgstr "NAPAKA: %s je pred novo vrstico"
 
-#: ../src/calc.c:3559
+#: ../src/calc.c:3558
 #, c-format
 msgid "ERROR: %s at end of input"
 msgstr "NAPAKA: %s je na koncu dovoda"
 
-#: ../src/calc.c:3566
+#: ../src/calc.c:3565
 #, c-format
 msgid "ERROR: %s before '%s'"
 msgstr "NAPAKA: %s je pred '%s'"
