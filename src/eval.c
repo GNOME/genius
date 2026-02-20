@@ -7203,18 +7203,19 @@ iter_operator_pre(GelCtx *ctx)
 			GelETree *t;
 			GelEFunc *rf;
 
+			/* If doesn't exist, make it and set it to null */
+			t = n->op.args;
+			rf = d_lookup_local (t->id.id);
+			if (rf == NULL) {
+				d_addfunc (d_makevfunc (t->id.id, 
+							gel_makenum_null ()));
+			}
+
 			if (ctx->whackarg) {
 				ctx->current = NULL;
 				gel_freetree (n);
 			}
 
-			/* If doesn't exist, make it and set it to null */
-			t = n->op.args;
-			rf = d_lookup_global (t->id.id);
-			if (rf == NULL) {
-				d_addfunc (d_makevfunc (t->id.id, 
-							gel_makenum_null ()));
-			}
 
 			iter_pop_stack(ctx);
 			break;

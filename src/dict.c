@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2011 Jiri (George) Lebl
+ * Copyright (C) 1997-2026 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -435,7 +435,8 @@ d_lookup_local(GelToken *id) /* PURE! no side effects*/
 	return func;
 }
 
-/*lookup a function in the dictionary NOT in the current context*/
+/*lookup a function in the dictionary NOT in the current context,
+ * allowing locals in the one up context. */
 GelEFunc *
 d_lookup_global_up1(GelToken *id)/* PURE! no side effects*/
 {
@@ -448,7 +449,8 @@ d_lookup_global_up1(GelToken *id)/* PURE! no side effects*/
 	li = id->refs;
 	do {
 		GelEFunc *f = li->data;
-		if ( ! f->is_local && f->context < context.top) {
+		if ( ( ! f->is_local && f->context < context.top) ||
+		     f->context == context.top-1 ) {
 			return f;
 		}
 		li = li->next;
@@ -485,7 +487,7 @@ GelEFunc *
 d_lookup_global (GelToken *id)/* PURE! no side effects*/
 {
 	GSList *li;
-	
+
 	if G_UNLIKELY (id == NULL || id->refs == NULL)
 		return NULL;
 

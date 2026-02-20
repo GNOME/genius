@@ -7,6 +7,11 @@ Changes to 1.0.28
   as -(<number>^n) as it should be.  So -1^2 is now -1 as is only reasonable.
   Not sure what originally possesed me to parse it as it did, but it recently
   bit me because it makes no sense whatsoever.
+* Fix referencing of true local variables so that local variables can be
+  used as returns through the argument list.
+* When first refering to a variable, only search the local context, otherwise
+  we might be by mistake referring to an unrelated variable in the calling
+  function or global.
 * Add midpoint, trapezoid, and left-hand rule graphical examples showing
   the rectangles.
 * Improve the Euler method exponential example
@@ -14,8 +19,9 @@ Changes to 1.0.28
 * Allow graphing of constants (functions with no arguments)
 * Add CompositeSimpsonsRuleData, TrapezoidRule, LeftHandRule, RightHandRule
   functions
+* Argument now complains when given 0
 * Fix a few compile warnings
-* Few minor bug fixes
+* Few minor bug fixes and fix some crashes
 
 Changes to 1.0.27
 

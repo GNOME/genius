@@ -1,3 +1,17 @@
+Fri Feb 20 17:30:26 2026  Jiri (George) Lebl <jiri.lebl@gmail.com>
+
+	* src/dict.[ch], src/eval.c: Fix a crash on referencing, fix referencing
+	  true local variables, and make sure to define a local variable on
+	  reference if no local variable is defined, so that we don't
+	  reference global variables by mistake.
+	
+	* src/geniustests.txt: add tests for the fixes above.
+	
+	* lib/functions/complex_numbers.gel: Argument should complain when
+	  given 0 rather than just quietly returning null.
+	
+	* help/C/genius.xml: Add more info to the manual.
+
 Fri Feb 20 14:34:19 2026  Jiri (George) Lebl <jiri.lebl@gmail.com>
 
 	* lib/calculus/integrals.gel: Add a version of the Adaptive

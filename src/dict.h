@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2009 Jiri (George) Lebl
+ * Copyright (C) 1997-2026 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -84,6 +84,7 @@ void d_set_ref(GelEFunc *n,GelEFunc *ref);
   current context otherwise*/
 /*lookup a function in the dictionary in the current context*/
 GelEFunc * d_lookup_local(GelToken *id) G_GNUC_PURE;
+/* lookup a function in the calling context (including locals there) */
 GelEFunc * d_lookup_global_up1(GelToken *id) G_GNUC_PURE;
 GelEFunc * d_lookup_only_global (GelToken *id) G_GNUC_PURE;
 /*lookup a function in the dictionary, if there are more return the one in the

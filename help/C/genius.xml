@@ -2305,6 +2305,33 @@ t=&f;
 ]]></programlisting>
 gives us 4.
       </para>
+      <para>The first time a variable is referenced, it is created in the current
+      context unless it exists.  So if we make a function that sets the variable to 2,
+      such as
+      <userinput>function f(k) = (*k=2)</userinput>, then the
+      call 
+      <userinput>f(&amp;n)</userinput> will declare a new variable <varname>n</varname>
+      then the function
+      <function>f</function> will run and set it to 2.  So there is
+      no need to write something like
+      <userinput>n=0;f(&amp;n)</userinput>.  A new variable in the current
+      context is created even if a
+      variable exists in a higher context, such as in the global context.
+      So for example after
+      <programlisting><![CDATA[n=3;
+function f(k) = (*k=2);
+function g() = (f(&n);print(n));
+g();
+]]></programlisting>
+      the variable <varname>n</varname> is still 3 and not 2.  That is because inside
+      <function>g</function>, when <varname>n</varname> is referenced, it is a new
+      variable in the context of <function>g</function>.  The function
+      <function>f</function> then sets this <varname>n</varname> to 2,
+      and then 2 is printed, but the <varname>n</varname> in the global context
+      is not touched.  So we can use references to get values out of functions and
+      we do not need to explicitly declare them, nor do we have to worry about messing up
+      global variables that the user might be using for something else.
+      </para>
     </sect1>
 
     <sect1 id="genius-gel-lvalues">

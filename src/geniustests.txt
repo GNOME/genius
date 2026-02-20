@@ -1345,6 +1345,14 @@ string(55)							"55"
 |AdaptiveGaussKronrod(sin,0,pi)-2.0| < 1e-12			true
 |AdaptiveGaussKronrod(sin,-pi,pi)| < 1e-12			true
 |AdaptiveGaussKronrod(exp,0,1)-(exp(1)-exp(0))| < 1e-12		true
+n=1;function f()=(k=&n;*k=2);f();n				1
+n=1;function f()=(n=0;k=&n;*k=2);f();n				1
+n=1;function f(k)=(*k=2);function g()=(f(&n));g();n		1
+function f(k)=(*k=2);function g()=(f(&n);n);g()			2
+function f(k)=(*k=2);function g()=(n=0;f(&n);n);g()		2
+function f(k)=(*k=2);function g()=(local *;f(&n);n);g()		2
+function f(k)=(*k=2);function g()=(local *;n=0;f(&n);n);g()	2
+(function f()=(&n;&k));f()					(&k)
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
 load "testprec.gel"						true
