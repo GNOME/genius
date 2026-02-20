@@ -2120,7 +2120,7 @@ gtk_plot_canvas_get_preferred_height (GtkWidget *widget, gint *min, gint *nat)
 
   canvas = GTK_PLOT_CANVAS (widget);
 
-  GTK_WIDGET_CLASS (parent_class)->get_preferred_width (widget, min, nat);
+  GTK_WIDGET_CLASS (parent_class)->get_preferred_height (widget, min, nat);
 
   *min = MAX (canvas->pixmap_height, *min);
   *nat = MAX (canvas->pixmap_height, *nat);
