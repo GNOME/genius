@@ -1353,6 +1353,7 @@ function f(k)=(*k=2);function g()=(n=0;f(&n);n);g()		2
 function f(k)=(*k=2);function g()=(local *;f(&n);n);g()		2
 function f(k)=(*k=2);function g()=(local *;n=0;f(&n);n);g()	2
 (function f()=(&n;&k));f()					(&k)
+function f(k)=(*k=2);function g(j)=(f(j));function h()=(g(&n);n);h()	2
 load "nullspacetest.gel"					true
 load "longtest.gel"						true
 load "testprec.gel"						true

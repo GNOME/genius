@@ -198,7 +198,7 @@ expr:		expr SEPAR expr		{ PUSH_ACT(GEL_E_SEPAR); }
 				if (gel_parsestack != NULL)
 					t = gel_parsestack->data;
 				/* no need to wait till evaluation */
-				if (t->type == GEL_VALUE_NODE) {
+				if (t != NULL && t->type == GEL_VALUE_NODE) {
 					mpw_neg(t->val.value,t->val.value);
 				} else {
 					PUSH_ACT(GEL_E_NEG);

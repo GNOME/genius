@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2017 Jiri (George) Lebl
+ * Copyright (C) 1997-2026 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -5516,16 +5516,15 @@ mpw_set_str(mpw_ptr rop,const char *s,int base)
 	char *d;
 	char *ptrptr = NULL;
 	mpw_t tmp;
-	p = strchr(s,' ');
-	if(!p) {
-		mpw_set_str_one(rop,s,base);
+	if (strchr(s,' ') == NULL) {
+		mpw_set_str_one (rop, s, base);
 		return;
 	}
 	mpw_init(tmp);
 	mpw_set_ui(rop,0);
 	d = g_strdup(s);
 	p = strtok_r (d, " ", &ptrptr);
-	while(p) {
+	while (p != NULL) {
 		mpw_set_str_one(tmp,p,base);
 		mpw_add(rop,rop,tmp);
 		p = strtok_r (NULL, " ", &ptrptr);
