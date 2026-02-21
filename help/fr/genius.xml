@@ -2,16 +2,16 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 <!ENTITY app "<application>Genius Mathematics Tool</application>">
 <!ENTITY appname "Genius">
-<!ENTITY appversion "1.0.27">
-<!ENTITY date "October 2021">
+<!ENTITY appversion "1.0.28">
+<!ENTITY date "February 2026">
 <!ENTITY legal SYSTEM "legal.xml">
-<!ENTITY manrevision "0.2">
-<!ENTITY lt "&#60;">
-<!ENTITY gt "&#62;">
-<!ENTITY le "&#8804;">
-<!ENTITY ge "&#8805;">
-<!ENTITY lsquo "&#8216;">
-<!ENTITY rsquo "&#8217;">
+<!ENTITY manrevision "0.3">
+<!ENTITY lt "&#38;#60;">
+<!ENTITY gt "&#38;#62;">
+<!ENTITY le "&#38;#8804;">
+<!ENTITY ge "&#38;#8805;">
+<!ENTITY lsquo "&#38;#8216;">
+<!ENTITY rsquo "&#38;#8217;">
 <!--<!ENTITY gel-function-list SYSTEM "gel-function-list.xml">-->]>
 <!-- 
       (Do not remove this comment block.)
@@ -29,7 +29,7 @@
     <title>Manuel de Genius</title>       
 
     <copyright lang="en">
-      <year>1997-2021</year>
+      <year>1997-2026</year>
       <holder>Jiří (George) Lebl</holder>
     </copyright>
     <copyright lang="en">
@@ -189,8 +189,8 @@
 
     <revhistory>
       <revision lang="en"> 
-		<revnumber>0.2</revnumber> 
-		<date>October 2021</date> 
+		<revnumber>0.3</revnumber> 
+		<date>February 2026</date> 
 		<revdescription> 
 	  		<para role="author" lang="en">Jiri (George) Lebl
 	    	<email>jiri.lebl@gmail.com</email>
@@ -198,7 +198,7 @@
 		</revdescription> 
       </revision> 
     </revhistory>
-    <releaseinfo lang="en">This manual describes version 1.0.27 of Genius.
+    <releaseinfo lang="en">This manual describes version 1.0.28 of Genius.
     </releaseinfo> 
     <legalnotice> 
       <title>Votre avis</title> 
@@ -1691,7 +1691,13 @@ The comparison operators (except for the &lt;=&gt; operator, which behaves norma
 </note>
 
 <note>
-<para>L'opérateur unitaire « moins » agit de manière différente en fonction de l'endroit où il apparaît. S'il apparaît devant un nombre, il est très prioritaire, s'il apparaît devant une expression, il est moins prioritaire que les opérateurs puissance et factoriel. Par exemple, <userinput>-1^k</userinput> est bien <userinput>(-1)^k</userinput>, mais <userinput>-foo(1)^k</userinput> est bien <userinput>-(foo(1)^k)</userinput>. En conséquence, faites attention à son utilisation et, en cas de doute, ajoutez des parenthèses.</para>
+<para lang="en">
+Note that the unary minus operator binds less closely than the exponential, so
+<userinput>-1^k</userinput> is really <userinput>-(1)^k</userinput>.  If you want
+<userinput>(-1)^k</userinput> you need the parentheses.  Older versions of genius used
+to parse <userinput>-1^k</userinput> specially, but this was not reasonable and was removed in
+1.0.28.  So if in doubt, add parentheses.
+</para>
 </note>
     </sect1>
 
@@ -2025,6 +2031,33 @@ t=&f;
 *t(3)
 ]]></programlisting>
 gives us 4.
+      </para>
+      <para lang="en">The first time a variable is referenced, it is created in the current
+      context unless it exists.  So if we make a function that sets the variable to 2,
+      such as
+      <userinput>function f(k) = (*k=2)</userinput>, then the
+      call 
+      <userinput>f(&amp;n)</userinput> will declare a new variable <varname>n</varname>
+      then the function
+      <function>f</function> will run and set it to 2.  So there is
+      no need to write something like
+      <userinput>n=0;f(&amp;n)</userinput>.  A new variable in the current
+      context is created even if a
+      variable exists in a higher context, such as in the global context.
+      So for example after
+      <programlisting lang="en"><![CDATA[n=3;
+function f(k) = (*k=2);
+function g() = (f(&n);print(n));
+g();
+]]></programlisting>
+      the variable <varname>n</varname> is still 3 and not 2.  That is because inside
+      <function>g</function>, when <varname>n</varname> is referenced, it is a new
+      variable in the context of <function>g</function>.  The function
+      <function>f</function> then sets this <varname>n</varname> to 2,
+      and then 2 is printed, but the <varname>n</varname> in the global context
+      is not touched.  So we can use references to get values out of functions and
+      we do not need to explicitly declare them, nor do we have to worry about messing up
+      global variables that the user might be using for something else.
       </para>
     </sect1>
 
@@ -3092,6 +3125,42 @@ is blocked until the user responds.  If <varname>default</varname> is given, the
       <title>Paramètres</title>
       <variablelist>
         <varlistentry>
+         <term lang="en"><anchor id="gel-function-AdaptiveGaussKronrodAbsoluteTolerance"/>AdaptiveGaussKronrodAbsoluteTolerance</term>
+         <listitem>
+          <synopsis lang="en">AdaptiveGaussKronrodAbsoluteTolerance = 1e-12</synopsis>
+	  <para lang="en">The absolute tolerance bound used in 
+	  <link linkend="gel-function-AdaptiveGaussKronrod"><function>AdaptiveGaussKronrod</function></link> function which is the default algorithm for
+	  <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.  The algorithm runs until the error
+	  is less than the maximum of the absolute tolerance and the relative tolerance times the integral approximation.</para>
+	  <para lang="en">Version 1.0.28 onwards.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term lang="en"><anchor id="gel-function-AdaptiveGaussKronrodMaxIterations"/>AdaptiveGaussKronrodMaxIterations</term>
+         <listitem>
+          <synopsis lang="en">AdaptiveGaussKronrodMaxIterations = 10000</synopsis>
+	  <para lang="en">The maximal number of iterations used in the 
+	  <link linkend="gel-function-AdaptiveGaussKronrod"><function>AdaptiveGaussKronrod</function></link> function which is the default algorithm for
+	  <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.  After this limit is reached, an error is printed
+	  and null is returned.</para>
+	  <para lang="en">Version 1.0.28 onwards.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term lang="en"><anchor id="gel-function-AdaptiveGaussKronrodRelativeTolerance"/>AdaptiveGaussKronrodRelativeTolerance</term>
+         <listitem>
+          <synopsis lang="en">AdaptiveGaussKronrodRelativeTolerance = 1e-12</synopsis>
+	  <para lang="en">The relative tolerance bound used in 
+	  <link linkend="gel-function-AdaptiveGaussKronrod"><function>AdaptiveGaussKronrod</function></link> function which is the default algorithm for
+	  <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.  The algorithm runs until the error
+	  is less than the maximum of the absolute tolerance and the relative tolerance times the integral approximation.</para>
+	  <para lang="en">Version 1.0.28 onwards.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term lang="en"><anchor id="gel-function-ChopTolerance"/>ChopTolerance</term>
          <listitem>
           <synopsis>ChopTolerance = nombre</synopsis>
@@ -3261,6 +3330,11 @@ is blocked until the user responds.  If <varname>default</varname> is given, the
          <listitem>
           <synopsis>NumericalIntegralFunction = fonction</synopsis>
 	  <para lang="en">The function used for numerical integration in <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
+	  <para lang="en">The function should take three arguments, the function, and the left and right limits of integration.</para>
+	  <para lang="en">By default it is the <link linkend="gel-function-AdaptiveGaussKronrod"><function>AdaptiveGaussKronrod</function></link> which implements an adaptive
+	  algorithm based on the Gauss-Kronrod G7 K15 rule.
+	  The function should take three arguments, the function, and the left and right limits of integration.</para>
+	  <para lang="en">Since version 1.0.28 onwards, the function does not take the 4th parameter with the number of steps.</para>
          </listitem>
         </varlistentry>
 
@@ -3268,7 +3342,10 @@ is blocked until the user responds.  If <varname>default</varname> is given, the
          <term lang="en"><anchor id="gel-function-NumericalIntegralSteps"/>NumericalIntegralSteps</term>
          <listitem>
           <synopsis>NumericalIntegralSteps = nombre</synopsis>
-	  <para lang="en">Steps to perform in <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
+	  <para lang="en">Default number of steps to perform in midpoint, left-hand, right-hand, trapezoid, and composite Simpson's rule.  If any of these rules are used
+	  as the <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegralFunction</function></link>, then that is the number of steps
+	  used when <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link> is called.  By default,
+          the adaptive Gauss-Kronrod method is used and it does not use this parameter.</para>
          </listitem>
         </varlistentry>
 
@@ -3413,7 +3490,9 @@ is blocked until the user responds.  If <varname>default</varname> is given, the
          <term lang="en"><anchor id="gel-function-CatalanConstant"/>CatalanConstant</term>
          <listitem>
           <synopsis>CatalanConstant</synopsis>
-          <para>Constante de Catalan, approximativement 0,915..., elle est définie comme la série des termes <userinput>(-1^k)/((2*k+1)^2)</userinput> où <varname>k</varname> va de 0 à l'infini.</para>
+          <para lang="en">
+	    Catalan's Constant, approximately 0.915...  It is defined to be the series where terms are <userinput>((-1))^k)/((2*k+1)^2)</userinput>, where <varname>k</varname> ranges from 0 to infinity.
+	  </para>
           <para lang="en">
 	    See
 	    <ulink url="https://en.wikipedia.org/wiki/Catalan%27s_constant">Wikipedia</ulink> or
@@ -6572,14 +6651,80 @@ do (
       <title>Analyse</title>
       <variablelist>
         <varlistentry>
+         <term lang="en"><anchor id="gel-function-AdaptiveGaussKronrod"/>AdaptiveGaussKronrod</term>
+         <listitem>
+          <synopsis lang="en">AdaptiveGaussKronrod (f,a,b)</synopsis>
+	  <para lang="en">Find the integral of <function>f</function> over the interval [a,b] using an adaptive algorithm using Gauss-Kronrod rule G7 K15.
+	  It will subdivide adaptively until the relative error is less than 
+	  <link linkend="gel-function-AdaptiveGaussKronrodRelativeTolerance"><function>AdaptiveGaussKronrodRelativeTolerance</function></link>
+	  or the absolute error is within 
+	  <link linkend="gel-function-AdaptiveGaussKronrodAbsoluteTolerance"><function>AdaptiveGaussKronrodAbsoluteTolerance</function></link>.
+	  The subinterval with the largest error is subdivided into two until we get a small enough error or until we hit
+	  <link linkend="gel-function-AdaptiveGaussKronrodMaxIterations"><function>AdaptiveGaussKronrodMaxIterations</function></link> iterations.</para>
+  	  <para lang="en">
+		  If an estimate within the given range is not achieved within the iteration limit, then <constant>null</constant> is returned and error is
+		  printed.</para>
+          <para lang="en">
+	    See
+	    <ulink url="https://en.wikipedia.org/wiki/Gauss–Kronrod_quadrature_formula">Wikipedia</ulink> for more information.
+          </para>
+	  <para lang="en">Version 1.0.28 onwards.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term lang="en"><anchor id="gel-function-AdaptiveGaussKronrodWithTolerance"/>AdaptiveGaussKronrodWithTolerance</term>
+         <listitem>
+          <synopsis lang="en">AdaptiveGaussKronrod (f,a,b,abstol,reltol)</synopsis>
+	  <para lang="en">Find the integral of <function>f</function> over the interval [a,b] using an adaptive algorithm using Gauss-Kronrod rule G7 K15.
+	  It will subdivide adaptively until the relative error is less than <varname>abstol</varname>
+	  or the absolute error is within <varname>reltol</varname>.
+	  The subinterval with the largest error is subdivided into two until we get a small enough error or until we hit
+	  <link linkend="gel-function-AdaptiveGaussKronrodMaxIterations"><function>AdaptiveGaussKronrodMaxIterations</function></link> iterations.</para>
+  	  <para lang="en">
+		  If an estimate within the given range is not achieved within the iteration limit, then <constant>null</constant> is returned and error is
+		  printed.</para>
+	  <para lang="en">This function is useful if different precision than the defaults is needed and one does not want to change global parameters.  For example, if less precision is needed and speed is paramount.  Otherwise just use <link linkend="gel-function-AdaptiveGaussKronrod"><function>AdaptiveGaussKronrod</function></link> or <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link></para>
+          <para lang="en">
+	    See
+	    <ulink url="https://en.wikipedia.org/wiki/Gauss–Kronrod_quadrature_formula">Wikipedia</ulink> for more information.
+          </para>
+	  <para lang="en">Version 1.0.28 onwards.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term lang="en"><anchor id="gel-function-CompositeSimpsonsRule"/>CompositeSimpsonsRule</term>
          <listitem>
           <synopsis>CompositeSimpsonsRule (f,a,b,n)</synopsis>
-          <para>Intégration de f par la méthode de Simpson composée sur l'intervalle [a,b] avec n sous-intervalles avec une erreur de l'ordre max(f'''')*h^4*(b-a)/180, notez que n doit être pair.</para>
+	  <para lang="en">Integration of <varname>f</varname> by Composite 1/3 Simpson's Rule
+	  on the interval [a,b] with <varname>n</varname> subintervals with error of
+	  max(f'''')*h^4*(b-a)/180, note that <varname>n</varname> should be even.
+	  If the given <varname>n</varname> is odd, then 1 is added to make it even.</para>
+	  <para lang="en">It is the 1/3 variant of the rule that is used, that is, if the x0,x1,x2,...,xn
+	  are the points, then the rule is ((b-a)/n) * (f(x0) + 4*f(x1) + 2*f(x2) + ... + 4*f(x(n-1)) + f(xn)).</para>
+	  <para lang="en">The <varname>n</varname> argument is optional.  If it is not given
+	  the value of <varname>NumericalIntegralSteps</varname> is used, which is by default 1000.</para>
           <para lang="en">
-	    See
-	    <ulink url="http://planetmath.org/SimpsonsRule">Planetmath</ulink> for more information.
+	    See <ulink url="https://en.wikipedia.org/wiki/Simpson%27s_rule">Wikipedia</ulink> or
+		  <ulink url="http://planetmath.org/SimpsonsRule">Planetmath</ulink>
+		  for more information.
           </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term lang="en"><anchor id="gel-function-CompositeSimpsonsRuleData"/>CompositeSimpsonsRuleData</term>
+         <listitem>
+          <synopsis lang="en">CompositeSimpsonsRule (f,len)</synopsis>
+	  <para lang="en">Integration using Composite Simpson's rule of a function given by a vector of values <varname>f</varname> given at equal subintervals.  The integration interval is taken to be of length <varname>len</varname>, that is,
+	  if the interval is [a,b], then <varname>len</varname> should be b-a.  The vector <varname>f</varname> should have at least 3 values (representing 2 subintervals).  Normally the 1/3 rule is used.  If there is an odd number of subintervals, the 3/8 rule is used on the last 3 subintervals.</para>
+          <para lang="en">
+	    See <ulink url="https://en.wikipedia.org/wiki/Simpson%27s_rule">Wikipedia</ulink> or
+		  <ulink url="http://planetmath.org/SimpsonsRule">Planetmath</ulink>
+		  for more information.
+          </para>
+	  <para lang="en">Version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -6587,10 +6732,11 @@ do (
          <term lang="en"><anchor id="gel-function-CompositeSimpsonsRuleTolerance"/>CompositeSimpsonsRuleTolerance</term>
          <listitem>
           <synopsis>CompositeSimpsonsRuleTolerance (f,a,b,FourthDerivativeBound,Tolerance)</synopsis>
-          <para>Intégration de f par la méthode de Simpson composée sur l'intervalle [a,b] avec un nombre d'étapes calculé à l'aide de la borne de la dérivée quatrième et la tolérance souhaitée.</para>
+	  <para lang="en">Integration of f by Composite 1/3 Simpson's Rule on the interval [a,b] with the number of steps calculated by the fourth derivative bound and the desired tolerance.</para>
           <para lang="en">
-	    See
-	    <ulink url="http://planetmath.org/SimpsonsRule">Planetmath</ulink> for more information.
+	    See <ulink url="https://en.wikipedia.org/wiki/Simpson%27s_rule">Wikipedia</ulink> or
+		  <ulink url="http://planetmath.org/SimpsonsRule">Planetmath</ulink>
+		  for more information.
           </para>
          </listitem>
         </varlistentry>
@@ -6638,6 +6784,24 @@ or <varname>b</varname> can be <constant>null</constant>.</para>
 	    <ulink url="https://en.wikipedia.org/wiki/Fourier_series">Wikipedia</ulink> or
 	    <ulink url="http://mathworld.wolfram.com/FourierSeries.html">Mathworld</ulink> for more information.
           </para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term lang="en"><anchor id="gel-function-GaussKronrodRule"/>GaussKronrodRule</term>
+         <listitem>
+          <synopsis lang="en">GaussKronrodRule (f,a,b)</synopsis>
+	  <para lang="en">A single shot Gauss-Kronrod rule G7 K15 over the interval [a,b].  It returns a vector where the first element is
+	  the approximate integral and the second is the approximate error obtained by subtracting the G7 and K15 approximates.
+	  This is already quite good, but often it is better to call it from within the
+	  <link linkend="gel-function-AdaptiveGaussKronrod"><function>AdaptiveGaussKronrod</function></link> function,
+	  which is the default for
+	  <link linkend="gel-function-NumericalIntegral"><function>NumericalIntegral</function></link>.</para>
+          <para lang="en">
+	    See
+	    <ulink url="https://en.wikipedia.org/wiki/Gauss–Kronrod_quadrature_formula">Wikipedia</ulink> for more information.
+          </para>
+	  <para lang="en">Version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -6690,6 +6854,16 @@ or <varname>b</varname> can be <constant>null</constant>.</para>
         </varlistentry>
 
         <varlistentry>
+         <term lang="en"><anchor id="gel-function-LeftHandRule"/>LeftHandRule</term>
+         <listitem>
+          <synopsis lang="en">LeftHandRule (f,a,b,n)</synopsis>
+          <para lang="en">Integration by left hand rule on the interval [a,b] with n subintervals.</para>
+	  <para lang="en">The <varname>n</varname> argument is optional.  If it is not given the value of <varname>NumericalIntegralSteps</varname> is used, which is by default 1000.</para>
+	  <para lang="en">Version 1.0.28 onwards.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term lang="en"><anchor id="gel-function-LeftLimit"/>LeftLimit</term>
          <listitem>
           <synopsis>LeftLimit (f,x0)</synopsis>
@@ -6709,7 +6883,9 @@ or <varname>b</varname> can be <constant>null</constant>.</para>
          <term lang="en"><anchor id="gel-function-MidpointRule"/>MidpointRule</term>
          <listitem>
           <synopsis>MidpointRule (f,a,b,n)</synopsis>
-          <para>Intégration par la méthode des rectangles.</para>
+          <para lang="en">Integration by midpoint rule on the interval [a,b] with n subintervals.</para>
+	  <para lang="en">The <varname>n</varname> argument is optional.  If it is not given the value of <varname>NumericalIntegralSteps</varname> is used, which is by default 1000.</para>
+	  <para lang="en">The <varname>n</varname> is optional for version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -6861,7 +7037,12 @@ computed by numerical integration using
          <term lang="en"><anchor id="gel-function-NumericalIntegral"/>NumericalIntegral</term>
          <listitem>
           <synopsis>NumericalIntegral (f,a,b)</synopsis>
-          <para>Intégration de f entre a et b, en suivant la règle définie par <varname>NumericalIntegralFunction</varname> et en utilisant les <varname>NumericalIntegralSteps</varname> pas.</para>
+	  <para lang="en">Integration by rule set in NumericalIntegralFunction of f from a to b.
+	  By default NumericalIntegralFunction is the <link linkend="gel-function-AdaptiveGaussKronrod"><function>AdaptiveGaussKronrod</function></link>,
+	  which implements an adaptive algorithm based on the
+	  Gauss-Kronrod G7 K15 rule.  It is possible that <constant>null</constant> is returned if the algorithm cannot find
+          an approximation within tolerance in a tunable maximum number of iterations.</para>
+	  <para lang="en">Gauss-Kronrod is the default algorithm since version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -6932,10 +7113,30 @@ and has period <userinput>b-a</userinput>.</para>
         </varlistentry>
 
         <varlistentry>
+         <term lang="en"><anchor id="gel-function-RightHandRule"/>RightHandRule</term>
+         <listitem>
+          <synopsis lang="en">RightHandRule (f,a,b,n)</synopsis>
+          <para lang="en">Integration by right hand rule on the interval [a,b] with n subintervals.</para>
+	  <para lang="en">The <varname>n</varname> argument is optional.  If it is not given the value of <varname>NumericalIntegralSteps</varname> is used, which is by default 1000.</para>
+	  <para lang="en">Version 1.0.28 onwards.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
          <term lang="en"><anchor id="gel-function-RightLimit"/>RightLimit</term>
          <listitem>
           <synopsis>RightLimit (f,x0)</synopsis>
-          <para>Calcule la limite à droite d'une fonction à valeurs réelles en x0.</para>
+	  <para lang="en">Calculate the right limit of a real-valued function at <varname>x0</varname>.</para>
+         </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term lang="en"><anchor id="gel-function-TrapezoidRule"/>TrapezoidRule</term>
+         <listitem>
+          <synopsis lang="en">TrapezoidRule (f,a,b,n)</synopsis>
+	  <para lang="en">Integration by trapezoid rule on the interval [a,b] with <varname>n</varname> subintervals.</para>
+	  <para lang="en">The <varname>n</varname> argument is optional.  If it is not given the value of <varname>NumericalIntegralSteps</varname> is used, which is by default 1000.</para>
+	  <para lang="en">Version 1.0.28 onwards.</para>
          </listitem>
         </varlistentry>
 
@@ -6966,7 +7167,7 @@ and has period <userinput>b-a</userinput>.</para>
          <listitem>
           <synopsis>Argument (z)</synopsis>
           <para lang="en">Aliases: <function>Arg</function> <function>arg</function></para>
-          <para>Renvoie l'argument (angle) d'un nombre complexe.</para>
+	  <para lang="en">argument (angle) of complex number.  It is in the range (-pi,pi].</para>
          </listitem>
         </varlistentry>
 

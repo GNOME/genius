@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>References</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Genius Manual"><link rel="up" href="ch06.html" title="Chapter 6. Programming with GEL"><link rel="prev" href="ch06s07.html" title="Returning"><link rel="next" href="ch06s09.html" title="Lvalues"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">References</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s07.html">Prev</a> </td><th width="60%" align="center">Chapter 6. Programming with GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch06s09.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-references"></a>References</h2></div></div></div><p>
+<html><head><meta charset="UTF-8"><title>References</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Genius Manual"><link rel="up" href="ch06.html" title="Chapter 6. Programming with GEL"><link rel="prev" href="ch06s07.html" title="Returning"><link rel="next" href="ch06s09.html" title="Lvalues"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">References</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s07.html">Prev</a> </td><th width="60%" align="center">Chapter 6. Programming with GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch06s09.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-references"></a>References</h2></div></div></div><p>
 	It may be necessary for some functions to return more than one value.
 	This may be accomplished by returning a vector of values, but many
 	times it is convenient to use passing a reference to a variable.
@@ -32,4 +32,30 @@ t=&amp;f;
 *t(3)
 </pre><p>
 gives us 4.
+      </p><p>The first time a variable is referenced, it is created in the current
+      context unless it exists.  So if we make a function that sets the variable to 2,
+      such as
+      <strong class="userinput"><code>function f(k) = (*k=2)</code></strong>, then the
+      call 
+      <strong class="userinput"><code>f(&amp;n)</code></strong> will declare a new variable <code class="varname">n</code>
+      then the function
+      <code class="function">f</code> will run and set it to 2.  So there is
+      no need to write something like
+      <strong class="userinput"><code>n=0;f(&amp;n)</code></strong>.  A new variable in the current
+      context is created even if a
+      variable exists in a higher context, such as in the global context.
+      So for example after
+      </p><pre class="programlisting">n=3;
+function f(k) = (*k=2);
+function g() = (f(&amp;n);print(n));
+g();
+</pre><p>
+      the variable <code class="varname">n</code> is still 3 and not 2.  That is because inside
+      <code class="function">g</code>, when <code class="varname">n</code> is referenced, it is a new
+      variable in the context of <code class="function">g</code>.  The function
+      <code class="function">f</code> then sets this <code class="varname">n</code> to 2,
+      and then 2 is printed, but the <code class="varname">n</code> in the global context
+      is not touched.  So we can use references to get values out of functions and
+      we do not need to explicitly declare them, nor do we have to worry about messing up
+      global variables that the user might be using for something else.
       </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s07.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch06s09.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Returning </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Lvalues</td></tr></table></div></body></html>

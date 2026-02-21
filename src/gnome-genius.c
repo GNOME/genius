@@ -1000,17 +1000,21 @@ run_help_dlg_again:
 		if ( ! found && help == NULL) {
 			char *similar_ids = gel_similar_possible_ids (txt);
 			char *warn;
+			char *esctxt = g_markup_escape_text (txt, -1);
 			if (similar_ids == NULL) {
 				warn = g_strdup_printf
-					(_("<b>Help on %s not found</b>"),
-					 txt);
+					(_("<b>Help on <i>%s</i> not found</b>"),
+					 esctxt);
 			} else {
+				char *escsimids = g_markup_escape_text (similar_ids, -1);
 				warn = g_strdup_printf
-					(_("<b>Help on %s not found</b>\n\n"
+					(_("<b>Help on <i>%s</i> not found</b>\n\n"
 					   "Perhaps you meant %s."),
-					 txt, similar_ids);
+					 esctxt, escsimids);
+				g_free (escsimids);
 				g_free (similar_ids);
 			}
+			g_free (esctxt);
 			display_warning (genius_window, warn);
 			g_free (warn);
 			g_free (txt);
@@ -1821,6 +1825,22 @@ get_help_lang (void)
 	return g_strdup("C");
 }
 
+static char *
+sanitizeid (const char *id)
+{
+	char *r = g_strdup(id);
+	char *p;
+	for (p=r; *p != '\0'; p++) {
+		if ( ! ((*p >= 'A' && *p <= 'Z') ||
+			(*p >= 'a' && *p <= 'z') ||
+			(*p >= '0' && *p <= '9') ||
+			*p == '_' ||
+			*p == '-'))
+			*p = '_';
+	}
+	return r;
+}
+
 static void
 actually_open_help (const char *id)
 {
@@ -1842,10 +1862,11 @@ actually_open_help (const char *id)
 			       genius_datadir, lang);
 
 	if (id != NULL) {
-		char buf[256];
+		char buf[4096];
 		gboolean found = FALSE;
-		char *command = g_strdup_printf ("fgrep -l 'name=\"%s\"' '%s'/genius/help/%s/html/*.html",
-						 id,
+		char *sanid = sanitizeid(id);
+		char *command = g_strdup_printf ("grep -F -l 'name=\"%s\"' '%s'/genius/help/%s/html/*.html",
+						 sanid,
 						 genius_datadir,
 						 lang);
 		FILE *fp = popen (command, "r");
@@ -1854,27 +1875,32 @@ actually_open_help (const char *id)
 				char *p = strchr (buf, '\n');
 				if (p != NULL) *p = '\0';
 				g_free(str);
-				str = g_strdup_printf ("file://%s#%s", buf, id);
+				str = g_strdup_printf ("file://%s#%s", buf, sanid);
 				found = TRUE;
 
 			}
 			pclose (fp);
 		}
 		if ( ! found) {
-			char *warn = g_strdup_printf (_("<b>Help on %s not found</b>"), id);
+			char *escid = g_markup_escape_text (id, -1);
+			char *warn = g_strdup_printf (_("<b>Help on <i>%s</i> not found</b>"), escid);
+			g_free (escid);
 			display_warning (NULL /* parent */, warn);
 			g_free (warn);
 		}
+		g_free (sanid);
 	}
 
 	gtk_show_uri_on_window (NULL, str, GDK_CURRENT_TIME, &error);
 
 	if (error != NULL) {
+		char *escmsg = g_markup_escape_text (error->message, -1);
 		char *err = g_strdup_printf
 			(_("<b>Cannot display help</b>\n\n%s"),
-			 error->message);
+			 escmsg);
 		genius_display_error (NULL /* parent */, err);
 		g_free (err);
+		g_free (escmsg);
 		g_error_free (error);
 	}
 
@@ -1905,10 +1931,12 @@ actually_open_help (const char *id)
 			g_free (gnomehelp);
 		}
 		if (error != NULL) {
+			char *escmsg = g_markup_escape_text (error->message, -1);
 			char *err = g_strdup_printf
 				(_("<b>Cannot display help</b>\n\n%s"),
-				 error->message);
+				 escmsg);
 			genius_display_error (NULL /* parent */, err);
+			g_free (escmsg);
 			g_free (err);
 		}
 		g_error_free (error);
@@ -3852,8 +3880,22 @@ new_program (const char *filename, gboolean example)
 	}
 
 	if (example && filename != NULL) {
+		GError *error = NULL;
 		contents = NULL;
-		g_file_get_contents (filename, &contents, NULL, NULL);
+		if ( ! g_file_get_contents (filename, &contents, NULL, &error)) {
+			char *err;
+			char *escmsg = g_markup_escape_text (error->message, -1);
+			char *escfile = g_markup_escape_text (filename, -1);
+	       		err = g_strdup_printf (_("<b>Cannot read file %s</b>\n"
+					       "Details: %s"),
+					       escfile,
+					       escmsg);
+			g_error_free (error);
+			g_free (escfile);
+			g_free (escmsg);
+			genius_display_error (NULL, err);
+			g_free (err);
+		}
 	}
 
 	if (contents != NULL &&
@@ -3873,7 +3915,9 @@ new_program (const char *filename, gboolean example)
 		g_free (contents);
 	} else {
 		if (filename != NULL && ! example) {
-			char *s = g_strdup_printf (_("Cannot open %s"), filename);
+			char *escfile = g_markup_escape_text (filename, -1);
+			char *s = g_strdup_printf (_("Cannot open %s"), escfile);
+			g_free (escfile);
 			genius_display_error (NULL, s);
 			g_free (s);
 		}
@@ -4048,16 +4092,20 @@ save_callback (GtkWidget *w, gpointer data)
 	} else if ( ! save_program (selected_program, NULL /* new fname */,
 				    &error)) {
 		char *err;
+		char *escvname = g_markup_escape_text (selected_program->vname, -1);
 		if (error != NULL) {
+			char *escmessage = g_markup_escape_text (error->message, -1);
 	       		err = g_strdup_printf (_("<b>Cannot save file %s</b>\n"
 					       "Details: %s"),
-					       selected_program->vname,
-					       error->message);
+					       escvname,
+					       escmessage);
+			g_free (escmessage);
 			g_error_free (error);
 		} else {
 	       		err = g_strdup_printf (_("<b>Cannot save file %s</b>"),
-					       selected_program->vname);
+					       escvname);
 		}
+		g_free(escvname);
 		genius_display_error (NULL, err);
 		g_free (err);
 	}

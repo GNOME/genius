@@ -1,44 +1,20 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Toppnivåsyntax</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Handbok för Genius"><link rel="up" href="ch07.html" title="Chapter 7. Avancerad programmering med GEL"><link rel="prev" href="ch07.html" title="Chapter 7. Avancerad programmering med GEL"><link rel="next" href="ch07s03.html" title="Returnera funktioner"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Toppnivåsyntax</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07.html">Prev</a> </td><th width="60%" align="center">Chapter 7. Avancerad programmering med GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s03.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-toplevel-syntax"></a>Toppnivåsyntax</h2></div></div></div><p>Syntaxen skiljer sig något beroende på om du matar in satser på toppnivån gentemot då de används inom parenteser eller i funktioner. På toppnivån uppför sig retur just som om du tryckte retur på kommandoraden. Tänk därför på program som bara en följd av rader som matats in på kommandoraden. I synnerhet behöver du inte ange avskiljaren i slutet på raden (om den inte är del av flera satser inom parenteser). Då en sats inte avslutas med en avskiljare på toppnivån skrivs resultatet ut efter körning.</p><p lang="en">
-	For example,
-	</p><pre lang="en" class="programlisting">function f(x)=x^2
+<html><head><meta charset="UTF-8"><title>Toppnivåsyntax</title><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot"><link rel="home" href="index.html" title="Handbok för Genius"><link rel="up" href="ch07.html" title="Chapter 7. Avancerad programmering med GEL"><link rel="prev" href="ch07.html" title="Chapter 7. Avancerad programmering med GEL"><link rel="next" href="ch07s03.html" title="Returnera funktioner"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Toppnivåsyntax</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07.html">Prev</a> </td><th width="60%" align="center">Chapter 7. Avancerad programmering med GEL</th><td width="20%" align="right"> <a accesskey="n" href="ch07s03.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="genius-gel-toplevel-syntax"></a>Toppnivåsyntax</h2></div></div></div><p>Syntaxen skiljer sig något beroende på om du matar in satser på toppnivån gentemot då de används inom parenteser eller i funktioner. På toppnivån uppför sig retur just som om du tryckte retur på kommandoraden. Tänk därför på program som bara en följd av rader som matats in på kommandoraden. I synnerhet behöver du inte ange avskiljaren i slutet på raden (om den inte är del av flera satser inom parenteser). Då en sats inte avslutas med en avskiljare på toppnivån skrivs resultatet ut efter körning.</p><p>Till exempel kommer </p><pre class="programlisting">function f(x)=x^2
 f(3)
-</pre><p lang="en">
-	will print first the result of setting a function (a representation of
-	the function, in this case <code class="computeroutput">(`(x)=(x^2))</code>)
-	and then the expected 9.  To avoid this, enter a separator
-	after the function definition.
-	</p><pre lang="en" class="programlisting">function f(x)=x^2;
+</pre><p> att först skriva ut resultatet av att ställa in en funktion (en representation av funktionen, i det här fallet <code class="computeroutput">(`(x)=(x^2))</code>) och sedan det förväntade 9. För att undvika detta, ange en avskiljare efter funktionsdefinitionen. </p><pre class="programlisting">function f(x)=x^2;
 f(3)
-</pre><p lang="en">
-	If you need to put a separator into your function then you have to surround with
-	parenthesis.  For example:
-</p><pre lang="en" class="programlisting">function f(x)=(
+</pre><p> Om du behöver stoppa en avskiljare i din funktion måste den omges av parenteser. Till exempel: </p><pre class="programlisting">function f(x)=(
   y=1;
   for j=1 to x do
     y = y+j;
   y^2
 );
-</pre><p lang="en">
-      </p><p lang="en">
-	The following code will produce an error when entered on the top
-	level of a program, while it will work just fine in a function.
-</p><pre lang="en" class="programlisting">if Something() then
-  DoSomething()
+</pre><p>Följande kod producerar ett fel då den matas in i toppnivån för ett program, medan den kommer fungera fint i en funktion. </p><pre class="programlisting">if Ngt() then
+  ExekveraNgt()
 else
-  DoSomethingElse()
-</pre><p lang="en">
-      </p><p lang="en">
-	The problem is that after <span class="application">Genius Mathematics Tool</span> sees the end of line after the
-	second line, it will decide that we have whole statement and
-	it will execute it.  After the execution is done, <span class="application">Genius Mathematics Tool</span> will
-	go on to the next
-	line, it will see <code class="literal">else</code>, and it will produce
-	a parsing error.  To fix this, use parentheses.  <span class="application">Genius Mathematics Tool</span> will not
-	be satisfied until it has found that all parentheses are closed.
-</p><pre lang="en" class="programlisting">if Something() then (
-  DoSomething()
+  ExekveraNgtAnnat()
+</pre><p>Problemet är att efter <span class="application">Genius matematikverktyg</span> ser slutet på raden efter den andra raden kommer det att avgöra att vi har hela satsen och exekvera den. Efter exekveringen är klar kommer <span class="application">Genius matematikverktyg</span> att gå till nästa rad och se <code class="literal">else</code>, och det kommer att producera ett tolkfel. Använd parenteser för att fixa detta. <span class="application">Genius matematikverktyg</span> kommer inte låta sig nöja förrän det har sett att alla parenteser stängts. </p><pre class="programlisting">if Ngt() then (
+  ExekveraNgt()
 ) else (
-  DoSomethingElse()
+  ExekveraNgtAnnat()
 )
-</pre><p lang="en">
-      </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter 7. Avancerad programmering med GEL </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Returnera funktioner</td></tr></table></div></body></html>
+</pre></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter 7. Avancerad programmering med GEL </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Returnera funktioner</td></tr></table></div></body></html>

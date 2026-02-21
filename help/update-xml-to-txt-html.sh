@@ -5,13 +5,17 @@ echo
 echo Running: xmlto -o C/html/ html C/genius.xml
 xmlto -o C/html/ html C/genius.xml || exit 1
 
-echo
-echo Running: docbook2txt C/genius.xml
-docbook2txt C/genius.xml || exit 1
+#echo
+#echo Running: docbook2txt C/genius.xml
+#docbook2txt C/genius.xml || exit 1
+#
+#echo
+#echo Running: dos2unix genius.txt
+#dos2unix genius.txt || exit 1
 
 echo
-echo Running: dos2unix genius.txt
-dos2unix genius.txt || exit 1
+echo Running: xmlto -o . txt C/genius.xml
+xmlto -o . txt C/genius.xml || exit 1
 
 echo
 echo "Running: itstool -o genius.pot C/genius.xml"
