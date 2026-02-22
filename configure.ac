@@ -1,4 +1,4 @@
-AC_INIT([genius], [1.0.28])
+AC_INIT([genius],[1.0.28])
 #AX_IS_RELEASE([git-directory])
 AX_IS_RELEASE([always])
 AC_CONFIG_SRCDIR([src/calc.c])
@@ -6,14 +6,14 @@ AM_INIT_AUTOMAKE([dist-xz])
 
 AC_CONFIG_MACRO_DIRS([m4])
 
-AM_CONFIG_HEADER(config.h)
+AC_CONFIG_HEADERS([config.h])
 
 dnl make sure we keep ACLOCAL_FLAGS around for maintainer builds to work
 AC_SUBST(ACLOCAL_AMFLAGS, "$ACLOCAL_FLAGS")
 
 AM_MAINTAINER_MODE
 
-AC_PROG_INTLTOOL([0.21])
+IT_PROG_INTLTOOL([0.21])
 
 PKG_PROG_PKG_CONFIG
 
@@ -35,10 +35,8 @@ if test "x$GCC" = "xyes" -a "x$use_extraopt" = "xyes" ; then
 	echo "Turning on extra gcc flags -finline-functions -frename-registers"
 	CFLAGS="-finline-functions -frename-registers $CFLAGS"
 fi
-AC_ISC_POSIX
-AC_HEADER_STDC
-AM_PROG_LEX
-AM_PROG_LIBTOOL
+AC_PROG_LEX([noyywrap])
+LT_INIT
 AC_PROG_YACC
 
 AM_BINRELOC
@@ -208,9 +206,7 @@ dnl Warnings done above
 #		SAVE_CFLAGS="$CFLAGS"
 #		CFLAGS="$CFLAGS $option"
 #		AC_MSG_CHECKING([whether gcc understands $option])
-#		AC_TRY_COMPILE([], [],
-#			has_option=yes,
-#			has_option=no,)
+#		AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],[#			has_option=yes],[#			has_option=no])
 #		CFLAGS="$SAVE_CFLAGS"
 #		AC_MSG_RESULT($has_option)
 #		if test $has_option = yes; then
@@ -245,8 +241,7 @@ fi
 
 #dnl scrollkeeper checks 
 #AC_ARG_ENABLE([scrollkeeper],
-#	[AC_HELP_STRING([--disable-scrollkeeper],
-#		[do not make updates to the scrollkeeper database])],,
+#	[AS_HELP_STRING([--disable-scrollkeeper],[#		do not make updates to the scrollkeeper database])],,
 #		enable_scrollkeeper=yes)
 #AM_CONDITIONAL([ENABLE_SK],[test "$enable_scrollkeeper" = "yes"])
 #
@@ -257,13 +252,12 @@ fi
 
 dnl mime checks
 AC_ARG_ENABLE(update-mimedb,
-	AC_HELP_STRING([--disable-update-mimedb],
-		[do not update mime database after installation]),,
+	AS_HELP_STRING([--disable-update-mimedb],[do not update mime database after installation]),,
 		enable_update_mimedb=yes)
 AM_CONDITIONAL(ENABLE_UPDATE_MIMEDB, test x$enable_update_mimedb = xyes)
 
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
 genius.spec
 Makefile
 src/Makefile
@@ -294,6 +288,7 @@ pixmaps/scalable/Makefile
 po/Makefile.in
 help/Makefile
 ])
+AC_OUTPUT
 
 echo "
 Configuration:
