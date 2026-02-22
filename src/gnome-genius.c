@@ -2008,14 +2008,14 @@ static void
 aboutcb (GtkWidget *w, gpointer data)
 {
 	static const char *authors[] = {
-		"Jiří (George) Lebl, Ph.D. <jirka@5z.com>",
+		"Jiří (George) Lebl, Ph.D. <jiri.lebl@gmail.com>",
 		N_("Nils Barth (initial implementation of parts of the GEL library)"),
 		N_("Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"),
 		N_("Yavor Doganov <yavor@gnu.org> (Port to GTK3)"),
 		NULL
 	};
 	static const char *documenters[] = {
-		"Jiří (George) Lebl, Ph.D. <jirka@5z.com>",
+		"Jiří (George) Lebl, Ph.D. <jiri.lebl@gmail.com>",
 		"Kai Willadsen",
 		NULL
 	};
