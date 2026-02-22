@@ -1,0 +1,8 @@
+#!/bin/sh
+echo "# Automatically generated loader, don't touch"
+echo
+for n in "$@"; do
+	echo "load $(basename "$n")"
+done
+
+echo "ProtectAll()"
