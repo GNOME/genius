@@ -2,7 +2,7 @@
 echo "# Automatically generated loader, don't touch"
 echo
 for n in "$@"; do
-	echo "load $(basename "$n")"
+	echo "load $n"
 done
 
 echo "ProtectAll()"
