@@ -191,6 +191,8 @@ gel_call_help (const char *function)
 
 	str = g_find_program_in_path ("lynx");
 	if (str == NULL)
+		str = g_find_program_in_path ("elinks");
+	if (str == NULL)
 		str = g_find_program_in_path ("links");
 	if (str == NULL)
 		str = g_find_program_in_path ("w3m");
