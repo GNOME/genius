@@ -1,3 +1,12 @@
+Wed Feb 25 14:00:48 2026  Jiri (George) Lebl <jiri.lebl@gmail.com>
+
+	* examples/*.gel: Use the new NumericalIntegral functions where appropriate, also in the
+    	  argument principle example do twice as many intervals in the Simpson's
+	  rule (we use a small number for speed, and 40 gets this precisely enough)
+
+	* lib/statistics/basic.gel: Use the AdaptiveGaussKronrodWithTolerance
+	  for the GaussDistribution function to improve speed.
+
 Mon Feb 23 14:40:37 2026  Jiri (George) Lebl <jiri.lebl@gmail.com>
 
 	* src/genius.c: try also elinks for the manual browser
