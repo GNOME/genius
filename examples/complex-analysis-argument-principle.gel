@@ -1,10 +1,10 @@
 # Category: Complex Analysis
 # Name: Finding roots via argument principle
 #
-# Shows a bouncing wandering ball and prints the number of roots minus poles of
-# a function within the ball to the console.  When roots detected the ball
+# Shows a bouncing wandering disc and prints the number of roots minus poles of
+# a function within the cdisc to the console.  When roots detected the disc
 # turns green, for poles, it turns red. If the mouse is within the plot window
-# then the ball will be over the mouse.
+# then the disc will be over the mouse.
 
 
 #The function to try, (must be able to take symbolic derivative, otherwise 
@@ -50,12 +50,14 @@ pt = 0;
 lastp = null;
 
 function NumberOfZeros(pt) = (
+  # a Composite Simpson with a small number of subintervals should be sufficient
+  # and fast enough
   N = (1/(2*pi))*CompositeSimpsonsRule(`(t)=(
     #f'(z)/f(z)
     ( df(pt+radius*exp(1i*t)) / f(pt+radius*exp(1i*t)) ) *
     # dz/i
     radius*exp(1i*t)
-  ),0,2*pi,20);
+  ),0,2*pi,40);
   return round(Re(N));
 );
 
@@ -74,7 +76,7 @@ while true do (
 
 	N = NumberOfZeros(pt);
 	draw_ball(pt,N);
-	print ("Zeros-Poles within ball: " + N + "  ... may be nonsense if zero/pole on circle");
+	print ("Zeros-Poles within disc: " + N + "  ... may be nonsense if zero/pole on (or close to) circle");
 
 	# Now wander around
 

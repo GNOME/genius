@@ -25,9 +25,7 @@ pauselen = 3;
 
 
 
-# thousand points seems to get good results for moderately
-# complicated functions
-theintegral = CompositeSimpsonsRule(f, limits@(1), limits@(2), 1000);
+theintegral = NumericalIntegral(f, limits@(1), limits@(2));
 
 PlotWindowPresent(); # Make sure the window is raised
 
@@ -74,7 +72,7 @@ while true do (
   print ("\nN = " + N + 
          "\nTrapezoid rule = " + therule +
          "\ndelta x = " + deltax +
-         "\nThe actual integral (approximately using Simpsons's rule) = " + theintegral + 
+         "\nThe actual integral (approximately) = " + theintegral + 
          "\nError = " + |therule - theintegral| + 
          "\n");
 

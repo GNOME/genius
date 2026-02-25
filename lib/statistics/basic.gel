@@ -143,8 +143,14 @@ parameter GaussDistributionTolerance = 10.0^(-10)
 SetHelp("GaussDistribution", "statistics", "Integral of the GaussFunction from 0 to x (area under the normal curve)")
 function GaussDistribution(x,sigma) = (
 	function tmp(x)=GaussFunction(x,sigma);
-	CompositeSimpsonsRuleTolerance(tmp,0,x,
-				       #maximum of fourth derivative
-				       3/(sqrt(2*pi)*sigma^5),
-				       GaussDistributionTolerance)
+	#CompositeSimpsonsRuleTolerance(tmp,0,x,
+	#			       #maximum of fourth derivative
+	#			       3/(sqrt(2*pi)*sigma^5),
+	#			       GaussDistributionTolerance)
+	if x > 0 then
+		AdaptiveGaussKronrodWithTolerance(tmp, 0, x, GaussDistributionTolerance, GaussDistributionTolerance)
+	else if x < 0 then
+		-AdaptiveGaussKronrodWithTolerance(tmp, 0, -x, GaussDistributionTolerance, GaussDistributionTolerance)
+	else
+		0.0
 )

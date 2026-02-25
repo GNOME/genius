@@ -33,9 +33,7 @@ partition = limits;
 # this will start out with a uniform partition
 #partition = limits@(1) : 0.05 : limits@(2);
 
-# thousand points seems to get good results for moderately
-# complicated functions
-theintegral = CompositeSimpsonsRule(f, limits@(1), limits@(2), 1000);
+theintegral = NumericalIntegral(f, limits@(1), limits@(2));
 
 fgraph = null;
 for x = limits@(1) to limits@(2) by (limits@(2)-limits@(1))/500 do
@@ -120,7 +118,7 @@ while true do (
          "\nThe upper Darboux sum = " + thesum2 +
          "\nNumber of subintervals = " + (elements(partition)-1) + 
          "\nLargest delta x = " + largestdeltax +
-         "\nThe actual integral (approximately using Simpsons's rule) = " + theintegral +
+         "\nThe actual integral (approximately) = " + theintegral +
          "\n");
 
   if pickpointsrandomly then (
