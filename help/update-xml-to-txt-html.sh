@@ -13,9 +13,17 @@ xmlto -o C/html/ html C/genius.xml || exit 1
 #echo Running: dos2unix genius.txt
 #dos2unix genius.txt || exit 1
 
+#echo
+#echo Running: xmlto -o . txt C/genius.xml
+#xmlto -o . txt C/genius.xml || exit 1
+
 echo
-echo Running: xmlto -o . txt C/genius.xml
-xmlto -o . txt C/genius.xml || exit 1
+echo Running: 'xmlto -o . html-nochunks C/genius.xml'
+xmlto -o . html-nochunks C/genius.xml || exit 1
+echo Running: 'links -dump genius.html > genius.txt'
+links -dump genius.html > genius.txt || exit 1
+echo Running: 'rm -f genius.html'
+rm -f genius.html
 
 echo
 echo "Running: itstool -o genius.pot C/genius.xml"
